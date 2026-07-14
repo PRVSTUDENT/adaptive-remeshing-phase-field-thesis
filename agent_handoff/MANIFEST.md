@@ -1,20 +1,19 @@
 # Agent Handoff Manifest
 
-Created (UTC): 2026-07-14T08:08:34.882347+00:00
+Created (UTC): 2026-07-14T08:16:23.679109+00:00
 
 This directory contains only files from the latest mirrored operation.
 
 | Mirrored file | Original path | Bytes | SHA-256 |
 |---|---|---:|---|
-| `.agent.md` | `.agent.md` | 24381 | `334e2a2cf84c3624d6f05fb650b6a3a09897f50826ca8df28ed0edaeca630114` |
-| `adaptive_remeshing_phase_field_agent.md` | `adaptive_remeshing_phase_field_agent.md` | 24381 | `334e2a2cf84c3624d6f05fb650b6a3a09897f50826ca8df28ed0edaeca630114` |
-| `ENVIRONMENT.md` | `docs/methods/ENVIRONMENT.md` | 3306 | `f17115c3d6bba7beee01ed3130899215b020c3bc88b1e4263cacba44c53f2a06` |
-| `README.md` | `models/baseline_original/molnar_gravouil_2017/README.md` | 2524 | `ea4d453f191762ddf01c687479475edad476aff39ca8a1c2b4d1b371fe49fc6f` |
-| `OneElement.for` | `models/baseline_original/molnar_gravouil_2017/01_One_Element/OneElement.for` | 19964 | `8688a21a987a0348f4211cb90e365a60902dce922294a915a48644c8dae067e2` |
-| `OneElement.inp` | `models/baseline_original/molnar_gravouil_2017/01_One_Element/OneElement.inp` | 4254 | `9b63615bbe335872de197b96ca0253769f4a237c1e2e384294a1d204c462f220` |
-| `SingleNotch.for` | `models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.for` | 19970 | `18944e5bb2a3b7973fd0d4bff03f8e078eef667965343d8a29156d093f53f5f1` |
-| `SingleNotch.inp` | `models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.inp` | 504303 | `89ce3f32e396b0e484be6753a272dd6bbb2a2f9daff426d6a57419f57d665b72` |
-| `DoubleNotch.for` | `models/baseline_original/molnar_gravouil_2017/03_Double_Notch_Tension/DoubleNotch.for` | 19972 | `8cefde64ef7ff5e26986d2794f433cf827ee75ef88595330eb65d6d8b9155be6` |
-| `DoubleNotch.inp` | `models/baseline_original/molnar_gravouil_2017/03_Double_Notch_Tension/DoubleNotch.inp` | 1387058 | `cbfa82a1145c1bf409ec6cd65fe3be002ceed8ff474cd134d4b090f7d9c9f857` |
-| `OneElement3D.for` | `models/baseline_original/molnar_gravouil_2017/04_One_Element_3D/OneElement3D.for` | 24894 | `b4afe7165a20c53894a57b7d3e0d838050c2a6917ea3734e6c949dd155da3604` |
-| `OneElement3D.inp` | `models/baseline_original/molnar_gravouil_2017/04_One_Element_3D/OneElement3D.inp` | 4308 | `7d0248444259864d0d7ba66454204be6264f85bed07cc2bc13dfe6a76f12e708` |
+| `.gitignore` | `.gitignore` | 636 | `a320d188b7e8382e150fad42bebb786f75a0396591bea8759bcc4febdf2a0c1e` |
+| `.agent.md` | `.agent.md` | 24592 | `d01b374ee8a17d3d03fd3a38bb19d8bd702e1b7bffe126d5dc168de495923b66` |
+| `adaptive_remeshing_phase_field_agent.md` | `adaptive_remeshing_phase_field_agent.md` | 24592 | `d01b374ee8a17d3d03fd3a38bb19d8bd702e1b7bffe126d5dc168de495923b66` |
+| `ENVIRONMENT.md` | `docs/methods/ENVIRONMENT.md` | 4163 | `0811680d5f3130a594414530933735cb50c3550564d6c2a03fc515fbd8bb67ed` |
+| `README.md` | `tests/abaqus_user_subroutine_smoke/README.md` | 766 | `08f3c07ae1d5c8f4bf9015dbaef2591e2d3e103b9e9d87c1ede4ecaeb63f0773` |
+| `smoke_uexternaldb.for` | `tests/abaqus_user_subroutine_smoke/smoke_uexternaldb.for` | 419 | `4f6b12dc0a04a20f2f234077f72cd7ce8b080d1e46c7fe51400b65e67dd89c32` |
+| `smoke_user_subroutine.inp` | `tests/abaqus_user_subroutine_smoke/smoke_user_subroutine.inp` | 768 | `7fd172eeaf6e5b20350bded091f12d29125ec18a54b6712117e2a575ebd708c2` |
+| `SMOKE_RESULT.md` | `tests/abaqus_user_subroutine_smoke/evidence/SMOKE_RESULT.md` | 2618 | `f26e2b2c0f7d33a82036f5e4835910628606e09b7bb9ad7a61b980c24223453d` |
+| `terminal_output_utf8.txt` | `tests/abaqus_user_subroutine_smoke/evidence/terminal_output_utf8.txt` | 1135 | `b76f5cc70f1d6cd9a2772325fdf4e290eae66154e4f77b5ac8d38c3d733553c9` |
+| `smoke_user_subroutine.com` | `tests/abaqus_user_subroutine_smoke/evidence/smoke_user_subroutine.com` | 3312 | `d3e61e15ceebcf9b606e473b99dbd6d34c22a2701f3b33bb73d605ad7792c198` |
+| `smoke_user_subroutine.env` | `tests/abaqus_user_subroutine_smoke/evidence/smoke_user_subroutine.env` | 21447 | `909d76c2ffe0edfa6e01fa16cc0a90c8ea2eab3dd481b7aab163066980e8509c` |

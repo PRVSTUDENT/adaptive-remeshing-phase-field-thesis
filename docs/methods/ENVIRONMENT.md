@@ -27,10 +27,10 @@ Status: partially completed from local Windows inspection on 2026-07-14. HPC det
 - Abaqus Python version: 3.10.5, MSC v.1934 64 bit (AMD64)
 - Abaqus installation path: `C:\SIMULIA\EstProducts\2024\win_b64`
 - Fortran compiler and version: Intel Fortran not found on PATH; GNU Fortran 13.2.0 found at `C:\strawberry\c\bin\gfortran.exe`
-- Linker/toolchain: pending Abaqus user-subroutine compile smoke test
+- Linker/toolchain: Abaqus 2024 smoke-test environment uses Intel `ifx` for Fortran compilation and Microsoft `LINK` for linking, but `ifx` is not currently discoverable on PATH
 - Precision: pending baseline/source settings
 - Solver procedure: pending benchmark deck
-- License notes: Abaqus command responds locally; production license behavior not yet tested
+- License notes: Abaqus/Standard checked out 5 FlexNet tokens from `localhost` during the smoke test, then failed before solver execution
 
 ## Compute Layout
 
@@ -56,10 +56,19 @@ Status: partially completed from local Windows inspection on 2026-07-14. HPC det
 ## Known Warnings
 
 - HPC maintenance status: user reported maintenance currently blocks intended HPC run path
-- Compiler/linker warnings: Intel Fortran not found on local PATH; Abaqus user-subroutine compatibility with GNU Fortran is not assumed
+- Compiler/linker warnings: WP0 smoke test failed at compiler discovery/compilation because Abaqus called `ifx` and Windows reported `'ifx' is not recognized as an internal or external command`
 - Abaqus warnings: none from `abaqus information=release`
-- Unsupported assumptions: local Abaqus version query is not a successful UEL/UMAT compile or solver validation
+- Unsupported assumptions: local Abaqus version query and license checkout are not successful UEL/UMAT compile, link, or solver validation
+
+## User-Subroutine Smoke Test
+
+- Fixture: `tests/abaqus_user_subroutine_smoke/`
+- Evidence: `tests/abaqus_user_subroutine_smoke/evidence/`
+- Command: `abaqus job=smoke_user_subroutine input=smoke_user_subroutine.inp user=smoke_uexternaldb.for cpus=1 interactive`
+- Result: `compiler_discovery_fail`
+- Failure point: Abaqus/Standard license checkout succeeded; compilation began; `ifx` was not found on PATH.
+- Generated evidence: terminal output, `.com`, and `.env` were preserved. `.log`, `.dat`, `.msg`, and `.sta` were not generated because compilation failed before solver execution.
 
 ## Completion Gate
 
-This record must be complete before any production Abaqus/HPC submission. The next environment task is an explicit compiler/linker smoke test after original source files or a tiny user-subroutine fixture is available.
+This record must be complete before any production Abaqus/HPC submission. The next environment task is to make the Abaqus-supported Intel Fortran `ifx` toolchain discoverable, then rerun the smoke test until compile, link, and solver startup pass.
