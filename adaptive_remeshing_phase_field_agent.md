@@ -16,6 +16,7 @@ Current stage:
 - No Abaqus implementation, benchmark reproduction, remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
 - HPC is the intended Abaqus runtime, but production submissions are blocked until maintenance clears and `docs/methods/ENVIRONMENT.md` is complete.
 - Evolving remeshing with state transfer is mandatory for the thesis scope, but no online-remesh claim is allowed until controlled field transfer and fracture-relevant transfer tests pass.
+- Local environment inspection found Abaqus 2024 (`abaqus`/`abq2024`) and Abaqus Python 3.10.5 available on Windows; Intel Fortran is not on PATH, so user-subroutine compile compatibility is still unverified.
 
 Known source documents:
 - `Adaptive_Remeshing_PFF_Rapid_Study_Guide.pdf`
@@ -25,9 +26,9 @@ Known source documents:
 - `1-s2.0-S0045782525004153-main.pdf` - Diddige, Roth, and Kiefer (2025)
 
 Immediate next tasks:
-1. Complete the starter pipeline checks: literature index, run manifest validation, and placeholder deck-integrity check.
-2. Obtain and preserve the original Molnar example source files, input decks, compiler instructions, and expected outputs.
-3. Record the exact Abaqus release, compiler version, operating system, precision, solver settings, CPU count, and HPC queue/runtime details.
+1. Obtain and preserve the original Molnar example source files, input decks, compiler instructions, and expected outputs.
+2. Complete `docs/methods/ENVIRONMENT.md` with HPC queue/runtime details after maintenance clears.
+3. Run an explicit Abaqus user-subroutine compiler/linker smoke test.
 4. Run the original one-element example unchanged when Abaqus/HPC access is available.
 5. Run one unmodified single-edge-notched benchmark and create an automated RF-U/phase-field/energy extraction path.
 6. Freeze a reproducible baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
