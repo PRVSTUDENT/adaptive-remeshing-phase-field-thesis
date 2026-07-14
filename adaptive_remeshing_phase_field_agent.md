@@ -12,14 +12,15 @@
 Updated: 2026-07-14
 
 Current stage:
-- Stage 0 - full starter pipeline, workspace bootstrap, and source-code acquisition.
-- No Abaqus implementation, benchmark reproduction, remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
+- Stage A / WP1 - original Molnar one-element baseline verification.
+- No notched benchmark reproduction, remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
 - HPC is the intended Abaqus runtime, but production submissions are blocked until maintenance clears and `docs/methods/ENVIRONMENT.md` is complete.
 - Evolving remeshing with state transfer is mandatory for the thesis scope, but no online-remesh claim is allowed until controlled field transfer and fracture-relevant transfer tests pass.
-- Local environment inspection found Abaqus 2024 (`abaqus`/`abq2024`) and Abaqus Python 3.10.5 available on Windows; Intel Fortran is not on PATH, so user-subroutine compile compatibility is still unverified.
+- Local environment inspection found Abaqus 2024 (`abaqus`/`abq2024`) and Abaqus Python 3.10.5 available on Windows; Intel Fortran is usable for Abaqus only after the clean-shell Visual Studio Build Tools plus Intel oneAPI setup.
 - Molnar and Gravouil (2017) supplementary `.for`/`.inp` files are preserved unmodified under `models/baseline_original/molnar_gravouil_2017/`; checksums are recorded in that folder's `README.md`.
 - Local Abaqus user-subroutine smoke test passed after loading Visual Studio 2022 Build Tools `vcvars64.bat` and Intel oneAPI `setvars.bat intel64`: `ifx` 2026.0 compiled, Microsoft `LINK` 14.44 linked, and the trivial Abaqus/Standard analysis completed. This is a local smoke-test result, not an official toolchain-support claim.
-- The original Molnar one-element example ran unchanged from a separate run directory and is classified `technical_pass_scientific_unchecked`: compile/link/input/solver/wrap-up and ODB readability passed, but no scientific response validation has been claimed.
+- The original Molnar one-element example ran unchanged from a separate run directory and passed the technical gate: compile/link/input/solver/wrap-up and ODB readability passed.
+- The unchanged Molnar one-element ODB passed the source-defined scientific check for plane-strain stiffness, degraded stress, homogeneous phase relation, history monotonicity, unloading irreversibility, and integration-point consistency. Evidence is under `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/`. Tolerances are provisional working gates only.
 
 Known source documents:
 - `Adaptive_Remeshing_PFF_Rapid_Study_Guide.pdf`
@@ -29,12 +30,11 @@ Known source documents:
 - `1-s2.0-S0045782525004153-main.pdf` - Diddige, Roth, and Kiefer (2025)
 
 Immediate next tasks:
-1. Verify the one-element elastic response, degradation, phase-field evolution, history behavior, and irreversibility against paper/reference behavior.
-2. Create an automated extraction path for one-element RF/U/SDV data from the readable ODB.
-3. Complete `docs/methods/ENVIRONMENT.md` with HPC queue/runtime details after maintenance clears.
-4. Promote the one-element result only after explicit scientific checks pass.
-5. Run one unmodified single-edge-notched benchmark and create an automated RF-U/phase-field/energy extraction path.
-6. Freeze a reproducible baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
+1. Run one unmodified single-edge-notched Molnar benchmark and create an automated RF-U/phase-field/energy extraction path.
+2. Complete `docs/methods/ENVIRONMENT.md` with HPC queue/runtime details after maintenance clears.
+3. Freeze a reproducible benchmark baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
+4. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, and runtime/cost metrics.
+5. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
 
 Unresolved decisions requiring user/supervisor confirmation:
 - Exact benchmark subset required for the thesis.
@@ -168,8 +168,9 @@ Gate A1 - environment:
 - Compiler and linker commands are archived.
 
 Gate A2 - one-element verification:
-- Elastic response, degradation behavior, phase-field evolution, and history/irreversibility behavior agree with the analytical/reference trend.
-- Residual/tangent sign and DOF ordering are documented.
+- Status: passed locally for the unchanged Molnar one-element run using provisional numerical tolerances.
+- Elastic response, degradation behavior, phase-field evolution, and history/irreversibility behavior agree with the source-defined analytical relations.
+- Residual/tangent sign and DOF ordering are documented in the source notes and validator report.
 
 Gate A3 - benchmark reproduction:
 - Force-displacement curve and crack contour are compared at matched displacement states.

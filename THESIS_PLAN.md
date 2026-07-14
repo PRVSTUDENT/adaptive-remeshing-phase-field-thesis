@@ -22,7 +22,8 @@ The contribution should not be framed merely as "a crack was simulated with a re
 
 ## Current execution posture
 
-- Full starter pipeline is the immediate implementation target: structured literature notes, run/config contracts, dry-run validators, environment record, and handoff mirroring.
+- The full starter pipeline is in place, the local user-subroutine smoke gate passed, and the unchanged Molnar one-element technical and source-relation scientific gates passed.
+- The immediate implementation target is now unchanged Molnar notched-benchmark reproduction and automated RF-U/phase-field/energy extraction.
 - HPC is the intended Abaqus runtime, but production submissions are blocked until maintenance clears and `docs/methods/ENVIRONMENT.md` is completed.
 - Evolving remeshing with state transfer is mandatory for the thesis scope, but no online-remesh claim is allowed until controlled transfer tests and fracture-relevant transfer checks pass.
 - Numeric tolerances are provisional working gates only until supervisor-approved thesis tolerances are recorded.
@@ -66,7 +67,8 @@ Deliverables:
 - Reference curves and tolerances.
 
 Exit gate:
-- Analytical/reference trends match and interface mappings are documented.
+- Status: passed locally for the unchanged one-element ODB using provisional numerical tolerances.
+- Analytical/source-defined trends match and interface mappings are documented.
 
 ### WP2 - Uniform-mesh benchmark reproduction
 

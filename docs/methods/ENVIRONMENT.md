@@ -74,11 +74,19 @@ Status: partially completed from local Windows inspection on 2026-07-14. HPC det
 
 - Run directory: `runs/molnar_one_element_unchanged/20260714_technical_gate_local/`
 - Source/deck: copied unchanged from `models/baseline_original/molnar_gravouil_2017/01_One_Element/`
-- Result: `technical_pass_scientific_unchecked`
+- Result: `technical_pass`
 - Technical status: compile, link, input processing, Abaqus/Standard analysis, SIM wrap-up, and ODB readability passed.
 - Evidence: `.com`, `.dat`, `.msg`, `.sta`, `.odb`, `.prt`, terminal output, command script, and ODB read check are preserved under the run `evidence/` folder. No `.log` file was generated.
 - Warnings: Abaqus reported unsupported `*ELEMENT OUTPUT` for user elements in the `.dat` file; linker emitted `LNK4210` warnings. These do not block the technical gate but must be reviewed before scientific validation.
 
+## Molnar One-Element Scientific Check
+
+- Script: `scripts/validation/check_molnar_one_element.py`
+- Evidence: `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/`
+- Result: `scientific_pass` for the unchanged one-element ODB under provisional numerical tolerances.
+- Passed checks: plane-strain stiffness, undamaged stress, degraded stress using `SDV14`, homogeneous phase relation using `SDV15` and `SDV16`, monotonic history, non-decreasing phase during unloading from `t=0.2` to `t=0.4`, and consistency across four integration points.
+- Staggering note: `SDV14` and `SDV15` differ because the displacement and phase-field elements store/update phase values in a staggered sequence. The maximum observed absolute `SDV14 - SDV15` difference is recorded as evidence, not treated automatically as a failure.
+
 ## Completion Gate
 
-This record must be complete before any production Abaqus/HPC submission. The next local baseline task is to verify the one-element elastic response, degradation, phase-field evolution, history behavior, and irreversibility against paper/reference behavior.
+This record must be complete before any production Abaqus/HPC submission. The next local baseline task is to run an unchanged Molnar notched benchmark and create a reproducible RF-U/phase-field/energy extraction path.

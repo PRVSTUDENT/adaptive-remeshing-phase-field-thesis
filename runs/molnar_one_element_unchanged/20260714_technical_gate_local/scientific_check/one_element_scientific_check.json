@@ -1,0 +1,133 @@
+{
+  "checks": {
+    "degraded_stress_matches_sdv14_degradation": true,
+    "initial_plane_strain_stiffness": true,
+    "integration_point_consistency_excluding_local_displacements": true,
+    "sdv15_matches_homogeneous_phase_relation": true,
+    "sdv15_non_decreasing_during_unloading_0p2_to_0p4": true,
+    "sdv16_monotonic": true,
+    "undamaged_stress_matches_plane_strain": true
+  },
+  "classification": "scientific_pass",
+  "degraded_errors": {
+    "sdv6": {
+      "max_abs_error": 7.100548948812957e-08,
+      "max_rel_error": 3.277640741963468e-06,
+      "pass": true
+    },
+    "sdv7": {
+      "max_abs_error": 1.5979626610818087e-07,
+      "max_rel_error": 3.2776407419469274e-06,
+      "pass": true
+    },
+    "sdv8": {
+      "max_abs_error": 0.0,
+      "max_rel_error": 0.0,
+      "pass": true
+    }
+  },
+  "elastic_errors": {
+    "sdv10": {
+      "max_abs_error": 1.8981786809035839e-06,
+      "max_rel_error": 9.339805422962138e-08,
+      "pass": true
+    },
+    "sdv11": {
+      "max_abs_error": 0.0,
+      "max_rel_error": 0.0,
+      "pass": true
+    },
+    "sdv9": {
+      "max_abs_error": 9.049589806409131e-07,
+      "max_rel_error": 9.12957290534103e-08,
+      "pass": true
+    }
+  },
+  "frame_count": 1001,
+  "history_monotonic": {
+    "pass": true,
+    "worst_drop": 0.0
+  },
+  "integration_point_max_ranges": {
+    "sdv10": 0.0,
+    "sdv11": 0.0,
+    "sdv12": 0.0,
+    "sdv13": 0.0,
+    "sdv14": 0.0,
+    "sdv15": 0.0,
+    "sdv16": 0.0,
+    "sdv3": 0.0,
+    "sdv4": 0.0,
+    "sdv5": 0.0,
+    "sdv6": 0.0,
+    "sdv7": 0.0,
+    "sdv8": 0.0,
+    "sdv9": 0.0
+  },
+  "integration_points_per_frame": 4,
+  "parameters": {
+    "E": 210.0,
+    "Gc": 0.005,
+    "abs_tolerance": 1e-06,
+    "length_scale": 0.1,
+    "monotonic_tolerance": 1e-09,
+    "nu": 0.3,
+    "rel_tolerance": 1e-05,
+    "residual_stiffness": 1e-07
+  },
+  "phase_errors": {
+    "sdv15": {
+      "max_abs_error": 5.979519488441554e-07,
+      "max_rel_error": 0.0001130898412287651,
+      "pass": true
+    }
+  },
+  "row_count": 4004,
+  "sdv14_sdv15_difference": {
+    "at_frame": 78,
+    "at_ip": 1,
+    "at_time": 0.07800000160932541,
+    "max_abs": 0.0048837363719940186,
+    "signed_sdv14_minus_sdv15": -0.0048837363719940186
+  },
+  "stiffness_sample": {
+    "expected_c_times_strain": [
+      0.012115384309324255,
+      0.028269230055089925,
+      0.0
+    ],
+    "frame": 1,
+    "plane_strain_matrix": [
+      [
+        282.6923076923076,
+        121.15384615384613,
+        0.0
+      ],
+      [
+        121.15384615384613,
+        282.6923076923076,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        80.76923076923077
+      ]
+    ],
+    "sdv9_to_sdv11": [
+      0.012115384452044964,
+      0.02826923131942749,
+      0.0
+    ],
+    "strain": [
+      -1.2115385499216505e-38,
+      9.999999747378752e-05,
+      0.0
+    ],
+    "time": 0.0010000000474974513
+  },
+  "unloading_phase_monotonic": {
+    "pass": true,
+    "worst_drop": 0.0
+  }
+}
