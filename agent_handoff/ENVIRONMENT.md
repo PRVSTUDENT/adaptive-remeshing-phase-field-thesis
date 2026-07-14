@@ -26,11 +26,11 @@ Status: partially completed from local Windows inspection on 2026-07-14. HPC det
 - Abaqus command: `abaqus` and `abq2024` both resolve locally via `C:\SIMULIA\Commands`
 - Abaqus Python version: 3.10.5, MSC v.1934 64 bit (AMD64)
 - Abaqus installation path: `C:\SIMULIA\EstProducts\2024\win_b64`
-- Fortran compiler and version: Intel Fortran not found on PATH; GNU Fortran 13.2.0 found at `C:\strawberry\c\bin\gfortran.exe`
-- Linker/toolchain: Abaqus 2024 smoke-test environment uses Intel `ifx` for Fortran compilation and Microsoft `LINK` for linking, but `ifx` is not currently discoverable on PATH
+- Fortran compiler and version: Intel `ifx` 2026.0.0 Build 20260331 works when Intel oneAPI environment is loaded; GNU Fortran 13.2.0 is also present but is not the Abaqus toolchain
+- Linker/toolchain: Microsoft `LINK` 14.44.35226.0 works when Visual Studio 2022 Build Tools `vcvars64.bat` is loaded before Intel oneAPI
 - Precision: pending baseline/source settings
 - Solver procedure: pending benchmark deck
-- License notes: Abaqus/Standard checked out 5 FlexNet tokens from `localhost` during the smoke test, then failed before solver execution
+- License notes: Abaqus/Standard checked out 5 FlexNet tokens from `localhost` during the smoke test
 
 ## Compute Layout
 
@@ -56,19 +56,20 @@ Status: partially completed from local Windows inspection on 2026-07-14. HPC det
 ## Known Warnings
 
 - HPC maintenance status: user reported maintenance currently blocks intended HPC run path
-- Compiler/linker warnings: WP0 smoke test failed at compiler discovery/compilation because Abaqus called `ifx` and Windows reported `'ifx' is not recognized as an internal or external command`
+- Compiler/linker warnings: the toolchain works only after loading Visual Studio Build Tools and Intel oneAPI in the shell; do not rely on a plain shell PATH
 - Abaqus warnings: none from `abaqus information=release`
-- Unsupported assumptions: local Abaqus version query and license checkout are not successful UEL/UMAT compile, link, or solver validation
+- Unsupported assumptions: successful smoke test does not prove official Abaqus 2024 / oneAPI 2026 support and does not validate the Molnar UEL/UMAT formulation
 
 ## User-Subroutine Smoke Test
 
 - Fixture: `tests/abaqus_user_subroutine_smoke/`
 - Evidence: `tests/abaqus_user_subroutine_smoke/evidence/`
 - Command: `abaqus job=smoke_user_subroutine input=smoke_user_subroutine.inp user=smoke_uexternaldb.for cpus=1 interactive`
-- Result: `compiler_discovery_fail`
-- Failure point: Abaqus/Standard license checkout succeeded; compilation began; `ifx` was not found on PATH.
-- Generated evidence: terminal output, `.com`, and `.env` were preserved. `.log`, `.dat`, `.msg`, and `.sta` were not generated because compilation failed before solver execution.
+- Result: `passed_compile_link_solver_startup`
+- Required shell setup: load `vcvars64.bat` from Visual Studio 2022 Build Tools, then load Intel oneAPI `setvars.bat intel64`.
+- Observed tools: `ifx.exe`, `link.exe`, and `abaqus.bat` were all discoverable in the clean shell.
+- Generated evidence: terminal output, `.com`, `.dat`, `.msg`, `.sta`, and `.env` are preserved under `tests/abaqus_user_subroutine_smoke/evidence/attempt_20260714_102744_clean_env_pass/`. No `.log` file was generated.
 
 ## Completion Gate
 
-This record must be complete before any production Abaqus/HPC submission. The next environment task is to make the Abaqus-supported Intel Fortran `ifx` toolchain discoverable, then rerun the smoke test until compile, link, and solver startup pass.
+This record must be complete before any production Abaqus/HPC submission. The next local baseline task is to run the original Molnar one-element example unchanged using the same clean-shell toolchain setup.

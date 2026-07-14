@@ -1,0 +1,350 @@
+1
+
+   Abaqus 2024                                  Date 14-Jul-2026   Time 10:27:49
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+
+
+                         The Abaqus Software is a product of:
+
+                           Dassault Systemes SIMULIA Corp.
+                           1301 Atwood Avenue, Suite 101W
+                              Johnston, RI 02919, USA
+ 
+
+
+                   The Abaqus Software is available only under license
+                   from Dassault Systemes or its subsidiary and may be
+                   used or reproduced only in accordance with the terms
+                   of such license.
+ 
+                          On machine PRUTHVI 
+                          you are authorized to run
+                          Abaqus/Standard until 31-Dec-2055
+
+                          Your site id is:  
+
+
+ 
+                    For assistance or any other information you may
+                    obtain contact information for your local office
+                    from the world wide web at:
+
+                      https://www.3ds.com/products-services/simulia/services-support/
+
+ 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+                *                                                         * 
+                *                   *****************                     * 
+                *                   *  N O T I C E  *                     * 
+                *                   *****************                     * 
+                *                                                         * 
+                *                                                         * 
+                *                       Abaqus 2024                       * 
+                *                                                         * 
+                *       BUILD ID: 2023_09_21-14.55.25 RELr426 190762      * 
+                *                                                         * 
+                *                                                         * 
+                *  Please make sure you are using                         * 
+                *  release Abaqus 2024 manuals                            * 
+                *  plus the notes accompanying this release.              * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+
+ 
+
+
+
+     PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   *******************************************************
+
+
+     END PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   ***********************************************************
+
+1
+
+   Abaqus 2024                                  Date 14-Jul-2026   Time 10:27:49
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+                                                                                     
+
+                                             A B A Q U S   I N P U T   E C H O
+
+
+                    *Heading
+                    ** Minimal Abaqus/Standard user-subroutine smoke test.
+                    ** The model uses native elastic material behavior; UEXTERNALDB is present
+                    ** only to exercise user-subroutine compilation and linking.
+     LINE     5     *Preprint, echo=YES, model=YES, history=NO, contact=NO
+                    *Node
+                    1, 0., 0., 0.
+                    2, 1., 0., 0.
+                    3, 1., 1., 0.
+     LINE    10     4, 0., 1., 0.
+                    5, 0., 0., 1.
+                    6, 1., 0., 1.
+                    7, 1., 1., 1.
+                    8, 0., 1., 1.
+     LINE    15     *Element, type=C3D8, elset=EALL
+                    1, 1,2,3,4,5,6,7,8
+                    *Nset, nset=FIXED
+                    1,4,5,8
+                    *Nset, nset=LOADED
+     LINE    20     2,3,6,7
+                    *Solid Section, elset=EALL, material=ELASTIC
+                    *Material, name=ELASTIC
+                    *Elastic
+                    210000., 0.3
+     LINE    25     *Boundary
+                    FIXED, 1, 3, 0.
+                    LOADED, 2, 3, 0.
+                    *Step, name=STATIC_SMOKE, nlgeom=NO
+                    *Static
+     LINE    30     1., 1., 1e-05, 1.
+                    *Boundary
+                    LOADED, 1, 1, 1e-06
+                    *Output, field
+                    *Node Output
+     LINE    35     U, RF
+                    *Element Output
+                    S, E
+                    *End Step
+                    --------------------------------------------------------------------------------
+                        5   10   15   20   25   30   35   40   45   50   55   60   65   70   75   80
+                    --------------------------------------------------------------------------------
+
+
+
+     OPTIONS BEING PROCESSED
+   ***************************
+
+
+  *Heading
+  *Element, type=C3D8, elset=EALL
+  *Material, name=ELASTIC
+  *Elastic
+  *Solid Section, elset=EALL, material=ELASTIC
+  *Solid Section, elset=EALL, material=ELASTIC
+  *Boundary
+  *Boundary
+  *Boundary
+  *Boundary
+  *Output, field
+  *Element Output
+  *Output, field
+  *Element Output
+  *Output, field
+  *Element Output
+  *Step, name=STATIC_SMOKE, nlgeom=NO
+  *Output, field
+  *Step, name=STATIC_SMOKE, nlgeom=NO
+  *Step, name=STATIC_SMOKE, nlgeom=NO
+  *Static
+  *Boundary
+  *Output, field
+  *Node Output
+  *Element Output
+  *End Step
+  *Boundary
+  *Step, name=STATIC_SMOKE, nlgeom=NO
+  *Static
+  *Boundary
+  *End Step
+1
+
+   Abaqus 2024                                  Date 14-Jul-2026   Time 10:27:49
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+                                                                                     
+
+
+                              E L E M E N T   D E F I N I T I O N S
+
+       NUMBER   TYPE    PROPERTY    NODES FORMING ELEMENT
+                        REFERENCE
+
+          1   C3D8          1          1         2         3         4         5         6         7         8
+
+
+
+
+
+                                S O L I D   S E C T I O N (S)
+
+
+
+
+  PROPERTY NUMBER         1
+
+     MATERIAL NAME                     ELASTIC                                                                         
+     ATTRIBUTES                          1.0000       0.0000       0.0000    
+
+     HOURGLASS CONTROL STIFFNESS     403.85    
+
+     (USED WITH LOWER ORDER REDUCED INTEGRATED SOLID ELEMENTS LIKE CPS4R,CPE4RH,C3D8R)
+
+
+
+
+
+                         P H Y S I C A L   C O N S T A N T S
+
+
+
+
+
+
+                         M A T E R I A L   D E S C R I P T I O N
+
+
+
+
+  MATERIAL NAME: ELASTIC                                                                         
+
+
+     ELASTIC         YOUNG'S    POISSON'S
+                     MODULUS      RATIO
+
+                    2.10000E+05 0.30000    
+
+
+
+
+
+                                 E L E M E N T   S E T S
+
+
+  SET    EALL                                                                            
+  MEMBERS                    1
+
+
+
+                                    N O D E   S E T S
+
+
+  SET    FIXED                                                                           
+  MEMBERS                    1         4         5         8
+
+  SET    LOADED                                                                          
+  MEMBERS                    2         3         6         7
+
+
+
+
+
+                                 N O D E   D E F I N I T I O N S
+
+       NODE           COORDINATES                       SINGLE POINT CONSTRAINTS 
+      NUMBER                                              TYPE    PLUS    DOF
+
+          1     0.0000       0.0000       0.0000                  1 2 3                                                
+          2     1.0000       0.0000       0.0000                  1 2 3                                                
+          3     1.0000       1.0000       0.0000                  1 2 3                                                
+          4     0.0000       1.0000       0.0000                  1 2 3                                                
+          5     0.0000       0.0000       1.0000                  1 2 3                                                
+          6     1.0000       0.0000       1.0000                  1 2 3                                                
+          7     1.0000       1.0000       1.0000                  1 2 3                                                
+          8     0.0000       1.0000       1.0000                  1 2 3                                                
+
+
+
+                            P R O B L E M   S I Z E
+
+
+          NUMBER OF ELEMENTS IS                                     1
+          NUMBER OF NODES IS                                        8
+          NUMBER OF NODES DEFINED BY THE USER                       8
+          TOTAL NUMBER OF VARIABLES IN THE MODEL                   24
+          (DEGREES OF FREEDOM PLUS MAX NO. OF ANY LAGRANGE MULTIPLIER
+           VARIABLES. INCLUDE *PRINT,SOLVE=YES TO GET THE ACTUAL NUMBER.)
+
+
+
+                              END OF USER INPUT PROCESSING
+
+
+
+     JOB TIME SUMMARY
+       USER TIME (SEC)      =     0.20    
+       SYSTEM TIME (SEC)    =     0.10    
+       TOTAL CPU TIME (SEC) =     0.30    
+       WALLCLOCK TIME (SEC) =            0
+1
+
+   Abaqus 2024                                  Date 14-Jul-2026   Time 10:28:06
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+                                                                                               STEP    1  INCREMENT    1
+                                                                                          TIME COMPLETED IN THIS STEP   0.00    
+
+
+                        S T E P       1     S T A T I C   A N A L Y S I S
+
+
+                                                                                          
+
+     AUTOMATIC TIME CONTROL WITH -
+          A SUGGESTED INITIAL TIME INCREMENT OF                 1.00    
+          AND A TOTAL TIME PERIOD OF                            1.00    
+          THE MINIMUM TIME INCREMENT ALLOWED IS                1.000E-05
+          THE MAXIMUM TIME INCREMENT ALLOWED IS                 1.00    
+
+     LINEAR EQUATION SOLVER TYPE         DIRECT SPARSE
+  
+                   M E M O R Y   E S T I M A T E
+  
+ PROCESS      FLOATING PT       MINIMUM MEMORY        MEMORY TO
+              OPERATIONS           REQUIRED          MINIMIZE I/O
+             PER ITERATION           (MB)               (MB)
+  
+     1          4.90E+03               17                 24
+  
+ NOTE:
+      (1) SINCE ABAQUS DOES NOT PRE-ALLOCATE MEMORY AND ONLY ALLOCATES MEMORY AS NEEDED DURING THE ANALYSIS,
+          THE MEMORY REQUIREMENT PRINTED HERE CAN ONLY BE VIEWED AS A GENERAL GUIDELINE BASED ON THE BEST
+          KNOWLEDGE AVAILABLE AT THE BEGINNING OF A STEP BEFORE THE SOLUTION PROCESS HAS BEGUN.
+      (2) THE ESTIMATE IS NORMALLY UPDATED AT THE BEGINNING OF EVERY STEP. IT IS THE MAXIMUM VALUE OF THE
+          ESTIMATE FROM THE CURRENT STEP TO THE LAST STEP OF THE ANALYSIS, WITH UNSYMMETRIC SOLUTION TAKEN
+          INTO ACCOUNT IF APPLICABLE. 
+      (3) SINCE THE ESTIMATE IS BASED ON THE ACTIVE DEGREES OF FREEDOM IN THE FIRST ITERATION OF THE 
+          CURRENT STEP, THE MEMORY ESTIMATE MIGHT BE SIGNIFICANTLY DIFFERENT THAN ACTUAL USAGE FOR 
+          PROBLEMS WITH SUBSTANTIAL CHANGES IN ACTIVE DEGREES OF FREEDOM BETWEEN STEPS (OR EVEN WITHIN
+          THE SAME STEP). EXAMPLES ARE: PROBLEMS WITH SIGNIFICANT CONTACT CHANGES, PROBLEMS WITH MODEL
+          CHANGE, PROBLEMS WITH BOTH STATIC STEP AND STEADY STATE DYNAMIC PROCEDURES WHERE ACOUSTIC 
+          ELEMENTS WILL ONLY BE ACTIVATED IN THE STEADY STATE DYNAMIC STEPS.
+      (4) FOR MULTI-PROCESS EXECUTION, THE ESTIMATED VALUE OF FLOATING POINT OPERATIONS FOR EACH PROCESS
+          IS BASED ON AN INITIAL SCHEDULING OF OPERATIONS AND MIGHT NOT REFLECT THE ACTUAL FLOATING 
+          POINT OPERATIONS COMPLETED ON EACH PROCESS. OPERATIONS ARE DYNAMICALLY BALANCED DURING EXECUTION, 
+          SO THE ACTUAL BALANCE OF OPERATIONS BETWEEN PROCESSES IS EXPECTED TO BE BETTER THAN THE ESTIMATE
+          PRINTED HERE.
+      (5) THE UPPER LIMIT OF MEMORY THAT CAN BE ALLOCATED BY ABAQUS WILL IN GENERAL DEPEND ON THE VALUE OF
+          THE "MEMORY" PARAMETER AND THE AMOUNT OF PHYSICAL MEMORY AVAILABLE ON THE MACHINE. PLEASE SEE
+          THE "ABAQUS ANALYSIS USER'S MANUAL" FOR MORE DETAILS. THE ACTUAL USAGE OF MEMORY AND OF DISK
+          SPACE FOR SCRATCH DATA WILL DEPEND ON THIS UPPER LIMIT AS WELL AS THE MEMORY REQUIRED TO MINIMIZE
+          I/O. IF THE MEMORY UPPER LIMIT IS GREATER THAN THE MEMORY REQUIRED TO MINIMIZE I/O, THEN THE ACTUAL
+          MEMORY USAGE WILL BE CLOSE TO THE ESTIMATED "MEMORY TO MINIMIZE I/O" VALUE, AND THE SCRATCH DISK
+          USAGE WILL BE CLOSE-TO-ZERO; OTHERWISE, THE ACTUAL MEMORY USED WILL BE CLOSE TO THE PREVIOUSLY
+          MENTIONED MEMORY LIMIT, AND THE SCRATCH DISK USAGE WILL BE ROUGHLY PROPORTIONAL TO THE DIFFERENCE
+          BETWEEN THE ESTIMATED "MEMORY TO MINIMIZE I/O" AND THE MEMORY UPPER LIMIT. HOWEVER ACCURATE
+          ESTIMATE OF THE SCRATCH DISK SPACE IS NOT POSSIBLE.
+      (6) USING "*RESTART, WRITE" CAN GENERATE A LARGE AMOUNT OF DATA WRITTEN IN THE WORK DIRECTORY.
+
+
+          THE ANALYSIS HAS BEEN COMPLETED
+
+
+
+                              ANALYSIS COMPLETE
+
+
+
+     JOB TIME SUMMARY
+       USER TIME (SEC)      =     0.10    
+       SYSTEM TIME (SEC)    =      0.0    
+       TOTAL CPU TIME (SEC) =     0.10    
+       WALLCLOCK TIME (SEC) =            1

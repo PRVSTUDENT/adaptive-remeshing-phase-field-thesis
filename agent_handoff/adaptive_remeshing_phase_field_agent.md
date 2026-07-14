@@ -18,7 +18,7 @@ Current stage:
 - Evolving remeshing with state transfer is mandatory for the thesis scope, but no online-remesh claim is allowed until controlled field transfer and fracture-relevant transfer tests pass.
 - Local environment inspection found Abaqus 2024 (`abaqus`/`abq2024`) and Abaqus Python 3.10.5 available on Windows; Intel Fortran is not on PATH, so user-subroutine compile compatibility is still unverified.
 - Molnar and Gravouil (2017) supplementary `.for`/`.inp` files are preserved unmodified under `models/baseline_original/molnar_gravouil_2017/`; checksums are recorded in that folder's `README.md`.
-- Local Abaqus user-subroutine smoke test failed at compiler discovery/compilation: Abaqus called `ifx`, but `ifx` was not found on PATH. License checkout succeeded before the compile failure.
+- Local Abaqus user-subroutine smoke test passed after loading Visual Studio 2022 Build Tools `vcvars64.bat` and Intel oneAPI `setvars.bat intel64`: `ifx` 2026.0 compiled, Microsoft `LINK` 14.44 linked, and the trivial Abaqus/Standard analysis completed. This is a local smoke-test result, not an official toolchain-support claim.
 
 Known source documents:
 - `Adaptive_Remeshing_PFF_Rapid_Study_Guide.pdf`
@@ -28,10 +28,10 @@ Known source documents:
 - `1-s2.0-S0045782525004153-main.pdf` - Diddige, Roth, and Kiefer (2025)
 
 Immediate next tasks:
-1. Make the Abaqus-supported Intel Fortran `ifx` environment discoverable on PATH.
-2. Rerun the explicit Abaqus user-subroutine compiler/linker smoke test until compile, link, and solver startup pass.
+1. Run the original Molnar one-element example unchanged using the clean-shell toolchain setup.
+2. Preserve terminal output and generated Abaqus evidence from the unchanged one-element run.
 3. Complete `docs/methods/ENVIRONMENT.md` with HPC queue/runtime details after maintenance clears.
-4. Run the original one-element example unchanged only after the smoke test passes.
+4. Classify the one-element run as technical pass/fail before any scientific validation claim.
 5. Run one unmodified single-edge-notched benchmark and create an automated RF-U/phase-field/energy extraction path.
 6. Freeze a reproducible baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
 
