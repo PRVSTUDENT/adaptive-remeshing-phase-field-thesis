@@ -6,13 +6,14 @@
 - Main objective: reproduce a verified phase-field fracture baseline in Abaqus, implement the Pandey-Kumar MISESERI-driven pre-refinement workflow, preserve the scientific meaning of the UEL/UMAT fields, integrate IMFD/ABAQUSER post-processing, and quantify accuracy versus computational cost.
 - Operating principle: **baseline first, one controlled change at a time, quantitative gates before claims.**
 - File-handoff principle: every source/text file created or edited by the agent is mirrored into a flat `agent_handoff/` directory with a manifest for easy review and upload.
+- Report principle: keep one living LaTeX report per thesis stage. For Stage A, update `docs/reports/STAGE_A_BASELINE_REPORT.tex` after every substantial environment, baseline, one-element, benchmark, or scientific-comparison change, including important plots, contour images, tables, and gate status. Create a new report file only when the project intentionally moves to a new stage.
 
 ## Current thesis handoff - update this block after every substantial work session
 
 Updated: 2026-07-14
 
 Current stage:
-- Stage A / WP1 - original Molnar one-element baseline verification.
+- Stage A / WP2 - unchanged Molnar baseline and single-notch scientific comparison.
 - The unchanged Molnar single-notch benchmark has a local technical pass and reproducible first extraction, but its RF-U curve and crack evolution are still scientific-review pending.
 - No remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
 - HPC is the intended Abaqus runtime, but production submissions are blocked until maintenance clears and `docs/methods/ENVIRONMENT.md` is complete.
@@ -23,6 +24,7 @@ Current stage:
 - The original Molnar one-element example ran unchanged from a separate run directory and passed the technical gate: compile/link/input/solver/wrap-up and ODB readability passed.
 - The unchanged Molnar one-element ODB passed the source-defined scientific check for plane-strain stiffness, degraded stress, homogeneous phase relation, history monotonicity, unloading irreversibility, and integration-point consistency. Evidence is under `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/`. Tolerances are provisional working gates only.
 - The original Molnar single-notch benchmark ran unchanged from a separate run directory and is classified `technical_pass_scientific_unchecked`. Evidence and extraction outputs are under `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/`.
+- The Stage A living LaTeX report is `docs/reports/STAGE_A_BASELINE_REPORT.tex`; generated figures and tables are under `results/figures/stage_a_baseline/` and `results/tables/stage_a_baseline/`.
 
 Known source documents:
 - `Adaptive_Remeshing_PFF_Rapid_Study_Guide.pdf`
@@ -32,12 +34,13 @@ Known source documents:
 - `1-s2.0-S0045782525004153-main.pdf` - Diddige, Roth, and Kiefer (2025)
 
 Immediate next tasks:
-1. Compare the unchanged Molnar single-notch RF-U curve and phase-field/crack evolution against paper/reference behavior.
-2. Decide whether the observed final `SDV15 > 1` visualization value is expected for the original code/reference state or requires a bounded-field diagnostic.
-3. Complete `docs/methods/ENVIRONMENT.md` with HPC queue/runtime details after maintenance clears.
-4. Freeze a reproducible benchmark baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
-5. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, and runtime/cost metrics.
-6. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
+1. Keep updating `docs/reports/STAGE_A_BASELINE_REPORT.tex` with Stage A evidence, plots, contours, tables, and scientific decisions.
+2. Compare the unchanged Molnar single-notch RF-U curve and phase-field/crack evolution against paper/reference behavior.
+3. Decide whether the observed final `SDV15 > 1` visualization value is expected for the original code/reference state or requires a bounded-field diagnostic.
+4. Complete `docs/methods/ENVIRONMENT.md` with HPC queue/runtime details after maintenance clears.
+5. Freeze a reproducible benchmark baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
+6. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, and runtime/cost metrics.
+7. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
 
 Unresolved decisions requiring user/supervisor confirmation:
 - Exact benchmark subset required for the thesis.

@@ -1,30 +1,35 @@
 # Agent Handoff Manifest
 
-Created (UTC): 2026-07-14T09:15:20.128466+00:00
+Created (UTC): 2026-07-14T09:26:02.333508+00:00
 
 This directory contains only files from the latest mirrored operation.
 
 | Mirrored file | Original path | Bytes | SHA-256 |
 |---|---|---:|---|
-| `.gitattributes` | `.gitattributes` | 579 | `85e3962e00b99dfdb01c21b2d391d677c015df1426686319d3129064f28c6ecf` |
-| `.agent.md` | `.agent.md` | 25966 | `402577a1dc572a618f3507ea290edbba099af6c1f1bfc511ccf5bf36562b3016` |
-| `adaptive_remeshing_phase_field_agent.md` | `adaptive_remeshing_phase_field_agent.md` | 25966 | `402577a1dc572a618f3507ea290edbba099af6c1f1bfc511ccf5bf36562b3016` |
-| `README.md` | `README.md` | 3456 | `af71f10a81526f7e79871474d69cc2470b229ce088519ea406bddeadaccd9825` |
-| `THESIS_PLAN.md` | `THESIS_PLAN.md` | 11076 | `5452e640a045099c84d75e4729236f883ff3ff8f1d3ef639ef06ee0f0a0a857e` |
-| `ENVIRONMENT.md` | `docs/methods/ENVIRONMENT.md` | 7017 | `55c44de9019ddf2ba96087bff99e4fee9ae67141c5906c09d8643682f5a8bfe0` |
-| `extract_molnar_single_notch.py` | `scripts/postprocessing/extract_molnar_single_notch.py` | 15767 | `24949c5f56a2355d0741f5138788a2a7c739e79fdc210c69bd42c92cd290d932` |
-| `RUN_SUMMARY.md` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/RUN_SUMMARY.md` | 5162 | `de675936ff3f84064bb35146720b2f0ffbb7a544f90e7c1ab610bf78b8fd482d` |
-| `SingleNotch.for` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/work/SingleNotch.for` | 19970 | `18944e5bb2a3b7973fd0d4bff03f8e078eef667965343d8a29156d093f53f5f1` |
-| `SingleNotch.inp` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/work/SingleNotch.inp` | 504303 | `89ce3f32e396b0e484be6753a272dd6bbb2a2f9daff426d6a57419f57d665b72` |
-| `run_molnar_single_notch_clean_env.cmd` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/evidence/run_molnar_single_notch_clean_env.cmd` | 476 | `1942e4a59cfc1166f39d81298c8b9b867e2b2afd151b9205dbc8f96751aeb551` |
-| `terminal_output.txt` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/evidence/terminal_output.txt` | 6144 | `531310f21f446ae19dd0e7a41902c6866ddc54caef82f1fe7705a4dc7ef125ed` |
-| `work_file_sha256.txt` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/evidence/work_file_sha256.txt` | 1512 | `ffa78992f3b7711be523a867977b211d60cce1ec95a02a71d3a085fd4261ddca` |
-| `SINGLE_NOTCH_EXTRACTION.md` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/extracted/SINGLE_NOTCH_EXTRACTION.md` | 3147 | `d6a31a5ea6e318a252984af84cbb19ed34e068c350ecb34b1357fd900fa6815c` |
-| `single_notch_extraction_summary.json` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/extracted/single_notch_extraction_summary.json` | 4499 | `1cf432cf71a6063f74e5f19369c25ffce6782bff73c82ab42a4d15615c2c02ae` |
-| `single_notch_rf_u_phase_summary.csv` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/extracted/single_notch_rf_u_phase_summary.csv` | 12273 | `2a6e3271d357d45dfb56f72c1dd689e358dba537100921e57cb4a272875176fa` |
-| `single_notch_matched_displacement_states.csv` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/extracted/single_notch_matched_displacement_states.csv` | 709 | `8631534fcfea2142d832037874c6ccb0e780e2223d4a037cde49adc289ef52e6` |
-| `matched_state_01_Step-1_frame_0020_contour_sdv14_sdv15_sdv16.csv` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/extracted/matched_state_01_Step-1_frame_0020_contour_sdv14_sdv15_sdv16.csv` | 2357997 | `6d62f2b0cb739bbeccbb5eb5a241a003807cf1268b10576462e30e1fe1509774` |
-| `matched_state_02_Step-1_frame_0050_contour_sdv14_sdv15_sdv16.csv` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/extracted/matched_state_02_Step-1_frame_0050_contour_sdv14_sdv15_sdv16.csv` | 2045618 | `d5bda632cf72a565fbc0c04195701021a5ecc5e0a5f6636a3de7e338fd3281c2` |
-| `matched_state_03_Step-2_frame_0010_contour_sdv14_sdv15_sdv16.csv` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/extracted/matched_state_03_Step-2_frame_0010_contour_sdv14_sdv15_sdv16.csv` | 2302347 | `a40969a0f51a724e5f87313b17a52f3ab425e60e6dd850b61590a807662d4274` |
-| `matched_state_04_Step-2_frame_0020_contour_sdv14_sdv15_sdv16.csv` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/extracted/matched_state_04_Step-2_frame_0020_contour_sdv14_sdv15_sdv16.csv` | 2321188 | `cf9ad9d8a2fa4f14adabf235a7db71e0badf7aaa12e8db7f89b0631a1cf33cc5` |
-| `extractor_terminal_output.txt` | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/extracted/extractor_terminal_output.txt` | 1432 | `d2c6bf1a50157c2db2e5270e7aa26f1ffbe302aecaff1850204332b64a6258d5` |
+| `.gitignore` | `.gitignore` | 1560 | `8d9d1bb5190bb2006fa41d2cbc83450c102c432bbf6427e566664d44842396cd` |
+| `.agent.md` | `.agent.md` | 26696 | `848bfea628092f015cc0d396cf3b0e23f81984bad42941905b6068904a86d552` |
+| `adaptive_remeshing_phase_field_agent.md` | `adaptive_remeshing_phase_field_agent.md` | 26696 | `848bfea628092f015cc0d396cf3b0e23f81984bad42941905b6068904a86d552` |
+| `STAGE_A_BASELINE_REPORT.tex` | `docs/reports/STAGE_A_BASELINE_REPORT.tex` | 11108 | `993370f7bbcea3bb5935189d3a01f0988328d3d5e2cede91eb4bc9bd3590d764` |
+| `generate_stage_a_report_figures.py` | `scripts/postprocessing/generate_stage_a_report_figures.py` | 8547 | `4741bb4f6ac5a5f1f72479cd2e13b0860f53357b38161c1344d70827f3a6b273` |
+| `single_notch_summary_metrics.csv` | `results/tables/stage_a_baseline/single_notch_summary_metrics.csv` | 294 | `c6a66cb9b092c2bbc107ca06562b5d209faf699477ef86005d892ac3a5380bd3` |
+| `single_notch_matched_states_for_report.csv` | `results/tables/stage_a_baseline/single_notch_matched_states_for_report.csv` | 688 | `295c3ab75d2c89e7d78cadd35a9e4429a0ca2d75e1391bfd0fa17c19821ca7f6` |
+| `matched_state_01_Step-1_frame_0020_clipped_sdv15.pdf` | `results/figures/stage_a_baseline/matched_state_01_Step-1_frame_0020_clipped_sdv15.pdf` | 75574 | `2f8540461614af83e48da02c55a99b30c8b08ee3561af1184e1df181a139fe48` |
+| `matched_state_01_Step-1_frame_0020_clipped_sdv15.png` | `results/figures/stage_a_baseline/matched_state_01_Step-1_frame_0020_clipped_sdv15.png` | 252840 | `3f6938bae43571ccbac519ef4968bed2474f911f41b2d1fc58640723e7b67fc0` |
+| `matched_state_01_Step-1_frame_0020_raw_sdv15.pdf` | `results/figures/stage_a_baseline/matched_state_01_Step-1_frame_0020_raw_sdv15.pdf` | 90783 | `df50c1766f7cf14ecb8a8e7c0878dbd3873c2ef3f11b48384f3ebaf79f3a2eb6` |
+| `matched_state_01_Step-1_frame_0020_raw_sdv15.png` | `results/figures/stage_a_baseline/matched_state_01_Step-1_frame_0020_raw_sdv15.png` | 295053 | `1766f01dcce7d569188452dc3fb98e7a5b77a65b86a3e2452ee7222414625f8d` |
+| `matched_state_02_Step-1_frame_0050_clipped_sdv15.pdf` | `results/figures/stage_a_baseline/matched_state_02_Step-1_frame_0050_clipped_sdv15.pdf` | 82915 | `223d979c3ffcbb7768ff52e3c5e3e61cc12d3a229207193bbb0e905e1cd43991` |
+| `matched_state_02_Step-1_frame_0050_clipped_sdv15.png` | `results/figures/stage_a_baseline/matched_state_02_Step-1_frame_0050_clipped_sdv15.png` | 277516 | `a6b8d97aa645a92d49f5d0760ff5ad9d0b353e9ca503a079d847ca0640c2fdf5` |
+| `matched_state_02_Step-1_frame_0050_raw_sdv15.pdf` | `results/figures/stage_a_baseline/matched_state_02_Step-1_frame_0050_raw_sdv15.pdf` | 89977 | `b4087b9a9633b131823597a2cba8456afb4e000152454efbbe48c971c431d4e6` |
+| `matched_state_02_Step-1_frame_0050_raw_sdv15.png` | `results/figures/stage_a_baseline/matched_state_02_Step-1_frame_0050_raw_sdv15.png` | 294532 | `4883a09a3e4be1856395b70fb2d965960bfea1ce9dcdedc79616fa1056285130` |
+| `matched_state_03_Step-2_frame_0010_clipped_sdv15.pdf` | `results/figures/stage_a_baseline/matched_state_03_Step-2_frame_0010_clipped_sdv15.pdf` | 85378 | `f28f7ced45c27f399657fb6dc8392c1e984f02f5f6aadfcfc527bf3f74af4301` |
+| `matched_state_03_Step-2_frame_0010_clipped_sdv15.png` | `results/figures/stage_a_baseline/matched_state_03_Step-2_frame_0010_clipped_sdv15.png` | 285302 | `ec913d4ff54ce22de1bb3947fbee2d81a696f251004be3ca8e9aaed02dfc2409` |
+| `matched_state_03_Step-2_frame_0010_raw_sdv15.pdf` | `results/figures/stage_a_baseline/matched_state_03_Step-2_frame_0010_raw_sdv15.pdf` | 89514 | `73bcc35fba5221b64fe9785bbbbdd1b88c77bf0c9c3871e74e468ff03dca4ebc` |
+| `matched_state_03_Step-2_frame_0010_raw_sdv15.png` | `results/figures/stage_a_baseline/matched_state_03_Step-2_frame_0010_raw_sdv15.png` | 292988 | `45cc6df9e25381f667d2faf54299f4b9a0d43fba0c31d0bf31dd51b90a65154f` |
+| `matched_state_04_Step-2_frame_0020_clipped_sdv15.pdf` | `results/figures/stage_a_baseline/matched_state_04_Step-2_frame_0020_clipped_sdv15.pdf` | 96884 | `7fc06b987ec075845f048ed8eebcd7b5a863d52116592d22953fd17348dc42ba` |
+| `matched_state_04_Step-2_frame_0020_clipped_sdv15.png` | `results/figures/stage_a_baseline/matched_state_04_Step-2_frame_0020_clipped_sdv15.png` | 318370 | `8a854378b5dd5c839b96cac541c0dab3e096b5f9f4ba73370866f3199d55d9a6` |
+| `matched_state_04_Step-2_frame_0020_raw_sdv15.pdf` | `results/figures/stage_a_baseline/matched_state_04_Step-2_frame_0020_raw_sdv15.pdf` | 96543 | `222f141b26ad3aa177d0cbf0ffc695424924cd849dfe6b0c75f2c7ddb0c875cd` |
+| `matched_state_04_Step-2_frame_0020_raw_sdv15.png` | `results/figures/stage_a_baseline/matched_state_04_Step-2_frame_0020_raw_sdv15.png` | 313970 | `195ba33b78e18dc816f6e03450e7bc1d52e3c0a49d91674a3dedc3a025c8a3b1` |
+| `single_notch_phase_history_vs_u.pdf` | `results/figures/stage_a_baseline/single_notch_phase_history_vs_u.pdf` | 20351 | `5fcb737ac5df7dd967834fbee31565944ce6ff2ff97f09296476e44801188229` |
+| `single_notch_phase_history_vs_u.png` | `results/figures/stage_a_baseline/single_notch_phase_history_vs_u.png` | 106293 | `1640ffe047ee53db35a8248d8b1e1717099ecc0e75cc86f4f2fd0b245103146a` |
+| `single_notch_rf_u_curve.pdf` | `results/figures/stage_a_baseline/single_notch_rf_u_curve.pdf` | 18044 | `c21ab7152810b277b72c32251bda46a04e1b9aea1075e9f4de7bc31c53c7659d` |
+| `single_notch_rf_u_curve.png` | `results/figures/stage_a_baseline/single_notch_rf_u_curve.png` | 89546 | `f9316baf8cd72df7a8d3f9a41db8dc65ef49ff5a46fae274ae25e986ac82d8d3` |
