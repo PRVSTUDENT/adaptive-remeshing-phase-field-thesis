@@ -1,0 +1,150 @@
+*Heading
+** Job name: One Element, Model name: Model-1
+** Created by: Gergely Molnar and Anthony Gravouil, 2016
+** WEB: www.molnar-research.com
+*Preprint, echo=NO, model=NO, history=NO, contact=NO
+**
+** PARTS
+** Creating parts
+*Part, name=Elem
+**
+** Crating nodes
+*Node
+      1,           0.,         0.
+      2,         1,         0.
+      3,           0.,          1
+      4,         1,          1
+**
+***************************************************************
+** Defining the first UEL (U1) - phase-field element
+** Number of nodes: 4
+** Properties: length scale parameter (lc)
+**             fracture surface energy release (gc)
+**             thickness (h)
+**
+** Coordinates: x, y
+** VARIABLES: Internal variables 2x4 (phase and history field at
+**            each integration point)
+**
+*User element, nodes=4, type=U1, properties=3, coordinates=2, VARIABLES=8
+3
+***************************************************************
+** Creating the first layer of finite elements
+*Element, type=U1
+1, 1, 2, 4, 3
+***************************************************************
+** Assigning the element element properties to the firs layer
+**
+*Elset, elset=AllPhase, generate
+1,  1,     1
+*Uel property, elset=AllPhase
+0.1, 5e-3, 1.0
+**lc, gc, h,
+**
+***************************************************************
+** Defining the second UEL (U2) - displacemenet element
+**
+** Number of nodes: 4
+** Properties: fracture surface energy release (Young's modulus)
+**             length scale parameter (Poisson's ratio)
+**             thickness (h)
+**             stabiliy parameter (k)
+**
+** Coordinates: x, y
+** VARIABLES: Internal variables 14x4 (displacement (x2), strain (x3),
+**            stress (x3), elastic stress (x3), energy, elastic energy,
+**            phase field at each integration point)
+**
+*User element, nodes=4, type=U2, properties=4, coordinates=2, VARIABLES=56
+1,2
+***************************************************************
+** Creating the secound layer of finite elements
+*Element, type=U2
+2, 1, 2, 4, 3
+***************************************************************
+** Assigning the element element properties to the second layer
+**
+*Elset, elset=AllStress, generate
+2,  2,  1
+*Uel property, elset=AllStress
+210.0, 0.3, 1.0, 1.0e-7
+**E, nu, h, k
+**
+***************************************************************
+** Creating UMAT elements (third layer)
+**
+*Element, TYPE=CPS4, elset=umatelem
+3, 1, 2, 4, 3
+***************************************************************
+*Solid Section, elset=umatelem, material=umatelem
+1.0
+*End Part
+***************************************************************
+** ASSEMBLY
+**
+*Assembly, name=Assembly
+**  
+*Instance, name=Elem-1, part=Elem
+          0.,          0.,           0.
+*End Instance
+**
+** --- Cearting sets for the boundary conditions ---
+**
+*Nset, nset=bottom, internal, instance=Elem-1
+ 1, 2
+*Nset, nset=bottoml, internal, instance=Elem-1
+ 1,
+*Nset, nset=top, internal, instance=Elem-1
+ 3, 4
+** 
+** --- Cearting sets for post processing ---
+**
+*Nset, nset=AllP, instance=Elem-1, generate
+1, 4, 1 
+*Elset, elset=umatelem, internal, instance=Elem-1
+ 3,
+**
+*End Assembly
+**
+***************************************************************
+** Cyclic loading table
+**
+*Amplitude, name=Amp-1
+ 0.,  0.,  0.2,  0.2, 0.4,  0.,  1,  1,
+***************************************************************
+** Elastic properties for umatelem UMAT
+*Material, name=umatelem
+*Depvar
+16,
+*User Material, constants=2
+1.0e-11,0.3
+***************************************************************
+** STEP: Static
+** 
+*Step, name=Static, nlgeom=NO, inc=1000
+*Static, direct
+0.001, 1., 
+***************************************************************
+** BOUNDARY CONDITIONS
+** 
+** Name: Sup Type: Displacement/Rotation
+*Boundary
+bottom, 1, 1
+bottom, 2, 2
+** Name: Load Type: Load
+*Boundary, amplitude=Amp-1
+top, 2, 2, 0.1
+top, 1, 1
+** ----------------------------------------------------------------
+** 
+** OUTPUT REQUESTS
+** 
+*Restart, write, frequency=0
+**
+*Output, field
+*Node Output, nset=AllP
+RF, U
+*element output, elset=umatelem
+SDV
+** 
+*End Step

@@ -44,10 +44,10 @@ Status: partially completed from local Windows inspection on 2026-07-14. HPC det
 
 ## Source Provenance
 
-- Molnar original source location: pending acquisition/preservation under `models/baseline_original/` and `src/uel/`
-- Molnar source checksum: pending
-- Baseline input deck location: pending
-- Baseline input deck checksum: pending
+- Molnar original source location: `models/baseline_original/molnar_gravouil_2017/`
+- Molnar source checksum: see `models/baseline_original/molnar_gravouil_2017/README.md`
+- Baseline input deck location: `models/baseline_original/molnar_gravouil_2017/01_One_Element/OneElement.inp`
+- Baseline input deck checksum: `9b63615bbe335872de197b96ca0253769f4a237c1e2e384294a1d204c462f220`
 - UMAT/visualization bridge checksum: pending
 - ABAQUSER source checksum: pending
 - GitHub repository: public `https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis`
