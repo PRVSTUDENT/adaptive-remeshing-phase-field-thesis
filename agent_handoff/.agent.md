@@ -14,7 +14,7 @@ Updated: 2026-07-14
 
 Current stage:
 - Stage A / WP2 - unchanged Molnar baseline and single-notch scientific comparison.
-- The unchanged Molnar single-notch benchmark has a local technical pass and reproducible first extraction, but its RF-U curve and crack evolution are still scientific-review pending.
+- The unchanged Molnar single-notch benchmark has a local technical pass and reproducible first extraction. The first Gate A3 scientific validator classifies the benchmark as `reference_data_insufficient` because numeric Molnar RF-U reference coordinates are not yet digitized or matched to the smaller supplementary example.
 - No remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
 - HPC is the intended Abaqus runtime, but production submissions are blocked until maintenance clears and `docs/methods/ENVIRONMENT.md` is complete.
 - Evolving remeshing with state transfer is mandatory for the thesis scope, but no online-remesh claim is allowed until controlled field transfer and fracture-relevant transfer tests pass.
@@ -25,6 +25,7 @@ Current stage:
 - The unchanged Molnar one-element ODB passed the source-defined scientific check for plane-strain stiffness, degraded stress, homogeneous phase relation, history monotonicity, unloading irreversibility, and integration-point consistency. Evidence is under `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/`. Tolerances are provisional working gates only.
 - The original Molnar single-notch benchmark ran unchanged from a separate run directory and is classified `technical_pass_scientific_unchecked`. Evidence and extraction outputs are under `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/`.
 - The Stage A living LaTeX report is `docs/reports/STAGE_A_BASELINE_REPORT.tex`; generated figures and tables are under `results/figures/stage_a_baseline/` and `results/tables/stage_a_baseline/`.
+- Gate A3 reference provenance is under `references/derived/molnar_gravouil_2017/single_notch/`; the current RF-U reference CSV intentionally has no numeric coordinates until the exact curve/digitization uncertainty is established.
 
 Known source documents:
 - `Adaptive_Remeshing_PFF_Rapid_Study_Guide.pdf`
@@ -35,12 +36,13 @@ Known source documents:
 
 Immediate next tasks:
 1. Keep updating `docs/reports/STAGE_A_BASELINE_REPORT.tex` with Stage A evidence, plots, contours, tables, and scientific decisions.
-2. Compare the unchanged Molnar single-notch RF-U curve and phase-field/crack evolution against paper/reference behavior.
-3. Decide whether the observed final `SDV15 > 1` visualization value is expected for the original code/reference state or requires a bounded-field diagnostic.
-4. Complete `docs/methods/ENVIRONMENT.md` with HPC queue/runtime details after maintenance clears.
-5. Freeze a reproducible benchmark baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
-6. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, and runtime/cost metrics.
-7. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
+2. Digitize or acquire the appropriate Molnar RF-U reference curve and document curve label, mesh/length-scale match, axes, units, and uncertainty.
+3. Decide whether Fig. 7 is an acceptable quantitative reference for the smaller supplementary example or only a qualitative target.
+4. Re-run `scripts/validation/check_molnar_single_notch.py` after numeric reference coordinates are available.
+5. Complete `docs/methods/ENVIRONMENT.md` with HPC queue/runtime details after maintenance clears.
+6. Freeze a reproducible benchmark baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
+7. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, and runtime/cost metrics.
+8. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
 
 Unresolved decisions requiring user/supervisor confirmation:
 - Exact benchmark subset required for the thesis.
