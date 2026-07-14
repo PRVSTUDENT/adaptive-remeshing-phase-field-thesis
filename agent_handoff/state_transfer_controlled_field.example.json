@@ -1,0 +1,32 @@
+{
+  "state_transfer_id": "controlled_field_transfer_starter",
+  "method": "evolving_remesh_state_transfer",
+  "status": "mandatory thesis branch, not yet validated",
+  "source_mesh": "models/state_transfer/source_mesh_pending.inp",
+  "target_mesh": "models/state_transfer/target_mesh_pending.inp",
+  "fields": [
+    {
+      "name": "phase_field",
+      "location": "nodal_or_integration_point_pending",
+      "bounds": [0.0, 1.0],
+      "irreversibility": true
+    },
+    {
+      "name": "history",
+      "location": "integration_point_pending",
+      "bounds": ["nonnegative", null],
+      "irreversibility": true
+    },
+    {
+      "name": "selected_svars",
+      "location": "integration_point_pending",
+      "bounds": "pending"
+    }
+  ],
+  "controlled_field": {
+    "type": "analytic_smooth_plus_gradient",
+    "purpose": "Measure mapping error before fracture use"
+  },
+  "metrics": ["L2_error", "max_error", "bounds_check", "energy_jump", "irreversibility_check"],
+  "required_before_fracture_use": true
+}

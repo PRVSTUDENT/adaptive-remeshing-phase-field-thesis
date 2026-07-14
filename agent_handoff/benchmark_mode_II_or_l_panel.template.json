@@ -1,0 +1,15 @@
+{
+  "benchmark_id": "mode_II_or_l_panel",
+  "priority": 2,
+  "role": "Second benchmark after Mode I pipeline is stable",
+  "selection_status": "pending source extraction and supervisor confirmation",
+  "candidate_sources": [
+    "Molnar and Gravouil (2017)",
+    "Pandey and Kumar (2025)"
+  ],
+  "required_before_selection": [
+    "Mode I uniform baseline stable",
+    "Mode I extraction pipeline stable",
+    "candidate benchmark parameters extracted"
+  ]
+}
