@@ -35,6 +35,11 @@ Gate A3 classification: `reference_data_insufficient`
 - Maximum absolute `SDV14 - SDV15`: `3.744406e-02`
 - `SDV16` decrease count: `0`; worst drop `0.000000e+00`
 - `SDV15` decrease count: `583`; worst drop `2.278090e-04`
+- `SDV15` largest decrease event: `{'drop': 0.00022780895233154297, 'previous_value': 0.9881207346916199, 'current_value': 0.9878929257392883, 'previous_step': 'Step-2', 'previous_frame': 15, 'previous_global_frame': 66, 'previous_step_time': 0.15000000596046448, 'previous_rp_u2': 0.006500000134110451, 'step': 'Step-2', 'frame': 16, 'global_frame': 67, 'step_time': 0.1599999964237213, 'rp_u2': 0.006599999964237213, 'element': 8300, 'integration_point': 1, 'near_step_transition': False, 'smaller_than_odb_precision': False, 'staggered_sync_candidate': False, 'current_abs_sdv14_minus_sdv15': 1.1920928955078125e-07, 'previous_abs_sdv14_minus_sdv15': 6.9141387939453125e-06}`
+- `SDV15` decrease categories: `{'same_location_consecutive_frames': 583, 'near_step_transition': 0, 'smaller_than_odb_precision': 364, 'staggered_sync_candidate': 13, 'genuine_healing_candidate': 217}`
+- `SDV15` unique overshoot integration points: `11`
+- `SDV15` max overshoot event: `{'step': 'Step-2', 'frame': 20, 'global_frame': 71, 'step_time': 0.20000000298023224, 'rp_u2': 0.007000000216066837, 'element': 8196, 'integration_point': 2, 'value': 1.0104930400848389, 'overshoot': 0.010493040084838867}`
+- `SDV15` overshoot duration: `{'first_global_frame': 64, 'last_global_frame': 71, 'frame_span': 8, 'first_rp_u2': 0.006300000008195639, 'last_rp_u2': 0.007000000216066837}`
 - Overshoot limited to final unstable stage by provisional rule `U2 >= 0.006`: `True`
 
 ## Crack Path Diagnostics

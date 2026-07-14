@@ -2,7 +2,37 @@
   "bounds_irreversibility": {
     "frame_count": 72,
     "irreversibility": {
+      "odb_precision_tolerance": 1e-06,
+      "sdv15_decrease_categories": {
+        "genuine_healing_candidate": 217,
+        "near_step_transition": 0,
+        "same_location_consecutive_frames": 583,
+        "smaller_than_odb_precision": 364,
+        "staggered_sync_candidate": 13
+      },
       "sdv15_decrease_count": 583,
+      "sdv15_largest_decrease": {
+        "current_abs_sdv14_minus_sdv15": 1.1920928955078125e-07,
+        "current_value": 0.9878929257392883,
+        "drop": 0.00022780895233154297,
+        "element": 8300,
+        "frame": 16,
+        "global_frame": 67,
+        "integration_point": 1,
+        "near_step_transition": false,
+        "previous_abs_sdv14_minus_sdv15": 6.9141387939453125e-06,
+        "previous_frame": 15,
+        "previous_global_frame": 66,
+        "previous_rp_u2": 0.006500000134110451,
+        "previous_step": "Step-2",
+        "previous_step_time": 0.15000000596046448,
+        "previous_value": 0.9881207346916199,
+        "rp_u2": 0.006599999964237213,
+        "smaller_than_odb_precision": false,
+        "staggered_sync_candidate": false,
+        "step": "Step-2",
+        "step_time": 0.1599999964237213
+      },
       "sdv15_worst_drop": 0.00022780895233154297,
       "sdv16_decrease_count": 0,
       "sdv16_worst_drop": 0.0,
@@ -11,10 +41,13 @@
     "overshoot_limited_to_final_unstable_stage": true,
     "sdv14": {
       "above_one": 57,
+      "affected_points_still_above_one_at_final_frame": 11,
+      "all_affected_points_remain_above_one_at_final_frame": true,
       "below_zero": 0,
       "first_overshoot": {
         "element": 8196,
         "frame": 13,
+        "global_frame": 64,
         "integration_point": 2,
         "overshoot": 0.005739331245422363,
         "rp_u2": 0.006300000008195639,
@@ -23,7 +56,26 @@
         "value": 1.0057393312454224
       },
       "max": 1.0104920864105225,
-      "min": 0.0
+      "max_overshoot": {
+        "element": 8196,
+        "frame": 20,
+        "global_frame": 71,
+        "integration_point": 2,
+        "overshoot": 0.010492086410522461,
+        "rp_u2": 0.007000000216066837,
+        "step": "Step-2",
+        "step_time": 0.20000000298023224,
+        "value": 1.0104920864105225
+      },
+      "min": 0.0,
+      "overshoot_duration": {
+        "first_global_frame": 64,
+        "first_rp_u2": 0.006300000008195639,
+        "frame_span": 8,
+        "last_global_frame": 71,
+        "last_rp_u2": 0.007000000216066837
+      },
+      "unique_affected_integration_points": 11
     },
     "sdv14_minus_sdv15": {
       "location": {
@@ -39,10 +91,13 @@
     },
     "sdv15": {
       "above_one": 57,
+      "affected_points_still_above_one_at_final_frame": 11,
+      "all_affected_points_remain_above_one_at_final_frame": true,
       "below_zero": 0,
       "first_overshoot": {
         "element": 8196,
         "frame": 13,
+        "global_frame": 64,
         "integration_point": 2,
         "overshoot": 0.0057975053787231445,
         "rp_u2": 0.006300000008195639,
@@ -51,7 +106,26 @@
         "value": 1.0057975053787231
       },
       "max": 1.0104930400848389,
-      "min": 0.0
+      "max_overshoot": {
+        "element": 8196,
+        "frame": 20,
+        "global_frame": 71,
+        "integration_point": 2,
+        "overshoot": 0.010493040084838867,
+        "rp_u2": 0.007000000216066837,
+        "step": "Step-2",
+        "step_time": 0.20000000298023224,
+        "value": 1.0104930400848389
+      },
+      "min": 0.0,
+      "overshoot_duration": {
+        "first_global_frame": 64,
+        "first_rp_u2": 0.006300000008195639,
+        "frame_span": 8,
+        "last_global_frame": 71,
+        "last_rp_u2": 0.007000000216066837
+      },
+      "unique_affected_integration_points": 11
     },
     "sdv16": {
       "max": 337.7801818847656,

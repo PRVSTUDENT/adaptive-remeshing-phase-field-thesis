@@ -37,6 +37,7 @@ Therefore the current public-paper Fig. 7 curve is not automatically an exact nu
 
 - `rf_u_reference.csv`: intentionally contains metadata headers but no numeric reference coordinates in this revision. Validator classification should remain `reference_data_insufficient` for RF-U reference comparison.
 - `crack_path_reference.csv`: contains a qualitative horizontal Mode-I ligament reference, `y = 0`, for the tensile case. This is derived from the geometry and Fig. 6 tensile crack-pattern description, not from pixel digitization of a paper screenshot.
+- `reference_applicability_matrix.csv` and `REFERENCE_APPLICABILITY_MATRIX.md`: compare the paper case with the supplementary deck and document why exact RF-U comparison remains unresolved.
 
 ## Required Next Reference Action
 

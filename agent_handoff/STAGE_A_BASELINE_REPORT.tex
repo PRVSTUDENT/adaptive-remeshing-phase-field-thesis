@@ -151,6 +151,26 @@ The first Gate A3 validator is now available at \texttt{scripts/validation/check
 
 This is not a scientific mismatch. It means the simulation-side diagnostics are available, but the numeric RF--U coordinates corresponding to the appropriate Molnar Fig.~7 curve have not yet been digitized or otherwise supplied. The paper Fig.~7 curve uses a larger single-notch model of about 22,000 elements, while the supplementary file used here is explicitly described by the paper as a smaller tensile example of about 4,000 elements. Therefore, an unconditional quantitative RF--U pass/fail against Fig.~7 would be unsafe without documenting the curve label, mesh/length-scale match, and digitization uncertainty.
 
+\begin{table}[H]
+\centering
+\caption{Reference-applicability matrix for the paper case and supplementary deck.}
+\begin{tabular}{@{}p{0.22\linewidth}p{0.28\linewidth}p{0.28\linewidth}p{0.15\linewidth}@{}}
+\toprule
+Criterion & Paper Fig. 6/Fig. 7 case & Supplementary deck & Applicability \\
+\midrule
+Geometry & Single edge notched tensile specimen & Single edge notched square plate with horizontal ligament & Close qualitative match \\
+Material & \(E=210\), \(\nu=0.3\) & \(E=210\), \(\nu=0.3\) & Match \\
+\(G_c\) & \(2.7\times10^{-3}\) & 0.0027 & Match \\
+Length scale & Text states \(l_c=0.0075\) mm for benchmark & Deck uses \(l_c=0.015\) & Mismatch or requires selected-curve interpretation \\
+Mesh and \(h/l_c\) & Fig. 7 curve label must be confirmed & \(h=0.005\), \(h/l_c=0.333\) & Requires confirmation \\
+Element count & about 22,000 elements & about 4,000 physical elements; 11,790 layered elements & Mismatch for exact reference \\
+Loading & bottom fixed, top moved in tension & top tied to RP \(U_2\), bottom constrained & Close match \\
+Load increments & paper says tensile step reduced to \(\Delta u=10^{-5}\) mm & frozen run reaches \(U_2\approx0.007\) in two steps & Requires interpretation \\
+Fig. 7 curve label & multiple \(l_c\) curves and Miehe symbols & deck has \(l_c=0.015\), smaller mesh & Not identified \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\linewidth]{single_notch_rf_u_reference_status.pdf}
@@ -254,7 +274,27 @@ Quantity & Minimum & Maximum & Below 0 count & Above 1 count \\
 
 The first \texttt{SDV15} overshoot occurs in Step-2, frame 13, at \(U_2=0.006300\), element 8196, integration point 2, with value 1.0057975. \texttt{SDV14} also overshoots at the same frame and integration point. The maximum absolute staggered difference \(|\mathrm{SDV14}-\mathrm{SDV15}|\) is 0.0374441 at Step-2, frame 15, \(U_2=0.006500\), element 8188, integration point 3.
 
+The maximum \texttt{SDV15} overshoot occurs at the final frame, Step-2 frame 20, \(U_2=0.007000\), element 8196, integration point 2, with value 1.010493 and overshoot 0.010493. Overshoot affects 11 unique integration points for both \texttt{SDV14} and \texttt{SDV15}. For \texttt{SDV15}, the overshoot duration spans global frames 64--71, corresponding to \(U_2=0.006300\) through \(U_2=0.007000\); all 11 affected points remain above one in the final frame. This supports the current interpretation that the overshoot belongs to the final unstable propagation stage, not to the elastic or stable-damage response.
+
 \texttt{SDV16} never decreases at persistent material points in the ODB scan. Raw \texttt{SDV15} has 583 small decreases above the declared numerical tolerance \(10^{-8}\), with worst drop \(2.27809\times10^{-4}\). These decreases must be interpreted in the context of staggered element updates and UMAT visualization storage before being labelled as genuine healing.
+
+\begin{table}[H]
+\centering
+\caption{\texttt{SDV15} decrease categorization over consecutive converged frames.}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Category & Count \\
+\midrule
+Same element/integration point in consecutive frames & 583 \\
+Near step transition & 0 \\
+Smaller than ODB precision tolerance \(10^{-6}\) & 364 \\
+Staggered synchronization candidate & 13 \\
+Remaining genuine-healing candidates requiring review & 217 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The largest \texttt{SDV15} decrease is at element 8300, integration point 1, between Step-2 frame 15 and Step-2 frame 16. It drops from 0.9881207 at \(U_2=0.006500\) to 0.9878929 at \(U_2=0.006600\). It is not at a step transition, is larger than \(10^{-6}\), and is not explained by the simple local \(|\mathrm{SDV14}-\mathrm{SDV15}|\) synchronization screen. This location should be inspected before declaring a true irreversibility violation.
 
 The external work calculated by trapezoidal integration of the extracted RF--U curve is:
 \[
@@ -268,6 +308,13 @@ The current ODB/extraction does not yet provide a validated global integration c
 The derived reference provenance is stored in \texttt{references/derived/molnar\_gravouil\_2017/single\_notch/REFERENCE\_PROVENANCE.md}. The current \texttt{rf\_u\_reference.csv} intentionally contains no numeric coordinates because the exact paper-reference curve for the smaller supplementary example has not been established. \texttt{crack\_path\_reference.csv} contains only the qualitative horizontal tensile ligament reference.
 
 The tolerance configuration is \texttt{configs/validation/stage\_a\_single\_notch\_tolerances.json}. Supervisor-approved tolerances remain pending, and provisional tolerances remain null until reference digitization uncertainty is known. Therefore this report must not use an unconditional \texttt{scientific\_pass} classification for Gate A3.
+
+The current decision tree remains:
+\begin{enumerate}
+  \item acquire exact RF--U coordinates and rerun the validator;
+  \item explicitly accept a digitized Fig.~7 curve as an approximate reference and classify the comparison as approximate;
+  \item obtain supervisor approval for a qualitative-only baseline if exact reference data remain unavailable.
+\end{enumerate}
 
 \section{Remaining Gate A3 Work}
 

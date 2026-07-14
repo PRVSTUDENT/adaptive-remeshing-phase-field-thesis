@@ -55,6 +55,7 @@ DEFAULT_TOLERANCES = os.path.join(
 D_CRIT = 0.95
 IRREVERSIBILITY_TOL = 1.0e-8
 BOUND_TOL = 1.0e-8
+ODB_PRECISION_TOL = 1.0e-6
 
 
 def import_odb_access():
@@ -420,12 +421,27 @@ def odb_bounds_irreversibility(odb_path):
                 "sdv16_worst_drop": 0.0,
                 "sdv15_decrease_count": 0,
                 "sdv15_worst_drop": 0.0,
+                "sdv15_largest_decrease": None,
+                "sdv15_decrease_categories": {
+                    "same_location_consecutive_frames": 0,
+                    "near_step_transition": 0,
+                    "smaller_than_odb_precision": 0,
+                    "staggered_sync_candidate": 0,
+                    "genuine_healing_candidate": 0,
+                },
                 "tolerance": IRREVERSIBILITY_TOL,
+                "odb_precision_tolerance": ODB_PRECISION_TOL,
             },
             "frame_count": 0,
             "value_count_per_sdv": 0,
         }
         previous = {}
+        previous_context = {}
+        previous_stagger = {}
+        overshoot_events = {"SDV14": [], "SDV15": []}
+        overshoot_keys = {"SDV14": set(), "SDV15": set()}
+        final_above_one_keys = {"SDV14": set(), "SDV15": set()}
+        global_frame = 0
         for step_name, step in odb.steps.items():
             for frame_index, frame in enumerate(step.frames):
                 stats["frame_count"] += 1
@@ -455,17 +471,21 @@ def odb_bounds_irreversibility(odb_path):
                                 stats[short]["below_zero"] += 1
                             if data > 1.0 + BOUND_TOL:
                                 stats[short]["above_one"] += 1
+                                event = {
+                                    "step": step_name,
+                                    "frame": frame_index,
+                                    "global_frame": global_frame,
+                                    "step_time": float(frame.frameValue),
+                                    "rp_u2": rp_u2,
+                                    "element": key[0],
+                                    "integration_point": key[1],
+                                    "value": data,
+                                    "overshoot": data - 1.0,
+                                }
+                                overshoot_events[sdv].append(event)
+                                overshoot_keys[sdv].add(key)
                                 if stats[short]["first_overshoot"] is None:
-                                    stats[short]["first_overshoot"] = {
-                                        "step": step_name,
-                                        "frame": frame_index,
-                                        "step_time": float(frame.frameValue),
-                                        "rp_u2": rp_u2,
-                                        "element": key[0],
-                                        "integration_point": key[1],
-                                        "value": data,
-                                        "overshoot": data - 1.0,
-                                    }
+                                    stats[short]["first_overshoot"] = event
                         if sdv in ["SDV15", "SDV16"]:
                             previous_key = (sdv, key)
                             if previous_key in previous:
@@ -476,11 +496,66 @@ def odb_bounds_irreversibility(odb_path):
                                     stats["irreversibility"][short_ir] += 1
                                     if drop > stats["irreversibility"][short_drop]:
                                         stats["irreversibility"][short_drop] = drop
+                                    if sdv == "SDV15":
+                                        stats["irreversibility"]["sdv15_decrease_categories"]["same_location_consecutive_frames"] += 1
+                                        prev_ctx = previous_context[previous_key]
+                                        near_step = prev_ctx["step"] != step_name
+                                        if near_step:
+                                            stats["irreversibility"]["sdv15_decrease_categories"]["near_step_transition"] += 1
+                                        if drop <= ODB_PRECISION_TOL:
+                                            stats["irreversibility"]["sdv15_decrease_categories"]["smaller_than_odb_precision"] += 1
+                                        current_stag = None
+                                        if "SDV14" in fields:
+                                            sdv14_now = dict(fields["SDV14"]).get(key)
+                                            if sdv14_now is not None:
+                                                current_stag = abs(sdv14_now - data)
+                                        previous_stag_value = previous_stagger.get(key)
+                                        stagger_candidate = (
+                                            (current_stag is not None and current_stag >= drop)
+                                            or (previous_stag_value is not None and previous_stag_value >= drop)
+                                        )
+                                        if stagger_candidate:
+                                            stats["irreversibility"]["sdv15_decrease_categories"]["staggered_sync_candidate"] += 1
+                                        if (not near_step) and drop > ODB_PRECISION_TOL and not stagger_candidate:
+                                            stats["irreversibility"]["sdv15_decrease_categories"]["genuine_healing_candidate"] += 1
+                                        event = {
+                                            "drop": drop,
+                                            "previous_value": previous[previous_key],
+                                            "current_value": data,
+                                            "previous_step": prev_ctx["step"],
+                                            "previous_frame": prev_ctx["frame"],
+                                            "previous_global_frame": prev_ctx["global_frame"],
+                                            "previous_step_time": prev_ctx["step_time"],
+                                            "previous_rp_u2": prev_ctx["rp_u2"],
+                                            "step": step_name,
+                                            "frame": frame_index,
+                                            "global_frame": global_frame,
+                                            "step_time": float(frame.frameValue),
+                                            "rp_u2": rp_u2,
+                                            "element": key[0],
+                                            "integration_point": key[1],
+                                            "near_step_transition": near_step,
+                                            "smaller_than_odb_precision": drop <= ODB_PRECISION_TOL,
+                                            "staggered_sync_candidate": stagger_candidate,
+                                            "current_abs_sdv14_minus_sdv15": current_stag,
+                                            "previous_abs_sdv14_minus_sdv15": previous_stag_value,
+                                        }
+                                        largest = stats["irreversibility"]["sdv15_largest_decrease"]
+                                        if largest is None or drop > largest["drop"]:
+                                            stats["irreversibility"]["sdv15_largest_decrease"] = event
                             previous[previous_key] = data
+                            previous_context[previous_key] = {
+                                "step": step_name,
+                                "frame": frame_index,
+                                "global_frame": global_frame,
+                                "step_time": float(frame.frameValue),
+                                "rp_u2": rp_u2,
+                            }
                 sdv14 = dict(fields.get("SDV14", []))
                 sdv15 = dict(fields.get("SDV15", []))
                 for key in set(sdv14).intersection(sdv15):
                     diff = sdv14[key] - sdv15[key]
+                    previous_stagger[key] = abs(diff)
                     if abs(diff) > stats["sdv14_minus_sdv15"]["max_abs"]:
                         stats["sdv14_minus_sdv15"]["max_abs"] = abs(diff)
                         stats["sdv14_minus_sdv15"]["location"] = {
@@ -492,6 +567,12 @@ def odb_bounds_irreversibility(odb_path):
                             "integration_point": key[1],
                             "signed_difference": diff,
                         }
+                final_above_one_keys = {"SDV14": set(), "SDV15": set()}
+                for sdv in ["SDV14", "SDV15"]:
+                    for key, data in fields.get(sdv, []):
+                        if data > 1.0 + BOUND_TOL:
+                            final_above_one_keys[sdv].add(key)
+                global_frame += 1
         max_u = 0.0
         firsts = []
         for sdv in ["sdv14", "sdv15"]:
@@ -500,6 +581,34 @@ def odb_bounds_irreversibility(odb_path):
         stats["overshoot_limited_to_final_unstable_stage"] = all(
             value is not None and value >= 0.006 for value in firsts
         ) if firsts else True
+        for sdv in ["SDV14", "SDV15"]:
+            short = sdv.lower()
+            events = overshoot_events[sdv]
+            if events:
+                max_event = max(events, key=lambda event: event["overshoot"])
+                first = min(events, key=lambda event: event["global_frame"])
+                last = max(events, key=lambda event: event["global_frame"])
+                stats[short]["max_overshoot"] = max_event
+                stats[short]["unique_affected_integration_points"] = len(overshoot_keys[sdv])
+                stats[short]["overshoot_duration"] = {
+                    "first_global_frame": first["global_frame"],
+                    "last_global_frame": last["global_frame"],
+                    "frame_span": last["global_frame"] - first["global_frame"] + 1,
+                    "first_rp_u2": first["rp_u2"],
+                    "last_rp_u2": last["rp_u2"],
+                }
+                stats[short]["affected_points_still_above_one_at_final_frame"] = len(
+                    overshoot_keys[sdv].intersection(final_above_one_keys[sdv])
+                )
+                stats[short]["all_affected_points_remain_above_one_at_final_frame"] = (
+                    overshoot_keys[sdv] == final_above_one_keys[sdv]
+                )
+            else:
+                stats[short]["max_overshoot"] = None
+                stats[short]["unique_affected_integration_points"] = 0
+                stats[short]["overshoot_duration"] = None
+                stats[short]["affected_points_still_above_one_at_final_frame"] = 0
+                stats[short]["all_affected_points_remain_above_one_at_final_frame"] = True
         return stats
     finally:
         odb.close()
@@ -562,6 +671,11 @@ def write_markdown(path, summary):
             % (b["irreversibility"]["sdv16_decrease_count"], b["irreversibility"]["sdv16_worst_drop"]),
             "- `SDV15` decrease count: `%s`; worst drop `%.6e`"
             % (b["irreversibility"]["sdv15_decrease_count"], b["irreversibility"]["sdv15_worst_drop"]),
+            "- `SDV15` largest decrease event: `%s`" % b["irreversibility"]["sdv15_largest_decrease"],
+            "- `SDV15` decrease categories: `%s`" % b["irreversibility"]["sdv15_decrease_categories"],
+            "- `SDV15` unique overshoot integration points: `%s`" % b["sdv15"]["unique_affected_integration_points"],
+            "- `SDV15` max overshoot event: `%s`" % b["sdv15"]["max_overshoot"],
+            "- `SDV15` overshoot duration: `%s`" % b["sdv15"]["overshoot_duration"],
             "- Overshoot limited to final unstable stage by provisional rule `U2 >= 0.006`: `%s`"
             % b["overshoot_limited_to_final_unstable_stage"],
             "",

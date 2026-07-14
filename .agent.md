@@ -26,6 +26,8 @@ Current stage:
 - The original Molnar single-notch benchmark ran unchanged from a separate run directory and is classified `technical_pass_scientific_unchecked`. Evidence and extraction outputs are under `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/`.
 - The Stage A living LaTeX report is `docs/reports/STAGE_A_BASELINE_REPORT.tex`; generated figures and tables are under `results/figures/stage_a_baseline/` and `results/tables/stage_a_baseline/`.
 - Gate A3 reference provenance is under `references/derived/molnar_gravouil_2017/single_notch/`; the current RF-U reference CSV intentionally has no numeric coordinates until the exact curve/digitization uncertainty is established.
+- The Gate A3 reference-applicability matrix is `references/derived/molnar_gravouil_2017/single_notch/REFERENCE_APPLICABILITY_MATRIX.md`; it records geometry/material matches but length-scale, element-count, load-increment, and Fig. 7 curve-label uncertainties.
+- Current bound/irreversibility diagnostics show `SDV14`/`SDV15` overshoot begins only in the final unstable stage, affects 11 unique integration points, and persists to the final frame; `SDV15` decrease candidates remain unresolved and require local review before calling them true healing.
 
 Known source documents:
 - `Adaptive_Remeshing_PFF_Rapid_Study_Guide.pdf`
@@ -39,10 +41,11 @@ Immediate next tasks:
 2. Digitize or acquire the appropriate Molnar RF-U reference curve and document curve label, mesh/length-scale match, axes, units, and uncertainty.
 3. Decide whether Fig. 7 is an acceptable quantitative reference for the smaller supplementary example or only a qualitative target.
 4. Re-run `scripts/validation/check_molnar_single_notch.py` after numeric reference coordinates are available.
-5. Complete `docs/methods/ENVIRONMENT.md` with HPC queue/runtime details after maintenance clears.
-6. Freeze a reproducible benchmark baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
-7. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, and runtime/cost metrics.
-8. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
+5. Review the largest `SDV15` decrease candidate at element 8300, integration point 1, between Step-2 frames 15 and 16 before declaring a true irreversibility violation.
+6. Complete `docs/methods/ENVIRONMENT.md` with HPC queue/runtime details after maintenance clears.
+7. Freeze a reproducible benchmark baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
+8. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, and runtime/cost metrics.
+9. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
 
 Unresolved decisions requiring user/supervisor confirmation:
 - Exact benchmark subset required for the thesis.
