@@ -33,6 +33,16 @@ env/
 !tests/abaqus_user_subroutine_smoke/evidence/
 !tests/abaqus_user_subroutine_smoke/evidence/**
 
+# Keep explicit WP1 one-element technical gate evidence and source/deck copies.
+!runs/molnar_one_element_unchanged/
+!runs/molnar_one_element_unchanged/20260714_technical_gate_local/
+!runs/molnar_one_element_unchanged/20260714_technical_gate_local/RUN_SUMMARY.md
+!runs/molnar_one_element_unchanged/20260714_technical_gate_local/work/
+!runs/molnar_one_element_unchanged/20260714_technical_gate_local/work/OneElement.for
+!runs/molnar_one_element_unchanged/20260714_technical_gate_local/work/OneElement.inp
+!runs/molnar_one_element_unchanged/20260714_technical_gate_local/evidence/
+!runs/molnar_one_element_unchanged/20260714_technical_gate_local/evidence/**
+
 # Local raw run folders and scratch outputs
 runs/raw/
 scratch/

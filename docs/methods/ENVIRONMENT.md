@@ -70,6 +70,15 @@ Status: partially completed from local Windows inspection on 2026-07-14. HPC det
 - Observed tools: `ifx.exe`, `link.exe`, and `abaqus.bat` were all discoverable in the clean shell.
 - Generated evidence: terminal output, `.com`, `.dat`, `.msg`, `.sta`, and `.env` are preserved under `tests/abaqus_user_subroutine_smoke/evidence/attempt_20260714_102744_clean_env_pass/`. No `.log` file was generated.
 
+## Molnar One-Element Technical Run
+
+- Run directory: `runs/molnar_one_element_unchanged/20260714_technical_gate_local/`
+- Source/deck: copied unchanged from `models/baseline_original/molnar_gravouil_2017/01_One_Element/`
+- Result: `technical_pass_scientific_unchecked`
+- Technical status: compile, link, input processing, Abaqus/Standard analysis, SIM wrap-up, and ODB readability passed.
+- Evidence: `.com`, `.dat`, `.msg`, `.sta`, `.odb`, `.prt`, terminal output, command script, and ODB read check are preserved under the run `evidence/` folder. No `.log` file was generated.
+- Warnings: Abaqus reported unsupported `*ELEMENT OUTPUT` for user elements in the `.dat` file; linker emitted `LNK4210` warnings. These do not block the technical gate but must be reviewed before scientific validation.
+
 ## Completion Gate
 
-This record must be complete before any production Abaqus/HPC submission. The next local baseline task is to run the original Molnar one-element example unchanged using the same clean-shell toolchain setup.
+This record must be complete before any production Abaqus/HPC submission. The next local baseline task is to verify the one-element elastic response, degradation, phase-field evolution, history behavior, and irreversibility against paper/reference behavior.

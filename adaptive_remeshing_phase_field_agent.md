@@ -19,6 +19,7 @@ Current stage:
 - Local environment inspection found Abaqus 2024 (`abaqus`/`abq2024`) and Abaqus Python 3.10.5 available on Windows; Intel Fortran is not on PATH, so user-subroutine compile compatibility is still unverified.
 - Molnar and Gravouil (2017) supplementary `.for`/`.inp` files are preserved unmodified under `models/baseline_original/molnar_gravouil_2017/`; checksums are recorded in that folder's `README.md`.
 - Local Abaqus user-subroutine smoke test passed after loading Visual Studio 2022 Build Tools `vcvars64.bat` and Intel oneAPI `setvars.bat intel64`: `ifx` 2026.0 compiled, Microsoft `LINK` 14.44 linked, and the trivial Abaqus/Standard analysis completed. This is a local smoke-test result, not an official toolchain-support claim.
+- The original Molnar one-element example ran unchanged from a separate run directory and is classified `technical_pass_scientific_unchecked`: compile/link/input/solver/wrap-up and ODB readability passed, but no scientific response validation has been claimed.
 
 Known source documents:
 - `Adaptive_Remeshing_PFF_Rapid_Study_Guide.pdf`
@@ -28,10 +29,10 @@ Known source documents:
 - `1-s2.0-S0045782525004153-main.pdf` - Diddige, Roth, and Kiefer (2025)
 
 Immediate next tasks:
-1. Run the original Molnar one-element example unchanged using the clean-shell toolchain setup.
-2. Preserve terminal output and generated Abaqus evidence from the unchanged one-element run.
+1. Verify the one-element elastic response, degradation, phase-field evolution, history behavior, and irreversibility against paper/reference behavior.
+2. Create an automated extraction path for one-element RF/U/SDV data from the readable ODB.
 3. Complete `docs/methods/ENVIRONMENT.md` with HPC queue/runtime details after maintenance clears.
-4. Classify the one-element run as technical pass/fail before any scientific validation claim.
+4. Promote the one-element result only after explicit scientific checks pass.
 5. Run one unmodified single-edge-notched benchmark and create an automated RF-U/phase-field/energy extraction path.
 6. Freeze a reproducible baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
 
