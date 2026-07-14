@@ -4,7 +4,7 @@ This starter pack converts the supplied thesis study guide, papers, and previous
 
 The workspace is now set up as a full starter pipeline: structured literature notes, run/config contracts, dry-run validators, environment records, and handoff mirroring. Abaqus/HPC production runs remain blocked until the environment record is completed and HPC maintenance clears.
 
-Current baseline status: the local user-subroutine smoke gate passed, the unchanged Molnar one-element technical gate passed, and the unchanged one-element ODB passed source-defined scientific checks under provisional numerical tolerances. Notched benchmark reproduction, remeshing, state transfer, and ABAQUSER integration are not validated yet.
+Current baseline status: the local user-subroutine smoke gate passed, the unchanged Molnar one-element technical gate passed, and the unchanged one-element ODB passed source-defined scientific checks under provisional numerical tolerances. The unchanged Molnar single-notch benchmark has a technical pass and first RF-U/phase extraction, but scientific comparison against reference behavior is pending. Remeshing, state transfer, and ABAQUSER integration are not validated yet.
 
 ## Included files
 
@@ -32,7 +32,7 @@ python scripts/validation/validate_manifest.py configs/run_manifest.example.json
 python scripts/preprocessing/check_deck_integrity.py --dry-run
 ```
 
-5. Run the next original notched benchmark unchanged before modifying source code.
+5. Compare the unchanged single-notch RF-U curve and crack/phase evolution before modifying source code.
 6. At the end of a Codex edit operation, mirror the touched files:
 
 ```bash

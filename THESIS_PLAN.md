@@ -23,7 +23,7 @@ The contribution should not be framed merely as "a crack was simulated with a re
 ## Current execution posture
 
 - The full starter pipeline is in place, the local user-subroutine smoke gate passed, and the unchanged Molnar one-element technical and source-relation scientific gates passed.
-- The immediate implementation target is now unchanged Molnar notched-benchmark reproduction and automated RF-U/phase-field/energy extraction.
+- The unchanged Molnar single-notch benchmark has a local technical pass and first RF-U/phase-field extraction. The immediate implementation target is now scientific comparison against Molnar reference behavior.
 - HPC is the intended Abaqus runtime, but production submissions are blocked until maintenance clears and `docs/methods/ENVIRONMENT.md` is completed.
 - Evolving remeshing with state transfer is mandatory for the thesis scope, but no online-remesh claim is allowed until controlled transfer tests and fracture-relevant transfer checks pass.
 - Numeric tolerances are provisional working gates only until supervisor-approved thesis tolerances are recorded.
@@ -75,6 +75,11 @@ Exit gate:
 Start with:
 - single-edge-notched Mode I benchmark;
 - add Mode II or L-panel only after the first benchmark is stable.
+
+Current local status:
+- Unchanged Molnar single-notch technical run: `technical_pass_scientific_unchecked`.
+- First extraction path: RF-U curve, matched displacement states, `SDV14`/`SDV15`/`SDV16` contour CSVs, warnings, element count, and job timing are recorded.
+- Scientific comparison against the Molnar paper/reference behavior is pending.
 
 Tasks:
 - Reproduce geometry, material, fracture parameters, loading, and output.
