@@ -1,0 +1,7 @@
+# Preserve original Abaqus supplementary source/deck line endings.
+models/baseline_original/molnar_gravouil_2017/**/*.for text eol=lf
+models/baseline_original/molnar_gravouil_2017/**/*.inp text eol=lf
+
+# Keep mirrored handoff copies reviewable with stable LF line endings.
+agent_handoff/*.for text eol=lf
+agent_handoff/*.inp text eol=lf
