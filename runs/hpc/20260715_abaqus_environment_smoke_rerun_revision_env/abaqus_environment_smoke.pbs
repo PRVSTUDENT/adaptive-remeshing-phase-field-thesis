@@ -1,0 +1,55 @@
+#!/bin/bash
+#PBS -N abq_env_smoke
+#PBS -q testq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+
+set -euo pipefail
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+RUN_ID="abaqus_environment_smoke_${PBS_JOBID}"
+WORK_DIR="${RUN_ROOT}/${RUN_ID}"
+
+mkdir -p "${WORK_DIR}"
+cd "${WORK_DIR}"
+
+echo "Timestamp: $(date --iso-8601=seconds)"
+echo "Host: $(hostname)"
+echo "PBS job: ${PBS_JOBID}"
+echo "PBS nodefile:"
+cat "${PBS_NODEFILE}"
+
+PROJECT_REVISION="${PROJECT_REVISION:-not_provided}"
+
+echo "Project revision supplied at submission:"
+echo "${PROJECT_REVISION}"
+
+echo "Loaded modules:"
+module list 2>&1
+
+echo "Compiler and Abaqus paths:"
+command -v gcc
+command -v gfortran
+command -v ifx
+command -v abaqus
+
+echo "GCC version:"
+gcc --version | head -n 2
+
+echo "GNU Fortran version:"
+gfortran --version | head -n 2
+
+echo "Intel Fortran version:"
+ifx --version
+
+echo "Abaqus release:"
+abaqus information=release
+
+echo "Environment smoke probe completed."
