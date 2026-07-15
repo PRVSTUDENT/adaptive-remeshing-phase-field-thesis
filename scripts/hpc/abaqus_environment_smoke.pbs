@@ -1,0 +1,42 @@
+#!/bin/bash
+#PBS -N abq_env_smoke
+#PBS -q testq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+
+set -euo pipefail
+
+module purge
+module load intel/2024.2.0
+module load abaqus/2023
+
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+RUN_ID="abaqus_environment_smoke_${PBS_JOBID}"
+WORK_DIR="${RUN_ROOT}/${RUN_ID}"
+
+mkdir -p "${WORK_DIR}"
+cd "${WORK_DIR}"
+
+echo "Timestamp: $(date --iso-8601=seconds)"
+echo "Host: $(hostname)"
+echo "PBS job: ${PBS_JOBID}"
+echo "PBS nodefile:"
+cat "${PBS_NODEFILE}"
+
+echo "Modules:"
+module list 2>&1
+
+echo "Executables:"
+which abaqus
+which ifx
+
+echo "Versions:"
+abaqus information=release
+ifx --version
+
+echo "Project revision:"
+git -C "${PROJECT_HOME}" rev-parse HEAD
+
+echo "Environment smoke probe completed."

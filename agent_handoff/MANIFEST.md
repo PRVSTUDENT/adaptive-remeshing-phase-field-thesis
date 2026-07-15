@@ -1,12 +1,12 @@
 # Agent Handoff Manifest
 
-Created (UTC): 2026-07-14T10:09:05.876546+00:00
+Created (UTC): 2026-07-15T04:20:04.323361+00:00
 
 This directory contains only files from the latest mirrored operation.
 
 | Mirrored file | Original path | Bytes | SHA-256 |
 |---|---|---:|---|
-| `0002-gate-a3-reference-route.md` | `docs/decisions/0002-gate-a3-reference-route.md` | 3198 | `cd698d55dc5aa113a34997e609acd3207abcfc22b61551102f0eaacf932af5ee` |
-| `STAGE_A_BASELINE_REPORT.tex` | `docs/reports/STAGE_A_BASELINE_REPORT.tex` | 20049 | `f89aa889842df2be76b2126f76ff48db96aee94d6c8a4465714a841864d439b7` |
-| `.agent.md` | `.agent.md` | 28401 | `361748d3437063431108d956c7e241cb2433cbde9cbc04d1e8aca753922ce01c` |
-| `adaptive_remeshing_phase_field_agent.md` | `adaptive_remeshing_phase_field_agent.md` | 28401 | `361748d3437063431108d956c7e241cb2433cbde9cbc04d1e8aca753922ce01c` |
+| `.agent.md` | `.agent.md` | 39419 | `192de9b4eb685ce29b177c5c499c0629dd16afa2fcb4761b1acaf61312134806` |
+| `ENVIRONMENT.md` | `docs/methods/ENVIRONMENT.md` | 9434 | `b6ac50d7ff17c692945366499df3c7b784710960fd1b6322c38b3c93872b03cf` |
+| `hpc_environment_probe_20260715.txt` | `docs/methods/hpc_environment_probe_20260715.txt` | 2508 | `598f762dc96035865c16c147f1090961e06a505b2cdd711ee18b134a3d4596b9` |
+| `abaqus_environment_smoke.pbs` | `scripts/hpc/abaqus_environment_smoke.pbs` | 824 | `7b9548ca9c28e32ed36368d45c3d9886df602c8fbac94e4e15f1bac8d4ce70b6` |
