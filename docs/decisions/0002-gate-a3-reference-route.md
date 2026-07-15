@@ -2,7 +2,25 @@
 
 Date: 2026-07-14
 
-Status: supervisor decision pending
+Status: superseded by proposal-directed paper-matched benchmark route
+
+Update 2026-07-15:
+
+The three-route framing below is preserved as history, but it is no longer the
+active next-step decision. The thesis proposal already defines the benchmark
+sequence: reproduce the established phase-field implementation, reproduce the
+unrefined Molnar benchmark, establish a uniformly fine reference, then compare
+Pandey--Kumar MISESERI refinement against that uniform reference. Therefore the
+next Gate A3 action is to prepare a paper-matched Molnar Mode-I single-notch
+benchmark, not to ask the supervisor whether the smaller supplementary deck
+should be treated as the exact Fig. 7 comparison target.
+
+The smaller supplementary `SingleNotch` deck remains preserved unchanged and
+counts as supporting technical reproducibility evidence. It should not be forced
+into an exact numerical comparison with Fig. 7 when the mesh/model details do
+not match. The applicable paper reference should instead be digitized and
+documented as an approximate paper reference for the newly prepared
+paper-matched benchmark configuration.
 
 ## Context
 
@@ -14,9 +32,12 @@ reference_data_insufficient
 
 The reason is scientific, not technical. The published Molnar and Gravouil Fig. 7 single-notch study uses a larger model of about 22,000 elements, while the supplied supplementary `SingleNotch` deck is the smaller model of about 4,000 physical elements. Material parameters and fracture toughness match, but length scale, element count, load-increment details, and the applicable Fig. 7 curve label remain unresolved.
 
-## Routes
+## Historical Routes Considered For The Smaller Supplementary Deck
 
-### Route 1 - Exact RF-U Reference
+These routes are retained to explain why the smaller supplementary deck was not
+closed as a scientific Fig. 7 match.
+
+### Historical Route 1 - Exact RF-U Reference
 
 Acquire original RF-U coordinates from the authors, supplementary data, or another authoritative source.
 
@@ -31,7 +52,7 @@ Outcome:
 - rerun `abaqus python scripts/validation/check_molnar_single_notch.py`;
 - Gate A3 can be evaluated quantitatively.
 
-### Route 2 - Approximate Fig. 7 Overlay
+### Historical Route 2 - Approximate Fig. 7 Overlay
 
 Digitize a selected Fig. 7 curve and use it as an approximate literature overlay.
 
@@ -51,7 +72,7 @@ scientific_comparison_approximate
 
 This route should not be described as an exact pass/fail validation.
 
-### Route 3 - Qualitative Supplementary Baseline Approval
+### Historical Route 3 - Qualitative Supplementary Baseline Approval
 
 Ask the supervisor to approve the smaller unchanged supplementary model as a qualitative baseline if exact RF-U data cannot be obtained.
 
@@ -73,18 +94,35 @@ scientific_review_waived_exact_reference_unavailable
 qualitative_baseline_approved
 ```
 
-## Recommendation
+## Revised Recommendation
 
-Attempt Route 1 first. If exact numerical RF-U data cannot be obtained in a reasonable time, prefer Route 3 for the thesis workflow and record the smaller supplementary model as a reproducible qualitative baseline. Use Route 2 only as a clearly labelled approximate literature overlay, not as an exact validation gate.
+Follow the thesis proposal. Prepare a new paper-matched Molnar Mode-I
+single-notch benchmark deck using the unchanged Molnar user subroutine, matching
+the paper geometry, notch, material parameters, \(G_c\), length scale,
+boundary conditions, displacement history, mesh resolution and \(h/l\), element
+type, load increments, reaction-force extraction set, phase-field output, and
+matched displacement states as closely as the paper permits.
+
+Digitize the relevant published Molnar curve as an approximate paper reference
+for that paper-matched reconstruction. Record the exact figure and curve label,
+axes, units, digitization method, line/symbol uncertainty, published model
+parameters, and matched displacement states. Do not use the digitized Fig. 7
+curve as an exact validation target for the smaller supplementary deck.
+
+Supervisor input is still needed for final acceptable tolerances or for any
+intentional deviation from the proposal, but not for choosing whether to proceed
+with the paper-matched benchmark route.
 
 ## Current Project Rule
 
-Until one route is formally chosen:
+Current active rule:
 
 ```text
 Gate A3: reference_data_insufficient
 Stage A: open
 Baseline source/deck: frozen
-New Abaqus run: not required
+Smaller supplementary deck: supporting technical reproducibility evidence
+Next benchmark target: paper-matched Molnar Mode-I single-notch deck
+New Abaqus run: not yet approved
 MISESERI/remeshing: blocked
 ```

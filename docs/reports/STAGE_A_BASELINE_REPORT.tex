@@ -206,11 +206,11 @@ The first Gate A3 validator is now available at \texttt{scripts/validation/check
 \texttt{reference\_data\_insufficient}
 \end{center}
 
-This is not a scientific mismatch. It means the simulation-side diagnostics are available, but the numeric RF--U coordinates corresponding to the appropriate Molnar Fig.~7 curve have not yet been digitized or otherwise supplied. The paper Fig.~7 curve uses a larger single-notch model of about 22,000 elements, while the supplementary file used here is explicitly described by the paper as a smaller tensile example of about 4,000 elements. Therefore, an unconditional quantitative RF--U pass/fail against Fig.~7 would be unsafe without documenting the curve label, mesh/length-scale match, and digitization uncertainty.
+This is not a scientific mismatch. It means the simulation-side diagnostics for the smaller supplementary deck are available, but that deck should not be forced into an exact quantitative comparison with the published Fig.~7 curve. The paper Fig.~7 curve uses a larger single-notch model of about 22,000 elements, while the supplied supplementary file used here is explicitly described by the paper as a smaller tensile example of about 4,000 elements. The thesis proposal already defines the next scientific route: prepare a paper-matched Molnar Mode-I single-notch benchmark, digitize and document the applicable published curve as an approximate paper reference for that reconstructed configuration, and compare the reconstructed uniform-mesh benchmark against the paper reference. The smaller supplementary result remains supporting technical reproducibility evidence.
 
 \begin{table}[H]
 \centering
-\caption{Reference-applicability matrix for the paper case and supplementary deck.}
+\caption{Reference-applicability matrix explaining why the smaller supplementary deck is supporting evidence rather than the exact Fig.~7 target.}
 \begin{tabular}{@{}p{0.22\linewidth}p{0.28\linewidth}p{0.28\linewidth}p{0.15\linewidth}@{}}
 \toprule
 Criterion & Paper Fig. 6/Fig. 7 case & Supplementary deck & Applicability \\
@@ -231,7 +231,7 @@ Fig. 7 curve label & multiple \(l_c\) curves and Miehe symbols & deck has \(l_c=
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\linewidth]{single_notch_rf_u_reference_status.pdf}
-\caption{RF--U comparison status. The unchanged supplementary result is plotted, but the numeric paper-reference curve is not yet available as committed derived coordinates.}
+\caption{RF--U comparison status. The unchanged supplementary result is plotted as supporting reproducibility evidence; the proposal-directed scientific comparison now requires a paper-matched reconstructed benchmark and a documented approximate paper reference.}
 \end{figure}
 
 \begin{table}[H]
@@ -362,26 +362,30 @@ The current ODB/extraction does not yet provide a validated global integration c
 
 \section{Reference and Tolerance Status}
 
-The derived reference provenance is stored in \texttt{references/derived/molnar\_gravouil\_2017/single\_notch/REFERENCE\_PROVENANCE.md}. The current \texttt{rf\_u\_reference.csv} intentionally contains no numeric coordinates because the exact paper-reference curve for the smaller supplementary example has not been established. \texttt{crack\_path\_reference.csv} contains only the qualitative horizontal tensile ligament reference.
+The derived reference provenance is stored in \texttt{references/derived/molnar\_gravouil\_2017/single\_notch/REFERENCE\_PROVENANCE.md}. The current \texttt{rf\_u\_reference.csv} intentionally contains no numeric coordinates because the smaller supplementary example is not the exact Fig.~7 target. \texttt{crack\_path\_reference.csv} contains only the qualitative horizontal tensile ligament reference. The next reference artifact should document the digitized published curve for the paper-matched reconstructed benchmark, including figure and curve label, axes, units, digitization method, line/symbol uncertainty, published model parameters, and matched displacement states.
 
 The tolerance configuration is \texttt{configs/validation/stage\_a\_single\_notch\_tolerances.json}. Supervisor-approved tolerances remain pending, and provisional tolerances remain null until reference digitization uncertainty is known. Therefore this report must not use an unconditional \texttt{scientific\_pass} classification for Gate A3.
 
-The current decision tree remains:
+The active proposal-directed progression is:
 \begin{enumerate}
-  \item acquire exact RF--U coordinates and rerun the validator;
-  \item explicitly accept a digitized Fig.~7 curve as an approximate reference and classify the comparison as approximate;
-  \item obtain supervisor approval for a qualitative-only baseline if exact reference data remain unavailable.
+  \item keep the smaller supplementary source/deck preserved unchanged as passed technical reproducibility evidence;
+  \item prepare a new paper-matched Molnar Mode-I single-notch input deck using the unchanged Molnar user subroutine;
+  \item match published geometry/notch, material parameters, \(G_c\), length scale \(l\), boundary conditions, prescribed displacement history, mesh resolution and \(h/l\), element type, load increments, reaction-force extraction set, phase-field output, and crack-contour displacement states as closely as the paper permits;
+  \item digitize and document the applicable published Molnar curve as an approximate paper reference for the reconstructed paper-matched model;
+  \item statically verify the deck and parameters before any new run;
+  \item after explicit approval, run one serial HPC baseline and compare RF--U and crack contours at matched states;
+  \item perform mesh, length-scale, and load-increment convergence studies to justify the uniformly fine reference before beginning Pandey--Kumar MISESERI pre-refinement.
 \end{enumerate}
 
-Decision note \texttt{docs/decisions/0002-gate-a3-reference-route.md} presents these three routes for supervisor review. The recommended order is to attempt exact data first; if unavailable, seek approval for the smaller supplementary model as a qualitative baseline; use Fig.~7 digitization only as an approximate literature overlay.
+Decision note \texttt{docs/decisions/0002-gate-a3-reference-route.md} is retained as history but is now superseded by the proposal-directed paper-matched benchmark route. Supervisor input remains required for final tolerances or deliberate scope deviations, not for choosing whether to proceed with the paper-matched Molnar benchmark.
 
 \section{Remaining Gate A3 Work}
 
 \begin{itemize}
-  \item Digitize or acquire the appropriate Molnar RF--U reference curve and document uncertainty.
-  \item Resolve supervisor decision note \texttt{docs/decisions/0002-gate-a3-reference-route.md}.
-  \item Decide whether Fig.~7 is an acceptable quantitative reference for the smaller supplementary example or only a qualitative target.
-  \item Re-run the Gate A3 validator after reference coordinates are available.
+  \item Prepare the paper-matched Molnar Mode-I single-notch benchmark deck while preserving the smaller supplementary deck unchanged.
+  \item Digitize and document the applicable published Molnar RF--U curve as an approximate paper reference for the reconstructed paper-matched benchmark.
+  \item Statically verify geometry, notch, material parameters, \(G_c\), length scale, \(h/l\), element type, load increments, boundary conditions, extraction sets, and output requests before any new run.
+  \item Re-run or adapt the Gate A3 validator after the paper-matched deck and paper-reference coordinates exist.
   \item Interpret small \texttt{SDV15} decreases and the \texttt{SDV14}/\texttt{SDV15} staggered difference.
   \item Add a controlled output-enabled run only if global energy integration or \(\nabla d\) reconstruction cannot be supported from the frozen unchanged ODB.
 \end{itemize}

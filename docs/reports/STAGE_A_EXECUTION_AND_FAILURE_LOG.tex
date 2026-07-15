@@ -435,6 +435,14 @@ The callback evidence is direct and redundant. The \texttt{.msg} file contains \
 
 This pass closes the trivial HPC technical smoke sequence: PBS execution, validated module order, compiler visibility, Abaqus/Standard license checkout, user-subroutine compilation, linking, trivial Standard analysis completion, ODB creation, and direct \texttt{UEXTERNALDB} callback evidence are all passed. It does not run or validate Molnar, Gate A3, the phase-field formulation, MISESERI, remeshing, state transfer, multi-CPU execution, production execution, or any parameter study.
 
+\section{Post-Smoke Scientific Routing Update}
+
+The successful retry closes the HPC technical toolchain gate, but it does not change the Stage A scientific gate. Gate A3 remains \texttt{reference\_data\_insufficient}.
+
+The active scientific route is no longer to ask the supervisor to choose whether the smaller supplementary Molnar deck should be compared exactly against Fig.~7. The thesis proposal directs the benchmark sequence: reproduce the established phase-field implementation, reproduce the unrefined Molnar benchmark, establish a uniformly fine reference, implement the Pandey--Kumar MISESERI workflow, and compare refined results against the uniform reference.
+
+Therefore the smaller supplementary deck remains preserved unchanged as supporting technical reproducibility evidence. The next Gate A3 action is to prepare a new paper-matched Molnar Mode-I single-notch deck using the unchanged Molnar user subroutine, then digitize/document the applicable published Molnar curve as an approximate paper reference for that reconstructed configuration. No new Abaqus or PBS run is approved by this routing update.
+
 \section{Current Stage A Boundary After These Jobs}
 
 \begin{itemize}
@@ -451,6 +459,8 @@ This pass closes the trivial HPC technical smoke sequence: PBS execution, valida
   \item Overall trivial user-subroutine smoke: \texttt{hpc\_user\_subroutine\_smoke\_pass}.
   \item Deterministic callback retry: completed and passed.
   \item Gate A3: \texttt{reference\_data\_insufficient}.
+  \item Smaller supplementary Molnar deck: supporting technical reproducibility evidence, not the exact Fig.~7 comparison target.
+  \item Next scientific benchmark target: paper-matched Molnar Mode-I single-notch deck and documented approximate paper reference.
   \item MISESERI/remeshing: blocked.
 \end{itemize}
 

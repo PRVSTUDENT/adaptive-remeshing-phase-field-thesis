@@ -13,8 +13,8 @@
 Updated: 2026-07-15
 
 Current stage:
-- Stage A / WP2 - unchanged Molnar baseline and single-notch scientific comparison.
-- The unchanged Molnar single-notch benchmark has a local technical pass and reproducible first extraction. The first Gate A3 scientific validator classifies the benchmark as `reference_data_insufficient` because numeric Molnar RF-U reference coordinates are not yet digitized or matched to the smaller supplementary example.
+- Stage A / WP2 - Molnar baseline reproduction and paper-matched single-notch scientific comparison.
+- The unchanged smaller Molnar supplementary single-notch deck has a local technical pass and reproducible first extraction. It remains supporting technical reproducibility evidence, not the exact Fig. 7 numerical comparison target. Gate A3 remains `reference_data_insufficient` because the proposal-directed scientific comparison must use a newly prepared paper-matched Molnar Mode-I single-notch benchmark and an applicable documented paper reference.
 - No remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
 - HPC account access and a queue/node/software snapshot are documented from `hpc_access_limits_report.txt` (captured 2026-07-14). SSH access was restored and verified on 2026-07-15; the HPC clone, home/scratch layout, Abaqus/Intel module probe, PBS queue inspection, and serial `testq` environment smoke attempts are now documented. The final environment rerun job `1374531.mmaster02` passed with `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, compute host `mnode098.cluster`, repository revision supplied via `PROJECT_REVISION`, and PBS `Exit_status = 0`. The first minimal Abaqus/Standard trivial `UEXTERNALDB` smoke job `1374532.mmaster02` checked out an Abaqus/Standard license, compiled, linked, completed the analysis, and created an ODB, but failed the callback marker check because `uexternaldb_smoke.called` was absent; classification `hpc_user_subroutine_smoke_fail`, failure category `callback_invocation`. The deterministic retry job `1374533.mmaster02` at revision `c5db808b4c8d9e9bd01a9e5da0bd91b173787b8e` passed on `mnode097.cluster` with PBS `Exit_status = 0`, Abaqus return code zero, ODB/STA/MSG present, analysis-success statement present, direct `.msg` callback tokens, and absolute marker file `uexternaldb_smoke.called` containing `UEXTERNALDB_SMOKE_CALLED`; classification `hpc_user_subroutine_smoke_pass`. Gate A3 remains an independent scientific blocker.
 - HPC environment smoke: passed.
@@ -41,10 +41,10 @@ Current stage:
 - The unchanged Molnar one-element ODB passed the source-defined scientific check for plane-strain stiffness, degraded stress, homogeneous phase relation, history monotonicity, unloading irreversibility, and integration-point consistency. Evidence is under `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/`. Tolerances are provisional working gates only.
 - The original Molnar single-notch benchmark ran unchanged from a separate run directory and is classified `technical_pass_scientific_unchecked`. Evidence and extraction outputs are under `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/`.
 - The Stage A living LaTeX report pair is `docs/reports/STAGE_A_BASELINE_REPORT.tex` and `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`; generated figures and tables are under `results/figures/stage_a_baseline/` and `results/tables/stage_a_baseline/`.
-- Gate A3 reference provenance is under `references/derived/molnar_gravouil_2017/single_notch/`; the current RF-U reference CSV intentionally has no numeric coordinates until the exact curve/digitization uncertainty is established.
-- The Gate A3 reference-applicability matrix is `references/derived/molnar_gravouil_2017/single_notch/REFERENCE_APPLICABILITY_MATRIX.md`; it records geometry/material matches but length-scale, element-count, load-increment, and Fig. 7 curve-label uncertainties.
+- Gate A3 reference provenance is under `references/derived/molnar_gravouil_2017/single_notch/`; the current RF-U reference CSV intentionally has no numeric coordinates. The next reference work is to digitize/document the relevant published Molnar curve as an approximate paper reference for a paper-matched reconstructed benchmark, not for the smaller supplementary deck.
+- The Gate A3 reference-applicability matrix is `references/derived/molnar_gravouil_2017/single_notch/REFERENCE_APPLICABILITY_MATRIX.md`; it records why the smaller supplementary deck should not be forced into an exact Fig. 7 numerical comparison.
 - Current bound/irreversibility diagnostics show `SDV14`/`SDV15` overshoot begins only in the final unstable stage, affects 11 unique integration points, and persists to the final frame; `SDV15` decrease candidates remain unresolved and require local review before calling them true healing.
-- Supervisor decision note `docs/decisions/0002-gate-a3-reference-route.md` presents the three Gate A3 reference-resolution routes. Recommended order: exact RF-U data first; qualitative supplementary-baseline approval if exact data are unavailable; Fig. 7 digitization only as an approximate overlay.
+- Decision note `docs/decisions/0002-gate-a3-reference-route.md` is preserved as history but superseded by the proposal-directed route: prepare the paper-matched Molnar Mode-I benchmark, digitize/document the applicable published curve as an approximate paper reference, then compare the reconstructed paper-matched uniform mesh against that reference.
 
 Known source documents:
 - `Adaptive_Remeshing_PFF_Rapid_Study_Guide.pdf`
@@ -55,19 +55,20 @@ Known source documents:
 
 Immediate next tasks:
 1. Keep updating `docs/reports/STAGE_A_BASELINE_REPORT.tex` with Stage A evidence, plots, contours, tables, and scientific decisions.
-2. Resolve `docs/decisions/0002-gate-a3-reference-route.md` with the supervisor or exact reference-data search outcome.
-3. Digitize or acquire the appropriate Molnar RF-U reference curve only if that route is chosen, documenting curve label, mesh/length-scale match, axes, units, and uncertainty.
-4. Decide whether Fig. 7 is an acceptable approximate overlay for the smaller supplementary example or only a qualitative target.
-5. Re-run `scripts/validation/check_molnar_single_notch.py` after numeric reference coordinates are available or after the qualitative-only route is approved.
-6. Review the largest `SDV15` decrease candidate at element 8300, integration point 1, between Step-2 frames 15 and 16 before declaring a true irreversibility violation.
-7. Treat the HPC trivial technical gate as complete: environment, Abaqus license, user-subroutine compile/link, trivial Standard analysis, ODB creation, and `UEXTERNALDB` callback evidence have passed.
-8. Do not run any Molnar HPC baseline, MISESERI, remeshing, state-transfer, parameter-study, production, or multi-CPU job until the user gives explicit approval and Gate A3/reference-route work is resolved as applicable.
-9. Freeze a reproducible benchmark baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
-10. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, and runtime/cost metrics.
-11. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
+2. Prepare the paper-matched Molnar Mode-I single-notch benchmark deck using the unchanged Molnar user subroutine while preserving the smaller supplementary deck unchanged.
+3. Match, as closely as the paper permits: published geometry/notch, material parameters, \(G_c\), length scale \(l\), boundary conditions, displacement history, mesh resolution and \(h/l\), element type, load increments, RF extraction set, phase-field output, and matched crack-contour displacement states.
+4. Digitize/document the relevant published Molnar curve as an approximate paper reference for the reconstructed paper-matched benchmark, recording figure/curve label, axes, units, digitization method, uncertainty, model parameters, and matched states.
+5. Perform static deck and parameter verification before any new run.
+6. Run one serial HPC paper-matched baseline only after explicit approval.
+7. Compare RF-U and crack contours at matched states, then perform mesh/length-scale/increment convergence and justify the uniformly fine reference.
+8. Review the largest `SDV15` decrease candidate at element 8300, integration point 1, between Step-2 frames 15 and 16 before declaring a true irreversibility violation.
+9. Treat the HPC trivial technical gate as complete: environment, Abaqus license, user-subroutine compile/link, trivial Standard analysis, ODB creation, and `UEXTERNALDB` callback evidence have passed.
+10. Do not run any Molnar HPC baseline, MISESERI, remeshing, state-transfer, parameter-study, production, or multi-CPU job until the user gives explicit approval.
+11. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, and runtime/cost metrics.
+12. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
 
 Unresolved decisions requiring user/supervisor confirmation:
-- Exact benchmark subset required for the thesis.
+- Final supervisor-approved tolerances for the paper-matched benchmark and later uniform-reference comparisons.
 - Approved error tolerances for peak force, force-displacement curve, fracture energy, and crack-path distance.
 - Select and validate the exact HPC Abaqus/Fortran stack. The cluster currently advertises Abaqus 2021, 2022, and 2023 plus Intel 2024.2.0; access/resource ACLs are documented, but compatibility with the thesis UEL/UMAT and ABAQUSER path is not yet validated.
 - Whether monolithic Msekh reproduction is required or used only as a formulation reference.
