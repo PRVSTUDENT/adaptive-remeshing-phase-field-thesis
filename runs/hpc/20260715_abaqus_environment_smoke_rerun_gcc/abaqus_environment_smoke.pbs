@@ -26,19 +26,17 @@ echo "PBS job: ${PBS_JOBID}"
 echo "PBS nodefile:"
 cat "${PBS_NODEFILE}"
 
-PROJECT_REVISION="${PROJECT_REVISION:-not_provided}"
-
-echo "Project revision supplied at submission:"
-echo "${PROJECT_REVISION}"
+echo "Project revision:"
+git -C "${PROJECT_HOME}" rev-parse HEAD
 
 echo "Loaded modules:"
 module list 2>&1
 
-echo "Compiler and Abaqus paths:"
-command -v gcc
-command -v gfortran
-command -v ifx
-command -v abaqus
+echo "Compiler paths:"
+which gcc
+which gfortran
+which ifx
+which abaqus
 
 echo "GCC version:"
 gcc --version | head -n 2

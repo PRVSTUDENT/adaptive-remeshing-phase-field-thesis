@@ -1,0 +1,61 @@
+Job Id: 1374529.mmaster02
+    Job_Name = abq_env_smoke
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 28
+    resources_used.cput = 00:00:01
+    resources_used.mem = 77460kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 0kb
+    resources_used.walltime = 00:00:04
+    job_state = F
+    queue = testq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Wed Jul 15 06:34:46 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/ab
+	q_env_smoke.e1374529
+    exec_host = mnode098/0
+    exec_vnode = (mnode098[0]:ncpus=1:mem=8388608kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = a
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Wed Jul 15 06:34:58 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/a
+	bq_env_smoke.o1374529
+    Priority = 0
+    qtime = Wed Jul 15 06:34:47 2026
+    Rerunable = True
+    Resource_List.mem = 8gb
+    Resource_List.ncpus = 1
+    Resource_List.ngpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=8gb
+    Resource_List.walltime = 00:30:00
+    stime = Wed Jul 15 06:34:47 2026
+    obittime = Wed Jul 15 06:34:57 2026
+    session_id = 28575
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1374529.mmaster02.x8z
+    substate = 93
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,PBS_O_QUEUE=testq
+    comment = Job run at Wed Jul 15 at 06:34 on (mnode098[0]:ncpus=1:mem=838860
+	8kb) and failed
+    etime = Wed Jul 15 06:34:47 2026
+    run_count = 1
+    eligible_time = 00:00:03
+    Stageout_status = 1
+    Exit_status = 1
+    Submit_arguments = scripts/hpc/abaqus_environment_smoke.pbs
+    history_timestamp = 1784090098
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+

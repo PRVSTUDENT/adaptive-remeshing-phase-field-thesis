@@ -1,12 +1,12 @@
 # Environment Record
 
-Status: local Windows inspection completed on 2026-07-14; first no-submit HPC access, module, and PBS inspection completed on 2026-07-15. HPC compile/link/solver execution is still pending explicit submission approval.
+Status: local Windows inspection completed on 2026-07-14; no-submit HPC access/module/PBS inspection completed on 2026-07-15; serial `testq` environment smoke attempts completed and failed on 2026-07-15 due to compute-node environment setup issues.
 
 ## Runtime Target
 
-- Intended runtime: HPC after the no-submit staging checks and explicit smoke-job approval.
+- Intended runtime: HPC after the serial environment smoke is repaired, rerun, and passed.
 - Local role: static validation, manifest checks, input-deck checks, dry-run preprocessing, Abaqus version checks, and small local smoke tests where licensing/toolchain permits.
-- Production submissions: not allowed until the environment smoke gate and scientific baseline gates are completed and reviewed.
+- Production submissions: not allowed until the environment smoke gate, user-subroutine compile/link smoke gate, and scientific baseline gates are completed and reviewed.
 
 ## Machine and Operating System
 
@@ -54,7 +54,15 @@ Status: local Windows inspection completed on 2026-07-14; first no-submit HPC ac
 - HPC compiler result: `ifx (IFX) 2024.2.0 20240602`.
 - PBS queue inspection completed without submission. `testq` was enabled with `resources_max.walltime = 04:00:00`; `entry_imfdfkmq` routed to `normal_imfdfkmq` and `short_imfdfkmq`.
 - Prepared-but-not-submitted PBS script: `scripts/hpc/abaqus_environment_smoke.pbs`
-- Submission status: no `qsub` was run.
+- First submission evidence: `runs/hpc/20260715_abaqus_environment_smoke/`
+- First submitted job: `1374529.mmaster02`
+- First submitted job classification: `hpc_environment_smoke_fail`
+- First submitted job result: PBS scheduled the job on `mnode098.cluster`, loaded `intel/2024.2.0` and `abaqus/2023`, found valid `abaqus` and `ifx` executables, and completed `abaqus information=release`, but `ifx --version` failed with Intel error `#10417` before the repository-revision echo and final success marker.
+- Repaired rerun evidence: `runs/hpc/20260715_abaqus_environment_smoke_rerun_gcc/`
+- Repaired rerun job: `1374530.mmaster02`
+- Repaired rerun classification: `hpc_environment_smoke_fail`
+- Repaired rerun result: PBS scheduled the job on `mnode098.cluster`, loaded the repaired module sequence far enough to reach the metadata block, but exited with status `127` when `git -C "${PROJECT_HOME}" rev-parse HEAD` failed because `git` was not available in the compute-node batch PATH. The rerun therefore did not reach the compiler-version, Abaqus-release, or final success-marker diagnostics, and it does not establish whether the GCC-plus-Intel repair fixed compute-node `ifx` initialization.
+- Submission status after smoke attempts: no benchmark, user-subroutine compile/link job, MISESERI, or remeshing job has been submitted.
 
 ## Compute Layout
 
@@ -79,7 +87,9 @@ Status: local Windows inspection completed on 2026-07-14; first no-submit HPC ac
 
 ## Known Warnings
 
-- HPC maintenance status: user reported SSH restored; no-submit access and module checks succeeded on 2026-07-15
+- HPC maintenance status: user reported SSH restored; no-submit access and module checks succeeded on 2026-07-15.
+- HPC compiler warning: the first compute-node smoke failed because `ifx --version` could not set up its required GCC install-path setting. A no-submit login-node diagnostic showed `module load gcc/11.4.0` before `module load intel/2024.2.0` gives a Spack GCC 11.4.0 path and `ifx --version` succeeds on the login node.
+- HPC metadata warning: the repaired compute-node rerun failed before compiler diagnostics because `git` was unavailable in the batch job environment. The hardened smoke script no longer runs `git` on the compute node; future submissions should capture the repository revision on the login node with `git rev-parse HEAD` and pass it into PBS with `qsub -v PROJECT_REVISION="${REVISION}"`.
 - Compiler/linker warnings: the toolchain works only after loading Visual Studio Build Tools and Intel oneAPI in the shell; do not rely on a plain shell PATH
 - Abaqus warnings: none from `abaqus information=release`
 - Unsupported assumptions: successful smoke test does not prove official Abaqus 2024 / oneAPI 2026 support and does not validate the Molnar UEL/UMAT formulation
@@ -123,4 +133,4 @@ Status: local Windows inspection completed on 2026-07-14; first no-submit HPC ac
 
 ## Completion Gate
 
-This record must be complete before any production Abaqus/HPC submission. The next HPC execution, only after explicit approval, is the serial `testq` environment/user-subroutine smoke job. The next scientific baseline task remains comparison of the unchanged Molnar single-notch RF-U curve and phase-field/crack evolution against reference behavior.
+This record must be complete before any production Abaqus/HPC submission. The next HPC execution, only after explicit approval, is a repaired serial `testq` environment smoke rerun submitted with `PROJECT_REVISION` supplied from the login node and with the GCC environment needed by Intel `ifx`; it is still not a user-subroutine compile/link or Molnar benchmark run. The next scientific baseline task remains comparison of the unchanged Molnar single-notch RF-U curve and phase-field/crack evolution against reference behavior.

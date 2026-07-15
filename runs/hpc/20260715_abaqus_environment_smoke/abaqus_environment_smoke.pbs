@@ -8,7 +8,6 @@
 set -euo pipefail
 
 module purge
-module load gcc/11.4.0
 module load intel/2024.2.0
 module load abaqus/2023
 
@@ -26,30 +25,18 @@ echo "PBS job: ${PBS_JOBID}"
 echo "PBS nodefile:"
 cat "${PBS_NODEFILE}"
 
-PROJECT_REVISION="${PROJECT_REVISION:-not_provided}"
-
-echo "Project revision supplied at submission:"
-echo "${PROJECT_REVISION}"
-
-echo "Loaded modules:"
+echo "Modules:"
 module list 2>&1
 
-echo "Compiler and Abaqus paths:"
-command -v gcc
-command -v gfortran
-command -v ifx
-command -v abaqus
+echo "Executables:"
+which abaqus
+which ifx
 
-echo "GCC version:"
-gcc --version | head -n 2
-
-echo "GNU Fortran version:"
-gfortran --version | head -n 2
-
-echo "Intel Fortran version:"
+echo "Versions:"
+abaqus information=release
 ifx --version
 
-echo "Abaqus release:"
-abaqus information=release
+echo "Project revision:"
+git -C "${PROJECT_HOME}" rev-parse HEAD
 
 echo "Environment smoke probe completed."

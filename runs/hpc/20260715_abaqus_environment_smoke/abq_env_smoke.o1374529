@@ -1,19 +1,23 @@
-2026-07-15T06:18:23+02:00
-mlogin01.cluster
-pr21vyci
-uid=50839(pr21vyci) gid=103(t2-dg-role_student) groups=103(t2-dg-role_student),102(t2-dg-role_staff),601(t2-dg-role-hpc_user),605(t2-dg-role-hpc_teaching),623(t2-dg-role-hpc_hw_kieferams),645(t2-dg-role-hpc_gaussian),701(t2-dl-rights-hpc_user),705(t2-dl-rights-hpc_teaching),723(t2-dl-rights-hpc_hw_kieferams),745(t2-dl-rights-hpc_gaussian)
+Timestamp: 2026-07-15T06:34:51+02:00
+Host: mnode098.cluster
+PBS job: 1374529.mmaster02
+PBS nodefile:
+mnode098.cluster
+Modules:
 
-Currently Loaded Modules:
+Derzeit geladene Module:
   1) tbb/.latest         (H)   3) compiler/.latest (H)   5) intel/2024.2.0
   2) compiler-rt/.latest (H)   4) ifort/.latest    (H)   6) abaqus/2023
 
-  Where:
-   H:  Hidden Module
+  Wo:
+   H:  Verstecktes Modul.
 
  
 
+Executables:
 /cluster/application/abaqus/2023/Commands/abaqus
 /cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifx
+Versions:
 Abaqus JOB abaqus
 Abaqus 2023
 Abaqus Site ID: 200000000053187
@@ -43,6 +47,4 @@ The Abaqus information files are located in the directory /cluster/application/a
  
    
  Abaqus JOB abaqus COMPLETED
-ifx (IFX) 2024.2.0 20240602
-Copyright (C) 1985-2024 Intel Corporation. All rights reserved.
-
+ifx: error #10417: Problem setting up the Intel(R) Compiler compilation environment. Requires 'install path' setting gathered from 'gcc'
