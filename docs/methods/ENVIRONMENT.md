@@ -1,6 +1,6 @@
 # Environment Record
 
-Status: local Windows inspection completed on 2026-07-14; no-submit HPC access/module/PBS inspection completed on 2026-07-15; final serial `testq` environment smoke passed on 2026-07-15. HPC Abaqus user-subroutine compile/link and licensing remain untested.
+Status: local Windows inspection completed on 2026-07-14; no-submit HPC access/module/PBS inspection completed on 2026-07-15; final serial `testq` environment smoke passed on 2026-07-15. A minimal Abaqus/Standard trivial `UEXTERNALDB` compile/link/license smoke test is prepared but not submitted. HPC Abaqus user-subroutine compile/link and licensing remain untested.
 
 ## Runtime Target
 
@@ -67,6 +67,15 @@ Status: local Windows inspection completed on 2026-07-14; no-submit HPC access/m
 - Final rerun classification: `hpc_environment_smoke_pass`
 - Final rerun result: PBS scheduled the job on `mnode098.cluster`; `PROJECT_REVISION` captured `d2e9e3c0d1e86e5f12772cb3d7e191a5377ea54f`; modules `gcc/11.4.0`, `intel/2024.2.0`, and `abaqus/2023` loaded; `gcc`, `gfortran`, `ifx`, and `abaqus` resolved to valid paths; `gcc --version`, `gfortran --version`, `ifx --version`, and `abaqus information=release` completed; the script reached `Environment smoke probe completed.`; PBS `Exit_status = 0`.
 - Submission status after environment smoke pass: no benchmark, user-subroutine compile/link job, MISESERI, or remeshing job has been submitted.
+
+## Prepared HPC User-Subroutine Smoke Test
+
+- Test directory: `tests/hpc/abaqus_standard_user_subroutine_smoke/`
+- PBS script: `scripts/hpc/abaqus_user_subroutine_smoke.pbs`
+- Scope: trivial Abaqus/Standard CPS4 elastic model plus `UEXTERNALDB` marker-file callback only.
+- Purpose: verify Abaqus/Standard license checkout, Intel Fortran compilation, linker execution, user-subroutine invocation, successful solver completion, and ODB creation.
+- Scientific boundary: this does not test the Molnar UEL/UMAT, phase-field behavior, state variables, irreversibility, Gate A3, MISESERI, remeshing, or state transfer.
+- Submission status: prepared and syntax-checkable only; no `qsub` has been approved or run for this test.
 
 ## Compute Layout
 
@@ -137,4 +146,4 @@ Status: local Windows inspection completed on 2026-07-14; no-submit HPC access/m
 
 ## Completion Gate
 
-This record must be complete before any production Abaqus/HPC submission. The next controlled HPC task is to prepare, not immediately submit, a minimal Abaqus/Standard user-subroutine compile/link/license smoke test using a trivial model. The next scientific baseline task remains comparison of the unchanged Molnar single-notch RF-U curve and phase-field/crack evolution against reference behavior.
+This record must be complete before any production Abaqus/HPC submission. The next controlled HPC task, only after explicit approval, is one one-CPU `testq` submission of the prepared Abaqus/Standard trivial `UEXTERNALDB` compile/link/license smoke test. The next scientific baseline task remains comparison of the unchanged Molnar single-notch RF-U curve and phase-field/crack evolution against reference behavior.
