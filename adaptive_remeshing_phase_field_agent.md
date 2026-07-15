@@ -16,20 +16,20 @@ Current stage:
 - Stage A / WP2 - unchanged Molnar baseline and single-notch scientific comparison.
 - The unchanged Molnar single-notch benchmark has a local technical pass and reproducible first extraction. The first Gate A3 scientific validator classifies the benchmark as `reference_data_insufficient` because numeric Molnar RF-U reference coordinates are not yet digitized or matched to the smaller supplementary example.
 - No remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
-- HPC account access and a queue/node/software snapshot are documented from `hpc_access_limits_report.txt` (captured 2026-07-14). SSH access was restored and verified on 2026-07-15; the HPC clone, home/scratch layout, Abaqus/Intel module probe, PBS queue inspection, and serial `testq` environment smoke attempts are now documented. The final environment rerun job `1374531.mmaster02` passed with `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, compute host `mnode098.cluster`, repository revision supplied via `PROJECT_REVISION`, and PBS `Exit_status = 0`. The first minimal Abaqus/Standard trivial `UEXTERNALDB` smoke job `1374532.mmaster02` checked out an Abaqus/Standard license, compiled, linked, completed the analysis, and created an ODB, but failed the callback marker check because `uexternaldb_smoke.called` was absent; classification `hpc_user_subroutine_smoke_fail`, failure category `callback_invocation`. Gate A3 remains an independent scientific blocker.
+- HPC account access and a queue/node/software snapshot are documented from `hpc_access_limits_report.txt` (captured 2026-07-14). SSH access was restored and verified on 2026-07-15; the HPC clone, home/scratch layout, Abaqus/Intel module probe, PBS queue inspection, and serial `testq` environment smoke attempts are now documented. The final environment rerun job `1374531.mmaster02` passed with `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, compute host `mnode098.cluster`, repository revision supplied via `PROJECT_REVISION`, and PBS `Exit_status = 0`. The first minimal Abaqus/Standard trivial `UEXTERNALDB` smoke job `1374532.mmaster02` checked out an Abaqus/Standard license, compiled, linked, completed the analysis, and created an ODB, but failed the callback marker check because `uexternaldb_smoke.called` was absent; classification `hpc_user_subroutine_smoke_fail`, failure category `callback_invocation`. The deterministic retry job `1374533.mmaster02` at revision `c5db808b4c8d9e9bd01a9e5da0bd91b173787b8e` passed on `mnode097.cluster` with PBS `Exit_status = 0`, Abaqus return code zero, ODB/STA/MSG present, analysis-success statement present, direct `.msg` callback tokens, and absolute marker file `uexternaldb_smoke.called` containing `UEXTERNALDB_SMOKE_CALLED`; classification `hpc_user_subroutine_smoke_pass`. Gate A3 remains an independent scientific blocker.
 - HPC environment smoke: passed.
 - HPC Abaqus license checkout: passed.
 - HPC user-subroutine compilation: passed for the trivial Abaqus/Standard smoke.
 - HPC user-subroutine linking: passed for the trivial Abaqus/Standard smoke.
 - HPC Standard analysis completion: passed for the trivial Abaqus/Standard smoke.
-- UEXTERNALDB callback invocation: unverified.
-- Callback symbol presence in linked library: to be checked; no retained `.so`, `.o`, or `.obj` was available for inspection after job `1374532.mmaster02`.
-- Callback library loading: to be checked; retained text evidence does not contain an explicit user-library loading record.
-- Marker write location: unknown; follow-up read-only investigation found no `uexternaldb_smoke.called` marker in the accessible run, Abaqus scratch, stage, repository evidence, or PBS submission locations.
+- UEXTERNALDB callback invocation: passed in deterministic retry job `1374533.mmaster02`.
+- Callback symbol presence in linked library: indirectly exercised by successful compile/link/run and direct callback tokens in job `1374533.mmaster02`; retained binary symbol inspection remains optional evidence, not a blocker for the trivial smoke gate.
+- Callback library loading: exercised by job `1374533.mmaster02`, which emitted callback tokens and wrote the absolute marker from inside `UEXTERNALDB`.
+- Marker write location: resolved for the deterministic retry through `GETOUTDIR`; marker is `/scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_retry_1374533.mmaster02/uexternaldb_smoke.called`.
 - Callback investigation finding: `insufficient_retained_evidence`.
-- Deterministic callback retry: `prepared_not_submitted`.
-- Overall trivial user-subroutine smoke: failed.
-- Failure category: `callback_invocation`.
+- Deterministic callback retry: `hpc_user_subroutine_smoke_pass`.
+- Overall trivial user-subroutine smoke: passed.
+- Failure category: none for the retry; preserved failed attempt `1374532.mmaster02` remains classified as `callback_invocation`.
 - Gate A3: `reference_data_insufficient`.
 - Stage A: open.
 - MISESERI/remeshing: blocked.
@@ -60,10 +60,11 @@ Immediate next tasks:
 4. Decide whether Fig. 7 is an acceptable approximate overlay for the smaller supplementary example or only a qualitative target.
 5. Re-run `scripts/validation/check_molnar_single_notch.py` after numeric reference coordinates are available or after the qualitative-only route is approved.
 6. Review the largest `SDV15` decrease candidate at element 8300, integration point 1, between Step-2 frames 15 and 16 before declaring a true irreversibility violation.
-7. After explicit approval only, submit the prepared single one-CPU `testq` deterministic callback retry; do not run any benchmark, MISESERI, remeshing, state-transfer, parameter-study, production, or multi-CPU job.
-8. Freeze a reproducible benchmark baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
-9. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, and runtime/cost metrics.
-10. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
+7. Treat the HPC trivial technical gate as complete: environment, Abaqus license, user-subroutine compile/link, trivial Standard analysis, ODB creation, and `UEXTERNALDB` callback evidence have passed.
+8. Do not run any Molnar HPC baseline, MISESERI, remeshing, state-transfer, parameter-study, production, or multi-CPU job until the user gives explicit approval and Gate A3/reference-route work is resolved as applicable.
+9. Freeze a reproducible benchmark baseline before editing UEL, UMAT, input-deck generation, remeshing logic, or state-transfer logic.
+10. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, and runtime/cost metrics.
+11. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
 
 Unresolved decisions requiring user/supervisor confirmation:
 - Exact benchmark subset required for the thesis.

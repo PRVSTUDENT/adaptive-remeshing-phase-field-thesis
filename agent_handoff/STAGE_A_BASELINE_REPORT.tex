@@ -44,8 +44,8 @@ HPC GCC/Intel/Abaqus executable visibility & Passed in final environment rerun \
 HPC Abaqus/Standard license checkout & Passed in trivial user-subroutine smoke \\
 HPC trivial user-subroutine compile/link & Passed \\
 HPC trivial Abaqus/Standard analysis and ODB creation & Passed \\
-HPC \texttt{UEXTERNALDB} callback invocation & Unverified; marker absent \\
-HPC trivial user-subroutine smoke overall & \texttt{hpc\_user\_subroutine\_smoke\_fail} \\
+HPC \texttt{UEXTERNALDB} callback invocation & Passed in deterministic retry \\
+HPC trivial user-subroutine smoke overall & \texttt{hpc\_user\_subroutine\_smoke\_pass} \\
 WP1 one-element technical gate & Passed \\
 WP1 one-element scientific gate & Passed provisionally \\
 WP2 single-notch technical gate & Passed \\
@@ -90,7 +90,13 @@ This is not a compiler, linker, Abaqus/Standard license, solver-completion, or O
 
 The follow-up read-only evidence investigation found no marker file in the accessible run directory, Abaqus scratch directory, stage directory, repository evidence directory, or PBS submission root. It also found no retained shared library, object file, or object module, so the linked \texttt{UEXTERNALDB} symbol, embedded marker strings, and explicit Abaqus user-library loading remain to be checked in a future instrumented retry. Current precise status is: compiler environment passed; Abaqus linking passed; Abaqus analysis passed; callback symbol presence to be checked; callback library loading to be checked; callback entry unverified; marker write location unknown. No scientific or phase-field conclusion follows from this test.
 
-A deterministic dual-evidence retry has been prepared but not submitted. The failed source and PBS script from job \texttt{1374532.mmaster02} remain preserved as the failed-attempt baseline. The retry uses a separate source file, \texttt{uexternaldb\_smoke\_getoutdir.for}, and a separate PBS script, \texttt{abaqus\_user\_subroutine\_smoke\_retry.pbs}. Its purpose is to record callback entry through an Abaqus-managed \texttt{.msg} token on unit 7 and to write a marker through an absolute \texttt{GETOUTDIR}-based path using unit 101. No retry result exists yet, and no scientific or phase-field claim follows from this prepared test.
+The deterministic dual-evidence retry, job \texttt{1374533.mmaster02}, was then submitted as the approved single one-CPU \texttt{testq} retry at repository revision \texttt{c5db808b4c8d9e9bd01a9e5da0bd91b173787b8e}. It used the separate source file \texttt{uexternaldb\_smoke\_getoutdir.for} and separate PBS script \texttt{abaqus\_user\_subroutine\_smoke\_retry.pbs}, leaving the failed source and PBS script from job \texttt{1374532.mmaster02} preserved as the failed-attempt baseline. The retry passed with PBS \texttt{Exit\_status = 0} on \texttt{mnode097}, Abaqus return code zero, ODB/\texttt{.sta}/\texttt{.msg} present, \texttt{THE ANALYSIS HAS COMPLETED SUCCESSFULLY} in the \texttt{.sta} file, \texttt{UEXTERNALDB\_CALLBACK\_ENTERED}, \texttt{UEXTERNALDB\_MARKER\_WRITTEN}, and \texttt{UEXTERNALDB\_ANALYSIS\_END} in the \texttt{.msg} file, and an absolute marker at \path{/scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_retry_1374533.mmaster02/uexternaldb_smoke.called} containing \texttt{UEXTERNALDB\_SMOKE\_CALLED} with \texttt{LOP=0}. The retry is therefore classified as:
+
+\begin{center}
+\texttt{hpc\_user\_subroutine\_smoke\_pass}
+\end{center}
+
+This pass completes the trivial HPC technical smoke gate for PBS execution, the GCC/Intel/Abaqus environment, Abaqus/Standard license checkout, user-subroutine compilation and linking, trivial Standard analysis completion, ODB creation, and direct \texttt{UEXTERNALDB} callback evidence. It is still not a Molnar run, not a phase-field formulation validation, not a Gate A3 scientific comparison, and not a MISESERI, remeshing, state-transfer, production, multi-CPU, or parameter-study result.
 
 The detailed chronological record and evidence paths are maintained in \texttt{docs/reports/STAGE\_A\_EXECUTION\_AND\_FAILURE\_LOG.tex}.
 

@@ -56,6 +56,7 @@ Job ID & Purpose & Revision & PBS result & Classification & Evidence \\
 \texttt{1374530.mmaster02} & Environment rerun with \texttt{gcc/11.4.0} before Intel & \texttt{f508a469...} & \texttt{F}, exit 127 & \texttt{hpc\_environment\_smoke\_fail} & \path{runs/hpc/20260715_abaqus_environment_smoke_rerun_gcc/} \\
 \texttt{1374531.mmaster02} & Final environment rerun with revision supplied via \texttt{PROJECT\_REVISION} & \texttt{d2e9e3c...} & \texttt{F}, exit 0 & \texttt{hpc\_environment\_smoke\_pass} & \path{runs/hpc/20260715_abaqus_environment_smoke_rerun_revision_env/} \\
 \texttt{1374532.mmaster02} & Trivial Abaqus/Standard \texttt{UEXTERNALDB} compile-link-license smoke & \texttt{b2db162...} & \texttt{F}, exit 1 & \texttt{hpc\_user\_subroutine\_smoke\_fail} & \path{runs/hpc/20260715_abaqus_user_subroutine_smoke/} \\
+\texttt{1374533.mmaster02} & Deterministic \texttt{UEXTERNALDB} callback retry with \texttt{GETOUTDIR} marker & \texttt{c5db808...} & \texttt{F}, exit 0 & \texttt{hpc\_user\_subroutine\_smoke\_pass} & \path{/scratch/pr21vyci/adaptive-remeshing/stage/abaqus_user_subroutine_smoke_retry_1374533.mmaster02/} \\
 \bottomrule
 \end{longtable}
 \normalsize
@@ -399,7 +400,40 @@ Otherwise the retry must remain \texttt{hpc\_user\_subroutine\_smoke\_fail} with
 
 \subsection*{Boundary}
 
-This is preparation only. No retry has been submitted, no Abaqus run has been launched, and no scientific or phase-field validation claim follows. The next approval-sensitive action is the single one-CPU retry submission, not any benchmark, MISESERI, remeshing, state-transfer, parameter-study, production, or multi-CPU job.
+This preparation was submitted only after explicit approval as one single one-CPU retry. The failed source and PBS script remain preserved separately from the retry source and PBS script.
+
+\section{Job 1374533.mmaster02: Deterministic Callback Retry}
+
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Item & Value \\
+\midrule
+Date & 2026-07-15 \\
+Purpose & Verify direct \texttt{UEXTERNALDB} callback entry and marker writing after job \texttt{1374532.mmaster02} left callback invocation unverified. \\
+Repository revision & \texttt{c5db808b4c8d9e9bd01a9e5da0bd91b173787b8e} \\
+Queue and resources & \texttt{testq}; one node; one CPU; \SI{8}{GB}; 00:30:00 wall time \\
+Compute host & \texttt{mnode097.cluster} \\
+Scheduler metadata & \texttt{Resource\_List.ngpus = 1} appeared as scheduler metadata; the script did not request or use a GPU and called Abaqus with \texttt{cpus=1}. \\
+Work directory & \path{/scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_retry_1374533.mmaster02} \\
+Text stage directory & \path{/scratch/pr21vyci/adaptive-remeshing/stage/abaqus_user_subroutine_smoke_retry_1374533.mmaster02} \\
+PBS result & \texttt{job\_state = F}; \texttt{Exit\_status = 0} \\
+PBS output & \path{/home/pr21vyci/projects/adaptive-remeshing/abq_usrsub_retry.o1374533} \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Result}
+
+The retry checked out an Abaqus/Standard license, compiled \texttt{uexternaldb\_smoke\_getoutdir.for}, linked \texttt{libstandardU.so}, completed the trivial Abaqus/Standard analysis, and returned Abaqus code zero. The work directory contains \texttt{abaqus\_user\_subroutine\_smoke\_retry.odb}, \texttt{.sta}, and \texttt{.msg}. The \texttt{.sta} file contains \texttt{THE ANALYSIS HAS COMPLETED SUCCESSFULLY}.
+
+The callback evidence is direct and redundant. The \texttt{.msg} file contains \texttt{UEXTERNALDB\_CALLBACK\_ENTERED}, \texttt{UEXTERNALDB\_MARKER\_WRITTEN}, and \texttt{UEXTERNALDB\_ANALYSIS\_END}. The absolute marker file \path{/scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_retry_1374533.mmaster02/uexternaldb_smoke.called} exists, is non-empty, and contains \texttt{UEXTERNALDB\_SMOKE\_CALLED}, \texttt{LOP=0}, \texttt{KSTEP=0}, and \texttt{KINC=0}. The retry script's own \texttt{acceptance\_checks.txt} lists all ten checks as \texttt{PASS}, and \texttt{final\_classification.txt} records \texttt{hpc\_user\_subroutine\_smoke\_pass}.
+
+\subsection*{Classification}
+
+\begin{center}
+\texttt{hpc\_user\_subroutine\_smoke\_pass}
+\end{center}
+
+This pass closes the trivial HPC technical smoke sequence: PBS execution, validated module order, compiler visibility, Abaqus/Standard license checkout, user-subroutine compilation, linking, trivial Standard analysis completion, ODB creation, and direct \texttt{UEXTERNALDB} callback evidence are all passed. It does not run or validate Molnar, Gate A3, the phase-field formulation, MISESERI, remeshing, state transfer, multi-CPU execution, production execution, or any parameter study.
 
 \section{Current Stage A Boundary After These Jobs}
 
@@ -412,10 +446,10 @@ This is preparation only. No retry has been submitted, no Abaqus run has been la
   \item HPC trivial user-subroutine compilation: passed.
   \item HPC trivial user-subroutine linking: passed.
   \item HPC trivial Standard analysis and ODB creation: passed.
-  \item HPC \texttt{UEXTERNALDB} callback invocation: unverified.
+  \item HPC \texttt{UEXTERNALDB} callback invocation: passed in job \texttt{1374533.mmaster02}.
   \item Callback evidence investigation: \texttt{insufficient\_retained\_evidence}.
-  \item Overall trivial user-subroutine smoke: failed.
-  \item Deterministic callback retry: \texttt{prepared\_not\_submitted}.
+  \item Overall trivial user-subroutine smoke: \texttt{hpc\_user\_subroutine\_smoke\_pass}.
+  \item Deterministic callback retry: completed and passed.
   \item Gate A3: \texttt{reference\_data\_insufficient}.
   \item MISESERI/remeshing: blocked.
 \end{itemize}

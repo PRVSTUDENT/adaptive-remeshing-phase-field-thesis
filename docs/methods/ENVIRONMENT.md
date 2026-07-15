@@ -1,6 +1,6 @@
 # Environment Record
 
-Status: local Windows inspection completed on 2026-07-14; no-submit HPC access/module/PBS inspection completed on 2026-07-15; final serial `testq` environment smoke passed on 2026-07-15. A minimal Abaqus/Standard trivial `UEXTERNALDB` compile/link/license smoke test is prepared but not submitted. HPC Abaqus user-subroutine compile/link and licensing remain untested.
+Status: local Windows inspection completed on 2026-07-14; no-submit HPC access/module/PBS inspection completed on 2026-07-15; final serial `testq` environment smoke passed on 2026-07-15. The first minimal Abaqus/Standard trivial `UEXTERNALDB` smoke job compiled, linked, checked out a license, completed the analysis, and created an ODB, but failed the callback marker check. HPC user-subroutine invocation remains unresolved.
 
 ## Runtime Target
 
@@ -75,7 +75,11 @@ Status: local Windows inspection completed on 2026-07-14; no-submit HPC access/m
 - Scope: trivial Abaqus/Standard CPS4 elastic model plus `UEXTERNALDB` marker-file callback only.
 - Purpose: verify Abaqus/Standard license checkout, Intel Fortran compilation, linker execution, user-subroutine invocation, successful solver completion, and ODB creation.
 - Scientific boundary: this does not test the Molnar UEL/UMAT, phase-field behavior, state variables, irreversibility, Gate A3, MISESERI, remeshing, or state transfer.
-- Submission status: prepared and syntax-checkable only; no `qsub` has been approved or run for this test.
+- Submission evidence: `runs/hpc/20260715_abaqus_user_subroutine_smoke/`
+- Submitted job: `1374532.mmaster02`
+- Classification: `hpc_user_subroutine_smoke_fail`
+- Failure category: `callback_invocation`
+- Result: PBS scheduled the job on `mnode098.cluster`; Abaqus/Standard checked out 5 tokens; user subroutine compilation and linking completed; the Abaqus/Standard analysis completed successfully; an ODB was created; the `.sta` file contains `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`; however, the required marker file `uexternaldb_smoke.called` was absent, so the PBS script exited with status `1`.
 
 ## Compute Layout
 
@@ -146,4 +150,4 @@ Status: local Windows inspection completed on 2026-07-14; no-submit HPC access/m
 
 ## Completion Gate
 
-This record must be complete before any production Abaqus/HPC submission. The next controlled HPC task, only after explicit approval, is one one-CPU `testq` submission of the prepared Abaqus/Standard trivial `UEXTERNALDB` compile/link/license smoke test. The next scientific baseline task remains comparison of the unchanged Molnar single-notch RF-U curve and phase-field/crack evolution against reference behavior.
+This record must be complete before any production Abaqus/HPC submission. The next controlled HPC task is to diagnose and prepare a repair for the trivial `UEXTERNALDB` marker failure before any further user-subroutine smoke submission. The next scientific baseline task remains comparison of the unchanged Molnar single-notch RF-U curve and phase-field/crack evolution against reference behavior.

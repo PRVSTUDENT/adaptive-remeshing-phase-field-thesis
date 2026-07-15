@@ -1,0 +1,38 @@
+*Heading
+Abaqus Standard user-subroutine compile-link-license smoke test
+**
+*Node
+1, 0.0, 0.0
+2, 1.0, 0.0
+3, 1.0, 1.0
+4, 0.0, 1.0
+**
+*Element, type=CPS4, elset=EALL
+1, 1, 2, 3, 4
+**
+*Material, name=ELASTIC
+*Elastic
+210000.0, 0.3
+**
+*Solid Section, elset=EALL, material=ELASTIC
+1.0
+**
+*Boundary
+1, 1, 2, 0.0
+2, 2, 2, 0.0
+**
+*Step, name=SMOKE, nlgeom=NO
+*Static
+0.1, 1.0, 1.0e-5, 0.1
+**
+*Boundary
+3, 2, 2, 0.001
+4, 2, 2, 0.001
+**
+*Output, field, frequency=1
+*Node Output
+U, RF
+*Element Output
+S, E
+**
+*End Step

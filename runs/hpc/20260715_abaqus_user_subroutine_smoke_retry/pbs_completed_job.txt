@@ -1,0 +1,64 @@
+Job Id: 1374533.mmaster02
+    Job_Name = abq_usrsub_retry
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 43
+    resources_used.cput = 00:00:08
+    resources_used.mem = 529604kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 925376kb
+    resources_used.walltime = 00:00:20
+    job_state = F
+    queue = testq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Wed Jul 15 07:52:41 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/ab
+	q_usrsub_retry.e1374533
+    exec_host = mnode097/0
+    exec_vnode = (mnode097[0]:ncpus=1:mem=8388608kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = a
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Wed Jul 15 07:53:08 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/a
+	bq_usrsub_retry.o1374533
+    Priority = 0
+    qtime = Wed Jul 15 07:52:41 2026
+    Rerunable = True
+    Resource_List.mem = 8gb
+    Resource_List.ncpus = 1
+    Resource_List.ngpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=8gb
+    Resource_List.walltime = 00:30:00
+    stime = Wed Jul 15 07:52:42 2026
+    obittime = Wed Jul 15 07:53:08 2026
+    session_id = 49361
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1374533.mmaster02.x8z
+    substate = 92
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,
+	PROJECT_REVISION=c5db808b4c8d9e9bd01a9e5da0bd91b173787b8e,
+	PBS_O_QUEUE=testq
+    comment = Job run at Wed Jul 15 at 07:52 on (mnode097[0]:ncpus=1:mem=838860
+	8kb) and finished
+    etime = Wed Jul 15 07:52:41 2026
+    run_count = 1
+    eligible_time = 00:00:02
+    Stageout_status = 1
+    Exit_status = 0
+    Submit_arguments = -v PROJECT_REVISION=c5db808b4c8d9e9bd01a9e5da0bd91b17378
+	7b8e scripts/hpc/abaqus_user_subroutine_smoke_retry.pbs
+    history_timestamp = 1784094788
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+

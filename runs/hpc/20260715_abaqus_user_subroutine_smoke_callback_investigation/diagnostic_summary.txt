@@ -1,0 +1,34 @@
+
+==== Job constants ====
+JOB_ID=1374532.mmaster02
+RUN_DIR=/scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_1374532.mmaster02
+ABAQUS_SCRATCH_DIR=/scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_1374532.mmaster02/abaqus_scratch
+STAGE_DIR=/scratch/pr21vyci/adaptive-remeshing/stage/abaqus_user_subroutine_smoke_1374532.mmaster02
+PBS_SUBMISSION_DIR=/home/pr21vyci/projects/adaptive-remeshing
+REPO_EVIDENCE_DIR=/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/20260715_abaqus_user_subroutine_smoke
+EVIDENCE_DIR=/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/20260715_abaqus_user_subroutine_smoke_callback_investigation
+hostname=mlogin01.cluster
+timestamp=2026-07-15T07:28:15+02:00
+PASS: run directory exists: /scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_1374532.mmaster02
+PASS: Abaqus scratch directory exists: /scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_1374532.mmaster02/abaqus_scratch
+PASS: stage directory exists: /scratch/pr21vyci/adaptive-remeshing/stage/abaqus_user_subroutine_smoke_1374532.mmaster02
+PASS: repository root exists: /home/pr21vyci/projects/adaptive-remeshing
+PASS: PBS submission directory exists: /home/pr21vyci/projects/adaptive-remeshing
+PASS: repository evidence directory exists: /home/pr21vyci/projects/adaptive-remeshing/runs/hpc/20260715_abaqus_user_subroutine_smoke
+
+==== Marker location classification ====
+NOT_FOUND: run directory
+NOT_FOUND: Abaqus scratch
+NOT_FOUND: stage directory
+NOT_FOUND: repository evidence
+NOT_FOUND: PBS submission
+
+==== Evidence outputs ====
+/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/20260715_abaqus_user_subroutine_smoke_callback_investigation/commands_used.txt
+/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/20260715_abaqus_user_subroutine_smoke_callback_investigation/diagnostic_summary.txt
+/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/20260715_abaqus_user_subroutine_smoke_callback_investigation/file_inventory.tsv
+/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/20260715_abaqus_user_subroutine_smoke_callback_investigation/marker_search.txt
+/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/20260715_abaqus_user_subroutine_smoke_callback_investigation/text_search.txt
+/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/20260715_abaqus_user_subroutine_smoke_callback_investigation/text_output_hits.txt
+/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/20260715_abaqus_user_subroutine_smoke_callback_investigation/binary_inspection.txt
+/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/20260715_abaqus_user_subroutine_smoke_callback_investigation/scratch_references_from_text.txt

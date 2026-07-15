@@ -1,0 +1,66 @@
+Timestamp: 2026-07-15T07:06:26+02:00
+Host: mnode098.cluster
+PBS job: 1374532.mmaster02
+Repository revision: b2db162ff7a4a8cf034c20884323f3f674999e61
+Work directory: /scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_1374532.mmaster02
+Abaqus scratch: /scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_1374532.mmaster02/abaqus_scratch
+PBS nodefile:
+mnode098.cluster
+Loaded modules:
+
+Derzeit geladene Module:
+  1) gcc/11.4.0                4) compiler/.latest (H)   7) abaqus/2023
+  2) tbb/.latest         (H)   5) ifort/.latest    (H)
+  3) compiler-rt/.latest (H)   6) intel/2024.2.0
+
+  Wo:
+   H:  Verstecktes Modul.
+
+ 
+
+Executable paths:
+/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-skylake_avx512/gcc-8.5.0/gcc-11.4.0-5swjn3h5f72ujciykzrskkja3k4bvaub/bin/gcc
+/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-skylake_avx512/gcc-8.5.0/gcc-11.4.0-5swjn3h5f72ujciykzrskkja3k4bvaub/bin/gfortran
+/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifx
+/cluster/application/abaqus/2023/Commands/abaqus
+Launching Abaqus/Standard user-subroutine smoke test.
+Analysis initiated from SIMULIA established products
+Abaqus JOB abaqus_user_subroutine_smoke
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 5 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<169 out of 300 licenses remain available>.
+Begin Compiling Abaqus/Standard User Subroutines
+Wed 15 Jul 2026 07:06:28 AM CEST
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+ Intel(R) Fortran 2021.13.0-1693
+End Compiling Abaqus/Standard User Subroutines
+Begin Linking Abaqus/Standard User Subroutines
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+GNU ld version 2.30-128.el8_10
+End Linking Abaqus/Standard User Subroutines
+Wed 15 Jul 2026 07:06:34 AM CEST
+Begin Analysis Input File Processor
+Wed 15 Jul 2026 07:06:34 AM CEST
+Run pre
+Wed 15 Jul 2026 07:06:39 AM CEST
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+Wed 15 Jul 2026 07:06:39 AM CEST
+Run standard
+Wed 15 Jul 2026 07:06:41 AM CEST
+End Abaqus/Standard Analysis
+Begin SIM Wrap-up
+Wed 15 Jul 2026 07:06:41 AM CEST
+Run SMASimUtility
+Wed 15 Jul 2026 07:06:42 AM CEST
+End SIM Wrap-up
+Abaqus JOB abaqus_user_subroutine_smoke COMPLETED
+Checking solver completion.

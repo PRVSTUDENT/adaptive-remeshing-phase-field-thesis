@@ -1,0 +1,18 @@
+  1) gcc/11.4.0                4) compiler/.latest (H)   7) abaqus/2023
+  2) tbb/.latest         (H)   5) ifort/.latest    (H)
+  3) compiler-rt/.latest (H)   6) intel/2024.2.0
+/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-skylake_avx512/gcc-8.5.0/gcc-11.4.0-5swjn3h5f72ujciykzrskkja3k4bvaub/bin/gfortran
+/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifx
+Abaqus JOB abaqus_user_subroutine_smoke
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 5 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<169 out of 300 licenses remain available>.
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+ Intel(R) Fortran 2021.13.0-1693
+Begin Linking Abaqus/Standard User Subroutines
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+End Linking Abaqus/Standard User Subroutines
+Abaqus JOB abaqus_user_subroutine_smoke COMPLETED

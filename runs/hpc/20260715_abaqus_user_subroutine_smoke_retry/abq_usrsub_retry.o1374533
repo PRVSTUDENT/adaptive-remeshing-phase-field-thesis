@@ -1,0 +1,199 @@
+Timestamp: 2026-07-15T07:52:46+02:00
+Host: mnode097.cluster
+PBS job: 1374533.mmaster02
+Repository revision: c5db808b4c8d9e9bd01a9e5da0bd91b173787b8e
+Work directory: /scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_retry_1374533.mmaster02
+Abaqus scratch: /scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_retry_1374533.mmaster02/abaqus_scratch
+Text stage: /scratch/pr21vyci/adaptive-remeshing/stage/abaqus_user_subroutine_smoke_retry_1374533.mmaster02
+Input file: abaqus_user_subroutine_smoke.inp
+Source file: uexternaldb_smoke_getoutdir.for
+ABA_PARALLEL_DEBUG=1
+PBS nodefile:
+mnode097.cluster
+Loaded modules:
+
+Derzeit geladene Module:
+  1) gcc/11.4.0                4) compiler/.latest (H)   7) abaqus/2023
+  2) tbb/.latest         (H)   5) ifort/.latest    (H)
+  3) compiler-rt/.latest (H)   6) intel/2024.2.0
+
+  Wo:
+   H:  Verstecktes Modul.
+
+ 
+
+Executable paths:
+/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-skylake_avx512/gcc-8.5.0/gcc-11.4.0-5swjn3h5f72ujciykzrskkja3k4bvaub/bin/gcc
+/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-skylake_avx512/gcc-8.5.0/gcc-11.4.0-5swjn3h5f72ujciykzrskkja3k4bvaub/bin/gfortran
+/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifx
+/cluster/application/abaqus/2023/Commands/abaqus
+Launching Abaqus/Standard user-subroutine retry smoke test.
+Analysis initiated from SIMULIA established products
+Abaqus JOB abaqus_user_subroutine_smoke_retry
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 5 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<190 out of 300 licenses remain available>.
+                      Platform: lnx86_64
+             Source extensions: f for f90 F90 c C c\+\+ cpp
+              Object extension: o
+           Shared library name: libstandardU.so
+  User subroutine archive file: libstandardU_static.a
+   Utility shared library file: standardB
+               Threads Library: ABQSMAAbuBasicUtils
+                   DMP Library: ABQMPI_api
+                 MPI Libraries: -lmpiCC
+              MPI Search Paths: -L/cluster/application/abaqus/2023/linux_a64/code/bin/SMAExternal/pmpi/lib/linux_amd64
+             MPI Include Paths: -I/cluster/application/abaqus/2023/linux_a64/code/bin/SMAExternal/pmpi/include
+Begin Compiling Abaqus/Standard User Subroutines
+Wed 15 Jul 2026 07:52:48 AM CEST
+Compiling uexternaldb_smoke_getoutdir.for
+Current directory: /scratch9/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_retry_1374533.mmaster02/abaqus_scratch/pr21vyci_abaqus_user_subroutine_smoke_retry_49452
+File to compile: /scratch9/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_retry_1374533.mmaster02/abaqus_scratch/pr21vyci_abaqus_user_subroutine_smoke_retry_49452/uexternaldb_smoke_getoutdir.for
+>>> ifort -V -c -fpp -fPIC -extend_source -DABQ_LNX86_64 -DABQ_FORTRAN -auto -pc64 -align array64byte -prec-div -prec-sqrt -fp-model precise -fimf-arch-consistency=true -mP2OPT_hpo_vec_divbyzero=F -no-fma -fp-speculation=safe -fprotect-parens -fstack-protector-strong -reentrancy threaded -msse3 -axcore-avx2,avx -WB -I/scratch9/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_retry_1374533.mmaster02 -I/cluster/application/abaqus/2023 -DDPX -g -O0 -init=snan -init=arrays -fp:precise -fpe-all:0 -traceback -I. -I/cluster/application/abaqus/2023/linux_a64/code/include -I/cluster/application/abaqus/2023/linux_a64/../SMAUsubs/PublicInterfaces -I/cluster/application/abaqus/2023/linux_a64/code/bin/SMAExternal/pmpi/include uexternaldb_smoke_getoutdir.for
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+ifort: command line warning #10158: ignoring option '-fpscomp'; argument must be separate
+ Intel(R) Fortran 2021.13.0-1693
+End Compiling Abaqus/Standard User Subroutines
+Begin Linking Abaqus/Standard User Subroutines
+export.sym: ['-Wl,-u,contactperm_']
+export.sym: ['-Wl,-u,creep_']
+export.sym: ['-Wl,-u,dflow_']
+export.sym: ['-Wl,-u,dflux_']
+export.sym: ['-Wl,-u,disp_']
+export.sym: ['-Wl,-u,dload_']
+export.sym: ['-Wl,-u,film_']
+export.sym: ['-Wl,-u,flow_']
+export.sym: ['-Wl,-u,fric_']
+export.sym: ['-Wl,-u,fric_coef_']
+export.sym: ['-Wl,-u,gapcon_']
+export.sym: ['-Wl,-u,gapelectr_']
+export.sym: ['-Wl,-u,hardini_']
+export.sym: ['-Wl,-u,hetval_']
+export.sym: ['-Wl,-u,inter_react_bv_']
+export.sym: ['-Wl,-u,mpc_']
+export.sym: ['-Wl,-u,orient_']
+export.sym: ['-Wl,-u,rsurfu_']
+export.sym: ['-Wl,-u,sdvini_']
+export.sym: ['-Wl,-u,sigini_']
+export.sym: ['-Wl,-u,uamp_']
+export.sym: ['-Wl,-u,uanisohyper_inv_']
+export.sym: ['-Wl,-u,uanisohyper_strain_']
+export.sym: ['-Wl,-u,ucohesiveoffset_']
+export.sym: ['-Wl,-u,ucomputeerefhysteresis_']
+export.sym: ['-Wl,-u,ucomputeporoevolelectrolyte_']
+export.sym: ['-Wl,-u,uconcentrationtensor_']
+export.sym: ['-Wl,-u,ucorr_']
+export.sym: ['-Wl,-u,ucosimulation_']
+export.sym: ['-Wl,-u,ucoupledconstresp_']
+export.sym: ['-Wl,-u,ucrack_']
+export.sym: ['-Wl,-u,ucreepnetwork_']
+export.sym: ['-Wl,-u,udamagemf_']
+export.sym: ['-Wl,-u,udecurr_']
+export.sym: ['-Wl,-u,udecurrent_']
+export.sym: ['-Wl,-u,udempotential_']
+export.sym: ['-Wl,-u,udmgini_']
+export.sym: ['-Wl,-u,udsecurrent_']
+export.sym: ['-Wl,-u,ueigenstrain_']
+export.sym: ['-Wl,-u,uel_']
+export.sym: ['-Wl,-u,uelemdresp_']
+export.sym: ['-Wl,-u,uelmat_']
+export.sym: ['-Wl,-u,uepactivationfacet_']
+export.sym: ['-Wl,-u,uepactivationsetup_']
+export.sym: ['-Wl,-u,uepactivationvol_']
+export.sym: ['-Wl,-u,uexpan_']
+export.sym: ['-Wl,-u,uexternaldb_']
+export.sym: ['-Wl,-u,ufield_']
+export.sym: ['-Wl,-u,ufluid_']
+export.sym: ['-Wl,-u,ufluidconnectorloss_']
+export.sym: ['-Wl,-u,ufluidconnectorvalve_']
+export.sym: ['-Wl,-u,ufluidleakoff_']
+export.sym: ['-Wl,-u,ufluidpipefriction_']
+export.sym: ['-Wl,-u,ugens_']
+export.sym: ['-Wl,-u,uhard_']
+export.sym: ['-Wl,-u,uhypel_']
+export.sym: ['-Wl,-u,uhyper_']
+export.sym: ['-Wl,-u,uhyper_stretch_']
+export.sym: ['-Wl,-u,uinter_']
+export.sym: ['-Wl,-u,uintfluxgen_']
+export.sym: ['-Wl,-u,umasfl_']
+export.sym: ['-Wl,-u,umat_']
+export.sym: ['-Wl,-u,umat_sst_']
+export.sym: ['-Wl,-u,umatht_']
+export.sym: ['-Wl,-u,umdflux_']
+export.sym: ['-Wl,-u,umdfluxsetup_']
+export.sym: ['-Wl,-u,umeshmotion_']
+export.sym: ['-Wl,-u,umixmodefatigue_']
+export.sym: ['-Wl,-u,umotion_']
+export.sym: ['-Wl,-u,umullins_']
+export.sym: ['-Wl,-u,umultiphysicsload_']
+export.sym: ['-Wl,-u,uporep_']
+export.sym: ['-Wl,-u,upress_']
+export.sym: ['-Wl,-u,upsd_']
+export.sym: ['-Wl,-u,urdfil_']
+export.sym: ['-Wl,-u,usdfld_']
+export.sym: ['-Wl,-u,usettling_']
+export.sym: ['-Wl,-u,usuperelashardmod_']
+export.sym: ['-Wl,-u,usuperelasplastmod_']
+export.sym: ['-Wl,-u,utemp_']
+export.sym: ['-Wl,-u,utracload_']
+export.sym: ['-Wl,-u,utrs_']
+export.sym: ['-Wl,-u,utrsnetwork_']
+export.sym: ['-Wl,-u,uvarm_']
+export.sym: ['-Wl,-u,uwave_']
+export.sym: ['-Wl,-u,uxfemcrack_']
+export.sym: ['-Wl,-u,uxfemnonlocalweight_']
+export.sym: ['-Wl,-u,voidri_']
+export.sym: ['-Wl,-u,_Z21SMAStsStdU_initializeRi']
+export.sym: ['-Wl,-u,_Z19SMAStsStdU_finalizeRi']
+export.sym: ['-Wl,-u,_Z22SMAStsUsubs_initializeRi']
+export.sym: ['-Wl,-u,_Z20SMAStsUsubs_finalizeRi']
+export.sym: ['-Wl,-u,_Z31SMAStsUsubs_specific_initializeRi']
+export.sym: ['-Wl,-u,_Z29SMAStsUsubs_specific_finalizeRi']
+export.sym: ['-Wl,-u,stdu_callallutils_']
+Linking uexternaldb_smoke_getoutdir.o into user subroutine shared library libstandardU.so
+>>> ifort -V -cxxlib -fPIC -threads -shared -Wl,--add-needed -Wl,-u,contactperm_ -Wl,-u,creep_ -Wl,-u,dflow_ -Wl,-u,dflux_ -Wl,-u,disp_ -Wl,-u,dload_ -Wl,-u,film_ -Wl,-u,flow_ -Wl,-u,fric_ -Wl,-u,fric_coef_ -Wl,-u,gapcon_ -Wl,-u,gapelectr_ -Wl,-u,hardini_ -Wl,-u,hetval_ -Wl,-u,inter_react_bv_ -Wl,-u,mpc_ -Wl,-u,orient_ -Wl,-u,rsurfu_ -Wl,-u,sdvini_ -Wl,-u,sigini_ -Wl,-u,uamp_ -Wl,-u,uanisohyper_inv_ -Wl,-u,uanisohyper_strain_ -Wl,-u,ucohesiveoffset_ -Wl,-u,ucomputeerefhysteresis_ -Wl,-u,ucomputeporoevolelectrolyte_ -Wl,-u,uconcentrationtensor_ -Wl,-u,ucorr_ -Wl,-u,ucosimulation_ -Wl,-u,ucoupledconstresp_ -Wl,-u,ucrack_ -Wl,-u,ucreepnetwork_ -Wl,-u,udamagemf_ -Wl,-u,udecurr_ -Wl,-u,udecurrent_ -Wl,-u,udempotential_ -Wl,-u,udmgini_ -Wl,-u,udsecurrent_ -Wl,-u,ueigenstrain_ -Wl,-u,uel_ -Wl,-u,uelemdresp_ -Wl,-u,uelmat_ -Wl,-u,uepactivationfacet_ -Wl,-u,uepactivationsetup_ -Wl,-u,uepactivationvol_ -Wl,-u,uexpan_ -Wl,-u,uexternaldb_ -Wl,-u,ufield_ -Wl,-u,ufluid_ -Wl,-u,ufluidconnectorloss_ -Wl,-u,ufluidconnectorvalve_ -Wl,-u,ufluidleakoff_ -Wl,-u,ufluidpipefriction_ -Wl,-u,ugens_ -Wl,-u,uhard_ -Wl,-u,uhypel_ -Wl,-u,uhyper_ -Wl,-u,uhyper_stretch_ -Wl,-u,uinter_ -Wl,-u,uintfluxgen_ -Wl,-u,umasfl_ -Wl,-u,umat_ -Wl,-u,umat_sst_ -Wl,-u,umatht_ -Wl,-u,umdflux_ -Wl,-u,umdfluxsetup_ -Wl,-u,umeshmotion_ -Wl,-u,umixmodefatigue_ -Wl,-u,umotion_ -Wl,-u,umullins_ -Wl,-u,umultiphysicsload_ -Wl,-u,uporep_ -Wl,-u,upress_ -Wl,-u,upsd_ -Wl,-u,urdfil_ -Wl,-u,usdfld_ -Wl,-u,usettling_ -Wl,-u,usuperelashardmod_ -Wl,-u,usuperelasplastmod_ -Wl,-u,utemp_ -Wl,-u,utracload_ -Wl,-u,utrs_ -Wl,-u,utrsnetwork_ -Wl,-u,uvarm_ -Wl,-u,uwave_ -Wl,-u,uxfemcrack_ -Wl,-u,uxfemnonlocalweight_ -Wl,-u,voidri_ -Wl,-u,_Z21SMAStsStdU_initializeRi -Wl,-u,_Z19SMAStsStdU_finalizeRi -Wl,-u,_Z22SMAStsUsubs_initializeRi -Wl,-u,_Z20SMAStsUsubs_finalizeRi -Wl,-u,_Z31SMAStsUsubs_specific_initializeRi -Wl,-u,_Z29SMAStsUsubs_specific_finalizeRi -Wl,-u,stdu_callallutils_ -Wl,-soname,libstandardU.so -o libstandardU.so uexternaldb_smoke_getoutdir.o /cluster/application/abaqus/2023/linux_a64/code/lib/libstandardU_static.a -L /cluster/application/abaqus/2023/linux_a64/code/bin -lABQSMAAncAdbModule -lABQSMAAspSupport -lABQSMAUsubsLib -L/cluster/application/abaqus/2023/linux_a64/code/bin/SMAExternal/pmpi/lib/linux_amd64 -lABQDMP_Core -lABQMPI_api -lmpiCC -lABQSMAAbuBasicUtils -lstandardB -lABQSMABasCoreUtils -lABQSMAEliLicenseModule -parallel -Wl,-Bdynamic -shared-intel -g
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+GNU ld version 2.30-128.el8_10
+End Linking Abaqus/Standard User Subroutines
+Wed 15 Jul 2026 07:52:54 AM CEST
+Begin Analysis Input File Processor
+Wed 15 Jul 2026 07:52:54 AM CEST
+Run pre
+Wed 15 Jul 2026 07:52:58 AM CEST
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+Wed 15 Jul 2026 07:52:58 AM CEST
+Run standard
+Wed 15 Jul 2026 07:53:02 AM CEST
+End Abaqus/Standard Analysis
+Begin SIM Wrap-up
+Wed 15 Jul 2026 07:53:02 AM CEST
+Run SMASimUtility
+Wed 15 Jul 2026 07:53:02 AM CEST
+End SIM Wrap-up
+Abaqus JOB abaqus_user_subroutine_smoke_retry COMPLETED
+Abaqus return code: 0
+Preserving diagnostic evidence before acceptance checks.
+abaqus_return_code_zero: PASS
+retry_odb_exists: PASS
+retry_sta_exists: PASS
+retry_msg_exists: PASS
+marker_exists_nonempty: PASS
+sta_success_message: PASS
+msg_callback_entered_token: PASS
+msg_marker_written_token: PASS
+msg_analysis_end_token: PASS
+marker_contains_smoke_token: PASS
+Final classification: hpc_user_subroutine_smoke_pass
+Failure category: none
+Checks failed: 0
+ODB retained only in: /scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_retry_1374533.mmaster02/abaqus_user_subroutine_smoke_retry.odb
+Text evidence staged at: /scratch/pr21vyci/adaptive-remeshing/stage/abaqus_user_subroutine_smoke_retry_1374533.mmaster02

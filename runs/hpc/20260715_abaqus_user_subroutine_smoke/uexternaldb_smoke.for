@@ -1,0 +1,13 @@
+      SUBROUTINE UEXTERNALDB(LOP,LRESTART,TIME,DTIME,KSTEP,KINC)
+      INCLUDE 'ABA_PARAM.INC'
+      DIMENSION TIME(2)
+
+      IF (LOP.EQ.0) THEN
+         OPEN(UNIT=99,FILE='uexternaldb_smoke.called',
+     1        STATUS='UNKNOWN')
+         WRITE(99,*) 'UEXTERNALDB_SMOKE_CALLED'
+         CLOSE(99)
+      END IF
+
+      RETURN
+      END

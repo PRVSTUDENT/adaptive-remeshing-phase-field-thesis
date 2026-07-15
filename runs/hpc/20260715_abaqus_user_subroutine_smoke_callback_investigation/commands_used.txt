@@ -1,0 +1,6 @@
+find <root> -type f -printf '%p\t%s\t%TY-%Tm-%Td %TH:%TM:%TS\n'
+find <root> -type f \( -name 'uexternaldb_smoke.called' -o -iname '*uexternaldb*' -o -iname '*.so' -o -iname '*.o' -o -iname '*.obj' \)
+grep -RInE 'UEXTERNALDB_SMOKE_CALLED|UEXTERNALDB|uexternaldb_smoke' <root>
+grep -RInEi 'UEXTERNALDB|compile|link|ifx|ifort|fortran|license|checked out|library|load|callback|warning|error|completed successfully|COMPLETED|ANALYSIS COMPLETE' selected text outputs
+grep -RInE '/scratch/[^[:space:]]+|tmpdir|scratch|standardU|libstandard|\.so|\.o' selected text outputs
+file, nm -a, readelf -Ws, strings on retained *.so, *.o, *.obj files
