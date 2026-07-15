@@ -1,0 +1,423 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=25mm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{array}
+
+\title{Stage A Execution, Failure, and Retry Log\\Adaptive Remeshing Phase-Field Thesis}
+\author{Pruthvi Raj Vakkalagadda}
+\date{Updated 2026-07-15}
+
+\begin{document}
+\maketitle
+
+\section*{Purpose and Maintenance Rule}
+
+\noindent\textbf{Stage:} Stage A\\
+\textbf{Document status:} active living document\\
+\textbf{Last updated:} 2026-07-15
+
+\medskip
+
+This companion log is the permanent Stage A record of controlled executions, failures, repairs, retries, and classification changes. It complements the high-level Stage A baseline report at \texttt{docs/reports/STAGE\_A\_BASELINE\_REPORT.tex}. Failed attempts remain in this log and are not removed after a repair succeeds. Generated PDFs belong in the ignored build directory and are not evidence substitutes.
+
+During Stage A, every substantial environment, run, validation, failure, repair, retry, figure, table, result, or scientific decision must update both Stage A living documents where relevant. These two files continue until Stage A is formally completed. At Stage A closure, both files should be marked frozen, final conclusions and exit decisions should be added, and a new pair should be opened for Stage B. Do not create a new Stage A report for every run.
+
+\section*{Scientific Boundary}
+
+The records below concern controlled environment and trivial smoke tests only. They do not run, modify, or validate the Molnar benchmark, MISESERI pre-refinement, remeshing, state transfer, multi-CPU execution, or a parameter study. Gate A3 remains:
+
+\begin{center}
+\texttt{reference\_data\_insufficient}
+\end{center}
+
+The Stage A benchmark and remeshing path therefore remain blocked until the reference route is resolved.
+
+\section{Chronological Summary}
+
+\small
+\begin{longtable}{@{}p{0.12\linewidth}p{0.20\linewidth}p{0.13\linewidth}p{0.12\linewidth}p{0.16\linewidth}p{0.17\linewidth}@{}}
+\caption{Stage A HPC execution and retry summary.}\\
+\toprule
+Job ID & Purpose & Revision & PBS result & Classification & Evidence \\
+\midrule
+\endfirsthead
+\toprule
+Job ID & Purpose & Revision & PBS result & Classification & Evidence \\
+\midrule
+\endhead
+\texttt{1374529.mmaster02} & Environment smoke: PBS, modules, Abaqus visibility, Intel compiler visibility & \texttt{f508a469...} & \texttt{F}, exit 1 & \texttt{hpc\_environment\_smoke\_fail} & \path{runs/hpc/20260715_abaqus_environment_smoke/} \\
+\texttt{1374530.mmaster02} & Environment rerun with \texttt{gcc/11.4.0} before Intel & \texttt{f508a469...} & \texttt{F}, exit 127 & \texttt{hpc\_environment\_smoke\_fail} & \path{runs/hpc/20260715_abaqus_environment_smoke_rerun_gcc/} \\
+\texttt{1374531.mmaster02} & Final environment rerun with revision supplied via \texttt{PROJECT\_REVISION} & \texttt{d2e9e3c...} & \texttt{F}, exit 0 & \texttt{hpc\_environment\_smoke\_pass} & \path{runs/hpc/20260715_abaqus_environment_smoke_rerun_revision_env/} \\
+\texttt{1374532.mmaster02} & Trivial Abaqus/Standard \texttt{UEXTERNALDB} compile-link-license smoke & \texttt{b2db162...} & \texttt{F}, exit 1 & \texttt{hpc\_user\_subroutine\_smoke\_fail} & \path{runs/hpc/20260715_abaqus_user_subroutine_smoke/} \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\section{Job 1374529.mmaster02: Initial Environment Smoke}
+
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Field & Value \\
+\midrule
+Date & 2026-07-15 \\
+Approximate output time & 06:34, from preserved run context \\
+Purpose & Verify PBS scheduling, compute-node start, scratch creation, module loading, Abaqus visibility, Intel \texttt{ifx} visibility, and repository revision capture. \\
+Repository revision & \texttt{f508a469e8247565e3df539346c219b413e492b8} \\
+Queue and resources & \texttt{testq}; one node; one CPU; \SI{8}{GB}; 00:30:00 wall time \\
+Compute host & \texttt{mnode098.cluster} \\
+Scheduler metadata & \texttt{Resource\_List.ngpus = 1} appeared as scheduler metadata; the script did not request or use a GPU. \\
+PBS result & \texttt{job\_state = F}; \texttt{Exit\_status = 1} \\
+Evidence & \path{runs/hpc/20260715_abaqus_environment_smoke/RUN_SUMMARY.md} \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Observed Result}
+
+The job was scheduled and started, assigned one compute host, created scratch, loaded \texttt{intel/2024.2.0} and \texttt{abaqus/2023}, found valid \texttt{abaqus} and \texttt{ifx} executables, and completed \texttt{abaqus information=release}. It failed before the final success marker because \texttt{ifx --version} returned Intel compiler error \texttt{\#10417}; the compiler environment could not set up the required GCC install-path setting.
+
+\subsection*{Classification}
+
+\begin{center}
+\texttt{hpc\_environment\_smoke\_fail}
+\end{center}
+
+Failure category: HPC compiler-environment setup. Corrective action: load \texttt{gcc/11.4.0} before \texttt{intel/2024.2.0} in the batch environment.
+
+\section{Job 1374530.mmaster02: GCC-First Environment Rerun}
+
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Field & Value \\
+\midrule
+Date & 2026-07-15 \\
+Approximate output time & 06:40, from preserved run context \\
+Purpose & Verify whether loading \texttt{gcc/11.4.0} before Intel resolves the compute-node \texttt{ifx} initialization failure. \\
+Repository revision before submission & \texttt{f508a469e8247565e3df539346c219b413e492b8} \\
+Queue and resources & \texttt{testq}; one node; one CPU; \SI{8}{GB}; 00:30:00 wall time \\
+Compute host & \texttt{mnode098.cluster} \\
+Scheduler metadata & \texttt{Resource\_List.ngpus = 1} appeared as scheduler metadata; the script did not request or use a GPU. \\
+PBS result & \texttt{job\_state = F}; \texttt{Exit\_status = 127} \\
+Evidence & \path{runs/hpc/20260715_abaqus_environment_smoke_rerun_gcc/RUN_SUMMARY.md} \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Observed Result}
+
+The job confirmed PBS execution, compute-node assignment, scratch creation, and progression past the repaired module-loading block. It failed before compiler and Abaqus diagnostics because \texttt{git} was unavailable in the compute-node batch \texttt{PATH} when the script attempted to print the repository revision.
+
+\subsection*{Classification}
+
+\begin{center}
+\texttt{hpc\_environment\_smoke\_fail}
+\end{center}
+
+Failure category: batch metadata dependency. This was not a PBS, Abaqus, repository, model, MISESERI, or remeshing failure. Corrective action: supply the repository revision from the login/submission environment through \texttt{PROJECT\_REVISION}, avoiding a compute-node Git dependency.
+
+\section{Job 1374531.mmaster02: Final Environment Rerun}
+
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Field & Value \\
+\midrule
+Date & 2026-07-15 \\
+Approximate output time & 06:50, from preserved run context \\
+Purpose & Final environment-only rerun with repaired module order and revision supplied through \texttt{PROJECT\_REVISION}. \\
+Repository revision & \texttt{d2e9e3c0d1e86e5f12772cb3d7e191a5377ea54f} \\
+Queue and resources & \texttt{testq}; one node; one CPU; \SI{8}{GB}; 00:30:00 wall time \\
+Compute host & \texttt{mnode098.cluster} \\
+Scheduler metadata & \texttt{Resource\_List.ngpus = 1} appeared as scheduler metadata; the script did not request or use a GPU. \\
+PBS result & \texttt{job\_state = F}; \texttt{Exit\_status = 0} \\
+Evidence & \path{runs/hpc/20260715_abaqus_environment_smoke_rerun_revision_env/RUN_SUMMARY.md} \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Observed Result}
+
+The job passed the environment acceptance criteria. It loaded \texttt{gcc/11.4.0}, \texttt{intel/2024.2.0}, and \texttt{abaqus/2023}; found valid \texttt{gcc}, \texttt{gfortran}, \texttt{ifx}, and \texttt{abaqus} paths; completed \texttt{gcc --version}, \texttt{gfortran --version}, \texttt{ifx --version}, and \texttt{abaqus information=release}; captured the supplied repository revision; and printed \texttt{Environment smoke probe completed.}
+
+\subsection*{Classification}
+
+\begin{center}
+\texttt{hpc\_environment\_smoke\_pass}
+\end{center}
+
+Boundary: this pass establishes PBS execution, module loading, compiler visibility, Abaqus executable visibility, scratch setup, and repository revision capture. It does not test Abaqus user-subroutine compilation or linking and does not validate the phase-field formulation.
+
+\section{Job 1374532.mmaster02: Trivial Abaqus/Standard User-Subroutine Smoke}
+
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Field & Value \\
+\midrule
+Date & 2026-07-15 \\
+Approximate output time & 07:06, from preserved run context \\
+Purpose & Verify Abaqus/Standard license checkout, trivial user-subroutine compilation, linking, solver completion, ODB creation, and \texttt{UEXTERNALDB} callback marker evidence. \\
+Repository revision & \texttt{b2db162ff7a4a8cf034c20884323f3f674999e61} \\
+Queue and resources & \texttt{testq}; one node; one CPU; \SI{8}{GB}; 00:30:00 wall time \\
+Compute host & \texttt{mnode098.cluster} \\
+Scheduler metadata & \texttt{Resource\_List.ngpus = 1} appeared as scheduler metadata; the script did not request or use a GPU and called Abaqus with \texttt{cpus=1}. \\
+Work directory & \path{/scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_1374532.mmaster02} \\
+Text stage directory & \path{/scratch/pr21vyci/adaptive-remeshing/stage/abaqus_user_subroutine_smoke_1374532.mmaster02} \\
+PBS result & \texttt{job\_state = F}; \texttt{Exit\_status = 1} \\
+Evidence & \path{runs/hpc/20260715_abaqus_user_subroutine_smoke/} \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Observed Result}
+
+The job was scheduled and started. Abaqus/Standard license checkout succeeded, using the preserved evidence that tokens were checked out from Flexnet server \texttt{license4.imfd.tu-freiberg.de}. Fortran compilation succeeded, linking succeeded, the trivial Abaqus/Standard analysis completed successfully, the \texttt{.sta} file contained \texttt{THE ANALYSIS HAS COMPLETED SUCCESSFULLY}, and \texttt{abaqus\_user\_subroutine\_smoke.odb} was present in the scratch work directory.
+
+The required callback marker \texttt{uexternaldb\_smoke.called} was absent. The PBS script therefore stopped at the marker check and did not print the final success marker.
+
+\subsection*{Classification}
+
+\begin{center}
+\texttt{hpc\_user\_subroutine\_smoke\_fail}
+\end{center}
+
+Failure category:
+
+\begin{center}
+\texttt{callback\_invocation}
+\end{center}
+
+Component classifications:
+
+\begin{itemize}
+  \item \texttt{hpc\_abaqus\_license\_checkout\_pass}
+  \item \texttt{hpc\_user\_subroutine\_compilation\_pass}
+  \item \texttt{hpc\_user\_subroutine\_link\_pass}
+  \item \texttt{hpc\_standard\_analysis\_pass}
+  \item \texttt{hpc\_odb\_creation\_pass}
+  \item \texttt{hpc\_uexternaldb\_callback\_unverified}
+  \item \texttt{hpc\_user\_subroutine\_smoke\_fail}
+\end{itemize}
+
+This is not a compiler failure, linker failure, Abaqus/Standard license failure, Standard solver-completion failure, or ODB-creation failure. It is a callback-evidence failure in the trivial smoke test. It does not run or validate the Molnar UEL/UMAT, phase-field formulation, Gate A3 benchmark reproduction, MISESERI, remeshing, or state transfer.
+
+\section{Callback Evidence Investigation After Job 1374532.mmaster02}
+
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Field & Value \\
+\midrule
+Date & 2026-07-15 \\
+Investigation type & No-submit, no-Abaqus-launch, read-only evidence review \\
+Diagnostic script & \path{scripts/hpc/inspect_uexternaldb_smoke_1374532.sh} \\
+Investigation evidence & \path{runs/hpc/20260715_abaqus_user_subroutine_smoke_callback_investigation/} \\
+Report & \path{runs/hpc/20260715_abaqus_user_subroutine_smoke_callback_investigation/CALLBACK_INVESTIGATION.md} \\
+Finding & \texttt{E. insufficient\_retained\_evidence} \\
+Current classification & \texttt{hpc\_uexternaldb\_callback\_unverified}; \texttt{hpc\_user\_subroutine\_smoke\_fail} \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Search Locations}
+
+The diagnostic script verified and inspected these accessible locations:
+
+\begin{itemize}
+  \item work directory: \path{/scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_1374532.mmaster02}
+  \item Abaqus scratch directory: \path{/scratch/pr21vyci/adaptive-remeshing/runs/abaqus_user_subroutine_smoke_1374532.mmaster02/abaqus_scratch}
+  \item stage directory: \path{/scratch/pr21vyci/adaptive-remeshing/stage/abaqus_user_subroutine_smoke_1374532.mmaster02}
+  \item repository evidence directory: \path{runs/hpc/20260715_abaqus_user_subroutine_smoke}
+  \item PBS submission/repository root: \path{/home/pr21vyci/projects/adaptive-remeshing}
+\end{itemize}
+
+All required directories existed at investigation time. The original solver outputs were not edited, moved, removed, or regenerated.
+
+\subsection*{Diagnostic Commands}
+
+The investigation used read-only commands equivalent to:
+
+\begin{verbatim}
+find <root> -type f -printf '%p\t%s\t%TY-%Tm-%Td %TH:%TM:%TS\n'
+
+find <root> -type f \
+  \( -name 'uexternaldb_smoke.called' \
+     -o -iname '*uexternaldb*' \
+     -o -iname '*.so' \
+     -o -iname '*.o' \
+     -o -iname '*.obj' \)
+
+grep -RInE \
+  'UEXTERNALDB_SMOKE_CALLED|UEXTERNALDB|uexternaldb_smoke' \
+  <root>
+
+grep -RInEi \
+  'UEXTERNALDB|compile|link|ifx|ifort|fortran|license|checked out|library|load|callback|warning|error|completed successfully|COMPLETED|ANALYSIS COMPLETE' \
+  <selected text outputs>
+\end{verbatim}
+
+It was also prepared to run \texttt{file}, \texttt{nm -a}, \texttt{readelf -Ws}, and \texttt{strings} on retained shared libraries, object files, or object modules, but no retained \texttt{.so}, \texttt{.o}, or \texttt{.obj} files were found.
+
+\subsection*{Marker Results}
+
+The marker filename \texttt{uexternaldb\_smoke.called} was not found in the work directory, Abaqus scratch directory, stage directory, repository evidence directory, PBS submission root, or any other accessible inspected location. The marker text \texttt{UEXTERNALDB\_SMOKE\_CALLED} was found only in source/diagnostic files, not in a produced marker file.
+
+Therefore:
+
+\begin{itemize}
+  \item marker found in run directory: no;
+  \item marker found under Abaqus scratch: no;
+  \item marker found in stage directory: no;
+  \item marker found elsewhere accessible: no;
+  \item marker write location: unknown.
+\end{itemize}
+
+\subsection*{Symbol and Library-Loading Results}
+
+The retained evidence confirms that Abaqus accepted \texttt{user='uexternaldb\_smoke.for'}, compiled the user subroutine, and linked the user subroutine. However, the generated linked library path and generated object or shared-library files were not retained in the inspected roots. Consequently:
+
+\begin{itemize}
+  \item source compiled: yes;
+  \item Abaqus linking: yes;
+  \item linked \texttt{UEXTERNALDB} symbol presence: to be checked;
+  \item marker strings embedded in linked library: to be checked;
+  \item Abaqus user-library loading: to be checked;
+  \item callback entered: unverified;
+  \item marker file written: no evidence.
+\end{itemize}
+
+This evidence set does not support \texttt{callback\_not\_linked\_or\_not\_loaded}, because linking passed and no retained library is available to disprove loading. It also does not support \texttt{callback\_invocation\_confirmed\_marker\_write\_failed}, because callback entry was not directly demonstrated.
+
+\subsection*{Analysis-Completion Evidence}
+
+The retained \texttt{.sta} file contains \texttt{THE ANALYSIS HAS COMPLETED SUCCESSFULLY}. The retained \texttt{.msg} file reports zero warning messages during user input processing, zero warning messages during analysis, and zero error messages. The PBS output records license checkout, compilation, linking, analysis completion, and ODB creation before the script stopped at the marker check.
+
+\subsection*{Root-Cause Status}
+
+The precise post-investigation technical status is:
+
+\begin{itemize}
+  \item compiler environment: passed;
+  \item Abaqus linking: passed;
+  \item Abaqus analysis: passed;
+  \item callback symbol presence: to be checked;
+  \item callback library loading: to be checked;
+  \item callback entry: unverified;
+  \item marker write location: unknown.
+\end{itemize}
+
+Supported finding:
+
+\begin{center}
+\texttt{E. insufficient\_retained\_evidence}
+\end{center}
+
+\subsection*{Recommended Repair To Evaluate}
+
+Do not change the Fortran source or PBS script until this evidence review is accepted. A future one-CPU retry should strengthen callback-entry evidence by evaluating one or more of the following changes:
+
+\begin{itemize}
+  \item write a unique callback token to an Abaqus-managed text stream, such as the message or data output stream, if safe from \texttt{UEXTERNALDB};
+  \item write the marker using an explicit absolute path supplied by the PBS script rather than relying on the process working directory;
+  \item preserve generated user-library or object artifacts, if Abaqus leaves them accessible, so \texttt{nm}, \texttt{readelf}, and \texttt{strings} can verify the linked symbol and embedded marker strings;
+  \item capture exact compiler and linker command lines or generated command files when Abaqus exposes them.
+\end{itemize}
+
+Another one-CPU retry is necessary only if direct proof of \texttt{UEXTERNALDB} callback entry is required. That retry remains outside this investigation and must not run Molnar, MISESERI, remeshing, state transfer, a parameter study, or multi-CPU execution.
+
+\section{Deterministic Callback Retry Prepared}
+
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Field & Value \\
+\midrule
+Date & 2026-07-15 \\
+Status & \texttt{prepared\_not\_submitted} \\
+Preserved failed source & \path{tests/hpc/abaqus_standard_user_subroutine_smoke/uexternaldb_smoke.for} \\
+Preserved failed PBS script & \path{scripts/hpc/abaqus_user_subroutine_smoke.pbs} \\
+Retry source & \path{tests/hpc/abaqus_standard_user_subroutine_smoke/uexternaldb_smoke_getoutdir.for} \\
+Retry PBS script & \path{scripts/hpc/abaqus_user_subroutine_smoke_retry.pbs} \\
+Scope & One CPU, \texttt{testq}, \SI{8}{GB}, 00:30:00, trivial Abaqus/Standard smoke only \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Repair Rationale}
+
+The failed implementation for job \texttt{1374532.mmaster02} used a relative marker filename, \texttt{uexternaldb\_smoke.called}, and Fortran unit 99. The subsequent investigation found no marker file and no retained binary evidence, so callback entry, linked-symbol presence, and explicit user-library loading remained unverified.
+
+The prepared retry does not replace the failed implementation. It adds a separate fixed-form Fortran source and a separate PBS script so the failed attempt remains reproducible.
+
+\subsection*{Dual Callback Evidence}
+
+The retry introduces two independent callback proofs:
+
+\begin{itemize}
+  \item an Abaqus-managed \texttt{.msg} token written through unit 7:
+    \texttt{UEXTERNALDB\_CALLBACK\_ENTERED},
+    \texttt{UEXTERNALDB\_MARKER\_WRITTEN}, and
+    \texttt{UEXTERNALDB\_ANALYSIS\_END};
+  \item an absolute marker path built with \texttt{GETOUTDIR} and written through unit 101, containing \texttt{UEXTERNALDB\_SMOKE\_CALLED}.
+\end{itemize}
+
+The source records \texttt{IOSTAT} for marker opening and prints \texttt{UEXTERNALDB\_MARKER\_OPEN\_FAILED} to the \texttt{.msg} stream if the marker cannot be opened. It also emits an end-of-analysis callback token for \texttt{LOP=3}.
+
+\subsection*{Failure-Safe Evidence Preservation}
+
+The retry PBS script captures the Abaqus return code with \texttt{set +e} around the Abaqus command, then restores \texttt{set -e}. It stages diagnostic evidence before enforcing acceptance checks. The staged evidence includes:
+
+\begin{itemize}
+  \item repository revision supplied through \texttt{PROJECT\_REVISION};
+  \item PBS job ID;
+  \item Abaqus return code;
+  \item work-directory and Abaqus-scratch inventories;
+  \item input and source files;
+  \item available \texttt{.com}, \texttt{.log}, \texttt{.msg}, \texttt{.dat}, \texttt{.sta}, \texttt{.prt}, \texttt{.env}, and other lightweight diagnostics;
+  \item callback-token search results;
+  \item compiler/link/library search results;
+  \item candidate object/shared-library searches and symbol/string checks where retained artifacts exist.
+\end{itemize}
+
+The ODB is not copied into the stage directory; it remains only under the scratch run directory.
+
+\subsection*{Planned Acceptance Criteria}
+
+The future retry may be classified as \texttt{hpc\_user\_subroutine\_smoke\_pass} only when all of the following checks pass:
+
+\begin{itemize}
+  \item Abaqus command return code is zero;
+  \item retry ODB exists;
+  \item retry \texttt{.sta} exists;
+  \item retry \texttt{.msg} exists;
+  \item marker file exists and is non-empty;
+  \item \texttt{.sta} contains \texttt{THE ANALYSIS HAS COMPLETED SUCCESSFULLY};
+  \item \texttt{.msg} contains \texttt{UEXTERNALDB\_CALLBACK\_ENTERED};
+  \item \texttt{.msg} contains \texttt{UEXTERNALDB\_MARKER\_WRITTEN};
+  \item \texttt{.msg} contains \texttt{UEXTERNALDB\_ANALYSIS\_END};
+  \item marker contains \texttt{UEXTERNALDB\_SMOKE\_CALLED}.
+\end{itemize}
+
+Otherwise the retry must remain \texttt{hpc\_user\_subroutine\_smoke\_fail} with the first failed acceptance check used to refine the failure category.
+
+\subsection*{Boundary}
+
+This is preparation only. No retry has been submitted, no Abaqus run has been launched, and no scientific or phase-field validation claim follows. The next approval-sensitive action is the single one-CPU retry submission, not any benchmark, MISESERI, remeshing, state-transfer, parameter-study, production, or multi-CPU job.
+
+\section{Current Stage A Boundary After These Jobs}
+
+\begin{itemize}
+  \item HPC PBS execution: passed.
+  \item HPC GCC/Intel environment: passed.
+  \item HPC Abaqus executable visibility: passed.
+  \item HPC repository revision capture: passed.
+  \item HPC Abaqus/Standard license checkout: passed for the trivial smoke.
+  \item HPC trivial user-subroutine compilation: passed.
+  \item HPC trivial user-subroutine linking: passed.
+  \item HPC trivial Standard analysis and ODB creation: passed.
+  \item HPC \texttt{UEXTERNALDB} callback invocation: unverified.
+  \item Callback evidence investigation: \texttt{insufficient\_retained\_evidence}.
+  \item Overall trivial user-subroutine smoke: failed.
+  \item Deterministic callback retry: \texttt{prepared\_not\_submitted}.
+  \item Gate A3: \texttt{reference\_data\_insufficient}.
+  \item MISESERI/remeshing: blocked.
+\end{itemize}
+
+\end{document}

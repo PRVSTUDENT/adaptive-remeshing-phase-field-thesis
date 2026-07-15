@@ -1,0 +1,50 @@
+      SUBROUTINE UEXTERNALDB(LOP,LRESTART,TIME,DTIME,KSTEP,KINC)
+      INCLUDE 'ABA_PARAM.INC'
+      DIMENSION TIME(2)
+
+      CHARACTER*256 OUTDIR
+      CHARACTER*512 MARKER
+      CHARACTER*25 MARKNAME
+      INTEGER LENOUTDIR,LMARK,IOS
+
+      WRITE(7,*) 'UEXTERNALDB_CALLBACK_ENTERED',
+     1           LOP,KSTEP,KINC
+
+      IF (LOP.EQ.0) THEN
+
+         CALL GETOUTDIR(OUTDIR,LENOUTDIR)
+
+         MARKNAME='/uexternaldb_smoke.called'
+         LMARK=LENOUTDIR+LEN_TRIM(MARKNAME)
+
+         MARKER=' '
+         MARKER=OUTDIR(1:LENOUTDIR)//MARKNAME
+
+         OPEN(UNIT=101,
+     1        FILE=MARKER(1:LMARK),
+     2        STATUS='UNKNOWN',
+     3        ACTION='WRITE',
+     4        IOSTAT=IOS)
+
+         IF (IOS.EQ.0) THEN
+            WRITE(101,*) 'UEXTERNALDB_SMOKE_CALLED'
+            WRITE(101,*) 'LOP=',LOP
+            WRITE(101,*) 'KSTEP=',KSTEP
+            WRITE(101,*) 'KINC=',KINC
+            CLOSE(101)
+
+            WRITE(7,*) 'UEXTERNALDB_MARKER_WRITTEN'
+            WRITE(7,*) MARKER(1:LMARK)
+         ELSE
+            WRITE(7,*) 'UEXTERNALDB_MARKER_OPEN_FAILED',
+     1                 IOS
+         END IF
+
+      END IF
+
+      IF (LOP.EQ.3) THEN
+         WRITE(7,*) 'UEXTERNALDB_ANALYSIS_END'
+      END IF
+
+      RETURN
+      END
