@@ -199,3 +199,8 @@ Stage A: open
 ## Active Next Item
 
 Exact next checklist item: `[?] Supervisor decision on Gate A3 route, provisional tolerances, approximate Fig. 7 reference acceptability, post-peak RF-U mismatch interpretation, and whether a targeted SDV15 output-enabled rerun is required`.
+
+### Molnar v2 SDV15 Targeted Diagnostic Preparation
+
+- [-] Prepared exactly one authorized serial targeted-output diagnostic run for the unresolved SDV15 completed-update evidence. Classification: `paper_matched_candidate_v2_diagnostic_variant`; initial run status: `prepared_not_submitted`. Evidence: `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/RUN_MANIFEST.md`; `results/validation/molnar_paper_matched_single_notch_v2_sdv15_diagnostic/STATIC_VALIDATION.md`.
+- [!] Gate A3 remains `reference_data_insufficient`; this run is targeted scientific evidence collection and does not authorize a retry, candidate v3, Stage B, MISESERI, remeshing, state transfer, or any parameter sweep.

@@ -681,4 +681,39 @@ This is not a final scientific pass. The detailed \texttt{SDV15} decision is \te
 
 A supervisor-review package was prepared without running Abaqus or submitting PBS. The package consists of \path{docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md}, \path{docs/decisions/MOLNAR_TARGETED_OUTPUT_RERUN_REQUIREMENTS.md}, and \path{docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md}. It separates established facts, provisional working gates, unresolved scientific questions, required supervisor decisions, route consequences, and the minimum evidence that would be needed only if a targeted SDV15 output-enabled rerun is later authorized. No supervisor approval is inferred and Gate A3 remains open.
 
+\section{Prepared Targeted SDV15 Diagnostic Run}
+
+Date: 2026-07-16.
+
+The user authorized exactly one serial targeted-output SDV15 diagnostic run to collect completed U1 phase-update evidence for the 817 candidate-v2 above-precision non-staggered SDV15 events. This is not a candidate-v2 retry, candidate v3, Stage B run, MISESERI run, remeshing run, state-transfer run, mesh/length/load study, or parameter sweep. If any preflight condition fails, no submission is allowed.
+
+The diagnostic variant is \path{models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/}. Candidate v2 remains unchanged in \path{models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/}. The diagnostic deck comparison records \texttt{scientific\_keyword\_equivalence\_pass}: after removing Abaqus comment lines, the diagnostic and candidate-v2 keyword/data streams match byte-for-byte. The added source logging is target-gated and writes a CSV trace under the Abaqus scratch working directory with \texttt{GETOUTDIR}; it reads computed values but does not modify numerical arrays, residuals, tangents, state updates, properties, loads, or solver controls.
+
+\begin{table}[htbp]
+\centering
+\caption{Prepared SDV15 diagnostic pre-submission evidence.}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Item & Value \\
+\midrule
+Variant classification & \texttt{paper\_matched\_candidate\_v2\_diagnostic\_variant} \\
+Initial run status & \texttt{prepared\_not\_submitted} \\
+Target physical elements & 72 \\
+Target element/IP pairs & 152 \\
+Covered insufficient-output event rows & 817 \\
+Covered staggered-sync comparison rows & 480 \\
+Static validation & \texttt{diagnostic\_static\_validation\_pass} \\
+Runnable flag & \texttt{diagnostic\_runnable: true} \\
+PBS script & \path{scripts/hpc/molnar_paper_matched_single_notch_v2_sdv15_diagnostic.pbs} \\
+Queue & \texttt{entry\_imfdfkmq} \\
+Resources & \texttt{select=1:ncpus=1:mem=32gb}, \texttt{walltime=24:00:00} \\
+Mail points & \texttt{\#PBS -m abe}; recipient supplied with \texttt{qsub -M} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The local preflight passed the deterministic target generation, U1/U2/CPS4 layer mapping checks, source instrumentation audit, local Fortran syntax/static check with an Abaqus-parameter stub, deck scientific-keyword equivalence check, PBS bash syntax check, PBS email-notification validator, project-checklist validator, \texttt{git diff --check}, and both Stage A LaTeX compilations. The prepared postprocessor is \path{scripts/postprocessing/analyze_molnar_sdv15_targeted_diagnostic.py}; after a technical pass it will classify completed-state SDV15 behavior, verify SDV16 monotonicity, compare the diagnostic RF--U response against candidate v2, and mark the result intrusive if response changes exceed the documented non-intrusiveness limits.
+
+At this checkpoint no diagnostic PBS job has yet been submitted in this log entry. Gate A3 remains \texttt{reference\_data\_insufficient}, and the only permitted next solve is the single prepared serial diagnostic submission after HPC-side preflight passes.
+
 \end{document}

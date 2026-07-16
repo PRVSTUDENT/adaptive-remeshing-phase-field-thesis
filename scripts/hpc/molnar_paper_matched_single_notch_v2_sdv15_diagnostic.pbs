@@ -1,0 +1,110 @@
+#!/bin/bash
+#PBS -N molnar_v2_sdv15_diag
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=32gb
+#PBS -l walltime=24:00:00
+#PBS -j oe
+#PBS -m abe
+
+set -u
+
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+STAGE_ROOT="/scratch/pr21vyci/adaptive-remeshing/stage"
+JOB_NAME="paper_matched_single_notch_v2_sdv15_diagnostic"
+VARIANT_DIR="models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID}"
+STAGE_DIR="${STAGE_ROOT}/${JOB_NAME}_${PBS_JOBID}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/evidence/${PBS_JOBID}"
+ABAQUS_RC=0
+POST_RC=0
+
+mkdir -p "${RUN_DIR}" "${STAGE_DIR}" "${LIGHT_DIR}"
+
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "project_revision=${PROJECT_REVISION:-unset}"
+  echo "host=$(hostname)"
+  echo "pbs_queue=${PBS_QUEUE:-unknown}"
+  echo "pbs_resources_select=${PBS_RESOURCE_LIST_select:-unknown}"
+  echo "pbs_resources_walltime=${PBS_RESOURCE_LIST_walltime:-unknown}"
+  date -Is
+} > "${LIGHT_DIR}/run_environment.txt"
+
+if [ -z "${PROJECT_REVISION:-}" ]; then
+  echo "PROJECT_REVISION is required" | tee "${LIGHT_DIR}/technical_classification.txt"
+  exit 2
+fi
+
+cd "${PROJECT_HOME}"
+CURRENT_REVISION="$(git rev-parse HEAD)"
+if [ "${CURRENT_REVISION}" != "${PROJECT_REVISION}" ]; then
+  echo "revision_mismatch current=${CURRENT_REVISION} requested=${PROJECT_REVISION}" | tee "${LIGHT_DIR}/technical_classification.txt"
+  exit 3
+fi
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+module list > "${LIGHT_DIR}/modules.txt" 2>&1 || true
+{
+  command -v abaqus || true
+  command -v ifx || true
+  command -v ifort || true
+  command -v gcc || true
+} > "${LIGHT_DIR}/executables.txt"
+
+sha256sum -c "${VARIANT_DIR}/input_hashes.sha256" > "${LIGHT_DIR}/input_hash_check.txt" 2>&1 || {
+  echo "input_hash_check_fail" | tee "${LIGHT_DIR}/technical_classification.txt"
+  exit 4
+}
+
+cp "${VARIANT_DIR}/paper_matched_single_notch_v2_sdv15_diagnostic.inp" "${RUN_DIR}/"
+cp "${VARIANT_DIR}/SingleNotch_v2_sdv15_diagnostic.for" "${RUN_DIR}/"
+cp "${VARIANT_DIR}/diagnostic_targets.inc" "${RUN_DIR}/"
+cp "${PROJECT_HOME}/scripts/postprocessing/analyze_molnar_sdv15_targeted_diagnostic.py" "${RUN_DIR}/"
+cp "${PROJECT_HOME}/runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/sdv15_unresolved_event_mapping.csv" "${RUN_DIR}/"
+cp "${PROJECT_HOME}/runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/sdv15_equivalent_state_comparison.csv" "${RUN_DIR}/"
+cp "${PROJECT_HOME}/runs/hpc/paper_matched_single_notch_v2/scientific_review/rf_u_verified.csv" "${RUN_DIR}/baseline_rf_u_verified.csv"
+
+cd "${RUN_DIR}"
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="SingleNotch_v2_sdv15_diagnostic.for" cpus=1 interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+echo "${ABAQUS_RC}" > "${LIGHT_DIR}/abaqus_return_code.txt"
+
+TECHNICAL="molnar_v2_sdv15_diagnostic_technical_fail"
+if [ "${ABAQUS_RC}" -eq 0 ] &&
+   [ -f "${JOB_NAME}.odb" ] &&
+   [ -f "${JOB_NAME}.sta" ] &&
+   [ -f "${JOB_NAME}.msg" ] &&
+   [ -f "${JOB_NAME}.dat" ] &&
+   grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  TECHNICAL="molnar_v2_sdv15_diagnostic_technical_pass"
+fi
+echo "${TECHNICAL}" > "${LIGHT_DIR}/technical_classification.txt"
+
+if [ "${TECHNICAL}" = "molnar_v2_sdv15_diagnostic_technical_pass" ]; then
+  mkdir -p "${STAGE_DIR}/postprocessing"
+  abaqus python analyze_molnar_sdv15_targeted_diagnostic.py \
+    --diagnostic-csv "${RUN_DIR}/molnar_v2_sdv15_diagnostic_call_trace.csv" \
+    --prior-unresolved-events "${RUN_DIR}/sdv15_unresolved_event_mapping.csv" \
+    --prior-equivalent-events "${RUN_DIR}/sdv15_equivalent_state_comparison.csv" \
+    --baseline-rf "${RUN_DIR}/baseline_rf_u_verified.csv" \
+    --odb "${RUN_DIR}/${JOB_NAME}.odb" \
+    --outdir "${STAGE_DIR}/postprocessing" > "${LIGHT_DIR}/postprocess_stdout.log" 2>&1 || POST_RC=$?
+  echo "${POST_RC}" > "${LIGHT_DIR}/postprocess_return_code.txt"
+  cp "${STAGE_DIR}/postprocessing/"*.csv "${LIGHT_DIR}/" 2>/dev/null || true
+  cp "${STAGE_DIR}/postprocessing/"*.json "${LIGHT_DIR}/" 2>/dev/null || true
+  cp "${STAGE_DIR}/postprocessing/"*.md "${LIGHT_DIR}/" 2>/dev/null || true
+else
+  echo "postprocessing_skipped_due_to_technical_fail" > "${LIGHT_DIR}/postprocess_return_code.txt"
+fi
+
+cp "${JOB_NAME}.sta" "${JOB_NAME}.msg" "${JOB_NAME}.dat" "${JOB_NAME}.abaqus_stdout.log" "${LIGHT_DIR}/" 2>/dev/null || true
+cp "molnar_v2_sdv15_diagnostic_call_trace.csv" "${LIGHT_DIR}/" 2>/dev/null || true
+ls -lah "${RUN_DIR}" > "${LIGHT_DIR}/scratch_listing.txt"
+
+if [ "${TECHNICAL}" != "molnar_v2_sdv15_diagnostic_technical_pass" ]; then
+  exit 10
+fi
+exit "${POST_RC}"
