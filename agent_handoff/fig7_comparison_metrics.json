@@ -1,0 +1,35 @@
+{
+  "auc_relative_error": 0.1933242622672807,
+  "classification": "approximate_published_reference_comparison",
+  "fraction_within_force_digitization_uncertainty": 0.0,
+  "full_overlap_nrmse_by_reference_range": 0.24570479037115417,
+  "full_overlap_rmse_kN": 0.17452029434818844,
+  "max_abs_error_kN": 0.6918967978790858,
+  "mean_abs_error_kN": 0.10079079725323632,
+  "mean_signed_error_kN": 0.10079079725323632,
+  "overlap_simulation_points": 184,
+  "peak_displacement_relative_error": 0.041256590238391636,
+  "peak_force_relative_error": 0.06451931788601317,
+  "points_within_force_digitization_uncertainty": 0,
+  "post_reference_peak_rmse_kN": 0.3480932206928046,
+  "pre_reference_peak_rmse_kN": 0.04413600124168756,
+  "reference_auc_kN_mm": 0.0023327019601448004,
+  "reference_digitization_uncertainty": {
+    "reaction_force_kN": 0.015,
+    "u_mm": 4e-05
+  },
+  "reference_peak": {
+    "rf_kN": 0.7155361,
+    "u_mm": 0.00586791
+  },
+  "reference_points": 91,
+  "reference_source": "references/derived/molnar_gravouil_2017/paper_matched_single_notch/fig7_lc_0p0075_processed.csv",
+  "simulation_auc_kN_mm_over_reference_range": 0.0027836698456792336,
+  "simulation_peak": {
+    "frame": 65,
+    "rf_kN": 0.7617020010948181,
+    "step": "Step-2",
+    "u_mm": 0.00610999995842576
+  },
+  "simulation_points": 202
+}

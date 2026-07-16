@@ -9,7 +9,7 @@ Date: 2026-07-16
 - Candidate revision: `711dd495bdcb830d695f9d7e56283316c9d417d5`
 - Technical result: `paper_matched_v2_technical_pass`
 - Scientific comparison: `scientific_review_required`
-- Gate A3: open
+- Gate A3: `reference_data_insufficient`
 - Retry authorization: none
 
 ## Technical Result
@@ -38,6 +38,16 @@ Key results:
 - `SDV16` decrease count: `0`
 - `SDV15` decrease count: `6113`
 - `SDV15` maximum overshoot: `1.005600`
+
+## No-Solution Scientific Review
+
+Additional no-solution forensic review artifacts were written under:
+
+```text
+runs/hpc/paper_matched_single_notch_v2/scientific_review/
+```
+
+The review records an RF extraction audit, Fig. 7 comparison audit, response-state selection, crack-path threshold and aggregation-sensitivity checks, SDV15/SDV16 irreversibility audits, and solver/resource behavior. Its classification remains `scientific_review_required`; Gate A3 remains `reference_data_insufficient`.
 
 ## Boundary
 

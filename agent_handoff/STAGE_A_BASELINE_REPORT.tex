@@ -482,9 +482,9 @@ The paper-matched candidate-v2 serial HPC baseline was submitted exactly once as
 
 The ODB remains on scratch at \path{/scratch/pr21vyci/adaptive-remeshing/runs/molnar_paper_matched_single_notch_v2_1374864.mmaster02/molnar_paper_matched_single_notch_v2.odb}. Only lightweight scheduler, text, CSV, JSON, and Markdown evidence is retained under \path{runs/hpc/paper_matched_single_notch_v2/}.
 
-The completed ODB was postprocessed read-only. The extracted peak reaction force is \(0.761702\ \mathrm{kN}\) at \(U_2=0.006110\ \mathrm{mm}\). The final extracted reaction force is \(0.749110\ \mathrm{kN}\) at \(U_2=0.006700\ \mathrm{mm}\). Against the approximate digitized Molnar Fig.~7 curve for \(l_c=0.0075\ \mathrm{mm}\), the RF--U curve NRMSE is \(0.247493\), the relative peak-force error is \(0.064519\), and the relative peak-displacement error is \(0.041257\). Matched-force relative errors are \(27.48\%\) at \(U_2=0.002\ \mathrm{mm}\), \(4.98\%\) at \(U_2=0.005\ \mathrm{mm}\), and \(11.55\%\) at \(U_2\approx0.00599\ \mathrm{mm}\); the final \(U_2=0.0067\ \mathrm{mm}\) state lies outside the processed reference range.
+The completed ODB was postprocessed read-only. The extracted peak reaction force is \(0.761702\ \mathrm{kN}\) at \(U_2=0.006110\ \mathrm{mm}\). The final extracted reaction force is \(0.749110\ \mathrm{kN}\) at \(U_2=0.006700\ \mathrm{mm}\). Against the approximate digitized Molnar Fig.~7 curve for \(l_c=0.0075\ \mathrm{mm}\), the original scientific check reports RF--U curve NRMSE \(0.247493\), relative peak-force error \(0.064519\), and relative peak-displacement error \(0.041257\). A no-solution forensic overlap audit in \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/} reports full-overlap NRMSE \(0.245705\), pre-reference-peak RMSE \(0.044136\ \mathrm{kN}\), post-reference-peak RMSE \(0.348093\ \mathrm{kN}\), and overlap area-under-curve relative error \(0.193324\). Matched-force relative errors are \(27.48\%\) at \(U_2=0.002\ \mathrm{mm}\), \(4.98\%\) at \(U_2=0.005\ \mathrm{mm}\), and \(11.55\%\) at \(U_2\approx0.00599\ \mathrm{mm}\); the final \(U_2=0.0067\ \mathrm{mm}\) state lies outside the processed reference range.
 
-At phase threshold \(\mathrm{SDV15}\ge0.95\), the final matched contour contains 193 damaged elements and an approximately horizontal connected crack extension of about \(0.0505\ \mathrm{mm}\). The ODB-wide bounds and irreversibility scan found no \texttt{SDV16} decreases. It found 6113 \texttt{SDV15} decreases, including 817 events currently categorized by the script as genuine-healing candidates, and late-stage \texttt{SDV15} overshoot up to \(1.005600\). These diagnostics require scientific review before any validation claim.
+At phase threshold \(\mathrm{SDV15}\ge0.95\), the final matched contour contains 193 element-mean damaged elements and an approximately horizontal connected crack extension of about \(0.0505\ \mathrm{mm}\). The forensic crack audit also records threshold and integration-point aggregation sensitivity. The ODB-wide bounds and irreversibility scan found no \texttt{SDV16} decreases. It found 6113 \texttt{SDV15} decreases, including 817 events currently categorized by the script as genuine-healing candidates, and late-stage \texttt{SDV15} overshoot up to \(1.005600\). These diagnostics require scientific review before any validation claim.
 
 The scientific classification is therefore:
 
@@ -492,7 +492,7 @@ The scientific classification is therefore:
 \texttt{scientific\_review\_required}
 \end{center}
 
-Gate A3 remains open. No retry, second candidate, multi-CPU run, parameter study, MISESERI run, remeshing run, or state-transfer run is authorized by this completed one-run checkpoint.
+Gate A3 remains \texttt{reference\_data\_insufficient}. No retry, second candidate, multi-CPU run, parameter study, MISESERI run, remeshing run, or state-transfer run is authorized by this completed one-run checkpoint.
 
 \section{Remaining Gate A3 Work}
 

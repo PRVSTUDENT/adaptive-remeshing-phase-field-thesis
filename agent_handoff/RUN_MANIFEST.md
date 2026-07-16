@@ -102,7 +102,7 @@ Arithmetic:
 - CPUs: `1`
 - Memory: `32gb`
 - Walltime: `24:00:00`
-- Email notification for future submissions: required with explicit `#PBS -M <verified_recipient>` and `#PBS -m abe`; validate with `scripts/hpc/validate_pbs_email_notifications.py` before the first submission using that address.
+- Email notification for future submissions: keep `#PBS -m abe` in tracked PBS scripts, pass the private recipient at submission time with `qsub -M "<verified_recipient>" -m abe`, validate with `scripts/hpc/validate_pbs_email_notifications.py` before the first submission using that address, and verify `Mail_Users`/`Mail_Points` with `qstat -f` immediately after submission.
 - Modules: `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`
 - Scratch run root: `/scratch/pr21vyci/adaptive-remeshing/runs`
 - Lightweight stage root: `/scratch/pr21vyci/adaptive-remeshing/stage`
@@ -208,6 +208,12 @@ Evidence:
 - Scientific JSON: `runs/hpc/paper_matched_single_notch_v2/scientific_check/single_notch_scientific_check.json`
 - RF-U comparison: `runs/hpc/paper_matched_single_notch_v2/scientific_check/rf_u_curve_comparison.csv`
 - Crack-path comparison: `runs/hpc/paper_matched_single_notch_v2/scientific_check/crack_path_comparison.csv`
+- No-solution forensic review: `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_REVIEW_SUMMARY.md`
+- RF extraction audit: `runs/hpc/paper_matched_single_notch_v2/scientific_review/RF_EXTRACTION_AUDIT.md`
+- Fig. 7 audit metrics: `runs/hpc/paper_matched_single_notch_v2/scientific_review/fig7_comparison_metrics.json`
+- Crack threshold audit: `runs/hpc/paper_matched_single_notch_v2/scientific_review/crack_path_threshold_metrics.csv`
+- SDV audit metrics: `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv_irreversibility_metrics.json`
+- Solver/resource audit: `runs/hpc/paper_matched_single_notch_v2/scientific_review/solver_resource_metrics.json`
 
 Key results:
 
@@ -227,7 +233,7 @@ Boundary:
 
 - This is not a final scientific pass.
 - Do not submit a retry or any additional Abaqus/PBS job under the completed one-run authorization.
-- Gate A3 remains open pending supervisor-approved tolerances and uniform-reference justification.
+- Gate A3 remains `reference_data_insufficient` pending supervisor-approved tolerances and uniform-reference justification.
 
 ## Submission
 

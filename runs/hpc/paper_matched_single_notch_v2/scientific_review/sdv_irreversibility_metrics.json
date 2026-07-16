@@ -1,0 +1,81 @@
+{
+  "classification": "scientific_review_required",
+  "interpretation": "SDV16 is monotone in the extracted ODB scan; SDV15 shows small late decreases and overshoot and therefore remains a scientific-review item rather than a technical failure.",
+  "sdv14_max": 1.0055941343307495,
+  "sdv14_max_overshoot": {
+    "element": 84677,
+    "frame": 89,
+    "global_frame": 190,
+    "integration_point": 1,
+    "overshoot": 0.005594134330749512,
+    "rp_u2": 0.006519999820739031,
+    "step": "Step-2",
+    "step_time": 0.8941176533699036,
+    "value": 1.0055941343307495
+  },
+  "sdv14_minus_sdv15_max_abs": 0.04149508476257324,
+  "sdv15_decrease_categories": {
+    "genuine_healing_candidate": 817,
+    "near_step_transition": 0,
+    "same_location_consecutive_frames": 6113,
+    "smaller_than_odb_precision": 4816,
+    "staggered_sync_candidate": 1764
+  },
+  "sdv15_decrease_count": 6113,
+  "sdv15_first_overshoot": {
+    "element": 84131,
+    "frame": 78,
+    "global_frame": 179,
+    "integration_point": 3,
+    "overshoot": 0.0003368854522705078,
+    "rp_u2": 0.0063299997709691525,
+    "step": "Step-2",
+    "step_time": 0.7823529243469238,
+    "value": 1.0003368854522705
+  },
+  "sdv15_largest_decrease": {
+    "current_abs_sdv14_minus_sdv15": 0.00021600723266601562,
+    "current_value": 1.000875473022461,
+    "drop": 0.0004252195358276367,
+    "element": 84131,
+    "frame": 89,
+    "global_frame": 190,
+    "integration_point": 3,
+    "near_step_transition": false,
+    "previous_abs_sdv14_minus_sdv15": 0.0002065896987915039,
+    "previous_frame": 88,
+    "previous_global_frame": 189,
+    "previous_rp_u2": 0.006500000134110451,
+    "previous_step": "Step-2",
+    "previous_step_time": 0.8823529481887817,
+    "previous_value": 1.0013006925582886,
+    "rp_u2": 0.006519999820739031,
+    "smaller_than_odb_precision": false,
+    "staggered_sync_candidate": false,
+    "step": "Step-2",
+    "step_time": 0.8941176533699036
+  },
+  "sdv15_max": 1.005600094795227,
+  "sdv15_max_overshoot": {
+    "element": 84677,
+    "frame": 88,
+    "global_frame": 189,
+    "integration_point": 1,
+    "overshoot": 0.005600094795227051,
+    "rp_u2": 0.006500000134110451,
+    "step": "Step-2",
+    "step_time": 0.8823529481887817,
+    "value": 1.005600094795227
+  },
+  "sdv15_overshoot_duration": {
+    "first_global_frame": 179,
+    "first_rp_u2": 0.0063299997709691525,
+    "frame_span": 23,
+    "last_global_frame": 201,
+    "last_rp_u2": 0.0066999997943639755
+  },
+  "sdv15_worst_drop": 0.0004252195358276367,
+  "sdv16_decrease_count": 0,
+  "sdv16_max": 1933.7052001953125,
+  "sdv16_worst_drop": 0.0
+}

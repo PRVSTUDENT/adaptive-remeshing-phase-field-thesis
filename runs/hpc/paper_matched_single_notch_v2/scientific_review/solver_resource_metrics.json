@@ -1,0 +1,39 @@
+{
+  "abaqus_solver": {
+    "analysis_warnings": 0,
+    "cutbacks": 0,
+    "equations": 102975,
+    "error_messages": 0,
+    "increments": 670,
+    "input_warnings": 6,
+    "iterations": 705,
+    "job_wallclock_sec": 2299,
+    "matrix_decompositions": 349,
+    "memory_peak_gb": 2,
+    "solver_passes": 705
+  },
+  "dat_warning_count": 2,
+  "dat_warnings": [
+    "AN OUTPUT REQUEST AT EXACT TIME POINTS IS NOT SUPPORTED IN AN ANALYSIS WITH DIRECT INCREMNTATION. IT WILL BE CHANGED TO AN OUTPUT REQUEST AT APPROXIMATE TIME POINTS.",
+    "AN OUTPUT REQUEST AT EXACT TIME POINTS IS NOT SUPPORTED IN AN ANALYSIS WITH DIRECT INCREMNTATION. IT WILL BE CHANGED TO AN OUTPUT REQUEST AT APPROXIMATE TIME POINTS."
+  ],
+  "pbs": {
+    "Exit_status": "0",
+    "Resource_List.mem": "32gb",
+    "Resource_List.ncpus": "1",
+    "Resource_List.nodect": "1",
+    "Resource_List.place": "free",
+    "Resource_List.select": "1:ncpus=1:mem=32gb",
+    "Resource_List.walltime": "24:00:00",
+    "exec_host": "mnode099/0",
+    "job_state": "F",
+    "resources_used.cpupercent": "95",
+    "resources_used.cput": "00:35:52",
+    "resources_used.mem": "2970760kb",
+    "resources_used.ncpus": "1",
+    "resources_used.vmem": "3565868kb",
+    "resources_used.walltime": "00:38:38",
+    "run_count": "1"
+  },
+  "technical_classification": "paper_matched_v2_technical_pass"
+}

@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Validate required PBS email notification directives before qsub.
+"""Validate PBS email notification settings before qsub.
 
-The project rule is explicit: every future PBS script must contain a verified
-recipient with ``#PBS -M`` and begin/end/abort notifications with
-``#PBS -m abe``. This checker intentionally rejects placeholder addresses.
+Tracked PBS scripts must request begin/end/abort notifications with
+``#PBS -m abe`` while the private recipient is supplied at submission time
+with ``qsub -M``. This checker validates the private address format, rejects
+tracked ``#PBS -M`` placeholders, and confirms the required mail points.
 """
 
 from __future__ import annotations
@@ -34,13 +35,11 @@ def parse_directives(path: Path) -> tuple[list[str], list[str]]:
     return recipients, modes
 
 
-def validate_file(path: Path, expected_email: str) -> list[str]:
+def validate_file(path: Path) -> list[str]:
     errors: list[str] = []
     recipients, modes = parse_directives(path)
-    if not recipients:
-        errors.append("missing #PBS -M directive")
-    elif recipients != [expected_email]:
-        errors.append(f"#PBS -M must be exactly {expected_email!r}; found {recipients!r}")
+    if recipients:
+        errors.append(f"tracked script must not contain #PBS -M; pass the private recipient with qsub -M instead; found {recipients!r}")
 
     if not modes:
         errors.append("missing #PBS -m directive")
@@ -51,7 +50,7 @@ def validate_file(path: Path, expected_email: str) -> list[str]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--email", required=True, help="Verified HPC notification recipient")
+    parser.add_argument("--email", required=True, help="Private HPC notification recipient to pass with qsub -M")
     parser.add_argument("pbs_files", nargs="+", type=Path, help="PBS scripts to validate")
     args = parser.parse_args()
 
@@ -66,13 +65,13 @@ def main() -> int:
             print(f"ERROR: {path}: file does not exist", file=sys.stderr)
             failed = True
             continue
-        errors = validate_file(path, email)
+        errors = validate_file(path)
         if errors:
             failed = True
             for error in errors:
                 print(f"ERROR: {path}: {error}", file=sys.stderr)
         else:
-            print(f"OK: {path}")
+            print(f"OK: {path}; submit with qsub -M {email!r} -m abe ...")
 
     return 1 if failed else 0
 
