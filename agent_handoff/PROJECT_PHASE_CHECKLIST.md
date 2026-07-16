@@ -23,7 +23,7 @@ Stage A: open
 | WP0 | Environment, starter pipeline, and source preservation | `[x]` completed | technical environment passed | `.agent.md`; `models/baseline_original/molnar_gravouil_2017/README.md`; `hpc_access_limits_report.txt` |
 | WP1 | One-element verification | `[~]` completed provisionally | source-defined numerical checks passed under provisional tolerances | `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/` |
 | WP2A | Supplementary Molnar single-notch technical benchmark | `[~]` completed provisionally | technical pass; not exact Fig. 7 comparison | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/` |
-| WP2B | Paper-matched Molnar reconstruction | `[~]` completed provisionally | technical pass; scientific review required | `runs/hpc/paper_matched_single_notch_v2/RUN_MANIFEST.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_check/` |
+| WP2B | Paper-matched Molnar reconstruction | `[~]` completed provisionally | technical pass; scientific review incomplete | `runs/hpc/paper_matched_single_notch_v2/RUN_MANIFEST.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md` |
 | Gate A3 | Uniform reference scientific justification | `[!]` blocked | `reference_data_insufficient`; tolerances and uniform-reference justification pending | `configs/molnar_paper_matched_single_notch.yaml`; `references/derived/molnar_gravouil_2017/paper_matched_single_notch/`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/` |
 | WP3 | MISESERI pre-analysis and remeshing reproduction | `[!]` blocked | blocked by Gate A3 | `THESIS_PLAN.md` |
 | WP4 | Refined phase-field benchmark and efficiency comparison | `[ ]` not started | dependent on WP3 | `THESIS_PLAN.md` |
@@ -46,6 +46,7 @@ Stage A: open
 - [x] Deterministic UEXTERNALDB callback test passed. Run: `1374533.mmaster02`. Commit: `c5db808b4c8d9e9bd01a9e5da0bd91b173787b8e`. Classification: `hpc_user_subroutine_smoke_pass`. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
 - [x] Successful callback retry evidence committed. Commit: `2022652dd181e55e61ab46d56de7d0463039447a`. Evidence: `.agent.md`.
 - [x] Permanent PBS email-notification rule recorded for future submissions. Requirement: keep `#PBS -m abe` in tracked PBS scripts, pass the private recipient with `qsub -M "<verified_recipient>" -m abe`, validate before the first submission with `scripts/hpc/validate_pbs_email_notifications.py`, and verify `Mail_Users`/`Mail_Points` after submission. Boundary: completed job `1374864.mmaster02` remains unchanged. Evidence: `.agent.md`; `scripts/hpc/validate_pbs_email_notifications.py`.
+- [x] HPC notification recipient recorded as historically scheduler-verified. Address: `pr21vyci@mailserver.tu-freiberg.de`. Evidence: old-project PBS `qstat` record for job `1362636.mmaster02` reported `Mail_Users = pr21vyci@mailserver.tu-freiberg.de` and `Mail_Points = abe`; inbox delivery not independently documented. Future submissions must pass this address privately with `qsub -M`.
 
 ### Preserved Diagnostic Failures
 
@@ -99,10 +100,11 @@ Stage A: open
 - [x] Commit and synchronize candidate v2. Evidence: commit `711dd495bdcb830d695f9d7e56283316c9d417d5`; HPC clone synchronized cleanly to the same revision before submission.
 - [x] One serial HPC baseline run submitted exactly once. Evidence: PBS job `1374864.mmaster02`; submitted from revision `711dd495bdcb830d695f9d7e56283316c9d417d5`; initial scheduler state `R` on `mnode099`.
 - [x] Execute one paper-matched baseline. Result: `paper_matched_v2_technical_pass`; PBS `Exit_status = 0`; Abaqus return code zero; ODB/STA/MSG/DAT present; STA reports successful completion. Evidence: `runs/hpc/paper_matched_single_notch_v2/evidence/TECHNICAL_SUMMARY.txt`; `runs/hpc/paper_matched_single_notch_v2/evidence/qstat_xf_1374864_final.txt`.
-- [?] Obtain the exact verified HPC notification address before any new submission and pass it privately with `qsub -M`; do not commit it to tracked PBS files.
+- [x] Exact HPC notification address recorded for future private submission. Address: `pr21vyci@mailserver.tu-freiberg.de`; verification status: `historically_scheduler_verified`; pass privately with `qsub -M` and verify `Mail_Users`/`Mail_Points` after submission.
 - [x] Extract RF-displacement and response-based phase/SDV contours from the completed ODB without rerunning Abaqus. Evidence: `runs/hpc/paper_matched_single_notch_v2/extracted/`.
 - [~] Compare with approximate published Fig. 7 reference. Result: `scientific_review_required`; peak RF2 `0.761702 kN` at `U2=0.006110 mm`; RF-U NRMSE `0.247493` in the original scientific check and `0.245705` in the no-solution forensic overlap audit; relative peak-force error `0.064519`; relative peak-displacement error `0.041257`. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_check/SINGLE_NOTCH_SCIENTIFIC_CHECK.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/FIG7_COMPARISON_AUDIT.md`.
 - [~] Crack-path and SDV diagnostics completed. Result: final element-mean `SDV15 >= 0.95` crack extension about `0.0505 mm`; `SDV16` monotonic; `SDV15` decrease/overshoot candidates require review. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_review/CRACK_PATH_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV15_IRREVERSIBILITY_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV16_MONOTONICITY_AUDIT.md`.
+- [~] Scientific decision report completed. Result: `paper_matched_v2_scientific_review_incomplete`; post-peak RF-U mismatch dominates, crack path is connected/horizontal but threshold-dependent, and retained SDV15 evidence is insufficient for a final irreversibility decision. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md`.
 - [ ] Perform mesh-size study.
 - [ ] Perform length-scale study.
 - [ ] Perform load-increment study.

@@ -2,17 +2,17 @@
 
 Created (UTC): 2026-07-16T08:09:45.639409+00:00
 
-This directory contains only files from the latest mirrored operation. Candidate-v2 no-solution scientific-review artifacts were added after the post-run evidence commit; large contour CSVs remain in their canonical run directory rather than duplicated here.
+This directory contains only files from the latest mirrored operation. Candidate-v2 no-solution scientific-review artifacts include the decision report; large contour CSVs remain in their canonical run directory rather than duplicated here. The HPC notification recipient is historically scheduler-verified and must be supplied privately with qsub -M rather than tracked in PBS scripts.
 
 | Mirrored file | Original path | Bytes | SHA-256 |
 |---|---|---:|---|
-| `.agent.md` | `.agent.md` | 47812 | `9029cb480ce2ca430f844502179aa9b2a3e88d45fe7b1a360c54b46018ec5a98` |
-| `adaptive_remeshing_phase_field_agent.md` | `adaptive_remeshing_phase_field_agent.md` | 37363 | `a1186e4a967b68896e379c4f4114f2ba5ec00eb3cc7971e681e292c1ea72ae6e` |
-| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 18570 | `25f4f9fe610700dd190ceb065ce395ee5abbff3535b1c8c825f18b5cd7225077` |
-| `STAGE_A_BASELINE_REPORT.tex` | `docs/reports/STAGE_A_BASELINE_REPORT.tex` | 41474 | `ba9e77c7c2bff87b5100d87f473e6bc07974562126853284ab42419a6bcaad4f` |
-| `STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` | `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` | 43846 | `883db009c10d204bc05e67621ae4d4804f2036903c2c56c4262813839114cdfc` |
-| `RUN_MANIFEST.md` | `runs/hpc/paper_matched_single_notch_v2/RUN_MANIFEST.md` | 10474 | `dee39de877a948677419d9271c726e0821e944702842f8d5c16373a7124beda3` |
-| `RUN_SUMMARY.md` | `runs/hpc/paper_matched_single_notch_v2/RUN_SUMMARY.md` | 2083 | `3f5287b31d1eddc94db5b5f4bcf8595166265a61629c90c5a831a10ee58d3033` |
+| `.agent.md` | `.agent.md` | 49000 | `9e8b3e4297868e234912f5bda5ddd3ac8ca4bbffe20d5d0a9b340f84736f4d0d` |
+| `adaptive_remeshing_phase_field_agent.md` | `adaptive_remeshing_phase_field_agent.md` | 38551 | `84970e087920ff738f5d47791d17106296d55f211124f30f3c7737f193ff4c1d` |
+| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 19463 | `2642ff94cd965815b08c5893bc62594955cdcdf83e7cf76b302ced951d6c5d42` |
+| `STAGE_A_BASELINE_REPORT.tex` | `docs/reports/STAGE_A_BASELINE_REPORT.tex` | 42939 | `302959158108d5726ba0c14fc6dd3409c3b053e4ad3a4926ca762d614a48027c` |
+| `STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` | `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` | 44644 | `afcd5a72f3a8320b6e0ae11083c0d70fd4d58ebd88c4aea44ab478922da1068e` |
+| `RUN_MANIFEST.md` | `runs/hpc/paper_matched_single_notch_v2/RUN_MANIFEST.md` | 11141 | `3898f3d79611ae4115a5ccb7c2cbe770c4440173d86e2759fed158a7db07bad9` |
+| `RUN_SUMMARY.md` | `runs/hpc/paper_matched_single_notch_v2/RUN_SUMMARY.md` | 2144 | `62e148330a251fbe33f414ece755f714667acf87e4353e6639a609925b37a013` |
 | `extract_molnar_single_notch.py` | `scripts/postprocessing/extract_molnar_single_notch.py` | 15741 | `49ee91705719713d84b4dee1d199f64b4b6614827d932b4a6292b98fcc168f31` |
 | `check_molnar_single_notch.py` | `scripts/validation/check_molnar_single_notch.py` | 34183 | `942fd06051b516021f3fd8907a54c560e7dffefce7717d0fb41a3c8639a7acf8` |
 | `validate_pbs_email_notifications.py` | `scripts/hpc/validate_pbs_email_notifications.py` | 2690 | `5c7df87f435a970f0638b59d4a4c44fa5814e30db2ac943124b09dac5afccf7a` |
@@ -46,7 +46,8 @@ This directory contains only files from the latest mirrored operation. Candidate
 | `rf_extraction_audit.json` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/rf_extraction_audit.json` | 809 | `348824a5d75a175f4d01c2ec19feb8f636f462ab6965fd0dee9a50e74ccc4178` |
 | `RF_EXTRACTION_AUDIT.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/RF_EXTRACTION_AUDIT.md` | 1099 | `24adeec46b892307176250b5e4061628a1bbff1dfdc20e54208aada3af825214` |
 | `rf_u_verified.csv` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/rf_u_verified.csv` | 8655 | `fb99984ae94e095b5026fa377c3d0e5880108c85746eae86ae3ff3b4eae041b3` |
-| `SCIENTIFIC_REVIEW_SUMMARY.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_REVIEW_SUMMARY.md` | 1556 | `fa422d796e2be9601ac40766c02670886c6a36facb8bb558f7c6144aa073402c` |
+| `SCIENTIFIC_DECISION.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md` | 9924 | `18e352ebd4cd1900c1a6dae3fd557922b6c1fe7b2faf11a6105da54bbeec5243` |
+| `SCIENTIFIC_REVIEW_SUMMARY.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_REVIEW_SUMMARY.md` | 1732 | `c1d71560485e66b1742527a4a1fb54586b65e46d4269947bde18140b4d47c0fe` |
 | `SDV15_IRREVERSIBILITY_AUDIT.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV15_IRREVERSIBILITY_AUDIT.md` | 860 | `a700904a2343457d0f9a831574d35d576e5fdfd9ffb7c2a394fbb67b5f4bbb4f` |
 | `SDV16_MONOTONICITY_AUDIT.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV16_MONOTONICITY_AUDIT.md` | 367 | `2e3988d01d4f9969f9acc08a3cca29d728c119932a4f2c847d340ba132ff7471` |
 | `sdv_irreversibility_metrics.json` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv_irreversibility_metrics.json` | 2673 | `b00afbbb18b745142cfa4fa1694fad4bb2cda58173bcc0978372b3bc36e68001` |

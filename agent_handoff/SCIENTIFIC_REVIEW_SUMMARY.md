@@ -1,6 +1,6 @@
 # Scientific Review Summary
 
-Classification: `scientific_review_required`
+Classification: `paper_matched_v2_scientific_review_incomplete`
 
 Technical execution is closed successfully as `paper_matched_v2_technical_pass`. The current scientific review does not justify a new solution run, retry, remeshing run, MISESERI run, state transfer, parameter sweep, or candidate-v2 modification.
 
@@ -12,7 +12,7 @@ Technical execution is closed successfully as `paper_matched_v2_technical_pass`.
 - Crack propagation: short final connected crack at high SDV15 threshold; threshold sensitivity recorded.
 - SDV16 irreversibility: passed.
 - SDV15 irreversibility: under review because late decreases and overshoot are present.
-- Scientific result: `scientific_review_required`.
+- Scientific result: `paper_matched_v2_scientific_review_incomplete`.
 - Gate A3: `reference_data_insufficient`.
 
 ## Key Numbers
@@ -24,6 +24,8 @@ Technical execution is closed successfully as `paper_matched_v2_technical_pass`.
 - SDV16 decrease count: `0`.
 - SDV15 decrease count: `6113`.
 - Solver cutbacks/errors: `0` cutbacks, `0` errors.
+- Scientific decision: `paper_matched_v2_scientific_review_incomplete`.
+- Decision report: `SCIENTIFIC_DECISION.md`.
 
 ## Artifacts
 
@@ -36,4 +38,5 @@ Technical execution is closed successfully as `paper_matched_v2_technical_pass`.
 - `response_state_metrics.csv`
 - `sdv_irreversibility_metrics.json`
 - `solver_resource_metrics.json`
+- `SCIENTIFIC_DECISION.md`
 - Audit Markdown files in this directory

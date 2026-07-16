@@ -8,7 +8,7 @@ Date: 2026-07-16
 - Job: `1374864.mmaster02`
 - Candidate revision: `711dd495bdcb830d695f9d7e56283316c9d417d5`
 - Technical result: `paper_matched_v2_technical_pass`
-- Scientific comparison: `scientific_review_required`
+- Scientific comparison: `paper_matched_v2_scientific_review_incomplete`
 - Gate A3: `reference_data_insufficient`
 - Retry authorization: none
 
@@ -47,7 +47,7 @@ Additional no-solution forensic review artifacts were written under:
 runs/hpc/paper_matched_single_notch_v2/scientific_review/
 ```
 
-The review records an RF extraction audit, Fig. 7 comparison audit, response-state selection, crack-path threshold and aggregation-sensitivity checks, SDV15/SDV16 irreversibility audits, and solver/resource behavior. Its classification remains `scientific_review_required`; Gate A3 remains `reference_data_insufficient`.
+The review records an RF extraction audit, Fig. 7 comparison audit, response-state selection, crack-path threshold and aggregation-sensitivity checks, SDV15/SDV16 irreversibility audits, solver/resource behavior, and a decision report. The decision classification is `paper_matched_v2_scientific_review_incomplete`; Gate A3 remains `reference_data_insufficient`.
 
 ## Boundary
 

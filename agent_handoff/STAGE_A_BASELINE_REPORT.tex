@@ -489,8 +489,14 @@ At phase threshold \(\mathrm{SDV15}\ge0.95\), the final matched contour contains
 The scientific classification is therefore:
 
 \begin{center}
-\texttt{scientific\_review\_required}
+\texttt{paper\_matched\_v2\_scientific\_review\_incomplete}
 \end{center}
+
+The no-solution decision report is preserved at \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md}. It decomposes the RF--U mismatch rather than relying on the single full-overlap NRMSE: pre-reference-peak RMSE is \(0.044136\ \mathrm{kN}\), post-reference-peak RMSE is \(0.348093\ \mathrm{kN}\), full-overlap NRMSE is \(0.245705\), tangent-stiffness error is about \(+51.4\%\), common-domain area error is \(+0.193324\), and maximum force error is \(0.691897\ \mathrm{kN}\). The dominant mismatch is post-peak.
+
+The final crack path remains connected and approximately horizontal for thresholds \(0.80\), \(0.90\), \(0.95\), and \(0.99\), with no disconnected high-damage elements in the final matched contour. The final extension beyond the notch tip is threshold dependent: \(0.0555\ \mathrm{mm}\), \(0.0525\ \mathrm{mm}\), \(0.0505\ \mathrm{mm}\), and \(0.0465\ \mathrm{mm}\), respectively. Thus \(0.0505\ \mathrm{mm}\) is a high-damage-core measure, not a complete diffuse-crack length.
+
+The retained \texttt{SDV15} evidence does not preserve the raw 6113-event table, so median decrease, full tolerance-bin counts, affected integration-point counts, frame histograms, and equivalent phase-update-state comparisons cannot be reconstructed from the committed local artifacts. The decision therefore does not classify all decreases as physical healing, and it does not dismiss all decreases as harmless.
 
 Gate A3 remains \texttt{reference\_data\_insufficient}. No retry, second candidate, multi-CPU run, parameter study, MISESERI run, remeshing run, or state-transfer run is authorized by this completed one-run checkpoint.
 

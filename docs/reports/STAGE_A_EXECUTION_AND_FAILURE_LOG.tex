@@ -656,7 +656,7 @@ The completed ODB was postprocessed read-only with Abaqus Python. The extraction
 \toprule
 Metric & Value \\
 \midrule
-Scientific classification & \texttt{scientific\_review\_required} \\
+Scientific classification & \texttt{paper\_matched\_v2\_scientific\_review\_incomplete} \\
 Peak RF2 & \(0.761702\ \mathrm{kN}\) at \(U_2=0.006110\ \mathrm{mm}\) \\
 Final RF2 & \(0.749110\ \mathrm{kN}\) at \(U_2=0.006700\ \mathrm{mm}\) \\
 RF--U NRMSE vs approximate Fig.~7 & \(0.247493\) \\
@@ -672,7 +672,9 @@ Final connected crack extension & about \(0.0505\ \mathrm{mm}\) \\
 \end{tabular}
 \end{table}
 
-Matched-force comparisons against the approximate digitized Fig.~7 \(l_c=0.0075\ \mathrm{mm}\) curve were \(27.48\%\) high at \(U_2=0.002\ \mathrm{mm}\), \(4.98\%\) high at \(U_2=0.005\ \mathrm{mm}\), and \(11.55\%\) high at \(U_2\approx0.00599\ \mathrm{mm}\). The final \(U_2=0.0067\ \mathrm{mm}\) point lies outside the processed reference range. A no-solution forensic package was added under \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/}; it records RF extraction, Fig.~7 comparison, response-state, crack-threshold, \texttt{SDV15}/\texttt{SDV16}, and solver-resource audits without modifying candidate v2 or launching a new solve.
+Matched-force comparisons against the approximate digitized Fig.~7 \(l_c=0.0075\ \mathrm{mm}\) curve were \(27.48\%\) high at \(U_2=0.002\ \mathrm{mm}\), \(4.98\%\) high at \(U_2=0.005\ \mathrm{mm}\), and \(11.55\%\) high at \(U_2\approx0.00599\ \mathrm{mm}\). The final \(U_2=0.0067\ \mathrm{mm}\) point lies outside the processed reference range. A no-solution forensic package was added under \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/}; it records RF extraction, Fig.~7 comparison, response-state, crack-threshold, \texttt{SDV15}/\texttt{SDV16}, solver-resource audits, and the scientific decision report without modifying candidate v2 or launching a new solve.
+
+The decision report assigns \texttt{paper\_matched\_v2\_scientific\_review\_incomplete}. The dominant RF--U mismatch is post-peak: pre-reference-peak RMSE is \(0.044136\ \mathrm{kN}\), post-reference-peak RMSE is \(0.348093\ \mathrm{kN}\), and full-overlap NRMSE is \(0.245705\). The final crack remains connected and approximately horizontal for \(\mathrm{SDV15}\) thresholds \(0.80\), \(0.90\), \(0.95\), and \(0.99\), with threshold-dependent extension from \(0.0555\ \mathrm{mm}\) down to \(0.0465\ \mathrm{mm}\). The retained \texttt{SDV15} artifacts preserve category counts and the worst drop, but not the raw decrease-event table needed for median, tolerance-bin, affected-point, frame-histogram, or equivalent-update-state decisions.
 
 This is not a final scientific pass. Gate A3 remains \texttt{reference\_data\_insufficient} pending supervisor-approved tolerances, review of \texttt{SDV15} decreases and late-stage overshoot, and uniform-reference justification. The current authorization has been consumed by the one completed execution; retry authorization is \texttt{none}.
 

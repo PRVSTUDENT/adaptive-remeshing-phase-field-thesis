@@ -15,7 +15,7 @@ Updated: 2026-07-16
 
 Current stage:
 - Stage A / WP2 - Molnar baseline reproduction and paper-matched single-notch scientific comparison.
-- The unchanged smaller Molnar supplementary single-notch deck has a local technical pass and reproducible first extraction. It remains supporting technical reproducibility evidence, not the exact Fig. 7 numerical comparison target. The paper-matched candidate-v2 serial HPC baseline job `1374864.mmaster02` completed with `paper_matched_v2_technical_pass`; postprocessing against the existing scratch ODB produced RF-U, matched-state contours, crack-path diagnostics, and SDV bound/irreversibility diagnostics. The scientific comparison classification is `scientific_review_required`, not a final pass, because supervisor-approved tolerances and uniform-reference acceptance remain unresolved.
+- The unchanged smaller Molnar supplementary single-notch deck has a local technical pass and reproducible first extraction. It remains supporting technical reproducibility evidence, not the exact Fig. 7 numerical comparison target. The paper-matched candidate-v2 serial HPC baseline job `1374864.mmaster02` completed with `paper_matched_v2_technical_pass`; postprocessing against the existing scratch ODB produced RF-U, matched-state contours, crack-path diagnostics, SDV bound/irreversibility diagnostics, and a no-solution decision report. The scientific decision classification is `paper_matched_v2_scientific_review_incomplete`, not a final pass, because post-peak RF-U mismatch and unresolved SDV15 interpretation remain.
 - No remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
 - HPC account access and a queue/node/software snapshot are documented from `hpc_access_limits_report.txt` (captured 2026-07-14). SSH access was restored and verified on 2026-07-15; the HPC clone, home/scratch layout, Abaqus/Intel module probe, PBS queue inspection, and serial `testq` environment smoke attempts are now documented. The final environment rerun job `1374531.mmaster02` passed with `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, compute host `mnode098.cluster`, repository revision supplied via `PROJECT_REVISION`, and PBS `Exit_status = 0`. The first minimal Abaqus/Standard trivial `UEXTERNALDB` smoke job `1374532.mmaster02` checked out an Abaqus/Standard license, compiled, linked, completed the analysis, and created an ODB, but failed the callback marker check because `uexternaldb_smoke.called` was absent; classification `hpc_user_subroutine_smoke_fail`, failure category `callback_invocation`. The deterministic retry job `1374533.mmaster02` at revision `c5db808b4c8d9e9bd01a9e5da0bd91b173787b8e` passed on `mnode097.cluster` with PBS `Exit_status = 0`, Abaqus return code zero, ODB/STA/MSG present, analysis-success statement present, direct `.msg` callback tokens, and absolute marker file `uexternaldb_smoke.called` containing `UEXTERNALDB_SMOKE_CALLED`; classification `hpc_user_subroutine_smoke_pass`. Gate A3 remains an independent scientific blocker.
 - HPC environment smoke: passed.
@@ -24,6 +24,7 @@ Current stage:
 - HPC user-subroutine linking: passed for the trivial Abaqus/Standard smoke.
 - HPC Standard analysis completion: passed for the trivial Abaqus/Standard smoke.
 - HPC notification rule: from the next HPC submission onward, every tracked PBS script must request email notification points with `#PBS -m abe`, while the private recipient is supplied at submission time with `qsub -M "<verified_recipient>" -m abe`. Verify the recipient address with `python scripts/hpc/validate_pbs_email_notifications.py --email <address> <pbs_files>` before the first submission using that address, then confirm `Mail_Users` and `Mail_Points` with `qstat -f`. Do not assume the cluster account's default email address. Already-submitted job `1374864.mmaster02` remains unchanged.
+- HPC notification address: `pr21vyci@mailserver.tu-freiberg.de`. Verification status: `historically_scheduler_verified`. Evidence: PBS `qstat` record for old-project job `1362636.mmaster02` reported `Mail_Users = pr21vyci@mailserver.tu-freiberg.de` and `Mail_Points = abe`. Delivery to the user's inbox was not independently documented, but the address was accepted and stored by the PBS scheduler. Future submissions must pass this address privately with `qsub -M "pr21vyci@mailserver.tu-freiberg.de" -m abe` and immediately verify `Mail_Users`/`Mail_Points`.
 - UEXTERNALDB callback invocation: passed in deterministic retry job `1374533.mmaster02`.
 - Callback symbol presence in linked library: indirectly exercised by successful compile/link/run and direct callback tokens in job `1374533.mmaster02`; retained binary symbol inspection remains optional evidence, not a blocker for the trivial smoke gate.
 - Callback library loading: exercised by job `1374533.mmaster02`, which emitted callback tokens and wrote the absolute marker from inside `UEXTERNALDB`.
@@ -33,7 +34,7 @@ Current stage:
 - Overall trivial user-subroutine smoke: passed.
 - Failure category: none for the retry; preserved failed attempt `1374532.mmaster02` remains classified as `callback_invocation`.
 - Paper-matched candidate v2 technical result: `paper_matched_v2_technical_pass`.
-- Paper-matched candidate v2 scientific comparison: `scientific_review_required`.
+- Paper-matched candidate v2 scientific comparison: `paper_matched_v2_scientific_review_incomplete`.
 - Gate A3: `reference_data_insufficient`; the approximate Fig. 7 curve comparison is useful forensic evidence, but closure still requires supervisor-approved tolerances and uniform-reference justification.
 - Stage A: open.
 - MISESERI/remeshing: blocked.
@@ -50,7 +51,7 @@ Current stage:
 - The Gate A3 reference-applicability matrix is `references/derived/molnar_gravouil_2017/single_notch/REFERENCE_APPLICABILITY_MATRIX.md`; it records why the smaller supplementary deck should not be forced into an exact Fig. 7 numerical comparison.
 - Paper-to-model reconstruction artifacts are under `references/derived/molnar_gravouil_2017/paper_matched_single_notch/`, with configuration at `configs/molnar_paper_matched_single_notch.yaml` and deck-generation requirements at `docs/methods/MOLNAR_PAPER_MATCHED_DECK_REQUIREMENTS.md`. Candidate v1 is preserved as failed static evidence under `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v1/` and `results/validation/molnar_paper_matched_single_notch_v1/`; classification `static_validation_fail`, `runnable: false`. Candidate v2 is generated under `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/` with corrected loading arithmetic, split-node notch topology, source-mapped UEL property blocks, restored `bottoml`/`topl` constraints, and a generated graded mesh. Static validation passed in `results/validation/molnar_paper_matched_single_notch_v2/STATIC_VALIDATION.md`; configuration status is `paper_matched_candidate_v2_static_validation_pass`, `runnable: true`. The generated executable source copy is `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/SingleNotch_v2.for`; it is copied from the preserved Molnar source with only `N_ELEM=33852` updated for the candidate mesh. The final mesh-quality preflight passed in `results/validation/molnar_paper_matched_single_notch_v2/MESH_QUALITY_PREFLIGHT.md`; high-aspect-ratio elements are documented outside the refined fracture corridor. The single authorized serial candidate-v2 HPC baseline ran once as `1374864.mmaster02` from revision `711dd495bdcb830d695f9d7e56283316c9d417d5`; PBS finished with `Exit_status = 0`, Abaqus return code zero, ODB/STA/MSG/DAT present, and final classification `paper_matched_v2_technical_pass`.
 - Retry authorization: none. Do not submit a retry, second candidate, multi-CPU run, sweep, MISESERI run, remeshing run, state-transfer run, or parameter study under the completed one-run authorization.
-- Candidate-v2 scientific diagnostics: peak RF2 `0.761702 kN` at `U2=0.006110 mm`; final RF2 `0.749110 kN` at `U2=0.006700 mm`; RF-U NRMSE against the approximate digitized Fig. 7 `lc=0.0075 mm` curve is `0.247493` in the original scientific check and `0.245705` in the no-solution forensic overlap audit; relative peak-force error is `0.064519`; relative peak-displacement error is `0.041257`. At phase threshold `SDV15 >= 0.95`, the final matched contour has 193 element-mean damaged elements and connected crack extension about `0.0505 mm`. `SDV16` is monotonic in the ODB check; `SDV15` has 6113 decrease events, 817 categorized as genuine-healing candidates by the current script, and late-stage overshoot up to `1.005600`. No-solution forensic artifacts are under `runs/hpc/paper_matched_single_notch_v2/scientific_review/`. These are review diagnostics, not a final scientific pass.
+- Candidate-v2 scientific diagnostics: peak RF2 `0.761702 kN` at `U2=0.006110 mm`; final RF2 `0.749110 kN` at `U2=0.006700 mm`; RF-U NRMSE against the approximate digitized Fig. 7 `lc=0.0075 mm` curve is `0.247493` in the original scientific check and `0.245705` in the no-solution forensic overlap audit; relative peak-force error is `0.064519`; relative peak-displacement error is `0.041257`; post-peak RMSE is `0.348093 kN`; initial tangent-stiffness error is about `+51.4%`; area error is `+0.193324`. At phase threshold `SDV15 >= 0.95`, the final matched contour has 193 element-mean damaged elements and connected crack extension about `0.0505 mm`; threshold-dependent final extension ranges from `0.0555 mm` at `SDV15 >= 0.80` to `0.0465 mm` at `SDV15 >= 0.99`. `SDV16` is monotonic in the ODB check; `SDV15` has 6113 decrease events, 817 categorized as genuine-healing candidates by the current script, and late-stage overshoot up to `1.005600`. The decision report is `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md`; classification `paper_matched_v2_scientific_review_incomplete`. These are review diagnostics, not a final scientific pass.
 - Decision note `docs/decisions/0002-gate-a3-reference-route.md` is preserved as history but superseded by the proposal-directed route: prepare the paper-matched Molnar Mode-I benchmark, digitize/document the applicable published curve as an approximate paper reference, then compare the reconstructed paper-matched uniform mesh against that reference.
 
 Known source documents:
@@ -61,7 +62,7 @@ Known source documents:
 - `1-s2.0-S0045782525004153-main.pdf` - Diddige, Roth, and Kiefer (2025)
 
 Immediate next tasks:
-1. Review the candidate-v2 scientific diagnostics in `runs/hpc/paper_matched_single_notch_v2/scientific_check/` and decide whether the RF-U and crack-path deviations are acceptable under supervisor-approved tolerances.
+1. Review `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md`; current classification is `paper_matched_v2_scientific_review_incomplete`.
 2. Do not submit a retry or any new Abaqus/PBS job unless explicitly authorized after this evidence review.
 3. Preserve candidate v1 as failed static evidence and do not repair it in place.
 4. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, SDV bounds/irreversibility interpretation, and runtime/cost metrics.
@@ -419,9 +420,24 @@ Before any Abaqus/HPC submission:
 - Confirm license availability, queue, CPUs, MPI/OpenMP layout, memory, wall time, scratch path, and stage-out policy.
 - Confirm the job uses the intended input deck and subroutine revision.
 - Confirm the tracked PBS script has `#PBS -m abe`.
-- Pass the private recipient at submission time with `qsub -M "<verified_recipient>" -m abe`.
+- Pass the private recipient at submission time with `qsub -M "pr21vyci@mailserver.tu-freiberg.de" -m abe`.
 - Verify the recipient address before the first submission with `scripts/hpc/validate_pbs_email_notifications.py`; do not assume the cluster account's default email address.
-- Immediately after submission, run `qstat -f "$JOB_ID"` and verify `Mail_Users = <verified_recipient>` and `Mail_Points = abe`.
+- Immediately after submission, run `qstat -f "$JOB_ID"` and verify `Mail_Users = pr21vyci@mailserver.tu-freiberg.de` and `Mail_Points = abe`.
+
+Future submission pattern:
+
+```bash
+REVISION=$(git rev-parse HEAD)
+
+JOB_ID=$(qsub \
+  -M "pr21vyci@mailserver.tu-freiberg.de" \
+  -m abe \
+  -v PROJECT_REVISION="${REVISION}" \
+  scripts/hpc/<job-script>.pbs)
+
+echo "${JOB_ID}"
+qstat -f "${JOB_ID}" | grep -E 'Mail_Users|Mail_Points|job_state|queue'
+```
 
 For a running job, report:
 - job ID, state, queue, host/vnode;

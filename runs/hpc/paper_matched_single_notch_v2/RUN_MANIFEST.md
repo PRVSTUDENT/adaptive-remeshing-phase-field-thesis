@@ -15,7 +15,7 @@ completed_postprocessed
 - Static validation: `static_validation_pass`
 - Runnable status: `true`
 - Gate A3: open, scientific review required
-- Scientific status: `scientific_review_required`
+- Scientific status: `paper_matched_v2_scientific_review_incomplete`
 
 ## Repository
 
@@ -102,7 +102,7 @@ Arithmetic:
 - CPUs: `1`
 - Memory: `32gb`
 - Walltime: `24:00:00`
-- Email notification for future submissions: keep `#PBS -m abe` in tracked PBS scripts, pass the private recipient at submission time with `qsub -M "<verified_recipient>" -m abe`, validate with `scripts/hpc/validate_pbs_email_notifications.py` before the first submission using that address, and verify `Mail_Users`/`Mail_Points` with `qstat -f` immediately after submission.
+- Email notification for future submissions: keep `#PBS -m abe` in tracked PBS scripts, pass the private recipient at submission time with `qsub -M "pr21vyci@mailserver.tu-freiberg.de" -m abe`, validate with `scripts/hpc/validate_pbs_email_notifications.py`, and verify `Mail_Users = pr21vyci@mailserver.tu-freiberg.de` plus `Mail_Points = abe` with `qstat -f` immediately after submission. Verification status: `historically_scheduler_verified`; old-project PBS `qstat` record for job `1362636.mmaster02` reported the same mail user and `abe` mail points.
 - Modules: `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`
 - Scratch run root: `/scratch/pr21vyci/adaptive-remeshing/runs`
 - Lightweight stage root: `/scratch/pr21vyci/adaptive-remeshing/stage`
@@ -196,7 +196,7 @@ paper_matched_v2_scientific_fail
 Classification:
 
 ```text
-scientific_review_required
+paper_matched_v2_scientific_review_incomplete
 ```
 
 Evidence:
@@ -209,6 +209,7 @@ Evidence:
 - RF-U comparison: `runs/hpc/paper_matched_single_notch_v2/scientific_check/rf_u_curve_comparison.csv`
 - Crack-path comparison: `runs/hpc/paper_matched_single_notch_v2/scientific_check/crack_path_comparison.csv`
 - No-solution forensic review: `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_REVIEW_SUMMARY.md`
+- Scientific decision: `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md`
 - RF extraction audit: `runs/hpc/paper_matched_single_notch_v2/scientific_review/RF_EXTRACTION_AUDIT.md`
 - Fig. 7 audit metrics: `runs/hpc/paper_matched_single_notch_v2/scientific_review/fig7_comparison_metrics.json`
 - Crack threshold audit: `runs/hpc/paper_matched_single_notch_v2/scientific_review/crack_path_threshold_metrics.csv`
@@ -228,6 +229,8 @@ Key results:
 - `SDV16` decrease count: `0`.
 - `SDV15` decrease count: `6113`; current script categories include `817` genuine-healing candidates, `1764` staggered-sync candidates, and `4816` smaller-than-ODB-precision events.
 - `SDV15` maximum overshoot: `1.005600094795227`.
+- Scientific decision: `paper_matched_v2_scientific_review_incomplete`.
+- Decision basis: post-peak RF-U mismatch dominates, high-damage crack path is connected and horizontal but short/threshold-dependent, and retained SDV15 summaries are insufficient to separate roundoff, staggered-sync, and possible irreversibility-violation populations.
 
 Boundary:
 
