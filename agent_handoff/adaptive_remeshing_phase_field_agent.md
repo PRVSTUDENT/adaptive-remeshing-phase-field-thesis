@@ -35,7 +35,7 @@ Current stage:
 - Failure category: none for the retry; preserved failed attempt `1374532.mmaster02` remains classified as `callback_invocation`.
 - Paper-matched candidate v2 technical result: `paper_matched_v2_technical_pass`.
 - Paper-matched candidate v2 scientific comparison: `paper_matched_v2_scientific_review_incomplete`.
-- Gate A3: `reference_data_insufficient`; the approximate Fig. 7 curve comparison is useful forensic evidence, but closure still requires supervisor-approved tolerances and uniform-reference justification.
+- Gate A3: `reference_data_insufficient`; the approximate Fig. 7 curve comparison is useful forensic evidence, but closure still requires supervisor-approved tolerances and uniform-reference justification. Supervisor-review package: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; meeting handoff: `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`; conditional targeted-output evidence specification: `docs/decisions/MOLNAR_TARGETED_OUTPUT_RERUN_REQUIREMENTS.md`.
 - Stage A: open.
 - MISESERI/remeshing: blocked.
 - Evolving remeshing with state transfer is mandatory for the thesis scope, but no online-remesh claim is allowed until controlled field transfer and fracture-relevant transfer tests pass.
@@ -67,7 +67,7 @@ Immediate next tasks:
 3. Preserve candidate v1 as failed static evidence and do not repair it in place.
 4. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, SDV bounds/irreversibility interpretation, and runtime/cost metrics.
 5. If the paper-matched comparison is accepted, proceed to mesh-size, length-scale, and load-increment studies to justify the uniform fine reference.
-6. Resolve whether additional call-level/completed-phase-state evidence is required for the `817` SDV15 above-precision non-staggered events now categorized as `insufficient_output_evidence` before declaring SDV15 irreversibility clean.
+6. Obtain supervisor decision on Gate A3 route, provisional tolerances, approximate Fig. 7 reference acceptability, and whether the `817` SDV15 `insufficient_output_evidence` events require a targeted output-enabled rerun.
 9. Treat the HPC trivial technical gate as complete: environment, Abaqus license, user-subroutine compile/link, trivial Standard analysis, ODB creation, and `UEXTERNALDB` callback evidence have passed.
 10. Do not run any Molnar HPC baseline, MISESERI, remeshing, state-transfer, parameter-study, production, or multi-CPU job until the user gives explicit approval.
 11. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.

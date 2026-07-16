@@ -498,6 +498,8 @@ The final crack path remains connected and approximately horizontal for threshol
 
 The detailed \texttt{SDV15} evidence is preserved under \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/}, and the mapping-resolution evidence is preserved under \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/}. The decision therefore no longer has a missing raw-table or label-mapping blocker, but it still does not classify all decreases as physical healing or dismiss all decreases as harmless because 817 above-precision non-staggered events lack completed phase-update-state proof in the retained output data.
 
+A compact Gate A3 supervisor-review package has been prepared at \path{docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md}, with a meeting handoff at \path{docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md} and a conditional targeted-output rerun evidence specification at \path{docs/decisions/MOLNAR_TARGETED_OUTPUT_RERUN_REQUIREMENTS.md}. These files document decision routes and required approvals; they do not pass Gate A3 or authorize another solve.
+
 Gate A3 remains \texttt{reference\_data\_insufficient}. No retry, second candidate, multi-CPU run, parameter study, MISESERI run, remeshing run, or state-transfer run is authorized by this completed one-run checkpoint.
 
 \section{Remaining Gate A3 Work}
@@ -505,7 +507,7 @@ Gate A3 remains \texttt{reference\_data\_insufficient}. No retry, second candida
 \begin{itemize}
   \item Obtain supervisor-approved tolerances for RF--U curve error, peak-force error, peak-displacement error, crack-path deviation, \texttt{SDV15} bounds/irreversibility interpretation, and runtime/cost metrics.
   \item Review whether the candidate-v2 RF--U deviations against the approximate Fig.~7 curve are acceptable for the thesis baseline.
-  \item Resolve whether the 817 candidate-v2 \texttt{SDV15} above-precision non-staggered events categorized as \texttt{insufficient\_output\_evidence} require additional call-level or completed-phase-state evidence before declaring irreversibility clean or failed.
+  \item Obtain supervisor decision on Gate A3 route, provisional tolerances, Fig.~7 reference acceptability, post-peak mismatch interpretation, and whether the 817 candidate-v2 \texttt{SDV15} above-precision non-staggered events require targeted completed-phase-state evidence.
   \item Decide whether the final crack extension and approximately horizontal crack path are sufficient for the paper-matched baseline.
   \item If candidate v2 is accepted, perform mesh-size, length-scale, and load-increment studies to justify the uniform fine reference.
   \item Do not start MISESERI, remeshing, state transfer, a retry, or a new Abaqus run until the candidate-v2 review route is accepted and explicitly authorized.

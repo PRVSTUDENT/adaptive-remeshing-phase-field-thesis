@@ -1,13 +1,13 @@
 ﻿# Agent Handoff Manifest
 
-Created (UTC): 2026-07-16T09:48:47Z
+Created (UTC): 2026-07-16T09:56:53Z
 
-This directory is a flat mirror of retained text/source evidence for review. It includes the candidate-v2 no-solution scientific-review records, the detailed SDV15 event reconstruction outputs, the SDV15 mapping-resolution outputs, and selected technical evidence. Large binary Abaqus outputs remain in scratch and are not mirrored here.
+This directory is a flat mirror of retained text/source evidence for review. It includes candidate-v2 no-solution scientific-review records, SDV15 detailed/mapping evidence, and the Gate A3 supervisor-review package. Large binary Abaqus outputs remain in scratch and are not mirrored here.
 
 | Mirrored file | Original path | Bytes | SHA-256 |
 |---|---|---:|---|
-| `.agent.md` | `.agent.md` | 49899 | `ea2b13a15f95b0f72810f8724adb1a821de8b56df00dca0f9a46d8af15918093` |
-| `adaptive_remeshing_phase_field_agent.md` | `adaptive_remeshing_phase_field_agent.md` | 39450 | `1161090a0c97a6f4d389829fafe48f451cca13f5e34231f6094368681c7e2957` |
+| `.agent.md` | `.agent.md` | 50149 | `312e4d9191baae183d54cfacc651e4eb6d46b6c5367714aee8435662918e66ac` |
+| `adaptive_remeshing_phase_field_agent.md` | `adaptive_remeshing_phase_field_agent.md` | 39700 | `2dba565d19084614c880838ce91650758a59bdcda69bc14c4759c2d8dd2f88db` |
 | `check_molnar_single_notch.py` | `scripts/validation/check_molnar_single_notch.py` | 34183 | `942fd06051b516021f3fd8907a54c560e7dffefce7717d0fb41a3c8639a7acf8` |
 | `crack_path_aggregation_sensitivity.csv` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/crack_path_aggregation_sensitivity.csv` | 6655 | `f4a28d4b593ea115884d33df4a1ddec743e4cf123c9995936cadf3324bc83799` |
 | `CRACK_PATH_AUDIT.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/CRACK_PATH_AUDIT.md` | 1601 | `8813d4c2977c0db8c89daa6b463eb83c8ceed8426c7064b4f3eb6f72fd13567d` |
@@ -21,18 +21,21 @@ This directory is a flat mirror of retained text/source evidence for review. It 
 | `fig7_comparison_overlay.csv` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/fig7_comparison_overlay.csv` | 19286 | `545dff4d15258f2270ca76012363e0e4f163d3cc10bfbaaec10e8c8fb668ddfb` |
 | `fig7_reference_grid_comparison.csv` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/fig7_reference_grid_comparison.csv` | 6317 | `361972467d15f4fd50ff24d8f0ed9585f56e32862afe411f52d8eee8bbd29c85` |
 | `hash_check.txt` | `runs/hpc/paper_matched_single_notch_v2/evidence/hash_check.txt` | 185 | `64a6d62682bdc9bb35640c48694c558d69dbb845d43a3834d781b84fd6779a08` |
-| `LAYER_LABEL_MAPPING_RULES.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/LAYER_LABEL_MAPPING_RULES.md` | 1044 | `7d848544b06573b255fd1f4f52920cae7d015844851951a206908c18ecef59ee` |
+| `LAYER_LABEL_MAPPING_RULES.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/LAYER_LABEL_MAPPING_RULES.md` | 1042 | `8d22376ab81c4c601650672991cfcd32e34a5ab283ec5e04537784453d9a42ba` |
 | `layer_label_mapping_verified.csv` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/layer_label_mapping_verified.csv` | 4051378 | `ca4d21226baaf7b33669ddc8a6b1fc43a9d89da02ce94886f18a960845a09e1e` |
 | `MANIFEST.md` | `agent_handoff/MANIFEST.md` | self | `self-generated manifest; hash intentionally omitted` |
 | `module_list.txt` | `runs/hpc/paper_matched_single_notch_v2/evidence/module_list.txt` | 239 | `fa00257be6d432b38277427a65a9eea2698a38db3b1c91dcf346fa6cc81b0219` |
-| `MOLNAR_GATE_A3_SUPERVISOR_DECISION_TABLE.md` | `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_TABLE.md` | 1694 | `f41939b50eab4a43e74855a5bb180d895fc4fa16f02b13154fd76e2575392017` |
+| `MOLNAR_GATE_A3_MEETING_SUMMARY.md` | `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md` | 2917 | `5bb355c47d88f606e9847284d36414025f82e02932c60289d91d6c9db50efa67` |
+| `MOLNAR_GATE_A3_SUPERVISOR_DECISION_TABLE.md` | `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_TABLE.md` | 1692 | `a66cd84055998bfdb5421acc6f60c97a89faeb0bb9fe787bab5b62933637fa3d` |
+| `MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md` | `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md` | 9028 | `356c0934e5a64a374d4664f2ad70c3701fa0a4ff68186d0585d064c55dec1d2a` |
 | `molnar_paper_matched_single_notch_v2.abaqus_stdout.log` | `runs/hpc/paper_matched_single_notch_v2/evidence/molnar_paper_matched_single_notch_v2.abaqus_stdout.log` | 2528 | `747b20ff7c5a3aa41374ba2022d86c9a834a2713c3afc29f4abc39d3ba54203c` |
 | `molnar_paper_matched_single_notch_v2.dat` | `runs/hpc/paper_matched_single_notch_v2/evidence/molnar_paper_matched_single_notch_v2.dat` | 15809 | `edd05f8a1cd6d2fc4508f72ead94e7df794f874c547778caab10b0c3b9ad6af8` |
 | `molnar_paper_matched_single_notch_v2.msg` | `runs/hpc/paper_matched_single_notch_v2/evidence/molnar_paper_matched_single_notch_v2.msg` | 1106742 | `aee4f456add68374085983f43f855b945b8ecbe3605d6bc370ab10515c16846d` |
 | `molnar_paper_matched_single_notch_v2.pbs` | `scripts/hpc/molnar_paper_matched_single_notch_v2.pbs` | 5438 | `87f0524b111faceee861230e18dc7ee54724dae73f003804228ae2ff6b4f7c6d` |
 | `molnar_paper_matched_single_notch_v2.sta` | `runs/hpc/paper_matched_single_notch_v2/evidence/molnar_paper_matched_single_notch_v2.sta` | 45258 | `bf3dbd3beb339678a522583389f95c2f83222b49e7c1b01eebdbb2d4a7542b83` |
+| `MOLNAR_TARGETED_OUTPUT_RERUN_REQUIREMENTS.md` | `docs/decisions/MOLNAR_TARGETED_OUTPUT_RERUN_REQUIREMENTS.md` | 2895 | `81cbe94acf4f28013c4c3b8ef4616105b0f3b08eb23f893bda30b8c2f81f0bd7` |
 | `pbs_context.txt` | `runs/hpc/paper_matched_single_notch_v2/evidence/pbs_context.txt` | 409 | `6f6cf16dd66cb76056f1ac3ce79aca4a2c67acaa80e9276d6bc82dc7af0ab1e8` |
-| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 20182 | `cec00329488ccb4fb0355c73aaac8a28791a8b364480f8ff5ab31ed943d38fe3` |
+| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 20568 | `5e321c0a935b831ba8e1561765f3bf466001593feb0c780af622ba726be422db` |
 | `qstat_xf_1374864_final.txt` | `runs/hpc/paper_matched_single_notch_v2/evidence/qstat_xf_1374864_final.txt` | 509 | `2b8acba79c7480ede8bd34f2e351777379c3ab3e9f1b66ff540a787ad3573360` |
 | `resolve_molnar_sdv15_mapping.py` | `scripts/postprocessing/resolve_molnar_sdv15_mapping.py` | 29740 | `16be677f474e25d2dadbe056ba7d4c9483d1249ca6819b7da68beb2b67773307` |
 | `response_state_metrics.csv` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/response_state_metrics.csv` | 786 | `e0f74d407d714a3b8b394e62734f76db953610c205f6ab8b0469838e02484842` |
@@ -48,7 +51,7 @@ This directory is a flat mirror of retained text/source evidence for review. It 
 | `sdv_irreversibility_metrics.json` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv_irreversibility_metrics.json` | 2673 | `b00afbbb18b745142cfa4fa1694fad4bb2cda58173bcc0978372b3bc36e68001` |
 | `SDV_LAYER_AND_UPDATE_MAPPING.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/SDV_LAYER_AND_UPDATE_MAPPING.md` | 2535 | `364b4d8a6dbdcf0785389905350f6f1eaaa930155171d033fcf5d1faf0527b26` |
 | `SDV_SOURCE_ASSIGNMENT_TRACE.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/SDV_SOURCE_ASSIGNMENT_TRACE.md` | 3853 | `a5eea98c74a75d0015db7b47977b536f40905c46e0f0500d1039737120a2b899` |
-| `SDV15_CANDIDATE_EXPLANATION_TESTS.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/SDV15_CANDIDATE_EXPLANATION_TESTS.md` | 2289 | `adbaefa8d2a8439b71f1ba288a962dd30854f81664c1967378f978765c6f7bd8` |
+| `SDV15_CANDIDATE_EXPLANATION_TESTS.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/SDV15_CANDIDATE_EXPLANATION_TESTS.md` | 2287 | `5937a30ac4a8222ac2a4695ad6f4ce4e2c7ca11d329ad2a9eb19510d723292b8` |
 | `sdv15_completed_phase_state_monotonicity.csv` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/sdv15_completed_phase_state_monotonicity.csv` | 33334 | `198214aee5aaac37f80a3fc62437454b0021bad5ebcfb838ff9e9a734b4e778d` |
 | `sdv15_decrease_distribution.csv` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/sdv15_decrease_distribution.csv` | 2059 | `f6639089cffa4ecc7463131571ada6f5e0998c4b3fddffb20bfeece11179bda8` |
 | `sdv15_decrease_distribution.json` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/sdv15_decrease_distribution.json` | 2176 | `63e3d1052a8972227fe0bb6d18792153df71a6e93837e95772ffd5d97c8d28b8` |
@@ -56,7 +59,7 @@ This directory is a flat mirror of retained text/source evidence for review. It 
 | `SDV15_DETAILED_EVENT_DECISION.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/SDV15_DETAILED_EVENT_DECISION.md` | 1018 | `4e8363885c587dcaa7cf0e20cc456da4944e22bf0b7f80bef24281f3d4a0c76a` |
 | `sdv15_equivalent_state_comparison.csv` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/sdv15_equivalent_state_comparison.csv` | 471743 | `bff55743b4870703039fbcd7f29ce249087aa8babc95bad6caab57d9a25aaedf` |
 | `SDV15_IRREVERSIBILITY_AUDIT.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV15_IRREVERSIBILITY_AUDIT.md` | 860 | `a700904a2343457d0f9a831574d35d576e5fdfd9ffb7c2a394fbb67b5f4bbb4f` |
-| `SDV15_MAPPING_RESOLUTION_DECISION.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/SDV15_MAPPING_RESOLUTION_DECISION.md` | 2017 | `d7988941d92dd2f7218e2b18d34364479dba52de458375b068889b3d21b2763e` |
+| `SDV15_MAPPING_RESOLUTION_DECISION.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/SDV15_MAPPING_RESOLUTION_DECISION.md` | 2015 | `857283ae426d41c414dd1421661fe6ae213bbb62e0145587408fc21056d02c17` |
 | `SDV15_OVERSHOOT_AUDIT.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/SDV15_OVERSHOOT_AUDIT.md` | 589 | `a5834e584e35536acedbbfdc4cd2713e6fb75c638d414a317a08754b879e98a1` |
 | `sdv15_overshoot_events.csv` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/sdv15_overshoot_events.csv` | 146306 | `d382fa6744d2a37026a91eb1307fffcae375431fb135b6b7d5aa96216aff707c` |
 | `sdv15_unresolved_event_mapping.csv` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/sdv15_unresolved_event_mapping.csv` | 567179 | `7782d39285b49fea78c5abdb0f1389901ccabdd401830f905b5bbde9fbc53458` |
@@ -72,8 +75,8 @@ This directory is a flat mirror of retained text/source evidence for review. It 
 | `SINGLE_NOTCH_SCIENTIFIC_CHECK.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_check/SINGLE_NOTCH_SCIENTIFIC_CHECK.md` | 3666 | `1bfd165a7a86cd68917ef614c7e53d95f09401cc527530e40db77ad908166612` |
 | `SOLVER_BEHAVIOR_AND_RESOURCES.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/SOLVER_BEHAVIOR_AND_RESOURCES.md` | 953 | `d29852a673f76532f74e35895bb5d6bbb1a5f693602d6ce844343b65e46a0a7c` |
 | `solver_resource_metrics.json` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/solver_resource_metrics.json` | 1382 | `ab736a7efec4c0a287e787deeaba747795e3b6a58747ee379d90fd4d12b7f770` |
-| `STAGE_A_BASELINE_REPORT.tex` | `docs/reports/STAGE_A_BASELINE_REPORT.tex` | 43705 | `6db4e0a28442980b2df22352b61c3efdaa85d72bdd4c8c23d37abda7ddc542f8` |
-| `STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` | `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` | 45554 | `09998f87d7f0ca05ae80e48c24c97807491f04c004d942605434fee3318dd20b` |
+| `STAGE_A_BASELINE_REPORT.tex` | `docs/reports/STAGE_A_BASELINE_REPORT.tex` | 44171 | `55d2817d1ff160b1ade0a915305d82e8c30caf879777cbba16773dde13622a40` |
+| `STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` | `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` | 46166 | `98a77c03476e4fd7f26e36e748b43df4768c15744006279bcf0964a777ae9e28` |
 | `TECHNICAL_SUMMARY.txt` | `runs/hpc/paper_matched_single_notch_v2/evidence/TECHNICAL_SUMMARY.txt` | 424 | `08dff24ae612f8358482275036d6bff8a2afecbb467e25c16a677932174cada0` |
 | `validate_pbs_email_notifications.py` | `scripts/hpc/validate_pbs_email_notifications.py` | 2690 | `5c7df87f435a970f0638b59d4a4c44fa5814e30db2ac943124b09dac5afccf7a` |
 | `WORST_EVENT_LAYER_MAPPING.md` | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/WORST_EVENT_LAYER_MAPPING.md` | 1723 | `5d2df7a2564f2e410979b30f5a7d9b104395f17ab4709dbc6f5ce2f1b1d326bb` |
