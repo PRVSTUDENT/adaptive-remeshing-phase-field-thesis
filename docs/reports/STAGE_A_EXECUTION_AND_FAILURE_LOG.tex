@@ -730,4 +730,22 @@ Therefore the failure occurred before Abaqus execution at the repository-revisio
 
 Lightweight evidence is preserved under \path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/evidence/1375020.mmaster02/}. Gate A3 remains \texttt{reference\_data\_insufficient}. The one-run authorization has been consumed; no retry or second diagnostic run is authorized.
 
+\section{Prepared Infrastructure-Corrected SDV15 Diagnostic r2}
+
+Date: 2026-07-16.
+
+Because job \texttt{1375020.mmaster02} failed before Abaqus launched, the user authorized exactly one infrastructure-corrected serial r2 diagnostic execution. The scientific diagnostic model remains unchanged: the input deck, source logic, target set, loading schedule, material properties, boundary conditions, and postprocessing criteria are the same as the statically validated diagnostic variant. The retained target counts remain 72 physical elements and 152 element/IP pairs.
+
+The infrastructure correction separates login-node repository operations from compute-node execution. The wrapper \path{scripts/hpc/submit_molnar_v2_sdv15_diagnostic_r2.sh} verifies a clean tracked working tree, resolves the commit on the login node, creates an immutable scratch pre-stage with \texttt{git archive}, writes \texttt{PROJECT\_REVISION.txt}, writes a staging manifest and hashes, validates staged input hashes, and submits exactly once with both \texttt{PROJECT\_REVISION} and \texttt{PRESTAGED\_ROOT}. The r2 PBS script \path{scripts/hpc/molnar_paper_matched_single_notch_v2_sdv15_diagnostic_r2.pbs} performs no Git command. It compares \texttt{PROJECT\_REVISION} against the staged plain-text manifest, verifies staged input hashes, and preserves early-failure evidence through an \texttt{EXIT} trap before launching Abaqus.
+
+The r2 PBS request is \texttt{molnar\_v2\_sdv15\_diag\_r2}, queue \texttt{entry\_imfdfkmq}, \texttt{select=1:ncpus=1:mem=32gb}, \texttt{walltime=16:00:00}, serial Abaqus execution, and \texttt{\#PBS -m abe}. The private recipient remains supplied at submission with \texttt{qsub -M "pr21vyci@mailserver.tu-freiberg.de" -m abe}. PBS output is directed to \path{/scratch/pr21vyci/adaptive-remeshing/pbs_output/} rather than the repository root.
+
+The classification scope for this prepared execution is:
+
+\begin{center}
+\texttt{infrastructure\_corrected\_targeted\_diagnostic\_execution}
+\end{center}
+
+It is not candidate v3 and not a new scientific model. The authorization covers exactly one corrected r2 submission and excludes an automatic retry, second r2 submission, MISESERI, remeshing, Stage B, mesh/length/load studies, parameter sweeps, multi-CPU execution, and scientific-model changes.
+
 \end{document}

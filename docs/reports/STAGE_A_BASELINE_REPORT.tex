@@ -522,6 +522,10 @@ The single authorized diagnostic job was then submitted exactly once as \texttt{
 
 No SDV15 diagnostic scientific result exists from this failed run. Gate A3 remains \texttt{reference\_data\_insufficient}; no retry, second diagnostic run, candidate v3, Stage B, MISESERI, remeshing, state transfer, or sweep is authorized.
 
+The user subsequently authorized exactly one infrastructure-corrected serial r2 diagnostic execution because job \texttt{1375020.mmaster02} never launched Abaqus. The r2 execution keeps the same diagnostic scientific model, the same 72 physical target elements, and the same 152 target element/IP pairs, but replaces the compute-node Git revision guard with a login-node immutable pre-stage. The login-side wrapper \path{scripts/hpc/submit_molnar_v2_sdv15_diagnostic_r2.sh} resolves the commit on the login node, stages the required committed files under scratch with \texttt{git archive}, writes \texttt{PROJECT\_REVISION.txt}, validates staged hashes, passes \texttt{PROJECT\_REVISION} and \texttt{PRESTAGED\_ROOT} to PBS, and directs PBS output to scratch. The r2 PBS script \path{scripts/hpc/molnar_paper_matched_single_notch_v2_sdv15_diagnostic_r2.pbs} requests \texttt{16:00:00} walltime and contains no executable Git command.
+
+This r2 authorization is limited to one corrected serial submission. It does not authorize an automatic retry, second r2 submission, scientific-model change, candidate v3, Stage B, MISESERI, remeshing, state transfer, mesh/length/load studies, parameter sweeps, or multi-CPU execution.
+
 \section{Remaining Gate A3 Work}
 
 \begin{itemize}

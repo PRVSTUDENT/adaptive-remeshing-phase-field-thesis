@@ -1,96 +1,97 @@
-# Molnar Candidate v2 SDV15 Targeted Diagnostic Run Manifest
+# Molnar v2 SDV15 Targeted Diagnostic r2 Run Manifest
 
-Status: `finished_technical_fail`
+Status: `prepared_not_submitted`
 
-Classification: `paper_matched_candidate_v2_diagnostic_variant`
+Classification scope: `infrastructure_corrected_targeted_diagnostic_execution`
 
-## Relationship To Candidate v2
+## Purpose
 
-This run is a targeted scientific-evidence collection run derived from
-candidate v2. It is not a benchmark retry, candidate v3, Stage B run, MISESERI
-run, remeshing run, state-transfer run, mesh/length/load study, or parameter
-sweep.
+Run exactly one infrastructure-corrected serial SDV15 targeted diagnostic
+execution to resolve the 817 `insufficient_output_evidence` events. The earlier
+job `1375020.mmaster02` remains preserved as
+`molnar_v2_sdv15_diagnostic_technical_fail`; it failed before Abaqus launched
+because `git` was unavailable inside the PBS batch environment.
 
-The candidate-v2 directory is preserved unchanged. The diagnostic variant lives
-under `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/`.
+## Scientific Model Boundary
 
-## Unchanged Scientific Parameters
+The r2 execution uses the already validated diagnostic model without changing:
 
-Geometry, mesh, node and element connectivity, U1/U2/CPS4 layer labels,
-material properties, phase-field length, fracture energy, thickness,
-stabilization, boundary conditions, loading amplitudes, Step 1/Step 2 schedules,
-solver controls, and established output requests are identical to candidate v2.
+- diagnostic input deck;
+- nodes and connectivity;
+- U1/U2/CPS4 layer labels;
+- properties and materials;
+- boundary conditions;
+- amplitudes;
+- loading schedule, load increments, and final displacement;
+- monitored target set;
+- diagnostic Fortran logic;
+- postprocessing scientific criteria.
 
-## Diagnostic Modifications
+Confirmed retained diagnostics:
 
-- Source-side target-gated logging in `SingleNotch_v2_sdv15_diagnostic.for`.
-- Deterministic monitored target list in `diagnostic_targets.csv` and
-  `diagnostic_targets.inc`.
-- Abaqus input deck contains only diagnostic-identification comments beyond the
-  candidate-v2 deck.
-- Postprocessing script classifies completed U1, copied U2, and visualization
-  states after the run.
+- target physical elements: `72`;
+- target element/IP pairs: `152`;
+- deck comparison: `scientific_keyword_equivalence_pass`;
+- static validation: `diagnostic_static_validation_pass`;
+- runnable flag: `diagnostic_runnable: true`.
 
-## Target Counts
+## Infrastructure Corrections
 
-- Target physical elements: `72`
-- Target element/IP pairs: `152`
-- Prior insufficient-output event rows covered: `817`
-- Prior staggered-sync event rows covered: `480`
+- New PBS script: `scripts/hpc/molnar_paper_matched_single_notch_v2_sdv15_diagnostic_r2.pbs`.
+- New login-side wrapper: `scripts/hpc/submit_molnar_v2_sdv15_diagnostic_r2.sh`.
+- PBS job name: `molnar_v2_sdv15_diag_r2`.
+- Walltime: `16:00:00`.
+- The PBS script executes no Git commands.
+- The wrapper resolves the commit on the login node, stages required committed
+  files to `/scratch/pr21vyci/adaptive-remeshing/prestage/`, writes
+  `PROJECT_REVISION.txt`, and passes both `PROJECT_REVISION` and
+  `PRESTAGED_ROOT` to PBS.
+- PBS verifies the plain-text revision manifest and staged input hashes before
+  Abaqus launches.
+- PBS stdout is directed to `/scratch/pr21vyci/adaptive-remeshing/pbs_output/`
+  rather than the repository root.
 
 ## Requested Resources
 
-- Queue: `entry_imfdfkmq`
-- Select: `1:ncpus=1:mem=32gb`
-- Walltime: `24:00:00`
-- Modules: `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`
-- PBS notification points: `#PBS -m abe`; recipient supplied privately with
-  `qsub -M "pr21vyci@mailserver.tu-freiberg.de" -m abe`.
+- Queue: `entry_imfdfkmq` (expected routing: `normal_imfdfkmq`).
+- Select: `1:ncpus=1:mem=32gb`.
+- Walltime: `16:00:00`.
+- Modules: `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`.
+- Execution: serial Abaqus, `cpus=1`.
+- Email: pass privately with
+  `qsub -M "pr21vyci@mailserver.tu-freiberg.de" -m abe`; tracked PBS contains
+  `#PBS -m abe`.
 
-## Technical Acceptance
+## Classifications
 
-`molnar_v2_sdv15_diagnostic_technical_pass` requires Abaqus return code zero,
-ODB/STA/MSG/DAT present, and `THE ANALYSIS HAS COMPLETED SUCCESSFULLY` in the
-STA file. Otherwise classify `molnar_v2_sdv15_diagnostic_technical_fail` and do
-not submit a retry.
+Technical:
 
-## Diagnostic And Non-Intrusiveness Criteria
+- `molnar_v2_sdv15_diagnostic_r2_technical_pass`
+- `molnar_v2_sdv15_diagnostic_r2_technical_fail`
 
-Possible diagnostic classifications are `sdv15_completed_state_monotone`,
-`sdv15_completed_state_possible_violation`,
-`sdv15_diagnostic_output_incomplete`, and
-`diagnostic_instrumentation_intrusive`.
+Diagnostic:
 
-The diagnostic evidence is scientifically usable only if the physical response
-matches candidate v2 within the documented RF-U and crack-path limits.
+- `sdv15_completed_state_monotone`
+- `sdv15_completed_state_possible_violation`
+- `sdv15_diagnostic_output_incomplete`
+- `diagnostic_instrumentation_intrusive`
+
+Pre-solver failure classes:
+
+- `missing_submission_variable`
+- `missing_revision_manifest`
+- `revision_manifest_mismatch`
+- `staged_input_hash_failure`
+- `module_environment_failure`
+- `missing_abaqus_executable`
 
 ## Authorization Scope
 
-Authorized: exactly one serial targeted-output SDV15 diagnostic HPC submission
-after passing preflight.
+Authorized: exactly one infrastructure-corrected serial r2 submission.
 
-Not authorized: retry, second diagnostic run, candidate v3, multi-CPU execution,
-mesh-size/length-scale/load-increment studies, MISESERI, remeshing, state
-transfer, or parameter sweeps.
+Not authorized: automatic retry, second r2 submission, MISESERI, remeshing,
+Stage B, candidate v3, mesh/length/load studies, parameter sweeps, multi-CPU
+execution, or changes to the diagnostic scientific model.
 
-## Submitted Run 1375020.mmaster02
-
-- Submission time: `2026-07-16T12:21:59+0200`.
-- Repository revision: `efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611`.
-- PBS job: `1375020.mmaster02`.
-- Scheduler state: `F`.
-- Queue: `normal_imfdfkmq`.
-- Execution host: `mnode098/0`.
-- Requested resources: `select=1:ncpus=1:mem=32gb`, `walltime=24:00:00`.
-- Mail settings verified by PBS: `Mail_Users = pr21vyci@mailserver.tu-freiberg.de`; `Mail_Points = abe`.
-- PBS exit status: `3`.
-- Classification: `molnar_v2_sdv15_diagnostic_technical_fail`.
-- Failure point: pre-solver revision guard; `git` was unavailable in the batch
-  job PATH, so `CURRENT_REVISION` was empty and the script exited with
-  `revision_mismatch current= requested=efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611`.
-- Abaqus status: not launched; no ODB/STA/MSG/DAT diagnostic solver outputs were
-  produced.
-- Retry authorization: none.
-
-Evidence is under
-`runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/evidence/1375020.mmaster02/`.
+Gate A3 remains `reference_data_insufficient` after submission unless the
+diagnostic result and supervisor decisions later justify a gate update.
