@@ -1,6 +1,6 @@
 # Molnar Candidate v2 SDV15 Targeted Diagnostic Run Manifest
 
-Status: `prepared_not_submitted`
+Status: `finished_technical_fail`
 
 Classification: `paper_matched_candidate_v2_diagnostic_variant`
 
@@ -72,3 +72,25 @@ after passing preflight.
 Not authorized: retry, second diagnostic run, candidate v3, multi-CPU execution,
 mesh-size/length-scale/load-increment studies, MISESERI, remeshing, state
 transfer, or parameter sweeps.
+
+## Submitted Run 1375020.mmaster02
+
+- Submission time: `2026-07-16T12:21:59+0200`.
+- Repository revision: `efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611`.
+- PBS job: `1375020.mmaster02`.
+- Scheduler state: `F`.
+- Queue: `normal_imfdfkmq`.
+- Execution host: `mnode098/0`.
+- Requested resources: `select=1:ncpus=1:mem=32gb`, `walltime=24:00:00`.
+- Mail settings verified by PBS: `Mail_Users = pr21vyci@mailserver.tu-freiberg.de`; `Mail_Points = abe`.
+- PBS exit status: `3`.
+- Classification: `molnar_v2_sdv15_diagnostic_technical_fail`.
+- Failure point: pre-solver revision guard; `git` was unavailable in the batch
+  job PATH, so `CURRENT_REVISION` was empty and the script exited with
+  `revision_mismatch current= requested=efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611`.
+- Abaqus status: not launched; no ODB/STA/MSG/DAT diagnostic solver outputs were
+  produced.
+- Retry authorization: none.
+
+Evidence is under
+`runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/evidence/1375020.mmaster02/`.

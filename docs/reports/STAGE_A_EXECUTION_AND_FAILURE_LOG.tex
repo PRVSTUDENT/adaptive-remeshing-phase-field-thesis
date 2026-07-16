@@ -714,6 +714,20 @@ Mail points & \texttt{\#PBS -m abe}; recipient supplied with \texttt{qsub -M} \\
 
 The local preflight passed the deterministic target generation, U1/U2/CPS4 layer mapping checks, source instrumentation audit, local Fortran syntax/static check with an Abaqus-parameter stub, deck scientific-keyword equivalence check, PBS bash syntax check, PBS email-notification validator, project-checklist validator, \texttt{git diff --check}, and both Stage A LaTeX compilations. The prepared postprocessor is \path{scripts/postprocessing/analyze_molnar_sdv15_targeted_diagnostic.py}; after a technical pass it will classify completed-state SDV15 behavior, verify SDV16 monotonicity, compare the diagnostic RF--U response against candidate v2, and mark the result intrusive if response changes exceed the documented non-intrusiveness limits.
 
-At this checkpoint no diagnostic PBS job has yet been submitted in this log entry. Gate A3 remains \texttt{reference\_data\_insufficient}, and the only permitted next solve is the single prepared serial diagnostic submission after HPC-side preflight passes.
+The diagnostic PBS job was then submitted exactly once as \texttt{1375020.mmaster02} from repository revision \texttt{efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611} at \texttt{2026-07-16T12:21:59+0200}. The scheduler accepted the mail settings \texttt{Mail\_Users = pr21vyci@mailserver.tu-freiberg.de} and \texttt{Mail\_Points = abe}. The job ran on \texttt{mnode098/0}, consumed about one second of walltime, and finished with \texttt{Exit\_status = 3}. Its PBS output contains:
+
+\begin{verbatim}
+/var/spool/pbs/mom_priv/jobs/1375020.mmaster02.SC: Zeile 40:
+git: Kommando nicht gefunden.
+revision_mismatch current= requested=efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611
+\end{verbatim}
+
+Therefore the failure occurred before Abaqus execution at the repository-revision guard because \texttt{git} was unavailable in the batch job PATH. No ODB, \texttt{.sta}, \texttt{.msg}, or \texttt{.dat} diagnostic solver outputs were produced, and no SDV15 diagnostic scientific evidence exists from this run. The technical classification is:
+
+\begin{center}
+\texttt{molnar\_v2\_sdv15\_diagnostic\_technical\_fail}
+\end{center}
+
+Lightweight evidence is preserved under \path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/evidence/1375020.mmaster02/}. Gate A3 remains \texttt{reference\_data\_insufficient}. The one-run authorization has been consumed; no retry or second diagnostic run is authorized.
 
 \end{document}

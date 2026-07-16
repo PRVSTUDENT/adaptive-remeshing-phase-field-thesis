@@ -512,14 +512,22 @@ The deterministic monitored set contains 72 target physical elements and 152 ele
 \texttt{diagnostic\_static\_validation\_pass}, \texttt{diagnostic\_runnable: true}
 \end{center}
 
-The prepared PBS script is \path{scripts/hpc/molnar_paper_matched_single_notch_v2_sdv15_diagnostic.pbs}. It requests queue \texttt{entry\_imfdfkmq}, one CPU, 32 GB memory, 24 hours walltime, and \texttt{\#PBS -m abe}; the recipient must be supplied privately at submission with \texttt{qsub -M "pr21vyci@mailserver.tu-freiberg.de" -m abe}. Gate A3 remains \texttt{reference\_data\_insufficient} until the diagnostic result, RF--U non-intrusiveness check, and supervisor decisions are reviewed.
+The prepared PBS script is \path{scripts/hpc/molnar_paper_matched_single_notch_v2_sdv15_diagnostic.pbs}. It requests queue \texttt{entry\_imfdfkmq}, one CPU, 32 GB memory, 24 hours walltime, and \texttt{\#PBS -m abe}; the recipient must be supplied privately at submission with \texttt{qsub -M "pr21vyci@mailserver.tu-freiberg.de" -m abe}.
+
+The single authorized diagnostic job was then submitted exactly once as \texttt{1375020.mmaster02} from revision \texttt{efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611}. PBS accepted \texttt{Mail\_Users = pr21vyci@mailserver.tu-freiberg.de} and \texttt{Mail\_Points = abe}. The job finished almost immediately with \texttt{Exit\_status = 3} before Abaqus launched because \texttt{git} was unavailable in the batch PATH at the revision guard. The technical classification is:
+
+\begin{center}
+\texttt{molnar\_v2\_sdv15\_diagnostic\_technical\_fail}
+\end{center}
+
+No SDV15 diagnostic scientific result exists from this failed run. Gate A3 remains \texttt{reference\_data\_insufficient}; no retry, second diagnostic run, candidate v3, Stage B, MISESERI, remeshing, state transfer, or sweep is authorized.
 
 \section{Remaining Gate A3 Work}
 
 \begin{itemize}
   \item Obtain supervisor-approved tolerances for RF--U curve error, peak-force error, peak-displacement error, crack-path deviation, \texttt{SDV15} bounds/irreversibility interpretation, and runtime/cost metrics.
   \item Review whether the candidate-v2 RF--U deviations against the approximate Fig.~7 curve are acceptable for the thesis baseline.
-  \item Submit and review the one authorized serial targeted-output \texttt{SDV15} diagnostic run if all preflight checks pass; do not submit a retry.
+  \item Preserve and review the failed targeted-output \texttt{SDV15} diagnostic run evidence; do not submit a retry without new explicit authorization.
   \item Obtain supervisor decision on Gate A3 route, provisional tolerances, Fig.~7 reference acceptability, post-peak mismatch interpretation, and whether the targeted completed-phase-state evidence resolves the 817 candidate-v2 \texttt{SDV15} above-precision non-staggered events.
   \item Decide whether the final crack extension and approximately horizontal crack path are sufficient for the paper-matched baseline.
   \item If candidate v2 is accepted, perform mesh-size, length-scale, and load-increment studies to justify the uniform fine reference.

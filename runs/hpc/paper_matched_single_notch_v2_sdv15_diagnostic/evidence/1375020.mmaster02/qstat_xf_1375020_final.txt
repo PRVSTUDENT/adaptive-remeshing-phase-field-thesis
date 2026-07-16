@@ -1,0 +1,63 @@
+﻿Job Id: 1375020.mmaster02
+    Job_Name = molnar_v2_sdv15_diag
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 6
+    resources_used.cput = 00:00:00
+    resources_used.mem = 1796kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 0kb
+    resources_used.walltime = 00:00:01
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Thu Jul 16 12:21:59 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/mo
+	lnar_v2_sdv15_diag.e1375020
+    exec_host = mnode098/0
+    exec_vnode = (mnode098[0]:ncpus=1:mem=33554432kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Thu Jul 16 12:22:07 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/m
+	olnar_v2_sdv15_diag.o1375020
+    Priority = 0
+    qtime = Thu Jul 16 12:21:59 2026
+    Rerunable = True
+    Resource_List.mem = 32gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=32gb
+    Resource_List.walltime = 24:00:00
+    stime = Thu Jul 16 12:22:00 2026
+    obittime = Thu Jul 16 12:22:07 2026
+    session_id = 87988
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1375020.mmaster02.x8z
+    substate = 93
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,
+	PROJECT_REVISION=efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611,
+	PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Thu Jul 16 at 12:22 on (mnode098[0]:ncpus=1:mem=335544
+	32kb) and failed
+    etime = Thu Jul 16 12:21:59 2026
+    run_count = 1
+    eligible_time = 00:00:04
+    Stageout_status = 1
+    Exit_status = 3
+    Submit_arguments = -M pr21vyci@mailserver.tu-freiberg.de -m abe -v PROJECT_
+	REVISION=efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611 scripts/hpc/molnar_pa
+	per_matched_single_notch_v2_sdv15_diagnostic.pbs
+    history_timestamp = 1784197327
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster

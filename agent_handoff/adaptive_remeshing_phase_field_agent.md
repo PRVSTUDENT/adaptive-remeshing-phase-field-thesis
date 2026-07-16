@@ -62,7 +62,7 @@ Known source documents:
 - `1-s2.0-S0045782525004153-main.pdf` - Diddige, Roth, and Kiefer (2025)
 
 
-- Authorized targeted SDV15 diagnostic preparation: a separate candidate-v2 diagnostic variant has been generated under `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/` with `72` target physical elements and `152` target element/IP pairs. The run is a single serial scientific-evidence collection run only; Gate A3 remains `reference_data_insufficient`, and no retry, candidate v3, Stage B, MISESERI, remeshing, state transfer, or sweep is authorized.
+- Authorized targeted SDV15 diagnostic run: a separate candidate-v2 diagnostic variant was generated under `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/` with `72` target physical elements and `152` target element/IP pairs. The single authorized serial job was submitted exactly once as `1375020.mmaster02` from revision `efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611`. PBS accepted `Mail_Users = pr21vyci@mailserver.tu-freiberg.de` and `Mail_Points = abe`, then the job failed pre-solver with `Exit_status = 3` because `git` was unavailable in the batch PATH at the revision guard (`git: Kommando nicht gefunden`; `revision_mismatch current= requested=...`). Abaqus did not launch, no SDV15 diagnostic result exists, and the classification is `molnar_v2_sdv15_diagnostic_technical_fail`. Gate A3 remains `reference_data_insufficient`; no retry, second diagnostic run, candidate v3, Stage B, MISESERI, remeshing, state transfer, or sweep is authorized.
 
 Immediate next tasks:
 1. Review `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md`; current classification is `paper_matched_v2_scientific_review_incomplete`.
