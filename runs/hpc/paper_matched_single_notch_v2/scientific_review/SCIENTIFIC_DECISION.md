@@ -101,20 +101,33 @@ Equivalent-state categories for the `1297` events greater than ODB precision:
 | `staggered_sync_effect` | `480` |
 | `insufficient_mapping_evidence` | `817` |
 
+Follow-up source/deck mapping resolution:
+
+| Mapping-resolution metric | Value |
+|---|---:|
+| Physical elements checked for U1/U2/CPS4 mapping | `33852` |
+| Label/connectivity mapping failures | `0` |
+| Previously insufficient-mapping-evidence events reviewed | `817` |
+| Reclassified as `insufficient_output_evidence` | `817` |
+| Reclassified as `mapping_error` | `0` |
+| Affected element/IP locations in the 817-event set | `128` |
+
+The follow-up mapping resolution proves the layer labels, offsets, connectivity equivalence, and UMAT integration-point swap. It does not construct equivalent completed U1 phase-update states because the retained ODB/event-table evidence does not expose the within-increment U1 call sequence or `STEPITER` state at output time.
+
 Detailed SDV15 decision:
 
 ```text
 sdv15_detailed_review_incomplete
 ```
 
-The detailed reconstruction resolves the missing raw event table and confirms that the historical count was reproducible. It does not prove equivalent phase-update states for the remaining `817` non-staggered events above ODB precision, so it cannot convert the SDV15 item into a clean pass. `SDV16` remains monotone at the checked locations.
+The detailed reconstruction resolves the missing raw event table and confirms that the historical count was reproducible. The follow-up mapping resolution removes label/connectivity/IP mismatch as an explanation, but it does not prove equivalent completed phase-update states for the remaining `817` non-staggered events above ODB precision. It therefore cannot convert the SDV15 item into a clean pass. `SDV16` remains monotone at the checked locations.
 
 Decision:
 
 - `4816` events smaller than the ODB precision tolerance should not be treated as physical healing.
 - `1764` staggered-sync candidates are plausibly tied to the staggered phase/displacement update sequence.
-- `817` events remain unresolved because the retained ODB frames do not prove equivalent phase-update states for those non-staggered decreases.
-- The detailed reconstruction retains the raw event table and equivalent-state classification, but the `817` non-staggered events remain `insufficient_mapping_evidence` rather than proven harmless.
+- `817` events remain unresolved as `insufficient_output_evidence`: their label/IP mapping is resolved, but the retained outputs do not prove equivalent completed phase-update states for those non-staggered decreases.
+- The detailed reconstruction retains the raw event table and the follow-up mapping resolution retains a full-element label/connectivity proof, but the `817` non-staggered events remain not proven harmless.
 - The current evidence does not support classifying all `6113` decreases as physical healing.
 - The current evidence also does not support dismissing all `6113` decreases as harmless.
 
@@ -181,7 +194,7 @@ Unresolved limitations:
 
 - The Fig. 7 curve is approximate digitized reference data, not exact author data.
 - Supervisor-approved tolerances are not yet defined.
-- Raw `SDV15` decrease event details are now retained in `sdv15_detailed_review/`, but equivalent phase-update-state proof remains unavailable for `817` events above ODB precision.
+- Raw `SDV15` decrease event details are now retained in `sdv15_detailed_review/`, and layer mapping is resolved in `sdv15_mapping_resolution/`, but equivalent completed phase-update-state proof remains unavailable for `817` events above ODB precision.
 - Reconstruction choices, post-peak reference ambiguity, and model response are not yet separable.
 
 Consequence for Gate A3:

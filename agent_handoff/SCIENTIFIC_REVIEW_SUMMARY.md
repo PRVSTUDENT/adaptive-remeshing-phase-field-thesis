@@ -11,7 +11,7 @@ Technical execution is closed successfully as `paper_matched_v2_technical_pass`.
 - Full RF-U comparison: substantial mismatch requiring decomposition.
 - Crack propagation: short final connected crack at high SDV15 threshold; threshold sensitivity recorded.
 - SDV16 irreversibility: passed.
-- SDV15 irreversibility: detailed no-solution event reconstruction completed; still incomplete because 817 non-staggered decreases above ODB precision lack equivalent-update-state proof.
+- SDV15 irreversibility: detailed no-solution event reconstruction and source/deck mapping resolution completed; still incomplete because 817 non-staggered decreases above ODB precision lack retained completed-phase-state output evidence.
 - Scientific result: `paper_matched_v2_scientific_review_incomplete`.
 - Gate A3: `reference_data_insufficient`.
 
@@ -25,6 +25,8 @@ Technical execution is closed successfully as `paper_matched_v2_technical_pass`.
 - SDV15 decrease count: `6113`.
 - SDV15 detailed decision: `sdv15_detailed_review_incomplete`.
 - SDV15 events above ODB precision: `1297` (`480` staggered-sync effects, `817` insufficient-mapping-evidence events).
+- SDV15 mapping-resolution decision: `sdv15_mapping_resolution_incomplete`.
+- SDV15 follow-up reclassification: `817` `insufficient_output_evidence`, `0` mapping errors.
 - SDV16 decreases at SDV15 event locations above ODB precision: `0`.
 - Solver cutbacks/errors: `0` cutbacks, `0` errors.
 - Scientific decision: `paper_matched_v2_scientific_review_incomplete`.
@@ -44,6 +46,9 @@ Technical execution is closed successfully as `paper_matched_v2_technical_pass`.
 - `sdv15_detailed_review/sdv15_decrease_events_full.csv`
 - `sdv15_detailed_review/sdv15_decrease_distribution.json`
 - `sdv15_detailed_review/sdv15_equivalent_state_comparison.csv`
+- `sdv15_mapping_resolution/SDV15_MAPPING_RESOLUTION_DECISION.md`
+- `sdv15_mapping_resolution/layer_label_mapping_verified.csv`
+- `sdv15_mapping_resolution/sdv15_unresolved_event_mapping.csv`
 - `solver_resource_metrics.json`
 - `SCIENTIFIC_DECISION.md`
 - Audit Markdown files in this directory

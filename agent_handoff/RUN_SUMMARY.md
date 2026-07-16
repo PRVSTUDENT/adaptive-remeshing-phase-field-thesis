@@ -39,6 +39,7 @@ Key results:
 - `SDV15` decrease count: `6113`
 - `SDV15` maximum overshoot: `1.005600`
 - SDV15 detailed event decision: `sdv15_detailed_review_incomplete`
+- SDV15 mapping resolution decision: `sdv15_mapping_resolution_incomplete`
 
 ## No-Solution Scientific Review
 
@@ -57,6 +58,14 @@ runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/
 ```
 
 It reproduced the `6113` historical SDV15 decrease events with unique event keys, found `1297` events greater than the ODB precision tolerance, categorized those as `480` `staggered_sync_effect` and `817` `insufficient_mapping_evidence`, and confirmed `0` SDV16 decreases at the checked SDV15 event locations. The SDV15 item remains incomplete; it is not a technical failure and it does not promote the overall scientific classification.
+
+A follow-up source/deck mapping resolution is stored under:
+
+```text
+runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/
+```
+
+It checked all `33852` physical elements, found `0` U1/U2/CPS4 label or connectivity mapping failures, resolved the UMAT IP 3/4 swap, and reclassified the `817` non-staggered above-precision events as `insufficient_output_evidence`. No mapping error explains the worst event. Equivalent completed U1 phase-update states still cannot be constructed from the retained outputs, so the SDV15 item remains incomplete.
 
 ## Boundary
 
