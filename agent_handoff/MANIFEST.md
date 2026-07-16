@@ -1,6 +1,6 @@
 # Agent Handoff Manifest
 
-Created (UTC): 2026-07-16T10:19:08.488591+00:00
+Created (UTC): 2026-07-16T10:20:46.323162+00:00
 
 This directory contains only files from the latest mirrored operation.
 
@@ -13,6 +13,7 @@ This directory contains only files from the latest mirrored operation.
 | `STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` | `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` | 49260 | `1eedcf561dea87e3d90e922ca310b40b67de05458c824aa4c6cb5801deb17467` |
 | `build_molnar_v2_sdv15_diagnostic.py` | `scripts/model_generation/build_molnar_v2_sdv15_diagnostic.py` | 45538 | `52cdab9a1263663e6ab4ebe6af1ceca2f4c8e7ff41733844183caa1c2bfbdfbc` |
 | `analyze_molnar_sdv15_targeted_diagnostic.py` | `scripts/postprocessing/analyze_molnar_sdv15_targeted_diagnostic.py` | 10459 | `911169f00f685a00cd42c7e8480ab951284396c3f375d3769a9dcba10dc2444f` |
+| `validate_pbs_email_notifications.py` | `scripts/hpc/validate_pbs_email_notifications.py` | 2709 | `7d1061cedaf4296d7c90ca7ea25770bba03fb721c1551e82eaa89fee4223d5b7` |
 | `molnar_paper_matched_single_notch_v2_sdv15_diagnostic.pbs` | `scripts/hpc/molnar_paper_matched_single_notch_v2_sdv15_diagnostic.pbs` | 4803 | `d4e298a3d561513b89d1a1f6ca14b79f1ba02082e7e6f5401ff4129627fc263d` |
 | `DIAGNOSTIC_TARGET_SELECTION.md` | `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/DIAGNOSTIC_TARGET_SELECTION.md` | 1076 | `331dcb4f3bbf4313d9f488866e80bf15c44ee13dcf60d57dbcc395e4c6dfb981` |
 | `DIAGNOSTIC_SOURCE_CHANGELOG.md` | `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/DIAGNOSTIC_SOURCE_CHANGELOG.md` | 1126 | `98881cff3eaf02ee505e78fb3e29aa75614c610a145886298c598fee71587742` |
