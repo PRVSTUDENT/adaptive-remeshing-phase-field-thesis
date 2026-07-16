@@ -214,6 +214,9 @@ Evidence:
 - Fig. 7 audit metrics: `runs/hpc/paper_matched_single_notch_v2/scientific_review/fig7_comparison_metrics.json`
 - Crack threshold audit: `runs/hpc/paper_matched_single_notch_v2/scientific_review/crack_path_threshold_metrics.csv`
 - SDV audit metrics: `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv_irreversibility_metrics.json`
+- SDV15 detailed review decision: `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/SDV15_DETAILED_EVENT_DECISION.md`
+- SDV15 detailed event table: `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/sdv15_decrease_events_full.csv`
+- SDV15 layer/update mapping: `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/SDV_LAYER_AND_UPDATE_MAPPING.md`
 - Solver/resource audit: `runs/hpc/paper_matched_single_notch_v2/scientific_review/solver_resource_metrics.json`
 
 Key results:
@@ -227,10 +230,11 @@ Key results:
 - Matched RF errors: `27.48%` at `U2=0.002`, `4.98%` at `U2=0.005`, `11.55%` at `U2=0.00599`; final `U2=0.0067` is outside the processed reference range.
 - Final matched contour at `SDV15 >= 0.95`: 193 damaged elements, connected crack extension about `0.0505 mm`, approximately horizontal.
 - `SDV16` decrease count: `0`.
-- `SDV15` decrease count: `6113`; current script categories include `817` genuine-healing candidates, `1764` staggered-sync candidates, and `4816` smaller-than-ODB-precision events.
+- `SDV15` decrease count: `6113`; the detailed reconstruction reproduced all `6113` events with unique event keys. Historical first-scan categories included `817` genuine-healing candidates, `1764` staggered-sync candidates, and `4816` smaller-than-ODB-precision events.
+- Detailed SDV15 event result: `1297` events greater than ODB precision, categorized as `480` `staggered_sync_effect` and `817` `insufficient_mapping_evidence`; `0` SDV16 decreases at those event locations.
 - `SDV15` maximum overshoot: `1.005600094795227`.
 - Scientific decision: `paper_matched_v2_scientific_review_incomplete`.
-- Decision basis: post-peak RF-U mismatch dominates, high-damage crack path is connected and horizontal but short/threshold-dependent, and retained SDV15 summaries are insufficient to separate roundoff, staggered-sync, and possible irreversibility-violation populations.
+- Decision basis: post-peak RF-U mismatch dominates, high-damage crack path is connected and horizontal but short/threshold-dependent, and detailed SDV15 reconstruction still leaves non-staggered above-precision events without equivalent-update-state proof.
 
 Boundary:
 

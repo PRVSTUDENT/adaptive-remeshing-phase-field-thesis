@@ -38,6 +38,7 @@ Key results:
 - `SDV16` decrease count: `0`
 - `SDV15` decrease count: `6113`
 - `SDV15` maximum overshoot: `1.005600`
+- SDV15 detailed event decision: `sdv15_detailed_review_incomplete`
 
 ## No-Solution Scientific Review
 
@@ -48,6 +49,14 @@ runs/hpc/paper_matched_single_notch_v2/scientific_review/
 ```
 
 The review records an RF extraction audit, Fig. 7 comparison audit, response-state selection, crack-path threshold and aggregation-sensitivity checks, SDV15/SDV16 irreversibility audits, solver/resource behavior, and a decision report. The decision classification is `paper_matched_v2_scientific_review_incomplete`; Gate A3 remains `reference_data_insufficient`.
+
+The SDV15 detailed no-solution reconstruction is stored under:
+
+```text
+runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/
+```
+
+It reproduced the `6113` historical SDV15 decrease events with unique event keys, found `1297` events greater than the ODB precision tolerance, categorized those as `480` `staggered_sync_effect` and `817` `insufficient_mapping_evidence`, and confirmed `0` SDV16 decreases at the checked SDV15 event locations. The SDV15 item remains incomplete; it is not a technical failure and it does not promote the overall scientific classification.
 
 ## Boundary
 

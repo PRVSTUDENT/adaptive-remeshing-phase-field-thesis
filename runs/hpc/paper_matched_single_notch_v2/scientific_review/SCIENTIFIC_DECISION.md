@@ -65,7 +65,7 @@ Retained ODB scan summary:
 - First overshoot above one: `U2 = 0.0063299997709691525 mm`
 - Maximum overshoot: `0.005600094795227051` at `U2 = 0.006500000134110451 mm`
 
-Retained category counts:
+Historical retained category counts from the first scan:
 
 | Population | Count | Decision |
 |---|---:|---|
@@ -75,15 +75,46 @@ Retained category counts:
 | Genuine-healing candidates by current script | `817` | `possible_irreversibility_violation` / unresolved |
 | Near step transition | `0` | not a step-transition artifact in the retained summary |
 
-Magnitude-distribution limitation:
+Detailed no-solution reconstruction:
 
-The committed scientific-review artifacts preserve category counts and the largest event, but they do not preserve the raw 6113-event table. Therefore the median decrease, tolerance-bin counts for `1e-12`, `1e-10`, `1e-8`, and `1e-6`, exact number of affected integration points, full spatial concentration map, frame histogram, and equivalent phase-update-state comparison cannot be reconstructed from the retained local evidence alone.
+The existing scratch ODB was reopened read-only with Abaqus Python and processed without a new solution run. The detailed review is preserved under `sdv15_detailed_review/`.
+
+| Detailed metric | Value |
+|---|---:|
+| Reconstructed decrease events | `6113` |
+| Unique event keys | `6113` |
+| Events greater than ODB precision `1e-6` | `1297` |
+| Affected visualization elements | `309` |
+| Affected integration-point locations | `613` |
+| Median decrease | `3.725290298461914e-08` |
+| Mean decrease | `1.0167550329113368e-05` |
+| 99th percentile decrease | `0.0001771569252014161` |
+| Worst decrease | `0.0004252195358276367` |
+| Overshoot rows | `769` |
+| Unique overshoot locations | `78` |
+| SDV16 decreases at SDV15 > precision event locations | `0` |
+
+Equivalent-state categories for the `1297` events greater than ODB precision:
+
+| Category | Count |
+|---|---:|
+| `staggered_sync_effect` | `480` |
+| `insufficient_mapping_evidence` | `817` |
+
+Detailed SDV15 decision:
+
+```text
+sdv15_detailed_review_incomplete
+```
+
+The detailed reconstruction resolves the missing raw event table and confirms that the historical count was reproducible. It does not prove equivalent phase-update states for the remaining `817` non-staggered events above ODB precision, so it cannot convert the SDV15 item into a clean pass. `SDV16` remains monotone at the checked locations.
 
 Decision:
 
 - `4816` events smaller than the ODB precision tolerance should not be treated as physical healing.
 - `1764` staggered-sync candidates are plausibly tied to the staggered phase/displacement update sequence.
-- `817` events remain possible irreversibility violations or unresolved until their raw event table and equivalent-update-state comparison are retained.
+- `817` events remain unresolved because the retained ODB frames do not prove equivalent phase-update states for those non-staggered decreases.
+- The detailed reconstruction retains the raw event table and equivalent-state classification, but the `817` non-staggered events remain `insufficient_mapping_evidence` rather than proven harmless.
 - The current evidence does not support classifying all `6113` decreases as physical healing.
 - The current evidence also does not support dismissing all `6113` decreases as harmless.
 
@@ -150,7 +181,7 @@ Unresolved limitations:
 
 - The Fig. 7 curve is approximate digitized reference data, not exact author data.
 - Supervisor-approved tolerances are not yet defined.
-- Raw `SDV15` decrease event table is not retained locally, so the median, tolerance-bin counts, affected integration-point count, frame histogram, and equivalent phase-update-state comparison are unavailable.
+- Raw `SDV15` decrease event details are now retained in `sdv15_detailed_review/`, but equivalent phase-update-state proof remains unavailable for `817` events above ODB precision.
 - Reconstruction choices, post-peak reference ambiguity, and model response are not yet separable.
 
 Consequence for Gate A3:

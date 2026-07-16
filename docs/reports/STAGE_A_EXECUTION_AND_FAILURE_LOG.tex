@@ -666,7 +666,8 @@ Final damaged elements, \(\mathrm{SDV15}\ge0.95\) & 193 \\
 Final connected crack extension & about \(0.0505\ \mathrm{mm}\) \\
 \texttt{SDV16} decrease count & 0 \\
 \texttt{SDV15} decrease count & 6113 \\
-\texttt{SDV15} genuine-healing candidates by current script & 817 \\
+\texttt{SDV15} events above ODB precision & 1297 \\
+\texttt{SDV15} insufficient-mapping-evidence events & 817 \\
 \texttt{SDV15} maximum overshoot & 1.005600 \\
 \bottomrule
 \end{tabular}
@@ -674,8 +675,8 @@ Final connected crack extension & about \(0.0505\ \mathrm{mm}\) \\
 
 Matched-force comparisons against the approximate digitized Fig.~7 \(l_c=0.0075\ \mathrm{mm}\) curve were \(27.48\%\) high at \(U_2=0.002\ \mathrm{mm}\), \(4.98\%\) high at \(U_2=0.005\ \mathrm{mm}\), and \(11.55\%\) high at \(U_2\approx0.00599\ \mathrm{mm}\). The final \(U_2=0.0067\ \mathrm{mm}\) point lies outside the processed reference range. A no-solution forensic package was added under \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/}; it records RF extraction, Fig.~7 comparison, response-state, crack-threshold, \texttt{SDV15}/\texttt{SDV16}, solver-resource audits, and the scientific decision report without modifying candidate v2 or launching a new solve.
 
-The decision report assigns \texttt{paper\_matched\_v2\_scientific\_review\_incomplete}. The dominant RF--U mismatch is post-peak: pre-reference-peak RMSE is \(0.044136\ \mathrm{kN}\), post-reference-peak RMSE is \(0.348093\ \mathrm{kN}\), and full-overlap NRMSE is \(0.245705\). The final crack remains connected and approximately horizontal for \(\mathrm{SDV15}\) thresholds \(0.80\), \(0.90\), \(0.95\), and \(0.99\), with threshold-dependent extension from \(0.0555\ \mathrm{mm}\) down to \(0.0465\ \mathrm{mm}\). The retained \texttt{SDV15} artifacts preserve category counts and the worst drop, but not the raw decrease-event table needed for median, tolerance-bin, affected-point, frame-histogram, or equivalent-update-state decisions.
+The decision report assigns \texttt{paper\_matched\_v2\_scientific\_review\_incomplete}. The dominant RF--U mismatch is post-peak: pre-reference-peak RMSE is \(0.044136\ \mathrm{kN}\), post-reference-peak RMSE is \(0.348093\ \mathrm{kN}\), and full-overlap NRMSE is \(0.245705\). The final crack remains connected and approximately horizontal for \(\mathrm{SDV15}\) thresholds \(0.80\), \(0.90\), \(0.95\), and \(0.99\), with threshold-dependent extension from \(0.0555\ \mathrm{mm}\) down to \(0.0465\ \mathrm{mm}\). A detailed no-solution \texttt{SDV15} reconstruction under \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/} now preserves the raw 6113-event table, distribution, worst-event history, overshoot table, layer/update mapping, and equivalent-state categories. It reproduces all 6113 historical decreases with unique event keys, finds 1297 events above the \(10^{-6}\) ODB precision tolerance, categorizes 480 as \texttt{staggered\_sync\_effect} and 817 as \texttt{insufficient\_mapping\_evidence}, and confirms 0 \texttt{SDV16} decreases at those locations.
 
-This is not a final scientific pass. Gate A3 remains \texttt{reference\_data\_insufficient} pending supervisor-approved tolerances, review of \texttt{SDV15} decreases and late-stage overshoot, and uniform-reference justification. The current authorization has been consumed by the one completed execution; retry authorization is \texttt{none}.
+This is not a final scientific pass. The detailed \texttt{SDV15} decision is \texttt{sdv15\_detailed\_review\_incomplete}; Gate A3 remains \texttt{reference\_data\_insufficient} pending supervisor-approved tolerances, resolution of the remaining equivalent-update-state ambiguity, and uniform-reference justification. The current authorization has been consumed by the one completed execution; retry authorization is \texttt{none}.
 
 \end{document}
