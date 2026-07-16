@@ -748,4 +748,14 @@ The classification scope for this prepared execution is:
 
 It is not candidate v3 and not a new scientific model. The authorization covers exactly one corrected r2 submission and excludes an automatic retry, second r2 submission, MISESERI, remeshing, Stage B, mesh/length/load studies, parameter sweeps, multi-CPU execution, and scientific-model changes.
 
+\section{Submitted Infrastructure-Corrected SDV15 Diagnostic r2}
+
+Date: 2026-07-16.
+
+The corrected r2 diagnostic was submitted exactly once as \texttt{1375028.mmaster02} from preparation revision \texttt{209ad325d2c85532411c13d8290db08ca35b0637} at \texttt{20260716T124140+0200}. The wrapper staged an immutable scratch snapshot at \path{/scratch/pr21vyci/adaptive-remeshing/prestage/molnar_v2_sdv15_diag_r2_20260716T124140+0200_209ad325d2c8} and directed PBS output to \path{/scratch/pr21vyci/adaptive-remeshing/pbs_output/molnar_v2_sdv15_diag_r2_20260716T124140+0200_209ad325d2c8}.
+
+The initial \texttt{qstat -f} record reports \texttt{job\_state = Q}, queue \texttt{normal\_imfdfkmq}, \texttt{Resource\_List.ncpus = 1}, \texttt{Resource\_List.mem = 32gb}, \texttt{Resource\_List.select = 1:ncpus=1:mem=32gb}, and \texttt{Resource\_List.walltime = 16:00:00}. PBS mail settings were accepted as \texttt{Mail\_Users = pr21vyci@mailserver.tu-freiberg.de} and \texttt{Mail\_Points = abe}. The output path is under scratch and \texttt{Join\_Path = oe}; the scheduler still lists the default \texttt{Error\_Path}, but stderr is joined to stdout by PBS.
+
+This is only a submission and initial scheduler-acceptance checkpoint. It is not a technical pass, not a scientific pass, and not a Gate A3 closure. No second r2 submission or automatic retry is authorized.
+
 \end{document}

@@ -1,0 +1,52 @@
+﻿Job Id: 1375028.mmaster02
+    Job_Name = molnar_v2_sdv15_diag_r2
+    Job_Owner = pr21vyci@mlogin01.cluster
+    job_state = Q
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Thu Jul 16 12:41:41 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/mo
+	lnar_v2_sdv15_diag_r2.e1375028
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Thu Jul 16 12:41:41 2026
+    Output_Path = mlogin01.cluster:/scratch/pr21vyci/adaptive-remeshing/pbs_out
+	put/molnar_v2_sdv15_diag_r2_20260716T124140+0200_209ad325d2c8/molnar_v2
+	_sdv15_diag_r2.out
+    Priority = 0
+    qtime = Thu Jul 16 12:41:41 2026
+    Rerunable = True
+    Resource_List.mem = 32gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=32gb
+    Resource_List.walltime = 16:00:00
+    sandbox = PRIVATE
+    substate = 10
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,
+	PROJECT_REVISION=209ad325d2c85532411c13d8290db08ca35b0637,
+	PRESTAGED_ROOT=/scratch/pr21vyci/adaptive-remeshing/prestage/molnar_v2
+	_sdv15_diag_r2_20260716T124140+0200_209ad325d2c8,
+	PBS_O_QUEUE=entry_imfdfkmq
+    etime = Thu Jul 16 12:41:41 2026
+    eligible_time = 00:00:00
+    Submit_arguments = -M pr21vyci@mailserver.tu-freiberg.de -m abe -v PROJECT_
+	REVISION=209ad325d2c85532411c13d8290db08ca35b0637,
+	PRESTAGED_ROOT=/scratch/pr21vyci/adaptive-remeshing/prestage/molnar_v2
+	_sdv15_diag_r2_20260716T124140+0200_209ad325d2c8 -o /scratch/pr21vyci/a
+	daptive-remeshing/pbs_output/molnar_v2_sdv15_diag_r2_20260716T124140+02
+	00_209ad325d2c8/molnar_v2_sdv15_diag_r2.out scripts/hpc/molnar_paper_ma
+	tched_single_notch_v2_sdv15_diagnostic_r2.pbs
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster

@@ -526,12 +526,14 @@ The user subsequently authorized exactly one infrastructure-corrected serial r2 
 
 This r2 authorization is limited to one corrected serial submission. It does not authorize an automatic retry, second r2 submission, scientific-model change, candidate v3, Stage B, MISESERI, remeshing, state transfer, mesh/length/load studies, parameter sweeps, or multi-CPU execution.
 
+The corrected r2 job has now been submitted exactly once as \texttt{1375028.mmaster02} from revision \texttt{209ad325d2c85532411c13d8290db08ca35b0637}. The initial scheduler record reports \texttt{job\_state = Q}, queue \texttt{normal\_imfdfkmq}, one CPU, 32 GB memory, \texttt{walltime=16:00:00}, and accepted mail settings \texttt{Mail\_Users = pr21vyci@mailserver.tu-freiberg.de}, \texttt{Mail\_Points = abe}. This is a submission checkpoint only; no diagnostic technical or scientific result is claimed yet.
+
 \section{Remaining Gate A3 Work}
 
 \begin{itemize}
   \item Obtain supervisor-approved tolerances for RF--U curve error, peak-force error, peak-displacement error, crack-path deviation, \texttt{SDV15} bounds/irreversibility interpretation, and runtime/cost metrics.
   \item Review whether the candidate-v2 RF--U deviations against the approximate Fig.~7 curve are acceptable for the thesis baseline.
-  \item Preserve and review the failed targeted-output \texttt{SDV15} diagnostic run evidence; do not submit a retry without new explicit authorization.
+  \item Preserve and review the failed first targeted-output \texttt{SDV15} diagnostic run evidence and the submitted r2 scheduler evidence; do not submit a retry without new explicit authorization.
   \item Obtain supervisor decision on Gate A3 route, provisional tolerances, Fig.~7 reference acceptability, post-peak mismatch interpretation, and whether the targeted completed-phase-state evidence resolves the 817 candidate-v2 \texttt{SDV15} above-precision non-staggered events.
   \item Decide whether the final crack extension and approximately horizontal crack path are sufficient for the paper-matched baseline.
   \item If candidate v2 is accepted, perform mesh-size, length-scale, and load-increment studies to justify the uniform fine reference.

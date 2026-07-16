@@ -1,6 +1,6 @@
 # Molnar v2 SDV15 Targeted Diagnostic r2 Run Manifest
 
-Status: `prepared_not_submitted`
+Status: `submitted_initial_scheduler_record_preserved`
 
 Classification scope: `infrastructure_corrected_targeted_diagnostic_execution`
 
@@ -61,6 +61,30 @@ Confirmed retained diagnostics:
 - Email: pass privately with
   `qsub -M "pr21vyci@mailserver.tu-freiberg.de" -m abe`; tracked PBS contains
   `#PBS -m abe`.
+
+## Submission Record
+
+- Preparation commit: `209ad325d2c85532411c13d8290db08ca35b0637`.
+- Submitted job: `1375028.mmaster02`.
+- Submission time: `20260716T124140+0200`.
+- Initial scheduler state: `Q`.
+- Routed queue: `normal_imfdfkmq`.
+- Requested resources from `qstat -f`: `Resource_List.ncpus = 1`,
+  `Resource_List.mem = 32gb`, `Resource_List.select = 1:ncpus=1:mem=32gb`,
+  `Resource_List.walltime = 16:00:00`.
+- Mail verification from `qstat -f`: `Mail_Users =
+  pr21vyci@mailserver.tu-freiberg.de`, `Mail_Points = abe`.
+- Scratch pre-stage:
+  `/scratch/pr21vyci/adaptive-remeshing/prestage/molnar_v2_sdv15_diag_r2_20260716T124140+0200_209ad325d2c8`.
+- PBS output directory:
+  `/scratch/pr21vyci/adaptive-remeshing/pbs_output/molnar_v2_sdv15_diag_r2_20260716T124140+0200_209ad325d2c8`.
+- Output path is under scratch and `Join_Path = oe`; the scheduler still lists
+  the default `Error_Path`, but stderr is joined to stdout by PBS.
+- Local evidence:
+  `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/`.
+
+This is a submission checkpoint only. No Abaqus or SDV15 diagnostic result is
+claimed until the final PBS and solver evidence are collected.
 
 ## Classifications
 
