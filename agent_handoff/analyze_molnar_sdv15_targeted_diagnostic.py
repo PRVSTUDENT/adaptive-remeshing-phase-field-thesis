@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Postprocess the Molnar v2 SDV15 targeted diagnostic run."""
 
-from __future__ import annotations
-
 import argparse
 import csv
 import json

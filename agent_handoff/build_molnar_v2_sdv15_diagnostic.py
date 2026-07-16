@@ -6,8 +6,6 @@ committed SDV15 forensic evidence. It preserves the candidate-v2 model and adds
 only selected source-side logging plus reproducibility records.
 """
 
-from __future__ import annotations
-
 import csv
 import hashlib
 import json
@@ -48,6 +46,12 @@ def sha256(path: Path) -> str:
         for chunk in iter(lambda: fh.read(1024 * 1024), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def sha256_git_text(path: Path) -> str:
+    """Hash text as it appears in a normal LF-only Git checkout on Linux."""
+    data = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(data).hexdigest()
 
 
 def parse_deck(path: Path) -> tuple[dict[int, tuple[float, float]], dict[int, tuple[int, ...]]]:
@@ -491,8 +495,6 @@ def write_postprocessor() -> None:
     text = r'''#!/usr/bin/env python3
 """Postprocess the Molnar v2 SDV15 targeted diagnostic run."""
 
-from __future__ import annotations
-
 import argparse
 import csv
 import json
@@ -727,7 +729,7 @@ def write_pbs_and_manifest(counts: dict[str, int]) -> None:
         DIAG / "diagnostic_targets.csv",
         POST,
     ]
-    hash_file.write_text("".join(f"{sha256(p)}  {p.relative_to(ROOT).as_posix()}\n" for p in hash_targets), encoding="utf-8")
+    hash_file.write_text("".join(f"{sha256_git_text(p)}  {p.relative_to(ROOT).as_posix()}\n" for p in hash_targets), encoding="utf-8")
 
     pbs = r'''#!/bin/bash
 #PBS -N molnar_v2_sdv15_diag
