@@ -12,7 +12,7 @@
 
 \title{Stage A Execution, Failure, and Retry Log\\Adaptive Remeshing Phase-Field Thesis}
 \author{Pruthvi Raj Vakkalagadda}
-\date{Updated 2026-07-15}
+\date{Updated 2026-07-16}
 
 \begin{document}
 \maketitle
@@ -21,7 +21,7 @@
 
 \noindent\textbf{Stage:} Stage A\\
 \textbf{Document status:} active living document\\
-\textbf{Last updated:} 2026-07-15
+\textbf{Last updated:} 2026-07-16
 
 \medskip
 
@@ -38,6 +38,8 @@ The records below concern controlled environment and trivial smoke tests only. T
 \end{center}
 
 The Stage A benchmark and remeshing path therefore remain blocked until the reference route is resolved.
+
+Detailed task, phase, and gate status is maintained in the authoritative living checklist \texttt{docs/project/PROJECT\_PHASE\_CHECKLIST.md}. This log records chronological evidence and diagnostics; it does not duplicate the complete checklist.
 
 \section{Chronological Summary}
 
@@ -442,6 +444,148 @@ The successful retry closes the HPC technical toolchain gate, but it does not ch
 The active scientific route is no longer to ask the supervisor to choose whether the smaller supplementary Molnar deck should be compared exactly against Fig.~7. The thesis proposal directs the benchmark sequence: reproduce the established phase-field implementation, reproduce the unrefined Molnar benchmark, establish a uniformly fine reference, implement the Pandey--Kumar MISESERI workflow, and compare refined results against the uniform reference.
 
 Therefore the smaller supplementary deck remains preserved unchanged as supporting technical reproducibility evidence. The next Gate A3 action is to prepare a new paper-matched Molnar Mode-I single-notch deck using the unchanged Molnar user subroutine, then digitize/document the applicable published Molnar curve as an approximate paper reference for that reconstructed configuration. No new Abaqus or PBS run is approved by this routing update.
+
+\section{No-Run Paper-To-Model Reconstruction Audit}
+
+Date: 2026-07-15.
+
+This was a source-audit and benchmark-specification activity only. No Abaqus command was run, no PBS job was submitted, no preserved Molnar source or supplementary input deck was modified, and no MISESERI, remeshing, state-transfer, parameter-study, production, multi-CPU, or benchmark execution work was started.
+
+\begin{tabular}{ll}
+\toprule
+Audit package & \path{references/derived/molnar_gravouil_2017/paper_matched_single_notch/} \\
+Configuration skeleton & \path{configs/molnar_paper_matched_single_notch.yaml} \\
+Deck requirements & \path{docs/methods/MOLNAR_PAPER_MATCHED_DECK_REQUIREMENTS.md} \\
+Configuration status & \texttt{reconstruction\_audit\_incomplete}; \texttt{runnable: false} \\
+Gate A3 & \texttt{reference\_data\_insufficient} \\
+\bottomrule
+\end{tabular}
+
+\subsection*{Files Inspected}
+
+\begin{itemize}
+  \item \path{.agent.md}
+  \item \path{THESIS_PLAN.md}
+  \item \path{Literature review/1-s2.0-S0168874X16304954-main.pdf}
+  \item \path{models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.inp}
+  \item \path{models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.for}
+  \item \path{references/derived/molnar_gravouil_2017/single_notch/REFERENCE_APPLICABILITY_MATRIX.md}
+  \item \path{references/derived/molnar_gravouil_2017/single_notch/REFERENCE_PROVENANCE.md}
+\end{itemize}
+
+\subsection*{Parameters Confirmed}
+
+Molnar Fig.~6 and Section~3.2 confirm the 1 mm by 1 mm single-edge-notched specimen, 0.5 mm left-edge notch, pure-tension case \(\alpha=90^\circ\), bottom fixed/top moved boundary description, plane-strain 2D setting, thickness 1 mm, \(E=210\ \mathrm{kN/mm^2}\), \(\nu=0.3\), \(G_c=2.7\times10^{-3}\ \mathrm{kN/mm}\), first paper-text length scale \(l_c=0.0075\ \mathrm{mm}\), about 22,000 elements, local crack-path mesh size \(h=0.001\ \mathrm{mm}\), and tensile increments \(\Delta u=10^{-4}\ \mathrm{mm}\) for 500 steps followed by \(\Delta u=10^{-5}\ \mathrm{mm}\). Fig.~7 visibly contains Molnar curves for \(l_c=0.015\), \(0.0075\), and \(0.005\ \mathrm{mm}\), plus Miehe symbol series.
+
+The supplementary deck/source confirm the three-layer implementation pattern, U1 phase layer, U2 displacement layer, CPS4 \texttt{umatelem} visualization layer, \texttt{N\_ELEM=3930} for the smaller deck, RP RF/U output, and SDV output on the visualization layer.
+
+\subsection*{Parameters Unresolved}
+
+The audit keeps the following as unresolved rather than inventing defaults: exact mesh topology, refined-zone width/height, global element size, mesh-transition law, exact physical element count, final displacement, number of fine increments after the first 500 steps, exact digitized Fig.~7 coordinate file, matched contour-comparison displacement states, and supervisor-approved tolerances.
+
+\subsection*{Assumptions Rejected}
+
+\begin{itemize}
+  \item The smaller supplementary \texttt{SingleNotch} deck is not treated as the exact Fig.~7 numerical model.
+  \item A visually similar mesh is not accepted as a source-traceable paper-matched deck.
+  \item The Fig.~7 curve is not treated as exact RF--U coordinates until digitized and assigned uncertainty metadata.
+  \item The configuration is not marked runnable while critical fields remain null.
+\end{itemize}
+
+\subsection*{Reason No Abaqus Job Was Submitted}
+
+This activity did not produce a runnable deck. It produced a non-runnable reconstruction specification and exposed critical unresolved inputs. The next controlled actions are to resolve those inputs, digitize the applicable Fig.~7 curve, prepare a versioned paper-matched deck, pass static deck checks, and only then request explicit approval for one serial HPC run.
+
+\section{No-Run Candidate v1 Reconstruction and Static Validation}
+
+Date: 2026-07-16.
+
+This activity digitized the selected Fig.~7 curve, prepared candidate v1 reconstruction inputs, generated a deterministic candidate deck skeleton, and ran static checks. No Abaqus command was run, no PBS job was submitted, and the preserved Molnar supplementary files were not modified.
+
+\begin{tabular}{ll}
+\toprule
+Digitized curve & Molnar Fig.~7 red dashed \(l_c=0.0075\ \mathrm{mm}\) \\
+Raw digitized points & 877 \\
+Processed digitized points & 91 \\
+Digitization classification & \texttt{approximate\_published\_reference} \\
+Estimated uncertainty & \(\pm 4\times10^{-5}\ \mathrm{mm}\), \(\pm 0.015\ \mathrm{kN}\) \\
+Candidate final displacement & \(0.0067\ \mathrm{mm}\), measured from Fig.~7 extent \\
+Increment schedule & 500 coarse increments plus 170 derived fine increments \\
+Estimated/generated physical elements & 21,760 \\
+Generated layered elements & 65,280 \\
+Static validation classification & \texttt{reconstruction\_inputs\_incomplete} \\
+Configuration runnable flag & \texttt{false} \\
+\bottomrule
+\end{tabular}
+
+\subsection*{Assumptions Adopted}
+
+\begin{itemize}
+  \item Final displacement \(0.0067\ \mathrm{mm}\) is measured from Fig.~7 and is not explicitly stated in the paper text.
+  \item Fine-step count 170 is derived from \((0.0067-0.005)/10^{-5}\).
+  \item Refined-zone bounds, global size, transition width, and neighbouring-size ratio are reconstruction choices, not published parameters.
+  \item Fig.~6b has no numerical displacement label; contour comparisons are therefore response-based: final converged state, peak force, and first post-peak frame at or below 50\% peak force.
+\end{itemize}
+
+\subsection*{Rejected Alternatives}
+
+\begin{itemize}
+  \item The generated mesh was not tuned solely to obtain exactly 22,000 elements.
+  \item The digitized Fig.~7 curve was not promoted to exact author data.
+  \item The generated deck was not marked runnable because the adopted mesh recipe still needs provenance review.
+\end{itemize}
+
+\subsection*{Generator and Validator Results}
+
+The generator wrote \path{models/generated/molnar_gravouil_2017/paper_matched_single_notch_v1/paper_matched_single_notch_v1.inp}, \path{generation_manifest.json}, \path{parameter_snapshot.yaml}, \path{mesh_statistics.csv}, \path{source_hashes.txt}, and \path{README.md}. The initial static validation wrote \path{results/validation/molnar_paper_matched_single_notch_v1/STATIC_VALIDATION.md} with classification \texttt{reconstruction\_inputs\_incomplete}; the later provenance review supersedes this with \texttt{static\_validation\_fail}. This is a controlled stop, not a technical pass.
+
+\section{No-Run Candidate v1 Provenance Review}
+
+Date: 2026-07-16.
+
+This was a no-run provenance and generated-deck review. It compared \path{configs/molnar_paper_matched_single_notch.yaml}, \path{models/generated/molnar_gravouil_2017/paper_matched_single_notch_v1/parameter_snapshot.yaml}, \path{generation_manifest.json}, \path{mesh_statistics.csv}, the Fig.~7 digitization files, source hashes, and \path{paper_matched_single_notch_v1.inp}. No Abaqus command was run and no PBS job was submitted.
+
+The review found no mismatch in the digitized Fig.~7 point counts, manifest deck hash, generated physical/layered counts, node/element uniqueness, connectivity references, RF output set, SDV request, or absence of local Windows/HPC paths. Preserved Molnar supplementary source hashes still matched the recorded originals.
+
+The review found static blockers:
+\begin{itemize}
+  \item the generated deck does not explicitly represent the left-edge notch;
+  \item the generated deck lacks \texttt{*Uel property} blocks for U1/U2;
+  \item the generated deck lacks an in-plane rigid-body constraint equivalent to the supplementary \texttt{bottoml}/\texttt{topl} convention;
+  \item the configured coarse schedule is internally inconsistent, because \(500\times10^{-4}\ \mathrm{mm}=0.05\ \mathrm{mm}\) while the candidate coarse displacement is \(0.005\ \mathrm{mm}\);
+  \item the actual Step~1 deck representation gives \(0.005/500=10^{-5}\ \mathrm{mm}\) increments, not \(10^{-4}\ \mathrm{mm}\).
+\end{itemize}
+
+No corrections were made to the generated deck during the review. The classification decision is \texttt{static\_validation\_fail}; \texttt{runnable} remains \texttt{false}. Rejected assumptions: do not treat a rectangular full plate as a notched specimen; do not infer UEL properties from YAML alone; do not accept the loading schedule from YAML without matching deck amplitudes and increments.
+
+\section{No-Run Candidate v2 Repair and Static Validation}
+
+Date: 2026-07-16.
+
+Candidate v1 was preserved as failed evidence. A new versioned candidate, \texttt{paper\_matched\_candidate\_v2}, was generated under \path{models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/}. No preserved Molnar source deck or supplementary source file was modified. No Abaqus command was run and no PBS job was submitted.
+
+The v2 repair addressed the v1 root causes as follows:
+\begin{itemize}
+  \item loading schedule: rejected the \(10^{-4}\ \mathrm{mm}\) Step~1 interpretation and used \(500\times10^{-5}\ \mathrm{mm}=0.005\ \mathrm{mm}\), then \(170\times10^{-5}\ \mathrm{mm}=0.0017\ \mathrm{mm}\);
+  \item notch: generated split duplicated nodes on the open left-edge notch faces and validated zero elements bridging the open notch;
+  \item UEL properties: restored U1 \((l_c,G_c,t)\) and U2 \((E,\nu,t,k)\) property blocks using the preserved supplementary implementation order;
+  \item constraints: restored \texttt{bottoml} and \texttt{topl} in-plane constraints while retaining top-RP coupling and bottom vertical support;
+  \item mesh: replaced the uniform skeleton with generated graded coordinates and diagnostics for spacings, transition ratios, aspect ratio, refined/transition/coarse element counts, and notch-adjacent elements.
+\end{itemize}
+
+The generated v2 deck hash is \texttt{f4d135d6c12d42a94c1874a6453a8865b4806a4e2d3b5018141471ba9245ecf2}; two isolated generator runs reproduced the same LF-stable hash. Static validation wrote \path{results/validation/molnar_paper_matched_single_notch_v2/STATIC_VALIDATION.md} and \path{results/validation/molnar_paper_matched_single_notch_v2/VALIDATION_RESULTS.json}. The resulting classification is \texttt{static\_validation\_pass} and the configuration has \texttt{runnable: true}.
+
+The generated executable source pairing was repaired before submission preparation: \path{SingleNotch_v2.for} is copied from the preserved Molnar source with only \texttt{N\_ELEM} updated to \(33{,}852\), matching the candidate-v2 physical-element count. The preserved Molnar source remains unchanged.
+
+\section{Candidate v2 Mesh-Quality Preflight and Submission Preparation}
+
+Date: 2026-07-16.
+
+The final mesh-quality preflight is stored at \path{results/validation/molnar_paper_matched_single_notch_v2/MESH_QUALITY_PREFLIGHT.md}. It locates all elements with aspect ratio greater than 5, 10, and 20. The maximum aspect-ratio element is 9610, with aspect ratio \(25.000000000001368\), bounds \(x=0.281..0.282\), \(y=-0.0792578132..-0.0542578132\), and positive signed area \(2.5\times10^{-5}\). The high-aspect-ratio elements do not lie in the refined fracture strip, do not intersect the expected horizontal crack path, are not at the notch tip, and do not bridge the open notch. The maximum neighbouring-size ratio remains \(1.5\). The preflight classification is \texttt{mesh\_quality\_preflight\_pass}.
+
+The serial PBS script \path{scripts/hpc/molnar_paper_matched_single_notch_v2.pbs} was prepared for one node, one CPU, 32 GB memory, 24 hours wall time, queue \texttt{entry\_imfdfkmq}, modules \texttt{gcc/11.4.0}, \texttt{intel/2024.2.0}, and \texttt{abaqus/2023}. It stages the exact committed deck and generated candidate source to scratch, verifies their SHA-256 hashes before Abaqus execution, runs Abaqus/Standard with \texttt{cpus=1}, keeps the ODB in scratch, and stages lightweight text evidence. The run manifest is \path{runs/hpc/paper_matched_single_notch_v2/RUN_MANIFEST.md}; its initial status is \texttt{prepared\_not\_submitted}.
+
+The run remains unexecuted because commit/push synchronization, local/HPC revision matching, clean HPC working-tree checks, and active-job checks have not yet been completed. The user's standing authorization covers exactly one future serial HPC execution after those checks pass; it does not cover retries, a second candidate, multi-CPU execution, mesh or parameter studies, MISESERI, remeshing, or state transfer.
 
 \section{Current Stage A Boundary After These Jobs}
 

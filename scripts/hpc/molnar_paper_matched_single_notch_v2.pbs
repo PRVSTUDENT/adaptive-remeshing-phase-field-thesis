@@ -1,0 +1,143 @@
+#!/bin/bash
+#PBS -N molnar_paper_matched_single_notch_v2
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=32gb
+#PBS -l walltime=24:00:00
+#PBS -j oe
+
+set -u
+
+JOB_NAME="molnar_paper_matched_single_notch_v2"
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+CASE_DIR="${PROJECT_HOME}/models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+STAGE_ROOT="/scratch/pr21vyci/adaptive-remeshing/stage"
+
+DECK_NAME="paper_matched_single_notch_v2.inp"
+USER_SOURCE_NAME="SingleNotch_v2.for"
+EXPECTED_DECK_SHA256="f4d135d6c12d42a94c1874a6453a8865b4806a4e2d3b5018141471ba9245ecf2"
+EXPECTED_USER_SOURCE_SHA256="e587c195c50a5c52a000ca54d3ed00e1bf8161ba2f6aa7b3cf5aacec8425913a"
+
+RUN_ID="${JOB_NAME}_${PBS_JOBID:-manual}"
+RUN_DIR="${RUN_ROOT}/${RUN_ID}"
+STAGE_DIR="${STAGE_ROOT}/${RUN_ID}"
+SUMMARY="${RUN_DIR}/TECHNICAL_SUMMARY.txt"
+
+mkdir -p "${RUN_DIR}" "${STAGE_DIR}"
+cd "${RUN_DIR}" || exit 90
+
+classify_and_stage() {
+  local classification="$1"
+  local category="$2"
+  local abaqus_rc="${3:-unset}"
+  {
+    echo "classification=${classification}"
+    echo "failure_category=${category}"
+    echo "abaqus_return_code=${abaqus_rc}"
+    echo "pbs_jobid=${PBS_JOBID:-unset}"
+    echo "project_revision=${PROJECT_REVISION:-unset}"
+    echo "run_dir=${RUN_DIR}"
+    echo "stage_dir=${STAGE_DIR}"
+    echo "timestamp_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  } > "${SUMMARY}"
+  cp -f "${SUMMARY}" "${STAGE_DIR}/" 2>/dev/null || true
+  cp -f *.log *.msg *.dat *.sta *.com *.prt *.inp *.for module_list.txt env_paths.txt hash_check.txt pbs_context.txt "${STAGE_DIR}/" 2>/dev/null || true
+  echo "FINAL_TECHNICAL_CLASSIFICATION=${classification}"
+  echo "FINAL_FAILURE_CATEGORY=${category}"
+}
+
+{
+  echo "pbs_jobid=${PBS_JOBID:-unset}"
+  echo "pbs_o_workdir=${PBS_O_WORKDIR:-unset}"
+  echo "pbs_queue=${PBS_QUEUE:-unset}"
+  echo "hostname=$(hostname)"
+  echo "whoami=$(whoami)"
+  echo "pwd=$(pwd)"
+  echo "project_revision=${PROJECT_REVISION:-unset}"
+  echo "pbs_nodefile=${PBS_NODEFILE:-unset}"
+  if [ -n "${PBS_NODEFILE:-}" ] && [ -f "${PBS_NODEFILE}" ]; then
+    echo "pbs_nodes_begin"
+    cat "${PBS_NODEFILE}"
+    echo "pbs_nodes_end"
+  fi
+} > pbs_context.txt
+
+if [ -z "${PROJECT_REVISION:-}" ]; then
+  classify_and_stage "paper_matched_v2_technical_fail" "missing_project_revision"
+  exit 11
+fi
+
+cp "${CASE_DIR}/${DECK_NAME}" "./${DECK_NAME}" || {
+  classify_and_stage "paper_matched_v2_technical_fail" "deck_stage_failure"
+  exit 12
+}
+cp "${CASE_DIR}/${USER_SOURCE_NAME}" "./${USER_SOURCE_NAME}" || {
+  classify_and_stage "paper_matched_v2_technical_fail" "source_stage_failure"
+  exit 13
+}
+
+{
+  sha256sum "${DECK_NAME}"
+  sha256sum "${USER_SOURCE_NAME}"
+} > hash_check.txt
+
+ACTUAL_DECK_SHA256="$(sha256sum "${DECK_NAME}" | awk '{print $1}')"
+ACTUAL_USER_SOURCE_SHA256="$(sha256sum "${USER_SOURCE_NAME}" | awk '{print $1}')"
+if [ "${ACTUAL_DECK_SHA256}" != "${EXPECTED_DECK_SHA256}" ]; then
+  classify_and_stage "paper_matched_v2_technical_fail" "deck_hash_mismatch"
+  exit 14
+fi
+if [ "${ACTUAL_USER_SOURCE_SHA256}" != "${EXPECTED_USER_SOURCE_SHA256}" ]; then
+  classify_and_stage "paper_matched_v2_technical_fail" "source_hash_mismatch"
+  exit 15
+fi
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+module list > module_list.txt 2>&1
+{
+  echo "PATH=${PATH}"
+  echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-}"
+  command -v abaqus || true
+  command -v ifort || true
+  command -v ifx || true
+  command -v gcc || true
+} > env_paths.txt
+
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${DECK_NAME}" user="${USER_SOURCE_NAME}" cpus=1 interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+cp -f "${JOB_NAME}.abaqus_stdout.log" "${STAGE_DIR}/" 2>/dev/null || true
+
+if [ "${ABAQUS_RC}" -ne 0 ]; then
+  if grep -Eiq "license|licensed number|checkout" "${JOB_NAME}.abaqus_stdout.log" "${JOB_NAME}.log" "${JOB_NAME}.msg" 2>/dev/null; then
+    classify_and_stage "paper_matched_v2_technical_fail" "license_or_solver_failure" "${ABAQUS_RC}"
+  elif grep -Eiq "error.*compil|ifort|ifx|fortran" "${JOB_NAME}.abaqus_stdout.log" "${JOB_NAME}.log" 2>/dev/null; then
+    classify_and_stage "paper_matched_v2_technical_fail" "compilation_failure" "${ABAQUS_RC}"
+  elif grep -Eiq "link|ld:|undefined reference" "${JOB_NAME}.abaqus_stdout.log" "${JOB_NAME}.log" 2>/dev/null; then
+    classify_and_stage "paper_matched_v2_technical_fail" "link_failure" "${ABAQUS_RC}"
+  elif grep -Eiq "input file processor|in the input file|Abaqus/Analysis exited with errors" "${JOB_NAME}.abaqus_stdout.log" "${JOB_NAME}.dat" 2>/dev/null; then
+    classify_and_stage "paper_matched_v2_technical_fail" "input_processing_failure" "${ABAQUS_RC}"
+  else
+    classify_and_stage "paper_matched_v2_technical_fail" "solver_or_runtime_failure" "${ABAQUS_RC}"
+  fi
+  exit "${ABAQUS_RC}"
+fi
+
+for required in "${JOB_NAME}.sta" "${JOB_NAME}.msg" "${JOB_NAME}.dat" "${JOB_NAME}.odb"; do
+  if [ ! -f "${required}" ]; then
+    classify_and_stage "paper_matched_v2_technical_fail" "evidence_preservation_failure" "${ABAQUS_RC}"
+    exit 21
+  fi
+done
+
+if ! grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  classify_and_stage "paper_matched_v2_technical_fail" "numerical_nonconvergence" "${ABAQUS_RC}"
+  exit 22
+fi
+
+classify_and_stage "paper_matched_v2_technical_pass" "none" "${ABAQUS_RC}"
+echo "PBS_SUCCESS_MARKER=paper_matched_v2_technical_pass"
+exit 0

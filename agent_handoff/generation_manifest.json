@@ -1,0 +1,22 @@
+{
+  "candidate": "paper_matched_candidate_v2",
+  "config": "configs/molnar_paper_matched_single_notch.yaml",
+  "deck": "models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/paper_matched_single_notch_v2.inp",
+  "deck_sha256": "f4d135d6c12d42a94c1874a6453a8865b4806a4e2d3b5018141471ba9245ecf2",
+  "preserved_user_subroutine_source": "models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.for",
+  "reconstruction_version": "paper_matched_candidate_v2",
+  "statistics": {
+    "layered_elements": 101556,
+    "max_neighbor_size_ratio_x": 1.5,
+    "max_neighbor_size_ratio_y": 1.5,
+    "nodes": 34508,
+    "notch_lower_face_nodes": 46,
+    "notch_upper_face_nodes": 46,
+    "physical_elements": 33852,
+    "rp_node": 34508,
+    "x_element_count": 546,
+    "y_element_count": 62
+  },
+  "user_subroutine": "models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/SingleNotch_v2.for",
+  "user_subroutine_sha256": "e587c195c50a5c52a000ca54d3ed00e1bf8161ba2f6aa7b3cf5aacec8425913a"
+}

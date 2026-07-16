@@ -1,0 +1,7 @@
+set_or_command,role,constraint_or_output
+bottom,lower loaded-edge counterpart,U2 fixed
+top,loaded edge,equation coupled to RP U2
+bottoml,horizontal rigid-body removal,U1 fixed
+topl,source-faithful supplementary constraint,U1 fixed
+RP,reaction/displacement extraction,"RF,U output"
+notch_lower_face/notch_upper_face,open notch faces,split nodes; no tie/equation

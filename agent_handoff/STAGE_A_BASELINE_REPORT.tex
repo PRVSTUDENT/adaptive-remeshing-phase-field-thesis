@@ -14,7 +14,7 @@
 
 \title{Stage A Baseline Report\\Adaptive Remeshing Phase-Field Thesis}
 \author{Pruthvi Raj Vakkalagadda}
-\date{Updated 2026-07-15}
+\date{Updated 2026-07-16}
 
 \begin{document}
 \maketitle
@@ -23,7 +23,7 @@
 
 \noindent\textbf{Stage:} Stage A\\
 \textbf{Document status:} active living document\\
-\textbf{Last updated:} 2026-07-15
+\textbf{Last updated:} 2026-07-16
 
 \medskip
 
@@ -99,6 +99,28 @@ The deterministic dual-evidence retry, job \texttt{1374533.mmaster02}, was then 
 This pass completes the trivial HPC technical smoke gate for PBS execution, the GCC/Intel/Abaqus environment, Abaqus/Standard license checkout, user-subroutine compilation and linking, trivial Standard analysis completion, ODB creation, and direct \texttt{UEXTERNALDB} callback evidence. It is still not a Molnar run, not a phase-field formulation validation, not a Gate A3 scientific comparison, and not a MISESERI, remeshing, state-transfer, production, multi-CPU, or parameter-study result.
 
 The detailed chronological record and evidence paths are maintained in \texttt{docs/reports/STAGE\_A\_EXECUTION\_AND\_FAILURE\_LOG.tex}.
+
+\section{Project Phase Checklist}
+
+Detailed task, phase, and gate status is maintained in the living project checklist \texttt{docs/project/PROJECT\_PHASE\_CHECKLIST.md}.
+
+\begin{table}[H]
+\centering
+\caption{Current phase progress summary; see the project checklist for evidence paths and item-level status.}
+\begin{tabular}{p{0.18\linewidth} p{0.39\linewidth} p{0.25\linewidth}}
+\toprule
+Phase & Description & Current status \\
+\midrule
+WP0 & Environment, starter pipeline, and source preservation & completed \\
+WP1 & One-element verification & provisional scientific pass \\
+WP2A & Supplementary Molnar single-notch technical benchmark & provisional supporting evidence \\
+WP2B & Paper-matched Molnar reconstruction & in progress; candidate v1 review pending \\
+Gate A3 & Uniform reference scientific justification & blocked: \texttt{reference\_data\_insufficient} \\
+WP3--WP6 & MISESERI, refined benchmark, state transfer, ABAQUSER & not started or blocked downstream \\
+WP7 & Reports, checklist, and thesis writing & in progress \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{WP0 Environment and Toolchain}
 
@@ -379,12 +401,83 @@ The active proposal-directed progression is:
 
 Decision note \texttt{docs/decisions/0002-gate-a3-reference-route.md} is retained as history but is now superseded by the proposal-directed paper-matched benchmark route. Supervisor input remains required for final tolerances or deliberate scope deviations, not for choosing whether to proceed with the paper-matched Molnar benchmark.
 
+\section{Paper-Matched Reconstruction Audit}
+
+A no-run source audit has now been started for the proposal-directed paper-matched Molnar single-edge-notched Mode-I benchmark. The audit files are stored under
+\path{references/derived/molnar_gravouil_2017/paper_matched_single_notch/}, with a non-runnable configuration skeleton at
+\path{configs/molnar_paper_matched_single_notch.yaml} and deck-construction requirements at
+\path{docs/methods/MOLNAR_PAPER_MATCHED_DECK_REQUIREMENTS.md}.
+
+\begin{table}[H]
+\centering
+\caption{Paper-to-model reconstruction audit summary.}
+\begin{tabular}{p{0.30\linewidth} p{0.26\linewidth} p{0.34\linewidth}}
+\toprule
+Item & Current status & Evidence or blocker \\
+\midrule
+Benchmark route & Confirmed & Thesis plan WP2 starts with the single-edge-notched Mode-I benchmark before MISESERI pre-refinement. \\
+Geometry and notch & Confirmed & Molnar Fig.~6a gives a 1 mm by 1 mm specimen with a 0.5 mm left-edge notch at mid-height. \\
+Loading direction & Confirmed & Pure tension uses \(\alpha=90^\circ\), with bottom fixed and top moved. \\
+Material and fracture parameters & Confirmed & \(E=210\ \mathrm{kN/mm^2}\), \(\nu=0.3\), \(G_c=2.7\times10^{-3}\ \mathrm{kN/mm}\), and first target \(l_c=0.0075\ \mathrm{mm}\). \\
+Mesh target & Partly unresolved & Text gives about 22,000 elements and \(h=0.001\ \mathrm{mm}\) near the crack path; refined-zone dimensions, transition rule, and exact count remain unresolved. \\
+Loading sequence & Partly unresolved & Text gives \(\Delta u=10^{-4}\ \mathrm{mm}\) for 500 steps, then \(\Delta u=10^{-5}\ \mathrm{mm}\); final displacement and number of fine steps remain unresolved. \\
+Fig.~7 reference & Candidate identified, not digitized & The Molnar \(l_c=0.0075\ \mathrm{mm}\) curve is visible, but no approximate paper-coordinate file or uncertainty metadata exists yet. \\
+Run readiness & Not runnable & Critical configuration fields remain null; no paper-matched deck has been generated. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The audit preserves the key distinction: the smaller supplementary deck remains \texttt{supporting\_technical\_reproducibility\_baseline}, while the future reconstruction is only a \texttt{paper\_matched\_scientific\_benchmark\_candidate}. Gate A3 therefore remains \texttt{reference\_data\_insufficient}.
+
+\section{Paper-Matched Candidate v1 Static Reconstruction}
+
+On 2026-07-16 the Molnar Fig.~7 red dashed \(l_c=0.0075\ \mathrm{mm}\) curve was digitized from the local PDF page render. The raw file \path{references/derived/molnar_gravouil_2017/paper_matched_single_notch/fig7_lc_0p0075_raw.csv} preserves 877 red-threshold pixel-derived points. The processed file \path{references/derived/molnar_gravouil_2017/paper_matched_single_notch/fig7_lc_0p0075_processed.csv} contains 91 median-bin points without smoothing. The metadata file records the page/figure, axis calibration, overlap regions, peak/post-peak handling, and estimated uncertainty of approximately \(\pm 4\times10^{-5}\ \mathrm{mm}\) and \(\pm 0.015\ \mathrm{kN}\). The digitized curve is classified as \texttt{approximate\_published\_reference}, not exact author data.
+
+The candidate loading endpoint is measured from the visible Fig.~7 extent as \(u_\mathrm{final}=0.0067\ \mathrm{mm}\). Together with the text value \(\Delta u=10^{-4}\ \mathrm{mm}\) for 500 increments, this gives \(u=0.005\ \mathrm{mm}\) after the coarse stage and a derived 170 fine increments of \(\Delta u=10^{-5}\ \mathrm{mm}\). The exact equality of final plotted and final analysis displacement is inferred only for candidate v1.
+
+The mesh recipe is documented as an \texttt{adopted\_reconstruction\_choice}: local \(h=0.001\ \mathrm{mm}\), \(h/l=0.133333\), refined strip \(x=-0.02..0.5\ \mathrm{mm}\), \(y=-0.005..0.005\ \mathrm{mm}\), global size 0.025 mm, linear size growth, maximum neighbouring-size ratio 1.5, full-domain quadrilateral skeleton, and U1/U2/CPS4 layer offsets by \(N_\mathrm{elem}\). The estimator and generator report 21,760 physical elements and 65,280 layered elements, which is within about 1.1\% of the paper's approximate 22,000-element statement. This agreement is a consistency check only; the mesh was not tuned to force the exact count.
+
+The initial static validation produced \texttt{reconstruction\_inputs\_incomplete}. The later provenance review below supersedes this with \texttt{static\_validation\_fail}. No simulation result exists for this candidate, \texttt{runnable} remains \texttt{false}, and no Abaqus job has been submitted.
+
+\section{Candidate v1 Provenance Review}
+
+The no-run provenance review is stored at \path{results/validation/molnar_paper_matched_single_notch_v1/PARAMETER_PROVENANCE_REVIEW.md}. It compared the configuration, generated parameter snapshot, generation manifest, mesh statistics, digitized Fig.~7 data, and generated deck.
+
+The review accepted the explicitly labelled reconstruction choices as documented choices, including the refined-zone bounds, global mesh size, transition rule, maximum size ratio, final displacement measured from Fig.~7, derived fine increment count, and response-based contour states. These choices remain non-published assumptions and do not close Gate A3.
+
+The generated deck failed static validation for structural and loading reasons: no explicit notch representation was found, no UEL property blocks were written for the U1/U2 layers, no in-plane rigid-body constraint equivalent to the supplementary deck was found, and Step~1 implements \(0.005/500=10^{-5}\ \mathrm{mm}\) increments rather than the configured \(10^{-4}\ \mathrm{mm}\). The current classification is therefore \texttt{static\_validation\_fail}; \texttt{runnable} remains \texttt{false}. No candidate simulation result exists.
+
+\section{Paper-Matched Candidate v2 Static Repair}
+
+Candidate v1 is preserved as failed static evidence and was not repaired in place. Candidate v2 resolves the five static blockers in a new versioned generated directory, \path{models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/}. The loading schedule is corrected by rejecting the inconsistent \(500\times10^{-4}\ \mathrm{mm}=0.005\ \mathrm{mm}\) interpretation. Candidate v2 uses \(500\) increments of \(10^{-5}\ \mathrm{mm}\) to reach \(0.005\ \mathrm{mm}\), then \(170\) increments of \(10^{-5}\ \mathrm{mm}\) to reach the Fig.~7 endpoint \(0.0067\ \mathrm{mm}\).
+
+The notch is represented by duplicated split nodes on the open segment \(x=-0.5..0\), \(y=0\), with separate \texttt{notch\_lower\_face} and \texttt{notch\_upper\_face} sets and no physical element bridging the open notch. The layered architecture follows the preserved supplementary implementation: U1 phase elements with \((l_c,G_c,t)\), U2 displacement elements with \((E,\nu,t,k)\), and CPS4 visualization elements with matching connectivity and offset element labels. The boundary mapping restores the supplementary \texttt{bottoml}/\texttt{topl} in-plane constraints while keeping the bottom vertical support, top-to-RP equation, and RP RF/U extraction.
+
+The generated mesh now physically contains a refined strip and graded transition rather than only documenting them in YAML. The generated diagnostics report \(33{,}852\) physical elements, \(101{,}556\) layered elements, \(h/l=0.133333\), minimum edge size \(0.001\ \mathrm{mm}\), maximum edge size \(0.025\ \mathrm{mm}\), and maximum neighbouring-size ratio \(1.5\). The element count is higher than the approximate paper count; this is accepted as a deterministic reconstruction consequence, not a tuned match.
+
+The executable source pairing was corrected before submission preparation. The preserved Molnar \path{SingleNotch.for} remains unchanged, while the generated candidate source \path{models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/SingleNotch_v2.for} is copied from the preserved implementation with only the hard-coded \texttt{N\_ELEM} constant updated to \(33{,}852\), matching the candidate-v2 physical element count.
+
+Static validation passed in \path{results/validation/molnar_paper_matched_single_notch_v2/STATIC_VALIDATION.md}, with machine-readable results in \path{results/validation/molnar_paper_matched_single_notch_v2/VALIDATION_RESULTS.json}. The current configuration status is:
+
+\begin{verbatim}
+paper_matched_candidate_v2
+static_validation_pass
+runnable: true
+\end{verbatim}
+
+This is not a scientific validation result. No candidate-v2 Abaqus run or PBS job has been performed, and Gate A3 remains open until the paper-matched candidate is run and compared against the approximate Fig.~7 reference.
+
+\section{Candidate v2 Mesh-Quality Preflight}
+
+Before commit and submission preparation, a final mesh-quality preflight was written to \path{results/validation/molnar_paper_matched_single_notch_v2/MESH_QUALITY_PREFLIGHT.md}. The maximum aspect ratio remains \(25.000000000001368\), but the high-aspect-ratio elements are outside the refined fracture-process strip and do not intersect the expected horizontal crack path. The maximum-aspect element is element 9610, with bounds \(x=0.281..0.282\), \(y=-0.0792578132..-0.0542578132\), minimum distance \(0.28619\ \mathrm{mm}\) from the notch tip, positive signed area \(2.5\times10^{-5}\), and no crack-path intersection. No element bridges the open notch and the maximum neighbouring-size ratio remains \(1.5\). The aspect-ratio issue is therefore a documented reconstruction limitation rather than a submission blocker.
+
 \section{Remaining Gate A3 Work}
 
 \begin{itemize}
-  \item Prepare the paper-matched Molnar Mode-I single-notch benchmark deck while preserving the smaller supplementary deck unchanged.
+  \item Resolve critical reconstruction nulls: refined-zone dimensions, global mesh/transition, exact element count, final displacement/fine-step count, matched contour states, and tolerance policy.
   \item Digitize and document the applicable published Molnar RF--U curve as an approximate paper reference for the reconstructed paper-matched benchmark.
-  \item Statically verify geometry, notch, material parameters, \(G_c\), length scale, \(h/l\), element type, load increments, boundary conditions, extraction sets, and output requests before any new run.
+  \item Prepare a new versioned paper-matched deck only after critical fields are source-traceable.
+  \item Statically verify geometry, notch, material parameters, \(G_c\), length scale, \(h/l\), element type, load increments, boundary conditions, extraction sets, and output requests before requesting any new run.
   \item Re-run or adapt the Gate A3 validator after the paper-matched deck and paper-reference coordinates exist.
   \item Interpret small \texttt{SDV15} decreases and the \texttt{SDV14}/\texttt{SDV15} staggered difference.
   \item Add a controlled output-enabled run only if global energy integration or \(\nabla d\) reconstruction cannot be supported from the frozen unchanged ODB.

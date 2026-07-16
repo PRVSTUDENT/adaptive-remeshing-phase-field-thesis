@@ -1,0 +1,135 @@
+status: paper_matched_candidate_v1_prepared
+runnable: false
+reconstruction_version: paper_matched_candidate_v1
+validation_status: static_validation_pending
+classification: paper_matched_scientific_benchmark_candidate
+source_hierarchy:
+- THESIS_PLAN.md
+- Literature review/1-s2.0-S0168874X16304954-main.pdf
+- models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.inp
+- models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.for
+benchmark:
+  name: molnar_paper_matched_single_notch
+  mode: Mode-I
+  loading_angle_degrees: 90
+  purpose: paper_matched_uniform_baseline_candidate
+geometry:
+  width: 1.0
+  height: 1.0
+  unit: mm
+  notch:
+    side: left
+    length: 0.5
+    y_location: 0.0
+    source: Molnar Fig. 6a
+boundary_conditions:
+  bottom: fixed
+  top: prescribed_displacement
+  exact_abaqus_coupling: supplementary_RP_equation_reconstruction_choice
+model:
+  plane_strain: true
+  thickness: 1.0
+  thickness_unit: mm
+material:
+  youngs_modulus: 210.0
+  youngs_modulus_unit: kN/mm^2
+  poissons_ratio: 0.3
+fracture:
+  critical_energy_release_rate: 0.0027
+  critical_energy_release_rate_unit: kN/mm
+  selected_length_scale: 0.0075
+  selected_length_scale_unit: mm
+  residual_stiffness:
+    displacement_uel_k: 1.0e-07
+    umat_visualization_constant: 1.0e-11
+mesh:
+  physical_element_count_approx: 22000
+  estimated_physical_element_count: 21760
+  layer_count: 3
+  element_type_phase: U1
+  element_type_displacement: U2
+  element_type_visualization: CPS4
+  local_element_size: 0.001
+  local_element_size_unit: mm
+  h_over_l: 0.13333333333333333
+  exact_physical_element_count: null
+  n_elem_for_fortran_common_block: 21760
+  recipe:
+    status: adopted_reconstruction_choice
+    refined_zone:
+      x_min: -0.02
+      x_max: 0.5
+      y_min: -0.005
+      y_max: 0.005
+      status: adopted_reconstruction_choice
+    global_element_size: 0.025
+    global_element_size_status: adopted_reconstruction_choice
+    transition_region_width: 0.02
+    transition_region_width_status: adopted_reconstruction_choice
+    transition_law: linear_size_growth
+    transition_element_fraction: 0.2
+    maximum_neighbouring_size_ratio: 1.5
+    topology: structured_quad_reconstruction_skeleton
+    element_aspect_ratio_limit: 5.0
+    notch_tip_alignment: notch_tip_on_node_line_x0_y0
+    domain_treatment: full_domain
+    plane_strain_element_family: four_node_quadrilateral
+    physical_and_visualization_layering: phase_U1_displacement_U2_visualization_CPS4
+    element_offset_rules:
+      phase_start: 1
+      displacement_start: n_elem_plus_1
+      visualization_start: two_n_elem_plus_1
+loading:
+  coarse_increment: 0.0001
+  coarse_increment_unit: mm
+  coarse_steps: 500
+  coarse_displacement: 0.005
+  fine_increment: 1.0e-05
+  fine_increment_unit: mm
+  fine_steps: 170
+  final_displacement: 0.0067
+  final_displacement_status: measured_from_figure
+  final_plotted_equals_final_analysis_displacement: inferred_same_for_candidate
+output:
+  reaction_force_set: RP
+  reaction_force_component: RF2
+  displacement_component: U2
+  phase_field_output: SDV_on_umatelem
+  required_sdv_outputs:
+  - SDV
+reference:
+  figure: 7
+  curve_label: Molnar_lc_0p0075
+  candidate_curve_label: Molnar lc=0.0075 mm
+  axes:
+    x: displacement u [mm]
+    y: reaction force F [kN]
+  digitization_status: approximate_published_reference
+  raw_digitized_data: references/derived/molnar_gravouil_2017/paper_matched_single_notch/fig7_lc_0p0075_raw.csv
+  processed_digitized_data: references/derived/molnar_gravouil_2017/paper_matched_single_notch/fig7_lc_0p0075_processed.csv
+  uncertainty_metadata: references/derived/molnar_gravouil_2017/paper_matched_single_notch/FIG7_DIGITIZATION_METADATA.md
+  uncertainty:
+    displacement_mm: 4.0e-05
+    reaction_force_kN: 0.015
+contour_comparison_states:
+- panel: Fig6b
+  displayed_or_inferred_displacement: null
+  classification: final_state
+  source_status: unlabeled_figure_panel
+  uncertainty: numerical_displacement_unavailable
+  abaqus_frame_selection_rule: final_converged_state
+- panel: validation_curve_peak
+  displayed_or_inferred_displacement: response_based_peak_force
+  classification: peak_force
+  source_status: reconstruction_choice
+  uncertainty: depends_on_candidate_response
+  abaqus_frame_selection_rule: frame_at_max_RF2
+- panel: post_peak_reference
+  displayed_or_inferred_displacement: response_based_post_peak_50_percent_force
+  classification: propagation
+  source_status: reconstruction_choice
+  uncertainty: depends_on_candidate_response
+  abaqus_frame_selection_rule: first_post_peak_frame_with_RF2_le_0p5_peak
+gate:
+  gate_a3: reference_data_insufficient
+  next_required_action: review_candidate_v1_static_validation_before_any_run
