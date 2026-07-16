@@ -608,4 +608,72 @@ The run remains unexecuted because commit/push synchronization, local/HPC revisi
   \item MISESERI/remeshing: blocked.
 \end{itemize}
 
+\section{Paper-Matched Candidate v2 Completed HPC Run and Postprocessing}
+
+Date: 2026-07-16.
+
+The single authorized serial paper-matched candidate-v2 HPC baseline completed as job \texttt{1374864.mmaster02}. No retry, second candidate, multi-CPU run, sweep, MISESERI run, remeshing run, state-transfer run, or parameter study was submitted.
+
+\begin{table}[htbp]
+\centering
+\caption{Candidate-v2 completed PBS and Abaqus technical result.}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Item & Value \\
+\midrule
+Job ID & \texttt{1374864.mmaster02} \\
+Candidate revision & \texttt{711dd495bdcb830d695f9d7e56283316c9d417d5} \\
+PBS state & \texttt{F} \\
+PBS exit status & \texttt{0} \\
+Execution host & \texttt{mnode099/0} \\
+Run count & \texttt{1} \\
+Walltime & \texttt{00:38:38} \\
+CPU time & \texttt{00:35:52} \\
+Memory & \texttt{2970760kb} \\
+VMEM & \texttt{3565868kb} \\
+Abaqus return code & \texttt{0} \\
+Technical classification & \texttt{paper\_matched\_v2\_technical\_pass} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The technical acceptance checks passed: PBS finished with \texttt{Exit\_status = 0}, Abaqus returned zero, \texttt{.odb}, \texttt{.sta}, \texttt{.msg}, and \texttt{.dat} files exist in the scratch run directory, the \texttt{.sta} file reports \texttt{THE ANALYSIS HAS COMPLETED SUCCESSFULLY}, and the retained technical summary records \texttt{classification=paper\_matched\_v2\_technical\_pass}. The large ODB remains on scratch:
+
+\begin{verbatim}
+/scratch/pr21vyci/adaptive-remeshing/runs/molnar_paper_matched_single_notch_v2_1374864.mmaster02/molnar_paper_matched_single_notch_v2.odb
+\end{verbatim}
+
+Only lightweight evidence was copied back under \path{runs/hpc/paper_matched_single_notch_v2/}. The retained evidence includes the final scheduler record, technical summary, \texttt{.sta}, \texttt{.msg}, \texttt{.dat}, Abaqus stdout, extraction CSVs, matched-state contour CSVs, and scientific-review JSON/Markdown files.
+
+\subsection*{Read-Only ODB Postprocessing}
+
+The completed ODB was postprocessed read-only with Abaqus Python. The extraction generated RF--U/phase-history data, four response-based matched contour CSVs, and scientific-review diagnostics. Two scripts were made compatible with the cluster's Abaqus Python during postprocessing by removing Python-3-only file-opening keywords and replacing \texttt{math.isfinite}; these are postprocessing-tool compatibility fixes, not candidate-v2 model or solver changes.
+
+\begin{table}[htbp]
+\centering
+\caption{Candidate-v2 scientific-review diagnostics.}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Metric & Value \\
+\midrule
+Scientific classification & \texttt{scientific\_review\_required} \\
+Peak RF2 & \(0.761702\ \mathrm{kN}\) at \(U_2=0.006110\ \mathrm{mm}\) \\
+Final RF2 & \(0.749110\ \mathrm{kN}\) at \(U_2=0.006700\ \mathrm{mm}\) \\
+RF--U NRMSE vs approximate Fig.~7 & \(0.247493\) \\
+Relative peak-force error & \(0.064519\) \\
+Relative peak-displacement error & \(0.041257\) \\
+Final damaged elements, \(\mathrm{SDV15}\ge0.95\) & 193 \\
+Final connected crack extension & about \(0.0505\ \mathrm{mm}\) \\
+\texttt{SDV16} decrease count & 0 \\
+\texttt{SDV15} decrease count & 6113 \\
+\texttt{SDV15} genuine-healing candidates by current script & 817 \\
+\texttt{SDV15} maximum overshoot & 1.005600 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Matched-force comparisons against the approximate digitized Fig.~7 \(l_c=0.0075\ \mathrm{mm}\) curve were \(27.48\%\) high at \(U_2=0.002\ \mathrm{mm}\), \(4.98\%\) high at \(U_2=0.005\ \mathrm{mm}\), and \(11.55\%\) high at \(U_2\approx0.00599\ \mathrm{mm}\). The final \(U_2=0.0067\ \mathrm{mm}\) point lies outside the processed reference range.
+
+This is not a final scientific pass. Gate A3 remains open pending supervisor-approved tolerances, review of \texttt{SDV15} decreases and late-stage overshoot, and uniform-reference justification. The current authorization has been consumed by the one completed execution; retry authorization is \texttt{none}.
+
 \end{document}

@@ -186,7 +186,7 @@ def extract_contours(odb_path, matched_rows, output_dir):
                             value_index,
                         )
                         field_data.setdefault(key, {})[name.lower()] = scalar_value(value)
-            with open(path, "w", newline="") as stream:
+            with open(path, "w") as stream:
                 writer = csv.DictWriter(
                     stream,
                     fieldnames=[
@@ -231,8 +231,8 @@ def extract_contours(odb_path, matched_rows, output_dir):
 def read_text(path):
     if not path or not os.path.exists(path):
         return ""
-    with open(path, "r", errors="replace") as stream:
-        return stream.read()
+    with open(path, "rb") as stream:
+        return stream.read().decode("utf-8", "replace")
 
 
 def parse_warnings(dat_text):
@@ -277,7 +277,7 @@ def write_curve_csv(path, rows):
         "max_sdv16",
         "description",
     ]
-    with open(path, "w", newline="") as stream:
+    with open(path, "w") as stream:
         writer = csv.DictWriter(stream, fieldnames=fieldnames)
         writer.writeheader()
         for row in rows:
@@ -297,7 +297,7 @@ def write_matched_csv(path, rows):
         "max_sdv15",
         "max_sdv16",
     ]
-    with open(path, "w", newline="") as stream:
+    with open(path, "w") as stream:
         writer = csv.DictWriter(stream, fieldnames=fieldnames)
         writer.writeheader()
         for row in rows:

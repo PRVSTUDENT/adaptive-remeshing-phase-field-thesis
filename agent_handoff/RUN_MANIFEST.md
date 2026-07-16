@@ -5,7 +5,7 @@ Prepared: 2026-07-16
 Status:
 
 ```text
-prepared_not_submitted
+completed_postprocessed
 ```
 
 ## Candidate
@@ -14,15 +14,24 @@ prepared_not_submitted
 - Reconstruction version: `paper_matched_candidate_v2`
 - Static validation: `static_validation_pass`
 - Runnable status: `true`
-- Gate A3: `reference_data_insufficient`
-- Scientific status: `paper_matched_v2_scientific_comparison_pending`
+- Gate A3: open, scientific review required
+- Scientific status: `scientific_review_required`
 
 ## Repository
 
 - Preparation base revision: `79c2bcc18726ef9bfa34e209044f7cb344ab0af4`
-- Candidate commit revision: `pending`
-- Generator revision: `pending candidate commit`
-- PBS submission revision: `pending`
+- Candidate commit revision: `711dd495bdcb830d695f9d7e56283316c9d417d5`
+- Generator revision: `711dd495bdcb830d695f9d7e56283316c9d417d5`
+- PBS submission revision: `711dd495bdcb830d695f9d7e56283316c9d417d5`
+- PBS job ID: `1374864.mmaster02`
+- Submission time: `2026-07-16 07:39:46 Europe/Berlin`
+- Initial scheduler state: `R` on `mnode099`, one node, one CPU, `32gb`, `24:00:00`.
+- Notification boundary: this job was already submitted before the permanent PBS email-notification rule was added and remains unchanged.
+- Final PBS state: `F`
+- Final PBS `Exit_status`: `0`
+- Execution host: `mnode099/0`
+- Run count: `1`
+- Resource use: walltime `00:38:38`, CPU time `00:35:52`, CPU percent `95`, memory `2970760kb`, vmem `3565868kb`.
 
 ## Deck And Source
 
@@ -93,6 +102,7 @@ Arithmetic:
 - CPUs: `1`
 - Memory: `32gb`
 - Walltime: `24:00:00`
+- Email notification for future submissions: required with explicit `#PBS -M <verified_recipient>` and `#PBS -m abe`; validate with `scripts/hpc/validate_pbs_email_notifications.py` before the first submission using that address.
 - Modules: `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`
 - Scratch run root: `/scratch/pr21vyci/adaptive-remeshing/runs`
 - Lightweight stage root: `/scratch/pr21vyci/adaptive-remeshing/stage`
@@ -129,6 +139,32 @@ paper_matched_v2_technical_fail
 
 Failure categories include `license_failure`, `compilation_failure`, `link_failure`, `input_processing_failure`, `numerical_nonconvergence`, `walltime_exceeded`, `memory_failure`, and `evidence_preservation_failure`.
 
+## Technical Result
+
+Classification:
+
+```text
+paper_matched_v2_technical_pass
+```
+
+Evidence:
+
+- Final scheduler record: `runs/hpc/paper_matched_single_notch_v2/evidence/qstat_xf_1374864_final.txt`
+- Technical summary: `runs/hpc/paper_matched_single_notch_v2/evidence/TECHNICAL_SUMMARY.txt`
+- STA: `runs/hpc/paper_matched_single_notch_v2/evidence/molnar_paper_matched_single_notch_v2.sta`
+- MSG: `runs/hpc/paper_matched_single_notch_v2/evidence/molnar_paper_matched_single_notch_v2.msg`
+- DAT: `runs/hpc/paper_matched_single_notch_v2/evidence/molnar_paper_matched_single_notch_v2.dat`
+- Abaqus stdout: `runs/hpc/paper_matched_single_notch_v2/evidence/molnar_paper_matched_single_notch_v2.abaqus_stdout.log`
+
+Acceptance notes:
+
+- PBS finished with `Exit_status = 0`.
+- Abaqus return code was `0`.
+- ODB, STA, MSG, and DAT exist in scratch.
+- STA reports `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`.
+- The PBS technical summary reports `classification=paper_matched_v2_technical_pass`.
+- The ODB remains on scratch at `/scratch/pr21vyci/adaptive-remeshing/runs/molnar_paper_matched_single_notch_v2_1374864.mmaster02/molnar_paper_matched_single_notch_v2.odb`; it is not copied into Git or handoff.
+
 ## Scientific Postprocessing Plan
 
 After a technical pass, extract without rerunning Abaqus:
@@ -155,10 +191,49 @@ paper_matched_v2_scientific_provisional_pass
 paper_matched_v2_scientific_fail
 ```
 
+## Scientific Postprocessing Result
+
+Classification:
+
+```text
+scientific_review_required
+```
+
+Evidence:
+
+- Extraction summary: `runs/hpc/paper_matched_single_notch_v2/extracted/SINGLE_NOTCH_EXTRACTION.md`
+- RF-U / phase summary: `runs/hpc/paper_matched_single_notch_v2/extracted/single_notch_rf_u_phase_summary.csv`
+- Matched states: `runs/hpc/paper_matched_single_notch_v2/extracted/single_notch_matched_displacement_states.csv`
+- Scientific summary: `runs/hpc/paper_matched_single_notch_v2/scientific_check/SINGLE_NOTCH_SCIENTIFIC_CHECK.md`
+- Scientific JSON: `runs/hpc/paper_matched_single_notch_v2/scientific_check/single_notch_scientific_check.json`
+- RF-U comparison: `runs/hpc/paper_matched_single_notch_v2/scientific_check/rf_u_curve_comparison.csv`
+- Crack-path comparison: `runs/hpc/paper_matched_single_notch_v2/scientific_check/crack_path_comparison.csv`
+
+Key results:
+
+- Peak RF2: `0.7617020010948181 kN` at `U2 = 0.00610999995842576 mm`.
+- Final RF2: `0.7491104602813721 kN` at `U2 = 0.0066999997943639755 mm`.
+- Area under RF-U: `0.0028830400600231396`.
+- RF-U comparison against approximate digitized Fig. 7 `lc = 0.0075 mm`: NRMSE `0.24749339943787088`.
+- Relative peak force error: `0.06451931788601317`.
+- Relative peak displacement error: `0.041256590238391636`.
+- Matched RF errors: `27.48%` at `U2=0.002`, `4.98%` at `U2=0.005`, `11.55%` at `U2=0.00599`; final `U2=0.0067` is outside the processed reference range.
+- Final matched contour at `SDV15 >= 0.95`: 193 damaged elements, connected crack extension about `0.0505 mm`, approximately horizontal.
+- `SDV16` decrease count: `0`.
+- `SDV15` decrease count: `6113`; current script categories include `817` genuine-healing candidates, `1764` staggered-sync candidates, and `4816` smaller-than-ODB-precision events.
+- `SDV15` maximum overshoot: `1.005600094795227`.
+
+Boundary:
+
+- This is not a final scientific pass.
+- Do not submit a retry or any additional Abaqus/PBS job under the completed one-run authorization.
+- Gate A3 remains open pending supervisor-approved tolerances and uniform-reference justification.
+
 ## Submission
 
-- Job ID: `pending`
-- Submission time: `pending`
-- Synchronized HPC revision: `pending`
-- Active-job precheck: `pending`
-- HPC working tree precheck: `pending`
+- Job ID: `1374864.mmaster02`
+- Submission time: `2026-07-16 07:39:46 Europe/Berlin`
+- Synchronized HPC revision: `711dd495bdcb830d695f9d7e56283316c9d417d5`
+- Active-job precheck: passed before this one authorized submission
+- HPC working tree precheck: clean enough for the submitted revision
+- Retry authorization: none

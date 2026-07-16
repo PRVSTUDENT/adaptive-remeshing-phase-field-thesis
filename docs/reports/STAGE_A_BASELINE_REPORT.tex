@@ -49,7 +49,8 @@ HPC trivial user-subroutine smoke overall & \texttt{hpc\_user\_subroutine\_smoke
 WP1 one-element technical gate & Passed \\
 WP1 one-element scientific gate & Passed provisionally \\
 WP2 single-notch technical gate & Passed \\
-WP2 single-notch scientific comparison & \texttt{reference\_data\_insufficient} \\
+Paper-matched candidate-v2 HPC technical run & \texttt{paper\_matched\_v2\_technical\_pass} \\
+Paper-matched candidate-v2 scientific comparison & \texttt{scientific\_review\_required} \\
 MISESERI pre-refinement & Blocked until WP2 review \\
 Remeshing/state transfer & Not started \\
 \bottomrule
@@ -114,8 +115,8 @@ Phase & Description & Current status \\
 WP0 & Environment, starter pipeline, and source preservation & completed \\
 WP1 & One-element verification & provisional scientific pass \\
 WP2A & Supplementary Molnar single-notch technical benchmark & provisional supporting evidence \\
-WP2B & Paper-matched Molnar reconstruction & in progress; candidate v1 review pending \\
-Gate A3 & Uniform reference scientific justification & blocked: \texttt{reference\_data\_insufficient} \\
+WP2B & Paper-matched Molnar reconstruction & technical pass; scientific review required \\
+Gate A3 & Uniform reference scientific justification & open: tolerances and uniform-reference justification pending \\
 WP3--WP6 & MISESERI, refined benchmark, state transfer, ABAQUSER & not started or blocked downstream \\
 WP7 & Reports, checklist, and thesis writing & in progress \\
 \bottomrule
@@ -471,16 +472,37 @@ This is not a scientific validation result. No candidate-v2 Abaqus run or PBS jo
 
 Before commit and submission preparation, a final mesh-quality preflight was written to \path{results/validation/molnar_paper_matched_single_notch_v2/MESH_QUALITY_PREFLIGHT.md}. The maximum aspect ratio remains \(25.000000000001368\), but the high-aspect-ratio elements are outside the refined fracture-process strip and do not intersect the expected horizontal crack path. The maximum-aspect element is element 9610, with bounds \(x=0.281..0.282\), \(y=-0.0792578132..-0.0542578132\), minimum distance \(0.28619\ \mathrm{mm}\) from the notch tip, positive signed area \(2.5\times10^{-5}\), and no crack-path intersection. No element bridges the open notch and the maximum neighbouring-size ratio remains \(1.5\). The aspect-ratio issue is therefore a documented reconstruction limitation rather than a submission blocker.
 
+\section{Candidate v2 HPC Technical and Scientific Review Result}
+
+The paper-matched candidate-v2 serial HPC baseline was submitted exactly once as job \texttt{1374864.mmaster02} from revision \texttt{711dd495bdcb830d695f9d7e56283316c9d417d5}. The job finished on \texttt{mnode099/0} with PBS \texttt{Exit\_status = 0}, walltime \texttt{00:38:38}, CPU time \texttt{00:35:52}, and run count 1. Abaqus returned zero, the ODB, \texttt{.sta}, \texttt{.msg}, and \texttt{.dat} files exist on scratch, and the \texttt{.sta} file contains \texttt{THE ANALYSIS HAS COMPLETED SUCCESSFULLY}. The technical classification is:
+
+\begin{center}
+\texttt{paper\_matched\_v2\_technical\_pass}
+\end{center}
+
+The ODB remains on scratch at \path{/scratch/pr21vyci/adaptive-remeshing/runs/molnar_paper_matched_single_notch_v2_1374864.mmaster02/molnar_paper_matched_single_notch_v2.odb}. Only lightweight scheduler, text, CSV, JSON, and Markdown evidence is retained under \path{runs/hpc/paper_matched_single_notch_v2/}.
+
+The completed ODB was postprocessed read-only. The extracted peak reaction force is \(0.761702\ \mathrm{kN}\) at \(U_2=0.006110\ \mathrm{mm}\). The final extracted reaction force is \(0.749110\ \mathrm{kN}\) at \(U_2=0.006700\ \mathrm{mm}\). Against the approximate digitized Molnar Fig.~7 curve for \(l_c=0.0075\ \mathrm{mm}\), the RF--U curve NRMSE is \(0.247493\), the relative peak-force error is \(0.064519\), and the relative peak-displacement error is \(0.041257\). Matched-force relative errors are \(27.48\%\) at \(U_2=0.002\ \mathrm{mm}\), \(4.98\%\) at \(U_2=0.005\ \mathrm{mm}\), and \(11.55\%\) at \(U_2\approx0.00599\ \mathrm{mm}\); the final \(U_2=0.0067\ \mathrm{mm}\) state lies outside the processed reference range.
+
+At phase threshold \(\mathrm{SDV15}\ge0.95\), the final matched contour contains 193 damaged elements and an approximately horizontal connected crack extension of about \(0.0505\ \mathrm{mm}\). The ODB-wide bounds and irreversibility scan found no \texttt{SDV16} decreases. It found 6113 \texttt{SDV15} decreases, including 817 events currently categorized by the script as genuine-healing candidates, and late-stage \texttt{SDV15} overshoot up to \(1.005600\). These diagnostics require scientific review before any validation claim.
+
+The scientific classification is therefore:
+
+\begin{center}
+\texttt{scientific\_review\_required}
+\end{center}
+
+Gate A3 remains open. No retry, second candidate, multi-CPU run, parameter study, MISESERI run, remeshing run, or state-transfer run is authorized by this completed one-run checkpoint.
+
 \section{Remaining Gate A3 Work}
 
 \begin{itemize}
-  \item Resolve critical reconstruction nulls: refined-zone dimensions, global mesh/transition, exact element count, final displacement/fine-step count, matched contour states, and tolerance policy.
-  \item Digitize and document the applicable published Molnar RF--U curve as an approximate paper reference for the reconstructed paper-matched benchmark.
-  \item Prepare a new versioned paper-matched deck only after critical fields are source-traceable.
-  \item Statically verify geometry, notch, material parameters, \(G_c\), length scale, \(h/l\), element type, load increments, boundary conditions, extraction sets, and output requests before requesting any new run.
-  \item Re-run or adapt the Gate A3 validator after the paper-matched deck and paper-reference coordinates exist.
-  \item Interpret small \texttt{SDV15} decreases and the \texttt{SDV14}/\texttt{SDV15} staggered difference.
-  \item Add a controlled output-enabled run only if global energy integration or \(\nabla d\) reconstruction cannot be supported from the frozen unchanged ODB.
+  \item Obtain supervisor-approved tolerances for RF--U curve error, peak-force error, peak-displacement error, crack-path deviation, \texttt{SDV15} bounds/irreversibility interpretation, and runtime/cost metrics.
+  \item Review whether the candidate-v2 RF--U deviations against the approximate Fig.~7 curve are acceptable for the thesis baseline.
+  \item Interpret candidate-v2 \texttt{SDV15} decrease candidates and late-stage overshoot before declaring any true healing or bounds failure.
+  \item Decide whether the final crack extension and approximately horizontal crack path are sufficient for the paper-matched baseline.
+  \item If candidate v2 is accepted, perform mesh-size, length-scale, and load-increment studies to justify the uniform fine reference.
+  \item Do not start MISESERI, remeshing, state transfer, a retry, or a new Abaqus run until the candidate-v2 review route is accepted and explicitly authorized.
 \end{itemize}
 
 \section*{Reproducibility Files}
@@ -491,6 +513,7 @@ Before commit and submission preparation, a final mesh-quality preflight was wri
   \item Report figure generator: \texttt{scripts/postprocessing/generate\_stage\_a\_report\_figures.py}
   \item One-element evidence: \texttt{runs/molnar\_one\_element\_unchanged/20260714\_technical\_gate\_local/scientific\_check/}
   \item Single-notch evidence: \texttt{runs/molnar\_single\_notch\_unchanged/20260714\_technical\_gate\_local/}
+  \item Paper-matched candidate-v2 evidence: \texttt{runs/hpc/paper\_matched\_single\_notch\_v2/}
   \item Report figures: \texttt{results/figures/stage\_a\_baseline/}
   \item Report tables: \texttt{results/tables/stage\_a\_baseline/}
 \end{itemize}

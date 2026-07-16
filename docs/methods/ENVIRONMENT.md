@@ -53,6 +53,7 @@ Status: local Windows inspection completed on 2026-07-14; no-submit HPC access/m
 - HPC Abaqus result: `abaqus information=release` reported `Abaqus 2023` and completed.
 - HPC compiler result: `ifx (IFX) 2024.2.0 20240602`.
 - PBS queue inspection completed without submission. `testq` was enabled with `resources_max.walltime = 04:00:00`; `entry_imfdfkmq` routed to `normal_imfdfkmq` and `short_imfdfkmq`.
+- PBS email notification rule for future submissions: every new PBS script must include explicit `#PBS -M <verified_recipient>` and `#PBS -m abe` directives for begin, end, and abort/failure notifications. Verify the recipient address with `python scripts/hpc/validate_pbs_email_notifications.py --email <address> <pbs_files>` before the first submission using that address. Do not assume the cluster account's default email address. Already running job `1374864.mmaster02` remains unchanged.
 - Prepared-but-not-submitted PBS script: `scripts/hpc/abaqus_environment_smoke.pbs`
 - First submission evidence: `runs/hpc/20260715_abaqus_environment_smoke/`
 - First submitted job: `1374529.mmaster02`
@@ -151,3 +152,4 @@ Status: local Windows inspection completed on 2026-07-14; no-submit HPC access/m
 ## Completion Gate
 
 This record must be complete before any production Abaqus/HPC submission. The next controlled HPC task is to diagnose and prepare a repair for the trivial `UEXTERNALDB` marker failure before any further user-subroutine smoke submission. The next scientific baseline task remains comparison of the unchanged Molnar single-notch RF-U curve and phase-field/crack evolution against reference behavior.
+Future PBS submissions also require explicit email notification directives for begin, end, and abort/failure events, with the recipient verified by `scripts/hpc/validate_pbs_email_notifications.py` before the first submission using that address.

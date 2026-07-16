@@ -4,6 +4,8 @@
 #PBS -l select=1:ncpus=1:mem=8gb
 #PBS -l walltime=00:30:00
 #PBS -j oe
+#PBS -M your.email@domain.com
+#PBS -m abe
 
 set -euo pipefail
 

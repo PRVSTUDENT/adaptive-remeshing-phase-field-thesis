@@ -15,7 +15,7 @@ Updated: 2026-07-16
 
 Current stage:
 - Stage A / WP2 - Molnar baseline reproduction and paper-matched single-notch scientific comparison.
-- The unchanged smaller Molnar supplementary single-notch deck has a local technical pass and reproducible first extraction. It remains supporting technical reproducibility evidence, not the exact Fig. 7 numerical comparison target. Gate A3 remains `reference_data_insufficient` because the proposal-directed scientific comparison must use a newly prepared paper-matched Molnar Mode-I single-notch benchmark and an applicable documented paper reference.
+- The unchanged smaller Molnar supplementary single-notch deck has a local technical pass and reproducible first extraction. It remains supporting technical reproducibility evidence, not the exact Fig. 7 numerical comparison target. The paper-matched candidate-v2 serial HPC baseline job `1374864.mmaster02` completed with `paper_matched_v2_technical_pass`; postprocessing against the existing scratch ODB produced RF-U, matched-state contours, crack-path diagnostics, and SDV bound/irreversibility diagnostics. The scientific comparison classification is `scientific_review_required`, not a final pass, because supervisor-approved tolerances and uniform-reference acceptance remain unresolved.
 - No remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
 - HPC account access and a queue/node/software snapshot are documented from `hpc_access_limits_report.txt` (captured 2026-07-14). SSH access was restored and verified on 2026-07-15; the HPC clone, home/scratch layout, Abaqus/Intel module probe, PBS queue inspection, and serial `testq` environment smoke attempts are now documented. The final environment rerun job `1374531.mmaster02` passed with `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, compute host `mnode098.cluster`, repository revision supplied via `PROJECT_REVISION`, and PBS `Exit_status = 0`. The first minimal Abaqus/Standard trivial `UEXTERNALDB` smoke job `1374532.mmaster02` checked out an Abaqus/Standard license, compiled, linked, completed the analysis, and created an ODB, but failed the callback marker check because `uexternaldb_smoke.called` was absent; classification `hpc_user_subroutine_smoke_fail`, failure category `callback_invocation`. The deterministic retry job `1374533.mmaster02` at revision `c5db808b4c8d9e9bd01a9e5da0bd91b173787b8e` passed on `mnode097.cluster` with PBS `Exit_status = 0`, Abaqus return code zero, ODB/STA/MSG present, analysis-success statement present, direct `.msg` callback tokens, and absolute marker file `uexternaldb_smoke.called` containing `UEXTERNALDB_SMOKE_CALLED`; classification `hpc_user_subroutine_smoke_pass`. Gate A3 remains an independent scientific blocker.
 - HPC environment smoke: passed.
@@ -23,6 +23,7 @@ Current stage:
 - HPC user-subroutine compilation: passed for the trivial Abaqus/Standard smoke.
 - HPC user-subroutine linking: passed for the trivial Abaqus/Standard smoke.
 - HPC Standard analysis completion: passed for the trivial Abaqus/Standard smoke.
+- HPC notification rule: from the next HPC submission onward, every PBS script must request email notification at job begin, normal end, and abort/failure with explicit `#PBS -M <verified_recipient>` and `#PBS -m abe` directives. Verify the recipient address with `python scripts/hpc/validate_pbs_email_notifications.py --email <address> <pbs_files>` before the first submission using that address. Do not assume the cluster account's default email address. Already-submitted job `1374864.mmaster02` remains unchanged.
 - UEXTERNALDB callback invocation: passed in deterministic retry job `1374533.mmaster02`.
 - Callback symbol presence in linked library: indirectly exercised by successful compile/link/run and direct callback tokens in job `1374533.mmaster02`; retained binary symbol inspection remains optional evidence, not a blocker for the trivial smoke gate.
 - Callback library loading: exercised by job `1374533.mmaster02`, which emitted callback tokens and wrote the absolute marker from inside `UEXTERNALDB`.
@@ -31,7 +32,9 @@ Current stage:
 - Deterministic callback retry: `hpc_user_subroutine_smoke_pass`.
 - Overall trivial user-subroutine smoke: passed.
 - Failure category: none for the retry; preserved failed attempt `1374532.mmaster02` remains classified as `callback_invocation`.
-- Gate A3: `reference_data_insufficient`.
+- Paper-matched candidate v2 technical result: `paper_matched_v2_technical_pass`.
+- Paper-matched candidate v2 scientific comparison: `scientific_review_required`.
+- Gate A3: open; previous reference-data insufficiency is partly resolved by the approximate Fig. 7 curve comparison, but closure still requires supervisor-approved tolerances and uniform-reference justification.
 - Stage A: open.
 - MISESERI/remeshing: blocked.
 - Evolving remeshing with state transfer is mandatory for the thesis scope, but no online-remesh claim is allowed until controlled field transfer and fracture-relevant transfer tests pass.
@@ -45,9 +48,9 @@ Current stage:
 - The authoritative living task and phase checklist is `docs/project/PROJECT_PHASE_CHECKLIST.md`; validator: `scripts/validation/check_project_phase_checklist.py`.
 - Gate A3 reference provenance is under `references/derived/molnar_gravouil_2017/single_notch/`; the current RF-U reference CSV intentionally has no numeric coordinates. The next reference work is to digitize/document the relevant published Molnar curve as an approximate paper reference for a paper-matched reconstructed benchmark, not for the smaller supplementary deck.
 - The Gate A3 reference-applicability matrix is `references/derived/molnar_gravouil_2017/single_notch/REFERENCE_APPLICABILITY_MATRIX.md`; it records why the smaller supplementary deck should not be forced into an exact Fig. 7 numerical comparison.
-- Paper-to-model reconstruction artifacts are under `references/derived/molnar_gravouil_2017/paper_matched_single_notch/`, with configuration at `configs/molnar_paper_matched_single_notch.yaml` and deck-generation requirements at `docs/methods/MOLNAR_PAPER_MATCHED_DECK_REQUIREMENTS.md`. Candidate v1 is preserved as failed static evidence under `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v1/` and `results/validation/molnar_paper_matched_single_notch_v1/`; classification `static_validation_fail`, `runnable: false`. Candidate v2 is generated under `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/` with corrected loading arithmetic, split-node notch topology, source-mapped UEL property blocks, restored `bottoml`/`topl` constraints, and a generated graded mesh. Static validation passed in `results/validation/molnar_paper_matched_single_notch_v2/STATIC_VALIDATION.md`; configuration status is `paper_matched_candidate_v2_static_validation_pass`, `runnable: true`. The generated executable source copy is `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/SingleNotch_v2.for`; it is copied from the preserved Molnar source with only `N_ELEM=33852` updated for the candidate mesh. The final mesh-quality preflight passed in `results/validation/molnar_paper_matched_single_notch_v2/MESH_QUALITY_PREFLIGHT.md`; high-aspect-ratio elements are documented outside the refined fracture corridor. No candidate-v2 Abaqus/PBS result exists yet.
-- Dormant authorization: the user has authorized exactly one serial HPC execution of the paper-matched Molnar candidate after `static_validation_pass`, `runnable: true`, candidate commit and push, matching local/HPC revisions, clean HPC working tree, and no active user jobs. No further user confirmation is required for that one submission after those checks pass. This authorization does not cover retries, a second candidate run, multi-CPU execution, mesh or parameter studies, MISESERI, remeshing, or state transfer.
-- Current bound/irreversibility diagnostics show `SDV14`/`SDV15` overshoot begins only in the final unstable stage, affects 11 unique integration points, and persists to the final frame; `SDV15` decrease candidates remain unresolved and require local review before calling them true healing.
+- Paper-to-model reconstruction artifacts are under `references/derived/molnar_gravouil_2017/paper_matched_single_notch/`, with configuration at `configs/molnar_paper_matched_single_notch.yaml` and deck-generation requirements at `docs/methods/MOLNAR_PAPER_MATCHED_DECK_REQUIREMENTS.md`. Candidate v1 is preserved as failed static evidence under `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v1/` and `results/validation/molnar_paper_matched_single_notch_v1/`; classification `static_validation_fail`, `runnable: false`. Candidate v2 is generated under `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/` with corrected loading arithmetic, split-node notch topology, source-mapped UEL property blocks, restored `bottoml`/`topl` constraints, and a generated graded mesh. Static validation passed in `results/validation/molnar_paper_matched_single_notch_v2/STATIC_VALIDATION.md`; configuration status is `paper_matched_candidate_v2_static_validation_pass`, `runnable: true`. The generated executable source copy is `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/SingleNotch_v2.for`; it is copied from the preserved Molnar source with only `N_ELEM=33852` updated for the candidate mesh. The final mesh-quality preflight passed in `results/validation/molnar_paper_matched_single_notch_v2/MESH_QUALITY_PREFLIGHT.md`; high-aspect-ratio elements are documented outside the refined fracture corridor. The single authorized serial candidate-v2 HPC baseline ran once as `1374864.mmaster02` from revision `711dd495bdcb830d695f9d7e56283316c9d417d5`; PBS finished with `Exit_status = 0`, Abaqus return code zero, ODB/STA/MSG/DAT present, and final classification `paper_matched_v2_technical_pass`.
+- Retry authorization: none. Do not submit a retry, second candidate, multi-CPU run, sweep, MISESERI run, remeshing run, state-transfer run, or parameter study under the completed one-run authorization.
+- Candidate-v2 scientific diagnostics: peak RF2 `0.761702 kN` at `U2=0.006110 mm`; final RF2 `0.749110 kN` at `U2=0.006700 mm`; RF-U NRMSE against the approximate digitized Fig. 7 `lc=0.0075 mm` curve is `0.247493`; relative peak-force error is `0.064519`; relative peak-displacement error is `0.041257`. At phase threshold `SDV15 >= 0.95`, the final matched contour has 193 damaged elements and connected crack extension about `0.0505 mm`. `SDV16` is monotonic in the ODB check; `SDV15` has 6113 decrease events, 817 categorized as genuine-healing candidates by the current script, and late-stage overshoot up to `1.005600`. These are review diagnostics, not a final scientific pass.
 - Decision note `docs/decisions/0002-gate-a3-reference-route.md` is preserved as history but superseded by the proposal-directed route: prepare the paper-matched Molnar Mode-I benchmark, digitize/document the applicable published curve as an approximate paper reference, then compare the reconstructed paper-matched uniform mesh against that reference.
 
 Known source documents:
@@ -58,17 +61,15 @@ Known source documents:
 - `1-s2.0-S0045782525004153-main.pdf` - Diddige, Roth, and Kiefer (2025)
 
 Immediate next tasks:
-1. Commit and synchronize candidate v2, including the generated deck, `SingleNotch_v2.for`, mesh preflight, PBS script, run manifest, validation/provenance files, reports, checklist, and handoff.
-2. Before using the dormant one-run authorization, verify local/HPC revision match, clean HPC working tree, no active user jobs, `bash -n scripts/hpc/molnar_paper_matched_single_notch_v2.pbs`, and deck/source hashes on HPC.
-3. Submit at most one serial HPC paper-matched baseline run using `scripts/hpc/molnar_paper_matched_single_notch_v2.pbs` after those clean-revision checks pass; do not retry, run a second candidate, use multi-CPU, sweep, run MISESERI, remesh, or transfer state under this authorization.
-4. Preserve candidate v1 as failed static evidence and do not repair it in place.
-5. Compare candidate-v2 RF-U and crack contours at matched states after the single run completes.
-7. Compare RF-U and crack contours at matched states, then perform mesh/length-scale/increment convergence and justify the uniformly fine reference.
-8. Review the largest `SDV15` decrease candidate at element 8300, integration point 1, between Step-2 frames 15 and 16 before declaring a true irreversibility violation.
+1. Review the candidate-v2 scientific diagnostics in `runs/hpc/paper_matched_single_notch_v2/scientific_check/` and decide whether the RF-U and crack-path deviations are acceptable under supervisor-approved tolerances.
+2. Do not submit a retry or any new Abaqus/PBS job unless explicitly authorized after this evidence review.
+3. Preserve candidate v1 as failed static evidence and do not repair it in place.
+4. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, SDV bounds/irreversibility interpretation, and runtime/cost metrics.
+5. If the paper-matched comparison is accepted, proceed to mesh-size, length-scale, and load-increment studies to justify the uniform fine reference.
+6. Review the largest candidate-v2 `SDV15` decrease event at element 84131, integration point 3, Step-2 frame 89, before declaring true healing.
 9. Treat the HPC trivial technical gate as complete: environment, Abaqus license, user-subroutine compile/link, trivial Standard analysis, ODB creation, and `UEXTERNALDB` callback evidence have passed.
 10. Do not run any Molnar HPC baseline, MISESERI, remeshing, state-transfer, parameter-study, production, or multi-CPU job until the user gives explicit approval.
-11. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, and runtime/cost metrics.
-12. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
+11. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
 
 Unresolved decisions requiring user/supervisor confirmation:
 - Final supervisor-approved tolerances for the paper-matched benchmark and later uniform-reference comparisons.
@@ -417,6 +418,10 @@ Before any Abaqus/HPC submission:
 - Read the current HPC handoff/configuration file if one exists.
 - Confirm license availability, queue, CPUs, MPI/OpenMP layout, memory, wall time, scratch path, and stage-out policy.
 - Confirm the job uses the intended input deck and subroutine revision.
+- Confirm the PBS script has explicit email notification directives:
+  - `#PBS -M <verified_recipient>`
+  - `#PBS -m abe`
+- Verify the recipient address before the first submission with `scripts/hpc/validate_pbs_email_notifications.py`; do not assume the cluster account's default email address.
 
 For a running job, report:
 - job ID, state, queue, host/vnode;

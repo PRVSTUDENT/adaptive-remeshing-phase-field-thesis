@@ -58,6 +58,13 @@ BOUND_TOL = 1.0e-8
 ODB_PRECISION_TOL = 1.0e-6
 
 
+def is_finite(value):
+    try:
+        return math.isfinite(value)
+    except AttributeError:
+        return not (math.isinf(value) or math.isnan(value))
+
+
 def import_odb_access():
     try:
         from odbAccess import openOdb  # type: ignore
@@ -84,7 +91,7 @@ def vector_component(value, index):
 
 
 def read_csv_dicts(path):
-    with open(path, "r", newline="") as stream:
+    with open(path, "r") as stream:
         return list(csv.DictReader(stream))
 
 
@@ -96,10 +103,19 @@ def numeric_rows(rows, x_name, y_name):
             y = float(row[y_name])
         except (KeyError, TypeError, ValueError):
             continue
-        if math.isfinite(x) and math.isfinite(y):
+        if is_finite(x) and is_finite(y):
             result.append({"x": x, "y": y, "raw": row})
     result.sort(key=lambda item: item["x"])
     return result
+
+
+def numeric_rows_any(rows, x_names, y_names):
+    for x_name in x_names:
+        for y_name in y_names:
+            result = numeric_rows(rows, x_name, y_name)
+            if result:
+                return result
+    return []
 
 
 def trapz(x_values, y_values):
@@ -124,7 +140,11 @@ def interpolate(points, x):
 
 def rf_u_metrics(curve_rows, ref_rows, matched_rows):
     sim_points = numeric_rows(curve_rows, "rp_u2", "rp_rf2")
-    ref_points = numeric_rows(ref_rows, "displacement_u2", "reaction_force")
+    ref_points = numeric_rows_any(
+        ref_rows,
+        ["displacement_u2", "u_mm"],
+        ["reaction_force", "reaction_force_kN"],
+    )
     x = [item["x"] for item in sim_points]
     y = [item["y"] for item in sim_points]
     peak_index = max(range(len(y)), key=lambda index: y[index])
@@ -236,8 +256,8 @@ def parse_nodes_elements(inp_path):
     nodes = {}
     elements = {}
     section = None
-    with open(inp_path, "r", errors="replace") as stream:
-        for raw in stream:
+    with open(inp_path, "rb") as stream:
+        for raw in stream.read().decode("utf-8", "replace").splitlines():
             line = raw.strip()
             if not line or line.startswith("**"):
                 continue
@@ -387,7 +407,7 @@ def crack_path_diagnostics(contour_dir, inp_path, output_csv):
         "approximately_horizontal",
         "reference_path",
     ]
-    with open(output_csv, "w", newline="") as stream:
+    with open(output_csv, "w") as stream:
         writer = csv.DictWriter(stream, fieldnames=fieldnames)
         writer.writeheader()
         for row in rows_out:
@@ -616,7 +636,7 @@ def odb_bounds_irreversibility(odb_path):
 
 def write_rf_comparison_csv(path, rows):
     fieldnames = ["u2", "simulation_rf2", "reference_rf2", "absolute_error", "relative_error", "status"]
-    with open(path, "w", newline="") as stream:
+    with open(path, "w") as stream:
         writer = csv.DictWriter(stream, fieldnames=fieldnames)
         writer.writeheader()
         for row in rows:
@@ -743,7 +763,8 @@ def main():
     write_rf_comparison_csv(rf_csv, comparison_rows)
 
     crack_csv = os.path.join(args.output_dir, "crack_path_comparison.csv")
-    crack_rows = crack_path_diagnostics(EXTRACTED_DIR, args.inp, crack_csv)
+    contour_dir = os.path.dirname(os.path.abspath(args.matched))
+    crack_rows = crack_path_diagnostics(contour_dir, args.inp, crack_csv)
 
     bounds = odb_bounds_irreversibility(args.odb)
     if bounds is None:
