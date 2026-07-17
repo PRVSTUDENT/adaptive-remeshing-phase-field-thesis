@@ -758,4 +758,101 @@ The initial \texttt{qstat -f} record reports \texttt{job\_state = Q}, queue \tex
 
 This is only a submission and initial scheduler-acceptance checkpoint. It is not a technical pass, not a scientific pass, and not a Gate A3 closure. No second r2 submission or automatic retry is authorized.
 
+\section{Reviewed Infrastructure-Corrected SDV15 Diagnostic r2}
+
+Date: 2026-07-17.
+
+Job \texttt{1375028.mmaster02} left the active queue and was reviewed from PBS
+history, retained solver files, and a no-solution replay of the existing
+diagnostic trace. PBS reports \texttt{job\_state = F},
+\texttt{Exit\_status = 1}, \texttt{Stageout\_status = 1}, walltime
+\texttt{00:42:27}, and execution on \texttt{mnode100/0}. The nonzero PBS result
+is a wrapper/postprocessing failure after the successful solve: the original
+postprocessor used Python syntax incompatible with the cluster postprocessing
+interpreter. This is classified as
+\texttt{postprocess\_python\_compatibility\_failure\_after\_successful\_solve}.
+
+Abaqus is a technical pass. The retained return-code file records
+\texttt{0}, the technical classification file records
+\texttt{molnar\_v2\_sdv15\_diagnostic\_r2\_technical\_pass}, the \texttt{.sta}
+file contains \texttt{THE ANALYSIS HAS COMPLETED SUCCESSFULLY}, and the
+\texttt{.msg} analysis summary reports zero error messages.
+
+The diagnostic instrumentation is non-intrusive by independent RF--U comparison
+at the actual reference point node \texttt{34508}. The comparison uses 202
+matched frames, gives maximum normalized RF2 difference
+\(6.54442468760855\times10^{-13}\), and maximum U2 difference
+\(4.992967844730245\times10^{-15}\,\mathrm{mm}\).
+
+The original postprocessor treated every U1 stage-101 call as a completed
+state. This is too broad because stage 101 is written after each targeted U1
+call, not only after the final converged call of an increment. A no-solution
+replay therefore kept only the last U1 stage-101 call for each
+\((\mathrm{KSTEP},\mathrm{KINC},\mathrm{physical\ element},\mathrm{source\ IP})\),
+aligned retained-frame events by step time/load level, and compared only
+consecutive final increment states.
+
+The replay preserves the call-level finding
+\texttt{sdv15\_call\_level\_nonmonotonicity\_observed}. The completed/converged
+increment classification is
+\texttt{sdv15\_completed\_increment\_possible\_violation}. It processed 627304
+trace rows, 209152 U1 stage-101 rows, 101840 final increment states, and 152
+element/IP sequences. It found 2184 unique completed-increment SDV15 violating
+transitions and zero SDV16 decreases over the same final-increment sequences.
+The original 1297 retained-frame event rows reclassify to 62
+\texttt{sdv15\_completed\_increment\_possible\_violation} rows and 1235
+\texttt{sdv15\_completed\_increment\_monotone} rows. The largest completed-
+increment phase drop is \(2.2384088238425193\times10^{-4}\) at physical element
+\texttt{16428}, source-storage IP \texttt{4}, transition \texttt{KSTEP/KINC}
+\texttt{2/143 -> 2/144}. The requested worst retained visualization event
+\texttt{84131 -> physical 16427} is monotone for the inspected
+converged-increment transitions.
+
+Replay evidence is preserved under
+\path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/postprocessing_completed_increment_replay_time_aligned/}.
+Gate A3 remains \texttt{reference\_data\_insufficient}. No second r2 submission,
+automatic retry, MISESERI run, remeshing run, Stage B run, candidate v3, mesh
+study, length-scale study, load-increment study, parameter sweep, multi-CPU run,
+or scientific-model change is authorized by this review.
+
+\section{SDV15 Completed-Increment Severity Audit}
+
+Date: 2026-07-17.
+
+A no-solution severity audit was performed on the 2184 completed-increment
+decreasing transitions. The audit uses the derived transition table, the local
+diagnostic input deck for element centroids, and a provisional materiality
+tolerance of \(10^{-6}\). It does not read the ODB and does not launch Abaqus.
+
+The audit classifies the SDV15 completed-increment result as:
+
+\begin{center}
+\texttt{sdv15\_completed\_increment\_irreversibility\_violation}
+\end{center}
+
+The maximum decrease is \(2.2384088238425193\times10^{-4}\), the mean decrease
+is \(2.8434597987446906\times10^{-5}\), and the median decrease is
+\(1.3940791172561973\times10^{-5}\). Tolerance sensitivity is: 2184 transitions
+above \(10^{-10}\), 2184 above \(10^{-8}\), 2131 above \(10^{-6}\), and 1362
+above \(10^{-5}\). Magnitude bins are: 53 in \((10^{-8},10^{-6}]\), 769 in
+\((10^{-6},10^{-5}]\), 1265 in \((10^{-5},10^{-4}]\), and 97 above \(10^{-4}\).
+
+The 2184 transitions affect 138 unique element/IP locations, with 136 repeated
+locations. All transitions occur after the peak displacement, 773 coincide with
+\texttt{SDV15} overshoot above one, and zero \texttt{SDV16} decreases occur over
+the same transitions. The largest transition is physical element \texttt{16428},
+source-storage IP \texttt{4}, \texttt{KSTEP/KINC 2/143 -> 2/144}, at
+\(U_2=0.006694117647058817\,\mathrm{mm}\), centroid
+\((0.0015,-0.00050000035)\), with \texttt{SDV15} decreasing from
+0.998639210944928 to 0.9984153700625438 while \texttt{SDV16} remains unchanged.
+
+The provenance file
+\path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/postprocessing_completed_increment_replay_time_aligned/PROVENANCE.md}
+records the replay script hash, Abaqus Python version, raw trace path, raw trace
+size, raw trace modification time, raw trace SHA-256, selection rule, replay
+tolerance, severity-audit tolerance, and independent RP-node RF--U comparison.
+Gate A3 remains \texttt{reference\_data\_insufficient}; the candidate-v2
+scientific result remains \texttt{paper\_matched\_v2\_scientific\_review\_incomplete}
+pending supervisor-approved tolerances and reference acceptance.
+
 \end{document}

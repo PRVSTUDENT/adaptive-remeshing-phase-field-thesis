@@ -502,6 +502,23 @@ A compact Gate A3 supervisor-review package has been prepared at \path{docs/deci
 
 After that review package, the user explicitly authorized exactly one serial targeted-output SDV15 diagnostic run to resolve the missing completed U1 phase-update evidence. This authorization does not cover a retry, second diagnostic run, candidate v3, multi-CPU execution, mesh-size or length-scale studies, load-increment studies, MISESERI, remeshing, state transfer, parameter sweeps, or Stage B.
 
+The infrastructure-corrected r2 diagnostic job \texttt{1375028.mmaster02} later
+completed the Abaqus solve and established a technical pass, while the PBS
+wrapper exited nonzero because the original postprocessor used Python syntax
+incompatible with the cluster postprocessing interpreter. The diagnostic
+instrumentation is non-intrusive by independent RF--U comparison at RP node
+\texttt{34508}. A time-aligned no-solution replay of the existing diagnostic
+trace keeps only the last U1 stage-101 call for each
+\((\mathrm{KSTEP},\mathrm{KINC},\mathrm{physical\ element},\mathrm{source\ IP})\).
+It identifies 101840 final increment states across 152 monitored element/IP
+sequences and finds 2184 unique completed-increment \texttt{SDV15} decreasing
+transitions with zero corresponding \texttt{SDV16} decreases. A follow-up
+severity audit classifies the completed-increment result as
+\texttt{sdv15\_completed\_increment\_irreversibility\_violation} under the
+provisional \(10^{-6}\) materiality tolerance. This strengthens the SDV15
+scientific concern but does not close Gate A3, which remains
+\texttt{reference\_data\_insufficient}.
+
 \section{Targeted SDV15 Diagnostic Preparation}
 
 A separate diagnostic variant has been prepared at \path{models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/} with classification \texttt{paper\_matched\_candidate\_v2\_diagnostic\_variant}. Candidate v2 itself remains preserved unchanged. The diagnostic deck differs from the candidate-v2 deck only by diagnostic-identification comments; after removing Abaqus comment lines, the scientific keyword and data stream is byte-for-byte identical. The source copy adds target-gated CSV logging after U1 completed phase/history upload, U2 copied/retained phase upload, and CPS4/UMAT visualization copy. It does not modify \texttt{STATEV}, \texttt{SVARS}, \texttt{USRVAR}, \texttt{RHS}, \texttt{AMATRX}, \texttt{PROPS}, loads, solver controls, or the governing equations.

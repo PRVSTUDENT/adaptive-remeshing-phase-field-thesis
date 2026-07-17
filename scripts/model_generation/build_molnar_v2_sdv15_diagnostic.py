@@ -492,6 +492,8 @@ step schedules, solver controls, and output requests are unchanged.
 
 def write_postprocessor() -> None:
     POST.parent.mkdir(parents=True, exist_ok=True)
+    if POST.exists() and "completed_increment_result" in POST.read_text(encoding="utf-8"):
+        return
     text = r'''#!/usr/bin/env python3
 """Postprocess the Molnar v2 SDV15 targeted diagnostic run."""
 

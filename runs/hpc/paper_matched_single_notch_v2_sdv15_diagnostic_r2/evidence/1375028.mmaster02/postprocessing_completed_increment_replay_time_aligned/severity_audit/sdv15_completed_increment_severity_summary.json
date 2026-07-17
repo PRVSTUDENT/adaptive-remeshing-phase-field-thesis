@@ -1,0 +1,71 @@
+{
+  "after_peak_count": 2184,
+  "before_or_at_peak_count": 0,
+  "decision": "sdv15_completed_increment_irreversibility_violation",
+  "largest_transition": {
+    "abs_centroid_y": 0.00050000035,
+    "after_peak": true,
+    "before_or_at_peak": false,
+    "centroid_x": 0.0015,
+    "centroid_y": -0.00050000035,
+    "current_kinc": "144",
+    "current_kstep": "2",
+    "current_phase_after_u1": "0.9984153700625438",
+    "current_sdv16_history": "268.6812257113632",
+    "current_time2": "1.8470588235294088",
+    "current_u2_mm": 0.006694117647058817,
+    "magnitude_bin": ">1e-4",
+    "near_crack_axis_abs_y_le_0p02": true,
+    "near_notch_left_half_x_le_0": false,
+    "phase_drop": "0.00022384088238425193",
+    "phase_overshoot_in_transition": false,
+    "physical_element": "16428",
+    "previous_kinc": "143",
+    "previous_kstep": "2",
+    "previous_phase_after_u1": "0.998639210944928",
+    "previous_sdv16_history": "268.6812257113632",
+    "previous_time2": "1.8411764705882323",
+    "relative_drop": 0.00022414589766853854,
+    "sdv16_drop": "0.0",
+    "source_storage_ip": "4"
+  },
+  "magnitude_bins": {
+    "(1e-5,1e-4]": 1265,
+    "(1e-6,1e-5]": 769,
+    "(1e-8,1e-6]": 53,
+    ">1e-4": 97
+  },
+  "max_decrease": 0.00022384088238425193,
+  "mean_decrease": 2.8434597987446906e-05,
+  "median_decrease": 1.3940791172561973e-05,
+  "near_crack_axis_abs_y_le_0p02_count": 2184,
+  "near_notch_left_half_x_le_0_count": 53,
+  "numerical_tolerance_for_decision": 1e-06,
+  "percentiles": {
+    "50": 1.3940791172561973e-05,
+    "75": 3.729813398578585e-05,
+    "90": 7.833440958190385e-05,
+    "95": 9.556630079301521e-05,
+    "99": 0.0001757024584528523,
+    "99.9": 0.00021476878440081486
+  },
+  "phase_overshoot_transition_count": 773,
+  "relative_drop_percentiles": {
+    "50": 1.3957589928491948e-05,
+    "75": 3.734230121125568e-05,
+    "90": 7.836047890554666e-05,
+    "95": 9.564322499952482e-05,
+    "99": 0.00017760247396348072,
+    "99.9": 0.00021452663842738565
+  },
+  "repeated_location_count": 136,
+  "sdv16_decrease_count": 0,
+  "tolerance_sensitivity_counts": {
+    "1e-05": 1362,
+    "1e-06": 2131,
+    "1e-08": 2184,
+    "1e-10": 2184
+  },
+  "transition_count": 2184,
+  "unique_affected_element_ip_locations": 138
+}

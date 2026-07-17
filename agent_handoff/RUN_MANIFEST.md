@@ -1,6 +1,6 @@
 # Molnar v2 SDV15 Targeted Diagnostic r2 Run Manifest
 
-Status: `submitted_initial_scheduler_record_preserved`
+Status: `completed_with_postprocess_replay`
 
 Classification scope: `infrastructure_corrected_targeted_diagnostic_execution`
 
@@ -83,8 +83,11 @@ Confirmed retained diagnostics:
 - Local evidence:
   `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/`.
 
-This is a submission checkpoint only. No Abaqus or SDV15 diagnostic result is
-claimed until the final PBS and solver evidence are collected.
+The job completed the Abaqus solve but the PBS wrapper exited nonzero because
+the original postprocessor used Python syntax incompatible with the cluster
+postprocessing interpreter. A no-solution replay of the existing trace is
+preserved under
+`evidence/1375028.mmaster02/postprocessing_completed_increment_replay_time_aligned/`.
 
 ## Classifications
 
@@ -95,9 +98,12 @@ Technical:
 
 Diagnostic:
 
-- `sdv15_completed_state_monotone`
-- `sdv15_completed_state_possible_violation`
-- `sdv15_diagnostic_output_incomplete`
+- `sdv15_call_level_nonmonotonicity_observed`
+- `sdv15_completed_increment_monotone`
+- `sdv15_completed_increment_possible_violation`
+- `sdv15_completed_increment_irreversibility_violation`
+- `sdv15_completed_increment_numerical_tolerance_effect`
+- `sdv15_completed_increment_review_incomplete`
 - `diagnostic_instrumentation_intrusive`
 
 Pre-solver failure classes:
@@ -117,5 +123,14 @@ Not authorized: automatic retry, second r2 submission, MISESERI, remeshing,
 Stage B, candidate v3, mesh/length/load studies, parameter sweeps, multi-CPU
 execution, or changes to the diagnostic scientific model.
 
-Gate A3 remains `reference_data_insufficient` after submission unless the
-diagnostic result and supervisor decisions later justify a gate update.
+Current r2 result after replay: PBS wrapper
+`postprocess_python_compatibility_failure_after_successful_solve`; Abaqus
+`molnar_v2_sdv15_diagnostic_r2_technical_pass`; diagnostic instrumentation
+`non_intrusive_pass`; scientific evidence
+`sdv15_call_level_nonmonotonicity_observed`; completed/converged increment
+classification `sdv15_completed_increment_possible_violation`. Gate A3 remains
+`reference_data_insufficient`. A follow-up no-solution severity audit of the
+2184 completed-increment decreasing transitions classifies the SDV15 result as
+`sdv15_completed_increment_irreversibility_violation` under the provisional
+`1e-6` materiality tolerance. This does not close Gate A3 because RF--U
+reference acceptance and supervisor-approved tolerances remain unresolved.

@@ -1,0 +1,40 @@
+{
+  "call_level_result": "sdv15_call_level_nonmonotonicity_observed", 
+  "completed_increment_event_classification_counts": {
+    "sdv15_completed_increment_monotone": 1235, 
+    "sdv15_completed_increment_possible_violation": 62
+  }, 
+  "completed_increment_result": "sdv15_completed_increment_possible_violation", 
+  "element_ip_sequences": 152, 
+  "final_increment_states": 101840, 
+  "max_completed_increment_phase_drop": 0.00022384088238425193, 
+  "max_completed_increment_phase_drop_key": [
+    16428, 
+    4, 
+    2, 
+    143, 
+    2, 
+    144
+  ], 
+  "nonintrusiveness_limits": {
+    "rf_u_normalized_difference_limit": 0.001
+  }, 
+  "rf_compare": {
+    "baseline_peak_abs_rf2_kN": 0.761702001095, 
+    "diagnostic_peak_abs_rf2_kN": 0.7617020010948181, 
+    "matched_points": 202, 
+    "max_abs_rf2_difference": 4.984901380566953e-13, 
+    "max_abs_u2_difference_mm": 4.992967844730245e-15, 
+    "max_normalized_rf2_difference": 6.54442468760855e-13, 
+    "nan_rows": 0
+  }, 
+  "rf_status": {
+    "frames": 202, 
+    "odb_available": true, 
+    "rp_node_label": 34508
+  }, 
+  "sdv16_decreases_in_completed_increment_sequences": 0, 
+  "trace_rows": 627304, 
+  "u1_stage101_call_rows": 209152, 
+  "unique_completed_increment_phase_violating_transitions": 2184
+}
