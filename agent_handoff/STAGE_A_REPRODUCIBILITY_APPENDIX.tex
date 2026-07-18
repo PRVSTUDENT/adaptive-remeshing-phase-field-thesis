@@ -1,0 +1,171 @@
+\appendix
+\chapter{Stage A Reproducibility Appendix}
+
+\section{Scope}
+
+This appendix records the committed Stage A evidence needed to reproduce the
+paper-matched Molnar candidate-v2 benchmark review without launching a new
+Abaqus or PBS job. It is a provenance package, not a Gate A3 pass.
+
+\section{Repository Revisions}
+
+\begin{longtable}{p{0.34\linewidth}p{0.56\linewidth}}
+\caption{Relevant committed revisions.}\\
+\toprule
+Purpose & Revision \\
+\midrule
+\endfirsthead
+\toprule
+Purpose & Revision \\
+\midrule
+\endhead
+Current supervisor package & \texttt{a7294b30851d7190ee91c8bf92390bf32b2442c8} \\
+Candidate-v2 generation, static validation, and baseline submission & \texttt{711dd495bdcb830d695f9d7e56283316c9d417d5} \\
+SDV15 diagnostic r2 preparation and submission & \texttt{209ad325d2c85532411c13d8290db08ca35b0637} \\
+\bottomrule
+\end{longtable}
+
+\section{Job Records}
+
+\begin{longtable}{p{0.22\linewidth}p{0.22\linewidth}p{0.46\linewidth}}
+\caption{Stage A HPC jobs used in the paper-matched candidate-v2 evidence set.}\\
+\toprule
+Job & Submitted revision & Result \\
+\midrule
+\endfirsthead
+\toprule
+Job & Submitted revision & Result \\
+\midrule
+\endhead
+\texttt{1374864.mmaster02} & \texttt{711dd495bdcb830d695f9d7e56283316c9d417d5} & Paper-matched candidate-v2 baseline. PBS \texttt{Exit\_status=0}; Abaqus return code zero; classification \texttt{paper\_matched\_v2\_technical\_pass}. \\
+\texttt{1375020.mmaster02} & \texttt{efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611} & First targeted SDV15 diagnostic attempt. Failed before Abaqus due to missing \texttt{git} in batch PATH; no solver result. \\
+\texttt{1375028.mmaster02} & \texttt{209ad325d2c85532411c13d8290db08ca35b0637} & Infrastructure-corrected SDV15 diagnostic r2. Abaqus technical pass; wrapper postprocessing failed under cluster Python compatibility; completed-increment replay and severity audit were performed without a new solution run. \\
+\bottomrule
+\end{longtable}
+
+\section{Software and Runtime Environment}
+
+The candidate-v2 baseline used modules \texttt{gcc/11.4.0},
+\texttt{intel/2024.2.0}, and \texttt{abaqus/2023} on the TU Freiberg HPC
+system. It ran serially with one CPU. The diagnostic r2 replay provenance
+records Abaqus Python as \texttt{2.7.15} with GCC \texttt{8.2.1}.
+
+\begin{longtable}{p{0.30\linewidth}p{0.25\linewidth}p{0.35\linewidth}}
+\caption{Resource records.}\\
+\toprule
+Quantity & Baseline job & Diagnostic r2 job \\
+\midrule
+\endfirsthead
+\toprule
+Quantity & Baseline job & Diagnostic r2 job \\
+\midrule
+\endhead
+PBS job ID & \texttt{1374864.mmaster02} & \texttt{1375028.mmaster02} \\
+Queue & \texttt{entry\_imfdfkmq} request & \texttt{normal\_imfdfkmq} initial state \\
+CPU request & 1 CPU & 1 CPU \\
+Memory request & \texttt{32gb} & \texttt{32gb} \\
+Walltime request & \texttt{24:00:00} & \texttt{16:00:00} \\
+Used walltime & \texttt{00:38:38} & \texttt{00:42:27} \\
+Used CPU time & \texttt{00:35:52} & not retained in run summary \\
+Used memory & \texttt{2970760kb}; vmem \texttt{3565868kb}; Abaqus peak about \(2~\mathrm{GB}\) & not retained in run summary \\
+Execution host & \texttt{mnode099/0} & \texttt{mnode100/0} \\
+\bottomrule
+\end{longtable}
+
+\section{Deck and Source Hashes}
+
+\begin{longtable}{p{0.32\linewidth}p{0.58\linewidth}}
+\caption{Candidate-v2 source and deck hashes.}\\
+\toprule
+Artifact & SHA-256 \\
+\midrule
+\endfirsthead
+\toprule
+Artifact & SHA-256 \\
+\midrule
+\endhead
+\path{models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/paper_matched_single_notch_v2.inp} & \texttt{f4d135d6c12d42a94c1874a6453a8865b4806a4e2d3b5018141471ba9245ecf2} \\
+\path{models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.for} & \texttt{18944e5bb2a3b7973fd0d4bff03f8e078eef667965343d8a29156d093f53f5f1} \\
+\path{models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/SingleNotch_v2.for} & \texttt{e587c195c50a5c52a000ca54d3ed00e1bf8161ba2f6aa7b3cf5aacec8425913a} \\
+\bottomrule
+\end{longtable}
+
+\section{Static Validation and Diagnostic Targets}
+
+Candidate v2 static validation is recorded as \texttt{static\_validation\_pass}
+with runnable status \texttt{true}. Mesh-quality preflight is recorded as
+\texttt{mesh\_quality\_preflight\_pass}. The diagnostic r2 variant used
+72 target physical elements and 152 target element/IP pairs. Its deck
+comparison is \texttt{scientific\_keyword\_equivalence\_pass}; its static
+validation is \texttt{diagnostic\_static\_validation\_pass}; its runnable flag
+is \texttt{diagnostic\_runnable: true}.
+
+\section{Trace Provenance}
+
+The SDV15 diagnostic r2 raw trace is intentionally not stored in Git. It is
+retained in the HPC evidence area:
+
+\begin{quote}
+\path{/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/molnar_v2_sdv15_diagnostic_call_trace.csv}
+\end{quote}
+
+The trace size is 258449576 bytes, modified at
+\texttt{2026-07-16T13:24:09+0200}, with SHA-256
+\texttt{5b4922884ea6ee7af759c469f69e508106aca8e6d14892520abaffe2120dbed3}.
+The completed-increment replay processed 627304 trace rows, retained 209152 U1
+stage-101 rows, formed 101840 final increment states, and monitored 152
+element/IP sequences.
+
+\section{Postprocessing Selection Rule and Tolerances}
+
+The completed-increment replay keeps the last U1 stage-101 call for every
+\((\mathrm{KSTEP}, \mathrm{KINC}, \mathrm{physical~element},
+\mathrm{source-storage~IP})\). Retained-frame events are aligned to trace
+increments by step time/load level, not raw retained frame number.
+
+The replay decrease tolerance is \(10^{-8}\). The severity-audit materiality
+tolerance is \(10^{-6}\). The Fig.~7 digitization uncertainty is recorded as
+\(\pm0.00004~\mathrm{mm}\) in displacement and \(\pm0.015~\mathrm{kN}\) in
+reaction force. These are evidence definitions, not final supervisor-approved
+thesis tolerances.
+
+\section{Committed Evidence Paths}
+
+\begin{itemize}
+\item Baseline run manifest:
+\path{runs/hpc/paper_matched_single_notch_v2/RUN_MANIFEST.md}
+\item Baseline run summary:
+\path{runs/hpc/paper_matched_single_notch_v2/RUN_SUMMARY.md}
+\item Technical evidence:
+\path{runs/hpc/paper_matched_single_notch_v2/evidence/}
+\item Extracted RF--U and contour states:
+\path{runs/hpc/paper_matched_single_notch_v2/extracted/}
+\item Scientific decision:
+\path{runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md}
+\item Fig.~7 comparison metrics:
+\path{runs/hpc/paper_matched_single_notch_v2/scientific_review/fig7_comparison_metrics.json}
+\item Crack threshold metrics:
+\path{runs/hpc/paper_matched_single_notch_v2/scientific_review/crack_path_threshold_metrics.csv}
+\item SDV irreversibility metrics:
+\path{runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv_irreversibility_metrics.json}
+\item Diagnostic r2 summary:
+\path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_SUMMARY.md}
+\item Completed-increment replay evidence:
+\path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/postprocessing_completed_increment_replay_time_aligned/}
+\item Severity audit:
+\path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/postprocessing_completed_increment_replay_time_aligned/severity_audit/}
+\end{itemize}
+
+\section{Excluded Files}
+
+The Abaqus ODB and raw diagnostic trace are intentionally excluded from Git.
+The candidate-v2 ODB remains on scratch at:
+
+\begin{quote}
+\path{/scratch/pr21vyci/adaptive-remeshing/runs/molnar_paper_matched_single_notch_v2_1374864.mmaster02/molnar_paper_matched_single_notch_v2.odb}
+\end{quote}
+
+The raw diagnostic trace remains in the HPC evidence area and is referenced by
+hash in this appendix. LaTeX build products such as \texttt{.aux},
+\texttt{.fdb\_latexmk}, \texttt{.fls}, \texttt{.out}, generated PDFs, and
+\texttt{.synctex.gz} are local build artifacts.

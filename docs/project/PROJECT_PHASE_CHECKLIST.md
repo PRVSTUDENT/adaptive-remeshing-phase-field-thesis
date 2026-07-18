@@ -1,6 +1,6 @@
 # Project Phase Checklist
 
-Updated: 2026-07-16
+Updated: 2026-07-18
 
 This is the authoritative living task and phase checklist for the adaptive remeshing thesis workspace. Update this same file after every substantial task, run, validation, failure, retry, decision, gate transition, and phase completion. Do not create duplicate phase checklists.
 
@@ -161,6 +161,11 @@ Stage A: open
 - [-] Maintain Stage A baseline report. Evidence: `docs/reports/STAGE_A_BASELINE_REPORT.tex`.
 - [-] Maintain Stage A execution/failure report. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
 - [-] Maintain this project checklist. Evidence: `docs/project/PROJECT_PHASE_CHECKLIST.md`.
+- [x] Prepared thesis-ready Stage A benchmark chapter draft from committed evidence only. Evidence: `docs/thesis/STAGE_A_MOLNAR_BENCHMARK_CHAPTER.tex`.
+- [x] Prepared Stage A reproducibility appendix draft with revisions, hashes, job records, trace provenance, and excluded-file policy. Evidence: `docs/thesis/STAGE_A_REPRODUCIBILITY_APPENDIX.tex`.
+- [x] Prepared Stage A figure/table plan from existing evidence paths only. Evidence: `docs/thesis/STAGE_A_FIGURE_TABLE_PLAN.md`.
+- [x] Prepared route-neutral post-supervisor execution plan. Evidence: `docs/decisions/POST_SUPERVISOR_DECISION_EXECUTION_ROUTES.md`.
+- [~] Reviewed LaTeX build-product ignore coverage and added recurring build-artifact patterns. Evidence: `.gitignore`. Limitation: existing untracked generated files were not deleted.
 - [ ] Freeze Stage A reports after Stage A closure.
 - [ ] Create the Stage B results report.
 - [ ] Create the Stage B execution/failure log.

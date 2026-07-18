@@ -1,0 +1,238 @@
+\chapter{Stage A Molnar Single-Notch Benchmark}
+
+\section{Objective and Decision Boundary}
+
+Stage A establishes whether the Molnar and Gravouil single-notch phase-field
+benchmark is a defensible baseline for later Abaqus adaptive-remeshing work.
+The aim is deliberately narrower than the full thesis workflow: reproduce an
+established staggered phase-field implementation, quantify the reconstructed
+single-notch response, and decide whether the evidence is strong enough to
+authorize Stage B uniform-reference studies.
+
+The current Stage A status is:
+
+\begin{quote}
+\texttt{candidate v2: technically passed}\\
+\texttt{scientific review: incomplete}\\
+\texttt{SDV15: completed-increment irreversibility violation}\\
+\texttt{Gate A3: reference\_data\_insufficient}\\
+\texttt{new solution run: not authorized}
+\end{quote}
+
+This chapter therefore treats candidate v2 as a technically reproducible and
+useful reproduction baseline, but not as a Gate A3 pass. Supervisor approval is
+required before any Stage B, uniform-reference, MISESERI, remeshing, or state
+transfer work begins.
+
+\section{Benchmark Choice}
+
+The Molnar single-notch benchmark was selected because it connects directly to
+the thesis requirement for an Abaqus UEL/UMAT phase-field workflow. The source
+package contains a staggered displacement/phase implementation, a visualization
+layer through state variables, and single-notch examples suitable for checking
+reaction force, crack-path geometry, and phase-field/history behavior before
+introducing adaptive remeshing.
+
+The benchmark is also a useful stress test for thesis discipline. It separates
+technical execution from scientific validation: a model can compile, solve, and
+produce a plausible crack while still failing a strict scientific gate because
+the RF--U reference, tolerances, or irreversibility interpretation remain
+unresolved.
+
+\section{Formulation Convention}
+
+The phase-field convention used throughout Stage A is:
+
+\begin{itemize}
+\item \(d=0\): intact material.
+\item \(d=1\): fully broken material.
+\end{itemize}
+
+Candidate v2 preserves the published Molnar source formulation. The generated
+source copy \path{models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/SingleNotch_v2.for}
+is copied from the preserved source with only the physical-element count
+\texttt{N\_ELEM=33852} updated for the reconstructed mesh. The original source
+is preserved at
+\path{models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.for}.
+
+\section{Staggered Phase/Displacement Method}
+
+The implementation follows a staggered solution structure with displacement
+and phase-field layers. The displacement field is solved in the mechanical
+layer, and the phase-field layer updates the scalar damage variable using the
+stored history information. Visualization variables are copied into a companion
+UMAT/CPS4 layer; those visualization fields are evidence outputs, not separate
+governing fields.
+
+For thesis use, three distinctions must remain visible:
+
+\begin{itemize}
+\item The published formulation is the Molnar and Gravouil staggered
+phase-field UEL/UMAT implementation.
+\item The reconstructed implementation is the project candidate-v2
+paper-matched deck generated from documented geometry, loading, material, and
+mesh assumptions.
+\item The approximate Fig.~7 reference is a local digitization of the published
+curve, not exact author data and not a supervisor-approved final tolerance
+basis.
+\end{itemize}
+
+\section{Geometry, Material, and Loading}
+
+Candidate v2 reconstructs a \(1.0~\mathrm{mm}\times1.0~\mathrm{mm}\)
+single-edge-notched plate with a left-edge split-node notch of length
+\(0.5~\mathrm{mm}\) at \(y=0\). The model uses plane strain and unit
+thickness. Material parameters are \(E=210~\mathrm{kN/mm^2}\), \(\nu=0.3\),
+\(G_c=0.0027~\mathrm{kN/mm}\), and \(l_c=0.0075~\mathrm{mm}\).
+
+The load angle is \(90^\circ\). The loading is applied in two direct-increment
+steps:
+
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+Step & Start \(U_2\) (mm) & End \(U_2\) (mm) & Increment (mm) \\
+\midrule
+Step 1 & 0.0000 & 0.0050 & \(1.0\times10^{-5}\) \\
+Step 2 & 0.0050 & 0.0067 & \(1.0\times10^{-5}\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Paper-Matched Reconstruction}
+
+The reconstruction is documented in the project configuration and derived
+reference records. Candidate v2 restores the intended loading arithmetic,
+implements a split-node notch, preserves the layered UEL/UMAT architecture,
+and uses the source property layout from the preserved Molnar files. Static
+validation passed, and the mesh-quality preflight classified the model as
+\texttt{mesh\_quality\_preflight\_pass}.
+
+The mesh has \(33852\) physical elements and \(101556\) layered elements. The
+local mesh size is \(h=0.001~\mathrm{mm}\), giving \(h/l=0.1333333333\). The
+maximum element size is \(0.025~\mathrm{mm}\), the maximum neighboring-size
+ratio is \(1.5\), and the maximum aspect ratio is \(25.000000000001368\). The
+high-aspect-ratio elements are documented as reconstruction limitations outside
+the fracture-process corridor.
+
+\section{Technical Validation}
+
+The single authorized serial HPC baseline job was
+\texttt{1374864.mmaster02}, submitted from revision
+\texttt{711dd495bdcb830d695f9d7e56283316c9d417d5}. It completed with PBS
+\texttt{Exit\_status=0}; Abaqus returned code zero; the \texttt{.sta},
+\texttt{.msg}, \texttt{.dat}, and scratch \texttt{.odb} outputs existed; and
+the \texttt{.sta} reported successful analysis completion. The technical
+classification is \texttt{paper\_matched\_v2\_technical\_pass}.
+
+The run used one CPU, \(32~\mathrm{GB}\) requested memory, and a 24-hour
+walltime request. Recorded resource use was walltime \(00{:}38{:}38\), CPU
+time \(00{:}35{:}52\), CPU percent \(95\), memory \(2970760~\mathrm{kb}\),
+virtual memory \(3565868~\mathrm{kb}\), and an Abaqus-reported peak memory of
+about \(2~\mathrm{GB}\).
+
+\section{Numerical Results}
+
+\begin{longtable}{p{0.40\linewidth}p{0.25\linewidth}p{0.27\linewidth}}
+\caption{Stage A candidate-v2 numerical evidence. Values are drawn from
+committed extraction, scientific-review, and targeted-diagnostic evidence.}\\
+\toprule
+Metric & Value & Evidence \\
+\midrule
+\endfirsthead
+\toprule
+Metric & Value & Evidence \\
+\midrule
+\endhead
+Peak RF2 & \(0.761702~\mathrm{kN}\) & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/fig7_comparison_metrics.json} \\
+Peak displacement & \(U_2=0.006110~\mathrm{mm}\) & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/fig7_comparison_metrics.json} \\
+Peak-force error & \(0.064519\) relative & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/FIG7_COMPARISON_AUDIT.md} \\
+Peak-displacement error & \(0.041257\) relative & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/FIG7_COMPARISON_AUDIT.md} \\
+Pre-peak RMSE & \(0.044136~\mathrm{kN}\) & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/FIG7_COMPARISON_AUDIT.md} \\
+Post-peak RMSE & \(0.348093~\mathrm{kN}\) & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/FIG7_COMPARISON_AUDIT.md} \\
+Full-overlap NRMSE & \(0.245705\) & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/fig7_comparison_metrics.json} \\
+Tangent-stiffness error & about \(+51.4\%\) & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md} \\
+Common-domain area error & \(+0.193324\) relative & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/fig7_comparison_metrics.json} \\
+Crack extension, SDV15 \(\ge0.80\) & \(0.0555~\mathrm{mm}\) beyond notch tip; \(0.0570~\mathrm{mm}\) total connected path & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md} \\
+Crack extension, SDV15 \(\ge0.90\) & \(0.0525~\mathrm{mm}\) beyond notch tip; \(0.0530~\mathrm{mm}\) total connected path & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md} \\
+Crack extension, SDV15 \(\ge0.95\) & \(0.0505~\mathrm{mm}\) beyond notch tip; \(0.0510~\mathrm{mm}\) total connected path & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md} \\
+Crack extension, SDV15 \(\ge0.99\) & \(0.0465~\mathrm{mm}\) beyond notch tip; \(0.0460~\mathrm{mm}\) total connected path & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md} \\
+SDV15 maximum overshoot & \(1.005600\) & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv_irreversibility_metrics.json} \\
+Accepted-increment decreasing transitions & \(2184\) & \path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_SUMMARY.md} \\
+Transitions above \(10^{-6}\) & \(2131\) & \path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/postprocessing_completed_increment_replay_time_aligned/severity_audit/sdv15_completed_increment_severity_summary.json} \\
+Transitions above \(10^{-5}\) & \(1362\) & \path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/postprocessing_completed_increment_replay_time_aligned/severity_audit/sdv15_completed_increment_severity_summary.json} \\
+Maximum decrease & \(2.2384088238425193\times10^{-4}\) & \path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_SUMMARY.md} \\
+Mean decrease & \(2.8434597987446906\times10^{-5}\) & \path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_SUMMARY.md} \\
+Median decrease & \(1.3940791172561973\times10^{-5}\) & \path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_SUMMARY.md} \\
+Unique affected element/IP locations & \(138\) & \path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_SUMMARY.md} \\
+SDV16 decreases & \(0\) & \path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_SUMMARY.md} \\
+Diagnostic RF--U perturbation & maximum normalized RF2 difference \(6.54442468760855\times10^{-13}\); maximum U2 difference \(4.992967844730245\times10^{-15}~\mathrm{mm}\) & \path{runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_SUMMARY.md} \\
+Solver walltime and memory & baseline PBS walltime \(00{:}38{:}38\), memory \(2970760~\mathrm{kb}\), Abaqus peak memory about \(2~\mathrm{GB}\) & \path{runs/hpc/paper_matched_single_notch_v2/scientific_review/solver_resource_metrics.json} \\
+\bottomrule
+\end{longtable}
+
+\section{RF--U Interpretation}
+
+The RF--U comparison is mixed. The peak force scale is close enough to justify
+continued review, but the full curve is not within a strict provisional
+working gate. The pre-reference-peak RMSE is \(0.044136~\mathrm{kN}\), while
+the post-reference-peak RMSE is \(0.348093~\mathrm{kN}\). This makes the
+post-peak mismatch the dominant scientific limitation. The comparison uses the
+approximate digitized Fig.~7 red dashed \(l_c=0.0075~\mathrm{mm}\) reference,
+which has estimated digitization uncertainty of about
+\(\pm0.00004~\mathrm{mm}\) and \(\pm0.015~\mathrm{kN}\).
+
+\section{Crack-Path Interpretation}
+
+The final high-damage band is connected and approximately horizontal at
+thresholds from \(\mathrm{SDV15}\ge0.80\) through
+\(\mathrm{SDV15}\ge0.99\). At the provisional
+\(\mathrm{SDV15}\ge0.95\) threshold, the final matched contour contains
+193 element-mean damaged elements and a connected high-damage extension of
+about \(0.0505~\mathrm{mm}\) beyond the notch tip. This supports qualitative
+crack-direction agreement, but it remains threshold-dependent and does not
+close Gate A3 by itself.
+
+\section{SDV15, SDV16, and Irreversibility}
+
+In the project convention, SDV15 is the phase-field visualization variable and
+SDV16 is the history-like variable used to monitor monotonic driving behavior.
+The original ODB scan found SDV16 monotone and SDV15 nonmonotone in retained
+visualization frames. A later targeted diagnostic r2 run was non-intrusive by
+RF--U comparison and enabled a no-solution completed-increment replay of the
+existing trace rows.
+
+The completed-increment replay kept the last U1 stage-101 call for each
+\((\mathrm{KSTEP}, \mathrm{KINC}, \mathrm{physical~element},
+\mathrm{source-storage~IP})\). It processed 627304 trace rows, retained
+209152 U1 stage-101 rows, formed 101840 final increment states over 152
+element/IP sequences, and found 2184 unique completed-increment SDV15
+decreasing transitions. The severity audit classifies this as
+\texttt{sdv15\_completed\_increment\_irreversibility\_violation} under the
+provisional \(10^{-6}\) materiality tolerance. SDV16 has zero decreases over
+the same final-increment sequences.
+
+\section{Scientific Limitations}
+
+The current evidence supports the following restrained interpretation:
+
+\begin{itemize}
+\item Candidate v2 is technically reproducible.
+\item Crack propagation direction is qualitatively correct.
+\item RF--U agreement is mixed, and post-peak disagreement is substantial.
+\item SDV16 remains monotone in the checked sequences.
+\item SDV15 decreases between accepted increments.
+\item The targeted diagnostic instrumentation is non-intrusive.
+\item Strict pointwise phase-field irreversibility is not satisfied.
+\item Candidate v2 remains a useful reproduction baseline for supervisor
+review.
+\item Supervisor approval is required before Stage B or any downstream
+adaptive-remeshing work.
+\end{itemize}
+
+\section{Gate A3 Boundary}
+
+Gate A3 remains \texttt{reference\_data\_insufficient}. Candidate v2 has not
+passed Gate A3. No new solution run, candidate v3, irreversibility-enforced
+formulation, uniform-reference study, MISESERI workflow, adaptive-remeshing
+run, or state-transfer task is authorized by the present evidence.
