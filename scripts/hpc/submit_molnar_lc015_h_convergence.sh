@@ -67,9 +67,9 @@ printf '%s\n' "${REVISION}" > "${PRESTAGED_ROOT}/PROJECT_REVISION.txt"
   (cd "${PRESTAGED_ROOT}" && find . -type f -print0 | sort -z | xargs -0 sha256sum)
 } > "${PRESTAGED_ROOT}/STAGING_MANIFEST.txt"
 
-(cd "${PRESTAGED_ROOT}" && sha256sum -c models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact/input_hashes.sha256)
-(cd "${PRESTAGED_ROOT}" && sha256sum -c models/generated/molnar_gravouil_2017/h_convergence_lc015/H1_h0025/input_hashes.sha256)
-(cd "${PRESTAGED_ROOT}" && sha256sum -c models/generated/molnar_gravouil_2017/h_convergence_lc015/H2_pub_h0010/input_hashes.sha256)
+(cd "${PRESTAGED_ROOT}/models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact" && sha256sum -c input_hashes.sha256)
+(cd "${PRESTAGED_ROOT}/models/generated/molnar_gravouil_2017/h_convergence_lc015/H1_h0025" && sha256sum -c input_hashes.sha256)
+(cd "${PRESTAGED_ROOT}/models/generated/molnar_gravouil_2017/h_convergence_lc015/H2_pub_h0010" && sha256sum -c input_hashes.sha256)
 test "$(tr -d '[:space:]' < "${PRESTAGED_ROOT}/PROJECT_REVISION.txt")" = "${REVISION}"
 
 bash -n "${PRESTAGED_ROOT}/${PBS_H0}"
