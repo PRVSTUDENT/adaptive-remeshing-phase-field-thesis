@@ -1,6 +1,6 @@
 # Consolidated CAE-Only Replay Submission Checkpoint
 
-Status: `submitted_once`
+Status: `completed_cae_all_pass`
 
 ## Authorization
 
@@ -45,8 +45,23 @@ All three: Abaqus technical pass, ODB present, valid CAE package absent.
 - One case failure must not block remaining cases
 - ODBs read-only; no Standard solve
 
-## After completion
+## Completion (job already finished)
 
-Classify each case `CAE replay pass` / `CAE replay fail`.  
+| Field | Value |
+|---|---|
+| Exit_status | `0` |
+| Walltime | `00:00:12` |
+| Overall class | `molnar_hconv_cae_all_pass` |
+| Host | `mnode103` |
+
+| Case | CAE classification | peak RF2 [kN] | U2 at peak [mm] | RF2-U2 CSV |
+|---|---|---:|---:|---|
+| H0 | `CAE replay pass` | 0.7276 | 0.00610 | yes (origin included) |
+| H1 | `CAE replay pass` | 0.6996 | 0.00580 | yes (origin included) |
+| H2-PUB | `CAE replay pass` | 0.6963 | 0.00580 | yes (origin included) |
+
+Image/contour PNG export warned for all cases (viewport API); RF2–U2 packages are present.  
+Evidence: `.../cae_replay_all/evidence/1376236.mmaster02/`  
+
 Do not submit a second consolidated replay without a new decision.  
-Scientific h-convergence analysis only after CAE packages are reviewed.
+Scientific h-convergence analysis may now use the RF2–U2 CSVs.
