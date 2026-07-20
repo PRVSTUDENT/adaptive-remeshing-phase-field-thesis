@@ -96,6 +96,14 @@
     0.007000000216
   ],
   "crack_path_classification": "crack_path_convergence_not_assessed",
+  "post_peak_classification": "post_peak_h_convergence_not_fully_demonstrated",
+  "peak_and_prepeak_classification": "supported",
+  "full_curve_wording": "not_unrestricted_full_curve_mesh_independence",
+  "gate_a3_overall": "open",
+  "gate_a3_historical_label": "reference_data_insufficient",
+  "gate_a3_internal_rf_u_status": "rf_u_reference_supported_contour_evidence_pending",
+  "safest_wording": "The force-displacement response is effectively mesh-independent between H1 and H2-PUB for the elastic, pre-peak and peak-load regimes. A noticeable post-peak mesh dependence remains and must be retained as a limitation.",
+  "decision_doc": "docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md",
   "h0_h1": {
     "U_at_max_abs_force_diff_mm": 0.0063000001944,
     "coarse": "H0",

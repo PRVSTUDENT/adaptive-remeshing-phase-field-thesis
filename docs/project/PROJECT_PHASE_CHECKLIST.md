@@ -13,7 +13,7 @@ Status markers:
 - `[?]` awaiting review, approval, or missing evidence
 - `[~]` completed provisionally but not scientifically validated
 
-Gate A3: reference_data_insufficient
+Gate A3: open (`reference_data_insufficient` retained; RF–U component `rf_u_reference_supported_contour_evidence_pending`)
 Stage A: open
 
 ## Overall Phase Dashboard
@@ -24,7 +24,7 @@ Stage A: open
 | WP1 | One-element verification | `[~]` completed provisionally | source-defined numerical checks passed under provisional tolerances | `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/` |
 | WP2A | Supplementary Molnar single-notch technical benchmark | `[~]` completed provisionally | technical pass; not exact Fig. 7 comparison | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/` |
 | WP2B | Paper-matched Molnar reconstruction | `[~]` completed provisionally | technical pass; scientific review incomplete | `runs/hpc/paper_matched_single_notch_v2/RUN_MANIFEST.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md` |
-| Gate A3 | Uniform reference scientific justification | `[!]` blocked | `reference_data_insufficient`; tolerances and uniform-reference justification pending | `configs/molnar_paper_matched_single_notch.yaml`; `references/derived/molnar_gravouil_2017/paper_matched_single_notch/`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/` |
+| Gate A3 | Uniform reference scientific justification | `[!]` open | RF–U reference provisionally H2-PUB (peak/pre-peak supported; post-peak limited; contours pending); historical label `reference_data_insufficient` | `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`; `runs/hpc/molnar_lc015_h_convergence/comparison/` |
 | WP3 | MISESERI pre-analysis and remeshing reproduction | `[!]` blocked | blocked by Gate A3 | `THESIS_PLAN.md` |
 | WP4 | Refined phase-field benchmark and efficiency comparison | `[ ]` not started | dependent on WP3 | `THESIS_PLAN.md` |
 | WP5 | Evolving remesh and state transfer | `[ ]` not started | mandatory later thesis task | `THESIS_PLAN.md` |
@@ -106,11 +106,12 @@ Stage A: open
 - [~] Crack-path and SDV diagnostics completed. Result: final element-mean `SDV15 >= 0.95` crack extension about `0.0505 mm`; `SDV16` monotonic; detailed SDV15 review reproduced `6113` decrease events and mapping resolution reclassified the remaining `817` non-staggered events as `insufficient_output_evidence`. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_review/CRACK_PATH_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV15_IRREVERSIBILITY_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV16_MONOTONICITY_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/SDV15_DETAILED_EVENT_DECISION.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/SDV15_MAPPING_RESOLUTION_DECISION.md`.
 - [~] Scientific decision report completed. Result: `paper_matched_v2_scientific_review_incomplete`; post-peak RF-U mismatch dominates, crack path is connected/horizontal but threshold-dependent, SDV15 label/IP mapping is resolved, and retained outputs still leave `817` above-precision non-staggered events as `insufficient_output_evidence`. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/sdv15_decrease_events_full.csv`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/sdv15_unresolved_event_mapping.csv`.
 - [?] Gate A3 supervisor-review package prepared. Result: no supervisor decision inferred; routes documented as provisional pass, waiver with limitations, keep open, or candidate-v2 scientific fail. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; `docs/decisions/MOLNAR_TARGETED_OUTPUT_RERUN_REQUIREMENTS.md`; `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`.
-- [x] Perform mesh-size / h-convergence RF–U study (lc=0.015). Solvers H0/H1/H2 technical pass; CAE job `1376236` RF–U pass; formal successive-mesh analysis complete (`rf_u_h_convergence_supported` for peak/pre-peak; post-peak residual larger; contours not assessed). Evidence: `runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md`; `results/tables/molnar_lc015_h_convergence/`.
+- [x] Perform mesh-size / h-convergence RF–U study (lc=0.015). Solvers H0/H1/H2 technical pass; CAE job `1376236` RF–U pass; formal analysis complete. Peak/pre-peak supported; post-peak not fully demonstrated; contours not assessed. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`; `runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md`.
+- [x] Select provisional RF–U meshes: conservative reference **H2-PUB** (h=0.001 mm); intermediate **H1** (h=0.0025 mm); H0 not a reference. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`.
 - [!] Perform length-scale study. Not authorized by the current supervisor decision.
 - [!] Perform load-increment study. Not authorized by the current supervisor decision.
-- [ ] Establish justified uniform fine reference.
-- [!] Gate A3 closure blocked as `reference_data_insufficient` until supervisor-approved tolerances and uniform-reference justification are resolved. Evidence: `configs/molnar_paper_matched_single_notch.yaml`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/`.
+- [~] Establish justified uniform fine reference for RF–U only (H2-PUB provisional). Contour/crack-path and supervisor tolerances still pending.
+- [!] Gate A3 overall still open. RF–U component `rf_u_reference_supported_contour_evidence_pending`; historical `reference_data_insufficient` retained until tolerances and contour evidence/waiver are resolved. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`.
 
 ## WP3 - MISESERI Pre-Analysis And Remeshing Reproduction
 

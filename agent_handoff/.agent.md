@@ -15,10 +15,9 @@ Updated: 2026-07-20
 
 Current stage:
 
-- Stage A / WP2 remains open. Gate A3 remains `reference_data_insufficient`.
-- Supervisor decision: the controlled Molnar `lc = 0.015 mm` h-convergence study is the active scientific task. H0 is the exact supplementary baseline, H1 uses `h = 0.0025 mm`, and H2-PUB uses the publication local crack-path resolution `h = 0.001 mm`.
-- Execution status: H0 solver job `1376154.mmaster02` is a technical pass with its ODB retained; both H0 CAE attempts failed only in postprocessing infrastructure. H1 first-execution job `1376185.mmaster02` satisfied the dependency policy and released H2; detailed H1 evidence intake remains pending. H2-PUB job `1376186.mmaster02` is currently running from the immutable scientific-input revision `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`.
-- CAE recovery status: consolidated CAE-only job `1376236.mmaster02` submitted once from `bd09bc4f33a1415bba70769458d5bbbf218e1592` and finished with `Exit_status=0`, classification `molnar_hconv_cae_all_pass`. Per-case results: H0/H1/H2-PUB all `pass|cae_ok` with RF2-U2 CSV/RPT. Image/contour export warned. CAE authorization consumed; no second CAE submit without new decision.
+- Stage A / WP2 remains open. Gate A3 overall remains **open** with historical label `reference_data_insufficient`. RF–U component internal status: `rf_u_reference_supported_contour_evidence_pending`.
+- Molnar `lc = 0.015 mm` h-convergence RF–U decision is recorded: peak/pre-peak supported; post-peak not fully demonstrated; crack-path not assessed; publication provisional. Conservative RF–U reference: **H2-PUB**; intermediate: **H1**; H0 not a reference. Safest wording requires stating post-peak mesh dependence as a limitation. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`; analysis commit `db4c1fa`.
+- Solvers H0/H1/H2 technical pass; consolidated CAE `1376236` RF–U pass; contour PNG export incomplete. No further PBS/Abaqus/CAE without new authorization.
 - Current campaign boundary: no solver retry, H0 rerun, extra mesh, H3, length-scale study, increment-sensitivity study, MISESERI run, adaptive-remeshing run, state-transfer run, GPU run, formulation change, or parameter change is authorized.
 - CPU policy boundary: the current H0/H1/H2 campaign remains serial and must not be altered in flight. For future work in this thesis, multicore use is a project-specific validation task and is no longer governed by any previous-project “Stage 16N” policy. Threaded Abaqus execution may be adopted only after serial-versus-threaded repeatability and scaling are demonstrated for the relevant UEL/UMAT model.
 - Stage A / WP2 - Molnar baseline reproduction and paper-matched single-notch scientific comparison.
@@ -81,15 +80,14 @@ Known source documents:
 - Decision: consolidated CAE-only job `1376236.mmaster02` completed successfully for H0/H1/H2-PUB. Solvers remain technical pass with ODBs retained. Scientific h-convergence comparison is now unblocked for RF-U metrics; contour images incomplete (export warning).
 - Scheduler: no active h-convergence jobs after CAE completion.
 
-- Formal RF–U h-convergence analysis complete for H0/H1/H2-PUB (lc=0.015). Peak force H0→H1 ≈4.00%, H1→H2 ≈0.47%; pre-peak NRMSE H1–H2 ≈0.11%; full NRMSE H1–H2 ≈6.0% (post-peak driven). Classification: `rf_u_h_convergence_supported` for peak/pre-peak; `crack_path_convergence_not_assessed`; publication agreement provisional vs digitized Fig.7 lc=0.015. Recommended RF–U fine reference: H2-PUB; intermediate: H1. Evidence: `runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md`.
+- Formal RF–U analysis: H0→H1 peak force ≈4.00%; H1→H2 peak force ≈0.47%, Upeak change 0%, K0 change ≈0.06%, pre-peak NRMSE ≈0.11%, full NRMSE ≈6.0%, post-peak NRMSE ≈20.2%. Decision frozen in `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`.
 
 Immediate next tasks:
 
-1. Do not resubmit CAE or solvers without new authorization.
-2. Supervisor review of RF–U reference selection; optional future contour export authorization if crack-path convergence is required.
-3. Preserve candidate v1 as failed static evidence and do not repair it in place.
-4. Keep Gate A3 open until supervisor-approved tolerances and full evidence package are accepted.
-5. Only after benchmark reproduction is stable and explicitly authorized, start MISESERI.
+1. Obtain supervisor decision: accept H2-PUB as RF–U reference with post-peak limitation; accept H1 for intermediate work; accept/waive missing contour evidence before MISESERI.
+2. Do not resubmit CAE/solvers, and do not start MISESERI/remeshing/state transfer without explicit authorization.
+3. Preserve candidate v1 as failed static evidence.
+4. Keep Gate A3 open until supervisor-approved tolerances and contour/waiver path are resolved.
 
 Unresolved decisions requiring user/supervisor confirmation:
 

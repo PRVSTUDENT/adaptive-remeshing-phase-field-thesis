@@ -1,6 +1,6 @@
 # Stage B Uniform-Reference Study Protocol
 
-Status: `h_convergence_subset_submitted_scientific_pending`
+Status: `rf_u_h_convergence_decision_recorded`
 
 Gate A3 remains `reference_data_insufficient`. The route-neutral Stage B
 planning package is preserved. The supervisor has approved only a controlled
@@ -21,10 +21,13 @@ Study family: molnar_single_notch_lc015_h_convergence
 lc for authorized subset: 0.015 mm (exact supplementary model)
 Submitted once: H0 1376154.mmaster02; H1 1376155.mmaster02; H2-PUB 1376156.mmaster02
 Submission revision: 58d7e3102d76fe0e70e6729457e2c7e90ad131bb
-Scientific convergence: pending
-Not authorized: length-scale study; load-increment study; MISESERI;
-adaptive remeshing; state transfer; multi-CPU; GPU; formulation changes;
-automatic retries; fourth mesh level
+RF–U scientific decision: recorded (peak/pre-peak supported; post-peak limited)
+Provisional RF–U reference: H2-PUB (h=0.001 mm); intermediate: H1
+Contour convergence: not assessed
+Gate A3 overall: open (`rf_u_reference_supported_contour_evidence_pending`)
+Not authorized without new supervisor decision: length-scale study;
+load-increment study; MISESERI; adaptive remeshing; state transfer;
+further PBS/Abaqus/CAE; multicore production claims
 ```
 
 ## Supervisor-Approved Execution Subset

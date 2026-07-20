@@ -96,19 +96,30 @@ Empirical log–log slope walltime vs N: **α ≈ 0.968** (serial only; not para
 
 | Domain | Classification |
 |---|---|
-| A. Scalar RF–U convergence | `rf_u_h_convergence_supported` |
-| B. Full-curve convergence | `rf_u_h_convergence_supported` (supported by successive NRMSE) |
-| C. Publication agreement | `publication_agreement_provisional` |
-| D. Computational cost | documented; serial growth with N |
+| A. Peak / pre-peak RF–U convergence | **supported** |
+| B. Post-peak RF–U convergence | **not fully demonstrated** (full NRMSE ~6%, post-peak ~20%) |
+| C. Overall RF–U label | `rf_u_h_convergence_supported` **with post-peak limitation** |
+| D. Publication agreement | `publication_agreement_provisional` |
 | E. Crack-path / contour | `crack_path_convergence_not_assessed` |
+
+**Safest wording (required in thesis statements):**
+
+> The force–displacement response is effectively mesh-independent between H1
+> and H2-PUB for the elastic, pre-peak and peak-load regimes. A noticeable
+> post-peak mesh dependence remains and must be retained as a limitation.
+
+Do not claim unrestricted full-curve mesh independence.
 
 ## 10. Recommendations
 
-1. **Uniform fine reference (RF–U):** H2-PUB preferred as conservative uniform fine reference for RF-U.
-2. **Intermediate studies:** H1 acceptable for intermediate RF-U development studies.
-3. **H0:** too coarse for final reference (clear H0→H1 change).
-4. **Contours:** crack-path h-convergence remains unassessed until matched-state SDV15 images exist for all three meshes.
-5. **Gate A3:** remains `reference_data_insufficient` / open until supervisor-approved tolerances and full evidence package (including contours if required) are accepted.
+1. **Uniform fine reference (RF–U):** **H2-PUB** (h = 0.001 mm) — conservative publication-scale local resolution.
+2. **Intermediate studies:** **H1** (h = 0.0025 mm) — nearly identical peak/pre-peak at ~35% of H2 walltime; not the formal conservative reference.
+3. **H0:** not recommended as reference (clear H0→H1 dependence).
+4. **Contours:** crack-path h-convergence unassessed until matched-state SDV15 images exist for all three meshes.
+5. **Gate A3:** overall **open**. Historical label `reference_data_insufficient` remains defensible. Internal RF–U component status: `rf_u_reference_supported_contour_evidence_pending`.
+6. **MISESERI/remeshing:** blocked unless the supervisor accepts or waives missing contour evidence.
+
+Canonical decision record: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`
 
 ## 11. Limitations
 
