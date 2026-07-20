@@ -590,14 +590,26 @@ Recommended RF--U uniform fine reference: H2-PUB; intermediate studies: H1 with 
 Gate A3 remains open. Evidence: \path{runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md}.
 
 
-\subsection Scientific decision for lc = 0.015 mm RF--U h-convergence
+\subsection{Scientific decision for lc = 0.015 mm RF--U h-convergence}
 
 Peak and pre-peak RF--U h-convergence is supported between H1 and H2-PUB
-(peak-force change about .47\%$, pre-peak NRMSE about .11\%$).
-Post-peak mesh independence is not fully demonstrated (full-curve NRMSE about \%$, post-peak about \%$).
+(peak-force change about \(0.47\%\), pre-peak NRMSE about \(0.11\%\)).
+Post-peak mesh independence is not fully demonstrated
+(full-curve NRMSE about \(6.0\%\), post-peak about \(20.2\%\)).
 Conservative RF--U reference: H2-PUB; intermediate development mesh: H1; H0 is not recommended as reference.
 Crack-path convergence remains unassessed.
 Gate A3 remains open with internal RF--U status \texttt{rf\_u\_reference\_supported\_contour\_evidence\_pending}.
 Canonical decision: \path{docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md}.
+
+\subsection{Gate A3 supervisor decision package (no new run)}
+
+A concise no-solution supervisor package was prepared from the completed RF--U study.
+It requests exactly two decisions: (1)~accept H2-PUB as the uniform RF--U reference (options A/B/C);
+(2)~whether matched-state SDV15/crack-path contours are mandatory, deferred, or limited (options A/B/C/D).
+No supervisor answer is inferred. Gate A3 is not marked passed; Stage A is not complete.
+Evidence: \path{docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md};
+\path{docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md};
+\path{docs/handoffs/MOLNAR_H_CONVERGENCE_SUPERVISOR_SLIDE_CONTENT.md};
+\path{docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md}.
 
 \end{document}

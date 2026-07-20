@@ -82,12 +82,14 @@ Known source documents:
 
 - Formal RF–U analysis: H0→H1 peak force ≈4.00%; H1→H2 peak force ≈0.47%, Upeak change 0%, K0 change ≈0.06%, pre-peak NRMSE ≈0.11%, full NRMSE ≈6.0%, post-peak NRMSE ≈20.2%. Decision frozen in `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`.
 
+- Gate A3 supervisor decision package prepared (no new runs): `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; meeting handoff `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`; slide content `docs/handoffs/MOLNAR_H_CONVERGENCE_SUPERVISOR_SLIDE_CONTENT.md`; status matrix `docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md`. Two decisions requested: H2-PUB as RF–U reference; contour requirement. Gate A3 not passed.
+
 Immediate next tasks:
 
-1. Obtain supervisor decision: accept H2-PUB as RF–U reference with post-peak limitation; accept H1 for intermediate work; accept/waive missing contour evidence before MISESERI.
-2. Do not resubmit CAE/solvers, and do not start MISESERI/remeshing/state transfer without explicit authorization.
-3. Preserve candidate v1 as failed static evidence.
-4. Keep Gate A3 open until supervisor-approved tolerances and contour/waiver path are resolved.
+1. Present the supervisor package; do not infer answers.
+2. After Decision 1+2: if contours deferred → prepare MISESERI Stage C plan only (no execution); if contours mandatory → prepare one CAE-only contour plan on existing ODBs; if more evidence → scope only that.
+3. Do not submit PBS/Abaqus/CAE or start MISESERI/remeshing/state transfer without explicit new authorization.
+4. Preserve candidate v1 as failed static evidence; keep Gate A3 open until supervisor response.
 
 Unresolved decisions requiring user/supervisor confirmation:
 

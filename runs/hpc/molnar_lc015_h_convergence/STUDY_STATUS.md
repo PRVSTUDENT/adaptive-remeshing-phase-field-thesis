@@ -23,22 +23,28 @@ Safest wording:
 | Intermediate development | **H1** (h = 0.0025 mm) |
 | Not recommended as reference | H0 |
 
-Decision document: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`  
-Formal review: `comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md`  
+Decision document: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`
+Formal review: `comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md`
 Analysis commit: `db4c1fadfb3a4f7b33b6b653c261e6da90036c48`
 
 ## Gate A3
 
 | Layer | Status |
 |---|---|
-| Overall | **open** |
+| Overall | **open** — supervisor decision pending |
 | Historical label | `reference_data_insufficient` (still defensible) |
 | RF–U internal status | `rf_u_reference_supported_contour_evidence_pending` |
 | RF–U benchmark component | complete |
-| RF–U reference mesh | provisionally H2-PUB |
+| RF–U reference mesh | recommended H2-PUB (awaiting Decision 1) |
 | Publication comparison | provisional (lc=0.015 approx. digitization) |
 | Supervisor tolerances | pending |
-| Contour/crack-path evidence | pending |
+| Contour/crack-path evidence | pending (Decision 2) |
+| Supervisor package | ready (no answer inferred) |
+
+Package: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`
+Meeting: `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`
+Slides: `docs/handoffs/MOLNAR_H_CONVERGENCE_SUPERVISOR_SLIDE_CONTENT.md`
+Status matrix: `docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md`
 
 ## Execution history (summary)
 
@@ -54,10 +60,10 @@ Scientific-input revision: `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`
 
 ```text
 RF–U h-convergence analysis: complete
-H2-PUB reference recommendation: supported
+H2-PUB reference recommendation: supported (project); supervisor Decision 1 pending
 H1 intermediate recommendation: supported
-Contour convergence: pending
-Gate A3: open
+Contour convergence: not assessed
+Gate A3: open — supervisor package ready; not passed
 Further PBS/Abaqus/CAE runs: not authorized
-MISESERI/remeshing/state transfer: blocked pending supervisor decision
+MISESERI/remeshing/state transfer: blocked pending Decision 1+2
 ```

@@ -13,7 +13,7 @@ Status markers:
 - `[?]` awaiting review, approval, or missing evidence
 - `[~]` completed provisionally but not scientifically validated
 
-Gate A3: open (`reference_data_insufficient` retained; RF–U component `rf_u_reference_supported_contour_evidence_pending`)
+Gate A3: open — supervisor decision pending (`reference_data_insufficient` retained; RF–U component `rf_u_reference_supported_contour_evidence_pending`)
 Stage A: open
 
 ## Overall Phase Dashboard
@@ -24,7 +24,7 @@ Stage A: open
 | WP1 | One-element verification | `[~]` completed provisionally | source-defined numerical checks passed under provisional tolerances | `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/` |
 | WP2A | Supplementary Molnar single-notch technical benchmark | `[~]` completed provisionally | technical pass; not exact Fig. 7 comparison | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/` |
 | WP2B | Paper-matched Molnar reconstruction | `[~]` completed provisionally | technical pass; scientific review incomplete | `runs/hpc/paper_matched_single_notch_v2/RUN_MANIFEST.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md` |
-| Gate A3 | Uniform reference scientific justification | `[!]` open | RF–U reference provisionally H2-PUB (peak/pre-peak supported; post-peak limited; contours pending); historical label `reference_data_insufficient` | `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`; `runs/hpc/molnar_lc015_h_convergence/comparison/` |
+| Gate A3 | Uniform reference scientific justification | `[?]` supervisor decision pending | RF–U package ready; H2-PUB recommended; two decisions requested (reference + contours) | `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`; `docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md` |
 | WP3 | MISESERI pre-analysis and remeshing reproduction | `[!]` blocked | blocked by Gate A3 | `THESIS_PLAN.md` |
 | WP4 | Refined phase-field benchmark and efficiency comparison | `[ ]` not started | dependent on WP3 | `THESIS_PLAN.md` |
 | WP5 | Evolving remesh and state transfer | `[ ]` not started | mandatory later thesis task | `THESIS_PLAN.md` |
@@ -111,7 +111,7 @@ Stage A: open
 - [!] Perform length-scale study. Not authorized by the current supervisor decision.
 - [!] Perform load-increment study. Not authorized by the current supervisor decision.
 - [~] Establish justified uniform fine reference for RF–U only (H2-PUB provisional). Contour/crack-path and supervisor tolerances still pending.
-- [!] Gate A3 overall still open. RF–U component `rf_u_reference_supported_contour_evidence_pending`; historical `reference_data_insufficient` retained until tolerances and contour evidence/waiver are resolved. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`.
+- [?] Gate A3 overall open — supervisor package ready. Decisions requested: (1) accept H2-PUB as RF–U reference A/B/C; (2) contour requirement A/B/C/D. RF–U component `rf_u_reference_supported_contour_evidence_pending`. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`.
 
 ## WP3 - MISESERI Pre-Analysis And Remeshing Reproduction
 
@@ -206,11 +206,11 @@ Stage A: open
 
 ## Active Next Item
 
-Exact next checklist item: `[?] Supervisor decision on Gate A3 route, provisional tolerances, approximate Fig. 7 reference acceptability, post-peak RF-U mismatch interpretation, and whether candidate v2 is accepted with limitation, waived, replaced by a corrected formulation, or rejected`.
+Exact next checklist item: `[?] Supervisor Decision 1 (H2-PUB RF–U reference A/B/C) and Decision 2 (contour requirement A/B/C/D) on the Gate A3 package at docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`.
 
-Waiting posture after Stage B protocol preparation:
+Waiting posture after Gate A3 supervisor package:
 
-- [!] Pause model development until the supervisor decision is received. Do not run Abaqus, generate decks, prepare PBS, submit jobs, implement candidate v3, start Stage B execution, MISESERI, adaptive remeshing, or state transfer without explicit authorization.
+- [!] Pause execution until supervisor Decisions 1 and 2 are received. Do not run Abaqus, submit PBS, start MISESERI, adaptive remeshing, or state transfer without explicit new authorization. After response: contours deferred → prepare MISESERI Stage C plan only; contours mandatory → prepare one CAE-only contour plan on existing ODBs; more evidence → scope only that metric.
 
 ### Molnar v2 SDV15 Targeted Diagnostic Preparation
 

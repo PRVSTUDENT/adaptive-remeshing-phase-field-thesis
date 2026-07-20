@@ -240,9 +240,14 @@ H2-PUB is recommended as the conservative RF--U fine reference; H1 is suitable f
 Crack-path/contour mesh convergence is not assessed because CAE contour export failed.
 Evidence: \path{runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md}.
 
+A no-solution Gate~A3 supervisor decision package freezes this RF--U evidence for review and requests two explicit decisions: acceptance of H2-PUB as the uniform RF--U reference, and whether matched-state contours are mandatory before Gate~A3 closes.
+Internal RF--U status: \texttt{rf\_u\_reference\_supported\_contour\_evidence\_pending}.
+Supervisor package: \path{docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md};
+meeting handoff: \path{docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md}.
+
 \section{Gate A3 Boundary}
 
-Gate A3 remains \texttt{reference\_data\_insufficient}. Candidate v2 has not
-passed Gate A3. No new solution run, candidate v3, irreversibility-enforced
-formulation, uniform-reference study, MISESERI workflow, adaptive-remeshing
-run, or state-transfer task is authorized by the present evidence.
+Gate A3 remains \texttt{reference\_data\_insufficient} (overall open; not passed).
+RF--U h-convergence supports a provisional H2-PUB reference for peak/pre-peak response, with post-peak and contour limitations retained.
+Candidate v2 has not passed Gate A3.
+No new solution run, candidate v3, irreversibility-enforced formulation, MISESERI execution, adaptive-remeshing run, or state-transfer task is authorized by the present evidence; only a separate post-decision preparation plan may follow supervisor response.
