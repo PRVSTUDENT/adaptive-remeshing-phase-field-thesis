@@ -1,28 +1,30 @@
 # Study Status
 
-Status: `submitted_serial_dependency_chain`
+Status: `recovery_authorized_prepared_or_submitting`
 
 Scientific convergence: pending.
 
-## Submitted jobs
+## First chain (completed outcome)
 
-| Case | Job ID | Initial state | Dependency |
-|---|---|---|---|
-| H0 | `1376154.mmaster02` | Q | none (head of chain) |
-| H1 | `1376155.mmaster02` | H | afterok:H0 |
-| H2-PUB | `1376156.mmaster02` | H | afterok:H1 |
+| Case | Job ID | Classification |
+|---|---|---|
+| H0 | `1376154.mmaster02` | `solver_pass_cae_postprocess_failure` |
+| H1 | `1376155.mmaster02` | `not_executed_dependency_cancelled` |
+| H2-PUB | `1376156.mmaster02` | `not_executed_dependency_cancelled` |
 
-Submission revision: `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`
+Scientific-input revision: `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`
 
-Prestage (immutable):
+## Recovery (authorized)
 
-`/scratch/pr21vyci/adaptive-remeshing/prestage/molnar_lc015_h_convergence_20260720T134402+0200_58d7e3102d76`
+| Action | Nature |
+|---|---|
+| H0 CAE replay | postprocess-only on existing ODB; no solver rerun |
+| H1 | first solver execution |
+| H2-PUB | first solver execution; afterok H1 only |
 
-PBS output root:
-
-`/scratch/pr21vyci/adaptive-remeshing/pbs_output/molnar_lc015_h_convergence_20260720T134402+0200_58d7e3102d76`
+See `recovery_after_job_1376154/`.
 
 Mail_Users: `pr21vyci@mailserver.tu-freiberg.de`  
 Mail_Points: `abe`
 
-No fourth mesh, retry, or automatic resubmission is authorized.
+No H0 solver rerun, fourth mesh, or automatic extra retry beyond the authorized recovery trio.

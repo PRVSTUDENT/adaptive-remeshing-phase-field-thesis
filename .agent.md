@@ -75,12 +75,14 @@ Known source documents:
 - Local author-supplied exact single-notch Abaqus/CAE reproduction evidence exists under `runs/molnar_single_notch_author_supplied_exact/20260720_abaqus_cae_reproduction/` with Fig. 7 `lc=0.015 mm` digitization including origin `(0,0)`.
 
 - Molnar lc015 h-convergence study prepared and submitted: H0 exact author inputs verified; H1/H2-PUB static validation passed with publication-resolution verified for H2-PUB. Physical elements H0=3930, H1=12064, H2-PUB=33852. Measured corridor h medians approximately 0.00494 / 0.0025 / 0.001 mm. Fig. 7 lc=0.015 corrected-origin reference under `references/derived/molnar_gravouil_2017/single_notch/fig7_lc015_corrected_origin/`.
-- Submitted once as serial dependency chain from revision `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`: H0 `1376154.mmaster02` (Q), H1 `1376155.mmaster02` (H afterok H0), H2-PUB `1376156.mmaster02` (H afterok H1). Mail_Users=`pr21vyci@mailserver.tu-freiberg.de`, Mail_Points=`abe`. Immutable prestage used by active jobs. Scientific convergence remains pending. No other Stage B work authorized.
+- Submitted once as serial dependency chain from revision `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`: H0 `1376154.mmaster02`, H1 `1376155.mmaster02`, H2-PUB `1376156.mmaster02`.
+- H0 result: `solver_pass_cae_postprocess_failure` (Abaqus RC 0, STA success, ODB retained; CAE f-string parse failure; PBS Exit_status=11). H1/H2: `not_executed_dependency_cancelled` via afterok.
+- Authorized recovery (in preparation/submission): H0 CAE-only replay on existing ODB; first H1 solve; first H2-PUB solve after H1 solver-dependency success. No H0 solver rerun. CAE scripts made Abaqus-Python compatible; H1/H2 PBS exit 0 on solver success even if CAE fails.
 
 Immediate next tasks:
 
-1. Do not poll repeatedly; wait for job completion/email. Do not submit retries or additional meshes.
-2. After all three complete, run CAE-based comparison analysis only if technical passes exist.
+1. Submit authorized recovery trio once (H0 CAE replay + H1 + H2), then do not resubmit.
+2. After completion, four-level review: PBS, Abaqus, CAE, scientific mesh comparison.
 3. Preserve candidate v1 as failed static evidence and do not repair it in place.
 4. Keep Gate A3 open; scientific convergence remains pending after technical execution.
 5. Compare H0/H1/H2-PUB successively; use the approximate digitized Fig. 7 `lc=0.015 mm` curve only as external approximate reference.

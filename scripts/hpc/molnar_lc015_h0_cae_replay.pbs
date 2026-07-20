@@ -1,0 +1,147 @@
+#!/bin/bash
+#PBS -N molnar_h0_cae_replay
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+
+set -u
+
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+STAGE_ROOT="/scratch/pr21vyci/adaptive-remeshing/stage"
+EXISTING_ODB="/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h0_exact_1376154.mmaster02/molnar_lc015_h0_exact.odb"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/molnar_lc015_h_convergence/recovery_after_job_1376154/H0_cae_replay/evidence/${PBS_JOBID:-unknown}"
+STAGE_DIR="${STAGE_ROOT}/molnar_lc015_h0_cae_replay_${PBS_JOBID:-unknown}"
+CAE_RC="not_started"
+CLASSIFICATION="molnar_h0_cae_replay_fail"
+FAILURE_CLASS="not_classified"
+
+finish() {
+  rc=$?
+  mkdir -p "${LIGHT_DIR}" "${STAGE_DIR}" 2>/dev/null || true
+  {
+    echo "job_id=${PBS_JOBID:-unknown}"
+    echo "project_revision=${PROJECT_REVISION:-unset}"
+    echo "prestaged_root=${PRESTAGED_ROOT:-unset}"
+    echo "host=$(hostname 2>/dev/null || echo unknown)"
+    echo "case=H0_cae_replay"
+    echo "existing_odb=${EXISTING_ODB}"
+    echo "no_abaqus_standard_solve=true"
+    date -Is 2>/dev/null || date
+  } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
+  if [ -n "${PRESTAGED_ROOT:-}" ] && [ -f "${PRESTAGED_ROOT}/PROJECT_REVISION.txt" ]; then
+    cp "${PRESTAGED_ROOT}/PROJECT_REVISION.txt" "${LIGHT_DIR}/PROJECT_REVISION.txt" 2>/dev/null || true
+  fi
+  if [ -n "${PRESTAGED_ROOT:-}" ] && [ -f "${PRESTAGED_ROOT}/STAGING_MANIFEST.txt" ]; then
+    cp "${PRESTAGED_ROOT}/STAGING_MANIFEST.txt" "${LIGHT_DIR}/STAGING_MANIFEST.txt" 2>/dev/null || true
+  fi
+  [ -f "${STAGE_DIR}/modules.txt" ] && cp "${STAGE_DIR}/modules.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  [ -f "${STAGE_DIR}/executables.txt" ] && cp "${STAGE_DIR}/executables.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  [ -f "${STAGE_DIR}/odb_check.txt" ] && cp "${STAGE_DIR}/odb_check.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  printf '%s\n' "not_run_by_design" > "${LIGHT_DIR}/abaqus_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "h0_solver_not_rerun_existing_odb_only" > "${LIGHT_DIR}/abaqus_technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${CAE_RC}" > "${LIGHT_DIR}/cae_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${CAE_RC}" > "${LIGHT_DIR}/postprocess_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${CLASSIFICATION}" > "${LIGHT_DIR}/cae_postprocess_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${CLASSIFICATION}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${FAILURE_CLASS}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
+  printf '%s\n' "not_applicable_no_downstream_dependency" > "${LIGHT_DIR}/solver_dependency_status.txt" 2>/dev/null || true
+  if [ "${CLASSIFICATION}" = "molnar_h0_cae_replay_pass" ]; then
+    printf '%s\n' "cae_replay_complete" > "${LIGHT_DIR}/overall_evidence_status.txt" 2>/dev/null || true
+  else
+    printf '%s\n' "cae_replay_incomplete_or_failed" > "${LIGHT_DIR}/overall_evidence_status.txt" 2>/dev/null || true
+  fi
+  if [ -d "${STAGE_DIR}/postprocessing" ]; then
+    cp "${STAGE_DIR}/postprocessing/"* "${LIGHT_DIR}/" 2>/dev/null || true
+  fi
+  ls -lah "${STAGE_DIR}" > "${LIGHT_DIR}/scratch_listing.txt" 2>/dev/null || true
+  # Prove ODB was not rewritten by comparing recorded size/hash if available
+  if [ -f "${EXISTING_ODB}" ]; then
+    ls -la "${EXISTING_ODB}" > "${LIGHT_DIR}/odb_after_listing.txt" 2>/dev/null || true
+  fi
+  exit "${rc}"
+}
+trap finish EXIT
+
+fail() {
+  FAILURE_CLASS="$1"
+  CLASSIFICATION="molnar_h0_cae_replay_fail"
+  exit "$2"
+}
+
+mkdir -p "${LIGHT_DIR}" "${STAGE_DIR}" || exit 2
+
+if [ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ]; then
+  fail "missing_submission_variable" 2
+fi
+
+revision_file="${PRESTAGED_ROOT}/PROJECT_REVISION.txt"
+if [ ! -r "${revision_file}" ]; then
+  fail "missing_revision_manifest" 3
+fi
+staged_revision="$(tr -d '[:space:]' < "${revision_file}")"
+if [ "${staged_revision}" != "${PROJECT_REVISION}" ]; then
+  fail "revision_manifest_mismatch" 4
+fi
+
+# Verify existing H0 ODB; do not run Standard
+{
+  echo "existing_odb=${EXISTING_ODB}"
+  if [ ! -f "${EXISTING_ODB}" ]; then
+    echo "odb_missing=true"
+    exit 1
+  fi
+  ls -la "${EXISTING_ODB}"
+  odb_size="$(stat -c %s "${EXISTING_ODB}" 2>/dev/null || wc -c < "${EXISTING_ODB}")"
+  echo "odb_size_bytes=${odb_size}"
+  if [ "${odb_size}" -lt 1000000 ]; then
+    echo "odb_size_too_small"
+    exit 1
+  fi
+  sha256sum "${EXISTING_ODB}" || true
+  echo "no_standard_solve=true"
+} > "${STAGE_DIR}/odb_check.txt" 2>&1 || fail "existing_odb_check_failed" 5
+
+module purge > "${STAGE_DIR}/modules.txt" 2>&1 || fail "module_environment_failure" 6
+module load gcc/11.4.0 >> "${STAGE_DIR}/modules.txt" 2>&1 || fail "module_environment_failure" 6
+module load intel/2024.2.0 >> "${STAGE_DIR}/modules.txt" 2>&1 || fail "module_environment_failure" 6
+module load abaqus/2023 >> "${STAGE_DIR}/modules.txt" 2>&1 || fail "module_environment_failure" 6
+module list >> "${STAGE_DIR}/modules.txt" 2>&1 || true
+{
+  command -v abaqus || true
+} > "${STAGE_DIR}/executables.txt"
+command -v abaqus >/dev/null 2>&1 || fail "missing_abaqus_executable" 7
+
+# Copy only the CAE script; leave ODB in place unchanged
+cp "${PRESTAGED_ROOT}/scripts/abaqus_cae/postprocess_molnar_h_convergence_case.py" "${STAGE_DIR}/"
+mkdir -p "${STAGE_DIR}/postprocessing"
+
+# Compile check under Abaqus Python before CAE
+abaqus python -c "import py_compile; py_compile.compile('${STAGE_DIR}/postprocess_molnar_h_convergence_case.py', doraise=True)" \
+  > "${LIGHT_DIR}/abaqus_python_compile.txt" 2>&1 || fail "abaqus_python_compile_failure" 8
+
+CAE_RC=0
+abaqus cae noGUI="${STAGE_DIR}/postprocess_molnar_h_convergence_case.py" -- \
+  "${EXISTING_ODB}" \
+  "${STAGE_DIR}/postprocessing" \
+  "H0" > "${LIGHT_DIR}/postprocess_stdout.log" 2>&1 || CAE_RC=$?
+
+# Confirm ODB still exists with same size
+after_size="$(stat -c %s "${EXISTING_ODB}" 2>/dev/null || wc -c < "${EXISTING_ODB}")"
+before_size="$(awk -F= '/odb_size_bytes=/{print $2}' "${STAGE_DIR}/odb_check.txt" | tr -d '[:space:]')"
+if [ -n "${before_size}" ] && [ "${after_size}" != "${before_size}" ]; then
+  fail "odb_size_changed_unexpectedly" 9
+fi
+
+if [ "${CAE_RC}" -eq 0 ] && \
+   [ -f "${STAGE_DIR}/postprocessing/H0_RF2_U2.rpt" ] && \
+   [ -f "${STAGE_DIR}/postprocessing/H0_RF2_U2.csv" ]; then
+  CLASSIFICATION="molnar_h0_cae_replay_pass"
+  FAILURE_CLASS="none"
+  exit 0
+fi
+
+FAILURE_CLASS="cae_postprocess_failure"
+CLASSIFICATION="molnar_h0_cae_replay_fail"
+exit 10

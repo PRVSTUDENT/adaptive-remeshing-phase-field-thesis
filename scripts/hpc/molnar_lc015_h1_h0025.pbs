@@ -17,12 +17,15 @@ RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
 STAGE_DIR="${STAGE_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
 LIGHT_DIR="${PROJECT_HOME}/runs/hpc/molnar_lc015_h_convergence/H1_h0025/evidence/${PBS_JOBID:-unknown}"
 ABAQUS_RC="not_started"
-POST_RC="not_started"
+CAE_RC="not_started"
 TECHNICAL_CLASSIFICATION="molnar_h1_h0025_technical_fail"
+CAE_CLASSIFICATION="cae_not_started"
+SOLVER_DEPENDENCY_STATUS="failure"
+OVERALL_EVIDENCE_STATUS="incomplete"
 FAILURE_CLASS="not_classified"
+PBS_EXIT=1
 
 finish() {
-  rc=$?
   mkdir -p "${LIGHT_DIR}" "${RUN_DIR}" "${STAGE_DIR}" 2>/dev/null || true
   {
     echo "job_id=${PBS_JOBID:-unknown}"
@@ -30,6 +33,7 @@ finish() {
     echo "prestaged_root=${PRESTAGED_ROOT:-unset}"
     echo "host=$(hostname 2>/dev/null || echo unknown)"
     echo "case=H1"
+    echo "scientific_input_revision_expected=58d7e3102d76fe0e70e6729457e2c7e90ad131bb"
     date -Is 2>/dev/null || date
   } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
   if [ -n "${PRESTAGED_ROOT:-}" ] && [ -f "${PRESTAGED_ROOT}/PROJECT_REVISION.txt" ]; then
@@ -42,22 +46,35 @@ finish() {
   [ -f "${RUN_DIR}/modules.txt" ] && cp "${RUN_DIR}/modules.txt" "${LIGHT_DIR}/" 2>/dev/null || true
   [ -f "${RUN_DIR}/executables.txt" ] && cp "${RUN_DIR}/executables.txt" "${LIGHT_DIR}/" 2>/dev/null || true
   printf '%s\n' "${ABAQUS_RC}" > "${LIGHT_DIR}/abaqus_return_code.txt" 2>/dev/null || true
-  printf '%s\n' "${POST_RC}" > "${LIGHT_DIR}/postprocess_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${TECHNICAL_CLASSIFICATION}" > "${LIGHT_DIR}/abaqus_technical_classification.txt" 2>/dev/null || true
   printf '%s\n' "${TECHNICAL_CLASSIFICATION}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${CAE_RC}" > "${LIGHT_DIR}/cae_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${CAE_RC}" > "${LIGHT_DIR}/postprocess_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${CAE_CLASSIFICATION}" > "${LIGHT_DIR}/cae_postprocess_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${SOLVER_DEPENDENCY_STATUS}" > "${LIGHT_DIR}/solver_dependency_status.txt" 2>/dev/null || true
+  printf '%s\n' "${OVERALL_EVIDENCE_STATUS}" > "${LIGHT_DIR}/overall_evidence_status.txt" 2>/dev/null || true
   printf '%s\n' "${FAILURE_CLASS}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
+  {
+    echo "pbs_exit_semantics=zero_means_solver_dependency_success_not_complete_solver_and_postprocessing_success"
+    echo "pbs_exit=${PBS_EXIT}"
+    echo "solver_dependency_status=${SOLVER_DEPENDENCY_STATUS}"
+    echo "cae_postprocess_classification=${CAE_CLASSIFICATION}"
+  } > "${LIGHT_DIR}/pbs_exit_semantics.txt" 2>/dev/null || true
   ls -lah "${RUN_DIR}" > "${LIGHT_DIR}/scratch_listing.txt" 2>/dev/null || true
   cp "${RUN_DIR}/${JOB_NAME}.sta" "${RUN_DIR}/${JOB_NAME}.msg" "${RUN_DIR}/${JOB_NAME}.dat" "${RUN_DIR}/${JOB_NAME}.abaqus_stdout.log" "${LIGHT_DIR}/" 2>/dev/null || true
   if [ -d "${STAGE_DIR}/postprocessing" ]; then
     cp "${STAGE_DIR}/postprocessing/"* "${LIGHT_DIR}/" 2>/dev/null || true
   fi
-  exit "${rc}"
+  exit "${PBS_EXIT}"
 }
 trap finish EXIT
 
 fail_presolver() {
   FAILURE_CLASS="$1"
-  printf '%s\n' "${FAILURE_CLASS}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
-  exit "$2"
+  SOLVER_DEPENDENCY_STATUS="failure"
+  OVERALL_EVIDENCE_STATUS="preflight_or_infrastructure_failure"
+  PBS_EXIT="$2"
+  exit "${PBS_EXIT}"
 }
 
 mkdir -p "${RUN_DIR}" "${STAGE_DIR}" "${LIGHT_DIR}" || exit 2
@@ -107,21 +124,37 @@ if [ "${ABAQUS_RC}" -eq 0 ] &&
    [ -f "${JOB_NAME}.dat" ] &&
    grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
   TECHNICAL_CLASSIFICATION="molnar_h1_h0025_technical_pass"
+  SOLVER_DEPENDENCY_STATUS="success"
 else
   FAILURE_CLASS="abaqus_technical_failure"
+  TECHNICAL_CLASSIFICATION="molnar_h1_h0025_technical_fail"
+  SOLVER_DEPENDENCY_STATUS="failure"
+  OVERALL_EVIDENCE_STATUS="solver_failure"
+  CAE_CLASSIFICATION="cae_skipped_after_solver_failure"
+  PBS_EXIT=10
   exit 10
 fi
 
 mkdir -p "${STAGE_DIR}/postprocessing"
-POST_RC=0
+CAE_RC=0
 abaqus cae noGUI="${RUN_DIR}/postprocess_molnar_h_convergence_case.py" -- \
   "${RUN_DIR}/${JOB_NAME}.odb" \
   "${STAGE_DIR}/postprocessing" \
-  "H1" > "${LIGHT_DIR}/postprocess_stdout.log" 2>&1 || POST_RC=$?
+  "H1" > "${LIGHT_DIR}/postprocess_stdout.log" 2>&1 || CAE_RC=$?
 
-if [ "${POST_RC}" -ne 0 ]; then
-  FAILURE_CLASS="cae_postprocess_failure_after_successful_solve"
-  exit 11
+if [ "${CAE_RC}" -eq 0 ]; then
+  CAE_CLASSIFICATION="cae_postprocess_pass"
+  OVERALL_EVIDENCE_STATUS="solver_and_cae_success"
+  FAILURE_CLASS="none"
+  PBS_EXIT=0
+  exit 0
 fi
 
+# Solver succeeded: PBS exit 0 so H2 afterok may proceed.
+# CAE failure is recorded separately and does not mean complete success.
+FAILURE_CLASS="cae_postprocess_failure_after_successful_solve"
+CAE_CLASSIFICATION="cae_postprocess_failure_after_successful_solve"
+OVERALL_EVIDENCE_STATUS="solver_success_cae_failure"
+SOLVER_DEPENDENCY_STATUS="success"
+PBS_EXIT=0
 exit 0

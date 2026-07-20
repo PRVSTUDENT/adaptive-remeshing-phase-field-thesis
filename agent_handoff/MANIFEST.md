@@ -1,14 +1,13 @@
 # Agent Handoff Manifest
 
-Created (UTC): 2026-07-20T11:45:15.917003+00:00
+Created (UTC): 2026-07-20T12:09:38.776101+00:00
 
 This directory contains only files from the latest mirrored operation.
 
 | Mirrored file | Original path | Bytes | SHA-256 |
 |---|---|---:|---|
-| `.agent.md` | `.agent.md` | 57331 | `60c0d3d9f9582f6e9e92b03cf3d31a467936684781679cd699eb88cbad74a596` |
-| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 25737 | `bf74cb6942bb73485b8e1543eb559eeb42d0ff6b7d1d89c74f281849008fdc15` |
-| `STUDY_STATUS.md` | `runs/hpc/molnar_lc015_h_convergence/STUDY_STATUS.md` | 795 | `2eb9f6e5d283fef19e44e711c265b8bb3739595800aadb05186ad4c167c9de03` |
-| `STUDY_MANIFEST.md` | `runs/hpc/molnar_lc015_h_convergence/STUDY_MANIFEST.md` | 1983 | `30527ca6721d2c73c427dc5e7d71a36060cf563fe9b47f9c98f5817d8f549ad1` |
-| `SUBMISSION_RECORD.txt` | `runs/hpc/molnar_lc015_h_convergence/SUBMISSION_RECORD.txt` | 438 | `c1ae9a22fe82a74a07a7b57fa7a58433aa2113132b7f3ff489a9634b77086d8d` |
-| `STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md` | `docs/studies/STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md` | 10659 | `186fb597a96ddcc8c05d69f28076f6af45db4bdacc72dd9a82f6a1976d7a53bb` |
+| `.agent.md` | `.agent.md` | 57567 | `13c73c38c2c03399e063669c47ebf11f519763eb10a3f93635cc2ddefac503f3` |
+| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 25694 | `63ad2366b99dd13f7758db8da415ecd97b2c968a8c26ff2d2f45921d013f8c5c` |
+| `ABAQUS_PYTHON_COMPATIBILITY_NOTE.md` | `docs/methods/ABAQUS_PYTHON_COMPATIBILITY_NOTE.md` | 1451 | `64261fa85faa41d81176f497273cc363c0ccc71daf1f57daecc575f85696841c` |
+| `RECOVERY_PLAN.md` | `runs/hpc/molnar_lc015_h_convergence/recovery_after_job_1376154/RECOVERY_PLAN.md` | 1711 | `b12106e88fe97a5b605eb49821b611d31540a4e98469904ced4f6fc25f1e499e` |
+| `STUDY_STATUS.md` | `runs/hpc/molnar_lc015_h_convergence/STUDY_STATUS.md` | 882 | `84981c87b3661038c1cf164fd2d6e7808280d59ebac4b2b33decf72f3a48ffd8` |
