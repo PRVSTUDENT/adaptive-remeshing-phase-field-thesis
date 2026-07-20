@@ -51,6 +51,12 @@ abaqus python -c "import py_compile; py_compile.compile('scripts/abaqus_cae/post
 System `python3` compile success is not sufficient evidence of Abaqus Python
 compatibility.
 
+## Path passing
+
+Mandatory ODB/output/case identifiers must be supplied through environment
+variables (`MOLNAR_CASE_ID`, `MOLNAR_ODB_PATH`, `MOLNAR_OUTPUT_DIR`), not
+through positional `sys.argv`. See `ABAQUS_CAE_ENV_VAR_IO_NOTE.md`.
+
 ## Scientific scope
 
 Compatibility repairs must not change RF2/U2 selection, RP identification,

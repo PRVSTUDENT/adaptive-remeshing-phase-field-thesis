@@ -137,10 +137,13 @@ fi
 
 mkdir -p "${STAGE_DIR}/postprocessing"
 CAE_RC=0
-abaqus cae noGUI="${RUN_DIR}/postprocess_molnar_h_convergence_case.py" -- \
-  "${RUN_DIR}/${JOB_NAME}.odb" \
-  "${STAGE_DIR}/postprocessing" \
-  "H1" > "${LIGHT_DIR}/postprocess_stdout.log" 2>&1 || CAE_RC=$?
+# Paths via environment variables only; Abaqus argv may contain internal -cae flags.
+export MOLNAR_CASE_ID="H1"
+export MOLNAR_ODB_PATH="${RUN_DIR}/${JOB_NAME}.odb"
+export MOLNAR_OUTPUT_DIR="${STAGE_DIR}/postprocessing"
+abaqus cae noGUI="${RUN_DIR}/postprocess_molnar_h_convergence_case.py" \
+  > "${LIGHT_DIR}/postprocess_stdout.log" 2>&1 || CAE_RC=$?
+unset MOLNAR_CASE_ID MOLNAR_ODB_PATH MOLNAR_OUTPUT_DIR
 
 if [ "${CAE_RC}" -eq 0 ]; then
   CAE_CLASSIFICATION="cae_postprocess_pass"

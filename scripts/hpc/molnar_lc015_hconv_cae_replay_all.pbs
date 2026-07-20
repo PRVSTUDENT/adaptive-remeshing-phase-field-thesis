@@ -1,0 +1,172 @@
+#!/bin/bash
+#PBS -N molnar_hconv_cae_all
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=32gb
+#PBS -l walltime=04:00:00
+#PBS -j oe
+#PBS -m abe
+
+# Consolidated CAE-only replay for technically successful h-convergence cases
+# lacking a valid CAE package. Does not run Abaqus/Standard.
+#
+# Required submission variables:
+#   PROJECT_REVISION
+#   PRESTAGED_ROOT
+# Optional:
+#   CAE_ELIGIBILITY_MANIFEST  (path inside prestaged tree or absolute)
+
+set -u
+
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+STAGE_ROOT="/scratch/pr21vyci/adaptive-remeshing/stage"
+LIGHT_ROOT="${PROJECT_HOME}/runs/hpc/molnar_lc015_h_convergence/recovery_after_job_1376154/cae_replay_all/evidence"
+STAGE_DIR="${STAGE_ROOT}/molnar_lc015_hconv_cae_all_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${LIGHT_ROOT}/${PBS_JOBID:-unknown}"
+OVERALL_RC=0
+PROCESSED=0
+FAILED=0
+PASSED=0
+
+finish() {
+  rc=$?
+  mkdir -p "${LIGHT_DIR}" 2>/dev/null || true
+  {
+    echo "job_id=${PBS_JOBID:-unknown}"
+    echo "project_revision=${PROJECT_REVISION:-unset}"
+    echo "prestaged_root=${PRESTAGED_ROOT:-unset}"
+    echo "host=$(hostname 2>/dev/null || echo unknown)"
+    echo "processed=${PROCESSED}"
+    echo "passed=${PASSED}"
+    echo "failed=${FAILED}"
+    echo "no_abaqus_standard_solve=true"
+    date -Is 2>/dev/null || date
+  } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
+  if [ -n "${PRESTAGED_ROOT:-}" ] && [ -f "${PRESTAGED_ROOT}/PROJECT_REVISION.txt" ]; then
+    cp "${PRESTAGED_ROOT}/PROJECT_REVISION.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  fi
+  if [ -n "${PRESTAGED_ROOT:-}" ] && [ -f "${PRESTAGED_ROOT}/STAGING_MANIFEST.txt" ]; then
+    cp "${PRESTAGED_ROOT}/STAGING_MANIFEST.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  fi
+  [ -f "${STAGE_DIR}/modules.txt" ] && cp "${STAGE_DIR}/modules.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  [ -f "${STAGE_DIR}/case_results.txt" ] && cp "${STAGE_DIR}/case_results.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  [ -f "${STAGE_DIR}/eligibility_manifest.json" ] && cp "${STAGE_DIR}/eligibility_manifest.json" "${LIGHT_DIR}/" 2>/dev/null || true
+  if [ -d "${STAGE_DIR}/postprocessing" ]; then
+    cp -r "${STAGE_DIR}/postprocessing" "${LIGHT_DIR}/" 2>/dev/null || true
+  fi
+  printf '%s\n' "not_run_by_design" > "${LIGHT_DIR}/abaqus_return_code.txt" 2>/dev/null || true
+  if [ "${FAILED}" -eq 0 ] && [ "${PASSED}" -gt 0 ]; then
+    printf '%s\n' "molnar_hconv_cae_all_pass" > "${LIGHT_DIR}/cae_postprocess_classification.txt" 2>/dev/null || true
+  elif [ "${PASSED}" -gt 0 ]; then
+    printf '%s\n' "molnar_hconv_cae_all_partial_pass" > "${LIGHT_DIR}/cae_postprocess_classification.txt" 2>/dev/null || true
+  else
+    printf '%s\n' "molnar_hconv_cae_all_fail" > "${LIGHT_DIR}/cae_postprocess_classification.txt" 2>/dev/null || true
+  fi
+  exit "${rc}"
+}
+trap finish EXIT
+
+fail() {
+  echo "FATAL: $1" >&2
+  exit "$2"
+}
+
+mkdir -p "${LIGHT_DIR}" "${STAGE_DIR}/postprocessing" || exit 2
+
+if [ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ]; then
+  fail "missing_submission_variable" 2
+fi
+revision_file="${PRESTAGED_ROOT}/PROJECT_REVISION.txt"
+if [ ! -r "${revision_file}" ]; then
+  fail "missing_revision_manifest" 3
+fi
+staged_revision="$(tr -d '[:space:]' < "${revision_file}")"
+if [ "${staged_revision}" != "${PROJECT_REVISION}" ]; then
+  fail "revision_manifest_mismatch" 4
+fi
+
+module purge > "${STAGE_DIR}/modules.txt" 2>&1 || fail "module_environment_failure" 5
+module load gcc/11.4.0 >> "${STAGE_DIR}/modules.txt" 2>&1 || fail "module_environment_failure" 5
+module load intel/2024.2.0 >> "${STAGE_DIR}/modules.txt" 2>&1 || fail "module_environment_failure" 5
+module load abaqus/2023 >> "${STAGE_DIR}/modules.txt" 2>&1 || fail "module_environment_failure" 5
+command -v abaqus >/dev/null 2>&1 || fail "missing_abaqus_executable" 6
+
+SCRIPT="${PRESTAGED_ROOT}/scripts/abaqus_cae/postprocess_molnar_h_convergence_case.py"
+cp "${SCRIPT}" "${STAGE_DIR}/"
+abaqus python -c "import py_compile; py_compile.compile('${STAGE_DIR}/postprocess_molnar_h_convergence_case.py', doraise=True)" \
+  > "${LIGHT_DIR}/abaqus_python_compile.txt" 2>&1 || fail "abaqus_python_compile_failure" 7
+
+# Eligibility list: CASE|JOBID|ODB|SHA256
+ELIG_FILE="${CAE_ELIGIBILITY_LIST:-}"
+if [ -z "${ELIG_FILE}" ]; then
+  if [ -f "${PRESTAGED_ROOT}/runs/hpc/molnar_lc015_h_convergence/recovery_after_job_1376154/CAE_REPLAY_ELIGIBILITY_MANIFEST_eligible_cases.txt" ]; then
+    ELIG_FILE="${PRESTAGED_ROOT}/runs/hpc/molnar_lc015_h_convergence/recovery_after_job_1376154/CAE_REPLAY_ELIGIBILITY_MANIFEST_eligible_cases.txt"
+  fi
+fi
+if [ -z "${ELIG_FILE}" ] || [ ! -f "${ELIG_FILE}" ]; then
+  fail "missing_eligibility_list" 8
+fi
+cp "${ELIG_FILE}" "${STAGE_DIR}/eligible_cases.txt"
+if [ -f "${PRESTAGED_ROOT}/runs/hpc/molnar_lc015_h_convergence/recovery_after_job_1376154/CAE_REPLAY_ELIGIBILITY_MANIFEST.json" ]; then
+  cp "${PRESTAGED_ROOT}/runs/hpc/molnar_lc015_h_convergence/recovery_after_job_1376154/CAE_REPLAY_ELIGIBILITY_MANIFEST.json" \
+    "${STAGE_DIR}/eligibility_manifest.json" 2>/dev/null || true
+fi
+
+: > "${STAGE_DIR}/case_results.txt"
+while IFS='|' read -r CASE_ID SOLVER_JOB ODB_PATH ODB_SHA || [ -n "${CASE_ID:-}" ]; do
+  [ -z "${CASE_ID}" ] && continue
+  case "${CASE_ID}" in
+    \#*) continue ;;
+  esac
+  PROCESSED=$((PROCESSED + 1))
+  CASE_OUT="${STAGE_DIR}/postprocessing/${CASE_ID}"
+  mkdir -p "${CASE_OUT}"
+  {
+    echo "case_id=${CASE_ID}"
+    echo "solver_job_id=${SOLVER_JOB}"
+    echo "odb_path=${ODB_PATH}"
+    echo "expected_sha256=${ODB_SHA}"
+  } > "${CASE_OUT}/case_identity.txt"
+
+  if [ ! -f "${ODB_PATH}" ]; then
+    echo "${CASE_ID}|fail|odb_missing" >> "${STAGE_DIR}/case_results.txt"
+    FAILED=$((FAILED + 1))
+    OVERALL_RC=1
+    continue
+  fi
+  if [ -n "${ODB_SHA}" ] && [ "${ODB_SHA}" != "None" ]; then
+    got_sha="$(sha256sum "${ODB_PATH}" | awk '{print $1}')"
+    echo "got_sha256=${got_sha}" >> "${CASE_OUT}/case_identity.txt"
+    if [ "${got_sha}" != "${ODB_SHA}" ]; then
+      echo "${CASE_ID}|fail|odb_hash_mismatch" >> "${STAGE_DIR}/case_results.txt"
+      FAILED=$((FAILED + 1))
+      OVERALL_RC=1
+      continue
+    fi
+  fi
+
+  export MOLNAR_CASE_ID="${CASE_ID}"
+  export MOLNAR_ODB_PATH="${ODB_PATH}"
+  export MOLNAR_OUTPUT_DIR="${CASE_OUT}"
+  CAE_RC=0
+  abaqus cae noGUI="${STAGE_DIR}/postprocess_molnar_h_convergence_case.py" \
+    > "${CASE_OUT}/postprocess_stdout.log" 2>&1 || CAE_RC=$?
+  unset MOLNAR_CASE_ID MOLNAR_ODB_PATH MOLNAR_OUTPUT_DIR
+  printf '%s\n' "${CAE_RC}" > "${CASE_OUT}/cae_return_code.txt"
+
+  if [ "${CAE_RC}" -eq 0 ] && [ -f "${CASE_OUT}/${CASE_ID}_RF2_U2.csv" ]; then
+    printf '%s\n' "cae_postprocess_pass" > "${CASE_OUT}/cae_postprocess_classification.txt"
+    echo "${CASE_ID}|pass|cae_ok" >> "${STAGE_DIR}/case_results.txt"
+    PASSED=$((PASSED + 1))
+  else
+    printf '%s\n' "cae_postprocess_fail" > "${CASE_OUT}/cae_postprocess_classification.txt"
+    echo "${CASE_ID}|fail|cae_rc_${CAE_RC}" >> "${STAGE_DIR}/case_results.txt"
+    FAILED=$((FAILED + 1))
+    OVERALL_RC=1
+  fi
+done < "${STAGE_DIR}/eligible_cases.txt"
+
+if [ "${PROCESSED}" -eq 0 ]; then
+  fail "no_eligible_cases_processed" 9
+fi
+
+exit "${OVERALL_RC}"

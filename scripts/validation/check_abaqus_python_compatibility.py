@@ -6,12 +6,12 @@ This checker runs under system Python. Final compile proof must use:
 """
 
 import argparse
+import os
 import re
 import sys
 
 DEFAULT_PATHS = [
     "scripts/abaqus_cae/postprocess_molnar_h_convergence_case.py",
-    "scripts/abaqus_cae/postprocess_molnar_h_convergence_combined.py",
 ]
 
 # Patterns that failed or are high-risk under older Abaqus Python interpreters.
@@ -66,6 +66,36 @@ def main():
             sys.stderr.write("MISSING {0}\n".format(p))
             return 2
         all_issues.extend(scan_file(p))
+    # Require env-var I/O contract on the main case postprocessor.
+    case_script = "scripts/abaqus_cae/postprocess_molnar_h_convergence_case.py"
+    if os.path.isfile(case_script):
+        fh = open(case_script, "r")
+        try:
+            case_text = fh.read()
+        finally:
+            fh.close()
+        for token in (
+            "MOLNAR_CASE_ID",
+            "MOLNAR_ODB_PATH",
+            "MOLNAR_OUTPUT_DIR",
+            "Missing MOLNAR_CASE_ID",
+        ):
+            if token not in case_text:
+                all_issues.append(
+                    "{0}: missing env-var I/O contract token {1}".format(
+                        case_script, token
+                    )
+                )
+        # Disallow positional argv path extraction patterns.
+        if "args[0], args[1], args[2]" in case_text:
+            all_issues.append(
+                "{0}: still uses positional argv path triple".format(case_script)
+            )
+        if "sys.argv.index(\"--\")" in case_text or "sys.argv.index('--')" in case_text:
+            all_issues.append(
+                "{0}: still parses paths from argv after --".format(case_script)
+            )
+
     if all_issues:
         print("ABAQUS_PYTHON_COMPATIBILITY_FAIL")
         for issue in all_issues:
@@ -74,6 +104,7 @@ def main():
     print("ABAQUS_PYTHON_COMPATIBILITY_PASS")
     for p in args.paths:
         print("ok {0}".format(p))
+    print("env_var_io_contract=ok")
     return 0
 
 

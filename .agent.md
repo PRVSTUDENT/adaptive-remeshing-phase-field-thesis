@@ -77,16 +77,17 @@ Known source documents:
 - Molnar lc015 h-convergence study prepared and submitted: H0 exact author inputs verified; H1/H2-PUB static validation passed with publication-resolution verified for H2-PUB. Physical elements H0=3930, H1=12064, H2-PUB=33852. Measured corridor h medians approximately 0.00494 / 0.0025 / 0.001 mm. Fig. 7 lc=0.015 corrected-origin reference under `references/derived/molnar_gravouil_2017/single_notch/fig7_lc015_corrected_origin/`.
 - Submitted once as serial dependency chain from revision `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`: H0 `1376154.mmaster02`, H1 `1376155.mmaster02`, H2-PUB `1376156.mmaster02`.
 - H0 result: `solver_pass_cae_postprocess_failure` (Abaqus RC 0, STA success, ODB retained; CAE f-string parse failure; PBS Exit_status=11). H1/H2: `not_executed_dependency_cancelled` via afterok.
-- Authorized recovery submitted once from infrastructure revision `26b7b70832b2e1ae74c54abb7599cbe553aa1bad` with scientific inputs still at `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`: H0 CAE replay `1376184.mmaster02` (independent); H1 first solve `1376185.mmaster02` (running at submit); H2-PUB `1376186.mmaster02` (held afterok H1). Existing H0 ODB hash `01601eff...`. No further recovery submissions authorized.
+- Authorized recovery submitted once from infrastructure revision `26b7b70832b2e1ae74c54abb7599cbe553aa1bad` with scientific inputs still at `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`: H0 CAE replay `1376184.mmaster02` failed (`OdbError` path `-cae` argv bug); H1 first solve `1376185.mmaster02`; H2-PUB `1376186.mmaster02` afterok H1. Existing H0 ODB hash `01601eff...`.
+- Decision: no further H0-only CAE replay now. CAE path I/O repaired to env vars (`MOLNAR_CASE_ID` / `MOLNAR_ODB_PATH` / `MOLNAR_OUTPUT_DIR`). Exactly one future consolidated CAE-only PBS job is authorized after H1/H2 leave the queue for all technical-pass ODBs lacking CAE packages. No solver retries or extra meshes.
 
 Immediate next tasks:
 
-1. Do not poll repeatedly or resubmit. Wait for recovery job completion/email.
-2. After completion, four-level review: PBS, Abaqus, CAE, scientific mesh comparison.
-3. Preserve candidate v1 as failed static evidence and do not repair it in place.
-4. Keep Gate A3 open; scientific convergence remains pending after technical execution.
-5. Compare H0/H1/H2-PUB successively; use the approximate digitized Fig. 7 `lc=0.015 mm` curve only as external approximate reference.
-6. Only after benchmark reproduction is stable and explicitly authorized, start the MISESERI pre-refinement milestone.
+1. Do not submit while preparing. Let H1/H2 finish; do not poll repeatedly.
+2. After H1/H2 inactive, rebuild CAE eligibility manifest and submit at most one consolidated CAE-only job via `submit_molnar_lc015_hconv_cae_replay_all.sh`.
+3. Then four-level review: PBS, Abaqus, CAE, scientific mesh comparison.
+4. Preserve candidate v1 as failed static evidence and do not repair it in place.
+5. Keep Gate A3 open; scientific convergence remains pending.
+6. Only after benchmark reproduction is stable and explicitly authorized, start MISESERI.
 
 Unresolved decisions requiring user/supervisor confirmation:
 

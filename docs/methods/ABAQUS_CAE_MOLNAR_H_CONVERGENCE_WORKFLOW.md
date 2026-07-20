@@ -16,9 +16,13 @@ lightweight CSV already exported by CAE.
 
 ## Single-case postprocessing
 
+Paths must be passed via environment variables (not argv):
+
 ```bash
-abaqus cae noGUI=scripts/abaqus_cae/postprocess_molnar_h_convergence_case.py -- \
-  /path/to/case.odb /path/to/case_post case_id
+export MOLNAR_CASE_ID=H0
+export MOLNAR_ODB_PATH=/path/to/case.odb
+export MOLNAR_OUTPUT_DIR=/path/to/case_post
+abaqus cae noGUI=scripts/abaqus_cae/postprocess_molnar_h_convergence_case.py
 ```
 
 Exports:

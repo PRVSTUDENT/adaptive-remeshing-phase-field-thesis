@@ -122,10 +122,13 @@ abaqus python -c "import py_compile; py_compile.compile('${STAGE_DIR}/postproces
   > "${LIGHT_DIR}/abaqus_python_compile.txt" 2>&1 || fail "abaqus_python_compile_failure" 8
 
 CAE_RC=0
-abaqus cae noGUI="${STAGE_DIR}/postprocess_molnar_h_convergence_case.py" -- \
-  "${EXISTING_ODB}" \
-  "${STAGE_DIR}/postprocessing" \
-  "H0" > "${LIGHT_DIR}/postprocess_stdout.log" 2>&1 || CAE_RC=$?
+# Paths via environment variables only; do not pass ODB path on argv.
+export MOLNAR_CASE_ID="H0"
+export MOLNAR_ODB_PATH="${EXISTING_ODB}"
+export MOLNAR_OUTPUT_DIR="${STAGE_DIR}/postprocessing"
+abaqus cae noGUI="${STAGE_DIR}/postprocess_molnar_h_convergence_case.py" \
+  > "${LIGHT_DIR}/postprocess_stdout.log" 2>&1 || CAE_RC=$?
+unset MOLNAR_CASE_ID MOLNAR_ODB_PATH MOLNAR_OUTPUT_DIR
 
 # Confirm ODB still exists with same size
 after_size="$(stat -c %s "${EXISTING_ODB}" 2>/dev/null || wc -c < "${EXISTING_ODB}")"

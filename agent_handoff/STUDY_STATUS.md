@@ -1,6 +1,6 @@
 # Study Status
 
-Status: `recovery_submitted_scientific_pending`
+Status: `solvers_active_or_pending_consolidated_cae_prepared`
 
 Scientific convergence: pending.
 
@@ -28,4 +28,12 @@ Prestage: `/scratch/pr21vyci/adaptive-remeshing/prestage/molnar_lc015_hconv_reco
 Mail_Users: `pr21vyci@mailserver.tu-freiberg.de`  
 Mail_Points: `abe`
 
-Authorization for this recovery trio is fully consumed. No further submissions without new authorization.
+Authorization for the recovery trio is fully consumed.
+
+Additional authorization (not yet submitted):
+
+- Exactly **one** consolidated CAE-only PBS job after H1/H2 leave the active queue.
+- No H0-only CAE resubmit now; no solver retries; no extra meshes.
+
+Prepared: env-var CAE I/O + `molnar_lc015_hconv_cae_replay_all.pbs` + eligibility builder.
+See `recovery_after_job_1376154/CONSOLIDATED_CAE_REPLAY_PLAN.md`.

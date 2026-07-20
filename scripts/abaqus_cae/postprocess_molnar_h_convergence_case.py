@@ -1,8 +1,20 @@
 # Abaqus/CAE noGUI postprocessing for one Molnar lc015 h-convergence case.
-# Run with: abaqus cae noGUI=postprocess_molnar_h_convergence_case.py -- <odb> <outdir> <case_id>
 #
-# Compatibility: written for the installed Abaqus Python interpreter
-# (no f-strings, no type annotations, no pathlib).
+# Do NOT pass mandatory paths via sys.argv. Abaqus inserts internal flags
+# such as -cae, which previously caused OdbError on path "-cae".
+#
+# Required environment variables:
+#   MOLNAR_CASE_ID
+#   MOLNAR_ODB_PATH
+#   MOLNAR_OUTPUT_DIR
+#
+# Example:
+#   export MOLNAR_CASE_ID=H0
+#   export MOLNAR_ODB_PATH=/scratch/.../job.odb
+#   export MOLNAR_OUTPUT_DIR=/scratch/.../postprocessing/H0
+#   abaqus cae noGUI=postprocess_molnar_h_convergence_case.py
+#
+# Compatibility: Abaqus Python (no f-strings, no type annotations, no pathlib).
 # Do not run with system Python for ODB access.
 
 import csv
@@ -11,21 +23,21 @@ import os
 import sys
 
 
-def _args():
-    # Abaqus places user args after '--'
-    if "--" in sys.argv:
-        idx = sys.argv.index("--")
-        args = sys.argv[idx + 1 :]
-    else:
-        args = []
-        for a in sys.argv[1:]:
-            if not a.endswith(".py"):
-                args.append(a)
-    if len(args) < 3:
+def _resolve_case_io():
+    case_id = os.environ.get("MOLNAR_CASE_ID")
+    odb_path = os.environ.get("MOLNAR_ODB_PATH")
+    outdir = os.environ.get("MOLNAR_OUTPUT_DIR")
+    print("Abaqus argv: {0}".format(repr(sys.argv)))
+    print("Case: {0}".format(case_id))
+    print("ODB: {0}".format(odb_path))
+    print("Output: {0}".format(outdir))
+    if not case_id or not odb_path or not outdir:
         raise RuntimeError(
-            "Usage: abaqus cae noGUI=script.py -- <odb> <outdir> <case_id>"
+            "Missing MOLNAR_CASE_ID, MOLNAR_ODB_PATH, or MOLNAR_OUTPUT_DIR"
         )
-    return args[0], args[1], args[2]
+    if not os.path.isfile(odb_path):
+        raise RuntimeError("ODB path does not exist: {0}".format(odb_path))
+    return odb_path, outdir, case_id
 
 
 def _ensure_dir(path):
@@ -45,7 +57,7 @@ def _field_has_key(field_outputs, key):
 
 
 def main():
-    odb_path, outdir, case_id = _args()
+    odb_path, outdir, case_id = _resolve_case_io()
     _ensure_dir(outdir)
 
     from abaqus import session
@@ -251,12 +263,16 @@ def main():
     cmd_path = os.path.join(outdir, "{0}_cae_commands.txt".format(case_id))
     fh = open(cmd_path, "w")
     try:
+        fh.write("export MOLNAR_CASE_ID={0}\n".format(case_id))
+        fh.write("export MOLNAR_ODB_PATH={0}\n".format(odb_path))
+        fh.write("export MOLNAR_OUTPUT_DIR={0}\n".format(outdir))
         fh.write(
-            "abaqus cae noGUI=postprocess_molnar_h_convergence_case.py -- "
+            "abaqus cae noGUI=postprocess_molnar_h_convergence_case.py\n"
         )
-        fh.write("{0} {1} {2}\n".format(odb_path, outdir, case_id))
         fh.write("variable_selection: RP U2, RP RF2, SDV15/SDV contour\n")
         fh.write("origin_point: forced (0,0)\n")
+        fh.write("argv_not_used_for_paths=true\n")
+        fh.write("argv_logged={0}\n".format(repr(sys.argv)))
     finally:
         fh.close()
 
