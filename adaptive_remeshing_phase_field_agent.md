@@ -11,9 +11,13 @@
 
 ## Current thesis handoff - update this block after every substantial work session
 
-Updated: 2026-07-17
+Updated: 2026-07-20
 
 Current stage:
+
+- Stage A / WP2 remains open. Gate A3 remains `reference_data_insufficient`.
+- Supervisor decision: controlled Molnar h-convergence study authorized for the exact supplementary single-notch model with `lc = 0.015 mm` only. Authorized cases: H0 exact supplementary; H1 intermediate `h = 0.0025 mm`; H2-PUB publication-resolution `h = 0.001 mm`. Exactly three serial HPC jobs may be prepared and submitted once.
+- Not authorized: length-scale sensitivity; load-increment sensitivity; MISESERI; adaptive remeshing; state transfer; multi-CPU; GPU; formulation/parameter/loading changes; candidate-v2 diagnostic instrumentation; automatic retries; a fourth mesh.
 - Stage A / WP2 - Molnar baseline reproduction and paper-matched single-notch scientific comparison.
 - The unchanged smaller Molnar supplementary single-notch deck has a local technical pass and reproducible first extraction. It remains supporting technical reproducibility evidence, not the exact Fig. 7 numerical comparison target. The paper-matched candidate-v2 serial HPC baseline job `1374864.mmaster02` completed with `paper_matched_v2_technical_pass`; postprocessing against the existing scratch ODB produced RF-U, matched-state contours, crack-path diagnostics, SDV bound/irreversibility diagnostics, and a no-solution decision report. The scientific decision classification is `paper_matched_v2_scientific_review_incomplete`, not a final pass, because post-peak RF-U mismatch and unresolved SDV15 interpretation remain.
 - No remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
@@ -45,7 +49,7 @@ Current stage:
 - The original Molnar one-element example ran unchanged from a separate run directory and passed the technical gate: compile/link/input/solver/wrap-up and ODB readability passed.
 - The unchanged Molnar one-element ODB passed the source-defined scientific check for plane-strain stiffness, degraded stress, homogeneous phase relation, history monotonicity, unloading irreversibility, and integration-point consistency. Evidence is under `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/`. Tolerances are provisional working gates only.
 - The original Molnar single-notch benchmark ran unchanged from a separate run directory and is classified `technical_pass_scientific_unchecked`. Evidence and extraction outputs are under `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/`.
-- The Stage A living LaTeX report pair is `docs/reports/STAGE_A_BASELINE_REPORT.tex` and `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`; generated figures and tables are under `results/figures/stage_a_baseline/` and `results/tables/stage_a_baseline/`.
+- The Stage A living LaTeX report is `docs/reports/STAGE_A_BASELINE_REPORT.tex`; generated figures and tables are under `results/figures/stage_a_baseline/` and `results/tables/stage_a_baseline/`.
 - The authoritative living task and phase checklist is `docs/project/PROJECT_PHASE_CHECKLIST.md`; validator: `scripts/validation/check_project_phase_checklist.py`.
 - Gate A3 reference provenance is under `references/derived/molnar_gravouil_2017/single_notch/`; the current RF-U reference CSV intentionally has no numeric coordinates. The next reference work is to digitize/document the relevant published Molnar curve as an approximate paper reference for a paper-matched reconstructed benchmark, not for the smaller supplementary deck.
 - The Gate A3 reference-applicability matrix is `references/derived/molnar_gravouil_2017/single_notch/REFERENCE_APPLICABILITY_MATRIX.md`; it records why the smaller supplementary deck should not be forced into an exact Fig. 7 numerical comparison.
@@ -55,6 +59,7 @@ Current stage:
 - Decision note `docs/decisions/0002-gate-a3-reference-route.md` is preserved as history but superseded by the proposal-directed route: prepare the paper-matched Molnar Mode-I benchmark, digitize/document the applicable published curve as an approximate paper reference, then compare the reconstructed paper-matched uniform mesh against that reference.
 
 Known source documents:
+
 - `Adaptive_Remeshing_PFF_Rapid_Study_Guide.pdf`
 - `1-s2.0-S0168874X16304954-main.pdf` - Molnar and Gravouil (2017)
 - `1-s2.0-S0927025614004133-main.pdf` - Msekh et al. (2015)
@@ -65,28 +70,227 @@ Known source documents:
 - Authorized targeted SDV15 diagnostic run: a separate candidate-v2 diagnostic variant was generated under `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/` with `72` target physical elements and `152` target element/IP pairs. The single authorized serial job was submitted exactly once as `1375020.mmaster02` from revision `efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611`. PBS accepted `Mail_Users = pr21vyci@mailserver.tu-freiberg.de` and `Mail_Points = abe`, then the job failed pre-solver with `Exit_status = 3` because `git` was unavailable in the batch PATH at the revision guard (`git: Kommando nicht gefunden`; `revision_mismatch current= requested=...`). Abaqus did not launch, no SDV15 diagnostic result exists, and the classification is `molnar_v2_sdv15_diagnostic_technical_fail`. Gate A3 remains `reference_data_insufficient`; no retry, second diagnostic run, candidate v3, Stage B, MISESERI, remeshing, state transfer, or sweep is authorized.
 - Infrastructure-corrected r2 authorization: exactly one corrected serial SDV15 diagnostic execution may be prepared and submitted with `16:00:00` walltime, job name `molnar_v2_sdv15_diag_r2`, classification scope `infrastructure_corrected_targeted_diagnostic_execution`, and the same scientific diagnostic deck/source/targets. The r2 PBS must not execute Git; login-side wrapper `scripts/hpc/submit_molnar_v2_sdv15_diagnostic_r2.sh` stages an immutable committed snapshot under scratch, writes `PROJECT_REVISION.txt`, passes `PROJECT_REVISION` and `PRESTAGED_ROOT` to PBS, and directs PBS stdout to scratch. This authorization still excludes automatic retry, second r2 submission, MISESERI, remeshing, Stage B, candidate v3, mesh/length/load studies, parameter sweeps, multi-CPU execution, or scientific model changes.
 - Infrastructure-corrected r2 result: the single authorized corrected serial diagnostic job ran exactly once as `1375028.mmaster02` from revision `209ad325d2c85532411c13d8290db08ca35b0637`. PBS history reports `job_state=F`, `Exit_status=1`, `Stageout_status=1`, walltime `00:42:27`, and preserved `Mail_Users = pr21vyci@mailserver.tu-freiberg.de`, `Mail_Points = abe`; the nonzero wrapper result is `postprocess_python_compatibility_failure_after_successful_solve` because the original postprocessor used Python syntax incompatible with the cluster interpreter. Abaqus is a technical pass: return code `0`, `.sta` says `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`, and `.msg` reports zero analysis error messages. Independent RF-U comparison at RP node `34508` is non-intrusive: `202` matched frames and maximum normalized RF2 difference `6.54442468760855e-13`. The no-solution completed-increment replay of the existing `627304` trace rows keeps only the last U1 stage-101 call per `(KSTEP, KINC, physical element, source-storage IP)` and aligns retained-frame events by step time/load level. Result: `sdv15_call_level_nonmonotonicity_observed`; completed/converged increment classification before severity audit `sdv15_completed_increment_possible_violation`; `209152` U1 stage-101 rows, `101840` final increment states, `2184` unique completed-increment SDV15 decreasing transitions, original event-table replay counts `62` possible violations and `1235` monotone, and `0` SDV16 decreases over the same final-increment sequences. Worst retained visualization event `84131 -> physical 16427` is monotone for the inspected converged-increment transitions. Severity audit result under provisional `1e-6` materiality tolerance: `sdv15_completed_increment_irreversibility_violation`; maximum decrease `0.00022384088238425193`, mean `2.8434597987446906e-05`, median `1.3940791172561973e-05`, `2131` transitions above `1e-6`, `1362` above `1e-5`, all after peak displacement, `773` coincident with SDV15 overshoot above one, and `0` SDV16 decreases. Evidence is under `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/postprocessing_completed_increment_replay_time_aligned/`. Gate A3 remains `reference_data_insufficient`; candidate-v2 scientific result remains `paper_matched_v2_scientific_review_incomplete`; no second r2 submission or automatic retry is authorized.
+- Thesis consolidation: a no-solution Stage A benchmark chapter, reproducibility appendix, figure/table plan, and route-neutral post-supervisor execution-route note were prepared from committed evidence only. Evidence: `docs/thesis/STAGE_A_MOLNAR_BENCHMARK_CHAPTER.tex`; `docs/thesis/STAGE_A_REPRODUCIBILITY_APPENDIX.tex`; `docs/thesis/STAGE_A_FIGURE_TABLE_PLAN.md`; `docs/decisions/POST_SUPERVISOR_DECISION_EXECUTION_ROUTES.md`. Boundary unchanged: Gate A3 remains `reference_data_insufficient`; candidate v2 is not a Gate A3 pass; no Abaqus/PBS/MISESERI/remeshing/state-transfer work is authorized.
+- Stage B uniform-reference protocol preparation: route-neutral planning files were prepared and are preserved. Status updated after supervisor decision to `h_convergence_subset_authorized_execution_pending`. Evidence: `docs/studies/STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md`; `docs/studies/STAGE_B_ACCEPTANCE_METRICS.md`; `docs/studies/STAGE_B_HPC_RESOURCE_ESTIMATE.md`; `configs/studies/molnar_uniform_reference_matrix.yaml`. Gate A3 remains `reference_data_insufficient`. Only the three-case h-convergence subset is authorized for execution preparation and submission.
+- Local author-supplied exact single-notch Abaqus/CAE reproduction evidence exists under `runs/molnar_single_notch_author_supplied_exact/20260720_abaqus_cae_reproduction/` with Fig. 7 `lc=0.015 mm` digitization including origin `(0,0)`.
+
+- Molnar lc015 h-convergence study prepared and submitted: H0 exact author inputs verified; H1/H2-PUB static validation passed with publication-resolution verified for H2-PUB. Physical elements H0=3930, H1=12064, H2-PUB=33852. Measured corridor h medians approximately 0.00494 / 0.0025 / 0.001 mm. Fig. 7 lc=0.015 corrected-origin reference under `references/derived/molnar_gravouil_2017/single_notch/fig7_lc015_corrected_origin/`.
+- Submitted once as serial dependency chain from revision `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`: H0 `1376154.mmaster02` (Q), H1 `1376155.mmaster02` (H afterok H0), H2-PUB `1376156.mmaster02` (H afterok H1). Mail_Users=`pr21vyci@mailserver.tu-freiberg.de`, Mail_Points=`abe`. Immutable prestage used by active jobs. Scientific convergence remains pending. No other Stage B work authorized.
 
 Immediate next tasks:
-1. Review `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md`; current classification is `paper_matched_v2_scientific_review_incomplete`.
-2. Do not submit a retry or any new Abaqus/PBS job unless explicitly authorized after this evidence review.
+
+1. Do not poll repeatedly; wait for job completion/email. Do not submit retries or additional meshes.
+2. After all three complete, run CAE-based comparison analysis only if technical passes exist.
 3. Preserve candidate v1 as failed static evidence and do not repair it in place.
-4. Define supervisor-approved quantitative tolerances for benchmark curves, fracture energy, crack path, SDV bounds/irreversibility interpretation, and runtime/cost metrics.
-5. If the paper-matched comparison is accepted, proceed to mesh-size, length-scale, and load-increment studies to justify the uniform fine reference.
-6. Obtain supervisor decision on Gate A3 route, provisional tolerances, approximate Fig. 7 reference acceptability, and whether the `817` SDV15 `insufficient_output_evidence` events require a targeted output-enabled rerun.
-9. Treat the HPC trivial technical gate as complete: environment, Abaqus license, user-subroutine compile/link, trivial Standard analysis, ODB creation, and `UEXTERNALDB` callback evidence have passed.
-10. Do not run any Molnar HPC baseline, MISESERI, remeshing, state-transfer, parameter-study, production, or multi-CPU job until the user gives explicit approval.
-11. Only after benchmark reproduction is stable, start the MISESERI pre-refinement milestone.
+4. Keep Gate A3 open; scientific convergence remains pending after technical execution.
+5. Compare H0/H1/H2-PUB successively; use the approximate digitized Fig. 7 `lc=0.015 mm` curve only as external approximate reference.
+6. Only after benchmark reproduction is stable and explicitly authorized, start the MISESERI pre-refinement milestone.
 
 Unresolved decisions requiring user/supervisor confirmation:
+
 - Final supervisor-approved tolerances for the paper-matched benchmark and later uniform-reference comparisons.
 - Approved error tolerances for peak force, force-displacement curve, fracture energy, and crack-path distance.
 - Select and validate the exact HPC Abaqus/Fortran stack. The cluster currently advertises Abaqus 2021, 2022, and 2023 plus Intel 2024.2.0; access/resource ACLs are documented, but compatibility with the thesis UEL/UMAT and ABAQUSER path is not yet validated.
 - Whether monolithic Msekh reproduction is required or used only as a formulation reference.
 - Supervisor-approved error tolerances; current starter thresholds are provisional working gates only.
 
+## HPC access, queues, resources, and operating limits
+
+Source and freshness:
+
+- Evidence source: `hpc_access_limits_report.txt`.
+- Snapshot date: 2026-07-14, inferred from the queue/node-status capture.
+- Queue load, node state, free memory, and availability are dynamic. Never treat this snapshot as a reservation or guaranteed capacity.
+- Queue ACLs and group membership show eligibility to submit; they do not guarantee immediate scheduling, software-license availability, or a particular node.
+- The filesystem figures below are cluster-wide filesystem capacity/usage values, not personal storage quotas.
+
+Account and access:
+
+- HPC user: `pr21vyci` (`uid=50839`).
+- Relevant access roles include general HPC user, teaching, Kiefer/AMS hardware, and Gaussian:
+  - `t2-dl-rights-hpc_user`
+  - `t2-dl-rights-hpc_teaching`
+  - `t2-dl-rights-hpc_hw_kieferams`
+  - `t2-dl-rights-hpc_gaussian`
+- Windows SSH access is already configured through the user's explicit SSH profile:
+  - config file: `$env:USERPROFILE\.ssh\codex_config`
+  - host alias: `tu_freiberg`
+  - canonical interactive login:
+    ```powershell
+    ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg
+    ```
+  - canonical one-command form:
+    ```powershell
+    ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg "<remote-command>"
+    ```
+  - current-job monitoring:
+    ```powershell
+    ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg "qstat -u pr21vyci"
+    ```
+- Treat this SSH profile and alias as the authoritative access method for this project. Do not create a competing host entry, replace the config file, or assume the default `$env:USERPROFILE\.ssh\config` is being used.
+- Before any HPC submission or file transfer, verify the resolved account and cluster context:
+  ```powershell
+  ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg "hostname; whoami; pwd; id; groups"
+  ```
+- For a persistent interactive session, first establish the login with the canonical command above, then perform module inspection, file staging, and PBS work on the remote shell.
+- For scripted checks, prefer the one-command form so the exact SSH profile and host alias remain explicit in logs.
+- If the SSH connection fails from an external network, confirm the institutional VPN is active before changing SSH keys or configuration. The existing VPN-service commands remain in the protected user-notes section.
+
+Storage:
+
+- Home: `/home/pr21vyci`.
+- Scratch: `/scratch/pr21vyci`.
+- Snapshot filesystem status:
+  - `/home`: 17 TB total, 13 TB used, 3.9 TB available, 76% used.
+  - scratch backing filesystem shown as `/scratch9`: 33 TB total, 18 TB used, 16 TB available, 53% used.
+- Use home for source, scripts, small inputs, reports, and retained metadata.
+- Use scratch for Abaqus work directories, `.odb`, `.sim`, restart, temporary, and other large solver files.
+- Every PBS job must stage required inputs to its work directory and copy retained outputs back explicitly.
+- Do not infer a personal quota from `df`; query the site quota command or support team before large campaigns.
+- Never delete raw results without user approval and a verified retention/stage-out plan.
+
+Submission routes and wall-time ceilings observed in the snapshot:
+
+| Purpose | Submit queue | Scheduler destination / limit | Access interpretation |
+|---|---|---|---|
+| General CPU jobs | `entryq` | routes to `shortq` (12 h), `mediumq` (36 h), `longq` (168 h), `gpuq` (24 h), and configured short fat-node queues | eligible through general HPC-user rights |
+| Kiefer/AMS CPU jobs | `entry_imfdfkmq` | routes to `short_imfdfkmq` (12 h) or `normal_imfdfkmq` (336 h) | eligible through `hpc_hw_kieferams` rights; preferred thesis route when appropriate |
+| Teaching jobs | `entry_teachingq` | routes to `teachingq` (24 h) | eligible through teaching rights; use only when the work fits teaching-queue policy |
+| Short test jobs | `testq` | maximum wall time 4 h; queue advertises up to one GPU | eligible through general HPC-user rights; suitable for small environment/smoke checks |
+| GPU jobs | `gpuq` or routing through `entryq` | maximum wall time 24 h | eligibility exists, but Abaqus GPU benefit/license support must be verified before use |
+
+Queue rules:
+
+- Prefer route queues such as `entryq`, `entry_imfdfkmq`, and `entry_teachingq`.
+- Do not submit directly to execution queues marked `from_route_only`.
+- Use the Kiefer/AMS route for thesis Abaqus work only when its policy and requested resources match the job.
+- Do not request a GPU merely because GPU nodes are visible. The current Molnar UEL/UMAT baseline is CPU-oriented, and GPU acceleration has not been validated.
+- Do not request more CPUs, memory, or wall time than justified by a measured smaller run.
+- Queue-level maxima are not automatically per-job or per-user entitlements. Confirm effective limits with `qstat -Qf`, the scheduler response, and site documentation.
+
+Observed node classes:
+
+| Node class | Typical advertised resources | Relevant queues / notes |
+|---|---|---|
+| Main CPU node | 40 CPUs, about 190,016,512 KB memory (approximately 181 GiB), no GPU | general short/medium/long and related queues |
+| Kiefer/AMS extension-2 node | 16 CPUs, about 784,570,368 KB memory (approximately 748 GiB), about 1.48 TiB virtual memory | `normal_imfdfkmq`, `short_imfdfkmq`, `testq`; some nodes also list teaching |
+| Fat-memory node | 40 or 64 CPUs; approximately 748 GiB or approximately 3.0 TiB memory depending on node | access is queue/scheduler dependent; not guaranteed by visibility |
+| GPU node | 40 CPUs, approximately 181 GiB memory, one GPU | `gpuq`, `testq`, and selected teaching/general routes |
+
+Node-selection rules:
+
+- Do not hard-code a hostname from this snapshot; let PBS select a compatible vnode.
+- Treat `free`, `offline`, `down`, and `<various>` states as point-in-time scheduler information only.
+- Request one node for initial Abaqus UEL/UMAT verification.
+- Because the Molnar implementation uses COMMON/shared-memory data transfer, begin with `cpus=1`. Parallel execution is blocked until serial-versus-threaded/process repeatability and element-call-order safety are demonstrated.
+- Do not assume MPI processes share COMMON-block data. Any multi-process run requires an explicit validation gate.
+
+Available software relevant to the thesis:
+
+- Abaqus modules:
+  - `abaqus/2021-incomplete` — do not use for thesis runs.
+  - `abaqus/2021`
+  - `abaqus/2022`
+  - `abaqus/2023` — reported as the default Abaqus module in the snapshot.
+- Compiler/toolchain modules:
+  - `intel/2024.2.0`
+  - `gcc/11.4.0` — reported default GCC
+  - `llvm/18.1.8`
+- Python:
+  - `python/gcc/11.4.0/3.11.7`
+- Other available tools relevant to preprocessing/post-processing include ParaView, Gmsh, FEniCS/DOLFINx, MATLAB, PETSc, and OpenMPI.
+
+Version boundary:
+
+- The verified local Windows baseline uses Abaqus 2024.
+- The HPC snapshot advertises Abaqus 2021, 2022, and 2023, but not Abaqus 2024.
+- Therefore an HPC run is a controlled software-version change, not a transparent migration.
+- Select one exact Abaqus module and one compiler environment, record both in the run manifest, and repeat the compile/link/solver and scientific regression gates before accepting HPC results.
+- Do not claim equivalence between local Abaqus 2024 and an HPC Abaqus 2021/2022/2023 result without quantitative comparison.
+
+Candidate HPC smoke-gate procedure:
+
+1. Log in and capture:
+   ```bash
+   id
+   groups
+   qstat -Qf
+   module avail abaqus
+   module avail intel
+   ```
+2. Use explicit modules in the PBS script rather than relying on implicit defaults or `.bashrc`:
+   ```bash
+   module purge
+   module load intel/2024.2.0
+   module load abaqus/2023
+   ```
+   This is a candidate stack only; adjust after `module show` and a compile/link test.
+3. Submit a serial, single-node, short-wall-time smoke job through `testq` or the approved route queue.
+4. Preserve module output, environment, terminal log, `.dat`, `.msg`, `.sta`, and ODB-readability evidence.
+5. Classify separately:
+   - environment/compiler/linker result;
+   - technical solver result;
+   - scientific regression result.
+6. Only after the unchanged one-element result matches the local source-defined checks should the unchanged single-notch benchmark be considered for HPC reproduction.
+7. Production jobs still require explicit user approval.
+
+Conservative PBS templates:
+
+General/Kiefer serial smoke test:
+
+```bash
+#!/bin/bash
+#PBS -N abaqus_uel_smoke
+#PBS -q testq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -m abe
+
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+
+module purge
+module load intel/2024.2.0
+module load abaqus/2023
+
+mkdir -p "/scratch/pr21vyci/$PBS_JOBID"
+workdir="/scratch/pr21vyci/$PBS_JOBID"
+cp OneElement.inp OneElement.for "$workdir/"
+cd "$workdir"
+
+abaqus job=OneElement input=OneElement.inp user=OneElement.for cpus=1 interactive
+```
+
+Kiefer/AMS routed production candidate, to be used only after the smoke gate and explicit approval:
+
+```bash
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=<validated_count>:mem=<measured_requirement>
+#PBS -l walltime=<validated_walltime_not_exceeding_336:00:00>
+#PBS -m abe
+```
+
+The placeholders must be replaced from measured evidence; they are not defaults.
+The email placeholder must be replaced with the exact verified HPC notification recipient before submission.
+
+HPC monitoring and evidence commands:
+
+```bash
+qstat -u pr21vyci
+qstat -f <job_id>
+tracejob <job_id>
+pbsnodes -av
+module list
+```
+
+Record the exact timestamp whenever queue or node state is reported.
+
+
 ## Scientific source hierarchy
 
 Use sources in this order when they disagree:
+
 1. The signed thesis proposal and explicit supervisor instructions.
 2. Original supplied source code and its associated paper/tutorial.
 3. The original papers listed above.
@@ -113,12 +317,14 @@ Never silently combine equations, phase-field conventions, degradation functions
 ## Role and privileges
 
 The agent may, when instructed:
+
 - Read project files and the supplied papers.
 - Create and edit source code, Abaqus input files, Python scripts, Fortran UEL/UMAT code, documentation, plotting scripts, and tests.
 - Run local terminal commands, formatters, parsers, unit tests, small preprocessing jobs, and post-processing scripts.
 - Generate reproducible handoff copies of files touched in the current operation.
 
 The agent must not without explicit user approval:
+
 - Submit Abaqus or HPC production jobs.
 - Delete raw solver results, source code, reference decks, or experimental data.
 - Overwrite a known-good baseline.
@@ -197,6 +403,7 @@ Do not reorganize an existing workspace merely to match this tree. Map existing 
 ### Stage A - Freeze and verify the original baseline
 
 Required work:
+
 - Compile and run the original Molnar example unchanged.
 - Record environment and solver metadata.
 - Reproduce the one-element check.
@@ -204,16 +411,19 @@ Required work:
 - Implement automated extraction of reaction force/displacement, phase field, selected SDVs, energies, element count, timing, and solver status.
 
 Gate A1 - environment:
+
 - Reference source compiles without undocumented source edits.
 - Job starts with the intended user subroutine.
 - Compiler and linker commands are archived.
 
 Gate A2 - one-element verification:
+
 - Status: passed locally for the unchanged Molnar one-element run using provisional numerical tolerances.
 - Elastic response, degradation behavior, phase-field evolution, and history/irreversibility behavior agree with the source-defined analytical relations.
 - Residual/tangent sign and DOF ordering are documented in the source notes and validator report.
 
 Gate A3 - benchmark reproduction:
+
 - Force-displacement curve and crack contour are compared at matched displacement states.
 - Differences are quantified, not described only visually.
 - Any mismatch is classified before proceeding.
@@ -223,12 +433,14 @@ Do not modify remeshing logic before Gate A3 is passed or explicitly waived by t
 ### Stage B - Build the uniform fine-mesh reference
 
 Required work:
+
 - Choose a benchmark and create a uniformly fine reference mesh.
 - Study mesh size, length scale, and load increment independently.
 - Establish the reference curve, crack path, fracture energy, and runtime/resource baseline.
 - Define the crack-identification threshold and curve-interpolation method.
 
 Gate B1:
+
 - A convergence trend is demonstrated for the selected outputs.
 - The chosen reference mesh is justified, not merely the finest affordable case.
 - Acceptance metrics are written before adaptive/refined results are evaluated.
@@ -236,6 +448,7 @@ Gate B1:
 ### Stage C - Reproduce the Pandey-Kumar pre-refinement pipeline
 
 Required workflow:
+
 1. Generate a coarse model from the same geometry/material/loading source as the final model.
 2. Create the layered UEL/UMAT/facsimile arrangement required to expose stress to Abaqus.
 3. Ensure `umatelem` and `All_elem` mappings are valid and have matching connectivity where the method requires it.
@@ -250,11 +463,13 @@ Required workflow:
 12. Run the refined phase-field model and compare with the uniform reference.
 
 Gate C1 - refined deck integrity:
+
 - Automated deck checks pass.
 - Refined mesh satisfies the selected local `h/l` requirement.
 - No required set or property is lost.
 
 Gate C2 - scientific comparison:
+
 - Peak-force error, curve error, fracture-energy error, crack-path difference, and computational cost are reported.
 - The MISESERI-marked zone is shown separately from the final phase-field crack.
 - Results are not accepted solely because the crack looks plausible.
@@ -262,6 +477,7 @@ Gate C2 - scientific comparison:
 ### Stage D - State transfer and IMFD/ABAQUSER integration
 
 State-transfer inventory:
+
 - Nodal phase field.
 - History field enforcing irreversibility.
 - Integration-point state variables.
@@ -270,6 +486,7 @@ State-transfer inventory:
 - Any coupling or bookkeeping arrays used by UEL, UMAT, or ABAQUSER.
 
 Required tests:
+
 - Transfer a known analytical spatial field between two meshes and measure L2 and maximum error.
 - Check physical bounds after mapping.
 - Check no-healing/monotonic-history conditions.
@@ -278,12 +495,14 @@ Required tests:
 - Repeat serially and, if parallel execution is intended, compare parallel results.
 
 ABAQUSER/IMFD work:
+
 - Document variable names, dimensions, ordering, units, and intact/broken convention.
 - Keep solver fields separate from visualization-only fields.
 - Verify 2D/3D/axisymmetric assumptions before reusing generalized routines.
 - Produce a minimal visualization test before integrating the complete fracture model.
 
 Gate D1:
+
 - State transfer is demonstrated on a controlled field before a fracture case.
 - ABAQUSER output matches independent extraction for selected points/elements.
 - Any unsupported state variable is explicitly listed.
@@ -291,6 +510,7 @@ Gate D1:
 ### Stage E - Sensitivity, efficiency, and thesis recommendations
 
 Minimum sensitivity axes:
+
 - `h/l`.
 - Length scale `l` with `h/l` controlled.
 - Load increment strategy.
@@ -302,6 +522,7 @@ Minimum sensitivity axes:
 - Serial versus parallel execution if shared data are used.
 
 Minimum outputs per case:
+
 - Force-displacement curve.
 - Phase-field contours at matched states.
 - Crack path using a declared threshold.
@@ -313,6 +534,7 @@ Minimum outputs per case:
 - Exact configuration and source-code revision.
 
 Recommended metrics:
+
 ```text
 e_peak  = abs(Fmax_candidate - Fmax_reference) / abs(Fmax_reference) * 100%
 e_curve = ||F_candidate(U) - F_reference(U)||_2 / ||F_reference(U)||_2 * 100%
@@ -320,6 +542,7 @@ saving  = (cost_reference - cost_candidate) / cost_reference * 100%
 ```
 
 Crack-path comparison must state:
+
 - phase-field threshold;
 - geometry scaling;
 - load/displacement state;
@@ -328,6 +551,7 @@ Crack-path comparison must state:
 ## Provisional validation policy
 
 Until the supervisor approves final tolerances, use the following only as internal working gates:
+
 - Primary scalar outputs: target <= 5% relative error.
 - Force-displacement curve: target <= 5% normalized L2 error.
 - Crack path: must remain inside a benchmark-specific geometric tolerance defined before viewing the candidate result.
@@ -336,6 +560,7 @@ Until the supervisor approves final tolerances, use the following only as intern
 Label these as `provisional_working_gate`, not as a thesis-standard acceptance criterion.
 
 Validation classifications:
+
 - `not_run`
 - `technical_fail`
 - `technical_pass_scientific_unchecked`
@@ -401,6 +626,7 @@ Never promote `feasibility_only` to validation.
 ## Experiment and run management
 
 Each run directory should contain or reference:
+
 - `run_manifest.json` or equivalent configuration.
 - Input deck and user-subroutine revision/hash.
 - Software/compiler/hardware metadata.
@@ -411,6 +637,7 @@ Each run directory should contain or reference:
 - `RUN_SUMMARY.md` with classification and next action.
 
 Naming convention example:
+
 ```text
 <benchmark>__<method>__hOverL-<value>__errTarget-<value>__<YYYYMMDD-HHMM>
 ```
@@ -420,6 +647,7 @@ Do not overwrite a completed run directory. Create a new run identifier.
 ## Job submission and resource reporting
 
 Before any Abaqus/HPC submission:
+
 - Obtain explicit user approval unless a standing instruction exists in the repository.
 - Read the current HPC handoff/configuration file if one exists.
 - Confirm license availability, queue, CPUs, MPI/OpenMP layout, memory, wall time, scratch path, and stage-out policy.
@@ -445,6 +673,7 @@ qstat -f "${JOB_ID}" | grep -E 'Mail_Users|Mail_Points|job_state|queue'
 ```
 
 For a running job, report:
+
 - job ID, state, queue, host/vnode;
 - requested CPUs, MPI ranks/threads, memory, wall time;
 - used wall time, CPU time/utilization, memory/VMEM when available;
@@ -452,6 +681,7 @@ For a running job, report:
 - exact timestamp.
 
 For a finished job, report:
+
 - exit status and whether Abaqus completed normally;
 - final resources used;
 - start/finish timestamps;
@@ -470,6 +700,7 @@ Never delete large results merely to save storage without user approval and a ve
 ## File tracking and handoff mirror - required behavior
 
 For every operation that creates or edits source/text files:
+
 1. Record the workspace-relative paths of all touched files.
 2. Run:
    ```bash
@@ -481,6 +712,7 @@ For every operation that creates or edits source/text files:
 6. The mirror is a handoff snapshot, not version history.
 
 Default excluded extensions include large/generated Abaqus outputs such as:
+
 ```text
 .odb .sim .stt .res .mdl .prt .dat .msg .lck .023 .cax .abq .pac .sel
 ```
@@ -488,6 +720,7 @@ Default excluded extensions include large/generated Abaqus outputs such as:
 ## Documentation rules
 
 Maintain:
+
 - `docs/decisions/` for formulation and workflow decisions.
 - `docs/experiment_records/` for one record per meaningful run or comparison.
 - `docs/methods/` for stable procedures.
@@ -507,6 +740,7 @@ Checklist rules:
 - Generated PDFs are not checklist evidence unless their source and generation command are recorded.
 
 Every decision record should state:
+
 - question;
 - alternatives;
 - evidence;
@@ -515,6 +749,7 @@ Every decision record should state:
 - date and owner.
 
 Every figure intended for the thesis should have:
+
 - source run IDs;
 - variable and threshold definitions;
 - units;
@@ -525,32 +760,41 @@ Every figure intended for the thesis should have:
 ## Common failure triage
 
 Crack path changes after remeshing:
+
 - Check state/history transfer, mesh bias, sets, element orientation, and phase-field convention.
 
 MISESERI marks irrelevant regions:
+
 - Check coarse-mesh adequacy, load stage, boundary conditions, stress exposure through UMAT/facsimile elements, and output frequency.
 
 Peak load is too high:
+
 - Reduce `h/l` and load increment separately; verify energy split and material units.
 
 Healing appears:
+
 - Check history max-update, state storage, transfer interpolation, and initialization.
 
 No phase-field contour in ODB/ABAQUSER:
+
 - Check overlay/visualization layer, SDV mapping, element labels, and output requests.
 
 Parallel and serial results differ:
+
 - Check COMMON/shared data, call-order assumptions, race conditions, and element indexing.
 
 Refined input deck fails:
+
 - Diff keyword blocks; check UEL definitions, sections, property blocks, connectivity, sets, amplitudes, and DOF ordering.
 
 Job finishes but result is wrong:
+
 - Classify as `technical_pass_scientific_unchecked` or `scientific_fail`, never `validated`.
 
 ## Agent session closing checklist
 
 At the end of each substantial session:
+
 1. Summarize files changed and commands run.
 2. Report tests and their outcomes.
 3. State the current scientific classification.
@@ -562,3 +806,18 @@ At the end of each substantial session:
 ## User notes - do not edit below this line
 
 - Add supervisor-specific constraints, deadlines, institutional templates, and personal preferences here.
+
+
+
+
+User Notes (don't touch this section):
+ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg "qstat -u pr21vyci"
+
+VPN service start (first run as administrator)
+
+powershell -Command "Start-Process PowerShell -Verb RunAs"
+
+Start-Service -Name 'eduWGManager$eduVPN'
+Start-Service -Name 'OpenVPNServiceInteractive$eduVPN'
+
+ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg 'cd ~/software/src && rm -rf install-tl-* && wget -O install-tl-unx.tar.gz https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && tar -xzf install-tl-unx.tar.gz && cd "$(find . -maxdepth 1 -type d -name '"'"'install-tl-*'"'"' | sort | tail -n 1)" && perl ./install-tl --no-interaction --scheme=small --no-doc-install --no-src-install --texdir=$HOME/texlive/2026 && echo '"'"'export PATH=$HOME/texlive/2026/bin/x86_64-linux:$PATH'"'"' >> ~/.bashrc && source ~/.bashrc && which pdflatex && pdflatex --version | head -n 2'

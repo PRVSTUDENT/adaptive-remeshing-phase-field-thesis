@@ -1,13 +1,24 @@
 # RUN MANIFEST: H2-PUB
 
-Status: prepared_not_submitted
+Status: `submitted`
 
-Job name: molnar_h2_pub_h001
-Physical elements: 33852
-Layered elements: 101556
-Target h: 0.001 mm
-Measured corridor h median: 0.0010000000000000009 mm
-Deck SHA-256: f32d4954d0770935d223ce5625370142b9c40b97aeb65974eb5b71dc20754947
-Source SHA-256: 49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37
+| Field | Value |
+|---|---|
+| Job ID | `1376156.mmaster02` |
+| Job name | `molnar_h2_pub_h001` |
+| Submitted revision | `58d7e3102d76fe0e70e6729457e2c7e90ad131bb` |
+| Initial state | H |
+| Queue | normal_imfdfkmq |
+| select | 1:ncpus=1:mem=32gb |
+| walltime | 12:00:00 |
+| Mail_Users | pr21vyci@mailserver.tu-freiberg.de |
+| Mail_Points | abe |
+| Dependency | afterok:1376155.mmaster02 |
+| Physical elements | 33852 |
+| Layered elements | 101556 |
+| Target h | 0.001 mm |
+| Measured corridor h median | 0.001 mm |
+| publication_resolution_verified | true |
+| Scratch run path | `/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h2_pub_h0010_1376156.mmaster02` |
 
-Scientific convergence: pending after completion.
+Scientific convergence: pending.

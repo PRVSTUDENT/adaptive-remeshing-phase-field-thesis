@@ -1,0 +1,56 @@
+Job Id: 1376155.mmaster02
+    Job_Name = molnar_h1_h0025
+    Job_Owner = pr21vyci@mlogin01.cluster
+    job_state = H
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Mon Jul 20 13:44:03 2026
+    depend = afterok:1376154.mmaster02@mmaster02,
+	beforeok:1376156.mmaster02@mmaster02
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/mo
+	lnar_h1_h0025.e1376155
+    Hold_Types = s
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Mon Jul 20 13:44:03 2026
+    Output_Path = mlogin01.cluster:/scratch/pr21vyci/adaptive-remeshing/pbs_out
+	put/molnar_lc015_h_convergence_20260720T134402+0200_58d7e3102d76/molnar
+	_h1_h0025.out
+    Priority = 0
+    qtime = Mon Jul 20 13:44:03 2026
+    Rerunable = True
+    Resource_List.mem = 32gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=32gb
+    Resource_List.walltime = 06:00:00
+    sandbox = PRIVATE
+    substate = 22
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,
+	PROJECT_REVISION=58d7e3102d76fe0e70e6729457e2c7e90ad131bb,
+	PRESTAGED_ROOT=/scratch/pr21vyci/adaptive-remeshing/prestage/molnar_lc
+	015_h_convergence_20260720T134402+0200_58d7e3102d76,
+	PBS_O_QUEUE=entry_imfdfkmq
+    etime = Mon Jul 20 13:44:03 2026
+    eligible_time = 00:00:00
+    Submit_arguments = -W depend=afterok:1376154.mmaster02 -M pr21vyci@mailserv
+	er.tu-freiberg.de -m abe -v PROJECT_REVISION=58d7e3102d76fe0e70e6729457
+	e2c7e90ad131bb,
+	PRESTAGED_ROOT=/scratch/pr21vyci/adaptive-remeshing/prestage/molnar_lc
+	015_h_convergence_20260720T134402+0200_58d7e3102d76 -o /scratch/pr21vyc
+	i/adaptive-remeshing/pbs_output/molnar_lc015_h_convergence_20260720T134
+	402+0200_58d7e3102d76/molnar_h1_h0025.out scripts/hpc/molnar_lc015_h1_h
+	0025.pbs
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+
