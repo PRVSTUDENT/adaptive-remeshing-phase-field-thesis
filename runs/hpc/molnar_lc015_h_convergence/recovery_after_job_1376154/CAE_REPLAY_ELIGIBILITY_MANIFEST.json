@@ -1,0 +1,63 @@
+{
+  "authorization": {
+    "abaqus_standard_solves": 0,
+    "max_cae_only_pbs_jobs": 1,
+    "submit_only_after_h1_h2_inactive": true
+  },
+  "cases": [
+    {
+      "abaqus_technical_classification": "molnar_h0_exact_technical_pass",
+      "cae_postprocess_classification": null,
+      "case_id": "H0",
+      "eligible_for_consolidated_cae_replay": true,
+      "evidence_dir": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/molnar_lc015_h_convergence/H0_exact/evidence/1376154.mmaster02",
+      "odb_exists": true,
+      "odb_path": "/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h0_exact_1376154.mmaster02/molnar_lc015_h0_exact.odb",
+      "odb_sha256": "01601effd2a110dc7124356cb3d9baf6d772d55f4fb344414ad219ba9b78e07b",
+      "odb_size_bytes": 88827548,
+      "reason": [
+        "technical_pass_odb_ok_cae_missing_or_invalid"
+      ],
+      "solver_job_id": "1376154.mmaster02",
+      "valid_cae_package_present": false
+    },
+    {
+      "abaqus_technical_classification": "molnar_h1_h0025_technical_pass",
+      "cae_postprocess_classification": "cae_postprocess_failure_after_successful_solve",
+      "case_id": "H1",
+      "eligible_for_consolidated_cae_replay": true,
+      "evidence_dir": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/molnar_lc015_h_convergence/H1_h0025/evidence/1376185.mmaster02",
+      "odb_exists": true,
+      "odb_path": "/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h1_h0025_1376185.mmaster02/molnar_lc015_h1_h0025.odb",
+      "odb_sha256": "4898164c4205b0fb957e68cdefc0eba43bdb2fcf74175b6211ae09391131b6c3",
+      "odb_size_bytes": 244467576,
+      "reason": [
+        "technical_pass_odb_ok_cae_missing_or_invalid"
+      ],
+      "solver_job_id": "1376185.mmaster02",
+      "valid_cae_package_present": false
+    },
+    {
+      "abaqus_technical_classification": "molnar_h2_pub_h001_technical_pass",
+      "cae_postprocess_classification": "cae_postprocess_failure_after_successful_solve",
+      "case_id": "H2-PUB",
+      "eligible_for_consolidated_cae_replay": true,
+      "evidence_dir": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/molnar_lc015_h_convergence/H2_pub_h0010/evidence/1376186.mmaster02",
+      "odb_exists": true,
+      "odb_path": "/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h2_pub_h0010_1376186.mmaster02/molnar_lc015_h2_pub_h0010.odb",
+      "odb_sha256": "9c3755b3359a6aa61f4de8a8358bffd489da8cbd2ac45ba4f9c8c9f2922fa825",
+      "odb_size_bytes": 660842080,
+      "reason": [
+        "technical_pass_odb_ok_cae_missing_or_invalid"
+      ],
+      "solver_job_id": "1376186.mmaster02",
+      "valid_cae_package_present": false
+    }
+  ],
+  "eligible_case_ids": [
+    "H0",
+    "H1",
+    "H2-PUB"
+  ],
+  "eligible_count": 3
+}

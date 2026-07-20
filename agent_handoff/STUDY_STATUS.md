@@ -1,6 +1,6 @@
 # Study Status
 
-Status: `solvers_active_or_pending_consolidated_cae_prepared`
+Status: `consolidated_cae_submitted_once_scientific_pending`
 
 Scientific convergence: pending.
 
@@ -30,10 +30,15 @@ Mail_Points: `abe`
 
 Authorization for the recovery trio is fully consumed.
 
-Additional authorization (not yet submitted):
+Consolidated CAE-only job **submitted once** (authorization consumed):
 
-- Exactly **one** consolidated CAE-only PBS job after H1/H2 leave the active queue.
-- No H0-only CAE resubmit now; no solver retries; no extra meshes.
+| Field | Value |
+|---|---|
+| Job | `1376236.mmaster02` (`molnar_hconv_cae_all`) |
+| Cases | H0 + H1 + H2-PUB (exactly three eligible ODBs) |
+| Revision | `bd09bc4f33a1415bba70769458d5bbbf218e1592` |
+| Solvers | 0 (CAE only) |
 
-Prepared: env-var CAE I/O + `molnar_lc015_hconv_cae_replay_all.pbs` + eligibility builder.
-See `recovery_after_job_1376154/CONSOLIDATED_CAE_REPLAY_PLAN.md`.
+No second CAE replay or solver rerun without new authorization.  
+Scientific h-convergence remains pending CAE results.  
+See `recovery_after_job_1376154/cae_replay_all/SUBMISSION_CHECKPOINT.md`.

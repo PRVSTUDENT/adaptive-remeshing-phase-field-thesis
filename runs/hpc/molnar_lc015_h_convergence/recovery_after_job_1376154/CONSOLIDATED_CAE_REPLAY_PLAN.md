@@ -1,6 +1,6 @@
 # Consolidated CAE-Only Replay Plan
 
-Status: `prepared_not_submitted`
+Status: `submitted_once` — job `1376236.mmaster02`
 
 ## Decision
 

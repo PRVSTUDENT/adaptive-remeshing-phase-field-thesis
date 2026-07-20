@@ -16,12 +16,15 @@ Updated: 2026-07-20
 Current stage:
 
 - Stage A / WP2 remains open. Gate A3 remains `reference_data_insufficient`.
-- Supervisor decision: controlled Molnar h-convergence study authorized for the exact supplementary single-notch model with `lc = 0.015 mm` only. Authorized cases: H0 exact supplementary; H1 intermediate `h = 0.0025 mm`; H2-PUB publication-resolution `h = 0.001 mm`. Exactly three serial HPC jobs may be prepared and submitted once.
-- Not authorized: length-scale sensitivity; load-increment sensitivity; MISESERI; adaptive remeshing; state transfer; multi-CPU; GPU; formulation/parameter/loading changes; candidate-v2 diagnostic instrumentation; automatic retries; a fourth mesh.
+- Supervisor decision: the controlled Molnar `lc = 0.015 mm` h-convergence study is the active scientific task. H0 is the exact supplementary baseline, H1 uses `h = 0.0025 mm`, and H2-PUB uses the publication local crack-path resolution `h = 0.001 mm`.
+- Execution status: H0 solver job `1376154.mmaster02` is a technical pass with its ODB retained; both H0 CAE attempts failed only in postprocessing infrastructure. H1 first-execution job `1376185.mmaster02` satisfied the dependency policy and released H2; detailed H1 evidence intake remains pending. H2-PUB job `1376186.mmaster02` is currently running from the immutable scientific-input revision `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`.
+- CAE recovery status: environment-variable path passing is prepared at commit `bd09bc4f33a1415bba70769458d5bbbf218e1592`. Exactly one consolidated CAE-only replay may be submitted after H1/H2 are inactive for technical-pass ODBs lacking a valid CAE package. No Abaqus/Standard solve is included in that replay.
+- Current campaign boundary: no solver retry, H0 rerun, extra mesh, H3, length-scale study, increment-sensitivity study, MISESERI run, adaptive-remeshing run, state-transfer run, GPU run, formulation change, or parameter change is authorized.
+- CPU policy boundary: the current H0/H1/H2 campaign remains serial and must not be altered in flight. For future work in this thesis, multicore use is a project-specific validation task and is no longer governed by any previous-project “Stage 16N” policy. Threaded Abaqus execution may be adopted only after serial-versus-threaded repeatability and scaling are demonstrated for the relevant UEL/UMAT model.
 - Stage A / WP2 - Molnar baseline reproduction and paper-matched single-notch scientific comparison.
 - The unchanged smaller Molnar supplementary single-notch deck has a local technical pass and reproducible first extraction. It remains supporting technical reproducibility evidence, not the exact Fig. 7 numerical comparison target. The paper-matched candidate-v2 serial HPC baseline job `1374864.mmaster02` completed with `paper_matched_v2_technical_pass`; postprocessing against the existing scratch ODB produced RF-U, matched-state contours, crack-path diagnostics, SDV bound/irreversibility diagnostics, and a no-solution decision report. The scientific decision classification is `paper_matched_v2_scientific_review_incomplete`, not a final pass, because post-peak RF-U mismatch and unresolved SDV15 interpretation remain.
 - No remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
-- HPC account access and a queue/node/software snapshot are documented from `hpc_access_limits_report.txt` (captured 2026-07-14). SSH access was restored and verified on 2026-07-15; the HPC clone, home/scratch layout, Abaqus/Intel module probe, PBS queue inspection, and serial `testq` environment smoke attempts are now documented. The final environment rerun job `1374531.mmaster02` passed with `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, compute host `mnode098.cluster`, repository revision supplied via `PROJECT_REVISION`, and PBS `Exit_status = 0`. The first minimal Abaqus/Standard trivial `UEXTERNALDB` smoke job `1374532.mmaster02` checked out an Abaqus/Standard license, compiled, linked, completed the analysis, and created an ODB, but failed the callback marker check because `uexternaldb_smoke.called` was absent; classification `hpc_user_subroutine_smoke_fail`, failure category `callback_invocation`. The deterministic retry job `1374533.mmaster02` at revision `c5db808b4c8d9e9bd01a9e5da0bd91b173787b8e` passed on `mnode097.cluster` with PBS `Exit_status = 0`, Abaqus return code zero, ODB/STA/MSG present, analysis-success statement present, direct `.msg` callback tokens, and absolute marker file `uexternaldb_smoke.called` containing `UEXTERNALDB_SMOKE_CALLED`; classification `hpc_user_subroutine_smoke_pass`. Gate A3 remains an independent scientific blocker.
+- HPC account access and the upgraded queue/node/software snapshot are documented from `HPC_Upgraded_Resources_and_Software.md` (captured 2026-07-20). The project account can use the normal project route `entryq` in addition to `entry_imfdfkmq`, `testq`, and the teaching route where appropriate. SSH access was restored and verified on 2026-07-15; the HPC clone, home/scratch layout, Abaqus/Intel module probe, PBS queue inspection, and serial `testq` environment smoke attempts are now documented. The final environment rerun job `1374531.mmaster02` passed with `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, compute host `mnode098.cluster`, repository revision supplied via `PROJECT_REVISION`, and PBS `Exit_status = 0`. The first minimal Abaqus/Standard trivial `UEXTERNALDB` smoke job `1374532.mmaster02` checked out an Abaqus/Standard license, compiled, linked, completed the analysis, and created an ODB, but failed the callback marker check because `uexternaldb_smoke.called` was absent; classification `hpc_user_subroutine_smoke_fail`, failure category `callback_invocation`. The deterministic retry job `1374533.mmaster02` at revision `c5db808b4c8d9e9bd01a9e5da0bd91b173787b8e` passed on `mnode097.cluster` with PBS `Exit_status = 0`, Abaqus return code zero, ODB/STA/MSG present, analysis-success statement present, direct `.msg` callback tokens, and absolute marker file `uexternaldb_smoke.called` containing `UEXTERNALDB_SMOKE_CALLED`; classification `hpc_user_subroutine_smoke_pass`. Gate A3 remains an independent scientific blocker.
 - HPC environment smoke: passed.
 - HPC Abaqus license checkout: passed.
 - HPC user-subroutine compilation: passed for the trivial Abaqus/Standard smoke.
@@ -65,29 +68,28 @@ Known source documents:
 - `1-s2.0-S0927025614004133-main.pdf` - Msekh et al. (2015)
 - `TSP_CMES_67858.pdf` - Pandey and Kumar (2025)
 - `1-s2.0-S0045782525004153-main.pdf` - Diddige, Roth, and Kiefer (2025)
-
-
 - Authorized targeted SDV15 diagnostic run: a separate candidate-v2 diagnostic variant was generated under `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/` with `72` target physical elements and `152` target element/IP pairs. The single authorized serial job was submitted exactly once as `1375020.mmaster02` from revision `efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611`. PBS accepted `Mail_Users = pr21vyci@mailserver.tu-freiberg.de` and `Mail_Points = abe`, then the job failed pre-solver with `Exit_status = 3` because `git` was unavailable in the batch PATH at the revision guard (`git: Kommando nicht gefunden`; `revision_mismatch current= requested=...`). Abaqus did not launch, no SDV15 diagnostic result exists, and the classification is `molnar_v2_sdv15_diagnostic_technical_fail`. Gate A3 remains `reference_data_insufficient`; no retry, second diagnostic run, candidate v3, Stage B, MISESERI, remeshing, state transfer, or sweep is authorized.
 - Infrastructure-corrected r2 authorization: exactly one corrected serial SDV15 diagnostic execution may be prepared and submitted with `16:00:00` walltime, job name `molnar_v2_sdv15_diag_r2`, classification scope `infrastructure_corrected_targeted_diagnostic_execution`, and the same scientific diagnostic deck/source/targets. The r2 PBS must not execute Git; login-side wrapper `scripts/hpc/submit_molnar_v2_sdv15_diagnostic_r2.sh` stages an immutable committed snapshot under scratch, writes `PROJECT_REVISION.txt`, passes `PROJECT_REVISION` and `PRESTAGED_ROOT` to PBS, and directs PBS stdout to scratch. This authorization still excludes automatic retry, second r2 submission, MISESERI, remeshing, Stage B, candidate v3, mesh/length/load studies, parameter sweeps, multi-CPU execution, or scientific model changes.
 - Infrastructure-corrected r2 result: the single authorized corrected serial diagnostic job ran exactly once as `1375028.mmaster02` from revision `209ad325d2c85532411c13d8290db08ca35b0637`. PBS history reports `job_state=F`, `Exit_status=1`, `Stageout_status=1`, walltime `00:42:27`, and preserved `Mail_Users = pr21vyci@mailserver.tu-freiberg.de`, `Mail_Points = abe`; the nonzero wrapper result is `postprocess_python_compatibility_failure_after_successful_solve` because the original postprocessor used Python syntax incompatible with the cluster interpreter. Abaqus is a technical pass: return code `0`, `.sta` says `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`, and `.msg` reports zero analysis error messages. Independent RF-U comparison at RP node `34508` is non-intrusive: `202` matched frames and maximum normalized RF2 difference `6.54442468760855e-13`. The no-solution completed-increment replay of the existing `627304` trace rows keeps only the last U1 stage-101 call per `(KSTEP, KINC, physical element, source-storage IP)` and aligns retained-frame events by step time/load level. Result: `sdv15_call_level_nonmonotonicity_observed`; completed/converged increment classification before severity audit `sdv15_completed_increment_possible_violation`; `209152` U1 stage-101 rows, `101840` final increment states, `2184` unique completed-increment SDV15 decreasing transitions, original event-table replay counts `62` possible violations and `1235` monotone, and `0` SDV16 decreases over the same final-increment sequences. Worst retained visualization event `84131 -> physical 16427` is monotone for the inspected converged-increment transitions. Severity audit result under provisional `1e-6` materiality tolerance: `sdv15_completed_increment_irreversibility_violation`; maximum decrease `0.00022384088238425193`, mean `2.8434597987446906e-05`, median `1.3940791172561973e-05`, `2131` transitions above `1e-6`, `1362` above `1e-5`, all after peak displacement, `773` coincident with SDV15 overshoot above one, and `0` SDV16 decreases. Evidence is under `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/postprocessing_completed_increment_replay_time_aligned/`. Gate A3 remains `reference_data_insufficient`; candidate-v2 scientific result remains `paper_matched_v2_scientific_review_incomplete`; no second r2 submission or automatic retry is authorized.
 - Thesis consolidation: a no-solution Stage A benchmark chapter, reproducibility appendix, figure/table plan, and route-neutral post-supervisor execution-route note were prepared from committed evidence only. Evidence: `docs/thesis/STAGE_A_MOLNAR_BENCHMARK_CHAPTER.tex`; `docs/thesis/STAGE_A_REPRODUCIBILITY_APPENDIX.tex`; `docs/thesis/STAGE_A_FIGURE_TABLE_PLAN.md`; `docs/decisions/POST_SUPERVISOR_DECISION_EXECUTION_ROUTES.md`. Boundary unchanged: Gate A3 remains `reference_data_insufficient`; candidate v2 is not a Gate A3 pass; no Abaqus/PBS/MISESERI/remeshing/state-transfer work is authorized.
 - Stage B uniform-reference protocol preparation: route-neutral planning files were prepared and are preserved. Status updated after supervisor decision to `h_convergence_subset_authorized_execution_pending`. Evidence: `docs/studies/STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md`; `docs/studies/STAGE_B_ACCEPTANCE_METRICS.md`; `docs/studies/STAGE_B_HPC_RESOURCE_ESTIMATE.md`; `configs/studies/molnar_uniform_reference_matrix.yaml`. Gate A3 remains `reference_data_insufficient`. Only the three-case h-convergence subset is authorized for execution preparation and submission.
 - Local author-supplied exact single-notch Abaqus/CAE reproduction evidence exists under `runs/molnar_single_notch_author_supplied_exact/20260720_abaqus_cae_reproduction/` with Fig. 7 `lc=0.015 mm` digitization including origin `(0,0)`.
-
 - Molnar lc015 h-convergence study prepared and submitted: H0 exact author inputs verified; H1/H2-PUB static validation passed with publication-resolution verified for H2-PUB. Physical elements H0=3930, H1=12064, H2-PUB=33852. Measured corridor h medians approximately 0.00494 / 0.0025 / 0.001 mm. Fig. 7 lc=0.015 corrected-origin reference under `references/derived/molnar_gravouil_2017/single_notch/fig7_lc015_corrected_origin/`.
 - Submitted once as serial dependency chain from revision `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`: H0 `1376154.mmaster02`, H1 `1376155.mmaster02`, H2-PUB `1376156.mmaster02`.
 - H0 result: `solver_pass_cae_postprocess_failure` (Abaqus RC 0, STA success, ODB retained; CAE f-string parse failure; PBS Exit_status=11). H1/H2: `not_executed_dependency_cancelled` via afterok.
 - Authorized recovery submitted once from infrastructure revision `26b7b70832b2e1ae74c54abb7599cbe553aa1bad` with scientific inputs still at `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`: H0 CAE replay `1376184.mmaster02` failed (`OdbError` path `-cae` argv bug); H1 first solve `1376185.mmaster02`; H2-PUB `1376186.mmaster02` afterok H1. Existing H0 ODB hash `01601eff...`.
-- Decision: no further H0-only CAE replay now. CAE path I/O repaired to env vars (`MOLNAR_CASE_ID` / `MOLNAR_ODB_PATH` / `MOLNAR_OUTPUT_DIR`). Exactly one future consolidated CAE-only PBS job is authorized after H1/H2 leave the queue for all technical-pass ODBs lacking CAE packages. No solver retries or extra meshes.
+- Decision: no further H0-only CAE replay now. CAE path I/O is repaired through environment variables (`MOLNAR_CASE_ID` / `MOLNAR_ODB_PATH` / `MOLNAR_OUTPUT_DIR`). Exactly one future consolidated CAE-only PBS job is authorized after H1/H2 leave the queue for all technical-pass ODBs lacking CAE packages. No solver retries or extra meshes.
+- Scheduler status at the latest check: H2-PUB `1376186.mmaster02` is running; H1 is no longer active and its successful dependency exit released H2. Do not interpret scheduler release alone as the final scientific classification; ingest the retained H1/H2 evidence after completion.
 
 Immediate next tasks:
 
-1. Do not submit while preparing. Let H1/H2 finish; do not poll repeatedly.
-2. After H1/H2 inactive, rebuild CAE eligibility manifest and submit at most one consolidated CAE-only job via `submit_molnar_lc015_hconv_cae_replay_all.sh`.
-3. Then four-level review: PBS, Abaqus, CAE, scientific mesh comparison.
-4. Preserve candidate v1 as failed static evidence and do not repair it in place.
-5. Keep Gate A3 open; scientific convergence remains pending.
-6. Only after benchmark reproduction is stable and explicitly authorized, start MISESERI.
+1. Let H2 finish; do not modify, delete, or resubmit the active job.
+2. After H1/H2 are inactive, rebuild the CAE eligibility manifest and submit at most one consolidated CAE-only job via `submit_molnar_lc015_hconv_cae_replay_all.sh`.
+3. Perform the four-level review: PBS, Abaqus solver, CAE postprocessing, and scientific mesh comparison.
+4. After the h-convergence evidence is complete, prepare a separate multicore qualification plan for this thesis using the same scientific deck at `1`, `4`, `8`, and `16` OpenMP threads. This preparation does not itself authorize solver submissions.
+5. Preserve candidate v1 as failed static evidence and do not repair it in place.
+6. Keep Gate A3 open; scientific convergence remains pending.
+7. Only after benchmark reproduction is stable and explicitly authorized, start MISESERI.
 
 Unresolved decisions requiring user/supervisor confirmation:
 
@@ -101,8 +103,9 @@ Unresolved decisions requiring user/supervisor confirmation:
 
 Source and freshness:
 
-- Evidence source: `hpc_access_limits_report.txt`.
-- Snapshot date: 2026-07-14, inferred from the queue/node-status capture.
+- Evidence source: `HPC_Upgraded_Resources_and_Software.md` together with retained PBS job evidence and the workspace handoff.
+- Snapshot date: 2026-07-20.
+- This resource snapshot supersedes previous-project resource labels and policies, including “Stage 16N”. Do not copy a previous project's fixed CPU, memory, concurrency, or wall-time defaults into this thesis.
 - Queue load, node state, free memory, and availability are dynamic. Never treat this snapshot as a reservation or guaranteed capacity.
 - Queue ACLs and group membership show eligibility to submit; they do not guarantee immediate scheduling, software-license availability, or a particular node.
 - The filesystem figures below are cluster-wide filesystem capacity/usage values, not personal storage quotas.
@@ -143,9 +146,10 @@ Storage:
 
 - Home: `/home/pr21vyci`.
 - Scratch: `/scratch/pr21vyci`.
-- Snapshot filesystem status:
-  - `/home`: 17 TB total, 13 TB used, 3.9 TB available, 76% used.
-  - scratch backing filesystem shown as `/scratch9`: 33 TB total, 18 TB used, 16 TB available, 53% used.
+- Snapshot filesystem status from the upgraded-resource note:
+  - `/home`: 17 TB total, 12 TB used, 4.2 TB available, 74% used.
+  - scratch backing filesystem shown as `/scratch9`: 28 TB total, 25 TB used, 3.2 TB available, 89% used.
+- These values are point-in-time cluster-wide usage figures. Re-run `df -h /home /scratch` before every substantial campaign because scratch pressure is currently high in the recorded snapshot.
 - Use home for source, scripts, small inputs, reports, and retained metadata.
 - Use scratch for Abaqus work directories, `.odb`, `.sim`, restart, temporary, and other large solver files.
 - Every PBS job must stage required inputs to its work directory and copy retained outputs back explicitly.
@@ -154,13 +158,13 @@ Storage:
 
 Submission routes and wall-time ceilings observed in the snapshot:
 
-| Purpose | Submit queue | Scheduler destination / limit | Access interpretation |
-|---|---|---|---|
-| General CPU jobs | `entryq` | routes to `shortq` (12 h), `mediumq` (36 h), `longq` (168 h), `gpuq` (24 h), and configured short fat-node queues | eligible through general HPC-user rights |
-| Kiefer/AMS CPU jobs | `entry_imfdfkmq` | routes to `short_imfdfkmq` (12 h) or `normal_imfdfkmq` (336 h) | eligible through `hpc_hw_kieferams` rights; preferred thesis route when appropriate |
-| Teaching jobs | `entry_teachingq` | routes to `teachingq` (24 h) | eligible through teaching rights; use only when the work fits teaching-queue policy |
-| Short test jobs | `testq` | maximum wall time 4 h; queue advertises up to one GPU | eligible through general HPC-user rights; suitable for small environment/smoke checks |
-| GPU jobs | `gpuq` or routing through `entryq` | maximum wall time 24 h | eligibility exists, but Abaqus GPU benefit/license support must be verified before use |
+| Purpose             | Submit queue                           | Scheduler destination / limit                                                                                            | Access interpretation                                                                  |
+| ------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| General CPU jobs    | `entryq`                             | routes to`shortq` (12 h), `mediumq` (36 h), `longq` (168 h), `gpuq` (24 h), and configured short fat-node queues | eligible through general HPC-user rights                                               |
+| Kiefer/AMS CPU jobs | `entry_imfdfkmq`                     | routes to`short_imfdfkmq` (12 h) or `normal_imfdfkmq` (336 h)                                                        | eligible through`hpc_hw_kieferams` rights; preferred thesis route when appropriate   |
+| Teaching jobs       | `entry_teachingq`                    | routes to`teachingq` (24 h)                                                                                            | eligible through teaching rights; use only when the work fits teaching-queue policy    |
+| Short test jobs     | `testq`                              | maximum wall time 4 h; queue advertises up to one GPU                                                                    | eligible through general HPC-user rights; suitable for small environment/smoke checks  |
+| GPU jobs            | `gpuq` or routing through `entryq` | maximum wall time 24 h                                                                                                   | eligibility exists, but Abaqus GPU benefit/license support must be verified before use |
 
 Queue rules:
 
@@ -173,20 +177,80 @@ Queue rules:
 
 Observed node classes:
 
-| Node class | Typical advertised resources | Relevant queues / notes |
-|---|---|---|
-| Main CPU node | 40 CPUs, about 190,016,512 KB memory (approximately 181 GiB), no GPU | general short/medium/long and related queues |
+| Node class                  | Typical advertised resources                                                                | Relevant queues / notes                                                           |
+| --------------------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Main CPU node               | 40 CPUs, about 190,016,512 KB memory (approximately 181 GiB), no GPU                        | general short/medium/long and related queues                                      |
 | Kiefer/AMS extension-2 node | 16 CPUs, about 784,570,368 KB memory (approximately 748 GiB), about 1.48 TiB virtual memory | `normal_imfdfkmq`, `short_imfdfkmq`, `testq`; some nodes also list teaching |
-| Fat-memory node | 40 or 64 CPUs; approximately 748 GiB or approximately 3.0 TiB memory depending on node | access is queue/scheduler dependent; not guaranteed by visibility |
-| GPU node | 40 CPUs, approximately 181 GiB memory, one GPU | `gpuq`, `testq`, and selected teaching/general routes |
+| Fat-memory node             | 40 or 64 CPUs; approximately 748 GiB or approximately 3.0 TiB memory depending on node      | access is queue/scheduler dependent; not guaranteed by visibility                 |
+| GPU node                    | 40 CPUs, approximately 181 GiB memory, one GPU                                              | `gpuq`, `testq`, and selected teaching/general routes                         |
+
+### Adaptive-remeshing thesis resource policy
+
+This policy is specific to the current phase-field/adaptive-remeshing thesis and supersedes previous-project “Stage 16N” guidance.
+
+Resource classes:
+
+| Work type                                             | Initial request                                                           | Scaling rule                                                                      |
+| ----------------------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Static validation, deck generation, manifest building | 1 CPU, 4-8 GB                                                             | Increase only when the script actually supports parallel work                     |
+| Abaqus/CAE ODB extraction or consolidated replay      | 1 CPU, 16 GB                                                              | CAE postprocessing is not treated as a solver-scaling workload                    |
+| One-element or environment smoke                      | 1 CPU, 8-16 GB                                                            | Keep serial                                                                       |
+| UEL/UMAT scientific reference solve                   | 1 CPU, memory from measured predecessor                                   | Serial reference is mandatory for a new formulation/deck family                   |
+| Threaded qualification solve                          | 4, 8, then 16 CPUs; one MPI rank                                          | Proceed only when the previous level is technically and scientifically equivalent |
+| Validated production solve                            | Highest validated useful thread count, normally no more than 16 initially | Use the measured fastest scientifically equivalent configuration                  |
+
+Memory and wall-time selection:
+
+- Do not use `90 GB` or `24:00:00` as inherited defaults. Those values belonged to another project.
+- Set memory from the largest measured peak of the nearest comparable run, normally with about 50-100% operational headroom and a documented minimum of 8-16 GB.
+- Set wall time from measured serial/threaded runtime with sufficient queue headroom; do not request the queue maximum without evidence.
+- Current Molnar H0 used far below its 16 GB request, so future memory requests for comparable 2D cases should be evidence-based rather than automatically increased.
+- Keep all heavy Abaqus output and temporary files under `/scratch/pr21vyci`.
+
+Threaded qualification evidence:
+
+- identical input-deck, Fortran-source, configuration, and mesh hashes;
+- Abaqus technical completion and readable ODB;
+- RF2-U2 comparison on a common displacement grid;
+- peak force and peak-displacement differences;
+- SDV15/SDV16 bounds, crack path, and matched-state contours;
+- increment/iteration history and warnings;
+- elapsed time, CPU time, parallel efficiency, and peak memory;
+- explicit check for COMMON-block races, call-order dependence, label/IP mapping errors, and nondeterministic state updates.
+
+Do not promote a threaded configuration merely because it is faster. It must first be scientifically equivalent under predeclared provisional tolerances. During qualification, run one solver case at a time. Concurrent production jobs require a separate campaign authorization, license check, storage check, and scheduler-capacity check; there is no inherited fixed “two simultaneous jobs” rule for this thesis.
+
+Project-specific threaded PBS pattern, after validation and explicit submission approval:
+
+```bash
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=<validated_threads>:mpiprocs=1:ompthreads=<validated_threads>:mem=<measured_requirement>
+#PBS -l walltime=<measured_requirement>
+#PBS -j oe
+#PBS -m abe
+
+module --force purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+export OMP_NUM_THREADS=<validated_threads>
+export TMPDIR="/scratch/pr21vyci/<run_id>/tmp"
+mkdir -p "$TMPDIR"
+
+abaqus job=<job_name> input=<deck.inp> user=<source.for> \
+  cpus=<validated_threads> mp_mode=threads interactive
+```
 
 Node-selection rules:
 
 - Do not hard-code a hostname from this snapshot; let PBS select a compatible vnode.
 - Treat `free`, `offline`, `down`, and `<various>` states as point-in-time scheduler information only.
-- Request one node for initial Abaqus UEL/UMAT verification.
-- Because the Molnar implementation uses COMMON/shared-memory data transfer, begin with `cpus=1`. Parallel execution is blocked until serial-versus-threaded/process repeatability and element-call-order safety are demonstrated.
-- Do not assume MPI processes share COMMON-block data. Any multi-process run requires an explicit validation gate.
+- Request one node for Abaqus UEL/UMAT work unless a separately validated distributed-memory design requires more.
+- The Molnar implementation uses COMMON/shared-memory data transfer. The serial result remains the scientific reference until a threaded repeatability gate passes.
+- Future parallel qualification must use one MPI rank with shared-memory threads: `mpiprocs=1`, `ompthreads=<n>`, and Abaqus `mp_mode=threads`. Test the same immutable deck/source at `1`, `4`, `8`, and `16` threads.
+- Do not assume MPI processes share COMMON-block data. Distributed-memory or multi-node execution is prohibited until the source is shown process-safe and a separate MPI validation gate is approved.
+- A visible 40-core node is not a default 40-core entitlement. First validate up to 16 threads, matching the Kiefer/AMS node class. Requests for 32 or 40 cores require measured 16-thread scaling, a compatible route, and explicit user authorization.
 
 Available software relevant to the thesis:
 
@@ -227,8 +291,9 @@ Candidate HPC smoke-gate procedure:
    module load intel/2024.2.0
    module load abaqus/2023
    ```
+
    This is a candidate stack only; adjust after `module show` and a compile/link test.
-3. Submit a serial, single-node, short-wall-time smoke job through `testq` or the approved route queue.
+3. Submit a serial, single-node, short-wall-time smoke job through `testq` or the approved route queue. After the serial scientific regression passes, use a separately authorized `1/4/8/16`-thread qualification series before any threaded production claim.
 4. Preserve module output, environment, terminal log, `.dat`, `.msg`, `.sta`, and ODB-readability evidence.
 5. Classify separately:
    - environment/compiler/linker result;
@@ -265,17 +330,16 @@ cd "$workdir"
 abaqus job=OneElement input=OneElement.inp user=OneElement.for cpus=1 interactive
 ```
 
-Kiefer/AMS routed production candidate, to be used only after the smoke gate and explicit approval:
+Kiefer/AMS routed threaded production candidate, to be used only after serial/threaded equivalence, measured scaling, and explicit approval:
 
 ```bash
 #PBS -q entry_imfdfkmq
-#PBS -l select=1:ncpus=<validated_count>:mem=<measured_requirement>
-#PBS -l walltime=<validated_walltime_not_exceeding_336:00:00>
+#PBS -l select=1:ncpus=<validated_threads>:mpiprocs=1:ompthreads=<validated_threads>:mem=<measured_requirement>
+#PBS -l walltime=<measured_walltime_not_exceeding_queue_limit>
 #PBS -m abe
 ```
 
-The placeholders must be replaced from measured evidence; they are not defaults.
-The email placeholder must be replaced with the exact verified HPC notification recipient before submission.
+The placeholders must be replaced from current-project measurements; they are not defaults. Do not reuse `16 CPUs`, `90 GB`, `24 hours`, or a two-job concurrency rule merely because they appeared in another project's resource note. The private email recipient must be supplied with `qsub -M` and verified after submission.
 
 HPC monitoring and evidence commands:
 
@@ -288,7 +352,6 @@ module list
 ```
 
 Record the exact timestamp whenever queue or node state is reported.
-
 
 ## Scientific source hierarchy
 
@@ -652,6 +715,10 @@ Do not overwrite a completed run directory. Create a new run identifier.
 Before any Abaqus/HPC submission:
 
 - Obtain explicit user approval unless a standing instruction exists in the repository.
+- Identify the work class: CAE-only, serial scientific reference, threaded qualification, or validated threaded production.
+- Never infer a CPU count from node capacity alone. For UEL/UMAT jobs, use `cpus=1` unless a project-specific threaded qualification has passed for the same formulation/deck family.
+- For a validated threaded job, use one MPI rank and the recorded OpenMP thread count; record `ncpus`, `mpiprocs`, `ompthreads`, `OMP_NUM_THREADS`, and Abaqus `mp_mode` in the manifest.
+- Choose memory and wall time from measured current-project evidence, not from previous-project defaults.
 - Read the current HPC handoff/configuration file if one exists.
 - Confirm license availability, queue, CPUs, MPI/OpenMP layout, memory, wall time, scratch path, and stage-out policy.
 - Confirm the job uses the intended input deck and subroutine revision.
@@ -809,9 +876,6 @@ At the end of each substantial session:
 ## User notes - do not edit below this line
 
 - Add supervisor-specific constraints, deadlines, institutional templates, and personal preferences here.
-
-
-
 
 User Notes (don't touch this section):
 ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg "qstat -u pr21vyci"

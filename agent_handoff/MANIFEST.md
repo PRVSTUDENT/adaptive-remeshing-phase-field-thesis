@@ -1,13 +1,13 @@
 # Agent Handoff Manifest
 
-Created (UTC): 2026-07-20T12:18:48.017366+00:00
+Created (UTC): 2026-07-20T15:33:15.335661+00:00
 
 This directory contains only files from the latest mirrored operation.
 
 | Mirrored file | Original path | Bytes | SHA-256 |
 |---|---|---:|---|
-| `.agent.md` | `.agent.md` | 57926 | `a4c669f4fcd6703f56e70d7a4aea5d35d00cf3f6e5088d80196980b04c4f29a8` |
-| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 25701 | `dd99174051e091f53bc3157f3719dd6b26de1802bb69e5e807a01afd16cf9733` |
-| `ABAQUS_CAE_ENV_VAR_IO_NOTE.md` | `docs/methods/ABAQUS_CAE_ENV_VAR_IO_NOTE.md` | 1102 | `49ba1eb5878f715ce75b75c5e04051d0bd11b32fd6f513493af7ec9319c5c05a` |
-| `CONSOLIDATED_CAE_REPLAY_PLAN.md` | `runs/hpc/molnar_lc015_h_convergence/recovery_after_job_1376154/CONSOLIDATED_CAE_REPLAY_PLAN.md` | 1772 | `dad78489dc97b368c1f738330236dad993e3c10e457e9fbd60e96fe5b68d621f` |
-| `STUDY_STATUS.md` | `runs/hpc/molnar_lc015_h_convergence/STUDY_STATUS.md` | 1427 | `c4214254dfbc1f8cae70a68eaeaa04e19106482269de2944c232b5ae995f48c6` |
+| `.agent.md` | `.agent.md` | 66585 | `931737f07d5772e548e80eda66051cd8c1ea8451b3f4f030f134569a794ea592` |
+| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 25683 | `70bfb09db967be0f02f6712fb7a1551762e68ed84e5f1d1b1947f01f21af983d` |
+| `STUDY_STATUS.md` | `runs/hpc/molnar_lc015_h_convergence/STUDY_STATUS.md` | 1566 | `c4b8087f676ccaf86f79e8c210d4ff65b476954ae5c746ca8386b22310e2767d` |
+| `SUBMISSION_CHECKPOINT.md` | `runs/hpc/molnar_lc015_h_convergence/recovery_after_job_1376154/cae_replay_all/SUBMISSION_CHECKPOINT.md` | 1884 | `de25cf924241cc1fcacbc46721f894fe1455f345ecb449a2d3771f2929f59f4b` |
+| `SUBMISSION_RECORD.txt` | `runs/hpc/molnar_lc015_h_convergence/recovery_after_job_1376154/cae_replay_all/SUBMISSION_RECORD.txt` | 480 | `07c2801383a7a807ec038c9203e53ef35455e834995fb1835f82fd876b4211be` |
