@@ -4,54 +4,54 @@
 Parses PBS scripts for documented exit policy without executing Abaqus.
 """
 
-from __future__ import annotations
-
+import os
 import re
 import sys
-from pathlib import Path
 
-H1 = Path("scripts/hpc/molnar_lc015_h1_h0025.pbs")
-H2 = Path("scripts/hpc/molnar_lc015_h2_pub_h0010.pbs")
+H1 = "scripts/hpc/molnar_lc015_h1_h0025.pbs"
+H2 = "scripts/hpc/molnar_lc015_h2_pub_h0010.pbs"
 
 
-def check_script(path: Path) -> list[str]:
-    text = path.read_text(encoding="utf-8")
+def check_script(path):
+    fh = open(path, "r")
+    try:
+        text = fh.read()
+    finally:
+        fh.close()
     errors = []
     if "SOLVER_DEPENDENCY_STATUS" not in text:
-        errors.append(f"{path}: missing SOLVER_DEPENDENCY_STATUS")
+        errors.append("{0}: missing SOLVER_DEPENDENCY_STATUS".format(path))
     if "cae_postprocess_failure_after_successful_solve" not in text:
-        errors.append(f"{path}: missing CAE-after-solver-success classification")
+        errors.append("{0}: missing CAE-after-solver-success classification".format(path))
     if "solver_dependency_status.txt" not in text:
-        errors.append(f"{path}: missing solver_dependency_status.txt write")
+        errors.append("{0}: missing solver_dependency_status.txt write".format(path))
     if "cae_postprocess_classification.txt" not in text:
-        errors.append(f"{path}: missing cae_postprocess_classification.txt write")
+        errors.append("{0}: missing cae_postprocess_classification.txt write".format(path))
     if "overall_evidence_status.txt" not in text:
-        errors.append(f"{path}: missing overall_evidence_status.txt write")
-    # After CAE failure path should set PBS_EXIT=0
+        errors.append("{0}: missing overall_evidence_status.txt write".format(path))
     if not re.search(
         r"cae_postprocess_failure_after_successful_solve[\s\S]{0,400}PBS_EXIT=0",
         text,
     ):
-        errors.append(f"{path}: CAE failure path must set PBS_EXIT=0 for dependency success")
-    # Solver failure must still be nonzero
-    if not re.search(
-        r"abaqus_technical_failure[\s\S]{0,400}PBS_EXIT=10",
-        text,
-    ):
-        errors.append(f"{path}: solver failure path must set PBS_EXIT=10")
-    # Must not exit 11 on CAE failure anymore
+        errors.append(
+            "{0}: CAE failure path must set PBS_EXIT=0 for dependency success".format(path)
+        )
+    if not re.search(r"abaqus_technical_failure[\s\S]{0,400}PBS_EXIT=10", text):
+        errors.append("{0}: solver failure path must set PBS_EXIT=10".format(path))
     if re.search(r"POST_RC.*\n.*exit 11", text) or re.search(
         r"CAE_RC.*\n.*exit 11", text
     ):
-        errors.append(f"{path}: still exits 11 on CAE failure (dependency-breaking)")
+        errors.append(
+            "{0}: still exits 11 on CAE failure (dependency-breaking)".format(path)
+        )
     return errors
 
 
-def main() -> int:
+def main():
     errors = []
     for path in (H1, H2):
-        if not path.exists():
-            errors.append(f"missing {path}")
+        if not os.path.isfile(path):
+            errors.append("missing {0}".format(path))
             continue
         errors.extend(check_script(path))
     if errors:
