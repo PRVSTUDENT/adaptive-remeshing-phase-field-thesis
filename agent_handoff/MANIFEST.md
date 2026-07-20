@@ -1,14 +1,15 @@
 # Agent Handoff Manifest
 
-Created (UTC): 2026-07-20T11:17:42.088521+00:00
+Created (UTC): 2026-07-20T11:39:11.058602+00:00
 
 This directory contains only files from the latest mirrored operation.
 
 | Mirrored file | Original path | Bytes | SHA-256 |
 |---|---|---:|---|
-| `.agent.md` | `.agent.md` | 56768 | `62f8ddfd6e7fe49a827df3ac32ba2265645476504ee701b131fcd85545ded7dc` |
-| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 25539 | `20207ee2ae3ee295883a410c00ced75c395bc27a56fcd5f276863722f596d2a4` |
-| `STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md` | `docs/studies/STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md` | 10480 | `ca8efa68a54f3780f3f1d9eac4f6ec7cb6ad6e823b0d9c734e2750860ed8f748` |
-| `STAGE_B_ACCEPTANCE_METRICS.md` | `docs/studies/STAGE_B_ACCEPTANCE_METRICS.md` | 4479 | `205f4d3653c4f133fd0af50545b46dac8ece4a4ef27a276f20e10594677524ee` |
-| `STAGE_B_HPC_RESOURCE_ESTIMATE.md` | `docs/studies/STAGE_B_HPC_RESOURCE_ESTIMATE.md` | 2864 | `263bccda62698a64edf6134f666cf8d13b791cd62db7f23177bcbedb1b3b06f3` |
-| `molnar_uniform_reference_matrix.yaml` | `configs/studies/molnar_uniform_reference_matrix.yaml` | 6225 | `eff4382845cbc7aebd938c8372f0d57b832dcd8737998198f337f762037f28e5` |
+| `.agent.md` | `.agent.md` | 56977 | `7e392511f36765321e9b478330c65a28b735791e87c44d0fbea38b387dc3bada` |
+| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 25743 | `f9a4583684db90a5792a960fef34ee030723644407e3fb4990c0594bb495483a` |
+| `MOLNAR_LC015_H_CONVERGENCE_PROTOCOL.md` | `docs/studies/MOLNAR_LC015_H_CONVERGENCE_PROTOCOL.md` | 4789 | `e8b65e2ea7add3c642dd3084a94cc837aa72acf04b7e69bbf6244cbc5a7d6d40` |
+| `MOLNAR_LC015_H_CONVERGENCE_ACCEPTANCE.md` | `docs/studies/MOLNAR_LC015_H_CONVERGENCE_ACCEPTANCE.md` | 3121 | `8ef8fc7af1642e1fc08489954870766def064282a360ed4465956bd436668108` |
+| `molnar_lc015_h_convergence.yaml` | `configs/studies/molnar_lc015_h_convergence.yaml` | 4233 | `ee81160d83178c98b2cc9de41f95250e0e94239e93edc85548b90fa2743f6172` |
+| `STUDY_EQUIVALENCE_DECISION.md` | `results/validation/molnar_lc015_h_convergence/STUDY_EQUIVALENCE_DECISION.md` | 589 | `d9a8c12654c48c894c6d3473d649bcc3ded2359ec4d1c72fab9ea2051c806261` |
+| `STUDY_MANIFEST.md` | `runs/hpc/molnar_lc015_h_convergence/STUDY_MANIFEST.md` | 1444 | `f35d11f8c36a85bf056caf2c08c879484a8624043bcaab21abe98a2f839716db` |

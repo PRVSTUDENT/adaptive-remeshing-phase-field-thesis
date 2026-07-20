@@ -1,0 +1,127 @@
+#!/bin/bash
+#PBS -N molnar_h2_pub_h001
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=32gb
+#PBS -l walltime=12:00:00
+#PBS -j oe
+#PBS -m abe
+
+set -u
+
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+STAGE_ROOT="/scratch/pr21vyci/adaptive-remeshing/stage"
+JOB_NAME="molnar_lc015_h2_pub_h0010"
+VARIANT_DIR="models/generated/molnar_gravouil_2017/h_convergence_lc015/H2_pub_h0010"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+STAGE_DIR="${STAGE_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/molnar_lc015_h_convergence/H2_pub_h0010/evidence/${PBS_JOBID:-unknown}"
+ABAQUS_RC="not_started"
+POST_RC="not_started"
+TECHNICAL_CLASSIFICATION="molnar_h2_pub_h001_technical_fail"
+FAILURE_CLASS="not_classified"
+
+finish() {
+  rc=$?
+  mkdir -p "${LIGHT_DIR}" "${RUN_DIR}" "${STAGE_DIR}" 2>/dev/null || true
+  {
+    echo "job_id=${PBS_JOBID:-unknown}"
+    echo "project_revision=${PROJECT_REVISION:-unset}"
+    echo "prestaged_root=${PRESTAGED_ROOT:-unset}"
+    echo "host=$(hostname 2>/dev/null || echo unknown)"
+    echo "case=H2-PUB"
+    date -Is 2>/dev/null || date
+  } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
+  if [ -n "${PRESTAGED_ROOT:-}" ] && [ -f "${PRESTAGED_ROOT}/PROJECT_REVISION.txt" ]; then
+    cp "${PRESTAGED_ROOT}/PROJECT_REVISION.txt" "${LIGHT_DIR}/PROJECT_REVISION.txt" 2>/dev/null || true
+  fi
+  if [ -n "${PRESTAGED_ROOT:-}" ] && [ -f "${PRESTAGED_ROOT}/STAGING_MANIFEST.txt" ]; then
+    cp "${PRESTAGED_ROOT}/STAGING_MANIFEST.txt" "${LIGHT_DIR}/STAGING_MANIFEST.txt" 2>/dev/null || true
+  fi
+  [ -f "${RUN_DIR}/input_hash_check.txt" ] && cp "${RUN_DIR}/input_hash_check.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  [ -f "${RUN_DIR}/modules.txt" ] && cp "${RUN_DIR}/modules.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  [ -f "${RUN_DIR}/executables.txt" ] && cp "${RUN_DIR}/executables.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  printf '%s\n' "${ABAQUS_RC}" > "${LIGHT_DIR}/abaqus_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${POST_RC}" > "${LIGHT_DIR}/postprocess_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${TECHNICAL_CLASSIFICATION}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${FAILURE_CLASS}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
+  ls -lah "${RUN_DIR}" > "${LIGHT_DIR}/scratch_listing.txt" 2>/dev/null || true
+  cp "${RUN_DIR}/${JOB_NAME}.sta" "${RUN_DIR}/${JOB_NAME}.msg" "${RUN_DIR}/${JOB_NAME}.dat" "${RUN_DIR}/${JOB_NAME}.abaqus_stdout.log" "${LIGHT_DIR}/" 2>/dev/null || true
+  if [ -d "${STAGE_DIR}/postprocessing" ]; then
+    cp "${STAGE_DIR}/postprocessing/"* "${LIGHT_DIR}/" 2>/dev/null || true
+  fi
+  exit "${rc}"
+}
+trap finish EXIT
+
+fail_presolver() {
+  FAILURE_CLASS="$1"
+  printf '%s\n' "${FAILURE_CLASS}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  exit "$2"
+}
+
+mkdir -p "${RUN_DIR}" "${STAGE_DIR}" "${LIGHT_DIR}" || exit 2
+
+if [ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ]; then
+  fail_presolver "missing_submission_variable" 2
+fi
+
+requested_revision="${PROJECT_REVISION}"
+revision_file="${PRESTAGED_ROOT}/PROJECT_REVISION.txt"
+if [ ! -r "${revision_file}" ]; then
+  fail_presolver "missing_revision_manifest" 3
+fi
+staged_revision="$(tr -d '[:space:]' < "${revision_file}")"
+if [ "${staged_revision}" != "${requested_revision}" ]; then
+  fail_presolver "revision_manifest_mismatch" 4
+fi
+
+cd "${PRESTAGED_ROOT}" || fail_presolver "missing_revision_manifest" 5
+sha256sum -c "${VARIANT_DIR}/input_hashes.sha256" > "${RUN_DIR}/input_hash_check.txt" 2>&1 || fail_presolver "staged_input_hash_failure" 6
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
+module list >> "${RUN_DIR}/modules.txt" 2>&1 || true
+{
+  command -v abaqus || true
+  command -v ifx || true
+  command -v ifort || true
+  command -v gcc || true
+} > "${RUN_DIR}/executables.txt"
+command -v abaqus >/dev/null 2>&1 || fail_presolver "missing_abaqus_executable" 8
+
+cp "${VARIANT_DIR}/H2_pub_h0010.inp" "${RUN_DIR}/${JOB_NAME}.inp"
+cp "${VARIANT_DIR}/H2_pub_h0010.for" "${RUN_DIR}/"
+cp "scripts/abaqus_cae/postprocess_molnar_h_convergence_case.py" "${RUN_DIR}/"
+
+cd "${RUN_DIR}" || exit 9
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="H2_pub_h0010.for" cpus=1 interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -eq 0 ] &&
+   [ -f "${JOB_NAME}.odb" ] &&
+   [ -f "${JOB_NAME}.sta" ] &&
+   [ -f "${JOB_NAME}.msg" ] &&
+   [ -f "${JOB_NAME}.dat" ] &&
+   grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  TECHNICAL_CLASSIFICATION="molnar_h2_pub_h001_technical_pass"
+else
+  FAILURE_CLASS="abaqus_technical_failure"
+  exit 10
+fi
+
+mkdir -p "${STAGE_DIR}/postprocessing"
+POST_RC=0
+abaqus cae noGUI="${RUN_DIR}/postprocess_molnar_h_convergence_case.py" -- \
+  "${RUN_DIR}/${JOB_NAME}.odb" \
+  "${STAGE_DIR}/postprocessing" \
+  "H2-PUB" > "${LIGHT_DIR}/postprocess_stdout.log" 2>&1 || POST_RC=$?
+
+if [ "${POST_RC}" -ne 0 ]; then
+  FAILURE_CLASS="cae_postprocess_failure_after_successful_solve"
+  exit 11
+fi
+
+exit 0
