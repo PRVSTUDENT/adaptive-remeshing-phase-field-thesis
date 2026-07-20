@@ -19,18 +19,21 @@ Preserved without overwrite:
 - immutable prestage revision `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`
 - cancelled H1/H2 PBS history records
 
-## Authorized recovery actions (exactly three)
+## Authorized recovery actions (exactly three) — submitted
 
-1. **H0 CAE-only replay** using the existing successful ODB — no Standard rerun.
-2. **H1 first solver execution** (not a scientific retry; H1 never ran).
-3. **H2-PUB first solver execution** dependent on H1 **solver dependency success**.
+1. **H0 CAE-only replay** — job `1376184.mmaster02` (independent).
+2. **H1 first solver execution** — job `1376185.mmaster02` (chain head).
+3. **H2-PUB first solver execution** — job `1376186.mmaster02` (`afterok` H1 only).
 
-Not authorized:
+Infrastructure revision: `26b7b70832b2e1ae74c54abb7599cbe553aa1bad`  
+Scientific-input revision: `58d7e3102d76fe0e70e6729457e2c7e90ad131bb`
+
+Not authorized beyond this trio:
 
 - H0 solver rerun;
 - fourth mesh;
 - automatic retry;
-- duplicate submission beyond these three.
+- duplicate submission.
 
 ## Infrastructure corrections
 

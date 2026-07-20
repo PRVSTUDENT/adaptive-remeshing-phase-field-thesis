@@ -1,0 +1,59 @@
+Job Id: 1376185.mmaster02
+    Job_Name = molnar_h1_h0025
+    Job_Owner = pr21vyci@mlogin01.cluster
+    job_state = R
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Mon Jul 20 14:11:21 2026
+    depend = beforeok:1376186.mmaster02@mmaster02
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/mo
+	lnar_h1_h0025.e1376185
+    exec_host = mnode105/1
+    exec_vnode = (mnode105[0]:ncpus=1:mem=33554432kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Mon Jul 20 14:11:21 2026
+    Output_Path = mlogin01.cluster:/scratch/pr21vyci/adaptive-remeshing/pbs_out
+	put/molnar_lc015_hconv_recovery_20260720T141120+0200_26b7b70832b2/molna
+	r_h1_h0025.out
+    Priority = 0
+    qtime = Mon Jul 20 14:11:21 2026
+    Rerunable = True
+    Resource_List.mem = 32gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=32gb
+    Resource_List.walltime = 06:00:00
+    sandbox = PRIVATE
+    substate = 41
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,
+	PROJECT_REVISION=26b7b70832b2e1ae74c54abb7599cbe553aa1bad,
+	PRESTAGED_ROOT=/scratch/pr21vyci/adaptive-remeshing/prestage/molnar_lc
+	015_hconv_recovery_20260720T141120+0200_26b7b70832b2,
+	PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job was sent for execution at Mon Jul 20 at 14:11 on (mnode105[0]
+	:ncpus=1:mem=33554432kb)
+    etime = Mon Jul 20 14:11:21 2026
+    run_count = 1
+    eligible_time = 00:00:00
+    Submit_arguments = -M pr21vyci@mailserver.tu-freiberg.de -m abe -v PROJECT_
+	REVISION=26b7b70832b2e1ae74c54abb7599cbe553aa1bad,
+	PRESTAGED_ROOT=/scratch/pr21vyci/adaptive-remeshing/prestage/molnar_lc
+	015_hconv_recovery_20260720T141120+0200_26b7b70832b2 -o /scratch/pr21vy
+	ci/adaptive-remeshing/pbs_output/molnar_lc015_hconv_recovery_20260720T1
+	41120+0200_26b7b70832b2/molnar_h1_h0025.out scripts/hpc/molnar_lc015_h1
+	_h0025.pbs
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+
