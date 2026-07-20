@@ -1,0 +1,179 @@
+status: h_convergence_subset_authorized_execution_pending
+gate_boundary:
+  gate_a3: reference_data_insufficient
+  stage_b_runs_authorized: false
+  stage_b_h_convergence_subset_authorized: true
+  authorized_study_family: molnar_single_notch_lc015_h_convergence
+  authorized_cases:
+    - H0_exact_supplementary
+    - H1_h0025
+    - H2_pub_h0010
+  length_scale_sensitivity_authorized: false
+  load_increment_sensitivity_authorized: false
+  miseseri_authorized: false
+  adaptive_remeshing_authorized: false
+  state_transfer_authorized: false
+  multi_cpu_authorized: false
+  gpu_authorized: false
+  abaqus_deck_generation_authorized: true_for_h_convergence_subset_only
+  pbs_preparation_authorized: true_for_h_convergence_subset_only
+  pbs_submission_authorized: true_for_h_convergence_subset_only_exactly_three_jobs
+benchmark:
+  id: molnar_paper_matched_single_notch_stage_b_uniform_reference
+  source_config: configs/molnar_paper_matched_single_notch.yaml
+  current_candidate:
+    name: paper_matched_candidate_v2
+    technical_status: paper_matched_v2_technical_pass
+    scientific_status: paper_matched_v2_scientific_review_incomplete
+    irreversibility_status: sdv15_completed_increment_irreversibility_violation
+    gate_a3: reference_data_insufficient
+  geometry:
+    width_mm: 1.0
+    height_mm: 1.0
+    notch_length_mm: 0.5
+    notch_y_mm: 0.0
+  material:
+    youngs_modulus_kN_per_mm2: 210.0
+    poissons_ratio: 0.3
+    critical_energy_release_rate_kN_per_mm: 0.0027
+  phase_field_convention:
+    intact: d=0
+    broken: d=1
+study_sequence:
+  - mesh_convergence
+  - length_scale_sensitivity
+  - load_increment_sensitivity
+  - uniform_fine_reference_selection
+  - miseseri_pre_refinement_comparison
+  - evolving_remeshing_after_earlier_stages_pass
+mesh_levels:
+  - id: U0
+    role: current_candidate_v2_reference_reconstruction
+    uniform_mesh: false
+    numerical_size_status: committed_existing_evidence
+    known_local_h_mm: 0.001
+    known_l_mm: 0.0075
+    known_local_h_over_l: 0.13333333333333333
+    run_authorized: false
+  - id: U1
+    role: moderately_refined_uniform_mesh
+    uniform_mesh: true
+    numerical_size_status: provisional_to_be_selected_after_supervisor_decision
+    run_authorized: false
+  - id: U2
+    role: fine_uniform_mesh
+    uniform_mesh: true
+    numerical_size_status: provisional_to_be_selected_after_U1_review
+    run_authorized: false
+  - id: U3
+    role: optional_confirmation_uniform_mesh
+    uniform_mesh: true
+    numerical_size_status: optional_after_U2_review
+    run_authorized: false
+length_scale_cases:
+  - id: L0
+    role: current_length_scale
+    l_mm: 0.0075
+    numerical_value_status: committed_existing_evidence
+    run_authorized: false
+  - id: L1
+    role: supervisor_approved_smaller_or_alternative_length_scale
+    l_mm: null
+    numerical_value_status: supervisor_pending
+    run_authorized: false
+  - id: L2
+    role: supervisor_approved_larger_or_alternative_length_scale
+    l_mm: null
+    numerical_value_status: supervisor_pending
+    run_authorized: false
+load_increment_cases:
+  - id: I0
+    role: current_increment_schedule
+    dU_mm: 1.0e-5
+    step1_increment_count: 500
+    step2_increment_count: 170
+    numerical_value_status: committed_existing_evidence
+    run_authorized: false
+  - id: I1
+    role: smaller_increment_confirmation
+    dU_mm: null
+    numerical_value_status: supervisor_or_run_plan_pending
+    run_authorized: false
+  - id: I2
+    role: optional_stricter_increment_confirmation
+    dU_mm: null
+    numerical_value_status: optional_after_I1_review
+    run_authorized: false
+route_permissions:
+  candidate_v2_accepted_with_limitation:
+    mesh_convergence: allowed_after_explicit_run_authorization
+    length_scale_sensitivity: allowed_after_mesh_review
+    load_increment_sensitivity: allowed_after_mesh_review
+    miseseri_pre_refinement: blocked_until_uniform_reference_selected
+  gate_a3_waiver:
+    mesh_convergence: allowed_under_waiver_after_explicit_run_authorization
+    length_scale_sensitivity: allowed_under_waiver_after_mesh_review
+    load_increment_sensitivity: allowed_under_waiver_after_mesh_review
+    miseseri_pre_refinement: blocked_until_uniform_reference_selected
+  corrected_formulation_required:
+    mesh_convergence: blocked_for_candidate_v2
+    length_scale_sensitivity: blocked_for_candidate_v2
+    load_increment_sensitivity: blocked_for_candidate_v2
+    miseseri_pre_refinement: blocked
+  candidate_v2_rejected:
+    mesh_convergence: blocked
+    length_scale_sensitivity: blocked
+    load_increment_sensitivity: blocked
+    miseseri_pre_refinement: blocked
+run_order_after_authorization:
+  - U0_L0_I0_existing_evidence_review
+  - U1_L0_I0
+  - review_U1_technical_scientific_resource_status
+  - U2_L0_I0
+  - decide_if_U3_L0_I0_is_needed
+  - length_scale_cases_after_mesh_policy
+  - load_increment_cases_after_length_scale_review
+  - uniform_fine_reference_selection
+  - miseseri_pre_refinement_comparison_after_reference_selection
+required_metrics:
+  rf_displacement:
+    - peak_rf2
+    - displacement_at_peak
+    - final_rf2
+    - final_displacement
+    - pre_peak_rmse
+    - post_peak_rmse
+    - full_overlap_nrmse
+    - area_error
+  crack_path:
+    thresholds_sdv15: [0.50, 0.80, 0.90, 0.95, 0.99]
+    metrics:
+      - connected_extension
+      - damaged_element_count
+      - connected_component_count
+      - vertical_deviation
+      - disconnected_high_damage_elements
+  sdv_checks:
+    - sdv15_bounds
+    - sdv15_decrease_counts
+    - sdv15_completed_increment_monotonicity_when_available
+    - sdv16_decrease_count
+  resources:
+    - requested_walltime
+    - used_walltime
+    - requested_memory
+    - used_memory
+    - equation_count
+    - increment_count
+    - iteration_count
+stop_criteria:
+  - abaqus_nonzero_return_or_missing_success_marker
+  - pbs_exit_or_stageout_nonzero_without_explanation
+  - required_evidence_missing
+  - solver_errors_nonzero
+  - sdv16_decrease_detected
+  - sdv15_violation_in_route_requiring_strict_irreversibility
+  - walltime_above_75_percent_of_request
+  - memory_above_75_percent_of_request
+  - predicted_next_level_exceeds_approved_resource_envelope
+evidence_root_template: runs/hpc/stage_b_uniform_reference/molnar_sn__uniform__{U_id}__{L_id}__{I_id}__{timestamp}

@@ -1,6 +1,6 @@
 # Project Phase Checklist
 
-Updated: 2026-07-18
+Updated: 2026-07-20
 
 This is the authoritative living task and phase checklist for the adaptive remeshing thesis workspace. Update this same file after every substantial task, run, validation, failure, retry, decision, gate transition, and phase completion. Do not create duplicate phase checklists.
 
@@ -106,9 +106,9 @@ Stage A: open
 - [~] Crack-path and SDV diagnostics completed. Result: final element-mean `SDV15 >= 0.95` crack extension about `0.0505 mm`; `SDV16` monotonic; detailed SDV15 review reproduced `6113` decrease events and mapping resolution reclassified the remaining `817` non-staggered events as `insufficient_output_evidence`. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_review/CRACK_PATH_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV15_IRREVERSIBILITY_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV16_MONOTONICITY_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/SDV15_DETAILED_EVENT_DECISION.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/SDV15_MAPPING_RESOLUTION_DECISION.md`.
 - [~] Scientific decision report completed. Result: `paper_matched_v2_scientific_review_incomplete`; post-peak RF-U mismatch dominates, crack path is connected/horizontal but threshold-dependent, SDV15 label/IP mapping is resolved, and retained outputs still leave `817` above-precision non-staggered events as `insufficient_output_evidence`. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/sdv15_decrease_events_full.csv`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/sdv15_unresolved_event_mapping.csv`.
 - [?] Gate A3 supervisor-review package prepared. Result: no supervisor decision inferred; routes documented as provisional pass, waiver with limitations, keep open, or candidate-v2 scientific fail. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; `docs/decisions/MOLNAR_TARGETED_OUTPUT_RERUN_REQUIREMENTS.md`; `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`.
-- [ ] Perform mesh-size study.
-- [ ] Perform length-scale study.
-- [ ] Perform load-increment study.
+- [-] Perform mesh-size / h-convergence study. Scope authorized: H0/H1/H2-PUB for exact supplementary `lc=0.015 mm` model only. Evidence: `docs/studies/STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md`.
+- [!] Perform length-scale study. Not authorized by the current supervisor decision.
+- [!] Perform load-increment study. Not authorized by the current supervisor decision.
 - [ ] Establish justified uniform fine reference.
 - [!] Gate A3 closure blocked as `reference_data_insufficient` until supervisor-approved tolerances and uniform-reference justification are resolved. Evidence: `configs/molnar_paper_matched_single_notch.yaml`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/`.
 
@@ -166,6 +166,8 @@ Stage A: open
 - [x] Prepared Stage A figure/table plan from existing evidence paths only. Evidence: `docs/thesis/STAGE_A_FIGURE_TABLE_PLAN.md`.
 - [x] Prepared route-neutral post-supervisor execution plan. Evidence: `docs/decisions/POST_SUPERVISOR_DECISION_EXECUTION_ROUTES.md`.
 - [~] Reviewed LaTeX build-product ignore coverage and added recurring build-artifact patterns. Evidence: `.gitignore`. Limitation: existing untracked generated files were not deleted.
+- [x] Prepared Stage B uniform-reference protocol without simulations, deck generation, PBS preparation, or submission. Evidence: `docs/studies/STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md`; `docs/studies/STAGE_B_ACCEPTANCE_METRICS.md`; `docs/studies/STAGE_B_HPC_RESOURCE_ESTIMATE.md`; `configs/studies/molnar_uniform_reference_matrix.yaml`.
+- [x] Supervisor approved only the Molnar `lc=0.015 mm` h-convergence subset for execution (H0 exact supplementary, H1 `h=0.0025 mm`, H2-PUB `h=0.001 mm`). Length-scale, increment-sensitivity, MISESERI, remeshing, multi-CPU, and GPU work remain unauthorized. Evidence: `docs/studies/STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md`; `configs/studies/molnar_uniform_reference_matrix.yaml`.
 - [ ] Freeze Stage A reports after Stage A closure.
 - [ ] Create the Stage B results report.
 - [ ] Create the Stage B execution/failure log.
@@ -203,7 +205,11 @@ Stage A: open
 
 ## Active Next Item
 
-Exact next checklist item: `[?] Supervisor decision on Gate A3 route, provisional tolerances, approximate Fig. 7 reference acceptability, post-peak RF-U mismatch interpretation, and whether a targeted SDV15 output-enabled rerun is required`.
+Exact next checklist item: `[?] Supervisor decision on Gate A3 route, provisional tolerances, approximate Fig. 7 reference acceptability, post-peak RF-U mismatch interpretation, and whether candidate v2 is accepted with limitation, waived, replaced by a corrected formulation, or rejected`.
+
+Waiting posture after Stage B protocol preparation:
+
+- [!] Pause model development until the supervisor decision is received. Do not run Abaqus, generate decks, prepare PBS, submit jobs, implement candidate v3, start Stage B execution, MISESERI, adaptive remeshing, or state transfer without explicit authorization.
 
 ### Molnar v2 SDV15 Targeted Diagnostic Preparation
 

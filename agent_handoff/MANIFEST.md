@@ -1,15 +1,14 @@
 # Agent Handoff Manifest
 
-Created (UTC): 2026-07-18T07:31:20.667885+00:00
+Created (UTC): 2026-07-20T11:17:42.088521+00:00
 
 This directory contains only files from the latest mirrored operation.
 
 | Mirrored file | Original path | Bytes | SHA-256 |
 |---|---|---:|---|
-| `.gitignore` | `.gitignore` | 1658 | `dc8489d11f357fb1d03faef46b68a09abdf32d50314ebd883b37910ff93e1887` |
-| `.agent.md` | `.agent.md` | 55772 | `02ca543adbf57e8b1a7a59935260639345738e2a9c13c90797f7fc9e8753dd22` |
-| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 24169 | `de8558c7d39fcbaa0c75c2320bf9d9a5f111784441e4a335884c599175e7be49` |
-| `STAGE_A_MOLNAR_BENCHMARK_CHAPTER.tex` | `docs/thesis/STAGE_A_MOLNAR_BENCHMARK_CHAPTER.tex` | 13607 | `f15af8379624c7497fd0d9603e247a8c7c074999ec357897fcd5ed63891f7d30` |
-| `STAGE_A_REPRODUCIBILITY_APPENDIX.tex` | `docs/thesis/STAGE_A_REPRODUCIBILITY_APPENDIX.tex` | 7858 | `0fe6e01940231b3fecb17bf0f4c0d852e73e28b7d6446414c74394ff91a69100` |
-| `STAGE_A_FIGURE_TABLE_PLAN.md` | `docs/thesis/STAGE_A_FIGURE_TABLE_PLAN.md` | 6997 | `edef6935b52dcaa8002e691cafbecf333822888e5695af7848ca55e59884828f` |
-| `POST_SUPERVISOR_DECISION_EXECUTION_ROUTES.md` | `docs/decisions/POST_SUPERVISOR_DECISION_EXECUTION_ROUTES.md` | 5584 | `9ed977a0a1533468effc87e4837b6313699856c444f1f84198df1dc54531695c` |
+| `.agent.md` | `.agent.md` | 56768 | `62f8ddfd6e7fe49a827df3ac32ba2265645476504ee701b131fcd85545ded7dc` |
+| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 25539 | `20207ee2ae3ee295883a410c00ced75c395bc27a56fcd5f276863722f596d2a4` |
+| `STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md` | `docs/studies/STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md` | 10480 | `ca8efa68a54f3780f3f1d9eac4f6ec7cb6ad6e823b0d9c734e2750860ed8f748` |
+| `STAGE_B_ACCEPTANCE_METRICS.md` | `docs/studies/STAGE_B_ACCEPTANCE_METRICS.md` | 4479 | `205f4d3653c4f133fd0af50545b46dac8ece4a4ef27a276f20e10594677524ee` |
+| `STAGE_B_HPC_RESOURCE_ESTIMATE.md` | `docs/studies/STAGE_B_HPC_RESOURCE_ESTIMATE.md` | 2864 | `263bccda62698a64edf6134f666cf8d13b791cd62db7f23177bcbedb1b3b06f3` |
+| `molnar_uniform_reference_matrix.yaml` | `configs/studies/molnar_uniform_reference_matrix.yaml` | 6225 | `eff4382845cbc7aebd938c8372f0d57b832dcd8737998198f337f762037f28e5` |
