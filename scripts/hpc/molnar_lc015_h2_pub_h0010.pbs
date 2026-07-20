@@ -77,7 +77,7 @@ if [ "${staged_revision}" != "${requested_revision}" ]; then
 fi
 
 cd "${PRESTAGED_ROOT}" || fail_presolver "missing_revision_manifest" 5
-sha256sum -c "${VARIANT_DIR}/input_hashes.sha256" > "${RUN_DIR}/input_hash_check.txt" 2>&1 || fail_presolver "staged_input_hash_failure" 6
+(cd "${PRESTAGED_ROOT}/${VARIANT_DIR}" && sha256sum -c input_hashes.sha256) > "${RUN_DIR}/input_hash_check.txt" 2>&1 || fail_presolver "staged_input_hash_failure" 6
 
 module purge > "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
 module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
