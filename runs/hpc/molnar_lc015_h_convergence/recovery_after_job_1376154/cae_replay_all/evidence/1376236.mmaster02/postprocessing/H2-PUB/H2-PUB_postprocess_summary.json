@@ -1,0 +1,16 @@
+{
+  "U2_at_peak": 0.005799999926239252, 
+  "case_id": "H2-PUB", 
+  "final_RF2": 0.00015669577987864614, 
+  "final_U2": 0.007000000216066837, 
+  "initial_tangent_stiffness": 134.43793509772885, 
+  "n_points": 73, 
+  "odb": "/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h2_pub_h0010_1376186.mmaster02/molnar_lc015_h2_pub_h0010.odb", 
+  "origin_included": true, 
+  "peak_RF2": 0.6963359713554382, 
+  "variable_selection": {
+    "displacement": "RP U2", 
+    "phase_contour": "SDV15 on umatelem if available", 
+    "reaction": "RP RF2"
+  }
+}

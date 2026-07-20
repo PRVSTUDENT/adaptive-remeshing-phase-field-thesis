@@ -81,12 +81,14 @@ Known source documents:
 - Decision: consolidated CAE-only job `1376236.mmaster02` completed successfully for H0/H1/H2-PUB. Solvers remain technical pass with ODBs retained. Scientific h-convergence comparison is now unblocked for RF-U metrics; contour images incomplete (export warning).
 - Scheduler: no active h-convergence jobs after CAE completion.
 
+- Formal RF–U h-convergence analysis complete for H0/H1/H2-PUB (lc=0.015). Peak force H0→H1 ≈4.00%, H1→H2 ≈0.47%; pre-peak NRMSE H1–H2 ≈0.11%; full NRMSE H1–H2 ≈6.0% (post-peak driven). Classification: `rf_u_h_convergence_supported` for peak/pre-peak; `crack_path_convergence_not_assessed`; publication agreement provisional vs digitized Fig.7 lc=0.015. Recommended RF–U fine reference: H2-PUB; intermediate: H1. Evidence: `runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md`.
+
 Immediate next tasks:
 
 1. Do not resubmit CAE or solvers without new authorization.
-2. Run scientific h-convergence analysis: H0↔H1, H1↔H2-PUB, all vs Fig.7 lc=0.015 approximate reference using the new RF2-U2 CSVs.
+2. Supervisor review of RF–U reference selection; optional future contour export authorization if crack-path convergence is required.
 3. Preserve candidate v1 as failed static evidence and do not repair it in place.
-4. Keep Gate A3 open until scientific review is documented.
+4. Keep Gate A3 open until supervisor-approved tolerances and full evidence package are accepted.
 5. Only after benchmark reproduction is stable and explicitly authorized, start MISESERI.
 
 Unresolved decisions requiring user/supervisor confirmation:

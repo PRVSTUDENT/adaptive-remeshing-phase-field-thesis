@@ -1,12 +1,13 @@
 # Agent Handoff Manifest
 
-Created (UTC): 2026-07-20T15:34:39.605681+00:00
+Created (UTC): 2026-07-20T15:47:11.953370+00:00
 
 This directory contains only files from the latest mirrored operation.
 
 | Mirrored file | Original path | Bytes | SHA-256 |
 |---|---|---:|---|
-| `.agent.md` | `.agent.md` | 65961 | `0b0df83a10af624f937c192405896c3a1a7847a3decbcf9d1109c0988a7f60f4` |
-| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 25683 | `70bfb09db967be0f02f6712fb7a1551762e68ed84e5f1d1b1947f01f21af983d` |
-| `STUDY_STATUS.md` | `runs/hpc/molnar_lc015_h_convergence/STUDY_STATUS.md` | 1554 | `8f33c2ccfae2cccd8016b8e9d218aba3ce8dde2db9e043ad172fe8e2cb25cbae` |
-| `SUBMISSION_CHECKPOINT.md` | `runs/hpc/molnar_lc015_h_convergence/recovery_after_job_1376154/cae_replay_all/SUBMISSION_CHECKPOINT.md` | 2462 | `657ba79679b235262f1bb380c610111111e9ff3146d733b2cd2ecc1ce208e080` |
+| `.agent.md` | `.agent.md` | 66529 | `7afab7d11711acc718900f2760541bbc3c060fd4c391b465168a68957f4f4179` |
+| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 25760 | `65f84017b88aa2d77dcc6bf68e39b18e0f81b8c058732a22bae263e594058450` |
+| `H_CONVERGENCE_SCIENTIFIC_REVIEW.md` | `runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md` | 5969 | `947d38c4541e581072ccb3c69483dd48861f9040f681784ee866f7f296269938` |
+| `STUDY_STATUS.md` | `runs/hpc/molnar_lc015_h_convergence/STUDY_STATUS.md` | 1552 | `6f74fc5b0aac1bd236dde8907e6df7a771cdcdf45a61990cd254256f74000c57` |
+| `h_convergence_successive_differences.csv` | `results/tables/molnar_lc015_h_convergence/h_convergence_successive_differences.csv` | 997 | `bfd55b81f05fa3d4835acb441f485bc783b11aeb705b4f5e3a97509a47ee032d` |

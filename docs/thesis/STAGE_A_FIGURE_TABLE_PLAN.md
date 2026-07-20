@@ -31,6 +31,10 @@ images.
 | T-A5 | Crack extension by SDV15 threshold | `runs/hpc/paper_matched_single_notch_v2/scientific_review/crack_path_threshold_metrics.csv`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md` | Final connected crack extension and vertical deviation for high-damage thresholds. | `exists_in_chapter_text` |
 | T-A6 | SDV15 and SDV16 irreversibility metrics | `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv_irreversibility_metrics.json`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_SUMMARY.md`; `.../severity_audit/sdv15_completed_increment_severity_summary.json` | Retained-frame and completed-increment SDV15 decreases, overshoot, and SDV16 monotonicity. | `exists_in_chapter_text` |
 | T-A7 | Supervisor decision routes | `docs/decisions/POST_SUPERVISOR_DECISION_EXECUTION_ROUTES.md` | Route-neutral execution consequences after the supervisor's Gate A3 decision. | `exists_as_decision_table` |
+| T-B1 | lc015 h-convergence case metrics | `results/tables/molnar_lc015_h_convergence/h_convergence_case_metrics.csv` | Peak RF2, Upeak, tangent, N, h, walltime for H0/H1/H2-PUB. | `generated_from_existing_data` |
+| T-B2 | Successive mesh RF-U differences | `results/tables/molnar_lc015_h_convergence/h_convergence_successive_differences.csv` | H0–H1 and H1–H2 peak and full/pre/post NRMSE. | `generated_from_existing_data` |
+| T-B3 | Fig.7 lc015 publication comparison | `results/tables/molnar_lc015_h_convergence/h_convergence_publication_comparison.csv` | Overlap NRMSE vs approximate digitized lc=0.015 curve. | `generated_from_existing_data` |
+| F-B1–F-B10 | lc015 h-convergence figure set | `results/figures/molnar_lc015_h_convergence/` | RF-U family, publication overlay, peak zoom, differences, resource plots. | `generated_from_existing_data` |
 
 ## Existing Images or Plot Data
 

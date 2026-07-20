@@ -1,0 +1,16 @@
+{
+  "U2_at_peak": 0.006099999882280827, 
+  "case_id": "H0", 
+  "final_RF2": 0.0013952305307611823, 
+  "final_U2": 0.007000000216066837, 
+  "initial_tangent_stiffness": 134.91504235153135, 
+  "n_points": 73, 
+  "odb": "/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h0_exact_1376154.mmaster02/molnar_lc015_h0_exact.odb", 
+  "origin_included": true, 
+  "peak_RF2": 0.7276078462600708, 
+  "variable_selection": {
+    "displacement": "RP U2", 
+    "phase_contour": "SDV15 on umatelem if available", 
+    "reaction": "RP RF2"
+  }
+}

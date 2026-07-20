@@ -1,0 +1,8 @@
+export MOLNAR_CASE_ID=H1
+export MOLNAR_ODB_PATH=/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h1_h0025_1376185.mmaster02/molnar_lc015_h1_h0025.odb
+export MOLNAR_OUTPUT_DIR=/scratch/pr21vyci/adaptive-remeshing/stage/molnar_lc015_hconv_cae_all_1376236.mmaster02/postprocessing/H1
+abaqus cae noGUI=postprocess_molnar_h_convergence_case.py
+variable_selection: RP U2, RP RF2, SDV15/SDV contour
+origin_point: forced (0,0)
+argv_not_used_for_paths=true
+argv_logged=['/cluster/application/abaqus/2023/linux_a64/code/bin/ABQcaeK', '-cae', '-noGUI', '/scratch/pr21vyci/adaptive-remeshing/stage/molnar_lc015_hconv_cae_all_1376236.mmaster02/postprocess_molnar_h_convergence_case.py', '-lmlog', 'ON', '-tmpdir', '/local/pbs.1376236.mmaster02']

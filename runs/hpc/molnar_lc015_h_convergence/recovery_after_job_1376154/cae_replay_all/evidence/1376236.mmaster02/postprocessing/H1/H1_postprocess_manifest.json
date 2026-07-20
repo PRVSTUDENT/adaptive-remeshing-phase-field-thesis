@@ -1,0 +1,25 @@
+{
+  "case_id": "H1", 
+  "outputs": [
+    "H1_RF2_U2.rpt", 
+    "H1_RF2_U2.csv", 
+    "H1_postprocess_summary.json", 
+    "H1_cae_commands.txt"
+  ], 
+  "summary": {
+    "U2_at_peak": 0.005799999926239252, 
+    "case_id": "H1", 
+    "final_RF2": 0.00028093482251279056, 
+    "final_U2": 0.007000000216066837, 
+    "initial_tangent_stiffness": 134.5227506467417, 
+    "n_points": 73, 
+    "odb": "/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h1_h0025_1376185.mmaster02/molnar_lc015_h1_h0025.odb", 
+    "origin_included": true, 
+    "peak_RF2": 0.6996044516563416, 
+    "variable_selection": {
+      "displacement": "RP U2", 
+      "phase_contour": "SDV15 on umatelem if available", 
+      "reaction": "RP RF2"
+    }
+  }
+}

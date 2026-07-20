@@ -230,6 +230,16 @@ review.
 adaptive-remeshing work.
 \end{itemize}
 
+
+\section{Supplementary lc = 0.015 mm mesh h-convergence (RF--U)}
+\label{sec:lc015-hconv-thesis}
+
+For the exact author-supplied supplementary single-notch model (\(l_c=0.015\,\mathrm{mm}\)), three serial meshes were solved and postprocessed for RF--U only.
+Successive peak-force changes are approximately \(4.0\%\) (H0\(\to\)H1) and \(0.47\%\) (H1\(\to\)H2-PUB); pre-peak curve NRMSE between H1 and H2-PUB is about \(0.11\%\), while post-peak residual remains larger (\(\sim 20\%\) NRMSE).
+H2-PUB is recommended as the conservative RF--U fine reference; H1 is suitable for intermediate RF--U studies with limitations stated.
+Crack-path/contour mesh convergence is not assessed because CAE contour export failed.
+Evidence: \path{runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md}.
+
 \section{Gate A3 Boundary}
 
 Gate A3 remains \texttt{reference\_data\_insufficient}. Candidate v2 has not

@@ -12,7 +12,7 @@
 
 \title{Stage A Execution, Failure, and Retry Log\\Adaptive Remeshing Phase-Field Thesis}
 \author{Pruthvi Raj Vakkalagadda}
-\date{Updated 2026-07-16}
+\date{Updated 2026-07-20}
 
 \begin{document}
 \maketitle
@@ -21,7 +21,7 @@
 
 \noindent\textbf{Stage:} Stage A\\
 \textbf{Document status:} active living document\\
-\textbf{Last updated:} 2026-07-16
+\textbf{Last updated:} 2026-07-20
 
 \medskip
 
@@ -854,5 +854,24 @@ tolerance, severity-audit tolerance, and independent RP-node RF--U comparison.
 Gate A3 remains \texttt{reference\_data\_insufficient}; the candidate-v2
 scientific result remains \texttt{paper\_matched\_v2\_scientific\_review\_incomplete}
 pending supervisor-approved tolerances and reference acceptance.
+
+
+\section{Molnar lc = 0.015 mm h-convergence RF--U analysis}
+\label{sec:molnar-lc015-hconv}
+
+A controlled three-mesh h-convergence study was executed for the exact supplementary single-notch model with \(l_c = 0.015\,\mathrm{mm}\):
+H0 (exact author mesh, \(N=3930\)), H1 (\(h=0.0025\,\mathrm{mm}\), \(N=12064\)), and H2-PUB (publication local resolution \(h=0.001\,\mathrm{mm}\), \(N=33852\)).
+All three Abaqus solvers completed with technical pass.
+Consolidated CAE job \texttt{1376236.mmaster02} produced RF2--U2 packages for all three cases (origin included). Contour PNG export remained incomplete.
+
+Formal successive-mesh RF--U metrics (finer mesh as denominator):
+\begin{itemize}
+  \item H0 vs H1: peak-force change \(\approx 4.00\%\); full-curve NRMSE \(\approx 21.3\%\); pre-peak NRMSE \(\approx 0.39\%\).
+  \item H1 vs H2-PUB: peak-force change \(\approx 0.47\%\); full-curve NRMSE \(\approx 6.0\%\); pre-peak NRMSE \(\approx 0.11\%\); post-peak NRMSE \(\approx 20.2\%\).
+\end{itemize}
+Classification for scalar/pre-peak RF--U: \texttt{rf\_u\_h\_convergence\_supported} (provisional descriptive wording only).
+Crack-path convergence: \texttt{crack\_path\_convergence\_not\_assessed}.
+Recommended RF--U uniform fine reference: H2-PUB; intermediate studies: H1 with documented limitations.
+Gate A3 remains open. Evidence: \path{runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md}.
 
 \end{document}

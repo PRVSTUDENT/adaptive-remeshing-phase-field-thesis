@@ -1,6 +1,6 @@
 # Study Status
 
-Status: `cae_complete_scientific_review_pending`
+Status: `rf_u_h_convergence_analysis_complete`
 
 Scientific convergence: pending.
 
