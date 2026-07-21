@@ -99,6 +99,26 @@ def _axis_with_refined_region(start, refined_min, refined_max, end, local_h, glo
     )
 
 
+def _force_include_coordinate(axis, value=0.0):
+    """Ensure ``value`` exists exactly on the axis (required for notch at y=0).
+
+    Without an exact y=0 grid line the MeshBuilder notch-split logic never
+    fires and the plate remains continuous — elevating elastic stiffness and
+    suppressing crack initiation.
+    """
+    coords = list(axis.coordinates)
+    if any(abs(c - value) <= TOL for c in coords):
+        coords = [_round_coord(value) if abs(c - value) <= TOL else c for c in coords]
+    else:
+        coords.append(_round_coord(value))
+        coords = sorted(set(coords))
+        # keep endpoints exact
+        coords[0] = _round_coord(coords[0])
+        coords[-1] = _round_coord(coords[-1])
+    spacings = [round(coords[i + 1] - coords[i], 10) for i in range(len(coords) - 1)]
+    return AxisSpacing(coords, spacings)
+
+
 def make_axis_spacings(local_h, refined_zone, global_h=0.025, ratio=1.5):
     """Bounded refined window on both axes (local, not global min-size)."""
     x_axis = _axis_with_refined_region(
@@ -119,6 +139,10 @@ def make_axis_spacings(local_h, refined_zone, global_h=0.025, ratio=1.5):
         global_h,
         ratio,
     )
+    # Critical: notch lies on y=0; must exist exactly for doubled free faces.
+    y_axis = _force_include_coordinate(y_axis, 0.0)
+    # Optional: keep x=0 for notch tip station (not required for split, but stable)
+    x_axis = _force_include_coordinate(x_axis, 0.0)
     return x_axis, y_axis
 
 

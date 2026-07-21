@@ -851,6 +851,9 @@ def corridor_h_stats(
 
 
 def load_physical_mesh_from_csv(nodes_csv: Path, elems_csv: Path) -> dict[str, Any]:
+    # NOTE: BC nsets reconstructed from coordinates. Notch free-face nsets are
+    # optional; presence of doubled nodes on y=0 with x<0 is required for a
+    # notched geometry (see remesh builder force-include y=0).
     nodes: dict[int, tuple[float, float]] = {}
     with nodes_csv.open(encoding="utf-8") as stream:
         header = stream.readline()
@@ -877,18 +880,51 @@ def load_physical_mesh_from_csv(nodes_csv: Path, elems_csv: Path) -> dict[str, A
     top = [nid for nid, (x, y) in nodes.items() if abs(y - 0.5) < 1e-8]
     bottoml = [min(bottom, key=lambda n: nodes[n][0])] if bottom else []
     topl = [min(top, key=lambda n: nodes[n][0])] if top else []
+    # Notch free faces: doubled nodes on y=0 with x in [-0.5, 0)
+    # Connectivity orientation: lower face belongs to elements with centroid y < 0
+    from collections import defaultdict
+
+    by_xy: dict[tuple[float, float], list[int]] = defaultdict(list)
+    for nid, (x, y) in nodes.items():
+        if abs(y) < 1e-10 and -0.5 - 1e-9 <= x < 0.0:
+            by_xy[(round(x, 10), round(y, 10))].append(nid)
+    # map node -> connected elements centroid y
+    node_elems: dict[int, list[float]] = defaultdict(list)
+    for n1, n2, n3, n4 in conn:
+        cy = (nodes[n1][1] + nodes[n2][1] + nodes[n3][1] + nodes[n4][1]) / 4.0
+        for n in (n1, n2, n3, n4):
+            node_elems[n].append(cy)
+    notch_lower: list[int] = []
+    notch_upper: list[int] = []
+    for _key, nids in by_xy.items():
+        if len(nids) < 2:
+            # single node on line — continuous mesh, no free faces
+            continue
+        # classify by average attached element centroid y
+        scored = []
+        for nid in nids:
+            cys = node_elems.get(nid, [0.0])
+            scored.append((sum(cys) / len(cys), nid))
+        scored.sort()
+        notch_lower.append(scored[0][1])
+        notch_upper.append(scored[-1][1])
+    nsets = {
+        "bottom": sorted(bottom),
+        "top": sorted(top),
+        "bottoml": bottoml,
+        "topl": topl,
+    }
+    if notch_lower and notch_upper:
+        nsets["notch_lower_face"] = sorted(set(notch_lower))
+        nsets["notch_upper_face"] = sorted(set(notch_upper))
     return {
         "nodes": nodes,
         "connectivity": conn,
-        "nsets": {
-            "bottom": sorted(bottom),
-            "top": sorted(top),
-            "bottoml": bottoml,
-            "topl": topl,
-        },
+        "nsets": nsets,
         "source": "external_csv_refined_physical",
         "source_nodes_csv": str(nodes_csv.as_posix()),
         "source_elems_csv": str(elems_csv.as_posix()),
+        "notch_split_detected": bool(notch_lower and notch_upper),
     }
 
 

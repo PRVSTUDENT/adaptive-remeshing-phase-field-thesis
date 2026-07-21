@@ -1,0 +1,129 @@
+#!/bin/bash
+#PBS -N d1_elastic_probe
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+#
+# Diagnostic D1 — tiny elastic stiffness probe on corrected refined deck.
+# U = 0.0001 mm, serial. Compare K to frozen H1 initial stiffness.
+# Does NOT use the failed C2F-v2 deck.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_d1_elastic_probe_v3"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/diagnostics/d1_elastic_probe/evidence/${PBS_JOBID:-unknown}"
+OUT_JSON="${PROJECT_HOME}/runs/hpc/stage_c2/diagnostics/D1_ELASTIC_PROBE_STATUS.json"
+
+DECK_PATH_FILE="${PROJECT_HOME}/runs/hpc/stage_c2/C2C_V3_DECK_PATH.txt"
+FOR_PATH_FILE="${PROJECT_HOME}/runs/hpc/stage_c2/C2C_V3_FOR_PATH.txt"
+# H1 stiffness reference from frozen postprocess
+K_H1=134.32775992952799
+U_PROBE=0.0001
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "$(dirname "${OUT_JSON}")" || exit 2
+DECK="$(tr -d '[:space:]' < "${DECK_PATH_FILE}")"
+FOR="$(tr -d '[:space:]' < "${FOR_PATH_FILE}")"
+[ -f "${DECK}" ] && [ -f "${FOR}" ] || { echo "missing v3 deck" >&2; exit 3; }
+case "${DECK}" in
+  *v3_notchfix*|*H0_refined_layered_v3*) ;;
+  *) echo "refusing non-v3 deck ${DECK}" >&2; exit 4 ;;
+esac
+
+# Build probe deck: strip steps, add tiny elastic step
+module load gcc/11.4.0 >/dev/null 2>&1 || true
+module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+python3 - <<PY
+from pathlib import Path
+src = Path("${DECK}").read_text(encoding="utf-8", errors="replace")
+head = src.split("*Step")[0].rstrip()
+text = head + """
+*Amplitude, name=Amp-probe
+0., 0., 1., 1.
+*Step, name=Step-elastic-probe, nlgeom=NO, inc=20
+*Static, direct
+0.05, 1.0,
+*Boundary, amplitude=Amp-probe
+RP, 2, 2, ${U_PROBE}
+*Boundary
+bottom, 2, 2
+*Boundary
+bottoml, 1, 1
+*Boundary
+topl, 1, 1
+*Restart, write, frequency=0
+*Output, field, frequency=1
+*Node Output, nset=RP
+RF, U
+*End Step
+"""
+Path("${RUN_DIR}/${JOB_NAME}.inp").write_text(text, encoding="utf-8")
+Path("${RUN_DIR}/user.for").write_bytes(Path("${FOR}").read_bytes())
+print("probe_deck_ok")
+PY
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || true
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || exit 5
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || exit 5
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || exit 5
+
+cd "${RUN_DIR}" || exit 9
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" \
+  cpus=1 interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -ne 0 ] || [ ! -f "${JOB_NAME}.odb" ] || \
+   ! grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  echo '{"classification":"d1_solver_failed","abaqus_rc":'"${ABAQUS_RC}"'}' > "${OUT_JSON}"
+  cp -r "${RUN_DIR}/"* "${LIGHT_DIR}/" 2>/dev/null || true
+  exit 11
+fi
+
+# Extract RF/U final and compute K = RF/U
+module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_rfu_from_odb.py" \
+  --odb "${RUN_DIR}/${JOB_NAME}.odb" \
+  --out "${RUN_DIR}/probe_RF_U.csv" > "${RUN_DIR}/extract.log" 2>&1 || true
+
+python3 - <<PY
+import json, csv
+from pathlib import Path
+rows=[]
+with open("${RUN_DIR}/probe_RF_U.csv") as f:
+    r=csv.DictReader(f)
+    for row in r:
+        rows.append((float(row["U2"]), float(row["RF2"])))
+# last nonzero
+u, rf = rows[-1]
+k = rf / u if abs(u) > 1e-30 else float("inf")
+k_h1 = float("${K_H1}")
+rel = abs(k - k_h1) / abs(k_h1)
+pass_k = rel <= 0.01
+out={
+  "stage": "D1_elastic_probe",
+  "deck": "${DECK}",
+  "job_id": "${PBS_JOBID}",
+  "U_probe_mm": float("${U_PROBE}"),
+  "RF2": rf,
+  "U2": u,
+  "K_refined": k,
+  "K_H1_reference": k_h1,
+  "rel_stiffness": rel,
+  "tolerance": 0.01,
+  "stiffness_gate_pass": pass_k,
+  "solver_serial": True,
+  "classification": "d1_stiffness_pass" if pass_k else "d1_stiffness_fail",
+  "note": "H1 K from frozen H1 RF-U initial tangent (0<U<=0.001); probe uses U=0.0001 mm",
+}
+Path("${OUT_JSON}").write_text(json.dumps(out, indent=2, sort_keys=True)+"\n")
+Path("${RUN_DIR}/D1_ELASTIC_PROBE_STATUS.json").write_text(json.dumps(out, indent=2, sort_keys=True)+"\n")
+print(json.dumps(out, indent=2))
+raise SystemExit(0 if pass_k else 12)
+PY
+rc=$?
+cp -r "${RUN_DIR}/"* "${LIGHT_DIR}/" 2>/dev/null || true
+cp "${OUT_JSON}" "${LIGHT_DIR}/" 2>/dev/null || true
+exit "${rc}"
