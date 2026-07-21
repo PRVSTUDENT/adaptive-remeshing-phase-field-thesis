@@ -6,7 +6,7 @@
 #PBS -j oe
 #PBS -m abe
 #
-# C2F — Full refined phase-field fracture (threads). Compare primarily vs H1 later.
+# C2F — Full refined fracture (threads). afterany + C2E.ok marker.
 
 set -u
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
@@ -14,22 +14,30 @@ RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
 JOB_NAME="molnar_miseseri_refined_final_threads4"
 RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
 LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+CHAIN_STATE_DIR="${CHAIN_STATE_DIR:-${PROJECT_HOME}/runs/hpc/stage_c2/chain_state}"
 ABAQUS_RC="not_started"
 TECH="c2f_fail"
 FAIL="not_classified"
 
+write_status() {
+  mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" 2>/dev/null || true
+  cat > "${RUN_DIR}/C2F_STATUS.json" <<EOF
+{
+  "stage": "C2F",
+  "classification": "$1",
+  "failure_code": $2,
+  "failed_check": "$3",
+  "message": $(python3 -c 'import json,sys; print(json.dumps(sys.argv[1]))' "$4"),
+  "solver_executed": $5,
+  "job_id": "${PBS_JOBID:-unknown}"
+}
+EOF
+  cp "${RUN_DIR}/C2F_STATUS.json" "${LIGHT_DIR}/" "${CHAIN_STATE_DIR}/" 2>/dev/null || true
+}
+
 finish() {
   rc=$?
   mkdir -p "${LIGHT_DIR}" 2>/dev/null || true
-  {
-    echo "job_id=${PBS_JOBID:-unknown}"
-    echo "stage=C2F"
-    echo "mp_mode=threads"
-    echo "ncpus=4"
-    echo "comparison_reference=uniform_H1"
-    date -Is 2>/dev/null || date
-  } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
-  printf '%s\n' "${ABAQUS_RC}" > "${LIGHT_DIR}/abaqus_return_code.txt" 2>/dev/null || true
   printf '%s\n' "${TECH}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
   printf '%s\n' "${FAIL}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
   cp "${RUN_DIR}/${JOB_NAME}.sta" "${RUN_DIR}/${JOB_NAME}.msg" "${LIGHT_DIR}/" 2>/dev/null || true
@@ -37,21 +45,32 @@ finish() {
   exit "${rc}"
 }
 trap finish EXIT
-fail() { FAIL="$1"; exit "$2"; }
 
-mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" || exit 2
-[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail "missing_submission_variable" 2
-[ -f "${PROJECT_HOME}/runs/hpc/stage_c2/C2E_INTEGRITY_PASS.txt" ] || fail "c2e_not_passed" 5
-cd "${PRESTAGED_ROOT}" || fail "missing_prestaged_root" 6
+fail() {
+  FAIL="$1"
+  write_status "failed" 12 "$1" "$2" false
+  TECH="c2f_fail"
+  exit 12
+}
 
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" || exit 2
+[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail "missing_submission_variable" "missing env"
+
+if [ ! -f "${CHAIN_STATE_DIR}/C2E.ok" ]; then
+  write_status "skipped_upstream_failure" 0 "missing_C2E.ok" "C2E.ok not present; skipping" false
+  TECH="c2f_skipped_upstream_failure"
+  exit 0
+fi
+
+cd "${PRESTAGED_ROOT}" || fail "missing_prestaged_root" "prestage missing"
 DECK="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_DECK_PATH.txt")"
 FOR="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_FOR_PATH.txt")"
-[ -f "${DECK}" ] && [ -f "${FOR}" ] || fail "missing_refined_deck" 7
+[ -f "${DECK}" ] && [ -f "${FOR}" ] || fail "missing_refined_deck" "C2C deck paths invalid"
 
-module purge > "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 8
-module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 8
-module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 8
-module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 8
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "modules"
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "gcc"
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "intel"
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "abaqus"
 export OMP_NUM_THREADS=4
 
 cp "${DECK}" "${RUN_DIR}/${JOB_NAME}.inp"
@@ -63,8 +82,11 @@ abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" \
 
 if [ "${ABAQUS_RC}" -eq 0 ] && [ -f "${JOB_NAME}.odb" ] && \
    grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  write_status "pass" 0 "none" "refined final technical pass" true
+  : > "${CHAIN_STATE_DIR}/C2F.ok"
   TECH="c2f_refined_final_technical_pass"
 else
+  write_status "failed" 11 "abaqus_technical_failure" "refined final Abaqus failed" true
   FAIL="abaqus_technical_failure"
   exit 11
 fi

@@ -6,7 +6,7 @@
 #PBS -j oe
 #PBS -m abe
 #
-# C2E — Refined layered deck integrity (threads, reduced elastic load)
+# C2E — Refined layered integrity (threads). afterany + C2D.ok marker.
 
 set -u
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
@@ -14,49 +14,67 @@ RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
 JOB_NAME="molnar_refined_integrity_threads4"
 RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
 LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+CHAIN_STATE_DIR="${CHAIN_STATE_DIR:-${PROJECT_HOME}/runs/hpc/stage_c2/chain_state}"
 ABAQUS_RC="not_started"
 TECH="c2e_fail"
 FAIL="not_classified"
 
+write_status() {
+  mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" 2>/dev/null || true
+  cat > "${RUN_DIR}/C2E_STATUS.json" <<EOF
+{
+  "stage": "C2E",
+  "classification": "$1",
+  "failure_code": $2,
+  "failed_check": "$3",
+  "message": $(python3 -c 'import json,sys; print(json.dumps(sys.argv[1]))' "$4"),
+  "solver_executed": $5,
+  "job_id": "${PBS_JOBID:-unknown}"
+}
+EOF
+  cp "${RUN_DIR}/C2E_STATUS.json" "${LIGHT_DIR}/" "${CHAIN_STATE_DIR}/" 2>/dev/null || true
+}
+
 finish() {
   rc=$?
   mkdir -p "${LIGHT_DIR}" 2>/dev/null || true
-  {
-    echo "job_id=${PBS_JOBID:-unknown}"
-    echo "stage=C2E"
-    echo "mp_mode=threads"
-    echo "ncpus=4"
-    date -Is 2>/dev/null || date
-  } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
-  printf '%s\n' "${ABAQUS_RC}" > "${LIGHT_DIR}/abaqus_return_code.txt" 2>/dev/null || true
   printf '%s\n' "${TECH}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
   printf '%s\n' "${FAIL}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
-  cp "${RUN_DIR}/${JOB_NAME}.sta" "${RUN_DIR}/${JOB_NAME}.msg" "${LIGHT_DIR}/" 2>/dev/null || true
+  cp "${RUN_DIR}/"* "${LIGHT_DIR}/" 2>/dev/null || true
   exit "${rc}"
 }
 trap finish EXIT
-fail() { FAIL="$1"; exit "$2"; }
 
-mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" || exit 2
-[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail "missing_submission_variable" 2
-[ -f "${PROJECT_HOME}/runs/hpc/stage_c2/C2D_THREADS4_PASS.txt" ] || fail "c2d_not_passed" 5
-cd "${PRESTAGED_ROOT}" || fail "missing_prestaged_root" 6
+fail() {
+  FAIL="$1"
+  write_status "failed" 12 "$1" "$2" false
+  TECH="c2e_fail"
+  exit 12
+}
 
-VARIANT="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_REFINED_LAYERED_DIR.txt")"
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" || exit 2
+[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail "missing_submission_variable" "missing env"
+
+if [ ! -f "${CHAIN_STATE_DIR}/C2D.ok" ]; then
+  write_status "skipped_upstream_failure" 0 "missing_C2D.ok" "C2D.ok not present; skipping" false
+  TECH="c2e_skipped_upstream_failure"
+  exit 0
+fi
+
+cd "${PRESTAGED_ROOT}" || fail "missing_prestaged_root" "prestage missing"
 DECK="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_DECK_PATH.txt")"
 FOR="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_FOR_PATH.txt")"
-[ -f "${DECK}" ] && [ -f "${FOR}" ] || fail "missing_refined_deck" 7
+[ -f "${DECK}" ] && [ -f "${FOR}" ] || fail "missing_refined_deck" "C2C deck/for paths invalid"
 
-# Build reduced-load integrity inp from refined deck: replace fracture steps with short elastic
-if [ -x /usr/bin/python3.12 ]; then PY=python3.12; else PY=python3; fi
-${PY} - <<PY || fail "integrity_deck_build_failure" 8
+module load gcc/11.4.0 >/dev/null 2>&1 || true
+module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+if command -v python3 >/dev/null 2>&1; then PY=python3; else PY=python3; fi
+
+${PY} - <<PY || fail "integrity_deck_build_failure" "could not build reduced integrity deck"
 from pathlib import Path
 src = Path("${DECK}").read_text(encoding="utf-8", errors="replace")
-# Keep through End Assembly + material, strip original steps, add short elastic
-parts = src.split("*Step")
-head = parts[0]
-# ensure we still have material
-text = head.rstrip() + """
+head = src.split("*Step")[0].rstrip()
+text = head + """
 *Amplitude, name=Amp-int
 0., 0., 1., 0.001
 *Step, name=Step-integrity, nlgeom=NO, inc=50
@@ -84,10 +102,10 @@ Path("${RUN_DIR}/${JOB_NAME}.inp").write_text(text, encoding="utf-8")
 print("integrity deck written")
 PY
 
-module purge > "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 9
-module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 9
-module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 9
-module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 9
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "module env failed"
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "gcc"
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "intel"
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "abaqus"
 export OMP_NUM_THREADS=4
 
 cp "${FOR}" "${RUN_DIR}/user.for"
@@ -98,10 +116,11 @@ abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" \
 
 if [ "${ABAQUS_RC}" -eq 0 ] && [ -f "${JOB_NAME}.odb" ] && \
    grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  write_status "pass" 0 "none" "refined integrity pass" true
+  : > "${CHAIN_STATE_DIR}/C2E.ok"
   TECH="c2e_refined_integrity_pass"
-  printf '%s\n' "pass" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2E_INTEGRITY_PASS.txt"
-  printf '%s\n' "${RUN_DIR}/${JOB_NAME}.odb" > "${LIGHT_DIR}/odb_path.txt"
 else
+  write_status "failed" 11 "abaqus_technical_failure" "refined integrity Abaqus failed" true
   FAIL="abaqus_technical_failure"
   exit 11
 fi

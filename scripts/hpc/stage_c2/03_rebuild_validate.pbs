@@ -2,11 +2,13 @@
 #PBS -N c2c_rebuild_val
 #PBS -q entry_imfdfkmq
 #PBS -l select=1:ncpus=1:mem=8gb
-#PBS -l walltime=00:30:00
+#PBS -l walltime=01:00:00
 #PBS -j oe
 #PBS -m abe
 #
 # C2C — Rebuild UEL layered refined deck + static validators (no Abaqus solve)
+# Writes C2C_STATUS.json / C2C_FAILURE_REPORT.md on every controlled exit.
+# On success: writes $CHAIN_STATE_DIR/C2C.ok
 
 set -u
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
@@ -14,8 +16,42 @@ RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
 JOB_NAME="c2c_rebuild_validate"
 RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
 LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+CHAIN_STATE_DIR="${CHAIN_STATE_DIR:-${PROJECT_HOME}/runs/hpc/stage_c2/chain_state}"
 TECH="c2c_fail"
 FAIL="not_classified"
+FAILED_CHECK="not_classified"
+FAIL_MSG="not_classified"
+
+write_status() {
+  local classification="$1"
+  local code="$2"
+  local check="$3"
+  local message="$4"
+  mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" 2>/dev/null || true
+  cat > "${RUN_DIR}/C2C_STATUS.json" <<EOF
+{
+  "stage": "C2C",
+  "classification": "${classification}",
+  "failure_code": ${code},
+  "failed_check": "${check}",
+  "message": $(python3 -c 'import json,sys; print(json.dumps(sys.argv[1]))' "${message}"),
+  "solver_executed": false,
+  "job_id": "${PBS_JOBID:-unknown}",
+  "project_revision": "${PROJECT_REVISION:-unset}"
+}
+EOF
+  {
+    echo "# C2C Failure Report"
+    echo
+    echo "- classification: \`${classification}\`"
+    echo "- failure_code: ${code}"
+    echo "- failed_check: \`${check}\`"
+    echo "- message: ${message}"
+    echo "- solver_executed: false"
+  } > "${RUN_DIR}/C2C_FAILURE_REPORT.md"
+  cp "${RUN_DIR}/C2C_STATUS.json" "${RUN_DIR}/C2C_FAILURE_REPORT.md" "${LIGHT_DIR}/" 2>/dev/null || true
+  cp "${RUN_DIR}/C2C_STATUS.json" "${CHAIN_STATE_DIR}/C2C_STATUS.json" 2>/dev/null || true
+}
 
 finish() {
   rc=$?
@@ -32,23 +68,39 @@ finish() {
   exit "${rc}"
 }
 trap finish EXIT
-fail() { FAIL="$1"; exit "$2"; }
 
-mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" || exit 2
-[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail "missing_submission_variable" 2
-cd "${PRESTAGED_ROOT}" || fail "missing_prestaged_root" 5
+fail() {
+  FAIL="$1"
+  FAILED_CHECK="$1"
+  FAIL_MSG="$2"
+  write_status "failed" 12 "${FAILED_CHECK}" "${FAIL_MSG}"
+  TECH="c2c_fail"
+  exit 12
+}
 
-if [ -f "${PROJECT_HOME}/runs/hpc/stage_c2/C2B_REFINED_MESH_DIR.txt" ]; then
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" || exit 2
+[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail "missing_submission_variable" "PROJECT_REVISION or PRESTAGED_ROOT unset"
+cd "${PRESTAGED_ROOT}" || fail "missing_prestaged_root" "PRESTAGED_ROOT not accessible"
+
+# --- Resolve C2B products (prefer explicit env, then published dir) ---
+if [ -n "${C2B_OUTPUT_DIR:-}" ] && [ -d "${C2B_OUTPUT_DIR}" ]; then
+  REF="${C2B_OUTPUT_DIR}"
+elif [ -f "${PROJECT_HOME}/runs/hpc/stage_c2/C2B_REFINED_MESH_DIR.txt" ]; then
   REF="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2B_REFINED_MESH_DIR.txt")"
 else
-  fail "missing_c2b_refined_mesh" 6
+  REF="${PROJECT_HOME}/runs/hpc/stage_c2/C2B_REFINED_MESH"
 fi
-[ -f "${REF}/refined_mesh_nodes.csv" ] && [ -f "${REF}/refined_mesh_elements.csv" ] || fail "missing_refined_csv" 6
 
-OUT="${PROJECT_HOME}/models/generated/molnar_gravouil_2017/unified_preprocessing/H0_refined_layered"
-mkdir -p "${OUT}" "${RUN_DIR}"
+# Verify C2B products exist (no fabricated markers)
+[ -d "${REF}" ] || fail "missing_c2b_dir" "C2B output dir not found: ${REF}"
+[ -f "${REF}/C2B_FIELD_SUMMARY.json" ] || fail "missing_c2b_field_summary" "C2B_FIELD_SUMMARY.json missing under ${REF}"
+[ -f "${REF}/C2B_GATE_REPORT.md" ] || fail "missing_c2b_gate_report" "C2B_GATE_REPORT.md missing under ${REF}"
+[ -f "${REF}/refined_mesh_nodes.csv" ] || fail "missing_refined_nodes_csv" "refined_mesh_nodes.csv missing"
+[ -f "${REF}/refined_mesh_elements.csv" ] || fail "missing_refined_elems_csv" "refined_mesh_elements.csv missing"
+[ -f "${REF}/refined_physical.inp" ] || fail "missing_refined_physical_inp" "refined_physical.inp missing"
+[ -f "${REF}/remeshing_rule_manifest.json" ] || fail "missing_remesh_manifest" "remeshing_rule_manifest.json missing"
 
-# Prefer module Python 3.11 (has PyYAML) for deck rebuild; else python3.12
+# Scientific classification check
 module load gcc/11.4.0 >/dev/null 2>&1 || true
 module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
 if command -v python3 >/dev/null 2>&1 && python3 -c "import yaml" 2>/dev/null; then
@@ -59,8 +111,38 @@ else
   PY=python3
 fi
 echo "using_python=$(command -v ${PY}) $(${PY} --version 2>&1)" > "${RUN_DIR}/python_version.txt"
-# Fail early if yaml missing (unified deck builder needs it)
-${PY} -c "import yaml" 2>>"${RUN_DIR}/python_version.txt" || fail "python_missing_pyyaml" 9
+${PY} -c "import yaml" 2>>"${RUN_DIR}/python_version.txt" || fail "python_missing_pyyaml" "Python cannot import yaml for deck rebuild"
+
+${PY} - <<PY || fail "c2b_scientific_classification" "C2B classification not suitable for remeshing"
+import json
+from pathlib import Path
+report = json.loads(Path("${REF}/C2B_FIELD_SUMMARY.json").read_text())
+cls = report.get("classification") or report.get("scientific_classification")
+if cls != "miseseri_preanalysis_suitable_for_remeshing":
+    raise SystemExit("unsuitable classification: %r" % (cls,))
+if report.get("gate_pass") is False:
+    raise SystemExit("gate_pass is False")
+man = json.loads(Path("${REF}/remeshing_rule_manifest.json").read_text())
+if man.get("status") != "pass":
+    raise SystemExit("remesh manifest status not pass: %r" % (man.get("status"),))
+print("c2b_products_verified", cls, man.get("n_elements"))
+PY
+
+# Preserved Molnar source required for Fortran N_ELEM generation
+BASE_INP="${PRESTAGED_ROOT}/models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.inp"
+BASE_FOR="${PRESTAGED_ROOT}/models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.for"
+if [ ! -f "${BASE_INP}" ] || [ ! -f "${BASE_FOR}" ]; then
+  # Fallback: copy from project home into prestaged tree (immutable read)
+  HOME_INP="${PROJECT_HOME}/models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.inp"
+  HOME_FOR="${PROJECT_HOME}/models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.for"
+  [ -f "${HOME_INP}" ] && [ -f "${HOME_FOR}" ] || fail "missing_baseline_original" "SingleNotch.inp/.for not in prestage or home baseline_original"
+  mkdir -p "$(dirname "${BASE_INP}")"
+  cp -a "${HOME_INP}" "${BASE_INP}"
+  cp -a "${HOME_FOR}" "${BASE_FOR}"
+fi
+
+OUT="${PROJECT_HOME}/models/generated/molnar_gravouil_2017/unified_preprocessing/H0_refined_layered"
+mkdir -p "${OUT}"
 
 ${PY} scripts/preprocessing/build_molnar_unified_deck.py \
   --config configs/preprocessing/molnar_h0_h1_unified.yaml \
@@ -68,24 +150,41 @@ ${PY} scripts/preprocessing/build_molnar_unified_deck.py \
   --output-profile fracture_baseline \
   --from-nodes-csv "${REF}/refined_mesh_nodes.csv" \
   --from-elems-csv "${REF}/refined_mesh_elements.csv" \
-  --out "${OUT}" > "${RUN_DIR}/rebuild_stdout.log" 2>&1 || fail "rebuild_failure" 12
+  --out "${OUT}" > "${RUN_DIR}/rebuild_stdout.log" 2>&1 || fail "rebuild_failure" "build_molnar_unified_deck.py failed; see rebuild_stdout.log"
 
-# Find deck
 DECK="$(ls "${OUT}"/*fullgen.inp "${OUT}"/*.inp 2>/dev/null | head -n1)"
 FOR="$(ls "${OUT}"/*fullgen.for "${OUT}"/*.for 2>/dev/null | head -n1)"
-[ -n "${DECK}" ] && [ -n "${FOR}" ] || fail "missing_rebuilt_deck" 13
+[ -n "${DECK}" ] && [ -f "${DECK}" ] || fail "missing_rebuilt_deck" "No rebuilt .inp under ${OUT}"
+[ -n "${FOR}" ] && [ -f "${FOR}" ] || fail "missing_rebuilt_fortran" "No rebuilt .for under ${OUT}"
 
 ${PY} scripts/validation/validate_molnar_unified_deck.py \
   --deck "${DECK}" \
   --fortran "${FOR}" \
   --role H0 \
-  --out-dir "${RUN_DIR}/static_validation" > "${RUN_DIR}/validate_stdout.log" 2>&1 || fail "static_validation_failure" 14
+  --out-dir "${RUN_DIR}/static_validation" > "${RUN_DIR}/validate_stdout.log" 2>&1 || fail "static_validation_failure" "validate_molnar_unified_deck.py failed; see validate_stdout.log"
 
-# Publish path for C2E/C2F
+# Publish paths for C2E/C2F
 printf '%s\n' "${OUT}" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_REFINED_LAYERED_DIR.txt"
 printf '%s\n' "${DECK}" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_DECK_PATH.txt"
 printf '%s\n' "${FOR}" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_FOR_PATH.txt"
-# hashes
-(cd "${OUT}" && sha256sum -c input_hashes.sha256) > "${RUN_DIR}/input_hash_check.txt" 2>&1 || true
+(cd "${OUT}" && sha256sum -c input_hashes.sha256) > "${RUN_DIR}/input_hash_check.txt" 2>&1 || fail "input_hash_check_failed" "Rebuilt input_hashes.sha256 failed"
+
+# Success marker + status (only after all checks)
+cat > "${RUN_DIR}/C2C_STATUS.json" <<EOF
+{
+  "stage": "C2C",
+  "classification": "pass",
+  "failure_code": 0,
+  "failed_check": null,
+  "message": "rebuild and static validation passed",
+  "solver_executed": false,
+  "deck": "${DECK}",
+  "fortran": "${FOR}",
+  "job_id": "${PBS_JOBID:-unknown}"
+}
+EOF
+cp "${RUN_DIR}/C2C_STATUS.json" "${LIGHT_DIR}/" 2>/dev/null || true
+cp "${RUN_DIR}/C2C_STATUS.json" "${CHAIN_STATE_DIR}/C2C_STATUS.json"
+: > "${CHAIN_STATE_DIR}/C2C.ok"
 TECH="c2c_rebuild_validate_pass"
 exit 0
