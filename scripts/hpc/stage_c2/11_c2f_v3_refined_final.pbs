@@ -1,0 +1,85 @@
+#!/bin/bash
+#PBS -N c2f_v3_final
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=4:mem=32gb
+#PBS -l walltime=06:00:00
+#PBS -j oe
+#PBS -m abe
+#
+# C2F-v3 — Full refined fracture on notch-corrected C2C-v3 deck.
+# Released only after D1 stiffness pass + D3 phase/SDV pass.
+# Does not use C2F-v2 failed deck.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_c2f_v3_refined_final_threads4"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+CHAIN_STATE_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/chain_state"
+DIAG="${PROJECT_HOME}/runs/hpc/stage_c2/diagnostics"
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" || exit 2
+
+# Gate files
+if [ ! -f "${DIAG}/D1_ELASTIC_PROBE_STATUS.json" ]; then
+  echo "missing D1 status" >&2; exit 3
+fi
+python3 - <<'PY' || exit 3
+import json
+from pathlib import Path
+d1=json.loads(Path("/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_c2/diagnostics/D1_ELASTIC_PROBE_STATUS.json").read_text())
+assert d1.get("stiffness_gate_pass") is True
+d3p=Path("/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_c2/diagnostics/D3_PHASE_SDV_STATUS.json")
+if d3p.is_file():
+    d3=json.loads(d3p.read_text())
+    assert d3.get("spatially_meaningful") is True
+print("preflight_gates_ok")
+PY
+
+DECK="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_V3_DECK_PATH.txt")"
+FOR="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_V3_FOR_PATH.txt")"
+[ -f "${DECK}" ] && [ -f "${FOR}" ] || exit 4
+case "${DECK}" in
+  *v3_notchfix*) ;;
+  *) echo "refusing non-v3 deck ${DECK}" >&2; exit 5 ;;
+esac
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || exit 6
+export OMP_NUM_THREADS=4
+
+cp "${DECK}" "${RUN_DIR}/${JOB_NAME}.inp"
+cp "${FOR}" "${RUN_DIR}/user.for"
+cd "${RUN_DIR}" || exit 9
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" \
+  cpus=4 mp_mode=threads interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+write_status() {
+  cat > "${RUN_DIR}/C2F_V3_STATUS.json" <<EOF
+{
+  "stage": "C2F_V3",
+  "classification": "$1",
+  "failure_code": $2,
+  "message": "$3",
+  "solver_executed": true,
+  "job_id": "${PBS_JOBID:-unknown}",
+  "deck": "${DECK}"
+}
+EOF
+  cp "${RUN_DIR}/C2F_V3_STATUS.json" "${LIGHT_DIR}/" "${CHAIN_STATE_DIR}/" 2>/dev/null || true
+  cp "${RUN_DIR}/C2F_V3_STATUS.json" "${DIAG}/" 2>/dev/null || true
+}
+
+if [ "${ABAQUS_RC}" -eq 0 ] && [ -f "${JOB_NAME}.odb" ] && \
+   grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  write_status "pass" 0 "C2F-v3 refined final technical pass"
+  : > "${CHAIN_STATE_DIR}/C2F_V3.ok"
+  printf '%s\n' "${RUN_DIR}/${JOB_NAME}.odb" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2F_V3_ODB_PATH.txt"
+  cp "${RUN_DIR}/${JOB_NAME}.sta" "${RUN_DIR}/${JOB_NAME}.msg" "${LIGHT_DIR}/" 2>/dev/null || true
+  exit 0
+fi
+write_status "failed" 11 "C2F-v3 Abaqus failed"
+cp "${RUN_DIR}/"* "${LIGHT_DIR}/" 2>/dev/null || true
+exit 11

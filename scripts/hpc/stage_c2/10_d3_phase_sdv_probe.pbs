@@ -1,0 +1,107 @@
+#!/bin/bash
+#PBS -N d3_phase_sdv
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:30:00
+#PBS -j oe
+#PBS -m abe
+#
+# Diagnostic D3 — short load on corrected v3 deck; require spatially non-uniform SDV15.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_d3_phase_sdv_v3"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/diagnostics/d3_phase_sdv/evidence/${PBS_JOBID:-unknown}"
+OUT_JSON="${PROJECT_HOME}/runs/hpc/stage_c2/diagnostics/D3_PHASE_SDV_STATUS.json"
+DECK="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_V3_DECK_PATH.txt")"
+FOR="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_V3_FOR_PATH.txt")"
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" || exit 2
+case "${DECK}" in
+  *v3_notchfix*) ;;
+  *) echo "refusing non-v3 deck" >&2; exit 3 ;;
+esac
+
+module load gcc/11.4.0 python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+python3 - <<PY
+from pathlib import Path
+src = Path("${DECK}").read_text(encoding="utf-8", errors="replace")
+head = src.split("*Step")[0].rstrip()
+# modest load into early fracture regime
+text = head + """
+*Amplitude, name=Amp-d3
+0., 0., 1., 1.
+*Step, name=Step-d3, nlgeom=NO, inc=100
+*Static, direct
+0.01, 1.0,
+*Boundary, amplitude=Amp-d3
+RP, 2, 2, 0.003
+*Boundary
+bottom, 2, 2
+*Boundary
+bottoml, 1, 1
+*Boundary
+topl, 1, 1
+*Restart, write, frequency=0
+*Output, field, time interval=0.1
+*Node Output, nset=RP
+RF, U
+*Element Output, elset=umatelem
+SDV
+*End Step
+"""
+Path("${RUN_DIR}/${JOB_NAME}.inp").write_text(text, encoding="utf-8")
+Path("${RUN_DIR}/user.for").write_bytes(Path("${FOR}").read_bytes())
+print("d3_deck_ok")
+PY
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || exit 5
+cd "${RUN_DIR}" || exit 9
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" cpus=1 interactive \
+  > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -ne 0 ] || [ ! -f "${JOB_NAME}.odb" ] || \
+   ! grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  echo '{"classification":"d3_solver_failed"}' > "${OUT_JSON}"
+  cp -r "${RUN_DIR}/"* "${LIGHT_DIR}/" 2>/dev/null || true
+  exit 11
+fi
+
+# Field check
+cp "${PROJECT_HOME}/scripts/postprocessing/check_odb_fields_abaqus.py" "${RUN_DIR}/"
+abaqus python check_odb_fields_abaqus.py --odb "${RUN_DIR}/${JOB_NAME}.odb" \
+  --out "${RUN_DIR}/field_check.json" > "${RUN_DIR}/field_check.log" 2>&1 || true
+
+python3 - <<PY
+import json
+from pathlib import Path
+fc=json.loads(Path("${RUN_DIR}/field_check.json").read_text()) if Path("${RUN_DIR}/field_check.json").is_file() else {}
+sdv=fc.get("sdv15") or {}
+mn=sdv.get("min"); mx=sdv.get("max")
+span = None if mn is None or mx is None else abs(mx-mn)
+# require finite and non-uniform (span > 1e-6) OR max > 0.1 as early damage signal
+ok = bool(sdv.get("all_finite")) and (
+    (span is not None and span > 1e-6) or (mx is not None and mx > 0.1) or (sdv.get("n_ge_0.5") or 0) > 0
+)
+out={
+  "stage": "D3_phase_sdv_probe",
+  "job_id": "${PBS_JOBID}",
+  "U_probe_mm": 0.003,
+  "sdv15": sdv,
+  "sdv15_span": span,
+  "spatially_meaningful": ok,
+  "classification": "d3_phase_pass" if ok else "d3_phase_weak_or_uniform",
+  "note": "U=0.003 mm short step on notch-fixed v3; expects non-uniform SDV15 vs C2F-v2 flat 0.059",
+}
+Path("${OUT_JSON}").write_text(json.dumps(out, indent=2, sort_keys=True)+"\n")
+Path("${RUN_DIR}/D3_PHASE_SDV_STATUS.json").write_text(json.dumps(out, indent=2, sort_keys=True)+"\n")
+print(json.dumps(out, indent=2))
+raise SystemExit(0 if ok else 12)
+PY
+rc=$?
+cp -r "${RUN_DIR}/"* "${LIGHT_DIR}/" 2>/dev/null || true
+exit "${rc}"
