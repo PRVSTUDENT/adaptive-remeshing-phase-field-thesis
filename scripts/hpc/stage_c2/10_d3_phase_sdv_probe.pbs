@@ -5,11 +5,18 @@
 #PBS -l walltime=01:30:00
 #PBS -j oe
 #PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
 #
 # Diagnostic D3 — short load on corrected v3 deck; require spatially non-uniform SDV15.
 
 set -u
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_job_mail_notify.sh" 2>/dev/null || true
+if type pbs_mail_begin >/dev/null 2>&1; then
+  pbs_mail_begin
+  trap 'pbs_mail_end $?' EXIT
+fi
 RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
 JOB_NAME="molnar_d3_phase_sdv_v3"
 RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"

@@ -5,6 +5,7 @@
 #PBS -l walltime=06:00:00
 #PBS -j oe
 #PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
 #
 # C2F-v3 — Full refined fracture on notch-corrected C2C-v3 deck.
 # Released only after D1 stiffness pass + D3 phase/SDV pass.
@@ -18,6 +19,13 @@ RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
 LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
 CHAIN_STATE_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/chain_state"
 DIAG="${PROJECT_HOME}/runs/hpc/stage_c2/diagnostics"
+
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_job_mail_notify.sh" 2>/dev/null || true
+if type pbs_mail_begin >/dev/null 2>&1; then
+  pbs_mail_begin
+  trap 'pbs_mail_end $?' EXIT
+fi
 
 mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" || exit 2
 

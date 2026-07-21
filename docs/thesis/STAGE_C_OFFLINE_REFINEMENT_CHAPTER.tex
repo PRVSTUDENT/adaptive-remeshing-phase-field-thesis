@@ -1,0 +1,41 @@
+% Thesis chapter draft: Stage C offline refinement demonstration.
+\chapter{Offline MISESERI Pre-Refinement for Layered Phase-Field UEL Models}
+\label{ch:stage-c-offline-refinement}
+
+\section{Objective}
+Demonstrate a custom, auxiliary-continuum, MISESERI-driven offline pre-refinement
+workflow for the Molnar layered phase-field UEL model, targeting the elastic,
+pre-peak and peak RF--U response of uniform H1 with fewer physical elements.
+
+\section{Method summary}
+\begin{enumerate}
+  \item Solve an auxiliary continuum pre-analysis with active MISESERI output.
+  \item Mark elements with
+  \[
+    \frac{\mathrm{MISESERI}}{\max(\mathrm{MISESERI})}
+    > \texttt{relative\_MISESERI\_threshold},\qquad
+    \texttt{relative\_MISESERI\_threshold}=0.05.
+  \]
+  \item Build a localized graded physical mesh (min size $0.0025\,\mathrm{mm}$,
+  max size $0.025\,\mathrm{mm}$, one pass, no coarsening).
+  \item Reconstruct U1/U2/CPS4 layers and Fortran \texttt{N\_ELEM}.
+  \item Solve with four OpenMP threads and compare to uniform H1.
+\end{enumerate}
+
+\section{Verification narrative}
+A failed iteration (C2F-v2) omitted the exact $y=0$ mesh line, so notch free faces
+were not reconstructed. The resulting continuous plate elevated initial stiffness
+by about $72\%$ and suppressed softening. Geometry audit, restoration of $y=0$,
+elastic probe ($0.083\%$ stiffness error), phase-field spatial check, and C2F-v3
+restored peak/pre-peak agreement with H1.
+
+\section{Results (C2F-v3)}
+Peak force difference $0.24\%$; initial stiffness difference $0.061\%$;
+pre-peak NRMSE $0.089\%$; peak displacement identical at $0.0058\,\mathrm{mm}$;
+$10290$ physical elements ($14.7\%$ fewer than H1). Post-peak NRMSE remains about
+$24\%$ and is reported as limited equivalence only.
+
+\section{Production policy}
+Uniform H1 remains the production and report reference. The refined mesh is a
+demonstration of offline pre-refinement efficiency, not a replacement of H1.
+Fair walltime comparisons require a four-thread H1 baseline.

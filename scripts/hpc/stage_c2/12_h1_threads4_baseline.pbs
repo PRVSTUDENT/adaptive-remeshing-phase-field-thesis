@@ -1,0 +1,98 @@
+#!/bin/bash
+#PBS -N h1_thr4_base
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=4:mem=24gb
+#PBS -l walltime=04:00:00
+#PBS -j oe
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#
+# Fair H1 baseline: frozen H1_h0025 deck, 4 OpenMP threads (no MPI).
+# Compare RF-U to serial H1 and walltime to C2F-v3.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_h1_threads4_baseline"
+VARIANT_DIR="${PROJECT_HOME}/models/generated/molnar_gravouil_2017/h_convergence_lc015/H1_h0025"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+OUT_ROOT="${PROJECT_HOME}/runs/hpc/stage_c2/recovery/h1_threads4_baseline"
+
+# Reliable mail fallback (in addition to PBS -m abe / -M)
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_job_mail_notify.sh" 2>/dev/null || true
+if type pbs_mail_begin >/dev/null 2>&1; then
+  pbs_mail_begin
+  trap 'pbs_mail_end $?' EXIT
+fi
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${OUT_ROOT}" || exit 2
+test -f "${VARIANT_DIR}/H1_h0025.inp" && test -f "${VARIANT_DIR}/H1_h0025.for" || exit 3
+(cd "${VARIANT_DIR}" && sha256sum -c input_hashes.sha256) > "${RUN_DIR}/input_hash_check.txt" 2>&1 || exit 4
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || true
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || exit 5
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || exit 5
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || exit 5
+export OMP_NUM_THREADS=4
+
+cp "${VARIANT_DIR}/H1_h0025.inp" "${RUN_DIR}/${JOB_NAME}.inp"
+cp "${VARIANT_DIR}/H1_h0025.for" "${RUN_DIR}/user.for"
+cd "${RUN_DIR}" || exit 9
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" \
+  cpus=4 mp_mode=threads interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -ne 0 ] || [ ! -f "${JOB_NAME}.odb" ] || \
+   ! grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  echo '{"classification":"h1_threads4_solver_failed","abaqus_rc":'"${ABAQUS_RC}"'}' \
+    > "${OUT_ROOT}/H1_THREADS4_STATUS.json"
+  cp -r "${RUN_DIR}/"* "${LIGHT_DIR}/" 2>/dev/null || true
+  exit 11
+fi
+
+module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+REF_CSV="${PROJECT_HOME}/results/processed/molnar_lc015_h_convergence/source_csv/H1_RF2_U2.csv"
+abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_rfu_from_odb.py" \
+  --odb "${RUN_DIR}/${JOB_NAME}.odb" \
+  --out "${OUT_ROOT}/H1_THREADS4_RF_U.csv" > "${OUT_ROOT}/extract.log" 2>&1 || true
+
+python3 "${PROJECT_HOME}/scripts/postprocessing/compare_threads_qualification.py" \
+  --cand-csv "${OUT_ROOT}/H1_THREADS4_RF_U.csv" \
+  --ref-csv "${REF_CSV}" \
+  --out-json "${OUT_ROOT}/H1_THREADS4_VS_SERIAL_STATUS.json" \
+  --out-csv "${OUT_ROOT}/H1_THREADS4_VS_SERIAL_COMPARISON.csv" \
+  --out-report-md "${OUT_ROOT}/H1_THREADS4_VS_SERIAL_REPORT.md" \
+  > "${OUT_ROOT}/compare_stdout.log" 2>&1 || true
+
+python3 - <<PY
+import json
+from pathlib import Path
+from datetime import datetime, timezone
+out = Path("${OUT_ROOT}")
+cmp = {}
+cp = out / "H1_THREADS4_VS_SERIAL_STATUS.json"
+if cp.is_file():
+    cmp = json.loads(cp.read_text())
+# resources from PBS env if available
+status = {
+    "stage": "H1_threads4_baseline",
+    "job_id": "${PBS_JOBID}",
+    "classification": "pass" if cmp.get("qualification_pass") else "fail_or_compare_incomplete",
+    "solver_executed": True,
+    "mp_mode": "threads",
+    "cpus": 4,
+    "odb": "${RUN_DIR}/${JOB_NAME}.odb",
+    "vs_serial_H1": cmp,
+    "fair_compare_note": "Use this walltime vs C2F-v3 1376480 (also 4 threads); do not use serial H1 walltime for efficiency claims",
+    "written_at_utc": datetime.now(timezone.utc).isoformat(),
+}
+(out / "H1_THREADS4_STATUS.json").write_text(json.dumps(status, indent=2, sort_keys=True) + "\n")
+print(json.dumps({"qualification_pass": cmp.get("qualification_pass"), "rel_peak": cmp.get("rel_peak_force"), "nrmse": cmp.get("prepeak_nrmse")}, indent=2))
+raise SystemExit(0 if cmp.get("qualification_pass") else 12)
+PY
+rc=$?
+cp -r "${RUN_DIR}/"* "${LIGHT_DIR}/" 2>/dev/null || true
+cp "${OUT_ROOT}/"* "${LIGHT_DIR}/" 2>/dev/null || true
+exit "${rc}"

@@ -6,7 +6,7 @@ set -euo pipefail
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
 PRESTAGE_ROOT="/scratch/pr21vyci/adaptive-remeshing/prestage"
 PBS_OUTPUT_ROOT="/scratch/pr21vyci/adaptive-remeshing/pbs_output"
-EMAIL="pr21vyci@mailserver.tu-freiberg.de"
+EMAIL="${EMAIL:-Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de}"
 QUEUE="entry_imfdfkmq"
 STAGE_DIR="scripts/hpc/stage_c2"
 

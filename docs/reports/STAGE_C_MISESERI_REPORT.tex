@@ -1,0 +1,57 @@
+% Stage C MISESERI offline pre-refinement report snippet (include or compile standalone).
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=25mm]{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\title{Stage C: Offline MISESERI Pre-Refinement for the Layered UEL Model}
+\author{Adaptive Remeshing Thesis}
+\date{2026-07-21}
+\begin{document}
+\maketitle
+
+\section{Status}
+The Stage~C offline MISESERI-driven refinement workflow is classified as
+\texttt{stage\_c\_refined\_response\_supported} for elastic, pre-peak and peak RF--U
+response against uniform H1. Post-peak equivalence remains limited; crack-path
+convergence is not yet formally assessed. Uniform H1 remains the production
+and report reference.
+
+\section{Supported claims}
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lr@{}}
+\toprule
+Metric & Value \\
+\midrule
+Peak-force difference vs H1 & $0.24\%$ \\
+Initial-stiffness difference & $0.061\%$ \\
+Pre-peak NRMSE & $0.089\%$ \\
+Peak displacement & $0.0058\,\mathrm{mm}$ (identical) \\
+Physical-element reduction & $14.7\%$ ($10290$ vs $12064$) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Workflow}
+Auxiliary continuum analysis $\to$ MISESERI extraction $\to$
+normalized marking (\texttt{relative\_MISESERI\_threshold}$=0.05$) $\to$
+localized graded mesh $\to$ U1/U2/CPS4 reconstruction $\to$
+deterministic validation $\to$ four-thread UEL solution $\to$
+comparison against uniform H1.
+
+\section{Failed iteration and correction}
+Missing exact $y=0$ prevented notch free-face reconstruction (continuous plate;
+stiffness $+72\%$). After restoring $y=0$ and doubled notch faces, the elastic
+probe error was $0.083\%$ and C2F-v3 recovered H1 peak/pre-peak response.
+
+\section{Non-claims}
+This is \emph{not} native Abaqus adaptive remeshing; full-curve and crack-path
+mesh independence are not claimed; walltime must not be attributed solely to
+refinement without a fair four-thread H1 baseline.
+
+\section{Job identity}
+C2F-v3 job \texttt{1376480.mmaster02}; ODB and RF--U tables under
+\texttt{runs/hpc/stage\_c2/recovery/c2f\_v3\_vs\_h1/}.
+
+\end{document}
