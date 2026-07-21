@@ -19,12 +19,12 @@ RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
 LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
 OUT_ROOT="${PROJECT_HOME}/runs/hpc/stage_c2/recovery/h1_threads4_baseline"
 
-# Reliable mail fallback (in addition to PBS -m abe / -M)
+# Telegram primary + email secondary (email can be muted with PBS_NOTIFY_SKIP_EMAIL=1)
 # shellcheck disable=SC1091
-source "${PROJECT_HOME}/scripts/hpc/pbs_job_mail_notify.sh" 2>/dev/null || true
-if type pbs_mail_begin >/dev/null 2>&1; then
-  pbs_mail_begin
-  trap 'pbs_mail_end $?' EXIT
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
+  pbs_notify_begin
 fi
 
 mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${OUT_ROOT}" || exit 2

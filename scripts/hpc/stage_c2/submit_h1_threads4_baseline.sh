@@ -23,6 +23,14 @@ J=$(qsub -q "${QUEUE}" \
   "${PBS_SCRIPT}")
 
 echo "H1_THREADS4=${J}"
+# Primary: Telegram SUBMITTED (never pass token via qsub -v)
+python3 scripts/hpc/telegram_notify.py \
+  --event SUBMITTED \
+  --job-id "${J}" \
+  --job-name h1_thr4_base \
+  --message "Queue: ${QUEUE}; cpus=4; mp_mode=threads; fair H1 baseline vs C2F-v3 1376480; mail secondary: ${EMAIL}" \
+  || true
+
 mkdir -p runs/hpc/stage_c2/recovery
 {
   echo "submission_time=$(date -Is)"
@@ -32,6 +40,8 @@ mkdir -p runs/hpc/stage_c2/recovery
   echo "cpus=4"
   echo "mp_mode=threads"
   echo "mail=${EMAIL}"
+  echo "telegram=primary"
+  echo "email=secondary_best_effort"
   echo "compare_to_serial_H1=peak_RF_0.2pct_prepeak_NRMSE_0.2pct"
   echo "compare_to_C2F_v3_walltime=1376480.mmaster02"
 } | tee runs/hpc/stage_c2/recovery/H1_THREADS4_SUBMISSION_RECORD.txt

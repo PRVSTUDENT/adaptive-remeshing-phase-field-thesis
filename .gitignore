@@ -10,6 +10,12 @@ __pycache__/
 venv/
 env/
 
+# Private HPC notification credentials (never commit)
+telegram.env
+*.telegram-token
+**/hpc-notify/**
+!**/.config/hpc-notify/.gitkeep
+
 # Large or generated Abaqus outputs
 *.odb
 *.sim

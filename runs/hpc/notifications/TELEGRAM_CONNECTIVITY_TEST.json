@@ -1,0 +1,28 @@
+{
+  "status": "pending_user_credentials",
+  "architecture": {
+    "primary": "Telegram Bot API sendMessage",
+    "secondary": "PBS email #PBS -m abe to student address",
+    "credential_path": "~/.config/hpc-notify/telegram.env",
+    "token_never_in_git_or_qsub_v": true
+  },
+  "login_node_test": {
+    "status": "not_run",
+    "command": "python3 scripts/hpc/telegram_notify.py --strict --event PASS --job-id login-test --job-name telegram_login_test"
+  },
+  "compute_node_smoke": {
+    "status": "not_run",
+    "script": "scripts/hpc/submit_telegram_smoke.sh",
+    "job_id": null,
+    "notes": "non-Abaqus; 1 CPU; 10 s sleep; BEGIN+PASS"
+  },
+  "pbs_email_secondary": {
+    "status": "configured",
+    "recipients": "Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de (+ optional mailserver)",
+    "record_which_channels_arrive": true
+  },
+  "h1_four_thread_baseline": {
+    "job_id": "1376579.mmaster02",
+    "note": "No additional scientific jobs until this finishes"
+  }
+}

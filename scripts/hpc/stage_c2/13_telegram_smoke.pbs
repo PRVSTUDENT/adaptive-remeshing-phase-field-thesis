@@ -1,0 +1,28 @@
+#!/bin/bash
+#PBS -N tg_smoke
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=1gb
+#PBS -l walltime=00:05:00
+#PBS -j oe
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+#
+# Non-Abaqus compute-node Telegram connectivity smoke test.
+# BEGIN + PASS only; exit 0.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+# Prefer module python before notify if available
+module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
+  pbs_notify_begin
+fi
+
+echo "telegram_smoke host=$(hostname) start=$(date -Is 2>/dev/null || date)"
+sleep 10
+echo "telegram_smoke end=$(date -Is 2>/dev/null || date)"
+# PASS via EXIT trap
+exit 0

@@ -95,6 +95,18 @@ J6=$(qsub -q "${QUEUE}" -M "${EMAIL}" -m abe \
   -o "${PBS_OUTPUT_DIR}/c2f.out" \
   "${STAGE_DIR}/06_refined_final_threads4.pbs")
 
+# Telegram SUBMITTED for each job (primary); email remains PBS secondary
+for pair in "C2C:${J3}" "C2D:${J4}" "C2E:${J5}" "C2F:${J6}"; do
+  name="${pair%%:*}"
+  jid="${pair#*:}"
+  python3 scripts/hpc/telegram_notify.py \
+    --event SUBMITTED \
+    --job-id "${jid}" \
+    --job-name "${name}" \
+    --message "Queue: ${QUEUE}; revision: ${REVISION}; recovery_from=C2C; telegram=primary email=secondary" \
+    || true
+done
+
 mkdir -p "${PROJECT_HOME}/runs/hpc/stage_c2/recovery"
 {
   echo "submission_time=${TIMESTAMP}"

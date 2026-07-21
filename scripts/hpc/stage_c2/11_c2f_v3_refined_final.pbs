@@ -21,10 +21,10 @@ CHAIN_STATE_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/chain_state"
 DIAG="${PROJECT_HOME}/runs/hpc/stage_c2/diagnostics"
 
 # shellcheck disable=SC1091
-source "${PROJECT_HOME}/scripts/hpc/pbs_job_mail_notify.sh" 2>/dev/null || true
-if type pbs_mail_begin >/dev/null 2>&1; then
-  pbs_mail_begin
-  trap 'pbs_mail_end $?' EXIT
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
+  pbs_notify_begin
 fi
 
 mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" || exit 2
