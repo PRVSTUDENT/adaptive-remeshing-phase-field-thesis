@@ -18,6 +18,7 @@ REQUIRED_PATHS=(
   "models/generated/molnar_gravouil_2017/unified_preprocessing"
   "configs/preprocessing/molnar_h0_h1_unified.yaml"
   "configs/remeshing/miseseri_h0_to_h1_initial.json"
+  "configs/studies/molnar_lc015_h_convergence.yaml"
   "results/processed/molnar_lc015_h_convergence"
   "scripts/preprocessing"
   "scripts/postprocessing"

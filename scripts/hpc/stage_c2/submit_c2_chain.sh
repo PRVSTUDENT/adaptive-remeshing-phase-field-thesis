@@ -10,11 +10,13 @@ QUEUE="entry_imfdfkmq"
 STAGE_DIR="scripts/hpc/stage_c2"
 
 REQUIRED_PATHS=(
+  "models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension"
   "models/generated/molnar_gravouil_2017/aux_continuum/H0_aux_miseseri"
   "models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact"
   "models/generated/molnar_gravouil_2017/unified_preprocessing"
   "configs/preprocessing/molnar_h0_h1_unified.yaml"
   "configs/remeshing/miseseri_h0_to_h1_initial.json"
+  "configs/studies/molnar_lc015_h_convergence.yaml"
   "results/processed/molnar_lc015_h_convergence"
   "scripts/preprocessing"
   "scripts/postprocessing"

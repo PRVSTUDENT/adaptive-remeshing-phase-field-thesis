@@ -931,14 +931,19 @@ def generate_role(
             f"(raw={got_for_raw}, lf={got_for_lf}, expected_lf_or_crlf in config/legacy)"
         )
 
-    study_path = ROOT / config.get("paths", {}).get("study_config", "configs/studies/molnar_lc015_h_convergence.yaml")
-    study = yaml.safe_load(study_path.read_text(encoding="utf-8"))
-
     if physical_nodes_csv and physical_elems_csv:
+        # C2C / remesh path: physical mesh comes from offline refined CSVs.
+        # Do not require study YAML in the prestage for this branch.
         physical = load_physical_mesh_from_csv(physical_nodes_csv, physical_elems_csv)
     elif role_cfg["physical_mesh_source"] == "author_supplementary_parsed" and role != "H0_refined":
         physical = parse_author_physical_mesh(preserved_inp)
     else:
+        study_path = ROOT / config.get("paths", {}).get(
+            "study_config", "configs/studies/molnar_lc015_h_convergence.yaml"
+        )
+        if not study_path.is_file():
+            raise FileNotFoundError(f"Study config required for graded mesh build: {study_path}")
+        study = yaml.safe_load(study_path.read_text(encoding="utf-8"))
         physical = build_graded_physical_mesh(local_h, study)
 
     nodes = physical["nodes"]
