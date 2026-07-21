@@ -48,7 +48,10 @@ fi
 OUT="${PROJECT_HOME}/models/generated/molnar_gravouil_2017/unified_preprocessing/H0_refined_layered"
 mkdir -p "${OUT}" "${RUN_DIR}"
 
-python3 scripts/preprocessing/build_molnar_unified_deck.py \
+if [ -x /usr/bin/python3.12 ]; then PY=python3.12; else PY=python3; fi
+echo "using_python=$(${PY} --version 2>&1)" > "${RUN_DIR}/python_version.txt"
+
+${PY} scripts/preprocessing/build_molnar_unified_deck.py \
   --config configs/preprocessing/molnar_h0_h1_unified.yaml \
   --role-name H0_refined \
   --output-profile fracture_baseline \
@@ -61,7 +64,7 @@ DECK="$(ls "${OUT}"/*fullgen.inp "${OUT}"/*.inp 2>/dev/null | head -n1)"
 FOR="$(ls "${OUT}"/*fullgen.for "${OUT}"/*.for 2>/dev/null | head -n1)"
 [ -n "${DECK}" ] && [ -n "${FOR}" ] || fail "missing_rebuilt_deck" 13
 
-python3 scripts/validation/validate_molnar_unified_deck.py \
+${PY} scripts/validation/validate_molnar_unified_deck.py \
   --deck "${DECK}" \
   --fortran "${FOR}" \
   --role H0 \

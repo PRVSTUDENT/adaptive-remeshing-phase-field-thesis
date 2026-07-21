@@ -67,8 +67,16 @@ export MISESERI_AUX_CONTINUUM=1
 abaqus python "${PRESTAGED_ROOT}/scripts/postprocessing/export_miseseri_preanalysis_csv.py" \
   > "${RUN_DIR}/export_stdout.log" 2>&1 || fail "export_failure" 12
 
-# Scientific gate + remesh (system python)
-python3 "${PRESTAGED_ROOT}/scripts/postprocessing/gate_and_remesh_c2b.py" \
+# Scientific gate + remesh — use python3.12 (cluster default python3 is 3.6)
+if [ -x /usr/bin/python3.12 ]; then
+  PY=python3.12
+elif command -v python3.11 >/dev/null 2>&1; then
+  PY=python3.11
+else
+  PY=python3
+fi
+echo "using_python=$(command -v ${PY} || true) version=$(${PY} --version 2>&1)" > "${RUN_DIR}/python_version.txt"
+${PY} "${PRESTAGED_ROOT}/scripts/postprocessing/gate_and_remesh_c2b.py" \
   --csv "${RUN_DIR}/C2A_MISESERI_ELEMENT_DATA_raw.csv" \
   --config "${PRESTAGED_ROOT}/configs/remeshing/miseseri_h0_to_h1_initial.json" \
   --out-dir "${RUN_DIR}" \

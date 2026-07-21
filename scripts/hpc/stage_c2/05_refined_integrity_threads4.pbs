@@ -48,7 +48,8 @@ FOR="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_FOR_PATH.txt")
 [ -f "${DECK}" ] && [ -f "${FOR}" ] || fail "missing_refined_deck" 7
 
 # Build reduced-load integrity inp from refined deck: replace fracture steps with short elastic
-python3 - <<PY || fail "integrity_deck_build_failure" 8
+if [ -x /usr/bin/python3.12 ]; then PY=python3.12; else PY=python3; fi
+${PY} - <<PY || fail "integrity_deck_build_failure" 8
 from pathlib import Path
 src = Path("${DECK}").read_text(encoding="utf-8", errors="replace")
 # Keep through End Assembly + material, strip original steps, add short elastic

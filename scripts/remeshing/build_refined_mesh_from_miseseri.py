@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Build refined physical mesh from MISESERI element-field CSV (system Python).
 
-Used after CAE ODB extraction in Stage C Job 3. No Abaqus/Standard solve.
+Compatible with older cluster Python (no PEP563 annotations).
+No Abaqus/Standard solve.
 """
-
-from __future__ import annotations
 
 import argparse
 import csv
@@ -20,12 +19,12 @@ from build_molnar_lc015_h_convergence import MeshBuilder, paper_like_config  # n
 from estimate_molnar_paper_mesh import make_axis_spacings  # noqa: E402
 
 
-def load_rows(csv_path: Path) -> list[dict]:
+def load_rows(csv_path):
     with csv_path.open(newline="", encoding="utf-8") as stream:
         return list(csv.DictReader(stream))
 
 
-def apply_marks(rows: list[dict], rule: dict) -> dict:
+def apply_marks(rows, rule):
     error_target = float(rule["errorTarget"])
     refinement_factor = float(rule["refinementFactor"])
     min_h = float(rule["minElementSize_mm"])
@@ -45,7 +44,7 @@ def apply_marks(rows: list[dict], rule: dict) -> dict:
             row["target_h"] = str(h)
     return {
         "n_marked": n_marked,
-        "fraction_marked": n_marked / len(rows) if rows else 0.0,
+        "fraction_marked": (n_marked / float(len(rows))) if rows else 0.0,
         "errorTarget": error_target,
         "refinementFactor": refinement_factor,
         "minElementSize_mm": min_h,
@@ -53,12 +52,11 @@ def apply_marks(rows: list[dict], rule: dict) -> dict:
     }
 
 
-def refined_zone_from_rows(rows: list[dict], min_h: float) -> dict:
-    marked = [
-        (float(r["xc"]), float(r["yc"]))
-        for r in rows
-        if r.get("marked_for_refinement") in ("1", 1, True, "True")
-    ]
+def refined_zone_from_rows(rows, min_h):
+    marked = []
+    for r in rows:
+        if r.get("marked_for_refinement") in ("1", 1, True, "True"):
+            marked.append((float(r["xc"]), float(r["yc"])))
     if not marked:
         return {
             "x_min": -0.02,
@@ -80,7 +78,7 @@ def refined_zone_from_rows(rows: list[dict], min_h: float) -> dict:
     }
 
 
-def build_mesh(local_h: float, refined_zone: dict, global_h: float) -> tuple[dict, list]:
+def build_mesh(local_h, refined_zone, global_h):
     study = {
         "mesh_recipe": {
             "refined_zone": refined_zone,
@@ -96,8 +94,8 @@ def build_mesh(local_h: float, refined_zone: dict, global_h: float) -> tuple[dic
     return mesh.node_coords, mesh.element_connectivity()
 
 
-def corridor_stats(nodes: dict, conn: list, zone: dict) -> dict | None:
-    edges: list[float] = []
+def corridor_stats(nodes, conn, zone):
+    edges = []
     for n1, n2, n3, n4 in conn:
         pts = [nodes[n1], nodes[n2], nodes[n3], nodes[n4]]
         xc = sum(p[0] for p in pts) / 4.0
@@ -111,11 +109,14 @@ def corridor_stats(nodes: dict, conn: list, zone: dict) -> dict | None:
         return None
     edges.sort()
     mid = len(edges) // 2
-    med = edges[mid] if len(edges) % 2 else 0.5 * (edges[mid - 1] + edges[mid])
+    if len(edges) % 2:
+        med = edges[mid]
+    else:
+        med = 0.5 * (edges[mid - 1] + edges[mid])
     return {"min": edges[0], "median": med, "max": edges[-1], "count": len(edges)}
 
 
-def main() -> int:
+def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--csv", type=Path, required=True)
     parser.add_argument("--config", type=Path, required=True)
@@ -137,24 +138,23 @@ def main() -> int:
     with nodes_csv.open("w", encoding="utf-8", newline="\n") as stream:
         stream.write("node_id,x,y\n")
         for nid in sorted(nodes):
-            stream.write(f"{nid},{nodes[nid][0]},{nodes[nid][1]}\n")
+            stream.write("%s,%s,%s\n" % (nid, nodes[nid][0], nodes[nid][1]))
     with elems_csv.open("w", encoding="utf-8", newline="\n") as stream:
         stream.write("element_id,n1,n2,n3,n4\n")
         for i, c in enumerate(conn, start=1):
-            stream.write(f"{i},{c[0]},{c[1]},{c[2]},{c[3]}\n")
+            stream.write("%s,%s,%s,%s,%s\n" % (i, c[0], c[1], c[2], c[3]))
     lines = ["*Heading", "** Refined physical mesh", "*Node"]
     for nid in sorted(nodes):
-        lines.append(f"{nid}, {nodes[nid][0]:.10g}, {nodes[nid][1]:.10g}")
+        lines.append("%s, %.10g, %.10g" % (nid, nodes[nid][0], nodes[nid][1]))
     lines.append("*Element, type=CPS4, elset=physical")
     for i, c in enumerate(conn, start=1):
-        lines.append(f"{i}, {c[0]}, {c[1]}, {c[2]}, {c[3]}")
-    physical_inp.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
+        lines.append("%s, %s, %s, %s, %s" % (i, c[0], c[1], c[2], c[3]))
+    physical_inp.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    # rewrite marked CSV
     marked_csv = args.out / "miseseri_element_field_marked.csv"
     with marked_csv.open("w", encoding="utf-8", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(rows[0].keys()) if rows else [])
         if rows:
+            writer = csv.DictWriter(stream, fieldnames=list(rows[0].keys()))
             writer.writeheader()
             writer.writerows(rows)
 
