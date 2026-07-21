@@ -51,8 +51,10 @@ WP1 one-element scientific gate & Passed provisionally \\
 WP2 single-notch technical gate & Passed \\
 Paper-matched candidate-v2 HPC technical run & \texttt{paper\_matched\_v2\_technical\_pass} \\
 Paper-matched candidate-v2 scientific comparison & \texttt{scientific\_review\_required} \\
-MISESERI pre-refinement & Blocked until WP2 review \\
-Remeshing/state transfer & Not started \\
+Gate A3 RF--U use & Conditionally accepted (supervisor Decisions 1A + 2B) \\
+Mesh roles & H2-PUB fine validation; H1 production/report; H0 test/debug \\
+MISESERI pre-refinement & Stage C \textbf{preparation} authorized; HPC submission not authorized \\
+Remeshing/state transfer & Online state transfer not started \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -587,7 +589,8 @@ Formal successive-mesh RF--U metrics (finer mesh as denominator):
 Classification for scalar/pre-peak RF--U: \texttt{rf\_u\_h\_convergence\_supported} (provisional descriptive wording only).
 Crack-path convergence: \texttt{crack\_path\_convergence\_not\_assessed}.
 Recommended RF--U uniform fine reference: H2-PUB; intermediate studies: H1 with documented limitations.
-Gate A3 remains open. Evidence: \path{runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md}.
+At the time of analysis, Gate A3 remained open pending supervisor response.
+Evidence: \path{runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md}.
 
 
 \subsection{Scientific decision for lc = 0.015 mm RF--U h-convergence}
@@ -596,20 +599,37 @@ Peak and pre-peak RF--U h-convergence is supported between H1 and H2-PUB
 (peak-force change about \(0.47\%\), pre-peak NRMSE about \(0.11\%\)).
 Post-peak mesh independence is not fully demonstrated
 (full-curve NRMSE about \(6.0\%\), post-peak about \(20.2\%\)).
-Conservative RF--U reference: H2-PUB; intermediate development mesh: H1; H0 is not recommended as reference.
-Crack-path convergence remains unassessed.
-Gate A3 remains open with internal RF--U status \texttt{rf\_u\_reference\_supported\_contour\_evidence\_pending}.
 Canonical decision: \path{docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md}.
 
-\subsection{Gate A3 supervisor decision package (no new run)}
+\subsection{Gate A3 supervisor decision package (historical request)}
 
-A concise no-solution supervisor package was prepared from the completed RF--U study.
-It requests exactly two decisions: (1)~accept H2-PUB as the uniform RF--U reference (options A/B/C);
-(2)~whether matched-state SDV15/crack-path contours are mandatory, deferred, or limited (options A/B/C/D).
-No supervisor answer is inferred. Gate A3 is not marked passed; Stage A is not complete.
+A concise no-solution supervisor package requested two decisions:
+(1)~accept H2-PUB as the uniform RF--U reference;
+(2)~whether matched-state SDV15/crack-path contours are mandatory, deferred, or limited.
 Evidence: \path{docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md};
-\path{docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md};
-\path{docs/handoffs/MOLNAR_H_CONVERGENCE_SUPERVISOR_SLIDE_CONTENT.md};
-\path{docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md}.
+\path{docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md}.
+
+\subsection{Supervisor Decisions 1A and 2B (recorded)}
+
+The supervisor operating policy is recorded as Decisions \textbf{1A} and \textbf{2B}:
+\begin{itemize}
+  \item \textbf{1A} mesh roles: H0 for fast testing/debugging (\(h\approx 0.00494\,\mathrm{mm}\));
+        H1 for final thesis/report simulations (\(h=0.0025\,\mathrm{mm}\));
+        H2-PUB for fine RF--U validation evidence only (\(h=0.001\,\mathrm{mm}\)).
+  \item \textbf{2B} contour/crack-path convergence is deferred and does not block
+        MISESERI Stage~C preparation.
+\end{itemize}
+Gate A3 is therefore \textbf{conditionally accepted for RF--U validation use}, with status tags
+\texttt{gate\_a3\_conditionally\_accepted\_rf\_u},
+\texttt{contour\_validation\_deferred}, and
+\texttt{stage\_c\_miseseri\_preparation\_authorized}.
+H2-PUB is the fine validation reference; H1 is the production/report and Stage~C comparison mesh;
+H0 is the development mesh for preprocessing and the first MISESERI implementation trials.
+Post-peak mesh dependence remains a documented limitation.
+No PBS/Abaqus/CAE submission is authorized until explicit further approval.
+Recording: \path{docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md};
+mesh policy: \path{docs/decisions/MESH_USE_POLICY.md};
+result freeze: \path{docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md};
+Stage~C plan: \path{docs/studies/STAGE_C_MISESERI_PREPARATION_PLAN.md}.
 
 \end{document}

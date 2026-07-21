@@ -1,0 +1,156 @@
+# Unified Molnar H0/H1 preprocessing configuration (example / control file).
+# Status: scaffolding for automated preprocessing (Phase 2).
+# Does not authorize HPC submission.
+#
+# Authority: docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md
+# Mesh policy: docs/decisions/MESH_USE_POLICY.md
+
+schema_version: 1
+config_id: molnar_h0_h1_unified_example
+status: example_not_executable_until_pipeline_complete
+gate_boundary:
+  stage_c_preparation_authorized: true
+  hpc_submission_authorized: false
+  miseseri_execution_authorized: false
+
+benchmark:
+  name: molnar_single_notch_exact_supplementary_lc015
+  source_model: models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension
+  geometry:
+    width_mm: 1.0
+    height_mm: 1.0
+    notch_length_mm: 0.5
+    notch_y_mm: 0.0
+  material:
+    youngs_modulus_kN_per_mm2: 210.0
+    poissons_ratio: 0.3
+    critical_energy_release_rate_kN_per_mm: 0.0027
+    length_scale_mm: 0.015
+    thickness_mm: 1.0
+    residual_stiffness_u2: 1.0e-7
+    residual_stiffness_umat: 1.0e-11
+  phase_field_convention:
+    intact: 0
+    broken: 1
+  architecture:
+    phase_element: U1
+    displacement_element: U2
+    visualization_element: CPS4
+  loading:
+    source: exact_supplementary_SingleNotch.inp
+    amplitude_1: [0.0, 0.0, 0.5, 0.005]
+    amplitude_2: [0.0, 0.005, 0.5, 0.01]
+    step1_inc: 500
+    step1_static_direct: [0.001, 0.5]
+    step2_inc: 2000
+    step2_static_direct: [0.0001, 0.2]
+    total_prescribed_displacement_mm: 0.01
+
+mesh:
+  # mesh_role selects which size policy is active for generation.
+  # H0 = development/testing; H1 = production/report; H2-PUB = fine validation only
+  # and is not a default generator target for Stage C preparation.
+  mesh_role: H0
+  topology: structured_piecewise_graded_quad_split_notch
+  refined_zone:
+    x_min: -0.02
+    x_max: 0.5
+    y_min: -0.005
+    y_max: 0.005
+  global_element_size_mm: 0.025
+  maximum_neighbouring_size_ratio: 1.5
+  transition_law: geometric_size_growth
+  roles:
+    H0:
+      purpose: development_testing_debug
+      local_target_h_mm: 0.005
+      measured_corridor_h_median_mm: 0.004943904068987025
+      physical_elements_expected: 3930
+      layered_elements_expected: 11790
+    H1:
+      purpose: production_report_comparison_reference
+      local_target_h_mm: 0.0025
+      measured_corridor_h_median_mm: 0.0025
+      physical_elements_expected: 12064
+      layered_elements_expected: 36192
+    H2-PUB:
+      purpose: fine_rf_u_validation_reference_only
+      local_target_h_mm: 0.001
+      measured_corridor_h_median_mm: 0.001
+      physical_elements_expected: 33852
+      layered_elements_expected: 101556
+      generate_by_default: false
+
+layers:
+  uel_displacement: true
+  uel_phase_field: true
+  umat_facsimile_visualization: true
+  element_label_offsets:
+    # Filled by generator from layered-deck mapping rules.
+    physical_base: pending_generator
+    phase_offset: pending_generator
+    displacement_offset: pending_generator
+    visualization_offset: pending_generator
+  required_sets:
+    - All_elem
+    - umatelem
+  dof_ordering: source_mapped_molnar_staggered
+
+outputs:
+  always:
+    - U
+    - RF
+    - SDV
+  miseseri_preanalysis:
+    - MISESERI
+    - MISESAVG
+    - S
+    - EVOL
+    - U
+    - RF
+  reaction_point: RP
+  reaction_component: RF2
+  displacement_component: U2
+
+remeshing:
+  method: miseseri_pre_refinement
+  source: Pandey and Kumar (2025)
+  claim_boundary: pre_refinement_only_not_online_evolving
+  coarsening: false
+  passes: 1
+  target_local_final_h_mm: 0.0025
+  comparison_reference_mesh: H1
+  solver_mode_initial: serial
+  # Initial values must be defined and recorded BEFORE seeing final crack results.
+  # Do not retune errorTarget after viewing the final crack result.
+  rule:
+    errorTarget: pending_initial_definition
+    refinementFactor: pending_initial_definition
+    minElementSize: pending_initial_definition
+    maxElementSize: pending_initial_definition
+  preanalysis_load_mode: pending_supervisor_choice  # elastic | partial_fracture
+
+validation:
+  gate_p1_determinism:
+    enabled: true
+    mesh_role: H0
+    requirement: same_config_same_geometry_mesh_labels_sets_keywords
+  mandatory_checks:
+    - no_duplicate_nodes_or_elements
+    - uel_umat_facsimile_connectivity_correspondence
+    - physical_to_layer_element_label_offsets
+    - required_sets
+    - uel_property_blocks
+    - dof_ordering
+    - material_and_length_scale_values
+    - mesh_size_in_crack_corridor
+    - h_over_lc
+    - rp_and_reaction_force_output
+    - miseseri_misesavg_s_evol_u_rf_sdv
+    - deterministic_generation
+
+integrity:
+  frozen_uniform_reference_results: docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md
+  preserved_source_hashes:
+    SingleNotch.inp: 89ce3f32e396b0e484be6753a272dd6bbb2a2f9daff426d6a57419f57d665b72
+    SingleNotch.for: 18944e5bb2a3b7973fd0d4bff03f8e078eef667965343d8a29156d093f53f5f1

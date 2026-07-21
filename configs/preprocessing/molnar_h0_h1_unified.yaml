@@ -1,0 +1,164 @@
+# Unified Molnar H0/H1 preprocessing configuration (authoritative for Stage C prep).
+# Status: full-generation control file (no HPC submission).
+#
+# Authority:
+#   docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md
+#   docs/decisions/MESH_USE_POLICY.md
+
+schema_version: 1
+config_id: molnar_h0_h1_unified
+status: full_generation_authorized_submission_not_authorized
+gate_boundary:
+  stage_c_preparation_authorized: true
+  hpc_submission_authorized: true
+  miseseri_execution_authorized: true
+  automatic_retry_authorized: false
+  stage_c_campaign: five_job_staged_once_each
+
+benchmark:
+  name: molnar_single_notch_exact_supplementary_lc015
+  source_model: models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension
+  preserved_inp: models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.inp
+  preserved_for: models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.for
+  expected_preserved_inp_sha256: 89ce3f32e396b0e484be6753a272dd6bbb2a2f9daff426d6a57419f57d665b72
+  expected_preserved_for_sha256: 18944e5bb2a3b7973fd0d4bff03f8e078eef667965343d8a29156d093f53f5f1
+  geometry:
+    width_mm: 1.0
+    height_mm: 1.0
+    notch_length_mm: 0.5
+    notch_y_mm: 0.0
+  material:
+    youngs_modulus_kN_per_mm2: 210.0
+    poissons_ratio: 0.3
+    critical_energy_release_rate_kN_per_mm: 0.0027
+    length_scale_mm: 0.015
+    thickness_mm: 1.0
+    residual_stiffness_u2: 1.0e-7
+    residual_stiffness_umat: 1.0e-11
+  phase_field_convention:
+    intact: 0
+    broken: 1
+  architecture:
+    phase_element: U1
+    displacement_element: U2
+    visualization_element: CPS4
+    label_offsets:
+      phase: 0            # 1 .. N
+      displacement: 1     # N+1 .. 2N  (factor of N)
+      visualization: 2    # 2N+1 .. 3N
+  loading:
+    source: exact_supplementary_SingleNotch.inp
+    amplitude_1: [0.0, 0.0, 0.5, 0.005]
+    amplitude_2: [0.0, 0.005, 0.5, 0.01]
+    step1_inc: 500
+    step1_static_direct: [0.001, 0.5]
+    step2_inc: 2000
+    step2_static_direct: [0.0001, 0.2]
+    total_prescribed_displacement_mm: 0.01
+    field_output_time_interval: 0.01
+
+mesh:
+  mesh_role: H0
+  topology_h1_h2: structured_piecewise_graded_quad_split_notch
+  refined_zone:
+    x_min: -0.02
+    x_max: 0.5
+    y_min: -0.005
+    y_max: 0.005
+  global_element_size_mm: 0.025
+  maximum_neighbouring_size_ratio: 1.5
+  transition_law: geometric_size_growth
+  roles:
+    H0:
+      purpose: development_testing_debug
+      physical_mesh_source: author_supplementary_parsed
+      local_target_h_mm: 0.005
+      measured_corridor_h_median_mm: 0.004943904068987025
+      physical_elements_expected: 3930
+      layered_elements_expected: 11790
+      frozen_reference_dir: models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact
+    H1:
+      purpose: production_report_comparison_reference
+      physical_mesh_source: graded_mesh_builder
+      local_target_h_mm: 0.0025
+      measured_corridor_h_median_mm: 0.0025
+      physical_elements_expected: 12064
+      layered_elements_expected: 36192
+      frozen_reference_dir: models/generated/molnar_gravouil_2017/h_convergence_lc015/H1_h0025
+    H2-PUB:
+      purpose: fine_rf_u_validation_reference_only
+      physical_mesh_source: graded_mesh_builder
+      local_target_h_mm: 0.001
+      measured_corridor_h_median_mm: 0.001
+      physical_elements_expected: 33852
+      layered_elements_expected: 101556
+      generate_by_default: false
+      frozen_reference_dir: models/generated/molnar_gravouil_2017/h_convergence_lc015/H2_pub_h0010
+
+layers:
+  uel_phase_field: true
+  uel_displacement: true
+  umat_facsimile_visualization: true
+  required_nsets:
+    - RP
+    - bottom
+    - top
+    - bottoml
+    - topl
+  required_elsets:
+    - PLATE
+    - PLATE_SS
+    - umatelem
+
+outputs:
+  profile: fracture_baseline
+  profiles:
+    fracture_baseline:
+      node: [U]
+      rp: [RF, U]
+      element_umatelem: [SDV]
+    miseseri_preanalysis:
+      node: [U]
+      rp: [RF, U]
+      element_umatelem: [SDV, S, EVOL, MISESERI, MISESAVG]
+      create_all_elem_set: true
+
+remeshing:
+  method: miseseri_pre_refinement
+  source: Pandey and Kumar (2025)
+  claim_boundary: pre_refinement_only_not_online_evolving
+  coarsening: false
+  passes: 1
+  target_local_final_h_mm: 0.0025
+  comparison_reference_mesh: H1
+  solver_mode_initial: serial
+  preanalysis_load_mode: elastic_precrack
+  preanalysis:
+    # U_pre = 0.8 * U_peak_H1 = 0.8 * 0.0058 = 0.00464 mm (engineering choice)
+    u_pre_mm: 0.00464
+    u_peak_h1_mm: 0.0058
+    u_pre_factor: 0.8
+    u_smoke_mm: 0.001
+    step_inc: 200
+    static_direct: [0.005, 1.0]
+    field_output_time_interval: 0.05
+  rule:
+    errorTarget: 0.05
+    refinementFactor: 2.0
+    minElementSize_mm: 0.0025
+    maxElementSize_mm: 0.025
+    coarsening: false
+    passes: 1
+  rule_proposal_doc: docs/decisions/MISESERI_REMESHING_PARAMETER_PROPOSAL.md
+
+validation:
+  gate_p1_determinism:
+    enabled: true
+    mesh_role: H0
+    requirement: same_config_same_nodes_elements_labels_sets_keyword_structure
+  compare_to_frozen_h0: true
+  h_over_lc_check: true
+
+paths:
+  output_root: models/generated/molnar_gravouil_2017/unified_preprocessing
+  study_config: configs/studies/molnar_lc015_h_convergence.yaml

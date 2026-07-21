@@ -1,0 +1,39 @@
+{
+  "remeshing_id": "miseseri_pre_refinement_h0_to_h1_initial",
+  "method": "miseseri_pre_refinement",
+  "source": "Pandey and Kumar (2025) method class; numerical values are initial project proposals",
+  "status": "frozen_for_stage_c_execution",
+  "hpc_submission_authorized": true,
+  "stage_c_campaign_authorized": true,
+  "retune_after_final_crack": false,
+  "automatic_retry_authorized": false,
+  "coarse_source_mesh": "H0",
+  "target_refined_local_h_mm": 0.0025,
+  "comparison_reference": "uniform_H1",
+  "claim_boundary": "pre_refinement_only_not_online_evolving",
+  "coarse_pre_analysis": {
+    "benchmark": "molnar_single_notch_lc015",
+    "load_mode": "elastic_precrack",
+    "u_pre_mm": 0.00464,
+    "u_peak_h1_mm": 0.0058,
+    "u_pre_factor": 0.8,
+    "u_pre_definition": "U_pre = 0.8 * U_peak_H1 = 0.8 * 0.0058 = 0.00464 mm",
+    "required_outputs": ["MISESERI", "MISESAVG", "S", "EVOL", "U", "RF", "SDV"]
+  },
+  "rule": {
+    "errorTarget": 0.05,
+    "refinementFactor": 2.0,
+    "minElementSize_mm": 0.0025,
+    "maxElementSize_mm": 0.025,
+    "coarsening": false,
+    "passes": 1
+  },
+  "integrity_checks": [
+    "umatelem set present",
+    "facsimile connectivity mapping verified",
+    "required output requests present",
+    "local h near 0.0025 mm in refined corridor",
+    "no coarsening"
+  ],
+  "documentation": "docs/decisions/MISESERI_REMESHING_PARAMETER_PROPOSAL.md"
+}

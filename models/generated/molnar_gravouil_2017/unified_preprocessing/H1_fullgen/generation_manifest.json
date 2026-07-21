@@ -1,0 +1,47 @@
+{
+  "case_id": "H1",
+  "config_id": "molnar_h0_h1_unified",
+  "corridor_h_over_lc_median": 0.16666666666666682,
+  "corridor_stats": {
+    "all_h_median": 0.0025000008,
+    "corridor_edge_count": 3328,
+    "corridor_h_max": 0.0025000008,
+    "corridor_h_mean": 0.0025000001002403846,
+    "corridor_h_median": 0.0025000000000000022,
+    "corridor_h_min": 0.0024999999999999467
+  },
+  "deck_path": "models/generated/molnar_gravouil_2017/unified_preprocessing/H1_fullgen/H1_fullgen.inp",
+  "deck_sha256": "426ca363d557a85d1a474a85645abd69413f23688b68edfac9f01e8181c769cd",
+  "dry_run": false,
+  "fortran_n_elem": {
+    "n_elem_occurrences": 2,
+    "only_n_elem_changed": true,
+    "physical_elements": 12064,
+    "sha256": "745db8fcfb612895e0289f4533c90d204cc9b2ade3678a035614feeb308b5ead"
+  },
+  "fortran_path": "models/generated/molnar_gravouil_2017/unified_preprocessing/H1_fullgen/H1_fullgen.for",
+  "fortran_sha256": "745db8fcfb612895e0289f4533c90d204cc9b2ade3678a035614feeb308b5ead",
+  "frozen_h0_equivalence": null,
+  "generation_mode": "full_layered_pipeline",
+  "hpc_submission_authorized": false,
+  "label_offsets": {
+    "CPS4": "24129..36192",
+    "U1": "1..12064",
+    "U2": "12065..24128"
+  },
+  "layer_mapping_sha256": "b03696193f05d963e5c4aebc7b16a28c65f27005ae58868e22bda731bff83415",
+  "layered_elements": 36192,
+  "length_scale_mm": 0.015,
+  "local_target_h_mm": 0.0025,
+  "mesh_elements_sha256": "caabc2307c4c2fbc4cab329e94183c829100f364dee1a822ea9f19a7862e0394",
+  "mesh_nodes_sha256": "5cd5c629afd1c2f7990d1d1c25e848367b40644e1ca1bef75d7e856ffc834181",
+  "node_count_part": 12381,
+  "output_profile": "fracture_baseline",
+  "phase_field_convention": {
+    "broken": 1,
+    "intact": 0
+  },
+  "physical_elements": 12064,
+  "physical_mesh_source": "graded_mesh_builder",
+  "target_h_over_lc": 0.16666666666666669
+}

@@ -1,0 +1,22 @@
+{
+  "checks": {
+    "generated_layer_connectivity_equal": true,
+    "label_offsets_cps4_2n_plus": true,
+    "label_offsets_u1_1_to_n": true,
+    "label_offsets_u2_n_plus": true,
+    "nset_bottom": true,
+    "nset_bottoml": true,
+    "nset_top": true,
+    "nset_topl": true,
+    "part_nodes_equal": true,
+    "physical_count_equal": true,
+    "physical_u1_connectivity_equal": true,
+    "u1_props": true,
+    "u2_props": true,
+    "umat_props": true
+  },
+  "loading_intentionally_different": true,
+  "output_profile": "elastic_preanalysis",
+  "scope": "mesh_layer_props_only_elastic_or_preanalysis_profile",
+  "status": "pass"
+}

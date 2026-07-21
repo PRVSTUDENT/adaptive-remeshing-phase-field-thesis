@@ -11,15 +11,16 @@
 
 ## Current thesis handoff - update this block after every substantial work session
 
-Updated: 2026-07-20
+Updated: 2026-07-21
 
 Current stage:
 
-- Stage A / WP2 remains open. Gate A3 overall remains **open** with historical label `reference_data_insufficient`. RF–U component internal status: `rf_u_reference_supported_contour_evidence_pending`.
-- Molnar `lc = 0.015 mm` h-convergence RF–U decision is recorded: peak/pre-peak supported; post-peak not fully demonstrated; crack-path not assessed; publication provisional. Conservative RF–U reference: **H2-PUB**; intermediate: **H1**; H0 not a reference. Safest wording requires stating post-peak mesh dependence as a limitation. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`; analysis commit `db4c1fa`.
-- Solvers H0/H1/H2 technical pass; consolidated CAE `1376236` RF–U pass; contour PNG export incomplete. No further PBS/Abaqus/CAE without new authorization.
-- Current campaign boundary: no solver retry, H0 rerun, extra mesh, H3, length-scale study, increment-sensitivity study, MISESERI run, adaptive-remeshing run, state-transfer run, GPU run, formulation change, or parameter change is authorized.
-- CPU policy boundary: the current H0/H1/H2 campaign remains serial and must not be altered in flight. For future work in this thesis, multicore use is a project-specific validation task and is no longer governed by any previous-project “Stage 16N” policy. Threaded Abaqus execution may be adopted only after serial-versus-threaded repeatability and scaling are demonstrated for the relevant UEL/UMAT model.
+- Gate A3 RF–U validation use is **conditionally accepted** (Decisions **1A**/**2B**). Mesh roles: H0 test, H1 production, H2-PUB fine validation.
+- Stage C **execution authorized** (user message): staged Jobs 1–5 once each; no automatic retries; no formulation/reference/scope changes without supervisor. Authority: `docs/decisions/STAGE_C_EXECUTION_AUTHORIZATION.md`.
+- Fixed remeshing params: errorTarget=0.05, refinementFactor=2.0, min h=0.0025 mm, max h=0.025 mm, 1 pass, no coarsening. Elastic pre-crack `U_pre=0.00464 mm` (=0.8×Upeak_H1).
+- Job 3 implemented: ODB extract (`extract_miseseri_from_odb.py`) + remesh (`build_refined_mesh_from_miseseri.py`).
+- Job 1 smoke deck + Job 2 preanalysis decks generated and statically validated. Submit Job 1 via `scripts/hpc/submit_stage_c_job1_smoke.sh`.
+- Not authorized: automatic retries, parameter sweeps, multicore/GPU, state transfer, online remeshing, formulation/material changes.
 - Stage A / WP2 - Molnar baseline reproduction and paper-matched single-notch scientific comparison.
 - The unchanged smaller Molnar supplementary single-notch deck has a local technical pass and reproducible first extraction. It remains supporting technical reproducibility evidence, not the exact Fig. 7 numerical comparison target. The paper-matched candidate-v2 serial HPC baseline job `1374864.mmaster02` completed with `paper_matched_v2_technical_pass`; postprocessing against the existing scratch ODB produced RF-U, matched-state contours, crack-path diagnostics, SDV bound/irreversibility diagnostics, and a no-solution decision report. The scientific decision classification is `paper_matched_v2_scientific_review_incomplete`, not a final pass, because post-peak RF-U mismatch and unresolved SDV15 interpretation remain.
 - No remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
@@ -41,9 +42,9 @@ Current stage:
 - Failure category: none for the retry; preserved failed attempt `1374532.mmaster02` remains classified as `callback_invocation`.
 - Paper-matched candidate v2 technical result: `paper_matched_v2_technical_pass`.
 - Paper-matched candidate v2 scientific comparison: `paper_matched_v2_scientific_review_incomplete`.
-- Gate A3: `reference_data_insufficient`; the approximate Fig. 7 curve comparison is useful forensic evidence, but closure still requires supervisor-approved tolerances and uniform-reference justification. Supervisor-review package: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; meeting handoff: `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`; conditional targeted-output evidence specification: `docs/decisions/MOLNAR_TARGETED_OUTPUT_RERUN_REQUIREMENTS.md`.
-- Stage A: open.
-- MISESERI/remeshing: blocked.
+- Gate A3 RF–U: `gate_a3_conditionally_accepted_rf_u` (Decisions 1A+2B). Contour: deferred. Residual paper-matched/absolute-tolerance items may remain open. Historical package: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`. Status matrix: `docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md`.
+- Stage A: open (RF–U mesh policy frozen; residual narratives may remain).
+- MISESERI/remeshing: **preparation authorized**; execution/submission not authorized.
 - Evolving remeshing with state transfer is mandatory for the thesis scope, but no online-remesh claim is allowed until controlled field transfer and fracture-relevant transfer tests pass.
 - Local environment inspection found Abaqus 2024 (`abaqus`/`abq2024`) and Abaqus Python 3.10.5 available on Windows; Intel Fortran is usable for Abaqus only after the clean-shell Visual Studio Build Tools plus Intel oneAPI setup.
 - Molnar and Gravouil (2017) supplementary `.for`/`.inp` files are preserved unmodified under `models/baseline_original/molnar_gravouil_2017/`; checksums are recorded in that folder's `README.md`.
@@ -82,22 +83,22 @@ Known source documents:
 
 - Formal RF–U analysis: H0→H1 peak force ≈4.00%; H1→H2 peak force ≈0.47%, Upeak change 0%, K0 change ≈0.06%, pre-peak NRMSE ≈0.11%, full NRMSE ≈6.0%, post-peak NRMSE ≈20.2%. Decision frozen in `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`.
 
-- Gate A3 supervisor decision package prepared (no new runs): `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; meeting handoff `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`; slide content `docs/handoffs/MOLNAR_H_CONVERGENCE_SUPERVISOR_SLIDE_CONTENT.md`; status matrix `docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md`. Two decisions requested: H2-PUB as RF–U reference; contour requirement. Gate A3 not passed.
+- Gate A3 supervisor decision package prepared historically (no new runs), then Decisions **1A** and **2B** recorded: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`. Contours deferred; Stage C preparation authorized.
+- Mesh roles, H0/H1/H2 results/hashes frozen: `docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md`.
+- Stage C preparation docs and unified preprocessing config/scaffold created (no HPC jobs).
 
 Immediate next tasks:
 
-1. Present the supervisor package; do not infer answers.
-2. After Decision 1+2: if contours deferred → prepare MISESERI Stage C plan only (no execution); if contours mandatory → prepare one CAE-only contour plan on existing ODBs; if more evidence → scope only that.
-3. Do not submit PBS/Abaqus/CAE or start MISESERI/remeshing/state transfer without explicit new authorization.
-4. Preserve candidate v1 as failed static evidence; keep Gate A3 open until supervisor response.
+1. Submit Job 1 once (`submit_stage_c_job1_smoke.sh`); verify technical pass + MISESERI present.
+2. On Job 1 pass: submit Job 2 (full elastic pre-analysis Upre=0.00464); assess field suitability.
+3. On Job 2 pass: submit Job 3; rebuild layered refined deck; Job 4; Job 5.
+4. Stop and report on technical failure, unsuitable MISESERI field, mesh-size miss, or mapping failure.
+5. No automatic retries or parameter retuning.
 
-Unresolved decisions requiring user/supervisor confirmation:
+Unresolved (supervisor only if needed later):
 
-- Final supervisor-approved tolerances for the paper-matched benchmark and later uniform-reference comparisons.
-- Approved error tolerances for peak force, force-displacement curve, fracture energy, and crack-path distance.
-- Select and validate the exact HPC Abaqus/Fortran stack. The cluster currently advertises Abaqus 2021, 2022, and 2023 plus Intel 2024.2.0; access/resource ACLs are documented, but compatibility with the thesis UEL/UMAT and ABAQUSER path is not yet validated.
-- Whether monolithic Msekh reproduction is required or used only as a formulation reference.
-- Supervisor-approved error tolerances; current starter thresholds are provisional working gates only.
+- Formulation/material changes; replacing H1 production reference; new major study axis; accepting unresolved scientific results; thesis scope/conclusion changes.
+- Multicore qualification only after serial Stage C workflow is stable.
 
 ## HPC access, queues, resources, and operating limits
 

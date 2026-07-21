@@ -1,6 +1,6 @@
 # Project Phase Checklist
 
-Updated: 2026-07-20
+Updated: 2026-07-21
 
 This is the authoritative living task and phase checklist for the adaptive remeshing thesis workspace. Update this same file after every substantial task, run, validation, failure, retry, decision, gate transition, and phase completion. Do not create duplicate phase checklists.
 
@@ -13,8 +13,10 @@ Status markers:
 - `[?]` awaiting review, approval, or missing evidence
 - `[~]` completed provisionally but not scientifically validated
 
-Gate A3: open — supervisor decision pending (`reference_data_insufficient` retained; RF–U component `rf_u_reference_supported_contour_evidence_pending`)
-Stage A: open
+Gate A3 (RF–U validation use): **conditionally accepted** — supervisor Decisions **1A** and **2B**  
+Internal status: `gate_a3_conditionally_accepted_rf_u`; `contour_validation_deferred`; `stage_c_miseseri_preparation_authorized`  
+HPC submission: **not authorized** without explicit new approval  
+Stage A: open (residual historical items may still use `reference_data_insufficient` for full unconditional closure)
 
 ## Overall Phase Dashboard
 
@@ -24,9 +26,9 @@ Stage A: open
 | WP1 | One-element verification | `[~]` completed provisionally | source-defined numerical checks passed under provisional tolerances | `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/` |
 | WP2A | Supplementary Molnar single-notch technical benchmark | `[~]` completed provisionally | technical pass; not exact Fig. 7 comparison | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/` |
 | WP2B | Paper-matched Molnar reconstruction | `[~]` completed provisionally | technical pass; scientific review incomplete | `runs/hpc/paper_matched_single_notch_v2/RUN_MANIFEST.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md` |
-| Gate A3 | Uniform reference scientific justification | `[?]` supervisor decision pending | RF–U package ready; H2-PUB recommended; two decisions requested (reference + contours) | `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`; `docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md` |
-| WP3 | MISESERI pre-analysis and remeshing reproduction | `[!]` blocked | blocked by Gate A3 | `THESIS_PLAN.md` |
-| WP4 | Refined phase-field benchmark and efficiency comparison | `[ ]` not started | dependent on WP3 | `THESIS_PLAN.md` |
+| Gate A3 | Uniform RF–U reference scientific justification | `[~]` conditionally accepted for RF–U | 1A mesh roles + 2B contour deferred; H2-PUB validation / H1 production / H0 test | `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`; `docs/decisions/MESH_USE_POLICY.md`; `docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md` |
+| WP3 | MISESERI pre-analysis and remeshing reproduction | `[-]` preparation authorized | Stage C prep authorized; no qsub | `docs/studies/STAGE_C_MISESERI_PREPARATION_PLAN.md`; `docs/studies/STAGE_C_FIVE_JOB_CAMPAIGN_PLAN.md` |
+| WP4 | Refined phase-field benchmark and efficiency comparison | `[ ]` not started | dependent on WP3 execution | `THESIS_PLAN.md` |
 | WP5 | Evolving remesh and state transfer | `[ ]` not started | mandatory later thesis task | `THESIS_PLAN.md` |
 | WP6 | IMFD/ABAQUSER integration | `[ ]` not started | dependent on stable fields | `THESIS_PLAN.md` |
 | WP7 | Final recommendations and thesis writing | `[-]` in progress | Stage A living reports active | `docs/reports/STAGE_A_BASELINE_REPORT.tex`; `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` |
@@ -107,21 +109,36 @@ Stage A: open
 - [~] Scientific decision report completed. Result: `paper_matched_v2_scientific_review_incomplete`; post-peak RF-U mismatch dominates, crack path is connected/horizontal but threshold-dependent, SDV15 label/IP mapping is resolved, and retained outputs still leave `817` above-precision non-staggered events as `insufficient_output_evidence`. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/sdv15_decrease_events_full.csv`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/sdv15_unresolved_event_mapping.csv`.
 - [?] Gate A3 supervisor-review package prepared. Result: no supervisor decision inferred; routes documented as provisional pass, waiver with limitations, keep open, or candidate-v2 scientific fail. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; `docs/decisions/MOLNAR_TARGETED_OUTPUT_RERUN_REQUIREMENTS.md`; `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`.
 - [x] Perform mesh-size / h-convergence RF–U study (lc=0.015). Solvers H0/H1/H2 technical pass; CAE job `1376236` RF–U pass; formal analysis complete. Peak/pre-peak supported; post-peak not fully demonstrated; contours not assessed. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`; `runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md`.
-- [x] Select provisional RF–U meshes: conservative reference **H2-PUB** (h=0.001 mm); intermediate **H1** (h=0.0025 mm); H0 not a reference. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`.
+- [x] Select provisional RF–U meshes from analysis: H2-PUB / H1 / H0. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`.
+- [x] Supervisor Decision **1A** recorded: H2-PUB fine RF–U validation; H1 production/report; H0 development/testing. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`; `docs/decisions/MESH_USE_POLICY.md`.
+- [x] Supervisor Decision **2B** recorded: contour/crack-path deferred; does not block Stage C preparation. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`.
+- [x] Freeze H0/H1/H2-PUB results, jobs, and source hashes. Evidence: `docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md`.
 - [!] Perform length-scale study. Not authorized by the current supervisor decision.
 - [!] Perform load-increment study. Not authorized by the current supervisor decision.
-- [~] Establish justified uniform fine reference for RF–U only (H2-PUB provisional). Contour/crack-path and supervisor tolerances still pending.
-- [?] Gate A3 overall open — supervisor package ready. Decisions requested: (1) accept H2-PUB as RF–U reference A/B/C; (2) contour requirement A/B/C/D. RF–U component `rf_u_reference_supported_contour_evidence_pending`. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`.
+- [x] Establish justified uniform fine RF–U reference (**H2-PUB**) and production mesh (**H1**). Contour/crack-path deferred (2B). Evidence: `docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md`.
+- [~] Gate A3 RF–U use conditionally accepted (1A+2B). Residual historical Stage A items may remain open. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`.
 
 ## WP3 - MISESERI Pre-Analysis And Remeshing Reproduction
 
-- [!] Blocked until Gate A3 passes. Evidence: `THESIS_PLAN.md`; current Gate A3 status above.
-- [ ] Reproduce Pandey-Kumar MISESERI extraction.
+- [x] Stage C preparation authorized after Decisions 1A+2B. Evidence: `docs/studies/STAGE_C_MISESERI_PREPARATION_PLAN.md`.
+- [x] Five-job MISESERI campaign plan prepared (no submission). Evidence: `docs/studies/STAGE_C_FIVE_JOB_CAMPAIGN_PLAN.md`.
+- [x] Unified H0/H1 preprocessing config created. Evidence: `configs/preprocessing/molnar_h0_h1_unified.yaml`.
+- [x] Full automated H0/H1 preprocessing pipeline (geometry/mesh → U1 → U2 → CPS4 → sets/BC → outputs). Evidence: `scripts/preprocessing/build_molnar_unified_deck.py`; `models/generated/molnar_gravouil_2017/unified_preprocessing/H0_fullgen/`; `H1_fullgen/`.
+- [x] Generated H0 scientifically equivalent to frozen H0 (nodes, connectivity, layers, sets, props, loading). Evidence: `H0_fullgen/FROZEN_H0_EQUIVALENCE.json`.
+- [x] Gate P1 full generation pass (H0 twice, byte-identical deck/fortran/mesh). Evidence: `models/generated/molnar_gravouil_2017/unified_preprocessing/gate_p1_full/GATE_P1_FULL_REPORT.json`.
+- [x] H1 full generation + H0/H1 family compare pass. Evidence: `H0_H1_FAMILY_COMPARE.json`; static validation under `results/validation/unified_preprocessing/`.
+- [x] Automatic layered deck validators (duplicates, offsets, N_ELEM, sets, outputs, h/lc). Evidence: `scripts/validation/validate_molnar_unified_deck.py`.
+- [x] Initial remeshing parameters frozen as proposal (load mode undecided). Evidence: `docs/decisions/MISESERI_REMESHING_PARAMETER_PROPOSAL.md`; `configs/remeshing/miseseri_h0_to_h1_initial.json`.
+- [x] Five PBS scripts + static validation prepared (no qsub). Evidence: `scripts/hpc/molnar_h0_miseseri_*.pbs`; `results/validation/stage_c_five_job/STATIC_PBS_VALIDATION.json`.
+- [!] HPC submission blocked until: pre-analysis load mode decided, Job 3 CAE remesh implemented, explicit authorization. Evidence: `runs/hpc/stage_c_miseseri/CAMPAIGN_PREPARATION_STATUS.md`.
+- [~] Secondary literature / analytical matrices expanded (parallel). Evidence: `references/derived/secondary_validation/`.
+- [ ] Reproduce Pandey-Kumar MISESERI extraction (Job 1–2 when authorized).
 - [ ] Validate physical-element to visualization-element mapping.
-- [ ] Generate locally refined mesh.
+- [ ] Generate locally refined mesh (Job 3 when authorized).
 - [ ] Regenerate valid UEL/UMAT layered deck.
-- [ ] Run refined elastic dry test.
+- [ ] Run refined elastic dry test (Job 4 when authorized).
 - [ ] Validate local target `h/l`.
+- [ ] Run refined phase-field candidate vs uniform H1 (Job 5 when authorized).
 
 ## WP4 - Refined Phase-Field Benchmark And Efficiency Comparison
 
@@ -185,8 +202,9 @@ Stage A: open
 | One-element technical | unchanged model completes and outputs exist | passed | none |
 | One-element scientific | source relations and irreversibility checks | provisional pass | tolerances provisional |
 | Supplementary benchmark technical | unchanged deck completes | passed | none |
-| Gate A3 | justified uniform reference and fixed metrics | blocked | paper-matched reconstruction incomplete |
-| MISESERI gate | refined deck valid and local size achieved | not started | Gate A3 |
+| Gate A3 RF–U | mesh roles + RF–U reference for validation | conditionally accepted | contours deferred; residual Stage A items open |
+| Preprocessing Gate P1 | same config → identical H0 deck | not started | pipeline build |
+| MISESERI gate | refined deck valid and local size achieved | preparation authorized | qsub not authorized |
 | Refined benchmark gate | accepted error and measured benefit | not started | MISESERI |
 | State-transfer gate | controlled and fracture transfer pass | not started | later stage |
 | ABAQUSER gate | output agrees with independent extraction | not started | later stage |

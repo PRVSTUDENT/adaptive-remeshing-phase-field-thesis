@@ -1,0 +1,45 @@
+{
+  "email_stderr": "",
+  "email_stdout": "OK: D:\\Master thesis\\Adaptive remeshing\\scripts\\hpc\\molnar_h0_miseseri_smoke.pbs; submit with qsub -M 'pr21vyci@mailserver.tu-freiberg.de' -m abe ...\nOK: D:\\Master thesis\\Adaptive remeshing\\scripts\\hpc\\molnar_h0_miseseri_preanalysis.pbs; submit with qsub -M 'pr21vyci@mailserver.tu-freiberg.de' -m abe ...\nOK: D:\\Master thesis\\Adaptive remeshing\\scripts\\hpc\\molnar_h0_miseseri_remesh.pbs; submit with qsub -M 'pr21vyci@mailserver.tu-freiberg.de' -m abe ...\nOK: D:\\Master thesis\\Adaptive remeshing\\scripts\\hpc\\molnar_h0_refined_integrity.pbs; submit with qsub -M 'pr21vyci@mailserver.tu-freiberg.de' -m abe ...\nOK: D:\\Master thesis\\Adaptive remeshing\\scripts\\hpc\\molnar_miseseri_refined_final.pbs; submit with qsub -M 'pr21vyci@mailserver.tu-freiberg.de' -m abe ...\n",
+  "email_validation_rc": 0,
+  "jobs": [
+    {
+      "errors": [],
+      "job": 1,
+      "name": "molnar_h0_miseseri_smoke",
+      "path": "D:/Master thesis/Adaptive remeshing/scripts/hpc/molnar_h0_miseseri_smoke.pbs",
+      "status": "pass"
+    },
+    {
+      "errors": [],
+      "job": 2,
+      "name": "molnar_h0_miseseri_pre",
+      "path": "D:/Master thesis/Adaptive remeshing/scripts/hpc/molnar_h0_miseseri_preanalysis.pbs",
+      "status": "pass"
+    },
+    {
+      "errors": [],
+      "job": 3,
+      "name": "molnar_h0_miseseri_remesh",
+      "path": "D:/Master thesis/Adaptive remeshing/scripts/hpc/molnar_h0_miseseri_remesh.pbs",
+      "status": "pass"
+    },
+    {
+      "errors": [],
+      "job": 4,
+      "name": "molnar_h0_ref_integ",
+      "path": "D:/Master thesis/Adaptive remeshing/scripts/hpc/molnar_h0_refined_integrity.pbs",
+      "status": "pass"
+    },
+    {
+      "errors": [],
+      "job": 5,
+      "name": "molnar_miseseri_final",
+      "path": "D:/Master thesis/Adaptive remeshing/scripts/hpc/molnar_miseseri_refined_final.pbs",
+      "status": "pass"
+    }
+  ],
+  "note": "Static validation only. Do not qsub.",
+  "status": "pass",
+  "submission_authorized": false
+}

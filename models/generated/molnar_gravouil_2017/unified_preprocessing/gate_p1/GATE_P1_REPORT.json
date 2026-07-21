@@ -1,0 +1,13 @@
+{
+  "for_identical": true,
+  "gate": "P1",
+  "inp_identical": true,
+  "mesh_role": "H0",
+  "requirement": "same_config_same_geometry_mesh_labels_sets_keywords",
+  "scope_note": "Current Gate P1 checks determinism of frozen-deck staging. When full regeneration lands, re-run P1 on generated geometry/layers.",
+  "sha_a_for": "516e5ce9a405c30e9d4b45f919f8c22e39cd36bcce102ca065837b81a1405088",
+  "sha_a_inp": "82c80c03c1b0b25131e9e0352502fb393bd593f9f07035c311f164ee9311f92e",
+  "sha_b_for": "516e5ce9a405c30e9d4b45f919f8c22e39cd36bcce102ca065837b81a1405088",
+  "sha_b_inp": "82c80c03c1b0b25131e9e0352502fb393bd593f9f07035c311f164ee9311f92e",
+  "status": "pass"
+}

@@ -1,0 +1,84 @@
+#!/bin/bash
+#PBS -N molnar_h0_miseseri_smoke
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+#
+# Stage C Job 1 — MISESERI smoke (SOLVER)
+# Exactly one authorized execution. No automatic retry.
+
+set -u
+
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_h0_miseseri_smoke"
+VARIANT_DIR="models/generated/molnar_gravouil_2017/unified_preprocessing/H0_fullgen_elastic_preanalysis_smoke"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c_miseseri/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+JOB_CLASS="solver_miseseri_smoke"
+ABAQUS_RC="not_started"
+TECHNICAL_CLASSIFICATION="molnar_h0_miseseri_smoke_fail"
+FAILURE_CLASS="not_classified"
+
+finish() {
+  rc=$?
+  mkdir -p "${LIGHT_DIR}" "${RUN_DIR}" 2>/dev/null || true
+  {
+    echo "job_id=${PBS_JOBID:-unknown}"
+    echo "job_class=${JOB_CLASS}"
+    echo "project_revision=${PROJECT_REVISION:-unset}"
+    echo "prestaged_root=${PRESTAGED_ROOT:-unset}"
+    echo "host=$(hostname 2>/dev/null || echo unknown)"
+    date -Is 2>/dev/null || date
+  } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
+  printf '%s\n' "${ABAQUS_RC}" > "${LIGHT_DIR}/abaqus_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${TECHNICAL_CLASSIFICATION}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${FAILURE_CLASS}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
+  [ -f "${RUN_DIR}/input_hash_check.txt" ] && cp "${RUN_DIR}/input_hash_check.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  [ -f "${RUN_DIR}/modules.txt" ] && cp "${RUN_DIR}/modules.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  cp "${RUN_DIR}/${JOB_NAME}.sta" "${RUN_DIR}/${JOB_NAME}.msg" "${RUN_DIR}/${JOB_NAME}.dat" "${RUN_DIR}/${JOB_NAME}.abaqus_stdout.log" "${LIGHT_DIR}/" 2>/dev/null || true
+  ls -lah "${RUN_DIR}" > "${LIGHT_DIR}/scratch_listing.txt" 2>/dev/null || true
+  # ODB stays on scratch; record path
+  if [ -f "${RUN_DIR}/${JOB_NAME}.odb" ]; then
+    printf '%s\n' "${RUN_DIR}/${JOB_NAME}.odb" > "${LIGHT_DIR}/odb_path.txt"
+  fi
+  exit "${rc}"
+}
+trap finish EXIT
+fail_presolver() { FAILURE_CLASS="$1"; exit "$2"; }
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" || exit 2
+[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail_presolver "missing_submission_variable" 2
+staged_revision="$(tr -d '[:space:]' < "${PRESTAGED_ROOT}/PROJECT_REVISION.txt")"
+[ "${staged_revision}" = "${PROJECT_REVISION}" ] || fail_presolver "revision_manifest_mismatch" 4
+cd "${PRESTAGED_ROOT}" || fail_presolver "missing_prestaged_root" 5
+(cd "${PRESTAGED_ROOT}/${VARIANT_DIR}" && sha256sum -c input_hashes.sha256) > "${RUN_DIR}/input_hash_check.txt" 2>&1 || fail_presolver "staged_input_hash_failure" 6
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
+command -v abaqus >/dev/null 2>&1 || fail_presolver "missing_abaqus_executable" 8
+
+DECK_INP="$(ls "${VARIANT_DIR}"/*_fullgen.inp 2>/dev/null | head -n1)"
+DECK_FOR="$(ls "${VARIANT_DIR}"/*_fullgen.for 2>/dev/null | head -n1)"
+[ -n "${DECK_INP}" ] && [ -n "${DECK_FOR}" ] || fail_presolver "missing_generated_deck" 9
+grep -qi "MISESERI" "${DECK_INP}" || fail_presolver "deck_missing_miseseri_request" 9
+
+cp "${DECK_INP}" "${RUN_DIR}/${JOB_NAME}.inp"
+cp "${DECK_FOR}" "${RUN_DIR}/user.for"
+cd "${RUN_DIR}" || exit 10
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" cpus=1 interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -eq 0 ] && [ -f "${JOB_NAME}.odb" ] && [ -f "${JOB_NAME}.sta" ] && \
+   grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  TECHNICAL_CLASSIFICATION="molnar_h0_miseseri_smoke_technical_pass"
+  printf 'scientific_use=not_final_evidence\n' > "${LIGHT_DIR}/scientific_boundary.txt"
+else
+  FAILURE_CLASS="abaqus_technical_failure"
+  exit 11
+fi
+exit 0

@@ -1,0 +1,87 @@
+#!/bin/bash
+#PBS -N molnar_h0_miseseri_remesh
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+#
+# Stage C Job 3 — CAE extract + system-python remesh export (no Standard solve)
+# Requires PREANALYSIS_ODB (absolute path to Job 2 ODB on scratch).
+
+set -u
+
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_h0_miseseri_remesh"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c_miseseri/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+JOB_CLASS="cae_remesh_export"
+CAE_RC="not_started"
+REMESH_RC="not_started"
+TECHNICAL_CLASSIFICATION="molnar_h0_miseseri_remesh_fail"
+FAILURE_CLASS="not_classified"
+
+finish() {
+  rc=$?
+  mkdir -p "${LIGHT_DIR}" "${RUN_DIR}" 2>/dev/null || true
+  {
+    echo "job_id=${PBS_JOBID:-unknown}"
+    echo "job_class=${JOB_CLASS}"
+    echo "project_revision=${PROJECT_REVISION:-unset}"
+    echo "prestaged_root=${PRESTAGED_ROOT:-unset}"
+    echo "preanalysis_odb=${PREANALYSIS_ODB:-unset}"
+    echo "host=$(hostname 2>/dev/null || echo unknown)"
+    date -Is 2>/dev/null || date
+  } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
+  printf '%s\n' "${CAE_RC}" > "${LIGHT_DIR}/cae_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${REMESH_RC}" > "${LIGHT_DIR}/remesh_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${TECHNICAL_CLASSIFICATION}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${FAILURE_CLASS}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
+  cp "${RUN_DIR}/"*.json "${RUN_DIR}/"*.csv "${RUN_DIR}/refined_physical.inp" "${LIGHT_DIR}/" 2>/dev/null || true
+  ls -lah "${RUN_DIR}" > "${LIGHT_DIR}/scratch_listing.txt" 2>/dev/null || true
+  exit "${rc}"
+}
+trap finish EXIT
+fail_presolver() { FAILURE_CLASS="$1"; exit "$2"; }
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" || exit 2
+[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail_presolver "missing_submission_variable" 2
+[ -n "${PREANALYSIS_ODB:-}" ] && [ -f "${PREANALYSIS_ODB}" ] || fail_presolver "missing_preanalysis_odb" 5
+staged_revision="$(tr -d '[:space:]' < "${PRESTAGED_ROOT}/PROJECT_REVISION.txt")"
+[ "${staged_revision}" = "${PROJECT_REVISION}" ] || fail_presolver "revision_manifest_mismatch" 4
+cd "${PRESTAGED_ROOT}" || fail_presolver "missing_prestaged_root" 6
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail_presolver "module_environment_failure" 7
+command -v abaqus >/dev/null 2>&1 || fail_presolver "missing_abaqus_executable" 8
+
+export MISESERI_CASE_ID="H0_preanalysis"
+export MISESERI_ODB_PATH="${PREANALYSIS_ODB}"
+export MISESERI_OUTPUT_DIR="${RUN_DIR}"
+export MISESERI_CONFIG_PATH="${PRESTAGED_ROOT}/configs/remeshing/miseseri_h0_to_h1_initial.json"
+
+CAE_RC=0
+abaqus cae noGUI="${PRESTAGED_ROOT}/scripts/remeshing/extract_miseseri_from_odb.py" \
+  > "${RUN_DIR}/cae_extract_stdout.log" 2>&1 || CAE_RC=$?
+if [ "${CAE_RC}" -ne 0 ] || [ ! -f "${RUN_DIR}/miseseri_element_field.csv" ]; then
+  FAILURE_CLASS="cae_extract_failure"
+  exit 12
+fi
+
+REMESH_RC=0
+python3 "${PRESTAGED_ROOT}/scripts/remeshing/build_refined_mesh_from_miseseri.py" \
+  --csv "${RUN_DIR}/miseseri_element_field.csv" \
+  --config "${MISESERI_CONFIG_PATH}" \
+  --out "${RUN_DIR}" > "${RUN_DIR}/remesh_stdout.log" 2>&1 || REMESH_RC=$?
+
+if [ "${REMESH_RC}" -eq 0 ] && [ -f "${RUN_DIR}/refined_physical.inp" ] && [ -f "${RUN_DIR}/remeshing_rule_manifest.json" ]; then
+  TECHNICAL_CLASSIFICATION="molnar_h0_miseseri_remesh_technical_pass"
+  printf 'scientific_use=mesh_export_only_no_fracture_conclusion\n' > "${LIGHT_DIR}/scientific_boundary.txt"
+else
+  FAILURE_CLASS="remesh_export_failure"
+  exit 14
+fi
+exit 0

@@ -40,19 +40,27 @@ H0 → H1 remains clearly mesh-dependent (peak force ~4.0%, peak displacement ~5
 
 | Use | Selected mesh | Basis |
 |---|---|---|
-| Conservative uniform RF–U reference | **H2-PUB**, h = 0.001 mm | Publication local resolution; finest tested mesh |
-| Intermediate development studies | **H1**, h = 0.0025 mm | Nearly identical peak/pre-peak at much lower cost (~35% of H2 walltime) |
-| Final reference | **H0 not recommended** | Clear H0→H1 mesh dependence |
+| Fine RF–U validation reference (Decision **1A**) | **H2-PUB**, h = 0.001 mm | Publication local resolution; finest tested mesh; not default production |
+| Production / thesis / report mesh (Decision **1A**) | **H1**, h = 0.0025 mm | Nearly identical peak/pre-peak at much lower cost (~35% of H2 walltime) |
+| Development / testing / debug (Decision **1A**) | **H0**, h ≈ 0.00494 mm | Fast testing only; clear H0→H1 mesh dependence; not an RF–U reference |
+
+Supervisor recording document:
+`docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`
 
 ## Gate A3 status (precise)
 
-Overall gate remains **open**. The historical label `reference_data_insufficient`
-remains defensible for full Gate A3 closure.
+RF–U validation use is **conditionally accepted** after supervisor Decisions **1A**
+and **2B**. Full unconditional Gate A3 closure for every Stage A narrative is
+still not claimed; the historical label `reference_data_insufficient` may remain
+for other incomplete items (e.g. absolute paper-curve tolerances).
 
 Internal descriptive status for the RF–U component:
 
 ```text
-rf_u_reference_supported_contour_evidence_pending
+gate_a3_conditionally_accepted_rf_u
+rf_u_reference_accepted_contour_deferred
+contour_validation_deferred
+stage_c_miseseri_preparation_authorized
 ```
 
 Component breakdown:
@@ -60,11 +68,14 @@ Component breakdown:
 ```text
 Gate A3:
   RF–U benchmark component: complete
-  RF–U reference mesh: selected provisionally (H2-PUB)
+  RF–U reference mesh: H2-PUB (supervisor Decision 1A)
+  Production/report mesh: H1 (supervisor Decision 1A)
+  Development/testing mesh: H0 (supervisor Decision 1A)
   Publication comparison: completed provisionally (lc=0.015 approx. digitization)
-  Supervisor-approved tolerances: pending
-  Matched-state crack-path/SDV15 evidence: pending
-  Overall benchmark gate: not yet closed
+  Matched-state crack-path/SDV15 evidence: deferred (Decision 2B; does not block Stage C prep)
+  Stage C MISESERI preparation: authorized
+  Stage C HPC submission: not authorized without explicit new approval
+  Overall unconditional Stage A closure: not claimed
 ```
 
 ## Supervisor summary (ready to send)
@@ -84,13 +95,16 @@ Gate A3:
 
 ```text
 RF–U h-convergence analysis: complete
-H2-PUB reference recommendation: supported
-H1 intermediate recommendation: supported
-Contour convergence: pending
-Gate A3: open
-Further PBS/Abaqus/CAE runs: not authorized
-MISESERI/remeshing/state transfer: blocked pending supervisor decision
+H2-PUB fine validation reference: accepted (Decision 1A)
+H1 production/report mesh: accepted (Decision 1A)
+H0 development/testing mesh: accepted (Decision 1A)
+Contour convergence: deferred (Decision 2B)
+Gate A3 RF–U use: conditionally accepted
+Stage C MISESERI preparation: authorized
+Further PBS/Abaqus/CAE submission: not authorized without explicit new approval
+MISESERI execution: preparation only until qsub authorization
 ```
 
-Do **not** start MISESERI or adaptive remeshing solely on the RF–U result unless
-the supervisor explicitly accepts or waives missing contour evidence.
+Do **not** submit PBS/Abaqus/CAE MISESERI jobs until explicit submission
+authorization. Preparation of preprocessing automation and campaign plans is
+authorized.

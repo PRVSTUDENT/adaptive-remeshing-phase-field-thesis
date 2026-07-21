@@ -236,18 +236,20 @@ adaptive-remeshing work.
 
 For the exact author-supplied supplementary single-notch model (\(l_c=0.015\,\mathrm{mm}\)), three serial meshes were solved and postprocessed for RF--U only.
 Successive peak-force changes are approximately \(4.0\%\) (H0\(\to\)H1) and \(0.47\%\) (H1\(\to\)H2-PUB); pre-peak curve NRMSE between H1 and H2-PUB is about \(0.11\%\), while post-peak residual remains larger (\(\sim 20\%\) NRMSE).
-H2-PUB is recommended as the conservative RF--U fine reference; H1 is suitable for intermediate RF--U studies with limitations stated.
-Crack-path/contour mesh convergence is not assessed because CAE contour export failed.
-Evidence: \path{runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md}.
-
-A no-solution Gate~A3 supervisor decision package freezes this RF--U evidence for review and requests two explicit decisions: acceptance of H2-PUB as the uniform RF--U reference, and whether matched-state contours are mandatory before Gate~A3 closes.
-Internal RF--U status: \texttt{rf\_u\_reference\_supported\_contour\_evidence\_pending}.
-Supervisor package: \path{docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md};
-meeting handoff: \path{docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md}.
+After supervisor Decisions~\textbf{1A} and \textbf{2B}, mesh roles are frozen as:
+H2-PUB for fine RF--U validation only; H1 for production/thesis/report simulations and the Stage~C comparison reference; H0 for fast testing and the first MISESERI implementation trials.
+Crack-path/contour mesh convergence remains deferred (Decision~\textbf{2B}) and does not block Stage~C preparation.
+Evidence: \path{runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md};
+\path{docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md};
+\path{docs/decisions/MESH_USE_POLICY.md}.
 
 \section{Gate A3 Boundary}
 
-Gate A3 remains \texttt{reference\_data\_insufficient} (overall open; not passed).
-RF--U h-convergence supports a provisional H2-PUB reference for peak/pre-peak response, with post-peak and contour limitations retained.
-Candidate v2 has not passed Gate A3.
-No new solution run, candidate v3, irreversibility-enforced formulation, MISESERI execution, adaptive-remeshing run, or state-transfer task is authorized by the present evidence; only a separate post-decision preparation plan may follow supervisor response.
+Gate A3 is \textbf{conditionally accepted for RF--U validation use} after Decisions~\textbf{1A} and \textbf{2B}
+(\texttt{gate\_a3\_conditionally\_accepted\_rf\_u}; \texttt{contour\_validation\_deferred}).
+Full unconditional closure of every historical Stage~A claim is not asserted; residual items may still retain a
+\texttt{reference\_data\_insufficient} narrative where appropriate.
+Candidate v2 has not been reclassified as a full scientific pass by these decisions.
+Stage~C MISESERI \textbf{preparation} is authorized; HPC submission, MISESERI execution, multicore qualification,
+and state-transfer work remain unauthorized without explicit further approval.
+Stage~C preparation plan: \path{docs/studies/STAGE_C_MISESERI_PREPARATION_PLAN.md}.

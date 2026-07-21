@@ -99,11 +99,20 @@
   "post_peak_classification": "post_peak_h_convergence_not_fully_demonstrated",
   "peak_and_prepeak_classification": "supported",
   "full_curve_wording": "not_unrestricted_full_curve_mesh_independence",
-  "gate_a3_overall": "open",
+  "gate_a3_overall": "conditionally_accepted_rf_u",
   "gate_a3_historical_label": "reference_data_insufficient",
-  "gate_a3_internal_rf_u_status": "rf_u_reference_supported_contour_evidence_pending",
+  "gate_a3_internal_rf_u_status": "rf_u_reference_accepted_contour_deferred",
+  "supervisor_decision_1A": "H2-PUB_fine_validation_H1_production_H0_development",
+  "supervisor_decision_2B": "contour_validation_deferred",
+  "stage_c_status": "stage_c_miseseri_preparation_authorized",
+  "hpc_submission_authorized": false,
   "safest_wording": "The force-displacement response is effectively mesh-independent between H1 and H2-PUB for the elastic, pre-peak and peak-load regimes. A noticeable post-peak mesh dependence remains and must be retained as a limitation.",
   "decision_doc": "docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md",
+  "supervisor_decision_doc": "docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md",
+  "mesh_role_freeze_doc": "docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md",
+  "development_mesh": "H0",
+  "production_mesh": "H1",
+  "fine_validation_mesh": "H2-PUB",
   "h0_h1": {
     "U_at_max_abs_force_diff_mm": 0.0063000001944,
     "coarse": "H0",
@@ -153,9 +162,11 @@
     "split_U_mm": 0.005799999926
   },
   "intermediate_mesh_recommendation": "H1",
+  "production_mesh_accepted": "H1",
   "publication_classification": "publication_agreement_provisional",
   "resource_alpha": 0.9677147805787956,
   "rf_u_classification": "rf_u_h_convergence_supported",
   "u_split": 0.005799999926,
-  "uniform_reference_recommendation": "H2-PUB"
+  "uniform_reference_recommendation": "H2-PUB",
+  "uniform_validation_reference_accepted": "H2-PUB"
 }

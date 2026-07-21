@@ -872,6 +872,21 @@ Formal successive-mesh RF--U metrics (finer mesh as denominator):
 Classification for scalar/pre-peak RF--U: \texttt{rf\_u\_h\_convergence\_supported} (provisional descriptive wording only).
 Crack-path convergence: \texttt{crack\_path\_convergence\_not\_assessed}.
 Recommended RF--U uniform fine reference: H2-PUB; intermediate studies: H1 with documented limitations.
-Gate A3 remains open. Evidence: \path{runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md}.
+Gate A3 remained open at analysis time. Evidence: \path{runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md}.
+
+\subsection{Supervisor Decisions 1A and 2B recording (no new run)}
+
+On 2026-07-21 the supervisor operating policy was recorded as Decisions \textbf{1A} and \textbf{2B}:
+H0 test/debug, H1 production/report, H2-PUB fine RF--U validation; contour/crack-path deferred;
+Stage~C MISESERI preparation authorized; no PBS/Abaqus/CAE submission without further explicit approval.
+Status tags: \texttt{gate\_a3\_conditionally\_accepted\_rf\_u},
+\texttt{contour\_validation\_deferred},
+\texttt{stage\_c\_miseseri\_preparation\_authorized}.
+H0/H1/H2-PUB solver results, RF--U CSVs, and generation hashes were frozen.
+Evidence: \path{docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md};
+\path{docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md};
+\path{docs/studies/STAGE_C_MISESERI_PREPARATION_PLAN.md};
+\path{docs/studies/STAGE_C_FIVE_JOB_CAMPAIGN_PLAN.md};
+\path{configs/preprocessing/molnar_h0_h1_unified.example.yaml}.
 
 \end{document}

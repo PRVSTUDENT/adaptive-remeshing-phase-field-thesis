@@ -1,0 +1,19 @@
+{
+  "dest_for": "models/generated/molnar_gravouil_2017/unified_preprocessing/gate_p1/H0_a/SingleNotch.for",
+  "dest_for_sha256": "516e5ce9a405c30e9d4b45f919f8c22e39cd36bcce102ca065837b81a1405088",
+  "dest_inp": "models/generated/molnar_gravouil_2017/unified_preprocessing/gate_p1/H0_a/SingleNotch.inp",
+  "dest_inp_sha256": "82c80c03c1b0b25131e9e0352502fb393bd593f9f07035c311f164ee9311f92e",
+  "dry_run": false,
+  "full_regeneration": false,
+  "mesh_role": "H0",
+  "mode": "stage_frozen_h_convergence_deck",
+  "notes": [
+    "This scaffold stages frozen H0/H1/H2-PUB decks for deterministic prep.",
+    "Full automated geometry\u2192layer generation is the next implementation step.",
+    "Do not submit PBS/Abaqus from this script."
+  ],
+  "pipeline_status": "scaffold_staging_only",
+  "source_dir": "models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact",
+  "source_for_sha256": "516e5ce9a405c30e9d4b45f919f8c22e39cd36bcce102ca065837b81a1405088",
+  "source_inp_sha256": "82c80c03c1b0b25131e9e0352502fb393bd593f9f07035c311f164ee9311f92e"
+}
