@@ -43,7 +43,6 @@ mkdir -p "${PRESTAGED_ROOT}" "${PBS_OUTPUT_DIR}"
 
 REQUIRED_PATHS=(
   "models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension"
-  "models/generated/molnar_gravouil_2017/unified_preprocessing/H0_refined_layered_v2"
   "scripts/hpc/stage_c2"
   "scripts/postprocessing"
   "scripts/validation"
@@ -51,12 +50,13 @@ REQUIRED_PATHS=(
   "runs/hpc/stage_c2"
 )
 git archive "${REVISION}" -- "${REQUIRED_PATHS[@]}" | tar -x -C "${PRESTAGED_ROOT}"
-# Ensure layered deck exists in project home (generated offline, may be untracked)
-if [ ! -d "${PRESTAGED_ROOT}/models/generated/molnar_gravouil_2017/unified_preprocessing/H0_refined_layered_v2" ]; then
-  mkdir -p "${PRESTAGED_ROOT}/models/generated/molnar_gravouil_2017/unified_preprocessing"
-  cp -a "${PROJECT_HOME}/models/generated/molnar_gravouil_2017/unified_preprocessing/H0_refined_layered_v2" \
-    "${PRESTAGED_ROOT}/models/generated/molnar_gravouil_2017/unified_preprocessing/"
-fi
+# C2C-v2 layered deck is generated offline (may be untracked) — copy from home
+V2_SRC="${PROJECT_HOME}/models/generated/molnar_gravouil_2017/unified_preprocessing/H0_refined_layered_v2"
+test -d "${V2_SRC}" || { echo "missing C2C-v2 layered dir ${V2_SRC}" >&2; exit 6; }
+mkdir -p "${PRESTAGED_ROOT}/models/generated/molnar_gravouil_2017/unified_preprocessing"
+cp -a "${V2_SRC}" \
+  "${PRESTAGED_ROOT}/models/generated/molnar_gravouil_2017/unified_preprocessing/"
+test -f "${PRESTAGED_ROOT}/models/generated/molnar_gravouil_2017/unified_preprocessing/H0_refined_layered_v2/H0_refined_fullgen.inp"
 
 python3 scripts/hpc/validate_pbs_email_notifications.py --email "${EMAIL}" \
   "${STAGE_DIR}/07_c2e_v2_refined_integrity.pbs" \
