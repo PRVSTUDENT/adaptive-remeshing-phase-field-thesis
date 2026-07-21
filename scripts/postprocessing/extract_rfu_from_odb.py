@@ -1,8 +1,9 @@
-# Abaqus Python (2/3): extract RP RF2–U2 history from an ODB to plain CSV.
+# Abaqus Python (2/3): extract RP RF2-U2 history from an ODB to plain CSV.
 # Usage:
 #   abaqus python extract_rfu_from_odb.py --odb path.odb --out path.csv
 #
 # No comparison logic. No newline= keyword (Abaqus-Python safe).
+# Keep this file pure ASCII for Abaqus embedded Python 2.
 
 from __future__ import print_function
 

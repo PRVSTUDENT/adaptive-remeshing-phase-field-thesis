@@ -71,7 +71,7 @@ def _graded_sizes_to_refined(length, local_h, global_h, ratio):
 
 
 def _axis_with_refined_region(start, refined_min, refined_max, end, local_h, global_h, ratio):
-    """Coarse | graded | fine | graded | coarse — min size only inside [rmin,rmax]."""
+    """Coarse | graded | fine | graded | coarse - min size only inside [rmin,rmax]."""
     refined_min = max(start, min(end, refined_min))
     refined_max = max(start, min(end, refined_max))
     if refined_max < refined_min:
