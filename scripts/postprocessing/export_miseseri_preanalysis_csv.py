@@ -117,28 +117,56 @@ def main():
             return fo.getSubset(region=elset)
         return fo
 
-    miseseri_by = {}
-    for v in subset("MISESERI").values:
-        lab = int(v.element.label)
-        miseseri_by[lab] = _scalar(v)
-    misesavg_by = {}
-    for v in subset("MISESAVG").values:
-        misesavg_by[int(v.element.label)] = _scalar(v)
-    evol_by = {}
-    for v in subset("EVOL").values:
-        evol_by[int(v.element.label)] = _scalar(v)
-    vm_by = {}
-    for v in subset("S").values:
-        lab = int(v.element.label)
-        try:
-            vm_by[lab] = _von_mises(v.data)
-        except Exception:
-            vm_by[lab] = float("nan")
+    def _elem_label(v):
+        # Abaqus FieldValue API variants across versions
+        if hasattr(v, "elementLabel"):
+            return int(v.elementLabel)
+        if hasattr(v, "element") and v.element is not None:
+            return int(v.element.label)
+        if hasattr(v, "nodeLabel"):
+            return int(v.nodeLabel)
+        raise RuntimeError("Cannot resolve element label from field value")
 
-    sdv15_by = {}
-    if "SDV15" in keys:
-        for v in subset("SDV15").values:
-            sdv15_by[int(v.element.label)] = _scalar(v)
+    def _field_map(name, reduce_fn=None):
+        fo = subset(name)
+        out = {}
+        # Prefer bulkDataBlocks when available (faster / more reliable labels)
+        try:
+            blocks = fo.bulkDataBlocks
+        except Exception:
+            blocks = None
+        if blocks:
+            for block in blocks:
+                try:
+                    labels = block.elementLabels
+                    data = block.data
+                except Exception:
+                    continue
+                for i, lab in enumerate(labels):
+                    lab = int(lab)
+                    d = data[i]
+                    if reduce_fn is not None:
+                        out[lab] = reduce_fn(d)
+                    else:
+                        try:
+                            out[lab] = float(d[0])
+                        except Exception:
+                            out[lab] = float(d)
+            if out:
+                return out
+        for v in fo.values:
+            lab = _elem_label(v)
+            if reduce_fn is not None:
+                out[lab] = reduce_fn(v.data)
+            else:
+                out[lab] = _scalar(v)
+        return out
+
+    miseseri_by = _field_map("MISESERI")
+    misesavg_by = _field_map("MISESAVG")
+    evol_by = _field_map("EVOL")
+    vm_by = _field_map("S", reduce_fn=_von_mises)
+    sdv15_by = _field_map("SDV15") if "SDV15" in keys else {}
 
     # geometry from instance; map CPS4 labels to physical = label - 2N
     # layered: U1 1..N, U2 N+1..2N, CPS4 2N+1..3N
