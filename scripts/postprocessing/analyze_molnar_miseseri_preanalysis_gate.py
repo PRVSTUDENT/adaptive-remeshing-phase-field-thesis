@@ -324,7 +324,8 @@ def write_report(path, summary, figures):
             "",
         ]
     )
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
+    with path.open("w", encoding="utf-8") as stream:
+        stream.write("\n".join(lines) + "\n")
 
 
 def main():
