@@ -89,11 +89,11 @@ Known source documents:
 
 Immediate next tasks:
 
-1. Submit Job 1 once (`submit_stage_c_job1_smoke.sh`); verify technical pass + MISESERI present.
-2. On Job 1 pass: submit Job 2 (full elastic pre-analysis Upre=0.00464); assess field suitability.
-3. On Job 2 pass: submit Job 3; rebuild layered refined deck; Job 4; Job 5.
+1. Job 1 (`1376292`) gate complete: PBS Exit 0, Abaqus success, ODB fields MISESERI/MISESAVG/S/EVOL/U/RF present, mapping 11790 elements. Wait ~11.6 min on route→`normal_imfdfkmq`.
+2. Submit Job 2 once on `entry_imfdfkmq` (1 CPU, 16 GB, 2 h, Upre=0.00464); assess field suitability.
+3. On Job 2 pass: Job 3 remesh → rebuild layered deck → Job 4 → Job 5 (`normal_imfdfkmq` for full fracture).
 4. Stop and report on technical failure, unsuitable MISESERI field, mesh-size miss, or mapping failure.
-5. No automatic retries or parameter retuning.
+5. No automatic retries or parameter retuning. Queue policy: never hard-code `normal` for small Stage C jobs.
 
 Unresolved (supervisor only if needed later):
 
@@ -175,6 +175,28 @@ Queue rules:
 - Do not request a GPU merely because GPU nodes are visible. The current Molnar UEL/UMAT baseline is CPU-oriented, and GPU acceleration has not been validated.
 - Do not request more CPUs, memory, or wall time than justified by a measured smaller run.
 - Queue-level maxima are not automatically per-job or per-user entitlements. Confirm effective limits with `qstat -Qf`, the scheduler response, and site documentation.
+
+### Stage C queue-selection policy (mandatory)
+
+Choose the **shortest-wait eligible** queue from live status and resource limits.
+**Do not hard-code `normal_imfdfkmq` for small smoke, pre-analysis, CAE, or integrity jobs.**
+
+| Job | Resources | Preferred submit queue |
+|---|---:|---|
+| Job 1 smoke | 1 CPU, 8 GB, 1 h | `entry_imfdfkmq` |
+| Job 2 H0 pre-analysis | 1 CPU, 16 GB, 2 h | `entry_imfdfkmq` when eligible |
+| Job 3 CAE remesh | 1 CPU, 16 GB, 1 h | `entry_imfdfkmq` |
+| Job 4 integrity | 1 CPU, 16 GB, 2 h | `entry_imfdfkmq` when eligible |
+| Job 5 full fracture | 1 CPU, 32 GB, 6 h | `normal_imfdfkmq` unless another eligible queue is faster |
+
+Before every submission:
+
+```powershell
+ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg "qstat -Qf entry_imfdfkmq | egrep -i 'enabled|started|resources_max|state_count'"
+ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg "qstat -q"
+```
+
+Record `stime - qtime` wait for each job. `entry_imfdfkmq` is a route queue and may land on `short_imfdfkmq` or `normal_imfdfkmq` after routing.
 
 Observed node classes:
 

@@ -1,8 +1,10 @@
 # Stage C five-job campaign
 
-Status: `execution_authorized_job1_ready`  
+Status: `job1_submitted`  
 Updated: 2026-07-21  
 Submission: staged, once each
+
+Job 1: `1376292.mmaster02` (queued) from revision `2de90fecf930`
 
 ## Fixed decisions
 

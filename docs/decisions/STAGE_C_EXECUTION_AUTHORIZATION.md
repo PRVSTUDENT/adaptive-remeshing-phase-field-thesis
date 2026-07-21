@@ -74,3 +74,43 @@ Job 1 pass
         → Job 4 integrity pass
           → Job 5 final refined simulation
 ```
+
+## Queue-selection policy (mandatory)
+
+Do **not** hard-code `normal_imfdfkmq` for small jobs. No queue guarantees an
+immediate start; select the **fastest eligible** queue for the requested
+resources from live `qstat -q` / `qstat -Qf` status.
+
+| Job | Resources | Preferred submit queue |
+|---|---:|---|
+| Job 1 — smoke | 1 CPU, 8 GB, 1 h | `entry_imfdfkmq` |
+| Job 2 — H0 pre-analysis | 1 CPU, 16 GB, 2 h | `entry_imfdfkmq` when limits allow |
+| Job 3 — CAE extract/remesh | 1 CPU, 16 GB, 1 h | `entry_imfdfkmq` |
+| Job 4 — integrity | 1 CPU, 16 GB, 2 h | `entry_imfdfkmq` when eligible |
+| Job 5 — full fracture | 1 CPU, 32 GB, 6 h | `normal_imfdfkmq`, unless another eligible queue is demonstrably faster |
+
+Notes:
+
+- `entry_imfdfkmq` is a **route** queue (enabled/started). It may land on
+  `short_imfdfkmq` or `normal_imfdfkmq` after routing; that is expected.
+- Before every submission, verify preferred queue `enabled=True`, `started=True`,
+  and that walltime/memory fit `resources_max`.
+- Record queue wait time (`stime - qtime`) for each job to compare routes.
+
+Pre-submit checks:
+
+```powershell
+ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg `
+  "qstat -Qf entry_imfdfkmq | egrep -i 'enabled|started|resources_max|resources_min|resources_default|max_run|state_count'"
+ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg "qstat -q"
+```
+
+Submission mail pattern:
+
+```bash
+qsub -q entry_imfdfkmq \
+  -M pr21vyci@mailserver.tu-freiberg.de \
+  -m abe \
+  -v PROJECT_REVISION=...,PRESTAGED_ROOT=... \
+  scripts/hpc/<job>.pbs
+```

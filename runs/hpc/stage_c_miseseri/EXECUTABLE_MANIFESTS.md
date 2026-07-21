@@ -10,12 +10,14 @@ Exactly **one** submission of each job is authorized. No automatic retries.
 
 | Field | Value |
 |---|---|
-| Queue | `entry_imfdfkmq` |
+| Preferred small-job queue | `entry_imfdfkmq` (route; do **not** hard-code `normal_imfdfkmq`) |
+| Job 5 full fracture queue | `normal_imfdfkmq` unless another eligible queue is faster |
 | Serial | `ncpus=1` |
 | Mail | `#PBS -m abe`; recipient via `qsub -M` |
 | Modules | `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023` |
 | Prestaging | immutable `git archive` snapshot + `PROJECT_REVISION` |
 | Heavy outputs | scratch only |
+| Live check | `qstat -Qf entry_imfdfkmq` + `qstat -q` before each submit |
 
 ## Job 1 — MISESERI smoke
 

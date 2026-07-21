@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N molnar_miseseri_final
-#PBS -q entry_imfdfkmq
+#PBS -q normal_imfdfkmq
 #PBS -l select=1:ncpus=1:mem=32gb
 #PBS -l walltime=06:00:00
 #PBS -j oe
@@ -8,6 +8,8 @@
 #
 # Stage C Job 5 — refined phase-field fracture vs uniform H1 (SOLVER)
 # Serial only. Exactly one authorized execution after Jobs 1-4 pass.
+# Queue policy: full fracture uses normal_imfdfkmq unless another eligible
+# queue is demonstrably faster; do not use this as default for smoke/integrity.
 
 set -u
 

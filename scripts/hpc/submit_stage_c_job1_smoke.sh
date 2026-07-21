@@ -68,7 +68,9 @@ test "$(tr -d '[:space:]' < "${PRESTAGED_ROOT}/PROJECT_REVISION.txt")" = "${REVI
 bash -n "${PRESTAGED_ROOT}/${PBS_SCRIPT}"
 python3 scripts/hpc/validate_pbs_email_notifications.py --email "${EMAIL}" "${PBS_SCRIPT}"
 
+# Prefer entry_imfdfkmq route for small smoke jobs; never hard-code normal.
 JOB_ID="$(qsub \
+  -q entry_imfdfkmq \
   -M "${EMAIL}" \
   -m abe \
   -v PROJECT_REVISION="${REVISION}",PRESTAGED_ROOT="${PRESTAGED_ROOT}" \
