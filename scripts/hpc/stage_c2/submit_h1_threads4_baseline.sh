@@ -15,11 +15,10 @@ mkdir -p "${PBS_OUT}"
 python3 scripts/hpc/validate_pbs_email_notifications.py --email "Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de" \
   "${PBS_SCRIPT}"
 
-# Also pass both recipients to qsub -M (comma-separated)
+# Pass both recipients to qsub -M (comma-separated). Do not put commas in -v.
 J=$(qsub -q "${QUEUE}" \
   -M "${EMAIL}" \
   -m abe \
-  -v "PBS_NOTIFY_EMAILS=${EMAIL}" \
   -o "${PBS_OUT}/h1_threads4_baseline.out" \
   "${PBS_SCRIPT}")
 

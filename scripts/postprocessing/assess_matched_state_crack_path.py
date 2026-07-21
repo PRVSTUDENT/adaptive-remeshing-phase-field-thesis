@@ -1,18 +1,9 @@
-#!/usr/bin/env python3
-"""Matched-state crack-path assessment from two ODBs (H1 vs refined).
-
-Requires Abaqus Python for ODB access. Extracts SDV15 at nearest frames to
-target U values and reports thresholded damaged sets and crude tip metrics.
-"""
-
-from __future__ import annotations
-
-# This script is designed to run under: abaqus python assess_matched_state_crack_path.py
-# Keep logic simple and ASCII-safe for Abaqus Python.
+# Matched-state crack-path assessment from two ODBs (H1 vs refined).
+# Run under: abaqus python assess_matched_state_crack_path.py
+# Pure ASCII; no future annotations (Abaqus Python compatibility).
 
 import argparse
 import json
-import math
 import sys
 
 
