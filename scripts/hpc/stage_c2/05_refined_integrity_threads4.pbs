@@ -1,0 +1,107 @@
+#!/bin/bash
+#PBS -N c2e_ref_integ
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=4:mem=24gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m abe
+#
+# C2E — Refined layered deck integrity (threads, reduced elastic load)
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_refined_integrity_threads4"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+ABAQUS_RC="not_started"
+TECH="c2e_fail"
+FAIL="not_classified"
+
+finish() {
+  rc=$?
+  mkdir -p "${LIGHT_DIR}" 2>/dev/null || true
+  {
+    echo "job_id=${PBS_JOBID:-unknown}"
+    echo "stage=C2E"
+    echo "mp_mode=threads"
+    echo "ncpus=4"
+    date -Is 2>/dev/null || date
+  } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
+  printf '%s\n' "${ABAQUS_RC}" > "${LIGHT_DIR}/abaqus_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${TECH}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${FAIL}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
+  cp "${RUN_DIR}/${JOB_NAME}.sta" "${RUN_DIR}/${JOB_NAME}.msg" "${LIGHT_DIR}/" 2>/dev/null || true
+  exit "${rc}"
+}
+trap finish EXIT
+fail() { FAIL="$1"; exit "$2"; }
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" || exit 2
+[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail "missing_submission_variable" 2
+[ -f "${PROJECT_HOME}/runs/hpc/stage_c2/C2D_THREADS4_PASS.txt" ] || fail "c2d_not_passed" 5
+cd "${PRESTAGED_ROOT}" || fail "missing_prestaged_root" 6
+
+VARIANT="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_REFINED_LAYERED_DIR.txt")"
+DECK="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_DECK_PATH.txt")"
+FOR="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_FOR_PATH.txt")"
+[ -f "${DECK}" ] && [ -f "${FOR}" ] || fail "missing_refined_deck" 7
+
+# Build reduced-load integrity inp from refined deck: replace fracture steps with short elastic
+python3 - <<PY || fail "integrity_deck_build_failure" 8
+from pathlib import Path
+src = Path("${DECK}").read_text(encoding="utf-8", errors="replace")
+# Keep through End Assembly + material, strip original steps, add short elastic
+parts = src.split("*Step")
+head = parts[0]
+# ensure we still have material
+text = head.rstrip() + """
+*Amplitude, name=Amp-int
+0., 0., 1., 0.001
+*Step, name=Step-integrity, nlgeom=NO, inc=50
+*Static, direct
+0.02, 1.0,
+*Boundary, amplitude=Amp-int
+RP, 2, 2, 1.
+*Boundary
+bottom, 2, 2
+*Boundary
+bottoml, 1, 1
+*Boundary
+topl, 1, 1
+*Restart, write, frequency=0
+*Output, field, time interval=0.2
+*Node Output
+U,
+*Node Output, nset=RP
+RF, U
+*Element Output, elset=umatelem
+SDV
+*End Step
+"""
+Path("${RUN_DIR}/${JOB_NAME}.inp").write_text(text, encoding="utf-8")
+print("integrity deck written")
+PY
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 9
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 9
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 9
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 9
+export OMP_NUM_THREADS=4
+
+cp "${FOR}" "${RUN_DIR}/user.for"
+cd "${RUN_DIR}" || exit 10
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" \
+  cpus=4 mp_mode=threads interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -eq 0 ] && [ -f "${JOB_NAME}.odb" ] && \
+   grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  TECH="c2e_refined_integrity_pass"
+  printf '%s\n' "pass" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2E_INTEGRITY_PASS.txt"
+  printf '%s\n' "${RUN_DIR}/${JOB_NAME}.odb" > "${LIGHT_DIR}/odb_path.txt"
+else
+  FAIL="abaqus_technical_failure"
+  exit 11
+fi
+exit 0

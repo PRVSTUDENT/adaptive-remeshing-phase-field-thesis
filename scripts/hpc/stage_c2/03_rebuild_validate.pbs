@@ -1,0 +1,77 @@
+#!/bin/bash
+#PBS -N c2c_rebuild_val
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -m abe
+#
+# C2C — Rebuild UEL layered refined deck + static validators (no Abaqus solve)
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="c2c_rebuild_validate"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+TECH="c2c_fail"
+FAIL="not_classified"
+
+finish() {
+  rc=$?
+  mkdir -p "${LIGHT_DIR}" 2>/dev/null || true
+  {
+    echo "job_id=${PBS_JOBID:-unknown}"
+    echo "stage=C2C"
+    echo "project_revision=${PROJECT_REVISION:-unset}"
+    date -Is 2>/dev/null || date
+  } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
+  printf '%s\n' "${TECH}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${FAIL}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
+  cp -r "${RUN_DIR}/"* "${LIGHT_DIR}/" 2>/dev/null || true
+  exit "${rc}"
+}
+trap finish EXIT
+fail() { FAIL="$1"; exit "$2"; }
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" || exit 2
+[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail "missing_submission_variable" 2
+cd "${PRESTAGED_ROOT}" || fail "missing_prestaged_root" 5
+
+if [ -f "${PROJECT_HOME}/runs/hpc/stage_c2/C2B_REFINED_MESH_DIR.txt" ]; then
+  REF="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2B_REFINED_MESH_DIR.txt")"
+else
+  fail "missing_c2b_refined_mesh" 6
+fi
+[ -f "${REF}/refined_mesh_nodes.csv" ] && [ -f "${REF}/refined_mesh_elements.csv" ] || fail "missing_refined_csv" 6
+
+OUT="${PROJECT_HOME}/models/generated/molnar_gravouil_2017/unified_preprocessing/H0_refined_layered"
+mkdir -p "${OUT}" "${RUN_DIR}"
+
+python3 scripts/preprocessing/build_molnar_unified_deck.py \
+  --config configs/preprocessing/molnar_h0_h1_unified.yaml \
+  --role-name H0_refined \
+  --output-profile fracture_baseline \
+  --from-nodes-csv "${REF}/refined_mesh_nodes.csv" \
+  --from-elems-csv "${REF}/refined_mesh_elements.csv" \
+  --out "${OUT}" > "${RUN_DIR}/rebuild_stdout.log" 2>&1 || fail "rebuild_failure" 12
+
+# Find deck
+DECK="$(ls "${OUT}"/*fullgen.inp "${OUT}"/*.inp 2>/dev/null | head -n1)"
+FOR="$(ls "${OUT}"/*fullgen.for "${OUT}"/*.for 2>/dev/null | head -n1)"
+[ -n "${DECK}" ] && [ -n "${FOR}" ] || fail "missing_rebuilt_deck" 13
+
+python3 scripts/validation/validate_molnar_unified_deck.py \
+  --deck "${DECK}" \
+  --fortran "${FOR}" \
+  --role H0 \
+  --out-dir "${RUN_DIR}/static_validation" > "${RUN_DIR}/validate_stdout.log" 2>&1 || fail "static_validation_failure" 14
+
+# Publish path for C2E/C2F
+printf '%s\n' "${OUT}" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_REFINED_LAYERED_DIR.txt"
+printf '%s\n' "${DECK}" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_DECK_PATH.txt"
+printf '%s\n' "${FOR}" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_FOR_PATH.txt"
+# hashes
+(cd "${OUT}" && sha256sum -c input_hashes.sha256) > "${RUN_DIR}/input_hash_check.txt" 2>&1 || true
+TECH="c2c_rebuild_validate_pass"
+exit 0

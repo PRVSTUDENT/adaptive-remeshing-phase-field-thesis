@@ -1,0 +1,88 @@
+#!/bin/bash
+#PBS -N c2b_gate_remesh
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+#
+# C2B — Scientific gate on C2A continuum ODB + offline remesh export
+# No Abaqus/Standard solve.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="c2b_gate_remesh"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+TECH="c2b_fail"
+FAIL="not_classified"
+
+finish() {
+  rc=$?
+  mkdir -p "${LIGHT_DIR}" "${RUN_DIR}" 2>/dev/null || true
+  {
+    echo "job_id=${PBS_JOBID:-unknown}"
+    echo "stage=C2B"
+    echo "project_revision=${PROJECT_REVISION:-unset}"
+    echo "prestaged_root=${PRESTAGED_ROOT:-unset}"
+    date -Is 2>/dev/null || date
+  } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
+  printf '%s\n' "${TECH}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${FAIL}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
+  cp "${RUN_DIR}/"* "${LIGHT_DIR}/" 2>/dev/null || true
+  exit "${rc}"
+}
+trap finish EXIT
+fail() { FAIL="$1"; TECH="c2b_fail"; exit "$2"; }
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" || exit 2
+[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail "missing_submission_variable" 2
+staged="$(tr -d '[:space:]' < "${PRESTAGED_ROOT}/PROJECT_REVISION.txt")"
+[ "${staged}" = "${PROJECT_REVISION}" ] || fail "revision_manifest_mismatch" 4
+cd "${PRESTAGED_ROOT}" || fail "missing_prestaged_root" 5
+
+# Resolve C2A ODB
+if [ -n "${C2A_ODB:-}" ] && [ -f "${C2A_ODB}" ]; then
+  ODB="${C2A_ODB}"
+elif [ -f "${PROJECT_HOME}/runs/hpc/stage_c2/C2A_ODB_PATH.txt" ]; then
+  ODB="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2A_ODB_PATH.txt")"
+else
+  fail "missing_c2a_odb" 6
+fi
+[ -f "${ODB}" ] || fail "c2a_odb_not_found" 6
+printf '%s\n' "${ODB}" > "${RUN_DIR}/c2a_odb_path.txt"
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 7
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 7
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 7
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 7
+
+export MISESERI_ODB_PATH="${ODB}"
+export MISESERI_OUTPUT_CSV="${RUN_DIR}/C2A_MISESERI_ELEMENT_DATA_raw.csv"
+export MISESERI_TECH_JSON="${RUN_DIR}/C2A_TECHNICAL_SUMMARY.json"
+export MISESERI_AUX_CONTINUUM=1
+
+# Reuse continuum-aware export (sets elset PLATE)
+abaqus python "${PRESTAGED_ROOT}/scripts/postprocessing/export_miseseri_preanalysis_csv.py" \
+  > "${RUN_DIR}/export_stdout.log" 2>&1 || fail "export_failure" 12
+
+# Scientific gate + remesh (system python)
+python3 "${PRESTAGED_ROOT}/scripts/postprocessing/gate_and_remesh_c2b.py" \
+  --csv "${RUN_DIR}/C2A_MISESERI_ELEMENT_DATA_raw.csv" \
+  --config "${PRESTAGED_ROOT}/configs/remeshing/miseseri_h0_to_h1_initial.json" \
+  --out-dir "${RUN_DIR}" \
+  --tech-json "${RUN_DIR}/C2A_TECHNICAL_SUMMARY.json" \
+  > "${RUN_DIR}/gate_remesh_stdout.log" 2>&1 || fail "scientific_gate_or_remesh_failure" 14
+
+# Publish refined mesh for C2C
+REF_PUB="${PROJECT_HOME}/runs/hpc/stage_c2/C2B_REFINED_MESH"
+mkdir -p "${REF_PUB}"
+cp "${RUN_DIR}/refined_mesh_nodes.csv" "${RUN_DIR}/refined_mesh_elements.csv" \
+   "${RUN_DIR}/refined_physical.inp" "${RUN_DIR}/remeshing_rule_manifest.json" \
+   "${RUN_DIR}/C2B_GATE_REPORT.md" "${RUN_DIR}/C2B_FIELD_SUMMARY.json" \
+   "${RUN_DIR}/C2A_MISESERI_ELEMENT_DATA.csv" "${REF_PUB}/" 2>/dev/null || fail "publish_refined_mesh_failure" 15
+printf '%s\n' "${REF_PUB}" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2B_REFINED_MESH_DIR.txt"
+printf '%s\n' "${PBS_JOBID}" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2B_JOB_ID.txt"
+TECH="c2b_gate_remesh_pass"
+exit 0

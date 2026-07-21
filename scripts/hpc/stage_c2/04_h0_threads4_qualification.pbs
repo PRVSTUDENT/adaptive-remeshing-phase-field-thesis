@@ -1,0 +1,92 @@
+#!/bin/bash
+#PBS -N c2d_h0_thr4
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=4:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m abe
+#
+# C2D — Frozen H0 serial-vs-4thread qualification (mp_mode=threads, NOT mpi)
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_h0_threads4_qualification"
+VARIANT_DIR="models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+ABAQUS_RC="not_started"
+TECH="c2d_fail"
+FAIL="not_classified"
+
+finish() {
+  rc=$?
+  mkdir -p "${LIGHT_DIR}" 2>/dev/null || true
+  {
+    echo "job_id=${PBS_JOBID:-unknown}"
+    echo "stage=C2D"
+    echo "mp_mode=threads"
+    echo "ncpus=4"
+    echo "project_revision=${PROJECT_REVISION:-unset}"
+    date -Is 2>/dev/null || date
+  } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
+  printf '%s\n' "${ABAQUS_RC}" > "${LIGHT_DIR}/abaqus_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${TECH}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${FAIL}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
+  cp "${RUN_DIR}/${JOB_NAME}.sta" "${RUN_DIR}/${JOB_NAME}.msg" "${RUN_DIR}/qualification_summary.json" "${LIGHT_DIR}/" 2>/dev/null || true
+  [ -f "${RUN_DIR}/${JOB_NAME}.odb" ] && printf '%s\n' "${RUN_DIR}/${JOB_NAME}.odb" > "${LIGHT_DIR}/odb_path.txt"
+  exit "${rc}"
+}
+trap finish EXIT
+fail() { FAIL="$1"; exit "$2"; }
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" || exit 2
+[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail "missing_submission_variable" 2
+cd "${PRESTAGED_ROOT}" || fail "missing_prestaged_root" 5
+(cd "${VARIANT_DIR}" && sha256sum -c input_hashes.sha256) > "${RUN_DIR}/input_hash_check.txt" 2>&1 || fail "input_hash_failure" 6
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 7
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 7
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 7
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 7
+
+# OpenMP: one MPI rank with 4 threads via Abaqus mp_mode=threads
+export OMP_NUM_THREADS=4
+
+cp "${VARIANT_DIR}/SingleNotch.inp" "${RUN_DIR}/${JOB_NAME}.inp"
+cp "${VARIANT_DIR}/SingleNotch.for" "${RUN_DIR}/user.for"
+cd "${RUN_DIR}" || exit 9
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" \
+  cpus=4 mp_mode=threads interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -ne 0 ] || [ ! -f "${JOB_NAME}.odb" ] || \
+   ! grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  FAIL="abaqus_technical_failure"
+  exit 11
+fi
+
+# Compare RF-U to frozen serial H0 reference CSV
+REF_CSV="${PRESTAGED_ROOT}/results/processed/molnar_lc015_h_convergence/source_csv/H0_RF2_U2.csv"
+if [ ! -f "${REF_CSV}" ]; then
+  REF_CSV="${PRESTAGED_ROOT}/runs/hpc/molnar_lc015_h_convergence/recovery_after_job_1376154/cae_replay_all/evidence/1376236.mmaster02/postprocessing/H0/H0_RF2_U2.csv"
+fi
+
+# Must use Abaqus Python for odbAccess
+abaqus python "${PRESTAGED_ROOT}/scripts/postprocessing/compare_threads_qualification.py" \
+  --odb "${RUN_DIR}/${JOB_NAME}.odb" \
+  --ref-csv "${REF_CSV}" \
+  --out-json "${RUN_DIR}/qualification_summary.json" \
+  > "${RUN_DIR}/qualification_stdout.log" 2>&1 || fail "qualification_compare_failure" 14
+
+python3 - <<'PY' || fail "qualification_tolerance_failure" 15
+import json,sys
+s=json.load(open("qualification_summary.json"))
+ok=s.get("qualification_pass", False)
+print(s)
+sys.exit(0 if ok else 15)
+PY
+
+printf '%s\n' "pass" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2D_THREADS4_PASS.txt"
+TECH="c2d_threads4_qualification_pass"
+exit 0

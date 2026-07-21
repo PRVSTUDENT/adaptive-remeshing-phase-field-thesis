@@ -100,14 +100,21 @@ def main():
     n_inst_el = len(list(inst.elements))
     print("instance_elements=", n_inst_el)
 
-    # element sets for umatelem
+    # Prefer continuum PLATE (aux C2A); fallback umatelem (layered facsimile)
     elset = None
     try:
-        for name, s in odb.rootAssembly.elementSets.items():
+        items = list(odb.rootAssembly.elementSets.items())
+        for name, s in items:
             up = str(name).upper()
-            if up.endswith("UMATELEM") or up == "UMATELEM":
+            if up.endswith("PLATE") or up == "PLATE":
                 elset = s
                 break
+        if elset is None:
+            for name, s in items:
+                up = str(name).upper()
+                if up.endswith("UMATELEM") or up == "UMATELEM":
+                    elset = s
+                    break
     except Exception:
         elset = None
 
@@ -180,9 +187,10 @@ def main():
         if len(conn) >= 4:
             elements[int(el.label)] = conn[:4]
 
-    # Determine N from umatelem count
+    # Determine N from field count
     n_phys = len(miseseri_by)
     print("n_miseseri=", n_phys)
+    aux_mode = bool(os.environ.get("MISESERI_AUX_CONTINUUM")) or (n_inst_el == n_phys)
 
     rows = []
     for lab in sorted(miseseri_by.keys()):
@@ -192,8 +200,11 @@ def main():
         pts = [nodes[n] for n in conn]
         xc = sum(p[0] for p in pts) / 4.0
         yc = sum(p[1] for p in pts) / 4.0
-        # physical label estimate
-        phys = lab - 2 * n_phys if lab > 2 * n_phys else lab
+        # layered: CPS4 labels are 2N+1..3N; aux continuum: label is physical
+        if aux_mode:
+            phys = lab
+        else:
+            phys = lab - 2 * n_phys if lab > 2 * n_phys else lab
         rows.append(
             {
                 "physical_element_label": phys,
@@ -250,8 +261,9 @@ def main():
         "n_csv_rows": len(rows),
         "u_pre_target": 0.00464,
         "u2_near_target": (u_final is not None and abs(u_final - 0.00464) <= 1.0e-4),
-        "mapping_layered_ok": n_inst_el == 11790,
+        "mapping_layered_ok": (n_inst_el == 11790) or (n_inst_el == n_phys),
         "n_phys_ok": n_phys == 3930,
+        "aux_continuum_mode": aux_mode,
     }
     if tech_json:
         with open(tech_json, "w") as stream:

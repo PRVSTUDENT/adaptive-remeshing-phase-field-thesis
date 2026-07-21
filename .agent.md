@@ -89,10 +89,10 @@ Known source documents:
 
 Immediate next tasks:
 
-1. Job 1 (`1376292`) PASS. Job 2 (`1376296`) technical PASS but scientific FAIL: `miseseri_output_available_but_scientifically_inactive` (max MISESERI≈8.9e-14 on umatelem). **Job 3 not released.**
-2. Design fix required (user-directed): obtain stress-error signal from load-bearing response, not residual-stiffness CPS4 UMAT facsimile alone. Do not auto-retry Job 2 or retune errorTarget.
-3. Evidence: `runs/hpc/stage_c_miseseri/molnar_h0_miseseri_preanalysis/evidence/1376296.mmaster02/JOB2_GATE_REPORT.md`.
-4. Queue policy remains: submit small jobs via `entry_imfdfkmq`; Job 5 via `normal_imfdfkmq` unless faster eligible queue.
+1. Job 2 facsimile MISESERI route is **closed** (inactive). Replacement Stage **C2** chain authorized: C2A aux continuum MPI → C2B gate+offline remesh → C2C rebuild → C2D H0 threads4 qual → C2E refined integrity threads → C2F refined final threads.
+2. **No MPI for UEL/UMAT.** MPI only for pure continuum C2A. UEL uses `mp_mode=threads` only after C2D passes.
+3. Do not use Job 2 ODB for remeshing. Submit once via `scripts/hpc/stage_c2/submit_c2_chain.sh`. No auto-retries / retuning.
+4. Policy: `docs/decisions/STAGE_C2_AUX_CONTINUUM_CHAIN.md`.
 
 Unresolved (supervisor only if needed later):
 

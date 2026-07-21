@@ -1,0 +1,76 @@
+#!/bin/bash
+#PBS -N c2a_aux_miseseri
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=4:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+#
+# C2A — Auxiliary continuum H0 MISESERI (MPI, no UEL)
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_h0_aux_miseseri"
+VARIANT_DIR="models/generated/molnar_gravouil_2017/aux_continuum/H0_aux_miseseri"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+ABAQUS_RC="not_started"
+TECH="c2a_aux_miseseri_fail"
+FAIL="not_classified"
+
+finish() {
+  rc=$?
+  mkdir -p "${LIGHT_DIR}" "${RUN_DIR}" 2>/dev/null || true
+  {
+    echo "job_id=${PBS_JOBID:-unknown}"
+    echo "stage=C2A"
+    echo "project_revision=${PROJECT_REVISION:-unset}"
+    echo "prestaged_root=${PRESTAGED_ROOT:-unset}"
+    echo "mp_mode=mpi"
+    echo "ncpus=4"
+    date -Is 2>/dev/null || date
+  } > "${LIGHT_DIR}/run_environment.txt" 2>/dev/null || true
+  printf '%s\n' "${ABAQUS_RC}" > "${LIGHT_DIR}/abaqus_return_code.txt" 2>/dev/null || true
+  printf '%s\n' "${TECH}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${FAIL}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
+  cp "${RUN_DIR}/${JOB_NAME}.sta" "${RUN_DIR}/${JOB_NAME}.msg" "${RUN_DIR}/${JOB_NAME}.dat" "${RUN_DIR}/${JOB_NAME}.abaqus_stdout.log" "${LIGHT_DIR}/" 2>/dev/null || true
+  [ -f "${RUN_DIR}/input_hash_check.txt" ] && cp "${RUN_DIR}/input_hash_check.txt" "${LIGHT_DIR}/" 2>/dev/null || true
+  if [ -f "${RUN_DIR}/${JOB_NAME}.odb" ]; then
+    printf '%s\n' "${RUN_DIR}/${JOB_NAME}.odb" > "${LIGHT_DIR}/odb_path.txt"
+  fi
+  exit "${rc}"
+}
+trap finish EXIT
+fail() { FAIL="$1"; exit "$2"; }
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" || exit 2
+[ -z "${PROJECT_REVISION:-}" ] || [ -z "${PRESTAGED_ROOT:-}" ] && fail "missing_submission_variable" 2
+staged="$(tr -d '[:space:]' < "${PRESTAGED_ROOT}/PROJECT_REVISION.txt")"
+[ "${staged}" = "${PROJECT_REVISION}" ] || fail "revision_manifest_mismatch" 4
+cd "${PRESTAGED_ROOT}" || fail "missing_prestaged_root" 5
+(cd "${VARIANT_DIR}" && sha256sum -c input_hashes.sha256) > "${RUN_DIR}/input_hash_check.txt" 2>&1 || fail "input_hash_failure" 6
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 7
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 7
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 7
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" 7
+command -v abaqus >/dev/null 2>&1 || fail "missing_abaqus" 8
+
+cp "${VARIANT_DIR}/molnar_h0_aux_miseseri.inp" "${RUN_DIR}/${JOB_NAME}.inp"
+cd "${RUN_DIR}" || exit 9
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" cpus=4 mp_mode=mpi interactive \
+  > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -eq 0 ] && [ -f "${JOB_NAME}.odb" ] && [ -f "${JOB_NAME}.sta" ] && \
+   grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  TECH="c2a_aux_miseseri_technical_pass"
+else
+  FAIL="abaqus_technical_failure"
+  exit 11
+fi
+# publish ODB path for dependents via light evidence (scratch path)
+printf '%s\n' "${RUN_DIR}/${JOB_NAME}.odb" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2A_ODB_PATH.txt"
+printf '%s\n' "${PBS_JOBID}" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2A_JOB_ID.txt"
+exit 0
