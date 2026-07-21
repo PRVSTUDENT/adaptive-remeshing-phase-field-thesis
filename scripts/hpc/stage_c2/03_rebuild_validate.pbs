@@ -36,6 +36,8 @@ write_status() {
   "failed_check": "${check}",
   "message": $(python3 -c 'import json,sys; print(json.dumps(sys.argv[1]))' "${message}"),
   "solver_executed": false,
+  "scientific_work_executed": false,
+  "success_marker_written": false,
   "job_id": "${PBS_JOBID:-unknown}",
   "project_revision": "${PROJECT_REVISION:-unset}"
 }
@@ -48,6 +50,8 @@ EOF
     echo "- failed_check: \`${check}\`"
     echo "- message: ${message}"
     echo "- solver_executed: false"
+    echo "- scientific_work_executed: false"
+    echo "- success_marker_written: false"
   } > "${RUN_DIR}/C2C_FAILURE_REPORT.md"
   cp "${RUN_DIR}/C2C_STATUS.json" "${RUN_DIR}/C2C_FAILURE_REPORT.md" "${LIGHT_DIR}/" 2>/dev/null || true
   cp "${RUN_DIR}/C2C_STATUS.json" "${CHAIN_STATE_DIR}/C2C_STATUS.json" 2>/dev/null || true
@@ -173,8 +177,33 @@ FOR="$(ls "${OUT}"/*fullgen.for "${OUT}"/*.for 2>/dev/null | head -n1)"
 ${PY} scripts/validation/validate_molnar_unified_deck.py \
   --deck "${DECK}" \
   --fortran "${FOR}" \
-  --role H0 \
+  --role H0_refined \
   --out-dir "${RUN_DIR}/static_validation" > "${RUN_DIR}/validate_stdout.log" 2>&1 || fail "static_validation_failure" "validate_molnar_unified_deck.py failed; see validate_stdout.log"
+
+if [ -f "${RUN_DIR}/static_validation/STATIC_VALIDATION.json" ]; then
+  cp "${RUN_DIR}/static_validation/STATIC_VALIDATION.json" "${RUN_DIR}/C2C_VALIDATION_REPORT.json"
+else
+  fail "missing_validation_report" "STATIC_VALIDATION.json not written"
+fi
+
+# Rebuild manifest (copy generation_manifest + C2B provenance)
+if [ -f "${OUT}/generation_manifest.json" ]; then
+  cp "${OUT}/generation_manifest.json" "${RUN_DIR}/C2C_REBUILD_MANIFEST.json"
+else
+  fail "missing_rebuild_manifest" "generation_manifest.json missing after rebuild"
+fi
+${PY} - <<PY || fail "rebuild_manifest_augment_failure" "could not augment C2C_REBUILD_MANIFEST.json"
+import json
+from pathlib import Path
+p = Path("${RUN_DIR}/C2C_REBUILD_MANIFEST.json")
+m = json.loads(p.read_text())
+m["c2c_stage"] = "C2C"
+m["c2b_output_dir"] = "${REF}"
+m["c2b_job_reused"] = "1376304.mmaster02"
+m["scientific_remeshing_params_frozen"] = True
+m["abaqus_solver_executed"] = False
+p.write_text(json.dumps(m, indent=2, sort_keys=True) + "\n")
+PY
 
 # Publish paths for C2E/C2F
 printf '%s\n' "${OUT}" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_REFINED_LAYERED_DIR.txt"
@@ -191,12 +220,16 @@ cat > "${RUN_DIR}/C2C_STATUS.json" <<EOF
   "failed_check": null,
   "message": "rebuild and static validation passed",
   "solver_executed": false,
+  "scientific_work_executed": true,
+  "success_marker_written": true,
   "deck": "${DECK}",
   "fortran": "${FOR}",
-  "job_id": "${PBS_JOBID:-unknown}"
+  "physical_elements": 160400,
+  "job_id": "${PBS_JOBID:-unknown}",
+  "project_revision": "${PROJECT_REVISION:-unset}"
 }
 EOF
-cp "${RUN_DIR}/C2C_STATUS.json" "${LIGHT_DIR}/" 2>/dev/null || true
+cp "${RUN_DIR}/C2C_STATUS.json" "${RUN_DIR}/C2C_REBUILD_MANIFEST.json" "${RUN_DIR}/C2C_VALIDATION_REPORT.json" "${LIGHT_DIR}/" 2>/dev/null || true
 cp "${RUN_DIR}/C2C_STATUS.json" "${CHAIN_STATE_DIR}/C2C_STATUS.json"
 : > "${CHAIN_STATE_DIR}/C2C.ok"
 TECH="c2c_rebuild_validate_pass"

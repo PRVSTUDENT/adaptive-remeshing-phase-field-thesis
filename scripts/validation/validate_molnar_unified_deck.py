@@ -191,7 +191,20 @@ def validate_deck(
         target = man.get("local_target_h_mm")
         checks["manifest_has_corridor_h"] = hmed is not None
         checks["manifest_h_over_lc"] = h_over is not None
-        if role and role in config["mesh"]["roles"]:
+        if role == "H0_refined":
+            # Offline MISESERI-refined layered deck: author H0 h targets do not apply.
+            expected_h = float(
+                config.get("remeshing", {}).get("target_local_final_h_mm", 0.0025)
+            )
+            checks["target_h_matches_role"] = (
+                abs(float(target) - expected_h) < 1e-12 if target is not None else False
+            )
+            if hmed is not None:
+                # Median corridor size should be near minElementSize after refinement.
+                tol = max(0.001, 0.5 * expected_h)
+                checks["corridor_h_near_refined_target"] = abs(float(hmed) - expected_h) <= tol
+            checks["physical_count_refined_gt_h0"] = physical > 3930
+        elif role and role in config["mesh"]["roles"]:
             expected_h = float(config["mesh"]["roles"][role]["local_target_h_mm"])
             checks["target_h_matches_role"] = abs(float(target) - expected_h) < 1e-12 if target is not None else False
             if hmed is not None and role == "H1":
@@ -228,7 +241,7 @@ def main() -> int:
     parser.add_argument("--config", type=Path, default=ROOT / "configs/preprocessing/molnar_h0_h1_unified.yaml")
     parser.add_argument("--deck", type=Path, required=True)
     parser.add_argument("--fortran", type=Path, default=None)
-    parser.add_argument("--role", choices=["H0", "H1", "H2-PUB"], default=None)
+    parser.add_argument("--role", choices=["H0", "H1", "H2-PUB", "H0_refined"], default=None)
     parser.add_argument("--require-miseseri", action="store_true")
     parser.add_argument("--out-dir", type=Path, default=None)
     args = parser.parse_args()

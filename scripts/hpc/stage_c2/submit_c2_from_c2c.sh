@@ -45,43 +45,9 @@ if qstat -u "${USER}" 2>/dev/null | grep -E 'c2c_rebuild|c2d_h0|c2e_ref|c2f_ref'
 fi
 
 echo "=== verify frozen C2B products (no fabricated markers) ==="
-test -d "${C2B_OUTPUT_DIR}"
-test -f "${C2B_OUTPUT_DIR}/C2B_FIELD_SUMMARY.json"
-test -f "${C2B_OUTPUT_DIR}/C2B_GATE_REPORT.md"
-test -f "${C2B_OUTPUT_DIR}/refined_physical.inp"
-test -f "${C2B_OUTPUT_DIR}/refined_mesh_nodes.csv"
-test -f "${C2B_OUTPUT_DIR}/refined_mesh_elements.csv"
-test -f "${C2B_OUTPUT_DIR}/remeshing_rule_manifest.json"
-
-python3 - <<PY
-import json
-from pathlib import Path
-ref = Path("${C2B_OUTPUT_DIR}")
-s = json.loads((ref / "C2B_FIELD_SUMMARY.json").read_text())
-cls = s.get("classification") or s.get("scientific_classification")
-assert cls == "miseseri_preanalysis_suitable_for_remeshing", cls
-assert s.get("gate_pass") is not False
-m = json.loads((ref / "remeshing_rule_manifest.json").read_text())
-assert m.get("status") == "pass", m
-print("C2B verified:", cls, "n_elements=", m.get("n_elements"))
-PY
-
-# Chain state: do NOT invent C2B.ok without checks — write after verification above
-mkdir -p "${CHAIN_STATE_DIR}"
+# Linux automated verification + C2B.ok (never invent markers without checks)
+bash "${PROJECT_HOME}/scripts/hpc/stage_c2/verify_c2b_and_write_marker.sh"
 printf '%s\n' "${C2B_OUTPUT_DIR}" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2B_REFINED_MESH_DIR.txt"
-cat > "${CHAIN_STATE_DIR}/C2B_STATUS.json" <<EOF
-{
-  "stage": "C2B",
-  "classification": "pass",
-  "verified_from": "C2B_REFINED_MESH products on disk",
-  "job_id_source": "1376304.mmaster02",
-  "output_dir": "${C2B_OUTPUT_DIR}"
-}
-EOF
-# Only after automated verification of gate classification + mesh files:
-: > "${CHAIN_STATE_DIR}/C2B.ok"
-# Clear downstream markers from failed attempts
-rm -f "${CHAIN_STATE_DIR}/C2C.ok" "${CHAIN_STATE_DIR}/C2D.ok" "${CHAIN_STATE_DIR}/C2E.ok" "${CHAIN_STATE_DIR}/C2F.ok"
 
 REVISION="$(git rev-parse HEAD)"
 SHORT_REVISION="${REVISION:0:12}"
@@ -129,21 +95,37 @@ J6=$(qsub -q "${QUEUE}" -M "${EMAIL}" -m abe \
   -o "${PBS_OUTPUT_DIR}/c2f.out" \
   "${STAGE_DIR}/06_refined_final_threads4.pbs")
 
+mkdir -p "${PROJECT_HOME}/runs/hpc/stage_c2/recovery"
 {
   echo "submission_time=${TIMESTAMP}"
   echo "revision=${REVISION}"
   echo "recovery_from=C2C"
   echo "C2A_reused=1376298.mmaster02"
   echo "C2B_reused=1376304.mmaster02"
+  echo "C2A_rerun=false"
+  echo "C2B_rerun=false"
   echo "C2B_OUTPUT_DIR=${C2B_OUTPUT_DIR}"
   echo "CHAIN_STATE_DIR=${CHAIN_STATE_DIR}"
+  echo "PRESTAGED_ROOT=${PRESTAGED_ROOT}"
+  echo "PBS_OUTPUT_DIR=${PBS_OUTPUT_DIR}"
   echo "dependency_mode=afterany_plus_markers"
+  echo "queue=${QUEUE}"
+  echo "mail=${EMAIL}"
+  echo "mail_option=abe"
   echo "C2C=${J3}"
   echo "C2D=${J4}"
   echo "C2E=${J5}"
   echo "C2F=${J6}"
+  echo "C2D_resources=select=1:ncpus=4:mem=16gb walltime=02:00:00 mp_mode=threads"
+  echo "C2E_resources=select=1:ncpus=4:mem=24gb walltime=02:00:00 mp_mode=threads"
+  echo "C2F_resources=select=1:ncpus=4:mem=32gb walltime=06:00:00 mp_mode=threads"
+  echo "mpi_for_uel_umat=prohibited"
+  echo "automatic_retry=false"
+  echo "parameter_change=false"
   echo "c2c_prior_failure=1376305_missing_baseline_original_in_prestage"
-} | tee "${PROJECT_HOME}/runs/hpc/stage_c2/C2_RECOVERY_FROM_C2C_SUBMISSION_RECORD.txt"
+  echo "c2b_verification_json=${PROJECT_HOME}/runs/hpc/stage_c2/recovery/C2B_REUSE_VERIFICATION.json"
+} | tee "${PROJECT_HOME}/runs/hpc/stage_c2/recovery/C2_RECOVERY_SUBMISSION_RECORD.txt" \
+  | tee "${PROJECT_HOME}/runs/hpc/stage_c2/C2_RECOVERY_FROM_C2C_SUBMISSION_RECORD.txt"
 
 printf '%s\n' "C2C=$J3" "C2D=$J4" "C2E=$J5" "C2F=$J6"
 qstat -u "${USER}" | head -20 || true
