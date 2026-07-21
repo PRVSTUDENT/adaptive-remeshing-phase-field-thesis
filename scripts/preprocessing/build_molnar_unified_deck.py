@@ -84,6 +84,20 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def path_under_root(path: Path, root: Path = ROOT) -> str:
+    """Return a portable path string relative to root when possible.
+
+    HPC prestages may resolve ``/scratch`` and ``/scratchN`` to different
+    absolute prefixes for the same tree; fall back to absolute posix path.
+    """
+    path = path.resolve()
+    root = root.resolve()
+    try:
+        return str(path.relative_to(root)).replace("\\", "/")
+    except ValueError:
+        return path.as_posix()
+
+
 def sha256_file_lf(path: Path) -> str:
     """SHA-256 of file bytes with newlines normalized to LF.
 
@@ -1083,8 +1097,8 @@ def generate_role(
 
     manifest.update(
         {
-            "deck_path": str(deck_path.relative_to(ROOT)).replace("\\", "/"),
-            "fortran_path": str(for_path.relative_to(ROOT)).replace("\\", "/"),
+            "deck_path": path_under_root(deck_path),
+            "fortran_path": path_under_root(for_path),
             "deck_sha256": sha256_file(deck_path),
             "fortran_sha256": for_info["sha256"],
             "mesh_nodes_sha256": sha256_file(out_dir / "mesh_nodes.csv"),
