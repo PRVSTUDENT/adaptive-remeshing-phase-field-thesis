@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Build refined physical mesh from MISESERI element-field CSV (system Python).
+"""Build refined physical mesh from MISESERI CSV.
 
-Compatible with older cluster Python (no PEP563 annotations).
+Self-contained (no PyYAML). Compatible with older and newer CPython.
 No Abaqus/Standard solve.
 """
 
@@ -12,11 +12,124 @@ import math
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "scripts/model_generation"))
+TOL = 1.0e-10
+LC = 0.015
 
-from build_molnar_lc015_h_convergence import MeshBuilder, paper_like_config  # noqa: E402
-from estimate_molnar_paper_mesh import make_axis_spacings  # noqa: E402
+
+class AxisSpacing(object):
+    def __init__(self, coordinates, spacings):
+        self.coordinates = coordinates
+        self.spacings = spacings
+
+
+def _round_coord(value):
+    rounded = round(value, 10)
+    return 0.0 if abs(rounded) < 5.0e-9 else rounded
+
+
+def _graded_sizes_to_refined(length, local_h, global_h, ratio):
+    transition = []
+    size = local_h
+    while size < global_h:
+        transition.append(size)
+        size *= ratio
+    if not transition or transition[-1] < global_h:
+        transition.append(global_h)
+    transition_sum = sum(transition)
+    if transition_sum >= length:
+        n = max(1, int(round(length / local_h)))
+        return [length / float(n)] * n
+    remaining = length - transition_sum
+    coarse_count = max(1, int((remaining + global_h - TOL) // global_h))
+    coarse = [remaining / float(coarse_count)] * coarse_count
+    return coarse + list(reversed(transition))
+
+
+def _axis_with_refined_region(start, refined_min, refined_max, end, local_h, global_h, ratio):
+    left_sizes = _graded_sizes_to_refined(refined_min - start, local_h, global_h, ratio)
+    refined_count = int(round((refined_max - refined_min) / local_h))
+    refined_sizes = [local_h] * refined_count
+    right_sizes = list(reversed(_graded_sizes_to_refined(end - refined_max, local_h, global_h, ratio)))
+    sizes = left_sizes + refined_sizes + right_sizes
+    coords = [start]
+    for size in sizes:
+        coords.append(_round_coord(coords[-1] + size))
+    coords[-1] = _round_coord(end)
+    return AxisSpacing(coords, [round(coords[i + 1] - coords[i], 10) for i in range(len(coords) - 1)])
+
+
+def _axis_refined_to_end(start, refined_min, end, local_h, global_h, ratio):
+    left_sizes = _graded_sizes_to_refined(refined_min - start, local_h, global_h, ratio)
+    refined_count = int(round((end - refined_min) / local_h))
+    sizes = left_sizes + [local_h] * refined_count
+    coords = [start]
+    for size in sizes:
+        coords.append(_round_coord(coords[-1] + size))
+    coords[-1] = _round_coord(end)
+    return AxisSpacing(coords, [round(coords[i + 1] - coords[i], 10) for i in range(len(coords) - 1)])
+
+
+def make_axis_spacings(local_h, refined_zone, global_h=0.025, ratio=1.5):
+    x_axis = _axis_refined_to_end(-0.5, float(refined_zone["x_min"]), 0.5, local_h, global_h, ratio)
+    y_axis = _axis_with_refined_region(
+        -0.5, float(refined_zone["y_min"]), float(refined_zone["y_max"]), 0.5, local_h, global_h, ratio
+    )
+    return x_axis, y_axis
+
+
+class MeshBuilder(object):
+    def __init__(self, x_axis, y_axis):
+        self.x_axis = x_axis
+        self.y_axis = y_axis
+        self.nodes = {}
+        self.node_coords = {}
+        self.next_node = 1
+
+    def _node_key(self, i, j, side="shared"):
+        x = self.x_axis.coordinates[i]
+        y = self.y_axis.coordinates[j]
+        if abs(y) < TOL and -0.5 <= x < 0.0:
+            return (i, j, side)
+        return (i, j, "shared")
+
+    def node(self, i, j, side="shared"):
+        key = self._node_key(i, j, side)
+        if key not in self.nodes:
+            self.nodes[key] = self.next_node
+            self.node_coords[self.next_node] = (self.x_axis.coordinates[i], self.y_axis.coordinates[j])
+            self.next_node += 1
+        return self.nodes[key]
+
+    def build_nodes(self):
+        for j in range(len(self.y_axis.coordinates)):
+            for i in range(len(self.x_axis.coordinates)):
+                y = self.y_axis.coordinates[j]
+                x = self.x_axis.coordinates[i]
+                if abs(y) < TOL and -0.5 <= x < 0.0:
+                    self.node(i, j, "lower")
+                    self.node(i, j, "upper")
+                else:
+                    self.node(i, j)
+
+    def element_connectivity(self):
+        zero_j = min(range(len(self.y_axis.coordinates)), key=lambda j: abs(self.y_axis.coordinates[j]))
+        conn = []
+        for j in range(len(self.y_axis.coordinates) - 1):
+            for i in range(len(self.x_axis.coordinates) - 1):
+                if j == zero_j:
+                    n1 = self.node(i, j, "upper")
+                    n2 = self.node(i + 1, j, "upper")
+                else:
+                    n1 = self.node(i, j)
+                    n2 = self.node(i + 1, j)
+                if j + 1 == zero_j:
+                    n3 = self.node(i + 1, j + 1, "lower")
+                    n4 = self.node(i, j + 1, "lower")
+                else:
+                    n3 = self.node(i + 1, j + 1)
+                    n4 = self.node(i, j + 1)
+                conn.append((n1, n2, n3, n4))
+        return conn
 
 
 def load_rows(csv_path):
@@ -79,16 +192,7 @@ def refined_zone_from_rows(rows, min_h):
 
 
 def build_mesh(local_h, refined_zone, global_h):
-    study = {
-        "mesh_recipe": {
-            "refined_zone": refined_zone,
-            "global_element_size_mm": global_h,
-            "maximum_neighbouring_size_ratio": 1.5,
-        }
-    }
-    cfg = paper_like_config(local_h, study)
-    cfg["mesh"]["recipe"]["refined_zone"] = refined_zone
-    x_axis, y_axis = make_axis_spacings(cfg)
+    x_axis, y_axis = make_axis_spacings(local_h, refined_zone, global_h=global_h, ratio=1.5)
     mesh = MeshBuilder(x_axis, y_axis)
     mesh.build_nodes()
     return mesh.node_coords, mesh.element_connectivity()
@@ -125,6 +229,16 @@ def main():
     config = json.loads(args.config.read_text(encoding="utf-8"))
     rule = config["rule"]
     rows = load_rows(args.csv)
+    # ensure h_mean
+    for r in rows:
+        if "h_mean" not in r or r["h_mean"] in ("", None):
+            try:
+                r["h_mean"] = math.sqrt(float(r["EVOL"])) if float(r["EVOL"]) > 0 else 0.005
+            except Exception:
+                r["h_mean"] = 0.005
+        if "xc" not in r:
+            r["xc"] = r.get("centroid_x", 0)
+            r["yc"] = r.get("centroid_y", 0)
     sizing = apply_marks(rows, rule)
     min_h = float(rule["minElementSize_mm"])
     max_h = float(rule["maxElementSize_mm"])
@@ -151,13 +265,6 @@ def main():
         lines.append("%s, %s, %s, %s, %s" % (i, c[0], c[1], c[2], c[3]))
     physical_inp.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    marked_csv = args.out / "miseseri_element_field_marked.csv"
-    with marked_csv.open("w", encoding="utf-8", newline="") as stream:
-        if rows:
-            writer = csv.DictWriter(stream, fieldnames=list(rows[0].keys()))
-            writer.writeheader()
-            writer.writerows(rows)
-
     corridor = corridor_stats(nodes, conn, zone)
     target_ok = bool(corridor and abs(corridor["median"] - min_h) <= 0.25 * min_h)
     manifest = {
@@ -168,11 +275,6 @@ def main():
         "n_elements": len(conn),
         "corridor_h": corridor,
         "corridor_h_near_minElementSize": target_ok,
-        "paths": {
-            "nodes_csv": str(nodes_csv.as_posix()),
-            "elements_csv": str(elems_csv.as_posix()),
-            "physical_inp": str(physical_inp.as_posix()),
-        },
     }
     (args.out / "remeshing_rule_manifest.json").write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
