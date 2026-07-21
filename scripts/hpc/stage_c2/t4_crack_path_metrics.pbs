@@ -1,0 +1,40 @@
+#!/bin/bash
+#PBS -N t4_crack_met
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+#
+# T4 — Quantitative crack-path metrics (Python only).
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+EXT="${PROJECT_HOME}/runs/hpc/stage_c2/crack_path_quantitative/extraction"
+OUT="${PROJECT_HOME}/runs/hpc/stage_c2/crack_path_quantitative"
+CHAIN="${PROJECT_HOME}/runs/hpc/stage_c2/chain_state"
+
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
+fi
+
+mkdir -p "${OUT}" || exit 2
+if [ ! -f "${EXT}/MATCHED_STATE_EXTRACTION.ok" ] && [ ! -f "${CHAIN}/MATCHED_STATE_EXTRACTION.ok" ]; then
+  if type pbs_notify_skipped >/dev/null 2>&1; then pbs_notify_skipped "missing MATCHED_STATE_EXTRACTION.ok"; fi
+  echo '{"classification":"skipped_upstream_failure"}' > "${OUT}/CRACK_PATH_REPEATABILITY.json"
+  exit 0
+fi
+if type pbs_notify_begin >/dev/null 2>&1; then pbs_notify_begin; fi
+
+module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+python3 "${PROJECT_HOME}/scripts/postprocessing/crack_path_quantitative_metrics.py" \
+  --extraction-root "${EXT}" \
+  --out-dir "${OUT}"
+rc=$?
+if [ $rc -eq 0 ]; then
+  : > "${CHAIN}/CRACK_PATH_METRICS_COMPLETE.ok"
+fi
+exit $rc

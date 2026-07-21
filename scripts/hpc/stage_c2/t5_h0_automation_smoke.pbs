@@ -1,0 +1,166 @@
+#!/bin/bash
+#PBS -N t5_h0_smoke
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=4:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+#
+# T5 — Automated H0 notch-length variation smoke (0.45 mm) + tiny elastic probe.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+OUT="${PROJECT_HOME}/runs/hpc/stage_c2/automation_smoke/h0_notch045"
+CHAIN="${PROJECT_HOME}/runs/hpc/stage_c2/chain_state"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_h0_notch045_elastic_probe"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
+fi
+
+mkdir -p "${OUT}" "${RUN_DIR}" || exit 2
+if [ ! -f "${CHAIN}/CRACK_PATH_METRICS_COMPLETE.ok" ] && \
+   [ ! -f "${PROJECT_HOME}/runs/hpc/stage_c2/crack_path_quantitative/CRACK_PATH_METRICS_COMPLETE.ok" ]; then
+  if type pbs_notify_skipped >/dev/null 2>&1; then pbs_notify_skipped "missing CRACK_PATH_METRICS_COMPLETE.ok"; fi
+  echo '{"classification":"skipped_upstream_failure"}' > "${OUT}/AUTOMATION_SMOKE_STATUS.json"
+  exit 0
+fi
+if type pbs_notify_begin >/dev/null 2>&1; then pbs_notify_begin; fi
+
+module load gcc/11.4.0 python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+cd "${PROJECT_HOME}" || exit 2
+
+# Config snapshot
+cat > "${OUT}/GENERATED_CONFIG.yaml" <<EOF
+automation_smoke: h0_notch_length_variation
+base_notch_length_mm: 0.500
+diagnostic_notch_length_mm: 0.450
+unchanged: [E, nu, Gc, lc, thickness, loading_formulation, UEL_formulation, layer_label_policy]
+mesh_role: H0_diagnostic
+EOF
+
+MESH_DIR="${OUT}/mesh"
+python3 scripts/model_generation/build_h0_notch_variation_mesh.py \
+  --notch-length-mm 0.45 --h 0.025 --out "${MESH_DIR}" | tee "${OUT}/mesh_stdout.log"
+
+LAYERED="${OUT}/layered"
+mkdir -p "${LAYERED}"
+python3 scripts/preprocessing/build_molnar_unified_deck.py \
+  --config configs/preprocessing/molnar_h0_h1_unified.yaml \
+  --role-name H0_refined \
+  --output-profile fracture_baseline \
+  --from-nodes-csv "${MESH_DIR}/refined_mesh_nodes.csv" \
+  --from-elems-csv "${MESH_DIR}/refined_mesh_elements.csv" \
+  --out "${LAYERED}" | tee "${OUT}/rebuild_stdout.log"
+
+DECK=$(ls "${LAYERED}"/*fullgen.inp 2>/dev/null | head -n1)
+FOR=$(ls "${LAYERED}"/*fullgen.for 2>/dev/null | head -n1)
+python3 scripts/validation/validate_molnar_unified_deck.py \
+  --config configs/preprocessing/molnar_h0_h1_unified.yaml \
+  --deck "${DECK}" --fortran "${FOR}" --role H0_refined \
+  --out-dir "${OUT}/static_validation" | tee "${OUT}/validate_stdout.log" || true
+
+python3 - <<PY
+import json
+from pathlib import Path
+meta=json.loads(Path("${MESH_DIR}/mesh_meta.json").read_text())
+valp=Path("${OUT}/static_validation/STATIC_VALIDATION.json")
+val=json.loads(valp.read_text()) if valp.is_file() else {}
+checks={
+  "notch_length_mm": meta.get("notch_length_mm"),
+  "notch_length_ok": abs(float(meta.get("notch_length_mm",0))-0.45)<1e-9,
+  "has_y0": meta.get("has_y0"),
+  "notch_split": meta.get("notch_split"),
+  "n_notch_lower": len(meta.get("notch_lower") or []),
+  "n_notch_upper": len(meta.get("notch_upper") or []),
+  "static_validation": val.get("status"),
+  "n_elements": meta.get("n_elements"),
+}
+(Path("${OUT}")/"DECK_VALIDATION.json").write_text(json.dumps(checks,indent=2,sort_keys=True)+"\n")
+ok=checks["notch_length_ok"] and checks["has_y0"] and checks["notch_split"] and checks["static_validation"]=="pass"
+print(json.dumps(checks,indent=2))
+raise SystemExit(0 if ok else 12)
+PY
+[ $? -eq 0 ] || exit 12
+
+# Tiny elastic probe
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || exit 5
+export OMP_NUM_THREADS=4
+python3 - <<PY
+from pathlib import Path
+src=Path("${DECK}").read_text(encoding="utf-8",errors="replace")
+head=src.split("*Step")[0].rstrip()
+text=head+"""
+*Amplitude, name=Amp-probe
+0., 0., 1., 1.
+*Step, name=Step-elastic-probe, nlgeom=NO, inc=20
+*Static, direct
+0.05, 1.0,
+*Boundary, amplitude=Amp-probe
+RP, 2, 2, 0.0001
+*Boundary
+bottom, 2, 2
+*Boundary
+bottoml, 1, 1
+*Boundary
+topl, 1, 1
+*Restart, write, frequency=0
+*Output, field, frequency=1
+*Node Output, nset=RP
+RF, U
+*End Step
+"""
+Path("${RUN_DIR}/${JOB_NAME}.inp").write_text(text)
+Path("${RUN_DIR}/user.for").write_bytes(Path("${FOR}").read_bytes())
+print("probe_deck_ok")
+PY
+cd "${RUN_DIR}" || exit 9
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" \
+  cpus=4 mp_mode=threads interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -ne 0 ] || [ ! -f "${JOB_NAME}.odb" ] || \
+   ! grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  echo '{"classification":"automation_smoke_solver_failed"}' > "${OUT}/AUTOMATION_SMOKE_STATUS.json"
+  exit 11
+fi
+
+module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_rfu_from_odb.py" \
+  --odb "${RUN_DIR}/${JOB_NAME}.odb" --out "${OUT}/ELASTIC_PROBE_RF_U.csv" > "${OUT}/extract.log" 2>&1
+
+python3 - <<PY
+import json,csv
+from pathlib import Path
+rows=[]
+with open("${OUT}/ELASTIC_PROBE_RF_U.csv") as f:
+    for row in csv.DictReader(f):
+        rows.append((float(row["U2"]), float(row["RF2"])))
+u,rf=rows[-1]
+k=rf/u if abs(u)>0 else None
+status={
+  "stage":"T5_h0_automation_smoke",
+  "classification":"automation_smoke_pass",
+  "job_id":"${PBS_JOBID}",
+  "notch_length_mm":0.45,
+  "solver_executed":True,
+  "U_probe":u,"RF2":rf,"K_probe":k,
+  "note":"Workflow smoke only; not a thesis fracture reference comparison",
+}
+Path("${OUT}/AUTOMATION_SMOKE_STATUS.json").write_text(json.dumps(status,indent=2,sort_keys=True)+"\n")
+Path("${OUT}/AUTOMATION_SMOKE_REPORT.md").write_text(
+  "# H0 automation smoke (notch 0.45 mm)\n\n"
+  "Static generation and short elastic probe completed.\n\n"
+  "K_probe=%s\n"%k
+)
+Path("${OUT}/H0_VARIATION.ok").write_text("")
+Path("${CHAIN}/H0_VARIATION.ok").write_text("")
+print("T5_PASS", status)
+PY
+exit $?

@@ -1,0 +1,25 @@
+#!/bin/bash
+#PBS -N t1_h1_close
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+#
+# T1 — Close existing H1 4-thread baseline 1376579 (no new solve).
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
+  pbs_notify_begin
+fi
+
+module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 >/dev/null 2>&1 || true
+
+python3 "${PROJECT_HOME}/scripts/hpc/stage_c2/t1_close_h1_threads4.py"
+exit $?

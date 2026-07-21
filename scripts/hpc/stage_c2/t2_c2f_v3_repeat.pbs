@@ -1,0 +1,186 @@
+#!/bin/bash
+#PBS -N t2_v3_repeat
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=4:mem=32gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+#
+# T2 — Exact C2F-v3 deck/Fortran repeat (same as 1376480). Requires H1_THREADS4.ok.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_c2f_v3_repeat_threads4"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+OUT="${PROJECT_HOME}/runs/hpc/stage_c2/repeatability/c2f_v3_repeat"
+CHAIN="${PROJECT_HOME}/runs/hpc/stage_c2/chain_state"
+ORIG_ODB="/scratch/pr21vyci/adaptive-remeshing/runs/molnar_c2f_v3_refined_final_threads4_1376480.mmaster02/molnar_c2f_v3_refined_final_threads4.odb"
+ORIG_RFU="${PROJECT_HOME}/runs/hpc/stage_c2/recovery/c2f_v3_vs_h1/C2F_V3_RF_U.csv"
+
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
+fi
+
+mkdir -p "${RUN_DIR}" "${OUT}" "${CHAIN}" || exit 2
+
+if [ ! -f "${CHAIN}/H1_THREADS4.ok" ] && [ ! -f "${PROJECT_HOME}/runs/hpc/stage_c2/h1_threads4_closeout/H1_THREADS4.ok" ]; then
+  if type pbs_notify_skipped >/dev/null 2>&1; then
+    pbs_notify_skipped "missing H1_THREADS4.ok"
+  fi
+  cat > "${OUT}/V3_REPEAT_STATUS.json" <<EOF
+{"stage":"T2","classification":"skipped_upstream_failure","failed_check":"missing_H1_THREADS4.ok","solver_executed":false,"job_id":"${PBS_JOBID:-unknown}"}
+EOF
+  exit 0
+fi
+
+if type pbs_notify_begin >/dev/null 2>&1; then
+  pbs_notify_begin
+fi
+
+DECK="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_V3_DECK_PATH.txt")"
+FOR="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_V3_FOR_PATH.txt")"
+[ -f "${DECK}" ] && [ -f "${FOR}" ] || exit 3
+case "${DECK}" in
+  *v3_notchfix*) ;;
+  *) echo "refusing non-v3 deck" >&2; exit 4 ;;
+esac
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || exit 5
+export OMP_NUM_THREADS=4
+
+cp "${DECK}" "${RUN_DIR}/${JOB_NAME}.inp"
+cp "${FOR}" "${RUN_DIR}/user.for"
+cd "${RUN_DIR}" || exit 9
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" \
+  cpus=4 mp_mode=threads interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -ne 0 ] || [ ! -f "${JOB_NAME}.odb" ] || \
+   ! grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  echo '{"stage":"T2","classification":"v3_repeat_solver_failed","solver_executed":true}' > "${OUT}/V3_REPEAT_STATUS.json"
+  exit 11
+fi
+
+module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_rfu_from_odb.py" \
+  --odb "${RUN_DIR}/${JOB_NAME}.odb" --out "${OUT}/V3_REPEAT_RF_U.csv" > "${OUT}/extract.log" 2>&1
+
+abaqus python "${PROJECT_HOME}/scripts/postprocessing/check_odb_fields_abaqus.py" \
+  --odb "${RUN_DIR}/${JOB_NAME}.odb" --out "${OUT}/V3_REPEAT_FIELD_SUMMARY.json" > "${OUT}/field.log" 2>&1 || true
+
+# Compare repeat RF-U to original C2F-v3 RF-U (not H1)
+python3 - <<PY
+import json, math, csv
+from pathlib import Path
+
+def load(p):
+    rows=[]
+    with open(p) as f:
+        r=csv.DictReader(f)
+        for row in r:
+            u=rf=None
+            for k,v in row.items():
+                if k and k.lower() in ("u2","u"): u=float(v)
+                if k and k.lower() in ("rf2","rf"): rf=abs(float(v))
+            rows.append((u,rf))
+    d={}
+    for u,f in rows:
+        d[round(u,12)]=f
+    return sorted(d.items())
+
+def peak(rows):
+    return max(rows, key=lambda t: t[1])
+
+def f_at(rows,u):
+    if u<=rows[0][0]: return rows[0][1]
+    if u>=rows[-1][0]: return rows[-1][1]
+    for i in range(1,len(rows)):
+        u0,f0=rows[i-1]; u1,f1=rows[i]
+        if u0<=u<=u1:
+            t=0 if u1==u0 else (u-u0)/(u1-u0)
+            return f0+t*(f1-f0)
+    return rows[-1][1]
+
+def nrmse(ref,cand,u_hi):
+    refs=[(u,f) for u,f in ref if u<=u_hi+1e-12] or ref
+    num=den=0.0
+    for u,fr in refs:
+        fc=f_at(cand,u)
+        num+=(fc-fr)**2; den+=fr**2
+    return math.sqrt(num/den) if den>0 else float("inf")
+
+def stiff(rows, umax=0.001):
+    pts=[(u,f) for u,f in rows if 0<u<=umax]
+    num=den=0.0
+    for u,f in pts:
+        num+=u*f; den+=u*u
+    return num/den if den else float("nan")
+
+ref=load("${ORIG_RFU}")
+cand=load("${OUT}/V3_REPEAT_RF_U.csv")
+ur,fr=peak(ref); uc,fc=peak(cand)
+rel_f=abs(fc-fr)/abs(fr) if fr else float("inf")
+us=sorted(set(u for u,_ in ref))
+du=min(us[i+1]-us[i] for i in range(len(us)-1) if us[i+1]>us[i]) if len(us)>1 else 1e-4
+u_ok=abs(uc-ur)<=du+1e-12
+kr,kc=stiff(ref),stiff(cand)
+rel_k=abs(kc-kr)/abs(kr) if kr else float("inf")
+nr=nrmse(ref,cand,ur)
+pass_r=(rel_f<=0.002) and (nr<=0.002) and u_ok and (rel_k<=0.002)
+
+field={}
+fp=Path("${OUT}/V3_REPEAT_FIELD_SUMMARY.json")
+if fp.is_file():
+    field=json.loads(fp.read_text())
+# original field if present
+ofp=Path("${PROJECT_HOME}/runs/hpc/stage_c2/recovery/c2f_v3_vs_h1/C2F_V3_FIELD_CHECK.json")
+orig_f=json.loads(ofp.read_text()) if ofp.is_file() else {}
+
+status={
+  "stage":"T2_v3_repeat",
+  "classification":"v3_repeatability_supported" if pass_r else "v3_repeatability_failed",
+  "job_id":"${PBS_JOBID}",
+  "original_job":"1376480.mmaster02",
+  "solver_executed":True,
+  "deck":"${DECK}",
+  "metrics":{
+    "rel_peak_force":rel_f,
+    "prepeak_nrmse":nr,
+    "rel_initial_stiffness":rel_k,
+    "u_peak_ok":u_ok,
+    "ref_peak_force":fr,"cand_peak_force":fc,
+    "ref_u_peak":ur,"cand_u_peak":uc,
+    "ref_K":kr,"cand_K":kc,
+  },
+  "field_repeat":field.get("sdv15"),
+  "field_original":orig_f.get("sdv15"),
+  "gates_pass":pass_r,
+  "odb":"${RUN_DIR}/${JOB_NAME}.odb",
+}
+Path("${OUT}/V3_REPEAT_STATUS.json").write_text(json.dumps(status,indent=2,sort_keys=True)+"\n")
+md=["# C2F-v3 repeatability","",
+    "Classification: \`%s\`"%status["classification"],"",
+    "| Metric | Value | Tol |",
+    "| --- | ---: | --- |",
+    "| peak RF rel | %.4g | 0.2%% |"%(100*rel_f),
+    "| prepeak NRMSE | %.4g | 0.2%% |"%(100*nr),
+    "| stiffness rel | %.4g | 0.2%% |"%(100*rel_k),
+    "| u_peak_ok | %s | one interval |"%u_ok,"",
+    "## SDV15 final",
+    "- original: %s"%orig_f.get("sdv15"),
+    "- repeat: %s"%field.get("sdv15"),""]
+Path("${OUT}/V3_REPEAT_COMPARISON.md").write_text("\n".join(md)+"\n")
+if pass_r:
+    Path("${OUT}/V3_REPEAT.ok").write_text("")
+    Path("${CHAIN}/V3_REPEAT.ok").write_text("")
+    print("T2_PASS")
+    raise SystemExit(0)
+print("T2_FAIL")
+raise SystemExit(12)
+PY
+exit $?

@@ -1,0 +1,77 @@
+#!/bin/bash
+#PBS -N t3_sdv_extract
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+#
+# T3 — Matched-state SDV15 extraction (no Standard solve). Requires V3_REPEAT.ok.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+OUT="${PROJECT_HOME}/runs/hpc/stage_c2/crack_path_quantitative/extraction"
+CHAIN="${PROJECT_HOME}/runs/hpc/stage_c2/chain_state"
+
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
+fi
+
+mkdir -p "${OUT}" || exit 2
+if [ ! -f "${CHAIN}/V3_REPEAT.ok" ] && [ ! -f "${PROJECT_HOME}/runs/hpc/stage_c2/repeatability/c2f_v3_repeat/V3_REPEAT.ok" ]; then
+  if type pbs_notify_skipped >/dev/null 2>&1; then pbs_notify_skipped "missing V3_REPEAT.ok"; fi
+  echo '{"classification":"skipped_upstream_failure","failed_check":"missing_V3_REPEAT.ok"}' > "${OUT}/MATCHED_STATE_EXTRACTION_STATUS.json"
+  exit 0
+fi
+if type pbs_notify_begin >/dev/null 2>&1; then pbs_notify_begin; fi
+
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+
+H1_ODB="/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h1_h0025_1376185.mmaster02/molnar_lc015_h1_h0025.odb"
+V3_ODB="/scratch/pr21vyci/adaptive-remeshing/runs/molnar_c2f_v3_refined_final_threads4_1376480.mmaster02/molnar_c2f_v3_refined_final_threads4.odb"
+# repeat ODB from status
+REP_ODB=$(python3 - <<'PY'
+import json
+from pathlib import Path
+p=Path("/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_c2/repeatability/c2f_v3_repeat/V3_REPEAT_STATUS.json")
+if p.is_file():
+    print(json.loads(p.read_text()).get("odb",""))
+PY
+)
+
+EX="${PROJECT_HOME}/scripts/postprocessing/extract_matched_sdv15_states.py"
+mkdir -p "${OUT}/H1" "${OUT}/C2F_V3" "${OUT}/C2F_V3_REPEAT"
+
+fail=0
+abaqus python "${EX}" --odb "${H1_ODB}" --label H1 --out-dir "${OUT}/H1" > "${OUT}/H1/run.log" 2>&1 || fail=1
+abaqus python "${EX}" --odb "${V3_ODB}" --label C2F_V3 --out-dir "${OUT}/C2F_V3" > "${OUT}/C2F_V3/run.log" 2>&1 || fail=1
+if [ -n "${REP_ODB}" ] && [ -f "${REP_ODB}" ]; then
+  abaqus python "${EX}" --odb "${REP_ODB}" --label C2F_V3_REPEAT --out-dir "${OUT}/C2F_V3_REPEAT" > "${OUT}/C2F_V3_REPEAT/run.log" 2>&1 || fail=1
+else
+  echo "missing_repeat_odb" > "${OUT}/C2F_V3_REPEAT/run.log"
+  fail=1
+fi
+
+python3 - <<PY
+import json
+from pathlib import Path
+out=Path("${OUT}")
+status={"stage":"T3","classification":"matched_state_extraction_ok" if ${fail}==0 else "matched_state_extraction_failed","job_id":"${PBS_JOBID}","paths":{}}
+for lab in ("H1","C2F_V3","C2F_V3_REPEAT"):
+    p=out/lab/"EXTRACTION_SUMMARY.json"
+    status["paths"][lab]=str(p)
+    if p.is_file():
+        status[lab]=json.loads(p.read_text())
+(out/"MATCHED_STATE_EXTRACTION_STATUS.json").write_text(json.dumps(status,indent=2,sort_keys=True)+"\n")
+if ${fail}==0:
+    (out/"MATCHED_STATE_EXTRACTION.ok").write_text("")
+    Path("${CHAIN}/MATCHED_STATE_EXTRACTION.ok").write_text("")
+    print("T3_PASS")
+    raise SystemExit(0)
+print("T3_FAIL")
+raise SystemExit(12)
+PY
+exit $?
