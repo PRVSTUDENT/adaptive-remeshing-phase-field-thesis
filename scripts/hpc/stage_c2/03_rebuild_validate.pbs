@@ -48,8 +48,19 @@ fi
 OUT="${PROJECT_HOME}/models/generated/molnar_gravouil_2017/unified_preprocessing/H0_refined_layered"
 mkdir -p "${OUT}" "${RUN_DIR}"
 
-if [ -x /usr/bin/python3.12 ]; then PY=python3.12; else PY=python3; fi
-echo "using_python=$(${PY} --version 2>&1)" > "${RUN_DIR}/python_version.txt"
+# Prefer module Python 3.11 (has PyYAML) for deck rebuild; else python3.12
+module load gcc/11.4.0 >/dev/null 2>&1 || true
+module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+if command -v python3 >/dev/null 2>&1 && python3 -c "import yaml" 2>/dev/null; then
+  PY=python3
+elif [ -x /usr/bin/python3.12 ]; then
+  PY=/usr/bin/python3.12
+else
+  PY=python3
+fi
+echo "using_python=$(command -v ${PY}) $(${PY} --version 2>&1)" > "${RUN_DIR}/python_version.txt"
+# Fail early if yaml missing (unified deck builder needs it)
+${PY} -c "import yaml" 2>>"${RUN_DIR}/python_version.txt" || fail "python_missing_pyyaml" 9
 
 ${PY} scripts/preprocessing/build_molnar_unified_deck.py \
   --config configs/preprocessing/molnar_h0_h1_unified.yaml \
