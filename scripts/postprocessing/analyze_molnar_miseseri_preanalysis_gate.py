@@ -9,8 +9,6 @@ Reads JOB2_MISESERI_ELEMENT_DATA.csv (exported from ODB) and writes:
 Does not require Abaqus Python.
 """
 
-from __future__ import annotations
-
 import argparse
 import csv
 import json
@@ -20,16 +18,16 @@ from collections import Counter
 from pathlib import Path
 
 
-def load_rows(path: Path) -> list[dict]:
+def load_rows(path):
     with path.open(newline="", encoding="utf-8") as stream:
         return list(csv.DictReader(stream))
 
 
-def f(row: dict, key: str) -> float:
+def f(row, key):
     return float(row[key])
 
 
-def classify_region(x: float, y: float) -> str:
+def classify_region(x, y):
     # Geometry: plate [-0.5,0.5]^2, notch along y=0 for x in [-0.5,0)
     # Crack corridor / notch tip region (defensible refinement zone)
     if -0.05 <= x <= 0.35 and abs(y) <= 0.03:
@@ -46,7 +44,7 @@ def classify_region(x: float, y: float) -> str:
     return "far_field"
 
 
-def percentile_indices(values: list[float], frac: float) -> set[int]:
+def percentile_indices(values, frac):
     """Indices of the top fraction by value."""
     n = len(values)
     if n == 0:
@@ -56,7 +54,7 @@ def percentile_indices(values: list[float], frac: float) -> set[int]:
     return set(order[:k])
 
 
-def analyze(rows: list[dict], u_pre: float) -> dict:
+def analyze(rows, u_pre):
     n = len(rows)
     miseseri = [f(r, "MISESERI") for r in rows]
     misesavg = [f(r, "MISESAVG") for r in rows]
@@ -84,15 +82,15 @@ def analyze(rows: list[dict], u_pre: float) -> dict:
     top05 = percentile_indices(miseseri, 0.05)
     top10 = percentile_indices(miseseri, 0.10)
 
-    def region_frac(idx_set: set[int], name: str) -> float:
+    def region_frac(idx_set, name):
         if not idx_set:
             return 0.0
-        return sum(1 for i in idx_set if regions[i] == name) / len(idx_set)
+        return sum(1 for i in idx_set if regions[i] == name) / float(len(idx_set))
 
-    def region_frac_any(idx_set: set[int], names: set[str]) -> float:
+    def region_frac_any(idx_set, names):
         if not idx_set:
             return 0.0
-        return sum(1 for i in idx_set if regions[i] in names) / len(idx_set)
+        return sum(1 for i in idx_set if regions[i] in names) / float(len(idx_set))
 
     boundary_names = {"support_boundary", "loaded_boundary", "side_boundary"}
 
@@ -192,7 +190,7 @@ def analyze(rows: list[dict], u_pre: float) -> dict:
     return summary, rows
 
 
-def write_figures(rows: list[dict], outdir: Path, summary: dict) -> list[str]:
+def write_figures(rows, outdir, summary):
     try:
         import matplotlib
 
@@ -266,7 +264,7 @@ def write_figures(rows: list[dict], outdir: Path, summary: dict) -> list[str]:
     return figures
 
 
-def write_report(path: Path, summary: dict, figures: list[str]) -> None:
+def write_report(path, summary, figures):
     lines = [
         "# Stage C Job 2 Gate Report",
         "",
@@ -329,7 +327,7 @@ def write_report(path: Path, summary: dict, figures: list[str]) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
 
-def main() -> int:
+def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--csv", type=Path, required=True)
     parser.add_argument("--out-dir", type=Path, required=True)
@@ -351,11 +349,22 @@ def main() -> int:
     (args.out_dir / "JOB2_FIELD_SUMMARY.json").write_text(
         json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
-    figures = write_figures(rows, args.out_dir / "figures", summary)
-    (args.out_dir / "figures").mkdir(parents=True, exist_ok=True)
-    figures = write_figures(rows, args.out_dir / "figures", summary)
+    fig_dir = args.out_dir / "figures"
+    fig_dir.mkdir(parents=True, exist_ok=True)
+    figures = write_figures(rows, fig_dir, summary)
     write_report(args.out_dir / "JOB2_GATE_REPORT.md", summary, figures)
-    print(json.dumps({"scientific_classification": summary["scientific_classification"], "job3_release": summary["job3_release"], "MISESERI_max": summary["MISESERI_max"]}, indent=2))
+    print(
+        json.dumps(
+            {
+                "scientific_classification": summary["scientific_classification"],
+                "job3_release": summary["job3_release"],
+                "MISESERI_max": summary["MISESERI_max"],
+                "top5_corridor": summary["top5_fraction_notch_corridor"],
+                "top5_boundary": summary["top5_fraction_boundary"],
+            },
+            indent=2,
+        )
+    )
     return 0 if summary.get("technical_field_shape_ok") else 1
 
 
