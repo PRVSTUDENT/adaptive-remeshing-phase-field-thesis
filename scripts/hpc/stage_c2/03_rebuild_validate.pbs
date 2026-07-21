@@ -150,7 +150,20 @@ ${PY} scripts/preprocessing/build_molnar_unified_deck.py \
   --output-profile fracture_baseline \
   --from-nodes-csv "${REF}/refined_mesh_nodes.csv" \
   --from-elems-csv "${REF}/refined_mesh_elements.csv" \
-  --out "${OUT}" > "${RUN_DIR}/rebuild_stdout.log" 2>&1 || fail "rebuild_failure" "build_molnar_unified_deck.py failed; see rebuild_stdout.log"
+  --out "${OUT}" > "${RUN_DIR}/rebuild_stdout.log" 2>&1 || {
+  # Promote known early failures into explicit failed_check names
+  if grep -q "Preserved SingleNotch.inp hash mismatch" "${RUN_DIR}/rebuild_stdout.log" 2>/dev/null; then
+    fail "preserved_inp_hash_mismatch" "SingleNotch.inp hash mismatch (CRLF/LF or wrong file); see rebuild_stdout.log"
+  fi
+  if grep -q "Preserved SingleNotch.for hash mismatch" "${RUN_DIR}/rebuild_stdout.log" 2>/dev/null; then
+    fail "preserved_for_hash_mismatch" "SingleNotch.for hash mismatch (CRLF/LF or wrong file); see rebuild_stdout.log"
+  fi
+  if grep -q "No such file or directory" "${RUN_DIR}/rebuild_stdout.log" 2>/dev/null \
+     && grep -q "baseline_original" "${RUN_DIR}/rebuild_stdout.log" 2>/dev/null; then
+    fail "missing_baseline_original" "baseline SingleNotch missing during rebuild; see rebuild_stdout.log"
+  fi
+  fail "rebuild_failure" "build_molnar_unified_deck.py failed; see rebuild_stdout.log"
+}
 
 DECK="$(ls "${OUT}"/*fullgen.inp "${OUT}"/*.inp 2>/dev/null | head -n1)"
 FOR="$(ls "${OUT}"/*fullgen.for "${OUT}"/*.for 2>/dev/null | head -n1)"

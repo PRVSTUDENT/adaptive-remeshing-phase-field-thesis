@@ -20,8 +20,10 @@ benchmark:
   source_model: models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension
   preserved_inp: models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.inp
   preserved_for: models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.for
-  expected_preserved_inp_sha256: 89ce3f32e396b0e484be6753a272dd6bbb2a2f9daff426d6a57419f57d665b72
-  expected_preserved_for_sha256: 18944e5bb2a3b7973fd0d4bff03f8e078eef667965343d8a29156d093f53f5f1
+  # Canonical LF hashes (.gitattributes eol=lf). Builder also accepts the
+  # historical CRLF packaging hashes of the same supplementary text.
+  expected_preserved_inp_sha256: 82c80c03c1b0b25131e9e0352502fb393bd593f9f07035c311f164ee9311f92e
+  expected_preserved_for_sha256: 516e5ce9a405c30e9d4b45f919f8c22e39cd36bcce102ca065837b81a1405088
   geometry:
     width_mm: 1.0
     height_mm: 1.0

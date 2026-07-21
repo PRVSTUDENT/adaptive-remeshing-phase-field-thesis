@@ -84,6 +84,17 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def sha256_file_lf(path: Path) -> str:
+    """SHA-256 of file bytes with newlines normalized to LF.
+
+    Baseline SingleNotch sources are committed with ``eol=lf`` in
+    ``.gitattributes``. Windows working trees may still show CRLF, which
+    changes the raw byte hash without changing scientific content.
+    """
+    raw = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(raw).hexdigest()
+
+
 def write_text_lf(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8", newline="\n")
@@ -891,10 +902,34 @@ def generate_role(
 
     preserved_inp = ROOT / config["benchmark"]["preserved_inp"]
     preserved_for = ROOT / config["benchmark"]["preserved_for"]
-    if sha256_file(preserved_inp) != config["benchmark"]["expected_preserved_inp_sha256"]:
-        raise RuntimeError("Preserved SingleNotch.inp hash mismatch")
-    if sha256_file(preserved_for) != config["benchmark"]["expected_preserved_for_sha256"]:
-        raise RuntimeError("Preserved SingleNotch.for hash mismatch")
+    # LF-normalized hashes (canonical). Also accept historical CRLF packaging
+    # hashes used in early Windows-side freezes of the same supplementary text.
+    expected_inp = str(config["benchmark"]["expected_preserved_inp_sha256"]).lower()
+    expected_for = str(config["benchmark"]["expected_preserved_for_sha256"]).lower()
+    legacy_inp = {
+        expected_inp,
+        "89ce3f32e396b0e484be6753a272dd6bbb2a2f9daff426d6a57419f57d665b72",  # CRLF
+        "82c80c03c1b0b25131e9e0352502fb393bd593f9f07035c311f164ee9311f92e",  # LF
+    }
+    legacy_for = {
+        expected_for,
+        "18944e5bb2a3b7973fd0d4bff03f8e078eef667965343d8a29156d093f53f5f1",  # CRLF
+        "516e5ce9a405c30e9d4b45f919f8c22e39cd36bcce102ca065837b81a1405088",  # LF
+    }
+    got_inp_raw = sha256_file(preserved_inp)
+    got_inp_lf = sha256_file_lf(preserved_inp)
+    got_for_raw = sha256_file(preserved_for)
+    got_for_lf = sha256_file_lf(preserved_for)
+    if got_inp_raw not in legacy_inp and got_inp_lf not in legacy_inp:
+        raise RuntimeError(
+            "Preserved SingleNotch.inp hash mismatch "
+            f"(raw={got_inp_raw}, lf={got_inp_lf}, expected_lf_or_crlf in config/legacy)"
+        )
+    if got_for_raw not in legacy_for and got_for_lf not in legacy_for:
+        raise RuntimeError(
+            "Preserved SingleNotch.for hash mismatch "
+            f"(raw={got_for_raw}, lf={got_for_lf}, expected_lf_or_crlf in config/legacy)"
+        )
 
     study_path = ROOT / config.get("paths", {}).get("study_config", "configs/studies/molnar_lc015_h_convergence.yaml")
     study = yaml.safe_load(study_path.read_text(encoding="utf-8"))
