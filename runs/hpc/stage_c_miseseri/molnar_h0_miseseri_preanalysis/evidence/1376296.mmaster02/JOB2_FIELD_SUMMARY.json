@@ -1,0 +1,49 @@
+{
+  "MISESAVG_max": 2.9650891117394274e-13,
+  "MISESERI_all_finite": true,
+  "MISESERI_cov": 6.004000857991756,
+  "MISESERI_max": 8.8752539117911e-14,
+  "MISESERI_mean": 4.927241829465409e-16,
+  "MISESERI_min": 1.2767030242533856e-18,
+  "MISESERI_nonempty": true,
+  "MISESERI_stdev": 2.9583164171643186e-15,
+  "SDV15_max": 0.20540960133075714,
+  "criteria": {
+    "boundary_top5_max_for_pass": 0.4,
+    "corridor_top5_min_for_pass": 0.4,
+    "crack_block_if_SDV15_ge_0.95_count": 5,
+    "inactive_threshold_max_MISESERI": 1e-12,
+    "mass_top5_min_for_pass": 0.15
+  },
+  "errorTarget": 0.05,
+  "job3_release": false,
+  "mass_fraction_in_top5": 0.587238508402438,
+  "n_SDV15_ge_0.5": 0,
+  "n_SDV15_ge_0.95": 0,
+  "n_elements": 3930,
+  "n_marked_errorTarget_0.05": 0,
+  "region_counts_all": {
+    "far_field": 2805,
+    "loaded_boundary": 33,
+    "notch_corridor": 848,
+    "side_boundary": 142,
+    "support_boundary": 102
+  },
+  "region_counts_top5": {
+    "far_field": 116,
+    "notch_corridor": 81
+  },
+  "scientific_classification": "miseseri_output_available_but_scientifically_inactive",
+  "scientific_gate_pass": false,
+  "scientifically_inactive": true,
+  "technical_field_shape_ok": true,
+  "top10_pct_n": 393,
+  "top1_fraction_notch_corridor": 0.725,
+  "top1_pct_n": 40,
+  "top5_fraction_boundary": 0.0,
+  "top5_fraction_far_field": 0.5888324873096447,
+  "top5_fraction_notch_corridor": 0.41116751269035534,
+  "top5_pct_n": 197,
+  "u_pre_mm": 0.00464,
+  "von_mises_max": 3.153681171991409e-13
+}

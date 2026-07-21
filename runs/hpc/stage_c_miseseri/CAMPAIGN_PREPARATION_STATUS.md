@@ -1,39 +1,44 @@
 # Stage C five-job campaign
 
-Status: `job1_submitted`  
-Updated: 2026-07-21  
-Submission: staged, once each
+Status: `job2_scientific_gate_fail_stop`  
+Updated: 2026-07-21
 
-Job 1: `1376292.mmaster02` (queued) from revision `2de90fecf930`
-
-## Fixed decisions
+## Queue policy (validated)
 
 ```text
-H0 test | H1 production | H2-PUB fine validation
-elastic pre-crack U_pre = 0.00464 mm
-errorTarget=0.05 refinementFactor=2.0 min h=0.0025 max h=0.025
-passes=1 coarsening=disabled
+submit through entry_imfdfkmq
+→ scheduler may route to normal_imfdfkmq
+→ Job 2 wait ≈ 1 s (immediate start)
 ```
 
 ## Job status
 
-| Job | Purpose | Infrastructure | Execution |
+| Job | ID | Wait | Result |
 |---|---|---|---|
-| 1 | MISESERI smoke | ready | pending submit |
-| 2 | H0 pre-analysis | ready | gated on Job 1 |
-| 3 | CAE remesh export | ready (extract+remesh scripts) | gated on Job 2 |
-| 4 | refined integrity | ready | gated on Job 3 + layer rebuild |
-| 5 | refined fracture | ready | gated on Job 4 |
+| 1 smoke | `1376292` | ≈11.6 min | technical + field availability **PASS** |
+| 2 pre-analysis | `1376296` | ≈1 s | technical **PASS**; scientific **FAIL** (`miseseri_output_available_but_scientifically_inactive`) |
+| 3 remesh | — | — | **NOT RELEASED** |
+| 4–5 | — | — | blocked |
 
-## Local validation snapshot
+## Job 2 scientific stop
 
-| Check | Result |
-|---|---|
-| Smoke deck static | pass |
-| Preanalysis deck static (Upre=0.00464, MISESERI) | pass |
-| PBS email directives | pass |
-| Job 3 extract/remesh scripts | present |
+```text
+max(MISESERI) ≈ 8.9e-14
+max(von Mises on umatelem) ≈ 3.2e-13
+errorTarget=0.05 marks 0 elements
+```
 
-## Authorization
+Root cause: MISESERI/S recovered from residual-stiffness CPS4 UMAT facsimile, not from load-bearing U2 UEL.
 
-`docs/decisions/STAGE_C_EXECUTION_AUTHORIZATION.md`
+Evidence package:
+
+```text
+runs/hpc/stage_c_miseseri/molnar_h0_miseseri_preanalysis/evidence/1376296.mmaster02/
+  JOB2_GATE_REPORT.md
+  JOB2_FIELD_SUMMARY.json
+  JOB2_TECHNICAL_SUMMARY.json
+  JOB2_MISESERI_ELEMENT_DATA.csv
+  figures/01..05_*.png
+```
+
+No automatic Job 2 retry. No Job 3 `qsub`.

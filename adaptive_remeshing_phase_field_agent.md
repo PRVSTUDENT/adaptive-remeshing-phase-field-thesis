@@ -89,11 +89,10 @@ Known source documents:
 
 Immediate next tasks:
 
-1. Job 1 (`1376292`) gate complete: PBS Exit 0, Abaqus success, ODB fields MISESERI/MISESAVG/S/EVOL/U/RF present, mapping 11790 elements. Wait ~11.6 min on route→`normal_imfdfkmq`.
-2. Submit Job 2 once on `entry_imfdfkmq` (1 CPU, 16 GB, 2 h, Upre=0.00464); assess field suitability.
-3. On Job 2 pass: Job 3 remesh → rebuild layered deck → Job 4 → Job 5 (`normal_imfdfkmq` for full fracture).
-4. Stop and report on technical failure, unsuitable MISESERI field, mesh-size miss, or mapping failure.
-5. No automatic retries or parameter retuning. Queue policy: never hard-code `normal` for small Stage C jobs.
+1. Job 1 (`1376292`) PASS. Job 2 (`1376296`) technical PASS but scientific FAIL: `miseseri_output_available_but_scientifically_inactive` (max MISESERI≈8.9e-14 on umatelem). **Job 3 not released.**
+2. Design fix required (user-directed): obtain stress-error signal from load-bearing response, not residual-stiffness CPS4 UMAT facsimile alone. Do not auto-retry Job 2 or retune errorTarget.
+3. Evidence: `runs/hpc/stage_c_miseseri/molnar_h0_miseseri_preanalysis/evidence/1376296.mmaster02/JOB2_GATE_REPORT.md`.
+4. Queue policy remains: submit small jobs via `entry_imfdfkmq`; Job 5 via `normal_imfdfkmq` unless faster eligible queue.
 
 Unresolved (supervisor only if needed later):
 
