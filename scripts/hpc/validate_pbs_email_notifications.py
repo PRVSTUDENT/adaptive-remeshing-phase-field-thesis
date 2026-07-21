@@ -10,13 +10,10 @@ Requirements:
   - Multiple comma-separated recipients allowed
 """
 
-from __future__ import annotations
-
 import argparse
 import re
 import sys
 from pathlib import Path
-from typing import List, Tuple
 
 EMAIL_RE = re.compile(r"^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
 PLACEHOLDERS = {
@@ -27,13 +24,13 @@ PLACEHOLDERS = {
 }
 
 
-def split_emails(value: str) -> List[str]:
+def split_emails(value):
     return [p.strip() for p in value.split(",") if p.strip()]
 
 
-def parse_directives(path: Path) -> Tuple[List[str], List[str]]:
-    recipients: List[str] = []
-    modes: List[str] = []
+def parse_directives(path):
+    recipients = []
+    modes = []
     for raw_line in path.read_text(encoding="utf-8").splitlines():
         line = raw_line.strip()
         if line.startswith("#PBS -M "):
@@ -43,12 +40,12 @@ def parse_directives(path: Path) -> Tuple[List[str], List[str]]:
     return recipients, modes
 
 
-def valid_email(addr: str) -> bool:
+def valid_email(addr):
     return addr not in PLACEHOLDERS and bool(EMAIL_RE.fullmatch(addr))
 
 
-def validate_file(path: Path, submit_emails: List[str]) -> List[str]:
-    errors: List[str] = []
+def validate_file(path, submit_emails):
+    errors = []
     recipients, modes = parse_directives(path)
 
     if not modes:
