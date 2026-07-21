@@ -1,0 +1,139 @@
+#!/bin/bash
+#PBS -N c2e_v2_integ
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=4:mem=24gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m abe
+#
+# C2E-v2 — Refined layered integrity on C2C-v2 deck (not the 160k mesh).
+# Requires C2D.ok and C2C_V2.ok. afterany-compatible skip if markers missing.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_c2e_v2_integrity_threads4"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+CHAIN_STATE_DIR="${CHAIN_STATE_DIR:-${PROJECT_HOME}/runs/hpc/stage_c2/chain_state}"
+TECH="c2e_v2_fail"
+FAIL="not_classified"
+
+write_status() {
+  mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" 2>/dev/null || true
+  cat > "${RUN_DIR}/C2E_V2_STATUS.json" <<EOF
+{
+  "stage": "C2E_V2",
+  "classification": "$1",
+  "failure_code": $2,
+  "failed_check": "$3",
+  "message": $(python3 -c 'import json,sys; print(json.dumps(sys.argv[1]))' "$4"),
+  "solver_executed": $5,
+  "job_id": "${PBS_JOBID:-unknown}"
+}
+EOF
+  cp "${RUN_DIR}/C2E_V2_STATUS.json" "${LIGHT_DIR}/" "${CHAIN_STATE_DIR}/" 2>/dev/null || true
+}
+
+finish() {
+  rc=$?
+  mkdir -p "${LIGHT_DIR}" 2>/dev/null || true
+  printf '%s\n' "${TECH}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${FAIL}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
+  cp "${RUN_DIR}/"* "${LIGHT_DIR}/" 2>/dev/null || true
+  exit "${rc}"
+}
+trap finish EXIT
+
+fail() {
+  FAIL="$1"
+  write_status "failed" 12 "$1" "$2" false
+  TECH="c2e_v2_fail"
+  exit 12
+}
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" || exit 2
+
+if [ ! -f "${CHAIN_STATE_DIR}/C2D.ok" ]; then
+  write_status "skipped_upstream_failure" 0 "missing_C2D.ok" "C2D.ok not present; skipping" false
+  TECH="c2e_v2_skipped_missing_C2D"
+  exit 0
+fi
+if [ ! -f "${CHAIN_STATE_DIR}/C2C_V2.ok" ]; then
+  write_status "skipped_upstream_failure" 0 "missing_C2C_V2.ok" "C2C_V2.ok not present; skipping" false
+  TECH="c2e_v2_skipped_missing_C2C_V2"
+  exit 0
+fi
+
+# Refuse the over-refined 160k deck
+DECK="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_V2_DECK_PATH.txt")"
+FOR="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_V2_FOR_PATH.txt")"
+[ -f "${DECK}" ] && [ -f "${FOR}" ] || fail "missing_c2c_v2_deck" "C2C_V2 deck paths invalid"
+case "${DECK}" in
+  *H0_refined_layered_v2*) ;;
+  *) fail "wrong_deck_path" "Refusing non-v2 deck: ${DECK}" ;;
+esac
+
+# Thread policy: C2D.ok present → threads=4
+CPUS=4
+MP_MODE=threads
+
+module load gcc/11.4.0 >/dev/null 2>&1 || true
+module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+PY=python3
+
+${PY} - <<PY || fail "integrity_deck_build_failure" "could not build reduced integrity deck"
+from pathlib import Path
+src = Path("${DECK}").read_text(encoding="utf-8", errors="replace")
+head = src.split("*Step")[0].rstrip()
+text = head + """
+*Amplitude, name=Amp-int
+0., 0., 1., 0.001
+*Step, name=Step-integrity, nlgeom=NO, inc=50
+*Static, direct
+0.02, 1.0,
+*Boundary, amplitude=Amp-int
+RP, 2, 2, 1.
+*Boundary
+bottom, 2, 2
+*Boundary
+bottoml, 1, 1
+*Boundary
+topl, 1, 1
+*Restart, write, frequency=0
+*Output, field, time interval=0.2
+*Node Output
+U,
+*Node Output, nset=RP
+RF, U
+*Element Output, elset=umatelem
+SDV
+*End Step
+"""
+Path("${RUN_DIR}/${JOB_NAME}.inp").write_text(text, encoding="utf-8")
+Path("${RUN_DIR}/user.for").write_bytes(Path("${FOR}").read_bytes())
+print("integrity_deck_ok")
+PY
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || true
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "gcc"
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "intel"
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "abaqus"
+export OMP_NUM_THREADS=${CPUS}
+
+cd "${RUN_DIR}" || exit 9
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" \
+  cpus=${CPUS} mp_mode=${MP_MODE} interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -eq 0 ] && [ -f "${JOB_NAME}.odb" ] && \
+   grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  write_status "pass" 0 "none" "C2E-v2 integrity technical pass" true
+  : > "${CHAIN_STATE_DIR}/C2E_V2.ok"
+  TECH="c2e_v2_integrity_pass"
+else
+  write_status "failed" 11 "abaqus_technical_failure" "C2E-v2 Abaqus failed" true
+  FAIL="abaqus_technical_failure"
+  exit 11
+fi
+exit 0

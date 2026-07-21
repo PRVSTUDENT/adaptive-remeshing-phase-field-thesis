@@ -55,7 +55,31 @@ trap finish EXIT
 
 fail() {
   FAIL="$1"
-  write_status "failed" 12 "$1" "$2" false
+  # If Abaqus already produced an ODB, record solver as executed/completed.
+  local solved=false
+  local completed=false
+  if [ -f "${RUN_DIR}/${JOB_NAME}.odb" ]; then
+    solved=true
+    if [ -f "${RUN_DIR}/${JOB_NAME}.sta" ] && \
+       grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${RUN_DIR}/${JOB_NAME}.sta" 2>/dev/null; then
+      completed=true
+    fi
+  fi
+  mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" 2>/dev/null || true
+  cat > "${RUN_DIR}/C2D_STATUS.json" <<EOF
+{
+  "stage": "C2D",
+  "classification": "failed",
+  "failure_code": 12,
+  "failed_check": "$1",
+  "message": $(python3 -c 'import json,sys; print(json.dumps(sys.argv[1]))' "$2"),
+  "solver_executed": ${solved},
+  "solver_completed": ${completed},
+  "postprocessing_completed": false,
+  "job_id": "${PBS_JOBID:-unknown}"
+}
+EOF
+  cp "${RUN_DIR}/C2D_STATUS.json" "${LIGHT_DIR}/" "${CHAIN_STATE_DIR}/" 2>/dev/null || true
   TECH="c2d_fail"
   exit 12
 }

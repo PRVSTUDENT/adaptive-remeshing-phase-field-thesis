@@ -1,0 +1,100 @@
+#!/bin/bash
+#PBS -N c2f_v2_final
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=4:mem=32gb
+#PBS -l walltime=06:00:00
+#PBS -j oe
+#PBS -m abe
+#
+# C2F-v2 — Full refined fracture on C2C-v2 deck. Requires C2E_V2.ok.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+JOB_NAME="molnar_c2f_v2_refined_final_threads4"
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${PBS_JOBID:-unknown}"
+LIGHT_DIR="${PROJECT_HOME}/runs/hpc/stage_c2/${JOB_NAME}/evidence/${PBS_JOBID:-unknown}"
+CHAIN_STATE_DIR="${CHAIN_STATE_DIR:-${PROJECT_HOME}/runs/hpc/stage_c2/chain_state}"
+TECH="c2f_v2_fail"
+FAIL="not_classified"
+
+write_status() {
+  mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" 2>/dev/null || true
+  cat > "${RUN_DIR}/C2F_V2_STATUS.json" <<EOF
+{
+  "stage": "C2F_V2",
+  "classification": "$1",
+  "failure_code": $2,
+  "failed_check": "$3",
+  "message": $(python3 -c 'import json,sys; print(json.dumps(sys.argv[1]))' "$4"),
+  "solver_executed": $5,
+  "job_id": "${PBS_JOBID:-unknown}"
+}
+EOF
+  cp "${RUN_DIR}/C2F_V2_STATUS.json" "${LIGHT_DIR}/" "${CHAIN_STATE_DIR}/" 2>/dev/null || true
+}
+
+finish() {
+  rc=$?
+  mkdir -p "${LIGHT_DIR}" 2>/dev/null || true
+  printf '%s\n' "${TECH}" > "${LIGHT_DIR}/technical_classification.txt" 2>/dev/null || true
+  printf '%s\n' "${FAIL}" > "${LIGHT_DIR}/failure_class.txt" 2>/dev/null || true
+  cp "${RUN_DIR}/${JOB_NAME}.sta" "${RUN_DIR}/${JOB_NAME}.msg" "${LIGHT_DIR}/" 2>/dev/null || true
+  [ -f "${RUN_DIR}/${JOB_NAME}.odb" ] && printf '%s\n' "${RUN_DIR}/${JOB_NAME}.odb" > "${LIGHT_DIR}/odb_path.txt"
+  exit "${rc}"
+}
+trap finish EXIT
+
+fail() {
+  FAIL="$1"
+  write_status "failed" 12 "$1" "$2" false
+  TECH="c2f_v2_fail"
+  exit 12
+}
+
+mkdir -p "${RUN_DIR}" "${LIGHT_DIR}" "${CHAIN_STATE_DIR}" || exit 2
+
+if [ ! -f "${CHAIN_STATE_DIR}/C2E_V2.ok" ]; then
+  write_status "skipped_upstream_failure" 0 "missing_C2E_V2.ok" "C2E_V2.ok not present; skipping" false
+  TECH="c2f_v2_skipped_upstream_failure"
+  exit 0
+fi
+if [ ! -f "${CHAIN_STATE_DIR}/C2C_V2.ok" ]; then
+  write_status "skipped_upstream_failure" 0 "missing_C2C_V2.ok" "C2C_V2.ok not present; skipping" false
+  TECH="c2f_v2_skipped_missing_C2C_V2"
+  exit 0
+fi
+
+DECK="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_V2_DECK_PATH.txt")"
+FOR="$(tr -d '[:space:]' < "${PROJECT_HOME}/runs/hpc/stage_c2/C2C_V2_FOR_PATH.txt")"
+[ -f "${DECK}" ] && [ -f "${FOR}" ] || fail "missing_c2c_v2_deck" "C2C_V2 deck invalid"
+case "${DECK}" in
+  *H0_refined_layered_v2*) ;;
+  *) fail "wrong_deck_path" "Refusing non-v2 deck: ${DECK}" ;;
+esac
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || true
+module load gcc/11.4.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "gcc"
+module load intel/2024.2.0 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "intel"
+module load abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || fail "module_failure" "abaqus"
+export OMP_NUM_THREADS=4
+
+cp "${DECK}" "${RUN_DIR}/${JOB_NAME}.inp"
+cp "${FOR}" "${RUN_DIR}/user.for"
+cd "${RUN_DIR}" || exit 9
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="user.for" \
+  cpus=4 mp_mode=threads interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -eq 0 ] && [ -f "${JOB_NAME}.odb" ] && \
+   grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  write_status "pass" 0 "none" "C2F-v2 refined final technical pass" true
+  : > "${CHAIN_STATE_DIR}/C2F_V2.ok"
+  TECH="c2f_v2_refined_final_technical_pass"
+  printf '%s\n' "${RUN_DIR}/${JOB_NAME}.odb" > "${PROJECT_HOME}/runs/hpc/stage_c2/C2F_V2_ODB_PATH.txt"
+else
+  write_status "failed" 11 "abaqus_technical_failure" "C2F-v2 Abaqus failed" true
+  FAIL="abaqus_technical_failure"
+  exit 11
+fi
+exit 0
