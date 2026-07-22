@@ -138,4 +138,17 @@ Accepted marker & \texttt{D2C.ok} \\
 D2C therefore passes as a shared-state/thread-safety repeatability check. The
 next controlled gate is D2D ABAQUSER output-route verification.
 
+\section{D2D0 ABAQUSER Availability Audit}
+D2D0 was performed on the login node without submitting a PBS job. The audit
+checked executable lookup, module discovery, local filesystem matches, and
+repository references for ABAQUSER. No usable ABAQUSER executable, module,
+source implementation, or documented runnable interface was found. The only
+filesystem match was the guarded D2D PBS placeholder.
+
+The D2D0 classification is
+\path{stage_d2d_blocked_abaquser_not_found}. D2D is therefore blocked by
+external tool availability, not by a failed state-transfer comparison. D1--D2C
+remain valid. A normal Abaqus Python extractor must not be substituted and
+reported as ABAQUSER verification.
+
 \end{document}

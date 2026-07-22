@@ -102,5 +102,17 @@ $1.0$, the final $U_2$ difference was $0.0\,\mathrm{mm}$, the final
 was $0.0$, and the final-frame \texttt{ALLWK} absolute difference was $0.0$.
 The accepted and cutback increment sequence was unchanged.
 
-D2D ABAQUSER output-route verification is the next controlled gate. Interrupted
-fracture transfer remains unsubmitted.
+D2D ABAQUSER output-route verification is the next controlled gate.
+
+\section{D2D0 ABAQUSER availability}
+The D2D0 login-node audit did not find an ABAQUSER executable, module, source
+implementation, or documented runnable interface. The audit therefore classified
+D2D as \texttt{stage\_d2d\_blocked\_abaquser\_not\_found}. This is an
+external-tool availability block, not a failure of D1--D2C state transfer. A
+normal Abaqus Python extractor is not an acceptable substitute for ABAQUSER
+verification.
+
+The first interrupted fracture-transfer experiment has been prepared only as a
+design, using a small H0 diagnostic model and an early pre-peak checkpoint near
+$U=0.003\,\mathrm{mm}$. No D2D PBS job or interrupted fracture solver job has
+been submitted.

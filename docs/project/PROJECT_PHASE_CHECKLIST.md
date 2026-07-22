@@ -167,7 +167,8 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 - [x] Run D2A serial Abaqus/UEL state-ingestion verification. Job: `1376785.mmaster02`; classification: `stage_d2a_state_ingestion_pass`; evidence: `runs/hpc/stage_d2/d2a_serial_ingestion/`.
 - [x] D2B serial continuation passed after one bounded step-control correction. Failed attempt: `1376819.mmaster02`, `stage_d2b_solver_fail_increment_limit`, evidence `runs/hpc/stage_d2/d2b_serial_continuation/`. Accepted rerun: `1376825.mmaster02`, `stage_d2b_serial_continuation_pass`, evidence `runs/hpc/stage_d2/d2b_serial_continuation_rerun/`, canonical marker `runs/hpc/stage_d2/d2b_serial_continuation/D2B.ok`.
 - [x] Run D2C four-thread repeatability comparison. Job: `1376831.mmaster02`; classification: `stage_d2c_thread_repeatability_pass`; evidence `runs/hpc/stage_d2/d2c_threads4_repeatability/`; confirmed `1 MPI RANK x 4 THREAD` and zero state/mechanical/energy differences versus accepted D2B serial reference.
-- [ ] Run D2D ABAQUSER output-route verification.
+- [!] D2D ABAQUSER output-route verification is blocked externally. D2D0 audit classification: `stage_d2d_blocked_abaquser_not_found`; evidence `runs/hpc/stage_d2/d2d_abaquser_verification/`; no ABAQUSER executable/module/source/interface found, and no D2D PBS job submitted.
+- [x] Prepare D3 interrupted-transfer design only. Evidence: `docs/studies/STAGE_D3_INTERRUPTED_TRANSFER_PLAN.md`, `configs/state_transfer/d3_interrupted_transfer.yaml`, `scripts/state_transfer/extract_d3_checkpoint.py`, `scripts/state_transfer/build_d3_target_transfer.py`, `scripts/validation/validate_d3_transfer_package.py`.
 - [ ] Test fracture-relevant state transfer.
 - [ ] Test serial repeatability.
 - [ ] Test parallel repeatability where scientifically justified.
@@ -213,8 +214,8 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 | Preprocessing Gate P1 | same config → identical H0 deck | not started | pipeline build |
 | MISESERI gate | refined deck valid and local size achieved | preparation authorized | qsub not authorized |
 | Refined benchmark gate | accepted error and measured benefit | closed at scoped Stage C result | crack-path equivalence not supported; H1 remains production |
-| State-transfer gate | controlled and fracture transfer pass | D1 analytical pass, D2A Abaqus ingestion pass, D2B serial continuation pass, and D2C four-thread repeatability pass | D2D and fracture-relevant transfer not complete |
-| ABAQUSER gate | output agrees with independent extraction | not started | later stage |
+| State-transfer gate | controlled and fracture transfer pass | D1 analytical pass, D2A Abaqus ingestion pass, D2B serial continuation pass, D2C four-thread repeatability pass, and D2D0 external-tool audit complete | D2D blocked by missing ABAQUSER; fracture-relevant transfer not complete |
+| ABAQUSER gate | output agrees with independent extraction | blocked | D2D0 found no ABAQUSER executable/module/source/interface |
 
 ## Checklist Update Rules
 

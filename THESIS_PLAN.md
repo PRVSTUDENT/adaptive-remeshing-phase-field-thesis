@@ -142,7 +142,8 @@ Current D2 status:
 - D2B serial continuation first attempt `1376819.mmaster02` is preserved as `stage_d2b_solver_fail_increment_limit`: initialization and release completed, continuation partially converged, and the maximum increment count was exhausted.
 - Corrected D2B R1 job `1376825.mmaster02` passed with classification `stage_d2b_serial_continuation_pass`, solver exit `0`, readable ODB, `D2B_R1.ok`, canonical `D2B.ok`, `target_ip_coverage=1.0`, maximum initial and release `SDV15`/`SDV16` differences `0.0`, observed `U2=1e-05`, finite `RF2=3.46317381026e-07`, and recorded `ALLWK` continuation jump `1.2830926425511091e-11`.
 - D2C four-thread repeatability job `1376831.mmaster02` passed with classification `stage_d2c_thread_repeatability_pass`, solver exit `0`, readable ODB, confirmed `1 MPI RANK x 4 THREAD`, `D2C.ok`, `target_ip_coverage=1.0`, maximum `SDV15` and `SDV16` thread-vs-serial differences `0.0`, final `U2` difference `0.0`, final `RF2` absolute/relative differences `0.0`, RF-U NRMSE `0.0`, F3 `ALLWK` absolute difference `0.0`, and unchanged increment sequence.
-- D2D ABAQUSER output-route verification is the next stage. Interrupted Molnar transfer remains unsubmitted.
+- D2D0 ABAQUSER availability audit is formally blocked as `stage_d2d_blocked_abaquser_not_found`: no executable, module, source implementation, or documented runnable interface was found on the login node. Evidence is under `runs/hpc/stage_d2/d2d_abaquser_verification/`.
+- D3 interrupted transfer is prepared only as a design/package plan around a small H0 diagnostic early pre-peak checkpoint near `U=0.003 mm`. No D2D PBS job, D3 solver job, or interrupted Molnar transfer was submitted.
 
 Tasks:
 - Inventory all state variables.

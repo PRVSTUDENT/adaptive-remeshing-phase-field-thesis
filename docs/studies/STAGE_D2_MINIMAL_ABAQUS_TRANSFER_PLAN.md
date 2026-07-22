@@ -143,7 +143,7 @@ scripts/hpc/stage_d2/04_d2d_abaquser_verification.pbs
 D2A has been submitted and accepted. D2B has been accepted after one bounded
 step-control correction. D2C has been accepted as a four-thread repeatability
 check against the D2B serial reference. D2D remains the next output-route
-verification gate and was not submitted in the D2C closeout.
+verification gate but is currently blocked because ABAQUSER is unavailable.
 
 ## D2B serial continuation result
 
@@ -226,6 +226,24 @@ Evidence is under
 `runs/hpc/stage_d2/d2c_threads4_repeatability/`, including
 `D2C_INPUT_IDENTITY_AUDIT.json`, `D2C_THREAD_STATUS.json`,
 `D2C_SERIAL_VS_THREADS.csv`, and `D2C_THREAD_REPEATABILITY_REPORT.md`.
+
+## D2D0 ABAQUSER availability audit
+
+D2D0 was performed on the login node without submitting a PBS job. The audit
+checked `command -v abaquser`, `command -v ABAQUSER`, `module spider abaquser`,
+filtered module availability, filesystem paths under `$HOME/projects`,
+`$HOME/bin`, `$HOME/.local`, and repository references.
+
+Classification: `stage_d2d_blocked_abaquser_not_found`.
+
+No ABAQUSER executable, module, source implementation, or documented runnable
+interface was found. The only filesystem match was the guarded D2D PBS
+placeholder in this repository. Evidence is recorded in
+`runs/hpc/stage_d2/d2d_abaquser_verification/D2D0_ABAQUSER_AVAILABILITY.json`,
+`D2D0_ABAQUSER_INTERFACE_REPORT.md`, `D2D_BLOCKED_STATUS.json`, and
+`D2D_ACCESS_REQUIREMENTS.md`.
+
+Do not substitute a normal Abaqus Python extractor for ABAQUSER verification.
 
 ## Blocked work
 

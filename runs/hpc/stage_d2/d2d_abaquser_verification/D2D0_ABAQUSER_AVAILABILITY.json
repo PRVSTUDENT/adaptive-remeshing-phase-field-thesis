@@ -1,0 +1,53 @@
+{
+  "classification": "stage_d2d_blocked_abaquser_not_found",
+  "audit_date": "2026-07-22",
+  "audit_location": "tu_freiberg login node",
+  "repository_commit_at_start": "6607bbe5554076c2ff6b75ac82c5211fd003521d",
+  "abaquser_available": false,
+  "interface_understood": false,
+  "pbs_job_submitted": false,
+  "commands": {
+    "command_v_abaquser": {
+      "command": "command -v abaquser || true",
+      "stdout": "",
+      "found": false
+    },
+    "command_v_ABAQUSER": {
+      "command": "command -v ABAQUSER || true",
+      "stdout": "",
+      "found": false
+    },
+    "module_spider_abaquser": {
+      "command": "module spider abaquser 2>&1 || true",
+      "stdout_excerpt": "Lmod has detected the following error: Unable to find: \"abaquser\".",
+      "found": false
+    },
+    "module_avail_filtered": {
+      "command": "module avail 2>&1 | grep -i -E 'abaquser|imfd|post' || true",
+      "stdout": "",
+      "found": false
+    },
+    "filesystem_find": {
+      "command": "find \"$HOME/projects\" \"$HOME/bin\" \"$HOME/.local\" -maxdepth 5 \\( -iname '*abaquser*' -o -iname '*abaq_user*' \\) -type f 2>/dev/null",
+      "matches": [
+        "/home/pr21vyci/projects/adaptive-remeshing/scripts/hpc/stage_d2/04_d2d_abaquser_verification.pbs"
+      ],
+      "usable_executable_or_source_found": false
+    },
+    "repository_reference_search": {
+      "command": "grep -R -I -i -n -E 'abaquser|visualization tool|post-processing' .agent.md adaptive_remeshing_phase_field_agent.md docs src scripts models",
+      "summary": "Only planning notes, README placeholders, and the guarded D2D PBS placeholder were found. No runnable ABAQUSER interface or source implementation was identified."
+    }
+  },
+  "executable_path": null,
+  "source_path": null,
+  "version_or_source_commit": null,
+  "required_modules": [],
+  "command_syntax": null,
+  "accepted_input_format": null,
+  "output_format": null,
+  "element_ip_identification_method": null,
+  "access_or_license_restrictions": "Unknown; executable/module/source not available to inspect.",
+  "blocking_reason": "No ABAQUSER command, module, source file, documented interface, or accessible executable was found on the login node or in the searched project/bin/local paths.",
+  "next_action": "Request the ABAQUSER executable/source location, module name, usage syntax, input contract, output contract, and any required access/license enablement before submitting D2D."
+}

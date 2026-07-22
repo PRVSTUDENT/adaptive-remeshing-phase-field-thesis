@@ -1,0 +1,43 @@
+stage: D3
+classification: stage_d3_design_prepared_not_submitted
+submission_authorized: false
+requires_before_solver_submission:
+  - D2D passed or formally accepted as externally blocked
+  - explicit user authorization for one diagnostic fracture continuation
+model:
+  family: molnar_single_notch
+  mesh: H0
+  purpose: small_diagnostic
+checkpoint:
+  type: early_pre_peak
+  prescribed_displacement_mm: 0.003
+transfer:
+  source_fields:
+    phase_d: SDV15
+    history_H: SDV16
+  target_mesh: nonmatching_small_diagnostic
+  enforce_bounds:
+    phase_d_min: 0.0
+    phase_d_max: 1.0
+    history_H_min: 0.0
+  monotonicity:
+    no_healing: true
+    history_non_decreasing: true
+metrics:
+  - RF_jump_at_transfer
+  - RF_U_continuity
+  - SDV15_L2_error
+  - SDV15_max_error
+  - SDV16_L2_error
+  - SDV16_max_error
+  - no_healing_violations
+  - history_monotonicity_violations
+  - energy_jump
+  - peak_force_difference
+  - peak_displacement_difference
+  - crack_path_distance
+  - unmapped_state_count
+outputs:
+  checkpoint_state: runs/hpc/stage_d3/interrupted_transfer/D3_CHECKPOINT_STATE.csv
+  transfer_package: runs/hpc/stage_d3/interrupted_transfer/D3_TRANSFER_PACKAGE.csv
+  validation_status: runs/hpc/stage_d3/interrupted_transfer/D3_TRANSFER_PACKAGE_STATUS.json

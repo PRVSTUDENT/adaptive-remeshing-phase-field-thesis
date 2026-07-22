@@ -1,0 +1,26 @@
+{
+  "classification": "stage_d2d_blocked_abaquser_not_found",
+  "D2D_ok": false,
+  "blocked": true,
+  "blocked_by": "external ABAQUSER availability",
+  "pbs_job_submitted": false,
+  "d2c_reference_job": "1376831.mmaster02",
+  "d2c_reference_status": "stage_d2c_thread_repeatability_pass",
+  "missing_items": [
+    "ABAQUSER executable path",
+    "ABAQUSER source path or version",
+    "module name or load sequence",
+    "command-line syntax",
+    "accepted input format",
+    "output file format",
+    "element/IP key convention",
+    "access or license requirements"
+  ],
+  "valid_prior_gates": [
+    "D1 analytical transfer",
+    "D2A Abaqus state ingestion",
+    "D2B serial continuation",
+    "D2C four-thread repeatability"
+  ],
+  "required_before_d2d_submission": "Provide and audit the real ABAQUSER interface; then implement D2D comparison without rerunning Abaqus/Standard."
+}
