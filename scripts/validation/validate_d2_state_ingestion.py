@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 """Validate Stage D2A static package or extracted ODB ingestion evidence."""
 
-from __future__ import annotations
-
 import argparse
 import csv
 import json
 import math
 from pathlib import Path
+from typing import Dict, List
 
 
 TOL = 1.0e-8
 
 
-def read_csv(path: Path) -> list[dict[str, str]]:
+def read_csv(path: Path) -> List[Dict[str, str]]:
     with path.open(newline="", encoding="utf-8") as handle:
         return list(csv.DictReader(handle))
 
@@ -25,7 +24,7 @@ def f(value: str) -> float:
     return out
 
 
-def static_validate(package: Path) -> dict[str, object]:
+def static_validate(package: Path) -> Dict[str, object]:
     validation = json.loads((package / "executable/PACKAGE_VALIDATION.json").read_text(encoding="utf-8"))
     required = [
         package / "target_nodes.csv",
@@ -44,12 +43,12 @@ def static_validate(package: Path) -> dict[str, object]:
     return {"static_validation": "pass", "package_validation": validation}
 
 
-def extracted_validate(package: Path, out_dir: Path, job_id: str) -> dict[str, object]:
+def extracted_validate(package: Path, out_dir: Path, job_id: str) -> Dict[str, object]:
     nodes = read_csv(out_dir / "D2A_NODE_COMPARISON.csv")
     ips = read_csv(out_dir / "D2A_IP_COMPARISON.csv")
     target_nodes = read_csv(package / "target_transferred_nodal_d.csv")
     target_ips = read_csv(package / "target_transferred_ip_H.csv")
-    failures: list[str] = []
+    failures = []  # type: List[str]
     max_node = 0.0
     max_sdv15 = 0.0
     max_sdv16 = 0.0
@@ -126,7 +125,8 @@ def extracted_validate(package: Path, out_dir: Path, job_id: str) -> dict[str, o
         "D2A verifies transfer ingestion only; it is not a fracture response benchmark.",
         "",
     ]
-    (out_dir / "D2A_STATE_ROUTING_REPORT.md").write_text("\n".join(report), encoding="utf-8", newline="\n")
+    with (out_dir / "D2A_STATE_ROUTING_REPORT.md").open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write("\n".join(report))
     if not failures:
         (out_dir / "D2A.ok").write_text("", encoding="utf-8")
     return status

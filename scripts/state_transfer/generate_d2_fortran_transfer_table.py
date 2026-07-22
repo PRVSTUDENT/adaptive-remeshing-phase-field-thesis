@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Generate the executable Stage D2A tiny transfer-ingestion package."""
 
-from __future__ import annotations
-
 import argparse
 import csv
 import hashlib
@@ -11,6 +9,7 @@ import math
 import re
 import shutil
 from pathlib import Path
+from typing import Dict, List, Tuple
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -21,7 +20,7 @@ PRESERVED_DECK = ROOT / "models/baseline_original/molnar_gravouil_2017/02_Single
 PRESERVED_FORTRAN = ROOT / "models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.for"
 
 
-def read_csv(path: Path) -> list[dict[str, str]]:
+def read_csv(path: Path) -> List[Dict[str, str]]:
     with path.open(newline="", encoding="utf-8") as handle:
         return list(csv.DictReader(handle))
 
@@ -35,7 +34,8 @@ def finite_float(value: str, name: str) -> float:
 
 def write_text(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(text, encoding="utf-8", newline="\n")
+    with path.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(text)
 
 
 def sha256(path: Path) -> str:
@@ -46,11 +46,11 @@ def rel(path: Path) -> str:
     return path.resolve().relative_to(ROOT).as_posix()
 
 
-def chunks(values: list[str], n: int = 8) -> list[str]:
+def chunks(values: List[str], n: int = 8) -> List[str]:
     return [", ".join(values[i : i + n]) for i in range(0, len(values), n)]
 
 
-def confirm_phase_dof() -> dict[str, object]:
+def confirm_phase_dof() -> Dict[str, object]:
     deck = PRESERVED_DECK.read_text(encoding="utf-8", errors="replace")
     m = re.search(r"\*User element,\s*nodes=4,\s*type=U1[^\n]*\n\s*([0-9,\s]+)", deck, re.IGNORECASE)
     if not m:
@@ -69,7 +69,7 @@ def confirm_phase_dof() -> dict[str, object]:
     return {"phase_dof": dofs[0], "source_checks": source_checks}
 
 
-def validate_inputs(nodes, elements, nodal_d, ip_h) -> dict[str, object]:
+def validate_inputs(nodes, elements, nodal_d, ip_h) -> Dict[str, object]:
     node_labels = [int(r["node"]) for r in nodes]
     element_labels = [int(r["element"]) for r in elements]
     d_labels = [int(r["target_node"]) for r in nodal_d]
@@ -104,7 +104,7 @@ def validate_inputs(nodes, elements, nodal_d, ip_h) -> dict[str, object]:
     }
 
 
-def make_include(ip_h: list[dict[str, str]]) -> str:
+def make_include(ip_h: List[Dict[str, str]]) -> str:
     labels = [str(int(r["target_element"])) for r in ip_h]
     hvals = [f"{finite_float(r['H_bounded'], 'H_bounded'):.17E}" for r in ip_h]
     lines = [
@@ -197,7 +197,7 @@ def make_deck(nodes, elements, nodal_d) -> str:
     return "\n".join(lines) + "\n"
 
 
-def generate(out_dir: Path = EXECUTABLE) -> dict[str, object]:
+def generate(out_dir: Path = EXECUTABLE) -> Dict[str, object]:
     nodes = read_csv(PACKAGE / "target_nodes.csv")
     elements = read_csv(PACKAGE / "target_elements.csv")
     nodal_d = read_csv(PACKAGE / "target_transferred_nodal_d.csv")
