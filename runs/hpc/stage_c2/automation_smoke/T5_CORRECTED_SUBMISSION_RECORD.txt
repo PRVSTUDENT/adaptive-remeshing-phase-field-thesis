@@ -1,0 +1,14 @@
+submission_time=2026-07-22T05:30:28+02:00
+job_id=1376758.mmaster02
+purpose=single corrected T5 automation smoke rerun
+revision=76f8d5b5b3b8df2b6f34c09a1f63b496a6166fdd
+script=scripts/hpc/stage_c2/t5_h0_automation_smoke.pbs
+queue_route=entry_imfdfkmq
+observed_queue=normal_imfdfkmq
+resources=select=1:ncpus=4:mem=16gb,walltime=01:00:00
+mail_users=Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+mail_points=abe
+output_path=/scratch/pr21vyci/adaptive-remeshing/pbs_output/stage_d_t5_corrected_20260722T053028/t5_corrected.out
+initial_state=Q
+initial_note=queued_not_completed_at_record_time
+boundary=do_not_alter_C2C_v3_mesh_or_rerun_C2F_v3

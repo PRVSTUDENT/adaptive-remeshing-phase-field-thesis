@@ -1,0 +1,5 @@
+** Stage D2A tiny target package scaffold
+** This is an ingestion scaffold, not a completed solver deck.
+** Consume target_transferred_nodal_d.csv and target_transferred_ip_H.csv
+** through the selected UEL/UMAT initialization route, then compare ODB output
+** against D2A_TRANSFERRED_VS_ODB.csv before writing D2A.ok.

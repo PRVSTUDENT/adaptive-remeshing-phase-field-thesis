@@ -161,6 +161,10 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 - [x] Check field bounds. Evidence: `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_REPORT.md`.
 - [x] Check history and phase-field irreversibility. Evidence: `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_REPORT.md`.
 - [x] Measure energy jumps. Evidence: `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_REPORT.md`.
+- [x] Preserve D1 transfer-error baseline without claiming negligible error. Evidence: `docs/studies/STAGE_D2_MINIMAL_ABAQUS_TRANSFER_PLAN.md`.
+- [x] Prepare tiny nonmatching D2 source/target transfer package. Evidence: `models/state_transfer/d2_tiny_transfer/`; `scripts/state_transfer/build_d2_tiny_transfer_package.py`.
+- [?] Corrected T5 automation smoke rerun submitted once and waiting in queue. Job: `1376758.mmaster02`; evidence: `runs/hpc/stage_c2/automation_smoke/T5_CORRECTED_SUBMISSION_RECORD.txt`.
+- [ ] Run D2A serial Abaqus/UEL state-ingestion verification.
 - [ ] Test fracture-relevant state transfer.
 - [ ] Test serial repeatability.
 - [ ] Test parallel repeatability where scientifically justified.
@@ -235,6 +239,7 @@ Superseded historical waiting posture after Gate A3 supervisor package:
 ### Current Stage D Boundary
 
 - [ ] Next item: Stage D2 minimal Abaqus/ABAQUSER verification after reviewing the D1 analytical transfer harness.
+- [?] Corrected T5 rerun `1376758.mmaster02` is queued; do not submit a second T5 rerun unless this job fails before executing the intended corrected smoke.
 - [!] Do not submit a full fracture-transfer job.
 - [!] Do not alter the accepted C2C-v3 mesh or rerun C2F-v3.
 - [!] Continue with local/login-side Stage D transfer checks before any fracture continuation.

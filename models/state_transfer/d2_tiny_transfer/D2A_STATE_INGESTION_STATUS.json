@@ -1,0 +1,12 @@
+{
+  "D2A_ok": false,
+  "classification": "stage_d2a_not_executed_package_prepared",
+  "package": "models/state_transfer/d2_tiny_transfer",
+  "reason": "Abaqus/UEL/ABAQUSER ingestion job not run yet",
+  "required_before_ok": [
+    "D2A_STATE_INGESTION_STATUS.json",
+    "D2A_TRANSFERRED_VS_ODB.csv",
+    "D2A_STATE_ROUTING_REPORT.md",
+    "D2A.ok only after Abaqus/ODB verification passes"
+  ]
+}

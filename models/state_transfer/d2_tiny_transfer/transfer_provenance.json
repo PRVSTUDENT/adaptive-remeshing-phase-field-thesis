@@ -1,0 +1,38 @@
+{
+  "classification": "stage_d2_transfer_package_prepared_not_executed",
+  "energy": {
+    "bounded_minus_exact_reference": -0.05641585826557671,
+    "target_bounded_transfer": 0.26565744823113213,
+    "target_exact_reference": 0.32207330649670884
+  },
+  "fields": {
+    "H_source": "max(H_old, psi0)",
+    "d_source": "0.2 + 0.6 exp(-((x-x0)^2 + (y-y0)^2)/r^2)"
+  },
+  "purpose": "D2A state ingestion input package; not a solver result",
+  "required_next_outputs": [
+    "D2A_STATE_INGESTION_STATUS.json",
+    "D2A_TRANSFERRED_VS_ODB.csv",
+    "D2A_STATE_ROUTING_REPORT.md",
+    "D2A.ok only after Abaqus/ODB verification passes"
+  ],
+  "source_mesh": {
+    "elements": 9,
+    "nodes": 16,
+    "nx": 3,
+    "ny": 3
+  },
+  "target_mesh": {
+    "elements": 8,
+    "nodes": 15,
+    "nx": 4,
+    "ny": 2,
+    "x_shift": 0.041,
+    "y_shift": -0.033
+  },
+  "transfer": {
+    "H": "element-centroid/IP IDW k=4, then max(raw,H_old)",
+    "d": "node IDW k=4, then bound to [0,1]",
+    "label_reuse": "not used as a mapping rule"
+  }
+}
