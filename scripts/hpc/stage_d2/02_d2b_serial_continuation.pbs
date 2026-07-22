@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -N d2b_serial_cont
+#PBS -N d2b_serial_continuation
 #PBS -q entry_imfdfkmq
 #PBS -l select=1:ncpus=1:mem=8gb
 #PBS -l walltime=00:30:00
@@ -7,12 +7,93 @@
 #PBS -m abe
 #PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
 #
-# Prepared placeholder. Submit only after D2A.ok exists.
+# Stage D2B: serial transferred-state persistence and tiny continuation.
+
 set -u
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
-if [ ! -f "${PROJECT_HOME}/runs/hpc/stage_d2/d2a_serial_ingestion/D2A.ok" ]; then
-  echo "D2B blocked: missing D2A.ok"
+OUT="${PROJECT_HOME}/runs/hpc/stage_d2/d2b_serial_continuation"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+RUN_DIR="${RUN_ROOT}/d2b_serial_continuation_${PBS_JOBID:-unknown}"
+D2A_OUT="${PROJECT_HOME}/runs/hpc/stage_d2/d2a_serial_ingestion"
+PKG="${PROJECT_HOME}/models/state_transfer/d2_tiny_transfer"
+EXE="${PKG}/executable"
+JOB_NAME="d2b_serial_continuation"
+
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
+fi
+if type pbs_notify_begin >/dev/null 2>&1; then
+  pbs_notify_begin
+fi
+
+if [ ! -f "${D2A_OUT}/D2A.ok" ]; then
+  echo "D2B blocked: missing accepted D2A.ok"
   exit 20
 fi
-echo "D2B implementation gate reserved; do not run until D2A evidence is reviewed."
-exit 21
+
+mkdir -p "${OUT}" "${RUN_DIR}" || exit 2
+rm -f "${OUT}/D2B.ok" "${OUT}/D2B_CONTINUATION_STATUS.json"
+cd "${PROJECT_HOME}" || exit 2
+
+python3 scripts/state_transfer/generate_d2_fortran_transfer_table.py > "${OUT}/generate.log" 2>&1 || exit 3
+python3 scripts/validation/validate_d2_state_ingestion.py \
+  --package "${PKG}" --static-only > "${OUT}/static_validation.log" 2>&1 || exit 4
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || exit 5
+export OMP_NUM_THREADS=1
+
+cp "${EXE}/D2B_serial_continuation.inp" "${RUN_DIR}/${JOB_NAME}.inp" || exit 6
+cp "${EXE}/d2_tiny_transfer_uel.for" "${RUN_DIR}/d2_tiny_transfer_uel.for" || exit 6
+cp "${EXE}/d2_transfer_table.inc" "${RUN_DIR}/d2_transfer_table.inc" || exit 6
+
+cd "${RUN_DIR}" || exit 7
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="d2_tiny_transfer_uel.for" \
+  cpus=1 output_precision=full interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+cp "${JOB_NAME}.abaqus_stdout.log" "${OUT}/" 2>/dev/null || true
+cp "${JOB_NAME}.msg" "${OUT}/" 2>/dev/null || true
+cp "${JOB_NAME}.dat" "${OUT}/" 2>/dev/null || true
+cp "${JOB_NAME}.sta" "${OUT}/" 2>/dev/null || true
+
+if [ "${ABAQUS_RC}" -ne 0 ] || [ ! -f "${JOB_NAME}.odb" ]; then
+  cat > "${OUT}/D2B_CONTINUATION_STATUS.json" <<EOF
+{"classification":"stage_d2b_solver_fail","D2B_ok":false,"solver_exit":${ABAQUS_RC},"odb_readable":false,"job_id":"${PBS_JOBID:-unknown}"}
+EOF
+  exit 10
+fi
+if [ -f "${JOB_NAME}.sta" ] && ! grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  cat > "${OUT}/D2B_CONTINUATION_STATUS.json" <<EOF
+{"classification":"stage_d2b_solver_no_success_statement","D2B_ok":false,"solver_exit":${ABAQUS_RC},"odb_readable":false,"job_id":"${PBS_JOBID:-unknown}"}
+EOF
+  exit 11
+fi
+
+abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_d2b_continuation_state.py" \
+  --odb "${RUN_DIR}/${JOB_NAME}.odb" \
+  --package "${PKG}" \
+  --out-dir "${OUT}" > "${OUT}/extract.log" 2>&1 || exit 12
+
+python3 "${PROJECT_HOME}/scripts/validation/validate_d2b_state_persistence.py" \
+  --out-dir "${OUT}" \
+  --d2a-dir "${D2A_OUT}" \
+  --job-id "${PBS_JOBID:-unknown}" > "${OUT}/validate.log" 2>&1 || exit 13
+
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "job_name=${JOB_NAME}"
+  echo "classification=stage_d2b_serial_continuation_pass"
+  echo "queue=${PBS_QUEUE:-unknown}"
+  echo "run_dir=${RUN_DIR}"
+  echo "package=${PKG}"
+  echo "solver_exit=${ABAQUS_RC}"
+  echo "cpus=1"
+  echo "mem=8gb"
+  echo "walltime=00:30:00"
+  echo "completed=$(date -Is)"
+} | tee "${OUT}/D2B_JOB_RECORD.txt"
+
+exit 0

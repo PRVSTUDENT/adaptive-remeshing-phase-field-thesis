@@ -208,6 +208,54 @@ def make_deck(nodes, elements, nodal_d) -> str:
     return "\n".join(lines) + "\n"
 
 
+def make_d2b_deck(nodes, elements, nodal_d) -> str:
+    lines = make_deck(nodes, elements, nodal_d).splitlines()
+    lines[1] = "** Stage D2B serial transferred-state persistence and tiny continuation."
+    first_end = lines.index("*End Step")
+    lines[first_end:first_end] = [
+        "*Output, history, frequency=1",
+        "*Energy Output, variable=ALL",
+    ]
+    lines.extend(
+        [
+            "*Step, name=D2B_RELEASE_HOLD, nlgeom=NO, inc=2",
+            "*Static",
+            "0.5, 1.0",
+            "*Boundary, op=NEW",
+            "1001, 1, 2, 0.0",
+            "1005, 2, 2, 0.0",
+            "*Output, field, frequency=1",
+            "*Node Output",
+            "U, RF",
+            "*Element Output, elset=umatelem",
+            "SDV",
+            "*Output, history, frequency=1",
+            "*Energy Output, variable=ALL",
+            "*End Step",
+            "*Step, name=D2B_TINY_CONTINUATION, nlgeom=NO, inc=2",
+            "*Static",
+            "0.5, 1.0",
+            "*Boundary, op=NEW",
+            "1001, 1, 2, 0.0",
+            "1005, 2, 2, 0.0",
+            "1011, 2, 2, 1.0e-5",
+            "1012, 2, 2, 1.0e-5",
+            "1013, 2, 2, 1.0e-5",
+            "1014, 2, 2, 1.0e-5",
+            "1015, 2, 2, 1.0e-5",
+            "*Output, field, frequency=1",
+            "*Node Output",
+            "U, RF",
+            "*Element Output, elset=umatelem",
+            "SDV",
+            "*Output, history, frequency=1",
+            "*Energy Output, variable=ALL",
+            "*End Step",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
 def generate(out_dir: Path = EXECUTABLE) -> Dict[str, object]:
     nodes = read_csv(PACKAGE / "target_nodes.csv")
     elements = read_csv(PACKAGE / "target_elements.csv")
@@ -218,9 +266,11 @@ def generate(out_dir: Path = EXECUTABLE) -> Dict[str, object]:
     out_dir.mkdir(parents=True, exist_ok=True)
     inc = out_dir / "d2_transfer_table.inc"
     deck = out_dir / "D2A_serial_ingestion.inp"
+    d2b_deck = out_dir / "D2B_serial_continuation.inp"
     source_copy = out_dir / "d2_tiny_transfer_uel.for"
     write_text(inc, make_include(ip_h))
     write_text(deck, make_deck(nodes, elements, nodal_d))
+    write_text(d2b_deck, make_d2b_deck(nodes, elements, nodal_d))
     shutil.copyfile(SOURCE, source_copy)
     validation = {
         "classification": "stage_d2a_executable_package_static_pass",
@@ -235,10 +285,11 @@ def generate(out_dir: Path = EXECUTABLE) -> Dict[str, object]:
         "static_checks": checks,
         "files": {
             "deck": rel(deck),
+            "d2b_deck": rel(d2b_deck),
             "include": rel(inc),
             "source": rel(source_copy),
         },
-        "hashes": {p.name: sha256(p) for p in [deck, inc, source_copy]},
+        "hashes": {p.name: sha256(p) for p in [deck, d2b_deck, inc, source_copy]},
     }
     write_text(out_dir / "PACKAGE_VALIDATION.json", json.dumps(validation, indent=2, sort_keys=True) + "\n")
     return validation

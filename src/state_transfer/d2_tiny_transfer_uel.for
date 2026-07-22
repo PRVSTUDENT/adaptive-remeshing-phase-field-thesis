@@ -53,7 +53,8 @@ C TRANSFER_MODE=1 enables one-time H initialization from d2_transfer_table.inc.
       ENDIF
       HVAL=D2_TRANSFER_H(IDX)
 
-      IF (TRANSFER_MODE.EQ.1 .AND. .NOT.TRANSFER_DONE(IDX)) THEN
+      IF (TRANSFER_MODE.EQ.1 .AND. KSTEP.EQ.1 .AND. KINC.EQ.1
+     1    .AND. .NOT.TRANSFER_DONE(IDX)) THEN
         USRVAR(IDX,16,1)=HVAL
         USRVAR(IDX,18,1)=1.D0
         TRANSFER_DONE(IDX)=.TRUE.
@@ -66,8 +67,14 @@ C       Abaqus passes the active U1 element DOF values as U(1:4).
         DO I=1,NNODE
           PHASE=PHASE+0.25D0*U(I)
         END DO
-        USRVAR(JELEM,15,1)=PHASE
-        SVARS(1)=PHASE
+        IF (KSTEP.EQ.1 .AND. KINC.EQ.1) THEN
+          USRVAR(JELEM,15,1)=PHASE
+        ELSE
+          IF (PHASE.GT.USRVAR(JELEM,15,1)) THEN
+            USRVAR(JELEM,15,1)=PHASE
+          ENDIF
+        ENDIF
+        SVARS(1)=USRVAR(JELEM,15,1)
         SVARS(2)=USRVAR(JELEM,16,1)
       ELSEIF (JTYPE.EQ.2) THEN
 C       Displacement layer is present only to preserve D2 routing topology.
@@ -97,7 +104,7 @@ C       Displacement layer is present only to preserve D2 routing topology.
       COMMON/KUSER/USRVAR(N_ELEM,NSTV,1)
       SAVE /KUSER/
       INTEGER I,J,PHYS
-      DOUBLE PRECISION EMOD,ENU,EG,EG2,ELAM
+      DOUBLE PRECISION EMOD,ENU,EG,EG2,ELAM,PSI0,HOLD
 
       PHYS=NOEL-2*N_ELEM
       IF (PHYS.LT.1 .OR. PHYS.GT.N_ELEM) THEN
@@ -133,6 +140,14 @@ C       Displacement layer is present only to preserve D2 routing topology.
           STRESS(I)=STRESS(I)+DDSDDE(I,J)*DSTRAN(J)
         END DO
       END DO
+      PSI0=0.D0
+      DO I=1,NTENS
+        HOLD=STRAN(I)+DSTRAN(I)
+        PSI0=PSI0+0.5D0*HOLD*STRESS(I)
+      END DO
+      IF (PSI0.GT.USRVAR(PHYS,16,1)) THEN
+        USRVAR(PHYS,16,1)=PSI0
+      ENDIF
 
       DO I=1,NSTATV
         STATEV(I)=0.D0
