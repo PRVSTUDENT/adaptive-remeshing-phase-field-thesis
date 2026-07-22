@@ -63,7 +63,7 @@ def finite_values(row: Dict[str, str], fields: List[str], failures: List[str], l
     return values
 
 
-def validate(out_dir: Path, d2a_dir: Path, job_id: str) -> Dict[str, object]:
+def validate(out_dir: Path, d2a_dir: Path, job_id: str, ok_name: str = "D2B.ok") -> Dict[str, object]:
     state_rows = read_csv(out_dir / "D2B_STATE_BY_FRAME.csv")
     rf_rows = read_csv(out_dir / "D2B_RF_U.csv")
     d2a = accepted_d2a(d2a_dir / "D2A_IP_COMPARISON.csv")
@@ -264,7 +264,7 @@ def validate(out_dir: Path, d2a_dir: Path, job_id: str) -> Dict[str, object]:
     ]
     (out_dir / "D2B_STATE_PERSISTENCE_REPORT.md").write_text("\n".join(report), encoding="utf-8")
     if not failures:
-        (out_dir / "D2B.ok").write_text("", encoding="utf-8")
+        (out_dir / ok_name).write_text("", encoding="utf-8")
     return status
 
 
@@ -273,8 +273,9 @@ def main() -> int:
     parser.add_argument("--out-dir", type=Path, required=True)
     parser.add_argument("--d2a-dir", type=Path, default=Path("runs/hpc/stage_d2/d2a_serial_ingestion"))
     parser.add_argument("--job-id", default="not_submitted")
+    parser.add_argument("--ok-name", default="D2B.ok")
     args = parser.parse_args()
-    status = validate(args.out_dir, args.d2a_dir, args.job_id)
+    status = validate(args.out_dir, args.d2a_dir, args.job_id, args.ok_name)
     print(json.dumps(status, indent=2, sort_keys=True))
     return 0 if status["D2B_ok"] else 1
 

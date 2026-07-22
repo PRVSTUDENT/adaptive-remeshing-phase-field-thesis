@@ -1,1 +1,14 @@
-{"classification":"stage_d2b_solver_fail","D2B_ok":false,"solver_exit":1,"odb_readable":false,"job_id":"1376819.mmaster02"}
+{
+  "D2B_ok": false,
+  "accepted_scientific_result": "none",
+  "classification": "stage_d2b_solver_fail_increment_limit",
+  "failure_reason": "maximum increment count exhausted",
+  "job_id": "1376819.mmaster02",
+  "odb_readable": false,
+  "solver_exit": 1,
+  "step_outcomes": {
+    "step_1_initialization": "completed",
+    "step_2_release_hold": "completed",
+    "step_3_continuation": "partially_converged"
+  }
+}

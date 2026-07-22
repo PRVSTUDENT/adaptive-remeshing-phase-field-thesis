@@ -4,7 +4,7 @@ set -euo pipefail
 PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
 QUEUE="${QUEUE:-entry_imfdfkmq}"
 MAIL="${MAIL:-Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de}"
-JOB_NAME="d2b_serial_continuation"
+JOB_NAME="d2b_serial_cont_r1"
 
 cd "${PROJECT_HOME}"
 
@@ -29,7 +29,7 @@ python3 scripts/hpc/validate_pbs_email_notifications.py \
 
 JOB_ID=$(scripts/hpc/qsub_with_submitted_notify.sh \
   --job-name "${JOB_NAME}" \
-  --message "Stage D2B serial transferred-state persistence and tiny continuation; CPUs: 1; memory: 8 GB; walltime: 00:30:00" \
+  --message "Corrected Stage D2B serial continuation; only maximum increments changed from 2 to 50; CPUs: 1; memory: 8 GB; walltime: 00:30:00" \
   -- -q "${QUEUE}" \
      -M "${MAIL}" \
      -m abe \

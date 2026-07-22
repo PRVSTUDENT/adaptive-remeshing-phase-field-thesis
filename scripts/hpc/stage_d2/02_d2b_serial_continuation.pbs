@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -N d2b_serial_continuation
+#PBS -N d2b_serial_cont_r1
 #PBS -q entry_imfdfkmq
 #PBS -l select=1:ncpus=1:mem=8gb
 #PBS -l walltime=00:30:00
@@ -11,13 +11,14 @@
 
 set -u
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
-OUT="${PROJECT_HOME}/runs/hpc/stage_d2/d2b_serial_continuation"
+OUT="${PROJECT_HOME}/runs/hpc/stage_d2/d2b_serial_continuation_rerun"
 RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
-RUN_DIR="${RUN_ROOT}/d2b_serial_continuation_${PBS_JOBID:-unknown}"
+RUN_DIR="${RUN_ROOT}/d2b_serial_cont_r1_${PBS_JOBID:-unknown}"
 D2A_OUT="${PROJECT_HOME}/runs/hpc/stage_d2/d2a_serial_ingestion"
+D2B_CANONICAL="${PROJECT_HOME}/runs/hpc/stage_d2/d2b_serial_continuation"
 PKG="${PROJECT_HOME}/models/state_transfer/d2_tiny_transfer"
 EXE="${PKG}/executable"
-JOB_NAME="d2b_serial_continuation"
+JOB_NAME="d2b_serial_cont_r1"
 
 # shellcheck disable=SC1091
 source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
@@ -34,7 +35,7 @@ if [ ! -f "${D2A_OUT}/D2A.ok" ]; then
 fi
 
 mkdir -p "${OUT}" "${RUN_DIR}" || exit 2
-rm -f "${OUT}/D2B.ok" "${OUT}/D2B_CONTINUATION_STATUS.json"
+rm -f "${OUT}/D2B_R1.ok" "${OUT}/D2B_CONTINUATION_STATUS.json"
 cd "${PROJECT_HOME}" || exit 2
 
 python3 scripts/state_transfer/generate_d2_fortran_transfer_table.py > "${OUT}/generate.log" 2>&1 || exit 3
@@ -80,7 +81,8 @@ abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_d2b_continuation_s
 python3 "${PROJECT_HOME}/scripts/validation/validate_d2b_state_persistence.py" \
   --out-dir "${OUT}" \
   --d2a-dir "${D2A_OUT}" \
-  --job-id "${PBS_JOBID:-unknown}" > "${OUT}/validate.log" 2>&1 || exit 13
+  --job-id "${PBS_JOBID:-unknown}" \
+  --ok-name D2B_R1.ok > "${OUT}/validate.log" 2>&1 || exit 13
 
 {
   echo "job_id=${PBS_JOBID:-unknown}"
@@ -95,5 +97,12 @@ python3 "${PROJECT_HOME}/scripts/validation/validate_d2b_state_persistence.py" \
   echo "walltime=00:30:00"
   echo "completed=$(date -Is)"
 } | tee "${OUT}/D2B_JOB_RECORD.txt"
+
+mkdir -p "${D2B_CANONICAL}"
+{
+  echo "accepted_rerun_job_id=${PBS_JOBID:-unknown}"
+  echo "accepted_rerun_marker=runs/hpc/stage_d2/d2b_serial_continuation_rerun/D2B_R1.ok"
+  echo "classification=stage_d2b_serial_continuation_pass"
+} > "${D2B_CANONICAL}/D2B.ok"
 
 exit 0
