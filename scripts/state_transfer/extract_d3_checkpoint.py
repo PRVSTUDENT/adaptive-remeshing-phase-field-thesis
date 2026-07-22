@@ -253,7 +253,7 @@ def main(argv=None):
 
     for step_name, step in odb.steps.items():
         step_max_time = 0.0
-        for frame in step.frames:
+        for frame_index, frame in enumerate(step.frames):
             step_max_time = max(step_max_time, float(frame.frameValue))
             for key in frame.fieldOutputs.keys():
                 if str(key).startswith("SDV"):
@@ -263,6 +263,7 @@ def main(argv=None):
                 continue
             rec = {
                 "step": str(step_name),
+                "frame_index": int(frame_index),
                 "frame_id": int(frame.frameId),
                 "increment_number": int(frame.incrementNumber),
                 "step_time": float(frame.frameValue),
@@ -288,7 +289,7 @@ def main(argv=None):
         odb.close()
         raise RuntimeError("required SDV15/SDV16 outputs are not available")
 
-    selected_frame = odb.steps[closest["step"]].frames[closest["frame_id"]]
+    selected_frame = odb.steps[closest["step"]].frames[closest["frame_index"]]
     state_rows = extract_state(odb, selected_frame, args.out_dir)
     nodal_rows = extract_nodal_d(odb, selected_frame, args.out_dir)
     allie = history_value(odb.steps[closest["step"]], "ALLIE", selected_frame)
@@ -298,10 +299,10 @@ def main(argv=None):
 
     write_csv(
         os.path.join(args.out_dir, "D3_CHECKPOINT_FRAME_CANDIDATES.csv"),
-        ["step", "frame_id", "increment_number", "step_time", "total_time", "U2", "RF2", "distance_to_target", "pre_peak"],
+        ["step", "frame_index", "frame_id", "increment_number", "step_time", "total_time", "U2", "RF2", "distance_to_target", "pre_peak"],
         candidates,
     )
-    write_csv(os.path.join(args.out_dir, "D3_CHECKPOINT_RF_U.csv"), ["step", "frame_id", "increment_number", "step_time", "total_time", "U2", "RF2"], candidates)
+    write_csv(os.path.join(args.out_dir, "D3_CHECKPOINT_RF_U.csv"), ["step", "frame_index", "frame_id", "increment_number", "step_time", "total_time", "U2", "RF2"], candidates)
 
     d_values = [float(r["SDV15_d"]) for r in state_rows if finite(r["SDV15_d"])]
     h_values = [float(r["SDV16_H"]) for r in state_rows if finite(r["SDV16_H"])]
@@ -313,6 +314,7 @@ def main(argv=None):
         "actual_U2": closest["U2"],
         "distance_to_target": closest["distance_to_target"],
         "step": closest["step"],
+        "frame_index": closest["frame_index"],
         "frame_id": closest["frame_id"],
         "increment_number": closest["increment_number"],
         "step_time": closest["step_time"],
