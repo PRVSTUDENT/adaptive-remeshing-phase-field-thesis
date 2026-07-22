@@ -1,0 +1,51 @@
+% Thesis chapter draft: Stage D controlled state transfer.
+\chapter{Controlled State Transfer for Phase-Field UEL Workflows}
+\label{ch:stage-d-state-transfer}
+
+\section{Objective}
+Stage D tests whether phase-field and history values transferred between meshes
+are actually ingested by Abaqus and routed through the UEL/UMAT state arrays.
+The test is intentionally separated from fracture evolution. No interrupted
+Molnar fracture simulation is allowed until the D2 ingestion, continuation,
+thread-repeatability, and output-routing gates pass.
+
+\section{D1 analytical baseline}
+The D1 harness established deterministic and physically guarded transfer
+mechanics, but it did not prove negligible transfer error. The retained D1
+baselines are:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lr@{}}
+\toprule
+Quantity & Value \\
+\midrule
+Nodal $d$ L2 error & $0.0270$ \\
+Nodal $d$ maximum error & $0.0850$ \\
+Integration-point $H$ L2 error & $0.0108$ \\
+Integration-point $H$ maximum error & $0.0234$ \\
+Energy difference & $-0.00769$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{D2A ingestion design}
+D2A uses the prepared tiny nonmatching transfer package under
+\texttt{models/state\_transfer/d2\_tiny\_transfer/}. A separate D2-only
+UEL/UMAT source variant is generated under
+\texttt{src/state\_transfer/d2\_tiny\_transfer\_uel.for}; the frozen Molnar
+source and accepted C2C-v3 mesh are not modified.
+
+The preserved Molnar U1 user-element card declares phase on Abaqus DOF~3. D2A
+therefore prescribes every transferred nodal phase value on DOF~3 and extracts
+the phase-layer nodal solution directly from the ODB. History values are loaded
+from a generated read-only table keyed by physical element label and integration
+point number, initialized once, and mirrored to visualization \texttt{SDV16}.
+The interpolated phase value is mirrored to \texttt{SDV15}.
+
+\section{Current status}
+The executable D2A package is statically validated and ready for the first
+serial ingestion job. No \texttt{D2A.ok} may be created until the Abaqus solve
+exits with code zero, the ODB is readable, target-node and target element/IP
+coverage are complete, and \texttt{SDV15}/\texttt{SDV16} match the independent
+transfer comparison within $10^{-8}$.

@@ -1,6 +1,6 @@
 # Stage D2 Minimal Abaqus Transfer Plan
 
-Status: `stage_d2_package_prepared_not_executed`
+Status: `stage_d2a_executable_package_static_pass_pending_d2a_execution`
 
 ## Current interpretation
 
@@ -44,15 +44,45 @@ It contains:
 - `D2A_STATE_INGESTION_STATUS.json`
 - `D2A_STATE_ROUTING_REPORT.md`
 - `D2A_TARGET_INPUT_PACKAGE.inp`
+- `executable/D2A_serial_ingestion.inp`
+- `executable/d2_transfer_table.inc`
+- `executable/d2_tiny_transfer_uel.for`
+- `executable/PACKAGE_VALIDATION.json`
 
-The status is intentionally:
+The original scaffold status was intentionally:
 
 ```text
 stage_d2a_not_executed_package_prepared
 ```
 
-No `D2A.ok` is written because Abaqus/ODB/ABAQUSER ingestion has not yet been
-run.
+The executable D2A package has now been generated and statically validated, but
+no `D2A.ok` is written until the Abaqus job runs and the independent ODB
+comparison passes.
+
+## D2A implementation route
+
+The D2A route is a separate tiny UEL/UMAT source variant:
+
+```text
+src/state_transfer/d2_tiny_transfer_uel.for
+```
+
+It does not modify the frozen Molnar source or the accepted C2C-v3 mesh. The
+preserved Molnar deck confirms that the U1 phase element declares Abaqus DOF
+`3`; the D2A deck therefore prescribes transferred nodal phase values on DOF
+`3`, rather than assuming that value without source/deck evidence.
+
+The D2 source uses:
+
+```text
+TRANSFER_MODE = 1
+```
+
+only in this D2-only source variant. Normal production jobs keep transferred
+history initialization disabled by not using this source. The generated include
+file `d2_transfer_table.inc` is keyed by physical element label and integration
+point number. The current tiny package has one reduced-integration visualization
+point per target element, so every key is `(target_element, 1)`.
 
 ## D2A gate
 
@@ -72,9 +102,25 @@ Required outputs after a real D2A run:
 ```text
 D2A_STATE_INGESTION_STATUS.json
 D2A_TRANSFERRED_VS_ODB.csv
+D2A_NODE_COMPARISON.csv
+D2A_IP_COMPARISON.csv
 D2A_STATE_ROUTING_REPORT.md
+D2A_JOB_RECORD.txt
 D2A.ok
 ```
+
+Prepared execution scripts:
+
+```text
+scripts/hpc/stage_d2/01_d2a_serial_ingestion.pbs
+scripts/hpc/stage_d2/submit_d2a_serial_ingestion.sh
+scripts/hpc/stage_d2/02_d2b_serial_continuation.pbs
+scripts/hpc/stage_d2/03_d2c_threads4_repeatability.pbs
+scripts/hpc/stage_d2/04_d2d_abaquser_verification.pbs
+```
+
+Only D2A may be submitted now. D2B, D2C and D2D are present as guarded
+placeholders and exit unless the required upstream `.ok` marker exists.
 
 ## Blocked work
 
@@ -82,4 +128,3 @@ Do not start full fracture transfer. The first interrupted Molnar fracture
 continuation remains blocked until corrected T5 passes, D2A passes, D2B serial
 continuation passes, D2C threaded repeatability passes, and state arrays plus
 element/IP ordering are proven.
-

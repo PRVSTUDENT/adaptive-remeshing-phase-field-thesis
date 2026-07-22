@@ -133,6 +133,13 @@ Exit gate:
 
 The thesis branch requires evolving remesh/state transfer. Phase field, history, and integration-point variables must be transferred during the fracture process before any online-remesh claim is made.
 
+Current D2 status:
+- D1 established deterministic, bounded transfer mechanics, not negligible transfer error.
+- D1 retained baselines: nodal `d` L2 error `0.0270`, nodal `d` maximum error `0.0850`, IP `H` L2 error `0.0108`, IP `H` maximum error `0.0234`, and energy difference `-0.00769`.
+- D2A executable ingestion package is prepared for a tiny Abaqus UEL/UMAT target model under `models/state_transfer/d2_tiny_transfer/executable/`.
+- The D2A route uses a separate D2 source variant, confirms the preserved Molnar U1 phase DOF as `3`, initializes transferred `H` once from an element/IP keyed table, and mirrors phase/history to visualization `SDV15`/`SDV16`.
+- Submit only D2A first; D2B/D2C/D2D remain blocked until the corresponding upstream `.ok` marker exists.
+
 Tasks:
 - Inventory all state variables.
 - Transfer a known field between meshes.

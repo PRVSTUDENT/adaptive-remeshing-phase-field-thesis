@@ -1,0 +1,109 @@
+*Heading
+** Stage D2A serial transferred-state ingestion, generated package.
+** Phase DOF confirmed from preserved Molnar U1 card: DOF 3.
+*Preprint, echo=NO, model=NO, history=NO, contact=NO
+*Node
+1, -0.459, -0.533
+2, -0.209, -0.533
+3, 0.041, -0.533
+4, 0.291, -0.533
+5, 0.541, -0.533
+6, -0.459, -0.033
+7, -0.209, -0.033
+8, 0.041, -0.033
+9, 0.291, -0.033
+10, 0.541, -0.033
+11, -0.459, 0.467
+12, -0.209, 0.467
+13, 0.041, 0.467
+14, 0.291, 0.467
+15, 0.541, 0.467
+*User Element, nodes=4, type=U1, properties=3, coordinates=2, VARIABLES=2
+3
+*Element, type=U1, elset=PLATE
+1, 1, 2, 7, 6
+2, 2, 3, 8, 7
+3, 3, 4, 9, 8
+4, 4, 5, 10, 9
+5, 6, 7, 12, 11
+6, 7, 8, 13, 12
+7, 8, 9, 14, 13
+8, 9, 10, 15, 14
+*Elset, elset=PLATE, generate
+1, 8, 1
+*Uel Property, elset=PLATE
+0.015, 0.0027, 1.0
+*User Element, nodes=4, type=U2, properties=4, coordinates=2, VARIABLES=2
+1, 2
+*Element, type=U2, elset=PLATE_SS
+9, 1, 2, 7, 6
+10, 2, 3, 8, 7
+11, 3, 4, 9, 8
+12, 4, 5, 10, 9
+13, 6, 7, 12, 11
+14, 7, 8, 13, 12
+15, 8, 9, 14, 13
+16, 9, 10, 15, 14
+*Elset, elset=PLATE_SS, generate
+9, 16, 1
+*Uel Property, elset=PLATE_SS
+1.0e-11, 0.3, 1.0e-11, 1.0
+*Element, type=CPS4R, elset=umatelem
+17, 1, 2, 7, 6
+18, 2, 3, 8, 7
+19, 3, 4, 9, 8
+20, 4, 5, 10, 9
+21, 6, 7, 12, 11
+22, 7, 8, 13, 12
+23, 8, 9, 14, 13
+24, 9, 10, 15, 14
+*Elset, elset=umatelem, generate
+17, 24, 1
+*Solid Section, elset=umatelem, material=umatelem
+1.0,
+*Material, name=umatelem
+*Depvar
+16,
+*User Material, constants=2
+1.0e-11, 0.3
+*Step, name=D2A_INIT, nlgeom=NO, inc=1
+*Static
+1.0, 1.0
+*Boundary
+1, 1, 2, 0.0
+2, 1, 2, 0.0
+3, 1, 2, 0.0
+4, 1, 2, 0.0
+5, 1, 2, 0.0
+6, 1, 2, 0.0
+7, 1, 2, 0.0
+8, 1, 2, 0.0
+9, 1, 2, 0.0
+10, 1, 2, 0.0
+11, 1, 2, 0.0
+12, 1, 2, 0.0
+13, 1, 2, 0.0
+14, 1, 2, 0.0
+15, 1, 2, 0.0
+1, 3, 3, 0.20671087917782557
+2, 3, 3, 0.25221779475262068
+3, 3, 3, 0.34625058960525695
+4, 3, 3, 0.34733183649377081
+5, 3, 3, 0.26052425825135667
+6, 3, 3, 0.24166493342204778
+7, 3, 3, 0.35209619833350003
+8, 3, 3, 0.56955459537598552
+9, 3, 3, 0.57341760169621903
+10, 3, 3, 0.43035154680228371
+11, 3, 3, 0.20313748218965699
+12, 3, 3, 0.21576703669042016
+13, 3, 3, 0.26634742738701639
+14, 3, 3, 0.26666006161893135
+15, 3, 3, 0.22054143404336266
+*Restart, write, frequency=0
+*Output, field, frequency=1
+*Node Output
+U, RF
+*Element Output, elset=umatelem
+SDV
+*End Step

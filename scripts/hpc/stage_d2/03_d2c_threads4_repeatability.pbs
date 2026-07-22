@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -N d2c_threads4
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=4:mem=16gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+#
+# Prepared placeholder. Submit only after D2B.ok exists.
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+if [ ! -f "${PROJECT_HOME}/runs/hpc/stage_d2/d2b_serial_continuation/D2B.ok" ]; then
+  echo "D2C blocked: missing D2B.ok"
+  exit 20
+fi
+echo "D2C implementation gate reserved; do not run until D2B evidence is reviewed."
+exit 21

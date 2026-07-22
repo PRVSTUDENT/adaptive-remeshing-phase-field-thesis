@@ -1,0 +1,47 @@
+% Stage D2 state-ingestion report snippet.
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=25mm]{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\title{Stage D2: Minimal Abaqus State-Ingestion Verification}
+\author{Adaptive Remeshing Thesis}
+\date{2026-07-22}
+\begin{document}
+\maketitle
+
+\section{Status}
+The D2A executable package is classified as
+\texttt{stage\_d2a\_executable\_package\_static\_pass}; the Abaqus ingestion job
+is the next gate. No \texttt{D2A.ok} exists before the ODB comparison passes.
+
+\section{D1 transfer-error baselines}
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lr@{}}
+\toprule
+Quantity & Value \\
+\midrule
+Nodal $d$ L2 error & $0.0270$ \\
+Nodal $d$ maximum error & $0.0850$ \\
+IP $H$ L2 error & $0.0108$ \\
+IP $H$ maximum error & $0.0234$ \\
+Energy difference & $-0.00769$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{D2A route}
+The D2A source variant confirms the preserved Molnar U1 phase DOF as DOF~3 and
+uses a generated element/IP keyed table for transferred history initialization.
+The tiny target contains $15$ target nodes, $8$ physical elements, and one
+reduced-integration visualization point per physical element. The U1 layer uses
+labels $1$--$8$, the U2 layer uses $9$--$16$, and the visualization layer uses
+$17$--$24$.
+
+\section{Acceptance gate}
+The D2A job may pass only if solver exit is zero, the ODB is readable, target
+coverage is complete, nodal phase error is at most $10^{-8}$, \texttt{SDV15}
+matches independently interpolated transferred phase within $10^{-8}$, and
+\texttt{SDV16} matches transferred history within $10^{-8}$.
+
+\end{document}
