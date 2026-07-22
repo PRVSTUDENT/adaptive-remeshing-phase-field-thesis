@@ -116,3 +116,17 @@ The first interrupted fracture-transfer experiment has been prepared only as a
 design, using a small H0 diagnostic model and an early pre-peak checkpoint near
 $U=0.003\,\mathrm{mm}$. No D2D PBS job or interrupted fracture solver job has
 been submitted.
+
+\section{D3A existing H0 checkpoint audit}
+The existing accepted H0 ODB from job \texttt{1376154.mmaster02} was tested as
+the D3 checkpoint source. A CAE/ODB-only extraction selected the frame at
+$U_2=0.003000000026077032\,\mathrm{mm}$ and extracted 15720 element/IP state
+rows with full coverage, finite \texttt{SDV15}/\texttt{SDV16}, maximum
+$d=0.08412302285432816$, maximum $H=0.0512588769197464$, checkpoint
+\texttt{RF2} $=0.39450356364250183$, and
+\texttt{RF2}/\texttt{RF2}_{\mathrm{peak,H0}}=0.5421925638518931$.
+
+This is useful partial evidence but not an accepted D3A checkpoint. The source
+ODB lacks \texttt{ALLIE}, \texttt{ALLSE}, and \texttt{ALLWK} energy history
+outputs, so the D3A acceptance gate fails and no \texttt{D3A.ok} marker is
+written. No D3A2 transfer package or fracture solver job was submitted.

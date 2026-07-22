@@ -1,8 +1,9 @@
 # D3A0 Existing H0 ODB Source Provenance
 
-Classification: `stage_d3a0_existing_h0_source_eligible`
+Classification: `stage_d3a0_existing_h0_source_ineligible`
 
-No new Abaqus solve and no PBS submission were performed for this audit.
+No new Abaqus solve was performed. CAE/ODB-only D3A extraction later proved that
+the source ODB lacks the energy history required by the D3A acceptance gate.
 
 ## Selected Source
 
@@ -43,5 +44,11 @@ The provisional D3 checkpoint target is `U2 = 0.003 mm`, which lies before the
 accepted H0 peak displacement. The deck requests RP `U`/`RF` and UMAT `SDV`
 output, including the D3 routing fields `SDV15=d` and `SDV16=H`.
 
-D3A1 may therefore run an ODB post-processing extraction job against this
-existing ODB. Abaqus/Standard solving and UEL compilation remain prohibited.
+However, the original H0 deck does not request `ALLIE`, `ALLSE`, or `ALLWK`.
+The corrected D3A extraction selected an exact checkpoint frame at
+`U2=0.003000000026077032 mm` and extracted 15720 element/IP rows with finite
+`SDV15` and `SDV16`, but validation failed because energy values were not
+available. Therefore this existing H0 ODB is not eligible for accepted D3A
+checkpoint extraction under the current gate.
+
+Abaqus/Standard solving and UEL compilation were not performed.

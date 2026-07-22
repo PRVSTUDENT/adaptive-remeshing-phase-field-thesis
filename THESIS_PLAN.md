@@ -144,6 +144,7 @@ Current D2 status:
 - D2C four-thread repeatability job `1376831.mmaster02` passed with classification `stage_d2c_thread_repeatability_pass`, solver exit `0`, readable ODB, confirmed `1 MPI RANK x 4 THREAD`, `D2C.ok`, `target_ip_coverage=1.0`, maximum `SDV15` and `SDV16` thread-vs-serial differences `0.0`, final `U2` difference `0.0`, final `RF2` absolute/relative differences `0.0`, RF-U NRMSE `0.0`, F3 `ALLWK` absolute difference `0.0`, and unchanged increment sequence.
 - D2D0 ABAQUSER availability audit is formally blocked as `stage_d2d_blocked_abaquser_not_found`: no executable, module, source implementation, or documented runnable interface was found on the login node. Evidence is under `runs/hpc/stage_d2/d2d_abaquser_verification/`.
 - D3 interrupted transfer is prepared only as a design/package plan around a small H0 diagnostic early pre-peak checkpoint near `U=0.003 mm`. No D2D PBS job, D3 solver job, or interrupted Molnar transfer was submitted.
+- D3A0/D3A1 tested reuse of the existing H0 ODB `1376154.mmaster02`. The corrected CAE/ODB-only extraction attempt `1376879.mmaster02` selected `U2=0.003000000026077032 mm`, extracted 15720 element/IP rows with `target_ip_coverage=1.0`, finite `SDV15`/`SDV16`, `max_d=0.08412302285432816`, `max_H=0.0512588769197464`, checkpoint `RF2=0.39450356364250183`, and `RF2/H0_peak=0.5421925638518931`. D3A remains blocked/not accepted because the source ODB lacks `ALLIE`, `ALLSE`, and `ALLWK`; no `D3A.ok` exists and D3A2 was not executed.
 
 Tasks:
 - Inventory all state variables.

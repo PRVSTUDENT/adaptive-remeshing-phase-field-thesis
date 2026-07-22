@@ -1,0 +1,61 @@
+Job Id: 1376868.mmaster02
+    Job_Name = d3a_checkpoint_extract
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 40
+    resources_used.cput = 00:00:01
+    resources_used.mem = 136604kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 137284kb
+    resources_used.walltime = 00:00:04
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Wed Jul 22 11:36:45 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/d3
+	a_checkpoint_extract.e1376868
+    exec_host = mnode100/0
+    exec_vnode = (mnode100[0]:ncpus=1:mem=8388608kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+    mtime = Wed Jul 22 11:36:56 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/d
+	3a_checkpoint_extract.o1376868
+    Priority = 0
+    qtime = Wed Jul 22 11:36:45 2026
+    Rerunable = True
+    Resource_List.mem = 8gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=8gb
+    Resource_List.walltime = 00:30:00
+    stime = Wed Jul 22 11:36:45 2026
+    obittime = Wed Jul 22 11:36:56 2026
+    session_id = 343601
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1376868.mmaster02.x8z
+    substate = 93
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Wed Jul 22 at 11:36 on (mnode100[0]:ncpus=1:mem=838860
+	8kb) and failed
+    etime = Wed Jul 22 11:36:45 2026
+    run_count = 1
+    eligible_time = 00:00:04
+    Stageout_status = 1
+    Exit_status = 10
+    Submit_arguments = -q entry_imfdfkmq -M Pruthviraja.Reddy-Vandavagali@stude
+	nt.tu-freiberg.de -m abe scripts/hpc/stage_d3/01_d3a_checkpoint_extract
+	ion.pbs
+    history_timestamp = 1784713016
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster

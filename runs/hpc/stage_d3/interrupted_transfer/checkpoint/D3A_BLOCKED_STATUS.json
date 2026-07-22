@@ -1,0 +1,17 @@
+{
+  "D3A_ok": false,
+  "accepted_checkpoint_marker": false,
+  "blocked": true,
+  "blocked_by": "source ODB lacks ALLIE/ALLSE/ALLWK energy history output",
+  "checkpoint_validation_status": "stage_d3a_checkpoint_fail",
+  "classification": "stage_d3a_checkpoint_blocked_missing_energy_history",
+  "extraction_attempts": [
+    "1376868.mmaster02",
+    "1376877.mmaster02",
+    "1376879.mmaster02"
+  ],
+  "no_abaqus_standard_solve": true,
+  "source_job_id": "1376154.mmaster02",
+  "state_extraction_completed_in_last_attempt": true,
+  "uel_compilation": false
+}

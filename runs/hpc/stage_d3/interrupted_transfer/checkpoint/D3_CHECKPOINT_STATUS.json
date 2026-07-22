@@ -1,0 +1,22 @@
+{
+  "D3A_ok": false,
+  "actual_checkpoint_U2": 0.003000000026077032,
+  "checkpoint_RF2": 0.39450356364250183,
+  "checkpoint_RF2_over_H0_peak_RF2": 0.5421925638518931,
+  "classification": "stage_d3a_checkpoint_fail",
+  "failures": [
+    "energy ALLIE was not reported",
+    "energy ALLSE was not reported",
+    "energy ALLWK was not reported"
+  ],
+  "ip_count_d_ge_0p1": 0,
+  "ip_count_d_ge_0p5": 0,
+  "job_id": "1376879.mmaster02",
+  "max_H": 0.0512588769197464,
+  "max_d": 0.08412302285432816,
+  "odb_readable": true,
+  "physical_element_count": 3930,
+  "source_provenance_complete": true,
+  "state_rows": 15720,
+  "target_ip_coverage": 1.0
+}

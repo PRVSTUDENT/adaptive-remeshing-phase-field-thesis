@@ -1,9 +1,9 @@
 {
-  "classification": "stage_d3a0_existing_h0_source_eligible",
+  "classification": "stage_d3a0_existing_h0_source_ineligible",
   "audit_date": "2026-07-22",
   "source_provenance_complete": true,
-  "eligible": true,
-  "reason": "Existing accepted H0 exact lc=0.015 Molnar single-notch ODB is present with known job, hash, deck/source hashes, RF-U history, and D3 target displacement lies before the H0 peak.",
+  "eligible": false,
+  "reason": "Existing accepted H0 exact lc=0.015 Molnar single-notch ODB is present with known job, hash, deck/source hashes, RF-U history, SDV15, and SDV16, but the original deck did not request ALLIE/ALLSE/ALLWK energy output. The D3A checkpoint acceptance gate requires energy values, so this existing ODB is not eligible for accepted D3A checkpoint extraction.",
   "selected_source": {
     "case_id": "H0",
     "source_job_id": "1376154.mmaster02",
@@ -38,7 +38,13 @@
       "UMAT SDV including SDV15 and SDV16"
     ],
     "checkpoint_target_U2_mm": 0.003,
-    "checkpoint_target_is_pre_peak": true
+    "checkpoint_target_is_pre_peak": true,
+    "energy_history_available": false,
+    "missing_energy_outputs": [
+      "ALLIE",
+      "ALLSE",
+      "ALLWK"
+    ]
   },
   "excluded_sources": [
     {
@@ -58,5 +64,6 @@
       "reason": "not H0"
     }
   ],
-  "pbs_job_submitted": false
+  "pbs_job_submitted": true,
+  "pbs_submission_note": "D3A extraction was submitted after initial static eligibility, but the corrected extraction proved the ODB lacks required energy history; no solver was run and no D3A.ok marker was accepted."
 }
