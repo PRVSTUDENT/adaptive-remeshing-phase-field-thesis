@@ -45,7 +45,7 @@ cp "${EXE}/d2_transfer_table.inc" "${RUN_DIR}/d2_transfer_table.inc" || exit 6
 cd "${RUN_DIR}" || exit 7
 ABAQUS_RC=0
 abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="d2_tiny_transfer_uel.for" \
-  cpus=1 interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+  cpus=1 output_precision=full interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
 
 cp "${JOB_NAME}.abaqus_stdout.log" "${OUT}/" 2>/dev/null || true
 cp "${JOB_NAME}.msg" "${OUT}/" 2>/dev/null || true

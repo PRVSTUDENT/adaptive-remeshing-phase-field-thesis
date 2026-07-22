@@ -128,15 +128,20 @@ def make_include(ip_h: List[Dict[str, str]]) -> str:
 def make_deck(nodes, elements, nodal_d) -> str:
     node_d = {int(r["target_node"]): finite_float(r["d_bounded"], "d_bounded") for r in nodal_d}
     n_elem = len(elements)
+    mech_node_offset = 1000
     lines = [
         "*Heading",
         "** Stage D2A serial transferred-state ingestion, generated package.",
         "** Phase DOF confirmed from preserved Molnar U1 card: DOF 3.",
+        "** Phase nodes use target labels; mechanics/visualization nodes are duplicated at +1000.",
         "*Preprint, echo=NO, model=NO, history=NO, contact=NO",
         "*Node",
     ]
     for row in nodes:
         lines.append(f"{int(row['node'])}, {finite_float(row['x'], 'x'):.12g}, {finite_float(row['y'], 'y'):.12g}")
+    for row in nodes:
+        label = int(row["node"]) + mech_node_offset
+        lines.append(f"{label}, {finite_float(row['x'], 'x'):.12g}, {finite_float(row['y'], 'y'):.12g}")
     lines += [
         "*User Element, nodes=4, type=U1, properties=3, coordinates=2, VARIABLES=2",
         "3",
@@ -155,7 +160,10 @@ def make_deck(nodes, elements, nodal_d) -> str:
     ]
     for row in elements:
         label = int(row["element"]) + n_elem
-        lines.append(f"{label}, {int(row['n1'])}, {int(row['n2'])}, {int(row['n3'])}, {int(row['n4'])}")
+        lines.append(
+            f"{label}, {int(row['n1']) + mech_node_offset}, {int(row['n2']) + mech_node_offset}, "
+            f"{int(row['n3']) + mech_node_offset}, {int(row['n4']) + mech_node_offset}"
+        )
     lines += [
         "*Elset, elset=PLATE_SS, generate",
         f"{n_elem + 1}, {2*n_elem}, 1",
@@ -165,7 +173,10 @@ def make_deck(nodes, elements, nodal_d) -> str:
     ]
     for row in elements:
         label = int(row["element"]) + 2 * n_elem
-        lines.append(f"{label}, {int(row['n1'])}, {int(row['n2'])}, {int(row['n3'])}, {int(row['n4'])}")
+        lines.append(
+            f"{label}, {int(row['n1']) + mech_node_offset}, {int(row['n2']) + mech_node_offset}, "
+            f"{int(row['n3']) + mech_node_offset}, {int(row['n4']) + mech_node_offset}"
+        )
     lines += [
         "*Elset, elset=umatelem, generate",
         f"{2*n_elem + 1}, {3*n_elem}, 1",
@@ -182,7 +193,7 @@ def make_deck(nodes, elements, nodal_d) -> str:
         "*Boundary",
     ]
     for label in sorted(node_d):
-        lines.append(f"{label}, 1, 2, 0.0")
+        lines.append(f"{label + mech_node_offset}, 1, 2, 0.0")
     for label in sorted(node_d):
         lines.append(f"{label}, 3, 3, {node_d[label]:.17g}")
     lines += [
@@ -217,6 +228,7 @@ def generate(out_dir: Path = EXECUTABLE) -> Dict[str, object]:
         "phase_dof_confirmed": phase["phase_dof"],
         "phase_dof_evidence": "Preserved Molnar *User Element type=U1 card lists DOF 3; source computes PHASE from U(I).",
         "layer_offsets": {"U1": "1..8", "U2": "9..16", "visualization": "17..24", "physical_from_visualization": "label - 16"},
+        "node_layers": {"phase_target_nodes": "1..15", "mechanics_visualization_nodes": "1001..1015"},
         "fortran_n_elem": 8,
         "transfer_mode": 1,
         "transfer_mode_scope": "D2-only source variant; production jobs keep transfer disabled by not using this source.",
