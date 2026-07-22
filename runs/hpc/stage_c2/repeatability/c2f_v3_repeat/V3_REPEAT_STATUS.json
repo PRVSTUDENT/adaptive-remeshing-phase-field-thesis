@@ -1,0 +1,40 @@
+{
+  "classification": "v3_repeatability_supported",
+  "deck": "/home/pr21vyci/projects/adaptive-remeshing/models/generated/molnar_gravouil_2017/unified_preprocessing/H0_refined_layered_v3_notchfix/H0_refined_fullgen.inp",
+  "field_original": {
+    "all_finite": true,
+    "bad": 0,
+    "max": 1.0006272792816162,
+    "min": 2.493306055839639e-06,
+    "n": 41160,
+    "n_ge_0.5": 2247,
+    "n_ge_0.95": 464
+  },
+  "field_repeat": {
+    "all_finite": true,
+    "bad": 0,
+    "max": 1.0006272792816162,
+    "min": 2.493306055839639e-06,
+    "n": 41160,
+    "n_ge_0.5": 2247,
+    "n_ge_0.95": 464
+  },
+  "gates_pass": true,
+  "job_id": "1376595.mmaster02",
+  "metrics": {
+    "cand_K": 134.24533121487133,
+    "cand_peak_force": 0.697903215885,
+    "cand_u_peak": 0.005799999926,
+    "prepeak_nrmse": 0.0,
+    "ref_K": 134.24533121487133,
+    "ref_peak_force": 0.697903215885,
+    "ref_u_peak": 0.005799999926,
+    "rel_initial_stiffness": 0.0,
+    "rel_peak_force": 0.0,
+    "u_peak_ok": true
+  },
+  "odb": "/scratch/pr21vyci/adaptive-remeshing/runs/molnar_c2f_v3_repeat_threads4_1376595.mmaster02/molnar_c2f_v3_repeat_threads4.odb",
+  "original_job": "1376480.mmaster02",
+  "solver_executed": true,
+  "stage": "T2_v3_repeat"
+}

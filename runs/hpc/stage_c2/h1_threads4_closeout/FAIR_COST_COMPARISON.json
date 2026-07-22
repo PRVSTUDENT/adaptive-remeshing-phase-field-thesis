@@ -1,0 +1,26 @@
+{
+  "H1_4thread": {
+    "n_physical": 12064,
+    "walltime_s": 1195,
+    "cputime_s": 3553,
+    "mem_kb": 770996.0,
+    "peak_rf": 0.699604451656,
+    "peak_u": 0.005799999926
+  },
+  "refined_v3_4thread": {
+    "job_id": "1376480.mmaster02",
+    "n_physical": 10290,
+    "walltime_s": 995,
+    "cputime_s": 3022,
+    "mem_kb": 599968,
+    "peak_rf": 0.697903215885,
+    "peak_u": 0.005799999926
+  },
+  "differences": {
+    "element_reduction_pct": 14.704907161803716,
+    "walltime_reduction_pct": 16.736401673640167,
+    "cputime_reduction_pct": 14.945116802701943,
+    "memory_reduction_pct": 22.182735059585262
+  },
+  "caveat": "Both use cpus=4 mp_mode=threads. Do not attribute all differences solely to remeshing; confirm modules/hardware class/output controls match."
+}

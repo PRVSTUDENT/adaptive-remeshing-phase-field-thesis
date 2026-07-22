@@ -32,10 +32,37 @@ restored peak/pre-peak agreement with H1.
 \section{Results (C2F-v3)}
 Peak force difference $0.24\%$; initial stiffness difference $0.061\%$;
 pre-peak NRMSE $0.089\%$; peak displacement identical at $0.0058\,\mathrm{mm}$;
-$10290$ physical elements ($14.7\%$ fewer than H1). Post-peak NRMSE remains about
-$24\%$ and is reported as limited equivalence only.
+$10290$ physical elements ($14.7\%$ fewer than H1). A direct repeat solve,
+job \texttt{1376595.mmaster02}, reproduced the frozen C2F-v3 RF--U metrics
+exactly at the reporting precision: peak-force relative difference, pre-peak
+NRMSE, and initial-stiffness relative difference were all zero against the
+original job \texttt{1376480.mmaster02}. The final SDV15 field summary was also
+unchanged, with $41160$ finite samples, $2247$ samples above $0.5$, and $464$
+samples above $0.95$.
+
+The fair four-thread comparison is now available from the H1 closeout job
+\texttt{1376594.mmaster02}. Both H1 and C2F-v3 used four OpenMP threads. Relative
+to the four-thread H1 baseline, C2F-v3 used $14.7\%$ fewer physical elements,
+$16.7\%$ less walltime, $14.9\%$ less CPU time, and $22.2\%$ less peak memory.
+These cost reductions support the efficiency demonstration, but they should not
+be attributed solely to remeshing without controlling for all queue, node, module,
+and output settings.
+
+Post-peak RF--U equivalence remains limited: the post-peak NRMSE is about $24\%$.
+The matched-state SDV15 extraction and crack-path metrics jobs
+\texttt{1376596.mmaster02} and \texttt{1376597.mmaster02} completed successfully.
+They support C2F-v3 repeatability, but the quantitative H1-versus-refined crack
+path comparison is classified as \texttt{crack\_path\_deviation\_detected}. At
+$U=0.007\,\mathrm{mm}$ and threshold SDV15 $\geq 0.5$, H1 reaches an extension of
+$0.5075\,\mathrm{mm}$ whereas C2F-v3 reaches $0.4949\,\mathrm{mm}$; the Hausdorff
+distance is about $0.0122\,\mathrm{mm}$. Therefore the refined model is supported
+for elastic, pre-peak, and peak RF--U response, but not as a crack-path-equivalent
+replacement for H1.
 
 \section{Production policy}
 Uniform H1 remains the production and report reference. The refined mesh is a
 demonstration of offline pre-refinement efficiency, not a replacement of H1.
-Fair walltime comparisons require a four-thread H1 baseline.
+Fair walltime comparisons should use the four-thread H1 closeout package and the
+frozen C2F-v3 job records. The automation smoke job \texttt{1376598.mmaster02}
+completed with scheduler \texttt{Exit\_status=12}; it is retained as failed guard
+evidence and is not used as a scientific result.
