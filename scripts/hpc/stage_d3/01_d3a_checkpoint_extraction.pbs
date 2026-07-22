@@ -1,0 +1,87 @@
+#!/bin/bash
+#PBS -N d3a_checkpoint_extract
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+#
+# Stage D3A: existing H0 ODB checkpoint extraction only. No solver.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+OUT="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/checkpoint"
+AUDIT="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/source_audit"
+ODB="/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h0_exact_1376154.mmaster02/molnar_lc015_h0_exact.odb"
+JOB_NAME="d3a_checkpoint_extract"
+
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
+fi
+if type pbs_notify_begin >/dev/null 2>&1; then
+  pbs_notify_begin
+fi
+
+mkdir -p "${OUT}" || exit 2
+rm -f "${OUT}/D3A.ok" "${OUT}/D3_CHECKPOINT_STATUS.json"
+cd "${PROJECT_HOME}" || exit 2
+
+if [ ! -f "${AUDIT}/D3A0_SOURCE_ELIGIBILITY.json" ]; then
+  echo "D3A blocked: missing D3A0 source eligibility"
+  exit 20
+fi
+grep -q 'stage_d3a0_existing_h0_source_eligible' "${AUDIT}/D3A0_SOURCE_ELIGIBILITY.json" || {
+  echo "D3A blocked: source is not eligible"
+  exit 21
+}
+if [ ! -f "${ODB}" ]; then
+  echo "D3A blocked: missing ODB ${ODB}"
+  exit 22
+fi
+
+before_sha="$(sha256sum "${ODB}" | awk '{print $1}')"
+expected_sha="01601effd2a110dc7124356cb3d9baf6d772d55f4fb344414ad219ba9b78e07b"
+if [ "${before_sha}" != "${expected_sha}" ]; then
+  echo "D3A blocked: ODB SHA mismatch ${before_sha}"
+  exit 23
+fi
+
+module purge > "${OUT}/modules.txt" 2>&1 || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 >> "${OUT}/modules.txt" 2>&1 || exit 5
+module list >> "${OUT}/modules.txt" 2>&1 || true
+
+abaqus python scripts/state_transfer/extract_d3_checkpoint.py \
+  --odb "${ODB}" \
+  --out-dir "${OUT}" \
+  --target-u2 0.003 \
+  --source-job-id 1376154.mmaster02 > "${OUT}/extract.log" 2>&1 || exit 10
+
+python3 scripts/validation/validate_d3_checkpoint.py \
+  --out-dir "${OUT}" \
+  --provenance "${AUDIT}/D3A0_SOURCE_ELIGIBILITY.json" \
+  --job-id "${PBS_JOBID:-unknown}" > "${OUT}/validate.log" 2>&1 || exit 11
+
+after_sha="$(sha256sum "${ODB}" | awk '{print $1}')"
+if [ "${after_sha}" != "${before_sha}" ]; then
+  echo "D3A failed: ODB SHA changed"
+  exit 12
+fi
+
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "job_name=${JOB_NAME}"
+  echo "classification=stage_d3a_checkpoint_pass"
+  echo "queue=${PBS_QUEUE:-unknown}"
+  echo "odb=${ODB}"
+  echo "no_abaqus_standard_solve=true"
+  echo "uel_compilation=false"
+  echo "cpus=1"
+  echo "mem=8gb"
+  echo "walltime=00:30:00"
+  echo "completed=$(date -Is)"
+} | tee "${OUT}/D3_CHECKPOINT_JOB_RECORD.txt"
+
+exit 0

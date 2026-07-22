@@ -1,0 +1,62 @@
+{
+  "classification": "stage_d3a0_existing_h0_source_eligible",
+  "audit_date": "2026-07-22",
+  "source_provenance_complete": true,
+  "eligible": true,
+  "reason": "Existing accepted H0 exact lc=0.015 Molnar single-notch ODB is present with known job, hash, deck/source hashes, RF-U history, and D3 target displacement lies before the H0 peak.",
+  "selected_source": {
+    "case_id": "H0",
+    "source_job_id": "1376154.mmaster02",
+    "cae_replay_job_id": "1376236.mmaster02",
+    "absolute_odb_path": "/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h0_exact_1376154.mmaster02/molnar_lc015_h0_exact.odb",
+    "file_size_bytes": 88827548,
+    "sha256": "01601effd2a110dc7124356cb3d9baf6d772d55f4fb344414ad219ba9b78e07b",
+    "input_deck_path": "models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact/SingleNotch.inp",
+    "input_deck_sha256": "82c80c03c1b0b25131e9e0352502fb393bd593f9f07035c311f164ee9311f92e",
+    "fortran_source_path": "models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact/SingleNotch.for",
+    "fortran_source_sha256": "516e5ce9a405c30e9d4b45f919f8c22e39cd36bcce102ca065837b81a1405088",
+    "git_commit": "58d7e3102d76fe0e70e6729457e2c7e90ad131bb",
+    "abaqus_release": "Abaqus 2023",
+    "geometry": "Molnar single-notch",
+    "notch_length_mm": 0.5,
+    "lc_mm": 0.015,
+    "physical_element_count": 3930,
+    "layered_element_count": 11790,
+    "node_count": 3999,
+    "local_target_h_mm": 0.005,
+    "measured_corridor_h_median_mm": 0.004943904068987025,
+    "available_steps": [
+      "Step-1",
+      "Step-2"
+    ],
+    "maximum_U2_mm": 0.007000000216066837,
+    "peak_RF2": 0.7276078462600708,
+    "U2_at_peak_mm": 0.006099999882280827,
+    "available_outputs_from_deck": [
+      "RP U",
+      "RP RF",
+      "UMAT SDV including SDV15 and SDV16"
+    ],
+    "checkpoint_target_U2_mm": 0.003,
+    "checkpoint_target_is_pre_peak": true
+  },
+  "excluded_sources": [
+    {
+      "case_id": "T5_H0_smoke",
+      "reason": "0.45 mm notch smoke/automation ODB, not the accepted 0.5 mm notch fracture source"
+    },
+    {
+      "case_id": "C2A_aux",
+      "reason": "elastic auxiliary-continuum/MISERI ODB, not the accepted fracture H0 source"
+    },
+    {
+      "case_id": "H1",
+      "reason": "not H0"
+    },
+    {
+      "case_id": "H2-PUB",
+      "reason": "not H0"
+    }
+  ],
+  "pbs_job_submitted": false
+}
