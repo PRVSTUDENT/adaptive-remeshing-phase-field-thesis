@@ -1,0 +1,160 @@
+*Heading
+** Stage D2C four-thread transferred-state repeatability.
+** Phase DOF confirmed from preserved Molnar U1 card: DOF 3.
+** Phase nodes use target labels; mechanics/visualization nodes are duplicated at +1000.
+*Preprint, echo=NO, model=NO, history=NO, contact=NO
+*Node
+1, -0.459, -0.533
+2, -0.209, -0.533
+3, 0.041, -0.533
+4, 0.291, -0.533
+5, 0.541, -0.533
+6, -0.459, -0.033
+7, -0.209, -0.033
+8, 0.041, -0.033
+9, 0.291, -0.033
+10, 0.541, -0.033
+11, -0.459, 0.467
+12, -0.209, 0.467
+13, 0.041, 0.467
+14, 0.291, 0.467
+15, 0.541, 0.467
+1001, -0.459, -0.533
+1002, -0.209, -0.533
+1003, 0.041, -0.533
+1004, 0.291, -0.533
+1005, 0.541, -0.533
+1006, -0.459, -0.033
+1007, -0.209, -0.033
+1008, 0.041, -0.033
+1009, 0.291, -0.033
+1010, 0.541, -0.033
+1011, -0.459, 0.467
+1012, -0.209, 0.467
+1013, 0.041, 0.467
+1014, 0.291, 0.467
+1015, 0.541, 0.467
+*User Element, nodes=4, type=U1, properties=3, coordinates=2, VARIABLES=2
+3
+*Element, type=U1, elset=PLATE
+1, 1, 2, 7, 6
+2, 2, 3, 8, 7
+3, 3, 4, 9, 8
+4, 4, 5, 10, 9
+5, 6, 7, 12, 11
+6, 7, 8, 13, 12
+7, 8, 9, 14, 13
+8, 9, 10, 15, 14
+*Elset, elset=PLATE, generate
+1, 8, 1
+*Uel Property, elset=PLATE
+0.015, 0.0027, 1.0
+*User Element, nodes=4, type=U2, properties=4, coordinates=2, VARIABLES=2
+1, 2
+*Element, type=U2, elset=PLATE_SS
+9, 1001, 1002, 1007, 1006
+10, 1002, 1003, 1008, 1007
+11, 1003, 1004, 1009, 1008
+12, 1004, 1005, 1010, 1009
+13, 1006, 1007, 1012, 1011
+14, 1007, 1008, 1013, 1012
+15, 1008, 1009, 1014, 1013
+16, 1009, 1010, 1015, 1014
+*Elset, elset=PLATE_SS, generate
+9, 16, 1
+*Uel Property, elset=PLATE_SS
+1.0, 0.3, 1.0e-11, 1.0
+*Element, type=CPS4, elset=umatelem
+17, 1001, 1002, 1007, 1006
+18, 1002, 1003, 1008, 1007
+19, 1003, 1004, 1009, 1008
+20, 1004, 1005, 1010, 1009
+21, 1006, 1007, 1012, 1011
+22, 1007, 1008, 1013, 1012
+23, 1008, 1009, 1014, 1013
+24, 1009, 1010, 1015, 1014
+*Elset, elset=umatelem, generate
+17, 24, 1
+*Solid Section, elset=umatelem, material=umatelem
+1.0,
+*Material, name=umatelem
+*Depvar
+16,
+*User Material, constants=2
+1.0, 0.3
+*Step, name=D2A_INIT, nlgeom=NO, inc=1
+*Static
+1.0, 1.0
+*Boundary
+1001, 1, 2, 0.0
+1002, 1, 2, 0.0
+1003, 1, 2, 0.0
+1004, 1, 2, 0.0
+1005, 1, 2, 0.0
+1006, 1, 2, 0.0
+1007, 1, 2, 0.0
+1008, 1, 2, 0.0
+1009, 1, 2, 0.0
+1010, 1, 2, 0.0
+1011, 1, 2, 0.0
+1012, 1, 2, 0.0
+1013, 1, 2, 0.0
+1014, 1, 2, 0.0
+1015, 1, 2, 0.0
+1, 3, 3, 0.20671087917782557
+2, 3, 3, 0.25221779475262068
+3, 3, 3, 0.34625058960525695
+4, 3, 3, 0.34733183649377081
+5, 3, 3, 0.26052425825135667
+6, 3, 3, 0.24166493342204778
+7, 3, 3, 0.35209619833350003
+8, 3, 3, 0.56955459537598552
+9, 3, 3, 0.57341760169621903
+10, 3, 3, 0.43035154680228371
+11, 3, 3, 0.20313748218965699
+12, 3, 3, 0.21576703669042016
+13, 3, 3, 0.26634742738701639
+14, 3, 3, 0.26666006161893135
+15, 3, 3, 0.22054143404336266
+*Restart, write, frequency=0
+*Output, field, frequency=1
+*Node Output
+U, RF
+*Element Output, elset=umatelem
+SDV
+*Output, history, frequency=1
+*Energy Output, variable=ALL
+*End Step
+*Step, name=D2B_RELEASE_HOLD, nlgeom=NO, inc=50
+*Static
+0.5, 1.0
+*Boundary, op=NEW
+1001, 1, 2, 0.0
+1005, 2, 2, 0.0
+*Output, field, frequency=1
+*Node Output
+U, RF
+*Element Output, elset=umatelem
+SDV
+*Output, history, frequency=1
+*Energy Output, variable=ALL
+*End Step
+*Step, name=D2B_TINY_CONTINUATION, nlgeom=NO, inc=50
+*Static
+0.5, 1.0
+*Boundary, op=NEW
+1001, 1, 2, 0.0
+1005, 2, 2, 0.0
+1011, 2, 2, 1.0e-5
+1012, 2, 2, 1.0e-5
+1013, 2, 2, 1.0e-5
+1014, 2, 2, 1.0e-5
+1015, 2, 2, 1.0e-5
+*Output, field, frequency=1
+*Node Output
+U, RF
+*Element Output, elset=umatelem
+SDV
+*Output, history, frequency=1
+*Energy Output, variable=ALL
+*End Step

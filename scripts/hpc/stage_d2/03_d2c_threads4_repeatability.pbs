@@ -7,12 +7,140 @@
 #PBS -m abe
 #PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
 #
-# Prepared placeholder. Submit only after D2B.ok exists.
+# Stage D2C: four-thread repeatability of accepted transferred-state continuation.
+
 set -u
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
-if [ ! -f "${PROJECT_HOME}/runs/hpc/stage_d2/d2b_serial_continuation/D2B.ok" ]; then
-  echo "D2C blocked: missing D2B.ok"
-  exit 20
+OUT="${PROJECT_HOME}/runs/hpc/stage_d2/d2c_threads4_repeatability"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+RUN_DIR="${RUN_ROOT}/d2c_threads4_${PBS_JOBID:-unknown}"
+D2B_CANONICAL="${PROJECT_HOME}/runs/hpc/stage_d2/d2b_serial_continuation"
+D2B_REF="${PROJECT_HOME}/runs/hpc/stage_d2/d2b_serial_continuation_rerun"
+PKG="${PROJECT_HOME}/models/state_transfer/d2_tiny_transfer"
+EXE="${PKG}/executable"
+JOB_NAME="d2c_threads4"
+
+EXPECTED_D2B_JOB="1376825.mmaster02"
+EXPECTED_D2B_DECK_SHA="1f359e619507bef44be235afdf18352428863a402456482d87035d1b47225d59"
+EXPECTED_D2C_DECK_SHA="d6cae54bea21795f4c12ab13c7c4ffeeee6edc7742d55fd9edc7d40c567bb299"
+EXPECTED_SOURCE_SHA="473f80e8f0f1cba6aa7a7f0c3a49aaa949bac43e03548096d9d6f0c9a6f80306"
+EXPECTED_TRANSFER_SHA="d1ccd478d635272215f7e9b1649bfcca3842fd5aa331d1bd3124a85395fc65f2"
+EXPECTED_D2B_STATE_SHA="2507bc547e70981ccf7f46eb50321a5a18708497a80c2cd9eb742d194a0fbe4a"
+EXPECTED_D2B_RF_SHA="4bf1f9a643bdbd289daa2758ff57929b1a6c09eff99b82880fe2a5e194085c2f"
+EXPECTED_D2B_ENERGY_SHA="c8f0fc046f4da8a0f954ec337db2b430d3e36bfe25873320db7fcba14f04612a"
+
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
 fi
-echo "D2C implementation gate reserved; do not run until D2B evidence is reviewed."
-exit 21
+if type pbs_notify_begin >/dev/null 2>&1; then
+  pbs_notify_begin
+fi
+
+fail_status() {
+  local classification="$1"
+  local exit_code="$2"
+  local solver_exit="${3:-null}"
+  mkdir -p "${OUT}"
+  cat > "${OUT}/D2C_THREAD_STATUS.json" <<EOF
+{"classification":"${classification}","D2C_ok":false,"solver_exit":${solver_exit},"odb_readable":false,"job_id":"${PBS_JOBID:-unknown}"}
+EOF
+  exit "${exit_code}"
+}
+
+sha_check() {
+  local expected="$1"
+  local path="$2"
+  local actual
+  actual="$(sha256sum "${path}" | awk '{print $1}')"
+  if [ "${actual}" != "${expected}" ]; then
+    echo "sha mismatch for ${path}: expected ${expected}, got ${actual}" >&2
+    return 1
+  fi
+}
+
+mkdir -p "${OUT}" "${RUN_DIR}" || exit 2
+rm -f "${OUT}/D2C.ok" "${OUT}/D2C_THREAD_STATUS.json"
+cd "${PROJECT_HOME}" || exit 2
+
+if [ ! -f "${D2B_CANONICAL}/D2B.ok" ]; then
+  echo "D2C blocked: missing canonical D2B.ok"
+  fail_status "stage_d2c_blocked_missing_d2b_ok" 20
+fi
+if ! grep -q "accepted_rerun_job_id=${EXPECTED_D2B_JOB}" "${D2B_CANONICAL}/D2B.ok"; then
+  echo "D2C blocked: D2B.ok does not reference ${EXPECTED_D2B_JOB}"
+  fail_status "stage_d2c_blocked_wrong_d2b_reference" 21
+fi
+
+sha_check "${EXPECTED_D2B_DECK_SHA}" "${EXE}/D2B_serial_continuation.inp" || fail_status "stage_d2c_blocked_d2b_deck_hash" 22
+sha_check "${EXPECTED_D2C_DECK_SHA}" "${EXE}/D2C_threads4_repeatability.inp" || fail_status "stage_d2c_blocked_d2c_deck_hash" 22
+sha_check "${EXPECTED_SOURCE_SHA}" "${EXE}/d2_tiny_transfer_uel.for" || fail_status "stage_d2c_blocked_source_hash" 22
+sha_check "${EXPECTED_TRANSFER_SHA}" "${EXE}/d2_transfer_table.inc" || fail_status "stage_d2c_blocked_transfer_hash" 22
+sha_check "${EXPECTED_D2B_STATE_SHA}" "${D2B_REF}/D2B_STATE_BY_FRAME.csv" || fail_status "stage_d2c_blocked_serial_state_hash" 22
+sha_check "${EXPECTED_D2B_RF_SHA}" "${D2B_REF}/D2B_RF_U.csv" || fail_status "stage_d2c_blocked_serial_rf_hash" 22
+sha_check "${EXPECTED_D2B_ENERGY_SHA}" "${D2B_REF}/D2B_ENERGY_JUMP.json" || fail_status "stage_d2c_blocked_serial_energy_hash" 22
+
+diff -u \
+  <(grep -v '^** Stage D2B serial transferred-state persistence and tiny continuation\.$' "${EXE}/D2B_serial_continuation.inp") \
+  <(grep -v '^** Stage D2C four-thread transferred-state repeatability\.$' "${EXE}/D2C_threads4_repeatability.inp") \
+  > "${OUT}/deck_identity.diff" || fail_status "stage_d2c_blocked_input_identity" 23
+
+grep -q '\*Step, name=D2B_RELEASE_HOLD, nlgeom=NO, inc=50' "${EXE}/D2C_threads4_repeatability.inp" || fail_status "stage_d2c_blocked_missing_release_inc50" 24
+grep -q '\*Step, name=D2B_TINY_CONTINUATION, nlgeom=NO, inc=50' "${EXE}/D2C_threads4_repeatability.inp" || fail_status "stage_d2c_blocked_missing_continuation_inc50" 24
+grep -q '1011, 2, 2, 1.0e-5' "${EXE}/D2C_threads4_repeatability.inp" || fail_status "stage_d2c_blocked_missing_u2_target" 24
+
+module purge > "${RUN_DIR}/modules.txt" 2>&1 || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 >> "${RUN_DIR}/modules.txt" 2>&1 || exit 5
+export OMP_NUM_THREADS=4
+
+cp "${EXE}/D2C_threads4_repeatability.inp" "${RUN_DIR}/${JOB_NAME}.inp" || exit 6
+cp "${EXE}/d2_tiny_transfer_uel.for" "${RUN_DIR}/d2_tiny_transfer_uel.for" || exit 6
+cp "${EXE}/d2_transfer_table.inc" "${RUN_DIR}/d2_transfer_table.inc" || exit 6
+
+cd "${RUN_DIR}" || exit 7
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" user="d2_tiny_transfer_uel.for" \
+  cpus=4 mp_mode=threads output_precision=full interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 || ABAQUS_RC=$?
+
+cp "${JOB_NAME}.abaqus_stdout.log" "${OUT}/" 2>/dev/null || true
+cp "${JOB_NAME}.msg" "${OUT}/" 2>/dev/null || true
+cp "${JOB_NAME}.dat" "${OUT}/" 2>/dev/null || true
+cp "${JOB_NAME}.sta" "${OUT}/" 2>/dev/null || true
+
+if [ "${ABAQUS_RC}" -ne 0 ] || [ ! -f "${JOB_NAME}.odb" ]; then
+  fail_status "stage_d2c_solver_fail" 10 "${ABAQUS_RC}"
+fi
+if [ -f "${JOB_NAME}.sta" ] && ! grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.sta"; then
+  fail_status "stage_d2c_solver_no_success_statement" 11 "${ABAQUS_RC}"
+fi
+
+abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_d2c_threads4_state.py" \
+  --odb "${RUN_DIR}/${JOB_NAME}.odb" \
+  --package "${PKG}" \
+  --out-dir "${OUT}" > "${OUT}/extract.log" 2>&1 || exit 12
+
+python3 "${PROJECT_HOME}/scripts/validation/validate_d2c_thread_repeatability.py" \
+  --out-dir "${OUT}" \
+  --serial-dir "${D2B_REF}" \
+  --job-id "${PBS_JOBID:-unknown}" > "${OUT}/validate.log" 2>&1 || exit 13
+
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "job_name=${JOB_NAME}"
+  echo "classification=stage_d2c_thread_repeatability_pass"
+  echo "serial_reference_job=${EXPECTED_D2B_JOB}"
+  echo "queue=${PBS_QUEUE:-unknown}"
+  echo "run_dir=${RUN_DIR}"
+  echo "package=${PKG}"
+  echo "solver_exit=${ABAQUS_RC}"
+  echo "cpus=4"
+  echo "mpi_ranks=1"
+  echo "omp_threads=4"
+  echo "mp_mode=threads"
+  echo "mem=16gb"
+  echo "walltime=00:30:00"
+  echo "completed=$(date -Is)"
+} | tee "${OUT}/D2C_JOB_RECORD.txt"
+
+exit 0

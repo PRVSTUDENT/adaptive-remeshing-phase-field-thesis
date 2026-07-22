@@ -1,0 +1,34 @@
+{
+  "serial_reference_job": "1376825.mmaster02",
+  "serial_reference_dir": "runs/hpc/stage_d2/d2b_serial_continuation_rerun",
+  "input_physics_identical": true,
+  "input_difference": "D2C input differs from D2B only in the Stage D2C heading comment.",
+  "transfer_table_identical": true,
+  "source_identical": true,
+  "mesh_and_labels_unchanged": true,
+  "step_definitions_unchanged": true,
+  "release_and_continuation_inc": 50,
+  "u2_target_mm": 1e-05,
+  "only_execution_change": "1 thread to 4 OpenMP threads",
+  "serial_execution": {
+    "cpus": 1,
+    "mpi_ranks": 1,
+    "omp_threads": 1
+  },
+  "d2c_execution": {
+    "cpus": 4,
+    "mpi_ranks": 1,
+    "omp_threads": 4,
+    "mp_mode": "threads"
+  },
+  "mpi_allowed": false,
+  "hashes_sha256": {
+    "models/state_transfer/d2_tiny_transfer/executable/D2B_serial_continuation.inp": "1f359e619507bef44be235afdf18352428863a402456482d87035d1b47225d59",
+    "models/state_transfer/d2_tiny_transfer/executable/D2C_threads4_repeatability.inp": "d6cae54bea21795f4c12ab13c7c4ffeeee6edc7742d55fd9edc7d40c567bb299",
+    "models/state_transfer/d2_tiny_transfer/executable/d2_tiny_transfer_uel.for": "473f80e8f0f1cba6aa7a7f0c3a49aaa949bac43e03548096d9d6f0c9a6f80306",
+    "models/state_transfer/d2_tiny_transfer/executable/d2_transfer_table.inc": "d1ccd478d635272215f7e9b1649bfcca3842fd5aa331d1bd3124a85395fc65f2",
+    "runs/hpc/stage_d2/d2b_serial_continuation_rerun/D2B_STATE_BY_FRAME.csv": "2507bc547e70981ccf7f46eb50321a5a18708497a80c2cd9eb742d194a0fbe4a",
+    "runs/hpc/stage_d2/d2b_serial_continuation_rerun/D2B_RF_U.csv": "4bf1f9a643bdbd289daa2758ff57929b1a6c09eff99b82880fe2a5e194085c2f",
+    "runs/hpc/stage_d2/d2b_serial_continuation_rerun/D2B_ENERGY_JUMP.json": "c8f0fc046f4da8a0f954ec337db2b430d3e36bfe25873320db7fcba14f04612a"
+  }
+}
