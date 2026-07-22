@@ -43,9 +43,25 @@ Never commit `telegram.env`. Never print the token. Never put the token in PBS s
 | `scripts/hpc/telegram_setup_credentials.sh` | interactive token/chat setup on login node |
 | `scripts/hpc/telegram_get_chat_id.py` | `getUpdates` → chat ID |
 | `scripts/hpc/telegram_notify.py` | `sendMessage` client |
+| `scripts/hpc/qsub_with_submitted_notify.sh` | login-node `qsub` wrapper that emits Telegram `SUBMITTED` |
 | `scripts/hpc/pbs_notify.sh` | BEGIN/PASS/FAIL/SKIPPED helpers for PBS |
 | `scripts/hpc/pbs_job_mail_notify.sh` | optional email secondary |
 | `scripts/hpc/stage_c2/13_telegram_smoke.pbs` | non-Abaqus compute HTTPS smoke |
+
+## Submission wrapper requirement
+
+Do not run direct one-off `qsub` for notified jobs. Use the login-side wrapper, or embed the
+same pattern in a campaign-specific wrapper:
+
+```bash
+JOB_ID=$(scripts/hpc/qsub_with_submitted_notify.sh \
+  --job-name "$JOB_NAME" \
+  --message "Queue: $QUEUE; CPUs: $NCPUS; memory: $MEM; walltime: $WALLTIME" \
+  -- "$PBS_SCRIPT")
+```
+
+Campaign wrappers that submit multiple jobs may call `qsub` directly only when they send
+`telegram_notify.py --event SUBMITTED` immediately after every successful `qsub`.
 
 ## Email secondary
 
