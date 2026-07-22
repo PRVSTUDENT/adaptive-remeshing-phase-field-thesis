@@ -141,8 +141,9 @@ scripts/hpc/stage_d2/04_d2d_abaquser_verification.pbs
 ```
 
 D2A has been submitted and accepted. D2B has been accepted after one bounded
-step-control correction. D2C and D2D are present as guarded placeholders and
-were not submitted in this closeout.
+step-control correction. D2C has been accepted as a four-thread repeatability
+check against the D2B serial reference. D2D remains the next output-route
+verification gate and was not submitted in the D2C closeout.
 
 ## D2B serial continuation result
 
@@ -195,9 +196,40 @@ transfer-field values, element/IP keys, boundary-condition definitions, label
 mapping, mesh, source route, static step data, serial mode, or tiny displacement
 were changed.
 
+## D2C four-thread repeatability result
+
+D2C used the accepted D2B R1 job `1376825.mmaster02` as the frozen serial
+reference. The D2C input deck differs from the accepted D2B deck only in the
+heading comment; the transfer table, Fortran source, mesh, labels, three steps,
+`inc=50` continuation allowance, and `U2=1.0e-5 mm` target displacement are
+unchanged. The only execution change was `cpus=4`, `mp_mode=threads`, and
+`OMP_NUM_THREADS=4`.
+
+| Quantity | Value |
+| --- | ---: |
+| Job ID | `1376831.mmaster02` |
+| PBS exit status | `0` |
+| Solver exit | `0` |
+| Classification | `stage_d2c_thread_repeatability_pass` |
+| Thread confirmation | `1 MPI RANK x 4 THREAD` |
+| Target element/IP coverage | `1.0` |
+| Max `SDV15` threads-serial difference | `0.0` |
+| Max `SDV16` threads-serial difference | `0.0` |
+| Final `U2` difference | `0.0` |
+| Final `RF2` absolute difference | `0.0` |
+| Final `RF2` relative difference | `0.0` |
+| RF-U NRMSE | `0.0` |
+| F3 `ALLWK` absolute difference | `0.0` |
+| Increment sequence changed | `false` |
+
+Evidence is under
+`runs/hpc/stage_d2/d2c_threads4_repeatability/`, including
+`D2C_INPUT_IDENTITY_AUDIT.json`, `D2C_THREAD_STATUS.json`,
+`D2C_SERIAL_VS_THREADS.csv`, and `D2C_THREAD_REPEATABILITY_REPORT.md`.
+
 ## Blocked work
 
 Do not start full fracture transfer. The first interrupted Molnar fracture
-continuation remains blocked until corrected T5 passes, D2A passes, D2B serial
-continuation passes, D2C threaded repeatability passes, and state arrays plus
-element/IP ordering are proven.
+continuation remains blocked until D2D ABAQUSER route verification also proves
+that output extraction returns the same state arrays and element/IP ordering as
+the physical UEL/UMAT transfer route.

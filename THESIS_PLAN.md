@@ -141,7 +141,8 @@ Current D2 status:
 - The D2A route uses a separate D2 source variant, confirms the preserved Molnar U1 phase DOF as `3`, initializes transferred `H` once from an element/IP keyed table, and mirrors transferred phase/history to visualization `SDV15`/`SDV16`. Abaqus did not expose the UEL phase DOF as usable nodal `U` output in the smoke ODB, so the accepted phase-ingestion proof is through `SDV15`.
 - D2B serial continuation first attempt `1376819.mmaster02` is preserved as `stage_d2b_solver_fail_increment_limit`: initialization and release completed, continuation partially converged, and the maximum increment count was exhausted.
 - Corrected D2B R1 job `1376825.mmaster02` passed with classification `stage_d2b_serial_continuation_pass`, solver exit `0`, readable ODB, `D2B_R1.ok`, canonical `D2B.ok`, `target_ip_coverage=1.0`, maximum initial and release `SDV15`/`SDV16` differences `0.0`, observed `U2=1e-05`, finite `RF2=3.46317381026e-07`, and recorded `ALLWK` continuation jump `1.2830926425511091e-11`.
-- D2C/D2D were not submitted in the D2B closeout. D2C four-thread repeatability is the next stage.
+- D2C four-thread repeatability job `1376831.mmaster02` passed with classification `stage_d2c_thread_repeatability_pass`, solver exit `0`, readable ODB, confirmed `1 MPI RANK x 4 THREAD`, `D2C.ok`, `target_ip_coverage=1.0`, maximum `SDV15` and `SDV16` thread-vs-serial differences `0.0`, final `U2` difference `0.0`, final `RF2` absolute/relative differences `0.0`, RF-U NRMSE `0.0`, F3 `ALLWK` absolute difference `0.0`, and unchanged increment sequence.
+- D2D ABAQUSER output-route verification is the next stage. Interrupted Molnar transfer remains unsubmitted.
 
 Tasks:
 - Inventory all state variables.

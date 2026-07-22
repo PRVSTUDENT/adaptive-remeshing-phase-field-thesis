@@ -103,4 +103,39 @@ Accepted marker & \texttt{D2B\_R1.ok} and canonical \texttt{D2B.ok} \\
 Energy quantities are reported for D2B, but no arbitrary energy-jump tolerance
 is assigned at this stage.
 
+\section{D2C Four-Thread Repeatability}
+The D2C job, \texttt{1376831.mmaster02}, reran the accepted transferred-state
+continuation using \texttt{cpus=4}, \texttt{mp\_mode=threads}, and
+\texttt{OMP\_NUM\_THREADS=4}. The accepted D2B R1 job
+\texttt{1376825.mmaster02} was used as the frozen serial reference. The input
+deck differed from D2B only in the heading comment; the transfer table, source,
+mesh, labels, step definitions, \texttt{inc=50} controls, and
+$U_2=1.0\times10^{-5}$ mm target displacement were unchanged.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lr@{}}
+\toprule
+Quantity & Value \\
+\midrule
+Job ID & \texttt{1376831.mmaster02} \\
+PBS exit status & $0$ \\
+Solver exit & $0$ \\
+Thread confirmation & \texttt{1 MPI RANK x 4 THREAD} \\
+Target element/IP coverage & $1.0$ \\
+Maximum \texttt{SDV15} thread--serial difference & $0.0$ \\
+Maximum \texttt{SDV16} thread--serial difference & $0.0$ \\
+Final $U_2$ difference & $0.0$ mm \\
+Final \texttt{RF2} absolute/relative difference & $0.0$ / $0.0$ \\
+\texttt{RF--U} NRMSE & $0.0$ \\
+Final-frame \texttt{ALLWK} absolute difference & $0.0$ \\
+Increment sequence changed & \texttt{false} \\
+Accepted marker & \texttt{D2C.ok} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+D2C therefore passes as a shared-state/thread-safety repeatability check. The
+next controlled gate is D2D ABAQUSER output-route verification.
+
 \end{document}

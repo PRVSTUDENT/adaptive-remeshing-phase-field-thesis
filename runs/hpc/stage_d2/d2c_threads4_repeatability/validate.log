@@ -1,0 +1,28 @@
+{
+  "D2C_ok": true,
+  "F3_ALLWK_abs_difference": 0.0,
+  "RF_U_NRMSE": 0.0,
+  "classification": "stage_d2c_thread_repeatability_pass",
+  "failures": [],
+  "final_RF2_abs_difference": 0.0,
+  "final_RF2_relative_difference": 0.0,
+  "final_U2_abs_difference": 0.0,
+  "increment_sequence_changed": false,
+  "job_id": "1376831.mmaster02",
+  "max_abs_SDV15_threads_minus_serial": 0.0,
+  "max_abs_SDV16_threads_minus_serial": 0.0,
+  "odb_readable": true,
+  "serial_reference_job": "1376825.mmaster02",
+  "solver_exit": 0,
+  "target_ip_coverage": 1.0,
+  "thread_confirmation": {
+    "confirmed": true,
+    "hits": [
+      {
+        "file": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_d2/d2c_threads4_repeatability/d2c_threads4.msg",
+        "text": "1 MPI RANK  x 4 THREAD"
+      }
+    ]
+  },
+  "threads_confirmed": true
+}

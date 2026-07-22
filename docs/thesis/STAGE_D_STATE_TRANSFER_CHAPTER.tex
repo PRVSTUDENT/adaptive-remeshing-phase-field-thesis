@@ -84,5 +84,23 @@ $1.2830926425511091\times10^{-11}$; no energy-jump acceptance tolerance is
 assigned at D2B.
 
 The rerun wrote \texttt{D2B\_R1.ok}, and the canonical \texttt{D2B.ok} marker
-records the accepted rerun job ID. D2C is the next controlled gate. D2D and
-interrupted fracture transfer remain unsubmitted.
+records the accepted rerun job ID.
+
+\section{D2C four-thread repeatability}
+The D2C job, \texttt{1376831.mmaster02}, reused the accepted D2B transfer deck
+with no physics, transfer-table, mesh, label, step, increment-control, or target
+displacement changes. The only execution change was from one serial thread to
+\texttt{cpus=4}, \texttt{mp\_mode=threads}, and four OpenMP threads. The Abaqus
+message output confirmed \texttt{1 MPI RANK x 4 THREAD}.
+
+D2C passed with PBS exit status zero, solver exit zero, readable ODB output, and
+classification \texttt{stage\_d2c\_thread\_repeatability\_pass}. Against the
+D2B serial reference, the maximum \texttt{SDV15} and \texttt{SDV16}
+thread--serial differences were both $0.0$, target element/IP coverage was
+$1.0$, the final $U_2$ difference was $0.0\,\mathrm{mm}$, the final
+\texttt{RF2} absolute and relative differences were both $0.0$, the RF--U NRMSE
+was $0.0$, and the final-frame \texttt{ALLWK} absolute difference was $0.0$.
+The accepted and cutback increment sequence was unchanged.
+
+D2D ABAQUSER output-route verification is the next controlled gate. Interrupted
+fracture transfer remains unsubmitted.
