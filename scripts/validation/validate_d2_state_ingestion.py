@@ -54,10 +54,13 @@ def extracted_validate(package: Path, out_dir: Path, job_id: str) -> Dict[str, o
     max_sdv16 = 0.0
     node_values = []
     h_values = []
+    observed_node_count = 0
+    observed_ip_count = 0
     for row in nodes:
         if row["d_odb"] in ("", "None"):
             failures.append(f"missing node {row['node']}")
             continue
+        observed_node_count += 1
         d_odb = f(row["d_odb"])
         d_transfer = f(row["d_transfer"])
         err = abs(d_odb - d_transfer)
@@ -71,6 +74,7 @@ def extracted_validate(package: Path, out_dir: Path, job_id: str) -> Dict[str, o
         if row["sdv15_odb"] in ("", "None") or row["sdv16_odb"] in ("", "None"):
             failures.append(f"missing ip {row['element']}/{row['ip']}")
             continue
+        observed_ip_count += 1
         sdv15 = f(row["sdv15_odb"])
         sdv16 = f(row["sdv16_odb"])
         h_transfer = f(row["H_transfer"])
@@ -85,9 +89,9 @@ def extracted_validate(package: Path, out_dir: Path, job_id: str) -> Dict[str, o
             failures.append(f"element/ip {row['element']}/{row['ip']} SDV16 error {e16}")
         if sdv16 < h_transfer - 1.0e-10:
             failures.append(f"element/ip {row['element']}/{row['ip']} H decreased")
-    if len(nodes) != len(target_nodes):
+    if observed_node_count != len(target_nodes):
         failures.append("target-node coverage is not 100%")
-    if len(ips) != len(target_ips):
+    if observed_ip_count != len(target_ips):
         failures.append("target element/IP coverage is not 100%")
     if len(set(round(v, 14) for v in node_values)) <= 1:
         failures.append("nodal d appears uniformly/default overwritten")
@@ -100,8 +104,8 @@ def extracted_validate(package: Path, out_dir: Path, job_id: str) -> Dict[str, o
         "job_id": job_id,
         "solver_exit": 0,
         "odb_readable": True,
-        "target_node_coverage": len(nodes) / float(len(target_nodes)) if target_nodes else 0.0,
-        "target_ip_coverage": len(ips) / float(len(target_ips)) if target_ips else 0.0,
+        "target_node_coverage": observed_node_count / float(len(target_nodes)) if target_nodes else 0.0,
+        "target_ip_coverage": observed_ip_count / float(len(target_ips)) if target_ips else 0.0,
         "max_nodal_d_error": max_node,
         "max_sdv15_interpolation_error": max_sdv15,
         "max_sdv16_H_error": max_sdv16,

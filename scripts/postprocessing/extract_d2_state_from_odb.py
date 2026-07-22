@@ -8,6 +8,21 @@ import os
 N_ELEM = 8
 
 
+def odb_data(value):
+    try:
+        return value.dataDouble
+    except Exception:
+        return value.data
+
+
+def odb_scalar(value):
+    data = odb_data(value)
+    try:
+        return float(data)
+    except TypeError:
+        return float(data[0])
+
+
 def read_csv(path):
     with open(path, "r") as handle:
         return list(csv.DictReader(handle))
@@ -59,7 +74,7 @@ def extract(odb_path, package_dir, out_dir):
     for value in u_field.values:
         label = int(value.nodeLabel)
         if label in d_target:
-            data = value.data
+            data = odb_data(value)
             if len(data) >= 3:
                 observed_nodes[label] = float(data[2])
             elif len(data) == 1:
@@ -78,11 +93,11 @@ def extract(odb_path, package_dir, out_dir):
     for value in sdv15.values:
         physical = int(value.elementLabel) - 2 * N_ELEM
         if physical >= 1 and physical <= N_ELEM:
-            sdv15_by_key[(physical, int(value.integrationPoint))] = float(value.data)
+            sdv15_by_key[(physical, int(value.integrationPoint))] = odb_scalar(value)
     for value in sdv16.values:
         physical = int(value.elementLabel) - 2 * N_ELEM
         if physical >= 1 and physical <= N_ELEM:
-            sdv16_by_key[(physical, int(value.integrationPoint))] = float(value.data)
+            sdv16_by_key[(physical, int(value.integrationPoint))] = odb_scalar(value)
 
     ip_rows = []
     combined = []
