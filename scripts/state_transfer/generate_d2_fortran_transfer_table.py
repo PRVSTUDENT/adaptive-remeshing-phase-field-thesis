@@ -160,7 +160,7 @@ def make_deck(nodes, elements, nodal_d) -> str:
         "*Elset, elset=PLATE_SS, generate",
         f"{n_elem + 1}, {2*n_elem}, 1",
         "*Uel Property, elset=PLATE_SS",
-        "1.0e-11, 0.3, 1.0e-11, 1.0",
+        "1.0, 0.3, 1.0e-11, 1.0",
         "*Element, type=CPS4R, elset=umatelem",
     ]
     for row in elements:
@@ -175,7 +175,7 @@ def make_deck(nodes, elements, nodal_d) -> str:
         "*Depvar",
         "16,",
         "*User Material, constants=2",
-        "1.0e-11, 0.3",
+        "1.0, 0.3",
         "*Step, name=D2A_INIT, nlgeom=NO, inc=1",
         "*Static",
         "1.0, 1.0",
