@@ -161,7 +161,7 @@ def make_deck(nodes, elements, nodal_d) -> str:
         f"{n_elem + 1}, {2*n_elem}, 1",
         "*Uel Property, elset=PLATE_SS",
         "1.0, 0.3, 1.0e-11, 1.0",
-        "*Element, type=CPS4R, elset=umatelem",
+        "*Element, type=CPS4, elset=umatelem",
     ]
     for row in elements:
         label = int(row["element"]) + 2 * n_elem

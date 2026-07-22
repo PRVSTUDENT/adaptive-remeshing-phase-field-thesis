@@ -104,11 +104,6 @@ C       Displacement layer is present only to preserve D2 routing topology.
         WRITE(7,*) 'D2 UMAT invalid visualization element ',NOEL
         CALL XIT
       ENDIF
-      IF (NPT.NE.1) THEN
-        WRITE(7,*) 'D2 expects reduced-integration visualization NPT=1 ',NPT
-        CALL XIT
-      ENDIF
-
       DO I=1,NTENS
         STRESS(I)=0.D0
         DO J=1,NTENS
