@@ -6,7 +6,7 @@
 \usepackage{graphicx}
 \title{Stage C: Offline MISESERI Pre-Refinement for the Layered UEL Model}
 \author{Adaptive Remeshing Thesis}
-\date{2026-07-21}
+\date{2026-07-22}
 \begin{document}
 \maketitle
 
@@ -53,5 +53,19 @@ refinement without a fair four-thread H1 baseline.
 \section{Job identity}
 C2F-v3 job \texttt{1376480.mmaster02}; ODB and RF--U tables under
 \texttt{runs/hpc/stage\_c2/recovery/c2f\_v3\_vs\_h1/}.
+
+\section{Automation smoke closeout}
+The initial T5 automation smoke job \texttt{1376598.mmaster02} is retained as
+failed guard evidence with scheduler \texttt{Exit\_status=12}. The corrected
+single rerun \texttt{1376758.mmaster02} completed with scheduler
+\texttt{Exit\_status=0} and classification
+\texttt{automation\_smoke\_pass}. The run generated the H0 notch
+variation with notch length $0.45\,\mathrm{mm}$, $1600$ physical elements and
+$4800$ layered elements; static validation passed, the exact $y=0$ line and
+split notch faces were present, and the short elastic probe gave
+$K_\mathrm{probe}=147.0681696550451$ from
+$U=9.9999997\times 10^{-5}\,\mathrm{mm}$ and
+$RF_2=0.0147068165243$. This is workflow automation evidence only, not a
+fracture-reference comparison.
 
 \end{document}

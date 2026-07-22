@@ -63,6 +63,14 @@ replacement for H1.
 Uniform H1 remains the production and report reference. The refined mesh is a
 demonstration of offline pre-refinement efficiency, not a replacement of H1.
 Fair walltime comparisons should use the four-thread H1 closeout package and the
-frozen C2F-v3 job records. The automation smoke job \texttt{1376598.mmaster02}
-completed with scheduler \texttt{Exit\_status=12}; it is retained as failed guard
-evidence and is not used as a scientific result.
+frozen C2F-v3 job records. The first automation smoke job
+\texttt{1376598.mmaster02} completed with scheduler \texttt{Exit\_status=12};
+it is retained as failed guard evidence and is not used as a scientific result.
+The corrected T5 automation smoke rerun \texttt{1376758.mmaster02} completed
+with scheduler \texttt{Exit\_status=0} and classification
+\texttt{automation\_smoke\_pass}. It generated and statically validated the
+0.45\,mm H0 notch variation with $1600$ physical elements, preserved the exact
+$y=0$ line and split notch faces, and executed a short elastic probe with
+$U=9.9999997\times 10^{-5}\,\mathrm{mm}$, $RF_2=0.0147068165243$, and
+$K_\mathrm{probe}=147.0681696550451$. This is workflow automation evidence
+only, not a fracture-reference comparison.

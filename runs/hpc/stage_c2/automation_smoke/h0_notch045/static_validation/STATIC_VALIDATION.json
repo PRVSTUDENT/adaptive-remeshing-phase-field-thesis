@@ -1,0 +1,107 @@
+{
+  "checks": {
+    "amp1": true,
+    "amp2": true,
+    "elset_plate": true,
+    "elset_plate_ss": true,
+    "elset_umatelem": true,
+    "has_RF": true,
+    "has_SDV": true,
+    "has_U": true,
+    "has_equation_rp_top": true,
+    "label_offset_cps4": true,
+    "label_offset_u1": true,
+    "label_offset_u2": true,
+    "layer_counts_equal": true,
+    "manifest_not_hpc_authorized": true,
+    "n_elem_matches_physical": true,
+    "no_duplicate_element_labels": true,
+    "no_duplicate_node_labels": true,
+    "no_errorTarget_in_deck": true,
+    "no_missing_nodes_in_connectivity": true,
+    "no_remesh_rule_in_deck": true,
+    "no_silent_miseseri_outputs": true,
+    "nset_bottom": true,
+    "nset_bottoml": true,
+    "nset_rp": true,
+    "nset_top": true,
+    "nset_topl": true,
+    "only_n_elem_changed": true,
+    "phase_convention_documented": true,
+    "phase_convention_values": true,
+    "smoke_manifest_present": true,
+    "smoke_physical_count_intentionally_small": true,
+    "smoke_physical_count_positive": true,
+    "step1_inc": true,
+    "step1_static": true,
+    "step2_inc": true,
+    "step2_static": true,
+    "target_h_matches_role": true,
+    "u1_gc": true,
+    "u1_lc": true,
+    "u1_u2_cps4_disjoint_labels": true,
+    "u2_E": true,
+    "u2_nu": true,
+    "uel_umat_layer_connectivity_equal": true
+  },
+  "deck": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_c2/automation_smoke/h0_notch045/layered/H0_refined_layered/H0_refined_fullgen.inp",
+  "deck_sha256": "76939c4faa16e836c8efba51db4b3ce6739c8bbe081347eb7249ecbed4f636b2",
+  "details": {
+    "corridor_h_median": null,
+    "h_over_lc_median": null,
+    "missing_node_refs_count": 0,
+    "n_elem_values": [
+      1600,
+      1600
+    ]
+  },
+  "failed_checks": [],
+  "fortran": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_c2/automation_smoke/h0_notch045/layered/H0_refined_layered/H0_refined_fullgen.for",
+  "layered_elements": 4800,
+  "physical_elements": 1600,
+  "role": "H0_refined",
+  "scientific": {
+    "amp1": [
+      0.0,
+      0.0,
+      0.5,
+      0.005
+    ],
+    "amp2": [
+      0.0,
+      0.005,
+      0.5,
+      0.01
+    ],
+    "has_equation": true,
+    "has_miseseri": false,
+    "has_rp": true,
+    "has_sdv": true,
+    "step1_inc": 500,
+    "step1_static": [
+      0.001,
+      0.5
+    ],
+    "step2_inc": 2000,
+    "step2_static": [
+      0.0001,
+      0.2
+    ],
+    "u1_props": [
+      0.015,
+      0.0027,
+      1.0
+    ],
+    "u2_props": [
+      210.0,
+      0.3,
+      1.0,
+      1e-07
+    ],
+    "umat_props": [
+      1e-11,
+      0.3
+    ]
+  },
+  "status": "pass"
+}
