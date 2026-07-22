@@ -1,0 +1,11 @@
+{
+  "classification": "stage_d3a_energy_reconstruction_fail",
+  "D3A_ok": false,
+  "source_job": "1376154.mmaster02",
+  "checkpoint_U2": 0.003000000026077032,
+  "energy_evidence": "independent_quadrature_reconstruction_attempted",
+  "new_fracture_solve": false,
+  "uel_compilation": false,
+  "failed_gate": "all Jacobian determinants positive",
+  "next_required_action": "audit H0 deck/UEL element orientation and Jacobian convention before accepting reconstructed energy or preparing a diagnostic replay"
+}

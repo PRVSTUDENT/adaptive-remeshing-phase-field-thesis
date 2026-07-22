@@ -1,0 +1,24 @@
+{
+  "D3A_ok": false,
+  "bulk_sdv12_vs_stress_strain_relative_difference": 8.341766862422363e-10,
+  "classification": "stage_d3a_energy_reconstruction_fail",
+  "external_work": 0.0005994580560459379,
+  "failures": [
+    "non-positive Jacobian for 345/3: -3.882277377005957e-05",
+    "non-positive Jacobian for 2240/1: -0.0005922206334496593",
+    "non-positive Jacobian for 2240/2: -0.0001200706724222913",
+    "non-positive Jacobian for 2240/3: -8.124261733850771e-06",
+    "non-positive Jacobian for 2240/4: -0.00048027422276121674"
+  ],
+  "integration_point_rows": 15720,
+  "ip_count_d_ge_0p1": 0,
+  "ip_count_d_ge_0p5": 0,
+  "ip_coverage": 1.0,
+  "job_id": "1376885.mmaster02",
+  "max_H": 0.0512588769197464,
+  "max_d": 0.08412302285432816,
+  "nodal_phase_rows": 4000,
+  "physical_elements": 3930,
+  "relative_energy_residual": 0.012594035606728515,
+  "total_reconstructed_internal_energy": 0.0005919084599433551
+}

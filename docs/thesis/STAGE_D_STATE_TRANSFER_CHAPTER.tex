@@ -130,3 +130,22 @@ This is useful partial evidence but not an accepted D3A checkpoint. The source
 ODB lacks \texttt{ALLIE}, \texttt{ALLSE}, and \texttt{ALLWK} energy history
 outputs, so the D3A acceptance gate fails and no \texttt{D3A.ok} marker is
 written. No D3A2 transfer package or fracture solver job was submitted.
+
+\section{D3A-E independent energy reconstruction}
+D3A-E attempted to replace unavailable global ODB energy history with an
+independent quadrature reconstruction from the accepted H0 checkpoint exports.
+The CAE/ODB-only job \texttt{1376885.mmaster02} reconstructed external work
+$0.0005994580560459379$, bulk energy from \texttt{SDV12}
+$0.0005918856529030076$, bulk energy from $0.5S:E$
+$0.0005918856524092704$, total fracture energy
+$2.280704034757352\times 10^{-8}$, total reconstructed internal energy
+$0.0005919084599433551$, and relative energy residual
+$0.012594035606728515$. The direct \texttt{SDV12} integration and independent
+$0.5S:E$ integration agreed to relative difference
+$8.341766862422363\times 10^{-10}$.
+
+The energy route is not accepted yet. Validation failed on the predeclared
+positive-Jacobian gate because five Jacobian determinants computed from the H0
+deck connectivity were non-positive. The classification is
+\path{stage_d3a_energy_reconstruction_fail}; no \texttt{D3A.ok} marker exists
+and D3A2 remains blocked.

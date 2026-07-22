@@ -168,4 +168,24 @@ classification is
 \path{stage_d3a_checkpoint_blocked_missing_energy_history}. No \texttt{D3A.ok}
 marker exists, and D3A2 package construction remains blocked.
 
+\section{D3A-E Independent Energy Reconstruction}
+D3A-E froze an independent quadrature-based energy-evidence route instead of
+rerunning the H0 fracture model merely to request global Abaqus energy output.
+The corrected CAE/ODB-only job \texttt{1376885.mmaster02} reconstructed the
+checkpoint energy from the accepted H0 ODB exports and H0 deck connectivity.
+The reconstruction gave external work
+$0.0005994580560459379$, bulk energy from \texttt{SDV12}
+$0.0005918856529030076$, bulk energy from $0.5S:E$
+$0.0005918856524092704$, a relative bulk-energy difference
+$8.341766862422363\times 10^{-10}$, total fracture energy
+$2.280704034757352\times 10^{-8}$, total reconstructed internal energy
+$0.0005919084599433551$, and relative energy residual
+$0.012594035606728515$.
+
+The reconstruction did not close D3A. Validation failed because five Jacobian
+determinants computed from the accepted H0 deck connectivity were non-positive.
+The classification is \path{stage_d3a_energy_reconstruction_fail}. No
+\texttt{D3A.ok} marker exists, D3A2 remains blocked, and no fracture solver job
+was submitted.
+
 \end{document}
