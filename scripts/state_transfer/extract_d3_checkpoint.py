@@ -182,6 +182,46 @@ def component(values, index):
     return values[index] if len(values) > index else ""
 
 
+def field_values_by_key(frame, name):
+    values = {}
+    if name not in frame.fieldOutputs:
+        return values
+    for value in frame.fieldOutputs[name].values:
+        try:
+            key = (int(value.elementLabel), int(value.integrationPoint))
+        except Exception:
+            continue
+        data = odb_data(value)
+        try:
+            values[key] = float(data)
+        except TypeError:
+            values[key] = [float(x) for x in data]
+    return values
+
+
+def scalar_from_map(values, label, ip):
+    value = values.get((label, ip), "")
+    if isinstance(value, list):
+        return value[0] if value else ""
+    return value
+
+
+def vector_from_map(values, label, ip):
+    value = values.get((label, ip), "")
+    if value == "":
+        return []
+    if isinstance(value, list):
+        return value
+    return [float(value)]
+
+
+def serialized_from_map(values, label, ip):
+    value = values.get((label, ip), "")
+    if isinstance(value, list):
+        return ";".join(str(float(x)) for x in value)
+    return value
+
+
 def extract_state(odb, frame, out_dir):
     centroids = centroid_by_element_label(odb)
     coord_values = {}
@@ -193,6 +233,10 @@ def extract_state(odb, frame, out_dir):
             if len(data) >= 2:
                 coord_values[(label, ip)] = (float(data[0]), float(data[1]))
 
+    field_maps = {}
+    for name in ["SDV3", "SDV4", "SDV5", "SDV6", "SDV7", "SDV8", "SDV12", "SDV13", "SDV16", "S", "E", "LE"]:
+        field_maps[name] = field_values_by_key(frame, name)
+
     rows = []
     ip_h_rows = []
     for value in frame.fieldOutputs["SDV15"].values:
@@ -202,17 +246,17 @@ def extract_state(odb, frame, out_dir):
         if physical < 1 or physical > PHYSICAL_ELEMENTS:
             continue
         d_value = scalar(value)
-        sdv3 = scalar_field(frame, "SDV3", umat_label, ip)
-        sdv4 = scalar_field(frame, "SDV4", umat_label, ip)
-        sdv5 = scalar_field(frame, "SDV5", umat_label, ip)
-        sdv6 = scalar_field(frame, "SDV6", umat_label, ip)
-        sdv7 = scalar_field(frame, "SDV7", umat_label, ip)
-        sdv8 = scalar_field(frame, "SDV8", umat_label, ip)
-        sdv12 = scalar_field(frame, "SDV12", umat_label, ip)
-        sdv13 = scalar_field(frame, "SDV13", umat_label, ip)
-        h_value = value_component(frame, "SDV16", umat_label, ip)
-        s_values = vector_field(frame, "S", umat_label, ip)
-        e_values = vector_field(frame, "E", umat_label, ip)
+        sdv3 = scalar_from_map(field_maps["SDV3"], umat_label, ip)
+        sdv4 = scalar_from_map(field_maps["SDV4"], umat_label, ip)
+        sdv5 = scalar_from_map(field_maps["SDV5"], umat_label, ip)
+        sdv6 = scalar_from_map(field_maps["SDV6"], umat_label, ip)
+        sdv7 = scalar_from_map(field_maps["SDV7"], umat_label, ip)
+        sdv8 = scalar_from_map(field_maps["SDV8"], umat_label, ip)
+        sdv12 = scalar_from_map(field_maps["SDV12"], umat_label, ip)
+        sdv13 = scalar_from_map(field_maps["SDV13"], umat_label, ip)
+        h_value = scalar_from_map(field_maps["SDV16"], umat_label, ip)
+        s_values = vector_from_map(field_maps["S"], umat_label, ip)
+        e_values = vector_from_map(field_maps["E"], umat_label, ip)
         x, y = coord_values.get((umat_label, ip), centroids.get(umat_label, ("", "")))
         xi, eta = GAUSS.get(ip, ("", ""))
         row = {
@@ -242,9 +286,9 @@ def extract_state(odb, frame, out_dir):
             "E11": component(e_values, 0),
             "E22": component(e_values, 1),
             "E12": component(e_values, 3) if len(e_values) > 3 else component(e_values, 2),
-            "S": value_component(frame, "S", umat_label, ip),
-            "E": value_component(frame, "E", umat_label, ip),
-            "LE": value_component(frame, "LE", umat_label, ip),
+            "S": serialized_from_map(field_maps["S"], umat_label, ip),
+            "E": serialized_from_map(field_maps["E"], umat_label, ip),
+            "LE": serialized_from_map(field_maps["LE"], umat_label, ip),
         }
         rows.append(row)
         ip_h_rows.append(
