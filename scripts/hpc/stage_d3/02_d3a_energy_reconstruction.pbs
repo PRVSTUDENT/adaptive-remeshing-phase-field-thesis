@@ -1,0 +1,112 @@
+#!/bin/bash
+#PBS -N d3a_energy_reconstruct
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+#
+# Stage D3A-E: independent energy reconstruction from existing H0 ODB exports.
+# This is CAE/ODB post-processing only. No Abaqus/Standard solve, no UEL compile.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+CHECKPOINT="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/checkpoint"
+OUT="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/checkpoint_energy"
+AUDIT="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/source_audit"
+ODB="/scratch/pr21vyci/adaptive-remeshing/runs/molnar_lc015_h0_exact_1376154.mmaster02/molnar_lc015_h0_exact.odb"
+INPUT_DECK="${PROJECT_HOME}/models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact/SingleNotch.inp"
+JOB_NAME="d3a_energy_reconstruct"
+
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
+fi
+if type pbs_notify_begin >/dev/null 2>&1; then
+  pbs_notify_begin
+fi
+
+mkdir -p "${OUT}" "${CHECKPOINT}" || exit 2
+rm -f "${CHECKPOINT}/D3A.ok" "${OUT}/D3A_ENERGY_VALIDATION_STATUS.json"
+cd "${PROJECT_HOME}" || exit 2
+
+if [ ! -f docs/decisions/D3A_ENERGY_EVIDENCE_ROUTE.md ]; then
+  echo "D3A-E blocked: missing energy evidence route decision"
+  exit 20
+fi
+grep -q 'stage_d3a_energy_reconstruction_authorized' docs/decisions/D3A_ENERGY_EVIDENCE_ROUTE.md || {
+  echo "D3A-E blocked: route is not authorized"
+  exit 21
+}
+if [ ! -f "${AUDIT}/D3A0_SOURCE_ELIGIBILITY.json" ]; then
+  echo "D3A-E blocked: missing D3A0 source eligibility"
+  exit 22
+fi
+grep -q 'stage_d3a0_existing_h0_source_ineligible' "${AUDIT}/D3A0_SOURCE_ELIGIBILITY.json" || {
+  echo "D3A-E blocked: expected D3A0 missing-energy ineligible source record"
+  exit 23
+}
+if [ ! -f "${ODB}" ]; then
+  echo "D3A-E blocked: missing ODB ${ODB}"
+  exit 24
+fi
+if [ ! -f "${INPUT_DECK}" ]; then
+  echo "D3A-E blocked: missing input deck ${INPUT_DECK}"
+  exit 25
+fi
+
+before_sha="$(sha256sum "${ODB}" | awk '{print $1}')"
+expected_sha="01601effd2a110dc7124356cb3d9baf6d772d55f4fb344414ad219ba9b78e07b"
+if [ "${before_sha}" != "${expected_sha}" ]; then
+  echo "D3A-E blocked: ODB SHA mismatch ${before_sha}"
+  exit 26
+fi
+
+module purge > "${OUT}/modules.txt" 2>&1 || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 >> "${OUT}/modules.txt" 2>&1 || exit 5
+module list >> "${OUT}/modules.txt" 2>&1 || true
+
+abaqus python scripts/state_transfer/extract_d3_checkpoint.py \
+  --odb "${ODB}" \
+  --out-dir "${OUT}" \
+  --target-u2 0.003 \
+  --source-job-id 1376154.mmaster02 > "${OUT}/extract_energy_fields.log" 2>&1 || exit 10
+
+python3 scripts/state_transfer/reconstruct_d3_checkpoint_energy.py \
+  --state-csv "${OUT}/D3A_CHECKPOINT_STATE_WITH_ENERGY.csv" \
+  --nodal-d-csv "${OUT}/D3_CHECKPOINT_NODAL_D.csv" \
+  --rf-u-csv "${OUT}/D3_CHECKPOINT_RF_U.csv" \
+  --selection-json "${OUT}/D3_CHECKPOINT_SELECTION.json" \
+  --input-deck "${INPUT_DECK}" \
+  --out-dir "${OUT}" \
+  --source-job-id 1376154.mmaster02 > "${OUT}/reconstruct.log" 2>&1 || exit 11
+
+python3 scripts/validation/validate_d3_reconstructed_energy.py \
+  --out-dir "${OUT}" \
+  --checkpoint-dir "${CHECKPOINT}" \
+  --job-id "${PBS_JOBID:-unknown}" > "${OUT}/validate_energy.log" 2>&1 || exit 12
+
+after_sha="$(sha256sum "${ODB}" | awk '{print $1}')"
+if [ "${after_sha}" != "${before_sha}" ]; then
+  echo "D3A-E failed: ODB SHA changed"
+  exit 13
+fi
+
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "job_name=${JOB_NAME}"
+  echo "classification=stage_d3a_checkpoint_pass_independent_energy_reconstruction"
+  echo "queue=${PBS_QUEUE:-unknown}"
+  echo "odb=${ODB}"
+  echo "input_deck=${INPUT_DECK}"
+  echo "no_abaqus_standard_solve=true"
+  echo "uel_compilation=false"
+  echo "cpus=1"
+  echo "mem=8gb"
+  echo "walltime=00:30:00"
+  echo "completed=$(date -Is)"
+} | tee "${OUT}/D3A_ENERGY_JOB_RECORD.txt"
+
+exit 0
