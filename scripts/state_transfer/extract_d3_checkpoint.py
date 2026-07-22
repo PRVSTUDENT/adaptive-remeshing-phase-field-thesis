@@ -45,7 +45,7 @@ def write_csv(path, fields, rows):
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
         for row in rows:
-            writer.writerow(row)
+            writer.writerow(dict((field, row.get(field, "")) for field in fields))
     finally:
         handle.close()
 
