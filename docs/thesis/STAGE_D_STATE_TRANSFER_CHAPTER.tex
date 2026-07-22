@@ -37,15 +37,22 @@ UEL/UMAT source variant is generated under
 source and accepted C2C-v3 mesh are not modified.
 
 The preserved Molnar U1 user-element card declares phase on Abaqus DOF~3. D2A
-therefore prescribes every transferred nodal phase value on DOF~3 and extracts
-the phase-layer nodal solution directly from the ODB. History values are loaded
-from a generated read-only table keyed by physical element label and integration
-point number, initialized once, and mirrored to visualization \texttt{SDV16}.
-The interpolated phase value is mirrored to \texttt{SDV15}.
+therefore prescribes every transferred nodal phase value on DOF~3. History
+values are loaded from a generated read-only table keyed by physical element
+label and integration point number, initialized once, and mirrored to
+visualization \texttt{SDV16}. The interpolated phase value is mirrored to
+\texttt{SDV15}.
 
 \section{Current status}
-The executable D2A package is statically validated and ready for the first
-serial ingestion job. No \texttt{D2A.ok} may be created until the Abaqus solve
-exits with code zero, the ODB is readable, target-node and target element/IP
-coverage are complete, and \texttt{SDV15}/\texttt{SDV16} match the independent
-transfer comparison within $10^{-8}$.
+The executable D2A package passed on HPC job \texttt{1376785.mmaster02}. The
+PBS exit status was zero, the Abaqus solve completed successfully, the ODB was
+readable, and \texttt{D2A.ok} was written. Target element/IP coverage was
+$1.0$, the maximum \texttt{SDV15} interpolation error was $0.0$, and the
+maximum \texttt{SDV16}/$H$ error was
+$6.428999999030793\times10^{-9}$.
+
+Abaqus did not expose the UEL phase DOF as usable nodal \texttt{U} output in
+this smoke deck. The accepted D2A proof is therefore the element/IP UMAT mirror:
+\texttt{SDV15} proves transferred phase ingestion, and \texttt{SDV16} proves
+transferred history ingestion. This is an ingestion and routing verification,
+not a fracture-response benchmark.

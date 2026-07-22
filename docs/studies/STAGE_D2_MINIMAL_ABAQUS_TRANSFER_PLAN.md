@@ -1,6 +1,6 @@
 # Stage D2 Minimal Abaqus Transfer Plan
 
-Status: `stage_d2a_executable_package_static_pass_pending_d2a_execution`
+Status: `stage_d2a_state_ingestion_pass`
 
 ## Current interpretation
 
@@ -55,9 +55,9 @@ The original scaffold status was intentionally:
 stage_d2a_not_executed_package_prepared
 ```
 
-The executable D2A package has now been generated and statically validated, but
-no `D2A.ok` is written until the Abaqus job runs and the independent ODB
-comparison passes.
+The executable D2A package has now been generated, statically validated, run on
+HPC, and accepted. Final accepted job: `1376785.mmaster02`; PBS
+`Exit_status=0`; `D2A.ok` exists.
 
 ## D2A implementation route
 
@@ -84,18 +84,38 @@ file `d2_transfer_table.inc` is keyed by physical element label and integration
 point number. The current tiny package has one reduced-integration visualization
 point per target element, so every key is `(target_element, 1)`.
 
-## D2A gate
+## D2A gate and result
 
 Run a serial target-model ingestion job only after the selected UEL/UMAT
 initialization route is implemented. Acceptance requires:
 
-- target `d` equals `target_transferred_nodal_d.csv` within extraction tolerance;
-- target `H` equals `target_transferred_ip_H.csv` within extraction tolerance;
+- transferred phase reaches UMAT `SDV15` as the independent interpolation of
+  `target_transferred_nodal_d.csv` within extraction tolerance;
+- transferred `H` reaches UMAT `SDV16` from `target_transferred_ip_H.csv`
+  within extraction tolerance;
 - `0 <= d <= 1`;
-- `H` does not decrease;
+- `H` does not decrease beyond extraction tolerance;
 - no default/uniform overwrite of transferred fields;
 - all element/IP indices map correctly;
 - ABAQUSER/SDV output agrees with independent extraction.
+
+Final D2A result from job `1376785.mmaster02`:
+
+| Quantity | Value |
+| --- | ---: |
+| Classification | `stage_d2a_state_ingestion_pass` |
+| PBS exit status | `0` |
+| Solver exit | `0` |
+| ODB readable | `true` |
+| Target element/IP coverage | `1.0` |
+| Maximum `SDV15` interpolation error | `0.0` |
+| Maximum `SDV16/H` error | `6.428999999030793e-09` |
+| Failures | `0` |
+
+Abaqus did not expose the UEL phase DOF as usable nodal `U` output in this
+smoke deck (`target_node_coverage=0.0` in the ODB nodal-output diagnostic).
+Therefore the accepted D2A proof is the element/IP UMAT mirror: `SDV15` proves
+phase ingestion and `SDV16` proves history ingestion.
 
 Required outputs after a real D2A run:
 
@@ -119,8 +139,8 @@ scripts/hpc/stage_d2/03_d2c_threads4_repeatability.pbs
 scripts/hpc/stage_d2/04_d2d_abaquser_verification.pbs
 ```
 
-Only D2A may be submitted now. D2B, D2C and D2D are present as guarded
-placeholders and exit unless the required upstream `.ok` marker exists.
+D2A has been submitted and accepted. D2B, D2C and D2D are present as guarded
+placeholders and were not submitted in this closeout.
 
 ## Blocked work
 

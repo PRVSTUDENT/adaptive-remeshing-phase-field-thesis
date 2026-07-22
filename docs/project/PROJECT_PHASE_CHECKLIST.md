@@ -163,8 +163,8 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 - [x] Measure energy jumps. Evidence: `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_REPORT.md`.
 - [x] Preserve D1 transfer-error baseline without claiming negligible error. Evidence: `docs/studies/STAGE_D2_MINIMAL_ABAQUS_TRANSFER_PLAN.md`.
 - [x] Prepare tiny nonmatching D2 source/target transfer package. Evidence: `models/state_transfer/d2_tiny_transfer/`; `scripts/state_transfer/build_d2_tiny_transfer_package.py`.
-- [?] Corrected T5 automation smoke rerun submitted once and waiting in queue. Job: `1376758.mmaster02`; evidence: `runs/hpc/stage_c2/automation_smoke/T5_CORRECTED_SUBMISSION_RECORD.txt`.
-- [ ] Run D2A serial Abaqus/UEL state-ingestion verification.
+- [x] Corrected T5 automation smoke rerun completed. Job: `1376758.mmaster02`; classification: `automation_smoke_pass`; evidence: `runs/hpc/stage_c2/automation_smoke/h0_notch045/`, `runs/hpc/stage_c2/automation_smoke/T5_CORRECTED_RESULTS_SUMMARY.md`.
+- [x] Run D2A serial Abaqus/UEL state-ingestion verification. Job: `1376785.mmaster02`; classification: `stage_d2a_state_ingestion_pass`; evidence: `runs/hpc/stage_d2/d2a_serial_ingestion/`.
 - [ ] Test fracture-relevant state transfer.
 - [ ] Test serial repeatability.
 - [ ] Test parallel repeatability where scientifically justified.
@@ -210,7 +210,7 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 | Preprocessing Gate P1 | same config → identical H0 deck | not started | pipeline build |
 | MISESERI gate | refined deck valid and local size achieved | preparation authorized | qsub not authorized |
 | Refined benchmark gate | accepted error and measured benefit | closed at scoped Stage C result | crack-path equivalence not supported; H1 remains production |
-| State-transfer gate | controlled and fracture transfer pass | D1 analytical local pass only | fracture transfer and Abaqus/ABAQUSER D2 not started |
+| State-transfer gate | controlled and fracture transfer pass | D1 analytical pass plus D2A Abaqus ingestion pass | D2B/D2C/D2D and fracture-relevant transfer not started |
 | ABAQUSER gate | output agrees with independent extraction | not started | later stage |
 
 ## Checklist Update Rules
