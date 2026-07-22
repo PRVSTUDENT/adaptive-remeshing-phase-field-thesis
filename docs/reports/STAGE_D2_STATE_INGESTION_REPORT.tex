@@ -65,4 +65,32 @@ tolerance. Abaqus did not expose the UEL phase DOF as usable nodal
 \texttt{U} output in this smoke deck, so nodal \texttt{U} is recorded as an ODB
 output limitation rather than as the accepted phase-ingestion signal.
 
+\section{D2B Serial Continuation Attempt}
+The next serial continuation gate was submitted exactly once as PBS job
+\texttt{1376819.mmaster02}. It did not pass. Abaqus compiled the user
+subroutine and entered the three-step continuation deck, but the job finished
+with PBS \texttt{Exit\_status=10} and solver exit $1$. The message file reports
+\texttt{TOO MANY INCREMENTS NEEDED TO COMPLETE THE STEP} during the tiny
+mechanical continuation. No \texttt{D2B.ok} marker was written.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lr@{}}
+\toprule
+Quantity & Value \\
+\midrule
+Job ID & \texttt{1376819.mmaster02} \\
+PBS exit status & $10$ \\
+Solver exit & $1$ \\
+Classification & \path{stage_d2b_solver_fail} \\
+Accepted marker & no \texttt{D2B.ok} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A corrected D2B deck has been prepared for a future authorized rerun by
+increasing the release and continuation step increment allowance to
+\texttt{inc=50}. This correction does not change transferred field values,
+transfer-table values, label mapping, or the D2-only UEL/UMAT state route.
+
 \end{document}

@@ -1,0 +1,42 @@
+{
+  "package_validation": {
+    "D2A_ok": false,
+    "classification": "stage_d2a_executable_package_static_pass",
+    "files": {
+      "d2b_deck": "models/state_transfer/d2_tiny_transfer/executable/D2B_serial_continuation.inp",
+      "deck": "models/state_transfer/d2_tiny_transfer/executable/D2A_serial_ingestion.inp",
+      "include": "models/state_transfer/d2_tiny_transfer/executable/d2_transfer_table.inc",
+      "source": "models/state_transfer/d2_tiny_transfer/executable/d2_tiny_transfer_uel.for"
+    },
+    "fortran_n_elem": 8,
+    "hashes": {
+      "D2A_serial_ingestion.inp": "81d74e19af91a57e42c0c6fd2b3cca5d497885aa6c928aecf0f4743c3b6b272a",
+      "D2B_serial_continuation.inp": "2a44e4f638bc09dbb3998ebaacb313015ac329b9cd97c551b6e5db1d66bf83ac",
+      "d2_tiny_transfer_uel.for": "473f80e8f0f1cba6aa7a7f0c3a49aaa949bac43e03548096d9d6f0c9a6f80306",
+      "d2_transfer_table.inc": "d1ccd478d635272215f7e9b1649bfcca3842fd5aa331d1bd3124a85395fc65f2"
+    },
+    "layer_offsets": {
+      "U1": "1..8",
+      "U2": "9..16",
+      "physical_from_visualization": "label - 16",
+      "visualization": "17..24"
+    },
+    "node_layers": {
+      "mechanics_visualization_nodes": "1001..1015",
+      "phase_target_nodes": "1..15"
+    },
+    "phase_dof_confirmed": 3,
+    "phase_dof_evidence": "Preserved Molnar *User Element type=U1 card lists DOF 3; source computes PHASE from U(I).",
+    "static_checks": {
+      "target_element_count": 8,
+      "target_ip_count": 8,
+      "target_ip_set": [
+        1
+      ],
+      "target_node_count": 15
+    },
+    "transfer_mode": 1,
+    "transfer_mode_scope": "D2-only source variant; production jobs keep transfer disabled by not using this source."
+  },
+  "static_validation": "pass"
+}

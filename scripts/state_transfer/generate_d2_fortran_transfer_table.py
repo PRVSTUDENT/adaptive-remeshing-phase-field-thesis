@@ -218,7 +218,7 @@ def make_d2b_deck(nodes, elements, nodal_d) -> str:
     ]
     lines.extend(
         [
-            "*Step, name=D2B_RELEASE_HOLD, nlgeom=NO, inc=2",
+            "*Step, name=D2B_RELEASE_HOLD, nlgeom=NO, inc=50",
             "*Static",
             "0.5, 1.0",
             "*Boundary, op=NEW",
@@ -232,7 +232,7 @@ def make_d2b_deck(nodes, elements, nodal_d) -> str:
             "*Output, history, frequency=1",
             "*Energy Output, variable=ALL",
             "*End Step",
-            "*Step, name=D2B_TINY_CONTINUATION, nlgeom=NO, inc=2",
+            "*Step, name=D2B_TINY_CONTINUATION, nlgeom=NO, inc=50",
             "*Static",
             "0.5, 1.0",
             "*Boundary, op=NEW",

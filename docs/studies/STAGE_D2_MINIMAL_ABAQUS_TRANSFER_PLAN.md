@@ -1,6 +1,6 @@
 # Stage D2 Minimal Abaqus Transfer Plan
 
-Status: `stage_d2a_state_ingestion_pass`
+Status: `stage_d2a_state_ingestion_pass_d2b_attempted_solver_fail`
 
 ## Current interpretation
 
@@ -45,6 +45,7 @@ It contains:
 - `D2A_STATE_ROUTING_REPORT.md`
 - `D2A_TARGET_INPUT_PACKAGE.inp`
 - `executable/D2A_serial_ingestion.inp`
+- `executable/D2B_serial_continuation.inp`
 - `executable/d2_transfer_table.inc`
 - `executable/d2_tiny_transfer_uel.for`
 - `executable/PACKAGE_VALIDATION.json`
@@ -139,8 +140,39 @@ scripts/hpc/stage_d2/03_d2c_threads4_repeatability.pbs
 scripts/hpc/stage_d2/04_d2d_abaquser_verification.pbs
 ```
 
-D2A has been submitted and accepted. D2B, D2C and D2D are present as guarded
-placeholders and were not submitted in this closeout.
+D2A has been submitted and accepted. D2B has been submitted once and has not
+passed. D2C and D2D are present as guarded placeholders and were not submitted
+in this closeout.
+
+## D2B serial continuation attempt
+
+D2B is designed to retain the accepted D2A initialization as Step 1, release
+the phase initialization constraints in Step 2 with `*Boundary, op=NEW`, and
+apply a tiny mechanical continuation displacement of `U2=1.0e-5 mm` in Step 3.
+The transfer values, transfer table, labels, and D2-only source route remain
+unchanged from the accepted D2A path.
+
+The single submitted D2B job was:
+
+| Quantity | Value |
+| --- | ---: |
+| Job ID | `1376819.mmaster02` |
+| PBS exit status | `10` |
+| Solver exit | `1` |
+| Classification | `stage_d2b_solver_fail` |
+| D2B marker | no `D2B.ok` |
+
+The Abaqus message file reports:
+
+```text
+TOO MANY INCREMENTS NEEDED TO COMPLETE THE STEP
+```
+
+This is a technical continuation-control failure during the tiny continuation,
+not an accepted state-persistence result. The corrective prepared deck increases
+the D2B release and continuation step maximum increments from `inc=2` to
+`inc=50`. This correction does not change transfer-field values, element/IP
+keys, label mapping, or the D2-only state route. It has not been submitted.
 
 ## Blocked work
 
