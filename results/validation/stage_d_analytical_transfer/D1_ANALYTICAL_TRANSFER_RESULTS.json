@@ -1,0 +1,51 @@
+{
+  "classification": "stage_d1_analytical_transfer_pass",
+  "energy": {
+    "bounded_minus_exact": -0.0076933289851552344,
+    "source_exact": 0.32717045063020667,
+    "target_bounded_transfer": 0.3219475731265888,
+    "target_exact": 0.329640902111744,
+    "target_raw_transfer": 0.3218217150895775
+  },
+  "failed_gates": [],
+  "gates": {
+    "H_no_healing": true,
+    "all_target_ips_mapped": true,
+    "all_target_nodes_mapped": true,
+    "bounded_d_in_unit_interval": true,
+    "deterministic_transfer": true,
+    "element_ip_ordering_verified": true,
+    "energy_jump_reported": true,
+    "errors_reported": true,
+    "finite_raw_H": true,
+    "finite_raw_d": true
+  },
+  "ip_H": {
+    "bounded_max": 0.23508477175745984,
+    "bounded_min": 0.08867564690683752,
+    "coverage": 1.0,
+    "l2_error": 0.010797382113372963,
+    "max_abs_error": 0.02339821172158782,
+    "raw_max": 0.23508477175745984,
+    "raw_min": 0.08867564690683752,
+    "unmapped_ips": 0
+  },
+  "nodal_d": {
+    "bounded_max": 0.6915240592024321,
+    "bounded_min": 0.20171412208939118,
+    "coverage": 1.0,
+    "l2_error": 0.02703721036584061,
+    "max_abs_error": 0.084997257868485,
+    "raw_max": 0.6915240592024321,
+    "raw_min": 0.20171412208939118,
+    "unmapped_nodes": 0
+  },
+  "source": {
+    "elements": 25,
+    "nodes": 36
+  },
+  "target": {
+    "elements": 24,
+    "nodes": 35
+  }
+}

@@ -58,11 +58,16 @@ python3 scripts/preprocessing/build_molnar_unified_deck.py \
   --from-elems-csv "${MESH_DIR}/refined_mesh_elements.csv" \
   --out "${LAYERED}" | tee "${OUT}/rebuild_stdout.log"
 
-DECK=$(ls "${LAYERED}"/*fullgen.inp 2>/dev/null | head -n1)
-FOR=$(ls "${LAYERED}"/*fullgen.for 2>/dev/null | head -n1)
+DECK=$(find "${LAYERED}" -type f -name '*fullgen.inp' | sort | head -n1)
+FOR=$(find "${LAYERED}" -type f -name '*fullgen.for' | sort | head -n1)
+if [ -z "${DECK}" ] || [ -z "${FOR}" ]; then
+  echo "{\"classification\":\"automation_smoke_static_guard_failed\",\"reason\":\"generated_fullgen_deck_or_fortran_not_found\",\"layered_dir\":\"${LAYERED}\"}" > "${OUT}/AUTOMATION_SMOKE_STATUS.json"
+  exit 12
+fi
 python3 scripts/validation/validate_molnar_unified_deck.py \
   --config configs/preprocessing/molnar_h0_h1_unified.yaml \
   --deck "${DECK}" --fortran "${FOR}" --role H0_refined \
+  --allow-h0-refined-smoke \
   --out-dir "${OUT}/static_validation" | tee "${OUT}/validate_stdout.log" || true
 
 python3 - <<PY

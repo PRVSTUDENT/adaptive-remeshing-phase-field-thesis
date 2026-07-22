@@ -27,10 +27,10 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 | WP2A | Supplementary Molnar single-notch technical benchmark | `[~]` completed provisionally | technical pass; not exact Fig. 7 comparison | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/` |
 | WP2B | Paper-matched Molnar reconstruction | `[~]` completed provisionally | technical pass; scientific review incomplete | `runs/hpc/paper_matched_single_notch_v2/RUN_MANIFEST.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md` |
 | Gate A3 | Uniform RF–U reference scientific justification | `[~]` conditionally accepted for RF–U | 1A mesh roles + 2B contour deferred; H2-PUB validation / H1 production / H0 test | `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`; `docs/decisions/MESH_USE_POLICY.md`; `docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md` |
-| WP3 | MISESERI pre-analysis and remeshing reproduction | `[-]` preparation authorized | Stage C prep authorized; no qsub | `docs/studies/STAGE_C_MISESERI_PREPARATION_PLAN.md`; `docs/studies/STAGE_C_FIVE_JOB_CAMPAIGN_PLAN.md` |
-| WP4 | Refined phase-field benchmark and efficiency comparison | `[ ]` not started | dependent on WP3 execution | `THESIS_PLAN.md` |
-| WP5 | Evolving remesh and state transfer | `[ ]` not started | mandatory later thesis task | `THESIS_PLAN.md` |
-| WP6 | IMFD/ABAQUSER integration | `[ ]` not started | dependent on stable fields | `THESIS_PLAN.md` |
+| WP3 | MISESERI pre-analysis and remeshing reproduction | `[x]` closed at scoped Stage C result | C2C-v3 frozen; T5 preserved as failed guard evidence | `docs/decisions/STAGE_C_CLOSEOUT_FREEZE.md`; `runs/hpc/stage_c2/STAGE_C_FINAL_STATUS.md` |
+| WP4 | Refined phase-field benchmark and efficiency comparison | `[x]` closed at scoped Stage C result | peak/pre-peak supported; post-peak limited; crack-path H1 equivalence not supported | `runs/hpc/stage_c2/closeout/STAGE_C_CLOSEOUT_JOB_SUMMARY.md` |
+| WP5 | Evolving remesh and state transfer | `[-]` D0/D1 started | variable map plus analytical local harness | `docs/studies/STAGE_D_STATE_TRANSFER_VARIABLE_MAP.md`; `results/validation/stage_d_analytical_transfer/` |
+| WP6 | IMFD/ABAQUSER integration | `[ ]` not started | dependent on D1/D2 transfer evidence | `THESIS_PLAN.md` |
 | WP7 | Final recommendations and thesis writing | `[-]` in progress | Stage A living reports active | `docs/reports/STAGE_A_BASELINE_REPORT.tex`; `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` |
 
 ## WP0 - Environment, Starter Pipeline, And Source Preservation
@@ -154,13 +154,13 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 
 ## WP5 - Evolving Remesh And State Transfer
 
-- [ ] Inventory all transferable state variables.
-- [ ] Design controlled field-transfer test.
-- [ ] Transfer known analytical fields.
-- [ ] Calculate L2 and maximum transfer errors.
-- [ ] Check field bounds.
-- [ ] Check history and phase-field irreversibility.
-- [ ] Measure energy jumps.
+- [x] Inventory initial transferable state variables. Evidence: `docs/studies/STAGE_D_STATE_TRANSFER_VARIABLE_MAP.md`.
+- [x] Design controlled field-transfer test. Evidence: `docs/studies/STAGE_D_ANALYTICAL_TRANSFER_PROTOCOL.md`.
+- [x] Transfer known analytical fields between tiny nonmatching meshes. Evidence: `scripts/state_transfer/analytical_transfer_harness.py`; `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_REPORT.md`.
+- [x] Calculate L2 and maximum transfer errors. Evidence: `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_RESULTS.json`.
+- [x] Check field bounds. Evidence: `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_REPORT.md`.
+- [x] Check history and phase-field irreversibility. Evidence: `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_REPORT.md`.
+- [x] Measure energy jumps. Evidence: `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_REPORT.md`.
 - [ ] Test fracture-relevant state transfer.
 - [ ] Test serial repeatability.
 - [ ] Test parallel repeatability where scientifically justified.
@@ -205,8 +205,8 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 | Gate A3 RF–U | mesh roles + RF–U reference for validation | conditionally accepted | contours deferred; residual Stage A items open |
 | Preprocessing Gate P1 | same config → identical H0 deck | not started | pipeline build |
 | MISESERI gate | refined deck valid and local size achieved | preparation authorized | qsub not authorized |
-| Refined benchmark gate | accepted error and measured benefit | not started | MISESERI |
-| State-transfer gate | controlled and fracture transfer pass | not started | later stage |
+| Refined benchmark gate | accepted error and measured benefit | closed at scoped Stage C result | crack-path equivalence not supported; H1 remains production |
+| State-transfer gate | controlled and fracture transfer pass | D1 analytical local pass only | fracture transfer and Abaqus/ABAQUSER D2 not started |
 | ABAQUSER gate | output agrees with independent extraction | not started | later stage |
 
 ## Checklist Update Rules
@@ -226,11 +226,18 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 
 Exact next checklist item: `[?] Supervisor Decision 1 (H2-PUB RF–U reference A/B/C) and Decision 2 (contour requirement A/B/C/D) on the Gate A3 package at docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`.
 
-Waiting posture after Gate A3 supervisor package:
+Superseded historical waiting posture after Gate A3 supervisor package:
 
 - [!] Pause execution until supervisor Decisions 1 and 2 are received. Do not run Abaqus, submit PBS, start MISESERI, adaptive remeshing, or state transfer without explicit new authorization. After response: contours deferred → prepare MISESERI Stage C plan only; contours mandatory → prepare one CAE-only contour plan on existing ODBs; more evidence → scope only that metric.
 
 ### Molnar v2 SDV15 Targeted Diagnostic Preparation
+
+### Current Stage D Boundary
+
+- [ ] Next item: Stage D2 minimal Abaqus/ABAQUSER verification after reviewing the D1 analytical transfer harness.
+- [!] Do not submit a full fracture-transfer job.
+- [!] Do not alter the accepted C2C-v3 mesh or rerun C2F-v3.
+- [!] Continue with local/login-side Stage D transfer checks before any fracture continuation.
 
 - [x] Prepared exactly one authorized serial targeted-output diagnostic run for the unresolved SDV15 completed-update evidence. Classification: `paper_matched_candidate_v2_diagnostic_variant`. Evidence: `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/RUN_MANIFEST.md`; `results/validation/molnar_paper_matched_single_notch_v2_sdv15_diagnostic/STATIC_VALIDATION.md`.
 - [x] Submitted the single authorized diagnostic job exactly once. Job: `1375020.mmaster02`; revision: `efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611`; result: `molnar_v2_sdv15_diagnostic_technical_fail`; cause: pre-solver batch PATH failure, `git: Kommando nicht gefunden`, so the revision guard exited before Abaqus launched. Evidence: `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/evidence/1375020.mmaster02/`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/RUN_SUMMARY.md`.
