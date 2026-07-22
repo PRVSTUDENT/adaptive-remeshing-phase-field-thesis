@@ -1,6 +1,6 @@
 # Stage D2 Minimal Abaqus Transfer Plan
 
-Status: `stage_d2a_state_ingestion_pass_d2b_attempted_solver_fail`
+Status: `stage_d2b_serial_continuation_pass`
 
 ## Current interpretation
 
@@ -140,11 +140,11 @@ scripts/hpc/stage_d2/03_d2c_threads4_repeatability.pbs
 scripts/hpc/stage_d2/04_d2d_abaquser_verification.pbs
 ```
 
-D2A has been submitted and accepted. D2B has been submitted once and has not
-passed. D2C and D2D are present as guarded placeholders and were not submitted
-in this closeout.
+D2A has been submitted and accepted. D2B has been accepted after one bounded
+step-control correction. D2C and D2D are present as guarded placeholders and
+were not submitted in this closeout.
 
-## D2B serial continuation attempt
+## D2B serial continuation result
 
 D2B is designed to retain the accepted D2A initialization as Step 1, release
 the phase initialization constraints in Step 2 with `*Boundary, op=NEW`, and
@@ -152,27 +152,48 @@ apply a tiny mechanical continuation displacement of `U2=1.0e-5 mm` in Step 3.
 The transfer values, transfer table, labels, and D2-only source route remain
 unchanged from the accepted D2A path.
 
-The single submitted D2B job was:
+The first submitted D2B job is preserved as a bounded step-control failure:
 
 | Quantity | Value |
 | --- | ---: |
 | Job ID | `1376819.mmaster02` |
 | PBS exit status | `10` |
 | Solver exit | `1` |
-| Classification | `stage_d2b_solver_fail` |
+| Classification | `stage_d2b_solver_fail_increment_limit` |
 | D2B marker | no `D2B.ok` |
 
-The Abaqus message file reports:
+Step 1 initialization and Step 2 release hold completed. Step 3 continuation
+partially converged, but the maximum increment count was exhausted. The Abaqus
+message file reports:
 
 ```text
 TOO MANY INCREMENTS NEEDED TO COMPLETE THE STEP
 ```
 
-This is a technical continuation-control failure during the tiny continuation,
-not an accepted state-persistence result. The corrective prepared deck increases
-the D2B release and continuation step maximum increments from `inc=2` to
-`inc=50`. This correction does not change transfer-field values, element/IP
-keys, label mapping, or the D2-only state route. It has not been submitted.
+The accepted corrected rerun was:
+
+| Quantity | Value |
+| --- | ---: |
+| Job ID | `1376825.mmaster02` |
+| PBS exit status | `0` |
+| Solver exit | `0` |
+| Classification | `stage_d2b_serial_continuation_pass` |
+| Target element/IP coverage | `1.0` |
+| Maximum initial `SDV15` difference vs D2A | `0.0` |
+| Maximum initial `SDV16` difference vs D2A | `0.0` |
+| Maximum release `SDV15` difference | `0.0` |
+| Maximum release `SDV16` difference | `0.0` |
+| Observed final `U2` | `1e-05` |
+| Final `RF2` | `3.46317381026e-07` |
+| `ALLWK` continuation jump | `1.2830926425511091e-11` |
+
+The machine-readable deck audit is
+`runs/hpc/stage_d2/d2b_serial_continuation_rerun/D2B_DECK_CHANGE_AUDIT.json`.
+It records that the only numerical-control change from the submitted failed
+deck was `inc=2` to `inc=50` for the D2B release and continuation steps. No
+transfer-field values, element/IP keys, boundary-condition definitions, label
+mapping, mesh, source route, static step data, serial mode, or tiny displacement
+were changed.
 
 ## Blocked work
 

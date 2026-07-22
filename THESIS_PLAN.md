@@ -139,8 +139,9 @@ Current D2 status:
 - D2A executable ingestion package is prepared for a tiny Abaqus UEL/UMAT target model under `models/state_transfer/d2_tiny_transfer/executable/`.
 - D2A passed on HPC job `1376785.mmaster02` with classification `stage_d2a_state_ingestion_pass`, solver exit `0`, readable ODB, `D2A.ok`, `target_ip_coverage=1.0`, maximum `SDV15` interpolation error `0.0`, and maximum `SDV16/H` error `6.428999999030793e-09`.
 - The D2A route uses a separate D2 source variant, confirms the preserved Molnar U1 phase DOF as `3`, initializes transferred `H` once from an element/IP keyed table, and mirrors transferred phase/history to visualization `SDV15`/`SDV16`. Abaqus did not expose the UEL phase DOF as usable nodal `U` output in the smoke ODB, so the accepted phase-ingestion proof is through `SDV15`.
-- D2B serial continuation was attempted once as job `1376819.mmaster02` and failed technically before validation: PBS `Exit_status=10`, solver exit `1`, classification `stage_d2b_solver_fail`, with `TOO MANY INCREMENTS NEEDED TO COMPLETE THE STEP` during the tiny continuation. No `D2B.ok` exists. A corrected D2B deck is prepared with unchanged transfer values and increased release/continuation increment allowance (`inc=50`), but it has not been submitted.
-- D2C/D2D were not submitted and remain blocked until the corresponding upstream `.ok` marker exists.
+- D2B serial continuation first attempt `1376819.mmaster02` is preserved as `stage_d2b_solver_fail_increment_limit`: initialization and release completed, continuation partially converged, and the maximum increment count was exhausted.
+- Corrected D2B R1 job `1376825.mmaster02` passed with classification `stage_d2b_serial_continuation_pass`, solver exit `0`, readable ODB, `D2B_R1.ok`, canonical `D2B.ok`, `target_ip_coverage=1.0`, maximum initial and release `SDV15`/`SDV16` differences `0.0`, observed `U2=1e-05`, finite `RF2=3.46317381026e-07`, and recorded `ALLWK` continuation jump `1.2830926425511091e-11`.
+- D2C/D2D were not submitted in the D2B closeout. D2C four-thread repeatability is the next stage.
 
 Tasks:
 - Inventory all state variables.

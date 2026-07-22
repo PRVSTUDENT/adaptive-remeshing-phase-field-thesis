@@ -69,5 +69,20 @@ is made from this attempt.
 The prepared corrective deck increases the release and continuation step
 increment allowance to \texttt{inc=50}. It leaves the transferred phase values,
 history values, transfer table, label mapping, and D2-only UEL/UMAT state route
-unchanged. D2C, D2D, and interrupted fracture transfer remain blocked until D2B
-passes.
+unchanged.
+
+\section{D2B accepted rerun}
+The corrected D2B rerun, \texttt{1376825.mmaster02}, passed with PBS exit
+status zero, solver exit zero, readable ODB output, and classification
+\texttt{stage\_d2b\_serial\_continuation\_pass}. The target element/IP
+coverage was $1.0$. The maximum initial differences from accepted D2A were
+$0.0$ for both \texttt{SDV15} and \texttt{SDV16}; the maximum release
+differences were also $0.0$. The final continuation frame reached
+$U_2=1.0\times10^{-5}\,\mathrm{mm}$ with finite \texttt{RF2}
+$=3.46317381026\times10^{-7}$. The reported \texttt{ALLWK} continuation jump was
+$1.2830926425511091\times10^{-11}$; no energy-jump acceptance tolerance is
+assigned at D2B.
+
+The rerun wrote \texttt{D2B\_R1.ok}, and the canonical \texttt{D2B.ok} marker
+records the accepted rerun job ID. D2C is the next controlled gate. D2D and
+interrupted fracture transfer remain unsubmitted.

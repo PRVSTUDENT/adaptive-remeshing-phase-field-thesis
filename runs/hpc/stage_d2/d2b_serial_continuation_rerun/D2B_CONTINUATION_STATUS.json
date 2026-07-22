@@ -1,0 +1,64 @@
+{
+  "D2B_ok": true,
+  "classification": "stage_d2b_serial_continuation_pass",
+  "energy_jump": {
+    "frames": {
+      "F0": {
+        "ALLIE": 0.0,
+        "ALLSE": 0.0,
+        "ALLWK": 0.0
+      },
+      "F1": {
+        "ALLIE": 0.0,
+        "ALLSE": 0.0,
+        "ALLWK": 0.0
+      },
+      "F2": {
+        "ALLIE": 0.0,
+        "ALLSE": 0.0,
+        "ALLWK": 0.0
+      },
+      "F3": {
+        "ALLIE": 0.0,
+        "ALLSE": 0.0,
+        "ALLWK": 1.2830926425511091e-11
+      }
+    },
+    "jumps": {
+      "ALLIE": {
+        "continuation_abs": 0.0,
+        "continuation_rel": null,
+        "release_abs": 0.0,
+        "release_rel": null
+      },
+      "ALLSE": {
+        "continuation_abs": 0.0,
+        "continuation_rel": null,
+        "release_abs": 0.0,
+        "release_rel": null
+      },
+      "ALLWK": {
+        "continuation_abs": 1.2830926425511091e-11,
+        "continuation_rel": null,
+        "release_abs": 0.0,
+        "release_rel": null
+      }
+    }
+  },
+  "failures": [],
+  "job_id": "1376825.mmaster02",
+  "max_initial_sdv15_difference": 0.0,
+  "max_initial_sdv16_difference": 0.0,
+  "max_release_sdv15_difference": 0.0,
+  "max_release_sdv16_difference": 0.0,
+  "min_sdv15_f2_minus_f0": 0.0,
+  "min_sdv15_f3_minus_f2": 0.0,
+  "min_sdv16_f2_minus_f0": 0.0,
+  "min_sdv16_f3_minus_f2": 0.0,
+  "observed_F3_U2": 1e-05,
+  "odb_readable": true,
+  "requested_U2": 1e-05,
+  "solver_exit": 0,
+  "target_ip_coverage": 1.0,
+  "tolerance": 1e-08
+}

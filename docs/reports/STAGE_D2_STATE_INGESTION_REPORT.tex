@@ -65,13 +65,20 @@ tolerance. Abaqus did not expose the UEL phase DOF as usable nodal
 \texttt{U} output in this smoke deck, so nodal \texttt{U} is recorded as an ODB
 output limitation rather than as the accepted phase-ingestion signal.
 
-\section{D2B Serial Continuation Attempt}
-The next serial continuation gate was submitted exactly once as PBS job
-\texttt{1376819.mmaster02}. It did not pass. Abaqus compiled the user
-subroutine and entered the three-step continuation deck, but the job finished
-with PBS \texttt{Exit\_status=10} and solver exit $1$. The message file reports
-\texttt{TOO MANY INCREMENTS NEEDED TO COMPLETE THE STEP} during the tiny
-mechanical continuation. No \texttt{D2B.ok} marker was written.
+\section{D2B Serial Continuation}
+The first serial continuation job, \texttt{1376819.mmaster02}, is preserved as
+\path{stage_d2b_solver_fail_increment_limit}. Initialization and release
+completed, but the tiny continuation partially converged and then exhausted the
+maximum increment count. No scientific state-persistence acceptance claim is
+made from that failed attempt.
+
+The corrected rerun, \texttt{1376825.mmaster02}, changed only the maximum
+increment allowance in the D2B release and continuation steps from
+\texttt{inc=2} to \texttt{inc=50}. It passed with classification
+\path{stage_d2b_serial_continuation_pass}. The transfer values, transfer table,
+element/IP labels, mesh, boundary-condition definitions, tiny displacement,
+static step data, serial execution mode, and D2-only UEL/UMAT route were
+unchanged.
 
 \begin{table}[h]
 \centering
@@ -79,18 +86,21 @@ mechanical continuation. No \texttt{D2B.ok} marker was written.
 \toprule
 Quantity & Value \\
 \midrule
-Job ID & \texttt{1376819.mmaster02} \\
-PBS exit status & $10$ \\
-Solver exit & $1$ \\
-Classification & \path{stage_d2b_solver_fail} \\
-Accepted marker & no \texttt{D2B.ok} \\
+Job ID & \texttt{1376825.mmaster02} \\
+PBS exit status & $0$ \\
+Solver exit & $0$ \\
+Target element/IP coverage & $1.0$ \\
+Maximum initial \texttt{SDV15}/\texttt{SDV16} difference & $0.0$ \\
+Maximum release \texttt{SDV15}/\texttt{SDV16} difference & $0.0$ \\
+Final prescribed $U_2$ & $1.0\times10^{-5}$ mm \\
+Final \texttt{RF2} & $3.46317381026\times10^{-7}$ \\
+\texttt{ALLWK} continuation jump & $1.2830926425511091\times10^{-11}$ \\
+Accepted marker & \texttt{D2B\_R1.ok} and canonical \texttt{D2B.ok} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-A corrected D2B deck has been prepared for a future authorized rerun by
-increasing the release and continuation step increment allowance to
-\texttt{inc=50}. This correction does not change transferred field values,
-transfer-table values, label mapping, or the D2-only UEL/UMAT state route.
+Energy quantities are reported for D2B, but no arbitrary energy-jump tolerance
+is assigned at this stage.
 
 \end{document}

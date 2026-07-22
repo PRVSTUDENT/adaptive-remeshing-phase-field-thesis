@@ -1,0 +1,41 @@
+Analysis initiated from SIMULIA established products
+Abaqus JOB d2b_serial_cont_r1
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 5 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<213 out of 300 licenses remain available>.
+Begin Compiling Abaqus/Standard User Subroutines
+Wed 22 Jul 2026 10:33:28 AM CEST
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+ Intel(R) Fortran 2021.13.0-1693
+d2_tiny_transfer_uel.for(4): remark #15009: uel_ has been targeted for automatic cpu dispatch
+d2_tiny_transfer_uel.for(90): remark #15009: umat_ has been targeted for automatic cpu dispatch
+End Compiling Abaqus/Standard User Subroutines
+Begin Linking Abaqus/Standard User Subroutines
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+GNU ld version 2.30-128.el8_10
+End Linking Abaqus/Standard User Subroutines
+Wed 22 Jul 2026 10:33:34 AM CEST
+Begin Analysis Input File Processor
+Wed 22 Jul 2026 10:33:34 AM CEST
+Run pre
+Wed 22 Jul 2026 10:33:35 AM CEST
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+Wed 22 Jul 2026 10:33:35 AM CEST
+Run standard
+Wed 22 Jul 2026 10:33:37 AM CEST
+End Abaqus/Standard Analysis
+Begin SIM Wrap-up
+Wed 22 Jul 2026 10:33:37 AM CEST
+Run SMASimUtility
+Wed 22 Jul 2026 10:33:37 AM CEST
+End SIM Wrap-up
+Abaqus JOB d2b_serial_cont_r1 COMPLETED
