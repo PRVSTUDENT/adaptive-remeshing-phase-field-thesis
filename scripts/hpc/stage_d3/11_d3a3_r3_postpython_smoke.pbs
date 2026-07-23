@@ -1,0 +1,242 @@
+#!/bin/bash
+#PBS -N d3a3_r3_postpy
+#PBS -l select=1:ncpus=1:mem=4gb
+#PBS -l walltime=00:10:00
+#PBS -j oe
+#PBS -m abe
+
+set -uo pipefail
+
+PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
+EVIDENCE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/r3_postpython_environment"
+MODEL_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer"
+PACKAGE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1"
+SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r3_postpy_${PBS_JOBID:-manual}"
+SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
+PASS_CLASSIFICATION="stage_d3a3_r3_postpython_environment_pass"
+
+mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
+cd "${PROJECT_HOME}" || exit 2
+
+write_status() {
+  local classification="$1"
+  local rc="$2"
+  local failure="$3"
+  cat > "${SCRATCH_RUN}/D3A3_R3_POSTPYTHON_ENVIRONMENT.json" <<EOF
+{
+  "classification": "${classification}",
+  "D3A3_R3_postpython_ok": false,
+  "failures": ["${failure}"],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "pbs_exit_status": ${rc},
+  "source_commit": "${SOURCE_COMMIT}",
+  "solver_executed": false,
+  "fortran_compiled": false,
+  "numpy_import": false,
+  "scipy_import": false,
+  "synthetic_tests_pass": false,
+  "sparse_assembly_pass": false
+}
+EOF
+}
+
+copy_evidence() {
+  mkdir -p "${EVIDENCE_DIR}"
+  for pattern in \
+    "D3A3_R3_BASELINE_PYTHON.txt" \
+    "D3A3_R3_POSTPYTHON_SMOKE.log" \
+    "D3A3_R3_POSTPYTHON_ENVIRONMENT.json" \
+    "D3A3_R3_POSTPYTHON_ASSEMBLY.json" \
+    "D3A3_R3_POSTPYTHON_JOB_RECORD.txt" \
+    "D3A3_R3_POSTPYTHON.ok"; do
+    if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
+      cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/"
+    fi
+  done
+}
+
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "classification=stage_d3a3_r3_postpython_smoke_submitted"
+  echo "source_commit=${SOURCE_COMMIT}"
+  echo "scratch_run=${SCRATCH_RUN}"
+  echo "project_home=${PROJECT_HOME}"
+  echo "ncpus=1"
+  echo "mem=4gb"
+  echo "walltime=00:10:00"
+  echo "solver_executed=false"
+  echo "fortran_compiled=false"
+  echo "mode=postpython_environment_smoke"
+} > "${SCRATCH_RUN}/D3A3_R3_POSTPYTHON_JOB_RECORD.txt"
+
+module --force purge > /dev/null 2>&1 || true
+module load gcc/11.4.0 || {
+  write_status "stage_d3a3_r3_postpython_environment_fail" 5 "module load gcc/11.4.0 failed"
+  copy_evidence
+  exit 5
+}
+module load intel/2024.2.0 || {
+  write_status "stage_d3a3_r3_postpython_environment_fail" 5 "module load intel/2024.2.0 failed"
+  copy_evidence
+  exit 5
+}
+module load abaqus/2023 || {
+  write_status "stage_d3a3_r3_postpython_environment_fail" 5 "module load abaqus/2023 failed"
+  copy_evidence
+  exit 5
+}
+
+{
+  echo "baseline_python=$(command -v python3 || true)"
+  python3 --version || true
+  echo "which_python3=$(command -v python3 || true)"
+  ls -l "$(command -v python3 2>/dev/null)" 2>/dev/null || true
+} > "${SCRATCH_RUN}/D3A3_R3_BASELINE_PYTHON.txt" 2>&1
+
+SMOKE_RC=0
+(
+  set -euo pipefail
+  cd "${PROJECT_HOME}"
+
+  module load python/gcc/11.4.0/3.11.7
+
+  echo "post_python=$(command -v python3)"
+  python3 --version
+  echo "PYTHONPATH=${PYTHONPATH:-}"
+
+  python3 - <<'PY'
+import sys
+import numpy
+import scipy
+import scipy.sparse
+import scipy.sparse.linalg
+
+print("python", sys.version)
+print("numpy", numpy.__version__)
+print("scipy", scipy.__version__)
+print("numpy_ok", True)
+print("scipy_ok", True)
+PY
+
+  python3 -m py_compile \
+    scripts/validation/analyze_d3a3_r3_fixed_state_kkt.py \
+    scripts/validation/validate_d3a3_r3_compatible_hold.py \
+    scripts/state_transfer/solve_d3a4_phase_compatibility.py \
+    scripts/validation/smoke_d3a3_r3_postpython_assembly.py
+
+  python3 scripts/validation/test_validate_d3a3_r3_compatible_hold.py
+
+  python3 scripts/validation/smoke_d3a3_r3_postpython_assembly.py \
+    --model-dir "${MODEL_DIR}" \
+    --package-dir "${PACKAGE_DIR}" \
+    --out "${SCRATCH_RUN}/D3A3_R3_POSTPYTHON_ASSEMBLY.json"
+
+  echo "smoke_block_complete"
+) > "${SCRATCH_RUN}/D3A3_R3_POSTPYTHON_SMOKE.log" 2>&1 || SMOKE_RC=$?
+
+if [ "${SMOKE_RC}" -ne 0 ]; then
+  write_status \
+    "stage_d3a3_r3_postpython_environment_fail" \
+    "${SMOKE_RC}" \
+    "qualified postpython smoke block failed"
+  copy_evidence
+  exit "${SMOKE_RC}"
+fi
+
+# Build final status from smoke log + assembly JSON using the qualified interpreter.
+STATUS_RC=0
+(
+  set -euo pipefail
+  module load python/gcc/11.4.0/3.11.7
+  python3 - <<PY
+import json
+import re
+from pathlib import Path
+
+scratch = Path("${SCRATCH_RUN}")
+log = (scratch / "D3A3_R3_POSTPYTHON_SMOKE.log").read_text(encoding="utf-8", errors="replace")
+assembly = json.loads((scratch / "D3A3_R3_POSTPYTHON_ASSEMBLY.json").read_text(encoding="utf-8"))
+
+python_version = None
+numpy_version = None
+scipy_version = None
+for line in log.splitlines():
+    if line.startswith("python "):
+        python_version = line[len("python "):].strip()
+    if line.startswith("numpy "):
+        numpy_version = line[len("numpy "):].strip()
+    if line.startswith("scipy "):
+        scipy_version = line[len("scipy "):].strip()
+
+major_minor = None
+if python_version:
+    m = re.match(r"(\d+)\.(\d+)", python_version)
+    if m:
+        major_minor = f"{m.group(1)}.{m.group(2)}"
+
+synthetic_pass = "ALL_SYNTHETIC_R3_VALIDATOR_TESTS_PASS" in log
+numpy_import = "numpy_ok True" in log or numpy_version is not None
+scipy_import = "scipy_ok True" in log or scipy_version is not None
+sparse_pass = bool(assembly.get("sparse_assembly_pass"))
+
+failures = []
+if major_minor != "3.11":
+    failures.append(f"python_major_minor={major_minor}")
+if not numpy_import:
+    failures.append("numpy_import=false")
+if not scipy_import:
+    failures.append("scipy_import=false")
+if not synthetic_pass:
+    failures.append("synthetic_tests_pass=false")
+if not sparse_pass:
+    failures.append("sparse_assembly_pass=false")
+for key, expected in (("nodes", 6601), ("elements", 6400), ("integration_points", 25600), ("non_positive_detJ", 0)):
+    if int(assembly.get(key, -1)) != expected:
+        failures.append(f"{key}={assembly.get(key)} expected {expected}")
+if assembly.get("matrix_shape") != [6601, 6601]:
+    failures.append(f"matrix_shape={assembly.get('matrix_shape')}")
+
+passed = not failures
+status = {
+    "classification": "${PASS_CLASSIFICATION}" if passed else "stage_d3a3_r3_postpython_environment_fail",
+    "D3A3_R3_postpython_ok": passed,
+    "failures": failures,
+    "job_id": "${PBS_JOBID:-unknown}",
+    "pbs_exit_status": 0 if passed else 10,
+    "source_commit": "${SOURCE_COMMIT}",
+    "solver_executed": False,
+    "fortran_compiled": False,
+    "python_version": python_version,
+    "python_major_minor": major_minor,
+    "numpy_version": numpy_version,
+    "scipy_version": scipy_version,
+    "numpy_import": numpy_import,
+    "scipy_import": scipy_import,
+    "synthetic_tests_pass": synthetic_pass,
+    "sparse_assembly_pass": sparse_pass,
+    "nodes": assembly.get("nodes"),
+    "elements": assembly.get("elements"),
+    "integration_points": assembly.get("integration_points"),
+    "non_positive_detJ": assembly.get("non_positive_detJ"),
+    "matrix_shape": assembly.get("matrix_shape"),
+    "assembly_classification": assembly.get("classification"),
+}
+(scratch / "D3A3_R3_POSTPYTHON_ENVIRONMENT.json").write_text(
+    json.dumps(status, indent=2, sort_keys=True) + "\\n", encoding="utf-8"
+)
+if passed:
+    (scratch / "D3A3_R3_POSTPYTHON.ok").write_text("${PASS_CLASSIFICATION}\\n", encoding="utf-8")
+print(json.dumps(status, indent=2, sort_keys=True))
+if not passed:
+    raise SystemExit(10)
+PY
+) || STATUS_RC=$?
+
+copy_evidence
+if [ "${STATUS_RC}" -ne 0 ]; then
+  exit "${STATUS_RC}"
+fi
+if [ ! -f "${SCRATCH_RUN}/D3A3_R3_POSTPYTHON.ok" ]; then
+  exit 10
+fi
+exit 0
