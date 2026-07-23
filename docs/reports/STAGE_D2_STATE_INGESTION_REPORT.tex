@@ -268,7 +268,18 @@ tokens are absent. The PBS wrapper nevertheless exited with
 path across two \texttt{.msg} lines before the \texttt{.mmaster02} suffix, and
 the exact full-path grep failed. The preserved classification is
 \path{stage_d3a3_r2_r2_datacheck_fail_pbs_path_gate_linewrap_false_negative}.
-No \texttt{D3A3\_R2\_COMPILE.ok} marker exists, and no full D3A3-R2, D3D, or
-D3E job is authorized.
+A deterministic no-PBS login-node postcheck replay reconstructed the wrapped
+path as
+\path{/scratch9/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r2_1377393.mmaster02/d3_transfer_h.dat}
+and rechecked the preserved compiler, link, input-processing, Standard
+datacheck, runtime-H, and failure-analysis evidence. The replay preserves the
+original PBS \texttt{Exit\_status=10} while classifying the compile/datacheck
+scientific gate as
+\path{stage_d3a3_r2_compile_datacheck_pass_postcheck_replay}. The replay
+created \texttt{D3A3\_R2\_COMPILE.ok} under
+\path{runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r2_replay/};
+no new PBS datacheck was submitted. No full D3A3-R2, D3D, or D3E job has been
+submitted yet; D3D and D3E remain blocked until full D3A3-R2 creates
+\texttt{D3A3.ok}.
 
 \end{document}
