@@ -1,0 +1,276 @@
+#!/bin/bash
+#PBS -N d3a3_r4_compat_hold
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m abe
+
+set -uo pipefail
+
+PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
+EVIDENCE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible"
+DATACHECK_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible_datacheck"
+EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable_r4_compatible_r2"
+PACKAGE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2"
+ACTIVE_SET_CSV="${PACKAGE_DIR}/D3_ACTIVE_SET_BY_NODE.csv"
+LOWER_BOUND_CSV="${PACKAGE_DIR}/D3_LOWER_BOUND_NODAL_D.csv"
+MODEL_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer"
+SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r4_compat_hold_${PBS_JOBID:-manual}"
+ENV_LOG="${SCRATCH_RUN}/D3A3_R4_COMPILER_ENVIRONMENT.txt"
+SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
+EXPECTED_H_SHA="${D3A3_R4_RUNTIME_H_SHA:-}"
+
+mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
+cd "${SCRATCH_RUN}" || exit 2
+
+write_status() {
+  local classification="$1"
+  local rc="$2"
+  local failure="$3"
+  cat > D3A3_R4_STATUS.json <<EOF
+{
+  "classification": "${classification}",
+  "D3A3_R4_ok": false,
+  "D3A3_ok": false,
+  "failures": ["${failure}"],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "pbs_exit_status": ${rc},
+  "source_commit": "${SOURCE_COMMIT}",
+  "solver_job_submitted": true,
+  "mpi": "prohibited",
+  "OMP_NUM_THREADS": "${OMP_NUM_THREADS:-unset}"
+}
+EOF
+}
+
+write_odb_location() {
+  local odb_path="${SCRATCH_RUN}/D3A3_R4_compatible_hold.odb"
+  local preserved=false
+  if [ -f "${odb_path}" ]; then
+    preserved=true
+  fi
+  cat > "${SCRATCH_RUN}/D3A3_R4_ODB_LOCATION.json" <<EOF
+{
+  "job_id": "${PBS_JOBID:-unknown}",
+  "odb_preserved": ${preserved},
+  "odb_path": "${odb_path}",
+  "repository_copy_created": false,
+  "scratch_run": "${SCRATCH_RUN}"
+}
+EOF
+}
+
+copy_evidence() {
+  mkdir -p "${EVIDENCE_DIR}"
+  write_odb_location
+  for pattern in \
+    "D3A3_R4_compatible_hold.log" \
+    "D3A3_R4_compatible_hold.msg" \
+    "D3A3_R4_compatible_hold.dat" \
+    "D3A3_R4_compatible_hold.sta" \
+    "D3A3_R4_compatible_hold.com" \
+    "D3A3_R4_compatible_hold.prt" \
+    "D3A3_R4_compatible_hold.abaqus_stdout.log" \
+    "D3A3_R4_COMPILER_ENVIRONMENT.txt" \
+    "D3A3_R4_JOB_RECORD.txt" \
+    "D3A3_R4_STATUS.json" \
+    "D3A3_R4.ok" \
+    "D3A3.ok" \
+    "D3A3_R4_STATE_BY_FRAME.csv" \
+    "D3A3_R4_TRANSFER_VS_ODB.csv" \
+    "D3A3_R4_TOP_RF_U.csv" \
+    "D3A3_R4_RELEASE_JUMP.json" \
+    "D3A3_R4_RECONSTRUCTED_ENERGY.json" \
+    "D3A3_STATE_BY_FRAME.csv" \
+    "D3A3_TRANSFER_VS_ODB.csv" \
+    "D3A3_RF_U_CORRECTED.csv" \
+    "D3A3_RELEASE_JUMP.json" \
+    "D3A3_RECONSTRUCTED_ENERGY_BY_FRAME_CORRECTED.json" \
+    "D3A3_R4_ACTIVE_NODE_STATE.csv" \
+    "D3A3_R4_FREE_NODE_STATE.csv" \
+    "D3A3_R4_PHASE_NODE_STATE_BY_FRAME.csv" \
+    "D3A3_R4_LOWER_BOUND_AUDIT.json" \
+    "D3A3_R4_F1_RESIDUAL_BY_NODE.csv" \
+    "D3A3_R4_F1_KKT_METRICS.json" \
+    "D3A3_R4_REPORT.md" \
+    "D3A3_R4_RUNTIME_STATE_VALIDATION.json" \
+    "D3A3_R4_DATACHECK.ok" \
+    "D3A3_R4_POSTPYTHON_PREFLIGHT.log" \
+    "D3A3_R4_POSTPYTHON_PIPELINE.log" \
+    "D3A3_R4_ODB_LOCATION.json"; do
+    if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
+      cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/"
+    fi
+  done
+}
+
+stage_required_file() {
+  local source="$1"
+  local destination="$2"
+  if [ ! -f "${source}" ]; then
+    write_status "stage_d3a3_r4_hold_staging_fail" 6 "required staged file missing: ${source}"
+    copy_evidence
+    exit 6
+  fi
+  cp "${source}" "${destination}" || {
+    write_status "stage_d3a3_r4_hold_staging_fail" 6 "failed to stage: ${source}"
+    copy_evidence
+    exit 6
+  }
+}
+
+if [ ! -f "${DATACHECK_DIR}/D3A3_R4_DATACHECK.ok" ]; then
+  write_status "stage_d3a3_r4_full_blocked_missing_datacheck" 3 "D3A3_R4_DATACHECK.ok missing"
+  copy_evidence
+  exit 3
+fi
+if ! grep -q "stage_d3a3_r4_compatible_datacheck_pass" "${DATACHECK_DIR}/D3A3_R4_DATACHECK.ok"; then
+  write_status "stage_d3a3_r4_full_blocked_bad_datacheck" 4 "D3A3_R4_DATACHECK.ok classification mismatch"
+  copy_evidence
+  exit 4
+fi
+
+module --force purge > "${ENV_LOG}" 2>&1 || true
+module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || { write_status "stage_d3a3_r4_solver_fail" 5 "module load gcc failed"; copy_evidence; exit 5; }
+module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || { write_status "stage_d3a3_r4_solver_fail" 5 "module load intel failed"; copy_evidence; exit 5; }
+module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || { write_status "stage_d3a3_r4_solver_fail" 5 "module load abaqus failed"; copy_evidence; exit 5; }
+export OMP_NUM_THREADS=1
+
+{
+  module -t list 2>&1
+  command -v ifort
+  ifort --version
+  command -v abaqus
+  abaqus information=release
+} >> "${ENV_LOG}" 2>&1
+
+stage_required_file "${EXE_DIR}/D3A3_R4_compatible_hold.inp" "D3A3_R4_compatible_hold.inp"
+stage_required_file "${EXE_DIR}/d3_transfer_uel.for" "d3_transfer_uel.for"
+stage_required_file "${EXE_DIR}/d3_transfer_h.dat" "d3_transfer_h.dat"
+if [ -f "${DATACHECK_DIR}/D3A3_R4_DATACHECK.ok" ]; then
+  cp "${DATACHECK_DIR}/D3A3_R4_DATACHECK.ok" .
+fi
+
+if [ -z "${EXPECTED_H_SHA}" ]; then
+  EXPECTED_H_SHA="$(python3 - <<PY
+import json
+from pathlib import Path
+print(json.loads(Path("${DATACHECK_DIR}/D3A3_R4_RUNTIME_STATE_VALIDATION.json").read_text(encoding="utf-8"))["sha256"])
+PY
+)"
+fi
+
+python3 "${PROJECT_HOME}/scripts/validation/validate_d3_runtime_state_file.py" \
+  --input d3_transfer_h.dat \
+  --out D3A3_R4_RUNTIME_STATE_VALIDATION.json || {
+    write_status "stage_d3a3_r4_hold_runtime_state_validation_fail" 7 "runtime H validation failed"
+    copy_evidence
+    exit 7
+  }
+if ! grep -q "\"sha256\": \"${EXPECTED_H_SHA}\"" D3A3_R4_RUNTIME_STATE_VALIDATION.json; then
+  write_status "stage_d3a3_r4_hold_runtime_state_validation_fail" 7 "runtime H SHA mismatch"
+  copy_evidence
+  exit 7
+fi
+
+(
+  module load python/gcc/11.4.0/3.11.7
+  python3 -c "import numpy, scipy"
+) > D3A3_R4_POSTPYTHON_PREFLIGHT.log 2>&1 || {
+  write_status "stage_d3a3_r4_postpython_environment_fail" 9 "qualified NumPy/SciPy interpreter unavailable"
+  copy_evidence
+  exit 9
+}
+
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "classification=stage_d3a3_r4_compatible_hold_submitted"
+  echo "source_commit=${SOURCE_COMMIT}"
+  echo "scratch_run=${SCRATCH_RUN}"
+  echo "ncpus=1"
+  echo "mem=16gb"
+  echo "walltime=02:00:00"
+  echo "mode=serial"
+  echo "mpi=prohibited"
+  echo "mp_mode=threads"
+  echo "OMP_NUM_THREADS=${OMP_NUM_THREADS}"
+  echo "runtime_H_sha256=${EXPECTED_H_SHA}"
+  echo "package=${PACKAGE_DIR}"
+  echo "step3_active_phase_bc_count=6446"
+  echo "step3_free_phase_bc_count=0"
+  echo "postpython_module=python/gcc/11.4.0/3.11.7"
+} > D3A3_R4_JOB_RECORD.txt
+
+ABAQUS_RC=0
+abaqus job=D3A3_R4_compatible_hold \
+  input=D3A3_R4_compatible_hold.inp \
+  user=d3_transfer_uel.for \
+  cpus=1 \
+  mp_mode=threads \
+  output_precision=full \
+  interactive > D3A3_R4_compatible_hold.abaqus_stdout.log 2>&1 \
+  || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -ne 0 ]; then
+  write_status "stage_d3a3_r4_solver_fail" "${ABAQUS_RC}" "Abaqus exited nonzero during R4 compatible hold"
+  copy_evidence
+  exit "${ABAQUS_RC}"
+fi
+
+PYTHONPATH="${PROJECT_HOME}/scripts/postprocessing:${PYTHONPATH:-}" \
+abaqus python \
+  "${PROJECT_HOME}/scripts/postprocessing/extract_d3a3_r4_compatible_state.py" \
+  --odb D3A3_R4_compatible_hold.odb \
+  --package-dir "${PACKAGE_DIR}" \
+  --active-set-csv "${ACTIVE_SET_CSV}" \
+  --lower-bound-csv "${LOWER_BOUND_CSV}" \
+  --expected-active 6446 \
+  --expected-free 155 \
+  --model-dir "${MODEL_DIR}" \
+  --out-dir "${SCRATCH_RUN}" \
+  --skip-active-free-build || {
+    write_status "stage_d3a3_r4_ingestion_fail" 20 "R4 ODB extraction failed"
+    copy_evidence
+    exit 20
+  }
+
+POST_RC=0
+(
+  set -euo pipefail
+  module load python/gcc/11.4.0/3.11.7
+
+  python3 \
+    "${PROJECT_HOME}/scripts/postprocessing/extract_d3a3_r4_compatible_state.py" \
+    --skip-odb-extract \
+    --package-dir "${PACKAGE_DIR}" \
+    --active-set-csv "${ACTIVE_SET_CSV}" \
+    --lower-bound-csv "${LOWER_BOUND_CSV}" \
+    --expected-active 6446 \
+    --expected-free 155 \
+    --model-dir "${MODEL_DIR}" \
+    --out-dir "${SCRATCH_RUN}"
+
+  python3 \
+    "${PROJECT_HOME}/scripts/validation/analyze_d3a3_r4_fixed_state_kkt.py" \
+    --target-dir "${SCRATCH_RUN}" \
+    --active-set-csv "${ACTIVE_SET_CSV}" \
+    --lower-bound-csv "${LOWER_BOUND_CSV}" \
+    --model-dir "${MODEL_DIR}"
+
+  python3 \
+    "${PROJECT_HOME}/scripts/validation/validate_d3a3_r4_compatible_hold.py" \
+    --target-dir "${SCRATCH_RUN}" \
+    --expected-active 6446 \
+    --expected-free 155
+) > D3A3_R4_POSTPYTHON_PIPELINE.log 2>&1 || POST_RC=$?
+
+if [ "${POST_RC}" -ne 0 ]; then
+  if [ ! -f D3A3_R4_STATUS.json ]; then
+    write_status "stage_d3a3_r4_active_set_release_fail" 22 "R4 scientific validation failed"
+  fi
+  copy_evidence
+  exit "${POST_RC}"
+fi
+
+copy_evidence
+exit 0
