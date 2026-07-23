@@ -1,0 +1,12 @@
+job_id=1377382.mmaster02
+classification=stage_d3a3_solver_fail
+source_commit=d6e2474fcae3d05a4171e23c1c2cc757894a8a43
+queue=normal_imfdfkmq
+requested_queue=entry_imfdfkmq
+ncpus=1
+mem=16gb
+walltime=02:00:00
+mode=serial
+mpi=prohibited
+pbs_exit_status=1
+failure=ifort_not_found_during_abaqus_user_subroutine_compilation

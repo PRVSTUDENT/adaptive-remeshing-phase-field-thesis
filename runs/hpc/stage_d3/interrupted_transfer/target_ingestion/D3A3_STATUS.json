@@ -1,22 +1,13 @@
 {
   "D3A3_ok": false,
-  "classification": "stage_d3a3_static_validation_pass",
-  "failures": [],
-  "static": {
-    "D3A3_static_ok": true,
-    "Fortran_N_ELEM": 6400,
-    "H_table_entries": 25600,
-    "MPI_absent": true,
-    "classification": "stage_d3a3_static_validation_pass",
-    "commit": "3b02de435c330101338ecbf5463306c1b2a6527a",
-    "displacement_element_labels": "6401-12800",
-    "failures": [],
-    "phase_element_labels": "1-6400",
-    "serial_mode": true,
-    "target_elements": 6400,
-    "target_ips": 25600,
-    "target_nodes": 6601,
-    "umat_element_labels": "12801-19200"
-  },
-  "static_only": true
+  "classification": "stage_d3a3_solver_fail",
+  "failures": [
+    "PBS job 1377382.mmaster02 exited with status 1 before solver execution because Abaqus user-subroutine compilation could not find ifort in the batch environment."
+  ],
+  "job_id": "1377382.mmaster02",
+  "pbs_exit_status": 1,
+  "solver_exit": 1,
+  "source_commit": "d6e2474fcae3d05a4171e23c1c2cc757894a8a43",
+  "static_preflight": "stage_d3a3_static_validation_pass",
+  "solver_job_submitted": true
 }
