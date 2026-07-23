@@ -37,6 +37,8 @@ required = {
     "classification": "stage_d3d_route_b_preparation_authorized",
     "route": "B_one_d3d_active_set_segment",
     "full_segment_submission_authorized": True,
+    "full_segment_authorization_classification": "stage_d3d_full_segment_authorized",
+    "maximum_full_segment_submissions": 1,
     "d3e_authorized": False,
     "automatic_second_segment": False,
     "peak_postpeak_authorized": False,

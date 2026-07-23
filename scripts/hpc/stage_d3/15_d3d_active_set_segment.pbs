@@ -4,6 +4,7 @@
 #PBS -l walltime=02:00:00
 #PBS -j oe
 #PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
 
 set -uo pipefail
 
@@ -17,6 +18,19 @@ LOWER_BOUND_CSV="${PACKAGE_DIR}/D3_LOWER_BOUND_NODAL_D.csv"
 MODEL_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer"
 R4_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible"
 SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3d_active_seg_${PBS_JOBID:-manual}"
+RUN_DIR="${SCRATCH_RUN}"
+
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+
+if type pbs_notify_install_traps >/dev/null 2>&1; then
+  pbs_notify_install_traps
+fi
+
+if type pbs_notify_begin >/dev/null 2>&1; then
+  pbs_notify_begin
+fi
+
 ENV_LOG="${SCRATCH_RUN}/D3D_COMPILER_ENVIRONMENT.txt"
 SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
 EXPECTED_H_SHA="${D3D_RUNTIME_H_SHA:-}"

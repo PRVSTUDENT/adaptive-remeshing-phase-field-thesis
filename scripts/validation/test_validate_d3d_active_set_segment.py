@@ -46,6 +46,11 @@ def write_csv(path: Path, fields, rows):
         writer.writerows(rows)
 
 
+def read_csv(path: Path):
+    with path.open(newline="", encoding="utf-8") as handle:
+        return list(csv.DictReader(handle))
+
+
 def write_json(path: Path, data):
     path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
@@ -316,6 +321,9 @@ def make_energy(tags):
             {
                 "frame_tag": t,
                 "total_reconstructed_internal_energy": 1.0,
+                "missing_phase_node_values": 0,
+                "missing_sdv12_values": 0,
+                "missing_sdv13_values": 0,
             }
             for t in tags
         ],
@@ -365,7 +373,23 @@ def build_valid_fixture(
         root / "D3D_PER_FRAME_KKT_SUMMARY.json",
         make_kkt_summary(tags, free_res=free_res, min_mult=min_mult),
     )
-    write_json(root / "D3D_IRREVERSIBILITY_AUDIT.json", make_irr(phase_dec, h_dec, lb_dec))
+    irr_summary = make_irr(phase_dec, h_dec, lb_dec)
+    irr_summary["ordered_tags"] = all_tags
+    irr_summary["pair_count"] = len(tags)
+    write_json(root / "D3D_IRREVERSIBILITY_AUDIT.json", irr_summary)
+    write_csv(
+        root / "D3D_IRREVERSIBILITY_BY_FRAME_PAIR.csv",
+        ["left_frame", "right_frame", "phase_node_coverage", "ip_coverage"],
+        [
+            {
+                "left_frame": all_tags[i],
+                "right_frame": all_tags[i + 1],
+                "phase_node_coverage": v.EXPECTED_NODES,
+                "ip_coverage": v.EXPECTED_IPS,
+            }
+            for i in range(len(tags))
+        ],
+    )
     # Endpoint + F3 state only (coverage check uses endpoint)
     write_csv(
         root / "D3D_STATE_BY_FRAME.csv",
@@ -641,6 +665,54 @@ def test_missing_irr_fields_not_default_zero():
         print("PASS test_missing_irr_fields_not_default_zero")
 
 
+def test_missing_f4_phase_history_frame_fails():
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        tags = build_valid_fixture(root)
+        assert len(tags) == 11
+        missing_tag = tags[5]
+        present_tags = ["F3_release_last"] + [tag for tag in tags if tag != missing_tag]
+        phase_rows = [
+            {"frame_tag": tag, "node": 1, "recovered_d_mean": 0.2}
+            for tag in present_tags
+        ]
+        state_rows = [
+            {
+                "frame_tag": tag,
+                "element": 1,
+                "uel_integration_point": 1,
+                "odb_sdv15": 0.2,
+                "odb_sdv16": 1.0e-3,
+            }
+            for tag in present_tags
+        ]
+        write_csv(
+            root / "D3D_PHASE_NODE_STATE_BY_FRAME.csv",
+            ["frame_tag", "node", "recovered_d_mean"],
+            phase_rows,
+        )
+        write_csv(
+            root / "D3D_STATE_BY_FRAME.csv",
+            ["frame_tag", "element", "uel_integration_point", "odb_sdv15", "odb_sdv16"],
+            state_rows,
+        )
+        pairs = read_csv(root / "D3D_IRREVERSIBILITY_BY_FRAME_PAIR.csv")
+        pairs = [
+            row
+            for row in pairs
+            if row["left_frame"] != missing_tag and row["right_frame"] != missing_tag
+        ]
+        write_csv(
+            root / "D3D_IRREVERSIBILITY_BY_FRAME_PAIR.csv",
+            ["left_frame", "right_frame", "phase_node_coverage", "ip_coverage"],
+            pairs,
+        )
+        status = v.validate(root)
+        assert status["classification"] == v.POST_FAIL, status
+        assert any("irreversibility pair" in f for f in status["technical_failures"])
+        print("PASS test_missing_f4_phase_history_frame_fails")
+
+
 def test_kkt_scope_helpers():
     assert kkt.is_continuation_frame("F4_segment_end")
     assert not kkt.is_continuation_frame("F0_ingested")
@@ -742,6 +814,7 @@ def main():
     test_fewer_than_10_increments()
     test_nonfinite_top_rf()
     test_missing_irr_fields_not_default_zero()
+    test_missing_f4_phase_history_frame_fails()
     test_irreversibility_pair_order()
     print("ALL D3D postprocessing synthetic tests passed")
     return 0

@@ -26,11 +26,13 @@ EXPECTED_NODES = 6601
 EXPECTED_IPS = 25600
 
 REQUIRED_FILES = [
+    "D3D_FRAME_MANIFEST.csv",
     "D3D_FRAME_MANIFEST.json",
     "D3D_R4_PREFIX_COMPARISON.json",
     "D3D_PER_FRAME_KKT.csv",
     "D3D_PER_FRAME_KKT_SUMMARY.json",
     "D3D_IRREVERSIBILITY_AUDIT.json",
+    "D3D_IRREVERSIBILITY_BY_FRAME_PAIR.csv",
     "D3D_TOP_RF_U.csv",
     "D3D_STATE_BY_FRAME.csv",
     "D3D_PHASE_NODE_STATE_BY_FRAME.csv",
@@ -93,7 +95,9 @@ def validate(target_dir: Path):
     kkt_sum = read_json(target_dir / "D3D_PER_FRAME_KKT_SUMMARY.json")
     kkt_rows = read_csv(target_dir / "D3D_PER_FRAME_KKT.csv")
     irr = read_json(target_dir / "D3D_IRREVERSIBILITY_AUDIT.json")
+    irr_pairs = read_csv(target_dir / "D3D_IRREVERSIBILITY_BY_FRAME_PAIR.csv")
     manifest = read_json(target_dir / "D3D_FRAME_MANIFEST.json")
+    manifest_rows = read_csv(target_dir / "D3D_FRAME_MANIFEST.csv")
     rf_rows = read_csv(target_dir / "D3D_TOP_RF_U.csv")
     state_rows = read_csv(target_dir / "D3D_STATE_BY_FRAME.csv")
     energy = read_json(target_dir / "D3D_RECONSTRUCTED_ENERGY_BY_FRAME.json")
@@ -145,6 +149,89 @@ def validate(target_dir: Path):
 
     frames = manifest.get("frames") or []
     step4_manifest = [f for f in frames if f.get("step_name") == "ACTIVE_SET_VALIDITY_SEGMENT"]
+    step4_csv = [
+        f for f in manifest_rows if f.get("step_name") == "ACTIVE_SET_VALIDITY_SEGMENT"
+    ]
+    manifest_tags = [str(f.get("frame_tag", "")) for f in step4_manifest]
+    csv_tags = [str(f.get("frame_tag", "")) for f in step4_csv]
+    if not all(manifest_tags) or len(set(manifest_tags)) != len(manifest_tags):
+        technical.append("manifest F4 frame tags are missing or non-unique")
+    manifest_order = None
+    try:
+        manifest_order = [
+            (int(float(f["frame_index"])), float(f["step_time"])) for f in step4_manifest
+        ]
+        if manifest_order != sorted(manifest_order):
+            technical.append("manifest F4 frames not ordered by frame_index and step_time")
+        if any(
+            manifest_order[i][0] >= manifest_order[i + 1][0]
+            or manifest_order[i][1] > manifest_order[i + 1][1]
+            for i in range(len(manifest_order) - 1)
+        ):
+            technical.append("manifest F4 frame_index/step_time sequence is not monotone")
+    except (KeyError, TypeError, ValueError):
+        technical.append("manifest F4 frame_index/step_time missing or non-numeric")
+    if len(manifest_tags) != step4_frames:
+        technical.append(
+            "manifest F4 tag count %s != step4_frame_count %s"
+            % (len(manifest_tags), step4_frames)
+        )
+    if csv_tags != manifest_tags:
+        technical.append("CSV/JSON manifest F4 frame tags differ")
+    try:
+        csv_order = [(int(float(f["frame_index"])), float(f["step_time"])) for f in step4_csv]
+        if manifest_order is not None and csv_order != manifest_order:
+            technical.append("CSV/JSON manifest F4 frame_index/step_time values differ")
+    except (KeyError, TypeError, ValueError):
+        technical.append("CSV manifest F4 frame_index/step_time missing or non-numeric")
+
+    kkt_tags = [
+        str(row.get("frame_tag", "")) for row in kkt_rows if is_continuation(row.get("frame_tag", ""))
+    ]
+    if kkt_tags != manifest_tags:
+        technical.append("KKT continuation frame tags do not exactly match manifest F4 tags")
+    for key in ("continuation_frames_expected", "continuation_frames_evaluated"):
+        value = require_int_field(kkt_sum, key, technical, "KKT summary")
+        if value is not None and value != step4_frames:
+            technical.append("%s = %s (expected %s)" % (key, value, step4_frames))
+    if len(kkt_tags) != len(set(kkt_tags)):
+        technical.append("KKT contains duplicate continuation frame rows")
+
+    declared_irr_tags = ["F3_release_last"] + manifest_tags
+    if irr.get("ordered_tags") != declared_irr_tags:
+        technical.append("irreversibility ordered_tags do not match F3 + manifest F4 tags")
+    pair_count = require_int_field(irr, "pair_count", technical, "irreversibility")
+    if pair_count is not None and pair_count != step4_frames:
+        technical.append(
+            "irreversibility pair_count = %s (expected %s)" % (pair_count, step4_frames)
+        )
+    if len(irr_pairs) != step4_frames:
+        technical.append(
+            "irreversibility pair CSV row count = %s (expected %s)"
+            % (len(irr_pairs), step4_frames)
+        )
+    for i, row in enumerate(irr_pairs):
+        if i >= len(declared_irr_tags) - 1:
+            break
+        expected_pair = (declared_irr_tags[i], declared_irr_tags[i + 1])
+        actual_pair = (row.get("left_frame"), row.get("right_frame"))
+        if actual_pair != expected_pair:
+            technical.append(
+                "irreversibility pair %s is %s -> %s (expected %s -> %s)"
+                % (i, actual_pair[0], actual_pair[1], expected_pair[0], expected_pair[1])
+            )
+        try:
+            phase_cov = int(float(row.get("phase_node_coverage", 0)))
+            ip_cov = int(float(row.get("ip_coverage", 0)))
+        except (TypeError, ValueError):
+            technical.append("irreversibility pair %s has non-numeric coverage" % i)
+            continue
+        if phase_cov != EXPECTED_NODES or ip_cov != EXPECTED_IPS:
+            technical.append(
+                "irreversibility pair %s coverage phase/IP = %s/%s"
+                % (i, phase_cov, ip_cov)
+            )
+
     rf_by_tag = {r["frame_tag"]: r for r in rf_rows}
     for f in step4_manifest:
         tag = f["frame_tag"]
@@ -237,9 +324,34 @@ def validate(target_dir: Path):
         spatial_variation_retained = False
         technical.append("endpoint frame tag missing for state-reset audit")
 
-    # Energy presence (malformed structure).
+    # Reconstructed energy must cover every continuation frame with complete inputs.
     if "frames" not in energy:
         technical.append("reconstructed energy missing frames list")
+    energy_by_tag = {
+        str(row.get("frame_tag", "")): row for row in energy.get("frames", [])
+    }
+    for tag in manifest_tags:
+        row = energy_by_tag.get(tag)
+        if row is None:
+            technical.append("reconstructed energy missing for %s" % tag)
+            continue
+        try:
+            total = float(row.get("total_reconstructed_internal_energy", "nan"))
+        except (TypeError, ValueError):
+            total = float("nan")
+        if not math.isfinite(total):
+            technical.append("reconstructed energy nonfinite for %s" % tag)
+        for key in (
+            "missing_phase_node_values",
+            "missing_sdv12_values",
+            "missing_sdv13_values",
+        ):
+            try:
+                missing_count = int(row.get(key, -1))
+            except (TypeError, ValueError):
+                missing_count = -1
+            if missing_count != 0:
+                technical.append("%s = %s for reconstructed energy %s" % (key, missing_count, tag))
 
     # Classification
     if technical:
