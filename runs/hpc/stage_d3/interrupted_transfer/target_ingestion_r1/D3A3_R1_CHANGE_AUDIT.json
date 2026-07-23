@@ -1,0 +1,32 @@
+{
+  "classification": "stage_d3a3_r1_change_audit",
+  "computational_input_sha256": {
+    "D3A3_target_ingestion_hold.inp": "5cf854287654394562afb1581bc380ec285b3eb65896f973795eca410d7ca659",
+    "D3_TRANSFERRED_IP_H.csv": "94427b7f04ce4f64eca371ad646ba036593afbd9b3f18e333ddf26e177dfba93",
+    "D3_TRANSFERRED_NODAL_D.csv": "ee651b6676f5be2b20209d532c1a462cc356ef945e791c775bd6b668e478a60a",
+    "d3_transfer_table.inc": "b1b0cd066b0f1a1463f2ecda64602c6879e4b3a2c52cf1ed6b834463e8d9abc8",
+    "d3_transfer_uel.for": "43fd32260dfcc30e57fda76c083e3d200290a4b9fcd90f437760e70000bfd549"
+  },
+  "correction_type": "batch_compiler_environment",
+  "failed_predecessor_classification": "stage_d3a3_solver_fail_compiler_environment",
+  "failed_predecessor_job": "1377382.mmaster02",
+  "fortran_logic_changed": false,
+  "input_deck_changed": false,
+  "mesh_changed": false,
+  "modules_added": [
+    "gcc/11.4.0",
+    "intel/2024.2.0"
+  ],
+  "physics_changed": false,
+  "r1_evidence_dir": "runs\\hpc\\stage_d3\\interrupted_transfer\\target_ingestion_r1",
+  "transfer_values_changed": false,
+  "unchanged": {
+    "checkpoint_U2": 0.003000000026077032,
+    "memory": "16 GB",
+    "physical_elements": 6400,
+    "serial_execution": true,
+    "target_ips": 25600,
+    "target_nodes": 6601,
+    "walltime": "02:00:00"
+  }
+}

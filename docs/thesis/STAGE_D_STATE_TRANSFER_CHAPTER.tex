@@ -163,3 +163,19 @@ target-IP coverage 1.0, predicted energy relative jump
 $0.015379624558651227$, and unmapped state count 0. The package marker records
 \texttt{solver\_job\_submitted=false}; D3A3 ingestion/equilibration/release hold
 is the next gate before any continuation solve.
+
+\section{D3A3 ingestion hold attempt}
+The first D3A3 full-target ingestion/equilibration/release-hold job,
+\texttt{1377382.mmaster02}, was submitted exactly once from the committed D3A2
+package after static preflight passed. The job failed before solver analysis:
+Abaqus checked out a Standard license, but user-subroutine compilation could
+not find \texttt{ifort} because the batch script loaded only
+\texttt{abaqus/2023}. The preserved classification is
+\path{stage_d3a3_solver_fail_compiler_environment}; no \texttt{D3A3.ok} marker
+exists and continuation stages D3D and D3E remain blocked.
+
+D3A3-R1 is restricted to the compiler environment. It adds explicit
+\texttt{gcc/11.4.0}, \texttt{intel/2024.2.0}, and \texttt{abaqus/2023} module
+loads, records the compiler and Abaqus environment, runs from scratch, and keeps
+the D3A3 input deck, transfer table, Fortran logic, mesh, transfer values, step
+definitions, and checkpoint displacement unchanged.

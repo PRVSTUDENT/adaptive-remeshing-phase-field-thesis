@@ -1,32 +1,149 @@
 #!/bin/bash
-#PBS -N d3a3_target_ingest
+#PBS -N d3a3_target_ingest_r1
 #PBS -l select=1:ncpus=1:mem=16gb
 #PBS -l walltime=02:00:00
 #PBS -j oe
 #PBS -m abe
 
-set -euo pipefail
+set -uo pipefail
 
 PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
-RUN_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion"
+EVIDENCE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r1"
 EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable"
+PACKAGE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/package"
+SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_target_ingestion_r1_${PBS_JOBID:-manual}"
+ENV_LOG="${SCRATCH_RUN}/D3A3_COMPILER_ENVIRONMENT.txt"
+SOURCE_COMMIT="$(git -C "${PROJECT_HOME}" rev-parse HEAD 2>/dev/null || echo unknown)"
 
-mkdir -p "${RUN_DIR}"
-cd "${RUN_DIR}"
+mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
+cd "${SCRATCH_RUN}" || exit 2
 
-module purge || true
-module load abaqus/2023
+write_status() {
+  local classification="$1"
+  local abaqus_rc="$2"
+  local failure="$3"
+  cat > "${SCRATCH_RUN}/D3A3_STATUS.json" <<EOF
+{
+  "D3A3_ok": false,
+  "classification": "${classification}",
+  "failures": [
+    "${failure}"
+  ],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "scratch_run": "${SCRATCH_RUN}",
+  "pbs_exit_status": ${abaqus_rc},
+  "solver_exit": ${abaqus_rc},
+  "source_commit": "${SOURCE_COMMIT}",
+  "static_preflight": "stage_d3a3_static_validation_pass",
+  "solver_job_submitted": true
+}
+EOF
+}
+
+copy_evidence() {
+  mkdir -p "${EVIDENCE_DIR}"
+  for pattern in \
+    "D3A3_target_ingestion_hold_r1.log" \
+    "D3A3_target_ingestion_hold_r1.msg" \
+    "D3A3_target_ingestion_hold_r1.dat" \
+    "D3A3_target_ingestion_hold_r1.sta" \
+    "D3A3_target_ingestion_hold_r1.com" \
+    "D3A3_target_ingestion_hold_r1.prt" \
+    "D3A3_target_ingestion_hold_r1.abaqus_stdout.log" \
+    "D3A3_COMPILER_ENVIRONMENT.txt" \
+    "D3A3_STATUS.json" \
+    "D3A3_JOB_RECORD.txt"; do
+    if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
+      cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/"
+    fi
+  done
+}
+
+module --force purge > "${ENV_LOG}" 2>&1 || true
+module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || {
+  write_status "stage_d3a3_compiler_environment_fail" 5 "module load gcc/11.4.0 failed"
+  copy_evidence
+  exit 5
+}
+module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || {
+  write_status "stage_d3a3_compiler_environment_fail" 5 "module load intel/2024.2.0 failed"
+  copy_evidence
+  exit 5
+}
+module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || {
+  write_status "stage_d3a3_compiler_environment_fail" 5 "module load abaqus/2023 failed"
+  copy_evidence
+  exit 5
+}
+
+export OMP_NUM_THREADS=1
+
+{
+  echo "=== module list ==="
+  module -t list 2>&1
+  echo
+  echo "=== compiler ==="
+  command -v ifort
+  ifort --version
+  echo
+  echo "=== Abaqus ==="
+  command -v abaqus
+  abaqus information=release
+} >> "${ENV_LOG}" 2>&1
+
+if ! command -v ifort >/dev/null 2>&1; then
+  echo "ifort unavailable after module loading" >> "${ENV_LOG}"
+  write_status "stage_d3a3_compiler_environment_fail" 6 "ifort unavailable after module loading"
+  copy_evidence
+  exit 6
+fi
 
 cp "${EXE_DIR}/D3A3_target_ingestion_hold.inp" .
 cp "${EXE_DIR}/d3_transfer_uel.for" .
 cp "${EXE_DIR}/d3_transfer_table.inc" .
+cp "${PACKAGE_DIR}/D3_TRANSFERRED_NODAL_D.csv" .
+cp "${PACKAGE_DIR}/D3_TRANSFERRED_IP_H.csv" .
 
-abaqus job=D3A3_target_ingestion_hold \
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "classification=stage_d3a3_r1_submitted"
+  echo "source_commit=${SOURCE_COMMIT}"
+  echo "failed_predecessor_job=1377382.mmaster02"
+  echo "scratch_run=${SCRATCH_RUN}"
+  echo "queue_route=entry_imfdfkmq"
+  echo "ncpus=1"
+  echo "mem=16gb"
+  echo "walltime=02:00:00"
+  echo "mode=serial"
+  echo "mpi=prohibited"
+  echo "OMP_NUM_THREADS=${OMP_NUM_THREADS}"
+} > D3A3_JOB_RECORD.txt
+
+ABAQUS_RC=0
+
+abaqus job=D3A3_target_ingestion_hold_r1 \
   input=D3A3_target_ingestion_hold.inp \
   user=d3_transfer_uel.for \
   cpus=1 \
   mp_mode=threads \
-  interactive
+  output_precision=full \
+  interactive > D3A3_target_ingestion_hold_r1.abaqus_stdout.log 2>&1 \
+  || ABAQUS_RC=$?
 
-printf 'job_id=%s\n' "${PBS_JOBID:-unknown}" > D3A3_JOB_RECORD.txt
-printf 'commit=3b02de435c330101338ecbf5463306c1b2a6527a\n' >> D3A3_JOB_RECORD.txt
+if [ "${ABAQUS_RC}" -ne 0 ]; then
+  write_status "stage_d3a3_solver_fail" "${ABAQUS_RC}" "Abaqus exited with nonzero status during D3A3-R1"
+  {
+    echo "abaqus_rc=${ABAQUS_RC}"
+    echo "classification=stage_d3a3_solver_fail"
+  } >> D3A3_JOB_RECORD.txt
+  copy_evidence
+  exit "${ABAQUS_RC}"
+fi
+
+write_status "stage_d3a3_solver_complete_pending_validation" 0 "Abaqus completed; postprocessing validation is pending"
+{
+  echo "abaqus_rc=0"
+  echo "classification=stage_d3a3_solver_complete_pending_validation"
+} >> D3A3_JOB_RECORD.txt
+copy_evidence
+exit 0
