@@ -1,0 +1,32 @@
+#!/bin/bash
+#PBS -N d3a3_target_ingest
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m abe
+
+set -euo pipefail
+
+PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
+RUN_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion"
+EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable"
+
+mkdir -p "${RUN_DIR}"
+cd "${RUN_DIR}"
+
+module purge || true
+module load abaqus/2023
+
+cp "${EXE_DIR}/D3A3_target_ingestion_hold.inp" .
+cp "${EXE_DIR}/d3_transfer_uel.for" .
+cp "${EXE_DIR}/d3_transfer_table.inc" .
+
+abaqus job=D3A3_target_ingestion_hold \
+  input=D3A3_target_ingestion_hold.inp \
+  user=d3_transfer_uel.for \
+  cpus=1 \
+  mp_mode=threads \
+  interactive
+
+printf 'job_id=%s\n' "${PBS_JOBID:-unknown}" > D3A3_JOB_RECORD.txt
+printf 'commit=3b02de435c330101338ecbf5463306c1b2a6527a\n' >> D3A3_JOB_RECORD.txt
