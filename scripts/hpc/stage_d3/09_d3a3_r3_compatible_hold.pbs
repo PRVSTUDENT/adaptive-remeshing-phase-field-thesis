@@ -13,9 +13,11 @@ DATACHECK_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ing
 EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable_r3_compatible"
 PACKAGE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1"
 D3A4_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/compatibility_projection_d3a4"
+MODEL_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer"
 SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r3_compat_hold_${PBS_JOBID:-manual}"
 ENV_LOG="${SCRATCH_RUN}/D3A3_R3_COMPILER_ENVIRONMENT.txt"
 SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
+EXPECTED_H_SHA="${D3A3_R3_RUNTIME_H_SHA:-ee244da4e87ff0edb1c6e931fe633921aae552785d2d03efb8d18eea555c7173}"
 
 mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
 cd "${SCRATCH_RUN}" || exit 2
@@ -66,11 +68,45 @@ copy_evidence() {
     "D3A3_RF_U_CORRECTED.csv" \
     "D3A3_RELEASE_JUMP.json" \
     "D3A3_RECONSTRUCTED_ENERGY_BY_FRAME_CORRECTED.json" \
-    "D3A3_EXTRACTION_STATUS.json"; do
+    "D3A3_EXTRACTION_STATUS.json" \
+    "D3A3_R3_ACTIVE_NODE_STATE.csv" \
+    "D3A3_R3_FREE_NODE_STATE.csv" \
+    "D3A3_R3_PHASE_NODE_STATE_BY_FRAME.csv" \
+    "D3A3_R3_LOWER_BOUND_AUDIT.json" \
+    "D3A3_R3_F1_RESIDUAL_BY_NODE.csv" \
+    "D3A3_R3_F1_KKT_METRICS.json" \
+    "D3A3_R3_REPORT.md" \
+    "D3A3_R3_RUNTIME_STATE_VALIDATION.json" \
+    "D3A3_R3_DATACHECK.ok" \
+    "D3A3_R3_DATACHECK_STATUS.json" \
+    "D3A3_R3_R1_STAGING_CORRECTION_AUDIT.json"; do
     if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
       cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/"
     fi
   done
+}
+
+stage_required_file() {
+  local source="$1"
+  local destination="$2"
+
+  if [ ! -f "${source}" ]; then
+    write_status \
+      "stage_d3a3_r3_hold_staging_fail" \
+      6 \
+      "required staged file missing: ${source}"
+    copy_evidence
+    exit 6
+  fi
+
+  cp "${source}" "${destination}" || {
+    write_status \
+      "stage_d3a3_r3_hold_staging_fail" \
+      6 \
+      "failed to stage: ${source}"
+    copy_evidence
+    exit 6
+  }
 }
 
 if [ ! -f "${DATACHECK_DIR}/D3A3_R3_DATACHECK.ok" ]; then
@@ -82,6 +118,15 @@ if ! grep -q "stage_d3a3_r3_compatible_datacheck_pass" "${DATACHECK_DIR}/D3A3_R3
   write_status "stage_d3a3_r3_full_blocked_bad_datacheck" 4 "D3A3_R3_DATACHECK.ok classification mismatch"
   copy_evidence
   exit 4
+fi
+
+# Preserve committed R1 datacheck provenance in the scratch run.
+stage_required_file "${DATACHECK_DIR}/D3A3_R3_DATACHECK.ok" "D3A3_R3_DATACHECK.ok"
+if [ -f "${DATACHECK_DIR}/D3A3_R3_DATACHECK_STATUS.json" ]; then
+  cp "${DATACHECK_DIR}/D3A3_R3_DATACHECK_STATUS.json" .
+fi
+if [ -f "${DATACHECK_DIR}/D3A3_R3_R1_STAGING_CORRECTION_AUDIT.json" ]; then
+  cp "${DATACHECK_DIR}/D3A3_R3_R1_STAGING_CORRECTION_AUDIT.json" .
 fi
 
 module --force purge > "${ENV_LOG}" 2>&1 || true
@@ -98,19 +143,60 @@ export OMP_NUM_THREADS=1
   abaqus information=release
 } >> "${ENV_LOG}" 2>&1
 
-cp "${EXE_DIR}/D3A3_R3_compatible_hold.inp" .
-cp "${EXE_DIR}/d3_transfer_uel.for" .
-cp "${EXE_DIR}/d3_transfer_h.dat" .
+stage_required_file \
+  "${EXE_DIR}/D3A3_R3_compatible_hold.inp" \
+  "D3A3_R3_compatible_hold.inp"
+
+stage_required_file \
+  "${EXE_DIR}/d3_transfer_uel.for" \
+  "d3_transfer_uel.for"
+
+stage_required_file \
+  "${EXE_DIR}/d3_transfer_h.dat" \
+  "d3_transfer_h.dat"
+
+python3 "${PROJECT_HOME}/scripts/validation/validate_d3_runtime_state_file.py" \
+  --input d3_transfer_h.dat \
+  --out D3A3_R3_RUNTIME_STATE_VALIDATION.json || {
+    write_status "stage_d3a3_r3_hold_runtime_state_validation_fail" 7 "runtime H validation failed"
+    copy_evidence
+    exit 7
+  }
+if ! grep -q "\"sha256\": \"${EXPECTED_H_SHA}\"" D3A3_R3_RUNTIME_STATE_VALIDATION.json; then
+  write_status "stage_d3a3_r3_hold_runtime_state_validation_fail" 7 "runtime H SHA-256 mismatch"
+  copy_evidence
+  exit 7
+fi
+if ! grep -q '"records": 25600' D3A3_R3_RUNTIME_STATE_VALIDATION.json \
+  || ! grep -q '"duplicates": 0' D3A3_R3_RUNTIME_STATE_VALIDATION.json \
+  || ! grep -q '"missing_records": 0' D3A3_R3_RUNTIME_STATE_VALIDATION.json; then
+  write_status "stage_d3a3_r3_hold_runtime_state_validation_fail" 7 "runtime H keys/counts are invalid"
+  copy_evidence
+  exit 7
+fi
+if [ -f d3_transfer_table.inc ]; then
+  write_status "stage_d3a3_r3_hold_forbidden_transfer_include" 8 "obsolete d3_transfer_table.inc present"
+  copy_evidence
+  exit 8
+fi
 
 {
   echo "job_id=${PBS_JOBID:-unknown}"
   echo "classification=stage_d3a3_r3_compatible_hold_submitted"
   echo "source_commit=${SOURCE_COMMIT}"
   echo "scratch_run=${SCRATCH_RUN}"
+  echo "queue_route=entry_imfdfkmq"
+  echo "ncpus=1"
+  echo "mem=16gb"
+  echo "walltime=02:00:00"
   echo "mode=serial"
   echo "mpi=prohibited"
   echo "mp_mode=threads"
   echo "OMP_NUM_THREADS=${OMP_NUM_THREADS}"
+  echo "runtime_H_sha256=${EXPECTED_H_SHA}"
+  echo "datacheck_marker=${DATACHECK_DIR}/D3A3_R3_DATACHECK.ok"
+  echo "step3_active_phase_bc_count=1880"
+  echo "step3_free_phase_bc_count=0"
 } > D3A3_R3_JOB_RECORD.txt
 
 ABAQUS_RC=0
@@ -133,19 +219,33 @@ PYTHONPATH="${PROJECT_HOME}/scripts/postprocessing:${PYTHONPATH:-}" \
 abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_d3a3_r3_compatible_state.py" \
   --odb D3A3_R3_compatible_hold.odb \
   --package-dir "${PACKAGE_DIR}" \
-  --model-dir "${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer" \
+  --d3a4-dir "${D3A4_DIR}" \
+  --model-dir "${MODEL_DIR}" \
   --out-dir "${SCRATCH_RUN}" || {
     write_status "stage_d3a3_r3_ingestion_fail" 20 "R3 ODB extraction failed"
     copy_evidence
     exit 20
   }
 
+python3 "${PROJECT_HOME}/scripts/validation/analyze_d3a3_r3_fixed_state_kkt.py" \
+  --target-dir "${SCRATCH_RUN}" \
+  --d3a4-dir "${D3A4_DIR}" \
+  --model-dir "${MODEL_DIR}" \
+  --package-dir "${PACKAGE_DIR}" || {
+    write_status "stage_d3a3_r3_fixed_state_needs_reprojection" 21 "R3 F1 fixed-state KKT failed"
+    copy_evidence
+    exit 21
+  }
+
 python3 "${PROJECT_HOME}/scripts/validation/validate_d3a3_r3_compatible_hold.py" \
   --target-dir "${SCRATCH_RUN}" \
   --d3a4-dir "${D3A4_DIR}" || {
-    write_status "stage_d3a3_r3_active_set_release_fail" 21 "R3 scientific validation failed"
+    # Validator writes detailed D3A3_R3_STATUS.json / D3A3_R3_REPORT.md; do not overwrite.
+    if [ ! -f D3A3_R3_STATUS.json ]; then
+      write_status "stage_d3a3_r3_active_set_release_fail" 22 "R3 scientific validation failed"
+    fi
     copy_evidence
-    exit 21
+    exit 22
   }
 
 copy_evidence
