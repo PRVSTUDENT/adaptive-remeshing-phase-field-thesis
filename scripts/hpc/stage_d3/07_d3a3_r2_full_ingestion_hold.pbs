@@ -1,0 +1,222 @@
+#!/bin/bash
+#PBS -N d3a3_target_ingest_r2
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m abe
+
+set -uo pipefail
+
+PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
+EVIDENCE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r2"
+EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable"
+PACKAGE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/package"
+COMPILE_GATE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r2_replay"
+STATIC_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r2"
+SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_target_ingestion_r2_${PBS_JOBID:-manual}"
+ENV_LOG="${SCRATCH_RUN}/D3A3_R2_FULL_COMPILER_ENVIRONMENT.txt"
+SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
+EXPECTED_H_SHA="4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9"
+
+mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
+cd "${SCRATCH_RUN}" || exit 2
+
+write_status() {
+  local classification="$1"
+  local rc="$2"
+  local failure="$3"
+  cat > "${SCRATCH_RUN}/D3A3_STATUS.json" <<EOF
+{
+  "D3A3_ok": false,
+  "classification": "${classification}",
+  "failures": [
+    "${failure}"
+  ],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "scratch_run": "${SCRATCH_RUN}",
+  "pbs_exit_status": ${rc},
+  "solver_exit": ${rc},
+  "source_commit": "${SOURCE_COMMIT}",
+  "compile_gate": "stage_d3a3_r2_compile_datacheck_pass_postcheck_replay",
+  "solver_job_submitted": true,
+  "mpi": "prohibited",
+  "OMP_NUM_THREADS": "${OMP_NUM_THREADS:-unset}"
+}
+EOF
+}
+
+copy_evidence() {
+  mkdir -p "${EVIDENCE_DIR}"
+  for pattern in \
+    "D3A3_target_ingestion_hold_r2.log" \
+    "D3A3_target_ingestion_hold_r2.msg" \
+    "D3A3_target_ingestion_hold_r2.dat" \
+    "D3A3_target_ingestion_hold_r2.sta" \
+    "D3A3_target_ingestion_hold_r2.com" \
+    "D3A3_target_ingestion_hold_r2.prt" \
+    "D3A3_target_ingestion_hold_r2.odb" \
+    "D3A3_target_ingestion_hold_r2.abaqus_stdout.log" \
+    "D3A3_R2_FULL_COMPILER_ENVIRONMENT.txt" \
+    "D3A3_JOB_RECORD.txt" \
+    "D3A3_STATIC_VALIDATION.json" \
+    "D3A3_R2_RUNTIME_STATE_VALIDATION.json" \
+    "D3A3_R2_COMPILE.ok" \
+    "D3A3_STATUS.json" \
+    "D3A3.ok" \
+    "D3A3_STATE_BY_FRAME.csv" \
+    "D3A3_TRANSFER_VS_ODB.csv" \
+    "D3A3_INITIAL_VS_EQUILIBRATED.csv" \
+    "D3A3_EQUILIBRATED_VS_RELEASED.csv" \
+    "D3A3_RF_U.csv" \
+    "D3A3_PHASE_NODAL_U_BY_FRAME.csv" \
+    "D3A3_ENERGY_BY_FRAME.json" \
+    "D3A3_RECONSTRUCTED_ENERGY_BY_FRAME.json" \
+    "D3A3_RELEASE_JUMP.json" \
+    "D3A3_EXTRACTION_STATUS.json"; do
+    if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
+      cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/"
+    fi
+  done
+}
+
+if [ ! -f "${COMPILE_GATE_DIR}/D3A3_R2_COMPILE.ok" ]; then
+  write_status "stage_d3a3_r2_full_blocked_missing_compile_gate" 3 "D3A3_R2_COMPILE.ok missing"
+  copy_evidence
+  exit 3
+fi
+if ! grep -q "stage_d3a3_r2_compile_datacheck_pass_postcheck_replay" "${COMPILE_GATE_DIR}/D3A3_R2_COMPILE.ok"; then
+  write_status "stage_d3a3_r2_full_blocked_bad_compile_gate" 4 "D3A3_R2_COMPILE.ok classification mismatch"
+  copy_evidence
+  exit 4
+fi
+
+module --force purge > "${ENV_LOG}" 2>&1 || true
+module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || {
+  write_status "stage_d3a3_r2_full_compiler_environment_fail" 5 "module load gcc/11.4.0 failed"
+  copy_evidence
+  exit 5
+}
+module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || {
+  write_status "stage_d3a3_r2_full_compiler_environment_fail" 5 "module load intel/2024.2.0 failed"
+  copy_evidence
+  exit 5
+}
+module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || {
+  write_status "stage_d3a3_r2_full_compiler_environment_fail" 5 "module load abaqus/2023 failed"
+  copy_evidence
+  exit 5
+}
+
+export OMP_NUM_THREADS=1
+
+{
+  echo "=== module list ==="
+  module -t list 2>&1
+  echo
+  echo "=== compiler ==="
+  command -v ifort
+  ifort --version
+  echo
+  echo "=== Abaqus ==="
+  command -v abaqus
+  abaqus information=release
+} >> "${ENV_LOG}" 2>&1
+
+if ! command -v ifort >/dev/null 2>&1; then
+  write_status "stage_d3a3_r2_full_compiler_environment_fail" 6 "ifort unavailable after module loading"
+  copy_evidence
+  exit 6
+fi
+
+cp "${EXE_DIR}/D3A3_target_ingestion_hold.inp" .
+cp "${EXE_DIR}/d3_transfer_uel.for" .
+cp "${EXE_DIR}/d3_transfer_h.dat" .
+cp "${STATIC_DIR}/D3A3_STATIC_VALIDATION.json" .
+cp "${COMPILE_GATE_DIR}/D3A3_R2_COMPILE.ok" .
+
+python3 "${PROJECT_HOME}/scripts/validation/validate_d3_runtime_state_file.py" \
+  --input d3_transfer_h.dat \
+  --out D3A3_R2_RUNTIME_STATE_VALIDATION.json || {
+    write_status "stage_d3a3_r2_full_runtime_state_validation_fail" 7 "runtime H state validation failed"
+    copy_evidence
+    exit 7
+  }
+if ! grep -q "\"sha256\": \"${EXPECTED_H_SHA}\"" D3A3_R2_RUNTIME_STATE_VALIDATION.json; then
+  write_status "stage_d3a3_r2_full_runtime_state_validation_fail" 8 "runtime H SHA-256 changed"
+  copy_evidence
+  exit 8
+fi
+if ! grep -q '"records": 25600' D3A3_R2_RUNTIME_STATE_VALIDATION.json \
+  || ! grep -q '"duplicates": 0' D3A3_R2_RUNTIME_STATE_VALIDATION.json \
+  || ! grep -q '"missing_records": 0' D3A3_R2_RUNTIME_STATE_VALIDATION.json; then
+  write_status "stage_d3a3_r2_full_runtime_state_validation_fail" 8 "runtime H keys/counts are not valid"
+  copy_evidence
+  exit 8
+fi
+if [ -f d3_transfer_table.inc ]; then
+  write_status "stage_d3a3_r2_full_forbidden_transfer_include" 9 "obsolete d3_transfer_table.inc present in scratch"
+  copy_evidence
+  exit 9
+fi
+
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "classification=stage_d3a3_r2_full_ingestion_submitted"
+  echo "source_commit=${SOURCE_COMMIT}"
+  echo "compile_gate=stage_d3a3_r2_compile_datacheck_pass_postcheck_replay"
+  echo "scratch_run=${SCRATCH_RUN}"
+  echo "queue_route=entry_imfdfkmq"
+  echo "ncpus=1"
+  echo "mem=16gb"
+  echo "walltime=02:00:00"
+  echo "mode=serial"
+  echo "mpi=prohibited"
+  echo "mp_mode=threads"
+  echo "OMP_NUM_THREADS=${OMP_NUM_THREADS}"
+  echo "runtime_H_sha256=${EXPECTED_H_SHA}"
+} > D3A3_JOB_RECORD.txt
+
+ABAQUS_RC=0
+abaqus job=D3A3_target_ingestion_hold_r2 \
+  input=D3A3_target_ingestion_hold.inp \
+  user=d3_transfer_uel.for \
+  cpus=1 \
+  mp_mode=threads \
+  output_precision=full \
+  interactive > D3A3_target_ingestion_hold_r2.abaqus_stdout.log 2>&1 \
+  || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -ne 0 ]; then
+  write_status "stage_d3a3_r2_full_solver_fail" "${ABAQUS_RC}" "Abaqus exited with nonzero status during D3A3-R2 full ingestion"
+  {
+    echo "abaqus_rc=${ABAQUS_RC}"
+    echo "classification=stage_d3a3_r2_full_solver_fail"
+  } >> D3A3_JOB_RECORD.txt
+  copy_evidence
+  exit "${ABAQUS_RC}"
+fi
+
+abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_d3a3_ingested_state.py" \
+  --odb D3A3_target_ingestion_hold_r2.odb \
+  --package-dir "${PACKAGE_DIR}" \
+  --model-dir "${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer" \
+  --out-dir "${SCRATCH_RUN}" || {
+    write_status "stage_d3a3_r2_full_odb_extraction_fail" 20 "Abaqus-Python ODB extraction failed"
+    copy_evidence
+    exit 20
+  }
+
+python3 "${PROJECT_HOME}/scripts/validation/validate_d3a3_ingestion_hold.py" \
+  --target-dir "${SCRATCH_RUN}" || {
+    write_status "stage_d3a3_r2_full_validation_fail" 21 "D3A3-R2 scientific validation failed"
+    copy_evidence
+    exit 21
+  }
+
+{
+  echo "abaqus_rc=0"
+  echo "classification=stage_d3a3_full_target_ingestion_pass"
+  echo "D3A3_ok=true"
+} >> D3A3_JOB_RECORD.txt
+copy_evidence
+exit 0

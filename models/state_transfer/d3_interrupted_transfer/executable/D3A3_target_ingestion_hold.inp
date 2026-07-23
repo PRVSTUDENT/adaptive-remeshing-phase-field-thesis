@@ -39057,7 +39057,7 @@ ANCHOR, 1, 1, 0.0
 *Output, field
 *Element Output, elset=UMATVIS
 SDV
-*Node Output, nset=TOP
+*Node Output
 U, RF
 *End Step
 *Step, name=CHECKPOINT_EQUILIBRATION_PHASE_FIXED, nlgeom=NO
@@ -45671,7 +45671,7 @@ TOP, 2, 2, 0.0030000000260770321
 *Output, field
 *Element Output, elset=UMATVIS
 SDV
-*Node Output, nset=TOP
+*Node Output
 U, RF
 *End Step
 *Step, name=PHASE_RELEASE_HOLD, nlgeom=NO
@@ -45684,6 +45684,6 @@ TOP, 2, 2, 0.0030000000260770321
 *Output, field
 *Element Output, elset=UMATVIS
 SDV
-*Node Output, nset=TOP
+*Node Output
 U, RF
 *End Step

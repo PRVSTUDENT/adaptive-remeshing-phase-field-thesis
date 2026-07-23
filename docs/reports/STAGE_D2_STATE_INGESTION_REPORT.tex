@@ -282,4 +282,15 @@ no new PBS datacheck was submitted. No full D3A3-R2, D3D, or D3E job has been
 submitted yet; D3D and D3E remain blocked until full D3A3-R2 creates
 \texttt{D3A3.ok}.
 
+The full D3A3-R2 ingestion/equilibration/release-hold lane is prepared in new
+R2-specific PBS and submit scripts. The lane requires the committed replay
+\texttt{D3A3\_R2\_COMPILE.ok}, stages runtime \path{d3_transfer_h.dat},
+forbids \path{d3_transfer_table.inc}, uses serial CPU1/16GB/02:00 with
+\texttt{OMP\_NUM\_THREADS=1} and \texttt{mp\_mode=threads}, preserves Abaqus
+outputs, runs Abaqus-Python extraction, and creates \texttt{D3A3.ok} only after
+the strengthened validation gates pass. The deck now requests global nodal
+\texttt{U, RF} output so selected frames can be checked using target Q4
+bulk-plus-AT2 fracture-energy reconstruction. The full job has not yet been
+submitted.
+
 \end{document}
