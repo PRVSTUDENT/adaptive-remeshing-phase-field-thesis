@@ -218,3 +218,19 @@ classification is
 \path{stage_d3a3_r2_r1_datacheck_fail_runtime_h_eof_after_getoutdir_open}. No
 \texttt{D3A3\_R2\_COMPILE.ok} marker exists, no full D3A3-R2 solver job has
 been submitted, and D3D/D3E remain blocked.
+
+D3A3-R2-R2 is prepared as the next bounded compile/datacheck correction. It
+keeps the R2-R1 \texttt{GETOUTDIR} runtime-file path but replaces the
+EOF-driven runtime-H loader with an exact counted loop over
+\texttt{N\_ELEM*NIP}=25600 records. The generated source rejects the old
+\texttt{GOTO 100} loop, uses explicit premature-EOF and read-error branches,
+keeps post-read count and key-coverage checks, and prints
+\texttt{D3A3-R2 H LOAD COMPLETE} only after all records are loaded. The static
+audit classification is
+\path{stage_d3a3_r2_r2_counted_read_audit_pass}; it records no physics, mesh,
+input-deck, runtime-H, material, weak-form, layer-offset, step-definition, or
+checkpoint-U2 change. Evidence is staged under
+\path{runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r2/}.
+Until the single counted-read datacheck passes and
+\texttt{D3A3\_R2\_COMPILE.ok} is committed, no full D3A3-R2, D3D, or D3E job is
+authorized.

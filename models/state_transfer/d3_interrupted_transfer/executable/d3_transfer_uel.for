@@ -597,7 +597,7 @@ C
       CHARACTER*512 OUTDIR,HFILE
       CHARACTER*18 HNAME
       INTEGER LENOUTDIR,LHFILE
-      INTEGER ELEM,IP,COUNT,IOS,I,J
+      INTEGER ELEM,IP,COUNT,IOS,IREC,I,J
       SAVE /KUSER/,/D3HLOAD/
 
       IF (LOP.EQ.0 .AND. LRESTART.EQ.0 .AND. .NOT.HLOADED) THEN
@@ -624,33 +624,60 @@ C
           CALL XIT
         ENDIF
         COUNT=0
- 100    CONTINUE
-        READ(99,*,IOSTAT=IOS) ELEM,IP,HVAL
-        IF (IOS.EQ.0) THEN
+        DO IREC=1,N_ELEM*NIP
+          IOS=0
+          READ(99,*,IOSTAT=IOS,END=900,ERR=910)
+     1         ELEM,IP,HVAL
+          IF (IOS.NE.0) GOTO 910
           IF (ELEM.LT.1 .OR. ELEM.GT.N_ELEM) THEN
-            WRITE(7,*) 'D3A3-R2 H element out of range',ELEM
+            WRITE(7,*) 'D3A3-R2 H element out of range',
+     1                 IREC,ELEM
+            CLOSE(99)
             CALL XIT
+            RETURN
           ENDIF
           IF (IP.LT.1 .OR. IP.GT.NIP) THEN
-            WRITE(7,*) 'D3A3-R2 H IP out of range',ELEM,IP
+            WRITE(7,*) 'D3A3-R2 H IP out of range',
+     1                 IREC,ELEM,IP
+            CLOSE(99)
             CALL XIT
+            RETURN
           ENDIF
           IF (SEEN(ELEM,IP)) THEN
-            WRITE(7,*) 'D3A3-R2 duplicate H key',ELEM,IP
+            WRITE(7,*) 'D3A3-R2 duplicate H key',
+     1                 IREC,ELEM,IP
+            CLOSE(99)
             CALL XIT
+            RETURN
           ENDIF
           IF (HVAL.LT.0.D0) THEN
-            WRITE(7,*) 'D3A3-R2 negative H',ELEM,IP,HVAL
+            WRITE(7,*) 'D3A3-R2 negative H',
+     1                 IREC,ELEM,IP,HVAL
+            CLOSE(99)
             CALL XIT
+            RETURN
           ENDIF
           USRVAR(ELEM,16,IP)=HVAL
           SEEN(ELEM,IP)=.TRUE.
           COUNT=COUNT+1
-          GOTO 100
-        ELSEIF (IOS.GT.0) THEN
-          WRITE(7,*) 'D3A3-R2 invalid H record IOSTAT',IOS
-          CALL XIT
-        ENDIF
+        END DO
+        GOTO 920
+
+ 900    CONTINUE
+        WRITE(7,*) 'D3A3-R2 premature runtime H EOF',
+     1             COUNT,N_ELEM*NIP
+        CLOSE(99)
+        CALL XIT
+        RETURN
+
+ 910    CONTINUE
+        WRITE(7,*) 'D3A3-R2 runtime H read error',
+     1             IOS,IREC,COUNT
+        CLOSE(99)
+        CALL XIT
+        RETURN
+
+ 920    CONTINUE
         CLOSE(99)
         IF (COUNT.NE.N_ELEM*NIP) THEN
           WRITE(7,*) 'D3A3-R2 H record count mismatch',COUNT
@@ -660,10 +687,13 @@ C
           DO J=1,NIP
             IF (.NOT.SEEN(I,J)) THEN
               WRITE(7,*) 'D3A3-R2 missing H key',I,J
+              CLOSE(99)
               CALL XIT
+              RETURN
             ENDIF
           END DO
         END DO
+        WRITE(7,*) 'D3A3-R2 H LOAD COMPLETE',COUNT
         HLOADED=.TRUE.
       ENDIF
       RETURN

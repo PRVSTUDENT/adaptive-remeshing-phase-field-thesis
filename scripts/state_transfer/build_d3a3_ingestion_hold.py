@@ -230,7 +230,7 @@ def generate_fortran_r2(path):
       CHARACTER*512 OUTDIR,HFILE
       CHARACTER*18 HNAME
       INTEGER LENOUTDIR,LHFILE
-      INTEGER ELEM,IP,COUNT,IOS,I,J
+      INTEGER ELEM,IP,COUNT,IOS,IREC,I,J
       SAVE /KUSER/,/D3HLOAD/
 
       IF (LOP.EQ.0 .AND. LRESTART.EQ.0 .AND. .NOT.HLOADED) THEN
@@ -257,33 +257,60 @@ def generate_fortran_r2(path):
           CALL XIT
         ENDIF
         COUNT=0
- 100    CONTINUE
-        READ(99,*,IOSTAT=IOS) ELEM,IP,HVAL
-        IF (IOS.EQ.0) THEN
+        DO IREC=1,N_ELEM*NIP
+          IOS=0
+          READ(99,*,IOSTAT=IOS,END=900,ERR=910)
+     1         ELEM,IP,HVAL
+          IF (IOS.NE.0) GOTO 910
           IF (ELEM.LT.1 .OR. ELEM.GT.N_ELEM) THEN
-            WRITE(7,*) 'D3A3-R2 H element out of range',ELEM
+            WRITE(7,*) 'D3A3-R2 H element out of range',
+     1                 IREC,ELEM
+            CLOSE(99)
             CALL XIT
+            RETURN
           ENDIF
           IF (IP.LT.1 .OR. IP.GT.NIP) THEN
-            WRITE(7,*) 'D3A3-R2 H IP out of range',ELEM,IP
+            WRITE(7,*) 'D3A3-R2 H IP out of range',
+     1                 IREC,ELEM,IP
+            CLOSE(99)
             CALL XIT
+            RETURN
           ENDIF
           IF (SEEN(ELEM,IP)) THEN
-            WRITE(7,*) 'D3A3-R2 duplicate H key',ELEM,IP
+            WRITE(7,*) 'D3A3-R2 duplicate H key',
+     1                 IREC,ELEM,IP
+            CLOSE(99)
             CALL XIT
+            RETURN
           ENDIF
           IF (HVAL.LT.0.D0) THEN
-            WRITE(7,*) 'D3A3-R2 negative H',ELEM,IP,HVAL
+            WRITE(7,*) 'D3A3-R2 negative H',
+     1                 IREC,ELEM,IP,HVAL
+            CLOSE(99)
             CALL XIT
+            RETURN
           ENDIF
           USRVAR(ELEM,16,IP)=HVAL
           SEEN(ELEM,IP)=.TRUE.
           COUNT=COUNT+1
-          GOTO 100
-        ELSEIF (IOS.GT.0) THEN
-          WRITE(7,*) 'D3A3-R2 invalid H record IOSTAT',IOS
-          CALL XIT
-        ENDIF
+        END DO
+        GOTO 920
+
+ 900    CONTINUE
+        WRITE(7,*) 'D3A3-R2 premature runtime H EOF',
+     1             COUNT,N_ELEM*NIP
+        CLOSE(99)
+        CALL XIT
+        RETURN
+
+ 910    CONTINUE
+        WRITE(7,*) 'D3A3-R2 runtime H read error',
+     1             IOS,IREC,COUNT
+        CLOSE(99)
+        CALL XIT
+        RETURN
+
+ 920    CONTINUE
         CLOSE(99)
         IF (COUNT.NE.N_ELEM*NIP) THEN
           WRITE(7,*) 'D3A3-R2 H record count mismatch',COUNT
@@ -293,10 +320,13 @@ def generate_fortran_r2(path):
           DO J=1,NIP
             IF (.NOT.SEEN(I,J)) THEN
               WRITE(7,*) 'D3A3-R2 missing H key',I,J
+              CLOSE(99)
               CALL XIT
+              RETURN
             ENDIF
           END DO
         END DO
+        WRITE(7,*) 'D3A3-R2 H LOAD COMPLETE',COUNT
         HLOADED=.TRUE.
       ENDIF
       RETURN
@@ -313,18 +343,25 @@ def generate_fortran_r2(path):
     write(path, text.rstrip() + uexternaldb)
 
 
-def path_audit(fortran_path, out_dir):
+def counted_read_audit(fortran_path, out_dir):
     text = fortran_path.read_text(encoding="utf-8", errors="replace")
     required = [
         "CALL GETOUTDIR",
         "/d3_transfer_h.dat",
         "FILE=HFILE(1:LHFILE)",
         "D3A3-R2 H FILE PATH",
+        "DO IREC=1,N_ELEM*NIP",
+        "END=900",
+        "ERR=910",
+        "D3A3-R2 H LOAD COMPLETE",
     ]
     forbidden = [
         "FILE='d3_transfer_h.dat'",
         "INCLUDE 'd3_transfer_table.inc'",
         "D3_TRANSFER_COUNT",
+        "GOTO 100",
+        "100    CONTINUE",
+        "100 CONTINUE",
     ]
     failures = []
     for token in required:
@@ -339,13 +376,17 @@ def path_audit(fortran_path, out_dir):
         failures.append("runtime H SHA-256 changed: " + str(runtime_hash))
 
     audit = {
-        "classification": "stage_d3a3_r2_r1_path_audit_pass" if not failures else "stage_d3a3_r2_r1_path_audit_fail",
-        "path_audit_ok": not failures,
-        "failed_predecessor": "1377389.mmaster02",
-        "correction": "GETOUTDIR absolute runtime-file path",
+        "classification": "stage_d3a3_r2_r2_counted_read_audit_pass" if not failures else "stage_d3a3_r2_r2_counted_read_audit_fail",
+        "counted_read_audit_ok": not failures,
+        "failed_predecessor_job": "1377391.mmaster02",
+        "correction": "replace EOF-driven read with exact 25600-record loop",
+        "expected_records": N_IP,
+        "read_after_expected_last_record": False,
+        "getoutdir_retained": "CALL GETOUTDIR" in text,
         "physics_changed": False,
         "mesh_changed": False,
         "input_deck_changed": False,
+        "runtime_H_changed": False,
         "runtime_H_values_changed": False,
         "runtime_H_hash_unchanged": runtime_hash == RUNTIME_H_SHA256,
         "runtime_H_sha256": runtime_hash,
@@ -355,7 +396,7 @@ def path_audit(fortran_path, out_dir):
         "failures": failures,
     }
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "D3A3_R2_R1_PATH_AUDIT.json").write_text(json.dumps(audit, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    (out_dir / "D3A3_R2_R2_COUNTED_READ_AUDIT.json").write_text(json.dumps(audit, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return audit
 
 
@@ -506,7 +547,7 @@ def static_status(model_dir, package_dir, out_dir):
         failures.append("H negative")
     if min(detj) <= 0.0:
         failures.append("non-positive detJ")
-    audit = path_audit(model_dir / "executable" / "d3_transfer_uel.for", out_dir)
+    audit = counted_read_audit(model_dir / "executable" / "d3_transfer_uel.for", out_dir)
     failures.extend(audit["failures"])
     status = {
         "classification": "stage_d3a3_static_validation_pass" if not failures else "stage_d3a3_static_validation_fail",
@@ -522,7 +563,7 @@ def static_status(model_dir, package_dir, out_dir):
         "Fortran_N_ELEM": N_ELEM,
         "serial_mode": True,
         "MPI_absent": True,
-        "path_audit": audit,
+        "counted_read_audit": audit,
         "failures": failures,
     }
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -542,8 +583,19 @@ def static_status(model_dir, package_dir, out_dir):
                 "classification": "stage_d3a3_solver_fail_transfer_table_compile",
                 "evidence_dir": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r1",
             },
+            {
+                "job": "1377389.mmaster02",
+                "classification": "stage_d3a3_r2_datacheck_fail_runtime_h_file_not_in_abaqus_workdir",
+                "evidence_dir": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2",
+            },
+            {
+                "job": "1377391.mmaster02",
+                "classification": "stage_d3a3_r2_r1_datacheck_fail_runtime_h_eof_after_getoutdir_open",
+                "evidence_dir": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r1",
+            },
         ],
         "r2_change": "Replace compile-time DATA transfer table with UEXTERNALDB runtime H loader from d3_transfer_h.dat; preserve physical Molnar source logic.",
+        "r2_r2_change": "Retain GETOUTDIR runtime path and replace EOF-driven H loading with an exact 25600-record counted loop.",
         "checkpoint_U2": CHECKPOINT_U2,
         "package_dir": str(package_dir),
         "model_dir": str(model_dir),
@@ -559,7 +611,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model-dir", type=Path, default=Path("models/state_transfer/d3_interrupted_transfer"))
     parser.add_argument("--package-dir", type=Path, default=Path("runs/hpc/stage_d3/interrupted_transfer/package"))
-    parser.add_argument("--out-dir", type=Path, default=Path("runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r1"))
+    parser.add_argument("--out-dir", type=Path, default=Path("runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r2"))
     args = parser.parse_args()
     exe = args.model_dir / "executable"
     generate_inp(exe / "D3A3_target_ingestion_hold.inp", args.model_dir / "target", args.package_dir)
