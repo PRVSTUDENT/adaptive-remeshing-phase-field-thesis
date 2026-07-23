@@ -328,19 +328,81 @@ The D3A3-R3 compatible active-set lane is prepared separately under
 The generated deck fixes all 6601 phase nodes during compatible ingestion and
 fixed mechanical equilibration, then uses \texttt{*Boundary, op=NEW} for the
 release hold while keeping only the 1880 D3A4 active nodes prescribed at their
-lower-bound values. The 4721 free phase nodes have no Step-3 phase boundary
-condition. Static validation passes with 6601 target nodes, 6400 elements,
-25600 runtime-H records, zero duplicates, zero missing records, source
-\path{d3_transfer_uel.for} byte-identical to accepted R2, and runtime-H
-SHA-256
+lower-bound values. Static validation passes with 6601 target nodes, 6400
+elements, 25600 runtime-H records, and runtime-H SHA-256
 \path{ee244da4e87ff0edb1c6e931fe633921aae552785d2d03efb8d18eea555c7173}.
-The next operation is one serial R3 datacheck only; the full R3 compatible hold
-remains blocked until the datacheck pass is committed.
 
-The first R3 datacheck submission, job \texttt{1377404.mmaster02}, failed
-before Abaqus launched. PBS exited with status 6 because the generated
-\path{executable_r3_compatible/d3_transfer_h.dat} file was ignored and not
-present in the cluster checkout. No \texttt{D3A3\_R3\_DATACHECK.ok} marker was
-created. The failure is classified as a staging/preflight mistake rather than a
-Standard datacheck or scientific failure; the runtime file is now explicitly
-tracked and static validation records \texttt{runtime\_H\_tracked=true}.
+\section{R3 to R4 compatibility closure}
+The first R3 datacheck, job \texttt{1377404.mmaster02}, failed before Abaqus
+launched (PBS exit 6) because
+\path{executable_r3_compatible/d3_transfer_h.dat} was ignored/untracked on the
+cluster checkout. The isolated R1 datacheck lane then passed as job
+\texttt{1377409.mmaster02} after force-tracking the runtime-H file and explicit
+staging gates. Compute-node postprocessing qualification job
+\texttt{1377416.mmaster02} confirmed that the solver module sequence resolves
+unqualified \texttt{python3} to system Python 3.6.8, while
+\texttt{python/gcc/11.4.0/3.11.7} provides Python 3.11.7 with NumPy/SciPy and
+can assemble the 6601-node production system.
+
+The first full R3 hold, job \texttt{1377417.mmaster02}, completed Abaqus
+analysis and base ODB extraction (102400 state rows) but failed the active/free
+builder under Abaqus Python (\texttt{open(..., newline="")}). A deterministic
+no-solver postprocess replay under Python 3.11 closed that architectural defect
+and passed all release-state gates except the pre-release free residual
+$1.2035463824381645\times10^{-8}$ against the declared tolerance $1.0\times10^{-8}$.
+Causal residual audit showed that package/forensic history is machine-zero at
+the recovered F1 phase, whereas the actual R3 F1 SDV16 history reproduces the
+exceedance. Offline D3A5 reprojection with lower bound equal to recovered R3 F1
+phase and history equal to actual R3 F1 SDV16 removed the residual (free residual
+$2.12\times10^{-21}$) and produced \texttt{D3A5.ok} plus the separate
+\path{package_compatible_r2/} package (6446 active / 155 free nodes).
+
+The isolated R4 lane uses only package R2. Static validation and serial
+datacheck job \texttt{1377468.mmaster02} passed with the new runtime-H SHA-256
+\path{e4e2b2773c7c29161f4c99bbd7218fa6fe49c6ec3e48d6c2107f83419e97e07c},
+25600 loaded records, and Step-3 phase boundary counts 6446/0. The full R4
+compatible hold then ran exactly once as job \texttt{1377471.mmaster02} from
+commit \texttt{9aba51064f1025da61c578457c810f52900ef8a4}. Abaqus completed in
+about 51\,s wall time; the ODB remains in scratch only. Actual-history F1 KKT
+and all release gates passed. Classification
+\path{stage_d3a3_r4_compatible_release_pass}; committed markers
+\path{runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/D3A3_R4.ok}
+and the canonical
+\path{runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/D3A3.ok}
+close the D3A3 compatibility-ingestion/release-hold gate under
+\path{stage_d3a3_state_transfer_gate_closed}.
+
+\begin{table}[ht]
+\centering
+\caption{Accepted D3A3-R4 compatibility release-hold quantities.}
+\begin{tabular}{lr}
+\hline
+Quantity & Accepted R4 value \\
+\hline
+Target nodes/elements/IPs & 6601 / 6400 / 25600 \\
+Active/free nodes & 6446 / 155 \\
+SDV15 max transfer error & $1.3878\times10^{-17}$ \\
+SDV16 max transfer error & $0$ \\
+F1 free residual norm & $1.9449\times10^{-10}$ \\
+Minimum active multiplier & $-9.9619\times10^{-13}$ \\
+Active phase drift & $6.9389\times10^{-18}$ \\
+Phase/H irreversibility violations & $0$ / $0$ \\
+RF release jump & $2.2926\times10^{-4}$ \\
+Energy release jump & $1.2746\times10^{-5}$ \\
+Maximum phase adjustment & $0.0051714$ \\
+Final classification & \texttt{stage\_d3a3\_r4\_compatible\_release\_pass} \\
+\hline
+\end{tabular}
+\end{table}
+
+This closes nonmatching target-state ingestion, compatible phase/history
+initialization, mechanical checkpoint equilibration, actual-history KKT
+consistency, irreversible active-set release, small RF and reconstructed-energy
+discontinuities, and state retention through the release hold. It does not yet
+prove continued loading to peak, peak-force or peak-displacement agreement,
+post-peak agreement, crack-path agreement, production-mesh transfer, or
+online/evolving remeshing. D3D and D3E therefore remain blocked pending
+explicit fracture-continuation authorization; no further D3A4/D3A5-style
+compatibility cycle is justified unless a later continuation changes history
+enough to fail a newly declared gate.
+

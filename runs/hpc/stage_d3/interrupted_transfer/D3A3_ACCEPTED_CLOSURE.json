@@ -1,0 +1,48 @@
+{
+  "accepted_job": "1377471.mmaster02",
+  "accepted_metrics": {
+    "active_phase_drift": 6.938893903907228e-18,
+    "energy_release_jump": 1.274588415279448e-05,
+    "f1_free_residual_norm": 1.9449464407511832e-10,
+    "h_decrease_violations": 0,
+    "maximum_phase_adjustment": 0.005171403669247676,
+    "minimum_active_multiplier": -9.961943313940505e-13,
+    "phase_decrease_violations": 0,
+    "rf_release_jump": 0.00022925812346655326,
+    "sdv15_max_transfer_error": 1.3877787807814457e-17,
+    "sdv16_max_transfer_error": 0.0
+  },
+  "accepted_package": "package_compatible_r2",
+  "active_nodes": 6446,
+  "canonical_marker": "target_ingestion_r4_compatible/D3A3.ok",
+  "classification": "stage_d3a3_r4_compatible_release_pass",
+  "d3d_authorized": false,
+  "d3e_authorized": false,
+  "evidence_commit": "b7b500c80009a2aaad6a485eff4fdab55af68ba9",
+  "free_nodes": 155,
+  "gate_classification": "stage_d3a3_state_transfer_gate_closed",
+  "not_proved": [
+    "continued_loading_to_peak",
+    "peak_force_or_peak_displacement_agreement",
+    "post_peak_agreement",
+    "crack_path_agreement",
+    "production_mesh_transfer",
+    "online_evolving_remeshing"
+  ],
+  "odb_repository_copy_created": false,
+  "proved": [
+    "nonmatching_target_state_ingestion",
+    "compatible_phase_history_initialization",
+    "mechanical_checkpoint_equilibration",
+    "actual_history_kkt_consistency",
+    "irreversible_active_set_release",
+    "small_rf_and_energy_discontinuities",
+    "state_retention_through_release_hold"
+  ],
+  "r4_marker": "target_ingestion_r4_compatible/D3A3_R4.ok",
+  "runtime_H_sha256": "e4e2b2773c7c29161f4c99bbd7218fa6fe49c6ec3e48d6c2107f83419e97e07c",
+  "solver_commit": "9aba51064f1025da61c578457c810f52900ef8a4",
+  "target_elements": 6400,
+  "target_ips": 25600,
+  "target_nodes": 6601
+}

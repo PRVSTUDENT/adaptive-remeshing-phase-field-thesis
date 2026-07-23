@@ -1,0 +1,102 @@
+{
+  "accepted_job": "1377471.mmaster02",
+  "classification": "stage_d3a3_accepted_evidence_hashes",
+  "files": {
+    "models/state_transfer/d3_interrupted_transfer/executable_r4_compatible_r2/D3A3_R4_INPUT_PROVENANCE.json": {
+      "bytes": 1111,
+      "sha256": "2827feac05454354195dd90cb82d5eefe305d12f61e36aba6859dd7656aefb58"
+    },
+    "models/state_transfer/d3_interrupted_transfer/executable_r4_compatible_r2/D3A3_R4_RUNTIME_MANIFEST.json": {
+      "bytes": 656,
+      "sha256": "8e684e5165bf6157f39852a8a8fea33ae8f34ebed819729a6ccfd06535b8ede3"
+    },
+    "models/state_transfer/d3_interrupted_transfer/executable_r4_compatible_r2/D3A3_R4_compatible_hold.inp": {
+      "bytes": 1860486,
+      "sha256": "59ef7003560f57f23b538e3c24763c0bad4ce6e3731ccf68aea11d58372d3437"
+    },
+    "models/state_transfer/d3_interrupted_transfer/executable_r4_compatible_r2/d3_transfer_h.dat": {
+      "bytes": 789172,
+      "sha256": "e4e2b2773c7c29161f4c99bbd7218fa6fe49c6ec3e48d6c2107f83419e97e07c"
+    },
+    "models/state_transfer/d3_interrupted_transfer/executable_r4_compatible_r2/d3_transfer_uel.for": {
+      "bytes": 23384,
+      "sha256": "e056ed01a2af407f58292b884acc264f7332d132457d62a3f4cf0732ffb9fda4"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/compatibility_reprojection_d3a5/D3A5.ok": {
+      "bytes": 45,
+      "sha256": "f641cff2e88e4cdc9cd5ff159157f2894bf12108535f824e95fbe22a4a3bdcb5"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2/D3_ACTIVE_SET_BY_NODE.csv": {
+      "bytes": 697897,
+      "sha256": "313ed4b9a338490938f3a54bb54adff2c620e881cc0d0c45c383a101be7fbd68"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2/D3_LOWER_BOUND_NODAL_D.csv": {
+      "bytes": 348524,
+      "sha256": "94b28606b07bdfe994347d370fd50517a691ca533242111ba5fa75c7f6d4d794"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2/D3_PACKAGE_COMPATIBLE_R2.ok": {
+      "bytes": 39,
+      "sha256": "aa7e947b32c8da0cc6797342b9c0b8a8c3c7b3ea802c5d1e0b11dc6185784b7b"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2/D3_PACKAGE_COMPATIBLE_R2_MANIFEST.json": {
+      "bytes": 634,
+      "sha256": "fcfe7345e71f301e844242445bea419b744d863814b46b29549d5f4a3a1b3fb9"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2/D3_TRANSFERRED_IP_H.csv": {
+      "bytes": 4629720,
+      "sha256": "23662d2c84ee05c38e3e5bda26c0e2a49b010f3022e6fb301ba1fbe4616b2d0b"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2/D3_TRANSFERRED_NODAL_D.csv": {
+      "bytes": 348520,
+      "sha256": "2451aa361ccf1b1a9b7650fe182670fd0a6848b0f0a296434000d3579a29490c"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/D3A3.ok": {
+      "bytes": 38,
+      "sha256": "04dbc5bc1ac43b950c72f3d785fdedd6052a945db8965b7b47eb7967451038ca"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/D3A3_R4.ok": {
+      "bytes": 38,
+      "sha256": "04dbc5bc1ac43b950c72f3d785fdedd6052a945db8965b7b47eb7967451038ca"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/D3A3_R4_F1_KKT_METRICS.json": {
+      "bytes": 860,
+      "sha256": "250f960ea8984f02b272a080394a663a054abff646cf3dd194b27fa0fab74975"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/D3A3_R4_JOB_RECORD.txt": {
+      "bytes": 621,
+      "sha256": "25a12689e0c189dc8d3d8f36a6255c2f5159dc72fa0a9cc5e5ad51295cb979c1"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/D3A3_R4_ODB_LOCATION.json": {
+      "bytes": 322,
+      "sha256": "f4024e8e09159ea77ca155baa1dd47e9a7f5603b7dbdacf1fa9d904bb03fae1b"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/D3A3_R4_QSTAT_FINAL.txt": {
+      "bytes": 20,
+      "sha256": "71a5a689bf25a077f587d4bc16ffa58a9d83fee552af94819bf2aff114b52e3d"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/D3A3_R4_REPORT.md": {
+      "bytes": 163,
+      "sha256": "5e75bae19297c8c57a429eedab0721516bb7f0d96653987b30fe7a79d411bd82"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/D3A3_R4_STATUS.json": {
+      "bytes": 1079,
+      "sha256": "0893e0ad707f576721e1cc3e3d2143e57febf768d1f3c8506fe7362f678ea404"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible_datacheck/D3A3_R4_DATACHECK.ok": {
+      "bytes": 40,
+      "sha256": "55a970e2ed13c7944b6dd9ef86c4a37472b69a97a6eede194d00ef4dfca3ece7"
+    },
+    "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible_datacheck/D3A3_R4_STATIC_VALIDATION.json": {
+      "bytes": 730,
+      "sha256": "4e252b6a3ce1faea241537e4f4ae92bd50421be71e897ffdd8e160acf5b255a9"
+    }
+  },
+  "generated_utc": "2026-07-23T13:11:31Z",
+  "scratch_odb": {
+    "bytes": 100645336,
+    "mtime_unix": 1784811176,
+    "path": "/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r4_compat_hold_1377471.mmaster02/D3A3_R4_compatible_hold.odb",
+    "repository_copy_created": false,
+    "sha256": "e8a0d7993978a893db52c6fc59dd125b2230be18870d671407b78aa420a5d8cd"
+  }
+}

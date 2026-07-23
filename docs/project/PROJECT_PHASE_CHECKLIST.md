@@ -181,10 +181,11 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 - [x] D3A3-R2-R3 deterministic postcheck replay closed the compile/datacheck gate without another PBS job. Login-node Python replay reconstructed the wrapped runtime-H path as `/scratch9/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r2_1377393.mmaster02/d3_transfer_h.dat`, preserved PBS `Exit_status=10`, verified Abaqus compile/link/input/Standard datacheck completion, verified `D3A3-R2 H LOAD COMPLETE 25600`, verified premature EOF/read-error absence, verified runtime-H records `25600`, duplicates `0`, missing records `0`, and unchanged SHA256 `4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9`. Classification: `stage_d3a3_r2_compile_datacheck_pass_postcheck_replay`; evidence `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r2_replay/`; `D3A3_R2_COMPILE.ok` exists there. No full D3A3-R2 solver job has been submitted yet, and D3D/D3E remain blocked until full D3A3-R2 creates `D3A3.ok`.
 - [!] D3A3-R2 full ingestion/equilibration/release-hold submission lane is prepared but not submitted. New files `scripts/hpc/stage_d3/07_d3a3_r2_full_ingestion_hold.pbs` and `scripts/hpc/stage_d3/submit_d3a3_r2_full_ingestion_hold.sh` require the committed replay `D3A3_R2_COMPILE.ok`, copy runtime `d3_transfer_h.dat`, forbid `d3_transfer_table.inc`, run serial CPU1/16GB/02:00 with `OMP_NUM_THREADS=1` and `mp_mode=threads`, preserve Abaqus outputs, run Abaqus-Python extraction, run strengthened validation, and create `D3A3.ok` only after scientific gates pass. The full-run deck now requests global nodal `U, RF` output so the extractor can reconstruct target Q4 bulk-plus-AT2 fracture energy from selected D3A3 frames. Full D3A3-R2 has not been submitted yet; D3D/D3E remain blocked.
 - [!] D3A3-R2 full job `1377396.mmaster02` ran exactly once from commit `7a860f50fe557cd88cd3299dd47b1f260071f3fa`. Abaqus compiled, linked, completed input processing, completed Standard analysis, and produced extraction outputs, but strengthened validation failed with PBS `Exit_status=21`. Failures include transfer max errors (`SDV15=0.018013543321948218`, `SDV16=0.01645326664671945`), checkpoint `U2=0.0014999968154910865` instead of `0.003000000026077032`, RF release jump `1.0292182958543674`, d-healing violations `4651`, maximum phase adjustment `0.013784315224591115`, and missing phase-node values for reconstructed energy. Classification: `stage_d3a3_r2_full_validation_fail`; evidence `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r2/`; no `D3A3.ok`; D3D/D3E remain blocked.
-- [ ] Test fracture-relevant state transfer.
+- [x] Test fracture-relevant state transfer for the bounded pre-peak compatibility/release-hold scope. Completed by D3A3-R4 full hold `1377471.mmaster02` with committed canonical `D3A3.ok` under `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/` (`stage_d3a3_r4_compatible_release_pass`; gate `stage_d3a3_state_transfer_gate_closed`). Closure: `docs/decisions/STAGE_D3_STATE_TRANSFER_CLOSURE.md`; `runs/hpc/stage_d3/interrupted_transfer/D3A3_ACCEPTED_CLOSURE.json`.
 - [ ] Test serial repeatability.
 - [ ] Test parallel repeatability where scientifically justified.
 - [!] No online/evolving-remeshing claim until these checks pass. Evidence: `THESIS_PLAN.md`.
+- [!] D3D/D3E blocker: explicit fracture-continuation authorization — not missing `D3A3.ok`.
 
 ## WP6 - IMFD/ABAQUSER
 
@@ -226,7 +227,7 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 | Preprocessing Gate P1 | same config → identical H0 deck | not started | pipeline build |
 | MISESERI gate | refined deck valid and local size achieved | preparation authorized | qsub not authorized |
 | Refined benchmark gate | accepted error and measured benefit | closed at scoped Stage C result | crack-path equivalence not supported; H1 remains production |
-| State-transfer gate | controlled and fracture transfer pass | D1 analytical pass, D2A Abaqus ingestion pass, D2B serial continuation pass, D2C four-thread repeatability pass, D2D0 external-tool audit complete, D3A accepted after scope-aware independent energy reconstruction, D3A2 nonmatching package pass, D3A3/R1/R2/R2-R1 failures preserved, D3A3-R2 compile/datacheck closed by deterministic postcheck replay, full D3A3-R2 job `1377396` preserved, ODB-only forensic replay classified corrected ingestion as `stage_d3a3_r2_ingestion_pass_release_not_accepted`, D3A4 offline constrained phase compatibility passed, R3 staging/postpython/replay/D3A5 history chain completed, package_compatible_r2 prepared, R4 datacheck `1377468` passed, and R4 full compatible hold `1377471` passed with committed canonical `D3A3.ok` / `D3A3_R4.ok` under `target_ingestion_r4_compatible/` (`stage_d3a3_r4_compatible_release_pass`) | D2D blocked by missing ABAQUSER; D3D/D3E fracture continuation remain blocked until explicit authorization |
+| State-transfer gate | closed at D3A3-R4 for the bounded pre-peak compatibility/release-hold scope | Gate closed by accepted job `1377471.mmaster02` (`stage_d3a3_r4_compatible_release_pass` / `stage_d3a3_state_transfer_gate_closed`); canonical `D3A3.ok` committed under `target_ingestion_r4_compatible/`; package `package_compatible_r2`; active/free 6446/155; closure evidence `docs/decisions/STAGE_D3_STATE_TRANSFER_CLOSURE.md` and `runs/hpc/stage_d3/interrupted_transfer/D3A3_ACCEPTED_CLOSURE.json` | D2D blocked by missing ABAQUSER; D3D/D3E blocked by explicit fracture-continuation authorization — not missing `D3A3.ok` |
 | ABAQUSER gate | output agrees with independent extraction | blocked | D2D0 found no ABAQUSER executable/module/source/interface |
 
 ## Checklist Update Rules
@@ -244,21 +245,15 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 
 ## Active Next Item
 
-Exact next checklist item: `[?] Supervisor Decision 1 (H2-PUB RF–U reference A/B/C) and Decision 2 (contour requirement A/B/C/D) on the Gate A3 package at docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`.
-
-Superseded historical waiting posture after Gate A3 supervisor package:
-
-- [!] Pause execution until supervisor Decisions 1 and 2 are received. Do not run Abaqus, submit PBS, start MISESERI, adaptive remeshing, or state transfer without explicit new authorization. After response: contours deferred → prepare MISESERI Stage C plan only; contours mandatory → prepare one CAE-only contour plan on existing ODBs; more evidence → scope only that metric.
-
-### Molnar v2 SDV15 Targeted Diagnostic Preparation
+Prepare the scoped D3D/D3E fracture-continuation decision package.  
+No continuation submission without explicit authorization.
 
 ### Current Stage D Boundary
 
-- [ ] Next item: Stage D2 minimal Abaqus/ABAQUSER verification after reviewing the D1 analytical transfer harness.
-- [?] Corrected T5 rerun `1376758.mmaster02` is queued; do not submit a second T5 rerun unless this job fails before executing the intended corrected smoke.
-- [!] Do not submit a full fracture-transfer job.
-- [!] Do not alter the accepted C2C-v3 mesh or rerun C2F-v3.
-- [!] Continue with local/login-side Stage D transfer checks before any fracture continuation.
+- [x] D3A3 compatibility-ingestion/release-hold gate closed at R4 (`1377471.mmaster02`; canonical `D3A3.ok`).
+- [!] Do not submit D3D or D3E without explicit fracture-continuation authorization.
+- [!] Do not claim peak, post-peak, crack-path, production-mesh, or online-remeshing validation from D3A3 alone.
+- [!] Do not alter the accepted C2C-v3 mesh or rerun C2F-v3 without new authorization.
 
 - [x] Prepared exactly one authorized serial targeted-output diagnostic run for the unresolved SDV15 completed-update evidence. Classification: `paper_matched_candidate_v2_diagnostic_variant`. Evidence: `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/RUN_MANIFEST.md`; `results/validation/molnar_paper_matched_single_notch_v2_sdv15_diagnostic/STATIC_VALIDATION.md`.
 - [x] Submitted the single authorized diagnostic job exactly once. Job: `1375020.mmaster02`; revision: `efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611`; result: `molnar_v2_sdv15_diagnostic_technical_fail`; cause: pre-solver batch PATH failure, `git: Kommando nicht gefunden`, so the revision guard exited before Abaqus launched. Evidence: `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/evidence/1375020.mmaster02/`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/RUN_SUMMARY.md`.
