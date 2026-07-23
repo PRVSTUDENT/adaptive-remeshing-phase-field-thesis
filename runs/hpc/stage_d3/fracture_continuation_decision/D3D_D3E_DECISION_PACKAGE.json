@@ -1,0 +1,120 @@
+{
+  "classification": "stage_d3d_d3e_decision_package_prepared",
+  "package_date": "2026-07-23",
+  "prerequisite": {
+    "gate": "stage_d3a3_state_transfer_gate_closed",
+    "accepted_job": "1377471.mmaster02",
+    "accepted_package": "package_compatible_r2",
+    "canonical_marker": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/D3A3.ok",
+    "checkpoint_u2_mm": 0.003000000026077032,
+    "active_nodes": 6446,
+    "free_nodes": 155,
+    "target_nodes": 6601,
+    "target_elements": 6400,
+    "target_ips": 25600,
+    "scientific_constraint": "accepted_R4_is_obstacle_constrained_KKT_state_with_6446_active_nodes"
+  },
+  "critical_inferences": {
+    "cannot_keep_all_active_nodes_fixed_to_peak": true,
+    "cannot_release_all_active_nodes_simultaneously": true,
+    "d3d_must_test_active_set_validity_on_small_segment_first": true,
+    "peak_postpeak_not_immediate_next_step": true
+  },
+  "routes": {
+    "A_stop_at_d3a3": {
+      "description": "Stop at accepted D3A3 compatibility gate",
+      "scientifically_valid_closure": true,
+      "recommended": false
+    },
+    "B_one_d3d_active_set_segment": {
+      "description": "One bounded D3D active-set-validity segment",
+      "recommended": true,
+      "recommendation_rank": 1
+    },
+    "C_segmented_continuation_toward_peak": {
+      "description": "Segmented continuation toward peak with repeated active-set updates",
+      "recommended": false,
+      "authorized": false
+    }
+  },
+  "recommended_route": "B_one_d3d_active_set_segment",
+  "d3d_proposal": {
+    "start_u2_mm": 0.003000000026077032,
+    "end_u2_mm": 0.0031,
+    "delta_u2_mm": 0.0001,
+    "retain_active_free_set": true,
+    "active_nodes": 6446,
+    "free_nodes": 155,
+    "reproduce_r4_steps_1_to_3_unchanged": true,
+    "verify_prefix_reproduces_r4": true,
+    "automatic_second_segment": false,
+    "resources_proposed": {
+      "ncpus": 1,
+      "mem_gb": 16,
+      "mp_mode": "threads",
+      "omp_num_threads": 1,
+      "mpi": "prohibited"
+    },
+    "peak_context_u2_mm": {
+      "h0_approx": 0.0061,
+      "h1_h2pub_approx": 0.0058
+    }
+  },
+  "d3d_acceptance": {
+    "free_residual_infinity_norm_max": 1.0e-8,
+    "minimum_active_multiplier_min": -1.0e-8,
+    "active_bound_error_max": 1.0e-10,
+    "node_coverage": 6601,
+    "ip_coverage": 25600,
+    "non_positive_detJ": 0,
+    "phase_decrease_violations": 0,
+    "H_decrease_violations": 0,
+    "top_u2_tolerance": 1.0e-8,
+    "top_rf2_finite": true,
+    "state_reset": false,
+    "spatial_variation_retained": true,
+    "outcome_classes": [
+      "stage_d3d_active_set_segment_pass",
+      "stage_d3d_active_set_update_required",
+      "stage_d3d_solver_fail",
+      "stage_d3d_postprocessing_fail"
+    ],
+    "active_set_update_required_is_scientific_result": true
+  },
+  "d3e_proposal": {
+    "conditional_on": "stage_d3d_active_set_segment_pass",
+    "mesh": "same_6400_element_target_as_d3d",
+    "initialization": "virgin_no_transfer",
+    "comparison_window_u2_mm": {
+      "start": 0.0030,
+      "end": 0.0031
+    },
+    "diagnostic_tolerances_predeclared": {
+      "rf_u_nrmse_max": 0.01,
+      "endpoint_rf_relative_difference_max": 0.01,
+      "energy_relative_difference_max": 0.01,
+      "phase_normalized_l2_difference_max": 0.05,
+      "history_normalized_l2_difference_max": 0.05,
+      "phase_decrease_violations": 0,
+      "H_decrease_violations": 0
+    },
+    "tolerance_policy": "accepted_before_execution_no_post_hoc_adjustment"
+  },
+  "authorization": {
+    "decision_package_prepared": true,
+    "d3d_deck_pbs_preparation": false,
+    "d3d_submission": false,
+    "d3e_preparation": false,
+    "d3e_submission": false,
+    "peak_postpeak_continuation": false,
+    "automatic_multi_segment_loop": false,
+    "parameter_sweep": false
+  },
+  "documents": {
+    "decision_package": "docs/decisions/STAGE_D3D_D3E_FRACTURE_CONTINUATION_DECISION_PACKAGE.md",
+    "d3d_protocol": "docs/studies/STAGE_D3D_ACTIVE_SET_CONTINUATION_PROTOCOL.md",
+    "d3e_protocol": "docs/studies/STAGE_D3E_UNINTERRUPTED_TARGET_REFERENCE_PROTOCOL.md",
+    "config": "configs/state_transfer/d3d_d3e_continuation_options.yaml",
+    "d3a3_closure": "docs/decisions/STAGE_D3_STATE_TRANSFER_CLOSURE.md"
+  }
+}

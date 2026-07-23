@@ -245,8 +245,10 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 
 ## Active Next Item
 
-Prepare the scoped D3D/D3E fracture-continuation decision package.  
-No continuation submission without explicit authorization.
+D3D/D3E decision package is prepared (`stage_d3d_d3e_decision_package_prepared`).  
+Choose Route A (stop at D3A3) or Route B (one D3D active-set segment).  
+**No D3D deck/PBS preparation or submission without explicit authorization.**  
+D3E remains blocked until a D3D segment passes.
 
 ### Current Stage D Boundary
 
