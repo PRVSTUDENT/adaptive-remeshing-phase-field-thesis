@@ -1,0 +1,23 @@
+{
+  "classification": "stage_d3a3_r2_r2_login_counted_reader_smoke_pass",
+  "compile_exit": 0,
+  "compiler": "ifort -extend-source",
+  "expected_records": 25600,
+  "failures": [],
+  "first_key": [
+    1,
+    1
+  ],
+  "last_key": [
+    6400,
+    4
+  ],
+  "login_node_tmp_dir": "/tmp/d3_h_reader_pr21vyci",
+  "missing_keys": 0,
+  "duplicates": 0,
+  "premature_EOF": false,
+  "read_error": false,
+  "runtime_H_sha256": "4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9",
+  "run_exit": 0,
+  "smoke_output": "D3_RUNTIME_H_COUNTED_READER_SMOKE.txt"
+}
