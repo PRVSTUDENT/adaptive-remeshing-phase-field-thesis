@@ -117,7 +117,7 @@ and R1 evidence directories unchanged and uses
 compile/datacheck evidence. It replaces the oversized compile-time
 `d3_transfer_table.inc` path with a headerless runtime `d3_transfer_h.dat`
 loaded once through `UEXTERNALDB`. Local validation passed for 25600 H records
-with SHA256 `26a523475a6189dffc05706bf10406bf5df0490c62e56bc43609bddd8fd14160`.
+with SHA256 `4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9`.
 
 The next allowed cluster action is one compile/datacheck submission through
 `scripts/hpc/stage_d3/submit_d3a3_r2_compile_datacheck.sh`. Full D3A3-R2, D3D,

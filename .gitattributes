@@ -7,6 +7,11 @@ runs/molnar_single_notch_unchanged/**/work/*.for text eol=lf
 runs/molnar_single_notch_unchanged/**/work/*.inp text eol=lf
 models/generated/molnar_gravouil_2017/**/*.for text eol=lf
 models/generated/molnar_gravouil_2017/**/*.inp text eol=lf
+models/state_transfer/**/*.for text eol=lf
+models/state_transfer/**/*.inp text eol=lf
+models/state_transfer/**/*.dat text eol=lf
+scripts/hpc/**/*.sh text eol=lf
+scripts/hpc/**/*.pbs text eol=lf
 
 # Keep mirrored handoff copies reviewable with stable LF line endings.
 agent_handoff/*.for text eol=lf

@@ -33,7 +33,7 @@ def main():
     rows.sort(key=lambda row: (int(row["element"]), int(row["integration_point"])))
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    with args.out.open("w", encoding="utf-8") as handle:
+    with args.out.open("w", encoding="utf-8", newline="\n") as handle:
         for row in rows:
             handle.write(
                 f"{int(row['element'])} {int(row['integration_point'])} "
