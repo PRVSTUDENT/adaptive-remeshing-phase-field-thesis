@@ -92,3 +92,23 @@ under `runs/hpc/stage_d3/interrupted_transfer/checkpoint_energy_r1/`, and the
 accepted marker is `runs/hpc/stage_d3/interrupted_transfer/checkpoint/D3A.ok`.
 D3A2 package construction may proceed locally; no fracture solver job may be
 submitted before `D3_PACKAGE.ok`.
+
+## D3A2 Nonmatching Package Outcome
+
+D3A2 built one deterministic nonmatching split-notch target package locally
+without PBS submission. The accepted package classification is
+`stage_d3a2_transfer_package_pass` from source job `1376154.mmaster02` at
+checkpoint `U2=0.003000000026077032 mm`.
+
+The target has 6601 nodes, 6400 Q4 physical elements, and 25600 target
+integration points. The split-notch topology audit passed: the open notch runs
+from `x=-0.5` to `x=0.0` on `y=0`, has 40 duplicated coincident open-face node
+pairs, keeps the notch tip shared, has notch length `0.5`, and has zero
+elements crossing the open notch faces. The target mesh has non-positive detJ
+count `0`.
+
+The transfer package reports target-node coverage `1.0`, target-IP coverage
+`1.0`, predicted energy relative jump `0.015379624558651227`, unmapped state
+count `0`, and `solver_job_submitted=false`. Evidence is under
+`runs/hpc/stage_d3/interrupted_transfer/package/`, with marker `D3_PACKAGE.ok`.
+D3A3 is the next allowed job; D3D and D3E remain blocked.

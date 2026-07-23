@@ -146,3 +146,20 @@ $2.829135024804933\times10^{-6}$, and relative energy residual
 $0.012586306767288707$. D3A is now closed as
 \path{stage_d3a_checkpoint_pass_independent_energy_reconstruction}; D3A2
 nonmatching package construction is the next local gate.
+
+\section{D3A2 nonmatching package}
+D3A2 built and validated one deterministic nonmatching split-notch target
+package locally, without PBS submission. The accepted package classification is
+\path{stage_d3a2_transfer_package_pass}. The source is job
+\texttt{1376154.mmaster02} at checkpoint
+$U_2=0.003000000026077032\,\mathrm{mm}$.
+
+The target has 6601 nodes, 6400 Q4 physical elements, and 25600 integration
+points. Its open notch runs from $x=-0.5$ to $x=0.0$ on $y=0$, with 40
+duplicated coincident face-node pairs and a shared notch tip. The topology audit
+found notch length $0.5\,\mathrm{mm}$, zero crossing elements, and zero
+non-positive Jacobian determinants. The transfer package gives target-node and
+target-IP coverage 1.0, predicted energy relative jump
+$0.015379624558651227$, and unmapped state count 0. The package marker records
+\texttt{solver\_job\_submitted=false}; D3A3 ingestion/equilibration/release hold
+is the next gate before any continuation solve.

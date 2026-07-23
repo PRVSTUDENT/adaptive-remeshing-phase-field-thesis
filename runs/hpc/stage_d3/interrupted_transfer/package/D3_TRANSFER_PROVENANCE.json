@@ -1,0 +1,18 @@
+{
+  "checkpoint_RF2": 0.39450356364250183,
+  "checkpoint_U2": 0.003000000026077032,
+  "classification": "stage_d3a2_transfer_provenance",
+  "input_deck": "models\\generated\\molnar_gravouil_2017\\h_convergence_lc015\\H0_exact\\SingleNotch.inp",
+  "input_deck_sha256": "82c80c03c1b0b25131e9e0352502fb393bd593f9f07035c311f164ee9311f92e",
+  "solver_job_submitted": false,
+  "source_energy_json": "runs\\hpc\\stage_d3\\interrupted_transfer\\checkpoint_energy_r1\\D3A_RECONSTRUCTED_ENERGY.json",
+  "source_energy_json_sha256": "69b976ed30c5ccf93c3efbfd2166e92318081b25865bd58824b371a44a9361ce",
+  "source_history": "SDV16 interpolated from accepted checkpoint IP state",
+  "source_job": "1376154.mmaster02",
+  "source_phase": "SDV15 interpolated from accepted checkpoint IP state",
+  "source_state_csv": "runs\\hpc\\stage_d3\\interrupted_transfer\\checkpoint_energy_r1\\D3A_CHECKPOINT_STATE_WITH_ENERGY.csv",
+  "source_state_csv_sha256": "f0a9298b0f827ee317767a13ffb46d6760224f125ceba444e43eb2383098d9f9",
+  "support_method": "scipy_cKDTree_idw_k8",
+  "target_mesh": "deterministic_split_notch_Q4_80x80",
+  "target_notch": "open seam from x=-0.5 to x=0.0 on y=0, lower-face nodes duplicated, tip shared"
+}
