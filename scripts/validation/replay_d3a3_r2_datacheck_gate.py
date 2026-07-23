@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Replay the D3A3-R2 datacheck postcheck from preserved Abaqus evidence."""
 
-from __future__ import annotations
-
 import argparse
 import json
 import re
@@ -18,11 +16,11 @@ EXPECTED_PATH = (
 EXPECTED_SHA = "4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9"
 
 
-def read_text(path: Path) -> str:
+def read_text(path):
     return path.read_text(encoding="utf-8", errors="replace")
 
 
-def reconstruct_runtime_h_path(msg_path: Path) -> dict:
+def reconstruct_runtime_h_path(msg_path):
     lines = read_text(msg_path).splitlines()
     for idx, line in enumerate(lines):
         if "D3A3-R2 H FILE PATH" not in line:
@@ -42,12 +40,12 @@ def reconstruct_runtime_h_path(msg_path: Path) -> dict:
     raise ValueError("D3A3-R2 H FILE PATH block ending in d3_transfer_h.dat not found")
 
 
-def require(condition: bool, failures: list[str], message: str) -> None:
+def require(condition, failures, message):
     if not condition:
         failures.append(message)
 
 
-def replay(evidence_dir: Path, out_dir: Path, expected_path: str) -> int:
+def replay(evidence_dir, out_dir, expected_path):
     msg_path = evidence_dir / "D3A3_R2_DATACHECK.msg"
     stdout_path = evidence_dir / "D3A3_R2_DATACHECK_STDOUT.log"
     runtime_path = evidence_dir / "D3A3_R2_RUNTIME_STATE_VALIDATION.json"
@@ -66,7 +64,7 @@ def replay(evidence_dir: Path, out_dir: Path, expected_path: str) -> int:
     path_reconstruction = reconstruct_runtime_h_path(msg_path)
 
     combined = "\n".join([msg, stdout])
-    failures: list[str] = []
+    failures = []
     require("End Compiling Abaqus/Standard User Subroutines" in stdout, failures, "compile completion token missing")
     require("End Linking Abaqus/Standard User Subroutines" in stdout, failures, "link completion token missing")
     require("End Analysis Input File Processor" in stdout, failures, "input processing completion token missing")
@@ -152,7 +150,7 @@ def replay(evidence_dir: Path, out_dir: Path, expected_path: str) -> int:
     return 0 if not failures else 1
 
 
-def main() -> int:
+def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--extract-path", type=Path, help="Only reconstruct and print runtime-H path from this .msg file.")
     parser.add_argument(
