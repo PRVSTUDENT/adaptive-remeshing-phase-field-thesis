@@ -7,7 +7,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
-from typing import Dict, Iterable, List, Tuple
+from typing import Dict, Iterable, List, NamedTuple, Tuple
 
 
 PHYSICAL_ELEMENTS = 3930
@@ -22,6 +22,16 @@ GAUSS = {
     3: (1.0 / math.sqrt(3.0), 1.0 / math.sqrt(3.0), 1.0),
     4: (-1.0 / math.sqrt(3.0), 1.0 / math.sqrt(3.0), 1.0),
 }
+
+
+class MeshParseResult(NamedTuple):
+    part_nodes: Dict[int, Tuple[float, float]]
+    assembly_nodes: Dict[int, Tuple[float, float]]
+    u1_elements: Dict[int, Tuple[int, int, int, int]]
+    duplicate_part_node_labels: List[int]
+    duplicate_assembly_node_labels: List[int]
+    duplicate_labels_across_scopes: List[int]
+    missing_connectivity_nodes: List[Dict[str, int]]
 
 
 def sha256(path: Path) -> str:
@@ -53,37 +63,111 @@ def f(row: Dict[str, str], name: str) -> float:
     return float(row[name])
 
 
-def parse_h0_inp(path: Path) -> Tuple[Dict[int, Tuple[float, float]], Dict[int, Tuple[int, int, int, int]]]:
-    nodes: Dict[int, Tuple[float, float]] = {}
+def parse_h0_inp_scoped(path: Path) -> MeshParseResult:
+    part_nodes: Dict[int, Tuple[float, float]] = {}
+    assembly_nodes: Dict[int, Tuple[float, float]] = {}
     elems: Dict[int, Tuple[int, int, int, int]] = {}
+    duplicate_part_node_labels: List[int] = []
+    duplicate_assembly_node_labels: List[int] = []
+    scope = None
+    active_part = None
     mode = None
-    element_block = None
+    element_block_is_u1 = False
     with path.open(encoding="utf-8", errors="replace") as handle:
         for raw in handle:
             line = raw.strip()
             if not line or line.startswith("**"):
                 continue
             lower = line.lower()
+            if lower.startswith("*part"):
+                scope = "part"
+                active_part = None
+                mode = None
+                element_block_is_u1 = False
+                for token in line.split(",")[1:]:
+                    key_value = token.strip().split("=", 1)
+                    if len(key_value) == 2 and key_value[0].strip().lower() == "name":
+                        active_part = key_value[1].strip()
+                continue
+            if lower.startswith("*end part"):
+                scope = None
+                active_part = None
+                mode = None
+                element_block_is_u1 = False
+                continue
+            if lower.startswith("*assembly"):
+                scope = "assembly"
+                active_part = None
+                mode = None
+                element_block_is_u1 = False
+                continue
+            if lower.startswith("*end assembly"):
+                scope = None
+                mode = None
+                element_block_is_u1 = False
+                continue
             if lower.startswith("*node"):
                 mode = "node"
                 continue
             if lower.startswith("*element"):
                 mode = "element"
-                element_block = lower
+                element_block_is_u1 = "type=u1" in lower.replace(" ", "")
                 continue
             if line.startswith("*"):
                 mode = None
-                element_block = None
+                element_block_is_u1 = False
                 continue
             parts = [p.strip() for p in line.split(",") if p.strip()]
             if mode == "node" and len(parts) >= 3:
                 label = int(parts[0])
-                nodes[label] = (float(parts[1]), float(parts[2]))
-            elif mode == "element" and element_block and "type=u1" in element_block and len(parts) >= 5:
+                coords = (float(parts[1]), float(parts[2]))
+                if scope == "part" and active_part == "Part-1":
+                    if label in part_nodes:
+                        duplicate_part_node_labels.append(label)
+                    else:
+                        part_nodes[label] = coords
+                elif scope == "assembly":
+                    if label in assembly_nodes:
+                        duplicate_assembly_node_labels.append(label)
+                    else:
+                        assembly_nodes[label] = coords
+            elif (
+                mode == "element"
+                and scope == "part"
+                and active_part == "Part-1"
+                and element_block_is_u1
+                and len(parts) >= 5
+            ):
                 label = int(parts[0])
                 if 1 <= label <= PHYSICAL_ELEMENTS:
                     elems[label] = tuple(int(p) for p in parts[1:5])  # type: ignore[assignment]
-    return nodes, elems
+    missing_connectivity_nodes = [
+        {"element": element, "node": node}
+        for element, conn in sorted(elems.items())
+        for node in conn
+        if node not in part_nodes
+    ]
+    duplicate_labels_across_scopes = sorted(set(part_nodes).intersection(assembly_nodes))
+    return MeshParseResult(
+        part_nodes=part_nodes,
+        assembly_nodes=assembly_nodes,
+        u1_elements=elems,
+        duplicate_part_node_labels=sorted(set(duplicate_part_node_labels)),
+        duplicate_assembly_node_labels=sorted(set(duplicate_assembly_node_labels)),
+        duplicate_labels_across_scopes=duplicate_labels_across_scopes,
+        missing_connectivity_nodes=missing_connectivity_nodes,
+    )
+
+
+def parse_h0_inp(path: Path) -> Tuple[Dict[int, Tuple[float, float]], Dict[int, Tuple[int, int, int, int]]]:
+    parsed = parse_h0_inp_scoped(path)
+    if parsed.duplicate_part_node_labels:
+        raise ValueError(f"duplicate Part-1 node labels: {parsed.duplicate_part_node_labels[:10]}")
+    if len(parsed.u1_elements) != PHYSICAL_ELEMENTS:
+        raise ValueError(f"expected {PHYSICAL_ELEMENTS} Part-1 U1 elements, found {len(parsed.u1_elements)}")
+    if parsed.missing_connectivity_nodes:
+        raise ValueError(f"U1 connectivity references missing Part-1 nodes: {parsed.missing_connectivity_nodes[:10]}")
+    return parsed.part_nodes, parsed.u1_elements
 
 
 def shape(xi: float, eta: float) -> Tuple[List[float], List[Tuple[float, float]]]:
@@ -159,7 +243,15 @@ def integrate_external_work(rows: List[Dict[str, str]], checkpoint_total_time: f
 
 def reconstruct(args: argparse.Namespace) -> Dict[str, object]:
     ensure_dir(args.out_dir)
-    nodes, elements = parse_h0_inp(args.input_deck)
+    mesh = parse_h0_inp_scoped(args.input_deck)
+    if mesh.duplicate_part_node_labels:
+        raise ValueError(f"duplicate Part-1 node labels: {mesh.duplicate_part_node_labels[:10]}")
+    if len(mesh.u1_elements) != PHYSICAL_ELEMENTS:
+        raise ValueError(f"expected {PHYSICAL_ELEMENTS} Part-1 U1 elements, found {len(mesh.u1_elements)}")
+    if mesh.missing_connectivity_nodes:
+        raise ValueError(f"U1 connectivity references missing Part-1 nodes: {mesh.missing_connectivity_nodes[:10]}")
+    nodes = mesh.part_nodes
+    elements = mesh.u1_elements
     state_rows = read_csv(args.state_csv)
     nodal_rows = read_csv(args.nodal_d_csv)
     rf_u_rows = read_csv(args.rf_u_csv)
@@ -193,6 +285,7 @@ def reconstruct(args: argparse.Namespace) -> Dict[str, object]:
     element_frac: Dict[int, Dict[str, float]] = {}
     enriched_rows = []
     positive_jacobians = True
+    detj_values: List[Tuple[float, int, int]] = []
 
     for element, conn in sorted(elements.items()):
         coords = [nodes[n] for n in conn]
@@ -206,6 +299,7 @@ def reconstruct(args: argparse.Namespace) -> Dict[str, object]:
             xi, eta, weight = GAUSS[ip]
             n, dndxi = shape(xi, eta)
             detj, inv_j = jacobian(coords, dndxi)
+            detj_values.append((detj, element, ip))
             if detj <= 0.0:
                 positive_jacobians = False
             dndx = grad_shape(dndxi, inv_j)
@@ -261,7 +355,12 @@ def reconstruct(args: argparse.Namespace) -> Dict[str, object]:
             "total_fracture_energy": frac_local + frac_gradient,
         }
 
-    enriched_fields = list(state_rows[0].keys()) + [
+    enrichment_fields = [
+        "gauss_xi",
+        "gauss_eta",
+        "gauss_weight",
+        "detJ",
+        "thickness",
         "phase_d_from_nodes",
         "grad_d_x",
         "grad_d_y",
@@ -270,6 +369,9 @@ def reconstruct(args: argparse.Namespace) -> Dict[str, object]:
         "undamaged_bulk_energy_from_SDV13",
         "fracture_energy_local",
         "fracture_energy_gradient",
+    ]
+    enriched_fields = list(state_rows[0].keys()) + [
+        field for field in enrichment_fields if field not in state_rows[0]
     ]
     write_csv(args.out_dir / "D3A_CHECKPOINT_STATE_WITH_ENERGY.csv", enriched_fields, enriched_rows)
     write_csv(
@@ -291,6 +393,9 @@ def reconstruct(args: argparse.Namespace) -> Dict[str, object]:
     total_fracture = frac_local_total + frac_gradient_total
     total_internal = bulk_sdv12_total + total_fracture
     residual = signed_work - total_internal
+    min_detj, min_detj_element, min_detj_ip = min(detj_values)
+    max_detj, max_detj_element, max_detj_ip = max(detj_values)
+    non_positive_detj_count = sum(1 for detj, _, _ in detj_values if detj <= 0.0)
     summary = {
         "classification": "stage_d3a_energy_reconstructed",
         "source_job": args.source_job_id,
@@ -319,6 +424,15 @@ def reconstruct(args: argparse.Namespace) -> Dict[str, object]:
         "absolute_energy_residual": residual,
         "relative_energy_residual": abs(residual) / max(abs(signed_work), abs(total_internal), EPS),
         "jacobian_determinants_positive": positive_jacobians,
+        "non_positive_detJ_count": non_positive_detj_count,
+        "minimum_detJ": min_detj,
+        "minimum_detJ_element": min_detj_element,
+        "minimum_detJ_integration_point": min_detj_ip,
+        "maximum_detJ": max_detj,
+        "maximum_detJ_element": max_detj_element,
+        "maximum_detJ_integration_point": max_detj_ip,
+        "duplicate_node_labels_across_part_and_assembly": mesh.duplicate_labels_across_scopes,
+        "assembly_node_count": len(mesh.assembly_nodes),
         "thickness": THICKNESS,
         "Gc": GC,
         "lc": LC,
@@ -339,6 +453,38 @@ def reconstruct(args: argparse.Namespace) -> Dict[str, object]:
     }
     args.out_dir.joinpath("D3A_RECONSTRUCTED_ENERGY.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     args.out_dir.joinpath("D3A_ENERGY_INPUT_PROVENANCE.json").write_text(json.dumps(provenance, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    old_summary_path = args.out_dir.parent / "checkpoint_energy" / "D3A_RECONSTRUCTED_ENERGY.json"
+    if old_summary_path.exists() and old_summary_path.resolve() != (args.out_dir / "D3A_RECONSTRUCTED_ENERGY.json").resolve():
+        old_summary = json.loads(old_summary_path.read_text(encoding="utf-8"))
+        comparison_fields = {
+            "bulk_energy": "bulk_energy_from_SDV12",
+            "fracture_local_energy": "fracture_energy_local_term",
+            "fracture_gradient_energy": "fracture_energy_gradient_term",
+            "total_internal_energy": "total_reconstructed_internal_energy",
+            "absolute_energy_residual": "absolute_energy_residual",
+            "relative_energy_residual": "relative_energy_residual",
+        }
+        comparison = {
+            "classification": "stage_d3a_energy_r0_vs_r1_scope_correction",
+            "r0_dir": str(old_summary_path.parent),
+            "r1_dir": str(args.out_dir),
+            "changes": {
+                label: {
+                    "r0": old_summary.get(key),
+                    "r1": summary.get(key),
+                    "delta_r1_minus_r0": (
+                        float(summary[key]) - float(old_summary[key])
+                        if key in summary and key in old_summary
+                        else None
+                    ),
+                }
+                for label, key in comparison_fields.items()
+            },
+        }
+        args.out_dir.joinpath("D3A_ENERGY_R0_VS_R1.json").write_text(
+            json.dumps(comparison, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
     report = [
         "# D3A Independent Energy Reconstruction",
         "",
@@ -354,6 +500,9 @@ def reconstruct(args: argparse.Namespace) -> Dict[str, object]:
         "- Fracture energy gradient term: `{}`".format(frac_gradient_total),
         "- Total reconstructed internal energy: `{}`".format(total_internal),
         "- Relative energy residual: `{}`".format(summary["relative_energy_residual"]),
+        "- Minimum detJ: `{}` at element `{}` IP `{}`".format(min_detj, min_detj_element, min_detj_ip),
+        "- Maximum detJ: `{}` at element `{}` IP `{}`".format(max_detj, max_detj_element, max_detj_ip),
+        "- Non-positive detJ count: `{}`".format(non_positive_detj_count),
         "",
         "The reconstruction uses the accepted H0 input deck connectivity, the",
         "checkpoint nodal phase field, and exported integration-point state.",

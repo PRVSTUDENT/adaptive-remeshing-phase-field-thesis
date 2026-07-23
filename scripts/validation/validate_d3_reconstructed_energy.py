@@ -148,7 +148,7 @@ def validate(out_dir: Path, checkpoint_dir: Path, job_id: str) -> Dict[str, obje
 
     status = {
         "classification": (
-            "stage_d3a_checkpoint_pass_independent_energy_reconstruction"
+            "stage_d3a_energy_reconstruction_pass"
             if not failures
             else "stage_d3a_energy_reconstruction_fail"
         ),
@@ -166,6 +166,13 @@ def validate(out_dir: Path, checkpoint_dir: Path, job_id: str) -> Dict[str, obje
         "relative_energy_residual": summary.get("relative_energy_residual"),
         "external_work": summary.get("external_work"),
         "total_reconstructed_internal_energy": summary.get("total_reconstructed_internal_energy"),
+        "non_positive_detJ_count": summary.get("non_positive_detJ_count"),
+        "minimum_detJ": summary.get("minimum_detJ"),
+        "minimum_detJ_element": summary.get("minimum_detJ_element"),
+        "minimum_detJ_integration_point": summary.get("minimum_detJ_integration_point"),
+        "maximum_detJ": summary.get("maximum_detJ"),
+        "maximum_detJ_element": summary.get("maximum_detJ_element"),
+        "maximum_detJ_integration_point": summary.get("maximum_detJ_integration_point"),
         "failures": failures,
     }
     (out_dir / "D3A_ENERGY_VALIDATION_STATUS.json").write_text(
@@ -173,13 +180,25 @@ def validate(out_dir: Path, checkpoint_dir: Path, job_id: str) -> Dict[str, obje
         encoding="utf-8",
     )
     if not failures:
+        (out_dir / "D3A_E_R1.ok").write_text(
+            "\n".join([
+                "classification=stage_d3a_energy_reconstruction_pass",
+                f"source_job={job_id}",
+                "checkpoint_U2=0.003000000026077032",
+                "energy_evidence=scope_corrected_independent_quadrature_reconstruction",
+                "failed_predecessor_job=1376885.mmaster02",
+                "",
+            ]),
+            encoding="utf-8",
+        )
         checkpoint_dir.mkdir(parents=True, exist_ok=True)
         (checkpoint_dir / "D3A.ok").write_text(
             "\n".join([
                 "classification=stage_d3a_checkpoint_pass_independent_energy_reconstruction",
                 "source_job=1376154.mmaster02",
                 "checkpoint_U2=0.003000000026077032",
-                "energy_evidence=independent_quadrature_reconstruction",
+                "energy_evidence=scope_corrected_independent_quadrature_reconstruction",
+                "failed_predecessor_job=1376885.mmaster02",
                 "",
             ]),
             encoding="utf-8",
@@ -192,7 +211,7 @@ def validate(out_dir: Path, checkpoint_dir: Path, job_id: str) -> Dict[str, obje
             data["resolved_classification"] = "stage_d3a_checkpoint_pass_independent_energy_reconstruction"
             data["D3A_ok"] = True
             data["accepted_checkpoint_marker"] = True
-            data["energy_evidence"] = "independent_quadrature_reconstruction"
+            data["energy_evidence"] = "scope_corrected_independent_quadrature_reconstruction"
             blocked.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(status, indent=2, sort_keys=True))
     return status
@@ -200,11 +219,19 @@ def validate(out_dir: Path, checkpoint_dir: Path, job_id: str) -> Dict[str, obje
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--out-dir", type=Path, required=True)
-    parser.add_argument("--checkpoint-dir", type=Path, required=True)
+    parser.add_argument("--out-dir", type=Path)
+    parser.add_argument("--energy-dir", type=Path)
+    parser.add_argument(
+        "--checkpoint-dir",
+        type=Path,
+        default=Path("runs/hpc/stage_d3/interrupted_transfer/checkpoint"),
+    )
     parser.add_argument("--job-id", default="not_submitted")
     args = parser.parse_args()
-    status = validate(args.out_dir, args.checkpoint_dir, args.job_id)
+    out_dir = args.energy_dir or args.out_dir
+    if out_dir is None:
+        parser.error("one of --energy-dir or --out-dir is required")
+    status = validate(out_dir, args.checkpoint_dir, args.job_id)
     return 0 if status["D3A_ok"] else 1
 
 

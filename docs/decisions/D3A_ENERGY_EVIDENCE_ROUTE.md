@@ -43,6 +43,22 @@ reproducible energy calculations. Only if the reconstruction passes its
 predeclared checks may D3A be closed with
 `stage_d3a_checkpoint_pass_independent_energy_reconstruction`.
 
+## Outcome
+
+D3A-E R0 job `1376885.mmaster02` is preserved as failed evidence with
+classification `stage_d3a_energy_reconstruction_fail_parser_scope`. The
+failure was traced to a scope-insensitive input parser that read `Part-1` node
+labels and assembly reference-point node labels into one namespace.
+
+D3A-E R1 corrected the parser scope and passed with classification
+`stage_d3a_energy_reconstruction_pass`: 3930 physical elements, 15720
+integration points, non-positive detJ count `0`, minimum detJ
+`2.829135024804933e-06`, and relative energy residual
+`0.012586306767288707`.
+
+D3A is closed with classification
+`stage_d3a_checkpoint_pass_independent_energy_reconstruction`.
+
 ## Predeclared Diagnostic Tolerance
 
 The provisional energy-balance tolerance is:

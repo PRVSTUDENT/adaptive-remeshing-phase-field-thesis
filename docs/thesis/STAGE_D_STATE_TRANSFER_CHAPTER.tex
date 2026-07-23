@@ -126,26 +126,23 @@ $d=0.08412302285432816$, maximum $H=0.0512588769197464$, checkpoint
 \texttt{RF2} $=0.39450356364250183$, and
 \texttt{RF2}/\texttt{RF2}_{\mathrm{peak,H0}}=0.5421925638518931$.
 
-This is useful partial evidence but not an accepted D3A checkpoint. The source
-ODB lacks \texttt{ALLIE}, \texttt{ALLSE}, and \texttt{ALLWK} energy history
-outputs, so the D3A acceptance gate fails and no \texttt{D3A.ok} marker is
-written. No D3A2 transfer package or fracture solver job was submitted.
+The source ODB lacks \texttt{ALLIE}, \texttt{ALLSE}, and \texttt{ALLWK} global
+energy history outputs, so D3A required independent energy evidence before
+acceptance. That original blocker is preserved in the history and resolved by
+the D3A-E R1 reconstruction.
 
 \section{D3A-E independent energy reconstruction}
-D3A-E attempted to replace unavailable global ODB energy history with an
-independent quadrature reconstruction from the accepted H0 checkpoint exports.
-The CAE/ODB-only job \texttt{1376885.mmaster02} reconstructed external work
-$0.0005994580560459379$, bulk energy from \texttt{SDV12}
-$0.0005918856529030076$, bulk energy from $0.5S:E$
-$0.0005918856524092704$, total fracture energy
-$2.280704034757352\times 10^{-8}$, total reconstructed internal energy
-$0.0005919084599433551$, and relative energy residual
-$0.012594035606728515$. The direct \texttt{SDV12} integration and independent
-$0.5S:E$ integration agreed to relative difference
-$8.341766862422363\times 10^{-10}$.
+D3A-E replaced unavailable global ODB energy history with an independent
+quadrature reconstruction from the accepted H0 checkpoint exports. R0 job
+\texttt{1376885.mmaster02} is preserved as failed evidence with classification
+\path{stage_d3a_energy_reconstruction_fail_parser_scope}; the first parser
+mixed \texttt{Part-1} mesh nodes and assembly reference-point nodes into one
+namespace.
 
-The energy route is not accepted yet. Validation failed on the predeclared
-positive-Jacobian gate because five Jacobian determinants computed from the H0
-deck connectivity were non-positive. The classification is
-\path{stage_d3a_energy_reconstruction_fail}; no \texttt{D3A.ok} marker exists
-and D3A2 remains blocked.
+R1 corrected the parser scope and passed with classification
+\path{stage_d3a_energy_reconstruction_pass}: 3930 physical elements, 15720
+integration points, non-positive detJ count 0, minimum detJ
+$2.829135024804933\times10^{-6}$, and relative energy residual
+$0.012586306767288707$. D3A is now closed as
+\path{stage_d3a_checkpoint_pass_independent_energy_reconstruction}; D3A2
+nonmatching package construction is the next local gate.

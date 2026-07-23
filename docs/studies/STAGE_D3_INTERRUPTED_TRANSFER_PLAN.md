@@ -67,29 +67,28 @@ frame at `U2=0.003000000026077032 mm` without state interpolation. It extracted
 `max_H=0.0512588769197464`, checkpoint `RF2=0.39450356364250183`, and
 `RF2/H0_peak=0.5421925638518931`.
 
-D3A is nevertheless not accepted. The original H0 deck did not request
-`ALLIE`, `ALLSE`, or `ALLWK`, so checkpoint energy values are absent. The
-correct classification is
-`stage_d3a_checkpoint_blocked_missing_energy_history`, and no `D3A.ok` marker
-exists. D3A2 package construction must not proceed from this non-accepted
-checkpoint.
+D3A required independent energy evidence because the original H0 deck did not
+request `ALLIE`, `ALLSE`, or `ALLWK`, so checkpoint global energy history is
+absent. That absence is preserved as the original D3A blocker, but it is now
+resolved by the scope-corrected D3A-E R1 reconstruction described below.
 
 ## D3A-E Energy Reconstruction Outcome
 
 D3A-E authorized independent quadrature-based energy reconstruction rather than
 rerunning the H0 fracture model merely to request global Abaqus energy output.
-The corrected CAE/ODB-only job `1376885.mmaster02` extracted `SDV12`, `SDV13`,
-degraded stress, strain, `SDV15`, `SDV16`, RF-U history, and nodal phase data
-from the same checkpoint frame.
+R0 job `1376885.mmaster02` is preserved as failed evidence with classification
+`stage_d3a_energy_reconstruction_fail_parser_scope`: the first parser read
+`Part-1` mesh nodes and assembly reference-point nodes into one namespace.
 
-The reconstruction completed with external work `0.0005994580560459379`, bulk
-energy from `SDV12` `0.0005918856529030076`, bulk energy from `0.5*S:E`
-`0.0005918856524092704`, relative bulk difference
-`8.341766862422363e-10`, total fracture energy `2.280704034757352e-08`, total
-reconstructed internal energy `0.0005919084599433551`, and relative energy
-residual `0.012594035606728515`.
+R1 corrected the parser scope and passed with classification
+`stage_d3a_energy_reconstruction_pass`. It retains 3930 physical elements and
+15720 integration points, reports non-positive detJ count `0`, minimum detJ
+`2.829135024804933e-06`, and relative energy residual
+`0.012586306767288707`.
 
-The validation classification is `stage_d3a_energy_reconstruction_fail` because
-five Jacobian determinants computed from the accepted H0 deck connectivity were
-non-positive. No `D3A.ok` marker was created, D3A2 remains blocked, and no
-fracture solver job was submitted.
+D3A is now closed as
+`stage_d3a_checkpoint_pass_independent_energy_reconstruction`. Evidence is
+under `runs/hpc/stage_d3/interrupted_transfer/checkpoint_energy_r1/`, and the
+accepted marker is `runs/hpc/stage_d3/interrupted_transfer/checkpoint/D3A.ok`.
+D3A2 package construction may proceed locally; no fracture solver job may be
+submitted before `D3_PACKAGE.ok`.

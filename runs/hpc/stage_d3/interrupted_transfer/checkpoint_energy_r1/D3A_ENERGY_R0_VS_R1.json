@@ -1,0 +1,37 @@
+{
+  "changes": {
+    "absolute_energy_residual": {
+      "delta_r1_minus_r0": -4.633115066078608e-09,
+      "r0": 7.5495961025828e-06,
+      "r1": 7.544962987516722e-06
+    },
+    "bulk_energy": {
+      "delta_r1_minus_r0": 4.5974790249770844e-09,
+      "r0": 0.0005918856529030076,
+      "r1": 0.0005918902503820326
+    },
+    "fracture_gradient_energy": {
+      "delta_r1_minus_r0": 3.5633156361319054e-11,
+      "r0": 4.289949080666141e-11,
+      "r1": 7.853264716798046e-11
+    },
+    "fracture_local_energy": {
+      "delta_r1_minus_r0": 2.8847232207445848e-15,
+      "r0": 2.276414085676686e-08,
+      "r1": 2.276414374149008e-08
+    },
+    "relative_energy_residual": {
+      "delta_r1_minus_r0": -7.728839439807844e-06,
+      "r0": 0.012594035606728515,
+      "r1": 0.012586306767288707
+    },
+    "total_internal_energy": {
+      "delta_r1_minus_r0": 4.633115066078608e-09,
+      "r0": 0.0005919084599433551,
+      "r1": 0.0005919130930584212
+    }
+  },
+  "classification": "stage_d3a_energy_r0_vs_r1_scope_correction",
+  "r0_dir": "runs\\hpc\\stage_d3\\interrupted_transfer\\checkpoint_energy",
+  "r1_dir": "runs\\hpc\\stage_d3\\interrupted_transfer\\checkpoint_energy_r1"
+}

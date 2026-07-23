@@ -1,0 +1,44 @@
+{
+  "assembly_node_1": [
+    0.5,
+    0.5
+  ],
+  "assembly_node_count": 1,
+  "classification": "stage_d3a_h0_mesh_parser_scope_pass",
+  "duplicate_assembly_node_labels": [],
+  "duplicate_labels_across_scopes": [
+    1
+  ],
+  "duplicate_part_node_labels": [],
+  "element_2240_connectivity": [
+    172,
+    2225,
+    9,
+    1
+  ],
+  "element_345_connectivity": [
+    171,
+    1,
+    9,
+    450
+  ],
+  "failures": [],
+  "input_deck": "models\\generated\\molnar_gravouil_2017\\h_convergence_lc015\\H0_exact\\SingleNotch.inp",
+  "maximum_detJ": 0.000612708407449269,
+  "maximum_detJ_element": 23,
+  "maximum_detJ_integration_point": 4,
+  "minimum_detJ": 2.829135024804933e-06,
+  "minimum_detJ_element": 2921,
+  "minimum_detJ_integration_point": 1,
+  "missing_connectivity_nodes": [],
+  "node_1_namespaces_separate": true,
+  "non_positive_determinant_count": 0,
+  "part_name": "Part-1",
+  "part_node_1": [
+    0.5,
+    0.0
+  ],
+  "part_node_count": 3998,
+  "physical_element_count": 3930,
+  "quadrature_point_count": 15720
+}
