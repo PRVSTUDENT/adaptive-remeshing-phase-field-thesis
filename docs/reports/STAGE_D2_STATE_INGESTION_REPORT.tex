@@ -259,7 +259,16 @@ checkpoint-U2 change. Evidence is staged under
 The login-node \texttt{ifort -extend-source} counted-reader smoke passed with
 25600 records, first key $(1,1)$, last key $(6400,4)$, premature EOF false,
 read error false, duplicates 0, and missing keys 0.
-No full D3A3-R2, D3D, or D3E job is authorized until the single counted-read
-datacheck passes and \texttt{D3A3\_R2\_COMPILE.ok} is committed.
+The single counted-read datacheck ran as job \texttt{1377393.mmaster02} from
+commit \texttt{9058534a9daa188d2d958f8462b230ec843c545e}. Abaqus compiled,
+linked, completed input processing and Standard datacheck, and printed
+\texttt{D3A3-R2 H LOAD COMPLETE 25600}; premature-EOF and runtime-H read-error
+tokens are absent. The PBS wrapper nevertheless exited with
+\texttt{Exit\_status=10} because Abaqus wrapped the long \texttt{GETOUTDIR}
+path across two \texttt{.msg} lines before the \texttt{.mmaster02} suffix, and
+the exact full-path grep failed. The preserved classification is
+\path{stage_d3a3_r2_r2_datacheck_fail_pbs_path_gate_linewrap_false_negative}.
+No \texttt{D3A3\_R2\_COMPILE.ok} marker exists, and no full D3A3-R2, D3D, or
+D3E job is authorized.
 
 \end{document}

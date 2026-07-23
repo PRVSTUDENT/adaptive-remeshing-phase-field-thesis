@@ -60,6 +60,7 @@ copy_evidence() {
     "D3A3_R2_COMPILE_STATUS.json" \
     "D3A3_R2_DATACHECK_JOB_RECORD.txt" \
     "D3A3_R2_RUNTIME_STATE_VALIDATION.json" \
+    "D3A3_R2_REPORTED_H_PATH.txt" \
     "D3A3_R2_R2_COUNTED_READ_AUDIT.json" \
     "D3A3_R2_COMPILE.ok"; do
     if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
@@ -189,8 +190,31 @@ if ! grep -R "D3A3-R2 H FILE PATH" ${SCAN_FILES} >/dev/null 2>&1; then
   exit 9
 fi
 
-if ! grep -R "${EXPECTED_H_PATH}" ${SCAN_FILES} >/dev/null 2>&1 \
-  && ! grep -R "${EXPECTED_H_CANONICAL}" ${SCAN_FILES} >/dev/null 2>&1; then
+REPORTED_H_PATH="$(python3 - ${SCAN_FILES} <<'PY'
+import re
+import sys
+
+collect = False
+parts = []
+for name in sys.argv[1:]:
+    with open(name, "r", errors="replace") as handle:
+        for line in handle:
+            if "D3A3-R2 H FILE PATH" in line:
+                collect = True
+                parts = []
+                continue
+            if collect:
+                parts.append(line.strip())
+                if "d3_transfer_h.dat" in line:
+                    print(re.sub(r"\s+", "", "".join(parts)))
+                    raise SystemExit(0)
+raise SystemExit(0)
+PY
+)"
+printf '%s\n' "${REPORTED_H_PATH}" > D3A3_R2_REPORTED_H_PATH.txt
+
+if [ "${REPORTED_H_PATH}" != "${EXPECTED_H_PATH}" ] \
+  && [ "${REPORTED_H_PATH}" != "${EXPECTED_H_CANONICAL}" ]; then
   write_status "stage_d3a3_r2_r2_compile_datacheck_fail" 10 "reported runtime H path does not point to staged scratch d3_transfer_h.dat"
   copy_evidence
   exit 10

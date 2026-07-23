@@ -1,0 +1,18 @@
+{
+  "D3A3_R2_compile_ok": false,
+  "classification": "stage_d3a3_r2_r2_compile_datacheck_fail",
+  "failures": [
+    "reported runtime H path does not point to staged scratch d3_transfer_h.dat"
+  ],
+  "expected_runtime_H_path": "/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r2_1377393.mmaster02/d3_transfer_h.dat",
+  "expected_runtime_H_canonical_path": "/scratch9/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r2_1377393.mmaster02/d3_transfer_h.dat",
+  "getoutdir_path_confirmed": false,
+  "h_load_complete_25600": false,
+  "job_id": "1377393.mmaster02",
+  "scratch_run": "/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r2_1377393.mmaster02",
+  "pbs_exit_status": 10,
+  "solver_exit": 10,
+  "source_commit": "9058534a9daa188d2d958f8462b230ec843c545e",
+  "solver_job_submitted": false,
+  "datacheck_job_submitted": true
+}

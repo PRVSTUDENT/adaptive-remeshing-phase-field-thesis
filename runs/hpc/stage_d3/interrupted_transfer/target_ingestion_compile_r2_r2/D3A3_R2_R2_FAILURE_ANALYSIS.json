@@ -1,0 +1,28 @@
+{
+  "classification": "stage_d3a3_r2_r2_datacheck_fail_pbs_path_gate_linewrap_false_negative",
+  "job_id": "1377393.mmaster02",
+  "source_commit": "9058534a9daa188d2d958f8462b230ec843c545e",
+  "pbs_exit_status": 10,
+  "stageout_status": 1,
+  "scheduler_comment": "job finished and failed",
+  "compile_link_datacheck_completed": true,
+  "abaqus_stdout_completion_token": "Abaqus JOB D3A3_R2_DATACHECK COMPLETED",
+  "runtime_H_load_complete_25600": true,
+  "premature_runtime_H_EOF_absent": true,
+  "runtime_H_read_error_absent": true,
+  "runtime_H_sha256": "4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9",
+  "runtime_H_records": 25600,
+  "runtime_H_duplicates": 0,
+  "runtime_H_missing_records": 0,
+  "reported_path_linewrap_observed": true,
+  "reported_path_lines": [
+    "/scratch9/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r2_1377393.mmaster",
+    "02/d3_transfer_h.dat"
+  ],
+  "expected_runtime_H_canonical_path": "/scratch9/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r2_1377393.mmaster02/d3_transfer_h.dat",
+  "failure_root_cause": "PBS pass-gate used exact grep against a full GETOUTDIR path, but Abaqus wrapped the long path across two message lines before the .mmaster02 suffix.",
+  "D3A3_R2_COMPILE_ok_created": false,
+  "full_D3A3_R2_authorized": false,
+  "D3D_D3E_authorized": false,
+  "next_correction": "Parse and concatenate the message lines following D3A3-R2 H FILE PATH, remove whitespace, and compare the reconstructed path to the expected canonical staged scratch path before any future authorized retry."
+}

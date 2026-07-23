@@ -1,0 +1,14 @@
+job_id=1377393.mmaster02
+classification=stage_d3a3_r2_r2_compile_datacheck_submitted
+source_commit=9058534a9daa188d2d958f8462b230ec843c545e
+failed_predecessor_job=1377391.mmaster02
+scratch_run=/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r2_1377393.mmaster02
+expected_runtime_H_path=/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r2_1377393.mmaster02/d3_transfer_h.dat
+expected_runtime_H_canonical_path=/scratch9/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r2_1377393.mmaster02/d3_transfer_h.dat
+queue_route=entry_imfdfkmq
+ncpus=1
+mem=16gb
+walltime=00:45:00
+mode=serial_datacheck_only
+solver_job_submitted=false
+OMP_NUM_THREADS=1
