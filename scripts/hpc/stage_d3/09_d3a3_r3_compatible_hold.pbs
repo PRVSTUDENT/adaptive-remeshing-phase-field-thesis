@@ -250,13 +250,16 @@ if [ "${ABAQUS_RC}" -ne 0 ]; then
   exit "${ABAQUS_RC}"
 fi
 
+# Abaqus Python: ODB extraction only. Active/free audit runs under qualified Python 3.11.
 PYTHONPATH="${PROJECT_HOME}/scripts/postprocessing:${PYTHONPATH:-}" \
-abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_d3a3_r3_compatible_state.py" \
+abaqus python \
+  "${PROJECT_HOME}/scripts/postprocessing/extract_d3a3_r3_compatible_state.py" \
   --odb D3A3_R3_compatible_hold.odb \
   --package-dir "${PACKAGE_DIR}" \
   --d3a4-dir "${D3A4_DIR}" \
   --model-dir "${MODEL_DIR}" \
-  --out-dir "${SCRATCH_RUN}" || {
+  --out-dir "${SCRATCH_RUN}" \
+  --skip-active-free-build || {
     write_status "stage_d3a3_r3_ingestion_fail" 20 "R3 ODB extraction failed"
     copy_evidence
     exit 20
@@ -267,13 +270,23 @@ POST_RC=0
   set -euo pipefail
   module load python/gcc/11.4.0/3.11.7
 
-  python3 "${PROJECT_HOME}/scripts/validation/analyze_d3a3_r3_fixed_state_kkt.py" \
+  python3 \
+    "${PROJECT_HOME}/scripts/postprocessing/extract_d3a3_r3_compatible_state.py" \
+    --skip-odb-extract \
+    --package-dir "${PACKAGE_DIR}" \
+    --d3a4-dir "${D3A4_DIR}" \
+    --model-dir "${MODEL_DIR}" \
+    --out-dir "${SCRATCH_RUN}"
+
+  python3 \
+    "${PROJECT_HOME}/scripts/validation/analyze_d3a3_r3_fixed_state_kkt.py" \
     --target-dir "${SCRATCH_RUN}" \
     --d3a4-dir "${D3A4_DIR}" \
     --model-dir "${MODEL_DIR}" \
     --package-dir "${PACKAGE_DIR}"
 
-  python3 "${PROJECT_HOME}/scripts/validation/validate_d3a3_r3_compatible_hold.py" \
+  python3 \
+    "${PROJECT_HOME}/scripts/validation/validate_d3a3_r3_compatible_hold.py" \
     --target-dir "${SCRATCH_RUN}" \
     --d3a4-dir "${D3A4_DIR}"
 ) > D3A3_R3_POSTPYTHON_PIPELINE.log 2>&1 || POST_RC=$?

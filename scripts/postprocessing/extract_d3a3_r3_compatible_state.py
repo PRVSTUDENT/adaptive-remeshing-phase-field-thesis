@@ -224,7 +224,11 @@ def build_active_free_state(out_dir, d3a4_dir, package_dir):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--odb", required=True)
+    parser.add_argument(
+        "--odb",
+        default=None,
+        help="Abaqus ODB path. Required unless --skip-odb-extract is set.",
+    )
     parser.add_argument("--package-dir", default="runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1")
     parser.add_argument("--d3a4-dir", default="runs/hpc/stage_d3/interrupted_transfer/compatibility_projection_d3a4")
     parser.add_argument("--model-dir", default="models/state_transfer/d3_interrupted_transfer")
@@ -232,19 +236,32 @@ def main(argv=None):
     parser.add_argument(
         "--skip-odb-extract",
         action="store_true",
-        help="Only rebuild active/free/lower-bound evidence from an existing recovery CSV.",
+        help="Skip Abaqus ODB extraction; rebuild active/free evidence from existing recovery CSVs.",
+    )
+    parser.add_argument(
+        "--skip-active-free-build",
+        action="store_true",
+        help="Skip ordinary-Python active/free/lower-bound audit (Abaqus-only extraction).",
     )
     args = parser.parse_args(argv)
+
+    if args.skip_odb_extract and args.skip_active_free_build:
+        raise SystemExit(
+            "refusing to run with both --skip-odb-extract and --skip-active-free-build"
+        )
+    if not args.skip_odb_extract and not args.odb:
+        raise SystemExit("--odb is required unless --skip-odb-extract is set")
 
     if not args.skip_odb_extract:
         base.selected_frames = r3_selected_frames
         base.extract(args.odb, args.package_dir, args.model_dir, args.out_dir)
         copy_r3_names(args.out_dir)
 
-    audit = build_active_free_state(args.out_dir, args.d3a4_dir, args.package_dir)
-    print(json.dumps(audit, indent=2, sort_keys=True))
-    if audit["classification"] != "stage_d3a3_r3_lower_bound_audit_pass":
-        return 1
+    if not args.skip_active_free_build:
+        audit = build_active_free_state(args.out_dir, args.d3a4_dir, args.package_dir)
+        print(json.dumps(audit, indent=2, sort_keys=True))
+        if audit["classification"] != "stage_d3a3_r3_lower_bound_audit_pass":
+            return 1
     return 0
 
 
