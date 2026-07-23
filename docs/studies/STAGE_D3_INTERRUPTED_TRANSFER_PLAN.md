@@ -111,4 +111,14 @@ The transfer package reports target-node coverage `1.0`, target-IP coverage
 `1.0`, predicted energy relative jump `0.015379624558651227`, unmapped state
 count `0`, and `solver_job_submitted=false`. Evidence is under
 `runs/hpc/stage_d3/interrupted_transfer/package/`, with marker `D3_PACKAGE.ok`.
-D3A3 is the next allowed job; D3D and D3E remain blocked.
+D3A3-R2 is now prepared only as a compile/datacheck gate. R2 preserves the R0
+and R1 evidence directories unchanged and uses
+`runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2/` for the
+compile/datacheck evidence. It replaces the oversized compile-time
+`d3_transfer_table.inc` path with a headerless runtime `d3_transfer_h.dat`
+loaded once through `UEXTERNALDB`. Local validation passed for 25600 H records
+with SHA256 `26a523475a6189dffc05706bf10406bf5df0490c62e56bc43609bddd8fd14160`.
+
+The next allowed cluster action is one compile/datacheck submission through
+`scripts/hpc/stage_d3/submit_d3a3_r2_compile_datacheck.sh`. Full D3A3-R2, D3D,
+and D3E remain blocked until `D3A3_R2_COMPILE.ok` exists and is committed.

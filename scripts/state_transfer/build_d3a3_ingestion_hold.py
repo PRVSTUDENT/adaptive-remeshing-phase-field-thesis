@@ -3,6 +3,7 @@
 
 import argparse
 import csv
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -11,8 +12,9 @@ from pathlib import Path
 N_ELEM = 6400
 N_IP = 25600
 NODE_OFFSET = 100000
-COMMIT = "3b02de435c330101338ecbf5463306c1b2a6527a"
+COMMIT = "817b69356af87c4e80ad2b2ef33dc6b92bc73a7f"
 CHECKPOINT_U2 = 0.003000000026077032
+H0_FORTRAN = Path("models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact/SingleNotch.for")
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -23,6 +25,14 @@ def read_csv(path: Path) -> list[dict[str, str]]:
 def write(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 def add_label_set(lines: list[str], name: str, labels: list[int], chunk: int = 12) -> None:
@@ -194,6 +204,99 @@ C H table initializes once only from d3_transfer_table.inc during Step 1.
     write(path, text)
 
 
+def generate_fortran_r2(path: Path) -> None:
+    text = H0_FORTRAN.read_text(encoding="utf-8")
+    text = "\n".join(line.rstrip() for line in text.splitlines()) + "\n"
+    text = text.replace("N_ELEM=3930", f"N_ELEM={N_ELEM}")
+    text = text.replace(
+        "C ======================================================================\n      SUBROUTINE UEL",
+        "C ======================================================================\nC D3A3-R2: H initialized once by UEXTERNALDB from d3_transfer_h.dat.\n      SUBROUTINE UEL",
+        1,
+    )
+    uexternaldb = f"""
+
+      SUBROUTINE UEXTERNALDB(LOP,LRESTART,TIME,DTIME,KSTEP,KINC)
+      INCLUDE 'ABA_PARAM.INC'
+      INTEGER LOP,LRESTART,KSTEP,KINC
+      DOUBLE PRECISION TIME(2),DTIME
+      INTEGER N_ELEM,NSTV,NIP
+      PARAMETER (N_ELEM={N_ELEM},NSTV=18,NIP=4)
+      DOUBLE PRECISION USRVAR,HVAL
+      COMMON/KUSER/USRVAR(N_ELEM,NSTV,NIP)
+      LOGICAL HLOADED,SEEN
+      COMMON/D3HLOAD/HLOADED,SEEN(N_ELEM,NIP)
+      INTEGER ELEM,IP,COUNT,IOS,I,J
+      SAVE /KUSER/,/D3HLOAD/
+
+      IF (LOP.EQ.0 .AND. LRESTART.EQ.0 .AND. .NOT.HLOADED) THEN
+        DO I=1,N_ELEM
+          DO J=1,NIP
+            SEEN(I,J)=.FALSE.
+          END DO
+        END DO
+        OPEN(UNIT=99,FILE='d3_transfer_h.dat',STATUS='OLD',
+     1       ACTION='READ',IOSTAT=IOS)
+        IF (IOS.NE.0) THEN
+          WRITE(7,*) 'D3A3-R2 cannot open d3_transfer_h.dat',IOS
+          CALL XIT
+        ENDIF
+        COUNT=0
+ 100    CONTINUE
+        READ(99,*,IOSTAT=IOS) ELEM,IP,HVAL
+        IF (IOS.EQ.0) THEN
+          IF (ELEM.LT.1 .OR. ELEM.GT.N_ELEM) THEN
+            WRITE(7,*) 'D3A3-R2 H element out of range',ELEM
+            CALL XIT
+          ENDIF
+          IF (IP.LT.1 .OR. IP.GT.NIP) THEN
+            WRITE(7,*) 'D3A3-R2 H IP out of range',ELEM,IP
+            CALL XIT
+          ENDIF
+          IF (SEEN(ELEM,IP)) THEN
+            WRITE(7,*) 'D3A3-R2 duplicate H key',ELEM,IP
+            CALL XIT
+          ENDIF
+          IF (HVAL.LT.0.D0) THEN
+            WRITE(7,*) 'D3A3-R2 negative H',ELEM,IP,HVAL
+            CALL XIT
+          ENDIF
+          USRVAR(ELEM,16,IP)=HVAL
+          SEEN(ELEM,IP)=.TRUE.
+          COUNT=COUNT+1
+          GOTO 100
+        ELSEIF (IOS.GT.0) THEN
+          WRITE(7,*) 'D3A3-R2 invalid H record IOSTAT',IOS
+          CALL XIT
+        ENDIF
+        CLOSE(99)
+        IF (COUNT.NE.N_ELEM*NIP) THEN
+          WRITE(7,*) 'D3A3-R2 H record count mismatch',COUNT
+          CALL XIT
+        ENDIF
+        DO I=1,N_ELEM
+          DO J=1,NIP
+            IF (.NOT.SEEN(I,J)) THEN
+              WRITE(7,*) 'D3A3-R2 missing H key',I,J
+              CALL XIT
+            ENDIF
+          END DO
+        END DO
+        HLOADED=.TRUE.
+      ENDIF
+      RETURN
+      END
+
+      BLOCK DATA D3HLOADBLOCK
+      INTEGER N_ELEM,NIP
+      PARAMETER (N_ELEM={N_ELEM},NIP=4)
+      LOGICAL HLOADED,SEEN
+      COMMON/D3HLOAD/HLOADED,SEEN(N_ELEM,NIP)
+      DATA HLOADED /.FALSE./
+      END
+"""
+    write(path, text.rstrip() + uexternaldb)
+
+
 def generate_inp(path: Path, target_dir: Path, package_dir: Path) -> None:
     nodes = read_csv(target_dir / "target_nodes.csv")
     elements = read_csv(target_dir / "target_elements.csv")
@@ -223,14 +326,14 @@ def generate_inp(path: Path, target_dir: Path, package_dir: Path) -> None:
         lines.append(f"{row['element']}, {row['n1']}, {row['n2']}, {row['n3']}, {row['n4']}")
     lines += ["*Elset, elset=PHASE, generate", f"1, {N_ELEM}, 1", "*Uel Property, elset=PHASE", "0.015, 0.0027, 1.0"]
 
-    lines += ["*User Element, nodes=4, type=U2, properties=4, coordinates=2, VARIABLES=8", "1, 2", "*Element, type=U2, elset=DISP"]
+    lines += ["*User Element, nodes=4, type=U2, properties=4, coordinates=2, VARIABLES=56", "1, 2", "*Element, type=U2, elset=DISP"]
     for row in elements:
         label = int(row["element"]) + N_ELEM
         conn = [int(row[f"n{i}"]) + NODE_OFFSET for i in range(1, 5)]
         lines.append(f"{label}, {conn[0]}, {conn[1]}, {conn[2]}, {conn[3]}")
-    lines += ["*Elset, elset=DISP, generate", f"{N_ELEM + 1}, {2 * N_ELEM}, 1", "*Uel Property, elset=DISP", "1.0, 0.3, 1.0e-11, 1.0"]
+    lines += ["*Elset, elset=DISP, generate", f"{N_ELEM + 1}, {2 * N_ELEM}, 1", "*Uel Property, elset=DISP", "210, 0.3, 1, 1e-07"]
 
-    lines += ["*Element, type=CPE4, elset=UMATVIS"]
+    lines += ["*Element, type=CPS4, elset=UMATVIS"]
     for row in elements:
         label = int(row["element"]) + 2 * N_ELEM
         conn = [int(row[f"n{i}"]) + NODE_OFFSET for i in range(1, 5)]
@@ -363,9 +466,24 @@ def static_status(model_dir: Path, package_dir: Path, out_dir: Path) -> dict[str
         "classification": "stage_d3a3_input_provenance",
         "source_commit": COMMIT,
         "source_job": "1376154.mmaster02",
+        "r2_predecessor_failures": [
+            {
+                "job": "1377382.mmaster02",
+                "classification": "stage_d3a3_solver_fail_compiler_environment",
+                "evidence_dir": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion",
+            },
+            {
+                "job": "1377383.mmaster02",
+                "classification": "stage_d3a3_solver_fail_transfer_table_compile",
+                "evidence_dir": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r1",
+            },
+        ],
+        "r2_change": "Replace compile-time DATA transfer table with UEXTERNALDB runtime H loader from d3_transfer_h.dat; preserve physical Molnar source logic.",
         "checkpoint_U2": CHECKPOINT_U2,
         "package_dir": str(package_dir),
         "model_dir": str(model_dir),
+        "fortran_source": str(H0_FORTRAN),
+        "fortran_source_sha256": sha256(H0_FORTRAN),
         "solver_job_submitted_at_generation": False,
     }
     (out_dir / "D3A3_INPUT_PROVENANCE.json").write_text(json.dumps(provenance, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -376,11 +494,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model-dir", type=Path, default=Path("models/state_transfer/d3_interrupted_transfer"))
     parser.add_argument("--package-dir", type=Path, default=Path("runs/hpc/stage_d3/interrupted_transfer/package"))
-    parser.add_argument("--out-dir", type=Path, default=Path("runs/hpc/stage_d3/interrupted_transfer/target_ingestion"))
+    parser.add_argument("--out-dir", type=Path, default=Path("runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2"))
     args = parser.parse_args()
     exe = args.model_dir / "executable"
     generate_inp(exe / "D3A3_target_ingestion_hold.inp", args.model_dir / "target", args.package_dir)
-    generate_fortran(exe / "d3_transfer_uel.for")
+    generate_fortran_r2(exe / "d3_transfer_uel.for")
     status = static_status(args.model_dir, args.package_dir, args.out_dir)
     print(json.dumps(status, indent=2, sort_keys=True))
     return 0 if status["D3A3_static_ok"] else 1

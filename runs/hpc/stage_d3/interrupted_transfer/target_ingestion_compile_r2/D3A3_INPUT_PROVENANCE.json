@@ -1,0 +1,24 @@
+{
+  "checkpoint_U2": 0.003000000026077032,
+  "classification": "stage_d3a3_input_provenance",
+  "fortran_source": "models\\generated\\molnar_gravouil_2017\\h_convergence_lc015\\H0_exact\\SingleNotch.for",
+  "fortran_source_sha256": "516e5ce9a405c30e9d4b45f919f8c22e39cd36bcce102ca065837b81a1405088",
+  "model_dir": "models\\state_transfer\\d3_interrupted_transfer",
+  "package_dir": "runs\\hpc\\stage_d3\\interrupted_transfer\\package",
+  "r2_change": "Replace compile-time DATA transfer table with UEXTERNALDB runtime H loader from d3_transfer_h.dat; preserve physical Molnar source logic.",
+  "r2_predecessor_failures": [
+    {
+      "classification": "stage_d3a3_solver_fail_compiler_environment",
+      "evidence_dir": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion",
+      "job": "1377382.mmaster02"
+    },
+    {
+      "classification": "stage_d3a3_solver_fail_transfer_table_compile",
+      "evidence_dir": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r1",
+      "job": "1377383.mmaster02"
+    }
+  ],
+  "solver_job_submitted_at_generation": false,
+  "source_commit": "817b69356af87c4e80ad2b2ef33dc6b92bc73a7f",
+  "source_job": "1376154.mmaster02"
+}

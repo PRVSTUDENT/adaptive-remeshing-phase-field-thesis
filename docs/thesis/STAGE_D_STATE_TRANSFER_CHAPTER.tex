@@ -182,3 +182,19 @@ valid \texttt{ifort}. The analysis still did not start because the generated
 limit during user-subroutine compilation. The classification is
 \path{stage_d3a3_solver_fail_transfer_table_compile}; no \texttt{D3A3\_R1.ok}
 or \texttt{D3A3.ok} marker exists, so D3D and D3E remain blocked.
+
+D3A3-R2 is prepared as a compile/datacheck gate only. It keeps the R0 and R1
+evidence directories unchanged and moves the new compile evidence to
+\path{runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2/}.
+The oversized compile-time transfer include is replaced by a headerless runtime
+\path{d3_transfer_h.dat} file loaded once through \texttt{UEXTERNALDB}, while
+the physical Molnar H0 UEL/UMAT source remains the base implementation. Local
+runtime-state validation passed for 25600 H records, with minimum $H$
+$1.0045788889553414\times10^{-8}$, maximum $H$
+$0.027317036782803523$, and SHA256
+\texttt{26a523475a6189dffc05706bf10406bf5df0490c62e56bc43609bddd8fd14160}.
+The R2 static validation classification is
+\path{stage_d3a3_static_validation_pass}. No full D3A3-R2 solver job has been
+submitted yet; the next allowed cluster action is exactly one Abaqus
+\texttt{datacheck} compile gate, and D3D/D3E remain blocked until
+\texttt{D3A3\_R2\_COMPILE.ok} exists and is committed.

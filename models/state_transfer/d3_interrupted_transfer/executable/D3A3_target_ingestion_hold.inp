@@ -19612,7 +19612,7 @@
 1, 6400, 1
 *Uel Property, elset=PHASE
 0.015, 0.0027, 1.0
-*User Element, nodes=4, type=U2, properties=4, coordinates=2, VARIABLES=8
+*User Element, nodes=4, type=U2, properties=4, coordinates=2, VARIABLES=56
 1, 2
 *Element, type=U2, elset=DISP
 6401, 100001, 100002, 100083, 100082
@@ -26018,8 +26018,8 @@
 *Elset, elset=DISP, generate
 6401, 12800, 1
 *Uel Property, elset=DISP
-1.0, 0.3, 1.0e-11, 1.0
-*Element, type=CPE4, elset=UMATVIS
+210, 0.3, 1, 1e-07
+*Element, type=CPS4, elset=UMATVIS
 12801, 100001, 100002, 100083, 100082
 12802, 100002, 100003, 100084, 100083
 12803, 100003, 100004, 100085, 100084
