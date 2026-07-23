@@ -301,3 +301,24 @@ residual $1.0654297154470889\times10^{-6}$ at node 3321, and correlation
 $-0.7125040883621269$ between F1 residual and released d change. Therefore the
 next decision is an irreversibility/compatibility choice, not a parameter
 retry.
+
+D3A4 then solved the next offline compatibility problem using only committed
+forensic evidence. The sparse active-set obstacle solve minimized the target
+phase functional with F1 history while enforcing
+\(d_\mathrm{compatible}\ge d_\mathrm{checkpoint}\). The assembly audit
+reproduced the forensic F1 residual on all 6601 nodes with maximum residual
+reconstruction error $2.329340604949326\times10^{-21}$, the same maximum
+residual node 3321, and zero relative error in the residual L2 norm. The KKT
+solve converged in 5 iterations with 1880 active lower-bound nodes and 4721
+free nodes; the free residual infinity norm was
+$7.623296525288703\times10^{-21}$, the minimum active multiplier was
+$3.1903130564656594\times10^{-13}$, and complementarity infinity norm was
+$8.649244021664495\times10^{-23}$. The compatible phase field has no predicted
+healing violations, maximum increase $0.011345805575019186$, normalized L2
+increase $0.03901956109385224$, and reduces the phase functional by
+$2.4132803703716662\times10^{-8}$. D3A4 is classified as
+\path{stage_d3a4_constrained_phase_compatibility_pass}; it creates
+\texttt{D3A4.ok} and a separate
+\path{runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1/} package.
+The original D3A2 package is unchanged. D3D and D3E remain blocked; the next
+bounded solver decision is a D3A3-R3 compatible-state release test only.

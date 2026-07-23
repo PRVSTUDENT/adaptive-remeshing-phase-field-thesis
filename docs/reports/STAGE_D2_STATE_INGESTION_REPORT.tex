@@ -324,4 +324,25 @@ The F1 compatibility residual has L2 norm $3.173013579358624\times10^{-8}$,
 maximum residual $1.0654297154470889\times10^{-6}$ at node 3321, and
 correlation $-0.7125040883621269$ with released d change.
 
+D3A4 performed the constrained compatibility projection offline from the
+forensic evidence. It assembled the sparse target phase system with F1 history
+and solved the obstacle problem \(d_\mathrm{compatible}\ge d_\mathrm{F1}\)
+without an Abaqus job, Fortran compilation, new transfer package, or new mesh.
+The assembly audit covers 6601 nodes, 6400 elements, and 25600 integration
+points with zero non-positive Jacobians; it reproduces the forensic F1 residual
+with maximum error $2.329340604949326\times10^{-21}$ and the same maximum
+residual node 3321. The active-set solve converged in 5 iterations with 1880
+active and 4721 free nodes, free residual infinity norm
+$7.623296525288703\times10^{-21}$, minimum active multiplier
+$3.1903130564656594\times10^{-13}$, and complementarity infinity norm
+$8.649244021664495\times10^{-23}$. The compatible field has zero predicted
+healing violations, maximum d increase $0.011345805575019186$, normalized L2
+increase $0.03901956109385224$, and phase-functional reduction
+$2.4132803703716662\times10^{-8}$. The pass classification is
+\path{stage_d3a4_constrained_phase_compatibility_pass}; \texttt{D3A4.ok}
+exists and a separate
+\path{runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1/} package
+was prepared. The original package remains unchanged. D3A3-R3, D3D, and D3E
+remain unsubmitted.
+
 \end{document}

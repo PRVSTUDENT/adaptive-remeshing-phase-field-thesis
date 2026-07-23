@@ -1,0 +1,69 @@
+{
+  "active_node_count": 1880,
+  "active_set_membership_stable": true,
+  "classification": "stage_d3a4_active_set_kkt_metrics",
+  "complementarity_infinity_norm": 8.649244021664495e-23,
+  "converged": true,
+  "free_node_count": 4721,
+  "free_set_residual_infinity_norm": 7.623296525288703e-21,
+  "history": [
+    {
+      "active_nodes": 3283,
+      "free_nodes": 3318,
+      "free_residual_inf": 1.9058241313221758e-21,
+      "iteration": 1,
+      "membership_unchanged": false,
+      "minimum_active_multiplier": -2.2524449206439125e-07,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 3318
+    },
+    {
+      "active_nodes": 2051,
+      "free_nodes": 4550,
+      "free_residual_inf": 2.964615315390051e-21,
+      "iteration": 2,
+      "membership_unchanged": false,
+      "minimum_active_multiplier": -1.0768600508433928e-07,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 1232
+    },
+    {
+      "active_nodes": 1885,
+      "free_nodes": 4716,
+      "free_residual_inf": 4.235164736271502e-21,
+      "iteration": 3,
+      "membership_unchanged": false,
+      "minimum_active_multiplier": -3.664906757428961e-11,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 166
+    },
+    {
+      "active_nodes": 1880,
+      "free_nodes": 4721,
+      "free_residual_inf": 7.623296525288703e-21,
+      "iteration": 4,
+      "membership_unchanged": false,
+      "minimum_active_multiplier": 3.1903130564656594e-13,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 5
+    },
+    {
+      "active_nodes": 1880,
+      "free_nodes": 4721,
+      "free_residual_inf": 7.623296525288703e-21,
+      "iteration": 5,
+      "membership_unchanged": true,
+      "minimum_active_multiplier": 3.1903130564656594e-13,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 0
+    }
+  ],
+  "iterations": 5,
+  "maximum_d_compatible": 0.08974564175090569,
+  "maximum_d_increase": 0.011345805575019186,
+  "minimum_active_set_multiplier": 3.1903130564656594e-13,
+  "minimum_d_compatible": 2.5179281277845005e-06,
+  "minimum_d_compatible_minus_d_F1": 0.0,
+  "normalized_L2_d_increase": 0.03901956109385224,
+  "predicted_healing_violations": 0
+}

@@ -88,6 +88,7 @@ These should not be labelled as implementation mistakes:
 3. D1 analytical transfer errors are measured baselines and must not be described as negligible.
 4. D2D ABAQUSER unavailable is an external availability block after audit, although availability should have been checked earlier.
 5. PBS history `job_state=F` means finished, not necessarily failed; use `Exit_status`, solver status, markers, and output evidence together.
+6. D3A4 constrained compatibility projection is a scientific compatibility operation, not a parameter retry: it enforces `d_compatible >= d_checkpoint` on the target mesh, reduces the F1 phase functional, predicts zero healing, and prepares a separate compatible package without replacing the original D3A2 package.
 
 ## Maintenance Rule
 
