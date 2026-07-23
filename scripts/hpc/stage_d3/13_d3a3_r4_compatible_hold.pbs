@@ -248,29 +248,64 @@ POST_RC=0
     --expected-active 6446 \
     --expected-free 155 \
     --model-dir "${MODEL_DIR}" \
-    --out-dir "${SCRATCH_RUN}"
+    --out-dir "${SCRATCH_RUN}" || exit 20
 
   python3 \
     "${PROJECT_HOME}/scripts/validation/analyze_d3a3_r4_fixed_state_kkt.py" \
     --target-dir "${SCRATCH_RUN}" \
     --active-set-csv "${ACTIVE_SET_CSV}" \
     --lower-bound-csv "${LOWER_BOUND_CSV}" \
-    --model-dir "${MODEL_DIR}"
+    --model-dir "${MODEL_DIR}" || exit 21
 
   python3 \
     "${PROJECT_HOME}/scripts/validation/validate_d3a3_r4_compatible_hold.py" \
     --target-dir "${SCRATCH_RUN}" \
     --expected-active 6446 \
-    --expected-free 155
+    --expected-free 155 || exit 22
 ) > D3A3_R4_POSTPYTHON_PIPELINE.log 2>&1 || POST_RC=$?
 
-if [ "${POST_RC}" -ne 0 ]; then
-  if [ ! -f D3A3_R4_STATUS.json ]; then
-    write_status "stage_d3a3_r4_active_set_release_fail" 22 "R4 scientific validation failed"
-  fi
-  copy_evidence
-  exit "${POST_RC}"
-fi
+case "${POST_RC}" in
+  0)
+    ;;
+  20)
+    if [ ! -f D3A3_R4_STATUS.json ]; then
+      write_status \
+        "stage_d3a3_r4_ingestion_fail" \
+        20 \
+        "R4 active/free postprocessing failed"
+    fi
+    copy_evidence
+    exit 20
+    ;;
+  21)
+    if [ ! -f D3A3_R4_STATUS.json ]; then
+      write_status \
+        "stage_d3a3_r4_fixed_state_needs_reprojection" \
+        21 \
+        "R4 F1 fixed-state KKT failed"
+    fi
+    copy_evidence
+    exit 21
+    ;;
+  22)
+    if [ ! -f D3A3_R4_STATUS.json ]; then
+      write_status \
+        "stage_d3a3_r4_active_set_release_fail" \
+        22 \
+        "R4 scientific release validation failed"
+    fi
+    copy_evidence
+    exit 22
+    ;;
+  *)
+    write_status \
+      "stage_d3a3_r4_postprocessing_fail" \
+      23 \
+      "Unexpected R4 postprocessing exit ${POST_RC}"
+    copy_evidence
+    exit 23
+    ;;
+esac
 
 copy_evidence
 exit 0
