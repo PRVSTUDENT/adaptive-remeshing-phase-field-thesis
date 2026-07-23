@@ -42,8 +42,27 @@ write_status() {
 EOF
 }
 
+write_odb_location() {
+  # Heavy Abaqus ODB stays in scratch only; never copy into the repository evidence tree.
+  local odb_path="${SCRATCH_RUN}/D3A3_R3_compatible_hold.odb"
+  local preserved=false
+  if [ -f "${odb_path}" ]; then
+    preserved=true
+  fi
+  cat > "${SCRATCH_RUN}/D3A3_R3_ODB_LOCATION.json" <<EOF
+{
+  "job_id": "${PBS_JOBID:-unknown}",
+  "odb_preserved": ${preserved},
+  "odb_path": "${odb_path}",
+  "repository_copy_created": false,
+  "scratch_run": "${SCRATCH_RUN}"
+}
+EOF
+}
+
 copy_evidence() {
   mkdir -p "${EVIDENCE_DIR}"
+  write_odb_location
   for pattern in \
     "D3A3_R3_compatible_hold.log" \
     "D3A3_R3_compatible_hold.msg" \
@@ -51,7 +70,6 @@ copy_evidence() {
     "D3A3_R3_compatible_hold.sta" \
     "D3A3_R3_compatible_hold.com" \
     "D3A3_R3_compatible_hold.prt" \
-    "D3A3_R3_compatible_hold.odb" \
     "D3A3_R3_compatible_hold.abaqus_stdout.log" \
     "D3A3_R3_COMPILER_ENVIRONMENT.txt" \
     "D3A3_R3_JOB_RECORD.txt" \
@@ -81,7 +99,8 @@ copy_evidence() {
     "D3A3_R3_DATACHECK_STATUS.json" \
     "D3A3_R3_R1_STAGING_CORRECTION_AUDIT.json" \
     "D3A3_R3_POSTPYTHON_PREFLIGHT.log" \
-    "D3A3_R3_POSTPYTHON_PIPELINE.log"; do
+    "D3A3_R3_POSTPYTHON_PIPELINE.log" \
+    "D3A3_R3_ODB_LOCATION.json"; do
     if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
       cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/"
     fi
