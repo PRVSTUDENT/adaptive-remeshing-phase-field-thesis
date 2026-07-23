@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Validate D3A3 static preflight or completed ingestion/hold outputs."""
 
+from __future__ import annotations
+
 import argparse
 import csv
 import json

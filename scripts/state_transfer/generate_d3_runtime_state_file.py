@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Generate the D3A3-R2 runtime H-state file used by UEXTERNALDB."""
 
+from __future__ import annotations
+
 import argparse
 import csv
 import hashlib

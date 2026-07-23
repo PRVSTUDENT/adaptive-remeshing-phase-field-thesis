@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Generate D3A3 full-target ingestion/equilibration/release-hold inputs."""
 
+from __future__ import annotations
+
 import argparse
 import csv
 import hashlib

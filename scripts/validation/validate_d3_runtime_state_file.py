@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Validate the D3A3-R2 runtime H-state file."""
 
+from __future__ import annotations
+
 import argparse
 import hashlib
 import json
