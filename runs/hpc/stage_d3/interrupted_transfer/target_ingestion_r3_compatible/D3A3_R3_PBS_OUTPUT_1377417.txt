@@ -1,0 +1,28 @@
+{
+  "all_H_finite": true,
+  "all_H_nonnegative": true,
+  "classification": "stage_d3a3_r2_runtime_state_validation_pass",
+  "duplicates": 0,
+  "elements": 6400,
+  "expected_records": 25600,
+  "failures": [],
+  "integration_points_per_element": 4,
+  "maximum_H": 0.027317036782803523,
+  "minimum_H": 1.0045788889553414e-08,
+  "missing_records": 0,
+  "path": "d3_transfer_h.dat",
+  "records": 25600,
+  "runtime_state_ok": true,
+  "sha256": "ee244da4e87ff0edb1c6e931fe633921aae552785d2d03efb8d18eea555c7173"
+}
+d3a3_extract_ok out_dir=/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r3_compat_hold_1377417.mmaster02
+Traceback (most recent call last):
+  File "/home/pr21vyci/projects/adaptive-remeshing/scripts/postprocessing/extract_d3a3_r3_compatible_state.py", line 252, in <module>
+    raise SystemExit(main())
+  File "/home/pr21vyci/projects/adaptive-remeshing/scripts/postprocessing/extract_d3a3_r3_compatible_state.py", line 244, in main
+    audit = build_active_free_state(args.out_dir, args.d3a4_dir, args.package_dir)
+  File "/home/pr21vyci/projects/adaptive-remeshing/scripts/postprocessing/extract_d3a3_r3_compatible_state.py", line 105, in build_active_free_state
+    recovery_rows = _read_csv(recovery_path)
+  File "/home/pr21vyci/projects/adaptive-remeshing/scripts/postprocessing/extract_d3a3_r3_compatible_state.py", line 68, in _read_csv
+    with open(path, "r", newline="") as handle:
+TypeError: 'newline' is an invalid keyword argument for this function

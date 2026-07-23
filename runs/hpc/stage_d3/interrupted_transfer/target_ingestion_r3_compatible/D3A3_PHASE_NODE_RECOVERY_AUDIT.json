@@ -1,0 +1,55 @@
+{
+  "classification": "stage_d3a3_phase_nodes_recovered_from_sdv15", 
+  "frames": [
+    {
+      "all_recovered_values_finite": true, 
+      "elements_with_complete_IP_state": 6400, 
+      "frame_index": 1, 
+      "frame_tag": "F0_ingested", 
+      "maximum_recovered_minus_transferred_abs": 2.7755575615628914e-17, 
+      "maximum_shared_node_reconstruction_spread": 4.163336342344337e-17, 
+      "missing_nodes": 0, 
+      "recovered_nodes": 6601, 
+      "step": "INGEST_COMPATIBLE_STATE", 
+      "values_within_0_1_tolerance": true
+    }, 
+    {
+      "all_recovered_values_finite": true, 
+      "elements_with_complete_IP_state": 6400, 
+      "frame_index": 10, 
+      "frame_tag": "F1_equilibrated", 
+      "maximum_recovered_minus_transferred_abs": 2.0816681711721685e-17, 
+      "maximum_shared_node_reconstruction_spread": 5.551115123125783e-17, 
+      "missing_nodes": 0, 
+      "recovered_nodes": 6601, 
+      "step": "CHECKPOINT_EQUILIBRATION_COMPATIBLE_FIXED", 
+      "values_within_0_1_tolerance": true
+    }, 
+    {
+      "all_recovered_values_finite": true, 
+      "elements_with_complete_IP_state": 6400, 
+      "frame_index": 1, 
+      "frame_tag": "F2_release_first", 
+      "maximum_recovered_minus_transferred_abs": null, 
+      "maximum_shared_node_reconstruction_spread": 4.163336342344337e-17, 
+      "missing_nodes": 0, 
+      "recovered_nodes": 6601, 
+      "step": "ACTIVE_SET_RELEASE_HOLD", 
+      "values_within_0_1_tolerance": true
+    }, 
+    {
+      "all_recovered_values_finite": true, 
+      "elements_with_complete_IP_state": 6400, 
+      "frame_index": 10, 
+      "frame_tag": "F3_release_last", 
+      "maximum_recovered_minus_transferred_abs": null, 
+      "maximum_shared_node_reconstruction_spread": 4.163336342344337e-17, 
+      "missing_nodes": 0, 
+      "recovered_nodes": 6601, 
+      "step": "ACTIVE_SET_RELEASE_HOLD", 
+      "values_within_0_1_tolerance": true
+    }
+  ], 
+  "required_complete_elements": 6400, 
+  "required_recovered_nodes": 6601
+}

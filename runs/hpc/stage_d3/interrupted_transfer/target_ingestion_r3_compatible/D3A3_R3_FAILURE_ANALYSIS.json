@@ -1,0 +1,18 @@
+﻿{
+  "D3A3_R3_ok_created": false,
+  "D3A3_ok_created": false,
+  "abaqus_job_completed": true,
+  "automatic_retry": false,
+  "classification": "stage_d3a3_r3_ingestion_fail",
+  "failure_stage": "post_odb_active_free_state_build",
+  "final_validator_ran": false,
+  "job_id": "1377417.mmaster02",
+  "kkt_ran": false,
+  "odb_preserved_in_scratch": true,
+  "odb_repository_copy": false,
+  "pbs_exit_status": 20,
+  "retry_authorized": false,
+  "root_cause": "Abaqus Python rejected open(..., newline=\"\") in build_active_free_state after the base ODB extract completed successfully and wrote recovery CSVs.",
+  "source_commit": "4bee79e6224ad4acfbeb49d13c51bf7a983e181a",
+  "traceback_token": "TypeError: 'newline' is an invalid keyword argument for this function"
+}

@@ -1,0 +1,165 @@
+{
+  "classification": "stage_d3a3_energy_by_frame_extracted_corrected", 
+  "frames": [
+    {
+      "frame_index": 1, 
+      "frame_tag": "F0_ingested", 
+      "odb_H_sum": 15.50265322530431, 
+      "reconstructed_energy": {
+        "Gc": 0.0027, 
+        "bulk_energy_from_SDV12": 0.0, 
+        "fracture_energy_gradient_term": 2.727842997731457e-07, 
+        "fracture_energy_local_term": 7.607269534472034e-06, 
+        "frame_tag": "F0_ingested", 
+        "lc": 0.015, 
+        "maximum_detJ": 3.906250000000068e-05, 
+        "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy", 
+        "minimum_detJ": 3.9062499999999506e-05, 
+        "missing_phase_node_values": 0, 
+        "missing_sdv12_values": 0, 
+        "missing_sdv13_values": 0, 
+        "non_positive_detJ_count": 0, 
+        "phase_l2": 0.009193759679787685, 
+        "phase_max": 0.08081849628672058, 
+        "phase_min": 2.5361264796854226e-06, 
+        "phase_range": 0.0808159601602409, 
+        "thickness": 1.0, 
+        "total_fracture_energy": 7.88005383424518e-06, 
+        "total_reconstructed_internal_energy": 7.88005383424518e-06, 
+        "undamaged_bulk_energy_from_SDV13": 0.0
+      }, 
+      "sdv15_error_metric": {
+        "count": 25600, 
+        "l2": 6.146700850107126e-19, 
+        "max_abs": 1.3877787807814457e-17
+      }, 
+      "sdv16_error_metric": {
+        "count": 25600, 
+        "l2": 0.0, 
+        "max_abs": 0.0
+      }, 
+      "step": "INGEST_COMPATIBLE_STATE", 
+      "transfer_H_sum": 15.50265322530431
+    }, 
+    {
+      "frame_index": 10, 
+      "frame_tag": "F1_equilibrated", 
+      "odb_H_sum": 15.503191314272554, 
+      "reconstructed_energy": {
+        "Gc": 0.0027, 
+        "bulk_energy_from_SDV12": 0.0005918821647697458, 
+        "fracture_energy_gradient_term": 2.7278429977314575e-07, 
+        "fracture_energy_local_term": 7.607269534472037e-06, 
+        "frame_tag": "F1_equilibrated", 
+        "lc": 0.015, 
+        "maximum_detJ": 3.906250000000068e-05, 
+        "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy", 
+        "minimum_detJ": 3.9062499999999506e-05, 
+        "missing_phase_node_values": 0, 
+        "missing_sdv12_values": 0, 
+        "missing_sdv13_values": 0, 
+        "non_positive_detJ_count": 0, 
+        "phase_l2": 0.009193759679787685, 
+        "phase_max": 0.08081849628672058, 
+        "phase_min": 2.5361264796854226e-06, 
+        "phase_range": 0.0808159601602409, 
+        "thickness": 1.0, 
+        "total_fracture_energy": 7.880053834245183e-06, 
+        "total_reconstructed_internal_energy": 0.0005997622186039909, 
+        "undamaged_bulk_energy_from_SDV13": 0.0006076746566588874
+      }, 
+      "sdv15_error_metric": {
+        "count": 25600, 
+        "l2": 7.559982561884478e-19, 
+        "max_abs": 1.3877787807814457e-17
+      }, 
+      "sdv16_error_metric": {
+        "count": 25600, 
+        "l2": 1.8524495675384652e-06, 
+        "max_abs": 0.00024847913211770677
+      }, 
+      "step": "CHECKPOINT_EQUILIBRATION_COMPATIBLE_FIXED", 
+      "transfer_H_sum": 15.50265322530431
+    }, 
+    {
+      "frame_index": 1, 
+      "frame_tag": "F2_release_first", 
+      "odb_H_sum": 15.700401561756278, 
+      "reconstructed_energy": {
+        "Gc": 0.0027, 
+        "bulk_energy_from_SDV12": 0.0005918821647697463, 
+        "fracture_energy_gradient_term": 3.04548283612765e-07, 
+        "fracture_energy_local_term": 7.754465742705723e-06, 
+        "frame_tag": "F2_release_first", 
+        "lc": 0.015, 
+        "maximum_detJ": 3.906250000000068e-05, 
+        "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy", 
+        "minimum_detJ": 3.9062499999999506e-05, 
+        "missing_phase_node_values": 0, 
+        "missing_sdv12_values": 0, 
+        "missing_sdv13_values": 0, 
+        "non_positive_detJ_count": 0, 
+        "phase_l2": 0.009282280456574697, 
+        "phase_max": 0.0846277897659011, 
+        "phase_min": 2.536126479685422e-06, 
+        "phase_range": 0.08462525363942142, 
+        "thickness": 1.0, 
+        "total_fracture_energy": 8.059014026318488e-06, 
+        "total_reconstructed_internal_energy": 0.0005999411787960648, 
+        "undamaged_bulk_energy_from_SDV13": 0.0006076746566588866
+      }, 
+      "sdv15_error_metric": {
+        "count": 25600, 
+        "l2": 0.00016374773776578976, 
+        "max_abs": 0.004871099556566699
+      }, 
+      "sdv16_error_metric": {
+        "count": 25600, 
+        "l2": 4.6865035554755916e-05, 
+        "max_abs": 0.003124009710448815
+      }, 
+      "step": "ACTIVE_SET_RELEASE_HOLD", 
+      "transfer_H_sum": 15.50265322530431
+    }, 
+    {
+      "frame_index": 10, 
+      "frame_tag": "F3_release_last", 
+      "odb_H_sum": 15.70337430304422, 
+      "reconstructed_energy": {
+        "Gc": 0.0027, 
+        "bulk_energy_from_SDV12": 0.0005917008271361531, 
+        "fracture_energy_gradient_term": 3.074889786679996e-07, 
+        "fracture_energy_local_term": 7.761680184873307e-06, 
+        "frame_tag": "F3_release_last", 
+        "lc": 0.015, 
+        "maximum_detJ": 3.906250000000068e-05, 
+        "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy", 
+        "minimum_detJ": 3.9062499999999506e-05, 
+        "missing_phase_node_values": 0, 
+        "missing_sdv12_values": 0, 
+        "missing_sdv13_values": 0, 
+        "non_positive_detJ_count": 0, 
+        "phase_l2": 0.009286597382412855, 
+        "phase_max": 0.08496982034357328, 
+        "phase_min": 2.5361264796854226e-06, 
+        "phase_range": 0.0849672842170936, 
+        "thickness": 1.0, 
+        "total_fracture_energy": 8.069169163541307e-06, 
+        "total_reconstructed_internal_energy": 0.0005997699962996944, 
+        "undamaged_bulk_energy_from_SDV13": 0.0006076895214531477
+      }, 
+      "sdv15_error_metric": {
+        "count": 25600, 
+        "l2": 0.00017469039698190646, 
+        "max_abs": 0.005262712233748787
+      }, 
+      "sdv16_error_metric": {
+        "count": 25600, 
+        "l2": 4.921234053273881e-05, 
+        "max_abs": 0.0032263539213225507
+      }, 
+      "step": "ACTIVE_SET_RELEASE_HOLD", 
+      "transfer_H_sum": 15.50265322530431
+    }
+  ]
+}
