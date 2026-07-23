@@ -174,24 +174,29 @@ These tolerances **must not** be adjusted after results are observed.
 
 ## Authorization boundary
 
+**Parent package classification remains:** `stage_d3d_d3e_decision_package_prepared`.
+
+**Route B selected** — see `docs/decisions/STAGE_D3D_ROUTE_B_PREPARATION_AUTHORIZATION.md`
+(`stage_d3d_route_b_preparation_authorized`).
+
 ```text
-D3D/D3E decision-package preparation: authorized (this package)
-D3D deck/PBS preparation: blocked pending decision
-D3D submission: blocked pending explicit authorization
-D3E preparation and submission: blocked until D3D segment passes
+Route B: selected
+D3D deck/PBS preparation: authorized
+D3D datacheck: authorized after committed static pass
+D3D full segment: blocked pending committed datacheck review
+D3E: blocked pending D3D segment pass
 Peak/post-peak continuation: blocked
-Automatic multi-segment loop: prohibited
+Automatic second segment: prohibited
 Parameter sweep: prohibited
 ```
 
 ## Recommendation
 
-1. Accept this package as the decision record.  
-2. Choose Route **A** (stop) or **B** (one D3D segment).  
-3. If Route B is chosen, authorize **separately**:
-   - D3D deck/PBS preparation, then  
-   - exactly one D3D serial submission.  
-4. Only if D3D returns `stage_d3d_active_set_segment_pass`, authorize D3E
+1. Package accepted; Route **B** is selected.  
+2. Prepare one isolated D3D active-set-validity segment deck and PBS.  
+3. After committed static pass, submit **exactly one** D3D datacheck.  
+4. Full D3D segment remains blocked until committed datacheck review.  
+5. Only if D3D returns `stage_d3d_active_set_segment_pass`, authorize D3E
    preparation and one reference submission under the predeclared tolerances.
 
 ## Evidence anchors

@@ -1,0 +1,29 @@
+{
+  "active_nodes": 6446,
+  "automatic_second_segment": false,
+  "classification": "stage_d3d_input_prepared",
+  "continuation_steps": 1,
+  "d3d_fortran_sha256": "e056ed01a2af407f58292b884acc264f7332d132457d62a3f4cf0732ffb9fda4",
+  "deck": "models/state_transfer/d3_interrupted_transfer/executable_d3d_active_set_segment_r1/D3D_active_set_segment.inp",
+  "end_u2_mm": 0.0031,
+  "fortran_byte_identical_to_r4": true,
+  "free_nodes": 155,
+  "mesh": {
+    "elements": 6400,
+    "ips": 25600,
+    "nodes": 6601
+  },
+  "package": "runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2",
+  "r4_exe_dir": "models/state_transfer/d3_interrupted_transfer/executable_r4_compatible_r2",
+  "r4_fortran_sha256": "e056ed01a2af407f58292b884acc264f7332d132457d62a3f4cf0732ffb9fda4",
+  "route": "B_one_d3d_active_set_segment",
+  "runtime_H_byte_identical_to_r4": true,
+  "runtime_H_sha256": "e4e2b2773c7c29161f4c99bbd7218fa6fe49c6ec3e48d6c2107f83419e97e07c",
+  "start_u2_mm": 0.003000000026077032,
+  "steps": [
+    "INGEST_COMPATIBLE_R2",
+    "CHECKPOINT_EQUILIBRATION_COMPATIBLE_R2_FIXED",
+    "ACTIVE_SET_R2_RELEASE_HOLD",
+    "ACTIVE_SET_VALIDITY_SEGMENT"
+  ]
+}

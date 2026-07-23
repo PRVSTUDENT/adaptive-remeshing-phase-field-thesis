@@ -1,0 +1,20 @@
+{
+  "automatic_second_segment": false,
+  "classification": "stage_d3d_r4_prefix_audit_pass",
+  "exactly_one_continuation_step": true,
+  "mesh_unchanged": {
+    "elements": 6400,
+    "ips": 25600,
+    "nodes": 6601
+  },
+  "package_compatible_r2_source": "runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2",
+  "package_r2_ok": "D3_PACKAGE_COMPATIBLE_R2.ok",
+  "r4_fortran_sha256": "e056ed01a2af407f58292b884acc264f7332d132457d62a3f4cf0732ffb9fda4",
+  "r4_fortran_sha_unchanged": true,
+  "r4_steps_1_to_3_unchanged": true,
+  "runtime_H_sha256": "e4e2b2773c7c29161f4c99bbd7218fa6fe49c6ec3e48d6c2107f83419e97e07c",
+  "runtime_H_sha_unchanged": true,
+  "step4_active_phase_bc_count": 6446,
+  "step4_final_u2": 0.0031,
+  "step4_free_phase_bc_count": 0
+}

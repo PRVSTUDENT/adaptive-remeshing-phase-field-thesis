@@ -19,7 +19,11 @@ prerequisite:
 
 authorization:
   decision_package_prepared: true
-  d3d_deck_pbs_preparation: false
+  route_b_selected: true
+  route_b_preparation_authorized: true
+  d3d_deck_pbs_preparation: true
+  d3d_datacheck_authorized_after_static_pass: true
+  d3d_full_segment_submission: false
   d3d_submission: false
   d3e_preparation: false
   d3e_submission: false

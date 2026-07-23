@@ -38,6 +38,13 @@
     }
   },
   "recommended_route": "B_one_d3d_active_set_segment",
+  "route_selected": "B_one_d3d_active_set_segment",
+  "route_b_preparation": {
+    "classification": "stage_d3d_route_b_preparation_authorized",
+    "preparation_authorized": true,
+    "datacheck_authorized_after_static_pass": true,
+    "full_segment_submission_authorized": false
+  },
   "d3d_proposal": {
     "start_u2_mm": 0.003000000026077032,
     "end_u2_mm": 0.0031,
@@ -102,7 +109,11 @@
   },
   "authorization": {
     "decision_package_prepared": true,
-    "d3d_deck_pbs_preparation": false,
+    "route_b_selected": true,
+    "route_b_preparation_authorized": true,
+    "d3d_deck_pbs_preparation": true,
+    "d3d_datacheck_authorized_after_static_pass": true,
+    "d3d_full_segment_submission": false,
     "d3d_submission": false,
     "d3e_preparation": false,
     "d3e_submission": false,
@@ -112,6 +123,8 @@
   },
   "documents": {
     "decision_package": "docs/decisions/STAGE_D3D_D3E_FRACTURE_CONTINUATION_DECISION_PACKAGE.md",
+    "route_b_preparation_authorization": "docs/decisions/STAGE_D3D_ROUTE_B_PREPARATION_AUTHORIZATION.md",
+    "route_b_preparation_authorization_json": "runs/hpc/stage_d3/fracture_continuation_decision/D3D_ROUTE_B_PREPARATION_AUTHORIZATION.json",
     "d3d_protocol": "docs/studies/STAGE_D3D_ACTIVE_SET_CONTINUATION_PROTOCOL.md",
     "d3e_protocol": "docs/studies/STAGE_D3E_UNINTERRUPTED_TARGET_REFERENCE_PROTOCOL.md",
     "config": "configs/state_transfer/d3d_d3e_continuation_options.yaml",

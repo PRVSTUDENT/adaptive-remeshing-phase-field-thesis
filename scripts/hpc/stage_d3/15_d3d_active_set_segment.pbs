@@ -1,0 +1,303 @@
+#!/bin/bash
+#PBS -N d3d_active_seg
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m abe
+
+set -uo pipefail
+
+PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
+EVIDENCE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment"
+DATACHECK_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment_datacheck"
+EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable_d3d_active_set_segment_r1"
+PACKAGE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2"
+ACTIVE_SET_CSV="${PACKAGE_DIR}/D3_ACTIVE_SET_BY_NODE.csv"
+LOWER_BOUND_CSV="${PACKAGE_DIR}/D3_LOWER_BOUND_NODAL_D.csv"
+MODEL_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer"
+R4_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible"
+SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3d_active_seg_${PBS_JOBID:-manual}"
+ENV_LOG="${SCRATCH_RUN}/D3D_COMPILER_ENVIRONMENT.txt"
+SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
+EXPECTED_H_SHA="${D3D_RUNTIME_H_SHA:-}"
+
+mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
+cd "${SCRATCH_RUN}" || exit 2
+
+write_status() {
+  local classification="$1"
+  local rc="$2"
+  local failure="$3"
+  cat > D3D_STATUS.json <<EOF
+{
+  "classification": "${classification}",
+  "D3D_ok": false,
+  "failures": ["${failure}"],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "pbs_exit_status": ${rc},
+  "source_commit": "${SOURCE_COMMIT}",
+  "solver_job_submitted": true,
+  "mpi": "prohibited",
+  "OMP_NUM_THREADS": "${OMP_NUM_THREADS:-unset}",
+  "continuation_segments": 1,
+  "end_u2_mm": 0.0031
+}
+EOF
+}
+
+write_odb_location() {
+  local odb_path="${SCRATCH_RUN}/D3D_active_set_segment.odb"
+  local preserved=false
+  if [ -f "${odb_path}" ]; then
+    preserved=true
+  fi
+  cat > "${SCRATCH_RUN}/D3D_ODB_LOCATION.json" <<EOF
+{
+  "job_id": "${PBS_JOBID:-unknown}",
+  "odb_preserved": ${preserved},
+  "odb_path": "${odb_path}",
+  "repository_copy_created": false,
+  "scratch_run": "${SCRATCH_RUN}"
+}
+EOF
+}
+
+copy_evidence() {
+  mkdir -p "${EVIDENCE_DIR}"
+  write_odb_location
+  for pattern in \
+    "D3D_active_set_segment.log" \
+    "D3D_active_set_segment.msg" \
+    "D3D_active_set_segment.dat" \
+    "D3D_active_set_segment.sta" \
+    "D3D_active_set_segment.com" \
+    "D3D_active_set_segment.prt" \
+    "D3D_active_set_segment.abaqus_stdout.log" \
+    "D3D_COMPILER_ENVIRONMENT.txt" \
+    "D3D_JOB_RECORD.txt" \
+    "D3D_STATUS.json" \
+    "D3D.ok" \
+    "D3D_ACTIVE_SET_UPDATE_REQUIRED.json" \
+    "D3D_STATE_BY_FRAME.csv" \
+    "D3D_PHASE_NODE_STATE_BY_FRAME.csv" \
+    "D3D_TOP_RF_U.csv" \
+    "D3D_R4_PREFIX_COMPARISON.json" \
+    "D3D_PER_FRAME_KKT.csv" \
+    "D3D_PER_FRAME_KKT_SUMMARY.json" \
+    "D3D_IRREVERSIBILITY_AUDIT.json" \
+    "D3D_RECONSTRUCTED_ENERGY_BY_FRAME.json" \
+    "D3D_ACTIVE_MULTIPLIER_CANDIDATES.csv" \
+    "D3D_REPORT.md" \
+    "D3D_ODB_LOCATION.json" \
+    "D3D_RUNTIME_STATE_VALIDATION.json" \
+    "D3D_DATACHECK.ok" \
+    "D3D_POSTPYTHON_PREFLIGHT.log" \
+    "D3D_POSTPYTHON_PIPELINE.log" \
+    "D3A3_STATE_BY_FRAME.csv" \
+    "D3A3_RF_U_CORRECTED.csv" \
+    "D3A3_PHASE_NODE_RECOVERY_BY_FRAME.csv" \
+    "D3A3_RECONSTRUCTED_ENERGY_BY_FRAME_CORRECTED.json" \
+    "D3A3_RELEASE_JUMP.json"; do
+    if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
+      cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/"
+    fi
+  done
+  # Never copy ODB into the repository evidence lane.
+}
+
+stage_required_file() {
+  local source="$1"
+  local destination="$2"
+  if [ ! -f "${source}" ]; then
+    write_status "stage_d3d_hold_staging_fail" 6 "required staged file missing: ${source}"
+    copy_evidence
+    exit 6
+  fi
+  cp "${source}" "${destination}" || {
+    write_status "stage_d3d_hold_staging_fail" 6 "failed to stage: ${source}"
+    copy_evidence
+    exit 6
+  }
+}
+
+if [ ! -f "${DATACHECK_DIR}/D3D_DATACHECK.ok" ]; then
+  write_status "stage_d3d_full_blocked_missing_datacheck" 3 "D3D_DATACHECK.ok missing"
+  copy_evidence
+  exit 3
+fi
+if ! grep -q "stage_d3d_datacheck_pass" "${DATACHECK_DIR}/D3D_DATACHECK.ok"; then
+  write_status "stage_d3d_full_blocked_bad_datacheck" 4 "D3D_DATACHECK.ok classification mismatch"
+  copy_evidence
+  exit 4
+fi
+
+module --force purge > "${ENV_LOG}" 2>&1 || true
+module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || { write_status "stage_d3d_solver_fail" 5 "module load gcc failed"; copy_evidence; exit 5; }
+module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || { write_status "stage_d3d_solver_fail" 5 "module load intel failed"; copy_evidence; exit 5; }
+module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || { write_status "stage_d3d_solver_fail" 5 "module load abaqus failed"; copy_evidence; exit 5; }
+export OMP_NUM_THREADS=1
+
+{
+  module -t list 2>&1
+  command -v ifort
+  ifort --version
+  command -v abaqus
+  abaqus information=release
+} >> "${ENV_LOG}" 2>&1
+
+stage_required_file "${EXE_DIR}/D3D_active_set_segment.inp" "D3D_active_set_segment.inp"
+stage_required_file "${EXE_DIR}/d3_transfer_uel.for" "d3_transfer_uel.for"
+stage_required_file "${EXE_DIR}/d3_transfer_h.dat" "d3_transfer_h.dat"
+if [ -f "${DATACHECK_DIR}/D3D_DATACHECK.ok" ]; then
+  cp "${DATACHECK_DIR}/D3D_DATACHECK.ok" .
+fi
+
+if [ -z "${EXPECTED_H_SHA}" ]; then
+  EXPECTED_H_SHA="$(python3 - <<PY
+import json
+from pathlib import Path
+print(json.loads(Path("${DATACHECK_DIR}/D3D_RUNTIME_STATE_VALIDATION.json").read_text(encoding="utf-8"))["sha256"])
+PY
+)"
+fi
+
+python3 "${PROJECT_HOME}/scripts/validation/validate_d3_runtime_state_file.py" \
+  --input d3_transfer_h.dat \
+  --out D3D_RUNTIME_STATE_VALIDATION.json || {
+    write_status "stage_d3d_hold_runtime_state_validation_fail" 7 "runtime H validation failed"
+    copy_evidence
+    exit 7
+  }
+if ! grep -q "\"sha256\": \"${EXPECTED_H_SHA}\"" D3D_RUNTIME_STATE_VALIDATION.json; then
+  write_status "stage_d3d_hold_runtime_state_validation_fail" 7 "runtime H SHA mismatch"
+  copy_evidence
+  exit 7
+fi
+
+(
+  module load python/gcc/11.4.0/3.11.7
+  python3 -c "import numpy, scipy"
+) > D3D_POSTPYTHON_PREFLIGHT.log 2>&1 || {
+  write_status "stage_d3d_postpython_environment_fail" 9 "qualified NumPy/SciPy interpreter unavailable"
+  copy_evidence
+  exit 9
+}
+
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "classification=stage_d3d_active_set_segment_submitted"
+  echo "source_commit=${SOURCE_COMMIT}"
+  echo "scratch_run=${SCRATCH_RUN}"
+  echo "ncpus=1"
+  echo "mem=16gb"
+  echo "walltime=02:00:00"
+  echo "mode=serial"
+  echo "mpi=prohibited"
+  echo "mp_mode=threads"
+  echo "OMP_NUM_THREADS=${OMP_NUM_THREADS}"
+  echo "runtime_H_sha256=${EXPECTED_H_SHA}"
+  echo "package=${PACKAGE_DIR}"
+  echo "continuation_segments=1"
+  echo "end_u2_mm=0.0031"
+  echo "step4_active_phase_bc_count=6446"
+  echo "step4_free_phase_bc_count=0"
+  echo "postpython_module=python/gcc/11.4.0/3.11.7"
+} > D3D_JOB_RECORD.txt
+
+ABAQUS_RC=0
+abaqus job=D3D_active_set_segment \
+  input=D3D_active_set_segment.inp \
+  user=d3_transfer_uel.for \
+  cpus=1 \
+  mp_mode=threads \
+  output_precision=full \
+  interactive > D3D_active_set_segment.abaqus_stdout.log 2>&1 \
+  || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -ne 0 ]; then
+  write_status "stage_d3d_solver_fail" "${ABAQUS_RC}" "Abaqus exited nonzero during D3D active-set segment"
+  copy_evidence
+  exit "${ABAQUS_RC}"
+fi
+
+PYTHONPATH="${PROJECT_HOME}/scripts/postprocessing:${PYTHONPATH:-}" \
+abaqus python \
+  "${PROJECT_HOME}/scripts/postprocessing/extract_d3d_active_set_segment.py" \
+  --odb D3D_active_set_segment.odb \
+  --package-dir "${PACKAGE_DIR}" \
+  --model-dir "${MODEL_DIR}" \
+  --out-dir "${SCRATCH_RUN}" || {
+    write_status "stage_d3d_postprocessing_fail" 20 "D3D ODB extraction failed"
+    copy_evidence
+    exit 20
+  }
+
+POST_RC=0
+(
+  set -euo pipefail
+  module load python/gcc/11.4.0/3.11.7
+
+  python3 \
+    "${PROJECT_HOME}/scripts/validation/validate_d3d_r4_prefix.py" \
+    --d3d-dir "${SCRATCH_RUN}" \
+    --r4-dir "${R4_DIR}" || exit 21
+
+  python3 \
+    "${PROJECT_HOME}/scripts/validation/analyze_d3d_per_frame_kkt.py" \
+    --target-dir "${SCRATCH_RUN}" \
+    --active-set-csv "${ACTIVE_SET_CSV}" \
+    --lower-bound-csv "${LOWER_BOUND_CSV}" \
+    --model-dir "${MODEL_DIR}" || exit 22
+
+  python3 \
+    "${PROJECT_HOME}/scripts/validation/validate_d3d_active_set_segment.py" \
+    --target-dir "${SCRATCH_RUN}" || exit 23
+) > D3D_POSTPYTHON_PIPELINE.log 2>&1 || POST_RC=$?
+
+case "${POST_RC}" in
+  0)
+    ;;
+  21)
+    if [ ! -f D3D_STATUS.json ]; then
+      write_status \
+        "stage_d3d_postprocessing_fail" \
+        21 \
+        "D3D R4-prefix reproduction failed"
+    fi
+    copy_evidence
+    exit 21
+    ;;
+  22)
+    if [ ! -f D3D_STATUS.json ]; then
+      write_status \
+        "stage_d3d_postprocessing_fail" \
+        22 \
+        "D3D per-frame KKT analysis failed"
+    fi
+    copy_evidence
+    exit 22
+    ;;
+  23)
+    # Validator writes D3D_STATUS.json including update-required scientific outcomes.
+    if [ ! -f D3D_STATUS.json ]; then
+      write_status \
+        "stage_d3d_postprocessing_fail" \
+        23 \
+        "D3D scientific validation failed"
+    fi
+    copy_evidence
+    # Non-zero so PBS records failure for pure technical fail; scientific update also non-zero.
+    exit 23
+    ;;
+  *)
+    write_status \
+      "stage_d3d_postprocessing_fail" \
+      24 \
+      "Unexpected D3D postprocessing exit ${POST_RC}"
+    copy_evidence
+    exit 24
+    ;;
+esac
+
+copy_evidence
+exit 0
