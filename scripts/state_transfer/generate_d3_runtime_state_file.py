@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Generate the D3A3-R2 runtime H-state file used by UEXTERNALDB."""
 
-from __future__ import annotations
-
 import argparse
 import csv
 import hashlib
@@ -15,7 +13,7 @@ EXPECTED_IPS = 4
 EXPECTED_RECORDS = EXPECTED_ELEMENTS * EXPECTED_IPS
 
 
-def sha256(path: Path) -> str:
+def sha256(path):
     digest = hashlib.sha256()
     with path.open("rb") as handle:
         for block in iter(lambda: handle.read(1024 * 1024), b""):
@@ -23,7 +21,7 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def main() -> int:
+def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, default=Path("runs/hpc/stage_d3/interrupted_transfer/package/D3_TRANSFERRED_IP_H.csv"))
     parser.add_argument("--out", type=Path, default=Path("models/state_transfer/d3_interrupted_transfer/executable/d3_transfer_h.dat"))

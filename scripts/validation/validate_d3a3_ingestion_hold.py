@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Validate D3A3 static preflight or completed ingestion/hold outputs."""
 
-from __future__ import annotations
-
 import argparse
 import csv
 import json
@@ -13,16 +11,16 @@ from pathlib import Path
 DEFAULT_TOL = 1.0e-8
 
 
-def read_json(path: Path) -> dict[str, object]:
+def read_json(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def read_csv(path: Path) -> list[dict[str, str]]:
+def read_csv(path):
     with path.open(newline="", encoding="utf-8") as handle:
         return list(csv.DictReader(handle))
 
 
-def floats(rows: list[dict[str, str]], column: str) -> list[float]:
+def floats(rows, column):
     out = []
     for row in rows:
         value = row.get(column, "")
@@ -31,7 +29,7 @@ def floats(rows: list[dict[str, str]], column: str) -> list[float]:
     return out
 
 
-def metric(values: list[float]) -> dict[str, object]:
+def metric(values):
     if not values:
         return {"count": 0, "l2": None, "max_abs": None}
     return {
@@ -41,14 +39,14 @@ def metric(values: list[float]) -> dict[str, object]:
     }
 
 
-def require_file(target_dir: Path, name: str, failures: list[str]) -> Path:
+def require_file(target_dir, name, failures):
     path = target_dir / name
     if not path.exists():
         failures.append(f"{name} missing")
     return path
 
 
-def validate_completed(target_dir: Path, failures: list[str], tol: float) -> dict[str, object]:
+def validate_completed(target_dir, failures, tol):
     required = [
         "D3A3_STATE_BY_FRAME.csv",
         "D3A3_TRANSFER_VS_ODB.csv",
@@ -103,14 +101,14 @@ def validate_completed(target_dir: Path, failures: list[str], tol: float) -> dic
     }
 
 
-def main() -> int:
+def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target-dir", type=Path, default=Path("runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r2"))
     parser.add_argument("--static-only", action="store_true")
     parser.add_argument("--tol", type=float, default=DEFAULT_TOL)
     args = parser.parse_args()
 
-    failures: list[str] = []
+    failures = []
     static_path = args.target_dir / "D3A3_STATIC_VALIDATION.json"
     if not static_path.exists():
         failures.append("D3A3_STATIC_VALIDATION.json missing")

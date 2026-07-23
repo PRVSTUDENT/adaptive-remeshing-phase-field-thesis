@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Generate D3A3 full-target ingestion/equilibration/release-hold inputs."""
 
-from __future__ import annotations
-
 import argparse
 import csv
 import hashlib
@@ -19,17 +17,17 @@ CHECKPOINT_U2 = 0.003000000026077032
 H0_FORTRAN = Path("models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact/SingleNotch.for")
 
 
-def read_csv(path: Path) -> list[dict[str, str]]:
+def read_csv(path):
     with path.open(newline="", encoding="utf-8") as handle:
         return list(csv.DictReader(handle))
 
 
-def write(path: Path, text: str) -> None:
+def write(path, text):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
 
 
-def sha256(path: Path) -> str:
+def sha256(path):
     digest = hashlib.sha256()
     with path.open("rb") as handle:
         for block in iter(lambda: handle.read(1024 * 1024), b""):
@@ -37,13 +35,13 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def add_label_set(lines: list[str], name: str, labels: list[int], chunk: int = 12) -> None:
+def add_label_set(lines, name, labels, chunk=12):
     lines.append(f"*Nset, nset={name}")
     for index in range(0, len(labels), chunk):
         lines.append(", ".join(str(label) for label in labels[index : index + chunk]))
 
 
-def generate_fortran(path: Path) -> None:
+def generate_fortran(path):
     text = f"""C D3A3 full-target transferred-state ingestion UEL/UMAT.
 C H table initializes once only from d3_transfer_table.inc during Step 1.
       SUBROUTINE UEL(RHS,AMATRX,SVARS,ENERGY,NDOFEL,NRHS,NSVARS,
@@ -206,7 +204,7 @@ C H table initializes once only from d3_transfer_table.inc during Step 1.
     write(path, text)
 
 
-def generate_fortran_r2(path: Path) -> None:
+def generate_fortran_r2(path):
     text = H0_FORTRAN.read_text(encoding="utf-8")
     text = "\n".join(line.rstrip() for line in text.splitlines()) + "\n"
     text = text.replace("N_ELEM=3930", f"N_ELEM={N_ELEM}")
@@ -299,7 +297,7 @@ def generate_fortran_r2(path: Path) -> None:
     write(path, text.rstrip() + uexternaldb)
 
 
-def generate_inp(path: Path, target_dir: Path, package_dir: Path) -> None:
+def generate_inp(path, target_dir, package_dir):
     nodes = read_csv(target_dir / "target_nodes.csv")
     elements = read_csv(target_dir / "target_elements.csv")
     nodal_d = {int(row["node"]): float(row["d"]) for row in read_csv(package_dir / "D3_TRANSFERRED_NODAL_D.csv")}
@@ -409,7 +407,7 @@ def generate_inp(path: Path, target_dir: Path, package_dir: Path) -> None:
     write(path, "\n".join(lines) + "\n")
 
 
-def static_status(model_dir: Path, package_dir: Path, out_dir: Path) -> dict[str, object]:
+def static_status(model_dir, package_dir, out_dir):
     nodes = read_csv(model_dir / "target" / "target_nodes.csv")
     elements = read_csv(model_dir / "target" / "target_elements.csv")
     nodal = read_csv(package_dir / "D3_TRANSFERRED_NODAL_D.csv")
@@ -492,7 +490,7 @@ def static_status(model_dir: Path, package_dir: Path, out_dir: Path) -> dict[str
     return status
 
 
-def main() -> int:
+def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model-dir", type=Path, default=Path("models/state_transfer/d3_interrupted_transfer"))
     parser.add_argument("--package-dir", type=Path, default=Path("runs/hpc/stage_d3/interrupted_transfer/package"))
