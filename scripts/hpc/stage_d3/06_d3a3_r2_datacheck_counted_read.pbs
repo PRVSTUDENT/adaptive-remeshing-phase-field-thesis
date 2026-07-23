@@ -190,26 +190,9 @@ if ! grep -R "D3A3-R2 H FILE PATH" ${SCAN_FILES} >/dev/null 2>&1; then
   exit 9
 fi
 
-REPORTED_H_PATH="$(python3 - ${SCAN_FILES} <<'PY'
-import re
-import sys
-
-collect = False
-parts = []
-for name in sys.argv[1:]:
-    with open(name, "r", errors="replace") as handle:
-        for line in handle:
-            if "D3A3-R2 H FILE PATH" in line:
-                collect = True
-                parts = []
-                continue
-            if collect:
-                parts.append(line.strip())
-                if "d3_transfer_h.dat" in line:
-                    print(re.sub(r"\s+", "", "".join(parts)))
-                    raise SystemExit(0)
-raise SystemExit(0)
-PY
+REPORTED_H_PATH="$(
+  python3 "${PROJECT_HOME}/scripts/validation/replay_d3a3_r2_datacheck_gate.py" \
+    --extract-path D3A3_R2_DATACHECK.msg
 )"
 printf '%s\n' "${REPORTED_H_PATH}" > D3A3_R2_REPORTED_H_PATH.txt
 
