@@ -1,0 +1,116 @@
+{
+  "active_bound_error": 0.0,
+  "active_node_count": 6446,
+  "active_set_membership_stable": true,
+  "all_values_finite": true,
+  "changed_active_set_count_vs_d3a4": 4566,
+  "classification": "stage_d3a5_active_set_kkt_metrics",
+  "complementarity_infinity_norm": 1.204405846566602e-25,
+  "converged": true,
+  "elements": 6400,
+  "free_node_count": 155,
+  "free_set_residual_infinity_norm": 2.117582368135751e-21,
+  "history": [
+    {
+      "active_nodes": 6568,
+      "free_nodes": 33,
+      "free_residual_inf": 1.6940658945086007e-21,
+      "iteration": 1,
+      "membership_unchanged": false,
+      "minimum_active_multiplier": -2.479042327283127e-09,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 33
+    },
+    {
+      "active_nodes": 6543,
+      "free_nodes": 58,
+      "free_residual_inf": 2.541098841762901e-21,
+      "iteration": 2,
+      "membership_unchanged": false,
+      "minimum_active_multiplier": -6.842488308644459e-10,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 25
+    },
+    {
+      "active_nodes": 6524,
+      "free_nodes": 77,
+      "free_residual_inf": 2.541098841762901e-21,
+      "iteration": 3,
+      "membership_unchanged": false,
+      "minimum_active_multiplier": -1.7343435061202724e-10,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 19
+    },
+    {
+      "active_nodes": 6498,
+      "free_nodes": 103,
+      "free_residual_inf": 1.4823076576950256e-21,
+      "iteration": 4,
+      "membership_unchanged": false,
+      "minimum_active_multiplier": -3.020941882157983e-11,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 26
+    },
+    {
+      "active_nodes": 6475,
+      "free_nodes": 126,
+      "free_residual_inf": 2.541098841762901e-21,
+      "iteration": 5,
+      "membership_unchanged": false,
+      "minimum_active_multiplier": -6.4559343830243685e-12,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 23
+    },
+    {
+      "active_nodes": 6457,
+      "free_nodes": 144,
+      "free_residual_inf": 1.4823076576950256e-21,
+      "iteration": 6,
+      "membership_unchanged": false,
+      "minimum_active_multiplier": -1.4276762431942969e-12,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 18
+    },
+    {
+      "active_nodes": 6448,
+      "free_nodes": 153,
+      "free_residual_inf": 2.541098841762901e-21,
+      "iteration": 7,
+      "membership_unchanged": false,
+      "minimum_active_multiplier": -1.0451618806807972e-12,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 9
+    },
+    {
+      "active_nodes": 6446,
+      "free_nodes": 155,
+      "free_residual_inf": 2.117582368135751e-21,
+      "iteration": 8,
+      "membership_unchanged": false,
+      "minimum_active_multiplier": -9.96194330970534e-13,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 2
+    },
+    {
+      "active_nodes": 6446,
+      "free_nodes": 155,
+      "free_residual_inf": 2.117582368135751e-21,
+      "iteration": 9,
+      "membership_unchanged": true,
+      "minimum_active_multiplier": -9.96194330970534e-13,
+      "minimum_bound_margin": 0.0,
+      "released_this_iteration": 0
+    }
+  ],
+  "integration_points": 25600,
+  "iterations": 9,
+  "maximum_d_D3A5": 0.08983943890407393,
+  "maximum_d_increase": 0.0001363565791405036,
+  "minimum_active_set_multiplier": -9.96194330970534e-13,
+  "minimum_d_D3A5": 2.517928127784501e-06,
+  "minimum_d_D3A5_minus_d_F1": 0.0,
+  "nodes": 6601,
+  "non_positive_detJ": 0,
+  "normalized_L2_d_increase": 0.00034526314431873096,
+  "predicted_phase_decrease_violations": 0
+}

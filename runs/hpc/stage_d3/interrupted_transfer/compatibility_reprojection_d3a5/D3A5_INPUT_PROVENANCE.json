@@ -1,0 +1,18 @@
+{
+  "abaqus_analysis_reused": true,
+  "assembly": "scripts.state_transfer.solve_d3a4_phase_compatibility.assemble",
+  "classification": "stage_d3a5_input_provenance",
+  "fortran_compiled": false,
+  "history": "actual R3 F1 odb_sdv16 from job 1377417 base extraction",
+  "hypothesis": "D3A4 used earlier forensic/package H; R3 F1 actual H differs slightly and explains free residual exceedance",
+  "lower_bound": "recovered R3 F1 nodal d (post-D3A4 compatible state)",
+  "mesh": "models/state_transfer/d3_interrupted_transfer/target",
+  "new_mesh": false,
+  "odb_reread": false,
+  "old_history": "package_compatible_r1/D3_TRANSFERRED_IP_H.csv",
+  "solver": "sparse_active_set_lower_bound_qp",
+  "solver_executed": false,
+  "source_failure_dir": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible",
+  "source_job": "1377417.mmaster02",
+  "source_replay_dir": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible_postprocess_replay"
+}

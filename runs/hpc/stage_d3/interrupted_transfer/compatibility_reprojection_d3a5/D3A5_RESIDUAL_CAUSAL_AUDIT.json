@@ -1,0 +1,31 @@
+{
+  "actual_H_ip_coverage": 25600,
+  "actual_H_metrics": {
+    "free_set_residual_infinity_norm": 1.2035463824381645e-08,
+    "maximum_free_residual_node": 3200,
+    "maximum_residual_abs": 3.6977127348794023e-07,
+    "maximum_residual_node": 3399,
+    "residual_L2": 1.156385122758042e-08
+  },
+  "actual_free_residual_matches_replay": true,
+  "actual_free_residual_relative_error": 0.0,
+  "classification": "stage_d3a5_residual_causal_audit",
+  "d3a4_active_nodes": 1880,
+  "d3a4_free_nodes": 4721,
+  "expected_actual_free_residual": 1.2035463824381645e-08,
+  "expected_maximum_free_residual_node": 3200,
+  "expected_nodes": 6601,
+  "maximum_free_residual_node_matches_replay": true,
+  "node_coverage": 6601,
+  "non_positive_detJ_actual": 0,
+  "non_positive_detJ_old": 0,
+  "old_H_ip_coverage": 25600,
+  "old_H_metrics": {
+    "free_set_residual_infinity_norm": 1.1011428314305904e-20,
+    "maximum_free_residual_node": 3321,
+    "maximum_residual_abs": 3.6977127348794023e-07,
+    "maximum_residual_node": 3399,
+    "residual_L2": 1.1561945191305826e-08
+  },
+  "old_vs_actual_free_residual_ratio": 1092997518654.8077
+}

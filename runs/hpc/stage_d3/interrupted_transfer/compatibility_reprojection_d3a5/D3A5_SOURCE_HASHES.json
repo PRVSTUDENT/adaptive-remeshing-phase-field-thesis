@@ -1,0 +1,55 @@
+{
+  "classification": "stage_d3a5_source_hashes",
+  "files": {
+    "d3a4_active": {
+      "bytes": 783812,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/compatibility_projection_d3a4/D3A4_ACTIVE_SET_BY_NODE.csv",
+      "sha256": "f31fa9c2257a205c072fd910e14365facc1a5cbb862ec1fdb568648918b90a44"
+    },
+    "d3a4_constrained": {
+      "bytes": 602844,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/compatibility_projection_d3a4/D3A4_CONSTRAINED_NODAL_D.csv",
+      "sha256": "975f5e365c730368cee6f4ddf5ef23ac9c1f3e257d86d117fbafd6a1cae18cee"
+    },
+    "f1_kkt": {
+      "bytes": 866,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible_postprocess_replay/D3A3_R3_F1_KKT_METRICS.json",
+      "sha256": "cd422f9dde64c9cd192760be3e6f027d673391d110c49675e25b5d55734116aa"
+    },
+    "f1_residual": {
+      "bytes": 850706,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible_postprocess_replay/D3A3_R3_F1_RESIDUAL_BY_NODE.csv",
+      "sha256": "20590219a78e78dcd0775935f7089a66a90c612ebd4ae250d93707d770b46d85"
+    },
+    "package_d": {
+      "bytes": 348508,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1/D3_TRANSFERRED_NODAL_D.csv",
+      "sha256": "03af61be0fed4c37ec230d7ed4e93e91d5e753d0da14a770d452081e997371fb"
+    },
+    "package_h": {
+      "bytes": 4629757,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1/D3_TRANSFERRED_IP_H.csv",
+      "sha256": "a67bf29ce900cb4f9a6a61d8af0dcfe56d1872947d199875e00f764bc620fc49"
+    },
+    "phase_state": {
+      "bytes": 1213776,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible_postprocess_replay/D3A3_R3_PHASE_NODE_STATE_BY_FRAME.csv",
+      "sha256": "81d48686ab11f931cf9465bdaa4878ebb82351ec37d247d425eb073d7af2a910"
+    },
+    "state_by_frame": {
+      "bytes": 20912440,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible/D3A3_STATE_BY_FRAME.csv",
+      "sha256": "6603e9fab1450c660f2de93699a652b425f6ebba32b2c335662e66d3d80e80e3"
+    },
+    "target_elements": {
+      "bytes": 161281,
+      "path": "models/state_transfer/d3_interrupted_transfer/target/target_elements.csv",
+      "sha256": "223cc4f0b945abd17e4252839466a84a9106a9fa2b8bab2772e32fe7ccdc284c"
+    },
+    "target_nodes": {
+      "bytes": 207278,
+      "path": "models/state_transfer/d3_interrupted_transfer/target/target_nodes.csv",
+      "sha256": "6021473384591ea90021990b9f6b7d7c35c778a6e6d472607757f14a9caf2586"
+    }
+  }
+}
