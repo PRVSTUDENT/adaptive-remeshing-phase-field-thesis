@@ -1,0 +1,39 @@
+{
+  "D3A3_R3_ok": false,
+  "D3A3_ok": false,
+  "F3_below_lower_bound_violations": 0,
+  "F3_d_decrease_from_F1_violations": 0,
+  "H_decrease_violations": 0,
+  "RF_release_jump": 0.00030637455281446667,
+  "active_node_bound_error": 6.938893903907228e-18,
+  "active_node_phase_drift_max_abs": 6.938893903907228e-18,
+  "active_nodes_expected": 1880,
+  "classification": "stage_d3a3_r3_fixed_state_needs_reprojection",
+  "failures": [
+    "free-node residual infinity norm = 1.2035463824381645e-08 > 1e-08",
+    "free residual infinity norm = 1.2035463824381645e-08 > 1e-08"
+  ],
+  "free_set_residual_infinity_norm": 1.2035463824381645e-08,
+  "kkt_classification": "stage_d3a3_r3_fixed_state_needs_reprojection",
+  "lower_bound_audit": "stage_d3a3_r3_lower_bound_audit_pass",
+  "maximum_phase_adjustment": 0.005262712233748787,
+  "minimum_active_set_multiplier": 3.1903130564615235e-13,
+  "phase_adjustment": {
+    "count": 25600,
+    "l2": 0.0001746903969819064,
+    "max_abs": 0.005262712233748787
+  },
+  "reconstructed_energy_release_jump": 1.2967797241448425e-05,
+  "spatial_variation_retained": true,
+  "state_reset": false,
+  "transfer_sdv15_error": {
+    "count": 25600,
+    "l2": 6.146700850107126e-19,
+    "max_abs": 1.3877787807814457e-17
+  },
+  "transfer_sdv16_error": {
+    "count": 25600,
+    "l2": 0.0,
+    "max_abs": 0.0
+  }
+}

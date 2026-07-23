@@ -1,0 +1,28 @@
+{
+  "abaqus_analysis_reused": true,
+  "base_extraction_reused": true,
+  "correction": "run active/free builder under qualified Python after Abaqus-only extraction",
+  "environment": {
+    "numpy": "2.4.4",
+    "numpy_import": true,
+    "python": "3.11.7 (main, Jul 24 2024, 09:40:09) [GCC 11.4.0]",
+    "python_major_minor": "3.11",
+    "scipy": "1.17.1",
+    "scipy_import": true
+  },
+  "fortran_compiled": false,
+  "new_mesh": false,
+  "new_transfer_package": false,
+  "odb_reread": false,
+  "postprocessing_interpreter": "python/gcc/11.4.0/3.11.7",
+  "replay_dir": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible_postprocess_replay",
+  "solver_executed": false,
+  "source_classification": "stage_d3a3_r3_ingestion_fail",
+  "source_commit": "4bee79e6224ad4acfbeb49d13c51bf7a983e181a",
+  "source_dir": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible",
+  "source_extraction_classification": "stage_d3a3_extraction_complete_corrected",
+  "source_failure_commit": "213dd1c1d8cb9496674d311fb03b369ea27f13d0",
+  "source_job": "1377417.mmaster02",
+  "source_state_rows": 102400,
+  "work_dir_removed": true
+}

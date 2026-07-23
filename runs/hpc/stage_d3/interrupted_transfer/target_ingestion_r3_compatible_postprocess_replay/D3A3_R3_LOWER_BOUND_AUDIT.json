@@ -1,0 +1,19 @@
+{
+  "active_node_state_csv": "D3A3_R3_ACTIVE_NODE_STATE.csv",
+  "active_nodes": 1880,
+  "all_nodes": 6601,
+  "classification": "stage_d3a3_r3_lower_bound_audit_pass",
+  "expected_active_nodes": 1880,
+  "expected_all_nodes": 6601,
+  "expected_free_nodes": 4721,
+  "free_node_state_csv": "D3A3_R3_FREE_NODE_STATE.csv",
+  "free_nodes": 4721,
+  "missing_recovered_values": 0,
+  "phase_node_state_csv": "D3A3_R3_PHASE_NODE_STATE_BY_FRAME.csv",
+  "required_frames": [
+    "F0_ingested",
+    "F1_equilibrated",
+    "F2_release_first",
+    "F3_release_last"
+  ]
+}

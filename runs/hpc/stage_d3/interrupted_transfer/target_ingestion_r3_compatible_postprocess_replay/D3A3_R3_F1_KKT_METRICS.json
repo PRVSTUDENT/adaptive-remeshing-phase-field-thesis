@@ -1,0 +1,23 @@
+{
+  "D3A3_R3_fixed_state_kkt_ok": false,
+  "active_bound_error_tol": 1e-10,
+  "active_multiplier_tol": -1e-08,
+  "active_node_bound_error": 6.938893903907228e-18,
+  "active_node_count": 1880,
+  "active_set_source": "D3A4_ACTIVE_SET_BY_NODE.csv",
+  "assembly": "scripts.state_transfer.solve_d3a4_phase_compatibility.assemble",
+  "classification": "stage_d3a3_r3_fixed_state_needs_reprojection",
+  "expected_nodes": 6601,
+  "failures": [
+    "free residual infinity norm = 1.2035463824381645e-08 > 1e-08"
+  ],
+  "free_node_count": 4721,
+  "free_residual_tol": 1e-08,
+  "free_set_residual_infinity_norm": 1.2035463824381645e-08,
+  "history_field": "F1_equilibrated odb_sdv16",
+  "integration_points": 25600,
+  "minimum_active_set_multiplier": 3.1903130564615235e-13,
+  "node_coverage": 6601,
+  "non_positive_detJ": 0,
+  "phase_field": "recovered F1 compatible phase"
+}

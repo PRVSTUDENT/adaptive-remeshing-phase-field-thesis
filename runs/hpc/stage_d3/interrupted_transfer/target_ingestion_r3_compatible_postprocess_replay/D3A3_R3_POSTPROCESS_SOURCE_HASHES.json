@@ -1,0 +1,47 @@
+{
+  "classification": "stage_d3a3_r3_postprocess_source_hashes",
+  "files": {
+    "D3A3_EXTRACTION_STATUS.json": {
+      "bytes": 133,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible/D3A3_EXTRACTION_STATUS.json",
+      "sha256": "0b045ca486c4d4b01dd0b8e7e3e83288d08992fbd9f1b5cad4af873b77712779"
+    },
+    "D3A3_PHASE_NODE_RECOVERY_BY_FRAME.csv": {
+      "bytes": 4679649,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible/D3A3_PHASE_NODE_RECOVERY_BY_FRAME.csv",
+      "sha256": "85075ea585e78d8e1e1a1e71f44d23f874bfd839c17bce475d5f2ea7e74d80d8"
+    },
+    "D3A3_R3_ODB_LOCATION.json": {
+      "bytes": 322,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible/D3A3_R3_ODB_LOCATION.json",
+      "sha256": "5661e468857a6a70270d17772a5f409ecfd24a479104572644f53a1972698e52"
+    },
+    "D3A3_RECONSTRUCTED_ENERGY_BY_FRAME_CORRECTED.json": {
+      "bytes": 3990,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible/D3A3_RECONSTRUCTED_ENERGY_BY_FRAME_CORRECTED.json",
+      "sha256": "4f7047c4d1ce20d4503eb911f40294c661a2005524de982d97ce8a1cbde33f08"
+    },
+    "D3A3_RELEASE_JUMP.json": {
+      "bytes": 781,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible/D3A3_RELEASE_JUMP.json",
+      "sha256": "806f2a6bd44c543d904c8235b15176027b148e3bae2260b036ad205ff96142e0"
+    },
+    "D3A3_RF_U_CORRECTED.csv": {
+      "bytes": 548,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible/D3A3_RF_U_CORRECTED.csv",
+      "sha256": "5b5c851a682a7f6ca189765ee1836373eb852e3c80198d8bf216d964c8da79c0"
+    },
+    "D3A3_STATE_BY_FRAME.csv": {
+      "bytes": 20810039,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible/D3A3_STATE_BY_FRAME.csv",
+      "sha256": "2cd10bfa3548a58ae6810e2f5f7293fca395aa15188644ac03c514b08a5dc29b"
+    },
+    "D3A3_TRANSFER_VS_ODB.csv": {
+      "bytes": 3948345,
+      "path": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible/D3A3_TRANSFER_VS_ODB.csv",
+      "sha256": "e94d018a9cd6686c1b9424aa5dd1bda9c83bb4b2303b3d06e9a5e89fc55fe813"
+    }
+  },
+  "hashes_unchanged": true,
+  "source_job": "1377417.mmaster02"
+}
