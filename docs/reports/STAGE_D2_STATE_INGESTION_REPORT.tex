@@ -201,10 +201,13 @@ It failed before solver analysis because the batch environment loaded only
 \path{stage_d3a3_solver_fail_compiler_environment}. No \texttt{D3A3.ok} marker
 exists, and D3D/D3E remain blocked.
 
-D3A3-R1 is a bounded compiler-environment correction only. It keeps the mesh,
-transfer values, input deck, Fortran logic, step definitions, and checkpoint
-displacement unchanged while adding explicit \texttt{gcc/11.4.0},
-\texttt{intel/2024.2.0}, and \texttt{abaqus/2023} module loads, one OpenMP
-thread, scratch execution, and compiler/Abaqus environment capture.
+D3A3-R1 applied that bounded compiler-environment correction as job
+\texttt{1377383.mmaster02}. The compiler environment passed: the job recorded
+\texttt{gcc/11.4.0}, \texttt{intel/2024.2.0}, \texttt{abaqus/2023}, and a
+valid \texttt{ifort}. The job still failed before solver analysis because
+\texttt{d3\_transfer\_table.inc} exceeded the Intel Fortran statement token
+limit during user-subroutine compilation. The classification is
+\path{stage_d3a3_solver_fail_transfer_table_compile}. No \texttt{D3A3\_R1.ok}
+or canonical \texttt{D3A3.ok} marker exists, and D3D/D3E remain blocked.
 
 \end{document}

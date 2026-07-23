@@ -174,8 +174,11 @@ not find \texttt{ifort} because the batch script loaded only
 \path{stage_d3a3_solver_fail_compiler_environment}; no \texttt{D3A3.ok} marker
 exists and continuation stages D3D and D3E remain blocked.
 
-D3A3-R1 is restricted to the compiler environment. It adds explicit
-\texttt{gcc/11.4.0}, \texttt{intel/2024.2.0}, and \texttt{abaqus/2023} module
-loads, records the compiler and Abaqus environment, runs from scratch, and keeps
-the D3A3 input deck, transfer table, Fortran logic, mesh, transfer values, step
-definitions, and checkpoint displacement unchanged.
+D3A3-R1 applied this compiler-environment correction as job
+\texttt{1377383.mmaster02}. The environment gate passed: the job recorded
+\texttt{gcc/11.4.0}, \texttt{intel/2024.2.0}, \texttt{abaqus/2023}, and a
+valid \texttt{ifort}. The analysis still did not start because the generated
+\texttt{d3\_transfer\_table.inc} exceeded the Intel Fortran statement token
+limit during user-subroutine compilation. The classification is
+\path{stage_d3a3_solver_fail_transfer_table_compile}; no \texttt{D3A3\_R1.ok}
+or \texttt{D3A3.ok} marker exists, so D3D and D3E remain blocked.

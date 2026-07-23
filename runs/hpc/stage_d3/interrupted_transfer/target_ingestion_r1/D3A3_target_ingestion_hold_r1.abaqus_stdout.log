@@ -1,0 +1,18 @@
+Analysis initiated from SIMULIA established products
+Abaqus JOB D3A3_target_ingestion_hold_r1
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 5 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<271 out of 300 licenses remain available>.
+Begin Compiling Abaqus/Standard User Subroutines
+Thu 23 Jul 2026 06:36:16 AM CEST
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+/scratch9/pr21vyci/adaptive-remeshing/runs/d3a3_target_ingestion_r1_1377383.mmaster02/d3_transfer_table.inc(3423): catastrophic error: Statement too long; token limit is 41000.
+ Intel(R) Fortran 2021.13.0-1693
+compilation aborted for d3_transfer_uel.for (code 1)
+Abaqus Error: Problem during compilation - d3_transfer_uel.for
+Abaqus/Analysis exited with errors

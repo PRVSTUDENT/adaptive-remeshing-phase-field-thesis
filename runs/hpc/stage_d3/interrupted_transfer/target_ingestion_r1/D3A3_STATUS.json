@@ -1,0 +1,16 @@
+{
+  "D3A3_ok": false,
+  "classification": "stage_d3a3_solver_fail_transfer_table_compile",
+  "compiler_environment": "pass",
+  "failures": [
+    "PBS job 1377383.mmaster02 loaded gcc/11.4.0, intel/2024.2.0, and abaqus/2023; ifort was available, but Abaqus user-subroutine compilation failed because d3_transfer_table.inc exceeded the Intel Fortran statement token limit."
+  ],
+  "failed_predecessor_job": "1377382.mmaster02",
+  "job_id": "1377383.mmaster02",
+  "pbs_exit_status": 1,
+  "solver_analysis_started": false,
+  "solver_exit": 1,
+  "source_commit": "4710fa4a412a3af6914040f5578529c2c0e33214",
+  "static_preflight": "stage_d3a3_static_validation_pass",
+  "solver_job_submitted": true
+}
