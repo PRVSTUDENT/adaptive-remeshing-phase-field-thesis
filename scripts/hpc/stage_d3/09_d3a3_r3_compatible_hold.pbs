@@ -79,7 +79,9 @@ copy_evidence() {
     "D3A3_R3_RUNTIME_STATE_VALIDATION.json" \
     "D3A3_R3_DATACHECK.ok" \
     "D3A3_R3_DATACHECK_STATUS.json" \
-    "D3A3_R3_R1_STAGING_CORRECTION_AUDIT.json"; do
+    "D3A3_R3_R1_STAGING_CORRECTION_AUDIT.json" \
+    "D3A3_R3_POSTPYTHON_PREFLIGHT.log" \
+    "D3A3_R3_POSTPYTHON_PIPELINE.log"; do
     if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
       cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/"
     fi
@@ -180,6 +182,19 @@ if [ -f d3_transfer_table.inc ]; then
   exit 8
 fi
 
+# Qualify the modern postprocessing interpreter without changing the solver env.
+(
+  module load python/gcc/11.4.0/3.11.7
+  python3 -c "import numpy, scipy"
+) > D3A3_R3_POSTPYTHON_PREFLIGHT.log 2>&1 || {
+  write_status \
+    "stage_d3a3_r3_postpython_environment_fail" \
+    9 \
+    "qualified NumPy/SciPy interpreter unavailable"
+  copy_evidence
+  exit 9
+}
+
 {
   echo "job_id=${PBS_JOBID:-unknown}"
   echo "classification=stage_d3a3_r3_compatible_hold_submitted"
@@ -195,6 +210,7 @@ fi
   echo "OMP_NUM_THREADS=${OMP_NUM_THREADS}"
   echo "runtime_H_sha256=${EXPECTED_H_SHA}"
   echo "datacheck_marker=${DATACHECK_DIR}/D3A3_R3_DATACHECK.ok"
+  echo "postpython_module=python/gcc/11.4.0/3.11.7"
   echo "step3_active_phase_bc_count=1880"
   echo "step3_free_phase_bc_count=0"
 } > D3A3_R3_JOB_RECORD.txt
@@ -227,26 +243,35 @@ abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_d3a3_r3_compatible
     exit 20
   }
 
-python3 "${PROJECT_HOME}/scripts/validation/analyze_d3a3_r3_fixed_state_kkt.py" \
-  --target-dir "${SCRATCH_RUN}" \
-  --d3a4-dir "${D3A4_DIR}" \
-  --model-dir "${MODEL_DIR}" \
-  --package-dir "${PACKAGE_DIR}" || {
-    write_status "stage_d3a3_r3_fixed_state_needs_reprojection" 21 "R3 F1 fixed-state KKT failed"
-    copy_evidence
-    exit 21
-  }
+POST_RC=0
+(
+  set -euo pipefail
+  module load python/gcc/11.4.0/3.11.7
 
-python3 "${PROJECT_HOME}/scripts/validation/validate_d3a3_r3_compatible_hold.py" \
-  --target-dir "${SCRATCH_RUN}" \
-  --d3a4-dir "${D3A4_DIR}" || {
-    # Validator writes detailed D3A3_R3_STATUS.json / D3A3_R3_REPORT.md; do not overwrite.
+  python3 "${PROJECT_HOME}/scripts/validation/analyze_d3a3_r3_fixed_state_kkt.py" \
+    --target-dir "${SCRATCH_RUN}" \
+    --d3a4-dir "${D3A4_DIR}" \
+    --model-dir "${MODEL_DIR}" \
+    --package-dir "${PACKAGE_DIR}"
+
+  python3 "${PROJECT_HOME}/scripts/validation/validate_d3a3_r3_compatible_hold.py" \
+    --target-dir "${SCRATCH_RUN}" \
+    --d3a4-dir "${D3A4_DIR}"
+) > D3A3_R3_POSTPYTHON_PIPELINE.log 2>&1 || POST_RC=$?
+
+if [ "${POST_RC}" -ne 0 ]; then
+  if [ -f D3A3_R3_STATUS.json ] && grep -q "stage_d3a3_r3_fixed_state_needs_reprojection" D3A3_R3_STATUS.json; then
+    :
+  elif [ -f D3A3_R3_F1_KKT_METRICS.json ] && grep -q "stage_d3a3_r3_fixed_state_needs_reprojection" D3A3_R3_F1_KKT_METRICS.json; then
     if [ ! -f D3A3_R3_STATUS.json ]; then
-      write_status "stage_d3a3_r3_active_set_release_fail" 22 "R3 scientific validation failed"
+      write_status "stage_d3a3_r3_fixed_state_needs_reprojection" 21 "R3 F1 fixed-state KKT failed"
     fi
-    copy_evidence
-    exit 22
-  }
+  elif [ ! -f D3A3_R3_STATUS.json ]; then
+    write_status "stage_d3a3_r3_active_set_release_fail" 22 "R3 scientific validation failed"
+  fi
+  copy_evidence
+  exit "${POST_RC}"
+fi
 
 copy_evidence
 exit 0

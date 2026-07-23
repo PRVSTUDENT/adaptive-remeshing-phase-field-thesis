@@ -1,0 +1,23 @@
+{
+  "active_set_solve": false,
+  "assembly": "scripts.state_transfer.solve_d3a4_phase_compatibility.assemble",
+  "classification": "stage_d3a3_r3_postpython_assembly_pass",
+  "elements": 6400,
+  "failures": [],
+  "frobenius_norm_proxy": 0.009923491793638538,
+  "history_source": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1/D3_TRANSFERRED_IP_H.csv",
+  "integration_points": 25600,
+  "loaded_H_records": 25600,
+  "matrix_all_finite": true,
+  "matrix_nnz": 58201,
+  "matrix_shape": [
+    6601,
+    6601
+  ],
+  "nodes": 6601,
+  "non_positive_detJ": 0,
+  "rhs_all_finite": true,
+  "rhs_length": 6601,
+  "solver_executed": false,
+  "sparse_assembly_pass": true
+}
