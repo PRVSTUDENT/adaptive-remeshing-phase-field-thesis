@@ -1,0 +1,38 @@
+post_python=/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-cascadelake/gcc-11.4.0/python-3.11.7-qfpdtq2pisspwunkuc4fqloxqo2ltw6j/bin/python3
+Python 3.11.7
+PYTHONPATH=
+python 3.11.7 (main, Jul 24 2024, 09:40:09) [GCC 11.4.0]
+numpy 2.4.4
+scipy 1.17.1
+numpy_ok True
+scipy_ok True
+PASS helper_direct_gates
+PASS valid_fixture_creates_markers classification= stage_d3a3_r3_compatible_release_pass
+PASS active_node_decrease_fails classification= stage_d3a3_r3_active_set_release_fail
+PASS lower_bound_violation_fails classification= stage_d3a3_r3_active_set_release_fail
+PASS negative_active_multiplier_fails classification= stage_d3a3_r3_fixed_state_needs_reprojection
+ALL_SYNTHETIC_R3_VALIDATOR_TESTS_PASS
+{
+  "active_set_solve": false,
+  "assembly": "scripts.state_transfer.solve_d3a4_phase_compatibility.assemble",
+  "classification": "stage_d3a3_r3_postpython_assembly_pass",
+  "elements": 6400,
+  "failures": [],
+  "frobenius_norm_proxy": 0.009923491793638538,
+  "history_source": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1/D3_TRANSFERRED_IP_H.csv",
+  "integration_points": 25600,
+  "loaded_H_records": 25600,
+  "matrix_all_finite": true,
+  "matrix_nnz": 58201,
+  "matrix_shape": [
+    6601,
+    6601
+  ],
+  "nodes": 6601,
+  "non_positive_detJ": 0,
+  "rhs_all_finite": true,
+  "rhs_length": 6601,
+  "solver_executed": false,
+  "sparse_assembly_pass": true
+}
+smoke_block_complete
