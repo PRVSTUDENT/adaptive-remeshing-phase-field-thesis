@@ -81,12 +81,16 @@ copy_evidence() {
     "D3D_STATE_BY_FRAME.csv" \
     "D3D_PHASE_NODE_STATE_BY_FRAME.csv" \
     "D3D_TOP_RF_U.csv" \
+    "D3D_FRAME_MANIFEST.csv" \
+    "D3D_FRAME_MANIFEST.json" \
     "D3D_R4_PREFIX_COMPARISON.json" \
     "D3D_PER_FRAME_KKT.csv" \
     "D3D_PER_FRAME_KKT_SUMMARY.json" \
     "D3D_IRREVERSIBILITY_AUDIT.json" \
+    "D3D_IRREVERSIBILITY_BY_FRAME_PAIR.csv" \
     "D3D_RECONSTRUCTED_ENERGY_BY_FRAME.json" \
     "D3D_ACTIVE_MULTIPLIER_CANDIDATES.csv" \
+    "D3D_EXTRACTION_STATUS.json" \
     "D3D_REPORT.md" \
     "D3D_ODB_LOCATION.json" \
     "D3D_RUNTIME_STATE_VALIDATION.json" \
@@ -96,8 +100,7 @@ copy_evidence() {
     "D3A3_STATE_BY_FRAME.csv" \
     "D3A3_RF_U_CORRECTED.csv" \
     "D3A3_PHASE_NODE_RECOVERY_BY_FRAME.csv" \
-    "D3A3_RECONSTRUCTED_ENERGY_BY_FRAME_CORRECTED.json" \
-    "D3A3_RELEASE_JUMP.json"; do
+    "D3A3_RECONSTRUCTED_ENERGY_BY_FRAME_CORRECTED.json"; do
     if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
       cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/"
     fi
@@ -237,6 +240,11 @@ POST_RC=0
   set -euo pipefail
   module load python/gcc/11.4.0/3.11.7
 
+  # Required sequence:
+  #   extraction (already done) → prefix → KKT completion → irreversibility → final validator
+  # The final validator must run even when completed KKT finds negative multipliers
+  # (KKT returns nonzero only when analysis cannot be completed).
+
   python3 \
     "${PROJECT_HOME}/scripts/validation/validate_d3d_r4_prefix.py" \
     --d3d-dir "${SCRATCH_RUN}" \
@@ -248,6 +256,12 @@ POST_RC=0
     --active-set-csv "${ACTIVE_SET_CSV}" \
     --lower-bound-csv "${LOWER_BOUND_CSV}" \
     --model-dir "${MODEL_DIR}" || exit 22
+
+  python3 \
+    "${PROJECT_HOME}/scripts/validation/analyze_d3d_continuation_irreversibility.py" \
+    --target-dir "${SCRATCH_RUN}" \
+    --active-set-csv "${ACTIVE_SET_CSV}" \
+    --lower-bound-csv "${LOWER_BOUND_CSV}" || exit 24
 
   python3 \
     "${PROJECT_HOME}/scripts/validation/validate_d3d_active_set_segment.py" \
@@ -272,10 +286,20 @@ case "${POST_RC}" in
       write_status \
         "stage_d3d_postprocessing_fail" \
         22 \
-        "D3D per-frame KKT analysis failed"
+        "D3D per-frame KKT analysis incomplete"
     fi
     copy_evidence
     exit 22
+    ;;
+  24)
+    if [ ! -f D3D_STATUS.json ]; then
+      write_status \
+        "stage_d3d_postprocessing_fail" \
+        24 \
+        "D3D continuation irreversibility audit incomplete"
+    fi
+    copy_evidence
+    exit 24
     ;;
   23)
     # Validator writes D3D_STATUS.json including update-required scientific outcomes.
@@ -286,16 +310,16 @@ case "${POST_RC}" in
         "D3D scientific validation failed"
     fi
     copy_evidence
-    # Non-zero so PBS records failure for pure technical fail; scientific update also non-zero.
+    # Non-zero for both technical fail and active-set-update-required.
     exit 23
     ;;
   *)
     write_status \
       "stage_d3d_postprocessing_fail" \
-      24 \
+      25 \
       "Unexpected D3D postprocessing exit ${POST_RC}"
     copy_evidence
-    exit 24
+    exit 25
     ;;
 esac
 
