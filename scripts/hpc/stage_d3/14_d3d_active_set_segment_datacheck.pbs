@@ -194,19 +194,26 @@ if [ "${ABAQUS_RC}" -ne 0 ]; then
   copy_evidence
   exit "${ABAQUS_RC}"
 fi
-if ! grep -qi "ANALYSIS DATACHECK COMPLETE" D3D_DATACHECK_STDOUT.log 2>/dev/null \
+# Abaqus writes "ANALYSIS DATACHECK COMPLETE" to the .dat file (not always stdout/msg).
+if ! grep -qi "ANALYSIS DATACHECK COMPLETE" D3D_DATACHECK.dat 2>/dev/null \
+  && ! grep -qi "ANALYSIS DATACHECK COMPLETE" D3D_DATACHECK_STDOUT.log 2>/dev/null \
   && ! grep -qi "ANALYSIS DATACHECK COMPLETE" D3D_DATACHECK.msg 2>/dev/null \
   && ! grep -qi "ANALYSIS DATACHECK COMPLETE" D3D_DATACHECK.log 2>/dev/null; then
   write_status "stage_d3d_datacheck_fail" 10 "ANALYSIS DATACHECK COMPLETE token missing"
   copy_evidence
   exit 10
 fi
-if ! grep -R "D3A3-R2 H LOAD COMPLETE" D3D_DATACHECK_STDOUT.log D3D_DATACHECK.msg 2>/dev/null | grep -q "25600"; then
+if ! grep -qi "Abaqus JOB D3D_DATACHECK COMPLETED" D3D_DATACHECK_STDOUT.log 2>/dev/null; then
+  write_status "stage_d3d_datacheck_fail" 10 "Abaqus JOB COMPLETED token missing from stdout"
+  copy_evidence
+  exit 10
+fi
+if ! grep -R "D3A3-R2 H LOAD COMPLETE" D3D_DATACHECK_STDOUT.log D3D_DATACHECK.msg D3D_DATACHECK.dat 2>/dev/null | grep -q "25600"; then
   write_status "stage_d3d_datacheck_fail" 11 "runtime H load-complete token missing"
   copy_evidence
   exit 11
 fi
-if grep -R "D3A3-R2 premature runtime H EOF\|D3A3-R2 runtime H read error" D3D_DATACHECK_STDOUT.log D3D_DATACHECK.msg >/dev/null 2>&1; then
+if grep -R "D3A3-R2 premature runtime H EOF\|D3A3-R2 runtime H read error" D3D_DATACHECK_STDOUT.log D3D_DATACHECK.msg D3D_DATACHECK.dat >/dev/null 2>&1; then
   write_status "stage_d3d_datacheck_fail" 12 "runtime H read failure token present"
   copy_evidence
   exit 12

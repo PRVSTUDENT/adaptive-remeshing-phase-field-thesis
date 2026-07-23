@@ -1,0 +1,68 @@
+Job Id: 1377515.mmaster02
+    Job_Name = d3d_active_seg_dc
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 72
+    resources_used.cput = 00:00:10
+    resources_used.mem = 273040kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 2390960kb
+    resources_used.walltime = 00:00:14
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Thu Jul 23 15:49:59 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/d3
+	d_active_seg_dc.e1377515
+    exec_host = mnode099/0
+    exec_vnode = (mnode099[0]:ncpus=1:mem=16777216kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+    mtime = Thu Jul 23 15:50:29 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/d
+	3d_active_seg_dc.o1377515
+    Priority = 0
+    qtime = Thu Jul 23 15:49:59 2026
+    Rerunable = True
+    Resource_List.mem = 16gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=16gb
+    Resource_List.walltime = 00:45:00
+    stime = Thu Jul 23 15:50:09 2026
+    obittime = Thu Jul 23 15:50:28 2026
+    session_id = 352377
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1377515.mmaster02.x8z
+    substate = 93
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,
+	PROJECT_REVISION=4182b281a7cad4e5a2d25e993f33e3795e96c08e,
+	D3D_RUNTIME_H_SHA=e4e2b2773c7c29161f4c99bbd7218fa6fe49c6ec3e48d6c2107f
+	83419e97e07c,PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Thu Jul 23 at 15:50 on (mnode099[0]:ncpus=1:mem=167772
+	16kb) and failed
+    etime = Thu Jul 23 15:49:59 2026
+    run_count = 1
+    eligible_time = 00:00:13
+    Stageout_status = 1
+    Exit_status = 10
+    Submit_arguments = -q entry_imfdfkmq -M Pruthviraja.Reddy-Vandavagali@stude
+	nt.tu-freiberg.de -m abe -v PROJECT_REVISION=4182b281a7cad4e5a2d25e993f
+	33e3795e96c08e,
+	D3D_RUNTIME_H_SHA=e4e2b2773c7c29161f4c99bbd7218fa6fe49c6ec3e48d6c2107f
+	83419e97e07c scripts/hpc/stage_d3/14_d3d_active_set_segment_datacheck.p
+	bs
+    history_timestamp = 1784814629
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+
