@@ -1,0 +1,422 @@
+{
+  "all_H_finite": true,
+  "all_H_nonnegative": true,
+  "classification": "stage_d3a3_r2_runtime_state_validation_pass",
+  "duplicates": 0,
+  "elements": 6400,
+  "expected_records": 25600,
+  "failures": [],
+  "integration_points_per_element": 4,
+  "maximum_H": 0.027317036782803523,
+  "minimum_H": 1.0045788889553414e-08,
+  "missing_records": 0,
+  "path": "d3_transfer_h.dat",
+  "records": 25600,
+  "runtime_state_ok": true,
+  "sha256": "4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9"
+}
+d3a3_extract_ok out_dir=/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_target_ingestion_r2_1377396.mmaster02
+{
+  "D3A3_ok": false,
+  "classification": "stage_d3a3_state_ingestion_fail",
+  "completed": {
+    "H_decrease_violations": 0,
+    "RF_release_jump": 1.0292182958543674,
+    "checkpoint_U2_target": 0.003000000026077032,
+    "d_healing_violations": 4651,
+    "energy": {
+      "classification": "stage_d3a3_energy_by_frame_extracted",
+      "frames": [
+        {
+          "frame_index": 1,
+          "frame_tag": "F0_ingested",
+          "odb_H_sum": 15.491873676290865,
+          "reconstructed_energy": {
+            "Gc": 0.0027,
+            "bulk_energy_from_SDV12": 0.0,
+            "fracture_energy_gradient_term": 0.0,
+            "fracture_energy_local_term": 0.0,
+            "frame_tag": "F0_ingested",
+            "lc": 0.015,
+            "maximum_detJ": null,
+            "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy",
+            "minimum_detJ": null,
+            "missing_phase_node_values": 25600,
+            "missing_sdv12_values": 0,
+            "missing_sdv13_values": 0,
+            "non_positive_detJ_count": 0,
+            "phase_l2": null,
+            "phase_max": null,
+            "phase_min": null,
+            "phase_range": null,
+            "thickness": 1.0,
+            "total_fracture_energy": 0.0,
+            "total_reconstructed_internal_energy": 0.0,
+            "undamaged_bulk_energy_from_SDV13": 0.0
+          },
+          "sdv15_error_metric": {
+            "count": 25600,
+            "l2": 0.0004825135091097779,
+            "max_abs": 0.018013543321948218
+          },
+          "sdv16_error_metric": {
+            "count": 25600,
+            "l2": 0.00021961880303143753,
+            "max_abs": 0.01645326664671945
+          },
+          "step": "INGEST_TRANSFERRED_STATE",
+          "transfer_H_sum": 15.194251018348266
+        },
+        {
+          "frame_index": 10,
+          "frame_tag": "F1_equilibrated",
+          "odb_H_sum": 15.502653225304261,
+          "reconstructed_energy": {
+            "Gc": 0.0027,
+            "bulk_energy_from_SDV12": 0.0,
+            "fracture_energy_gradient_term": 0.0,
+            "fracture_energy_local_term": 0.0,
+            "frame_tag": "F1_equilibrated",
+            "lc": 0.015,
+            "maximum_detJ": null,
+            "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy",
+            "minimum_detJ": null,
+            "missing_phase_node_values": 25600,
+            "missing_sdv12_values": 0,
+            "missing_sdv13_values": 0,
+            "non_positive_detJ_count": 0,
+            "phase_l2": null,
+            "phase_max": null,
+            "phase_min": null,
+            "phase_range": null,
+            "thickness": 1.0,
+            "total_fracture_energy": 0.0,
+            "total_reconstructed_internal_energy": 0.0,
+            "undamaged_bulk_energy_from_SDV13": 0.0
+          },
+          "sdv15_error_metric": {
+            "count": 25600,
+            "l2": 0.0004825135091097779,
+            "max_abs": 0.01801354332194821
+          },
+          "sdv16_error_metric": {
+            "count": 25600,
+            "l2": 0.0002208902634349276,
+            "max_abs": 0.01645326664671945
+          },
+          "step": "CHECKPOINT_EQUILIBRATION_PHASE_FIXED",
+          "transfer_H_sum": 15.194251018348266
+        },
+        {
+          "frame_index": 1,
+          "frame_tag": "F2_release_first",
+          "odb_H_sum": 15.70068395987708,
+          "reconstructed_energy": {
+            "Gc": 0.0027,
+            "bulk_energy_from_SDV12": 0.0,
+            "fracture_energy_gradient_term": 0.0,
+            "fracture_energy_local_term": 0.0,
+            "frame_tag": "F2_release_first",
+            "lc": 0.015,
+            "maximum_detJ": null,
+            "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy",
+            "minimum_detJ": null,
+            "missing_phase_node_values": 25600,
+            "missing_sdv12_values": 0,
+            "missing_sdv13_values": 0,
+            "non_positive_detJ_count": 0,
+            "phase_l2": null,
+            "phase_max": null,
+            "phase_min": null,
+            "phase_range": null,
+            "thickness": 1.0,
+            "total_fracture_energy": 0.0,
+            "total_reconstructed_internal_energy": 0.0,
+            "undamaged_bulk_energy_from_SDV13": 0.0
+          },
+          "sdv15_error_metric": {
+            "count": 25600,
+            "l2": 0.0005397283673071297,
+            "max_abs": 0.02246473908448271
+          },
+          "sdv16_error_metric": {
+            "count": 25600,
+            "l2": 0.0002290647555467607,
+            "max_abs": 0.01645326664671945
+          },
+          "step": "PHASE_RELEASE_HOLD",
+          "transfer_H_sum": 15.194251018348266
+        },
+        {
+          "frame_index": 10,
+          "frame_tag": "F3_release_last",
+          "odb_H_sum": 15.706374587473658,
+          "reconstructed_energy": {
+            "Gc": 0.0027,
+            "bulk_energy_from_SDV12": 0.0,
+            "fracture_energy_gradient_term": 0.0,
+            "fracture_energy_local_term": 0.0,
+            "frame_tag": "F3_release_last",
+            "lc": 0.015,
+            "maximum_detJ": null,
+            "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy",
+            "minimum_detJ": null,
+            "missing_phase_node_values": 25600,
+            "missing_sdv12_values": 0,
+            "missing_sdv13_values": 0,
+            "non_positive_detJ_count": 0,
+            "phase_l2": null,
+            "phase_max": null,
+            "phase_min": null,
+            "phase_range": null,
+            "thickness": 1.0,
+            "total_fracture_energy": 0.0,
+            "total_reconstructed_internal_energy": 0.0,
+            "undamaged_bulk_energy_from_SDV13": 0.0
+          },
+          "sdv15_error_metric": {
+            "count": 25600,
+            "l2": 0.0006490906475937385,
+            "max_abs": 0.031797858546539326
+          },
+          "sdv16_error_metric": {
+            "count": 25600,
+            "l2": 0.0002300834343953022,
+            "max_abs": 0.01645326664671945
+          },
+          "step": "PHASE_RELEASE_HOLD",
+          "transfer_H_sum": 15.194251018348266
+        }
+      ]
+    },
+    "equilibrated_vs_released_sdv15_delta": {
+      "count": 25600,
+      "l2": 0.00041436999591803667,
+      "max_abs": 0.013784315224591115
+    },
+    "equilibrated_vs_released_sdv16_delta": {
+      "count": 25600,
+      "l2": 4.886620155764138e-05,
+      "max_abs": 0.0031638502352409476
+    },
+    "initial_vs_equilibrated_sdv15_delta": {
+      "count": 25600,
+      "l2": 9.024864942475847e-19,
+      "max_abs": 1.3877787807814457e-17
+    },
+    "initial_vs_equilibrated_sdv16_delta": {
+      "count": 25600,
+      "l2": 1.544867720606642e-05,
+      "max_abs": 0.0013060279439080467
+    },
+    "maximum_phase_adjustment": 0.013784315224591115,
+    "normalized_L2_phase_adjustment": 0.04572704097434411,
+    "reconstructed_energy": {
+      "classification": "stage_d3a3_reconstructed_energy_by_frame",
+      "frames": [
+        {
+          "Gc": 0.0027,
+          "bulk_energy_from_SDV12": 0.0,
+          "fracture_energy_gradient_term": 0.0,
+          "fracture_energy_local_term": 0.0,
+          "frame_tag": "F0_ingested",
+          "lc": 0.015,
+          "maximum_detJ": null,
+          "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy",
+          "minimum_detJ": null,
+          "missing_phase_node_values": 25600,
+          "missing_sdv12_values": 0,
+          "missing_sdv13_values": 0,
+          "non_positive_detJ_count": 0,
+          "phase_l2": null,
+          "phase_max": null,
+          "phase_min": null,
+          "phase_range": null,
+          "thickness": 1.0,
+          "total_fracture_energy": 0.0,
+          "total_reconstructed_internal_energy": 0.0,
+          "undamaged_bulk_energy_from_SDV13": 0.0
+        },
+        {
+          "Gc": 0.0027,
+          "bulk_energy_from_SDV12": 0.0,
+          "fracture_energy_gradient_term": 0.0,
+          "fracture_energy_local_term": 0.0,
+          "frame_tag": "F1_equilibrated",
+          "lc": 0.015,
+          "maximum_detJ": null,
+          "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy",
+          "minimum_detJ": null,
+          "missing_phase_node_values": 25600,
+          "missing_sdv12_values": 0,
+          "missing_sdv13_values": 0,
+          "non_positive_detJ_count": 0,
+          "phase_l2": null,
+          "phase_max": null,
+          "phase_min": null,
+          "phase_range": null,
+          "thickness": 1.0,
+          "total_fracture_energy": 0.0,
+          "total_reconstructed_internal_energy": 0.0,
+          "undamaged_bulk_energy_from_SDV13": 0.0
+        },
+        {
+          "Gc": 0.0027,
+          "bulk_energy_from_SDV12": 0.0,
+          "fracture_energy_gradient_term": 0.0,
+          "fracture_energy_local_term": 0.0,
+          "frame_tag": "F2_release_first",
+          "lc": 0.015,
+          "maximum_detJ": null,
+          "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy",
+          "minimum_detJ": null,
+          "missing_phase_node_values": 25600,
+          "missing_sdv12_values": 0,
+          "missing_sdv13_values": 0,
+          "non_positive_detJ_count": 0,
+          "phase_l2": null,
+          "phase_max": null,
+          "phase_min": null,
+          "phase_range": null,
+          "thickness": 1.0,
+          "total_fracture_energy": 0.0,
+          "total_reconstructed_internal_energy": 0.0,
+          "undamaged_bulk_energy_from_SDV13": 0.0
+        },
+        {
+          "Gc": 0.0027,
+          "bulk_energy_from_SDV12": 0.0,
+          "fracture_energy_gradient_term": 0.0,
+          "fracture_energy_local_term": 0.0,
+          "frame_tag": "F3_release_last",
+          "lc": 0.015,
+          "maximum_detJ": null,
+          "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy",
+          "minimum_detJ": null,
+          "missing_phase_node_values": 25600,
+          "missing_sdv12_values": 0,
+          "missing_sdv13_values": 0,
+          "non_positive_detJ_count": 0,
+          "phase_l2": null,
+          "phase_max": null,
+          "phase_min": null,
+          "phase_range": null,
+          "thickness": 1.0,
+          "total_fracture_energy": 0.0,
+          "total_reconstructed_internal_energy": 0.0,
+          "undamaged_bulk_energy_from_SDV13": 0.0
+        }
+      ],
+      "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy"
+    },
+    "reconstructed_energy_jump": 0.0,
+    "release_jump": {
+      "classification": "stage_d3a3_release_jump_extracted",
+      "equilibrated_vs_released": {
+        "H_decrease_violations": 0,
+        "d_healing_violations": 4651,
+        "sdv15_delta": {
+          "count": 25600,
+          "l2": 0.00041436999591803667,
+          "max_abs": 0.013784315224591115
+        },
+        "sdv16_delta": {
+          "count": 25600,
+          "l2": 4.886620155764138e-05,
+          "max_abs": 0.0031638502352409476
+        }
+      },
+      "initial_vs_equilibrated": {
+        "H_decrease_violations": 0,
+        "d_healing_violations": 0,
+        "sdv15_delta": {
+          "count": 25600,
+          "l2": 9.024864942475847e-19,
+          "max_abs": 1.3877787807814457e-17
+        },
+        "sdv16_delta": {
+          "count": 25600,
+          "l2": 1.544867720606642e-05,
+          "max_abs": 0.0013060279439080467
+        }
+      }
+    },
+    "rf_u_rows": 4,
+    "spatial_variation_retained": true,
+    "state_reset": false,
+    "transfer_sdv15_error": {
+      "count": 25600,
+      "l2": 0.0004825135091097779,
+      "max_abs": 0.018013543321948218
+    },
+    "transfer_sdv16_error": {
+      "count": 25600,
+      "l2": 0.00021961880303143753,
+      "max_abs": 0.01645326664671945
+    }
+  },
+  "failures": [
+    "sdv15_transfer max_abs 0.018013543321948218 exceeds 1e-08",
+    "sdv16_transfer max_abs 0.01645326664671945 exceeds 1e-08",
+    "checkpoint U2 not reached: 0.0014999968154910865",
+    "RF release jump exceeds 0.05: 1.0292182958543674",
+    "d-healing violations = 4651",
+    "maximum phase adjustment exceeds 0.01: 0.013784315224591115",
+    "missing_phase_node_values nonzero for F1_equilibrated: 25600",
+    "missing_phase_node_values nonzero for F3_release_last: 25600"
+  ],
+  "static": {
+    "D3A3_static_ok": true,
+    "Fortran_N_ELEM": 6400,
+    "H_table_entries": 25600,
+    "MPI_absent": true,
+    "classification": "stage_d3a3_static_validation_pass",
+    "commit": "817b69356af87c4e80ad2b2ef33dc6b92bc73a7f",
+    "counted_read_audit": {
+      "classification": "stage_d3a3_r2_r2_counted_read_audit_pass",
+      "correction": "replace EOF-driven read with exact 25600-record loop",
+      "counted_read_audit_ok": true,
+      "expected_records": 25600,
+      "failed_predecessor_job": "1377391.mmaster02",
+      "failures": [],
+      "forbidden_tokens": [
+        "FILE='d3_transfer_h.dat'",
+        "INCLUDE 'd3_transfer_table.inc'",
+        "D3_TRANSFER_COUNT",
+        "GOTO 100",
+        "100    CONTINUE",
+        "100 CONTINUE"
+      ],
+      "generated_fortran": "models\\state_transfer\\d3_interrupted_transfer\\executable\\d3_transfer_uel.for",
+      "getoutdir_retained": true,
+      "input_deck_changed": false,
+      "mesh_changed": false,
+      "physics_changed": false,
+      "read_after_expected_last_record": false,
+      "required_tokens": [
+        "CALL GETOUTDIR",
+        "/d3_transfer_h.dat",
+        "FILE=HFILE(1:LHFILE)",
+        "D3A3-R2 H FILE PATH",
+        "DO IREC=1,N_ELEM*NIP",
+        "END=900",
+        "ERR=910",
+        "D3A3-R2 H LOAD COMPLETE"
+      ],
+      "runtime_H_changed": false,
+      "runtime_H_hash_unchanged": true,
+      "runtime_H_sha256": "4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9",
+      "runtime_H_values_changed": false
+    },
+    "displacement_element_labels": "6401-12800",
+    "failures": [],
+    "phase_element_labels": "1-6400",
+    "serial_mode": true,
+    "target_elements": 6400,
+    "target_ips": 25600,
+    "target_nodes": 6601,
+    "umat_element_labels": "12801-19200"
+  },
+  "static_only": false,
+  "tolerance": 1e-08
+}

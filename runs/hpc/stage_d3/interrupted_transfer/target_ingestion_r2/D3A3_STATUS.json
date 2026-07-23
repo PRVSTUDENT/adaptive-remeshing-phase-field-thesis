@@ -1,0 +1,16 @@
+{
+  "D3A3_ok": false,
+  "classification": "stage_d3a3_r2_full_validation_fail",
+  "failures": [
+    "D3A3-R2 scientific validation failed"
+  ],
+  "job_id": "1377396.mmaster02",
+  "scratch_run": "/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_target_ingestion_r2_1377396.mmaster02",
+  "pbs_exit_status": 21,
+  "solver_exit": 21,
+  "source_commit": "7a860f50fe557cd88cd3299dd47b1f260071f3fa",
+  "compile_gate": "stage_d3a3_r2_compile_datacheck_pass_postcheck_replay",
+  "solver_job_submitted": true,
+  "mpi": "prohibited",
+  "OMP_NUM_THREADS": "1"
+}

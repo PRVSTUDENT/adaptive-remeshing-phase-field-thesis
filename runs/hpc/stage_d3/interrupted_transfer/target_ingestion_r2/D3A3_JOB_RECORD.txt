@@ -1,0 +1,14 @@
+job_id=1377396.mmaster02
+classification=stage_d3a3_r2_full_ingestion_submitted
+source_commit=7a860f50fe557cd88cd3299dd47b1f260071f3fa
+compile_gate=stage_d3a3_r2_compile_datacheck_pass_postcheck_replay
+scratch_run=/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_target_ingestion_r2_1377396.mmaster02
+queue_route=entry_imfdfkmq
+ncpus=1
+mem=16gb
+walltime=02:00:00
+mode=serial
+mpi=prohibited
+mp_mode=threads
+OMP_NUM_THREADS=1
+runtime_H_sha256=4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9

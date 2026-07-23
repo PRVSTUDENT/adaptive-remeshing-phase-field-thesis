@@ -1,0 +1,29 @@
+{
+  "classification": "stage_d3a3_r2_full_validation_fail",
+  "job_id": "1377396.mmaster02",
+  "source_commit": "7a860f50fe557cd88cd3299dd47b1f260071f3fa",
+  "pbs_exit_status": 21,
+  "stageout_status": 1,
+  "solver_completed": true,
+  "abaqus_completion_token": "Abaqus JOB D3A3_target_ingestion_hold_r2 COMPLETED",
+  "compile_gate": "stage_d3a3_r2_compile_datacheck_pass_postcheck_replay",
+  "runtime_H_sha256": "4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9",
+  "runtime_H_records": 25600,
+  "runtime_H_duplicates": 0,
+  "runtime_H_missing_records": 0,
+  "validation_failures": [
+    "sdv15_transfer max_abs 0.018013543321948218 exceeds 1e-08",
+    "sdv16_transfer max_abs 0.01645326664671945 exceeds 1e-08",
+    "checkpoint U2 not reached: 0.0014999968154910865",
+    "RF release jump exceeds 0.05: 1.0292182958543674",
+    "d-healing violations = 4651",
+    "maximum phase adjustment exceeds 0.01: 0.013784315224591115",
+    "missing_phase_node_values nonzero for F1_equilibrated: 25600",
+    "missing_phase_node_values nonzero for F3_release_last: 25600"
+  ],
+  "D3A3_ok_created": false,
+  "D3D_D3E_authorized": false,
+  "odb_preserved_on_cluster": "~/projects/adaptive-remeshing/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r2/D3A3_target_ingestion_hold_r2.odb",
+  "odb_preserved_local_untracked": "runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r2/D3A3_target_ingestion_hold_r2.odb",
+  "next_action": "Preserve this failed full-run evidence. Diagnose phase-layer output/state mapping and checkpoint boundary behavior before any authorized retry."
+}

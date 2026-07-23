@@ -293,4 +293,17 @@ the strengthened validation gates pass. The deck now requests global nodal
 bulk-plus-AT2 fracture-energy reconstruction. The full job has not yet been
 submitted.
 
+The full D3A3-R2 job ran exactly once as \texttt{1377396.mmaster02} from commit
+\texttt{7a860f50fe557cd88cd3299dd47b1f260071f3fa}. Abaqus compiled, linked,
+completed input processing, completed Standard analysis, and produced an ODB
+and extraction outputs. Strengthened validation failed with PBS
+\texttt{Exit\_status=21}: \texttt{SDV15} transfer max error
+$0.018013543321948218$, \texttt{SDV16} transfer max error
+$0.01645326664671945$, checkpoint \texttt{U2} only
+$0.0014999968154910865$, RF release jump $1.0292182958543674$, d-healing
+violations 4651, maximum phase adjustment $0.013784315224591115$, and missing
+phase-node values for reconstructed energy. The classification is
+\path{stage_d3a3_r2_full_validation_fail}; no \texttt{D3A3.ok} marker exists,
+and D3D/D3E remain blocked.
+
 \end{document}
