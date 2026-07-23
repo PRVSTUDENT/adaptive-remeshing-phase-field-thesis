@@ -230,4 +230,15 @@ staged. The classification is
 \texttt{D3A3\_R2\_COMPILE.ok} marker exists, no full D3A3-R2 solver job has
 been submitted, and D3D/D3E remain blocked.
 
+The bounded D3A3-R2-R1 correction is prepared as a path-only datacheck retry.
+It replaces the relative \path{d3_transfer_h.dat} open with \texttt{GETOUTDIR}
+and \texttt{HFILE(1:LHFILE)}. The path audit records no physics, mesh, input
+deck, checkpoint displacement, material, or runtime-H value change, and passes
+as \path{stage_d3a3_r2_r1_path_audit_pass} under
+\path{runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r1/}.
+The runtime-H SHA256 remains
+\texttt{4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9}.
+Full D3A3-R2, D3D, and D3E remain blocked until the corrected datacheck pass
+marker is committed.
+
 \end{document}

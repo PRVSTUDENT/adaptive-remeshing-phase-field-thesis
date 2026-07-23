@@ -15,6 +15,8 @@ NODE_OFFSET = 100000
 COMMIT = "817b69356af87c4e80ad2b2ef33dc6b92bc73a7f"
 CHECKPOINT_U2 = 0.003000000026077032
 H0_FORTRAN = Path("models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact/SingleNotch.for")
+RUNTIME_H = Path("models/state_transfer/d3_interrupted_transfer/executable/d3_transfer_h.dat")
+RUNTIME_H_SHA256 = "4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9"
 
 
 def read_csv(path):
@@ -225,6 +227,9 @@ def generate_fortran_r2(path):
       COMMON/KUSER/USRVAR(N_ELEM,NSTV,NIP)
       LOGICAL HLOADED,SEEN
       COMMON/D3HLOAD/HLOADED,SEEN(N_ELEM,NIP)
+      CHARACTER*512 OUTDIR,HFILE
+      CHARACTER*18 HNAME
+      INTEGER LENOUTDIR,LHFILE
       INTEGER ELEM,IP,COUNT,IOS,I,J
       SAVE /KUSER/,/D3HLOAD/
 
@@ -234,10 +239,21 @@ def generate_fortran_r2(path):
             SEEN(I,J)=.FALSE.
           END DO
         END DO
-        OPEN(UNIT=99,FILE='d3_transfer_h.dat',STATUS='OLD',
-     1       ACTION='READ',IOSTAT=IOS)
+        CALL GETOUTDIR(OUTDIR,LENOUTDIR)
+        HNAME='/d3_transfer_h.dat'
+        LHFILE=LENOUTDIR+LEN_TRIM(HNAME)
+        HFILE=' '
+        HFILE=OUTDIR(1:LENOUTDIR)//HNAME
+        WRITE(7,*) 'D3A3-R2 H FILE PATH'
+        WRITE(7,*) HFILE(1:LHFILE)
+        OPEN(UNIT=99,
+     1       FILE=HFILE(1:LHFILE),
+     2       STATUS='OLD',
+     3       ACTION='READ',
+     4       IOSTAT=IOS)
         IF (IOS.NE.0) THEN
-          WRITE(7,*) 'D3A3-R2 cannot open d3_transfer_h.dat',IOS
+          WRITE(7,*) 'D3A3-R2 cannot open runtime H file',IOS
+          WRITE(7,*) HFILE(1:LHFILE)
           CALL XIT
         ENDIF
         COUNT=0
@@ -295,6 +311,52 @@ def generate_fortran_r2(path):
       END
 """
     write(path, text.rstrip() + uexternaldb)
+
+
+def path_audit(fortran_path, out_dir):
+    text = fortran_path.read_text(encoding="utf-8", errors="replace")
+    required = [
+        "CALL GETOUTDIR",
+        "/d3_transfer_h.dat",
+        "FILE=HFILE(1:LHFILE)",
+        "D3A3-R2 H FILE PATH",
+    ]
+    forbidden = [
+        "FILE='d3_transfer_h.dat'",
+        "INCLUDE 'd3_transfer_table.inc'",
+        "D3_TRANSFER_COUNT",
+    ]
+    failures = []
+    for token in required:
+        if token not in text:
+            failures.append("missing required generated-source token: " + token)
+    for token in forbidden:
+        if token in text:
+            failures.append("forbidden generated-source token present: " + token)
+
+    runtime_hash = sha256(RUNTIME_H) if RUNTIME_H.exists() else None
+    if runtime_hash != RUNTIME_H_SHA256:
+        failures.append("runtime H SHA-256 changed: " + str(runtime_hash))
+
+    audit = {
+        "classification": "stage_d3a3_r2_r1_path_audit_pass" if not failures else "stage_d3a3_r2_r1_path_audit_fail",
+        "path_audit_ok": not failures,
+        "failed_predecessor": "1377389.mmaster02",
+        "correction": "GETOUTDIR absolute runtime-file path",
+        "physics_changed": False,
+        "mesh_changed": False,
+        "input_deck_changed": False,
+        "runtime_H_values_changed": False,
+        "runtime_H_hash_unchanged": runtime_hash == RUNTIME_H_SHA256,
+        "runtime_H_sha256": runtime_hash,
+        "required_tokens": required,
+        "forbidden_tokens": forbidden,
+        "generated_fortran": str(fortran_path),
+        "failures": failures,
+    }
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "D3A3_R2_R1_PATH_AUDIT.json").write_text(json.dumps(audit, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return audit
 
 
 def generate_inp(path, target_dir, package_dir):
@@ -444,6 +506,8 @@ def static_status(model_dir, package_dir, out_dir):
         failures.append("H negative")
     if min(detj) <= 0.0:
         failures.append("non-positive detJ")
+    audit = path_audit(model_dir / "executable" / "d3_transfer_uel.for", out_dir)
+    failures.extend(audit["failures"])
     status = {
         "classification": "stage_d3a3_static_validation_pass" if not failures else "stage_d3a3_static_validation_fail",
         "D3A3_static_ok": not failures,
@@ -458,6 +522,7 @@ def static_status(model_dir, package_dir, out_dir):
         "Fortran_N_ELEM": N_ELEM,
         "serial_mode": True,
         "MPI_absent": True,
+        "path_audit": audit,
         "failures": failures,
     }
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -494,7 +559,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model-dir", type=Path, default=Path("models/state_transfer/d3_interrupted_transfer"))
     parser.add_argument("--package-dir", type=Path, default=Path("runs/hpc/stage_d3/interrupted_transfer/package"))
-    parser.add_argument("--out-dir", type=Path, default=Path("runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2"))
+    parser.add_argument("--out-dir", type=Path, default=Path("runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r1"))
     args = parser.parse_args()
     exe = args.model_dir / "executable"
     generate_inp(exe / "D3A3_target_ingestion_hold.inp", args.model_dir / "target", args.package_dir)

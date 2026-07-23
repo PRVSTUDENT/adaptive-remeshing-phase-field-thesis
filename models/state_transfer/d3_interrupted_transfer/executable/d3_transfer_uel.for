@@ -594,6 +594,9 @@ C
       COMMON/KUSER/USRVAR(N_ELEM,NSTV,NIP)
       LOGICAL HLOADED,SEEN
       COMMON/D3HLOAD/HLOADED,SEEN(N_ELEM,NIP)
+      CHARACTER*512 OUTDIR,HFILE
+      CHARACTER*18 HNAME
+      INTEGER LENOUTDIR,LHFILE
       INTEGER ELEM,IP,COUNT,IOS,I,J
       SAVE /KUSER/,/D3HLOAD/
 
@@ -603,10 +606,21 @@ C
             SEEN(I,J)=.FALSE.
           END DO
         END DO
-        OPEN(UNIT=99,FILE='d3_transfer_h.dat',STATUS='OLD',
-     1       ACTION='READ',IOSTAT=IOS)
+        CALL GETOUTDIR(OUTDIR,LENOUTDIR)
+        HNAME='/d3_transfer_h.dat'
+        LHFILE=LENOUTDIR+LEN_TRIM(HNAME)
+        HFILE=' '
+        HFILE=OUTDIR(1:LENOUTDIR)//HNAME
+        WRITE(7,*) 'D3A3-R2 H FILE PATH'
+        WRITE(7,*) HFILE(1:LHFILE)
+        OPEN(UNIT=99,
+     1       FILE=HFILE(1:LHFILE),
+     2       STATUS='OLD',
+     3       ACTION='READ',
+     4       IOSTAT=IOS)
         IF (IOS.NE.0) THEN
-          WRITE(7,*) 'D3A3-R2 cannot open d3_transfer_h.dat',IOS
+          WRITE(7,*) 'D3A3-R2 cannot open runtime H file',IOS
+          WRITE(7,*) HFILE(1:LHFILE)
           CALL XIT
         ENDIF
         COUNT=0

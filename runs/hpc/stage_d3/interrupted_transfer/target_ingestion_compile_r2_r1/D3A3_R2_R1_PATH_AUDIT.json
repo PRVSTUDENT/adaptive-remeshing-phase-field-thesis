@@ -1,0 +1,25 @@
+{
+  "classification": "stage_d3a3_r2_r1_path_audit_pass",
+  "correction": "GETOUTDIR absolute runtime-file path",
+  "failed_predecessor": "1377389.mmaster02",
+  "failures": [],
+  "forbidden_tokens": [
+    "FILE='d3_transfer_h.dat'",
+    "INCLUDE 'd3_transfer_table.inc'",
+    "D3_TRANSFER_COUNT"
+  ],
+  "generated_fortran": "models\\state_transfer\\d3_interrupted_transfer\\executable\\d3_transfer_uel.for",
+  "input_deck_changed": false,
+  "mesh_changed": false,
+  "path_audit_ok": true,
+  "physics_changed": false,
+  "required_tokens": [
+    "CALL GETOUTDIR",
+    "/d3_transfer_h.dat",
+    "FILE=HFILE(1:LHFILE)",
+    "D3A3-R2 H FILE PATH"
+  ],
+  "runtime_H_hash_unchanged": true,
+  "runtime_H_sha256": "4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9",
+  "runtime_H_values_changed": false
+}

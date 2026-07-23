@@ -129,3 +129,15 @@ classification is
 is under `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2/`.
 Full D3A3-R2, D3D, and D3E remain blocked until a follow-up compile/datacheck
 creates and commits `D3A3_R2_COMPILE.ok`.
+
+The bounded D3A3-R2-R1 correction is the follow-up compile/datacheck lane. It
+changes only the runtime-H file location logic: `UEXTERNALDB` calls
+`GETOUTDIR`, constructs `OUTDIR//'/d3_transfer_h.dat'`, prints the resolved
+path, and opens `FILE=HFILE(1:LHFILE)`. The static path audit under
+`runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r1/`
+passes and rejects the old relative `FILE='d3_transfer_h.dat'`, any
+`d3_transfer_table.inc`, and any `D3_TRANSFER_COUNT`. Physics, mesh, input
+steps, material parameters, checkpoint displacement, transferred values, and
+runtime-H SHA256 are unchanged. Submit exactly one corrected datacheck through
+`scripts/hpc/stage_d3/submit_d3a3_r2_datacheck_pathfix.sh`; full D3A3-R2,
+D3D, and D3E remain blocked until `D3A3_R2_COMPILE.ok` is committed.
