@@ -1,0 +1,17 @@
+job_id=1377391.mmaster02
+classification=stage_d3a3_r2_r1_compile_datacheck_submitted
+source_commit=9136924d367156ac76a4c1a116f28e857f290b3c
+failed_predecessor_job=1377389.mmaster02
+scratch_run=/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r1_1377391.mmaster02
+expected_runtime_H_path=/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r1_1377391.mmaster02/d3_transfer_h.dat
+queue_route=entry_imfdfkmq
+ncpus=1
+mem=16gb
+walltime=00:45:00
+mode=serial_datacheck_only
+solver_job_submitted=false
+OMP_NUM_THREADS=1
+abaqus_rc=1
+classification=stage_d3a3_r2_r1_datacheck_fail_runtime_h_eof_after_getoutdir_open
+reported_runtime_H_path=/scratch9/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r1_1377391.mmaster02/d3_transfer_h.dat
+failure=GETOUTDIR path opened, then Intel Fortran severe (24) EOF during runtime H read on unit 99

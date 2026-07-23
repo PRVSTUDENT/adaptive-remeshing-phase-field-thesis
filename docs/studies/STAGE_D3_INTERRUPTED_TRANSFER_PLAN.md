@@ -130,14 +130,16 @@ is under `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2/`.
 Full D3A3-R2, D3D, and D3E remain blocked until a follow-up compile/datacheck
 creates and commits `D3A3_R2_COMPILE.ok`.
 
-The bounded D3A3-R2-R1 correction is the follow-up compile/datacheck lane. It
-changes only the runtime-H file location logic: `UEXTERNALDB` calls
-`GETOUTDIR`, constructs `OUTDIR//'/d3_transfer_h.dat'`, prints the resolved
-path, and opens `FILE=HFILE(1:LHFILE)`. The static path audit under
+The bounded D3A3-R2-R1 correction ran as job `1377391.mmaster02`. It changed
+only the runtime-H file location logic: `UEXTERNALDB` calls `GETOUTDIR`,
+constructs `OUTDIR//'/d3_transfer_h.dat'`, prints the resolved path, and opens
+`FILE=HFILE(1:LHFILE)`. The static path audit under
 `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r1/`
-passes and rejects the old relative `FILE='d3_transfer_h.dat'`, any
-`d3_transfer_table.inc`, and any `D3_TRANSFER_COUNT`. Physics, mesh, input
-steps, material parameters, checkpoint displacement, transferred values, and
-runtime-H SHA256 are unchanged. Submit exactly one corrected datacheck through
-`scripts/hpc/stage_d3/submit_d3a3_r2_datacheck_pathfix.sh`; full D3A3-R2,
-D3D, and D3E remain blocked until `D3A3_R2_COMPILE.ok` is committed.
+passed and rejected the old relative `FILE='d3_transfer_h.dat'`, any
+`d3_transfer_table.inc`, and any `D3_TRANSFER_COUNT`. The pathfix removed the
+prior `/local/...` missing-file failure: Standard reported the staged
+`/scratch9/.../d3_transfer_h.dat` path. Datacheck then failed with Intel
+Fortran severe `(24)`, end-of-file during read on unit 99. The preserved
+classification is
+`stage_d3a3_r2_r1_datacheck_fail_runtime_h_eof_after_getoutdir_open`; no
+`D3A3_R2_COMPILE.ok` marker exists. Full D3A3-R2, D3D, and D3E remain blocked.

@@ -1,0 +1,16 @@
+{
+  "D3A3_R2_compile_ok": false,
+  "classification": "stage_d3a3_r2_r1_datacheck_fail_runtime_h_eof_after_getoutdir_open",
+  "failures": [
+    "GETOUTDIR resolved the runtime H file to /scratch9/.../d3_transfer_h.dat and the file opened. Abaqus/Standard then failed with Intel Fortran severe (24), end-of-file during read on unit 99, while reading the runtime H table."
+  ],
+  "expected_runtime_H_path": "/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r1_1377391.mmaster02/d3_transfer_h.dat",
+  "reported_runtime_H_path": "/scratch9/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r1_1377391.mmaster02/d3_transfer_h.dat",
+  "job_id": "1377391.mmaster02",
+  "scratch_run": "/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r1_1377391.mmaster02",
+  "pbs_exit_status": 1,
+  "solver_exit": 1,
+  "source_commit": "9136924d367156ac76a4c1a116f28e857f290b3c",
+  "solver_job_submitted": false,
+  "datacheck_job_submitted": true
+}

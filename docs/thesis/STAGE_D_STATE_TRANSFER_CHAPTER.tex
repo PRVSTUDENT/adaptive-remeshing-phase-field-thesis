@@ -204,14 +204,17 @@ work directory where the file had not been staged. The classification is
 \texttt{D3A3\_R2\_COMPILE.ok} marker exists, no full D3A3-R2 solver job has
 been submitted, and D3D/D3E remain blocked.
 
-The bounded D3A3-R2-R1 correction is prepared as a path-only compile/datacheck
-retry. It replaces the relative runtime-H open with \texttt{GETOUTDIR} and
-\texttt{HFILE(1:LHFILE)}, while leaving the target mesh, transferred $d/H$,
-physical UEL/UMAT equations, input steps, material parameters, checkpoint
-displacement, and runtime H values unchanged. The path audit under
-\path{runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r1/}
-passes with classification \path{stage_d3a3_r2_r1_path_audit_pass}, and the
-runtime-H SHA256 remains
+The bounded D3A3-R2-R1 correction then ran as job
+\texttt{1377391.mmaster02}. It changed only the runtime-H file location logic:
+\texttt{UEXTERNALDB} calls \texttt{GETOUTDIR}, constructs
+\texttt{OUTDIR//'/d3\_transfer\_h.dat'}, prints the resolved
+path, and opens \texttt{FILE=HFILE(1:LHFILE)}. The path audit passed and the
+runtime-H SHA256 remained
 \texttt{4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9}.
-No full D3A3-R2 job is allowed before this corrected datacheck creates and
-commits \texttt{D3A3\_R2\_COMPILE.ok}.
+The prior \path{/local/...} missing-file failure was removed: Standard reported
+the staged \path{/scratch9/.../d3_transfer_h.dat} path. Datacheck then failed
+with Intel Fortran severe (24), end-of-file during read on unit 99. The
+classification is
+\path{stage_d3a3_r2_r1_datacheck_fail_runtime_h_eof_after_getoutdir_open}. No
+\texttt{D3A3\_R2\_COMPILE.ok} marker exists, no full D3A3-R2 solver job has
+been submitted, and D3D/D3E remain blocked.
