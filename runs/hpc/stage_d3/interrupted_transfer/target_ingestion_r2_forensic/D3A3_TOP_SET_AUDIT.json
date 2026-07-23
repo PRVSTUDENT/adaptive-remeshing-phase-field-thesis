@@ -1,0 +1,48 @@
+{
+  "checkpoint_U2": 0.003000000026077032,
+  "classification": "stage_d3a3_top_set_u_rf_extracted",
+  "failures": [],
+  "frames": [
+    {
+      "frame_index": 1,
+      "frame_tag": "F0_ingested",
+      "step": "INGEST_TRANSFERRED_STATE",
+      "top_node_count": 81,
+      "top_rf2_sum": 0.0,
+      "top_u2_max": 0.0,
+      "top_u2_mean": 0.0,
+      "top_u2_min": 0.0
+    },
+    {
+      "frame_index": 10,
+      "frame_tag": "F1_equilibrated",
+      "step": "CHECKPOINT_EQUILIBRATION_PHASE_FIXED",
+      "top_node_count": 81,
+      "top_rf2_sum": 0.3947617950620844,
+      "top_u2_max": 0.003000000026077032,
+      "top_u2_mean": 0.003000000026077032,
+      "top_u2_min": 0.003000000026077032
+    },
+    {
+      "frame_index": 1,
+      "frame_tag": "F2_release_first",
+      "step": "PHASE_RELEASE_HOLD",
+      "top_node_count": 81,
+      "top_rf2_sum": 0.3947617950620849,
+      "top_u2_max": 0.003000000026077032,
+      "top_u2_mean": 0.003000000026077032,
+      "top_u2_min": 0.003000000026077032
+    },
+    {
+      "frame_index": 10,
+      "frame_tag": "F3_release_last",
+      "step": "PHASE_RELEASE_HOLD",
+      "top_node_count": 81,
+      "top_rf2_sum": 0.3944832034362213,
+      "top_u2_max": 0.003000000026077032,
+      "top_u2_mean": 0.003000000026077032,
+      "top_u2_min": 0.003000000026077032
+    }
+  ],
+  "top_set_pass": true
+}

@@ -290,8 +290,7 @@ forbids \path{d3_transfer_table.inc}, uses serial CPU1/16GB/02:00 with
 outputs, runs Abaqus-Python extraction, and creates \texttt{D3A3.ok} only after
 the strengthened validation gates pass. The deck now requests global nodal
 \texttt{U, RF} output so selected frames can be checked using target Q4
-bulk-plus-AT2 fracture-energy reconstruction. The full job has not yet been
-submitted.
+bulk-plus-AT2 fracture-energy reconstruction.
 
 The full D3A3-R2 job ran exactly once as \texttt{1377396.mmaster02} from commit
 \texttt{7a860f50fe557cd88cd3299dd47b1f260071f3fa}. Abaqus compiled, linked,
@@ -305,5 +304,24 @@ violations 4651, maximum phase adjustment $0.013784315224591115$, and missing
 phase-node values for reconstructed energy. The classification is
 \path{stage_d3a3_r2_full_validation_fail}; no \texttt{D3A3.ok} marker exists,
 and D3D/D3E remain blocked.
+
+An ODB-only forensic replay then reprocessed the preserved
+\texttt{1377396.mmaster02} ODB without another Abaqus/Standard solve,
+Fortran compilation, transfer-package generation, or mesh generation. The
+forensic extractor reverses the visualization IP3/IP4 mapping, reads
+\texttt{U2}/\texttt{RF2} from the ODB \texttt{TOP} set, and recovers nodal
+phase values from corrected \texttt{SDV15} Gauss-point values. Corrected
+\texttt{SDV15} transfer max error is $1.3877787807814457\times10^{-17}$,
+corrected \texttt{SDV16} transfer max error is $0.0$, the TOP set contains 81
+nodes at checkpoint \texttt{U2}=0.003000000026077032, phase recovery returns
+6601 nodes and 6400 complete elements, and corrected energy reconstruction has
+zero missing phase, \texttt{SDV12}, or \texttt{SDV13} entries. The replay
+classification is
+\path{stage_d3a3_r2_ingestion_pass_release_not_accepted}; it creates only
+\texttt{D3A3\_R2\_INGESTION.ok}. No canonical \texttt{D3A3.ok} marker is
+created because d-healing remains 4651 despite zero H decrease violations.
+The F1 compatibility residual has L2 norm $3.173013579358624\times10^{-8}$,
+maximum residual $1.0654297154470889\times10^{-6}$ at node 3321, and
+correlation $-0.7125040883621269$ with released d change.
 
 \end{document}

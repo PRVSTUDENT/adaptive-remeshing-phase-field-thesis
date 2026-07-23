@@ -266,8 +266,7 @@ CPU1/16GB with \texttt{OMP\_NUM\_THREADS=1} and \texttt{mp\_mode=threads}, and
 creates \texttt{D3A3.ok} only after Abaqus-Python extraction and strengthened
 scientific validation pass. The D3A3 deck now requests global nodal
 \texttt{U, RF} output so the selected D3A3 frames can be checked with target
-Q4 bulk-plus-AT2 fracture-energy reconstruction. The full job has not yet been
-submitted.
+Q4 bulk-plus-AT2 fracture-energy reconstruction.
 
 The full D3A3-R2 job then ran exactly once as
 \texttt{1377396.mmaster02} from commit
@@ -283,3 +282,22 @@ $0.013784315224591115$, and phase-node values needed for reconstructed energy
 were missing. The classification is
 \path{stage_d3a3_r2_full_validation_fail}; no \texttt{D3A3.ok} marker exists,
 and D3D/D3E remain blocked.
+
+An ODB-only forensic replay corrected three postprocessing assumptions without
+submitting another solver job: visualization IP3/IP4 numbering is reversed when
+reading \texttt{SDV12}, \texttt{SDV13}, \texttt{SDV15}, and \texttt{SDV16};
+\texttt{U2}/\texttt{RF2} are extracted from the ODB \texttt{TOP} set; and
+phase nodal values are recovered by inverting the Q4 Gauss-point
+\texttt{SDV15} field. The corrected replay gives \texttt{SDV15} max transfer
+error $1.3877787807814457\times10^{-17}$, \texttt{SDV16} max transfer error
+$0.0$, 81 TOP nodes at checkpoint \texttt{U2}=0.003000000026077032, 6601
+recovered phase nodes, 6400 complete elements, and zero missing entries in the
+corrected energy reconstruction. It creates only the noncanonical
+\texttt{D3A3\_R2\_INGESTION.ok} marker and classifies the evidence as
+\path{stage_d3a3_r2_ingestion_pass_release_not_accepted}: H decrease
+violations are zero, but d-healing remains 4651. The fixed-phase residual
+analysis reports residual L2 norm $3.173013579358624\times10^{-8}$, maximum
+residual $1.0654297154470889\times10^{-6}$ at node 3321, and correlation
+$-0.7125040883621269$ between F1 residual and released d change. Therefore the
+next decision is an irreversibility/compatibility choice, not a parameter
+retry.

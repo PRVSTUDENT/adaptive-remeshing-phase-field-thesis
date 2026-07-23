@@ -1,0 +1,41 @@
+{
+  "classification": "stage_d3a3_f1_phase_compatibility_analyzed",
+  "correlation_F1_residual_vs_released_d_change": -0.7125040883621269,
+  "healing_region_bounding_box": {
+    "x_max": 0.5,
+    "x_min": -0.5,
+    "y_max": 0.5,
+    "y_min": -0.5
+  },
+  "maximum_healing_location": {
+    "F1_H_adjacent_ip": {
+      "count": 8,
+      "max": 0.0002481148852928774,
+      "mean": 0.00021822629456479372,
+      "min": 0.00014834422650116173
+    },
+    "F1_d": 0.018096434221098683,
+    "F1_phase_residual": 4.6646835727989335e-07,
+    "F3_H_adjacent_ip": {
+      "count": 8,
+      "max": 0.0002481148852928774,
+      "mean": 0.00022301049005173316,
+      "min": 0.00014834422650116173
+    },
+    "F3_d": 0.011206306228079936,
+    "F3_minus_F1_d": -0.0068901279930187465,
+    "node": 3316,
+    "x": -0.03749999999999998,
+    "y": 0.0
+  },
+  "maximum_residual_abs": 1.0654297154470889e-06,
+  "maximum_residual_node": 3321,
+  "negative_d_change_counts": {
+    "-0.0001": 244,
+    "-0.001": 16,
+    "-1e-06": 1380,
+    "-1e-08": 1475,
+    "-1e-10": 1475
+  },
+  "residual_L2_norm": 3.173013579358624e-08
+}

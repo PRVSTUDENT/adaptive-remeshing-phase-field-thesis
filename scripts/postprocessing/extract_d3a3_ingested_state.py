@@ -27,6 +27,12 @@ GAUSS = [
     (1.0 / math.sqrt(3.0), 1.0 / math.sqrt(3.0)),
     (-1.0 / math.sqrt(3.0), 1.0 / math.sqrt(3.0)),
 ]
+ODB_TO_UEL_IP = {
+    1: 1,
+    2: 2,
+    3: 4,
+    4: 3,
+}
 
 
 def odb_data(value):
@@ -44,6 +50,13 @@ def odb_scalar(value):
         return float(data[0])
 
 
+def is_finite(value):
+    try:
+        return math.isfinite(value)
+    except AttributeError:
+        return not (math.isnan(value) or math.isinf(value))
+
+
 def read_csv(path):
     with open(path, "r") as handle:
         return list(csv.DictReader(handle))
@@ -55,6 +68,12 @@ def write_csv(path, fields, rows):
         writer.writeheader()
         for row in rows:
             writer.writerow(row)
+
+
+def write_json(path, data):
+    with open(path, "w") as handle:
+        json.dump(data, handle, indent=2, sort_keys=True)
+        handle.write("\n")
 
 
 def shape_values(ip):
@@ -136,26 +155,40 @@ def field_by_key(frame, field_name):
     for value in frame.fieldOutputs[field_name].values:
         elem = physical_label(value.elementLabel)
         if elem is not None:
-            out[(elem, int(value.integrationPoint))] = odb_scalar(value)
+            odb_ip = int(value.integrationPoint)
+            uel_ip = ODB_TO_UEL_IP[odb_ip]
+            out[(elem, uel_ip)] = odb_scalar(value)
     return out
 
 
-def rf_u(frame):
+def top_region(odb):
+    try:
+        return odb.rootAssembly.nodeSets["TOP"]
+    except KeyError:
+        pass
+    for instance in odb.rootAssembly.instances.values():
+        try:
+            return instance.nodeSets["TOP"]
+        except KeyError:
+            pass
+    raise KeyError("TOP node set not found in ODB root assembly or instances")
+
+
+def rf_u(frame, top_set):
     u2_vals = []
     rf2_sum = 0.0
     if "U" in frame.fieldOutputs:
-        for value in frame.fieldOutputs["U"].values:
-            if int(value.nodeLabel) > NODE_OFFSET:
-                data = odb_data(value)
-                if len(data) >= 2:
-                    u2_vals.append(float(data[1]))
+        for value in frame.fieldOutputs["U"].getSubset(region=top_set).values:
+            data = odb_data(value)
+            if len(data) >= 2:
+                u2_vals.append(float(data[1]))
     if "RF" in frame.fieldOutputs:
-        for value in frame.fieldOutputs["RF"].values:
-            if int(value.nodeLabel) > NODE_OFFSET:
-                data = odb_data(value)
-                if len(data) >= 2:
-                    rf2_sum += float(data[1])
+        for value in frame.fieldOutputs["RF"].getSubset(region=top_set).values:
+            data = odb_data(value)
+            if len(data) >= 2:
+                rf2_sum += float(data[1])
     return {
+        "top_node_count": len(u2_vals),
         "top_u2_mean": sum(u2_vals) / float(len(u2_vals)) if u2_vals else "",
         "top_u2_min": min(u2_vals) if u2_vals else "",
         "top_u2_max": max(u2_vals) if u2_vals else "",
@@ -174,6 +207,99 @@ def phase_nodal_u3(frame):
             if len(data) >= 3:
                 out[label] = float(data[2])
     return out
+
+
+def solve_4x4(matrix, rhs):
+    a = [[float(matrix[i][j]) for j in range(4)] + [float(rhs[i])] for i in range(4)]
+    for col in range(4):
+        pivot = col
+        for row in range(col + 1, 4):
+            if abs(a[row][col]) > abs(a[pivot][col]):
+                pivot = row
+        if abs(a[pivot][col]) < 1.0e-30:
+            raise ValueError("singular 4x4 phase recovery matrix")
+        if pivot != col:
+            a[col], a[pivot] = a[pivot], a[col]
+        scale = a[col][col]
+        for j in range(col, 5):
+            a[col][j] /= scale
+        for row in range(4):
+            if row == col:
+                continue
+            factor = a[row][col]
+            for j in range(col, 5):
+                a[row][j] -= factor * a[col][j]
+    return [a[i][4] for i in range(4)]
+
+
+PHASE_RECOVERY_MATRIX = [shape_values(ip) for ip in range(1, N_IP + 1)]
+
+
+def recover_phase_nodes(tag, step_name, frame_index, sdv15, nodal_d, elements):
+    by_node = {}
+    rows = []
+    complete_elements = 0
+    finite = True
+    in_range = True
+    for element, conn in sorted(elements.items()):
+        values = []
+        complete = True
+        for ip in range(1, N_IP + 1):
+            value = sdv15.get((element, ip))
+            if value is None:
+                complete = False
+                break
+            values.append(float(value))
+        if not complete:
+            continue
+        complete_elements += 1
+        nodal = solve_4x4(PHASE_RECOVERY_MATRIX, values)
+        for i, node in enumerate(conn):
+            value = nodal[i]
+            finite = finite and is_finite(value)
+            in_range = in_range and (-1.0e-10 <= value <= 1.0 + 1.0e-10)
+            by_node.setdefault(node, []).append(value)
+
+    recovered = {}
+    for node, values in sorted(by_node.items()):
+        mean = sum(values) / float(len(values))
+        vmin = min(values)
+        vmax = max(values)
+        transferred = nodal_d.get(node, "")
+        delta = "" if transferred == "" else mean - float(transferred)
+        recovered[node] = mean
+        rows.append({
+            "frame_tag": tag,
+            "step": step_name,
+            "frame_index": frame_index,
+            "node": node,
+            "recovered_d_mean": mean,
+            "recovered_d_min": vmin,
+            "recovered_d_max": vmax,
+            "recovered_d_spread": vmax - vmin,
+            "adjacent_element_values": len(values),
+            "transferred_d": transferred,
+            "recovered_minus_transferred": delta,
+        })
+    spreads = [float(row["recovered_d_spread"]) for row in rows]
+    compare_errors = [
+        abs(float(row["recovered_minus_transferred"]))
+        for row in rows
+        if row["recovered_minus_transferred"] != "" and tag in ("F0_ingested", "F1_equilibrated")
+    ]
+    audit = {
+        "frame_tag": tag,
+        "step": step_name,
+        "frame_index": frame_index,
+        "recovered_nodes": len(recovered),
+        "elements_with_complete_IP_state": complete_elements,
+        "missing_nodes": len(nodal_d) - len(recovered),
+        "all_recovered_values_finite": finite,
+        "values_within_0_1_tolerance": in_range,
+        "maximum_shared_node_reconstruction_spread": max(spreads) if spreads else None,
+        "maximum_recovered_minus_transferred_abs": max(compare_errors) if compare_errors else None,
+    }
+    return recovered, rows, audit
 
 
 def metric(values):
@@ -304,11 +430,15 @@ def extract(odb_path, package_dir, model_dir, out_dir):
     nodes = load_nodes(model_dir)
     odb = openOdb(path=str(odb_path), readOnly=True)
     try:
+        top_set = top_region(odb)
         state_rows = []
         transfer_rows = []
         rf_rows = []
         energy_rows = []
         all_phase_rows = []
+        recovery_rows = []
+        recovery_audits = []
+        recovered_by_tag = {}
         snapshots = {}
         for tag, step_name, frame_index, frame in selected_frames(odb):
             sdv15 = field_by_key(frame, "SDV15")
@@ -316,8 +446,12 @@ def extract(odb_path, package_dir, model_dir, out_dir):
             sdv12 = field_by_key(frame, "SDV12")
             sdv13 = field_by_key(frame, "SDV13")
             phase_nodes = phase_nodal_u3(frame)
+            recovered_phase_nodes, recovered_rows, recovered_audit = recover_phase_nodes(tag, step_name, frame_index, sdv15, nodal_d, elements)
+            recovery_rows.extend(recovered_rows)
+            recovery_audits.append(recovered_audit)
+            recovered_by_tag[tag] = recovered_phase_nodes
             snapshots[tag] = {"sdv15": sdv15, "sdv16": sdv16}
-            ru = rf_u(frame)
+            ru = rf_u(frame, top_set)
             rf_rows.append(dict({"frame_tag": tag, "step": step_name, "frame_index": frame_index}, **ru))
             phase_rows = [
                 {"frame_tag": tag, "step": step_name, "frame_index": frame_index, "node": node, "phase_u3": value}
@@ -329,6 +463,7 @@ def extract(odb_path, package_dir, model_dir, out_dir):
             for element in range(1, N_ELEM + 1):
                 for ip in range(1, N_IP + 1):
                     key = (element, ip)
+                    odb_ip = [k for k, v in ODB_TO_UEL_IP.items() if v == ip][0]
                     d_expected = expected_phase(element, ip, nodal_d, elements)
                     h_expected = h_transfer[key]
                     d_odb = sdv15.get(key, "")
@@ -347,6 +482,8 @@ def extract(odb_path, package_dir, model_dir, out_dir):
                         "frame_index": frame_index,
                         "element": element,
                         "integration_point": ip,
+                        "odb_integration_point": odb_ip,
+                        "uel_integration_point": ip,
                         "expected_sdv15": d_expected,
                         "odb_sdv15": d_odb,
                         "sdv15_error": d_error,
@@ -367,7 +504,7 @@ def extract(odb_path, package_dir, model_dir, out_dir):
                 "sdv16_error_metric": metric(sdv16_errors),
                 "transfer_H_sum": sum(energy_transfer.values()),
                 "odb_H_sum": sum(v for v in sdv16.values()),
-                "reconstructed_energy": reconstruct_energy(tag, nodes, elements, phase_nodes, sdv12, sdv13),
+                "reconstructed_energy": reconstruct_energy(tag, nodes, elements, recovered_phase_nodes, sdv12, sdv13),
             })
 
         def compare_frames(name, left, right):
@@ -389,8 +526,9 @@ def extract(odb_path, package_dir, model_dir, out_dir):
                         diffs15.append(dd)
                     if dh != "":
                         diffs16.append(dh)
-                    rows.append({"element": element, "integration_point": ip, "left": left, "right": right, "sdv15_delta": dd, "sdv16_delta": dh})
-            write_csv(os.path.join(out_dir, name), ["element", "integration_point", "left", "right", "sdv15_delta", "sdv16_delta"], rows)
+                    odb_ip = [k for k, v in ODB_TO_UEL_IP.items() if v == ip][0]
+                    rows.append({"element": element, "integration_point": ip, "odb_integration_point": odb_ip, "uel_integration_point": ip, "left": left, "right": right, "sdv15_delta": dd, "sdv16_delta": dh})
+            write_csv(os.path.join(out_dir, name), ["element", "integration_point", "odb_integration_point", "uel_integration_point", "left", "right", "sdv15_delta", "sdv16_delta"], rows)
             return {
                 "sdv15_delta": metric(diffs15),
                 "sdv16_delta": metric(diffs16),
@@ -402,30 +540,73 @@ def extract(odb_path, package_dir, model_dir, out_dir):
         eq_rel = compare_frames("D3A3_EQUILIBRATED_VS_RELEASED.csv", "F1_equilibrated", "F3_release_last" if "F3_release_last" in snapshots else "F2_release_first")
         write_csv(os.path.join(out_dir, "D3A3_STATE_BY_FRAME.csv"), list(state_rows[0].keys()), state_rows)
         write_csv(os.path.join(out_dir, "D3A3_TRANSFER_VS_ODB.csv"), list(transfer_rows[0].keys()), transfer_rows)
-        write_csv(os.path.join(out_dir, "D3A3_RF_U.csv"), ["frame_tag", "step", "frame_index", "top_u2_mean", "top_u2_min", "top_u2_max", "top_rf2_sum"], rf_rows)
+        write_csv(os.path.join(out_dir, "D3A3_RF_U.csv"), ["frame_tag", "step", "frame_index", "top_node_count", "top_u2_mean", "top_u2_min", "top_u2_max", "top_rf2_sum"], rf_rows)
+        write_csv(os.path.join(out_dir, "D3A3_RF_U_CORRECTED.csv"), ["frame_tag", "step", "frame_index", "top_node_count", "top_u2_mean", "top_u2_min", "top_u2_max", "top_rf2_sum"], rf_rows)
         if all_phase_rows:
             write_csv(os.path.join(out_dir, "D3A3_PHASE_NODAL_U_BY_FRAME.csv"), list(all_phase_rows[0].keys()), all_phase_rows)
-        with open(os.path.join(out_dir, "D3A3_ENERGY_BY_FRAME.json"), "w") as handle:
-            json.dump({"classification": "stage_d3a3_energy_by_frame_extracted", "frames": energy_rows}, handle, indent=2, sort_keys=True)
-            handle.write("\n")
-        with open(os.path.join(out_dir, "D3A3_RECONSTRUCTED_ENERGY_BY_FRAME.json"), "w") as handle:
-            json.dump({
-                "classification": "stage_d3a3_reconstructed_energy_by_frame",
-                "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy",
-                "frames": [row["reconstructed_energy"] for row in energy_rows],
-            }, handle, indent=2, sort_keys=True)
-            handle.write("\n")
+        write_csv(os.path.join(out_dir, "D3A3_PHASE_NODE_RECOVERY_BY_FRAME.csv"), list(recovery_rows[0].keys()), recovery_rows)
+        write_json(os.path.join(out_dir, "D3A3_ENERGY_BY_FRAME.json"), {"classification": "stage_d3a3_energy_by_frame_extracted_corrected", "frames": energy_rows})
+        reconstructed_payload = {
+            "classification": "stage_d3a3_reconstructed_energy_by_frame_corrected",
+            "method": "target_Q4_2x2_bulk_SDV12_plus_AT2_fracture_energy_from_recovered_phase_nodes",
+            "frames": [row["reconstructed_energy"] for row in energy_rows],
+        }
+        write_json(os.path.join(out_dir, "D3A3_RECONSTRUCTED_ENERGY_BY_FRAME.json"), reconstructed_payload)
+        write_json(os.path.join(out_dir, "D3A3_RECONSTRUCTED_ENERGY_BY_FRAME_CORRECTED.json"), reconstructed_payload)
+        write_json(os.path.join(out_dir, "D3A3_IP_ORDER_AUDIT.json"), {
+            "classification": "stage_d3a3_visualization_ip_order_corrected",
+            "odb_to_uel_integration_point": ODB_TO_UEL_IP,
+            "required_mapping": ["IP 1 -> 1", "IP 2 -> 2", "IP 3 -> 4", "IP 4 -> 3"],
+        })
+        top_failures = []
+        for row in rf_rows:
+            if row["frame_tag"] in ("F1_equilibrated", "F3_release_last"):
+                mean = row["top_u2_mean"]
+                umin = row["top_u2_min"]
+                umax = row["top_u2_max"]
+                rf2 = row["top_rf2_sum"]
+                if mean == "" or abs(float(mean) - CHECKPOINT_U2) > 1.0e-8:
+                    top_failures.append("%s top U2 mean mismatch" % row["frame_tag"])
+                if umin == "" or umax == "" or abs(float(umax) - float(umin)) > 1.0e-8:
+                    top_failures.append("%s top U2 range mismatch" % row["frame_tag"])
+                if not is_finite(float(rf2)):
+                    top_failures.append("%s top RF2 nonfinite" % row["frame_tag"])
+        write_json(os.path.join(out_dir, "D3A3_TOP_SET_AUDIT.json"), {
+            "classification": "stage_d3a3_top_set_u_rf_extracted",
+            "checkpoint_U2": CHECKPOINT_U2,
+            "frames": rf_rows,
+            "failures": top_failures,
+            "top_set_pass": not top_failures,
+        })
+        write_json(os.path.join(out_dir, "D3A3_PHASE_NODE_RECOVERY_AUDIT.json"), {
+            "classification": "stage_d3a3_phase_nodes_recovered_from_sdv15",
+            "frames": recovery_audits,
+            "required_recovered_nodes": len(nodal_d),
+            "required_complete_elements": len(elements),
+        })
         jump = {
-            "classification": "stage_d3a3_release_jump_extracted",
+            "classification": "stage_d3a3_release_jump_extracted_corrected",
             "initial_vs_equilibrated": initial_eq,
             "equilibrated_vs_released": eq_rel,
         }
-        with open(os.path.join(out_dir, "D3A3_RELEASE_JUMP.json"), "w") as handle:
-            json.dump(jump, handle, indent=2, sort_keys=True)
-            handle.write("\n")
-        with open(os.path.join(out_dir, "D3A3_EXTRACTION_STATUS.json"), "w") as handle:
-            json.dump({"classification": "stage_d3a3_extraction_complete", "odb": str(odb_path), "state_rows": len(state_rows)}, handle, indent=2, sort_keys=True)
-            handle.write("\n")
+        write_json(os.path.join(out_dir, "D3A3_RELEASE_JUMP.json"), jump)
+        write_json(os.path.join(out_dir, "D3A3_ENERGY_RELEASE_JUMP_CORRECTED.json"), {
+            "classification": "stage_d3a3_corrected_energy_release_jump",
+            "F1_to_F3_relative_total_internal_energy_jump": (
+                abs(
+                    reconstructed_payload["frames"][-1]["total_reconstructed_internal_energy"]
+                    - reconstructed_payload["frames"][1]["total_reconstructed_internal_energy"]
+                )
+                / max(
+                    abs(reconstructed_payload["frames"][-1]["total_reconstructed_internal_energy"]),
+                    abs(reconstructed_payload["frames"][1]["total_reconstructed_internal_energy"]),
+                    1.0e-30,
+                )
+            ),
+            "F1_equilibrated": reconstructed_payload["frames"][1],
+            "F3_release_last": reconstructed_payload["frames"][-1],
+        })
+        write_json(os.path.join(out_dir, "D3A3_EXTRACTION_STATUS.json"), {"classification": "stage_d3a3_extraction_complete_corrected", "odb": str(odb_path), "state_rows": len(state_rows)})
     finally:
         odb.close()
     print("d3a3_extract_ok out_dir=%s" % out_dir)
