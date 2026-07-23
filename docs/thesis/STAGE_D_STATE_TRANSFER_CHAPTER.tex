@@ -194,7 +194,12 @@ $1.0045788889553414\times10^{-8}$, maximum $H$
 $0.027317036782803523$, and SHA256
 \texttt{4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9}.
 The R2 static validation classification is
-\path{stage_d3a3_static_validation_pass}. No full D3A3-R2 solver job has been
-submitted yet; the next allowed cluster action is exactly one Abaqus
-\texttt{datacheck} compile gate, and D3D/D3E remain blocked until
-\texttt{D3A3\_R2\_COMPILE.ok} exists and is committed.
+\path{stage_d3a3_static_validation_pass}. The compile/datacheck job
+\texttt{1377389.mmaster02} compiled and linked the user subroutine and
+completed input processing, showing that the R1 compile-token problem was
+removed. Standard datacheck then failed because \texttt{UEXTERNALDB} opened
+relative file \path{d3_transfer_h.dat} from Abaqus' internal \path{/local/...}
+work directory where the file had not been staged. The classification is
+\path{stage_d3a3_r2_datacheck_fail_runtime_h_file_not_in_abaqus_workdir}. No
+\texttt{D3A3\_R2\_COMPILE.ok} marker exists, no full D3A3-R2 solver job has
+been submitted, and D3D/D3E remain blocked.

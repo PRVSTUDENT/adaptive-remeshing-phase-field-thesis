@@ -1,0 +1,14 @@
+{
+  "D3A3_R2_compile_ok": false,
+  "classification": "stage_d3a3_r2_datacheck_fail_runtime_h_file_not_in_abaqus_workdir",
+  "failures": [
+    "Abaqus compiled and linked the user subroutine, completed input processing, then failed during Standard datacheck because UEXTERNALDB opened relative file d3_transfer_h.dat from Abaqus internal /local workdir where the file was not staged."
+  ],
+  "job_id": "1377389.mmaster02",
+  "scratch_run": "/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_1377389.mmaster02",
+  "pbs_exit_status": 1,
+  "solver_exit": 1,
+  "source_commit": "aace8f89b5a937a40a2be773d4e76a8da329769c",
+  "solver_job_submitted": false,
+  "datacheck_job_submitted": true
+}

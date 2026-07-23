@@ -119,6 +119,13 @@ compile/datacheck evidence. It replaces the oversized compile-time
 loaded once through `UEXTERNALDB`. Local validation passed for 25600 H records
 with SHA256 `4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9`.
 
-The next allowed cluster action is one compile/datacheck submission through
-`scripts/hpc/stage_d3/submit_d3a3_r2_compile_datacheck.sh`. Full D3A3-R2, D3D,
-and D3E remain blocked until `D3A3_R2_COMPILE.ok` exists and is committed.
+The R2 compile/datacheck submission was job `1377389.mmaster02`. Abaqus
+compiled and linked the user subroutine and completed input processing, so the
+R1 compile-token problem was removed. Standard datacheck then failed when
+`UEXTERNALDB` opened relative file `d3_transfer_h.dat` from Abaqus' internal
+`/local/...` work directory where that file had not been staged. The preserved
+classification is
+`stage_d3a3_r2_datacheck_fail_runtime_h_file_not_in_abaqus_workdir`; evidence
+is under `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2/`.
+Full D3A3-R2, D3D, and D3E remain blocked until a follow-up compile/datacheck
+creates and commits `D3A3_R2_COMPILE.ok`.
