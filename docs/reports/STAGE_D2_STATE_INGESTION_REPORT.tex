@@ -360,4 +360,12 @@ SHA-256 is
 \path{ee244da4e87ff0edb1c6e931fe633921aae552785d2d03efb8d18eea555c7173}.
 Only the R3 datacheck is authorized next.
 
+The first R3 datacheck job, \texttt{1377404.mmaster02}, failed before Abaqus
+started because \path{executable_r3_compatible/d3_transfer_h.dat} had been
+generated locally but remained ignored/untracked. PBS exited with status 6
+during runtime-state staging, no Standard datacheck was performed, and no
+\texttt{D3A3\_R3\_DATACHECK.ok} marker exists. The corrected preparation now
+force-tracks the runtime-H file and the static validation includes
+\texttt{runtime\_H\_tracked=true}.
+
 \end{document}

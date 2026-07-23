@@ -158,6 +158,8 @@ def validate(args):
         failures.append("D3A4.ok missing or untracked")
     if not (args.package_dir / "D3_PACKAGE_COMPATIBLE_R1.ok").exists() or not git_tracked(args.package_dir / "D3_PACKAGE_COMPATIBLE_R1.ok"):
         failures.append("D3_PACKAGE_COMPATIBLE_R1.ok missing or untracked")
+    if not (args.exe_dir / "d3_transfer_h.dat").exists() or not git_tracked(args.exe_dir / "d3_transfer_h.dat"):
+        failures.append("R3 executable runtime d3_transfer_h.dat missing or untracked")
     if len(nodes) != N_NODES:
         failures.append("target nodes=%s expected=%s" % (len(nodes), N_NODES))
     if len(elements) != N_ELEM:
@@ -240,6 +242,7 @@ def validate(args):
         "target_elements": len(elements),
         "target_ips": len(ip_rows),
         "runtime_H_sha256": runtime["sha256"],
+        "runtime_H_tracked": git_tracked(args.exe_dir / "d3_transfer_h.dat"),
         "runtime_H_records": runtime["records"],
         "runtime_H_duplicates": runtime["duplicates"],
         "runtime_H_missing_records": runtime["missing_records"],

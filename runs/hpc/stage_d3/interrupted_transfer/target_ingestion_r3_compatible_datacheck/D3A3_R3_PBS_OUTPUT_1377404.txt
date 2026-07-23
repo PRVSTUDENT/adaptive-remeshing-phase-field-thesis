@@ -1,0 +1,15 @@
+cp: der Aufruf von stat für '/home/pr21vyci/projects/adaptive-remeshing/models/state_transfer/d3_interrupted_transfer/executable_r3_compatible/d3_transfer_h.dat' ist nicht möglich: Datei oder Verzeichnis nicht gefunden
+Traceback (most recent call last):
+  File "/home/pr21vyci/projects/adaptive-remeshing/scripts/validation/validate_d3_runtime_state_file.py", line 110, in <module>
+    raise SystemExit(main())
+  File "/home/pr21vyci/projects/adaptive-remeshing/scripts/validation/validate_d3_runtime_state_file.py", line 105, in main
+    status = validate(args.input, args.out)
+  File "/home/pr21vyci/projects/adaptive-remeshing/scripts/validation/validate_d3_runtime_state_file.py", line 32, in validate
+    with path.open(encoding="utf-8") as handle:
+  File "/usr/lib64/python3.6/pathlib.py", line 1117, in open
+    opener=self._opener)
+  File "/usr/lib64/python3.6/pathlib.py", line 961, in _opener
+    return self._accessor.open(self, flags, mode)
+  File "/usr/lib64/python3.6/pathlib.py", line 310, in wrapped
+    return strfunc(str(pathobj), *args)
+FileNotFoundError: [Errno 2] No such file or directory: 'd3_transfer_h.dat'

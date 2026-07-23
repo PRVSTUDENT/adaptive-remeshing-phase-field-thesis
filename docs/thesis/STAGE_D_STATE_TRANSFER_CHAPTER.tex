@@ -336,3 +336,11 @@ SHA-256
 \path{ee244da4e87ff0edb1c6e931fe633921aae552785d2d03efb8d18eea555c7173}.
 The next operation is one serial R3 datacheck only; the full R3 compatible hold
 remains blocked until the datacheck pass is committed.
+
+The first R3 datacheck submission, job \texttt{1377404.mmaster02}, failed
+before Abaqus launched. PBS exited with status 6 because the generated
+\path{executable_r3_compatible/d3_transfer_h.dat} file was ignored and not
+present in the cluster checkout. No \texttt{D3A3\_R3\_DATACHECK.ok} marker was
+created. The failure is classified as a staging/preflight mistake rather than a
+Standard datacheck or scientific failure; the runtime file is now explicitly
+tracked and static validation records \texttt{runtime\_H\_tracked=true}.

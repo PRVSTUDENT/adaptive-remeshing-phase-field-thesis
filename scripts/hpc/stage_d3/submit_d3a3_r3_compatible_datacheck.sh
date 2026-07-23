@@ -11,6 +11,7 @@ MAIL="Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de"
 
 git ls-files --error-unmatch "runs/hpc/stage_d3/interrupted_transfer/compatibility_projection_d3a4/D3A4.ok" >/dev/null
 git ls-files --error-unmatch "runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1/D3_PACKAGE_COMPATIBLE_R1.ok" >/dev/null
+git ls-files --error-unmatch "models/state_transfer/d3_interrupted_transfer/executable_r3_compatible/d3_transfer_h.dat" >/dev/null
 git ls-files --error-unmatch "${STATIC}" >/dev/null
 grep -q "stage_d3a3_r3_static_validation_pass" "${STATIC}"
 grep -q '"step3_active_boundary_exact": true' "${ACTIVE}"
