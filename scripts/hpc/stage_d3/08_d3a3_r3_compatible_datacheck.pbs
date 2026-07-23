@@ -1,0 +1,207 @@
+#!/bin/bash
+#PBS -N d3a3_r3_compat_dc
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=00:45:00
+#PBS -j oe
+#PBS -m abe
+
+set -uo pipefail
+
+PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
+EVIDENCE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible_datacheck"
+EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable_r3_compatible"
+SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r3_compat_dc_${PBS_JOBID:-manual}"
+ENV_LOG="${SCRATCH_RUN}/D3A3_R3_DATACHECK_COMPILER_ENVIRONMENT.txt"
+SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
+EXPECTED_H_SHA="${D3A3_R3_RUNTIME_H_SHA:-ee244da4e87ff0edb1c6e931fe633921aae552785d2d03efb8d18eea555c7173}"
+
+mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
+cd "${SCRATCH_RUN}" || exit 2
+
+write_status() {
+  local classification="$1"
+  local rc="$2"
+  local failure="$3"
+  cat > D3A3_R3_DATACHECK_STATUS.json <<EOF
+{
+  "classification": "${classification}",
+  "D3A3_R3_datacheck_ok": false,
+  "failures": ["${failure}"],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "pbs_exit_status": ${rc},
+  "source_commit": "${SOURCE_COMMIT}",
+  "solver_job_submitted": false,
+  "mode": "serial_datacheck",
+  "mpi": "prohibited"
+}
+EOF
+}
+
+copy_evidence() {
+  mkdir -p "${EVIDENCE_DIR}"
+  for pattern in \
+    "D3A3_R3_DATACHECK.log" \
+    "D3A3_R3_DATACHECK.msg" \
+    "D3A3_R3_DATACHECK.dat" \
+    "D3A3_R3_DATACHECK.sta" \
+    "D3A3_R3_DATACHECK.com" \
+    "D3A3_R3_DATACHECK.prt" \
+    "D3A3_R3_DATACHECK_STDOUT.log" \
+    "D3A3_R3_DATACHECK_COMPILER_ENVIRONMENT.txt" \
+    "D3A3_R3_DATACHECK_STATUS.json" \
+    "D3A3_R3_DATACHECK_JOB_RECORD.txt" \
+    "D3A3_R3_RUNTIME_STATE_VALIDATION.json" \
+    "D3A3_R3_STATIC_VALIDATION.json" \
+    "D3A3_R3_ACTIVE_SET_BOUNDARY_AUDIT.json" \
+    "D3A3_R3_INPUT_PROVENANCE.json" \
+    "D3A3_R3_DATACHECK.ok"; do
+    if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
+      cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/"
+    fi
+  done
+}
+
+if [ ! -f "${EVIDENCE_DIR}/D3A3_R3_STATIC_VALIDATION.json" ]; then
+  write_status "stage_d3a3_r3_datacheck_blocked_missing_static_validation" 3 "D3A3_R3_STATIC_VALIDATION.json missing"
+  copy_evidence
+  exit 3
+fi
+if ! grep -q "stage_d3a3_r3_static_validation_pass" "${EVIDENCE_DIR}/D3A3_R3_STATIC_VALIDATION.json"; then
+  write_status "stage_d3a3_r3_datacheck_blocked_static_validation_fail" 4 "D3A3_R3 static validation is not pass"
+  copy_evidence
+  exit 4
+fi
+
+module --force purge > "${ENV_LOG}" 2>&1 || true
+module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || {
+  write_status "stage_d3a3_r3_datacheck_compiler_environment_fail" 5 "module load gcc/11.4.0 failed"
+  copy_evidence
+  exit 5
+}
+module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || {
+  write_status "stage_d3a3_r3_datacheck_compiler_environment_fail" 5 "module load intel/2024.2.0 failed"
+  copy_evidence
+  exit 5
+}
+module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || {
+  write_status "stage_d3a3_r3_datacheck_compiler_environment_fail" 5 "module load abaqus/2023 failed"
+  copy_evidence
+  exit 5
+}
+export OMP_NUM_THREADS=1
+
+{
+  echo "=== module list ==="
+  module -t list 2>&1
+  echo
+  echo "=== compiler ==="
+  command -v ifort
+  ifort --version
+  echo
+  echo "=== Abaqus ==="
+  command -v abaqus
+  abaqus information=release
+} >> "${ENV_LOG}" 2>&1
+
+cp "${EXE_DIR}/D3A3_R3_compatible_hold.inp" .
+cp "${EXE_DIR}/d3_transfer_uel.for" .
+cp "${EXE_DIR}/d3_transfer_h.dat" .
+cp "${EVIDENCE_DIR}/D3A3_R3_STATIC_VALIDATION.json" .
+cp "${EVIDENCE_DIR}/D3A3_R3_ACTIVE_SET_BOUNDARY_AUDIT.json" .
+cp "${EVIDENCE_DIR}/D3A3_R3_INPUT_PROVENANCE.json" .
+
+python3 "${PROJECT_HOME}/scripts/validation/validate_d3_runtime_state_file.py" \
+  --input d3_transfer_h.dat \
+  --out D3A3_R3_RUNTIME_STATE_VALIDATION.json || {
+    write_status "stage_d3a3_r3_datacheck_runtime_state_validation_fail" 6 "runtime H validation failed"
+    copy_evidence
+    exit 6
+  }
+if ! grep -q "\"sha256\": \"${EXPECTED_H_SHA}\"" D3A3_R3_RUNTIME_STATE_VALIDATION.json; then
+  write_status "stage_d3a3_r3_datacheck_runtime_state_validation_fail" 7 "runtime H SHA-256 mismatch"
+  copy_evidence
+  exit 7
+fi
+if ! grep -q '"records": 25600' D3A3_R3_RUNTIME_STATE_VALIDATION.json \
+  || ! grep -q '"duplicates": 0' D3A3_R3_RUNTIME_STATE_VALIDATION.json \
+  || ! grep -q '"missing_records": 0' D3A3_R3_RUNTIME_STATE_VALIDATION.json; then
+  write_status "stage_d3a3_r3_datacheck_runtime_state_validation_fail" 7 "runtime H keys/counts are invalid"
+  copy_evidence
+  exit 7
+fi
+if [ -f d3_transfer_table.inc ]; then
+  write_status "stage_d3a3_r3_datacheck_forbidden_transfer_include" 8 "obsolete d3_transfer_table.inc present"
+  copy_evidence
+  exit 8
+fi
+if ! grep -q '"step3_active_boundary_exact": true' D3A3_R3_ACTIVE_SET_BOUNDARY_AUDIT.json \
+  || ! grep -q '"step3_free_node_phase_bc_count": 0' D3A3_R3_ACTIVE_SET_BOUNDARY_AUDIT.json; then
+  write_status "stage_d3a3_r3_datacheck_active_set_boundary_fail" 9 "Step 3 active/free boundary audit failed"
+  copy_evidence
+  exit 9
+fi
+
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "classification=stage_d3a3_r3_compatible_datacheck_submitted"
+  echo "source_commit=${SOURCE_COMMIT}"
+  echo "scratch_run=${SCRATCH_RUN}"
+  echo "queue_route=entry_imfdfkmq"
+  echo "ncpus=1"
+  echo "mem=16gb"
+  echo "walltime=00:45:00"
+  echo "mode=serial_datacheck"
+  echo "mpi=prohibited"
+  echo "OMP_NUM_THREADS=${OMP_NUM_THREADS}"
+  echo "runtime_H_sha256=${EXPECTED_H_SHA}"
+  echo "step3_active_phase_bc_count=1880"
+  echo "step3_free_phase_bc_count=0"
+} > D3A3_R3_DATACHECK_JOB_RECORD.txt
+
+ABAQUS_RC=0
+abaqus job=D3A3_R3_DATACHECK \
+  input=D3A3_R3_compatible_hold.inp \
+  user=d3_transfer_uel.for \
+  datacheck \
+  cpus=1 \
+  mp_mode=threads \
+  output_precision=full \
+  interactive > D3A3_R3_DATACHECK_STDOUT.log 2>&1 \
+  || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -ne 0 ]; then
+  write_status "stage_d3a3_r3_datacheck_fail" "${ABAQUS_RC}" "Abaqus datacheck exited nonzero"
+  copy_evidence
+  exit "${ABAQUS_RC}"
+fi
+if ! grep -R "D3A3-R2 H LOAD COMPLETE" D3A3_R3_DATACHECK_STDOUT.log D3A3_R3_DATACHECK.msg 2>/dev/null | grep -q "25600"; then
+  write_status "stage_d3a3_r3_datacheck_fail" 10 "runtime H load-complete token missing"
+  copy_evidence
+  exit 10
+fi
+if grep -R "D3A3-R2 premature runtime H EOF\\|D3A3-R2 runtime H read error" D3A3_R3_DATACHECK_STDOUT.log D3A3_R3_DATACHECK.msg >/dev/null 2>&1; then
+  write_status "stage_d3a3_r3_datacheck_fail" 11 "runtime H read failure token present"
+  copy_evidence
+  exit 11
+fi
+
+cat > D3A3_R3_DATACHECK_STATUS.json <<EOF
+{
+  "classification": "stage_d3a3_r3_compatible_datacheck_pass",
+  "D3A3_R3_datacheck_ok": true,
+  "failures": [],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "pbs_exit_status": 0,
+  "source_commit": "${SOURCE_COMMIT}",
+  "solver_job_submitted": false,
+  "mode": "serial_datacheck",
+  "mpi": "prohibited",
+  "runtime_H_sha256": "${EXPECTED_H_SHA}",
+  "runtime_H_loaded_records": 25600,
+  "step3_active_phase_bc_count": 1880,
+  "step3_free_phase_bc_count": 0
+}
+EOF
+echo "stage_d3a3_r3_compatible_datacheck_pass" > D3A3_R3_DATACHECK.ok
+copy_evidence
+exit 0

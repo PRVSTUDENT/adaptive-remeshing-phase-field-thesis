@@ -1,0 +1,152 @@
+#!/bin/bash
+#PBS -N d3a3_r3_compat_hold
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m abe
+
+set -uo pipefail
+
+PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
+EVIDENCE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible"
+DATACHECK_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible_datacheck"
+EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable_r3_compatible"
+PACKAGE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1"
+D3A4_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/compatibility_projection_d3a4"
+SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r3_compat_hold_${PBS_JOBID:-manual}"
+ENV_LOG="${SCRATCH_RUN}/D3A3_R3_COMPILER_ENVIRONMENT.txt"
+SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
+
+mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
+cd "${SCRATCH_RUN}" || exit 2
+
+write_status() {
+  local classification="$1"
+  local rc="$2"
+  local failure="$3"
+  cat > D3A3_R3_STATUS.json <<EOF
+{
+  "classification": "${classification}",
+  "D3A3_R3_ok": false,
+  "D3A3_ok": false,
+  "failures": ["${failure}"],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "pbs_exit_status": ${rc},
+  "source_commit": "${SOURCE_COMMIT}",
+  "solver_job_submitted": true,
+  "mpi": "prohibited",
+  "OMP_NUM_THREADS": "${OMP_NUM_THREADS:-unset}"
+}
+EOF
+}
+
+copy_evidence() {
+  mkdir -p "${EVIDENCE_DIR}"
+  for pattern in \
+    "D3A3_R3_compatible_hold.log" \
+    "D3A3_R3_compatible_hold.msg" \
+    "D3A3_R3_compatible_hold.dat" \
+    "D3A3_R3_compatible_hold.sta" \
+    "D3A3_R3_compatible_hold.com" \
+    "D3A3_R3_compatible_hold.prt" \
+    "D3A3_R3_compatible_hold.odb" \
+    "D3A3_R3_compatible_hold.abaqus_stdout.log" \
+    "D3A3_R3_COMPILER_ENVIRONMENT.txt" \
+    "D3A3_R3_JOB_RECORD.txt" \
+    "D3A3_R3_STATUS.json" \
+    "D3A3_R3.ok" \
+    "D3A3.ok" \
+    "D3A3_R3_STATE_BY_FRAME.csv" \
+    "D3A3_R3_TRANSFER_VS_ODB.csv" \
+    "D3A3_R3_TOP_RF_U.csv" \
+    "D3A3_R3_RELEASE_JUMP.json" \
+    "D3A3_R3_RECONSTRUCTED_ENERGY.json" \
+    "D3A3_STATE_BY_FRAME.csv" \
+    "D3A3_TRANSFER_VS_ODB.csv" \
+    "D3A3_RF_U_CORRECTED.csv" \
+    "D3A3_RELEASE_JUMP.json" \
+    "D3A3_RECONSTRUCTED_ENERGY_BY_FRAME_CORRECTED.json" \
+    "D3A3_EXTRACTION_STATUS.json"; do
+    if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
+      cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/"
+    fi
+  done
+}
+
+if [ ! -f "${DATACHECK_DIR}/D3A3_R3_DATACHECK.ok" ]; then
+  write_status "stage_d3a3_r3_full_blocked_missing_datacheck" 3 "D3A3_R3_DATACHECK.ok missing"
+  copy_evidence
+  exit 3
+fi
+if ! grep -q "stage_d3a3_r3_compatible_datacheck_pass" "${DATACHECK_DIR}/D3A3_R3_DATACHECK.ok"; then
+  write_status "stage_d3a3_r3_full_blocked_bad_datacheck" 4 "D3A3_R3_DATACHECK.ok classification mismatch"
+  copy_evidence
+  exit 4
+fi
+
+module --force purge > "${ENV_LOG}" 2>&1 || true
+module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || { write_status "stage_d3a3_r3_solver_fail" 5 "module load gcc failed"; copy_evidence; exit 5; }
+module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || { write_status "stage_d3a3_r3_solver_fail" 5 "module load intel failed"; copy_evidence; exit 5; }
+module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || { write_status "stage_d3a3_r3_solver_fail" 5 "module load abaqus failed"; copy_evidence; exit 5; }
+export OMP_NUM_THREADS=1
+
+{
+  module -t list 2>&1
+  command -v ifort
+  ifort --version
+  command -v abaqus
+  abaqus information=release
+} >> "${ENV_LOG}" 2>&1
+
+cp "${EXE_DIR}/D3A3_R3_compatible_hold.inp" .
+cp "${EXE_DIR}/d3_transfer_uel.for" .
+cp "${EXE_DIR}/d3_transfer_h.dat" .
+
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "classification=stage_d3a3_r3_compatible_hold_submitted"
+  echo "source_commit=${SOURCE_COMMIT}"
+  echo "scratch_run=${SCRATCH_RUN}"
+  echo "mode=serial"
+  echo "mpi=prohibited"
+  echo "mp_mode=threads"
+  echo "OMP_NUM_THREADS=${OMP_NUM_THREADS}"
+} > D3A3_R3_JOB_RECORD.txt
+
+ABAQUS_RC=0
+abaqus job=D3A3_R3_compatible_hold \
+  input=D3A3_R3_compatible_hold.inp \
+  user=d3_transfer_uel.for \
+  cpus=1 \
+  mp_mode=threads \
+  output_precision=full \
+  interactive > D3A3_R3_compatible_hold.abaqus_stdout.log 2>&1 \
+  || ABAQUS_RC=$?
+
+if [ "${ABAQUS_RC}" -ne 0 ]; then
+  write_status "stage_d3a3_r3_solver_fail" "${ABAQUS_RC}" "Abaqus exited nonzero during R3 compatible hold"
+  copy_evidence
+  exit "${ABAQUS_RC}"
+fi
+
+PYTHONPATH="${PROJECT_HOME}/scripts/postprocessing:${PYTHONPATH:-}" \
+abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_d3a3_r3_compatible_state.py" \
+  --odb D3A3_R3_compatible_hold.odb \
+  --package-dir "${PACKAGE_DIR}" \
+  --model-dir "${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer" \
+  --out-dir "${SCRATCH_RUN}" || {
+    write_status "stage_d3a3_r3_ingestion_fail" 20 "R3 ODB extraction failed"
+    copy_evidence
+    exit 20
+  }
+
+python3 "${PROJECT_HOME}/scripts/validation/validate_d3a3_r3_compatible_hold.py" \
+  --target-dir "${SCRATCH_RUN}" \
+  --d3a4-dir "${D3A4_DIR}" || {
+    write_status "stage_d3a3_r3_active_set_release_fail" 21 "R3 scientific validation failed"
+    copy_evidence
+    exit 21
+  }
+
+copy_evidence
+exit 0

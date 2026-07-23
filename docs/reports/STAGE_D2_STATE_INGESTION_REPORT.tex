@@ -345,4 +345,19 @@ exists and a separate
 was prepared. The original package remains unchanged. D3A3-R3, D3D, and D3E
 remain unsubmitted.
 
+D3A3-R3 is prepared as a separate compatible active-set lane. The executable
+directory is
+\path{models/state_transfer/d3_interrupted_transfer/executable_r3_compatible/};
+the original executable and D3A2 package are unchanged. The R3 deck prescribes
+all 6601 compatible phase values in Steps 1 and 2, then releases only the 4721
+free phase nodes in Step 3 while keeping the 1880 D3A4 active nodes fixed at
+their lower-bound values. Static validation passes: Step-1 and Step-2 phase
+boundary counts are 6601, Step-3 phase boundary count is 1880, Step-3 free-node
+phase boundary count is 0, runtime H has 25600 records with no duplicates or
+missing keys, obsolete \path{d3_transfer_table.inc} is absent, MPI is absent,
+and the UEL source hash is byte-identical to accepted R2. The R3 runtime-H
+SHA-256 is
+\path{ee244da4e87ff0edb1c6e931fe633921aae552785d2d03efb8d18eea555c7173}.
+Only the R3 datacheck is authorized next.
+
 \end{document}

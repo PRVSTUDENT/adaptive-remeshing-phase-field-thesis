@@ -322,3 +322,17 @@ $2.4132803703716662\times10^{-8}$. D3A4 is classified as
 \path{runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1/} package.
 The original D3A2 package is unchanged. D3D and D3E remain blocked; the next
 bounded solver decision is a D3A3-R3 compatible-state release test only.
+
+The D3A3-R3 compatible active-set lane is prepared separately under
+\path{models/state_transfer/d3_interrupted_transfer/executable_r3_compatible/}.
+The generated deck fixes all 6601 phase nodes during compatible ingestion and
+fixed mechanical equilibration, then uses \texttt{*Boundary, op=NEW} for the
+release hold while keeping only the 1880 D3A4 active nodes prescribed at their
+lower-bound values. The 4721 free phase nodes have no Step-3 phase boundary
+condition. Static validation passes with 6601 target nodes, 6400 elements,
+25600 runtime-H records, zero duplicates, zero missing records, source
+\path{d3_transfer_uel.for} byte-identical to accepted R2, and runtime-H
+SHA-256
+\path{ee244da4e87ff0edb1c6e931fe633921aae552785d2d03efb8d18eea555c7173}.
+The next operation is one serial R3 datacheck only; the full R3 compatible hold
+remains blocked until the datacheck pass is committed.
