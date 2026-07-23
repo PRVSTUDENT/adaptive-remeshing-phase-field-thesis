@@ -1,0 +1,17 @@
+{
+  "classification": "stage_d3a3_r3_compatible_datacheck_pass",
+  "D3A3_R3_datacheck_ok": true,
+  "failures": [],
+  "job_id": "1377409.mmaster02",
+  "pbs_exit_status": 0,
+  "source_commit": "ed622b32781a3e50a77e63699ccb2ca5f87cb76b",
+  "solver_job_submitted": false,
+  "mode": "serial_datacheck",
+  "mpi": "prohibited",
+  "runtime_H_sha256": "ee244da4e87ff0edb1c6e931fe633921aae552785d2d03efb8d18eea555c7173",
+  "runtime_H_loaded_records": 25600,
+  "step3_active_phase_bc_count": 1880,
+  "step3_free_phase_bc_count": 0,
+  "retry_lane": "target_ingestion_r3_compatible_datacheck_r1",
+  "failed_predecessor_job": "1377404.mmaster02"
+}

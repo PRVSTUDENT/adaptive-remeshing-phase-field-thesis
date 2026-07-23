@@ -5,7 +5,7 @@ cd "${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
 
 JOB_NAME="d3a3_r3_compat_hold"
 PBS="scripts/hpc/stage_d3/09_d3a3_r3_compatible_hold.pbs"
-DATACHECK_OK="runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible_datacheck/D3A3_R3_DATACHECK.ok"
+DATACHECK_OK="runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible_datacheck_r1/D3A3_R3_DATACHECK.ok"
 MAIL="Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de"
 
 git ls-files --error-unmatch "${DATACHECK_OK}" >/dev/null

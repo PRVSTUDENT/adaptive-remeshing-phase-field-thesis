@@ -9,7 +9,7 @@ set -uo pipefail
 
 PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
 EVIDENCE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible"
-DATACHECK_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible_datacheck"
+DATACHECK_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r3_compatible_datacheck_r1"
 EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable_r3_compatible"
 PACKAGE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r1"
 D3A4_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/interrupted_transfer/compatibility_projection_d3a4"
