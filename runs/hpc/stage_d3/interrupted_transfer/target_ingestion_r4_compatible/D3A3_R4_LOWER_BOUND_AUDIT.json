@@ -1,0 +1,18 @@
+{
+  "active_nodes": 6446,
+  "active_set_csv": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2/D3_ACTIVE_SET_BY_NODE.csv",
+  "all_nodes": 6601,
+  "classification": "stage_d3a3_r4_lower_bound_audit_pass",
+  "expected_active_nodes": 6446,
+  "expected_all_nodes": 6601,
+  "expected_free_nodes": 155,
+  "free_nodes": 155,
+  "lower_bound_csv": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2/D3_LOWER_BOUND_NODAL_D.csv",
+  "missing_recovered_values": 0,
+  "required_frames": [
+    "F0_ingested",
+    "F1_equilibrated",
+    "F2_release_first",
+    "F3_release_last"
+  ]
+}

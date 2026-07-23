@@ -1,0 +1,31 @@
+{
+  "classification": "stage_d3a3_release_jump_extracted_corrected", 
+  "equilibrated_vs_released": {
+    "H_decrease_violations": 0, 
+    "d_healing_violations": 0, 
+    "sdv15_delta": {
+      "count": 25600, 
+      "l2": 0.00016792789910289848, 
+      "max_abs": 0.005171403669247676
+    }, 
+    "sdv16_delta": {
+      "count": 25600, 
+      "l2": 4.801189178109555e-05, 
+      "max_abs": 0.0030273521141371256
+    }
+  }, 
+  "initial_vs_equilibrated": {
+    "H_decrease_violations": 0, 
+    "d_healing_violations": 0, 
+    "sdv15_delta": {
+      "count": 25600, 
+      "l2": 8.216999628875961e-19, 
+      "max_abs": 1.3877787807814457e-17
+    }, 
+    "sdv16_delta": {
+      "count": 25600, 
+      "l2": 2.609711599764722e-08, 
+      "max_abs": 2.7014086139334065e-06
+    }
+  }
+}

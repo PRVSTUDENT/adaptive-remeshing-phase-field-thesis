@@ -1,0 +1,16 @@
+job_id=1377471.mmaster02
+classification=stage_d3a3_r4_compatible_hold_submitted
+source_commit=9aba51064f1025da61c578457c810f52900ef8a4
+scratch_run=/scratch/pr21vyci/adaptive-remeshing/runs/d3a3_r4_compat_hold_1377471.mmaster02
+ncpus=1
+mem=16gb
+walltime=02:00:00
+mode=serial
+mpi=prohibited
+mp_mode=threads
+OMP_NUM_THREADS=1
+runtime_H_sha256=e4e2b2773c7c29161f4c99bbd7218fa6fe49c6ec3e48d6c2107f83419e97e07c
+package=/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2
+step3_active_phase_bc_count=6446
+step3_free_phase_bc_count=0
+postpython_module=python/gcc/11.4.0/3.11.7

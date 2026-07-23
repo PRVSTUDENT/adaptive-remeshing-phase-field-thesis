@@ -1,0 +1,72 @@
+{
+  "active_nodes": 6446,
+  "active_set_csv": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2/D3_ACTIVE_SET_BY_NODE.csv",
+  "all_nodes": 6601,
+  "classification": "stage_d3a3_r4_lower_bound_audit_pass",
+  "expected_active_nodes": 6446,
+  "expected_all_nodes": 6601,
+  "expected_free_nodes": 155,
+  "free_nodes": 155,
+  "lower_bound_csv": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2/D3_LOWER_BOUND_NODAL_D.csv",
+  "missing_recovered_values": 0,
+  "required_frames": [
+    "F0_ingested",
+    "F1_equilibrated",
+    "F2_release_first",
+    "F3_release_last"
+  ]
+}
+{
+  "D3A3_R4_fixed_state_kkt_ok": true,
+  "active_node_bound_error": 6.938893903907228e-18,
+  "active_node_count": 6446,
+  "active_set_source": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2/D3_ACTIVE_SET_BY_NODE.csv",
+  "assembly": "scripts.state_transfer.solve_d3a4_phase_compatibility.assemble",
+  "classification": "stage_d3a3_r4_fixed_state_kkt_pass",
+  "expected_integration_points": 25600,
+  "expected_nodes": 6601,
+  "failures": [],
+  "free_node_count": 155,
+  "free_set_residual_infinity_norm": 1.9449464407511832e-10,
+  "history_field": "R4 F1_equilibrated odb_sdv16",
+  "integration_point_coverage": 25600,
+  "integration_points": 25600,
+  "minimum_active_set_multiplier": -9.961943313940505e-13,
+  "node_coverage": 6601,
+  "non_positive_detJ": 0,
+  "phase_field": "recovered R4 F1 phase"
+}
+{
+  "D3A3_R4_ok": true,
+  "D3A3_ok": true,
+  "F3_below_lower_bound_violations": 0,
+  "F3_d_decrease_from_F1_violations": 0,
+  "H_decrease_violations": 0,
+  "RF_release_jump": 0.00022925812346655326,
+  "active_node_bound_error": 6.938893903907228e-18,
+  "active_node_phase_drift_max_abs": 6.938893903907228e-18,
+  "classification": "stage_d3a3_r4_compatible_release_pass",
+  "failures": [],
+  "free_set_residual_infinity_norm": 1.9449464407511832e-10,
+  "kkt_classification": "stage_d3a3_r4_fixed_state_kkt_pass",
+  "maximum_phase_adjustment": 0.005171403669247676,
+  "minimum_active_set_multiplier": -9.961943313940505e-13,
+  "phase_adjustment": {
+    "count": 25600,
+    "l2": 0.00016792789910289848,
+    "max_abs": 0.005171403669247676
+  },
+  "reconstructed_energy_release_jump": 1.274588415279448e-05,
+  "spatial_variation_retained": true,
+  "state_reset": false,
+  "transfer_sdv15_error": {
+    "count": 25600,
+    "l2": 6.334559166336224e-19,
+    "max_abs": 1.3877787807814457e-17
+  },
+  "transfer_sdv16_error": {
+    "count": 25600,
+    "l2": 0.0,
+    "max_abs": 0.0
+  }
+}

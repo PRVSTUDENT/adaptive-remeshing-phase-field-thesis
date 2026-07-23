@@ -1,0 +1,20 @@
+{
+  "D3A3_R4_fixed_state_kkt_ok": true,
+  "active_node_bound_error": 6.938893903907228e-18,
+  "active_node_count": 6446,
+  "active_set_source": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_d3/interrupted_transfer/package_compatible_r2/D3_ACTIVE_SET_BY_NODE.csv",
+  "assembly": "scripts.state_transfer.solve_d3a4_phase_compatibility.assemble",
+  "classification": "stage_d3a3_r4_fixed_state_kkt_pass",
+  "expected_integration_points": 25600,
+  "expected_nodes": 6601,
+  "failures": [],
+  "free_node_count": 155,
+  "free_set_residual_infinity_norm": 1.9449464407511832e-10,
+  "history_field": "R4 F1_equilibrated odb_sdv16",
+  "integration_point_coverage": 25600,
+  "integration_points": 25600,
+  "minimum_active_set_multiplier": -9.961943313940505e-13,
+  "node_coverage": 6601,
+  "non_positive_detJ": 0,
+  "phase_field": "recovered R4 F1 phase"
+}
