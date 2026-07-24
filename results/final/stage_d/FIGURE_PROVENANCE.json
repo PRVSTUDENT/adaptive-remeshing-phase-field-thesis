@@ -1,0 +1,43 @@
+{
+  "axis_definitions": {
+    "d3d_a1_active_set_convergence.png": "x=iteration; y=node counts and free residual infinity norm",
+    "d3d_a1_released_nodes_spatial.png": "x,y=target-mesh coordinates [mm]; groups=30 seeds and 42 additional releases",
+    "minimum_active_multiplier_vs_displacement.png": "x=top U2 [mm]; y=minimum active multiplier; horizontal gate=-1e-8",
+    "stage_d_workflow.png": "ordered evidence stages and decision outcome",
+    "violating_active_nodes_vs_displacement.png": "x=top U2 [mm]; y=cumulative active nodes with multiplier below -1e-8"
+  },
+  "classification": "stage_d_final_figure_provenance_complete",
+  "figures": {
+    "results/final/stage_d/figures/d3d_a1_active_set_convergence.png": {
+      "manual_scientific_edits": false,
+      "scientific_classification": "descriptive_from_committed_evidence"
+    },
+    "results/final/stage_d/figures/d3d_a1_released_nodes_spatial.png": {
+      "manual_scientific_edits": false,
+      "scientific_classification": "descriptive_from_committed_evidence"
+    },
+    "results/final/stage_d/figures/minimum_active_multiplier_vs_displacement.png": {
+      "manual_scientific_edits": false,
+      "scientific_classification": "descriptive_from_committed_evidence"
+    },
+    "results/final/stage_d/figures/stage_d_workflow.png": {
+      "manual_scientific_edits": false,
+      "scientific_classification": "descriptive_from_committed_evidence"
+    },
+    "results/final/stage_d/figures/violating_active_nodes_vs_displacement.png": {
+      "manual_scientific_edits": false,
+      "scientific_classification": "descriptive_from_committed_evidence"
+    }
+  },
+  "generation_script": "scripts/postprocessing/generate_stage_d_final_synthesis.py",
+  "source_commit": "26eba75a218fbf85670761d757967de32a5df15b",
+  "source_files": [
+    "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_ACTIVE_SET_UPDATE_CANDIDATES_BY_FRAME.csv",
+    "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_PER_FRAME_KKT.csv",
+    "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_FRAME_MANIFEST.csv",
+    "runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_update/D3D_A1_ACTIVE_SET_ITERATIONS.csv",
+    "runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_update/D3D_A1_RELEASED_NODES.csv",
+    "runs/hpc/stage_d3/interrupted_transfer/D3A3_ACCEPTED_CLOSURE.json",
+    "results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_RESULTS.json"
+  ]
+}

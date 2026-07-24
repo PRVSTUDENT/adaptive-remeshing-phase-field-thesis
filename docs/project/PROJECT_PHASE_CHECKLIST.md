@@ -29,9 +29,9 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 | Gate A3 | Uniform RF–U reference scientific justification | `[~]` conditionally accepted for RF–U | 1A mesh roles + 2B contour deferred; H2-PUB validation / H1 production / H0 test | `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`; `docs/decisions/MESH_USE_POLICY.md`; `docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md` |
 | WP3 | MISESERI pre-analysis and remeshing reproduction | `[x]` closed at scoped Stage C result | C2C-v3 frozen; T5 preserved as failed guard evidence | `docs/decisions/STAGE_C_CLOSEOUT_FREEZE.md`; `runs/hpc/stage_c2/STAGE_C_FINAL_STATUS.md` |
 | WP4 | Refined phase-field benchmark and efficiency comparison | `[x]` closed at scoped Stage C result | peak/pre-peak supported; post-peak limited; crack-path H1 equivalence not supported | `runs/hpc/stage_c2/closeout/STAGE_C_CLOSEOUT_JOB_SUMMARY.md` |
-| WP5 | Evolving remesh and state transfer | `[-]` D0/D1 started | variable map plus analytical local harness | `docs/studies/STAGE_D_STATE_TRANSFER_VARIABLE_MAP.md`; `results/validation/stage_d_analytical_transfer/` |
-| WP6 | IMFD/ABAQUSER integration | `[ ]` not started | dependent on D1/D2 transfer evidence | `THESIS_PLAN.md` |
-| WP7 | Final recommendations and thesis writing | `[-]` in progress | Stage A living reports active | `docs/reports/STAGE_A_BASELINE_REPORT.tex`; `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` |
+| WP5 | Evolving remesh and state transfer | `[~]` scoped completion with limitation | bounded pre-peak transfer proven; corrected mechanical restart unproven | `docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex`; `docs/decisions/STAGE_D3D_A1H0_EXECUTION_CLOSURE.md` |
+| WP6 | IMFD/ABAQUSER integration | `[!]` externally blocked | interface executable/module/source unavailable; independent extraction retained | `docs/decisions/WP6_ABAQUSER_EXTERNAL_BLOCK_CLOSURE.md` |
+| WP7 | Final recommendations and thesis writing | `[-]` active final stage | Stage E evidence synthesis and reproducibility closeout | `docs/thesis/FINAL_CLAIM_MATRIX.md`; `docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex` |
 
 ## WP0 - Environment, Starter Pipeline, And Source Preservation
 
@@ -210,10 +210,16 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 - [ ] Freeze Stage A reports after Stage A closure.
 - [ ] Create the Stage B results report.
 - [ ] Create the Stage B execution/failure log.
-- [ ] Complete final accuracy-cost conclusions.
-- [ ] Complete implementation-limitations chapter.
-- [ ] Complete recommendations.
-- [ ] Archive final reproducibility package.
+- [x] Complete final accuracy-cost conclusions.
+- [x] Complete implementation-limitations chapter.
+- [x] Complete recommendations.
+- [x] Archive final reproducibility package.
+- [x] Stage E0 dashboard reconciled: WP5 scoped completion with limitation, WP6 externally blocked, and WP7 active final stage.
+- [x] Stage E1 integrated Stage D synthesis and compact claim table completed. Evidence: `docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex`.
+- [x] Stage E2 final Stage D figures, tables, frozen metrics, and provenance generated from committed CSV/JSON evidence only. Evidence: `results/final/stage_d/`; `scripts/postprocessing/generate_stage_d_final_synthesis.py`.
+- [x] Stage E3 tolerance policy prepared for supervisor review, WP6 ABAQUSER external block closed, and final claim matrix frozen. Evidence: `docs/decisions/FINAL_THESIS_TOLERANCE_POLICY.md`; `docs/decisions/WP6_ABAQUSER_EXTERNAL_BLOCK_CLOSURE.md`; `docs/thesis/FINAL_CLAIM_MATRIX.md`.
+- [x] Stage E4 final recommendations and practical decision tree completed. Evidence: `docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex`.
+- [x] Stage E5 local reproducibility audit passed: figure/table provenance complete, no ODB tracked, no permanent scratch dependency, job IDs/SHAs and withheld claims recorded. The assembled 28-page closeout build passed with bundled Tectonic after correction of one pre-existing math-mode error. Evidence: `docs/reports/FINAL_REPRODUCIBILITY_AUDIT.md`; `results/final/FINAL_EVIDENCE_MANIFEST.json`; `docs/reports/THESIS_LATEX_BUILD_RECORD.md`.
 
 ## Gate Checklist
 
@@ -245,24 +251,17 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 
 ## Active Next Item
 
-D3D bounded continuation: completed by job `1377558.mmaster02`.
+Complete the final thesis evidence synthesis and reproducibility package.
 
-D3D scientific result: active-set update required
-(`stage_d3d_active_set_update_required`). The first invalid F4 state is
-`F4_segment_initial` at `U2=0.003000000026077032 mm`; no positive Step-4
-increment is active-set-valid.
+No new Abaqus execution is authorized.
 
-D3E: blocked because D3D did not produce
-`stage_d3d_active_set_segment_pass`.
+Priority:
 
-The authorized D3D-A1 offline checkpoint obstacle update passed
-(`stage_d3d_a1_checkpoint_obstacle_update_pass`). The converged set has 6,374
-active and 227 free nodes: all 30 initial seeds remain free, 42 additional
-nodes were released, and no nodes were reactivated. The candidate package is
-prepared but is not an accepted restart state.
-
-Next item: independently review the D3D-A1 evidence and candidate package.
-An Abaqus checkpoint hold is not authorized.
+1. consolidate Stage C accuracy/cost findings;
+2. consolidate Stage D transfer and active-set findings;
+3. finalize limitations and claim boundaries;
+4. generate thesis figures and tables from committed evidence;
+5. perform the final reproducibility and thesis-build audit.
 
 ### Current Stage D Boundary
 

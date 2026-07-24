@@ -1,0 +1,87 @@
+\chapter{State Transfer and Active-Set Evolution}
+\label{chap:stage-d-synthesis}
+
+\section{Controlled Transfer and Abaqus Ingestion}
+
+Stage D began with a controlled analytical transfer between nonmatching meshes.
+All target nodes and integration points were mapped deterministically and the
+transferred fields remained finite and bounded.  The measured nodal phase
+\(L_2\) and maximum errors were \(2.7037\times10^{-2}\) and
+\(8.4997\times10^{-2}\); the corresponding history errors were
+\(1.0797\times10^{-2}\) and \(2.3398\times10^{-2}\).  These values are retained
+as an error baseline rather than described as negligible.
+
+The D2A Abaqus test then proved ingestion of transferred phase and history
+through the visualization-layer state variables.  D2B proved a bounded serial
+continuation after one documented increment-limit correction.  D2C repeated
+the accepted continuation with one MPI rank and four threads.  State fields,
+reaction history, energy, and increment sequence were identical to the serial
+reference within the recorded comparison precision.
+
+\section{Nonmatching Fracture Checkpoint}
+
+The D3 route transferred a pre-peak checkpoint at
+\(U_2=0.003000000026077032\,\mathrm{mm}\) to a nonmatching split-notch mesh
+with 6,601 nodes, 6,400 physical elements, and 25,600 integration points.
+Package validation established complete coverage, zero unmapped state records,
+and no non-positive Jacobians.  The R4 compatible release-hold job
+\texttt{1377471.mmaster02} then proved nonmatching state ingestion,
+checkpoint equilibration, actual-history KKT consistency, irreversible
+active-set release, and state retention through the bounded hold.  Maximum
+SDV15 and SDV16 transfer errors were \(1.3878\times10^{-17}\) and zero;
+relative RF and energy release jumps were \(2.2926\times10^{-4}\) and
+\(1.2746\times10^{-5}\).
+
+\section{Active-Set Evolution}
+
+The fixed R4 active set was tested under a short continuation segment in D3D.
+The first invalid state was already the segment initial frame: 30 active
+multipliers were below the fixed threshold \(-10^{-8}\).  The count increased
+to 3,157 nodes by the endpoint.  Thus, a fixed active set through further
+loading was disproven within the tested segment even though free residual,
+irreversibility, lower-bound, and Jacobian checks remained valid.
+
+An offline primal--dual correction at the unchanged checkpoint used the
+recovered F3 phase as lower bound and actual F3 history without modification.
+It converged in seven iterations to 6,374 active and 227 free nodes.  All 30
+initial seeds and 42 additional nodes were released, with no reactivation.
+The free residual was \(2.1176\times10^{-21}\), the minimum active multiplier
+was \(-9.99696\times10^{-9}\), active-bound error was zero, and the phase
+functional decreased.  This proves mathematical admissibility under frozen F3
+history.
+
+\section{Mechanical-Restart Limitation}
+
+The corrected candidate is not an accepted mechanical restart.  Three bounded
+qualification jobs stopped before Abaqus because of execution-wrapper
+environment failures: a platform-dependent checksum, Python syntax unsupported
+by the default compute-node interpreter, and unavailable \texttt{git} after
+module loading.  Mechanical re-equilibration and actual-history KKT
+reassessment were therefore not performed.  The mechanical checkpoint
+response remains unknown, and no phase release, D3E, peak/post-peak, crack-path,
+or online-remeshing conclusion is drawn.
+
+\section{Claim Summary}
+
+\begin{table}[htbp]
+\centering
+\caption{Stage D evidence and claim boundary.}
+\label{tab:stage-d-claims}
+\begin{tabular}{p{0.52\linewidth}p{0.38\linewidth}}
+\hline
+Result & Status \\
+\hline
+Controlled field transfer & proven \\
+Abaqus state ingestion & proven \\
+Serial continuation after transfer & proven \\
+Four-thread repeatability & proven within tested scope \\
+Nonmatching checkpoint transfer & proven within bounded pre-peak scope \\
+R4 release hold & proven \\
+Fixed active set through further loading & disproven \\
+Offline active-set correction & proven under frozen F3 history \\
+Corrected mechanical restart & unproven \\
+Online remeshing continuation & not claimed \\
+D3E/post-peak continuation & not performed \\
+\hline
+\end{tabular}
+\end{table}

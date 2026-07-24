@@ -1,0 +1,12 @@
+metric,value,gate_or_status
+D1 phase coverage,1.0,proven
+D1 history coverage,1.0,proven
+R4 phase transfer max error,1.3877787807814457e-17,<=1e-8
+R4 history transfer max error,0.0,<=1e-8
+R4 RF release jump,0.00022925812346655326,<=1%
+R4 energy release jump,1.274588415279448e-05,<=1%
+D3D-A1 free residual,2.117582368135751e-21,<=1e-8
+D3D-A1 minimum multiplier,-9.99696348887624e-09,>=-1e-8
+D3D-A1 active-bound error,0.0,<=1e-10
+D3D-A1 phase decrease violations,0,0
+D3D-A1 non-positive detJ,0,0

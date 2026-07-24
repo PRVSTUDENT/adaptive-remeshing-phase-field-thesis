@@ -1,0 +1,87 @@
+\chapter{Recommendations and Decision Tree}
+\label{chap:final-recommendations}
+
+\section{Mesh and Refinement Recommendations}
+
+For the investigated Molnar geometry with \(l=0.015\,\mathrm{mm}\), the
+supervisor-approved mesh roles are H2-PUB for uniform RF--U validation, H1 for
+production comparisons, and H0 for development.  The Stage C corrected
+locally refined mesh used 10,290 physical elements instead of 12,064 for H1,
+a reduction of 14.7\%.  Against a fair four-thread H1 run it reduced wall time
+by 16.7\%, CPU time by 14.9\%, and peak memory by 22.2\%.
+
+The refined model reproduced initial stiffness, pre-peak response, and peak
+load closely: stiffness differed by 0.061\%, pre-peak NRMSE was 0.089\%, peak
+force differed by 0.24\%, and peak displacement was unchanged.  These values
+support the workflow for elastic, pre-peak, and peak-response studies within
+the tested parameter set.
+
+MISESERI-based pre-refinement successfully identified a useful fracture
+corridor, but it did not establish post-peak equivalence.  The post-peak NRMSE
+was approximately 24.3\%, and quantitative crack-path comparison detected a
+deviation from H1 despite exact repeatability of the refined result.  Coarse
+meshes are therefore suitable for workflow development and indicator
+generation only when notch geometry, free faces, layer mapping, and the local
+\(h/l\) ratio are independently audited.
+
+\section{State-Transfer Recommendations}
+
+For a pre-peak checkpoint transferred to a new nonmatching mesh, use the
+bounded D3A3-R4 procedure: complete nodal/integration-point coverage,
+source-to-target ordering audits, compatible phase initialization, actual
+history transfer, fixed-phase equilibration, KKT evaluation, and a small
+release hold with RF and energy discontinuity gates.
+
+The tested one-rank/four-thread D2 continuation matched its serial reference,
+but this supports repeatability only for the tested case and is not a general
+parallel-scaling result.  ABAQUSER comparison remains unavailable; independent
+ODB extraction must be described as the evidence route rather than as an
+equivalent ABAQUSER validation.
+
+Further loading cannot assume a fixed active set.  D3D found multiplier
+violations at the segment initial state and 3,157 violating nodes by the
+endpoint.  A new active-set correction is required when dual admissibility is
+lost.  The offline D3D-A1 correction is admissible under frozen F3 history, but
+its mechanical restart was not qualified.  It must not be used as an accepted
+continuation state.
+
+\section{Execution and Reproducibility Risks}
+
+The closeout exposed three infrastructure risks independent of the scientific
+model: platform-dependent text checksums, interpreter-version assumptions, and
+tool disappearance after module loading.  Reproducible HPC workflows should
+derive hashes in the execution checkout, bind interpreters and compilers by
+absolute path, separate login-side repository checks from compute-node
+validation, and qualify the environment with a trivial job before a scientific
+submission.
+
+\section{Practical Decision Tree}
+
+\begin{description}
+  \item[Need only elastic, peak, or pre-peak response?]
+  Use the accepted Stage C corrected refined workflow within the tested
+  \(l=0.015\,\mathrm{mm}\) and mesh-policy scope.
+
+  \item[Need post-peak crack-path equivalence?]
+  Do not use the current Stage C evidence as validation; post-peak RF--U and
+  crack-path equivalence are not supported.
+
+  \item[Need transfer to a new mesh at a pre-peak checkpoint?]
+  Use the accepted D3A3-R4 bounded transfer and release-hold procedure with
+  complete state, ordering, KKT, RF, and energy audits.
+
+  \item[Need continuation after active-set evolution begins?]
+  Recompute the active set and independently qualify the corrected mechanical
+  restart.  The current D3D-A1 package is a candidate only.
+
+  \item[Need online adaptive remeshing or D3E/post-peak continuation?]
+  This is not validated in the thesis and requires a new scientific and
+  infrastructure programme.
+\end{description}
+
+\section{Final Scope}
+
+The thesis contribution is a bounded, evidence-driven workflow that identifies
+where pre-refinement and state transfer are reliable, quantifies their
+accuracy/cost benefit, and exposes active-set and execution limitations before
+unsupported continuation claims are made.

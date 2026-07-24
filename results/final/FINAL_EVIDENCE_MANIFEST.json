@@ -1,0 +1,99 @@
+{
+  "checks": {
+    "all_final_paths_exist": true,
+    "commit_sha_recorded": true,
+    "figure_provenance_complete": true,
+    "job_ids_recorded": true,
+    "latex_build_pass": true,
+    "mechanical_restart_unproven": true,
+    "no_odb_tracked": true,
+    "no_permanent_scratch_dependency": true,
+    "withheld_d3e_claim": true,
+    "withheld_online_remesh_claim": true
+  },
+  "classification": "final_thesis_evidence_manifest_pass",
+  "files": [
+    {
+      "bytes": 4374,
+      "path": "docs/thesis/STAGE_C_OFFLINE_REFINEMENT_CHAPTER.tex",
+      "sha256": "c31efb099026bd47d767a450fac04d024bb1ff597ce4e8f08e14b86eaac729a6"
+    },
+    {
+      "bytes": 4246,
+      "path": "docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex",
+      "sha256": "1f15b1203c40f03d60428d1fc319d399f1d48c614d7e0f9cafc4aa58e0490c68"
+    },
+    {
+      "bytes": 4264,
+      "path": "docs/thesis/STAGE_D3D_A1_CHECKPOINT_CORRECTION_AND_LIMITATION.tex",
+      "sha256": "fa98383f91b23b528506db211ed27aa6672d67f39ab8fa463e2177abc050376b"
+    },
+    {
+      "bytes": 4325,
+      "path": "docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex",
+      "sha256": "33d6b222709a40f3d5d0166530149e409bc510c70888dd3a5cf7e6399c88e3e7"
+    },
+    {
+      "bytes": 2085,
+      "path": "docs/thesis/FINAL_CLAIM_MATRIX.md",
+      "sha256": "df72451291f493d90cc5f8c712c81203c83c6ea58d44b9c24fd216939c8dc6c9"
+    },
+    {
+      "bytes": 1858,
+      "path": "docs/decisions/FINAL_THESIS_TOLERANCE_POLICY.md",
+      "sha256": "90565340ab313e18936daf8960092da2a38d25bc9b6e5f8d43efa76627315bc9"
+    },
+    {
+      "bytes": 1316,
+      "path": "docs/decisions/WP6_ABAQUSER_EXTERNAL_BLOCK_CLOSURE.md",
+      "sha256": "e23fe43ca81ce51b151a24517db552f6f2eb8954b0d51753ea6d8f08d123f95f"
+    },
+    {
+      "bytes": 2513,
+      "path": "results/final/stage_d/FIGURE_PROVENANCE.json",
+      "sha256": "3fa6ed32e6663c234a49beaea8c161c16bf47a963dce2eedd4d3646e238bd77e"
+    },
+    {
+      "bytes": 1001,
+      "path": "results/final/stage_d/STAGE_D_FINAL_METRICS.json",
+      "sha256": "8c43847764e8647829ffef37c514cb6aefed80b0db5b4969575459e45f97e961"
+    },
+    {
+      "bytes": 121736,
+      "path": "results/final/stage_d/figures/d3d_a1_active_set_convergence.png",
+      "sha256": "daf4be35c437309062f50fb563df0ad832336302c85bb4ebf840035b0d87c626"
+    },
+    {
+      "bytes": 64700,
+      "path": "results/final/stage_d/figures/d3d_a1_released_nodes_spatial.png",
+      "sha256": "f30d2104e33950021b6282d015bcf7cb45f935f1bdf1fa0282465343af574fe6"
+    },
+    {
+      "bytes": 79449,
+      "path": "results/final/stage_d/figures/minimum_active_multiplier_vs_displacement.png",
+      "sha256": "fa92879fbea73b9ac95c7cf89d2092fd3ad3951d90fb9c8d0cbeaf96499be757"
+    },
+    {
+      "bytes": 62282,
+      "path": "results/final/stage_d/figures/stage_d_workflow.png",
+      "sha256": "fc045c8bc0df3abe26ecffb1f2f8857185e59f78dfd93c71397437f40a0ce68a"
+    },
+    {
+      "bytes": 77599,
+      "path": "results/final/stage_d/figures/violating_active_nodes_vs_displacement.png",
+      "sha256": "778aaf3b8a21de740634363506c4aa3c99a17793ddeac248613726fd1cf8c18a"
+    },
+    {
+      "bytes": 229,
+      "path": "results/final/stage_d/tables/execution_qualification_failures.csv",
+      "sha256": "7d1201496277b5a09eb01e2681ae29099fb3ae1fd4829edcf853a198d8719acb"
+    },
+    {
+      "bytes": 506,
+      "path": "results/final/stage_d/tables/transfer_validation_summary.csv",
+      "sha256": "354b82230283419e5c7d70ecf8aeb2270dcbec9e3847684dfeadf89c11c8e6e9"
+    }
+  ],
+  "source_commit": "26eba75a218fbf85670761d757967de32a5df15b",
+  "tracked_odb_files": []
+}
