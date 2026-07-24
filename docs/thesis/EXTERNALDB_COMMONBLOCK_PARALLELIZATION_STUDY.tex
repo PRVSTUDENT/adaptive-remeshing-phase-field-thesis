@@ -38,6 +38,12 @@ unchanged validator against the finalized evidence passed every frozen serial
 gate, including 32/32 state records, finite reaction-force and energy
 histories, monotone phase/history fields, and 13 increment/attempt records.
 This supports the eight-element serial baseline but no thread- or MPI-safety
-claim. The next prepared test therefore uses only constant
-\texttt{UEXTERNALDB}, UEL, and UMAT markers; rank/thread and mutex utilities
-remain excluded and execution remains unauthorized.
+claim. The subsequent P3-SM0 test used only constant \texttt{UEXTERNALDB},
+UEL, and UMAT markers; rank/thread and mutex utilities remained excluded.
+The one authorized serial job completed with scheduler and solver exit zero,
+all four markers observed, no signal 11, complete 32/32 state coverage, and
+zero phase, history, or transfer violations. Thus, the accepted serial model
+completes with this minimal callback plumbing. The result does not establish
+\texttt{GETRANK} or \texttt{GETTHREADID} safety, shared
+\texttt{COMMON}/\texttt{SAVE} thread safety, four-thread repeatability, MPI,
+or hybrid support.

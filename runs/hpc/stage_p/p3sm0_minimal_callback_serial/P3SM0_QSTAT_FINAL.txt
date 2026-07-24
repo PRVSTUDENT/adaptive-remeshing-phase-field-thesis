@@ -1,0 +1,87 @@
+Job Id: 1378099.mmaster02
+    Job_Name = p3sm0_serial
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 74
+    resources_used.cput = 00:00:08
+    resources_used.mem = 187756kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 2965700kb
+    resources_used.walltime = 00:00:12
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Fri Jul 24 15:23:28 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/p3
+	sm0_serial.e1378099
+    exec_host = mnode098/0
+    exec_vnode = (mnode098[0]:ncpus=1:mem=16777216kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Fri Jul 24 15:23:46 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/p
+	3sm0_serial.o1378099
+    Priority = 0
+    qtime = Fri Jul 24 15:23:28 2026
+    Rerunable = True
+    Resource_List.mem = 16gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=16gb
+    Resource_List.walltime = 00:30:00
+    stime = Fri Jul 24 15:23:29 2026
+    obittime = Fri Jul 24 15:23:46 2026
+    session_id = 15455
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1378099.mmaster02.x8z
+    substate = 92
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-ca
+	scadelake/gcc-11.4.0/python-3.11.7-qfpdtq2pisspwunkuc4fqloxqo2ltw6j/bin
+	:/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-linux:/home/
+	pr21vyci/.local/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/
+	opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,
+	P3SM0_STAGE_ROOT=/scratch/pr21vyci/adaptive-remeshing/p3sm0_staged/572
+	c51eacbf7af79f1ab2ffda93a0ad466fc6eca,
+	P3SM0_MANIFEST=/scratch/pr21vyci/adaptive-remeshing/p3sm0_staged/572c5
+	1eacbf7af79f1ab2ffda93a0ad466fc6eca/P3SM0_LOGIN_MANIFEST.json,
+	P3SM0_DECK_SHA=bd8c487e94636ccf1833a65aa8db40aaecad8baeeda21e4bfe9d3ec
+	29f4922ae,
+	P3SM0_SOURCE_SHA=0091a4dc3b39829542f718d722bb2129f1bac7491e1f03b4e38ef
+	12394e852d4,
+	P3SM0_TRANSFER_SHA=d1ccd478d635272215f7e9b1649bfcca3842fd5aa331d1bd312
+	4a85395fc65f2,
+	PROJECT_REVISION=572c51eacbf7af79f1ab2ffda93a0ad466fc6eca,
+	PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Fri Jul 24 at 15:23 on (mnode098[0]:ncpus=1:mem=167772
+	16kb) and finished
+    etime = Fri Jul 24 15:23:28 2026
+    run_count = 1
+    eligible_time = 00:00:03
+    Stageout_status = 1
+    Exit_status = 0
+    Submit_arguments = -q entry_imfdfkmq -M pr21vyci@mailserver.tu-freiberg.de 
+	-m abe -v P3SM0_STAGE_ROOT=/scratch/pr21vyci/adaptive-remeshing/p3sm0_s
+	taged/572c51eacbf7af79f1ab2ffda93a0ad466fc6eca,
+	P3SM0_MANIFEST=/scratch/pr21vyci/adaptive-remeshing/p3sm0_staged/572c5
+	1eacbf7af79f1ab2ffda93a0ad466fc6eca/P3SM0_LOGIN_MANIFEST.json,
+	P3SM0_DECK_SHA=bd8c487e94636ccf1833a65aa8db40aaecad8baeeda21e4bfe9d3ec
+	29f4922ae,
+	P3SM0_SOURCE_SHA=0091a4dc3b39829542f718d722bb2129f1bac7491e1f03b4e38ef
+	12394e852d4,
+	P3SM0_TRANSFER_SHA=d1ccd478d635272215f7e9b1649bfcca3842fd5aa331d1bd312
+	4a85395fc65f2,
+	PROJECT_REVISION=572c51eacbf7af79f1ab2ffda93a0ad466fc6eca /home/pr21vy
+	ci/projects/adaptive-remeshing/scripts/hpc/stage_p/03_p3sm0_minimal_cal
+	lback_serial.pbs
+    history_timestamp = 1784899426
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+

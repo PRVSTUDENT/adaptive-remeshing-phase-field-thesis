@@ -223,10 +223,21 @@ class AuthorizationTests(unittest.TestCase):
             self.assertEqual(result["p3sm0_submissions_used"], 1)
             self.assertFalse(result["p3sm0_submission_authorized"])
 
-    def test_committed_authorization_and_downstream_are_false(self) -> None:
+    def test_committed_authorization_is_consumed_and_downstream_are_false(self) -> None:
         path = ROOT / "runs/hpc/stage_p/p3sm0_minimal_callback_serial/P3SM0_AUTHORIZATION.json"
-        result = preflight.validate_authorization(path, False)
+        result = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(
+            result["classification"],
+            "stage_p3sm0_minimal_callback_serial_submitted",
+        )
         self.assertFalse(result["p3sm0_submission_authorized"])
+        self.assertEqual(result["maximum_p3sm0_submissions"], 1)
+        self.assertEqual(result["p3sm0_submissions_used"], 1)
+        self.assertEqual(result["p3sm0_job_id"], "1378099.mmaster02")
+        self.assertEqual(
+            result["p3sm0_submitted_revision"],
+            "572c51eacbf7af79f1ab2ffda93a0ad466fc6eca",
+        )
         for key in preflight.REQUIRED_FALSE:
             self.assertFalse(result[key])
 
