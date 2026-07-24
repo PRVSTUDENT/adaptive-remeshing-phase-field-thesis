@@ -1,0 +1,13 @@
+timestamp=2026-07-24T11:10:45+02:00
+job_id=1378028.mmaster02
+host=mnode098.cluster
+project_revision=a1965a655d193db8d04ad36afa022bbe1c16e0e1
+cpus=1
+mpi_ranks=1
+omp_threads=1
+OMP_NUM_THREADS=1
+mp_mode=threads
+/cluster/application/abaqus/2023/Commands/abaqus
+/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort
+/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-cascadelake/gcc-11.4.0/python-3.11.7-qfpdtq2pisspwunkuc4fqloxqo2ltw6j/bin/python3
+Python 3.11.7

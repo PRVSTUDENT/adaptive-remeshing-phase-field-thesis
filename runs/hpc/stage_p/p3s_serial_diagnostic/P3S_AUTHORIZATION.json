@@ -1,14 +1,16 @@
 {
-  "classification": "stage_p3_serial_diagnostic_authorized",
+  "classification": "stage_p3_serial_diagnostic_submitted",
   "p3s_preparation_complete": true,
-  "p3s_submission_authorized": true,
+  "p3s_submission_authorized": false,
   "maximum_p3s_submissions": 1,
-  "p3s_submissions_used": 0,
+  "p3s_submissions_used": 1,
   "automatic_retry_authorized": false,
   "p3t4_authorized": false,
   "mpi_authorized": false,
   "hybrid_authorized": false,
   "production_h1_authorized": false,
   "d3d_a1_reopening_authorized": false,
-  "d3e_authorized": false
+  "d3e_authorized": false,
+  "p3s_job_id": "1378028.mmaster02",
+  "p3s_submitted_revision": "a1965a655d193db8d04ad36afa022bbe1c16e0e1"
 }

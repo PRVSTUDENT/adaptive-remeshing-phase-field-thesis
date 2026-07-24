@@ -1,0 +1,1 @@
+abaqus job=p3s_serial input=p3s_serial.inp user=p3_instrumented_commonblock.for cpus=1 mp_mode=threads output_precision=full interactive
