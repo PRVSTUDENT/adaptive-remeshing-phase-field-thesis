@@ -14,7 +14,7 @@ SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3d_a1h0_dc_${PBS_JOBID:-
 RUN_DIR="${SCRATCH_RUN}"
 SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
 EXPECTED_H_SHA="${D3D_A1H0_RUNTIME_H_SHA:-}"
-EXPECTED_FORTRAN_SHA="e056ed01a2af407f58292b884acc264f7332d132457d62a3f4cf0732ffb9fda4"
+EXPECTED_FORTRAN_SHA="5a84a88c04988ebd69705c81ae5d3d1f56f103e3b52883ea3a394dfcdc691fbf"
 
 # shellcheck disable=SC1091
 source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true

@@ -1,0 +1,23 @@
+{
+  "classification": "stage_d3d_a1h0_datacheck_fail",
+  "job_id": "1378003.mmaster02",
+  "source_commit": "9ecb9b3e2a3d969b31d0546768f96d32e5deae9c",
+  "pbs_exit_status": 7,
+  "walltime": "00:00:02",
+  "abaqus_launched": false,
+  "datacheck_completed": false,
+  "datacheck_pass_marker_created": false,
+  "runtime_H_validation_passed": true,
+  "runtime_H_records": 25600,
+  "runtime_H_sha256": "dae747b3715e928d1346d33b27773d1318dc24071e99851a103a3dcc189238f8",
+  "failure": "Fortran SHA mismatch caused by comparing a Windows working-tree hash with an LF-normalized Linux checkout",
+  "embedded_expected_fortran_sha256": "e056ed01a2af407f58292b884acc264f7332d132457d62a3f4cf0732ffb9fda4",
+  "cluster_h0_fortran_sha256": "5a84a88c04988ebd69705c81ae5d3d1f56f103e3b52883ea3a394dfcdc691fbf",
+  "cluster_accepted_r4_fortran_sha256": "5a84a88c04988ebd69705c81ae5d3d1f56f103e3b52883ea3a394dfcdc691fbf",
+  "fortran_sources_byte_identical_on_cluster": true,
+  "datacheck_submissions_used": 1,
+  "maximum_datacheck_submissions": 1,
+  "retry_authorized": false,
+  "full_hold_authorized": false,
+  "scientific_interpretation": "No Abaqus solver or datacheck result was produced."
+}
