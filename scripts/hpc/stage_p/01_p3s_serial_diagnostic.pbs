@@ -1,0 +1,121 @@
+#!/bin/bash
+#PBS -N p3s_serial
+#PBS -q entryq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -m abe
+#
+# Stage P3-S: one bounded serial diagnostic reference.
+
+set -u
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+PACKAGE="${PROJECT_HOME}/models/parallelization/minimal_externaldb_commonblock_test"
+SOURCE_PACKAGE="${PROJECT_HOME}/models/state_transfer/d2_tiny_transfer"
+OUT="${PROJECT_HOME}/runs/hpc/stage_p/p3s_serial_diagnostic"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+RUN_DIR="${RUN_ROOT}/p3s_serial_${PBS_JOBID:-unknown}"
+JOB_NAME="p3s_serial"
+
+fail_status() {
+  local classification="$1"
+  local code="$2"
+  local solver_exit="${3:-null}"
+  mkdir -p "${OUT}"
+  rm -f "${OUT}/P3S_COMPLETION.ok"
+  cat > "${OUT}/P3S_STATUS.json" <<EOF
+{"classification":"${classification}","P3S_ok":false,"job_id":"${PBS_JOBID:-unknown}","solver_exit":${solver_exit},"failures":["bounded P3-S lane stopped before all gates passed"]}
+EOF
+  exit "${code}"
+}
+
+mkdir -p "${OUT}" "${RUN_DIR}" || exit 2
+rm -f "${OUT}/P3S_COMPLETION.ok" "${OUT}/P3S_STATUS.json"
+cd "${PROJECT_HOME}" || fail_status "stage_p3_serial_diagnostic_fail" 2
+
+CURRENT_REVISION="$(git rev-parse HEAD 2>/dev/null)" ||
+  fail_status "stage_p3_serial_diagnostic_fail_revision_unavailable" 3
+if [ -z "${PROJECT_REVISION:-}" ] || [ "${CURRENT_REVISION}" != "${PROJECT_REVISION}" ]; then
+  fail_status "stage_p3_serial_diagnostic_fail_revision_mismatch" 4
+fi
+git diff --quiet -- \
+  models/parallelization/minimal_externaldb_commonblock_test \
+  scripts/hpc/stage_p/01_p3s_serial_diagnostic.pbs \
+  scripts/postprocessing/extract_p3s_diagnostic_state.py \
+  scripts/postprocessing/parse_p3_diagnostic_log.py \
+  scripts/validation/validate_p3s_serial_diagnostic.py ||
+  fail_status "stage_p3_serial_diagnostic_fail_dirty_inputs" 5
+
+module purge > "${OUT}/P3S_ENVIRONMENT.txt" 2>&1 || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 >> "${OUT}/P3S_ENVIRONMENT.txt" 2>&1 ||
+  fail_status "stage_p3_serial_diagnostic_fail_environment" 6
+{
+  echo "timestamp=$(date -Is)"
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "host=$(hostname)"
+  echo "project_revision=${PROJECT_REVISION}"
+  echo "cpus=1"
+  echo "mpi_ranks=1"
+  echo "omp_threads=1"
+  echo "OMP_NUM_THREADS=1"
+  echo "mp_mode=threads"
+  command -v abaqus || true
+  command -v ifort || true
+} >> "${OUT}/P3S_ENVIRONMENT.txt"
+export OMP_NUM_THREADS=1
+
+cp "${PACKAGE}/P3S_serial_diagnostic.inp" "${RUN_DIR}/${JOB_NAME}.inp" ||
+  fail_status "stage_p3_serial_diagnostic_fail_staging" 7
+cp "${PACKAGE}/p2_instrumented_commonblock.for" "${RUN_DIR}/p3_instrumented_commonblock.for" ||
+  fail_status "stage_p3_serial_diagnostic_fail_staging" 7
+cp "${PACKAGE}/d2_transfer_table.inc" "${RUN_DIR}/d2_transfer_table.inc" ||
+  fail_status "stage_p3_serial_diagnostic_fail_staging" 7
+
+cd "${RUN_DIR}" || fail_status "stage_p3_serial_diagnostic_fail_staging" 7
+ABAQUS_RC=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" \
+  user="p3_instrumented_commonblock.for" cpus=1 mp_mode=threads \
+  output_precision=full interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 ||
+  ABAQUS_RC=$?
+
+for suffix in abaqus_stdout.log msg dat sta; do
+  cp "${JOB_NAME}.${suffix}" "${OUT}/" 2>/dev/null || true
+done
+if [ "${ABAQUS_RC}" -ne 0 ] || [ ! -f "${JOB_NAME}.odb" ]; then
+  fail_status "stage_p3_serial_diagnostic_fail" 10 "${ABAQUS_RC}"
+fi
+
+abaqus python "${PROJECT_HOME}/scripts/postprocessing/extract_p3s_diagnostic_state.py" \
+  --odb "${RUN_DIR}/${JOB_NAME}.odb" --package "${SOURCE_PACKAGE}" \
+  --out-dir "${OUT}" > "${OUT}/P3S_EXTRACT.log" 2>&1 ||
+  fail_status "stage_p3_serial_diagnostic_fail" 11 "${ABAQUS_RC}"
+
+python3 "${PROJECT_HOME}/scripts/postprocessing/parse_p3_diagnostic_log.py" \
+  --msg "${OUT}/${JOB_NAME}.msg" \
+  --events "${OUT}/P3S_CALLBACK_EVENTS.csv" \
+  --summary "${OUT}/P3S_SHARED_ACCESS_SUMMARY.json" \
+  > "${OUT}/P3S_PARSE.log" 2>&1 ||
+  fail_status "stage_p3_serial_diagnostic_fail" 12 "${ABAQUS_RC}"
+
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "job_name=${JOB_NAME}"
+  echo "project_revision=${PROJECT_REVISION}"
+  echo "queue=${PBS_QUEUE:-unknown}"
+  echo "run_dir=${RUN_DIR}"
+  echo "solver_exit=${ABAQUS_RC}"
+  echo "cpus=1"
+  echo "mpi_ranks=1"
+  echo "omp_threads=1"
+  echo "mp_mode=threads"
+  echo "mem=16gb"
+  echo "walltime=00:30:00"
+  echo "completed=$(date -Is)"
+} > "${OUT}/P3S_JOB_RECORD.txt"
+
+python3 "${PROJECT_HOME}/scripts/validation/validate_p3s_serial_diagnostic.py" \
+  --out-dir "${OUT}" --job-id "${PBS_JOBID:-unknown}" \
+  --solver-exit "${ABAQUS_RC}" > "${OUT}/P3S_VALIDATE.log" 2>&1 ||
+  exit 13
+
+exit 0

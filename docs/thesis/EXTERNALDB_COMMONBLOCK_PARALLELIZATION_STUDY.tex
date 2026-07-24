@@ -1,0 +1,28 @@
+\section{Parallel execution and shared user-subroutine state}
+\label{sec:externaldb-parallelization}
+
+The use of \texttt{UEXTERNALDB} is not, by itself, incompatible with parallel
+Abaqus/Standard execution.  The callback provides analysis- and
+increment-boundary points at which external data can be initialized or
+exchanged.  The relevant correctness question is instead how that information
+is stored and subsequently accessed by element and material subroutines.
+
+The present implementation transfers phase and history information through
+mutable Fortran \texttt{COMMON} blocks and also contains \texttt{SAVE} and
+\texttt{DATA} storage.  Threads in one process share these objects, so
+concurrent UEL and UMAT calls can create read--write or write--write races
+unless ownership is guaranteed or access is synchronized.  Separate MPI
+processes present a different problem: each rank has its own common-block
+instance, and common storage therefore cannot provide inter-rank exchange.
+Distributed support would require an explicit ownership and communication
+design at defined synchronization points.
+
+The earlier D2C comparison produced identical serial and one-rank/four-thread
+phase, history, reaction-force, energy, and increment results.  This is
+positive but case-specific evidence; it does not prove general thread safety.
+Stage~P therefore isolates the question in an eight-physical-element model.
+Bounded diagnostics record callback identity, rank and thread identifiers,
+first access to each shared location, initialization, live writer conflicts,
+and final call counts.  A serial diagnostic is the mandatory reference before
+one four-thread characterization.  MPI, hybrid, and production claims remain
+withheld.

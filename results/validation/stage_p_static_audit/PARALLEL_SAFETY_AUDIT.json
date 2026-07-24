@@ -50,5 +50,13 @@
     "models/state_transfer/d3_interrupted_transfer/executable_d3d_active_set_segment_r1/d3_transfer_uel.for",
     "models/state_transfer/d3_interrupted_transfer/executable_r3_compatible/d3_transfer_uel.for",
     "models/state_transfer/d3_interrupted_transfer/executable_r4_compatible_r2/d3_transfer_uel.for"
-  ]
+  ],
+  "p3s_preparation": {
+    "classification": "stage_p3s_lane_prepared_static_pass",
+    "solver_executed": false,
+    "hpc_submitted": false,
+    "missing_files": [],
+    "missing_diagnostic_tokens": [],
+    "failures": []
+  }
 }

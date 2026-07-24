@@ -1,9 +1,11 @@
 {
-  "classification": "stage_p2_instrumented_package_prepared_not_executed",
+  "classification": "stage_p3s_lane_prepared_not_executed",
   "source_model": "models/state_transfer/d2_tiny_transfer/executable",
   "physical_elements": 8,
   "scientific_behavior_changed": false,
   "diagnostics_added": true,
+  "bounded_shared_access_diagnostics": true,
+  "serial_lane_prepared": true,
   "abaqus_2022_interface_compile_verified": false,
   "solver_executed": false,
   "hpc_submitted": false,

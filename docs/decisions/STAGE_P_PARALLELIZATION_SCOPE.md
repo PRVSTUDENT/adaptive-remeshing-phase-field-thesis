@@ -26,6 +26,11 @@ Blocked pending a committed review and new explicit execution authorization:
 - reopening D3D-A1 mechanical restart;
 - D3E.
 
+Update 2026-07-24: P0--P2 was selectively frozen and pushed as commit
+`9369dfcb05d63cdbdec0b0e910423c9a6cc7bd1c`. A guarded P3-S lane has been
+prepared but not submitted. Its wrapper requires a separate one-shot
+authorization record and explicitly requires P3-T4 to remain unauthorized.
+
 Any future P3 authorization is one submission per named configuration, with
 no automatic retry. MPI and hybrid branches require separate authorization
 and an explicit inter-process state design.
