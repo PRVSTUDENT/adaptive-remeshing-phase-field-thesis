@@ -1,0 +1,116 @@
+#!/bin/bash
+#PBS -N d3d_a1h0_dc_r2
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=00:45:00
+#PBS -j oe
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+
+set -uo pipefail
+PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
+EVIDENCE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_hold_datacheck_r2"
+EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable_d3d_a1_checkpoint_hold_r1"
+SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3d_a1h0_dc_r2_${PBS_JOBID:-manual}"
+RUN_DIR="${SCRATCH_RUN}"
+SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
+EXPECTED_H_SHA="${D3D_A1H0_RUNTIME_H_SHA:-}"
+EXPECTED_FORTRAN_SHA="${D3D_A1H0_FORTRAN_SHA:-}"
+
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then pbs_notify_install_traps; fi
+if type pbs_notify_begin >/dev/null 2>&1; then pbs_notify_begin; fi
+
+mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
+cd "${SCRATCH_RUN}" || exit 2
+
+write_status() {
+  local classification="$1" rc="$2" failure="$3"
+  cat > D3D_A1H0_R2_DATACHECK_STATUS.json <<EOF
+{"classification":"${classification}","D3D_A1H0_R2_datacheck_ok":false,"pbs_exit_status":${rc},"failure":"${failure}","job_id":"${PBS_JOBID:-unknown}","source_commit":"${SOURCE_COMMIT}"}
+EOF
+}
+copy_evidence() {
+  local name
+  for name in \
+    D3D_A1H0_R2_DATACHECK_STATUS.json D3D_A1H0_R2_DATACHECK.ok \
+    D3D_A1H0_R2_RUNTIME_STATE_VALIDATION.json D3D_A1H0_R2_DECK_STATIC_VALIDATION.json \
+    D3D_A1H0_R2_PREFLIGHT_SUMMARY.json D3D_A1H0_R2_PREFLIGHT_STDOUT.txt \
+    D3D_A1H0_R2_DATACHECK_ENVIRONMENT.txt \
+    D3D_A1H0_R2_DATACHECK_JOB_RECORD.txt D3D_A1H0_R2_DATACHECK_PROVENANCE.json \
+    D3D_A1H0_R2_CHECKSUM_AUDIT.json D3D_A1H0_R2_DATACHECK.log \
+    D3D_A1H0_R2_DATACHECK.msg D3D_A1H0_R2_DATACHECK.dat \
+    D3D_A1H0_R2_DATACHECK.sta D3D_A1H0_R2_DATACHECK.com \
+    D3D_A1H0_R2_DATACHECK.prt D3D_A1H0_R2_DATACHECK.abaqus_stdout.log; do
+    if [ -f "${name}" ]; then cp "${name}" "${EVIDENCE_DIR}/"; fi
+  done
+}
+fail() { write_status "stage_d3d_a1h0_datacheck_r2_fail" "$1" "$2"; copy_evidence; exit "$1"; }
+
+[ -n "${EXPECTED_H_SHA}" ] || fail 7 "checkout-local runtime H SHA missing"
+[ -n "${EXPECTED_FORTRAN_SHA}" ] || fail 7 "checkout-local Fortran SHA missing"
+cp "${EXE_DIR}/D3D_A1H0_checkpoint_hold.inp" . || fail 6 "deck staging failed"
+cp "${EXE_DIR}/d3_transfer_uel.for" . || fail 6 "Fortran staging failed"
+cp "${EXE_DIR}/d3_transfer_h.dat" . || fail 6 "runtime H staging failed"
+
+export D3D_A1H0_PREFLIGHT_RUNTIME_H="${SCRATCH_RUN}/d3_transfer_h.dat"
+export D3D_A1H0_PREFLIGHT_DECK="${SCRATCH_RUN}/D3D_A1H0_checkpoint_hold.inp"
+export D3D_A1H0_PREFLIGHT_OUTPUT_DIR="${SCRATCH_RUN}"
+bash "${PROJECT_HOME}/scripts/hpc/stage_d3/preflight_d3d_a1h0_datacheck.sh" \
+  > D3D_A1H0_R2_PREFLIGHT_STDOUT.txt 2>&1 || fail 8 "common preflight failed"
+PYTHON_BIN="$(command -v python3)"
+[ -n "${PYTHON_BIN}" ] || fail 5 "qualified Python missing after preflight"
+PYTHON_VERSION="$("${PYTHON_BIN}" --version 2>&1)"
+case "${PYTHON_VERSION}" in Python\ 3.11.7*) ;; *) fail 5 "qualified Python version mismatch";; esac
+
+RUNTIME_SHA="$(sha256sum d3_transfer_h.dat | awk '{print $1}')"
+FORTRAN_SHA="$(sha256sum d3_transfer_uel.for | awk '{print $1}')"
+[ "${RUNTIME_SHA}" = "${EXPECTED_H_SHA}" ] || fail 7 "runtime H SHA mismatch"
+[ "${FORTRAN_SHA}" = "${EXPECTED_FORTRAN_SHA}" ] || fail 7 "Fortran SHA mismatch"
+cp D3D_A1H0_R2_PREFLIGHT_SUMMARY.json D3D_A1H0_R2_CHECKSUM_AUDIT.json
+
+{
+  module -t list
+  echo "PYTHON_BIN=${PYTHON_BIN}"
+  "${PYTHON_BIN}" --version
+  command -v ifort
+  ifort --version
+  command -v abaqus
+  abaqus information=release
+} > D3D_A1H0_R2_DATACHECK_ENVIRONMENT.txt 2>&1
+export OMP_NUM_THREADS=1
+cat > D3D_A1H0_R2_DATACHECK_JOB_RECORD.txt <<EOF
+job_id=${PBS_JOBID:-unknown}
+source_commit=${SOURCE_COMMIT}
+ncpus=1
+mem=16gb
+walltime=00:45:00
+mp_mode=threads
+OMP_NUM_THREADS=1
+mpi=prohibited
+EOF
+
+ABAQUS_RC=0
+abaqus job=D3D_A1H0_R2_DATACHECK input=D3D_A1H0_checkpoint_hold.inp \
+  user=d3_transfer_uel.for datacheck cpus=1 mp_mode=threads \
+  output_precision=full interactive > D3D_A1H0_R2_DATACHECK.abaqus_stdout.log 2>&1 || ABAQUS_RC=$?
+[ "${ABAQUS_RC}" -eq 0 ] || fail "${ABAQUS_RC}" "Abaqus datacheck nonzero"
+
+ALL_LOGS="D3D_A1H0_R2_DATACHECK.abaqus_stdout.log D3D_A1H0_R2_DATACHECK.log D3D_A1H0_R2_DATACHECK.msg D3D_A1H0_R2_DATACHECK.dat"
+grep -Eqi "compile.*complete|Abaqus/Standard.*user subroutine" ${ALL_LOGS} || fail 10 "compile completion missing"
+grep -Eqi "link.*complete|linking.*standard" ${ALL_LOGS} || fail 10 "link completion missing"
+grep -Eqi "input file processor.*complete|input processing.*complete" ${ALL_LOGS} || fail 10 "input processing completion missing"
+grep -qi "ANALYSIS DATACHECK COMPLETE" ${ALL_LOGS} || fail 10 "datacheck completion missing"
+grep -qi "Abaqus JOB D3D_A1H0_R2_DATACHECK COMPLETED" D3D_A1H0_R2_DATACHECK.abaqus_stdout.log || fail 10 "Abaqus job completion missing"
+grep -h "H LOAD COMPLETE" ${ALL_LOGS} | grep -q "25600" || fail 11 "H load completion missing"
+if grep -Eqi "premature runtime H EOF|runtime H read error" ${ALL_LOGS}; then fail 12 "runtime H read failure"; fi
+
+cat > D3D_A1H0_R2_DATACHECK_PROVENANCE.json <<EOF
+{"classification":"stage_d3d_a1h0_datacheck_r2_pass","runtime_H_sha256":"${RUNTIME_SHA}","fortran_sha256":"${FORTRAN_SHA}","qualified_python":"${PYTHON_BIN}","python_version":"${PYTHON_VERSION}","phase_bcs_step1":6601,"phase_bcs_step2":6601,"phase_release_step_present":false,"continuation_step_present":false}
+EOF
+cat > D3D_A1H0_R2_DATACHECK_STATUS.json <<EOF
+{"classification":"stage_d3d_a1h0_datacheck_r2_pass","D3D_A1H0_R2_datacheck_ok":true,"pbs_exit_status":0,"failures":[],"job_id":"${PBS_JOBID:-unknown}","source_commit":"${SOURCE_COMMIT}"}
+EOF
+echo "stage_d3d_a1h0_datacheck_r2_pass" > D3D_A1H0_R2_DATACHECK.ok
+copy_evidence
+exit 0

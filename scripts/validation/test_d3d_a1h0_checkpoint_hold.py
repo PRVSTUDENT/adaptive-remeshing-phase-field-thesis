@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from scripts.validation.validate_d3d_a1h0_checkpoint_hold import PASS, POSTFAIL, UPDATE, classify
+from scripts.validation.validate_d3d_a1h0_deck_static import validate as validate_deck
 
 EXE = ROOT / "models/state_transfer/d3_interrupted_transfer/executable_d3d_a1_checkpoint_hold_r1"
 PACKAGE = ROOT / "runs/hpc/stage_d3/fracture_continuation/package_d3d_a1_checkpoint_r1"
@@ -56,17 +57,24 @@ def test_static():
     assert all(float(a) == float(b) for a, b in zip(package_h, runtime_h))
     r4 = ROOT / "models/state_transfer/d3_interrupted_transfer/executable_r4_compatible_r2/d3_transfer_uel.for"
     assert hashlib.sha256(r4.read_bytes()).digest() == hashlib.sha256((EXE / "d3_transfer_uel.for").read_bytes()).digest()
+    deck_status = validate_deck(EXE / "D3D_A1H0_checkpoint_hold.inp")
+    assert deck_status["classification"] == "stage_d3d_a1h0_r2_deck_static_pass"
+    assert deck_status["step1_fixed_phase_nodes"] == 6601
+    assert deck_status["step2_fixed_phase_nodes"] == 6601
+    assert deck_status["checkpoint_u2_unchanged"]
+    assert deck_status["candidate_package"] == "package_d3d_a1_checkpoint_r1"
     for script in [
         ROOT / "scripts/hpc/stage_d3/16_d3d_a1h0_checkpoint_datacheck.pbs",
         ROOT / "scripts/hpc/stage_d3/17_d3d_a1h0_checkpoint_hold.pbs",
         ROOT / "scripts/hpc/stage_d3/18_d3d_a1h0_checkpoint_datacheck_r1.pbs",
+        ROOT / "scripts/hpc/stage_d3/19_d3d_a1h0_checkpoint_datacheck_r2.pbs",
     ]:
         text = script.read_text(encoding="utf-8")
         assert "cp D3D_A1H0_*" not in text
         assert ".odb" not in "\n".join(line for line in text.splitlines() if line.strip().startswith("for name in"))
     full_submitter = (ROOT / "scripts/hpc/stage_d3/submit_d3d_a1h0_checkpoint_hold.sh").read_text(encoding="utf-8")
     assert "committed passing datacheck marker required" in full_submitter
-    assert "d3d_a1_checkpoint_hold_datacheck_r1/D3D_A1H0_R1_DATACHECK.ok" in full_submitter
+    assert "d3d_a1_checkpoint_hold_datacheck_r2/D3D_A1H0_R2_DATACHECK.ok" in full_submitter
     assert '"solver_submission_authorized":True' in full_submitter
     dc_submitter = (ROOT / "scripts/hpc/stage_d3/submit_d3d_a1h0_checkpoint_datacheck.sh").read_text(encoding="utf-8")
     assert "malformed authorization JSON" in dc_submitter
@@ -90,6 +98,19 @@ def test_static():
     ]:
         assert token in r1_pbs
     assert "d3d_a1_checkpoint_hold_datacheck/" not in r1_pbs
+    r2_preflight = (ROOT / "scripts/hpc/stage_d3/preflight_d3d_a1h0_datacheck.sh").read_text(encoding="utf-8")
+    assert r2_preflight.index("module load python/gcc/11.4.0/3.11.7") < r2_preflight.index("validate_d3_runtime_state_file.py")
+    for token in [
+        "validate_d3d_a1h0_deck_static.py", "stage_d3d_a1h0_datacheck_r2_preflight_pass",
+        "runtime H records = 25600", "Step 1 fixed phase nodes = 6601",
+    ]:
+        assert token in r2_preflight
+    r2_pbs = (ROOT / "scripts/hpc/stage_d3/19_d3d_a1h0_checkpoint_datacheck_r2.pbs").read_text(encoding="utf-8")
+    before_preflight = r2_pbs.split("preflight_d3d_a1h0_datacheck.sh", 1)[0]
+    assert "python3" not in before_preflight
+    assert "<<'PY'" not in r2_pbs
+    assert "preflight_d3d_a1h0_datacheck.sh" in r2_pbs
+    assert "stage_d3d_a1h0_datacheck_r2_pass" in r2_pbs
     kkt_source = (ROOT / "scripts/validation/analyze_d3d_a1h0_actual_history_kkt.py").read_text(encoding="utf-8")
     for token in ["active_free_counts", "history_coverage_or_duplicates", "nonfinite_phase_history_or_residual"]:
         assert token in kkt_source
