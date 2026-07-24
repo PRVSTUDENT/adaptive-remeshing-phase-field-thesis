@@ -35,6 +35,11 @@ def main() -> int:
     ap=argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--output-dir", default="results/validation/stage_p_static_audit")
+    ap.add_argument(
+        "--refresh-audit",
+        action="store_true",
+        help="Explicitly regenerate frozen P1 CSV/JSON evidence from the current checkout.",
+    )
     ns=ap.parse_args()
     root=Path(ns.root).resolve(); out=(root/ns.output_dir); out.mkdir(parents=True,exist_ok=True)
     scan_roots=[root/"models/baseline_original/molnar_gravouil_2017",
@@ -53,13 +58,14 @@ def main() -> int:
                     rows.append({"file":rel,"line":no,"construct":name,"access":access(line),
                                  "snippet":line.strip()[:240]})
     csv_path=out/"SHARED_VARIABLE_ACCESS.csv"
-    with csv_path.open("w",newline="",encoding="utf-8") as f:
-        w=csv.DictWriter(
-            f,
-            fieldnames=["file","line","construct","access","snippet"],
-            lineterminator=os.linesep,
-        )
-        w.writeheader(); w.writerows(rows)
+    if ns.refresh_audit:
+        with csv_path.open("w",newline="",encoding="utf-8") as f:
+            w=csv.DictWriter(
+                f,
+                fieldnames=["file","line","construct","access","snippet"],
+                lineterminator=os.linesep,
+            )
+            w.writeheader(); w.writerows(rows)
     counts=Counter(r["construct"] for r in rows)
     risky=sorted({r["file"] for r in rows if r["construct"] in
                   {"COMMON","SAVE","DATA","BLOCK_DATA","USRVAR","TRANSFER_DONE","OPEN","READ","WRITE"}})
@@ -131,8 +137,12 @@ def main() -> int:
         "missing_diagnostic_tokens": missing_tokens,
         "failures": package_failures,
     }
-    (out/"PARALLEL_SAFETY_AUDIT.json").write_text(json.dumps(result,indent=2)+"\n",encoding="utf-8")
+    if ns.refresh_audit:
+        (out/"PARALLEL_SAFETY_AUDIT.json").write_text(
+            json.dumps(result,indent=2)+"\n",encoding="utf-8"
+        )
     print(json.dumps({"classification":result["classification"],"records":len(rows),"files":len(files),
-                      "p3s_preparation":result["p3s_preparation"]["classification"]}))
+                      "p3s_preparation":result["p3s_preparation"]["classification"],
+                      "audit_artifacts_refreshed":ns.refresh_audit}))
     return 0 if not package_failures else 1
 if __name__=="__main__": raise SystemExit(main())
