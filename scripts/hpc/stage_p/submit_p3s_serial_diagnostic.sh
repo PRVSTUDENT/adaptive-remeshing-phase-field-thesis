@@ -9,6 +9,8 @@ AUTH="${PROJECT_HOME}/docs/decisions/P3S_EXECUTION_AUTHORIZATION.json"
 PBS="scripts/hpc/stage_p/01_p3s_serial_diagnostic.pbs"
 
 cd "${PROJECT_HOME}"
+module purge >/dev/null 2>&1 || true
+module load python/gcc/11.4.0/3.11.7
 if [ ! -f "${AUTH}" ]; then
   echo "P3-S blocked: missing explicit P3S_EXECUTION_AUTHORIZATION.json" >&2
   exit 20

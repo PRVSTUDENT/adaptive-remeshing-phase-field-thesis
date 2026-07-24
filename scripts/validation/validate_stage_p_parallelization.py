@@ -116,6 +116,8 @@ def main() -> int:
         package_failures.append("submission authorization guard absent")
     if "p3t4_authorized" not in wrapper_text:
         package_failures.append("P3-T4 denial guard absent")
+    if "python/gcc/11.4.0/3.11.7" not in pbs_text or "python/gcc/11.4.0/3.11.7" not in wrapper_text:
+        package_failures.append("qualified Python 3.11.7 module not bound")
     result["p3s_preparation"] = {
         "classification": "stage_p3s_lane_prepared_static_pass" if not package_failures else "stage_p3s_lane_prepared_static_fail",
         "solver_executed": False,
