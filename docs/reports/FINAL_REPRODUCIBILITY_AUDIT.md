@@ -15,6 +15,6 @@ Classification: `final_thesis_evidence_manifest_pass`
 | `figure_provenance_complete` | pass |
 | `latex_build_pass` | pass |
 
-Audited source revision: `26eba75a218fbf85670761d757967de32a5df15b`.
+Audited source revision: `b1efd2b2555889699fad343fd6414c34fae43ef1`.
 
 The audit is local/offline and authorizes no solver execution.
