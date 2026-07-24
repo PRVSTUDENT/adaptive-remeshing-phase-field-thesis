@@ -1,0 +1,22 @@
+{
+  "candidate_package": "package_d3d_a1_checkpoint_r1",
+  "candidate_package_expected": "package_d3d_a1_checkpoint_r1",
+  "checkpoint_u2_expected": 0.003000000026077032,
+  "checkpoint_u2_unchanged": true,
+  "checkpoint_u2_values": [
+    0.003000000026077032
+  ],
+  "classification": "stage_d3d_a1h0_r2_deck_static_pass",
+  "continuation_step_present": false,
+  "deck_static_ok": true,
+  "failures": [],
+  "input": "models/state_transfer/d3_interrupted_transfer/executable_d3d_a1_checkpoint_hold_r1/D3D_A1H0_checkpoint_hold.inp",
+  "phase_release_step_present": false,
+  "step1_fixed_phase_nodes": 6601,
+  "step2_fixed_phase_nodes": 6601,
+  "step_count": 2,
+  "step_names": [
+    "INGEST_D3D_A1_CANDIDATE",
+    "D3D_A1_MECHANICAL_CHECKPOINT_EQUILIBRATION"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "classification": "stage_d3d_a1h0_datacheck_r2_fail",
+  "job_id": "1378005.mmaster02",
+  "source_commit": "b8e9ef636fa2629b34fbbc81babd00d726662a84",
+  "pbs_exit_status": 8,
+  "walltime": "00:00:05",
+  "login_preflight_passed": true,
+  "compute_preflight_passed": false,
+  "qualified_python_found": true,
+  "qualified_python_version": "3.11.7",
+  "compute_failure": "git was not available on PATH after the compute-node module purge/load sequence",
+  "abaqus_launched": false,
+  "datacheck_completed": false,
+  "datacheck_pass_marker_created": false,
+  "r2_submissions_used": 1,
+  "maximum_r2_submissions": 1,
+  "r3_authorized": false,
+  "full_hold_authorized": false,
+  "execution_classification": "d3d_a1h0_execution_blocked_at_datacheck_qualification",
+  "scientific_interpretation": "The offline D3D-A1 correction remains passed; the mechanically re-equilibrated checkpoint response remains unknown."
+}
