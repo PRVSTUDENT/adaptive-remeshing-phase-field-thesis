@@ -1,0 +1,20 @@
+Job Id: 1378094.mmaster02
+job_state = F
+queue = normal_imfdfkmq
+Exit_status = 12
+Stageout_status = 1
+resources_used.cpupercent = 71
+resources_used.cput = 00:00:08
+resources_used.mem = 190092kb
+resources_used.ncpus = 1
+resources_used.vmem = 2958024kb
+resources_used.walltime = 00:00:12
+Resource_List.mem = 16gb
+Resource_List.ncpus = 1
+Resource_List.select = 1:ncpus=1:mem=16gb
+Resource_List.walltime = 00:30:00
+stime = Fri Jul 24 14:26:03 2026
+obittime = Fri Jul 24 14:26:21 2026
+Mail_Points = abe
+Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+comment = Job run on mnode098 and failed

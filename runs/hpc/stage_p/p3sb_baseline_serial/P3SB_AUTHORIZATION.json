@@ -1,9 +1,9 @@
 {
-  "classification": "stage_p3sb_baseline_serial_authorized",
+  "classification": "stage_p3sb_baseline_serial_submitted",
   "p3sb_preparation_complete": true,
-  "p3sb_submission_authorized": true,
+  "p3sb_submission_authorized": false,
   "maximum_p3sb_submissions": 1,
-  "p3sb_submissions_used": 0,
+  "p3sb_submissions_used": 1,
   "automatic_retry_authorized": false,
   "p3sm_authorized": false,
   "p3t4_authorized": false,
@@ -12,5 +12,7 @@
   "p4_authorized": false,
   "production_h1_authorized": false,
   "d3d_a1_reopening_authorized": false,
-  "d3e_authorized": false
+  "d3e_authorized": false,
+  "p3sb_job_id": "1378094.mmaster02",
+  "p3sb_submitted_revision": "c1436448e0db91345400a91b34e858b777023de7"
 }
