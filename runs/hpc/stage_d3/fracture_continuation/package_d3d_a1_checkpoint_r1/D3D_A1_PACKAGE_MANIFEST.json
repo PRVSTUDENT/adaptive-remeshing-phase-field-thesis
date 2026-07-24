@@ -1,0 +1,21 @@
+{
+  "abaqus_hold_authorized": false,
+  "accepted_restart_state": false,
+  "active_set": "converged D3D-A1 KKT set",
+  "candidate_restart_state": true,
+  "checkpoint_u2_mm": 0.003000000026077032,
+  "classification": "stage_d3d_a1_candidate_package_prepared",
+  "file_sha256": {
+    "D3_ACTIVE_SET_BY_NODE.csv": "4eaa7907aea5c3621cc842905a017a4c9ddcc26e4915db8ee5e54f1d0c521b3a",
+    "D3_LOWER_BOUND_NODAL_D.csv": "a6bc73e694cadecb668a3a545cc1b4072fee9ee24a2b72f9c14dd8e6c8ffca9b",
+    "D3_TRANSFERRED_IP_H.csv": "f2f103d7cb177fa2130d14253af571ec7703161d858037f2ef0057e706269c1f",
+    "D3_TRANSFERRED_NODAL_D.csv": "54475133021c8e765039bd6a4912e8d06c789f9dd2f77da4babdf86a99f4b548"
+  },
+  "lower_bound_nodal_d": "original recovered F3 phase",
+  "mechanical_reequilibration_required": true,
+  "source_classification": "stage_d3d_a1_checkpoint_obstacle_update_pass",
+  "source_frame": "F3_release_last",
+  "source_job": "1377558.mmaster02",
+  "transferred_ip_H": "unchanged actual F3 SDV16",
+  "transferred_nodal_d": "offline corrected D3D-A1 checkpoint phase"
+}

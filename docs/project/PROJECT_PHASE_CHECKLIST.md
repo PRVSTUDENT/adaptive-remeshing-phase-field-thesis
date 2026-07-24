@@ -255,16 +255,24 @@ increment is active-set-valid.
 D3E: blocked because D3D did not produce
 `stage_d3d_active_set_segment_pass`.
 
-Next item: identify and review the minimum bounded active-set update from the
-30 first-invalid-frame candidates, starting from the accepted D3A5/R4
-checkpoint; no solver submission.
+The authorized D3D-A1 offline checkpoint obstacle update passed
+(`stage_d3d_a1_checkpoint_obstacle_update_pass`). The converged set has 6,374
+active and 227 free nodes: all 30 initial seeds remain free, 42 additional
+nodes were released, and no nodes were reactivated. The candidate package is
+prepared but is not an accepted restart state.
+
+Next item: independently review the D3D-A1 evidence and candidate package.
+An Abaqus checkpoint hold is not authorized.
 
 ### Current Stage D Boundary
 
 - [x] D3A3 compatibility-ingestion/release-hold gate closed at R4 (`1377471.mmaster02`; canonical `D3A3.ok`).
 - [x] D3D Route-B full-segment authorization consumed exactly once by job `1377558.mmaster02`; Abaqus and postprocessing completed, free residual passed, irreversibility passed, and the active-multiplier gate required an update. Evidence: `docs/decisions/STAGE_D3D_RESULT_CLOSURE.md`; `runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/`.
 - [x] D3D offline update scope identified: first invalid F4 state `F4_segment_initial`, 30 initial candidates, 3,157-node endpoint union retained only as a maximum envelope, complete phase/H coverage, and no tolerance change. Evidence: `docs/decisions/STAGE_D3D_ACTIVE_SET_UPDATE_SCOPE.md`.
+- [x] D3D-A1 offline obstacle update authorized and completed at unchanged checkpoint displacement using recovered F3 phase as the lower bound and actual F3 SDV16 as fixed history. Deterministic convergence took 7 iterations; final active/free counts are 6,374/227, free residual `2.117582368135751e-21`, minimum active multiplier `-9.99696348887624e-09`, active-bound error `0`, phase functional change `-1.6759153614843373e-10`, and no H, phase-decrease, lower-bound, detJ, or state-reset violations. Classification: `stage_d3d_a1_checkpoint_obstacle_update_pass`. Evidence: `runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_update/`.
+- [x] D3D-A1 candidate package prepared with corrected nodal phase, unchanged actual F3 history, original F3 lower bound, and converged KKT membership. Classification: `stage_d3d_a1_candidate_package_prepared`. This is not an accepted restart state because mechanical re-equilibration has not been assessed. Evidence: `runs/hpc/stage_d3/fracture_continuation/package_d3d_a1_checkpoint_r1/`.
 - [!] New D3D solver submission is not authorized. D3E, a second segment, and peak/post-peak continuation remain blocked.
+- [!] Abaqus D3D-A1 checkpoint hold is not authorized. Endpoint-union release and tolerance changes remain prohibited.
 - [!] Do not claim peak, post-peak, crack-path, production-mesh, or online-remeshing validation from D3A3 alone.
 - [!] Do not alter the accepted C2C-v3 mesh or rerun C2F-v3 without new authorization.
 

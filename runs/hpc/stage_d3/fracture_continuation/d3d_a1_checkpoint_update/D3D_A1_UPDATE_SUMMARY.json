@@ -1,0 +1,279 @@
+{
+  "D3D_A1_ok": true,
+  "H_changes": 0,
+  "abaqus_job_submitted": false,
+  "active_bound_error": 0.0,
+  "additional_nodes_released": 42,
+  "candidate_package_prepared": true,
+  "classification": "stage_d3d_a1_checkpoint_obstacle_update_pass",
+  "deterministic_convergence_status": true,
+  "endpoint_union_release_prohibited": true,
+  "endpoint_union_used_as_release_set": false,
+  "final_H_coverage": 25600,
+  "final_active_nodes": 6374,
+  "final_free_nodes": 227,
+  "free_residual_infinity_norm": 2.117582368135751e-21,
+  "initial_active_nodes": 6446,
+  "initial_free_nodes": 155,
+  "initial_release_seed_nodes": 30,
+  "iteration_count": 7,
+  "lower_bound_violations": 0,
+  "maximum_phase_update": 0.0009509868933784485,
+  "minimum_active_multiplier": -9.99696348887624e-09,
+  "minimum_lower_bound_margin": -1.6263032587282567e-19,
+  "nodes_reactivated": 0,
+  "non_positive_detJ": 0,
+  "normalized_L2_phase_update": 0.003084124095431542,
+  "original_30_remaining_free": 30,
+  "pbs_artifact_created": false,
+  "phase_decrease_violations": 0,
+  "source_H_coverage": 25600,
+  "source_phase_coverage": 6601,
+  "spatial_group_count": 27,
+  "spatial_groups": [
+    {
+      "group_id": 1,
+      "node_count": 15,
+      "node_labels": [
+        2393,
+        2394,
+        2473,
+        2474,
+        2475,
+        2476,
+        2555,
+        2556,
+        2557,
+        2636,
+        2637,
+        2638,
+        2717,
+        2719,
+        2720
+      ]
+    },
+    {
+      "group_id": 2,
+      "node_count": 14,
+      "node_labels": [
+        3972,
+        3973,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4131,
+        4132,
+        4133,
+        4134,
+        4135,
+        4212,
+        4213
+      ]
+    },
+    {
+      "group_id": 3,
+      "node_count": 12,
+      "node_labels": [
+        2306,
+        2307,
+        2386,
+        2388,
+        2467,
+        2468,
+        2469,
+        2548,
+        2549,
+        2628,
+        2629,
+        2709
+      ]
+    },
+    {
+      "group_id": 4,
+      "node_count": 4,
+      "node_labels": [
+        2064,
+        2065,
+        2146,
+        2227
+      ]
+    },
+    {
+      "group_id": 5,
+      "node_count": 3,
+      "node_labels": [
+        3324,
+        3405,
+        3486
+      ]
+    },
+    {
+      "group_id": 6,
+      "node_count": 3,
+      "node_labels": [
+        3326,
+        3407,
+        3408
+      ]
+    },
+    {
+      "group_id": 7,
+      "node_count": 1,
+      "node_labels": [
+        1088
+      ]
+    },
+    {
+      "group_id": 8,
+      "node_count": 1,
+      "node_labels": [
+        1741
+      ]
+    },
+    {
+      "group_id": 9,
+      "node_count": 1,
+      "node_labels": [
+        1905
+      ]
+    },
+    {
+      "group_id": 10,
+      "node_count": 1,
+      "node_labels": [
+        1985
+      ]
+    },
+    {
+      "group_id": 11,
+      "node_count": 1,
+      "node_labels": [
+        2309
+      ]
+    },
+    {
+      "group_id": 12,
+      "node_count": 1,
+      "node_labels": [
+        2551
+      ]
+    },
+    {
+      "group_id": 13,
+      "node_count": 1,
+      "node_labels": [
+        2553
+      ]
+    },
+    {
+      "group_id": 14,
+      "node_count": 1,
+      "node_labels": [
+        2789
+      ]
+    },
+    {
+      "group_id": 15,
+      "node_count": 1,
+      "node_labels": [
+        2879
+      ]
+    },
+    {
+      "group_id": 16,
+      "node_count": 1,
+      "node_labels": [
+        3038
+      ]
+    },
+    {
+      "group_id": 17,
+      "node_count": 1,
+      "node_labels": [
+        3043
+      ]
+    },
+    {
+      "group_id": 18,
+      "node_count": 1,
+      "node_labels": [
+        3204
+      ]
+    },
+    {
+      "group_id": 19,
+      "node_count": 1,
+      "node_labels": [
+        3206
+      ]
+    },
+    {
+      "group_id": 20,
+      "node_count": 1,
+      "node_labels": [
+        3648
+      ]
+    },
+    {
+      "group_id": 21,
+      "node_count": 1,
+      "node_labels": [
+        3888
+      ]
+    },
+    {
+      "group_id": 22,
+      "node_count": 1,
+      "node_labels": [
+        3890
+      ]
+    },
+    {
+      "group_id": 23,
+      "node_count": 1,
+      "node_labels": [
+        3893
+      ]
+    },
+    {
+      "group_id": 24,
+      "node_count": 1,
+      "node_labels": [
+        3967
+      ]
+    },
+    {
+      "group_id": 25,
+      "node_count": 1,
+      "node_labels": [
+        4047
+      ]
+    },
+    {
+      "group_id": 26,
+      "node_count": 1,
+      "node_labels": [
+        4368
+      ]
+    },
+    {
+      "group_id": 27,
+      "node_count": 1,
+      "node_labels": [
+        6322
+      ]
+    }
+  ],
+  "spatial_variation_retained": true,
+  "state_reset": false,
+  "tolerances": {
+    "active_bound_error": 1e-10,
+    "free_residual_infinity_norm": 1e-08,
+    "minimum_active_multiplier": -1e-08,
+    "phase_lower_bound": 1e-10
+  },
+  "total_nodes_released_relative_to_F3": 72,
+  "validation_failures": []
+}
