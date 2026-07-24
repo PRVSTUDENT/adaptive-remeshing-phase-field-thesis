@@ -1,0 +1,41 @@
+#!/bin/bash
+#PBS -N d3d_a1h0_hold
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m abe
+
+set -euo pipefail
+PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
+EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable_d3d_a1_checkpoint_hold_r1"
+PACKAGE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/fracture_continuation/package_d3d_a1_checkpoint_r1"
+OUT_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_hold"
+SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3d_a1h0_hold_${PBS_JOBID}"
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh"
+pbs_notify_install_traps
+pbs_notify_begin
+mkdir -p "${SCRATCH_RUN}" "${OUT_DIR}"
+cd "${SCRATCH_RUN}"
+module --force purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+export OMP_NUM_THREADS=1
+cp "${EXE_DIR}/D3D_A1H0_checkpoint_hold.inp" .
+cp "${EXE_DIR}/d3_transfer_uel.for" .
+cp "${EXE_DIR}/d3_transfer_h.dat" .
+abaqus job=D3D_A1H0_checkpoint_hold input=D3D_A1H0_checkpoint_hold.inp \
+  user=d3_transfer_uel.for cpus=1 mp_mode=threads output_precision=full interactive
+PYTHONPATH="${PROJECT_HOME}/scripts/postprocessing" abaqus python \
+  "${PROJECT_HOME}/scripts/postprocessing/extract_d3d_a1h0_checkpoint_hold.py" \
+  --odb D3D_A1H0_checkpoint_hold.odb --package-dir "${PACKAGE_DIR}" \
+  --out-dir "${SCRATCH_RUN}"
+module load python/gcc/11.4.0/3.11.7
+python3 "${PROJECT_HOME}/scripts/validation/validate_d3d_a1h0_transfer.py" \
+  --target-dir "${SCRATCH_RUN}"
+python3 "${PROJECT_HOME}/scripts/validation/analyze_d3d_a1h0_actual_history_kkt.py" \
+  --target-dir "${SCRATCH_RUN}" --package-dir "${PACKAGE_DIR}"
+python3 "${PROJECT_HOME}/scripts/validation/validate_d3d_a1h0_checkpoint_hold.py" \
+  --target-dir "${SCRATCH_RUN}" \
+  --baseline-dir "${PROJECT_HOME}/runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment"
+cp D3D_A1H0_* "${OUT_DIR}/"
+printf '{"odb_path":"%s","repository_copy_created":false}\n' \
+  "${SCRATCH_RUN}/D3D_A1H0_checkpoint_hold.odb" > "${OUT_DIR}/D3D_A1H0_ODB_LOCATION.json"

@@ -1,0 +1,13 @@
+# Stage D3D-A1H0 Mechanical Hold Authorization
+
+**Classification:** `stage_d3d_a1h0_mechanical_hold_preparation_authorized`
+
+Preparation of one isolated, fixed-phase mechanical checkpoint-equilibration
+lane is authorized from `package_d3d_a1_checkpoint_r1` at
+\(U_2=0.003000000026077032\) mm.
+
+All 6,601 phase nodes must remain prescribed to the corrected D3D-A1 phase in
+both steps. Actual F3 history is ingested at all 25,600 integration points.
+
+Datacheck, solver submission, phase release, continuation, D3E, automatic
+retry, and tolerance changes are not authorized.

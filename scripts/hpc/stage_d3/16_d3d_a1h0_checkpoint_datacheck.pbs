@@ -1,0 +1,22 @@
+#!/bin/bash
+#PBS -N d3d_a1h0_dc
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=00:45:00
+#PBS -j oe
+#PBS -m abe
+
+set -euo pipefail
+PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
+EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable_d3d_a1_checkpoint_hold_r1"
+SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3d_a1h0_dc_${PBS_JOBID}"
+mkdir -p "${SCRATCH_RUN}"
+cd "${SCRATCH_RUN}"
+module --force purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+export OMP_NUM_THREADS=1
+cp "${EXE_DIR}/D3D_A1H0_checkpoint_hold.inp" .
+cp "${EXE_DIR}/d3_transfer_uel.for" .
+cp "${EXE_DIR}/d3_transfer_h.dat" .
+abaqus job=D3D_A1H0_DATACHECK input=D3D_A1H0_checkpoint_hold.inp \
+  user=d3_transfer_uel.for datacheck cpus=1 mp_mode=threads \
+  output_precision=full interactive

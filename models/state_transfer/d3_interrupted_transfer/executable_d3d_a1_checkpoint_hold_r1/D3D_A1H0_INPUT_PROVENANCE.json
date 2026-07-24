@@ -1,0 +1,20 @@
+{
+  "accepted_r4_fortran_sha256": "e056ed01a2af407f58292b884acc264f7332d132457d62a3f4cf0732ffb9fda4",
+  "active_nodes": 6374,
+  "classification": "stage_d3d_a1h0_input_prepared",
+  "continuation_step_present": false,
+  "datacheck_authorized": false,
+  "fortran_byte_identical_to_r4": true,
+  "fortran_sha256": "e056ed01a2af407f58292b884acc264f7332d132457d62a3f4cf0732ffb9fda4",
+  "free_nodes": 227,
+  "phase_fixed_nodes_each_step": 6601,
+  "phase_release_step_present": false,
+  "runtime_H_modification_count": 0,
+  "runtime_H_records": 25600,
+  "solver_submission_authorized": false,
+  "source_package": "runs\\hpc\\stage_d3\\fracture_continuation\\package_d3d_a1_checkpoint_r1",
+  "steps": [
+    "INGEST_D3D_A1_CANDIDATE",
+    "D3D_A1_MECHANICAL_CHECKPOINT_EQUILIBRATION"
+  ]
+}
