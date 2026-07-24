@@ -8,20 +8,48 @@
 - File-handoff principle: every source/text file created or edited by the agent is mirrored into a flat `agent_handoff/` directory with a manifest for easy review and upload.
 - Report principle: keep a living LaTeX report pair per thesis stage. For Stage A, update `docs/reports/STAGE_A_BASELINE_REPORT.tex` for high-level scientific/gate status and `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` for substantial environment, run, validation, failure, repair, retry, figure, table, result, or scientific-decision evidence where relevant. Continue these same two Stage A files until Stage A is formally completed; then mark both frozen, add final conclusions and the exit decision, and create a new pair for Stage B. Do not create a new Stage A report for every run, and do not remove failed attempts from the execution/failure log. Generated PDFs remain local build artifacts and ignored.
 - Checklist principle: `docs/project/PROJECT_PHASE_CHECKLIST.md` is the authoritative living task and phase checklist. Update it after every substantial operation and keep technical completion separate from scientific validation.
+- Mistakes-ledger principle: `docs/project/MISTAKES_AND_FIXES_LOG.md` is the consolidated mistakes-and-fixes ledger. Update it whenever a run fails, a mistaken assumption is discovered, a correction changes the execution route, or a prevention rule is learned. Never delete or overwrite predecessor failures after a later fix passes.
 
 ## Current thesis handoff - update this block after every substantial work session
 
-Updated: 2026-07-21
+Updated: 2026-07-24
 
 Current stage:
 
-- Gate A3 RF–U validation use is **conditionally accepted** after supervisor Decisions **1A** and **2B**. Status tags: `gate_a3_conditionally_accepted_rf_u`, `contour_validation_deferred`, `stage_c_miseseri_preparation_authorized`. Full unconditional Stage A closure is not claimed; residual historical items may still retain `reference_data_insufficient`. Recording: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`.
-- Mesh-use policy (frozen): **H0** fast testing/debug (h≈0.00494 mm); **H1** production/thesis/report and Stage C primary comparison (h=0.0025 mm); **H2-PUB** fine RF–U validation only (h=0.001 mm). Policy: `docs/decisions/MESH_USE_POLICY.md`. Result freeze: `docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md`.
-- Molnar `lc = 0.015 mm` h-convergence RF–U: peak/pre-peak supported; post-peak not fully demonstrated; crack-path deferred (2B); publication provisional. Analysis commit `db4c1fa`. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`.
-- Solvers H0/H1/H2 technical pass; consolidated CAE `1376236` RF–U pass; results **frozen**. Contour PNG export incomplete; contour study deferred and does not block Stage C preparation.
-- Stage C MISESERI **preparation** is authorized (preprocessing automation, campaign plan, remeshing design). **No** PBS/Abaqus/CAE `qsub` without explicit new submission authorization. Plan: `docs/studies/STAGE_C_MISESERI_PREPARATION_PLAN.md`; five-job plan: `docs/studies/STAGE_C_FIVE_JOB_CAMPAIGN_PLAN.md`.
-- Campaign boundary: no length-scale study, increment-sensitivity study, MISESERI **execution**, adaptive-remeshing **execution**, state-transfer run, GPU run, formulation change, or multicore qualification until separately authorized. Preprocessing pipeline build is authorized.
-- CPU policy: first MISESERI implementation remains serial. Multicore is a separate later H1 qualification task after the serial workflow is stable.
+- Stage P0/P1/P2 parallelization preparation is complete without Abaqus or HPC execution. Current documentation confirms parallel user-subroutine support but requires guarded shared resources under threads and explicit communication/ownership under MPI. The static scan found 365 relevant records in 12 Fortran/include files and confirms unqualified mutable `COMMON`/`SAVE`/`DATA`, `USRVAR`, `TRANSFER_DONE`, and file-I/O paths. An isolated eight-physical-element D2-derived diagnostic package is prepared under `models/parallelization/minimal_externaldb_commonblock_test/`; its Abaqus 2022 utility interfaces remain compile-unverified. P3-S/T4/M2/H22, refactoring, production H1, D3D-A1 reopening, and D3E remain blocked; no job was submitted.
+- Stage C closeout T5 corrected automation smoke job `1376758.mmaster02` completed with PBS `Exit_status=0` and classification `automation_smoke_pass`. Evidence is under `runs/hpc/stage_c2/automation_smoke/h0_notch045/`, final scheduler record `runs/hpc/stage_c2/automation_smoke/T5_CORRECTED_QSTAT_FINAL.txt`, and summary `runs/hpc/stage_c2/automation_smoke/T5_CORRECTED_RESULTS_SUMMARY.md`. This is workflow automation evidence only, not a fracture-reference comparison.
+- Stage D2A transferred-state ingestion passed on HPC job `1376785.mmaster02` with PBS `Exit_status=0`, classification `stage_d2a_state_ingestion_pass`, solver exit `0`, readable ODB, `D2A.ok`, `target_ip_coverage=1.0`, maximum `SDV15` interpolation error `0.0`, and maximum `SDV16/H` error `6.428999999030793e-09`. Evidence is under `runs/hpc/stage_d2/d2a_serial_ingestion/`. Abaqus did not expose the UEL phase DOF as usable nodal `U` output in this smoke deck, so D2A verifies transferred phase ingestion through UMAT `SDV15` and transferred history through `SDV16`.
+- Stage D2B serial continuation first attempt `1376819.mmaster02` is frozen as `stage_d2b_solver_fail_increment_limit`: Step 1 initialization completed, Step 2 release hold completed, Step 3 continuation partially converged, but the maximum increment count was exhausted. Evidence remains under `runs/hpc/stage_d2/d2b_serial_continuation/`.
+- Corrected D2B R1 job `1376825.mmaster02` changed only the D2B release/continuation maximum increments from `2` to `50` and passed with PBS `Exit_status=0`, classification `stage_d2b_serial_continuation_pass`, solver exit `0`, readable ODB, `target_ip_coverage=1.0`, maximum initial `SDV15`/`SDV16` differences vs accepted D2A `0.0`, maximum release `SDV15`/`SDV16` differences `0.0`, observed `U2=1e-05`, finite `RF2=3.46317381026e-07`, and `ALLWK` continuation jump `1.2830926425511091e-11`. Rerun evidence is under `runs/hpc/stage_d2/d2b_serial_continuation_rerun/`; canonical marker `runs/hpc/stage_d2/d2b_serial_continuation/D2B.ok` references accepted rerun job `1376825.mmaster02`.
+- Stage D2C four-thread repeatability job `1376831.mmaster02` passed with PBS `Exit_status=0`, classification `stage_d2c_thread_repeatability_pass`, solver exit `0`, readable ODB, confirmed `1 MPI RANK x 4 THREAD`, `target_ip_coverage=1.0`, maximum `SDV15` and `SDV16` thread-vs-serial differences `0.0`, final `U2` difference `0.0`, final `RF2` absolute/relative differences `0.0`, RF-U NRMSE `0.0`, F3 `ALLWK` absolute difference `0.0`, and unchanged increment sequence. Evidence is under `runs/hpc/stage_d2/d2c_threads4_repeatability/`. D2D ABAQUSER verification is next; interrupted Molnar transfer remains unsubmitted.
+- Stage D2D0 login-node audit found no ABAQUSER executable, module, source implementation, or documented runnable interface. Classification: `stage_d2d_blocked_abaquser_not_found`. Evidence is under `runs/hpc/stage_d2/d2d_abaquser_verification/`. No D2D PBS job or fracture solver job was submitted. D3 was prepared as design-only under `docs/studies/STAGE_D3_INTERRUPTED_TRANSFER_PLAN.md`, `configs/state_transfer/d3_interrupted_transfer.yaml`, and helper scripts; no D3 solver submission is authorized.
+- Stage D3A0/D3A1 audited the existing accepted H0 ODB `1376154.mmaster02` and extracted the `U2=0.003000000026077032 mm` checkpoint in CAE/ODB-only jobs. The final extractor attempt `1376879.mmaster02` produced 15720 element/IP rows, `target_ip_coverage=1.0`, finite `SDV15`/`SDV16`, `max_d=0.08412302285432816`, `max_H=0.0512588769197464`, checkpoint `RF2=0.39450356364250183`, and `RF2/H0_peak=0.5421925638518931`. The original H0 ODB lacked `ALLIE`, `ALLSE`, and `ALLWK`, so D3A required independent energy evidence before acceptance.
+- Stage D3A-E R0 independent energy reconstruction job `1376885.mmaster02` is preserved as failed evidence with classification `stage_d3a_energy_reconstruction_fail_parser_scope`: the scope-insensitive parser mixed `Part-1` node labels with the assembly reference-point namespace and produced five false non-positive Jacobian determinants.
+- Stage D3A-E R1 corrected the parser scope and passed locally with classification `stage_d3a_energy_reconstruction_pass`: 3930 physical elements, 15720 integration points, non-positive detJ count `0`, minimum detJ `2.829135024804933e-06`, and relative energy residual `0.012586306767288707`. D3A is now closed with classification `stage_d3a_checkpoint_pass_independent_energy_reconstruction`; evidence is under `runs/hpc/stage_d3/interrupted_transfer/checkpoint_energy_r1/`, and `runs/hpc/stage_d3/interrupted_transfer/checkpoint/D3A.ok` exists. D3A2 package construction is next; no fracture solver submission before `D3_PACKAGE.ok`.
+- Stage D3A2 built and validated one deterministic nonmatching split-notch target package locally. Classification: `stage_d3a2_transfer_package_pass`; source job `1376154.mmaster02`; checkpoint `U2=0.003000000026077032 mm`; target mesh has 6601 nodes, 6400 Q4 physical elements, 25600 target IPs, 40 duplicated open-notch face-node pairs, shared notch tip, notch length `0.5`, zero crossing elements, node/IP coverage `1.0`, non-positive detJ count `0`, predicted energy relative jump `0.015379624558651227`, and unmapped state count `0`. Evidence is under `runs/hpc/stage_d3/interrupted_transfer/package/`; `D3_PACKAGE.ok` exists with `solver_job_submitted=false`. Next gate is one serial D3A3 ingestion/equilibration/release-hold job; D3D and D3E remain blocked.
+- Stage D3A3 first serial ingestion/equilibration/release-hold job `1377382.mmaster02` was submitted exactly once from commit `d6e2474fcae3d05a4171e23c1c2cc757894a8a43` after static preflight pass. PBS finished with `Exit_status=1` before solver analysis because Abaqus user-subroutine compilation could not find `ifort`; the batch script had loaded only `abaqus/2023`. Classification: `stage_d3a3_solver_fail_compiler_environment`; no `D3A3.ok`; D3D and D3E remain blocked. Evidence is preserved under `runs/hpc/stage_d3/interrupted_transfer/target_ingestion/`.
+- Stage D3A3-R1 job `1377383.mmaster02` applied the bounded compiler-environment correction: explicit `gcc/11.4.0`, `intel/2024.2.0`, and `abaqus/2023` module loads, `OMP_NUM_THREADS=1`, scratch execution, and `ifort`/Abaqus environment capture. The compiler environment passed, but Abaqus user-subroutine compilation failed before solver analysis because `d3_transfer_table.inc` exceeded the Intel Fortran statement token limit. Classification: `stage_d3a3_solver_fail_transfer_table_compile`; no `D3A3_R1.ok` or `D3A3.ok`; D3D and D3E remain blocked. Evidence is under `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r1/`.
+- Stage D3A3-R2 compile/datacheck job `1377389.mmaster02` ran exactly once from commit `aace8f89b5a937a40a2be773d4e76a8da329769c`. Runtime H loading removed the R1 compile-token failure: Abaqus compiled and linked the user subroutine and completed input processing. Standard datacheck then failed because `UEXTERNALDB` opened relative `d3_transfer_h.dat` from Abaqus' internal `/local/...` workdir where the file was not staged. Classification: `stage_d3a3_r2_datacheck_fail_runtime_h_file_not_in_abaqus_workdir`; no `D3A3_R2_COMPILE.ok`, no full D3A3-R2 solver job, and D3D/D3E remain blocked. Evidence is under `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2/`.
+- Stage D3A3-R2-R1 pathfix job `1377391.mmaster02` ran exactly once from commit `9136924d367156ac76a4c1a116f28e857f290b3c`. The only generated-source change was `UEXTERNALDB` resolving `d3_transfer_h.dat` via `GETOUTDIR` and `HFILE(1:LHFILE)` instead of a relative open. The prior `/local/...` missing-file failure was removed: Standard reported the staged `/scratch9/.../d3_transfer_h.dat` path. Datacheck then failed with Intel Fortran severe `(24)`, end-of-file during read on unit 99. Classification: `stage_d3a3_r2_r1_datacheck_fail_runtime_h_eof_after_getoutdir_open`; no `D3A3_R2_COMPILE.ok`; full D3A3-R2, D3D, and D3E remain blocked. Evidence is under `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r1/`.
+- D3D job `1377558.mmaster02` completed technically but required active-set evolution (`stage_d3d_active_set_update_required`). The first invalid state is `F3_release_last` / identical `F4_segment_initial`, with 30 multipliers below `-1e-8`; the 3,157-node endpoint union is prohibited as a release set. The authorized offline-only D3D-A1 checkpoint correction used all 6,601 recovered F3 phase values as the new lower bound and all 25,600 actual F3 SDV16 values as fixed history. It passed deterministically in 7 iterations with 6,374 active / 227 free nodes, 72 releases relative to F3 (30 seeds plus 42 additional), no reactivations, free residual `2.117582368135751e-21`, minimum multiplier `-9.99696348887624e-09`, zero active-bound error, no H or lower-bound violations, and a reduced phase functional. Classification: `stage_d3d_a1_checkpoint_obstacle_update_pass`; candidate package: `stage_d3d_a1_candidate_package_prepared`. An Abaqus D3D-A1 hold, PBS preparation/submission, D3E, further continuation, endpoint-union release, and tolerance changes are not authorized.
+- D3D-A1H0 fixed-phase mechanical checkpoint-hold preparation is authorized and complete (`stage_d3d_a1h0_mechanical_hold_preparation_authorized`). The two-step lane ingests the committed D3D-A1 candidate and equilibrates at unchanged `U2=0.003000000026077032 mm`, with corrected phase fixed at all 6,601 nodes throughout and 25,600 unchanged actual-F3 history records. Fortran remains byte-identical to accepted R4. The narrow offline multiplier margin (~`3.04e-12` above `-1e-8`) is recorded as the reason actual-history KKT must be rechecked after mechanical equilibration. Datacheck, solver submission, phase release, continuation, D3E, automatic retry, and tolerance changes remain unauthorized; guarded submitters must refuse.
+- D3D-A1H0 execution hardening is complete: datacheck evidence gates and notifications are failure-safe; the full lane uses an explicit ODB-excluding allowlist and preserves evidence on every exit; detJ, coverage, finiteness, reset, variation, continuity, and actual-history KKT gates are evidence-derived. One datacheck is authorized after the hardened commit (`maximum_datacheck_submissions=1`, initially used `0`); the full hold, phase release, continuation, D3E, retries, and tolerance changes remain unauthorized.
+- D3D-A1H0 datacheck job `1378003.mmaster02` was submitted exactly once through the guarded wrapper from hardened revision `9ecb9b3e2a3d969b31d0546768f96d32e5deae9c` with CPU1, 16 GB, `00:45:00`, serial threads, and verified `abe` mail settings. It ended after `00:00:02` with PBS exit `7` before Abaqus launched: runtime H passed all 25,600-record gates, but the PBS compared a Windows working-tree Fortran SHA against the canonical Linux-checkout SHA. The H0 and accepted-R4 cluster sources were byte-identical at `5a84a88c04988ebd69705c81ae5d3d1f56f103e3b52883ea3a394dfcdc691fbf`; the future guard now uses that canonical hash. Classification: `stage_d3d_a1h0_datacheck_fail`; no datacheck pass marker. The one-shot authorization is consumed (`1/1`), no retry is authorized, and full hold, phase release, continuation, and D3E remain blocked.
+- A separate corrected D3D-A1H0 datacheck R1 is authorized after committed preparation (`stage_d3d_a1h0_datacheck_r1_authorized`, maximum one submission). Its guarded submitter compares candidate and accepted-R4 Fortran directly in the synchronized Linux checkout, derives both Fortran and runtime-H SHA-256 values there, and passes them to an isolated PBS/evidence lane. This does not reset the consumed predecessor authorization or authorize scientific-input, deck, source-content, runtime-history, tolerance, full-hold, phase-release, continuation, or D3E changes.
+- Corrected R1 datacheck job `1378004.mmaster02` was submitted exactly once through the guarded R1 wrapper from revision `c31d4911837bbf13b829a0d484ef86681b954ce0`. Initial scheduler state was `Q`; job name `d3d_a1h0_dc_r1`; CPU1, 16 GB, `00:45:00`, serial threads, and verified `abe` mail. Checkout-local candidate/R4 Fortran SHA was `5a84a88c04988ebd69705c81ae5d3d1f56f103e3b52883ea3a394dfcdc691fbf`; runtime-H SHA was `dae747b3715e928d1346d33b27773d1318dc24071e99851a103a3dcc189238f8`. R1 authorization is consumed (`1/1`); no further datacheck retry, full hold, phase release, continuation, or D3E is authorized pending committed R1 review.
+- R1 job `1378004.mmaster02` ended after `00:00:01` with PBS exit `8`, classification `stage_d3d_a1h0_datacheck_r1_fail`. The checkout-local checksum audit and 25,600-record runtime-H validation passed, but the pre-module inline deck gate used Python 3.8 assignment-expression syntax under the compute-node default Python 3.6. Abaqus did not launch and no pass marker exists. Both datacheck deck gates are rewritten using Python 3.6-compatible syntax as a prevention correction only. Original and R1 authorizations remain consumed (`1/1` each); no further datacheck, full hold, phase release, continuation, or D3E is authorized.
+- One final isolated R2 datacheck is authorized after committed preparation. Its common login/compute preflight loads `python/gcc/11.4.0/3.11.7` before any Python command, binds the interpreter, verifies candidate/R4 source identity and checkout-local hashes, validates 25,600 runtime-H records, and runs the committed static deck validator. R2 changes execution workflow only. If it fails before or during datacheck, close D3D-A1H0 execution as blocked and do not create R3. Full hold, phase release, continuation, D3E, and tolerance changes remain unauthorized.
+- The exact R2 common preflight passed on the cluster login node. Final R2 job `1378005.mmaster02` was then submitted exactly once through the guarded wrapper from revision `b8e9ef636fa2629b34fbbc81babd00d726662a84`; initial state `Q`, job name `d3d_a1h0_dc_r2`, CPU1, 16 GB, `00:45:00`, serial threads, and verified `abe` mail. R2 authorization is consumed (`1/1`). No R3 or automatic retry is authorized.
+- Final R2 job `1378005.mmaster02` ended after `00:00:05` with PBS exit `8`, classification `stage_d3d_a1h0_datacheck_r2_fail`. The exact common preflight passed on the login node, but its compute-node invocation stopped before Abaqus because module purge/load left `git` unavailable for the tracked-file check. No compile, input processing, datacheck, or solver analysis occurred; no pass marker exists. Under the explicit stopping rule, D3D-A1H0 execution is closed blocked and no R3 may be created. The offline D3D-A1 correction remains scientifically passed; mechanical checkpoint response under re-equilibrated history remains unknown. Full hold, phase release, continuation, D3E, and tolerance changes remain prohibited.
+- Stage D3D-A1H0 is closed for thesis interpretation. `docs/thesis/STAGE_D3D_A1_CHECKPOINT_CORRECTION_AND_LIMITATION.tex` records the method, qualified offline result, execution limitation, withheld claims, and future-work boundary; `docs/decisions/STAGE_D3D_A1H0_EXECUTION_CLOSURE.md` records the final decision. No further HPC execution is authorized.
+- Stage E thesis closeout evidence synthesis is complete locally: the dashboard is reconciled; Stage D synthesis, final claim matrix, tolerance-review policy, ABAQUSER external-block closure, recommendations/decision tree, five Stage D figures, two tables, frozen metrics, provenance, evidence manifest, and reproducibility audit are prepared. The assembled closeout TeX entry point builds successfully to 28 pages with bundled Tectonic; local MiKTeX remains incomplete. The historical one-element ODB was removed from Git tracking while retained locally under the repository ignore policy. No Abaqus execution is authorized.
+
+- Gate A3 RF–U validation use is **conditionally accepted** (Decisions **1A**/**2B**). Mesh roles: H0 test, H1 production, H2-PUB fine validation.
+- Stage C **execution authorized** (user message): staged Jobs 1–5 once each; no automatic retries; no formulation/reference/scope changes without supervisor. Authority: `docs/decisions/STAGE_C_EXECUTION_AUTHORIZATION.md`.
+- Fixed remeshing params: errorTarget=0.05, refinementFactor=2.0, min h=0.0025 mm, max h=0.025 mm, 1 pass, no coarsening. Elastic pre-crack `U_pre=0.00464 mm` (=0.8×Upeak_H1).
+- Job 3 implemented: ODB extract (`extract_miseseri_from_odb.py`) + remesh (`build_refined_mesh_from_miseseri.py`).
+- Job 1 smoke deck + Job 2 preanalysis decks generated and statically validated. Submit Job 1 via `scripts/hpc/submit_stage_c_job1_smoke.sh`.
+- Not authorized: automatic retries, parameter sweeps, multicore/GPU, state transfer, online remeshing, formulation/material changes.
 - Stage A / WP2 - Molnar baseline reproduction and paper-matched single-notch scientific comparison.
 - The unchanged smaller Molnar supplementary single-notch deck has a local technical pass and reproducible first extraction. It remains supporting technical reproducibility evidence, not the exact Fig. 7 numerical comparison target. The paper-matched candidate-v2 serial HPC baseline job `1374864.mmaster02` completed with `paper_matched_v2_technical_pass`; postprocessing against the existing scratch ODB produced RF-U, matched-state contours, crack-path diagnostics, SDV bound/irreversibility diagnostics, and a no-solution decision report. The scientific decision classification is `paper_matched_v2_scientific_review_incomplete`, not a final pass, because post-peak RF-U mismatch and unresolved SDV15 interpretation remain.
 - No remeshing result, state-transfer result, or ABAQUSER integration is considered validated yet.
@@ -90,25 +118,15 @@ Known source documents:
 
 Immediate next tasks:
 
-1. Supervisor clarification: pre-analysis load mode (`elastic` vs `partial_fracture`) and confirmation of initial remeshing parameters.
-2. Implement Job 3 CAE remesh export (replace stub `scripts/remeshing/apply_miseseri_remesh_export.py`).
-3. Request explicit submission authorization only after load mode + Job 3 implementation + static gates are green.
-4. Do **not** `qsub` yet. No multicore qualification mixed into first MISESERI campaign.
-5. Continue parallel secondary validation extraction (Pandey–Kumar parameter check; analytical LEFM band optional).
+1. Job 2 facsimile MISESERI route is **closed** (inactive). Replacement Stage **C2** chain authorized: C2A aux continuum MPI → C2B gate+offline remesh → C2C rebuild → C2D H0 threads4 qual → C2E refined integrity threads → C2F refined final threads.
+2. **No MPI for UEL/UMAT.** MPI only for pure continuum C2A. UEL uses `mp_mode=threads` only after C2D passes.
+3. Do not use Job 2 ODB for remeshing. Submit once via `scripts/hpc/stage_c2/submit_c2_chain.sh`. No auto-retries / retuning.
+4. Policy: `docs/decisions/STAGE_C2_AUX_CONTINUUM_CHAIN.md`.
 
-Completed this session (preparation only):
+Unresolved (supervisor only if needed later):
 
-- Full H0/H1 generator; Gate P1 full pass; frozen-H0 scientific equivalence pass.
-- Automatic layered validators pass for H0, H1, and H0 MISESERI-profile decks.
-- Remeshing parameter proposal frozen; five PBS scripts static-validated (no submission).
-
-Unresolved decisions requiring user/supervisor confirmation:
-
-- Whether MISESERI pre-analysis is elastic-only or partial fracture loading (**blocks submission gate**).
-- Confirmation of initial `errorTarget=0.05`, `refinementFactor=2.0`, `minElementSize=0.0025 mm`, `maxElementSize=0.025 mm`.
-- Explicit authorization for the five-job Stage C HPC campaign.
-- Final supervisor-approved absolute paper-curve tolerances if residual Stage A paper-matched claims are finalized.
-- Multicore qualification only after serial workflow is stable (separate later task).
+- Formulation/material changes; replacing H1 production reference; new major study axis; accepting unresolved scientific results; thesis scope/conclusion changes.
+- Multicore qualification only after serial Stage C workflow is stable.
 
 ## HPC access, queues, resources, and operating limits
 
@@ -185,6 +203,71 @@ Queue rules:
 - Do not request a GPU merely because GPU nodes are visible. The current Molnar UEL/UMAT baseline is CPU-oriented, and GPU acceleration has not been validated.
 - Do not request more CPUs, memory, or wall time than justified by a measured smaller run.
 - Queue-level maxima are not automatically per-job or per-user entitlements. Confirm effective limits with `qstat -Qf`, the scheduler response, and site documentation.
+
+### HPC queue-selection policy (mandatory)
+
+Choose the shortest suitable approved route or entry queue from live status and resource
+limits. **Do not hard-code `normal_imfdfkmq` for small smoke, pre-analysis, CAE, or
+integrity jobs.** Queue counts help orient the choice, but the queue with the fewest
+jobs is not necessarily fastest because fair-share priority, reservations, project
+limits, node properties, software-license availability, placement constraints, and jobs
+already scheduled ahead are not captured by `state_count`.
+
+| Job | Resources | Preferred submit queue |
+|---|---:|---|
+| Job 1 smoke | 1 CPU, 8 GB, 1 h | `entry_imfdfkmq` |
+| Job 2 H0 pre-analysis | 1 CPU, 16 GB, 2 h | `entry_imfdfkmq` when eligible |
+| Job 3 CAE remesh | 1 CPU, 16 GB, 1 h | `entry_imfdfkmq` |
+| Job 4 integrity | 1 CPU, 16 GB, 2 h | `entry_imfdfkmq` when eligible |
+| Job 5 full fracture | 1 CPU, 32 GB, 6 h | `normal_imfdfkmq` unless another eligible queue is faster |
+
+Before every submission, run read-only queue inspection:
+
+```powershell
+ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg "qstat -q"
+ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg "for q in shortq testq entry_imfdfkmq normal_imfdfkmq; do echo ========== \$q ==========; qstat -Qf \"\$q\" 2>/dev/null | egrep 'queue_type|enabled|started|state_count|resources_max.walltime|resources_max.mem|resources_max.ncpus|resources_min|acl|route_destinations'; done"
+```
+
+Check `enabled = True`, `started = True`, `queue_type`, maximum walltime, maximum CPUs,
+maximum memory, access restrictions, route destinations, and queued/running counts.
+`entry_imfdfkmq` is a route queue and may land on `short_imfdfkmq` or
+`normal_imfdfkmq` after routing.
+
+Submit once through the Telegram-aware wrapper:
+
+```bash
+scripts/hpc/qsub_with_submitted_notify.sh \
+  --job-name "$JOB_NAME" \
+  --message "Queue: $QUEUE; CPUs: $NCPUS; memory: $MEM; walltime: $WALLTIME" \
+  -- -q "$QUEUE" -M "$MAIL" -m abe "$PBS_SCRIPT"
+```
+
+After submission, inspect a queued job with:
+
+```bash
+qstat -f "$JOB_ID" |
+  egrep 'job_state|queue =|comment|estimated.start_time|qtime|stime|exec_host'
+```
+
+Recommended process:
+
+1. Inspect approved queues before every submission.
+2. Select the shortest suitable routing or entry queue.
+3. Submit once using the Telegram-aware wrapper.
+4. Inspect the scheduler comment if the job stays queued.
+5. Use `qmove` only manually, when the destination is confirmed eligible.
+6. Never cancel and duplicate-submit merely because the queue is slow.
+
+`qmove` is not a standard automatic step. Consider it only when the job is still `Q` or
+possibly `H`, the user has permission to move it, the destination accepts the requested
+resources, the destination is a user-targetable execution queue, and the move does not
+bypass intended routing policy. Do not use `qmove` for running jobs, queues controlled by
+project/admin ACLs, route queues intended to place jobs automatically, destinations with
+different hardware/software/project rules, or dependency chains where a move could change
+scheduling assumptions. A rejected `qmove` usually means the scheduler controls queue
+placement; it does not by itself mean the job is faulty.
+
+Record `stime - qtime` wait for each job after it starts.
 
 Observed node classes:
 
@@ -807,10 +890,12 @@ Maintain:
 - `docs/methods/` for stable procedures.
 - `docs/handoffs/` for current-status summaries.
 - `docs/project/PROJECT_PHASE_CHECKLIST.md` as the single authoritative living task and phase checklist.
+- `docs/project/MISTAKES_AND_FIXES_LOG.md` as the consolidated ledger of mistakes, failures, root causes, fixes, and prevention rules.
 
 Checklist rules:
 
 - Update `docs/project/PROJECT_PHASE_CHECKLIST.md` after every substantial operation.
+- Update `docs/project/MISTAKES_AND_FIXES_LOG.md` after every failed job, failed preflight, mistaken assumption, compatibility issue, reroute, retry, or bounded fix. Each entry must preserve the failed job/stage, classification, symptom/root cause, evidence path, exact correction or next action, and status. Keep scientific limitations separate from implementation mistakes.
 - Every completed item must link to evidence or identify its commit/run.
 - Failed attempts remain recorded.
 - Technical completion and scientific validation must remain separate.
@@ -881,8 +966,9 @@ At the end of each substantial session:
 3. State the current scientific classification.
 4. List unresolved issues and the next smallest falsifiable task.
 5. Update the current thesis handoff block at the top of this file when status changed materially.
-6. Refresh `agent_handoff/` with only the files touched in the final operation.
-7. Do not edit the user-notes block below.
+6. Update `docs/project/MISTAKES_AND_FIXES_LOG.md` if the session included a failed job, failed preflight, compatibility repair, mistaken assumption, changed execution route, or prevention rule.
+7. Refresh `agent_handoff/` with only the files touched in the final operation.
+8. Do not edit the user-notes block below.
 
 ## User notes - do not edit below this line
 
@@ -899,11 +985,3 @@ Start-Service -Name 'eduWGManager$eduVPN'
 Start-Service -Name 'OpenVPNServiceInteractive$eduVPN'
 
 ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg 'cd ~/software/src && rm -rf install-tl-* && wget -O install-tl-unx.tar.gz https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && tar -xzf install-tl-unx.tar.gz && cd "$(find . -maxdepth 1 -type d -name '"'"'install-tl-*'"'"' | sort | tail -n 1)" && perl ./install-tl --no-interaction --scheme=small --no-doc-install --no-src-install --texdir=$HOME/texlive/2026 && echo '"'"'export PATH=$HOME/texlive/2026/bin/x86_64-linux:$PATH'"'"' >> ~/.bashrc && source ~/.bashrc && which pdflatex && pdflatex --version | head -n 2'
-
-## HPC notification policy (2026-07-21)
-
-- Telegram is the **primary** operational channel; PBS email is **secondary** best-effort.
-- Credentials live only under `~/.config/hpc-notify/telegram.env` (not in the repository).
-- Use `scripts/hpc/telegram_setup_credentials.sh` on the login node (hidden token prompt).
-- Smoke test: `scripts/hpc/submit_telegram_smoke.sh` (non-Abaqus).
-- Scientific Stage C classification is independent of notifier delivery.

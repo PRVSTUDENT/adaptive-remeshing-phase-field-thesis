@@ -1,0 +1,54 @@
+{
+  "classification": "stage_p_static_audit_risk_identified",
+  "solver_executed": false,
+  "scope": {
+    "roots": [
+      "models/baseline_original/molnar_gravouil_2017",
+      "models/state_transfer/d2_tiny_transfer/executable",
+      "models/state_transfer/d3_interrupted_transfer"
+    ],
+    "fortran_files_with_matches": 12,
+    "matched_records": 365
+  },
+  "construct_counts": {
+    "BLOCK_DATA": 6,
+    "COMMON": 38,
+    "DATA": 21,
+    "OPEN": 5,
+    "READ": 5,
+    "SAVE": 7,
+    "TRANSFER_DONE": 7,
+    "UEXTERNALDB": 10,
+    "USRVAR": 179,
+    "WRITE": 87
+  },
+  "risk_summary": {
+    "thread_safety_general_established": false,
+    "mpi_state_sharing_established": false,
+    "files_with_risky_constructs": 12,
+    "principal_findings": [
+      "COMMON/SAVE/DATA storage is present in preserved and transfer variants.",
+      "USRVAR is read and written from UEL and UMAT call paths.",
+      "TRANSFER_DONE uses a check-then-write initialization path in D2.",
+      "UEXTERNALDB variants load history into shared COMMON storage and perform file I/O.",
+      "Static source alone cannot prove call ordering, same-thread execution, or same-rank layer ownership."
+    ]
+  },
+  "outputs": {
+    "access_csv": "results/validation/stage_p_static_audit/SHARED_VARIABLE_ACCESS.csv"
+  },
+  "risky_files": [
+    "models/baseline_original/molnar_gravouil_2017/01_One_Element/OneElement.for",
+    "models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/SingleNotch.for",
+    "models/baseline_original/molnar_gravouil_2017/03_Double_Notch_Tension/DoubleNotch.for",
+    "models/baseline_original/molnar_gravouil_2017/04_One_Element_3D/OneElement3D.for",
+    "models/state_transfer/d2_tiny_transfer/executable/d2_tiny_transfer_uel.for",
+    "models/state_transfer/d2_tiny_transfer/executable/d2_transfer_table.inc",
+    "models/state_transfer/d3_interrupted_transfer/executable/d3_transfer_table.inc",
+    "models/state_transfer/d3_interrupted_transfer/executable/d3_transfer_uel.for",
+    "models/state_transfer/d3_interrupted_transfer/executable_d3d_a1_checkpoint_hold_r1/d3_transfer_uel.for",
+    "models/state_transfer/d3_interrupted_transfer/executable_d3d_active_set_segment_r1/d3_transfer_uel.for",
+    "models/state_transfer/d3_interrupted_transfer/executable_r3_compatible/d3_transfer_uel.for",
+    "models/state_transfer/d3_interrupted_transfer/executable_r4_compatible_r2/d3_transfer_uel.for"
+  ]
+}

@@ -1,6 +1,6 @@
 # Project Phase Checklist
 
-Updated: 2026-07-21
+Updated: 2026-07-24
 
 This is the authoritative living task and phase checklist for the adaptive remeshing thesis workspace. Update this same file after every substantial task, run, validation, failure, retry, decision, gate transition, and phase completion. Do not create duplicate phase checklists.
 
@@ -183,7 +183,10 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 - [!] D3A3-R2 full job `1377396.mmaster02` ran exactly once from commit `7a860f50fe557cd88cd3299dd47b1f260071f3fa`. Abaqus compiled, linked, completed input processing, completed Standard analysis, and produced extraction outputs, but strengthened validation failed with PBS `Exit_status=21`. Failures include transfer max errors (`SDV15=0.018013543321948218`, `SDV16=0.01645326664671945`), checkpoint `U2=0.0014999968154910865` instead of `0.003000000026077032`, RF release jump `1.0292182958543674`, d-healing violations `4651`, maximum phase adjustment `0.013784315224591115`, and missing phase-node values for reconstructed energy. Classification: `stage_d3a3_r2_full_validation_fail`; evidence `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r2/`; no `D3A3.ok`; D3D/D3E remain blocked.
 - [x] Test fracture-relevant state transfer for the bounded pre-peak compatibility/release-hold scope. Completed by D3A3-R4 full hold `1377471.mmaster02` with committed canonical `D3A3.ok` under `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/` (`stage_d3a3_r4_compatible_release_pass`; gate `stage_d3a3_state_transfer_gate_closed`). Closure: `docs/decisions/STAGE_D3_STATE_TRANSFER_CLOSURE.md`; `runs/hpc/stage_d3/interrupted_transfer/D3A3_ACCEPTED_CLOSURE.json`.
 - [ ] Test serial repeatability.
-- [ ] Test parallel repeatability where scientifically justified.
+- [~] Stage P0 documentation/version review completed. Current documentation permits parallel user subroutines but requires thread-safe shared-resource handling; exact Abaqus 2022 utility interfaces remain installation/compile-gate verification items. Evidence: `docs/studies/ABAQUS_EXTERNALDB_PARALLELIZATION_REVIEW.md`.
+- [x] Stage P1 static parallel-safety audit completed. Classification `stage_p_static_audit_risk_identified`; 365 matched records in 12 files; existing COMMON/SAVE/DATA shared state and file paths are not generally qualified for threads or MPI. Evidence: `docs/studies/PARALLEL_SHARED_STATE_MAP.md`; `results/validation/stage_p_static_audit/`.
+- [~] Stage P2 minimal instrumented package prepared, not compiled or executed. The isolated D2-derived model has eight physical elements and bounded rank/thread/routine/call diagnostics. Evidence: `models/parallelization/minimal_externaldb_commonblock_test/`.
+- [!] Stage P3 execution blocked pending committed review and explicit authorization. No P3-S, P3-T4, P3-M2, P3-H22, production H1, D3D-A1 reopening, or D3E job is authorized. Evidence: `docs/decisions/STAGE_P_PARALLELIZATION_SCOPE.md`; `runs/hpc/stage_p/README.md`.
 - [!] No online/evolving-remeshing claim until these checks pass. Evidence: `THESIS_PLAN.md`.
 - [!] D3D/D3E blocker: explicit fracture-continuation authorization — not missing `D3A3.ok`.
 
