@@ -245,15 +245,26 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 
 ## Active Next Item
 
-D3D/D3E decision package is prepared (`stage_d3d_d3e_decision_package_prepared`).  
-Choose Route A (stop at D3A3) or Route B (one D3D active-set segment).  
-**No D3D deck/PBS preparation or submission without explicit authorization.**  
-D3E remains blocked until a D3D segment passes.
+D3D bounded continuation: completed by job `1377558.mmaster02`.
+
+D3D scientific result: active-set update required
+(`stage_d3d_active_set_update_required`). The first invalid F4 state is
+`F4_segment_initial` at `U2=0.003000000026077032 mm`; no positive Step-4
+increment is active-set-valid.
+
+D3E: blocked because D3D did not produce
+`stage_d3d_active_set_segment_pass`.
+
+Next item: identify and review the minimum bounded active-set update from the
+30 first-invalid-frame candidates, starting from the accepted D3A5/R4
+checkpoint; no solver submission.
 
 ### Current Stage D Boundary
 
 - [x] D3A3 compatibility-ingestion/release-hold gate closed at R4 (`1377471.mmaster02`; canonical `D3A3.ok`).
-- [!] Do not submit D3D or D3E without explicit fracture-continuation authorization.
+- [x] D3D Route-B full-segment authorization consumed exactly once by job `1377558.mmaster02`; Abaqus and postprocessing completed, free residual passed, irreversibility passed, and the active-multiplier gate required an update. Evidence: `docs/decisions/STAGE_D3D_RESULT_CLOSURE.md`; `runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/`.
+- [x] D3D offline update scope identified: first invalid F4 state `F4_segment_initial`, 30 initial candidates, 3,157-node endpoint union retained only as a maximum envelope, complete phase/H coverage, and no tolerance change. Evidence: `docs/decisions/STAGE_D3D_ACTIVE_SET_UPDATE_SCOPE.md`.
+- [!] New D3D solver submission is not authorized. D3E, a second segment, and peak/post-peak continuation remain blocked.
 - [!] Do not claim peak, post-peak, crack-path, production-mesh, or online-remeshing validation from D3A3 alone.
 - [!] Do not alter the accepted C2C-v3 mesh or rerun C2F-v3 without new authorization.
 

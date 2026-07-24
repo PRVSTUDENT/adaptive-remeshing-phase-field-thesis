@@ -1,0 +1,135 @@
+{
+    "classification":  "stage_d3d_result_evidence_hashes",
+    "job_id":  "1377558.mmaster02",
+    "source_commit":  "2fd409bfcd555d54af333f1c8dac863b67b83360",
+    "generated_utc":  "2026-07-24T03:07:14Z",
+    "files":  {
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3A3_PHASE_NODE_RECOVERY_BY_FRAME.csv":  {
+                                                                                                                               "bytes":  17514108,
+                                                                                                                               "sha256":  "bb8cc16f57509f55552845b5bb290731ab3ddc649222db29be448f777689a41d"
+                                                                                                                           },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3A3_RECONSTRUCTED_ENERGY_BY_FRAME_CORRECTED.json":  {
+                                                                                                                                           "bytes":  14597,
+                                                                                                                                           "sha256":  "97693a730bd6c2ee7d305b8fc883a1ce831bb7e767143ea5e4d7c35588b2eda7"
+                                                                                                                                       },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3A3_RF_U_CORRECTED.csv":  {
+                                                                                                                 "bytes":  2031,
+                                                                                                                 "sha256":  "414fa7585be62f7cd0fc70ec7698c52cc41b94c56bd80264203d676dd4b445cc"
+                                                                                                             },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3A3_STATE_BY_FRAME.csv":  {
+                                                                                                                 "bytes":  82275069,
+                                                                                                                 "sha256":  "9d220b55fa5d5f578dc80e0ff69665509eae81b575f5ad80f5433e341a17df61"
+                                                                                                             },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_ACTIVE_MULTIPLIER_CANDIDATES.csv":  {
+                                                                                                                              "bytes":  2010728,
+                                                                                                                              "sha256":  "72ba182683906992413300306cf19b70e0c3167c7ef3ba7cdfb21af413be56c4"
+                                                                                                                          },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_ACTIVE_SET_UPDATE_CANDIDATES_BY_FRAME.csv":  {
+                                                                                                                                       "bytes":  2710822,
+                                                                                                                                       "sha256":  "9578212e2a4c7e5ff626119afab46673a0d35960f86afe3bb50d4b5ad06218b8"
+                                                                                                                                   },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_ACTIVE_SET_UPDATE_REQUIRED.json":  {
+                                                                                                                             "bytes":  4283727,
+                                                                                                                             "sha256":  "eafa036a1cb416557bec5d3b9af9bce03ff1db5227f689ebbb9490d67cb40f5d"
+                                                                                                                         },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_ACTIVE_SET_UPDATE_SCOPE.json":  {
+                                                                                                                          "bytes":  580084,
+                                                                                                                          "sha256":  "2661752fab1a4eef37602770d6457cf4fc6020e33f64c66fb001e2e958d4fb9f"
+                                                                                                                      },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_COMPILER_ENVIRONMENT.txt":  {
+                                                                                                                      "bytes":  2394,
+                                                                                                                      "sha256":  "bfcec72f8efbf1a1212aae33487c7c5138c9dae94438abb5ec6cfc29c6f87285"
+                                                                                                                  },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_DATACHECK.ok":  {
+                                                                                                          "bytes":  25,
+                                                                                                          "sha256":  "23b2b4212d200d27061763765db9be8f8c1777dbfc00315922cd288bfda34fa4"
+                                                                                                      },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_EXTRACTION_STATUS.json":  {
+                                                                                                                    "bytes":  259,
+                                                                                                                    "sha256":  "a37505309b904df0a8299aff5d408ae0c07bdb4ec6bfba668e8163dc0bcd6e9b"
+                                                                                                                },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_FRAME_MANIFEST.csv":  {
+                                                                                                                "bytes":  2768,
+                                                                                                                "sha256":  "208314da06210473113fded5c3d02f39ae9235773b89586969dc12af3021d120"
+                                                                                                            },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_FRAME_MANIFEST.json":  {
+                                                                                                                 "bytes":  7603,
+                                                                                                                 "sha256":  "5549ece23ee70c02a49cec188cd0c34e259c057e32c366207cc60087a3d5697e"
+                                                                                                             },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_IRREVERSIBILITY_AUDIT.json":  {
+                                                                                                                        "bytes":  684,
+                                                                                                                        "sha256":  "af476f790ed7bc44c73fe5da62f66129ad3e9a6548c5ce26ebb92cc549e0838f"
+                                                                                                                    },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_IRREVERSIBILITY_BY_FRAME_PAIR.csv":  {
+                                                                                                                               "bytes":  1369,
+                                                                                                                               "sha256":  "d2d9293561b93f8fb0407d15dcaa34c9fb667d19aa0075997156ca83b4d4ed5e"
+                                                                                                                           },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_JOB_RECORD.txt":  {
+                                                                                                            "bytes":  656,
+                                                                                                            "sha256":  "1f78d58f3d545b4d74b5b0e69fdab7db07428dc52ce2c76ae37c56efe8fa44d2"
+                                                                                                        },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_ODB_LOCATION.json":  {
+                                                                                                               "bytes":  311,
+                                                                                                               "sha256":  "8eee4fa6702c2eb180c975f8bf12628225cbd8c91602fc829d2aaaca5f74b044"
+                                                                                                           },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_ODB_SHA256.txt":  {
+                                                                                                            "bytes":  168,
+                                                                                                            "sha256":  "3fa18f717d084cf805720f5e1ceaffff08102a03301a5cfe3325e2587d5bab23"
+                                                                                                        },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_ODB_STAT.txt":  {
+                                                                                                          "bytes":  173,
+                                                                                                          "sha256":  "fd7e2ec99aa2a67cdba70091e5a95107fdbf0deee563a4f22dc348e9b7697835"
+                                                                                                      },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_PER_FRAME_KKT.csv":  {
+                                                                                                               "bytes":  2023,
+                                                                                                               "sha256":  "9c3705b8cebad44900fd187dbf8a82f049eb57d536e145b4904fa21f6b1c9d08"
+                                                                                                           },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_PER_FRAME_KKT_SUMMARY.json":  {
+                                                                                                                        "bytes":  978,
+                                                                                                                        "sha256":  "0a9d8de593827f2bb6be8e8804775854d5eb0d4db727c96f791d2e603f668aef"
+                                                                                                                    },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_PHASE_NODE_STATE_BY_FRAME.csv":  {
+                                                                                                                           "bytes":  17514108,
+                                                                                                                           "sha256":  "bb8cc16f57509f55552845b5bb290731ab3ddc649222db29be448f777689a41d"
+                                                                                                                       },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_R4_PREFIX_COMPARISON.json":  {
+                                                                                                                       "bytes":  512,
+                                                                                                                       "sha256":  "7c8ba03b053bc51d89a9600e72747f09cdb0bd601337e633466a4297c1c56a24"
+                                                                                                                   },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_RECONSTRUCTED_ENERGY_BY_FRAME.json":  {
+                                                                                                                                "bytes":  14597,
+                                                                                                                                "sha256":  "97693a730bd6c2ee7d305b8fc883a1ce831bb7e767143ea5e4d7c35588b2eda7"
+                                                                                                                            },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_REPORT.md":  {
+                                                                                                       "bytes":  924,
+                                                                                                       "sha256":  "6c715d713b9a927e9459372501bb065f44619a7f87a6e968d099b0b943c78aff"
+                                                                                                   },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_RESULT_CLOSURE.json":  {
+                                                                                                                 "bytes":  783,
+                                                                                                                 "sha256":  "c32d68b4185d8971fa62be7f8f3b10e5ccaa8d61727ca8883e98fd02bf94ec44"
+                                                                                                             },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_RUNTIME_STATE_VALIDATION.json":  {
+                                                                                                                           "bytes":  507,
+                                                                                                                           "sha256":  "66a747263e646bc2b152cc23102caee5861e93d953de4b56a7bdf6ef7c328adf"
+                                                                                                                       },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_STATE_BY_FRAME.csv":  {
+                                                                                                                "bytes":  82275069,
+                                                                                                                "sha256":  "9d220b55fa5d5f578dc80e0ff69665509eae81b575f5ad80f5433e341a17df61"
+                                                                                                            },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_STATUS.json":  {
+                                                                                                         "bytes":  2766,
+                                                                                                         "sha256":  "5bfa2116a8220165bb16d28a5f974ff1f3c92c15b25d10d72ef89b3597616131"
+                                                                                                     },
+                  "runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/D3D_TOP_RF_U.csv":  {
+                                                                                                          "bytes":  2031,
+                                                                                                          "sha256":  "414fa7585be62f7cd0fc70ec7698c52cc41b94c56bd80264203d676dd4b445cc"
+                                                                                                      }
+              },
+    "scratch_odb":  {
+                        "path":  "/scratch/pr21vyci/adaptive-remeshing/runs/d3d_active_seg_1377558.mmaster02/D3D_active_set_segment.odb",
+                        "bytes":  146352596,
+                        "modified":  "2026-07-23 16:50:51.416429368 +0200",
+                        "sha256":  "3146966ebde02986bebb4a39a4dd6854f841518618f40d70f84ecd3579c4f8c2",
+                        "repository_copy_created":  false
+                    }
+}

@@ -1,0 +1,27 @@
+{
+  "active_bound_tol": 1e-10,
+  "active_multiplier_tol": -1e-08,
+  "active_nodes_below_tolerance": 17211,
+  "analysis_complete": true,
+  "candidate_rows": 17211,
+  "classification": "stage_d3d_per_frame_kkt_analysis_complete",
+  "continuation_frames_evaluated": 11,
+  "continuation_frames_expected": 11,
+  "continuation_frames_kkt_ok": 0,
+  "failures": [],
+  "first_continuation_frame_with_negative_multiplier": "F4_segment_initial",
+  "first_frame_with_negative_active_multiplier": "F4_segment_initial",
+  "frames_evaluated": 12,
+  "frames_kkt_ok": 0,
+  "free_residual_tol": 1e-08,
+  "ignored_prefix_tags": [
+    "F0_ingested",
+    "F1_equilibrated",
+    "F2_release_first"
+  ],
+  "maximum_active_bound_error": 1.3877787807814457e-17,
+  "maximum_free_residual": 3.60713084251115e-12,
+  "most_negative_active_multiplier": -1.8326844734391126e-07,
+  "most_negative_active_multiplier_frame": "F4_segment_end",
+  "most_negative_continuation_multiplier": -1.8326844734391126e-07
+}

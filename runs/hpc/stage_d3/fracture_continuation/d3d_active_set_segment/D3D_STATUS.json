@@ -1,0 +1,55 @@
+{
+  "D3D_ok": false,
+  "H_decrease_violations": 0,
+  "accepted_continuation_increments": 10,
+  "below_lower_bound_violations": 0,
+  "classification": "stage_d3d_active_set_update_required",
+  "failures": [
+    "F4_segment_initial minimum active multiplier = -7.758084222140432e-08",
+    "F4_segment_inc_001 minimum active multiplier = -7.758115581282239e-08",
+    "F4_segment_inc_002 minimum active multiplier = -8.692616583631587e-08",
+    "F4_segment_inc_003 minimum active multiplier = -9.683045817170588e-08",
+    "F4_segment_inc_004 minimum active multiplier = -1.072570343275791e-07",
+    "F4_segment_inc_005 minimum active multiplier = -1.1786164173074067e-07",
+    "F4_segment_inc_006 minimum active multiplier = -1.2860305333607142e-07",
+    "F4_segment_inc_007 minimum active multiplier = -1.3943126995681987e-07",
+    "F4_segment_inc_008 minimum active multiplier = -1.5351793354959651e-07",
+    "F4_segment_inc_009 minimum active multiplier = -1.683533419667727e-07",
+    "F4_segment_end minimum active multiplier = -1.8326844734391126e-07"
+  ],
+  "first_frame_with_negative_active_multiplier": "F4_segment_initial",
+  "frames_with_active_multiplier_below_tol": 11,
+  "free_residual_failure_frames": 0,
+  "kkt_summary": {
+    "analysis_complete": true,
+    "continuation_frames_evaluated": 11,
+    "continuation_frames_kkt_ok": 0,
+    "first_continuation_frame_with_negative_multiplier": "F4_segment_initial",
+    "maximum_active_bound_error": 1.3877787807814457e-17,
+    "maximum_free_residual": 3.60713084251115e-12,
+    "most_negative_continuation_multiplier": -1.8326844734391126e-07
+  },
+  "most_negative_active_multiplier": -1.8326844734391126e-07,
+  "phase_decrease_violations": 0,
+  "prefix": {
+    "D3D_r4_prefix_ok": true,
+    "failures": []
+  },
+  "scientific_failures": [
+    "F4_segment_initial minimum active multiplier = -7.758084222140432e-08",
+    "F4_segment_inc_001 minimum active multiplier = -7.758115581282239e-08",
+    "F4_segment_inc_002 minimum active multiplier = -8.692616583631587e-08",
+    "F4_segment_inc_003 minimum active multiplier = -9.683045817170588e-08",
+    "F4_segment_inc_004 minimum active multiplier = -1.072570343275791e-07",
+    "F4_segment_inc_005 minimum active multiplier = -1.1786164173074067e-07",
+    "F4_segment_inc_006 minimum active multiplier = -1.2860305333607142e-07",
+    "F4_segment_inc_007 minimum active multiplier = -1.3943126995681987e-07",
+    "F4_segment_inc_008 minimum active multiplier = -1.5351793354959651e-07",
+    "F4_segment_inc_009 minimum active multiplier = -1.683533419667727e-07",
+    "F4_segment_end minimum active multiplier = -1.8326844734391126e-07"
+  ],
+  "spatial_variation_retained": true,
+  "state_reset": false,
+  "step4_frame_count": 11,
+  "technical_failures": []
+}
