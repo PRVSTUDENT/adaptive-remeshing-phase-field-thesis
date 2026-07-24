@@ -1,0 +1,17 @@
+validator=scripts/validation/validate_p3sb_baseline_serial.py
+validator_modified=false
+replay_directory=results/validation/stage_p/p3sb_finalized_evidence_audit/replay
+solver_exit_argument=0
+job_id_argument=1378094.mmaster02
+unchanged_validator_exit=0
+unchanged_validator_classification=stage_p3sb_baseline_serial_pass
+offline_audit_classification=stage_p3sb_finalized_evidence_offline_pass
+expected_visualization_elements=8
+expected_integration_points_per_element=4
+expected_state_records=32
+observed_state_records=32
+increment_records=13
+failures=0
+original_status_modified=false
+original_completion_marker_created=false
+job_rerun=false

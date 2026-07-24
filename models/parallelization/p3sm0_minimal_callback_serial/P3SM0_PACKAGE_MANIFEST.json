@@ -1,0 +1,32 @@
+{
+  "classification": "stage_p3sm0_minimal_callback_serial_package_prepared",
+  "base_source_sha256": "473f80e8f0f1cba6aa7a7f0c3a49aaa949bac43e03548096d9d6f0c9a6f80306",
+  "deck": {
+    "path": "P3SM0_serial.inp",
+    "sha256": "bd8c487e94636ccf1833a65aa8db40aaecad8baeeda21e4bfe9d3ec29f4922ae",
+    "byte_identical_to_p3sb": true
+  },
+  "source": {
+    "path": "p3sm0_minimal_callback.for",
+    "sha256": "0091a4dc3b39829542f718d722bb2129f1bac7491e1f03b4e38ef12394e852d4",
+    "scientific_uel_umat_changes": false,
+    "callback_hooks_only": true
+  },
+  "transfer_table": {
+    "path": "d2_transfer_table.inc",
+    "sha256": "d1ccd478d635272215f7e9b1649bfcca3842fd5aa331d1bd3124a85395fc65f2",
+    "byte_identical_to_p3sb": true
+  },
+  "markers": [
+    "P3SM0_UEXTERNALDB_LOP0",
+    "P3SM0_UEL_OBSERVED",
+    "P3SM0_UMAT_OBSERVED",
+    "P3SM0_UEXTERNALDB_END"
+  ],
+  "rank_thread_utilities_present": false,
+  "mutex_utilities_present": false,
+  "diagnostic_shared_state_present": false,
+  "execution_authorized": false,
+  "solver_executed": false,
+  "hpc_submitted": false
+}

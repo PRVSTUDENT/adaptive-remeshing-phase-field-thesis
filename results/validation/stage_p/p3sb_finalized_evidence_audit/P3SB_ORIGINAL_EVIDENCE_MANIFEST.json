@@ -1,0 +1,33 @@
+{
+  "classification": "stage_p3sb_original_evidence_frozen",
+  "job_id": "1378094.mmaster02",
+  "submitted_revision": "c1436448e0db91345400a91b34e858b777023de7",
+  "original_classification": "stage_p3sb_baseline_serial_fail_validation",
+  "original_P3SB_ok": false,
+  "original_status_sha256": "54d15323295cf712f50a26e5194b28a61826a3803374c4342b61ca8c546653de",
+  "original_completion_marker_present": false,
+  "solver_exit": 0,
+  "scratch_odb": {
+    "path": "/scratch/pr21vyci/adaptive-remeshing/runs/p3sb_baseline_1378094.mmaster02/p3sb_baseline.odb",
+    "size": 673348,
+    "sha256": "56ac633c178ff4e8207e879f3fc2c090834ca53b287aeae21f7c025bbf8677ef",
+    "mtime": "2026-07-24T14:26:14.955947133+02:00",
+    "tracked": false
+  },
+  "files": [
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/P3SB_STATUS.json", "bytes": 1082, "sha256": "54d15323295cf712f50a26e5194b28a61826a3803374c4342b61ca8c546653de", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/P3SB_RESULTS_SUMMARY.md", "bytes": 1835, "sha256": "919ccd4da1c3e48dbfe24cc14984c87b05758dc700fd66717236613340b3e058", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/P3SB_STATE_OUTPUT.csv", "bytes": 14426, "sha256": "906950b51d0c329c626a24b4ada87851d21e4f1697ec2d017d955cdf30970189", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/P3SB_RF_U.csv", "bytes": 719, "sha256": "50498224490d0a11dbe25b7e0f324ea9670699ba0712d8d8c430eadbc042302d", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/P3SB_ENERGY.csv", "bytes": 685, "sha256": "a7ed4ea75bd85a3b491d194c27b76d3d3662f2cbb82c6fc4e013806f7175c21b", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/P3SB_JOB_RECORD.txt", "bytes": 620, "sha256": "912ee136018959ab2e5530826694da7e85f228e57a0b4eb856c5c5deddb47481", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/P3SB_ENVIRONMENT.txt", "bytes": 481, "sha256": "51e4632446ac34eda2d8ba2c0aa6ece1452af8c3dba779da1e43cea3cce7766f", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/P3SB_COMMAND.txt", "bytes": 133, "sha256": "07c66b1b808536c69862c0ef65839200de1aeb6a34ba7eede63fd607ce0894d7", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/P3SB_LOGIN_MANIFEST.json", "bytes": 420, "sha256": "ca1585b9302993933801c66e3c5f57d7158c706cffba3641d12efc5478f365e7", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/p3sb_baseline.abaqus_stdout.log", "bytes": 2486, "sha256": "2dfd00549c21ff2e60c734de6b78a464de27141215e48ca792d084175631a6eb", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/p3sb_baseline.sta", "bytes": 1239, "sha256": "d59e5ca42b02de8de93e46c68be4a2eb81ad218ce10cb2e531c83fed7c370a54", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/p3sb_baseline.msg", "bytes": 74579, "sha256": "706042cc92fed0fee82823ae14b9b1b4c15d4869cb4d388e0626e104f7bd1c74", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/p3sb_baseline.dat", "bytes": 20216, "sha256": "30937dfb99ded436f7a5a07b451ea0048a1a64a6c726c93cebdb83e3a5186c3d", "present": true},
+    {"path": "runs/hpc/stage_p/p3sb_baseline_serial/p3sb_baseline.log", "bytes": null, "sha256": null, "present": false, "optional": true}
+  ]
+}
