@@ -10,8 +10,11 @@ from pathlib import Path
 
 FIELDS = [
     "event",
+    "shared_array",
     "variable_id",
+    "operation",
     "operation_id",
+    "routine",
     "routine_id",
     "shared_index",
     "element",
@@ -21,6 +24,7 @@ FIELDS = [
     "step",
     "increment",
     "initialization",
+    "conflict_flag",
     "detail",
 ]
 
@@ -81,8 +85,11 @@ def parse(path: Path) -> tuple[list[dict[str, object]], dict[str, object]]:
                 rows.append(
                     {
                         "event": "shared_access",
+                        "shared_array": {1: "USRVAR_PHASE", 2: "USRVAR_HISTORY", 3: "USRVAR_INIT", 4: "TRANSFER_DONE"}.get(var_id, "UNKNOWN"),
                         "variable_id": var_id,
+                        "operation": {1: "read", 2: "write"}.get(op_id, "unknown"),
                         "operation_id": op_id,
+                        "routine": {1: "UEL", 2: "UMAT"}.get(routine_id, "UNKNOWN"),
                         "routine_id": routine_id,
                         "shared_index": index,
                         "element": element,
@@ -92,12 +99,17 @@ def parse(path: Path) -> tuple[list[dict[str, object]], dict[str, object]]:
                         "step": step,
                         "increment": increment,
                         "initialization": init,
+                        "conflict_flag": 0,
                         "detail": text,
                     }
                 )
+        elif "P3_DUPLICATE_INIT" in text:
+            rows.append({"event": "duplicate_initialization", "conflict_flag": 1, "detail": text})
+        elif "P3_OWNERSHIP_CHANGE" in text:
+            rows.append({"event": "ownership_change", "conflict_flag": 0, "detail": text})
         elif "P3_CONFLICT" in text:
             conflicts += 1
-            rows.append({"event": "conflict", "detail": text})
+            rows.append({"event": "conflict", "conflict_flag": 1, "detail": text})
         elif "P2_FINAL" in text:
             values = integer_tokens(text.split())
             if len(values) >= 4:
@@ -124,6 +136,10 @@ def parse(path: Path) -> tuple[list[dict[str, object]], dict[str, object]]:
             for row in rows
         ),
         "conflicting_shared_writes": conflicts,
+        "duplicate_initialization_events": sum(
+            row.get("event") == "duplicate_initialization" for row in rows
+        ),
+        "ownership_change_events": sum(row.get("event") == "ownership_change" for row in rows),
         "final_call_counts": final_counts,
     }
     return rows, summary

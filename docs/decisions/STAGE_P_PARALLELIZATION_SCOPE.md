@@ -29,7 +29,10 @@ Blocked pending a committed review and new explicit execution authorization:
 Update 2026-07-24: P0--P2 was selectively frozen and pushed as commit
 `9369dfcb05d63cdbdec0b0e910423c9a6cc7bd1c`. A guarded P3-S lane has been
 prepared but not submitted. Its wrapper requires a separate one-shot
-authorization record and explicitly requires P3-T4 to remain unauthorized.
+authorization record at
+`runs/hpc/stage_p/p3s_serial_diagnostic/P3S_AUTHORIZATION.json`; the committed
+record is fail-closed and explicitly leaves P3-T4, MPI and hybrid
+unauthorized.
 
 Any future P3 authorization is one submission per named configuration, with
 no automatic retry. MPI and hybrid branches require separate authorization

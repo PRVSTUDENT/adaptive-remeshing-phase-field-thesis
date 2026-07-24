@@ -100,6 +100,9 @@ def main() -> int:
         root / "scripts/postprocessing/extract_p3s_diagnostic_state.py",
         root / "scripts/postprocessing/parse_p3_diagnostic_log.py",
         root / "scripts/validation/validate_p3s_serial_diagnostic.py",
+        root / "scripts/validation/validate_p3s_submission_preflight.py",
+        root / "runs/hpc/stage_p/p3s_serial_diagnostic/P3S_AUTHORIZATION.json",
+        root / "runs/hpc/stage_p/p3s_serial_diagnostic/README.md",
     ]
     missing = [path.relative_to(root).as_posix() for path in required_package if not path.is_file()]
     source_text = (package / "p2_instrumented_commonblock.for").read_text(
@@ -111,9 +114,13 @@ def main() -> int:
     wrapper_text = (root / "scripts/hpc/stage_p/submit_p3s_serial_diagnostic.sh").read_text(
         encoding="utf-8", errors="replace"
     ) if not missing else ""
+    validator_text = (root / "scripts/validation/validate_p3s_serial_diagnostic.py").read_text(
+        encoding="utf-8", errors="replace"
+    ) if not missing else ""
     required_tokens = [
         "GETRANK()", "GETTHREADID()", "P3_ACCESS", "P3_CONFLICT",
-        "P3_FINAL_CONFLICTS", "MUTEXLOCK(91)", "MUTEXUNLOCK(91)",
+        "P3_FINAL_CONFLICTS", "P3_DUPLICATE_INIT", "P3_OWNERSHIP_CHANGE",
+        "MUTEXLOCK(91)", "MUTEXUNLOCK(91)",
     ]
     missing_tokens = [token for token in required_tokens if token not in source_text]
     package_failures = []
@@ -123,10 +130,26 @@ def main() -> int:
         package_failures.append("missing diagnostic source tokens")
     if "cpus=1 mp_mode=threads" not in pbs_text or "OMP_NUM_THREADS=1" not in pbs_text:
         package_failures.append("serial execution configuration not frozen")
-    if "P3S_EXECUTION_AUTHORIZATION.json" not in wrapper_text:
+    if "P3S_AUTHORIZATION.json" not in wrapper_text:
         package_failures.append("submission authorization guard absent")
-    if "p3t4_authorized" not in wrapper_text:
+    authorization_text = (
+        root / "runs/hpc/stage_p/p3s_serial_diagnostic/P3S_AUTHORIZATION.json"
+    ).read_text(encoding="utf-8", errors="replace") if not missing else ""
+    if '"p3t4_authorized": false' not in authorization_text:
         package_failures.append("P3-T4 denial guard absent")
+    if '"mpi_authorized": false' not in authorization_text or '"hybrid_authorized": false' not in authorization_text:
+        package_failures.append("MPI/hybrid denial guard absent")
+    if '"p3s_submission_authorized": false' not in authorization_text:
+        package_failures.append("P3-S preparation is not fail-closed")
+    if "git " in pbs_text:
+        package_failures.append("compute-node PBS contains a Git dependency")
+    if any(token in pbs_text for token in ("*.odb", "*.sim", "*.lck")):
+        package_failures.append("compute-node PBS contains a forbidden database wildcard")
+    for token in ("trap finalize EXIT", "pbs_notify.sh"):
+        if token not in pbs_text:
+            package_failures.append("missing failure-safe PBS token: " + token)
+    if "P3S_INCREMENT_SEQUENCE.json" not in validator_text:
+        package_failures.append("increment-sequence evidence generation absent")
     if "python/gcc/11.4.0/3.11.7" not in pbs_text or "python/gcc/11.4.0/3.11.7" not in wrapper_text:
         package_failures.append("qualified Python 3.11.7 module not bound")
     result["p3s_preparation"] = {
