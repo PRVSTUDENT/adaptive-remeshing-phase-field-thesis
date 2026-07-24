@@ -1,0 +1,21 @@
+{
+  "classification": "stage_d3d_a1h0_datacheck_r1_authorized",
+  "predecessor_job": "1378003.mmaster02",
+  "predecessor_classification": "stage_d3d_a1h0_datacheck_fail",
+  "predecessor_authorization_consumed": true,
+  "predecessor_abaqus_launched": false,
+  "retry_reason": "platform_line_ending_checksum_false_mismatch",
+  "scientific_inputs_changed": false,
+  "deck_changed": false,
+  "fortran_content_changed": false,
+  "runtime_history_changed": false,
+  "tolerances_changed": false,
+  "datacheck_r1_authorized": true,
+  "maximum_r1_submissions": 1,
+  "r1_submissions_used": 0,
+  "full_hold_authorized": false,
+  "phase_release_authorized": false,
+  "continuation_authorized": false,
+  "d3e_authorized": false,
+  "automatic_retry_authorized": false
+}

@@ -2,7 +2,7 @@
 set -euo pipefail
 cd "${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
 AUTH="runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_hold_decision/D3D_A1H0_AUTHORIZATION.json"
-DC_OK="runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_hold_datacheck/D3D_A1H0_DATACHECK.ok"
+DC_OK="runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_hold_datacheck_r1/D3D_A1H0_R1_DATACHECK.ok"
 git ls-files --error-unmatch "${DC_OK}" >/dev/null 2>&1 || { echo "BLOCKED: committed passing datacheck marker required" >&2; exit 3; }
 grep -q stage_d3d_a1h0_datacheck_pass "${DC_OK}" || { echo "BLOCKED: datacheck marker invalid" >&2; exit 3; }
 python3 - "${AUTH}" <<'PY'

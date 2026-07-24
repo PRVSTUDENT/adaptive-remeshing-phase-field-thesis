@@ -59,12 +59,14 @@ def test_static():
     for script in [
         ROOT / "scripts/hpc/stage_d3/16_d3d_a1h0_checkpoint_datacheck.pbs",
         ROOT / "scripts/hpc/stage_d3/17_d3d_a1h0_checkpoint_hold.pbs",
+        ROOT / "scripts/hpc/stage_d3/18_d3d_a1h0_checkpoint_datacheck_r1.pbs",
     ]:
         text = script.read_text(encoding="utf-8")
         assert "cp D3D_A1H0_*" not in text
         assert ".odb" not in "\n".join(line for line in text.splitlines() if line.strip().startswith("for name in"))
     full_submitter = (ROOT / "scripts/hpc/stage_d3/submit_d3d_a1h0_checkpoint_hold.sh").read_text(encoding="utf-8")
     assert "committed passing datacheck marker required" in full_submitter
+    assert "d3d_a1_checkpoint_hold_datacheck_r1/D3D_A1H0_R1_DATACHECK.ok" in full_submitter
     assert '"solver_submission_authorized":True' in full_submitter
     dc_submitter = (ROOT / "scripts/hpc/stage_d3/submit_d3d_a1h0_checkpoint_datacheck.sh").read_text(encoding="utf-8")
     assert "malformed authorization JSON" in dc_submitter
@@ -72,6 +74,22 @@ def test_static():
     dc_pbs = (ROOT / "scripts/hpc/stage_d3/16_d3d_a1h0_checkpoint_datacheck.pbs").read_text(encoding="utf-8")
     for token in ["ANALYSIS DATACHECK COMPLETE", "D3D_A1H0_DATACHECK.dat", "runtime H SHA mismatch", '"records": 25600', "copy_evidence"]:
         assert token in dc_pbs
+    r1_submitter = (ROOT / "scripts/hpc/stage_d3/submit_d3d_a1h0_checkpoint_datacheck_r1.sh").read_text(encoding="utf-8")
+    for token in [
+        "malformed R1 authorization JSON", '"maximum_r1_submissions":1',
+        '"r1_submissions_used":0', "cmp -s", "D3D_A1H0_FORTRAN_SHA",
+        "D3D_A1H0_RUNTIME_H_SHA", "d3d_a1h0_dc_r1",
+    ]:
+        assert token in r1_submitter
+    r1_pbs = (ROOT / "scripts/hpc/stage_d3/18_d3d_a1h0_checkpoint_datacheck_r1.pbs").read_text(encoding="utf-8")
+    for token in [
+        "d3d_a1_checkpoint_hold_datacheck_r1", "checkout-local Fortran SHA missing",
+        "Fortran SHA mismatch", "runtime H SHA mismatch", '"records": 25600',
+        "D3D_A1H0_R1_CHECKSUM_AUDIT.json", "synchronized_linux_checkout",
+        "stage_d3d_a1h0_datacheck_r1_pass", "stage_d3d_a1h0_datacheck_r1_fail",
+    ]:
+        assert token in r1_pbs
+    assert "d3d_a1_checkpoint_hold_datacheck/" not in r1_pbs
     kkt_source = (ROOT / "scripts/validation/analyze_d3d_a1h0_actual_history_kkt.py").read_text(encoding="utf-8")
     for token in ["active_free_counts", "history_coverage_or_duplicates", "nonfinite_phase_history_or_residual"]:
         assert token in kkt_source
