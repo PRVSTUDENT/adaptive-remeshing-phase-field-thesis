@@ -1,0 +1,200 @@
+﻿                   from Dassault Systemes or its subsidiary and may be
+                   used or reproduced only in accordance with the terms
+                   of such license.
+ 
+                          On machine mnode098.cluster 
+                          you are authorized to run
+                          Abaqus/Standard until 30-Nov-2026
+
+                          Your site id is: 200000000053187 
+
+
+ 
+                    For assistance or any other information you may
+                    obtain contact information for your local office
+                    from the world wide web at:
+
+                      http://www.3ds.com/products/simulia/locations/
+
+ 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+                *                                                         * 
+                *                   *****************                     * 
+                *                   *  N O T I C E  *                     * 
+                *                   *****************                     * 
+                *                                                         * 
+                *                                                         * 
+                *                       Abaqus 2023                       * 
+                *                                                         * 
+                *          BUILD ID: 2022_09_28-20.11.55 183150           * 
+                *                                                         * 
+                *                                                         * 
+                *  Please make sure you are using                         * 
+                *  release Abaqus 2023 manuals                            * 
+                *  plus the notes accompanying this release.              * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                *   This program may not be used for commercial purposes  * 
+                *           without payment of a commercial fee.          * 
+                *                                                         * 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+
+ 
+
+
+
+     PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   *******************************************************
+
+
+     END PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   ***********************************************************
+
+
+
+
+     OPTIONS BEING PROCESSED
+   ***************************
+
+
+  *User Element, nodes=4, type=U1, properties=3, coordinates=2, VARIABLES=2
+  *User Element, nodes=4, type=U2, properties=4, coordinates=2, VARIABLES=2
+  *Heading
+  *Node
+  *Element, type=U1, elset=PLATE
+  *Elset, elset=PLATE, generate
+  *Element, type=U2, elset=PLATE_SS
+  *Elset, elset=PLATE_SS, generate
+  *Element, type=CPS4, elset=umatelem
+  *Elset, elset=umatelem, generate
+  *Material, name=umatelem
+  *Depvar
+  *User Material, constants=2
+  *Solid Section, elset=umatelem, material=umatelem
+  *User Element, nodes=4, type=U1, properties=3, coordinates=2, VARIABLES=2
+  *User Element, nodes=4, type=U2, properties=4, coordinates=2, VARIABLES=2
+  *Solid Section, elset=umatelem, material=umatelem
+  *Boundary
+  *Boundary, op=NEW
+  *Boundary, op=NEW
+  *Boundary
+  *Uel Property, elset=PLATE
+  *Uel Property, elset=PLATE_SS
+  *Output, field, frequency=1
+  *Output, history, frequency=1
+  *Output, field, frequency=1
+  *Output, history, frequency=1
+  *Output, field, frequency=1
+  *Output, history, frequency=1
+  *Element Output, elset=umatelem
+  *Element Output, elset=umatelem
+  *Element Output, elset=umatelem
+  *Output, field, frequency=1
+  *Output, history, frequency=1
+  *Output, field, frequency=1
+  *Output, history, frequency=1
+  *Output, field, frequency=1
+  *Output, history, frequency=1
+  *Element Output, elset=umatelem
+  *Element Output, elset=umatelem
+  *Element Output, elset=umatelem
+  *Output, field, frequency=1
+  *Output, history, frequency=1
+  *Output, field, frequency=1
+  *Output, history, frequency=1
+  *Output, field, frequency=1
+  *Output, history, frequency=1
+  *Element Output, elset=umatelem
+  *Element Output, elset=umatelem
+  *Element Output, elset=umatelem
+  *Step, name=D2A_INIT, nlgeom=NO, inc=1
+  *Output, field, frequency=1
+  *Output, history, frequency=1
+  *Step, name=D2B_RELEASE_HOLD, nlgeom=NO, inc=50
+  *Output, field, frequency=1
+  *Output, history, frequency=1
+  *Step, name=D2B_TINY_CONTINUATION, nlgeom=NO, inc=50
+  *Output, field, frequency=1
+  *Output, history, frequency=1
+  *Step, name=D2A_INIT, nlgeom=NO, inc=1
+  *Step, name=D2B_RELEASE_HOLD, nlgeom=NO, inc=50
+  *Step, name=D2B_TINY_CONTINUATION, nlgeom=NO, inc=50
+  *Step, name=D2A_INIT, nlgeom=NO, inc=1
+  *Static
+  *Boundary
+  *Output, field, frequency=1
+  *Node Output
+  *Element Output, elset=umatelem
+  *Output, history, frequency=1
+  *Energy Output, variable=ALL
+  *End Step
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+  *Step, name=D2B_RELEASE_HOLD, nlgeom=NO, inc=50
+  *Static
+  *Boundary, op=NEW
+  *Output, field, frequency=1
+  *Node Output
+  *Element Output, elset=umatelem
+  *Output, history, frequency=1
+  *Energy Output, variable=ALL
+  *End Step
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+  *Step, name=D2B_TINY_CONTINUATION, nlgeom=NO, inc=50
+  *Static
+  *Boundary, op=NEW
+  *Output, field, frequency=1
+  *Node Output
+  *Element Output, elset=umatelem
+  *Output, history, frequency=1
+  *Energy Output, variable=ALL
+  *End Step
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+  *Step, name=D2A_INIT, nlgeom=NO, inc=1
+  *Static
+  *Boundary
+  *End Step
+  *Step, name=D2B_RELEASE_HOLD, nlgeom=NO, inc=50
+  *Static
+  *Boundary, op=NEW
+  *End Step
+  *Step, name=D2B_TINY_CONTINUATION, nlgeom=NO, inc=50
+  *Static
+  *Boundary, op=NEW
+  *End Step
+
+
+
+                            P R O B L E M   S I Z E
+
+
+          NUMBER OF ELEMENTS IS                                    24
+          NUMBER OF NODES IS                                       30
+          NUMBER OF NODES DEFINED BY THE USER                      30
+          TOTAL NUMBER OF VARIABLES IN THE MODEL                   45
+          (DEGREES OF FREEDOM PLUS MAX NO. OF ANY LAGRANGE MULTIPLIER
+           VARIABLES. INCLUDE *PRINT,SOLVE=YES TO GET THE ACTUAL NUMBER.)
+
+
+
+                              END OF USER INPUT PROCESSING
+
+
+
+     JOB TIME SUMMARY
+       USER TIME (SEC)      =     0.16    
+       SYSTEM TIME (SEC)    =     4.00E-02
+       TOTAL CPU TIME (SEC) =     0.20    
+       WALLCLOCK TIME (SEC) =            1

@@ -1,0 +1,21 @@
+{
+  "classification": "stage_p3s_signal11_cause_localized",
+  "job_id": "1378028.mmaster02",
+  "immediate_failure_location": "GETRANK called from UEXTERNALDB(LOP=0)",
+  "stack": ["dmpc_getrank", "uexternaldb", "openfs", "std_main"],
+  "element_callbacks_observed": false,
+  "shared_state_access_observed": false,
+  "serial_shared_state_result_available": false,
+  "scientific_pass": false,
+  "p3s_closed": true,
+  "authorization_consumed": "1/1",
+  "retry_authorized": false,
+  "recommended_first_future_test": "P3-SB",
+  "future_test_authorized": false,
+  "p3t4_authorized": false,
+  "mpi_authorized": false,
+  "hybrid_authorized": false,
+  "production_h1_authorized": false,
+  "d3d_a1_reopening_authorized": false,
+  "d3e_authorized": false
+}

@@ -1,0 +1,26 @@
+{
+  "classification": "stage_p3sb_baseline_prepared_not_authorized",
+  "purpose": "isolate the eight-element model/package from P3 diagnostic instrumentation",
+  "physical_elements": 8,
+  "deck": {
+    "path": "P3SB_baseline_serial.inp",
+    "sha256": "bd8c487e94636ccf1833a65aa8db40aaecad8baeeda21e4bfe9d3ec29f4922ae",
+    "byte_identical_to_p3s_deck": true
+  },
+  "source": {
+    "path": "p3sb_baseline_uel.for",
+    "sha256": "473f80e8f0f1cba6aa7a7f0c3a49aaa949bac43e03548096d9d6f0c9a6f80306",
+    "byte_identical_to_accepted_d2_source": true
+  },
+  "transfer_table": {
+    "path": "d2_transfer_table.inc",
+    "sha256": "d1ccd478d635272215f7e9b1649bfcca3842fd5aa331d1bd3124a85395fc65f2",
+    "byte_identical_to_accepted_d2_table": true
+  },
+  "diagnostics_present": false,
+  "solver_executed": false,
+  "hpc_submitted": false,
+  "execution_authorized": false,
+  "automatic_retry_authorized": false,
+  "downstream_authorizations": []
+}

@@ -1,0 +1,22 @@
+{
+  "classification": "stage_p3s_failure_evidence_inventory_complete",
+  "job_id": "1378028.mmaster02",
+  "scratch_run": "/scratch/pr21vyci/adaptive-remeshing/runs/p3s_serial_1378028.mmaster02",
+  "inventory_time": "2026-07-24",
+  "files": [
+    {"name": "P3S_COMMAND.txt", "size": 137, "mtime": "2026-07-24T11:10:46.257525804+02:00", "sha256": "6b40b6e730bf2fec79d82ef2835a59f7ba65c9b8a73e696552c5487f8cc6d32f", "type": "ASCII text", "readable": true, "copied": true},
+    {"name": "d2_transfer_table.inc", "local_name": "P3S_STAGED_TRANSFER_TABLE.inc", "size": 478, "mtime": "2026-07-24T11:10:46.241344301+02:00", "sha256": "d1ccd478d635272215f7e9b1649bfcca3842fd5aa331d1bd3124a85395fc65f2", "type": "ASCII text", "readable": true, "copied": true},
+    {"name": "p3_instrumented_commonblock.for", "size": 11928, "mtime": "2026-07-24T11:10:46.202379413+02:00", "sha256": "1d236e6a5bafcfbe17c3604df50ccaedb6b644ced6ab702b8f3433a29f57ef1a", "type": "fixed-form Fortran text", "readable": true, "copied": true},
+    {"name": "p3s_serial.00.8882.exception", "size": 1860, "mtime": "2026-07-24T11:11:00.044080000+02:00", "sha256": "32f59f2d0feb90ca531133569519ec69a128481b7c7b83a698ee4435b06b8a7b", "type": "ASCII exception report", "readable": true, "copied": true, "stack_trace_extracted": true},
+    {"name": "p3s_serial.abaqus_stdout.log", "size": 2601, "mtime": "2026-07-24T11:11:02.603102418+02:00", "sha256": "0caf03fb726d58043068984f495fb2ef2cb7dad06298f240ce5f453c95cc03e7", "type": "ASCII text", "readable": true, "copied": true},
+    {"name": "p3s_serial.com", "size": 2970, "mtime": "2026-07-24T11:10:47.088991194+02:00", "sha256": "de8ec926e2c69e2398f2bcbfa082c0567c31529fcc6dddb13b39b9ee3fe0be63", "type": "Abaqus-generated Python text", "readable": true, "copied": true},
+    {"name": "p3s_serial.dat", "size": 7666, "mtime": "2026-07-24T11:10:55.219562027+02:00", "sha256": "33c37da42ec9dbbe8e9d28f1c7c2cf64783d99b6f61393bb8850dc45da9a0c69", "type": "ASCII text", "readable": true, "copied": true},
+    {"name": "p3s_serial.env", "size": 31791, "mtime": "2026-07-24T11:11:02.608345792+02:00", "sha256": "25c9fb646971c8b801b64eb7f2f06fc4cd3ff56c2d5399accf17936527f70e37", "type": "ASCII text", "readable": true, "copied": false, "reason": "metadata only; generated environment dump contains a PBS job cookie"},
+    {"name": "p3s_serial.inp", "size": 3559, "mtime": "2026-07-24T11:10:46.194437070+02:00", "sha256": "bd8c487e94636ccf1833a65aa8db40aaecad8baeeda21e4bfe9d3ec29f4922ae", "type": "Abaqus input text", "readable": true, "copied": true},
+    {"name": "p3s_serial.msg", "size": 112, "mtime": "2026-07-24T11:10:59.988054419+02:00", "sha256": "bb5b822d38ec333e615c61bac2ca35485bd3c1fa5e1bd867015866cec708576f", "type": "ASCII text", "readable": true, "copied": true},
+    {"name": "p3s_serial.odb", "size": 247488, "mtime": "2026-07-24T11:10:55.179362587+02:00", "sha256": "529e9e10d3562866ab73513719ccbba9f6896b07588b7bce9ecec6b9f058f017", "type": "zlib-compressed Abaqus ODB", "readable": true, "copied": false, "reason": "heavy/generated Abaqus output; metadata only"},
+    {"name": "p3s_serial.prt", "size": 386, "mtime": "2026-07-24T11:10:55.337372156+02:00", "sha256": "cec780845e29d14c9e8f1098bf92b9f504d0b6bbd0cff9762dc7586d222ea80f", "type": "ASCII text", "readable": true, "copied": true}
+  ],
+  "absent_patterns": ["p3s_serial.sta", "p3s_serial.log", "standard.log", "*.trace", "core*"],
+  "heavy_files_copied": false
+}

@@ -1,0 +1,56 @@
+<Description>
+      ABAQUS/standard rank 0 encountered a SEGMENTATION VIOLATION referencing location 0x1504bdcc0594
+
+</Description>
+
+<Procedure> TYPE   0 </Procedure>
+
+
+<Context>
+   ELEMENT LOOP
+</Context>
+
+<Phase>
+   std
+</Phase>
+
+
+<Memory>
+   <Current>            1 GB </Current>
+   <Resident>           0 GB </Resident>
+   <Physical>         755 GB </Physical>
+   <Limit>            604 GB </Limit>
+   <Accessible>       755 GB </Accessible>
+   <Available>        745 GB </Available>
+   <Allocator>            DL </Allocator>
+   <HugePages>        always </HugePages>
+</Memory>
+
+<Swap>
+       <Size>         767 GB </Size>
+       <Used>           0 GB </Used>
+       <Free>         767 GB </Free>
+</Swap>
+
+<Directories>
+  <current> /local/pbs.1378028.mmaster02/pr21vyci_p3s_serial_8531 </current> <free>   2203 GB </free>   <used>      8 GB </used> 
+    <indir> /scratch9/pr21vyci/adaptive-remeshing/runs/p3s_serial_1378028.mmaster02 </indir>   <free>  15810 GB </free>  
+   <outdir> /scratch9/pr21vyci/adaptive-remeshing/runs/p3s_serial_1378028.mmaster02 </outdir>  <free>  15810 GB </free> 
+   <tmpdir> /local/pbs.1378028.mmaster02/pr21vyci_p3s_serial_8531 </tmpdir>  <free>   2203 GB </free> 
+</Directories>
+
+<Installation>
+     <Version> 2023 6.23-1 </Version>
+       <Build> 2022_09_28-20.11.55 183150 </Build>
+  <Executable> /cluster/application/abaqus/2023/linux_a64/code/bin/standard </Executable>
+</Installation>
+
+<Callstack>
+   1) libABQDMP_Core.so          0x000457d1 ! dmpc_getrank     ??:?
+   2) libstandardU.so            0x00009736 ! uexternaldb      ??:?
+   3) libABQSMAStaCore.so        0x0255ff1f ! openfs           ??:?
+   4) libABQSMAStaCore.so        0x0330efc0 ! std_main         ??:?
+   5) standard                   0x0042daa4 ! ABQmain          ??:?
+   6) standard                   0x0042a983 ! main             ??:?
+</Callstack>
+

@@ -1,0 +1,46 @@
+Analysis initiated from SIMULIA established products
+Abaqus JOB p3s_serial
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 5 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<207 out of 300 licenses remain available>.
+Begin Compiling Abaqus/Standard User Subroutines
+Fri 24 Jul 2026 11:10:47 AM CEST
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+ Intel(R) Fortran 2021.13.0-1693
+p3_instrumented_commonblock.for(107): remark #15009: umat_ has been targeted for automatic cpu dispatch
+End Compiling Abaqus/Standard User Subroutines
+Begin Linking Abaqus/Standard User Subroutines
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+GNU ld version 2.30-128.el8_10
+End Linking Abaqus/Standard User Subroutines
+Fri 24 Jul 2026 11:10:53 AM CEST
+Begin Analysis Input File Processor
+Fri 24 Jul 2026 11:10:53 AM CEST
+Run pre
+Fri 24 Jul 2026 11:10:59 AM CEST
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+Fri 24 Jul 2026 11:10:59 AM CEST
+Run standard
+
+*** ABAQUS/standard rank 0 terminated by signal 11
+
+*** ERROR CATEGORY:  ELEMENT LOOP
+
+Fri 24 Jul 2026 11:11:02 AM CEST
+Abaqus Error: Abaqus/Standard Analysis exited with an error - Please see the 
+message file for possible error messages if the file exists.
+Begin SIM Wrap-up
+Fri 24 Jul 2026 11:11:02 AM CEST
+Run SMASimUtility
+Fri 24 Jul 2026 11:11:02 AM CEST
+End SIM Wrap-up
+Abaqus/Analysis exited with errors

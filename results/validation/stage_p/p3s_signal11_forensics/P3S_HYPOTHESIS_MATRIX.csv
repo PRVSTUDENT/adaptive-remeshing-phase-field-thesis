@@ -1,0 +1,9 @@
+hypothesis,status,supporting_evidence,contradicting_or_missing_evidence,next_offline_or_future_test
+"GETRANK is unsafe at UEXTERNALDB LOP=0 in this Abaqus 2023 execution path","localized immediate failure","exception call stack is dmpc_getrank <- uexternaldb; no P2_INIT after GETRANK","does not establish behavior in later callbacks or other packages","future minimal diagnostic must avoid GETRANK at LOP=0 or defer it to first element callback"
+"Eight-element deck/model adaptation is defective","not supported by this run","none","no element callback occurred; accepted D2 source already has N_ELEM=8","P3-SB is the first future isolation test"
+"Mutex initialization/access caused signal 11","not localized","MUTEXINIT(91) precedes GETRANK","call stack names dmpc_getrank, not mutex; successful MUTEXINIT return is unlogged","P3-SB omits mutex; any later minimal diagnostic should isolate callback marker before mutex use"
+"Shared COMMON/SAVE data caused signal 11","contradicted for immediate crash","shared storage exists in linked source","no shared-state read/write or element callback occurred","P3-SB tests accepted COMMON/SAVE path without diagnostics"
+"Shared-access monitor caused signal 11","contradicted for immediate crash","monitor code is present","KP3 routines and P3_ACCESS were never reached","do not reintroduce monitor until minimal callbacks qualify"
+"Unit-7 diagnostic write caused signal 11","contradicted for immediate crash","writes are present after identifier calls","no diagnostic write was reached","minimal callback design should use the smallest marker and document unit behavior"
+"Thread race occurred","not testable / unsupported","none","serial CPU1 run failed before element callbacks","P3-T4 remains blocked"
+"MPI compatibility or incompatibility","not testable","GETRANK runtime routine appears in trace","one serial wrapper failure cannot qualify MPI","MPI remains blocked"
