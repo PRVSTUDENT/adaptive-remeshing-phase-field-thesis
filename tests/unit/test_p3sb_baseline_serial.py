@@ -197,6 +197,18 @@ class StaticLaneTests(unittest.TestCase):
         ):
             self.assertNotIn(token, source)
 
+    def test_fixed_form_code_stays_within_column_72(self) -> None:
+        source = (
+            ROOT / "models/parallelization/p3sb_baseline_eight_element_serial/"
+            "p3sb_baseline_uel.for"
+        ).read_text().splitlines()
+        invalid = [
+            number
+            for number, line in enumerate(source, 1)
+            if line and line[0] not in "Cc*!" and len(line) > 72
+        ]
+        self.assertEqual(invalid, [])
+
 
 class ValidationTests(unittest.TestCase):
     def fixture(self, root: Path) -> None:
