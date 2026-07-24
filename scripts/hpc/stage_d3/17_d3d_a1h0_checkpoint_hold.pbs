@@ -4,38 +4,103 @@
 #PBS -l walltime=02:00:00
 #PBS -j oe
 #PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
 
-set -euo pipefail
+set -uo pipefail
 PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
 EXE_DIR="${PROJECT_HOME}/models/state_transfer/d3_interrupted_transfer/executable_d3d_a1_checkpoint_hold_r1"
 PACKAGE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/fracture_continuation/package_d3d_a1_checkpoint_r1"
 OUT_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_hold"
-SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3d_a1h0_hold_${PBS_JOBID}"
-source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh"
-pbs_notify_install_traps
-pbs_notify_begin
+BASELINE_DIR="${PROJECT_HOME}/runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment"
+SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/d3d_a1h0_hold_${PBS_JOBID:-manual}"
+RUN_DIR="${SCRATCH_RUN}"
+SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
+
+# shellcheck disable=SC1091
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+if type pbs_notify_install_traps >/dev/null 2>&1; then pbs_notify_install_traps; fi
+if type pbs_notify_begin >/dev/null 2>&1; then pbs_notify_begin; fi
 mkdir -p "${SCRATCH_RUN}" "${OUT_DIR}"
-cd "${SCRATCH_RUN}"
-module --force purge
-module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+cd "${SCRATCH_RUN}" || exit 2
+
+write_status() {
+  local classification="$1" rc="$2" failure="$3"
+  cat > D3D_A1H0_STATUS.json <<EOF
+{"classification":"${classification}","failures":["${failure}"],"job_id":"${PBS_JOBID:-unknown}","pbs_exit_status":${rc},"source_commit":"${SOURCE_COMMIT}"}
+EOF
+}
+write_odb_location() {
+  local preserved=false
+  [ -f "${SCRATCH_RUN}/D3D_A1H0_checkpoint_hold.odb" ] && preserved=true
+  cat > D3D_A1H0_ODB_LOCATION.json <<EOF
+{"odb_preserved":${preserved},"repository_copy_created":false,"odb_path":"${SCRATCH_RUN}/D3D_A1H0_checkpoint_hold.odb"}
+EOF
+}
+copy_evidence() {
+  write_odb_location
+  local name
+  for name in \
+    D3D_A1H0_STATE_BY_FRAME.csv D3D_A1H0_PHASE_NODE_STATE_BY_FRAME.csv \
+    D3D_A1H0_TOP_RF_U.csv D3D_A1H0_RECONSTRUCTED_ENERGY_BY_FRAME.json \
+    D3D_A1H0_TRANSFER_VALIDATION.json D3D_A1H0_HISTORY_COMPARISON.json \
+    D3D_A1H0_ACTUAL_HISTORY_KKT.csv D3D_A1H0_ACTUAL_HISTORY_KKT.json \
+    D3D_A1H0_MECHANICAL_CONTINUITY.json D3D_A1H0_STATUS.json \
+    D3D_A1H0_REPORT.md D3D_A1H0_ODB_LOCATION.json D3D_A1H0_JOB_RECORD.txt \
+    D3D_A1H0_COMPILER_ENVIRONMENT.txt D3D_A1H0.ok \
+    D3D_A1H0_ACTUAL_HISTORY_UPDATE_REQUIRED.json \
+    D3D_A1H0_checkpoint_hold.log D3D_A1H0_checkpoint_hold.msg \
+    D3D_A1H0_checkpoint_hold.dat D3D_A1H0_checkpoint_hold.sta \
+    D3D_A1H0_checkpoint_hold.com D3D_A1H0_checkpoint_hold.prt \
+    D3D_A1H0_checkpoint_hold.abaqus_stdout.log; do
+    if [ -f "${name}" ]; then cp "${name}" "${OUT_DIR}/"; fi
+  done
+}
+finish() { copy_evidence; exit "$1"; }
+
+DATACHECK_OK="${PROJECT_HOME}/runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_hold_datacheck/D3D_A1H0_DATACHECK.ok"
+[ -f "${DATACHECK_OK}" ] || { write_status stage_d3d_a1h0_solver_fail 3 "passing datacheck marker missing"; finish 3; }
+grep -q stage_d3d_a1h0_datacheck_pass "${DATACHECK_OK}" || { write_status stage_d3d_a1h0_solver_fail 4 "datacheck marker invalid"; finish 4; }
+
+module --force purge > D3D_A1H0_COMPILER_ENVIRONMENT.txt 2>&1 || true
+module load gcc/11.4.0 >> D3D_A1H0_COMPILER_ENVIRONMENT.txt 2>&1 || { write_status stage_d3d_a1h0_solver_fail 5 "gcc module failed"; finish 5; }
+module load intel/2024.2.0 >> D3D_A1H0_COMPILER_ENVIRONMENT.txt 2>&1 || { write_status stage_d3d_a1h0_solver_fail 5 "intel module failed"; finish 5; }
+module load abaqus/2023 >> D3D_A1H0_COMPILER_ENVIRONMENT.txt 2>&1 || { write_status stage_d3d_a1h0_solver_fail 5 "abaqus module failed"; finish 5; }
 export OMP_NUM_THREADS=1
-cp "${EXE_DIR}/D3D_A1H0_checkpoint_hold.inp" .
-cp "${EXE_DIR}/d3_transfer_uel.for" .
-cp "${EXE_DIR}/d3_transfer_h.dat" .
+cp "${EXE_DIR}/D3D_A1H0_checkpoint_hold.inp" . || { write_status stage_d3d_a1h0_solver_fail 6 "deck staging failed"; finish 6; }
+cp "${EXE_DIR}/d3_transfer_uel.for" . || { write_status stage_d3d_a1h0_solver_fail 6 "Fortran staging failed"; finish 6; }
+cp "${EXE_DIR}/d3_transfer_h.dat" . || { write_status stage_d3d_a1h0_solver_fail 6 "H staging failed"; finish 6; }
+cat > D3D_A1H0_JOB_RECORD.txt <<EOF
+job_id=${PBS_JOBID:-unknown}
+source_commit=${SOURCE_COMMIT}
+ncpus=1
+mem=16gb
+walltime=02:00:00
+mp_mode=threads
+OMP_NUM_THREADS=1
+mpi=prohibited
+EOF
+
+ABAQUS_RC=0
 abaqus job=D3D_A1H0_checkpoint_hold input=D3D_A1H0_checkpoint_hold.inp \
-  user=d3_transfer_uel.for cpus=1 mp_mode=threads output_precision=full interactive
+  user=d3_transfer_uel.for cpus=1 mp_mode=threads output_precision=full \
+  interactive > D3D_A1H0_checkpoint_hold.abaqus_stdout.log 2>&1 || ABAQUS_RC=$?
+[ "${ABAQUS_RC}" -eq 0 ] || { write_status stage_d3d_a1h0_solver_fail "${ABAQUS_RC}" "Abaqus exited nonzero"; finish "${ABAQUS_RC}"; }
+
 PYTHONPATH="${PROJECT_HOME}/scripts/postprocessing" abaqus python \
   "${PROJECT_HOME}/scripts/postprocessing/extract_d3d_a1h0_checkpoint_hold.py" \
   --odb D3D_A1H0_checkpoint_hold.odb --package-dir "${PACKAGE_DIR}" \
-  --out-dir "${SCRATCH_RUN}"
-module load python/gcc/11.4.0/3.11.7
+  --out-dir "${SCRATCH_RUN}" || { write_status stage_d3d_a1h0_postprocessing_fail 20 "extraction failed"; finish 20; }
+module load python/gcc/11.4.0/3.11.7 || { write_status stage_d3d_a1h0_postprocessing_fail 21 "postpython module failed"; finish 21; }
 python3 "${PROJECT_HOME}/scripts/validation/validate_d3d_a1h0_transfer.py" \
-  --target-dir "${SCRATCH_RUN}"
+  --target-dir "${SCRATCH_RUN}" || { write_status stage_d3d_a1h0_postprocessing_fail 21 "transfer validation failed"; finish 21; }
 python3 "${PROJECT_HOME}/scripts/validation/analyze_d3d_a1h0_actual_history_kkt.py" \
-  --target-dir "${SCRATCH_RUN}" --package-dir "${PACKAGE_DIR}"
+  --target-dir "${SCRATCH_RUN}" --package-dir "${PACKAGE_DIR}" || { write_status stage_d3d_a1h0_postprocessing_fail 22 "KKT analysis incomplete"; finish 22; }
+FINAL_RC=0
 python3 "${PROJECT_HOME}/scripts/validation/validate_d3d_a1h0_checkpoint_hold.py" \
-  --target-dir "${SCRATCH_RUN}" \
-  --baseline-dir "${PROJECT_HOME}/runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment"
-cp D3D_A1H0_* "${OUT_DIR}/"
-printf '{"odb_path":"%s","repository_copy_created":false}\n' \
-  "${SCRATCH_RUN}/D3D_A1H0_checkpoint_hold.odb" > "${OUT_DIR}/D3D_A1H0_ODB_LOCATION.json"
+  --target-dir "${SCRATCH_RUN}" --baseline-dir "${BASELINE_DIR}" || FINAL_RC=$?
+case "${FINAL_RC}" in
+  0) finish 0 ;;
+  23) finish 23 ;;
+  24) finish 24 ;;
+  *) write_status stage_d3d_a1h0_postprocessing_fail 25 "unexpected final validator exit ${FINAL_RC}"; finish 25 ;;
+esac

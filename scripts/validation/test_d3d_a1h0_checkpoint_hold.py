@@ -23,6 +23,10 @@ def base():
         "H_decrease_violations": 0, "relative_top_rf_change": 0.001,
         "relative_energy_change": 0.001, "free_residual_infinity_norm": 1e-12,
         "minimum_active_multiplier": -9e-9, "active_bound_error": 0.0,
+        "analysis_complete": True, "node_coverage": 6601, "ip_coverage": 25600,
+        "non_positive_detJ": 0, "all_values_finite": True,
+        "endpoint_values_finite": True, "phase_range": 0.08,
+        "transfer_validation_pass": True,
         "state_reset": False, "spatial_variation_retained": True,
     }
 
@@ -52,6 +56,25 @@ def test_static():
     assert all(float(a) == float(b) for a, b in zip(package_h, runtime_h))
     r4 = ROOT / "models/state_transfer/d3_interrupted_transfer/executable_r4_compatible_r2/d3_transfer_uel.for"
     assert hashlib.sha256(r4.read_bytes()).digest() == hashlib.sha256((EXE / "d3_transfer_uel.for").read_bytes()).digest()
+    for script in [
+        ROOT / "scripts/hpc/stage_d3/16_d3d_a1h0_checkpoint_datacheck.pbs",
+        ROOT / "scripts/hpc/stage_d3/17_d3d_a1h0_checkpoint_hold.pbs",
+    ]:
+        text = script.read_text(encoding="utf-8")
+        assert "cp D3D_A1H0_*" not in text
+        assert ".odb" not in "\n".join(line for line in text.splitlines() if line.strip().startswith("for name in"))
+    full_submitter = (ROOT / "scripts/hpc/stage_d3/submit_d3d_a1h0_checkpoint_hold.sh").read_text(encoding="utf-8")
+    assert "committed passing datacheck marker required" in full_submitter
+    assert '"solver_submission_authorized":True' in full_submitter
+    dc_submitter = (ROOT / "scripts/hpc/stage_d3/submit_d3d_a1h0_checkpoint_datacheck.sh").read_text(encoding="utf-8")
+    assert "malformed authorization JSON" in dc_submitter
+    assert "maximum_datacheck_submissions" in dc_submitter
+    dc_pbs = (ROOT / "scripts/hpc/stage_d3/16_d3d_a1h0_checkpoint_datacheck.pbs").read_text(encoding="utf-8")
+    for token in ["ANALYSIS DATACHECK COMPLETE", "D3D_A1H0_DATACHECK.dat", "runtime H SHA mismatch", '"records": 25600', "copy_evidence"]:
+        assert token in dc_pbs
+    kkt_source = (ROOT / "scripts/validation/analyze_d3d_a1h0_actual_history_kkt.py").read_text(encoding="utf-8")
+    for token in ["active_free_counts", "history_coverage_or_duplicates", "nonfinite_phase_history_or_residual"]:
+        assert token in kkt_source
 
 
 def test_classifications():
@@ -67,6 +90,13 @@ def test_classifications():
         "RF discontinuity": ("relative_top_rf_change", 0.0101),
         "energy discontinuity": ("relative_energy_change", 0.0101),
         "free residual": ("free_residual_infinity_norm", 1.1e-8),
+        "KKT node coverage": ("node_coverage", 6600),
+        "KKT IP coverage": ("ip_coverage", 25599),
+        "KKT active/free analysis": ("analysis_complete", False),
+        "non-positive detJ": ("non_positive_detJ", 1),
+        "nonfinite residual": ("all_values_finite", False),
+        "endpoint reset": ("state_reset", True),
+        "spatial variation": ("phase_range", 1e-7),
     }
     for name, (key, value) in cases.items():
         fixture = base(); fixture[key] = value

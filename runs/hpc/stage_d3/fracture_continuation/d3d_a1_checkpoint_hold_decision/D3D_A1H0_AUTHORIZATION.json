@@ -1,7 +1,10 @@
 {
   "classification": "stage_d3d_a1h0_mechanical_hold_preparation_authorized",
   "preparation_authorized": true,
-  "datacheck_authorized": false,
+  "datacheck_authorized": true,
+  "datacheck_authorization_classification": "stage_d3d_a1h0_datacheck_authorized",
+  "maximum_datacheck_submissions": 1,
+  "datacheck_submissions_used": 0,
   "solver_submission_authorized": false,
   "phase_release_authorized": false,
   "continuation_authorized": false,

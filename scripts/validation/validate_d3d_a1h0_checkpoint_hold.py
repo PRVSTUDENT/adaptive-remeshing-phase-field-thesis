@@ -18,10 +18,19 @@ def csv_rows(path):
 
 
 def build_metrics(target, baseline):
+    required = [
+        "D3D_A1H0_TRANSFER_VALIDATION.json", "D3D_A1H0_ACTUAL_HISTORY_KKT.json",
+        "D3D_A1H0_STATE_BY_FRAME.csv", "D3D_A1H0_PHASE_NODE_STATE_BY_FRAME.csv",
+        "D3D_A1H0_TOP_RF_U.csv", "D3D_A1H0_RECONSTRUCTED_ENERGY_BY_FRAME.json",
+    ]
+    missing = [name for name in required if not (target / name).exists()]
+    if missing:
+        raise ValueError("missing required evidence: " + ",".join(missing))
     phase = csv_rows(target / "D3D_A1H0_PHASE_NODE_STATE_BY_FRAME.csv")
     state = csv_rows(target / "D3D_A1H0_STATE_BY_FRAME.csv")
     rf = csv_rows(target / "D3D_A1H0_TOP_RF_U.csv")
     kkt = json.loads((target / "D3D_A1H0_ACTUAL_HISTORY_KKT.json").read_text(encoding="utf-8"))
+    transfer = json.loads((target / "D3D_A1H0_TRANSFER_VALIDATION.json").read_text(encoding="utf-8"))
     energy = json.loads((target / "D3D_A1H0_RECONSTRUCTED_ENERGY_BY_FRAME.json").read_text(encoding="utf-8"))["frames"]
     base_rf = {r["frame_tag"]: r for r in csv_rows(baseline / "D3D_TOP_RF_U.csv")}["F3_release_last"]
     base_energy = {r["frame_tag"]: r for r in json.loads((baseline / "D3D_RECONSTRUCTED_ENERGY_BY_FRAME.json").read_text(encoding="utf-8"))["frames"]}["F3_release_last"]
@@ -33,6 +42,12 @@ def build_metrics(target, baseline):
     final_energy = {r["frame_tag"]: r for r in energy}["F1_equilibrated"]
     h_delta = [h1[k] - h0[k] for k in h0]
     denom_h = math.sqrt(sum(v * v for v in h0.values())) or 1.0
+    endpoint_finite = all(math.isfinite(v) for v in p1.values()) and all(math.isfinite(v) for v in h1.values())
+    state_reset = not (
+        len(p1) == 6601 and len(h1) == 25600 and endpoint_finite
+        and max(abs(v) for v in p1.values()) > 0.0
+        and max(abs(v) for v in h1.values()) > 0.0
+    )
     return {
         "phase_node_coverage": len(p1), "history_coverage": len(h1),
         "top_node_count": int(final_rf["top_node_count"]),
@@ -45,7 +60,11 @@ def build_metrics(target, baseline):
         "normalized_L2_H_increase": math.sqrt(sum(v * v for v in h_delta)) / denom_h,
         "relative_top_rf_change": abs(float(final_rf["top_rf2_sum"]) - float(base_rf["top_rf2_sum"])) / max(abs(float(base_rf["top_rf2_sum"])), 1e-30),
         "relative_energy_change": abs(float(final_energy["total_reconstructed_internal_energy"]) - float(base_energy["total_reconstructed_internal_energy"])) / max(abs(float(base_energy["total_reconstructed_internal_energy"])), 1e-30),
-        "state_reset": False, "spatial_variation_retained": max(p1.values()) > min(p1.values()),
+        "state_reset": state_reset,
+        "endpoint_values_finite": endpoint_finite,
+        "phase_range": max(p1.values()) - min(p1.values()),
+        "spatial_variation_retained": max(p1.values()) - min(p1.values()) > 1e-6,
+        "transfer_validation_pass": transfer.get("classification") == "stage_d3d_a1h0_transfer_pass" and not transfer.get("failures"),
         **kkt,
     }
 
@@ -65,8 +84,15 @@ def classify(m):
         "energy_continuity": m.get("relative_energy_change", float("inf")) <= 0.01,
         "free_residual": m.get("free_residual_infinity_norm", float("inf")) <= 1e-8,
         "active_bound": m.get("active_bound_error", float("inf")) <= 1e-10,
+        "kkt_analysis_complete": m.get("analysis_complete") is True,
+        "kkt_node_coverage": m.get("node_coverage") == 6601,
+        "kkt_ip_coverage": m.get("ip_coverage") == 25600,
+        "kkt_detJ": m.get("non_positive_detJ") == 0,
+        "kkt_finite": m.get("all_values_finite") is True,
+        "transfer_validation": m.get("transfer_validation_pass", True),
         "state_reset": not m.get("state_reset", True),
-        "spatial_variation": m.get("spatial_variation_retained", False),
+        "endpoint_finite": m.get("endpoint_values_finite", True),
+        "spatial_variation": m.get("spatial_variation_retained", False) and m.get("phase_range", 1e-5) > 1e-6,
     }.items():
         if not ok:
             technical.append(key)
@@ -85,7 +111,7 @@ def main():
     args = parser.parse_args()
     metrics = json.loads(args.metrics_json.read_text(encoding="utf-8")) if args.metrics_json else build_metrics(args.target_dir, args.baseline_dir)
     classification, failures = classify(metrics)
-    status = {"classification": classification, "failures": failures, **metrics}
+    status = {**metrics, "classification": classification, "failures": failures}
     args.target_dir.mkdir(parents=True, exist_ok=True)
     history = {
         "H_decrease_violations": metrics.get("H_decrease_violations"),
@@ -104,7 +130,18 @@ def main():
     (args.target_dir / "D3D_A1H0_STATUS.json").write_text(json.dumps(status, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (args.target_dir / "D3D_A1H0_REPORT.md").write_text("# D3D-A1H0 Checkpoint Hold\n\nClassification: `%s`\n" % classification, encoding="utf-8")
     print(json.dumps(status, indent=2, sort_keys=True))
-    return 0 if classification in (PASS, UPDATE) else 1
+    ok = args.target_dir / "D3D_A1H0.ok"
+    update = args.target_dir / "D3D_A1H0_ACTUAL_HISTORY_UPDATE_REQUIRED.json"
+    if classification == PASS:
+        ok.write_text(PASS + "\n", encoding="utf-8")
+        if update.exists(): update.unlink()
+        return 0
+    if ok.exists(): ok.unlink()
+    if classification == UPDATE:
+        update.write_text(json.dumps(status, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        return 23
+    if update.exists(): update.unlink()
+    return 24
 
 
 if __name__ == "__main__":
