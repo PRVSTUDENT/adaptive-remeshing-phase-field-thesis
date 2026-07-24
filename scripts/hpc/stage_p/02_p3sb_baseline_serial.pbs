@@ -1,0 +1,163 @@
+#!/bin/bash
+#PBS -N p3sb_baseline
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -m abe
+
+set -uo pipefail
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+OUT="${PROJECT_HOME}/runs/hpc/stage_p/p3sb_baseline_serial"
+RUN_ROOT="/scratch/pr21vyci/adaptive-remeshing/runs"
+RUN_DIR="${RUN_ROOT}/p3sb_baseline_${PBS_JOBID:-unknown}"
+JOB_NAME="p3sb_baseline"
+CLASSIFICATION="stage_p3sb_baseline_serial_fail_pre_abaqus"
+ABAQUS_LAUNCHED="false"
+SOLVER_EXIT="null"
+
+mkdir -p "${OUT}" "${RUN_DIR}" || exit 2
+rm -f "${OUT}/P3SB_COMPLETION.ok"
+exec > >(tee -a "${OUT}/P3SB_PBS_STDOUT.log") \
+  2> >(tee -a "${OUT}/P3SB_PBS_STDERR.log" >&2)
+
+source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" 2>/dev/null || true
+type pbs_notify_begin >/dev/null 2>&1 && pbs_notify_begin || true
+
+copy_if_present() {
+  local source="$1"
+  local target="$2"
+  if [ -f "${source}" ]; then
+    cp "${source}" "${target}" 2>/dev/null || true
+  fi
+}
+
+write_fallback_status() {
+  if [ ! -f "${OUT}/P3SB_STATUS.json" ]; then
+    cat > "${OUT}/P3SB_STATUS.json" <<EOF
+{"classification":"${CLASSIFICATION}","P3SB_ok":false,"job_id":"${PBS_JOBID:-unknown}","abaqus_launched":${ABAQUS_LAUNCHED},"solver_exit":${SOLVER_EXIT},"failures":["P3-SB stopped before all gates passed"]}
+EOF
+  fi
+}
+
+finalize() {
+  local rc=$?
+  trap - EXIT TERM INT HUP
+  copy_if_present "${RUN_DIR}/${JOB_NAME}.abaqus_stdout.log" "${OUT}/${JOB_NAME}.abaqus_stdout.log"
+  copy_if_present "${RUN_DIR}/${JOB_NAME}.msg" "${OUT}/${JOB_NAME}.msg"
+  copy_if_present "${RUN_DIR}/${JOB_NAME}.dat" "${OUT}/${JOB_NAME}.dat"
+  copy_if_present "${RUN_DIR}/${JOB_NAME}.sta" "${OUT}/${JOB_NAME}.sta"
+  copy_if_present "${RUN_DIR}/${JOB_NAME}.log" "${OUT}/${JOB_NAME}.log"
+  copy_if_present "${RUN_DIR}/P3SB_COMMAND.txt" "${OUT}/P3SB_COMMAND.txt"
+  copy_if_present "${P3SB_MANIFEST:-missing}" "${OUT}/P3SB_LOGIN_MANIFEST.json"
+  write_fallback_status
+  type pbs_notify_finish >/dev/null 2>&1 && pbs_notify_finish "${rc}" || true
+  exit "${rc}"
+}
+trap finalize EXIT
+trap 'exit 143' TERM INT HUP
+
+{
+  echo "timestamp=$(date -Is)"
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "host=$(hostname)"
+  echo "project_revision=${PROJECT_REVISION:-missing}"
+  echo "cpus=1"
+  echo "mpi_ranks=1"
+  echo "omp_threads=1"
+  echo "OMP_NUM_THREADS=1"
+  echo "mp_mode=threads"
+} > "${OUT}/P3SB_ENVIRONMENT.txt"
+
+for variable in P3SB_STAGE_ROOT P3SB_MANIFEST P3SB_DECK_SHA \
+  P3SB_SOURCE_SHA P3SB_TRANSFER_SHA PROJECT_REVISION; do
+  eval "resolved=\${${variable}:-}"
+  test -n "${resolved}" || exit 3
+done
+for name in P3SB_baseline_serial.inp p3sb_baseline_uel.for \
+  d2_transfer_table.inc extract_p3sb_baseline_state.py \
+  validate_p3sb_baseline_serial.py; do
+  test -f "${P3SB_STAGE_ROOT}/${name}" || exit 4
+done
+test -f "${P3SB_MANIFEST}" || exit 4
+
+sha_check() {
+  local expected="$1"
+  local path="$2"
+  local actual
+  actual="$(sha256sum "${path}" | awk '{print $1}')"
+  test -n "${expected}" && test "${actual}" = "${expected}"
+}
+sha_check "${P3SB_DECK_SHA}" "${P3SB_STAGE_ROOT}/P3SB_baseline_serial.inp" || exit 5
+sha_check "${P3SB_SOURCE_SHA}" "${P3SB_STAGE_ROOT}/p3sb_baseline_uel.for" || exit 5
+sha_check "${P3SB_TRANSFER_SHA}" "${P3SB_STAGE_ROOT}/d2_transfer_table.inc" || exit 5
+
+module purge >> "${OUT}/P3SB_ENVIRONMENT.txt" 2>&1 || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 \
+  python/gcc/11.4.0/3.11.7 >> "${OUT}/P3SB_ENVIRONMENT.txt" 2>&1 || exit 6
+{
+  command -v abaqus || true
+  command -v ifort || true
+  command -v python3 || true
+  python3 --version || true
+} >> "${OUT}/P3SB_ENVIRONMENT.txt"
+export OMP_NUM_THREADS=1
+
+cp "${P3SB_STAGE_ROOT}/P3SB_baseline_serial.inp" "${RUN_DIR}/${JOB_NAME}.inp" || exit 7
+cp "${P3SB_STAGE_ROOT}/p3sb_baseline_uel.for" "${RUN_DIR}/p3sb_baseline_uel.for" || exit 7
+cp "${P3SB_STAGE_ROOT}/d2_transfer_table.inc" "${RUN_DIR}/d2_transfer_table.inc" || exit 7
+cat > "${RUN_DIR}/P3SB_COMMAND.txt" <<EOF
+abaqus job=${JOB_NAME} input=${JOB_NAME}.inp user=p3sb_baseline_uel.for cpus=1 mp_mode=threads output_precision=full interactive
+EOF
+
+cd "${RUN_DIR}" || exit 7
+ABAQUS_LAUNCHED="true"
+CLASSIFICATION="stage_p3sb_baseline_serial_fail_abaqus"
+SOLVER_EXIT=0
+abaqus job="${JOB_NAME}" input="${JOB_NAME}.inp" \
+  user="p3sb_baseline_uel.for" cpus=1 mp_mode=threads \
+  output_precision=full interactive > "${JOB_NAME}.abaqus_stdout.log" 2>&1 ||
+  SOLVER_EXIT=$?
+if [ "${SOLVER_EXIT}" -ne 0 ] || [ ! -f "${JOB_NAME}.odb" ]; then
+  exit 10
+fi
+
+CLASSIFICATION="stage_p3sb_baseline_serial_fail_postprocessing"
+abaqus python "${P3SB_STAGE_ROOT}/extract_p3sb_baseline_state.py" \
+  --odb "${RUN_DIR}/${JOB_NAME}.odb" \
+  --deck "${RUN_DIR}/${JOB_NAME}.inp" \
+  --out-dir "${OUT}" > "${OUT}/P3SB_EXTRACT.log" 2>&1 || exit 11
+
+ODB_SHA="$(sha256sum "${JOB_NAME}.odb" | awk '{print $1}')"
+ODB_SIZE="$(stat -c '%s' "${JOB_NAME}.odb")"
+ODB_MTIME="$(stat -c '%y' "${JOB_NAME}.odb")"
+{
+  echo "job_id=${PBS_JOBID:-unknown}"
+  echo "job_name=${JOB_NAME}"
+  echo "project_revision=${PROJECT_REVISION}"
+  echo "queue=${PBS_QUEUE:-unknown}"
+  echo "run_dir=${RUN_DIR}"
+  echo "scratch_odb=${RUN_DIR}/${JOB_NAME}.odb"
+  echo "scratch_odb_size=${ODB_SIZE}"
+  echo "scratch_odb_sha256=${ODB_SHA}"
+  echo "scratch_odb_mtime=${ODB_MTIME}"
+  echo "odb_readable=true"
+  echo "solver_exit=${SOLVER_EXIT}"
+  echo "cpus=1"
+  echo "mpi_ranks=1"
+  echo "omp_threads=1"
+  echo "mp_mode=threads"
+  echo "mem=16gb"
+  echo "walltime=00:30:00"
+  echo "completed=$(date -Is)"
+} > "${OUT}/P3SB_JOB_RECORD.txt"
+
+CLASSIFICATION="stage_p3sb_baseline_serial_fail_validation"
+python3 "${P3SB_STAGE_ROOT}/validate_p3sb_baseline_serial.py" \
+  --out-dir "${OUT}" \
+  --deck "${RUN_DIR}/${JOB_NAME}.inp" \
+  --transfer "${RUN_DIR}/d2_transfer_table.inc" \
+  --job-id "${PBS_JOBID:-unknown}" \
+  --solver-exit "${SOLVER_EXIT}" > "${OUT}/P3SB_VALIDATE.log" 2>&1 || exit 12
+CLASSIFICATION="stage_p3sb_baseline_serial_pass"
+exit 0
