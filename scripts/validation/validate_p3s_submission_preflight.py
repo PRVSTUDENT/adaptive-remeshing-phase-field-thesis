@@ -33,7 +33,12 @@ def load_object(path: Path) -> dict[str, object]:
 
 def validate_authorization(path: Path, require_submit: bool) -> dict[str, object]:
     data = load_object(path)
-    if data.get("classification") != "stage_p3_serial_diagnostic_prepared":
+    expected_classification = (
+        "stage_p3_serial_diagnostic_authorized"
+        if require_submit
+        else "stage_p3_serial_diagnostic_prepared"
+    )
+    if data.get("classification") != expected_classification:
         raise ValueError("unexpected authorization classification")
     if data.get("p3s_preparation_complete") is not True:
         raise ValueError("P3-S preparation is not complete")

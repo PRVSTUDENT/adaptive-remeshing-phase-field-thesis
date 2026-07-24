@@ -3,12 +3,14 @@ from __future__ import annotations
 import csv
 import importlib.util
 import json
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts/validation"))
 
 
 def load_module(name: str, relative: str):
@@ -21,6 +23,7 @@ def load_module(name: str, relative: str):
 
 validator = load_module("p3s_validator", "scripts/validation/validate_p3s_serial_diagnostic.py")
 preflight = load_module("p3s_preflight", "scripts/validation/validate_p3s_submission_preflight.py")
+consumer = load_module("p3s_consumer", "scripts/validation/consume_p3s_authorization.py")
 
 
 def write_csv(path: Path, fields: list[str], rows: list[dict[str, object]]) -> None:
@@ -46,6 +49,8 @@ def authorization(**updates: object) -> dict[str, object]:
         "d3e_authorized": False,
     }
     data.update(updates)
+    if data.get("p3s_submission_authorized") is True and "classification" not in updates:
+        data["classification"] = "stage_p3_serial_diagnostic_authorized"
     return data
 
 
@@ -117,6 +122,36 @@ class PreflightTests(unittest.TestCase):
         self.assertNotIn("*.odb", pbs)
         self.assertNotIn("*.sim", pbs)
         self.assertNotIn("*.lck", pbs)
+
+    def test_queue_policy_is_frozen(self) -> None:
+        pbs = (ROOT / "scripts/hpc/stage_p/01_p3s_serial_diagnostic.pbs").read_text(encoding="utf-8")
+        submitter = (ROOT / "scripts/hpc/stage_p/submit_p3s_serial_diagnostic.sh").read_text(encoding="utf-8")
+        self.assertIn("#PBS -q entry_imfdfkmq", pbs)
+        self.assertIn('QUEUE="${QUEUE:-entry_imfdfkmq}"', submitter)
+        self.assertNotIn("#PBS -q entryq", pbs)
+        self.assertNotIn('QUEUE="${QUEUE:-entryq}"', submitter)
+
+    def test_successful_qsub_consumes_authorization(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "auth.json"
+            path.write_text(
+                json.dumps(authorization(p3s_submission_authorized=True)), encoding="utf-8"
+            )
+            result = consumer.consume(path, "1380001.mmaster02", "a" * 40)
+            self.assertEqual(result["p3s_submissions_used"], 1)
+            self.assertFalse(result["p3s_submission_authorized"])
+            self.assertEqual(result["classification"], "stage_p3_serial_diagnostic_submitted")
+            with self.assertRaises(ValueError):
+                preflight.validate_authorization(path, True)
+
+    def test_failed_qsub_does_not_consume_authorization(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "auth.json"
+            original = authorization(p3s_submission_authorized=True)
+            path.write_text(json.dumps(original), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                consumer.consume(path, "not-a-job", "a" * 40)
+            self.assertEqual(json.loads(path.read_text(encoding="utf-8")), original)
 
 
 class DiagnosticGateTests(unittest.TestCase):

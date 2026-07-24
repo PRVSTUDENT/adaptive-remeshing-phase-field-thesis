@@ -101,6 +101,7 @@ def main() -> int:
         root / "scripts/postprocessing/parse_p3_diagnostic_log.py",
         root / "scripts/validation/validate_p3s_serial_diagnostic.py",
         root / "scripts/validation/validate_p3s_submission_preflight.py",
+        root / "scripts/validation/consume_p3s_authorization.py",
         root / "runs/hpc/stage_p/p3s_serial_diagnostic/P3S_AUTHORIZATION.json",
         root / "runs/hpc/stage_p/p3s_serial_diagnostic/README.md",
     ]
@@ -130,6 +131,14 @@ def main() -> int:
         package_failures.append("missing diagnostic source tokens")
     if "cpus=1 mp_mode=threads" not in pbs_text or "OMP_NUM_THREADS=1" not in pbs_text:
         package_failures.append("serial execution configuration not frozen")
+    if "#PBS -q entry_imfdfkmq" not in pbs_text:
+        package_failures.append("PBS queue policy is not entry_imfdfkmq")
+    if 'QUEUE="${QUEUE:-entry_imfdfkmq}"' not in wrapper_text:
+        package_failures.append("submitter queue policy is not entry_imfdfkmq")
+    if "#PBS -q entryq" in pbs_text or 'QUEUE="${QUEUE:-entryq}"' in wrapper_text:
+        package_failures.append("obsolete entryq policy remains")
+    if "consume_p3s_authorization.py" not in wrapper_text:
+        package_failures.append("post-qsub authorization consumption absent")
     if "P3S_AUTHORIZATION.json" not in wrapper_text:
         package_failures.append("submission authorization guard absent")
     authorization_text = (

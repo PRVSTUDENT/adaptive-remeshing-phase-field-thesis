@@ -3,7 +3,7 @@
 set -euo pipefail
 
 PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
-QUEUE="${QUEUE:-entryq}"
+QUEUE="${QUEUE:-entry_imfdfkmq}"
 MAIL="${MAIL:-pr21vyci@mailserver.tu-freiberg.de}"
 AUTH="${P3S_AUTH_PATH:-${PROJECT_HOME}/runs/hpc/stage_p/p3s_serial_diagnostic/P3S_AUTHORIZATION.json}"
 PBS="${PROJECT_HOME}/scripts/hpc/stage_p/01_p3s_serial_diagnostic.pbs"
@@ -85,6 +85,12 @@ JOB_ID="$(scripts/hpc/qsub_with_submitted_notify.sh \
   -- -q "${QUEUE}" -M "${MAIL}" -m abe \
   -v "P3S_STAGE_ROOT=${STAGE_ROOT},P3S_MANIFEST=${MANIFEST},P3S_DECK_SHA=${DECK_SHA},P3S_SOURCE_SHA=${SOURCE_SHA},P3S_TRANSFER_SHA=${TRANSFER_SHA},PROJECT_REVISION=${REVISION}" \
   "${PBS}")"
+if [[ ! "${JOB_ID}" =~ ^[0-9]+([.][A-Za-z0-9_-]+)?$ ]]; then
+  echo "P3-S qsub returned an invalid job ID; authorization remains unused: ${JOB_ID}" >&2
+  exit 22
+fi
+python3 scripts/validation/consume_p3s_authorization.py \
+  --authorization "${AUTH}" --job-id "${JOB_ID}" --revision "${REVISION}"
 echo "${JOB_ID}"
 qstat -f "${JOB_ID}" |
   grep -E 'Job Id:|job_state =|queue =|Resource_List|Mail_Users|Mail_Points'

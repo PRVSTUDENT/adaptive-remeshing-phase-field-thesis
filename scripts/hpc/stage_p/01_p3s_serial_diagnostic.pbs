@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N p3s_serial
-#PBS -q entryq
+#PBS -q entry_imfdfkmq
 #PBS -l select=1:ncpus=1:mem=16gb
 #PBS -l walltime=00:30:00
 #PBS -j oe
