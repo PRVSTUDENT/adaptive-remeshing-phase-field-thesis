@@ -1,0 +1,83 @@
+\chapter{Interrupted-Transfer Checkpoint Correction}
+\label{chap:d3d-a1-checkpoint}
+
+\section{Methodology}
+
+The transferred checkpoint was assessed at
+\(U_2=0.003000000026077032\,\mathrm{mm}\).  The recovered F3 phase field at
+6,601 nodes was retained as the irreversibility lower bound, while the 25,600
+actual F3 integration-point history values were held fixed.  No mesh,
+material, phase-field formulation, Fortran implementation, solver tolerance,
+or loading parameter was changed.
+
+The corrected phase field was obtained offline with a deterministic
+primal--dual active-set iteration.  At each iteration, active nodes were fixed
+at the recovered F3 lower bound and the reduced phase system was solved for the
+free nodes.  Nodes violating the lower bound were reactivated, while active
+nodes with a multiplier below \(-10^{-8}\) were released.  Acceptance required
+a free residual infinity norm no greater than \(10^{-8}\), a minimum active
+multiplier no smaller than \(-10^{-8}\), an active-bound error no greater than
+\(10^{-10}\), complete phase/history coverage, no non-positive Jacobian
+determinants, and no increase of the phase functional.
+
+\section{Offline Correction Result}
+
+The offline correction converged deterministically in seven iterations to
+6,374 active and 227 free nodes.  The final free residual infinity norm was
+\(2.1176\times10^{-21}\), the minimum active multiplier was
+\(-9.99696\times10^{-9}\), and the active-bound error was zero.  The phase
+functional changed by \(-1.6759\times10^{-10}\).  No phase-decrease,
+history-change, lower-bound, state-reset, or non-positive-Jacobian violation
+was detected.
+
+These results establish that the corrected phase field is mathematically
+admissible for the frozen F3 history under the prescribed KKT gates.  The
+result classification is
+\texttt{stage\_d3d\_a1\_checkpoint\_obstacle\_update\_pass}.  The associated
+package contains the corrected phase, unchanged actual F3 history, original F3
+lower bound, and converged 6,374/227 membership.
+
+\section{Mechanical-Checkpoint Qualification}
+
+The candidate package is not an accepted Abaqus restart state.  Mechanical
+re-equilibration was intentionally placed behind a fixed-phase datacheck and
+checkpoint-hold gate.  Three bounded datacheck attempts terminated before
+Abaqus execution:
+
+\begin{enumerate}
+  \item job \texttt{1378003.mmaster02} compared a Windows-derived Fortran
+        checksum with the LF-normalized Linux checkout;
+  \item job \texttt{1378004.mmaster02} used Python assignment-expression
+        syntax unsupported by the compute-node default Python~3.6; and
+  \item job \texttt{1378005.mmaster02} reached a common preflight in which
+        \texttt{git} was unavailable after the module purge/load sequence.
+\end{enumerate}
+
+None of these jobs compiled the user subroutine, processed the Abaqus input, or
+completed a datacheck.  They are execution-wrapper failures and do not
+contradict the offline obstacle result.  The final bounded stopping rule was
+therefore applied and no further retry was authorized.
+
+\section{Limitations}
+
+The mechanical response of the corrected checkpoint under re-equilibrated
+actual history remains unknown.  Consequently, the present evidence does not
+establish mechanical continuity after correction, actual-history KKT validity
+after equilibration, or an accepted continuation state.  It also provides no
+basis for conclusions concerning phase release, D3E, peak load, post-peak
+response, or crack-path evolution.
+
+The unresolved checkpoint response is an execution-validation limitation, not
+evidence that the offline active-set correction failed.  The corrected package
+is retained as a mathematically admissible candidate state, but not as a
+validated mechanical restart state.
+
+\section{Future Work}
+
+Any future continuation of this route requires a new execution decision rather
+than a scientific-parameter correction.  A replacement workflow should
+separate login-side repository checks from compute-node validation, bind every
+required executable explicitly after module loading, and qualify the
+environment independently before another Abaqus submission.  Until such a
+decision is made, full checkpoint hold, phase release, continuation, D3E, and
+tolerance changes remain prohibited.

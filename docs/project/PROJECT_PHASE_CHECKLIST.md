@@ -285,6 +285,7 @@ An Abaqus checkpoint hold is not authorized.
 - [!] New D3D solver submission is not authorized. D3E, a second segment, and peak/post-peak continuation remain blocked.
 - [!] Original and R1 D3D-A1H0 datacheck authorizations are consumed by jobs `1378003.mmaster02` and `1378004.mmaster02`, respectively. No further datacheck is authorized. Full-hold solver submission, phase release, continuation, D3E, endpoint-union release, and tolerance changes remain prohibited.
 - [!] Final R2 authorization is also consumed by job `1378005.mmaster02`. D3D-A1H0 execution is blocked at datacheck qualification; no R3, full hold, phase release, continuation, or D3E is authorized. The offline D3D-A1 correction remains passed, while the mechanically re-equilibrated checkpoint response remains unknown.
+- [x] Stage D3D-A1H0 interpretation closed and consolidated into thesis methodology, results, limitations, and future work. The offline correction is reported as mathematically admissible under frozen F3 history; the candidate is explicitly not an accepted restart; the mechanical checkpoint response is unknown; and the three pre-Abaqus wrapper failures are separated from the scientific result. Evidence: `docs/thesis/STAGE_D3D_A1_CHECKPOINT_CORRECTION_AND_LIMITATION.tex`; `docs/decisions/STAGE_D3D_A1H0_EXECUTION_CLOSURE.md`.
 - [!] Do not claim peak, post-peak, crack-path, production-mesh, or online-remeshing validation from D3A3 alone.
 - [!] Do not alter the accepted C2C-v3 mesh or rerun C2F-v3 without new authorization.
 
