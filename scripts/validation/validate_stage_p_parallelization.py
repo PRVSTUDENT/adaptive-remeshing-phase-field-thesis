@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Static Stage-P scan for shared-state and file-I/O constructs in Fortran."""
 from __future__ import annotations
-import argparse, csv, json, re
+import argparse, csv, json, os, re
 from collections import Counter
 from pathlib import Path
 
@@ -54,7 +54,12 @@ def main() -> int:
                                  "snippet":line.strip()[:240]})
     csv_path=out/"SHARED_VARIABLE_ACCESS.csv"
     with csv_path.open("w",newline="",encoding="utf-8") as f:
-        w=csv.DictWriter(f,fieldnames=["file","line","construct","access","snippet"]); w.writeheader(); w.writerows(rows)
+        w=csv.DictWriter(
+            f,
+            fieldnames=["file","line","construct","access","snippet"],
+            lineterminator=os.linesep,
+        )
+        w.writeheader(); w.writerows(rows)
     counts=Counter(r["construct"] for r in rows)
     risky=sorted({r["file"] for r in rows if r["construct"] in
                   {"COMMON","SAVE","DATA","BLOCK_DATA","USRVAR","TRANSFER_DONE","OPEN","READ","WRITE"}})
