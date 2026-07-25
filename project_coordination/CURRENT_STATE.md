@@ -1,7 +1,7 @@
 # Current project state
 
-Updated: 2026-07-25  
-Protocol version: 1  
+Updated: 2026-07-25
+Protocol version: 1
 Classification: `multi_agent_bootstrap_integrity_repair_pass`
 
 ## Git
