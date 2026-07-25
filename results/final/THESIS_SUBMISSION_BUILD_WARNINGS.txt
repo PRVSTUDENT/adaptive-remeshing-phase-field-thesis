@@ -1,0 +1,50 @@
+THESIS_SUBMISSION_BUILD_WARNINGS
+classification=wp7_thesis_submission_package_review_complete
+source_revision=fbc41bb279b97c83d53a03889f1ca9dcc748c067
+compiler=Tectonic 0.16.9 (bundled openai-bundled latex plugin)
+entrypoint=docs/thesis/THESIS_CLOSEOUT_BUILD.tex
+log=results/latex_build_wp7_f2_submission/THESIS_CLOSEOUT_BUILD.log
+unresolved_reference_count=0
+undefined_citation_count=0
+missing_input_file_count=0
+overfull_hbox_occurrences=58
+underfull_hbox_occurrences=136
+unique_overfull_width_messages=54
+fatal_errors=0
+warning_class=layout_only_long_identifiers_paths_and_narrow_tables
+
+Summary:
+- No missing references, citations, or input files.
+- Remaining messages are nonfatal Overfull/Underfull \hbox layout warnings
+  caused primarily by long hashes, job IDs, path strings, and narrow tables.
+- These do not block the 30-page closeout PDF generation.
+
+Sample overfull widths (unique):
+  - 1.23172pt too wide
+  - 10.5852pt too wide
+  - 103.87749pt too wide
+  - 108.47035pt too wide
+  - 11.08794pt too wide
+  - 11.34853pt too wide
+  - 110.68465pt too wide
+  - 119.33617pt too wide
+  - 124.19672pt too wide
+  - 128.83412pt too wide
+  - 129.79568pt too wide
+  - 13.41577pt too wide
+  - 13.86476pt too wide
+  - 15.19518pt too wide
+  - 15.79762pt too wide
+  - 153.4276pt too wide
+  - 161.21864pt too wide
+  - 164.27277pt too wide
+  - 17.46893pt too wide
+  - 176.07274pt too wide
+  - 18.8799pt too wide
+  - 19.24666pt too wide
+  - 19.66452pt too wide
+  - 2.41827pt too wide
+  - 208.86113pt too wide
+  ... and 29 more unique width messages
+
+Underfull badness values observed: 1715, 3088, 7415, 7522, 10000

@@ -1,0 +1,175 @@
+{
+  "classification": "wp7_thesis_submission_package_review_complete",
+  "date": "2026-07-25",
+  "source_revision": "fbc41bb279b97c83d53a03889f1ca9dcc748c067",
+  "substantive_thesis_revision": "fd12f0e992ef4769ae17872babca53784e7605d9",
+  "expected_thesis_length_pages": 30,
+  "flags": {
+    "scientific_content_frozen": true,
+    "submission_pdf_verified": true,
+    "administrative_requirements_verified": false,
+    "supervisor_review_complete": false,
+    "ready_for_submission": false
+  },
+  "ready_for_submission_blockers": [
+    "No faculty title page / author / program / supervisor / institution / date block in THESIS_CLOSEOUT_BUILD.tex",
+    "No formal abstract section in the closeout PDF",
+    "No bibliography or citation apparatus in the closeout PDF",
+    "Administrative declaration/signed forms not checked against current faculty portal instructions",
+    "Final human visual inspection of figure readability at print scale is still required",
+    "Working tree contains unrelated dirty agent_handoff/ and uncommitted docs; package must be cut from frozen revision only"
+  ],
+  "pdf": {
+    "filename": "THESIS_CLOSEOUT_BUILD.pdf",
+    "local_path": "results/latex_build_wp7_f2_submission/THESIS_CLOSEOUT_BUILD.pdf",
+    "tracked_in_git": false,
+    "pages": 30,
+    "bytes": 143114,
+    "sha256": "bf0dbf8fb4ad306a8cbfdc0dd9ea5b60304c07299b86cdc0f2034c0c572529f8",
+    "compiler": "Tectonic 0.16.9 (bundled)",
+    "entrypoint": "docs/thesis/THESIS_CLOSEOUT_BUILD.tex",
+    "unresolved_references": 0,
+    "fatal_errors": 0
+  },
+  "validation": {
+    "git_diff_check_frozen_paths": "pass",
+    "git_diff_check_dirty_worktree": "fail_unrelated_uncommitted_docs_trailing_whitespace",
+    "checklist_validator": "pass",
+    "repository_unit_tests": "pass_100_of_100",
+    "standalone_validation_test_scripts": "pass_5_of_5",
+    "clean_latex_build": "pass_30_pages",
+    "final_evidence_manifest_validation": "final_thesis_evidence_manifest_pass",
+    "tracked_odb_scan": "pass_none",
+    "tracked_unapproved_binary_scan": "pass_none",
+    "absolute_path_scan_thesis_sources": "review_note_cluster_evidence_paths_present",
+    "todo_placeholder_scan_thesis_sources": "pass_none",
+    "latex_unresolved_reference_scan": "pass_zero",
+    "pdf_page_count_and_checksum_verification": "pass",
+    "agent_handoff_sync_utility": "not_run_unrelated_dirty_handoff_state"
+  },
+  "package_inventory": {
+    "include": [
+      {
+        "item": "thesis_pdf",
+        "path": "results/latex_build_wp7_f2_submission/THESIS_CLOSEOUT_BUILD.pdf",
+        "required": true,
+        "status": "present_local_artifact"
+      },
+      {
+        "item": "thesis_source_entrypoint",
+        "path": "docs/thesis/THESIS_CLOSEOUT_BUILD.tex",
+        "required": true,
+        "status": "present_tracked"
+      },
+      {
+        "item": "thesis_chapter_sources",
+        "paths": [
+          "docs/thesis/STAGE_A_MOLNAR_BENCHMARK_CHAPTER.tex",
+          "docs/thesis/STAGE_C_OFFLINE_REFINEMENT_CHAPTER.tex",
+          "docs/thesis/STAGE_D_STATE_TRANSFER_CHAPTER.tex",
+          "docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex",
+          "docs/thesis/STAGE_D3D_A1_CHECKPOINT_CORRECTION_AND_LIMITATION.tex",
+          "docs/thesis/EXTERNALDB_COMMONBLOCK_PARALLELIZATION_STUDY.tex",
+          "docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex",
+          "docs/thesis/STAGE_A_REPRODUCIBILITY_APPENDIX.tex"
+        ],
+        "required": true,
+        "status": "present_tracked"
+      },
+      {
+        "item": "claim_matrix",
+        "path": "docs/thesis/FINAL_CLAIM_MATRIX.md",
+        "required": true,
+        "status": "present_tracked"
+      },
+      {
+        "item": "supporting_stage_reports",
+        "paths": [
+          "docs/reports/STAGE_A_BASELINE_REPORT.tex",
+          "docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex",
+          "docs/reports/STAGE_B_RESULTS_REPORT.tex",
+          "docs/reports/STAGE_B_EXECUTION_AND_FAILURE_LOG.tex"
+        ],
+        "required": "when_requested_as_supplementary",
+        "status": "present_tracked"
+      },
+      {
+        "item": "stage_d_figure_table_sources",
+        "paths": [
+          "results/final/stage_d/figures/",
+          "results/final/stage_d/tables/",
+          "results/final/stage_d/FIGURE_PROVENANCE.json",
+          "results/final/stage_d/STAGE_D_FINAL_METRICS.json"
+        ],
+        "required": "for_reproducibility_package",
+        "status": "present_tracked",
+        "note": "Not embedded via includegraphics in the 30-page closeout PDF"
+      },
+      {
+        "item": "final_evidence_manifest",
+        "path": "results/final/FINAL_EVIDENCE_MANIFEST.json",
+        "required": true,
+        "status": "present_tracked"
+      },
+      {
+        "item": "submission_review_records",
+        "paths": [
+          "docs/decisions/WP7_THESIS_SUBMISSION_PACKAGE_REVIEW.md",
+          "docs/reports/THESIS_SUBMISSION_CHECKLIST.md",
+          "results/final/THESIS_SUBMISSION_PACKAGE_MANIFEST.json",
+          "results/final/THESIS_SUBMISSION_PDF_RECORD.txt",
+          "results/final/THESIS_SUBMISSION_BUILD_WARNINGS.txt"
+        ],
+        "required": true,
+        "status": "present"
+      },
+      {
+        "item": "sha256_checksum_file",
+        "path": "results/final/THESIS_SUBMISSION_PDF_RECORD.txt",
+        "required": true,
+        "status": "present_in_pdf_record"
+      },
+      {
+        "item": "package_readme",
+        "path": "docs/reports/THESIS_SUBMISSION_CHECKLIST.md",
+        "required": true,
+        "status": "present_describes_contents_and_gaps"
+      },
+      {
+        "item": "declaration_or_signed_forms",
+        "required": "when_faculty_requires",
+        "status": "not_verified_against_current_portal"
+      },
+      {
+        "item": "bibliography",
+        "required": "when_faculty_format_requires",
+        "status": "absent_from_closeout_build"
+      }
+    ],
+    "exclude": [
+      "ODB files",
+      "scratch outputs",
+      "temporary LaTeX intermediates except retained build log for review",
+      "cluster logs not requested as supplementary evidence",
+      "preserved failed-run evidence unless explicitly required",
+      "secrets, private mail addresses, credentials, machine-specific configuration",
+      "dirty unrelated agent_handoff/ working-tree state"
+    ]
+  },
+  "claim_boundary_checks": {
+    "peak_and_prepeak_rf_u_supported": "pass_visible",
+    "unrestricted_postpeak_and_crack_path_mesh_independence_not_supported": "pass_visible",
+    "d2c_case_specific_repeatability": "pass_visible",
+    "p3t4_no_threaded_evidence": "pass_visible",
+    "mpi_and_hybrid_safety_unqualified": "pass_visible",
+    "d3d_a1_not_accepted_mechanical_restart": "pass_visible",
+    "abaquser_equivalence_externally_blocked": "pass_visible",
+    "validated_online_adaptive_remeshing_not_claimed": "pass_visible"
+  },
+  "execution": {
+    "abaqus_job_submitted": false,
+    "pbs_job_submitted": false,
+    "scientific_work_reopened": false,
+    "agent_handoff_sync_run": false
+  }
+}

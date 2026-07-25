@@ -33,7 +33,7 @@ or deferred contour/crack-path evidence)
 | WP4 | Refined phase-field benchmark and efficiency comparison | `[x]` closed at scoped Stage C result | peak/pre-peak supported; post-peak limited; crack-path H1 equivalence not supported | `runs/hpc/stage_c2/closeout/STAGE_C_CLOSEOUT_JOB_SUMMARY.md` |
 | WP5 | Evolving remesh and state transfer | `[~]` scoped completion with limitation | bounded pre-peak transfer proven; corrected mechanical restart unproven | `docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex`; `docs/decisions/STAGE_D3D_A1H0_EXECUTION_CLOSURE.md` |
 | WP6 | IMFD/ABAQUSER integration | `[!]` externally blocked | interface executable/module/source unavailable; independent extraction retained | `docs/decisions/WP6_ABAQUSER_EXTERNAL_BLOCK_CLOSURE.md` |
-| WP7 | Final recommendations and thesis writing | `[x]` documentation closeout complete | `wp7_final_closeout_reconciliation_complete`; submission-package review next | `docs/decisions/WP7_FINAL_CLOSEOUT_RECONCILIATION.md`; `docs/reports/FINAL_REPRODUCIBILITY_AUDIT.md`; `results/final/FINAL_EVIDENCE_MANIFEST.json` |
+| WP7 | Final recommendations and thesis writing | `[x]` documentation closeout complete; submission package reviewed | `wp7_thesis_submission_package_review_complete`; faculty-template integration next | `docs/decisions/WP7_THESIS_SUBMISSION_PACKAGE_REVIEW.md`; `results/final/THESIS_SUBMISSION_PACKAGE_MANIFEST.json`; `docs/reports/FINAL_REPRODUCIBILITY_AUDIT.md` |
 
 ## WP0 - Environment, Starter Pipeline, And Source Preservation
 
@@ -277,6 +277,17 @@ or deferred contour/crack-path evidence)
   validator passed, repository unit tests passed 100/100, five standalone
   validation test scripts passed, and the 30-page final build plus both
   three-page Stage-B reports compiled successfully.
+- [x] WP7-F2 thesis submission-package review completed. Evidence:
+  `docs/decisions/WP7_THESIS_SUBMISSION_PACKAGE_REVIEW.md`;
+  `docs/reports/THESIS_SUBMISSION_CHECKLIST.md`;
+  `results/final/THESIS_SUBMISSION_PACKAGE_MANIFEST.json`;
+  `results/final/THESIS_SUBMISSION_PDF_RECORD.txt`;
+  `results/final/THESIS_SUBMISSION_BUILD_WARNINGS.txt`. Classification:
+  `wp7_thesis_submission_package_review_complete`: 30-page closeout PDF rebuilt
+  and checksummed as a local artifact; claim boundaries preserved; automated
+  gates passed; `ready_for_submission` remains false pending faculty-template
+  integration, administrative forms, and final human PDF inspection. Next:
+  WP7-F3 faculty-template integration.
 
 ## Gate Checklist
 

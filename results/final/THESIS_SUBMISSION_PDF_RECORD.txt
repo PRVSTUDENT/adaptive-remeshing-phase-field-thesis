@@ -1,0 +1,55 @@
+﻿THESIS_SUBMISSION_PDF_RECORD
+classification=wp7_thesis_submission_package_review_complete
+date=2026-07-25
+
+Source revision:
+fbc41bb279b97c83d53a03889f1ca9dcc748c067
+
+Substantive thesis revision:
+fd12f0e992ef4769ae17872babca53784e7605d9
+
+Expected thesis length:
+30 pages
+
+Exact build command:
+python C:\Users\pruth\.codex\plugins\cache\openai-bundled\latex\0.2.4\scripts\compile_latex.py docs/thesis/THESIS_CLOSEOUT_BUILD.tex --compiler tectonic --output-directory results/latex_build_wp7_f2_submission --json
+
+Follow-up log-preserving compile (same engine, for transcript retention):
+C:\Users\pruth\.codex\plugins\cache\openai-bundled\latex\0.2.4\bin\tectonic.exe -X compile --outdir results/latex_build_wp7_f2_submission --outfmt pdf --print --untrusted --keep-logs THESIS_CLOSEOUT_BUILD.tex
+(working directory: docs/thesis)
+
+Compiler / Tectonic version:
+Tectonic 0.16.9 (bundled; path openai-bundled latex plugin bin/tectonic.exe)
+
+PDF filename:
+THESIS_CLOSEOUT_BUILD.pdf
+
+Output directory (local package artifact; not tracked for commit unless policy changes):
+results/latex_build_wp7_f2_submission/
+
+Page count:
+30
+
+File size (bytes):
+143114
+
+SHA-256 (verified log-preserving build):
+bf0dbf8fb4ad306a8cbfdc0dd9ea5b60304c07299b86cdc0f2034c0c572529f8
+
+Build log:
+results/latex_build_wp7_f2_submission/THESIS_CLOSEOUT_BUILD.log
+results/latex_build_wp7_f2_submission/tectonic_stdout.txt
+
+Unresolved-reference count:
+0
+
+Warning summary:
+layout-only Overfull/Underfull hbox warnings; see results/final/THESIS_SUBMISSION_BUILD_WARNINGS.txt
+fatal_errors=0
+
+Tracked PDF policy:
+submission PDF remains a local/package artifact; repository gate records tracked_pdf=false
+
+Notes:
+- First clean compile_latex.py attempt also produced a 30-page 143114-byte PDF; PDF metadata may make SHA-256 non-identical across rebuilds. The recorded hash is from the log-preserving verification build.
+- No Abaqus, PBS, cluster, or scientific job was executed.
