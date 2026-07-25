@@ -994,3 +994,11 @@ Start-Service -Name 'eduWGManager$eduVPN'
 Start-Service -Name 'OpenVPNServiceInteractive$eduVPN'
 
 ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg 'cd ~/software/src && rm -rf install-tl-* && wget -O install-tl-unx.tar.gz https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && tar -xzf install-tl-unx.tar.gz && cd "$(find . -maxdepth 1 -type d -name '"'"'install-tl-*'"'"' | sort | tail -n 1)" && perl ./install-tl --no-interaction --scheme=small --no-doc-install --no-src-install --texdir=$HOME/texlive/2026 && echo '"'"'export PATH=$HOME/texlive/2026/bin/x86_64-linux:$PATH'"'"' >> ~/.bashrc && source ~/.bashrc && which pdflatex && pdflatex --version | head -n 2'
+# P3-SM1T preparation handoff (2026-07-25)
+
+P3-SM0 is passed and closed at job `1378099.mmaster02`. P3-SM1T now has a
+preparation-only package and fail-closed future lane. It calls only
+`GETTHREADID()` in the controlled UEL callback and preserves the accepted
+P3-SM0 calculations and callback markers. Submission remains false with 0/1
+used; no Abaqus/PBS job was submitted. P3-SM1R is design-only, and P3-T4,
+MPI, hybrid, P4, H1, D3D-A1 reopening, and D3E remain blocked.

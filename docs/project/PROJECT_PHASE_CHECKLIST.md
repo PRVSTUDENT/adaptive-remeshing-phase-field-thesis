@@ -318,3 +318,15 @@ Priority:
 - [x] Prepared one infrastructure-corrected r2 diagnostic execution with no compute-node Git dependency, immutable scratch pre-stage, `16:00:00` walltime, and dedicated scratch PBS output. Classification scope: `infrastructure_corrected_targeted_diagnostic_execution`. Evidence: commit `209ad325d2c85532411c13d8290db08ca35b0637`; `scripts/hpc/submit_molnar_v2_sdv15_diagnostic_r2.sh`; `scripts/hpc/molnar_paper_matched_single_notch_v2_sdv15_diagnostic_r2.pbs`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_MANIFEST.md`.
 - [x] Reviewed the single authorized infrastructure-corrected r2 diagnostic job. Job: `1375028.mmaster02`; PBS wrapper result: `postprocess_python_compatibility_failure_after_successful_solve`; Abaqus result: `molnar_v2_sdv15_diagnostic_r2_technical_pass`; diagnostic instrumentation: `non_intrusive_pass`; scientific evidence: `sdv15_call_level_nonmonotonicity_observed`; completed/converged increment replay result: `sdv15_completed_increment_possible_violation`; severity-audit result: `sdv15_completed_increment_irreversibility_violation`; SDV16 decreases over the same final-increment sequences: `0`. Evidence: `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_SUMMARY.md`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/postprocessing_completed_increment_replay_time_aligned/`.
 - [!] Gate A3 remains `reference_data_insufficient`; this run is targeted scientific evidence collection and does not authorize a retry, candidate v3, Stage B, MISESERI, remeshing, state transfer, or any parameter sweep.
+# P3-SM1T preparation update (2026-07-25)
+
+- [x] P3-SM0 reference remains passed and closed: job
+  `1378099.mmaster02`, solver exit 0, all four callback categories, 32/32
+  state records, 13 increments, no signal 11, authorization consumed 1/1.
+- [x] Prepare isolated P3-SM1T `GETTHREADID()` package and guarded 1/1/1 lane.
+- [x] Keep P3-SM1T execution unauthorized (0/1 used; no automatic retry).
+- [ ] Qualify `GETTHREADID` by separately reviewed execution.
+- [ ] P3-SM1R remains design-only; `GETRANK` remains unqualified outside the
+  failed `UEXTERNALDB(LOP=0)` call.
+- [ ] P3-T4, MPI, hybrid, P4, production H1, D3D-A1 reopening, and D3E remain
+  blocked.

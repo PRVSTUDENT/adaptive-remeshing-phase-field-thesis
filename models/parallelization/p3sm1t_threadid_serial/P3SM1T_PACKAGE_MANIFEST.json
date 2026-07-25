@@ -1,0 +1,24 @@
+{
+  "classification": "stage_p3sm1t_threadid_serial_package_prepared",
+  "reference_revision": "8289e2e527957a59693a9994501c26d8c1d9ff36",
+  "deck": {
+    "path": "P3SM1T_serial.inp",
+    "sha256": "bd8c487e94636ccf1833a65aa8db40aaecad8baeeda21e4bfe9d3ec29f4922ae",
+    "byte_identical_to_p3sm0": true
+  },
+  "source": {
+    "path": "p3sm1t_threadid_callback.for",
+    "sha256": "468b633793505e641d1a87d0e97312e59a8c4a3501285573c6c6eb7f280a0b97",
+    "p3sm0_reference_sha256": "0091a4dc3b39829542f718d722bb2129f1bac7491e1f03b4e38ef12394e852d4",
+    "scientific_uel_umat_changes": false,
+    "isolated_getthreadid_hook_only": true
+  },
+  "transfer_table": {
+    "path": "d2_transfer_table.inc",
+    "sha256": "d1ccd478d635272215f7e9b1649bfcca3842fd5aa331d1bd3124a85395fc65f2",
+    "byte_identical_to_p3sm0": true
+  },
+  "execution_authorized": false,
+  "solver_executed": false,
+  "hpc_submitted": false
+}

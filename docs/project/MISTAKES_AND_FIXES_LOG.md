@@ -136,3 +136,19 @@ Status: resolved/open/external block/scientific limitation
 
 Never replace the original failure entry after a correction passes; link the
 failed attempt to the accepted successor.
+# P3-SM1T prevention rule (2026-07-25)
+
+P3-SM0 established that the minimal callbacks complete without identifier
+utilities, following the P3-S signal-11 localization to `GETRANK()` in
+`UEXTERNALDB(LOP=0)`. Prevention: qualify one identifier utility and one call
+location at a time. P3-SM1T therefore adds only `GETTHREADID()` inside the
+bounded UEL callback and remains execution-unauthorized. No job, reroute, or
+retry occurred in this preparation.
+
+Repository-wide local unit discovery on 2026-07-25 ran 65 tests: 64 passed
+and the pre-existing P3-SB static assertion
+`test_committed_authorization_is_false` errored because that test expects the
+prepared authorization classification while the preserved P3-SB evidence is
+already classified as submitted/consumed. The focused P3-SM1T suite passed
+15/15. No P3-SB record or unrelated test was changed; correcting that stale
+legacy assertion is outside this preparation boundary.

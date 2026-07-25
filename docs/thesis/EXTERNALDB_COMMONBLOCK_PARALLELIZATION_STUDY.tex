@@ -47,3 +47,12 @@ completes with this minimal callback plumbing. The result does not establish
 \texttt{GETRANK} or \texttt{GETTHREADID} safety, shared
 \texttt{COMMON}/\texttt{SAVE} thread safety, four-thread repeatability, MPI,
 or hybrid support.
+\subsection{Separated identifier-utility qualification}
+P3-SM0 passed serially with minimal \texttt{UEXTERNALDB}, UEL, and UMAT
+callbacks, solver exit zero, complete 32-record state coverage, and no signal
+11.  P3-SM1T is prepared, but not authorized for execution, to call only
+\texttt{GETTHREADID()} inside the controlled UEL condition for element 1,
+step 1, increment 1.  Markers immediately bracket every call, and repeated
+pairs are counted.  P3-SM1R remains design-only; \texttt{GETRANK} remains
+unqualified outside the failed \texttt{UEXTERNALDB(LOP=0)} location.  P3-T4
+and all parallel or downstream production routes remain blocked.
