@@ -243,7 +243,9 @@ class AuthorizationTests(unittest.TestCase):
     def test_committed_authorization_and_downstream_false(self):
         data = json.loads((ROOT / "runs/hpc/stage_p/p3sm1t_threadid_serial/P3SM1T_AUTHORIZATION.json").read_text())
         self.assertFalse(data["p3sm1t_submission_authorized"])
-        self.assertEqual(data["p3sm1t_submissions_used"], 0)
+        self.assertEqual(data["classification"], "stage_p3sm1t_threadid_serial_submitted")
+        self.assertEqual(data["p3sm1t_submissions_used"], 1)
+        self.assertEqual(data["p3sm1t_job_id"], "1378239.mmaster02")
         for key in preflight.REQUIRED_FALSE:
             self.assertFalse(data[key])
 

@@ -337,7 +337,7 @@ Priority:
   header confirms `get_thread_id()` but not `GETTHREADID()`.
 - [x] Prepare P3-SM1TC as a new corrected documented-interface lane based on
   P3-SM0. Execution is unauthorized at 0/1 with no retry.
-- [ ] Qualify installed `get_thread_id()` only after separate review and
+- [x] Qualify installed `get_thread_id()` after separate review and
   authorization.
 - [x] P3-SM1TC job `1378240.mmaster02` passed from authorization revision
   `b072e32f322b440729318e06f2c2ab72d041fc12`: scheduler/solver exit 0,
@@ -345,9 +345,10 @@ Priority:
   3/3, returned IDs `[0, 0, 0]`, unique IDs `[0]`, no signal 11 or unresolved
   symbol, 32/32 state records, and 13 increments. Authorization consumed 1/1;
   no retry.
-- [ ] Decide separately whether to prepare documented-call P3-SM1R or record
-  GETRANK as a limitation. P3-T4 remains blocked until that decision.
-- [ ] P3-SM1R remains design-only; `GETRANK` remains unqualified outside the
-  failed `UEXTERNALDB(LOP=0)` call.
+- [x] Select the documented-call P3-SM1R route and prepare it offline using
+  `CALL GETRANK(KPROCESSNUM)` only inside controlled UEL. Authorization remains
+  false at 0/1, retry is disabled, and no Abaqus/PBS job has been submitted.
+- [~] P3-SM1R is prepared but unexecuted; GETRANK remains unqualified pending
+  commit, synchronization, review, and separate one-shot authorization.
 - [ ] P3-T4, MPI, hybrid, P4, production H1, D3D-A1 reopening, and D3E remain
   blocked.

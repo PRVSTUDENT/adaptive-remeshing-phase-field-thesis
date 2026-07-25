@@ -154,10 +154,13 @@ class StaticLaneTests(unittest.TestCase):
                 manifest[key]["sha256"],
             )
 
-    def test_committed_authorization_is_false(self) -> None:
+    def test_committed_authorization_is_consumed(self) -> None:
         path = ROOT / "runs/hpc/stage_p/p3sb_baseline_serial/P3SB_AUTHORIZATION.json"
-        data = preflight.validate_authorization(path, require_submit=False)
+        data = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(data["classification"], "stage_p3sb_baseline_serial_submitted")
         self.assertFalse(data["p3sb_submission_authorized"])
+        self.assertEqual(data["p3sb_submissions_used"], 1)
+        self.assertEqual(data["p3sb_job_id"], "1378094.mmaster02")
         for key in preflight.REQUIRED_FALSE:
             self.assertFalse(data[key])
 
