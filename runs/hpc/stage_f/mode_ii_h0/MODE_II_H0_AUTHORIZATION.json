@@ -1,8 +1,8 @@
 {
-  "classification": "stage_f_mode_ii_h0_prepared",
+  "classification": "stage_f_mode_ii_h0_datacheck_authorized",
   "preparation_complete": true,
   "package_path": "models/generated/mode_ii/h0_serial",
-  "datacheck_authorized": false,
+  "datacheck_authorized": true,
   "datacheck_submissions_used": 0,
   "maximum_datacheck_submissions": 1,
   "solver_authorized": false,
@@ -17,9 +17,15 @@
   "stage_p_reopening_authorized": false,
   "d3d_reopening_authorized": false,
   "thesis_submission_task_authorized": false,
+  "authorization_task_id": "F1-J0-AUTH",
+  "authorization_parent_revision": "cddf916c8422f5f87152205f078e5e8f019e1afd",
+  "authorization_scope": "Exactly one F1-J0 Abaqus datacheck; no full solver analysis and no retry",
   "notes": [
-    "Preparation only. No submission is authorized by this record.",
-    "A separate authorization-only commit must set datacheck_authorized true before F1-J0.",
-    "Failure of the single datacheck consumes authorization; no automatic retry."
+    "Exactly one F1-J0 datacheck is authorized.",
+    "Submission still requires separate explicit approval.",
+    "A valid scheduler job ID consumes the authorization immediately.",
+    "Failure consumes the one authorization.",
+    "No automatic retry or corrected replacement is authorized.",
+    "No full analysis, F1-J1, F2, F3, F4 or F5 work is authorized."
   ]
 }

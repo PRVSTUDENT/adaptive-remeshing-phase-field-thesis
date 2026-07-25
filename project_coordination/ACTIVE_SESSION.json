@@ -4,12 +4,12 @@
   "agent": null,
   "task_id": null,
   "started_at": null,
-  "base_commit": "97756e09caad28ebd6257f3406c7d6365eca771a",
+  "base_commit": "cddf916c8422f5f87152205f078e5e8f019e1afd",
   "allowed_write_scope": [],
   "forbidden_paths": [
     "agent_handoff/**",
     "preserved failed-job evidence",
     "unrelated dirty files"
   ],
-  "notes": "F1-P0 complete. Lock free. Next task F1-J0-AUTH (authorization only; no submit)."
+  "notes": "F1-J0-AUTH complete. Datacheck authorized, submission NOT approved. Jobs permitted now: 0. Wait for explicit F1-J0 submission approval."
 }

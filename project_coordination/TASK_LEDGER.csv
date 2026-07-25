@@ -4,6 +4,6 @@ COORD-1,Coordination,Integrate mandatory multi-agent bootstrap entrypoints,compl
 COORD-1R,Coordination,Repair bootstrap contradictions and encoding,complete,grok,9abb621d69df46251c1999c9d4ca8e9aac23f589,0be8b7c2ac9ffefb214acf31159afb10b0eb3868,.agent.md;adaptive_remeshing_phase_field_agent.md;README.md;scripts/validation/check_multi_agent_bootstrap.py;project_coordination/**,,multi_agent_bootstrap_integrity_repair_pass,F1-P0,2026-07-25
 F0,Stage F,Mode-II H0 offline preparation,complete,,7ed23c1be071f8e5134c879231b547ad1960d9ce,17240f646cf1e382396006ab635976fa22a67890,models/generated/mode_ii/**;scripts/**/mode_ii*;runs/hpc/stage_f/**;docs/studies/STAGE_F*,,stage_f_mode_ii_h0_prepared,F1-P0,2026-07-25
 F1-P0,Stage F,Cluster sync and offline qualification,complete,grok,97756e09caad28ebd6257f3406c7d6365eca771a,21f4102ab86e13f93ca02bc616cb04cdd1edea97,project_coordination/**;runs/hpc/stage_f/mode_ii_h0/qualification/**;docs/experiment_records/STAGE_F1_P0_CLUSTER_QUALIFICATION.md,,stage_f_mode_ii_h0_cluster_qualification_pass,F1-J0-AUTH,2026-07-25
-F1-J0-AUTH,Stage F,Mode-II datacheck authorization,ready,,97756e09caad28ebd6257f3406c7d6365eca771a,,,,,F1-J0,2026-07-25
-F1-J0,Stage F,Mode-II H0 datacheck,blocked,,,,,,,F1-J1,2026-07-25
+F1-J0-AUTH,Stage F,Mode-II datacheck authorization,complete,grok,cddf916c8422f5f87152205f078e5e8f019e1afd,d2b9f089022138f080cbad9452fa387da12735d0,runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json;project_coordination/**,,stage_f_mode_ii_h0_datacheck_authorized,F1-J0,2026-07-25
+F1-J0,Stage F,Mode-II H0 datacheck,ready_pending_submission_approval,,cddf916c8422f5f87152205f078e5e8f019e1afd,,,,,F1-J1-PREP,2026-07-25
 F1-J1,Stage F,Mode-II H0 serial baseline,blocked,,,,,,,F2,2026-07-25

@@ -1,28 +1,29 @@
 {
-  "task_id": "F1-J0-AUTH",
+  "task_id": "F1-J0",
   "stage": "Stage F",
-  "title": "Mode-II datacheck authorization",
-  "status": "ready",
-  "base_commit": "97756e09caad28ebd6257f3406c7d6365eca771a",
+  "title": "Mode-II H0 Abaqus datacheck",
+  "status": "ready_pending_submission_approval",
   "scientific_freeze_revision": "17240f646cf1e382396006ab635976fa22a67890",
-  "scientific_package": "models/generated/mode_ii/h0_serial",
   "authorization_file": "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
+  "package_path": "models/generated/mode_ii/h0_serial",
+  "datacheck_authorized": true,
+  "submission_approved": false,
   "execution_authorized": false,
   "maximum_jobs_now": 0,
-  "next_action": "Separate authorization-only commit for one datacheck; do not submit",
-  "next_task_after_pass": "F1-J0",
-  "requires": [
-    "F1-P0 pass",
-    "explicit human approval before authorization commit",
-    "explicit submission approval after authorization commit"
-  ],
-  "blocked_after": [
-    "F1-J0 submission without auth",
-    "F1-J1",
-    "F2",
-    "F3",
-    "F4",
-    "F5"
-  ],
+  "next_action": "Wait for separate explicit F1-J0 submission approval",
+  "next_task_after_pass": "F1-J1-PREP",
+  "job_plan": {
+    "job_name": "mode_ii_h0_dc",
+    "type": "Abaqus datacheck only",
+    "queue": "entry_imfdfkmq",
+    "cpus": 1,
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory": "16 GB",
+    "walltime": "00:30:00",
+    "maximum_submissions": 1,
+    "automatic_retry": false,
+    "full_solver_analysis": false
+  },
   "protocol_version": 1
 }

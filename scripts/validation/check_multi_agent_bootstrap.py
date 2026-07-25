@@ -236,10 +236,29 @@ def main() -> int:
 
     try:
         auth_data = json.loads(auth.read_text(encoding="utf-8"))
-        if auth_data.get("datacheck_authorized") is not False:
-            fail("Stage-F datacheck_authorized must remain false", errors)
         if auth_data.get("solver_authorized") is not False:
-            fail("Stage-F solver_authorized must remain false", errors)
+            fail("Stage-F solver_authorized must remain false until solver auth", errors)
+        if auth_data.get("automatic_retry_authorized") is not False:
+            fail("Stage-F automatic_retry_authorized must remain false", errors)
+        if auth_data.get("maximum_datacheck_submissions") != 1:
+            fail("Stage-F maximum_datacheck_submissions must equal 1", errors)
+        used = auth_data.get("datacheck_submissions_used")
+        if not isinstance(used, int) or isinstance(used, bool) or used not in (0, 1):
+            fail("Stage-F datacheck_submissions_used invalid", errors)
+        if auth_data.get("datacheck_authorized") is True:
+            if auth_data.get("classification") != "stage_f_mode_ii_h0_datacheck_authorized":
+                fail(
+                    "datacheck_authorized true requires classification "
+                    "stage_f_mode_ii_h0_datacheck_authorized",
+                    errors,
+                )
+            if used != 0:
+                fail(
+                    "authorized unused datacheck must have datacheck_submissions_used=0",
+                    errors,
+                )
+        elif auth_data.get("datacheck_authorized") is not False:
+            fail("Stage-F datacheck_authorized must be boolean", errors)
     except (OSError, json.JSONDecodeError) as exc:
         fail(f"invalid Mode-II authorization: {exc}", errors)
 
