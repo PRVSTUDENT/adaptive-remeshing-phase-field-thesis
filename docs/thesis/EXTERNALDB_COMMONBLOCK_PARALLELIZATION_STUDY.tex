@@ -81,3 +81,17 @@ callback and scientific gates also passed.  The supported conclusion is
 limited to the installed \texttt{get\_thread\_id()} interface under one MPI
 rank and one OpenMP thread.  GETRANK and multi-thread behavior remain
 unqualified.
+
+The subsequent P3-SM1R execution also passed: three controlled UEL calls to
+the documented \texttt{CALL GETRANK(KPROCESSNUM)} interface returned rank
+zero, with complete serial scientific gates.  This result remains limited to
+one MPI rank and one OpenMP thread.
+
+P3-T4 is therefore prepared offline as a bounded one-rank, four-thread
+characterization of the eight-element case.  It retains the P3-SM0 scientific
+expressions and brackets their unsynchronized shared-state accesses with
+diagnostic metadata calls.  Abaqus mutexes protect only counters, ownership,
+and active-writer metadata; they do not protect the scientific
+\texttt{USRVAR} or \texttt{TRANSFER\_DONE} operations.  Execution remains
+unauthorized, and the preparation makes no MPI, hybrid, or general production
+thread-safety claim.
