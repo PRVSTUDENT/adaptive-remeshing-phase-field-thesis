@@ -4,7 +4,7 @@ set -euo pipefail
 
 PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
 QUEUE="${QUEUE:-entry_imfdfkmq}"
-MAIL="${MAIL:-pr21vyci@mailserver.tu-freiberg.de}"
+P3SM1R_MAIL="${P3SM1R_MAIL:-pr21vyci@mailserver.tu-freiberg.de}"
 AUTH="${P3SM1R_AUTH_PATH:-${PROJECT_HOME}/runs/hpc/stage_p/p3sm1r_getrank_serial/P3SM1R_AUTHORIZATION.json}"
 PBS="${PROJECT_HOME}/scripts/hpc/stage_p/06_p3sm1r_getrank_serial.pbs"
 PACKAGE="${PROJECT_HOME}/models/parallelization/p3sm1r_getrank_serial"
@@ -30,7 +30,7 @@ python3 -m py_compile \
   scripts/validation/validate_p3sm1r_serial.py \
   scripts/validation/validate_p3sm1r_submission_preflight.py \
   scripts/validation/consume_p3sm1r_authorization.py
-python3 scripts/hpc/validate_pbs_email_notifications.py --email "${MAIL}" "${PBS}"
+python3 scripts/hpc/validate_pbs_email_notifications.py --email "${P3SM1R_MAIL}" "${PBS}"
 
 REVISION="$(git rev-parse HEAD)"
 STAGE_ROOT="/scratch/pr21vyci/adaptive-remeshing/p3sm1r_staged/${REVISION}"
@@ -73,7 +73,7 @@ fi
 JOB_ID="$(scripts/hpc/qsub_with_submitted_notify.sh \
   --job-name p3sm1r_serial \
   --message "Stage P3-SM1R controlled GETRANK serial; 1 rank x 1 thread" \
-  -- -q "${QUEUE}" -M "${MAIL}" -m abe \
+  -- -q "${QUEUE}" -M "${P3SM1R_MAIL}" -m abe \
   -v "P3SM1R_STAGE_ROOT=${STAGE_ROOT},P3SM1R_MANIFEST=${MANIFEST},P3SM1R_DECK_SHA=${DECK_SHA},P3SM1R_SOURCE_SHA=${SOURCE_SHA},P3SM1R_TRANSFER_SHA=${TRANSFER_SHA},PROJECT_REVISION=${REVISION}" \
   "${PBS}")"
 if [[ ! "${JOB_ID}" =~ ^[0-9]+([.][A-Za-z0-9_-]+)?$ ]]; then

@@ -52,6 +52,15 @@ class SourceIsolationTests(unittest.TestCase):
         self.assertNotIn("GETTHREADID", self.source)
 
 
+class SubmitterTests(unittest.TestCase):
+    def test_notification_address_does_not_reuse_system_mail_variable(self):
+        submitter = (
+            ROOT / "scripts/hpc/stage_p/submit_p3sm1r_getrank_serial.sh"
+        ).read_text(encoding="utf-8")
+        self.assertIn('P3SM1R_MAIL="${P3SM1R_MAIL:-', submitter)
+        self.assertNotIn('MAIL="${MAIL:-', submitter)
+
+
 class ParserTests(unittest.TestCase):
     def test_rank_zero_and_matching_markers(self):
         text = "\n".join((
