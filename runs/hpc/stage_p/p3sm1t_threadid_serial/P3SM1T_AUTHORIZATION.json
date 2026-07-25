@@ -1,9 +1,9 @@
 {
-  "classification": "stage_p3sm1t_threadid_serial_authorized",
+  "classification": "stage_p3sm1t_threadid_serial_submitted",
   "p3sm1t_preparation_complete": true,
-  "p3sm1t_submission_authorized": true,
+  "p3sm1t_submission_authorized": false,
   "maximum_p3sm1t_submissions": 1,
-  "p3sm1t_submissions_used": 0,
+  "p3sm1t_submissions_used": 1,
   "automatic_retry_authorized": false,
   "p3sm1r_authorized": false,
   "p3t4_authorized": false,
@@ -12,5 +12,7 @@
   "p4_authorized": false,
   "production_h1_authorized": false,
   "d3d_a1_reopening_authorized": false,
-  "d3e_authorized": false
+  "d3e_authorized": false,
+  "p3sm1t_job_id": "1378239.mmaster02",
+  "p3sm1t_submitted_revision": "dd24a3f64e78cdb104c2946947801947350d1c17"
 }

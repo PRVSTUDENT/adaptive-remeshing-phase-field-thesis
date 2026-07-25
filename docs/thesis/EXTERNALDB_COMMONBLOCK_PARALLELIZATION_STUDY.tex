@@ -56,3 +56,11 @@ step 1, increment 1.  Markers immediately bracket every call, and repeated
 pairs are counted.  P3-SM1R remains design-only; \texttt{GETRANK} remains
 unqualified outside the failed \texttt{UEXTERNALDB(LOP=0)} location.  P3-T4
 and all parallel or downstream production routes remain blocked.
+
+The single P3-SM1T execution compiled and linked the user source and completed
+input processing.  In the controlled UEL callback, the before marker was
+written, but the Abaqus/Standard executable then failed dynamic symbol
+resolution for \texttt{getthreadid\_}.  Consequently the after-marker count
+was zero, no thread identifier was returned, and no signal 11 occurred.  This
+is classified as an identifier-interface failure, not as evidence about
+thread safety.

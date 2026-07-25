@@ -152,3 +152,15 @@ prepared authorization classification while the preserved P3-SB evidence is
 already classified as submitted/consumed. The focused P3-SM1T suite passed
 15/15. No P3-SB record or unrelated test was changed; correcting that stale
 legacy assertion is outside this preparation boundary.
+
+## P3-SM1T identifier-interface failure (2026-07-25)
+
+Job `1378239.mmaster02` used the guarded one-shot lane from revision
+`dd24a3f64e78cdb104c2946947801947350d1c17`. Compilation, linking, and input
+processing passed. The controlled UEL wrote `P3SM1T_BEFORE_GETTHREADID`;
+the standard executable then reported
+`libstandardU.so: undefined symbol: getthreadid_`. No after marker or returned
+ID exists, and signal 11 was absent. Classification:
+`stage_p3sm1t_threadid_serial_fail_identifier`. This localizes the failure to
+the requested function-form utility interface at the call itself; it is not
+thread-safety evidence. Authorization remains consumed 1/1 with no retry.

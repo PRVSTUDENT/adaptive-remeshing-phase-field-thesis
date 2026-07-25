@@ -1,0 +1,46 @@
+{
+  "P3SM1T_ok": false,
+  "abaqus_launched": true,
+  "after_count": 0,
+  "analysis_completed_successfully": false,
+  "before_count": 1,
+  "callback_counts": {
+    "P3SM0_UEL_OBSERVED": 1,
+    "P3SM0_UEXTERNALDB_END": 0,
+    "P3SM0_UEXTERNALDB_LOP0": 1,
+    "P3SM0_UMAT_OBSERVED": 0,
+    "P3SM1T_AFTER_GETTHREADID": 0,
+    "P3SM1T_BEFORE_GETTHREADID": 1
+  },
+  "callbacks": {
+    "P3SM0_UEL_OBSERVED": true,
+    "P3SM0_UEXTERNALDB_END": false,
+    "P3SM0_UEXTERNALDB_LOP0": true,
+    "P3SM0_UMAT_OBSERVED": false
+  },
+  "classification": "stage_p3sm1t_threadid_serial_fail_identifier",
+  "completion_marker_present": false,
+  "energy_rows": 0,
+  "expected_state_records": 32,
+  "failure_detail": "libstandardU.so undefined symbol: getthreadid_",
+  "failure_location": "inside GETTHREADID call after before marker",
+  "failures": [
+    "GETTHREADID runtime symbol getthreadid_ unresolved; no after marker"
+  ],
+  "fortran_compile_pass": true,
+  "fortran_link_pass": true,
+  "increment_records": 0,
+  "input_processing_pass": true,
+  "job_id": "1378239.mmaster02",
+  "last_marker": "P3SM1T_BEFORE_GETTHREADID",
+  "observed_state_records": 0,
+  "odb_readable": false,
+  "returned_thread_ids": [],
+  "rf_rows": 0,
+  "scheduler_exit": 10,
+  "signal_11_present": false,
+  "solver_exit": 1,
+  "submitted_revision": "dd24a3f64e78cdb104c2946947801947350d1c17",
+  "unique_thread_ids": [],
+  "unmatched_before_calls": 1
+}

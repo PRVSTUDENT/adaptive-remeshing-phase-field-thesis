@@ -1,9 +1,10 @@
 # P3-SM1T run lane
 
-Prepared on 2026-07-25 for a possible future one-rank, one-thread
-qualification. Submission is false, zero of one submissions are used, and
-automatic retry is false. No run evidence exists because no Abaqus or PBS job
-was submitted.
+Job `1378239.mmaster02` consumed the single authorization on 2026-07-25.
+Classification: `stage_p3sm1t_threadid_serial_fail_identifier`. Compilation,
+linking, and input processing passed; runtime resolution failed for
+`getthreadid_` after the before marker and before the after marker. Submission
+is false, one of one submissions is used, and automatic retry is false.
 
 Future evidence names are `P3SM1T_CALLBACK_EVENTS.csv`,
 `P3SM1T_CALLBACK_SUMMARY.json`, and pass-only `P3SM1T_COMPLETION.ok`. Heavy

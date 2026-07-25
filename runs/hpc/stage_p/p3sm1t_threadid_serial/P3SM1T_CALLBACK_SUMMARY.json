@@ -1,0 +1,44 @@
+{
+  "after_count": 0,
+  "before_after_count_mismatch": true,
+  "before_count": 1,
+  "classification": "stage_p3sm1t_callback_log_parsed",
+  "counts": {
+    "P3SM0_UEL_OBSERVED": 1,
+    "P3SM0_UEXTERNALDB_END": 0,
+    "P3SM0_UEXTERNALDB_LOP0": 1,
+    "P3SM0_UMAT_OBSERVED": 0,
+    "P3SM1T_AFTER_GETTHREADID": 0,
+    "P3SM1T_BEFORE_GETTHREADID": 1
+  },
+  "events": [
+    {
+      "line": 1,
+      "marker": "P3SM0_UEXTERNALDB_LOP0",
+      "thread_id": ""
+    },
+    {
+      "line": 93,
+      "marker": "P3SM0_UEL_OBSERVED",
+      "thread_id": ""
+    },
+    {
+      "line": 94,
+      "marker": "P3SM1T_BEFORE_GETTHREADID",
+      "thread_id": ""
+    }
+  ],
+  "last_marker": "P3SM1T_BEFORE_GETTHREADID",
+  "observed": {
+    "P3SM0_UEL_OBSERVED": true,
+    "P3SM0_UEXTERNALDB_END": false,
+    "P3SM0_UEXTERNALDB_LOP0": true,
+    "P3SM0_UMAT_OBSERVED": false,
+    "P3SM1T_AFTER_GETTHREADID": false,
+    "P3SM1T_BEFORE_GETTHREADID": true
+  },
+  "returned_thread_ids": [],
+  "signal_11_present": false,
+  "unique_thread_ids": [],
+  "unmatched_before_calls": 1
+}

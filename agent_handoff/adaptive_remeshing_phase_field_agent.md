@@ -996,9 +996,10 @@ Start-Service -Name 'OpenVPNServiceInteractive$eduVPN'
 ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg 'cd ~/software/src && rm -rf install-tl-* && wget -O install-tl-unx.tar.gz https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && tar -xzf install-tl-unx.tar.gz && cd "$(find . -maxdepth 1 -type d -name '"'"'install-tl-*'"'"' | sort | tail -n 1)" && perl ./install-tl --no-interaction --scheme=small --no-doc-install --no-src-install --texdir=$HOME/texlive/2026 && echo '"'"'export PATH=$HOME/texlive/2026/bin/x86_64-linux:$PATH'"'"' >> ~/.bashrc && source ~/.bashrc && which pdflatex && pdflatex --version | head -n 2'
 # P3-SM1T preparation handoff (2026-07-25)
 
-P3-SM0 is passed and closed at job `1378099.mmaster02`. P3-SM1T now has a
-preparation-only package and guarded future lane. It calls only
-`GETTHREADID()` in the controlled UEL callback and preserves the accepted
-P3-SM0 calculations and callback markers. Exactly one serial submission is
-authorized with 0/1 used and no retry. P3-SM1R is design-only, and P3-T4,
-MPI, hybrid, P4, H1, D3D-A1 reopening, and D3E remain blocked.
+P3-SM0 is passed and closed at job `1378099.mmaster02`. P3-SM1T job
+`1378239.mmaster02` consumed its only authorization and closed as
+`stage_p3sm1t_threadid_serial_fail_identifier`: compile/link/input passed,
+the UEL before marker was written, and runtime resolution then failed for
+`getthreadid_`. No after marker, returned ID, or signal 11 was observed. No
+retry is authorized. P3-SM1R is design-only, and P3-T4, MPI, hybrid, P4, H1,
+D3D-A1 reopening, and D3E remain blocked.

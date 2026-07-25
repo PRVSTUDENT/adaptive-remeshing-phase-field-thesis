@@ -324,9 +324,14 @@ Priority:
   `1378099.mmaster02`, solver exit 0, all four callback categories, 32/32
   state records, 13 increments, no signal 11, authorization consumed 1/1.
 - [x] Prepare isolated P3-SM1T `GETTHREADID()` package and guarded 1/1/1 lane.
-- [x] Authorize exactly one guarded P3-SM1T execution (0/1 used; no
-  automatic retry).
-- [ ] Qualify `GETTHREADID` by separately reviewed execution.
+- [!] P3-SM1T job `1378239.mmaster02` consumed its only authorization (1/1)
+  and closed as `stage_p3sm1t_threadid_serial_fail_identifier`. Compile,
+  link, and input processing passed. The controlled UEL wrote the before
+  marker, then runtime symbol resolution failed for `getthreadid_`; after
+  count was 0, unmatched count 1, returned IDs empty, and signal 11 absent.
+  No retry is authorized.
+- [ ] `GETTHREADID` remains unqualified: the Abaqus 2023 runtime did not
+  resolve the function-form `getthreadid_` symbol.
 - [ ] P3-SM1R remains design-only; `GETRANK` remains unqualified outside the
   failed `UEXTERNALDB(LOP=0)` call.
 - [ ] P3-T4, MPI, hybrid, P4, production H1, D3D-A1 reopening, and D3E remain
