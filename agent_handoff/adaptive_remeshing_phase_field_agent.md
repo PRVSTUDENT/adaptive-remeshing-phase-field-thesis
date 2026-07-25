@@ -1011,3 +1011,11 @@ interface. Audit classification:
 `stage_p3_identifier_interface_partially_confirmed`. A new P3-SM1TC package
 and guarded lane are prepared from P3-SM0, unauthorized at 0/1. No job was
 submitted; P3-SM1R and every downstream route remain blocked.
+
+P3-SM1TC job `1378240.mmaster02` subsequently passed from authorization
+revision `b072e32f322b440729318e06f2c2ab72d041fc12`. Scheduler and solver exits
+were zero; three matched `get_thread_id()` calls returned zero, signal 11 and
+unresolved symbols were absent, and all P3-SM0 callback/scientific gates
+passed. Authorization is consumed 1/1 with no retry. A separate GETRANK route
+decision is required before P3-T4 preparation; all downstream routes remain
+blocked.

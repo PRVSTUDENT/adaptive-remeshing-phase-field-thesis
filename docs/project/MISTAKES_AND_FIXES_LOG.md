@@ -173,3 +173,10 @@ spelling requested `getthreadid_`; it does not establish that the installed
 aggregate and included interface headers before allocating another identifier
 qualification. P3-SM1TC is a new corrected test, not an unchanged retry, and
 remains unauthorized.
+
+The corrected P3-SM1TC job `1378240.mmaster02` passed with the installed
+`get_thread_id()` spelling: three matched calls returned zero, no unresolved
+symbol or signal 11 occurred, and all P3-SM0 scientific gates passed. This
+confirms the prior failure was specific to the undocumented spelling
+`GETTHREADID()`/`getthreadid_`. It does not qualify GETRANK, multithreaded
+behavior, or shared-state thread safety.

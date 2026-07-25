@@ -1,0 +1,100 @@
+{
+  "after_count": 3,
+  "before_after_count_mismatch": false,
+  "before_count": 3,
+  "classification": "stage_p3sm1tc_callback_log_parsed",
+  "counts": {
+    "P3SM0_UEL_OBSERVED": 3,
+    "P3SM0_UEXTERNALDB_END": 1,
+    "P3SM0_UEXTERNALDB_LOP0": 1,
+    "P3SM0_UMAT_OBSERVED": 2,
+    "P3SM1TC_AFTER_GET_THREAD_ID": 3,
+    "P3SM1TC_BEFORE_GET_THREAD_ID": 3
+  },
+  "events": [
+    {
+      "line": 1,
+      "marker": "P3SM0_UEXTERNALDB_LOP0",
+      "thread_id": ""
+    },
+    {
+      "line": 93,
+      "marker": "P3SM0_UEL_OBSERVED",
+      "thread_id": ""
+    },
+    {
+      "line": 94,
+      "marker": "P3SM1TC_BEFORE_GET_THREAD_ID",
+      "thread_id": ""
+    },
+    {
+      "line": 95,
+      "marker": "P3SM1TC_AFTER_GET_THREAD_ID",
+      "thread_id": 0
+    },
+    {
+      "line": 99,
+      "marker": "P3SM0_UEL_OBSERVED",
+      "thread_id": ""
+    },
+    {
+      "line": 100,
+      "marker": "P3SM1TC_BEFORE_GET_THREAD_ID",
+      "thread_id": ""
+    },
+    {
+      "line": 101,
+      "marker": "P3SM1TC_AFTER_GET_THREAD_ID",
+      "thread_id": 0
+    },
+    {
+      "line": 102,
+      "marker": "P3SM0_UMAT_OBSERVED",
+      "thread_id": ""
+    },
+    {
+      "line": 123,
+      "marker": "P3SM0_UEL_OBSERVED",
+      "thread_id": ""
+    },
+    {
+      "line": 124,
+      "marker": "P3SM1TC_BEFORE_GET_THREAD_ID",
+      "thread_id": ""
+    },
+    {
+      "line": 125,
+      "marker": "P3SM1TC_AFTER_GET_THREAD_ID",
+      "thread_id": 0
+    },
+    {
+      "line": 126,
+      "marker": "P3SM0_UMAT_OBSERVED",
+      "thread_id": ""
+    },
+    {
+      "line": 1773,
+      "marker": "P3SM0_UEXTERNALDB_END",
+      "thread_id": ""
+    }
+  ],
+  "last_marker": "P3SM0_UEXTERNALDB_END",
+  "observed": {
+    "P3SM0_UEL_OBSERVED": true,
+    "P3SM0_UEXTERNALDB_END": true,
+    "P3SM0_UEXTERNALDB_LOP0": true,
+    "P3SM0_UMAT_OBSERVED": true,
+    "P3SM1TC_AFTER_GET_THREAD_ID": true,
+    "P3SM1TC_BEFORE_GET_THREAD_ID": true
+  },
+  "returned_thread_ids": [
+    0,
+    0,
+    0
+  ],
+  "signal_11_present": false,
+  "unique_thread_ids": [
+    0
+  ],
+  "unmatched_before_calls": 0
+}

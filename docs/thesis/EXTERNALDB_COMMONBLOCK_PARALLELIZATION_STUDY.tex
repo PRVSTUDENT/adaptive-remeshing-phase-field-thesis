@@ -73,3 +73,11 @@ that requested \texttt{getthreadid\_}, not the installed interface.  A new
 P3-SM1TC package uses the installed spelling and remains unauthorized.  The
 previous P3-S source likewise used GETRANK as a function expression rather
 than the documented subroutine-call form; P3-SM1R remains design-only.
+
+The separately authorized P3-SM1TC serial execution then passed.  Three
+controlled UEL invocations returned thread identifier zero, with matched
+before/after markers, no signal 11, and no unresolved symbol.  All P3-SM0
+callback and scientific gates also passed.  The supported conclusion is
+limited to the installed \texttt{get\_thread\_id()} interface under one MPI
+rank and one OpenMP thread.  GETRANK and multi-thread behavior remain
+unqualified.
