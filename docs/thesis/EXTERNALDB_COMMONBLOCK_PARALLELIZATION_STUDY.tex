@@ -95,3 +95,13 @@ and active-writer metadata; they do not protect the scientific
 \texttt{USRVAR} or \texttt{TRANSFER\_DONE} operations.  Execution remains
 unauthorized, and the preparation makes no MPI, hybrid, or general production
 thread-safety claim.
+
+The single authorized P3-T4 execution did not reach the characterization.
+Intel compilation failed because the aggregate Abaqus utility header was
+placed before the first subroutine, leaving its interface declarations outside
+a valid Fortran scoping unit.  Linking, input processing, callbacks,
+thread/access diagnostics, ODB creation, and serial scientific comparison
+were therefore not reached.  The result is classified as
+\texttt{stage\_p3t4\_threaded\_fail\_compile}; authorization is consumed and
+no retry is permitted.  It provides no evidence for or against shared-state
+thread safety.

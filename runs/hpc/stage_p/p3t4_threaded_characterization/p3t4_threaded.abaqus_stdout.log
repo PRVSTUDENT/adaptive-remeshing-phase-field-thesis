@@ -1,0 +1,98 @@
+Analysis initiated from SIMULIA established products
+Abaqus JOB p3t4_threaded
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 8 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<278 out of 300 licenses remain available>.
+Begin Compiling Abaqus/Standard User Subroutines
+Sat 25 Jul 2026 07:08:53 AM CEST
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+p3t4_instrumented.for(6): error #6218: This statement is positioned incorrectly and/or has syntax errors.
+      SUBROUTINE UEL(RHS,AMATRX,SVARS,ENERGY,NDOFEL,NRHS,NSVARS,
+------^
+./ABA_PARAM.INC(8): error #6222: This IMPLICIT statement is not positioned correctly within the scoping unit.
+      implicit real*8(a-h,o-z)
+------^
+p3t4_instrumented.for(108): error #6353: A RETURN statement is invalid in the main program.
+      RETURN
+------^
+p3t4_instrumented.for(14): error #6917: This array with adjustable declarators must be declared a dummy argument.   [RHS]
+      DIMENSION RHS(MLVARX,*),AMATRX(NDOFEL,NDOFEL),
+----------------^
+p3t4_instrumented.for(14): error #6591: An automatic object is invalid in a main program.   [AMATRX]
+      DIMENSION RHS(MLVARX,*),AMATRX(NDOFEL,NDOFEL),
+------------------------------^
+p3t4_instrumented.for(15): error #6591: An automatic object is invalid in a main program.   [SVARS]
+     1     SVARS(NSVARS),ENERGY(8),PROPS(NPROPS),COORDS(MCRD,NNODE),
+-----------^
+p3t4_instrumented.for(14): error #6219: This variable, used in a specification expression, must be a dummy argument, a COMMON block object, or an object accessible through host or use association.   [NDOFEL]
+      DIMENSION RHS(MLVARX,*),AMATRX(NDOFEL,NDOFEL),
+-------------------------------------^
+p3t4_instrumented.for(15): error #6219: This variable, used in a specification expression, must be a dummy argument, a COMMON block object, or an object accessible through host or use association.   [NSVARS]
+     1     SVARS(NSVARS),ENERGY(8),PROPS(NPROPS),COORDS(MCRD,NNODE),
+-----------------^
+p3t4_instrumented.for(15): error #6591: An automatic object is invalid in a main program.   [PROPS]
+     1     SVARS(NSVARS),ENERGY(8),PROPS(NPROPS),COORDS(MCRD,NNODE),
+-----------------------------------^
+p3t4_instrumented.for(15): error #6219: This variable, used in a specification expression, must be a dummy argument, a COMMON block object, or an object accessible through host or use association.   [NPROPS]
+     1     SVARS(NSVARS),ENERGY(8),PROPS(NPROPS),COORDS(MCRD,NNODE),
+-----------------------------------------^
+p3t4_instrumented.for(15): error #6591: An automatic object is invalid in a main program.   [COORDS]
+     1     SVARS(NSVARS),ENERGY(8),PROPS(NPROPS),COORDS(MCRD,NNODE),
+-------------------------------------------------^
+p3t4_instrumented.for(15): error #6219: This variable, used in a specification expression, must be a dummy argument, a COMMON block object, or an object accessible through host or use association.   [MCRD]
+     1     SVARS(NSVARS),ENERGY(8),PROPS(NPROPS),COORDS(MCRD,NNODE),
+--------------------------------------------------------^
+p3t4_instrumented.for(15): error #6219: This variable, used in a specification expression, must be a dummy argument, a COMMON block object, or an object accessible through host or use association.   [NNODE]
+     1     SVARS(NSVARS),ENERGY(8),PROPS(NPROPS),COORDS(MCRD,NNODE),
+-------------------------------------------------------------^
+p3t4_instrumented.for(16): error #6591: An automatic object is invalid in a main program.   [U]
+     2     U(NDOFEL),DU(MLVARX,*),V(NDOFEL),A(NDOFEL),TIME(2),
+-----------^
+p3t4_instrumented.for(16): error #6917: This array with adjustable declarators must be declared a dummy argument.   [DU]
+     2     U(NDOFEL),DU(MLVARX,*),V(NDOFEL),A(NDOFEL),TIME(2),
+---------------------^
+p3t4_instrumented.for(16): error #6591: An automatic object is invalid in a main program.   [V]
+     2     U(NDOFEL),DU(MLVARX,*),V(NDOFEL),A(NDOFEL),TIME(2),
+----------------------------------^
+p3t4_instrumented.for(16): error #6591: An automatic object is invalid in a main program.   [A]
+     2     U(NDOFEL),DU(MLVARX,*),V(NDOFEL),A(NDOFEL),TIME(2),
+--------------------------------------------^
+p3t4_instrumented.for(17): error #6221: The assumed-size array must be a dummy argument.   [PARAMS]
+     3     PARAMS(*),JDLTYP(MDLOAD,*),ADLMAG(MDLOAD,*),
+-----------^
+p3t4_instrumented.for(17): error #6917: This array with adjustable declarators must be declared a dummy argument.   [JDLTYP]
+     3     PARAMS(*),JDLTYP(MDLOAD,*),ADLMAG(MDLOAD,*),
+---------------------^
+p3t4_instrumented.for(17): error #6917: This array with adjustable declarators must be declared a dummy argument.   [ADLMAG]
+     3     PARAMS(*),JDLTYP(MDLOAD,*),ADLMAG(MDLOAD,*),
+--------------------------------------^
+p3t4_instrumented.for(18): error #6591: An automatic object is invalid in a main program.   [PREDEF]
+     4     DDLMAG(MDLOAD,*),PREDEF(2,NPREDF,NNODE),LFLAGS(*),
+----------------------------^
+p3t4_instrumented.for(18): error #6219: This variable, used in a specification expression, must be a dummy argument, a COMMON block object, or an object accessible through host or use association.   [NPREDF]
+     4     DDLMAG(MDLOAD,*),PREDEF(2,NPREDF,NNODE),LFLAGS(*),
+-------------------------------------^
+p3t4_instrumented.for(18): error #6221: The assumed-size array must be a dummy argument.   [LFLAGS]
+     4     DDLMAG(MDLOAD,*),PREDEF(2,NPREDF,NNODE),LFLAGS(*),
+---------------------------------------------------^
+p3t4_instrumented.for(14): error #6219: This variable, used in a specification expression, must be a dummy argument, a COMMON block object, or an object accessible through host or use association.   [MLVARX]
+      DIMENSION RHS(MLVARX,*),AMATRX(NDOFEL,NDOFEL),
+--------------------^
+p3t4_instrumented.for(18): error #6917: This array with adjustable declarators must be declared a dummy argument.   [DDLMAG]
+     4     DDLMAG(MDLOAD,*),PREDEF(2,NPREDF,NNODE),LFLAGS(*),
+-----------^
+p3t4_instrumented.for(17): error #6219: This variable, used in a specification expression, must be a dummy argument, a COMMON block object, or an object accessible through host or use association.   [MDLOAD]
+     3     PARAMS(*),JDLTYP(MDLOAD,*),ADLMAG(MDLOAD,*),
+----------------------------^
+p3t4_instrumented.for(19): error #6221: The assumed-size array must be a dummy argument.   [JPROPS]
+     5     JPROPS(*)
+-----------^
+ Intel(R) Fortran 2021.13.0-1693
+compilation aborted for p3t4_instrumented.for (code 1)
+Abaqus Error: Problem during compilation - p3t4_instrumented.for
+Abaqus/Analysis exited with errors

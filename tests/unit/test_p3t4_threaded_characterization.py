@@ -128,14 +128,17 @@ class AuthorizationAndLaneTests(unittest.TestCase):
         return ROOT / ("runs/hpc/stage_p/p3t4_threaded_characterization/"
                        "P3T4_AUTHORIZATION.json")
 
-    def test_preparation_is_fail_closed(self):
-        data = preflight.validate_authorization(self.auth_path(), False)
+    def test_committed_failure_closure_is_consumed(self):
+        data = json.loads(self.auth_path().read_text(encoding="utf-8"))
+        self.assertEqual(data["classification"],
+                         "stage_p3t4_threaded_characterization_submitted")
         self.assertFalse(data["p3t4_submission_authorized"])
-        self.assertEqual(data["p3t4_submissions_used"], 0)
+        self.assertEqual(data["p3t4_submissions_used"], 1)
+        self.assertEqual(data["p3t4_job_id"], "1378242.mmaster02")
         for key in preflight.REQUIRED_FALSE:
             self.assertFalse(data[key])
 
-    def test_submission_rejected_and_consumer_rejects_invalid_job(self):
+    def test_resubmission_rejected_and_consumer_rejects_invalid_job(self):
         with self.assertRaises(ValueError):
             preflight.validate_authorization(self.auth_path(), True)
         with tempfile.TemporaryDirectory() as td:

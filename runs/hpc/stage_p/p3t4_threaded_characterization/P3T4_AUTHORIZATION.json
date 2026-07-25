@@ -1,14 +1,16 @@
 {
-  "classification": "stage_p3t4_threaded_characterization_authorized",
+  "classification": "stage_p3t4_threaded_characterization_submitted",
   "p3t4_preparation_complete": true,
-  "p3t4_submission_authorized": true,
+  "p3t4_submission_authorized": false,
   "maximum_p3t4_submissions": 1,
-  "p3t4_submissions_used": 0,
+  "p3t4_submissions_used": 1,
   "automatic_retry_authorized": false,
   "mpi_authorized": false,
   "hybrid_authorized": false,
   "p4_authorized": false,
   "production_h1_authorized": false,
   "d3d_a1_reopening_authorized": false,
-  "d3e_authorized": false
+  "d3e_authorized": false,
+  "p3t4_job_id": "1378242.mmaster02",
+  "p3t4_submitted_revision": "71d42487cbf9165b9b7aca2b6e34fcae7a0b77b9"
 }

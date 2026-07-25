@@ -180,3 +180,19 @@ symbol or signal 11 occurred, and all P3-SM0 scientific gates passed. This
 confirms the prior failure was specific to the undocumented spelling
 `GETTHREADID()`/`getthreadid_`. It does not qualify GETRANK, multithreaded
 behavior, or shared-state thread safety.
+
+## P3-T4 header-scope compilation failure (2026-07-25)
+
+P3-T4 job `1378242.mmaster02` used the one authorized submission from revision
+`71d42487cbf9165b9b7aca2b6e34fcae7a0b77b9`. Intel stopped at compilation
+before linking because `#include <SMAAspUserSubroutines.hdr>` appeared before
+the first subroutine. The included interface declarations therefore occurred
+outside a valid Fortran scoping unit, and Intel treated the following UEL
+declarations as an invalid main program. Classification:
+`stage_p3t4_threaded_fail_compile`; scheduler/solver exits `10/1`.
+
+Prevention: preprocessing success alone is insufficient for an aggregate
+interface header. Future offline source review must verify that each such
+header is inside the subroutine scoping unit that uses its declared functions,
+and a compile-only Abaqus gate would require its own separately reviewed
+authorization. P3-T4 authorization is consumed `1/1`; no retry is authorized.

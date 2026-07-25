@@ -353,7 +353,9 @@ Priority:
   input/Standard and readable ODB passed, GETRANK markers matched 3/3, returned
   IDs `[0,0,0]` with unique `[0]`, state coverage was 32/32, and all baseline
   gates passed. Authorization is consumed 1/1 with no retry.
-- [~] P3-T4 bounded one-rank/four-thread characterization prepared offline
-  from P3-SM0 with diagnostic-only instrumentation. Execution remains
-  unauthorized at 0/1 with no retry. MPI, hybrid, P4, production H1, D3D-A1
-  reopening, and D3E remain blocked.
+- [!] P3-T4 job `1378242.mmaster02` closed as
+  `stage_p3t4_threaded_fail_compile` with scheduler/solver exits `10/1`.
+  The aggregate utility header was outside a Fortran scoping unit, so Intel
+  rejected the first UEL declaration; linking, callbacks, diagnostics, ODB,
+  and scientific comparison were not reached. Authorization is consumed 1/1
+  with no retry. All downstream routes remain blocked.

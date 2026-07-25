@@ -1,0 +1,1 @@
+abaqus job=p3t4_threaded input=p3t4_threaded.inp user=p3t4_instrumented.for cpus=4 mp_mode=threads output_precision=full interactive
