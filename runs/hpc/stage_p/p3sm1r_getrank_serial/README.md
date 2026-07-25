@@ -8,6 +8,8 @@ documented `CALL GETRANK(KPROCESSNUM)` interface inside the controlled UEL
 condition `JELEM=1, KSTEP=1, KINC=1`. It makes no thread-safety, MPI scaling,
 hybrid, or production claim.
 
-Current state: prepared offline, submission unauthorized, usage `0/1`, automatic
-retry disabled. P3-T4 and all downstream lanes remain blocked. Do not submit
-without a separate explicit authorization.
+Closure state: job `1378241.mmaster02` passed as
+`stage_p3sm1r_getrank_serial_pass`. Authorization is consumed `1/1`, submission
+authorization is false, and automatic retry remains disabled. This qualifies
+only rank zero from the controlled serial UEL call. P3-T4 and all downstream
+lanes remain blocked.

@@ -82,20 +82,22 @@ class ParserTests(unittest.TestCase):
 
 
 class AuthorizationTests(unittest.TestCase):
-    def test_committed_preparation_is_fail_closed(self):
+    def test_committed_successful_closure_is_consumed(self):
         path = (
             ROOT
             / "runs/hpc/stage_p/p3sm1r_getrank_serial"
             / "P3SM1R_AUTHORIZATION.json"
         )
-        data = preflight.validate_authorization(path, require_submit=False)
+        data = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(data["classification"], "stage_p3sm1r_getrank_serial_submitted")
         self.assertFalse(data["p3sm1r_submission_authorized"])
         self.assertEqual(data["maximum_p3sm1r_submissions"], 1)
-        self.assertEqual(data["p3sm1r_submissions_used"], 0)
+        self.assertEqual(data["p3sm1r_submissions_used"], 1)
+        self.assertEqual(data["p3sm1r_job_id"], "1378241.mmaster02")
         for key in preflight.REQUIRED_FALSE:
             self.assertFalse(data[key])
 
-    def test_submission_preflight_is_blocked_without_authorization(self):
+    def test_submission_preflight_is_blocked_after_consumption(self):
         path = (
             ROOT
             / "runs/hpc/stage_p/p3sm1r_getrank_serial"

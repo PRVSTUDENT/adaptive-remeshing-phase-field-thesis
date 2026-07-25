@@ -1,9 +1,9 @@
 {
-  "classification": "stage_p3sm1r_getrank_serial_authorized",
+  "classification": "stage_p3sm1r_getrank_serial_submitted",
   "p3sm1r_preparation_complete": true,
-  "p3sm1r_submission_authorized": true,
+  "p3sm1r_submission_authorized": false,
   "maximum_p3sm1r_submissions": 1,
-  "p3sm1r_submissions_used": 0,
+  "p3sm1r_submissions_used": 1,
   "automatic_retry_authorized": false,
   "p3t4_authorized": false,
   "mpi_authorized": false,
@@ -11,5 +11,7 @@
   "p4_authorized": false,
   "production_h1_authorized": false,
   "d3d_a1_reopening_authorized": false,
-  "d3e_authorized": false
+  "d3e_authorized": false,
+  "p3sm1r_job_id": "1378241.mmaster02",
+  "p3sm1r_submitted_revision": "4e941ffa7740a4c8050277351f25bcf392f8cd98"
 }

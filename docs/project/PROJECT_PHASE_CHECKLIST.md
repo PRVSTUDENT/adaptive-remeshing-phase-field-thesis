@@ -348,7 +348,10 @@ Priority:
 - [x] Select the documented-call P3-SM1R route and prepare it offline using
   `CALL GETRANK(KPROCESSNUM)` only inside controlled UEL. Authorization remains
   false at 0/1, retry is disabled, and no Abaqus/PBS job has been submitted.
-- [~] P3-SM1R is prepared but unexecuted; GETRANK remains unqualified pending
-  commit, synchronization, review, and separate one-shot authorization.
+- [x] P3-SM1R job `1378241.mmaster02` passed from authorization revision
+  `4e941ffa7740a4c8050277351f25bcf392f8cd98`: PBS/solver exit 0, compile/link,
+  input/Standard and readable ODB passed, GETRANK markers matched 3/3, returned
+  IDs `[0,0,0]` with unique `[0]`, state coverage was 32/32, and all baseline
+  gates passed. Authorization is consumed 1/1 with no retry.
 - [ ] P3-T4, MPI, hybrid, P4, production H1, D3D-A1 reopening, and D3E remain
   blocked.
