@@ -9,6 +9,7 @@
   "execution_authorized": false,
   "maximum_jobs_now": 0,
   "next_action": "Synchronize and qualify the frozen package without submission",
+  "next_task_after_pass": "F1-J0-AUTH",
   "blocked_after": [
     "F1-J0 submission",
     "F1-J1 solver",
@@ -16,5 +17,6 @@
     "F3",
     "F4",
     "F5"
-  ]
+  ],
+  "protocol_version": 1
 }

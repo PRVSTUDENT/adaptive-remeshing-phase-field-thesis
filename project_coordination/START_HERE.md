@@ -1,6 +1,9 @@
 # Multi-agent project coordination — START HERE
 
-Classification: `multi_agent_coordination_layer_initialized`
+Protocol version: 1
+Classification: `multi_agent_bootstrap_entrypoints_integrated`
+
+**Repository-root entrypoint:** read `AGENTS.md` first if you have not already.
 
 This folder is the **single shared coordination layer** for Codex, Grok, and
 Gemini Antigravity. It holds **metadata, state, decisions, and logs only**.

@@ -13,3 +13,8 @@ F_MODEII_CONSUME_AUTH,Stage F,scripts/validation/consume_mode_ii_h0_authorizatio
 F_MODEII_PBS_DC,Stage F,scripts/hpc/stage_f/01_mode_ii_h0_datacheck.pbs,pbs_script,prepared,grok,17240f646cf1e382396006ab635976fa22a67890,,,F1-J0 datacheck PBS; not submitted
 F_MODEII_SUBMIT_DC,Stage F,scripts/hpc/stage_f/submit_mode_ii_h0_datacheck.sh,submit_wrapper,prepared,grok,17240f646cf1e382396006ab635976fa22a67890,,,Guarded submit wrapper; default preflight-only
 COORD_LAYER,Coordination,project_coordination/,coordination_tree,active,grok,,,"",Shared multi-agent control plane; metadata only
+AGENTS_MD,Coordination,AGENTS.md,bootstrap_entrypoint,active,grok,,,,Canonical multi-agent bootstrap Protocol v1
+PROTOCOL_VERSION,Coordination,project_coordination/PROTOCOL_VERSION.json,protocol_version,active,grok,,,,protocol_version=1
+BOOTSTRAP_VALIDATOR,Coordination,scripts/validation/check_multi_agent_bootstrap.py,validator_script,active,grok,,,,multi_agent_bootstrap_consistency_pass gate
+GEMINI_MD,Coordination,GEMINI.md,agent_pointer,active,grok,,,,Pointer shim to AGENTS.md
+GROK_MD,Coordination,GROK.md,agent_pointer,active,grok,,,,Pointer shim to AGENTS.md

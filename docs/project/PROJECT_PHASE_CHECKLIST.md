@@ -300,6 +300,16 @@ or deferred contour/crack-path evidence)
   false gates: human print-scale review, administrative portal forms, and
   supervisor sign-off. `ready_for_submission` remains false.
 
+## Multi-agent coordination
+
+- [x] COORD-0 multi-agent coordination ledger initialized. Evidence:
+  project_coordination/; classification
+  multi_agent_coordination_layer_initialized.
+- [x] COORD-1 mandatory bootstrap entrypoints integrated. Evidence:
+  AGENTS.md; GEMINI.md; GROK.md; project_coordination/PROTOCOL_VERSION.json;
+  scripts/validation/check_multi_agent_bootstrap.py. Classification:
+  multi_agent_bootstrap_entrypoints_integrated. Next: F1-P0 (no submission).
+
 ## Stage F - Mode-II Mixed-Mode Benchmark
 
 - [x] F0.1 Mode-II benchmark definition frozen (Molnar pure shear, alpha=0).

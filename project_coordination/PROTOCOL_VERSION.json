@@ -1,0 +1,14 @@
+{
+  "protocol_name": "adaptive-remeshing-multi-agent-coordination",
+  "protocol_version": 1,
+  "canonical_entrypoint": "AGENTS.md",
+  "canonical_dynamic_state": "project_coordination/CURRENT_STATE.md",
+  "canonical_active_task": "project_coordination/ACTIVE_TASK.json",
+  "canonical_lock": "project_coordination/ACTIVE_SESSION.json",
+  "legacy_handoff_active": false,
+  "supported_agents": [
+    "codex",
+    "grok",
+    "gemini-antigravity"
+  ]
+}

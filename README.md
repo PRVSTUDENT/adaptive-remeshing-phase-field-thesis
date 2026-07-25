@@ -1,5 +1,12 @@
 # Adaptive Remeshing Phase-Field Thesis - Codex Starter Pack
 
+> **AI agents:** Read `AGENTS.md` before inspecting, editing, running,
+> committing, authorizing, or submitting anything.
+>
+> Protocol version: 1. Dynamic state lives under `project_coordination/`
+> (`CURRENT_STATE.md`, `ACTIVE_SESSION.json`, `ACTIVE_TASK.json`). The flat
+> `agent_handoff/` mirror is not the active coordination system.
+
 This starter pack converts the supplied thesis study guide, papers, and previous-project agent pattern into a thesis-specific Codex workspace policy.
 
 The workspace is now set up as a full starter pipeline: structured literature notes, run/config contracts, dry-run validators, environment records, and handoff mirroring. Abaqus/HPC production runs remain blocked until the environment record is completed and HPC maintenance clears.
@@ -8,7 +15,9 @@ Current baseline status: the local user-subroutine smoke gate passed, the unchan
 
 ## Included files
 
-- `.agent.md` - primary Codex agent instructions, scientific boundaries, gates, run discipline, and handoff rules.
+- `AGENTS.md` - **mandatory multi-agent bootstrap** (read first).
+- `project_coordination/` - active multi-agent lock, task, ledgers, and session reports.
+- `.agent.md` - compatibility entrypoint with stable scientific rules; dynamic state is not maintained here.
 - `THESIS_PLAN.md` - work packages, deliverables, validation matrix, and proposed thesis structure.
 - `WORKSPACE_STRUCTURE.md` - recommended repository layout and bootstrap workflow.
 - `docs/EXPERIMENT_RECORD_TEMPLATE.md` - repeatable run/experiment record.
