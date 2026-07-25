@@ -1,0 +1,25 @@
+{
+  "classification": "stage_f_mode_ii_h0_prepared",
+  "preparation_complete": true,
+  "package_path": "models/generated/mode_ii/h0_serial",
+  "datacheck_authorized": false,
+  "datacheck_submissions_used": 0,
+  "maximum_datacheck_submissions": 1,
+  "solver_authorized": false,
+  "solver_submissions_used": 0,
+  "maximum_solver_submissions": 1,
+  "automatic_retry_authorized": false,
+  "threaded_execution_authorized": false,
+  "mpi_authorized": false,
+  "hybrid_authorized": false,
+  "miseseri_authorized": false,
+  "h1_authorized": false,
+  "stage_p_reopening_authorized": false,
+  "d3d_reopening_authorized": false,
+  "thesis_submission_task_authorized": false,
+  "notes": [
+    "Preparation only. No submission is authorized by this record.",
+    "A separate authorization-only commit must set datacheck_authorized true before F1-J0.",
+    "Failure of the single datacheck consumes authorization; no automatic retry."
+  ]
+}

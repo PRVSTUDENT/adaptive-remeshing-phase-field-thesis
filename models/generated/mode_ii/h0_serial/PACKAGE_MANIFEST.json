@@ -1,0 +1,45 @@
+{
+  "benchmark_mode": "Mode-II",
+  "boundary_conditions": {
+    "bottom": "U1_U2_fixed",
+    "displacement_component": "U1",
+    "reaction_component": "RF1",
+    "top_U1": "prescribed_via_RP_equation",
+    "top_U2": "fixed"
+  },
+  "classification": "stage_f_mode_ii_h0_package_prepared",
+  "datacheck_authorized": false,
+  "deck": {
+    "path": "ModeII_H0_serial.inp",
+    "sha256": "32a25380767bbb0e9e76eb55b3bb7a97d78bb75c4f86c7e8585aa2032ce2d33b"
+  },
+  "execution_authorized": false,
+  "formulation": "molnar_staggered_uel_umat",
+  "layered_element_count": 11790,
+  "loading_angle_degrees": 0,
+  "miseseri_remeshing": false,
+  "n_elem_fortran": 3930,
+  "node_count": 3998,
+  "outputs_requested": [
+    "U",
+    "RF",
+    "SDV",
+    "S",
+    "EVOL",
+    "energies"
+  ],
+  "parent_mode_i_h0": {
+    "mode_i_h0_for": "models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact/SingleNotch.for",
+    "mode_i_h0_for_sha256": "516e5ce9a405c30e9d4b45f919f8c22e39cd36bcce102ca065837b81a1405088",
+    "mode_i_h0_inp": "models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact/SingleNotch.inp",
+    "mode_i_h0_inp_sha256": "82c80c03c1b0b25131e9e0352502fb393bd593f9f07035c311f164ee9311f92e"
+  },
+  "physical_element_count": 3930,
+  "solver_authorized": false,
+  "source": {
+    "n_elem_changed": false,
+    "path": "ModeII_H0_serial.for",
+    "scientific_formulation_changed": false,
+    "sha256": "5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c"
+  }
+}
