@@ -12,6 +12,16 @@ ROOT = Path(__file__).resolve().parents[2]
 MARKER = "MULTI-AGENT BOOTSTRAP"
 PROTOCOL_VERSION = 1
 FORBIDDEN_AGENT_DIRS = ("codex_code", "grok_code", "gemini_code", "gemini_antigravity_code")
+CONTROL_CHARS = tuple(chr(i) for i in range(32) if i not in (9, 10, 13))
+FORBIDDEN_WORKFLOW_PHRASES = (
+    "Refresh `agent_handoff/`",
+    "Refresh agent_handoff/",
+    "mirror the touched files",
+    "At the end of a Codex edit operation, mirror",
+    "python scripts/sync_agent_handoff.py",
+    "For current Stage D work",
+)
+ALLOWED_TASK_IDS = frozenset({"F1-P0", "COORD-1", "COORD-1R", "COORD-0"})
 
 
 def fail(msg: str, errors: list[str]) -> None:
@@ -20,6 +30,11 @@ def fail(msg: str, errors: list[str]) -> None:
 
 def read(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace")
+
+
+def has_control_chars(path: Path) -> list[int]:
+    data = path.read_bytes()
+    return sorted({b for b in data if b < 32 and b not in (9, 10, 13)})
 
 
 def main() -> int:
@@ -72,6 +87,39 @@ def main() -> int:
     grok_text = read(grok)
     readme_text = read(readme)
     start_text = read(start)
+
+    entrypoint_paths = (agents, agent_md, adaptive, gemini, grok, readme, start)
+    for path in entrypoint_paths:
+        bad = has_control_chars(path)
+        if bad:
+            fail(
+                f"{path.relative_to(root)} contains C0 control characters: {bad}",
+                errors,
+            )
+        text = read(path)
+        for phrase in FORBIDDEN_WORKFLOW_PHRASES:
+            if phrase in text:
+                # Allow explicit prohibition of the sync script, but not a command recipe.
+                if phrase == "python scripts/sync_agent_handoff.py":
+                    # Fail only if it appears as an instruction to run, not "Do not run ...".
+                    for line in text.splitlines():
+                        if phrase in line and "do not" not in line.lower() and "not run" not in line.lower() and "not use" not in line.lower():
+                            fail(
+                                f"{path.relative_to(root)} still instructs running {phrase}: {line.strip()[:120]}",
+                                errors,
+                            )
+                else:
+                    fail(
+                        f"{path.relative_to(root)} contains forbidden workflow phrase: {phrase}",
+                        errors,
+                    )
+
+    # Malformed fence: doubled ```text openers
+    for path, text in ((agent_md, agent_text), (adaptive, adaptive_text)):
+        fence = "```"
+        doubled = fence + "text\n" + fence + "text"
+        if doubled in text:
+            fail(f"{path.name} has malformed doubled code fence openers", errors)
 
     if "Protocol version: 1" not in agents_text and "protocol version: 1" not in agents_text.lower():
         fail("AGENTS.md must declare Protocol version: 1", errors)
@@ -130,6 +178,12 @@ def main() -> int:
 
     if "AGENTS.md" not in readme_text:
         fail("README.md must point to AGENTS.md", errors)
+    if "project_coordination/" not in readme_text or "Dynamic task, authorization, and job state" not in readme_text:
+        fail("README.md must state dynamic state lives under project_coordination/", errors)
+    if "Codex Starter Pack" in readme_text:
+        fail("README.md still describes Codex-only starter pack branding", errors)
+    if "First use" in readme_text and "mirror" in readme_text.lower():
+        fail("README.md still contains obsolete First-use handoff workflow", errors)
 
     if "project_coordination/CURRENT_STATE.md" not in start_text:
         fail("START_HERE.md must reference CURRENT_STATE.md", errors)
@@ -149,7 +203,7 @@ def main() -> int:
         task = json.loads(active_task.read_text(encoding="utf-8"))
         # After COORD-1 pass, active task should be F1-P0 ready (or COORD-1 active during work).
         tid = task.get("task_id")
-        if tid not in {"F1-P0", "COORD-1"}:
+        if tid not in ALLOWED_TASK_IDS:
             fail(f"ACTIVE_TASK.json task_id unexpected: {tid}", errors)
         if tid == "F1-P0" and task.get("status") not in {"ready", "active"}:
             fail("F1-P0 status must be ready or active", errors)
@@ -162,13 +216,11 @@ def main() -> int:
 
     try:
         session = json.loads(active_session.read_text(encoding="utf-8"))
-        # During/after COORD-1 completion, lock should be free for next agent.
-        # Validator allows active only if agent is grok/codex/gemini and task COORD-1.
+        # After bootstrap/integrity tasks, lock should normally be free.
+        # Allow temporary claim only for COORD-1 / COORD-1R.
         if session.get("active") is True:
-            if session.get("task_id") != "COORD-1":
-                fail("ACTIVE_SESSION active for non-COORD-1 task during bootstrap check", errors)
-        if "ACTIVE_SESSION" not in str(active_session):
-            pass
+            if session.get("task_id") not in {"COORD-1", "COORD-1R"}:
+                fail("ACTIVE_SESSION active for non-bootstrap task during bootstrap check", errors)
     except (OSError, json.JSONDecodeError) as exc:
         fail(f"invalid ACTIVE_SESSION.json: {exc}", errors)
 

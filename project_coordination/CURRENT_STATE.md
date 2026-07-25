@@ -1,14 +1,14 @@
 # Current project state
 
-Updated: 2026-07-25
-Protocol version: 1
-Classification: `multi_agent_bootstrap_entrypoints_integrated`
+Updated: 2026-07-25  
+Protocol version: 1  
+Classification: `multi_agent_bootstrap_integrity_repair_pass`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Coordination HEAD (pre-COORD-1) | `88ea1b68622c52c31fb9eb6c9929d9f67eb573e3` |
+| Pre-COORD-1R head | `9abb621d69df46251c1999c9d4ca8e9aac23f589` |
 | F0 scientific freeze | `17240f646cf1e382396006ab635976fa22a67890` |
 | Active agent | none (`ACTIVE_SESSION.json.active = false`) |
 | Active task | **F1-P0** ready |
@@ -33,18 +33,18 @@ Classification: `multi_agent_bootstrap_entrypoints_integrated`
 - Deck SHA-256: `32a25380767bbb0e9e76eb55b3bb7a97d78bb75c4f86c7e8585aa2032ce2d33b`
 - Source SHA-256: `5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c`
 
-## Multi-agent bootstrap (COORD-1)
+## Bootstrap integrity (COORD-1R)
 
-Entry points now point at this folder:
+Repaired after COORD-1:
 
-- `AGENTS.md` (canonical)
-- `.agent.md` / `adaptive_remeshing_phase_field_agent.md` (compatibility + stable rules)
-- `GEMINI.md`, `GROK.md` (pointer shims)
-- `README.md` notice
-- `project_coordination/PROTOCOL_VERSION.json`
-- Validator: `scripts/validation/check_multi_agent_bootstrap.py`
-
-Legacy `agent_handoff/` is **not** active coordination.
+- Removed BEL/C0 control characters from `.agent.md` and
+  `adaptive_remeshing_phase_field_agent.md`
+- Closing checklist no longer requires refreshing `agent_handoff/`
+- README rewritten as stable overview (not Codex-starter / handoff workflow)
+- Extension list code fence restored
+- Stage-D-specific report wording made stage-neutral
+- Validator strengthened for control chars, forbidden workflow phrases, README
+  dynamic-state pointer, and malformed fences
 
 ## Next actions (in order)
 

@@ -1,57 +1,39 @@
-# Adaptive Remeshing Phase-Field Thesis - Codex Starter Pack
+# Adaptive Remeshing Phase-Field Thesis
 
 > **AI agents:** Read `AGENTS.md` before inspecting, editing, running,
 > committing, authorizing, or submitting anything.
->
-> Protocol version: 1. Dynamic state lives under `project_coordination/`
-> (`CURRENT_STATE.md`, `ACTIVE_SESSION.json`, `ACTIVE_TASK.json`). The flat
-> `agent_handoff/` mirror is not the active coordination system.
 
-This starter pack converts the supplied thesis study guide, papers, and previous-project agent pattern into a thesis-specific Codex workspace policy.
+Dynamic task, authorization, and job state is maintained only under
+`project_coordination/`.
 
-The workspace is now set up as a full starter pipeline: structured literature notes, run/config contracts, dry-run validators, environment records, and handoff mirroring. Abaqus/HPC production runs remain blocked until the environment record is completed and HPC maintenance clears.
+This repository supports a Master's thesis on adaptive remeshing and mesh
+refinement for phase-field fracture simulations in Abaqus using user elements.
 
-Current baseline status: the local user-subroutine smoke gate passed, the unchanged Molnar one-element technical gate passed, and the unchanged one-element ODB passed source-defined scientific checks under provisional numerical tolerances. The unchanged Molnar single-notch benchmark has a technical pass and first RF-U/phase extraction, but scientific comparison against reference behavior is pending. Remeshing, state transfer, and ABAQUSER integration are not validated yet.
+## For agents
 
-## Included files
+1. Open `AGENTS.md` (mandatory multi-agent bootstrap, protocol version 1).
+2. Follow `project_coordination/START_HERE.md` and the active ledgers.
+3. Claim `project_coordination/ACTIVE_SESSION.json` before editing.
+4. Do **not** use `agent_handoff/` or `scripts/sync_agent_handoff.py` as the
+   active coordination system.
 
-- `AGENTS.md` - **mandatory multi-agent bootstrap** (read first).
-- `project_coordination/` - active multi-agent lock, task, ledgers, and session reports.
-- `.agent.md` - compatibility entrypoint with stable scientific rules; dynamic state is not maintained here.
-- `THESIS_PLAN.md` - work packages, deliverables, validation matrix, and proposed thesis structure.
-- `WORKSPACE_STRUCTURE.md` - recommended repository layout and bootstrap workflow.
-- `docs/EXPERIMENT_RECORD_TEMPLATE.md` - repeatable run/experiment record.
-- `docs/methods/ENVIRONMENT.md` - Abaqus/HPC environment record required before production submission.
-- `references/notes/` - structured paper notes plus equation, benchmark, and implementation-decision maps.
-- `configs/` - starter run, benchmark, remeshing, state-transfer, and postprocessing contracts.
-- `scripts/validation/` and `scripts/preprocessing/` - dependency-free starter checks.
-- `scripts/sync_agent_handoff.py` - flat snapshot helper modeled on the previous project's mirror behavior.
-- `agent_handoff/` - destination for the most recent operation's touched files.
+## Key paths
 
-## First use
+| Path | Role |
+|---|---|
+| `AGENTS.md` | Mandatory multi-agent bootstrap |
+| `project_coordination/` | Active lock, task, ledgers, session reports |
+| `.agent.md` | Compatibility entrypoint; stable scientific rules only |
+| `docs/project/PROJECT_PHASE_CHECKLIST.md` | Living phase checklist |
+| `models/`, `scripts/`, `configs/`, `runs/` | Canonical scientific code and evidence |
+| `docs/thesis/` | Thesis sources |
 
-1. Complete `docs/methods/ENVIRONMENT.md` with Abaqus, compiler, and HPC details.
-2. Put original reference examples in a preserved `models/baseline_original/` area.
-3. Fill the paper notes and maps in `references/notes/` from the original sources.
-4. Run the dependency-free starter checks:
+## Humans
 
-```bash
-python scripts/validation/check_literature_index.py --dry-run
-python scripts/validation/validate_manifest.py configs/run_manifest.example.json --dry-run
-python scripts/preprocessing/check_deck_integrity.py --dry-run
-```
+- Complete `docs/methods/ENVIRONMENT.md` before production HPC work.
+- Prefer selective `git add <paths>`; never use broad workspace cleanup while
+  unrelated dirty paths exist.
+- Large Abaqus outputs (`.odb` and similar) stay local/scratch, not in Git.
 
-5. Compare the unchanged single-notch RF-U curve and crack/phase evolution before modifying source code.
-6. At the end of a Codex edit operation, mirror the touched files:
-
-```bash
-python scripts/sync_agent_handoff.py .agent.md THESIS_PLAN.md
-```
-
-## Important scope note
-
-The attached Pandey-Kumar method is treated as MISESERI-driven pre-refinement for the first adaptive milestone. Evolving remeshing with state transfer is a mandatory thesis branch, but no online-remesh claim is allowed until controlled field transfer and fracture-relevant state transfer are verified. The agent file prevents Codex from presenting pre-refinement as online adaptivity or a successful Abaqus job as scientific validation.
-
-## GitHub hygiene
-
-The supplied PDFs and starter ZIP are ignored by Git. Track structured notes, configs, scripts, and small reproducibility artifacts; keep raw papers, Abaqus ODBs, scratch files, and large generated outputs local unless explicitly approved.
+Historical starter-pack and flat-handoff workflows are retired. See
+`project_coordination/CURRENT_STATE.md` for the live project snapshot.

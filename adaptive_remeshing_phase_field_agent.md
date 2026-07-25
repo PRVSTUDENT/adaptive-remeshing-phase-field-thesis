@@ -11,7 +11,7 @@
 > unless it matches project_coordination/CURRENT_STATE.md and
 > project_coordination/ACTIVE_TASK.json.
 >
-> The flat gent_handoff/ mirror is not the active coordination system.
+> The flat agent_handoff/ mirror is not the active coordination system.
 > Do not run its synchronization utility unless explicitly authorized.
 >
 > Dynamic state lives in:
@@ -26,8 +26,8 @@
 - Purpose: workspace-scoped engineering/research agent for the Master's thesis **"Application of Built-in Adaptive Remeshing and Mesh Refinement Features in Abaqus to Fracture Simulations Using Phase-field User Elements."**
 - Main objective: reproduce a verified phase-field fracture baseline in Abaqus, implement the Pandey-Kumar MISESERI-driven pre-refinement workflow, preserve the scientific meaning of the UEL/UMAT fields, integrate IMFD/ABAQUSER post-processing, and quantify accuracy versus computational cost.
 - Operating principle: **baseline first, one controlled change at a time, quantitative gates before claims.**
-- Coordination principle: dynamic task/job/authorization state is maintained only under project_coordination/ (see AGENTS.md and START_HERE.md). The flat gent_handoff/ mirror is historical/optional and is **not** the active coordination system; do not run scripts/sync_agent_handoff.py unless explicitly authorized and unrelated dirty paths are protected.
-- Report principle: keep the living LaTeX report pair for the active thesis stage updated after every substantial validation, failure, repair, submission, or result. For current Stage D work, update both `docs/thesis/STAGE_D_STATE_TRANSFER_CHAPTER.tex` and `docs/reports/STAGE_D2_STATE_INGESTION_REPORT.tex` together; do not let one lag the other. For historical Stage A, `docs/reports/STAGE_A_BASELINE_REPORT.tex` and `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex` remain the paired record. Do not create a new report for every run, and do not remove failed attempts from execution/failure logs. Generated PDFs remain local build artifacts and ignored.
+- Coordination principle: dynamic task/job/authorization state is maintained only under project_coordination/ (see AGENTS.md and START_HERE.md). The flat agent_handoff/ mirror is historical/optional and is **not** the active coordination system; do not run scripts/sync_agent_handoff.py unless explicitly authorized and unrelated dirty paths are protected.
+- Report principle: keep living LaTeX reports for the active thesis stage updated after substantial validation, failure, repair, submission, or result. Read the active reporting requirements from `CURRENT_STATE.md`, `ACTIVE_TASK.json`, and `PROJECT_PHASE_CHECKLIST.md`. Do not create a new report for every run, and do not remove failed attempts from execution/failure logs. Generated PDFs remain local build artifacts and ignored.
 - Checklist principle: `docs/project/PROJECT_PHASE_CHECKLIST.md` is the authoritative living task and phase checklist. Update it after every substantial operation and keep technical completion separate from scientific validation.
 - Mistakes-ledger principle: `docs/project/MISTAKES_AND_FIXES_LOG.md` is mandatory project memory. Append every failed attempt, diagnosis, correction, rerun, and prevention rule; never overwrite or delete a predecessor failure when a later attempt passes.
 
@@ -739,12 +739,12 @@ Never delete large results merely to save storage without user approval and a ve
 
 ## File tracking and handoff mirror - legacy optional behavior
 
-The active multi-agent control plane is project_coordination/, not gent_handoff/.
+The active multi-agent control plane is project_coordination/, not agent_handoff/.
 
 1. Record the workspace-relative paths of all touched files in the session report under
    project_coordination/sessions/.
 2. Do **not** run scripts/sync_agent_handoff.py by default. That utility can clear and
-   overwrite the flat gent_handoff/ tree and must not run while unrelated dirty handoff
+   overwrite the flat agent_handoff/ tree and must not run while unrelated dirty handoff
    changes exist unless explicitly authorized.
 3. If an authorized handoff mirror is requested, use selective paths only and never treat
    the mirror as version history or mandatory coordination.
@@ -752,9 +752,9 @@ The active multi-agent control plane is project_coordination/, not gent_handoff
 
 Default excluded extensions for any optional mirror include:
 
-`	ext
+```text
 .odb .sim .stt .res .mdl .prt .dat .msg .lck .023 .cax .abq .pac .sel
-`
+```
 
 ## Documentation rules
 
@@ -839,7 +839,8 @@ At the end of each substantial session:
 3. State the current scientific classification.
 4. List unresolved issues and the next smallest falsifiable task.
 5. Update project_coordination/ ledgers and session report; do not duplicate dynamic state in this file.
-6. Refresh `agent_handoff/` with only the files touched in the final operation.
+6. Do not run the legacy agent_handoff synchronization utility unless the
+current task explicitly authorizes it.
 7. Do not edit the user-notes block below.
 
 ## User notes - do not edit below this line
