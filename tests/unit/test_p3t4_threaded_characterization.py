@@ -159,6 +159,8 @@ class AuthorizationAndLaneTests(unittest.TestCase):
         self.assertIn("P3T4_PREFLIGHT_ONLY", submitter)
         self.assertIn('PREFLIGHT_SUBMIT_ARGS=(--require-submit)', submitter)
         self.assertNotIn("git ", pbs)
+        self.assertTrue(pbs.startswith("#!/bin/bash"))
+        self.assertTrue(submitter.startswith("#!/bin/bash"))
 
     def test_all_result_classifications_are_frozen(self):
         combined = "\n".join(

@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # Guarded login-side staging and one-shot P3-T4 submission.
 set -euo pipefail
 

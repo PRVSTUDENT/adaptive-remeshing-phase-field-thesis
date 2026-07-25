@@ -1,4 +1,4 @@
-﻿#include <SMAAspUserSubroutines.hdr>
+#include <SMAAspUserSubroutines.hdr>
 C D2 tiny transferred-state ingestion UEL/UMAT.
 C Separate D2-only source variant. Do not use for production fracture jobs.
 C TRANSFER_MODE=1 enables one-time H initialization from d2_transfer_table.inc.

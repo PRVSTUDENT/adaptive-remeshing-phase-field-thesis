@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Fail-closed authorization and staging checks for P3-T4."""
 from __future__ import annotations
 
