@@ -8,11 +8,27 @@
     "mechanical_restart_unproven": true,
     "no_odb_tracked": true,
     "no_permanent_scratch_dependency": true,
+    "no_unapproved_generated_binary_tracked": true,
+    "stage_a_frozen_with_limitations": true,
+    "stage_b_report_pair_present": true,
+    "stage_p_scientific_boundary_visible": true,
     "withheld_d3e_claim": true,
-    "withheld_online_remesh_claim": true
+    "withheld_online_remesh_claim": true,
+    "wp6_external_block_visible": true,
+    "wp7_documentation_gates_pass": true
   },
   "classification": "final_thesis_evidence_manifest_pass",
   "files": [
+    {
+      "bytes": 637,
+      "path": "docs/thesis/THESIS_CLOSEOUT_BUILD.tex",
+      "sha256": "8f52fe9115949351e8bdf277e1bd0b5041e628120d68f5be2b5895ffd55e0beb"
+    },
+    {
+      "bytes": 15398,
+      "path": "docs/thesis/STAGE_A_MOLNAR_BENCHMARK_CHAPTER.tex",
+      "sha256": "c422f5b118f8a1b7482f4c0247501287ae4118c68c11f7f3c29e520bef34e65a"
+    },
     {
       "bytes": 4374,
       "path": "docs/thesis/STAGE_C_OFFLINE_REFINEMENT_CHAPTER.tex",
@@ -29,14 +45,39 @@
       "sha256": "fa98383f91b23b528506db211ed27aa6672d67f39ab8fa463e2177abc050376b"
     },
     {
+      "bytes": 8125,
+      "path": "docs/thesis/EXTERNALDB_COMMONBLOCK_PARALLELIZATION_STUDY.tex",
+      "sha256": "898c577d73deaf594d805ae46de9eac470c4ece508410694b79839b2575f9171"
+    },
+    {
       "bytes": 4325,
       "path": "docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex",
       "sha256": "33d6b222709a40f3d5d0166530149e409bc510c70888dd3a5cf7e6399c88e3e7"
     },
     {
-      "bytes": 2085,
+      "bytes": 2597,
       "path": "docs/thesis/FINAL_CLAIM_MATRIX.md",
-      "sha256": "df72451291f493d90cc5f8c712c81203c83c6ea58d44b9c24fd216939c8dc6c9"
+      "sha256": "24157d1852799630b956d726ebbe5f3efe3a84101f687ac6a442b315b74a9674"
+    },
+    {
+      "bytes": 53906,
+      "path": "docs/reports/STAGE_A_BASELINE_REPORT.tex",
+      "sha256": "6e47070024d12dcfc207646576778ef1fb09b4e445addb4e2029eee65bc84b5f"
+    },
+    {
+      "bytes": 62999,
+      "path": "docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex",
+      "sha256": "40332daf2c07ef6f66a7173687eb37d629cfc7ae4c2ae7997932c4ff65c146ea"
+    },
+    {
+      "bytes": 6200,
+      "path": "docs/reports/STAGE_B_RESULTS_REPORT.tex",
+      "sha256": "b73c2370830b50bad3b7f7d47728ed453b700e42f32a1360aa5738ebde208173"
+    },
+    {
+      "bytes": 5321,
+      "path": "docs/reports/STAGE_B_EXECUTION_AND_FAILURE_LOG.tex",
+      "sha256": "505e88534e116316ae76c916ea76eeb699869ff5cf9adc33d441c1d263321aea"
     },
     {
       "bytes": 1858,
@@ -47,6 +88,26 @@
       "bytes": 1316,
       "path": "docs/decisions/WP6_ABAQUSER_EXTERNAL_BLOCK_CLOSURE.md",
       "sha256": "e23fe43ca81ce51b151a24517db552f6f2eb8954b0d51753ea6d8f08d123f95f"
+    },
+    {
+      "bytes": 2637,
+      "path": "docs/decisions/STAGE_P_FINAL_SCIENTIFIC_CLOSURE.md",
+      "sha256": "81a16c3e9f7dec23bc09cad03b5867966889924c570b7250d4e511ce353dc2f1"
+    },
+    {
+      "bytes": 2539,
+      "path": "docs/decisions/WP7_FINAL_CLOSEOUT_RECONCILIATION.md",
+      "sha256": "2cd092965cc8cf1a2b68e2024424068229888c86c97b37f76c989022a2a5212d"
+    },
+    {
+      "bytes": 658,
+      "path": "results/final/WP7_DOCUMENTATION_GATES.json",
+      "sha256": "b50ddbac6f71f41a1e8658a96a9b494fa747f6bc2bb47f15b870e7a92ab9a14c"
+    },
+    {
+      "bytes": 268,
+      "path": "results/final/WP7_LATEX_BUILD_GATE.txt",
+      "sha256": "54a5b8d20bec63433575ee94238ad05d32fb163eac69e16505354053fbba1134"
     },
     {
       "bytes": 2513,
@@ -94,6 +155,7 @@
       "sha256": "354b82230283419e5c7d70ecf8aeb2270dcbec9e3847684dfeadf89c11c8e6e9"
     }
   ],
-  "source_commit": "b1efd2b2555889699fad343fd6414c34fae43ef1",
-  "tracked_odb_files": []
+  "source_commit": "dbf1f158c75830ddb72ea01a35dd914c3a8289d4",
+  "tracked_odb_files": [],
+  "tracked_unapproved_binaries": []
 }

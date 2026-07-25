@@ -1,0 +1,21 @@
+{
+  "classification": "wp7_documentation_gates_pass",
+  "date": "2026-07-25",
+  "checks": {
+    "checklist_validator": "pass",
+    "git_diff_check": "pass",
+    "latex_closeout_build": "pass_30_pages",
+    "latex_stage_b_results": "pass_3_pages",
+    "latex_stage_b_execution_log": "pass_3_pages",
+    "repository_unit_tests": "pass_100_of_100",
+    "standalone_validation_test_scripts": "pass_5_of_5",
+    "no_odb_tracked": "pass",
+    "no_unapproved_generated_binary_tracked": "pass",
+    "no_permanent_scratch_dependency": "pass"
+  },
+  "execution": {
+    "abaqus_job_submitted": false,
+    "pbs_job_submitted": false,
+    "stage_p_reopened": false
+  }
+}

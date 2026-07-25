@@ -1,0 +1,163 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=25mm]{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{siunitx}
+
+\title{Stage B Uniform-Reference Results Report\\Adaptive Remeshing Phase-Field Thesis}
+\author{Pruthvi Raj Vakkalagadda}
+\date{Frozen 2026-07-25}
+
+\begin{document}
+\maketitle
+
+\section*{Record status and scope}
+
+\noindent\textbf{Stage:} Stage B\\
+\textbf{Document status:} frozen with residual scientific limitations\\
+\textbf{Closeout classification:}
+\texttt{stage\_b\_uniform\_reference\_closed\_conditionally}
+
+\medskip
+
+This report consolidates only committed evidence from the approved
+\(l_c=0.015\,\mathrm{mm}\) serial uniform-reference subset.  It does not
+authorize or report a length-scale sweep, increment-sensitivity sweep,
+parallel scaling study, MISESERI execution, remeshing execution, or additional
+Abaqus/PBS job.  The companion execution record is
+\texttt{docs/reports/STAGE\_B\_EXECUTION\_AND\_FAILURE\_LOG.tex}.
+
+\section{Approved study and provenance}
+
+The approved comparison used the unchanged Molnar single-notch staggered
+UEL/UMAT formulation at three uniform resolutions.  The scientific-input
+revision was
+\texttt{58d7e3102d76fe0e70e6729457e2c7e90ad131bb}.  Static equivalence checks
+confirmed the material, loading, element-layer structure, output requests,
+and source logic, with only the physical element count changed for H1 and
+H2-PUB.
+
+\begin{table}[h]
+\centering
+\caption{Frozen uniform-reference cases and assigned roles.}
+\begin{tabular}{@{}lrrrrl@{}}
+\toprule
+Case & \(h\) [mm] & \(h/l_c\) & Physical \(N\) & Layered \(N\) & Role \\
+\midrule
+H0 & 0.0049439 & 0.3296 & 3930 & 11790 & development/test \\
+H1 & 0.0025 & 0.1667 & 12064 & 36192 & production/report \\
+H2-PUB & 0.0010 & 0.06667 & 33852 & 101556 & fine RF--U validation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+H2-PUB reproduces the publication-reported local resolution, not an
+undocumented exact publication mesh topology.  Its generated physical element
+count is therefore not asserted to equal the approximate count inferred from
+the paper.
+
+\section{Accepted technical evidence}
+
+The accepted solver records are H0 job \texttt{1376154.mmaster02}, H1 job
+\texttt{1376185.mmaster02}, and H2-PUB job
+\texttt{1376186.mmaster02}.  H0 completed the solver but its original PBS
+wrapper failed during CAE postprocessing.  H1 and H2-PUB original dependency
+jobs were consequently cancelled without solver execution.  The controlled
+recovery retained the H0 solver result, executed H1 and H2-PUB for the first
+time, and used consolidated CAE job \texttt{1376236} to create the three
+RF2--U2 packages.  These distinctions are preserved in the companion log.
+
+\section{Accuracy results}
+
+\begin{table}[h]
+\centering
+\caption{Scalar response measures from committed RF--U evidence.}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Case & Peak RF2 [kN] & \(U\) at peak [mm] & \(K_0\) [kN/mm] &
+Area [kN\,mm] \\
+\midrule
+H0 & 0.727608 & 0.0061 & 134.720 & 0.00258137 \\
+H1 & 0.699604 & 0.0058 & 134.328 & 0.00240049 \\
+H2-PUB & 0.696336 & 0.0058 & 134.243 & 0.00235175 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Successive-mesh differences, using the finer case as denominator.}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Pair & \(\Delta F_{\rm peak}\) & \(\Delta U_{\rm peak}\) &
+Full NRMSE & Pre-peak NRMSE & Post-peak NRMSE \\
+\midrule
+H0 vs H1 & 4.003\% & 5.172\% & 21.306\% & 0.387\% & 62.904\% \\
+H1 vs H2-PUB & 0.469\% & 0.000\% & 6.011\% & 0.106\% & 20.206\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The H1--H2-PUB peak-force difference and pre-peak NRMSE support effective
+mesh independence for the elastic, pre-peak, and peak-load regimes.  The
+full-curve difference is dominated by the post-peak residual, so unrestricted
+full-curve convergence is not claimed.
+
+Comparison with the approximate digitized publication curve is secondary:
+H2-PUB has \(15.57\%\) full-overlap NRMSE, \(12.13\%\) pre-peak NRMSE,
+\(51.26\%\) post-peak NRMSE, and \(0.83\%\) peak-force difference.  These
+values are provisional because the reference is digitized rather than exact
+author data.
+
+\section{Measured serial cost}
+
+\begin{table}[h]
+\centering
+\caption{Measured serial resource use.}
+\begin{tabular}{@{}lrrrl@{}}
+\toprule
+Case & Physical \(N\) & Wall time & Memory [kB] & Wall/element [s] \\
+\midrule
+H0 & 3930 & 00:16:29 & 691652 & 0.2517 \\
+H1 & 12064 & 00:46:26 & 928364 & 0.2309 \\
+H2-PUB & 33852 & 02:12:38 & 1802776 & 0.2351 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The empirical walltime--element-count slope is approximately \(0.968\) on a
+log--log fit.  This is a serial cost observation, not a parallel scalability
+claim.  H1 reproduces H2-PUB peak and pre-peak response at approximately
+35\% of the H2-PUB wall time, supporting its assigned production/report role.
+
+\section{Final decision and limitations}
+
+Supervisor Decisions 1A and 2B assign H2-PUB as the fine RF--U validation
+reference, H1 as the production/report and Stage-C comparison mesh, and H0 as
+the development/test mesh.  Gate A3 is conditionally accepted for RF--U use.
+
+\begin{quote}
+The force--displacement response is effectively mesh-independent between H1
+and H2-PUB for the elastic, pre-peak and peak-load regimes.  A noticeable
+post-peak mesh dependence remains and must be retained as a limitation.
+\end{quote}
+
+Residual limitations are: post-peak RF--U convergence is not fully
+demonstrated; matched-state contour and crack-path convergence are unassessed;
+the publication curve is approximate digitization; descriptive thresholds are
+not universally supervisor-approved tolerances; and no multicore, MPI, hybrid,
+post-peak remeshing, or online-remeshing claim follows.
+
+\section*{Evidence}
+
+\begin{itemize}
+\item \texttt{runs/hpc/molnar\_lc015\_h\_convergence/comparison/H\_CONVERGENCE\_SCIENTIFIC\_REVIEW.md}
+\item \texttt{runs/hpc/molnar\_lc015\_h\_convergence/STUDY\_STATUS.md}
+\item \texttt{results/validation/molnar\_lc015\_h\_convergence/STUDY\_EQUIVALENCE\_DECISION.md}
+\item \texttt{docs/decisions/MOLNAR\_GATE\_A3\_SUPERVISOR\_DECISION\_1A\_2B.md}
+\item \texttt{docs/decisions/MESH\_USE\_POLICY.md}
+\end{itemize}
+
+\end{document}

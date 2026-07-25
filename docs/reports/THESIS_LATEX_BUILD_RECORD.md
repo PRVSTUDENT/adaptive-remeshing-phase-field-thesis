@@ -1,6 +1,8 @@
 # Thesis LaTeX Build Record
 
-Classification: `THESIS_LATEX_BUILD_PASS`
+Classification: `wp7_final_latex_build_pass`
+
+Final WP7-F1 build date: 2026-07-25
 
 Entry point:
 `docs/thesis/THESIS_CLOSEOUT_BUILD.tex`
@@ -8,9 +10,16 @@ Entry point:
 Successful compiler: bundled Tectonic 0.16.9
 
 Output:
-`results/latex_build_stage_e/THESIS_CLOSEOUT_BUILD.pdf`
+local temporary review directory outside the repository
 
-Result: 28-page PDF generated successfully.
+Result: 30-page PDF generated successfully. The increase from the earlier
+28-page closeout build is the now-included frozen Stage-P parallelization
+subsection.
+
+The two new standalone Stage-B reports also compiled successfully:
+
+- `STAGE_B_RESULTS_REPORT.tex`: 3 pages;
+- `STAGE_B_EXECUTION_AND_FAILURE_LOG.tex`: 3 pages.
 
 The initial local MiKTeX/latexmk attempt failed because that installation was
 missing `grfext.sty` and reported out-of-sync user/administrator packages.
@@ -29,5 +38,10 @@ python <latex-plugin>/scripts/compile_latex.py
   --json
 ```
 
-The generated PDF is a local review artifact; the TeX entry point and this
-record are the reproducibility evidence.
+The final build emitted only nonfatal layout warnings for long hashes,
+identifiers, paths, and narrow tables. There were no missing inputs,
+references, or fatal errors.
+
+Generated PDFs remain local review artifacts outside Git. The TeX entry point,
+the Stage-B TeX sources, `results/final/WP7_LATEX_BUILD_GATE.txt`, and this
+record are the committed reproducibility evidence.

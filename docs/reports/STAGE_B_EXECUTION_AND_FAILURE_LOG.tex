@@ -1,0 +1,125 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=25mm]{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{hyperref}
+
+\title{Stage B Execution and Failure Log\\Adaptive Remeshing Phase-Field Thesis}
+\author{Pruthvi Raj Vakkalagadda}
+\date{Frozen 2026-07-25}
+
+\begin{document}
+\maketitle
+
+\section*{Record status and preservation rule}
+
+\noindent\textbf{Stage:} Stage B\\
+\textbf{Document status:} frozen with residual scientific limitations\\
+\textbf{Closeout classification:}
+\texttt{stage\_b\_execution\_history\_frozen}
+
+\medskip
+
+This log preserves the chronology of the approved \(l_c=0.015\,\mathrm{mm}\)
+uniform-reference study.  A later successful recovery does not erase or
+reclassify an earlier failure, cancellation, conditional result, or
+infrastructure limitation.  No new execution is authorized by this record.
+
+\section{Preparation and authorization boundary}
+
+Stage B began with an offline protocol, acceptance metrics, resource estimate,
+and fail-closed matrix.  The authorized execution subset contained only H0,
+H1, and H2-PUB serial cases.  Length-scale and increment-sensitivity studies,
+MISESERI, remeshing, multi-CPU, and GPU work were outside that authorization.
+Static equivalence classified H0 as
+\texttt{exact\_author\_inputs\_verified}, H1 as
+\texttt{h\_convergence\_static\_validation\_pass}, and H2-PUB as the same
+plus \texttt{publication\_resolution\_verified}.
+
+\section{Execution chronology}
+
+\begin{longtable}{@{}p{0.14\linewidth}p{0.18\linewidth}p{0.25\linewidth}p{0.34\linewidth}@{}}
+\caption{Preserved Stage-B attempts and outcomes.}\\
+\toprule
+Job & Intended role & Preserved classification & Outcome and boundary \\
+\midrule
+\endfirsthead
+\toprule
+Job & Intended role & Preserved classification & Outcome and boundary \\
+\midrule
+\endhead
+\texttt{1376154.mmaster02} & H0 solver and CAE &
+\texttt{solver\_pass\_cae\_postprocess\_failure} &
+Abaqus solver completed.  The wrapper exited 11 because CAE postprocessing
+used unsupported Python syntax.  The solver result was retained; this was not
+a scientific solver failure. \\
+\texttt{1376155.mmaster02} & Original H1 dependency job &
+\texttt{not\_executed\_dependency\_cancelled} &
+Cancelled because the predecessor H0 wrapper did not satisfy
+\texttt{afterok}.  No H1 solver execution occurred. \\
+\texttt{1376156.mmaster02} & Original H2-PUB dependency job &
+\texttt{not\_executed\_dependency\_cancelled} &
+Cancelled with the dependency chain.  No H2-PUB solver execution occurred. \\
+\texttt{1376184.mmaster02} & H0 CAE-only recovery &
+infrastructure-limited CAE replay &
+Reused the accepted H0 solver output; did not rerun the solver.  Subsequent
+CAE command/argument issues remained infrastructure findings. \\
+\texttt{1376185.mmaster02} & First H1 solver execution &
+technical pass &
+The preserved H1 scientific inputs completed successfully.  CAE extraction
+was deferred to the consolidated recovery. \\
+\texttt{1376186.mmaster02} & First H2-PUB solver execution &
+technical pass &
+The preserved H2-PUB scientific inputs completed successfully.  CAE
+extraction was deferred to the consolidated recovery. \\
+\texttt{1376236} & Consolidated CAE extraction &
+RF2--U2 extraction pass; contour export failure &
+Produced all three origin-inclusive RF2--U2 packages.  Matched-state contour
+PNG export failed because of the viewport API; no crack-path convergence
+evidence was produced. \\
+\bottomrule
+\end{longtable}
+
+\section{Recovered technical result}
+
+The recovery separated solver validity from CAE/postprocessing failures.  H0,
+H1, and H2-PUB have accepted serial solver results, and consolidated CAE job
+\texttt{1376236} provides the RF2--U2 data used by the committed
+h-convergence analysis.  H1 and H2-PUB recovery jobs were first executions,
+not retries of a failed solver.  H0 was not rerun.
+
+\section{Conditional and blocked scientific results}
+
+\begin{itemize}
+\item Peak and pre-peak RF--U convergence is supported.
+\item Post-peak RF--U convergence is not fully demonstrated.
+\item Publication agreement is provisional because the curve is approximate
+digitization rather than exact author data.
+\item Crack-path and matched-state contour convergence remain unassessed
+because the consolidated CAE contour export failed.
+\item Final numerical tolerance policy remains conditional rather than
+universally supervisor-approved.
+\item The measured resource data are serial observations and do not qualify
+thread, MPI, hybrid, or GPU scaling.
+\end{itemize}
+
+\section{Closeout boundary}
+
+The Stage-B evidence is frozen as
+\texttt{stage\_b\_uniform\_reference\_closed\_conditionally}.  The accepted
+mesh-role decision is retained without upgrading the residual limitations:
+H2-PUB is the fine RF--U reference, H1 is the production/report mesh, and H0
+is the development/test mesh.  No failed evidence is rewritten, no execution
+route is reopened, and no Abaqus/PBS job is authorized.
+
+\section*{Evidence}
+
+\begin{itemize}
+\item \texttt{runs/hpc/molnar\_lc015\_h\_convergence/STUDY\_MANIFEST.md}
+\item \texttt{runs/hpc/molnar\_lc015\_h\_convergence/recovery\_after\_job\_1376154/RECOVERY\_PLAN.md}
+\item \texttt{runs/hpc/molnar\_lc015\_h\_convergence/comparison/H\_CONVERGENCE\_SCIENTIFIC\_REVIEW.md}
+\item \texttt{runs/hpc/molnar\_lc015\_h\_convergence/STUDY\_STATUS.md}
+\end{itemize}
+
+\end{document}

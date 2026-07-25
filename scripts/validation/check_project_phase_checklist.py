@@ -13,6 +13,8 @@ CHECKLIST = ROOT / "docs" / "project" / "PROJECT_PHASE_CHECKLIST.md"
 REPORTS = [
     "docs/reports/STAGE_A_BASELINE_REPORT.tex",
     "docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex",
+    "docs/reports/STAGE_B_RESULTS_REPORT.tex",
+    "docs/reports/STAGE_B_EXECUTION_AND_FAILURE_LOG.tex",
 ]
 STATUS_MARKERS = ("[x]", "[ ]", "[-]", "[!]", "[?]", "[~]")
 EVIDENCE_TOKENS = ("Evidence:", "Commit:", "Run:", "Job:", "Classification:", "Result:", "Note:")
@@ -103,8 +105,17 @@ def main() -> int:
         if wp3_lines:
             fail("WP3 has in-progress items while Gate A3 is blocked: " + "; ".join(wp3_lines), errors)
 
-    if re.search(r"\|\s*(WP3|WP4|WP5|WP6)\s*\|[^\n]*\|\s*`\[x\]`", text):
-        fail("downstream stage marked complete while its gate is open", errors)
+    gate_a3_open = bool(
+        re.search(
+            r"\|\s*Gate A3[^|]*\|[^|]*\|\s*(?:open|blocked)\s*\|",
+            section(text, "Gate Checklist"),
+            re.IGNORECASE,
+        )
+    )
+    if gate_a3_open and re.search(
+        r"\|\s*(WP3|WP4|WP5)\s*\|[^\n]*\|\s*`\[x\]`", text
+    ):
+        fail("downstream stage marked complete while Gate A3 is open", errors)
 
     for report in REPORTS:
         if report not in text:

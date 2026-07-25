@@ -1,6 +1,6 @@
 # Project Phase Checklist
 
-Updated: 2026-07-24
+Updated: 2026-07-25
 
 This is the authoritative living task and phase checklist for the adaptive remeshing thesis workspace. Update this same file after every substantial task, run, validation, failure, retry, decision, gate transition, and phase completion. Do not create duplicate phase checklists.
 
@@ -16,7 +16,9 @@ Status markers:
 Gate A3 (RF–U validation use): **conditionally accepted** — supervisor Decisions **1A** and **2B**  
 Internal status: `gate_a3_conditionally_accepted_rf_u`; `contour_validation_deferred`; `stage_c_miseseri_preparation_authorized`  
 HPC submission: **not authorized** without explicit new approval  
-Stage A: open (residual historical items may still use `reference_data_insufficient` for full unconditional closure)
+Stage A: `frozen_with_residual_scientific_limitations` (conditional Gate-A3
+RF–U acceptance does not remove provisional tolerances, post-peak dependence,
+or deferred contour/crack-path evidence)
 
 ## Overall Phase Dashboard
 
@@ -31,7 +33,7 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 | WP4 | Refined phase-field benchmark and efficiency comparison | `[x]` closed at scoped Stage C result | peak/pre-peak supported; post-peak limited; crack-path H1 equivalence not supported | `runs/hpc/stage_c2/closeout/STAGE_C_CLOSEOUT_JOB_SUMMARY.md` |
 | WP5 | Evolving remesh and state transfer | `[~]` scoped completion with limitation | bounded pre-peak transfer proven; corrected mechanical restart unproven | `docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex`; `docs/decisions/STAGE_D3D_A1H0_EXECUTION_CLOSURE.md` |
 | WP6 | IMFD/ABAQUSER integration | `[!]` externally blocked | interface executable/module/source unavailable; independent extraction retained | `docs/decisions/WP6_ABAQUSER_EXTERNAL_BLOCK_CLOSURE.md` |
-| WP7 | Final recommendations and thesis writing | `[-]` active final stage | Stage E evidence synthesis and reproducibility closeout | `docs/thesis/FINAL_CLAIM_MATRIX.md`; `docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex` |
+| WP7 | Final recommendations and thesis writing | `[x]` documentation closeout complete | `wp7_final_closeout_reconciliation_complete`; submission-package review next | `docs/decisions/WP7_FINAL_CLOSEOUT_RECONCILIATION.md`; `docs/reports/FINAL_REPRODUCIBILITY_AUDIT.md`; `results/final/FINAL_EVIDENCE_MANIFEST.json` |
 
 ## WP0 - Environment, Starter Pipeline, And Source Preservation
 
@@ -191,19 +193,22 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 - [!] First synchronized P3-S cluster preflight stopped before execution because the default login-node Python rejected future annotations. No PBS/Abaqus job launched. The lane now explicitly binds qualified Python 3.11.7 in the submit and compute workflows; repeat preflight pending. Evidence: M-077 in `docs/project/MISTAKES_AND_FIXES_LOG.md`.
 - [!] Qualified-Python repeat preflight passed shell syntax, Python compilation, and the Stage P static gate, but exposed cross-platform CSV line-ending churn in the tracked audit output. No job launched. Platform-native line endings are now enforced; clean synchronized replay pending. Evidence: M-078 in `docs/project/MISTAKES_AND_FIXES_LOG.md`.
 - [!] A further replay found that the frozen 365-record P1 audit includes relevant local untracked variants absent from the cluster checkout. P3 preflight must not silently rewrite that evidence; audit refresh is now explicit via `--refresh-audit`. Clean no-refresh synchronized replay pending. Evidence: M-079.
-- [x] Final synchronized P3-S preparation preflight passed at commit `7e069915c0f940a2c4e50ae71356909efd9665ab`: Python 3.11.7 bound, both shell scripts passed `bash -n`, all Python files compiled, static classification `stage_p3s_lane_prepared_static_pass`, audit refresh false, and tracked Stage P diff empty. No P3 scheduler job exists or was submitted.
+- [x] Final synchronized P3-S preparation preflight passed at commit `7e069915c0f940a2c4e50ae71356909efd9665ab`: Python 3.11.7 bound, both shell scripts passed `bash -n`, all Python files compiled, static classification `stage_p3s_lane_prepared_static_pass`, audit refresh false, and tracked Stage P diff empty. No P3 scheduler job exists or was submitted. Evidence: `.agent.md`.
 - [~] P3-S failure-safe hardening prepared: explicit false authorization record, login-side immutable staging/hashes, no compute-node Git, notification integration, exit finalizer, lightweight allowlist, increment-sequence evidence, expanded technical gates, and synthetic failure tests. Execution remains unauthorized until this hardening is committed, synchronized, and reviewed.
-- [?] Known checklist-validator findings remain pre-existing WP7 issues unrelated to Stage P: two completed WP7 narrative items lack local evidence annotations, and one downstream-complete/open-gate consistency rule remains unresolved. These do not change the dedicated Stage P static or synthetic results.
-- [x] Fail-closed P3-S preparation committed, pushed, and synchronized as `82652680978d39c60125d75b4b9a1d7532c28e77`. Cluster `bash -n`, Python compilation, 12 synthetic tests, and `stage_p3s_lane_prepared_static_pass` passed; the real wrapper stopped with exit `20` because submission authorization is false. Tracked Stage P diff and P3-S/P3-T4 queue search were empty. No Abaqus/PBS job was submitted.
+- [x] Historical checklist-validator consistency findings were reconciled in
+  WP7-F1 without changing Stage-P evidence or scientific classifications.
+  Evidence: `docs/decisions/WP7_FINAL_CLOSEOUT_RECONCILIATION.md`;
+  `scripts/validation/check_project_phase_checklist.py`.
+- [x] Fail-closed P3-S preparation committed, pushed, and synchronized as `82652680978d39c60125d75b4b9a1d7532c28e77`. Cluster `bash -n`, Python compilation, 12 synthetic tests, and `stage_p3s_lane_prepared_static_pass` passed; the real wrapper stopped with exit `20` because submission authorization is false. Tracked Stage P diff and P3-S/P3-T4 queue search were empty. No Abaqus/PBS job was submitted. Evidence: `.agent.md`; `runs/hpc/stage_p/README.md`.
 - [~] P3-S-H1 queue/consumption policy correction prepared: both queue defaults use `entry_imfdfkmq`; valid post-qsub job IDs atomically consume the one-shot record, while failed/invalid qsub results leave it unused. Fifteen unittest cases pass. Local pytest is unavailable (M-080); synchronized cluster pytest remains a pre-authorization check.
 - [x] P3-S-H1 policy commit `bd21c45dfd7ec06a038197db159697749dfd0768` synchronized and fully validated: cluster pytest 15/15 passed from a scratch-only install, shell/Python/static/queue/diff checks passed, and no scientific or resource setting changed.
 - [x] The sole authorized P3-S serial diagnostic was submitted as `1378028.mmaster02` from revision `a1965a655d193db8d04ad36afa022bbe1c16e0e1`. The wrapper consumed authorization at `1/1`; Abaqus 2023 launched and compiled/linked the instrumented Fortran, then Abaqus/Standard terminated by signal 11 in the element loop. `P3S_ok=false`; no retry is authorized.
 - [x] P3-F offline failure forensics completed without Abaqus/PBS execution. The exception stack localizes the immediate failure to `dmpc_getrank` called by `UEXTERNALDB(LOP=0)` before `P2_INIT`, UEL, UMAT, shared-state monitoring, or an element/IP was observed. Classification: `stage_p3s_signal11_cause_localized`. Evidence: `results/validation/stage_p/p3s_signal11_forensics/`.
-- [x] P3-SB uninstrumented eight-element baseline prepared but not authorized: its source is byte-identical to accepted D2, its deck is byte-identical to P3-S, and it contains no rank/thread, mutex, or shared-access diagnostics. P3-SM remains a minimal callback design only. Decision: `docs/decisions/STAGE_P3F_SIGNAL11_ISOLATION_DECISION.md`.
-- [x] Guarded P3-SB execution lane prepared with authorization false: queue `entry_imfdfkmq`, CPU/rank/thread `1/1/1`, 16 GB, 00:30:00, Abaqus 2023, Intel 2024.2, immutable login-side hashes, no compute-node repository dependency, failure-safe evidence, CPS4-derived four-IP coverage, monotonic phase/history and transfer gates, and pass-only completion. No Abaqus/PBS job was submitted.
-- [x] Exactly one P3-SB serial baseline was authorized through the guarded wrapper and consumed `1/1`; no automatic retry, and P3-SM plus all downstream authorities remain false.
+- [x] P3-SB uninstrumented eight-element baseline prepared but not authorized: its source is byte-identical to accepted D2, its deck is byte-identical to P3-S, and it contains no rank/thread, mutex, or shared-access diagnostics. P3-SM remains a minimal callback design only. Evidence: `docs/decisions/STAGE_P3F_SIGNAL11_ISOLATION_DECISION.md`.
+- [x] Guarded P3-SB execution lane prepared with authorization false: queue `entry_imfdfkmq`, CPU/rank/thread `1/1/1`, 16 GB, 00:30:00, Abaqus 2023, Intel 2024.2, immutable login-side hashes, no compute-node repository dependency, failure-safe evidence, CPS4-derived four-IP coverage, monotonic phase/history and transfer gates, and pass-only completion. No Abaqus/PBS job was submitted. Evidence: `runs/hpc/stage_p/p3sb_baseline_serial/`.
+- [x] Exactly one P3-SB serial baseline was authorized through the guarded wrapper and consumed `1/1`; no automatic retry, and P3-SM plus all downstream authorities remain false. Evidence: `runs/hpc/stage_p/p3sb_baseline_serial/P3SB_AUTHORIZATION.json`.
 - [!] P3-SB job `1378094.mmaster02` consumed authorization `1/1` and closed as `stage_p3sb_baseline_serial_fail_validation` with scheduler exit `12`. Solver exit was `0`; compile/link/input/Standard completed; ODB extraction produced all 32 expected CPS4/IP records, finite RF/energy, and zero phase/history/transfer violations. Validation ran before the finalizer copied stdout/`.sta`, so the technical gates and increment sequence failed and no completion marker exists. No retry is authorized.
-- [x] P3-SB-A finalized-evidence audit passed offline in an isolated replay using the unchanged validator: classification `stage_p3sb_finalized_evidence_offline_pass`, all frozen gates true, 32/32 state records, zero violations/mismatches, and 13 increment records. Original status/hash/classification and completion-marker absence remain unchanged; no job was rerun.
+- [x] P3-SB-A finalized-evidence audit passed offline in an isolated replay using the unchanged validator: classification `stage_p3sb_finalized_evidence_offline_pass`, all frozen gates true, 32/32 state records, zero violations/mismatches, and 13 increment records. Original status/hash/classification and completion-marker absence remain unchanged; no job was rerun. Evidence: `runs/hpc/stage_p/p3sb_baseline_serial/`.
 - [x] P3-SM0 job `1378099.mmaster02` passed from authorization commit `572c51eacbf7af79f1ab2ffda93a0ad466fc6eca`: PBS/solver exit `0`, all compile/link/input/Standard/ODB gates true, four callback markers observed, no signal 11, 32/32 state rows, 11 RF rows, 11 energy rows, 13 increment records, and zero phase/history/transfer violations. Authorization is consumed `1/1`; no retry occurred or is authorized.
 - [x] P3-SM1 review boundary prepared in `docs/decisions/STAGE_P3SM1_REVIEW_PREPARATION.md`; no P3-SM1 source, lane, or execution is authorized. P3-T4, MPI, hybrid, P4, H1, D3D-A1 reopening and D3E remain blocked.
 - [!] P3-T4 and all downstream thread/MPI/hybrid/production routes remain blocked after the P3-S diagnostic failure.
@@ -222,9 +227,13 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 
 ## WP7 - Final Recommendations And Thesis Writing
 
-- [-] Maintain Stage A baseline report. Evidence: `docs/reports/STAGE_A_BASELINE_REPORT.tex`.
-- [-] Maintain Stage A execution/failure report. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
-- [-] Maintain this project checklist. Evidence: `docs/project/PROJECT_PHASE_CHECKLIST.md`.
+- [x] Freeze the Stage-A baseline report as
+  `frozen_with_residual_scientific_limitations`. Evidence:
+  `docs/reports/STAGE_A_BASELINE_REPORT.tex`.
+- [x] Freeze the Stage-A execution/failure log without removing predecessor
+  failures. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] Reconcile and freeze this project checklist for WP7 closeout. Evidence:
+  `docs/decisions/WP7_FINAL_CLOSEOUT_RECONCILIATION.md`.
 - [x] Prepared thesis-ready Stage A benchmark chapter draft from committed evidence only. Evidence: `docs/thesis/STAGE_A_MOLNAR_BENCHMARK_CHAPTER.tex`.
 - [x] Prepared Stage A reproducibility appendix draft with revisions, hashes, job records, trace provenance, and excluded-file policy. Evidence: `docs/thesis/STAGE_A_REPRODUCIBILITY_APPENDIX.tex`.
 - [x] Prepared Stage A figure/table plan from existing evidence paths only. Evidence: `docs/thesis/STAGE_A_FIGURE_TABLE_PLAN.md`.
@@ -232,19 +241,42 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 - [~] Reviewed LaTeX build-product ignore coverage and added recurring build-artifact patterns. Evidence: `.gitignore`. Limitation: existing untracked generated files were not deleted.
 - [x] Prepared Stage B uniform-reference protocol without simulations, deck generation, PBS preparation, or submission. Evidence: `docs/studies/STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md`; `docs/studies/STAGE_B_ACCEPTANCE_METRICS.md`; `docs/studies/STAGE_B_HPC_RESOURCE_ESTIMATE.md`; `configs/studies/molnar_uniform_reference_matrix.yaml`.
 - [x] Supervisor approved only the Molnar `lc=0.015 mm` h-convergence subset for execution (H0 exact supplementary, H1 `h=0.0025 mm`, H2-PUB `h=0.001 mm`). Length-scale, increment-sensitivity, MISESERI, remeshing, multi-CPU, and GPU work remain unauthorized. Evidence: `docs/studies/STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md`; `configs/studies/molnar_uniform_reference_matrix.yaml`.
-- [ ] Freeze Stage A reports after Stage A closure.
-- [ ] Create the Stage B results report.
-- [ ] Create the Stage B execution/failure log.
-- [x] Complete final accuracy-cost conclusions.
-- [x] Complete implementation-limitations chapter.
-- [x] Complete recommendations.
-- [x] Archive final reproducibility package.
-- [x] Stage E0 dashboard reconciled: WP5 scoped completion with limitation, WP6 externally blocked, and WP7 active final stage.
+- [x] Freeze Stage A reports after conditional scientific closure. Evidence:
+  `docs/reports/STAGE_A_BASELINE_REPORT.tex`;
+  `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] Create and freeze the Stage-B results report. Evidence:
+  `docs/reports/STAGE_B_RESULTS_REPORT.tex`.
+- [x] Create and freeze the Stage-B execution/failure log. Evidence:
+  `docs/reports/STAGE_B_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] Complete final accuracy-cost conclusions. Evidence:
+  `docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex`;
+  `docs/reports/STAGE_B_RESULTS_REPORT.tex`.
+- [x] Complete implementation-limitations chapter. Evidence:
+  `docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex`;
+  `docs/thesis/EXTERNALDB_COMMONBLOCK_PARALLELIZATION_STUDY.tex`;
+  `docs/thesis/FINAL_CLAIM_MATRIX.md`.
+- [x] Complete recommendations. Evidence:
+  `docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex`.
+- [x] Archive final reproducibility package. Evidence:
+  `docs/reports/FINAL_REPRODUCIBILITY_AUDIT.md`;
+  `results/final/FINAL_EVIDENCE_MANIFEST.json`.
+- [x] Stage E0 dashboard reconciled: WP5 scoped completion with limitation,
+  WP6 externally blocked, and WP7 identified as the final documentation stage.
+  Evidence: `docs/project/PROJECT_PHASE_CHECKLIST.md`.
 - [x] Stage E1 integrated Stage D synthesis and compact claim table completed. Evidence: `docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex`.
 - [x] Stage E2 final Stage D figures, tables, frozen metrics, and provenance generated from committed CSV/JSON evidence only. Evidence: `results/final/stage_d/`; `scripts/postprocessing/generate_stage_d_final_synthesis.py`.
 - [x] Stage E3 tolerance policy prepared for supervisor review, WP6 ABAQUSER external block closed, and final claim matrix frozen. Evidence: `docs/decisions/FINAL_THESIS_TOLERANCE_POLICY.md`; `docs/decisions/WP6_ABAQUSER_EXTERNAL_BLOCK_CLOSURE.md`; `docs/thesis/FINAL_CLAIM_MATRIX.md`.
 - [x] Stage E4 final recommendations and practical decision tree completed. Evidence: `docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex`.
 - [x] Stage E5 local reproducibility audit passed: figure/table provenance complete, no ODB tracked, no permanent scratch dependency, job IDs/SHAs and withheld claims recorded. The assembled 28-page closeout build passed with bundled Tectonic after correction of one pre-existing math-mode error. Evidence: `docs/reports/FINAL_REPRODUCIBILITY_AUDIT.md`; `results/final/FINAL_EVIDENCE_MANIFEST.json`; `docs/reports/THESIS_LATEX_BUILD_RECORD.md`.
+- [x] WP7-F1 final reconciliation completed. Evidence:
+  `docs/decisions/WP7_FINAL_CLOSEOUT_RECONCILIATION.md`;
+  `results/final/WP7_DOCUMENTATION_GATES.json`;
+  `docs/reports/THESIS_LATEX_BUILD_RECORD.md`. Classification:
+  `wp7_final_closeout_reconciliation_complete`: Stage-A reports frozen with
+  residual limitations, Stage-B report pair created and frozen, checklist
+  validator passed, repository unit tests passed 100/100, five standalone
+  validation test scripts passed, and the 30-page final build plus both
+  three-page Stage-B reports compiled successfully.
 
 ## Gate Checklist
 
@@ -276,11 +308,13 @@ Stage A: open (residual historical items may still use `reference_data_insuffici
 
 ## Active Next Item
 
-Complete the final thesis evidence synthesis and reproducibility package.
+Review the frozen thesis submission package. Evidence:
+`docs/decisions/WP7_FINAL_CLOSEOUT_RECONCILIATION.md`.
 
-No new Abaqus execution is authorized.
+No Abaqus/PBS execution, Stage-P reopening, P3-T4C preparation, downstream
+production route, or claim expansion is authorized.
 
-Priority:
+Submission-review priority:
 
 1. consolidate Stage C accuracy/cost findings;
 2. consolidate Stage D transfer and active-set findings;
@@ -320,10 +354,12 @@ Priority:
 - [!] Gate A3 remains `reference_data_insufficient`; this run is targeted scientific evidence collection and does not authorize a retry, candidate v3, Stage B, MISESERI, remeshing, state transfer, or any parameter sweep.
 # P3-SM1T preparation update (2026-07-25)
 
-- [x] P3-SM0 reference remains passed and closed: job
+- [x] P3-SM0 reference remains passed and closed. Evidence:
+  `docs/decisions/STAGE_P_FINAL_SCIENTIFIC_CLOSURE.md`. Job
   `1378099.mmaster02`, solver exit 0, all four callback categories, 32/32
   state records, 13 increments, no signal 11, authorization consumed 1/1.
 - [x] Prepare isolated P3-SM1T `GETTHREADID()` package and guarded 1/1/1 lane.
+  Evidence: `runs/hpc/stage_p/p3sm1t_threadid_serial/`.
 - [!] P3-SM1T job `1378239.mmaster02` consumed its only authorization (1/1)
   and closed as `stage_p3sm1t_threadid_serial_fail_identifier`. Compile,
   link, and input processing passed. The controlled UEL wrote the before
@@ -332,14 +368,20 @@ Priority:
   No retry is authorized.
 - [ ] `GETTHREADID` remains unqualified: the Abaqus 2023 runtime did not
   resolve the function-form `getthreadid_` symbol.
-- [x] P3-I1 installed-interface audit classified
+- [x] P3-I1 installed-interface audit classified. Evidence:
+  `docs/decisions/STAGE_P3_IDENTIFIER_INTERFACE_DECISION.md`.
   `stage_p3_identifier_interface_partially_confirmed`: the installed Fortran
   header confirms `get_thread_id()` but not `GETTHREADID()`.
 - [x] Prepare P3-SM1TC as a new corrected documented-interface lane based on
   P3-SM0. Execution is unauthorized at 0/1 with no retry.
+  Evidence: `runs/hpc/stage_p/p3sm1tc_thread_id_serial/`.
 - [x] Qualify installed `get_thread_id()` after separate review and
-  authorization.
-- [x] P3-SM1TC job `1378240.mmaster02` passed from authorization revision
+  authorization. Evidence:
+  `runs/hpc/stage_p/p3sm1tc_thread_id_serial/P3SM1TC_RESULTS_SUMMARY.md`.
+- [x] P3-SM1TC job `1378240.mmaster02` passed from authorization revision.
+  Evidence:
+  `runs/hpc/stage_p/p3sm1tc_thread_id_serial/P3SM1TC_RESULTS_SUMMARY.md`.
+  Authorization revision
   `b072e32f322b440729318e06f2c2ab72d041fc12`: scheduler/solver exit 0,
   compile/link/input/Standard and readable ODB passed, before/after counts
   3/3, returned IDs `[0, 0, 0]`, unique IDs `[0]`, no signal 11 or unresolved
@@ -348,7 +390,11 @@ Priority:
 - [x] Select the documented-call P3-SM1R route and prepare it offline using
   `CALL GETRANK(KPROCESSNUM)` only inside controlled UEL. Authorization remains
   false at 0/1, retry is disabled, and no Abaqus/PBS job has been submitted.
-- [x] P3-SM1R job `1378241.mmaster02` passed from authorization revision
+  Evidence: `docs/decisions/STAGE_P3_GETRANK_ROUTE_DECISION.md`.
+- [x] P3-SM1R job `1378241.mmaster02` passed from authorization revision.
+  Evidence:
+  `runs/hpc/stage_p/p3sm1r_getrank_serial/P3SM1R_RESULTS_SUMMARY.md`.
+  Authorization revision
   `4e941ffa7740a4c8050277351f25bcf392f8cd98`: PBS/solver exit 0, compile/link,
   input/Standard and readable ODB passed, GETRANK markers matched 3/3, returned
   IDs `[0,0,0]` with unique `[0]`, state coverage was 32/32, and all baseline

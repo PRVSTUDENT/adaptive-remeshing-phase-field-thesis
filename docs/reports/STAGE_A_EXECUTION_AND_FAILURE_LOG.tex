@@ -12,7 +12,7 @@
 
 \title{Stage A Execution, Failure, and Retry Log\\Adaptive Remeshing Phase-Field Thesis}
 \author{Pruthvi Raj Vakkalagadda}
-\date{Updated 2026-07-20}
+\date{Frozen 2026-07-25}
 
 \begin{document}
 \maketitle
@@ -20,24 +20,40 @@
 \section*{Purpose and Maintenance Rule}
 
 \noindent\textbf{Stage:} Stage A\\
-\textbf{Document status:} active living document\\
-\textbf{Last updated:} 2026-07-20
+\textbf{Document status:} \texttt{frozen\_with\_residual\_scientific\_limitations}\\
+\textbf{Last updated:} 2026-07-25
 
 \medskip
 
-This companion log is the permanent Stage A record of controlled executions, failures, repairs, retries, and classification changes. It complements the high-level Stage A baseline report at \texttt{docs/reports/STAGE\_A\_BASELINE\_REPORT.tex}. Failed attempts remain in this log and are not removed after a repair succeeds. Generated PDFs belong in the ignored build directory and are not evidence substitutes.
+This companion log is the frozen permanent Stage A record of controlled
+executions, failures, repairs, retries, and classification changes. It
+complements the high-level Stage A baseline report at
+\texttt{docs/reports/STAGE\_A\_BASELINE\_REPORT.tex}. Failed attempts remain
+in this log and are not removed after a repair succeeds. Generated PDFs belong
+in ignored build directories and are not evidence substitutes.
 
-During Stage A, every substantial environment, run, validation, failure, repair, retry, figure, table, result, or scientific decision must update both Stage A living documents where relevant. These two files continue until Stage A is formally completed. At Stage A closure, both files should be marked frozen, final conclusions and exit decisions should be added, and a new pair should be opened for Stage B. Do not create a new Stage A report for every run.
+Stage A is closed as
+\texttt{frozen\_with\_residual\_scientific\_limitations}. This does not
+upgrade provisional one-element tolerances, conditional Gate-A3 RF--U
+acceptance, post-peak mesh dependence, approximate publication data, or
+unassessed contour/crack-path convergence. The Stage-B report pair now carries
+the subsequent uniform-reference record.
 
 \section*{Scientific Boundary}
 
-The records below concern controlled environment and trivial smoke tests only. They do not run, modify, or validate the Molnar benchmark, MISESERI pre-refinement, remeshing, state transfer, multi-CPU execution, or a parameter study. Gate A3 remains:
+The earliest records below concern controlled environment and trivial smoke
+tests only. Later chronological entries preserve the benchmark and
+uniform-reference transition without rewriting those original classifications.
+The final Stage-A boundary superseding the historical open-gate wording is:
 
 \begin{center}
-\texttt{reference\_data\_insufficient}
+\texttt{gate\_a3\_conditionally\_accepted\_rf\_u}\\
+\texttt{contour\_validation\_deferred}
 \end{center}
 
-The Stage A benchmark and remeshing path therefore remain blocked until the reference route is resolved.
+This conditional decision supports the frozen H2-PUB/H1/H0 mesh roles but not
+unconditional Stage-A validation, post-peak mesh independence, or crack-path
+convergence. No new simulation is authorized by this closure.
 
 Detailed task, phase, and gate status is maintained in the authoritative living checklist \texttt{docs/project/PROJECT\_PHASE\_CHECKLIST.md}. This log records chronological evidence and diagnostics; it does not duplicate the complete checklist.
 
