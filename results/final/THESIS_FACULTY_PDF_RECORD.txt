@@ -1,0 +1,59 @@
+THESIS_FACULTY_PDF_RECORD
+classification=wp7_faculty_template_integration_candidate
+date=2026-07-25
+
+Source revision (pre-commit working tree at build time; archive commit follows):
+base_parent=e492ab145501bd0e47ccbfc47446f68eeeb6b89c
+
+Scientific closeout PDF (WP7-F2; do not reuse as faculty hash):
+filename=THESIS_CLOSEOUT_BUILD.pdf
+sha256=bf0dbf8fb4ad306a8cbfdc0dd9ea5b60304c07299b86cdc0f2034c0c572529f8
+pages=30
+
+Faculty-format candidate PDF (WP7-F3; new hash):
+filename=THESIS_FACULTY_BUILD.pdf
+local_path=results/latex_build_wp7_f3_faculty/THESIS_FACULTY_BUILD.pdf
+tracked_in_git=false
+pages=39
+bytes=570014
+sha256=bd22c96b57175a109394725f018cf02a3770cfafea509d891afc83fb3250efcc
+
+Exact build command:
+python <latex-plugin>/scripts/compile_latex.py
+  docs/thesis/THESIS_FACULTY_BUILD.tex
+  --compiler tectonic
+  --output-directory results/latex_build_wp7_f3_faculty
+  --json
+
+Log-preserving compile:
+tectonic -X compile --outdir results/latex_build_wp7_f3_faculty --outfmt pdf
+  --print --untrusted --keep-logs THESIS_FACULTY_BUILD.tex
+(working directory: docs/thesis)
+
+Compiler:
+Tectonic 0.16.9 (bundled openai-bundled latex plugin)
+
+Unresolved references: 0
+Undefined citations: 0
+Fatal errors: 0
+Warning class: layout Overfull/Underfull hbox; hyperref page-object duplicate notice during roman/arabic switch
+
+Front matter:
+author=Pruthviraja Reddy Vandavagali
+matriculation=68865
+degree=Master of Science
+programme=Master Computational Materials Science
+university=Technische Universität Bergakademie Freiberg
+faculty=Faculty of Mechanical, Process and Energy Engineering
+institute=Institute of Mechanics and Fluid Dynamics
+chair=Applied Mechanics – Solid Mechanics
+examiner1=Prof. Dipl.-Ing. Björn Kiefer, Ph.D.
+examiner2=Dr.-Ing. Stephan Roth
+issue_date=13 July 2026
+submission_deadline=12 January 2027
+submission_date=not_entered
+
+Execution:
+abaqus=false
+pbs=false
+stage_p_reopened=false

@@ -1,0 +1,107 @@
+{
+  "classification": "wp7_faculty_template_integration_candidate",
+  "date": "2026-07-25",
+  "base_parent_revision": "e492ab145501bd0e47ccbfc47446f68eeeb6b89c",
+  "template_choice": "clean_a4_faculty_style_candidate_no_official_template_found",
+  "flags": {
+    "front_matter_complete": true,
+    "abstract_complete": true,
+    "bibliography_resolved": true,
+    "figures_embedded_and_readable": true,
+    "absolute_machine_paths_reviewed": true,
+    "human_print_scale_review_complete": false,
+    "administrative_requirements_verified": false,
+    "supervisor_review_complete": false,
+    "ready_for_submission": false,
+    "scientific_content_frozen": true
+  },
+  "front_matter": {
+    "title": "Application of Built-in Adaptive Remeshing and Mesh Refinement Features in Abaqus to Fracture Simulations Using Phase-field User Elements",
+    "running_title": "Adaptive Remeshing, MISESERI Refinement, and State Transfer for Phase-Field Fracture in Abaqus",
+    "author": "Pruthviraja Reddy Vandavagali",
+    "matriculation_number": "68865",
+    "degree": "Master of Science",
+    "course_of_study": "Master Computational Materials Science",
+    "university": "Technische Universität Bergakademie Freiberg",
+    "faculty": "Faculty of Mechanical, Process and Energy Engineering",
+    "institute": "Institute of Mechanics and Fluid Dynamics",
+    "chair": "Applied Mechanics – Solid Mechanics",
+    "first_examiner_supervisor": "Prof. Dipl.-Ing. Björn Kiefer, Ph.D.",
+    "second_examiner_reviewer": "Dr.-Ing. Stephan Roth",
+    "issue_date": "2026-07-13",
+    "submission_deadline": "2027-01-12",
+    "submission_date": null,
+    "excluded_names": [
+      "Siddhi Avinash Patil",
+      "Pruthvi Raj Vakkalagadda"
+    ]
+  },
+  "pdf": {
+    "filename": "THESIS_FACULTY_BUILD.pdf",
+    "local_path": "results/latex_build_wp7_f3_faculty/THESIS_FACULTY_BUILD.pdf",
+    "tracked_in_git": false,
+    "pages": 39,
+    "bytes": 570014,
+    "sha256": "bd22c96b57175a109394725f018cf02a3770cfafea509d891afc83fb3250efcc",
+    "compiler": "Tectonic 0.16.9 (bundled)",
+    "entrypoint": "docs/thesis/THESIS_FACULTY_BUILD.tex",
+    "unresolved_references": 0,
+    "undefined_citations": 0,
+    "not_the_wp7_f2_closeout_hash": "bf0dbf8fb4ad306a8cbfdc0dd9ea5b60304c07299b86cdc0f2034c0c572529f8"
+  },
+  "sources": {
+    "entrypoint": "docs/thesis/THESIS_FACULTY_BUILD.tex",
+    "abstract": "docs/thesis/THESIS_ABSTRACT.tex",
+    "bibliography": "docs/thesis/THESIS_BIBLIOGRAPHY.tex",
+    "key_figures": "docs/thesis/THESIS_KEY_FIGURES.tex",
+    "scientific_chapters": [
+      "docs/thesis/STAGE_A_MOLNAR_BENCHMARK_CHAPTER.tex",
+      "docs/thesis/STAGE_C_OFFLINE_REFINEMENT_CHAPTER.tex",
+      "docs/thesis/STAGE_D_STATE_TRANSFER_CHAPTER.tex",
+      "docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex",
+      "docs/thesis/STAGE_D3D_A1_CHECKPOINT_CORRECTION_AND_LIMITATION.tex",
+      "docs/thesis/EXTERNALDB_COMMONBLOCK_PARALLELIZATION_STUDY.tex",
+      "docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex",
+      "docs/thesis/STAGE_A_REPRODUCIBILITY_APPENDIX.tex"
+    ]
+  },
+  "embedded_figures": [
+    {
+      "label": "fig:baseline-rf-u",
+      "path": "results/figures/stage_a_baseline/single_notch_rf_u_curve.png"
+    },
+    {
+      "label": "fig:rf-u-h-convergence",
+      "path": "results/figures/molnar_lc015_h_convergence/01_rf_u_h0_h1_h2.png"
+    },
+    {
+      "label": "fig:miseseri-refined-rf-u",
+      "path": "results/figures/stage_c_final/01_rf_u_h0_h1_h2_refined_v3.png"
+    },
+    {
+      "label": "fig:stage-d-workflow",
+      "path": "results/final/stage_d/figures/stage_d_workflow.png"
+    },
+    {
+      "label": "fig:active-set-limitation",
+      "path": "results/final/stage_d/figures/violating_active_nodes_vs_displacement.png"
+    }
+  ],
+  "path_review": {
+    "main_prose_absolute_cluster_paths": "removed_or_rewritten",
+    "reproducibility_appendix_cluster_paths": "retained_with_justification",
+    "windows_absolute_paths_in_thesis_sources": "none"
+  },
+  "ready_for_submission_blockers": [
+    "human_print_scale_review_complete is false",
+    "administrative_requirements_verified is false",
+    "supervisor_review_complete is false",
+    "official submission date not entered",
+    "no official faculty template applied; clean A4 candidate only"
+  ],
+  "execution": {
+    "abaqus_job_submitted": false,
+    "pbs_job_submitted": false,
+    "scientific_work_reopened": false
+  }
+}

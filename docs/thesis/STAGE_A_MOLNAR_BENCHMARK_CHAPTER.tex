@@ -26,12 +26,16 @@ transfer work begins.
 
 \section{Benchmark Choice}
 
-The Molnar single-notch benchmark was selected because it connects directly to
-the thesis requirement for an Abaqus UEL/UMAT phase-field workflow. The source
-package contains a staggered displacement/phase implementation, a visualization
-layer through state variables, and single-notch examples suitable for checking
-reaction force, crack-path geometry, and phase-field/history behavior before
-introducing adaptive remeshing.
+The Molnar single-notch benchmark~\cite{molnar2017} was selected because it
+connects directly to the thesis requirement for an Abaqus UEL/UMAT phase-field
+workflow. Related Abaqus phase-field UEL architectures~\cite{msekh2015} and the
+local multi-field implementation context~\cite{diddige2025} inform the
+interpretation of interfaces and visualization layers, but do not replace the
+Molnar staggered baseline. The source package contains a staggered
+displacement/phase implementation, a visualization layer through state
+variables, and single-notch examples suitable for checking reaction force,
+crack-path geometry, and phase-field/history behavior before introducing
+adaptive remeshing.
 
 The benchmark is also a useful stress test for thesis discipline. It separates
 technical execution from scientific validation: a model can compile, solve, and
@@ -41,7 +45,10 @@ unresolved.
 
 \section{Formulation Convention}
 
-The phase-field convention used throughout Stage A is:
+Foundational phase-field fracture formulations~\cite{bourdin2000,miehe2010a}
+motivate the regularized crack description used here, while the implemented
+staggered solution follows Molnar and Gravouil~\cite{molnar2017}. The
+phase-field convention used throughout Stage A is:
 
 \begin{itemize}
 \item \(d=0\): intact material.

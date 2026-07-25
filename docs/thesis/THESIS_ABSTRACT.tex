@@ -1,0 +1,35 @@
+Phase-field fracture models implemented as Abaqus user elements (UEL/UMAT)
+enable regularized crack evolution, but production use on non-uniform meshes
+raises three coupled questions: whether a published staggered baseline can be
+reproduced with defensible reaction-force evidence; whether offline
+MISESERI-driven pre-refinement can recover peak and pre-peak response at lower
+cost than a uniform production mesh; and whether nonmatching state transfer
+supports a controlled pre-peak checkpoint without overstating restart or
+parallel claims.
+
+This thesis documents a staged Abaqus workflow built around the Molnar and
+Gravouil staggered single-notch benchmark~\cite{molnar2017}, phase-field
+implementation context from related UEL literature~\cite{msekh2015,diddige2025},
+and MISESERI pre-refinement practice motivated by Pandey and
+Kumar~\cite{pandey2025}. Uniform mesh roles were fixed after supervisor
+decisions that accept H2-PUB for fine RF--U validation, H1 for production
+comparisons, and H0 for development. Offline refinement then produced a
+corrected locally refined mesh with 14.7\% fewer physical elements than H1,
+close peak/pre-peak RF--U agreement, and measured wall-time and memory savings
+under a fair four-thread comparison. Controlled analytical transfer, Abaqus
+ingestion, serial continuation, and a bounded pre-peak nonmatching release hold
+were demonstrated; an offline active-set correction at a later checkpoint was
+shown to be KKT-admissible under frozen history.
+
+The same evidence sets hard limits. Unrestricted post-peak RF--U convergence
+and crack-path mesh independence are not supported. Fixed active-set
+continuation under further loading is disproven in the tested segment. The
+D3D-A1 corrected package is not an accepted mechanically equilibrated restart.
+Threaded shared-state characterization (P3-T4) produced no threaded evidence;
+MPI and hybrid safety remain unqualified. ABAQUSER equivalence remains
+externally blocked. Validated online adaptive remeshing is not claimed.
+
+Practically, the work identifies where pre-refinement and pre-peak state
+transfer are usable, quantifies accuracy/cost benefits within those scopes, and
+provides a decision tree that blocks unsupported post-peak, restart, and
+parallel generalizations.
