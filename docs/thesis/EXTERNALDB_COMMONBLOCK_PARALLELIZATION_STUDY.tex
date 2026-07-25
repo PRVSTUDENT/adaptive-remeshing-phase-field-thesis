@@ -105,3 +105,30 @@ were therefore not reached.  The result is classified as
 \texttt{stage\_p3t4\_threaded\_fail\_compile}; authorization is consumed and
 no retry is permitted.  It provides no evidence for or against shared-state
 thread safety.
+
+\subsection{Final Stage-P evidence boundary}
+
+The Stage-P evidence hierarchy is therefore closed as follows.  P3-SM0
+established serial completion of the accepted eight-element model with minimal
+callback plumbing.  P3-SM1TC qualified \texttt{get\_thread\_id()} only at one
+MPI rank and one OpenMP thread, and P3-SM1R qualified
+\texttt{CALL GETRANK(KPROCESSNUM)} only under the same serial configuration.
+P3-T4 produced no threaded evidence because compilation stopped before
+linking or execution.  The earlier D2C equality under one rank and four
+threads remains positive, case-specific repeatability evidence, not a general
+COMMON/SAVE thread-safety proof.  MPI and hybrid safety remain completely
+unqualified.
+
+\begin{quote}
+Serial identifier interfaces were qualified in controlled UEL callbacks. The
+dedicated threaded shared-state characterization was technically inconclusive
+because the instrumented source failed compilation before callback execution.
+Therefore, no general thread-safety, MPI-safety, or hybrid-safety claim is
+supported.
+\end{quote}
+
+No further Stage-P solver execution is authorized.  A future P3-T4C review
+could consider a distinctly named, fail-closed, one-shot compile-only package
+for valid interface-header scoping, Intel compilation, and Abaqus
+user-subroutine linking.  Even success would establish neither callback
+execution nor thread safety and would not release another threaded solver run.

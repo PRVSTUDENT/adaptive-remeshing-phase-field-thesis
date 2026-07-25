@@ -194,5 +194,17 @@ declarations as an invalid main program. Classification:
 Prevention: preprocessing success alone is insufficient for an aggregate
 interface header. Future offline source review must verify that each such
 header is inside the subroutine scoping unit that uses its declared functions,
-and a compile-only Abaqus gate would require its own separately reviewed
-authorization. P3-T4 authorization is consumed `1/1`; no retry is authorized.
+and every direct caller of `get_thread_id`, `MutexInit`, `MutexLock`, or
+`MutexUnlock` must receive the aggregate header inside its own program unit.
+Before any future solver authorization, a real Intel/Abaqus compile-only and
+user-subroutine link gate is mandatory; successful preprocessing or static
+source isolation is not a substitute. Such a gate would require a distinct
+package, decision record, fail-closed authorization, and one-shot limit.
+P3-T4 authorization is consumed `1/1`; no retry or replacement is authorized.
+The failed source and job evidence remain unchanged. Detailed correction
+record: `docs/decisions/P3T4_HEADER_SCOPE_FORENSIC_CORRECTION.md`.
+
+Stage P is closed scientifically as technically inconclusive for threaded
+safety. The serial identifier results qualify only their controlled
+one-rank/one-thread UEL calls, D2C remains case-specific repeatability
+evidence, and no general thread-, MPI-, or hybrid-safety claim is supported.

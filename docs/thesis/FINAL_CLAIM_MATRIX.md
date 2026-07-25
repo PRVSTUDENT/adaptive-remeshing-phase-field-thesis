@@ -11,6 +11,9 @@
 | Abaqus ingests transferred phase/history state | validated | D2A |
 | Serial continuation after tiny transfer is possible | validated | D2B accepted rerun |
 | One-rank/four-thread result matches serial in the tested case | validated | D2C; no broader scalability claim |
+| `get_thread_id()` and `CALL GETRANK` work in controlled UEL callbacks | validated only at one rank and one thread | P3-SM1TC and P3-SM1R |
+| The dedicated P3-T4 run characterizes threaded shared-state safety | not supported / technically inconclusive | compilation stopped before linking or callback execution |
+| General COMMON/SAVE thread safety, MPI safety, or hybrid safety is established | not supported / withheld | D2C is case-specific; P3-T4 produced no threaded evidence; MPI/hybrid were not tested |
 | Nonmatching pre-peak checkpoint transfer and R4 release hold are valid | validated | D3A3-R4 bounded scope |
 | A fixed active set remains valid through further loading | not supported / withheld | disproven by D3D |
 | D3D-A1 correction is KKT-admissible under frozen F3 history | validated | deterministic offline solve |

@@ -359,3 +359,20 @@ Priority:
   rejected the first UEL declaration; linking, callbacks, diagnostics, ODB,
   and scientific comparison were not reached. Authorization is consumed 1/1
   with no retry. All downstream routes remain blocked.
+- [x] Threaded-safety evidence interpretation is scientifically closed as
+  technically inconclusive. Evidence:
+  `docs/decisions/STAGE_P_FINAL_SCIENTIFIC_CLOSURE.md`. P3-SM0 supports the accepted serial callback baseline;
+  P3-SM1TC and P3-SM1R qualify only their identifier interfaces at one rank
+  and one thread; P3-T4 produced no threaded evidence. D2C remains positive,
+  case-specific repeatability evidence rather than general COMMON/SAVE
+  thread-safety proof. MPI and hybrid safety are unqualified.
+- [x] Record the P3-T4 header-scope failure and future prevention offline. Evidence:
+  `docs/decisions/P3T4_HEADER_SCOPE_FORENSIC_CORRECTION.md`.
+  The failed source and evidence remain unchanged. Preprocessing alone is not
+  a compile gate; any future solver authorization requires a real
+  Intel/Abaqus compile-only and link gate.
+- [!] No Stage P or downstream job is authorized. P3-T4-J2, an unchanged
+  retry, a corrected threaded replacement, MPI, hybrid, P4, production H1,
+  D3D-A1 reopening, and D3E are prohibited. A possible P3-T4C would require a
+  distinct compile-only package, decision, fail-closed authorization, and
+  one-shot limit and would support no callback or thread-safety claim.
