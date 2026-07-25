@@ -1,1 +1,18 @@
 relative_path,type,size_bytes,last_modified,git_status,canonical_or_generated,stage,notes
+models/generated/mode_ii/h0_serial/ModeII_H0_serial.inp,inp,488797,2026-07-25T07:33:12.365009+00:00,tracked,generated,Stage F,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+models/generated/mode_ii/h0_serial/ModeII_H0_serial.for,for,19577,2026-07-25T07:33:12.361009+00:00,tracked,generated,Stage F,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+models/generated/mode_ii/h0_serial/PACKAGE_MANIFEST.json,json,1482,2026-07-25T07:33:12.366009+00:00,tracked,generated,Stage F,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+models/generated/mode_ii/h0_serial/input_hashes.sha256,sha256,174,2026-07-25T07:33:12.368009+00:00,tracked,generated,Stage F,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+models/generated/mode_ii/h0_serial/STATIC_VALIDATION.json,json,1947,2026-07-25T07:33:28.364005+00:00,tracked,generated,Stage F,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json,json,927,2026-07-25T07:33:12.392009+00:00,tracked,generated,Stage F,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+runs/hpc/stage_f/mode_ii_h0/README.md,md,1139,2026-07-25T07:33:12.393008+00:00,tracked,generated,Stage F,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+scripts/hpc/stage_f/01_mode_ii_h0_datacheck.pbs,pbs,5240,2026-07-25T07:33:12.395009+00:00,tracked,canonical,Stage F,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+scripts/hpc/stage_f/submit_mode_ii_h0_datacheck.sh,sh,3732,2026-07-25T07:33:12.403008+00:00,tracked,canonical,Stage F,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+scripts/validation/validate_mode_ii_h0_static.py,py,11110,2026-07-25T07:33:12.409009+00:00,tracked,canonical,Stage F,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+scripts/validation/validate_mode_ii_h0_submission_preflight.py,py,5490,2026-07-25T07:33:12.410008+00:00,tracked,canonical,Stage F,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+scripts/validation/check_multi_agent_bootstrap.py,py,11659,2026-07-25T07:33:12.407009+00:00,tracked,canonical,coordination,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+configs/studies/mode_ii_molnar_shear.yaml,yaml,3154,2026-07-25T07:33:12.323009+00:00,tracked,canonical,Stage F,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+docs/studies/STAGE_F_MODE_II_BENCHMARK_PROTOCOL.md,md,2340,2026-07-25T07:33:12.339009+00:00,tracked,canonical,coordination,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+AGENTS.md,md,2187,2026-07-25T07:33:12.315009+00:00,tracked,canonical,coordination,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+project_coordination/CURRENT_STATE.md,md,2161,2026-07-25T07:33:12.372009+00:00,tracked,canonical,coordination,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
+project_coordination/ACTIVE_TASK.json,json,665,2026-07-25T07:33:12.370008+00:00,tracked,canonical,coordination,cluster_rev=97756e09caad28ebd6257f3406c7d6365eca771a
