@@ -21,7 +21,17 @@ FORBIDDEN_WORKFLOW_PHRASES = (
     "python scripts/sync_agent_handoff.py",
     "For current Stage D work",
 )
-ALLOWED_TASK_IDS = frozenset({"F1-P0", "COORD-1", "COORD-1R", "COORD-0"})
+ALLOWED_TASK_IDS = frozenset(
+    {
+        "COORD-0",
+        "COORD-1",
+        "COORD-1R",
+        "F1-P0",
+        "F1-J0-AUTH",
+        "F1-J0",
+        "F1-J1",
+    }
+)
 
 
 def fail(msg: str, errors: list[str]) -> None:

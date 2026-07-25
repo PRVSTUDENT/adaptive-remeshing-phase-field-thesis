@@ -1,8 +1,8 @@
 ﻿# Stage F1-P0 — Mode-II H0 cluster synchronization and offline qualification
 
-Classification: `stage_f_mode_ii_h0_cluster_qualification_pass`  
-Date: 2026-07-25  
-Agent: grok  
+Classification: `stage_f_mode_ii_h0_cluster_qualification_pass`
+Date: 2026-07-25
+Agent: grok
 Task: F1-P0
 
 ## Revisions

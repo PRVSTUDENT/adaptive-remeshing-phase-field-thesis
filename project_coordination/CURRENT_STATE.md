@@ -1,7 +1,7 @@
 # Current project state
 
-Updated: 2026-07-25  
-Protocol version: 1  
+Updated: 2026-07-25
+Protocol version: 1
 Classification: `stage_f_mode_ii_h0_cluster_qualification_pass`
 
 ## Git
