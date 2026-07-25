@@ -1,0 +1,20 @@
+{
+  "task_id": "F1-P0",
+  "stage": "Stage F",
+  "title": "Mode-II H0 cluster synchronization and offline qualification",
+  "status": "ready",
+  "base_commit": "17240f646cf1e382396006ab635976fa22a67890",
+  "scientific_package": "models/generated/mode_ii/h0_serial",
+  "authorization_file": "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
+  "execution_authorized": false,
+  "maximum_jobs_now": 0,
+  "next_action": "Synchronize and qualify the frozen package without submission",
+  "blocked_after": [
+    "F1-J0 submission",
+    "F1-J1 solver",
+    "F2",
+    "F3",
+    "F4",
+    "F5"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "active": false,
+  "agent": null,
+  "task_id": null,
+  "started_at": null,
+  "base_commit": "17240f646cf1e382396006ab635976fa22a67890",
+  "allowed_write_scope": [],
+  "forbidden_paths": [
+    "agent_handoff/**",
+    "preserved failed-job evidence",
+    "unrelated dirty files"
+  ],
+  "notes": "COORD-0 complete. No agent holds the lock. Next task F1-P0."
+}

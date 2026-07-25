@@ -1,0 +1,15 @@
+artifact_id,stage,canonical_path,type,status,created_by,source_commit,sha256,supersedes,notes
+F_MODEII_H0_DECK,Stage F,models/generated/mode_ii/h0_serial/ModeII_H0_serial.inp,input_deck,frozen,grok,17240f646cf1e382396006ab635976fa22a67890,32a25380767bbb0e9e76eb55b3bb7a97d78bb75c4f86c7e8585aa2032ce2d33b,,Canonical F0 Mode-II H0 deck; pure-shear BC adaptation of Mode-I H0 mesh
+F_MODEII_H0_SOURCE,Stage F,models/generated/mode_ii/h0_serial/ModeII_H0_serial.for,fortran_source,frozen,grok,17240f646cf1e382396006ab635976fa22a67890,5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c,,Canonical F0 source; Molnar staggered N_ELEM=3930 isolated copy
+F_MODEII_H0_MANIFEST,Stage F,models/generated/mode_ii/h0_serial/PACKAGE_MANIFEST.json,package_manifest,frozen,grok,17240f646cf1e382396006ab635976fa22a67890,e0ab11a6c0a4c7f52326378da11ed9e79ac2146624494707154744727d66acbc,,F0 package manifest; execution flags false
+F_MODEII_H0_STATIC,Stage F,models/generated/mode_ii/h0_serial/STATIC_VALIDATION.json,static_validation,pass,grok,17240f646cf1e382396006ab635976fa22a67890,,,Offline static validation pass record
+F_MODEII_AUTH,Stage F,runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json,authorization,fail_closed,grok,17240f646cf1e382396006ab635976fa22a67890,67ea8094eeae149b466c1ad513975ceba7bdfc1f98a54827632d88d9348982f8,,All execution flags false; F1-J0 unauthorized
+F_MODEII_CONFIG,Stage F,configs/studies/mode_ii_molnar_shear.yaml,benchmark_definition,frozen,grok,17240f646cf1e382396006ab635976fa22a67890,,,Mode-II pure-shear definition freeze
+F_MODEII_PROTOCOL,Stage F,docs/studies/STAGE_F_MODE_II_BENCHMARK_PROTOCOL.md,protocol,frozen,grok,17240f646cf1e382396006ab635976fa22a67890,,,Stage F protocol
+F_MODEII_BUILDER,Stage F,scripts/model_generation/build_mode_ii_h0_serial.py,generator_script,active,grok,17240f646cf1e382396006ab635976fa22a67890,,,Deterministic F0 package builder
+F_MODEII_STATIC_VALIDATOR,Stage F,scripts/validation/validate_mode_ii_h0_static.py,validator_script,active,grok,17240f646cf1e382396006ab635976fa22a67890,,,Offline static validator
+F_MODEII_PREFLIGHT,Stage F,scripts/validation/validate_mode_ii_h0_submission_preflight.py,preflight_script,active,grok,17240f646cf1e382396006ab635976fa22a67890,,,Fail-closed submission preflight
+F_MODEII_CONSUME_AUTH,Stage F,scripts/validation/consume_mode_ii_h0_authorization.py,auth_consumer_script,active,grok,17240f646cf1e382396006ab635976fa22a67890,,,One-shot authorization consumer
+F_MODEII_PBS_DC,Stage F,scripts/hpc/stage_f/01_mode_ii_h0_datacheck.pbs,pbs_script,prepared,grok,17240f646cf1e382396006ab635976fa22a67890,,,F1-J0 datacheck PBS; not submitted
+F_MODEII_SUBMIT_DC,Stage F,scripts/hpc/stage_f/submit_mode_ii_h0_datacheck.sh,submit_wrapper,prepared,grok,17240f646cf1e382396006ab635976fa22a67890,,,Guarded submit wrapper; default preflight-only
+COORD_LAYER,Coordination,project_coordination/,coordination_tree,active,grok,,,"",Shared multi-agent control plane; metadata only
