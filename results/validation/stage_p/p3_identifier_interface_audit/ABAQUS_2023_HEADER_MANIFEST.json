@@ -1,0 +1,45 @@
+{
+  "classification": "stage_p3_identifier_interface_partially_confirmed",
+  "installation_root": "/cluster/application/abaqus/2023",
+  "resolved_launcher": "/cluster/application/abaqus/2023/linux_a64/code/bin/SMALauncher",
+  "module_include_directory": "/cluster/application/abaqus/2023/linux_a64/code/include",
+  "headers": [
+    {
+      "path": "/cluster/application/abaqus/2023/linux_a64/code/include/SMAAspUserSubroutines.hdr",
+      "size": 62,
+      "sha256": "6033abd40ef79205ae803c25367b2483d174b353d5da892decb155f2c25a766e",
+      "mtime": "2014-01-22T19:32:55+01:00",
+      "role": "compiler-facing forwarding header"
+    },
+    {
+      "path": "/cluster/application/abaqus/2023/SMAUsubs/PublicInterfaces/SMAAspUserSubroutines.hdr",
+      "size": 306,
+      "sha256": "794f1ffda64c1cb9882902bc47f5782be330d95fe73eed6921ed35af726c6601",
+      "mtime": "2014-01-22T19:32:55+01:00",
+      "role": "installed Fortran aggregate header"
+    },
+    {
+      "path": "/cluster/application/abaqus/2023/SMAUsubs/PublicInterfaces/SMAAspUserUtilities.hdr",
+      "size": 1481,
+      "sha256": "a54179c06c3698cbfd7ce102e85a7a96fa102bd634936ba595b219385e632d08",
+      "mtime": "2014-01-22T19:31:57+01:00",
+      "role": "included Fortran utility interface definitions"
+    },
+    {
+      "path": "/cluster/application/abaqus/2023/linux_a64/code/include/SMAAspUserSubroutines.h",
+      "size": 60,
+      "sha256": "c0385fbd4a0118ca485722626b0566b5797102685487edf872ff758df466a54f",
+      "mtime": "2021-03-22T16:39:58+01:00",
+      "role": "compiler-facing C/C++ forwarding header"
+    },
+    {
+      "path": "/cluster/application/abaqus/2023/SMAUsubs/PublicInterfaces/SMAAspUserSubroutines.h",
+      "size": 736,
+      "sha256": "645bf33b3ad7d9ff230ab30dd6c892bbbfd5a3512129a095344b7dc1e4910cbb",
+      "mtime": "2021-03-22T16:39:58+01:00",
+      "role": "installed C/C++ aggregate header"
+    }
+  ],
+  "thread_interface_confirmed": true,
+  "getrank_header_interface_confirmed": false
+}

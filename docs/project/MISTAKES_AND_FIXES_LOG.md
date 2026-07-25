@@ -164,3 +164,12 @@ ID exists, and signal 11 was absent. Classification:
 `stage_p3sm1t_threadid_serial_fail_identifier`. This localizes the failure to
 the requested function-form utility interface at the call itself; it is not
 thread-safety evidence. Authorization remains consumed 1/1 with no retry.
+
+P3-I1 follow-up found that `GETTHREADID()` was not the installed Abaqus 2023
+interface. `SMAAspUserSubroutines.hdr` includes a utility header declaring
+`FUNCTION get_thread_id()`, with underscores in the Fortran name. The failed
+spelling requested `getthreadid_`; it does not establish that the installed
+`get_thread_id()` utility is unavailable. Prevention: audit the installed
+aggregate and included interface headers before allocating another identifier
+qualification. P3-SM1TC is a new corrected test, not an unchanged retry, and
+remains unauthorized.

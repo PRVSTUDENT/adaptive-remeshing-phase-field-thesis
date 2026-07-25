@@ -1003,3 +1003,11 @@ the UEL before marker was written, and runtime resolution then failed for
 `getthreadid_`. No after marker, returned ID, or signal 11 was observed. No
 retry is authorized. P3-SM1R is design-only, and P3-T4, MPI, hybrid, P4, H1,
 D3D-A1 reopening, and D3E remain blocked.
+
+P3-I1 subsequently confirmed from the installed Abaqus 2023 Fortran header
+that the thread function is `get_thread_id()`, not `GETTHREADID()`. The closed
+job therefore tested unresolved spelling `getthreadid_`, not the installed
+interface. Audit classification:
+`stage_p3_identifier_interface_partially_confirmed`. A new P3-SM1TC package
+and guarded lane are prepared from P3-SM0, unauthorized at 0/1. No job was
+submitted; P3-SM1R and every downstream route remain blocked.

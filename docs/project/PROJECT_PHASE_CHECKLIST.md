@@ -332,6 +332,13 @@ Priority:
   No retry is authorized.
 - [ ] `GETTHREADID` remains unqualified: the Abaqus 2023 runtime did not
   resolve the function-form `getthreadid_` symbol.
+- [x] P3-I1 installed-interface audit classified
+  `stage_p3_identifier_interface_partially_confirmed`: the installed Fortran
+  header confirms `get_thread_id()` but not `GETTHREADID()`.
+- [x] Prepare P3-SM1TC as a new corrected documented-interface lane based on
+  P3-SM0. Execution is unauthorized at 0/1 with no retry.
+- [ ] Qualify installed `get_thread_id()` only after separate review and
+  authorization.
 - [ ] P3-SM1R remains design-only; `GETRANK` remains unqualified outside the
   failed `UEXTERNALDB(LOP=0)` call.
 - [ ] P3-T4, MPI, hybrid, P4, production H1, D3D-A1 reopening, and D3E remain

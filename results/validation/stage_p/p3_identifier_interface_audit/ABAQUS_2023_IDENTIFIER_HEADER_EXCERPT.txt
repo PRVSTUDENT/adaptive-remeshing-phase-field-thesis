@@ -1,0 +1,27 @@
+Resolved from module abaqus/2023:
+  ABAQUS_INCLUDE_DIR=/cluster/application/abaqus/2023/linux_a64/code/include
+
+SMAAspUserSubroutines.hdr forwarding header:
+  #include "SMAUsubs/PublicInterfaces/SMAAspUserSubroutines.hdr"
+
+Installed aggregate Fortran header:
+  /cluster/application/abaqus/2023/SMAUsubs/PublicInterfaces/SMAAspUserSubroutines.hdr
+  line 9: #include  <SMAAspUserUtilities.hdr>
+
+Included installed utility header:
+  /cluster/application/abaqus/2023/SMAUsubs/PublicInterfaces/SMAAspUserUtilities.hdr
+
+  line 17: FUNCTION GETNUMTHREADS ( ) RESULT( numThreads )
+  line 19: END FUNCTION GETNUMTHREADS
+  line 23: FUNCTION get_thread_id ( )  RESULT ( threadID )
+  line 25: END FUNCTION get_thread_id
+  line 34: SUBROUTINE MutexInit ( ID )
+  line 36: END SUBROUTINE MutexInit
+  line 40: SUBROUTINE MutexLock ( ID )
+  line 42: END SUBROUTINE MutexLock
+  line 46: SUBROUTINE MutexUnlock ( ID )
+  line 48: END SUBROUTINE MutexUnlock
+
+No GETTHREADID spelling occurs in these installed headers.
+No GETRANK declaration was found by the bounded search of the installed
+SMAUsubs and module include trees.

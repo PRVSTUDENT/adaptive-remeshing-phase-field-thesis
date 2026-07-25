@@ -1,0 +1,25 @@
+Module command:
+  module purge
+  module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+Resolved launcher:
+  /cluster/application/abaqus/2023/Commands/abaqus
+  -> /cluster/application/abaqus/2023/linux_a64/code/bin/SMALauncher
+
+Commands:
+  sha256sum <library>
+  nm -D <library> | grep -i -e getthreadid -e get_thread_id \
+    -e getnumthreads -e getrank -e dmpc_getrank
+
+Findings:
+  libstandardB.so has an undefined reference to get_thread_id_, a defined
+  text symbol getrank_, and an undefined reference to dmpc_getrank_.
+  libABQDMP_Core.so defines dmpc_getrank_ and dmpc_getnumthreads_.
+  libstandardU.so, libABQSMAUsubsLib.so, and the standard launcher exposed
+  no matching dynamic symbols in this bounded query.
+  No getthreadid_ symbol was found in the inspected relevant libraries.
+
+Limitation:
+  Dynamic-symbol evidence does not establish every internal/static symbol or
+  the complete load-time binding chain. The installed Fortran interface header
+  is primary for source preparation.

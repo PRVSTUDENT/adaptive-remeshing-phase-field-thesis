@@ -64,3 +64,12 @@ resolution for \texttt{getthreadid\_}.  Consequently the after-marker count
 was zero, no thread identifier was returned, and no signal 11 occurred.  This
 is classified as an identifier-interface failure, not as evidence about
 thread safety.
+
+An offline audit then resolved the Abaqus 2023 installation headers.  The
+installed \texttt{SMAAspUserSubroutines.hdr} includes a utility interface
+declaring \texttt{get\_thread\_id()}, whereas it does not declare
+\texttt{GETTHREADID()}.  Thus the closed job tested the undocumented spelling
+that requested \texttt{getthreadid\_}, not the installed interface.  A new
+P3-SM1TC package uses the installed spelling and remains unauthorized.  The
+previous P3-S source likewise used GETRANK as a function expression rather
+than the documented subroutine-call form; P3-SM1R remains design-only.

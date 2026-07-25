@@ -1,0 +1,24 @@
+{
+  "classification": "stage_p3sm1tc_thread_id_serial_package_prepared",
+  "scientific_reference": "p3sm0_minimal_callback_serial",
+  "deck": {
+    "path": "P3SM1TC_serial.inp",
+    "sha256": "bd8c487e94636ccf1833a65aa8db40aaecad8baeeda21e4bfe9d3ec29f4922ae",
+    "byte_identical_to_p3sm0": true
+  },
+  "source": {
+    "path": "p3sm1tc_thread_id_callback.for",
+    "sha256": "8cf3714a47bab234078fbedea809c7283a81059c9a112f4ef9613bb598b11d32",
+    "p3sm0_reference_sha256": "0091a4dc3b39829542f718d722bb2129f1bac7491e1f03b4e38ef12394e852d4",
+    "installed_header_interface": "get_thread_id()",
+    "header": "SMAAspUserSubroutines.hdr"
+  },
+  "transfer_table": {
+    "path": "d2_transfer_table.inc",
+    "sha256": "d1ccd478d635272215f7e9b1649bfcca3842fd5aa331d1bd3124a85395fc65f2",
+    "byte_identical_to_p3sm0": true
+  },
+  "execution_authorized": false,
+  "solver_executed": false,
+  "hpc_submitted": false
+}
