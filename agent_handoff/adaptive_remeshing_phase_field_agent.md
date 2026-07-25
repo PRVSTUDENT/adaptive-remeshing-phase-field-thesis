@@ -997,8 +997,8 @@ ssh -F $env:USERPROFILE\.ssh\codex_config tu_freiberg 'cd ~/software/src && rm -
 # P3-SM1T preparation handoff (2026-07-25)
 
 P3-SM0 is passed and closed at job `1378099.mmaster02`. P3-SM1T now has a
-preparation-only package and fail-closed future lane. It calls only
+preparation-only package and guarded future lane. It calls only
 `GETTHREADID()` in the controlled UEL callback and preserves the accepted
-P3-SM0 calculations and callback markers. Submission remains false with 0/1
-used; no Abaqus/PBS job was submitted. P3-SM1R is design-only, and P3-T4,
+P3-SM0 calculations and callback markers. Exactly one serial submission is
+authorized with 0/1 used and no retry. P3-SM1R is design-only, and P3-T4,
 MPI, hybrid, P4, H1, D3D-A1 reopening, and D3E remain blocked.

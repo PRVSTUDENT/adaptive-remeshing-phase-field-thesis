@@ -324,7 +324,8 @@ Priority:
   `1378099.mmaster02`, solver exit 0, all four callback categories, 32/32
   state records, 13 increments, no signal 11, authorization consumed 1/1.
 - [x] Prepare isolated P3-SM1T `GETTHREADID()` package and guarded 1/1/1 lane.
-- [x] Keep P3-SM1T execution unauthorized (0/1 used; no automatic retry).
+- [x] Authorize exactly one guarded P3-SM1T execution (0/1 used; no
+  automatic retry).
 - [ ] Qualify `GETTHREADID` by separately reviewed execution.
 - [ ] P3-SM1R remains design-only; `GETRANK` remains unqualified outside the
   failed `UEXTERNALDB(LOP=0)` call.
