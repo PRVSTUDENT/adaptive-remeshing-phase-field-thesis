@@ -7,8 +7,9 @@ Classification: `multi_agent_coordination_layer_initialized`
 
 | Item | Value |
 |---|---|
-| Local HEAD (at COORD-0 start) | `17240f646cf1e382396006ab635976fa22a67890` |
-| Message | Prepare Stage F Mode-II H0 offline package and fail-closed lane |
+| Local HEAD | `4b7a071a10a9cad3105f3ad36d34c08b451934fa` (COORD-0) |
+| F0 scientific freeze | `17240f646cf1e382396006ab635976fa22a67890` |
+| Message (HEAD) | Initialize multi-agent project coordination ledger |
 | Active agent | none (`ACTIVE_SESSION.json.active = false`) |
 | Active task | **F1-P0** ready (not started) |
 
