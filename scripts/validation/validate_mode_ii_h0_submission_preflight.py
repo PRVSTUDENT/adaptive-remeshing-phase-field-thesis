@@ -77,12 +77,17 @@ def validate_authorization(path: Path, require_datacheck: bool, require_solver: 
         if data.get("solver_submissions_used") != 0:
             raise ValueError("solver already consumed")
     else:
-        if data.get("classification") != "stage_f_mode_ii_h0_prepared":
+        if data.get("classification") not in {
+            "stage_f_mode_ii_h0_prepared",
+            "stage_f_mode_ii_h0_datacheck_authorized",
+            "stage_f_mode_ii_h0_solver_authorized",
+        }:
             raise ValueError("unexpected prepared classification")
-        if data.get("datacheck_authorized") is not False:
-            raise ValueError("datacheck must remain unauthorized in prepared state")
-        if data.get("solver_authorized") is not False:
-            raise ValueError("solver must remain unauthorized in prepared state")
+        if data.get("classification") == "stage_f_mode_ii_h0_prepared":
+            if data.get("datacheck_authorized") is not False:
+                raise ValueError("datacheck must remain unauthorized in prepared state")
+            if data.get("solver_authorized") is not False:
+                raise ValueError("solver must remain unauthorized in prepared state")
     return data
 
 
