@@ -80,6 +80,9 @@ def validate_authorization(path: Path, require_datacheck: bool, require_solver: 
         if data.get("classification") not in {
             "stage_f_mode_ii_h0_prepared",
             "stage_f_mode_ii_h0_datacheck_authorized",
+            "stage_f_mode_ii_h0_datacheck_submitted",
+            "stage_f_mode_ii_h0_datacheck_pass",
+            "stage_f_mode_ii_h0_serial_solver_prepared",
             "stage_f_mode_ii_h0_solver_authorized",
         }:
             raise ValueError("unexpected prepared classification")

@@ -21,3 +21,8 @@ GROK_MD,Coordination,GROK.md,agent_pointer,active,grok,,,,Pointer shim to AGENTS
 F1P0_QUAL_JSON,Stage F,runs/hpc/stage_f/mode_ii_h0/qualification/F1_P0_QUALIFICATION.json,qualification_record,pass,grok,97756e09caad28ebd6257f3406c7d6365eca771a,,,F1-P0 cluster qualification machine record
 F1P0_QUAL_MD,Stage F,docs/experiment_records/STAGE_F1_P0_CLUSTER_QUALIFICATION.md,experiment_record,pass,grok,97756e09caad28ebd6257f3406c7d6365eca771a,,,F1-P0 human-readable qualification report
 F1J0_DATACHECK_RECORD,Stage F,docs/experiment_records/STAGE_F1_J0_MODE_II_DATACHECK.md,experiment_record,pass,gemini-antigravity,4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b,,,F1-J0 datacheck experiment report
+F1J1_PREP_RECORD,Stage F,docs/experiment_records/STAGE_F1_J1_MODE_II_SERIAL_PREPARATION.md,experiment_record,pass,gemini-antigravity,6b64a3ba05c02c6fd4f9602e735825cacc542203,,,F1-J1-PREP serial preparation report
+F1J1_PREP_JSON,Stage F,runs/hpc/stage_f/mode_ii_h0/solver_prep/F1_J1_PREPARATION.json,preparation_record,pass,gemini-antigravity,6b64a3ba05c02c6fd4f9602e735825cacc542203,,,F1-J1 machine-readable preparation record
+F_MODEII_PBS_SERIAL,Stage F,scripts/hpc/stage_f/02_mode_ii_h0_serial.pbs,pbs_script,prepared,gemini-antigravity,6b64a3ba05c02c6fd4f9602e735825cacc542203,,,F1-J1 serial PBS script; not submitted
+F_MODEII_SUBMIT_SERIAL,Stage F,scripts/hpc/stage_f/submit_mode_ii_h0_serial.sh,submit_wrapper,prepared,gemini-antigravity,6b64a3ba05c02c6fd4f9602e735825cacc542203,,,Guarded serial submit wrapper; default preflight-only
+F_MODEII_SERIAL_VALIDATOR,Stage F,scripts/validation/validate_mode_ii_h0_serial_results.py,validator_script,active,gemini-antigravity,6b64a3ba05c02c6fd4f9602e735825cacc542203,,,Serial result validator

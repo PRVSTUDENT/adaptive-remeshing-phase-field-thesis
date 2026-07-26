@@ -1,13 +1,12 @@
 #!/usr/bin/env python
-"""Extract RF-U and phase-field summaries from the unchanged Molnar single-notch ODB.
+"""Extract RF-U, phase-field summaries, and crack-path data from Molnar single-notch ODB.
 
 Run with Abaqus Python:
 
     abaqus python scripts/postprocessing/extract_molnar_single_notch.py
 
-The script is intentionally read-only with respect to the ODB. It writes
-lightweight CSV/JSON/Markdown evidence for the unchanged benchmark technical
-gate and first scientific-review extraction.
+Backward-compatible CLI options allow configuring displacement/reaction components,
+RP set name, phase/history variables, and threshold for Mode-I and Mode-II extractions.
 """
 
 from __future__ import print_function
@@ -74,7 +73,16 @@ def max_scalar(field):
     return max(scalar_value(value) for value in field.values)
 
 
-def extract_odb(odb_path, targets):
+def extract_odb(
+    odb_path,
+    targets,
+    disp_comp=2,
+    react_comp=2,
+    rp_set_name="RP",
+    phase_var="SDV15",
+    history_var="SDV16",
+    path_threshold=0.5,
+):
     open_odb = import_odb_access()
     if open_odb is None:
         return None
@@ -82,9 +90,9 @@ def extract_odb(odb_path, targets):
     odb = open_odb(path=odb_path, readOnly=True)
     try:
         assembly = odb.rootAssembly
-        if "RP" not in assembly.nodeSets:
-            raise RuntimeError("Assembly node set RP was not found in ODB")
-        rp = assembly.nodeSets["RP"]
+        if rp_set_name not in assembly.nodeSets:
+            raise RuntimeError("Assembly node set %s was not found in ODB" % rp_set_name)
+        rp = assembly.nodeSets[rp_set_name]
         curve_rows = []
         contour_candidates = []
         field_names_by_step = {}
@@ -95,6 +103,12 @@ def extract_odb(odb_path, targets):
             for instance in assembly.instances.values():
                 element_count += len(instance.elements)
                 node_count += len(instance.nodes)
+
+        disp_key = "rp_u%d" % disp_comp
+        react_key = "rp_rf%d" % react_comp
+        disp_idx = disp_comp - 1
+        react_idx = react_comp - 1
+
         for step_name, step in odb.steps.items():
             history_names = []
             for region in step.historyRegions.values():
@@ -109,64 +123,114 @@ def extract_odb(odb_path, targets):
                     "frame": frame_index,
                     "step_time": float(frame.frameValue),
                     "description": frame.description,
-                    "rp_u2": "",
-                    "rp_rf2": "",
+                    disp_key: "",
+                    react_key: "",
                     "max_sdv14": "",
                     "max_sdv15": "",
                     "max_sdv16": "",
                 }
+                if disp_key != "rp_u2":
+                    row["rp_u2"] = ""
+                if react_key != "rp_rf2":
+                    row["rp_rf2"] = ""
+
                 if "U" in frame.fieldOutputs:
                     value = get_single_subset_value(frame.fieldOutputs["U"], rp)
                     if value is not None:
-                        row["rp_u2"] = value_component(value, 1)
+                        row[disp_key] = value_component(value, disp_idx)
+                        if "rp_u2" in row:
+                            row["rp_u2"] = value_component(value, 1)
                 if "RF" in frame.fieldOutputs:
                     value = get_single_subset_value(frame.fieldOutputs["RF"], rp)
                     if value is not None:
-                        row["rp_rf2"] = value_component(value, 1)
+                        row[react_key] = value_component(value, react_idx)
+                        if "rp_rf2" in row:
+                            row["rp_rf2"] = value_component(value, 1)
+
                 for sdv_name in ["SDV14", "SDV15", "SDV16"]:
                     if sdv_name in frame.fieldOutputs:
                         row["max_%s" % sdv_name.lower()] = max_scalar(frame.fieldOutputs[sdv_name])
                 curve_rows.append(row)
-                if row["rp_u2"] != "":
-                    contour_candidates.append((abs(abs(row["rp_u2"]) - abs_target(row["rp_u2"])), row))
 
         matched_rows = []
         for target in targets:
             candidates = [
-                (abs(abs(row["rp_u2"]) - target), row)
+                (abs(abs(row[disp_key]) - target), row)
                 for row in curve_rows
-                if row["rp_u2"] != ""
+                if row[disp_key] != ""
             ]
             if not candidates:
                 continue
             candidates.sort(key=lambda item: item[0])
             match = dict(candidates[0][1])
+            match["target_abs_u"] = target
             match["target_abs_u2"] = target
+            match["abs_u_error"] = candidates[0][0]
             match["abs_u2_error"] = candidates[0][0]
             matched_rows.append(match)
+
+        # Extract crack path elements where phase_var >= path_threshold in the final frame
+        crack_path_rows = []
+        if odb.steps:
+            step_keys = list(odb.steps.keys())
+            if step_keys:
+                last_step_name = step_keys[-1]
+                last_step = odb.steps[last_step_name]
+                if last_step.frames:
+                    last_frame = last_step.frames[-1]
+                    if phase_var in last_frame.fieldOutputs:
+                        fo = last_frame.fieldOutputs[phase_var]
+                        elem_phase = {}
+                        for val in fo.values:
+                            elem_id = getattr(val, "elementLabel", None)
+                            if elem_id is not None:
+                                val_f = scalar_value(val)
+                                if elem_id not in elem_phase or val_f > elem_phase[elem_id]:
+                                    elem_phase[elem_id] = val_f
+                        for elem_id, phase_val in sorted(elem_phase.items()):
+                            if phase_val >= path_threshold:
+                                crack_path_rows.append(
+                                    {
+                                        "element": elem_id,
+                                        "phase_variable": phase_var,
+                                        "phase_value": phase_val,
+                                        "threshold": path_threshold,
+                                        "step": last_step_name,
+                                        "frame": len(last_step.frames) - 1,
+                                    }
+                                )
 
         return {
             "curve_rows": curve_rows,
             "matched_rows": matched_rows,
+            "crack_path_rows": crack_path_rows,
             "field_names_by_step": field_names_by_step,
             "history_names_by_step": history_names_by_step,
             "element_count": element_count,
             "node_count": node_count,
+            "disp_key": disp_key,
+            "react_key": react_key,
         }
     finally:
         odb.close()
 
 
-def abs_target(value):
-    return abs(float(value))
-
-
-def extract_contours(odb_path, matched_rows, output_dir):
+def extract_contours(
+    odb_path,
+    matched_rows,
+    output_dir,
+    disp_comp=2,
+    react_comp=2,
+    phase_var="SDV15",
+    history_var="SDV16",
+):
     open_odb = import_odb_access()
     if open_odb is None:
         return []
     odb = open_odb(path=odb_path, readOnly=True)
     written = []
+    disp_key = "rp_u%d" % disp_comp
+    react_key = "rp_rf%d" % react_comp
     try:
         for index, match in enumerate(matched_rows, start=1):
             step = odb.steps[match["step"]]
@@ -193,9 +257,9 @@ def extract_contours(odb_path, matched_rows, output_dir):
                         "step",
                         "frame",
                         "step_time",
-                        "target_abs_u2",
-                        "rp_u2",
-                        "rp_rf2",
+                        "target_abs_u",
+                        disp_key,
+                        react_key,
                         "element",
                         "integration_point",
                         "sdv14",
@@ -212,9 +276,9 @@ def extract_contours(odb_path, matched_rows, output_dir):
                             "step": match["step"],
                             "frame": match["frame"],
                             "step_time": match["step_time"],
-                            "target_abs_u2": match["target_abs_u2"],
-                            "rp_u2": match["rp_u2"],
-                            "rp_rf2": match["rp_rf2"],
+                            "target_abs_u": match.get("target_abs_u", match.get("target_abs_u2", "")),
+                            disp_key: match.get(disp_key, ""),
+                            react_key: match.get(react_key, ""),
                             "element": element,
                             "integration_point": ip,
                             "sdv14": values.get("sdv14", ""),
@@ -223,6 +287,23 @@ def extract_contours(odb_path, matched_rows, output_dir):
                         }
                     )
             written.append(os.path.basename(path))
+
+        # Also write consolidated sdv14_sdv15_sdv16_contours.csv if written files exist
+        if written:
+            consolidated_path = os.path.join(output_dir, "sdv14_sdv15_sdv16_contours.csv")
+            with open(consolidated_path, "w") as out_stream:
+                header_written = False
+                for fname in written:
+                    fpath = os.path.join(output_dir, fname)
+                    with open(fpath, "r") as in_stream:
+                        for line_idx, line in enumerate(in_stream):
+                            if line_idx == 0:
+                                if not header_written:
+                                    out_stream.write(line)
+                                    header_written = True
+                            else:
+                                out_stream.write(line)
+
         return written
     finally:
         odb.close()
@@ -265,17 +346,46 @@ def parse_job_time(dat_text):
     return summaries
 
 
-def write_curve_csv(path, rows):
+def write_curve_csv(path, rows, disp_comp=2, react_comp=2):
+    disp_key = "rp_u%d" % disp_comp
+    react_key = "rp_rf%d" % react_comp
     fieldnames = [
         "step",
         "frame",
         "step_time",
-        "rp_u2",
-        "rp_rf2",
+        disp_key,
+        react_key,
         "max_sdv14",
         "max_sdv15",
         "max_sdv16",
         "description",
+    ]
+    if "rp_u2" not in fieldnames and any("rp_u2" in r for r in rows):
+        fieldnames.insert(3, "rp_u2")
+    if "rp_rf2" not in fieldnames and any("rp_rf2" in r for r in rows):
+        fieldnames.insert(4, "rp_rf2")
+
+    with open(path, "w") as stream:
+        writer = csv.DictWriter(stream, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({name: row.get(name, "") for name in fieldnames})
+
+
+def write_matched_csv(path, rows, disp_comp=2, react_comp=2):
+    disp_key = "rp_u%d" % disp_comp
+    react_key = "rp_rf%d" % react_comp
+    fieldnames = [
+        "target_abs_u",
+        "abs_u_error",
+        "step",
+        "frame",
+        "step_time",
+        disp_key,
+        react_key,
+        "max_sdv14",
+        "max_sdv15",
+        "max_sdv16",
     ]
     with open(path, "w") as stream:
         writer = csv.DictWriter(stream, fieldnames=fieldnames)
@@ -284,19 +394,8 @@ def write_curve_csv(path, rows):
             writer.writerow({name: row.get(name, "") for name in fieldnames})
 
 
-def write_matched_csv(path, rows):
-    fieldnames = [
-        "target_abs_u2",
-        "abs_u2_error",
-        "step",
-        "frame",
-        "step_time",
-        "rp_u2",
-        "rp_rf2",
-        "max_sdv14",
-        "max_sdv15",
-        "max_sdv16",
-    ]
+def write_crack_path_csv(path, rows):
+    fieldnames = ["element", "phase_variable", "phase_value", "threshold", "step", "frame"]
     with open(path, "w") as stream:
         writer = csv.DictWriter(stream, fieldnames=fieldnames)
         writer.writeheader()
@@ -308,13 +407,13 @@ def write_markdown(path, summary, curve_name, matched_name, contour_names):
     lines = [
         "# Molnar Single-Notch Extraction",
         "",
-        "Date: 2026-07-14",
+        "Date: 2026-07-26",
         "",
         "Classification: `%s`" % summary["classification"],
         "",
         "## Scope",
         "",
-        "This extraction reads the unchanged Molnar single-notch ODB and records the first benchmark technical evidence plus RF-U and phase/history summaries. It does not compare the curve or crack evolution against the paper yet.",
+        "This extraction reads the Molnar single-notch ODB and records benchmark technical evidence plus RF-U and phase/history summaries.",
         "",
         "## Technical Status",
         "",
@@ -337,19 +436,21 @@ def write_markdown(path, summary, curve_name, matched_name, contour_names):
             "",
             "## Matched Displacement States",
             "",
-            "| Target abs U2 | Matched step | Frame | U2 | RF2 | Max SDV15 | Max SDV16 |",
+            "| Target abs U | Matched step | Frame | U | RF | Max SDV15 | Max SDV16 |",
             "|---:|---|---:|---:|---:|---:|---:|",
         ]
     )
+    disp_key = "rp_u%d" % summary.get("disp_component", 2)
+    react_key = "rp_rf%d" % summary.get("react_component", 2)
     for row in summary["matched_rows"]:
         lines.append(
             "| %.6e | `%s` | %s | %.6e | %.6e | %.6e | %.6e |"
             % (
-                row["target_abs_u2"],
+                row.get("target_abs_u", row.get("target_abs_u2", 0.0)),
                 row["step"],
                 row["frame"],
-                row["rp_u2"],
-                row["rp_rf2"],
+                row.get(disp_key, 0.0),
+                row.get(react_key, 0.0),
                 row["max_sdv15"],
                 row["max_sdv16"],
             )
@@ -383,7 +484,42 @@ def main():
     parser.add_argument(
         "--target-displacements",
         default=",".join(str(value) for value in DEFAULT_TARGET_DISPLACEMENTS),
-        help="Comma-separated absolute RP U2 targets for contour extraction",
+        help="Comma-separated absolute RP U targets for contour extraction",
+    )
+    parser.add_argument(
+        "--displacement-component",
+        type=int,
+        choices=[1, 2],
+        default=2,
+        help="Displacement component index (1 or 2, default 2)",
+    )
+    parser.add_argument(
+        "--reaction-component",
+        type=int,
+        choices=[1, 2],
+        default=2,
+        help="Reaction force component index (1 or 2, default 2)",
+    )
+    parser.add_argument(
+        "--rp-set",
+        default="RP",
+        help="Reference point node set name (default RP)",
+    )
+    parser.add_argument(
+        "--phase-variable",
+        default="SDV15",
+        help="Phase field variable name (default SDV15)",
+    )
+    parser.add_argument(
+        "--history-variable",
+        default="SDV16",
+        help="History variable name (default SDV16)",
+    )
+    parser.add_argument(
+        "--path-threshold",
+        type=float,
+        default=0.5,
+        help="Phase field threshold for crack path extraction (default 0.5)",
     )
     args = parser.parse_args()
 
@@ -392,27 +528,69 @@ def main():
     if not os.path.isdir(output_dir):
         os.makedirs(output_dir)
 
-    extracted = extract_odb(os.path.abspath(args.odb), targets)
+    extracted = extract_odb(
+        os.path.abspath(args.odb),
+        targets,
+        disp_comp=args.displacement_component,
+        react_comp=args.reaction_component,
+        rp_set_name=args.rp_set,
+        phase_var=args.phase_variable,
+        history_var=args.history_variable,
+        path_threshold=args.path_threshold,
+    )
     if extracted is None:
         return 2
 
-    contour_names = extract_contours(os.path.abspath(args.odb), extracted["matched_rows"], output_dir)
-    curve_path = os.path.join(output_dir, "single_notch_rf_u_phase_summary.csv")
-    matched_path = os.path.join(output_dir, "single_notch_matched_displacement_states.csv")
+    contour_names = extract_contours(
+        os.path.abspath(args.odb),
+        extracted["matched_rows"],
+        output_dir,
+        disp_comp=args.displacement_component,
+        react_comp=args.reaction_component,
+        phase_var=args.phase_variable,
+        history_var=args.history_variable,
+    )
+
+    disp_comp = args.displacement_component
+    react_comp = args.reaction_component
+
+    # Primary curve CSV named based on components (e.g., rf1_u1_curve.csv for Mode II, single_notch_rf_u_phase_summary.csv for Mode I)
+    if disp_comp == 1 and react_comp == 1:
+        curve_path = os.path.join(output_dir, "rf1_u1_curve.csv")
+    else:
+        curve_path = os.path.join(output_dir, "single_notch_rf_u_phase_summary.csv")
+
+    matched_path = os.path.join(output_dir, "matched_states.csv")
+    crack_path_file = os.path.join(
+        output_dir,
+        "crack_path_%s_ge_0p%d.csv"
+        % (args.phase_variable.lower(), int(args.path_threshold * 10)),
+    )
     json_path = os.path.join(output_dir, "single_notch_extraction_summary.json")
     md_path = os.path.join(output_dir, "SINGLE_NOTCH_EXTRACTION.md")
 
-    write_curve_csv(curve_path, extracted["curve_rows"])
-    write_matched_csv(matched_path, extracted["matched_rows"])
+    write_curve_csv(curve_path, extracted["curve_rows"], disp_comp=disp_comp, react_comp=react_comp)
+    write_matched_csv(matched_path, extracted["matched_rows"], disp_comp=disp_comp, react_comp=react_comp)
+    write_crack_path_csv(crack_path_file, extracted["crack_path_rows"])
 
     sta_text = read_text(args.sta)
     dat_text = read_text(args.dat)
+    status_parsed = parse_status(sta_text)
+    warnings_parsed = parse_warnings(dat_text)
+    time_summaries = parse_job_time(dat_text)
+
     summary = {
         "classification": "technical_pass_scientific_unchecked",
         "odb_readable": True,
-        "status": parse_status(sta_text),
-        "warnings": parse_warnings(dat_text),
-        "job_time_summaries": parse_job_time(dat_text),
+        "disp_component": disp_comp,
+        "react_component": react_comp,
+        "rp_set": args.rp_set,
+        "phase_variable": args.phase_variable,
+        "history_variable": args.history_variable,
+        "path_threshold": args.path_threshold,
+        "status": status_parsed,
+        "warnings": warnings_parsed,
+        "job_time_summaries": time_summaries,
         "field_names_by_step": extracted["field_names_by_step"],
         "history_names_by_step": extracted["history_names_by_step"],
         "element_count": extracted["element_count"],
@@ -425,6 +603,52 @@ def main():
     with open(json_path, "w") as stream:
         json.dump(summary, stream, indent=2, sort_keys=True)
         stream.write("\n")
+
+    # Additional lightweight inventory & metadata outputs required by F1-J1-PREP specification
+    field_inventory_path = os.path.join(output_dir, "field_output_inventory.json")
+    with open(field_inventory_path, "w") as stream:
+        json.dump(extracted["field_names_by_step"], stream, indent=2, sort_keys=True)
+        stream.write("\n")
+
+    history_inventory_path = os.path.join(output_dir, "history_output_inventory.json")
+    with open(history_inventory_path, "w") as stream:
+        json.dump(extracted["history_names_by_step"], stream, indent=2, sort_keys=True)
+        stream.write("\n")
+
+    job_status_path = os.path.join(output_dir, "job_status.json")
+    with open(job_status_path, "w") as stream:
+        json.dump(status_parsed, stream, indent=2, sort_keys=True)
+        stream.write("\n")
+
+    resource_summary_path = os.path.join(output_dir, "resource_summary.json")
+    with open(resource_summary_path, "w") as stream:
+        json.dump({"job_time_summaries": time_summaries}, stream, indent=2, sort_keys=True)
+        stream.write("\n")
+
+    manifest_path = os.path.join(output_dir, "extraction_manifest.json")
+    manifest_data = {
+        "classification": "stage_f_extraction_manifest_pass",
+        "disp_component": disp_comp,
+        "react_component": react_comp,
+        "rp_set": args.rp_set,
+        "phase_variable": args.phase_variable,
+        "history_variable": args.history_variable,
+        "path_threshold": args.path_threshold,
+        "extracted_files": [
+            os.path.basename(curve_path),
+            os.path.basename(matched_path),
+            os.path.basename(crack_path_file),
+            "single_notch_extraction_summary.json",
+            "field_output_inventory.json",
+            "history_output_inventory.json",
+            "job_status.json",
+            "resource_summary.json",
+        ] + contour_names,
+    }
+    with open(manifest_path, "w") as stream:
+        json.dump(manifest_data, stream, indent=2, sort_keys=True)
+        stream.write("\n")
+
     write_markdown(
         md_path,
         summary,
@@ -438,6 +662,7 @@ def main():
     print("JSON: %s" % json_path)
     print("Curve CSV: %s" % curve_path)
     print("Matched states CSV: %s" % matched_path)
+    print("Crack path CSV: %s" % crack_path_file)
     print("Contour CSV files: %d" % len(contour_names))
     return 0
 
