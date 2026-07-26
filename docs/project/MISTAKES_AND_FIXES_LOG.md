@@ -225,3 +225,20 @@ Outcome: F1-J1 closed as `stage_f_mode_ii_h0_serial_fail`. F2 and later tasks re
 Evidence paths: `/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/mode_ii_h0/evidence/1378919.mmaster02/`
 Prevention rule: Always compute runtime deck hash using `${JOB_NAME}.inp` rather than hardcoded input filename in PBS runtime manifest generators.
 Status: open (scientific baseline uncharacterized; solver submission consumed 1/1)
+
+## F1-J1-R1 Mode-II H0 serial staging-check dictionary key mistake (2026-07-26)
+
+ID: M-091
+Date: 2026-07-26
+Stage/job: Stage F / `1378920.mmaster02`
+Source commit: `46cf420b995ff6b2f74fecfc10fb1bb4411feaac`
+Classification: `stage_f_mode_ii_h0_serial_staging_fail`
+Symptom: PBS script `02_mode_ii_h0_serial.pbs` exited with status `7` before launching Abaqus solve. Status recorded `stage_f_mode_ii_h0_serial_staging_fail` due to `runtime staging check mismatch`.
+Root cause: In `02_mode_ii_h0_serial.pbs`, the inline Python staging check script constructed `matches[field + "_match"]` (producing keys like `deck_sha256_match`), but the subsequent dictionary construction referenced `matches["deck_hash_match"]`, triggering a Python `KeyError` exception before writing `MODE_II_H0_RUNTIME_STAGING_CHECK.json`.
+Scientific inputs changed: no
+Correction: Documented root cause and evidence. One-shot replacement authorization is consumed (1/1); no retry or resubmission is authorized under protocol rules.
+Retry job: none
+Outcome: F1-J1-R1 closed as `stage_f_mode_ii_h0_serial_fail`. F2 and later tasks remain blocked.
+Evidence paths: `/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/mode_ii_h0/replacement_r1/evidence/1378920.mmaster02/`
+Prevention rule: Ensure dictionary key names match exact string formatting definitions in inline PBS Python scripts.
+Status: open (scientific baseline uncharacterized; replacement solver submission consumed 1/1)
