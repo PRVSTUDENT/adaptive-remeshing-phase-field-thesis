@@ -4,15 +4,15 @@
   "agent": null,
   "task_id": null,
   "started_at": null,
-  "base_commit": "5b092853419e8e8829d7f4c024ce3ea78d131740",
+  "base_commit": "d569775f7c5b4ce109260ff3892499476ccd7b5d",
   "allowed_write_scope": [],
   "forbidden_paths": [
     "models/generated/mode_ii/h0_serial/**",
-    "scripts/hpc/stage_f/**",
-    "scripts/postprocessing/**",
-    "scripts/validation/**",
-    "tests/**",
+    "runs/hpc/stage_f/mode_ii_h0/evidence/1378919.mmaster02/**",
+    "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
+    "docs/experiment_records/STAGE_F1_J1_MODE_II_SERIAL_BASELINE.md",
+    "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "agent_handoff/**"
   ],
-  "notes": "F1-J1 submission complete (job 1378919.mmaster02 running). Editing lock released for monitoring."
+  "notes": "F1-J1-R1-PREP complete. Offline replacement preparation complete; replacement unauthorized."
 }

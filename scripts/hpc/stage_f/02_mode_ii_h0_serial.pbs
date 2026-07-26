@@ -115,19 +115,79 @@ sha256sum -c input_hashes.sha256 > "${SCRATCH_RUN}/input_hash_check.txt" 2>&1 ||
   exit 6
 }
 
-cp ModeII_H0_serial.inp "${SCRATCH_RUN}/${JOB_NAME}.inp"
-cp ModeII_H0_serial.for "${SCRATCH_RUN}/ModeII_H0_serial.for"
+ORIGINAL_DECK="${SCRATCH_RUN}/ModeII_H0_serial.inp"
+ABAQUS_DECK="${SCRATCH_RUN}/${JOB_NAME}.inp"
+SOURCE_FILE="${SCRATCH_RUN}/ModeII_H0_serial.for"
+
+cp ModeII_H0_serial.inp "${ORIGINAL_DECK}"
+cp "${ORIGINAL_DECK}" "${ABAQUS_DECK}"
+cp ModeII_H0_serial.for "${SOURCE_FILE}"
+
 cd "${SCRATCH_RUN}" || exit 7
 
 EXTRACTOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/postprocessing/extract_molnar_single_notch.py"
 VALIDATOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/validation/validate_mode_ii_h0_serial_results.py"
 STAGED_PBS_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/hpc/stage_f/02_mode_ii_h0_serial.pbs"
 
-DECK_SHA="$(sha256sum ModeII_H0_serial.inp | awk '{print $1}')"
-SOURCE_SHA="$(sha256sum ModeII_H0_serial.for | awk '{print $1}')"
-EXTRACTOR_SHA="$(sha256sum "${EXTRACTOR_SCRIPT}" | awk '{print $1}')"
-VALIDATOR_SHA="$(sha256sum "${VALIDATOR_SCRIPT}" | awk '{print $1}')"
-PBS_SHA="$(sha256sum "${STAGED_PBS_SCRIPT}" | awk '{print $1}')"
+DECK_SHA="$(sha256sum "${ORIGINAL_DECK}" | awk '{print $1}')" || {
+  write_status "stage_f_mode_ii_h0_serial_stage_fail" -1 -1 -1 "could not hash staged original deck"
+  copy_evidence
+  exit 7
+}
+
+ABAQUS_DECK_SHA="$(sha256sum "${ABAQUS_DECK}" | awk '{print $1}')" || {
+  write_status "stage_f_mode_ii_h0_serial_stage_fail" -1 -1 -1 "could not hash Abaqus job deck"
+  copy_evidence
+  exit 7
+}
+
+SOURCE_SHA="$(sha256sum "${SOURCE_FILE}" | awk '{print $1}')" || {
+  write_status "stage_f_mode_ii_h0_serial_stage_fail" -1 -1 -1 "could not hash staged Fortran source"
+  copy_evidence
+  exit 7
+}
+
+test "${DECK_SHA}" = "${ABAQUS_DECK_SHA}" || {
+  write_status "stage_f_mode_ii_h0_serial_stage_fail" -1 -1 -1 "original and Abaqus deck hashes differ"
+  copy_evidence
+  exit 7
+}
+
+EXTRACTOR_SHA="$(sha256sum "${EXTRACTOR_SCRIPT}" | awk '{print $1}')" || {
+  write_status "stage_f_mode_ii_h0_serial_stage_fail" -1 -1 -1 "could not hash extractor script"
+  copy_evidence
+  exit 7
+}
+
+VALIDATOR_SHA="$(sha256sum "${VALIDATOR_SCRIPT}" | awk '{print $1}')" || {
+  write_status "stage_f_mode_ii_h0_serial_stage_fail" -1 -1 -1 "could not hash validator script"
+  copy_evidence
+  exit 7
+}
+
+PBS_SHA="$(sha256sum "${STAGED_PBS_SCRIPT}" | awk '{print $1}')" || {
+  write_status "stage_f_mode_ii_h0_serial_stage_fail" -1 -1 -1 "could not hash PBS script"
+  copy_evidence
+  exit 7
+}
+
+is_sha256() {
+  [[ "$1" =~ ^[0-9a-f]{64}$ ]]
+}
+
+for value in \
+  "${DECK_SHA}" \
+  "${ABAQUS_DECK_SHA}" \
+  "${SOURCE_SHA}" \
+  "${EXTRACTOR_SHA}" \
+  "${VALIDATOR_SHA}" \
+  "${PBS_SHA}"; do
+  is_sha256 "${value}" || {
+    write_status "stage_f_mode_ii_h0_serial_stage_fail" -1 -1 -1 "empty or invalid runtime hash"
+    copy_evidence
+    exit 7
+  }
+done
 
 RUNTIME_MANIFEST="${SCRATCH_RUN}/MODE_II_H0_RUNTIME_MANIFEST.json"
 cat > "${RUNTIME_MANIFEST}" <<EOF
@@ -141,6 +201,7 @@ cat > "${RUNTIME_MANIFEST}" <<EOF
   "memory": "16 GB",
   "walltime": "04:00:00",
   "deck_sha256": "${DECK_SHA}",
+  "abaqus_deck_sha256": "${ABAQUS_DECK_SHA}",
   "source_sha256": "${SOURCE_SHA}",
   "extractor_sha256": "${EXTRACTOR_SHA}",
   "validator_sha256": "${VALIDATOR_SHA}",
