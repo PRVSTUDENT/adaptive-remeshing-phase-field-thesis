@@ -26,3 +26,4 @@ F1J1_PREP_JSON,Stage F,runs/hpc/stage_f/mode_ii_h0/solver_prep/F1_J1_PREPARATION
 F_MODEII_PBS_SERIAL,Stage F,scripts/hpc/stage_f/02_mode_ii_h0_serial.pbs,pbs_script,prepared,gemini-antigravity,6b64a3ba05c02c6fd4f9602e735825cacc542203,,,F1-J1 serial PBS script; not submitted
 F_MODEII_SUBMIT_SERIAL,Stage F,scripts/hpc/stage_f/submit_mode_ii_h0_serial.sh,submit_wrapper,prepared,gemini-antigravity,6b64a3ba05c02c6fd4f9602e735825cacc542203,,,Guarded serial submit wrapper; default preflight-only
 F_MODEII_SERIAL_VALIDATOR,Stage F,scripts/validation/validate_mode_ii_h0_serial_results.py,validator_script,active,gemini-antigravity,6b64a3ba05c02c6fd4f9602e735825cacc542203,,,Serial result validator
+F1J1_PREP_R1_UNIT_TESTS,Stage F,tests/unit/test_validate_mode_ii_h0_serial_results.py,unit_test_script,active,gemini-antigravity,b8da554a2ef443156095be959f0dca10005c26f8,,,Unit tests for serial result validator

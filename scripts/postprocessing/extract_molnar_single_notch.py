@@ -94,7 +94,6 @@ def extract_odb(
             raise RuntimeError("Assembly node set %s was not found in ODB" % rp_set_name)
         rp = assembly.nodeSets[rp_set_name]
         curve_rows = []
-        contour_candidates = []
         field_names_by_step = {}
         history_names_by_step = {}
         element_count = 0
@@ -109,13 +108,27 @@ def extract_odb(
         disp_idx = disp_comp - 1
         react_idx = react_comp - 1
 
+        energy_rows = []
+        energy_vars = ["ALLAE", "ALLCD", "ALLIE", "ALLKE", "ALLPD", "ALLSE", "ALLWK", "ETOTAL"]
+
         for step_name, step in odb.steps.items():
             history_names = []
             for region in step.historyRegions.values():
-                for output_name in region.historyOutputs.keys():
+                for output_name, history_output in region.historyOutputs.items():
                     if output_name not in history_names:
                         history_names.append(output_name)
+                    if output_name in energy_vars or output_name.startswith("ALL") or output_name == "ETOTAL":
+                        for time_val, data_val in history_output.data:
+                            energy_rows.append(
+                                {
+                                    "step": step_name,
+                                    "step_time": float(time_val),
+                                    "variable": output_name,
+                                    "value": float(data_val),
+                                }
+                            )
             history_names_by_step[step_name] = sorted(history_names)
+
             for frame_index, frame in enumerate(step.frames):
                 field_names_by_step.setdefault(step_name, sorted(frame.fieldOutputs.keys()))
                 row = {
@@ -200,10 +213,98 @@ def extract_odb(
                                     }
                                 )
 
+        # Irreversibility and Phase Bounds checking across element integration points
+        phase_min = float("inf")
+        phase_max = float("-inf")
+        values_checked = 0
+
+        prev_elem_ip_phase = {}
+        prev_elem_ip_hist = {}
+        phase_healing_violations = 0
+        worst_phase_decrease = 0.0
+        history_decrease_violations = 0
+        worst_history_decrease = 0.0
+
+        healing_tolerance = 1e-8
+        history_decrease_tolerance = 1e-10
+
+        for step_name, step in odb.steps.items():
+            for frame_index, frame in enumerate(step.frames):
+                if phase_var in frame.fieldOutputs:
+                    fo_p = frame.fieldOutputs[phase_var]
+                    curr_phase_map = {}
+                    for val in fo_p.values:
+                        elem_id = getattr(val, "elementLabel", None)
+                        ip_id = getattr(val, "integrationPoint", None)
+                        if elem_id is not None:
+                            key = (elem_id, ip_id)
+                            f_val = scalar_value(val)
+                            curr_phase_map[key] = f_val
+                            if f_val < phase_min:
+                                phase_min = f_val
+                            if f_val > phase_max:
+                                phase_max = f_val
+                            values_checked += 1
+
+                    if prev_elem_ip_phase:
+                        for key, curr_p in curr_phase_map.items():
+                            if key in prev_elem_ip_phase:
+                                prev_p = prev_elem_ip_phase[key]
+                                if curr_p < prev_p - healing_tolerance:
+                                    phase_healing_violations += 1
+                                    dec = prev_p - curr_p
+                                    if dec > worst_phase_decrease:
+                                        worst_phase_decrease = dec
+                    prev_elem_ip_phase = curr_phase_map
+
+                if history_var in frame.fieldOutputs:
+                    fo_h = frame.fieldOutputs[history_var]
+                    curr_hist_map = {}
+                    for val in fo_h.values:
+                        elem_id = getattr(val, "elementLabel", None)
+                        ip_id = getattr(val, "integrationPoint", None)
+                        if elem_id is not None:
+                            key = (elem_id, ip_id)
+                            f_val = scalar_value(val)
+                            curr_hist_map[key] = f_val
+
+                    if prev_elem_ip_hist:
+                        for key, curr_h in curr_hist_map.items():
+                            if key in prev_elem_ip_hist:
+                                prev_h = prev_elem_ip_hist[key]
+                                if curr_h < prev_h - history_decrease_tolerance:
+                                    history_decrease_violations += 1
+                                    dec = prev_h - curr_h
+                                    if dec > worst_history_decrease:
+                                        worst_history_decrease = dec
+                    prev_elem_ip_hist = curr_hist_map
+
+        if values_checked == 0:
+            phase_min = 0.0
+            phase_max = 0.0
+
+        irreversibility_summary = {
+            "phase_healing_violation_count": phase_healing_violations,
+            "worst_phase_decrease": worst_phase_decrease,
+            "history_decrease_violation_count": history_decrease_violations,
+            "worst_history_decrease": worst_history_decrease,
+            "healing_tolerance": healing_tolerance,
+            "history_decrease_tolerance": history_decrease_tolerance,
+        }
+
+        phase_bounds_summary = {
+            "minimum_phase": phase_min,
+            "maximum_phase": phase_max,
+            "values_checked": values_checked,
+        }
+
         return {
             "curve_rows": curve_rows,
             "matched_rows": matched_rows,
             "crack_path_rows": crack_path_rows,
+            "energy_rows": energy_rows,
+            "irreversibility_summary": irreversibility_summary,
+            "phase_bounds_summary": phase_bounds_summary,
             "field_names_by_step": field_names_by_step,
             "history_names_by_step": history_names_by_step,
             "element_count": element_count,
@@ -403,6 +504,15 @@ def write_crack_path_csv(path, rows):
             writer.writerow({name: row.get(name, "") for name in fieldnames})
 
 
+def write_energy_history_csv(path, rows):
+    fieldnames = ["step", "step_time", "variable", "value"]
+    with open(path, "w") as stream:
+        writer = csv.DictWriter(stream, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({name: row.get(name, "") for name in fieldnames})
+
+
 def write_markdown(path, summary, curve_name, matched_name, contour_names):
     lines = [
         "# Molnar Single-Notch Extraction",
@@ -554,7 +664,6 @@ def main():
     disp_comp = args.displacement_component
     react_comp = args.reaction_component
 
-    # Primary curve CSV named based on components (e.g., rf1_u1_curve.csv for Mode II, single_notch_rf_u_phase_summary.csv for Mode I)
     if disp_comp == 1 and react_comp == 1:
         curve_path = os.path.join(output_dir, "rf1_u1_curve.csv")
     else:
@@ -566,12 +675,14 @@ def main():
         "crack_path_%s_ge_0p%d.csv"
         % (args.phase_variable.lower(), int(args.path_threshold * 10)),
     )
+    energy_history_file = os.path.join(output_dir, "energy_history.csv")
     json_path = os.path.join(output_dir, "single_notch_extraction_summary.json")
     md_path = os.path.join(output_dir, "SINGLE_NOTCH_EXTRACTION.md")
 
     write_curve_csv(curve_path, extracted["curve_rows"], disp_comp=disp_comp, react_comp=react_comp)
     write_matched_csv(matched_path, extracted["matched_rows"], disp_comp=disp_comp, react_comp=react_comp)
     write_crack_path_csv(crack_path_file, extracted["crack_path_rows"])
+    write_energy_history_csv(energy_history_file, extracted["energy_rows"])
 
     sta_text = read_text(args.sta)
     dat_text = read_text(args.dat)
@@ -604,7 +715,29 @@ def main():
         json.dump(summary, stream, indent=2, sort_keys=True)
         stream.write("\n")
 
-    # Additional lightweight inventory & metadata outputs required by F1-J1-PREP specification
+    # Write new JSON summaries
+    irreversibility_path = os.path.join(output_dir, "irreversibility_summary.json")
+    with open(irreversibility_path, "w") as stream:
+        json.dump(extracted["irreversibility_summary"], stream, indent=2, sort_keys=True)
+        stream.write("\n")
+
+    phase_bounds_path = os.path.join(output_dir, "phase_bounds_summary.json")
+    with open(phase_bounds_path, "w") as stream:
+        json.dump(extracted["phase_bounds_summary"], stream, indent=2, sort_keys=True)
+        stream.write("\n")
+
+    runtime_inventory_path = os.path.join(output_dir, "runtime_output_inventory.json")
+    runtime_inventory_data = {
+        "field_names_by_step": extracted["field_names_by_step"],
+        "history_names_by_step": extracted["history_names_by_step"],
+        "element_count": extracted["element_count"],
+        "node_count": extracted["node_count"],
+    }
+    with open(runtime_inventory_path, "w") as stream:
+        json.dump(runtime_inventory_data, stream, indent=2, sort_keys=True)
+        stream.write("\n")
+
+    # Additional inventories
     field_inventory_path = os.path.join(output_dir, "field_output_inventory.json")
     with open(field_inventory_path, "w") as stream:
         json.dump(extracted["field_names_by_step"], stream, indent=2, sort_keys=True)
@@ -638,6 +771,10 @@ def main():
             os.path.basename(curve_path),
             os.path.basename(matched_path),
             os.path.basename(crack_path_file),
+            "energy_history.csv",
+            "irreversibility_summary.json",
+            "phase_bounds_summary.json",
+            "runtime_output_inventory.json",
             "single_notch_extraction_summary.json",
             "field_output_inventory.json",
             "history_output_inventory.json",
@@ -663,6 +800,7 @@ def main():
     print("Curve CSV: %s" % curve_path)
     print("Matched states CSV: %s" % matched_path)
     print("Crack path CSV: %s" % crack_path_file)
+    print("Energy history CSV: %s" % energy_history_file)
     print("Contour CSV files: %d" % len(contour_names))
     return 0
 

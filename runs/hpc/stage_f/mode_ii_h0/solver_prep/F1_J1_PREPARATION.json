@@ -1,10 +1,10 @@
 {
-  "classification": "stage_f_mode_ii_h0_serial_solver_prepared",
+  "classification": "stage_f_mode_ii_h0_serial_preparation_requalified",
   "datacheck_job_id": "1378911.mmaster02",
   "datacheck_result": "pass",
   "deck_sha256": "32a25380767bbb0e9e76eb55b3bb7a97d78bb75c4f86c7e8585aa2032ce2d33b",
   "jobs_submitted": 0,
-  "operational_revision": "6b64a3ba05c02c6fd4f9602e735825cacc542203",
+  "preparation_parent_revision": "b8da554a2ef443156095be959f0dca10005c26f8",
   "resource_plan": {
     "cpus": 1,
     "memory": "16 GB",
@@ -13,7 +13,9 @@
     "queue": "entry_imfdfkmq",
     "walltime": "04:00:00"
   },
+  "runtime_dependencies_prestaged": true,
   "scientific_freeze_revision": "17240f646cf1e382396006ab635976fa22a67890",
+  "serial_result_validator_unit_tests": "pass",
   "solver_authorized": false,
   "source_sha256": "5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c"
 }
