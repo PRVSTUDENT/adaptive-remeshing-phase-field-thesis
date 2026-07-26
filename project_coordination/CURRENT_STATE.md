@@ -2,7 +2,7 @@
 
 Updated: 2026-07-26
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_serial_preparation_requalified`
+Classification: `stage_f_mode_ii_h0_serial_runtime_chain_requalified`
 
 ## Git
 
@@ -10,15 +10,15 @@ Classification: `stage_f_mode_ii_h0_serial_preparation_requalified`
 |---|---|
 | Authorization parent revision | `cddf916c8422f5f87152205f078e5e8f019e1afd` |
 | Datacheck revision | `4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b` |
-| Requalification parent revision | `b8da554a2ef443156095be959f0dca10005c26f8` |
+| Preparation parent revision | `309e65c09ead47659c26e6b03f0cf9f410755bd5` |
 | Active agent | none |
 | Active task | **F1-J1-AUTH** ready_pending_authorization |
 
 ## Authorization boundary (critical)
 
 ```text
-Current task: F1-J1-PREP-R1 complete -> F1-J1-AUTH ready
-Status: stage_f_mode_ii_h0_serial_preparation_requalified
+Current task: F1-J1-PREP-R2 complete -> F1-J1-AUTH ready
+Status: stage_f_mode_ii_h0_serial_runtime_chain_requalified
 datacheck_job_id: 1378911.mmaster02 (pass)
 solver_preparation_complete: true
 solver_authorized: false
@@ -28,7 +28,7 @@ automatic_retry_authorized: false
 maximum_additional_jobs_now: 0
 ```
 
-F1-J1-PREP-R1 serial solver requalification is complete.
+F1-J1-PREP-R2 serial solver runtime chain requalification is complete.
 Full solver analysis remains strictly **unauthorized**. No F1-J1 submission or job execution is authorized without a separate explicit `F1-J1-AUTH` authorization commit and submission approval.
 
 ## Stage F package (solver prepared & requalified, unauthorized)

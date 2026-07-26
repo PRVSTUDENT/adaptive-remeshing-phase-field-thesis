@@ -13,7 +13,11 @@ PREFLIGHT="${PROJECT_HOME}/scripts/validation/validate_mode_ii_h0_submission_pre
 
 cd "${PROJECT_HOME}"
 module purge >/dev/null 2>&1 || true
-module load python/gcc/11.4.0/3.11.7 >/dev/null 2>&1 || true
+module load python/gcc/11.4.0/3.11.7 || {
+  echo "ERROR: module load python/gcc/11.4.0/3.11.7 failed" >&2
+  exit 5
+}
+python3 -c 'import sys; assert sys.version_info >= (3, 10), sys.version'
 
 python3 scripts/validation/validate_mode_ii_h0_static.py --package "${PACKAGE}"
 python3 "${PREFLIGHT}" --authorization "${AUTH}" --package "${PACKAGE}"
@@ -47,23 +51,27 @@ python3 scripts/hpc/validate_pbs_email_notifications.py --email "${MAIL}" "${PBS
 REVISION="$(git rev-parse HEAD)"
 STAGE_ROOT="/scratch/pr21vyci/adaptive-remeshing/mode_ii_h0_staged/${REVISION}"
 mkdir -p "${STAGE_ROOT}/models/generated/mode_ii"
+mkdir -p "${STAGE_ROOT}/runtime/scripts/hpc/stage_f"
 mkdir -p "${STAGE_ROOT}/runtime/scripts/postprocessing"
 mkdir -p "${STAGE_ROOT}/runtime/scripts/validation"
 
 rm -rf "${STAGE_ROOT}/models/generated/mode_ii/h0_serial"
 cp -a "${PACKAGE}" "${STAGE_ROOT}/models/generated/mode_ii/h0_serial"
+cp -a "${PBS}" "${STAGE_ROOT}/runtime/scripts/hpc/stage_f/02_mode_ii_h0_serial.pbs"
 cp -a scripts/postprocessing/extract_molnar_single_notch.py "${STAGE_ROOT}/runtime/scripts/postprocessing/"
 cp -a scripts/validation/validate_mode_ii_h0_serial_results.py "${STAGE_ROOT}/runtime/scripts/validation/"
 printf '%s\n' "${REVISION}" > "${STAGE_ROOT}/PROJECT_REVISION.txt"
+
+STAGED_PBS="${STAGE_ROOT}/runtime/scripts/hpc/stage_f/02_mode_ii_h0_serial.pbs"
 
 DECK_SHA="$(sha256sum "${STAGE_ROOT}/models/generated/mode_ii/h0_serial/ModeII_H0_serial.inp" | awk '{print $1}')"
 SOURCE_SHA="$(sha256sum "${STAGE_ROOT}/models/generated/mode_ii/h0_serial/ModeII_H0_serial.for" | awk '{print $1}')"
 EXTRACTOR_SHA="$(sha256sum "${STAGE_ROOT}/runtime/scripts/postprocessing/extract_molnar_single_notch.py" | awk '{print $1}')"
 VALIDATOR_SHA="$(sha256sum "${STAGE_ROOT}/runtime/scripts/validation/validate_mode_ii_h0_serial_results.py" | awk '{print $1}')"
-PBS_SHA="$(sha256sum "${PBS}" | awk '{print $1}')"
+PBS_SHA="$(sha256sum "${STAGED_PBS}" | awk '{print $1}')"
 
-MANIFEST="${STAGE_ROOT}/MODE_II_H0_LOGIN_MANIFEST.json"
-python3 - "${MANIFEST}" "${REVISION}" "${DECK_SHA}" "${SOURCE_SHA}" "${EXTRACTOR_SHA}" "${VALIDATOR_SHA}" "${PBS_SHA}" <<'PY'
+LOGIN_MANIFEST="${STAGE_ROOT}/MODE_II_H0_LOGIN_MANIFEST.json"
+python3 - "${LOGIN_MANIFEST}" "${REVISION}" "${DECK_SHA}" "${SOURCE_SHA}" "${EXTRACTOR_SHA}" "${VALIDATOR_SHA}" "${PBS_SHA}" <<'PY'
 import json, sys
 path, revision, deck, source, extractor, validator, pbs = sys.argv[1:]
 json.dump(
@@ -88,8 +96,8 @@ JOB_ID="$(scripts/hpc/qsub_with_submitted_notify.sh \
   --job-name mode_ii_h0_serial \
   --message "Stage F1-J1 Mode-II H0 serial solver; 1 rank x 1 thread; one-shot" \
   -- -q "${QUEUE}" -M "${MAIL}" -m abe \
-  -v "PRESTAGED_ROOT=${STAGE_ROOT},PRESTAGED_RUNTIME_ROOT=${STAGE_ROOT}/runtime,PROJECT_REVISION=${REVISION}" \
-  "${PBS}")"
+  -v "PRESTAGED_ROOT=${STAGE_ROOT},PRESTAGED_RUNTIME_ROOT=${STAGE_ROOT}/runtime,LOGIN_MANIFEST_PATH=${LOGIN_MANIFEST},PROJECT_REVISION=${REVISION}" \
+  "${STAGED_PBS}")"
 if [[ ! "${JOB_ID}" =~ ^[0-9]+([.][A-Za-z0-9_-]+)?$ ]]; then
   echo "Mode-II H0 serial solver qsub returned invalid job ID; authorization unused: ${JOB_ID}" >&2
   exit 22

@@ -27,3 +27,4 @@ F_MODEII_PBS_SERIAL,Stage F,scripts/hpc/stage_f/02_mode_ii_h0_serial.pbs,pbs_scr
 F_MODEII_SUBMIT_SERIAL,Stage F,scripts/hpc/stage_f/submit_mode_ii_h0_serial.sh,submit_wrapper,prepared,gemini-antigravity,6b64a3ba05c02c6fd4f9602e735825cacc542203,,,Guarded serial submit wrapper; default preflight-only
 F_MODEII_SERIAL_VALIDATOR,Stage F,scripts/validation/validate_mode_ii_h0_serial_results.py,validator_script,active,gemini-antigravity,6b64a3ba05c02c6fd4f9602e735825cacc542203,,,Serial result validator
 F1J1_PREP_R1_UNIT_TESTS,Stage F,tests/unit/test_validate_mode_ii_h0_serial_results.py,unit_test_script,active,gemini-antigravity,b8da554a2ef443156095be959f0dca10005c26f8,,,Unit tests for serial result validator
+F1J1_PREP_R2_RECORD,Stage F,docs/experiment_records/STAGE_F1_J1_MODE_II_SERIAL_PREPARATION.md,experiment_record,pass,gemini-antigravity,309e65c09ead47659c26e6b03f0cf9f410755bd5,,,F1-J1-PREP-R2 runtime chain requalification report
