@@ -1,19 +1,11 @@
 {
   "schema_version": 1,
-  "active": true,
-  "agent": "gemini-antigravity",
-  "task_id": "F1-J1-R1-AUTH",
-  "started_at": "2026-07-26T04:36:00Z",
-  "base_commit": "bfb89b30d9494d9fa130574f0a0591c8c3152258",
-  "allowed_write_scope": [
-    "scripts/validation/check_multi_agent_bootstrap.py",
-    "runs/hpc/stage_f/mode_ii_h0/replacement_r1/MODE_II_H0_R1_AUTHORIZATION.json",
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json",
-    "project_coordination/CURRENT_STATE.md",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/sessions/2026-07-26_0635_gemini-antigravity_F1-J1-R1-AUTH.md"
-  ],
+  "active": false,
+  "agent": null,
+  "task_id": null,
+  "started_at": null,
+  "base_commit": "2f6a0f6efc992b85c9ae79ff9006ebadd9bf81d8",
+  "allowed_write_scope": [],
   "forbidden_paths": [
     "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
     "runs/hpc/stage_f/mode_ii_h0/evidence/1378919.mmaster02/**",
@@ -26,5 +18,5 @@
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "agent_handoff/**"
   ],
-  "notes": "F1-J1-R1-AUTH: Authorize one infrastructure-replacement Mode-II H0 serial run."
+  "notes": "F1-J1-R1-AUTH complete. Separate replacement authorization created; submission pending approval."
 }
