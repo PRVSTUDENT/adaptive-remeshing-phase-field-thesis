@@ -4,6 +4,7 @@
 - **Agent**: `gemini-antigravity`
 - **Task ID**: `F1-J1-AUTH`
 - **Base Commit**: `b52b92a3162571d0e6d8817a8e027adb74d54464`
+- **Result Commit**: `44d928a00f77c3e6b0515c3d045b1be2ab4bb9a9`
 - **Classification**: `stage_f_mode_ii_h0_solver_authorized`
 
 ## Operations Performed
@@ -21,6 +22,10 @@
    - `static authorization check`: `stage_f_f1j1_solver_authorization_static_pass`
    - `git diff --check`: clean (0 whitespace errors)
 5. **Released Session Lock**: Updated `ACTIVE_SESSION.json` (`active: false`).
+
+## Scope Clarification
+
+The bootstrap validator was modified during F1-J1-AUTH to recognize the authorized F1-J1 task state. This path exceeded the initially declared scope and is explicitly documented here rather than omitted.
 
 ## Boundary Assertions
 
