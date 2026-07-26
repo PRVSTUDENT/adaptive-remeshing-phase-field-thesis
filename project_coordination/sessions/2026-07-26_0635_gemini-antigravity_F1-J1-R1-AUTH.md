@@ -4,6 +4,7 @@
 - **Agent**: `gemini-antigravity`
 - **Task ID**: `F1-J1-R1-AUTH`
 - **Base Commit**: `bfb89b30d9494d9fa130574f0a0591c8c3152258`
+- **Result Commit**: `2f6a0f6efc992b85c9ae79ff9006ebadd9bf81d8`
 - **Classification**: `stage_f_mode_ii_h0_replacement_solver_authorized`
 
 ## Operations Performed
@@ -12,6 +13,7 @@
 2. **Replacement Authorization Record**: Created separate replacement authorization file `runs/hpc/stage_f/mode_ii_h0/replacement_r1/MODE_II_H0_R1_AUTHORIZATION.json`:
    - `classification: stage_f_mode_ii_h0_solver_authorized`
    - `lane_classification: stage_f_mode_ii_h0_replacement_solver_authorized`
+   - `replacement_authorization_revision: 2f6a0f6efc992b85c9ae79ff9006ebadd9bf81d8`
    - `solver_authorized: true`
    - `solver_submissions_used: 0`
    - `maximum_solver_submissions: 1`
