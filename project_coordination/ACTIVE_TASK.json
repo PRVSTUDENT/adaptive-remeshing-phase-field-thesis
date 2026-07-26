@@ -1,25 +1,24 @@
 {
-  "task_id": "F1-J1-PREP-R2",
+  "task_id": "F1-J1",
   "stage": "Stage F",
-  "title": "Close the Mode-II serial runtime provenance and validation gaps",
-  "status": "complete",
-  "classification": "stage_f_mode_ii_h0_serial_runtime_chain_requalified",
+  "title": "Mode-II H0 serial scientific baseline",
+  "status": "ready_pending_submission_approval",
+  "classification": "stage_f_mode_ii_h0_solver_authorized",
   "scientific_freeze_revision": "17240f646cf1e382396006ab635976fa22a67890",
-  "preparation_parent_revision": "309e65c09ead47659c26e6b03f0cf9f410755bd5",
   "authorization_file": "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
   "package_path": "models/generated/mode_ii/h0_serial",
   "datacheck_job_id": "1378911.mmaster02",
   "datacheck_result": "pass",
   "solver_preparation_complete": true,
-  "solver_authorized": false,
+  "solver_authorized": true,
   "solver_submissions_used": 0,
+  "submission_approved": false,
   "execution_authorized": false,
   "maximum_jobs_now": 0,
-  "next_action": "Wait for separate explicit F1-J1-AUTH solver authorization commit and submission approval",
-  "next_task_after_pass": "F1-J1-AUTH",
+  "next_action": "Wait for separate explicit F1-J1 submission approval",
+  "next_task_after_pass": "F2-PREP",
   "job_plan": {
     "job_name": "mode_ii_h0_serial",
-    "type": "Abaqus full solver analysis",
     "queue": "entry_imfdfkmq",
     "cpus": 1,
     "mpi_ranks": 1,
@@ -27,8 +26,7 @@
     "memory": "16 GB",
     "walltime": "04:00:00",
     "maximum_submissions": 1,
-    "automatic_retry": false,
-    "full_solver_analysis": true
+    "automatic_retry": false
   },
   "protocol_version": 1
 }

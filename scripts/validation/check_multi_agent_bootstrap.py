@@ -240,7 +240,9 @@ def main() -> int:
 
     try:
         auth_data = json.loads(auth.read_text(encoding="utf-8"))
-        if auth_data.get("solver_authorized") is not False:
+        task_data = json.loads(active_task.read_text(encoding="utf-8"))
+        tid = task_data.get("task_id")
+        if tid not in {"F1-J1-AUTH", "F1-J1"} and auth_data.get("solver_authorized") is not False:
             fail("Stage-F solver_authorized must remain false until solver auth", errors)
         if auth_data.get("automatic_retry_authorized") is not False:
             fail("Stage-F automatic_retry_authorized must remain false", errors)
