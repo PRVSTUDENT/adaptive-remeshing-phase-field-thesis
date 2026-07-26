@@ -4,7 +4,7 @@
   "agent": null,
   "task_id": null,
   "started_at": null,
-  "base_commit": "2f6a0f6efc992b85c9ae79ff9006ebadd9bf81d8",
+  "base_commit": "46cf420b995ff6b2f74fecfc10fb1bb4411feaac",
   "allowed_write_scope": [],
   "forbidden_paths": [
     "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
@@ -12,11 +12,9 @@
     "models/generated/mode_ii/h0_serial/**",
     "scripts/hpc/stage_f/**",
     "scripts/postprocessing/**",
-    "scripts/validation/validate_mode_ii_h0_serial_staging_contract.py",
-    "scripts/validation/validate_mode_ii_h0_serial_results.py",
+    "scripts/validation/**",
     "tests/**",
-    "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "agent_handoff/**"
   ],
-  "notes": "F1-J1-R1-AUTH complete. Separate replacement authorization created; submission pending approval."
+  "notes": "F1-J1-R1 submission complete. Job 1378920.mmaster02 submitted and running; lock released for monitoring."
 }
