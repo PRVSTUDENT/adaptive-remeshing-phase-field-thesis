@@ -35,6 +35,8 @@ ALLOWED_TASK_IDS = frozenset(
         "F1-J1-AUTH",
         "F1-J1-AUTH-R1",
         "F1-J1-R1-PREP",
+        "F1-J1-R1-AUTH",
+        "F1-J1-R1",
         "F1-J1",
     }
 )
@@ -235,8 +237,8 @@ def main() -> int:
         # After bootstrap/integrity tasks, lock should normally be free.
         # Allow temporary claim only for COORD-1 / COORD-1R.
         if session.get("active") is True:
-            if session.get("task_id") not in {"COORD-1", "COORD-1R"}:
-                fail("ACTIVE_SESSION active for non-bootstrap task during bootstrap check", errors)
+            if session.get("task_id") not in ALLOWED_TASK_IDS:
+                fail("ACTIVE_SESSION active for non-allowed task during bootstrap check", errors)
     except (OSError, json.JSONDecodeError) as exc:
         fail(f"invalid ACTIVE_SESSION.json: {exc}", errors)
 

@@ -1,18 +1,30 @@
 {
   "schema_version": 1,
-  "active": false,
-  "agent": null,
-  "task_id": null,
-  "started_at": null,
-  "base_commit": "d569775f7c5b4ce109260ff3892499476ccd7b5d",
-  "allowed_write_scope": [],
+  "active": true,
+  "agent": "gemini-antigravity",
+  "task_id": "F1-J1-R1-AUTH",
+  "started_at": "2026-07-26T04:36:00Z",
+  "base_commit": "bfb89b30d9494d9fa130574f0a0591c8c3152258",
+  "allowed_write_scope": [
+    "scripts/validation/check_multi_agent_bootstrap.py",
+    "runs/hpc/stage_f/mode_ii_h0/replacement_r1/MODE_II_H0_R1_AUTHORIZATION.json",
+    "project_coordination/ACTIVE_SESSION.json",
+    "project_coordination/ACTIVE_TASK.json",
+    "project_coordination/CURRENT_STATE.md",
+    "project_coordination/TASK_LEDGER.csv",
+    "project_coordination/sessions/2026-07-26_0635_gemini-antigravity_F1-J1-R1-AUTH.md"
+  ],
   "forbidden_paths": [
-    "models/generated/mode_ii/h0_serial/**",
-    "runs/hpc/stage_f/mode_ii_h0/evidence/1378919.mmaster02/**",
     "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
-    "docs/experiment_records/STAGE_F1_J1_MODE_II_SERIAL_BASELINE.md",
+    "runs/hpc/stage_f/mode_ii_h0/evidence/1378919.mmaster02/**",
+    "models/generated/mode_ii/h0_serial/**",
+    "scripts/hpc/stage_f/**",
+    "scripts/postprocessing/**",
+    "scripts/validation/validate_mode_ii_h0_serial_staging_contract.py",
+    "scripts/validation/validate_mode_ii_h0_serial_results.py",
+    "tests/**",
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "agent_handoff/**"
   ],
-  "notes": "F1-J1-R1-PREP complete. Offline replacement preparation complete; replacement unauthorized."
+  "notes": "F1-J1-R1-AUTH: Authorize one infrastructure-replacement Mode-II H0 serial run."
 }
