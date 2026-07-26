@@ -4,12 +4,15 @@
   "agent": null,
   "task_id": null,
   "started_at": null,
-  "base_commit": "44d928a00f77c3e6b0515c3d045b1be2ab4bb9a9",
+  "base_commit": "5b092853419e8e8829d7f4c024ce3ea78d131740",
   "allowed_write_scope": [],
   "forbidden_paths": [
-    "agent_handoff/**",
-    "preserved failed-job evidence",
-    "unrelated dirty files"
+    "models/generated/mode_ii/h0_serial/**",
+    "scripts/hpc/stage_f/**",
+    "scripts/postprocessing/**",
+    "scripts/validation/**",
+    "tests/**",
+    "agent_handoff/**"
   ],
-  "notes": "F1-J1-AUTH-R1 complete. Provenance and scope records repaired; solver authorized, submission pending explicit approval."
+  "notes": "F1-J1 submission complete (job 1378919.mmaster02 running). Editing lock released for monitoring."
 }

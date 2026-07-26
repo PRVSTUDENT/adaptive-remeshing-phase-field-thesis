@@ -3,7 +3,7 @@
   "authorization_scope": "Exactly one F1-J1 Mode-II H0 serial Abaqus solver submission; no retry or replacement",
   "authorization_task_id": "F1-J1-AUTH",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_solver_authorized",
+  "classification": "stage_f_mode_ii_h0_solver_submitted",
   "d3d_reopening_authorized": false,
   "datacheck_authorized": false,
   "datacheck_job_id": "1378911.mmaster02",
@@ -27,7 +27,8 @@
   "package_path": "models/generated/mode_ii/h0_serial",
   "preparation_complete": true,
   "solver_authorization_revision": "44d928a00f77c3e6b0515c3d045b1be2ab4bb9a9",
-  "solver_authorized": true,
+  "solver_authorized": false,
+  "solver_job_id": "1378919.mmaster02",
   "solver_preparation_complete": true,
   "solver_resource_plan": {
     "cpus": 1,
@@ -37,8 +38,10 @@
     "queue": "entry_imfdfkmq",
     "walltime": "04:00:00"
   },
-  "solver_submissions_used": 0,
+  "solver_submissions_used": 1,
+  "solver_submitted_revision": "5b092853419e8e8829d7f4c024ce3ea78d131740",
   "stage_p_reopening_authorized": false,
+  "submission_approved": true,
   "thesis_submission_task_authorized": false,
   "threaded_execution_authorized": false
 }
