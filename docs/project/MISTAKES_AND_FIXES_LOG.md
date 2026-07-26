@@ -208,3 +208,20 @@ Stage P is closed scientifically as technically inconclusive for threaded
 safety. The serial identifier results qualify only their controlled
 one-rank/one-thread UEL calls, D2C remains case-specific repeatability
 evidence, and no general thread-, MPI-, or hybrid-safety claim is supported.
+
+## F1-J1 Mode-II H0 serial staging-check path mistake (2026-07-26)
+
+ID: M-090
+Date: 2026-07-26
+Stage/job: Stage F / `1378919.mmaster02`
+Source commit: `5b092853419e8e8829d7f4c024ce3ea78d131740`
+Classification: `stage_f_mode_ii_h0_serial_staging_fail`
+Symptom: PBS script `02_mode_ii_h0_serial.pbs` exited with status `7` before launching Abaqus solve. Status recorded `stage_f_mode_ii_h0_serial_staging_fail` due to `runtime staging check mismatch`.
+Root cause: `02_mode_ii_h0_serial.pbs` copied `ModeII_H0_serial.inp` into `${SCRATCH_RUN}/${JOB_NAME}.inp` (`mode_ii_h0_serial.inp`) and then attempted `sha256sum ModeII_H0_serial.inp`. Because the file had been renamed, `sha256sum` failed, resulting in an empty `deck_sha256` string in `MODE_II_H0_RUNTIME_MANIFEST.json` and a mismatch against `MODE_II_H0_LOGIN_MANIFEST.json`.
+Scientific inputs changed: no
+Correction: Documented root cause and evidence. One-shot solver authorization is consumed (1/1); no retry or resubmission is authorized under protocol rules.
+Retry job: none
+Outcome: F1-J1 closed as `stage_f_mode_ii_h0_serial_fail`. F2 and later tasks remain blocked.
+Evidence paths: `/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/mode_ii_h0/evidence/1378919.mmaster02/`
+Prevention rule: Always compute runtime deck hash using `${JOB_NAME}.inp` rather than hardcoded input filename in PBS runtime manifest generators.
+Status: open (scientific baseline uncharacterized; solver submission consumed 1/1)
