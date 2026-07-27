@@ -1,5 +1,6 @@
 {
-  "classification": "stage_f_mode_ii_h0_second_replacement_solver_authorized",
+  "active_job_id": "1378942.mmaster02",
+  "classification": "stage_f_mode_ii_h0_second_replacement_solver_submitted",
   "cluster_bundle_verified_after_copy": true,
   "cluster_bundle_verified_on_cluster": true,
   "evidence_verifier_commit": "7f61c182aaa480b20647410546007d0ee20a3132",
@@ -19,15 +20,16 @@
   "local_bundle_verified": true,
   "maximum_jobs_now": 0,
   "maximum_second_replacement_submissions": 1,
-  "next_action": "Wait for separate explicit F1-J1-R2 submission approval",
+  "next_action": "Monitor job 1378942.mmaster02; execute postprocessing & validation on completion; F2 blocked",
   "next_task_after_pass": "F2-PREP",
   "original_authorization_file": "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
   "package_path": "models/generated/mode_ii/h0_serial",
   "protocol_version": 1,
   "scientific_freeze_revision": "17240f646cf1e382396006ab635976fa22a67890",
   "second_replacement_authorization_file": "runs/hpc/stage_f/mode_ii_h0/replacement_r2/MODE_II_H0_R2_AUTHORIZATION.json",
-  "second_replacement_authorized": true,
-  "second_replacement_submissions_used": 0,
+  "second_replacement_authorized": false,
+  "second_replacement_job_id": "1378942.mmaster02",
+  "second_replacement_submissions_used": 1,
   "source_failures": [
     {
       "authorization_consumed": true,
@@ -43,8 +45,8 @@
     }
   ],
   "stage": "Stage F",
-  "status": "ready_pending_submission_approval",
-  "submission_approved": false,
+  "status": "submitted_or_running_pending_outcome",
+  "submission_approved": true,
   "task_id": "F1-J1-R2",
   "title": "Mode-II H0 serial second infrastructure replacement"
 }

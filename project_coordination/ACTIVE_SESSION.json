@@ -1,11 +1,31 @@
 {
-  "active": false,
-  "agent": "",
-  "allowed_write_scope": [],
-  "base_commit": "",
-  "forbidden_paths": [],
-  "notes": "Session inactive. F1-J1-R2-AUTH completed successfully.",
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_write_scope": [
+    "runs/hpc/stage_f/mode_ii_h0/replacement_r2/MODE_II_H0_R2_AUTHORIZATION.json",
+    "runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/**",
+    "docs/experiment_records/STAGE_F1_J1_R2_MODE_II_SERIAL_SECOND_REPLACEMENT.md",
+    "docs/project/MISTAKES_AND_FIXES_LOG.md",
+    "project_coordination/**"
+  ],
+  "base_commit": "69d4d0a6ade66f4c0a1ea47020eb6e8916c11abd",
+  "forbidden_paths": [
+    "models/generated/mode_ii/h0_serial/**",
+    "scripts/hpc/stage_f/**",
+    "scripts/postprocessing/**",
+    "scripts/validation/**",
+    "tests/**",
+    "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
+    "runs/hpc/stage_f/mode_ii_h0/replacement_r1/MODE_II_H0_R1_AUTHORIZATION.json",
+    "runs/hpc/stage_f/mode_ii_h0/evidence/1378919.mmaster02/**",
+    "runs/hpc/stage_f/mode_ii_h0/replacement_r1/evidence/1378920.mmaster02/**",
+    "runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence/**",
+    "runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence_r2/**",
+    "runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence_r3/**",
+    "agent_handoff/**"
+  ],
+  "notes": "F1-J1-R2: Submitting and monitoring Mode-II H0 serial second infrastructure replacement run.",
   "schema_version": 1,
-  "started_at": "",
-  "task_id": ""
+  "started_at": "2026-07-27T07:25:00Z",
+  "task_id": "F1-J1-R2"
 }
