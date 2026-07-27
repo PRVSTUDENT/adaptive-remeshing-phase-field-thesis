@@ -52,7 +52,8 @@ copy_evidence() {
     "COMPILER_ENVIRONMENT.txt" "MODE_II_H0_SERIAL_STATUS.json" \
     "MODE_II_H0_SERIAL_VALIDATION.json" "MODE_II_H0_RUNTIME_MANIFEST.json" \
     "MODE_II_H0_RUNTIME_STAGING_CHECK.json" \
-    "MODE_II_H0_SERIAL.ok" "input_hash_check.txt" "executables.txt"; do
+    "MODE_II_H0_SERIAL.ok" "MODE_II_H0_PRE_SOLVER_SMOKE.ok" \
+    "input_hash_check.txt" "executables.txt"; do
     if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
       cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/" 2>/dev/null || true
     fi
@@ -62,8 +63,13 @@ copy_evidence() {
   fi
 }
 
+PRE_SOLVER_ONLY="${MODE_II_H0_PRE_SOLVER_ONLY:-0}"
+ALLOW_LOCAL_NO_MODULES="${MODE_II_H0_ALLOW_LOCAL_NO_MODULES:-0}"
+MODULE_ENVIRONMENT_LOADED=false
+
 if command -v module >/dev/null 2>&1; then
   module --force purge > "${ENV_LOG}" 2>&1 || true
+
   module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || {
     write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "module load gcc/11.4.0 failed"
     copy_evidence
@@ -84,6 +90,15 @@ if command -v module >/dev/null 2>&1; then
     copy_evidence
     exit 5
   }
+
+  MODULE_ENVIRONMENT_LOADED=true
+elif [ "${PRE_SOLVER_ONLY}" = "1" ] && [ "${ALLOW_LOCAL_NO_MODULES}" = "1" ]; then
+  echo "Local smoke only: module environment explicitly bypassed" >> "${ENV_LOG}"
+  MODULE_ENVIRONMENT_LOADED=false
+else
+  write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "required module command unavailable"
+  copy_evidence
+  exit 5
 fi
 
 python3 -c 'import sys; assert sys.version_info >= (3, 10), sys.version' >> "${ENV_LOG}" 2>&1 || {
@@ -91,6 +106,19 @@ python3 -c 'import sys; assert sys.version_info >= (3, 10), sys.version' >> "${E
   copy_evidence
   exit 5
 }
+
+if [ "${MODULE_ENVIRONMENT_LOADED}" = "true" ]; then
+  command -v python3 >/dev/null 2>&1 || {
+    write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "command -v python3 failed"
+    copy_evidence
+    exit 5
+  }
+  command -v abaqus >/dev/null 2>&1 || {
+    write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "command -v abaqus failed"
+    copy_evidence
+    exit 5
+  }
+fi
 
 {
   command -v abaqus || true
@@ -247,13 +275,18 @@ if [ "${MODE_II_H0_PRE_SOLVER_ONLY:-0}" = "1" ]; then
   "failures": [],
   "job_id": "${PBS_JOBID:-unknown}",
   "scratch_run": "${SCRATCH_RUN}",
-  "abaqus_return_code": 0,
-  "extractor_return_code": 0,
-  "validator_return_code": 0,
+  "pre_solver_only": true,
+  "module_environment_loaded": ${MODULE_ENVIRONMENT_LOADED},
+  "abaqus_invoked": false,
+  "extractor_invoked": false,
+  "validator_invoked": false,
+  "abaqus_return_code": null,
+  "extractor_return_code": null,
+  "validator_return_code": null,
   "source_commit": "${SOURCE_COMMIT}"
 }
 EOF
-  : > "${SCRATCH_RUN}/MODE_II_H0_SERIAL.ok"
+  : > "${SCRATCH_RUN}/MODE_II_H0_PRE_SOLVER_SMOKE.ok"
   copy_evidence
   exit 0
 fi
