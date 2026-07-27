@@ -1,10 +1,11 @@
 {
-  "active_job_id": null,
+  "active_job_id": "1378958.mmaster02",
   "approved_action": "one_datacheck_submission_only",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_submission_approved",
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_submitted",
   "cluster_smoke_passed": false,
-  "datacheck_authorized": true,
+  "datacheck_authorized": false,
+  "datacheck_job_id": "1378958.mmaster02",
   "datacheck_job_plan": {
     "cpus": 1,
     "job_name": "mode_ii_h0_endpoint_corrected_datacheck",
@@ -15,7 +16,7 @@
     "queue": "entry_imfdfkmq",
     "walltime": "00:30:00"
   },
-  "datacheck_submissions_used": 0,
+  "datacheck_submissions_used": 1,
   "endpoint_audit_revision": "49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c",
   "execution_authorized": false,
   "execution_lane": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected",
@@ -26,12 +27,13 @@
   "hybrid_authorized": false,
   "local_smoke_passed": true,
   "maximum_datacheck_submissions": 1,
-  "maximum_jobs_now": 1,
+  "maximum_jobs_now": 0,
   "maximum_solver_submissions": 1,
   "mpi_authorized": false,
   "notes": [
-    "One corrected Mode-II H0 endpoint datacheck submission is explicitly approved.",
-    "Datacheck resource plan: entry_imfdfkmq, CPU=1, RAM=16GB, walltime=00:30:00.",
+    "One corrected Mode-II H0 endpoint datacheck submission was executed.",
+    "PBS Job ID: 1378958.mmaster02.",
+    "Datacheck authorization is consumed (1/1).",
     "No solver authorization is granted.",
     "No automatic retry is permitted."
   ],
@@ -42,6 +44,7 @@
   "package_path": "models/generated/mode_ii/h0_endpoint_corrected_serial",
   "preparation_complete": true,
   "preparation_main_revision": "e2e40b08fee23799da9518c118232af756610e0b",
+  "retry_authorized": false,
   "schema_version": 1,
   "solver_authorized": false,
   "solver_submissions_used": 0,
@@ -49,6 +52,6 @@
   "submission_approval_source": "explicit_human_approval",
   "submission_approval_task": "F1-C2-DATACHECK",
   "submission_approved": true,
-  "submitted_revision": null,
+  "submitted_revision": "78b7744ddab0d5ed88f9f1118a7f5965c065604b",
   "threaded_execution_authorized": false
 }

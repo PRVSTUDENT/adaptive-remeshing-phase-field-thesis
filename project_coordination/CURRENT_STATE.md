@@ -2,12 +2,14 @@
 
 Updated: 2026-07-27
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_authorized`
+Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_submitted`
 
 ## Git
 
 | Item | Value |
 |---|---|
+| Corrected datacheck submission revision | `78b7744ddab0d5ed88f9f1118a7f5965c065604b` |
+| Active job ID | `1378958.mmaster02` |
 | Datacheck authorization parent revision | `6a4fc72beb62a6bc247f200f9ee883ba3c5751af` |
 | Corrected package preparation main revision | `e2e40b08fee23799da9518c118232af756610e0b` |
 | Corrected package preparation parent revision | `71751047bbb05bdb1561e250c62a890989cdd349` |
@@ -24,7 +26,7 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_authorized`
 | Original submission revision | `5b092853419e8e8829d7f4c024ce3ea78d131740` |
 | Datacheck revision | `4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b` |
 | Active agent | none |
-| Active task | **F1-C2-DATACHECK-AUTH** complete (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_authorized`) |
+| Active task | **F1-C2-DATACHECK** (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_submitted`) |
 
 ## Submission boundary (critical)
 
