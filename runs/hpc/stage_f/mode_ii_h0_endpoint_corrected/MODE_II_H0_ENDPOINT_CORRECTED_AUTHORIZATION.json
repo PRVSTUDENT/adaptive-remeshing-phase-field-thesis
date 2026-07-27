@@ -1,10 +1,10 @@
 {
   "active_job_id": null,
+  "approved_action": "one_datacheck_submission_only",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_authorized",
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_submission_approved",
   "cluster_smoke_passed": false,
   "datacheck_authorized": true,
-  "datacheck_submissions_used": 0,
   "datacheck_job_plan": {
     "cpus": 1,
     "job_name": "mode_ii_h0_endpoint_corrected_datacheck",
@@ -15,6 +15,7 @@
     "queue": "entry_imfdfkmq",
     "walltime": "00:30:00"
   },
+  "datacheck_submissions_used": 0,
   "endpoint_audit_revision": "49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c",
   "execution_authorized": false,
   "execution_lane": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected",
@@ -25,10 +26,11 @@
   "hybrid_authorized": false,
   "local_smoke_passed": true,
   "maximum_datacheck_submissions": 1,
+  "maximum_jobs_now": 1,
   "maximum_solver_submissions": 1,
   "mpi_authorized": false,
   "notes": [
-    "One corrected Mode-II H0 endpoint datacheck is authorized.",
+    "One corrected Mode-II H0 endpoint datacheck submission is explicitly approved.",
     "Datacheck resource plan: entry_imfdfkmq, CPU=1, RAM=16GB, walltime=00:30:00.",
     "No solver authorization is granted.",
     "No automatic retry is permitted."
@@ -44,7 +46,9 @@
   "solver_authorized": false,
   "solver_submissions_used": 0,
   "static_validation_passed": true,
-  "submission_approved": false,
+  "submission_approval_source": "explicit_human_approval",
+  "submission_approval_task": "F1-C2-DATACHECK",
+  "submission_approved": true,
   "submitted_revision": null,
   "threaded_execution_authorized": false
 }

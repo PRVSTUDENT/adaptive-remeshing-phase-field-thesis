@@ -2,7 +2,7 @@
   "active_job_id": null,
   "authorization_file": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/MODE_II_H0_ENDPOINT_CORRECTED_AUTHORIZATION.json",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_authorized",
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_submission_approved",
   "datacheck_authorized": true,
   "datacheck_job_plan": {
     "cpus": 1,
@@ -19,16 +19,16 @@
   "execution_authorized": false,
   "execution_lane": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected",
   "maximum_datacheck_submissions": 1,
-  "maximum_jobs_now": 0,
-  "next_action": "Wait for explicit F1-C2-DATACHECK submission approval",
-  "next_task_after_pass": "F1-C2-DATACHECK",
+  "maximum_jobs_now": 1,
+  "next_action": "Submit exactly one guarded corrected-lane datacheck",
+  "next_task_after_pass": "F1-C2-DATACHECK-CLOSE",
   "package_path": "models/generated/mode_ii/h0_endpoint_corrected_serial",
   "preparation_main_revision": "e2e40b08fee23799da9518c118232af756610e0b",
   "protocol_version": 1,
   "solver_authorized": false,
   "stage": "Stage F",
-  "status": "complete",
-  "submission_approved": false,
-  "task_id": "F1-C2-DATACHECK-AUTH",
-  "title": "Authorize one corrected Mode-II H0 endpoint datacheck"
+  "status": "approved_for_single_submission",
+  "submission_approved": true,
+  "task_id": "F1-C2-DATACHECK",
+  "title": "Submit and track one corrected Mode-II H0 endpoint datacheck"
 }

@@ -239,7 +239,7 @@ def main() -> int:
             fail("F1-P0 status must be ready or active", errors)
         if task.get("execution_authorized") is not False:
             fail("ACTIVE_TASK.json execution_authorized must be false", errors)
-        if task.get("maximum_jobs_now", 1) not in (0, None) and task.get("maximum_jobs_now") != 0:
+        if task.get("maximum_jobs_now", 1) not in (0, None) and task.get("maximum_jobs_now") != 0 and not (task.get("submission_approved") is True and task.get("maximum_jobs_now") == 1):
             fail("ACTIVE_TASK.json maximum_jobs_now must be 0", errors)
     except (OSError, json.JSONDecodeError) as exc:
         fail(f"invalid ACTIVE_TASK.json: {exc}", errors)
