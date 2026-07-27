@@ -1,38 +1,42 @@
 {
-  "task_id": "F1-J1-R2-PREP",
-  "stage": "Stage F",
-  "title": "Replace inline Mode-II staging validation with an executable tested helper",
-  "status": "complete",
-  "classification": "stage_f_mode_ii_h0_second_replacement_prepared_unauthorized",
-  "scientific_freeze_revision": "17240f646cf1e382396006ab635976fa22a67890",
-  "package_path": "models/generated/mode_ii/h0_serial",
-  "original_authorization_file": "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
-  "replacement_authorization_file": "runs/hpc/stage_f/mode_ii_h0/replacement_r1/MODE_II_H0_R1_AUTHORIZATION.json",
-  "source_failures": [
-    {
-      "task_id": "F1-J1",
-      "job_id": "1378919.mmaster02",
-      "solver_started": false,
-      "authorization_consumed": true
-    },
-    {
-      "task_id": "F1-J1-R1",
-      "job_id": "1378920.mmaster02",
-      "solver_started": false,
-      "authorization_consumed": true
-    }
-  ],
-  "preparation_parent_revision": "eb3c31e0f7db93248a09235f6ac87f37d78bede1",
-  "preparation_commit": "5e5b3783dd7a3052fef3ac9dee4b507c24287c9d",
-  "inline_staging_logic_removed": true,
+  "classification": "stage_f_mode_ii_h0_second_replacement_runtime_qualified_unauthorized",
+  "cluster_abaqus_executable_found": true,
+  "cluster_modules_loaded": true,
+  "cluster_smoke_evidence": "runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence/cluster_login/SMOKE_SUMMARY.json",
   "exact_runtime_helper_tested": true,
-  "pre_solver_smoke_local": "pass",
-  "pre_solver_smoke_cluster_login": "pass",
-  "replacement_authorized": false,
-  "submission_approved": false,
   "execution_authorized": false,
+  "inline_staging_logic_removed": true,
+  "local_smoke_evidence": "runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence/local/SMOKE_SUMMARY.json",
   "maximum_jobs_now": 0,
   "next_action": "Wait for explicit human instruction/decision regarding F1-J1-R2 replacement authorization; F2 blocked",
   "next_task_after_pass": "F1-J1-R2-AUTH",
-  "protocol_version": 1
+  "original_authorization_file": "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
+  "package_path": "models/generated/mode_ii/h0_serial",
+  "pre_solver_smoke_cluster_login": "pass",
+  "pre_solver_smoke_local": "pass",
+  "preparation_commit": "217b684cc5611377e495442728e39d350d01eb61",
+  "preparation_parent_revision": "4f67bd2c8fd0a1a1c2e57d8dba54cd16a2ff2a36",
+  "protocol_version": 1,
+  "replacement_authorization_file": "runs/hpc/stage_f/mode_ii_h0/replacement_r1/MODE_II_H0_R1_AUTHORIZATION.json",
+  "replacement_authorized": false,
+  "scientific_freeze_revision": "17240f646cf1e382396006ab635976fa22a67890",
+  "source_failures": [
+    {
+      "authorization_consumed": true,
+      "job_id": "1378919.mmaster02",
+      "solver_started": false,
+      "task_id": "F1-J1"
+    },
+    {
+      "authorization_consumed": true,
+      "job_id": "1378920.mmaster02",
+      "solver_started": false,
+      "task_id": "F1-J1-R1"
+    }
+  ],
+  "stage": "Stage F",
+  "status": "complete",
+  "submission_approved": false,
+  "task_id": "F1-J1-R2-PREP-R1",
+  "title": "Prove the Mode-II cluster smoke and restore fail-closed execution"
 }
