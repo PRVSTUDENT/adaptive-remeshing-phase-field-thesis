@@ -4,6 +4,7 @@
 - **Agent**: gemini-antigravity
 - **Task ID**: `F1-J1-R2`
 - **Operational Submission Revision**: `69d4d0a6ade66f4c0a1ea47020eb6e8916c11abd`
+- **Submission Tracking Commit SHA**: `1ebd6375d7a8dc73cfb6ce07f2eff732a83ec7c4`
 - **Second-Replacement Authorization Revision**: `93fcad353693ca6348b2d683317c7da86d34d493`
 - **Evidence-Verifier Revision**: `7f61c182aaa480b20647410546007d0ee20a3132`
 - **Classification Target**: `stage_f_mode_ii_h0_second_replacement_solver_submitted`
