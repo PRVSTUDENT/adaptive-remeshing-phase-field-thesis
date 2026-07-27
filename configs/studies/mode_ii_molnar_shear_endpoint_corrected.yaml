@@ -1,0 +1,121 @@
+# Stage F Mode-II endpoint-corrected serial benchmark definition.
+# Formulation: accepted Molnar staggered UEL/UMAT only.
+# Geometry/mesh: accepted Mode-I H0 supplementary mesh (unchanged).
+# Loading: pure shear with corrected Step-2 Amp-2 endpoint time (0.2).
+
+status: stage_f_mode_ii_h0_endpoint_corrected_prepared
+runnable: false
+classification: stage_f_mode_ii_h0_endpoint_corrected_definition
+
+provenance:
+  endpoint_audit_revision: 49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c
+  historical_failed_package: models/generated/mode_ii/h0_serial
+  historical_failed_job_id: 1378942.mmaster02
+  historical_failed_submission_revision: 69d4d0a6ade66f4c0a1ea47020eb6e8916c11abd
+  correction_kind: amplitude_endpoint_time_only
+
+formulation:
+  family: molnar_gravouil_2017_staggered
+  source_baseline: models/baseline_original/molnar_gravouil_2017/02_Single_Notch_Tension/
+  mesh_and_n_elem_source: models/generated/molnar_gravouil_2017/h_convergence_lc015/H0_exact/
+  forbidden_mixins:
+    - msekh_monolithic
+    - pandey_formulation_change
+    - miseseri_remeshing_in_f0
+
+benchmark:
+  name: molnar_mode_ii_pure_shear_single_notch_endpoint_corrected
+  mode: Mode-II
+  loading_angle_degrees: 0
+  paper_figure_geometry: Molnar Fig. 6a
+  paper_shear_pattern: Molnar Fig. 6c qualitative
+  purpose: mixed_mode_curved_crack_path_corrected_baseline
+
+geometry:
+  width_mm: 1.0
+  height_mm: 1.0
+  notch:
+    side: left
+    length_mm: 0.5
+    y_location_mm: 0.0
+  unit: mm
+
+model:
+  plane_strain: true
+  thickness_mm: 1.0
+  element_layers:
+    phase: U1
+    displacement: U2
+    visualization: CPS4
+  physical_element_count: 3930
+  layered_element_count: 11790
+  node_count: 3998
+  n_elem_fortran: 3930
+  local_h_mm: 0.005
+  target_h_over_lc: 0.3333333333
+
+material:
+  youngs_modulus_kN_per_mm2: 210.0
+  poissons_ratio: 0.3
+  residual_stiffness_k: 1.0e-7
+  umat_visualization_constant: 1.0e-11
+
+fracture:
+  critical_energy_release_rate_kN_per_mm: 0.0027
+  length_scale_mm: 0.015
+  phase_field_convention:
+    intact: 0.0
+    fully_broken: 1.0
+
+boundary_conditions:
+  bottom: fixed_U1_U2
+  top_horizontal: prescribed_U1_via_RP_equation
+  top_vertical: fixed_U2
+  loading_component: U1
+  reaction_component: RF1
+  mode_i_differences:
+    - equation couples top DOF1 to RP DOF1 instead of DOF2
+    - RP prescribed DOF1 instead of DOF2
+    - bottom fully fixed instead of U2-only plus corner pins
+
+loading:
+  schedule_status: corrected_mode_ii_endpoint_schedule
+  step1_final_displacement_mm: 0.005
+  step1_time: 0.5
+  step1_direct_increment: 0.001
+  step1_max_inc: 500
+  step2_initial_displacement_mm: 0.005
+  step2_final_displacement_mm: 0.010
+  step2_amplitude_endpoint_time: 0.2
+  step2_time: 0.2
+  step2_direct_increment: 0.0001
+  step2_max_inc: 2000
+
+reference:
+  rf_u:
+    status: reference_data_insufficient
+    note: Molnar Fig. 7 is uniaxial tension only; not an RF-U reference for pure shear.
+  crack_path:
+    status: qualitative_only
+    description: curved/diagonal shear path from notch tip (Molnar Fig. 6c)
+    threshold_sdv15: 0.5
+    threshold_status: provisional_same_as_mode_i_path_extraction
+
+outputs_required:
+  - U
+  - RF
+  - SDV14
+  - SDV15
+  - SDV16
+  - S
+  - EVOL
+  - energies
+
+execution_boundary:
+  miseseri_remeshing: false
+  threaded_execution: false
+  mpi: false
+  datacheck_authorized: false
+  solver_authorized: false
+  execution_authorized: false
+  automatic_retry_authorized: false

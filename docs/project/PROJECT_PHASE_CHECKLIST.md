@@ -329,7 +329,10 @@ or deferred contour/crack-path evidence)
   `scripts/hpc/stage_f/`. Classification: `stage_f_mode_ii_h0_prepared`.
 - [x] F1-J0 Mode-II H0 datacheck passed. Evidence: `runs/hpc/stage_f/mode_ii_h0/1378911.mmaster02/`.
 - [!] F1-J1-R2 Mode-II H0 serial run completed solver and extraction (job 1378942.mmaster02; Abaqus rc: 0, extractor rc: 0) but failed scientific acceptance gate (validator rc: 20; U1=0.007mm vs expected 0.010mm; empty crack path). Classification: stage_f_mode_ii_h0_second_replacement_fail. Useful as partial pre-peak response evidence only; H0 baseline unvalidated; F2 blocked. Evidence: `docs/experiment_records/STAGE_F1_J1_R2_MODE_II_SERIAL_SECOND_REPLACEMENT.md`; `runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/`.
-- [!] F2–F5 (H1, MISESERI, refined compare, transfer) blocked pending separate explicit authorization.
+- [x] F1-C0 Mode-II H0 endpoint loading audit proved exact mathematical root cause of $U_1 = 0.007\text{ mm}$ endpoint; selected Option A correction (Amp-2 endpoint $0.2$). Evidence: `docs/decisions/STAGE_F_MODE_II_H0_ENDPOINT_CORRECTION.md`; `runs/hpc/stage_f/mode_ii_h0_correction/ENDPOINT_AUDIT.json`.
+- [x] F1-C1 Mode-II H0 corrected package and fail-closed lane preparation completed offline. All execution flags false; static validation, unit tests, and local smoke passed cleanly. Classification: `stage_f_mode_ii_h0_endpoint_corrected_prepared_unauthorized`. Evidence: `models/generated/mode_ii/h0_endpoint_corrected_serial/`; `runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/`; `docs/experiment_records/STAGE_F1_C1_MODE_II_H0_ENDPOINT_CORRECTED_PREPARATION.md`.
+- [!] F2–F5 (H1, MISESERI, refined compare, transfer) blocked pending separate explicit authorization and corrected H0 baseline pass.
+
 
 ## Gate Checklist
 

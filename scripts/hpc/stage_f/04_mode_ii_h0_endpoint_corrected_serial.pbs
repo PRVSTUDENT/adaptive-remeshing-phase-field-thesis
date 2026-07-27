@@ -1,0 +1,215 @@
+#!/bin/bash
+#PBS -N mode_ii_h0_endpoint_corrected_serial
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=04:00:00
+#PBS -j oe
+#PBS -m abe
+
+# Stage F Mode-II H0 endpoint-corrected serial solver execution script.
+# One-shot serial CPU1/16GB/04:00:00 execution; no automatic retry.
+
+set -uo pipefail
+
+EVIDENCE_ROOT="${EVIDENCE_ROOT:-/home/pr21vyci/adaptive-remeshing-evidence}"
+EVIDENCE_DIR="${EVIDENCE_ROOT}/stage_f/mode_ii_h0_endpoint_corrected/${PBS_JOBID:-manual}"
+PACKAGE_REL="models/generated/mode_ii/h0_endpoint_corrected_serial"
+SCRATCH_RUN="${SCRATCH_RUN:-/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_endpoint_corrected_serial_${PBS_JOBID:-manual}}"
+ENV_LOG="${SCRATCH_RUN}/COMPILER_ENVIRONMENT.txt"
+JOB_NAME="mode_ii_h0_endpoint_corrected_serial"
+SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
+LOGIN_MANIFEST_PATH="${LOGIN_MANIFEST_PATH:-}"
+
+mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
+cd "${SCRATCH_RUN}" || exit 2
+
+write_status() {
+  local classification="$1"
+  local abaqus_rc="$2"
+  local ext_rc="$3"
+  local val_rc="$4"
+  local failure="$5"
+  cat > "${SCRATCH_RUN}/MODE_II_H0_ENDPOINT_CORRECTED_SERIAL_STATUS.json" <<EOF
+{
+  "MODE_II_H0_ENDPOINT_CORRECTED_SERIAL_ok": false,
+  "classification": "${classification}",
+  "failures": ["${failure}"],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "scratch_run": "${SCRATCH_RUN}",
+  "abaqus_return_code": ${abaqus_rc},
+  "extractor_return_code": ${ext_rc},
+  "validator_return_code": ${val_rc},
+  "source_commit": "${SOURCE_COMMIT}"
+}
+EOF
+}
+
+copy_evidence() {
+  mkdir -p "${EVIDENCE_DIR}"
+  for pattern in \
+    "${JOB_NAME}.log" "${JOB_NAME}.msg" "${JOB_NAME}.dat" "${JOB_NAME}.sta" \
+    "${JOB_NAME}.com" "${JOB_NAME}.prt" "${JOB_NAME}.abaqus_stdout.log" \
+    "COMPILER_ENVIRONMENT.txt" "MODE_II_H0_ENDPOINT_CORRECTED_SERIAL_STATUS.json" \
+    "MODE_II_H0_ENDPOINT_CORRECTED_SERIAL_VALIDATION.json" \
+    "MODE_II_H0_ENDPOINT_CORRECTED_SERIAL.ok" \
+    "input_hash_check.txt" "executables.txt"; do
+    if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
+      cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/" 2>/dev/null || true
+    fi
+  done
+  if [ -d "${SCRATCH_RUN}/extracted" ]; then
+    cp -a "${SCRATCH_RUN}/extracted" "${EVIDENCE_DIR}/" 2>/dev/null || true
+  fi
+}
+
+PRE_SOLVER_ONLY="${MODE_II_H0_PRE_SOLVER_ONLY:-0}"
+ALLOW_LOCAL_NO_MODULES="${MODE_II_H0_ALLOW_LOCAL_NO_MODULES:-0}"
+MODULE_ENVIRONMENT_LOADED=false
+
+if command -v module >/dev/null 2>&1; then
+  module --force purge > "${ENV_LOG}" 2>&1 || true
+
+  module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || {
+    write_status "stage_f_mode_ii_h0_endpoint_corrected_serial_env_fail" 5 -1 -1 "module load gcc/11.4.0 failed"
+    copy_evidence
+    exit 5
+  }
+  module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || {
+    write_status "stage_f_mode_ii_h0_endpoint_corrected_serial_env_fail" 5 -1 -1 "module load intel/2024.2.0 failed"
+    copy_evidence
+    exit 5
+  }
+  module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || {
+    write_status "stage_f_mode_ii_h0_endpoint_corrected_serial_env_fail" 5 -1 -1 "module load abaqus/2023 failed"
+    copy_evidence
+    exit 5
+  }
+  module load python/gcc/11.4.0/3.11.7 >> "${ENV_LOG}" 2>&1 || {
+    write_status "stage_f_mode_ii_h0_endpoint_corrected_serial_env_fail" 5 -1 -1 "module load python/gcc/11.4.0/3.11.7 failed"
+    copy_evidence
+    exit 5
+  }
+  MODULE_ENVIRONMENT_LOADED=true
+elif [ "${PRE_SOLVER_ONLY}" = "1" ] && [ "${ALLOW_LOCAL_NO_MODULES}" = "1" ]; then
+  echo "Local check: module environment bypassed" >> "${ENV_LOG}"
+  MODULE_ENVIRONMENT_LOADED=false
+else
+  write_status "stage_f_mode_ii_h0_endpoint_corrected_serial_env_fail" 5 -1 -1 "required module command unavailable"
+  copy_evidence
+  exit 5
+fi
+
+if [ -z "${PRESTAGED_ROOT:-}" ] || [ -z "${LOGIN_MANIFEST_PATH}" ] || [ ! -f "${LOGIN_MANIFEST_PATH}" ]; then
+  write_status "stage_f_mode_ii_h0_endpoint_corrected_serial_stage_fail" 3 -1 -1 "missing PRESTAGED_ROOT or LOGIN_MANIFEST_PATH"
+  copy_evidence
+  exit 3
+fi
+
+cd "${PRESTAGED_ROOT}/${PACKAGE_REL}" || {
+  write_status "stage_f_mode_ii_h0_endpoint_corrected_serial_stage_fail" 4 -1 -1 "missing staged package"
+  copy_evidence
+  exit 4
+}
+sha256sum -c input_hashes.sha256 > "${SCRATCH_RUN}/input_hash_check.txt" 2>&1 || {
+  write_status "stage_f_mode_ii_h0_endpoint_corrected_serial_hash_fail" 6 -1 -1 "staged input hash failure"
+  copy_evidence
+  exit 6
+}
+
+cp ModeII_H0_endpoint_corrected_serial.inp "${SCRATCH_RUN}/${JOB_NAME}.inp"
+cp ModeII_H0_endpoint_corrected_serial.for "${SCRATCH_RUN}/ModeII_H0_endpoint_corrected_serial.for"
+
+cd "${SCRATCH_RUN}" || exit 7
+
+if [ "${PRE_SOLVER_ONLY}" = "1" ]; then
+  cat > "${SCRATCH_RUN}/MODE_II_H0_ENDPOINT_CORRECTED_SERIAL_STATUS.json" <<EOF
+{
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_preflight_pass",
+  "preflight_ok": true,
+  "failures": [],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "source_commit": "${SOURCE_COMMIT}"
+}
+EOF
+  copy_evidence
+  exit 0
+fi
+
+set +e
+abaqus job="${JOB_NAME}" user=ModeII_H0_endpoint_corrected_serial.for interactive \
+  cpus=1 mp_mode=threads double=both \
+  > "${JOB_NAME}.abaqus_stdout.log" 2>&1
+ABAQUS_RC=$?
+set -e
+
+EXTRACTOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/postprocessing/extract_molnar_single_notch.py"
+VALIDATOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/validation/validate_mode_ii_h0_endpoint_corrected_results.py"
+
+pass=true
+failure="none"
+EXT_RC=0
+VAL_RC=0
+
+if [ "${ABAQUS_RC}" -ne 0 ]; then
+  pass=false
+  failure="abaqus_solver_nonzero_exit"
+fi
+
+if [ "${pass}" = true ]; then
+  mkdir -p "${SCRATCH_RUN}/extracted"
+  set +e
+  abaqus python "${EXTRACTOR_SCRIPT}" \
+    --odb "${SCRATCH_RUN}/${JOB_NAME}.odb" \
+    --sta "${SCRATCH_RUN}/${JOB_NAME}.sta" \
+    --dat "${SCRATCH_RUN}/${JOB_NAME}.dat" \
+    --msg "${SCRATCH_RUN}/${JOB_NAME}.msg" \
+    --displacement-component 1 \
+    --reaction-component 1 \
+    --path-threshold 0.5 \
+    --output-dir "${SCRATCH_RUN}/extracted" \
+    >> "${JOB_NAME}.abaqus_stdout.log" 2>&1
+  EXT_RC=$?
+  set -e
+  if [ "${EXT_RC}" -ne 0 ]; then
+    pass=false
+    failure="extraction_failed"
+  fi
+fi
+
+if [ "${pass}" = true ]; then
+  set +e
+  python3 "${VALIDATOR_SCRIPT}" \
+    "${SCRATCH_RUN}" \
+    --abaqus-rc "${ABAQUS_RC}" \
+    --extractor-rc "${EXT_RC}" \
+    >> "${JOB_NAME}.abaqus_stdout.log" 2>&1
+  VAL_RC=$?
+  set -e
+  if [ "${VAL_RC}" -ne 0 ]; then
+    pass=false
+    failure="result_validation_failed"
+  fi
+fi
+
+if [ "${pass}" = true ]; then
+  cat > "${SCRATCH_RUN}/MODE_II_H0_ENDPOINT_CORRECTED_SERIAL_STATUS.json" <<EOF
+{
+  "MODE_II_H0_ENDPOINT_CORRECTED_SERIAL_ok": true,
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_characterized",
+  "failures": [],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "scratch_run": "${SCRATCH_RUN}",
+  "abaqus_return_code": ${ABAQUS_RC},
+  "extractor_return_code": ${EXT_RC},
+  "validator_return_code": ${VAL_RC},
+  "source_commit": "${SOURCE_COMMIT}"
+}
+EOF
+  : > "${SCRATCH_RUN}/MODE_II_H0_ENDPOINT_CORRECTED_SERIAL.ok"
+  copy_evidence
+  exit 0
+fi
+
+write_status "stage_f_mode_ii_h0_endpoint_corrected_serial_fail" "${ABAQUS_RC}" "${EXT_RC}" "${VAL_RC}" "${failure}"
+copy_evidence
+exit 12

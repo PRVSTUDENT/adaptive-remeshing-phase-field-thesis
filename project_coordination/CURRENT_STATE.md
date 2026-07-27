@@ -2,12 +2,13 @@
 
 Updated: 2026-07-27
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_endpoint_correction_defined_unauthorized`
+Classification: `stage_f_mode_ii_h0_endpoint_corrected_prepared_unauthorized`
 
 ## Git
 
 | Item | Value |
 |---|---|
+| Corrected package preparation parent revision | `71751047bbb05bdb1561e250c62a890989cdd349` |
 | Endpoint audit revision | `49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c` |
 | Endpoint audit parent revision | `b65839552727f3d1242bbde1e4d24f7fb7a8087b` |
 | R2 replacement closeout correction revision | `8bada7ef5b8862a2a7ef1f82abb865f5d524fb97` |
@@ -21,7 +22,7 @@ Classification: `stage_f_mode_ii_h0_endpoint_correction_defined_unauthorized`
 | Original submission revision | `5b092853419e8e8829d7f4c024ce3ea78d131740` |
 | Datacheck revision | `4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b` |
 | Active agent | none |
-| Active task | **F1-C0-ENDPOINT-AUDIT** complete (`stage_f_mode_ii_h0_endpoint_correction_defined_unauthorized`) |
+| Active task | **F1-C1-CORRECTED-H0-PREP** complete (`stage_f_mode_ii_h0_endpoint_corrected_prepared_unauthorized`) |
 
 ## Submission boundary (critical)
 
@@ -59,8 +60,8 @@ Downstream task F2 remains **blocked**.
 
 ## Next actions
 
-1. Prepare corrected Mode-II H0 package lane under task `F1-C1-CORRECTED-H0-PREP`.
-2. Execution remains unauthorized until explicit datacheck/solver authorizations are created (`F1-C2-DATACHECK-AUTH` / `F1-C3-SOLVER-AUTH`).
+1. Wait for explicit `F1-C2-DATACHECK-AUTH` approval before creating datacheck authorization.
+2. Execution remains unauthorized (`maximum_jobs_now: 0`, `datacheck_authorized: false`, `solver_authorized: false`).
 3. Downstream tasks (F2+) remain blocked until corrected H0 baseline lane completes cleanly.
 
 ## Dirty paths
