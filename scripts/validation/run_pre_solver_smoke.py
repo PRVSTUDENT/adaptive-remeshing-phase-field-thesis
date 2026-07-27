@@ -4,9 +4,11 @@
 from __future__ import annotations
 
 import argparse
+import datetime
 import hashlib
 import json
 import os
+import platform
 import shutil
 import subprocess
 import sys
@@ -38,7 +40,9 @@ def run_pre_solver_smoke(
     project_revision: str | None = None,
     allow_no_modules: bool = False,
     output_summary: Path | None = None,
+    evidence_output_dir: Path | None = None,
 ) -> tuple[int, dict]:
+    started_at_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
     failures: list[str] = []
 
     if project_revision is None:
@@ -54,24 +58,28 @@ def run_pre_solver_smoke(
         except Exception:
             project_revision = "unknown"
 
-    base_dir = stage_root if stage_root is not None else project_root / "tmp" / "smoke_stage"
-    staged_root = base_dir / "mode_ii_h0_staged" / project_revision
-    scratch_run = scratch_root if scratch_root is not None else base_dir / "scratch"
-    evidence_run = evidence_root if evidence_root is not None else base_dir / "evidence"
+    req_stage_root = stage_root if stage_root is not None else project_root / "tmp" / "smoke_stage"
+    staged_root = req_stage_root / "mode_ii_h0_staged" / project_revision
+    req_scratch_root = scratch_root if scratch_root is not None else req_stage_root / "scratch"
+    req_evidence_root = evidence_root if evidence_root is not None else req_stage_root / "evidence"
+
+    res_stage_root = req_stage_root.resolve()
+    res_scratch_root = req_scratch_root.resolve()
+    res_evidence_root = req_evidence_root.resolve()
 
     if staged_root.exists():
         shutil.rmtree(staged_root, ignore_errors=True)
-    if scratch_run.exists():
-        shutil.rmtree(scratch_run, ignore_errors=True)
-    if evidence_run.exists():
-        shutil.rmtree(evidence_run, ignore_errors=True)
+    if req_scratch_root.exists():
+        shutil.rmtree(req_scratch_root, ignore_errors=True)
+    if req_evidence_root.exists():
+        shutil.rmtree(req_evidence_root, ignore_errors=True)
 
     (staged_root / "models" / "generated" / "mode_ii").mkdir(parents=True, exist_ok=True)
     (staged_root / "runtime" / "scripts" / "hpc" / "stage_f").mkdir(parents=True, exist_ok=True)
     (staged_root / "runtime" / "scripts" / "postprocessing").mkdir(parents=True, exist_ok=True)
     (staged_root / "runtime" / "scripts" / "validation").mkdir(parents=True, exist_ok=True)
-    scratch_run.mkdir(parents=True, exist_ok=True)
-    evidence_run.mkdir(parents=True, exist_ok=True)
+    req_scratch_root.mkdir(parents=True, exist_ok=True)
+    req_evidence_root.mkdir(parents=True, exist_ok=True)
 
     pkg_src = project_root / "models" / "generated" / "mode_ii" / "h0_serial"
     pbs_src = project_root / "scripts" / "hpc" / "stage_f" / "02_mode_ii_h0_serial.pbs"
@@ -91,14 +99,20 @@ def run_pre_solver_smoke(
             failures.append(f"Missing required source file: {required_file}")
 
     if failures:
+        completed_at_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
         summary = {
             "classification": "stage_f_mode_ii_h0_pre_solver_smoke_fail",
             "pbs_exit_code": -1,
             "status_classification_pass": False,
+            "pre_solver_smoke_ok": False,
             "runtime_staging_classification_pass": False,
             "runtime_failures_empty": False,
             "abaqus_invoked": False,
+            "extractor_invoked": False,
+            "validator_invoked": False,
             "odb_file_count": 0,
+            "abaqus_lock_file_count": 0,
+            "solver_output_file_count": 0,
             "module_environment_loaded": False,
             "failures": failures,
         }
@@ -152,8 +166,8 @@ def run_pre_solver_smoke(
     p_staged = to_posix_path(staged_root)
     p_runtime = to_posix_path(staged_root / "runtime")
     p_login = to_posix_path(login_manifest)
-    p_scratch = to_posix_path(scratch_run)
-    p_evidence = to_posix_path(evidence_run)
+    p_scratch = to_posix_path(req_scratch_root)
+    p_evidence = to_posix_path(req_evidence_root)
     pbs_posix = to_posix_path(staged_pbs)
 
     allow_modules_val = "1" if allow_no_modules else "0"
@@ -178,18 +192,24 @@ def run_pre_solver_smoke(
         text=True,
     )
 
-    status_file = scratch_run / "MODE_II_H0_SERIAL_STATUS.json"
-    staging_file = scratch_run / "MODE_II_H0_RUNTIME_STAGING_CHECK.json"
-    smoke_marker = scratch_run / "MODE_II_H0_PRE_SOLVER_SMOKE.ok"
-    serial_marker = scratch_run / "MODE_II_H0_SERIAL.ok"
+    completed_at_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+    status_file = req_scratch_root / "MODE_II_H0_SERIAL_STATUS.json"
+    staging_file = req_scratch_root / "MODE_II_H0_RUNTIME_STAGING_CHECK.json"
+    smoke_marker = req_scratch_root / "MODE_II_H0_PRE_SOLVER_SMOKE.ok"
+    serial_marker = req_scratch_root / "MODE_II_H0_SERIAL.ok"
+    executables_file = req_scratch_root / "executables.txt"
 
     status_data: dict = {}
     staging_data: dict = {}
 
     status_classification_pass = False
+    pre_solver_smoke_ok = False
     runtime_staging_classification_pass = False
     runtime_failures_empty = False
     abaqus_invoked = False
+    extractor_invoked = False
+    validator_invoked = False
     module_environment_loaded = False
 
     if proc.returncode != 0:
@@ -205,9 +225,31 @@ def run_pre_solver_smoke(
             else:
                 failures.append(f"Unexpected status classification: {status_data.get('classification')}")
 
+            if "MODE_II_H0_SERIAL_ok" in status_data:
+                failures.append("MODE_II_H0_SERIAL_ok is improperly present in smoke status JSON")
+
+            if status_data.get("pre_solver_smoke_ok") is True:
+                pre_solver_smoke_ok = True
+            else:
+                failures.append("pre_solver_smoke_ok is missing or false in status JSON")
+
             if status_data.get("abaqus_invoked") is True:
                 abaqus_invoked = True
                 failures.append("Abaqus was reported as invoked during pre-solver smoke")
+
+            if status_data.get("extractor_invoked") is True:
+                extractor_invoked = True
+                failures.append("Extractor was reported as invoked during pre-solver smoke")
+
+            if status_data.get("validator_invoked") is True:
+                validator_invoked = True
+                failures.append("Validator was reported as invoked during pre-solver smoke")
+
+            for rc_key in ("abaqus_return_code", "extractor_return_code", "validator_return_code"):
+                if status_data.get(rc_key) is not None:
+                    failures.append(
+                        f"{rc_key} must be null in pre-solver smoke status JSON but got {status_data.get(rc_key)}"
+                    )
 
             if status_data.get("module_environment_loaded") is True:
                 module_environment_loaded = True
@@ -240,13 +282,40 @@ def run_pre_solver_smoke(
     if serial_marker.is_file():
         failures.append(f"Full solver completion marker improperly created during smoke: {serial_marker}")
 
+    if not allow_no_modules:
+        if not module_environment_loaded:
+            failures.append("Cluster qualification requires module_environment_loaded = true")
+
+        if not executables_file.is_file():
+            failures.append(f"Executables log missing: {executables_file}")
+        else:
+            exec_text = executables_file.read_text(encoding="utf-8")
+            if not exec_text.strip() or "abaqus" not in exec_text.lower() or "not found" in exec_text.lower():
+                failures.append("Cluster qualification requires a valid Abaqus executable path in executables.txt")
+            if "python3" not in exec_text.lower() or "not found" in exec_text.lower():
+                failures.append("Cluster qualification requires python3 in executables.txt")
+
     odb_files: list[Path] = []
-    for search_dir in (base_dir, scratch_run, evidence_run):
+    lck_files: list[Path] = []
+    solver_out_files: list[Path] = []
+
+    for search_dir in (req_stage_root, req_scratch_root, req_evidence_root):
         if search_dir.exists():
             odb_files.extend(search_dir.rglob("*.odb"))
+            lck_files.extend(search_dir.rglob("*.lck"))
+            for ext in (".dat", ".msg", ".sta", ".prt", ".com", ".sim"):
+                solver_out_files.extend(search_dir.rglob(f"*{ext}"))
+
     odb_file_count = len(odb_files)
+    abaqus_lock_file_count = len(lck_files)
+    solver_output_file_count = len(solver_out_files)
+
     if odb_file_count > 0:
         failures.append(f"Found {odb_file_count} .odb files during pre-solver smoke run")
+    if abaqus_lock_file_count > 0:
+        failures.append(f"Found {abaqus_lock_file_count} .lck files during pre-solver smoke run")
+    if solver_output_file_count > 0:
+        failures.append(f"Found {solver_output_file_count} solver output files during pre-solver smoke run")
 
     classification = (
         "stage_f_mode_ii_h0_pre_solver_smoke_pass"
@@ -258,13 +327,118 @@ def run_pre_solver_smoke(
         "classification": classification,
         "pbs_exit_code": proc.returncode,
         "status_classification_pass": status_classification_pass,
+        "pre_solver_smoke_ok": pre_solver_smoke_ok,
         "runtime_staging_classification_pass": runtime_staging_classification_pass,
         "runtime_failures_empty": runtime_failures_empty,
         "abaqus_invoked": abaqus_invoked,
+        "extractor_invoked": extractor_invoked,
+        "validator_invoked": validator_invoked,
         "odb_file_count": odb_file_count,
+        "abaqus_lock_file_count": abaqus_lock_file_count,
+        "solver_output_file_count": solver_output_file_count,
         "module_environment_loaded": module_environment_loaded,
         "failures": failures,
     }
+
+    if evidence_output_dir is not None:
+        evidence_output_dir.mkdir(parents=True, exist_ok=True)
+
+        (evidence_output_dir / "stdout.log").write_text(proc.stdout, encoding="utf-8")
+        (evidence_output_dir / "stderr.log").write_text(proc.stderr, encoding="utf-8")
+
+        for f_name, f_path in (
+            ("MODE_II_H0_SERIAL_STATUS.json", status_file),
+            ("MODE_II_H0_RUNTIME_MANIFEST.json", req_scratch_root / "MODE_II_H0_RUNTIME_MANIFEST.json"),
+            ("MODE_II_H0_RUNTIME_STAGING_CHECK.json", staging_file),
+            ("MODE_II_H0_LOGIN_MANIFEST.json", login_manifest),
+            ("executables.txt", executables_file),
+        ):
+            if f_path.is_file():
+                shutil.copy(f_path, evidence_output_dir / f_name)
+            else:
+                (evidence_output_dir / f_name).write_text("", encoding="utf-8")
+
+        cmd_metadata = {
+            "hostname": platform.node(),
+            "timestamp_utc": started_at_utc,
+            "project_revision": project_revision,
+            "pbs_script_sha256": pbs_sha,
+            "staging_verifier_sha256": verifier_sha,
+            "requested_stage_root": str(req_stage_root),
+            "resolved_stage_root": str(res_stage_root),
+            "requested_scratch_root": str(req_scratch_root),
+            "resolved_scratch_root": str(res_scratch_root),
+            "requested_evidence_root": str(req_evidence_root),
+            "resolved_evidence_root": str(res_evidence_root),
+            "environment_variables": {
+                "MODE_II_H0_PRE_SOLVER_ONLY": "1",
+                "MODE_II_H0_ALLOW_LOCAL_NO_MODULES": allow_modules_val,
+            },
+            "module_bypass_allowed": allow_no_modules,
+        }
+        (evidence_output_dir / "SMOKE_COMMAND.json").write_text(
+            json.dumps(cmd_metadata, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+
+        (evidence_output_dir / "SMOKE_SUMMARY.json").write_text(
+            json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+
+        inv_data = {
+            "odb_file_count": odb_file_count,
+            "abaqus_lock_file_count": abaqus_lock_file_count,
+            "solver_output_file_count": solver_output_file_count,
+        }
+        (evidence_output_dir / "file_inventory.json").write_text(
+            json.dumps(inv_data, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+
+        bundle_files = [
+            "SMOKE_COMMAND.json",
+            "SMOKE_SUMMARY.json",
+            "MODE_II_H0_SERIAL_STATUS.json",
+            "MODE_II_H0_RUNTIME_MANIFEST.json",
+            "MODE_II_H0_RUNTIME_STAGING_CHECK.json",
+            "MODE_II_H0_LOGIN_MANIFEST.json",
+            "executables.txt",
+            "stdout.log",
+            "stderr.log",
+            "file_inventory.json",
+        ]
+
+        file_hashes: dict[str, str] = {}
+        for bf in bundle_files:
+            bf_path = evidence_output_dir / bf
+            if bf_path.is_file():
+                file_hashes[bf] = sha256_file(bf_path)
+            else:
+                failures.append(f"Bundle file missing in output directory: {bf}")
+
+        bundle_manifest = {
+            "classification": "stage_f_mode_ii_h0_pre_solver_smoke_evidence_complete",
+            "hostname": platform.node(),
+            "started_at_utc": started_at_utc,
+            "completed_at_utc": completed_at_utc,
+            "project_revision": project_revision,
+            "pbs_exit_code": proc.returncode,
+            "module_environment_loaded": module_environment_loaded,
+            "abaqus_invoked": abaqus_invoked,
+            "odb_file_count": odb_file_count,
+            "files": file_hashes,
+            "failures": summary["failures"],
+        }
+        manifest_path = evidence_output_dir / "EVIDENCE_BUNDLE_MANIFEST.json"
+        manifest_path.write_text(
+            json.dumps(bundle_manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+
+        # Verify every hash in bundle manifest after writing
+        for bf, expected_hash in file_hashes.items():
+            actual_hash = sha256_file(evidence_output_dir / bf)
+            if actual_hash != expected_hash:
+                failures.append(
+                    f"Hash verification failed for {bf}: expected {expected_hash}, got {actual_hash}"
+                )
 
     if output_summary:
         output_summary.parent.mkdir(parents=True, exist_ok=True)
@@ -282,6 +456,7 @@ def main() -> int:
     parser.add_argument("--project-revision", type=str, default=None)
     parser.add_argument("--allow-no-modules", action="store_true", default=False)
     parser.add_argument("--output-summary", type=Path, default=None)
+    parser.add_argument("--evidence-output-dir", type=Path, default=None)
 
     args = parser.parse_args()
 
@@ -293,6 +468,7 @@ def main() -> int:
         project_revision=args.project_revision,
         allow_no_modules=args.allow_no_modules,
         output_summary=args.output_summary.resolve() if args.output_summary else None,
+        evidence_output_dir=args.evidence_output_dir.resolve() if args.evidence_output_dir else None,
     )
 
     print(json.dumps(summary, indent=2, sort_keys=True))

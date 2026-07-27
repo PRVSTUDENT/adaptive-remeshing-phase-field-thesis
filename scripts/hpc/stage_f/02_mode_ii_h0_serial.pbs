@@ -270,8 +270,8 @@ fi
 if [ "${MODE_II_H0_PRE_SOLVER_ONLY:-0}" = "1" ]; then
   cat > "${SCRATCH_RUN}/MODE_II_H0_SERIAL_STATUS.json" <<EOF
 {
-  "MODE_II_H0_SERIAL_ok": true,
   "classification": "stage_f_mode_ii_h0_pre_solver_smoke_pass",
+  "pre_solver_smoke_ok": true,
   "failures": [],
   "job_id": "${PBS_JOBID:-unknown}",
   "scratch_run": "${SCRATCH_RUN}",
