@@ -2,12 +2,13 @@
 
 Updated: 2026-07-27
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_endpoint_corrected_prepared_unauthorized`
+Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_authorized`
 
 ## Git
 
 | Item | Value |
 |---|---|
+| Datacheck authorization parent revision | `6a4fc72beb62a6bc247f200f9ee883ba3c5751af` |
 | Corrected package preparation main revision | `e2e40b08fee23799da9518c118232af756610e0b` |
 | Corrected package preparation parent revision | `71751047bbb05bdb1561e250c62a890989cdd349` |
 | Endpoint audit revision | `49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c` |
@@ -23,7 +24,7 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_prepared_unauthorized`
 | Original submission revision | `5b092853419e8e8829d7f4c024ce3ea78d131740` |
 | Datacheck revision | `4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b` |
 | Active agent | none |
-| Active task | **F1-C1-CORRECTED-H0-PREP** complete (`stage_f_mode_ii_h0_endpoint_corrected_prepared_unauthorized`) |
+| Active task | **F1-C2-DATACHECK-AUTH** complete (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_authorized`) |
 
 ## Submission boundary (critical)
 
@@ -61,9 +62,10 @@ Downstream task F2 remains **blocked**.
 
 ## Next actions
 
-1. Wait for explicit `F1-C2-DATACHECK-AUTH` approval before creating datacheck authorization.
-2. Execution remains unauthorized (`maximum_jobs_now: 0`, `datacheck_authorized: false`, `solver_authorized: false`).
-3. Downstream tasks (F2+) remain blocked until corrected H0 baseline lane completes cleanly.
+1. Wait for explicit `F1-C2-DATACHECK` submission approval before submitting the datacheck job.
+2. Datacheck is authorized (`datacheck_authorized: true`), but submission is not approved (`submission_approved: false`, `maximum_jobs_now: 0`).
+3. Solver execution remains unauthorized (`solver_authorized: false`).
+4. Downstream tasks (F2+) remain blocked until corrected H0 baseline lane completes cleanly.
 
 ## Dirty paths
 

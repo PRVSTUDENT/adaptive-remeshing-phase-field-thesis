@@ -47,6 +47,8 @@ ALLOWED_TASK_IDS = frozenset(
         "F1-J1-R2-CLOSE-R1",
         "F1-C0-ENDPOINT-AUDIT",
         "F1-C1-CORRECTED-H0-PREP",
+        "F1-C2-DATACHECK-AUTH",
+        "F1-C2-DATACHECK",
         "F1-J1",
     }
 )
