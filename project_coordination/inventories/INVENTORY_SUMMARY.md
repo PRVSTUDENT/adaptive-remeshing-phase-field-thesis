@@ -26,3 +26,5 @@ Updated: 2026-07-26
 - `F1-C0-ENDPOINT-AUDIT`: Proved loading schedule endpoint mismatch ($U_1 = 0.007\text{ mm}$ vs $0.010\text{ mm}$ expected); selected Option A correction (Amp-2 endpoint $0.2$).
 - `F1-C1-CORRECTED-H0-PREP`: Offline corrected package generation and fail-closed lane qualification completed (`stage_f_mode_ii_h0_endpoint_corrected_prepared_unauthorized`); no HPC jobs or Abaqus runs executed.
 - `1378958.mmaster02`: Stage F Mode-II endpoint-corrected datacheck job stopped preflight (`abaqus_rc: 3`, `stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail`) due to missing `-v PRESTAGED_ROOT` submit wrapper arguments; scratch retained; evidence collected.
+- `F1-C2-R1-PREP`: Offline staging contract remediation completed (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_prepared_unauthorized`); submit wrapper updated to pass required `-v PRESTAGED_ROOT=...,LOGIN_MANIFEST_PATH=...,PROJECT_REVISION=...`; static validator, mocked qsub tests, local staging smoke, and cluster-login smoke passed; 0 HPC jobs executed.
+

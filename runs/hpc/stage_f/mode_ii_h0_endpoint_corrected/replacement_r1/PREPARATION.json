@@ -1,0 +1,31 @@
+{
+  "abaqus_executions": 0,
+  "authorization_created": false,
+  "automatic_retry_authorized": false,
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_prepared_unauthorized",
+  "cluster_login_smoke_result": "stage_f_mode_ii_h0_endpoint_corrected_cluster_login_smoke_pass",
+  "jobs_executed": 0,
+  "local_staging_smoke_result": "stage_f_mode_ii_h0_endpoint_corrected_staging_smoke_pass",
+  "mocked_wrapper_tests": "7_tests_passed",
+  "package_hashes": {
+    "deck_sha256": "c9160d50c944de7037a9f05dc1dbccfa9718f69b198bb48659f784bac220ddef",
+    "source_sha256": "5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c"
+  },
+  "pbs_submissions": 0,
+  "preparation_parent_revision": "20cad4f94133635076da48eda821b50dd53a050a",
+  "required_pbs_variables": [
+    "PRESTAGED_ROOT",
+    "LOGIN_MANIFEST_PATH",
+    "PROJECT_REVISION"
+  ],
+  "root_cause": "submit_mode_ii_h0_endpoint_corrected_datacheck.sh omitted -v PRESTAGED_ROOT=...,LOGIN_MANIFEST_PATH=...,PROJECT_REVISION=... in qsub arguments for job 1378958.mmaster02.",
+  "schema_version": 1,
+  "solver_authorized": false,
+  "source_failed_job": "1378958.mmaster02",
+  "static_staging_validator_result": "stage_f_mode_ii_h0_endpoint_corrected_staging_contract_pass",
+  "task_id": "F1-C2-R1-PREP",
+  "wrapper_before_after_contract": {
+    "after": "submit script verifies package hashes, creates login staging tree with manifest, passes -v PRESTAGED_ROOT,LOGIN_MANIFEST_PATH,PROJECT_REVISION to qsub, and validates parameters in dry-run/mock mode.",
+    "before": "submit script did not pass -v PRESTAGED_ROOT,LOGIN_MANIFEST_PATH,PROJECT_REVISION to qsub."
+  }
+}

@@ -2,12 +2,16 @@
 
 Updated: 2026-07-27
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail`
+Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_prepared_unauthorized`
 
 ## Git
 
 | Item | Value |
 |---|---|
+| Datacheck staging remediation parent revision | `20cad4f94133635076da48eda821b50dd53a050a` |
+| Datacheck closeout lock release revision | `20cad4f94133635076da48eda821b50dd53a050a` |
+| Datacheck closeout metadata revision | `8f1b108eaf85dd8060181e63d3278d2222fd9b37` |
+| Datacheck closeout main revision | `b748b45f7b9b5cdf1cc04a4a26a931418a7bc9cb` |
 | Corrected datacheck submission revision | `78b7744ddab0d5ed88f9f1118a7f5965c065604b` |
 | Active job ID | none |
 | Datacheck authorization parent revision | `6a4fc72beb62a6bc247f200f9ee883ba3c5751af` |
@@ -26,7 +30,7 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail`
 | Original submission revision | `5b092853419e8e8829d7f4c024ce3ea78d131740` |
 | Datacheck revision | `4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b` |
 | Active agent | none |
-| Active task | **F1-C2-DATACHECK-CLOSE** complete (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail`) |
+| Active task | **F1-C2-R1-PREP** complete (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_prepared_unauthorized`) |
 
 ## Submission boundary (critical)
 
