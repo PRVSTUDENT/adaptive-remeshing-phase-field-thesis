@@ -1,31 +1,11 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_write_scope": [
-    "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/MODE_II_H0_ENDPOINT_CORRECTED_AUTHORIZATION.json",
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json",
-    "project_coordination/CURRENT_STATE.md",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/HPC_JOB_LEDGER.csv",
-    "project_coordination/sessions/**",
-    "docs/experiment_records/STAGE_F1_C2_MODE_II_H0_ENDPOINT_CORRECTED_DATACHECK_SUBMISSION.md",
-    "scripts/validation/check_multi_agent_bootstrap.py",
-    "scripts/hpc/stage_f/submit_mode_ii_h0_endpoint_corrected_datacheck.sh"
-  ],
-  "base_commit": "1007253bdfd919045dc4a0bce7552e747afe2ea0",
-  "forbidden_paths": [
-    "models/generated/mode_ii/h0_endpoint_corrected_serial/**",
-    "configs/studies/mode_ii_molnar_shear_endpoint_corrected.yaml",
-    "scripts/model_generation/**",
-    "scripts/hpc/stage_f/03_mode_ii_h0_endpoint_corrected_datacheck.pbs",
-    "scripts/hpc/stage_f/04_mode_ii_h0_endpoint_corrected_serial.pbs",
-    "scripts/hpc/stage_f/submit_mode_ii_h0_endpoint_corrected_serial.sh",
-    "scripts/validation/validate_mode_ii_h0_endpoint_corrected_*.py",
-    "tests/**"
-  ],
-  "notes": "F1-C2-DATACHECK: Submit and track one corrected Mode-II H0 endpoint datacheck.",
+  "active": false,
+  "agent": "",
+  "allowed_write_scope": [],
+  "base_commit": "",
+  "forbidden_paths": [],
+  "notes": "Session inactive. F1-C2 datacheck job 1378958.mmaster02 submitted and completed in scheduler; pending closeout validation in F1-C2-DATACHECK-CLOSE.",
   "schema_version": 1,
-  "started_at": "2026-07-27T10:08:30Z",
-  "task_id": "F1-C2-DATACHECK"
+  "started_at": "",
+  "task_id": ""
 }
