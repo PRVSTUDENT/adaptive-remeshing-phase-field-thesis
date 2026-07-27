@@ -4,12 +4,18 @@
 from __future__ import annotations
 
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from scripts.validation.run_pre_solver_smoke import run_pre_solver_smoke
+from scripts.validation.run_pre_solver_smoke import (
+    main,
+    run_pre_solver_smoke,
+    sha256_file,
+    verify_evidence_bundle,
+)
 
 
 class TestRunPreSolverSmoke(unittest.TestCase):
@@ -86,6 +92,7 @@ class TestRunPreSolverSmoke(unittest.TestCase):
         returncode: int = 0,
         status_data: dict | None = None,
         staging_data: dict | None = None,
+        create_runtime_manifest: bool = True,
         create_smoke_marker: bool = True,
         create_serial_marker: bool = False,
         create_odb: bool = False,
@@ -102,8 +109,16 @@ class TestRunPreSolverSmoke(unittest.TestCase):
                 staging_file = self.scratch_root / "MODE_II_H0_RUNTIME_STAGING_CHECK.json"
                 staging_file.write_text(json.dumps(staging_data, indent=2), encoding="utf-8")
 
+            if create_runtime_manifest:
+                (self.scratch_root / "MODE_II_H0_RUNTIME_MANIFEST.json").write_text(
+                    json.dumps({"classification": "stage_f_mode_ii_h0_runtime_manifest_complete"}),
+                    encoding="utf-8",
+                )
+
             if create_smoke_marker:
-                (self.scratch_root / "MODE_II_H0_PRE_SOLVER_SMOKE.ok").touch()
+                (self.scratch_root / "MODE_II_H0_PRE_SOLVER_SMOKE.ok").write_text(
+                    "PRE_SOLVER_SMOKE_OK\n", encoding="utf-8"
+                )
 
             if create_serial_marker:
                 (self.scratch_root / "MODE_II_H0_SERIAL.ok").touch()
@@ -266,6 +281,7 @@ class TestRunPreSolverSmoke(unittest.TestCase):
             "stdout.log",
             "stderr.log",
             "file_inventory.json",
+            "MODE_II_H0_PRE_SOLVER_SMOKE.ok",
         ]
         for rf in required_files:
             self.assertIn(rf, manifest["files"])
@@ -280,7 +296,7 @@ class TestRunPreSolverSmoke(unittest.TestCase):
         self.assertEqual(inv["odb_file_count"], 0)
 
     @patch("subprocess.run")
-    def test_tampered_evidence_file_fails_hash_verification(self, mock_run) -> None:
+    def test_verify_evidence_bundle_rejects_tampered_bundle(self, mock_run) -> None:
         mock_run.side_effect = self.mock_pbs_execution(
             returncode=0,
             status_data=self.make_valid_status(),
@@ -300,13 +316,12 @@ class TestRunPreSolverSmoke(unittest.TestCase):
 
         # Tamper with executables.txt after runner finished
         (self.bundle_dir / "executables.txt").write_text("tampered text", encoding="utf-8")
-        manifest = json.loads((self.bundle_dir / "EVIDENCE_BUNDLE_MANIFEST.json").read_text(encoding="utf-8"))
 
-        # Verify manually that actual sha256 no longer matches manifest
-        actual_hash = (
-            run_pre_solver_smoke.__globals__["sha256_file"](self.bundle_dir / "executables.txt")
-        )
-        self.assertNotEqual(actual_hash, manifest["files"]["executables.txt"])
+        # Verify using verify_evidence_bundle
+        ver_rc, ver_result = verify_evidence_bundle(self.bundle_dir)
+        self.assertNotEqual(ver_rc, 0)
+        self.assertTrue(ver_result["failures"])
+        self.assertEqual(ver_result["classification"], "stage_f_mode_ii_h0_pre_solver_smoke_evidence_fail")
 
     @patch("subprocess.run")
     def test_cluster_qualification_requires_modules_and_abaqus(self, mock_run) -> None:
@@ -327,7 +342,264 @@ class TestRunPreSolverSmoke(unittest.TestCase):
             allow_no_modules=False,  # Cluster qualification mode
         )
         self.assertEqual(rc, 1)
-        self.assertTrue(any("Cluster qualification requires module_environment_loaded = true" in f for f in summary["failures"]))
+        self.assertTrue(
+            any(
+                "Cluster qualification requires module_environment_loaded = true" in f
+                for f in summary["failures"]
+            )
+        )
+
+    @patch("subprocess.run")
+    def test_main_preserves_unresolved_cli_path_strings(self, mock_run) -> None:
+        mock_run.side_effect = self.mock_pbs_execution(
+            returncode=0,
+            status_data=self.make_valid_status(),
+            staging_data=self.make_valid_staging(),
+        )
+        raw_scratch = str(self.scratch_root)
+
+        with patch(
+            "sys.argv",
+            [
+                "run_pre_solver_smoke.py",
+                "--project-root",
+                str(self.project_root),
+                "--scratch-root",
+                raw_scratch,
+                "--allow-no-modules",
+                "--evidence-output-dir",
+                str(self.bundle_dir),
+            ],
+        ):
+            main_rc = main()
+            self.assertEqual(main_rc, 0)
+
+        cmd_path = self.bundle_dir / "SMOKE_COMMAND.json"
+        cmd = json.loads(cmd_path.read_text(encoding="utf-8"))
+        self.assertEqual(cmd["requested_scratch_root"], raw_scratch)
+
+    @patch("subprocess.run")
+    def test_missing_status_source_artifact_causes_nonzero_return(self, mock_run) -> None:
+        mock_run.side_effect = self.mock_pbs_execution(
+            returncode=0,
+            status_data=None,  # Do not create status file
+            staging_data=self.make_valid_staging(),
+        )
+
+        rc, summary = run_pre_solver_smoke(
+            project_root=self.project_root,
+            stage_root=self.stage_root,
+            scratch_root=self.scratch_root,
+            evidence_root=self.evidence_root,
+            project_revision="rev1",
+            allow_no_modules=True,
+            evidence_output_dir=self.bundle_dir,
+        )
+        self.assertEqual(rc, 1)
+        self.assertTrue(any("Status file missing" in f for f in summary["failures"]))
+
+    @patch("subprocess.run")
+    def test_missing_runtime_manifest_causes_nonzero_return(self, mock_run) -> None:
+        mock_run.side_effect = self.mock_pbs_execution(
+            returncode=0,
+            status_data=self.make_valid_status(),
+            staging_data=self.make_valid_staging(),
+            create_runtime_manifest=False,
+        )
+
+        rc, summary = run_pre_solver_smoke(
+            project_root=self.project_root,
+            stage_root=self.stage_root,
+            scratch_root=self.scratch_root,
+            evidence_root=self.evidence_root,
+            project_revision="rev1",
+            allow_no_modules=True,
+            evidence_output_dir=self.bundle_dir,
+        )
+        self.assertEqual(rc, 1)
+        self.assertFalse((self.bundle_dir / "MODE_II_H0_RUNTIME_MANIFEST.json").exists())
+
+    @patch("subprocess.run")
+    def test_required_missing_file_is_not_replaced_by_empty_placeholder(self, mock_run) -> None:
+        mock_run.side_effect = self.mock_pbs_execution(
+            returncode=0,
+            status_data=self.make_valid_status(),
+            staging_data=self.make_valid_staging(),
+            create_runtime_manifest=False,
+        )
+
+        rc, summary = run_pre_solver_smoke(
+            project_root=self.project_root,
+            stage_root=self.stage_root,
+            scratch_root=self.scratch_root,
+            evidence_root=self.evidence_root,
+            project_revision="rev1",
+            allow_no_modules=True,
+            evidence_output_dir=self.bundle_dir,
+        )
+        self.assertEqual(rc, 1)
+        missing_file = self.bundle_dir / "MODE_II_H0_RUNTIME_MANIFEST.json"
+        self.assertFalse(missing_file.exists())
+
+    @patch("subprocess.run")
+    def test_verify_evidence_bundle_passes_valid_bundle(self, mock_run) -> None:
+        mock_run.side_effect = self.mock_pbs_execution(
+            returncode=0,
+            status_data=self.make_valid_status(),
+            staging_data=self.make_valid_staging(),
+        )
+
+        rc, summary = run_pre_solver_smoke(
+            project_root=self.project_root,
+            stage_root=self.stage_root,
+            scratch_root=self.scratch_root,
+            evidence_root=self.evidence_root,
+            project_revision="rev1",
+            allow_no_modules=True,
+            evidence_output_dir=self.bundle_dir,
+        )
+        self.assertEqual(rc, 0)
+
+        ver_rc, ver_result = verify_evidence_bundle(self.bundle_dir)
+        self.assertEqual(ver_rc, 0)
+        self.assertEqual(ver_result["classification"], "stage_f_mode_ii_h0_pre_solver_smoke_evidence_complete")
+        self.assertEqual(ver_result["failures"], [])
+
+    @patch("subprocess.run")
+    def test_verify_evidence_bundle_rejects_absent_listed_file(self, mock_run) -> None:
+        mock_run.side_effect = self.mock_pbs_execution(
+            returncode=0,
+            status_data=self.make_valid_status(),
+            staging_data=self.make_valid_staging(),
+        )
+
+        rc, summary = run_pre_solver_smoke(
+            project_root=self.project_root,
+            stage_root=self.stage_root,
+            scratch_root=self.scratch_root,
+            evidence_root=self.evidence_root,
+            project_revision="rev1",
+            allow_no_modules=True,
+            evidence_output_dir=self.bundle_dir,
+        )
+        self.assertEqual(rc, 0)
+
+        os.remove(self.bundle_dir / "executables.txt")
+        ver_rc, ver_result = verify_evidence_bundle(self.bundle_dir)
+        self.assertEqual(ver_rc, 1)
+        self.assertTrue(any("Listed bundle file missing from disk" in f for f in ver_result["failures"]))
+
+    @patch("subprocess.run")
+    def test_verify_evidence_bundle_rejects_unlisted_required_file(self, mock_run) -> None:
+        mock_run.side_effect = self.mock_pbs_execution(
+            returncode=0,
+            status_data=self.make_valid_status(),
+            staging_data=self.make_valid_staging(),
+        )
+
+        rc, summary = run_pre_solver_smoke(
+            project_root=self.project_root,
+            stage_root=self.stage_root,
+            scratch_root=self.scratch_root,
+            evidence_root=self.evidence_root,
+            project_revision="rev1",
+            allow_no_modules=True,
+            evidence_output_dir=self.bundle_dir,
+        )
+        self.assertEqual(rc, 0)
+
+        manifest_path = self.bundle_dir / "EVIDENCE_BUNDLE_MANIFEST.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        del manifest["files"]["MODE_II_H0_PRE_SOLVER_SMOKE.ok"]
+        manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+
+        ver_rc, ver_result = verify_evidence_bundle(self.bundle_dir)
+        self.assertEqual(ver_rc, 1)
+        self.assertTrue(any("Required bundle file missing from manifest" in f for f in ver_result["failures"]))
+
+    @patch("subprocess.run")
+    def test_verify_evidence_bundle_rejects_malformed_sha(self, mock_run) -> None:
+        mock_run.side_effect = self.mock_pbs_execution(
+            returncode=0,
+            status_data=self.make_valid_status(),
+            staging_data=self.make_valid_staging(),
+        )
+
+        rc, summary = run_pre_solver_smoke(
+            project_root=self.project_root,
+            stage_root=self.stage_root,
+            scratch_root=self.scratch_root,
+            evidence_root=self.evidence_root,
+            project_revision="rev1",
+            allow_no_modules=True,
+            evidence_output_dir=self.bundle_dir,
+        )
+        self.assertEqual(rc, 0)
+
+        manifest_path = self.bundle_dir / "EVIDENCE_BUNDLE_MANIFEST.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["files"]["executables.txt"] = "invalid_sha"
+        manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+
+        ver_rc, ver_result = verify_evidence_bundle(self.bundle_dir)
+        self.assertEqual(ver_rc, 1)
+        self.assertTrue(any("Invalid SHA-256 format" in f for f in ver_result["failures"]))
+
+    @patch("subprocess.run")
+    def test_verify_evidence_bundle_rejects_nonempty_manifest_failures(self, mock_run) -> None:
+        mock_run.side_effect = self.mock_pbs_execution(
+            returncode=0,
+            status_data=self.make_valid_status(),
+            staging_data=self.make_valid_staging(),
+        )
+
+        rc, summary = run_pre_solver_smoke(
+            project_root=self.project_root,
+            stage_root=self.stage_root,
+            scratch_root=self.scratch_root,
+            evidence_root=self.evidence_root,
+            project_revision="rev1",
+            allow_no_modules=True,
+            evidence_output_dir=self.bundle_dir,
+        )
+        self.assertEqual(rc, 0)
+
+        manifest_path = self.bundle_dir / "EVIDENCE_BUNDLE_MANIFEST.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["failures"] = ["Staging check failed"]
+        manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+
+        ver_rc, ver_result = verify_evidence_bundle(self.bundle_dir)
+        self.assertEqual(ver_rc, 1)
+        self.assertTrue(any("Manifest contains non-empty failures" in f for f in ver_result["failures"]))
+
+    @patch("subprocess.run")
+    def test_pre_solver_marker_included_and_serial_marker_absence_recorded(self, mock_run) -> None:
+        mock_run.side_effect = self.mock_pbs_execution(
+            returncode=0,
+            status_data=self.make_valid_status(),
+            staging_data=self.make_valid_staging(),
+        )
+
+        rc, summary = run_pre_solver_smoke(
+            project_root=self.project_root,
+            stage_root=self.stage_root,
+            scratch_root=self.scratch_root,
+            evidence_root=self.evidence_root,
+            project_revision="rev1",
+            allow_no_modules=True,
+            evidence_output_dir=self.bundle_dir,
+        )
+        self.assertEqual(rc, 0)
+        self.assertTrue(summary["pre_solver_marker_present"])
+        self.assertTrue(summary["serial_solver_marker_absent"])
+
+        manifest_path = self.bundle_dir / "EVIDENCE_BUNDLE_MANIFEST.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertTrue(manifest["pre_solver_marker_present"])
+        self.assertTrue(manifest["serial_solver_marker_absent"])
+        self.assertIn("MODE_II_H0_PRE_SOLVER_SMOKE.ok", manifest["files"])
+        self.assertNotIn("MODE_II_H0_SERIAL.ok", manifest["files"])
 
 
 if __name__ == "__main__":
