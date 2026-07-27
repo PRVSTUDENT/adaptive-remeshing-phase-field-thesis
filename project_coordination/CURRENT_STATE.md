@@ -8,7 +8,7 @@ Classification: `stage_f_mode_ii_h0_second_replacement_solver_authorized`
 
 | Item | Value |
 |---|---|
-| R2 replacement authorization revision | pending main commit |
+| R2 replacement authorization revision | `93fcad353693ca6348b2d683317c7da86d34d493` |
 | Evidence verifier commit | `7f61c182aaa480b20647410546007d0ee20a3132` |
 | R2 preparation parent revision | `e262f30666811bcd52a09332ca03b6677566df3b` |
 | R1 replacement submission revision | `46cf420b995ff6b2f74fecfc10fb1bb4411feaac` |

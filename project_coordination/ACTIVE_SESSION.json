@@ -1,38 +1,11 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_write_scope": [
-    "scripts/validation/check_multi_agent_bootstrap.py",
-    "runs/hpc/stage_f/mode_ii_h0/replacement_r2/MODE_II_H0_R2_AUTHORIZATION.json",
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json",
-    "project_coordination/CURRENT_STATE.md",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/sessions/2026-07-27_0505_gemini-antigravity_F1-J1-R2-PREP-R3.md",
-    "project_coordination/sessions/2026-07-27_0716_gemini-antigravity_F1-J1-R2-AUTH.md"
-  ],
-  "base_commit": "0c54cb38ca49bd2fd47158f4bb7338dc8f4c9dcc",
-  "forbidden_paths": [
-    "models/generated/mode_ii/h0_serial/**",
-    "scripts/hpc/stage_f/**",
-    "scripts/postprocessing/**",
-    "scripts/validation/run_pre_solver_smoke.py",
-    "scripts/validation/verify_mode_ii_h0_runtime_staging.py",
-    "scripts/validation/validate_mode_ii_h0_serial_results.py",
-    "scripts/validation/validate_mode_ii_h0_serial_staging_contract.py",
-    "tests/**",
-    "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
-    "runs/hpc/stage_f/mode_ii_h0/replacement_r1/MODE_II_H0_R1_AUTHORIZATION.json",
-    "runs/hpc/stage_f/mode_ii_h0/evidence/1378919.mmaster02/**",
-    "runs/hpc/stage_f/mode_ii_h0/replacement_r1/evidence/1378920.mmaster02/**",
-    "runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence/**",
-    "runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence_r2/**",
-    "runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence_r3/**",
-    "project_coordination/HPC_JOB_LEDGER.csv",
-    "agent_handoff/**"
-  ],
-  "notes": "F1-J1-R2-AUTH: Authorize one evidence-qualified Mode-II H0 second replacement run.",
+  "active": false,
+  "agent": "",
+  "allowed_write_scope": [],
+  "base_commit": "",
+  "forbidden_paths": [],
+  "notes": "Session inactive. F1-J1-R2-AUTH completed successfully.",
   "schema_version": 1,
-  "started_at": "2026-07-27T07:16:00Z",
-  "task_id": "F1-J1-R2-AUTH"
+  "started_at": "",
+  "task_id": ""
 }
