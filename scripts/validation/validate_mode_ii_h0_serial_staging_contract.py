@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import re
+import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -36,10 +37,11 @@ def validate_staging_contract(
     pbs_path: Path,
     extractor_path: Path,
     validator_path: Path,
+    verifier_path: Path,
 ) -> dict:
     failures: list[str] = []
 
-    # 1. Package existence checks
+    # 1. Component existence checks
     deck_path = package_dir / "ModeII_H0_serial.inp"
     source_path = package_dir / "ModeII_H0_serial.for"
 
@@ -53,6 +55,8 @@ def validate_staging_contract(
         failures.append(f"extractor script missing: {extractor_path}")
     if not validator_path.is_file():
         failures.append(f"validator script missing: {validator_path}")
+    if not verifier_path.is_file():
+        failures.append(f"staging verifier script missing: {verifier_path}")
 
     if failures:
         return {
@@ -60,13 +64,30 @@ def validate_staging_contract(
             "failures": failures,
         }
 
-    # 2. Compute reference hashes
+    # 2. Check PBS script does NOT contain inline manifest comparison code
+    pbs_text = pbs_path.read_text(encoding="utf-8")
+    forbidden_pbs_patterns = (
+        'matches[field + "_match"]',
+        'matches["deck_hash_match"]',
+        "login_data.get(field)",
+        "matches[field",
+    )
+    for pat in forbidden_pbs_patterns:
+        if pat in pbs_text:
+            failures.append(f"PBS script contains obsolete/untested inline staging comparison: {pat!r}")
+
+    # Check PBS script calls the staged verifier
+    if "verify_mode_ii_h0_runtime_staging.py" not in pbs_text:
+        failures.append("PBS script does not invoke verify_mode_ii_h0_runtime_staging.py")
+
+    # 3. Compute reference hashes
     try:
         pkg_deck_hash = compute_sha256(deck_path)
         pkg_source_hash = compute_sha256(source_path)
         pbs_hash = compute_sha256(pbs_path)
         extractor_hash = compute_sha256(extractor_path)
         validator_hash = compute_sha256(validator_path)
+        verifier_hash = compute_sha256(verifier_path)
     except Exception as exc:
         return {
             "classification": "stage_f_mode_ii_h0_serial_staging_contract_fail",
@@ -82,36 +103,30 @@ def validate_staging_contract(
         ("pbs_hash", pbs_hash),
         ("extractor_hash", extractor_hash),
         ("validator_hash", validator_hash),
+        ("verifier_hash", verifier_hash),
     ]:
         if not is_valid_sha256(h_val):
             failures.append(f"invalid SHA-256 for {h_name}: '{h_val}'")
 
-    # 3. Simulate scratch staging
+    # 4. Invoke staging verifier as subprocess with temporary manifests (passing case)
     with tempfile.TemporaryDirectory() as temp_dir_str:
-        scratch = Path(temp_dir_str)
-        orig_deck = scratch / "ModeII_H0_serial.inp"
-        job_deck = scratch / "mode_ii_h0_serial.inp"
-        src_file = scratch / "ModeII_H0_serial.for"
+        td = Path(temp_dir_str)
+        login_manifest = td / "LOGIN_MANIFEST.json"
+        runtime_manifest = td / "RUNTIME_MANIFEST.json"
+        output_file = td / "STAGING_CHECK.json"
 
-        orig_deck.write_bytes(deck_path.read_bytes())
-        job_deck.write_bytes(orig_deck.read_bytes())
-        src_file.write_bytes(source_path.read_bytes())
-
-        if not orig_deck.is_file():
-            failures.append("original scratch deck missing")
-        if not job_deck.is_file():
-            failures.append("job-named scratch deck missing")
-
-        if orig_deck.is_file() and job_deck.is_file():
-            h_orig = compute_sha256(orig_deck)
-            h_job = compute_sha256(job_deck)
-            if h_orig != h_job:
-                failures.append(f"original and job deck hash mismatch: orig={h_orig}, job={h_job}")
-            if h_orig != pkg_deck_hash:
-                failures.append(f"staged deck hash mismatch with package: staged={h_orig}, pkg={pkg_deck_hash}")
-
-        # 4. Generate runtime manifest
-        runtime_manifest_data = {
+        login_data = {
+            "classification": "stage_f_mode_ii_h0_login_staging_complete",
+            "project_revision": "dummy_rev",
+            "deck_sha256": pkg_deck_hash,
+            "source_sha256": pkg_source_hash,
+            "extractor_sha256": extractor_hash,
+            "validator_sha256": validator_hash,
+            "pbs_script_sha256": pbs_hash,
+            "staging_checker_sha256": verifier_hash,
+            "compute_git_required": False,
+        }
+        runtime_data = {
             "project_revision": "dummy_rev",
             "job_name": "mode_ii_h0_serial",
             "cpus": 1,
@@ -126,34 +141,89 @@ def validate_staging_contract(
             "extractor_sha256": extractor_hash,
             "validator_sha256": validator_hash,
             "pbs_script_sha256": pbs_hash,
+            "staging_checker_sha256": verifier_hash,
         }
 
-        for k, v in runtime_manifest_data.items():
-            if v == "" or v is None:
-                failures.append(f"runtime manifest has empty field: {k}")
+        login_manifest.write_text(json.dumps(login_data, indent=2), encoding="utf-8")
+        runtime_manifest.write_text(json.dumps(runtime_data, indent=2), encoding="utf-8")
 
-        # 5. Generate login manifest and compare
-        login_manifest_data = {
-            "classification": "stage_f_mode_ii_h0_login_staging_complete",
-            "project_revision": "dummy_rev",
-            "deck_sha256": pkg_deck_hash,
-            "source_sha256": pkg_source_hash,
-            "extractor_sha256": extractor_hash,
-            "validator_sha256": validator_hash,
-            "pbs_script_sha256": pbs_hash,
-        }
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(verifier_path),
+                "--login-manifest",
+                str(login_manifest),
+                "--runtime-manifest",
+                str(runtime_manifest),
+                "--output",
+                str(output_file),
+            ],
+            capture_output=True,
+            text=True,
+        )
 
-        shared_keys = [
-            "project_revision",
-            "deck_sha256",
-            "source_sha256",
-            "extractor_sha256",
-            "validator_sha256",
-            "pbs_script_sha256",
-        ]
-        for sk in shared_keys:
-            if login_manifest_data.get(sk) != runtime_manifest_data.get(sk):
-                failures.append(f"manifest comparison mismatch for {sk}")
+        if proc.returncode != 0:
+            failures.append(f"Subprocess verifier returned non-zero code {proc.returncode}: {proc.stderr}")
+
+        if not output_file.is_file():
+            failures.append("Subprocess verifier failed to produce output JSON")
+        else:
+            try:
+                res_data = json.loads(output_file.read_text(encoding="utf-8"))
+                if res_data.get("classification") != "stage_f_mode_ii_h0_runtime_staging_pass":
+                    failures.append(
+                        f"Subprocess verifier classification mismatch: {res_data.get('classification')}"
+                    )
+                bool_fields = (
+                    "project_revision_match",
+                    "deck_hash_match",
+                    "source_hash_match",
+                    "extractor_hash_match",
+                    "validator_hash_match",
+                    "pbs_hash_match",
+                    "staging_checker_hash_match",
+                    "abaqus_deck_hash_match",
+                )
+                for bf in bool_fields:
+                    if res_data.get(bf) is not True:
+                        failures.append(f"Subprocess verifier field {bf} is not True")
+            except Exception as exc:
+                failures.append(f"Failed to parse verifier output JSON: {exc}")
+
+        # 5. Malformed fixture test: verify clean failure JSON without crash
+        bad_runtime_data = dict(runtime_data)
+        bad_runtime_data["deck_sha256"] = "0" * 64
+        bad_runtime_manifest = td / "BAD_RUNTIME_MANIFEST.json"
+        bad_output_file = td / "BAD_STAGING_CHECK.json"
+        bad_runtime_manifest.write_text(json.dumps(bad_runtime_data, indent=2), encoding="utf-8")
+
+        bad_proc = subprocess.run(
+            [
+                sys.executable,
+                str(verifier_path),
+                "--login-manifest",
+                str(login_manifest),
+                "--runtime-manifest",
+                str(bad_runtime_manifest),
+                "--output",
+                str(bad_output_file),
+            ],
+            capture_output=True,
+            text=True,
+        )
+
+        if bad_proc.returncode == 0:
+            failures.append("Subprocess verifier expected non-zero returncode on hash mismatch but got 0")
+
+        if not bad_output_file.is_file():
+            failures.append("Subprocess verifier failed to produce output JSON on bad fixture")
+        else:
+            try:
+                bad_res = json.loads(bad_output_file.read_text(encoding="utf-8"))
+                if bad_res.get("classification") != "stage_f_mode_ii_h0_runtime_staging_fail":
+                    failures.append("Subprocess verifier did not return staging fail classification")
+            except Exception as exc:
+                failures.append(f"Failed to parse bad verifier output JSON: {exc}")
 
     classification = (
         "stage_f_mode_ii_h0_serial_staging_contract_pass"
@@ -173,6 +243,11 @@ def main() -> int:
     parser.add_argument("--pbs", type=Path, required=True)
     parser.add_argument("--extractor", type=Path, required=True)
     parser.add_argument("--result-validator", type=Path, required=True)
+    parser.add_argument(
+        "--staging-verifier",
+        type=Path,
+        default=Path("scripts/validation/verify_mode_ii_h0_runtime_staging.py"),
+    )
     args = parser.parse_args()
 
     result = validate_staging_contract(
@@ -180,6 +255,7 @@ def main() -> int:
         args.pbs.resolve(),
         args.extractor.resolve(),
         args.result_validator.resolve(),
+        args.staging_verifier.resolve(),
     )
 
     print(json.dumps(result, indent=2, sort_keys=True))

@@ -1,0 +1,29 @@
+{
+  "classification": "stage_f_mode_ii_h0_second_replacement_prepared_unauthorized",
+  "deck_sha256": "32a25380767bbb0e9e76eb55b3bb7a97d78bb75c4f86c7e8585aa2032ce2d33b",
+  "exact_runtime_helper_tested": true,
+  "inline_staging_logic_removed": true,
+  "jobs_submitted": 0,
+  "pre_solver_smoke_cluster_login": "pass",
+  "pre_solver_smoke_local": "pass",
+  "preparation_parent_revision": "eb3c31e0f7db93248a09235f6ac87f37d78bede1",
+  "replacement_authorized": false,
+  "scientific_freeze_revision": "17240f646cf1e382396006ab635976fa22a67890",
+  "source_failures": [
+    {
+      "authorization_consumed": true,
+      "job_id": "1378919.mmaster02",
+      "solver_started": false,
+      "task_id": "F1-J1"
+    },
+    {
+      "authorization_consumed": true,
+      "job_id": "1378920.mmaster02",
+      "solver_started": false,
+      "task_id": "F1-J1-R1"
+    }
+  ],
+  "source_sha256": "5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c",
+  "staging_contract_tests_passed": true,
+  "submission_approved": false
+}

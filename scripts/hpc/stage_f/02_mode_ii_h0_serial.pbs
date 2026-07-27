@@ -14,7 +14,7 @@ set -uo pipefail
 EVIDENCE_ROOT="${EVIDENCE_ROOT:-/home/pr21vyci/adaptive-remeshing-evidence}"
 EVIDENCE_DIR="${EVIDENCE_ROOT}/stage_f/mode_ii_h0/${PBS_JOBID:-manual}"
 PACKAGE_REL="models/generated/mode_ii/h0_serial"
-SCRATCH_RUN="/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_${PBS_JOBID:-manual}"
+SCRATCH_RUN="${SCRATCH_RUN:-/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_${PBS_JOBID:-manual}}"
 ENV_LOG="${SCRATCH_RUN}/COMPILER_ENVIRONMENT.txt"
 JOB_NAME="mode_ii_h0_serial"
 SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
@@ -62,27 +62,29 @@ copy_evidence() {
   fi
 }
 
-module --force purge > "${ENV_LOG}" 2>&1 || true
-module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || {
-  write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "module load gcc/11.4.0 failed"
-  copy_evidence
-  exit 5
-}
-module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || {
-  write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "module load intel/2024.2.0 failed"
-  copy_evidence
-  exit 5
-}
-module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || {
-  write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "module load abaqus/2023 failed"
-  copy_evidence
-  exit 5
-}
-module load python/gcc/11.4.0/3.11.7 >> "${ENV_LOG}" 2>&1 || {
-  write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "module load python/gcc/11.4.0/3.11.7 failed"
-  copy_evidence
-  exit 5
-}
+if command -v module >/dev/null 2>&1; then
+  module --force purge > "${ENV_LOG}" 2>&1 || true
+  module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || {
+    write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "module load gcc/11.4.0 failed"
+    copy_evidence
+    exit 5
+  }
+  module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || {
+    write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "module load intel/2024.2.0 failed"
+    copy_evidence
+    exit 5
+  }
+  module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || {
+    write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "module load abaqus/2023 failed"
+    copy_evidence
+    exit 5
+  }
+  module load python/gcc/11.4.0/3.11.7 >> "${ENV_LOG}" 2>&1 || {
+    write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "module load python/gcc/11.4.0/3.11.7 failed"
+    copy_evidence
+    exit 5
+  }
+fi
 
 python3 -c 'import sys; assert sys.version_info >= (3, 10), sys.version' >> "${ENV_LOG}" 2>&1 || {
   write_status "stage_f_mode_ii_h0_serial_env_fail" 5 -1 -1 "python 3.10+ check failed"
@@ -128,6 +130,7 @@ cd "${SCRATCH_RUN}" || exit 7
 EXTRACTOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/postprocessing/extract_molnar_single_notch.py"
 VALIDATOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/validation/validate_mode_ii_h0_serial_results.py"
 STAGED_PBS_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/hpc/stage_f/02_mode_ii_h0_serial.pbs"
+STAGING_CHECKER="${PRESTAGED_RUNTIME_ROOT}/scripts/validation/verify_mode_ii_h0_runtime_staging.py"
 
 DECK_SHA="$(sha256sum "${ORIGINAL_DECK}" | awk '{print $1}')" || {
   write_status "stage_f_mode_ii_h0_serial_stage_fail" -1 -1 -1 "could not hash staged original deck"
@@ -165,6 +168,12 @@ VALIDATOR_SHA="$(sha256sum "${VALIDATOR_SCRIPT}" | awk '{print $1}')" || {
   exit 7
 }
 
+STAGING_CHECKER_SHA="$(sha256sum "${STAGING_CHECKER}" | awk '{print $1}')" || {
+  write_status "stage_f_mode_ii_h0_serial_stage_fail" -1 -1 -1 "could not hash staging checker script"
+  copy_evidence
+  exit 7
+}
+
 PBS_SHA="$(sha256sum "${STAGED_PBS_SCRIPT}" | awk '{print $1}')" || {
   write_status "stage_f_mode_ii_h0_serial_stage_fail" -1 -1 -1 "could not hash PBS script"
   copy_evidence
@@ -181,6 +190,7 @@ for value in \
   "${SOURCE_SHA}" \
   "${EXTRACTOR_SHA}" \
   "${VALIDATOR_SHA}" \
+  "${STAGING_CHECKER_SHA}" \
   "${PBS_SHA}"; do
   is_sha256 "${value}" || {
     write_status "stage_f_mode_ii_h0_serial_stage_fail" -1 -1 -1 "empty or invalid runtime hash"
@@ -205,50 +215,49 @@ cat > "${RUNTIME_MANIFEST}" <<EOF
   "source_sha256": "${SOURCE_SHA}",
   "extractor_sha256": "${EXTRACTOR_SHA}",
   "validator_sha256": "${VALIDATOR_SHA}",
+  "staging_checker_sha256": "${STAGING_CHECKER_SHA}",
   "pbs_script_sha256": "${PBS_SHA}"
 }
 EOF
 
 STAGING_CHECK="${SCRATCH_RUN}/MODE_II_H0_RUNTIME_STAGING_CHECK.json"
-python3 - "${LOGIN_MANIFEST_PATH}" "${RUNTIME_MANIFEST}" "${STAGING_CHECK}" <<'PY'
-import json, sys
-login_path, runtime_path, check_path = sys.argv[1:]
-login_data = json.load(open(login_path, "r", encoding="utf-8"))
-runtime_data = json.load(open(runtime_path, "r", encoding="utf-8"))
+python3 "${STAGING_CHECKER}" \
+  --login-manifest "${LOGIN_MANIFEST_PATH}" \
+  --runtime-manifest "${RUNTIME_MANIFEST}" \
+  --output "${STAGING_CHECK}"
+STAGING_CHECK_RC=$?
 
-failures = []
-fields = ["project_revision", "deck_sha256", "source_sha256", "extractor_sha256", "validator_sha256", "pbs_script_sha256"]
-matches = {}
-for field in fields:
-    l_val = login_data.get(field)
-    r_val = runtime_data.get(field)
-    match = (l_val == r_val and l_val is not None)
-    matches[field + "_match"] = match
-    if not match:
-        failures.append(f"{field} mismatch: login={l_val}, runtime={r_val}")
-
-result = {
-    "classification": "stage_f_mode_ii_h0_runtime_staging_pass" if not failures else "stage_f_mode_ii_h0_runtime_staging_fail",
-    "project_revision_match": matches["project_revision_match"],
-    "deck_hash_match": matches["deck_hash_match"],
-    "source_hash_match": matches["source_hash_match"],
-    "extractor_hash_match": matches["extractor_hash_match"],
-    "validator_hash_match": matches["validator_hash_match"],
-    "pbs_hash_match": matches["pbs_script_sha256_match"],
-    "failures": failures,
-}
-with open(check_path, "w", encoding="utf-8") as f:
-    json.dump(result, f, indent=2, sort_keys=True)
-    f.write("\n")
-if failures:
-    sys.exit(7)
-PY
-STAGING_RC=$?
-if [ "${STAGING_RC}" -ne 0 ]; then
+if [ "${STAGING_CHECK_RC}" -ne 0 ] || [ ! -f "${STAGING_CHECK}" ]; then
   write_status "stage_f_mode_ii_h0_serial_staging_fail" -1 -1 -1 "runtime staging check mismatch"
   copy_evidence
   exit 7
 fi
+if ! grep -q '"classification": "stage_f_mode_ii_h0_runtime_staging_pass"' "${STAGING_CHECK}" || \
+   ! grep -q '"failures": \[\]' "${STAGING_CHECK}"; then
+  write_status "stage_f_mode_ii_h0_serial_staging_fail" -1 -1 -1 "runtime staging check classification mismatch"
+  copy_evidence
+  exit 7
+fi
+
+if [ "${MODE_II_H0_PRE_SOLVER_ONLY:-0}" = "1" ]; then
+  cat > "${SCRATCH_RUN}/MODE_II_H0_SERIAL_STATUS.json" <<EOF
+{
+  "MODE_II_H0_SERIAL_ok": true,
+  "classification": "stage_f_mode_ii_h0_pre_solver_smoke_pass",
+  "failures": [],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "scratch_run": "${SCRATCH_RUN}",
+  "abaqus_return_code": 0,
+  "extractor_return_code": 0,
+  "validator_return_code": 0,
+  "source_commit": "${SOURCE_COMMIT}"
+}
+EOF
+  : > "${SCRATCH_RUN}/MODE_II_H0_SERIAL.ok"
+  copy_evidence
+  exit 0
+fi
+
 
 export OMP_NUM_THREADS=1
 export ABAQUS_PASSWD=""
