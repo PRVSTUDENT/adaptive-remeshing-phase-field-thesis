@@ -8,6 +8,7 @@ Classification: `stage_f_mode_ii_h0_second_replacement_baseline_characterized`
 
 | Item | Value |
 |---|---|
+| R2 replacement result revision | `3813c125742a7f5a3211d28bb275902f8e2588e8` |
 | R2 replacement submission revision | `69d4d0a6ade66f4c0a1ea47020eb6e8916c11abd` |
 | R2 replacement authorization revision | `93fcad353693ca6348b2d683317c7da86d34d493` |
 | Evidence verifier commit | `7f61c182aaa480b20647410546007d0ee20a3132` |
@@ -16,8 +17,9 @@ Classification: `stage_f_mode_ii_h0_second_replacement_baseline_characterized`
 | R1 replacement authorization revision | `2f6a0f6efc992b85c9ae79ff9006ebadd9bf81d8` |
 | Original submission revision | `5b092853419e8e8829d7f4c024ce3ea78d131740` |
 | Datacheck revision | `4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b` |
-| Active agent | gemini-antigravity |
+| Active agent | none |
 | Active task | **F1-J1-R2** complete (`stage_f_mode_ii_h0_second_replacement_baseline_characterized`) |
+
 
 ## Submission boundary (critical)
 
