@@ -8,6 +8,7 @@ Classification: `stage_f_mode_ii_h0_endpoint_correction_defined_unauthorized`
 
 | Item | Value |
 |---|---|
+| Endpoint audit revision | `49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c` |
 | Endpoint audit parent revision | `b65839552727f3d1242bbde1e4d24f7fb7a8087b` |
 | R2 replacement closeout correction revision | `8bada7ef5b8862a2a7ef1f82abb865f5d524fb97` |
 | R2 replacement result revision | `3813c125742a7f5a3211d28bb275902f8e2588e8` |

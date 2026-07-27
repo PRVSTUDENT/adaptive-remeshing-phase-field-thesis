@@ -5,6 +5,7 @@
 - **Classification**: `stage_f_mode_ii_h0_endpoint_correction_defined_unauthorized`
 - **Base Revision**: `bbfbcf1243ce5650b1a05e7fa097d23bdc6df966`
 - **Current Revision**: `b65839552727f3d1242bbde1e4d24f7fb7a8087b`
+- **Endpoint Audit Revision**: `49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c`
 - **Date**: 2026-07-27
 - **Author**: gemini-antigravity
 
