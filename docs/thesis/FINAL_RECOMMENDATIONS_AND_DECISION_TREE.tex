@@ -56,7 +56,14 @@ absolute path, separate login-side repository checks from compute-node
 validation, and qualify the environment with a trivial job before a scientific
 submission.
 
+\section{Mode-II Benchmark Recommendations}
+
+For the pure-shear Mode-II benchmark (\(\alpha=0\)), the Stage F baseline package (job 1378942.mmaster02) was executed on the H0 mesh.  The Abaqus FE solver and standalone post-processing extraction completed cleanly, characterizing the pre-peak shear response across 72 load-displacement curve points up to \(U_1 = 0.0070\,\mathrm{mm}\) with a peak shear force of \(RF_1 = 0.3063\,\mathrm{kN}\).
+
+Because the H0 deck step count was capped at 2,000 increments in Step 2, the analysis reached \(0.0070\,\mathrm{mm}\) rather than the general \(0.0100\,\mathrm{mm}\) target limit, and the maximum phase-field damage reached \(\max(d) = 0.2992\) (below the \(d \ge 0.50\) threshold for crack-path extraction).  The baseline response is characterized for pre-peak pure shear, but post-peak Mode-II continuation and fine-mesh refinement remain unvalidated and blocked.
+
 \section{Practical Decision Tree}
+
 
 \begin{description}
   \item[Need only elastic, peak, or pre-peak response?]

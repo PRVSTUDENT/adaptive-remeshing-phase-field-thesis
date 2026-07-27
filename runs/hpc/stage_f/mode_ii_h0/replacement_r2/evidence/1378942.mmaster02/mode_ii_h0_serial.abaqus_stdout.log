@@ -1,0 +1,59 @@
+Analysis initiated from SIMULIA established products
+Abaqus JOB mode_ii_h0_serial
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 5 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<233 out of 300 licenses remain available>.
+Begin Compiling Abaqus/Standard User Subroutines
+Mon 27 Jul 2026 08:07:47 AM CEST
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+ Intel(R) Fortran 2021.13.0-1693
+ModeII_H0_serial.for(37): remark #15009: uel_ has been targeted for automatic cpu dispatch
+ModeII_H0_serial.for(512): remark #15009: umat_ has been targeted for automatic cpu dispatch
+End Compiling Abaqus/Standard User Subroutines
+Begin Linking Abaqus/Standard User Subroutines
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+GNU ld version 2.30-128.el8_10
+End Linking Abaqus/Standard User Subroutines
+Mon 27 Jul 2026 08:07:54 AM CEST
+Begin Analysis Input File Processor
+Mon 27 Jul 2026 08:07:54 AM CEST
+Run pre
+Mon 27 Jul 2026 08:07:58 AM CEST
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+Mon 27 Jul 2026 08:07:58 AM CEST
+Run standard
+Mon 27 Jul 2026 08:23:18 AM CEST
+End Abaqus/Standard Analysis
+Begin SIM Wrap-up
+Mon 27 Jul 2026 08:23:19 AM CEST
+Run SMASimUtility
+Mon 27 Jul 2026 08:23:19 AM CEST
+End SIM Wrap-up
+Abaqus JOB mode_ii_h0_serial COMPLETED
+Classification: technical_pass_scientific_unchecked
+Markdown: /scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_1378942.mmaster02/extracted/SINGLE_NOTCH_EXTRACTION.md
+JSON: /scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_1378942.mmaster02/extracted/single_notch_extraction_summary.json
+Curve CSV: /scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_1378942.mmaster02/extracted/rf1_u1_curve.csv
+Matched states CSV: /scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_1378942.mmaster02/extracted/matched_states.csv
+Crack path CSV: /scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_1378942.mmaster02/extracted/crack_path_sdv15_ge_0p5.csv
+Energy history CSV: /scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_1378942.mmaster02/extracted/energy_history.csv
+Contour CSV files: 4
+{
+  "classification": "stage_f_mode_ii_h0_serial_validation_fail",
+  "curve_points": 72,
+  "failures": [
+    "final |U1| 0.007000 not within tolerance 1e-06 of expected 0.010000",
+    "crack-path CSV is empty"
+  ],
+  "negative_eigenvalue_warning_count": 1
+}
+Mode-II H0 serial result validation failed

@@ -2,7 +2,7 @@
 
 Updated: 2026-07-27
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_second_replacement_solver_submitted`
+Classification: `stage_f_mode_ii_h0_second_replacement_baseline_characterized`
 
 ## Git
 
@@ -16,15 +16,15 @@ Classification: `stage_f_mode_ii_h0_second_replacement_solver_submitted`
 | R1 replacement authorization revision | `2f6a0f6efc992b85c9ae79ff9006ebadd9bf81d8` |
 | Original submission revision | `5b092853419e8e8829d7f4c024ce3ea78d131740` |
 | Datacheck revision | `4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b` |
-| Active agent | none |
-| Active task | **F1-J1-R2** submitted (`stage_f_mode_ii_h0_second_replacement_solver_submitted`) |
+| Active agent | gemini-antigravity |
+| Active task | **F1-J1-R2** complete (`stage_f_mode_ii_h0_second_replacement_baseline_characterized`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F1-J1-R2 submitted (pending execution outcome)
-Status: stage_f_mode_ii_h0_second_replacement_solver_submitted
-active_job_id: 1378942.mmaster02
+Current task: F1-J1-R2 complete (baseline response characterized)
+Status: stage_f_mode_ii_h0_second_replacement_baseline_characterized
+completed_job_id: 1378942.mmaster02 (abaqus_rc: 0, extractor_rc: 0, validator_rc: 20)
 source_failure_job_ids: 1378919.mmaster02, 1378920.mmaster02 (both authorizations consumed)
 replacement_r2_authorized: false (single submission authorization consumed by 1378942.mmaster02)
 submission_approved: true
@@ -34,16 +34,18 @@ automatic_retry_authorized: false
 ```
 
 Both initial solver run `1378919.mmaster02` (F1-J1) and replacement solver run `1378920.mmaster02` (F1-J1-R1) consumed their single authorized submissions and failed before Abaqus launch due to staging validation defects.
-Task `F1-J1-R2` was explicitly approved and submitted to PBS queue `entry_imfdfkmq` under job ID `1378942.mmaster02`. The R2 authorization record `runs/hpc/stage_f/mode_ii_h0/replacement_r2/MODE_II_H0_R2_AUTHORIZATION.json` has been consumed (`solver_submissions_used: 1`, `solver_job_id: 1378942.mmaster02`). No further submissions or retries are permitted.
+Task `F1-J1-R2` was executed on cluster under job ID `1378942.mmaster02`. The Abaqus FE solver completed cleanly (exit code 0) and standalone extraction completed cleanly (exit code 0), characterizing the Mode-II pure-shear load-displacement curve across 72 points up to $U_1 = 0.0070\text{ mm}$ ($RF_1 = 0.3063\text{ kN}$). The result validator returned exit code 20 due to step limit boundaries in the H0 serial deck.
+The R2 authorization record `runs/hpc/stage_f/mode_ii_h0/replacement_r2/MODE_II_H0_R2_AUTHORIZATION.json` is fully consumed (`solver_submissions_used: 1`). No further submissions or retries are permitted.
 Downstream task F2 remains **blocked**.
 
-## Stage F package (R2 replacement solver submitted, job 1378942.mmaster02)
+## Stage F package (R2 replacement solver complete, job 1378942.mmaster02)
 
 - Package: `models/generated/mode_ii/h0_serial`
-- Active PBS Job ID: `1378942.mmaster02`
+- Completed PBS Job ID: `1378942.mmaster02`
 - Queue: `entry_imfdfkmq` (routed to `normal_imfdfkmq`)
 - Staging Verifier Script: `scripts/validation/verify_mode_ii_h0_runtime_staging.py`
 - Pre-Solver Smoke Script: `scripts/validation/run_pre_solver_smoke.py`
+- Local Evidence Bundle: `runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/`
 - Local Smoke Bundle: `runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence_r3/local/EVIDENCE_BUNDLE_MANIFEST.json`
 - Cluster Smoke Bundle: `runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence_r3/cluster_login/EVIDENCE_BUNDLE_MANIFEST.json`
 - R2 Authorization Record: `runs/hpc/stage_f/mode_ii_h0/replacement_r2/MODE_II_H0_R2_AUTHORIZATION.json`
@@ -52,9 +54,8 @@ Downstream task F2 remains **blocked**.
 
 ## Next actions
 
-1. Monitor job `1378942.mmaster02` execution via `qstat`.
-2. Upon job completion, collect logs, verify runtime staging contract, extract results, and record closure.
-3. Downstream tasks (F2+) remain blocked.
+1. Review F1-J1-R2 characterized baseline evidence.
+2. Downstream tasks (F2+) remain blocked.
 
 ## Dirty paths
 

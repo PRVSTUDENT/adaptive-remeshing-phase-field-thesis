@@ -1,0 +1,27 @@
+{
+  "classification": "stage_f_extraction_manifest_pass", 
+  "disp_component": 1, 
+  "extracted_files": [
+    "rf1_u1_curve.csv", 
+    "matched_states.csv", 
+    "crack_path_sdv15_ge_0p5.csv", 
+    "energy_history.csv", 
+    "irreversibility_summary.json", 
+    "phase_bounds_summary.json", 
+    "runtime_output_inventory.json", 
+    "single_notch_extraction_summary.json", 
+    "field_output_inventory.json", 
+    "history_output_inventory.json", 
+    "job_status.json", 
+    "resource_summary.json", 
+    "matched_state_01_Step-1_frame_0020_contour_sdv14_sdv15_sdv16.csv", 
+    "matched_state_02_Step-1_frame_0050_contour_sdv14_sdv15_sdv16.csv", 
+    "matched_state_03_Step-2_frame_0010_contour_sdv14_sdv15_sdv16.csv", 
+    "matched_state_04_Step-2_frame_0020_contour_sdv14_sdv15_sdv16.csv"
+  ], 
+  "history_variable": "SDV16", 
+  "path_threshold": 0.5, 
+  "phase_variable": "SDV15", 
+  "react_component": 1, 
+  "rp_set": "RP"
+}

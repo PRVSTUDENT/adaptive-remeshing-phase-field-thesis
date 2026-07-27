@@ -1,6 +1,6 @@
 {
   "active_job_id": "1378942.mmaster02",
-  "classification": "stage_f_mode_ii_h0_second_replacement_solver_submitted",
+  "classification": "stage_f_mode_ii_h0_second_replacement_baseline_characterized",
   "cluster_bundle_verified_after_copy": true,
   "cluster_bundle_verified_on_cluster": true,
   "evidence_verifier_commit": "7f61c182aaa480b20647410546007d0ee20a3132",
@@ -20,7 +20,7 @@
   "local_bundle_verified": true,
   "maximum_jobs_now": 0,
   "maximum_second_replacement_submissions": 1,
-  "next_action": "Monitor job 1378942.mmaster02; execute postprocessing & validation on completion; F2 blocked",
+  "next_action": "F1-J1-R2 completed & baseline characterized. F2 blocked pending authorization.",
   "next_task_after_pass": "F2-PREP",
   "original_authorization_file": "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
   "package_path": "models/generated/mode_ii/h0_serial",
@@ -45,7 +45,7 @@
     }
   ],
   "stage": "Stage F",
-  "status": "submitted_or_running_pending_outcome",
+  "status": "complete",
   "submission_approved": true,
   "task_id": "F1-J1-R2",
   "title": "Mode-II H0 serial second infrastructure replacement"

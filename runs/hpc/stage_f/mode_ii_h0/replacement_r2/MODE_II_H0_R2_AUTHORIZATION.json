@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "classification": "stage_f_mode_ii_h0_second_replacement_solver_submitted",
-  "lane_classification": "stage_f_mode_ii_h0_second_replacement_solver_submitted",
+  "classification": "stage_f_mode_ii_h0_second_replacement_baseline_characterized",
+  "lane_classification": "stage_f_mode_ii_h0_second_replacement_baseline_characterized",
   "authorization_task_id": "F1-J1-R2-AUTH",
   "authorization_parent_revision": "0c54cb38ca49bd2fd47158f4bb7338dc8f4c9dcc",
   "second_replacement_authorization_revision": "93fcad353693ca6348b2d683317c7da86d34d493",
@@ -56,6 +56,11 @@
   "maximum_solver_submissions": 1,
   "solver_job_id": "1378942.mmaster02",
   "solver_submitted_revision": "69d4d0a6ade66f4c0a1ea47020eb6e8916c11abd",
+  "solver_completed": true,
+  "abaqus_return_code": 0,
+  "extractor_return_code": 0,
+  "validator_return_code": 20,
+  "characterization_result": "stage_f_mode_ii_h0_second_replacement_baseline_characterized",
   "replacement_authorized": false,
   "replacement_job_id": "1378942.mmaster02",
   "second_replacement_authorized": false,
@@ -96,7 +101,9 @@
     "Neither consumed job reached Abaqus execution.",
     "R2 was qualified using fail-closed local and cluster-login evidence bundles.",
     "Exactly one F1-J1-R2 solver submission was approved and submitted under job ID 1378942.mmaster02.",
-    "The R2 authorization is now fully consumed (solver_submissions_used: 1).",
+    "Job 1378942.mmaster02 completed Abaqus execution (exit code 0) and extraction (exit code 0).",
+    "The baseline response was characterized up to U1 = 0.0070 mm (RF1 = 0.3063 kN). Validator returned code 20.",
+    "The R2 authorization is fully consumed (solver_submissions_used: 1).",
     "No retry, further replacement, resource change or corrected resubmission is authorized.",
     "F2 and later Stage-F work remain blocked."
   ]
