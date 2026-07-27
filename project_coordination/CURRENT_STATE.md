@@ -2,12 +2,13 @@
 
 Updated: 2026-07-27
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_second_replacement_fail`
+Classification: `stage_f_mode_ii_h0_endpoint_correction_defined_unauthorized`
 
 ## Git
 
 | Item | Value |
 |---|---|
+| Endpoint audit parent revision | `b65839552727f3d1242bbde1e4d24f7fb7a8087b` |
 | R2 replacement closeout correction revision | `8bada7ef5b8862a2a7ef1f82abb865f5d524fb97` |
 | R2 replacement result revision | `3813c125742a7f5a3211d28bb275902f8e2588e8` |
 | R2 replacement submission revision | `69d4d0a6ade66f4c0a1ea47020eb6e8916c11abd` |
@@ -19,7 +20,7 @@ Classification: `stage_f_mode_ii_h0_second_replacement_fail`
 | Original submission revision | `5b092853419e8e8829d7f4c024ce3ea78d131740` |
 | Datacheck revision | `4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b` |
 | Active agent | none |
-| Active task | **F1-J1-R2** complete_failed (`stage_f_mode_ii_h0_second_replacement_fail`) |
+| Active task | **F1-C0-ENDPOINT-AUDIT** complete (`stage_f_mode_ii_h0_endpoint_correction_defined_unauthorized`) |
 
 ## Submission boundary (critical)
 
@@ -57,8 +58,9 @@ Downstream task F2 remains **blocked**.
 
 ## Next actions
 
-1. Wait for explicit human review of whether the deck endpoint or validator expectation is scientifically correct.
-2. Downstream tasks (F2+) remain blocked.
+1. Prepare corrected Mode-II H0 package lane under task `F1-C1-CORRECTED-H0-PREP`.
+2. Execution remains unauthorized until explicit datacheck/solver authorizations are created (`F1-C2-DATACHECK-AUTH` / `F1-C3-SOLVER-AUTH`).
+3. Downstream tasks (F2+) remain blocked until corrected H0 baseline lane completes cleanly.
 
 ## Dirty paths
 

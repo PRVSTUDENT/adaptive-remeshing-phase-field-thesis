@@ -1,53 +1,18 @@
 {
   "active_job_id": null,
-  "classification": "stage_f_mode_ii_h0_second_replacement_fail",
-  "cluster_bundle_verified_after_copy": true,
-  "cluster_bundle_verified_on_cluster": true,
-  "completed_job_id": "1378942.mmaster02",
-  "evidence_verifier_commit": "7f61c182aaa480b20647410546007d0ee20a3132",
+  "audit_record": "runs/hpc/stage_f/mode_ii_h0_correction/ENDPOINT_AUDIT.json",
+  "classification": "stage_f_mode_ii_h0_endpoint_correction_defined_unauthorized",
+  "decision_record": "docs/decisions/STAGE_F_MODE_II_H0_ENDPOINT_CORRECTION.md",
   "execution_authorized": false,
-  "first_replacement_authorization_file": "runs/hpc/stage_f/mode_ii_h0/replacement_r1/MODE_II_H0_R1_AUTHORIZATION.json",
-  "job_plan": {
-    "automatic_retry": false,
-    "cpus": 1,
-    "job_name": "mode_ii_h0_serial",
-    "maximum_submissions": 1,
-    "memory": "16 GB",
-    "mpi_ranks": 1,
-    "omp_threads": 1,
-    "queue": "entry_imfdfkmq",
-    "walltime": "04:00:00"
-  },
-  "local_bundle_verified": true,
   "maximum_jobs_now": 0,
-  "maximum_second_replacement_submissions": 1,
-  "next_action": "Wait for explicit human review of the deck/validator endpoint mismatch; F2 blocked",
-  "next_task_after_pass": null,
-  "original_authorization_file": "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
-  "package_path": "models/generated/mode_ii/h0_serial",
+  "next_action": "Prepare corrected Mode-II H0 package lane under F1-C1-CORRECTED-H0-PREP",
+  "next_task_after_pass": "F1-C1-CORRECTED-H0-PREP",
+  "proposed_execution_lane": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected",
+  "proposed_package_path": "models/generated/mode_ii/h0_endpoint_corrected_serial",
   "protocol_version": 1,
-  "scientific_freeze_revision": "17240f646cf1e382396006ab635976fa22a67890",
-  "second_replacement_authorization_file": "runs/hpc/stage_f/mode_ii_h0/replacement_r2/MODE_II_H0_R2_AUTHORIZATION.json",
-  "second_replacement_authorized": false,
-  "second_replacement_job_id": "1378942.mmaster02",
-  "second_replacement_submissions_used": 1,
-  "source_failures": [
-    {
-      "authorization_consumed": true,
-      "job_id": "1378919.mmaster02",
-      "solver_started": false,
-      "task_id": "F1-J1"
-    },
-    {
-      "authorization_consumed": true,
-      "job_id": "1378920.mmaster02",
-      "solver_started": false,
-      "task_id": "F1-J1-R1"
-    }
-  ],
+  "rate_independence_verified": true,
   "stage": "Stage F",
-  "status": "complete_failed",
-  "submission_approved": true,
-  "task_id": "F1-J1-R2",
-  "title": "Mode-II H0 serial second infrastructure replacement"
+  "status": "complete",
+  "task_id": "F1-C0-ENDPOINT-AUDIT",
+  "title": "Audit and define the corrected Mode-II H0 loading endpoint"
 }
