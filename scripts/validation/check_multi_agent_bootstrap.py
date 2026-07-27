@@ -41,6 +41,8 @@ ALLOWED_TASK_IDS = frozenset(
         "F1-J1-R2-PREP-R1",
         "F1-J1-R2-PREP-R2",
         "F1-J1-R2-PREP-R3",
+        "F1-J1-R2-AUTH",
+        "F1-J1-R2",
         "F1-J1",
     }
 )

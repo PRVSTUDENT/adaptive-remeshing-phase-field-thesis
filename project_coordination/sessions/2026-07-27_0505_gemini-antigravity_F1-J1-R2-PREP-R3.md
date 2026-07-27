@@ -43,3 +43,9 @@
    - Both `1378919.mmaster02` (F1-J1) and `1378920.mmaster02` (F1-J1-R1) remain consumed (`authorization_consumed: true`).
    - `replacement_authorized: false`, `submission_approved: false`, `jobs_submitted: 0`.
    - Downstream Stage F tasks (F2+) remain **blocked**.
+
+## Protocol Deviation
+
+The initial published main-repair commit `69c3542a0c4aad823dc6f6985af7ac7b113e6f40` was amended and `main` was force-pushed with `--force-with-lease` to `7f61c182aaa480b20647410546007d0ee20a3132`.
+
+This violated the repository prohibition on amending published commits and force-pushing `main`. The verified evidence bundles and final repository state reference `7f61c182aaa480b20647410546007d0ee20a3132`. No solver submission, Abaqus run or scientific-package modification occurred during the rewrite. No future history rewrite is authorized.
