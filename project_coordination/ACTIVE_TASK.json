@@ -1,12 +1,14 @@
 {
-  "classification": "stage_f_mode_ii_h0_second_replacement_runtime_qualified_unauthorized",
+  "classification": "stage_f_mode_ii_h0_second_replacement_provenance_qualified_unauthorized",
   "cluster_abaqus_executable_found": true,
+  "cluster_bundle_verified": true,
   "cluster_modules_loaded": true,
-  "cluster_smoke_evidence": "runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence/cluster_login/SMOKE_SUMMARY.json",
+  "cluster_smoke_bundle": "runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence_r2/cluster_login/EVIDENCE_BUNDLE_MANIFEST.json",
   "exact_runtime_helper_tested": true,
   "execution_authorized": false,
   "inline_staging_logic_removed": true,
-  "local_smoke_evidence": "runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence/local/SMOKE_SUMMARY.json",
+  "local_bundle_verified": true,
+  "local_smoke_bundle": "runs/hpc/stage_f/mode_ii_h0/replacement_r2/smoke_evidence_r2/local/EVIDENCE_BUNDLE_MANIFEST.json",
   "maximum_jobs_now": 0,
   "next_action": "Wait for explicit human instruction/decision regarding F1-J1-R2 replacement authorization; F2 blocked",
   "next_task_after_pass": "F1-J1-R2-AUTH",
@@ -14,12 +16,14 @@
   "package_path": "models/generated/mode_ii/h0_serial",
   "pre_solver_smoke_cluster_login": "pass",
   "pre_solver_smoke_local": "pass",
-  "preparation_commit": "217b684cc5611377e495442728e39d350d01eb61",
-  "preparation_parent_revision": "4f67bd2c8fd0a1a1c2e57d8dba54cd16a2ff2a36",
+  "pre_solver_smoke_ok": true,
+  "preparation_parent_revision": "440ff8a22fcfd7a2674ad9ec5de76d2b0f8b271b",
   "protocol_version": 1,
   "replacement_authorization_file": "runs/hpc/stage_f/mode_ii_h0/replacement_r1/MODE_II_H0_R1_AUTHORIZATION.json",
   "replacement_authorized": false,
+  "runtime_provenance_commit": "620a4e01038991b89cef70091afb03e70c6922f7",
   "scientific_freeze_revision": "17240f646cf1e382396006ab635976fa22a67890",
+  "serial_success_status_absent": true,
   "source_failures": [
     {
       "authorization_consumed": true,
@@ -37,6 +41,6 @@
   "stage": "Stage F",
   "status": "complete",
   "submission_approved": false,
-  "task_id": "F1-J1-R2-PREP-R1",
-  "title": "Prove the Mode-II cluster smoke and restore fail-closed execution"
+  "task_id": "F1-J1-R2-PREP-R2",
+  "title": "Finalize Mode-II pre-solver smoke semantics and evidence provenance"
 }
