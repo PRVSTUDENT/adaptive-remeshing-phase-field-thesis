@@ -1,8 +1,8 @@
 {
-  "active_job_id": "1378958.mmaster02",
+  "active_job_id": null,
   "authorization_file": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/MODE_II_H0_ENDPOINT_CORRECTED_AUTHORIZATION.json",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_submitted",
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail",
   "datacheck_authorized": false,
   "datacheck_job_plan": {
     "cpus": 1,
@@ -20,16 +20,16 @@
   "execution_lane": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected",
   "maximum_datacheck_submissions": 1,
   "maximum_jobs_now": 0,
-  "next_action": "Monitor the datacheck and close it after completion",
-  "next_task_after_pass": "F1-C2-DATACHECK-CLOSE",
+  "next_action": "Wait for human review and next task assignment",
+  "next_task_after_pass": null,
   "package_path": "models/generated/mode_ii/h0_endpoint_corrected_serial",
   "preparation_main_revision": "e2e40b08fee23799da9518c118232af756610e0b",
   "protocol_version": 1,
   "solver_authorized": false,
   "stage": "Stage F",
-  "status": "submitted_or_running_pending_outcome",
+  "status": "complete_failed",
   "submission_approved": true,
   "submitted_revision": "78b7744ddab0d5ed88f9f1118a7f5965c065604b",
-  "task_id": "F1-C2-DATACHECK",
-  "title": "Submit and track one corrected Mode-II H0 endpoint datacheck"
+  "task_id": "F1-C2-DATACHECK-CLOSE",
+  "title": "Closeout and evidence validation for corrected Mode-II H0 endpoint datacheck"
 }

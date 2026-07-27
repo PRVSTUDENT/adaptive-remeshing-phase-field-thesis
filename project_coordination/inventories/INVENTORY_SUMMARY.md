@@ -3,6 +3,11 @@
 Updated: 2026-07-26
 
 ## Tracked Jobs
+# Evidence and Scratch Inventories Summary
+
+Updated: 2026-07-26
+
+## Tracked Jobs
 
 | Task ID | Job ID | Classification | Scratch Path |
 |---|---|---|---|
@@ -10,6 +15,7 @@ Updated: 2026-07-26
 | F1-J1 | `1378919.mmaster02` | `stage_f_mode_ii_h0_serial_staging_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_1378919.mmaster02` |
 | F1-J1-R1 | `1378920.mmaster02` | `stage_f_mode_ii_h0_serial_staging_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_1378920.mmaster02` |
 | F1-J1-R2 | `1378942.mmaster02` | `stage_f_mode_ii_h0_second_replacement_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_1378942.mmaster02` |
+| F1-C2-DATACHECK | `1378958.mmaster02` | `stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_endpoint_corrected_datacheck_1378958.mmaster02` |
 
 ## Summary Notes
 
@@ -19,4 +25,4 @@ Updated: 2026-07-26
 - `1378942.mmaster02`: Stage F Mode-II second replacement serial job completed Abaqus solver and extraction (`abaqus_rc: 0`, `extractor_rc: 0`) up to $U_1 = 0.007\text{ mm}$, but failed scientific result validation (`validator_rc: 20`, `stage_f_mode_ii_h0_second_replacement_fail`); scratch retained.
 - `F1-C0-ENDPOINT-AUDIT`: Proved loading schedule endpoint mismatch ($U_1 = 0.007\text{ mm}$ vs $0.010\text{ mm}$ expected); selected Option A correction (Amp-2 endpoint $0.2$).
 - `F1-C1-CORRECTED-H0-PREP`: Offline corrected package generation and fail-closed lane qualification completed (`stage_f_mode_ii_h0_endpoint_corrected_prepared_unauthorized`); no HPC jobs or Abaqus runs executed.
-
+- `1378958.mmaster02`: Stage F Mode-II endpoint-corrected datacheck job stopped preflight (`abaqus_rc: 3`, `stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail`) due to missing `-v PRESTAGED_ROOT` submit wrapper arguments; scratch retained; evidence collected.

@@ -1,8 +1,8 @@
 {
-  "active_job_id": "1378958.mmaster02",
+  "active_job_id": null,
   "approved_action": "one_datacheck_submission_only",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_submitted",
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail",
   "cluster_smoke_passed": false,
   "datacheck_authorized": false,
   "datacheck_job_id": "1378958.mmaster02",
@@ -16,6 +16,7 @@
     "queue": "entry_imfdfkmq",
     "walltime": "00:30:00"
   },
+  "datacheck_result": "fail",
   "datacheck_submissions_used": 1,
   "endpoint_audit_revision": "49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c",
   "execution_authorized": false,
@@ -31,8 +32,8 @@
   "maximum_solver_submissions": 1,
   "mpi_authorized": false,
   "notes": [
-    "One corrected Mode-II H0 endpoint datacheck submission was executed.",
-    "PBS Job ID: 1378958.mmaster02.",
+    "One corrected Mode-II H0 endpoint datacheck submission was executed (job 1378958.mmaster02).",
+    "Datacheck failed preflight environment staging (missing PRESTAGED_ROOT).",
     "Datacheck authorization is consumed (1/1).",
     "No solver authorization is granted.",
     "No automatic retry is permitted."
