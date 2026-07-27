@@ -6,6 +6,7 @@
 - **Operational Submission Revision**: `69d4d0a6ade66f4c0a1ea47020eb6e8916c11abd`
 - **Authorization Revision**: `93fcad353693ca6348b2d683317c7da86d34d493`
 - **Evidence Verifier Revision**: `7f61c182aaa480b20647410546007d0ee20a3132`
+- **Correction Revision**: `8bada7ef5b8862a2a7ef1f82abb865f5d524fb97`
 - **Package Path**: `models/generated/mode_ii/h0_serial`
 - **Execution Host**: `mnode097/0`
 - **Queue**: `entry_imfdfkmq` (routed to `normal_imfdfkmq`)

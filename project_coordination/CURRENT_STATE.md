@@ -8,7 +8,7 @@ Classification: `stage_f_mode_ii_h0_second_replacement_fail`
 
 | Item | Value |
 |---|---|
-| R2 replacement closeout correction revision | `bbfbcf1243ce5650b1a05e7fa097d23bdc6df966` |
+| R2 replacement closeout correction revision | `8bada7ef5b8862a2a7ef1f82abb865f5d524fb97` |
 | R2 replacement result revision | `3813c125742a7f5a3211d28bb275902f8e2588e8` |
 | R2 replacement submission revision | `69d4d0a6ade66f4c0a1ea47020eb6e8916c11abd` |
 | R2 replacement authorization revision | `93fcad353693ca6348b2d683317c7da86d34d493` |
