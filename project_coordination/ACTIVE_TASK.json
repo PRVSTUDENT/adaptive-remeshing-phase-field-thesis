@@ -1,8 +1,9 @@
 {
-  "active_job_id": "1378942.mmaster02",
-  "classification": "stage_f_mode_ii_h0_second_replacement_baseline_characterized",
+  "active_job_id": null,
+  "classification": "stage_f_mode_ii_h0_second_replacement_fail",
   "cluster_bundle_verified_after_copy": true,
   "cluster_bundle_verified_on_cluster": true,
+  "completed_job_id": "1378942.mmaster02",
   "evidence_verifier_commit": "7f61c182aaa480b20647410546007d0ee20a3132",
   "execution_authorized": false,
   "first_replacement_authorization_file": "runs/hpc/stage_f/mode_ii_h0/replacement_r1/MODE_II_H0_R1_AUTHORIZATION.json",
@@ -20,7 +21,7 @@
   "local_bundle_verified": true,
   "maximum_jobs_now": 0,
   "maximum_second_replacement_submissions": 1,
-  "next_action": "F1-J1-R2 completed & baseline characterized. F2 blocked pending authorization.",
+  "next_action": "Wait for explicit human review of the deck/validator endpoint mismatch; F2 blocked",
   "next_task_after_pass": "F2-PREP",
   "original_authorization_file": "runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json",
   "package_path": "models/generated/mode_ii/h0_serial",
@@ -45,7 +46,7 @@
     }
   ],
   "stage": "Stage F",
-  "status": "complete",
+  "status": "complete_failed",
   "submission_approved": true,
   "task_id": "F1-J1-R2",
   "title": "Mode-II H0 serial second infrastructure replacement"

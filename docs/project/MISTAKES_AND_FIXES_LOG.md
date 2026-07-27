@@ -243,19 +243,19 @@ Evidence paths: `/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/mod
 Prevention rule: Ensure dictionary key names match exact string formatting definitions in inline PBS Python scripts.
 Status: open (scientific baseline uncharacterized; replacement solver submission consumed 1/1)
 
-## F1-J1-R2 Mode-II H0 serial baseline characterization and validation exit (2026-07-27)
+## F1-J1-R2 Mode-II H0 serial scientific validation failure (2026-07-27)
 
 ID: M-092
 Date: 2026-07-27
 Stage/job: Stage F / `1378942.mmaster02`
 Source commit: `69d4d0a6ade66f4c0a1ea47020eb6e8916c11abd`
-Classification: `stage_f_mode_ii_h0_second_replacement_baseline_characterized`
-Symptom: Abaqus FE solver completed cleanly (exit code 0, 16m 17s wallclock), standalone extractor completed cleanly (exit code 0), but result validator returned exit code 20.
-Root cause: Step-2 in the H0 serial deck reached its max limit of 2000 increments of size 1.0e-4 mm ($U_1 = 0.0070\text{ mm}$) and completed, whereas the general validator checks for $U_1 = 0.0100\text{ mm}$. Maximum phase field reached max(d) = 0.2992 < 0.50, so no crack-path points (d >= 0.50) were produced.
+Classification: `stage_f_mode_ii_h0_second_replacement_fail`
+Symptom: Abaqus FE solver completed cleanly (exit code 0, 16m 17s wallclock) and extractor completed cleanly (exit code 0), but result validator returned exit code 20 (`stage_f_mode_ii_h0_serial_validation_fail`).
+Root cause: Step-2 in the H0 serial deck reached its maximum limit of 2000 increments of size 1.0e-4 mm ($U_1 = 0.0070\text{ mm}$) and completed, whereas the scientific acceptance gate checks for $U_1 = 0.0100\text{ mm}$. Maximum phase field reached $\max(d) = 0.29923 < 0.50$, so no crack-path points ($d \ge 0.50$) were produced.
 Scientific inputs changed: no
-Correction: Documented root cause and extracted load-displacement / state evidence. Second replacement authorization is consumed (1/1); no retry or resubmission is authorized under protocol rules.
+Correction: Documented scientific validation failure and preserved partial pre-peak response evidence ($0 \le U_1 \le 0.0070\text{ mm}$, maximum observed force $RF_1 = 0.3063\text{ kN}$). Second replacement authorization is consumed (1/1); no retry or resubmission is authorized under protocol rules.
 Retry job: none
-Outcome: F1-J1-R2 characterized baseline response up to U1 = 0.0070 mm (RF1 = 0.3063 kN). F2 and later tasks remain blocked.
+Outcome: F1-J1-R2 failed scientific validation (`stage_f_mode_ii_h0_second_replacement_fail`). Baseline unvalidated; F2 and later tasks remain blocked.
 Evidence paths: `runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/`
 Prevention rule: Ensure step increment counts match full displacement requirements when configuring general result validation bounds.
-Status: closed (baseline response characterized; replacement solver submission consumed 1/1)
+Status: closed (scientific validation failed; replacement solver submission consumed 1/1)

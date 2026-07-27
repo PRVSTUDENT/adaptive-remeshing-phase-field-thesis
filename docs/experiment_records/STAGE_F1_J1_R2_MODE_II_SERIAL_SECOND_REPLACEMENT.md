@@ -14,33 +14,34 @@
 - **Abaqus Solver Exit Code**: `0` (clean solver completion)
 - **Extractor Exit Code**: `0` (clean extraction completion)
 - **Result Validator Exit Code**: `20` (`stage_f_mode_ii_h0_serial_validation_fail`)
-- **Classification**: `stage_f_mode_ii_h0_second_replacement_baseline_characterized`
+- **Classification**: `stage_f_mode_ii_h0_second_replacement_fail`
+- **Scientific Result Scope**: `partial_prepeak_response_only`
 
 ---
 
 ## Executive Summary
 
-Job `1378942.mmaster02` executed the Mode-II H0 serial baseline package on cluster node `mnode097`. Unlike the earlier F1-J1 and F1-J1-R1 attempts which failed prior to Abaqus launch due to staging validation defects, job `1378942.mmaster02` completed the full Abaqus FE solver analysis cleanly (`abaqus_return_code: 0`) and ran the standalone extractor (`extractor_return_code: 0`).
+Job `1378942.mmaster02` executed the Mode-II H0 serial baseline package on cluster node `mnode097`. Runtime staging verification (`MODE_II_H0_RUNTIME_STAGING_CHECK.json`) passed cleanly (`stage_f_mode_ii_h0_runtime_staging_pass`), Abaqus FE solver execution completed cleanly (`abaqus_return_code: 0`), and the standalone extraction script completed cleanly (`extractor_return_code: 0`).
 
-The run successfully characterized the pre-peak Mode-II pure-shear load-displacement response across 72 curve points up to $U_1 = 0.0070\text{ mm}$ and a peak shear force of $RF_1 = 0.3063\text{ kN}$. The automatic result validator returned exit code 20 because:
-1. The analysis reached Step-2 increment 2000 ($U_1 = 0.0070\text{ mm}$) which was the maximum step count defined in the H0 serial deck, whereas the general validator checks for $U_1 = 0.0100\text{ mm}$.
-2. The damage field reached $\max(d) = 0.2992$, which is below the threshold of $d \ge 0.50$ required for crack-path extraction.
+However, the run **failed the scientific acceptance gate** (`validator_return_code: 20`, `stage_f_mode_ii_h0_serial_validation_fail`). The failure occurred because:
+1. The analysis reached Step-2 increment 2000 ($U_1 = 0.0070\text{ mm}$) which was the maximum step count defined in the H0 serial deck, whereas the validator requires $U_1 = 0.0100\text{ mm}$.
+2. The damage field reached $\max(d) = 0.2992$, which is below the threshold of $d \ge 0.50$ required for crack-path extraction (producing an empty crack-path CSV).
 
-The runtime staging contract and pre-solver evidence chain passed with zero errors (`stage_f_mode_ii_h0_runtime_staging_pass`).
+The result provides **useful partial pre-peak Mode-II response evidence** up to $U_1 = 0.0070\text{ mm}$, but it is **not a validated or fully characterized H0 baseline**. The maximum observed force of $RF_1 = 0.3063\text{ kN}$ is the force at the final simulated point, not a confirmed peak force.
 
 ---
 
-## Key Extracted Numerical Results
+## Technical & Scientific Outcome Summary
 
-- **Load-Displacement Points**: 72 curve points extracted (`rf1_u1_curve.csv`).
-- **Maximum Shear Force Reached**: $RF_1 = 0.3063\text{ kN}$ at $U_1 = 0.0070\text{ mm}$.
-- **Matched States Extracted**:
-  - **State 01 (Step 1, Inc 200)**: $U_1 = 0.0020\text{ mm}$, $RF_1 = 0.0921\text{ kN}$, $\max(d) = 0.0182$
-  - **State 02 (Step 1, Inc 500)**: $U_1 = 0.0050\text{ mm}$, $RF_1 = 0.2253\text{ kN}$, $\max(d) = 0.1269$
-  - **State 03 (Step 2, Inc 1000)**: $U_1 = 0.0060\text{ mm}$, $RF_1 = 0.2670\text{ kN}$, $\max(d) = 0.1972$
-  - **State 04 (Step 2, Inc 2000)**: $U_1 = 0.0070\text{ mm}$, $RF_1 = 0.3063\text{ kN}$, $\max(d) = 0.2992$
-- **Phase Bounds**: Min $d = 0.0$, Max $d = 0.2992$ (strictly irreversible, no phase-healing or history-decrease violations).
-- **Distortion / Warnings**: 1 element distortion warning logged in `.msg` (`***WARNING: 1 elements are distorted`), 1 negative eigenvalue warning logged.
+- **Infrastructure & Staging**: Success (`abaqus_return_code: 0`).
+- **Data Extraction**: Success (`extractor_return_code: 0`, 72 curve points extracted).
+- **Scientific Validation Gate**: **Failed** (`validator_return_code: 20`).
+- **Load-Displacement Scope**: Partial pre-peak response only ($0 \le U_1 \le 0.0070\text{ mm}$).
+- **Maximum Observed Force**: $RF_1 = 0.3063\text{ kN}$ at $U_1 = 0.0070\text{ mm}$ (not a confirmed peak load).
+- **Damage Evolution**: $\max(d) = 0.2992289960384369$ at $U_1 = 0.0070\text{ mm}$.
+- **Crack-Path Formation**: Empty ($d < 0.50$ throughout domain).
+- **Phase Healing & History Decreases**: 0 violations (strictly irreversible damage).
+- **Distortion / Warnings**: 1 element distortion warning logged in `.msg`, 1 negative eigenvalue warning logged.
 
 ---
 
@@ -51,6 +52,9 @@ The runtime staging contract and pre-solver evidence chain passed with zero erro
   - [MODE_II_H0_SERIAL_STATUS.json](file:///D:/Master%20thesis/Adaptive%20remeshing/runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/MODE_II_H0_SERIAL_STATUS.json)
   - [MODE_II_H0_SERIAL_VALIDATION.json](file:///D:/Master%20thesis/Adaptive%20remeshing/runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/MODE_II_H0_SERIAL_VALIDATION.json)
   - [MODE_II_H0_RUNTIME_STAGING_CHECK.json](file:///D:/Master%20thesis/Adaptive%20remeshing/runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/MODE_II_H0_RUNTIME_STAGING_CHECK.json)
+  - [F1_J1_R2_QSTAT_FINAL.txt](file:///D:/Master%20thesis/Adaptive%20remeshing/runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/F1_J1_R2_QSTAT_FINAL.txt)
+  - [F1_J1_R2_TRACEJOB.txt](file:///D:/Master%20thesis/Adaptive%20remeshing/runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/F1_J1_R2_TRACEJOB.txt)
+  - [EVIDENCE_FILE_INVENTORY.csv](file:///D:/Master%20thesis/Adaptive%20remeshing/runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/EVIDENCE_FILE_INVENTORY.csv)
 - **Key Extracted CSVs**:
   - [rf1_u1_curve.csv](file:///D:/Master%20thesis/Adaptive%20remeshing/runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/extracted/rf1_u1_curve.csv)
   - [matched_states.csv](file:///D:/Master%20thesis/Adaptive%20remeshing/runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/extracted/matched_states.csv)
@@ -61,4 +65,4 @@ The runtime staging contract and pre-solver evidence chain passed with zero erro
 
 ## Conclusion & Boundary Status
 
-The F1-J1-R2 replacement submission completed solver execution without staging or launch failures. The R2 authorization is now fully consumed (`solver_submissions_used: 1`). No further replacements or retries are permitted (`maximum_jobs_now: 0`). Downstream Stage F tasks (F2+) remain **blocked** pending review.
+Job `1378942.mmaster02` failed the Mode-II H0 scientific acceptance gate. The R2 authorization is fully consumed (`solver_submissions_used: 1`). No retry, replacement, or resubmission is authorized (`maximum_jobs_now: 0`). Downstream Stage F tasks (F2+) remain **blocked**.

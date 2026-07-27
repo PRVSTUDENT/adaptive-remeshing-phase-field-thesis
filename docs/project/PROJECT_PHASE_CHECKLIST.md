@@ -34,7 +34,8 @@ or deferred contour/crack-path evidence)
 | WP5 | Evolving remesh and state transfer | `[~]` scoped completion with limitation | bounded pre-peak transfer proven; corrected mechanical restart unproven | `docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex`; `docs/decisions/STAGE_D3D_A1H0_EXECUTION_CLOSURE.md` |
 | WP6 | IMFD/ABAQUSER integration | `[!]` externally blocked | interface executable/module/source unavailable; independent extraction retained | `docs/decisions/WP6_ABAQUSER_EXTERNAL_BLOCK_CLOSURE.md` |
 | WP7 | Final recommendations and thesis writing | `[~]` faculty-format candidate ready; human/admin gates open | `wp7_faculty_template_integration_candidate`; not ready_for_submission | `docs/decisions/WP7_FACULTY_TEMPLATE_INTEGRATION.md`; `results/final/THESIS_FACULTY_PACKAGE_MANIFEST.json` |
-| Stage F | Mode-II mixed-mode benchmark | `[x]` F1-J1-R2 complete | `stage_f_mode_ii_h0_second_replacement_baseline_characterized`; F2 blocked | `docs/experiment_records/STAGE_F1_J1_R2_MODE_II_SERIAL_SECOND_REPLACEMENT.md`; `runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/` |
+| Stage F | Mode-II mixed-mode benchmark | `[!]` F1-J1-R2 complete_failed | `stage_f_mode_ii_h0_second_replacement_fail`; F2 blocked | `docs/experiment_records/STAGE_F1_J1_R2_MODE_II_SERIAL_SECOND_REPLACEMENT.md`; `runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/` |
+
 
 
 ## WP0 - Environment, Starter Pipeline, And Source Preservation
@@ -327,7 +328,7 @@ or deferred contour/crack-path evidence)
   `runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json`;
   `scripts/hpc/stage_f/`. Classification: `stage_f_mode_ii_h0_prepared`.
 - [x] F1-J0 Mode-II H0 datacheck passed. Evidence: `runs/hpc/stage_f/mode_ii_h0/1378911.mmaster02/`.
-- [x] F1-J1-R2 Mode-II H0 serial baseline characterized (job 1378942.mmaster02; Abaqus rc: 0, extractor rc: 0, 72 curve points up to U1=0.0070mm, RF1=0.3063kN). Evidence: `docs/experiment_records/STAGE_F1_J1_R2_MODE_II_SERIAL_SECOND_REPLACEMENT.md`; `runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/`.
+- [!] F1-J1-R2 Mode-II H0 serial run completed solver and extraction (job 1378942.mmaster02; Abaqus rc: 0, extractor rc: 0) but failed scientific acceptance gate (validator rc: 20; U1=0.007mm vs expected 0.010mm; empty crack path). Classification: stage_f_mode_ii_h0_second_replacement_fail. Useful as partial pre-peak response evidence only; H0 baseline unvalidated; F2 blocked. Evidence: `docs/experiment_records/STAGE_F1_J1_R2_MODE_II_SERIAL_SECOND_REPLACEMENT.md`; `runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/`.
 - [!] F2–F5 (H1, MISESERI, refined compare, transfer) blocked pending separate explicit authorization.
 
 ## Gate Checklist
@@ -344,7 +345,8 @@ or deferred contour/crack-path evidence)
 | Refined benchmark gate | accepted error and measured benefit | closed at scoped Stage C result | crack-path equivalence not supported; H1 remains production |
 | State-transfer gate | closed at D3A3-R4 for the bounded pre-peak compatibility/release-hold scope | Gate closed by accepted job `1377471.mmaster02` (`stage_d3a3_r4_compatible_release_pass` / `stage_d3a3_state_transfer_gate_closed`); canonical `D3A3.ok` committed under `target_ingestion_r4_compatible/`; package `package_compatible_r2`; active/free 6446/155; closure evidence `docs/decisions/STAGE_D3_STATE_TRANSFER_CLOSURE.md` and `runs/hpc/stage_d3/interrupted_transfer/D3A3_ACCEPTED_CLOSURE.json` | D2D blocked by missing ABAQUSER; D3D/D3E blocked by explicit fracture-continuation authorization — not missing `D3A3.ok` |
 | ABAQUSER gate | output agrees with independent extraction | blocked | D2D0 found no ABAQUSER executable/module/source/interface |
-| Stage F Mode-II H0 | package prepared; baseline characterized under F1-J1-R2 | baseline characterized (job 1378942.mmaster02) | F2 blocked pending explicit human authorization |
+| Stage F Mode-II H0 | package prepared; baseline run completed solver but failed scientific gate | scientific validation failed (job 1378942.mmaster02, validator rc: 20) | deck endpoint / validator target mismatch; F2 blocked |
+
 
 
 ## Checklist Update Rules

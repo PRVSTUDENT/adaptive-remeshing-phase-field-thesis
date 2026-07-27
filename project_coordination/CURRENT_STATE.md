@@ -2,12 +2,13 @@
 
 Updated: 2026-07-27
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_second_replacement_baseline_characterized`
+Classification: `stage_f_mode_ii_h0_second_replacement_fail`
 
 ## Git
 
 | Item | Value |
 |---|---|
+| R2 replacement closeout correction revision | `bbfbcf1243ce5650b1a05e7fa097d23bdc6df966` |
 | R2 replacement result revision | `3813c125742a7f5a3211d28bb275902f8e2588e8` |
 | R2 replacement submission revision | `69d4d0a6ade66f4c0a1ea47020eb6e8916c11abd` |
 | R2 replacement authorization revision | `93fcad353693ca6348b2d683317c7da86d34d493` |
@@ -18,14 +19,13 @@ Classification: `stage_f_mode_ii_h0_second_replacement_baseline_characterized`
 | Original submission revision | `5b092853419e8e8829d7f4c024ce3ea78d131740` |
 | Datacheck revision | `4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b` |
 | Active agent | none |
-| Active task | **F1-J1-R2** complete (`stage_f_mode_ii_h0_second_replacement_baseline_characterized`) |
-
+| Active task | **F1-J1-R2** complete_failed (`stage_f_mode_ii_h0_second_replacement_fail`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F1-J1-R2 complete (baseline response characterized)
-Status: stage_f_mode_ii_h0_second_replacement_baseline_characterized
+Current task: F1-J1-R2 complete_failed (scientific validation failed)
+Status: stage_f_mode_ii_h0_second_replacement_fail
 completed_job_id: 1378942.mmaster02 (abaqus_rc: 0, extractor_rc: 0, validator_rc: 20)
 source_failure_job_ids: 1378919.mmaster02, 1378920.mmaster02 (both authorizations consumed)
 replacement_r2_authorized: false (single submission authorization consumed by 1378942.mmaster02)
@@ -36,11 +36,12 @@ automatic_retry_authorized: false
 ```
 
 Both initial solver run `1378919.mmaster02` (F1-J1) and replacement solver run `1378920.mmaster02` (F1-J1-R1) consumed their single authorized submissions and failed before Abaqus launch due to staging validation defects.
-Task `F1-J1-R2` was executed on cluster under job ID `1378942.mmaster02`. The Abaqus FE solver completed cleanly (exit code 0) and standalone extraction completed cleanly (exit code 0), characterizing the Mode-II pure-shear load-displacement curve across 72 points up to $U_1 = 0.0070\text{ mm}$ ($RF_1 = 0.3063\text{ kN}$). The result validator returned exit code 20 due to step limit boundaries in the H0 serial deck.
+Task `F1-J1-R2` was executed on cluster under job ID `1378942.mmaster02`. The Abaqus FE solver completed cleanly (exit code 0) and standalone extraction completed cleanly (exit code 0), providing a partial pre-peak shear response up to $U_1 = 0.0070\text{ mm}$ ($RF_1 = 0.3063\text{ kN}$ maximum observed force at final point).
+However, the run **failed the scientific acceptance gate** (`validator_return_code: 20`, `stage_f_mode_ii_h0_second_replacement_fail`) because the target displacement $U_1 = 0.0100\text{ mm}$ was not reached (Step-2 reached its 2000 increment limit) and the damage field reached $\max(d) = 0.29923 < 0.50$ (producing an empty crack path).
 The R2 authorization record `runs/hpc/stage_f/mode_ii_h0/replacement_r2/MODE_II_H0_R2_AUTHORIZATION.json` is fully consumed (`solver_submissions_used: 1`). No further submissions or retries are permitted.
 Downstream task F2 remains **blocked**.
 
-## Stage F package (R2 replacement solver complete, job 1378942.mmaster02)
+## Stage F package (R2 replacement solver complete_failed, job 1378942.mmaster02)
 
 - Package: `models/generated/mode_ii/h0_serial`
 - Completed PBS Job ID: `1378942.mmaster02`
@@ -56,7 +57,7 @@ Downstream task F2 remains **blocked**.
 
 ## Next actions
 
-1. Review F1-J1-R2 characterized baseline evidence.
+1. Wait for explicit human review of whether the deck endpoint or validator expectation is scientifically correct.
 2. Downstream tasks (F2+) remain blocked.
 
 ## Dirty paths
