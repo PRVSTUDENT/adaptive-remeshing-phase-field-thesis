@@ -4,6 +4,7 @@
 - **Stage**: Stage F (Mode-II mixed-mode benchmark)
 - **Classification**: `stage_f_mode_ii_h0_second_replacement_prepared_unauthorized`
 - **Preparation Parent Revision**: `eb3c31e0f7db93248a09235f6ac87f37d78bede1`
+- **Preparation Commit**: `5e5b3783dd7a3052fef3ac9dee4b507c24287c9d`
 - **Scientific Freeze Revision**: `17240f646cf1e382396006ab635976fa22a67890`
 - **Source Failures**:
   - `F1-J1` (job `1378919.mmaster02`, `stage_f_mode_ii_h0_serial_staging_fail`, solver_started=false, consumed=true)
