@@ -3,6 +3,7 @@
 - **Stage**: Stage F (Mode-II mixed-mode benchmark)
 - **Task ID**: `F1-C2-R1-PREP`
 - **Classification Target**: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_prepared_unauthorized`
+- **Main Remediation Revision**: `3c070ec40f5c609eb1ae91a6729ea2146680e3ed`
 - **Parent Revision**: `20cad4f94133635076da48eda821b50dd53a050a`
 - **Source Failed Job**: `1378958.mmaster02` (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail`)
 - **Date**: 2026-07-27
