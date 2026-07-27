@@ -5,6 +5,7 @@
 - **Classification**: `stage_f_mode_ii_h0_endpoint_corrected_prepared_unauthorized`
 - **Base Commit**: `71751047bbb05bdb1561e250c62a890989cdd349`
 - **Endpoint Audit Revision**: `49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c`
+- **Preparation Main Revision**: `e2e40b08fee23799da9518c118232af756610e0b`
 - **Date**: 2026-07-27
 - **Author**: gemini-antigravity
 

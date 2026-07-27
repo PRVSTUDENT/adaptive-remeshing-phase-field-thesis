@@ -8,6 +8,7 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_prepared_unauthorized`
 
 | Item | Value |
 |---|---|
+| Corrected package preparation main revision | `e2e40b08fee23799da9518c118232af756610e0b` |
 | Corrected package preparation parent revision | `71751047bbb05bdb1561e250c62a890989cdd349` |
 | Endpoint audit revision | `49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c` |
 | Endpoint audit parent revision | `b65839552727f3d1242bbde1e4d24f7fb7a8087b` |
