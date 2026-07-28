@@ -1,29 +1,9 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_write_scope": [
-    "configs/studies/mode_ii_molnar_shear_h1.yaml",
-    "scripts/model_generation/build_mode_ii_h1_uniform.py",
-    "models/generated/mode_ii/h1_uniform_serial/",
-    "scripts/validation/validate_mode_ii_h1_static.py",
-    "scripts/validation/validate_mode_ii_h1_results.py",
-    "scripts/hpc/stage_f/",
-    "scripts/hpc/pbs_notify.sh",
-    "tests/unit/",
-    "runs/hpc/stage_f/mode_ii_h1/",
-    "docs/experiment_records/STAGE_F2_H1_MODE_II_BASELINE_PREPARATION.md",
-    "docs/project/PROJECT_PHASE_CHECKLIST.md",
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json",
-    "project_coordination/CURRENT_STATE.md",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/HPC_JOB_LEDGER.csv",
-    "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/inventories/INVENTORY_SUMMARY.md",
-    "project_coordination/sessions/"
-  ],
+  "active": false,
+  "agent": "",
+  "allowed_write_scope": [],
   "protocol_version": 1,
-  "start_time_utc": "2026-07-28T09:18:00Z",
-  "starting_commit": "ebb60b9736c0d6ed2ed3ca9942aef28646b9a896",
-  "task_id": "F2-H1-BASELINE-PREP"
+  "start_time_utc": "",
+  "starting_commit": "",
+  "task_id": ""
 }
