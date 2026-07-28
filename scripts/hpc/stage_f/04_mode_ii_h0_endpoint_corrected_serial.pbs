@@ -11,6 +11,9 @@
 
 set -uo pipefail
 
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
 EVIDENCE_ROOT="${EVIDENCE_ROOT:-/home/pr21vyci/adaptive-remeshing-evidence}"
 EVIDENCE_DIR="${EVIDENCE_ROOT}/stage_f/mode_ii_h0_endpoint_corrected/${PBS_JOBID:-manual}"
 PACKAGE_REL="models/generated/mode_ii/h0_endpoint_corrected_serial"
@@ -19,6 +22,8 @@ ENV_LOG="${SCRATCH_RUN}/COMPILER_ENVIRONMENT.txt"
 JOB_NAME="mode_ii_h0_endpoint_corrected_serial"
 SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
 LOGIN_MANIFEST_PATH="${LOGIN_MANIFEST_PATH:-}"
+PRESTAGED_ROOT="${PRESTAGED_ROOT:-}"
+PRESTAGED_RUNTIME_ROOT="${PRESTAGED_RUNTIME_ROOT:-${PRESTAGED_ROOT}/runtime}"
 
 mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
 cd "${SCRATCH_RUN}" || exit 2
@@ -99,8 +104,17 @@ else
   exit 5
 fi
 
-if [ -z "${PRESTAGED_ROOT:-}" ] || [ -z "${LOGIN_MANIFEST_PATH}" ] || [ ! -f "${LOGIN_MANIFEST_PATH}" ]; then
-  write_status "stage_f_mode_ii_h0_endpoint_corrected_serial_stage_fail" 3 -1 -1 "missing PRESTAGED_ROOT or LOGIN_MANIFEST_PATH"
+if [ -z "${PRESTAGED_ROOT}" ] || [ -z "${LOGIN_MANIFEST_PATH}" ] || [ ! -f "${LOGIN_MANIFEST_PATH}" ] || [ -z "${PRESTAGED_RUNTIME_ROOT}" ] || [ ! -d "${PRESTAGED_RUNTIME_ROOT}" ]; then
+  write_status "stage_f_mode_ii_h0_endpoint_corrected_serial_stage_fail" 3 -1 -1 "missing PRESTAGED_ROOT, LOGIN_MANIFEST_PATH, or PRESTAGED_RUNTIME_ROOT"
+  copy_evidence
+  exit 3
+fi
+
+EXTRACTOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/postprocessing/extract_molnar_single_notch.py"
+VALIDATOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/validation/validate_mode_ii_h0_endpoint_corrected_results.py"
+
+if [ ! -f "${EXTRACTOR_SCRIPT}" ] || [ ! -f "${VALIDATOR_SCRIPT}" ]; then
+  write_status "stage_f_mode_ii_h0_endpoint_corrected_serial_stage_fail" 3 -1 -1 "missing runtime extractor or validator script in PRESTAGED_RUNTIME_ROOT"
   copy_evidence
   exit 3
 fi
@@ -141,9 +155,6 @@ abaqus job="${JOB_NAME}" user=ModeII_H0_endpoint_corrected_serial.for interactiv
   > "${JOB_NAME}.abaqus_stdout.log" 2>&1
 ABAQUS_RC=$?
 set -e
-
-EXTRACTOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/postprocessing/extract_molnar_single_notch.py"
-VALIDATOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/validation/validate_mode_ii_h0_endpoint_corrected_results.py"
 
 pass=true
 failure="none"

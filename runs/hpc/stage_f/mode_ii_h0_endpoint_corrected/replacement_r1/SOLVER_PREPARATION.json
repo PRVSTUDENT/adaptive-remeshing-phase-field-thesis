@@ -1,0 +1,19 @@
+{
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_prepared_unauthorized",
+  "task_id": "F1-C2-R1-SOLVER-PREP",
+  "base_commit": "87ed0ead18de4dc6ad6bfa72f5273f4955218bfe",
+  "validated_datacheck_job": "1379387.mmaster02",
+  "datacheck_closeout_revision": "91d6fad0b972687380759c30a3a268515a733339",
+  "corrected_deck_sha256": "c9160d50c944de7037a9f05dc1dbccfa9718f69b198bb48659f784bac220ddef",
+  "corrected_source_sha256": "5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c",
+  "package_unchanged": true,
+  "solver_authorized": false,
+  "solver_contract_verified": true,
+  "solver_local_staging_smoke_passed": true,
+  "static_contract_classification": "stage_f_mode_ii_h0_endpoint_corrected_solver_staging_contract_pass",
+  "local_smoke_classification": "stage_f_mode_ii_h0_endpoint_corrected_solver_local_staging_smoke_pass",
+  "qsub_count": 0,
+  "abaqus_executions": 0,
+  "maximum_jobs_now": 0,
+  "next_task": "F1-C2-R1-SOLVER-REAUTH"
+}

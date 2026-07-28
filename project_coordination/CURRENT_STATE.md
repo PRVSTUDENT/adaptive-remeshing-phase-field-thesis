@@ -2,7 +2,7 @@
 
 Updated: 2026-07-28
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_solver_authorized`
+Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_prepared_unauthorized`
 
 ## Git
 
@@ -22,16 +22,16 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_solver_authorized`
 | Endpoint audit revision | `49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c` |
 | Endpoint audit parent revision | `b65839552727f3d1242bbde1e4d24f7fb7a8087b` |
 | Active agent | none |
-| Active task | **F1-C2-R1-SOLVER-AUTH** complete (`stage_f_mode_ii_h0_endpoint_corrected_serial_solver_authorized`) |
+| Active task | **F1-C2-R1-SOLVER-PREP** complete (`stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_prepared_unauthorized`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F1-C2-R1-SOLVER-AUTH complete
-Status: stage_f_mode_ii_h0_endpoint_corrected_serial_solver_authorized
+Current task: F1-C2-R1-SOLVER-PREP complete
+Status: stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_prepared_unauthorized
 active_job_id: none
 datacheck_authorized: false (replacement datacheck passed; authorization consumed)
-solver_authorized: true (single serial solver run authorized; submission unapproved)
+solver_authorized: false (contract repaired and qualified; reauthorization pending)
 submission_approved: false
 execution_authorized: false
 maximum_jobs_now: 0
@@ -60,9 +60,9 @@ Downstream task F2 remains **blocked**.
 
 ## Next actions
 
-1. Replacement datacheck job `1379387.mmaster02` completed cleanly (`Exit_status 0`, `abaqus_return_code 0`, `DATACHECK_ok: true`).
-2. Single serial solver run authorized (`solver_authorized: true`, `submission_approved: false`, `maximum_jobs_now: 0`).
-3. Await explicit human submission approval under task `F1-C2-R1-SOLVER`.
+1. Serial solver execution contract repaired and qualified (`PRESTAGED_ROOT`, `LOGIN_MANIFEST_PATH`, `PROJECT_REVISION`, `PRESTAGED_RUNTIME_ROOT`).
+2. Static solver contract validator, 195 unit tests, and local solver staging smoke passed.
+3. Await explicit human reauthorization under task `F1-C2-R1-SOLVER-REAUTH`.
 4. Downstream tasks (F2+) remain blocked until corrected H0 baseline lane completes cleanly.
 
 ## Dirty paths

@@ -2,7 +2,7 @@
   "active_job_id": null,
   "authorization_file": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/MODE_II_H0_ENDPOINT_CORRECTED_R1_AUTHORIZATION.json",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_solver_authorized",
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_prepared_unauthorized",
   "datacheck_authorized": false,
   "datacheck_closeout_revision": "91d6fad0b972687380759c30a3a268515a733339",
   "datacheck_job_id": "1379387.mmaster02",
@@ -13,12 +13,12 @@
   "maximum_datacheck_submissions": 1,
   "maximum_jobs_now": 0,
   "maximum_solver_submissions": 1,
-  "next_action": "Wait for explicit F1-C2-R1-SOLVER submission approval",
-  "next_task_after_pass": "F1-C2-R1-SOLVER",
+  "next_action": "Wait for explicit F1-C2-R1-SOLVER-REAUTH approval",
+  "next_task_after_pass": "F1-C2-R1-SOLVER-REAUTH",
   "package_path": "models/generated/mode_ii/h0_endpoint_corrected_serial",
   "preparation_parent_revision": "20cad4f94133635076da48eda821b50dd53a050a",
   "protocol_version": 1,
-  "solver_authorized": true,
+  "solver_authorized": false,
   "solver_job_plan": {
     "cpus": 1,
     "job_name": "mode_ii_h0_endpoint_corrected_serial",
@@ -34,6 +34,6 @@
   "stage": "Stage F",
   "status": "complete",
   "submission_approved": false,
-  "task_id": "F1-C2-R1-SOLVER-AUTH",
-  "title": "Authorize one corrected Mode-II H0 serial baseline solver run"
+  "task_id": "F1-C2-R1-SOLVER-PREP",
+  "title": "Repair and qualify the corrected Mode-II H0 serial solver submission contract"
 }
