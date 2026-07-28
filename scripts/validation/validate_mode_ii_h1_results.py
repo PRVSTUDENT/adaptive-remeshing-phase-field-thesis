@@ -4,8 +4,6 @@
 Evaluates extracted result files against technical and scientific acceptance criteria.
 """
 
-from __future__ import annotations
-
 import argparse
 import csv
 import json

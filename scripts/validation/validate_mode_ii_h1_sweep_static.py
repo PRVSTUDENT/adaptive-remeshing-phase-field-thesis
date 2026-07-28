@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Static scientific validator for Stage-F Mode-II H1 endpoint sweep packages."""
 
-from __future__ import annotations
-
 import argparse
 import hashlib
 import json

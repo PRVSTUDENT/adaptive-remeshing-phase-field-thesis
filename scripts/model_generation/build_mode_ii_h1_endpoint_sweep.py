@@ -11,8 +11,6 @@ All packages preserve the H1 uniform mesh (12,064 physical elements, 12,382 node
 and Fortran source byte-identically. Redundant tension BCs (topl, bottoml) are removed.
 """
 
-from __future__ import annotations
-
 import argparse
 import hashlib
 import json
