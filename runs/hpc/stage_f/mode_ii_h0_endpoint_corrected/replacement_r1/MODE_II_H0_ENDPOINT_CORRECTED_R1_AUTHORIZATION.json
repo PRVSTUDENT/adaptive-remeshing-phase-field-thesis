@@ -1,13 +1,14 @@
 {
-  "active_job_id": null,
+  "active_job_id": "1379387.mmaster02",
   "approved_action": "submit_one_datacheck_replacement",
   "authorization_main_revision": "38ab45b0afe2404ad72ccfde00039f3712001543",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_submission_approved",
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_submitted",
   "cluster_login_smoke_passed": true,
   "corrected_deck_sha256": "c9160d50c944de7037a9f05dc1dbccfa9718f69b198bb48659f784bac220ddef",
   "corrected_source_sha256": "5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c",
-  "datacheck_authorized": true,
+  "datacheck_authorized": false,
+  "datacheck_job_id": "1379387.mmaster02",
   "datacheck_job_plan": {
     "cpus": 1,
     "job_name": "mode_ii_h0_endpoint_corrected_datacheck",
@@ -18,21 +19,21 @@
     "queue": "entry_imfdfkmq",
     "walltime": "00:30:00"
   },
-  "datacheck_submissions_used": 0,
+  "datacheck_submissions_used": 1,
   "execution_authorized": false,
   "execution_lane": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1",
   "h1_authorized": false,
   "hybrid_authorized": false,
   "local_staging_smoke_passed": true,
   "maximum_datacheck_submissions": 1,
-  "maximum_jobs_now": 1,
+  "maximum_jobs_now": 0,
   "maximum_solver_submissions": 1,
   "mpi_authorized": false,
   "notes": [
     "Authorization record for replacement Mode-II H0 endpoint datacheck lane (R1).",
     "Staging contract repaired and verified via static validator, mocked qsub tests, and local/cluster-login smoke tests.",
-    "Datacheck replacement is authorized under task F1-C2-R1-AUTH (1 maximum submission permitted).",
-    "Explicit human submission approval granted under task F1-C2-R1-DATACHECK.",
+    "Datacheck replacement single submission consumed by job 1379387.mmaster02 under task F1-C2-R1-DATACHECK.",
+    "No further datacheck submissions permitted without new explicit authorization.",
     "No solver authorization is granted.",
     "No automatic retry is permitted."
   ],
@@ -40,6 +41,7 @@
   "preparation_complete": true,
   "preparation_main_revision": "3c070ec40f5c609eb1ae91a6729ea2146680e3ed",
   "preparation_parent_revision": "20cad4f94133635076da48eda821b50dd53a050a",
+  "retry_authorized": false,
   "schema_version": 1,
   "solver_authorized": false,
   "solver_submissions_used": 0,
@@ -54,5 +56,6 @@
   "submission_approval_source": "explicit_human_approval",
   "submission_approval_task": "F1-C2-R1-DATACHECK",
   "submission_approved": true,
+  "submitted_revision": "51b01ea6540663bab5a2b07b5f2b3e76cde3e23b",
   "threaded_execution_authorized": false
 }

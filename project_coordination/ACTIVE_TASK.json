@@ -1,9 +1,9 @@
 {
-  "active_job_id": null,
+  "active_job_id": "1379387.mmaster02",
   "authorization_file": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/MODE_II_H0_ENDPOINT_CORRECTED_R1_AUTHORIZATION.json",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_submission_approved",
-  "datacheck_authorized": true,
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_submitted",
+  "datacheck_authorized": false,
   "datacheck_job_plan": {
     "cpus": 1,
     "job_name": "mode_ii_h0_endpoint_corrected_datacheck",
@@ -14,13 +14,13 @@
     "queue": "entry_imfdfkmq",
     "walltime": "00:30:00"
   },
-  "datacheck_submissions_used": 0,
+  "datacheck_submissions_used": 1,
   "endpoint_audit_revision": "49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c",
   "execution_authorized": false,
   "execution_lane": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1",
   "maximum_datacheck_submissions": 1,
-  "maximum_jobs_now": 1,
-  "next_action": "Submit exactly one guarded replacement datacheck",
+  "maximum_jobs_now": 0,
+  "next_action": "Monitor and close the replacement datacheck",
   "next_task_after_pass": "F1-C2-R1-CLOSE",
   "package_path": "models/generated/mode_ii/h0_endpoint_corrected_serial",
   "preparation_parent_revision": "20cad4f94133635076da48eda821b50dd53a050a",
@@ -28,7 +28,7 @@
   "solver_authorized": false,
   "source_failed_job": "1378958.mmaster02",
   "stage": "Stage F",
-  "status": "approved_for_single_submission",
+  "status": "submitted_or_running_pending_outcome",
   "submission_approved": true,
   "task_id": "F1-C2-R1-DATACHECK",
   "title": "Submit and track one replacement corrected Mode-II H0 datacheck"
