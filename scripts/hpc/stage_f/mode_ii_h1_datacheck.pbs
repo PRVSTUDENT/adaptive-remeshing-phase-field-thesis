@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -N mode_ii_h1_datacheck
 #PBS -q entry_imfdfkmq
-#PBS -l select=1:ncpus=1:mem=32gb
+#PBS -l select=1:ncpus=1:mem=16gb
 #PBS -l walltime=00:45:00
 #PBS -j oe
 #PBS -m abe
@@ -21,11 +21,26 @@ ENV_LOG="${SCRATCH_RUN}/COMPILER_ENVIRONMENT.txt"
 JOB_NAME="mode_ii_h1_datacheck"
 SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
 LOGIN_MANIFEST_PATH="${LOGIN_MANIFEST_PATH:-}"
-PRESTAGED_ROOT="${PRESTAGED_ROOT:-}"
-PRESTAGED_RUNTIME_ROOT="${PRESTAGED_RUNTIME_ROOT:-${PRESTAGED_ROOT}/runtime}"
-
-# Telegram Notification Trap & Begin Wiring
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+PRESTAGED_ROOT="${PRESTAGED_ROOT:-${PROJECT_HOME}}"
+PRESTAGED_RUNTIME_ROOT="${PRESTAGED_RUNTIME_ROOT:-${PRESTAGED_ROOT}}"
+
+mkdir -p "${SCRATCH_RUN}" "${EVIDENCE_DIR}"
+
+# 1. Load Python module FIRST before calling pbs_notify_begin
+PRE_SOLVER_ONLY="${MODE_II_H1_PRE_SOLVER_ONLY:-0}"
+ALLOW_LOCAL_NO_MODULES="${MODE_II_H1_ALLOW_LOCAL_NO_MODULES:-0}"
+
+if command -v module >/dev/null 2>&1; then
+  module --force purge > "${ENV_LOG}" 2>&1 || true
+  module load python/gcc/11.4.0/3.11.7 >> "${ENV_LOG}" 2>&1 || true
+elif [ "${PRE_SOLVER_ONLY}" = "1" ] && [ "${ALLOW_LOCAL_NO_MODULES}" = "1" ]; then
+  echo "Local check: module environment bypassed" >> "${ENV_LOG}"
+else
+  exit 5
+fi
+
+# 2. Telegram Notification Setup (Python available)
 export PBS_NOTIFY_LOG="${SCRATCH_RUN}/telegram_notify.log"
 
 if [ -f "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" ]; then
@@ -36,7 +51,13 @@ if [ -f "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" ]; then
     fi
 fi
 
-mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
+# 3. Load remaining compiler and solver modules
+if command -v module >/dev/null 2>&1; then
+  module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || exit 5
+  module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || exit 5
+  module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || exit 5
+fi
+
 cd "${SCRATCH_RUN}" || exit 2
 
 copy_evidence() {
@@ -51,21 +72,6 @@ copy_evidence() {
     fi
   done
 }
-
-PRE_SOLVER_ONLY="${MODE_II_H1_PRE_SOLVER_ONLY:-0}"
-ALLOW_LOCAL_NO_MODULES="${MODE_II_H1_ALLOW_LOCAL_NO_MODULES:-0}"
-
-if command -v module >/dev/null 2>&1; then
-  module --force purge > "${ENV_LOG}" 2>&1 || true
-  module load python/gcc/11.4.0/3.11.7 >> "${ENV_LOG}" 2>&1 || true
-  module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || exit 5
-  module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || exit 5
-  module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || exit 5
-elif [ "${PRE_SOLVER_ONLY}" = "1" ] && [ "${ALLOW_LOCAL_NO_MODULES}" = "1" ]; then
-  echo "Local check: module environment bypassed" >> "${ENV_LOG}"
-else
-  exit 5
-fi
 
 cd "${PRESTAGED_ROOT}/${PACKAGE_REL}" || exit 4
 sha256sum -c input_hashes.sha256 > "${SCRATCH_RUN}/input_hash_check.txt" 2>&1 || exit 6
