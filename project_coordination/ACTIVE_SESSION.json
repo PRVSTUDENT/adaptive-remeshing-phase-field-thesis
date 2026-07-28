@@ -1,22 +1,11 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_write_scope": [
-    "runs/hpc/stage_f/mode_ii_h1/",
-    "docs/experiment_records/",
-    "docs/project/PROJECT_PHASE_CHECKLIST.md",
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json",
-    "project_coordination/CURRENT_STATE.md",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/HPC_JOB_LEDGER.csv",
-    "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/inventories/HPC_SCRATCH_EVIDENCE_INDEX.csv",
-    "project_coordination/inventories/INVENTORY_SUMMARY.md",
-    "project_coordination/sessions/"
-  ],
+  "active": false,
+  "agent": null,
+  "allowed_write_scope": [],
+  "forbidden_paths": [],
+  "note": "Completed F2-H1-SOLVER-CLOSE task closeout and evidence collection for job 1379433.mmaster02.",
   "protocol_version": 1,
-  "start_time_utc": "2026-07-28T10:52:00Z",
-  "starting_commit": "736585cc0dbba209ef2f9a9c5ecdfbc197b10228",
-  "task_id": "F2-H1-SOLVER-CLOSE"
+  "start_time_utc": null,
+  "starting_commit": null,
+  "task_id": null
 }
