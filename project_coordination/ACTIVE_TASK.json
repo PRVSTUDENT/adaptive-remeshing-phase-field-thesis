@@ -1,17 +1,17 @@
 {
-  "active_job_id": null,
+  "active_job_id": "1379431.mmaster02",
   "authorization_file": "runs/hpc/stage_f/mode_ii_h1/MODE_II_H1_AUTHORIZATION.json",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h1_uniform_datacheck_submission_approved",
-  "datacheck_authorized": true,
-  "datacheck_job_id": null,
-  "datacheck_submissions_used": 0,
-  "execution_authorized": true,
+  "classification": "stage_f_mode_ii_h1_uniform_datacheck_submitted",
+  "datacheck_authorized": false,
+  "datacheck_job_id": "1379431.mmaster02",
+  "datacheck_submissions_used": 1,
+  "execution_authorized": false,
   "execution_lane": "runs/hpc/stage_f/mode_ii_h1",
   "maximum_datacheck_submissions": 1,
-  "maximum_jobs_now": 1,
+  "maximum_jobs_now": 0,
   "maximum_solver_submissions": 1,
-  "next_action": "Submit exactly one Stage F Mode-II H1 datacheck job",
+  "next_action": "Close out and classify the H1 datacheck result",
   "next_task_after_pass": "F2-H1-DATACHECK-CLOSE",
   "package_path": "models/generated/mode_ii/h1_uniform_serial",
   "preparation_revision": "3b44b375b42dfd0cf88c7f3e82d0ea80c4ef7f0d",
@@ -29,11 +29,12 @@
   },
   "solver_submissions_used": 0,
   "stage": "Stage F",
-  "status": "authorized_pending_submission",
-  "submission_approved": true,
+  "status": "submitted_or_running_pending_outcome",
+  "submission_approved": false,
   "task_id": "F2-H1-DATACHECK",
   "telegram_notification_traps_integrated": true,
   "title": "Authorize and submit one Mode-II H1 uniform-reference datacheck"
 }
+
 
 
