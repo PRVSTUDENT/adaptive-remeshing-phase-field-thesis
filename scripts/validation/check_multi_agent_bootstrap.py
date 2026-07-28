@@ -63,9 +63,11 @@ ALLOWED_TASK_IDS = frozenset(
         "F1-C2-R1-H0-VALIDATOR-FIX",
         "F2-H1-BASELINE-PREP",
         "F2-H1-DATACHECK-LANE-FIX",
+        "F2-H1-DATACHECK",
         "F1-J1",
     }
 )
+
 
 
 
