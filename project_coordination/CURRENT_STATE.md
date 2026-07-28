@@ -2,36 +2,36 @@
 
 Updated: 2026-07-28
 Protocol version: 1
-Classification: `stage_f_mode_ii_h1_uniform_datacheck_pass`
+Classification: `stage_f_mode_ii_h1_uniform_solver_submitted`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job ID | null |
+| Active job ID | `1379433.mmaster02` |
 | H1 datacheck job ID | `1379431.mmaster02` |
 | H1 baseline preparation revision | `3b44b375b42dfd0cf88c7f3e82d0ea80c4ef7f0d` |
 | Active agent | none |
-| Active task | **F2-H1-DATACHECK** completed (`stage_f_mode_ii_h1_uniform_datacheck_pass`) |
+| Active task | **F2-H1-SOLVER** submitted (`stage_f_mode_ii_h1_uniform_solver_submitted`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F2-H1-DATACHECK completed
-Status: stage_f_mode_ii_h1_uniform_datacheck_pass
-active_job_id: null
+Current task: F2-H1-SOLVER submitted
+Status: stage_f_mode_ii_h1_uniform_solver_submitted
+active_job_id: 1379433.mmaster02
 datacheck_authorized: false (consumed)
-solver_authorized: false (authorization pending human approval)
+solver_authorized: false (consumed)
 submission_approved: false
 execution_authorized: false
 maximum_jobs_now: 0
 automatic_retry_authorized: false
 ```
 
-Stage F Mode-II H1 uniform reference datacheck job `1379431.mmaster02` completed cleanly (`stage_f_mode_ii_h1_uniform_datacheck_pass`).
-PBS exit status `0`, Abaqus return code `0`, walltime `00:00:17`, memory `334.66 MB`, zero errors or warnings.
-Telegram `SUBMITTED`, `BEGIN`, and `PASS` notifications delivered cleanly.
-Lightweight evidence collected in `runs/hpc/stage_f/mode_ii_h1/evidence/1379431.mmaster02/`.
+Stage F Mode-II H1 uniform reference solver job `1379433.mmaster02` submitted and currently running (`stage_f_mode_ii_h1_uniform_solver_submitted`).
+Requested resources: 1 CPU, 32 GB RAM, 06:00:00 walltime on queue `entry_imfdfkmq` (execution host: `mnode104/0`).
+Telegram `SUBMITTED` notification received (`telegram_ok event=SUBMITTED job=1379433.mmaster02`).
+Submission evidence recorded in `runs/hpc/stage_f/mode_ii_h1/solver_submission/1379433.mmaster02/`.
 
 ## Stage F H1 baseline package
 
@@ -45,4 +45,4 @@ Lightweight evidence collected in `runs/hpc/stage_f/mode_ii_h1/evidence/1379431.
 
 ## Next Task
 
-`F2-H1-SOLVER-AUTH`: Awaiting explicit human authorization string (`Approve one H1 solver job`) before authorizing and submitting the single Stage F Mode-II H1 solver job.
+`F2-H1-SOLVER-CLOSE`: Close out, collect evidence, and scientifically classify Stage F Mode-II H1 uniform reference solver job `1379433.mmaster02`.

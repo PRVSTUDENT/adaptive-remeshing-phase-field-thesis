@@ -1,0 +1,15 @@
+Job Id: 1379433.mmaster02
+    Job_Name = mode_ii_h1_serial
+    Job_Owner = pr21vyci@mlogin01.cluster
+    job_state = R
+    queue = normal_imfdfkmq
+    server = mmaster02
+    ctime = Tue Jul 28 10:08:35 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/mode_ii_h1_serial.e1379433
+    exec_host = mnode104/0
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/mode_ii_h1_serial.o1379433
+    Resource_List.mem = 32gb
+    Resource_List.ncpus = 1
+    Resource_List.walltime = 06:00:00
+    stime = Tue Jul 28 10:08:36 2026
+    Variable_List = PROJECT_REVISION=1ed032b6599c7218038d2107ebc6f2dc1c8a1a5a,PRESTAGED_ROOT=/home/pr21vyci/projects/adaptive-remeshing,PRESTAGED_RUNTIME_ROOT=/home/pr21vyci/projects/adaptive-remeshing
