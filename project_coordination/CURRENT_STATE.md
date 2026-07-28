@@ -2,13 +2,14 @@
 
 Updated: 2026-07-28
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_submitted`
+Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_pass`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Datacheck replacement submission revision | `51b01ea6540663bab5a2b07b5f2b3e76cde3e23b` |
+| Datacheck replacement submission tracking revision | `aaec1b8bb4d8e8c4232dbb99c204596c76450eec` |
+| Datacheck replacement submission operational approval revision | `51b01ea6540663bab5a2b07b5f2b3e76cde3e23b` |
 | Datacheck replacement authorization main revision | `38ab45b0afe2404ad72ccfde00039f3712001543` |
 | Datacheck staging remediation main revision | `3c070ec40f5c609eb1ae91a6729ea2146680e3ed` |
 | Datacheck staging remediation parent revision | `20cad4f94133635076da48eda821b50dd53a050a` |
@@ -16,7 +17,7 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_sub
 | Datacheck closeout metadata revision | `8f1b108eaf85dd8060181e63d3278d2222fd9b37` |
 | Datacheck closeout main revision | `b748b45f7b9b5cdf1cc04a4a26a931418a7bc9cb` |
 | Corrected datacheck submission revision | `78b7744ddab0d5ed88f9f1118a7f5965c065604b` |
-| Active job ID | `1379387.mmaster02` |
+| Active job ID | none |
 | Datacheck authorization parent revision | `6a4fc72beb62a6bc247f200f9ee883ba3c5751af` |
 | Corrected package preparation main revision | `e2e40b08fee23799da9518c118232af756610e0b` |
 | Corrected package preparation parent revision | `71751047bbb05bdb1561e250c62a890989cdd349` |
@@ -33,15 +34,15 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_sub
 | Original submission revision | `5b092853419e8e8829d7f4c024ce3ea78d131740` |
 | Datacheck revision | `4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b` |
 | Active agent | none |
-| Active task | **F1-C2-R1-DATACHECK** submitted (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_submitted`) |
+| Active task | **F1-C2-R1-CLOSE** complete (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_pass`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F1-C2-R1-DATACHECK submitted_or_running_pending_outcome
-Status: stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_submitted
-active_job_id: 1379387.mmaster02
-datacheck_authorized: false (single replacement authorization consumed)
+Current task: F1-C2-R1-CLOSE complete
+Status: stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_pass
+active_job_id: none
+datacheck_authorized: false (replacement datacheck passed; authorization consumed)
 submission_approved: true
 execution_authorized: false
 solver_authorized: false
@@ -71,9 +72,9 @@ Downstream task F2 remains **blocked**.
 
 ## Next actions
 
-1. Monitor and close replacement datacheck job `1379387.mmaster02` under task `F1-C2-R1-CLOSE`.
+1. Replacement datacheck job `1379387.mmaster02` completed cleanly (`Exit_status 0`, `abaqus_return_code 0`, `DATACHECK_ok: true`).
 2. Datacheck authorization consumed (`datacheck_authorized: false`, `maximum_jobs_now: 0`).
-3. Solver execution remains unauthorized (`solver_authorized: false`).
+3. Solver execution requires separate explicit human authorization.
 4. Downstream tasks (F2+) remain blocked until corrected H0 baseline lane completes cleanly.
 
 ## Dirty paths

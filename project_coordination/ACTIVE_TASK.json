@@ -1,8 +1,8 @@
 {
-  "active_job_id": "1379387.mmaster02",
+  "active_job_id": null,
   "authorization_file": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/MODE_II_H0_ENDPOINT_CORRECTED_R1_AUTHORIZATION.json",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_submitted",
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_pass",
   "datacheck_authorized": false,
   "datacheck_job_plan": {
     "cpus": 1,
@@ -20,16 +20,16 @@
   "execution_lane": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1",
   "maximum_datacheck_submissions": 1,
   "maximum_jobs_now": 0,
-  "next_action": "Monitor and close the replacement datacheck",
-  "next_task_after_pass": "F1-C2-R1-CLOSE",
+  "next_action": "Prepare solver authorization task F1-C2-R1-SOLVER-AUTH or await human directive",
+  "next_task_after_pass": "F1-C2-R1-SOLVER-AUTH",
   "package_path": "models/generated/mode_ii/h0_endpoint_corrected_serial",
   "preparation_parent_revision": "20cad4f94133635076da48eda821b50dd53a050a",
   "protocol_version": 1,
   "solver_authorized": false,
   "source_failed_job": "1378958.mmaster02",
   "stage": "Stage F",
-  "status": "submitted_or_running_pending_outcome",
+  "status": "complete",
   "submission_approved": true,
-  "task_id": "F1-C2-R1-DATACHECK",
-  "title": "Submit and track one replacement corrected Mode-II H0 datacheck"
+  "task_id": "F1-C2-R1-CLOSE",
+  "title": "Closeout and evidence validation for replacement corrected Mode-II H0 datacheck"
 }

@@ -1,11 +1,6 @@
 # Evidence and Scratch Inventories Summary
 
-Updated: 2026-07-26
-
-## Tracked Jobs
-# Evidence and Scratch Inventories Summary
-
-Updated: 2026-07-26
+Updated: 2026-07-28
 
 ## Tracked Jobs
 
@@ -16,6 +11,7 @@ Updated: 2026-07-26
 | F1-J1-R1 | `1378920.mmaster02` | `stage_f_mode_ii_h0_serial_staging_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_1378920.mmaster02` |
 | F1-J1-R2 | `1378942.mmaster02` | `stage_f_mode_ii_h0_second_replacement_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_1378942.mmaster02` |
 | F1-C2-DATACHECK | `1378958.mmaster02` | `stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_endpoint_corrected_datacheck_1378958.mmaster02` |
+| F1-C2-R1-DATACHECK | `1379387.mmaster02` | `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_pass` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_endpoint_corrected_datacheck_1379387.mmaster02` |
 
 ## Summary Notes
 
@@ -27,4 +23,4 @@ Updated: 2026-07-26
 - `F1-C1-CORRECTED-H0-PREP`: Offline corrected package generation and fail-closed lane qualification completed (`stage_f_mode_ii_h0_endpoint_corrected_prepared_unauthorized`); no HPC jobs or Abaqus runs executed.
 - `1378958.mmaster02`: Stage F Mode-II endpoint-corrected datacheck job stopped preflight (`abaqus_rc: 3`, `stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail`) due to missing `-v PRESTAGED_ROOT` submit wrapper arguments; scratch retained; evidence collected.
 - `F1-C2-R1-PREP`: Offline staging contract remediation completed (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_prepared_unauthorized`); submit wrapper updated to pass required `-v PRESTAGED_ROOT=...,LOGIN_MANIFEST_PATH=...,PROJECT_REVISION=...`; static validator, mocked qsub tests, local staging smoke, and cluster-login smoke passed; 0 HPC jobs executed.
-
+- `1379387.mmaster02`: Stage F Mode-II endpoint-corrected replacement datacheck completed cleanly (`Exit_status: 0`, `abaqus_return_code: 0`, `DATACHECK_ok: true`); scratch retained.
