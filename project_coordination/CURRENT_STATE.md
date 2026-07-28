@@ -8,7 +8,7 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_pr
 
 | Item | Value |
 |---|---|
-| Solver contract preparation main revision | `f7e44ae55977fb0ee93d3950efd0ea5a8e0d49ea` |
+| Solver contract preparation main revision | `f7e44ae6e7df7dcf1b7eb468eaa946b2eec9caae` |
 | Solver authorization revision | `8cec3dbde56b08f8924d8298c05052da430dd4ba` |
 | Datacheck closeout revision | `91d6fad0b972687380759c30a3a268515a733339` |
 | Datacheck replacement submission tracking revision | `aaec1b8bb4d8e8c4232dbb99c204596c76450eec` |
