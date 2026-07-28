@@ -2,8 +2,8 @@
   "active_job_id": null,
   "authorization_file": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/MODE_II_H0_ENDPOINT_CORRECTED_R1_AUTHORIZATION.json",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_prepared_unauthorized",
-  "datacheck_authorized": false,
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_authorized",
+  "datacheck_authorized": true,
   "datacheck_job_plan": {
     "cpus": 1,
     "job_name": "mode_ii_h0_endpoint_corrected_datacheck",
@@ -20,8 +20,8 @@
   "execution_lane": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1",
   "maximum_datacheck_submissions": 1,
   "maximum_jobs_now": 0,
-  "next_action": "Wait for explicit F1-C2-R1-AUTH approval",
-  "next_task_after_pass": "F1-C2-R1-AUTH",
+  "next_action": "Wait for explicit F1-C2-R1-DATACHECK submission approval",
+  "next_task_after_pass": "F1-C2-R1-DATACHECK",
   "package_path": "models/generated/mode_ii/h0_endpoint_corrected_serial",
   "preparation_parent_revision": "20cad4f94133635076da48eda821b50dd53a050a",
   "protocol_version": 1,
@@ -30,6 +30,6 @@
   "stage": "Stage F",
   "status": "complete",
   "submission_approved": false,
-  "task_id": "F1-C2-R1-PREP",
-  "title": "Repair and qualify the corrected Mode-II H0 datacheck staging contract"
+  "task_id": "F1-C2-R1-AUTH",
+  "title": "Authorize one corrected Mode-II H0 datacheck replacement"
 }

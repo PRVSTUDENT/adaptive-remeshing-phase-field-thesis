@@ -1,12 +1,12 @@
 {
   "active_job_id": null,
-  "approved_action": "none_unauthorized",
+  "approved_action": "authorize_one_datacheck_replacement",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_prepared_unauthorized",
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_authorized",
   "cluster_login_smoke_passed": true,
   "corrected_deck_sha256": "c9160d50c944de7037a9f05dc1dbccfa9718f69b198bb48659f784bac220ddef",
   "corrected_source_sha256": "5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c",
-  "datacheck_authorized": false,
+  "datacheck_authorized": true,
   "datacheck_job_plan": {
     "cpus": 1,
     "job_name": "mode_ii_h0_endpoint_corrected_datacheck",
@@ -28,9 +28,10 @@
   "maximum_solver_submissions": 1,
   "mpi_authorized": false,
   "notes": [
-    "Skeleton authorization record for replacement Mode-II H0 endpoint datacheck lane (R1).",
+    "Authorization record for replacement Mode-II H0 endpoint datacheck lane (R1).",
     "Staging contract repaired and verified via static validator, mocked qsub tests, and local/cluster-login smoke tests.",
-    "Datacheck is NOT authorized until explicit approval is granted under task F1-C2-R1-AUTH.",
+    "Datacheck replacement is authorized under task F1-C2-R1-AUTH (1 maximum submission permitted).",
+    "Job submission requires separate explicit submission task F1-C2-R1-DATACHECK approval.",
     "No solver authorization is granted.",
     "No automatic retry is permitted."
   ],

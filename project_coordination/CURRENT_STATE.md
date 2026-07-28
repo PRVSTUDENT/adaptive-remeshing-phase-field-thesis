@@ -1,13 +1,14 @@
 # Current project state
 
-Updated: 2026-07-27
+Updated: 2026-07-28
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_prepared_unauthorized`
+Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_authorized`
 
 ## Git
 
 | Item | Value |
 |---|---|
+| Datacheck replacement authorization main revision | `3c3f8ead46850ad5c9747a8d05761ca5ce49752b` |
 | Datacheck staging remediation main revision | `3c070ec40f5c609eb1ae91a6729ea2146680e3ed` |
 | Datacheck staging remediation parent revision | `20cad4f94133635076da48eda821b50dd53a050a` |
 | Datacheck closeout lock release revision | `20cad4f94133635076da48eda821b50dd53a050a` |
@@ -31,18 +32,17 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_pre
 | Original submission revision | `5b092853419e8e8829d7f4c024ce3ea78d131740` |
 | Datacheck revision | `4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b` |
 | Active agent | none |
-| Active task | **F1-C2-R1-PREP** complete (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_prepared_unauthorized`) |
+| Active task | **F1-C2-R1-AUTH** complete (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_authorized`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F1-J1-R2 complete_failed (scientific validation failed)
-Status: stage_f_mode_ii_h0_second_replacement_fail
-completed_job_id: 1378942.mmaster02 (abaqus_rc: 0, extractor_rc: 0, validator_rc: 20)
-source_failure_job_ids: 1378919.mmaster02, 1378920.mmaster02 (both authorizations consumed)
-replacement_r2_authorized: false (single submission authorization consumed by 1378942.mmaster02)
-submission_approved: true
+Current task: F1-C2-R1-AUTH complete
+Status: stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_authorized
+datacheck_authorized: true (replacement authorization granted)
+submission_approved: false (requires separate F1-C2-R1-DATACHECK submission approval)
 execution_authorized: false
+solver_authorized: false
 maximum_jobs_now: 0
 automatic_retry_authorized: false
 ```
@@ -69,7 +69,7 @@ Downstream task F2 remains **blocked**.
 
 ## Next actions
 
-1. Wait for explicit `F1-C2-DATACHECK` submission approval before submitting the datacheck job.
+1. Wait for explicit `F1-C2-R1-DATACHECK` submission approval before submitting the replacement datacheck job.
 2. Datacheck is authorized (`datacheck_authorized: true`), but submission is not approved (`submission_approved: false`, `maximum_jobs_now: 0`).
 3. Solver execution remains unauthorized (`solver_authorized: false`).
 4. Downstream tasks (F2+) remain blocked until corrected H0 baseline lane completes cleanly.
