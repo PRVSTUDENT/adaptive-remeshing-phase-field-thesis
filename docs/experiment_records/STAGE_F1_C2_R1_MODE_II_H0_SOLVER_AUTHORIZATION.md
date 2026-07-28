@@ -7,7 +7,7 @@ Base Revision: `2ba31abc222eeca6d2bf407e298670772a549406`
 Validated Datacheck Job ID: `1379387.mmaster02`
 Datacheck Closeout Revision: `91d6fad0b972687380759c30a3a268515a733339`
 Datacheck Submission Revision: `51b01ea6540663bab5a2b07b5f2b3e76cde3e23b`
-Authorization Revision: `<pending commit>`
+Authorization Revision: `8cec3dbde56b08f8924d8298c05052da430dd4ba`
 
 ## Executive Summary
 

@@ -8,6 +8,7 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_solver_authorized`
 
 | Item | Value |
 |---|---|
+| Solver authorization revision | `8cec3dbde56b08f8924d8298c05052da430dd4ba` |
 | Datacheck closeout revision | `91d6fad0b972687380759c30a3a268515a733339` |
 | Datacheck replacement submission tracking revision | `aaec1b8bb4d8e8c4232dbb99c204596c76450eec` |
 | Datacheck replacement submission operational approval revision | `51b01ea6540663bab5a2b07b5f2b3e76cde3e23b` |
