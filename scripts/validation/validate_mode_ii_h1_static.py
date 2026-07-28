@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Static scientific validator for Stage-F Mode-II H1 uniform reference package."""
 
-from __future__ import annotations
-
 import argparse
+
 import hashlib
 import json
 import re
