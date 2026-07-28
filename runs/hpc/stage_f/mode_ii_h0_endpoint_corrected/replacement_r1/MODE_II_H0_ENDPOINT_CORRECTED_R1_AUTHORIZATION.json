@@ -1,9 +1,9 @@
 {
   "active_job_id": null,
-  "approved_action": "authorize_one_datacheck_replacement",
+  "approved_action": "submit_one_datacheck_replacement",
   "authorization_main_revision": "38ab45b0afe2404ad72ccfde00039f3712001543",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_authorized",
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_submission_approved",
   "cluster_login_smoke_passed": true,
   "corrected_deck_sha256": "c9160d50c944de7037a9f05dc1dbccfa9718f69b198bb48659f784bac220ddef",
   "corrected_source_sha256": "5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c",
@@ -25,14 +25,14 @@
   "hybrid_authorized": false,
   "local_staging_smoke_passed": true,
   "maximum_datacheck_submissions": 1,
-  "maximum_jobs_now": 0,
+  "maximum_jobs_now": 1,
   "maximum_solver_submissions": 1,
   "mpi_authorized": false,
   "notes": [
     "Authorization record for replacement Mode-II H0 endpoint datacheck lane (R1).",
     "Staging contract repaired and verified via static validator, mocked qsub tests, and local/cluster-login smoke tests.",
     "Datacheck replacement is authorized under task F1-C2-R1-AUTH (1 maximum submission permitted).",
-    "Job submission requires separate explicit submission task F1-C2-R1-DATACHECK approval.",
+    "Explicit human submission approval granted under task F1-C2-R1-DATACHECK.",
     "No solver authorization is granted.",
     "No automatic retry is permitted."
   ],
@@ -51,6 +51,8 @@
   "source_failure_classification": "stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail",
   "source_failure_revision": "78b7744ddab0d5ed88f9f1118a7f5965c065604b",
   "staging_contract_verified": true,
-  "submission_approved": false,
+  "submission_approval_source": "explicit_human_approval",
+  "submission_approval_task": "F1-C2-R1-DATACHECK",
+  "submission_approved": true,
   "threaded_execution_authorized": false
 }
