@@ -2,37 +2,38 @@
 
 Updated: 2026-07-28
 Protocol version: 1
-Classification: `stage_f_mode_ii_h1_endpoint_sweep_authorized`
+Classification: `stage_f_mode_ii_h1_endpoint_sweep_submitted`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job ID | none (batch submission pending) |
-| Active agent | gemini-antigravity |
-| Active task | **F2-H1-ENDPOINT-SWEEP-BATCH** (authorized, 4 jobs) |
+| Active job IDs | `1379481.mmaster02`, `1379482.mmaster02`, `1379483.mmaster02`, `1379484.mmaster02` |
+| Active agent | none (session released) |
+| Active task | **F2-H1-ENDPOINT-SWEEP-BATCH** (`batch_submitted_pending_results`) |
 
 ## Submission boundary (critical)
 
 ```text
 Current task: F2-H1-ENDPOINT-SWEEP-BATCH
-Status: prepared_and_authorized
-Classification: stage_f_mode_ii_h1_endpoint_sweep_authorized
-active_job_ids: []
-execution_authorized: true
-submission_approved: true
+Status: batch_submitted_pending_results
+Classification: stage_f_mode_ii_h1_endpoint_sweep_submitted
+active_job_ids: ["1379481.mmaster02", "1379482.mmaster02", "1379483.mmaster02", "1379484.mmaster02"]
+execution_authorized: false (consumed)
+submission_approved: false (consumed)
 maximum_batch_submissions: 4
-submissions_used: 0
+submissions_used: 4
 maximum_running_jobs: 2
-maximum_jobs_now: 4
+maximum_jobs_now: 0
 automatic_retry_authorized: false
 ```
 
-Four Stage F Mode-II H1 endpoint sweep packages (`u015`, `u020`, `u030`, `u040`) have been deterministically generated, statically validated, and authorized for batch submission.
-- **Formulation:** Accepted Molnar staggered UEL/UMAT formulation ($h_1 = 0.0025\text{ mm}$, 12,064 physical elements, 12,382 nodes). Redundant tension BCs (`topl`, `bottoml`) removed.
-- **Resource Request:** 1 CPU, 16 GB RAM, 06:00:00 walltime per job.
-- **Guarded Wrapper:** `scripts/hpc/stage_f/mode_ii_h1_endpoint_sweep/submit_mode_ii_h1_endpoint_sweep_batch.sh`.
+The four Stage F Mode-II H1 endpoint sweep jobs have been submitted to the HPC scheduler:
+- `u015` ($U_1 = 0.015\text{ mm}$): Job ID `1379481.mmaster02`
+- `u020` ($U_1 = 0.020\text{ mm}$): Job ID `1379482.mmaster02`
+- `u030` ($U_1 = 0.030\text{ mm}$): Job ID `1379483.mmaster02`
+- `u040` ($U_1 = 0.040\text{ mm}$): Job ID `1379484.mmaster02`
 
 ## Next Action
 
-Fast-forward cluster clone, run preflight checks, execute guarded batch submission wrapper once in submission mode (`MODE_II_H1_ENDPOINT_SWEEP_SUBMIT=1`).
+Wait until all 4 jobs reach terminal scheduler states (`F`), then collect lightweight evidence and perform combined closeout in task `F2-H1-ENDPOINT-SWEEP-BATCH-CLOSE`. All submission flags are consumed (`maximum_jobs_now = 0`).

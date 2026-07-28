@@ -1,0 +1,209 @@
+Job Id: 1379481.mmaster02
+    Job_Name = m2h1_u015
+    Job_Owner = pr21vyci@mlogin01.cluster
+    job_state = Q
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Tue Jul 28 11:27:21 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/m2
+	h1_u015.e1379481
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Tue Jul 28 11:27:21 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/m
+	2h1_u015.o1379481
+    Priority = 0
+    qtime = Tue Jul 28 11:27:21 2026
+    Rerunable = True
+    Resource_List.mem = 16gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=16gb
+    Resource_List.walltime = 06:00:00
+    sandbox = PRIVATE
+    substate = 10
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,VARIANT=u015,
+	PROJECT_REVISION=fbc363fa49d8f5958d50a2e39293697f36015760,
+	PRESTAGED_ROOT=/home/pr21vyci/projects/adaptive-remeshing,
+	PRESTAGED_RUNTIME_ROOT=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_QUEUE=entry_imfdfkmq
+    comment = Not Running: Placement set is too small: Insufficient amount of r
+	esource: Qlist (normal_imfdfkmq != adminq,gpuq,longq,mediumq,shortq,
+	normal_imfdcpuq,testq,normal_stofatq,teachingq)
+    etime = Tue Jul 28 11:27:21 2026
+    eligible_time = 00:00:18
+    Submit_arguments = -N m2h1_u015 -v VARIANT=u015,
+	PROJECT_REVISION=fbc363fa49d8f5958d50a2e39293697f36015760,
+	PRESTAGED_ROOT=/home/pr21vyci/projects/adaptive-remeshing,
+	PRESTAGED_RUNTIME_ROOT=/home/pr21vyci/projects/adaptive-remeshing /hom
+	e/pr21vyci/projects/adaptive-remeshing/scripts/hpc/stage_f/mode_ii_h1_e
+	ndpoint_sweep/mode_ii_h1_endpoint_sweep.pbs
+    estimated.exec_vnode = (mnode104[0]:ncpus=1:mem=16777216kb)
+    estimated.start_time = Tue Jul 28 12:51:42 2026
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+
+Job Id: 1379482.mmaster02
+    Job_Name = m2h1_u020
+    Job_Owner = pr21vyci@mlogin01.cluster
+    job_state = Q
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Tue Jul 28 11:27:22 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/m2
+	h1_u020.e1379482
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Tue Jul 28 11:27:22 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/m
+	2h1_u020.o1379482
+    Priority = 0
+    qtime = Tue Jul 28 11:27:22 2026
+    Rerunable = True
+    Resource_List.mem = 16gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=16gb
+    Resource_List.walltime = 06:00:00
+    sandbox = PRIVATE
+    substate = 10
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,VARIANT=u020,
+	PROJECT_REVISION=fbc363fa49d8f5958d50a2e39293697f36015760,
+	PRESTAGED_ROOT=/home/pr21vyci/projects/adaptive-remeshing,
+	PRESTAGED_RUNTIME_ROOT=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_QUEUE=entry_imfdfkmq
+    etime = Tue Jul 28 11:27:22 2026
+    eligible_time = 00:00:17
+    Submit_arguments = -N m2h1_u020 -v VARIANT=u020,
+	PROJECT_REVISION=fbc363fa49d8f5958d50a2e39293697f36015760,
+	PRESTAGED_ROOT=/home/pr21vyci/projects/adaptive-remeshing,
+	PRESTAGED_RUNTIME_ROOT=/home/pr21vyci/projects/adaptive-remeshing /hom
+	e/pr21vyci/projects/adaptive-remeshing/scripts/hpc/stage_f/mode_ii_h1_e
+	ndpoint_sweep/mode_ii_h1_endpoint_sweep.pbs
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+
+Job Id: 1379483.mmaster02
+    Job_Name = m2h1_u030
+    Job_Owner = pr21vyci@mlogin01.cluster
+    job_state = Q
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Tue Jul 28 11:27:22 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/m2
+	h1_u030.e1379483
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Tue Jul 28 11:27:22 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/m
+	2h1_u030.o1379483
+    Priority = 0
+    qtime = Tue Jul 28 11:27:22 2026
+    Rerunable = True
+    Resource_List.mem = 16gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=16gb
+    Resource_List.walltime = 06:00:00
+    sandbox = PRIVATE
+    substate = 10
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,VARIANT=u030,
+	PROJECT_REVISION=fbc363fa49d8f5958d50a2e39293697f36015760,
+	PRESTAGED_ROOT=/home/pr21vyci/projects/adaptive-remeshing,
+	PRESTAGED_RUNTIME_ROOT=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_QUEUE=entry_imfdfkmq
+    etime = Tue Jul 28 11:27:22 2026
+    eligible_time = 00:00:17
+    Submit_arguments = -N m2h1_u030 -v VARIANT=u030,
+	PROJECT_REVISION=fbc363fa49d8f5958d50a2e39293697f36015760,
+	PRESTAGED_ROOT=/home/pr21vyci/projects/adaptive-remeshing,
+	PRESTAGED_RUNTIME_ROOT=/home/pr21vyci/projects/adaptive-remeshing /hom
+	e/pr21vyci/projects/adaptive-remeshing/scripts/hpc/stage_f/mode_ii_h1_e
+	ndpoint_sweep/mode_ii_h1_endpoint_sweep.pbs
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+
+Job Id: 1379484.mmaster02
+    Job_Name = m2h1_u040
+    Job_Owner = pr21vyci@mlogin01.cluster
+    job_state = Q
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Tue Jul 28 11:27:22 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/m2
+	h1_u040.e1379484
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Tue Jul 28 11:27:22 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/m
+	2h1_u040.o1379484
+    Priority = 0
+    qtime = Tue Jul 28 11:27:22 2026
+    Rerunable = True
+    Resource_List.mem = 16gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=16gb
+    Resource_List.walltime = 06:00:00
+    sandbox = PRIVATE
+    substate = 10
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,VARIANT=u040,
+	PROJECT_REVISION=fbc363fa49d8f5958d50a2e39293697f36015760,
+	PRESTAGED_ROOT=/home/pr21vyci/projects/adaptive-remeshing,
+	PRESTAGED_RUNTIME_ROOT=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_QUEUE=entry_imfdfkmq
+    etime = Tue Jul 28 11:27:22 2026
+    eligible_time = 00:00:17
+    Submit_arguments = -N m2h1_u040 -v VARIANT=u040,
+	PROJECT_REVISION=fbc363fa49d8f5958d50a2e39293697f36015760,
+	PRESTAGED_ROOT=/home/pr21vyci/projects/adaptive-remeshing,
+	PRESTAGED_RUNTIME_ROOT=/home/pr21vyci/projects/adaptive-remeshing /hom
+	e/pr21vyci/projects/adaptive-remeshing/scripts/hpc/stage_f/mode_ii_h1_e
+	ndpoint_sweep/mode_ii_h1_endpoint_sweep.pbs
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+
