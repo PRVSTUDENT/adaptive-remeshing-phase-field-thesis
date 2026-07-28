@@ -8,7 +8,7 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_aut
 
 | Item | Value |
 |---|---|
-| Datacheck replacement authorization main revision | `3c3f8ead46850ad5c9747a8d05761ca5ce49752b` |
+| Datacheck replacement authorization main revision | `38ab45b0afe2404ad72ccfde00039f3712001543` |
 | Datacheck staging remediation main revision | `3c070ec40f5c609eb1ae91a6729ea2146680e3ed` |
 | Datacheck staging remediation parent revision | `20cad4f94133635076da48eda821b50dd53a050a` |
 | Datacheck closeout lock release revision | `20cad4f94133635076da48eda821b50dd53a050a` |

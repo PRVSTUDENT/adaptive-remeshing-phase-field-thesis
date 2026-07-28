@@ -4,6 +4,7 @@
 - **Task ID**: `F1-C2-R1-AUTH`
 - **Classification Target**: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_authorized`
 - **Base Commit**: `3c3f8ead46850ad5c9747a8d05761ca5ce49752b`
+- **Main Revision**: `38ab45b0afe2404ad72ccfde00039f3712001543`
 - **Date**: 2026-07-28
 - **Author**: gemini-antigravity
 
