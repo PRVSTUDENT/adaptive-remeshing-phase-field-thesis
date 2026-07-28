@@ -309,6 +309,7 @@ Retry job: none
 Outcome: Job `1379393.mmaster02` completed FE execution cleanly, but failed automated wrapper validation due to validator script schema bugs. Single solver submission consumed (1/1); downstream task F2 remains blocked.
 Evidence paths: `runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/evidence/1379393.mmaster02/`
 Prevention rule: Ensure result validators query the correct target CSV/JSON schema and evaluate full-field scalar summaries rather than partial intermediate contour subsets.
-Status: closed (solver submission consumed 1/1; validator schema failure logged)
+Status: resolved (fixed offline in task F1-C2-R1-H0-VALIDATOR-FIX; validate_mode_ii_h0_endpoint_corrected_results.py updated to parse rf1_u1_curve.csv and phase_bounds_summary.json; H0 baseline formally passed: stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass)
+
 
 

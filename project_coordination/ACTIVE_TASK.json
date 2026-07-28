@@ -1,8 +1,8 @@
 {
-  "active_job_id": "1379393.mmaster02",
+  "active_job_id": null,
   "authorization_file": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/MODE_II_H0_ENDPOINT_CORRECTED_R1_AUTHORIZATION.json",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_fail",
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass",
   "datacheck_authorized": false,
   "datacheck_closeout_revision": "91d6fad0b972687380759c30a3a268515a733339",
   "datacheck_job_id": "1379387.mmaster02",
@@ -13,8 +13,8 @@
   "maximum_datacheck_submissions": 1,
   "maximum_jobs_now": 0,
   "maximum_solver_submissions": 1,
-  "next_action": "Wait for explicit human decision regarding validator schema fix vs solver results",
-  "next_task_after_pass": "",
+  "next_action": "Proceed to H1 baseline / mesh-refined Mode-II study preparation",
+  "next_task_after_pass": "F2-H1-BASELINE-PREP",
   "package_path": "models/generated/mode_ii/h0_endpoint_corrected_serial",
   "preparation_parent_revision": "20cad4f94133635076da48eda821b50dd53a050a",
   "protocol_version": 1,
@@ -34,8 +34,8 @@
   "solver_submissions_used": 1,
   "source_failed_job": "1378958.mmaster02",
   "stage": "Stage F",
-  "status": "complete_failed",
+  "status": "complete",
   "submission_approved": true,
-  "task_id": "F1-C2-R1-SOLVER-CLOSE",
-  "title": "Closeout and evidence validation for corrected Mode-II H0 serial solver job"
+  "task_id": "F1-C2-R1-H0-VALIDATOR-FIX",
+  "title": "Correct H0 result validator offline and formally classify H0 baseline pass"
 }

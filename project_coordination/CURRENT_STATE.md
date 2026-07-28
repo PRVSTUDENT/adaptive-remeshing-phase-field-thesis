@@ -2,13 +2,13 @@
 
 Updated: 2026-07-28
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_fail`
+Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job ID | `1379393.mmaster02` (closed) |
+| Active job ID | null |
 | Submitted project revision | `4d3de793e8ed37d650a0d83d9906afd0b313e661` |
 | Solver contract preparation correction main revision | `0a7e72a25a06428dd97e9ad1f1d134bea4404289` |
 | Solver contract preparation main revision | `f7e44ae6e7df7dcf1b7eb468eaa946b2eec9caae` |
@@ -25,25 +25,25 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_fail`
 | Endpoint audit revision | `49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c` |
 | Endpoint audit parent revision | `b65839552727f3d1242bbde1e4d24f7fb7a8087b` |
 | Active agent | none |
-| Active task | **F1-C2-R1-SOLVER-CLOSE** completed (`stage_f_mode_ii_h0_endpoint_corrected_serial_fail`) |
+| Active task | **F1-C2-R1-H0-VALIDATOR-FIX** completed (`stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F1-C2-R1-SOLVER-CLOSE completed
-Status: stage_f_mode_ii_h0_endpoint_corrected_serial_fail
-active_job_id: 1379393.mmaster02 (closed)
+Current task: F1-C2-R1-H0-VALIDATOR-FIX completed
+Status: stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass
+active_job_id: null
 datacheck_authorized: false (replacement datacheck passed; authorization consumed)
-solver_authorized: false (solver job 1379393.mmaster02 completed; submission consumed 1/1)
+solver_authorized: false (solver job 1379393.mmaster02 completed and formally passed)
 submission_approved: true
 execution_authorized: false
 maximum_jobs_now: 0
 automatic_retry_authorized: false
 ```
 
-Corrected Mode-II H0 serial solver job `1379393.mmaster02` completed Abaqus solver execution (2000 increments, $U_1 = 0.0100\text{ mm}$, $F_{1,\max} = 0.3733\text{ kN}$, $\max(d) = 0.9909$). Wrapper validation returned exit status 12 due to validator script schema bugs. Single authorized solver submission is consumed (`solver_submissions_used: 1`).
-No further submissions or retries are permitted.
-Downstream task F2 remains **blocked**.
+Corrected Mode-II H0 serial solver job `1379393.mmaster02` completed Abaqus solver execution (2000 increments, $U_1 = 0.0100\text{ mm}$, $F_{1,\max} = 0.3733\text{ kN}$, $\max(d) = 0.9909$) and passed offline result validation after validator script schema correction (`stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass`).
+Single authorized solver submission is consumed (`solver_submissions_used: 1`).
+No further submissions or retries are permitted for H0.
 
 ## Stage F corrected package (closed job 1379393.mmaster02)
 
@@ -56,7 +56,8 @@ Downstream task F2 remains **blocked**.
 
 ## Next actions
 
-1. Wait for explicit human decision regarding validator schema fix vs solver results.
+1. Proceed to H1 baseline / mesh-refined Mode-II study preparation (`F2-H1-BASELINE-PREP`).
+
 
 
 ## Dirty paths

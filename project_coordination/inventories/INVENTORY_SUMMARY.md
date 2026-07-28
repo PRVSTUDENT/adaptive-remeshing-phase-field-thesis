@@ -12,7 +12,7 @@ Updated: 2026-07-28
 | F1-J1-R2 | `1378942.mmaster02` | `stage_f_mode_ii_h0_second_replacement_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_serial_1378942.mmaster02` |
 | F1-C2-DATACHECK | `1378958.mmaster02` | `stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_endpoint_corrected_datacheck_1378958.mmaster02` |
 | F1-C2-R1-DATACHECK | `1379387.mmaster02` | `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_pass` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_endpoint_corrected_datacheck_1379387.mmaster02` |
-| F1-C2-R1-SOLVER | `1379393.mmaster02` | `stage_f_mode_ii_h0_endpoint_corrected_serial_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_endpoint_corrected_serial_1379393.mmaster02` |
+| F1-C2-R1-SOLVER | `1379393.mmaster02` | `stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_endpoint_corrected_serial_1379393.mmaster02` |
 
 ## Summary Notes
 
@@ -26,5 +26,6 @@ Updated: 2026-07-28
 - `F1-C2-R1-PREP`: Offline staging contract remediation completed (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_prepared_unauthorized`); submit wrapper updated to pass required `-v PRESTAGED_ROOT=...,LOGIN_MANIFEST_PATH=...,PROJECT_REVISION=...`; static validator, mocked qsub tests, local staging smoke, and cluster-login smoke passed; 0 HPC jobs executed.
 - `1379387.mmaster02`: Stage F Mode-II endpoint-corrected replacement datacheck completed cleanly (`Exit_status: 0`, `abaqus_return_code: 0`, `DATACHECK_ok: true`); scratch retained.
 - `F1-C2-R1-SOLVER-PREP`: Offline serial solver staging contract remediation completed (`stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_prepared_unauthorized`); submit wrapper updated to prestage package + runtime scripts and pass `-v PRESTAGED_ROOT=...,LOGIN_MANIFEST_PATH=...,PROJECT_REVISION=...,PRESTAGED_RUNTIME_ROOT=...`; static validator, 195 unit tests, and local solver staging smoke passed; 0 HPC jobs executed.
-- `1379393.mmaster02`: Corrected Mode-II H0 serial solver completed Abaqus solver execution cleanly (`Exit_status: 12`, `abaqus_rc: 0`, `extractor_rc: 0`, 2000 increments, $U_1 = 0.0100\text{ mm}$, $F_{1,\max} = 0.3733\text{ kN}$, $\max(d) = 0.9909 \ge 0.50$), but failed automated wrapper validation due to validator script schema bugs (`validator_rc: 1`, `stage_f_mode_ii_h0_endpoint_corrected_serial_fail`); scratch retained.
+- `1379393.mmaster02`: Corrected Mode-II H0 serial solver completed FE execution cleanly (`abaqus_rc: 0`, `extractor_rc: 0`, 2000 increments, $U_1 = 0.0100\text{ mm}$, $F_{1,\max} = 0.3733\text{ kN}$, $\max(d) = 0.9909 \ge 0.50$); offline validator corrected in task F1-C2-R1-H0-VALIDATOR-FIX (`stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass`); scratch retained.
+
 

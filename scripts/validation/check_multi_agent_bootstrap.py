@@ -60,6 +60,7 @@ ALLOWED_TASK_IDS = frozenset(
         "F1-C2-R1-SOLVER-REAUTH",
         "F1-C2-R1-SOLVER",
         "F1-C2-R1-SOLVER-CLOSE",
+        "F1-C2-R1-H0-VALIDATOR-FIX",
         "F1-J1",
     }
 )

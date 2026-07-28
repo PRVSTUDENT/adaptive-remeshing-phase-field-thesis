@@ -2,6 +2,7 @@
 """Unit tests for Mode-II H0 endpoint-corrected result validator."""
 
 import csv
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -23,22 +24,47 @@ class TestValidateModeIIH0EndpointCorrectedResults(unittest.TestCase):
     def tearDown(self) -> None:
         self.tmp_dir.cleanup()
 
-    def _create_synthetic_result(self, u1: float = 0.010, crack_rows: int = 10, max_sdv15: float = 0.8) -> None:
+    def _create_synthetic_result(
+        self,
+        u1: float = 0.010,
+        crack_rows: int = 10,
+        max_sdv15: float = 0.8,
+        history_violations: int = 0,
+    ) -> None:
+        rf1_csv = self.ext_dir / "rf1_u1_curve.csv"
+        with rf1_csv.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(["step", "frame", "rp_u1", "rp_rf1", "max_sdv15"])
+            writer.writerow([1, 1, 0.005, 0.2, 0.1])
+            writer.writerow([2, 20, u1, 0.3, max_sdv15])
+
         energy_csv = self.ext_dir / "energy_history.csv"
         with energy_csv.open("w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
-            writer.writerow(["step", "frame", "rp_u1", "rp_rf1", "ALLSE"])
-            writer.writerow([1, 1, 0.005, 0.2, 0.01])
-            writer.writerow([2, 20, u1, 0.3, 0.05])
+            writer.writerow(["step", "step_time", "variable", "value"])
+            writer.writerow(["Step-1", 0.0, "ALLAE", 0.0])
+            writer.writerow(["Step-2", 0.2, "ALLAE", 0.01])
 
-        crack_csv = self.ext_dir / "sdv14_sdv15_sdv16_contours.csv"
+        phase_json = self.ext_dir / "phase_bounds_summary.json"
+        phase_json.write_text(
+            json.dumps({"maximum_phase": max_sdv15, "minimum_phase": 0.0, "values_checked": 100}),
+            encoding="utf-8",
+        )
+
+        irrev_json = self.ext_dir / "irreversibility_summary.json"
+        irrev_json.write_text(
+            json.dumps({"history_decrease_violation_count": history_violations}),
+            encoding="utf-8",
+        )
+
+        crack_csv = self.ext_dir / "crack_path_sdv15_ge_0p5.csv"
         with crack_csv.open("w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
-            writer.writerow(["x", "y", "sdv14", "sdv15", "sdv16"])
+            writer.writerow(["element", "phase_variable", "phase_value", "threshold", "step", "frame"])
             if crack_rows > 0:
                 for i in range(crack_rows):
-                    sdv15 = max_sdv15 if i == 0 else 0.1
-                    writer.writerow([0.5 + i * 0.01, 0.5, 0.0, sdv15, 0.0])
+                    sdv15 = max_sdv15 if i == 0 else 0.5
+                    writer.writerow([1000 + i, "SDV15", sdv15, 0.5, "Step-2", 20])
 
     def test_result_validator_accepts_valid_synthetic_result(self) -> None:
         self._create_synthetic_result(u1=0.010, crack_rows=10, max_sdv15=0.8)
@@ -58,7 +84,7 @@ class TestValidateModeIIH0EndpointCorrectedResults(unittest.TestCase):
         res = validate_results(self.ev_dir, abaqus_return_code=0, extractor_return_code=0)
         self.assertFalse(res["passed"])
         self.assertEqual(res["classification"], FAIL_CLASSIFICATION)
-        self.assertTrue(any("crack-path" in f for f in res["failures"]))
+        self.assertTrue(any("crack-path" in f or "maximum damage" in f for f in res["failures"]))
 
 
 if __name__ == "__main__":

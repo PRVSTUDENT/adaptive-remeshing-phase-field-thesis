@@ -1,15 +1,14 @@
 {
   "abaqus_return_code": 0,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_validation_fail",
-  "crack_path_rows": 62880,
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass",
+  "crack_path_rows": 73,
   "expected_u1_target_mm": 0.01,
   "extractor_return_code": 0,
-  "failures": [
-    "could not parse rp_u1 from energy history CSV",
-    "maximum damage sdv15 reaches threshold >= 0.5 (got 0.2987)"
-  ],
-  "final_u1_mm": null,
-  "max_sdv15": 0.29867023229599,
-  "passed": false,
-  "total_checks": 7
+  "failures": [],
+  "final_u1_mm": 0.009999999776482582,
+  "history_decrease_violations": 0,
+  "max_rf1_kn": 0.3732709586620331,
+  "max_sdv15": 0.9908835887908936,
+  "passed": true,
+  "total_checks": 12
 }
