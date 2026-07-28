@@ -1,17 +1,22 @@
 {
   "active_job_id": null,
   "allowed_tasks": [
-    "F2-H1-BASELINE-PREP"
+    "F2-H1-DATACHECK-LANE-FIX"
   ],
   "automatic_retry_authorized": false,
+  "classification": "stage_f_mode_ii_h1_endpoint_corrected_prepared_unauthorized",
   "datacheck_authorized": false,
   "datacheck_job_id": null,
   "datacheck_submissions_used": 0,
   "execution_authorized": false,
+  "maximum_datacheck_submissions": 1,
   "maximum_jobs_now": 0,
+  "maximum_solver_submissions": 1,
+  "preparation_revision": "2ad35d92fab7b7055e931bf22c3bad67e97e0dce",
   "solver_authorized": false,
   "solver_job_id": null,
   "solver_submissions_used": 0,
   "stage": "stage_f_mode_ii_h1_endpoint_corrected",
-  "task_id": "F2-H1-BASELINE-PREP"
+  "submission_approved": false,
+  "task_id": "F2-H1-DATACHECK-LANE-FIX"
 }

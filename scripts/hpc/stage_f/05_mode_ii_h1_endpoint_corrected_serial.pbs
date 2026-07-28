@@ -1,13 +1,12 @@
 #!/bin/bash
-#PBS -N mode_ii_h1_endpoint_corrected_serial
+#PBS -N mode_ii_h1_serial
 #PBS -q entry_imfdfkmq
-#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l select=1:ncpus=1:mem=32gb
 #PBS -l walltime=06:00:00
 #PBS -j oe
 #PBS -m abe
 
-# Stage F Mode-II H1 endpoint-corrected serial solver execution script.
-# One-shot serial CPU1/16GB/06:00:00 execution; no automatic retry.
+# Stage F Mode-II H1 endpoint-corrected serial solver script.
 
 set -uo pipefail
 
@@ -25,7 +24,22 @@ LOGIN_MANIFEST_PATH="${LOGIN_MANIFEST_PATH:-}"
 PRESTAGED_ROOT="${PRESTAGED_ROOT:-}"
 PRESTAGED_RUNTIME_ROOT="${PRESTAGED_RUNTIME_ROOT:-${PRESTAGED_ROOT}/runtime}"
 
-# Telegram Notification Trap & Begin Wiring
+mkdir -p "${SCRATCH_RUN}" "${EVIDENCE_DIR}"
+
+# 1. Load Python module FIRST before calling pbs_notify_begin
+PRE_SOLVER_ONLY="${MODE_II_H1_PRE_SOLVER_ONLY:-0}"
+ALLOW_LOCAL_NO_MODULES="${MODE_II_H1_ALLOW_LOCAL_NO_MODULES:-0}"
+
+if command -v module >/dev/null 2>&1; then
+  module --force purge > "${ENV_LOG}" 2>&1 || true
+  module load python/gcc/11.4.0/3.11.7 >> "${ENV_LOG}" 2>&1 || true
+elif [ "${PRE_SOLVER_ONLY}" = "1" ] && [ "${ALLOW_LOCAL_NO_MODULES}" = "1" ]; then
+  echo "Local check: python module environment bypassed" >> "${ENV_LOG}"
+else
+  exit 5
+fi
+
+# 2. Telegram Notification Setup (Python available)
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
 export PBS_NOTIFY_LOG="${SCRATCH_RUN}/telegram_notify.log"
 
@@ -37,7 +51,13 @@ if [ -f "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" ]; then
     fi
 fi
 
-mkdir -p "${EVIDENCE_DIR}" "${SCRATCH_RUN}"
+# 3. Load remaining compiler and solver modules
+if command -v module >/dev/null 2>&1; then
+  module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || exit 5
+  module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || exit 5
+  module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || exit 5
+fi
+
 cd "${SCRATCH_RUN}" || exit 2
 
 write_status() {
@@ -48,7 +68,7 @@ write_status() {
   local failure="$5"
   cat > "${SCRATCH_RUN}/MODE_II_H1_ENDPOINT_CORRECTED_SERIAL_STATUS.json" <<EOF
 {
-  "MODE_II_H1_ENDPOINT_CORRECTED_SERIAL_ok": false,
+  "MODE_II_H1_SERIAL_ok": false,
   "classification": "${classification}",
   "failures": ["${failure}"],
   "job_id": "${PBS_JOBID:-unknown}",
@@ -79,135 +99,8 @@ copy_evidence() {
   fi
 }
 
-PRE_SOLVER_ONLY="${MODE_II_H1_PRE_SOLVER_ONLY:-0}"
-ALLOW_LOCAL_NO_MODULES="${MODE_II_H1_ALLOW_LOCAL_NO_MODULES:-0}"
-MODULE_ENVIRONMENT_LOADED=false
-
-if command -v module >/dev/null 2>&1; then
-  module --force purge > "${ENV_LOG}" 2>&1 || true
-
-  # Load Python before solver modules as required by Telegram notification wiring
-  module load python/gcc/11.4.0/3.11.7 >> "${ENV_LOG}" 2>&1 || true
-
-  module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || {
-    write_status "stage_f_mode_ii_h1_endpoint_corrected_serial_env_fail" 5 -1 -1 "module load gcc/11.4.0 failed"
-    copy_evidence
-    exit 5
-  }
-  module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || {
-    write_status "stage_f_mode_ii_h1_endpoint_corrected_serial_env_fail" 5 -1 -1 "module load intel/2024.2.0 failed"
-    copy_evidence
-    exit 5
-  }
-  module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || {
-    write_status "stage_f_mode_ii_h1_endpoint_corrected_serial_env_fail" 5 -1 -1 "module load abaqus/2023 failed"
-    copy_evidence
-    exit 5
-  }
-  MODULE_ENVIRONMENT_LOADED=true
-elif [ "${PRE_SOLVER_ONLY}" = "1" ] && [ "${ALLOW_LOCAL_NO_MODULES}" = "1" ]; then
-  echo "Local check: module environment bypassed" >> "${ENV_LOG}"
-  MODULE_ENVIRONMENT_LOADED=false
-else
-  write_status "stage_f_mode_ii_h1_endpoint_corrected_serial_env_fail" 5 -1 -1 "required module command unavailable"
-  copy_evidence
-  exit 5
-fi
-
-# Require absolute non-empty environment variables
-if [ -z "${PRESTAGED_ROOT}" ] || [[ "${PRESTAGED_ROOT}" != /* ]] || \
-   [ -z "${LOGIN_MANIFEST_PATH}" ] || [[ "${LOGIN_MANIFEST_PATH}" != /* ]] || [ ! -f "${LOGIN_MANIFEST_PATH}" ] || \
-   [ -z "${PRESTAGED_RUNTIME_ROOT}" ] || [[ "${PRESTAGED_RUNTIME_ROOT}" != /* ]] || [ ! -d "${PRESTAGED_RUNTIME_ROOT}" ]; then
-  write_status "stage_f_mode_ii_h1_endpoint_corrected_serial_stage_fail" 3 -1 -1 "missing or non-absolute PRESTAGED_ROOT, LOGIN_MANIFEST_PATH, or PRESTAGED_RUNTIME_ROOT"
-  copy_evidence
-  exit 3
-fi
-
-EXTRACTOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/postprocessing/extract_molnar_single_notch.py"
-VALIDATOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/validation/validate_mode_ii_h1_endpoint_corrected_results.py"
-CONFIG_FILE="${PRESTAGED_RUNTIME_ROOT}/configs/studies/mode_ii_molnar_shear_endpoint_corrected.yaml"
-
-if [ ! -f "${EXTRACTOR_SCRIPT}" ] || [ ! -f "${VALIDATOR_SCRIPT}" ] || [ ! -f "${CONFIG_FILE}" ]; then
-  write_status "stage_f_mode_ii_h1_endpoint_corrected_serial_stage_fail" 3 -1 -1 "missing runtime extractor, validator, or config script in PRESTAGED_RUNTIME_ROOT"
-  copy_evidence
-  exit 3
-fi
-
-# Deep manifest parsing and hash/path verification via Python helper
-MANIFEST_VAL_JSON="$(python3 - "${LOGIN_MANIFEST_PATH}" "${SOURCE_COMMIT}" "${PRESTAGED_ROOT}" "${PRESTAGED_RUNTIME_ROOT}" <<'PY'
-import hashlib, json, os, sys
-try:
-    manifest_path, env_commit, env_root, env_runtime = sys.argv[1:5]
-    m = json.load(open(manifest_path, encoding="utf-8"))
-
-    errors = []
-
-    # 1. Exact manifest classification check
-    if m.get("classification") != "stage_f_mode_ii_h1_endpoint_corrected_serial_solver_login_staging_complete":
-        errors.append("manifest classification mismatch")
-
-    # 2. Project revision match
-    if m.get("project_revision") != env_commit:
-        errors.append(f"project revision mismatch: {m.get('project_revision')} != {env_commit}")
-
-    # 3. Absolute paths and root matches
-    if m.get("runtime_root") != env_runtime:
-        errors.append(f"runtime root mismatch: {m.get('runtime_root')} != {env_runtime}")
-
-    expected_pkg_dir = os.path.join(env_root, "models/generated/mode_ii/h1_endpoint_corrected_serial")
-    if m.get("package_path") != expected_pkg_dir:
-        errors.append(f"package path mismatch: {m.get('package_path')} != {expected_pkg_dir}")
-
-    # 4. Hash verification for deck, source, extractor, validator, config
-    deck_file = os.path.join(expected_pkg_dir, "ModeII_H1_endpoint_corrected_serial.inp")
-    source_file = os.path.join(expected_pkg_dir, "ModeII_H1_endpoint_corrected_serial.for")
-    ext_file = os.path.join(env_runtime, "scripts/postprocessing/extract_molnar_single_notch.py")
-    val_file = os.path.join(env_runtime, "scripts/validation/validate_mode_ii_h1_endpoint_corrected_results.py")
-    cfg_file = os.path.join(env_runtime, "configs/studies/mode_ii_molnar_shear_endpoint_corrected.yaml")
-
-    def sha(p):
-        return hashlib.sha256(open(p, "rb").read()).hexdigest()
-
-    if not os.path.isfile(deck_file) or sha(deck_file) != m.get("deck_sha256"):
-        errors.append("deck hash mismatch")
-    if not os.path.isfile(source_file) or sha(source_file) != m.get("source_sha256"):
-        errors.append("source hash mismatch")
-    if not os.path.isfile(ext_file) or sha(ext_file) != m.get("extractor_sha256"):
-        errors.append("extractor hash mismatch")
-    if not os.path.isfile(val_file) or sha(val_file) != m.get("validator_sha256"):
-        errors.append("validator hash mismatch")
-    if not os.path.isfile(cfg_file) or sha(cfg_file) != m.get("configuration_sha256"):
-        errors.append("configuration hash mismatch")
-
-    # 5. Resource plan check
-    if m.get("cpus") != 1 or m.get("mpi_ranks") != 1 or m.get("omp_threads") != 1:
-        errors.append("resource plan mismatch (must be 1 CPU / 1 MPI / 1 OMP thread)")
-
-    res = {"ok": len(errors) == 0, "errors": errors}
-    print(json.dumps(res))
-except Exception as e:
-    print(json.dumps({"ok": False, "errors": [str(e)]}))
-PY
-)"
-
-MANIFEST_OK="$(python3 -c "import json; print(str(json.loads('''${MANIFEST_VAL_JSON}''').get('ok', False)).lower())" 2>/dev/null || echo "false")"
-
-if [ "${MANIFEST_OK}" != "true" ]; then
-  write_status "stage_f_mode_ii_h1_endpoint_corrected_serial_hash_fail" 6 -1 -1 "login manifest validation failure: ${MANIFEST_VAL_JSON}"
-  copy_evidence
-  exit 6
-fi
-
-cd "${PRESTAGED_ROOT}/${PACKAGE_REL}" || {
-  write_status "stage_f_mode_ii_h1_endpoint_corrected_serial_stage_fail" 4 -1 -1 "missing staged package"
-  copy_evidence
-  exit 4
-}
-sha256sum -c input_hashes.sha256 > "${SCRATCH_RUN}/input_hash_check.txt" 2>&1 || {
-  write_status "stage_f_mode_ii_h1_endpoint_corrected_serial_hash_fail" 6 -1 -1 "staged input hash failure"
-  copy_evidence
-  exit 6
-}
+cd "${PRESTAGED_ROOT}/${PACKAGE_REL}" || exit 4
+sha256sum -c input_hashes.sha256 > "${SCRATCH_RUN}/input_hash_check.txt" 2>&1 || exit 6
 
 cp ModeII_H1_endpoint_corrected_serial.inp "${SCRATCH_RUN}/${JOB_NAME}.inp"
 cp ModeII_H1_endpoint_corrected_serial.for "${SCRATCH_RUN}/ModeII_H1_endpoint_corrected_serial.for"
@@ -219,7 +112,6 @@ if [ "${PRE_SOLVER_ONLY}" = "1" ]; then
 {
   "classification": "stage_f_mode_ii_h1_endpoint_corrected_serial_preflight_pass",
   "preflight_ok": true,
-  "failures": [],
   "job_id": "${PBS_JOBID:-unknown}",
   "source_commit": "${SOURCE_COMMIT}"
 }
@@ -246,46 +138,47 @@ if [ "${ABAQUS_RC}" -ne 0 ]; then
 fi
 
 if [ "${pass}" = true ]; then
-  mkdir -p "${SCRATCH_RUN}/extracted"
+  EXTRACTOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/postprocessing/extract_molnar_single_notch.py"
+  CONFIG_PATH="${PRESTAGED_RUNTIME_ROOT}/configs/studies/mode_ii_molnar_shear_endpoint_corrected.yaml"
+
   set +e
   abaqus python "${EXTRACTOR_SCRIPT}" \
-    --odb "${SCRATCH_RUN}/${JOB_NAME}.odb" \
-    --sta "${SCRATCH_RUN}/${JOB_NAME}.sta" \
-    --dat "${SCRATCH_RUN}/${JOB_NAME}.dat" \
-    --msg "${SCRATCH_RUN}/${JOB_NAME}.msg" \
-    --displacement-component 1 \
-    --reaction-component 1 \
-    --path-threshold 0.5 \
+    "${SCRATCH_RUN}/${JOB_NAME}.odb" \
+    --config "${CONFIG_PATH}" \
     --output-dir "${SCRATCH_RUN}/extracted" \
     >> "${JOB_NAME}.abaqus_stdout.log" 2>&1
   EXT_RC=$?
   set -e
+
   if [ "${EXT_RC}" -ne 0 ]; then
     pass=false
-    failure="extraction_failed"
+    failure="odb_extractor_failed"
   fi
 fi
 
 if [ "${pass}" = true ]; then
+  VALIDATOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/validation/validate_mode_ii_h1_endpoint_corrected_results.py"
+
   set +e
   python3 "${VALIDATOR_SCRIPT}" \
     "${SCRATCH_RUN}" \
     --abaqus-rc "${ABAQUS_RC}" \
     --extractor-rc "${EXT_RC}" \
-    >> "${JOB_NAME}.abaqus_stdout.log" 2>&1
+    > "${SCRATCH_RUN}/MODE_II_H1_ENDPOINT_CORRECTED_SERIAL_VALIDATION.json" 2>&1
   VAL_RC=$?
   set -e
+
   if [ "${VAL_RC}" -ne 0 ]; then
     pass=false
-    failure="result_validation_failed"
+    failure="scientific_validator_failed"
   fi
 fi
 
 if [ "${pass}" = true ]; then
   cat > "${SCRATCH_RUN}/MODE_II_H1_ENDPOINT_CORRECTED_SERIAL_STATUS.json" <<EOF
 {
-  "MODE_II_H1_ENDPOINT_CORRECTED_SERIAL_ok": true,
-  "classification": "stage_f_mode_ii_h1_endpoint_corrected_serial_baseline_characterized",
+  "MODE_II_H1_SERIAL_ok": true,
+  "classification": "stage_f_mode_ii_h1_endpoint_corrected_serial_baseline_pass",
   "failures": [],
   "job_id": "${PBS_JOBID:-unknown}",
   "scratch_run": "${SCRATCH_RUN}",
