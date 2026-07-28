@@ -1,28 +1,28 @@
 {
   "active_job_id": null,
   "allowed_tasks": [
-    "F2-H1-DATACHECK"
+    "F2-H1-SOLVER"
   ],
-  "approved_base_revision": "14fe3e510a44e5c202d045067063c9bfa0ee884e",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h1_uniform_datacheck_pass",
+  "classification": "stage_f_mode_ii_h1_uniform_solver_submission_approved",
   "datacheck_authorized": false,
+  "datacheck_closeout_revision": "ecfea4f06a0332bc2758e28f4fa9554495849760",
   "datacheck_job_id": "1379431.mmaster02",
+  "datacheck_metadata_revision": "0e246d507555e060a08dd81a1693fca5458bad29",
   "datacheck_submissions_used": 1,
   "deck_sha256": "613398be7cd1c9061cbb469beb4130188512a2f6d25cf3d78b6364eb3255342f",
-  "execution_authorized": false,
+  "execution_authorized": true,
   "fortran_sha256": "745db8fcfb612895e0289f4533c90d204cc9b2ade3678a035614feeb308b5ead",
-  "human_approval": "approve_one_h1_datacheck_job",
+  "human_approval": "approve_one_h1_solver_job",
   "maximum_datacheck_submissions": 1,
-  "maximum_jobs_now": 0,
+  "maximum_jobs_now": 1,
   "maximum_solver_submissions": 1,
   "retry_authorized": false,
   "scientific_preparation_revision": "3b44b37d1eb8d3194cc8c7ddf35699a50a90cdc9",
-  "solver_authorized": false,
+  "solver_authorized": true,
   "solver_job_id": null,
   "solver_submissions_used": 0,
   "stage": "stage_f_mode_ii_h1_uniform",
-  "submission_approved": false,
-  "task_id": "F2-H1-DATACHECK",
-  "wrapper_repair_revision": "aecdd1923f9b2fee51fb01bd34c33444a3f114d2"
+  "submission_approved": true,
+  "task_id": "F2-H1-SOLVER"
 }

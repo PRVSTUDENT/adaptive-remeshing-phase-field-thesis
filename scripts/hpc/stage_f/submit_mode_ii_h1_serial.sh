@@ -68,11 +68,18 @@ SUBMIT_NOTIFY="${PROJECT_ROOT}/scripts/hpc/qsub_with_submitted_notify.sh"
 
 echo "Authorization verified. Submitting Stage F Mode-II H1 serial solver job..."
 
+PROJECT_REVISION="$(git -C "${PROJECT_ROOT}" rev-parse HEAD 2>/dev/null || echo "unknown")"
+PRESTAGED_ROOT="${PROJECT_ROOT}"
+PRESTAGED_RUNTIME_ROOT="${PROJECT_ROOT}"
+
 if [ -f "${SUBMIT_NOTIFY}" ]; then
   bash "${SUBMIT_NOTIFY}" \
     --job-name "${JOB_NAME}" \
     --message "Queue: entry_imfdfkmq; CPUs: 1; memory: 32 GB; walltime: 06:00:00" \
-    -- "${PBS_SCRIPT}"
+    -- \
+    -v "PROJECT_REVISION=${PROJECT_REVISION},PRESTAGED_ROOT=${PRESTAGED_ROOT},PRESTAGED_RUNTIME_ROOT=${PRESTAGED_RUNTIME_ROOT}" \
+    "${PBS_SCRIPT}"
 else
-  qsub "${PBS_SCRIPT}"
+  qsub -v "PROJECT_REVISION=${PROJECT_REVISION},PRESTAGED_ROOT=${PRESTAGED_ROOT},PRESTAGED_RUNTIME_ROOT=${PRESTAGED_RUNTIME_ROOT}" "${PBS_SCRIPT}"
 fi
+
