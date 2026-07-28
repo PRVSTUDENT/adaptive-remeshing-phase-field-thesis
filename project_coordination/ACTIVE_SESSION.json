@@ -1,25 +1,9 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_write_scope": [
-    "scripts/validation/validate_mode_ii_h1_endpoint_corrected_static.py",
-    "models/generated/mode_ii/h1_endpoint_corrected_serial/",
-    "scripts/hpc/stage_f/",
-    "runs/hpc/stage_f/mode_ii_h1_endpoint_corrected/",
-    "docs/experiment_records/",
-    "scripts/hpc/pbs_notify.sh",
-    "tests/unit/",
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json",
-    "project_coordination/CURRENT_STATE.md",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/HPC_JOB_LEDGER.csv",
-    "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/inventories/INVENTORY_SUMMARY.md",
-    "project_coordination/sessions/"
-  ],
+  "active": false,
+  "agent": "",
+  "allowed_write_scope": [],
   "protocol_version": 1,
-  "start_time_utc": "2026-07-28T09:26:00Z",
-  "starting_commit": "ee2c2da578de939f579b6579dcd018c4c3ae9fe6",
-  "task_id": "F2-H1-DATACHECK-LANE-FIX"
+  "start_time_utc": "",
+  "starting_commit": "",
+  "task_id": ""
 }

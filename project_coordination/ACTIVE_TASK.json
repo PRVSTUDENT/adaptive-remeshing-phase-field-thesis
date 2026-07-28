@@ -12,17 +12,18 @@
   "maximum_jobs_now": 0,
   "maximum_solver_submissions": 1,
   "next_action": "Wait for authorization before Stage F Mode-II H1 datacheck submission",
-  "next_task_after_pass": "F2-H1-DATACHECK",
+  "next_task_after_pass": "F2-H1-DATACHECK-AUTH",
+
 
   "package_path": "models/generated/mode_ii/h1_endpoint_corrected_serial",
-  "preparation_revision": "b889dc38af7ebae7aef3e414c1d6fdc25a1339bc",
+  "preparation_revision": "2ad35d92fab7b7055e931bf22c3bad67e97e0dce",
   "protocol_version": 1,
   "solver_authorized": false,
   "solver_job_plan": {
     "cpus": 1,
     "job_name": "mode_ii_h1_endpoint_corrected_serial",
     "maximum_submissions": 1,
-    "memory": "16 GB",
+    "memory": "32 GB",
     "mpi_ranks": 1,
     "omp_threads": 1,
     "queue": "entry_imfdfkmq",
@@ -32,7 +33,8 @@
   "stage": "Stage F",
   "status": "complete",
   "submission_approved": false,
-  "task_id": "F2-H1-BASELINE-PREP",
+  "task_id": "F2-H1-DATACHECK-LANE-FIX",
+
   "telegram_notification_traps_integrated": true,
   "title": "Prepare Mode-II H1 endpoint-corrected serial baseline lane and Telegram notification traps"
 }
