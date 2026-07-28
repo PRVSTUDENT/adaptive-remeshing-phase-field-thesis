@@ -17,15 +17,31 @@ _PBS_MAIL_HELPER="${PROJECT_HOME:-$HOME/projects/adaptive-remeshing}/scripts/hpc
 pbs_notify_telegram() {
   local event="$1"
   local message="${2:-}"
-  if [ -x "$(command -v python3 2>/dev/null)" ] && [ -f "${_PBS_NOTIFIER}" ]; then
-    python3 "${_PBS_NOTIFIER}" \
-      --event "${event}" \
-      --job-id "${PBS_JOBID:-unknown}" \
-      --job-name "${PBS_JOBNAME:-unknown}" \
-      --message "${message}" \
-      >/dev/null 2>&1 || true
+  local log_file="${PBS_NOTIFY_LOG:-/tmp/telegram_notify.log}"
+  local py_cmd=""
+  if command -v python3 >/dev/null 2>&1; then
+    py_cmd="python3"
+  elif command -v python >/dev/null 2>&1; then
+    py_cmd="python"
+  fi
+  local log_dir
+  log_dir="$(dirname "${log_file}" 2>/dev/null || echo "")"
+  if [ -n "${log_dir}" ] && [ ! -d "${log_dir}" ]; then
+    mkdir -p "${log_dir}" 2>/dev/null || true
+  fi
+  if [ -n "${py_cmd}" ] && [ -f "${_PBS_NOTIFIER}" ]; then
+    {
+      echo "=== [$(date -Is 2>/dev/null || date)] EVENT: ${event} JOB: ${PBS_JOBID:-unknown} ==="
+      "${py_cmd}" "${_PBS_NOTIFIER}" \
+        --event "${event}" \
+        --job-id "${PBS_JOBID:-unknown}" \
+        --job-name "${PBS_JOBNAME:-unknown}" \
+        --message "${message}"
+      echo "Exit code: $?"
+    } >> "${log_file}" 2>&1 || true
   fi
 }
+
 
 pbs_notify_begin() {
   local host
@@ -59,7 +75,7 @@ pbs_notify_finish() {
     event="ABORTED"
   fi
   pbs_notify_telegram "${event}" \
-    "Exit: ${rc}; elapsed_seconds: ${elapsed}; host: ${host}; scratch: ${RUN_DIR:-unknown}"
+    "Exit: ${rc}; elapsed_seconds: ${elapsed}; host: ${host}; scratch: ${RUN_DIR:-${SCRATCH_RUN:-unknown}}"
   if [ "${PBS_NOTIFY_SKIP_EMAIL:-0}" != "1" ] && type pbs_mail_end >/dev/null 2>&1; then
     pbs_mail_end "${rc}" || true
   fi
@@ -71,3 +87,4 @@ pbs_notify_install_traps() {
   trap 'rc=$?; pbs_notify_finish "$rc"; exit "$rc"' EXIT
   trap 'exit 143' TERM INT HUP
 }
+

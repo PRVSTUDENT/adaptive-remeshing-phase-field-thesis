@@ -1,9 +1,28 @@
 {
-  "active": false,
-  "agent": "",
-  "allowed_write_scope": [],
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_write_scope": [
+    "scripts/hpc/pbs_notify.sh",
+    "scripts/hpc/stage_f/",
+    "models/generated/mode_ii/h1_endpoint_corrected_serial/",
+    "scripts/model_generation/",
+    "scripts/validation/",
+    "tests/unit/",
+    "runs/hpc/stage_f/mode_ii_h1_endpoint_corrected/",
+    "docs/experiment_records/",
+    "project_coordination/ACTIVE_SESSION.json",
+    "project_coordination/ACTIVE_TASK.json",
+    "project_coordination/CURRENT_STATE.md",
+    "project_coordination/TASK_LEDGER.csv",
+    "project_coordination/HPC_JOB_LEDGER.csv",
+    "project_coordination/ARTIFACT_REGISTRY.csv",
+    "project_coordination/inventories/INVENTORY_SUMMARY.md",
+    "project_coordination/sessions/",
+    "docs/project/MISTAKES_AND_FIXES_LOG.md",
+    "docs/project/PROJECT_PHASE_CHECKLIST.md"
+  ],
   "protocol_version": 1,
-  "start_time_utc": "",
-  "starting_commit": "",
-  "task_id": ""
+  "start_time_utc": "2026-07-28T09:10:00Z",
+  "starting_commit": "b889dc38af7ebae7aef3e414c1d6fdc25a1339bc",
+  "task_id": "F2-H1-BASELINE-PREP"
 }

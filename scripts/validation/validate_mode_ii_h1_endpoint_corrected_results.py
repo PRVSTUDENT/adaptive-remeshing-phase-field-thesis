@@ -1,0 +1,241 @@
+#!/usr/bin/env python3
+"""Result validator for Stage-F Mode-II H1 endpoint-corrected serial runs.
+
+Evaluates extracted result files against scientific acceptance criteria.
+Target displacement: U1 = 0.010 mm. Crack path must be non-empty.
+"""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import math
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+CONFIG_PATH = ROOT / "configs/studies/mode_ii_molnar_shear_endpoint_corrected.yaml"
+
+PASS_CLASSIFICATION = "stage_f_mode_ii_h1_endpoint_corrected_serial_baseline_pass"
+FAIL_CLASSIFICATION = "stage_f_mode_ii_h1_endpoint_corrected_serial_validation_fail"
+
+
+def validate_results(
+    evidence_dir: Path,
+    abaqus_return_code: int = 0,
+    extractor_return_code: int = 0,
+    config_path: Path = CONFIG_PATH,
+    expected_u1_target: float = 0.010,
+    u1_tolerance: float = 1e-4,
+) -> dict:
+    failures = []
+    checks = []
+
+    def check(condition: bool, msg: str) -> None:
+        checks.append(msg)
+        if not condition:
+            failures.append(msg)
+
+    # Return codes
+    check(abaqus_return_code == 0, f"Abaqus return code is 0 (got {abaqus_return_code})")
+    check(extractor_return_code == 0, f"Extractor return code is 0 (got {extractor_return_code})")
+
+    check(evidence_dir.is_dir(), f"evidence directory exists ({evidence_dir})")
+
+    extracted_dir = evidence_dir / "extracted" if (evidence_dir / "extracted").is_dir() else evidence_dir
+
+    rf1_u1_csv = extracted_dir / "rf1_u1_curve.csv"
+    energy_csv = extracted_dir / "energy_history.csv"
+    phase_summary_json = extracted_dir / "phase_bounds_summary.json"
+    irrev_json = extracted_dir / "irreversibility_summary.json"
+
+    crack_csv = None
+    for candidate in [
+        extracted_dir / "crack_path_sdv15_ge_0p5.csv",
+        extracted_dir / "sdv14_sdv15_sdv16_contours.csv",
+    ]:
+        if candidate.is_file():
+            crack_csv = candidate
+            break
+
+    final_u1 = None
+    max_rf1 = None
+    max_sdv15_curve = None
+
+    # Parse rf1_u1_curve.csv if present
+    if rf1_u1_csv.is_file():
+        try:
+            with rf1_u1_csv.open("r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                rows = list(reader)
+                check(len(rows) > 0, "RF1-U1 curve CSV contains data rows")
+                if rows:
+                    last_row = rows[-1]
+                    for k in ["rp_u1", "U1", "u1", "RP_U1"]:
+                        if k in last_row and last_row[k] != "":
+                            final_u1 = abs(float(last_row[k]))
+                            break
+
+                    rf_vals = []
+                    for r in rows:
+                        for k in ["rp_rf1", "RF1", "rf1", "RP_RF1"]:
+                            if k in r and r[k] != "":
+                                try:
+                                    rf_vals.append(abs(float(r[k])))
+                                except ValueError:
+                                    pass
+                    if rf_vals:
+                        max_rf1 = max(rf_vals)
+
+                    for r in rows:
+                        for k in ["max_sdv15", "sdv15", "SDV15"]:
+                            if k in r and r[k] != "":
+                                try:
+                                    v = float(r[k])
+                                    if max_sdv15_curve is None or v > max_sdv15_curve:
+                                        max_sdv15_curve = v
+                                except ValueError:
+                                    pass
+        except Exception as exc:
+            failures.append(f"error reading RF1-U1 curve CSV: {exc}")
+
+    # Fallback for U1 parsing if rf1_u1_curve.csv not present or missing rp_u1
+    if final_u1 is None and energy_csv.is_file():
+        try:
+            with energy_csv.open("r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                rows = list(reader)
+                if rows:
+                    last_row = rows[-1]
+                    for k in ["rp_u1", "U1", "u1", "RP_U1"]:
+                        if k in last_row and last_row[k] != "":
+                            final_u1 = abs(float(last_row[k]))
+                            break
+        except Exception:
+            pass
+
+    if final_u1 is not None:
+        check(
+            abs(final_u1 - expected_u1_target) <= u1_tolerance,
+            f"final |U1| equals target {expected_u1_target} mm within tol {u1_tolerance} (got {final_u1:.6f} mm)",
+        )
+    else:
+        failures.append("could not parse U1 from rf1_u1_curve.csv or energy_history.csv")
+
+    # Check energy history CSV for finite values
+    check(energy_csv.is_file(), f"energy history CSV exists ({energy_csv.name})")
+    if energy_csv.is_file():
+        try:
+            with energy_csv.open("r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                rows = list(reader)
+                check(len(rows) > 0, "energy history CSV contains data rows")
+                for r in rows:
+                    for key, val_str in r.items():
+                        if val_str != "":
+                            try:
+                                v = float(val_str)
+                                if math.isnan(v) or math.isinf(v):
+                                    failures.append(f"non-finite value {v} found for {key}")
+                                    break
+                            except ValueError:
+                                pass
+        except Exception as exc:
+            failures.append(f"error reading energy history CSV: {exc}")
+
+    # Read phase bounds summary JSON
+    max_sdv15 = None
+    min_sdv15 = None
+    if phase_summary_json.is_file():
+        try:
+            summary_data = json.loads(phase_summary_json.read_text(encoding="utf-8"))
+            if "maximum_phase" in summary_data:
+                max_sdv15 = float(summary_data["maximum_phase"])
+            if "minimum_phase" in summary_data:
+                min_sdv15 = float(summary_data["minimum_phase"])
+        except Exception as exc:
+            failures.append(f"error reading phase_bounds_summary.json: {exc}")
+
+    if max_sdv15 is None and max_sdv15_curve is not None:
+        max_sdv15 = max_sdv15_curve
+
+    if max_sdv15 is not None:
+        check(max_sdv15 >= 0.5, f"maximum damage sdv15 reaches threshold >= 0.5 (got {max_sdv15:.4f})")
+        check(max_sdv15 <= 1.0 + 1e-4, f"maximum damage sdv15 within upper bound <= 1.0 (got {max_sdv15:.6f})")
+    else:
+        failures.append("could not parse maximum phase damage (sdv15)")
+
+    if min_sdv15 is not None:
+        check(min_sdv15 >= -1e-6, f"minimum damage sdv15 within lower bound >= 0.0 (got {min_sdv15:.6f})")
+
+    # Check irreversibility summary if present
+    history_decrease_violations = 0
+    if irrev_json.is_file():
+        try:
+            irrev_data = json.loads(irrev_json.read_text(encoding="utf-8"))
+            if "history_decrease_violation_count" in irrev_data:
+                history_decrease_violations = int(irrev_data["history_decrease_violation_count"])
+                check(
+                    history_decrease_violations == 0,
+                    f"history decrease violation count is 0 (got {history_decrease_violations})",
+                )
+        except Exception as exc:
+            failures.append(f"error reading irreversibility_summary.json: {exc}")
+
+    # Check spatial crack path CSV
+    crack_rows_count = 0
+    if crack_csv is not None and crack_csv.is_file():
+        try:
+            with crack_csv.open("r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                c_rows = list(reader)
+                crack_rows_count = len(c_rows)
+        except Exception as exc:
+            failures.append(f"error reading crack path CSV: {exc}")
+        check(crack_rows_count > 0, f"crack-path CSV is non-empty (got {crack_rows_count} rows)")
+    else:
+        check(False, "crack-path spatial CSV exists")
+
+    passed = len(failures) == 0
+    classification = PASS_CLASSIFICATION if passed else FAIL_CLASSIFICATION
+
+    result = {
+        "classification": classification,
+        "passed": passed,
+        "abaqus_return_code": abaqus_return_code,
+        "extractor_return_code": extractor_return_code,
+        "final_u1_mm": final_u1,
+        "expected_u1_target_mm": expected_u1_target,
+        "max_rf1_kn": max_rf1,
+        "max_sdv15": max_sdv15,
+        "crack_path_rows": crack_rows_count,
+        "history_decrease_violations": history_decrease_violations,
+        "total_checks": len(checks),
+        "failures": failures,
+    }
+
+    if evidence_dir.is_dir():
+        val_json = evidence_dir / "VALIDATION_RESULTS.json"
+        try:
+            val_json.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        except Exception:
+            pass
+
+    return result
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("evidence_dir", type=Path)
+    parser.add_argument("--abaqus-rc", type=int, default=0)
+    parser.add_argument("--extractor-rc", type=int, default=0)
+    args = parser.parse_args()
+
+    res = validate_results(args.evidence_dir, args.abaqus_rc, args.extractor_rc)
+    print(json.dumps(res, indent=2))
+    return 0 if res["passed"] else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

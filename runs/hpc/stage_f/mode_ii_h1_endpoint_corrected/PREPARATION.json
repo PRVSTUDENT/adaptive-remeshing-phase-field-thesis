@@ -1,0 +1,17 @@
+{
+  "classification": "stage_f_mode_ii_h1_endpoint_corrected_prepared",
+  "datacheck_authorized": false,
+  "execution_authorized": false,
+  "h1_mesh_h_mm": 0.0025,
+  "h1_h_over_lc": 0.1666666667,
+  "layered_element_count": 36192,
+  "maximum_jobs_now": 0,
+  "n_elem_fortran": 12064,
+  "node_count": 12382,
+  "package_path": "models/generated/mode_ii/h1_endpoint_corrected_serial",
+  "pbs_script_path": "scripts/hpc/stage_f/05_mode_ii_h1_endpoint_corrected_serial.pbs",
+  "physical_element_count": 12064,
+  "solver_authorized": false,
+  "source_commit": "b889dc38af7ebae7aef3e414c1d6fdc25a1339bc",
+  "telegram_notification_traps_integrated": true
+}
