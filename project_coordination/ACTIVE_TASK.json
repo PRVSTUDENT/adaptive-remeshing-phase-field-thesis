@@ -1,8 +1,8 @@
 {
-  "active_job_id": null,
+  "active_job_id": "1379393.mmaster02",
   "authorization_file": "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/MODE_II_H0_ENDPOINT_CORRECTED_R1_AUTHORIZATION.json",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_prepared_unauthorized",
+  "classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_solver_submitted",
   "datacheck_authorized": false,
   "datacheck_closeout_revision": "91d6fad0b972687380759c30a3a268515a733339",
   "datacheck_job_id": "1379387.mmaster02",
@@ -13,8 +13,8 @@
   "maximum_datacheck_submissions": 1,
   "maximum_jobs_now": 0,
   "maximum_solver_submissions": 1,
-  "next_action": "Wait for explicit F1-C2-R1-SOLVER-REAUTH approval",
-  "next_task_after_pass": "F1-C2-R1-SOLVER-REAUTH",
+  "next_action": "Monitor and scientifically close the corrected H0 solver run",
+  "next_task_after_pass": "F1-C2-R1-SOLVER-CLOSE",
   "package_path": "models/generated/mode_ii/h0_endpoint_corrected_serial",
   "preparation_parent_revision": "20cad4f94133635076da48eda821b50dd53a050a",
   "protocol_version": 1,
@@ -31,11 +31,11 @@
     "queue": "entry_imfdfkmq",
     "walltime": "04:00:00"
   },
-  "solver_submissions_used": 0,
+  "solver_submissions_used": 1,
   "source_failed_job": "1378958.mmaster02",
   "stage": "Stage F",
-  "status": "complete",
-  "submission_approved": false,
-  "task_id": "F1-C2-R1-SOLVER-PREP-CORRECTION",
-  "title": "Complete corrected Mode-II H0 serial solver submission gates"
+  "status": "submitted_or_running_pending_outcome",
+  "submission_approved": true,
+  "task_id": "F1-C2-R1-SOLVER",
+  "title": "Submit one corrected Mode-II H0 serial baseline solver job"
 }
