@@ -1,9 +1,19 @@
 {
-  "active": false,
-  "agent": "",
-  "allowed_write_scope": [],
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_write_scope": [
+    "scripts/hpc/stage_f/",
+    "project_coordination/ACTIVE_SESSION.json",
+    "project_coordination/ACTIVE_TASK.json",
+    "project_coordination/CURRENT_STATE.md",
+    "project_coordination/TASK_LEDGER.csv",
+    "project_coordination/HPC_JOB_LEDGER.csv",
+    "project_coordination/ARTIFACT_REGISTRY.csv",
+    "project_coordination/inventories/INVENTORY_SUMMARY.md",
+    "project_coordination/sessions/"
+  ],
   "protocol_version": 1,
-  "start_time_utc": "",
-  "starting_commit": "",
-  "task_id": ""
+  "start_time_utc": "2026-07-28T09:37:00Z",
+  "starting_commit": "8737fb43f7dfb5edb38b6431ba3dcb2b1414a08c",
+  "task_id": "F2-H1-DATACHECK-LANE-FIX"
 }

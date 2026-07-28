@@ -32,7 +32,7 @@ if [ "${SUBMIT}" != "true" ]; then
   exit 0
 fi
 
-# Validation when submission is requested
+# 1. Validation when submission is requested
 python3 -c "
 import json, sys
 auth = json.load(open('${AUTH_FILE}'))
@@ -49,10 +49,19 @@ if not all(checks):
     sys.exit(2)
 "
 
+# 2. Prevent duplicate active job submission via qstat if available
+JOB_NAME="mode_ii_h1_serial"
+if command -v qstat >/dev/null 2>&1; then
+  if qstat -u "$USER" 2>/dev/null | grep -q "${JOB_NAME}"; then
+    echo "ERROR: Duplicate job already active in qstat: ${JOB_NAME}" >&2
+    exit 3
+  fi
+fi
+
 PBS_SCRIPT="${SCRIPT_DIR}/mode_ii_h1_serial.pbs"
 if [ ! -f "${PBS_SCRIPT}" ]; then
   echo "ERROR: PBS script missing: ${PBS_SCRIPT}" >&2
-  exit 3
+  exit 4
 fi
 
 SUBMIT_NOTIFY="${PROJECT_ROOT}/scripts/hpc/qsub_with_submitted_notify.sh"
@@ -60,7 +69,10 @@ SUBMIT_NOTIFY="${PROJECT_ROOT}/scripts/hpc/qsub_with_submitted_notify.sh"
 echo "Authorization verified. Submitting Stage F Mode-II H1 serial solver job..."
 
 if [ -f "${SUBMIT_NOTIFY}" ]; then
-  bash "${SUBMIT_NOTIFY}" "${PBS_SCRIPT}"
+  bash "${SUBMIT_NOTIFY}" \
+    --job-name "${JOB_NAME}" \
+    --message "Queue: entry_imfdfkmq; CPUs: 1; memory: 32 GB; walltime: 06:00:00" \
+    -- "${PBS_SCRIPT}"
 else
   qsub "${PBS_SCRIPT}"
 fi
