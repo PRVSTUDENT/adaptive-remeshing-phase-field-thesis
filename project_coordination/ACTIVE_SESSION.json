@@ -1,25 +1,9 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_write_scope": [
-    "scripts/validation/validate_mode_ii_h0_endpoint_corrected_results.py",
-    "tests/unit/",
-    "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/MODE_II_H0_ENDPOINT_CORRECTED_R1_AUTHORIZATION.json",
-    "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/evidence/1379393.mmaster02/",
-    "docs/experiment_records/STAGE_F1_C2_R1_MODE_II_H0_VALIDATOR_FIX.md",
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json",
-    "project_coordination/CURRENT_STATE.md",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/HPC_JOB_LEDGER.csv",
-    "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/inventories/INVENTORY_SUMMARY.md",
-    "project_coordination/sessions/",
-    "docs/project/MISTAKES_AND_FIXES_LOG.md",
-    "docs/project/PROJECT_PHASE_CHECKLIST.md"
-  ],
+  "active": false,
+  "agent": "",
+  "allowed_write_scope": [],
   "protocol_version": 1,
-  "start_time_utc": "2026-07-28T07:00:00Z",
-  "starting_commit": "f63ceba917da4919431cbf692976abbd8b38d049",
-  "task_id": "F1-C2-R1-H0-VALIDATOR-FIX"
+  "start_time_utc": "",
+  "starting_commit": "",
+  "task_id": ""
 }
