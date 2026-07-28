@@ -8,6 +8,7 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_pr
 
 | Item | Value |
 |---|---|
+| Solver contract preparation correction main revision | `0a7e72a0c7ed5bc93c0ea9ac252c1e457f9af4fe` |
 | Solver contract preparation main revision | `f7e44ae6e7df7dcf1b7eb468eaa946b2eec9caae` |
 | Solver authorization revision | `8cec3dbde56b08f8924d8298c05052da430dd4ba` |
 | Datacheck closeout revision | `91d6fad0b972687380759c30a3a268515a733339` |
@@ -23,16 +24,16 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_pr
 | Endpoint audit revision | `49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c` |
 | Endpoint audit parent revision | `b65839552727f3d1242bbde1e4d24f7fb7a8087b` |
 | Active agent | none |
-| Active task | **F1-C2-R1-SOLVER-PREP** complete (`stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_prepared_unauthorized`) |
+| Active task | **F1-C2-R1-SOLVER-PREP-CORRECTION** complete (`stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_prepared_unauthorized`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F1-C2-R1-SOLVER-PREP complete
+Current task: F1-C2-R1-SOLVER-PREP-CORRECTION complete
 Status: stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_prepared_unauthorized
 active_job_id: none
 datacheck_authorized: false (replacement datacheck passed; authorization consumed)
-solver_authorized: false (contract repaired and qualified; reauthorization pending)
+solver_authorized: false (contract fully corrected, hardened, and qualified; reauthorization pending)
 submission_approved: false
 execution_authorized: false
 maximum_jobs_now: 0
@@ -61,8 +62,8 @@ Downstream task F2 remains **blocked**.
 
 ## Next actions
 
-1. Serial solver execution contract repaired and qualified (`PRESTAGED_ROOT`, `LOGIN_MANIFEST_PATH`, `PROJECT_REVISION`, `PRESTAGED_RUNTIME_ROOT`).
-2. Static solver contract validator, 195 unit tests, and local solver staging smoke passed.
+1. Serial solver execution contract fully corrected, hardened, and qualified (`PRESTAGED_ROOT`, `LOGIN_MANIFEST_PATH`, `PROJECT_REVISION`, `PRESTAGED_RUNTIME_ROOT`, exact operational classification gate, approved project revision binding, tracked-clean git check, committed datacheck evidence check, deep PBS manifest parsing).
+2. Static solver contract validator, 218 unit tests, and local solver staging smoke passed cleanly.
 3. Await explicit human reauthorization under task `F1-C2-R1-SOLVER-REAUTH`.
 4. Downstream tasks (F2+) remain blocked until corrected H0 baseline lane completes cleanly.
 

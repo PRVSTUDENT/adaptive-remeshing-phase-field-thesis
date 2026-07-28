@@ -19,6 +19,8 @@
   "preparation_parent_revision": "20cad4f94133635076da48eda821b50dd53a050a",
   "protocol_version": 1,
   "solver_authorized": false,
+  "solver_contract_preparation_revision": "f7e44ae6e7df7dcf1b7eb468eaa946b2eec9caae",
+  "solver_contract_correction_complete": true,
   "solver_job_plan": {
     "cpus": 1,
     "job_name": "mode_ii_h0_endpoint_corrected_serial",
@@ -34,6 +36,6 @@
   "stage": "Stage F",
   "status": "complete",
   "submission_approved": false,
-  "task_id": "F1-C2-R1-SOLVER-PREP",
-  "title": "Repair and qualify the corrected Mode-II H0 serial solver submission contract"
+  "task_id": "F1-C2-R1-SOLVER-PREP-CORRECTION",
+  "title": "Complete corrected Mode-II H0 serial solver submission gates"
 }
