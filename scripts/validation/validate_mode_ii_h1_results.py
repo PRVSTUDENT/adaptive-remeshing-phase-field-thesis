@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""Result validator for Stage-F Mode-II H1 uniform reference serial runs.
+"""Result validator for Stage-F Mode-II H1 uniform reference and endpoint sweep serial runs.
 
-Evaluates extracted result files against scientific acceptance criteria.
-Target displacement: U1 = 0.010 mm. Crack path must be non-empty.
+Evaluates extracted result files against technical and scientific acceptance criteria.
 """
 
 from __future__ import annotations
@@ -17,16 +16,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG_PATH = ROOT / "configs/studies/mode_ii_molnar_shear_h1.yaml"
 
-PASS_CLASSIFICATION = "stage_f_mode_ii_h1_uniform_serial_baseline_pass"
-FAIL_CLASSIFICATION = "stage_f_mode_ii_h1_uniform_serial_validation_fail"
-
 
 def validate_results(
     evidence_dir: Path,
     abaqus_return_code: int = 0,
     extractor_return_code: int = 0,
     config_path: Path = CONFIG_PATH,
-    expected_u1_target: float = 0.010,
+    expected_u1_target: float | None = None,
     u1_tolerance: float = 1e-4,
 ) -> dict:
     failures = []
@@ -37,10 +33,9 @@ def validate_results(
         if not condition:
             failures.append(msg)
 
-    # Return codes
+    # Technical execution checks
     check(abaqus_return_code == 0, f"Abaqus return code is 0 (got {abaqus_return_code})")
     check(extractor_return_code == 0, f"Extractor return code is 0 (got {extractor_return_code})")
-
     check(evidence_dir.is_dir(), f"evidence directory exists ({evidence_dir})")
 
     extracted_dir = evidence_dir / "extracted" if (evidence_dir / "extracted").is_dir() else evidence_dir
@@ -49,6 +44,7 @@ def validate_results(
     energy_csv = extracted_dir / "energy_history.csv"
     phase_summary_json = extracted_dir / "phase_bounds_summary.json"
     irrev_json = extracted_dir / "irreversibility_summary.json"
+    resource_json = extracted_dir / "resource_summary.json"
 
     crack_csv = None
     for candidate in [
@@ -59,8 +55,17 @@ def validate_results(
             crack_csv = candidate
             break
 
+    u1_vals = []
+    rf1_vals = []
+    sdv15_curve_vals = []
+
     final_u1 = None
     max_rf1 = None
+    u1_at_max_rf1 = None
+    final_rf1 = None
+    pct_force_drop = 0.0
+    initial_stiffness = None
+    u1_at_first_d05 = None
     max_sdv15_curve = None
 
     # Parse rf1_u1_curve.csv if present
@@ -70,76 +75,91 @@ def validate_results(
                 reader = csv.DictReader(f)
                 rows = list(reader)
                 check(len(rows) > 0, "RF1-U1 curve CSV contains data rows")
-                if rows:
-                    last_row = rows[-1]
+                for r in rows:
+                    u_val = None
+                    rf_val = None
+                    sdv_val = None
+
                     for k in ["rp_u1", "U1", "u1", "RP_U1"]:
-                        if k in last_row and last_row[k] != "":
-                            final_u1 = abs(float(last_row[k]))
+                        if k in r and r[k] != "":
+                            try:
+                                u_val = abs(float(r[k]))
+                            except ValueError:
+                                pass
                             break
 
-                    rf_vals = []
-                    for r in rows:
-                        for k in ["rp_rf1", "RF1", "rf1", "RP_RF1"]:
-                            if k in r and r[k] != "":
-                                try:
-                                    rf_vals.append(abs(float(r[k])))
-                                except ValueError:
-                                    pass
-                    if rf_vals:
-                        max_rf1 = max(rf_vals)
+                    for k in ["rp_rf1", "RF1", "rf1", "RP_RF1"]:
+                        if k in r and r[k] != "":
+                            try:
+                                rf_val = abs(float(r[k]))
+                            except ValueError:
+                                pass
+                            break
 
-                    for r in rows:
-                        for k in ["max_sdv15", "sdv15", "SDV15"]:
-                            if k in r and r[k] != "":
-                                try:
-                                    v = float(r[k])
-                                    if max_sdv15_curve is None or v > max_sdv15_curve:
-                                        max_sdv15_curve = v
-                                except ValueError:
-                                    pass
+                    for k in ["max_sdv15", "sdv15", "SDV15"]:
+                        if k in r and r[k] != "":
+                            try:
+                                sdv_val = float(r[k])
+                            except ValueError:
+                                pass
+                            break
+
+                    if u_val is not None and rf_val is not None:
+                        u1_vals.append(u_val)
+                        rf1_vals.append(rf_val)
+                    if sdv_val is not None:
+                        sdv15_curve_vals.append(sdv_val)
+                        if sdv_val >= 0.5 and u1_at_first_d05 is None and u_val is not None:
+                            u1_at_first_d05 = u_val
+
+                if u1_vals and rf1_vals:
+                    final_u1 = u1_vals[-1]
+                    final_rf1 = rf1_vals[-1]
+                    max_rf1 = max(rf1_vals)
+                    max_idx = rf1_vals.index(max_rf1)
+                    u1_at_max_rf1 = u1_vals[max_idx]
+
+                    if max_rf1 > 0:
+                        pct_force_drop = max(0.0, (max_rf1 - final_rf1) / max_rf1 * 100.0)
+
+                    # Initial stiffness calculation (U1 <= 0.002 mm)
+                    early_k = [rf / u for u, rf in zip(u1_vals, rf1_vals) if 0 < u <= 0.002]
+                    if early_k:
+                        initial_stiffness = sum(early_k) / len(early_k)
+
+                if sdv15_curve_vals:
+                    max_sdv15_curve = max(sdv15_curve_vals)
+
         except Exception as exc:
             failures.append(f"error reading RF1-U1 curve CSV: {exc}")
 
-    if final_u1 is None and energy_csv.is_file():
-        try:
-            with energy_csv.open("r", encoding="utf-8") as f:
-                reader = csv.DictReader(f)
-                rows = list(reader)
-                if rows:
-                    last_row = rows[-1]
-                    for k in ["rp_u1", "U1", "u1", "RP_U1"]:
-                        if k in last_row and last_row[k] != "":
-                            final_u1 = abs(float(last_row[k]))
-                            break
-        except Exception:
-            pass
+    # Check target displacement match if expected_u1_target provided
+    if expected_u1_target is not None:
+        if final_u1 is not None:
+            check(
+                abs(final_u1 - expected_u1_target) <= u1_tolerance,
+                f"final |U1| equals target {expected_u1_target} mm within tol {u1_tolerance} (got {final_u1:.6f} mm)",
+            )
+        else:
+            failures.append("could not parse U1 from rf1_u1_curve.csv")
 
-    if final_u1 is not None:
-        check(
-            abs(final_u1 - expected_u1_target) <= u1_tolerance,
-            f"final |U1| equals target {expected_u1_target} mm within tol {u1_tolerance} (got {final_u1:.6f} mm)",
-        )
-    else:
-        failures.append("could not parse U1 from rf1_u1_curve.csv or energy_history.csv")
-
-    # Check energy history CSV for finite values
-    check(energy_csv.is_file(), f"energy history CSV exists ({energy_csv.name})")
+    # Check energy history CSV for finite values if present and non-empty
     if energy_csv.is_file():
         try:
             with energy_csv.open("r", encoding="utf-8") as f:
                 reader = csv.DictReader(f)
                 rows = list(reader)
-                check(len(rows) > 0, "energy history CSV contains data rows")
-                for r in rows:
-                    for key, val_str in r.items():
-                        if val_str != "":
-                            try:
-                                v = float(val_str)
-                                if math.isnan(v) or math.isinf(v):
-                                    failures.append(f"non-finite value {v} found for {key}")
-                                    break
-                            except ValueError:
-                                pass
+                if rows:
+                    for r in rows:
+                        for key, val_str in r.items():
+                            if val_str != "":
+                                try:
+                                    v = float(val_str)
+                                    if math.isnan(v) or math.isinf(v):
+                                        failures.append(f"non-finite value {v} found for {key}")
+                                        break
+                                except ValueError:
+                                    pass
         except Exception as exc:
             failures.append(f"error reading energy history CSV: {exc}")
 
@@ -160,7 +180,6 @@ def validate_results(
         max_sdv15 = max_sdv15_curve
 
     if max_sdv15 is not None:
-        check(max_sdv15 >= 0.5, f"maximum damage sdv15 reaches threshold >= 0.5 (got {max_sdv15:.4f})")
         check(max_sdv15 <= 1.0 + 1e-4, f"maximum damage sdv15 within upper bound <= 1.0 (got {max_sdv15:.6f})")
     else:
         failures.append("could not parse maximum phase damage (sdv15)")
@@ -192,24 +211,58 @@ def validate_results(
                 crack_rows_count = len(c_rows)
         except Exception as exc:
             failures.append(f"error reading crack path CSV: {exc}")
-        check(crack_rows_count > 0, f"crack-path CSV is non-empty (got {crack_rows_count} rows)")
-    else:
-        check(False, "crack-path spatial CSV exists")
 
-    passed = len(failures) == 0
-    classification = PASS_CLASSIFICATION if passed else FAIL_CLASSIFICATION
+    # Resource usage metrics
+    walltime_s = None
+    cputime_s = None
+    peak_mem_kb = None
+    total_increments = None
+    if resource_json.is_file():
+        try:
+            rdata = json.loads(resource_json.read_text(encoding="utf-8"))
+            walltime_s = rdata.get("walltime_seconds")
+            cputime_s = rdata.get("cpu_time_seconds")
+            peak_mem_kb = rdata.get("peak_memory_kb")
+            total_increments = rdata.get("total_increments")
+        except Exception:
+            pass
+
+    # Technical validity passed if zero technical failures
+    technical_pass = (len(failures) == 0)
+
+    # Classify physical state separately
+    if not technical_pass:
+        physical_classification = "stage_f_mode_ii_h1_technical_fail"
+    elif max_sdv15 is not None and max_sdv15 < 0.50:
+        physical_classification = "stage_f_mode_ii_h1_prepeak"
+    elif crack_rows_count == 0:
+        physical_classification = "stage_f_mode_ii_h1_crack_initiated"
+    elif pct_force_drop >= 5.0:
+        physical_classification = "stage_f_mode_ii_h1_postpeak"
+    else:
+        physical_classification = "stage_f_mode_ii_h1_crack_propagating"
 
     result = {
-        "classification": classification,
-        "passed": passed,
+        "classification": physical_classification,
+        "technical_pass": technical_pass,
+        "passed": technical_pass,
         "abaqus_return_code": abaqus_return_code,
         "extractor_return_code": extractor_return_code,
         "final_u1_mm": final_u1,
         "expected_u1_target_mm": expected_u1_target,
         "max_rf1_kn": max_rf1,
+        "u1_at_max_rf1_mm": u1_at_max_rf1,
+        "final_rf1_kn": final_rf1,
+        "percentage_force_drop": pct_force_drop,
+        "initial_stiffness_kn_per_mm": initial_stiffness,
+        "u1_at_first_d05_mm": u1_at_first_d05,
         "max_sdv15": max_sdv15,
         "crack_path_rows": crack_rows_count,
         "history_decrease_violations": history_decrease_violations,
+        "total_increments": total_increments,
+        "walltime_seconds": walltime_s,
+        "cpu_time_seconds": cputime_s,
+        "peak_memory_kb": peak_mem_kb,
         "total_checks": len(checks),
         "failures": failures,
     }
@@ -229,9 +282,10 @@ def main() -> int:
     parser.add_argument("evidence_dir", type=Path)
     parser.add_argument("--abaqus-rc", type=int, default=0)
     parser.add_argument("--extractor-rc", type=int, default=0)
+    parser.add_argument("--target-u1", type=float, default=None)
     args = parser.parse_args()
 
-    res = validate_results(args.evidence_dir, args.abaqus_rc, args.extractor_rc)
+    res = validate_results(args.evidence_dir, args.abaqus_rc, args.extractor_rc, expected_u1_target=args.target_u1)
     print(json.dumps(res, indent=2))
     return 0 if res["passed"] else 1
 

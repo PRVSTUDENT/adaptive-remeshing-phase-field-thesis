@@ -1,0 +1,236 @@
+#!/bin/bash
+#PBS -N m2h1_sweep
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=06:00:00
+#PBS -j oe
+#PBS -m abe
+
+# Stage F Mode-II H1 endpoint sweep PBS execution script.
+
+set -uo pipefail
+
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+VARIANT="${VARIANT:-}"
+if [ -z "${VARIANT}" ]; then
+  echo "Error: VARIANT variable is required (u015, u020, u030, u040)" >&2
+  exit 1
+fi
+
+case "${VARIANT}" in
+  u015)
+    JOB_NAME="m2h1_u015"
+    TARGET_U1="0.015"
+    ;;
+  u020)
+    JOB_NAME="m2h1_u020"
+    TARGET_U1="0.020"
+    ;;
+  u030)
+    JOB_NAME="m2h1_u030"
+    TARGET_U1="0.030"
+    ;;
+  u040)
+    JOB_NAME="m2h1_u040"
+    TARGET_U1="0.040"
+    ;;
+  *)
+    echo "Error: Unsupported VARIANT '${VARIANT}'. Must be u015, u020, u030, or u040." >&2
+    exit 1
+    ;;
+esac
+
+EVIDENCE_ROOT="${EVIDENCE_ROOT:-/home/pr21vyci/adaptive-remeshing-evidence}"
+EVIDENCE_DIR="${EVIDENCE_ROOT}/stage_f/mode_ii_h1_endpoint_sweep/${VARIANT}/${PBS_JOBID:-manual}"
+PACKAGE_REL="models/generated/mode_ii/h1_endpoint_sweep/${VARIANT}"
+SCRATCH_RUN="${SCRATCH_RUN:-/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_sweep_${VARIANT}_${PBS_JOBID:-manual}}"
+ENV_LOG="${SCRATCH_RUN}/COMPILER_ENVIRONMENT.txt"
+SOURCE_COMMIT="${PROJECT_REVISION:-unknown}"
+LOGIN_MANIFEST_PATH="${LOGIN_MANIFEST_PATH:-}"
+PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
+PRESTAGED_ROOT="${PRESTAGED_ROOT:-${PROJECT_HOME}}"
+PRESTAGED_RUNTIME_ROOT="${PRESTAGED_RUNTIME_ROOT:-${PRESTAGED_ROOT}}"
+
+mkdir -p "${SCRATCH_RUN}" "${EVIDENCE_DIR}"
+
+# 1. Load Python module FIRST before calling pbs_notify_begin
+PRE_SOLVER_ONLY="${MODE_II_H1_PRE_SOLVER_ONLY:-0}"
+ALLOW_LOCAL_NO_MODULES="${MODE_II_H1_ALLOW_LOCAL_NO_MODULES:-0}"
+
+if command -v module >/dev/null 2>&1; then
+  module --force purge > "${ENV_LOG}" 2>&1 || true
+  module load python/gcc/11.4.0/3.11.7 >> "${ENV_LOG}" 2>&1 || true
+elif [ "${PRE_SOLVER_ONLY}" = "1" ] && [ "${ALLOW_LOCAL_NO_MODULES}" = "1" ]; then
+  echo "Local check: python module environment bypassed" >> "${ENV_LOG}"
+else
+  exit 5
+fi
+
+# 2. Telegram Notification Setup
+export PBS_NOTIFY_LOG="${SCRATCH_RUN}/telegram_notify.log"
+
+if [ -f "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh" ]; then
+    source "${PROJECT_HOME}/scripts/hpc/pbs_notify.sh"
+    if type pbs_notify_install_traps >/dev/null 2>&1; then
+        pbs_notify_install_traps
+        pbs_notify_begin
+    fi
+fi
+
+# 3. Load remaining compiler and solver modules
+if command -v module >/dev/null 2>&1; then
+  module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || exit 5
+  module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || exit 5
+  module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || exit 5
+fi
+
+cd "${SCRATCH_RUN}" || exit 2
+
+write_status() {
+  local classification="$1"
+  local abaqus_rc="$2"
+  local ext_rc="$3"
+  local val_rc="$4"
+  local failure="$5"
+  cat > "${SCRATCH_RUN}/MODE_II_H1_SWEEP_STATUS.json" <<EOF
+{
+  "MODE_II_H1_SWEEP_ok": false,
+  "variant": "${VARIANT}",
+  "job_name": "${JOB_NAME}",
+  "classification": "${classification}",
+  "failures": ["${failure}"],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "scratch_run": "${SCRATCH_RUN}",
+  "abaqus_return_code": ${abaqus_rc},
+  "extractor_return_code": ${ext_rc},
+  "validator_return_code": ${val_rc},
+  "source_commit": "${SOURCE_COMMIT}"
+}
+EOF
+}
+
+copy_evidence() {
+  mkdir -p "${EVIDENCE_DIR}"
+  for pattern in \
+    "${JOB_NAME}.log" "${JOB_NAME}.msg" "${JOB_NAME}.dat" "${JOB_NAME}.sta" \
+    "${JOB_NAME}.com" "${JOB_NAME}.prt" "${JOB_NAME}.abaqus_stdout.log" \
+    "COMPILER_ENVIRONMENT.txt" "MODE_II_H1_SWEEP_STATUS.json" \
+    "MODE_II_H1_SWEEP_VALIDATION.json" \
+    "MODE_II_H1_SWEEP.ok" \
+    "input_hash_check.txt" "executables.txt" "telegram_notify.log"; do
+    if [ -f "${SCRATCH_RUN}/${pattern}" ]; then
+      cp "${SCRATCH_RUN}/${pattern}" "${EVIDENCE_DIR}/" 2>/dev/null || true
+    fi
+  done
+  if [ -d "${SCRATCH_RUN}/extracted" ]; then
+    cp -a "${SCRATCH_RUN}/extracted" "${EVIDENCE_DIR}/" 2>/dev/null || true
+  fi
+}
+
+cd "${PRESTAGED_ROOT}/${PACKAGE_REL}" || exit 4
+sha256sum -c input_hashes.sha256 > "${SCRATCH_RUN}/input_hash_check.txt" 2>&1 || exit 6
+
+cp "${JOB_NAME}.inp" "${SCRATCH_RUN}/${JOB_NAME}.inp"
+cp "${JOB_NAME}.for" "${SCRATCH_RUN}/${JOB_NAME}.for"
+
+cd "${SCRATCH_RUN}" || exit 7
+
+if [ "${PRE_SOLVER_ONLY}" = "1" ]; then
+  cat > "${SCRATCH_RUN}/MODE_II_H1_SWEEP_STATUS.json" <<EOF
+{
+  "classification": "stage_f_mode_ii_h1_endpoint_sweep_preflight_pass",
+  "preflight_ok": true,
+  "variant": "${VARIANT}",
+  "job_name": "${JOB_NAME}",
+  "job_id": "${PBS_JOBID:-unknown}",
+  "source_commit": "${SOURCE_COMMIT}"
+}
+EOF
+  copy_evidence
+  exit 0
+fi
+
+set +e
+abaqus job="${JOB_NAME}" user="${JOB_NAME}.for" interactive \
+  cpus=1 mp_mode=threads double=both \
+  > "${JOB_NAME}.abaqus_stdout.log" 2>&1
+ABAQUS_RC=$?
+set -e
+
+pass=true
+failure="none"
+EXT_RC=0
+VAL_RC=0
+
+if [ "${ABAQUS_RC}" -ne 0 ]; then
+  pass=false
+  failure="abaqus_solver_nonzero_exit"
+fi
+
+if [ "${pass}" = true ]; then
+  EXTRACTOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/postprocessing/extract_molnar_single_notch.py"
+
+  set +e
+  abaqus python "${EXTRACTOR_SCRIPT}" \
+    --odb "${SCRATCH_RUN}/${JOB_NAME}.odb" \
+    --sta "${SCRATCH_RUN}/${JOB_NAME}.sta" \
+    --dat "${SCRATCH_RUN}/${JOB_NAME}.dat" \
+    --msg "${SCRATCH_RUN}/${JOB_NAME}.msg" \
+    --output-dir "${SCRATCH_RUN}/extracted" \
+    --displacement-component 1 \
+    --reaction-component 1 \
+    >> "${JOB_NAME}.abaqus_stdout.log" 2>&1
+  EXT_RC=$?
+  set -e
+
+  if [ "${EXT_RC}" -ne 0 ]; then
+    pass=false
+    failure="odb_extractor_failed"
+  fi
+fi
+
+if [ "${pass}" = true ]; then
+  VALIDATOR_SCRIPT="${PRESTAGED_RUNTIME_ROOT}/scripts/validation/validate_mode_ii_h1_results.py"
+
+  set +e
+  python3 "${VALIDATOR_SCRIPT}" \
+    "${SCRATCH_RUN}" \
+    --abaqus-rc "${ABAQUS_RC}" \
+    --extractor-rc "${EXT_RC}" \
+    --target-u1 "${TARGET_U1}" \
+    > "${SCRATCH_RUN}/MODE_II_H1_SWEEP_VALIDATION.json" 2>&1
+  VAL_RC=$?
+  set -e
+
+  if [ "${VAL_RC}" -ne 0 ]; then
+    pass=false
+    failure="scientific_validator_failed"
+  fi
+fi
+
+if [ "${pass}" = true ]; then
+  cat > "${SCRATCH_RUN}/MODE_II_H1_SWEEP_STATUS.json" <<EOF
+{
+  "MODE_II_H1_SWEEP_ok": true,
+  "variant": "${VARIANT}",
+  "job_name": "${JOB_NAME}",
+  "classification": "stage_f_mode_ii_h1_endpoint_sweep_pass",
+  "failures": [],
+  "job_id": "${PBS_JOBID:-unknown}",
+  "scratch_run": "${SCRATCH_RUN}",
+  "abaqus_return_code": ${ABAQUS_RC},
+  "extractor_return_code": ${EXT_RC},
+  "validator_return_code": ${VAL_RC},
+  "source_commit": "${SOURCE_COMMIT}"
+}
+EOF
+  : > "${SCRATCH_RUN}/MODE_II_H1_SWEEP.ok"
+  copy_evidence
+  exit 0
+fi
+
+write_status "stage_f_mode_ii_h1_endpoint_sweep_fail" "${ABAQUS_RC}" "${EXT_RC}" "${VAL_RC}" "${failure}"
+copy_evidence
+exit 12

@@ -1,11 +1,31 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_write_scope": [],
-  "forbidden_paths": [],
-  "note": "Completed F2-H1-SOLVER-CLOSE task closeout and evidence collection for job 1379433.mmaster02.",
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_write_scope": [
+    "models/generated/mode_ii/h1_endpoint_sweep/**",
+    "scripts/hpc/stage_f/**",
+    "scripts/model_generation/**",
+    "scripts/postprocessing/**",
+    "scripts/validation/**",
+    "tests/unit/**",
+    "runs/hpc/stage_f/mode_ii_h1_endpoint_sweep/**",
+    "docs/experiment_records/**",
+    "project_coordination/**",
+    "docs/project/MISTAKES_AND_FIXES_LOG.md"
+  ],
+  "forbidden_paths": [
+    "*.odb",
+    "*.sim",
+    "*.res",
+    "*.mdl",
+    "*.stt",
+    "*.pac",
+    "*.abq",
+    "*.sel"
+  ],
+  "note": "Claimed session for task F2-H1-ENDPOINT-SWEEP-BATCH",
   "protocol_version": 1,
-  "start_time_utc": null,
-  "starting_commit": null,
-  "task_id": null
+  "start_time_utc": "2026-07-28T09:21:30Z",
+  "starting_commit": "0a1e45c7dc202f86fcca7d9931ea616e95caa640",
+  "task_id": "F2-H1-ENDPOINT-SWEEP-BATCH"
 }

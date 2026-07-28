@@ -1,0 +1,21 @@
+{
+  "classification": "stage_f_mode_ii_h1_endpoint_sweep_package_prepared",
+  "deck_filename": "m2h1_u020.inp",
+  "deck_sha256": "19a5c60fa45f8533f9499c27da56f57faebd8e04b10d567f6edde80bc87baea4",
+  "fortran_filename": "m2h1_u020.for",
+  "fortran_sha256": "745db8fcfb612895e0289f4533c90d204cc9b2ade3678a035614feeb308b5ead",
+  "job_name": "m2h1_u020",
+  "layered_element_count": 36192,
+  "n_elem_fortran": 12064,
+  "node_count": 12382,
+  "package_path": "models/generated/mode_ii/h1_endpoint_sweep/u020",
+  "physical_element_count": 12064,
+  "source_deck_sha256": "90a305ef29714a6ee795e6b2fd9ef53856141f2ef66928665b5640422d12c35b",
+  "source_fortran_sha256": "745db8fcfb612895e0289f4533c90d204cc9b2ade3678a035614feeb308b5ead",
+  "step1_period_s": 0.5,
+  "step1_u1_mm": 0.005,
+  "step2_max_increments": 6000,
+  "step2_period_s": 0.6,
+  "target_u1_mm": 0.02,
+  "variant": "u020"
+}

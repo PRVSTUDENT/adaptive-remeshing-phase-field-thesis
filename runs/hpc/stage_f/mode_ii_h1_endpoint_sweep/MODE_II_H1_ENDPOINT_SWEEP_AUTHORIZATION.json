@@ -1,0 +1,48 @@
+{
+  "active_job_ids": [],
+  "approved_base_revision": "0a1e45c7dc202f86fcca7d9931ea616e95caa640",
+  "approved_job_names": [
+    "m2h1_u015",
+    "m2h1_u020",
+    "m2h1_u030",
+    "m2h1_u040"
+  ],
+  "approved_variants": [
+    "u015",
+    "u020",
+    "u030",
+    "u040"
+  ],
+  "automatic_retry_authorized": false,
+  "classification": "stage_f_mode_ii_h1_endpoint_sweep_authorized",
+  "completed_job_ids": [],
+  "execution_authorized": true,
+  "human_approval": "approve_the_four_job_h1_endpoint_sweep_batch",
+  "maximum_batch_submissions": 4,
+  "maximum_jobs_now": 4,
+  "maximum_running_jobs": 2,
+  "reference_closeout_revision": "a9dd8bcc53c16db10d529a4fcbbfbd2a8fc3295f",
+  "reference_job_id": "1379433.mmaster02",
+  "retry_authorized": false,
+  "submission_approved": true,
+  "submissions_used": 0,
+  "task_id": "F2-H1-ENDPOINT-SWEEP-BATCH",
+  "variant_hashes": {
+    "u015": {
+      "deck_sha256": "3a3e549db6f4a457079ac1a661bd1b0bb0179fc139e00bd8b2137de95bf2f227",
+      "fortran_sha256": "745db8fcfb612895e0289f4533c90d204cc9b2ade3678a035614feeb308b5ead"
+    },
+    "u020": {
+      "deck_sha256": "19a5c60fa45f8533f9499c27da56f57faebd8e04b10d567f6edde80bc87baea4",
+      "fortran_sha256": "745db8fcfb612895e0289f4533c90d204cc9b2ade3678a035614feeb308b5ead"
+    },
+    "u030": {
+      "deck_sha256": "5821356f64c216c4880f7de99cf9c1732bf4aaf0bf796076a89c673ca7084662",
+      "fortran_sha256": "745db8fcfb612895e0289f4533c90d204cc9b2ade3678a035614feeb308b5ead"
+    },
+    "u040": {
+      "deck_sha256": "42102cc3b632c2234335f9176ec5d9708679333fd9bb6b749e1825578a024550",
+      "fortran_sha256": "745db8fcfb612895e0289f4533c90d204cc9b2ade3678a035614feeb308b5ead"
+    }
+  }
+}

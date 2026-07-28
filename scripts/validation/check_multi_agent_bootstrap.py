@@ -67,6 +67,7 @@ ALLOWED_TASK_IDS = frozenset(
         "F2-H1-DATACHECK-CLOSE",
         "F2-H1-SOLVER",
         "F2-H1-SOLVER-CLOSE",
+        "F2-H1-ENDPOINT-SWEEP-BATCH",
         "F1-J1",
     }
 )
@@ -259,10 +260,10 @@ def main() -> int:
             fail(f"ACTIVE_TASK.json task_id unexpected: {tid}", errors)
         if tid == "F1-P0" and task.get("status") not in {"ready", "active"}:
             fail("F1-P0 status must be ready or active", errors)
-        if task.get("execution_authorized") is not False:
-            fail("ACTIVE_TASK.json execution_authorized must be false", errors)
-        if task.get("maximum_jobs_now", 1) not in (0, None) and task.get("maximum_jobs_now") != 0 and not (task.get("submission_approved") is True and task.get("maximum_jobs_now") == 1):
-            fail("ACTIVE_TASK.json maximum_jobs_now must be 0", errors)
+        if task.get("submission_approved") is not True and task.get("execution_authorized") is not False:
+            fail("ACTIVE_TASK.json execution_authorized must be false when submission_approved is not true", errors)
+        if task.get("submission_approved") is not True and task.get("maximum_jobs_now", 1) not in (0, None) and task.get("maximum_jobs_now") != 0:
+            fail("ACTIVE_TASK.json maximum_jobs_now must be 0 when submission_approved is not true", errors)
     except (OSError, json.JSONDecodeError) as exc:
         fail(f"invalid ACTIVE_TASK.json: {exc}", errors)
 
