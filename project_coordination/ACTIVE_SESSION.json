@@ -1,26 +1,9 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_write_scope": [
-    "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/MODE_II_H0_ENDPOINT_CORRECTED_R1_AUTHORIZATION.json",
-    "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/evidence/1379393.mmaster02/",
-    "docs/experiment_records/STAGE_F1_C2_R1_MODE_II_H0_SOLVER_CLOSEOUT.md",
-    "results/figures/",
-    "docs/thesis/",
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/CURRENT_STATE.md",
-    "project_coordination/ACTIVE_TASK.json",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/HPC_JOB_LEDGER.csv",
-    "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/inventories/HPC_SCRATCH_EVIDENCE_INDEX.csv",
-    "project_coordination/inventories/INVENTORY_SUMMARY.md",
-    "project_coordination/sessions/",
-    "docs/project/PROJECT_PHASE_CHECKLIST.md",
-    "docs/project/MISTAKES_AND_FIXES_LOG.md"
-  ],
+  "active": false,
+  "agent": "",
+  "allowed_write_scope": [],
   "protocol_version": 1,
-  "start_time_utc": "2026-07-28T06:48:00Z",
-  "starting_commit": "968de5976e9743010381c39453044ae0d234c9a3",
-  "task_id": "F1-C2-R1-SOLVER-CLOSE"
+  "start_time_utc": "",
+  "starting_commit": "",
+  "task_id": ""
 }
