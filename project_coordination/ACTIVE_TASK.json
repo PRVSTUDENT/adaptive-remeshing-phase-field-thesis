@@ -1,27 +1,25 @@
 {
   "active_job_id": null,
-  "authorization_file": "runs/hpc/stage_f/mode_ii_h1_endpoint_corrected/MODE_II_H1_ENDPOINT_CORRECTED_AUTHORIZATION.json",
+  "authorization_file": "runs/hpc/stage_f/mode_ii_h1/MODE_II_H1_AUTHORIZATION.json",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h1_endpoint_corrected_prepared",
+  "classification": "stage_f_mode_ii_h1_uniform_prepared",
   "datacheck_authorized": false,
   "datacheck_job_id": null,
   "datacheck_submissions_used": 0,
   "execution_authorized": false,
-  "execution_lane": "runs/hpc/stage_f/mode_ii_h1_endpoint_corrected",
+  "execution_lane": "runs/hpc/stage_f/mode_ii_h1",
   "maximum_datacheck_submissions": 1,
   "maximum_jobs_now": 0,
   "maximum_solver_submissions": 1,
   "next_action": "Wait for authorization before Stage F Mode-II H1 datacheck submission",
-  "next_task_after_pass": "F2-H1-DATACHECK-AUTH",
-
-
-  "package_path": "models/generated/mode_ii/h1_endpoint_corrected_serial",
-  "preparation_revision": "2ad35d92fab7b7055e931bf22c3bad67e97e0dce",
+  "next_task_after_pass": "F2-H1-DATACHECK",
+  "package_path": "models/generated/mode_ii/h1_uniform_serial",
+  "preparation_revision": "3b44b375b42dfd0cf88c7f3e82d0ea80c4ef7f0d",
   "protocol_version": 1,
   "solver_authorized": false,
   "solver_job_plan": {
     "cpus": 1,
-    "job_name": "mode_ii_h1_endpoint_corrected_serial",
+    "job_name": "mode_ii_h1_serial",
     "maximum_submissions": 1,
     "memory": "32 GB",
     "mpi_ranks": 1,
@@ -33,8 +31,8 @@
   "stage": "Stage F",
   "status": "complete",
   "submission_approved": false,
-  "task_id": "F2-H1-DATACHECK-LANE-FIX",
-
+  "task_id": "F2-H1-BASELINE-PREP",
   "telegram_notification_traps_integrated": true,
-  "title": "Prepare Mode-II H1 endpoint-corrected serial baseline lane and Telegram notification traps"
+  "title": "Generate the Mode-II H1 uniform-reference model and prepare its HPC lane"
 }
+
