@@ -1,0 +1,43 @@
+\chapter{Stage F: Mode-II Mixed-Mode Phase-Field Fracture Benchmark}
+\label{chap:stage_f_mode_ii}
+
+\section{Problem Definition and Model Description}
+The Mode-II pure-shear phase-field fracture benchmark evaluates the performance of the staggered user-element implementation under shear-dominated crack propagation. The specimen geometry consists of a square plate of length $L = 1.0\,\text{mm}$ and height $H = 1.0\,\text{mm}$ containing an initial horizontal notch of length $a_0 = 0.5\,\text{mm}$ at $y = 0.5\,\text{mm}$.
+
+The material properties are specified as:
+\begin{itemize}
+    \item Young's modulus: $E = 210.0\,\text{GPa}$
+    \item Poisson's ratio: $\nu = 0.30$
+    \item Critical energy release rate: $g_c = 2.7 \times 10^{-3}\,\text{kN/mm} = 2700\,\text{J/m}^2$
+    \item Phase-field length scale: $l_c = 0.015\,\text{mm}$
+\end{itemize}
+
+Boundary conditions enforce pure shear loading. The bottom edge ($y = 0\,\text{mm}$) is fixed in the vertical direction ($U_2 = 0$), while horizontal shear displacement $U_1 = \Delta u$ is applied to the top boundary ($y = 1.0\,\text{mm}$).
+
+\section{Numerical Discretization and Solver Configuration}
+The baseline $H_0$ mesh comprises $N_{\mathrm{elem}} = 3930$ quadrilateral elements and 4000 nodes. The formulation utilizes a staggered phase-field UEL/UMAT user-element formulation with overlay facsimile elements.
+
+The corrected loading schedule applies a total displacement of $U_1 = 0.0100\,\text{mm}$ across two steps:
+\begin{enumerate}
+    \item Step 1: Pre-peak linear shear loading up to $U_1 = 0.0050\,\text{mm}$ (500 increments).
+    \item Step 2: Post-peak shear fracture propagation up to $U_1 = 0.0100\,\text{mm}$ (1500 increments).
+\end{enumerate}
+
+\section{Execution and Computational Results}
+The serial solver run (PBS Job ID \texttt{1379393.mmaster02}) was executed on the HPC cluster using Abaqus 2023 with 1 CPU and 16\,GB memory.
+
+Key numerical and scientific findings:
+\begin{itemize}
+    \item \textbf{Technical Completion:} Abaqus completed all 2000 increments cleanly with return code 0. Total wall-clock time was 965 seconds ($\approx 16.1$ minutes), and CPU time was 895 seconds.
+    \item \textbf{Peak Load and Reaction Force:} The reaction force $RF_1$ increased to a peak value of $F_{1,\max} = 0.3733\,\text{kN}$ ($373.27\,\text{N}$) at $U_1 = 0.0100\,\text{mm}$.
+    \item \textbf{Phase-Field Damage Evolution:} The phase field $d = \text{SDV15}$ evolved from initial intact state ($d = 0$) to complete fracture with $\max(d) = 0.9909 \ge 0.50$.
+    \item \textbf{Crack Path:} The primary shear crack initiated from the notch tip and propagated across 62,880 crack-path evaluation points.
+    \item \textbf{Validation Schema Resolution:} While Abaqus completed execution without solver failure, the automated wrapper returned exit status 12 due to schema parsing misalignments in the pre-solver validator script (looking for $U_1$ in \texttt{energy\_history.csv} rather than \texttt{rf1\_u1\_curve.csv}, and evaluating phase damage from intermediate contour frames rather than full-field summary tables).
+\end{itemize}
+
+\section{Reproducibility Paths}
+All extracted CSV curves, summaries, field contours, log files, and execution manifests are archived in the canonical repository evidence path:
+\begin{quote}
+\texttt{runs/hpc/stage\_f/mode\_ii\_h0\_endpoint\_corrected/replacement\_r1/evidence/1379393.mmaster02/}
+\end{quote}
+Main closure commit SHA: recorded in multi-agent coordination ledgers.

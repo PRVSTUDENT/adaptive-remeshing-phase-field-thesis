@@ -294,3 +294,21 @@ Evidence paths: `.system_generated/logs/transcript.jsonl`
 Prevention rule: Never use `git commit --amend`, `git push --force-with-lease`, or `git reset --hard` on published commits. Always append clean forward-only commits.
 Status: resolved (workflow rule re-enforced)
 
+## F1-C2-R1-SOLVER result validator schema parsing failure (2026-07-28)
+
+ID: M-095
+Date: 2026-07-28
+Stage/job: Stage F / `1379393.mmaster02`
+Source commit: `4d3de793e8ed37d650a0d83d9906afd0b313e661`
+Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_fail`
+Symptom: Abaqus FE solver completed cleanly (exit code 0, 16m 1s wallclock, 2000 increments) and extractor completed cleanly (exit code 0), but PBS wrapper exited with status code 12 because result validator returned exit code 1.
+Root cause: Pre-registered validator `validate_mode_ii_h0_endpoint_corrected_results.py` failed due to two schema parsing bugs: (1) searching for `rp_u1` inside `energy_history.csv` instead of `rf1_u1_curve.csv`, and (2) evaluating maximum damage from `sdv14_sdv15_sdv16_contours.csv` (which only exported intermediate matched frames up to $U_1 = 0.007\text{ mm}$, where $d = 0.2987$) rather than `phase_bounds_summary.json` or `rf1_u1_curve.csv` (where at $U_1 = 0.010\text{ mm}$, $d = 0.9909$).
+Scientific inputs changed: no
+Correction: Documented validator schema parsing failure while preserving full extracted solver results ($U_1 = 0.0100\text{ mm}$, peak force $F_{1,\max} = 0.3733\text{ kN}$, $\max(d) = 0.9909 \ge 0.50$). Solver submission is consumed (1/1); no retry or resubmission is authorized without explicit human decision.
+Retry job: none
+Outcome: Job `1379393.mmaster02` completed FE execution cleanly, but failed automated wrapper validation due to validator script schema bugs. Single solver submission consumed (1/1); downstream task F2 remains blocked.
+Evidence paths: `runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/evidence/1379393.mmaster02/`
+Prevention rule: Ensure result validators query the correct target CSV/JSON schema and evaluate full-field scalar summaries rather than partial intermediate contour subsets.
+Status: closed (solver submission consumed 1/1; validator schema failure logged)
+
+

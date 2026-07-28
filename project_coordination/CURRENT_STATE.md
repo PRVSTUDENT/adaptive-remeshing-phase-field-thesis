@@ -2,13 +2,13 @@
 
 Updated: 2026-07-28
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_solver_submitted`
+Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_fail`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job ID | `1379393.mmaster02` |
+| Active job ID | `1379393.mmaster02` (closed) |
 | Submitted project revision | `4d3de793e8ed37d650a0d83d9906afd0b313e661` |
 | Solver contract preparation correction main revision | `0a7e72a25a06428dd97e9ad1f1d134bea4404289` |
 | Solver contract preparation main revision | `f7e44ae6e7df7dcf1b7eb468eaa946b2eec9caae` |
@@ -25,31 +25,30 @@ Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_solver_submitted`
 | Endpoint audit revision | `49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c` |
 | Endpoint audit parent revision | `b65839552727f3d1242bbde1e4d24f7fb7a8087b` |
 | Active agent | none |
-| Active task | **F1-C2-R1-SOLVER** submitted (`stage_f_mode_ii_h0_endpoint_corrected_serial_solver_submitted`) |
+| Active task | **F1-C2-R1-SOLVER-CLOSE** completed (`stage_f_mode_ii_h0_endpoint_corrected_serial_fail`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F1-C2-R1-SOLVER submitted
-Status: stage_f_mode_ii_h0_endpoint_corrected_serial_solver_submitted
-active_job_id: 1379393.mmaster02
+Current task: F1-C2-R1-SOLVER-CLOSE completed
+Status: stage_f_mode_ii_h0_endpoint_corrected_serial_fail
+active_job_id: 1379393.mmaster02 (closed)
 datacheck_authorized: false (replacement datacheck passed; authorization consumed)
-solver_authorized: false (solver job 1379393.mmaster02 submitted and active on cluster)
+solver_authorized: false (solver job 1379393.mmaster02 completed; submission consumed 1/1)
 submission_approved: true
 execution_authorized: false
 maximum_jobs_now: 0
 automatic_retry_authorized: false
 ```
 
-Corrected Mode-II H0 serial solver job `1379393.mmaster02` was submitted to cluster queue `entry_imfdfkmq` (running on host `mnode105/0`).
-Single authorized solver submission is consumed (`solver_submissions_used: 1`).
+Corrected Mode-II H0 serial solver job `1379393.mmaster02` completed Abaqus solver execution (2000 increments, $U_1 = 0.0100\text{ mm}$, $F_{1,\max} = 0.3733\text{ kN}$, $\max(d) = 0.9909$). Wrapper validation returned exit status 12 due to validator script schema bugs. Single authorized solver submission is consumed (`solver_submissions_used: 1`).
 No further submissions or retries are permitted.
 Downstream task F2 remains **blocked**.
 
-## Stage F corrected package (submitted job 1379393.mmaster02)
+## Stage F corrected package (closed job 1379393.mmaster02)
 
 - Package: `models/generated/mode_ii/h0_endpoint_corrected_serial`
-- Active PBS Job ID: `1379393.mmaster02`
+- Closed PBS Job ID: `1379393.mmaster02`
 - Queue: `entry_imfdfkmq` (routed to `normal_imfdfkmq`)
 - Operational Authorization: `/scratch/pr21vyci/adaptive-remeshing/authorizations/F1-C2-R1-SOLVER_4d3de793e8ed37d650a0d83d9906afd0b313e661.json`
 - Deck SHA-256: `c9160d50c944de7037a9f05dc1dbccfa9718f69b198bb48659f784bac220ddef`
@@ -57,9 +56,8 @@ Downstream task F2 remains **blocked**.
 
 ## Next actions
 
-1. Monitor job `1379393.mmaster02` execution on cluster.
-2. Collect Lightweight results, energy history, force-displacement response, and crack path upon completion.
-3. Scientifically evaluate whether corrected H0 passes the displacement ($U_1 = 0.0100\text{ mm}$) and damage ($\max(d) \ge 0.50$) acceptance criteria under task `F1-C2-R1-SOLVER-CLOSE`.
+1. Wait for explicit human decision regarding validator schema fix vs solver results.
+
 
 ## Dirty paths
 
