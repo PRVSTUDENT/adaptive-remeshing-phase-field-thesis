@@ -36,6 +36,9 @@ PACKAGE_DIR = ROOT / "models" / "generated" / "mode_ii" / "h0_endpoint_corrected
 
 EXPECTED_DECK_SHA = "c9160d50c944de7037a9f05dc1dbccfa9718f69b198bb48659f784bac220ddef"
 EXPECTED_SOURCE_SHA = "5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c"
+EXPECTED_PREP_REVISION = "f7e44ae6e7df7dcf1b7eb468eaa946b2eec9caae"
+EXPECTED_DATACHECK_JOB = "1379387.mmaster02"
+EXPECTED_DATACHECK_CLOSEOUT_REV = "91d6fad0b972687380759c30a3a268515a733339"
 
 
 def compute_sha256(path: Path) -> str:
@@ -82,8 +85,8 @@ def main() -> int:
     # 2. Simulate prestaging in a temporary directory
     temp_dir = Path(tempfile.mkdtemp(prefix="solver_staging_smoke_"))
     try:
-        revision = "87ed0ead18de4dc6ad6bfa72f5273f4955218bfe"
-        staged_root = temp_dir / "staged" / revision
+        revision = "fef51c7ccbe29a4240274d1c67b811fce72955a1"
+        staged_root = (temp_dir / "staged" / revision).resolve()
         staged_pkg = staged_root / "models" / "generated" / "mode_ii" / "h0_endpoint_corrected_serial"
         staged_runtime = staged_root / "runtime"
 
@@ -107,18 +110,34 @@ def main() -> int:
         staged_source_sha = compute_sha256(staged_pkg / source_path.name)
         staged_ext_sha = compute_sha256(staged_runtime / "scripts" / "postprocessing" / "extract_molnar_single_notch.py")
         staged_val_sha = compute_sha256(staged_runtime / "scripts" / "validation" / "validate_mode_ii_h0_endpoint_corrected_results.py")
+        staged_cfg_sha = compute_sha256(staged_runtime / "configs" / "studies" / "mode_ii_molnar_shear_endpoint_corrected.yaml")
 
         manifest_path = staged_root / "MODE_II_H0_LOGIN_MANIFEST.json"
         manifest_data = {
             "classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_solver_login_staging_complete",
             "project_revision": revision,
+            "authorization_classification": "stage_f_mode_ii_h0_endpoint_corrected_serial_solver_submission_approved",
+            "authorization_path": str(R1_AUTH_PATH.resolve()),
+            "approved_project_revision": revision,
+            "solver_contract_preparation_revision": EXPECTED_PREP_REVISION,
+            "datacheck_job_id": EXPECTED_DATACHECK_JOB,
+            "datacheck_closeout_revision": EXPECTED_DATACHECK_CLOSEOUT_REV,
+            "package_path": str(staged_pkg),
             "deck_sha256": staged_deck_sha,
             "source_sha256": staged_source_sha,
             "runtime_root": str(staged_runtime),
-            "extractor_script": "scripts/postprocessing/extract_molnar_single_notch.py",
-            "validator_script": "scripts/validation/validate_mode_ii_h0_endpoint_corrected_results.py",
+            "extractor_path": "scripts/postprocessing/extract_molnar_single_notch.py",
             "extractor_sha256": staged_ext_sha,
+            "validator_path": "scripts/validation/validate_mode_ii_h0_endpoint_corrected_results.py",
             "validator_sha256": staged_val_sha,
+            "configuration_path": "configs/studies/mode_ii_molnar_shear_endpoint_corrected.yaml",
+            "configuration_sha256": staged_cfg_sha,
+            "cpus": 1,
+            "mpi_ranks": 1,
+            "omp_threads": 1,
+            "memory": "16 GB",
+            "walltime": "04:00:00",
+            "queue": "entry_imfdfkmq",
             "compute_git_required": False,
         }
         manifest_path.write_text(json.dumps(manifest_data, indent=2) + "\n", encoding="utf-8")
@@ -145,6 +164,7 @@ def main() -> int:
             "source_sha256": staged_source_sha,
             "extractor_sha256": staged_ext_sha,
             "validator_sha256": staged_val_sha,
+            "configuration_sha256": staged_cfg_sha,
             "required_vars": ["PRESTAGED_ROOT", "LOGIN_MANIFEST_PATH", "PROJECT_REVISION", "PRESTAGED_RUNTIME_ROOT"],
         }
         (evidence_dir / "LOCAL_STAGING_SMOKE_STATUS.json").write_text(

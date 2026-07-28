@@ -9,25 +9,6 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-R1_AUTH_PATH = (
-    ROOT
-    / "runs"
-    / "hpc"
-    / "stage_f"
-    / "mode_ii_h0_endpoint_corrected"
-    / "replacement_r1"
-    / "MODE_II_H0_ENDPOINT_CORRECTED_R1_AUTHORIZATION.json"
-)
-OLD_AUTH_PATH = (
-    ROOT
-    / "runs"
-    / "hpc"
-    / "stage_f"
-    / "mode_ii_h0_endpoint_corrected"
-    / "MODE_II_H0_ENDPOINT_CORRECTED_AUTHORIZATION.json"
-)
-WRAPPER_PATH = ROOT / "scripts" / "hpc" / "stage_f" / "submit_mode_ii_h0_endpoint_corrected_serial.sh"
-PBS_PATH = ROOT / "scripts" / "hpc" / "stage_f" / "04_mode_ii_h0_endpoint_corrected_serial.pbs"
 
 
 def fail(msg: str, errors: list[str]) -> None:
@@ -91,28 +72,61 @@ def main() -> int:
         if var not in pbs_text:
             fail(f"PBS script missing reference to variable {var}", errors)
 
-    if '-v "PRESTAGED_ROOT=${STAGE_ROOT},LOGIN_MANIFEST_PATH=${MANIFEST},PROJECT_REVISION=${REVISION},PRESTAGED_RUNTIME_ROOT=${RUNTIME_ROOT}"' not in wrapper_text and 'PRESTAGED_RUNTIME_ROOT' not in wrapper_text:
-        fail("wrapper script does not pass all 4 variables via qsub -v", errors)
+    # 3. Exact authorization classification check
+    if "stage_f_mode_ii_h0_endpoint_corrected_serial_solver_submission_approved" not in wrapper_text:
+        fail("wrapper script missing exact operational classification check", errors)
 
-    # 3. Serial environment enforcement in PBS script
-    if "export OMP_NUM_THREADS=1" not in pbs_text:
-        fail("PBS script does not set export OMP_NUM_THREADS=1", errors)
-    if "export MKL_NUM_THREADS=1" not in pbs_text:
-        fail("PBS script does not set export MKL_NUM_THREADS=1", errors)
+    # 4. Approved revision binding
+    if "approved_project_revision" not in wrapper_text:
+        fail("wrapper script missing approved_project_revision check", errors)
 
-    # 4. Verification checks in wrapper
+    # 5. Tracked-clean repository check
+    if "git -C \"${ROOT_DIR}\" status --porcelain --untracked-files=no" not in wrapper_text and "status --porcelain" not in wrapper_text:
+        fail("wrapper script missing tracked-clean repository check", errors)
+
+    # 6. Datacheck job and closeout revision checks
+    if "1379387.mmaster02" not in wrapper_text:
+        fail("wrapper script missing expected datacheck job ID check", errors)
+    if "91d6fad0b972687380759c30a3a268515a733339" not in wrapper_text:
+        fail("wrapper script missing expected datacheck closeout revision check", errors)
+
+    # 7. Committed datacheck evidence check
+    if "MODE_II_H0_ENDPOINT_CORRECTED_DATACHECK_STATUS.json" not in wrapper_text:
+        fail("wrapper script missing committed datacheck evidence check", errors)
+
+    # 8. Execution authorization check
+    if "execution_authorized" not in wrapper_text:
+        fail("wrapper script missing execution_authorized check", errors)
+
+    # 9. Explicit submission flag check
     if "ALLOW_MODE_II_H0_ENDPOINT_CORRECTED_SOLVER_SUBMIT" not in wrapper_text:
         fail("wrapper script missing ALLOW_MODE_II_H0_ENDPOINT_CORRECTED_SOLVER_SUBMIT flag check", errors)
+
+    # 10. Package hash checks in wrapper
     if "c9160d50c944de7037a9f05dc1dbccfa9718f69b198bb48659f784bac220ddef" not in wrapper_text:
         fail("wrapper script missing expected deck SHA-256 check", errors)
     if "5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c" not in wrapper_text:
         fail("wrapper script missing expected source SHA-256 check", errors)
-    if "extract_molnar_single_notch.py" not in wrapper_text or "validate_mode_ii_h0_endpoint_corrected_results.py" not in wrapper_text:
-        fail("wrapper script missing runtime extractor/validator script prestaging", errors)
 
-    # 5. Duplicate job check before qsub
+    # 11. Duplicate job check before qsub
     if "grep \"mode_ii_h0_endpoint_corrected_serial\"" not in wrapper_text:
         fail("wrapper script missing duplicate job qstat check", errors)
+
+    # 12. PBS Manifest parsing and hash checks
+    if "deck_sha256" not in pbs_text or "source_sha256" not in pbs_text:
+        fail("PBS script missing manifest deck/source hash verification", errors)
+    if "extractor_sha256" not in pbs_text or "validator_sha256" not in pbs_text or "configuration_sha256" not in pbs_text:
+        fail("PBS script missing manifest extractor/validator/configuration hash verification", errors)
+
+    # 13. Absolute-path checks in PBS script
+    if "missing or non-absolute PRESTAGED_ROOT" not in pbs_text and "!= /*" not in pbs_text:
+        fail("PBS script missing absolute-path verification for environment variables", errors)
+
+    # 14. Serial environment enforcement in PBS script
+    if "export OMP_NUM_THREADS=1" not in pbs_text:
+        fail("PBS script does not set export OMP_NUM_THREADS=1", errors)
+    if "export MKL_NUM_THREADS=1" not in pbs_text:
+        fail("PBS script does not set export MKL_NUM_THREADS=1", errors)
 
     ok = len(errors) == 0
     classification = (

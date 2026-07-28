@@ -56,6 +56,7 @@ ALLOWED_TASK_IDS = frozenset(
         "F1-C2-R1-CLOSE",
         "F1-C2-R1-SOLVER-AUTH",
         "F1-C2-R1-SOLVER-PREP",
+        "F1-C2-R1-SOLVER-PREP-CORRECTION",
         "F1-C2-R1-SOLVER-REAUTH",
         "F1-C2-R1-SOLVER",
         "F1-J1",
