@@ -66,6 +66,7 @@ ALLOWED_TASK_IDS = frozenset(
         "F2-H1-DATACHECK",
         "F2-H1-DATACHECK-CLOSE",
         "F2-H1-SOLVER",
+        "F2-H1-SOLVER-CLOSE",
         "F1-J1",
     }
 )

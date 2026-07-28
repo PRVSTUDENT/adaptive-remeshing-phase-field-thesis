@@ -13,6 +13,8 @@ Updated: 2026-07-28
 | F1-C2-DATACHECK | `1378958.mmaster02` | `stage_f_mode_ii_h0_endpoint_corrected_datacheck_stage_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_endpoint_corrected_datacheck_1378958.mmaster02` |
 | F1-C2-R1-DATACHECK | `1379387.mmaster02` | `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_pass` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_endpoint_corrected_datacheck_1379387.mmaster02` |
 | F1-C2-R1-SOLVER | `1379393.mmaster02` | `stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_endpoint_corrected_serial_1379393.mmaster02` |
+| F2-H1-DATACHECK | `1379431.mmaster02` | `stage_f_mode_ii_h1_uniform_datacheck_pass` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_dc_1379431.mmaster02` |
+| F2-H1-SOLVER | `1379433.mmaster02` | `stage_f_mode_ii_h1_uniform_serial_validation_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_serial_1379433.mmaster02` |
 
 ## Summary Notes
 
@@ -28,6 +30,9 @@ Updated: 2026-07-28
 - `F1-C2-R1-SOLVER-PREP`: Offline serial solver staging contract remediation completed (`stage_f_mode_ii_h0_endpoint_corrected_serial_solver_contract_prepared_unauthorized`); submit wrapper updated to prestage package + runtime scripts and pass `-v PRESTAGED_ROOT=...,LOGIN_MANIFEST_PATH=...,PROJECT_REVISION=...,PRESTAGED_RUNTIME_ROOT=...`; static validator, 195 unit tests, and local solver staging smoke passed; 0 HPC jobs executed.
 - `1379393.mmaster02`: Corrected Mode-II H0 serial solver completed FE execution cleanly (`abaqus_rc: 0`, `extractor_rc: 0`, 2000 increments, $U_1 = 0.0100\text{ mm}$, $F_{1,\max} = 0.3733\text{ kN}$, $\max(d) = 0.9909 \ge 0.50$); offline validator corrected in task F1-C2-R1-H0-VALIDATOR-FIX (`stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass`); scratch retained.
 - `F2-H1-BASELINE-PREP`: Stage F Mode-II H1 endpoint-corrected baseline preparation completed offline (`stage_f_mode_ii_h1_endpoint_corrected_prepared`); H1 package ($h_1 = 0.0025\text{ mm}$, `N_ELEM = 12064`, $U_1 = 0.010\text{ mm}$), PBS execution script with Telegram notification traps, H1 validator, and 10 unit tests qualified; 0 HPC jobs executed.
+- `1379431.mmaster02`: Stage F Mode-II H1 uniform reference datacheck completed cleanly (`Exit_status: 0`, `abaqus_return_code: 0`, `DATACHECK_ok: true`); scratch retained.
+- `1379433.mmaster02`: Stage F Mode-II H1 uniform reference serial solver completed FE execution cleanly (`abaqus_rc: 0`, 2,500 increments, $U_1 = 0.0100\text{ mm}$, $RF_1 = 0.1214\text{ kN}$, $\max(d) = 0.2747 < 0.50$); wrapper exit 12 due to CLI argument mismatch during in-script extraction; scientific classification `stage_f_mode_ii_h1_uniform_serial_validation_fail`; scratch retained.
+
 
 
 

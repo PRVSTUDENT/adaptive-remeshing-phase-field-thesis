@@ -1,8 +1,8 @@
 {
-  "active_job_id": "1379433.mmaster02",
+  "active_job_id": null,
   "authorization_file": "runs/hpc/stage_f/mode_ii_h1/MODE_II_H1_AUTHORIZATION.json",
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h1_uniform_solver_submitted",
+  "classification": "stage_f_mode_ii_h1_uniform_serial_validation_fail",
   "datacheck_authorized": false,
   "datacheck_job_id": "1379431.mmaster02",
   "datacheck_submissions_used": 1,
@@ -11,8 +11,7 @@
   "maximum_datacheck_submissions": 1,
   "maximum_jobs_now": 0,
   "maximum_solver_submissions": 1,
-  "next_action": "Close out and scientifically classify the H1 solver result",
-  "next_task_after_pass": "F2-H1-SOLVER-CLOSE",
+  "next_action": "Wait for explicit human decision on Stage F Mode-II loading endpoint expansion",
   "package_path": "models/generated/mode_ii/h1_uniform_serial",
   "preparation_revision": "3b44b375b42dfd0cf88c7f3e82d0ea80c4ef7f0d",
   "protocol_version": 1,
@@ -30,15 +29,9 @@
   },
   "solver_submissions_used": 1,
   "stage": "Stage F",
-  "status": "submitted_or_running_pending_outcome",
+  "status": "complete_failed",
   "submission_approved": false,
-  "task_id": "F2-H1-SOLVER",
+  "task_id": "F2-H1-SOLVER-CLOSE",
   "telegram_notification_traps_integrated": true,
-  "title": "Authorize and submit one Mode-II H1 uniform-reference solver job"
+  "title": "Closeout and evidence validation for Stage F Mode-II H1 uniform reference solver job"
 }
-
-
-
-
-
-

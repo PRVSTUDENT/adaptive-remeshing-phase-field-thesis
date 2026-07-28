@@ -311,5 +311,23 @@ Evidence paths: `runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/e
 Prevention rule: Ensure result validators query the correct target CSV/JSON schema and evaluate full-field scalar summaries rather than partial intermediate contour subsets.
 Status: resolved (fixed offline in task F1-C2-R1-H0-VALIDATOR-FIX; validate_mode_ii_h0_endpoint_corrected_results.py updated to parse rf1_u1_curve.csv and phase_bounds_summary.json; H0 baseline formally passed: stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass)
 
+## Stage F2 H1 solver PBS wrapper extractor CLI argument mismatch (2026-07-28)
+
+ID: M-096
+Date: 2026-07-28
+Stage/job: Stage F / `1379433.mmaster02`
+Source commit: `b1d91e95eac1f496350f9db380963d76e7ac34e7`
+Classification: `stage_f_mode_ii_h1_uniform_serial_validation_fail`
+Symptom: Abaqus FE solver completed all 2,500 increments cleanly (exit code 0, 42m 59s walltime, 1.01 GB RAM), but PBS wrapper exited with status code 12 because `abaqus python extract_molnar_single_notch.py` failed with exit code 2.
+Root cause: In `mode_ii_h1_serial.pbs`, the extractor script was called as `abaqus python extract_molnar_single_notch.py <ODB_PATH> --config <CONFIG_PATH>`, passing a positional argument for ODB path and an unsupported `--config` argument, whereas `extract_molnar_single_notch.py` requires `--odb <ODB_PATH>` and does not accept `--config`.
+Scientific inputs changed: no
+Correction: Re-extracted ODB results offline on the login node using explicit flags (`--odb`, `--sta`, `--dat`, `--msg`, `--output-dir`, `--displacement-component 1`, `--reaction-component 1`). Generated complete extraction CSVs, summaries, and response plots. The scientific validator confirmed $U_1 = 0.010\text{ mm}$ was reached with $RF_1 = 0.1214\text{ kN}$ and $\max(d) = 0.2747 < 0.50$ (pre-peak initiation regime for $h_1 = 0.0025\text{ mm}$ and $\ell_c = 0.015\text{ mm}$).
+Retry job: none
+Outcome: Job `1379433.mmaster02` FE execution completed cleanly, extracted offline, and classified as `stage_f_mode_ii_h1_uniform_serial_validation_fail` due to pre-peak damage state. Single solver submission consumed (1/1); no retry or resubmission authorized.
+Evidence paths: `runs/hpc/stage_f/mode_ii_h1/evidence/1379433.mmaster02/`
+Prevention rule: Always verify postprocessing script CLI flags in PBS scripts against the target script's `argparse` definitions before submitting.
+Status: resolved (extracted offline; classified; recorded in ledgers)
+
+
 
 
