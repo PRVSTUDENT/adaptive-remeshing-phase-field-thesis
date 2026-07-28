@@ -1,22 +1,11 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_write_scope": [
-    "runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/MODE_II_H0_ENDPOINT_CORRECTED_R1_AUTHORIZATION.json",
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json",
-    "project_coordination/CURRENT_STATE.md",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/HPC_JOB_LEDGER.csv",
-    "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/sessions/2026-07-28_0725_gemini-antigravity_F1-C2-R1-DATACHECK.md",
-    "docs/experiment_records/STAGE_F1_C2_R1_MODE_II_H0_DATACHECK_REPLACEMENT_SUBMISSION.md",
-    "scripts/validation/check_multi_agent_bootstrap.py"
-  ],
-  "base_commit": "a4c679b9fce208d648cbdf7cd41a8cb13613f91d",
+  "active": false,
+  "agent": "",
+  "allowed_write_scope": [],
+  "base_commit": "",
   "forbidden_paths": [],
-  "notes": "Session claimed for F1-C2-R1-DATACHECK submission task.",
+  "notes": "Session inactive. Task F1-C2-R1-DATACHECK replacement datacheck submitted under PBS Job ID 1379387.mmaster02; awaits closeout under F1-C2-R1-CLOSE.",
   "schema_version": 1,
-  "started_at": "2026-07-28T07:25:00+02:00",
-  "task_id": "F1-C2-R1-DATACHECK"
+  "started_at": "",
+  "task_id": ""
 }
