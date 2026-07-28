@@ -1,0 +1,21 @@
+{
+  "automatic_retry_authorized": false,
+  "classification": "stage_f_mode_ii_h1_uniform_package_prepared",
+  "corrected_deck_sha256": "613398be7cd1c9061cbb469beb4130188512a2f6d25cf3d78b6364eb3255342f",
+  "corrected_source_sha256": "745db8fcfb612895e0289f4533c90d204cc9b2ade3678a035614feeb308b5ead",
+  "datacheck_authorized": false,
+  "execution_authorized": false,
+  "fortran_identical_to_h0": false,
+  "h0_fortran_sha256": "5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c",
+  "h1_mesh_h_mm": 0.0025,
+  "layered_element_count": 36192,
+  "n_elem_fortran": 12064,
+  "node_count": 12382,
+  "package_path": "models/generated/mode_ii/h1_uniform_serial",
+  "physical_element_count": 12064,
+  "solver_authorized": false,
+  "source_byte_identical": true,
+  "source_deck_sha256": "90a305ef29714a6ee795e6b2fd9ef53856141f2ef66928665b5640422d12c35b",
+  "source_fortran_sha256": "745db8fcfb612895e0289f4533c90d204cc9b2ade3678a035614feeb308b5ead",
+  "source_package": "models/generated/molnar_gravouil_2017/h_convergence_lc015/H1_h0025"
+}
