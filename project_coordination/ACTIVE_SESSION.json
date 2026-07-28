@@ -1,20 +1,9 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_write_scope": [
-    "runs/hpc/stage_f/mode_ii_h1/",
-    "scripts/hpc/stage_f/submit_mode_ii_h1_serial.sh",
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json",
-    "project_coordination/CURRENT_STATE.md",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/HPC_JOB_LEDGER.csv",
-    "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/sessions/",
-    "docs/experiment_records/"
-  ],
+  "active": false,
+  "agent": "",
+  "allowed_write_scope": [],
   "protocol_version": 1,
-  "start_time_utc": "2026-07-28T10:08:00Z",
-  "starting_commit": "0e246d507555e060a08dd81a1693fca5458bad29",
-  "task_id": "F2-H1-SOLVER"
+  "start_time_utc": "",
+  "starting_commit": "",
+  "task_id": ""
 }
