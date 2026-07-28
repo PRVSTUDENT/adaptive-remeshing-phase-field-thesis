@@ -178,7 +178,7 @@ for idx in "${!VARIANTS[@]}"; do
   VARS="VARIANT=${v},PROJECT_REVISION=${CURRENT_REV},PRESTAGED_ROOT=${PRESTAGED_ROOT},PRESTAGED_RUNTIME_ROOT=${PRESTAGED_RUNTIME_ROOT}"
 
   if [ -f "${PRESERVE_SUBMIT_NOTIFY}" ]; then
-    JOB_ID=$(bash "${PRESERVE_SUBMIT_NOTIFY}" -N "${jn}" -v "${VARS}" "${PBS_SCRIPT}")
+    JOB_ID=$(bash "${PRESERVE_SUBMIT_NOTIFY}" --job-name "${jn}" --message "Stage-F H1 endpoint sweep ${v} (${jn}) submitted" -- -N "${jn}" -v "${VARS}" "${PBS_SCRIPT}")
   else
     JOB_ID=$(qsub -N "${jn}" -v "${VARS}" "${PBS_SCRIPT}")
   fi
