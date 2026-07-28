@@ -2,50 +2,37 @@
 
 Updated: 2026-07-28
 Protocol version: 1
-Classification: `stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_pass`
+Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_solver_authorized`
 
 ## Git
 
 | Item | Value |
 |---|---|
+| Datacheck closeout revision | `91d6fad0b972687380759c30a3a268515a733339` |
 | Datacheck replacement submission tracking revision | `aaec1b8bb4d8e8c4232dbb99c204596c76450eec` |
 | Datacheck replacement submission operational approval revision | `51b01ea6540663bab5a2b07b5f2b3e76cde3e23b` |
 | Datacheck replacement authorization main revision | `38ab45b0afe2404ad72ccfde00039f3712001543` |
 | Datacheck staging remediation main revision | `3c070ec40f5c609eb1ae91a6729ea2146680e3ed` |
 | Datacheck staging remediation parent revision | `20cad4f94133635076da48eda821b50dd53a050a` |
-| Datacheck closeout lock release revision | `20cad4f94133635076da48eda821b50dd53a050a` |
-| Datacheck closeout metadata revision | `8f1b108eaf85dd8060181e63d3278d2222fd9b37` |
-| Datacheck closeout main revision | `b748b45f7b9b5cdf1cc04a4a26a931418a7bc9cb` |
-| Corrected datacheck submission revision | `78b7744ddab0d5ed88f9f1118a7f5965c065604b` |
 | Active job ID | none |
 | Datacheck authorization parent revision | `6a4fc72beb62a6bc247f200f9ee883ba3c5751af` |
 | Corrected package preparation main revision | `e2e40b08fee23799da9518c118232af756610e0b` |
 | Corrected package preparation parent revision | `71751047bbb05bdb1561e250c62a890989cdd349` |
 | Endpoint audit revision | `49d7d4f1a941a09fbfd3aca147fd612a0a9a6a4c` |
 | Endpoint audit parent revision | `b65839552727f3d1242bbde1e4d24f7fb7a8087b` |
-| R2 replacement closeout correction revision | `8bada7ef5b8862a2a7ef1f82abb865f5d524fb97` |
-| R2 replacement result revision | `3813c125742a7f5a3211d28bb275902f8e2588e8` |
-| R2 replacement submission revision | `69d4d0a6ade66f4c0a1ea47020eb6e8916c11abd` |
-| R2 replacement authorization revision | `93fcad353693ca6348b2d683317c7da86d34d493` |
-| Evidence verifier commit | `7f61c182aaa480b20647410546007d0ee20a3132` |
-| R2 preparation parent revision | `e262f30666811bcd52a09332ca03b6677566df3b` |
-| R1 replacement submission revision | `46cf420b995ff6b2f74fecfc10fb1bb4411feaac` |
-| R1 replacement authorization revision | `2f6a0f6efc992b85c9ae79ff9006ebadd9bf81d8` |
-| Original submission revision | `5b092853419e8e8829d7f4c024ce3ea78d131740` |
-| Datacheck revision | `4ff884c23b3b7bcefbffd0605fd8d2bf5f1b400b` |
 | Active agent | none |
-| Active task | **F1-C2-R1-CLOSE** complete (`stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_pass`) |
+| Active task | **F1-C2-R1-SOLVER-AUTH** complete (`stage_f_mode_ii_h0_endpoint_corrected_serial_solver_authorized`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F1-C2-R1-CLOSE complete
-Status: stage_f_mode_ii_h0_endpoint_corrected_datacheck_replacement_pass
+Current task: F1-C2-R1-SOLVER-AUTH complete
+Status: stage_f_mode_ii_h0_endpoint_corrected_serial_solver_authorized
 active_job_id: none
 datacheck_authorized: false (replacement datacheck passed; authorization consumed)
-submission_approved: true
+solver_authorized: true (single serial solver run authorized; submission unapproved)
+submission_approved: false
 execution_authorized: false
-solver_authorized: false
 maximum_jobs_now: 0
 automatic_retry_authorized: false
 ```
@@ -73,8 +60,8 @@ Downstream task F2 remains **blocked**.
 ## Next actions
 
 1. Replacement datacheck job `1379387.mmaster02` completed cleanly (`Exit_status 0`, `abaqus_return_code 0`, `DATACHECK_ok: true`).
-2. Datacheck authorization consumed (`datacheck_authorized: false`, `maximum_jobs_now: 0`).
-3. Solver execution requires separate explicit human authorization.
+2. Single serial solver run authorized (`solver_authorized: true`, `submission_approved: false`, `maximum_jobs_now: 0`).
+3. Await explicit human submission approval under task `F1-C2-R1-SOLVER`.
 4. Downstream tasks (F2+) remain blocked until corrected H0 baseline lane completes cleanly.
 
 ## Dirty paths
