@@ -1,0 +1,26 @@
+#!/bin/bash
+#PBS -N mode_ii_miseseri_pbs
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -q normal_imfdfkmq
+#PBS -j oe
+
+cd $PBS_O_WORKDIR
+
+module load abaqus
+
+JOBNAME="ModeII_MISESERI_preanalysis"
+INP_FILE="ModeII_MISESERI_preanalysis.inp"
+
+echo "=== PBS JOB STARTED ==="
+date
+echo "Job ID: $PBS_JOBID"
+echo "Working directory: $PWD"
+
+abaqus job=$JOBNAME input=$INP_FILE interactive > ${JOBNAME}.abaqus_stdout.log 2>&1
+ABAQUS_RC=$?
+
+echo "Abaqus exit code: $ABAQUS_RC"
+date
+
+exit $ABAQUS_RC

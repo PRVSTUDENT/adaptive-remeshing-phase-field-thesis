@@ -2,43 +2,40 @@
 
 Updated: 2026-07-29
 Protocol version: 1
-Classification: `stage_f3_combined_closeout_pass`
+Classification: `stage_f4_readiness_complete`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job IDs | None (all Stage F3 jobs complete) |
-| Completed job IDs | `1379578.mmaster02` (H2 technical_pass), `1379579.mmaster02` (MISESERI generator defect) |
-| Failed initial job IDs | `1379576.mmaster02`, `1379577.mmaster02` |
+| Active job IDs | None (HPC scheduler idle) |
+| Completed job IDs | None for Stage F4 |
 | Active agent | `gemini-antigravity` (session claimed) |
-| Active task | **F3-STAGE-F3-COMBINED-SCIENTIFIC-CLOSEOUT** |
+| Active task | **F4-H2-U020-AND-MISESERI-PBS-READINESS** |
 
 ## Scientific Status Matrix
 
 ```text
-H1-H2 elastic convergence: PASS (K_H1 = 12.8093 kN/mm, K_H2 = 12.7912 kN/mm, rel_diff = -0.1418%)
-H2 technical execution: PASS (Job 1379578.mmaster02 completed 2,023 increments cleanly)
-H2 damage initiation: CONFIRMED (d_max = 0.119955 at U1 = 0.0070 mm endpoint)
-H1-H2 fracture convergence: UNRESOLVED (H2 stopped at pre-peak U1 = 0.007 mm before peak U1 = 0.012 mm)
-MISESERI corrective evidence: PROVISIONAL (Exploratory interactive run relocated to corrective_interactive_runs/)
+H1-H2 elastic convergence: PASS (K_H1 = 12.8093 kN/mm, K_H2 = 12.7912 kN/mm, rel_diff = -0.1418%, 17 data points / 19 CSV lines)
+H2 post-peak convergence: UNRESOLVED (Job 1379578.mmaster02 stopped at pre-peak U1 = 0.0070 mm)
+Corrected MISESERI official PBS verification: STAGING READY (Unapproved proposal prepared under MODE_II_STAGE_F4_AUTHORIZATION_PROPOSAL.json)
 ```
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F3-STAGE-F3-COMBINED-SCIENTIFIC-CLOSEOUT
+Current task: F4-H2-U020-AND-MISESERI-PBS-READINESS
 Status: complete
-Classification: stage_f3_combined_closeout_pass
+Classification: stage_f4_readiness_complete
 active_job_ids: []
-completed_job_ids: ["1379578.mmaster02", "1379579.mmaster02"]
-failed_initial_job_ids: ["1379576.mmaster02", "1379577.mmaster02"]
+completed_job_ids: []
+failed_initial_job_ids: []
 execution_authorized: false
 submission_approved: false
 solver_authorized: false
 approved_submissions: 2
-submissions_used: 2
-actual_qsub_calls: 4
+submissions_used: 0
+actual_qsub_calls: 0
 maximum_jobs_now: 0
 automatic_retry_authorized: false
 retry_authorized: false

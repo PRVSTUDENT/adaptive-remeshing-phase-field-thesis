@@ -1,0 +1,27 @@
+#!/bin/bash
+#PBS -N mode_ii_h2_u020
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=12:00:00
+#PBS -q normal_imfdfkmq
+#PBS -j oe
+
+cd $PBS_O_WORKDIR
+
+module load abaqus
+
+JOBNAME="ModeII_H2_uniform_serial"
+INP_FILE="ModeII_H2_uniform_serial.inp"
+USER_SUB="ModeII_H2_uniform_serial.for"
+
+echo "=== PBS JOB STARTED ==="
+date
+echo "Job ID: $PBS_JOBID"
+echo "Working directory: $PWD"
+
+abaqus job=$JOBNAME input=$INP_FILE user=$USER_SUB interactive > ${JOBNAME}.abaqus_stdout.log 2>&1
+ABAQUS_RC=$?
+
+echo "Abaqus exit code: $ABAQUS_RC"
+date
+
+exit $ABAQUS_RC

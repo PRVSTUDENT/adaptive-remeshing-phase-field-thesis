@@ -105,7 +105,10 @@ F3_ELASTIC_STIFFNESS_POINTS_CSV,Stage F,runs/hpc/stage_f/H1_H2_ELASTIC_STIFFNESS
 F3_ELASTIC_STIFFNESS_FIT_FIG,Stage F,results/figures/mode_ii_h2/H1_H2_ELASTIC_STIFFNESS_FIT.png,figure,active,gemini-antigravity,f9fa2424c8c0f9c704a186822aeb0430f1067a1f,1379482.mmaster02;1379578.mmaster02,,H1-H2 elastic stiffness regression fit plot
 F3_RF1_U1_OVERLAY_FIG,Stage F,results/figures/mode_ii_h2/H1_H2_RF1_U1_OVERLAY.png,figure,active,gemini-antigravity,f9fa2424c8c0f9c704a186822aeb0430f1067a1f,1379482.mmaster02;1379578.mmaster02,,H1-H2 full response curve overlay plot
 F3_MISESERI_PROVENANCE_NOTICE,Stage F,runs/hpc/stage_f/miseseri_preanalysis/evidence/1379579.mmaster02/PROVENANCE_NOTICE.md,report,active,gemini-antigravity,f9fa2424c8c0f9c704a186822aeb0430f1067a1f,1379579.mmaster02,,Provenance notice for PBS 1379579 vs exploratory interactive run
-F3_MISESERI_CORRECTIVE_EVIDENCE,Stage F,runs/hpc/stage_f/miseseri_preanalysis/corrective_interactive_runs/2026-07-29T070232_CEST/,evidence,active,gemini-antigravity,f9fa2424c8c0f9c704a186822aeb0430f1067a1f,,,Relocated exploratory interactive MISESERI preanalysis evidence bundle
+F4_H2_U020_PACKAGE,Stage F,models/generated/mode_ii/h2_uniform_serial_u020_postpeak/ModeII_H2_uniform_serial.inp,input_deck,active,gemini-antigravity,ccf2917ee37152f8dd5df2d91e970b849b660c42,,,Immutable H2 u020 postpeak reference deck package
+F4_H2_U020_STEP_ENDPOINT_AUDIT,Stage F,models/generated/mode_ii/h2_uniform_serial_u020_postpeak/STEP_ENDPOINT_AUDIT.json,metadata,active,gemini-antigravity,ccf2917ee37152f8dd5df2d91e970b849b660c42,,,Analytical step boundary and amplitude endpoint audit
+F4_MISESERI_PBS_PACKAGE,Stage F,models/generated/mode_ii/miseseri_preanalysis_corrected_pbs/ModeII_MISESERI_preanalysis.inp,input_deck,active,gemini-antigravity,ccf2917ee37152f8dd5df2d91e970b849b660c42,,,Immutable corrected MISESERI PBS deck package
+F4_STAGE_F4_AUTHORIZATION_PROPOSAL,Stage F,runs/hpc/stage_f/MODE_II_STAGE_F4_AUTHORIZATION_PROPOSAL.json,metadata,active,gemini-antigravity,ccf2917ee37152f8dd5df2d91e970b849b660c42,,,Unapproved Stage F4 authorization proposal for 2-job submission
 
 
 

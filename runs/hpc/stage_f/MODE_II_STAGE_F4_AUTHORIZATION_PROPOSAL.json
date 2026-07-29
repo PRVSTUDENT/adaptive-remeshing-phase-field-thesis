@@ -1,0 +1,52 @@
+{
+  "active_job_ids": [],
+  "approved_submissions": 2,
+  "authorization_task_id": "F4-H2-U020-AND-MISESERI-PBS-READINESS",
+  "automatic_retry_authorized": false,
+  "completed_job_ids": [],
+  "datacheck_authorized": false,
+  "execution_authorized": false,
+  "execution_lane": "runs/hpc/stage_f/",
+  "failed_initial_job_ids": [],
+  "maximum_batch_submissions": 2,
+  "maximum_jobs_now": 0,
+  "maximum_running_jobs": 2,
+  "next_action": "Wait for explicit human authorization before executing Stage F4 jobs",
+  "next_task_after_pass": "STAGE-F4-SUBMIT",
+  "package_path_a": "models/generated/mode_ii/h2_uniform_serial_u020_postpeak",
+  "package_path_b": "models/generated/mode_ii/miseseri_preanalysis_corrected_pbs",
+  "protocol_version": 1,
+  "retry_authorized": false,
+  "solver_authorized": false,
+  "stage": "Stage F",
+  "status": "unapproved",
+  "submission_approved": false,
+  "submissions_used": 0,
+  "task_id": "F4-H2-U020-AND-MISESERI-PBS-READINESS",
+  "title": "Stage F4 Authorization Proposal: H2 u020 Postpeak Reference and Corrected MISESERI PBS Verification",
+  "variant_job_map": {
+    "job_a_h2_u020": {
+      "deck_sha256": "fdcd6ee1b1d6cbfb88d59a3edfb7f1c6b35cecde736a427f6b3030b0443b10bf",
+      "fortran_sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37",
+      "job_name": "mode_ii_h2_u020_postpeak",
+      "package_path": "models/generated/mode_ii/h2_uniform_serial_u020_postpeak",
+      "requested_cpus": 1,
+      "requested_ram_gb": 16,
+      "requested_walltime": "12:00:00",
+      "scratch_path": "/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h2_u020_postpeak",
+      "submit_script": "scripts/hpc/stage_f/submit_mode_ii_h2_u020_postpeak.sh",
+      "target_u1_mm": 0.020
+    },
+    "job_b_miseseri": {
+      "deck_sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2",
+      "job_name": "mode_ii_miseseri_corrected_pbs",
+      "package_path": "models/generated/mode_ii/miseseri_preanalysis_corrected_pbs",
+      "requested_cpus": 1,
+      "requested_ram_gb": 16,
+      "requested_walltime": "01:00:00",
+      "scratch_path": "/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_miseseri_pbs",
+      "submit_script": "scripts/hpc/stage_f/submit_mode_ii_miseseri_corrected_pbs.sh",
+      "target_u1_mm": 0.001
+    }
+  }
+}

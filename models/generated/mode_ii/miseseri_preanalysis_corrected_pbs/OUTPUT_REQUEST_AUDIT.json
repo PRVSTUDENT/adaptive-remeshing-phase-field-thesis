@@ -1,0 +1,16 @@
+{
+  "abaqus_syntax_verified": true,
+  "continuum_element_type": "CPE4 (4-node plane strain)",
+  "element_outputs": [
+    "MISESERI",
+    "MISESAVG",
+    "S",
+    "E",
+    "EVOL"
+  ],
+  "node_outputs": [
+    "U",
+    "RF"
+  ],
+  "target_u1_mm": 0.001
+}
