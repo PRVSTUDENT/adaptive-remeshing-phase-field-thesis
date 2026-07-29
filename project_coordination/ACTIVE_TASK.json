@@ -1,7 +1,7 @@
 {
   "active_job_ids": [
-    "1379576.mmaster02",
-    "1379577.mmaster02"
+    "1379578.mmaster02",
+    "1379579.mmaster02"
   ],
   "authorization_file": "runs/hpc/stage_f/MODE_II_STAGE_F3_AUTHORIZATION_PROPOSAL.json",
   "automatic_retry_authorized": false,
@@ -12,10 +12,10 @@
   "maximum_batch_submissions": 2,
   "maximum_jobs_now": 2,
   "maximum_running_jobs": 2,
-  "next_action": "Monitor Stage F3 HPC jobs 1379576.mmaster02 and 1379577.mmaster02 to completion and close out evidence",
+  "next_action": "Monitor active Stage F3 jobs 1379578.mmaster02 and 1379579.mmaster02 to completion and close out evidence",
   "next_task_after_pass": "F3-STAGE-F3-CLOSEOUT",
   "package_path": "models/generated/mode_ii/h2_uniform_serial",
-  "preparation_revision": "229419d1bbdbce7ef1b6b553e1f0e21aee70f37a",
+  "preparation_revision": "a04db3c48ea92c45163edcfcd1405e3f169f4cb4",
   "protocol_version": 1,
   "solver_authorized": true,
   "stage": "Stage F",
@@ -26,7 +26,7 @@
   "telegram_notification_traps_integrated": true,
   "title": "Submit the two-job Stage F3 batch (H2 uniform reference + MISESERI pre-analysis)",
   "variant_job_map": {
-    "candidate_a_h2": "1379576.mmaster02",
-    "candidate_b_miseseri": "1379577.mmaster02"
+    "candidate_a_h2": "1379578.mmaster02",
+    "candidate_b_miseseri": "1379579.mmaster02"
   }
 }
