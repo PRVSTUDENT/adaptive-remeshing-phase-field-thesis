@@ -53,7 +53,8 @@ def parse_sta_file(sta_path):
     completed = False
     with open(sta_path, "r") as f:
         for line in f:
-            if "THE ANALYSIS HAS BEEN COMPLETED" in line.upper():
+            line_upper = line.upper()
+            if "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" in line_upper or "THE ANALYSIS HAS BEEN COMPLETED" in line_upper:
                 completed = True
             line_s = line.strip()
             parts = line_s.split()
@@ -184,7 +185,6 @@ def main(args_list=None):
         return 0
 
     odb = openOdb(path=odb_path, readOnly=True)
-    step = list(odb.steps.values())[-1]
     rp_set_name = args.rp_set
 
     try:
@@ -201,42 +201,45 @@ def main(args_list=None):
     d_max_global = 0.0
     u1_first_d05 = None
 
-    for frame in step.frames:
-        u_val = None
-        rf_val = None
-        if "U" in frame.fieldOutputs:
-            usub = frame.fieldOutputs["U"].getSubset(region=rp)
-            if usub.values:
-                u_val = float(usub.values[0].data[disp_idx])
-        if "RF" in frame.fieldOutputs:
-            rfsub = frame.fieldOutputs["RF"].getSubset(region=rp)
-            if rfsub.values:
-                rf_val = float(rfsub.values[0].data[react_idx])
+    for step_name in sorted(odb.steps.keys()):
+        step = odb.steps[step_name]
+        for frame in step.frames:
+            u_val = None
+            rf_val = None
+            if "U" in frame.fieldOutputs:
+                usub = frame.fieldOutputs["U"].getSubset(region=rp)
+                if hasattr(usub, "values") and len(usub.values) > 0:
+                    u_val = float(usub.values[0].data[disp_idx])
+            if "RF" in frame.fieldOutputs:
+                rfsub = frame.fieldOutputs["RF"].getSubset(region=rp)
+                if hasattr(rfsub, "values") and len(rfsub.values) > 0:
+                    rf_val = float(rfsub.values[0].data[react_idx])
 
-        d_frame_max = 0.0
-        if args.phase_var in frame.fieldOutputs:
-            psub = frame.fieldOutputs[args.phase_var]
-            if psub.values:
-                d_frame_max = max(float(v.data[0]) if hasattr(v.data, "__getitem__") else float(v.data) for v in psub.values)
-                if d_frame_max > d_max_global:
-                    d_max_global = d_frame_max
+            d_frame_max = 0.0
+            if args.phase_var in frame.fieldOutputs:
+                psub = frame.fieldOutputs[args.phase_var]
+                if hasattr(psub, "values") and len(psub.values) > 0:
+                    d_frame_max = max(float(v.data[0]) if hasattr(v.data, "__getitem__") else float(v.data) for v in psub.values)
+                    if d_frame_max > d_max_global:
+                        d_max_global = d_frame_max
 
-        if u1_first_d05 is None and d_frame_max >= 0.5 and u_val is not None:
-            u1_first_d05 = u_val
+            if u1_first_d05 is None and d_frame_max >= 0.5 and u_val is not None:
+                u1_first_d05 = u_val
 
-        if u_val is not None and rf_val is not None:
-            rf_u_rows.append({
-                "frame": frame.frameId,
-                "step_time": frame.frameValue,
-                "u1": u_val,
-                "rf1": rf_val,
-                "d_max": d_frame_max
-            })
+            if u_val is not None and rf_val is not None:
+                rf_u_rows.append({
+                    "step": step_name,
+                    "frame": frame.frameId,
+                    "step_time": frame.frameValue,
+                    "u1": u_val,
+                    "rf1": rf_val,
+                    "d_max": d_frame_max
+                })
 
     # Save rf1_u1_curve.csv
     csv_path = os.path.join(out_dir, "rf1_u1_curve.csv")
     with open(csv_path, "w") as f:
-        writer = csv.DictWriter(f, fieldnames=["frame", "step_time", "u1", "rf1", "d_max"])
+        writer = csv.DictWriter(f, fieldnames=["step", "frame", "step_time", "u1", "rf1", "d_max"])
         writer.writeheader()
         for r in rf_u_rows:
             writer.writerow(r)

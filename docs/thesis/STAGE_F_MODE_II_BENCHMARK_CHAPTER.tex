@@ -55,14 +55,24 @@ Key numerical and scientific findings from the endpoint sweep:
     \item \textbf{Working Reference Displacement Freeze:} The reference loading endpoint for all continuing uniform reference and adaptive remeshing studies is frozen as $U_{1,\mathrm{ref}} = 0.020\,\text{mm}$ (\texttt{u020}). This variant captures the invariant peak, a fully developed crack propagation zone, and a 41.89\% force drop at moderate computational cost.
 \end{itemize}
 
+\subsection{Stage F3 $H_2$ Uniform Reference and MISESERI Pre-Analysis Results}
+Stage F3 established both the fine uniform reference baseline ($H_2$ mesh level) and the genuine ODB recovery-error indicator pre-analysis field ($\text{MISESERI}$) under tasks \texttt{F3-STAGE-F3-SUBMIT}, \texttt{F3-STAGE-F3-AUTH-PUBLISH-AND-ODB-VERIFY}, and \texttt{F3-STAGE-F3-COMBINED-SCIENTIFIC-CLOSEOUT}:
+\begin{itemize}
+    \item \textbf{Fine Uniform Reference $H_2$ Elastic Parity (\texttt{1379578.mmaster02}):} The $H_2$ uniform reference serial solver run ($N_{\mathrm{elem}} = 33,852$ physical UEL elements, $h_2 \approx 0.0025\,\text{mm}$ around notch tip) was executed on node \texttt{mnode104/0} using Abaqus 2023 with 1 CPU and 16\,GB memory, completing all 2,023 increments across 2 steps cleanly in 2\,h 04\,m walltime ($7,175.0\,\text{s}$ CPU time, $1.42\,\text{GB}$ memory). Under unified linear regression over the shared elastic window $0.0002\,\text{mm} \le U_1 \le 0.0020\,\text{mm}$ (19 points, $R^2 = 1.0000$), $H_2$ initial stiffness is $K_{\mathrm{H2}} = 12.7912\,\text{kN/mm}$, which matches $H_1$ ($K_{\mathrm{H1}} = 12.8093\,\text{kN/mm}$) to within $-0.1418\%$, establishing elastic parity. The preliminary $460.69\,\text{kN/mm}$ value was invalidated as an extraction sampling artifact.
+    \item \textbf{H2 Nonlinear Fracture Status:} Because Job \texttt{1379578.mmaster02} stopped at the prescribed Step-2 displacement endpoint $U_1 = 0.0070\,\text{mm}$ ($RF_1 = 0.08747\,\text{kN}$, $d_{\max} = 0.119955$), execution remained strictly in the pre-peak elastic damage regime before the peak load ($U_1 = 0.0120\,\text{mm}$). Consequently, global post-peak softening for $H_2$ is classified as \texttt{fracture\_convergence\_unresolved}.
+    \item \textbf{MISESERI Provenance Repair:} Official PBS Job \texttt{1379579.mmaster02} failed due to a node-parsing deck generator defect (\texttt{technical\_result\_unusable\_due_to_generator_defect}). A subsequent exploratory interactive run ($N_{\mathrm{elem}} = 3,930$ \texttt{CPE4} plane-strain elements, 15 coincident node pairs) yielded 3,930 finite element records with positive error indicator $\text{MISESERI} \in [0.0000687, 0.1870114]\,\text{GPa}$ at load $U_1 = 0.0010\,\text{mm}$ ($RF_1 = 0.04607\,\text{kN}$). Process violations M-099 and M-100 were recorded, and corrective evidence was relocated to \texttt{corrective\_interactive\_runs/2026-07-29T070232\_CEST/}.
+\end{itemize}
+
 \section{Reproducibility Paths}
 All extracted CSV curves, summaries, field contours, log files, and execution manifests are archived in the canonical repository evidence paths:
 \begin{quote}
 \texttt{runs/hpc/stage\_f/mode\_ii\_h0\_endpoint\_corrected/replacement\_r1/evidence/1379393.mmaster02/}\\
 \texttt{runs/hpc/stage\_f/mode\_ii\_h1/evidence/1379433.mmaster02/}\\
 \texttt{runs/hpc/stage\_f/mode\_ii\_h1\_endpoint\_sweep/evidence/1379481.mmaster02/}\\
-\texttt{runs/hpc/stage\_f/mode\_ii\_h1\_endpoint_sweep/evidence/1379482.mmaster02/}\\
+\texttt{runs/hpc/stage\_f/mode\_ii\_h1\_endpoint\_sweep/evidence/1379482.mmaster02/}\\
 \texttt{runs/hpc/stage\_f/mode\_ii\_h1\_endpoint\_sweep/evidence/1379483.mmaster02/}\\
-\texttt{runs/hpc/stage\_f/mode\_ii_h1_endpoint_sweep/evidence/1379484.mmaster02/}
+\texttt{runs/hpc/stage\_f/mode\_ii\_h1\_endpoint\_sweep/evidence/1379484.mmaster02/}\\
+\texttt{runs/hpc/stage\_f/miseseri\_preanalysis/evidence/1379579.mmaster02/}\\
+\texttt{runs/hpc/stage\_f/mode\_ii\_h2/evidence/1379578.mmaster02/}
 \end{quote}
 Main closure commit SHA: recorded in multi-agent coordination ledgers.

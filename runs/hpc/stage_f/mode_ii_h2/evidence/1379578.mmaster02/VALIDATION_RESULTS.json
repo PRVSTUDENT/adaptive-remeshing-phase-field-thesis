@@ -1,0 +1,31 @@
+{
+  "checks_passed": 7,
+  "classification": "stage_f_mode_ii_h2_uniform_serial_pass",
+  "failures": [],
+  "passed": true,
+  "summary": {
+    "expected_u1_mm": 0.007,
+    "extracted_data": {
+      "completed_cleanly": true,
+      "damage_max": 0.11995451897382736,
+      "dat_exists": true,
+      "final_rf1": 0.08746657520532608,
+      "final_u1": 0.007000000216066837,
+      "force_drop_percentage": 0.0,
+      "initial_stiffness_kN_mm": 12.81457810771818,
+      "initial_u1": 0.0,
+      "memory_mb": null,
+      "n_frames": 72,
+      "peak_rf1": 0.08746657520532608,
+      "sta_exists": true,
+      "total_increments": 2023,
+      "u1_at_peak_rf1": 0.007000000216066837,
+      "u1_first_d05": null,
+      "user_cpu_sec": null
+    },
+    "final_u1_mm": 0.007000000216066837,
+    "peak_rf1_kN": 0.08746657520532608,
+    "u1_tolerance_mm": 0.0001
+  },
+  "total_checks": 7
+}

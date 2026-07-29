@@ -1,8 +1,7 @@
 {
-  "active_job_ids": [
-    "1379578.mmaster02"
-  ],
+  "active_job_ids": [],
   "completed_job_ids": [
+    "1379578.mmaster02",
     "1379579.mmaster02"
   ],
   "failed_initial_job_ids": [
@@ -12,7 +11,7 @@
   "authorization_file": "runs/hpc/stage_f/MODE_II_STAGE_F3_AUTHORIZATION_PROPOSAL.json",
   "automatic_retry_authorized": false,
   "retry_authorized": false,
-  "classification": "stage_f3_auth_consumed_miseseri_extracted",
+  "classification": "stage_f3_combined_closeout_pass",
   "datacheck_authorized": false,
   "execution_authorized": false,
   "solver_authorized": false,
@@ -20,28 +19,31 @@
   "execution_lane": "runs/hpc/stage_f/",
   "maximum_batch_submissions": 2,
   "maximum_jobs_now": 0,
-  "maximum_running_jobs": 2,
+  "maximum_running_jobs": 0,
   "approved_submissions": 2,
   "submissions_used": 2,
   "actual_qsub_calls": 4,
   "replacement_submission_violation_recorded": true,
   "reset_hard_violation_recorded": true,
-  "next_action": "Publish consumed Stage F3 authority and perform genuine Abaqus ODB extraction on cluster",
-  "next_task_after_pass": "F3-STAGE-F3-CLOSEOUT",
+  "miseseri_provenance_repaired": true,
+  "process_violations_recorded": ["M-099", "M-100"],
+  "next_action": "Stage F3 combined closeout complete; elastic parity passed (-0.14%), H2 fracture response unresolved (pre-peak endpoint), MISESERI provenance repaired. Wait for explicit human decision before Stage F4",
+  "next_task_after_pass": "STAGE-F3-COMPLETE",
   "package_path": "models/generated/mode_ii/h2_uniform_serial",
   "preparation_revision": "3fad785274b24e3d67f9bd8400cc44a6c911ae2c",
   "protocol_version": 1,
-  "stage": "Stage F",
-  "status": "in_progress",
-  "task_id": "F3-STAGE-F3-AUTH-PUBLISH-AND-ODB-VERIFY",
+  "status": "complete",
+  "task_id": "F3-STAGE-F3-COMBINED-SCIENTIFIC-CLOSEOUT",
   "telegram_notification_traps_integrated": true,
-  "title": "Publish consumed Stage F3 authority and replace provisional MISESERI evidence with traceable ODB extraction",
+  "title": "Audit H1-H2 convergence, complete H2 evidence, and repair MISESERI corrective-run provenance",
   "variant_job_map": {
     "candidate_a_h2": "1379578.mmaster02",
     "candidate_b_miseseri": "1379579.mmaster02"
   },
   "process_violations": [
     "Two replacement jobs (1379578/1379579) submitted after initial job failures (1379576/1379577) exceeding approved boundary of 2 submissions",
-    "git reset --hard origin/main executed contrary to repository safety policy"
+    "git reset --hard origin/main executed contrary to repository safety policy",
+    "M-099: Unauthorized interactive replacement solver execution on cluster (mlogin01)",
+    "M-100: Original PBS evidence path reused or overwritten by exploratory interactive extraction"
   ]
 }

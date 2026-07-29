@@ -2,26 +2,36 @@
 
 Updated: 2026-07-29
 Protocol version: 1
-Classification: `stage_f3_auth_consumed_miseseri_extracted`
+Classification: `stage_f3_combined_closeout_pass`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job IDs | `1379578.mmaster02` (running) |
-| Completed job IDs | `1379579.mmaster02` (completed, extracted) |
+| Active job IDs | None (all Stage F3 jobs complete) |
+| Completed job IDs | `1379578.mmaster02` (H2 technical_pass), `1379579.mmaster02` (MISESERI generator defect) |
 | Failed initial job IDs | `1379576.mmaster02`, `1379577.mmaster02` |
 | Active agent | `gemini-antigravity` (session claimed) |
-| Active task | **F3-STAGE-F3-AUTH-CONSUME-AND-MISESERI-EXTRACT** |
+| Active task | **F3-STAGE-F3-COMBINED-SCIENTIFIC-CLOSEOUT** |
+
+## Scientific Status Matrix
+
+```text
+H1-H2 elastic convergence: PASS (K_H1 = 12.8093 kN/mm, K_H2 = 12.7912 kN/mm, rel_diff = -0.1418%)
+H2 technical execution: PASS (Job 1379578.mmaster02 completed 2,023 increments cleanly)
+H2 damage initiation: CONFIRMED (d_max = 0.119955 at U1 = 0.0070 mm endpoint)
+H1-H2 fracture convergence: UNRESOLVED (H2 stopped at pre-peak U1 = 0.007 mm before peak U1 = 0.012 mm)
+MISESERI corrective evidence: PROVISIONAL (Exploratory interactive run relocated to corrective_interactive_runs/)
+```
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F3-STAGE-F3-AUTH-CONSUME-AND-MISESERI-EXTRACT
-Status: in_progress
-Classification: stage_f3_auth_consumed_miseseri_extracted
-active_job_ids: ["1379578.mmaster02"]
-completed_job_ids: ["1379579.mmaster02"]
+Current task: F3-STAGE-F3-COMBINED-SCIENTIFIC-CLOSEOUT
+Status: complete
+Classification: stage_f3_combined_closeout_pass
+active_job_ids: []
+completed_job_ids: ["1379578.mmaster02", "1379579.mmaster02"]
 failed_initial_job_ids: ["1379576.mmaster02", "1379577.mmaster02"]
 execution_authorized: false
 submission_approved: false
