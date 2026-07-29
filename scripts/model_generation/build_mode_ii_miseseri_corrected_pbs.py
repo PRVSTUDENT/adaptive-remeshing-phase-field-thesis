@@ -46,15 +46,6 @@ def build_package(out_dir: Path = DEFAULT_OUT_DIR, target_u1: float = 0.001) -> 
     manifest_base = build_miseseri_base(out_dir=out_dir, target_u1=target_u1)
 
     out_inp = out_dir / "ModeII_MISESERI_preanalysis.inp"
-    deck_text = out_inp.read_text(encoding="utf-8")
-    
-    # Update job header to mode_ii_miseseri_pbs
-    deck_text = deck_text.replace(
-        "** Job name: Mode-II MISESERI Pre-Analysis",
-        "** Job name: Mode-II MISESERI Corrected PBS Pre-Analysis",
-    )
-
-    write_text_lf(out_inp, deck_text)
     deck_sha = sha256_file(out_inp)
 
     input_hashes_file = out_dir / "input_hashes.sha256"

@@ -1,27 +1,72 @@
 #!/bin/bash
-#PBS -N mode_ii_h2_u020
+#PBS -N ModeII_H2_u020_postpeak
 #PBS -l select=1:ncpus=1:mem=16gb
 #PBS -l walltime=12:00:00
-#PBS -q normal_imfdfkmq
+#PBS -q entry_imfdfkmq
 #PBS -j oe
 
 cd $PBS_O_WORKDIR
 
 module load abaqus
 
-JOBNAME="ModeII_H2_uniform_serial"
+JOBNAME="ModeII_H2_u020_postpeak"
 INP_FILE="ModeII_H2_uniform_serial.inp"
 USER_SUB="ModeII_H2_uniform_serial.for"
 
-echo "=== PBS JOB STARTED ==="
+echo "=== PBS JOB STARTED: ${JOBNAME} ==="
 date
 echo "Job ID: $PBS_JOBID"
 echo "Working directory: $PWD"
 
+# 1. Run Abaqus Solver
 abaqus job=$JOBNAME input=$INP_FILE user=$USER_SUB interactive > ${JOBNAME}.abaqus_stdout.log 2>&1
 ABAQUS_RC=$?
-
 echo "Abaqus exit code: $ABAQUS_RC"
+
+EXT_RC=999
+VAL_RC=999
+
+# 2. Run Extractor if Abaqus succeeds
+if [ $ABAQUS_RC -eq 0 ]; then
+    echo "=== RUNNING UNIFIED REFERENCE EXTRACTOR ==="
+    mkdir -p extracted
+    abaqus python scripts/postprocessing/extract_mode_ii_uniform_reference.py \
+      --odb ${JOBNAME}.odb \
+      --output-dir extracted \
+      --sta ${JOBNAME}.sta \
+      --log ${JOBNAME}.abaqus_stdout.log \
+      --target-u1 0.020 > extracted/extractor_stdout.log 2>&1
+    EXT_RC=$?
+    echo "Extractor exit code: $EXT_RC"
+fi
+
+# 3. Run Validator if Extractor succeeds
+if [ $EXT_RC -eq 0 ]; then
+    echo "=== RUNNING H2 RESULT VALIDATOR ==="
+    abaqus python scripts/validation/validate_mode_ii_h2_results.py \
+      --extracted-dir extracted > extracted/validator_stdout.log 2>&1
+    VAL_RC=$?
+    echo "Validator exit code: $VAL_RC"
+fi
+
+# 4. Write STATUS.json
+STATUS="failed"
+if [ $ABAQUS_RC -eq 0 ] && [ $EXT_RC -eq 0 ] && [ $VAL_RC -eq 0 ]; then
+    STATUS="technical_pass"
+fi
+
+cat <<EOF > STATUS.json
+{
+  "job_name": "${JOBNAME}",
+  "pbs_job_id": "${PBS_JOBID}",
+  "abaqus_exit_code": ${ABAQUS_RC},
+  "extractor_exit_code": ${EXT_RC},
+  "validator_exit_code": ${VAL_RC},
+  "status": "${STATUS}"
+}
+EOF
+
 date
+echo "=== PBS JOB COMPLETED WITH STATUS: ${STATUS} ==="
 
 exit $ABAQUS_RC

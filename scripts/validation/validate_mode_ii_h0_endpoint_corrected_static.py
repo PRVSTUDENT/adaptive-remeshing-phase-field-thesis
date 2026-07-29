@@ -9,7 +9,10 @@ import json
 import re
 import sys
 from pathlib import Path
-import yaml
+try:
+    import yaml
+except ImportError:
+    yaml = None
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG_PATH = ROOT / "configs/studies/mode_ii_molnar_shear_endpoint_corrected.yaml"
@@ -34,6 +37,52 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def parse_simple_yaml(text: str) -> dict:
+    result = {}
+    current_key = None
+    stack = [result]
+    indent_levels = [-1]
+
+    for raw_line in text.splitlines():
+        line = raw_line.split("#")[0].rstrip()
+        if not line.strip():
+            continue
+        indent = len(line) - len(line.lstrip())
+        content = line.strip()
+
+        while len(indent_levels) > 1 and indent <= indent_levels[-1]:
+            indent_levels.pop()
+            stack.pop()
+
+        if ":" in content:
+            k, v = content.split(":", 1)
+            k = k.strip()
+            v = v.strip()
+
+            if v:
+                val = v.strip('"\'')
+                if val.lower() == "true":
+                    val = True
+                elif val.lower() == "false":
+                    val = False
+                else:
+                    try:
+                        val = int(val)
+                    except ValueError:
+                        try:
+                            val = float(val)
+                        except ValueError:
+                            pass
+                stack[-1][k] = val
+            else:
+                new_dict = {}
+                stack[-1][k] = new_dict
+                stack.append(new_dict)
+                indent_levels.append(indent)
+
+    return result
+
+
 def validate(package_dir: Path = PACKAGE_DIR, config_path: Path = CONFIG_PATH) -> dict:
     failures = []
     checks = []
@@ -48,7 +97,18 @@ def validate(package_dir: Path = PACKAGE_DIR, config_path: Path = CONFIG_PATH) -
     cfg = {}
     if config_path.is_file():
         with config_path.open("r", encoding="utf-8") as f:
-            cfg = yaml.safe_load(f)
+            text = f.read()
+            if yaml is not None:
+                cfg = yaml.safe_load(text)
+            else:
+                cfg = parse_simple_yaml(text)
+    if config_path.is_file():
+        with config_path.open("r", encoding="utf-8") as f:
+            text = f.read()
+            if yaml is not None:
+                cfg = yaml.safe_load(text)
+            else:
+                cfg = parse_simple_yaml(text)
 
     check(
         cfg.get("status") == "stage_f_mode_ii_h0_endpoint_corrected_prepared",

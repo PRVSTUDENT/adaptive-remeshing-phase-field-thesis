@@ -1,26 +1,69 @@
 #!/bin/bash
-#PBS -N mode_ii_miseseri_pbs
+#PBS -N ModeII_MISESERI_corrected_pbs
 #PBS -l select=1:ncpus=1:mem=16gb
 #PBS -l walltime=01:00:00
-#PBS -q normal_imfdfkmq
+#PBS -q entry_imfdfkmq
 #PBS -j oe
 
 cd $PBS_O_WORKDIR
 
 module load abaqus
 
-JOBNAME="ModeII_MISESERI_preanalysis"
+JOBNAME="ModeII_MISESERI_corrected_pbs"
 INP_FILE="ModeII_MISESERI_preanalysis.inp"
 
-echo "=== PBS JOB STARTED ==="
+echo "=== PBS JOB STARTED: ${JOBNAME} ==="
 date
 echo "Job ID: $PBS_JOBID"
 echo "Working directory: $PWD"
 
+# 1. Run Abaqus Solver
 abaqus job=$JOBNAME input=$INP_FILE interactive > ${JOBNAME}.abaqus_stdout.log 2>&1
 ABAQUS_RC=$?
-
 echo "Abaqus exit code: $ABAQUS_RC"
+
+EXT_RC=999
+VAL_RC=999
+
+# 2. Run Extractor if Abaqus succeeds
+if [ $ABAQUS_RC -eq 0 ]; then
+    echo "=== RUNNING MISESERI EXPORTER ==="
+    mkdir -p extracted
+    abaqus python scripts/postprocessing/export_miseseri_preanalysis_csv.py \
+      --odb ${JOBNAME}.odb \
+      --output-csv extracted/miseseri_preanalysis_elements.csv \
+      --output-json extracted/MISESERI_EVIDENCE_SUMMARY.json > extracted/exporter_stdout.log 2>&1
+    EXT_RC=$?
+    echo "Exporter exit code: $EXT_RC"
+fi
+
+# 3. Run Validator if Exporter succeeds
+if [ $EXT_RC -eq 0 ]; then
+    echo "=== RUNNING MISESERI VALIDATOR ==="
+    abaqus python scripts/validation/validate_mode_ii_miseseri_preanalysis.py \
+      --evidence-dir extracted > extracted/validator_stdout.log 2>&1
+    VAL_RC=$?
+    echo "Validator exit code: $VAL_RC"
+fi
+
+# 4. Write STATUS.json
+STATUS="failed"
+if [ $ABAQUS_RC -eq 0 ] && [ $EXT_RC -eq 0 ] && [ $VAL_RC -eq 0 ]; then
+    STATUS="technical_pass"
+fi
+
+cat <<EOF > STATUS.json
+{
+  "job_name": "${JOBNAME}",
+  "pbs_job_id": "${PBS_JOBID}",
+  "abaqus_exit_code": ${ABAQUS_RC},
+  "extractor_exit_code": ${EXT_RC},
+  "validator_exit_code": ${VAL_RC},
+  "status": "${STATUS}"
+}
+EOF
+
 date
+echo "=== PBS JOB COMPLETED WITH STATUS: ${STATUS} ==="
 
 exit $ABAQUS_RC

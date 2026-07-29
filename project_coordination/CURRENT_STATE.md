@@ -2,7 +2,7 @@
 
 Updated: 2026-07-29
 Protocol version: 1
-Classification: `stage_f4_readiness_complete`
+Classification: `stage_f4_batch_guard_repaired_pass`
 
 ## Git
 
@@ -11,22 +11,22 @@ Classification: `stage_f4_readiness_complete`
 | Active job IDs | None (HPC scheduler idle) |
 | Completed job IDs | None for Stage F4 |
 | Active agent | `gemini-antigravity` (session claimed) |
-| Active task | **F4-H2-U020-AND-MISESERI-PBS-READINESS** |
+| Active task | **F4-TWO-JOB-BATCH-GUARD-REPAIR** |
 
 ## Scientific Status Matrix
 
 ```text
-H1-H2 elastic convergence: PASS (K_H1 = 12.8093 kN/mm, K_H2 = 12.7912 kN/mm, rel_diff = -0.1418%, 17 data points / 19 CSV lines)
+H1-H2 elastic convergence: PASS (K_H1 = 12.8093 kN/mm, K_H2 = 12.7912 kN/mm, rel_diff = -0.1418%, 17 discrete points over U1 in [0.0003, 0.0019] mm / 19 CSV lines)
 H2 post-peak convergence: UNRESOLVED (Job 1379578.mmaster02 stopped at pre-peak U1 = 0.0070 mm)
-Corrected MISESERI official PBS verification: STAGING READY (Unapproved proposal prepared under MODE_II_STAGE_F4_AUTHORIZATION_PROPOSAL.json)
+Stage F4 two-job batch orchestrator: REPAIRED & READY (Single submission wrapper submit_stage_f4_two_job_batch.sh with preflight, duplicate detection, queue entry_imfdfkmq, and separate ABAQUS_RC/EXT_RC/VAL_RC handling)
 ```
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F4-H2-U020-AND-MISESERI-PBS-READINESS
+Current task: F4-TWO-JOB-BATCH-GUARD-REPAIR
 Status: complete
-Classification: stage_f4_readiness_complete
+Classification: stage_f4_batch_guard_repaired_pass
 active_job_ids: []
 completed_job_ids: []
 failed_initial_job_ids: []
