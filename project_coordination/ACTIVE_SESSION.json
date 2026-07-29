@@ -1,9 +1,18 @@
 {
   "active": false,
-  "agent": "",
-  "allowed_write_scope": [],
-  "claimed_at": "",
-  "notes": "Session released following F2-H1-ENDPOINT-SWEEP-BATCH-CLOSE closeout and commit f8c538bc664152c7a2478ea553a58bf45d212f6d.",
-  "starting_commit": "",
-  "task_id": ""
+  "agent": "gemini-antigravity",
+  "allowed_scope": [
+    "models/generated/mode_ii/**",
+    "scripts/validation/**",
+    "scripts/model_generation/**",
+    "tests/unit/**",
+    "docs/**",
+    "runs/hpc/stage_f/**",
+    "project_coordination/**"
+  ],
+  "completed_at": "2026-07-29T05:45:00Z",
+  "heartbeat": "2026-07-29T05:45:00Z",
+  "session_id": "F2-H1-REFERENCE-FREEZE-AND-F3-PREP-CLOSEOUT",
+  "starting_commit": "99de4943a1a088d27559927b5df02b812f6e4fc5",
+  "task_id": "F2-H1-REFERENCE-FREEZE-AND-F3-PREP"
 }
