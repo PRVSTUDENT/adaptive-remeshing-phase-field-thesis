@@ -1,0 +1,28 @@
+{
+  "protocol_version": 1,
+  "task_id": "F4-FINAL-PBS-EXECUTION-CONTRACT-REPAIR",
+  "expected_code_revision": "aeba443022c926e7b8abf0feb4d8ed902f463fc8",
+  "runtime_file_sha256": {
+    "submit_stage_f4_two_job_batch.sh": "2e8985f1b6f7ab27db0d61f57b0c0a32e0fbf4e0c52edf29ae96eb0acdfed6d7",
+    "05_mode_ii_h2_u020_postpeak.pbs": "d012bb8b7b426204aad40cd14934428641a7f5f6303a5ddfbf83ccedb6d35ca3",
+    "06_mode_ii_miseseri_corrected_pbs.pbs": "0f9f9fdd74d7ce3636c5f42ffb190a0b428f33b49711b2c3c3e2f3531a78ee73",
+    "extract_mode_ii_uniform_reference.py": "22d6c76fe4d333787785daf609eb4c8e7192083e586016ceac6d403e49b181eb",
+    "export_miseseri_preanalysis_csv.py": "cb5433a516e5b8d36e82d1884c26c282d85f92b9d2a93b42fdd7f80d2e631e8f",
+    "validate_mode_ii_h2_results.py": "65ede5572aefddaafc3be82bfa8aa3327446c26ee5bdc8271c66c7bb5c6200bc",
+    "validate_mode_ii_miseseri_preanalysis_results.py": "8cfeb424fc00e9728452236a816cdd799445a363ebe5f8615b58cdb6c22f10d3",
+    "h2_deck": "fdcd6ee1b1d6cbfb88d59a3edfb7f1c6b35cecde736a427f6b3030b0443b10bf",
+    "h2_fortran": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37",
+    "miseseri_deck": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2"
+  },
+  "execution_authorized": false,
+  "submission_approved": false,
+  "solver_authorized": false,
+  "datacheck_authorized": false,
+  "retry_authorized": false,
+  "automatic_retry_authorized": false,
+  "maximum_jobs_now": 0,
+  "submissions_used": 0,
+  "actual_qsub_calls": 0,
+  "qsub_attempts": 0,
+  "successful_submissions": 0
+}
