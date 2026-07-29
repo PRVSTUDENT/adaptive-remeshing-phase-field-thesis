@@ -58,6 +58,13 @@ def percentile(sorted_list, p):
     return sorted_list[lower] * (1.0 - weight) + sorted_list[upper] * weight
 
 
+def _is_finite(v):
+    try:
+        return math.isfinite(v)
+    except AttributeError:
+        return not (math.isnan(v) or math.isinf(v))
+
+
 def quantify_miseseri_field(rows, target_disp=0.001, target_tol=1e-4, disp_comp=1, rf_comp=1, u_final=None, rf_final=None, expected_elements=3930):
     n_rows = len(rows)
     if n_rows == 0:
@@ -78,10 +85,10 @@ def quantify_miseseri_field(rows, target_disp=0.001, target_tol=1e-4, disp_comp=
         else:
             miseseri_vals.append(float("nan"))
 
-    all_finite = all(math.isfinite(v) for v in miseseri_vals)
-    has_positive_nonzero = any(math.isfinite(v) and v > 0.0 for v in miseseri_vals)
+    all_finite = all(_is_finite(v) for v in miseseri_vals)
+    has_positive_nonzero = any(_is_finite(v) and v > 0.0 for v in miseseri_vals)
 
-    valid_vals = [v for v in miseseri_vals if math.isfinite(v)]
+    valid_vals = [v for v in miseseri_vals if _is_finite(v)]
     if not valid_vals:
         return {
             "n_csv_rows": n_rows,
@@ -102,7 +109,7 @@ def quantify_miseseri_field(rows, target_disp=0.001, target_tol=1e-4, disp_comp=
     p99 = percentile(sorted_vals, 99.0)
 
     # Max location
-    max_row = max(rows, key=lambda r: float(r["MISESERI"]) if math.isfinite(float(r.get("MISESERI", float("-inf")))) else float("-inf"))
+    max_row = max(rows, key=lambda r: float(r["MISESERI"]) if _is_finite(float(r.get("MISESERI", float("-inf")))) else float("-inf"))
     max_phys_label = max_row["physical_element_label"]
     max_vis_label = max_row["visualization_element_label"]
     max_cx = float(max_row["centroid_x"])
@@ -398,5 +405,7 @@ if __name__ == "__main__":
     try:
         sys.exit(main())
     except Exception as exc:
+        import traceback
+        traceback.print_exc()
         print("ERROR:", exc)
         sys.exit(12)
