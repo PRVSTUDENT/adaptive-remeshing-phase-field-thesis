@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "runs/hpc/stage_f/**",
@@ -10,9 +10,9 @@
     "models/generated/mode_ii/**",
     "results/**"
   ],
-  "completed_at": "2026-07-29T08:07:10Z",
-  "heartbeat": "2026-07-29T08:07:10Z",
-  "session_id": "F4-FINAL-PBS-EXECUTION-CONTRACT-REPAIR",
-  "starting_commit": "df848b5972adc93b49fb351ade666031060c6081",
-  "task_id": "F4-FINAL-PBS-EXECUTION-CONTRACT-REPAIR"
+  "started_at": "2026-07-29T10:15:00Z",
+  "heartbeat": "2026-07-29T10:15:00Z",
+  "session_id": "STAGE-F4-SUBMIT",
+  "starting_commit": "bdd2a27898d91b9410e64000d5ae84426a2cc2b1",
+  "task_id": "STAGE-F4-SUBMIT"
 }
