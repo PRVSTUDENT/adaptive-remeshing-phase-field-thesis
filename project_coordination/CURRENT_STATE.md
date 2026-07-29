@@ -2,7 +2,7 @@
 
 Updated: 2026-07-29
 Protocol version: 1
-Classification: `stage_f3_two_job_batch_readiness_pass`
+Classification: `stage_f3_plane_strain_parity_published`
 
 ## Git
 
@@ -10,14 +10,14 @@ Classification: `stage_f3_two_job_batch_readiness_pass`
 |---|---|
 | Active job IDs | none |
 | Active agent | `gemini-antigravity` (session claimed) |
-| Active task | **F3-STAGE-F3-BATCH-READINESS-FIX** (`complete`) |
+| Active task | **F3-STAGE-F3-PLANE-STRAIN-PARITY-PUBLISH** (`complete`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F3-STAGE-F3-BATCH-READINESS-FIX
+Current task: F3-STAGE-F3-PLANE-STRAIN-PARITY-PUBLISH
 Status: complete
-Classification: stage_f3_two_job_batch_readiness_pass
+Classification: stage_f3_plane_strain_parity_published
 active_job_ids: []
 completed_job_ids: ["1379481.mmaster02", "1379482.mmaster02", "1379483.mmaster02", "1379484.mmaster02"]
 execution_authorized: false
@@ -31,15 +31,11 @@ automatic_retry_authorized: false
 
 ## Summary of Accomplishments & Decisions
 
-1. **Auxiliary Notch Topology Correction:** Successfully regenerated the Pandey-Kumar coarse auxiliary continuum MISESERI pre-analysis mesh with a true physical slit ($y=0, x \in [-0.5, 0.0]\text{ mm}$). Snapped lower and upper notch-face node coordinates to exact $y=0.0$, creating 15 coincident node pairs and uncoupling elements above and below the slit (0 shared nodes across slit, 0 shared adjacent elements). Preserved Node 2 $(0,0)$ as the single shared notch-tip node.
-2. **Topology Audit:** Generated `TOPOLOGY_AUDIT.json` confirming `true_slit_topology_established == True`.
-3. **Plane Stress Parity Verification:** Confirmed standard `CPS4` 4-node plane stress element choice for 100% elastic matrix parity with Molnár & Gravouil (2017) baseline ($1.0\text{ mm}$ thickness).
-4. **Remeshing Parameter Audit:** Categorized all pre-refinement parameters (`errorTarget = 0.05`, `refinementFactor = 2.0`, `minElementSize = 0.0025 mm`, `maxElementSize = 0.025 mm`, 1 pass, coarsening disabled) as project decisions / sensitivity parameters to prevent misrepresenting them as paper-extracted constants.
-5. **Output Request Syntax Verification:** Validated `MISESERI`, `MISESAVG`, `S`, `E`, `EVOL`, `U`, `RF` field output syntax.
-6. **Deterministic Generation Verification:** Tested Candidate Job A (H2 uniform reference) and Candidate Job B (MISESERI pre-analysis) in isolated directories, proving identical SHA-256 hashes.
-7. **Resource Estimation:** Calculated justified H2 walltime (12:00:00) and RAM (16 GB) based on 2.81x element scaling ($33,852$ vs $12,064$ physical elements).
-8. **Guarded HPC Lanes & Authorization Proposal:** Prepared submit wrappers and PBS scripts for Candidate A and Candidate B with preflight defaults (`maximum_jobs_now = 0`). Updated proposal JSON `runs/hpc/stage_f/MODE_II_STAGE_F3_AUTHORIZATION_PROPOSAL.json`. 0 HPC jobs submitted.
+1. **Plane-Strain Formulation Audit & Parity Correction:** Verified directly from UEL Fortran source code (`ModeII_H2_uniform_serial.for`, lines 355-366) that mechanical User Element `U2` explicitly calculates the 2D elasticity matrix for **Plane Strain**. The `CPS4` elements in the reference decks are zero-stiffness dummy overlay layers for visualization rendering. Updated the auxiliary continuum model `ModeII_MISESERI_preanalysis.inp` to use standard **`CPE4` (4-node plane strain quadrilateral)** elements for exact elastic stress and stress discretization recovery error field parity.
+2. **Deterministic Generation & Static Validation:** Regenerated Candidate B MISESERI package with `CPE4` plane-strain elements (deck SHA-256 = `484edd39e6930758346764e5e183b5fd050577bdb6b11ede5cba49b955307fe9`). Passed static validation (16/16 checks) and unit tests.
+3. **Candidate A H2 Parity:** Confirmed H2 uniform reference package deck SHA-256 = `559e060988224874fd18328ef2eb7eac2aab23f1adebcbeac3c6664787e209d6` and Fortran SHA-256 = `49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37`.
+4. **Authorization Proposal:** Updated proposal JSON `runs/hpc/stage_f/MODE_II_STAGE_F3_AUTHORIZATION_PROPOSAL.json` (`maximum_jobs_now = 0`, `execution_authorized = false`, `submission_approved = false`). 0 HPC jobs submitted.
 
 ## Next Action
 
-Wait for human authorization approval phrase to authorize and submit the two-job Stage F3 batch (`maximum_jobs_now = 0`).
+Wait for human authorization approval phrase to submit the two-job Stage F3 batch (`maximum_jobs_now = 0`).
