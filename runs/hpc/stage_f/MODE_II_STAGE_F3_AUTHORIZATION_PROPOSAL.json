@@ -46,13 +46,13 @@
     },
     {
       "job_name": "mode_ii_miseseri_preanalysis",
-      "purpose": "Pandey-Kumar coarse auxiliary-continuum MISESERI pre-analysis job at elastic load level U1 = 0.001 mm with corrected true notch topology",
+      "purpose": "Pandey-Kumar coarse auxiliary-continuum MISESERI pre-analysis job at elastic load level U1 = 0.001 mm with CPE4 plane-strain elements and corrected true notch topology",
       "package_path": "models/generated/mode_ii/miseseri_preanalysis",
       "deck_path": "models/generated/mode_ii/miseseri_preanalysis/ModeII_MISESERI_preanalysis.inp",
       "fortran_path": null,
       "submit_script": "scripts/hpc/stage_f/submit_mode_ii_miseseri_preanalysis.sh",
       "pbs_script": "scripts/hpc/stage_f/mode_ii_miseseri_preanalysis.pbs",
-      "deck_sha256": "ab65177d094966ac125900cbb20faebb1f1cb64046b58f5caa90c47763ea2b23",
+      "deck_sha256": "484edd39e6930758346764e5e183b5fd050577bdb6b11ede5cba49b955307fe9",
       "resources": {
         "nodes": 1,
         "ncpus": 1,

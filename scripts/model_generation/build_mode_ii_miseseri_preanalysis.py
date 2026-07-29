@@ -146,7 +146,7 @@ def build_miseseri_inp(nodes: dict, elements: dict, target_u1: float = 0.001) ->
     lines = []
     lines.append("*Heading")
     lines.append("** Job name: Mode-II Pandey-Kumar MISESERI pre-analysis name: Stage-F-MISESERI-Preanalysis")
-    lines.append("** Auxiliary continuum: CPS4 4-node plane stress elements (N_elem = 3930)")
+    lines.append("** Auxiliary continuum: CPE4 4-node plane strain elements (N_elem = 3930)")
     lines.append("** Corrected notch topology: 15 coincident node pairs along y=0, x in [-0.5, 0.0) mm")
     lines.append("*Preprint, echo=NO, model=NO, history=NO, contact=NO")
     lines.append("*Part, name=Part-1")
@@ -157,8 +157,8 @@ def build_miseseri_inp(nodes: dict, elements: dict, target_u1: float = 0.001) ->
         x, y = nodes[nid]
         lines.append(f"{nid:7d}, {x:15.10f}, {y:15.10f}")
 
-    # Element block: CPS4 continuum elements (3930 elements, mapped 1..3930)
-    lines.append("*Element, TYPE=CPS4, elset=All_elem")
+    # Element block: CPE4 continuum elements (3930 elements, mapped 1..3930)
+    lines.append("*Element, TYPE=CPE4, elset=All_elem")
     elem_mapping = {}
     for new_eid, (old_eid, nlist) in enumerate(sorted(elements.items()), 1):
         elem_mapping[old_eid] = new_eid
@@ -267,7 +267,7 @@ def build_package(out_dir: Path = DEFAULT_OUT_DIR, target_u1: float = 0.001) -> 
         "node_outputs": ["U", "RF"],
         "element_outputs": ["MISESERI", "MISESAVG", "S", "E", "EVOL"],
         "abaqus_syntax_verified": True,
-        "continuum_element_type": "CPS4 (4-node plane stress)",
+        "continuum_element_type": "CPE4 (4-node plane strain)",
     }
     write_text_lf(out_dir / "OUTPUT_REQUEST_AUDIT.json", json.dumps(output_audit, indent=2, sort_keys=True) + "\n")
 
@@ -281,7 +281,7 @@ def build_package(out_dir: Path = DEFAULT_OUT_DIR, target_u1: float = 0.001) -> 
         "notch_x_range_mm": [-0.5, 0.0],
         "notch_y_mm": 0.0,
         "node_count": len(corrected_nodes) + 1,  # plus RP
-        "physical_cps4_element_count": len(elements),
+        "physical_cpe4_element_count": len(elements),
         "coincident_notch_pairs": len(topo_audit["coincident_pairs"]),
     }
     write_text_lf(out_dir / "mesh_statistics.json", json.dumps(mesh_stats, indent=2, sort_keys=True) + "\n")
@@ -311,7 +311,7 @@ def build_package(out_dir: Path = DEFAULT_OUT_DIR, target_u1: float = 0.001) -> 
         "coarse_source_mesh": "H0_corrected_slit",
         "preanalysis_load_u1_mm": target_u1,
         "continuum_elements": len(elements),
-        "element_type": "CPS4",
+        "element_type": "CPE4",
         "material": "Elastic (E=210, nu=0.3)",
         "output_requests": ["MISESERI", "MISESAVG", "S", "E", "EVOL", "U", "RF"],
         "notch_topology_corrected": True,
@@ -323,7 +323,7 @@ def build_package(out_dir: Path = DEFAULT_OUT_DIR, target_u1: float = 0.001) -> 
     report_text = f"""# Package Report: Candidate Job B (Corrected Pandey-Kumar MISESERI Pre-Analysis)
 
 - **Job Name:** `mode_ii_miseseri_preanalysis`
-- **Auxiliary Continuum Mesh:** H0 ($3,930$ CPS4 plane-stress elements)
+- **Auxiliary Continuum Mesh:** H0 ($3,930$ CPE4 plane-strain elements)
 - **Notch Topology:** **True Slit Established** (15 coincident node pairs along $y=0, x \\in [-0.5, 0.0)\\text{{ mm}}$, 0 shared nodes across slit)
 - **Pre-Analysis Elastic Load Target:** $U_1 = {target_u1:.4f}\\text{{ mm}}$
 - **Material:** Standard Abaqus Elastic ($E = 210\\text{{ kN/mm}}^2, \\nu = 0.3$)

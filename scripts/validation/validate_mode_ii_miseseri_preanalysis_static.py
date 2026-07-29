@@ -54,7 +54,7 @@ def validate_miseseri_static(package_dir: Path = PACKAGE_DIR) -> dict:
     check("MISESERI" in deck_text and "MISESAVG" in deck_text, "Deck requests MISESERI and MISESAVG error indicator output")
     check("EVOL" in deck_text, "Deck requests EVOL element volume output")
     # Element type check
-    check("CPS4" in deck_text, "Deck uses standard CPS4 continuum elements")
+    check("CPE4" in deck_text, "Deck uses standard CPE4 plane strain continuum elements")
     # Material check
     check("*Elastic" in deck_text and "210., 0.3" in deck_text, "Deck uses standard Abaqus linear elastic material")
     # Notch node sets check

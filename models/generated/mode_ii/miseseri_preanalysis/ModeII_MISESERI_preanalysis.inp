@@ -1,6 +1,6 @@
 *Heading
 ** Job name: Mode-II Pandey-Kumar MISESERI pre-analysis name: Stage-F-MISESERI-Preanalysis
-** Auxiliary continuum: CPS4 4-node plane stress elements (N_elem = 3930)
+** Auxiliary continuum: CPE4 4-node plane strain elements (N_elem = 3930)
 ** Corrected notch topology: 15 coincident node pairs along y=0, x in [-0.5, 0.0) mm
 *Preprint, echo=NO, model=NO, history=NO, contact=NO
 *Part, name=Part-1
@@ -4003,7 +4003,7 @@
    3996,    0.1341319830,    0.0774956122
    3997,    0.1542358550,    0.0830339715
    3998,    0.1363369080,    0.0875098258
-*Element, TYPE=CPS4, elset=All_elem
+*Element, TYPE=CPE4, elset=All_elem
       1,      10,     397,     450,       9
       2,     350,      14,      15,     393
       3,     263,    1352,    1291,    1901
