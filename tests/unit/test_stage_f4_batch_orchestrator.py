@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Unit tests for Stage F4 batch orchestrator and static validators."""
+"""Unit tests for Stage F4 batch orchestrator, static validators, and PBS execution contract."""
 
 import json
+import os
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -42,6 +44,33 @@ class TestStageF4BatchOrchestrator(unittest.TestCase):
         self.assertEqual(audit["calculated_final_u1_mm"], 0.02)
         self.assertEqual(audit["expected_final_u1_mm"], 0.02)
         self.assertEqual(audit["absolute_mismatch_mm"], 0.0)
+
+    def test_orchestrator_preflight_only(self) -> None:
+        repo_root = Path(__file__).resolve().parents[2]
+        script_path = repo_root / "scripts/hpc/stage_f/submit_stage_f4_two_job_batch.sh"
+        self.assertTrue(script_path.is_file())
+
+        import shutil
+        bash_bin = "C:/Program Files/Git/bin/bash.exe" if os.path.exists("C:/Program Files/Git/bin/bash.exe") else shutil.which("bash")
+        if not bash_bin:
+            self.skipTest("No bash binary found for preflight unittest")
+
+        import sys
+        env = dict(os.environ)
+        env["PROJECT_ROOT_OVERRIDE"] = str(repo_root)
+        env["PYTHON_CMD"] = sys.executable.replace("\\", "/")
+
+        res = subprocess.run([bash_bin, str(script_path)], env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        self.assertEqual(res.returncode, 0)
+        self.assertIn("Preflight check PASSED cleanly", res.stdout)
+        self.assertIn("Preflight mode complete. Zero jobs submitted.", res.stdout)
+
+        status_file = repo_root / "runs/hpc/stage_f/STAGE_F4_BATCH_SUBMISSION_STATUS.json"
+        self.assertTrue(status_file.is_file())
+        status_data = json.loads(status_file.read_text(encoding="utf-8"))
+        self.assertEqual(status_data["batch_status"], "preflight_passed_zero_submitted")
+        self.assertEqual(status_data["qsub_attempts"], 0)
+        self.assertEqual(status_data["successful_submissions"], 0)
 
 
 if __name__ == "__main__":

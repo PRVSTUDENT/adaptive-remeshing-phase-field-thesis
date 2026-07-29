@@ -7,7 +7,8 @@
 
 cd $PBS_O_WORKDIR
 
-module load abaqus
+PROJECT_ROOT="${PROJECT_ROOT:-/home/pr21vyci/projects/adaptive-remeshing}"
+EXPECTED_EXECUTION_GIT_SHA="e66ba37dc4c639e0b61865cbb28893371a8f2149"
 
 JOBNAME="ModeII_H2_u020_postpeak"
 INP_FILE="ModeII_H2_uniform_serial.inp"
@@ -17,8 +18,33 @@ echo "=== PBS JOB STARTED: ${JOBNAME} ==="
 date
 echo "Job ID: $PBS_JOBID"
 echo "Working directory: $PWD"
+echo "Project root: ${PROJECT_ROOT}"
 
-# 1. Run Abaqus Solver
+# 1. Verify PROJECT_ROOT and script paths
+if [ ! -d "${PROJECT_ROOT}/scripts/postprocessing" ] || [ ! -d "${PROJECT_ROOT}/scripts/validation" ]; then
+    echo "ERROR: Required script directories missing under ${PROJECT_ROOT}"
+    exit 10
+fi
+
+# 2. Pin execution Git revision
+CURRENT_GIT_SHA=$(git -C "${PROJECT_ROOT}" rev-parse HEAD 2>/dev/null || echo "unknown")
+echo "Current project Git SHA: ${CURRENT_GIT_SHA}"
+echo "Expected execution Git SHA: ${EXPECTED_EXECUTION_GIT_SHA}"
+
+if [ "${CURRENT_GIT_SHA}" != "${EXPECTED_EXECUTION_GIT_SHA}" ]; then
+    echo "ERROR: Git revision mismatch! Expected ${EXPECTED_EXECUTION_GIT_SHA}, got ${CURRENT_GIT_SHA}"
+    exit 10
+fi
+
+# 3. Record file hashes
+echo "--- SHA-256 Hashes ---"
+sha256sum "${INP_FILE}" "${USER_SUB}" 2>/dev/null || true
+sha256sum "${PROJECT_ROOT}/scripts/postprocessing/extract_mode_ii_uniform_reference.py" 2>/dev/null || true
+sha256sum "${PROJECT_ROOT}/scripts/validation/validate_mode_ii_h2_results.py" 2>/dev/null || true
+
+module load abaqus
+
+# 4. Run Abaqus Solver
 abaqus job=$JOBNAME input=$INP_FILE user=$USER_SUB interactive > ${JOBNAME}.abaqus_stdout.log 2>&1
 ABAQUS_RC=$?
 echo "Abaqus exit code: $ABAQUS_RC"
@@ -26,11 +52,11 @@ echo "Abaqus exit code: $ABAQUS_RC"
 EXT_RC=999
 VAL_RC=999
 
-# 2. Run Extractor if Abaqus succeeds
+# 5. Run Extractor if Abaqus succeeds
 if [ $ABAQUS_RC -eq 0 ]; then
     echo "=== RUNNING UNIFIED REFERENCE EXTRACTOR ==="
     mkdir -p extracted
-    abaqus python scripts/postprocessing/extract_mode_ii_uniform_reference.py \
+    abaqus python "${PROJECT_ROOT}/scripts/postprocessing/extract_mode_ii_uniform_reference.py" \
       --odb ${JOBNAME}.odb \
       --output-dir extracted \
       --sta ${JOBNAME}.sta \
@@ -40,33 +66,47 @@ if [ $ABAQUS_RC -eq 0 ]; then
     echo "Extractor exit code: $EXT_RC"
 fi
 
-# 3. Run Validator if Extractor succeeds
+# 6. Run Validator if Extractor succeeds
 if [ $EXT_RC -eq 0 ]; then
     echo "=== RUNNING H2 RESULT VALIDATOR ==="
-    abaqus python scripts/validation/validate_mode_ii_h2_results.py \
-      --extracted-dir extracted > extracted/validator_stdout.log 2>&1
+    abaqus python "${PROJECT_ROOT}/scripts/validation/validate_mode_ii_h2_results.py" \
+      --evidence-dir extracted \
+      --abaqus-return-code ${ABAQUS_RC} \
+      --extractor-return-code ${EXT_RC} \
+      --expected-u1-target 0.020 > extracted/validator_stdout.log 2>&1
     VAL_RC=$?
     echo "Validator exit code: $VAL_RC"
 fi
 
-# 4. Write STATUS.json
-STATUS="failed"
-if [ $ABAQUS_RC -eq 0 ] && [ $EXT_RC -eq 0 ] && [ $VAL_RC -eq 0 ]; then
+# 7. Map Return Codes to Status and Final Exit Code
+if [ $ABAQUS_RC -ne 0 ]; then
+    STATUS="abaqus_failed"
+    FINAL_RC=10
+elif [ $EXT_RC -ne 0 ]; then
+    STATUS="extraction_failed"
+    FINAL_RC=11
+elif [ $VAL_RC -ne 0 ]; then
+    STATUS="validation_failed"
+    FINAL_RC=12
+else
     STATUS="technical_pass"
+    FINAL_RC=0
 fi
 
 cat <<EOF > STATUS.json
 {
   "job_name": "${JOBNAME}",
   "pbs_job_id": "${PBS_JOBID}",
+  "git_sha": "${CURRENT_GIT_SHA}",
   "abaqus_exit_code": ${ABAQUS_RC},
   "extractor_exit_code": ${EXT_RC},
   "validator_exit_code": ${VAL_RC},
+  "final_exit_code": ${FINAL_RC},
   "status": "${STATUS}"
 }
 EOF
 
 date
-echo "=== PBS JOB COMPLETED WITH STATUS: ${STATUS} ==="
+echo "=== PBS JOB COMPLETED WITH STATUS: ${STATUS} (FINAL_RC=${FINAL_RC}) ==="
 
-exit $ABAQUS_RC
+exit $FINAL_RC

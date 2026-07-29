@@ -111,6 +111,7 @@ F4_MISESERI_PBS_PACKAGE,Stage F,models/generated/mode_ii/miseseri_preanalysis_co
 F4_BATCH_ORCHESTRATOR,Stage F,scripts/hpc/stage_f/submit_stage_f4_two_job_batch.sh,script,active,gemini-antigravity,a978c1e740afe80255453e9b26122079828db3b4,,,Guarded batch submission orchestrator for Stage F4
 F4_H2_U020_STATIC_VALIDATOR,Stage F,scripts/validation/validate_mode_ii_h2_u020_postpeak_static.py,script,active,gemini-antigravity,a978c1e740afe80255453e9b26122079828db3b4,,,Static validator for H2 u020 postpeak package
 F4_MISESERI_STATIC_VALIDATOR,Stage F,scripts/validation/validate_mode_ii_miseseri_corrected_pbs_static.py,script,active,gemini-antigravity,a978c1e740afe80255453e9b26122079828db3b4,,,Static validator for corrected MISESERI PBS package
+F4_MISESERI_RESULTS_VALIDATOR,Stage F,scripts/validation/validate_mode_ii_miseseri_preanalysis_results.py,script,active,gemini-antigravity,e66ba37dc4c639e0b61865cbb28893371a8f2149,,,Result validator for MISESERI pre-analysis ODB extraction evidence
 
 
 

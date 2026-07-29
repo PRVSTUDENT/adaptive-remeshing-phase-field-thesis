@@ -116,6 +116,7 @@ def main() -> int:
     parser.add_argument("--evidence-dir", type=Path, required=True, help="Path to evidence directory")
     parser.add_argument("--abaqus-return-code", type=int, default=0, help="Abaqus process return code")
     parser.add_argument("--extractor-return-code", type=int, default=0, help="Extractor script return code")
+    parser.add_argument("--expected-u1-target", type=float, default=0.020, help="Expected U1 target displacement in mm")
     parser.add_argument("--out-json", type=Path, default=None, help="Output path for validation JSON")
     args = parser.parse_args()
 
@@ -123,6 +124,7 @@ def main() -> int:
         evidence_dir=args.evidence_dir,
         abaqus_return_code=args.abaqus_return_code,
         extractor_return_code=args.extractor_return_code,
+        expected_u1_target=args.expected_u1_target,
     )
 
     out_json = args.out_json or (args.evidence_dir / "VALIDATION_RESULTS.json")
