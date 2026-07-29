@@ -2,7 +2,7 @@
 
 Updated: 2026-07-29
 Protocol version: 1
-Classification: `stage_f_mode_ii_h1_technical_pass_postpeak_overshoot_warning`
+Classification: `stage_f3_two_job_batch_readiness_pass`
 
 ## Git
 
@@ -10,20 +10,20 @@ Classification: `stage_f_mode_ii_h1_technical_pass_postpeak_overshoot_warning`
 |---|---|
 | Active job IDs | none |
 | Active agent | `gemini-antigravity` (session claimed) |
-| Active task | **F2-H1-REFERENCE-FREEZE-AND-F3-PREP** (`complete`) |
+| Active task | **F3-STAGE-F3-BATCH-READINESS-FIX** (`complete`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F2-H1-REFERENCE-FREEZE-AND-F3-PREP
+Current task: F3-STAGE-F3-BATCH-READINESS-FIX
 Status: complete
-Classification: stage_f_mode_ii_h1_technical_pass_postpeak_overshoot_warning
+Classification: stage_f3_two_job_batch_readiness_pass
 active_job_ids: []
 completed_job_ids: ["1379481.mmaster02", "1379482.mmaster02", "1379483.mmaster02", "1379484.mmaster02"]
 execution_authorized: false
 submission_approved: false
-maximum_batch_submissions: 4
-submissions_used: 4
+maximum_batch_submissions: 2
+submissions_used: 0
 maximum_running_jobs: 2
 maximum_jobs_now: 0
 automatic_retry_authorized: false
@@ -31,12 +31,15 @@ automatic_retry_authorized: false
 
 ## Summary of Accomplishments & Decisions
 
-1. **Classification & Revalidation:** Revalidated all four Mode-II H1 endpoint sweep jobs (`1379481`, `1379482`, `1379483`, `1379484`) offline under the revised 3-tier validation policy ($d \le 1.0001$ normal pass, $1.0001 < d \le 1.01$ pass with warning `damage_upper_bound_small_overshoot`, $d > 1.01$ failure). All 4 jobs achieved `technical_pass = true`, `validator_return_code = 0`, physical classification `stage_f_mode_ii_h1_postpeak`, and warning `damage_upper_bound_small_overshoot`.
-2. **Reference Displacement Freeze:** Frozen $U_{1,\mathrm{ref}} = 0.020\text{ mm}$ (`u020`, 41.89% force drop) as the working reference endpoint for all continuing uniform reference and adaptive remeshing studies.
-3. **H0–H1 Parity & Stiffness Audit:** Independent mesh audit identified that the legacy H0 mesh deck lacked duplicated node pairs along the notch face $y=0, x \in [-0.5, 0.0]\text{ mm}$, causing H0 to act as an un-notched solid continuum ($K_{0,\mathrm{H0}} = 46.24\text{ kN/mm}$) whereas H1 has true notch-face node duplication ($K_{0,\mathrm{H1}} = 12.83\text{ kN/mm}$). Any H0–H1 spatial mesh convergence claim is explicitly blocked until an H0 mesh deck with corrected notch topology is generated.
-4. **Pandey & Kumar (2025) Extraction:** Documented auxiliary continuum formulation, pre-analysis load level ($U_1 = 0.001\text{ mm}$), error indicator requests (`MISESERI`, `MISESAVG`), and remeshing rule parameters (`errorTarget = 0.05`, `minElementSize = 0.0025 mm`, `maxElementSize = 0.025 mm`, 1 pass, coarsening disabled).
-5. **Stage F3 Candidate Batch Preparation:** Prepared Candidate Job A (H2 uniform reference at $U_1 = 0.020\text{ mm}$) and Candidate Job B (Pandey-Kumar MISESERI pre-analysis). Both packages passed static validation. Authorization proposal created at `runs/hpc/stage_f/MODE_II_STAGE_F3_AUTHORIZATION_PROPOSAL.json` (`maximum_jobs_now = 0`).
+1. **Auxiliary Notch Topology Correction:** Successfully regenerated the Pandey-Kumar coarse auxiliary continuum MISESERI pre-analysis mesh with a true physical slit ($y=0, x \in [-0.5, 0.0]\text{ mm}$). Snapped lower and upper notch-face node coordinates to exact $y=0.0$, creating 15 coincident node pairs and uncoupling elements above and below the slit (0 shared nodes across slit, 0 shared adjacent elements). Preserved Node 2 $(0,0)$ as the single shared notch-tip node.
+2. **Topology Audit:** Generated `TOPOLOGY_AUDIT.json` confirming `true_slit_topology_established == True`.
+3. **Plane Stress Parity Verification:** Confirmed standard `CPS4` 4-node plane stress element choice for 100% elastic matrix parity with Molnár & Gravouil (2017) baseline ($1.0\text{ mm}$ thickness).
+4. **Remeshing Parameter Audit:** Categorized all pre-refinement parameters (`errorTarget = 0.05`, `refinementFactor = 2.0`, `minElementSize = 0.0025 mm`, `maxElementSize = 0.025 mm`, 1 pass, coarsening disabled) as project decisions / sensitivity parameters to prevent misrepresenting them as paper-extracted constants.
+5. **Output Request Syntax Verification:** Validated `MISESERI`, `MISESAVG`, `S`, `E`, `EVOL`, `U`, `RF` field output syntax.
+6. **Deterministic Generation Verification:** Tested Candidate Job A (H2 uniform reference) and Candidate Job B (MISESERI pre-analysis) in isolated directories, proving identical SHA-256 hashes.
+7. **Resource Estimation:** Calculated justified H2 walltime (12:00:00) and RAM (16 GB) based on 2.81x element scaling ($33,852$ vs $12,064$ physical elements).
+8. **Guarded HPC Lanes & Authorization Proposal:** Prepared submit wrappers and PBS scripts for Candidate A and Candidate B with preflight defaults (`maximum_jobs_now = 0`). Updated proposal JSON `runs/hpc/stage_f/MODE_II_STAGE_F3_AUTHORIZATION_PROPOSAL.json`. 0 HPC jobs submitted.
 
 ## Next Action
 
-Wait for human decision regarding Stage F3 job selection and explicit submission authorization proposal (`maximum_jobs_now = 0`).
+Wait for human authorization approval phrase to authorize and submit the two-job Stage F3 batch (`maximum_jobs_now = 0`).
