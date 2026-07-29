@@ -69,6 +69,7 @@ ALLOWED_TASK_IDS = frozenset(
         "F2-H1-SOLVER-CLOSE",
         "F2-H1-ENDPOINT-SWEEP-BATCH",
         "F2-H1-ENDPOINT-SWEEP-BATCH-CLOSE",
+        "F2-H1-REFERENCE-FREEZE-AND-F3-PREP",
         "F1-J1",
     }
 )

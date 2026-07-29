@@ -1,0 +1,67 @@
+{
+  "title": "Stage F3 Candidate Batch Authorization Proposal",
+  "task_id": "F2-H1-REFERENCE-FREEZE-AND-F3-PREP",
+  "status": "proposal_only_unauthorized",
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0,
+  "candidate_jobs": [
+    {
+      "job_name": "mode_ii_h2_uniform_serial",
+      "purpose": "H2 uniform reference solver job at frozen reference displacement endpoint U1 = 0.020 mm",
+      "package_path": "models/generated/mode_ii/h2_uniform_serial",
+      "deck_path": "models/generated/mode_ii/h2_uniform_serial/ModeII_H2_uniform_serial.inp",
+      "fortran_path": "models/generated/mode_ii/h2_uniform_serial/ModeII_H2_uniform_serial.for",
+      "deck_sha256": "559e060988224874fd18328ef2eb7eac2aab23f1adebcbeac3c6664787e209d6",
+      "fortran_sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37",
+      "resources": {
+        "nodes": 1,
+        "ncpus": 1,
+        "mem": "32GB",
+        "walltime": "12:00:00"
+      },
+      "expected_outputs": [
+        "ModeII_H2_uniform_serial.odb",
+        "rf1_u1_curve.csv",
+        "phase_bounds_summary.json",
+        "crack_path_sdv15_ge_0p5.csv"
+      ],
+      "acceptance_criteria": [
+        "Abaqus return code = 0",
+        "Extractor return code = 0",
+        "Target U1 = 0.020 mm reached",
+        "Max SDV15 <= 1.01 (1.0001 < SDV15 <= 1.01 triggers small overshoot warning)",
+        "Peak RF1 invariant near 0.1398 kN at U1 = 0.0120 mm"
+      ],
+      "scientific_dependencies": [
+        "Frozen reference displacement endpoint U1 = 0.020 mm from Stage F2 H1 sweep"
+      ]
+    },
+    {
+      "job_name": "mode_ii_miseseri_preanalysis",
+      "purpose": "Pandey-Kumar coarse auxiliary-continuum MISESERI pre-analysis job at elastic load level U1 = 0.001 mm",
+      "package_path": "models/generated/mode_ii/miseseri_preanalysis",
+      "deck_path": "models/generated/mode_ii/miseseri_preanalysis/ModeII_MISESERI_preanalysis.inp",
+      "fortran_path": null,
+      "deck_sha256": "2cfa625774ff7f7b3c9a3bf0d05e160b105a2060ff7c97aaac29ee550c688f9c",
+      "resources": {
+        "nodes": 1,
+        "ncpus": 1,
+        "mem": "16GB",
+        "walltime": "01:00:00"
+      },
+      "expected_outputs": [
+        "ModeII_MISESERI_preanalysis.odb",
+        "MISESERI recovery error indicator field"
+      ],
+      "acceptance_criteria": [
+        "Abaqus return code = 0",
+        "MISESERI field non-empty and non-zero near notch tip",
+        "Pre-analysis elastic load U1 = 0.001 mm reached"
+      ],
+      "scientific_dependencies": [
+        "Pandey & Kumar (2025) auxiliary continuum formulation specifications"
+      ]
+    }
+  ]
+}

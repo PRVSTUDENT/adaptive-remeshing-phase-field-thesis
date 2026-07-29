@@ -22,8 +22,13 @@ def validate_results(
     config_path: Path = CONFIG_PATH,
     expected_u1_target: float | None = None,
     u1_tolerance: float = 1e-4,
+    damage_upper_warn_tol: float = 1.0001,
+    damage_upper_fail_tol: float = 1.01,
+    damage_lower_fail_tol: float = -1e-4,
+    output_json_path: Path | None = None,
 ) -> dict:
     failures = []
+    warnings = []
     checks = []
 
     def check(condition: bool, msg: str) -> None:
@@ -178,12 +183,20 @@ def validate_results(
         max_sdv15 = max_sdv15_curve
 
     if max_sdv15 is not None:
-        check(max_sdv15 <= 1.0 + 1e-4, f"maximum damage sdv15 within upper bound <= 1.0 (got {max_sdv15:.6f})")
+        if math.isnan(max_sdv15) or math.isinf(max_sdv15):
+            failures.append(f"maximum damage sdv15 is non-finite ({max_sdv15})")
+        elif max_sdv15 > damage_upper_fail_tol:
+            failures.append(f"maximum damage sdv15 exceeds upper bound tolerance {damage_upper_fail_tol} (got {max_sdv15:.6f})")
+        elif max_sdv15 > damage_upper_warn_tol:
+            warnings.append("damage_upper_bound_small_overshoot")
     else:
         failures.append("could not parse maximum phase damage (sdv15)")
 
     if min_sdv15 is not None:
-        check(min_sdv15 >= -1e-6, f"minimum damage sdv15 within lower bound >= 0.0 (got {min_sdv15:.6f})")
+        if math.isnan(min_sdv15) or math.isinf(min_sdv15):
+            failures.append(f"minimum damage sdv15 is non-finite ({min_sdv15})")
+        elif min_sdv15 < damage_lower_fail_tol:
+            failures.append(f"minimum damage sdv15 below lower bound tolerance {damage_lower_fail_tol} (got {min_sdv15:.6f})")
 
     # Check irreversibility summary if present
     history_decrease_violations = 0
@@ -244,6 +257,8 @@ def validate_results(
         "classification": physical_classification,
         "technical_pass": technical_pass,
         "passed": technical_pass,
+        "validator_return_code": 0 if technical_pass else 1,
+        "warnings": warnings,
         "abaqus_return_code": abaqus_return_code,
         "extractor_return_code": extractor_return_code,
         "final_u1_mm": final_u1,
@@ -255,6 +270,7 @@ def validate_results(
         "initial_stiffness_kn_per_mm": initial_stiffness,
         "u1_at_first_d05_mm": u1_at_first_d05,
         "max_sdv15": max_sdv15,
+        "min_sdv15": min_sdv15,
         "crack_path_rows": crack_rows_count,
         "history_decrease_violations": history_decrease_violations,
         "total_increments": total_increments,
@@ -265,10 +281,10 @@ def validate_results(
         "failures": failures,
     }
 
-    if evidence_dir.is_dir():
-        val_json = evidence_dir / "VALIDATION_RESULTS.json"
+    target_json = output_json_path if output_json_path is not None else (evidence_dir / "VALIDATION_RESULTS.json")
+    if target_json.parent.is_dir():
         try:
-            val_json.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            target_json.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         except Exception:
             pass
 

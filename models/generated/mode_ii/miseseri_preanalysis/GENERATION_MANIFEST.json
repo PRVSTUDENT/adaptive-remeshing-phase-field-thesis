@@ -1,0 +1,19 @@
+{
+  "coarse_source_mesh": "H0",
+  "continuum_elements": 3930,
+  "deck_sha256": "2cfa625774ff7f7b3c9a3bf0d05e160b105a2060ff7c97aaac29ee550c688f9c",
+  "element_type": "CPS4",
+  "job_name": "mode_ii_miseseri_preanalysis",
+  "material": "Elastic (E=210, nu=0.3)",
+  "method": "pandey_kumar_miseseri_preanalysis",
+  "out_dir": "models\\generated\\mode_ii\\miseseri_preanalysis",
+  "output_requests": [
+    "MISESERI",
+    "MISESAVG",
+    "S",
+    "E",
+    "U",
+    "RF"
+  ],
+  "preanalysis_load_u1_mm": 0.001
+}
