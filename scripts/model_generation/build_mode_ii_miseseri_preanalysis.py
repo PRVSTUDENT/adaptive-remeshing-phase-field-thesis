@@ -48,10 +48,10 @@ def parse_h0_inp(inp_path: Path):
         for line in f:
             line_str = line.strip()
             if line_str.startswith("*Node") and not line_str.startswith("*Node Output"):
-                mode = "node"
+                mode = "node" if len(nodes) == 0 else None
                 continue
-            elif line_str.startswith("*Element") and "cps4" in line_str.lower():
-                mode = "elem"
+            elif line_str.startswith("*Element"):
+                mode = "elem" if len(elements) == 0 else None
                 continue
             elif line_str.startswith("*Nset"):
                 mode = "nset"
@@ -203,6 +203,8 @@ def build_miseseri_inp(nodes: dict, elements: dict, target_u1: float = 0.001) ->
     lines.append("*Nset, nset=top, instance=Part-1-1")
     for i in range(0, len(top_nodes), 16):
         lines.append(", ".join(str(n) for n in top_nodes[i:i+16]))
+    lines.append("*Elset, elset=All_elem, instance=Part-1-1, generate")
+    lines.append(f"1, {len(elements)}, 1")
     lines.append("*Equation")
     lines.append("2")
     lines.append("top, 1, 1.")
