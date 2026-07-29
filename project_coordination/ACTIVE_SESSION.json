@@ -2,17 +2,13 @@
   "active": false,
   "agent": "gemini-antigravity",
   "allowed_scope": [
-    "models/generated/mode_ii/**",
-    "scripts/validation/**",
-    "scripts/model_generation/**",
-    "tests/unit/**",
-    "docs/**",
     "runs/hpc/stage_f/**",
+    "scripts/hpc/stage_f/**",
     "project_coordination/**"
   ],
-  "completed_at": "2026-07-29T06:10:00Z",
-  "heartbeat": "2026-07-29T06:10:00Z",
-  "session_id": "F3-STAGE-F3-PLANE-STRAIN-PARITY-PUBLISH-CLOSEOUT",
-  "starting_commit": "7d394f8e4decb73637fa622650665c24c0556201",
-  "task_id": "F3-STAGE-F3-PLANE-STRAIN-PARITY-PUBLISH"
+  "completed_at": "2026-07-29T06:15:00Z",
+  "heartbeat": "2026-07-29T06:15:00Z",
+  "session_id": "F3-STAGE-F3-SUBMIT-CLOSEOUT",
+  "starting_commit": "229419d1bbdbce7ef1b6b553e1f0e21aee70f37a",
+  "task_id": "F3-STAGE-F3-SUBMIT"
 }

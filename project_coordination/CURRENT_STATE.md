@@ -2,40 +2,48 @@
 
 Updated: 2026-07-29
 Protocol version: 1
-Classification: `stage_f3_plane_strain_parity_published`
+Classification: `stage_f3_submitted`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job IDs | none |
+| Active job IDs | `1379576.mmaster02`, `1379577.mmaster02` |
 | Active agent | `gemini-antigravity` (session claimed) |
-| Active task | **F3-STAGE-F3-PLANE-STRAIN-PARITY-PUBLISH** (`complete`) |
+| Active task | **F3-STAGE-F3-SUBMIT** (`submitted`) |
 
 ## Submission boundary (critical)
 
 ```text
-Current task: F3-STAGE-F3-PLANE-STRAIN-PARITY-PUBLISH
-Status: complete
-Classification: stage_f3_plane_strain_parity_published
-active_job_ids: []
+Current task: F3-STAGE-F3-SUBMIT
+Status: submitted
+Classification: stage_f3_submitted
+active_job_ids: ["1379576.mmaster02", "1379577.mmaster02"]
 completed_job_ids: ["1379481.mmaster02", "1379482.mmaster02", "1379483.mmaster02", "1379484.mmaster02"]
-execution_authorized: false
-submission_approved: false
+execution_authorized: true
+submission_approved: true
 maximum_batch_submissions: 2
-submissions_used: 0
+submissions_used: 2
 maximum_running_jobs: 2
-maximum_jobs_now: 0
+maximum_jobs_now: 2
 automatic_retry_authorized: false
 ```
 
-## Summary of Accomplishments & Decisions
+## Summary of Active Jobs & Submitted Configuration
 
-1. **Plane-Strain Formulation Audit & Parity Correction:** Verified directly from UEL Fortran source code (`ModeII_H2_uniform_serial.for`, lines 355-366) that mechanical User Element `U2` explicitly calculates the 2D elasticity matrix for **Plane Strain**. The `CPS4` elements in the reference decks are zero-stiffness dummy overlay layers for visualization rendering. Updated the auxiliary continuum model `ModeII_MISESERI_preanalysis.inp` to use standard **`CPE4` (4-node plane strain quadrilateral)** elements for exact elastic stress and stress discretization recovery error field parity.
-2. **Deterministic Generation & Static Validation:** Regenerated Candidate B MISESERI package with `CPE4` plane-strain elements (deck SHA-256 = `484edd39e6930758346764e5e183b5fd050577bdb6b11ede5cba49b955307fe9`). Passed static validation (16/16 checks) and unit tests.
-3. **Candidate A H2 Parity:** Confirmed H2 uniform reference package deck SHA-256 = `559e060988224874fd18328ef2eb7eac2aab23f1adebcbeac3c6664787e209d6` and Fortran SHA-256 = `49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37`.
-4. **Authorization Proposal:** Updated proposal JSON `runs/hpc/stage_f/MODE_II_STAGE_F3_AUTHORIZATION_PROPOSAL.json` (`maximum_jobs_now = 0`, `execution_authorized = false`, `submission_approved = false`). 0 HPC jobs submitted.
+1. **Candidate Job A (Mode-II H2 Uniform Reference Serial):**
+   - **PBS Job ID:** `1379576.mmaster02`
+   - **Queue:** `entry_imfdfkmq` (1 CPU, 16 GB RAM, 12:00:00 walltime)
+   - **Purpose:** Full non-linear phase-field shear fracture simulation at frozen reference displacement endpoint $U_1 = 0.020\text{ mm}$ ($33,852$ physical elements, true notch topology).
+   - **Deck SHA-256:** `559e060988224874fd18328ef2eb7eac2aab23f1adebcbeac3c6664787e209d6`
+   - **Fortran SHA-256:** `49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37`
+
+2. **Candidate Job B (Pandey-Kumar MISESERI Pre-Analysis):**
+   - **PBS Job ID:** `1379577.mmaster02`
+   - **Queue:** `entry_imfdfkmq` (1 CPU, 16 GB RAM, 01:00:00 walltime)
+   - **Purpose:** Linear elastic pre-analysis at load level $U_1 = 0.001\text{ mm}$ ($3,930$ `CPE4` plane-strain elements, 15 coincident node pairs along true slit).
+   - **Deck SHA-256:** `484edd39e6930758346764e5e183b5fd050577bdb6b11ede5cba49b955307fe9`
 
 ## Next Action
 
-Wait for human authorization approval phrase to submit the two-job Stage F3 batch (`maximum_jobs_now = 0`).
+Monitor active HPC jobs `1379576.mmaster02` and `1379577.mmaster02` to completion and close out lightweight evidence.
