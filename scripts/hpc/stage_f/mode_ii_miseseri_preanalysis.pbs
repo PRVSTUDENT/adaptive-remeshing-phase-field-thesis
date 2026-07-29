@@ -2,7 +2,7 @@
 #PBS -N mode_ii_miseseri_preanalysis
 #PBS -l select=1:ncpus=1:mem=16gb
 #PBS -l walltime=01:00:00
-#PBS -q normal_imfdfkmq
+#PBS -q entry_imfdfkmq
 #PBS -j oe
 #PBS -m abe
 #PBS -M pr21vyci@mailserver.tu-freiberg.de

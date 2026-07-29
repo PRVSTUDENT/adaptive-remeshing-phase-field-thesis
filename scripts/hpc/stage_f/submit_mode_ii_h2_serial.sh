@@ -72,7 +72,7 @@ PRESTAGED_RUNTIME_ROOT="${PROJECT_ROOT}"
 if [ -f "${SUBMIT_NOTIFY}" ]; then
   bash "${SUBMIT_NOTIFY}" \
     --job-name "${JOB_NAME}" \
-    --message "Queue: normal_imfdfkmq; CPUs: 1; memory: 16 GB; walltime: 12:00:00" \
+    --message "Queue: entry_imfdfkmq; CPUs: 1; memory: 16 GB; walltime: 12:00:00" \
     -- \
     -v "PROJECT_REVISION=${PROJECT_REVISION},PRESTAGED_ROOT=${PRESTAGED_ROOT},PRESTAGED_RUNTIME_ROOT=${PRESTAGED_RUNTIME_ROOT}" \
     "${PBS_SCRIPT}"
