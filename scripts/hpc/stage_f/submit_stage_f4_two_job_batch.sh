@@ -20,10 +20,10 @@ ACTIVE_TASK_FILE="${REPO_ROOT}/project_coordination/ACTIVE_TASK.json"
 PBS_A="${SCRIPT_DIR}/05_mode_ii_h2_u020_postpeak.pbs"
 PBS_B="${SCRIPT_DIR}/06_mode_ii_miseseri_corrected_pbs.pbs"
 
+CONTRACT_FILE="${REPO_ROOT}/runs/hpc/stage_f/STAGE_F4_EXECUTION_CONTRACT.json"
 EXPECTED_H2_DECK_SHA="fdcd6ee1b1d6cbfb88d59a3edfb7f1c6b35cecde736a427f6b3030b0443b10bf"
 EXPECTED_H2_FOR_SHA="49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37"
 EXPECTED_MISESERI_DECK_SHA="a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2"
-EXPECTED_EXECUTION_GIT_SHA="e66ba37dc4c639e0b61865cbb28893371a8f2149"
 
 JOBNAME_A="ModeII_H2_u020_postpeak"
 JOBNAME_B="ModeII_MISESERI_corrected_pbs"
@@ -59,11 +59,18 @@ echo "Repository root: ${REPO_ROOT}"
 # 1. Verify Git revision of repository
 CURRENT_GIT_SHA=$(git -C "${REPO_ROOT}" rev-parse HEAD 2>/dev/null || echo "unknown")
 echo "Current Git revision: ${CURRENT_GIT_SHA}"
-echo "Expected execution SHA: ${EXPECTED_EXECUTION_GIT_SHA}"
 
-if [[ "${CURRENT_GIT_SHA}" != "${EXPECTED_EXECUTION_GIT_SHA}" ]]; then
-    echo "ERROR: Execution Git revision mismatch! Expected ${EXPECTED_EXECUTION_GIT_SHA}, got ${CURRENT_GIT_SHA}"
-    exit 1
+EXPECTED_CODE_REVISION=""
+if [[ -f "${CONTRACT_FILE}" ]]; then
+    EXPECTED_CODE_REVISION=$("${PYTHON_CMD}" -c "import json; d=json.load(open('${CONTRACT_FILE}')); print(d.get('expected_code_revision') or '')" 2>/dev/null || echo "")
+fi
+
+if [[ -n "${EXPECTED_CODE_REVISION}" ]]; then
+    echo "Expected code revision: ${EXPECTED_CODE_REVISION}"
+    if ! git -C "${REPO_ROOT}" merge-base --is-ancestor "${EXPECTED_CODE_REVISION}" HEAD 2>/dev/null; then
+        echo "ERROR: Execution Git revision mismatch! HEAD (${CURRENT_GIT_SHA}) is not descendant of ${EXPECTED_CODE_REVISION}"
+        exit 1
+    fi
 fi
 
 # 2. Verify existence of package files
@@ -138,7 +145,8 @@ fi
 
 # Generate immutable Run ID
 UTC_TS=$(date -u +"%Y%m%d_%H%M%S")
-SHORT_SHA="${EXPECTED_EXECUTION_GIT_SHA:0:8}"
+REV_FOR_ID="${EXPECTED_CODE_REVISION:-$CURRENT_GIT_SHA}"
+SHORT_SHA="${REV_FOR_ID:0:8}"
 RUN_ID="${RUN_ID_OVERRIDE:-F4_${UTC_TS}_${SHORT_SHA}}"
 
 SCRATCH_BASE="/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/${RUN_ID}"

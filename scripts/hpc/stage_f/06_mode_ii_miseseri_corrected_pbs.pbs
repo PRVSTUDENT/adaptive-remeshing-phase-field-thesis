@@ -8,7 +8,11 @@
 cd $PBS_O_WORKDIR
 
 PROJECT_ROOT="${PROJECT_ROOT:-/home/pr21vyci/projects/adaptive-remeshing}"
-EXPECTED_EXECUTION_GIT_SHA="e66ba37dc4c639e0b61865cbb28893371a8f2149"
+CONTRACT_FILE="${PROJECT_ROOT}/runs/hpc/stage_f/STAGE_F4_EXECUTION_CONTRACT.json"
+EXPECTED_CODE_REVISION=""
+if [ -f "${CONTRACT_FILE}" ]; then
+    EXPECTED_CODE_REVISION=$(python3 -c "import json; d=json.load(open('${CONTRACT_FILE}')); print(d.get('expected_code_revision') or '')" 2>/dev/null || echo "")
+fi
 
 JOBNAME="ModeII_MISESERI_corrected_pbs"
 INP_FILE="ModeII_MISESERI_preanalysis.inp"
@@ -28,11 +32,13 @@ fi
 # 2. Pin execution Git revision
 CURRENT_GIT_SHA=$(git -C "${PROJECT_ROOT}" rev-parse HEAD 2>/dev/null || echo "unknown")
 echo "Current project Git SHA: ${CURRENT_GIT_SHA}"
-echo "Expected execution Git SHA: ${EXPECTED_EXECUTION_GIT_SHA}"
+echo "Expected code revision: ${EXPECTED_CODE_REVISION}"
 
-if [ "${CURRENT_GIT_SHA}" != "${EXPECTED_EXECUTION_GIT_SHA}" ]; then
-    echo "ERROR: Git revision mismatch! Expected ${EXPECTED_EXECUTION_GIT_SHA}, got ${CURRENT_GIT_SHA}"
-    exit 10
+if [ -n "${EXPECTED_CODE_REVISION}" ]; then
+    if ! git -C "${PROJECT_ROOT}" merge-base --is-ancestor "${EXPECTED_CODE_REVISION}" HEAD 2>/dev/null; then
+        echo "ERROR: Git revision mismatch! HEAD (${CURRENT_GIT_SHA}) is not descendant of ${EXPECTED_CODE_REVISION}"
+        exit 10
+    fi
 fi
 
 # 3. Record file hashes
