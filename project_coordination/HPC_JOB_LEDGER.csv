@@ -9,10 +9,10 @@ Stage F,F1-C2-R1-DATACHECK,1379387.mmaster02,mode_ii_h0_endpoint_corrected_datac
 Stage F,F1-C2-R1-SOLVER,1379393.mmaster02,mode_ii_h0_endpoint_corrected_serial,8cec3dbde56b08f8924d8298c05052da430dd4ba,4d3de793e8ed37d650a0d83d9906afd0b313e661,entry_imfdfkmq,1,1,1,16 GB,04:00:00,0,0,stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass,,,false
 Stage F,F2-H1-DATACHECK,1379431.mmaster02,mode_ii_h1_datacheck,3c01bb5920a0efb320d7593c6d17c24479e0a0d9,9947794be6a246dd2401eaae8b8bc9a80e14a72d,entry_imfdfkmq,1,1,1,16 GB,00:45:00,0,0,stage_f_mode_ii_h1_uniform_datacheck_pass,,,false
 Stage F,F2-H1-SOLVER,1379433.mmaster02,mode_ii_h1_serial,1ed032b6599c7218038d2107ebc6f2dc1c8a1a5a,b1d91e95eac1f496350f9db380963d76e7ac34e7,entry_imfdfkmq,1,1,1,32 GB,06:00:00,12,0,stage_f_mode_ii_h1_uniform_serial_validation_fail,,,false
-Stage F,F2-H1-ENDPOINT-SWEEP-BATCH,1379481.mmaster02,m2h1_u015,c264a205d8f6354f0a2d2109867feac35a98bdcd,,entry_imfdfkmq,1,1,1,16 GB,06:00:00,Q,,stage_f_mode_ii_h1_endpoint_sweep_submitted,,,false
-Stage F,F2-H1-ENDPOINT-SWEEP-BATCH,1379482.mmaster02,m2h1_u020,c264a205d8f6354f0a2d2109867feac35a98bdcd,,entry_imfdfkmq,1,1,1,16 GB,06:00:00,Q,,stage_f_mode_ii_h1_endpoint_sweep_submitted,,,false
-Stage F,F2-H1-ENDPOINT-SWEEP-BATCH,1379483.mmaster02,m2h1_u030,c264a205d8f6354f0a2d2109867feac35a98bdcd,,entry_imfdfkmq,1,1,1,16 GB,06:00:00,Q,,stage_f_mode_ii_h1_endpoint_sweep_submitted,,,false
-Stage F,F2-H1-ENDPOINT-SWEEP-BATCH,1379484.mmaster02,m2h1_u040,c264a205d8f6354f0a2d2109867feac35a98bdcd,,entry_imfdfkmq,1,1,1,16 GB,06:00:00,Q,,stage_f_mode_ii_h1_endpoint_sweep_submitted,,,false
+Stage F,F2-H1-ENDPOINT-SWEEP-BATCH,1379481.mmaster02,m2h1_u015,c264a205d8f6354f0a2d2109867feac35a98bdcd,175d37a919ccfcc23a00fced7fc256bedc8544b0,entry_imfdfkmq,1,1,1,16 GB,06:00:00,12,0,stage_f_mode_ii_h1_technical_fail,/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_sweep_u015_1379481.mmaster02/m2h1_u015.odb,,false
+Stage F,F2-H1-ENDPOINT-SWEEP-BATCH,1379482.mmaster02,m2h1_u020,c264a205d8f6354f0a2d2109867feac35a98bdcd,175d37a919ccfcc23a00fced7fc256bedc8544b0,entry_imfdfkmq,1,1,1,16 GB,06:00:00,12,0,stage_f_mode_ii_h1_technical_fail,/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_sweep_u020_1379482.mmaster02/m2h1_u020.odb,,false
+Stage F,F2-H1-ENDPOINT-SWEEP-BATCH,1379483.mmaster02,m2h1_u030,c264a205d8f6354f0a2d2109867feac35a98bdcd,175d37a919ccfcc23a00fced7fc256bedc8544b0,entry_imfdfkmq,1,1,1,16 GB,06:00:00,12,0,stage_f_mode_ii_h1_technical_fail,/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_sweep_u030_1379483.mmaster02/m2h1_u030.odb,,false
+Stage F,F2-H1-ENDPOINT-SWEEP-BATCH,1379484.mmaster02,m2h1_u040,c264a205d8f6354f0a2d2109867feac35a98bdcd,175d37a919ccfcc23a00fced7fc256bedc8544b0,entry_imfdfkmq,1,1,1,16 GB,06:00:00,12,0,stage_f_mode_ii_h1_technical_fail,/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_sweep_u040_1379484.mmaster02/m2h1_u040.odb,,false
 
 
 

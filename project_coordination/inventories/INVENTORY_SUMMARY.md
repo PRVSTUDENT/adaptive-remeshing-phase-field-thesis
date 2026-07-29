@@ -15,6 +15,10 @@ Updated: 2026-07-28
 | F1-C2-R1-SOLVER | `1379393.mmaster02` | `stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h0_endpoint_corrected_serial_1379393.mmaster02` |
 | F2-H1-DATACHECK | `1379431.mmaster02` | `stage_f_mode_ii_h1_uniform_datacheck_pass` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_dc_1379431.mmaster02` |
 | F2-H1-SOLVER | `1379433.mmaster02` | `stage_f_mode_ii_h1_uniform_serial_validation_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_serial_1379433.mmaster02` |
+| F2-H1-ENDPOINT-SWEEP-BATCH | `1379481.mmaster02` | `stage_f_mode_ii_h1_technical_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_sweep_u015_1379481.mmaster02` |
+| F2-H1-ENDPOINT-SWEEP-BATCH | `1379482.mmaster02` | `stage_f_mode_ii_h1_technical_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_sweep_u020_1379482.mmaster02` |
+| F2-H1-ENDPOINT-SWEEP-BATCH | `1379483.mmaster02` | `stage_f_mode_ii_h1_technical_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_sweep_u030_1379483.mmaster02` |
+| F2-H1-ENDPOINT-SWEEP-BATCH | `1379484.mmaster02` | `stage_f_mode_ii_h1_technical_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_sweep_u040_1379484.mmaster02` |
 
 ## Summary Notes
 
@@ -32,7 +36,4 @@ Updated: 2026-07-28
 - `F2-H1-BASELINE-PREP`: Stage F Mode-II H1 endpoint-corrected baseline preparation completed offline (`stage_f_mode_ii_h1_endpoint_corrected_prepared`); H1 package ($h_1 = 0.0025\text{ mm}$, `N_ELEM = 12064`, $U_1 = 0.010\text{ mm}$), PBS execution script with Telegram notification traps, H1 validator, and 10 unit tests qualified; 0 HPC jobs executed.
 - `1379431.mmaster02`: Stage F Mode-II H1 uniform reference datacheck completed cleanly (`Exit_status: 0`, `abaqus_return_code: 0`, `DATACHECK_ok: true`); scratch retained.
 - `1379433.mmaster02`: Stage F Mode-II H1 uniform reference serial solver completed FE execution cleanly (`abaqus_rc: 0`, 2,500 increments, $U_1 = 0.0100\text{ mm}$, $RF_1 = 0.1214\text{ kN}$, $\max(d) = 0.2747 < 0.50$); wrapper exit 12 due to CLI argument mismatch during in-script extraction; scientific classification `stage_f_mode_ii_h1_uniform_serial_validation_fail`; scratch retained.
-
-
-
-
+- `1379481.mmaster02`, `1379482.mmaster02`, `1379483.mmaster02`, `1379484.mmaster02`: Stage F Mode-II H1 4-job endpoint sweep ($U_1 \in \{0.015, 0.020, 0.030, 0.040\}\text{ mm}$) completed FE execution cleanly (`abaqus_rc: 0`, `extractor_rc: 0`). Peak $RF_1 = 0.1398\text{ kN}$ at $U_1 = 0.0120\text{ mm}$ across all 4 jobs; force drops reached 25.22%, 41.89%, 73.99%, and 88.07%; wrapper exit 12 due to validator $\text{SDV15} \le 1.0$ upper bound check ($\text{SDV15} = 1.00498$); scratch retained.

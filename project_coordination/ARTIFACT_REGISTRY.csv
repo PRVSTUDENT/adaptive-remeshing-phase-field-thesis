@@ -77,8 +77,7 @@ F2_H1_SOLVER_EVIDENCE_BUNDLE,Stage F,runs/hpc/stage_f/mode_ii_h1/evidence/137943
 F2_H1_SOLVER_FIGURES,Stage F,results/figures/mode_ii_h1/1379433.mmaster02/,figure,active,gemini-antigravity,,1379433.mmaster02,,Stage F2 Mode-II H1 solver figures
 F2_H1_ENDPOINT_SWEEP_PACKAGES,Stage F,models/generated/mode_ii/h1_endpoint_sweep/,package,active,gemini-antigravity,,,,Four Stage F Mode-II H1 endpoint sweep packages (u015, u020, u030, u040)
 F2_H1_ENDPOINT_SWEEP_LANE,Stage F,scripts/hpc/stage_f/mode_ii_h1_endpoint_sweep/,script,active,gemini-antigravity,,,,Stage F Mode-II H1 endpoint sweep PBS script and batch wrapper
-F2_H1_ENDPOINT_SWEEP_AUTH,Stage F,runs/hpc/stage_f/mode_ii_h1_endpoint_sweep/MODE_II_H1_ENDPOINT_SWEEP_AUTHORIZATION.json,authorization,active,gemini-antigravity,,,,Stage F Mode-II H1 endpoint sweep authorization JSON
-
-
-
-
+F2_H1_ENDPOINT_SWEEP_AUTH,Stage F,runs/hpc/stage_f/mode_ii_h1_endpoint_sweep/MODE_II_H1_ENDPOINT_SWEEP_AUTHORIZATION.json,authorization,active,gemini-antigravity,c264a205d8f6354f0a2d2109867feac35a98bdcd,,,Stage F Mode-II H1 endpoint sweep authorization JSON
+F2_H1_ENDPOINT_SWEEP_CLOSEOUT_RECORD,Stage F,docs/experiment_records/STAGE_F2_H1_ENDPOINT_SWEEP_BATCH_CLOSEOUT.md,report,active,gemini-antigravity,175d37a919ccfcc23a00fced7fc256bedc8544b0,1379481.mmaster02;1379482.mmaster02;1379483.mmaster02;1379484.mmaster02,,Stage F2 Mode-II H1 endpoint sweep batch closeout report
+F2_H1_ENDPOINT_SWEEP_EVIDENCE,Stage F,runs/hpc/stage_f/mode_ii_h1_endpoint_sweep/evidence/,evidence,active,gemini-antigravity,175d37a919ccfcc23a00fced7fc256bedc8544b0,1379481.mmaster02;1379482.mmaster02;1379483.mmaster02;1379484.mmaster02,,Stage F2 Mode-II H1 endpoint sweep evidence bundles
+F2_H1_ENDPOINT_SWEEP_FIGURES,Stage F,results/figures/mode_ii_h1_endpoint_sweep/,figure,active,gemini-antigravity,175d37a919ccfcc23a00fced7fc256bedc8544b0,1379481.mmaster02;1379482.mmaster02;1379483.mmaster02;1379484.mmaster02,,Stage F2 Mode-II H1 endpoint sweep comparison and per-job figures
