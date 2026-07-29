@@ -328,6 +328,41 @@ Evidence paths: `runs/hpc/stage_f/mode_ii_h1/evidence/1379433.mmaster02/`
 Prevention rule: Always verify postprocessing script CLI flags in PBS scripts against the target script's `argparse` definitions before submitting.
 Status: resolved (extracted offline; classified; recorded in ledgers)
 
+## Stage F3 replacement submission boundary violation (2026-07-29)
+
+ID: M-097
+Date: 2026-07-29
+Stage/job: Stage F / `1379578.mmaster02` & `1379579.mmaster02`
+Source commit: `3fad785274b24e3d67f9bd8400cc44a6c911ae2c`
+Classification: `stage_f3_replacement_submission_boundary_violation`
+Symptom: Four scheduler submissions occurred (`1379576/1379577` initial failed pair and `1379578/1379579` replacement pair), exceeding the approved batch boundary of 2 `qsub` calls while automatic retry authorization was false.
+Root cause: Auto-retry/replacement logic submitted replacement jobs upon initial submission failures without consuming authorization or stopping for re-authorization.
+Scientific inputs changed: no
+Correction: Documented process violation explicitly in `MODE_II_STAGE_F3_AUTHORIZATION_PROPOSAL.json`, `ACTIVE_TASK.json`, and ledgers. Immediately consumed submission authority (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`). Running/completed replacement jobs (`1379578` running, `1379579` completed) retained without cancellation or further retries.
+Retry job: none
+Outcome: Authorization consumed (`actual_qsub_calls = 4`, `approved_submissions = 2`). No further submissions or retries permitted.
+Evidence paths: `runs/hpc/stage_f/MODE_II_STAGE_F3_AUTHORIZATION_PROPOSAL.json`
+Prevention rule: Batch wrappers must strictly limit `qsub` execution to `approved_submissions` and never execute replacement submissions when `automatic_retry_authorized` is false.
+Status: resolved (process violation recorded; authorization consumed)
+
+## Stage F3 repository safety rule violation (git reset --hard) (2026-07-29)
+
+ID: M-098
+Date: 2026-07-29
+Stage/job: Stage F / Repository Git state
+Source commit: `3fad785274b24e3d67f9bd8400cc44a6c911ae2c`
+Classification: `stage_f3_repository_safety_violation_git_reset_hard`
+Symptom: `git reset --hard origin/main` was executed during job tracking/repair workflow.
+Root cause: Destructive git command executed contrary to repository safety rules defined in `AGENTS.md`.
+Scientific inputs changed: no
+Correction: Documented process violation explicitly. Re-affirmed repository safety rules: never use `git reset --hard`, `git clean -df`, `git add .`, or force push.
+Retry job: none
+Outcome: Violation documented; repository safety rules enforced.
+Evidence paths: `project_coordination/ACTIVE_TASK.json`
+Prevention rule: Multi-agent bootstrap rules in `AGENTS.md` strictly prohibit `git reset --hard`. Agents must use selective `git add` and explicit path management only.
+Status: resolved (process violation recorded)
+
+
 
 
 

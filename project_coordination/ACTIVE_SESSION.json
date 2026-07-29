@@ -1,14 +1,18 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "runs/hpc/stage_f/**",
-    "scripts/hpc/stage_f/**",
-    "project_coordination/**"
+    "scripts/**",
+    "tests/unit/**",
+    "project_coordination/**",
+    "docs/**",
+    "models/generated/mode_ii/**",
+    "results/**"
   ],
-  "completed_at": "2026-07-29T06:15:00Z",
-  "heartbeat": "2026-07-29T06:15:00Z",
-  "session_id": "F3-STAGE-F3-SUBMIT-CLOSEOUT",
-  "starting_commit": "229419d1bbdbce7ef1b6b553e1f0e21aee70f37a",
-  "task_id": "F3-STAGE-F3-SUBMIT"
+  "completed_at": null,
+  "heartbeat": "2026-07-29T06:50:00Z",
+  "session_id": "F3-STAGE-F3-AUTH-PUBLISH-AND-ODB-VERIFY",
+  "starting_commit": "3fad785274b24e3d67f9bd8400cc44a6c911ae2c",
+  "task_id": "F3-STAGE-F3-AUTH-PUBLISH-AND-ODB-VERIFY"
 }
