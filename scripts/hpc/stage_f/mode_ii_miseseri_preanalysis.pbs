@@ -7,19 +7,37 @@
 #PBS -m abe
 #PBS -M pr21vyci@mailserver.tu-freiberg.de
 
-set -euo pipefail
+set -uo pipefail
+
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+PROJECT_ROOT="${PROJECT_ROOT:-/home/pr21vyci/projects/adaptive-remeshing}"
+PRESTAGED_ROOT="${PRESTAGED_ROOT:-${PROJECT_ROOT}}"
+PRESTAGED_RUNTIME_ROOT="${PRESTAGED_RUNTIME_ROOT:-${PROJECT_ROOT}}"
 
 JOB_NAME="mode_ii_miseseri_preanalysis"
 STAGE="Stage F"
-TASK_ID="F3-STAGE-F3-BATCH-READINESS-FIX"
+TASK_ID="F3-STAGE-F3-SUBMIT"
 
 echo "=== Mode-II Pandey-Kumar MISESERI Pre-Analysis PBS Execution Start ==="
 echo "PBS Job ID: ${PBS_JOBID:-local}"
 echo "Host: $(hostname)"
 echo "Date: $(date)"
 
+# Load Modules
+if command -v module >/dev/null 2>&1; then
+  module load python/gcc/11.4.0/3.11.7 || true
+  module load abaqus/2023 || true
+fi
+
 # Preflight authorization check
-AUTH_FILE="${PROJECT_ROOT:-.}/runs/hpc/stage_f/MODE_II_STAGE_F3_AUTHORIZATION_PROPOSAL.json"
+AUTH_FILE="${PROJECT_ROOT}/runs/hpc/stage_f/MODE_II_STAGE_F3_AUTHORIZATION_PROPOSAL.json"
+if [ ! -f "${AUTH_FILE}" ]; then
+  echo "ERROR: authorization file missing: ${AUTH_FILE}" >&2
+  exit 1
+fi
+
 python3 -c "
 import json, sys
 auth = json.load(open('${AUTH_FILE}'))
@@ -28,19 +46,20 @@ if not (auth.get('execution_authorized') is True and auth.get('submission_approv
     sys.exit(1)
 "
 
+SCRATCH_RUN="${SCRATCH_RUN:-/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_miseseri_preanalysis_${PBS_JOBID:-local}}"
+mkdir -p "${SCRATCH_RUN}"
+cd "${SCRATCH_RUN}"
+
 # Package directory
-PKG_DIR="${PROJECT_ROOT:-.}/models/generated/mode_ii/miseseri_preanalysis"
+PKG_DIR="${PRESTAGED_ROOT}/models/generated/mode_ii/miseseri_preanalysis"
 INP_FILE="${PKG_DIR}/ModeII_MISESERI_preanalysis.inp"
 
+cp "${INP_FILE}" "${SCRATCH_RUN}/ModeII_MISESERI_preanalysis.inp"
+
 # Execute Abaqus
-abaqus 2023 job=ModeII_MISESERI_preanalysis input="${INP_FILE}" interactive scratch=.
+abaqus job=ModeII_MISESERI_preanalysis interactive cpus=1 double=both > ModeII_MISESERI_preanalysis.abaqus_stdout.log 2>&1
 
 ABAQUS_RC=$?
 echo "Abaqus Exit Code: ${ABAQUS_RC}"
-
-# Extract MISESERI field evidence
-python3 "${PROJECT_ROOT:-.}/scripts/postprocessing/export_miseseri_preanalysis_csv.py" --odb ModeII_MISESERI_preanalysis.odb
-EXTRACTOR_RC=$?
-echo "Extractor Exit Code: ${EXTRACTOR_RC}"
 
 echo "=== Mode-II Pandey-Kumar MISESERI Pre-Analysis PBS Execution End ==="
