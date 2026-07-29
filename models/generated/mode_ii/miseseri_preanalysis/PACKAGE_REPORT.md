@@ -1,8 +1,9 @@
-# Package Report: Candidate Job B (Pandey-Kumar MISESERI Pre-Analysis)
+# Package Report: Candidate Job B (Corrected Pandey-Kumar MISESERI Pre-Analysis)
 
 - **Job Name:** `mode_ii_miseseri_preanalysis`
-- **Coarse Mesh:** H0 ($3,930$ CPS4 continuum elements)
-- **Pre-Analysis Elastic Load Target:** $U_1 = 0.0010\text{ mm}$ (~8.3% of $U_{1,\mathrm{peak}}$)
+- **Auxiliary Continuum Mesh:** H0 ($3,930$ CPS4 plane-stress elements)
+- **Notch Topology:** **True Slit Established** (15 coincident node pairs along $y=0, x \in [-0.5, 0.0)\text{ mm}$, 0 shared nodes across slit)
+- **Pre-Analysis Elastic Load Target:** $U_1 = 0.0010\text{ mm}$
 - **Material:** Standard Abaqus Elastic ($E = 210\text{ kN/mm}^2, \nu = 0.3$)
-- **Output Requests:** `MISESERI`, `MISESAVG`, `S`, `E`, `U`, `RF`
-- **Deck SHA-256:** `2cfa625774ff7f7b3c9a3bf0d05e160b105a2060ff7c97aaac29ee550c688f9c`
+- **Output Requests:** `MISESERI`, `MISESAVG`, `S`, `E`, `EVOL`, `U`, `RF`
+- **Deck SHA-256:** `ab65177d094966ac125900cbb20faebb1f1cb64046b58f5caa90c47763ea2b23`

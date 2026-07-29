@@ -1,0 +1,52 @@
+#!/bin/bash
+#PBS -N mode_ii_h2_serial
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=12:00:00
+#PBS -q normal_imfdfkmq
+#PBS -j oe
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+
+JOB_NAME="mode_ii_h2_uniform_serial"
+STAGE="Stage F"
+TASK_ID="F3-STAGE-F3-BATCH-READINESS-FIX"
+
+echo "=== Mode-II H2 Uniform Reference Serial PBS Execution Start ==="
+echo "PBS Job ID: ${PBS_JOBID:-local}"
+echo "Host: $(hostname)"
+echo "Date: $(date)"
+
+# Preflight authorization check
+AUTH_FILE="${PROJECT_ROOT:-.}/runs/hpc/stage_f/MODE_II_STAGE_F3_AUTHORIZATION_PROPOSAL.json"
+python3 -c "
+import json, sys
+auth = json.load(open('${AUTH_FILE}'))
+if not (auth.get('execution_authorized') is True and auth.get('submission_approved') is True):
+    print('ERROR: Execution not authorized in proposal JSON!', file=sys.stderr)
+    sys.exit(1)
+"
+
+# Package directory
+PKG_DIR="${PROJECT_ROOT:-.}/models/generated/mode_ii/h2_uniform_serial"
+INP_FILE="${PKG_DIR}/ModeII_H2_uniform_serial.inp"
+FOR_FILE="${PKG_DIR}/ModeII_H2_uniform_serial.for"
+
+# Execute Abaqus
+abaqus 2023 job=ModeII_H2_uniform_serial input="${INP_FILE}" user="${FOR_FILE}" interactive scratch=.
+
+ABAQUS_RC=$?
+echo "Abaqus Exit Code: ${ABAQUS_RC}"
+
+# Extract evidence
+python3 "${PROJECT_ROOT:-.}/scripts/postprocessing/extract_mode_ii_h2_results.py" --odb ModeII_H2_uniform_serial.odb
+EXTRACTOR_RC=$?
+echo "Extractor Exit Code: ${EXTRACTOR_RC}"
+
+# Scientific Validation
+python3 "${PROJECT_ROOT:-.}/scripts/validation/validate_mode_ii_h2_results.py" --extracted-dir extracted
+VALIDATOR_RC=$?
+echo "Validator Exit Code: ${VALIDATOR_RC}"
+
+echo "=== Mode-II H2 Uniform Reference Serial PBS Execution End ==="

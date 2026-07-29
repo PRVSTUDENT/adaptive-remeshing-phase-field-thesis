@@ -1,46 +1,63 @@
-# Pandey & Kumar (2025) Remeshing Formulation Extraction & Specifications
+# Pandey & Kumar (2025) Remeshing Formulation & Parameter Audit
 
 **Date:** 2026-07-29  
 **Protocol Version:** 1  
 **Author:** `gemini-antigravity`  
-**Status:** `formulation_extracted_for_stage_f3_prep`  
+**Status:** `formulation_and_parameter_audit_completed`
 
 ---
 
 ## 1. Context & Method Overview
 
-Pandey and Kumar (2025) propose a Python-driven adaptive remeshing methodology for phase-field fracture simulations using Abaqus native error indicators. 
+Pandey and Kumar (2025) propose a Python-driven adaptive remeshing methodology for phase-field fracture simulations using Abaqus native error indicators.
 
 Because Abaqus User Elements (`UEL`) do not natively evaluate built-in stress recovery error indicators (`MISESERI`), the Pandey-Kumar workflow uses a **coarse auxiliary-continuum pre-analysis** stage on standard continuum elements (`CPS4`) to calculate the stress discretization error field, followed by an Abaqus adaptive remeshing rule execution to generate a locally refined mesh prior to running the phase-field solver.
 
 ---
 
-## 2. Formulation & Output Requirements
+## 2. Benchmark Plane-Stress Formulation & Parity Verification
 
-| Parameter / Feature | Specification | Scientific Rationale |
-|---|---|---|
-| **Pre-Analysis Continuum** | Standard `CPS4` 4-node plane stress continuum elements | Required because UELs do not support native Abaqus `MISESERI` output. |
-| **Material Properties** | Elastic auxiliary continuum ($E = 210\text{ kN/mm}^2, \nu = 0.3$) | Matches linear elastic properties of phase-field matrix before damage. |
-| **Pre-Analysis Load Level** | Elastic load stage ($U_1 = 0.001\text{ mm}$, ~8.3% of $U_{1,\mathrm{peak}}$) | Evaluates stress concentration around notch tip prior to damage initiation ($d \ge 0.5$). |
-| **Field Output Requests** | `*Element Output`: `MISESERI`, `MISESAVG`, `S`, `E` | `MISESERI` represents the SPR-based (Superconvergent Patch Recovery) von Mises stress discretization error indicator. |
-
----
-
-## 3. Adaptive Remeshing Rule Settings
-
-| Parameter | Value | Description & Constraints |
-|---|---|---|
-| `errorTarget` | `0.05` (5%) | Target relative von Mises stress recovery error. |
-| `refinementFactor` | `2.0` | Sizing aggressiveness factor per pass. |
-| `minElementSize` | `0.0025 mm` ($h_1$) | Hard lower bound; floors local refinement at $H_1$ resolution. |
-| `maxElementSize` | `0.025 mm` | Hard upper bound; preserves far-field mesh sizing. |
-| `remeshingPasses` | `1` | One-pass pre-refinement from coarse $H_0$ to local $H_1$. |
-| `coarsening` | `false` (disabled) | Prevents unintended coarsening of far-field elements. |
+| Parameter / Feature | Specification | Category | Rationale & Parity Justification |
+|---|---|---|---|
+| **Element Type** | `CPS4` (4-node plane stress) | **project decision** | Chosen for 100% elastic matrix $\mathbf{D}$ parity with the Molnár & Gravouil (2017) baseline benchmark ($1.0\text{ mm}$ thickness, plane stress). `CPE4` (plane strain) would introduce an out-of-plane stress constraint $\sigma_{33} = \nu(\sigma_{11} + \sigma_{22})$ inconsistent with the reference benchmark. |
+| **Pre-Analysis Continuum** | Standard linear elastic material ($E = 210\text{ kN/mm}^2, \nu = 0.3$) | **Abaqus/API-required** | Required because UEL user elements do not support built-in Abaqus `MISESERI` output. |
+| **Notch Topology** | True physical slit ($y=0, x \in [-0.5, 0.0]\text{ mm}$) | **Abaqus/API-required** | 15 coincident node pairs along the notch faces ($y=0.0$), 0 shared nodes across the slit, Node 2 $(0,0)$ as single shared notch tip node. |
+| **Pre-Analysis Load Level** | Elastic load stage ($U_1 = 0.001\text{ mm}$) | **project decision** | Evaluates stress concentration around notch tip prior to damage initiation ($d \ge 0.5$). |
 
 ---
 
-## 4. Element Set & Field Mapping Rules
+## 3. Parameter Categorization & Source Traceability Audit
 
-1. **Pre-Analysis Mesh (Auxiliary):** Standard `CPS4` elements defined over `elset=All_elem`. `MISESERI` indicator is computed at standard integration points and output to ODB.
-2. **Remeshing Rule Application:** Abaqus CAE / Python API reads `MISESERI` from the ODB and applies the remeshing rule to refine the mesh locally around the notch corridor.
-3. **Phase-Field Mesh Synthesis:** The exported refined mesh nodes and elements are processed by Python model generator `build_miseseri_preanalysis_package.py` to construct the 3-layer UEL structure (`U1` phase field, `U2` displacement, `CPS4` visualization layer) for phase-field FE analysis.
+| Parameter | Value | Audit Category | Exact Source / Rationale |
+|---|---|---|---|
+| `errorTarget` | `0.05` (5%) | **sensitivity parameter** | Initial order-of-magnitude target for relative von Mises SPR recovery error indicator; to be evaluated in Stage C sensitivity studies. |
+| `refinementFactor` | `2.0` | **project decision** | Achieves factor-of-two size reduction moving local resolution from $h_0 = 0.005\text{ mm}$ to $h_1 = 0.0025\text{ mm}$ in a single pass. |
+| `minElementSize` | `0.0025 mm` ($h_1$) | **project decision** | Floors local element resolution at the $H_1$ uniform reference resolution ($0.0025\text{ mm}$). |
+| `maxElementSize` | `0.025 mm` | **project decision** | Hard upper bound preserving far-field element scale ($0.025\text{ mm}$). |
+| `remeshingPasses` | `1` | **project decision** | Single-pass pre-refinement for clean cost/accuracy evaluation relative to uniform reference. |
+| `coarsening` | `false` (disabled) | **project decision** | Prevents coarsening low-error background regions. |
+| `pre-analysis U1` | `0.001 mm` | **project decision** | Pre-peak linear elastic load stage (~8.3% of $U_{1,\mathrm{peak}}$). |
+
+> [!IMPORTANT]
+> None of the quantitative values above (`errorTarget = 0.05`, `minElementSize = 0.0025 mm`, etc.) are claimed as direct numerical constants from Pandey & Kumar (2025). They represent **project-specific choices** designed for the Molnár $H_0 \to H_1$ benchmark campaign.
+
+---
+
+## 4. Validated Field Output Syntax
+
+The auxiliary `CPS4` pre-analysis deck specifies the following field output requests:
+
+```inp
+*Output, field, frequency=1
+*Node Output
+ U, RF
+*Element Output, elset=All_elem
+ MISESERI, MISESAVG, S, E, EVOL
+```
+
+- `MISESERI`: SPR-based (Superconvergent Patch Recovery) von Mises stress discretization error indicator.
+- `MISESAVG`: Average element von Mises stress.
+- `S`: Stress tensor components ($S_{11}, S_{22}, S_{33}, S_{12}$).
+- `E`: Total strain tensor components ($E_{11}, E_{22}, E_{33}, E_{12}$).
+- `EVOL`: Element volume.
+- `U`, `RF`: Nodal displacement and reaction force vectors.

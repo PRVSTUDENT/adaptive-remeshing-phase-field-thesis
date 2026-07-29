@@ -104,6 +104,11 @@ def build_package(out_dir: Path = DEFAULT_OUT_DIR, target_u1: float = 0.020) -> 
     hashes_text = f"{deck_sha}  ModeII_H2_uniform_serial.inp\n{for_sha}  ModeII_H2_uniform_serial.for\n"
     write_text_lf(input_hashes_file, hashes_text)
 
+    try:
+        out_rel = str(out_dir.relative_to(ROOT))
+    except ValueError:
+        out_rel = str(out_dir)
+
     manifest = {
         "job_name": "mode_ii_h2_uniform_serial",
         "mesh_case": "H2_pub_h0010",
@@ -115,7 +120,7 @@ def build_package(out_dir: Path = DEFAULT_OUT_DIR, target_u1: float = 0.020) -> 
         "fortran_N_ELEM": EXPECTED_N_ELEM,
         "deck_sha256": deck_sha,
         "fortran_sha256": for_sha,
-        "out_dir": str(out_dir.relative_to(ROOT)),
+        "out_dir": out_rel,
     }
 
     manifest_file = out_dir / "GENERATION_MANIFEST.json"
