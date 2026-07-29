@@ -38,11 +38,31 @@ Key numerical and scientific findings for $H_1$:
     \item \textbf{Scientific Classification:} Classified as \texttt{stage\_f\_mode\_ii\_h1\_uniform\_serial\_validation\_fail} due to pre-peak damage state ($d < 0.50$).
 \end{itemize}
 
+\subsection{Reference $H_1$ Endpoint Sweep Batch Results}
+To evaluate post-peak fracture evolution and complete force drop, a four-job loading endpoint sweep ($U_1 \in \{0.015, 0.020, 0.030, 0.040\}\,\text{mm}$) was executed for the $H_1$ uniform reference mesh ($N_{\mathrm{elem}} = 12,064$, $h_1 = 0.0025\,\text{mm}$) under task \texttt{F2-H1-ENDPOINT-SWEEP-BATCH} (PBS Job IDs \texttt{1379481.mmaster02}--\texttt{1379484.mmaster02}).
+
+Key numerical and scientific findings from the endpoint sweep:
+\begin{itemize}
+    \item \textbf{Peak Response Invariance:} Across all four endpoint variants, initial shear stiffness was identical ($K_0 = 12.8266\,\text{kN/mm}$) and peak reaction force was $RF_{1,\max} = 0.139789\,\text{kN}$, occurring at $U_1 = 0.0120\,\text{mm}$.
+    \item \textbf{Post-Peak Softening Trajectory:}
+    \begin{itemize}
+        \item $U_1 = 0.015\,\text{mm}$ (\texttt{1379481.mmaster02}): final $RF_1 = 0.1045\,\text{kN}$ (25.22\% force drop), walltime 1\,h 26\,m.
+        \item $U_1 = 0.020\,\text{mm}$ (\texttt{1379482.mmaster02}): final $RF_1 = 0.0812\,\text{kN}$ (41.89\% force drop), walltime 2\,h 02\,m.
+        \item $U_1 = 0.030\,\text{mm}$ (\texttt{1379483.mmaster02}): final $RF_1 = 0.0363\,\text{kN}$ (73.99\% force drop), walltime 3\,h 18\,m.
+        \item $U_1 = 0.040\,\text{mm}$ (\texttt{1379484.mmaster02}): final $RF_1 = 0.0167\,\text{kN}$ (88.07\% force drop), walltime 4\,h 33\,m.
+    \end{itemize}
+    \item \textbf{Damage Saturation:} Maximum phase-field damage $\text{SDV15}$ saturated smoothly at $1.00498$ without numerical oscillation.
+    \item \textbf{Scientific Classification:} All four jobs completed Abaqus and data extraction with return code 0; strict validator status returned code 12 due to $\text{SDV15} = 1.00498 > 1.0$, classifying the gate as \texttt{stage\_f\_mode\_ii\_h1\_technical\_fail}.
+\end{itemize}
+
 \section{Reproducibility Paths}
 All extracted CSV curves, summaries, field contours, log files, and execution manifests are archived in the canonical repository evidence paths:
 \begin{quote}
 \texttt{runs/hpc/stage\_f/mode\_ii\_h0\_endpoint\_corrected/replacement\_r1/evidence/1379393.mmaster02/}\\
-\texttt{runs/hpc/stage\_f/mode\_ii_h1/evidence/1379433.mmaster02/}
+\texttt{runs/hpc/stage\_f/mode\_ii\_h1/evidence/1379433.mmaster02/}\\
+\texttt{runs/hpc/stage\_f/mode_ii_h1_endpoint_sweep/evidence/1379481.mmaster02/}\\
+\texttt{runs/hpc/stage\_f/mode_ii_h1_endpoint_sweep/evidence/1379482.mmaster02/}\\
+\texttt{runs/hpc/stage\_f/mode_ii_h1_endpoint_sweep/evidence/1379483.mmaster02/}\\
+\texttt{runs/hpc/stage\_f/mode_ii_h1_endpoint_sweep/evidence/1379484.mmaster02/}
 \end{quote}
 Main closure commit SHA: recorded in multi-agent coordination ledgers.
-

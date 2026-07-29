@@ -1,0 +1,26 @@
+{
+  "classification": "stage_f_mode_ii_h1_technical_fail",
+  "technical_pass": false,
+  "passed": false,
+  "abaqus_return_code": 0,
+  "extractor_return_code": 0,
+  "final_u1_mm": 0.014999999664723873,
+  "expected_u1_target_mm": 0.015,
+  "max_rf1_kn": 0.1397894024848938,
+  "u1_at_max_rf1_mm": 0.012000000104308128,
+  "final_rf1_kn": 0.1045343354344368,
+  "percentage_force_drop": 25.22012858182637,
+  "initial_stiffness_kn_per_mm": 12.826569890657922,
+  "u1_at_first_d05_mm": 0.012000000104308128,
+  "max_sdv15": 1.0034654140472412,
+  "crack_path_rows": 269,
+  "history_decrease_violations": 0,
+  "total_increments": null,
+  "walltime_seconds": null,
+  "cpu_time_seconds": null,
+  "peak_memory_kb": null,
+  "total_checks": 8,
+  "failures": [
+    "maximum damage sdv15 within upper bound <= 1.0 (got 1.003465)"
+  ]
+}

@@ -1,10 +1,5 @@
 {
-  "active_job_ids": [
-    "1379481.mmaster02",
-    "1379482.mmaster02",
-    "1379483.mmaster02",
-    "1379484.mmaster02"
-  ],
+  "active_job_ids": [],
   "approved_base_revision": "c264a205d8f6354f0a2d2109867feac35a98bdcd",
   "approved_job_names": [
     "m2h1_u015",
@@ -19,9 +14,19 @@
     "u040"
   ],
   "automatic_retry_authorized": false,
-  "classification": "stage_f_mode_ii_h1_endpoint_sweep_submitted",
-  "completed_job_ids": [],
+  "classification": "stage_f_mode_ii_h1_technical_fail",
+  "closure_task": "F2-H1-ENDPOINT-SWEEP-BATCH-CLOSE",
+  "completed_job_ids": [
+    "1379481.mmaster02",
+    "1379482.mmaster02",
+    "1379483.mmaster02",
+    "1379484.mmaster02"
+  ],
+  "evidence_directory": "runs/hpc/stage_f/mode_ii_h1_endpoint_sweep/evidence/",
   "execution_authorized": false,
+  "experiment_record": "docs/experiment_records/STAGE_F2_H1_ENDPOINT_SWEEP_BATCH_CLOSEOUT.md",
+  "failure_reason": "maximum damage sdv15 within upper bound <= 1.0 (got 1.004980)",
+  "figures_directory": "results/figures/mode_ii_h1_endpoint_sweep/",
   "human_approval": "approve_the_four_job_h1_endpoint_sweep_batch",
   "maximum_batch_submissions": 4,
   "maximum_jobs_now": 0,
@@ -29,6 +34,7 @@
   "reference_closeout_revision": "a9dd8bcc53c16db10d529a4fcbbfbd2a8fc3295f",
   "reference_job_id": "1379433.mmaster02",
   "retry_authorized": false,
+  "status": "complete_failed",
   "submission_approved": false,
   "submissions_used": 4,
   "task_id": "F2-H1-ENDPOINT-SWEEP-BATCH",
