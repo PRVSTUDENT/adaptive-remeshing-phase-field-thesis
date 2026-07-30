@@ -2,7 +2,7 @@
 
 Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f5_offline_compiler_and_native_remesh_readiness`
+Classification: `stage_f5_offline_compiler_smoke_and_native_remesh_readiness_prepared`
 
 ## Git
 
@@ -10,11 +10,26 @@ Classification: `stage_f5_offline_compiler_and_native_remesh_readiness`
 |---|---|
 | Active job IDs | None |
 | Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893` (all terminal) |
-| Active agent | Codex |
+| Active agent | None |
 | Active task | **F5-H2-COMPILER-RECOVERY-AND-MISESERI-REMESH-READINESS** |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
 | Submission Commit | `7b25ff868c7b96552cec3809ab470a74ee6d38fd` |
+| F5 offline preparation commit | `8779d12aded3e74638dd49e0dd9d619fe67dfce2` |
+
+## F5 offline readiness
+
+- Official corrected PBS MISESERI evidence is frozen with original PBS
+  `VAL_RC=1` and separately recorded offline repaired validation `RC=0`.
+- Evidence-backed compiler candidate:
+  `gcc/11.4.0` -> `intel/2024.2.0` -> `abaqus/2023`; archived paths include
+  both `ifort` and `ifx`. Current cluster requalification remains pending.
+- `M2H2CMP1` is prepared as an unapproved datacheck-only job (1 CPU, 8 GB,
+  `00:30:00`) with exact H2 input hashes.
+- Native MISESERI remeshing is audit-only. No native remesh or refined deck
+  was generated and no solver/datacheck/qsub command ran.
+- `execution_authorized=false`, `submission_approved=false`,
+  `solver_authorized=false`, `maximum_jobs_now=0`.
 
 ## Scientific Status Matrix
 
