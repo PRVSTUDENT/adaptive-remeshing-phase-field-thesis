@@ -1,17 +1,21 @@
 {
-  "active": false,
+  "active": true,
   "agent": "codex",
   "allowed_scope": [
+    "models/generated/mode_ii/h2_u020_compiler_datacheck_smoke/**",
+    "scripts/hpc/stage_f/07_mode_ii_h2_compiler_datacheck_smoke.pbs",
     "runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/**",
     "scripts/validation/**",
+    "tests/unit/**",
     "project_coordination/**",
+    "docs/experiment_records/STAGE_F5_H2_COMPILER_DATACHECK_SMOKE.md",
     "docs/methods/HPC_ABAQUS_FORTRAN_ENVIRONMENT.md",
     "docs/project/PROJECT_PHASE_CHECKLIST.md"
   ],
-  "completed_at": "2026-07-30T08:15:00Z",
-  "heartbeat": "2026-07-30T08:15:00Z",
-  "started_at": "2026-07-30T08:05:00Z",
-  "session_id": "F5-SSH-TRANSPORT-RECOVERY-PREFLIGHT",
-  "starting_commit": "37182b40710d0106dde220271174ef7869ad0c5c",
-  "task_id": "F5-SSH-TRANSPORT-RECOVERY-PREFLIGHT"
+  "completed_at": null,
+  "heartbeat": "2026-07-30T08:30:00Z",
+  "started_at": "2026-07-30T08:30:00Z",
+  "session_id": "F5-H2-COMPILER-DATACHECK-SMOKE-EXECUTE",
+  "starting_commit": "bc9cec0933433065d03bec00d8284c24cd5c48c1",
+  "task_id": "F5-H2-COMPILER-DATACHECK-SMOKE-EXECUTE"
 }

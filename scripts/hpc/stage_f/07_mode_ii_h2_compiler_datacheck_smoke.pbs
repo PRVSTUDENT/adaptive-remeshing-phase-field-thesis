@@ -7,80 +7,144 @@
 #PBS -m abe
 
 set -uo pipefail
-export OMP_NUM_THREADS=1
-export MKL_NUM_THREADS=1
+cd "${PBS_O_WORKDIR:?PBS_O_WORKDIR is required}" || exit 21
 
 JOB_NAME="M2H2CMP1"
-ROOT="${PROJECT_ROOT:-/home/pr21vyci/projects/adaptive-remeshing}"
-PACKAGE="${ROOT}/models/generated/mode_ii/h2_u020_compiler_datacheck_smoke"
-SOURCE="${ROOT}/models/generated/mode_ii/h2_uniform_serial_u020_postpeak"
-RUN="${SCRATCH_RUN:-/scratch/pr21vyci/adaptive-remeshing/runs/${JOB_NAME}_${PBS_JOBID:-manual}}"
-STATUS="${RUN}/STATUS.json"
-COMPILER_STATUS="${RUN}/COMPILER_STATUS.json"
-ENV_LOG="${RUN}/COMPILER_ENVIRONMENT.txt"
-mkdir -p "${RUN}"
+RUN_ID="${F5_RUN_ID:-unknown}"
+DECK="ModeII_H2_uniform_serial.inp"
+SOURCE="ModeII_H2_uniform_serial.for"
+STATUS="STATUS.json"
+COMPILER_STATUS="COMPILER_STATUS.json"
+ENV_LOG="COMPILER_ENVIRONMENT.txt"
+ABAQUS_LOG="abaqus_stdout.log"
+CLASSIFICATION="required_file_missing"
+FINAL_RC=21
+ABAQUS_RC=-1
+COMPILER_DETECTED=false
+COMPILATION_ATTEMPTED=false
+COMPILATION_PASSED=false
+LINKING_ATTEMPTED=false
+LINKING_PASSED=false
+DATACHECK_ATTEMPTED=false
+DATACHECK_PASSED=false
+IFORT_PATH=""
+IFX_PATH=""
+ABAQUS_PATH=""
+IFORT_VERSION=""
+IFX_VERSION=""
+ABAQUS_VERSION=""
 
-write_status() {
-  classification="$1"
-  rc="$2"
-  cat > "${STATUS}" <<EOF
-{"classification":"${classification}","return_code":${rc},"job_name":"${JOB_NAME}","full_analysis_launched":false}
+json_status() {
+  cat > "${STATUS}.tmp" <<EOF
+{
+  "job_id": "${PBS_JOBID:-unknown}",
+  "job_name": "${JOB_NAME}",
+  "run_id": "${RUN_ID}",
+  "hostname": "$(hostname)",
+  "module_sequence": ["gcc/11.4.0", "intel/2024.2.0", "abaqus/2023"],
+  "ifort_path": "${IFORT_PATH}",
+  "ifort_version": "${IFORT_VERSION}",
+  "ifx_path": "${IFX_PATH}",
+  "ifx_version": "${IFX_VERSION}",
+  "selected_compiler": "ifort",
+  "abaqus_path": "${ABAQUS_PATH}",
+  "abaqus_version": "${ABAQUS_VERSION}",
+  "deck_sha256": "$(sha256sum "${DECK}" 2>/dev/null | awk '{print $1}')",
+  "fortran_sha256": "$(sha256sum "${SOURCE}" 2>/dev/null | awk '{print $1}')",
+  "compiler_detected": ${COMPILER_DETECTED},
+  "compilation_attempted": ${COMPILATION_ATTEMPTED},
+  "compilation_passed": ${COMPILATION_PASSED},
+  "linking_attempted": ${LINKING_ATTEMPTED},
+  "linking_passed": ${LINKING_PASSED},
+  "datacheck_attempted": ${DATACHECK_ATTEMPTED},
+  "datacheck_passed": ${DATACHECK_PASSED},
+  "abaqus_return_code": ${ABAQUS_RC},
+  "error_count": $(grep -Eic "error|fatal" "${ABAQUS_LOG}" "${JOB_NAME}.log" "${JOB_NAME}.dat" "${JOB_NAME}.msg" 2>/dev/null || true),
+  "warning_count": $(grep -Eic "warning" "${ABAQUS_LOG}" "${JOB_NAME}.log" "${JOB_NAME}.dat" "${JOB_NAME}.msg" 2>/dev/null || true),
+  "final_classification": "${CLASSIFICATION}",
+  "final_exit_code": ${FINAL_RC}
+}
 EOF
+  mv "${STATUS}.tmp" "${STATUS}"
+}
+trap json_status EXIT
+
+for required in "${DECK}" "${SOURCE}" "PACKAGE_MANIFEST.json" "SHA256SUMS"; do
+  [ -f "${required}" ] || exit 21
+done
+sha256sum -c SHA256SUMS > input_hash_check.txt 2>&1 || {
+  CLASSIFICATION="runtime_hash_failure"; FINAL_RC=20; exit 20;
 }
 
 module --force purge > "${ENV_LOG}" 2>&1 || true
-module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || { write_status compiler_environment_missing 5; exit 5; }
-module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || { write_status compiler_environment_missing 5; exit 5; }
-module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || { write_status compiler_environment_missing 5; exit 5; }
-module list >> "${ENV_LOG}" 2>&1 || true
-
+module load gcc/11.4.0 >> "${ENV_LOG}" 2>&1 || {
+  CLASSIFICATION="compiler_environment_missing"; FINAL_RC=22; exit 22;
+}
+module load intel/2024.2.0 >> "${ENV_LOG}" 2>&1 || {
+  CLASSIFICATION="compiler_environment_missing"; FINAL_RC=22; exit 22;
+}
+module load abaqus/2023 >> "${ENV_LOG}" 2>&1 || {
+  CLASSIFICATION="compiler_environment_missing"; FINAL_RC=22; exit 22;
+}
+module -t list >> "${ENV_LOG}" 2>&1 || true
 IFORT_PATH="$(command -v ifort || true)"
 IFX_PATH="$(command -v ifx || true)"
 ABAQUS_PATH="$(command -v abaqus || true)"
+IFORT_VERSION="$(ifort --version 2>/dev/null | head -1 || true)"
+IFX_VERSION="$(ifx --version 2>/dev/null | head -1 || true)"
+ABAQUS_VERSION="$(abaqus information=release 2>&1 | grep -m1 '^Abaqus 20' || true)"
 {
+  echo "PBS_JOBID=${PBS_JOBID:-unknown}"
+  echo "hostname=$(hostname)"
+  echo "date=$(date -u +%FT%TZ)"
+  echo "PBS_O_WORKDIR=${PBS_O_WORKDIR}"
+  echo "PATH=${PATH}"
+  echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-}"
+  echo "LIBRARY_PATH=${LIBRARY_PATH:-}"
+  echo "CPATH=${CPATH:-}"
   echo "ifort=${IFORT_PATH}"
   echo "ifx=${IFX_PATH}"
   echo "abaqus=${ABAQUS_PATH}"
-  ifort --version 2>&1 || true
-  ifx --version 2>&1 || true
-  abaqus information=release 2>&1 || true
-  abaqus information=system 2>&1 || true
+  echo "${IFORT_VERSION}"
+  echo "${IFX_VERSION}"
+  echo "${ABAQUS_VERSION}"
 } >> "${ENV_LOG}"
 
-if [ -z "${ABAQUS_PATH}" ] || { [ -z "${IFORT_PATH}" ] && [ -z "${IFX_PATH}" ]; }; then
-  cat > "${COMPILER_STATUS}" <<EOF
-{"classification":"compiler_environment_missing","compiler_detected":false,"ifort_path":"${IFORT_PATH}","ifx_path":"${IFX_PATH}","abaqus_path":"${ABAQUS_PATH}"}
-EOF
-  write_status compiler_environment_missing 5
-  exit 5
+if [ -z "${IFORT_PATH}" ] || [ -z "${ABAQUS_PATH}" ]; then
+  CLASSIFICATION="compiler_environment_missing"; FINAL_RC=22; exit 22
 fi
-
+COMPILER_DETECTED=true
+CLASSIFICATION="compiler_detected"
 cat > "${COMPILER_STATUS}" <<EOF
-{"classification":"compiler_detected","compiler_detected":true,"ifort_path":"${IFORT_PATH}","ifx_path":"${IFX_PATH}","abaqus_path":"${ABAQUS_PATH}"}
+{"classification":"compiler_detected","ifort_path":"${IFORT_PATH}","ifx_path":"${IFX_PATH}","abaqus_path":"${ABAQUS_PATH}"}
 EOF
 
-cd "${PACKAGE}" || { write_status datacheck_failed 4; exit 4; }
-sha256sum -c input_hashes.sha256 > "${RUN}/input_hash_check.txt" 2>&1 || { write_status datacheck_failed 6; exit 6; }
-cp "${SOURCE}/ModeII_H2_uniform_serial.inp" "${RUN}/${JOB_NAME}.inp"
-cp "${SOURCE}/ModeII_H2_uniform_serial.for" "${RUN}/ModeII_H2_uniform_serial.for"
-cd "${RUN}" || exit 7
-
+COMPILATION_ATTEMPTED=true
+LINKING_ATTEMPTED=true
+DATACHECK_ATTEMPTED=true
 set +e
-abaqus job="${JOB_NAME}" user=ModeII_H2_uniform_serial.for datacheck interactive \
-  cpus=1 mp_mode=threads double=both > "${RUN}/abaqus_stdout.log" 2>&1
+abaqus job="${JOB_NAME}" input="${DECK}" user="${SOURCE}" datacheck interactive \
+  cpus=1 mp_mode=threads double=both > "${ABAQUS_LOG}" 2>&1
 ABAQUS_RC=$?
 set -e
 
 if [ "${ABAQUS_RC}" -ne 0 ]; then
-  if grep -Eqi "compile|compiler|fortcom|ifort|ifx" "${RUN}/abaqus_stdout.log" "${RUN}/${JOB_NAME}.log" 2>/dev/null; then
-    write_status compilation_failed "${ABAQUS_RC}"
-  elif grep -Eqi "link|ld:|undefined reference" "${RUN}/abaqus_stdout.log" "${RUN}/${JOB_NAME}.log" 2>/dev/null; then
-    write_status link_failed "${ABAQUS_RC}"
+  if grep -Eqi "compile|compiler|fortcom|ifort|ifx" "${ABAQUS_LOG}" "${JOB_NAME}.log" 2>/dev/null; then
+    CLASSIFICATION="compilation_failed"; FINAL_RC=23
+  elif grep -Eqi "link|ld:|undefined reference" "${ABAQUS_LOG}" "${JOB_NAME}.log" 2>/dev/null; then
+    COMPILATION_PASSED=true
+    CLASSIFICATION="link_failed"; FINAL_RC=24
   else
-    write_status datacheck_failed "${ABAQUS_RC}"
+    COMPILATION_PASSED=true
+    LINKING_PASSED=true
+    CLASSIFICATION="datacheck_failed"; FINAL_RC=25
   fi
-  exit "${ABAQUS_RC}"
+  exit "${FINAL_RC}"
 fi
 
-write_status datacheck_pass 0
+COMPILATION_PASSED=true
+LINKING_PASSED=true
+DATACHECK_PASSED=true
+CLASSIFICATION="datacheck_pass"
+FINAL_RC=0
 exit 0
