@@ -2,13 +2,13 @@
 
 Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f6_two_job_batch_authorized`
+Classification: `stage_f6_two_job_batch_submitted`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job IDs | None |
+| Active job IDs | `1379966.mmaster02` |
 | Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893`, `1379939` (all terminal) |
 | Active agent | None |
 | Active task | **F6-H2-FULL-AND-MISESERI-REMESH-API-BATCH** |
@@ -110,9 +110,10 @@ retry_authorized: false
 
 ## Next Action
 
-Preparation commit `2249ec21fe92c6c7348d1cff653a84901828e117` is published.
-The shared cluster preflight passed from a clean detached scratch worktree:
-no existing user jobs, exact scientific/source ODB hashes, compiler and Abaqus
-2023 visibility, scheduler access, and immutable runtime assembly all passed.
-The two-job authorization is active for exactly `M2H2U20F1` and `M2RMAPI1`.
-Execute the single guarded orchestrator once, then consume all authority.
+Preparation commit `2249ec21fe92c6c7348d1cff653a84901828e117` and authorization
+commit `5b5c2f4c596e419d4dcfca9cc1e80ba343f5cb82` are published. The
+single guarded orchestrator submitted both independent jobs exactly once from
+run `F6_20260730_122800_2249ec21`: H2 full job `1379966.mmaster02` is
+running and API job `1379967.mmaster02` is terminal pending evidence review.
+All authority is consumed (`2/2`); no retry, replacement, direct qsub, qdel,
+qmove, refined solve or third job is authorized.
