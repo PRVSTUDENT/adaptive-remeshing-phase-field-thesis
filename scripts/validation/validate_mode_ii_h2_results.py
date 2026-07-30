@@ -62,6 +62,11 @@ def validate_results(
                 max_rf1 = summary_data.get("peak_rf1")
                 d_max = summary_data.get("damage_max")
                 check(d_max is not None and d_max >= 0.0, f"Phase damage d_max is finite non-negative (got {d_max})")
+                check(d_max is not None and d_max <= 1.01, f"Phase damage d_max <= 1.01 (got {d_max})")
+                check(
+                    summary_data.get("irreversibility_satisfied") is True,
+                    "Framewise maximum-damage irreversibility check passed",
+                )
         except Exception as exc:
             check(False, f"Failed to parse H2_EXTRACTION_SUMMARY.json: {exc}")
     else:

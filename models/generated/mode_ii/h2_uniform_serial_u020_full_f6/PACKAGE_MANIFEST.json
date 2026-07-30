@@ -1,0 +1,21 @@
+{
+  "classification": "stage_f6_h2_u020_full_prepared",
+  "job_name": "M2H2U20F1",
+  "scientific_inputs": {
+    "deck_path": "../h2_uniform_serial_u020_postpeak/ModeII_H2_uniform_serial.inp",
+    "deck_sha256": "fdcd6ee1b1d6cbfb88d59a3edfb7f1c6b35cecde736a427f6b3030b0443b10bf",
+    "fortran_path": "../h2_uniform_serial_u020_postpeak/ModeII_H2_uniform_serial.for",
+    "fortran_sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37",
+    "target_u1_mm": 0.02,
+    "physical_elements": 33852,
+    "nodes": 34508
+  },
+  "resources": {
+    "queue": "entry_imfdfkmq",
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime": "12:00:00"
+  },
+  "execution_authorized": false,
+  "automatic_retry_authorized": false
+}

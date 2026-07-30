@@ -2,7 +2,7 @@
 
 Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f5_h2_compiler_datacheck_smoke_pass`
+Classification: `stage_f6_two_job_batch_preparation`
 
 ## Git
 
@@ -11,7 +11,7 @@ Classification: `stage_f5_h2_compiler_datacheck_smoke_pass`
 | Active job IDs | None |
 | Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893`, `1379939` (all terminal) |
 | Active agent | None |
-| Active task | **F5-H2-COMPILER-DATACHECK-SMOKE-EXECUTE** |
+| Active task | **F6-H2-FULL-AND-MISESERI-REMESH-API-BATCH** |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
 | Submission Commit | `7b25ff868c7b96552cec3809ab470a74ee6d38fd` |
@@ -110,7 +110,9 @@ retry_authorized: false
 
 ## Next Action
 
-Preserve the earlier H2 compile-environment failure, the successful
-`1379939.mmaster02` compiler/datacheck qualification, and official corrected
-MISESERI evidence. Native remesh preparation requires a new recorded task.
-No solver submission, retry or replacement is authorized.
+Prepare and fully preflight the explicitly authorized two-job F6 batch:
+`M2H2U20F1` full H2 u020 serial analysis and `M2RMAPI1` CAE-only native
+MISESERI RemeshingRule API qualification. Authorization activation remains
+false until the preparation commit, immutable runtime staging and all common
+preflights pass. Maximum two qsub attempts; no retry, replacement, direct
+manual qsub, qdel, qmove or dependent refined solve is authorized.

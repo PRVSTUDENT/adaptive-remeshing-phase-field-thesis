@@ -1,0 +1,51 @@
+#!/bin/bash
+#PBS -N M2RMAPI1
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -m abe
+
+set -u
+cd "${PBS_O_WORKDIR}" || exit 21
+STATUS_WRITER="runtime/scripts/hpc/stage_f/write_status_json.py"
+OUT=api_qualification
+mkdir -p "${OUT}"
+
+write_failure() {
+    rc="$1"; class="$2"
+    python3 "${STATUS_WRITER}" --output "${OUT}/STATUS.json" \
+      --set "job_name=str:M2RMAPI1" --set "pbs_job_id=str:${PBS_JOBID:-unknown}" \
+      --set "classification=str:${class}" --set "error_count=int:0" \
+      --set "warning_count=int:0" --set "native_remesh_execution_count=int:0" \
+      --set "solver_execution_count=int:0" --set "final_exit_code=int:${rc}"
+    python3 -m json.tool "${OUT}/STATUS.json" >/dev/null
+    exit "${rc}"
+}
+
+for f in RUNTIME_MANIFEST.json SHA256SUMS \
+ runtime/configs/stage_f/mode_ii_miseseri_native_remesh.yaml \
+ runtime/models/generated/mode_ii/miseseri_preanalysis_corrected_pbs/ModeII_MISESERI_preanalysis.inp \
+ runtime/scripts/remeshing/qualify_mode_ii_native_miseseri_api.py "${STATUS_WRITER}"; do
+    [ -f "${f}" ] || write_failure 21 required_file_missing
+done
+[ -r "${SOURCE_ODB_PATH}" ] || write_failure 21 source_odb_missing
+sha256sum -c SHA256SUMS || write_failure 20 runtime_hash_mismatch
+
+module --force purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+command -v abaqus > abaqus_path.txt || write_failure 22 abaqus_cae_unavailable
+
+abaqus cae noGUI=runtime/scripts/remeshing/qualify_mode_ii_native_miseseri_api.py -- \
+  --config runtime/configs/stage_f/mode_ii_miseseri_native_remesh.yaml \
+  --odb "${SOURCE_ODB_PATH}" \
+  --deck runtime/models/generated/mode_ii/miseseri_preanalysis_corrected_pbs/ModeII_MISESERI_preanalysis.inp \
+  --output-dir "${OUT}" > cae_stdout.log 2>&1
+RC=$?
+[ -f "${OUT}/STATUS.json" ] || write_failure 10 abaqus_cae_start_failure
+python3 -m json.tool "${OUT}/API_AUDIT.json" >/dev/null || write_failure 12 api_audit_invalid
+python3 -m json.tool "${OUT}/REMESH_RULE_MANIFEST.json" >/dev/null || write_failure 12 rule_manifest_invalid
+python3 -m json.tool "${OUT}/STATUS.json" >/dev/null || write_failure 12 status_invalid
+exit "${RC}"

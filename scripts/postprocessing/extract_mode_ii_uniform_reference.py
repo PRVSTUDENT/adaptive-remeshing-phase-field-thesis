@@ -146,6 +146,7 @@ def extract_mode_ii_odb(
     rf_u_rows = []
     d_max_global = 0.0
     u1_first_d05 = None
+    u1_first_d09 = None
     prev_u1 = -1.0
 
     u_all = []
@@ -177,6 +178,8 @@ def extract_mode_ii_odb(
 
             if u1_first_d05 is None and d_frame_max >= 0.5 and u_val is not None:
                 u1_first_d05 = u_val
+            if u1_first_d09 is None and d_frame_max >= 0.9 and u_val is not None:
+                u1_first_d09 = u_val
 
             if u_val is not None and rf_val is not None:
                 # Remove exact duplicate step boundary frame
@@ -242,6 +245,7 @@ def extract_mode_ii_odb(
         "d_min": 0.0,
         "d_max": d_max_global,
         "u1_first_d05": u1_first_d05,
+        "u1_first_d09": u1_first_d09,
     }
     with open(os.path.join(output_dir, "damage_bounds_summary.json"), "w") as f:
         json.dump(db_summary, f, indent=2, sort_keys=True)
@@ -318,9 +322,15 @@ def extract_mode_ii_odb(
         json.dump(cp_summary, f, indent=2, sort_keys=True)
 
     # 9. Save irreversibility_summary.json
+    damage_decreases = [
+        d_all[i] - d_all[i - 1] for i in range(1, len(d_all))
+        if d_all[i] < d_all[i - 1]
+    ]
+    max_negative_dd = min(damage_decreases) if damage_decreases else 0.0
     irrev_summary = {
-        "max_negative_dd": 0.0,
-        "irreversibility_satisfied": True,
+        "max_negative_dd": max_negative_dd,
+        "irreversibility_satisfied": max_negative_dd >= -1.0e-8,
+        "framewise_damage_decrease_count": len(damage_decreases),
     }
     with open(os.path.join(output_dir, "irreversibility_summary.json"), "w") as f:
         json.dump(irrev_summary, f, indent=2, sort_keys=True)
@@ -364,6 +374,8 @@ def extract_mode_ii_odb(
         "total_increments": sta_info.get("total_increments", 0),
         "u1_at_peak_rf1": u1_at_peak,
         "u1_first_d05": u1_first_d05,
+        "u1_first_d09": u1_first_d09,
+        "irreversibility_satisfied": irrev_summary["irreversibility_satisfied"],
         "user_cpu_sec": log_info.get("user_cpu_sec"),
         "stiffness_regression": stiff_res,
     }
