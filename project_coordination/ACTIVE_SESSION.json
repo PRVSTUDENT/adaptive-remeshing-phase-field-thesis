@@ -1,28 +1,12 @@
 {
-  "active": true,
-  "agent": "codex",
-  "allowed_scope": [
-    "configs/stage_f/mode_ii_miseseri_native_remesh.yaml",
-    "models/generated/mode_ii/h2_uniform_serial_u020_full_f6/**",
-    "models/generated/mode_ii/miseseri_native_remesh_api_qualification/**",
-    "scripts/hpc/stage_f/**",
-    "scripts/postprocessing/**",
-    "scripts/remeshing/**",
-    "scripts/validation/**",
-    "tests/unit/**",
-    "runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/**",
-    "docs/experiment_records/**",
-    "docs/methods/HPC_ABAQUS_FORTRAN_ENVIRONMENT.md",
-    "docs/project/PROJECT_PHASE_CHECKLIST.md",
-    "docs/project/MISTAKES_AND_FIXES_LOG.md",
-    "docs/thesis/STAGE_F_MODE_II_BENCHMARK_CHAPTER.tex",
-    "project_coordination/**"
-  ],
-  "completed_at": null,
-  "heartbeat": "2026-07-30T12:15:00Z",
-  "started_at": "2026-07-30T12:15:00Z",
+  "active": false,
+  "agent": "",
+  "allowed_scope": [],
+  "completed_at": "2026-07-30T13:15:00Z",
+  "heartbeat": "2026-07-30T13:15:00Z",
+  "started_at": null,
   "session_id": "F6-H2-FULL-AND-MISESERI-REMESH-API-BATCH-20260730",
-  "starting_commit": "97b48adf1141a650c2b3995867277d310ebb2c3b",
-  "task_id": "F6-H2-FULL-AND-MISESERI-REMESH-API-BATCH",
-  "note": "Explicitly authorized guarded two-job Stage F6 batch; preparation in progress."
+  "starting_commit": null,
+  "task_id": "",
+  "note": "F6 batch submitted and authority consumed; Job A running naturally, Job B terminal failed, combined closeout pending."
 }

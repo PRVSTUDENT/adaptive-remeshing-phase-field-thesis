@@ -2,7 +2,7 @@
 
 Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f6_two_job_batch_submitted`
+Classification: `stage_f6_h2_running_api_cae_start_failure`
 
 ## Git
 
@@ -113,7 +113,10 @@ retry_authorized: false
 Preparation commit `2249ec21fe92c6c7348d1cff653a84901828e117` and authorization
 commit `5b5c2f4c596e419d4dcfca9cc1e80ba343f5cb82` are published. The
 single guarded orchestrator submitted both independent jobs exactly once from
-run `F6_20260730_122800_2249ec21`: H2 full job `1379966.mmaster02` is
-running and API job `1379967.mmaster02` is terminal pending evidence review.
-All authority is consumed (`2/2`); no retry, replacement, direct qsub, qdel,
-qmove, refined solve or third job is authorized.
+run `F6_20260730_122800_2249ec21`. H2 full job `1379966.mmaster02` remains
+healthy and running naturally. API job `1379967.mmaster02` is terminal with
+PBS exit 10 and classification `abaqus_cae_start_failure`: Abaqus/CAE Python
+rejected CAE driver arguments before the API audit; zero solver/remesh
+executions and zero candidate decks resulted. All authority is consumed
+(`2/2`); no retry, replacement, direct qsub, qdel, qmove, refined solve or
+third job is authorized.

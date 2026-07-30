@@ -379,6 +379,23 @@ Evidence paths: `runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/evidence/1379
 Prevention rule: Aggregate grep counts numerically before JSON serialization and validate every generated JSON file with a parser before using it as the sole acceptance record.
 Status: recorded; future script repair requires a separate task
 
+## Stage F6 CAE noGUI driver-argument collision (2026-07-30)
+
+ID: M-104
+Date: 2026-07-30
+Stage/job: Stage F6 / `1379967.mmaster02`
+Source commit: `2249ec21fe92c6c7348d1cff653a84901828e117`
+Classification: `abaqus_cae_start_failure`
+Symptom: Abaqus/CAE started and checked out a license, but the qualification script exited from `argparse` before source hash verification or RemeshingRule creation.
+Root cause: Abaqus 2023 Python 2.7 populated `sys.argv` with CAE driver arguments (`-cae`, `-noGUI`, `-lmlog`, `-tmpdir`). The script used strict required-argument parsing and rejected those driver arguments; the intended trailing CLI arguments were not delivered.
+Scientific inputs changed: no
+Correction: Preserved the original failure. For prevention only, the script now accepts values through explicit `F6_*` environment variables and uses `parse_known_args` to retain but ignore Abaqus driver arguments.
+Retry job: none
+Outcome: Job B remains failed and consumed; source ODB/deck API qualification and rule creation were not reached.
+Evidence paths: `runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evidence/1379967.mmaster02/`
+Prevention rule: Pass noGUI script inputs through explicit environment variables and tolerate documented Abaqus CAE driver arguments.
+Status: recorded; no resubmission authorized
+
 
 
 

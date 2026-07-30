@@ -38,12 +38,11 @@ module load intel/2024.2.0
 module load abaqus/2023
 command -v abaqus > abaqus_path.txt || write_failure 22 abaqus_cae_unavailable
 
-export F6_REMESH_CONFIG=runtime/configs/stage_f/mode_ii_miseseri_native_remesh.yaml
-export F6_SOURCE_ODB="${SOURCE_ODB_PATH}"
-export F6_SOURCE_DECK=runtime/models/generated/mode_ii/miseseri_preanalysis_corrected_pbs/ModeII_MISESERI_preanalysis.inp
-export F6_API_OUTPUT_DIR="${OUT}"
-abaqus cae noGUI=runtime/scripts/remeshing/qualify_mode_ii_native_miseseri_api.py \
-  > cae_stdout.log 2>&1
+abaqus cae noGUI=runtime/scripts/remeshing/qualify_mode_ii_native_miseseri_api.py -- \
+  --config runtime/configs/stage_f/mode_ii_miseseri_native_remesh.yaml \
+  --odb "${SOURCE_ODB_PATH}" \
+  --deck runtime/models/generated/mode_ii/miseseri_preanalysis_corrected_pbs/ModeII_MISESERI_preanalysis.inp \
+  --output-dir "${OUT}" > cae_stdout.log 2>&1
 RC=$?
 [ -f "${OUT}/STATUS.json" ] || write_failure 10 abaqus_cae_start_failure
 python3 -m json.tool "${OUT}/API_AUDIT.json" >/dev/null || write_failure 12 api_audit_invalid

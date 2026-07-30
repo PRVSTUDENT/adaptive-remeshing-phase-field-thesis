@@ -35,11 +35,15 @@ def write_json(path, data):
 
 def main(argv=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", required=True)
-    parser.add_argument("--odb", required=True)
-    parser.add_argument("--deck", required=True)
-    parser.add_argument("--output-dir", required=True)
-    args = parser.parse_args(argv)
+    parser.add_argument("--config", default=os.environ.get("F6_REMESH_CONFIG"))
+    parser.add_argument("--odb", default=os.environ.get("F6_SOURCE_ODB"))
+    parser.add_argument("--deck", default=os.environ.get("F6_SOURCE_DECK"))
+    parser.add_argument("--output-dir", default=os.environ.get("F6_API_OUTPUT_DIR"))
+    args, ignored = parser.parse_known_args(argv)
+    for name in ("config", "odb", "deck", "output_dir"):
+        if not getattr(args, name):
+            parser.error("missing --%s or corresponding F6 environment variable" %
+                         name.replace("_", "-"))
     if not os.path.isdir(args.output_dir):
         os.makedirs(args.output_dir)
 
@@ -68,6 +72,7 @@ def main(argv=None):
         "native_remesh_execution_count": 0,
         "solver_execution_count": 0,
         "candidate_refined_deck_generated": False,
+        "ignored_abaqus_driver_arguments": ignored,
     }
     status = {
         "job_name": "M2RMAPI1",
