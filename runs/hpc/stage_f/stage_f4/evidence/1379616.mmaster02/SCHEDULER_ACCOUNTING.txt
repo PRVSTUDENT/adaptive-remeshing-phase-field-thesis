@@ -1,0 +1,23 @@
+Job_Id=1379616.mmaster02
+Job_Name=ModeII_MISESERI_corrected_pbs
+job_state=F
+submission_queue=entry_imfdfkmq
+execution_queue=normal_imfdfkmq
+Submit_arguments=06_mode_ii_miseseri_corrected_pbs.pbs
+Resource_List.select=1:ncpus=1:mem=16gb
+Resource_List.walltime=01:00:00
+resources_used.cput=00:00:00
+resources_used.mem=5724kb
+resources_used.walltime=00:00:01
+exec_host=mnode100/1
+qtime=Wed Jul 29 10:16:13 2026
+stime=Wed Jul 29 14:09:12 2026
+obittime=Wed Jul 29 14:09:16 2026
+mtime=Wed Jul 29 14:09:16 2026
+Exit_status=10
+Stageout_status=1
+Output_Path=mlogin01.cluster:/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4_20260729_081548_aeba4430/miseseri_corrected/ModeII_MISESERI_corrected_pbs.o1379616
+Error_Path=mlogin01.cluster:/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4_20260729_081548_aeba4430/miseseri_corrected/ModeII_MISESERI_corrected_pbs.e1379616
+PBS_O_WORKDIR=/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4_20260729_081548_aeba4430/miseseri_corrected
+PBS_O_QUEUE=entry_imfdfkmq
+tracejob_result=not_retained_in_server_logs_when_queried_with_1_and_3_day_windows

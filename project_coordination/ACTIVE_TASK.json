@@ -1,14 +1,17 @@
 {
-  "active_job_ids": [
+  "active_job_ids": [],
+  "completed_job_ids": [
     "1379615.mmaster02",
     "1379616.mmaster02"
   ],
-  "completed_job_ids": [],
-  "failed_initial_job_ids": [],
+  "failed_initial_job_ids": [
+    "1379615.mmaster02",
+    "1379616.mmaster02"
+  ],
   "authorization_file": "runs/hpc/stage_f/MODE_II_STAGE_F4_AUTHORIZATION_PROPOSAL.json",
   "automatic_retry_authorized": false,
   "retry_authorized": false,
-  "classification": "stage_f4_jobs_queued_monitoring_active",
+  "classification": "stage_f4_two_job_pre_abaqus_git_guard_fail",
   "datacheck_authorized": false,
   "execution_authorized": false,
   "solver_authorized": false,
@@ -29,12 +32,12 @@
     "M-101",
     "M-102"
   ],
-  "next_action": "Wait for PBS scheduler to execute queued Stage F4 jobs 1379615.mmaster02 and 1379616.mmaster02",
-  "next_task_after_pass": "STAGE-F4-MONITOR-AND-VALIDATE",
+  "next_action": "Preserve failed evidence; require new explicit human authorization before any corrected execution",
+  "next_task_after_pass": null,
   "package_path": "models/generated/mode_ii/h2_uniform_serial_u020_postpeak",
   "preparation_revision": "7b25ff868c7b96552cec3809ab470a74ee6d38fd",
   "protocol_version": 1,
-  "status": "in_progress",
+  "status": "complete_failed",
   "task_id": "F4-STAGE-F4-MONITOR-AND-VALIDATE",
   "telegram_notification_traps_integrated": true,
   "title": "Monitor Stage F4 jobs read-only and validate H2 and corrected MISESERI evidence after completion",

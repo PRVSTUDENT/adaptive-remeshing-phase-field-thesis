@@ -1,0 +1,14 @@
+{
+  "job_name": "ModeII_H2_u020_postpeak",
+  "pbs_job_id": "1379615.mmaster02",
+  "scheduler_exit_status": 10,
+  "ABAQUS_RC": null,
+  "EXT_RC": null,
+  "VAL_RC": null,
+  "final_technical_status": "pre_abaqus_git_unavailable_in_compute_job",
+  "odb_present": false,
+  "solver_started": false,
+  "retry_authorized": false,
+  "replacement_authorized": false,
+  "diagnosis": "The PBS revision guard obtained CURRENT_GIT_SHA=unknown and exited 10 before module load or Abaqus execution. No job-level STATUS.json was written by the PBS script because the guard precedes return-code initialization."
+}

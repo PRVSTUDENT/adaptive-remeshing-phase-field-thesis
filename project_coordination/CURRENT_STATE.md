@@ -1,16 +1,16 @@
 # Current project state
 
-Updated: 2026-07-29
+Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f4_jobs_queued_monitoring_active`
+Classification: `stage_f4_two_job_pre_abaqus_git_guard_fail`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job IDs | `1379615.mmaster02` (H2 u020 postpeak), `1379616.mmaster02` (MISESERI pre-analysis) |
-| Completed job IDs | None for Stage F4 |
-| Active agent | `gemini-antigravity` (session claimed) |
+| Active job IDs | None |
+| Completed job IDs | `1379615.mmaster02`, `1379616.mmaster02` (both terminal failed) |
+| Active agent | None |
 | Active task | **F4-STAGE-F4-MONITOR-AND-VALIDATE** |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
@@ -20,8 +20,8 @@ Classification: `stage_f4_jobs_queued_monitoring_active`
 
 ```text
 H1-H2 elastic convergence: PASS (K_H1 = 12.8093 kN/mm, K_H2 = 12.7912 kN/mm, rel_diff = -0.1418%, 17 discrete points over U1 in [0.0003, 0.0019] mm / 19 CSV lines)
-H2 post-peak convergence: QUEUED (Job 1379615.mmaster02 in state Q, routed from entry_imfdfkmq to normal_imfdfkmq, 12:00:00 walltime)
-MISESERI pre-analysis PBS: QUEUED (Job 1379616.mmaster02 in state Q, routed from entry_imfdfkmq to normal_imfdfkmq, 01:00:00 walltime)
+H2 post-peak convergence: NOT EVALUATED (Job 1379615.mmaster02 failed before Abaqus; PBS exit 10; no ODB)
+MISESERI pre-analysis PBS: NOT EVALUATED (Job 1379616.mmaster02 failed before Abaqus; PBS exit 10; no ODB; staged deck hash matches corrected target)
 Stage F4 PBS execution contract & submission: COMPLETE (Both jobs queued under immutable run ID F4_20260729_081548_aeba4430; submission authority fully consumed; M-102 process deviation recorded)
 ```
 
@@ -29,11 +29,11 @@ Stage F4 PBS execution contract & submission: COMPLETE (Both jobs queued under i
 
 ```text
 Current task: F4-STAGE-F4-MONITOR-AND-VALIDATE
-Status: in_progress
-Classification: stage_f4_jobs_queued_monitoring_active
-active_job_ids: ["1379615.mmaster02", "1379616.mmaster02"]
-completed_job_ids: []
-failed_initial_job_ids: []
+Status: complete_failed
+Classification: stage_f4_two_job_pre_abaqus_git_guard_fail
+active_job_ids: []
+completed_job_ids: ["1379615.mmaster02", "1379616.mmaster02"]
+failed_initial_job_ids: ["1379615.mmaster02", "1379616.mmaster02"]
 execution_authorized: false
 submission_approved: false
 solver_authorized: false
@@ -62,4 +62,4 @@ retry_authorized: false
 
 ## Next Action
 
-Monitor running/queued Stage F4 jobs `1379615.mmaster02` and `1379616.mmaster02` read-only on cluster.
+Preserve the terminal failure evidence. No retry or replacement is authorized; any corrected execution requires new explicit human authorization.

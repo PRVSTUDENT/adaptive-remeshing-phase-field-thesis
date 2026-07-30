@@ -113,6 +113,7 @@ F4_H2_U020_STATIC_VALIDATOR,Stage F,scripts/validation/validate_mode_ii_h2_u020_
 F4_MISESERI_STATIC_VALIDATOR,Stage F,scripts/validation/validate_mode_ii_miseseri_corrected_pbs_static.py,script,active,gemini-antigravity,a978c1e740afe80255453e9b26122079828db3b4,,,Static validator for corrected MISESERI PBS package
 F4_MISESERI_RESULTS_VALIDATOR,Stage F,scripts/validation/validate_mode_ii_miseseri_preanalysis_results.py,script,active,gemini-antigravity,e66ba37dc4c639e0b61865cbb28893371a8f2149,,,Result validator for MISESERI pre-analysis ODB extraction evidence
 F4_EXECUTION_CONTRACT,Stage F,runs/hpc/stage_f/STAGE_F4_EXECUTION_CONTRACT.json,metadata,active,gemini-antigravity,120549aaa16d09f5954255629cc9280f3cfef697,,,Immutable Stage F4 execution contract pinning code revision ancestry and exact file hashes
-
+F4_H2_1379615_FAILURE_EVIDENCE,Stage F,runs/hpc/stage_f/stage_f4/evidence/1379615.mmaster02/,evidence,failed,codex,668694a041755612c18a3e78fd9900596ecf3ce5,1379615.mmaster02,,Scheduler accounting PBS stdout and explicit unavailable solver/postprocessing return codes
+F4_MISESERI_1379616_FAILURE_EVIDENCE,Stage F,runs/hpc/stage_f/stage_f4/evidence/1379616.mmaster02/,evidence,failed,codex,668694a041755612c18a3e78fd9900596ecf3ce5,1379616.mmaster02,,Scheduler accounting PBS stdout corrected deck hash and explicit unavailable solver/postprocessing return codes
 
 

@@ -1,0 +1,23 @@
+Job_Id=1379615.mmaster02
+Job_Name=ModeII_H2_u020_postpeak
+job_state=F
+submission_queue=entry_imfdfkmq
+execution_queue=normal_imfdfkmq
+Submit_arguments=05_mode_ii_h2_u020_postpeak.pbs
+Resource_List.select=1:ncpus=1:mem=16gb
+Resource_List.walltime=12:00:00
+resources_used.cput=00:00:00
+resources_used.mem=5820kb
+resources_used.walltime=00:00:01
+exec_host=mnode100/0
+qtime=Wed Jul 29 10:15:58 2026
+stime=Wed Jul 29 14:09:10 2026
+obittime=Wed Jul 29 14:09:14 2026
+mtime=Wed Jul 29 14:09:15 2026
+Exit_status=10
+Stageout_status=1
+Output_Path=mlogin01.cluster:/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4_20260729_081548_aeba4430/h2_u020/ModeII_H2_u020_postpeak.o1379615
+Error_Path=mlogin01.cluster:/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4_20260729_081548_aeba4430/h2_u020/ModeII_H2_u020_postpeak.e1379615
+PBS_O_WORKDIR=/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4_20260729_081548_aeba4430/h2_u020
+PBS_O_QUEUE=entry_imfdfkmq
+tracejob_result=not_retained_in_server_logs_when_queried_with_1_and_3_day_windows

@@ -1,18 +1,15 @@
 {
   "active": false,
-  "agent": "gemini-antigravity",
+  "agent": "codex",
   "allowed_scope": [
     "runs/hpc/stage_f/**",
-    "scripts/**",
-    "tests/unit/**",
     "project_coordination/**",
     "docs/**",
-    "models/generated/mode_ii/**",
     "results/**"
   ],
-  "completed_at": "2026-07-29T10:55:30Z",
-  "heartbeat": "2026-07-29T10:55:30Z",
+  "completed_at": "2026-07-30T06:31:01Z",
+  "heartbeat": "2026-07-30T06:31:01Z",
   "session_id": "F4-STAGE-F4-MONITOR-AND-VALIDATE",
-  "starting_commit": "7b25ff868c7b96552cec3809ab470a74ee6d38fd",
+  "starting_commit": "668694a041755612c18a3e78fd9900596ecf3ce5",
   "task_id": "F4-STAGE-F4-MONITOR-AND-VALIDATE"
 }
