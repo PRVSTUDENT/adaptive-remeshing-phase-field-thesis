@@ -9,7 +9,7 @@ Verifies:
 - Target displacement U1 = 0.001 mm
 - MISESERI, MISESAVG, S, E, EVOL, U, RF field output requests
 - Deck SHA: a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2
-- Unique Abaqus job name: ModeII_MISESERI_corrected_pbs
+- Unique short Abaqus/PBS job name: M2MISER1
 """
 
 from __future__ import annotations
@@ -68,7 +68,7 @@ def validate(package_dir: Path = PACKAGE_DIR) -> dict:
     check(pbs_path.is_file(), f"PBS script exists ({pbs_path})")
     if pbs_path.is_file():
         pbs_text = pbs_path.read_text(encoding="utf-8")
-        check('JOBNAME="ModeII_MISESERI_corrected_pbs"' in pbs_text, "PBS script specifies unique job name ModeII_MISESERI_corrected_pbs")
+        check('JOBNAME="M2MISER1"' in pbs_text, "PBS script specifies unique short job name M2MISER1")
 
     if manifest_path.is_file():
         try:
