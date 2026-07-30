@@ -16,6 +16,7 @@ Classification: `stage_f5_h2_compiler_datacheck_smoke_pass`
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
 | Submission Commit | `7b25ff868c7b96552cec3809ab470a74ee6d38fd` |
 | F5 offline preparation commit | `8779d12aded3e74638dd49e0dd9d619fe67dfce2` |
+| F5 compiler/datacheck closure | `a86853132b0dba934add4bde84ccf9e687987396` |
 
 ## F5 offline readiness
 

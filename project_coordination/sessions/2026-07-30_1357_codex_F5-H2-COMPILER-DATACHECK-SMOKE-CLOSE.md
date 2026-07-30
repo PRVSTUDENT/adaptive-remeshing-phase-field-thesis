@@ -33,8 +33,8 @@ record, compiler-environment method note, Stage F thesis chapter, project
 checklist and coordination ledgers were updated. No ODB, SIM, model, state,
 restart, object or shared-library artifact was copied or staged.
 
-Main closure commit: `PENDING_CLOSURE_COMMIT`  
-Metadata commit: `PENDING_METADATA_COMMIT`
+Main closure commit: `a86853132b0dba934add4bde84ccf9e687987396`
+Metadata commit: this follow-up commit (reported by exact SHA in the final response)
 
 ## Authorization boundary and next action
 

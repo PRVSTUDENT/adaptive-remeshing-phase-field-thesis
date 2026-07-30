@@ -82,4 +82,4 @@ applicable. The scratch ODB and other binary databases were not collected.
 
 Submission authority remains consumed (`1/1`); retries, replacements and
 automatic follow-up are false. Closure revision:
-`PENDING_CLOSURE_COMMIT`.
+`a86853132b0dba934add4bde84ccf9e687987396`.
