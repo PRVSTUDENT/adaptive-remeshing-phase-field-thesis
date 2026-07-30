@@ -1,0 +1,31 @@
+{
+  "run_id": "F4R1_20260730_065138_86ec6c79",
+  "qsub_attempts": 2,
+  "successful_submissions": 2,
+  "failed_qsub_attempts": 0,
+  "manual_qsub_calls": 0,
+  "retries": 0,
+  "h2": {
+    "job_id": "1379892.mmaster02",
+    "ABAQUS_RC": 1,
+    "EXT_RC": 999,
+    "VAL_RC": 999,
+    "classification": "stage_f4_h2_replacement_compile_environment_fail",
+    "diagnosis": "Abaqus user-subroutine compilation failed because ifort was unavailable in the compute-job environment."
+  },
+  "miseseri": {
+    "job_id": "1379893.mmaster02",
+    "original_pbs_codes": {
+      "ABAQUS_RC": 0,
+      "EXT_RC": 0,
+      "VAL_RC": 1,
+      "scheduler_exit": 12
+    },
+    "offline_repaired_validation_rc": 0,
+    "classification": "official_corrected_pbs_validation_pass",
+    "odb_sha256": "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac",
+    "csv_sha256": "49b0c5f7a784f361e846a7100370d5909e4e9e3faaa9c40694a40375c2e43ac5",
+    "summary_sha256": "3178331ca98e9fe451873d4bb706b4884e4c056153895585b1f841dd40fac170",
+    "validation_sha256": "99d577935a262fa5dab87e615bc924a7f15d11f2fe200df0ac2c2a3e3aeb9423"
+  }
+}

@@ -2,14 +2,17 @@
   "active": false,
   "agent": "codex",
   "allowed_scope": [
+    "models/generated/mode_ii/**",
+    "scripts/**",
+    "tests/unit/**",
     "runs/hpc/stage_f/**",
     "project_coordination/**",
     "docs/**",
     "results/**"
   ],
-  "completed_at": "2026-07-30T06:31:01Z",
-  "heartbeat": "2026-07-30T06:31:01Z",
-  "session_id": "F4-STAGE-F4-MONITOR-AND-VALIDATE",
-  "starting_commit": "668694a041755612c18a3e78fd9900596ecf3ce5",
-  "task_id": "F4-STAGE-F4-MONITOR-AND-VALIDATE"
+  "completed_at": "2026-07-30T06:56:14Z",
+  "heartbeat": "2026-07-30T06:56:14Z",
+  "session_id": "F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT",
+  "starting_commit": "f72514bf515d4d5abb0a0729de4c6a8e7e64bb3c",
+  "task_id": "F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT"
 }

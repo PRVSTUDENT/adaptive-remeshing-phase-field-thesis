@@ -1,0 +1,18 @@
+Job_Id=1379893.mmaster02
+Job_Name=M2MISER1
+job_state=F
+submission_queue=entry_imfdfkmq
+execution_queue=normal_imfdfkmq
+exec_host=mnode102/1
+Resource_List.select=1:ncpus=1:mem=16gb
+Resource_List.walltime=01:00:00
+resources_used.cput=00:00:05
+resources_used.mem=509756kb
+resources_used.vmem=7446060kb
+resources_used.walltime=00:00:15
+qtime=Thu Jul 30 08:51:45 2026
+stime=Thu Jul 30 08:51:48 2026
+obittime=Thu Jul 30 08:52:07 2026
+Exit_status=12
+Submit_arguments=06_mode_ii_miseseri_corrected_pbs.pbs
+PBS_O_WORKDIR=/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4R1_20260730_065138_86ec6c79/miseseri_corrected

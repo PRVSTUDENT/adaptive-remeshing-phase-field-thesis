@@ -1,0 +1,17 @@
+Job_Id=1379892.mmaster02
+Job_Name=M2H2U20R1
+job_state=F
+submission_queue=entry_imfdfkmq
+execution_queue=normal_imfdfkmq
+exec_host=mnode102/0
+Resource_List.select=1:ncpus=1:mem=16gb
+Resource_List.walltime=12:00:00
+resources_used.cput=00:00:01
+resources_used.mem=84984kb
+resources_used.walltime=00:00:04
+qtime=Thu Jul 30 08:51:45 2026
+stime=Thu Jul 30 08:51:46 2026
+obittime=Thu Jul 30 08:51:57 2026
+Exit_status=10
+Submit_arguments=05_mode_ii_h2_u020_postpeak.pbs
+PBS_O_WORKDIR=/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4R1_20260730_065138_86ec6c79/h2_u020

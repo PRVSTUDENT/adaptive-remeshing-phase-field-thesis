@@ -2,14 +2,14 @@
 
 Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f4_replacement_two_job_batch_authorized`
+Classification: `stage_f4_replacement_h2_compile_fail_miseseri_offline_repaired_pass`
 
 ## Git
 
 | Item | Value |
 |---|---|
 | Active job IDs | None |
-| Completed job IDs | `1379615.mmaster02`, `1379616.mmaster02` (both terminal failed) |
+| Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893` (all terminal) |
 | Active agent | None |
 | Active task | **F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT** |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
@@ -20,8 +20,8 @@ Classification: `stage_f4_replacement_two_job_batch_authorized`
 
 ```text
 H1-H2 elastic convergence: PASS (K_H1 = 12.8093 kN/mm, K_H2 = 12.7912 kN/mm, rel_diff = -0.1418%, 17 discrete points over U1 in [0.0003, 0.0019] mm / 19 CSV lines)
-H2 post-peak convergence: NOT EVALUATED (Job 1379615.mmaster02 failed before Abaqus; PBS exit 10; no ODB)
-MISESERI pre-analysis PBS: NOT EVALUATED (Job 1379616.mmaster02 failed before Abaqus; PBS exit 10; no ODB; staged deck hash matches corrected target)
+H2 post-peak convergence: NOT EVALUATED (replacement 1379892.mmaster02 failed compiling the user subroutine because ifort was unavailable; ABAQUS_RC=1; no ODB)
+MISESERI pre-analysis PBS: OFFICIAL CORRECTED PASS (replacement 1379893.mmaster02 solved and exported under PBS; original codes 0/0/1, offline repaired validator pass; 3930 rows; final U1=0.0010000000475 mm)
 Stage F4 PBS execution contract & submission: COMPLETE (Both jobs queued under immutable run ID F4_20260729_081548_aeba4430; submission authority fully consumed; M-102 process deviation recorded)
 ```
 
@@ -29,18 +29,18 @@ Stage F4 PBS execution contract & submission: COMPLETE (Both jobs queued under i
 
 ```text
 Current task: F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT
-Status: in_progress
-Classification: stage_f4_replacement_runtime_bundle_prepared_unapproved
+Status: complete_failed
+Classification: stage_f4_replacement_h2_compile_fail_miseseri_offline_repaired_pass
 active_job_ids: []
-completed_job_ids: ["1379615.mmaster02", "1379616.mmaster02"]
+completed_job_ids: ["1379615.mmaster02", "1379616.mmaster02", "1379892.mmaster02", "1379893.mmaster02"]
 failed_initial_job_ids: ["1379615.mmaster02", "1379616.mmaster02"]
-execution_authorized: true
-submission_approved: true
-solver_authorized: true
+execution_authorized: false
+submission_approved: false
+solver_authorized: false
 approved_submissions: 2
-submissions_used: 0
-actual_qsub_calls: 0
-maximum_jobs_now: 2
+submissions_used: 2
+actual_qsub_calls: 2
+maximum_jobs_now: 0
 automatic_retry_authorized: false
 retry_authorized: false
 ```
@@ -62,4 +62,4 @@ retry_authorized: false
 
 ## Next Action
 
-Execute the single repaired batch orchestrator exactly once for the two explicitly authorized replacements.
+Preserve the H2 compile-environment failure and official corrected MISESERI evidence. No retry or further replacement is authorized.

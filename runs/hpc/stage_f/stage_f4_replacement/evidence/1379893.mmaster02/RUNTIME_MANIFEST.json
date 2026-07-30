@@ -1,0 +1,21 @@
+{
+  "bundle_sha256": "9143866b7f33670e4ad6bb8c5b08b8a6a98af0f48679fcd5d082dfdeec5b4f08",
+  "expected_physical_element_count": 3930,
+  "extractor_sha256": "cb5433a516e5b8d36e82d1884c26c282d85f92b9d2a93b42fdd7f80d2e631e8f",
+  "generation_timestamp_utc": "2026-07-30T06:51:44.896004+00:00",
+  "h2_deck_sha256": null,
+  "h2_fortran_sha256": null,
+  "job_name": "M2MISER1",
+  "miseseri_deck_sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2",
+  "pbs_script_sha256": "cc3a4f61b086d4d25b17597669d61b616481b07a289be41b3811939430138cdc",
+  "queue": "entry_imfdfkmq",
+  "resources": {
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime": "01:00:00"
+  },
+  "run_id": "F4R1_20260730_065138_86ec6c79",
+  "source_git_revision": "86ec6c795b5256f6932981fd8fbd16a001cc841e",
+  "target_displacement_mm": 0.001,
+  "validator_sha256": "8cfeb424fc00e9728452236a816cdd799445a363ebe5f8615b58cdb6c22f10d3"
+}
