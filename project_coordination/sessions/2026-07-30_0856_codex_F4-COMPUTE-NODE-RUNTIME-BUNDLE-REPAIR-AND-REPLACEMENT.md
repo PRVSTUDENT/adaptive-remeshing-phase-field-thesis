@@ -12,6 +12,7 @@ Starting commit: `f72514bf515d4d5abb0a0729de4c6a8e7e64bb3c`
 - Corrected runtime contract: `e0a453b`
 - Explicit authorization: `f53d5c6bc34c1b1d7b87ea2ed0b9859db2d959d4`
 - Offline validator repair: `f4d4ef1`
+- Submission and evidence: `848cb85181fa77cc016210819eeeb93bd9a43d57`
 
 ## Qualification
 
