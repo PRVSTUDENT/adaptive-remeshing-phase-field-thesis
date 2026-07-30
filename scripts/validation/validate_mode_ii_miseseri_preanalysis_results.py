@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 
-PASS_CLASSIFICATION = "stage_f4_miseseri_preanalysis_pass"
+PASS_CLASSIFICATION = "official_corrected_pbs_validation_pass"
 FAIL_CLASSIFICATION = "stage_f4_miseseri_preanalysis_validation_fail"
 
 
@@ -55,13 +55,21 @@ def validate_results(
             with tech_json.open("r", encoding="utf-8") as f:
                 summary = json.load(f)
 
-            n_elems = summary.get("total_elements", 0)
-            check(n_elems == 3930, f"total_elements is 3930 (got {n_elems})")
+            n_elems = summary.get("instance_elements", summary.get("total_elements", 0))
+            n_rows = summary.get("n_csv_rows", 0)
+            check(n_elems == 3930, f"instance_elements is 3930 (got {n_elems})")
+            check(n_rows == 3930, f"n_csv_rows is 3930 (got {n_rows})")
 
             miseseri_max = summary.get("miseseri_max", 0.0)
-            check(miseseri_max > 0.0, f"miseseri_max is positive (got {miseseri_max})")
+            check(math.isfinite(miseseri_max) and miseseri_max > 0.0, f"miseseri_max is finite and positive (got {miseseri_max})")
+            check(summary.get("all_finite") is True, "all extracted values are finite")
+            check(summary.get("has_positive_nonzero") is True, "at least one MISESERI value is strictly positive")
 
-            final_u1 = summary.get("u1_mm", 0.0)
+            present = summary.get("field_present", {})
+            for field in ("MISESERI", "MISESAVG", "S", "E", "EVOL", "U", "RF"):
+                check(present.get(field) is True, f"required field {field} is present")
+
+            final_u1 = summary.get("U1_final", summary.get("u1_mm", 0.0))
             u1_err = abs(final_u1 - expected_u1_target)
             check(u1_err <= u1_tolerance, f"final U1 is within {u1_tolerance} mm of target {expected_u1_target} mm (got {final_u1})")
 

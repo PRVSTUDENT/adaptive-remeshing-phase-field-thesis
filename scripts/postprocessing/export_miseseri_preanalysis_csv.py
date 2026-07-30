@@ -182,7 +182,7 @@ def main():
     keys = list(fields.keys())
     print("field_keys=", sorted(str(k) for k in keys))
 
-    needed = ["MISESERI", "MISESAVG", "S", "EVOL", "U", "RF"]
+    needed = ["MISESERI", "MISESAVG", "S", "E", "EVOL", "U", "RF"]
     present = {}
     for k in needed:
         present[k] = k in keys

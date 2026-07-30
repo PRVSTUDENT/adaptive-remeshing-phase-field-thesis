@@ -73,7 +73,7 @@ if [ "${ABAQUS_RC}" -eq 0 ]; then
 fi
 
 if [ "${EXT_RC}" -eq 0 ]; then
-    abaqus python "runtime/scripts/validation/validate_mode_ii_h2_results.py" \
+    python3 "runtime/scripts/validation/validate_mode_ii_h2_results.py" \
         --evidence-dir extracted \
         --abaqus-return-code "${ABAQUS_RC}" \
         --extractor-return-code "${EXT_RC}" \
