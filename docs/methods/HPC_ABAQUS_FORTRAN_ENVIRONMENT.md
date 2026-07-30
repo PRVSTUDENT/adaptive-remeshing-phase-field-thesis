@@ -47,6 +47,12 @@ Therefore current module availability, site Abaqus environment files, module
 order sensitivity, compiler/linker versions and emitted compile/link commands
 are explicitly **not newly verified**.
 
+The separately authorized F5 compiler-smoke submission attempt repeated this
+mandatory preflight on 2026-07-30 and again received
+`Permission denied (publickey,password,hostbased)`. The stopping rule was
+applied before authorization activation: qstat/module inspection was not
+reached and qsub attempts remained zero.
+
 ## Qualification boundary
 
 The proposed `M2H2CMP1` job prints the module list, executable paths, compiler

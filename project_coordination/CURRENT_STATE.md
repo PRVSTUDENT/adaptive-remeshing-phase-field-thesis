@@ -2,7 +2,7 @@
 
 Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f5_offline_compiler_smoke_and_native_remesh_readiness_prepared`
+Classification: `stage_f5_h2_compiler_datacheck_smoke_blocked_ssh_authentication`
 
 ## Git
 
@@ -11,7 +11,7 @@ Classification: `stage_f5_offline_compiler_smoke_and_native_remesh_readiness_pre
 | Active job IDs | None |
 | Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893` (all terminal) |
 | Active agent | None |
-| Active task | **F5-H2-COMPILER-RECOVERY-AND-MISESERI-REMESH-READINESS** |
+| Active task | **F5-H2-COMPILER-DATACHECK-SMOKE-SUBMIT** |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
 | Submission Commit | `7b25ff868c7b96552cec3809ab470a74ee6d38fd` |
@@ -30,6 +30,16 @@ Classification: `stage_f5_offline_compiler_smoke_and_native_remesh_readiness_pre
   was generated and no solver/datacheck/qsub command ran.
 - `execution_authorized=false`, `submission_approved=false`,
   `solver_authorized=false`, `maximum_jobs_now=0`.
+
+## F5 compiler-smoke submission attempt
+
+Explicit one-job authorization was received, but the mandatory read-only
+cluster preflight failed at SSH authentication before `qstat` or module
+inspection. Authorization was never activated and no runtime was staged.
+`qsub_attempts=0`, `successful_submissions=0`, and no job ID exists.
+Classification:
+`stage_f5_h2_compiler_datacheck_smoke_blocked_ssh_authentication`.
+Any later attempt requires restored SSH access and new explicit authorization.
 
 ## Scientific Status Matrix
 

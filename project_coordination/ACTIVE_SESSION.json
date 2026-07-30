@@ -2,25 +2,20 @@
   "active": false,
   "agent": "codex",
   "allowed_scope": [
-    "configs/stage_f/**",
     "models/generated/mode_ii/h2_u020_compiler_datacheck_smoke/**",
     "scripts/hpc/stage_f/**",
-    "scripts/remeshing/**",
     "scripts/validation/**",
     "tests/unit/**",
     "runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/**",
     "project_coordination/**",
-    "docs/experiment_records/STAGE_F4_OFFICIAL_CORRECTED_MISESERI_PREANALYSIS.md",
+    "docs/experiment_records/STAGE_F5_H2_COMPILER_DATACHECK_SMOKE.md",
     "docs/methods/HPC_ABAQUS_FORTRAN_ENVIRONMENT.md",
-    "docs/project/PROJECT_ENVIRONMENT.md",
-    "docs/project/PROJECT_PHASE_CHECKLIST.md",
-    "results/processed/stage_f/**",
-    "results/tables/stage_f/**",
-    "results/figures/stage_f/**"
+    "docs/project/PROJECT_PHASE_CHECKLIST.md"
   ],
-  "completed_at": "2026-07-30T07:32:00Z",
-  "heartbeat": "2026-07-30T07:32:00Z",
-  "session_id": "F5-H2-COMPILER-RECOVERY-AND-MISESERI-REMESH-READINESS",
-  "starting_commit": "904934d5490d9dd636984a87e0c1681305a584f6",
-  "task_id": "F5-H2-COMPILER-RECOVERY-AND-MISESERI-REMESH-READINESS"
+  "completed_at": "2026-07-30T07:52:00Z",
+  "heartbeat": "2026-07-30T07:52:00Z",
+  "started_at": "2026-07-30T07:45:00Z",
+  "session_id": "F5-H2-COMPILER-DATACHECK-SMOKE-SUBMIT",
+  "starting_commit": "530f6571970df63f62a07a2894d202dd1edabff9",
+  "task_id": "F5-H2-COMPILER-DATACHECK-SMOKE-SUBMIT"
 }

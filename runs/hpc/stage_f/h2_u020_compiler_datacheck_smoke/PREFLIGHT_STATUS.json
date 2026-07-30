@@ -1,0 +1,16 @@
+{
+  "task_id": "F5-H2-COMPILER-DATACHECK-SMOKE-SUBMIT",
+  "timestamp_utc": "2026-07-30T07:46:00Z",
+  "target_host": "mlogin01.hrz.tu-freiberg.de",
+  "command_scope": "read-only hostname and qstat preflight",
+  "ssh_authenticated": false,
+  "scheduler_checked": false,
+  "environment_checked": false,
+  "error": "Permission denied (publickey,password,hostbased).",
+  "authorization_activated": false,
+  "runtime_staged": false,
+  "qsub_attempts": 0,
+  "successful_submissions": 0,
+  "job_id": null,
+  "classification": "stage_f5_h2_compiler_datacheck_smoke_blocked_ssh_authentication"
+}
