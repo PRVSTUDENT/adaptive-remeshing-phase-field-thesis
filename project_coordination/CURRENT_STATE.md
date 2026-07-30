@@ -2,7 +2,7 @@
 
 Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f4_replacement_runtime_bundle_prepared_unapproved`
+Classification: `stage_f4_replacement_two_job_batch_authorized`
 
 ## Git
 
@@ -34,13 +34,13 @@ Classification: stage_f4_replacement_runtime_bundle_prepared_unapproved
 active_job_ids: []
 completed_job_ids: ["1379615.mmaster02", "1379616.mmaster02"]
 failed_initial_job_ids: ["1379615.mmaster02", "1379616.mmaster02"]
-execution_authorized: false
-submission_approved: false
-solver_authorized: false
+execution_authorized: true
+submission_approved: true
+solver_authorized: true
 approved_submissions: 2
-submissions_used: 2
-actual_qsub_calls: 2
-maximum_jobs_now: 0
+submissions_used: 0
+actual_qsub_calls: 0
+maximum_jobs_now: 2
 automatic_retry_authorized: false
 retry_authorized: false
 ```
@@ -62,4 +62,4 @@ retry_authorized: false
 
 ## Next Action
 
-Publish the self-contained runtime contract, activate the explicit two-replacement authorization, and submit only through the guarded batch orchestrator.
+Execute the single repaired batch orchestrator exactly once for the two explicitly authorized replacements.
