@@ -1,6 +1,6 @@
 {
   "task_id": "F5-H2-COMPILER-DATACHECK-SMOKE-EXECUTE",
-  "status": "consumed",
+  "status": "consumed_complete",
   "authorization_phrase_received": true,
   "authorization_phrase": "authorize one H2 compiler datacheck smoke submission",
   "execution_authorized": false,
@@ -22,5 +22,13 @@
   "cpus": 1,
   "memory_gb": 8,
   "walltime": "00:30:00",
-  "pbs_job_id": "1379939.mmaster02"
+  "pbs_job_id": "1379939.mmaster02",
+  "final_scheduler_state": "F",
+  "scheduler_exit": 0,
+  "abaqus_return_code": 0,
+  "final_validation_classification": "stage_f5_h2_compiler_datacheck_smoke_pass",
+  "final_evidence_directory": "runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/evidence/1379939.mmaster02",
+  "experiment_record": "docs/experiment_records/STAGE_F5_H2_COMPILER_DATACHECK_SMOKE.md",
+  "final_status": "complete",
+  "closure_revision": "PENDING_CLOSURE_COMMIT"
 }

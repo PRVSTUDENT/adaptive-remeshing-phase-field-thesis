@@ -1,0 +1,65 @@
+Job Id: 1379939.mmaster02
+    Job_Name = M2H2CMP1
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 65
+    resources_used.cput = 00:00:12
+    resources_used.mem = 957660kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 866276kb
+    resources_used.walltime = 00:00:19
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Thu Jul 30 13:37:24 2026
+    Error_Path = mlogin01.cluster:/scratch/pr21vyci/adaptive-remeshing/runs/sta
+	ge_f5/F5CMP_20260730_113544_e8a1d32/h2_compiler_datacheck/M2H2CMP1.e137
+	9939
+    exec_host = mnode105/0
+    exec_vnode = (mnode105[0]:ncpus=1:mem=8388608kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Thu Jul 30 13:55:30 2026
+    Output_Path = mlogin01.cluster:/scratch/pr21vyci/adaptive-remeshing/runs/st
+	age_f5/F5CMP_20260730_113544_e8a1d32/h2_compiler_datacheck/M2H2CMP1.o13
+	79939
+    Priority = 0
+    qtime = Thu Jul 30 13:37:25 2026
+    Rerunable = True
+    Resource_List.mem = 8gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=8gb
+    Resource_List.walltime = 00:30:00
+    stime = Thu Jul 30 13:55:04 2026
+    obittime = Thu Jul 30 13:55:29 2026
+    session_id = 139138
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1379939.mmaster02.x8z
+    substate = 92
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/scratch/pr21vyci/adaptive-remeshing/runs/stage_f5/F5CMP
+	_20260730_113544_e8a1d32/h2_compiler_datacheck,PBS_O_SYSTEM=Linux,
+	F5_RUN_ID=F5CMP_20260730_113544_e8a1d32,PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Thu Jul 30 at 13:55 on (mnode105[0]:ncpus=1:mem=838860
+	8kb) and finished
+    etime = Thu Jul 30 13:37:25 2026
+    run_count = 1
+    eligible_time = 00:17:43
+    Stageout_status = 1
+    Exit_status = 0
+    Submit_arguments = -v F5_RUN_ID=F5CMP_20260730_113544_e8a1d32 M2H2CMP1.pbs
+    estimated.exec_vnode = (mnode100[0]:ncpus=1:mem=8388608kb)
+    estimated.start_time = Thu Jul 30 20:11:32 2026
+    history_timestamp = 1785412530
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+

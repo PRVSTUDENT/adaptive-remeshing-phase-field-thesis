@@ -94,5 +94,20 @@ transport and executable visibility, not H2 user-subroutine compilation.
 
 The proposed `M2H2CMP1` job prints the module list, executable paths, compiler
 versions and Abaqus system/release information; verifies the exact deck and
-Fortran hashes; and runs only `datacheck interactive`. Compilation must not
-be described as verified until that separately authorized PBS job passes.
+Fortran hashes; and runs only `datacheck interactive`.
+
+## H2 compilation and datacheck qualification
+
+PBS job `1379939.mmaster02` completed the proposed qualification on
+`mnode105/0`. With the selected module order, Abaqus 2023 invoked ifort
+2021.13.0, compiled and linked the exact frozen H2 UEL/UMAT source, and
+completed datacheck with Abaqus return code 0. All staged input hashes matched.
+The final classification is
+`stage_f5_h2_compiler_datacheck_smoke_pass`.
+
+The retained evidence is under
+`runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/evidence/1379939.mmaster02/`.
+The raw job `STATUS.json` is malformed only in its multi-file grep counters;
+the scheduler record, compiler status, hash check and Abaqus text logs provide
+the closure evidence. This qualification does not validate a full H2 solve or
+any scientific fracture result.

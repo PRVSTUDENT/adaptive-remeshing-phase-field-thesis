@@ -60,8 +60,20 @@ Stage F3 established both the fine uniform reference baseline ($H_2$ mesh level)
 \begin{itemize}
     \item \textbf{Fine Uniform Reference $H_2$ Elastic Parity (\texttt{1379578.mmaster02}):} The $H_2$ uniform reference serial solver run ($N_{\mathrm{elem}} = 33,852$ physical UEL elements, $h_2 \approx 0.0025\,\text{mm}$ around notch tip) was executed on node \texttt{mnode104/0} using Abaqus 2023 with 1 CPU and 16\,GB memory, completing all 2,023 increments across 2 steps cleanly in 2\,h 04\,m walltime ($7,175.0\,\text{s}$ CPU time, $1.42\,\text{GB}$ memory). Under unified linear regression over the shared elastic window $0.0002\,\text{mm} \le U_1 \le 0.0020\,\text{mm}$ (19 points, $R^2 = 1.0000$), $H_2$ initial stiffness is $K_{\mathrm{H2}} = 12.7912\,\text{kN/mm}$, which matches $H_1$ ($K_{\mathrm{H1}} = 12.8093\,\text{kN/mm}$) to within $-0.1418\%$, establishing elastic parity. The preliminary $460.69\,\text{kN/mm}$ value was invalidated as an extraction sampling artifact.
     \item \textbf{H2 Nonlinear Fracture Status:} Because Job \texttt{1379578.mmaster02} stopped at the prescribed Step-2 displacement endpoint $U_1 = 0.0070\,\text{mm}$ ($RF_1 = 0.08747\,\text{kN}$, $d_{\max} = 0.119955$), execution remained strictly in the pre-peak elastic damage regime before the peak load ($U_1 = 0.0120\,\text{mm}$). Consequently, global post-peak softening for $H_2$ is classified as \texttt{fracture\_convergence\_unresolved}.
-    \item \textbf{MISESERI Provenance Repair:} Official PBS Job \texttt{1379579.mmaster02} failed due to a node-parsing deck generator defect (\texttt{technical\_result\_unusable\_due_to_generator_defect}). A subsequent exploratory interactive run ($N_{\mathrm{elem}} = 3,930$ \texttt{CPE4} plane-strain elements, 15 coincident node pairs) yielded 3,930 finite element records with positive error indicator $\text{MISESERI} \in [0.0000687, 0.1870114]\,\text{GPa}$ at load $U_1 = 0.0010\,\text{mm}$ ($RF_1 = 0.04607\,\text{kN}$). Process violations M-099 and M-100 were recorded, and corrective evidence was relocated to \texttt{corrective\_interactive\_runs/2026-07-29T070232\_CEST/}.
+    \item \textbf{MISESERI Provenance Repair:} Official PBS Job \texttt{1379579.mmaster02} failed due to a node-parsing deck generator defect (classification: \texttt{technical-result-unusable-due-to-generator-defect}). A subsequent exploratory interactive run ($N_{\mathrm{elem}} = 3,930$ \texttt{CPE4} plane-strain elements, 15 coincident node pairs) yielded 3,930 finite element records with positive error indicator $\text{MISESERI} \in [0.0000687, 0.1870114]\,\text{GPa}$ at load $U_1 = 0.0010\,\text{mm}$ ($RF_1 = 0.04607\,\text{kN}$). Process violations M-099 and M-100 were recorded, and corrective evidence was relocated to \texttt{corrective\_interactive\_runs/2026-07-29T070232\_CEST/}.
 \end{itemize}
+
+\subsection{Stage F5 $H_2$ Compiler and Datacheck Qualification}
+PBS job \texttt{1379939.mmaster02} qualified the frozen $H_2$,
+$U_1=0.020\,\mathrm{mm}$ package in the selected cluster environment. Abaqus
+2023 invoked ifort 2021.13.0, compiled and linked the exact UEL/UMAT source,
+and completed datacheck with both PBS and Abaqus return codes equal to zero.
+The job used one CPU on \texttt{mnode105/0}, required 19 seconds wall time and
+957,660\,kB scheduler-reported memory, and passed all staged-file hash checks.
+This result removes compiler availability as the immediate blocker, but it is
+strictly a technical datacheck qualification: no full analysis was run and no
+post-peak response, fracture convergence, remeshing accuracy, or parallel
+safety claim follows from it.
 
 \section{Reproducibility Paths}
 All extracted CSV curves, summaries, field contours, log files, and execution manifests are archived in the canonical repository evidence paths:
@@ -73,6 +85,7 @@ All extracted CSV curves, summaries, field contours, log files, and execution ma
 \texttt{runs/hpc/stage\_f/mode\_ii\_h1\_endpoint\_sweep/evidence/1379483.mmaster02/}\\
 \texttt{runs/hpc/stage\_f/mode\_ii\_h1\_endpoint\_sweep/evidence/1379484.mmaster02/}\\
 \texttt{runs/hpc/stage\_f/miseseri\_preanalysis/evidence/1379579.mmaster02/}\\
-\texttt{runs/hpc/stage\_f/mode\_ii\_h2/evidence/1379578.mmaster02/}
+\texttt{runs/hpc/stage\_f/mode\_ii\_h2/evidence/1379578.mmaster02/}\\
+\texttt{runs/hpc/stage\_f/h2\_u020\_compiler\_datacheck\_smoke/evidence/1379939.mmaster02/}
 \end{quote}
 Main closure commit SHA: recorded in multi-agent coordination ledgers.

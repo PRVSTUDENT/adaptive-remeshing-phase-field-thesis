@@ -1,0 +1,18 @@
+{
+  "source_git_sha": "e8a1d32210261745413c12bfe5e378f7fcc14498",
+  "run_id": "F5CMP_20260730_113544_e8a1d32",
+  "job_name": "M2H2CMP1",
+  "generation_timestamp_utc": "2026-07-30T11:35:44Z",
+  "classification": "h2_compiler_datacheck_only",
+  "module_sequence": ["gcc/11.4.0", "intel/2024.2.0", "abaqus/2023"],
+  "deck_sha256": "fdcd6ee1b1d6cbfb88d59a3edfb7f1c6b35cecde736a427f6b3030b0443b10bf",
+  "fortran_sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37",
+  "pbs_sha256": "a41b777bb15aa32828d46f229327620aae338cff40fc0d97cc9b52b6235e4f9d",
+  "abaqus_version_expected": "Abaqus 2023",
+  "ifort_path_expected": "/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort",
+  "ifx_path_expected": "/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifx",
+  "queue": "entry_imfdfkmq",
+  "resources": {"cpus": 1, "memory_gb": 8, "walltime": "00:30:00"},
+  "full_analysis_authorized": false,
+  "automatic_followup_authorized": false
+}

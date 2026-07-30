@@ -1,0 +1,26 @@
+{
+  "task_id": "F5-H2-COMPILER-DATACHECK-SMOKE-EXECUTE",
+  "job_id": "1379939.mmaster02",
+  "job_name": "M2H2CMP1",
+  "source_revision": "e8a1d32210261745413c12bfe5e378f7fcc14498",
+  "scheduler_state": "F",
+  "scheduler_exit": 0,
+  "abaqus_return_code": 0,
+  "compiler_detected": true,
+  "compilation_passed": true,
+  "linking_passed": true,
+  "datacheck_passed": true,
+  "input_hash_check_passed": true,
+  "compiler": "ifort 2021.13.0",
+  "abaqus": "Abaqus 2023",
+  "warnings": [
+    "ifort deprecation and deprecated -extend_source option",
+    "exact-time output changed to approximate time for direct incrementation",
+    "element output requests unsupported for user elements",
+    "inactive DOF 1 boundary condition ignored on node 33961",
+    "raw STATUS.json is invalid JSON because grep counters emitted one line per input file"
+  ],
+  "classification": "stage_f5_h2_compiler_datacheck_smoke_pass",
+  "claim_boundary": "The exact frozen H2 deck and user subroutine compile, link, and pass Abaqus 2023 datacheck in the selected HPC module environment. No full analysis or scientific fracture result was produced.",
+  "retry_authorized": false
+}

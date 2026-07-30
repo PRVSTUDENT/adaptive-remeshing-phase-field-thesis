@@ -1,0 +1,32 @@
+{
+  "job_id": "1379939.mmaster02",
+  "job_name": "M2H2CMP1",
+  "run_id": "F5CMP_20260730_113544_e8a1d32",
+  "hostname": "mnode105.cluster",
+  "module_sequence": ["gcc/11.4.0", "intel/2024.2.0", "abaqus/2023"],
+  "ifort_path": "/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort",
+  "ifort_version": "ifort (IFORT) 2021.13.0 20240602",
+  "ifx_path": "/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifx",
+  "ifx_version": "ifx (IFX) 2024.2.0 20240602",
+  "selected_compiler": "ifort",
+  "abaqus_path": "/cluster/application/abaqus/2023/Commands/abaqus",
+  "abaqus_version": "Abaqus 2023",
+  "deck_sha256": "fdcd6ee1b1d6cbfb88d59a3edfb7f1c6b35cecde736a427f6b3030b0443b10bf",
+  "fortran_sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37",
+  "compiler_detected": true,
+  "compilation_attempted": true,
+  "compilation_passed": true,
+  "linking_attempted": true,
+  "linking_passed": true,
+  "datacheck_attempted": true,
+  "datacheck_passed": true,
+  "abaqus_return_code": 0,
+  "error_count": abaqus_stdout.log:0
+M2H2CMP1.dat:0
+M2H2CMP1.msg:0,
+  "warning_count": abaqus_stdout.log:1
+M2H2CMP1.dat:9
+M2H2CMP1.msg:0,
+  "final_classification": "datacheck_pass",
+  "final_exit_code": 0
+}

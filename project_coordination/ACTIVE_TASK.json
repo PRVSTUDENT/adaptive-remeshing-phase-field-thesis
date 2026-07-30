@@ -2,9 +2,9 @@
   "protocol_version": 1,
   "task_id": "F5-H2-COMPILER-DATACHECK-SMOKE-EXECUTE",
   "title": "Submit monitor and validate exactly one H2 compiler/datacheck smoke job",
-  "status": "submitted_monitoring",
-  "classification": "stage_f5_h2_compiler_datacheck_smoke_submitted",
-  "active_job_ids": ["1379939.mmaster02"],
+  "status": "complete",
+  "classification": "stage_f5_h2_compiler_datacheck_smoke_pass",
+  "active_job_ids": [],
   "execution_authorized": false,
   "submission_approved": false,
   "solver_authorized": false,
@@ -20,5 +20,11 @@
   "maximum_jobs_now": 0,
   "maximum_running_jobs": 1,
   "pbs_job_id": "1379939.mmaster02",
-  "run_id": "F5CMP_20260730_113544_e8a1d32"
+  "run_id": "F5CMP_20260730_113544_e8a1d32",
+  "final_scheduler_state": "F",
+  "scheduler_exit": 0,
+  "abaqus_return_code": 0,
+  "validation_classification": "stage_f5_h2_compiler_datacheck_smoke_pass",
+  "evidence_directory": "runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/evidence/1379939.mmaster02",
+  "next_action": "Prepare the native MISESERI remesh workflow only under a new recorded task; no solver or submission authority exists."
 }

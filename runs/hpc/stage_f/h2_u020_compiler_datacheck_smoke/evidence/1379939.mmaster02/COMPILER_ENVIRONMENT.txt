@@ -1,0 +1,21 @@
+gcc/11.4.0
+tbb/.latest
+compiler-rt/.latest
+compiler/.latest
+ifort/.latest
+intel/2024.2.0
+abaqus/2023
+PBS_JOBID=1379939.mmaster02
+hostname=mnode105.cluster
+date=2026-07-30T11:55:09Z
+PBS_O_WORKDIR=/scratch/pr21vyci/adaptive-remeshing/runs/stage_f5/F5CMP_20260730_113544_e8a1d32/h2_compiler_datacheck
+PATH=/cluster/application/abaqus/2023/Commands:/cluster/application/abaqus/2023/SIMULIA_Abaqus_CAE/Commands:/cluster/application/abaqus/2023/linux_a64/code/bin:/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin:/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-skylake_avx512/gcc-8.5.0/gcc-11.4.0-5swjn3h5f72ujciykzrskkja3k4bvaub/bin:/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-linux:/home/pr21vyci/.local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/pbs/bin:/usr/local/bin
+LD_LIBRARY_PATH=/cluster/application/abaqus/2023/Commands:/cluster/application/abaqus/2023/linux_a64/code/bin:/cluster/application/abaqus/2023/linux_a64/code/lib:/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/opt/compiler/lib:/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/lib:/cluster/stages/2024.0/software/intel/2024.2/tbb/2021.13/lib
+LIBRARY_PATH=/cluster/application/abaqus/2023/linux_a64/code/lib:/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/lib:/cluster/stages/2024.0/software/intel/2024.2/tbb/2021.13/lib
+CPATH=/cluster/stages/2024.0/software/intel/2024.2/tbb/2021.13/include
+ifort=/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort
+ifx=/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifx
+abaqus=/cluster/application/abaqus/2023/Commands/abaqus
+ifort (IFORT) 2021.13.0 20240602
+ifx (IFX) 2024.2.0 20240602
+Abaqus 2023

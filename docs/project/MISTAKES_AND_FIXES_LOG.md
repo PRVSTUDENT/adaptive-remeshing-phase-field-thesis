@@ -362,6 +362,23 @@ Evidence paths: `project_coordination/ACTIVE_TASK.json`
 Prevention rule: Multi-agent bootstrap rules in `AGENTS.md` strictly prohibit `git reset --hard`. Agents must use selective `git add` and explicit path management only.
 Status: resolved (process violation recorded)
 
+## Stage F5 compiler-smoke status JSON counter serialization defect (2026-07-30)
+
+ID: M-103
+Date: 2026-07-30
+Stage/job: Stage F / `1379939.mmaster02`
+Source commit: `e8a1d32210261745413c12bfe5e378f7fcc14498`
+Classification: `stage_f5_status_json_counter_serialization_defect`
+Symptom: The terminal job passed, but the generated `STATUS.json` could not be parsed as JSON.
+Root cause: `grep -Eic` was invoked with multiple filenames and its filename-prefixed, multi-line output was inserted unquoted into the numeric `error_count` and `warning_count` fields.
+Scientific inputs changed: no
+Correction: Preserved the raw status file and classified the immutable job from the final PBS record, compiler status, hash check and Abaqus text logs. No runtime script was changed and no job was retried.
+Retry job: none
+Outcome: Technical compile/link/datacheck pass remains established; the evidence-quality defect is explicit.
+Evidence paths: `runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/evidence/1379939.mmaster02/STATUS.json`; `runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/evidence/1379939.mmaster02/VALIDATION_SUMMARY.json`
+Prevention rule: Aggregate grep counts numerically before JSON serialization and validate every generated JSON file with a parser before using it as the sole acceptance record.
+Status: recorded; future script repair requires a separate task
+
 
 
 
