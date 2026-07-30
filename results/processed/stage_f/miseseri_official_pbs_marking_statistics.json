@@ -1,0 +1,93 @@
+{
+  "above_p75": {
+    "bounding_box": {
+      "xmax": 0.4969029426574707,
+      "xmin": -0.48551782965660095,
+      "ymax": 0.4858463853597641,
+      "ymin": -0.4829104468226433
+    },
+    "count": 983,
+    "hotspot_distance_from_notch_tip": {
+      "assumed_notch_tip": [
+        0.0,
+        0.0
+      ],
+      "max": 0.6797178164784115,
+      "min": 0.003928897943724644
+    },
+    "percentage": 25.012722646310433,
+    "threshold": 0.0015059475845191628
+  },
+  "above_p90": {
+    "bounding_box": {
+      "xmax": 0.49383731186389923,
+      "xmin": -0.48551782965660095,
+      "ymax": 0.4858463853597641,
+      "ymin": -0.48277145624160767
+    },
+    "count": 393,
+    "hotspot_distance_from_notch_tip": {
+      "assumed_notch_tip": [
+        0.0,
+        0.0
+      ],
+      "max": 0.6797178164784115,
+      "min": 0.003928897943724644
+    },
+    "percentage": 10.0,
+    "threshold": 0.0027496147202327845
+  },
+  "above_p95": {
+    "bounding_box": {
+      "xmax": 0.4827481806278229,
+      "xmin": -0.48433803766965866,
+      "ymax": 0.48505616933107376,
+      "ymin": -0.4821043163537979
+    },
+    "count": 197,
+    "hotspot_distance_from_notch_tip": {
+      "assumed_notch_tip": [
+        0.0,
+        0.0
+      ],
+      "max": 0.6797178164784115,
+      "min": 0.003928897943724644
+    },
+    "percentage": 5.012722646310433,
+    "threshold": 0.003980477666482329
+  },
+  "above_p99": {
+    "bounding_box": {
+      "xmax": 0.48032620549201965,
+      "xmin": -0.05508045945316553,
+      "ymax": 0.47976886481046677,
+      "ymin": -0.48093975335359573
+    },
+    "count": 40,
+    "hotspot_distance_from_notch_tip": {
+      "assumed_notch_tip": [
+        0.0,
+        0.0
+      ],
+      "max": 0.6797178164784115,
+      "min": 0.003928897943724644
+    },
+    "percentage": 1.0178117048346056,
+    "threshold": 0.014944478580728192
+  },
+  "connected_regions": {
+    "reason": "CSV contains centroids/connectivity labels but no element-neighbor graph",
+    "status": "not_computed"
+  },
+  "count": 3930,
+  "max": 0.18701137602329254,
+  "mean": 0.001633144879951595,
+  "median": 0.0006781403499189764,
+  "min": 6.865544128231704e-05,
+  "p75": 0.0015059475845191628,
+  "p90": 0.0027496147202327845,
+  "p95": 0.003980477666482329,
+  "p99": 0.014944478580728192,
+  "source_csv_sha256": "49b0c5f7a784f361e846a7100370d5909e4e9e3faaa9c40694a40375c2e43ac5",
+  "source_job_id": "1379893.mmaster02"
+}

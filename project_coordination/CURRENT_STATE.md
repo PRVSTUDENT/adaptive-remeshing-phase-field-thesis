@@ -2,7 +2,7 @@
 
 Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f4_replacement_h2_compile_fail_miseseri_offline_repaired_pass`
+Classification: `stage_f5_offline_compiler_and_native_remesh_readiness`
 
 ## Git
 
@@ -10,8 +10,8 @@ Classification: `stage_f4_replacement_h2_compile_fail_miseseri_offline_repaired_
 |---|---|
 | Active job IDs | None |
 | Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893` (all terminal) |
-| Active agent | None |
-| Active task | **F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT** |
+| Active agent | Codex |
+| Active task | **F5-H2-COMPILER-RECOVERY-AND-MISESERI-REMESH-READINESS** |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
 | Submission Commit | `7b25ff868c7b96552cec3809ab470a74ee6d38fd` |

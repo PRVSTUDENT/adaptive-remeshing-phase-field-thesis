@@ -1,0 +1,29 @@
+{
+  "classification": "h2_compiler_datacheck_smoke_prepared_unapproved",
+  "job_name": "M2H2CMP1",
+  "purpose": "Compile the exact H2 U1=0.020 user subroutine and run Abaqus datacheck only.",
+  "scientific_input_policy": "reference canonical immutable inputs; do not modify or overwrite",
+  "deck": {
+    "path": "../h2_uniform_serial_u020_postpeak/ModeII_H2_uniform_serial.inp",
+    "sha256": "fdcd6ee1b1d6cbfb88d59a3edfb7f1c6b35cecde736a427f6b3030b0443b10bf"
+  },
+  "fortran": {
+    "path": "../h2_uniform_serial_u020_postpeak/ModeII_H2_uniform_serial.for",
+    "sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37"
+  },
+  "resources": {
+    "queue": "entry_imfdfkmq",
+    "cpus": 1,
+    "memory_gb": 8,
+    "walltime": "00:30:00"
+  },
+  "module_sequence_candidate": [
+    "gcc/11.4.0",
+    "intel/2024.2.0",
+    "abaqus/2023"
+  ],
+  "execution_authorized": false,
+  "submission_approved": false,
+  "solver_authorized": false,
+  "automatic_full_job_submission": false
+}

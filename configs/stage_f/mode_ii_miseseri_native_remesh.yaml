@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "source": {
+    "job_id": "1379893.mmaster02",
+    "classification": "official_corrected_pbs_validation_pass",
+    "odb_sha256": "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac",
+    "csv_sha256": "49b0c5f7a784f361e846a7100370d5909e4e9e3faaa9c40694a40375c2e43ac5",
+    "deck_path": "models/generated/mode_ii/miseseri_preanalysis_corrected_pbs/ModeII_MISESERI_preanalysis.inp",
+    "deck_sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2"
+  },
+  "publication_faithful_baseline": {
+    "variables": ["MISESERI"],
+    "sizingMethod": "UNIFORM_ERROR",
+    "errorTarget": 1.0,
+    "specifyMinSize": true,
+    "specifyMaxSize": true,
+    "coarseningFactor": "NOT_ALLOWED",
+    "refinementFactor": 10,
+    "provenance": "publication_faithful"
+  },
+  "project_selected": {
+    "minimum_element_size_mm": 0.001,
+    "maximum_element_size_mm": 0.01,
+    "remeshing_pass_count": 1,
+    "target_local_h_over_lc": 0.1,
+    "diagnostic_percentiles": [75, 90, 95, 99],
+    "provenance": "project_selected"
+  },
+  "integrity_contract": {
+    "required_sets": ["All_elem", "umatelem"],
+    "expected_slit_topology": "true_coincident_node_pairs_retained",
+    "expected_plane_strain_element_family": ["CPE4", "U1"],
+    "source_label_policy": "preserve source labels in audit records",
+    "destination_label_policy": "deterministic disjoint physical and visualization ranges",
+    "coarsening_policy": "NOT_ALLOWED"
+  },
+  "execution": {
+    "default_mode": "audit",
+    "native_remesh_executed": false,
+    "refined_deck_generated": false,
+    "solver_launch_allowed": false
+  }
+}

@@ -1,61 +1,25 @@
 {
+  "protocol_version": 1,
+  "task_id": "F5-H2-COMPILER-RECOVERY-AND-MISESERI-REMESH-READINESS",
+  "title": "Recover the verified Abaqus UEL compiler environment and prepare the first native MISESERI remeshing package",
+  "status": "in_progress",
+  "classification": "stage_f5_offline_compiler_and_native_remesh_readiness",
   "active_job_ids": [],
   "completed_job_ids": [
-    "1379615.mmaster02",
-    "1379616.mmaster02",
     "1379892.mmaster02",
     "1379893.mmaster02"
   ],
-  "failed_initial_job_ids": [
-    "1379615.mmaster02",
-    "1379616.mmaster02"
-  ],
-  "authorization_file": "runs/hpc/stage_f/MODE_II_STAGE_F4_AUTHORIZATION_PROPOSAL.json",
+  "execution_lane": "offline_only",
+  "authorization_file": "runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/AUTHORIZATION_PROPOSAL.json",
+  "execution_authorized": false,
+  "submission_approved": false,
+  "solver_authorized": false,
+  "datacheck_authorized": false,
   "automatic_retry_authorized": false,
   "retry_authorized": false,
-  "classification": "stage_f4_replacement_h2_compile_fail_miseseri_offline_repaired_pass",
-  "datacheck_authorized": false,
-  "execution_authorized": false,
-  "solver_authorized": false,
-  "submission_approved": false,
-  "execution_lane": "runs/hpc/stage_f/",
-  "maximum_batch_submissions": 2,
+  "approved_submissions": 1,
+  "submissions_used": 0,
+  "actual_qsub_calls": 0,
   "maximum_jobs_now": 0,
-  "maximum_running_jobs": 2,
-  "approved_submissions": 2,
-  "submissions_used": 2,
-  "actual_qsub_calls": 2,
-  "qsub_attempts": 2,
-  "successful_submissions": 2,
-  "failed_qsub_attempts": 0,
-  "expected_execution_git_sha": "aeba443022c926e7b8abf0feb4d8ed902f463fc8",
-  "execution_contract_git_sha": "120549aaa16d09f5954255629cc9280f3cfef697",
-  "miseseri_provenance_repaired": true,
-  "process_violations_recorded": [
-    "M-099",
-    "M-100",
-    "M-101",
-    "M-102"
-  ],
-  "next_action": "Preserve H2 compile-environment failure and use official corrected MISESERI PBS evidence; no retry is authorized",
-  "next_task_after_pass": null,
-  "package_path": "models/generated/mode_ii/h2_uniform_serial_u020_postpeak",
-  "preparation_revision": "7b25ff868c7b96552cec3809ab470a74ee6d38fd",
-  "protocol_version": 1,
-  "status": "complete_failed",
-  "task_id": "F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT",
-  "telegram_notification_traps_integrated": true,
-  "title": "Replace failed pre-Abaqus Stage F4 jobs using self-contained compute-node runtime bundles",
-  "variant_job_map": {
-    "job_a_h2_u020": "models/generated/mode_ii/h2_uniform_serial_u020_postpeak",
-    "job_b_miseseri": "models/generated/mode_ii/miseseri_preanalysis_corrected_pbs"
-  },
-  "process_violations": [
-    "Two replacement jobs (1379578/1379579) submitted after initial job failures (1379576/1379577) exceeding approved boundary of 2 submissions",
-    "git reset --hard origin/main executed contrary to repository safety policy",
-    "M-099: Unauthorized interactive replacement solver execution on cluster (mlogin01)",
-    "M-100: Original PBS evidence path reused or overwritten by exploratory interactive extraction",
-    "M-101: Destructive cluster git cleanup (git checkout -- . and git clean -f scripts/)",
-    "M-102: Guarded batch orchestrator was invoked, but final scheduler jobs were submitted through direct manual qsub commands from prepared immutable run directories"
-  ]
+  "next_action": "Complete offline tests and publish the unapproved H2 compiler/datacheck smoke and native MISESERI remeshing readiness artifacts"
 }

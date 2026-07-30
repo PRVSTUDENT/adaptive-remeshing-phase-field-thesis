@@ -1,0 +1,35 @@
+{
+  "classification": "native_miseseri_remesh_audit_pass",
+  "mode": "audit",
+  "native_remesh_executed": false,
+  "project_selected": {
+    "diagnostic_percentiles": [
+      75,
+      90,
+      95,
+      99
+    ],
+    "maximum_element_size_mm": 0.01,
+    "minimum_element_size_mm": 0.001,
+    "provenance": "project_selected",
+    "remeshing_pass_count": 1,
+    "target_local_h_over_lc": 0.1
+  },
+  "refined_deck_generated": false,
+  "rule_parameters": {
+    "coarseningFactor": "NOT_ALLOWED",
+    "errorTarget": 1.0,
+    "provenance": "publication_faithful",
+    "refinementFactor": 10,
+    "sizingMethod": "UNIFORM_ERROR",
+    "specifyMaxSize": true,
+    "specifyMinSize": true,
+    "variables": [
+      "MISESERI"
+    ]
+  },
+  "solver_execution_count": 0,
+  "source_job_id": "1379893.mmaster02",
+  "source_odb_sha256_expected": "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac",
+  "source_odb_verified": false
+}

@@ -1,18 +1,26 @@
 {
-  "active": false,
+  "active": true,
   "agent": "codex",
   "allowed_scope": [
-    "models/generated/mode_ii/**",
-    "scripts/**",
+    "configs/stage_f/**",
+    "models/generated/mode_ii/h2_u020_compiler_datacheck_smoke/**",
+    "scripts/hpc/stage_f/**",
+    "scripts/remeshing/**",
+    "scripts/validation/**",
     "tests/unit/**",
-    "runs/hpc/stage_f/**",
+    "runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/**",
     "project_coordination/**",
-    "docs/**",
-    "results/**"
+    "docs/experiment_records/STAGE_F4_OFFICIAL_CORRECTED_MISESERI_PREANALYSIS.md",
+    "docs/methods/HPC_ABAQUS_FORTRAN_ENVIRONMENT.md",
+    "docs/project/PROJECT_ENVIRONMENT.md",
+    "docs/project/PROJECT_PHASE_CHECKLIST.md",
+    "results/processed/stage_f/**",
+    "results/tables/stage_f/**",
+    "results/figures/stage_f/**"
   ],
-  "completed_at": "2026-07-30T06:56:14Z",
-  "heartbeat": "2026-07-30T06:56:14Z",
-  "session_id": "F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT",
-  "starting_commit": "f72514bf515d4d5abb0a0729de4c6a8e7e64bb3c",
-  "task_id": "F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT"
+  "completed_at": null,
+  "heartbeat": "2026-07-30T07:14:14Z",
+  "session_id": "F5-H2-COMPILER-RECOVERY-AND-MISESERI-REMESH-READINESS",
+  "starting_commit": "904934d5490d9dd636984a87e0c1681305a584f6",
+  "task_id": "F5-H2-COMPILER-RECOVERY-AND-MISESERI-REMESH-READINESS"
 }
