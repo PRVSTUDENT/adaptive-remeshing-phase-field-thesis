@@ -2,16 +2,16 @@
 
 Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f5_ssh_transport_recovered_compiler_environment_readonly_preflight_pass`
+Classification: `stage_f5_h2_compiler_datacheck_smoke_queued`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job IDs | None |
+| Active job IDs | `1379939.mmaster02` |
 | Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893` (all terminal) |
 | Active agent | None |
-| Active task | **F5-SSH-TRANSPORT-RECOVERY-PREFLIGHT** |
+| Active task | **F5-H2-COMPILER-DATACHECK-SMOKE-EXECUTE** |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
 | Submission Commit | `7b25ff868c7b96552cec3809ab470a74ee6d38fd` |
@@ -50,6 +50,15 @@ Both module orders preserved Abaqus 2023, ifort 2021.13.0 and ifx 2024.2.0.
 Order `gcc/11.4.0` -> `intel/2024.2.0` -> `abaqus/2023` remains selected.
 This was read-only: qsub/datacheck/solver counts are zero and a new explicit
 one-job authorization is still required.
+
+## F5 H2 compiler/datacheck smoke
+
+Exactly one authorized qsub was issued for immutable run
+`F5CMP_20260730_113544_e8a1d32`. Job `1379939.mmaster02` is queued in routed
+queue `normal_imfdfkmq`; the scheduler estimated start at 20:11:32 cluster
+time. Authority is consumed (`1/1`), all execution flags are false, and no
+retry, replacement, qmove or qdel is authorized. Terminal compiler/datacheck
+validation remains pending.
 
 ## Scientific Status Matrix
 
