@@ -1,0 +1,40 @@
+{
+  "protocol_version": 1,
+  "task_id": "F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT",
+  "created_at_utc": "2026-07-30T06:49:22Z",
+  "runtime_repair_sha": "86ec6c74115ad1b9960834e18c01ce7ee100a821",
+  "bundle_source_revision": "86ec6c74115ad1b9960834e18c01ce7ee100a821",
+  "compute_node_git_dependency": false,
+  "bundle_generated_from_committed_content": true,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "solver_authorized": false,
+  "approved_submissions": 2,
+  "submissions_used": 0,
+  "qsub_attempts": 0,
+  "successful_submissions": 0,
+  "failed_qsub_attempts": 0,
+  "maximum_jobs_now": 0,
+  "retry_authorized": false,
+  "automatic_retry_authorized": false,
+  "input_sha256": {
+    "h2_deck": "fdcd6ee1b1d6cbfb88d59a3edfb7f1c6b35cecde736a427f6b3030b0443b10bf",
+    "h2_fortran": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37",
+    "miseseri_deck": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2"
+  },
+  "runtime_file_sha256": {
+    "submit_stage_f4_two_job_batch.sh": "56a38053bcc6fe67e77ab51873cc117f057162fd277292cc9d770fb9c17c08bf",
+    "05_mode_ii_h2_u020_postpeak.pbs": "fa8572d7dfad751c04f68090a65549aabbc787be3724dbfb7a6dfd7811d454c6",
+    "06_mode_ii_miseseri_corrected_pbs.pbs": "cc3a4f61b086d4d25b17597669d61b616481b07a289be41b3811939430138cdc",
+    "extract_mode_ii_uniform_reference.py": "22d6c76fe4d333787785daf609eb4c8e7192083e586016ceac6d403e49b181eb",
+    "export_miseseri_preanalysis_csv.py": "cb5433a516e5b8d36e82d1884c26c282d85f92b9d2a93b42fdd7f80d2e631e8f",
+    "validate_mode_ii_h2_results.py": "65ede5572aefddaafc3be82bfa8aa3327446c26ee5bdc8271c66c7bb5c6200bc",
+    "validate_mode_ii_miseseri_preanalysis_results.py": "8cfeb424fc00e9728452236a816cdd799445a363ebe5f8615b58cdb6c22f10d3"
+  },
+  "tests": {
+    "direct_static_validators": "pass",
+    "unit_tests": "263 passed",
+    "bash_syntax": "pass",
+    "zero_submission_cluster_preflight": "pass"
+  }
+}

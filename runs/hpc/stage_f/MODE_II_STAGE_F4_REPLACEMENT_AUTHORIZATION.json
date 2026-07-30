@@ -1,0 +1,45 @@
+{
+  "protocol_version": 1,
+  "task_id": "F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT",
+  "authorization_basis": "Explicit human authorization dated 2026-07-30 for exactly one replacement of each pre-Abaqus failed Stage F4 job",
+  "replaces_failed_job_ids": [
+    "1379615.mmaster02",
+    "1379616.mmaster02"
+  ],
+  "execution_authorized": false,
+  "submission_approved": false,
+  "solver_authorized": false,
+  "approved_submissions": 2,
+  "submissions_used": 0,
+  "qsub_attempts": 0,
+  "successful_submissions": 0,
+  "failed_qsub_attempts": 0,
+  "actual_qsub_calls": 0,
+  "maximum_jobs_now": 0,
+  "maximum_running_jobs": 2,
+  "retry_authorized": false,
+  "automatic_retry_authorized": false,
+  "further_replacement_authorized": false,
+  "qdel_authorized": false,
+  "qmove_authorized": false,
+  "interactive_solver_authorized": false,
+  "offline_odb_postprocessing_authorized": true,
+  "runtime_repair_sha": "86ec6c74115ad1b9960834e18c01ce7ee100a821",
+  "status": "prepared_unapproved",
+  "job_a": {
+    "job_name": "M2H2U20R1",
+    "failed_predecessor": "1379615.mmaster02",
+    "queue": "entry_imfdfkmq",
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime": "12:00:00"
+  },
+  "job_b": {
+    "job_name": "M2MISER1",
+    "failed_predecessor": "1379616.mmaster02",
+    "queue": "entry_imfdfkmq",
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime": "01:00:00"
+  }
+}

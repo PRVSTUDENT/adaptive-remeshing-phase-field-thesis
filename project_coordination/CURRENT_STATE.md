@@ -2,7 +2,7 @@
 
 Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f4_two_job_pre_abaqus_git_guard_fail`
+Classification: `stage_f4_replacement_runtime_bundle_prepared_unapproved`
 
 ## Git
 
@@ -11,7 +11,7 @@ Classification: `stage_f4_two_job_pre_abaqus_git_guard_fail`
 | Active job IDs | None |
 | Completed job IDs | `1379615.mmaster02`, `1379616.mmaster02` (both terminal failed) |
 | Active agent | None |
-| Active task | **F4-STAGE-F4-MONITOR-AND-VALIDATE** |
+| Active task | **F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT** |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
 | Submission Commit | `7b25ff868c7b96552cec3809ab470a74ee6d38fd` |
@@ -28,9 +28,9 @@ Stage F4 PBS execution contract & submission: COMPLETE (Both jobs queued under i
 ## Submission boundary (critical)
 
 ```text
-Current task: F4-STAGE-F4-MONITOR-AND-VALIDATE
-Status: complete_failed
-Classification: stage_f4_two_job_pre_abaqus_git_guard_fail
+Current task: F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT
+Status: in_progress
+Classification: stage_f4_replacement_runtime_bundle_prepared_unapproved
 active_job_ids: []
 completed_job_ids: ["1379615.mmaster02", "1379616.mmaster02"]
 failed_initial_job_ids: ["1379615.mmaster02", "1379616.mmaster02"]
@@ -62,4 +62,4 @@ retry_authorized: false
 
 ## Next Action
 
-Preserve the terminal failure evidence. No retry or replacement is authorized; any corrected execution requires new explicit human authorization.
+Publish the self-contained runtime contract, activate the explicit two-replacement authorization, and submit only through the guarded batch orchestrator.
