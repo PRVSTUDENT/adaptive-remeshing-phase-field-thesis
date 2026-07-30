@@ -2,7 +2,7 @@
 
 Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f6_two_job_batch_preparation`
+Classification: `stage_f6_two_job_batch_authorized`
 
 ## Git
 
@@ -110,9 +110,9 @@ retry_authorized: false
 
 ## Next Action
 
-Prepare and fully preflight the explicitly authorized two-job F6 batch:
-`M2H2U20F1` full H2 u020 serial analysis and `M2RMAPI1` CAE-only native
-MISESERI RemeshingRule API qualification. Authorization activation remains
-false until the preparation commit, immutable runtime staging and all common
-preflights pass. Maximum two qsub attempts; no retry, replacement, direct
-manual qsub, qdel, qmove or dependent refined solve is authorized.
+Preparation commit `2249ec21fe92c6c7348d1cff653a84901828e117` is published.
+The shared cluster preflight passed from a clean detached scratch worktree:
+no existing user jobs, exact scientific/source ODB hashes, compiler and Abaqus
+2023 visibility, scheduler access, and immutable runtime assembly all passed.
+The two-job authorization is active for exactly `M2H2U20F1` and `M2RMAPI1`.
+Execute the single guarded orchestrator once, then consume all authority.
