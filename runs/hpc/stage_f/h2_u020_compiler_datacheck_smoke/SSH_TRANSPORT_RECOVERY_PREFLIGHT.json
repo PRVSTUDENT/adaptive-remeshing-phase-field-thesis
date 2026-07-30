@@ -1,0 +1,64 @@
+{
+  "task_id": "F5-SSH-TRANSPORT-RECOVERY-PREFLIGHT",
+  "timestamp_utc": "2026-07-30T08:10:00Z",
+  "classification": "stage_f5_ssh_transport_recovered_compiler_environment_readonly_preflight_pass",
+  "ssh": {
+    "config_exists": true,
+    "config_file_name": "codex_config",
+    "alias": "tu_freiberg",
+    "alias_connected": true,
+    "resolved_hostname": "mlogin01.hrz.tu-freiberg.de",
+    "execution_hostname": "mlogin01.cluster",
+    "remote_user": "pr21vyci",
+    "identity_file_name": "tu_freiberg_codex",
+    "identity_file_exists": true,
+    "identities_only": true,
+    "proxy_jump": null,
+    "proxy_command": null,
+    "direct_hostname_user": "pruth",
+    "direct_hostname_identities_only": false,
+    "direct_hostname_usable_default_identity_found": false,
+    "ssh_agent_service_status": "Stopped",
+    "ssh_agent_start_type": "Disabled",
+    "ssh_agent_required_for_success": false
+  },
+  "scheduler": {
+    "qstat_accessible": true,
+    "queued_or_running_jobs": 0
+  },
+  "host": {
+    "operating_system": "Linux 4.18.0-553.141.2.el8_10.x86_64 x86_64 GNU/Linux"
+  },
+  "order_a": {
+    "sequence": ["gcc/11.4.0", "intel/2024.2.0", "abaqus/2023"],
+    "ifort_path": "/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort",
+    "ifort_version": "ifort (IFORT) 2021.13.0 20240602",
+    "ifx_path": "/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifx",
+    "ifx_version": "ifx (IFX) 2024.2.0 20240602",
+    "abaqus_path": "/cluster/application/abaqus/2023/Commands/abaqus",
+    "abaqus_version": "Abaqus 2023",
+    "all_required_paths_present": true
+  },
+  "order_b": {
+    "sequence": ["gcc/11.4.0", "abaqus/2023", "intel/2024.2.0"],
+    "ifort_path": "/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort",
+    "ifort_version": "ifort (IFORT) 2021.13.0 20240602",
+    "ifx_path": "/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifx",
+    "ifx_version": "ifx (IFX) 2024.2.0 20240602",
+    "abaqus_path": "/cluster/application/abaqus/2023/Commands/abaqus",
+    "abaqus_version": "Abaqus 2023",
+    "all_required_paths_present": true
+  },
+  "selected_order": "order_a",
+  "selection_reason": "Both orders preserve required executables; order A matches prior successful Stage F UEL evidence.",
+  "environment_presence": {
+    "LD_LIBRARY_PATH": true,
+    "LIBRARY_PATH": true,
+    "CPATH": true
+  },
+  "compilation_executed": false,
+  "datacheck_executions": 0,
+  "solver_executions": 0,
+  "qsub_attempts": 0,
+  "authorization_activated": false
+}

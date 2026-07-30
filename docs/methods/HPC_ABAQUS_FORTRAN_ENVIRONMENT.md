@@ -53,6 +53,43 @@ mandatory preflight on 2026-07-30 and again received
 applied before authorization activation: qstat/module inspection was not
 reached and qsub attempts remained zero.
 
+## Alias transport recovery
+
+The read-only recovery task identified the transport difference:
+
+- `tu_freiberg` through the dedicated `codex_config` resolves user
+  `pr21vyci`, `IdentitiesOnly=yes`, and an existing dedicated identity file.
+- the direct hostname resolves local username `pruth`,
+  `IdentitiesOnly=no`, and no existing default identity file.
+
+The alias connected successfully to `mlogin01.cluster`; `qstat -u pr21vyci`
+was accessible and empty. The Windows SSH-agent service is stopped and
+disabled, but the configured identity file works without it.
+
+Both inspected module orders preserved the required executables. Selected
+order A matches the previously successful Stage F evidence:
+
+```text
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+```
+
+Verified read-only paths and versions:
+
+```text
+ifort  /cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort
+       ifort (IFORT) 2021.13.0 20240602
+ifx    /cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifx
+       ifx (IFX) 2024.2.0 20240602
+abaqus /cluster/application/abaqus/2023/Commands/abaqus
+       Abaqus 2023
+```
+
+No compilation, datacheck, solver or submission occurred. This verifies
+transport and executable visibility, not H2 user-subroutine compilation.
+
 ## Qualification boundary
 
 The proposed `M2H2CMP1` job prints the module list, executable paths, compiler

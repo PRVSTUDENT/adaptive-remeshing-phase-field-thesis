@@ -2,7 +2,7 @@
 
 Updated: 2026-07-30
 Protocol version: 1
-Classification: `stage_f5_h2_compiler_datacheck_smoke_blocked_ssh_authentication`
+Classification: `stage_f5_ssh_transport_recovered_compiler_environment_readonly_preflight_pass`
 
 ## Git
 
@@ -11,7 +11,7 @@ Classification: `stage_f5_h2_compiler_datacheck_smoke_blocked_ssh_authentication
 | Active job IDs | None |
 | Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893` (all terminal) |
 | Active agent | None |
-| Active task | **F5-H2-COMPILER-DATACHECK-SMOKE-SUBMIT** |
+| Active task | **F5-SSH-TRANSPORT-RECOVERY-PREFLIGHT** |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
 | Submission Commit | `7b25ff868c7b96552cec3809ab470a74ee6d38fd` |
@@ -40,6 +40,16 @@ inspection. Authorization was never activated and no runtime was staged.
 Classification:
 `stage_f5_h2_compiler_datacheck_smoke_blocked_ssh_authentication`.
 Any later attempt requires restored SSH access and new explicit authorization.
+
+## F5 SSH transport recovery
+
+The proven `tu_freiberg` alias connected as `pr21vyci` to
+`mlogin01.cluster`; the direct hostname had resolved as `pruth` without an
+existing default identity. `qstat` was accessible and showed no jobs.
+Both module orders preserved Abaqus 2023, ifort 2021.13.0 and ifx 2024.2.0.
+Order `gcc/11.4.0` -> `intel/2024.2.0` -> `abaqus/2023` remains selected.
+This was read-only: qsub/datacheck/solver counts are zero and a new explicit
+one-job authorization is still required.
 
 ## Scientific Status Matrix
 
