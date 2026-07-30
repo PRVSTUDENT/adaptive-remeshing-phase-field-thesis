@@ -65,7 +65,7 @@ class TestStageF4BatchOrchestrator(unittest.TestCase):
         self.assertIn("Preflight check PASSED cleanly", res.stdout)
         self.assertIn("Preflight mode complete. Zero jobs submitted.", res.stdout)
 
-        status_file = repo_root / "runs/hpc/stage_f/STAGE_F4_BATCH_SUBMISSION_STATUS.json"
+        status_file = repo_root / "runs/hpc/stage_f/STAGE_F4_REPLACEMENT_BATCH_STATUS.json"
         self.assertTrue(status_file.is_file())
         status_data = json.loads(status_file.read_text(encoding="utf-8"))
         self.assertEqual(status_data["batch_status"], "preflight_passed_zero_submitted")
