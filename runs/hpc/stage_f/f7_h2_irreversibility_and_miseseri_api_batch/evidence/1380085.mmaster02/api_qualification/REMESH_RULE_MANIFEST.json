@@ -1,0 +1,34 @@
+{
+  "candidate_refined_deck_generated": false, 
+  "classification": "remeshing_api_incompatible", 
+  "generation_deferred_reason": "Generating a remeshed model requires a separate adaptive process; no solver or adaptivity execution is authorized.", 
+  "native_remesh_executed": false, 
+  "project_selected": {
+    "diagnostic_percentiles": [
+      75, 
+      90, 
+      95, 
+      99
+    ], 
+    "maximum_element_size_mm": 0.01, 
+    "minimum_element_size_mm": 0.001, 
+    "provenance": "project_selected", 
+    "remeshing_pass_count": 1, 
+    "target_local_h_over_lc": 0.1
+  }, 
+  "publication_faithful_baseline": {
+    "coarseningFactor": "NOT_ALLOWED", 
+    "errorTarget": 1.0, 
+    "provenance": "publication_faithful", 
+    "refinementFactor": 10, 
+    "sizingMethod": "UNIFORM_ERROR", 
+    "specifyMaxSize": true, 
+    "specifyMinSize": true, 
+    "variables": [
+      "MISESERI"
+    ]
+  }, 
+  "rule_creation_passed": false, 
+  "solver_execution_count": 0, 
+  "source_job_id": "1379893.mmaster02"
+}

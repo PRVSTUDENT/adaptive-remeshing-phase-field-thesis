@@ -413,6 +413,38 @@ Evidence paths: `runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evide
 Prevention rule: Bind each postprocessor and validator to its declared Python runtime during preflight; never assume `abaqus python` satisfies Python 3 syntax requirements.
 Status: recorded; future runtime repair requires a separate task
 
+## Stage F7 forensic analyzer mixed-type CSV defect (2026-07-31)
+
+ID: M-106
+Date: 2026-07-31
+Stage/job: Stage F7 / `1380084.mmaster02`
+Classification: `stage_f7_forensic_report_generation_fail`
+Symptom: Fixed-point ODB extraction completed, but the analyzer stopped on
+`ValueError: could not convert string to float: 'Step-1'`.
+Root cause: The response-curve reader attempted to cast every CSV column,
+including the textual step label, to float.
+Scientific inputs changed: no
+Correction: Preserved the terminal job and used the complete raw fixed-point
+summary for the scientific decision; no retry was submitted.
+Prevention rule: Parse only explicitly numeric response columns and test with
+the exact production CSV schema before authorization.
+Status: recorded; repair requires a separate task
+
+## Stage F7 RemeshingRule Unicode variable incompatibility (2026-07-31)
+
+ID: M-107
+Date: 2026-07-31
+Stage/job: Stage F7 / `1380085.mmaster02`
+Classification: `remeshing_api_incompatible`
+Symptom: `RemeshingRule` rejected `variables[0]` as Unicode.
+Root cause: JSON decoding under Abaqus Python 2.7 supplied Unicode strings
+where the native API expected a recognized variables-entry type.
+Scientific inputs changed: no
+Correction: Preserved the failure; zero remesh and solver calls occurred.
+Prevention rule: Qualify the exact native variables-entry object/type in a
+local CAE smoke before requesting another batch authorization.
+Status: recorded; no resubmission authorized
+
 
 
 

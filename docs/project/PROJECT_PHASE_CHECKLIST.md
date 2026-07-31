@@ -427,6 +427,19 @@ Submission-review priority:
 - [x] Prepared one infrastructure-corrected r2 diagnostic execution with no compute-node Git dependency, immutable scratch pre-stage, `16:00:00` walltime, and dedicated scratch PBS output. Classification scope: `infrastructure_corrected_targeted_diagnostic_execution`. Evidence: commit `209ad325d2c85532411c13d8290db08ca35b0637`; `scripts/hpc/submit_molnar_v2_sdv15_diagnostic_r2.sh`; `scripts/hpc/molnar_paper_matched_single_notch_v2_sdv15_diagnostic_r2.pbs`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_MANIFEST.md`.
 - [x] Reviewed the single authorized infrastructure-corrected r2 diagnostic job. Job: `1375028.mmaster02`; PBS wrapper result: `postprocess_python_compatibility_failure_after_successful_solve`; Abaqus result: `molnar_v2_sdv15_diagnostic_r2_technical_pass`; diagnostic instrumentation: `non_intrusive_pass`; scientific evidence: `sdv15_call_level_nonmonotonicity_observed`; completed/converged increment replay result: `sdv15_completed_increment_possible_violation`; severity-audit result: `sdv15_completed_increment_irreversibility_violation`; SDV16 decreases over the same final-increment sequences: `0`. Evidence: `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_SUMMARY.md`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/postprocessing_completed_increment_replay_time_aligned/`.
 - [!] Gate A3 remains `reference_data_insufficient`; this run is targeted scientific evidence collection and does not authorize a retry, candidate v3, Stage B, MISESERI, remeshing, state transfer, or any parameter sweep.
+
+## Stage F7 closeout (2026-07-31)
+
+- [x] Exactly two authorized non-solver jobs submitted: `1380084.mmaster02`
+  and `1380085.mmaster02`; two qsub attempts, no retry or replacement.
+- [x] H2 fixed-material-point audit extracted 102 frames and found 1,120
+  strict SDV15 decreases, minimum `-5.8532e-4`; irreversibility fails.
+- [x] Corrected CAE qualification reached `RemeshingRule`; source hashes
+  matched, but `variables[0]` rejected a Unicode string.
+- [x] Verified zero solver executions for Stage F7, zero native-remesh
+  executions, and no candidate refined deck.
+- [!] H2 is not an accepted converged fracture reference; MISESERI native
+  remeshing remains unqualified. No further HPC job is authorized.
 # P3-SM1T preparation update (2026-07-25)
 
 - [x] P3-SM0 reference remains passed and closed. Evidence:

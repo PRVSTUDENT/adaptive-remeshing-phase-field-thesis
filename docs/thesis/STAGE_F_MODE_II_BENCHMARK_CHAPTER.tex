@@ -105,6 +105,30 @@ accuracy, parallel safety, or general convergence.
   \label{fig:stage-f6-h2-rf-u}
 \end{figure}
 
+\subsection{Stage F7 Fixed-Material-Point Irreversibility Audit}
+The read-only forensic ODB audit in PBS job
+\texttt{1380084.mmaster02} tracked SDV15 at fixed material-point keys through
+102 frames (101 adjacent-frame pairs). It found 1,120 strict negative
+increments at 126 material points in 75 elements. The minimum local increment
+was $-5.8532\times10^{-4}$, and 62 increments were below
+$-10^{-4}$. Thus the decreases observed in the framewise maximum history
+cannot be explained solely by a changing location of the maximum: the stored
+phase field decreases at fixed material points. The $H_2$ run remains a
+scientific irreversibility failure and is not accepted as a converged
+fracture reference. A downstream report generator failed on a string-valued
+CSV step label, but this occurred after the fixed-point ODB evidence had been
+written and does not change that conclusion.
+
+\subsection{Stage F7 Native MISESERI Remeshing API Boundary}
+PBS job \texttt{1380085.mmaster02} corrected the earlier CAE driver-argument
+collision and reached \texttt{mdb.models[name].RemeshingRule} with exact
+source ODB and deck hashes. Rule construction rejected the first
+\texttt{variables} entry because Abaqus Python 2.7 supplied a Unicode string
+where the native API expected a recognized variables-entry type. The job is
+classified as \texttt{remeshing\_api\_incompatible}. It executed no solver
+and no native remesh and produced no candidate deck; therefore no adaptive
+accuracy or refined-analysis claim follows.
+
 \section{Reproducibility Paths}
 All extracted CSV curves, summaries, field contours, log files, and execution manifests are archived in the canonical repository evidence paths:
 \begin{quote}
@@ -118,6 +142,8 @@ All extracted CSV curves, summaries, field contours, log files, and execution ma
 \texttt{runs/hpc/stage\_f/mode\_ii\_h2/evidence/1379578.mmaster02/}\\
 \texttt{runs/hpc/stage\_f/h2\_u020\_compiler\_datacheck\_smoke/evidence/1379939.mmaster02/}\\
 \texttt{runs/hpc/stage\_f/f6\_h2\_full\_and\_miseseri\_remesh\_api\_batch/evidence/1379966.mmaster02/}\\
-\texttt{runs/hpc/stage\_f/f6\_h2\_full\_and\_miseseri\_remesh\_api\_batch/evidence/1379967.mmaster02/}
+\texttt{runs/hpc/stage\_f/f6\_h2\_full\_and\_miseseri\_remesh\_api\_batch/evidence/1379967.mmaster02/}\\
+\texttt{runs/hpc/stage\_f/f7\_h2\_irreversibility\_and\_miseseri\_api\_batch/evidence/1380084.mmaster02/}\\
+\texttt{runs/hpc/stage\_f/f7\_h2\_irreversibility\_and\_miseseri\_api\_batch/evidence/1380085.mmaster02/}
 \end{quote}
 Main closure commit SHA: recorded in multi-agent coordination ledgers.

@@ -1,0 +1,49 @@
+{
+  "abaqus_python_version": "2.7.15 (default, Jul 30 2022, 01:33:15) \n[GCC 8.2.1 20180905 (Red Hat 8.2.1-3)]", 
+  "accepted_keywords": [], 
+  "api_method": "RemeshingRule", 
+  "api_owner": "mdb.models[name]", 
+  "cae_driver_argv": [
+    "/cluster/application/abaqus/2023/linux_a64/code/bin/ABQcaeK", 
+    "-cae", 
+    "-noGUI", 
+    "runtime/scripts/remeshing/qualify_mode_ii_native_miseseri_api.py", 
+    "-lmlog", 
+    "ON", 
+    "-tmpdir", 
+    "/local/pbs.1380085.mmaster02"
+  ], 
+  "candidate_refined_deck_generated": false, 
+  "exception": "variables[0]; found 'unicode', expecting a recognized type", 
+  "exception_type": "TypeError", 
+  "f7_job_name": "M2RMAPI2", 
+  "f7_run_id": "F7_20260731_040750_cac6974", 
+  "ignored_abaqus_driver_arguments": [
+    "-cae", 
+    "-noGUI", 
+    "runtime/scripts/remeshing/qualify_mode_ii_native_miseseri_api.py", 
+    "-lmlog", 
+    "ON", 
+    "-tmpdir", 
+    "/local/pbs.1380085.mmaster02"
+  ], 
+  "native_remesh_execution_count": 0, 
+  "platform": "Linux-4.18.0-553.146.1.el8_10.x86_64-x86_64-with-centos-8.10-Green_Obsidian", 
+  "rule_creation_passed": false, 
+  "solver_execution_count": 0, 
+  "source_deck_hash_match": true, 
+  "source_deck_sha256_actual": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2", 
+  "source_deck_sha256_expected": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2", 
+  "source_odb_hash_match": true, 
+  "source_odb_path": "/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4R1_20260730_065138_86ec6c79/miseseri_corrected/M2MISER1.odb", 
+  "source_odb_sha256_actual": "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac", 
+  "source_odb_sha256_expected": "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac", 
+  "symbolic_constants": {
+    "MODEL": "MODEL", 
+    "NOT_ALLOWED": "NOT_ALLOWED", 
+    "OFF": "OFF", 
+    "ON": "ON", 
+    "UNIFORM_ERROR": "UNIFORM_ERROR"
+  }, 
+  "traceback": "Traceback (most recent call last):\n  File \"runtime/scripts/remeshing/qualify_mode_ii_native_miseseri_api.py\", line 128, in main\n    rule = model.RemeshingRule(**keywords)\nTypeError: variables[0]; found 'unicode', expecting a recognized type\n"
+}

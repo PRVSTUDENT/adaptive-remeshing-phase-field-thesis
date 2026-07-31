@@ -1,0 +1,64 @@
+Job Id: 1380084.mmaster02
+    Job_Name = M2H2IRR1
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 99
+    resources_used.cput = 00:12:06
+    resources_used.mem = 227312kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 553256kb
+    resources_used.walltime = 00:12:11
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Fri Jul 31 06:10:30 2026
+    Error_Path = mlogin01.cluster:/scratch/pr21vyci/adaptive-remeshing/runs/sta
+	ge_f7/F7_20260731_040750_cac6974/h2_irreversibility_audit/M2H2IRR1.e138
+	0084
+    exec_host = mnode100/2
+    exec_vnode = (mnode100[0]:ncpus=1:mem=16777216kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Fri Jul 31 06:22:53 2026
+    Output_Path = mlogin01.cluster:/scratch/pr21vyci/adaptive-remeshing/runs/st
+	age_f7/F7_20260731_040750_cac6974/h2_irreversibility_audit/M2H2IRR1.o13
+	80084
+    Priority = 0
+    qtime = Fri Jul 31 06:10:31 2026
+    Rerunable = True
+    Resource_List.mem = 16gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=16gb
+    Resource_List.walltime = 04:00:00
+    stime = Fri Jul 31 06:10:33 2026
+    obittime = Fri Jul 31 06:22:52 2026
+    session_id = 255050
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1380084.mmaster02.x8z
+    substate = 93
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/scratch/pr21vyci/adaptive-remeshing/runs/stage_f7/F7_20
+	260731_040750_cac6974/h2_irreversibility_audit,PBS_O_SYSTEM=Linux,
+	F7_RUN_ID=F7_20260731_040750_cac6974,PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Fri Jul 31 at 06:10 on (mnode100[0]:ncpus=1:mem=167772
+	16kb) and failed
+    etime = Fri Jul 31 06:10:31 2026
+    run_count = 1
+    eligible_time = 00:00:08
+    Stageout_status = 1
+    Exit_status = 12
+    Submit_arguments = -v F7_RUN_ID=F7_20260731_040750_cac6974 -M pr21vyci@mail
+	server.tu-freiberg.de -m abe M2H2IRR1.pbs
+    history_timestamp = 1785471773
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+

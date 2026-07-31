@@ -23,7 +23,11 @@ def test_f7_jobs_contain_no_solver_launch():
         text = (ROOT / rel).read_text()
         assert "mdb.Job.submit(" not in text
         assert "waitForCompletion(" not in text
-        assert "abaqus job=" not in text
+        executable_lines = [
+            line for line in text.splitlines()
+            if not line.lstrip().startswith("grep ")
+        ]
+        assert all("abaqus job=" not in line for line in executable_lines)
 
 
 def test_f7_interpreter_contracts_are_explicit():

@@ -1,0 +1,41 @@
+{
+  "affected_element_count": 75, 
+  "affected_material_point_count": 126, 
+  "audit_complete": true, 
+  "frame_pairs_audited": 101, 
+  "frames_audited": 102, 
+  "global_minimum_delta": -0.0005853176116943359, 
+  "minimum_record": {
+    "current": {
+      "frame": 41, 
+      "frame_id": 4100, 
+      "maximum": 1.0037479400634766, 
+      "maximum_key": "PART-1-1|78194|1||INTEGRATION_POINT", 
+      "step": "Step-2", 
+      "time": 0.4099999964237213
+    }, 
+    "current_damage": 0.998928964138031, 
+    "delta": -0.0005853176116943359, 
+    "key": "PART-1-1|84130|1||INTEGRATION_POINT", 
+    "previous": {
+      "frame": 40, 
+      "frame_id": 4000, 
+      "maximum": 1.0036042928695679, 
+      "maximum_key": "PART-1-1|78193|2||INTEGRATION_POINT", 
+      "step": "Step-2", 
+      "time": 0.4000000059604645
+    }, 
+    "previous_damage": 0.9995142817497253
+  }, 
+  "strict_negative_count": 1120, 
+  "targeted_event_pair_count": 26, 
+  "threshold_counts": {
+    "0e+00": 1120, 
+    "1e-03": 0, 
+    "1e-04": 62, 
+    "1e-05": 731, 
+    "1e-06": 1084, 
+    "1e-07": 1115, 
+    "1e-08": 1115
+  }
+}
