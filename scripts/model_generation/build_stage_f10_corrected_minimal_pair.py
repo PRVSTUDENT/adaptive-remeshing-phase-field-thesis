@@ -28,7 +28,7 @@ def compact_deck(text):
         text = text.replace(str(old), str(new))
     for old, new in zip(range(67705, 67728), range(47, 70)):
         text = text.replace(str(old), str(new))
-    return text
+    return "\n".join(line.rstrip() for line in text.splitlines()) + "\n"
 
 
 def adapt_source(text):
