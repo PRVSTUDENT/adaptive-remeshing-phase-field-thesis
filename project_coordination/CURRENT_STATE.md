@@ -2,13 +2,13 @@
 
 Updated: 2026-07-31
 Protocol version: 1
-Classification: `stage_f7_two_job_non_solver_batch_preparing`
+Classification: `stage_f7_two_job_non_solver_batch_submitted`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job IDs | None |
+| Active job IDs | `1380084.mmaster02`, `1380085.mmaster02` |
 | Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893`, `1379939`, `1379966`, `1379967` (all terminal) |
 | Active agent | `codex` |
 | Active task | **F7-H2-IRREVERSIBILITY-AND-MISESERI-API-BATCH** |
@@ -111,11 +111,10 @@ retry_authorized: false
 
 ## Next Action
 
-Stage F7 preparation is active for exactly two authorized non-solver jobs:
-`M2H2IRR1` reads the retained F6 H2 ODB read-only and performs a fixed-key
-integration-point irreversibility audit; `M2RMAPI2` performs corrected Abaqus
-CAE RemeshingRule inspection with inputs supplied through `F7_*` environment
-variables. Authorization remains inactive until both independent preflights
-are complete and the authorization commit is published. No H2 rerun,
-datacheck, adaptive analysis, refined solve, retry, replacement, direct qsub,
-qdel, qmove, or third job is authorized.
+The guarded F7 orchestrator submitted exactly two non-solver jobs from
+`F7_20260731_040750_cac6974`: `M2H2IRR1` is
+`1380084.mmaster02`, and `M2RMAPI2` is `1380085.mmaster02`. Both are running
+on `mnode100` in `normal_imfdfkmq`. Counts are two qsub attempts, two
+successes, zero failures, zero direct qsubs, zero retries and zero
+replacements. All authority is consumed. No H2 rerun, datacheck, adaptive
+analysis, refined solve, qdel, qmove, third job or replacement is authorized.
