@@ -129,6 +129,23 @@ classified as \texttt{remeshing\_api\_incompatible}. It executed no solver
 and no native remesh and produced no candidate deck; therefore no adaptive
 accuracy or refined-analysis claim follows.
 
+\subsection{Stage F8 Qualification Preflight Boundary}
+Source inspection established that SDV15 is the integration-point
+visualization of the nodal U1 phase degree of freedom, whereas SDV16 stores
+the maximum elastic-energy history. The frozen formulation updates the
+history monotonically but applies no obstacle, projection, penalty, or active
+set to the nodal phase unknown. A consistent penalty candidate was therefore
+prepared by adding matched residual and tangent terms for negative
+incremental phase gaps; an output-only SDV clamp was explicitly rejected.
+
+No Stage F8 batch result exists. Both the frozen and candidate sources
+compiled and linked under Abaqus 2023, and both decks passed input
+processing, but the common minimal patch terminated during datacheck with
+signal 11 in initial-stress/constraint processing. The required shared
+preflight consequently stopped the batch before any qsub. The candidate
+remains unqualified, and the exact \texttt{RemeshingRule.variables} type
+remains unresolved.
+
 \section{Reproducibility Paths}
 All extracted CSV curves, summaries, field contours, log files, and execution manifests are archived in the canonical repository evidence paths:
 \begin{quote}

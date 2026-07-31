@@ -1,6 +1,6 @@
 {
-  "active": true,
-  "agent": "codex",
+  "active": false,
+  "agent": null,
   "allowed_scope": [
     "configs/stage_f/**",
     "models/generated/mode_ii/f8_irreversibility_baseline/**",
@@ -21,11 +21,11 @@
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "project_coordination/**"
   ],
-  "completed_at": null,
+  "completed_at": "2026-07-31T05:00:00Z",
   "heartbeat": "2026-07-31T05:00:00Z",
   "started_at": "2026-07-31T05:00:00Z",
   "session_id": "F8-IRREVERSIBILITY-REPAIR-AND-REMESH-TYPE-QUALIFICATION-20260731",
   "starting_commit": "359f45cc3c70bf8ff5d0944f994b2df7ea4c7a12",
   "task_id": "F8-IRREVERSIBILITY-REPAIR-AND-REMESH-TYPE-QUALIFICATION",
-  "note": "Exactly three explicitly authorized Stage F8 qualification submissions; Job B requires a completed source audit and mathematically valid governing-equation correction. No retry, replacement, direct qsub, qdel, qmove, full H2, refined solve, or native adaptive analysis."
+  "note": "Stage F8 stopped before qsub because both paired minimal-patch datachecks terminated by signal 11. All execution flags false; attempts and submissions zero."
 }

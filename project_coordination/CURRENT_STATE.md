@@ -2,7 +2,7 @@
 
 Updated: 2026-07-31
 Protocol version: 1
-Classification: `stage_f7_h2_fixed_point_irreversibility_fail_and_miseseri_api_incompatible`
+Classification: `stage_f8_common_preflight_blocked_minimal_patch_datacheck_signal_11`
 
 ## Git
 
@@ -129,6 +129,10 @@ unqualified.
 
 ## Next Action
 
-No HPC execution is authorized. Any analyzer repair or corrected native API
-qualification requires a new task, immutable preparation, review, and
-separate explicit authorization.
+Stage F8 was stopped before qsub. Both minimal sources compiled and linked,
+but the identical deck failed Abaqus 2023 datacheck with signal 11 during
+initial-stress/constraint processing. The CAE type-matrix preflight passed,
+but the shared all-preflights-before-first-qsub rule prohibited its
+submission. Counts are 0/3 attempts and 0/3 submissions; no authorization
+activation, run ID, or PBS IDs exist. A new task must diagnose the minimal
+deck/datacheck boundary before any execution can be reconsidered.

@@ -440,6 +440,21 @@ Submission-review priority:
   executions, and no candidate refined deck.
 - [!] H2 is not an accepted converged fracture reference; MISESERI native
   remeshing remains unqualified. No further HPC job is authorized.
+
+## Stage F8 preflight closeout (2026-07-31)
+
+- [x] Repaired M-106 offline using explicit numeric CSV schemas; the F7
+  classification remains `h2_irreversibility_true_local_violation`.
+- [x] Audited the frozen source: SDV15 is the interpolated nodal phase,
+  SDV16 is the maximum-energy history, and no obstacle is enforced.
+- [x] Prepared a governing-equation penalty candidate with consistent phase
+  residual and tangent; no output-only clamp.
+- [!] Both paired sources compiled and linked, but the common minimal patch
+  datacheck failed with signal 11 during initial-stress processing.
+- [x] Stopped before qsub: requested/actual submissions `3/0`; qsub attempts,
+  retries, replacements, direct qsub, qdel and qmove all zero.
+- [!] No candidate qualification or RemeshingRule type result exists. No HPC
+  execution is authorized.
 # P3-SM1T preparation update (2026-07-25)
 
 - [x] P3-SM0 reference remains passed and closed. Evidence:
