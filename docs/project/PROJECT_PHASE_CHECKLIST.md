@@ -575,3 +575,19 @@ Submission-review priority:
 - [!] Only preparation of a future medium-H1 verification package is
   eligible. Submission, H2, refined, adaptive, and production runs remain
   unauthorized.
+
+## Stage F12 preparation (2026-07-31)
+
+- [x] Freeze complete Stage F11 candidate, generator, extractor, analyzer,
+  energy-contract, and diagnostic-map identities.
+- [x] Prepare conservative and aggressive automatic-increment rollback
+  packages with identical physics, endpoint, output, and instrumentation.
+- [x] Predeclare direct rollback, RF--U, final-field, phase-monotonicity, and
+  diagnostic-energy acceptance policies.
+- [x] Prepare CAE-only construction of the official corrected 3,930-element
+  MISESERI coarse model with the qualified Python 2 byte-string tuple.
+- [x] Verify canonical H1 N_ELEM=12064 and prepare guarded baseline/candidate
+  packages as `prepared_not_authorized`.
+- [!] Only the three named Stage F12 jobs may be submitted. Medium H1, H2,
+  refined, native-adaptive, remesh, datacheck, restart, and continuation
+  execution remain prohibited.

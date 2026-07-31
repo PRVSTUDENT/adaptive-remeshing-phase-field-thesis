@@ -144,3 +144,19 @@ remesh, and candidate-deck counts are zero. All execution authority is
 consumed. Stage F11 permits preparation, but not submission, of a future
 medium-H1 verification package. H2, refined, native-adaptive, and production
 execution remain unauthorized.
+
+## Stage F12 preparation
+
+Stage F12 has explicit authority for exactly three independent jobs:
+`M2IRRROLLREF`, `M2IRRROLLCUT`, and CAE-only `M2RMPREP1`, with at most two
+running simultaneously and no retry or replacement. The rollback pair freezes
+the Stage F11 candidate formulation and differs only in automatic increment
+controls. Bounded UEL-call evidence is prepared to identify a real cutback and
+directly audit restored phase, history, and penalty state.
+
+The official corrected 3,930-element MISESERI coarse deck is frozen for real
+model construction with `variables=('MISESERI',)`. Solver, datacheck,
+adaptive, and remesh execution are prohibited in that lane. The H1 U1=0.020
+population is independently verified as 12,064 physical elements; its
+instrumented baseline and candidate packages are `prepared_not_authorized`.
+No medium-H1, H2, refined, or adaptive submission is authorized.

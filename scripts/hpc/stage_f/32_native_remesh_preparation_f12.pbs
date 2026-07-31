@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N M2RMPREP1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+set -uo pipefail
+cd "$PBS_O_WORKDIR" || exit 2
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+sha256sum -c SHA256SUMS || exit 3
+export F12_RUNTIME_DIR="$PBS_O_WORKDIR/runtime"
+export F12_OUTPUT_DIR="$PBS_O_WORKDIR/output"
+mkdir -p "$F12_OUTPUT_DIR"
+abaqus cae noGUI=runtime/prepare_stage_f12_native_remesh.py
