@@ -161,3 +161,7 @@ F9_BATCH_AUTHORIZATION,Stage F,runs/hpc/stage_f/f9_datacheck_root_cause_and_reme
 F9_BATCH_PREPARATION_RECORD,Stage F,docs/experiment_records/STAGE_F9_DIAGNOSTIC_BATCH_PREPARATION.md,experiment_record,prepared,codex,,,,Local tests and static checks recorded; no submissions
 F9_DATACHECK_EVIDENCE,Stage F,runs/hpc/stage_f/f9_datacheck_root_cause_and_remesh_type_batch/evidence/1380088.mmaster02/,hpc_evidence,pass,codex,,1380088.mmaster02,,Five-case matrix; UEL USRVAR negative-index root cause isolated
 F9_REMESH_TYPE_EVIDENCE,Stage F,runs/hpc/stage_f/f9_datacheck_root_cause_and_remesh_type_batch/evidence/1380089.mmaster02/,hpc_evidence,fail,codex,,1380089.mmaster02,,Pre-CAE staged helper filename mismatch; type unresolved
+F10_BASELINE_PACKAGE,Stage F,models/generated/mode_ii/f10_irreversibility_baseline_corrected/,immutable_package,prepared,codex,,,,Compact runtime mapping with frozen formulation and bounds guards
+F10_CANDIDATE_PACKAGE,Stage F,models/generated/mode_ii/f10_irreversibility_candidate_corrected/,immutable_package,prepared,codex,,,,Byte-identical deck and consistent quadrature penalty source
+F10_REMESH_TYPE_PACKAGE,Stage F,models/generated/mode_ii/f10_miseseri_remesh_type_qualification/,immutable_package,prepared,codex,,,,Reviewed replacement with corrected helper path contract
+F10_BATCH_AUTHORIZATION,Stage F,runs/hpc/stage_f/f10_corrected_minimal_irreversibility_and_remesh_type_batch/BATCH_AUTHORIZATION.json,authorization_record,prepared_disabled,codex,,,,Exactly three independent jobs; activation deferred to preflight

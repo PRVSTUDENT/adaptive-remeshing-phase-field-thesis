@@ -1,0 +1,12 @@
+{
+  "n_elem": 23,
+  "phase_uel_labels": [1, 23],
+  "displacement_uel_labels": [24, 46],
+  "visualization_cpe4_labels": [47, 69],
+  "phase_index_expression": "JELEM",
+  "displacement_index_expression": "JELEM-N_ELEM",
+  "visualization_index_expression": "NOEL-2*N_ELEM",
+  "all_resulting_indices": [1, 23],
+  "all_indices_in_bounds": true,
+  "mapping_adaptation_not_constitutive_change": true
+}

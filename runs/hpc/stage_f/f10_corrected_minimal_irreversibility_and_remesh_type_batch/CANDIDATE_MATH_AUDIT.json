@@ -1,0 +1,31 @@
+{
+  "beta": 180000.0,
+  "checks": {
+    "bounds_guards_identical": true,
+    "compact_ranges": true,
+    "finite_difference_pass": true,
+    "n_elem_23_baseline": true,
+    "n_elem_23_candidate": true,
+    "no_output_clamp": true,
+    "penalty_residual_present": true,
+    "penalty_tangent_present": true,
+    "prior_state_from_svars": true
+  },
+  "deck_sha256": "57b611238f51168dfc498ef7169a41d629f390d0bddd5171a244406f3e97bb6c",
+  "directional_derivative_finite_difference": 30600.000036429265,
+  "directional_derivative_tangent": 30600.000000000004,
+  "passed": true,
+  "precision_policy": {
+    "odb_or_extraction_floor": 1e-08,
+    "reported_thresholds": [
+      0.0,
+      -1e-08,
+      -1e-07,
+      -1e-06,
+      -1e-05,
+      -0.0001,
+      -0.001
+    ]
+  },
+  "svars_semantics": "PHASEOLD is loaded from incoming UEL SVARS before current-trial overwrite. Abaqus supplies beginning-of-increment state and restores it on cutback; returned updates are committed only for accepted increments."
+}

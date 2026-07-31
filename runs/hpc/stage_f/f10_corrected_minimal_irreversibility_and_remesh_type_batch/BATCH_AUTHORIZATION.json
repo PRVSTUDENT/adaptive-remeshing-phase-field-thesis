@@ -1,0 +1,28 @@
+{
+  "task_id": "F10-CORRECTED-MINIMAL-IRREVERSIBILITY-AND-REMESH-TYPE-BATCH",
+  "authorized_jobs": ["M2IRRBAS2", "M2IRRCAN2", "M2RMTYPE2"],
+  "authorization_phrase_received": true,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "approved_submissions": 3,
+  "submissions_used": 0,
+  "qsub_attempts": 0,
+  "successful_submissions": 0,
+  "failed_qsub_attempts": 0,
+  "retry_authorized": false,
+  "replacement_authorized": false,
+  "maximum_jobs_now": 0,
+  "maximum_running_jobs": 2,
+  "reviewed_replacement": {
+    "job": "M2RMTYPE2",
+    "replaces": "1380089.mmaster02"
+  },
+  "medium_h1_authorized": false,
+  "full_h2_authorized": false,
+  "native_adaptive_analysis_authorized": false,
+  "refined_phase_field_analysis_authorized": false,
+  "preparation_sha": null,
+  "authorization_sha": null,
+  "submission_sha": null,
+  "run_id": null
+}
