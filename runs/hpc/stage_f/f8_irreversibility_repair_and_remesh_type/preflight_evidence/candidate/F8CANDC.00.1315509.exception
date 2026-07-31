@@ -1,0 +1,64 @@
+<Description>
+      ABAQUS/standard rank 0 encountered a SEGMENTATION VIOLATION referencing location 0x146006920038
+
+</Description>
+
+<Step> 1 </Step>
+
+<Procedure> STATIC </Procedure>
+
+
+<Context>
+   INITIAL STRESS
+</Context>
+
+<Phase>
+   std | Exec | Substep | std_Elmas_driver | std_elmas
+</Phase>
+
+
+<Memory>
+   <Current>            2 GB </Current>
+   <Resident>           0 GB </Resident>
+   <Physical>         755 GB </Physical>
+   <Limit>            604 GB </Limit>
+   <Accessible>       755 GB </Accessible>
+   <Available>        187 GB </Available>
+   <Allocator>            DL </Allocator>
+   <HugePages>        always </HugePages>
+</Memory>
+
+<Swap>
+       <Size>           0 GB </Size>
+       <Used>           0 GB </Used>
+       <Free>           0 GB </Free>
+</Swap>
+
+<Directories>
+  <current> /run/user/50839/pr21vyci_F8CANDC_1315438 </current> <free>     75 GB </free>   <used>      0 GB </used> 
+    <indir> /scratch9/pr21vyci/adaptive-remeshing/preflight/stage_f8_20260731/candidate </indir>   <free>  15457 GB </free>  
+   <outdir> /scratch9/pr21vyci/adaptive-remeshing/preflight/stage_f8_20260731/candidate </outdir>  <free>  15457 GB </free> 
+   <tmpdir> /run/user/50839/pr21vyci_F8CANDC_1315438 </tmpdir>  <free>     75 GB </free> 
+</Directories>
+
+<Installation>
+     <Version> 2023 6.23-1 </Version>
+       <Build> 2022_09_28-20.11.55 183150 </Build>
+  <Executable> /cluster/application/abaqus/2023/linux_a64/code/bin/standard </Executable>
+</Installation>
+
+<Callstack>
+   1) libstandardU.so            0x00008f4d ! uel_.V           M2IRR_PATCH.for:?
+   2) libABQSMAStaCore.so        0x01aca8e5 ! eusero_          ??:?
+   3) libABQSMAStaCore.so        0x01abf7b3 ! euserm           ??:?
+   4) libABQSMAStaCore.so        0x02ecf32f ! std_elmase_      ??:?
+   5) libABQSMAStaCore.so        0x02ed6aca ! std_elmase1      ??:?
+   6) libABQSMAStaCore.so        0x0183c337 ! elmas_           ??:?
+   7) libABQSMAStaCore.so        0x02ecb309 ! std_elmas_driver_ ??:?
+   8) libABQSMAStaCore.so        0x03ffd5eb ! substep_         ??:?
+   9) libABQSMAStaCore.so        0x01ace1c1 ! exec             ??:?
+  10) libABQSMAStaCore.so        0x0330f2e7 ! std_main         ??:?
+  11) standard                   0x0042daa4 ! ABQmain          ??:?
+  12) standard                   0x0042a983 ! main             ??:?
+</Callstack>
+

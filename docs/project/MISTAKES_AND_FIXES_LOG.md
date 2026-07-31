@@ -396,6 +396,23 @@ Evidence paths: `runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evide
 Prevention rule: Pass noGUI script inputs through explicit environment variables and tolerate documented Abaqus CAE driver arguments.
 Status: recorded; no resubmission authorized
 
+## Stage F8 minimal patch datacheck signal 11 (2026-07-31)
+
+ID: M-108
+Date: 2026-07-31
+Stage/job: Stage F8 preflight / no PBS job
+Classification: `stage_f8_common_preflight_blocked_minimal_patch_datacheck_signal_11`
+Symptom: Both paired sources compiled, linked and passed input processing,
+then Abaqus/Standard datacheck terminated by signal 11 in `INITIAL STRESS`.
+Root cause: unresolved minimal-deck/runtime interaction; the identical
+failure with both sources places it outside the candidate-only penalty lines.
+Scientific inputs changed: no submitted experiment
+Correction: Stopped before qsub as required; preserved dat/msg/exception
+evidence. No replacement deck or submission was attempted.
+Prevention rule: Require a clean minimal-deck datacheck with the unchanged
+source before activating any batch authority.
+Status: recorded; future repair requires a new task and authorization review
+
 ## Stage F6 H2 embedded-validator interpreter mismatch (2026-07-31)
 
 ID: M-105

@@ -1,0 +1,20 @@
+#!/bin/bash
+#PBS -N M2RMTYPE1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+module purge
+module load abaqus/2023
+sha256sum -c SHA256SUMS
+grep -R -E 'mdb\.Job.*submit|waitForCompletion|abaqus job=|qsub|qdel|qmove' \
+  runtime/scripts/remeshing/qualify_stage_f8_remeshing_variable_type.py && exit 23
+export F8_SOURCE_ODB
+export F8_SOURCE_DECK="$PWD/source_deck.inp"
+export F8_OUTPUT_DIRECTORY="$PWD/type_qualification"
+abaqus cae noGUI=runtime/scripts/remeshing/qualify_stage_f8_remeshing_variable_type.py \
+  > cae_stdout.log 2>&1
+

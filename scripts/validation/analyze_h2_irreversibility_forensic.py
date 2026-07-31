@@ -19,9 +19,28 @@ def dump(path: Path, value):
 
 
 def curve(path: Path):
+    """Read only the declared numeric response columns.
+
+    Production curves also contain textual provenance columns such as
+    ``step=Step-1``.  Those are intentionally preserved in the CSV and must
+    never be passed through ``float``.
+    """
     with path.open(newline="", encoding="utf-8") as stream:
-        return [{k: float(v) for k, v in row.items() if v not in ("", None)}
-                for row in csv.DictReader(stream)]
+        reader = csv.DictReader(stream)
+        fields = set(reader.fieldnames or [])
+        if {"u1", "rf1"} <= fields:
+            u_col, rf_col = "u1", "rf1"
+        elif {"rp_u1", "rp_rf1"} <= fields:
+            u_col, rf_col = "rp_u1", "rp_rf1"
+        else:
+            raise ValueError(
+                "missing explicit response schema; expected u1/rf1 or rp_u1/rp_rf1"
+            )
+        return [
+            {"u1": float(row[u_col]), "rf1": float(row[rf_col])}
+            for row in reader
+            if row[u_col] not in ("", None) and row[rf_col] not in ("", None)
+        ]
 
 
 def interp(xs, ys, x):

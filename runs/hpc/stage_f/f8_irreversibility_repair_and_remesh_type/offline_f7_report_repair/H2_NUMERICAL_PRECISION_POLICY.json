@@ -1,0 +1,13 @@
+{
+  "acceptance_rule": "strict fixed-key pass requires zero negative deltas; precision tiers are diagnostic only",
+  "odb_precision": "not_exposed",
+  "predeclared_reporting_tiers": [
+    0,
+    1e-08,
+    1e-07,
+    1e-06,
+    1e-05,
+    0.0001,
+    0.001
+  ]
+}

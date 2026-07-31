@@ -1,0 +1,28 @@
+#!/bin/bash
+#PBS -N M2IRRCAN1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 Python/3.11.7
+sha256sum -c SHA256SUMS
+test -f SCIENTIFIC_SOURCE_GATE.json
+python3 -m json.tool SCIENTIFIC_SOURCE_GATE.json >/dev/null
+grep -q '"eligible": true' SCIENTIFIC_SOURCE_GATE.json
+export OMP_NUM_THREADS=1
+abaqus job=M2IRRCAN1 input=M2IRR_PATCH.inp user=M2IRR_PATCH.for cpus=1 interactive
+ABAQUS_RC=$?
+abaqus python runtime/scripts/postprocessing/extract_stage_f8_minimal_patch.py \
+  --odb M2IRRCAN1.odb --output-dir extracted
+EXTRACT_RC=$?
+python3 runtime/scripts/validation/validate_stage_f8_minimal_patch.py \
+  --summary extracted/SUMMARY.json --role candidate \
+  --output extracted/VALIDATION.json
+VALIDATE_RC=$?
+printf '{"abaqus_rc":%s,"extract_rc":%s,"validator_rc":%s}\n' \
+  "$ABAQUS_RC" "$EXTRACT_RC" "$VALIDATE_RC" > STATUS.json
+

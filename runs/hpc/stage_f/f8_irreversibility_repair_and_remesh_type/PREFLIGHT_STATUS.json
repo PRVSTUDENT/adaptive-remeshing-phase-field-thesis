@@ -1,0 +1,25 @@
+{
+  "baseline": {
+    "compile_passed": true,
+    "datacheck_passed": false,
+    "input_processing_passed": true,
+    "result": "signal_11_initial_stress",
+    "source_sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37"
+  },
+  "candidate": {
+    "compile_passed": true,
+    "datacheck_passed": false,
+    "input_processing_passed": true,
+    "result": "signal_11_initial_stress",
+    "source_sha256": "ea3aeb972f1adb8f000a508afb1c7da5a34aa5fec125fb1487c1f81c23e56989"
+  },
+  "classification": "stage_f8_common_preflight_blocked_minimal_patch_datacheck_signal_11",
+  "deck_sha256": "a9823ad7de4dcec27ae9b39ed6841b0533e8c65750017d6c9dbad6277e649854",
+  "miseseri_type_job": {
+    "abaqus_python_2_7_compile_passed": true,
+    "source_deck_hash_match": true,
+    "source_odb_hash_match": true
+  },
+  "qsub_attempts": 0,
+  "successful_submissions": 0
+}
