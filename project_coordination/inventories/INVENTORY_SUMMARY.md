@@ -1,6 +1,6 @@
 # Evidence and Scratch Inventories Summary
 
-Updated: 2026-07-30
+Updated: 2026-07-31
 
 ## Tracked Jobs
 
@@ -20,6 +20,8 @@ Updated: 2026-07-30
 | F2-H1-ENDPOINT-SWEEP-BATCH | `1379483.mmaster02` | `stage_f_mode_ii_h1_technical_pass_postpeak_overshoot_warning` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_sweep_u030_1379483.mmaster02` |
 | F2-H1-ENDPOINT-SWEEP-BATCH | `1379484.mmaster02` | `stage_f_mode_ii_h1_technical_pass_postpeak_overshoot_warning` | `/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_h1_sweep_u040_1379484.mmaster02` |
 | F5-H2-COMPILER-DATACHECK-SMOKE-EXECUTE | `1379939.mmaster02` | `stage_f5_h2_compiler_datacheck_smoke_pass` | `/scratch/pr21vyci/adaptive-remeshing/runs/stage_f5/F5CMP_20260730_113544_e8a1d32/h2_compiler_datacheck` |
+| F6-H2-FULL-AND-MISESERI-REMESH-API-BATCH | `1379966.mmaster02` | `stage_f_mode_ii_h2_uniform_serial_validation_fail` | `/scratch/pr21vyci/adaptive-remeshing/runs/stage_f6/F6_20260730_122800_2249ec21/h2_u020_full` |
+| F6-H2-FULL-AND-MISESERI-REMESH-API-BATCH | `1379967.mmaster02` | `abaqus_cae_start_failure` | `/scratch/pr21vyci/adaptive-remeshing/runs/stage_f6/F6_20260730_122800_2249ec21/miseseri_remesh_api` |
 
 ## Summary Notes
 
@@ -39,3 +41,5 @@ Updated: 2026-07-30
 - `1379433.mmaster02`: Stage F Mode-II H1 uniform reference serial solver completed FE execution cleanly (`abaqus_rc: 0`, 2,500 increments, $U_1 = 0.0100\text{ mm}$, $RF_1 = 0.1214\text{ kN}$, $\max(d) = 0.2747 < 0.50$); wrapper exit 12 due to CLI argument mismatch during in-script extraction; scientific classification `stage_f_mode_ii_h1_uniform_serial_validation_fail`; scratch retained.
 - `1379481.mmaster02`, `1379482.mmaster02`, `1379483.mmaster02`, `1379484.mmaster02`: Stage F Mode-II H1 4-job endpoint sweep ($U_1 \in \{0.015, 0.020, 0.030, 0.040\}\text{ mm}$) completed FE execution cleanly (`abaqus_rc: 0`, `extractor_rc: 0`). Peak $RF_1 = 0.1398\text{ kN}$ at $U_1 = 0.0120\text{ mm}$ across all 4 jobs; force drops reached 25.22%, 41.89%, 73.99%, and 88.07%; wrapper exit 12 due to validator $\text{SDV15} \le 1.0$ upper bound check ($\text{SDV15} = 1.00498$); scratch retained.
 - `1379939.mmaster02`: exact frozen H2 user subroutine compiled and linked with ifort 2021.13.0 under Abaqus 2023 and datacheck passed (`Exit_status: 0`, `abaqus_return_code: 0`); lightweight evidence retained in the repository while ODB and binary databases remain scratch-only.
+- `1379966.mmaster02`: full H2 u020 Abaqus solve and extraction passed, but offline validation failed the declared framewise maximum-damage irreversibility gate (11 decreases; largest `-1.0073e-4`). The 943,852,504-byte ODB remains scratch-only; 30 lightweight evidence files were inventoried.
+- `1379967.mmaster02`: Abaqus/CAE driver arguments stopped the API script before source/API audit; no solver, native remesh, or candidate deck.

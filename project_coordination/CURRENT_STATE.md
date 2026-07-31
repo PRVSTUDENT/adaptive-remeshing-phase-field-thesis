@@ -1,20 +1,21 @@
 # Current project state
 
-Updated: 2026-07-30
+Updated: 2026-07-31
 Protocol version: 1
-Classification: `stage_f6_h2_running_api_cae_start_failure`
+Classification: `stage_f6_h2_validation_fail_api_cae_start_failure`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job IDs | `1379966.mmaster02` |
-| Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893`, `1379939` (all terminal) |
+| Active job IDs | None |
+| Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893`, `1379939`, `1379966`, `1379967` (all terminal) |
 | Active agent | None |
 | Active task | **F6-H2-FULL-AND-MISESERI-REMESH-API-BATCH** |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
 | Submission Commit | `7b25ff868c7b96552cec3809ab470a74ee6d38fd` |
+| F6 closure commit | `57e43e0a9c224013989c953c5f366fa5effccf86` |
 | F5 offline preparation commit | `8779d12aded3e74638dd49e0dd9d619fe67dfce2` |
 | F5 compiler/datacheck closure | `a86853132b0dba934add4bde84ccf9e687987396` |
 
@@ -110,13 +111,14 @@ retry_authorized: false
 
 ## Next Action
 
-Preparation commit `2249ec21fe92c6c7348d1cff653a84901828e117` and authorization
-commit `5b5c2f4c596e419d4dcfca9cc1e80ba343f5cb82` are published. The
-single guarded orchestrator submitted both independent jobs exactly once from
-run `F6_20260730_122800_2249ec21`. H2 full job `1379966.mmaster02` remains
-healthy and running naturally. API job `1379967.mmaster02` is terminal with
-PBS exit 10 and classification `abaqus_cae_start_failure`: Abaqus/CAE Python
-rejected CAE driver arguments before the API audit; zero solver/remesh
-executions and zero candidate decks resulted. All authority is consumed
-(`2/2`); no retry, replacement, direct qsub, qdel, qmove, refined solve or
-third job is authorized.
+The guarded F6 batch is terminal. H2 job `1379966.mmaster02` completed Abaqus
+and extraction at `U1=0.020 mm` with peak `RF1=0.138727 kN`, final
+`RF1=0.080544 kN`, and 41.94% force drop. PBS exit 12 reflects the embedded
+Python 2.7 validator incompatibility; Python 3.11 offline validation returned
+1 because 11 framewise maximum-damage decreases failed the declared
+irreversibility gate. Classification:
+`stage_f_mode_ii_h2_uniform_serial_validation_fail`. API job
+`1379967.mmaster02` remains `abaqus_cae_start_failure` with no API audit,
+solver, native remesh, or candidate deck. All authority is consumed (`2/2`);
+no retry, replacement, direct qsub, qdel, qmove, refined solve, or third job
+is authorized. Await explicit human direction.

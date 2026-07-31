@@ -7,6 +7,7 @@
 - Package revision: `2249ec21fe92c6c7348d1cff653a84901828e117`
 - Authorization revision: `5b5c2f4c596e419d4dcfca9cc1e80ba343f5cb82`
 - Submission revision: `7a859ceeaa0e9e7477d3abcdfcdb7a0d358b0d9c`
+- Main closure revision: `57e43e0a9c224013989c953c5f366fa5effccf86`
 - Runtime: Abaqus 2023, ifort 2021.13.0, one CPU, 16 GB requested
 - Scheduler: `normal_imfdfkmq`, `mnode105/0`, state `F`, exit 12
 - Resources used: walltime `04:43:26`, CPU time `04:37:57`,
@@ -62,4 +63,3 @@ The two-job authorization is consumed at 2/2. No retry, replacement, direct
 `qsub`, `qdel`, or `qmove` occurred or is authorized. Job B
 `1379967.mmaster02` remains independently closed as
 `abaqus_cae_start_failure`.
-
