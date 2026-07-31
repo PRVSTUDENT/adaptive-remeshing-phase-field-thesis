@@ -2,7 +2,7 @@
 
 Updated: 2026-07-31
 Protocol version: 1
-Classification: `stage_f10_corrected_minimal_pair_preparing`
+Classification: `stage_f11_preparation_in_progress`
 
 ## Git
 
@@ -129,12 +129,10 @@ unqualified.
 
 ## Next Action
 
-Stage F10 submitted exactly three jobs. Both compact analyses completed with
-the corrected 23-element runtime map and no bounds failure. The candidate
-reduced the minimum SDV15 change from `-5.7817e-6` to `-5.9605e-8` while
-preserving RF--U response and convergence, but missing energy and penalty
-histories make the result `irreversibility_candidate_inconclusive`.
-`M2RMTYPE2` passed path audits but failed before its type matrix because
-Abaqus CAE `execfile` did not define `__file__`; the native type remains
-unresolved. No retry, further replacement, medium H1, full H2, refined solve,
-or adaptive solve is authorized.
+Stage F11 prepares the independently eligible instrumented minimal baseline,
+instrumented penalty candidate, and corrected CAE-only type matrix. F10
+geometry, mapping, loading, and governing formulations are frozen. Energy is
+evaluated as a predeclared diagnostic balance because the custom
+history-field UEL does not expose an exact Abaqus global variational balance.
+Execution authority remains false until immutable runtime staging, all three
+independent preflights, and an authorization commit are complete.

@@ -1,0 +1,34 @@
+{
+  "deck_sha256": "2be3770a2cb0e687206915d52b92e1f8c4301460d9446a6c92658bb751f69d99",
+  "diagnostic_sdv_map": {
+    "SDV19": "current_phase",
+    "SDV20": "prior_converged_phase",
+    "SDV21": "phase_gap",
+    "SDV22": "penalty_active",
+    "SDV23": "penalty_energy_density",
+    "SDV24": "penalty_residual_density_magnitude",
+    "SDV25": "penalty_tangent_density_magnitude",
+    "SDV26": "local_crack_energy_density",
+    "SDV27": "gradient_crack_energy_density",
+    "SDV28": "history_driven_phase_density"
+  },
+  "displacement_labels": [
+    24,
+    46
+  ],
+  "f10_baseline_deck_sha256": "57b611238f51168dfc498ef7169a41d629f390d0bddd5171a244406f3e97bb6c",
+  "f10_baseline_source_sha256": "0a3af6219fa4c18aa58ad65c16036a17ea9c43fecb7efbe84e7dac052eaecbbe",
+  "f10_candidate_deck_sha256": "57b611238f51168dfc498ef7169a41d629f390d0bddd5171a244406f3e97bb6c",
+  "f10_candidate_source_sha256": "4a992f45b392c26b1115fb37f7859a8df93edeb2f5d83283d7529249bb6458e5",
+  "n_elem": 23,
+  "phase_labels": [
+    1,
+    23
+  ],
+  "role": "candidate",
+  "source_sha256": "535ecd692bb4f67b0c738a854d745f339413e48f385e91823c6e0a4773addac0",
+  "visualization_labels": [
+    47,
+    69
+  ]
+}
