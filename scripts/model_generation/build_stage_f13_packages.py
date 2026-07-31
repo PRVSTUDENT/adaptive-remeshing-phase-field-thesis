@@ -59,7 +59,8 @@ def main():
     source = srcdir / "M2IRR_PATCH.for"
     deck_bytes = deck.read_text(encoding="ascii").replace(
         "*Static, direct\n0.02, 1.0", "*Static\n0.02, 1.0, 1.0e-8, 0.02").encode("ascii")
-    source_bytes = f13_source(source.read_text(encoding="ascii")).encode("ascii")
+    generated_source = f13_source(source.read_text(encoding="ascii"))
+    source_bytes = ("\n".join(line.rstrip() for line in generated_source.splitlines()) + "\n").encode("ascii")
     common = {
         "status": "prepared_authorized", "n_elem": 23,
         "phase_uel_labels": [1, 23], "displacement_uel_labels": [24, 46],

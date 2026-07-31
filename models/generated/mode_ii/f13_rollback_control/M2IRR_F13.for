@@ -51,20 +51,20 @@ C     ==================================================================
      3     PARAMS(3),JDLTYP(MDLOAD,*),ADLMAG(MDLOAD,*),
      4     DDLMAG(MDLOAD,*),PREDEF(2,NPREDF,NNODE),LFLAGS(*),
      5     JPROPS(*)
-     
+
        INTEGER I,J,L,K,K1,K2,K3,K4,IX,IY
 
        REAL*8 AINTW(NNODE),XII(NNODE,2),XI(2),dNdxi(NNODE,2),
      1 VJACOB(2,2),dNdx(NNODE,2),VJABOBINV(2,2),AN(4),BP(2,NDOFEL),
      2 DP(2),SDV(NSTV),BB(3,NDOFEL),CMAT(3,3),EPS(3),STRESS(3),
      3 VNI(2,NDOFEL),ULOC(2),PHASENOD(NNODE)
-     
+
        REAL*8 DTM,THCK,HIST,CLPAR,GCPAR,EMOD,ENU,PARK,ENG
        REAL*8 PHASEOLD,PENALTY,GAP,PENEDEN,PENRES,PENTAN,PBEFORE
        CHARACTER*512 F13LOG
        CHARACTER*8 F13FORCE
        INTEGER F13LS,F13FS,F13IOS
- 
+
        COMMON/KUSER/USRVAR(N_ELEM,NSTV,4)
 C
 C     ==================================================================
@@ -72,7 +72,7 @@ C     ******************************************************************
 C     Constructing elemet TYPE 1 (phase)
 C     ******************************************************************
 C     ==================================================================
-C      
+C
        IF (JTYPE.EQ.ONE) THEN
        IF (JELEM.LT.1.OR.JELEM.GT.N_ELEM) THEN
         WRITE(7,*) 'F13 BOUNDS PHASE',JELEM,N_ELEM
@@ -98,7 +98,7 @@ C     ==================================================================
 C     ==================================================================
 C     Initial preparations
 C     ==================================================================
-       DO K1 = 1, NDOFEL                      
+       DO K1 = 1, NDOFEL
         DO KRHS = 1, NRHS
          RHS(K1,KRHS) = ZERO
         END DO
@@ -132,7 +132,7 @@ C     Initializing solution dependent variables (phase,history)
 C
 C     Local coordinates of the integration point
         XI(1) = XII(INPT,1)
-        XI(2) = XII(INPT,2) 
+        XI(2) = XII(INPT,2)
 C     Shape functions and local derivatives
         CALL SHAPEFUN(AN,dNdxi,XI)
 C     Jacobian
@@ -144,19 +144,19 @@ C     Jacobian
           END DO
          END DO
         END DO
-C        
+C
         DTM = ZERO
         DTM = VJACOB(1,1)*VJACOB(2,2)-VJACOB(1,2)*VJACOB(2,1)
         IF (DTM.LT.ZERO) THEN
          WRITE(7,*) 'Negative Jacobian',DTM
-         CALL XIT	
+         CALL XIT
         END IF
 C     Inverse of Jacobian
         VJABOBINV(1,1)=VJACOB(2,2)/DTM
         VJABOBINV(1,2)=-VJACOB(1,2)/DTM
         VJABOBINV(2,1)=-VJACOB(2,1)/DTM
         VJABOBINV(2,2)=VJACOB(1,1)/DTM
-C        
+C
 C     Derivatives of shape functions respect to global ccordinates
         DO K = 1,NNODE
          DO I = 1,2
@@ -184,7 +184,7 @@ C     ==================================================================
         DO I=1,4
          DPHASE=DPHASE+AN(I)*DU(I,1)
         END DO
-C        
+C
         IF (STEPITER.EQ.ZERO) THEN
           SDV(1)=PHASE-DPHASE
         ELSE
@@ -209,7 +209,7 @@ C     ==================================================================
         ELSE
          ENGN=USRVAR(JELEM,16,INPT)
         ENDIF
-C        
+C
         HISTN=USRVAR(JELEM,16,INPT)
         IF (ENGN.GT.HISTN) THEN
          HIST=ENGN
@@ -230,7 +230,7 @@ C     ==================================================================
      1     AINTW(INPT)*(GCPAR/CLPAR+TWO*HIST)
          END DO
         END DO
-C        
+C
 C     ==================================================================
 C     Internal forces (residual vector)
 C     ==================================================================
@@ -305,7 +305,7 @@ C     ==================================================================
          USRVAR(JELEM,I+NSTVTT,INPT)=SVARS(NSTVTO*(INPT-1)+I)
         END DO
        END DO
-       
+
 C     ==================================================================
 C     ******************************************************************
 C     Constructing elemet TYPE 2 (displacement)
@@ -328,7 +328,7 @@ C     ==================================================================
 C     ==================================================================
 C     Initial preparations
 C     ==================================================================
-       DO K1 = 1, NDOFEL                      
+       DO K1 = 1, NDOFEL
         DO KRHS = 1, NRHS
          RHS(K1,KRHS) = ZERO
         END DO
@@ -361,7 +361,7 @@ C     Initial variables
 C
 C     Local coordinates of the integration point
         XI(1) = XII(INPT,1)
-        XI(2) = XII(INPT,2) 
+        XI(2) = XII(INPT,2)
 C     Shape functions and local derivatives
         CALL SHAPEFUN(AN,dNdxi,XI)
 C     Shape functions
@@ -383,19 +383,19 @@ C     Jacobian
           END DO
          END DO
         END DO
-C        
+C
         DTM = ZERO
         DTM = VJACOB(1,1)*VJACOB(2,2)-VJACOB(1,2)*VJACOB(2,1)
         IF (DTM.LT.ZERO) THEN
          WRITE(7,*) 'Negative Jacobian',DTM
-         CALL XIT	
+         CALL XIT
         ENDIF
 C     Inverse of Jacobian
         VJABOBINV(1,1)=VJACOB(2,2)/DTM
         VJABOBINV(1,2)=-VJACOB(1,2)/DTM
         VJABOBINV(2,1)=-VJACOB(2,1)/DTM
         VJABOBINV(2,2)=VJACOB(1,1)/DTM
-C        
+C
 C     Derivatives of shape functions respect to global ccordinates
         DO K = 1,NNODE
          DO I = 1,2
@@ -443,11 +443,11 @@ C     ==================================================================
          DO I=1,NDOFEL
           ULOC(J)=ULOC(J)+VNI(J,I)*U(I)
          END DO
-        END DO  
+        END DO
         DO J=1,2
          SDV(J)=ULOC(J)
         END DO
-C   
+C
 C     ==================================================================
 C     Nodal phase-field
 C     ==================================================================
@@ -466,7 +466,7 @@ C     ==================================================================
         END DO
         DO I=1,3
          DO J=1,NDOFEL
-          EPS(I)=EPS(I)+BB(I,J)*U(J)    
+          EPS(I)=EPS(I)+BB(I,J)*U(J)
          END DO
         END DO
         DO J=1,3
@@ -514,7 +514,7 @@ C
           END DO
          END DO
         END DO
-C       
+C
 C     ==================================================================
 C     Internal forces (residual vector)
 C     ==================================================================
@@ -524,7 +524,7 @@ C     ==================================================================
      1      THCK*((ONE-PHASE)**TWO+PARK)
          END DO
         END DO
-C       
+C
 C     ==================================================================
 C     Uploading solution dep. variables
 C     ==================================================================
@@ -534,7 +534,7 @@ C     ==================================================================
         END DO
        END DO
       ENDIF
-C      
+C
       RETURN
       END
 
@@ -566,8 +566,8 @@ C     Derivatives of shape functions respect to local coordinates
       dNdxi(4,2) =  ONE/FOUR*(ONE-XI(1))
       RETURN
       END
-C      
-C Subroutine UMAT  : 
+C
+C Subroutine UMAT  :
 C Dummy material
 C
 C ==============================================================
@@ -588,19 +588,19 @@ C
      2 DDSDDT(NTENS),DRPLDE(NTENS),
      3 STRAN(NTENS),DSTRAN(NTENS),TIME(2),PREDEF(1),DPRED(1),
      4 PROPS(NPROPS),COORDS(3),DROT(3,3),DFGRD0(3,3),DFGRD1(3,3)
-C 
+C
        PARAMETER (ONE=1.0,TWO=2.0,THREE=3.0,SIX=6.0, HALF =0.5,
-     1 N_ELEM=23,NSTV=28) 
-       DATA NEWTON,TOLER/40,1.D-6/ 
-C       
+     1 N_ELEM=23,NSTV=28)
+       DATA NEWTON,TOLER/40,1.D-6/
+C
        COMMON/KUSER/USRVAR(N_ELEM,NSTV,4)
-C 
-C ----------------------------------------------------------- 
+C
+C -----------------------------------------------------------
 C          Material properties
-C ----------------------------------------------------------- 
-C          PROPS(1) - Young's modulus 
-C          PROPS(2) - Poisson ratio 
-C ----------------------------------------------------------- 
+C -----------------------------------------------------------
+C          PROPS(1) - Young's modulus
+C          PROPS(2) - Poisson ratio
+C -----------------------------------------------------------
 C
 C	Elastic properties
 C
@@ -623,7 +623,7 @@ C
          DDSDDE(K2, K1)=ELAM
         END DO
         DDSDDE(K1, K1)=EG2+ELAM
-       END DO 
+       END DO
 C
        DO K1=NDI+1, NTENS
         DDSDDE(K1, K1)=EG
@@ -635,7 +635,7 @@ C
         DO K2=1, NTENS
          STRESS(K2)=STRESS(K2)+DDSDDE(K2, K1)*DSTRAN(K1)
         END DO
-       END DO 
+       END DO
 C
        NELEMAN=NOEL-TWO*N_ELEM
        IF (NELEMAN.LT.1.OR.NELEMAN.GT.N_ELEM) THEN
@@ -651,11 +651,11 @@ C
        ELSEIF (NPT.EQ.4) THEN
         NPT=3
        ENDIF
-C       
+C
        DO I=1,NSTATV
         STATEV(I)=USRVAR(NELEMAN,I,NPT)
        END DO
-C       
+C
        RETURN
-       END      
-      
+       END
+
