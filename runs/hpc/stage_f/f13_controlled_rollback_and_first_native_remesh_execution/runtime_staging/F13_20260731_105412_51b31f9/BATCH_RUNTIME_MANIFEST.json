@@ -1,0 +1,25 @@
+{
+    "run_id":  "F13_20260731_105412_51b31f9",
+    "preparation_sha":  "51b31f9cecf339e15e5129681036d16d82408819",
+    "jobs":  {
+                 "rollback_control":  {
+                                          "job":  "M2IRRROLLCTL1",
+                                          "force_cutback":  0,
+                                          "resources":  "1cpu/8gb/01:00:00"
+                                      },
+                 "rollback_forced":  {
+                                         "job":  "M2IRRROLLFORCE1",
+                                         "force_cutback":  1,
+                                         "resources":  "1cpu/8gb/01:00:00"
+                                     },
+                 "native_remesh":  {
+                                       "job":  "M2RMEXEC1",
+                                       "resources":  "1cpu/16gb/02:00:00",
+                                       "source_solver_limit":  1,
+                                       "adaptive_limit":  1,
+                                       "remesh_limit":  1,
+                                       "refined_solver_limit":  0
+                                   }
+             },
+    "immutable":  true
+}
