@@ -35,14 +35,14 @@ def write_json(path, data):
 
 def main(argv=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", default=os.environ.get("F6_REMESH_CONFIG"))
-    parser.add_argument("--odb", default=os.environ.get("F6_SOURCE_ODB"))
-    parser.add_argument("--deck", default=os.environ.get("F6_SOURCE_DECK"))
-    parser.add_argument("--output-dir", default=os.environ.get("F6_API_OUTPUT_DIR"))
+    parser.add_argument("--config", default=os.environ.get("F7_CONFIG_PATH"))
+    parser.add_argument("--odb", default=os.environ.get("F7_SOURCE_ODB"))
+    parser.add_argument("--deck", default=os.environ.get("F7_SOURCE_DECK"))
+    parser.add_argument("--output-dir", default=os.environ.get("F7_OUTPUT_DIRECTORY"))
     args, ignored = parser.parse_known_args(argv)
     for name in ("config", "odb", "deck", "output_dir"):
         if not getattr(args, name):
-            parser.error("missing --%s or corresponding F6 environment variable" %
+            parser.error("missing --%s or corresponding F7 environment variable" %
                          name.replace("_", "-"))
     if not os.path.isdir(args.output_dir):
         os.makedirs(args.output_dir)
@@ -73,9 +73,12 @@ def main(argv=None):
         "solver_execution_count": 0,
         "candidate_refined_deck_generated": False,
         "ignored_abaqus_driver_arguments": ignored,
+        "cae_driver_argv": list(sys.argv),
+        "f7_run_id": os.environ.get("F7_RUN_ID"),
+        "f7_job_name": os.environ.get("F7_JOB_NAME"),
     }
     status = {
-        "job_name": "M2RMAPI1",
+        "job_name": os.environ.get("F7_JOB_NAME", "M2RMAPI2"),
         "pbs_job_id": os.environ.get("PBS_JOBID", "unknown"),
         "classification": "remeshing_api_incompatible",
         "source_odb_hash_match": audit["source_odb_hash_match"],
@@ -105,7 +108,7 @@ def main(argv=None):
             "UNIFORM_ERROR": str(UNIFORM_ERROR),
         }
         Mdb()
-        model_name = "F6_REMESH_API_QUALIFICATION"
+        model_name = "F7_REMESH_API_QUALIFICATION"
         model = mdb.Model(name=model_name)
         model.StaticStep(name="SOURCE_STEP", previous="Initial")
         keywords = {

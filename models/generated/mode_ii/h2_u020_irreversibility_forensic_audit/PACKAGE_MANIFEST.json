@@ -1,0 +1,18 @@
+{
+  "task_id": "F7-H2-IRREVERSIBILITY-AND-MISESERI-API-BATCH",
+  "job_name": "M2H2IRR1",
+  "mode": "odb_postprocessing_only",
+  "source_job_id": "1379966.mmaster02",
+  "source_odb_sha256": "b1e6b0bc82bc0febd5b208f81e3dd09f60a0adec91bba47e4a1ed96ac7a555bb",
+  "source_odb_size_bytes": 943852504,
+  "solver_launch_allowed": false,
+  "odb_open_mode": "read_only",
+  "abaqus_python_contract": "2.7",
+  "analysis_python_contract": "3.11",
+  "resources": {
+    "queue": "entry_imfdfkmq",
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime": "04:00:00"
+  }
+}

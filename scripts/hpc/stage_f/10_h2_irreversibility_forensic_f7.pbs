@@ -1,0 +1,34 @@
+#!/bin/bash
+#PBS -N M2H2IRR1
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=04:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -m abe
+
+set -u
+cd "${PBS_O_WORKDIR}" || exit 21
+OUT=forensic
+mkdir -p "${OUT}"
+for f in RUNTIME_MANIFEST.json SHA256SUMS runtime/scripts/postprocessing/extract_h2_irreversibility_forensic_odb.py runtime/scripts/validation/analyze_h2_irreversibility_forensic.py h1_rf1_u1_curve.csv h2_rf1_u1_curve.csv; do
+  [ -f "$f" ] || exit 21
+done
+[ -r "${F7_SOURCE_ODB}" ] || exit 21
+actual=$(sha256sum "${F7_SOURCE_ODB}" | awk '{print $1}')
+[ "${actual}" = "${F7_EXPECTED_ODB_SHA256}" ] || exit 20
+sha256sum -c SHA256SUMS || exit 20
+module --force purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+export F7_OUTPUT_DIRECTORY="${PBS_O_WORKDIR}/${OUT}"
+abaqus python runtime/scripts/postprocessing/extract_h2_irreversibility_forensic_odb.py > "${OUT}/extractor_stdout.log" 2>&1
+EXT_RC=$?
+[ "${EXT_RC}" -eq 0 ] || exit 11
+module --force purge
+module load gcc/11.4.0
+module load python/gcc/11.4.0/3.11.7
+python3 runtime/scripts/validation/analyze_h2_irreversibility_forensic.py --input-dir "${OUT}" --h1-curve h1_rf1_u1_curve.csv --h2-curve h2_rf1_u1_curve.csv > "${OUT}/analyzer_stdout.log" 2>&1
+ANA_RC=$?
+python3 -m json.tool "${OUT}/H2_IRREVERSIBILITY_FORENSIC_STATUS.json" >/dev/null || exit 12
+exit "${ANA_RC}"

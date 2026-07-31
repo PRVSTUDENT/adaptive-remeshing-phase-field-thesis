@@ -1,0 +1,17 @@
+{
+  "task_id": "F7-H2-IRREVERSIBILITY-AND-MISESERI-API-BATCH",
+  "job_name": "M2RMAPI2",
+  "mode": "abaqus_cae_nogui_preprocessing_only",
+  "source_job_id": "1379893.mmaster02",
+  "source_odb_sha256": "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac",
+  "source_deck_sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2",
+  "solver_launch_allowed": false,
+  "native_remesh_execution_allowed": false,
+  "candidate_generation_fail_closed": true,
+  "resources": {
+    "queue": "entry_imfdfkmq",
+    "cpus": 1,
+    "memory_gb": 8,
+    "walltime": "01:00:00"
+  }
+}

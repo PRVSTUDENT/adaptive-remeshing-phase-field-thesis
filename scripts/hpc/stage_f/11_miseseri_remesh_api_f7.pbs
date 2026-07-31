@@ -1,0 +1,34 @@
+#!/bin/bash
+#PBS -N M2RMAPI2
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -m abe
+
+set -u
+cd "${PBS_O_WORKDIR}" || exit 21
+OUT=api_qualification
+mkdir -p "${OUT}"
+for f in RUNTIME_MANIFEST.json SHA256SUMS runtime/scripts/remeshing/qualify_mode_ii_native_miseseri_api.py runtime/configs/stage_f/mode_ii_miseseri_native_remesh.yaml source_deck.inp; do
+  [ -f "$f" ] || exit 21
+done
+[ -r "${F7_SOURCE_ODB}" ] || exit 21
+[ "$(sha256sum "${F7_SOURCE_ODB}" | awk '{print $1}')" = "${F7_EXPECTED_ODB_SHA256}" ] || exit 20
+[ "$(sha256sum source_deck.inp | awk '{print $1}')" = "${F7_EXPECTED_DECK_SHA256}" ] || exit 20
+sha256sum -c SHA256SUMS || exit 20
+module --force purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+export F7_SOURCE_DECK="${PBS_O_WORKDIR}/source_deck.inp"
+export F7_CONFIG_PATH="${PBS_O_WORKDIR}/runtime/configs/stage_f/mode_ii_miseseri_native_remesh.yaml"
+export F7_OUTPUT_DIRECTORY="${PBS_O_WORKDIR}/${OUT}"
+abaqus cae noGUI=runtime/scripts/remeshing/qualify_mode_ii_native_miseseri_api.py > cae_stdout.log 2>&1
+RC=$?
+for f in API_AUDIT.json REMESH_RULE_MANIFEST.json STATUS.json; do
+  [ -f "${OUT}/${f}" ] || exit 10
+  python3 -m json.tool "${OUT}/${f}" >/dev/null || exit 12
+done
+grep -R -E 'mdb\\.Job.*submit|waitForCompletion|abaqus job=|qsub|qdel|qmove' runtime/scripts/remeshing/qualify_mode_ii_native_miseseri_api.py && exit 23
+exit "${RC}"
