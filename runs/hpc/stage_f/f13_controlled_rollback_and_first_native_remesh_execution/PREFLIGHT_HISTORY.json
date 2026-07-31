@@ -21,6 +21,15 @@
       "failure": "Installed Abaqus 2023 API requires a ModelJob object, not a job-name string",
       "installed_error": "TypeError: job; found string, expecting ModelJob",
       "qsub_attempts": 0
+    },
+    {
+      "run_id": "F13_20260731_105058_10d9cbe",
+      "eligible": false,
+      "hashes_and_file_routing": "pass",
+      "failure": "AdaptivityProcess requires at least two iterations, which could violate the zero-refined-solve boundary",
+      "installed_error": "At least two iterations must be specified for adaptivity process",
+      "resolved_route": "Use documented Model.adaptiveRemesh(odb) with the verified official existing ODB",
+      "qsub_attempts": 0
     }
   ],
   "submission_authority_consumed": false

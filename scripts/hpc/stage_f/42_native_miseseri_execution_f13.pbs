@@ -12,6 +12,8 @@ module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
 sha256sum -c SHA256SUMS || exit 3
 export F13_RUNTIME_DIR="$PBS_O_WORKDIR/runtime"
 export F13_OUTPUT_DIR="$PBS_O_WORKDIR/evidence"
+export F13_SOURCE_ODB="/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4R1_20260730_065138_86ec6c79/miseseri_corrected/M2MISER1.odb"
+test "$(sha256sum "$F13_SOURCE_ODB" | awk '{print $1}')" = "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac" || exit 4
 abaqus cae noGUI=runtime/execute_stage_f13_native_remesh.py
 rc=$?
 test -f F13_MISESERI_CANDIDATE_INPUT.inp && mv F13_MISESERI_CANDIDATE_INPUT.inp evidence/
