@@ -1,9 +1,10 @@
 # Session report: Stage F10 corrected minimal qualification
 
-Starting SHA: `476885c119c6d585fffa5b26d0b902abe4f6d295`  
-Preparation SHA: `3ca7f4f4dc80cf9c44d090a27394cf1e76d506d8`  
-Authorization SHA: `1b0c585d83d65433193dda6b90d19a30f21af516`  
-Submission SHA: `44e9e540b35123fce3694f6fe0a9c7bc97915ccd`  
+Starting SHA: `476885c119c6d585fffa5b26d0b902abe4f6d295`
+Preparation SHA: `3ca7f4f4dc80cf9c44d090a27394cf1e76d506d8`
+Authorization SHA: `1b0c585d83d65433193dda6b90d19a30f21af516`
+Submission SHA: `44e9e540b35123fce3694f6fe0a9c7bc97915ccd`
+Evidence SHA: `0da604a74929626034907b931a4d4b61b9cc4bde`
 Run ID: `F10_20260731_060443_3ca7f4f`
 
 Exactly three orchestrated qsub invocations succeeded:
