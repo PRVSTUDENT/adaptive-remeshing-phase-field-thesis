@@ -455,6 +455,19 @@ Submission-review priority:
   retries, replacements, direct qsub, qdel and qmove all zero.
 - [!] No candidate qualification or RemeshingRule type result exists. No HPC
   execution is authorized.
+
+## Stage F9 diagnostic closeout (2026-07-31)
+
+- [x] Exactly two diagnostic jobs submitted: `1380088.mmaster02` and
+  `1380089.mmaster02`; two qsub attempts/successes and no retry, replacement,
+  direct qsub, qdel, or qmove.
+- [x] Job A isolated a UEL bounds violation: runtime `JELEM=24` for the first
+  displacement element makes frozen `JELEM-N_ELEM` equal `-33828`.
+- [x] Nominal deck labels map to `1..23`; the defect is the reduced model's
+  runtime UEL numbering contract. UMAT-only datacheck passed.
+- [!] Job B failed before CAE because its no-solver-audit filename did not
+  match the staged file. The native variables type remains unresolved.
+- [!] No baseline, penalty, H1, H2, refined, or adaptive analysis ran.
 # P3-SM1T preparation update (2026-07-25)
 
 - [x] P3-SM0 reference remains passed and closed. Evidence:

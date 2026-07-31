@@ -1,0 +1,79 @@
+{
+  "cases": [
+    {
+      "case": "C0_EXACT",
+      "command": "abaqus job=C0_EXACT input=C0_EXACT.inp user=M2IRR_PATCH.for datacheck interactive",
+      "compiler_result": "see_log",
+      "datacheck_return_code": 1,
+      "deck_sha256": "a9823ad7de4dcec27ae9b39ed6841b0533e8c65750017d6c9dbad6277e649854",
+      "environment_file_sha256": "",
+      "final_abaqus_message": "A N A L Y S I S    D A T A C H E C K",
+      "linker_result": "see_log",
+      "purpose": "exact Stage F8 reproduction",
+      "sequence": 1,
+      "signal_or_exception": true,
+      "source_sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37"
+    },
+    {
+      "case": "C1_DEBUG",
+      "command": "abaqus job=C1_DEBUG input=C1_DEBUG.inp user=M2IRR_PATCH.for datacheck interactive",
+      "compiler_result": "see_log",
+      "datacheck_return_code": 1,
+      "deck_sha256": "a9823ad7de4dcec27ae9b39ed6841b0533e8c65750017d6c9dbad6277e649854",
+      "environment_file_sha256": "6a532a2a9f99641f09b4a7f0176f44f8be785d05d8387c048caae8e36031fce1",
+      "final_abaqus_message": "A N A L Y S I S    D A T A C H E C K",
+      "linker_result": "see_log",
+      "purpose": "bounds and traceback diagnostic reproduction",
+      "sequence": 2,
+      "signal_or_exception": false,
+      "source_sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37"
+    },
+    {
+      "case": "C2_UEL_ONLY",
+      "command": "abaqus job=C2_UEL_ONLY input=C2_UEL_ONLY.inp user=M2IRR_PATCH.for datacheck interactive",
+      "compiler_result": "see_log",
+      "datacheck_return_code": 1,
+      "deck_sha256": "98eb6ad5683979a4087c0f48da34e8620ee67901aa431cff58c1b240d5241331",
+      "environment_file_sha256": "",
+      "final_abaqus_message": "WALLCLOCK TIME (SEC) =            0",
+      "linker_result": "see_log",
+      "purpose": "UEL layers without visualization overlay",
+      "sequence": 3,
+      "signal_or_exception": false,
+      "source_sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37"
+    },
+    {
+      "case": "C3_UMAT_ONLY",
+      "command": "abaqus job=C3_UMAT_ONLY input=C3_UMAT_ONLY.inp user=M2IRR_PATCH.for datacheck interactive",
+      "compiler_result": "see_log",
+      "datacheck_return_code": 0,
+      "deck_sha256": "6b7cf583f631aa13e7b9b34963496712281544680ab904599c1ccb67c09e2a02",
+      "environment_file_sha256": "",
+      "final_abaqus_message": "WALLCLOCK TIME (SEC) =            0",
+      "linker_result": "see_log",
+      "purpose": "visualization UMAT initialization isolation",
+      "sequence": 4,
+      "signal_or_exception": false,
+      "source_sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37"
+    },
+    {
+      "case": "C4_UEL_SIMPLE",
+      "command": "abaqus job=C4_UEL_SIMPLE input=C4_UEL_SIMPLE.inp user=M2IRR_PATCH.for datacheck interactive",
+      "compiler_result": "see_log",
+      "datacheck_return_code": 1,
+      "deck_sha256": "c739d5179c9789c2cc7d5b449b27b053e22963ca84fb6620b8b5604c6ba24053",
+      "environment_file_sha256": "",
+      "final_abaqus_message": "WALLCLOCK TIME (SEC) =            1",
+      "linker_result": "see_log",
+      "purpose": "single-step UEL control",
+      "sequence": 5,
+      "signal_or_exception": false,
+      "source_sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37"
+    }
+  ],
+  "cases_attempted": 5,
+  "maximum_cases": 6,
+  "no_full_analysis": true,
+  "original_deck_sha256": "a9823ad7de4dcec27ae9b39ed6841b0533e8c65750017d6c9dbad6277e649854",
+  "source_sha256": "49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37"
+}

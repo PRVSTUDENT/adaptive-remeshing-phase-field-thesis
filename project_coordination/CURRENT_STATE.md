@@ -2,7 +2,7 @@
 
 Updated: 2026-07-31
 Protocol version: 1
-Classification: `stage_f9_two_job_diagnostic_batch_preparing`
+Classification: `stage_f9_datacheck_root_cause_isolated_remesh_type_wrapper_fail`
 
 ## Git
 
@@ -10,8 +10,8 @@ Classification: `stage_f9_two_job_diagnostic_batch_preparing`
 |---|---|
 | Active job IDs | none |
 | Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893`, `1379939`, `1379966`, `1379967` (all terminal) |
-| Active agent | codex |
-| Active task | `F9-DATACHECK-ROOT-CAUSE-AND-REMESH-TYPE-BATCH` |
+| Active agent | none |
+| Active task | none |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
 | Submission Commit | `7b25ff868c7b96552cec3809ab470a74ee6d38fd` |
@@ -129,8 +129,9 @@ unqualified.
 
 ## Next Action
 
-Stage F9 prepares exactly two independently eligible diagnostic jobs:
-`M2DKMAT1` (bounded datacheck-only matrix) and `M2RMTYPE1` (CAE-only native
-type qualification). No phase-field, adaptive, refined, restart, or
-continuation analysis is authorized. Preparation must be committed and
-pushed before independent cluster preflight and authorization activation.
+Stage F9 isolated the minimal-patch defect: Abaqus supplies contiguous UEL
+runtime numbering, making the frozen `JELEM-N_ELEM` offset invalid in the
+reduced population (`24-33852=-33828`). A later task may prepare corrected
+baseline/candidate packages offline, but no execution is authorized.
+`M2RMTYPE1` failed before CAE on a staged helper filename mismatch, so the
+native type contract remains unresolved and requires new authorization.

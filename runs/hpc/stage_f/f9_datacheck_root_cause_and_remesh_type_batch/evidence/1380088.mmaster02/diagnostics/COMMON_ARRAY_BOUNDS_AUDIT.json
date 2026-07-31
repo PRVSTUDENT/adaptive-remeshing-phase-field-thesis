@@ -1,0 +1,23 @@
+{
+  "active_indices_in_bounds": true,
+  "active_physical_population": 23,
+  "common_declaration": "USRVAR(N_ELEM,NSTV,4)",
+  "initialization_risk": {
+    "jelem_zero_possible_by_contract": "not established",
+    "kinc_zero_possible": true,
+    "noel_zero_possible_by_contract": "not established",
+    "unexpected_integration_point_possible": true
+  },
+  "n_elem": 33852,
+  "references": {
+    "JELEM": 15,
+    "KINC": 2,
+    "KSLAY": 1,
+    "KSPT": 1,
+    "NOEL": 2,
+    "NPT": 31,
+    "N_ELEM": 11,
+    "SVARS": 10,
+    "USRVAR": 17
+  }
+}

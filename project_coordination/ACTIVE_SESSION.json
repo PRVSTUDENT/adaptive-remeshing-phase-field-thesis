@@ -1,6 +1,6 @@
 {
-  "active": true,
-  "agent": "codex",
+  "active": false,
+  "agent": null,
   "allowed_scope": [
     "configs/stage_f/**",
     "models/generated/mode_ii/f9_minimal_patch_datacheck_matrix/**",
@@ -20,11 +20,11 @@
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "project_coordination/**"
   ],
-  "completed_at": null,
-  "heartbeat": "2026-07-31T07:30:00Z",
+  "completed_at": "2026-07-31T07:50:00Z",
+  "heartbeat": "2026-07-31T07:50:00Z",
   "started_at": "2026-07-31T07:30:00Z",
   "session_id": "F9-DATACHECK-ROOT-CAUSE-AND-REMESH-TYPE-BATCH-20260731",
   "starting_commit": "398010a4727f5d44203d531bbc6e825888d5bdce",
   "task_id": "F9-DATACHECK-ROOT-CAUSE-AND-REMESH-TYPE-BATCH",
-  "note": "Exactly two independently eligible diagnostic submissions authorized; no solver or adaptive analysis."
+  "note": "F9 terminal: Job A isolated UEL negative COMMON index; Job B failed before CAE on staged filename mismatch. Authority consumed."
 }

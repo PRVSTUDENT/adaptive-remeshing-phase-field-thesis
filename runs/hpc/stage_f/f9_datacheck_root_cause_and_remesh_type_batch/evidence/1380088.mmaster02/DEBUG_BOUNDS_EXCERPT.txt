@@ -1,0 +1,16 @@
+Source: immutable PBS job 1380088.mmaster02 matrix_stdout.log
+Case: C1_DEBUG
+
+forrtl: severe (408): fort: (3): Subscript #1 of the array USRVAR has value -33828 which is less than the lower bound of 1
+
+Exception context:
+  procedure: STATIC
+  context: INITIAL STRESS
+  signal: 6 (Aborted)
+  call stack user frame: uel_
+
+Interpretation:
+  -33828 = 24 - 33852
+  Runtime JELEM for the first displacement UEL was 24.
+  The frozen reduced-model assumption JELEM-N_ELEM therefore accessed
+  USRVAR outside its lower bound.

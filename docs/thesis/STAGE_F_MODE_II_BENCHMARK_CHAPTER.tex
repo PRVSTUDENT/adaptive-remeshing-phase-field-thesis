@@ -146,6 +146,20 @@ preflight consequently stopped the batch before any qsub. The candidate
 remains unqualified, and the exact \texttt{RemeshingRule.variables} type
 remains unresolved.
 
+\section{Stage F9 Diagnostic Boundary}
+The bounded datacheck matrix isolated the Stage F8 failure as a runtime UEL
+numbering error.  Although the explicit deck labels satisfy the nominal
+offset map, Abaqus supplied the first displacement UEL as
+\texttt{JELEM=24}; the frozen subtraction by \texttt{N\_ELEM=33852}
+therefore accessed \texttt{USRVAR(-33828,...)}.  The diagnostic compiler
+captured this bounds violation, while the UMAT-only control passed.  No
+phase-field analysis was run, and the penalty candidate remains unqualified.
+
+The independent remeshing-type job stopped before CAE because a staged helper
+filename did not match the PBS invocation.  Consequently no representation
+was tested, no rule object was created, and the native type contract remains
+unresolved.  Solver, adaptive-analysis, and remesh counts are zero.
+
 \section{Reproducibility Paths}
 All extracted CSV curves, summaries, field contours, log files, and execution manifests are archived in the canonical repository evidence paths:
 \begin{quote}
@@ -162,5 +176,6 @@ All extracted CSV curves, summaries, field contours, log files, and execution ma
 \texttt{runs/hpc/stage\_f/f6\_h2\_full\_and\_miseseri\_remesh\_api\_batch/evidence/1379967.mmaster02/}\\
 \texttt{runs/hpc/stage\_f/f7\_h2\_irreversibility\_and\_miseseri\_api\_batch/evidence/1380084.mmaster02/}\\
 \texttt{runs/hpc/stage\_f/f7\_h2\_irreversibility\_and\_miseseri\_api\_batch/evidence/1380085.mmaster02/}
+\texttt{runs/hpc/stage\_f/f9\_datacheck\_root\_cause\_and\_remesh\_type\_batch/evidence/}
 \end{quote}
 Main closure commit SHA: recorded in multi-agent coordination ledgers.

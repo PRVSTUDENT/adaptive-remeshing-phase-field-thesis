@@ -396,6 +396,36 @@ Evidence paths: `runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evide
 Prevention rule: Pass noGUI script inputs through explicit environment variables and tolerate documented Abaqus CAE driver arguments.
 Status: recorded; no resubmission authorized
 
+## Stage F9 runtime numbering and wrapper evidence defects (2026-07-31)
+
+ID: M-109
+Stage/job: Stage F9 / `1380088.mmaster02`
+Classification: `minimal_patch_debug_bounds_violation_identified`
+Symptom: Debug datacheck aborted with `USRVAR` subscript `-33828`.
+Root cause: The reduced UEL population received contiguous runtime
+`JELEM=24` for the first displacement UEL; subtracting frozen
+`N_ELEM=33852` was invalid despite nominal deck-label offsets.
+Correction: Any later minimal package must use a runtime-qualified mapping.
+Status: root cause isolated; no corrected analysis authorized
+
+ID: M-110
+Stage/job: Stage F9 / `1380089.mmaster02`
+Classification: `remeshing_rule_variables_type_unresolved`
+Symptom: PBS exited before CAE because `runtime/no_solver_audit.py` was absent.
+Root cause: The PBS filename differed from staged
+`runtime/stage_f9_no_solver_audit.py`.
+Correction: Preserve the consumed failure and require exact staged-path
+existence checks in future.
+Status: recorded; no retry authorized
+
+ID: M-111
+Stage/job: Stage F9 submission orchestrator
+Classification: `submission_summary_counter_subshell_defect`
+Symptom: Raw summary recorded zero counters while containing both job IDs.
+Root cause: Command substitution isolated the submit helper's counters.
+Correction: Scheduler evidence establishes two attempts and two successes.
+Status: recorded; no submission consequence
+
 ## Stage F8 minimal patch datacheck signal 11 (2026-07-31)
 
 ID: M-108
