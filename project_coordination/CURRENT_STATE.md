@@ -2,7 +2,7 @@
 
 Updated: 2026-07-31
 Protocol version: 1
-Classification: `stage_f8_common_preflight_blocked_minimal_patch_datacheck_signal_11`
+Classification: `stage_f9_two_job_diagnostic_batch_preparing`
 
 ## Git
 
@@ -10,8 +10,8 @@ Classification: `stage_f8_common_preflight_blocked_minimal_patch_datacheck_signa
 |---|---|
 | Active job IDs | none |
 | Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893`, `1379939`, `1379966`, `1379967` (all terminal) |
-| Active agent | none |
-| Active task | none |
+| Active agent | codex |
+| Active task | `F9-DATACHECK-ROOT-CAUSE-AND-REMESH-TYPE-BATCH` |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
 | Submission Commit | `7b25ff868c7b96552cec3809ab470a74ee6d38fd` |
@@ -129,10 +129,8 @@ unqualified.
 
 ## Next Action
 
-Stage F8 was stopped before qsub. Both minimal sources compiled and linked,
-but the identical deck failed Abaqus 2023 datacheck with signal 11 during
-initial-stress/constraint processing. The CAE type-matrix preflight passed,
-but the shared all-preflights-before-first-qsub rule prohibited its
-submission. Counts are 0/3 attempts and 0/3 submissions; no authorization
-activation, run ID, or PBS IDs exist. A new task must diagnose the minimal
-deck/datacheck boundary before any execution can be reconsidered.
+Stage F9 prepares exactly two independently eligible diagnostic jobs:
+`M2DKMAT1` (bounded datacheck-only matrix) and `M2RMTYPE1` (CAE-only native
+type qualification). No phase-field, adaptive, refined, restart, or
+continuation analysis is authorized. Preparation must be committed and
+pushed before independent cluster preflight and authorization activation.

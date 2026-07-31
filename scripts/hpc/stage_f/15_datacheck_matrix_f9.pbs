@@ -1,0 +1,26 @@
+#!/bin/bash
+#PBS -N M2DKMAT1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m abe
+set -uo pipefail
+cd "$PBS_O_WORKDIR" || exit 2
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+ifort -help > ifort_help.txt 2>&1 || true
+sha256sum -c SHA256SUMS || exit 3
+export F9_JOB_A_ROOT="$PWD"
+export F9_BASELINE_SOURCE="$PWD/runtime/M2IRR_PATCH.for"
+export F9_BASELINE_DECK="$PWD/runtime/M2IRR_PATCH.inp"
+python3 runtime/run_stage_f9_datacheck_matrix.py > matrix_stdout.log 2>&1
+rc=$?
+python3 -m json.tool diagnostics/DATACHECK_MATRIX_MANIFEST.json >/dev/null || exit 4
+python3 -m json.tool diagnostics/LABEL_MAPPING_AUDIT.json >/dev/null || exit 4
+python3 -m json.tool diagnostics/COMMON_ARRAY_BOUNDS_AUDIT.json >/dev/null || exit 4
+python3 -m json.tool diagnostics/DEBUG_COMPILER_AUDIT.json >/dev/null || exit 4
+python3 -m json.tool diagnostics/STATUS.json >/dev/null || exit 4
+exit "$rc"

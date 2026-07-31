@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -N M2RMTYPE1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+module purge
+module load abaqus/2023
+sha256sum -c SHA256SUMS
+python3 runtime/no_solver_audit.py runtime/qualify_stage_f9_remeshing_variable_type.py \
+  type_qualification/NO_SOLVER_AUDIT.json
+export F9_SOURCE_ODB
+export F9_SOURCE_DECK="$PWD/runtime/source_deck.inp"
+export F9_OUTPUT_DIRECTORY="$PWD/type_qualification"
+abaqus cae noGUI=runtime/qualify_stage_f9_remeshing_variable_type.py > cae_stdout.log 2>&1

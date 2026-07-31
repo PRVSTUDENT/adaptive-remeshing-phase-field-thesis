@@ -1,0 +1,31 @@
+{
+  "task_id": "F9-DATACHECK-ROOT-CAUSE-AND-REMESH-TYPE-BATCH",
+  "authorized_jobs": [
+    "M2DKMAT1",
+    "M2RMTYPE1"
+  ],
+  "authorization_phrase_received": true,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "datacheck_authorized_job_a": false,
+  "cae_preprocessing_authorized_job_b": false,
+  "solver_analysis_authorized": false,
+  "approved_submissions": 2,
+  "submissions_used": 0,
+  "qsub_attempts": 0,
+  "successful_submissions": 0,
+  "retry_authorized": false,
+  "replacement_authorized": false,
+  "maximum_jobs_now": 0,
+  "maximum_running_jobs": 2,
+  "direct_manual_qsub_authorized": false,
+  "qdel_authorized": false,
+  "qmove_authorized": false,
+  "baseline_phase_field_analysis_authorized": false,
+  "penalty_candidate_phase_field_analysis_authorized": false,
+  "native_adaptive_analysis_authorized": false,
+  "preparation_sha": null,
+  "authorization_sha": null,
+  "submission_sha": null,
+  "run_id": null
+}

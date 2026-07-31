@@ -1,0 +1,23 @@
+{
+  "classification": "stage_f9_two_job_diagnostic_batch_prepared",
+  "job_a": {
+    "job_name": "M2DKMAT1",
+    "case_limit": 6,
+    "planned_cases": 5,
+    "datacheck_only": true,
+    "static_preflight_passed": true,
+    "label_mapping_in_bounds": true
+  },
+  "job_b": {
+    "job_name": "M2RMTYPE1",
+    "cae_only": true,
+    "type_attempt_limit": 6,
+    "no_solver_audit_passed": true,
+    "abaqus_python_2_7_compile_passed": true
+  },
+  "independent_eligibility": true,
+  "qsub_attempts": 0,
+  "successful_submissions": 0,
+  "solver_analysis_count": 0,
+  "native_adaptive_analysis_count": 0
+}
