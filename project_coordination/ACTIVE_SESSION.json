@@ -1,15 +1,10 @@
 {
-  "active": true,
+  "active": false,
   "agent": "codex",
   "allowed_scope": [
     "configs/stage_f/**f13*",
     "models/generated/mode_ii/f13_*/**",
-    "scripts/model_generation/**f13*",
-    "scripts/postprocessing/**f13*",
-    "scripts/validation/**f13*",
-    "scripts/validation/check_multi_agent_bootstrap.py",
-    "scripts/remeshing/**f13*",
-    "scripts/hpc/stage_f/**f13*",
+    "scripts/**/*f13*",
     "tests/unit/test_stage_f9*.py",
     "tests/unit/test_stage_f10*.py",
     "tests/unit/test_stage_f11*.py",
@@ -23,11 +18,11 @@
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "project_coordination/**"
   ],
-  "completed_at": null,
-  "heartbeat": "2026-07-31T10:37:14Z",
+  "completed_at": "2026-07-31T11:13:23Z",
+  "heartbeat": "2026-07-31T11:13:23Z",
   "started_at": "2026-07-31T10:37:14Z",
   "session_id": "F13-CONTROLLED-ROLLBACK-AND-FIRST-NATIVE-REMESH-EXECUTION-20260731",
   "starting_commit": "d250bab9e2a91cf7436f9aa12e3e91480376a113",
   "task_id": "F13-CONTROLLED-ROLLBACK-AND-FIRST-NATIVE-REMESH-EXECUTION",
-  "note": "Exactly three independently eligible Stage F13 submissions authorized; maximum two running; no retry, replacement, direct qsub, medium H1, refined phase-field solve, or candidate datacheck."
+  "note": "Preparation, authorization, and exactly three submissions complete; all jobs queued at first permitted poll. Authority consumed. Monitoring and evidence closeout remain pending."
 }
