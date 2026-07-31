@@ -12,7 +12,7 @@ module load abaqus/2023
 sha256sum -c SHA256SUMS
 python3 runtime/no_solver_audit.py runtime/qualify_stage_f9_remeshing_variable_type.py \
   type_qualification/NO_SOLVER_AUDIT.json
-export F9_SOURCE_ODB
+export F9_SOURCE_ODB="/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4R1_20260730_065138_86ec6c79/miseseri_corrected/M2MISER1.odb"
 export F9_SOURCE_DECK="$PWD/runtime/source_deck.inp"
 export F9_OUTPUT_DIRECTORY="$PWD/type_qualification"
 abaqus cae noGUI=runtime/qualify_stage_f9_remeshing_variable_type.py > cae_stdout.log 2>&1
