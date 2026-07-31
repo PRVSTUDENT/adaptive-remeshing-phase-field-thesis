@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -N M2RMEXEC1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -m abe
+set -uo pipefail
+cd "$PBS_O_WORKDIR" || exit 2
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+sha256sum -c SHA256SUMS || exit 3
+export F13_RUNTIME_DIR="$PBS_O_WORKDIR/runtime"
+export F13_OUTPUT_DIR="$PBS_O_WORKDIR/evidence"
+abaqus cae noGUI=runtime/execute_stage_f13_native_remesh.py
+rc=$?
+test -f F13_MISESERI_CANDIDATE_INPUT.inp && mv F13_MISESERI_CANDIDATE_INPUT.inp evidence/
+exit "$rc"

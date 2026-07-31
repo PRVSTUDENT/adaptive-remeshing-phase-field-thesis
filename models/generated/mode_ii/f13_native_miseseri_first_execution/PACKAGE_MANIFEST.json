@@ -1,0 +1,23 @@
+{
+  "coarsening_factor": "NOT_ALLOWED",
+  "error_target": 1.0,
+  "max_adaptive_process_executions": 1,
+  "max_native_remesh_operations": 1,
+  "max_refined_mesh_solver_executions": 0,
+  "max_size_mm": 0.01,
+  "max_source_solver_executions": 1,
+  "min_size_mm": 0.001,
+  "passes": 1,
+  "physical_element_count": 3930,
+  "refinement_factor": 10,
+  "sizing_method": "UNIFORM_ERROR",
+  "source_deck_sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2",
+  "source_odb_sha256": "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac",
+  "status": "prepared_authorized_one_pass",
+  "true_slit_coincident_pairs": 15,
+  "variables": [
+    "MISESERI"
+  ],
+  "variables_container": "tuple",
+  "variables_element_type": "Python 2 str"
+}

@@ -1,0 +1,24 @@
+#!/bin/bash
+#PBS -N M2IRRROLLCTL1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+set -uo pipefail
+cd "$PBS_O_WORKDIR" || exit 2
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+sha256sum -c SHA256SUMS || exit 3
+export F13_FORCE_CUTBACK=0
+export F13_ROLLBACK_LOG="$PBS_O_WORKDIR/evidence/F13_ROLLBACK_CALLS.log"
+test -d "$(dirname "$F13_ROLLBACK_LOG")" || exit 4
+: > "$F13_ROLLBACK_LOG" || exit 5
+printf 'smoke\n' >> "$F13_ROLLBACK_LOG" && tail -1 "$F13_ROLLBACK_LOG" | grep -qx smoke || exit 6
+: > "$F13_ROLLBACK_LOG"
+abaqus job=M2IRRROLLCTL1 input=runtime/M2IRR_F13.inp user=runtime/M2IRR_F13.for interactive
+rc=$?
+for suffix in sta msg dat log; do test -f "M2IRRROLLCTL1.$suffix" && cp "M2IRRROLLCTL1.$suffix" evidence/; done
+test "$rc" -eq 0 || exit "$rc"
+abaqus python runtime/extract_stage_f11_instrumented_pair.py --odb M2IRRROLLCTL1.odb --output-dir extracted --role candidate || exit 10
+python3 runtime/analyze_stage_f13_rollback.py --calls "$F13_ROLLBACK_LOG" --output ROLLBACK_STATUS.json --role control

@@ -1,0 +1,25 @@
+{
+  "branch_control": "F13_FORCE_CUTBACK",
+  "decks_byte_identical": true,
+  "explicit_log_variable": "F13_ROLLBACK_LOG",
+  "forbidden_writes_absent": [
+    "RHS",
+    "AMATRX",
+    "SVARS",
+    "USRVAR",
+    "phase",
+    "history",
+    "penalty coefficient",
+    "energy",
+    "loads",
+    "material properties",
+    "convergence tolerances"
+  ],
+  "no_fort_99": true,
+  "permitted_branch_writes": [
+    "PNEWDT",
+    "bounded diagnostic log"
+  ],
+  "sources_byte_identical": true,
+  "status": "pass"
+}

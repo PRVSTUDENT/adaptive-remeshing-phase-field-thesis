@@ -1,0 +1,51 @@
+{
+  "automatic_increment_controls": "0.02, 1.0, 1.0e-8, 0.02",
+  "bounded_log_elements": [
+    1,
+    23
+  ],
+  "bounded_log_integration_points": [
+    1,
+    4
+  ],
+  "bounded_log_max_calls_per_increment": 40,
+  "cpe4_labels": [
+    47,
+    69
+  ],
+  "deck_sha256": "a84df34a2bdbfbd55d7f2642082710f1d410cd8480637f9da9aa47c107beed3b",
+  "displacement_uel_labels": [
+    24,
+    46
+  ],
+  "f11_candidate_deck_sha256": "2be3770a2cb0e687206915d52b92e1f8c4301460d9446a6c92658bb751f69d99",
+  "f11_candidate_source_sha256": "535ecd692bb4f67b0c738a854d745f339413e48f385e91823c6e0a4773addac0",
+  "f13_force_cutback": 0,
+  "final_displacement_tolerance_mm": 1e-10,
+  "max_final_fixed_point_phase_difference": 1e-06,
+  "max_rf_difference_over_common_peak": 0.0001,
+  "n_elem": 23,
+  "phase_comparison_tolerance": 1e-07,
+  "phase_uel_labels": [
+    1,
+    23
+  ],
+  "relative_diagnostic_energy_difference": 0.0001,
+  "rf_u_common_grid_nrmse": 0.0001,
+  "role": "control",
+  "runtime_only_difference": "F13_FORCE_CUTBACK",
+  "source_sha256": "490469ee4d70533dec8036a239afe6240b2aac9d2e71d1bebdcc06fe00158563",
+  "status": "prepared_authorized",
+  "trigger": {
+    "expected_initial_dtime": 0.02,
+    "integration_point": 2,
+    "jelem": 1,
+    "requested_pnewdt": 0.5,
+    "step": 2,
+    "time_window": [
+      0.0,
+      0.04
+    ],
+    "trigger_dtime_threshold": 0.015
+  }
+}
