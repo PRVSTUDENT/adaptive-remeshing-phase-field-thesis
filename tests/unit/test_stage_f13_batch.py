@@ -28,7 +28,7 @@ class StageF13Tests(unittest.TestCase):
     def test_source_remesh_limits(self):
         m=json.loads((ROOT/"models/generated/mode_ii/f13_native_miseseri_first_execution/PACKAGE_MANIFEST.json").read_text()); self.assertEqual((m["max_source_solver_executions"],m["max_adaptive_process_executions"],m["max_native_remesh_operations"],m["max_refined_mesh_solver_executions"]),(1,1,1,0))
     def test_miseseri_tuple_and_one_pass(self):
-        s=(ROOT/"scripts/remeshing/execute_stage_f13_native_remesh_core.py").read_text(); self.assertIn('(str("MISESERI"),)',s); self.assertIn("maxIterations=1",s); self.assertNotIn(" iterations=",s)
+        s=(ROOT/"scripts/remeshing/execute_stage_f13_native_remesh_core.py").read_text(); self.assertIn('(str("MISESERI"),)',s); self.assertIn("job=job,",s); self.assertIn("maxIterations=1",s); self.assertNotIn(" iterations=",s); self.assertNotIn("job=job.name",s)
     def test_no_candidate_solver_path(self):
         s=(ROOT/"scripts/remeshing/execute_stage_f13_native_remesh_core.py").read_text(); self.assertEqual(s.count("process.submit("),2); self.assertNotIn("out_job.submit",s)
     def test_three_job_allowlist_and_parent_accounting(self):

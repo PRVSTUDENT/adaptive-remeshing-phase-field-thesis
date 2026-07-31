@@ -13,6 +13,14 @@
       "failure": "Installed Abaqus 2023 API requires maxIterations, not iterations",
       "installed_signature": "Mdb.AdaptivityProcess(name, job <, maxIterations, jobPrefix>)",
       "qsub_attempts": 0
+    },
+    {
+      "run_id": "F13_20260731_104841_2bc654d",
+      "eligible": false,
+      "hashes_and_file_routing": "pass",
+      "failure": "Installed Abaqus 2023 API requires a ModelJob object, not a job-name string",
+      "installed_error": "TypeError: job; found string, expecting ModelJob",
+      "qsub_attempts": 0
     }
   ],
   "submission_authority_consumed": false
