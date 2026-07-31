@@ -160,3 +160,19 @@ adaptive, and remesh execution are prohibited in that lane. The H1 U1=0.020
 population is independently verified as 12,064 physical elements; its
 instrumented baseline and candidate packages are `prepared_not_authorized`.
 No medium-H1, H2, refined, or adaptive submission is authorized.
+
+## Stage F12 terminal result
+
+Jobs `1380971`, `1380972`, and `1380973` are terminal. Both minimal candidate
+solves reached the final endpoint, but the aggressive case completed in two
+one-iteration increments and Abaqus explicitly reported zero cutbacks.
+Rollback was therefore not exercised. Its classification is
+`penalty_rollback_not_exercised`; no retry or replacement is authorized.
+
+The CAE-only lane successfully imported the official 3,930-element coarse
+model, created `F12_MISESERI_RULE` on region MODEL and Step-1 with the
+qualified byte-string tuple, and wrote the coarse input. Solver, adaptive,
+and remesh counts remain zero. The medium-H1 pair remains
+`prepared_not_authorized` and is not ready for execution authorization because
+the rollback prerequisite did not pass. All Stage F12 execution authority is
+consumed.

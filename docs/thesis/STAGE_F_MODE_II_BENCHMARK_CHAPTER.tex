@@ -219,6 +219,32 @@ type contract. A bare Python 2 byte string was rejected, while
 Python 2 \texttt{str}. No solver, adaptive analysis, remesh operation, or
 candidate deck was executed.
 
+\section{Stage F12 Rollback and Native-Model Preparation}
+
+Stage F12 tested the remaining state-management boundary using conservative
+and aggressive automatic-increment variants of the qualified minimal
+candidate. The reference reached the endpoint in 106 increments and 128
+equilibrium iterations with zero cutbacks. The aggressive case reached the
+same prescribed endpoint in two increments and two iterations; Abaqus
+explicitly reported zero cutbacks. Consequently, rejected-increment state
+restoration was not exercised and the result is classified
+\texttt{penalty\_rollback\_not\_exercised}.
+
+The coarse two-increment path was not an equivalent scientific trajectory.
+Its final RF1 differed from the reference by 0.47308 and its maximum positive
+diagnostic imbalance was $3.8957\times10^{-5}$, compared with
+$1.3310\times10^{-7}$ for the reference. These mismatches do not supersede
+the Stage F11 minimal qualification; they show that this aggressive control
+does not satisfy the predeclared rollback comparison. No retry was permitted.
+
+The independent CAE-only lane imported the official 3,930-element corrected
+MISESERI coarse deck and attached
+\texttt{variables=('MISESERI',)} to region MODEL and Step-1. The native rule
+object and coarse input were created with zero solver, adaptive-analysis, or
+remesh execution. This qualifies model construction readiness, not adaptive
+remeshing accuracy. The prepared 12,064-element medium-H1 baseline/candidate
+pair remains unauthorized and gated by a future rollback qualification.
+
 All extracted CSV curves, summaries, field contours, log files, and execution manifests are archived in the canonical repository evidence paths:
 \begin{quote}
 \texttt{runs/hpc/stage\_f/mode\_ii\_h0\_endpoint\_corrected/replacement\_r1/evidence/1379393.mmaster02/}\\
@@ -237,5 +263,6 @@ All extracted CSV curves, summaries, field contours, log files, and execution ma
 \texttt{runs/hpc/stage\_f/f9\_datacheck\_root\_cause\_and\_remesh\_type\_batch/evidence/}
 \texttt{runs/hpc/stage\_f/f10\_corrected\_minimal\_irreversibility\_and\_remesh\_type\_batch/evidence/}
 \texttt{runs/hpc/stage\_f/f11\_instrumented\_irreversibility\_and\_remesh\_type\_batch/evidence/}
+\texttt{runs/hpc/stage\_f/f12\_rollback\_qualification\_and\_native\_remesh\_preparation/evidence/}
 \end{quote}
 Main closure commit SHA: recorded in multi-agent coordination ledgers.

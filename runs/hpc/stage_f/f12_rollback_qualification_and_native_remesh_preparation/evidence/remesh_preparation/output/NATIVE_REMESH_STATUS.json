@@ -1,0 +1,22 @@
+{
+  "candidate_refined_deck_generated": false, 
+  "classification": "native_remesh_model_prepared_input_written", 
+  "coarse_adaptive_input_written": true, 
+  "exact_rule_kwargs": "{'maxElementSize': 0.01, 'name': 'F12_MISESERI_RULE', 'errorTarget': 1.0, 'region': MODEL, 'stepName': 'Step-1', 'coarseningFactor': NOT_ALLOWED, 'refinementFactor': 10, 'minElementSize': 0.001, 'specifyMinSize': ON, 'specifyMaxSize': ON, 'sizingMethod': UNIFORM_ERROR, 'variables': ('MISESERI',)}", 
+  "model_name": "F12_MISESERI_COARSE", 
+  "native_adaptive_analysis_count": 0, 
+  "passes": 1, 
+  "physical_element_count": 3930, 
+  "region": "MODEL", 
+  "remesh_execution_count": 0, 
+  "rule_object_created": true, 
+  "rule_repository_key": "F12_MISESERI_RULE", 
+  "solver_execution_count": 0, 
+  "source_deck_sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2", 
+  "step_name": "Step-1", 
+  "target_local_h_over_lc": 0.1, 
+  "true_slit_coincident_pairs": 15, 
+  "variables_element_type": "str", 
+  "variables_repr": "('MISESERI',)", 
+  "variables_type": "tuple"
+}

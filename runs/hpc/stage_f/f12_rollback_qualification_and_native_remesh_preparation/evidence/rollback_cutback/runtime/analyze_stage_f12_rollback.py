@@ -11,8 +11,6 @@ FIELDS = ["kstep", "kinc", "time1", "time2", "dtime", "call", "jelem", "ip",
 
 def read_calls(path):
     rows = []
-    if not path.exists():
-        return rows
     for line in path.read_text(errors="replace").splitlines():
         values = line.split()
         if len(values) != len(FIELDS):
@@ -33,8 +31,7 @@ def main():
     a = ap.parse_args()
     rows = read_calls(a.calls)
     msg = a.message.read_text(errors="replace") if a.message.exists() else ""
-    text_cutbacks = sum(int(value) for value in
-                        re.findall(r"(\d+)\s+CUTBACKS IN AUTOMATIC INCREMENTATION", msg, re.I))
+    text_cutbacks = len(re.findall(r"cutback|time increment required is less|attempts made for this increment", msg, re.I))
     attempts = {}
     for row in rows:
         attempts.setdefault((row["kstep"], row["kinc"]), []).append(row)
@@ -62,7 +59,6 @@ def main():
     result = {"role": a.role, "bounded_call_count": len(rows), "text_cutback_signals": text_cutbacks,
               "cutback_count": len(reductions), "rejected_increment_attempts": reductions,
               "rollback_violations": sorted(set(violations)), "classification": classification,
-              "call_log_present": a.calls.exists(),
               "floating_point_policy": 1.0e-12}
     a.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
     return 0

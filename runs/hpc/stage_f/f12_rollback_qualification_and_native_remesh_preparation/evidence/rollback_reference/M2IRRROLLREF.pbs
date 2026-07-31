@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N M2IRRROLLREF
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+set -uo pipefail
+cd "$PBS_O_WORKDIR" || exit 2
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+sha256sum -c SHA256SUMS || exit 3
+abaqus job=M2IRRROLLREF input=runtime/M2IRR_ROLL.inp user=runtime/M2IRR_ROLL.for interactive
+rc=$?; test "$rc" -eq 0 || exit "$rc"
+abaqus python runtime/extract_stage_f11_instrumented_pair.py --odb M2IRRROLLREF.odb --output-dir extracted --role candidate || exit 10
+python3 runtime/analyze_stage_f12_rollback.py --calls fort.99 --message M2IRRROLLREF.msg --output ROLLBACK_STATUS.json --role reference

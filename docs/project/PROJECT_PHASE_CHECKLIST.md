@@ -591,3 +591,17 @@ Submission-review priority:
 - [!] Only the three named Stage F12 jobs may be submitted. Medium H1, H2,
   refined, native-adaptive, remesh, datacheck, restart, and continuation
   execution remain prohibited.
+
+## Stage F12 closeout (2026-07-31)
+
+- [x] Exactly three guarded qsub attempts succeeded: `1380971`, `1380972`,
+  and `1380973`; no retry, replacement, direct qsub, qdel, or qmove.
+- [!] Reference and aggressive candidate solves reached U1=0.006, but both
+  had zero cutbacks. The aggressive case used two increments/two iterations;
+  rollback is `penalty_rollback_not_exercised`.
+- [!] The aggressive two-increment path also failed response and diagnostic
+  energy agreement. It supplies no rollback qualification evidence.
+- [x] CAE-only construction created the real coarse-model MISESERI rule and
+  wrote an input deck with zero solver, adaptive, or remesh execution.
+- [!] The medium-H1 pair remains preparation-only and is not ready for a
+  separate execution authorization because rollback did not qualify.

@@ -1,0 +1,23 @@
+{
+  "job_id": "1380973.mmaster02",
+  "job_name": "M2RMPREP1",
+  "scheduler_exit": 0,
+  "classification": "native_remesh_model_prepared_input_written",
+  "source_deck_sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2",
+  "source_odb_sha256": "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac",
+  "physical_element_count": 3930,
+  "true_slit_coincident_pairs": 15,
+  "model_name": "F12_MISESERI_COARSE",
+  "step_name": "Step-1",
+  "region": "MODEL",
+  "variables_repr": "('MISESERI',)",
+  "variables_type": "tuple",
+  "variables_element_type": "str",
+  "rule_repository_key": "F12_MISESERI_RULE",
+  "rule_object_created": true,
+  "coarse_adaptive_input_written": true,
+  "solver_execution_count": 0,
+  "native_adaptive_analysis_count": 0,
+  "remesh_execution_count": 0,
+  "candidate_refined_deck_generated": false
+}

@@ -396,6 +396,25 @@ Evidence paths: `runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evide
 Prevention rule: Pass noGUI script inputs through explicit environment variables and tolerate documented Abaqus CAE driver arguments.
 Status: recorded; no resubmission authorized
 
+## Stage F12 unit-99 scratch return defect (2026-07-31)
+
+ID: M-116
+Date: 2026-07-31
+Stage/job: Stage F12 / `1380971.mmaster02`, `1380972.mmaster02`
+Classification: `rollback_call_log_not_returned_from_abaqus_scratch`
+Symptom: Both Abaqus analyses and ODB extractors completed, but the wrappers
+exited 1 because `fort.99` was absent from the PBS working directory.
+Root cause: The UEL wrote unit 99 inside Abaqus-managed scratch and the job
+contract did not explicitly route or copy that file back.
+Scientific inputs changed: no
+Correction: Preserve both terminal jobs, use authoritative STA/MSG evidence
+to establish zero cutbacks, and classify rollback as not exercised. The
+offline analyzer now emits valid JSON when the call log is absent.
+Prevention rule: Any future call-level diagnostic must open an explicit path
+under the PBS evidence directory or use a documented Abaqus-returned file,
+and its return must be proven in a no-solver smoke before authorization.
+Status: corrected offline; no retry or replacement authorized
+
 ## Stage F11 remote checksum scope error (2026-07-31)
 
 ID: M-115

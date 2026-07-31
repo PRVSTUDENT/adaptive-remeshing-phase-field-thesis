@@ -1,0 +1,20 @@
+# -*- coding: mbcs -*-
+mdb.ModelFromInputFile(inputFileName=
+    '/scratch/pr21vyci/adaptive-remeshing/runs/stage_f12/F12_20260731_100123_03e544a/remesh_preparation/runtime/source_deck.inp'
+    , name='F12_MISESERI_COARSE')
+from mesh import *
+from material import *
+from section import *
+from step import *
+from interaction import *
+from part import *
+from assembly import *
+from load import *
+mdb.models['F12_MISESERI_COARSE'].RemeshingRule(coarseningFactor=NOT_ALLOWED, 
+    errorTarget=1.0, maxElementSize=0.01, minElementSize=0.001, name=
+    'F12_MISESERI_RULE', refinementFactor=10, region=MODEL, sizingMethod=
+    UNIFORM_ERROR, specifyMaxSize=ON, specifyMinSize=ON, stepName='Step-1', 
+    variables=('MISESERI', ))
+mdb.Job(model='F12_MISESERI_COARSE', name='F12_MISESERI_COARSE_INPUT')
+from job import *
+# Save by pr21vyci on 2026_07_31-12.11.58; build 2023 2022_09_28-20.11.55 183150
