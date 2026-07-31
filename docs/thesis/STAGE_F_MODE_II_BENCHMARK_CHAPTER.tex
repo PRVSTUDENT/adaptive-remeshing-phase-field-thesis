@@ -75,6 +75,36 @@ strictly a technical datacheck qualification: no full analysis was run and no
 post-peak response, fracture convergence, remeshing accuracy, or parallel
 safety claim follows from it.
 
+\subsection{Stage F6 Full $H_2$ Post-Peak Result and Validation Boundary}
+The frozen full $H_2$ package was executed as PBS job
+\texttt{1379966.mmaster02} with one CPU and 16\,GB requested memory. Abaqus
+2023 compiled and linked the UEL/UMAT source with ifort 2021.13.0 and
+completed all 5,000 increments in 4\,h 43\,min wall time. The response reached
+$U_1=0.020000\,\mathrm{mm}$, with peak
+$RF_1=0.138727\,\mathrm{kN}$ at $U_1=0.011900\,\mathrm{mm}$ and final
+$RF_1=0.080544\,\mathrm{kN}$, corresponding to a 41.94\% post-peak force
+drop. The initial regression stiffness was
+$12.79116\,\mathrm{kN/mm}$ ($R^2=0.99999949$).
+
+Technical solver and extraction completion does not imply scientific
+acceptance. The maximum extracted phase value was 1.004587, and the
+framewise maximum-damage history contained 11 decreases, the largest being
+$-1.0073\times10^{-4}$. The canonical Python 3.11 validation replay therefore
+failed the declared irreversibility gate and classified the result as
+\texttt{stage\_f\_mode\_ii\_h2\_uniform\_serial\_validation\_fail}. Energy
+histories were unavailable from the retained output request. Consequently,
+the run establishes endpoint attainment and the fine-mesh post-peak response,
+but not accepted irreversibility, energy consistency, adaptive-remeshing
+accuracy, parallel safety, or general convergence.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.78\textwidth]{../../results/figures/mode_ii_h2/1379966.mmaster02/01_rf1_u1_response.png}
+  \caption{Full $H_2$ Mode-II reaction-force response for PBS job
+  \texttt{1379966.mmaster02}.}
+  \label{fig:stage-f6-h2-rf-u}
+\end{figure}
+
 \section{Reproducibility Paths}
 All extracted CSV curves, summaries, field contours, log files, and execution manifests are archived in the canonical repository evidence paths:
 \begin{quote}
@@ -86,6 +116,8 @@ All extracted CSV curves, summaries, field contours, log files, and execution ma
 \texttt{runs/hpc/stage\_f/mode\_ii\_h1\_endpoint\_sweep/evidence/1379484.mmaster02/}\\
 \texttt{runs/hpc/stage\_f/miseseri\_preanalysis/evidence/1379579.mmaster02/}\\
 \texttt{runs/hpc/stage\_f/mode\_ii\_h2/evidence/1379578.mmaster02/}\\
-\texttt{runs/hpc/stage\_f/h2\_u020\_compiler\_datacheck\_smoke/evidence/1379939.mmaster02/}
+\texttt{runs/hpc/stage\_f/h2\_u020\_compiler\_datacheck\_smoke/evidence/1379939.mmaster02/}\\
+\texttt{runs/hpc/stage\_f/f6\_h2\_full\_and\_miseseri\_remesh\_api\_batch/evidence/1379966.mmaster02/}\\
+\texttt{runs/hpc/stage\_f/f6\_h2\_full\_and\_miseseri\_remesh\_api\_batch/evidence/1379967.mmaster02/}
 \end{quote}
 Main closure commit SHA: recorded in multi-agent coordination ledgers.

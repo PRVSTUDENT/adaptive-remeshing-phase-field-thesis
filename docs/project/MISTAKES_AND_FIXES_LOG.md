@@ -396,6 +396,23 @@ Evidence paths: `runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evide
 Prevention rule: Pass noGUI script inputs through explicit environment variables and tolerate documented Abaqus CAE driver arguments.
 Status: recorded; no resubmission authorized
 
+## Stage F6 H2 embedded-validator interpreter mismatch (2026-07-31)
+
+ID: M-105
+Date: 2026-07-31
+Stage/job: Stage F6 / `1379966.mmaster02`
+Source commit: `2249ec21fe92c6c7348d1cff653a84901828e117`
+Classification: `stage_f6_embedded_validator_python_incompatibility`
+Symptom: Abaqus and extraction completed with return code zero, but the PBS wrapper exited 12 when `abaqus python` (Python 2.7) parsed a validator using `from __future__ import annotations`.
+Root cause: The runtime contract invoked a Python-3-only validator through the Abaqus embedded Python 2.7 interpreter.
+Scientific inputs changed: no
+Correction: The immutable failure was preserved. The same canonical validator was replayed offline under the qualified Python 3.11 module and returned 1 due to the independent framewise maximum-damage irreversibility failure.
+Retry job: none
+Outcome: Full solver/extraction technical completion is established, while the scientific result remains failed; no submission authority was restored.
+Evidence paths: `runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evidence/1379966.mmaster02/`
+Prevention rule: Bind each postprocessor and validator to its declared Python runtime during preflight; never assume `abaqus python` satisfies Python 3 syntax requirements.
+Status: recorded; future runtime repair requires a separate task
+
 
 
 

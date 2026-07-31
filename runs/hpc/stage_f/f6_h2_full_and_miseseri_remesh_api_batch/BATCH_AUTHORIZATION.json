@@ -1,6 +1,6 @@
 {
   "task_id": "F6-H2-FULL-AND-MISESERI-REMESH-API-BATCH",
-  "status": "consumed_monitoring",
+  "status": "consumed_complete_failed",
   "authorization_phrase_received": true,
   "authorized_jobs": ["M2H2U20F1", "M2RMAPI1"],
   "execution_authorized": false,
@@ -30,5 +30,23 @@
   "direct_manual_qsub_calls": 0,
   "batch_authorization_sha": "5b5c2f4c596e419d4dcfca9cc1e80ba343f5cb82"
   ,
-  "batch_submission_sha": "7a859ceeaa0e9e7477d3abcdfcdb7a0d358b0d9c"
+  "batch_submission_sha": "7a859ceeaa0e9e7477d3abcdfcdb7a0d358b0d9c",
+  "final_status": "complete_failed",
+  "job_a_scheduler_state": "F",
+  "job_a_scheduler_exit": 12,
+  "job_a_solver_exit": 0,
+  "job_a_extractor_exit": 0,
+  "job_a_validator_exit": 1,
+  "job_a_classification": "stage_f_mode_ii_h2_uniform_serial_validation_fail",
+  "job_a_evidence_directory": "runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evidence/1379966.mmaster02",
+  "job_a_experiment_record": "docs/experiment_records/STAGE_F6_H2_U020_FULL_CLOSEOUT.md",
+  "job_a_figure_paths": [
+    "results/figures/mode_ii_h2/1379966.mmaster02/01_rf1_u1_response.png",
+    "results/figures/mode_ii_h2/1379966.mmaster02/02_damage_max_evolution.png"
+  ],
+  "job_b_scheduler_state": "F",
+  "job_b_scheduler_exit": 10,
+  "job_b_classification": "abaqus_cae_start_failure",
+  "closure_task": "F6-H2-FULL-AND-MISESERI-REMESH-API-BATCH-CLOSE",
+  "closure_revision": "PENDING_METADATA_COMMIT"
 }

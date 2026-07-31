@@ -1,0 +1,82 @@
+#!/bin/bash
+#PBS -N M2H2U20F1
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=12:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -m abe
+
+set -u
+cd "${PBS_O_WORKDIR}" || exit 21
+JOBNAME="M2H2U20F1"
+ABAQUS_RC=999
+EXT_RC=999
+VAL_RC=999
+STATUS_WRITER="runtime/scripts/hpc/stage_f/write_status_json.py"
+
+write_status() {
+    final_rc="$1"; classification="$2"
+    error_count=0; warning_count=0
+    if ls "${JOBNAME}".* abaqus_stdout.log >/dev/null 2>&1; then
+        error_count=$(grep -Eih 'error|fatal|traceback' "${JOBNAME}".* abaqus_stdout.log 2>/dev/null | wc -l | tr -d ' ')
+        warning_count=$(grep -Eih 'warning' "${JOBNAME}".* abaqus_stdout.log 2>/dev/null | wc -l | tr -d ' ')
+    fi
+    python3 "${STATUS_WRITER}" --output STATUS.json \
+      --set "job_name=str:${JOBNAME}" --set "pbs_job_id=str:${PBS_JOBID:-unknown}" \
+      --set "ABAQUS_RC=int:${ABAQUS_RC}" --set "EXT_RC=int:${EXT_RC}" \
+      --set "VAL_RC=int:${VAL_RC}" --set "error_count=int:${error_count}" \
+      --set "warning_count=int:${warning_count}" \
+      --set "final_exit_code=int:${final_rc}" \
+      --set "classification=str:${classification}"
+    python3 -m json.tool STATUS.json >/dev/null
+}
+
+for f in ModeII_H2_uniform_serial.inp ModeII_H2_uniform_serial.for \
+ RUNTIME_MANIFEST.json SHA256SUMS "${STATUS_WRITER}" \
+ runtime/scripts/postprocessing/extract_mode_ii_uniform_reference.py \
+ runtime/scripts/validation/validate_mode_ii_h2_results.py; do
+    if [ ! -f "${f}" ]; then
+        write_status 21 required_file_missing
+        exit 21
+    fi
+done
+if ! sha256sum -c SHA256SUMS; then
+    write_status 20 runtime_hash_mismatch
+    exit 20
+fi
+python3 -m json.tool RUNTIME_MANIFEST.json >/dev/null || {
+    write_status 20 runtime_manifest_invalid
+    exit 20
+}
+
+module --force purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+command -v ifort > ifort_path.txt || { write_status 22 compiler_unavailable; exit 22; }
+command -v ifx > ifx_path.txt || { write_status 22 compiler_unavailable; exit 22; }
+command -v abaqus > abaqus_path.txt || { write_status 22 abaqus_unavailable; exit 22; }
+
+abaqus job="${JOBNAME}" input=ModeII_H2_uniform_serial.inp \
+ user=ModeII_H2_uniform_serial.for interactive > abaqus_stdout.log 2>&1
+ABAQUS_RC=$?
+if [ "${ABAQUS_RC}" -eq 0 ]; then
+    mkdir -p extracted
+    abaqus python runtime/scripts/postprocessing/extract_mode_ii_uniform_reference.py \
+      --odb "${JOBNAME}.odb" --output-dir extracted --target-u1 0.020 \
+      --sta "${JOBNAME}.sta" --dat "${JOBNAME}.dat" --msg "${JOBNAME}.msg" \
+      --log abaqus_stdout.log > extracted/extractor_stdout.log 2>&1
+    EXT_RC=$?
+fi
+if [ "${EXT_RC}" -eq 0 ]; then
+    python3 runtime/scripts/validation/validate_mode_ii_h2_results.py \
+      --evidence-dir extracted --abaqus-return-code "${ABAQUS_RC}" \
+      --extractor-return-code "${EXT_RC}" --expected-u1-target 0.020 \
+      --out-json extracted/VALIDATION_RESULTS.json > extracted/validator_stdout.log 2>&1
+    VAL_RC=$?
+fi
+if [ "${ABAQUS_RC}" -ne 0 ]; then write_status 10 abaqus_solver_failure; exit 10; fi
+if [ "${EXT_RC}" -ne 0 ]; then write_status 11 extraction_failure; exit 11; fi
+if [ "${VAL_RC}" -ne 0 ]; then write_status 12 scientific_validation_failure; exit 12; fi
+write_status 0 stage_f6_h2_u020_full_technical_endpoint_pass
+exit 0
