@@ -1,6 +1,6 @@
 {
-  "active": true,
-  "agent": "codex",
+  "active": false,
+  "agent": null,
   "allowed_scope": [
     "models/generated/mode_ii/h2_u020_irreversibility_forensic_audit/**",
     "models/generated/mode_ii/miseseri_native_remesh_api_qualification_f7/**",
@@ -18,11 +18,11 @@
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "project_coordination/**"
   ],
-  "completed_at": null,
-  "heartbeat": "2026-07-31T04:01:51Z",
+  "completed_at": "2026-07-31T04:32:00Z",
+  "heartbeat": "2026-07-31T04:32:00Z",
   "started_at": "2026-07-31T04:01:51Z",
   "session_id": "F7-H2-IRREVERSIBILITY-AND-MISESERI-API-BATCH-20260731",
   "starting_commit": "2ca77ea71af7d2ead7c3b6ef00bc8f44571abdc5",
   "task_id": "F7-H2-IRREVERSIBILITY-AND-MISESERI-API-BATCH",
-  "note": "Preparing and executing exactly two explicitly authorized non-solver F7 jobs; no retry, replacement, direct qsub, qdel, qmove, H2 rerun, or refined solve."
+  "note": "Stage F7 closed: exactly two non-solver jobs terminal; fixed-point H2 irreversibility failed and RemeshingRule rejected Unicode variables; no retry or solver execution."
 }

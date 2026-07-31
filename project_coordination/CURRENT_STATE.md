@@ -2,16 +2,16 @@
 
 Updated: 2026-07-31
 Protocol version: 1
-Classification: `stage_f7_two_job_non_solver_batch_submitted`
+Classification: `stage_f7_h2_fixed_point_irreversibility_fail_and_miseseri_api_incompatible`
 
 ## Git
 
 | Item | Value |
 |---|---|
-| Active job IDs | `1380084.mmaster02`, `1380085.mmaster02` |
+| Active job IDs | none |
 | Completed job IDs | `1379615`, `1379616`, `1379892`, `1379893`, `1379939`, `1379966`, `1379967` (all terminal) |
-| Active agent | `codex` |
-| Active task | **F7-H2-IRREVERSIBILITY-AND-MISESERI-API-BATCH** |
+| Active agent | none |
+| Active task | none |
 | Code Repair SHA (COMMIT A) | `aeba443022c926e7b8abf0feb4d8ed902f463fc8` |
 | Execution Contract SHA (COMMIT B) | `120549aaa16d09f5954255629cc9280f3cfef697` |
 | Submission Commit | `7b25ff868c7b96552cec3809ab470a74ee6d38fd` |
@@ -109,12 +109,26 @@ retry_authorized: false
    - Description: The guarded batch orchestrator was invoked, but the final scheduler jobs were submitted through two direct manual `qsub` commands from the prepared immutable run directories (`/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4_20260729_081548_aeba4430/`).
    - Limits & Consequence: Exactly 2 authorized qsub calls used; 0 retries/replacements permitted. No scientific consequence established, but submission path differed from single-orchestrator execution contract.
 
+## Stage F7 terminal result
+
+The guarded orchestrator submitted exactly two authorized non-solver jobs
+from `F7_20260731_040750_cac6974`. Both are terminal with no retry:
+
+- `1380084.mmaster02` (`M2H2IRR1`) exited 12 after completing the ODB
+  extraction. Across 102 frames it found 1,120 fixed-point SDV15 decreases,
+  minimum `-5.8532e-4`, at 126 material points. The report generator then
+  failed on the textual CSV value `Step-1`.
+- `1380085.mmaster02` (`M2RMAPI2`) exited 1 after `RemeshingRule` rejected
+  Unicode `variables[0]`. Frozen ODB/deck hashes matched; solver count,
+  native-remesh count and candidate-deck count are all zero.
+
+Counts remain two qsub attempts, two successes, zero failed qsub attempts,
+zero direct qsubs, zero retries and zero replacements. All authority is
+consumed. H2 irreversibility fails and native MISESERI remeshing remains
+unqualified.
+
 ## Next Action
 
-The guarded F7 orchestrator submitted exactly two non-solver jobs from
-`F7_20260731_040750_cac6974`: `M2H2IRR1` is
-`1380084.mmaster02`, and `M2RMAPI2` is `1380085.mmaster02`. Both are running
-on `mnode100` in `normal_imfdfkmq`. Counts are two qsub attempts, two
-successes, zero failures, zero direct qsubs, zero retries and zero
-replacements. All authority is consumed. No H2 rerun, datacheck, adaptive
-analysis, refined solve, qdel, qmove, third job or replacement is authorized.
+No HPC execution is authorized. Any analyzer repair or corrected native API
+qualification requires a new task, immutable preparation, review, and
+separate explicit authorization.
