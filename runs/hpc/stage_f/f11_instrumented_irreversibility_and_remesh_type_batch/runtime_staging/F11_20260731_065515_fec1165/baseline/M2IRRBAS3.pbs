@@ -1,0 +1,20 @@
+#!/bin/bash
+#PBS -N M2IRRBAS3
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -m abe
+set -uo pipefail
+cd "$PBS_O_WORKDIR" || exit 2
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+sha256sum -c SHA256SUMS || exit 3
+abaqus job=M2IRRBAS3 input=runtime/M2IRR_PATCH.inp \
+  user=runtime/M2IRR_PATCH.for interactive
+rc=$?
+test "$rc" -eq 0 || exit "$rc"
+abaqus python runtime/extract_stage_f11_instrumented_pair.py \
+  --odb M2IRRBAS3.odb --output-dir extracted --role baseline

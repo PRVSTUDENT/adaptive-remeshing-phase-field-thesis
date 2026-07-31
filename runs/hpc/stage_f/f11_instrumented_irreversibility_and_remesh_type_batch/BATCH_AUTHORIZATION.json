@@ -2,8 +2,8 @@
   "task_id": "F11-INSTRUMENTED-IRREVERSIBILITY-AND-REMESH-TYPE-BATCH",
   "authorized_jobs": ["M2IRRBAS3", "M2IRRCAN3", "M2RMTYPE3"],
   "authorization_phrase_received": true,
-  "execution_authorized": false,
-  "submission_approved": false,
+  "execution_authorized": true,
+  "submission_approved": true,
   "approved_submissions": 3,
   "submissions_used": 0,
   "qsub_attempts": 0,
@@ -11,14 +11,14 @@
   "failed_qsub_attempts": 0,
   "retry_authorized": false,
   "replacement_authorized": false,
-  "maximum_jobs_now": 0,
+  "maximum_jobs_now": 3,
   "maximum_running_jobs": 2,
   "medium_h1_authorized": false,
   "full_h2_authorized": false,
   "native_adaptive_analysis_authorized": false,
   "refined_phase_field_analysis_authorized": false,
-  "preparation_sha": null,
+  "preparation_sha": "fec1165394afb1f0876ae51c8b6ee9125883de1f",
   "authorization_sha": null,
   "submission_sha": null,
-  "run_id": null
+  "run_id": "F11_20260731_065515_fec1165"
 }

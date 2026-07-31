@@ -1,0 +1,12 @@
+{
+  "run_id": "F11_20260731_065515_fec1165",
+  "preparation_sha": "fec1165394afb1f0876ae51c8b6ee9125883de1f",
+  "jobs": ["M2IRRBAS3", "M2IRRCAN3", "M2RMTYPE3"],
+  "independent_eligibility": true,
+  "maximum_running_jobs": 2,
+  "interpreter_contracts": {
+    "extractor": "Abaqus Python 2.7",
+    "remesh_wrapper": "Abaqus Python 2.7",
+    "scientific_comparison": "Python 3.11"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "matches": {
+    "\\.submit\\s*\\(": [],
+    "\\bqsub\\b": [],
+    "abaqus\\s+job=": [],
+    "mdb\\.Job(?:FromInputFile)?\\s*\\(": [],
+    "os\\.system\\s*\\(": [],
+    "subprocess\\.": [],
+    "waitForCompletion\\s*\\(": []
+  },
+  "native_adaptive_analysis_count": 0,
+  "passed": true,
+  "reachable_solver_launch_paths": 0,
+  "remesh_execution_count": 0,
+  "solver_execution_count": 0
+}
