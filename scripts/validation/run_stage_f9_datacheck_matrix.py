@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Run the bounded Stage F9 Abaqus datacheck-only diagnostic matrix."""
-from __future__ import annotations
 
 import csv
 import hashlib
@@ -17,18 +16,18 @@ EXPECTED_DECK_SHA = "a9823ad7de4dcec27ae9b39ed6841b0533e8c65750017d6c9dbad6277e6
 MAX_CASES = 6
 
 
-def sha256(path: Path) -> str:
+def sha256(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def write_json(path: Path, value: object) -> None:
+def write_json(path, value):
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     json.loads(path.read_text(encoding="utf-8"))
 
 
-def element_labels(deck: str, element_type: str) -> list[int]:
+def element_labels(deck, element_type):
     lines = deck.splitlines()
-    labels: list[int] = []
+    labels = []
     active = False
     for line in lines:
         lower = line.lower()
@@ -42,7 +41,7 @@ def element_labels(deck: str, element_type: str) -> list[int]:
     return labels
 
 
-def label_audit(deck: str) -> dict:
+def label_audit(deck):
     u1 = element_labels(deck, "U1")
     u2 = element_labels(deck, "U2")
     cpe4 = element_labels(deck, "CPE4")
@@ -77,9 +76,9 @@ def label_audit(deck: str) -> dict:
     }
 
 
-def strip_overlay(deck: str) -> str:
+def strip_overlay(deck):
     lines = deck.splitlines()
-    out: list[str] = []
+    out = []
     skipping = False
     for line in lines:
         low = line.lower()
@@ -104,13 +103,13 @@ def strip_overlay(deck: str) -> str:
     return "\n".join(out) + "\n"
 
 
-def simplified_uel(deck: str) -> str:
+def simplified_uel(deck):
     text = strip_overlay(deck)
     text = text.split("** Step 2:", 1)[0]
     return text.rstrip() + "\n"
 
 
-def umat_only(deck: str) -> str:
+def umat_only(deck):
     lines = deck.splitlines()
     nodes_end = next(i for i, x in enumerate(lines) if x.lower().startswith("*user element"))
     node_prefix = lines[:nodes_end]
@@ -149,7 +148,7 @@ def umat_only(deck: str) -> str:
     )
 
 
-def last_message(case_dir: Path, name: str) -> tuple[str, bool]:
+def last_message(case_dir, name):
     content = ""
     for suffix in (".msg", ".dat", ".log"):
         path = case_dir / (name + suffix)
@@ -160,7 +159,7 @@ def last_message(case_dir: Path, name: str) -> tuple[str, bool]:
     return (nonempty[-1] if nonempty else ""), signal
 
 
-def main() -> int:
+def main():
     root = Path(os.environ["F9_JOB_A_ROOT"]).resolve()
     source = Path(os.environ["F9_BASELINE_SOURCE"]).resolve()
     deck_path = Path(os.environ["F9_BASELINE_DECK"]).resolve()
@@ -216,7 +215,7 @@ def main() -> int:
         ),
     }
     write_json(output / "DEBUG_COMPILER_AUDIT.json", compiler_audit)
-    results: list[dict] = []
+    results = []
     for sequence, (name, case_deck, diagnostic_env, purpose) in enumerate(cases, 1):
         case_dir = root / "cases" / name
         case_dir.mkdir(parents=True, exist_ok=False)
