@@ -127,12 +127,20 @@ zero direct qsubs, zero retries and zero replacements. All authority is
 consumed. H2 irreversibility fails and native MISESERI remeshing remains
 unqualified.
 
-## Next Action
+## Stage F11 terminal result
 
-Stage F11 prepares the independently eligible instrumented minimal baseline,
-instrumented penalty candidate, and corrected CAE-only type matrix. F10
-geometry, mapping, loading, and governing formulations are frozen. Energy is
-evaluated as a predeclared diagnostic balance because the custom
-history-field UEL does not expose an exact Abaqus global variational balance.
-Execution authority remains false until immutable runtime staging, all three
-independent preflights, and an authorization commit are complete.
+Jobs `1380100`, `1380101`, and `1380102` are terminal. The instrumented
+baseline completed, the penalty candidate is qualified on the minimal model,
+and Abaqus 2023 accepted `RemeshingRule.variables=('MISESERI',)` when the
+tuple element is a Python 2 byte string. Candidate phase decreases remained
+within the `1e-7` policy, response agreement and the predeclared diagnostic
+energy balance passed, and explicit penalty activity occurred only after the
+peak. The prior-state contract matched every preceding converged frame
+checked; no cutback occurred, so rollback behavior was not exercised.
+
+Exactly three qsub attempts succeeded. There were no retries, replacements,
+direct qsubs, qdel, or qmove calls. Solver execution count is two; adaptive,
+remesh, and candidate-deck counts are zero. All execution authority is
+consumed. Stage F11 permits preparation, but not submission, of a future
+medium-H1 verification package. H2, refined, native-adaptive, and production
+execution remain unauthorized.

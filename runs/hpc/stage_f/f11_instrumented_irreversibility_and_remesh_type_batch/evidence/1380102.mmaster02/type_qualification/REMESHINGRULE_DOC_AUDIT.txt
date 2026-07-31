@@ -1,0 +1,5 @@
+Abaqus Python: 2.7.15 (default, Jul 30 2022, 01:33:15) 
+[GCC 8.2.1 20180905 (Red Hat 8.2.1-3)]
+RemeshingRule.__doc__:
+Model.RemeshingRule(name, stepName, variables <, description, region, sizingMethod, errorTarget, maxSolutionErrorTarget, minSolutionErrorTarget, meshBias, minElementSize, maxElementSize, outputFrequency, specifyMinSize, specifyMaxSize, coarseningFactor, refinementFactor, elementCountLimit>) -> This method creates a RemeshingRule object.
+MODEL=MODEL UNIFORM_ERROR=UNIFORM_ERROR NOT_ALLOWED=NOT_ALLOWED ON=ON

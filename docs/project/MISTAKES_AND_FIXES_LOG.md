@@ -396,6 +396,26 @@ Evidence paths: `runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evide
 Prevention rule: Pass noGUI script inputs through explicit environment variables and tolerate documented Abaqus CAE driver arguments.
 Status: recorded; no resubmission authorized
 
+## Stage F11 remote checksum scope error (2026-07-31)
+
+ID: M-115
+Date: 2026-07-31
+Stage/job: Stage F11 evidence collection
+Classification: `remote_checksum_loop_variable_quoting_error`
+Symptom: A PowerShell quoting error passed a literal shell loop variable to a
+remote checksum command, causing hashing to begin in the remote home
+directory and creating `/home/pr21vyci/SHA256SUMS`.
+Root cause: The local shell expanded/escaped the remote loop variable
+incorrectly.
+Scientific inputs changed: no
+Correction: The process was stopped, the accidental checksum file was
+removed, and explicit immutable runtime paths were used to regenerate the
+valid manifests. Scheduler jobs and scientific evidence were unaffected.
+Prevention rule: Avoid nested local/remote shell variables for checksum
+manifests; pass an explicit validated path list and confirm the remote
+working directory before writing.
+Status: corrected and recorded
+
 ## Stage F10 evidence and CAE wrapper defects (2026-07-31)
 
 ID: M-112

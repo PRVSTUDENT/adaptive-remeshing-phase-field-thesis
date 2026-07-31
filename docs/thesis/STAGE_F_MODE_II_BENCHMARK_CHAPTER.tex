@@ -189,6 +189,36 @@ wrapper. The native \texttt{RemeshingRule.variables} contract consequently
 remains unresolved. Solver, adaptive-analysis, remesh, and candidate-deck
 counts for that job are zero.
 
+\section{Stage F11 Instrumented Qualification}
+
+Stage F11 repeated the byte-identical minimal baseline and penalty candidate
+with 10 additional diagnostic state variables. These expose the current and
+prior phase, constraint gap and active flag, penalty energy, residual and
+tangent densities, local and gradient crack terms, and history contribution.
+The resulting balance is a predeclared diagnostic balance rather than an
+exact Abaqus global variational energy.
+
+The baseline and candidate completed in jobs 1380100 and 1380101. The
+candidate minimum fixed-point SDV15 change was
+$-5.9605\times10^{-8}$, within the $10^{-7}$ precision policy. Its maximum
+RF1 difference from the baseline was $1.8135\times10^{-7}$, initial
+stiffness was unchanged, and its maximum positive incremental diagnostic
+imbalance was $1.1511\times10^{-7}$, below the declared
+$1.0827\times10^{-6}$ limit. Penalty activity was zero through peak load and
+occurred in 32 later frames. Across 9,200 non-initial integration-point
+checks, stored prior phase matched the preceding converged frame exactly.
+Neither run cut back, so rollback behavior was not exercised.
+
+The candidate is therefore qualified on the minimal model. This permits
+preparation, but not submission, of a future medium-H1 verification package;
+it supports neither H2 nor production claims.
+
+The independent CAE-only job 1380102 also resolved the native Abaqus 2023
+type contract. A bare Python 2 byte string was rejected, while
+\texttt{variables=('MISESERI',)} was accepted when its tuple element was a
+Python 2 \texttt{str}. No solver, adaptive analysis, remesh operation, or
+candidate deck was executed.
+
 All extracted CSV curves, summaries, field contours, log files, and execution manifests are archived in the canonical repository evidence paths:
 \begin{quote}
 \texttt{runs/hpc/stage\_f/mode\_ii\_h0\_endpoint\_corrected/replacement\_r1/evidence/1379393.mmaster02/}\\
@@ -206,5 +236,6 @@ All extracted CSV curves, summaries, field contours, log files, and execution ma
 \texttt{runs/hpc/stage\_f/f7\_h2\_irreversibility\_and\_miseseri\_api\_batch/evidence/1380085.mmaster02/}
 \texttt{runs/hpc/stage\_f/f9\_datacheck\_root\_cause\_and\_remesh\_type\_batch/evidence/}
 \texttt{runs/hpc/stage\_f/f10\_corrected\_minimal\_irreversibility\_and\_remesh\_type\_batch/evidence/}
+\texttt{runs/hpc/stage\_f/f11\_instrumented\_irreversibility\_and\_remesh\_type\_batch/evidence/}
 \end{quote}
 Main closure commit SHA: recorded in multi-agent coordination ledgers.

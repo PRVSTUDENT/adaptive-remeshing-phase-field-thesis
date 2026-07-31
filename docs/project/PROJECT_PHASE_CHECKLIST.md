@@ -556,3 +556,22 @@ Submission-review priority:
   remesh, and candidate-deck counts are zero.
 - [x] Exactly three qsub attempts and successes; zero retry, further
   replacement, direct qsub, qdel, or qmove. All authority consumed.
+
+## Stage F11 qualification closeout (2026-07-31)
+
+- [x] Instrumented baseline `1380100.mmaster02` completed with the frozen
+  minimal geometry, mapping, loading, and formulation.
+- [x] Candidate `1380101.mmaster02` qualified on the minimal model: minimum
+  SDV15 change `-5.9605e-8`, response agreement passed, diagnostic energy
+  imbalance passed the predeclared two-percent limit, and penalty activity
+  was observed after peak load.
+- [x] Prior phase matched the preceding converged frame in all 9,200
+  non-initial checks. No cutback occurred, so rollback remains unexercised.
+- [x] CAE-only job `1380102.mmaster02` qualified the Abaqus 2023 native
+  contract as a tuple containing Python 2 byte string `MISESERI`. It made no
+  solver, adaptive, remesh, or candidate-deck call.
+- [x] Exactly three qsub attempts and successes; no retry, replacement,
+  direct qsub, qdel, or qmove. All authority consumed.
+- [!] Only preparation of a future medium-H1 verification package is
+  eligible. Submission, H2, refined, adaptive, and production runs remain
+  unauthorized.
