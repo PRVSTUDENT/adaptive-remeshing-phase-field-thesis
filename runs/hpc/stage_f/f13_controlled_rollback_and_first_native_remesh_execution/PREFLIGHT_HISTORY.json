@@ -1,0 +1,19 @@
+{
+  "attempts": [
+    {
+      "run_id": "F13_20260731_104458_671d3ef",
+      "eligible": false,
+      "failure": "Windows CRLF in SHA256SUMS made Linux hash validation fail",
+      "qsub_attempts": 0
+    },
+    {
+      "run_id": "F13_20260731_104651_671d3ef",
+      "eligible": false,
+      "hashes_and_file_routing": "pass",
+      "failure": "Installed Abaqus 2023 API requires maxIterations, not iterations",
+      "installed_signature": "Mdb.AdaptivityProcess(name, job <, maxIterations, jobPrefix>)",
+      "qsub_attempts": 0
+    }
+  ],
+  "submission_authority_consumed": false
+}

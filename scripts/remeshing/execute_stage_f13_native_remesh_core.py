@@ -22,9 +22,9 @@ try:
     model.RemeshingRule(**kwargs)
     job = mdb.Job(name="F13_MISESERI_SOURCE", model=model.name)
     process = mdb.AdaptivityProcess(name="F13_MISESERI_ADAPTIVITY", job=job.name,
-                                    iterations=1)
+                                    maxIterations=1)
     status["exact_api_commands"] = ["model.RemeshingRule(**%r)" % kwargs,
-                                    "mdb.AdaptivityProcess(name='F13_MISESERI_ADAPTIVITY', job='F13_MISESERI_SOURCE', iterations=1)",
+                                    "mdb.AdaptivityProcess(name='F13_MISESERI_ADAPTIVITY', job='F13_MISESERI_SOURCE', maxIterations=1)",
                                     "process.submit(waitForCompletion=True)"]
     process.submit(waitForCompletion=True)
     status.update(source_solver_execution_count=1, adaptive_process_execution_count=1,
