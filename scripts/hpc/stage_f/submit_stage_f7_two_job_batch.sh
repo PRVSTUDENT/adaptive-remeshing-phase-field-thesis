@@ -3,6 +3,7 @@ set -u
 AUTH="${1:?authorization json required}"
 JOB_A_DIR="${2:?job A directory required}"
 JOB_B_DIR="${3:?job B directory required}"
+: "${F7_RUN_ID:?F7_RUN_ID required}"
 python3 - "$AUTH" <<'PY'
 import json,sys
 p=sys.argv[1]; d=json.load(open(p))
@@ -15,7 +16,7 @@ attempts=0; successes=0; failures=0; job_a=""; job_b=""; LAST_JOB_ID=""
 submit_one() {
   dir="$1"; script="$2"
   attempts=$((attempts+1))
-  if jid=$(cd "$dir" && qsub -M pr21vyci@mailserver.tu-freiberg.de -m abe "$script"); then
+  if jid=$(cd "$dir" && qsub -v "F7_RUN_ID=${F7_RUN_ID}" -M pr21vyci@mailserver.tu-freiberg.de -m abe "$script"); then
     successes=$((successes+1)); LAST_JOB_ID="$jid"; return 0
   else
     failures=$((failures+1)); LAST_JOB_ID=""; return 1

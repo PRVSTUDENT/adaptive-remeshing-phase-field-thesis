@@ -8,6 +8,9 @@
 
 set -u
 cd "${PBS_O_WORKDIR}" || exit 21
+export F7_SOURCE_ODB=/scratch/pr21vyci/adaptive-remeshing/runs/stage_f6/F6_20260730_122800_2249ec21/h2_u020_full/M2H2U20F1.odb
+export F7_EXPECTED_ODB_SHA256=b1e6b0bc82bc0febd5b208f81e3dd09f60a0adec91bba47e4a1ed96ac7a555bb
+export F7_JOB_NAME=M2H2IRR1
 OUT=forensic
 mkdir -p "${OUT}"
 for f in RUNTIME_MANIFEST.json SHA256SUMS runtime/scripts/postprocessing/extract_h2_irreversibility_forensic_odb.py runtime/scripts/validation/analyze_h2_irreversibility_forensic.py h1_rf1_u1_curve.csv h2_rf1_u1_curve.csv; do
@@ -18,6 +21,9 @@ actual=$(sha256sum "${F7_SOURCE_ODB}" | awk '{print $1}')
 [ "${actual}" = "${F7_EXPECTED_ODB_SHA256}" ] || exit 20
 sha256sum -c SHA256SUMS || exit 20
 module --force purge
+export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
+mkdir -p "${XDG_RUNTIME_DIR}"
+chmod 700 "${XDG_RUNTIME_DIR}"
 module load gcc/11.4.0
 module load intel/2024.2.0
 module load abaqus/2023

@@ -8,6 +8,10 @@
 
 set -u
 cd "${PBS_O_WORKDIR}" || exit 21
+export F7_SOURCE_ODB=/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4R1_20260730_065138_86ec6c79/miseseri_corrected/M2MISER1.odb
+export F7_EXPECTED_ODB_SHA256=bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac
+export F7_EXPECTED_DECK_SHA256=a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2
+export F7_JOB_NAME=M2RMAPI2
 OUT=api_qualification
 mkdir -p "${OUT}"
 for f in RUNTIME_MANIFEST.json SHA256SUMS runtime/scripts/remeshing/qualify_mode_ii_native_miseseri_api.py runtime/configs/stage_f/mode_ii_miseseri_native_remesh.yaml source_deck.inp; do
@@ -18,6 +22,9 @@ done
 [ "$(sha256sum source_deck.inp | awk '{print $1}')" = "${F7_EXPECTED_DECK_SHA256}" ] || exit 20
 sha256sum -c SHA256SUMS || exit 20
 module --force purge
+export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
+mkdir -p "${XDG_RUNTIME_DIR}"
+chmod 700 "${XDG_RUNTIME_DIR}"
 module load gcc/11.4.0
 module load intel/2024.2.0
 module load abaqus/2023
