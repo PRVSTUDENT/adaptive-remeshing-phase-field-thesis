@@ -129,7 +129,12 @@ unqualified.
 
 ## Next Action
 
-Stage F10 prepares the independently eligible compact baseline, penalty
-candidate, and reviewed remeshing-type replacement. Preparation, tests,
-runtime staging, and all three independent preflights must pass before
-activating the explicit three-submission authority.
+Stage F10 submitted exactly three jobs. Both compact analyses completed with
+the corrected 23-element runtime map and no bounds failure. The candidate
+reduced the minimum SDV15 change from `-5.7817e-6` to `-5.9605e-8` while
+preserving RF--U response and convergence, but missing energy and penalty
+histories make the result `irreversibility_candidate_inconclusive`.
+`M2RMTYPE2` passed path audits but failed before its type matrix because
+Abaqus CAE `execfile` did not define `__file__`; the native type remains
+unresolved. No retry, further replacement, medium H1, full H2, refined solve,
+or adaptive solve is authorized.

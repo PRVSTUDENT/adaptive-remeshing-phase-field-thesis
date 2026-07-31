@@ -108,7 +108,8 @@ def main():
         "minimum_delta_sdv16": min(sdv16_deltas) if sdv16_deltas else None,
         "phase_minimum": min(phase_values) if phase_values else None,
         "phase_maximum": max(phase_values) if phase_values else None,
-        "finite": all(math.isfinite(x) for x in phase_values + deltas + sdv16_deltas),
+        "finite": all(not math.isnan(x) and not math.isinf(x)
+                      for x in phase_values + deltas + sdv16_deltas),
         "solver_execution_count": 1,
     }
     write_json(os.path.join(args.output_dir, "SUMMARY.json"), summary)

@@ -1,0 +1,30 @@
+{
+  "job_id": "1380091.mmaster02",
+  "job_name": "M2IRRBAS2",
+  "terminal_result": "abaqus_analysis_completed_extractor_summary_failed_python27_math_isfinite",
+  "classification": "minimal_baseline_completed_energy_evidence_unavailable",
+  "frames": 102,
+  "increments": 100,
+  "total_iterations": 118,
+  "cutbacks": 0,
+  "initial_stiffness": 78.8781862783439,
+  "peak_rf1": 0.0347024991060607,
+  "final_u1": 0.006000000052154064,
+  "final_rf1": 0.00019242075791225943,
+  "phase_minimum": 0.0,
+  "phase_maximum": 1.00007653236389,
+  "minimum_delta_sdv15": -5.78165054321289e-06,
+  "minimum_delta_sdv16": 0.0,
+  "phase_delta_counts": {
+    "0": 4,
+    "-1e-8": 4,
+    "-1e-7": 3,
+    "-1e-6": 2,
+    "-1e-5": 0,
+    "-1e-4": 0,
+    "-1e-3": 0
+  },
+  "common_array_bounds_failure": false,
+  "energy_evidence_available": false,
+  "precision_policy": "ODB single precision; changes with magnitude below 1e-7 are treated as extraction-scale noise"
+}

@@ -2,6 +2,7 @@
   "task_id": "F10-CORRECTED-MINIMAL-IRREVERSIBILITY-AND-REMESH-TYPE-BATCH",
   "run_id": "F10_20260731_060443_3ca7f4f",
   "authorization_sha": "1b0c585d83d65433193dda6b90d19a30f21af516",
+  "submission_sha": "44e9e540b35123fce3694f6fe0a9c7bc97915ccd",
   "qsub_attempts": 3,
   "successful_submissions": 3,
   "failed_qsub_attempts": 0,
@@ -17,5 +18,9 @@
   "qmove_calls": 0,
   "execution_authorized": false,
   "submission_approved": false,
-  "maximum_jobs_now": 0
+  "maximum_jobs_now": 0,
+  "terminal": true,
+  "baseline_classification": "minimal_baseline_completed_energy_evidence_unavailable",
+  "candidate_classification": "irreversibility_candidate_inconclusive",
+  "remesh_type_classification": "remeshing_rule_variables_type_unresolved"
 }

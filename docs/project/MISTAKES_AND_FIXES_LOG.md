@@ -396,6 +396,37 @@ Evidence paths: `runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evide
 Prevention rule: Pass noGUI script inputs through explicit environment variables and tolerate documented Abaqus CAE driver arguments.
 Status: recorded; no resubmission authorized
 
+## Stage F10 evidence and CAE wrapper defects (2026-07-31)
+
+ID: M-112
+Stage/jobs: `1380091.mmaster02`, `1380092.mmaster02`
+Symptom: Both ODB extractors wrote CSV evidence, then failed while producing
+the JSON summary.
+Root cause: Abaqus Python 2.7 does not provide `math.isfinite`.
+Correction: The extractor now uses `isnan`/`isinf`; existing CSVs were
+analyzed offline without rerunning either solver.
+Prevention: Abaqus compatibility tests must execute every summary expression,
+not merely compile the script.
+
+ID: M-113
+Stage/jobs: `1380091.mmaster02`, `1380092.mmaster02`
+Symptom: Required energy histories were empty.
+Root cause: The minimal deck requested energy output as field output; Abaqus
+warned that it was unavailable.
+Correction: Preserve the missing evidence and classify the candidate
+inconclusive.
+Prevention: A future deck must validate nonempty history-region energy output
+before authorization.
+
+ID: M-114
+Stage/job: `1380093.mmaster02`
+Symptom: CAE stopped before the variables-type matrix.
+Root cause: The wrapper derived its core path from `__file__`, which Abaqus
+CAE did not define when invoking the script through `execfile`.
+Correction: Failure preserved; no retry or further replacement.
+Prevention: CAE wrappers must resolve staged paths from an explicit argument
+or working directory and must be smoke-executed in the actual noGUI context.
+
 ## Stage F9 runtime numbering and wrapper evidence defects (2026-07-31)
 
 ID: M-109

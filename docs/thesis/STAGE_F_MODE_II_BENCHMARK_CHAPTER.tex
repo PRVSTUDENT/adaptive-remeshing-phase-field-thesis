@@ -161,6 +161,34 @@ was tested, no rule object was created, and the native type contract remains
 unresolved.  Solver, adaptive-analysis, and remesh counts are zero.
 
 \section{Reproducibility Paths}
+\section{Stage F10 Corrected Minimal Qualification}
+The model-specific runtime mapping was corrected to 23 elements per layer:
+phase UEL labels 1--23, displacement UEL labels 24--46, and visualization
+CPE4 labels 47--69. Both minimal analyses completed without a COMMON-array
+bounds failure. This mapping adaptation does not alter the constitutive or
+fracture formulation.
+
+The baseline exhibited a minimum fixed-point SDV15 change of
+$-5.7817\times10^{-6}$. The consistent-penalty candidate reduced that value
+to $-5.9605\times10^{-8}$, below the declared single-precision
+$10^{-7}$ policy. Initial stiffness and peak force were identical at reported
+precision, the maximum RF1 difference was $1.8135\times10^{-7}$, and neither
+analysis required a cutback. SDV16 remained monotone in both.
+
+The candidate is nevertheless classified
+\texttt{irreversibility\_candidate\_inconclusive}. The minimal deck did not
+produce the required energy histories, and explicit penalty-activation
+histories were not captured; therefore the complete energy and conditioning
+acceptance gates cannot be evaluated. This result does not authorize a
+medium-H1 or H2 analysis.
+
+The independent CAE-only type qualification passed its staged-file and
+no-solver audits but stopped before testing any representation because
+Abaqus \texttt{execfile} did not define \texttt{\_\_file\_\_} for the
+wrapper. The native \texttt{RemeshingRule.variables} contract consequently
+remains unresolved. Solver, adaptive-analysis, remesh, and candidate-deck
+counts for that job are zero.
+
 All extracted CSV curves, summaries, field contours, log files, and execution manifests are archived in the canonical repository evidence paths:
 \begin{quote}
 \texttt{runs/hpc/stage\_f/mode\_ii\_h0\_endpoint\_corrected/replacement\_r1/evidence/1379393.mmaster02/}\\
@@ -177,5 +205,6 @@ All extracted CSV curves, summaries, field contours, log files, and execution ma
 \texttt{runs/hpc/stage\_f/f7\_h2\_irreversibility\_and\_miseseri\_api\_batch/evidence/1380084.mmaster02/}\\
 \texttt{runs/hpc/stage\_f/f7\_h2\_irreversibility\_and\_miseseri\_api\_batch/evidence/1380085.mmaster02/}
 \texttt{runs/hpc/stage\_f/f9\_datacheck\_root\_cause\_and\_remesh\_type\_batch/evidence/}
+\texttt{runs/hpc/stage\_f/f10\_corrected\_minimal\_irreversibility\_and\_remesh\_type\_batch/evidence/}
 \end{quote}
 Main closure commit SHA: recorded in multi-agent coordination ledgers.

@@ -538,3 +538,21 @@ Submission-review priority:
   D3D-A1 reopening, and D3E are prohibited. A possible P3-T4C would require a
   distinct compile-only package, decision, fail-closed authorization, and
   one-shot limit and would support no callback or thread-safety claim.
+
+## Stage F10 qualification closeout (2026-07-31)
+
+- [x] Corrected compact UEL mapping qualified at runtime: U1 1--23, U2
+  24--46, CPE4 47--69, with `N_ELEM=23` in UEL and UMAT and no bounds guard.
+- [!] Baseline job `1380091.mmaster02` completed. Minimum fixed-point SDV15
+  change was `-5.7817e-6`; SDV16 was monotone; energy evidence was unavailable.
+- [!] Candidate job `1380092.mmaster02` completed. Minimum fixed-point SDV15
+  change was `-5.9605e-8`, below the `1e-7` precision policy, with zero
+  cutbacks and baseline-matching response. Classification remains
+  `irreversibility_candidate_inconclusive` because energy and explicit
+  penalty histories were not captured.
+- [!] CAE-only job `1380093.mmaster02` passed staged-path audits but failed
+  before the type matrix because `__file__` was undefined under Abaqus
+  `execfile`. Native RemeshingRule type remains unresolved; solver, adaptive,
+  remesh, and candidate-deck counts are zero.
+- [x] Exactly three qsub attempts and successes; zero retry, further
+  replacement, direct qsub, qdel, or qmove. All authority consumed.
