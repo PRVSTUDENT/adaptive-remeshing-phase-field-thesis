@@ -6,6 +6,7 @@ Starting commit: `306cf41668cc37bb5485b2b84b625d892ac55196`
 Preparation commit: `fec1165394afb1f0876ae51c8b6ee9125883de1f`
 Authorization commit: `4d4e1c812e7caa185883f17ec66be8357bca33a7`
 Submission commit: `4b15c2ab91d977ab71eddc63f7b7bcfe7228a96d`
+Evidence commit: `f6f9b6367488da077693f4cdcf2fc80c630a65a7`
 
 ## Execution
 
@@ -27,6 +28,9 @@ checks. No cutback occurred, so rollback was not exercised.
 The CAE-only matrix qualified `RemeshingRule.variables=('MISESERI',)` with a
 Python 2 byte-string tuple element. It executed no solver, adaptive analysis,
 remesh operation, or candidate deck.
+
+The integrated thesis closeout build compiled successfully with Tectonic to
+38 pages. Existing layout warnings remain non-fatal.
 
 ## Validation and scope
 

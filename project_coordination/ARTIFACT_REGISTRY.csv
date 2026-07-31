@@ -174,7 +174,7 @@ F11_CANDIDATE_PACKAGE,Stage F,models/generated/mode_ii/f11_irreversibility_candi
 F11_REMESH_TYPE_PACKAGE,Stage F,models/generated/mode_ii/f11_miseseri_remesh_type_qualification/,immutable_package,prepared,codex,,,,Explicit F11_RUNTIME_DIR and no __file__ dependency
 F11_ENERGY_CONTRACT,Stage F,docs/decisions/STAGE_F11_ENERGY_DEFINITION_AND_ACCEPTANCE.md,decision_record,prepared,codex,,,,Predeclared diagnostic balance equations units and tolerances
 F11_BATCH_AUTHORIZATION,Stage F,runs/hpc/stage_f/f11_instrumented_irreversibility_and_remesh_type_batch/BATCH_AUTHORIZATION.json,authorization_record,prepared_disabled,codex,,,,Exactly three independent jobs; no retry or replacement
-F11_BASELINE_RESULT,Stage F,docs/experiment_records/STAGE_F11_BASELINE_RESULT.md,experiment_record,complete,codex,,,,Instrumented minimal baseline terminal result
-F11_CANDIDATE_RESULT,Stage F,docs/experiment_records/STAGE_F11_CANDIDATE_RESULT.md,experiment_record,qualified,codex,,,,Penalty candidate qualified on minimal model
-F11_REMESH_TYPE_RESULT,Stage F,docs/experiment_records/STAGE_F11_REMESH_TYPE_RESULT.md,experiment_record,qualified,codex,,,,Python 2 byte-string tuple contract qualified
-F11_QUALIFICATION_DECISION,Stage F,docs/decisions/STAGE_F11_QUALIFICATION_DECISION.md,decision_record,complete,codex,,,,Permits preparation only of a future medium-H1 package
+F11_BASELINE_RESULT,Stage F,docs/experiment_records/STAGE_F11_BASELINE_RESULT.md,experiment_record,complete,codex,f6f9b6367488da077693f4cdcf2fc80c630a65a7,,,Instrumented minimal baseline terminal result
+F11_CANDIDATE_RESULT,Stage F,docs/experiment_records/STAGE_F11_CANDIDATE_RESULT.md,experiment_record,qualified,codex,f6f9b6367488da077693f4cdcf2fc80c630a65a7,,,Penalty candidate qualified on minimal model
+F11_REMESH_TYPE_RESULT,Stage F,docs/experiment_records/STAGE_F11_REMESH_TYPE_RESULT.md,experiment_record,qualified,codex,f6f9b6367488da077693f4cdcf2fc80c630a65a7,,,Python 2 byte-string tuple contract qualified
+F11_QUALIFICATION_DECISION,Stage F,docs/decisions/STAGE_F11_QUALIFICATION_DECISION.md,decision_record,complete,codex,f6f9b6367488da077693f4cdcf2fc80c630a65a7,,,Permits preparation only of a future medium-H1 package
