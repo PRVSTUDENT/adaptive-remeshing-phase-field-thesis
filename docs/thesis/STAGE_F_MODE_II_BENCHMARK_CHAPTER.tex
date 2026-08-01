@@ -180,6 +180,22 @@ Submission counts remain three attempts and three accepted submissions, with
 zero retries, replacements, direct submissions, cancellations, or moves.
 
 \section{Reproducibility Paths}
+\section{Stage F14 Runtime and Adaptive-Region Qualification}
+
+The repaired runtime smoke removed the generic Fortran environment intrinsic
+and used Abaqus utilities \texttt{GETOUTDIR} and \texttt{GETJOBNAME}. Job
+1381368 loaded the library, began increment 1, entered UEL, retained its
+diagnostic log after scratch cleanup, reached the benign endpoint, and exited
+zero. The runtime contract is qualified; this permits preparation only of a
+future controlled rollback pair.
+
+The independent CAE-only job 1381369 verified official hashes, 3,930 CPE4
+elements, finite MISESERI values, and model-wide rule construction with zero
+solver, adaptivity-process, remesh, or candidate calls. However, it did not
+identify an adaptive-region repository/object beyond the same model-wide rule
+that preceded F13's failure. The installed API contract remains unresolved and
+native remesh execution is not ready.
+
 \section{Stage F10 Corrected Minimal Qualification}
 The model-specific runtime mapping was corrected to 23 elements per layer:
 phase UEL labels 1--23, displacement UEL labels 24--46, and visualization

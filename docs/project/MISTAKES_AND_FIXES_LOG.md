@@ -433,6 +433,25 @@ command substitution, and assert parent counters equal the number of nonempty
 job IDs before returning success.
 Status: recorded; F14 submissions retained and no further qsub authorized
 
+## Stage F14 adaptive-region self-classification exceeded captured evidence (2026-08-01)
+
+ID: M-120
+Date: 2026-08-01
+Stage/job: Stage F14 / `1381369`
+Classification: `native_adaptive_region_api_unresolved`
+Symptom: The CAE audit self-classified `native_adaptive_region_qualified`
+after creating a model-wide RemeshingRule, without identifying the required
+adaptive-region repository/object that would distinguish it from F13.
+Root cause: The script treated successful rule creation as sufficient region
+qualification even though F13 had already created the same rule before
+`adaptiveRemesh` reported no adaptive regions.
+Scientific inputs changed: no
+Correction: Preserve raw STATUS.json and apply the fail-closed terminal
+classification `native_adaptive_region_api_unresolved`.
+Prevention rule: A future preparation must identify the installed repository
+and object contract independently; never infer it from rule creation alone.
+Status: recorded; no remesh execution authorized
+
 ## Stage F13 native remesh model lacked a remeshable geometry region (2026-08-01)
 
 ID: M-118

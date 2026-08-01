@@ -618,3 +618,13 @@ Submission-review priority:
   was generated.
 - [!] Medium H1 is not ready for authorization, and no remeshed candidate is
   available for datacheck or indicator validation.
+
+## Stage F14 closeout (2026-08-01)
+
+- [x] Runtime job `1381368` loaded the repaired library, entered UEL, retained
+  its job/output-directory log, reached the endpoint and exited zero.
+- [x] `for_getenv_err` is absent; GETOUTDIR and GETJOBNAME resolve at runtime.
+- [~] A future rollback pair is preparation-eligible but not authorized.
+- [!] CAE-only job `1381369` verified source integrity and rule construction,
+  but the adaptive-region repository/object remains unresolved; native remesh
+  execution is not ready.

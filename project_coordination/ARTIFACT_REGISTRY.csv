@@ -193,3 +193,7 @@ F13_SCIENTIFIC_DECISION,Stage F,docs/decisions/STAGE_F13_SCIENTIFIC_DECISION.md,
 F14_RUNTIME_LOAD_PACKAGE,Stage F,models/generated/mode_ii/f14_runtime_load_smoke/,immutable_package,prepared,codex,,,,F11-derived benign runtime-load smoke using GETOUTDIR and GETJOBNAME
 F14_ADAPTIVE_REGION_PACKAGE,Stage F,models/generated/mode_ii/f14_native_miseseri_adaptive_region/,immutable_package,prepared_cae_only,codex,,,,Official orphan-mesh source audit with no remesh call
 F14_BATCH_AUTHORIZATION,Stage F,runs/hpc/stage_f/f14_runtime_load_and_adaptive_region_qualification/BATCH_AUTHORIZATION.json,authorization_record,prepared_disabled,codex,,,,Exactly two independent jobs no retry or replacement
+F14_TERMINAL_EVIDENCE,Stage F,runs/hpc/stage_f/f14_runtime_load_and_adaptive_region_qualification/evidence/,hpc_evidence,complete,codex,,1381368.mmaster02;1381369.mmaster02,,Lightweight terminal evidence excluding Abaqus binaries
+F14_RUNTIME_RESULT,Stage F,docs/experiment_records/STAGE_F14_RUNTIME_LOAD_RESULT.md,experiment_record,qualified,codex,,1381368.mmaster02,,User library load UEL entry log routing and endpoint qualified
+F14_REGION_RESULT,Stage F,docs/experiment_records/STAGE_F14_ADAPTIVE_REGION_RESULT.md,experiment_record,unresolved,codex,,1381369.mmaster02,,Rule constructed but adaptive-region repository object unresolved
+F14_DECISION,Stage F,docs/decisions/STAGE_F14_SCIENTIFIC_DECISION.md,decision_record,complete_partial,codex,,,,Rollback preparation eligible native remesh execution not ready

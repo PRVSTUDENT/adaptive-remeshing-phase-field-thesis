@@ -4,14 +4,24 @@ Updated: 2026-07-31
 Protocol version: 1
 Classification: `stage_f11_preparation_in_progress`
 
-## Stage F14 queued qualification batch
+## Stage F14 terminal qualification result
+
+Jobs `1381368` and `1381369` are terminal with PBS exit zero. The runtime-load
+job qualified the repaired GETOUTDIR/GETJOBNAME contract through successful
+first UEL entry and endpoint completion. A future rollback pair may be
+prepared but is not authorized. The CAE-only job verified official hashes,
+3,930 CPE4 elements and finite MISESERI values, but did not identify the
+required adaptive-region repository/object beyond the same model-wide rule
+used in F13. Its fail-closed classification is
+`native_adaptive_region_api_unresolved`; remesh execution is not ready.
+
 
 Exactly two authorized jobs were submitted through the guarded orchestrator:
 `1381368.mmaster02` (`M2RTLOAD1`) and `1381369.mmaster02` (`M2RMREG1`). Both
 were queued at the first permitted poll. Authority is consumed: qsub attempts
 2, successes 2, retries 0, replacements 0, direct qsub 0, qdel 0, qmove 0.
 No rollback, native remesh, medium-H1, H2, datacheck, or refined solve is
-authorized. Terminal evidence and scientific classifications remain pending.
+authorized. Terminal evidence and classifications are closed.
 
 ## Stage F13 terminal closeout
 

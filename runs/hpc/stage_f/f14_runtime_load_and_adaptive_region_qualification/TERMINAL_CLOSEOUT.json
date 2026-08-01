@@ -1,0 +1,14 @@
+{
+  "run_id": "F14_20260801_042129_ca800f5",
+  "jobs": {
+    "1381368.mmaster02": {"name": "M2RTLOAD1", "pbs_exit": 0, "host": "mnode106/0", "walltime": "00:00:18", "memory_kb": 190488, "classification": "abaqus_user_library_runtime_contract_qualified"},
+    "1381369.mmaster02": {"name": "M2RMREG1", "pbs_exit": 0, "host": "mnode106/1", "walltime": "00:00:05", "memory_kb": 210536, "classification": "native_adaptive_region_api_unresolved"}
+  },
+  "submission_counts": {"qsub_attempts": 2, "successful_submissions": 2, "failed_qsub_attempts": 0, "retries": 0, "replacements": 0, "direct_qsub": 0, "qdel": 0, "qmove": 0},
+  "runtime_contract_qualified": true,
+  "rollback_pair_preparation_eligible": true,
+  "native_model_ready_for_remesh_execution": false,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0
+}

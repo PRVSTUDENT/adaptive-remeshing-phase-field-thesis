@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "agent": "codex",
   "allowed_scope": [
     "configs/stage_f/**f14*",
@@ -20,11 +20,11 @@
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "project_coordination/**"
   ],
-  "completed_at": "2026-08-01T04:25:59Z",
-  "heartbeat": "2026-08-01T04:25:59Z",
-  "started_at": "2026-08-01T04:14:44Z",
-  "session_id": "F14-RUNTIME-LOAD-AND-ADAPTIVE-REGION-QUALIFICATION-20260801",
-  "starting_commit": "cd9a47bc19a4d805d952fa740d83a9960f2aab31",
-  "task_id": "F14-RUNTIME-LOAD-AND-ADAPTIVE-REGION-QUALIFICATION",
-  "note": "Exactly two F14 qualification jobs submitted and queued; authority consumed. Terminal monitoring and closeout remain pending."
+  "completed_at": null,
+  "heartbeat": "2026-08-01T06:22:01Z",
+  "started_at": "2026-08-01T06:22:01Z",
+  "session_id": "F14-TERMINAL-MONITORING-AND-QUALIFICATION-CLOSEOUT-20260801",
+  "starting_commit": "d00057c228f29a0121cf5f3e5e7b03cadcd47d90",
+  "task_id": "F14-TERMINAL-MONITORING-AND-QUALIFICATION-CLOSEOUT",
+  "note": "Monitoring and terminal closeout only. No qsub, retry, replacement, qdel, qmove, rerun, rollback, remesh, H1, H2, datacheck, or refined solve."
 }

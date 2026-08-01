@@ -1,0 +1,30 @@
+{
+  "after_rules": [
+    "F12_MISESERI_RULE"
+  ], 
+  "before": {
+    "instances": [
+      "PART-1-1"
+    ], 
+    "models": [
+      "F14_MISESERI_COARSE", 
+      "Model-1"
+    ], 
+    "parts": [
+      "PART-1"
+    ], 
+    "rules": [], 
+    "steps": [
+      "Initial", 
+      "Step-1"
+    ]
+  }, 
+  "finding": "Abaqus adaptive remeshing requires native geometry; imported input is an orphan mesh", 
+  "installed_contract": "adaptive remeshing rule region, not ALE adaptive mesh domain", 
+  "orphan_mesh_part": false, 
+  "rule_region": "MODEL", 
+  "rule_step": "Step-1", 
+  "rule_variables": [
+    "MISESERI"
+  ]
+}
