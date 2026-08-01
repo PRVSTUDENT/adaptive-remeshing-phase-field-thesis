@@ -301,3 +301,16 @@ All extracted CSV curves, summaries, field contours, log files, and execution ma
 \texttt{runs/hpc/stage\_f/f12\_rollback\_qualification\_and\_native\_remesh\_preparation/evidence/}
 \end{quote}
 Main closure commit SHA: recorded in multi-agent coordination ledgers.
+
+\subsection{F16 Wave B submission boundary}
+
+The notification policy was revised by an explicit human waiver after
+Telegram delivery was observed but native PBS email was not received.
+Telegram remains the required operational channel and PBS email remains
+best-effort and unqualified. The guarded Wave B submission attempted the two
+rollback jobs once each, but the scheduler rejected both requests with return
+code 174 (queue access denied) and issued no job identifiers. The CAE-only
+adaptive-region lane was withheld because its concurrency-control dependency
+could not be formed. Thus no F16 scientific execution occurred: controlled
+cutback rollback remains unqualified, the medium-H1 pair is not ready for a
+future batch, and the native model is not ready for remesh execution.

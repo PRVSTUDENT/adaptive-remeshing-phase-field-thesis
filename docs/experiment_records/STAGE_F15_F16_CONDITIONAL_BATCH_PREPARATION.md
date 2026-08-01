@@ -21,3 +21,14 @@ The shell-only job ran no Abaqus or scientific workload and made no nested
 qsub call. Classification remains
 `notification_smoke_technically_passed_awaiting_human_confirmation`; Wave B
 is blocked pending personal confirmation of all four deliveries.
+
+## Wave B submission result (2026-08-01)
+
+The user waived the unobserved PBS-email delivery gate while retaining
+Telegram as mandatory. Under authorization `37b9c30`, both rollback qsub
+invocations were rejected with return code 174 because queue access was
+denied. No PBS ID was issued. `M2RMREG2` was not invoked because the required
+`afterany` concurrency dependency could not be formed without the control
+job ID. Consequently there are no terminal scientific metrics: rollback
+remains unqualified, medium H1 remains not ready, and native adaptive-region
+qualification remains unresolved. No retry or replacement is authorized.
