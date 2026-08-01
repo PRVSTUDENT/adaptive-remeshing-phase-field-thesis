@@ -1,0 +1,39 @@
+{
+  "run_id": "F16B_20260801T092632Z_37b9c30",
+  "authorization_sha": "37b9c3020cbfc45eb26539dd8270825c58390742",
+  "classification": "wave_b_submission_rejected_queue_access_denied",
+  "actual_wave_b_qsub_invocations": 2,
+  "orchestrator_logical_attempt_count": 3,
+  "wave_b_successful_submissions": 0,
+  "wave_b_failed_qsub_invocations": 2,
+  "M2IRRROLLCTL2": {
+    "qsub_invoked": true,
+    "qsub_return_code": 174,
+    "pbs_job_id": null,
+    "reason": "Access to queue is denied"
+  },
+  "M2IRRROLLFORCE2": {
+    "qsub_invoked": true,
+    "qsub_return_code": 174,
+    "pbs_job_id": null,
+    "reason": "Access to queue is denied"
+  },
+  "M2RMREG2": {
+    "qsub_invoked": false,
+    "qsub_return_code": null,
+    "pbs_job_id": null,
+    "reason": "control submission unavailable; concurrency dependency cannot be created"
+  },
+  "scientific_dependency": "none",
+  "scheduler_concurrency_dependency": null,
+  "total_qsub_attempts_including_wave_a": 3,
+  "total_successful_submissions_including_wave_a": 1,
+  "failed_qsub_attempts_total": 2,
+  "remaining_conditional_submissions": 0,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0,
+  "retry_authorized": false,
+  "replacement_authorized": false,
+  "utc": "2026-08-01T09:41:37.602194Z"
+}

@@ -651,3 +651,14 @@ Submission-review priority:
 - [x] Native PBS BEGIN and END email were configured with mail points `abe`.
 - [x] No Abaqus, scientific workload, nested qsub, retry, or replacement ran.
 - [!] Wave B remains blocked pending personal confirmation of all four deliveries.
+
+## F16 Wave B submission (2026-08-01)
+
+- [x] User explicitly waived only the human PBS-email receipt gate; Telegram
+  remains operational and PBS email remains best-effort/unconfirmed.
+- [!] Both rollback qsub calls were rejected with return code 174 because
+  access to `normal_imfdfkmq` was denied; no PBS IDs exist.
+- [x] `M2RMREG2` was withheld because its `afterany` concurrency dependency
+  could not be constructed without the control PBS ID.
+- [x] No scientific, CAE, remesh, datacheck, retry, or replacement ran.
+- [!] All Wave B authority is consumed; a future attempt requires new explicit authorization.

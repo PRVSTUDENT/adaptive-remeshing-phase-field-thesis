@@ -49,3 +49,6 @@ Stage F,F14-TERMINAL-MONITORING-AND-QUALIFICATION-CLOSEOUT,1381368.mmaster02,M2R
 Stage F,F14-TERMINAL-MONITORING-AND-QUALIFICATION-CLOSEOUT,1381369.mmaster02,M2RMREG1,c413115,89cb44c,normal_imfdfkmq,1,1,1,8 GB,00:30:00,0,,native_adaptive_region_api_unresolved,,,false
 Stage F,F15-F16-CONDITIONAL-BATCH-WAVE-A-EXECUTION,1381373.mmaster02,M2NOTIFY1,56f5bed,,entry_imfdfkmq,1,1,1,1 GB,00:05:00,,,notification_wave_submitted_authority_consumed,,,false
 Stage F,F15-F16-CONDITIONAL-BATCH-WAVE-A-EXECUTION,1381373.mmaster02,M2NOTIFY1,56f5bed,df56410,normal_imfdfkmq,1,1,1,1 GB,00:05:00,0,0,notification_smoke_technically_passed_awaiting_human_confirmation,,,false
+Stage F,F16-WAVE-B-EXECUTION-WITH-EMAIL-GATE-WAIVER,,M2IRRROLLCTL2,37b9c30,,normal_imfdfkmq,1,1,1,8 GB,01:00:00,174,,qsub_rejected_queue_access_denied,,,false
+Stage F,F16-WAVE-B-EXECUTION-WITH-EMAIL-GATE-WAIVER,,M2IRRROLLFORCE2,37b9c30,,normal_imfdfkmq,1,1,1,8 GB,01:00:00,174,,qsub_rejected_queue_access_denied,,,false
+Stage F,F16-WAVE-B-EXECUTION-WITH-EMAIL-GATE-WAIVER,,M2RMREG2,37b9c30,,normal_imfdfkmq,1,1,1,8 GB,00:30:00,,,qsub_withheld_missing_concurrency_dependency,,,false

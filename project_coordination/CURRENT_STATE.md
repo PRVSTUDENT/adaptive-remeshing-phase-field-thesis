@@ -251,3 +251,17 @@ required operational channel; PBS email remains
 existing conditional authorization, with three remaining qsub attempts and
 at most two simultaneously running project jobs. Retry, replacement, direct
 qsub, qdel, qmove, and rerun remain prohibited.
+
+## F16 Wave B submission failure (2026-08-01)
+
+The guarded orchestrator invoked qsub once for each rollback job. Both calls
+returned 174 with `Access to queue is denied` and issued no PBS ID. The
+adaptive-region qsub was withheld because no control PBS ID existed for its
+required `afterany` concurrency dependency. No job entered the scheduler and
+no scientific or CAE execution occurred. The orchestrator's logical counter
+recorded the withheld third lane as an attempt; authoritative actual qsub
+invocations are two for Wave B and three total including Wave A.
+
+No retry or replacement is authorized. All Wave B authority is consumed:
+execution authorization and submission approval are false, maximum jobs now
+is zero, and remaining conditional submissions are zero.

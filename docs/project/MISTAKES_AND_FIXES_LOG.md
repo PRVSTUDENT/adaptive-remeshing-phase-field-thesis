@@ -407,6 +407,20 @@ notification jobs must emit the aggregate summary before stage-out.
 
 Status: recorded; no retry or replacement authorized
 
+## M-121 — F16 Wave B queue access denied and logical counter mismatch
+
+Both authorized rollback qsub calls returned 174 with `Access to queue is
+denied`; neither issued a PBS ID. The adaptive-region qsub was correctly
+withheld because its required concurrency dependency could not be formed.
+The orchestrator nevertheless counted that withheld lane as a third logical
+attempt, while authoritative scheduler mutation evidence contains only two
+Wave B qsub invocations. No job ran and no retry or replacement is authorized.
+
+Prevention rule: preflight submission rights for the exact routed queue and
+increment counters only at the qsub call site; record withheld lanes separately.
+
+Status: recorded; Wave B authority consumed
+
 ## Stage F15 missing dual-channel notification configuration (2026-08-01)
 
 ID: M-112
