@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "agent": "codex",
   "allowed_scope": [
     "configs/stage_f/**f15*",
@@ -26,11 +26,11 @@
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "project_coordination/**"
   ],
-  "completed_at": "2026-08-01T10:01:51Z",
-  "heartbeat": "2026-08-01T10:01:51Z",
-  "started_at": "2026-08-01T09:52:28Z",
-  "session_id": "F16-QUEUE-ACCESS-QUALIFICATION-AND-WAVE-B-REPLACEMENT-PREPARATION-20260801",
-  "starting_commit": "48e2e8b04a52262be5c106dc821854e1e8094c42",
-  "task_id": "F16-QUEUE-ACCESS-QUALIFICATION-AND-WAVE-B-REPLACEMENT-PREPARATION",
-  "note": "Read-only PBS queue qualification and preparation of distinct routed-queue F16 R3 replacement packages. No qsub or scheduler mutation. Preserve all unrelated dirty paths."
+  "completed_at": null,
+  "heartbeat": "2026-08-01T10:03:57Z",
+  "started_at": "2026-08-01T10:03:57Z",
+  "session_id": "F16-R3-ROUTED-QUEUE-BATCH-EXECUTION-20260801",
+  "starting_commit": "0132051dcf471e32f201343463a9be247e143520",
+  "task_id": "F16-R3-ROUTED-QUEUE-BATCH-EXECUTION",
+  "note": "Authorize and submit exactly M2IRRROLLCTL3, M2IRRROLLFORCE3, and M2RMREG3 through the guarded R3 orchestrator; monitor and close out without retries or additional jobs."
 }

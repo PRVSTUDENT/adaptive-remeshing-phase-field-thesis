@@ -283,3 +283,13 @@ unchanged. Their classification is
 `f16_r3_replacement_batch_prepared_not_authorized`. No qsub or scientific
 execution occurred; execution authorization and submission approval remain
 false and maximum jobs now is zero.
+
+## F16 R3 routed-queue execution authorization (2026-08-01)
+
+The user explicitly authorized exactly `M2IRRROLLCTL3`,
+`M2IRRROLLFORCE3`, and `M2RMREG3` from preparation commit `0132051` through
+`entry_imfdfkmq`, with at most three qsub invocations and two simultaneously
+running jobs. Telegram is mandatory and PBS email is best-effort. Retry,
+same-session replacement, direct qsub, qdel, and qmove are prohibited.
+Medium H1, H2, native remesh execution, candidate datacheck, and refined
+phase-field analysis remain unauthorized.
