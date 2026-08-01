@@ -1,0 +1,21 @@
+{
+  "classification": "penalty_rollback_inconclusive_controlled_cutback_without_penalty_activation",
+  "control": {"completed":true,"increments":100,"cutbacks":0},
+  "forced": {"completed":true,"increments":102,"cutbacks":1,"step_2_increment_1_attempt_1_rejected":true,"retry_dtime":0.01,"pnewdt_requested":0.5},
+  "state_trace": {
+    "element": 1,
+    "integration_point": 2,
+    "committed_phase": 0.921911896587978,
+    "rejected_trial_phase": 0.925569635048683,
+    "retry_phase_base": 0.921911896587978,
+    "retry_svars_phase": 0.921911896587978,
+    "retry_phase_old": 0.921911896587978,
+    "restored_to_committed_state": true,
+    "rejected_trial_gap": 0.00365773846070494,
+    "rejected_trial_penalty_residual": 0.0,
+    "rejected_trial_penalty_energy": 0.0,
+    "penalty_branch_exercised_in_rejected_trial": false
+  },
+  "response_equivalence": "not_evaluable_because_extracted_ODB_tables_were_not_preserved_by_the_PBS_wrapper",
+  "decision": "The artificial cutback and state restoration are demonstrated, but the irreversibility-penalty rollback contract is not qualified because the rejected trial advanced phase and never activated the penalty branch."
+}

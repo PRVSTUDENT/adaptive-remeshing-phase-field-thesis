@@ -777,3 +777,10 @@ Status: recorded; no resubmission authorized
 
 
 
+
+### M-123 — Abaqus Python rejected a generator during adaptive-region construction
+
+The F16 R3 CAE-only qualification used `sum(1 for v in vals if ...)`.
+Abaqus Python rejected the generator as an unrecognized type before any
+solver or remeshing call. Future runtime scripts must use an explicit loop or
+materialized list and must be qualified under the installed Abaqus Python.

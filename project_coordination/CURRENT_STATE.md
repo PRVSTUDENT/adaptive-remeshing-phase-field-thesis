@@ -293,3 +293,16 @@ running jobs. Telegram is mandatory and PBS email is best-effort. Retry,
 same-session replacement, direct qsub, qdel, and qmove are prohibited.
 Medium H1, H2, native remesh execution, candidate datacheck, and refined
 phase-field analysis remain unauthorized.
+
+## F16 R3 routed-queue terminal closeout (2026-08-01)
+
+All three authorized qsub calls succeeded and routed to `normal_imfdfkmq`.
+Jobs `1381444` and `1381445` exited zero; the forced run exercised one
+controlled cutback and restored committed phase/SVARS state on retry. The
+rejected trial never activated the penalty branch, however, so penalty
+rollback remains inconclusive. Job `1381446` exited one during Abaqus-Python
+adaptive-region construction (`sum` rejected a generator); its zero-execution
+audit records no solver, remesh, adaptivity, refined run, or candidate.
+All mandatory Telegram START/terminal notifications passed technically on
+their first attempts. No retries or replacements occurred and no further
+execution is authorized.

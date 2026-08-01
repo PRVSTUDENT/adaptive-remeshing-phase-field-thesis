@@ -673,3 +673,12 @@ Submission-review priority:
   dependency-withheld lane separately.
 - [x] Resources remain 1 CPU/8 GB with 01:00:00 rollback and 00:30:00 CAE limits.
 - [!] R3 execution is not authorized; qsub attempts in this preparation are zero.
+
+## F16 R3 routed-queue closeout (2026-08-01)
+
+- [x] Exactly three authorized qsub calls produced jobs `1381444`-`1381446`; no retry or replacement occurred.
+- [x] Both rollback analyses reached their endpoints; the forced run exercised one controlled cutback and restored committed phase/SVARS state.
+- [!] Penalty rollback remains inconclusive because the rejected trial did not activate penalty residual or energy, and response-equivalence tables were not retained.
+- [!] Native adaptive-region construction failed on an Abaqus-Python generator incompatibility before any solver or remeshing execution.
+- [x] Mandatory Telegram START and terminal delivery passed technically for all three jobs; PBS email remains best-effort.
+- [!] Execution authority is consumed; medium H1, H2, native remesh, candidate datacheck, and refined analysis remain forbidden.
