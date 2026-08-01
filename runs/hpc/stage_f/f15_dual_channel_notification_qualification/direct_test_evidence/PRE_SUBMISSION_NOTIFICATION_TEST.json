@@ -1,0 +1,70 @@
+{
+  "email": {
+    "attempt_count": 1,
+    "channel": "email",
+    "command_status": 0,
+    "email_message_or_queue_id": null,
+    "german_local_timestamp": "2026-08-01T09:00:01.160232+02:00",
+    "pass": true,
+    "recipient_fingerprint": "redacted:72ae26307640",
+    "transport": "sendmail",
+    "utc_timestamp": "2026-08-01T07:00:01.160232Z"
+  },
+  "label": "F15 PRE-SUBMISSION TRANSPORT TEST \u2014 NOT A PBS JOB EVENT",
+  "pbs_job_event": false,
+  "qsub_attempts": 0,
+  "technical_pass": false,
+  "attempt_history": [
+    {
+      "channel": "email",
+      "result": "technical_pass_human_not_received",
+      "attempt_count": 1,
+      "transport": "sendmail",
+      "resent": false
+    },
+    {
+      "channel": "telegram",
+      "result": "client_option_incompatible_before_http",
+      "attempt_count": 3,
+      "curl_return_code": 2,
+      "http_status": ""
+    },
+    {
+      "channel": "telegram",
+      "result": "api_preflights_passed_visible_send_failed",
+      "test_id": "F15TG_20260801T072203Z",
+      "attempt_count": 3,
+      "curl_return_code": 0,
+      "http_status": "400",
+      "error_code": 400,
+      "error_description_redacted": "Bad Request: message text is empty",
+      "pass": false
+    },
+    {
+      "channel": "telegram",
+      "result": "payload_repair_technical_pass_awaiting_human_confirmation",
+      "test_id": "2026-08-01T07:31:56Z",
+      "telegram_text_length": 77,
+      "attempt_count": 1,
+      "curl_return_code": 0,
+      "http_status": "200",
+      "telegram_ok": true,
+      "chat_fingerprint_match": true,
+      "message_id_fingerprint": "redacted:39ac4e344d5d",
+      "pass": true
+    }
+  ],
+  "telegram": {
+    "attempt_count": 3,
+    "channel": "telegram",
+    "command_status": 2,
+    "german_local_timestamp": "2026-08-01T09:00:11.213794+02:00",
+    "http_status": "",
+    "pass": false,
+    "recipient_fingerprint": "redacted:e2facd962765",
+    "telegram_message_id": null,
+    "telegram_ok": false,
+    "transport": "curl_https_post",
+    "utc_timestamp": "2026-08-01T07:00:11.213794Z"
+  }
+}

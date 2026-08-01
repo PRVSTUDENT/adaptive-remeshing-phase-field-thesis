@@ -396,6 +396,102 @@ Evidence paths: `runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evide
 Prevention rule: Pass noGUI script inputs through explicit environment variables and tolerate documented Abaqus CAE driver arguments.
 Status: recorded; no resubmission authorized
 
+## Stage F15 missing dual-channel notification configuration (2026-08-01)
+
+ID: M-112
+Date: 2026-08-01
+Stage/job: Stage F15 pre-submission discovery / no PBS job
+Classification: `dual_channel_notification_configuration_missing`
+Symptom: The user reported receiving neither email nor Telegram start/terminal
+messages for the preceding jobs. Read-only cluster discovery found no canonical
+`~/.config/adaptive-remeshing/notifications.env` file.
+Root cause: No securely configured dual-channel transport contract was
+available for qualification; the earlier presence of notification commands
+did not establish end-to-end delivery.
+Scientific inputs changed: no
+Correction: Failed closed before implementation, direct messaging,
+authorization, or qsub. The user must create the private mode-600 configuration
+with nonempty `NOTIFY_EMAIL`, `TELEGRAM_BOT_TOKEN`, and `TELEGRAM_CHAT_ID`.
+Prevention rule: Require technical direct-channel tests plus personal receipt
+confirmation before activating any PBS notification-smoke authority, and
+require four personal job-event confirmations before later scientific qsub.
+Status: blocked pending private cluster configuration; qsub attempts = 0
+
+## Stage F15 Telegram curl option incompatibility (2026-08-01)
+
+ID: M-113
+Date: 2026-08-01
+Stage/job: Stage F15 direct transport test / not a PBS job
+Classification: `telegram_direct_transport_client_incompatible`
+Symptom: The direct email test was accepted by `sendmail` on attempt one, but
+all three bounded Telegram attempts stopped locally with curl return code 2.
+Root cause: The installed cluster curl does not implement `--fail-with-body`.
+No Telegram HTTP request completed, so HTTP status and Telegram `ok` evidence
+are absent.
+Scientific inputs changed: no
+Correction: Failed closed without qsub or authorization. Do not repeat the
+already successful email test. A future session must implement a compatible
+curl fail-on-error contract and test only the failed Telegram channel under
+explicit continuation authority.
+Prevention rule: Qualify exact installed transport-client options before the
+single authorized external-message attempt.
+Status: recorded; qsub attempts = 0
+
+## Stage F15 authenticated SMTP configuration incomplete (2026-08-01)
+
+ID: M-114
+Date: 2026-08-01
+Stage/job: Stage F15 direct-delivery retest preflight / no message sent
+Classification: `authenticated_smtp_configuration_incomplete`
+Symptom: Mode-600 private configuration retained the earlier mailserver alias
+and contained none of the four required SMTP settings.
+Root cause: The requested authenticated SMTP configuration had not yet been
+written to the cluster file.
+Scientific inputs changed: no
+Correction: Failed closed before transport changes or external messages. Set
+the primary student alias and all authenticated SMTP values privately, then
+resume the retest.
+Prevention rule: Redacted preflight must verify scheme, host, port, recipient
+domain, and all required SMTP values before any delivery attempt.
+Status: blocked; qsub attempts = 0
+
+## Stage F15 Telegram explicit payload repair (2026-08-01)
+
+ID: M-116
+Date: 2026-08-01
+Stage/job: Stage F15 Telegram payload repair / no PBS job
+Classification: `telegram_direct_transport_technically_passed_awaiting_human_confirmation`
+Symptom corrected: The prior curl config-file text field reached Telegram as
+empty.
+Correction: Defined and checked a 77-byte ordinary shell variable, retained
+the token-bearing URL and chat ID in a private mode-600 curl configuration,
+and passed the literal `text=` field directly through `--data-urlencode`.
+Result: One attempt returned curl 0, HTTP 200, `ok=true`, matching chat
+fingerprint, and a redacted message-ID fingerprint.
+Scientific inputs changed: no
+Prevention rule: Audit payload presence and byte length immediately before
+curl, and require returned-chat identity plus Telegram `ok=true`.
+Status: technical pass awaiting direct user receipt confirmation; qsub = 0
+
+## Stage F15 Telegram sendMessage empty-body failure (2026-08-01)
+
+ID: M-115
+Date: 2026-08-01
+Stage/job: Stage F15 Telegram compatibility repair / no PBS job
+Classification: `telegram_send_message_text_empty`
+Symptom: Redacted `getMe` and `getChat` preflights passed, but each of three
+bounded visible-send attempts returned HTTP 400 with `message text is empty`.
+Root cause: The portable curl configuration conveyed `chat_id` correctly but
+did not convey the visible `text` field to Telegram.
+Scientific inputs changed: no
+Correction: Stopped after the bounded attempt limit. No email was resent and
+no PBS authority was activated. A future continuation must repair the
+sendMessage body encoding without repeating successful API preflights unless
+needed for the same logical diagnostic.
+Prevention rule: Mock-test the exact curl config-file encoding for every POST
+field, not only option availability.
+Status: blocked; qsub attempts = 0
+
 ## Stage F13 unresolved Fortran environment-intrinsic runtime symbol (2026-08-01)
 
 ID: M-117

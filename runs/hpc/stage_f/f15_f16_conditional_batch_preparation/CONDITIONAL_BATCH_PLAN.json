@@ -1,0 +1,22 @@
+{
+  "direct_qsub": false,
+  "jobs": [
+    "M2NOTIFY1",
+    "M2IRRROLLCTL2",
+    "M2IRRROLLFORCE2",
+    "M2RMREG2"
+  ],
+  "maximum_qsub_attempts": 4,
+  "maximum_running_jobs": 2,
+  "replacement": false,
+  "retry": false,
+  "status": "prepared_not_authorized",
+  "wave_a": [
+    "M2NOTIFY1"
+  ],
+  "wave_b": [
+    "M2IRRROLLCTL2",
+    "M2IRRROLLFORCE2",
+    "M2RMREG2"
+  ]
+}

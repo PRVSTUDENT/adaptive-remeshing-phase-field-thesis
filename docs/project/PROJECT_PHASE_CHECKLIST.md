@@ -628,3 +628,18 @@ Submission-review priority:
 - [!] CAE-only job `1381369` verified source integrity and rule construction,
   but the adaptive-region repository/object remains unresolved; native remesh
   execution is not ready.
+
+## F15/F16 conditional batch preparation (2026-08-01)
+
+- [x] User-confirmed direct Telegram delivery recorded separately from
+  independently published facts; direct sendmail remains unqualified.
+- [x] Native PBS 2024.1 documentation confirms comma-separated `-M` users;
+  both literal TU Freiberg aliases are frozen with mail points `abe`.
+- [x] Prepared Wave A shell-only `M2NOTIFY1` with Telegram start/terminal
+  hooks and native PBS email; no Abaqus or scientific execution.
+- [x] Prepared byte-identical F16 rollback control/forced deck and source;
+  only runtime `F16_FORCE_CUTBACK` differs.
+- [x] Prepared zero-execution `M2RMREG2` to distinguish orphan mesh,
+  geometry-backed ownership, rule, region, ALE and adaptivity contracts.
+- [!] All four packages are `prepared_not_authorized`; qsub attempts remain
+  zero and Wave B is blocked by Wave A technical and human delivery gates.

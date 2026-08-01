@@ -1,0 +1,14 @@
+{
+  "third_may_queue": true,
+  "wave_a": "M2NOTIFY1",
+  "wave_b_gate": {
+    "human_confirmations": [
+      "Telegram START",
+      "Telegram COMPLETED",
+      "PBS BEGIN email",
+      "PBS END email"
+    ],
+    "technical_terminal_pass": true
+  },
+  "wave_b_independent": true
+}

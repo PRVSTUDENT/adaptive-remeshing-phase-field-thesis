@@ -1,0 +1,41 @@
+#!/bin/bash
+#PBS -N M2NOTIFY1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=1gb
+#PBS -l walltime=00:05:00
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -j oe
+set -uo pipefail
+set +x
+cd "$PBS_O_WORKDIR" || exit 2
+sha256sum -c SHA256SUMS || exit 3
+export NOTIFICATION_CONFIG="$HOME/.config/adaptive-remeshing/notifications.env"
+export NOTIFICATION_EMAIL_MODE=native_pbs
+export NOTIFICATION_STAGE=F16
+export NOTIFICATION_EVIDENCE_DIR="$PBS_O_WORKDIR/evidence"
+export NOTIFICATION_RUN_ID="${PBS_JOBID:-unknown}"
+export PBS_JOBNAME="${PBS_JOBNAME:-M2NOTIFY1}"
+mkdir -p "$NOTIFICATION_EVIDENCE_DIR"
+. runtime/job_notifications.sh
+notification_load_config || exit 4
+notification_install_terminal_trap
+notify_start || exit 5
+export WORK_ROOT="${SCRATCH:?SCRATCH is required}/M2NOTIFY1_${PBS_JOBID:-unknown}"
+rm -rf "$WORK_ROOT" && mkdir -p "$WORK_ROOT"
+cp -p runtime/* "$WORK_ROOT/"
+cd "$WORK_ROOT" || exit 6
+
+python3 - <<'PY'
+import json,os,socket,datetime
+d={'job_id':os.environ.get('PBS_JOBID'),'host':socket.gethostname(),'utc_start':datetime.datetime.utcnow().isoformat()+'Z'}
+open('ENVIRONMENT.json','w').write(json.dumps(d,indent=2,sort_keys=True)+'\n')
+PY
+sleep 30
+python3 - <<'PY'
+import json,datetime
+d={'classification':'notification_smoke_technically_passed_awaiting_human_confirmation','exit_code':0,'utc_end':datetime.datetime.utcnow().isoformat()+'Z','abaqus_loaded':False,'scientific_code_executed':False,'qsub_calls':0}
+open('STATUS.json','w').write(json.dumps(d,indent=2,sort_keys=True)+'\n')
+PY
+cp ENVIRONMENT.json STATUS.json "$NOTIFICATION_EVIDENCE_DIR/"
+exit 0

@@ -1,0 +1,41 @@
+#!/bin/bash
+#PBS -N M2IRRROLLCTL2
+#PBS -q normal_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -j oe
+set -uo pipefail
+set +x
+cd "$PBS_O_WORKDIR" || exit 2
+sha256sum -c SHA256SUMS || exit 3
+export NOTIFICATION_CONFIG="$HOME/.config/adaptive-remeshing/notifications.env"
+export NOTIFICATION_EMAIL_MODE=native_pbs
+export NOTIFICATION_STAGE=F16
+export NOTIFICATION_EVIDENCE_DIR="$PBS_O_WORKDIR/evidence"
+export NOTIFICATION_RUN_ID="${PBS_JOBID:-unknown}"
+export PBS_JOBNAME="${PBS_JOBNAME:-M2IRRROLLCTL2}"
+mkdir -p "$NOTIFICATION_EVIDENCE_DIR"
+. runtime/job_notifications.sh
+notification_load_config || exit 4
+notification_install_terminal_trap
+notify_start || exit 5
+export WORK_ROOT="${SCRATCH:?SCRATCH is required}/M2IRRROLLCTL2_${PBS_JOBID:-unknown}"
+rm -rf "$WORK_ROOT" && mkdir -p "$WORK_ROOT"
+cp -p runtime/* "$WORK_ROOT/"
+cd "$WORK_ROOT" || exit 6
+
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+export F16_FORCE_CUTBACK=0
+printf '%s
+' "$F16_FORCE_CUTBACK" > "M2IRRROLLCTL2_f16_force_cutback.flag"
+abaqus job=M2IRRROLLCTL2 input=M2IRR_F16.inp user=M2IRR_F16.for interactive
+rc=$?
+for s in sta msg dat log; do test -f "M2IRRROLLCTL2.$s" && cp "M2IRRROLLCTL2.$s" "$NOTIFICATION_EVIDENCE_DIR/"; done
+test "$rc" -eq 0 || exit "$rc"
+abaqus python extract_stage_f11_instrumented_pair.py --odb M2IRRROLLCTL2.odb --output-dir extracted --role candidate || exit 10
+python3 analyze_stage_f16_rollback.py M2IRRROLLCTL2.sta M2IRRROLLCTL2.msg M2IRRROLLCTL2_f16_rollback_calls.log || exit 11
+cp ROLLBACK_STATUS.json M2IRRROLLCTL2_f16_rollback_calls.log "$NOTIFICATION_EVIDENCE_DIR/"
+exit 0

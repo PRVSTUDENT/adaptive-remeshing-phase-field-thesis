@@ -1,0 +1,35 @@
+#!/bin/bash
+#PBS -N M2RMREG2
+#PBS -q normal_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -j oe
+set -uo pipefail
+set +x
+cd "$PBS_O_WORKDIR" || exit 2
+sha256sum -c SHA256SUMS || exit 3
+export NOTIFICATION_CONFIG="$HOME/.config/adaptive-remeshing/notifications.env"
+export NOTIFICATION_EMAIL_MODE=native_pbs
+export NOTIFICATION_STAGE=F16
+export NOTIFICATION_EVIDENCE_DIR="$PBS_O_WORKDIR/evidence"
+export NOTIFICATION_RUN_ID="${PBS_JOBID:-unknown}"
+export PBS_JOBNAME="${PBS_JOBNAME:-M2RMREG2}"
+mkdir -p "$NOTIFICATION_EVIDENCE_DIR"
+. runtime/job_notifications.sh
+notification_load_config || exit 4
+notification_install_terminal_trap
+notify_start || exit 5
+export WORK_ROOT="${SCRATCH:?SCRATCH is required}/M2RMREG2_${PBS_JOBID:-unknown}"
+rm -rf "$WORK_ROOT" && mkdir -p "$WORK_ROOT"
+cp -p runtime/* "$WORK_ROOT/"
+cd "$WORK_ROOT" || exit 6
+
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+export F16_OUTPUT_DIR="$NOTIFICATION_EVIDENCE_DIR"
+export F16_SOURCE_ODB="/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4R1_20260730_065138_86ec6c79/miseseri_corrected/M2MISER1.odb"
+test "$(sha256sum "$F16_SOURCE_ODB"|awk '{print $1}')" = bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac || exit 7
+abaqus cae noGUI=qualify_f16_adaptive_region.py
+exit $?

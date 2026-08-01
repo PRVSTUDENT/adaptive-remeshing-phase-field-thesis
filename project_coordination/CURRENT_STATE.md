@@ -205,3 +205,24 @@ and remesh counts remain zero. The medium-H1 pair remains
 `prepared_not_authorized` and is not ready for execution authorization because
 the rollback prerequisite did not pass. All Stage F12 execution authority is
 consumed.
+
+## F15/F16 conditional batch preparation (2026-08-01)
+
+The default HPC workflow is batch-oriented: one explicit approval may cover
+multiple specifically named jobs, at most two may run simultaneously, and
+additional approved independent jobs may remain queued. Automatic retry,
+replacement, direct qsub, qdel and qmove remain prohibited. Dependent waves
+remain blocked until their predecessor is terminal and directly reviewed by
+the user.
+
+The user personally confirmed receipt of the corrected direct Telegram test
+at `2026-08-01T07:31:56Z`. This is user-provided confirmation, now recorded
+separately from previously published repository facts. Direct sendmail
+delivery remains unqualified and native PBS email remains untested.
+
+Four jobs are prepared but not authorized: Wave A `M2NOTIFY1`; Wave B
+`M2IRRROLLCTL2`, `M2IRRROLLFORCE2`, and `M2RMREG2`. Wave B requires terminal
+Wave A technical success plus direct confirmation of Telegram START and
+COMPLETED and PBS BEGIN and END email. Current qsub attempts remain zero,
+execution authorization is false, submission approval is false, and maximum
+jobs now is zero.

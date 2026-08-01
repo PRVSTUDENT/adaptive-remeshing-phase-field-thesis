@@ -1,0 +1,130 @@
+{
+  "M2IRRROLLCTL2": {
+    "cpus": 1,
+    "deck_sha256": "a84df34a2bdbfbd55d7f2642082710f1d410cd8480637f9da9aa47c107beed3b",
+    "execution": "Abaqus/Standard serial",
+    "f16_force_cutback": 0,
+    "independent_sta_msg_evidence_required": true,
+    "job": "M2IRRROLLCTL2",
+    "mapping": {
+      "displacement_uel": [
+        24,
+        46
+      ],
+      "phase_uel": [
+        1,
+        23
+      ],
+      "visualization_cpe4": [
+        47,
+        69
+      ]
+    },
+    "memory": "8 GB",
+    "queue": "normal_imfdfkmq",
+    "role": "control",
+    "runtime_only_difference": "F16_FORCE_CUTBACK",
+    "source_sha256": "8d30f10b8c668b9b1e256aeb389e9cf53e38d03fec4e1650bf1e30d975da133a",
+    "status": "prepared_not_authorized",
+    "tolerances": {
+      "displacement_mm": 1e-10,
+      "final_phase": 1e-06,
+      "max_rf_difference_normalized": 0.0001,
+      "phase_matched": 1e-07,
+      "relative_energy": 0.0001,
+      "rf_u_nrmse": 0.0001
+    },
+    "trigger": {
+      "element": 1,
+      "integration_point": 2,
+      "penalty_required_active": true,
+      "pnewdt": 0.5,
+      "step": 2,
+      "time_window": [
+        0,
+        0.04
+      ]
+    },
+    "walltime": "01:00:00"
+  },
+  "M2IRRROLLFORCE2": {
+    "cpus": 1,
+    "deck_sha256": "a84df34a2bdbfbd55d7f2642082710f1d410cd8480637f9da9aa47c107beed3b",
+    "execution": "Abaqus/Standard serial",
+    "f16_force_cutback": 1,
+    "independent_sta_msg_evidence_required": true,
+    "job": "M2IRRROLLFORCE2",
+    "mapping": {
+      "displacement_uel": [
+        24,
+        46
+      ],
+      "phase_uel": [
+        1,
+        23
+      ],
+      "visualization_cpe4": [
+        47,
+        69
+      ]
+    },
+    "memory": "8 GB",
+    "queue": "normal_imfdfkmq",
+    "role": "forced",
+    "runtime_only_difference": "F16_FORCE_CUTBACK",
+    "source_sha256": "8d30f10b8c668b9b1e256aeb389e9cf53e38d03fec4e1650bf1e30d975da133a",
+    "status": "prepared_not_authorized",
+    "tolerances": {
+      "displacement_mm": 1e-10,
+      "final_phase": 1e-06,
+      "max_rf_difference_normalized": 0.0001,
+      "phase_matched": 1e-07,
+      "relative_energy": 0.0001,
+      "rf_u_nrmse": 0.0001
+    },
+    "trigger": {
+      "element": 1,
+      "integration_point": 2,
+      "penalty_required_active": true,
+      "pnewdt": 0.5,
+      "step": 2,
+      "time_window": [
+        0,
+        0.04
+      ]
+    },
+    "walltime": "01:00:00"
+  },
+  "M2NOTIFY1": {
+    "abaqus": false,
+    "cpus": 1,
+    "execution": "shell-only",
+    "job": "M2NOTIFY1",
+    "memory": "1 GB",
+    "qsub_calls": 0,
+    "queue": "entry_imfdfkmq",
+    "scientific_execution": false,
+    "sleep_seconds": 30,
+    "status": "prepared_not_authorized",
+    "walltime": "00:05:00"
+  },
+  "M2RMREG2": {
+    "adaptivity_process_submissions": 0,
+    "cpus": 1,
+    "deck_sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2",
+    "execution": "Abaqus/CAE noGUI only",
+    "generated_candidates": 0,
+    "job": "M2RMREG2",
+    "memory": "8 GB",
+    "miseseri_finite": 3930,
+    "native_remesh_calls": 0,
+    "odb_sha256": "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac",
+    "physical_elements": 3930,
+    "queue": "normal_imfdfkmq",
+    "refined_solver_executions": 0,
+    "solver_executions": 0,
+    "status": "prepared_not_authorized",
+    "true_slit_coincident_pairs": 15,
+    "walltime": "00:30:00"
+  }
+}

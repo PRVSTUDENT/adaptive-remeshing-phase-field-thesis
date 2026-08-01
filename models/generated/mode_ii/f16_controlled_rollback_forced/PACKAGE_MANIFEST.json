@@ -1,0 +1,48 @@
+{
+  "cpus": 1,
+  "deck_sha256": "a84df34a2bdbfbd55d7f2642082710f1d410cd8480637f9da9aa47c107beed3b",
+  "execution": "Abaqus/Standard serial",
+  "f16_force_cutback": 1,
+  "independent_sta_msg_evidence_required": true,
+  "job": "M2IRRROLLFORCE2",
+  "mapping": {
+    "displacement_uel": [
+      24,
+      46
+    ],
+    "phase_uel": [
+      1,
+      23
+    ],
+    "visualization_cpe4": [
+      47,
+      69
+    ]
+  },
+  "memory": "8 GB",
+  "queue": "normal_imfdfkmq",
+  "role": "forced",
+  "runtime_only_difference": "F16_FORCE_CUTBACK",
+  "source_sha256": "8d30f10b8c668b9b1e256aeb389e9cf53e38d03fec4e1650bf1e30d975da133a",
+  "status": "prepared_not_authorized",
+  "tolerances": {
+    "displacement_mm": 1e-10,
+    "final_phase": 1e-06,
+    "max_rf_difference_normalized": 0.0001,
+    "phase_matched": 1e-07,
+    "relative_energy": 0.0001,
+    "rf_u_nrmse": 0.0001
+  },
+  "trigger": {
+    "element": 1,
+    "integration_point": 2,
+    "penalty_required_active": true,
+    "pnewdt": 0.5,
+    "step": 2,
+    "time_window": [
+      0,
+      0.04
+    ]
+  },
+  "walltime": "01:00:00"
+}

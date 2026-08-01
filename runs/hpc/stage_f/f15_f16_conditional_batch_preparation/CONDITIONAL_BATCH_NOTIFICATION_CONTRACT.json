@@ -1,0 +1,22 @@
+{
+  "config": "~/.config/adaptive-remeshing/notifications.env",
+  "email": {
+    "mail_points": "abe",
+    "mechanism": "native_pbs",
+    "recipients": [
+      "Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de",
+      "pr21vyci@mailserver.tu-freiberg.de"
+    ]
+  },
+  "mode": "600",
+  "owner": "pr21vyci",
+  "sendmail_qualification": false,
+  "telegram": {
+    "chat_match": true,
+    "http_200": true,
+    "json_ok": true,
+    "max_attempts": 3,
+    "nonempty_text": true,
+    "post": true
+  }
+}
