@@ -4,6 +4,15 @@ Updated: 2026-07-31
 Protocol version: 1
 Classification: `stage_f11_preparation_in_progress`
 
+## Stage F14 queued qualification batch
+
+Exactly two authorized jobs were submitted through the guarded orchestrator:
+`1381368.mmaster02` (`M2RTLOAD1`) and `1381369.mmaster02` (`M2RMREG1`). Both
+were queued at the first permitted poll. Authority is consumed: qsub attempts
+2, successes 2, retries 0, replacements 0, direct qsub 0, qdel 0, qmove 0.
+No rollback, native remesh, medium-H1, H2, datacheck, or refined solve is
+authorized. Terminal evidence and scientific classifications remain pending.
+
 ## Stage F13 terminal closeout
 
 Jobs `1380981`, `1380982`, and `1380983` are terminal. Both rollback lanes

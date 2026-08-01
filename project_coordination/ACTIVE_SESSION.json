@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "agent": "codex",
   "allowed_scope": [
     "configs/stage_f/**f14*",
@@ -20,11 +20,11 @@
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "project_coordination/**"
   ],
-  "completed_at": null,
-  "heartbeat": "2026-08-01T04:14:44Z",
+  "completed_at": "2026-08-01T04:25:59Z",
+  "heartbeat": "2026-08-01T04:25:59Z",
   "started_at": "2026-08-01T04:14:44Z",
   "session_id": "F14-RUNTIME-LOAD-AND-ADAPTIVE-REGION-QUALIFICATION-20260801",
   "starting_commit": "cd9a47bc19a4d805d952fa740d83a9960f2aab31",
   "task_id": "F14-RUNTIME-LOAD-AND-ADAPTIVE-REGION-QUALIFICATION",
-  "note": "Exactly two independent qualification jobs authorized: M2RTLOAD1 and M2RMREG1. No rollback, remesh execution, medium H1, H2, retry, replacement, direct qsub, qdel, or qmove."
+  "note": "Exactly two F14 qualification jobs submitted and queued; authority consumed. Terminal monitoring and closeout remain pending."
 }
