@@ -52,3 +52,6 @@ Stage F,F15-F16-CONDITIONAL-BATCH-WAVE-A-EXECUTION,1381373.mmaster02,M2NOTIFY1,5
 Stage F,F16-WAVE-B-EXECUTION-WITH-EMAIL-GATE-WAIVER,,M2IRRROLLCTL2,37b9c30,,normal_imfdfkmq,1,1,1,8 GB,01:00:00,174,,qsub_rejected_queue_access_denied,,,false
 Stage F,F16-WAVE-B-EXECUTION-WITH-EMAIL-GATE-WAIVER,,M2IRRROLLFORCE2,37b9c30,,normal_imfdfkmq,1,1,1,8 GB,01:00:00,174,,qsub_rejected_queue_access_denied,,,false
 Stage F,F16-WAVE-B-EXECUTION-WITH-EMAIL-GATE-WAIVER,,M2RMREG2,37b9c30,,normal_imfdfkmq,1,1,1,8 GB,00:30:00,,,qsub_withheld_missing_concurrency_dependency,,,false
+Stage F,F16-R3-ROUTED-QUEUE-BATCH-EXECUTION,1381444.mmaster02,M2IRRROLLCTL3,3565425,,entry_imfdfkmq,1,1,1,8 GB,01:00:00,,,submitted_running,,,false
+Stage F,F16-R3-ROUTED-QUEUE-BATCH-EXECUTION,1381445.mmaster02,M2IRRROLLFORCE3,3565425,,entry_imfdfkmq,1,1,1,8 GB,01:00:00,,,submitted_running,,,false
+Stage F,F16-R3-ROUTED-QUEUE-BATCH-EXECUTION,1381446.mmaster02,M2RMREG3,3565425,,entry_imfdfkmq,1,1,1,8 GB,00:30:00,,,submitted_held_afterany_1381444,,,false
