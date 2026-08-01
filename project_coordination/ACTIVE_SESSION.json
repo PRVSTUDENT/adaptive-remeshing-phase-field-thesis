@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "agent": "codex",
   "allowed_scope": [
     "configs/stage_f/**f15*",
@@ -23,11 +23,11 @@
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "project_coordination/**"
   ],
-  "completed_at": null,
-  "heartbeat": "2026-08-01T07:44:42Z",
+  "completed_at": "2026-08-01T07:56:25Z",
+  "heartbeat": "2026-08-01T07:56:25Z",
   "started_at": "2026-08-01T07:44:42Z",
   "session_id": "F15-F16-CONDITIONAL-BATCH-PREPARATION-20260801",
   "starting_commit": "86d54a17c4a71bd2ac07b46e9b36393862df6439",
   "task_id": "F15-F16-CONDITIONAL-BATCH-PREPARATION",
-  "note": "Prepare and publish four immutable jobs in two gated waves. No authorization commit, direct message, qsub, or scientific execution."
+  "note": "Preparation published at d0ae13cc4e65ea182dacd88aa15aa921111318f6. Four jobs remain prepared_not_authorized; qsub attempts zero."
 }
