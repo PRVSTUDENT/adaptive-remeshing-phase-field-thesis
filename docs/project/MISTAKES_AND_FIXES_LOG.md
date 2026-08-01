@@ -396,6 +396,42 @@ Evidence paths: `runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evide
 Prevention rule: Pass noGUI script inputs through explicit environment variables and tolerate documented Abaqus CAE driver arguments.
 Status: recorded; no resubmission authorized
 
+## Stage F13 unresolved Fortran environment-intrinsic runtime symbol (2026-08-01)
+
+ID: M-117
+Date: 2026-08-01
+Stage/jobs: Stage F13 / `1380981`, `1380982`
+Classification: `abaqus_user_library_symbol_dependency_unresolved`
+Symptom: Both user libraries compiled and linked but Abaqus/Standard failed
+before increment 1 on unresolved symbol `for_getenv_err`.
+Root cause: F13 added `GET_ENVIRONMENT_VARIABLE` calls for trigger and log-path
+routing; Intel generated a runtime dependency not resolved by the Abaqus load
+environment.
+Scientific inputs changed: no
+Correction: F14 removes the nonportable intrinsic and uses documented Abaqus
+utilities `GETOUTDIR` and `GETJOBNAME` in a runtime-load-only smoke.
+Prevention rule: Audit undefined shared-library symbols and prove first UEL
+entry before authorizing another scientific rollback experiment.
+Status: F13 preserved; F14 qualification authorized separately
+
+## Stage F13 native remesh model lacked a remeshable geometry region (2026-08-01)
+
+ID: M-118
+Date: 2026-08-01
+Stage/job: Stage F13 / `1380983`
+Classification: `native_adaptive_region_api_unresolved`
+Symptom: `model.adaptiveRemesh(odb)` reported that the model contained no
+adaptive regions although a model-wide RemeshingRule existed.
+Root cause: The official input imports as an orphan mesh. Abaqus adaptive
+remeshing requires native geometry faces/cells to which a remeshing rule is
+assigned; this is distinct from an ALE adaptive mesh domain.
+Scientific inputs changed: no
+Correction: F14 performs a CAE-only installed-API and source-model audit with
+no remesh, adaptivity-process, solver, or datacheck call.
+Prevention rule: Verify native geometry ownership and a nonempty applicable
+rule region before authorizing any remesh call.
+Status: F13 preserved; F14 qualification authorized separately
+
 ## Stage F12 unit-99 scratch return defect (2026-07-31)
 
 ID: M-116

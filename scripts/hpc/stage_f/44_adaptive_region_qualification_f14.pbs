@@ -1,0 +1,21 @@
+#!/bin/bash
+#PBS -N M2RMREG1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -m abe
+set -u
+cd "$PBS_O_WORKDIR" || exit 2
+sha256sum -c SHA256SUMS || exit 3
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+mkdir -p evidence
+export F14_RUNTIME_DIR="$PBS_O_WORKDIR/runtime"
+export F14_OUTPUT_DIR="$PBS_O_WORKDIR/evidence"
+export F14_SOURCE_ODB="/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4R1_20260730_065138_86ec6c79/miseseri_corrected/M2MISER1.odb"
+test "$(sha256sum "$F14_SOURCE_ODB" | awk '{print $1}')" = "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac" || exit 4
+abaqus cae noGUI=runtime/qualify_stage_f14_adaptive_region_wrapper.py
+rc=$?
+python3 -m json.tool evidence/STATUS.json >/dev/null || exit 20
+for f in ADAPTIVE_REGION_API_AUDIT.json ADAPTIVE_REGION_MANIFEST.json REMESH_RULE_MANIFEST.json SOURCE_MODEL_INTEGRITY.json NO_EXECUTION_AUDIT.json; do python3 -m json.tool "evidence/$f" >/dev/null || exit 21; done
+exit "$rc"
