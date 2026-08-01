@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "agent": "codex",
   "allowed_scope": [
     "configs/stage_f/**f15*",
@@ -19,15 +19,18 @@
     "configs/stage_f/**f16*",
     "docs/decisions/STAGE_F15_*.md",
     "docs/experiment_records/STAGE_F15_*.md",
+    "docs/experiment_records/STAGE_F16_*.md",
+    "docs/decisions/STAGE_F16_*.md",
+    "docs/thesis/STAGE_F_MODE_II_BENCHMARK_CHAPTER.tex",
     "docs/project/PROJECT_PHASE_CHECKLIST.md",
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "project_coordination/**"
   ],
-  "completed_at": "2026-08-01T08:58:51Z",
-  "heartbeat": "2026-08-01T08:58:51Z",
-  "started_at": "2026-08-01T08:02:28Z",
-  "session_id": "F15-F16-CONDITIONAL-BATCH-WAVE-A-EXECUTION-20260801",
-  "starting_commit": "86d54a17c4a71bd2ac07b46e9b36393862df6439",
-  "task_id": "F15-F16-CONDITIONAL-BATCH-WAVE-A-EXECUTION",
-  "note": "Record full conditional authorization and execute only M2NOTIFY1 Wave A with one guarded qsub invocation. Wave B remains blocked."
+  "completed_at": null,
+  "heartbeat": "2026-08-01T09:23:10Z",
+  "started_at": "2026-08-01T09:23:10Z",
+  "session_id": "F16-WAVE-B-EXECUTION-WITH-EMAIL-GATE-WAIVER-20260801",
+  "starting_commit": "5a0e55ccdc8c3b8b8ccbd7f3d4f664e0ccbd4418",
+  "task_id": "F16-WAVE-B-EXECUTION-WITH-EMAIL-GATE-WAIVER",
+  "note": "Record the explicit PBS-email gate waiver, submit exactly the three frozen Wave B jobs through one guarded orchestrator, monitor, audit, and close out. Preserve all unrelated dirty paths."
 }

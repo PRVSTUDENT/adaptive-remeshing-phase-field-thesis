@@ -240,3 +240,14 @@ Classification is `notification_smoke_technically_passed_awaiting_human_confirma
 Wave B remains blocked until the user confirms all four deliveries. Execution
 authority and submission approval are false, maximum jobs now is zero, and no
 retry or replacement is authorized.
+
+## F16 Wave B email-gate waiver (2026-08-01)
+
+The user observed Telegram delivery, did not observe either PBS email, and
+explicitly waived only the personal PBS-email receipt gate. Telegram is the
+required operational channel; PBS email remains
+`configured_but_not_human_received` and best-effort. Exactly
+`M2IRRROLLCTL2`, `M2IRRROLLFORCE2`, and `M2RMREG2` are activated under the
+existing conditional authorization, with three remaining qsub attempts and
+at most two simultaneously running project jobs. Retry, replacement, direct
+qsub, qdel, qmove, and rerun remain prohibited.
