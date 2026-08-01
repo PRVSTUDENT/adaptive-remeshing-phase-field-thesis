@@ -414,6 +414,25 @@ Prevention rule: Audit undefined shared-library symbols and prove first UEL
 entry before authorizing another scientific rollback experiment.
 Status: F13 preserved; F14 qualification authorized separately
 
+## Stage F14 orchestrator parent-counter subshell defect (2026-08-01)
+
+ID: M-119
+Date: 2026-08-01
+Stage/jobs: Stage F14 / `1381368`, `1381369`
+Classification: `parent_shell_submission_counter_not_propagated`
+Symptom: The guarded orchestrator returned two distinct PBS IDs but wrote zero
+attempts and successes to its remote JSON.
+Root cause: Each `submit_one` call ran inside command substitution, so Bash
+counter mutations occurred in subshells and did not propagate to the parent.
+Scientific inputs changed: no
+Correction: The two scheduler-issued IDs are authoritative evidence of exactly
+two qsub attempts and successes; authority was consumed immediately. No retry
+or additional submission was made.
+Prevention rule: Capture qsub output through a temporary file or `read` without
+command substitution, and assert parent counters equal the number of nonempty
+job IDs before returning success.
+Status: recorded; F14 submissions retained and no further qsub authorized
+
 ## Stage F13 native remesh model lacked a remeshable geometry region (2026-08-01)
 
 ID: M-118
