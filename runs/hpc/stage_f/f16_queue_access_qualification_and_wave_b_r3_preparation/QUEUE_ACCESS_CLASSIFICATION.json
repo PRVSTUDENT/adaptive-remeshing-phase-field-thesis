@@ -1,0 +1,13 @@
+{
+  "classification": "entry_route_queue_required",
+  "installed_evidence_sufficient": true,
+  "qualified_submission_queue": "entry_imfdfkmq",
+  "execution_queue": "normal_imfdfkmq",
+  "entry_is_route_queue": true,
+  "normal_is_from_route_only": true,
+  "direct_execution_queue_access_allowed": false,
+  "resource_contract_pass": true,
+  "rollback_resources": {"ncpus": 1, "memory": "8gb", "walltime": "01:00:00"},
+  "adaptive_region_resources": {"ncpus": 1, "memory": "8gb", "walltime": "00:30:00"},
+  "route_walltime_max": "336:00:00"
+}

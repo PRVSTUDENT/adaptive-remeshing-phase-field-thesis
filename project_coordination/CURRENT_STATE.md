@@ -265,3 +265,21 @@ invocations are two for Wave B and three total including Wave A.
 No retry or replacement is authorized. All Wave B authority is consumed:
 execution authorization and submission approval are false, maximum jobs now
 is zero, and remaining conditional submissions are zero.
+
+## F16 routed-queue R3 replacement preparation (2026-08-01)
+
+Read-only PBS 2024.1.3 evidence proves `entry_imfdfkmq` is the enabled Route
+queue admitting the general HPC-user group and routing to
+`normal_imfdfkmq`. The destination is an Execution queue with
+`from_route_only=True`; direct access is unavailable to the requesting user.
+Historical jobs `1381373`, `1381368`, and `1381369` independently show
+submission through `entry_imfdfkmq` and final execution in
+`normal_imfdfkmq`.
+
+Distinct packages `M2IRRROLLCTL3`, `M2IRRROLLFORCE3`, and `M2RMREG3` are
+prepared with the corrected route directive. Scientific source, deck,
+instrumentation, adaptive-region audit, and notification hashes remain
+unchanged. Their classification is
+`f16_r3_replacement_batch_prepared_not_authorized`. No qsub or scientific
+execution occurred; execution authorization and submission approval remain
+false and maximum jobs now is zero.

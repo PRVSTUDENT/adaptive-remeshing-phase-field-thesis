@@ -421,6 +421,22 @@ increment counters only at the qsub call site; record withheld lanes separately.
 
 Status: recorded; Wave B authority consumed
 
+## M-122 — Execution destination mistaken for submit-accessible queue
+
+The rejected Wave B wrappers addressed `normal_imfdfkmq` directly because
+successful scheduler records displayed that final queue. Installed PBS
+evidence now proves it is a `from_route_only` Execution queue whose direct ACL
+does not include the requesting user. The accessible `entry_imfdfkmq` Route
+queue admits the general HPC-user group and routes eligible jobs to that
+execution destination. R3 packages correct only scheduler-facing identities,
+paths, and queue directives; all scientific hashes remain frozen.
+
+Prevention rule: distinguish `PBS_O_QUEUE` from the final execution queue and
+audit `queue_type`, `from_route_only`, route destinations, and requester ACLs
+before freezing every future PBS wrapper.
+
+Status: resolved in preparation; no execution authorized
+
 ## Stage F15 missing dual-channel notification configuration (2026-08-01)
 
 ID: M-112

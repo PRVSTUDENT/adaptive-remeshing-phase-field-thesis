@@ -1,0 +1,16 @@
+{
+  "classification": "f16_r3_replacement_batch_prepared_not_authorized",
+  "jobs": ["M2IRRROLLCTL3", "M2IRRROLLFORCE3", "M2RMREG3"],
+  "submission_order": ["M2IRRROLLCTL3", "M2IRRROLLFORCE3", "M2RMREG3"],
+  "qualified_submission_queue": "entry_imfdfkmq",
+  "maximum_future_submissions": 3,
+  "maximum_simultaneously_running_jobs": 2,
+  "retry": false,
+  "same_session_replacement": false,
+  "direct_qsub": false,
+  "qdel": false,
+  "qmove": false,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0
+}

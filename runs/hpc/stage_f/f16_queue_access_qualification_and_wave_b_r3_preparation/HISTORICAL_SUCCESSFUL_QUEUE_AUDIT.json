@@ -1,0 +1,10 @@
+{
+  "jobs": [
+    {"pbs_id": "1381373.mmaster02", "job": "M2NOTIFY1", "submitted_queue": "entry_imfdfkmq", "final_queue": "normal_imfdfkmq", "exit_status": 0},
+    {"pbs_id": "1381368.mmaster02", "job": "M2RTLOAD1", "submitted_queue": "entry_imfdfkmq", "final_queue": "normal_imfdfkmq", "exit_status": 0},
+    {"pbs_id": "1381369.mmaster02", "job": "M2RMREG1", "submitted_queue": "entry_imfdfkmq", "final_queue": "normal_imfdfkmq", "exit_status": 0}
+  ],
+  "consistent_route_contract": true,
+  "tracejob_available": false,
+  "tracejob_reason": "records older than retained trace window"
+}

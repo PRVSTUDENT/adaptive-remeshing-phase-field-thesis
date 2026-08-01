@@ -1,0 +1,8 @@
+{
+  "scientific_dependency": "none",
+  "scheduler_concurrency_dependency": "afterany:M2IRRROLLCTL3",
+  "dependency_target_job": "M2RMREG3",
+  "requires_valid_control_pbs_id": true,
+  "withheld_lane_counts_as_qsub_attempt": false,
+  "maximum_simultaneously_running_jobs": 2
+}

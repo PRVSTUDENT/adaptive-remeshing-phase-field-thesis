@@ -662,3 +662,14 @@ Submission-review priority:
   could not be constructed without the control PBS ID.
 - [x] No scientific, CAE, remesh, datacheck, retry, or replacement ran.
 - [!] All Wave B authority is consumed; a future attempt requires new explicit authorization.
+
+## F16 R3 routed-queue preparation (2026-08-01)
+
+- [x] Installed PBS evidence classifies `entry_imfdfkmq` as the required Route
+  queue and `normal_imfdfkmq` as a `from_route_only` Execution destination.
+- [x] Prepared unique R3 job names and corrected all three wrappers to submit
+  through `entry_imfdfkmq` without changing scientific artifacts.
+- [x] Corrected orchestrator counts only actual qsub calls and records a
+  dependency-withheld lane separately.
+- [x] Resources remain 1 CPU/8 GB with 01:00:00 rollback and 00:30:00 CAE limits.
+- [!] R3 execution is not authorized; qsub attempts in this preparation are zero.

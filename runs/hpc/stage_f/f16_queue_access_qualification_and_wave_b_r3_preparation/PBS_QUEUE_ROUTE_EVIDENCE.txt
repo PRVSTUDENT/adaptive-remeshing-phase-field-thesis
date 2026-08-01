@@ -1,0 +1,31 @@
+Read-only installed PBS evidence, 2026-08-01
+
+Host: mlogin01.cluster
+PBS version: 2024.1.3.20250423045815
+
+entry_imfdfkmq:
+  queue_type = Route
+  enabled = True
+  started = True
+  acl_group_enable = True
+  requesting user belongs to the admitted general HPC-user group
+  route_destinations = normal_imfdfkmq,short_imfdfkmq
+  resources_max.walltime = 336:00:00
+
+normal_imfdfkmq:
+  queue_type = Execution
+  enabled = True
+  started = True
+  from_route_only = True
+  acl_group_enable = True
+  requesting user does not belong to either admitted direct-access group
+  resources_max.walltime = 336:00:00
+
+Historical job evidence:
+  1381373: PBS_O_QUEUE=entry_imfdfkmq; final queue=normal_imfdfkmq
+  1381368: PBS_O_QUEUE=entry_imfdfkmq; final queue=normal_imfdfkmq
+  1381369: PBS_O_QUEUE=entry_imfdfkmq; final queue=normal_imfdfkmq
+
+Conclusion: submit to entry_imfdfkmq; PBS routes eligible work to the
+execution destination. Direct submission to normal_imfdfkmq is forbidden.
+No scheduler mutation command was used.

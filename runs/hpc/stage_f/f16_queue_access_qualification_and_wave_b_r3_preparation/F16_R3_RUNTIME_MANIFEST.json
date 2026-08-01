@@ -1,0 +1,11 @@
+{
+  "packages": {
+    "M2IRRROLLCTL3": "models/generated/mode_ii/f16_controlled_rollback_control_r3",
+    "M2IRRROLLFORCE3": "models/generated/mode_ii/f16_controlled_rollback_forced_r3",
+    "M2RMREG3": "models/generated/mode_ii/f16_native_adaptive_region_resolution_r3"
+  },
+  "qualified_submission_queue": "entry_imfdfkmq",
+  "routed_execution_queue": "normal_imfdfkmq",
+  "scientific_dependency": "none",
+  "scheduler_concurrency_dependency": "afterany:M2IRRROLLCTL3"
+}

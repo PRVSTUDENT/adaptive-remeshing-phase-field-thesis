@@ -1,0 +1,38 @@
+{
+  "classification": "entry_route_queue_required",
+  "audit_mode": "read_only",
+  "host": "mlogin01.cluster",
+  "user": "pr21vyci",
+  "pbs_version": "2024.1.3.20250423045815",
+  "entry_imfdfkmq": {
+    "queue_type": "Route",
+    "enabled": true,
+    "started": true,
+    "acl_user_enable": false,
+    "acl_group_enable": true,
+    "user_group_match": true,
+    "acl_groups_redacted": ["administrators", "hardware_project", "general_hpc_user"],
+    "from_route_only": false,
+    "route_destinations": ["normal_imfdfkmq", "short_imfdfkmq"],
+    "resources_max": {"walltime": "336:00:00"},
+    "state_count": {"queued": 0, "running": 0, "held": 0}
+  },
+  "normal_imfdfkmq": {
+    "queue_type": "Execution",
+    "enabled": true,
+    "started": true,
+    "acl_user_enable": false,
+    "acl_group_enable": true,
+    "user_group_match": false,
+    "acl_groups_redacted": ["administrators", "hardware_project"],
+    "from_route_only": true,
+    "route_destinations": [],
+    "resources_max": {"walltime": "336:00:00"},
+    "state_count_at_audit": {"queued": 0, "running": 8, "held": 0}
+  },
+  "qualified_submission_queue": "entry_imfdfkmq",
+  "routed_execution_queue": "normal_imfdfkmq",
+  "qsub_calls": 0,
+  "qdel_calls": 0,
+  "qmove_calls": 0
+}
