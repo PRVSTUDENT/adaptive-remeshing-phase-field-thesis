@@ -4,6 +4,16 @@ Updated: 2026-07-31
 Protocol version: 1
 Classification: `stage_f11_preparation_in_progress`
 
+## Stage F13 terminal closeout
+
+Jobs `1380981`, `1380982`, and `1380983` are terminal. Both rollback lanes
+failed before increment 1 on unresolved symbol `for_getenv_err`; no PNEWDT
+trigger or reduced retry occurred, so rollback is not qualified. The native
+lane reached `model.adaptiveRemesh(odb)` but failed because no adaptive region
+was defined. No remesh completed and no candidate was generated. Medium H1
+and candidate datacheck/indicator validation are not ready for authorization.
+All submission authority remains consumed and no retry is authorized.
+
 ## Git
 
 | Item | Value |

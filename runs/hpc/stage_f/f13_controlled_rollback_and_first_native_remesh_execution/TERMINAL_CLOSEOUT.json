@@ -1,0 +1,13 @@
+{
+  "task_id": "F13-TERMINAL-MONITORING-AND-SCIENTIFIC-CLOSEOUT",
+  "run_id": "F13_20260731_105412_51b31f9",
+  "jobs": {
+    "1380981.mmaster02": {"name": "M2IRRROLLCTL1", "pbs_exit": 1, "solver_exit": 1, "classification": "penalty_rollback_inconclusive", "cause": "undefined symbol for_getenv_err before first increment"},
+    "1380982.mmaster02": {"name": "M2IRRROLLFORCE1", "pbs_exit": 1, "solver_exit": 1, "classification": "penalty_rollback_cutback_not_triggered", "cause": "undefined symbol for_getenv_err before first increment"},
+    "1380983.mmaster02": {"name": "M2RMEXEC1", "pbs_exit": 1, "classification": "native_miseseri_remesh_operation_failed", "cause": "model contains no adaptive regions for remeshing"}
+  },
+  "rollback": {"qualified": false, "pnewdt_trigger_fired": false, "abandoned_attempt_observed": false, "reduced_retry_observed": false, "endpoint_reached": false},
+  "remeshing": {"source_solver_executions": 0, "adaptive_process_submissions": 0, "native_remesh_calls_completed": 0, "refined_solver_executions": 0, "candidate_generated": false},
+  "submission_counts": {"qsub_attempts": 3, "successful_submissions": 3, "retries": 0, "replacements": 0, "direct_qsub": 0, "qdel": 0, "qmove": 0},
+  "decisions": {"controlled_cutback_rollback_qualified": false, "medium_h1_ready_for_separate_authorization": false, "native_candidate_ready_for_datacheck_and_indicator_validation": false}
+}

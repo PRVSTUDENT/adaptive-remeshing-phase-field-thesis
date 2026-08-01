@@ -2,9 +2,9 @@
   "protocol_version": 1,
   "task_id": "F13-CONTROLLED-ROLLBACK-AND-FIRST-NATIVE-REMESH-EXECUTION",
   "title": "Qualify penalty-state rollback through a deterministic Abaqus cutback and execute the first native MISESERI remeshing pass",
-  "status": "submitted_queued",
-  "classification": "stage_f13_batch_queued_awaiting_execution",
-  "active_job_ids": ["1380981.mmaster02", "1380982.mmaster02", "1380983.mmaster02"],
+  "status": "complete_failed",
+  "classification": "stage_f13_rollback_inconclusive_and_native_remesh_operation_failed",
+  "active_job_ids": [],
   "authorized_jobs": ["M2IRRROLLCTL1", "M2IRRROLLFORCE1", "M2RMEXEC1"],
   "authorization_phrase_received": true,
   "execution_authorized": false,
@@ -37,5 +37,10 @@
   "source_solver_execution_limit": 1,
   "adaptive_process_execution_limit": 1,
   "remesh_execution_limit": 1,
-  "refined_mesh_solver_execution_limit": 0
+  "refined_mesh_solver_execution_limit": 0,
+  "terminal_job_ids": ["1380981.mmaster02", "1380982.mmaster02", "1380983.mmaster02"],
+  "rollback_qualified": false,
+  "medium_h1_ready_for_authorization": false,
+  "native_candidate_generated": false,
+  "native_candidate_ready_for_datacheck": false
 }

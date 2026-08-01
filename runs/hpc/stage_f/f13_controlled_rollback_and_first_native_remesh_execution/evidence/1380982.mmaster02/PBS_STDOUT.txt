@@ -1,0 +1,49 @@
+JOB_B_RUNTIME_MANIFEST.json: OK
+M2IRRROLLFORCE1.pbs: OK
+runtime/analyze_stage_f13_rollback.py: OK
+runtime/extract_stage_f11_instrumented_pair.py: OK
+runtime/M2IRR_F13.for: OK
+runtime/M2IRR_F13.inp: OK
+Analysis initiated from SIMULIA established products
+Abaqus JOB M2IRRROLLFORCE1
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 5 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<114 out of 300 licenses remain available>.
+Begin Compiling Abaqus/Standard User Subroutines
+Fri 31 Jul 2026 01:33:22 PM CEST
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+ Intel(R) Fortran 2021.13.0-1693
+M2IRR_F13.for(34): remark #15009: uel_ has been targeted for automatic cpu dispatch
+M2IRR_F13.for(577): remark #15009: umat_ has been targeted for automatic cpu dispatch
+End Compiling Abaqus/Standard User Subroutines
+Begin Linking Abaqus/Standard User Subroutines
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+GNU ld version 2.30-128.el8_10
+End Linking Abaqus/Standard User Subroutines
+Fri 31 Jul 2026 01:33:30 PM CEST
+Begin Analysis Input File Processor
+Fri 31 Jul 2026 01:33:30 PM CEST
+Run pre
+Fri 31 Jul 2026 01:33:31 PM CEST
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+Fri 31 Jul 2026 01:33:31 PM CEST
+Run standard
+/cluster/application/abaqus/2023/linux_a64/code/bin/standard: symbol lookup error: /local/pbs.1380982.mmaster02/pr21vyci_M2IRRROLLFORCE1_237648/libstandardU.so: undefined symbol: for_getenv_err
+Fri 31 Jul 2026 01:33:32 PM CEST
+Abaqus Error: Abaqus/Standard Analysis exited with an error - Please see the 
+message file for possible error messages if the file exists.
+Begin SIM Wrap-up
+Fri 31 Jul 2026 01:33:32 PM CEST
+Run SMASimUtility
+Fri 31 Jul 2026 01:33:32 PM CEST
+End SIM Wrap-up
+Abaqus/Analysis exited with errors

@@ -160,6 +160,25 @@ filename did not match the PBS invocation.  Consequently no representation
 was tested, no rule object was created, and the native type contract remains
 unresolved.  Solver, adaptive-analysis, and remesh counts are zero.
 
+\section{Stage F13 Controlled-Rollback and Native-Remesh Execution}
+
+The two rollback jobs compiled and linked successfully, but Abaqus/Standard
+failed before the first increment because the user library referenced the
+unresolved Intel runtime symbol \texttt{for\_getenv\_err}. No PNEWDT trigger,
+abandoned increment, reduced retry, endpoint, or rollback-state comparison was
+observed. Controlled-cutback rollback is therefore not qualified, and the
+prepared medium-H1 pair remains ineligible for a separate authorization.
+
+The native MISESERI lane reached the frozen
+\texttt{model.adaptiveRemesh(odb)} call with the official 3,930-value field,
+but Abaqus rejected the operation because the model contained no adaptive
+region. No native remesh completed, no candidate deck was generated, and no
+candidate integrity or targeting claim is possible. The result is classified
+\texttt{native\_miseseri\_remesh\_operation\_failed}.
+
+Submission counts remain three attempts and three accepted submissions, with
+zero retries, replacements, direct submissions, cancellations, or moves.
+
 \section{Reproducibility Paths}
 \section{Stage F10 Corrected Minimal Qualification}
 The model-specific runtime mapping was corrected to 23 elements per layer:

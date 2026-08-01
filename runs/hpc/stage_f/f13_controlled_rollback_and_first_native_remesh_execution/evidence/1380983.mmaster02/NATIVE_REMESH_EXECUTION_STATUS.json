@@ -1,0 +1,21 @@
+{
+  "adaptive_process_execution_count": 0, 
+  "candidate_generated": false, 
+  "classification": "native_miseseri_execution_inconclusive", 
+  "exact_api_commands": [
+    "model.RemeshingRule(**{'maxElementSize': 0.01, 'name': 'F13_MISESERI_RULE', 'errorTarget': 1.0, 'region': MODEL, 'stepName': 'Step-1', 'coarseningFactor': NOT_ALLOWED, 'refinementFactor': 10, 'minElementSize': 0.001, 'specifyMinSize': ON, 'specifyMaxSize': ON, 'sizingMethod': UNIFORM_ERROR, 'variables': ('MISESERI',)})", 
+    "odb = openOdb(path=F13_SOURCE_ODB, readOnly=True)", 
+    "model.adaptiveRemesh(odb)"
+  ], 
+  "miseseri_statistics": {
+    "count": 3930, 
+    "maximum": 0.18701137602329254, 
+    "minimum": 6.865544128231704e-05
+  }, 
+  "refined_mesh_solver_execution_count": 0, 
+  "remesh_operation_count": 0, 
+  "source_solver_execution_count": 0, 
+  "traceback": "Traceback (most recent call last):\n  File \"/home/pr21vyci/adaptive-remeshing-evidence/stage_f13/F13_20260731_105412_51b31f9/native_remesh/runtime/execute_stage_f13_native_remesh_core.py\", line 37, in <module>\n    model.adaptiveRemesh(odb)\nAbaqusException: The model contains no adaptive regions for remeshing.\n", 
+  "variables_element_type": "str", 
+  "variables_repr": "('MISESERI',)"
+}

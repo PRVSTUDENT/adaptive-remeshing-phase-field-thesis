@@ -605,3 +605,16 @@ Submission-review priority:
   wrote an input deck with zero solver, adaptive, or remesh execution.
 - [!] The medium-H1 pair remains preparation-only and is not ready for a
   separate execution authorization because rollback did not qualify.
+
+## Stage F13 closeout (2026-08-01)
+
+- [x] Jobs `1380981`, `1380982`, and `1380983` are terminal after exactly
+  three accepted submissions; retries, replacements, direct qsub, qdel, and
+  qmove remain zero.
+- [!] Both rollback analyses failed before increment 1 on unresolved symbol
+  `for_getenv_err`; PNEWDT did not trigger and rollback is not qualified.
+- [!] Native execution reached `model.adaptiveRemesh(odb)` but failed because
+  the model contained no adaptive region. No remesh completed and no candidate
+  was generated.
+- [!] Medium H1 is not ready for authorization, and no remeshed candidate is
+  available for datacheck or indicator validation.
