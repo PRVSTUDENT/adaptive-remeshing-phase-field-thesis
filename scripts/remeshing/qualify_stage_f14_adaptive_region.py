@@ -48,7 +48,7 @@ try:
     finite = [v for v in values if not math.isnan(v) and not math.isinf(v)]
     integrity = {"deck_sha256": sha(deck), "odb_sha256": sha(odb_path),
                  "physical_element_count": len(part.elements),
-                 "element_types": sorted(set(e.type for e in part.elements)),
+                 "element_types": sorted(set(str(e.type) for e in part.elements)),
                  "orphan_mesh_part": orphan, "true_slit_coincident_pairs": 15,
                  "miseseri_count": len(finite), "miseseri_all_finite": len(finite) == 3930}
     audit = {"installed_contract": "adaptive remeshing rule region, not ALE adaptive mesh domain",
