@@ -1,0 +1,13 @@
+{
+  "penalty_activation": {
+    "requires": ["trial_phase < committed_phase - 1e-8", "abs(penalty_residual) > 0", "penalty_energy > 0", "finite penalty_tangent", "bounds_guard = false"],
+    "positive_phase_advance_is_activation": false,
+    "rollback_qualified_by_probe": false,
+    "pass_classification": "penalty_activation_probe_passed"
+  },
+  "adaptive_region": {
+    "pass_classification": "native_adaptive_region_contract_qualified",
+    "rule_alone_is_sufficient": false,
+    "execution_counts_must_all_equal_zero": true
+  }
+}

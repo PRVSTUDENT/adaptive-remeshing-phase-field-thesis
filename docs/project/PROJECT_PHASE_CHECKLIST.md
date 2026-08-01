@@ -682,3 +682,12 @@ Submission-review priority:
 - [!] Native adaptive-region construction failed on an Abaqus-Python generator incompatibility before any solver or remeshing execution.
 - [x] Mandatory Telegram START and terminal delivery passed technically for all three jobs; PBS email remains best-effort.
 - [!] Execution authority is consumed; medium H1, H2, native remesh, candidate datacheck, and refined analysis remain forbidden.
+
+## F17 preparation (2026-08-01)
+
+- [x] Prepared independent `M2IRRPENACT1` and `M2RMREG4` packages for the route queue.
+- [x] Penalty scout uses the preserved 0.003/0.001/0.006 mm load-unload/reload history with forced PNEWDT disabled.
+- [x] Penalty activation requires healing tendency plus nonzero residual and energy, finite tangent, and no bounds guard.
+- [x] Response, phase, energy, accepted-increment tables and a SHA-256 extraction manifest are mandatory stage-out artifacts.
+- [x] Corrected the Abaqus-Python generator incompatibility with explicit loops and a zero-model helper self-test.
+- [!] Both jobs are preparation-only; qsub attempts are zero and no future rollback pair or native remesh is authorized.

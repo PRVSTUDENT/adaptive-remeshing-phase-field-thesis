@@ -1,0 +1,27 @@
+#!/bin/bash
+#PBS -N M2RMREG4
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+set -uo pipefail
+set +x
+PACKAGE_DIR="${F17_PACKAGE_DIR:?F17_PACKAGE_DIR required}"
+EVIDENCE_DIR="${F17_EVIDENCE_DIR:?F17_EVIDENCE_DIR required}"
+WORK_ROOT="${SCRATCH:?SCRATCH required}/M2RMREG4_${PBS_JOBID:-unknown}"
+mkdir -p "$WORK_ROOT" "$EVIDENCE_DIR" && cp -p "$PACKAGE_DIR"/runtime/* "$WORK_ROOT/" || exit 6
+cd "$WORK_ROOT" || exit 6
+export NOTIFICATION_EVIDENCE_DIR="$EVIDENCE_DIR" F17_OUTPUT_DIR="$EVIDENCE_DIR"
+export NOTIFICATION_CONFIG="$HOME/.config/adaptive-remeshing/notifications.env" NOTIFICATION_EMAIL_MODE=native_pbs NOTIFICATION_STAGE=F17 NOTIFICATION_RUN_ID="${PBS_JOBID:-unknown}"
+export PBS_JOBNAME="${PBS_JOBNAME:-M2RMREG4}"
+. ./job_notifications.sh
+notification_load_config || exit 4
+notification_install_terminal_trap
+notify_start || exit 5
+module purge && module load abaqus/2023 || exit 8
+abaqus python f17_abaqus_python_compatibility.py || exit 9
+abaqus cae noGUI=qualify_f17_adaptive_region.py
+rc=$?
+exit $rc

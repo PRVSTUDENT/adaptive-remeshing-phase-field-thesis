@@ -1,0 +1,38 @@
+#!/bin/bash
+#PBS -N M2IRRPENACT1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+set -uo pipefail
+set +x
+PACKAGE_DIR="${F17_PACKAGE_DIR:?F17_PACKAGE_DIR required}"
+EVIDENCE_DIR="${F17_EVIDENCE_DIR:?F17_EVIDENCE_DIR required}"
+WORK_ROOT="${SCRATCH:?SCRATCH required}/M2IRRPENACT1_${PBS_JOBID:-unknown}"
+mkdir -p "$WORK_ROOT" "$EVIDENCE_DIR" && cp -p "$PACKAGE_DIR"/runtime/* "$WORK_ROOT/" || exit 6
+cd "$WORK_ROOT" || exit 6
+export NOTIFICATION_EVIDENCE_DIR="$EVIDENCE_DIR"
+export NOTIFICATION_CONFIG="$HOME/.config/adaptive-remeshing/notifications.env" NOTIFICATION_EMAIL_MODE=native_pbs NOTIFICATION_STAGE=F17 NOTIFICATION_RUN_ID="${PBS_JOBID:-unknown}"
+export PBS_JOBNAME="${PBS_JOBNAME:-M2IRRPENACT1}"
+. ./job_notifications.sh
+notification_load_config || exit 4
+notification_install_terminal_trap
+notify_start || exit 5
+module purge && module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 || exit 8
+abaqus job=M2IRRPENACT1 input=M2IRRPENACT1.inp user=M2IRRPENACT1.for interactive
+solver_rc=$?
+for ext in sta msg dat log; do test -f "M2IRRPENACT1.$ext" && cp -p "M2IRRPENACT1.$ext" "$EVIDENCE_DIR/"; done
+test $solver_rc -eq 0 || exit $solver_rc
+abaqus python extract_stage_f17_penalty_probe.py --odb M2IRRPENACT1.odb --output-dir extracted --role candidate || exit 10
+cp extracted/rf_u_work_history.csv extracted/response_curve.csv
+cp extracted/fixed_point_history.csv extracted/phase_history.csv
+cp extracted/diagnostic_energy_history.csv extracted/energy_history.csv
+cp extracted/fixed_point_history.csv extracted/accepted_increments.csv
+python3 analyze_stage_f17_penalty_probe.py --log M2IRRPENACT1_f17_penalty_calls.log --extracted extracted --output STATUS.json || exit 11
+required="response_curve.csv phase_history.csv energy_history.csv accepted_increments.csv"
+for f in $required; do test -s "extracted/$f" || exit 12; cp -p "extracted/$f" "$EVIDENCE_DIR/"; done
+cp -p STATUS.json M2IRRPENACT1_f17_penalty_calls.log "$EVIDENCE_DIR/" || exit 13
+(cd "$EVIDENCE_DIR" && sha256sum STATUS.json M2IRRPENACT1_f17_penalty_calls.log $required > EXTRACTION_MANIFEST.sha256) || exit 14
+exit 0

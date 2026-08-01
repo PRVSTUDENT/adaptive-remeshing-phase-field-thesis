@@ -306,3 +306,16 @@ audit records no solver, remesh, adaptivity, refined run, or candidate.
 All mandatory Telegram START/terminal notifications passed technically on
 their first attempts. No retries or replacements occurred and no further
 execution is authorized.
+
+## F17 two-job preparation (2026-08-01)
+
+Prepared, but did not authorize or execute, `M2IRRPENACT1` and `M2RMREG4`.
+The penalty scout preserves the compact F16 formulation and the existing
+`0.003 -> 0.001 -> 0.006 mm` load-unload/reload schedule, disables forced
+PNEWDT, and fails closed unless healing tendency, penalty residual, penalty
+energy, finite tangent, and complete retained response tables are present.
+The adaptive-region lane replaces the incompatible generator count with an
+explicit Abaqus-Python-compatible loop and retains zero solver, datacheck,
+adaptivity, remesh, candidate, and refined-execution counters. Both packages
+target `entry_imfdfkmq`, require Telegram, treat PBS email as best-effort, and
+remain `prepared_not_authorized`. Qsub attempts are zero.
