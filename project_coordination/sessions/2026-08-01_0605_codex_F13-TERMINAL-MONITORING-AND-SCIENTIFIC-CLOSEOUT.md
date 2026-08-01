@@ -2,6 +2,7 @@
 
 - Agent: codex
 - Starting commit: `a8688286ac25dd4630f89b8fba91fa8f7945beca`
+- Closeout evidence commit: `dc5ec1f`
 - Jobs: `1380981`, `1380982`, `1380983`
 - Scope: terminal monitoring and lightweight evidence collection only
 - Scheduler actions: qsub 0, retry 0, replacement 0, qdel 0, qmove 0
