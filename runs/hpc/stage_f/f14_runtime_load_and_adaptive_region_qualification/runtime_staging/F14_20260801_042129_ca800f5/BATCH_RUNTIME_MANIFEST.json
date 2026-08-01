@@ -1,0 +1,11 @@
+{
+  "run_id": "F14_20260801_042129_ca800f5",
+  "preparation_sha": "ca800f5",
+  "jobs": ["M2RTLOAD1", "M2RMREG1"],
+  "independent_eligibility": true,
+  "maximum_qsub_attempts": 2,
+  "maximum_running_jobs": 2,
+  "retry_authorized": false,
+  "replacement_authorized": false,
+  "native_remesh_execution_authorized": false
+}

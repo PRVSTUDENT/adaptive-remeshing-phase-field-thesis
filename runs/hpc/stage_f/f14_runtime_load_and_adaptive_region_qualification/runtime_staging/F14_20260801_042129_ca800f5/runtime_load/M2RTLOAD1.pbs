@@ -1,0 +1,27 @@
+#!/bin/bash
+#PBS -N M2RTLOAD1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -m abe
+set -u
+cd "$PBS_O_WORKDIR" || exit 2
+sha256sum -c SHA256SUMS || exit 3
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+mkdir -p evidence scratch
+abaqus make library=runtime/M2RTLOAD1.for directory="$PBS_O_WORKDIR/evidence" > evidence/MAKE_STDOUT.txt 2> evidence/MAKE_STDERR.txt || exit 10
+find evidence -type f \( -name '*.so' -o -name '*.o' \) -print > evidence/LIBRARY_FILES.txt
+find evidence -type f -name '*.so' -exec sh -c 'nm -D -u "$1" || readelf -Ws "$1"' sh {} \; > evidence/UNDEFINED_SYMBOLS.txt 2>&1
+if grep -q 'for_getenv_err' evidence/UNDEFINED_SYMBOLS.txt; then exit 11; fi
+abaqus job=M2RTLOAD1 input=runtime/M2RTLOAD1.inp user=runtime/M2RTLOAD1.for cpus=1 interactive scratch="$PBS_O_WORKDIR/scratch"
+rc=$?
+test "$rc" -eq 0 || exit 12
+test -s M2RTLOAD1_uel_entry.log || exit 13
+grep -q F14_UEL_ENTRY M2RTLOAD1_uel_entry.log || exit 14
+test -s M2RTLOAD1.sta || exit 15
+grep -qi 'THE ANALYSIS HAS COMPLETED SUCCESSFULLY' M2RTLOAD1.sta || exit 16
+cp M2RTLOAD1_uel_entry.log evidence/
+cp M2RTLOAD1.dat M2RTLOAD1.msg M2RTLOAD1.sta M2RTLOAD1.log evidence/ 2>/dev/null || true
+printf '{"classification":"abaqus_user_library_runtime_contract_qualified","abaqus_rc":0,"first_uel_entry":true,"for_getenv_err_present":false}\n' > evidence/STATUS.json
+exit 0
