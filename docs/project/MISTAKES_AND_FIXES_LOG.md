@@ -396,6 +396,17 @@ Evidence paths: `runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/evide
 Prevention rule: Pass noGUI script inputs through explicit environment variables and tolerate documented Abaqus CAE driver arguments.
 Status: recorded; no resubmission authorized
 
+## M-117 — Notification summary absent from returned job evidence
+
+The Wave A job returned separate redacted START, TERMINAL, PBS email,
+environment, status, and scheduler records but did not emit the required
+aggregate `NOTIFICATION_SUMMARY.json`. No transport retry was performed.
+A post-collection summary was built only from those immutable redacted records
+and explicitly labeled `post_collection_from_redacted_job_evidence`. Future
+notification jobs must emit the aggregate summary before stage-out.
+
+Status: recorded; no retry or replacement authorized
+
 ## Stage F15 missing dual-channel notification configuration (2026-08-01)
 
 ID: M-112

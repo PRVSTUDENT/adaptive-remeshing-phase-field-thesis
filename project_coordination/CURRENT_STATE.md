@@ -226,3 +226,17 @@ Wave A technical success plus direct confirmation of Telegram START and
 COMPLETED and PBS BEGIN and END email. Current qsub attempts remain zero,
 execution authorization is false, submission approval is false, and maximum
 jobs now is zero.
+
+## F15 Wave A terminal notification qualification (2026-08-01)
+
+Wave A job `1381373.mmaster02` (`M2NOTIFY1`) completed on
+`mnode100.cluster` with scheduler exit status 0 and walltime `00:00:32`.
+Telegram START and COMPLETED each passed technically on their first bounded
+attempt with HTTP 200 and `ok=true`. Native PBS BEGIN and END email were
+configured through mail points `abe`. No Abaqus software, scientific code,
+or nested qsub ran.
+
+Classification is `notification_smoke_technically_passed_awaiting_human_confirmation`.
+Wave B remains blocked until the user confirms all four deliveries. Execution
+authority and submission approval are false, maximum jobs now is zero, and no
+retry or replacement is authorized.

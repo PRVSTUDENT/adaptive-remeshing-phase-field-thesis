@@ -11,3 +11,13 @@
 - Maximum simultaneous running jobs: 2
 - Current qsub attempts: 0
 - Execution/submission authority: false
+
+## Wave A terminal evidence (2026-08-01)
+
+`M2NOTIFY1` (`1381373.mmaster02`) completed on `mnode100.cluster` with exit
+status 0. Telegram START and COMPLETED passed technically on their first
+attempts (HTTP 200, `ok=true`), and native PBS BEGIN/END mail was configured.
+The shell-only job ran no Abaqus or scientific workload and made no nested
+qsub call. Classification remains
+`notification_smoke_technically_passed_awaiting_human_confirmation`; Wave B
+is blocked pending personal confirmation of all four deliveries.

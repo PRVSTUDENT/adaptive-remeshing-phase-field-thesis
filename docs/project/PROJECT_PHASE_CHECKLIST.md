@@ -643,3 +643,11 @@ Submission-review priority:
   geometry-backed ownership, rule, region, ALE and adaptivity contracts.
 - [!] All four packages are `prepared_not_authorized`; qsub attempts remain
   zero and Wave B is blocked by Wave A technical and human delivery gates.
+
+## F15 Wave A notification qualification (2026-08-01)
+
+- [x] `M2NOTIFY1` job `1381373.mmaster02` completed with exit status 0.
+- [x] Telegram START and COMPLETED passed technically on first attempts.
+- [x] Native PBS BEGIN and END email were configured with mail points `abe`.
+- [x] No Abaqus, scientific workload, nested qsub, retry, or replacement ran.
+- [!] Wave B remains blocked pending personal confirmation of all four deliveries.
