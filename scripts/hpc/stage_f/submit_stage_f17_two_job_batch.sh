@@ -15,7 +15,7 @@ import json,sys
 a=json.load(open(sys.argv[1]))
 assert a['authorization_phrase_received'] is True
 assert a['authorized_jobs']==['M2IRRPENACT1','M2RMREG4']
-assert a['preparation_commit']=='41aaf8ee9582b4a245cf3d64cd6dbf309f752ef5'
+assert a['preparation_commit']=='b4d9fad6b7c155ae60c6af47b44af9b498d43edc'
 assert a['queue']=='entry_imfdfkmq'
 assert a['execution_authorized'] is True and a['submission_approved'] is True
 assert a['approved_submissions_now']==2 and a['maximum_qsub_invocations']==2

@@ -1,12 +1,12 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-02T07:00:00Z",
-  "heartbeat": "2026-08-02T07:00:00Z",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "Final F17 clean Linux qualification passed; execution remains unauthorized."
+  "active": true,
+  "agent": "codex",
+  "allowed_scope": ["runs/hpc/stage_f/f17_penalty_activation_and_adaptive_region_repair/**","scripts/hpc/stage_f/submit_stage_f17_two_job_batch.sh","docs/project/**","docs/experiment_records/STAGE_F17_*.md","project_coordination/**"],
+  "completed_at": null,
+  "heartbeat": "2026-08-02T07:07:54Z",
+  "started_at": "2026-08-02T07:07:54Z",
+  "session_id": "F17-LINUX-QUALIFIED-TWO-JOB-EXECUTION-20260802-CODEX",
+  "starting_commit": "fc6436ed4f7ba8b38515ccfd17338cc5d523cad7",
+  "task_id": "F17-LINUX-QUALIFIED-TWO-JOB-EXECUTION",
+  "note": "One-shot explicit authorization for exactly M2IRRPENACT1 and M2RMREG4 from b4d9fad; guarded orchestrator only."
 }
