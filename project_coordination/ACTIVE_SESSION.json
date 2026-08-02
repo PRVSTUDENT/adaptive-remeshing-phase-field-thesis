@@ -1,12 +1,12 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-02T08:45:00Z",
-  "heartbeat": "2026-08-02T08:45:00Z",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "F18 canonical Linux metadata repair complete; no execution authority and no jobs submitted."
+  "active": true,
+  "agent": "codex",
+  "allowed_scope": ["runs/hpc/stage_f/f18_rollback_pair_and_adaptive_region_r5_preparation/**", "project_coordination/**", "docs/project/**", "docs/experiment_records/STAGE_F18_*.md"],
+  "completed_at": null,
+  "heartbeat": "2026-08-02T09:00:00Z",
+  "started_at": "2026-08-02T09:00:00Z",
+  "session_id": "2026-08-02_0900_codex_F18-AUTHORIZED-THREE-JOB-EXECUTION",
+  "starting_commit": "192308e473f0726a6ee1a04b5cb4020109f4d5e6",
+  "task_id": "F18-AUTHORIZED-THREE-JOB-EXECUTION",
+  "note": "Exactly M2IRRROLLCTL4 M2IRRROLLFORCE4 M2RMREG5 authorized, subject to fail-closed frozen-hash and cluster preflight."
 }

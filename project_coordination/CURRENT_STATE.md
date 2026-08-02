@@ -1,5 +1,15 @@
 # Current project state
 
+## F18 explicit execution authorization (2026-08-02)
+
+The user explicitly authorized exactly `M2IRRROLLCTL4`,
+`M2IRRROLLFORCE4`, and `M2RMREG5` from preparation `192308e`, in that order,
+through `entry_imfdfkmq`. `M2RMREG5` must use an `afterany` dependency on the
+valid control PBS ID solely to enforce at most two simultaneous project jobs.
+At most three qsub invocations and three successful submissions are permitted.
+Retries, replacements, direct qsub, qdel, qmove, and every other job are
+prohibited. Activation remains subject to frozen-hash and cluster preflight.
+
 ## F18 three-job preparation (2026-08-02)
 
 Prepared `M2IRRROLLCTL4`, `M2IRRROLLFORCE4`, and `M2RMREG5` offline. The

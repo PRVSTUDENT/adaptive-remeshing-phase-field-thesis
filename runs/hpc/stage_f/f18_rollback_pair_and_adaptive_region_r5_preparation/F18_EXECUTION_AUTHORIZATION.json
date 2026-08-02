@@ -1,0 +1,19 @@
+{
+  "authorized": true,
+  "preparation_sha": "192308e473f0726a6ee1a04b5cb4020109f4d5e6",
+  "jobs": ["M2IRRROLLCTL4", "M2IRRROLLFORCE4", "M2RMREG5"],
+  "queue": "entry_imfdfkmq",
+  "submission_order": ["M2IRRROLLCTL4", "M2IRRROLLFORCE4", "M2RMREG5"],
+  "adaptive_dependency": "afterany:M2IRRROLLCTL4_PBS_ID",
+  "maximum_qsub_invocations": 3,
+  "maximum_successful_submissions": 3,
+  "maximum_simultaneously_running_project_jobs": 2,
+  "retries": "prohibited",
+  "replacements": "prohibited",
+  "direct_qsub": "prohibited",
+  "qdel": "prohibited",
+  "qmove": "prohibited",
+  "telegram": "mandatory",
+  "pbs_email": "best_effort",
+  "every_other_job": "prohibited"
+}
