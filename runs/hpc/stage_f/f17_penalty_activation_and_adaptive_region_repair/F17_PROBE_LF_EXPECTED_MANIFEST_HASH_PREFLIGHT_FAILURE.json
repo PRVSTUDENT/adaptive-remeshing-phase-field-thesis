@@ -1,0 +1,32 @@
+{
+  "classification": "f17_probe_lf_repair_blocked_declared_manifest_hash_mismatch",
+  "starting_sha": "f676b09ad82f9e7dcec3f709ddf0a341b5fc935b",
+  "probe_pbs_trial_result": {
+    "old_size": 2242,
+    "new_size": 2243,
+    "old_final_byte": 48,
+    "new_final_byte": 10,
+    "old_sha256": "1d233a82c226ddf54740f469ddf616039b2e90d4770758b51ca280d39c36b157",
+    "new_sha256": "10451ed739b628e5fc3413ac81be57a29b110db1c7ca1355be2de61ccbf8b250",
+    "exact_one_byte_append_passed": true
+  },
+  "declared_vs_actual_checksum_file_hashes": {
+    "F17_SHA256SUMS": {
+      "declared_sha256": "58631d1346f9f81664313f52e189c54ac2187b5a2da97e23c8b04b78373544dd",
+      "actual_sha256_after_only_entry_change": "e304820b98b8a16800485938cb88fa50f16052e48e91f376a4274a17c533f618",
+      "match": false
+    },
+    "SHA256SUMS": {
+      "declared_sha256": "f11983ffdb9336d91f4665cee9bcc0c67c632d18b6aea9f9b67ededafdb4aff1",
+      "actual_sha256_after_only_entry_change": "bde9ba48f558c9d6fc358d5db2caf7205d17ab4ed8f81e6122f9075dd91e3046",
+      "match": false
+    }
+  },
+  "package_changes_published": false,
+  "clean_linux_proof_run": false,
+  "authorization_activated": false,
+  "qsub_attempts": 0,
+  "successful_submissions": 0,
+  "failed_qsub_attempts": 0,
+  "jobs": []
+}

@@ -829,3 +829,16 @@ Prevention rule: validate canonical text across every allowlisted package
 before freezing any hash or requesting authorization.
 
 Status: open; explicit permission is required to supersede the probe PBS hash
+
+## 2026-08-02 — F17 probe-LF authorization declared inconsistent checksum-file hashes
+
+The authorized one-byte trial generated the expected repaired PBS hash, but
+the supplied checksum-file hashes were inconsistent with changing only that
+entry. Actual canonical hashes were `e304820b...` and `bde9ba48...`, versus
+declared `58631d13...` and `f11983ff...`. The package trial was restored and
+execution stopped before publication or qsub.
+
+Prevention rule: derive authorization checksum-file hashes from the exact
+current-main blobs and independently verify them before issuing the gate.
+
+Status: open; corrected hashes and fresh conditional authority required

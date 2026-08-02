@@ -366,3 +366,13 @@ adaptive-region entries, then stopped because frozen `M2IRRPENACT1.pbs` also
 lacks a final LF (2,242 bytes, final byte 48, SHA-256 `1d233a82...`). That
 additional repair was not authorized, so the second validation was not run.
 Execution authorization remains false and qsub attempts remain zero.
+
+## F17 probe-LF conditional execution preflight (2026-08-02)
+
+The authorized trial append produced the exact expected 2,243-byte probe PBS
+and SHA-256 `10451ed7...`. However, changing only its entry produced checksum
+file SHA-256 values `e304820b...` (`F17_SHA256SUMS`) and `bde9ba48...`
+(`SHA256SUMS`), not the authorization-declared `58631d13...` and
+`f11983ff...`. The fail-closed hash condition stopped the task before a repair
+commit, clean-Linux proof, authorization activation, cluster access, or qsub.
+The trial package edits were restored; `main` retains the frozen probe PBS.

@@ -714,3 +714,9 @@ Submission-review priority:
 - [x] Confirmed 1,167 bytes, final byte 10, and SHA-256 `6375b8c5...`.
 - [!] Clean Linux validation stopped on another missing final LF in frozen `M2IRRPENACT1.pbs`.
 - [x] No second validation, authorization request, scheduler call, or scientific execution followed.
+
+## F17 probe-LF conditional execution preflight (2026-08-02)
+
+- [x] Exact one-byte trial produced the expected repaired probe PBS hash `10451ed7...`.
+- [!] Declared checksum-file hashes did not match the deterministic files produced by the sole authorized entry change.
+- [x] Restored all trial package edits and stopped before commit, clean-Linux proof, authorization activation, or qsub.
