@@ -28,3 +28,11 @@ Exactly one final LF was appended to `M2RMREG4.pbs`, changing its size from
 two checksum records were updated. All other scientific/runtime hashes and
 the 11-entry allowlist remain unchanged. A fresh preparation and second clean
 Linux proof are required before any execution authorization.
+
+### Final-LF qualification outcome
+
+The repair was published as `a44c2b6651bd541bfc3bbe82479a2474af743c6c`.
+The first fresh WSL2 checkout passed all 11 adaptive-region entries and then
+reported `final LF missing` for frozen `M2IRRPENACT1.pbs` (2,242 bytes,
+final byte 48, SHA-256 `1d233a82...`). The additional edit was not authorized,
+so the second validation was not run. Qsub attempts remain zero.

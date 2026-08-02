@@ -357,3 +357,12 @@ explicit Abaqus-Python-compatible loop and retains zero solver, datacheck,
 adaptivity, remesh, candidate, and refined-execution counters. Both packages
 target `entry_imfdfkmq`, require Telegram, treat PBS email as best-effort, and
 remain `prepared_not_authorized`. Qsub attempts are zero.
+
+## F17 final-LF repair qualification (2026-08-02)
+
+Preparation `a44c2b6` appended exactly one LF byte to `M2RMREG4.pbs` and
+updated its dependent manifests. A fresh WSL2 Linux checkout validated all 11
+adaptive-region entries, then stopped because frozen `M2IRRPENACT1.pbs` also
+lacks a final LF (2,242 bytes, final byte 48, SHA-256 `1d233a82...`). That
+additional repair was not authorized, so the second validation was not run.
+Execution authorization remains false and qsub attempts remain zero.

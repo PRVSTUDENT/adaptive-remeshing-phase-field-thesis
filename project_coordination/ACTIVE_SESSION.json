@@ -1,26 +1,12 @@
 {
   "active": false,
   "agent": null,
-  "allowed_scope": [
-    "models/generated/mode_ii/f17_penalty_activation_probe/**",
-    "models/generated/mode_ii/f17_native_adaptive_region_repair/**",
-    "scripts/hpc/**/*f17*",
-    "scripts/model_generation/**/*f17*",
-    "scripts/validation/**/*f17*",
-    "scripts/validation/check_multi_agent_bootstrap.py",
-    "tests/unit/test_stage_f17*.py",
-    "runs/hpc/stage_f/f17_*/**",
-    "docs/decisions/STAGE_F17_*.md",
-    "docs/experiment_records/STAGE_F17_*.md",
-    "docs/project/PROJECT_PHASE_CHECKLIST.md",
-    "docs/project/MISTAKES_AND_FIXES_LOG.md",
-    "project_coordination/**"
-  ],
-  "completed_at": "2026-08-02T04:28:47Z",
-  "heartbeat": "2026-08-02T04:28:47Z",
-  "started_at": "2026-08-02T04:22:37Z",
-  "session_id": "F17-LINUX-MANIFEST-REPAIR-AND-REAUTHORIZATION-PREPARATION-20260802-CODEX",
-  "starting_commit": "3435f68a1046b03a9fd77c27ca5802d9d15a0508",
+  "allowed_scope": [],
+  "completed_at": "2026-08-02T05:01:25Z",
+  "heartbeat": "2026-08-02T05:01:25Z",
+  "started_at": null,
+  "session_id": null,
+  "starting_commit": null,
   "task_id": null,
-  "note": "Released after the second clean Linux proof stopped on frozen M2RMREG4.pbs missing its canonical final LF. No scheduler or scientific execution occurred."
+  "note": "Stopped fail-closed: clean Linux validation found an unauthorized additional missing final LF in frozen M2IRRPENACT1.pbs."
 }

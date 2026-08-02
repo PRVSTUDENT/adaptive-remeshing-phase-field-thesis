@@ -1,0 +1,15 @@
+{
+  "classification": "f17_clean_linux_manifest_reproducibility_failed_additional_missing_final_lf",
+  "preparation_sha": "a44c2b6651bd541bfc3bbe82479a2474af743c6c",
+  "environment": {"operating_system": "Linux WSL2 6.18.33.2 x86_64", "git_version": "2.43.0", "python_version": "3.12.3", "core_autocrlf": null, "core_eol": null},
+  "first_clean_worktree": {"path": "/tmp/F17_FINAL_LF_FIRST_a44c2b6_20260802_b", "head_matches": true, "initial_status_clean": true, "adaptive_manifest_entries_passed": 11, "result": "failed"},
+  "second_clean_worktree": {"path": "/tmp/F17_FINAL_LF_SECOND_a44c2b6_20260802_b", "head_matches": true, "validation_run": false, "result": "not_run_after_fail_closed_failure"},
+  "m2rmreg4": {"old_sha256": "4c8088c6d113d5387b8728a25f1aeb886b1cbdf24a7b5f334d57e0569ee12705", "new_sha256": "6375b8c5b739133046c8c402e9155a247ba1cb0512c305bffb22560de1a31cdf", "old_size": 1166, "new_size": 1167, "final_byte": 10, "passed": true},
+  "blocking_evidence": {"path": "models/generated/mode_ii/f17_penalty_activation_probe/M2IRRPENACT1.pbs", "sha256": "1d233a82c226ddf54740f469ddf616039b2e90d4770758b51ca280d39c36b157", "size": 2242, "final_byte": 48, "error": "final LF missing", "repair_authorized": false},
+  "pass": false,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "qsub_attempts": 0,
+  "successful_submissions": 0,
+  "failed_qsub_attempts": 0
+}

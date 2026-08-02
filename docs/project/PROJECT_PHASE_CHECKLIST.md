@@ -707,3 +707,10 @@ Submission-review priority:
 - [!] The mandatory second clean Linux proof stopped because frozen `M2RMREG4.pbs` lacks a final LF.
 - [x] No silent repair iteration or frozen PBS modification was made.
 - [!] Reproducibility is not qualified and no F17 execution authorization exists.
+
+## F17 final-LF repair qualification (2026-08-02)
+
+- [x] Published the exact one-byte `M2RMREG4.pbs` LF repair as `a44c2b6`.
+- [x] Confirmed 1,167 bytes, final byte 10, and SHA-256 `6375b8c5...`.
+- [!] Clean Linux validation stopped on another missing final LF in frozen `M2IRRPENACT1.pbs`.
+- [x] No second validation, authorization request, scheduler call, or scientific execution followed.

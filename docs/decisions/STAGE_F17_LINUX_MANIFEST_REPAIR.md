@@ -24,3 +24,10 @@ is superseded by the 1,167-byte canonical hash
 `6375b8c5b739133046c8c402e9155a247ba1cb0512c305bffb22560de1a31cdf`.
 No semantic PBS content changed. Execution remains unauthorized pending a
 passing clean-Linux proof and fresh human authorization.
+
+### Final-LF qualification result
+
+Preparation `a44c2b6` contains the authorized one-byte `M2RMREG4.pbs`
+repair. Clean Linux validation passed the 11-entry adaptive manifest, then
+failed closed because `M2IRRPENACT1.pbs` also lacks a final LF. That frozen
+file was outside scope; the second proof and all execution were stopped.

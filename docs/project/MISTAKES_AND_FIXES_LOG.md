@@ -817,3 +817,15 @@ Prevention rule: validate the canonical text contract, including final LF,
 before freezing or authorizing any text-file hash.
 
 Status: open; requires an explicit decision to supersede the frozen PBS hash
+
+## 2026-08-02 — Validate every package text file before freezing hashes
+
+After the authorized `M2RMREG4.pbs` repair, clean Linux validation exposed
+the same missing-final-LF defect in frozen `M2IRRPENACT1.pbs` (2,242 bytes,
+final byte 48, SHA-256 `1d233a82c226ddf54740f469ddf616039b2e90d4770758b51ca280d39c36b157`).
+The additional repair was outside the granted scope, so qualification stopped.
+
+Prevention rule: validate canonical text across every allowlisted package
+before freezing any hash or requesting authorization.
+
+Status: open; explicit permission is required to supersede the probe PBS hash
