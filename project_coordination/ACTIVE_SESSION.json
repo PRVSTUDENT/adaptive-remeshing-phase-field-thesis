@@ -16,11 +16,11 @@
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "project_coordination/**"
   ],
-  "completed_at": "2026-08-02T04:15:08Z",
-  "heartbeat": "2026-08-02T04:15:08Z",
-  "started_at": "2026-08-02T04:06:53Z",
-  "session_id": "F17-PENALTY-ACTIVATION-AND-ADAPTIVE-REGION-REPAIR-EXECUTION-20260802-CODEX",
-  "starting_commit": "41aaf8ee9582b4a245cf3d64cd6dbf309f752ef5",
+  "completed_at": "2026-08-02T04:28:47Z",
+  "heartbeat": "2026-08-02T04:28:47Z",
+  "started_at": "2026-08-02T04:22:37Z",
+  "session_id": "F17-LINUX-MANIFEST-REPAIR-AND-REAUTHORIZATION-PREPARATION-20260802-CODEX",
+  "starting_commit": "3435f68a1046b03a9fd77c27ca5802d9d15a0508",
   "task_id": null,
-  "note": "Released after mandatory frozen-hash preflight invalidated F17 authority. No qsub, solver, CAE, datacheck, adaptivity, remesh, retry, replacement, qdel, qmove, or rerun occurred."
+  "note": "Released after the second clean Linux proof stopped on frozen M2RMREG4.pbs missing its canonical final LF. No scheduler or scientific execution occurred."
 }

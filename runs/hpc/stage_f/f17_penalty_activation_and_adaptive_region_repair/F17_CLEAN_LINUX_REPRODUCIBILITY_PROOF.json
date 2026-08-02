@@ -1,0 +1,27 @@
+{
+  "candidate_preparation_sha": "76addd7a409c550eed52f9297b4f30b6e8647073",
+  "second_clean_worktree": "/scratch/pr21vyci/adaptive-remeshing/runs/stage_f17/F17_MANIFEST_PROOF_76addd7",
+  "operating_system": "Linux mlogin01.cluster 4.18.0-553.141.2.el8_10.x86_64",
+  "git_version": "2.43.7",
+  "core_autocrlf": "unset",
+  "core_eol": "unset",
+  "git_attributes": "unspecified",
+  "clean_worktree": true,
+  "manifest_hashes": {
+    "M2IRRPENACT1": "e9b3e47ad1fd929a77410399f88ee0b9fce59269f1854a4aa59ff449d025d8e6",
+    "M2RMREG4": "9a28a7448b0dd9e2f55c043a4b12b5fe20127e4a325cf88d428f844ba5d7f5ec"
+  },
+  "allowlisted_entry_counts": {"M2IRRPENACT1": 12, "M2RMREG4": 11},
+  "manifest_validation_reached": false,
+  "failure": {
+    "stage": "canonical_text_contract_validation",
+    "path": "models/generated/mode_ii/f17_native_adaptive_region_repair/M2RMREG4.pbs",
+    "reason": "final LF missing",
+    "size_bytes": 1166,
+    "last_byte_decimal": 99,
+    "authorized_hash": "4c8088c6d113d5387b8728a25f1aeb886b1cbdf24a7b5f334d57e0569ee12705"
+  },
+  "direct_frozen_hash_change_performed": false,
+  "qsub_attempts": 0,
+  "classification": "f17_clean_linux_manifest_reproducibility_failed_missing_final_lf"
+}

@@ -30,6 +30,18 @@ No job was submitted; qsub attempts/successes/failures are `0/0/0`, and retry,
 replacement, direct qsub, qdel, qmove, and rerun remain zero/prohibited.
 Classification: `f17_submission_blocked_frozen_manifest_hash_mismatch`.
 
+## F17 manifest-repair proof result (2026-08-02)
+
+Candidate preparation `76addd7a409c550eed52f9297b4f30b6e8647073`
+corrected the ten CRLF-derived manifest entries and added explicit allowlists,
+deterministic validation, a forensic audit, a decision record, and a
+preparation report. A required second clean Linux worktree was empty, but its
+validator stopped because frozen `M2RMREG4.pbs` has no final LF. The file's
+last byte is decimal 99 and its size is 1,166 bytes. Changing it would violate
+the explicitly frozen PBS hash, so no second repair iteration was made.
+Classification: `f17_clean_linux_manifest_reproducibility_failed_missing_final_lf`.
+Execution authority remains false and all scheduler/scientific counters remain zero.
+
 ## Stage F14 terminal qualification result
 
 Jobs `1381368` and `1381369` are terminal with PBS exit zero. The runtime-load

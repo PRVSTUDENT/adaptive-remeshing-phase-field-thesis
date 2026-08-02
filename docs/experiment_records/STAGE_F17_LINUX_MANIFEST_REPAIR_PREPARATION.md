@@ -10,3 +10,13 @@ deterministic validator/generator. The forensic audit is retained in
 
 No qsub, Abaqus, CAE, datacheck, adaptivity, remesh, candidate generation, or
 refined analysis is permitted or performed in this preparation.
+
+## Second-clean-worktree result
+
+Candidate `76addd7a409c550eed52f9297b4f30b6e8647073` was checked out in a
+second detached Linux worktree with empty `git status --short`. The proof
+stopped before manifest validation because the canonical-text validator found
+that frozen `M2RMREG4.pbs` ends in byte `99` (`c`), not LF. Changing that file
+would change its explicitly frozen hash, so no silent repair iteration was
+performed. Classification:
+`f17_clean_linux_manifest_reproducibility_failed_missing_final_lf`.

@@ -802,3 +802,18 @@ canonical byte representation that a clean Linux checkout will execute, and
 prove them in that checkout before requesting authorization.
 
 Status: open; repair and new explicit authorization required
+
+### M-125 — F17 clean-Linux proof exposed a frozen PBS final-newline conflict
+
+The bounded manifest repair candidate corrected the ten CRLF-derived hashes,
+but the required second clean Linux proof stopped before `sha256sum -c` because
+the canonical-text validator found no final LF in frozen `M2RMREG4.pbs`.
+The file is 1,166 bytes, ends in decimal byte 99, and has the explicitly frozen
+SHA-256 `4c8088c6d113d5387b8728a25f1aeb886b1cbdf24a7b5f334d57e0569ee12705`.
+Adding LF would change that authorized hash. The task's stopping rule was
+honored: no silent repair iteration and no authorization request followed.
+
+Prevention rule: validate the canonical text contract, including final LF,
+before freezing or authorizing any text-file hash.
+
+Status: open; requires an explicit decision to supersede the frozen PBS hash

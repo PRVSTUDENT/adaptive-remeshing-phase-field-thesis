@@ -699,3 +699,11 @@ Submission-review priority:
 - [!] Submission failed closed because ten additional entries across the two committed `F17_SHA256SUMS` manifests did not match the clean Linux checkout.
 - [x] No qsub, solver, CAE, datacheck, adaptivity, remesh, retry, replacement, qdel, qmove, or rerun occurred.
 - [!] Authorization is invalidated. A separate manifest repair and new explicit authorization are required before either F17 job can be submitted.
+
+## F17 Linux manifest repair proof (2026-08-02)
+
+- [x] Diagnosed all ten stale entries as CRLF working-tree hashes versus canonical LF Git/Linux bytes.
+- [x] Candidate `76addd7` corrected only the two manifests and added deterministic allowlists, tooling, and reports; scientific/runtime hashes were unchanged.
+- [!] The mandatory second clean Linux proof stopped because frozen `M2RMREG4.pbs` lacks a final LF.
+- [x] No silent repair iteration or frozen PBS modification was made.
+- [!] Reproducibility is not qualified and no F17 execution authorization exists.
