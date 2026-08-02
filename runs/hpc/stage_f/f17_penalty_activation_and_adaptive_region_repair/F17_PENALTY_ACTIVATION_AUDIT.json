@@ -1,0 +1,21 @@
+{
+  "classification": "penalty_activation_probe_passed",
+  "pbs_id": "1381483.mmaster02",
+  "solver_completed": true,
+  "loading_path_mm": [0.003, 0.001, 0.006],
+  "forced_pnewdt_disabled": true,
+  "bounds_guard": false,
+  "extraction_manifest": "6/6 PASS",
+  "required_tables_retained": true,
+  "penalty_active_call_count": 4,
+  "first_penalty_active_state": {
+    "kstep":2,"kinc":4,"call_sequence":1,"element":6,"integration_point":1,
+    "time":0.08,"total_time":1.08,"dtime":0.02,
+    "committed_phase":0.994704402277978,"trial_phase":0.994699000632349,
+    "healing_gap":5.401645628899665e-06,"penalty_residual":0.97229621320194,
+    "penalty_tangent":180000.0,"penalty_energy":2.625999795018977e-06,
+    "accepted_status":"not_determinable_at_uel_call","pnewdt_returned":1e36
+  },
+  "rollback_qualified": false,
+  "future_trigger_fully_specified": true
+}

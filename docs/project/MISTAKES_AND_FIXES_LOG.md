@@ -856,3 +856,11 @@ Resolution: preparation `b4d9fad` made the adaptive legacy manifest
 byte-identical to its canonical F17 manifest. The second Linux proof passed
 all package and blob-byte checks. Status: resolved; execution remains
 separately unauthorized.
+
+## 2026-08-02 — M2RMREG4 wrapper omitted F17_SOURCE_ODB
+
+Job `1381484` passed its compatibility helper, then CAE stopped at line 6 with
+`KeyError: 'F17_SOURCE_ODB'` before deck import or integrity checks. All
+execution counters remained zero. Prevention: validate every required runtime
+environment variable against the wrapper before authorization. Status: open;
+bounded wrapper staging repair required, with no retry authorized.

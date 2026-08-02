@@ -1,0 +1,14 @@
+{
+  "classification": "native_adaptive_region_construction_failed",
+  "pbs_id": "1381484.mmaster02",
+  "first_failing_command": "abaqus cae noGUI=qualify_f17_adaptive_region.py",
+  "exception": "KeyError: 'F17_SOURCE_ODB' at os.environ['F17_SOURCE_ODB'] on line 6",
+  "last_completed_stage": "Abaqus-Python compatibility helper",
+  "first_failed_stage": "qualification-script environment initialization before input-deck import",
+  "cause": "wrapper did not export required F17_SOURCE_ODB environment variable",
+  "zero_execution_counters": {"solver_calls":0,"datacheck_calls":0,"adaptivity_process_submissions":0,"model_adaptiveRemesh_calls":0,"native_remesh_calls":0,"candidates_generated":0,"refined_analyses":0},
+  "integrity_checks_reached": [],
+  "integrity_checks_not_reached": ["3930 CPE4 elements","3930 finite MISESERI values","15 slit pairs","disconnected slit topology","no bridge","materials","sections","sets","loads","boundary conditions"],
+  "smallest_repair": "stage or export the intended source ODB path as F17_SOURCE_ODB before invoking CAE, then requalify without remesh execution",
+  "retry_authorized": false
+}

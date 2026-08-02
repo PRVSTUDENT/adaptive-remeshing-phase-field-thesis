@@ -734,3 +734,10 @@ Submission-review priority:
 - [x] Second Linux proof passed probe 12/12 twice and adaptive 11/11 twice.
 - [x] All 23 manifest-listed files matched their committed Git blobs.
 - [!] Batch is qualified but not authorized; qsub attempts remain zero.
+
+## F17 terminal closeout (2026-08-02)
+
+- [x] `1381483` completed and qualified penalty activation with complete hash-valid evidence.
+- [!] `1381484` failed before deck import because `F17_SOURCE_ODB` was unset.
+- [x] All adaptive execution counters remain zero; native remesh is not ready.
+- [x] Four Telegram START/terminal events passed technically; no retry occurred.

@@ -402,3 +402,12 @@ exactly `M2IRRPENACT1` (`1381483.mmaster02`) and `M2RMREG4`
 routed to `normal_imfdfkmq`. Authority is consumed: attempts/successes/failures
 are 2/2/0, with zero retries, replacements, direct qsub, qdel, or qmove.
 No further submission is authorized.
+
+## F17 terminal scientific closeout (2026-08-02)
+
+Job `1381483` exited zero and qualified deterministic penalty activation at
+step 2/increment 4; its extraction manifest passed 6/6. Job `1381484` exited
+one before deck import because `F17_SOURCE_ODB` was absent from the wrapper
+environment. All adaptive execution counters are zero and no model-integrity
+checks were reached. All four Telegram events passed technically. A rollback
+pair is preparation-eligible but unauthorized; native remesh is not ready.

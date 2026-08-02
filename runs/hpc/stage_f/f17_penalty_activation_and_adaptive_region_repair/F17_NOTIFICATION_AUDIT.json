@@ -1,0 +1,12 @@
+{
+  "classification": "all_four_telegram_events_technically_passed",
+  "recipient_fingerprint": "redacted:e2facd962765",
+  "events": {
+    "M2IRRPENACT1_START": {"attempts":1,"curl_rc":0,"http_status":200,"telegram_ok":true,"pass":true},
+    "M2IRRPENACT1_TERMINAL": {"attempts":1,"curl_rc":0,"http_status":200,"telegram_ok":true,"pass":true,"terminal_rc":0},
+    "M2RMREG4_START": {"attempts":1,"curl_rc":0,"http_status":200,"telegram_ok":true,"pass":true},
+    "M2RMREG4_TERMINAL": {"attempts":1,"curl_rc":0,"http_status":200,"telegram_ok":true,"pass":true,"terminal_rc":1}
+  },
+  "pbs_email": "best_effort_not_independently_verified",
+  "resends": 0
+}

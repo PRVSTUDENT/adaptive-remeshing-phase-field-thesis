@@ -1,0 +1,8 @@
+{
+  "user_report_matches_scheduler": true,
+  "tracejob": "unavailable: job IDs not found in past-1-day trace logs",
+  "jobs": {
+    "1381483.mmaster02": {"name":"M2IRRPENACT1","submitted_queue":"entry_imfdfkmq","execution_queue":"normal_imfdfkmq","state":"F","exit_status":0,"host":"mnode106/0","start":"2026-08-02T09:10:39+02:00","end":"2026-08-02T09:13:12+02:00","walltime":"00:02:28","cpu_time":"00:00:20","memory_kb":321312,"requested":{"ncpus":1,"memory":"8gb","walltime":"01:00:00"},"infrastructure_error":false},
+    "1381484.mmaster02": {"name":"M2RMREG4","submitted_queue":"entry_imfdfkmq","execution_queue":"normal_imfdfkmq","state":"F","exit_status":1,"host":"mnode106/1","start":"2026-08-02T09:10:47+02:00","end":"2026-08-02T09:10:55+02:00","walltime":"00:00:03","cpu_time":"00:00:01","memory_kb":78556,"requested":{"ncpus":1,"memory":"8gb","walltime":"00:30:00"},"infrastructure_error":false}
+  }
+}
