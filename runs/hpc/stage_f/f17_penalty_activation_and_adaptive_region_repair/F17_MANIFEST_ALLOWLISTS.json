@@ -1,0 +1,29 @@
+{
+  "models/generated/mode_ii/f17_native_adaptive_region_repair": [
+    "F17_NO_EXECUTION_AUDIT.json",
+    "F17_RUNTIME_MANIFEST.json",
+    "M2RMREG4.pbs",
+    "PACKAGE_MANIFEST.json",
+    "STATUS.json",
+    "runtime/.gitignore",
+    "runtime/f17_abaqus_python_compatibility.py",
+    "runtime/job_notifications.sh",
+    "runtime/notification_evidence.py",
+    "runtime/qualify_f17_adaptive_region.py",
+    "runtime/source_deck.inp"
+  ],
+  "models/generated/mode_ii/f17_penalty_activation_probe": [
+    "F17_NO_EXECUTION_AUDIT.json",
+    "F17_RUNTIME_MANIFEST.json",
+    "M2IRRPENACT1.pbs",
+    "PACKAGE_MANIFEST.json",
+    "STATUS.json",
+    "runtime/.gitignore",
+    "runtime/analyze_stage_f17_penalty_probe.py",
+    "runtime/extract_stage_f17_penalty_probe.py",
+    "runtime/job_notifications.sh",
+    "runtime/M2IRRPENACT1.for",
+    "runtime/M2IRRPENACT1.inp",
+    "runtime/notification_evidence.py"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "classification": "CRLF_LF_checkout_transformation",
+  "audited_commit": "b6f3478b8dae8732acb0b8126f0ec75af215ea5e",
+  "cause": "The manifests were generated from the Windows working-tree CRLF bytes while Git stored and the clean Linux checkout materialized canonical LF bytes.",
+  "windows_git": {"core_autocrlf": true, "core_eol": "unset"},
+  "linux_git": {"core_autocrlf": "unset", "core_eol": "unset", "version": "2.43.7"},
+  "attributes": "unspecified",
+  "common_byte_findings": {"encoding": "UTF-8", "bom": false, "linux_newlines": "LF", "final_newline": true, "committed_blob_equals_linux_checkout": true},
+  "entries": [
+    {"package":"f17_penalty_activation_probe","path":"F17_NO_EXECUTION_AUDIT.json","expected":"da60c66465fb355a8a7356db325e8435d3b91b7adcbe62693749800e04ba11a4","linux_and_blob":"fd8c9c7b6833c1f8c7e5b8c49bd3a309a199a286679ee153779101298b471d75","linux_size":261,"linux_lf_count":10,"root_cause":"CRLF_LF_checkout_transformation"},
+    {"package":"f17_penalty_activation_probe","path":"F17_RUNTIME_MANIFEST.json","expected":"62c5b951c65e8aa62cb11dc774eaac7aebcd50d9fb79e659c03cad42f693d362","linux_and_blob":"8ab0266c74fc15c70c3417e62f40f17de07826665f82e83cf75f4305fc61ca6a","linux_size":467,"linux_lf_count":13,"root_cause":"CRLF_LF_checkout_transformation"},
+    {"package":"f17_penalty_activation_probe","path":"PACKAGE_MANIFEST.json","expected":"eb94a2d35d9948347f70406d93c792a2546f41aed74884ada84f6890f0049ee9","linux_and_blob":"778436ba110323286305ea2f320c0a3200027e30967847d7fbf5ff227c7a05de","linux_size":434,"linux_lf_count":15,"root_cause":"CRLF_LF_checkout_transformation"},
+    {"package":"f17_penalty_activation_probe","path":"STATUS.json","expected":"56fd818ba6e589a74fcd5316a1d0c4004437642123727220796f7564f3994b02","linux_and_blob":"3da0f0484b6b173bba4c32f0318d171f0ff5e2a11c82988bed2c1c17ddc8c4c6","linux_size":180,"linux_lf_count":7,"root_cause":"CRLF_LF_checkout_transformation"},
+    {"package":"f17_penalty_activation_probe","path":"runtime/.gitignore","expected":"6252093f8103b25bf77e3171bfc9952ba9c964480ae8f326dc9c4bb12e6aea28","linux_and_blob":"32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b","linux_size":13,"linux_lf_count":1,"root_cause":"CRLF_LF_checkout_transformation"},
+    {"package":"f17_native_adaptive_region_repair","path":"F17_NO_EXECUTION_AUDIT.json","expected":"da60c66465fb355a8a7356db325e8435d3b91b7adcbe62693749800e04ba11a4","linux_and_blob":"fd8c9c7b6833c1f8c7e5b8c49bd3a309a199a286679ee153779101298b471d75","linux_size":261,"linux_lf_count":10,"root_cause":"CRLF_LF_checkout_transformation"},
+    {"package":"f17_native_adaptive_region_repair","path":"F17_RUNTIME_MANIFEST.json","expected":"821782495188d6ca15c2284078b6a0c263d1ad973c4f25efe26a6f362f8ed2f5","linux_and_blob":"b5a10abc9434d6c0f7235f3a7af4e57f19beac107618d531d2d6c4661764d4f3","linux_size":412,"linux_lf_count":12,"root_cause":"CRLF_LF_checkout_transformation"},
+    {"package":"f17_native_adaptive_region_repair","path":"PACKAGE_MANIFEST.json","expected":"ad7983425cf749f97ae41182f1c22a07b40a122a206a899703d7e456986500c9","linux_and_blob":"47d75d9386c38d11911176aa4543cc0eb68c587d717ca8f7b1b4616be9ac6b7e","linux_size":430,"linux_lf_count":15,"root_cause":"CRLF_LF_checkout_transformation"},
+    {"package":"f17_native_adaptive_region_repair","path":"STATUS.json","expected":"9639cad75d21dc1b4cce6a7fd0dccebefdf4d9a58f756b9728b2e7f0f5e0b2dd","linux_and_blob":"e22e17918afede996d52a3b078b0759d93d6f039f8dafed510a46f1b110b83ba","linux_size":176,"linux_lf_count":7,"root_cause":"CRLF_LF_checkout_transformation"},
+    {"package":"f17_native_adaptive_region_repair","path":"runtime/.gitignore","expected":"6252093f8103b25bf77e3171bfc9952ba9c964480ae8f326dc9c4bb12e6aea28","linux_and_blob":"32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b","linux_size":13,"linux_lf_count":1,"root_cause":"CRLF_LF_checkout_transformation"}
+  ],
+  "scientific_runtime_hashes_changed": false,
+  "qsub_attempts": 0
+}
