@@ -15,6 +15,21 @@ scientific, remeshing, datacheck, H1, H2, or refined execution is authorized.
 The batch is authorized pending frozen-hash, notification, scheduler, and
 contract preflight; qsub attempts remain zero.
 
+## F17 pre-submission closeout (2026-08-02)
+
+Authorization commit `b6f3478b8dae8732acb0b8126f0ec75af215ea5e`
+was pushed and checked out in a clean detached cluster worktree because the
+long-lived cluster clone contained unrelated dirty/untracked files that were
+preserved. The user-listed PBS, source, deck, extractor, analyzer, adaptive
+script/helper/source-deck, and notification hashes all matched. However, both
+committed `F17_SHA256SUMS` manifests each failed on five additional files:
+`F17_NO_EXECUTION_AUDIT.json`, `F17_RUNTIME_MANIFEST.json`,
+`PACKAGE_MANIFEST.json`, `STATUS.json`, and `runtime/.gitignore`.
+The frozen-hash rule therefore invalidated submission authority before qsub.
+No job was submitted; qsub attempts/successes/failures are `0/0/0`, and retry,
+replacement, direct qsub, qdel, qmove, and rerun remain zero/prohibited.
+Classification: `f17_submission_blocked_frozen_manifest_hash_mismatch`.
+
 ## Stage F14 terminal qualification result
 
 Jobs `1381368` and `1381369` are terminal with PBS exit zero. The runtime-load

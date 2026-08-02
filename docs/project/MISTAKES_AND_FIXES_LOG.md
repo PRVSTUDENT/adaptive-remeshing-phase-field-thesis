@@ -784,3 +784,21 @@ The F16 R3 CAE-only qualification used `sum(1 for v in vals if ...)`.
 Abaqus Python rejected the generator as an unrecognized type before any
 solver or remeshing call. Future runtime scripts must use an explicit loop or
 materialized list and must be qualified under the installed Abaqus Python.
+
+### M-124 — F17 frozen manifests were not cross-platform hash faithful
+
+The explicitly authorized F17 preflight checked a clean Linux worktree at
+authorization commit `b6f3478`. Every hash enumerated directly in the human
+authorization matched, but each package's committed `F17_SHA256SUMS` failed
+for five metadata/text files: `F17_NO_EXECUTION_AUDIT.json`,
+`F17_RUNTIME_MANIFEST.json`, `PACKAGE_MANIFEST.json`, `STATUS.json`, and
+`runtime/.gitignore`. The mismatch is consistent with a preparation-time
+cross-platform byte/line-ending discrepancy, but no frozen file was changed
+in the execution session. The authorization's fail-closed hash rule stopped
+the workflow before qsub; attempts/successes/failures remain `0/0/0`.
+
+Prevention rule: generate and validate immutable manifests from the same
+canonical byte representation that a clean Linux checkout will execute, and
+prove them in that checkout before requesting authorization.
+
+Status: open; repair and new explicit authorization required

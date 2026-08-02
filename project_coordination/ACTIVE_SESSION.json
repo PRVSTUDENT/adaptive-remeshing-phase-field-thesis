@@ -1,6 +1,6 @@
 {
-  "active": true,
-  "agent": "codex",
+  "active": false,
+  "agent": null,
   "allowed_scope": [
     "models/generated/mode_ii/f17_penalty_activation_probe/**",
     "models/generated/mode_ii/f17_native_adaptive_region_repair/**",
@@ -16,11 +16,11 @@
     "docs/project/MISTAKES_AND_FIXES_LOG.md",
     "project_coordination/**"
   ],
-  "completed_at": null,
-  "heartbeat": "2026-08-02T04:06:53Z",
+  "completed_at": "2026-08-02T04:15:08Z",
+  "heartbeat": "2026-08-02T04:15:08Z",
   "started_at": "2026-08-02T04:06:53Z",
   "session_id": "F17-PENALTY-ACTIVATION-AND-ADAPTIVE-REGION-REPAIR-EXECUTION-20260802-CODEX",
   "starting_commit": "41aaf8ee9582b4a245cf3d64cd6dbf309f752ef5",
-  "task_id": "F17-PENALTY-ACTIVATION-AND-ADAPTIVE-REGION-REPAIR-EXECUTION",
-  "note": "Claimed for the explicitly authorized two-job F17 execution and closeout. Preserve every pre-existing dirty/untracked path; no retry, replacement, direct qsub, qdel, qmove, rerun, native remesh, medium-H1, H2, candidate datacheck, or refined execution."
+  "task_id": null,
+  "note": "Released after mandatory frozen-hash preflight invalidated F17 authority. No qsub, solver, CAE, datacheck, adaptivity, remesh, retry, replacement, qdel, qmove, or rerun occurred."
 }

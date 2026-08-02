@@ -691,3 +691,11 @@ Submission-review priority:
 - [x] Response, phase, energy, accepted-increment tables and a SHA-256 extraction manifest are mandatory stage-out artifacts.
 - [x] Corrected the Abaqus-Python generator incompatibility with explicit loops and a zero-model helper self-test.
 - [!] Both jobs are preparation-only; qsub attempts are zero and no future rollback pair or native remesh is authorized.
+
+## F17 authorized execution preflight (2026-08-02)
+
+- [x] Explicit two-job authorization was recorded and pushed as `b6f3478`.
+- [x] The scheduler was empty and the user-listed scientific/runtime hashes matched.
+- [!] Submission failed closed because ten additional entries across the two committed `F17_SHA256SUMS` manifests did not match the clean Linux checkout.
+- [x] No qsub, solver, CAE, datacheck, adaptivity, remesh, retry, replacement, qdel, qmove, or rerun occurred.
+- [!] Authorization is invalidated. A separate manifest repair and new explicit authorization are required before either F17 job can be submitted.
