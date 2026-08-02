@@ -4,6 +4,17 @@ Updated: 2026-07-31
 Protocol version: 1
 Classification: `stage_f11_preparation_in_progress`
 
+## F17 execution authorization (2026-08-02)
+
+The user explicitly authorized exactly `M2IRRPENACT1` and `M2RMREG4` from
+preparation commit `41aaf8ee9582b4a245cf3d64cd6dbf309f752ef5` through
+`entry_imfdfkmq`. At most two qsub invocations, two successful submissions,
+and two simultaneously running project jobs are permitted. Retry,
+replacement, direct qsub, qdel, qmove, and rerun are prohibited. No other
+scientific, remeshing, datacheck, H1, H2, or refined execution is authorized.
+The batch is authorized pending frozen-hash, notification, scheduler, and
+contract preflight; qsub attempts remain zero.
+
 ## Stage F14 terminal qualification result
 
 Jobs `1381368` and `1381369` are terminal with PBS exit zero. The runtime-load
