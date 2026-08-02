@@ -53,10 +53,18 @@ def test_frozen_hash_manifests():
             digest,relative=line.split('  ',1)
             assert hashlib.sha256((package/relative).read_bytes()).hexdigest()==digest
 
+def test_region_pbs_has_exact_final_lf_repair():
+    payload=(REGION/'M2RMREG4.pbs').read_bytes()
+    assert len(payload)==1167
+    assert payload[-1:]==b'\n'
+    assert payload[-2:-1]!=b'\n'
+    assert hashlib.sha256(payload).hexdigest()=='6375b8c5b739133046c8c402e9155a247ba1cb0512c305bffb22560de1a31cdf'
+
 if __name__=='__main__':
     test_probe_contract()
     test_region_python_and_zero_execution_contract()
     test_manifests_are_not_authorized()
     test_penalty_activation_gate()
     test_frozen_hash_manifests()
-    print('5 static tests passed')
+    test_region_pbs_has_exact_final_lf_repair()
+    print('6 static tests passed')

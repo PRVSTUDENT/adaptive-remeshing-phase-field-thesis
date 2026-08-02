@@ -14,3 +14,13 @@ duplicate/missing entries, and self-hashing.
 
 The invalidated execution authorization remains invalid. This is a new
 preparation only; all execution counters remain zero.
+
+## Final-LF supersession
+
+The user subsequently permitted exactly one appended LF byte to
+`M2RMREG4.pbs`. The old 1,166-byte hash
+`4c8088c6d113d5387b8728a25f1aeb886b1cbdf24a7b5f334d57e0569ee12705`
+is superseded by the 1,167-byte canonical hash
+`6375b8c5b739133046c8c402e9155a247ba1cb0512c305bffb22560de1a31cdf`.
+No semantic PBS content changed. Execution remains unauthorized pending a
+passing clean-Linux proof and fresh human authorization.

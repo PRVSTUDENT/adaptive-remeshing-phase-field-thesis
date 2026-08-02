@@ -20,3 +20,11 @@ that frozen `M2RMREG4.pbs` ends in byte `99` (`c`), not LF. Changing that file
 would change its explicitly frozen hash, so no silent repair iteration was
 performed. Classification:
 `f17_clean_linux_manifest_reproducibility_failed_missing_final_lf`.
+
+## Authorized final-LF repair
+
+Exactly one final LF was appended to `M2RMREG4.pbs`, changing its size from
+1,166 to 1,167 bytes and superseding only its PBS hash. The adaptive package's
+two checksum records were updated. All other scientific/runtime hashes and
+the 11-entry allowlist remain unchanged. A fresh preparation and second clean
+Linux proof are required before any execution authorization.
