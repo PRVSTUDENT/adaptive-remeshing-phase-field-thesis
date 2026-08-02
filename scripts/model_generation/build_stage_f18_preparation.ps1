@@ -166,7 +166,7 @@ foreach($x in @(@($ctl,'M2IRRROLLCTL4','control'),@($frc,'M2IRRROLLFORCE4','forc
  Put (Join-Path $d 'F18_RUNTIME_MANIFEST.json') ([ordered]@{job=$job;runtime_files=$allow}|ConvertTo-Json -Depth 5)
  Put (Join-Path $d 'F18_NO_EXECUTION_AUDIT.json') ([ordered]@{qsub_attempts=0;solver_executions=0;datacheck_executions=0;adaptivity_process_submissions=0;model_adaptiveRemesh_calls=0;native_remesh_calls=0;candidates_generated=0;refined_analyses=0}|ConvertTo-Json)
  Put (Join-Path $d 'STATUS.json') ([ordered]@{job=$job;classification='prepared_not_authorized';execution_authorized=$false;maximum_jobs_now=0}|ConvertTo-Json)
- $lines=Get-ChildItem $d -Recurse -File|? Name -notin @('F18_SHA256SUMS','SHA256SUMS')|%{((Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower()+'  '+$_.FullName.Substring($d.Length+1).Replace('\','/'))}|Sort-Object
+ $lines=Get-ChildItem $d -Recurse -File|? { $_.Name -notin @('F18_SHA256SUMS','SHA256SUMS') -and $_.FullName -notmatch '[\\/]__pycache__[\\/]' }|%{((Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower()+'  '+$_.FullName.Substring($d.Length+1).Replace('\','/'))}|Sort-Object
  Put (Join-Path $d 'F18_SHA256SUMS') ($lines-join"`n"); CopyText (Join-Path $d 'F18_SHA256SUMS') (Join-Path $d 'SHA256SUMS')
 }
 $run=Join-Path $Root 'runs/hpc/stage_f/f18_rollback_pair_and_adaptive_region_r5_preparation'; New-Item -ItemType Directory -Force $run|Out-Null
