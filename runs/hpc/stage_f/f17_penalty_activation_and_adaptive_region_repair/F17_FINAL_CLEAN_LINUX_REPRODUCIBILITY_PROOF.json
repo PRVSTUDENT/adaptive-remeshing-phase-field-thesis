@@ -1,0 +1,23 @@
+{
+  "classification": "f17_clean_linux_manifest_reproducibility_qualified",
+  "preparation_sha": "b4d9fad6b7c155ae60c6af47b44af9b498d43edc",
+  "worktree": "/home/pruth_ubuntu/f17_final_proof_b4d9fad",
+  "operating_system": "Linux WSL2 6.18.33.2 x86_64",
+  "git_version": "2.43.0",
+  "core_autocrlf": false,
+  "initial_git_status_clean": true,
+  "final_git_status_clean": true,
+  "probe_F17_SHA256SUMS": "12/12 PASS",
+  "probe_SHA256SUMS": "12/12 PASS",
+  "adaptive_F17_SHA256SUMS": "11/11 PASS",
+  "adaptive_SHA256SUMS": "11/11 PASS",
+  "committed_blob_checkout_comparisons": "23/23 PASS",
+  "manifest_failures": 0,
+  "canonical_text_failures": 0,
+  "scientific_runtime_hash_failures": 0,
+  "pass": true,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "qsub_attempts": 0,
+  "jobs": []
+}

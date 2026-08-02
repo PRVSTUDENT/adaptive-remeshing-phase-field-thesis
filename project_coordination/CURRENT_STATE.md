@@ -385,3 +385,11 @@ derived manifests. In the second fresh Linux checkout, probe manifests passed
 `SHA256SUMS` failed for five metadata files with the already-known Windows
 line-ending hashes. The proof therefore failed closed before authorization or
 submission. Qsub attempts remain zero.
+
+## F17 final Linux qualification (2026-08-02)
+
+Preparation `b4d9fad` repaired only adaptive legacy `SHA256SUMS`. A new
+detached Linux checkout passed probe manifests 12/12, adaptive manifests
+11/11, and all 23 checkout-to-blob comparisons. Classification is
+`f17_two_job_batch_linux_qualified_not_authorized`. No job is authorized or
+submitted; qsub attempts remain zero.

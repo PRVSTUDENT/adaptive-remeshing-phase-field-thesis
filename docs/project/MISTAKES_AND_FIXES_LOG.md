@@ -851,3 +851,8 @@ adaptive `F17_SHA256SUMS` passing 11/11. Preparation `b68fae8` is preserved;
 authorization and submission stopped.
 
 Status: open; repair the adaptive legacy metadata manifest under explicit scope
+
+Resolution: preparation `b4d9fad` made the adaptive legacy manifest
+byte-identical to its canonical F17 manifest. The second Linux proof passed
+all package and blob-byte checks. Status: resolved; execution remains
+separately unauthorized.

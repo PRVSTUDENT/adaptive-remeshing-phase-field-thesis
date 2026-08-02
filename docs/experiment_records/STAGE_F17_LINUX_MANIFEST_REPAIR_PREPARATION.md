@@ -36,3 +36,9 @@ The first fresh WSL2 checkout passed all 11 adaptive-region entries and then
 reported `final LF missing` for frozen `M2IRRPENACT1.pbs` (2,242 bytes,
 final byte 48, SHA-256 `1d233a82...`). The additional edit was not authorized,
 so the second validation was not run. Qsub attempts remain zero.
+
+### Final canonical qualification
+
+Preparation `b4d9fad` repaired the adaptive legacy manifest. The independent
+Linux worktree passed probe 12/12 twice, adaptive 11/11 twice, and 23/23
+checkout-to-blob comparisons. No scheduler or scientific execution occurred.

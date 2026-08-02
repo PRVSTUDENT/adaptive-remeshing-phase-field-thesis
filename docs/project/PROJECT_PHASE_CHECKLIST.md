@@ -727,3 +727,10 @@ Submission-review priority:
 - [x] Second Linux checkout passed probe manifests 12/12 and adaptive F17 manifest 11/11.
 - [!] Adaptive legacy `SHA256SUMS` failed five metadata entries; reproducibility remains unqualified.
 - [x] No authorization activation, qsub, Abaqus, or CAE operation occurred.
+
+## F17 final Linux qualification (2026-08-02)
+
+- [x] Adaptive legacy manifest is byte-identical to adaptive `F17_SHA256SUMS`.
+- [x] Second Linux proof passed probe 12/12 twice and adaptive 11/11 twice.
+- [x] All 23 manifest-listed files matched their committed Git blobs.
+- [!] Batch is qualified but not authorized; qsub attempts remain zero.

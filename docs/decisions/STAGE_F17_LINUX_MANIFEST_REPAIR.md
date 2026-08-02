@@ -31,3 +31,9 @@ Preparation `a44c2b6` contains the authorized one-byte `M2RMREG4.pbs`
 repair. Clean Linux validation passed the 11-entry adaptive manifest, then
 failed closed because `M2IRRPENACT1.pbs` also lacks a final LF. That frozen
 file was outside scope; the second proof and all execution were stopped.
+
+### Final qualification
+
+Preparation `b4d9fad` repaired only adaptive legacy `SHA256SUMS`. The second
+Linux proof passed all four manifests and blob comparisons. The batch is
+Linux-qualified but not execution-authorized.
