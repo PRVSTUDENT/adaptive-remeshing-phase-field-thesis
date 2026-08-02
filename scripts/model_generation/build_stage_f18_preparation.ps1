@@ -1,7 +1,7 @@
 param([string]$Root = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path)
 $ErrorActionPreference='Stop'
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
-function Put($p,$s){ [IO.File]::WriteAllText($p,($s.TrimEnd("`r","`n")+"`n"),$utf8NoBom) }
+function Put($p,$s){ $canonical=$s.Replace("`r`n","`n").Replace("`r","`n"); [IO.File]::WriteAllText($p,($canonical.TrimEnd("`n")+"`n"),$utf8NoBom) }
 function CopyText($a,$b){ Put $b ([IO.File]::ReadAllText($a)) }
 $ctl=Join-Path $Root 'models/generated/mode_ii/f18_penalty_active_rollback_control'
 $frc=Join-Path $Root 'models/generated/mode_ii/f18_penalty_active_rollback_forced'
