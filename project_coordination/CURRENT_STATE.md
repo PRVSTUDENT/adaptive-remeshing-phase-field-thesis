@@ -393,3 +393,12 @@ detached Linux checkout passed probe manifests 12/12, adaptive manifests
 11/11, and all 23 checkout-to-blob comparisons. Classification is
 `f17_two_job_batch_linux_qualified_not_authorized`. No job is authorized or
 submitted; qsub attempts remain zero.
+
+## F17 Linux-qualified two-job submission (2026-08-02)
+
+From authorization commit `0e8e501`, the guarded orchestrator submitted
+exactly `M2IRRPENACT1` (`1381483.mmaster02`) and `M2RMREG4`
+(`1381484.mmaster02`) through `entry_imfdfkmq`; both calls returned zero and
+routed to `normal_imfdfkmq`. Authority is consumed: attempts/successes/failures
+are 2/2/0, with zero retries, replacements, direct qsub, qdel, or qmove.
+No further submission is authorized.
