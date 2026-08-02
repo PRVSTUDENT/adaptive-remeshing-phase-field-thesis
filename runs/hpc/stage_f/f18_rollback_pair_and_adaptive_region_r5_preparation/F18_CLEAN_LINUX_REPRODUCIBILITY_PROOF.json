@@ -1,0 +1,17 @@
+{
+  "classification": "f18_three_job_batch_clean_linux_reproducibility_qualified",
+  "validation_basis": "canonical staged bytes prior to the single preparation commit; the same tree is validated again in a detached clean Linux worktree after commit",
+  "planned_clean_worktree": "/tmp/f18_clean_cb00b40",
+  "package_manifest_checks": "passed",
+  "legacy_manifest_identity": "passed",
+  "utf8_no_bom": "passed",
+  "exactly_one_final_lf": "passed",
+  "shell_syntax": "passed",
+  "json_parsing": "passed",
+  "rollback_source_identity": "passed",
+  "rollback_deck_identity": "passed",
+  "source_odb_readable_and_hash_verified": "passed",
+  "fortran_compile_and_relocatable_link": "passed with gfortran legacy syntax and stub ABA_PARAM include; Abaqus/Intel compile remains a future execution preflight",
+  "abaqus_or_cae_executed": false,
+  "qsub_attempts": 0
+}

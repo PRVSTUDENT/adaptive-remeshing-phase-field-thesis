@@ -1,0 +1,26 @@
+#!/bin/bash
+#PBS -N M2IRRROLLCTL4
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+set -uo pipefail; set +x
+PACKAGE_DIR="${F18_PACKAGE_DIR:?F18_PACKAGE_DIR required}"; EVIDENCE_DIR="${F18_EVIDENCE_DIR:?F18_EVIDENCE_DIR required}"
+WORK_ROOT="${SCRATCH:?SCRATCH required}/M2IRRROLLCTL4_${PBS_JOBID:-unknown}"
+mkdir -p "$WORK_ROOT" "$EVIDENCE_DIR" && cp -p "$PACKAGE_DIR"/runtime/* "$WORK_ROOT/" || exit 6
+cd "$WORK_ROOT" || exit 6
+export F18_FORCE_CUTBACK=0 NOTIFICATION_EVIDENCE_DIR="$EVIDENCE_DIR" NOTIFICATION_CONFIG="$HOME/.config/adaptive-remeshing/notifications.env" NOTIFICATION_EMAIL_MODE=native_pbs NOTIFICATION_STAGE=F18 NOTIFICATION_RUN_ID="${PBS_JOBID:-unknown}" PBS_JOBNAME="${PBS_JOBNAME:-M2IRRROLLCTL4}"
+. ./job_notifications.sh; notification_load_config || exit 4; notification_install_terminal_trap; notify_start || exit 5
+if [ "$F18_FORCE_CUTBACK" = 1 ]; then : > "${PBS_JOBNAME}_f18_force_enabled.flag"; fi
+module purge && module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 || exit 8
+abaqus job=M2IRRROLLCTL4 input=M2IRR_F18.inp user=M2IRR_F18.for interactive; rc=$?
+for ext in sta msg dat log; do test -s "M2IRRROLLCTL4.$ext" && cp -p "M2IRRROLLCTL4.$ext" "$EVIDENCE_DIR/"; done
+test $rc -eq 0 || exit $rc
+abaqus python extract_stage_f18_rollback.py --odb M2IRRROLLCTL4.odb --output-dir extracted --role candidate || exit 10
+python3 analyze_stage_f18_rollback.py --log M2IRRROLLCTL4_f18_rollback_calls.log --extracted extracted --output STATUS.json || exit 11
+for f in response_curve.csv phase_history.csv energy_history.csv accepted_increments.csv cutback_attempts.csv; do test -s "extracted/$f" || exit 12; cp -p "extracted/$f" "$EVIDENCE_DIR/"; done
+cp -p STATUS.json M2IRRROLLCTL4_f18_rollback_calls.log "$EVIDENCE_DIR/" || exit 13
+(cd "$EVIDENCE_DIR" && sha256sum STATUS.json M2IRRROLLCTL4_f18_rollback_calls.log response_curve.csv phase_history.csv energy_history.csv accepted_increments.csv cutback_attempts.csv > EXTRACTION_MANIFEST.sha256 && sha256sum -c EXTRACTION_MANIFEST.sha256) || exit 14
+exit 0

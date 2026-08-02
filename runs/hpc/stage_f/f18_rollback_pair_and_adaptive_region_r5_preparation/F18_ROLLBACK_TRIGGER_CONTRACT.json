@@ -1,0 +1,25 @@
+{
+    "toggle":  "F18_FORCE_CUTBACK",
+    "control":  0,
+    "forced":  1,
+    "state":  {
+                  "KSTEP":  2,
+                  "step_time":  0.08,
+                  "time_tolerance":  1E-10,
+                  "JELEM":  6,
+                  "total_time":  1.08,
+                  "KINC":  4,
+                  "healing_tolerance":  1E-08,
+                  "integration_point":  1
+              },
+    "requires":  [
+                     "trial phase below committed phase",
+                     "penalty residual nonzero",
+                     "penalty energy positive",
+                     "penalty tangent finite",
+                     "bounds inactive"
+                 ],
+    "PNEWDT":  0.5,
+    "request_count":  1,
+    "latch":  "flag file outside SVARS"
+}

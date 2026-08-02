@@ -1,0 +1,22 @@
+#!/bin/bash
+#PBS -N M2RMREG5
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+set -uo pipefail; set +x
+PACKAGE_DIR="${F18_PACKAGE_DIR:?F18_PACKAGE_DIR required}"; EVIDENCE_DIR="${F18_EVIDENCE_DIR:?F18_EVIDENCE_DIR required}"
+export F18_SOURCE_ODB=/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4R1_20260730_065138_86ec6c79/miseseri_corrected/M2MISER1.odb F18_OUTPUT_DIR="$EVIDENCE_DIR"
+test "${F18_SOURCE_ODB#/}" != "$F18_SOURCE_ODB" && test -r "$F18_SOURCE_ODB" && test -d "$F18_OUTPUT_DIR" && test -w "$F18_OUTPUT_DIR" || exit 6
+actual=$(sha256sum "$F18_SOURCE_ODB"|awk '{print $1}'); test "$actual" = bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac || exit 7
+printf '{"path":"%s","readable":true,"sha256":"%s","output_writable":true}\n' "$F18_SOURCE_ODB" "$actual" > "$EVIDENCE_DIR/ENVIRONMENT_CONTRACT_AUDIT.json"
+WORK_ROOT="${SCRATCH:?SCRATCH required}/M2RMREG5_${PBS_JOBID:-unknown}"; mkdir -p "$WORK_ROOT" && cp -p "$PACKAGE_DIR"/runtime/* "$WORK_ROOT/" || exit 8; cd "$WORK_ROOT" || exit 8
+export NOTIFICATION_EVIDENCE_DIR="$EVIDENCE_DIR" NOTIFICATION_CONFIG="$HOME/.config/adaptive-remeshing/notifications.env" NOTIFICATION_EMAIL_MODE=native_pbs NOTIFICATION_STAGE=F18 NOTIFICATION_RUN_ID="${PBS_JOBID:-unknown}" PBS_JOBNAME="${PBS_JOBNAME:-M2RMREG5}"
+. ./job_notifications.sh; notification_load_config || exit 4; notification_install_terminal_trap; notify_start || exit 5
+module purge && module load abaqus/2023 || exit 9
+abaqus python f18_abaqus_python_compatibility.py || exit 10
+abaqus cae noGUI=qualify_f18_adaptive_region.py > "$EVIDENCE_DIR/CAE.stdout" 2> "$EVIDENCE_DIR/CAE.stderr"; rc=$?
+(cd "$EVIDENCE_DIR" && sha256sum ENVIRONMENT_CONTRACT_AUDIT.json ABAQUS_PYTHON_COMPATIBILITY.json ADAPTIVE_REGION_API_AUDIT.json SOURCE_MODEL_INTEGRITY.json REMESH_RULE_MANIFEST.json NO_EXECUTION_AUDIT.json STATUS.json CAE.stdout CAE.stderr > EVIDENCE_MANIFEST.sha256 && sha256sum -c EVIDENCE_MANIFEST.sha256) || exit 11
+exit $rc

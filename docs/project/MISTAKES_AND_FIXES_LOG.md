@@ -864,3 +864,8 @@ Job `1381484` passed its compatibility helper, then CAE stopped at line 6 with
 execution counters remained zero. Prevention: validate every required runtime
 environment variable against the wrapper before authorization. Status: open;
 bounded wrapper staging repair required, with no retry authorized.
+## M-118: F17 adaptive source ODB environment contract omitted
+
+`M2RMREG4` invoked CAE without exporting `F17_SOURCE_ODB`, causing a pre-import
+`KeyError`. F18 prevents recurrence with a fail-closed absolute/readable/hash
+check, a pre-CAE environment audit, and explicit `F18_SOURCE_ODB` export.

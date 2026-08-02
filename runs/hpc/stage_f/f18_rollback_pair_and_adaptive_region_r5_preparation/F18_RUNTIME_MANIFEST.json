@@ -1,0 +1,8 @@
+{
+    "packages":  [
+                     "models/generated/mode_ii/f18_penalty_active_rollback_control",
+                     "models/generated/mode_ii/f18_penalty_active_rollback_forced",
+                     "models/generated/mode_ii/f18_native_adaptive_region_repair"
+                 ],
+    "orchestrator":  "scripts/hpc/stage_f/submit_stage_f18_three_job_batch.sh"
+}

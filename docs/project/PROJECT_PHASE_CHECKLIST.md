@@ -741,3 +741,11 @@ Submission-review priority:
 - [!] `1381484` failed before deck import because `F17_SOURCE_ODB` was unset.
 - [x] All adaptive execution counters remain zero; native remesh is not ready.
 - [x] Four Telegram START/terminal events passed technically; no retry occurred.
+## Stage F18 preparation (2026-08-02)
+
+- [x] Prepare byte-identical penalty-active rollback control/forced source and deck.
+- [x] Keep the one-shot latch outside rollback-controlled SVARS.
+- [x] Verify and freeze the source ODB path and SHA-256 for `M2RMREG5`.
+- [x] Repair ODB lifetime, model inspection, environment, and zero-execution assertions.
+- [x] Prepare guarded order and `afterany:M2IRRROLLCTL4` concurrency dependency.
+- [!] Preparation only: no execution authority and no HPC job submitted.

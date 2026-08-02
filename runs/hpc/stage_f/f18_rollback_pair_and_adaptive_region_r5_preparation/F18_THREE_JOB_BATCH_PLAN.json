@@ -1,0 +1,16 @@
+{
+    "jobs":  [
+                 "M2IRRROLLCTL4",
+                 "M2IRRROLLFORCE4",
+                 "M2RMREG5"
+             ],
+    "submission_order":  [
+                             "M2IRRROLLCTL4",
+                             "M2IRRROLLFORCE4",
+                             "M2RMREG5"
+                         ],
+    "maximum_qsub_invocations":  3,
+    "maximum_successful_submissions":  3,
+    "maximum_simultaneously_running":  2,
+    "prepared_not_authorized":  true
+}

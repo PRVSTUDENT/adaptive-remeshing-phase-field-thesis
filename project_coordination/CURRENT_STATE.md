@@ -1,5 +1,17 @@
 # Current project state
 
+## F18 three-job preparation (2026-08-02)
+
+Prepared `M2IRRROLLCTL4`, `M2IRRROLLFORCE4`, and `M2RMREG5` offline. The
+rollback pair shares byte-identical source/deck artifacts and differs only in
+wrapper identity, paths, and `F18_FORCE_CUTBACK`; its one-shot latch is a
+flag file outside rollback-controlled SVARS. The repaired adaptive wrapper
+exports and hash-checks the verified source ODB before CAE and the script now
+closes the ODB only after the full MISESERI loop. A guarded three-job future
+orchestrator enforces the `afterany` concurrency dependency and a maximum of
+two simultaneous jobs. No qsub, Abaqus, CAE, datacheck, or remeshing ran;
+execution authority remains false.
+
 Updated: 2026-07-31
 Protocol version: 1
 Classification: `stage_f11_preparation_in_progress`

@@ -1,0 +1,12 @@
+{
+    "M2IRRROLLCTL4":  {
+                          "scientific_dependency":  "F17 penalty activation passed"
+                      },
+    "M2IRRROLLFORCE4":  {
+                            "scientific_dependency":  "F17 penalty activation passed"
+                        },
+    "M2RMREG5":  {
+                     "scientific_dependency":  "none",
+                     "scheduler_concurrency_dependency":  "afterany:M2IRRROLLCTL4"
+                 }
+}
