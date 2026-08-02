@@ -60,3 +60,6 @@ Stage F,F16-R3-ROUTED-QUEUE-BATCH-EXECUTION,1381445.mmaster02,M2IRRROLLFORCE3,35
 Stage F,F16-R3-ROUTED-QUEUE-BATCH-EXECUTION,1381446.mmaster02,M2RMREG3,3565425,,normal_imfdfkmq,1,1,1,8 GB,00:00:06,1,1,native_adaptive_region_construction_failed,mnode103.cluster,216392,false
 Stage F,F17-LINUX-QUALIFIED-TWO-JOB-EXECUTION,1381483.mmaster02,M2IRRPENACT1,0e8e50187c0b020dc681091ef0c7f179d30a5a19,a2d5d5ee232f2ab1ebd3857bbe359a4558808133,normal_imfdfkmq,1,1,1,8 GB,00:02:28,0,0,penalty_activation_probe_passed,,,false
 Stage F,F17-LINUX-QUALIFIED-TWO-JOB-EXECUTION,1381484.mmaster02,M2RMREG4,0e8e50187c0b020dc681091ef0c7f179d30a5a19,a2d5d5ee232f2ab1ebd3857bbe359a4558808133,normal_imfdfkmq,1,1,1,8 GB,00:00:03,1,1,native_adaptive_region_construction_failed,,,false
+Stage F,F18-AUTHORIZED-THREE-JOB-EXECUTION,1381487.mmaster02,M2IRRROLLCTL4,5b1159be6fe139e30c23ccf43c015dcd9bc613f8,,normal_imfdfkmq,1,1,1,8 GB,01:00:00,,,submitted_running,,,false
+Stage F,F18-AUTHORIZED-THREE-JOB-EXECUTION,1381488.mmaster02,M2IRRROLLFORCE4,5b1159be6fe139e30c23ccf43c015dcd9bc613f8,,normal_imfdfkmq,1,1,1,8 GB,01:00:00,,,submitted_running,,,false
+Stage F,F18-AUTHORIZED-THREE-JOB-EXECUTION,1381489.mmaster02,M2RMREG5,5b1159be6fe139e30c23ccf43c015dcd9bc613f8,,normal_imfdfkmq,1,1,1,8 GB,00:30:00,,,submitted_dependency_hold,,,false

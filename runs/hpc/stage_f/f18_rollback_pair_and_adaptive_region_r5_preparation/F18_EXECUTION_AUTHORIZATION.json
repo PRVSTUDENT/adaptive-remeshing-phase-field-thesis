@@ -1,5 +1,11 @@
 {
-  "authorized": true,
+  "authorized": false,
+  "authority_consumed": true,
+  "qsub_attempts": 3,
+  "successful_submissions": 3,
+  "failed_qsub_attempts": 0,
+  "job_ids": ["1381487.mmaster02", "1381488.mmaster02", "1381489.mmaster02"],
+  "run_root": "/scratch/pr21vyci/adaptive-remeshing/runs/stage_f18/F18_RUN_192308e_20260802",
   "preparation_sha": "192308e473f0726a6ee1a04b5cb4020109f4d5e6",
   "jobs": ["M2IRRROLLCTL4", "M2IRRROLLFORCE4", "M2RMREG5"],
   "queue": "entry_imfdfkmq",

@@ -10,6 +10,17 @@ At most three qsub invocations and three successful submissions are permitted.
 Retries, replacements, direct qsub, qdel, qmove, and every other job are
 prohibited. Activation remains subject to frozen-hash and cluster preflight.
 
+## F18 three-job submission (2026-08-02)
+
+All clean-cluster manifests and user-frozen hashes passed. The guarded
+orchestrator made exactly three qsub calls: `1381487.mmaster02`
+(`M2IRRROLLCTL4`), `1381488.mmaster02` (`M2IRRROLLFORCE4`), and
+`1381489.mmaster02` (`M2RMREG5`). Both rollback jobs entered running state on
+`mnode106`; the adaptive job is held by `afterany:1381487.mmaster02` as the
+scheduler-only concurrency dependency. Authority is consumed: 3/3 successful
+submissions, zero failed calls, retries, replacements, direct qsub, qdel, or
+qmove. No further execution is authorized.
+
 ## F18 three-job preparation (2026-08-02)
 
 Prepared `M2IRRROLLCTL4`, `M2IRRROLLFORCE4`, and `M2RMREG5` offline. The
