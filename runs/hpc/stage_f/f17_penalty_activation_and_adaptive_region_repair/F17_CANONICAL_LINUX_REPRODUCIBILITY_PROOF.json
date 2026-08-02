@@ -1,0 +1,31 @@
+{
+  "classification": "f17_clean_linux_manifest_reproducibility_failed_adaptive_legacy_manifest",
+  "preparation_sha": "b68fae8bb7752d5922d55144f3ce25fa5a8d674a",
+  "worktree": "/home/pruth_ubuntu/f17_canonical_proof_b68fae8",
+  "initial_git_status_clean": true,
+  "operating_system": "Linux WSL2 6.18.33.2 x86_64",
+  "git_version": "2.43.0",
+  "core_autocrlf": false,
+  "probe_F17_SHA256SUMS": "12/12 PASS",
+  "probe_SHA256SUMS": "12/12 PASS",
+  "adaptive_F17_SHA256SUMS": "11/11 PASS",
+  "adaptive_SHA256SUMS": "5 metadata failures",
+  "failed_paths": [
+    "F17_NO_EXECUTION_AUDIT.json",
+    "F17_RUNTIME_MANIFEST.json",
+    "PACKAGE_MANIFEST.json",
+    "STATUS.json",
+    "runtime/.gitignore"
+  ],
+  "probe_pbs_sha256": "10451ed739b628e5fc3413ac81be57a29b110db1c7ca1355be2de61ccbf8b250",
+  "probe_pbs_size": 2243,
+  "probe_pbs_final_byte": 10,
+  "adaptive_pbs_sha256": "6375b8c5b739133046c8c402e9155a247ba1cb0512c305bffb22560de1a31cdf",
+  "adaptive_pbs_size": 1167,
+  "adaptive_pbs_final_byte": 10,
+  "pass": false,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "qsub_attempts": 0,
+  "jobs": []
+}

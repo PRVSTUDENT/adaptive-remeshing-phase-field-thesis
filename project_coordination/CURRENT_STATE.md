@@ -376,3 +376,12 @@ file SHA-256 values `e304820b...` (`F17_SHA256SUMS`) and `bde9ba48...`
 `f11983ff...`. The fail-closed hash condition stopped the task before a repair
 commit, clean-Linux proof, authorization activation, cluster access, or qsub.
 The trial package edits were restored; `main` retains the frozen probe PBS.
+
+## F17 canonical probe-LF preparation (2026-08-02)
+
+Linux preparation `b68fae8` repaired the probe PBS exactly and froze its
+derived manifests. In the second fresh Linux checkout, probe manifests passed
+12/12 and adaptive `F17_SHA256SUMS` passed 11/11. The separate legacy adaptive
+`SHA256SUMS` failed for five metadata files with the already-known Windows
+line-ending hashes. The proof therefore failed closed before authorization or
+submission. Qsub attempts remain zero.

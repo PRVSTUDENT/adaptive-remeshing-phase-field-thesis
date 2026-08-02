@@ -842,3 +842,12 @@ Prevention rule: derive authorization checksum-file hashes from the exact
 current-main blobs and independently verify them before issuing the gate.
 
 Status: open; corrected hashes and fresh conditional authority required
+
+## 2026-08-02 — Adaptive legacy checksum manifest remained Windows-derived
+
+The canonical probe repair passed, but the mandatory second Linux proof found
+five stale metadata hashes in adaptive `SHA256SUMS`, despite the canonical
+adaptive `F17_SHA256SUMS` passing 11/11. Preparation `b68fae8` is preserved;
+authorization and submission stopped.
+
+Status: open; repair the adaptive legacy metadata manifest under explicit scope

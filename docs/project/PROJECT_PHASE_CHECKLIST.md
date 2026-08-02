@@ -720,3 +720,10 @@ Submission-review priority:
 - [x] Exact one-byte trial produced the expected repaired probe PBS hash `10451ed7...`.
 - [!] Declared checksum-file hashes did not match the deterministic files produced by the sole authorized entry change.
 - [x] Restored all trial package edits and stopped before commit, clean-Linux proof, authorization activation, or qsub.
+
+## F17 canonical probe-LF preparation (2026-08-02)
+
+- [x] Published exact Linux probe-PBS LF repair as `b68fae8`.
+- [x] Second Linux checkout passed probe manifests 12/12 and adaptive F17 manifest 11/11.
+- [!] Adaptive legacy `SHA256SUMS` failed five metadata entries; reproducibility remains unqualified.
+- [x] No authorization activation, qsub, Abaqus, or CAE operation occurred.
