@@ -14,7 +14,7 @@ def rows(path):
 def write_csv(path, names, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open('w', newline='', encoding='utf-8') as stream:
-        out=csv.DictWriter(stream, fieldnames=names); out.writeheader(); out.writerows(data)
+        out=csv.DictWriter(stream, fieldnames=names, lineterminator='\n'); out.writeheader(); out.writerows(data)
 def write_json(path, value):
     path.write_text(json.dumps(value, indent=2, sort_keys=True)+'\n', encoding='utf-8')
 def alias(source, destination):
