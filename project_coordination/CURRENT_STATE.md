@@ -1,5 +1,11 @@
 # Current project state
 
+## F21 exact M2RMEXEC1 authorization (2026-08-03)
+
+The user explicitly authorized exactly `M2RMEXEC1` from `c737053`, with one
+guarded qsub call, one success maximum, and no retry or other job. Activation
+remains subject to frozen-hash, source-ODB, empty-queue, and route preflight.
+
 ## F21 native-remesh candidate preparation (2026-08-03)
 
 Prepared exactly `M2RMEXEC1`, a one-call `Model.adaptiveRemesh(odb)` lane.
