@@ -10,3 +10,4 @@
 - Evidence: `runs/hpc/stage_f/f20_f19_rollback_evidence_recovery_and_adaptive_r7_preparation/evidence/1382428.mmaster02/`
 - Boundary: solver/remesh/candidate/datacheck/refined-analysis counts all zero; authority consumed 1/1; no retry or extra submission
 - Next action: await explicit human decision; no downstream execution authorized
+- Main closure commit: `4234529f5f11448f62f0ddbe6890dc216e4e67cc`
