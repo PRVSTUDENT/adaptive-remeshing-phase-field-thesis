@@ -765,3 +765,11 @@ Submission-review priority:
 - [!] Guarded orchestrator does not export required `F19_PACKAGE_DIR` and `F19_EVIDENCE_DIR` variables with `qsub -v`.
 - [x] Failed closed before cluster access or qsub; attempts/successes/failures remain 0/0/0.
 - [!] Corrected clean-Linux-qualified preparation and fresh exact authorization are required.
+
+## Stage F19 guarded-orchestrator repair (2026-08-03)
+
+- [x] Export exactly `F19_PACKAGE_DIR` and `F19_EVIDENCE_DIR` with explicit `qsub -v`; broad `-V` is absent.
+- [x] Mock success, failure, unsafe-path, PBS-ID, dependency, no-retry, and three-call-cap tests pass.
+- [x] Detached Linux proof passed 12/12 tests, six manifests, 19 frozen hashes, and 47 checkout-to-blob checks.
+- [x] All three frozen package trees are unchanged from `f1769b6`; real qsub attempts remain zero.
+- [!] Preparation `d63181c` is qualified but not authorized; fresh exact three-job authorization is required.

@@ -2,8 +2,8 @@
   "protocol_version": 1,
   "task_id": "F19-GUARDED-ORCHESTRATOR-ENV-EXPORT-REPAIR",
   "title": "Repair and clean-Linux-qualify the F19 guarded orchestrator",
-  "status": "preparation_in_progress_not_authorized",
-  "classification": "f19_corrected_orchestrator_local_validation_pass_not_authorized",
+  "status": "preparation_complete_not_authorized",
+  "classification": "f19_corrected_orchestrator_clean_linux_qualified_not_authorized",
   "preparation_commit": "f1769b648c4a67cc6060bfdadb958a9b034ff40a",
   "starting_commit": "daa068f2d576da59526cb8c9a9a6e0c42df4c564",
   "jobs": ["M2IRRROLLCTL5", "M2IRRROLLFORCE5", "M2RMREG6"],
@@ -34,5 +34,7 @@
   "historical_authorization_received": true,
   "historical_authorization_consumed": false,
   "corrected_orchestrator_sha256": "1b8d57869f42be07a14898168206bdd5e0976294ff048299b1d725fc5c291e70",
-  "next_action": "publish preparation commit and run second detached clean-Linux proof"
+  "corrected_orchestrator_preparation_commit": "d63181c3c4a58d173b7d2ca0c96af10e3ccd9fbd",
+  "clean_linux_worktree": "/mnt/d/f19_clean_d63181c",
+  "next_action": "obtain fresh exact authorization for corrected F19 three-job preparation"
 }

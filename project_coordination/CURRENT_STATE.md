@@ -475,3 +475,17 @@ without `qsub -v`, while all three wrappers require those variables at job
 startup before Telegram START. Execution therefore stopped with 0/0/0 qsub
 attempts/successes/failures. Authorization was not consumed. A corrected,
 clean-Linux-qualified preparation and fresh exact authorization are required.
+
+## F19 guarded-orchestrator repair qualification (2026-08-03)
+
+Preparation `d63181c` replaces the defective client-only environment prefixes
+with explicit `qsub -v` export of exactly `F19_PACKAGE_DIR` and
+`F19_EVIDENCE_DIR`. It adds absolute/path-character checks, both manifest
+gates, exact-wrapper validation, writable evidence checks, strict PBS-ID
+parsing, validated-control dependency construction, and deterministic JSON
+accounting without retry. Detached worktree `/mnt/d/f19_clean_d63181c` passed
+12/12 tests, all six manifests, 19/19 frozen hashes, and 47/47 checkout-to-blob
+comparisons with no package changes from `f1769b6`. Classification is
+`f19_corrected_orchestrator_clean_linux_qualified_not_authorized`. Real qsub
+attempts remain zero; execution/submission authority is false and maximum jobs
+now is zero. Fresh exact authorization is required.

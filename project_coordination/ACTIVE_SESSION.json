@@ -1,22 +1,12 @@
 {
-  "active": true,
-  "agent": "codex",
-  "allowed_scope": [
-    "scripts/hpc/stage_f/submit_stage_f19_three_job_batch.sh",
-    "scripts/validation/check_multi_agent_bootstrap.py",
-    "tests/unit/test_stage_f19_orchestrator.py",
-    "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/**",
-    "docs/experiment_records/STAGE_F19_THREE_JOB_REPAIR_PREPARATION.md",
-    "docs/decisions/STAGE_F19_ORCHESTRATOR_ENV_EXPORT_REPAIR.md",
-    "docs/project/MISTAKES_AND_FIXES_LOG.md",
-    "docs/project/PROJECT_PHASE_CHECKLIST.md",
-    "project_coordination/**"
-  ],
-  "completed_at": null,
-  "heartbeat": "2026-08-03T08:05:00Z",
-  "started_at": "2026-08-03T08:05:00Z",
-  "session_id": "codex-f19-orchestrator-env-export-repair-20260803",
-  "starting_commit": "0576a91741aec34be0775e8f88e3a310ba3e0e11",
-  "task_id": "F19-GUARDED-ORCHESTRATOR-ENV-EXPORT-REPAIR",
-  "note": "Preparation only. Repair explicit qsub -v export, mock-test, prove frozen F19 package identity in a second clean Linux worktree, publish qualification, and request fresh authorization. Real qsub, scheduler contact, SSH, Abaqus, and frozen-package changes are prohibited."
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
+  "completed_at": "2026-08-03T08:13:40Z",
+  "heartbeat": "2026-08-03T08:13:40Z",
+  "started_at": null,
+  "session_id": null,
+  "starting_commit": null,
+  "task_id": null,
+  "note": "F19 guarded orchestrator repaired and clean-Linux-qualified at preparation d63181c. Frozen packages unchanged; real qsub attempts zero; execution and submission authority false; fresh exact authorization required."
 }

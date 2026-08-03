@@ -885,3 +885,12 @@ evidence directory and later replaced compatibility/CAE status with manifest
 exit 11. F19 separates work and final evidence, captures both streams and
 return codes, stages partial evidence, emits a missing-file report, and applies
 explicit exit priority. Status: repaired offline; clean-Linux proof pending.
+
+## M-128: F19 orchestrator did not export required PBS runtime paths
+
+The original F19 orchestrator prefixed the local qsub process with package and
+evidence variables but omitted `qsub -v`, so the PBS wrappers would have
+aborted before Telegram START. The fail-closed source preflight prevented all
+qsub calls. Preparation `d63181c` now exports exactly the two required
+variables, validates paths/manifests/PBS IDs, and has a clean-Linux mock failure
+matrix. Status: repaired and qualified offline; fresh authorization required.
