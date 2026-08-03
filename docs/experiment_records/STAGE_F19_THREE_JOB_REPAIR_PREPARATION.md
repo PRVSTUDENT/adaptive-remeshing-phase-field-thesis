@@ -9,3 +9,10 @@ The adaptive package fixes the evidence lifecycle identified in the F18 source a
 Local WSL validation used gfortran to compile and link the standalone harness, exercised modes 0 and 1 plus persisted state 1, and compiled the actual UEL source to an object followed by relocatable link with an empty local Abaqus parameter stub. Intel Fortran and installed Abaqus headers were unavailable locally, so each future rollback wrapper recompiles and executes the harness after loading the cluster Intel module and before Abaqus/Standard.
 
 No qsub, Abaqus/Standard, Abaqus/CAE, native remesh, datacheck, H1, H2, candidate, or refined analysis ran. Execution authorization and submission approval remain false. Clean-Linux qualification is required before any authorization request.
+## Guarded-orchestrator environment export repair (2026-08-03)
+
+The blocked execution preflight showed that shell environment prefixes did not
+transmit the required runtime paths into PBS. The guarded orchestrator now uses
+an explicit two-variable `qsub -v` argument, validates paths/manifests/PBS IDs,
+and records deterministic accounting. Mock success and failure matrices pass;
+no scheduler or Abaqus command ran. Frozen package trees remain unchanged.

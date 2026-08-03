@@ -1,0 +1,22 @@
+{
+  "classification": "f19_corrected_orchestrator_local_validation_pass_not_authorized",
+  "shell_syntax": "pass",
+  "orchestrator_tests": {"passed": 6, "failed": 0},
+  "combined_f19_unit_tests": {"passed": 12, "failed": 0},
+  "mock_qsub_calls_on_success": 3,
+  "mock_qsub_only": true,
+  "qsub_dash_v_exact": true,
+  "qsub_dash_upper_v_absent": true,
+  "path_validation": "pass",
+  "pbs_id_validation": "pass",
+  "failure_matrix": "pass",
+  "no_retry": true,
+  "adaptive_dependency": "afterany:validated_control_pbs_id",
+  "package_manifest_validations": {"passed": 6, "failed": 0},
+  "package_tree_diff_against_f1769b6": [],
+  "frozen_hashes": "pass",
+  "json_parsing": "pass",
+  "real_qsub_attempts": 0,
+  "execution_authorized": false,
+  "submission_approved": false
+}

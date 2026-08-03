@@ -1,0 +1,30 @@
+{
+  "task_id": "F19-GUARDED-ORCHESTRATOR-ENV-EXPORT-REPAIR",
+  "starting_commit": "0576a91741aec34be0775e8f88e3a310ba3e0e11",
+  "scientific_preparation_commit": "f1769b648c4a67cc6060bfdadb958a9b034ff40a",
+  "old_orchestrator_git_blob_sha1": "a6279e6bf363c320371b441933466300b6ea5eeb",
+  "old_orchestrator_sha256": "c990f1fc4e17957a8a86e906ebc0a1ac1deb56464729a062424cafadd7b55677",
+  "new_orchestrator_sha256": "1b8d57869f42be07a14898168206bdd5e0976294ff048299b1d725fc5c291e70",
+  "changed_lines": {
+    "removed": "old lines 23-28: process-environment prefixes on qsub",
+    "added": "new lines 57-91: path/manifest validation, qsub argument array, explicit -v, dependency construction, return-code and PBS-ID validation"
+  },
+  "qsub_variable_argument": "F19_PACKAGE_DIR=${package_dir},F19_EVIDENCE_DIR=${evidence_dir}",
+  "exported_variables": ["F19_PACKAGE_DIR", "F19_EVIDENCE_DIR"],
+  "qsub_dash_upper_v_absent": true,
+  "eval_absent": true,
+  "package_tree_diff_against_f1769b6": [],
+  "package_hashes_unchanged": true,
+  "mock_success": {"calls": 3, "validated_ids": ["900001.mmaster02", "900002.mmaster02", "900003.mmaster02"]},
+  "mock_failures": {
+    "qsub_nonzero_calls_tested": [1, 2, 3],
+    "invalid_responses": ["empty", "whitespace", "diagnostic", "multiline", "malformed"],
+    "retry_count": 0,
+    "replacement_count": 0,
+    "maximum_calls_observed": 3
+  },
+  "path_failures_tested": ["relative_package", "relative_evidence", "comma", "newline", "missing_package", "unreadable_pbs"],
+  "real_qsub_attempts": 0,
+  "scheduler_contact": false,
+  "abaqus_execution": false
+}
