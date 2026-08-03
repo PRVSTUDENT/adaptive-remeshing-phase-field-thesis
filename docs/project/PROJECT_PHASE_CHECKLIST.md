@@ -1,5 +1,12 @@
 # Project Phase Checklist
 
+## F21 native-remesh candidate gate
+
+- [x] M2RMREG7 adaptive-region construction contract qualified.
+- [x] Prepare one-call `M2RMEXEC1` native-remesh package without execution.
+- [ ] Obtain separate exact authorization for M2RMEXEC1.
+- [ ] Execute and review native-remesh candidate before datacheck preparation.
+
 Updated: 2026-07-25
 
 This is the authoritative living task and phase checklist for the adaptive remeshing thesis workspace. Update this same file after every substantial task, run, validation, failure, retry, decision, gate transition, and phase completion. Do not create duplicate phase checklists.

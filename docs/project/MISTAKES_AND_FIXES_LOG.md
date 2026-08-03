@@ -1,5 +1,12 @@
 # Mistakes And Fixes Log
 
+## F21 single-route enforcement
+
+Earlier native-remesh work mixed unresolved route variants. F21 freezes the
+installed `Model.adaptiveRemesh(odb)` route exactly once and forbids fallback
+probing. A successful return without mesh change has a distinct non-candidate
+classification.
+
 This file is the consolidated ledger for execution mistakes, solver failures,
 workflow mistakes, and bounded fixes. Failed attempts stay recorded; a later fix
 does not erase the original evidence.

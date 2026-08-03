@@ -1,5 +1,11 @@
 # Current project state
 
+## F21 native-remesh candidate preparation (2026-08-03)
+
+Preparing exactly `M2RMEXEC1`, a one-call `Model.adaptiveRemesh(odb)` lane.
+Only `M2RMEXEC1_candidate.inp` may be exported. All downstream execution and
+fallback APIs are prohibited. Authorization is false and job counts are zero.
+
 ## F20 M2RMREG7 terminal qualification (2026-08-03)
 
 Job `1382428.mmaster02` finished with PBS exit 0. The zero-execution native
