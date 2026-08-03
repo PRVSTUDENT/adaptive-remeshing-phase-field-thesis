@@ -2,9 +2,10 @@
 
 ## F21 native-remesh candidate preparation (2026-08-03)
 
-Preparing exactly `M2RMEXEC1`, a one-call `Model.adaptiveRemesh(odb)` lane.
+Prepared exactly `M2RMEXEC1`, a one-call `Model.adaptiveRemesh(odb)` lane.
 Only `M2RMEXEC1_candidate.inp` may be exported. All downstream execution and
-fallback APIs are prohibited. Authorization is false and job counts are zero.
+fallback APIs are prohibited. Clean Linux qualification passed at `c737053`.
+Authorization is false and job counts are zero.
 
 ## F20 M2RMREG7 terminal qualification (2026-08-03)
 
