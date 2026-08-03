@@ -7,11 +7,11 @@
   "maximum_simultaneously_running_project_jobs": 1,
   "queue": "entry_imfdfkmq",
   "dependency": null,
-  "execution_authorized": true,
-  "submission_approved": true,
-  "authorization_consumed": false,
-  "qsub_attempts": 0,
-  "successful_submissions": 0,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "authorization_consumed": true,
+  "qsub_attempts": 1,
+  "successful_submissions": 1,
   "failed_qsub_attempts": 0,
   "retry_authorized": false,
   "replacement_authorized": false,
@@ -21,5 +21,6 @@
   "rerun_authorized": false,
   "telegram_start_and_terminal_mandatory": true,
   "pbs_email_best_effort": true,
-  "authorization_revision": "df6593287560e4dcf5275314a66b8fcbc7e5fb76"
+  "authorization_revision": "df6593287560e4dcf5275314a66b8fcbc7e5fb76",
+  "job_id": "1382428.mmaster02"
 }

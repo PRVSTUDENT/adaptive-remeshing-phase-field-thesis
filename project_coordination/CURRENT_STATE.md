@@ -1,5 +1,15 @@
 # Current project state
 
+## F20 M2RMREG7 authorized submission (2026-08-03)
+
+Exact one-job authorization from preparation `f877b81` passed all frozen-hash,
+route-queue, source-ODB, empty-user-queue, and clean-checkout preflight gates.
+The guarded orchestrator made exactly one qsub call and PBS accepted
+`1382428.mmaster02` (`M2RMREG7`), initially queued in `normal_imfdfkmq` with
+1 CPU, 8 GB, and 00:30:00. Both required F20 path variables are present.
+Authority is consumed 1/1; retries, replacements, direct qsub, qdel, qmove,
+rerun, and every other job remain prohibited.
+
 ## F20 F19 recovery and adaptive R7 preparation (2026-08-03)
 
 Recovered both retained F19 raw UEL logs read-only. Forced rollback restoration

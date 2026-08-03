@@ -803,3 +803,10 @@ Submission-review priority:
 - [x] Do not prepare an unchanged rollback repeat; Medium H1 remains blocked.
 - [x] Prepare only `M2RMREG7` with Python-2 loops and computed slit connectivity/topology audits.
 - [x] Detached clean Linux proof `f877b81` passes; execution remains unauthorized with zero new qsub/Abaqus/CAE calls.
+
+## Stage F20 M2RMREG7 submission (2026-08-03)
+
+- [x] Exact one-job authorization recorded and all frozen hashes/preflight gates passed.
+- [x] Guarded orchestrator made one qsub call; `1382428.mmaster02` entered queued state.
+- [x] Required F20 package/evidence variables and 1 CPU/8 GB/00:30:00 resources verified in PBS.
+- [x] Authority consumed 1/1; no retry, replacement, direct qsub, qdel, qmove, rerun, or other job.
