@@ -1,5 +1,11 @@
 # Mistakes And Fixes Log
 
+## F21 adaptive-region association
+
+A created RemeshingRule did not prove an adaptive region recognized by
+`Model.adaptiveRemesh`. Pre-call region diagnostics and a complete evidence
+allowlist are required before any future repair preparation.
+
 ## F21 single-route enforcement
 
 Earlier native-remesh work mixed unresolved route variants. F21 freezes the

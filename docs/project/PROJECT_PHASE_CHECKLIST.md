@@ -2,6 +2,8 @@
 
 ## F21 native-remesh candidate gate
 
+- [!] Job `1382435` failed with no adaptive regions; no candidate or next job.
+
 - [x] M2RMREG7 adaptive-region construction contract qualified.
 - [x] Prepare one-call `M2RMEXEC1` native-remesh package without execution.
 - [x] Exact M2RMEXEC1 authorization consumed by guarded job `1382435.mmaster02`.

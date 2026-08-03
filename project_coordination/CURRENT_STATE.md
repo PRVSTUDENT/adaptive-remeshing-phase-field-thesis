@@ -1,5 +1,12 @@
 # Current project state
 
+## F22 F21 terminal closeout (2026-08-03)
+
+Job `1382435` finished exit 1. Compatibility passed; the sole
+`Model.adaptiveRemesh(odb)` call failed because the model contained no adaptive
+regions. No candidate exists. Classification is
+`native_remesh_api_execution_failed`; no next job is prepared or authorized.
+
 ## F21 M2RMEXEC1 submission (2026-08-03)
 
 Exactly one guarded qsub call accepted `1382435.mmaster02`, initially running
