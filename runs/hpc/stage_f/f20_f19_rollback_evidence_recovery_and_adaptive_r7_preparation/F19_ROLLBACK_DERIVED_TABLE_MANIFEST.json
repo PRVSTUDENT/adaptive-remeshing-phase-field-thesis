@@ -1,0 +1,160 @@
+{
+  "control": [
+    {
+      "column_mapping": {
+        "external_work": "external_work",
+        "frame": "frame",
+        "step": "step",
+        "time": "time",
+        "top_rf1": "top_rf1",
+        "top_u1": "top_u1"
+      },
+      "output": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381758.mmaster02/recovered/response_curve.csv",
+      "output_sha256": "ff5d766d18dea5687a9f1f03763de9d52ecc79d7a7edfce7394cbef0a4e4fcf4",
+      "row_count": 102,
+      "source": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381758.mmaster02/extracted/rf_u_work_history.csv",
+      "source_sha256": "ff5d766d18dea5687a9f1f03763de9d52ecc79d7a7edfce7394cbef0a4e4fcf4",
+      "transformation": "identity semantic alias; values and columns unchanged"
+    },
+    {
+      "column_mapping": {
+        "delta_sdv15": "delta_sdv15",
+        "delta_sdv16": "delta_sdv16",
+        "frame": "frame",
+        "key": "key",
+        "penalty_active": "penalty_active",
+        "penalty_energy_density": "penalty_energy_density",
+        "phase_gap": "phase_gap",
+        "prior_phase": "prior_phase",
+        "sdv15": "sdv15",
+        "sdv16": "sdv16",
+        "step": "step",
+        "time": "time"
+      },
+      "output": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381758.mmaster02/recovered/phase_history.csv",
+      "output_sha256": "e152c9f186e8581a48fbc09ef50f0dde233e518b862d51f0d72e611aa555307b",
+      "row_count": 9384,
+      "source": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381758.mmaster02/extracted/fixed_point_history.csv",
+      "source_sha256": "e152c9f186e8581a48fbc09ef50f0dde233e518b862d51f0d72e611aa555307b",
+      "transformation": "identity semantic alias; values and columns unchanged"
+    },
+    {
+      "column_mapping": {
+        "elastic_energy": "elastic_energy",
+        "frame": "frame",
+        "gradient_crack_energy": "gradient_crack_energy",
+        "history_driven_term": "history_driven_term",
+        "incremental_diagnostic_imbalance": "incremental_diagnostic_imbalance",
+        "local_crack_energy": "local_crack_energy",
+        "maximum_penalty_energy_density": "maximum_penalty_energy_density",
+        "minimum_gap": "minimum_gap",
+        "penalty_active_count": "penalty_active_count",
+        "penalty_energy": "penalty_energy",
+        "penalty_residual_magnitude": "penalty_residual_magnitude",
+        "penalty_tangent_magnitude": "penalty_tangent_magnitude",
+        "step": "step",
+        "time": "time",
+        "total_diagnostic_energy": "total_diagnostic_energy"
+      },
+      "output": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381758.mmaster02/recovered/energy_history.csv",
+      "output_sha256": "4c6c0ce4113335d056958a7d64411c45ae2558198861d95c46b06c7b13aaec73",
+      "row_count": 102,
+      "source": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381758.mmaster02/extracted/diagnostic_energy_history.csv",
+      "source_sha256": "4c6c0ce4113335d056958a7d64411c45ae2558198861d95c46b06c7b13aaec73",
+      "transformation": "identity semantic alias; values and columns unchanged"
+    },
+    {
+      "output": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381758.mmaster02/recovered/accepted_increments.csv",
+      "output_sha256": "b94989caced4cb253df3cab8b35a352b5dc16375f1229546394a2af5c7766f75",
+      "row_count": 100,
+      "source": "STA/MSG and raw UEL log",
+      "transformation": "accepted increment parser"
+    },
+    {
+      "output": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381758.mmaster02/recovered/cutback_attempts.csv",
+      "output_sha256": "27ce746069556c9e11417bdfaa23f3dde9cedbdd41964a09d2af0fbe4fe18a34",
+      "row_count": 0,
+      "source": "STA/MSG raw UEL log and persisted flag",
+      "transformation": "abandoned-attempt parser"
+    }
+  ],
+  "forced": [
+    {
+      "column_mapping": {
+        "external_work": "external_work",
+        "frame": "frame",
+        "step": "step",
+        "time": "time",
+        "top_rf1": "top_rf1",
+        "top_u1": "top_u1"
+      },
+      "output": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381759.mmaster02/recovered/response_curve.csv",
+      "output_sha256": "66732e508b68c6b244ff2e94a0b724ebd6ebd0b021c0f0e952ac2b4d0772890c",
+      "row_count": 103,
+      "source": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381759.mmaster02/extracted/rf_u_work_history.csv",
+      "source_sha256": "66732e508b68c6b244ff2e94a0b724ebd6ebd0b021c0f0e952ac2b4d0772890c",
+      "transformation": "identity semantic alias; values and columns unchanged"
+    },
+    {
+      "column_mapping": {
+        "delta_sdv15": "delta_sdv15",
+        "delta_sdv16": "delta_sdv16",
+        "frame": "frame",
+        "key": "key",
+        "penalty_active": "penalty_active",
+        "penalty_energy_density": "penalty_energy_density",
+        "phase_gap": "phase_gap",
+        "prior_phase": "prior_phase",
+        "sdv15": "sdv15",
+        "sdv16": "sdv16",
+        "step": "step",
+        "time": "time"
+      },
+      "output": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381759.mmaster02/recovered/phase_history.csv",
+      "output_sha256": "60bebdab92c15afdb7ef5648d87e4a25dafaa8dc9c6a90eae46c357e91fbaeeb",
+      "row_count": 9476,
+      "source": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381759.mmaster02/extracted/fixed_point_history.csv",
+      "source_sha256": "60bebdab92c15afdb7ef5648d87e4a25dafaa8dc9c6a90eae46c357e91fbaeeb",
+      "transformation": "identity semantic alias; values and columns unchanged"
+    },
+    {
+      "column_mapping": {
+        "elastic_energy": "elastic_energy",
+        "frame": "frame",
+        "gradient_crack_energy": "gradient_crack_energy",
+        "history_driven_term": "history_driven_term",
+        "incremental_diagnostic_imbalance": "incremental_diagnostic_imbalance",
+        "local_crack_energy": "local_crack_energy",
+        "maximum_penalty_energy_density": "maximum_penalty_energy_density",
+        "minimum_gap": "minimum_gap",
+        "penalty_active_count": "penalty_active_count",
+        "penalty_energy": "penalty_energy",
+        "penalty_residual_magnitude": "penalty_residual_magnitude",
+        "penalty_tangent_magnitude": "penalty_tangent_magnitude",
+        "step": "step",
+        "time": "time",
+        "total_diagnostic_energy": "total_diagnostic_energy"
+      },
+      "output": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381759.mmaster02/recovered/energy_history.csv",
+      "output_sha256": "330789d29fb506811fef6a464b273e8e164bf8513646b633245a40a42a9c7e94",
+      "row_count": 103,
+      "source": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381759.mmaster02/extracted/diagnostic_energy_history.csv",
+      "source_sha256": "330789d29fb506811fef6a464b273e8e164bf8513646b633245a40a42a9c7e94",
+      "transformation": "identity semantic alias; values and columns unchanged"
+    },
+    {
+      "output": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381759.mmaster02/recovered/accepted_increments.csv",
+      "output_sha256": "359f771f25f0f84ef74641f093aa35a63564064f65dbe9f1a9fa281669b42e0b",
+      "row_count": 101,
+      "source": "STA/MSG and raw UEL log",
+      "transformation": "accepted increment parser"
+    },
+    {
+      "output": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381759.mmaster02/recovered/cutback_attempts.csv",
+      "output_sha256": "f0285b6582cf2585afc5636021407dd3084e1f6b5cf07aa8fc341b0a1621dd46",
+      "row_count": 1,
+      "source": "STA/MSG raw UEL log and persisted flag",
+      "transformation": "abandoned-attempt parser"
+    }
+  ]
+}

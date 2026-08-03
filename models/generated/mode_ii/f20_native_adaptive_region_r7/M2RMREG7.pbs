@@ -1,0 +1,46 @@
+#!/bin/bash
+#PBS -N M2RMREG7
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+set -uo pipefail
+set +x
+PACKAGE_DIR="${F20_PACKAGE_DIR:?F20_PACKAGE_DIR required}"
+EVIDENCE_DIR="${F20_EVIDENCE_DIR:?F20_EVIDENCE_DIR required}"
+WORK_ROOT="${SCRATCH:?SCRATCH required}/M2RMREG7_${PBS_JOBID:-unknown}"
+F20_WORK_EVIDENCE_DIR="$WORK_ROOT/generated_evidence"
+F20_FINAL_EVIDENCE_DIR="$EVIDENCE_DIR"
+test ! -e "$WORK_ROOT" || exit 6
+mkdir -p "$WORK_ROOT" "$F20_WORK_EVIDENCE_DIR" "$F20_FINAL_EVIDENCE_DIR" || exit 6
+test -d "$F20_WORK_EVIDENCE_DIR" && test -w "$F20_WORK_EVIDENCE_DIR" && test -d "$F20_FINAL_EVIDENCE_DIR" && test -w "$F20_FINAL_EVIDENCE_DIR" || exit 6
+cp -p "$PACKAGE_DIR"/runtime/* "$WORK_ROOT/" || exit 6
+cd "$WORK_ROOT" || exit 6
+export F20_OUTPUT_DIR="$F20_WORK_EVIDENCE_DIR"
+export F20_SOURCE_ODB=/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4R1_20260730_065138_86ec6c79/miseseri_corrected/M2MISER1.odb
+test "${F20_SOURCE_ODB#/}" != "$F20_SOURCE_ODB" && test -r "$F20_SOURCE_ODB" || exit 6
+actual=$(sha256sum "$F20_SOURCE_ODB" | awk '{print $1}')
+test "$actual" = bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac || exit 7
+printf '{"path":"%s","readable":true,"sha256":"%s","work_output_writable":true,"final_output_writable":true}\n' "$F20_SOURCE_ODB" "$actual" > "$F20_WORK_EVIDENCE_DIR/ENVIRONMENT_CONTRACT_AUDIT.json"
+export NOTIFICATION_EVIDENCE_DIR="$F20_FINAL_EVIDENCE_DIR" NOTIFICATION_CONFIG="$HOME/.config/adaptive-remeshing/notifications.env" NOTIFICATION_EMAIL_MODE=native_pbs NOTIFICATION_STAGE=F20 NOTIFICATION_RUN_ID="${PBS_JOBID:-unknown}" PBS_JOBNAME="${PBS_JOBNAME:-M2RMREG7}"
+. ./job_notifications.sh
+notification_load_config || exit 4
+notification_install_terminal_trap
+notify_start || exit 5
+module purge && module load abaqus/2023 || exit 9
+abaqus python f20_abaqus_python_compatibility.py > "$F20_WORK_EVIDENCE_DIR/compatibility.stdout" 2> "$F20_WORK_EVIDENCE_DIR/compatibility.stderr"
+compatibility_rc=$?
+printf '%s\n' "$compatibility_rc" > "$F20_WORK_EVIDENCE_DIR/compatibility.returncode"
+python3 collect_f20_adaptive_evidence.py --work-dir "$F20_WORK_EVIDENCE_DIR" --final-dir "$F20_FINAL_EVIDENCE_DIR" --compatibility-rc "$compatibility_rc" --cae-rc -1 >/dev/null 2>&1 || true
+test $compatibility_rc -eq 0 || exit $compatibility_rc
+abaqus cae noGUI=qualify_f20_adaptive_region.py > "$F20_WORK_EVIDENCE_DIR/cae.stdout" 2> "$F20_WORK_EVIDENCE_DIR/cae.stderr"
+cae_rc=$?
+printf '%s\n' "$cae_rc" > "$F20_WORK_EVIDENCE_DIR/cae.returncode"
+python3 collect_f20_adaptive_evidence.py --work-dir "$F20_WORK_EVIDENCE_DIR" --final-dir "$F20_FINAL_EVIDENCE_DIR" --compatibility-rc "$compatibility_rc" --cae-rc "$cae_rc"
+collector_rc=$?
+test $cae_rc -eq 0 || exit $cae_rc
+test $collector_rc -eq 0 || exit 11
+(cd "$F20_FINAL_EVIDENCE_DIR" && sha256sum -c EVIDENCE_MANIFEST.sha256) || exit 12
+exit 0

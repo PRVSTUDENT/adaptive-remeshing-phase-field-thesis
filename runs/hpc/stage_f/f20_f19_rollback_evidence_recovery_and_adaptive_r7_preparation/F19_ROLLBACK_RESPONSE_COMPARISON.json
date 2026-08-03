@@ -1,0 +1,23 @@
+{
+  "aligned_rows": 149,
+  "alignment": "union of branch-local step times with linear interpolation",
+  "endpoint_displacement_difference": 0.0,
+  "extrapolation_count": 0,
+  "limits": {
+    "endpoint_displacement": 1e-10,
+    "maximum_rf_difference": 0.0001,
+    "relative_energy_difference": 0.0001,
+    "rf_u_nrmse": 0.0001
+  },
+  "loading_branch_key": "step",
+  "maximum_rf_difference": 3.144054585359039e-05,
+  "overall_pass": false,
+  "passes": {
+    "endpoint_displacement": true,
+    "maximum_rf_difference": true,
+    "relative_energy_difference": false,
+    "rf_u_nrmse": false
+  },
+  "relative_external_work_difference": 0.0003108913192355678,
+  "rf_u_nrmse": 0.00026094442112598113
+}

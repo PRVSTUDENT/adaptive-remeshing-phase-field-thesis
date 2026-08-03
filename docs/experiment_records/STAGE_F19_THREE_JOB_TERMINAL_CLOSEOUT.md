@@ -59,3 +59,11 @@ remeshing, mesh/time convergence, H1/H2 behavior, scalability, parallel
 safety, experimental validation, or paper-level agreement.
 
 Main closure revision: `c1396b25c870298b9e65d7f5d7aae6e58658e498`.
+
+## F20 read-only recovery addendum
+
+The retained raw UEL logs were later recovered from scratch. They prove
+restoration at the forced retry, but branch-aware comparison fails the declared
+RF--U NRMSE and relative-energy limits. The superseding rollback classification
+is `penalty_rollback_response_mismatch`, not evidence-incomplete. See
+`runs/hpc/stage_f/f20_f19_rollback_evidence_recovery_and_adaptive_r7_preparation/`.

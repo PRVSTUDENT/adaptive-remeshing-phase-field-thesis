@@ -1,0 +1,13 @@
+{
+  "selected_batch": "adaptive_r7_only_after_proven_rollback_response_mismatch",
+  "jobs": ["M2RMREG7"],
+  "rollback_classification": "penalty_rollback_response_mismatch",
+  "rollback_pair_prepared": false,
+  "rollback_pair_reason": "Raw evidence proves restoration but declared RF-U NRMSE and relative-energy limits fail; an unchanged repeat is prohibited and no implementation correction is yet justified.",
+  "maximum_future_submissions": 1,
+  "maximum_simultaneously_running": 1,
+  "dependency": null,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "qsub_attempts": 0
+}

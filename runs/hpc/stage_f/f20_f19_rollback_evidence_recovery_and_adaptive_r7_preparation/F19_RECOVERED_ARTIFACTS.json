@@ -1,0 +1,23 @@
+{
+  "copied_read_only": true,
+  "artifacts": [
+    {
+      "job_id": "1381758.mmaster02",
+      "source": "/scratch/pr21vyci/M2IRRROLLCTL5_1381758.mmaster02/M2IRRROLLCTL5_f18_rollback_calls.log",
+      "size_bytes": 9640128,
+      "modified_at": "2026-08-03 11:31:58.425705147 +0200",
+      "sha256": "51d07c792cf18951d1472e48ac82544e76b9ddcaa77afd853261b11397f6c0f9",
+      "destination": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381758.mmaster02/recovered/raw/M2IRRROLLCTL5_f18_rollback_calls.log"
+    },
+    {
+      "job_id": "1381759.mmaster02",
+      "source": "/scratch/pr21vyci/M2IRRROLLFORCE5_1381759.mmaster02/M2IRRROLLFORCE5_f18_rollback_calls.log",
+      "size_bytes": 9857248,
+      "modified_at": "2026-08-03 11:31:38.290770742 +0200",
+      "sha256": "821bd031a4f0319b8013703f7e81abf7831a2c934da9803336e3f512873c547f",
+      "destination": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/1381759.mmaster02/recovered/raw/M2IRRROLLFORCE5_f18_rollback_calls.log"
+    }
+  ],
+  "unavailable": ["extractor stdout/stderr", "analyzer stdout/stderr", "pre-existing canonical alias tables"],
+  "cluster_files_modified": false
+}
