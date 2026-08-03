@@ -15,5 +15,5 @@
 - New execution: qsub 0, Abaqus solver 0, Abaqus/CAE 0
 - Authority: false; approved submissions now 0; maximum jobs now 0
 - Main preparation commit: `f877b81b567eaf11ea499e33ace32b4a024eaab3`
-- Final coordination commit: recorded by the immediately following metadata commit
+- Final coordination commit: `178a678cead7e48784a0ec588c882a4c8cfb673b`
 - Next action: await exact one-job M2RMREG7 authorization
