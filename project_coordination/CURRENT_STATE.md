@@ -16,7 +16,9 @@ F19 uses required integer mode/state files, INQUIRE plus checked I/O, a
 pre-solver harness, separate work/final adaptive evidence directories, partial
 stage-out, and first-return-code preservation. No qsub, Abaqus, or CAE ran.
 Execution authorization and submission approval are false; maximum jobs now is
-zero. Clean-Linux qualification remains pending.
+zero. Detached clean-Linux checkout `f1769b6` passed all six package manifests,
+source/deck identity, shell syntax, lifecycle tests, and clean-checkout gates.
+Classification: `f19_three_job_repair_batch_clean_linux_qualified_not_authorized`.
 
 ## F18 explicit execution authorization (2026-08-02)
 
