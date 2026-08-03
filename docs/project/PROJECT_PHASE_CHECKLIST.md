@@ -773,3 +773,9 @@ Submission-review priority:
 - [x] Detached Linux proof passed 12/12 tests, six manifests, 19 frozen hashes, and 47 checkout-to-blob checks.
 - [x] All three frozen package trees are unchanged from `f1769b6`; real qsub attempts remain zero.
 - [!] Preparation `d63181c` is qualified but not authorized; fresh exact three-job authorization is required.
+
+## Stage F19 corrected execution authorization (2026-08-03)
+
+- [x] Fresh exact authorization received for `M2IRRROLLCTL5`, `M2IRRROLLFORCE5`, and `M2RMREG6` from `d63181c`.
+- [x] Order, route queue, two-variable export, adaptive dependency, three-call cap, and no-retry rules recorded.
+- [-] Frozen-hash and read-only cluster/scheduler preflight pending; qsub attempts remain zero.

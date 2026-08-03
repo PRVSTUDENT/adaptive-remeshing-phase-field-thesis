@@ -489,3 +489,14 @@ comparisons with no package changes from `f1769b6`. Classification is
 `f19_corrected_orchestrator_clean_linux_qualified_not_authorized`. Real qsub
 attempts remain zero; execution/submission authority is false and maximum jobs
 now is zero. Fresh exact authorization is required.
+
+## F19 corrected three-job execution authorization (2026-08-03)
+
+The user freshly authorized exactly `M2IRRROLLCTL5`, `M2IRRROLLFORCE5`, and
+`M2RMREG6` from corrected preparation `d63181c`, through `entry_imfdfkmq` and
+in that order. The adaptive job must use scheduler-only dependency
+`afterany:<validated-control-id>`. The guarded orchestrator must export exactly
+`F19_PACKAGE_DIR` and `F19_EVIDENCE_DIR`. Limits are three qsub invocations,
+three successes, and two simultaneously running project jobs. Retry,
+replacement, direct qsub, qdel, qmove, rerun, and every other job are
+prohibited. Activation remains pending frozen-hash and cluster preflight.
