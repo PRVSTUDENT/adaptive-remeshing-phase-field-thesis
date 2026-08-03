@@ -1,0 +1,19 @@
+{
+  "classification": "penalty_rollback_runtime_failure",
+  "jobs": ["1381487.mmaster02", "1381488.mmaster02"],
+  "source": "models/generated/mode_ii/f18_penalty_active_rollback_control/runtime/M2IRR_F18.for",
+  "confirmed_source_failures": [
+    {"canonical_line": 287, "statement": "OPEN(UNIT=97,FILE=F16FLAG,STATUS='OLD',IOSTAT=F16IOS)", "path_suffix": "_f18_force_enabled.flag", "intended_status": "optional by F18 design", "inquire_used": false, "err_used": false, "iostat_supplied": true},
+    {"canonical_line": 294, "statement": "OPEN(UNIT=97,FILE=F16FLAG,STATUS='OLD',IOSTAT=F16IOS)", "path_suffix": "_f18_cutback_once.flag", "intended_status": "optional by F18 design", "inquire_used": false, "err_used": false, "iostat_supplied": true}
+  ],
+  "root_cause": "Intel Fortran runtime error 29 occurred when STATUS='OLD' opened an absent file before the intended IOSTAT branch could implement optional-file semantics.",
+  "getoutdir_getjobname_path_contract": "source constructs both paths from GETOUTDIR and GETJOBNAME; retained remote path diagnostics were unavailable",
+  "user_reported_execution_boundary": {"compile": "completed", "link": "completed", "input_processing": "completed", "failure_phase": "initial_stress_UEL"},
+  "penalty_activation_reached": false,
+  "pnewdt_requested": false,
+  "increment_abandoned_or_retried": false,
+  "extraction_began": false,
+  "rollback_state_failure_claimed": false,
+  "evidence_basis": ["canonical F18 source audit", "user-reported terminal results"],
+  "scheduler_reverification": "unavailable_remote_transport_timeout"
+}

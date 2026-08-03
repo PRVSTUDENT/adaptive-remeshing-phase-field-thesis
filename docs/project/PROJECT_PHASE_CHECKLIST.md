@@ -749,3 +749,12 @@ Submission-review priority:
 - [x] Repair ODB lifetime, model inspection, environment, and zero-execution assertions.
 - [x] Prepare guarded order and `afterany:M2IRRROLLCTL4` concurrency dependency.
 - [!] Preparation only: no execution authority and no HPC job submitted.
+
+## Stage F18 terminal closeout and F19 preparation (2026-08-03)
+
+- [x] Preserve F18 accounting at three successful submissions with no retry or replacement.
+- [!] Both rollback jobs failed before penalty activation on absent-file `STATUS='OLD'` runtime error 29; rollback remains unqualified.
+- [!] Adaptive evidence is incomplete because the compatibility helper never generated its required JSON and exit 11 masked command status.
+- [x] Prepare exactly `M2IRRROLLCTL5`, `M2IRRROLLFORCE5`, and `M2RMREG6` with checked flag I/O and repaired evidence lifecycle.
+- [x] Run local WSL gfortran harness compile/link and actual UEL compile/relocatable-link checks; Intel Fortran unavailable locally.
+- [!] Clean-Linux qualification and a fresh exact execution authorization remain pending. No F19 job is authorized.

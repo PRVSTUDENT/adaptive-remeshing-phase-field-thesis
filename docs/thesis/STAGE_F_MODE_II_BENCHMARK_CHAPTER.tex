@@ -314,3 +314,15 @@ adaptive-region lane was withheld because its concurrency-control dependency
 could not be formed. Thus no F16 scientific execution occurred: controlled
 cutback rollback remains unqualified, the medium-H1 pair is not ready for a
 future batch, and the native model is not ready for remesh execution.
+
+\subsection{F18 failure boundary and F19 repair preparation}
+
+The F18 rollback pair failed during initial-stress UEL execution before the
+penalty-active trigger because absent flag files were opened with
+\texttt{STATUS='OLD'} without a preceding existence inquiry. Consequently no
+rollback-state conclusion is supported. The adaptive lane also failed its
+evidence contract: its compatibility helper did not create the declared JSON,
+and a later manifest failure obscured command-level status. F19 therefore uses
+required integer mode/state files with checked I/O and a separate work-to-final
+evidence lifecycle that preserves partial artifacts and the first true return
+code. These are preparation changes only; H1 and native remeshing remain gated.

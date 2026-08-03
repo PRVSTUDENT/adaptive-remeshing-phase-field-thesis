@@ -1,0 +1,23 @@
+{
+  "collection_attempted_at": "2026-08-03",
+  "collection_status": "remote_transport_unavailable",
+  "commands_attempted": [
+    "qstat -xf 1381487.mmaster02",
+    "qstat -xf 1381488.mmaster02",
+    "qstat -xf 1381489.mmaster02",
+    "tracejob 1381487.mmaster02",
+    "tracejob 1381488.mmaster02",
+    "tracejob 1381489.mmaster02"
+  ],
+  "transport_failures": [
+    "Windows SSH alias tu_freiberg was not configured",
+    "direct configured hostname timed out",
+    "WSL BatchMode SSH timed out"
+  ],
+  "user_reported_not_scheduler_reverified": {
+    "1381487.mmaster02": {"job_name": "M2IRRROLLCTL4", "exit_status": 1, "walltime": "00:00:15"},
+    "1381488.mmaster02": {"job_name": "M2IRRROLLFORCE4", "exit_status": 1, "walltime": "00:00:15"},
+    "1381489.mmaster02": {"job_name": "M2RMREG5", "exit_status": 11, "walltime": "00:00:03", "dependency": "afterany:1381487.mmaster02"}
+  },
+  "scheduler_mutations": 0
+}

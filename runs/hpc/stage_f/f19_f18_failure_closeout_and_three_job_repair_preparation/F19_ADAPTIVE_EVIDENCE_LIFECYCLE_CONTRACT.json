@@ -1,0 +1,14 @@
+{
+  "exit_priority": [
+    "environment_contract",
+    "compatibility_helper",
+    "CAE",
+    "missing_evidence",
+    "manifest_validation",
+    "success"
+  ],
+  "final_evidence_dir": "$EVIDENCE_DIR",
+  "partial_evidence_staged_on_failure": true,
+  "preserve_first_command_return_code": true,
+  "work_evidence_dir": "$WORK_ROOT/generated_evidence"
+}

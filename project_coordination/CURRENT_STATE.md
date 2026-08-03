@@ -1,5 +1,23 @@
 # Current project state
 
+## F18 terminal failure closeout and F19 repair preparation (2026-08-03)
+
+User-reported terminal results and canonical source inspection classify both
+F18 rollback jobs as `penalty_rollback_runtime_failure`: unchecked
+`STATUS='OLD'` opens of absent flag files aborted during initial-stress UEL
+execution before penalty activation or PNEWDT. The F18 compatibility helper
+never generated its required JSON and the wrapper masked command status with
+manifest exit 11, classified `native_adaptive_region_evidence_incomplete`.
+Remote scheduler/scratch re-collection was attempted but SSH transport timed
+out, so scheduler facts were not independently reverified in this session.
+
+Prepared exactly `M2IRRROLLCTL5`, `M2IRRROLLFORCE5`, and `M2RMREG6` offline.
+F19 uses required integer mode/state files, INQUIRE plus checked I/O, a
+pre-solver harness, separate work/final adaptive evidence directories, partial
+stage-out, and first-return-code preservation. No qsub, Abaqus, or CAE ran.
+Execution authorization and submission approval are false; maximum jobs now is
+zero. Clean-Linux qualification remains pending.
+
 ## F18 explicit execution authorization (2026-08-02)
 
 The user explicitly authorized exactly `M2IRRROLLCTL4`,

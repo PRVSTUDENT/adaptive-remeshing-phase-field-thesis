@@ -1,0 +1,26 @@
+{
+  "checked_operations": [
+    "INQUIRE",
+    "OPEN",
+    "READ",
+    "WRITE",
+    "CLOSE"
+  ],
+  "control_values": [
+    0,
+    0
+  ],
+  "final_lf": true,
+  "forced_values": [
+    1,
+    0
+  ],
+  "inquire_before_open": true,
+  "integer_only": true,
+  "latch_outside_svars": true,
+  "missing_or_invalid_is_controlled_failure": true,
+  "required_files": [
+    "<JOBNAME>_f19_force_mode.flag",
+    "<JOBNAME>_f19_cutback_state.flag"
+  ]
+}

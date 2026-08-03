@@ -1,0 +1,21 @@
+{
+  "RF_U_NRMSE": 0.0001,
+  "control_deliberate_pnewdt_requests": 0,
+  "endpoint_displacement_mm": 1e-10,
+  "final_phase": 1e-06,
+  "forced_pnewdt": 0.5,
+  "forced_request_count": 1,
+  "matched_phase": 1e-07,
+  "maximum_RF_difference": 0.0001,
+  "relative_energy_difference": 0.0001,
+  "trigger": {
+    "JELEM": 6,
+    "KINC": 4,
+    "KSTEP": 2,
+    "healing_tolerance": 1e-08,
+    "integration_point": 1,
+    "step_time": 0.08,
+    "time_tolerance": 1e-10,
+    "total_time": 1.08
+  }
+}

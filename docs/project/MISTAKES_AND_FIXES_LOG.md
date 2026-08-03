@@ -869,3 +869,19 @@ bounded wrapper staging repair required, with no retry authorized.
 `M2RMREG4` invoked CAE without exporting `F17_SOURCE_ODB`, causing a pre-import
 `KeyError`. F18 prevents recurrence with a fail-closed absolute/readable/hash
 check, a pre-CAE environment audit, and explicit `F18_SOURCE_ODB` export.
+
+## M-126: F18 absent required/optional flags caused Intel runtime error 29
+
+Both F18 rollback sources opened absent files with `STATUS='OLD'` and no prior
+`INQUIRE`. Intel aborted during initial-stress UEL execution despite `IOSTAT`.
+F19 replaces absence-as-mode with wrapper-created integer files and checks
+INQUIRE, OPEN, READ, WRITE, and CLOSE. A standalone harness gates future solver
+launch. Status: repaired offline; no execution authorized.
+
+## M-127: F18 adaptive helper omitted evidence and wrapper masked command status
+
+The compatibility helper never wrote its required JSON. The wrapper used one
+evidence directory and later replaced compatibility/CAE status with manifest
+exit 11. F19 separates work and final evidence, captures both streams and
+return codes, stages partial evidence, emits a missing-file report, and applies
+explicit exit priority. Status: repaired offline; clean-Linux proof pending.
