@@ -1,12 +1,12 @@
 {
-  "active": true,
-  "agent": "codex",
-  "allowed_scope": ["runs/hpc/stage_f/f21_native_remesh_candidate_preparation/","project_coordination/ACTIVE_SESSION.json","project_coordination/ACTIVE_TASK.json","project_coordination/CURRENT_STATE.md","project_coordination/TASK_LEDGER.csv","project_coordination/HPC_JOB_LEDGER.csv","project_coordination/ARTIFACT_REGISTRY.csv","project_coordination/sessions/","docs/project/PROJECT_PHASE_CHECKLIST.md"],
-  "completed_at": null,
-  "heartbeat": "2026-08-03T12:00:00Z",
-  "started_at": "2026-08-03T12:00:00Z",
-  "session_id": "2026-08-03_1400_codex_F21-M2RMEXEC1-AUTHORIZED-EXECUTION",
-  "starting_commit": "3680d9f18d191de628cba00869bca5a3c4417b63",
-  "task_id": "F21-M2RMEXEC1-AUTHORIZED-EXECUTION",
-  "note": "Exactly M2RMEXEC1 authorized from c737053; maximum one guarded qsub call and no retry or other scheduler mutation."
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
+  "completed_at": "2026-08-03T12:35:00Z",
+  "heartbeat": "2026-08-03T12:35:00Z",
+  "started_at": null,
+  "session_id": null,
+  "starting_commit": null,
+  "task_id": null,
+  "note": "M2RMEXEC1 submitted once as 1382435.mmaster02; authority consumed and no further scheduler action authorized."
 }

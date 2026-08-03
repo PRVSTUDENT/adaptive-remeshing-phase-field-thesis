@@ -1,5 +1,12 @@
 # Current project state
 
+## F21 M2RMEXEC1 submission (2026-08-03)
+
+Exactly one guarded qsub call accepted `1382435.mmaster02`, initially running
+as `M2RMEXEC1` on `mnode098` in `normal_imfdfkmq`. Both required F21 variables
+and 1 CPU/8 GB/00:30:00 are verified. Authority is consumed 1/1; no retry,
+replacement, scheduler mutation, downstream job, or other execution is authorized.
+
 ## F21 exact M2RMEXEC1 authorization (2026-08-03)
 
 The user explicitly authorized exactly `M2RMEXEC1` from `c737053`, with one

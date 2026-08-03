@@ -4,7 +4,7 @@
 
 - [x] M2RMREG7 adaptive-region construction contract qualified.
 - [x] Prepare one-call `M2RMEXEC1` native-remesh package without execution.
-- [ ] Obtain separate exact authorization for M2RMEXEC1.
+- [x] Exact M2RMEXEC1 authorization consumed by guarded job `1382435.mmaster02`.
 - [ ] Execute and review native-remesh candidate before datacheck preparation.
 
 Updated: 2026-07-25
