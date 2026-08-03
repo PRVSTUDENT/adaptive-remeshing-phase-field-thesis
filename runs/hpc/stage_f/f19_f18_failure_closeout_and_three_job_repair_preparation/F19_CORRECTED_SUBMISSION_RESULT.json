@@ -30,7 +30,7 @@
   "experiment_record": "docs/experiment_records/STAGE_F19_THREE_JOB_TERMINAL_CLOSEOUT.md",
   "result_figures": [],
   "closure_task": "F19-AUTHORIZED-THREE-JOB-EXECUTION",
-  "closure_revision": "PENDING_METADATA_COMMIT",
+  "closure_revision": "c1396b25c870298b9e65d7f5d7aae6e58658e498",
   "failure_reason": "Both rollback solvers completed, but the extractor emitted differently named tables so the analyzer returned incomplete evidence; the adaptive CAE script failed on Python-2-incompatible generator use before region construction.",
   "automatic_retry_authorized": false,
   "maximum_additional_jobs_now": 0

@@ -58,4 +58,4 @@ This does not establish rollback equivalence, native adaptive construction,
 remeshing, mesh/time convergence, H1/H2 behavior, scalability, parallel
 safety, experimental validation, or paper-level agreement.
 
-Closure revision: `PENDING_METADATA_COMMIT`.
+Main closure revision: `c1396b25c870298b9e65d7f5d7aae6e58658e498`.

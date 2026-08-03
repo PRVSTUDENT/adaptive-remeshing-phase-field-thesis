@@ -1,5 +1,18 @@
 # Current project state
 
+## F19 terminal closeout (2026-08-03)
+
+Jobs `1381758`, `1381759`, and `1381760` are terminal. Both rollback Abaqus
+analyses completed to U1=0.006 mm; control had zero cutbacks and forced had one
+controlled cutback with PNEWDT=0.5. Penalty activation was observed, but the
+extractor/analyzer table-name contract mismatch left response-equivalence and
+accepted-state evidence incomplete, so rollback is not qualified. The
+adaptive CAE lane failed on an Abaqus Python 2 generator incompatibility before
+adaptive-region construction; all solver/remesh/candidate/datacheck counters
+are zero. Final classification:
+`f19_rollback_activation_observed_but_comparison_evidence_incomplete_and_adaptive_construction_failed`.
+Authority remains consumed at 3/3; no retry or downstream job is authorized.
+
 ## F18 terminal failure closeout and F19 repair preparation (2026-08-03)
 
 User-reported terminal results and canonical source inspection classify both

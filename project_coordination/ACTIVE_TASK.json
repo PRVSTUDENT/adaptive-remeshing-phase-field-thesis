@@ -2,8 +2,8 @@
   "protocol_version": 1,
   "task_id": "F19-GUARDED-ORCHESTRATOR-ENV-EXPORT-REPAIR",
   "title": "Execute exactly three freshly authorized corrected F19 jobs",
-  "status": "submitted_monitoring",
-  "classification": "f19_corrected_three_job_batch_submitted_authority_consumed",
+  "status": "complete_failed",
+  "classification": "f19_rollback_activation_observed_but_comparison_evidence_incomplete_and_adaptive_construction_failed",
   "preparation_commit": "f1769b648c4a67cc6060bfdadb958a9b034ff40a",
   "starting_commit": "daa068f2d576da59526cb8c9a9a6e0c42df4c564",
   "jobs": ["M2IRRROLLCTL5", "M2IRRROLLFORCE5", "M2RMREG6"],
@@ -38,5 +38,12 @@
   "clean_linux_worktree": "/mnt/d/f19_clean_d63181c",
   "job_ids": ["1381758.mmaster02", "1381759.mmaster02", "1381760.mmaster02"],
   "adaptive_dependency": "afterany:1381758.mmaster02",
-  "next_action": "monitor the three submitted jobs without retry or scheduler mutation"
+  "final_scheduler_states": {"1381758.mmaster02": "F", "1381759.mmaster02": "F", "1381760.mmaster02": "F"},
+  "pbs_exit_status": {"1381758.mmaster02": 11, "1381759.mmaster02": 11, "1381760.mmaster02": 1},
+  "rollback_solver_completed": true,
+  "rollback_qualified": false,
+  "native_adaptive_region_qualified": false,
+  "evidence_directory": "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/evidence/",
+  "experiment_record": "docs/experiment_records/STAGE_F19_THREE_JOB_TERMINAL_CLOSEOUT.md",
+  "next_action": "wait for explicit human decision; no retry or downstream execution authorized"
 }

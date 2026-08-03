@@ -43,3 +43,5 @@ Updated: 2026-07-31
 - `1379939.mmaster02`: exact frozen H2 user subroutine compiled and linked with ifort 2021.13.0 under Abaqus 2023 and datacheck passed (`Exit_status: 0`, `abaqus_return_code: 0`); lightweight evidence retained in the repository while ODB and binary databases remain scratch-only.
 - `1379966.mmaster02`: full H2 u020 Abaqus solve and extraction passed, but offline validation failed the declared framewise maximum-damage irreversibility gate (11 decreases; largest `-1.0073e-4`). The 943,852,504-byte ODB remains scratch-only; 30 lightweight evidence files were inventoried.
 - `1379967.mmaster02`: Abaqus/CAE driver arguments stopped the API script before source/API audit; no solver, native remesh, or candidate deck.
+- `1381758.mmaster02` and `1381759.mmaster02`: both rollback solvers completed; forced exercised one cutback, but the extractor/analyzer filename mismatch left comparison evidence incomplete. ODBs remain scratch-only.
+- `1381760.mmaster02`: Abaqus Python 2 rejected a generator before adaptive-region construction; no solver, remesh, candidate, or ODB was produced.
