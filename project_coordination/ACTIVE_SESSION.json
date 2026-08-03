@@ -2,11 +2,11 @@
   "active": false,
   "agent": null,
   "allowed_scope": [],
-  "completed_at": "2026-08-03T09:40:00Z",
-  "heartbeat": "2026-08-03T09:40:00Z",
+  "completed_at": "2026-08-03T07:47:28Z",
+  "heartbeat": "2026-08-03T07:47:28Z",
   "started_at": null,
   "session_id": null,
   "starting_commit": null,
   "task_id": null,
-  "note": "F18 closeout and F19 clean-Linux-qualified offline preparation completed; no execution authorized or performed."
+  "note": "F19 exact authorization recorded but execution failed closed before cluster access or qsub because the guarded orchestrator does not export required runtime variables through qsub -v. Attempts/successes/failures remain 0/0/0; authorization unconsumed."
 }

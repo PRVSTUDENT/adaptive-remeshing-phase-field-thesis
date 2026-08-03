@@ -1,0 +1,24 @@
+{
+  "task_id": "F19-AUTHORIZED-THREE-JOB-EXECUTION",
+  "authorization_received": true,
+  "authorized_preparation_commit": "f1769b648c4a67cc6060bfdadb958a9b034ff40a",
+  "authorized_jobs": [
+    "M2IRRROLLCTL5",
+    "M2IRRROLLFORCE5",
+    "M2RMREG6"
+  ],
+  "preflight_classification": "blocked_before_qsub_orchestrator_environment_not_exported",
+  "guarded_orchestrator": "scripts/hpc/stage_f/submit_stage_f19_three_job_batch.sh",
+  "defect": "The orchestrator prefixes qsub with F19_PACKAGE_DIR and F19_EVIDENCE_DIR but does not pass either variable through qsub -v or request environment export. Every frozen PBS wrapper requires both variables before sending its mandatory Telegram START notification.",
+  "qsub_attempts": 0,
+  "successful_submissions": 0,
+  "failed_qsub_attempts": 0,
+  "authorization_consumed": false,
+  "retries": 0,
+  "replacements": 0,
+  "direct_qsub": 0,
+  "qdel": 0,
+  "qmove": 0,
+  "rerun": 0,
+  "required_next_action": "Prepare and clean-Linux-qualify a corrected guarded orchestrator using qsub -v for both required runtime variables, then obtain fresh exact authorization for that corrected preparation."
+}

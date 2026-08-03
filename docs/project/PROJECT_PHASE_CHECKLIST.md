@@ -758,3 +758,10 @@ Submission-review priority:
 - [x] Prepare exactly `M2IRRROLLCTL5`, `M2IRRROLLFORCE5`, and `M2RMREG6` with checked flag I/O and repaired evidence lifecycle.
 - [x] Run local WSL gfortran harness compile/link and actual UEL compile/relocatable-link checks; Intel Fortran unavailable locally.
 - [!] Clean-Linux qualification and a fresh exact execution authorization remain pending. No F19 job is authorized.
+
+## Stage F19 authorized execution preflight (2026-08-03)
+
+- [x] Received exact three-job authorization and verified the frozen PBS and manifest hashes.
+- [!] Guarded orchestrator does not export required `F19_PACKAGE_DIR` and `F19_EVIDENCE_DIR` variables with `qsub -v`.
+- [x] Failed closed before cluster access or qsub; attempts/successes/failures remain 0/0/0.
+- [!] Corrected clean-Linux-qualified preparation and fresh exact authorization are required.

@@ -464,3 +464,14 @@ one before deck import because `F17_SOURCE_ODB` was absent from the wrapper
 environment. All adaptive execution counters are zero and no model-integrity
 checks were reached. All four Telegram events passed technically. A rollback
 pair is preparation-eligible but unauthorized; native remesh is not ready.
+
+## F19 authorized execution preflight (2026-08-03)
+
+Exact authorization was received for `M2IRRROLLCTL5`, `M2IRRROLLFORCE5`, and
+`M2RMREG6` from preparation `f1769b6`. Frozen PBS and manifest hashes matched.
+The guarded orchestrator failed source audit before cluster access or qsub: it
+sets `F19_PACKAGE_DIR` and `F19_EVIDENCE_DIR` only in the qsub client process,
+without `qsub -v`, while all three wrappers require those variables at job
+startup before Telegram START. Execution therefore stopped with 0/0/0 qsub
+attempts/successes/failures. Authorization was not consumed. A corrected,
+clean-Linux-qualified preparation and fresh exact authorization are required.
