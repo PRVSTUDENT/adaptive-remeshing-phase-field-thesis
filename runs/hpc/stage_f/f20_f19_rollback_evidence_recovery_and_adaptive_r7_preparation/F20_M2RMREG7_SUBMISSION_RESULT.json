@@ -1,5 +1,5 @@
 {
-  "classification": "f20_m2rmreg7_submitted_authority_consumed",
+  "classification": "native_adaptive_region_contract_qualified",
   "authorization_revision": "df6593287560e4dcf5275314a66b8fcbc7e5fb76",
   "preparation_sha": "f877b81b567eaf11ea499e33ace32b4a024eaab3",
   "cluster_checkout": "/scratch/pr21vyci/f20_exec_df65932",
@@ -20,6 +20,20 @@
   "qdel": 0,
   "qmove": 0,
   "rerun": 0,
+  "final_state": "F",
+  "pbs_exit_status": 0,
+  "execution_host": "mnode098",
+  "resources_used": {"walltime": "00:00:08", "cput": "00:00:04", "memory": "327324kb"},
+  "cae_return_code": 0,
+  "compatibility_return_code": 0,
+  "validator_return_code": 0,
+  "solver_executions": 0,
+  "native_remesh_calls": 0,
+  "candidates_generated": 0,
+  "datacheck_executions": 0,
+  "refined_analyses": 0,
+  "final_evidence_directory": "runs/hpc/stage_f/f20_f19_rollback_evidence_recovery_and_adaptive_r7_preparation/evidence/1382428.mmaster02/",
+  "final_status": "complete",
   "pre_orchestrator_shell_invocation_failures": 1,
   "pre_orchestrator_failure_qsub_calls": 0
 }

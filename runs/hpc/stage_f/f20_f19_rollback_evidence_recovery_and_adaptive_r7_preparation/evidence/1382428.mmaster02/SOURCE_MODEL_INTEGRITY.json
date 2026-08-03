@@ -1,0 +1,25 @@
+{
+  "boundary_conditions": [
+    "Disp-BC-1", 
+    "Disp-BC-2", 
+    "Disp-BC-3"
+  ], 
+  "deck_sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2", 
+  "integrity_pass": true, 
+  "loads": [], 
+  "materials": [
+    "ELASTIC_MATRIX"
+  ], 
+  "miseseri_finite": 3930, 
+  "odb_sha256": "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac", 
+  "physical_elements": 3930, 
+  "sections": [
+    "Section-1-ALL_ELEM"
+  ], 
+  "sets": [
+    "ALL_ELEM", 
+    "BOTTOM", 
+    "RP", 
+    "TOP"
+  ]
+}

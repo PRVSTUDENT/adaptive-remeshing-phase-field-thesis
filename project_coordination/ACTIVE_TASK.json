@@ -2,8 +2,8 @@
   "protocol_version": 1,
   "task_id": "F20-M2RMREG7-AUTHORIZED-EXECUTION",
   "title": "Execute exactly the authorized M2RMREG7 zero-execution qualification",
-  "status": "submitted_monitoring",
-  "classification": "f20_m2rmreg7_submitted_authority_consumed",
+  "status": "complete",
+  "classification": "native_adaptive_region_contract_qualified",
   "preparation_commit": "f877b81b567eaf11ea499e33ace32b4a024eaab3",
   "starting_commit": "b984f3179b07e71ad24d5646100e4472df29a032",
   "jobs": ["M2RMREG7"],
@@ -36,12 +36,12 @@
   "rollback_solver_completed": true,
   "rollback_qualified": false,
   "rollback_classification": "penalty_rollback_response_mismatch",
-  "native_adaptive_region_qualified": false,
+  "native_adaptive_region_qualified": true,
   "evidence_directory": "runs/hpc/stage_f/f20_f19_rollback_evidence_recovery_and_adaptive_r7_preparation/",
   "experiment_record": "docs/experiment_records/STAGE_F20_ROLLBACK_RECOVERY_AND_ADAPTIVE_R7_PREPARATION.md",
   "f20_preparation_sha": "f877b81b567eaf11ea499e33ace32b4a024eaab3",
   "f20_final_coordination_sha": "178a678cead7e48784a0ec588c882a4c8cfb673b",
   "clean_linux_worktree": "/mnt/d/f20_clean_f877b81",
   "authorization_revision": "df6593287560e4dcf5275314a66b8fcbc7e5fb76",
-  "next_action": "monitor job 1382428.mmaster02 without retry or scheduler mutation"
+  "next_action": "await explicit human decision for any downstream preparation; no job authorized"
 }

@@ -1,5 +1,14 @@
 # Current project state
 
+## F20 M2RMREG7 terminal qualification (2026-08-03)
+
+Job `1382428.mmaster02` finished with PBS exit 0. The zero-execution native
+adaptive-region contract, geometry association, source integrity, and slit
+topology passed under Abaqus/CAE. No solver, native remesh, candidate,
+datacheck, or refined analysis ran. Classification is
+`native_adaptive_region_contract_qualified`; authority remains consumed 1/1
+and no downstream job is authorized.
+
 ## F20 M2RMREG7 authorized submission (2026-08-03)
 
 Exact one-job authorization from preparation `f877b81` passed all frozen-hash,
