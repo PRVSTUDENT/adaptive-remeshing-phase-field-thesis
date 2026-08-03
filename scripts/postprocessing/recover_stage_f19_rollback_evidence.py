@@ -9,6 +9,9 @@ FIELDS = ('kstep','kinc','element','integration_point','time','total_time','dtim
           'call_sequence','gap','penalty_energy','penalty_residual','penalty_tangent')
 
 def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+def canonical_text_sha(path):
+    data=path.read_bytes().replace(b'\r\n',b'\n').replace(b'\r',b'\n')
+    return hashlib.sha256(data).hexdigest()
 def rows(path):
     with path.open(newline='') as stream: return list(csv.DictReader(stream))
 def write_csv(path, names, data):
@@ -20,7 +23,9 @@ def write_json(path, value):
 def alias(source, destination):
     data=rows(source); names=list(data[0]) if data else []
     write_csv(destination, names, data)
-    return {'source':str(source),'source_sha256':sha(source),'transformation':'identity semantic alias; values and columns unchanged','output':str(destination),'output_sha256':sha(destination),'row_count':len(data),'column_mapping':dict((n,n) for n in names)}
+    return {'source':str(source),'source_sha256':canonical_text_sha(source),'source_hash_basis':'canonical Git LF text',
+            'transformation':'semantic identity alias; values and columns unchanged; CSV newline canonicalized to LF',
+            'output':str(destination),'output_sha256':sha(destination),'row_count':len(data),'column_mapping':dict((n,n) for n in names)}
 
 def parse_calls(path):
     lines=path.read_text(errors='replace').splitlines(); result=[]; i=0
