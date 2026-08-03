@@ -1,0 +1,69 @@
+Job Id: 1381758.mmaster02
+    Job_Name = M2IRRROLLCTL5
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 18
+    resources_used.cput = 00:00:24
+    resources_used.mem = 355832kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 2895408kb
+    resources_used.walltime = 00:03:07
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Mon Aug  3 10:23:42 2026
+    depend = beforeany:1381760.mmaster02@mmaster02
+    Error_Path = mlogin01.cluster:/home/pr21vyci/M2IRRROLLCTL5.e1381758
+    exec_host = mnode099/1
+    exec_vnode = (mnode099[0]:ncpus=1:mem=8388608kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,
+	pr21vyci@mailserver.tu-freiberg.de
+    mtime = Mon Aug  3 11:32:06 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/M2IRRROLLCTL5.o1381758
+    Priority = 0
+    qtime = Mon Aug  3 10:23:42 2026
+    Rerunable = True
+    Resource_List.mem = 8gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=8gb
+    Resource_List.walltime = 01:00:00
+    stime = Mon Aug  3 11:28:54 2026
+    obittime = Mon Aug  3 11:32:06 2026
+    session_id = 350508
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1381758.mmaster02.x8z
+    substate = 93
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci,PBS_O_SYSTEM=Linux,
+	F19_PACKAGE_DIR=/scratch/pr21vyci/f19_exec_c81906a/models/generated/mo
+	de_ii/f19_penalty_active_rollback_control,
+	F19_EVIDENCE_DIR=/scratch/pr21vyci/f19_evidence_c81906a/control,
+	PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Mon Aug 03 at 11:28 on (mnode099[0]:ncpus=1:mem=838860
+	8kb) and failed
+    etime = Mon Aug  3 10:23:42 2026
+    run_count = 1
+    eligible_time = 01:05:16
+    Stageout_status = 1
+    Exit_status = 11
+    Submit_arguments = -v F19_PACKAGE_DIR=/scratch/pr21vyci/f19_exec_c81906a/mo
+	dels/generated/mode_ii/f19_penalty_active_rollback_control,
+	F19_EVIDENCE_DIR=/scratch/pr21vyci/f19_evidence_c81906a/control /scrat
+	ch/pr21vyci/f19_exec_c81906a/models/generated/mode_ii/f19_penalty_activ
+	e_rollback_control/M2IRRROLLCTL5.pbs
+    estimated.exec_vnode = (mnode103[0]:ncpus=1:mem=8388608kb)
+    estimated.start_time = Tue Aug  4 08:32:47 2026
+    history_timestamp = 1785749526
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+

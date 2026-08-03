@@ -1,0 +1,66 @@
+Job Id: 1381760.mmaster02
+    Job_Name = M2RMREG6
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 28
+    resources_used.cput = 00:00:01
+    resources_used.mem = 214996kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 23132kb
+    resources_used.walltime = 00:00:06
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Mon Aug  3 10:23:42 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/M2RMREG6.e1381760
+    exec_host = mnode099/2
+    exec_vnode = (mnode099[0]:ncpus=1:mem=8388608kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,
+	pr21vyci@mailserver.tu-freiberg.de
+    mtime = Mon Aug  3 11:32:17 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/M2RMREG6.o1381760
+    Priority = 0
+    qtime = Mon Aug  3 10:23:42 2026
+    Rerunable = True
+    Resource_List.mem = 8gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=8gb
+    Resource_List.walltime = 00:30:00
+    stime = Mon Aug  3 11:32:04 2026
+    obittime = Mon Aug  3 11:32:17 2026
+    session_id = 351557
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1381760.mmaster02.x8z
+    substate = 93
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci,PBS_O_SYSTEM=Linux,
+	F19_PACKAGE_DIR=/scratch/pr21vyci/f19_exec_c81906a/models/generated/mo
+	de_ii/f19_native_adaptive_region_repair,
+	F19_EVIDENCE_DIR=/scratch/pr21vyci/f19_evidence_c81906a/adaptive,
+	PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Mon Aug 03 at 11:32 on (mnode099[0]:ncpus=1:mem=838860
+	8kb) and failed
+    etime = Mon Aug  3 10:23:42 2026
+    run_count = 1
+    eligible_time = 00:00:00
+    Stageout_status = 1
+    Exit_status = 1
+    Submit_arguments = -v F19_PACKAGE_DIR=/scratch/pr21vyci/f19_exec_c81906a/mo
+	dels/generated/mode_ii/f19_native_adaptive_region_repair,
+	F19_EVIDENCE_DIR=/scratch/pr21vyci/f19_evidence_c81906a/adaptive -W de
+	pend=afterany:1381758.mmaster02 /scratch/pr21vyci/f19_exec_c81906a/mode
+	ls/generated/mode_ii/f19_native_adaptive_region_repair/M2RMREG6.pbs
+    history_timestamp = 1785749537
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+

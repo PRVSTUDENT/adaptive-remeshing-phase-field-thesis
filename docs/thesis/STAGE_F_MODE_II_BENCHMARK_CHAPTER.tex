@@ -326,3 +326,20 @@ and a later manifest failure obscured command-level status. F19 therefore uses
 required integer mode/state files with checked I/O and a separate work-to-final
 evidence lifecycle that preserves partial artifacts and the first true return
 code. These are preparation changes only; H1 and native remeshing remain gated.
+
+\subsection{F19 terminal execution boundary}
+
+The corrected F19 batch ran exactly three authorized jobs. Both minimal
+rollback solvers reached $U_1=0.006$~mm and the same peak reaction
+$RF_1=0.0347025$ at $U_1=0.000720$~mm. The control used 100 increments and no
+cutback; the forced lane used 101 increments and one controlled cutback.
+Penalty residual and energy were nonzero on the healing trigger, and the
+forced call returned \texttt{PNEWDT=0.5}. However, the extractor and analyzer
+used incompatible table names, leaving response-equivalence and accepted-state
+evidence incomplete. Rollback is therefore not qualified.
+
+The adaptive CAE lane passed its Python compatibility and source-ODB checks,
+then stopped on a generator expression unsupported by the Abaqus Python 2
+repository interface. It made zero adaptive-region, remesh, solver,
+datacheck, or candidate-generation calls. Thus F19 closes as a failed evidence
+and construction batch, not as a scientific rollback or remeshing pass.

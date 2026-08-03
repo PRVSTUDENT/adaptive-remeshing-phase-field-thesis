@@ -1,0 +1,43 @@
+{
+  "classification": "penalty_activation_evidence_incomplete",
+  "deterministic_trigger": {
+    "committed_phase": 0.994704402277978,
+    "dtime": 0.02,
+    "element": 6,
+    "gap": -5.401645628899665e-06,
+    "integration_point": 1,
+    "kinc": 4,
+    "kstep": 2,
+    "time": 0.08,
+    "trial_phase": 0.994699000632349
+  },
+  "first_penalty_active_call": {
+    "accepted_status": "not_determinable_at_uel_call",
+    "bounds_guard": false,
+    "call_sequence": 1,
+    "committed_phase": 0.994704402277978,
+    "dtime": 0.02,
+    "element": 6,
+    "gap": -5.401645628899665e-06,
+    "integration_point": 1,
+    "kinc": 4,
+    "kstep": 2,
+    "penalty_active_flag": 1.0,
+    "penalty_energy": 2.625999795018977e-06,
+    "penalty_residual": 0.97229621320194,
+    "penalty_tangent": 180000.0,
+    "phase_before_increment": 0.994704402277978,
+    "pnewdt_before": 1e+36,
+    "pnewdt_returned": 1e+36,
+    "sdv15": 0.994704402277978,
+    "sdv16": 16.3631252651664,
+    "svars_before": 0.994704402277978,
+    "time": 0.08,
+    "tolerance": 1e-08,
+    "total_time": 1.08,
+    "trial_phase": 0.994699000632349
+  },
+  "penalty_active_call_count": 4,
+  "response_tables_retained": false,
+  "rollback_qualified": false
+}

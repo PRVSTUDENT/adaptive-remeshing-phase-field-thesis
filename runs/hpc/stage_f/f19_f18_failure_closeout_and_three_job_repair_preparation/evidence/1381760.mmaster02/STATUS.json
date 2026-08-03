@@ -1,0 +1,11 @@
+{
+  "adaptivity_process_submissions": 0, 
+  "candidates_generated": 0, 
+  "classification": "native_adaptive_region_construction_failed", 
+  "datacheck_executions": 0, 
+  "model_adaptiveRemesh_calls": 0, 
+  "native_remesh_calls": 0, 
+  "refined_analyses": 0, 
+  "solver_executions": 0, 
+  "traceback_redacted": "Traceback (most recent call last):\n  File \"qualify_f19_adaptive_region.py\", line 28, in <module>\n    physical=sum(len(x.elements) for x in m.parts.values())\nTypeError: arg1; found 'generator', expecting a recognized type\n"
+}

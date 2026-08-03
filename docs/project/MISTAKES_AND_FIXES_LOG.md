@@ -894,3 +894,11 @@ aborted before Telegram START. The fail-closed source preflight prevented all
 qsub calls. Preparation `d63181c` now exports exactly the two required
 variables, validates paths/manifests/PBS IDs, and has a clean-Linux mock failure
 matrix. Status: repaired and qualified offline; fresh authorization required.
+# F19 prevention lessons (2026-08-03)
+
+- Validate producer/consumer filenames as an end-to-end contract. The F19
+  extractor wrote three scientifically useful CSV names that the analyzer did
+  not accept, causing evidence-incomplete closure after successful solves.
+- Abaqus Python 2 compatibility smoke tests must exercise repository iteration
+  patterns, not only syntax/imports; generator use failed before adaptive
+  construction despite the standalone compatibility helper passing.

@@ -786,3 +786,11 @@ Submission-review priority:
 - [x] Exactly three guarded qsub calls succeeded: `1381758`, `1381759`, and `1381760`.
 - [x] Adaptive job uses `afterany:1381758`; all jobs carry both required F19 variables.
 - [x] Authority consumed with attempts/successes/failures 3/3/0 and no retry, replacement, direct qsub, qdel, qmove, or rerun.
+
+## Stage F19 terminal closeout (2026-08-03)
+
+- [x] Jobs `1381758`--`1381760` are terminal and lightweight evidence is inventoried.
+- [~] Both rollback solvers completed and penalty activation was observed; forced exercised one cutback.
+- [!] Rollback remains unqualified because extractor/analyzer table names did not match, leaving response-equivalence and accepted-state evidence incomplete.
+- [!] Adaptive-region construction failed on an Abaqus Python 2 generator incompatibility before any solver, remesh, candidate, or datacheck call.
+- [x] Authority remains consumed at 3/3; no retry or downstream execution is authorized.
