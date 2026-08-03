@@ -1,5 +1,23 @@
 # Current project state
 
+## F20 F19 recovery and adaptive R7 preparation (2026-08-03)
+
+Recovered both retained F19 raw UEL logs read-only. Forced rollback restoration
+is proven: penalty-active PNEWDT=0.5 caused one abandoned 0.02 attempt, retry at
+0.01 began from the committed phase/SVARS, rejected trial state was not
+retained, and the endpoint completed. The declared equivalence gate nevertheless
+fails RF--U NRMSE (`2.6094e-4`) and relative external work (`3.1089e-4`), both
+against `1e-4`; classification is `penalty_rollback_response_mismatch`. No
+unchanged CTL6/FORCE6 pair was prepared.
+
+Prepared only zero-execution `M2RMREG7`, with explicit Abaqus Python 2 loops,
+computed 3,930-element/MISESERI checks, and coordinate/connectivity-based slit
+topology auditing. Detached worktree `/mnt/d/f20_clean_f877b81` passed all
+manifests, five tests, shell/JSON/hash/canonical-text/bootstrap/blob gates.
+Preparation `f877b81b567eaf11ea499e33ace32b4a024eaab3` is
+`f20_adaptive_r7_clean_linux_qualified_not_authorized`. New qsub/Abaqus/CAE
+counts are zero; execution authority is false.
+
 ## F19 terminal closeout (2026-08-03)
 
 Jobs `1381758`, `1381759`, and `1381760` are terminal. Both rollback Abaqus

@@ -1,0 +1,19 @@
+{
+  "classification": "f20_adaptive_r7_clean_linux_qualified_not_authorized",
+  "preparation_sha": "f877b81b567eaf11ea499e33ace32b4a024eaab3",
+  "clean_worktree": "/mnt/d/f20_clean_f877b81",
+  "rollback_classification": "penalty_rollback_response_mismatch",
+  "manifest_checks": "13/13 twice through byte-identical F20 and legacy manifests",
+  "unit_tests": "5/5 passed",
+  "python2_scan": "passed",
+  "shell_syntax": "passed",
+  "orchestrator_mock": "passed activation-closed and one-call success cases",
+  "source_deck_hash": "passed",
+  "bootstrap_validator": "passed",
+  "git_diff_check": "passed",
+  "checkout_to_blob": "passed",
+  "qsub_attempts": 0,
+  "abaqus_solver_executions": 0,
+  "abaqus_cae_executions": 0,
+  "execution_authorized": false
+}

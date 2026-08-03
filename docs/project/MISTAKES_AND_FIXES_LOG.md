@@ -902,3 +902,9 @@ matrix. Status: repaired and qualified offline; fresh authorization required.
 - Abaqus Python 2 compatibility smoke tests must exercise repository iteration
   patterns, not only syntax/imports; generator use failed before adaptive
   construction despite the standalone compatibility helper passing.
+- Ignored solver text extensions require explicit selective staging. The first
+  F20 clean checkout exposed that retained F19 STA/MSG/DAT files had remained
+  local; they were then force-added by exact path before the final proof.
+- Derived CSV writers must set LF explicitly. Platform-default CSV newlines and
+  working-tree CRLF hashes made the first proof nondeterministic; F20 now hashes
+  canonical Git LF text and emits LF.

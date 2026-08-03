@@ -794,3 +794,12 @@ Submission-review priority:
 - [!] Rollback remains unqualified because extractor/analyzer table names did not match, leaving response-equivalence and accepted-state evidence incomplete.
 - [!] Adaptive-region construction failed on an Abaqus Python 2 generator incompatibility before any solver, remesh, candidate, or datacheck call.
 - [x] Authority remains consumed at 3/3; no retry or downstream execution is authorized.
+
+## Stage F20 evidence recovery and adaptive R7 preparation (2026-08-03)
+
+- [x] Recover both raw F19 rollback-call logs read-only and derive five canonical tables per lane.
+- [x] Prove forced rejected-state restoration and exactly one deliberate cutback event.
+- [!] Control/forced response comparison fails RF--U NRMSE and relative-energy limits; classification `penalty_rollback_response_mismatch`.
+- [x] Do not prepare an unchanged rollback repeat; Medium H1 remains blocked.
+- [x] Prepare only `M2RMREG7` with Python-2 loops and computed slit connectivity/topology audits.
+- [x] Detached clean Linux proof `f877b81` passes; execution remains unauthorized with zero new qsub/Abaqus/CAE calls.

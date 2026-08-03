@@ -343,3 +343,21 @@ then stopped on a generator expression unsupported by the Abaqus Python 2
 repository interface. It made zero adaptive-region, remesh, solver,
 datacheck, or candidate-generation calls. Thus F19 closes as a failed evidence
 and construction batch, not as a scientific rollback or remeshing pass.
+
+\subsection{F20 offline recovery and adaptive R7 preparation}
+
+The retained F19 call logs subsequently proved that the forced rejected trial
+returned \texttt{PNEWDT=0.5}, was abandoned, and retried at half the increment
+from the preceding committed phase and state variables. Rejected trial state
+was not retained. A branch-aware comparison with no extrapolation nevertheless
+gave RF--U NRMSE $2.6094\times10^{-4}$ and relative external-work difference
+$3.1089\times10^{-4}$, both above the declared $10^{-4}$ limits. The revised
+classification is therefore \texttt{penalty\_rollback\_response\_mismatch}; an
+unchanged rollback rerun and medium-H1 preparation are not justified.
+
+The independent R7 preparation replaces generator reductions with explicit
+Abaqus Python 2 loops. It also computes physical-element and finite-MISESERI
+counts and audits the slit using coincident node identifiers and adjacent
+element connectivity, including a direct bridge search. This remains a
+zero-execution qualification package; no CAE, remesh, solver, datacheck, or
+candidate operation was run during preparation.
