@@ -1,12 +1,23 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-03T11:00:00Z",
-  "heartbeat": "2026-08-03T11:00:00Z",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "F20 evidence recovery and adaptive R7 preparation complete. Only M2RMREG7 is prepared; execution remains unauthorized."
+  "active": true,
+  "agent": "codex",
+  "allowed_scope": [
+    "runs/hpc/stage_f/f20_f19_rollback_evidence_recovery_and_adaptive_r7_preparation/**",
+    "project_coordination/ACTIVE_SESSION.json",
+    "project_coordination/ACTIVE_TASK.json",
+    "project_coordination/CURRENT_STATE.md",
+    "project_coordination/TASK_LEDGER.csv",
+    "project_coordination/HPC_JOB_LEDGER.csv",
+    "project_coordination/ARTIFACT_REGISTRY.csv",
+    "project_coordination/sessions/*F20*M2RMREG7*.md",
+    "docs/project/PROJECT_PHASE_CHECKLIST.md"
+    ,"scripts/validation/check_multi_agent_bootstrap.py"
+  ],
+  "completed_at": null,
+  "heartbeat": "2026-08-03T11:15:00Z",
+  "started_at": "2026-08-03T11:15:00Z",
+  "session_id": "2026-08-03_1115_codex_F20-M2RMREG7-AUTHORIZED-EXECUTION",
+  "starting_commit": "2671651eb0d8583384058202a9137caa169670a4",
+  "task_id": "F20-M2RMREG7-AUTHORIZED-EXECUTION",
+  "note": "Exact one-job M2RMREG7 authorization received; frozen-hash and cluster preflight pending. No other job or scheduler mutation authorized."
 }
