@@ -779,3 +779,10 @@ Submission-review priority:
 - [x] Fresh exact authorization received for `M2IRRROLLCTL5`, `M2IRRROLLFORCE5`, and `M2RMREG6` from `d63181c`.
 - [x] Order, route queue, two-variable export, adaptive dependency, three-call cap, and no-retry rules recorded.
 - [-] Frozen-hash and read-only cluster/scheduler preflight pending; qsub attempts remain zero.
+
+## Stage F19 corrected submission (2026-08-03)
+
+- [x] Remote clean checkout, orchestrator hash, six manifests, notification config, route queue, and empty-user-queue preflight passed.
+- [x] Exactly three guarded qsub calls succeeded: `1381758`, `1381759`, and `1381760`.
+- [x] Adaptive job uses `afterany:1381758`; all jobs carry both required F19 variables.
+- [x] Authority consumed with attempts/successes/failures 3/3/0 and no retry, replacement, direct qsub, qdel, qmove, or rerun.

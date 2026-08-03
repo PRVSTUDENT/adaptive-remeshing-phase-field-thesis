@@ -500,3 +500,15 @@ in that order. The adaptive job must use scheduler-only dependency
 three successes, and two simultaneously running project jobs. Retry,
 replacement, direct qsub, qdel, qmove, rerun, and every other job are
 prohibited. Activation remains pending frozen-hash and cluster preflight.
+
+## F19 corrected three-job submission (2026-08-03)
+
+All corrected-cluster preflight gates passed at authorization commit
+`c81906a`. The guarded orchestrator made exactly three qsub calls and received
+`1381758.mmaster02` (`M2IRRROLLCTL5`), `1381759.mmaster02`
+(`M2IRRROLLFORCE5`), and `1381760.mmaster02` (`M2RMREG6`). Each job exports
+exactly the required F19 package and evidence variables. The adaptive job is
+held on `afterany:1381758.mmaster02`; control and forced were initially queued,
+all routed to `normal_imfdfkmq`. Authority is consumed at 3/3/0
+attempts/successes/failures, with zero retry, replacement, direct qsub, qdel,
+qmove, or rerun. No further submission is authorized.

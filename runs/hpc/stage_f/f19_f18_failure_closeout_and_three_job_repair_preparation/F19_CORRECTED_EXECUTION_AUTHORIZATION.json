@@ -11,10 +11,10 @@
   "maximum_qsub_invocations": 3,
   "maximum_successful_submissions": 3,
   "maximum_simultaneously_running_project_jobs": 2,
-  "qsub_attempts": 0,
-  "successful_submissions": 0,
+  "qsub_attempts": 3,
+  "successful_submissions": 3,
   "failed_qsub_attempts": 0,
-  "authorization_consumed": false,
+  "authorization_consumed": true,
   "retry_authorized": false,
   "replacement_authorized": false,
   "direct_qsub_authorized": false,
@@ -24,5 +24,6 @@
   "telegram": "mandatory_start_and_terminal",
   "pbs_email": "best_effort",
   "every_other_job_authorized": false,
-  "frozen_hashes_match_authorization": "pending_preflight"
+  "frozen_hashes_match_authorization": true,
+  "job_ids": ["1381758.mmaster02", "1381759.mmaster02", "1381760.mmaster02"]
 }

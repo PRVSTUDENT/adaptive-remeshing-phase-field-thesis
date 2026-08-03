@@ -1,16 +1,12 @@
 {
-  "active": true,
-  "agent": "codex",
-  "allowed_scope": [
-    "runs/hpc/stage_f/f19_f18_failure_closeout_and_three_job_repair_preparation/**",
-    "project_coordination/**",
-    "docs/project/PROJECT_PHASE_CHECKLIST.md"
-  ],
-  "completed_at": null,
-  "heartbeat": "2026-08-03T08:25:00Z",
-  "started_at": "2026-08-03T08:25:00Z",
-  "session_id": "codex-f19-corrected-three-job-execution-20260803",
-  "starting_commit": "5b59175cb3d64995e6b8d0e6fac26e077f9cd029",
-  "task_id": "F19-AUTHORIZED-THREE-JOB-EXECUTION",
-  "note": "Fresh exact authorization received for corrected preparation d63181c and exactly M2IRRROLLCTL5, M2IRRROLLFORCE5, and M2RMREG6. Only the corrected guarded orchestrator may invoke qsub, at most three times, without retry or replacement."
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
+  "completed_at": "2026-08-03T08:30:00Z",
+  "heartbeat": "2026-08-03T08:30:00Z",
+  "started_at": null,
+  "session_id": null,
+  "starting_commit": null,
+  "task_id": null,
+  "note": "Corrected F19 batch submitted exactly 3/3 through the guarded orchestrator. Jobs 1381758, 1381759, and 1381760; authority consumed; no further submission or scheduler mutation authorized."
 }
