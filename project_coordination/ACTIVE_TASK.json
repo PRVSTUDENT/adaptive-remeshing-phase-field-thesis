@@ -1,12 +1,12 @@
 {
   "protocol_version": 1,
-  "task_id": "F23-OFFLINE-ADAPTIVE-REGION-ASSOCIATION-INVESTIGATION",
-  "status": "complete_no_job_prepared",
-  "classification": "f23_adaptive_region_association_unresolved_no_job_prepared",
-  "starting_commit": "8ef3cdddbeb249b90458f27968e505e6de4967d2",
+  "task_id": "F24-OFFICIAL-ADAPTIVE-CONTRACT-AND-ODB-COMPATIBILITY-GATE",
+  "status": "preparation_complete_not_authorized",
+  "classification": "f24_m2rmprov1_clean_linux_qualified_not_authorized",
+  "starting_commit": "9d80dd5a9fb36a99045c7ccd974f7e30562a978a",
   "selected_outcome": "Outcome B",
+  "prepared_job": "M2RMPROV1",
   "m2rmexec2_prepared": false,
-  "selected_next_job": null,
   "execution_authorized": false,
   "submission_approved": false,
   "approved_submissions_now": 0,
@@ -15,5 +15,5 @@
   "new_successful_submissions": 0,
   "retry_authorized": false,
   "replacement_authorized": false,
-  "next_action": "await explicit human decision"
+  "next_action": "await explicit human decision for M2RMPROV1 submission authorization"
 }

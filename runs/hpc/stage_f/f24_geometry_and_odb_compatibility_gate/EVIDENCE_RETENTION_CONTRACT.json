@@ -1,0 +1,21 @@
+{
+  "protocol_version": 1,
+  "task_id": "F24-OFFICIAL-ADAPTIVE-CONTRACT-AND-ODB-COMPATIBILITY-GATE",
+  "required_evidence_files": [
+    "SOURCE_MESH_SUMMARY.json",
+    "GEOMETRY_BACKED_MODEL_AUDIT.json",
+    "PRECALL_ADAPTIVE_REGION_AUDIT.json",
+    "ODB_COMPATIBILITY_AUDIT.json",
+    "compatibility.returncode",
+    "cae.returncode",
+    "collector.returncode",
+    "first_failure.returncode",
+    "MISSING_EVIDENCE_REPORT.json",
+    "NATIVE_REMESH_TRACEBACK.txt"
+  ],
+  "retention_rules": [
+    "Retain partial evidence on every failure path.",
+    "The collector return code must never mask the first CAE or solver failure.",
+    "Never purge diagnostic tracebacks or return codes."
+  ]
+}

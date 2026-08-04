@@ -1,6 +1,12 @@
 # Current project state
 
-## F23 offline adaptive-region association investigation closeout (2026-08-04)
+## F24 official adaptive contract & ODB compatibility gate closeout (2026-08-04)
+
+Established official Abaqus 11-rule adaptive remeshing contract requiring geometry-backed part instantiation (`Part2DGeomFrom2DMesh`), instance name preservation (`Part-1-1`), orphan-instance suppression, and explicit face `Region` assignment.
+Audited source ODB `M2MISER1.odb` (SHA-256: `bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac`). Because `M2MISER1.odb` was generated from an orphan-mesh model, region correspondence cannot remain valid for driving remeshing rules on the new geometry-backed model.
+**Outcome B (`matching_geometry_backed_provisional_analysis_required`) is selected**.
+Prepared provisional analysis package `M2RMPROV1` (`M2RMPROV1.inp`, `M2RMPROV1.pbs`) without submission. `M2RMEXEC2` is not prepared.
+Classification: `f24_m2rmprov1_clean_linux_qualified_not_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
 
 Performed strictly offline investigation comparing F20 (`M2RMREG7`) and F21 (`M2RMEXEC1`).
 F20 classified contract qualified based on rule creation and `rule.region != None` without invoking `Model.adaptiveRemesh(odb)`. F21 called `Model.adaptiveRemesh(odb)` on the identical model state and raised `AbaqusException: The model contains no adaptive regions for remeshing.`.

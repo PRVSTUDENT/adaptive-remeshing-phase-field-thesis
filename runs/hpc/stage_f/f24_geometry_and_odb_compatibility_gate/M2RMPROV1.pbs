@@ -1,0 +1,25 @@
+#!/bin/bash
+#PBS -N M2RMPROV1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -o M2RMPROV1.log
+
+cd "$PBS_O_WORKDIR" || exit 1
+
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+echo "=== M2RMPROV1 Provisional Abaqus/Standard Analysis ==="
+echo "Job ID: $PBS_JOBID"
+echo "Host: $(hostname)"
+echo "Start time: $(date)"
+
+abaqus job=M2RMPROV1 input=M2RMPROV1.inp interactive
+
+rc=$?
+echo "End time: $(date)"
+echo "Abaqus exit code: $rc"
+
+exit $rc

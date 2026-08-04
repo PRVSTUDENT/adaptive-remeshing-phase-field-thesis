@@ -1,0 +1,15 @@
+{
+  "protocol_version": 1,
+  "task_id": "F24-OFFICIAL-ADAPTIVE-CONTRACT-AND-ODB-COMPATIBILITY-GATE",
+  "selected_outcome": "Outcome B",
+  "decision_classification": "matching_geometry_backed_provisional_analysis_required",
+  "final_classification": "f24_m2rmprov1_clean_linux_qualified_not_authorized",
+  "prepared_job": "M2RMPROV1",
+  "prepared_job_type": "provisional_analysis",
+  "m2rmexec2_prepared": false,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "qsub_attempts": 0,
+  "successful_submissions": 0,
+  "justification": "Because M2MISER1.odb was generated from the orphan-mesh model, its region correspondence cannot drive remeshing rules on the new geometry-backed model. Outcome B is selected to prepare M2RMPROV1 for generating a matching ODB on the geometry-backed model."
+}

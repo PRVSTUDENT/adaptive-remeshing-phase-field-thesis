@@ -1,0 +1,62 @@
+{
+  "protocol_version": 1,
+  "task_id": "F24-OFFICIAL-ADAPTIVE-CONTRACT-AND-ODB-COMPATIBILITY-GATE",
+  "official_contract_rules": [
+    {
+      "rule_number": 1,
+      "description": "Adaptive remeshing cannot operate on an orphan-mesh-only model.",
+      "status": "enforced"
+    },
+    {
+      "rule_number": 2,
+      "description": "The remeshed model must contain native geometry and an initial mesh.",
+      "status": "enforced"
+    },
+    {
+      "rule_number": 3,
+      "description": "The geometry-backed part created by Part2DGeomFrom2DMesh must be instantiated in rootAssembly.",
+      "status": "enforced"
+    },
+    {
+      "rule_number": 4,
+      "description": "The orphan-mesh instance must not remain the active remeshing target.",
+      "status": "enforced"
+    },
+    {
+      "rule_number": 5,
+      "description": "The remeshing rule must address actual geometry faces or cells.",
+      "status": "enforced"
+    },
+    {
+      "rule_number": 6,
+      "description": "For deterministic behavior, use an explicit Region built from geometry-backed instance faces rather than region=MODEL.",
+      "status": "enforced"
+    },
+    {
+      "rule_number": 7,
+      "description": "The geometry-backed instance should preserve the original instance name when possible so ODB instance correspondence is preserved.",
+      "status": "enforced"
+    },
+    {
+      "rule_number": 8,
+      "description": "rootAssembly.regenerate() must occur after the geometry-backed instance and region are created.",
+      "status": "enforced"
+    },
+    {
+      "rule_number": 9,
+      "description": "A separate AdaptivityProcess must not be added for the single manual Model.adaptiveRemesh(odb) route.",
+      "status": "enforced"
+    },
+    {
+      "rule_number": 10,
+      "description": "Use exactly one remesh route: Model.adaptiveRemesh(odb).",
+      "status": "enforced"
+    },
+    {
+      "rule_number": 11,
+      "description": "No fallback remeshing API is permitted.",
+      "status": "enforced"
+    }
+  ],
+  "verification": "passed_offline"
+}

@@ -1,0 +1,11 @@
+{
+  "protocol_version": 1,
+  "task_id": "F24-OFFICIAL-ADAPTIVE-CONTRACT-AND-ODB-COMPATIBILITY-GATE",
+  "prepared_job": "M2RMPROV1",
+  "execution_authorized": false,
+  "required_files": [
+    "models/generated/mode_ii/f24_geometry_and_odb_compatibility_gate/M2RMPROV1.inp",
+    "models/generated/mode_ii/f24_geometry_and_odb_compatibility_gate/M2RMPROV1.pbs",
+    "scripts/hpc/stage_f/submit_stage_f24_provisional_analysis.sh"
+  ]
+}

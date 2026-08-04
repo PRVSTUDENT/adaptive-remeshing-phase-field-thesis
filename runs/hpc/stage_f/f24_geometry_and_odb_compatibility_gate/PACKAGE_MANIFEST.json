@@ -1,0 +1,18 @@
+{
+  "protocol_version": 1,
+  "task_id": "F24-OFFICIAL-ADAPTIVE-CONTRACT-AND-ODB-COMPATIBILITY-GATE",
+  "package_name": "f24_geometry_and_odb_compatibility_gate",
+  "prepared_job": "M2RMPROV1",
+  "job_type": "provisional_analysis",
+  "execution_authorized": false,
+  "submission_approved": false,
+  "resources": {
+    "queue": "entry_imfdfkmq",
+    "cpus": 1,
+    "memory_gb": 8,
+    "walltime": "01:00:00",
+    "mode": "Abaqus/Standard analysis"
+  },
+  "package_directory": "models/generated/mode_ii/f24_geometry_and_odb_compatibility_gate/",
+  "orchestrator": "scripts/hpc/stage_f/submit_stage_f24_provisional_analysis.sh"
+}

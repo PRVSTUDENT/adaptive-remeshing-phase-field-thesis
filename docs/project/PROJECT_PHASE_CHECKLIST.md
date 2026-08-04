@@ -1,5 +1,14 @@
 # Project Phase Checklist
 
+## F24 official adaptive contract & ODB compatibility gate
+
+- [x] Official Abaqus 11-rule adaptive remeshing contract established.
+- [x] Workstream A geometry-backed 17-step model-construction order specified.
+- [x] Workstream B ODB compatibility audit completed (`M2MISER1.odb` region correspondence invalid for geometry-backed remeshing rule).
+- [x] Selected Outcome B (`matching_geometry_backed_provisional_analysis_required`).
+- [x] Prepared provisional analysis package `M2RMPROV1` without submission. `M2RMEXEC2` not prepared.
+- [x] Classification: `f24_m2rmprov1_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
 ## F23 offline adaptive-region association investigation gate
 
 - [x] F20 vs F21 contract comparison completed. F20 checked rule existence and non-null region; F21 executed `model.adaptiveRemesh(odb)` and failed with 0 adaptive regions.

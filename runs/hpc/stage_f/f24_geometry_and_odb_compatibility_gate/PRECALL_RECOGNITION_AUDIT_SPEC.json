@@ -1,0 +1,36 @@
+{
+  "protocol_version": 1,
+  "task_id": "F24-OFFICIAL-ADAPTIVE-CONTRACT-AND-ODB-COMPATIBILITY-GATE",
+  "audit_fields": [
+    "source_part_name",
+    "source_part_orphan_mesh_status",
+    "geometry_backed_part_name",
+    "geometry_backed_part_face_count",
+    "geometry_backed_instance_name",
+    "instance_dependency_state",
+    "active_assembly_instance_names",
+    "orphan_active_instance_count",
+    "geometry_active_instance_count",
+    "remeshing_rule_name",
+    "remeshing_rule_owner",
+    "explicit_region_type",
+    "region_face_count",
+    "region_instance_name",
+    "step_name",
+    "indicator_variables",
+    "assembly_regeneration_completed",
+    "supported_mesh_controls_assigned",
+    "selected_remesh_route",
+    "fallback_route_count",
+    "recognized_contract_pass_fail"
+  ],
+  "pass_criteria": {
+    "geometry_active_instance_count": ">= 1",
+    "orphan_active_instance_count": "= 0 for remesh target",
+    "region_face_count": "> 0",
+    "assembly_regeneration_completed": true,
+    "supported_mesh_controls_assigned": true,
+    "selected_remesh_route": "Model.adaptiveRemesh(odb)",
+    "fallback_route_count": 0
+  }
+}

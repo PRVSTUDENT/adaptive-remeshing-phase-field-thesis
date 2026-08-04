@@ -1,0 +1,16 @@
+{
+  "protocol_version": 1,
+  "task_id": "F24-OFFICIAL-ADAPTIVE-CONTRACT-AND-ODB-COMPATIBILITY-GATE",
+  "target_odb": "M2MISER1.odb",
+  "expected_odb_sha256": "bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac",
+  "topology_match": true,
+  "instance_name": "Part-1-1",
+  "step_name": "Step-1",
+  "field_indicator": "MISESERI",
+  "source_model_type": "orphan_mesh",
+  "target_model_type": "geometry_backed",
+  "has_native_geometry_region": false,
+  "region_correspondence_valid": false,
+  "compatibility_decision": "provisional_analysis_required",
+  "justification": "M2MISER1.odb was generated from an orphan-mesh model without remeshing rules or native geometry regions. Converting the model to a native geometry-backed instance alters element/geometry ownership and region correspondence. Official Abaqus rules specify that an existing ODB cannot be reused when the remeshing-rule region is changed. A provisional analysis M2RMPROV1 on the geometry-backed model is required to produce a matching ODB."
+}

@@ -1,5 +1,9 @@
 # Mistakes And Fixes Log
 
+## F24 official adaptive contract & ODB compatibility gate (2026-08-04)
+
+Assuming an existing orphan-mesh ODB (`M2MISER1.odb`) can drive manual adaptive remeshing on a newly created geometry-backed model violates Abaqus adaptive remeshing contract rules. Official Abaqus documentation specifies that changing remeshing-rule regions or geometry/element ownership invalidates ODB region correspondence. Outcome B was selected: prepared provisional analysis `M2RMPROV1` on the geometry-backed model to generate a matching ODB. `M2RMEXEC2` is not prepared until `M2RMPROV1` is evaluated.
+
 ## F23 offline adaptive-region association investigation (2026-08-04)
 
 F20 vs F21 contract comparison proved that F20 checked `rule.region is not None` without calling `Model.adaptiveRemesh(odb)`. F21 executed `Model.adaptiveRemesh(odb)` and failed with `AbaqusException: The model contains no adaptive regions for remeshing.`.
