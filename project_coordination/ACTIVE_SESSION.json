@@ -2,11 +2,11 @@
   "active": false,
   "agent": null,
   "allowed_scope": [],
-  "completed_at": "2026-08-04T09:30:00Z",
-  "heartbeat": "2026-08-04T09:30:00Z",
+  "completed_at": "2026-08-04T10:10:00Z",
+  "heartbeat": "2026-08-04T10:10:00Z",
   "started_at": null,
   "session_id": null,
   "starting_commit": null,
   "task_id": null,
-  "note": "Session completed and released for F30: Invalidated F29 qualification claims, repaired Abaqus Edge.getFaces integer face ID resolving, fixed bridge-element detection using elem.getNodes node labels, corrected output request reconstruction into separate nodal (U, RF) and element (MISESERI, MISESAVG, S, E, EVOL) requests, fixed runtime validator execution order, staged static contract JSON files to workdir, fixed notification evidence staging before missing-evidence inspection, expanded input validator to exact value assertions, enforced exact set-based source entity coverage, measured actual compatibility checks, and enforced repository-relative pathspecs in git blob comparisons."
+  "note": "Session completed and released for F31: Invalidated F30 readiness claims, corrected writeInput signature to job.writeInput(consistencyChecking=ON), imported ON explicitly, implemented environment variable argument transport (F31_SOURCE_DECK, F31_OUTPUT_INPUT, F31_GEOMETRY_AUDIT), enforced real compatibility checks in M2RMBUILD6.pbs (manifest sha256sum, shell syntax, module loading, executable resolution, version capture), fixed EXIT trap terminal Telegram delivery on all failure paths without curl masking, retained raw curl return codes and parsed JSON responses, enforced runtime-only classifications (cae_geometry_build_contract_passed / failed) in runtime STATUS.json, recorded F30 git commit --amend process violation in MISTAKES_AND_FIXES_LOG.md, and prepared M2RMBUILD6 without authorization."
 }

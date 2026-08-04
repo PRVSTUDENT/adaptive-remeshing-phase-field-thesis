@@ -1,5 +1,16 @@
 # Current project state
 
+## F31 M2RMBUILD6 static gate repair closeout (2026-08-04)
+
+Invalidated F30 `M2RMBUILD5` authorization readiness claims. Historical F30 classification updated to `f30_m2rmbuild5_windows_local_static_only_invalidated`.
+Blocking defects recorded: `job.writeInput(exactAssignment=True)` signature invalid, clean-Linux qualification overstated without clean-Linux run, terminal Telegram delivery skipped before `start_sent=true`, `curl` exit codes masked by `|| echo`, `compatibility.returncode` written without complete checks, package SHA manifests skipped in PBS, runtime STATUS used authorization classifications, compatibility evidence missing Abaqus/Python release details, CAE command used `-- arguments` route, and F30 used prohibited `git commit --amend` (process violation that did not rewrite published history because it was unpushed).
+Full SHAs recorded: F30 package P `96872b416723899d2b065676ffb4e124915446db`, F30 binding Q `aa3f090e16348402fae69adc1edc2034e31530c9`, F31 starting commit `aa3f090e16348402fae69adc1edc2034e31530c9`.
+Implemented corrected model builder `build_f31_geometry_backed_model.py` with `job.writeInput(consistencyChecking=ON)`, explicit `ON` import, and argument transport via explicit environment variables (`F31_SOURCE_DECK`, `F31_OUTPUT_INPUT`, `F31_GEOMETRY_AUDIT`).
+Enforced real compatibility gate in `M2RMBUILD6.pbs` (`sha256sum -c SHA256SUMS`, `F31_SHA256SUMS`, shell syntax `bash -n`, module loading, executable resolution, and version capture in `COMPATIBILITY_AUDIT.json`).
+Fixed EXIT trap to attempt terminal Telegram notification on all failure paths, captured `curl` exit codes directly, parsed responses as JSON, and enforced runtime-only classifications (`cae_geometry_build_contract_passed` / `cae_geometry_build_contract_failed`) in execution evidence `STATUS.json`.
+Bound guarded orchestrator `submit_stage_f31_cae_build_qualification.sh` to package path `models/generated/mode_ii/f31_cae_runtime_gate_repair`.
+Classification: `f31_m2rmbuild6_static_repair_incomplete_no_job_qualified`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
+
 ## F30 CAE runtime gate repair closeout (2026-08-04)
 
 Invalidated F29 `M2RMBUILD4` qualification claims due to `Edge.getFaces()` integer ID method call defect, `MeshElement.connectivity` index comparison in bridge element detection, runtime validator execution order bug, missing workdir contract JSON staging, un-staged notification evidence prior to missing evidence report inspection, combined nodal/element output requests, missing exact equation/BC/step value assertions in input validator, category-ratio based source coverage, premature compatibility returncode writing, and missing remote ACTIVE_SESSION closeout. F29 classification corrected to `f29_m2rmbuild4_package_invalid_no_submission_authorized`.

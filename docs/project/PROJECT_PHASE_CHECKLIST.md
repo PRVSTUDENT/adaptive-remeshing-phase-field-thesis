@@ -898,4 +898,17 @@ Submission-review priority:
 - [x] Restructured terminal EXIT trap to stage notification artifacts before running `generate_missing_evidence_report.py`.
 - [x] Bound guarded orchestrator `submit_stage_f30_cae_build_qualification.sh` to package path `models/generated/mode_ii/f30_cae_runtime_gate_repair` using repository-relative pathspecs.
 - [x] Executed 10 offline unit tests (10/10 passed) and verified offline gate validator (`classification: pass`).
-- [!] Qualification status: `f30_m2rmbuild5_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
+- [!] Historical F30 classification updated: `f30_m2rmbuild5_windows_local_static_only_invalidated`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
+
+## Stage F31 M2RMBUILD6 static gate repair (2026-08-04)
+
+- [x] Invalidated Stage F30 (`f30_m2rmbuild5_windows_local_static_only_invalidated`) due to 10 blocking defects.
+- [x] Corrected `writeInput` signature in `build_f31_geometry_backed_model.py` to `job.writeInput(consistencyChecking=ON)` and imported `ON` explicitly from `abaqusConstants`.
+- [x] Passed builder argument paths via explicit environment variables (`F31_SOURCE_DECK`, `F31_OUTPUT_INPUT`, `F31_GEOMETRY_AUDIT`), eliminating `-- arguments` transport route.
+- [x] Enforced real compatibility gate checks in `M2RMBUILD6.pbs` (`sha256sum -c SHA256SUMS`, `F31_SHA256SUMS`, shell syntax `bash -n`, module loading, executable resolution, and version capture in `COMPATIBILITY_AUDIT.json`).
+- [x] Fixed EXIT trap to attempt terminal Telegram notification on all failure paths, captured `curl` exit codes directly without command substitution fallback, and parsed responses as JSON.
+- [x] Enforced runtime-only classifications (`cae_geometry_build_contract_passed` / `cae_geometry_build_contract_failed`) in execution evidence `STATUS.json`.
+- [x] Recorded F30 `git commit --amend` process violation in `MISTAKES_AND_FIXES_LOG.md` and enforced strict no-amend rule in F31.
+- [x] Bound guarded orchestrator `submit_stage_f31_cae_build_qualification.sh` to package path `models/generated/mode_ii/f31_cae_runtime_gate_repair` with repository-relative pathspecs.
+- [x] Executed offline unit tests and gate validator (`classification: pass`).
+- [!] Qualification status: `f31_m2rmbuild6_static_repair_incomplete_no_job_qualified`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
