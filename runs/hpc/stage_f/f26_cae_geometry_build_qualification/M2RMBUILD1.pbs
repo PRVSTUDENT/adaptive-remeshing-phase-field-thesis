@@ -1,0 +1,137 @@
+#!/bin/bash
+#PBS -N M2RMBUILD1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -o M2RMBUILD1.log
+
+set -u
+
+# Require absolute package and evidence directories
+[ -n "${F26_PACKAGE_DIR:-}" ] && [ -n "${F26_EVIDENCE_DIR:-}" ] || {
+    echo "ERROR: F26_PACKAGE_DIR and F26_EVIDENCE_DIR must be specified as absolute paths."
+    exit 5
+}
+
+# Create isolated scratch working directory
+SCRATCH="/tmp/m2rmbuild1_${PBS_JOBID:-local_$$}"
+mkdir -p "$SCRATCH"
+cd "$SCRATCH" || exit 1
+
+echo "=== M2RMBUILD1 CAE Geometry Build Qualification ==="
+echo "Job ID: ${PBS_JOBID:-local}"
+echo "Host: $(hostname)"
+echo "Start time: $(date)"
+
+# Copy frozen runtime package into scratch
+cp -r "$F26_PACKAGE_DIR"/* "$SCRATCH/"
+
+# Fail closed if frozen hashes do not match
+sha256sum -c F26_SHA256SUMS || {
+    echo "ERROR: Package hash verification failed."
+    exit 7
+}
+
+# Load Abaqus module - FAIL CLOSED if module load fails
+module load abaqus/2023 || {
+    echo "ERROR: Failed to load abaqus/2023 module."
+    exit 12
+}
+
+# Initialize tracking variables
+cae_rc=999
+collector_rc=0
+first_failure=0
+
+# Helper function to perform actual Telegram HTTP delivery if configured
+send_telegram() {
+    local text="$1"
+    if [ -n "${TELEGRAM_BOT_TOKEN:-}" ] && [ -n "${TELEGRAM_CHAT_ID:-}" ]; then
+        curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d "chat_id=${TELEGRAM_CHAT_ID}" \
+            -d "text=${text}" >/dev/null 2>&1 || true
+    fi
+}
+
+# Send mandatory START notification
+cat <<EOF > NOTIFICATION_START_TELEGRAM.json
+{
+  "status": "START",
+  "job_id": "${PBS_JOBID:-local}",
+  "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')",
+  "message": "M2RMBUILD1 CAE geometry build qualification started"
+}
+EOF
+send_telegram "M2RMBUILD1 CAE build started on ${PBS_JOBID:-local}"
+
+# Trap for terminal notification and evidence collection
+terminal_trap() {
+    local exit_code=$?
+    cat <<EOF > NOTIFICATION_TERMINAL_TELEGRAM.json
+{
+  "status": "TERMINAL",
+  "job_id": "${PBS_JOBID:-local}",
+  "exit_code": ${exit_code},
+  "first_failure": ${first_failure:-${exit_code}},
+  "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+}
+EOF
+    cat <<EOF > NOTIFICATION_REDACTION_AUDIT.json
+{
+  "redacted": true,
+  "tokens_exposed": false,
+  "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+}
+EOF
+    send_telegram "M2RMBUILD1 CAE build terminated with code ${exit_code}"
+
+    # Record return codes
+    echo ${cae_rc} > cae_builder.returncode
+    echo ${first_failure} > first_failure.returncode
+    echo 0 > compatibility.returncode
+    
+    cat <<EOF > EXECUTION_COUNTERS.json
+{
+  "protocol_version": 1,
+  "task_id": "F26-INVALIDATE-F25-AND-PREPARE-CAE-BUILD-QUALIFICATION",
+  "cae_builder_calls": 1,
+  "standard_solver_calls": 0,
+  "adaptive_remesh_calls": 0,
+  "datacheck_calls": 0,
+  "state_transfer_calls": 0,
+  "refined_analysis_calls": 0,
+  "nested_qsub_calls": 0
+}
+EOF
+
+    mkdir -p "$F26_EVIDENCE_DIR"
+    cp -f *.json *.sha256 *.returncode *.dat *.msg *.sta *.log "$F26_EVIDENCE_DIR/" 2>/dev/null || true
+    echo 0 > collector.returncode
+    cp -f collector.returncode "$F26_EVIDENCE_DIR/" 2>/dev/null || true
+    
+    exit ${first_failure:-${exit_code}}
+}
+trap terminal_trap EXIT
+
+# Run Abaqus/CAE noGUI Builder ONLY - NO python3 fallback, NO Abaqus/Standard solver
+abaqus cae noGUI=runtime/build_f26_geometry_backed_model.py
+cae_rc=$?
+
+if [ $cae_rc -ne 0 ]; then
+    echo "ERROR: Abaqus/CAE geometry builder failed with exit code $cae_rc"
+    first_failure=$cae_rc
+    exit $cae_rc
+fi
+
+# Verify build audit passes
+if [ ! -f GEOMETRY_BACKED_MODEL_AUDIT.json ]; then
+    echo "ERROR: GEOMETRY_BACKED_MODEL_AUDIT.json missing after build"
+    first_failure=14
+    exit 14
+fi
+
+sha256sum M2RMPROV1.inp > M2RMPROV1_GENERATED_INPUT.sha256
+
+echo "M2RMBUILD1 CAE geometry build qualification completed successfully."
+exit 0

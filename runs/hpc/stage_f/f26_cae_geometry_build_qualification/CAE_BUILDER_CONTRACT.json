@@ -1,0 +1,48 @@
+{
+  "protocol_version": 1,
+  "task_id": "F26-INVALIDATE-F25-AND-PREPARE-CAE-BUILD-QUALIFICATION",
+  "builder_script": "runtime/build_f26_geometry_backed_model.py",
+  "execution_mode": "abaqus cae noGUI only",
+  "standalone_python_fallback_allowed": false,
+  "broad_exception_catching_allowed": false,
+  "hardcoded_inventory_counts_allowed": false,
+  "text_copying_allowed": false,
+  "required_abaqus_apis": [
+    "mdb.ModelFromInputFile",
+    "Part2DGeomFrom2DMesh",
+    "SectionAssignment",
+    "mesh.ElemType",
+    "setElementType",
+    "setMeshControls",
+    "seedPart",
+    "generateMesh",
+    "rootAssembly.Instance",
+    "rootAssembly.regenerate",
+    "regionToolset.Region",
+    "RemeshingRule",
+    "mdb.Job",
+    "job.writeInput"
+  ],
+  "required_explicit_constants": [
+    "CPE4",
+    "STRUCTURED",
+    "ANALYSIS",
+    "OFF",
+    "ON",
+    "MISESERI",
+    "DEFAULT"
+  ],
+  "contract_pass_conditions": [
+    "abaqus_cae_execution = true",
+    "geometry_face_count > 0",
+    "geometry_node_count > 0",
+    "geometry_element_count > 0",
+    "active_orphan_target_count = 0",
+    "active_geometry_target_count = 1",
+    "remeshing_region_face_count > 0",
+    "assembly_regenerated = true",
+    "input_written_by_job_writeInput = true",
+    "generated_differs_from_source = true",
+    "all required model entities are preserved or explicitly reconstructed"
+  ]
+}

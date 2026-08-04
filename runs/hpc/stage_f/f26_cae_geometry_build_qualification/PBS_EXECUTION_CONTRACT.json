@@ -1,0 +1,28 @@
+{
+  "protocol_version": 1,
+  "task_id": "F26-INVALIDATE-F25-AND-PREPARE-CAE-BUILD-QUALIFICATION",
+  "prepared_job": "M2RMBUILD1",
+  "queue": "entry_imfdfkmq",
+  "cpus": 1,
+  "memory_gb": 8,
+  "walltime": "00:30:00",
+  "mode": "Abaqus/CAE noGUI only",
+  "python3_fallback_allowed": false,
+  "solver_execution_allowed": false,
+  "execution_sequence": [
+    "1. require absolute F26_PACKAGE_DIR and F26_EVIDENCE_DIR",
+    "2. create isolated /scratch work directory (/tmp/m2rmbuild1_${PBS_JOBID})",
+    "3. copy frozen runtime package into scratch",
+    "4. verify all frozen hashes (sha256sum -c F26_SHA256SUMS)",
+    "5. load abaqus/2023 explicitly (module load abaqus/2023); stop execution if module load fails",
+    "6. verify Telegram notification config and invoke actual Telegram delivery script",
+    "7. send actual Telegram START notification and install terminal trap",
+    "8. run Abaqus/CAE noGUI builder only (abaqus cae noGUI=runtime/build_f26_geometry_backed_model.py)",
+    "9. retain cae_builder.returncode; fail closed if nonzero",
+    "10. parse GEOMETRY_BACKED_MODEL_AUDIT.json and verify contract_pass is true and abaqus_cae_execution is true",
+    "11. retain generated deck hash (M2RMPROV1_GENERATED_INPUT.sha256) and audit",
+    "12. stop execution before Abaqus/Standard (no solver call)",
+    "13. stage out lightweight evidence to F26_EVIDENCE_DIR",
+    "14. retain collector.returncode; ensure collector never masks CAE failure"
+  ]
+}

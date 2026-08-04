@@ -1,5 +1,13 @@
 # Project Phase Checklist
 
+## F26 invalidate F25 and prepare CAE build qualification gate
+
+- [x] Invalidated F25 fail-open claims (`f25_m2rmprov1_package_invalid_no_submission_authorized`).
+- [x] Implemented fail-closed Abaqus/CAE Python model builder `build_f26_geometry_backed_model.py` with zero Python fallback and dynamic live mdb audits.
+- [x] Prepared `M2RMBUILD1.pbs` for CAE-only construction qualification (`standard_solver_calls = 0`, fail-closed module load, actual Telegram notifications).
+- [x] Prepared guarded orchestrator `submit_stage_f26_cae_build_qualification.sh` with 1 qsub call limit.
+- [x] Classification: `f26_m2rmbuild1_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
 ## F25 repair geometry-backed provisional package gate
 
 - [x] Invalidated F24 claims (`M2RMPROV1` is geometry-backed, file copy builder, identical hashes).

@@ -1,0 +1,22 @@
+{
+  "protocol_version": 1,
+  "task_id": "F26-INVALIDATE-F25-AND-PREPARE-CAE-BUILD-QUALIFICATION",
+  "f25_qualification_invalidated": true,
+  "f25_defects_recorded": [
+    "build_f25_geometry_backed_model.py catches every Abaqus exception",
+    "standalone fallback prepends comments to the orphan-mesh source deck",
+    "fallback hardcodes geometry counts and model inventories",
+    "real_abaqus_cae_build=false can coexist with contract_pass=true",
+    "committed generated deck was not produced by job.writeInput",
+    "PBS wrapper falls back from Abaqus/CAE to python3",
+    "PBS wrapper does not validate real_abaqus_cae_build",
+    "PBS wrapper does not parse the complete contract",
+    "Abaqus module loading is fail-open",
+    "Telegram JSON creation is not Telegram delivery",
+    "F25 preparation task used forbidden SSH/qstat even though no job was submitted"
+  ],
+  "corrected_f25_classification": "f25_m2rmprov1_package_invalid_no_submission_authorized",
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0
+}

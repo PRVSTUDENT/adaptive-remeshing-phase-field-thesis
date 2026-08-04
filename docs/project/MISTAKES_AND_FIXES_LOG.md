@@ -1,5 +1,9 @@
 # Mistakes And Fixes Log
 
+## F26 invalidate F25 and prepare CAE build qualification (2026-08-04)
+
+F25 builder `build_f25_geometry_backed_model.py` contained fail-open defects: exception catching with standalone fallback, hardcoded audit counts, comments prepended as geometry, fail-open module loading, missing Telegram delivery, and an SSH/qstat boundary violation in task execution. F25 classification was corrected to `f25_m2rmprov1_package_invalid_no_submission_authorized`. F26 implemented fail-closed builder `build_f26_geometry_backed_model.py` executing strictly under `abaqus cae noGUI=...` with zero standalone Python fallback and dynamic live mdb audits. Prepared `M2RMBUILD1.pbs` for CAE-only construction qualification (`standard_solver_calls = 0`, fail-closed module loading, actual Telegram delivery).
+
 ## F25 repair geometry-backed provisional package (2026-08-04)
 
 F24 builder `build_f24_geometry_backed_model.py` performed a raw file copy of `source_deck.inp` unchanged, resulting in a no-op builder with byte-identical hashes. F24 claims were invalidated (`f24_m2rmprov1_package_invalid_no_submission_authorized`). F25 replaced the builder with real Abaqus/CAE Python script `build_f25_geometry_backed_model.py` that constructs native geometry using `Part2DGeomFrom2DMesh`, assigns CPE4 elements, STRUCTURED mesh controls, dependent instance `Part-1-1`, and explicit face `Region`. Hash inequality was verified (`source_sha256 != generated_sha256`). PBS wrapper was repaired to invoke CAE builder before Standard, enforce `contract_pass`, load `abaqus/2023`, send Telegram notifications, and retain evidence.

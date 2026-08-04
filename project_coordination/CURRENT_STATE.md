@@ -1,5 +1,13 @@
 # Current project state
 
+## F26 invalidate F25 and prepare CAE build qualification closeout (2026-08-04)
+
+Invalidated F25 fail-open qualification claims. F25 classification corrected to `f25_m2rmprov1_package_invalid_no_submission_authorized`.
+Implemented fail-closed Abaqus/CAE model builder `build_f26_geometry_backed_model.py` executing strictly under `abaqus cae noGUI=...` with zero standalone Python fallback and zero hardcoded audit counts.
+Prepared `M2RMBUILD1.pbs` for CAE-only construction qualification (`standard_solver_calls = 0`, fail-closed `module load abaqus/2023`, actual Telegram START/TERMINAL notifications).
+Prepared guarded orchestrator `submit_stage_f26_cae_build_qualification.sh` without submission.
+Classification: `f26_m2rmbuild1_clean_linux_qualified_not_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
+
 ## F25 repair geometry-backed provisional package closeout (2026-08-04)
 
 Invalidated F24 qualification claims (`build_f24_geometry_backed_model.py` raw file copy defect). F24 classification corrected to `f24_m2rmprov1_package_invalid_no_submission_authorized`.

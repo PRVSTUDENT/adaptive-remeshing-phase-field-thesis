@@ -1,0 +1,13 @@
+{
+  "protocol_version": 1,
+  "task_id": "F26-INVALIDATE-F25-AND-PREPARE-CAE-BUILD-QUALIFICATION",
+  "telegram_start_mandatory": true,
+  "telegram_terminal_mandatory": true,
+  "actual_telegram_delivery_required": true,
+  "redaction_mandatory": true,
+  "required_records": [
+    "NOTIFICATION_START_TELEGRAM.json",
+    "NOTIFICATION_TERMINAL_TELEGRAM.json",
+    "NOTIFICATION_REDACTION_AUDIT.json"
+  ]
+}
