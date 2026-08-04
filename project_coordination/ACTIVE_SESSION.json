@@ -1,12 +1,15 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-04T13:27:00Z",
-  "heartbeat": "2026-08-04T13:27:00Z",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "Session completed and released for F32 M2RMBUILD7 offline preparation: Created f32_cae_runtime_gate_repair package with complete workdir self-staging in M2RMBUILD7.pbs, on_exit interpreter fallback check, F32 gate artifacts, decision, experiment record, guarded orchestrator, validator, and 8 unit tests passing. Submission NOT authorized (execution_authorized = false)."
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_scope": [
+    "runs/hpc/stage_f/f32_m2rmbuild7_static_gate/",
+    "project_coordination/"
+  ],
+  "completed_at": null,
+  "heartbeat": "2026-08-04T13:30:00Z",
+  "started_at": "2026-08-04T13:30:00Z",
+  "session_id": "F32-SUBMIT-GEMINI-ANTIGRAVITY-20260804T133000Z",
+  "starting_commit": "5d07372f12a32e57f3f046a8d540ae7f573d20e4",
+  "task_id": "F32-M2RMBUILD7-AUTHORIZED-SUBMISSION",
+  "note": "Claim active session for executing authorized submission of M2RMBUILD7."
 }

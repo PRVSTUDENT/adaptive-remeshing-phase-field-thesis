@@ -8,7 +8,8 @@ Full SHAs recorded: F31 package P `f084e8d0adaf049f8e3bb3f2fc223bf3d50ce603`, F3
 Implemented repaired model builder `build_f32_geometry_backed_model.py` with environment variable argument transport (`F32_SOURCE_DECK`, `F32_OUTPUT_INPUT`, `F32_GEOMETRY_AUDIT`), documented `job.writeInput(consistencyChecking=ON)` signature, explicit `ON` import, and topology-safe slit edge reconstruction.
 Repaired `M2RMBUILD7.pbs` by adding explicit self-staging (`cp "$F32_PACKAGE_DIR/M2RMBUILD7.pbs" .`) into `$WORK_DIR` before hash verification, and ensuring module/python resolution inside `on_exit` trap.
 Bound guarded orchestrator `submit_stage_f32_cae_build_qualification.sh` to package path `models/generated/mode_ii/f32_cae_runtime_gate_repair`.
-Classification: `f32_m2rmbuild7_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`, `maximum_future_submissions = 1`.
+Received explicit human authorization for `M2RMBUILD7` ("I approve one submission of M2RMBUILD7 using the guarded wrapper scripts/hpc/stage_f/submit_stage_f32_cae_build_qualification.sh, with maximum submissions 1, maximum concurrency 1, automatic retry false, and replacement authorization false.").
+Classification: `f32_m2rmbuild7_authorized_pending_submission`. `execution_authorized = true`, `submission_approved = true`, `approved_submissions_now = 1`, `maximum_jobs_now = 1`, `maximum_future_submissions = 0`.
 
 ## F31 M2RMBUILD6 static gate repair closeout (2026-08-04)
 

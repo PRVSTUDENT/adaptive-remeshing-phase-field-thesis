@@ -337,3 +337,5 @@ F32_EXPERIMENT_RECORD,Stage F,docs/experiment_records/STAGE_F32_M2RMBUILD7_STATI
 F32_ORCHESTRATOR,Stage F,scripts/hpc/stage_f/submit_stage_f32_cae_build_qualification.sh,guarded_orchestrator,prepared_not_authorized,gemini-antigravity,a6c087f2ccc759fa8acec4102cd7f47b623618d0,,,Guarded M2RMBUILD7 submission orchestrator
 F32_VALIDATOR,Stage F,scripts/validation/validate_f32_m2rmbuild7_static_gate.py,validator_script,active,gemini-antigravity,a6c087f2ccc759fa8acec4102cd7f47b623618d0,,,F32 offline gate validator
 F32_UNIT_TESTS,Stage F,tests/stage_f/test_f32_m2rmbuild7_static_gate.py,unit_test_script,active,gemini-antigravity,a6c087f2ccc759fa8acec4102cd7f47b623618d0,,,F32 unit tests
+F32_SUBMISSION_RECORD,Stage F,runs/hpc/stage_f/f32_m2rmbuild7_static_gate/M2RMBUILD7_SUBMISSION_RECORD.json,submission_record,authorized,gemini-antigravity,5d07372f12a32e57f3f046a8d540ae7f573d20e4,,,F32 M2RMBUILD7 submission authorization record
+
