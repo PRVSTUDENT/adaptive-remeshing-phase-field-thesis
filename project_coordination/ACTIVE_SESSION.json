@@ -1,20 +1,12 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_scope": [
-    "docs/decisions/F24_GEOMETRY_BACKED_REMESH_AND_ODB_COMPATIBILITY_DECISION.md",
-    "docs/experiment_records/STAGE_F24_OFFLINE_GEOMETRY_AND_ODB_GATE.md",
-    "runs/hpc/stage_f/f24_geometry_and_odb_compatibility_gate/",
-    "models/generated/mode_ii/",
-    "scripts/",
-    "tests/",
-    "project_coordination/"
-  ],
-  "completed_at": null,
-  "heartbeat": "2026-08-04T05:32:50Z",
-  "started_at": "2026-08-04T05:32:50Z",
-  "session_id": "F24-GEMINI-ANTIGRAVITY-20260804T053250Z",
-  "starting_commit": "9d80dd5a9fb36a99045c7ccd974f7e30562a978a",
-  "task_id": "F24-OFFICIAL-ADAPTIVE-CONTRACT-AND-ODB-COMPATIBILITY-GATE",
-  "note": "Offline geometry-backed adaptive remeshing contract and ODB compatibility gate investigation."
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
+  "completed_at": "2026-08-04T05:37:05Z",
+  "heartbeat": "2026-08-04T05:37:05Z",
+  "started_at": null,
+  "session_id": null,
+  "starting_commit": null,
+  "task_id": null,
+  "note": "F24 completed; Outcome B selected; f24_m2rmprov1_clean_linux_qualified_not_authorized; M2RMPROV1 prepared without execution authorization."
 }
