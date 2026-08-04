@@ -1,0 +1,21 @@
+{
+  "task_id": "F23-OFFLINE-ADAPTIVE-REGION-ASSOCIATION-INVESTIGATION",
+  "defect_repaired": "F21 wrapper failed to write SOURCE_MESH_SUMMARY.json on error and collector masked CAE exit code",
+  "required_retained_files": [
+    "SOURCE_MESH_SUMMARY.json",
+    "compatibility.returncode",
+    "cae.returncode",
+    "collector.returncode",
+    "first_failure.returncode",
+    "MISSING_EVIDENCE_REPORT.json",
+    "NATIVE_REMESH_TRACEBACK.txt",
+    "PRECALL_ADAPTIVE_REGION_AUDIT.json"
+  ],
+  "exit_code_priority": [
+    "compatibility.returncode (if non-zero)",
+    "cae.returncode (if non-zero)",
+    "collector.returncode (if non-zero)"
+  ],
+  "masking_prevention_rule": "collector.returncode must not mask cae.returncode or compatibility.returncode; first_failure.returncode records the highest priority non-zero exit code",
+  "missing_evidence_report_contract": "MISSING_EVIDENCE_REPORT.json must list every required absent file with reason"
+}

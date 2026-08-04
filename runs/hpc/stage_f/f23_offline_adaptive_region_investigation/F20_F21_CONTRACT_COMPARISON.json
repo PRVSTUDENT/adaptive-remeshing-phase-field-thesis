@@ -1,0 +1,30 @@
+{
+  "task_id": "F23-OFFLINE-ADAPTIVE-REGION-ASSOCIATION-INVESTIGATION",
+  "f20_job": "M2RMREG7",
+  "f20_job_id": "1382428.mmaster02",
+  "f20_classification": "native_adaptive_region_contract_qualified",
+  "f20_adaptiveRemesh_executed": false,
+  "f20_qualification_basis": "rule_creation_and_non_null_region_check_only",
+  "f21_job": "M2RMEXEC1",
+  "f21_job_id": "1382435.mmaster02",
+  "f21_classification": "native_remesh_api_execution_failed",
+  "f21_adaptiveRemesh_executed": true,
+  "f21_failure_exception": "AbaqusException: The model contains no adaptive regions for remeshing.",
+  "exact_comparison": {
+    "model_creation": "Both used mdb.ModelFromInputFile(name=..., inputFileName=deck)",
+    "input_deck_import": "Imports source_deck.inp creating orphan mesh part PART-1 with 3,930 CPE4 elements",
+    "source_part_selection": "Selected PART-1 from model.parts",
+    "Part2DGeomFrom2DMesh_result": "Created uninstantiated 2D geometry part (F20_GEOMETRY_BACKED / F21_GEOMETRY_BACKED) in model.parts",
+    "geometry_backed_part_ownership": "Geometry part object stored in model.parts with isMeshPart=False",
+    "assembly_instances": "rootAssembly retains original orphan mesh instance PART-1-1; geometry-backed part is not instantiated in rootAssembly",
+    "RemeshingRule_creation": "RemeshingRule(name='F20_MISESERI_RULE', stepName='Step-1', variables=(str('MISESERI'),), region=MODEL, ...)",
+    "RemeshingRule_region": "Symbolic constant MODEL",
+    "analysis_step": "Step-1",
+    "MISESERI_variable_assignment": "Tuple containing Python 2 byte-string (str('MISESERI'),)",
+    "adaptive_region_repositories": "model.remeshingRules populated with rule; model.adaptiveMeshConstraints and model.adaptiveMeshControls empty",
+    "AdaptivityProcess_repositories": "mdb.adaptivityProcesses empty",
+    "model_adaptiveRemesh_availability": "hasattr(model, 'adaptiveRemesh') evaluated to True",
+    "object_state_immediately_before_adaptiveRemesh": "remeshingRules contains F20_MISESERI_RULE with region=MODEL; rootAssembly contains only orphan mesh instance PART-1-1"
+  },
+  "root_cause_explanation": "F20 classified contract qualified based solely on rule creation and rule.region != None without invoking model.adaptiveRemesh(odb). F21 called model.adaptiveRemesh(odb) on the identical model state. Abaqus adaptiveRemesh scanned the assembly for active geometry faces/cells bound to remeshing rules, found only orphan mesh instance PART-1-1, and raised AbaqusException: The model contains no adaptive regions for remeshing. The existence of a RemeshingRule in model.remeshingRules does not constitute a recognized adaptive region."
+}

@@ -1,5 +1,10 @@
 # Mistakes And Fixes Log
 
+## F23 offline adaptive-region association investigation (2026-08-04)
+
+F20 vs F21 contract comparison proved that F20 checked `rule.region is not None` without calling `Model.adaptiveRemesh(odb)`. F21 executed `Model.adaptiveRemesh(odb)` and failed with `AbaqusException: The model contains no adaptive regions for remeshing.`.
+3 plausible hypotheses remain (assembly instance replacement, face region assignment, adaptivity process registration). Because Abaqus CAE execution is prohibited offline, Outcome B (`adaptive_region_association_unresolved_offline`) was selected. No HPC job prepared. Pre-call recognition audit and evidence-retention priority rules were specified.
+
 ## F21 adaptive-region association
 
 A created RemeshingRule did not prove an adaptive region recognized by

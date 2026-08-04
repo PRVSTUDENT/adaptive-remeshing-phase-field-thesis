@@ -1,1 +1,19 @@
-{"protocol_version":1,"task_id":"F22-F21-TERMINAL-CLOSEOUT-AND-CONDITIONAL-NEXT-GATE-PREPARATION","status":"complete_no_job_prepared","classification":"f22_f21_closed_no_scientifically_justified_execution_prepared","starting_commit":"ca474a2773d4cc507b7751b552dc1a28a175155e","job_ids":["1382435.mmaster02"],"f21_classification":"native_remesh_api_execution_failed","candidate_found":false,"selected_next_job":null,"execution_authorized":false,"submission_approved":false,"approved_submissions_now":0,"maximum_jobs_now":0,"new_qsub_attempts":0,"new_successful_submissions":0,"retry_authorized":false,"replacement_authorized":false,"candidate_datacheck_prepared":false,"state_transfer_prepared":false,"refined_analysis_prepared":false,"medium_h1_prepared":false,"h2_prepared":false,"next_action":"resolve exact adaptive-region association offline"}
+{
+  "protocol_version": 1,
+  "task_id": "F23-OFFLINE-ADAPTIVE-REGION-ASSOCIATION-INVESTIGATION",
+  "status": "complete_no_job_prepared",
+  "classification": "f23_adaptive_region_association_unresolved_no_job_prepared",
+  "starting_commit": "8ef3cdddbeb249b90458f27968e505e6de4967d2",
+  "selected_outcome": "Outcome B",
+  "m2rmexec2_prepared": false,
+  "selected_next_job": null,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "approved_submissions_now": 0,
+  "maximum_jobs_now": 0,
+  "new_qsub_attempts": 0,
+  "new_successful_submissions": 0,
+  "retry_authorized": false,
+  "replacement_authorized": false,
+  "next_action": "await explicit human decision"
+}

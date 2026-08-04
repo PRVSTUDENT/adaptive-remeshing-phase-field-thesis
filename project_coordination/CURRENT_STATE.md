@@ -1,6 +1,11 @@
 # Current project state
 
-## F22 F21 terminal closeout (2026-08-03)
+## F23 offline adaptive-region association investigation closeout (2026-08-04)
+
+Performed strictly offline investigation comparing F20 (`M2RMREG7`) and F21 (`M2RMEXEC1`).
+F20 classified contract qualified based on rule creation and `rule.region != None` without invoking `Model.adaptiveRemesh(odb)`. F21 called `Model.adaptiveRemesh(odb)` on the identical model state and raised `AbaqusException: The model contains no adaptive regions for remeshing.`.
+Evaluated 4 association hypotheses offline. Because 3 plausible hypotheses remain unverified without Abaqus CAE execution (prohibited offline), **Outcome B (`adaptive_region_association_unresolved_offline`) is selected**.
+Classification: `f23_adaptive_region_association_unresolved_no_job_prepared`. No HPC job (`M2RMEXEC2`) is prepared or authorized. Qsub attempts = 0, new submissions = 0, execution authorization = false.
 
 Job `1382435` finished exit 1. Compatibility passed; the sole
 `Model.adaptiveRemesh(odb)` call failed because the model contained no adaptive

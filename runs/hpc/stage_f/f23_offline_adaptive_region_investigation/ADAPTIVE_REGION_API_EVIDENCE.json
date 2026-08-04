@@ -1,0 +1,28 @@
+{
+  "task_id": "F23-OFFLINE-ADAPTIVE-REGION-ASSOCIATION-INVESTIGATION",
+  "hypotheses_evaluated": {
+    "hypothesis_1": {
+      "description": "Geometry-backed part (Part2DGeomFrom2DMesh) must replace orphan instance in rootAssembly",
+      "evidence_status": "plausible_unproven_offline",
+      "details": "F20 and F21 left rootAssembly referencing orphan mesh instance PART-1-1. Replacing the assembly instance with the geometry part is necessary for assembly to expose geometry faces, but cannot be proven without Abaqus CAE execution."
+    },
+    "hypothesis_2": {
+      "description": "RemeshingRule region must be assigned to specific geometry Face/Cell region or Set, not symbolic MODEL",
+      "evidence_status": "plausible_unproven_offline",
+      "details": "Symbolic MODEL on an imported orphan mesh model failed. Assigning region=instance.faces or part.faces may be required by Abaqus remeshing engines."
+    },
+    "hypothesis_3": {
+      "description": "An AdaptivityProcess object must be registered in mdb.adaptivityProcesses",
+      "evidence_status": "plausible_unproven_offline",
+      "details": "AdaptivityProcess requires maxIterations >= 2, which could trigger multi-iteration solver loops."
+    },
+    "hypothesis_4": {
+      "description": "RemeshingRule alone is sufficient",
+      "evidence_status": "rejected_by_evidence",
+      "details": "F21 proved that RemeshingRule alone with region=MODEL raises AbaqusException when calling model.adaptiveRemesh(odb)."
+    }
+  },
+  "unresolved_count": 3,
+  "rejected_count": 1,
+  "conclusion": "More than one plausible association remains and no positive offline proof exists under Abaqus 2023. Selecting an API route by guessing without CAE execution is prohibited."
+}

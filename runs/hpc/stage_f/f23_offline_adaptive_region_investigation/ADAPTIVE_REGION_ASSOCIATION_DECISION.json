@@ -1,0 +1,18 @@
+{
+  "task_id": "F23-OFFLINE-ADAPTIVE-REGION-ASSOCIATION-INVESTIGATION",
+  "starting_commit": "8ef3cdddbeb249b90458f27968e505e6de4967d2",
+  "selected_outcome": "Outcome B",
+  "decision_classification": "adaptive_region_association_unresolved_offline",
+  "final_classification": "f23_adaptive_region_association_unresolved_no_job_prepared",
+  "m2rmexec2_prepared": false,
+  "next_job_prepared": null,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "approved_submissions_now": 0,
+  "maximum_jobs_now": 0,
+  "qsub_attempts": 0,
+  "successful_submissions": 0,
+  "retry_authorized": false,
+  "replacement_authorized": false,
+  "decision_rationale": "Under Decision Gate rules, Outcome A requires exactly one proven API route, object association, and ordering supported by positive offline proof. Because three plausible association hypotheses remain unverified without Abaqus CAE execution, Outcome B (adaptive_region_association_unresolved_offline) is selected. No HPC job is prepared."
+}

@@ -1,12 +1,20 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-03T13:05:00Z",
-  "heartbeat": "2026-08-03T12:50:00Z",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "F21 closed as native_remesh_api_execution_failed; no job prepared or authorized."
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_scope": [
+    "docs/decisions/F23_ADAPTIVE_REGION_ASSOCIATION_DECISION.md",
+    "docs/experiment_records/STAGE_F23_OFFLINE_ADAPTIVE_REGION_INVESTIGATION.md",
+    "runs/hpc/stage_f/f23_offline_adaptive_region_investigation/",
+    "scripts/",
+    "tests/",
+    "models/generated/mode_ii/",
+    "project_coordination/"
+  ],
+  "completed_at": null,
+  "heartbeat": "2026-08-04T05:08:00Z",
+  "started_at": "2026-08-04T05:08:00Z",
+  "session_id": "F23-GEMINI-ANTIGRAVITY-20260804T050800Z",
+  "starting_commit": "8ef3cdddbeb249b90458f27968e505e6de4967d2",
+  "task_id": "F23-OFFLINE-ADAPTIVE-REGION-ASSOCIATION-INVESTIGATION",
+  "note": "Strictly offline investigation; no Abaqus or scheduler action; no job preparation unless exact association is positively proven."
 }

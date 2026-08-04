@@ -1,0 +1,30 @@
+{
+  "spec_name": "PRECALL_ADAPTIVE_REGION_RECOGNITION_AUDIT",
+  "task_id": "F23-OFFLINE-ADAPTIVE-REGION-ASSOCIATION-INVESTIGATION",
+  "audit_fields_required": [
+    "model_name",
+    "part_names_and_state",
+    "instance_names",
+    "remeshing_rule_names",
+    "remeshing_rule_owners",
+    "rule_region_type",
+    "rule_region_contents",
+    "adaptive_region_repository_names",
+    "adaptivity_process_names",
+    "installed_adaptive_remesh_methods",
+    "selected_method",
+    "selected_owner",
+    "selected_region",
+    "selected_step",
+    "miseseri_association",
+    "recognized_adaptive_region_count"
+  ],
+  "fail_closed_threshold": "recognized_adaptive_region_count > 0",
+  "zero_count_action": "fail closed immediately before invoking model.adaptiveRemesh",
+  "fallback_allowed": false,
+  "specification_rules": {
+    "rule_existence_not_sufficient": "rule creation alone does not prove region recognition",
+    "precall_order": "must run immediately prior to model.adaptiveRemesh call",
+    "audit_output_path": "PRECALL_ADAPTIVE_REGION_AUDIT.json"
+  }
+}

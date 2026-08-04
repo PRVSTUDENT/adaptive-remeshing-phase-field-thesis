@@ -51,6 +51,8 @@ ALLOWED_TASK_IDS = frozenset(
         "F20-F19-ROLLBACK-EVIDENCE-RECOVERY-AND-ADAPTIVE-R7-PREPARATION",
         "F20-M2RMREG7-AUTHORIZED-EXECUTION",
         "F21-NATIVE-REMESH-CANDIDATE-PREPARATION",
+        "F22-F21-TERMINAL-CLOSEOUT-AND-CONDITIONAL-NEXT-GATE-PREPARATION",
+        "F23-OFFLINE-ADAPTIVE-REGION-ASSOCIATION-INVESTIGATION",
         "COORD-0",
         "COORD-1",
         "COORD-1R",
@@ -128,10 +130,10 @@ def has_control_chars(path: Path) -> list[int]:
     return sorted({b for b in data if b < 32 and b not in (9, 10, 13)})
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     root: Path = args.root
     errors: list[str] = []
 

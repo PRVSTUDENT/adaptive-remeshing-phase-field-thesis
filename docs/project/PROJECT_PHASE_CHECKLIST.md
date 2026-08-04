@@ -1,5 +1,13 @@
 # Project Phase Checklist
 
+## F23 offline adaptive-region association investigation gate
+
+- [x] F20 vs F21 contract comparison completed. F20 checked rule existence and non-null region; F21 executed `model.adaptiveRemesh(odb)` and failed with 0 adaptive regions.
+- [x] Evaluated 4 adaptive-region association hypotheses offline; Outcome B (`adaptive_region_association_unresolved_offline`) selected due to multiple unresolved hypotheses requiring CAE execution.
+- [x] Prepared deterministic pre-call recognition audit specification (`PRECALL_RECOGNITION_AUDIT_SPEC.json`).
+- [x] Audited and defined evidence-retention repairs for future wrappers (`EVIDENCE_RETENTION_REPAIR_AUDIT.json`).
+- [x] No HPC job prepared (`M2RMEXEC2` is false). Qsub attempts = 0, execution authority = false.
+
 ## F21 native-remesh candidate gate
 
 - [!] Job `1382435` failed with no adaptive regions; no candidate or next job.
@@ -9,7 +17,7 @@
 - [x] Exact M2RMEXEC1 authorization consumed by guarded job `1382435.mmaster02`.
 - [ ] Execute and review native-remesh candidate before datacheck preparation.
 
-Updated: 2026-07-25
+Updated: 2026-08-04
 
 This is the authoritative living task and phase checklist for the adaptive remeshing thesis workspace. Update this same file after every substantial task, run, validation, failure, retry, decision, gate transition, and phase completion. Do not create duplicate phase checklists.
 
