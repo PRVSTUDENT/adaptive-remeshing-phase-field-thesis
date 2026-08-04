@@ -1,5 +1,14 @@
 # Current project state
 
+## F30 CAE runtime gate repair closeout (2026-08-04)
+
+Invalidated F29 `M2RMBUILD4` qualification claims due to `Edge.getFaces()` integer ID method call defect, `MeshElement.connectivity` index comparison in bridge element detection, runtime validator execution order bug, missing workdir contract JSON staging, un-staged notification evidence prior to missing evidence report inspection, combined nodal/element output requests, missing exact equation/BC/step value assertions in input validator, category-ratio based source coverage, premature compatibility returncode writing, and missing remote ACTIVE_SESSION closeout. F29 classification corrected to `f29_m2rmbuild4_package_invalid_no_submission_authorized`.
+Full SHAs recorded: F29 initial package `21c4d1a8c17cd0e8223644ef773aed22b998000b`, F29 corrected package P `b2a3535742a08961688ee5e65dbe4c8e412e4118`, F29 binding Q `d89d4d11a2c4b9ecbe21a60301a50a6ebb755b98`, F30 starting commit `d89d4d11a2c4b9ecbe21a60301a50a6ebb755b98`.
+Implemented repaired topology-safe model builder `build_f30_geometry_backed_model.py` resolving integer face IDs via `geom_part.faces[i]` before evaluating centroid `y` coordinates (`f_cy < 0` vs `f_cy > 0`), evaluating bridge elements via `elem.getNodes()` node labels (`bridge_element_count = 0`), reconstructing separate nodal (`U, RF`) and element (`MISESERI, MISESAVG, S, E, EVOL` on `All_elem`) output requests, and auditing exact set-based source coverage (`source_contract_coverage = 1.0`, `unresolved_entity_count = 0`).
+Prepared exact input validator `validate_generated_input.py`, fixed execution order in `M2RMBUILD5.pbs` (CAE builder -> generated input SHA -> `validate_generated_input.py` -> `validate_f30_runtime_audits.py` -> STATUS), staged all contract JSON files to workdir, and restructured terminal EXIT trap to stage notification artifacts before running `generate_missing_evidence_report.py`.
+Bound guarded orchestrator `submit_stage_f30_cae_build_qualification.sh` to package path `models/generated/mode_ii/f30_cae_runtime_gate_repair` using repository-relative pathspecs for git blob comparisons.
+Classification: `f30_m2rmbuild5_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
+
 ## F29 topology safe CAE build gate closeout (2026-08-04)
 
 Invalidated F28 `M2RMBUILD3` qualification claims due to runtime audit parser `NameError`, optional notifications, unhandled terminal Telegram failure, masked collector returncode, premature counter reporting, identical crack-face bounding boxes, unverified slit topology, missing assembly `All_elem` reconstruction, and unverified generated input deck. F28 classification corrected to `f28_m2rmbuild3_package_invalid_no_submission_authorized`.
@@ -10,7 +19,7 @@ Implemented true dynamic live object rebinding audit in `MODEL_ENTITY_REBINDING_
 Prepared standalone runtime validation scripts (`validate_f29_runtime_audits.py`, `generate_missing_evidence_report.py`, `validate_generated_input.py`).
 Prepared fail-closed `M2RMBUILD4.pbs` with mandatory notification permission check (600), mandatory START Telegram delivery (`exit 15`), dedicated terminal error code (`exit 17`), and unmasked evidence collector returncode.
 Bound guarded orchestrator `submit_stage_f29_cae_build_qualification.sh` to package preparation SHA `b2a3535742a08961688ee5e65dbe4c8e412e4118` with ancestry, diff, git blob ID, and tracked path checks.
-Classification: `f29_m2rmbuild4_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
+Classification: `f29_m2rmbuild4_package_invalid_no_submission_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
 
 ## F28 replace fabricated model rebinding and prepare real CAE build gate closeout (2026-08-04)
 

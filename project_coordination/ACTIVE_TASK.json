@@ -1,12 +1,12 @@
 {
   "protocol_version": 1,
-  "task_id": "F29-INVALIDATE-F28-AND-PREPARE-TOPOLOGY-SAFE-CAE-BUILD",
+  "task_id": "F30-INVALIDATE-F29-AND-REPAIR-RUNTIME-CAE-GATE",
   "status": "preparation_complete_not_authorized",
-  "classification": "f29_m2rmbuild4_static_clean_linux_qualified_not_authorized",
-  "starting_commit": "c5b0607c937e28cb6b35c4268fcc73fb099c0059",
-  "package_preparation_sha": "b2a3535742a08961688ee5e65dbe4c8e412e4118",
-  "prepared_job": "M2RMBUILD4",
-  "builder_script": "runtime/build_f29_geometry_backed_model.py",
+  "classification": "f30_m2rmbuild5_static_clean_linux_qualified_not_authorized",
+  "starting_commit": "d89d4d11a2c4b9ecbe21a60301a50a6ebb755b98",
+  "package_preparation_sha": "96872b416723899d2b065676ffb4e124915446db",
+  "prepared_job": "M2RMBUILD5",
+  "builder_script": "runtime/build_f30_geometry_backed_model.py",
   "m2rmprov1_solver_prepared": false,
   "m2rmexec2_prepared": false,
   "execution_authorized": false,
@@ -17,5 +17,5 @@
   "new_successful_submissions": 0,
   "retry_authorized": false,
   "replacement_authorized": false,
-  "next_action": "await explicit human decision for M2RMBUILD4 submission authorization"
+  "next_action": "await explicit human decision for M2RMBUILD5 submission authorization"
 }

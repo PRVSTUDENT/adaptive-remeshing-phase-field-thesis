@@ -884,3 +884,18 @@ Submission-review priority:
 - [x] Guarded orchestrator made one qsub call; `1382428.mmaster02` entered queued state.
 - [x] Required F20 package/evidence variables and 1 CPU/8 GB/00:30:00 resources verified in PBS.
 - [x] Authority consumed 1/1; no retry, replacement, direct qsub, qdel, qmove, rerun, or other job.
+
+## Stage F30 CAE runtime gate repair (2026-08-04)
+
+- [x] Invalidated Stage F29 (`f29_m2rmbuild4_package_invalid_no_submission_authorized`) due to 11 blocking defects.
+- [x] Repaired `Edge.getFaces()` integer ID method call by resolving Face objects via `geom_part.faces[i]` before evaluating centroid `y` coordinates.
+- [x] Repaired bridge element detection by using `elem.getNodes()` to extract node labels (`bridge_element_count = 0`).
+- [x] Reconstructed separate nodal (`U, RF`) and element (`MISESERI, MISESAVG, S, E, EVOL` on `All_elem`) output requests.
+- [x] Implemented exact set-based source contract coverage audit evaluating 19 canonical entity keys (`source_contract_coverage = 1.0`).
+- [x] Prepared exact input validator `validate_generated_input.py` asserting equation terms, BC values, step parameters, output variables, and hash inequality.
+- [x] Fixed execution order in `M2RMBUILD5.pbs` (CAE builder -> generated input SHA -> `validate_generated_input.py` -> `validate_f30_runtime_audits.py` -> STATUS).
+- [x] Staged all static contract JSON files to `$WORK_DIR` before validation.
+- [x] Restructured terminal EXIT trap to stage notification artifacts before running `generate_missing_evidence_report.py`.
+- [x] Bound guarded orchestrator `submit_stage_f30_cae_build_qualification.sh` to package path `models/generated/mode_ii/f30_cae_runtime_gate_repair` using repository-relative pathspecs.
+- [x] Executed 10 offline unit tests (10/10 passed) and verified offline gate validator (`classification: pass`).
+- [!] Qualification status: `f30_m2rmbuild5_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
