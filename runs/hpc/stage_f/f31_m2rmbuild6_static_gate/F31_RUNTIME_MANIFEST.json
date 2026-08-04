@@ -1,0 +1,13 @@
+{
+  "protocol_version": 1,
+  "task_id": "F31-INVALIDATE-F30-AND-REPAIR-M2RMBUILD5-STATIC-GATE",
+  "builder_script": "runtime/build_f31_geometry_backed_model.py",
+  "source_deck": "runtime/source_deck.inp",
+  "generated_input_validator": "runtime/validate_generated_input.py",
+  "runtime_validator": "runtime/validate_f31_runtime_audits.py",
+  "evidence_report_generator": "runtime/generate_missing_evidence_report.py",
+  "m2rmprov1_solver_prepared": false,
+  "m2rmexec2_prepared": false,
+  "execution_authorized": false,
+  "submission_approved": false
+}

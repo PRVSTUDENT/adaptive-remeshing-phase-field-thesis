@@ -1,0 +1,22 @@
+{
+  "protocol_version": 1,
+  "task_id": "F31-INVALIDATE-F30-AND-REPAIR-M2RMBUILD5-STATIC-GATE",
+  "execute_sha256sum_package_manifest": true,
+  "execute_sha256sum_f31_manifest": true,
+  "source_deck_sha_verification": true,
+  "runtime_script_sha_verification": true,
+  "shell_syntax_check": true,
+  "module_load_sequence": [
+    "gcc/11.4.0",
+    "intel/2024.2.0",
+    "abaqus/2023"
+  ],
+  "abaqus_executable_resolved": true,
+  "python_executable_resolved": true,
+  "abaqus_release_captured": true,
+  "python_release_captured": true,
+  "output_artifacts": [
+    "COMPATIBILITY_AUDIT.json",
+    "compatibility.returncode"
+  ]
+}

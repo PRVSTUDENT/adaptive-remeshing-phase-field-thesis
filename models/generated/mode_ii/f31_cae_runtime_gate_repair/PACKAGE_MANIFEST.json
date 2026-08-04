@@ -1,0 +1,15 @@
+{
+  "protocol_version": 1,
+  "task_id": "F31-INVALIDATE-F30-AND-REPAIR-M2RMBUILD5-STATIC-GATE",
+  "package_name": "f31_cae_runtime_gate_repair",
+  "prepared_job": "M2RMBUILD6",
+  "builder_script": "runtime/build_f31_geometry_backed_model.py",
+  "source_deck": "runtime/source_deck.inp",
+  "pbs_script": "M2RMBUILD6.pbs",
+  "m2rmprov1_solver_prepared": false,
+  "m2rmexec2_prepared": false,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "approved_submissions_now": 0,
+  "maximum_jobs_now": 0
+}

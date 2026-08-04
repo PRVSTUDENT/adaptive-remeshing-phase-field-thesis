@@ -1,0 +1,25 @@
+{
+  "protocol_version": 1,
+  "task_id": "F31-INVALIDATE-F30-AND-REPAIR-M2RMBUILD5-STATIC-GATE",
+  "evidence_order": [
+    "1_preserve_original_failure",
+    "2_write_execution_counters",
+    "3_write_return_codes",
+    "4_attempt_terminal_telegram_delivery",
+    "5_write_terminal_notification_evidence",
+    "6_write_redaction_evidence",
+    "7_stage_lightweight_artifacts",
+    "8_calculate_collector_returncode",
+    "9_stage_collector_returncode",
+    "10_inspect_final_evidence_directory",
+    "11_generate_missing_evidence_report",
+    "12_stage_missing_evidence_report",
+    "13_write_final_runtime_status",
+    "14_disable_exit_trap",
+    "15_exit_with_preserved_or_gate_code"
+  ],
+  "runtime_status_allowed_classifications": [
+    "cae_geometry_build_contract_passed",
+    "cae_geometry_build_contract_failed"
+  ]
+}

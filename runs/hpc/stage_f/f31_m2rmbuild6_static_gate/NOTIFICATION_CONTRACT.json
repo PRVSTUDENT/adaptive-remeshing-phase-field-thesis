@@ -1,0 +1,14 @@
+{
+  "protocol_version": 1,
+  "task_id": "F31-INVALIDATE-F30-AND-REPAIR-M2RMBUILD5-STATIC-GATE",
+  "config_file": "~/.config/adaptive-remeshing/notifications.env",
+  "required_permissions": "600",
+  "terminal_notification_attempted_on_all_paths": true,
+  "attempt_terminal_before_start_sent": true,
+  "prohibit_curl_or_echo_fallback": true,
+  "explicit_curl_rc_capture": true,
+  "json_parse_response": true,
+  "retain_curl_rc_and_telegram_ok": true,
+  "preserve_earlier_failures": true,
+  "dedicated_notification_failure_code": 17
+}

@@ -1,0 +1,12 @@
+{
+  "protocol_version": 1,
+  "task_id": "F31-INVALIDATE-F30-AND-REPAIR-M2RMBUILD5-STATIC-GATE",
+  "prohibited_cae_dash_dash_arguments": true,
+  "required_environment_variables": [
+    "F31_SOURCE_DECK",
+    "F31_OUTPUT_INPUT",
+    "F31_GEOMETRY_AUDIT"
+  ],
+  "exact_cae_invocation": "abaqus cae noGUI=runtime/build_f31_geometry_backed_model.py",
+  "standalone_python_fallback_allowed": false
+}

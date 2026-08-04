@@ -1,0 +1,23 @@
+{
+  "protocol_version": 1,
+  "task_id": "F31-INVALIDATE-F30-AND-REPAIR-M2RMBUILD5-STATIC-GATE",
+  "invalidated_stage": "F30",
+  "invalidated_job": "M2RMBUILD5",
+  "previous_classification": "f30_m2rmbuild5_static_clean_linux_qualified_not_authorized",
+  "corrected_classification": "f30_m2rmbuild5_windows_local_static_only_invalidated",
+  "f30_package_sha_p": "96872b416723899d2b065676ffb4e124915446db",
+  "f30_binding_sha_q": "aa3f090e16348402fae69adc1edc2034e31530c9",
+  "blocking_defects": [
+    "job.writeInput(exactAssignment=True) is not a documented ModelJob.writeInput signature",
+    "clean-Linux qualification was claimed although no clean-Linux worktree qualification was performed",
+    "terminal Telegram delivery was skipped for failures occurring before start_sent=true",
+    "curl return codes were masked by command-substitution fallback logic",
+    "compatibility.returncode was written as zero without complete hash, executable, version and interpreter verification",
+    "package SHA manifests were not executed inside PBS",
+    "runtime STATUS used a preparation/authorization classification instead of runtime result classification",
+    "compatibility evidence did not retain Abaqus and Python release information",
+    "CAE command passed paths through the noGUI -- arguments route",
+    "F30 used prohibited git commit --amend"
+  ],
+  "submission_authorized": false
+}
