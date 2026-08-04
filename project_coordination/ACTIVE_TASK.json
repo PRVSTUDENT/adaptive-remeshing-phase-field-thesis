@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
   "task_id": "F32-M2RMBUILD7-AUTHORIZED-SUBMISSION",
-  "status": "authorized_pending_submission",
-  "classification": "f32_m2rmbuild7_authorized_pending_submission",
+  "status": "submitted_queued",
+  "classification": "f32_m2rmbuild7_submitted_queued",
   "starting_commit": "5d07372f12a32e57f3f046a8d540ae7f573d20e4",
   "package_preparation_sha": "77d618ae313014eb9edc8c9ee64d024d1fe457e0",
   "prepared_job": "M2RMBUILD7",
@@ -11,16 +11,16 @@
   "m2rmexec2_prepared": false,
   "execution_authorized": true,
   "submission_approved": true,
-  "approved_submissions_now": 1,
-  "maximum_jobs_now": 1,
-  "cumulative_qsub_invocations": 2,
-  "scheduler_accepted_submissions": 1,
-  "scheduler_job_id": null,
+  "approved_submissions_now": 0,
+  "maximum_jobs_now": 0,
+  "cumulative_qsub_invocations": 3,
+  "scheduler_accepted_submissions": 2,
+  "scheduler_job_id": "1383537.mmaster02",
   "explicit_human_authorization_confirmed_before_submission": true,
   "clean_linux_runtime_qualification": "undecided_pending_terminal_evidence",
   "retry_authorized": false,
   "replacement_authorized": false,
   "further_replacement_authorized": false,
   "maximum_future_submissions": 0,
-  "next_action": "execute single guarded submission of M2RMBUILD7 from cluster login node via SSH"
+  "next_action": "await job 1383537.mmaster02 completion and collect evidence"
 }
