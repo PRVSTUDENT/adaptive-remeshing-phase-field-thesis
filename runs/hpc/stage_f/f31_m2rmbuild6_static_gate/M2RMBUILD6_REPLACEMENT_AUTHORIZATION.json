@@ -1,0 +1,22 @@
+{
+  "protocol_version": 1,
+  "task_id": "F31-M2RMBUILD6-REPLACEMENT-AUTHORIZED-SUBMISSION",
+  "approved_job": "M2RMBUILD6",
+  "package_name": "f31_cae_runtime_gate_repair",
+  "package_preparation_sha": "f084e8d0adaf049f8e3bb3f2fc223bf3d50ce603",
+  "binding_commit_sha": "9ebf99c6dd6fb482ca966d9c0fc90b1646de38e5",
+  "guarded_wrapper_script": "scripts/hpc/stage_f/submit_stage_f31_cae_build_qualification.sh",
+  "recorded_authorization_status": "replacement_authorized_explicitly",
+  "human_approval_confirmed_before_execution": true,
+  "execution_authorized": true,
+  "submission_approved": true,
+  "approved_submissions_max": 1,
+  "maximum_concurrent_jobs": 1,
+  "automatic_retry_authorized": false,
+  "replacement_authorized": true,
+  "further_replacement_authorized": false,
+  "direct_qsub_allowed": false,
+  "execution_environment_required": "cluster_login_node_environment",
+  "user_authorization_text": "I approve one replacement submission of M2RMBUILD6 from the cluster login environment using the guarded wrapper. Maximum submissions: 1; maximum concurrency: 1; automatic retry: false; further replacement: false; direct qsub: prohibited.",
+  "timestamp": "2026-08-04T10:32:26Z"
+}

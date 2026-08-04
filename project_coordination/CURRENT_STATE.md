@@ -9,7 +9,8 @@ Implemented corrected model builder `build_f31_geometry_backed_model.py` with `j
 Enforced real compatibility gate in `M2RMBUILD6.pbs` (`sha256sum -c SHA256SUMS`, `F31_SHA256SUMS`, shell syntax `bash -n`, module loading, executable resolution, and version capture in `COMPATIBILITY_AUDIT.json`).
 Fixed EXIT trap to attempt terminal Telegram notification on all failure paths, captured `curl` exit codes directly, parsed responses as JSON, and enforced runtime-only classifications (`cae_geometry_build_contract_passed` / `cae_geometry_build_contract_failed`) in execution evidence `STATUS.json`.
 Bound guarded orchestrator `submit_stage_f31_cae_build_qualification.sh` to package path `models/generated/mode_ii/f31_cae_runtime_gate_repair`.
-Classification: `f31_m2rmbuild6_local_pre_scheduler_submission_failure`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 1`, `successful_submissions = 0`, `scheduler_job_id = null`. Clean-Linux runtime qualification remains pending. Fresh explicit replacement authorization required prior to cluster execution.
+Executed replacement submission from cluster login environment via SSH. All orchestrator gates passed. `M2RMBUILD6` submitted to PBS batch scheduler with Job ID `1383394.mmaster02` in queued state.
+Classification: `f31_m2rmbuild6_submitted_monitoring`. `execution_authorized = true`, `submission_approved = true`, `qsub_attempts = 1`, `successful_submissions = 1`, `scheduler_job_id = 1383394.mmaster02`.
 
 ## F30 CAE runtime gate repair closeout (2026-08-04)
 

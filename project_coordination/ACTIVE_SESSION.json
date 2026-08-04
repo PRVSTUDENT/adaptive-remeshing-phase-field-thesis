@@ -2,11 +2,11 @@
   "active": false,
   "agent": null,
   "allowed_scope": [],
-  "completed_at": "2026-08-04T10:25:00Z",
-  "heartbeat": "2026-08-04T10:25:00Z",
+  "completed_at": "2026-08-04T10:35:00Z",
+  "heartbeat": "2026-08-04T10:35:00Z",
   "started_at": null,
   "session_id": null,
   "starting_commit": null,
   "task_id": null,
-  "note": "Session completed and released for F31 corrective closeout: Recorded authorization marked invalid/unconfirmed for prior wrapper run; recorded qsub_attempts = 1, successful_submissions = 0, scheduler_job_id = null; classified event as local pre-scheduler submission failure; clean-Linux runtime qualification remains pending; fresh explicit replacement authorization required prior to cluster execution."
+  "note": "Session completed and released for F31 replacement submission: Recorded explicit replacement authorization in M2RMBUILD6_REPLACEMENT_AUTHORIZATION.json. Executed guarded orchestrator submit_stage_f31_cae_build_qualification.sh on cluster login node mlogin01.cluster via SSH; all activation, authorization, ancestry, blob identity, lock file, and concurrency checks passed. Job submitted to PBS batch scheduler with Job ID 1383394.mmaster02 in queued state."
 }
