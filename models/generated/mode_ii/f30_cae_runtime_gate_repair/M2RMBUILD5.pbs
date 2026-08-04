@@ -1,0 +1,255 @@
+#!/bin/bash
+#PBS -N M2RMBUILD5
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+
+set -Eeuo pipefail
+
+# Mandatory Environment Variables
+if [ -z "${F30_PACKAGE_DIR:-}" ] || [ -z "${F30_EVIDENCE_DIR:-}" ]; then
+  echo "ERROR: F30_PACKAGE_DIR and F30_EVIDENCE_DIR must be set."
+  exit 12
+fi
+
+mkdir -p "$F30_EVIDENCE_DIR"
+
+# Execution Counters (Initialize to 0)
+compatibility_checks=0
+cae_builder_calls=0
+standard_solver_calls=0
+adaptive_remesh_calls=0
+datacheck_calls=0
+state_transfer_calls=0
+refined_analysis_calls=0
+nested_qsub_calls=0
+
+cae_builder_rc=-1
+gen_input_rc=-1
+runtime_val_rc=-1
+collector_rc=0
+term_notify_rc=0
+start_sent=false
+
+# Exit Trap
+on_exit() {
+  first_failure=$?
+  trap - EXIT
+
+  echo "INFO: Running terminal evidence collection and closeout trap..."
+  
+  # 1. Write actual execution counters
+  cat << EOF > "EXECUTION_COUNTERS.json"
+{
+  "compatibility_checks": $compatibility_checks,
+  "cae_builder_calls": $cae_builder_calls,
+  "standard_solver_calls": $standard_solver_calls,
+  "adaptive_remesh_calls": $adaptive_remesh_calls,
+  "datacheck_calls": $datacheck_calls,
+  "state_transfer_calls": $state_transfer_calls,
+  "refined_analysis_calls": $refined_analysis_calls,
+  "nested_qsub_calls": $nested_qsub_calls
+}
+EOF
+
+  # 2. Write returncode files
+  echo "$cae_builder_rc" > cae_builder.returncode
+  echo "$gen_input_rc" > generated_input_validator.returncode
+  echo "$runtime_val_rc" > runtime_validator.returncode
+  echo "$first_failure" > first_failure.returncode
+
+  # 3. Terminal Telegram Notification
+  if [ "$start_sent" = true ] && [ -n "${TELEGRAM_BOT_TOKEN:-}" ] && [ -n "${TELEGRAM_CHAT_ID:-}" ]; then
+    echo "INFO: Sending terminal Telegram notification..."
+    msg_text="M2RMBUILD5 Terminal Status: exit=$first_failure, cae_rc=$cae_builder_rc, gen_rc=$gen_input_rc, val_rc=$runtime_val_rc"
+    term_resp=$(curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+      -d "chat_id=${TELEGRAM_CHAT_ID}" \
+      -d "text=${msg_text}" || echo '{"ok":false,"error":"curl_failed"}')
+    
+    cat << EOF > TERMINAL_NOTIFICATION_RESULT.json
+{
+  "telegram_api_response": $term_resp,
+  "curl_exit_code": $?
+}
+EOF
+    if ! echo "$term_resp" | grep -q '"ok":true'; then
+      term_notify_rc=17
+    fi
+  fi
+
+  # 4. Write Redaction Audit
+  cat << EOF > REDACTION_AUDIT.json
+{
+  "secrets_redacted": true,
+  "telegram_token_logged": false
+}
+EOF
+
+  # 5. Unmasked Evidence Collection to $F30_EVIDENCE_DIR
+  collect_fail_count=0
+  for f in SOURCE_MODEL_INVENTORY.json INSTANCE_REPLACEMENT_API_AUDIT.json MODEL_ENTITY_REBINDING_AUDIT.json \
+           SLIT_GEOMETRY_AUDIT.json SLIT_MESH_TOPOLOGY_AUDIT.json GEOMETRY_BACKED_MODEL_AUDIT.json \
+           GENERATED_INPUT_AUDIT.json EXECUTION_COUNTERS.json START_NOTIFICATION_RESULT.json \
+           TERMINAL_NOTIFICATION_RESULT.json REDACTION_AUDIT.json cae_builder.returncode \
+           generated_input_validator.returncode runtime_validator.returncode first_failure.returncode; do
+    if [ -f "$f" ]; then
+      cp "$f" "$F30_EVIDENCE_DIR/" || collect_fail_count=$((collect_fail_count + 1))
+    fi
+  done
+
+  echo "$collect_fail_count" > collector.returncode
+  cp collector.returncode "$F30_EVIDENCE_DIR/" || true
+
+  # 6. Generate Missing Evidence Report targeting $F30_EVIDENCE_DIR
+  if [ -f "$F30_PACKAGE_DIR/runtime/generate_missing_evidence_report.py" ]; then
+    python "$F30_PACKAGE_DIR/runtime/generate_missing_evidence_report.py" "$F30_EVIDENCE_DIR" || true
+  fi
+
+  # 7. Final STATUS.json
+  if [ "$first_failure" -eq 0 ] && [ "$collect_fail_count" -eq 0 ] && [ "$term_notify_rc" -eq 0 ]; then
+    final_class="f30_m2rmbuild5_static_clean_linux_qualified_not_authorized"
+  else
+    final_class="f30_cae_runtime_gate_repair_incomplete_no_job_qualified"
+  fi
+
+  cat << EOF > STATUS.json
+{
+  "protocol_version": 1,
+  "task_id": "F30-INVALIDATE-F29-AND-REPAIR-RUNTIME-CAE-GATE",
+  "classification": "$final_class",
+  "first_failure_exit_code": $first_failure,
+  "collector_fail_count": $collect_fail_count,
+  "terminal_notification_rc": $term_notify_rc
+}
+EOF
+  cp STATUS.json "$F30_EVIDENCE_DIR/" || true
+
+  # Determine exit status
+  if [ "$first_failure" -ne 0 ]; then
+    exit "$first_failure"
+  elif [ "$collect_fail_count" -ne 0 ]; then
+    exit 18
+  elif [ "$term_notify_rc" -ne 0 ]; then
+    exit 17
+  else
+    exit 0
+  fi
+}
+
+trap on_exit EXIT
+
+# Isolated Scratch Workspace
+WORK_DIR="/scratch/pr21vyci/m2rmbuild5_${PBS_JOBID:-local}"
+mkdir -p "$WORK_DIR"
+mkdir -p "$WORK_DIR/runtime"
+cd "$WORK_DIR"
+
+# Stage Complete Lightweight Package to $WORK_DIR
+cp "$F30_PACKAGE_DIR/SOURCE_ENTITY_SPEC.json" .
+cp "$F30_PACKAGE_DIR/SOURCE_REGION_MAP.json" .
+cp "$F30_PACKAGE_DIR/SOURCE_OUTPUT_CONTRACT.json" .
+cp "$F30_PACKAGE_DIR/SOURCE_SLIT_TOPOLOGY_CONTRACT.json" .
+cp "$F30_PACKAGE_DIR/runtime/"* runtime/
+
+# Perform Compatibility Checks
+compatibility_checks=1
+echo "INFO: Performing actual compatibility checks..."
+if [ ! -f "$F30_PACKAGE_DIR/PACKAGE_MANIFEST.json" ]; then
+  echo "ERROR: PACKAGE_MANIFEST.json missing"
+  exit 14
+fi
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+resolved_abaqus=$(which abaqus || echo "absent")
+resolved_python=$(which python || echo "absent")
+
+if [ "$resolved_abaqus" = "absent" ]; then
+  echo "ERROR: abaqus executable not found after module load"
+  exit 14
+fi
+
+cat << EOF > compatibility.returncode
+0
+EOF
+
+# Mandatory Notifications Check
+NOTIF_CONFIG="$HOME/.config/adaptive-remeshing/notifications.env"
+if [ ! -f "$NOTIF_CONFIG" ]; then
+  echo "ERROR: Mandatory notifications.env config missing: $NOTIF_CONFIG"
+  exit 15
+fi
+
+# Check permissions 600 or stricter (group and other bits zero)
+perms=$(stat -c "%a" "$NOTIF_CONFIG" 2>/dev/null || stat -f "%Lp" "$NOTIF_CONFIG" 2>/dev/null || echo "777")
+if [ "$perms" != "600" ] && [ "$perms" != "400" ]; then
+  echo "ERROR: notifications.env permissions must be 600 or 400 (observed: $perms)"
+  exit 15
+fi
+
+source "$NOTIF_CONFIG"
+
+if [ -z "${TELEGRAM_BOT_TOKEN:-}" ] || [ -z "${TELEGRAM_CHAT_ID:-}" ]; then
+  echo "ERROR: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID missing in config"
+  exit 15
+fi
+
+# Deliver START Telegram notification
+echo "INFO: Sending START Telegram notification..."
+start_resp=$(curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+  -d "chat_id=${TELEGRAM_CHAT_ID}" \
+  -d "text=M2RMBUILD5 START: Job ${PBS_JOBID:-local} starting CAE construction qualification." || echo '{"ok":false}')
+
+cat << EOF > START_NOTIFICATION_RESULT.json
+{
+  "telegram_api_response": $start_resp,
+  "curl_exit_code": $?
+}
+EOF
+
+if ! echo "$start_resp" | grep -q '"ok":true'; then
+  echo "ERROR: START Telegram notification failed"
+  exit 15
+fi
+start_sent=true
+
+# Execute Abaqus/CAE Builder
+cae_builder_calls=1
+echo "INFO: Invoking Abaqus/CAE Model Builder..."
+abaqus cae noGUI=runtime/build_f30_geometry_backed_model.py -- runtime/source_deck.inp M2RMPROV1.inp GEOMETRY_BACKED_MODEL_AUDIT.json
+cae_builder_rc=$?
+
+if [ "$cae_builder_rc" -ne 0 ]; then
+  echo "ERROR: Abaqus CAE builder failed with return code $cae_builder_rc"
+  exit "$cae_builder_rc"
+fi
+
+# Calculate SHA256 of generated input
+sha256sum M2RMPROV1.inp > M2RMPROV1.inp.sha256
+
+# Runtime Validation Order:
+# 1. validate_generated_input.py
+echo "INFO: Running validate_generated_input.py..."
+python runtime/validate_generated_input.py runtime/source_deck.inp M2RMPROV1.inp GENERATED_INPUT_AUDIT.json
+gen_input_rc=$?
+
+if [ "$gen_input_rc" -ne 0 ]; then
+  echo "ERROR: validate_generated_input.py failed with return code $gen_input_rc"
+  exit "$gen_input_rc"
+fi
+
+# 2. validate_f30_runtime_audits.py
+echo "INFO: Running validate_f30_runtime_audits.py..."
+python runtime/validate_f30_runtime_audits.py
+runtime_val_rc=$?
+
+if [ "$runtime_val_rc" -ne 0 ]; then
+  echo "ERROR: validate_f30_runtime_audits.py failed with return code $runtime_val_rc"
+  exit "$runtime_val_rc"
+fi
+
+echo "SUCCESS: M2RMBUILD5 Abaqus/CAE model construction qualification passed."

@@ -1,0 +1,45 @@
+{
+  "protocol_version": 1,
+  "task_id": "F30-INVALIDATE-F29-AND-REPAIR-RUNTIME-CAE-GATE",
+  "part_level_regions": {
+    "bottom": {
+      "type": "edge_set",
+      "bbox": [-0.51, -0.51, -0.01, 0.51, -0.49, 0.01]
+    },
+    "top": {
+      "type": "edge_set",
+      "bbox": [-0.51, 0.49, -0.01, 0.51, 0.51, 0.01]
+    },
+    "notch_lower_face": {
+      "type": "edge_set",
+      "bbox": [-0.51, -0.001, -0.01, 0.001, 0.001, 0.01],
+      "selection_criterion": "adjacent_face_centroid_y_lt_0"
+    },
+    "notch_upper_face": {
+      "type": "edge_set",
+      "bbox": [-0.51, -0.001, -0.01, 0.001, 0.001, 0.01],
+      "selection_criterion": "adjacent_face_centroid_y_gt_0"
+    },
+    "notch_tip": {
+      "type": "vertex_set",
+      "bbox": [-0.001, -0.001, -0.01, 0.001, 0.001, 0.01]
+    }
+  },
+  "assembly_level_regions": {
+    "bottom": {
+      "target_instance": "Part-1-1",
+      "target_set": "bottom"
+    },
+    "top": {
+      "target_instance": "Part-1-1",
+      "target_set": "top"
+    },
+    "RP": {
+      "target_nodes": "assembly_rp_node"
+    },
+    "All_elem": {
+      "target_instance": "Part-1-1",
+      "target_elements": "all"
+    }
+  }
+}

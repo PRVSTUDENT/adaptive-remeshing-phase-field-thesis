@@ -1,0 +1,14 @@
+{
+  "protocol_version": 1,
+  "task_id": "F30-INVALIDATE-F29-AND-REPAIR-RUNTIME-CAE-GATE",
+  "config_file": "~/.config/adaptive-remeshing/notifications.env",
+  "required_permissions": "600",
+  "required_variables": [
+    "TELEGRAM_BOT_TOKEN",
+    "TELEGRAM_CHAT_ID"
+  ],
+  "start_notification_mandatory": true,
+  "terminal_notification_mandatory": true,
+  "terminal_failure_exit_code": 17,
+  "secrets_redacted": true
+}

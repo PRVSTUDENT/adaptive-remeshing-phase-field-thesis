@@ -1,0 +1,81 @@
+{
+  "protocol_version": 1,
+  "task_id": "F30-INVALIDATE-F29-AND-REPAIR-RUNTIME-CAE-GATE",
+  "material": {
+    "name": "Elastic_Matrix",
+    "E": 210.0,
+    "nu": 0.3
+  },
+  "section": {
+    "name": "Section-1",
+    "thickness": 1.0
+  },
+  "source_instance": "Part-1-1",
+  "part_node_sets": [
+    "bottom",
+    "top",
+    "notch_lower_face",
+    "notch_upper_face",
+    "notch_tip"
+  ],
+  "assembly_sets": [
+    "bottom",
+    "top",
+    "RP",
+    "All_elem"
+  ],
+  "equation": {
+    "name": "RP-equation",
+    "terms": [
+      {
+        "coefficient": 1.0,
+        "set_name": "top",
+        "dof": 1
+      },
+      {
+        "coefficient": -1.0,
+        "set_name": "RP",
+        "dof": 1
+      }
+    ]
+  },
+  "boundary_conditions": {
+    "BC-bottom": {
+      "set_name": "bottom",
+      "u1": 0.0,
+      "u2": 0.0
+    },
+    "BC-top": {
+      "set_name": "top",
+      "u2": 0.0
+    },
+    "BC-RP": {
+      "set_name": "RP",
+      "u1": 0.001
+    }
+  },
+  "step": {
+    "name": "Step-1",
+    "nlgeom": false,
+    "initial_inc": 0.1,
+    "total_time": 1.0,
+    "min_inc": 1e-05,
+    "max_inc": 0.1
+  },
+  "node_output": {
+    "variables": [
+      "U",
+      "RF"
+    ]
+  },
+  "element_output": {
+    "set_name": "All_elem",
+    "variables": [
+      "MISESERI",
+      "MISESAVG",
+      "S",
+      "E",
+      "EVOL"
+    ]
+  }
+}

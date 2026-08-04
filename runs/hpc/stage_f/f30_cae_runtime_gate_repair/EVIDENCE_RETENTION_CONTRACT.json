@@ -1,0 +1,27 @@
+{
+  "protocol_version": 1,
+  "task_id": "F30-INVALIDATE-F29-AND-REPAIR-RUNTIME-CAE-GATE",
+  "evidence_dir_env": "F30_EVIDENCE_DIR",
+  "unmasked_collector": true,
+  "required_evidence_files": [
+    "SOURCE_MODEL_INVENTORY.json",
+    "INSTANCE_REPLACEMENT_API_AUDIT.json",
+    "MODEL_ENTITY_REBINDING_AUDIT.json",
+    "SLIT_GEOMETRY_AUDIT.json",
+    "SLIT_MESH_TOPOLOGY_AUDIT.json",
+    "GEOMETRY_BACKED_MODEL_AUDIT.json",
+    "GENERATED_INPUT_AUDIT.json",
+    "EXECUTION_COUNTERS.json",
+    "START_NOTIFICATION_RESULT.json",
+    "TERMINAL_NOTIFICATION_RESULT.json",
+    "REDACTION_AUDIT.json",
+    "MISSING_EVIDENCE_REPORT.json",
+    "STATUS.json",
+    "cae_builder.returncode",
+    "generated_input_validator.returncode",
+    "runtime_validator.returncode",
+    "collector.returncode",
+    "first_failure.returncode"
+  ],
+  "missing_evidence_report_generated": true
+}

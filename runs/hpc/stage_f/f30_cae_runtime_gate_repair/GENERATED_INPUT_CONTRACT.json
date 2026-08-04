@@ -1,0 +1,37 @@
+{
+  "protocol_version": 1,
+  "task_id": "F30-INVALIDATE-F29-AND-REPAIR-RUNTIME-CAE-GATE",
+  "required_instance": "Part-1-1",
+  "required_part": "Part-1-GEOM",
+  "required_node_sets": [
+    "bottom",
+    "top",
+    "RP"
+  ],
+  "required_element_sets": [
+    "All_elem"
+  ],
+  "required_equation_terms": [
+    {"set": "top", "dof": 1, "coeff": 1.0},
+    {"set": "RP", "dof": 1, "coeff": -1.0}
+  ],
+  "required_bcs": [
+    {"set": "bottom", "dof1": 0.0, "dof2": 0.0},
+    {"set": "top", "dof2": 0.0},
+    {"set": "RP", "dof1": 0.001}
+  ],
+  "required_step_params": {
+    "name": "Step-1",
+    "nlgeom": "NO",
+    "initial": 0.1,
+    "total": 1.0,
+    "min": 1e-05,
+    "max": 0.1
+  },
+  "required_node_output": ["U", "RF"],
+  "required_element_output": {
+    "set": "All_elem",
+    "variables": ["MISESERI", "MISESAVG", "S", "E", "EVOL"]
+  },
+  "require_hash_inequality": true
+}

@@ -1,0 +1,27 @@
+{
+  "protocol_version": 1,
+  "task_id": "F30-INVALIDATE-F29-AND-REPAIR-RUNTIME-CAE-GATE",
+  "node_output": {
+    "request_name": "F-Output-1",
+    "region_type": "model",
+    "region_name": "all_nodes",
+    "variables": [
+      "U",
+      "RF"
+    ],
+    "frequency": 1
+  },
+  "element_output": {
+    "request_name": "F-Output-2",
+    "region_type": "assembly_set",
+    "region_name": "All_elem",
+    "variables": [
+      "MISESERI",
+      "MISESAVG",
+      "S",
+      "E",
+      "EVOL"
+    ],
+    "frequency": 1
+  }
+}

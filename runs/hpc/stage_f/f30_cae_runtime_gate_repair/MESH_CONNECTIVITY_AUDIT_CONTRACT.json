@@ -1,0 +1,16 @@
+{
+  "protocol_version": 1,
+  "task_id": "F30-INVALIDATE-F29-AND-REPAIR-RUNTIME-CAE-GATE",
+  "direct_connectivity_vs_label_comparison_prohibited": true,
+  "node_label_resolution_method": "elem.getNodes() -> set(n.label for n in nodes)",
+  "recorded_element_fields": [
+    "element_label",
+    "internal_connectivity",
+    "resolved_node_labels",
+    "lower_face_membership",
+    "upper_face_membership",
+    "bridge_classification"
+  ],
+  "required_bridge_element_count": 0,
+  "disjoint_non_tip_label_sets": true
+}

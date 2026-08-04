@@ -1,0 +1,28 @@
+{
+  "protocol_version": 1,
+  "task_id": "F30-INVALIDATE-F29-AND-REPAIR-RUNTIME-CAE-GATE",
+  "exact_source_entity_keys": [
+    "material:Elastic_Matrix",
+    "section:Section-1",
+    "section_assignment:All_elem",
+    "part_set:bottom",
+    "part_set:top",
+    "part_set:notch_lower_face",
+    "part_set:notch_upper_face",
+    "part_set:notch_tip",
+    "assembly_set:bottom",
+    "assembly_set:top",
+    "assembly_set:RP",
+    "assembly_set:All_elem",
+    "bc:bottom",
+    "bc:top",
+    "bc:RP",
+    "equation:RP",
+    "step:Step-1",
+    "node_output:U_RF",
+    "element_output:MISESERI_GROUP"
+  ],
+  "required_coverage": 1.0,
+  "allow_missing_keys": false,
+  "allow_duplicate_keys": false
+}

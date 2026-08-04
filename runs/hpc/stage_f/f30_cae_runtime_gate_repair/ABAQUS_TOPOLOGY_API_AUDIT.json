@@ -1,0 +1,11 @@
+{
+  "protocol_version": 1,
+  "task_id": "F30-INVALIDATE-F29-AND-REPAIR-RUNTIME-CAE-GATE",
+  "edge_get_faces_returns_integer_ids": true,
+  "face_resolution_method": "adjacent_faces = [geom_part.faces[i] for i in edge.getFaces()]",
+  "centroid_query_method": "adjacent_faces[0].getCentroid()[1]",
+  "direct_pointOn_on_edge_getFaces_prohibited": true,
+  "required_adjacent_face_count_per_slit_edge": 1,
+  "lower_face_centroid_condition": "f_cy < 0.0",
+  "upper_face_centroid_condition": "f_cy > 0.0"
+}

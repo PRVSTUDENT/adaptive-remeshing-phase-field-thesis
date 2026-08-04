@@ -1,0 +1,15 @@
+{
+  "protocol_version": 1,
+  "task_id": "F30-INVALIDATE-F29-AND-REPAIR-RUNTIME-CAE-GATE",
+  "package_name": "f30_cae_runtime_gate_repair",
+  "prepared_job": "M2RMBUILD5",
+  "builder_script": "runtime/build_f30_geometry_backed_model.py",
+  "source_deck": "runtime/source_deck.inp",
+  "pbs_script": "M2RMBUILD5.pbs",
+  "m2rmprov1_solver_prepared": false,
+  "m2rmexec2_prepared": false,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "approved_submissions_now": 0,
+  "maximum_jobs_now": 0
+}
