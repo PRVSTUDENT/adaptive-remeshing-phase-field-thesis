@@ -64,3 +64,88 @@ Canonical dynamic state:
 - `project_coordination/ACTIVE_TASK.json`
 - `project_coordination/ACTIVE_SESSION.json`
 - `project_coordination/PROTOCOL_VERSION.json`
+
+# Batch-Oriented HPC Execution
+
+Batch execution is the default for this project unless the user explicitly
+requests a one-job-at-a-time process.
+
+Before proposing or submitting a batch:
+
+1. Review the current scientific and coordination state.
+2. Separate work into:
+   - independent jobs that may be submitted together;
+   - dependent jobs blocked on scientific review of a predecessor;
+   - optional sensitivity jobs that run only when scientifically justified.
+3. Prepare one batch plan that records:
+   - exact job names and scientific purposes;
+   - model, package, and revision;
+   - input-deck and user-subroutine hashes;
+   - CPUs, memory, walltime, queue, and execution mode;
+   - expected outputs and acceptance criteria;
+   - dependencies;
+   - maximum permitted submissions;
+   - `automatic_retry=false` unless separately authorized.
+
+Authorization and submission rules:
+
+- One explicit human approval may authorize the complete, specifically listed
+  batch and must state the maximum number of jobs.
+- Explicit approval remains mandatory before any Abaqus/PBS submission. This
+  rule controls if another instruction appears to permit direct submission
+  without approval.
+- After approval, create one authorization update, make one normal commit,
+  fast-forward the cluster clone, run common preflight checks once, and submit
+  all approved independent jobs together.
+- Use guarded submission wrappers. Never invoke direct `qsub` unless it is
+  explicitly authorized.
+- Never submit a job more than once and never retry a failed job automatically.
+- A failed job must be scientifically and technically reviewed before any
+  replacement submission.
+
+Scheduler policy:
+
+- At most two jobs may run simultaneously.
+- Additional approved independent jobs may remain queued and start
+  automatically as capacity becomes available.
+- Do not use `qmove` or `qdel` unless explicitly authorized.
+- Do not increase CPUs, memory, or walltime without scientific or measured
+  technical justification.
+- Do not submit speculative work merely to fill the queue.
+- Do not queue dependent work before its predecessor has been scientifically
+  reviewed.
+
+Batch closeout:
+
+- Collect lightweight scheduler, solver, validator, extracted-result, and
+  Telegram evidence together after the batch finishes.
+- Classify every job separately, compare the batch scientifically in one
+  combined analysis, and use one combined GitHub closeout when practical.
+- Preserve full Git SHAs and input/source/evidence hashes.
+- Distinguish user-provided scheduler information from independently verified
+  repository facts.
+- Do not commit Abaqus binary outputs, including `.odb`, `.sim`, `.res`,
+  `.pac`, `.abq`, `.sel`, or equivalent large solver artifacts.
+
+Repository safety:
+
+- No `git reset --hard`, `git clean`, casual stash, `git add .`,
+  `git add -A`, `commit --amend`, force push, or broad destructive action.
+- Stage files selectively, preserve unrelated dirty work, and release
+  `ACTIVE_SESSION.json` normally.
+- Prefer one meaningful commit and closeout over repeated metadata-only updates.
+
+Scientific sequence for the current thesis phase:
+
+1. Uniform reference verification.
+2. H0/H1/H2 comparison as scientifically required.
+3. Pandey-Kumar MISESERI coarse pre-analysis.
+4. MISESERI-based refinement workflow.
+5. Refined phase-field simulation.
+6. Accuracy-versus-cost comparison.
+7. Controlled evolving remeshing and state transfer.
+8. Final thesis validation and documentation.
+
+Batch only scientifically independent, sufficiently defined work. Reproducibility,
+dependency control, validation, and formulation consistency take precedence over
+reducing token usage or scheduler idle time.
