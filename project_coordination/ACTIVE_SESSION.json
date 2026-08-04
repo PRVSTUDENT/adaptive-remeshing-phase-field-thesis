@@ -1,20 +1,12 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_scope": [
-    "docs/decisions/F25_M2RMPROV1_PACKAGE_REPAIR_DECISION.md",
-    "docs/experiment_records/STAGE_F25_GEOMETRY_BACKED_PROVISIONAL_PACKAGE_REPAIR.md",
-    "runs/hpc/stage_f/f25_geometry_backed_provisional_package_repair/",
-    "models/generated/mode_ii/f25_geometry_backed_provisional_package_repair/",
-    "scripts/",
-    "tests/",
-    "project_coordination/"
-  ],
-  "completed_at": null,
-  "heartbeat": "2026-08-04T05:42:05Z",
-  "started_at": "2026-08-04T05:42:05Z",
-  "session_id": "F25-GEMINI-ANTIGRAVITY-20260804T054205Z",
-  "starting_commit": "f32a5b5ab4d3b019c56a3d44740619e6e39f55bb",
-  "task_id": "F25-REPAIR-GEOMETRY-BACKED-PROVISIONAL-PACKAGE",
-  "note": "Invalidate no-op F24 package and prepare real geometry-backed M2RMPROV1 execution package."
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
+  "completed_at": "2026-08-04T05:46:05Z",
+  "heartbeat": "2026-08-04T05:46:05Z",
+  "started_at": null,
+  "session_id": null,
+  "starting_commit": null,
+  "task_id": null,
+  "note": "F25 completed; F24 invalidated; real geometry builder build_f25_geometry_backed_model.py implemented; M2RMPROV1 prepared without execution authorization."
 }
