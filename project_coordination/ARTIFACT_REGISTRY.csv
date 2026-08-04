@@ -330,11 +330,10 @@ F31_ORCHESTRATOR,Stage F,scripts/hpc/stage_f/submit_stage_f31_cae_build_qualific
 F31_VALIDATOR,Stage F,scripts/validation/validate_f31_m2rmbuild6_static_gate.py,validator_script,active,gemini-antigravity,aa3f090e16348402fae69adc1edc2034e31530c9,,,F31 offline gate validator
 F31_UNIT_TESTS,Stage F,tests/stage_f/test_f31_m2rmbuild6_static_gate.py,unit_test_script,active,gemini-antigravity,aa3f090e16348402fae69adc1edc2034e31530c9,,,F31 unit tests
 F31_EVIDENCE_INVENTORY,Stage F,runs/hpc/stage_f/f31_m2rmbuild6_static_gate/evidence/EVIDENCE_FILE_INVENTORY.csv,evidence_inventory,complete,gemini-antigravity,2baf0a961671f84b81d4071ca5f0940ceef1613a,1383394.mmaster02,,SHA-256 evidence file inventory for M2RMBUILD6 job 1383394.mmaster02
-
-
-
-
-
-
-
-
+F32_GATE_RUNS_DIR,Stage F,runs/hpc/stage_f/f32_m2rmbuild7_static_gate/,gate_artifacts,preparation_complete_not_authorized,gemini-antigravity,a6c087f2ccc759fa8acec4102cd7f47b623618d0,,,F32 offline gate JSON artifacts and M2RMBUILD7 files
+F32_PACKAGE_DIR,Stage F,models/generated/mode_ii/f32_cae_runtime_gate_repair/,immutable_package,prepared_not_authorized,gemini-antigravity,a6c087f2ccc759fa8acec4102cd7f47b623618d0,,,M2RMBUILD7 CAE build qualification package
+F32_DECISION,Stage F,docs/decisions/F32_M2RMBUILD7_STATIC_GATE_DECISION.md,decision_record,active,gemini-antigravity,a6c087f2ccc759fa8acec4102cd7f47b623618d0,,,F32 static gate decision
+F32_EXPERIMENT_RECORD,Stage F,docs/experiment_records/STAGE_F32_M2RMBUILD7_STATIC_GATE_REPAIR.md,experiment_record,active,gemini-antigravity,a6c087f2ccc759fa8acec4102cd7f47b623618d0,,,F32 experiment record
+F32_ORCHESTRATOR,Stage F,scripts/hpc/stage_f/submit_stage_f32_cae_build_qualification.sh,guarded_orchestrator,prepared_not_authorized,gemini-antigravity,a6c087f2ccc759fa8acec4102cd7f47b623618d0,,,Guarded M2RMBUILD7 submission orchestrator
+F32_VALIDATOR,Stage F,scripts/validation/validate_f32_m2rmbuild7_static_gate.py,validator_script,active,gemini-antigravity,a6c087f2ccc759fa8acec4102cd7f47b623618d0,,,F32 offline gate validator
+F32_UNIT_TESTS,Stage F,tests/stage_f/test_f32_m2rmbuild7_static_gate.py,unit_test_script,active,gemini-antigravity,a6c087f2ccc759fa8acec4102cd7f47b623618d0,,,F32 unit tests

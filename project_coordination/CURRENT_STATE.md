@@ -1,5 +1,15 @@
 # Current project state
 
+## F32 M2RMBUILD7 static clean-Linux qualification preparation (2026-08-04)
+
+Invalidated F31 `M2RMBUILD6` runtime workdir staging claims. Historical F31 classification updated to `f31_m2rmbuild6_runtime_workdir_staging_failed`.
+Blocking defects recorded: `M2RMBUILD6.pbs` staged package manifests into `$WORK_DIR` but omitted `M2RMBUILD6.pbs`, causing `sha256sum -c SHA256SUMS` to fail with file not found (`Exit_status = 1`); `python` was invoked inside `on_exit` trap before module loading was executed.
+Full SHAs recorded: F31 package P `f084e8d0adaf049f8e3bb3f2fc223bf3d50ce603`, F31 binding Q `8944fd9d383a6b6a5e9f1627ea96c791fa59c50c`, F32 starting commit `a6c087f2ccc759fa8acec4102cd7f47b623618d0`.
+Implemented repaired model builder `build_f32_geometry_backed_model.py` with environment variable argument transport (`F32_SOURCE_DECK`, `F32_OUTPUT_INPUT`, `F32_GEOMETRY_AUDIT`), documented `job.writeInput(consistencyChecking=ON)` signature, explicit `ON` import, and topology-safe slit edge reconstruction.
+Repaired `M2RMBUILD7.pbs` by adding explicit self-staging (`cp "$F32_PACKAGE_DIR/M2RMBUILD7.pbs" .`) into `$WORK_DIR` before hash verification, and ensuring module/python resolution inside `on_exit` trap.
+Bound guarded orchestrator `submit_stage_f32_cae_build_qualification.sh` to package path `models/generated/mode_ii/f32_cae_runtime_gate_repair`.
+Classification: `f32_m2rmbuild7_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`, `maximum_future_submissions = 1`.
+
 ## F31 M2RMBUILD6 static gate repair closeout (2026-08-04)
 
 Invalidated F30 `M2RMBUILD5` authorization readiness claims. Historical F30 classification updated to `f30_m2rmbuild5_windows_local_static_only_invalidated`.
