@@ -1,5 +1,14 @@
 # Current project state
 
+## F28 replace fabricated model rebinding and prepare real CAE build gate closeout (2026-08-04)
+
+Invalidated F27 `M2RMBUILD2` qualification claims due to `PREP_SHA` mismatch, unsupported `assembly.renameFeature` call, hardcoded rebinding list, and fail-open traps. F27 classification corrected to `f27_m2rmbuild2_package_invalid_no_submission_authorized`.
+Full SHAs recorded: F27 implementation `377f88057d3e3fc7867ae9dcaf72548b2e9d921c`, F27 session release `740299cbd180eac0810c4e569142ff6e57755abb`.
+Implemented fail-closed Abaqus/CAE model builder `build_f28_geometry_backed_model.py` with documented instance deletion (`assembly.deleteFeatures`) + direct instance creation (`assembly.Instance(name='Part-1-1', part=geom_part, dependent=ON)`), actual model entity reconstruction (`geom_part.Set`, `assembly.Set`, `m.DisplacementBC`, `m.Equation` under `model.constraints`), and dynamic live object rebinding audit (`unresolved_entity_count = 0`, `stale_orphan_reference_count = 0`).
+Prepared fail-closed `M2RMBUILD3.pbs` with `/scratch/pr21vyci/` workspace, immediate trap with non-zero failure handling, self-loading notification config, actual compatibility evidence, and dedicated Python missing-evidence report generation.
+Bound guarded orchestrator `submit_stage_f28_cae_build_qualification.sh` to package preparation SHA `7c2c680bad77301a2d2f8f13c4f001b80eb5827d` using `git merge-base --is-ancestor`.
+Classification: `f28_m2rmbuild3_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
+
 ## F27 invalidate F26 and repair CAE build package closeout (2026-08-04)
 
 Invalidated F26 `M2RMBUILD1` qualification claims due to API signature and fail-open defects. F26 classification corrected to `f26_m2rmbuild1_package_invalid_no_submission_authorized`.

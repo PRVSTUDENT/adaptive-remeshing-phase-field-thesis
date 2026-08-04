@@ -301,6 +301,14 @@ F27_EXPERIMENT_RECORD,Stage F,docs/experiment_records/STAGE_F27_CAE_BUILD_PACKAG
 F27_ORCHESTRATOR,Stage F,scripts/hpc/stage_f/submit_stage_f27_cae_build_qualification.sh,guarded_orchestrator,prepared_not_authorized,gemini-antigravity,32c3f1f6df35e3fa7a8bb7605b2fe893ce4932a0,,,Guarded M2RMBUILD2 submission orchestrator
 F27_VALIDATOR,Stage F,scripts/validation/validate_f27_cae_build_package_repair.py,validator_script,active,gemini-antigravity,32c3f1f6df35e3fa7a8bb7605b2fe893ce4932a0,,,F27 offline gate validator
 F27_UNIT_TESTS,Stage F,tests/stage_f/test_f27_cae_build_package_repair.py,unit_test_script,active,gemini-antigravity,32c3f1f6df35e3fa7a8bb7605b2fe893ce4932a0,,,F27 unit tests
+F28_GATE_RUNS_DIR,Stage F,runs/hpc/stage_f/f28_real_cae_build_package/,gate_artifacts,preparation_complete_not_authorized,gemini-antigravity,740299cbd180eac0810c4e569142ff6e57755abb,,,F28 offline gate JSON artifacts and M2RMBUILD3 files
+F28_PACKAGE_DIR,Stage F,models/generated/mode_ii/f28_real_cae_build_package/,immutable_package,prepared_not_authorized,gemini-antigravity,740299cbd180eac0810c4e569142ff6e57755abb,,,M2RMBUILD3 CAE build qualification package
+F28_DECISION,Stage F,docs/decisions/F28_REAL_CAE_BUILD_PACKAGE_DECISION.md,decision_record,active,gemini-antigravity,740299cbd180eac0810c4e569142ff6e57755abb,,,F28 real CAE build package decision
+F28_EXPERIMENT_RECORD,Stage F,docs/experiment_records/STAGE_F28_REAL_CAE_BUILD_PACKAGE_PREPARATION.md,experiment_record,active,gemini-antigravity,740299cbd180eac0810c4e569142ff6e57755abb,,,F28 experiment record
+F28_ORCHESTRATOR,Stage F,scripts/hpc/stage_f/submit_stage_f28_cae_build_qualification.sh,guarded_orchestrator,prepared_not_authorized,gemini-antigravity,740299cbd180eac0810c4e569142ff6e57755abb,,,Guarded M2RMBUILD3 submission orchestrator
+F28_VALIDATOR,Stage F,scripts/validation/validate_f28_real_cae_build_package.py,validator_script,active,gemini-antigravity,740299cbd180eac0810c4e569142ff6e57755abb,,,F28 offline gate validator
+F28_UNIT_TESTS,Stage F,tests/stage_f/test_f28_real_cae_build_package.py,unit_test_script,active,gemini-antigravity,740299cbd180eac0810c4e569142ff6e57755abb,,,F28 unit tests
+
 
 
 

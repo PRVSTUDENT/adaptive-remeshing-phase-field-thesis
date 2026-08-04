@@ -1,5 +1,16 @@
 # Project Phase Checklist
 
+## F28 replace fabricated model rebinding and prepare real CAE build gate
+
+- [x] Invalidated F27 qualification claims (`f27_m2rmbuild2_package_invalid_no_submission_authorized`).
+- [x] Corrected full SHAs recorded: F27 implementation `377f88057d3e3fc7867ae9dcaf72548b2e9d921c`, F27 session release `740299cbd180eac0810c4e569142ff6e57755abb`.
+- [x] Documented instance replacement sequence: `assembly.deleteFeatures(featureNames=('Part-1-1',))` followed by `assembly.Instance(name='Part-1-1', part=geom_part, dependent=ON)`.
+- [x] Executed actual model entity reconstruction (`geom_part.Set`, `assembly.Set`, `m.DisplacementBC`, `m.Equation` under `model.constraints`).
+- [x] Generated `SOURCE_ENTITY_SPEC.json`, `SOURCE_REGION_MAP.json`, and dynamic `MODEL_ENTITY_REBINDING_AUDIT.json` (`unresolved_entity_count = 0`, `stale_orphan_reference_count = 0`).
+- [x] Prepared fail-closed `M2RMBUILD3.pbs` with `/scratch/pr21vyci/` workspace, immediate trap with non-zero failure handling, self-loading notification config, actual compatibility evidence, and dedicated Python missing-evidence report generation.
+- [x] Bound orchestrator `submit_stage_f28_cae_build_qualification.sh` to package preparation SHA `7c2c680bad77301a2d2f8f13c4f001b80eb5827d` using `git merge-base --is-ancestor`.
+- [x] Classification: `f28_m2rmbuild3_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
 ## F27 invalidate F26 and repair CAE build package gate
 
 - [x] Invalidated F26 fail-open claims (`f26_m2rmbuild1_package_invalid_no_submission_authorized`).
