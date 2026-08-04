@@ -1,5 +1,17 @@
 # Current project state
 
+## F29 topology safe CAE build gate closeout (2026-08-04)
+
+Invalidated F28 `M2RMBUILD3` qualification claims due to runtime audit parser `NameError`, optional notifications, unhandled terminal Telegram failure, masked collector returncode, premature counter reporting, identical crack-face bounding boxes, unverified slit topology, missing assembly `All_elem` reconstruction, and unverified generated input deck. F28 classification corrected to `f28_m2rmbuild3_package_invalid_no_submission_authorized`.
+Full SHAs recorded: F28 package preparation P `7c2c680bad77301a2d2f8f13c4f001b80eb5827d`, F28 binding Q `13f358b0ecc7be2286b2277a6411168e2cdf906d`, session release `c5b0607c937e28cb6b35c4268fcc73fb099c0059`.
+Implemented topology-safe model builder `build_f29_geometry_backed_model.py` using adjacent face centroid y-coordinate (`f_cy < 0` vs `f_cy > 0`) to separate coincident crack edges. Audited slit geometry (`SLIT_GEOMETRY_AUDIT.json`) and mesh topology (`SLIT_MESH_TOPOLOGY_AUDIT.json`) for disjoint crack-face node sets, coincident node pairs, and zero bridge elements (`bridge_element_count = 0`).
+Reconstructed assembly `All_elem` set from `Part-1-1` elements and explicitly rebound field output request `F-Output-1` targeting assembly `All_elem` (`U`, `RF`, `MISESERI`, `MISESAVG`, `S`, `E`, `EVOL`).
+Implemented true dynamic live object rebinding audit in `MODEL_ENTITY_REBINDING_AUDIT.json` (`unresolved_entity_count = 0`, `stale_orphan_reference_count = 0`, `output_region_mismatch_count = 0`, `crack_face_identity_failure_count = 0`).
+Prepared standalone runtime validation scripts (`validate_f29_runtime_audits.py`, `generate_missing_evidence_report.py`, `validate_generated_input.py`).
+Prepared fail-closed `M2RMBUILD4.pbs` with mandatory notification permission check (600), mandatory START Telegram delivery (`exit 15`), dedicated terminal error code (`exit 17`), and unmasked evidence collector returncode.
+Bound guarded orchestrator `submit_stage_f29_cae_build_qualification.sh` to package preparation SHA `b2a3535742a08961688ee5e65dbe4c8e412e4118` with ancestry, diff, git blob ID, and tracked path checks.
+Classification: `f29_m2rmbuild4_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
+
 ## F28 replace fabricated model rebinding and prepare real CAE build gate closeout (2026-08-04)
 
 Invalidated F27 `M2RMBUILD2` qualification claims due to `PREP_SHA` mismatch, unsupported `assembly.renameFeature` call, hardcoded rebinding list, and fail-open traps. F27 classification corrected to `f27_m2rmbuild2_package_invalid_no_submission_authorized`.

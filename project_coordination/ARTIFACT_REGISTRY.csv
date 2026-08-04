@@ -308,6 +308,14 @@ F28_EXPERIMENT_RECORD,Stage F,docs/experiment_records/STAGE_F28_REAL_CAE_BUILD_P
 F28_ORCHESTRATOR,Stage F,scripts/hpc/stage_f/submit_stage_f28_cae_build_qualification.sh,guarded_orchestrator,prepared_not_authorized,gemini-antigravity,740299cbd180eac0810c4e569142ff6e57755abb,,,Guarded M2RMBUILD3 submission orchestrator
 F28_VALIDATOR,Stage F,scripts/validation/validate_f28_real_cae_build_package.py,validator_script,active,gemini-antigravity,740299cbd180eac0810c4e569142ff6e57755abb,,,F28 offline gate validator
 F28_UNIT_TESTS,Stage F,tests/stage_f/test_f28_real_cae_build_package.py,unit_test_script,active,gemini-antigravity,740299cbd180eac0810c4e569142ff6e57755abb,,,F28 unit tests
+F29_GATE_RUNS_DIR,Stage F,runs/hpc/stage_f/f29_topology_safe_cae_build/,gate_artifacts,preparation_complete_not_authorized,gemini-antigravity,c5b0607c937e28cb6b35c4268fcc73fb099c0059,,,F29 offline gate JSON artifacts and M2RMBUILD4 files
+F29_PACKAGE_DIR,Stage F,models/generated/mode_ii/f29_topology_safe_cae_build/,immutable_package,prepared_not_authorized,gemini-antigravity,c5b0607c937e28cb6b35c4268fcc73fb099c0059,,,M2RMBUILD4 CAE build qualification package
+F29_DECISION,Stage F,docs/decisions/F29_TOPOLOGY_SAFE_CAE_BUILD_DECISION.md,decision_record,active,gemini-antigravity,c5b0607c937e28cb6b35c4268fcc73fb099c0059,,,F29 topology safe CAE build decision
+F29_EXPERIMENT_RECORD,Stage F,docs/experiment_records/STAGE_F29_TOPOLOGY_SAFE_CAE_BUILD_PREPARATION.md,experiment_record,active,gemini-antigravity,c5b0607c937e28cb6b35c4268fcc73fb099c0059,,,F29 experiment record
+F29_ORCHESTRATOR,Stage F,scripts/hpc/stage_f/submit_stage_f29_cae_build_qualification.sh,guarded_orchestrator,prepared_not_authorized,gemini-antigravity,c5b0607c937e28cb6b35c4268fcc73fb099c0059,,,Guarded M2RMBUILD4 submission orchestrator
+F29_VALIDATOR,Stage F,scripts/validation/validate_f29_topology_safe_cae_build.py,validator_script,active,gemini-antigravity,c5b0607c937e28cb6b35c4268fcc73fb099c0059,,,F29 offline gate validator
+F29_UNIT_TESTS,Stage F,tests/stage_f/test_f29_topology_safe_cae_build.py,unit_test_script,active,gemini-antigravity,c5b0607c937e28cb6b35c4268fcc73fb099c0059,,,F29 unit tests
+
 
 
 
