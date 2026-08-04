@@ -2,11 +2,11 @@
   "active": false,
   "agent": null,
   "allowed_scope": [],
-  "completed_at": "2026-08-04T10:10:00Z",
-  "heartbeat": "2026-08-04T10:10:00Z",
+  "completed_at": "2026-08-04T10:16:00Z",
+  "heartbeat": "2026-08-04T10:16:00Z",
   "started_at": null,
   "session_id": null,
   "starting_commit": null,
   "task_id": null,
-  "note": "Session completed and released for F31: Invalidated F30 readiness claims, corrected writeInput signature to job.writeInput(consistencyChecking=ON), imported ON explicitly, implemented environment variable argument transport (F31_SOURCE_DECK, F31_OUTPUT_INPUT, F31_GEOMETRY_AUDIT), enforced real compatibility checks in M2RMBUILD6.pbs (manifest sha256sum, shell syntax, module loading, executable resolution, version capture), fixed EXIT trap terminal Telegram delivery on all failure paths without curl masking, retained raw curl return codes and parsed JSON responses, enforced runtime-only classifications (cae_geometry_build_contract_passed / failed) in runtime STATUS.json, recorded F30 git commit --amend process violation in MISTAKES_AND_FIXES_LOG.md, and prepared M2RMBUILD6 without authorization."
+  "note": "Session completed for F31-M2RMBUILD6-AUTHORIZED-EXECUTION: User explicitly approved submission of M2RMBUILD6 (1 submission max, 1 concurrent job max, retry=false, replacement=false). Recorded authorization in M2RMBUILD6_AUTHORIZATION.json. Executed guarded orchestrator submit_stage_f31_cae_build_qualification.sh; all activation, authorization, ancestry, blob identity, lock file, and concurrency checks passed; qsub command stopped at local Windows environment boundary. Recorded submission record in M2RMBUILD6_SUBMISSION_RECORD.json."
 }

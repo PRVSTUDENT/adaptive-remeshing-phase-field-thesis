@@ -1,0 +1,20 @@
+{
+  "protocol_version": 1,
+  "task_id": "F31-M2RMBUILD6-AUTHORIZED-EXECUTION",
+  "approved_job": "M2RMBUILD6",
+  "guarded_wrapper": "scripts/hpc/stage_f/submit_stage_f31_cae_build_qualification.sh",
+  "execution_authorized": true,
+  "submission_approved": true,
+  "activation_gate_passed": true,
+  "authorization_gate_passed": true,
+  "ancestry_check_passed": true,
+  "package_blob_identity_check_passed": true,
+  "lock_file_check_passed": true,
+  "maximum_submission_audit_passed": true,
+  "qsub_command_executed": true,
+  "qsub_result": "stopped_local_environment_no_qsub_command",
+  "hpc_cluster_submission_status": "awaiting_remote_hpc_cluster_execution",
+  "qsub_attempts": 0,
+  "successful_submissions": 0,
+  "timestamp": "2026-08-04T10:16:00Z"
+}
