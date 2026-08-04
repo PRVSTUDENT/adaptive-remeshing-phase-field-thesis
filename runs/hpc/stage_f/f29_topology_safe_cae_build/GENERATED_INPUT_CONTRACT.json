@@ -1,0 +1,19 @@
+{
+  "protocol_version": 1,
+  "task_id": "F29-INVALIDATE-F28-AND-PREPARE-TOPOLOGY-SAFE-CAE-BUILD",
+  "generated_input_requirements": [
+    "Part-1-1 instance keyword exists",
+    "assembly bottom set exists",
+    "assembly top set exists",
+    "RP set exists",
+    "assembly All_elem set exists",
+    "equation terms match source (top, 1, 1.; RP, 1, -1.)",
+    "boundary conditions match (bottom 1 2, top 2 2, RP 1 1 0.001)",
+    "Step-1 parameters match source",
+    "node output includes U and RF",
+    "element output targets All_elem",
+    "element output contains MISESERI, MISESAVG, S, E, EVOL",
+    "generated hash differs from source hash"
+  ],
+  "contract_pass_required": true
+}

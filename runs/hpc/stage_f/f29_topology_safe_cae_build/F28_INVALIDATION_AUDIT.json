@@ -1,0 +1,26 @@
+{
+  "protocol_version": 1,
+  "task_id": "F29-INVALIDATE-F28-AND-PREPARE-TOPOLOGY-SAFE-CAE-BUILD",
+  "f28_qualification_invalidated": true,
+  "f28_defects_recorded": [
+    "runtime audit parser calls os.path.exists without importing os",
+    "missing notification configuration or credentials allows CAE execution",
+    "terminal Telegram failure does not fail an otherwise successful job",
+    "collector.returncode is masked by cp ... || true",
+    "execution counters report operations that may not have occurred",
+    "lower and upper notch-face selections use identical bounding boxes",
+    "lower and upper crack-face identity and disconnection are not proved",
+    "slit topology, coincident-face pairing and bridge-element absence are not audited",
+    "assembly All_elem region is not explicitly reconstructed",
+    "source field-output requests are not explicitly rebound",
+    "generated input audit verifies only a hash",
+    "rebinding records still contain hardcoded pass and ownership values",
+    "stale-orphan detection checks only active instance count",
+    "orchestrator does not compare package blobs against preparation revision P",
+    "package path is not restricted to the tracked frozen package"
+  ],
+  "corrected_f28_classification": "f28_m2rmbuild3_package_invalid_no_submission_authorized",
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0
+}

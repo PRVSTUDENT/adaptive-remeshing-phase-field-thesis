@@ -1,0 +1,83 @@
+{
+  "protocol_version": 1,
+  "task_id": "F29-INVALIDATE-F28-AND-PREPARE-TOPOLOGY-SAFE-CAE-BUILD",
+  "materials": [
+    {
+      "name": "Elastic_Matrix",
+      "type": "elastic",
+      "youngs_modulus": 210.0,
+      "poissons_ratio": 0.3
+    }
+  ],
+  "sections": [
+    {
+      "name": "Section-1",
+      "type": "solid_section",
+      "material": "Elastic_Matrix",
+      "thickness": 1.0
+    }
+  ],
+  "source_instance": "Part-1-1",
+  "part_node_sets": [
+    "bottom",
+    "top",
+    "notch_lower_face",
+    "notch_upper_face",
+    "notch_tip"
+  ],
+  "assembly_sets": [
+    "bottom",
+    "top",
+    "RP",
+    "All_elem"
+  ],
+  "equation_constraints": [
+    {
+      "name": "RP-equation",
+      "stored_under": "model.constraints",
+      "terms": [
+        {"set": "top", "dof": 1, "coef": 1.0},
+        {"set": "RP", "dof": 1, "coef": -1.0}
+      ]
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "name": "BC-bottom",
+      "set": "bottom",
+      "dofs": [1, 2], "value": 0.0
+    },
+    {
+      "name": "BC-top",
+      "set": "top",
+      "dofs": [2], "value": 0.0
+    },
+    {
+      "name": "BC-RP",
+      "set": "RP",
+      "dofs": [1], "value": 0.001
+    }
+  ],
+  "analysis_steps": [
+    {
+      "name": "Step-1",
+      "procedure": "static",
+      "nlgeom": false,
+      "initial_increment": 0.1,
+      "total_time": 1.0,
+      "minimum_increment": 1e-5,
+      "maximum_increment": 0.1
+    }
+  ],
+  "field_output_requests": [
+    {
+      "name": "F-Output-1",
+      "step": "Step-1",
+      "region": "All_elem",
+      "region_owner": "Assembly",
+      "node_vars": ["U", "RF"],
+      "elem_vars": ["MISESERI", "MISESAVG", "S", "E", "EVOL"]
+    }
+  ],
+  "history_output_requests": []
+}

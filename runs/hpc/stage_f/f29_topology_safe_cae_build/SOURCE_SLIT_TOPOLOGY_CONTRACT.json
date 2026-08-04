@@ -1,0 +1,22 @@
+{
+  "protocol_version": 1,
+  "task_id": "F29-INVALIDATE-F28-AND-PREPARE-TOPOLOGY-SAFE-CAE-BUILD",
+  "slit_definition": {
+    "start_point": [-0.5, 0.0, 0.0],
+    "tip_point": [0.0, 0.0, 0.0],
+    "line_y": 0.0,
+    "x_range": [-0.5, 0.0]
+  },
+  "required_checks": {
+    "candidate_edges_count": 2,
+    "lower_edge_count": 1,
+    "upper_edge_count": 1,
+    "distinct_geometry_edge_ids": true,
+    "distinct_part_set_names": true,
+    "notch_tip_vertex_count": 1,
+    "disjoint_mesh_node_sets": true,
+    "coincident_node_pairs_exist": true,
+    "bridge_element_count": 0,
+    "open_slit_topology_preserved": true
+  }
+}

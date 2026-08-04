@@ -1,0 +1,37 @@
+{
+  "protocol_version": 1,
+  "task_id": "F29-INVALIDATE-F28-AND-PREPARE-TOPOLOGY-SAFE-CAE-BUILD",
+  "required_evidence_files": [
+    "compatibility.returncode",
+    "cae_builder.returncode",
+    "collector.returncode",
+    "first_failure.returncode",
+    "SOURCE_ENTITY_SPEC.json",
+    "SOURCE_REGION_MAP.json",
+    "SOURCE_OUTPUT_CONTRACT.json",
+    "SOURCE_SLIT_TOPOLOGY_CONTRACT.json",
+    "SOURCE_MODEL_INVENTORY.json",
+    "INSTANCE_REPLACEMENT_API_AUDIT.json",
+    "MODEL_ENTITY_REBINDING_AUDIT.json",
+    "SLIT_GEOMETRY_AUDIT.json",
+    "SLIT_MESH_TOPOLOGY_AUDIT.json",
+    "GEOMETRY_BACKED_MODEL_AUDIT.json",
+    "GENERATED_INPUT_AUDIT.json",
+    "M2RMPROV1_GENERATED_INPUT.sha256",
+    "EXECUTION_COUNTERS.json",
+    "STATUS.json",
+    "MISSING_EVIDENCE_REPORT.json",
+    "NOTIFICATION_START_TELEGRAM.json",
+    "NOTIFICATION_TERMINAL_TELEGRAM.json",
+    "NOTIFICATION_REDACTION_AUDIT.json"
+  ],
+  "optional_evidence_files": [
+    "CAE_TRACEBACK.txt"
+  ],
+  "rules": [
+    "Terminal evidence trap must be installed immediately after evidence path validation.",
+    "Collector returncode must be measured from actual copy returncodes without masking.",
+    "MISSING_EVIDENCE_REPORT.json must be written using json.dump after collector runs.",
+    "MISSING_EVIDENCE_REPORT.json must produce valid JSON when 0, 1, or many files are missing."
+  ]
+}

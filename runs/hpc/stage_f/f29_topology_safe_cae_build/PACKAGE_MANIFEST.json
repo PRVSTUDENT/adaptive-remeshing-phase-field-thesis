@@ -1,0 +1,19 @@
+{
+  "protocol_version": 1,
+  "task_id": "F29-INVALIDATE-F28-AND-PREPARE-TOPOLOGY-SAFE-CAE-BUILD",
+  "package_name": "f29_topology_safe_cae_build",
+  "prepared_job": "M2RMBUILD4",
+  "job_type": "cae_build_qualification",
+  "builder_script": "runtime/build_f29_geometry_backed_model.py",
+  "execution_authorized": false,
+  "submission_approved": false,
+  "resources": {
+    "queue": "entry_imfdfkmq",
+    "cpus": 1,
+    "memory_gb": 8,
+    "walltime": "00:30:00",
+    "mode": "Abaqus/CAE noGUI"
+  },
+  "package_directory": "models/generated/mode_ii/f29_topology_safe_cae_build/",
+  "orchestrator": "scripts/hpc/stage_f/submit_stage_f29_cae_build_qualification.sh"
+}

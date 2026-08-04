@@ -1,0 +1,27 @@
+{
+  "protocol_version": 1,
+  "task_id": "F29-INVALIDATE-F28-AND-PREPARE-TOPOLOGY-SAFE-CAE-BUILD",
+  "audited_entity_types": [
+    "materials",
+    "sections",
+    "section_assignments",
+    "part_node_sets",
+    "part_element_sets",
+    "assembly_sets",
+    "surfaces",
+    "boundary_conditions",
+    "equation_constraints",
+    "loads",
+    "interactions",
+    "steps",
+    "field_output_requests",
+    "history_output_requests"
+  ],
+  "rebinding_rule": "Every entity must be dynamically audited from live mdb objects. Output requests must target assembly All_elem. Stale orphan references fail contract. Slit topology fail-safe check required.",
+  "required_unresolved_count": 0,
+  "required_stale_orphan_reference_count": 0,
+  "required_output_region_mismatch_count": 0,
+  "required_crack_face_identity_failure_count": 0,
+  "required_source_contract_coverage": 1.0,
+  "contract_pass_required": true
+}

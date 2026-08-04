@@ -1,0 +1,13 @@
+{
+  "protocol_version": 1,
+  "task_id": "F29-INVALIDATE-F28-AND-PREPARE-TOPOLOGY-SAFE-CAE-BUILD",
+  "slit_topology_requirements": [
+    "lower and upper crack faces must be selected using distinct adjacent face centroids",
+    "lower edge set and upper edge set must be nonempty and contain distinct geometry edges",
+    "mesh node sets for lower and upper crack faces must be disjoint except at the notch tip vertex",
+    "coincident node pairs must exist along the crack line",
+    "zero bridge elements may span lower and upper crack faces",
+    "open slit topology must be preserved from x=-0.5 to notch tip"
+  ],
+  "contract_pass_required": true
+}

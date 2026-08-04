@@ -1,0 +1,18 @@
+{
+  "protocol_version": 1,
+  "task_id": "F29-INVALIDATE-F28-AND-PREPARE-TOPOLOGY-SAFE-CAE-BUILD",
+  "field_output_requests": [
+    {
+      "name": "F-Output-1",
+      "createStepName": "Step-1",
+      "region_name": "All_elem",
+      "region_owner": "Assembly",
+      "node_variables": ["U", "RF"],
+      "element_variables": ["MISESERI", "MISESAVG", "S", "E", "EVOL"],
+      "frequency": 1,
+      "reconstruction_required": true,
+      "must_target_assembly_set": true
+    }
+  ],
+  "history_output_requests": []
+}
