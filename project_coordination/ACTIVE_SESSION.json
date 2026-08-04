@@ -1,21 +1,12 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
-  "allowed_scope": [
-    "docs/decisions/F27_CAE_BUILD_PACKAGE_REPAIR_DECISION.md",
-    "docs/experiment_records/STAGE_F27_CAE_BUILD_PACKAGE_REPAIR.md",
-    "runs/hpc/stage_f/f27_cae_build_package_repair/",
-    "models/generated/mode_ii/f27_cae_build_package_repair/",
-    "scripts/",
-    "tests/",
-    "project_coordination/",
-    "docs/project/"
-  ],
-  "completed_at": null,
-  "heartbeat": "2026-08-04T06:01:10Z",
+  "allowed_scope": [],
+  "completed_at": "2026-08-04T06:07:15Z",
+  "heartbeat": "2026-08-04T06:07:15Z",
   "started_at": "2026-08-04T06:01:10Z",
   "session_id": "F27-GEMINI-ANTIGRAVITY-20260804T060110Z",
   "starting_commit": "32c3f1f6df35e3fa7a8bb7605b2fe893ce4932a0",
   "task_id": "F27-INVALIDATE-F26-AND-REPAIR-CAE-BUILD-PACKAGE",
-  "note": "Invalidate F26 package and prepare corrected CAE-only geometry-backed construction qualification (M2RMBUILD2)."
+  "note": "F27 task completed. Invalided F26 claims, corrected Abaqus API signatures, implemented fail-closed M2RMBUILD2 package and evidence gates, verified clean-Linux worktree qualification, session released."
 }
