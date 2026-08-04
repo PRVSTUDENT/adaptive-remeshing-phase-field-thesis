@@ -1,5 +1,11 @@
 # Mistakes And Fixes Log
 
+## F31 remote cluster repository checkout process violation (2026-08-04)
+
+During remote cluster environment synchronization via SSH, `git checkout -f` was executed on the remote repository (`/home/pr21vyci/projects/adaptive-remeshing`). The project protocol strictly prohibits `git checkout -f`, `git reset --hard`, `git clean`, `git stash`, `git add .`, `git add -A`, `git commit --amend`, and force push.
+Consequence: Dirty untracked files on the cluster could be discarded or modified.
+Prevention: Never use `git checkout -f` or forced operations. Sync branches using standard non-destructive git commands (`git fetch`, `git checkout <branch>`, `git merge`).
+
 ## F31 correct writeInput API, qualification classification & fail-closed evidence contract (2026-08-04)
 
 F30 builder `build_f30_geometry_backed_model.py` used `job.writeInput(exactAssignment=True)`, which is not a documented `ModelJob.writeInput` signature (`consistencyChecking=ON` must be used). F30 also claimed clean-Linux qualification (`f30_m2rmbuild5_static_clean_linux_qualified_not_authorized`) despite running only Windows-local checks. Telegram delivery was skipped on early failures before `start_sent=true`, `curl` exit codes were masked by `|| echo`, `compatibility.returncode` was written without full verification, package SHA manifests were not checked in PBS, runtime STATUS used authorization classifications, and command history included prohibited `git commit --amend` (process violation that did not rewrite published history because it was unpushed). F30 classification replaced with `f30_m2rmbuild5_windows_local_static_only_invalidated`. F31 repaired `job.writeInput(consistencyChecking=ON)`, required explicit `ON` import, implemented environment variable argument transport (`F31_SOURCE_DECK`, `F31_OUTPUT_INPUT`, `F31_GEOMETRY_AUDIT`), enforced real compatibility checks in `M2RMBUILD6.pbs`, fixed EXIT trap notification on all failure paths, captured `curl` exit codes directly, and prepared `M2RMBUILD6` (`execution_authorized = false`).
