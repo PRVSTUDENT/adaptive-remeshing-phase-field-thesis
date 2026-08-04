@@ -1,0 +1,19 @@
+{
+  "protocol_version": 1,
+  "task_id": "F25-REPAIR-GEOMETRY-BACKED-PROVISIONAL-PACKAGE",
+  "f24_qualification_invalid": true,
+  "f24_claims_invalidated": [
+    "M2RMPROV1 is geometry-backed",
+    "M2RMPROV1.inp represents the corrected model",
+    "the F24 package is eligible for submission authorization"
+  ],
+  "invalidation_evidence": [
+    "build_f24_geometry_backed_model.py performs only a raw file copy of source_deck.inp",
+    "M2RMPROV1.inp and source_deck.inp have identical SHA-256 checksum (a927b831...)",
+    "M2RMPROV1.pbs directly runs M2RMPROV1.inp without invoking the Abaqus/CAE builder",
+    "no runtime geometry audit GEOMETRY_BACKED_MODEL_AUDIT.json exists in F24",
+    "required Telegram notification and evidence-retention contracts are absent in F24"
+  ],
+  "previous_classification": "f24_m2rmprov1_clean_linux_qualified_not_authorized",
+  "corrected_f24_classification": "f24_m2rmprov1_package_invalid_no_submission_authorized"
+}

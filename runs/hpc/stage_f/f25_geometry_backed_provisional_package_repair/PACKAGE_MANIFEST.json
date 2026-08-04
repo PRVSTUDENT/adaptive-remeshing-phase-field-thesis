@@ -1,0 +1,19 @@
+{
+  "protocol_version": 1,
+  "task_id": "F25-REPAIR-GEOMETRY-BACKED-PROVISIONAL-PACKAGE",
+  "package_name": "f25_geometry_backed_provisional_package_repair",
+  "prepared_job": "M2RMPROV1",
+  "job_type": "provisional_analysis",
+  "builder_script": "runtime/build_f25_geometry_backed_model.py",
+  "execution_authorized": false,
+  "submission_approved": false,
+  "resources": {
+    "queue": "entry_imfdfkmq",
+    "cpus": 1,
+    "memory_gb": 8,
+    "walltime": "01:00:00",
+    "mode": "Abaqus/CAE builder + Abaqus/Standard analysis"
+  },
+  "package_directory": "models/generated/mode_ii/f25_geometry_backed_provisional_package_repair/",
+  "orchestrator": "scripts/hpc/stage_f/submit_stage_f25_provisional_analysis.sh"
+}

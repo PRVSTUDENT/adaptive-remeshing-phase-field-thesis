@@ -1,0 +1,57 @@
+{
+  "protocol_version": 1,
+  "task_id": "F25-REPAIR-GEOMETRY-BACKED-PROVISIONAL-PACKAGE",
+  "source_part_name": "Part-1",
+  "source_part_is_mesh_part": true,
+  "source_instance_name": "Part-1-1",
+  "geometry_part_name": "Part-1-GEOM",
+  "geometry_face_count": 1,
+  "geometry_node_count": 4085,
+  "geometry_element_count": 3930,
+  "active_instance_names": [
+    "Part-1-1"
+  ],
+  "active_orphan_target_count": 0,
+  "active_geometry_target_count": 1,
+  "preserved_instance_name": "Part-1-1",
+  "section_assignments": [
+    "Section-1"
+  ],
+  "materials": [
+    "Elastic_Matrix"
+  ],
+  "part_sets": [
+    "bottom",
+    "top",
+    "notch_lower_face",
+    "notch_upper_face",
+    "notch_tip"
+  ],
+  "assembly_sets": [
+    "bottom",
+    "top",
+    "RP"
+  ],
+  "surfaces": [],
+  "boundary_conditions": [
+    "BC-bottom",
+    "BC-top"
+  ],
+  "equations": [
+    "RP-equation"
+  ],
+  "loads": [],
+  "steps": [
+    "Step-1"
+  ],
+  "remeshing_rule_name": "F25_MISESERI_RULE",
+  "remeshing_region_type": "explicit_geometry_face_region",
+  "remeshing_region_face_count": 1,
+  "assembly_regenerated": true,
+  "generated_input_path": "M2RMPROV1.inp",
+  "generated_input_sha256": "7e59929a6ed0292867195dd27ab4615e06d6fcfe01c7ef1a4ab9330fc3efffb4",
+  "source_input_sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2",
+  "generated_differs_from_source": true,
+  "real_abaqus_cae_build": false,
+  "contract_pass": true
+}

@@ -1,0 +1,13 @@
+{
+  "protocol_version": 1,
+  "task_id": "F25-REPAIR-GEOMETRY-BACKED-PROVISIONAL-PACKAGE",
+  "telegram_start_mandatory": true,
+  "telegram_terminal_mandatory": true,
+  "pbs_email_best_effort": true,
+  "redaction_mandatory": true,
+  "required_records": [
+    "NOTIFICATION_START_TELEGRAM.json",
+    "NOTIFICATION_TERMINAL_TELEGRAM.json",
+    "NOTIFICATION_REDACTION_AUDIT.json"
+  ]
+}

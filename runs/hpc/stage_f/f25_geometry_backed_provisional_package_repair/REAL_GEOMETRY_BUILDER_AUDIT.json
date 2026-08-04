@@ -1,0 +1,34 @@
+{
+  "protocol_version": 1,
+  "task_id": "F25-REPAIR-GEOMETRY-BACKED-PROVISIONAL-PACKAGE",
+  "builder_script": "runtime/build_f25_geometry_backed_model.py",
+  "uses_real_abaqus_apis": true,
+  "required_abaqus_modules": [
+    "abaqus.mdb",
+    "abaqusConstants",
+    "regionToolset.Region",
+    "mesh.ElemType"
+  ],
+  "required_construction_sequence": [
+    "1. import source deck using mdb.ModelFromInputFile",
+    "2. identify source orphan-mesh part (Part-1) and instance (Part-1-1)",
+    "3. inventory source materials, sections, sets, surfaces, steps, loads, BCs, equations",
+    "4. call Part2DGeomFrom2DMesh to extract native geometry part (Part-1-GEOM)",
+    "5. verify resulting part contains geometry faces (len(geom_part.faces) > 0)",
+    "6. assign section to geometry face",
+    "7. assign supported element types (CPE4) and mesh controls (STRUCTURED)",
+    "8. seed and mesh geometry-backed part",
+    "9. instantiate in rootAssembly as dependent instance (Part-1-1)",
+    "10. preserve intended instance name Part-1-1 deterministically",
+    "11. rebuild required part and assembly sets and surfaces",
+    "12. rebind BCs, equations, loads to geometry-backed sets",
+    "13. suppress or remove orphan-mesh target instance (Part-1-1-ORPHAN)",
+    "14. regenerate rootAssembly",
+    "15. create explicit geometry-face Region",
+    "16. create MISESERI RemeshingRule for future remeshing region",
+    "17. write GEOMETRY_BACKED_MODEL_AUDIT.json and PRECALL_ADAPTIVE_REGION_AUDIT.json",
+    "18. create Abaqus job object and call job.writeInput(consistencyChecking=OFF)"
+  ],
+  "prohibit_file_copy": true,
+  "require_hash_inequality": true
+}

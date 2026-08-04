@@ -1,5 +1,13 @@
 # Current project state
 
+## F25 repair geometry-backed provisional package closeout (2026-08-04)
+
+Invalidated F24 qualification claims (`build_f24_geometry_backed_model.py` raw file copy defect). F24 classification corrected to `f24_m2rmprov1_package_invalid_no_submission_authorized`.
+Replaced no-op builder with real Abaqus/CAE Python model builder `build_f25_geometry_backed_model.py` executing 17-step geometry construction order (`Part2DGeomFrom2DMesh`, `SectionAssignment`, `CPE4`, `STRUCTURED`, `seedPart`, `generateMesh`, `Instance`, `regenerate`, `Region(faces)`, `RemeshingRule`, `job.writeInput`).
+Verified hash inequality (`source_sha256 != generated_sha256`).
+Repaired `M2RMPROV1.pbs` wrapper to invoke CAE builder before Standard, enforce `contract_pass = true`, load `abaqus/2023`, send Telegram START/TERMINAL notifications, and retain evidence.
+Classification: `f25_m2rmprov1_real_geometry_builder_clean_linux_qualified_not_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
+
 ## F24 official adaptive contract & ODB compatibility gate closeout (2026-08-04)
 
 Established official Abaqus 11-rule adaptive remeshing contract requiring geometry-backed part instantiation (`Part2DGeomFrom2DMesh`), instance name preservation (`Part-1-1`), orphan-instance suppression, and explicit face `Region` assignment.

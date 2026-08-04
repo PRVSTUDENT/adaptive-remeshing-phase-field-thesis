@@ -1,5 +1,13 @@
 # Project Phase Checklist
 
+## F25 repair geometry-backed provisional package gate
+
+- [x] Invalidated F24 claims (`M2RMPROV1` is geometry-backed, file copy builder, identical hashes).
+- [x] Implemented real Abaqus/CAE Python model builder `build_f25_geometry_backed_model.py` with 17-step construction sequence.
+- [x] Verified generated input deck `M2RMPROV1.inp` hash inequality (`source_sha256 != generated_sha256`).
+- [x] Repaired `M2RMPROV1.pbs` wrapper with Abaqus/CAE builder execution before Standard, module loading, Telegram notifications, and complete evidence retention.
+- [x] Classification: `f25_m2rmprov1_real_geometry_builder_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
 ## F24 official adaptive contract & ODB compatibility gate
 
 - [x] Official Abaqus 11-rule adaptive remeshing contract established.

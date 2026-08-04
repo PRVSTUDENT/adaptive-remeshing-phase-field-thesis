@@ -1,11 +1,12 @@
 {
   "protocol_version": 1,
-  "task_id": "F24-OFFICIAL-ADAPTIVE-CONTRACT-AND-ODB-COMPATIBILITY-GATE",
+  "task_id": "F25-REPAIR-GEOMETRY-BACKED-PROVISIONAL-PACKAGE",
   "status": "preparation_complete_not_authorized",
-  "classification": "f24_m2rmprov1_clean_linux_qualified_not_authorized",
-  "starting_commit": "9d80dd5a9fb36a99045c7ccd974f7e30562a978a",
+  "classification": "f25_m2rmprov1_real_geometry_builder_clean_linux_qualified_not_authorized",
+  "starting_commit": "f32a5b5ab4d3b019c56a3d44740619e6e39f55bb",
   "selected_outcome": "Outcome B",
   "prepared_job": "M2RMPROV1",
+  "builder_script": "runtime/build_f25_geometry_backed_model.py",
   "m2rmexec2_prepared": false,
   "execution_authorized": false,
   "submission_approved": false,
@@ -15,5 +16,5 @@
   "new_successful_submissions": 0,
   "retry_authorized": false,
   "replacement_authorized": false,
-  "next_action": "await explicit human decision for M2RMPROV1 submission authorization"
+  "next_action": "await explicit human decision for repaired M2RMPROV1 submission authorization"
 }

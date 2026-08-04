@@ -1,0 +1,25 @@
+{
+  "protocol_version": 1,
+  "task_id": "F25-REPAIR-GEOMETRY-BACKED-PROVISIONAL-PACKAGE",
+  "required_evidence_files": [
+    "compatibility.returncode",
+    "builder.returncode",
+    "solver.returncode",
+    "collector.returncode",
+    "first_failure.returncode",
+    "SOURCE_MODEL_INVENTORY.json",
+    "GEOMETRY_BACKED_MODEL_AUDIT.json",
+    "GENERATED_INPUT_AUDIT.json",
+    "M2RMPROV1_GENERATED_INPUT.sha256",
+    "STATUS.json",
+    "MISSING_EVIDENCE_REPORT.json",
+    "NOTIFICATION_START_TELEGRAM.json",
+    "NOTIFICATION_TERMINAL_TELEGRAM.json",
+    "NOTIFICATION_REDACTION_AUDIT.json"
+  ],
+  "rules": [
+    "Retain partial evidence on every failure path.",
+    "The collector return code must never mask builder or solver failures.",
+    "MISSING_EVIDENCE_REPORT.json must identify every absent required artifact."
+  ]
+}

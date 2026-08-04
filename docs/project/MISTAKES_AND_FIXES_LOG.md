@@ -1,5 +1,9 @@
 # Mistakes And Fixes Log
 
+## F25 repair geometry-backed provisional package (2026-08-04)
+
+F24 builder `build_f24_geometry_backed_model.py` performed a raw file copy of `source_deck.inp` unchanged, resulting in a no-op builder with byte-identical hashes. F24 claims were invalidated (`f24_m2rmprov1_package_invalid_no_submission_authorized`). F25 replaced the builder with real Abaqus/CAE Python script `build_f25_geometry_backed_model.py` that constructs native geometry using `Part2DGeomFrom2DMesh`, assigns CPE4 elements, STRUCTURED mesh controls, dependent instance `Part-1-1`, and explicit face `Region`. Hash inequality was verified (`source_sha256 != generated_sha256`). PBS wrapper was repaired to invoke CAE builder before Standard, enforce `contract_pass`, load `abaqus/2023`, send Telegram notifications, and retain evidence.
+
 ## F24 official adaptive contract & ODB compatibility gate (2026-08-04)
 
 Assuming an existing orphan-mesh ODB (`M2MISER1.odb`) can drive manual adaptive remeshing on a newly created geometry-backed model violates Abaqus adaptive remeshing contract rules. Official Abaqus documentation specifies that changing remeshing-rule regions or geometry/element ownership invalidates ODB region correspondence. Outcome B was selected: prepared provisional analysis `M2RMPROV1` on the geometry-backed model to generate a matching ODB. `M2RMEXEC2` is not prepared until `M2RMPROV1` is evaluated.

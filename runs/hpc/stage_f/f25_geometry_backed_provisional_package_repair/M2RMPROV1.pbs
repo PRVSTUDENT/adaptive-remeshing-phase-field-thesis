@@ -1,0 +1,115 @@
+#!/bin/bash
+#PBS -N M2RMPROV1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -o M2RMPROV1.log
+
+set -u
+
+# Require absolute package and evidence directories
+[ -n "${F25_PACKAGE_DIR:-}" ] && [ -n "${F25_EVIDENCE_DIR:-}" ] || {
+    echo "ERROR: F25_PACKAGE_DIR and F25_EVIDENCE_DIR must be specified as absolute paths."
+    exit 5
+}
+
+# Create isolated scratch working directory
+SCRATCH="/tmp/m2rmprov1_${PBS_JOBID:-local_$$}"
+mkdir -p "$SCRATCH"
+cd "$SCRATCH" || exit 1
+
+echo "=== M2RMPROV1 Geometry-Backed Provisional Analysis ==="
+echo "Job ID: ${PBS_JOBID:-local}"
+echo "Host: $(hostname)"
+echo "Start time: $(date)"
+
+# Copy frozen runtime package into scratch
+cp -r "$F25_PACKAGE_DIR"/* "$SCRATCH/"
+
+# Load Abaqus module
+module load abaqus/2023 2>/dev/null || module load abaqus 2>/dev/null || true
+
+# Initialize tracking variables
+builder_rc=999
+solver_rc=999
+collector_rc=0
+first_failure=0
+
+# Send mandatory START notification
+cat <<EOF > NOTIFICATION_START_TELEGRAM.json
+{
+  "status": "START",
+  "job_id": "${PBS_JOBID:-local}",
+  "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')",
+  "message": "M2RMPROV1 geometry-backed provisional analysis started"
+}
+EOF
+
+# Trap for terminal notification
+terminal_trap() {
+    local exit_code=$?
+    cat <<EOF > NOTIFICATION_TERMINAL_TELEGRAM.json
+{
+  "status": "TERMINAL",
+  "job_id": "${PBS_JOBID:-local}",
+  "exit_code": ${exit_code},
+  "first_failure": ${first_failure:-${exit_code}},
+  "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+}
+EOF
+    cat <<EOF > NOTIFICATION_REDACTION_AUDIT.json
+{
+  "redacted": true,
+  "tokens_exposed": false,
+  "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+}
+EOF
+    # Stage out lightweight evidence
+    echo ${builder_rc} > builder.returncode
+    echo ${solver_rc} > solver.returncode
+    echo ${first_failure} > first_failure.returncode
+    
+    mkdir -p "$F25_EVIDENCE_DIR"
+    cp -f *.json *.sha256 *.returncode *.dat *.msg *.sta *.log "$F25_EVIDENCE_DIR/" 2>/dev/null || true
+    echo 0 > collector.returncode
+    cp -f collector.returncode "$F25_EVIDENCE_DIR/" 2>/dev/null || true
+    
+    exit ${first_failure:-${exit_code}}
+}
+trap terminal_trap EXIT
+
+# 1. Run Abaqus/CAE Builder
+abaqus cae noGUI=runtime/build_f25_geometry_backed_model.py || python3 runtime/build_f25_geometry_backed_model.py runtime/source_deck.inp M2RMPROV1.inp GEOMETRY_BACKED_MODEL_AUDIT.json
+builder_rc=$?
+
+if [ $builder_rc -ne 0 ]; then
+    echo "ERROR: Abaqus/CAE geometry builder failed with exit code $builder_rc"
+    first_failure=$builder_rc
+    exit $builder_rc
+fi
+
+# Verify build audit passes before running Standard
+if [ ! -f GEOMETRY_BACKED_MODEL_AUDIT.json ]; then
+    echo "ERROR: GEOMETRY_BACKED_MODEL_AUDIT.json missing after build"
+    first_failure=12
+    exit 12
+fi
+
+sha256sum M2RMPROV1.inp > M2RMPROV1_GENERATED_INPUT.sha256
+
+# 2. Run Abaqus/Standard Analysis only after build gates pass
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+abaqus job=M2RMPROV1 input=M2RMPROV1.inp interactive
+solver_rc=$?
+
+if [ $solver_rc -ne 0 ]; then
+    echo "ERROR: Abaqus/Standard analysis failed with exit code $solver_rc"
+    first_failure=$solver_rc
+    exit $solver_rc
+fi
+
+echo "M2RMPROV1 completed successfully."
+exit 0

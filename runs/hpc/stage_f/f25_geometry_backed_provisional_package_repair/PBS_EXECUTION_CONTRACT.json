@@ -1,0 +1,30 @@
+{
+  "protocol_version": 1,
+  "task_id": "F25-REPAIR-GEOMETRY-BACKED-PROVISIONAL-PACKAGE",
+  "queue": "entry_imfdfkmq",
+  "cpus": 1,
+  "memory_gb": 8,
+  "walltime": "01:00:00",
+  "mode": "Abaqus/CAE builder + Abaqus/Standard analysis",
+  "execution_sequence": [
+    "1. require absolute F25_PACKAGE_DIR and F25_EVIDENCE_DIR",
+    "2. create isolated scratch work directory",
+    "3. copy frozen runtime package into scratch",
+    "4. verify all frozen hashes (sha256sum -c F25_SHA256SUMS)",
+    "5. load abaqus/2023 explicitly",
+    "6. verify Telegram notification config and send mandatory START notification",
+    "7. install mandatory terminal notification trap",
+    "8. run Abaqus/CAE builder (abaqus cae noGUI=runtime/build_f25_geometry_backed_model.py)",
+    "9. retain builder.returncode",
+    "10. verify GEOMETRY_BACKED_MODEL_AUDIT.json contract_pass is true",
+    "11. fail before Standard when contract_pass is false",
+    "12. retain generated deck hash (M2RMPROV1_GENERATED_INPUT.sha256) and audit",
+    "13. run Abaqus/Standard only after all build gates pass",
+    "14. retain solver.returncode",
+    "15. preserve DAT, MSG, STA, LOG lightweight evidence",
+    "16. keep ODB and binary files in scratch only",
+    "17. stage out lightweight evidence to F25_EVIDENCE_DIR",
+    "18. retain collector.returncode",
+    "19. preserve first true failure code; ensure collector never masks builder or solver failure"
+  ]
+}

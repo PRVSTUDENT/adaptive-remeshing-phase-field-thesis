@@ -1,0 +1,12 @@
+{
+  "protocol_version": 1,
+  "task_id": "F25-REPAIR-GEOMETRY-BACKED-PROVISIONAL-PACKAGE",
+  "prepared_job": "M2RMPROV1",
+  "execution_authorized": false,
+  "required_files": [
+    "models/generated/mode_ii/f25_geometry_backed_provisional_package_repair/M2RMPROV1.pbs",
+    "models/generated/mode_ii/f25_geometry_backed_provisional_package_repair/runtime/build_f25_geometry_backed_model.py",
+    "models/generated/mode_ii/f25_geometry_backed_provisional_package_repair/runtime/source_deck.inp",
+    "scripts/hpc/stage_f/submit_stage_f25_provisional_analysis.sh"
+  ]
+}
