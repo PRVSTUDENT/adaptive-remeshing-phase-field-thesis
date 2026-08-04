@@ -1,5 +1,11 @@
 # Mistakes And Fixes Log
 
+## F31 M2RMBUILD6 compatibility gate workdir staging defect (2026-08-04)
+
+HPC Job `1383394.mmaster02` failed at the initial compatibility check (`Exit_status = 1`). `M2RMBUILD6.pbs` staged `PACKAGE_MANIFEST.json`, `SHA256SUMS`, `F31_SHA256SUMS`, and `runtime/*` into `$WORK_DIR` but omitted `M2RMBUILD6.pbs`. Line 170 executed `sha256sum -c SHA256SUMS`, which listed `M2RMBUILD6.pbs`, causing `sha256sum` to fail with file not found.
+Consequence: Clean-Linux Abaqus/CAE runtime qualification failed (`cae_geometry_build_contract_failed`).
+Prevention: Whenever `sha256sum -c SHA256SUMS` is executed inside an isolated `$WORK_DIR`, stage all files listed in `SHA256SUMS` (including the PBS batch script itself) into `$WORK_DIR` before running hash verification.
+
 ## F31 remote cluster repository checkout process violation (2026-08-04)
 
 During remote cluster environment synchronization via SSH, `git checkout -f` was executed on the remote repository (`/home/pr21vyci/projects/adaptive-remeshing`). The project protocol strictly prohibits `git checkout -f`, `git reset --hard`, `git clean`, `git stash`, `git add .`, `git add -A`, `git commit --amend`, and force push.

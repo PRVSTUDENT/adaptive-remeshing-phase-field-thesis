@@ -1,0 +1,13 @@
+INFO: Performing real compatibility checks...
+sha256sum: M2RMBUILD6.pbs: Datei oder Verzeichnis nicht gefunden
+M2RMBUILD6.pbs: %FEHLSCHLAG bei open oder read
+PACKAGE_MANIFEST.json: OK
+runtime/build_f31_geometry_backed_model.py: OK
+runtime/generate_missing_evidence_report.py: OK
+runtime/source_deck.inp: OK
+runtime/validate_f31_runtime_audits.py: OK
+runtime/validate_generated_input.py: OK
+sha256sum: WARNUNG: die aufgeführte Datei konnte nicht gelesen werden
+INFO: Running terminal evidence collection and closeout trap...
+INFO: Sending terminal Telegram notification...
+/var/spool/pbs/mom_priv/jobs/1383394.mmaster02.SC: Zeile 118: python: Kommando nicht gefunden.

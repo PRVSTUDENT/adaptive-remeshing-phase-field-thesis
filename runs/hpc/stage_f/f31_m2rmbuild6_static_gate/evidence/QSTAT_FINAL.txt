@@ -1,0 +1,70 @@
+Job Id: 1383394.mmaster02
+    Job_Name = M2RMBUILD6
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 8
+    resources_used.cput = 00:00:00
+    resources_used.mem = 6764kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 0kb
+    resources_used.walltime = 00:00:01
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Tue Aug  4 10:33:40 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/M2
+	RMBUILD6.e1383394
+    exec_host = mnode098/0
+    exec_vnode = (mnode098[0]:ncpus=1:mem=8388608kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = a
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Tue Aug  4 13:56:50 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/M
+	2RMBUILD6.o1383394
+    Priority = 0
+    qtime = Tue Aug  4 10:33:40 2026
+    Rerunable = True
+    Resource_List.mem = 8gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=8gb
+    Resource_List.walltime = 00:30:00
+    stime = Tue Aug  4 13:56:43 2026
+    obittime = Tue Aug  4 13:56:50 2026
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1383394.mmaster02.x8z
+    substate = 93
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing,
+	PBS_O_SYSTEM=Linux,
+	F31_PACKAGE_DIR=/home/pr21vyci/projects/adaptive-remeshing/models/gene
+	rated/mode_ii/f31_cae_runtime_gate_repair,
+	F31_EVIDENCE_DIR=/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/s
+	tage_f/f31_m2rmbuild6_static_gate/evidence,PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Tue Aug 04 at 13:56 on (mnode098[0]:ncpus=1:mem=838860
+	8kb) and failed
+    etime = Tue Aug  4 10:33:40 2026
+    run_count = 1
+    eligible_time = 03:23:06
+    Stageout_status = 1
+    Exit_status = 1
+    Submit_arguments = -v F31_PACKAGE_DIR=/home/pr21vyci/projects/adaptive-reme
+	shing/models/generated/mode_ii/f31_cae_runtime_gate_repair,
+	F31_EVIDENCE_DIR=/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/s
+	tage_f/f31_m2rmbuild6_static_gate/evidence /home/pr21vyci/projects/adap
+	tive-remeshing/models/generated/mode_ii/f31_cae_runtime_gate_repair/M2R
+	MBUILD6.pbs
+    estimated.exec_vnode = (mnode101[0]:ncpus=1:mem=8388608kb)
+    estimated.start_time = Sat Aug  8 18:16:42 2026
+    history_timestamp = 1785844610
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+

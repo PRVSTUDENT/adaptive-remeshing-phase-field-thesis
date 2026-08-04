@@ -367,3 +367,9 @@ The subsequent F21 preparation freezes the installed
 permits at most one deterministic candidate export and explicitly excludes
 datacheck, state transfer, and refined fracture analysis.  Candidate validity
 therefore remains a later sequential gate.
+
+\subsection{F31 M2RMBUILD6 CAE build runtime gate closeout}
+
+Stage F31 implemented the repaired geometry-backed CAE model builder \texttt{build\_f31\_geometry\_backed\_model.py} using the documented \texttt{job.writeInput(consistencyChecking=ON)} signature and environment-variable parameter transport. HPC job \texttt{1383394.mmaster02} was executed on node \texttt{mnode098}. The run terminated at the initial compatibility gate (\texttt{Exit\_status = 1}) because \texttt{M2RMBUILD6.pbs} staged package manifests into the isolated scratch directory but omitted the PBS batch script itself, causing \texttt{sha256sum -c SHA256SUMS} to fail with file not found.
+
+Clean-Linux Abaqus/CAE runtime qualification is therefore classified as \texttt{cae\_geometry\_build\_contract\_failed}. All authorization grants remain consumed (cumulative \texttt{qsub} invocations = 2, scheduler-accepted submissions = 1), and no retry or replacement job is authorized.

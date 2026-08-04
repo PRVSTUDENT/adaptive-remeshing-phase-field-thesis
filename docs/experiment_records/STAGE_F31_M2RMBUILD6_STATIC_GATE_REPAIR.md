@@ -15,8 +15,13 @@
 6. Enforced runtime-only classifications (`cae_geometry_build_contract_passed` / `cae_geometry_build_contract_failed`) in execution evidence `STATUS.json`.
 7. Recorded F30 `git commit --amend` process violation in `MISTAKES_AND_FIXES_LOG.md` and enforced strict no-amend rule in F31.
 
-## Authorization State
-- `execution_authorized = false`
-- `submission_approved = false`
-- `qsub_attempts = 0`
-- `successful_submissions = 0`
+## Execution & Closeout Results
+- **HPC Job ID**: `1383394.mmaster02`
+- **PBS Queue**: `normal_imfdfkmq` (routed from `entry_imfdfkmq`)
+- **Execution Host**: `mnode098/0`
+- **PBS Exit Status**: `1`
+- **First Failure Exit Code**: `1`
+- **Classification**: `cae_geometry_build_contract_failed`
+- **Root Cause**: `M2RMBUILD6.pbs` staged `PACKAGE_MANIFEST.json`, `SHA256SUMS`, `F31_SHA256SUMS`, and `runtime/*` into `$WORK_DIR` but omitted `M2RMBUILD6.pbs` itself. Line 170 executed `sha256sum -c SHA256SUMS`, which listed `M2RMBUILD6.pbs`, causing `sha256sum` to fail with file not found.
+- **Evidence Path**: `runs/hpc/stage_f/f31_m2rmbuild6_static_gate/evidence/`
+- **Authorization Boundary**: Consumed (Cumulative `qsub` invocations = 2, scheduler-accepted submissions = 1). `retry_authorized = false`, `further_replacement_authorized = false`.
