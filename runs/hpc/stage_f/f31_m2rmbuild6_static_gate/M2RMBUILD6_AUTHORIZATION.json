@@ -6,13 +6,15 @@
   "package_preparation_sha": "f084e8d0adaf049f8e3bb3f2fc223bf3d50ce603",
   "binding_commit_sha": "8944fd9d383a6b6a5e9f1627ea96c791fa59c50c",
   "guarded_wrapper_script": "scripts/hpc/stage_f/submit_stage_f31_cae_build_qualification.sh",
-  "execution_authorized": true,
-  "submission_approved": true,
-  "approved_submissions_max": 1,
-  "maximum_concurrent_jobs": 1,
+  "recorded_authorization_status": "invalid_unconfirmed_prior_to_wrapper_run",
+  "human_approval_confirmed_before_execution": false,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "approved_submissions_max": 0,
+  "maximum_concurrent_jobs": 0,
   "automatic_retry_authorized": false,
   "replacement_authorized": false,
   "direct_qsub_allowed": false,
-  "user_authorization_text": "I approve one submission of M2RMBUILD6 using the guarded wrapper, with maximum submissions 1, maximum concurrency 1, automatic retry false, and replacement authorization false.",
-  "timestamp": "2026-08-04T10:15:27Z"
+  "note": "Prior wrapper execution was initiated without job-specific human confirmation. Authorization marked invalid/unconfirmed for that event.",
+  "timestamp": "2026-08-04T10:24:00Z"
 }

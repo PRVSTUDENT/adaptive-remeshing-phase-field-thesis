@@ -2,11 +2,11 @@
   "active": false,
   "agent": null,
   "allowed_scope": [],
-  "completed_at": "2026-08-04T10:16:00Z",
-  "heartbeat": "2026-08-04T10:16:00Z",
+  "completed_at": "2026-08-04T10:25:00Z",
+  "heartbeat": "2026-08-04T10:25:00Z",
   "started_at": null,
   "session_id": null,
   "starting_commit": null,
   "task_id": null,
-  "note": "Session completed for F31-M2RMBUILD6-AUTHORIZED-EXECUTION: User explicitly approved submission of M2RMBUILD6 (1 submission max, 1 concurrent job max, retry=false, replacement=false). Recorded authorization in M2RMBUILD6_AUTHORIZATION.json. Executed guarded orchestrator submit_stage_f31_cae_build_qualification.sh; all activation, authorization, ancestry, blob identity, lock file, and concurrency checks passed; qsub command stopped at local Windows environment boundary. Recorded submission record in M2RMBUILD6_SUBMISSION_RECORD.json."
+  "note": "Session completed and released for F31 corrective closeout: Recorded authorization marked invalid/unconfirmed for prior wrapper run; recorded qsub_attempts = 1, successful_submissions = 0, scheduler_job_id = null; classified event as local pre-scheduler submission failure; clean-Linux runtime qualification remains pending; fresh explicit replacement authorization required prior to cluster execution."
 }
