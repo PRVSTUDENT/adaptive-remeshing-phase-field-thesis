@@ -167,9 +167,8 @@ def main():
     for e in cand_edges:
         adj_faces = e.getFaces()
         if len(adj_faces) > 0:
-            # Query face centroid y-coordinate
-            f_point = adj_faces[0].pointOn[0]
-            f_cy = f_point[1]
+            # Query face centroid y-coordinate directly via pointOn[0][1]
+            f_cy = adj_faces[0].pointOn[0][1]
             if f_cy < 0.0:
                 lower_edge_objs.append(e)
             elif f_cy > 0.0:
