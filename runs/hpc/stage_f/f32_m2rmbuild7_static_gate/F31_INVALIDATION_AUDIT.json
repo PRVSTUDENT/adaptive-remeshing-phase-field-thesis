@@ -1,0 +1,14 @@
+{
+  "protocol_version": 1,
+  "task_id": "F32-INVALIDATE-F31-AND-REPAIR-M2RMBUILD6-WORK-DIR-STAGING-GATE",
+  "invalidated_task_id": "F31-INVALIDATE-F30-AND-REPAIR-M2RMBUILD5-STATIC-GATE",
+  "invalidated_classification": "f31_m2rmbuild6_runtime_workdir_staging_failed",
+  "f31_package_preparation_sha": "f084e8d0adaf049f8e3bb3f2fc223bf3d50ce603",
+  "f31_binding_commit_sha": "8944fd9d383a6b6a5e9f1627ea96c791fa59c50c",
+  "hpc_job_id": "1383394.mmaster02",
+  "pbs_exit_status": 1,
+  "blocking_defects": [
+    "M2RMBUILD6.pbs staged package manifests into WORK_DIR but omitted M2RMBUILD6.pbs itself, causing sha256sum -c SHA256SUMS to fail with file not found.",
+    "In M2RMBUILD6.pbs, line 118 attempted python before module loading was executed or verified in on_exit trap, causing command not found."
+  ]
+}

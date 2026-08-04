@@ -1,5 +1,15 @@
 # Project Phase Checklist
 
+## F32 M2RMBUILD7 workdir staging repair gate
+
+- [x] Invalidated F31 qualification claims (`f31_m2rmbuild6_runtime_workdir_staging_failed`).
+- [x] Recorded exact blocking defects: missing `M2RMBUILD6.pbs` in `$WORK_DIR` staging and premature `python` invocation in `on_exit`.
+- [x] Prepared repaired `M2RMBUILD7.pbs` with explicit self-staging (`cp "$F32_PACKAGE_DIR/M2RMBUILD7.pbs" .`) into `$WORK_DIR` before hash verification.
+- [x] Added interpreter/module availability check in `on_exit` trap before executing `generate_missing_evidence_report.py`.
+- [x] Maintained unchanged model physics, CPE4 elements, cohesive zone parameters, and documented `job.writeInput(consistencyChecking=ON)` signature with environment-variable transport (`F32_SOURCE_DECK`, `F32_OUTPUT_INPUT`, `F32_GEOMETRY_AUDIT`).
+- [x] Prepared guarded submission orchestrator `submit_stage_f32_cae_build_qualification.sh` bound to `M2RMBUILD7`.
+- [x] Classification: `f32_m2rmbuild7_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
 ## F29 topology safe CAE build gate
 
 - [x] Invalidated F28 qualification claims (`f28_m2rmbuild3_package_invalid_no_submission_authorized`).

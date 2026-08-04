@@ -1,5 +1,10 @@
 # Mistakes And Fixes Log
 
+## F32 M2RMBUILD7 static clean-Linux qualification preparation (2026-08-04)
+
+Invalidated F31 runtime workdir staging failure (`f31_m2rmbuild6_runtime_workdir_staging_failed`). Job `1383394.mmaster02` failed because `M2RMBUILD6.pbs` staged package manifests into `$WORK_DIR` but omitted `M2RMBUILD6.pbs`, causing `sha256sum -c SHA256SUMS` to fail with file not found (`Exit_status = 1`). Also, line 118 attempted `python` in `on_exit` trap before module loading was executed.
+F32 prepared `M2RMBUILD7.pbs` with explicit self-staging (`cp "$F32_PACKAGE_DIR/M2RMBUILD7.pbs" .`), added interpreter/module fallback check in `on_exit`, maintained unchanged model physics, CPE4 elements, cohesive parameters, and documented `job.writeInput(consistencyChecking=ON)` signature with environment-variable transport (`F32_SOURCE_DECK`, `F32_OUTPUT_INPUT`, `F32_GEOMETRY_AUDIT`). Prepared guarded orchestrator `submit_stage_f32_cae_build_qualification.sh` (`execution_authorized = false`, `submission_approved = false`, `automatic_retry = false`, `maximum_future_submissions = 1`).
+
 ## F31 M2RMBUILD6 compatibility gate workdir staging defect (2026-08-04)
 
 HPC Job `1383394.mmaster02` failed at the initial compatibility check (`Exit_status = 1`). `M2RMBUILD6.pbs` staged `PACKAGE_MANIFEST.json`, `SHA256SUMS`, `F31_SHA256SUMS`, and `runtime/*` into `$WORK_DIR` but omitted `M2RMBUILD6.pbs`. Line 170 executed `sha256sum -c SHA256SUMS`, which listed `M2RMBUILD6.pbs`, causing `sha256sum` to fail with file not found.

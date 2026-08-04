@@ -1,0 +1,13 @@
+{
+  "protocol_version": 1,
+  "task_id": "F32-INVALIDATE-F31-AND-REPAIR-M2RMBUILD6-WORK-DIR-STAGING-GATE",
+  "sha256sums_verified": true,
+  "f32_sha256sums_verified": true,
+  "pbs_syntax_verified": true,
+  "modules": [
+    "gcc/11.4.0",
+    "intel/2024.2.0",
+    "abaqus/2023"
+  ],
+  "compatibility_contract_pass": true
+}
