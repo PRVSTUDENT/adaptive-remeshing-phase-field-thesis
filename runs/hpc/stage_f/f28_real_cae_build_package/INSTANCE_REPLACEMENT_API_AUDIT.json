@@ -1,0 +1,13 @@
+{
+  "protocol_version": 1,
+  "task_id": "F28-INVALIDATE-F27-AND-COMPLETE-REAL-CAE-BUILD-PACKAGE",
+  "documented_instance_replacement_api": true,
+  "deletion_method": "assembly.deleteFeatures(featureNames=('Part-1-1',))",
+  "instantiation_method": "assembly.Instance(name='Part-1-1', part=geom_part, dependent=ON)",
+  "source_orphan_instance": "Part-1-1",
+  "final_active_geometry_instance": "Part-1-1",
+  "final_active_geometry_part": "Part-1-GEOM",
+  "orphan_feature_deleted": true,
+  "geometry_instance_created_directly": true,
+  "api_audit_pass": true
+}

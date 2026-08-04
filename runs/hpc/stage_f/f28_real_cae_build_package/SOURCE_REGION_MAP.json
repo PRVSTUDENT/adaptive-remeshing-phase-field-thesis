@@ -1,0 +1,76 @@
+{
+  "protocol_version": 1,
+  "task_id": "F28-INVALIDATE-F27-AND-COMPLETE-REAL-CAE-BUILD-PACKAGE",
+  "regions": [
+    {
+      "region_name": "bottom",
+      "source_owner": "Part-1",
+      "source_instance": "Part-1-1",
+      "geometric_purpose": "bottom boundary restraint y=-0.5 mm",
+      "reconstruction_method": "edges_by_bounding_box",
+      "bounding_limits": {"xMin": -0.51, "yMin": -0.51, "zMin": -0.01, "xMax": 0.51, "yMax": -0.49, "zMax": 0.01},
+      "selection_tolerance": 0.001,
+      "expected_entity_count": 26
+    },
+    {
+      "region_name": "top",
+      "source_owner": "Part-1",
+      "source_instance": "Part-1-1",
+      "geometric_purpose": "top boundary restraint and displacement coupling y=+0.5 mm",
+      "reconstruction_method": "edges_by_bounding_box",
+      "bounding_limits": {"xMin": -0.51, "yMin": 0.49, "zMin": -0.01, "xMax": 0.51, "yMax": 0.51, "zMax": 0.01},
+      "selection_tolerance": 0.001,
+      "expected_entity_count": 26
+    },
+    {
+      "region_name": "notch_lower_face",
+      "source_owner": "Part-1",
+      "source_instance": "Part-1-1",
+      "geometric_purpose": "notch lower crack face y=0, x in [-0.5, 0.0)",
+      "reconstruction_method": "edges_by_bounding_box",
+      "bounding_limits": {"xMin": -0.51, "yMin": -0.001, "zMin": -0.01, "xMax": 0.001, "yMax": 0.001, "zMax": 0.01},
+      "selection_tolerance": 0.001,
+      "expected_entity_count": 15
+    },
+    {
+      "region_name": "notch_upper_face",
+      "source_owner": "Part-1",
+      "source_instance": "Part-1-1",
+      "geometric_purpose": "notch upper crack face y=0, x in [-0.5, 0.0)",
+      "reconstruction_method": "edges_by_bounding_box",
+      "bounding_limits": {"xMin": -0.51, "yMin": -0.001, "zMin": -0.01, "xMax": 0.001, "yMax": 0.001, "zMax": 0.01},
+      "selection_tolerance": 0.001,
+      "expected_entity_count": 15
+    },
+    {
+      "region_name": "notch_tip",
+      "source_owner": "Part-1",
+      "source_instance": "Part-1-1",
+      "geometric_purpose": "notch crack tip vertex x=0.0, y=0.0",
+      "reconstruction_method": "vertices_by_bounding_box",
+      "bounding_limits": {"xMin": -0.001, "yMin": -0.001, "zMin": -0.01, "xMax": 0.001, "yMax": 0.001, "zMax": 0.01},
+      "selection_tolerance": 0.001,
+      "expected_entity_count": 1
+    },
+    {
+      "region_name": "All_elem",
+      "source_owner": "Part-1",
+      "source_instance": "Part-1-1",
+      "geometric_purpose": "entire continuum domain face",
+      "reconstruction_method": "faces_all",
+      "bounding_limits": {},
+      "selection_tolerance": 0.0,
+      "expected_entity_count": 1
+    },
+    {
+      "region_name": "RP",
+      "source_owner": "Assembly",
+      "source_instance": null,
+      "geometric_purpose": "reference point for top displacement load",
+      "reconstruction_method": "reference_point_at_coords",
+      "coordinates": [0.0, 0.5, 0.0],
+      "selection_tolerance": 0.0,
+      "expected_entity_count": 1
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "protocol_version": 1,
+  "task_id": "F28-INVALIDATE-F27-AND-COMPLETE-REAL-CAE-BUILD-PACKAGE",
+  "f27_qualification_invalidated": true,
+  "f27_defects_recorded": [
+    "orchestrator PREP_SHA points to the F26 release (32c3f1f...) instead of the F27 package",
+    "assembly.renameFeature is not established as a supported Assembly API in Abaqus documentation",
+    "the suppressed orphan feature still occupies the required Part-1-1 name",
+    "model-entity rebinding is represented by a hardcoded pass=True list",
+    "no Set, Surface, BoundaryCondition, Equation or other rebinding operations implement the claimed reconstruction",
+    "Equation objects are inventoried from assembly.equations instead of model.constraints",
+    "source and resulting entity repositories are not compared dynamically",
+    "collector.returncode is checked before being created",
+    "MISSING_EVIDENCE_REPORT.json generation is invalid when files are missing",
+    "compatibility.returncode is fabricated",
+    "execution counters report calls that may not have occurred",
+    "notification configuration and terminal delivery remain fail-open",
+    "the runtime STATUS classification incorrectly uses a preparation classification",
+    "ACTIVE_SESSION was only partially released"
+  ],
+  "corrected_f27_classification": "f27_m2rmbuild2_package_invalid_no_submission_authorized",
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0
+}

@@ -1,0 +1,14 @@
+{
+  "protocol_version": 1,
+  "task_id": "F28-INVALIDATE-F27-AND-COMPLETE-REAL-CAE-BUILD-PACKAGE",
+  "config_env": "~/.config/adaptive-remeshing/notifications.env",
+  "permissions_check": "600 or stricter",
+  "telegram_start_mandatory": true,
+  "telegram_terminal_mandatory": true,
+  "verify_curl_rc": true,
+  "verify_telegram_api_ok": true,
+  "fail_closed_before_cae": true,
+  "terminal_trap_self_loads_env": true,
+  "no_or_true_clause": true,
+  "redaction_mandatory": true
+}

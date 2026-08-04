@@ -1,0 +1,87 @@
+{
+  "protocol_version": 1,
+  "task_id": "F28-INVALIDATE-F27-AND-COMPLETE-REAL-CAE-BUILD-PACKAGE",
+  "materials": [
+    {
+      "name": "Elastic_Matrix",
+      "type": "elastic",
+      "youngs_modulus": 210.0,
+      "poissons_ratio": 0.3
+    }
+  ],
+  "sections": [
+    {
+      "name": "Section-1",
+      "type": "solid_section",
+      "material": "Elastic_Matrix",
+      "thickness": 1.0
+    }
+  ],
+  "part_node_sets": [
+    "bottom",
+    "top",
+    "notch_lower_face",
+    "notch_upper_face",
+    "notch_tip"
+  ],
+  "part_element_sets": [
+    "All_elem"
+  ],
+  "assembly_sets": [
+    "bottom",
+    "top",
+    "RP"
+  ],
+  "reference_points": [
+    {
+      "name": "RP",
+      "node_id": 3999,
+      "coordinates": [0.0, 0.5, 0.0]
+    }
+  ],
+  "surfaces": [],
+  "boundary_conditions": [
+    {
+      "name": "BC-bottom",
+      "set": "bottom",
+      "dofs": [1, 2], "value": 0.0
+    },
+    {
+      "name": "BC-top",
+      "set": "top",
+      "dofs": [2], "value": 0.0
+    },
+    {
+      "name": "BC-RP",
+      "set": "RP",
+      "dofs": [1], "value": 0.001
+    }
+  ],
+  "equation_constraints": [
+    {
+      "name": "RP-equation",
+      "stored_under": "model.constraints",
+      "terms": [
+        {"set": "top", "dof": 1, "coef": 1.0},
+        {"set": "RP", "dof": 1, "coef": -1.0}
+      ]
+    }
+  ],
+  "loads": [],
+  "interactions": [],
+  "analysis_steps": [
+    {
+      "name": "Step-1",
+      "procedure": "static",
+      "nlgeom": false
+    }
+  ],
+  "field_output_requests": [
+    {
+      "name": "F-Output-1",
+      "node_vars": ["U", "RF"],
+      "elem_vars": ["MISESERI", "MISESAVG", "S", "E", "EVOL"]
+    }
+  ],
+  "history_output_requests": []
+}

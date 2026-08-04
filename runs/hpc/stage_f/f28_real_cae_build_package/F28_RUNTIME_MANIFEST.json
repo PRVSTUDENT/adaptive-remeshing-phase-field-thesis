@@ -1,0 +1,12 @@
+{
+  "protocol_version": 1,
+  "task_id": "F28-INVALIDATE-F27-AND-COMPLETE-REAL-CAE-BUILD-PACKAGE",
+  "prepared_job": "M2RMBUILD3",
+  "execution_authorized": false,
+  "required_files": [
+    "models/generated/mode_ii/f28_real_cae_build_package/M2RMBUILD3.pbs",
+    "models/generated/mode_ii/f28_real_cae_build_package/runtime/build_f28_geometry_backed_model.py",
+    "models/generated/mode_ii/f28_real_cae_build_package/runtime/source_deck.inp",
+    "scripts/hpc/stage_f/submit_stage_f28_cae_build_qualification.sh"
+  ]
+}

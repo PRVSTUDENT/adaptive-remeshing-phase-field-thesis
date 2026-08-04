@@ -1,0 +1,23 @@
+{
+  "protocol_version": 1,
+  "task_id": "F28-INVALIDATE-F27-AND-COMPLETE-REAL-CAE-BUILD-PACKAGE",
+  "prepared_job": "M2RMBUILD3",
+  "queue": "entry_imfdfkmq",
+  "cpus": 1,
+  "memory_gb": 8,
+  "walltime": "00:30:00",
+  "execution_mode": "Abaqus/CAE noGUI",
+  "scratch_root": "/scratch/pr21vyci/",
+  "module_sequence": [
+    "module purge",
+    "module load gcc/11.4.0",
+    "module load intel/2024.2.0",
+    "module load abaqus/2023"
+  ],
+  "notification_config_path": "~/.config/adaptive-remeshing/notifications.env",
+  "trap_first_failure_logic": "if [ ${first_failure:-0} -ne 0 ]; then final_failure=${first_failure}; else final_failure=${exit_code}; fi",
+  "trap_disable_before_exit": "trap - EXIT",
+  "telegram_fail_closed": true,
+  "terminal_trap_installed_first": true,
+  "solver_execution_allowed": false
+}

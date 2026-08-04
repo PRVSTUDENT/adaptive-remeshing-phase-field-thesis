@@ -1,0 +1,24 @@
+{
+  "protocol_version": 1,
+  "task_id": "F28-INVALIDATE-F27-AND-COMPLETE-REAL-CAE-BUILD-PACKAGE",
+  "audited_entity_types": [
+    "materials",
+    "sections",
+    "section_assignments",
+    "part_node_sets",
+    "part_element_sets",
+    "assembly_sets",
+    "surfaces",
+    "boundary_conditions",
+    "equation_constraints",
+    "loads",
+    "interactions",
+    "steps",
+    "field_output_requests",
+    "history_output_requests"
+  ],
+  "rebinding_rule": "Every entity must be dynamically audited from live mdb objects. Equations must be inventoried from model.constraints. No entity may reference deleted orphan instance Part-1-1. Pass is computed dynamically.",
+  "required_unresolved_count": 0,
+  "required_stale_orphan_reference_count": 0,
+  "contract_pass_required": true
+}
