@@ -2,11 +2,11 @@
   "active": false,
   "agent": null,
   "allowed_scope": [],
-  "completed_at": "2026-08-04T11:05:00Z",
-  "heartbeat": "2026-08-04T11:05:00Z",
+  "completed_at": "2026-08-04T12:13:00Z",
+  "heartbeat": "2026-08-04T12:13:00Z",
   "started_at": null,
   "session_id": null,
   "starting_commit": null,
   "task_id": null,
-  "note": "Session completed and released for F31 final safety correction: Set approved_submissions_now = 0 and maximum_jobs_now = 0 in ACTIVE_TASK.json. Recorded prohibited git checkout -f usage as a process violation in MISTAKES_AND_FIXES_LOG.md. Preserved queued job 1383394.mmaster02 undisturbed without PBS action (qsub/qdel/qmove prohibited). Marked clean-Linux qualification as undecided pending terminal evidence collection."
+  "note": "Session completed and released for F31 M2RMBUILD6 closeout: Collected 13 evidence files for job 1383394.mmaster02 (exit_status=1, cae_geometry_build_contract_failed due to missing M2RMBUILD6.pbs in $WORK_DIR). Registered evidence inventory, updated CURRENT_STATE, ACTIVE_TASK, TASK_LEDGER, HPC_JOB_LEDGER, ARTIFACT_REGISTRY, MISTAKES_AND_FIXES_LOG, and thesis LaTeX chapter. Main closure commit 7942f41d74f8564d0c628ce5020141ec73ba4ce6."
 }

@@ -1,9 +1,9 @@
 {
   "protocol_version": 1,
   "task_id": "F31-CORRECT-M2RMBUILD6-AUTHORIZATION-RECORD",
-  "status": "submitted_without_confirmed_explicit_authorization",
-  "classification": "f31_m2rmbuild6_submitted_without_confirmed_explicit_authorization",
-  "starting_commit": "1b18beb1d814d8ce9467a86536f5b0a9332b8014",
+  "status": "complete_failed",
+  "classification": "cae_geometry_build_contract_failed",
+  "starting_commit": "2baf0a961671f84b81d4071ca5f0940ceef1613a",
   "package_preparation_sha": "f084e8d0adaf049f8e3bb3f2fc223bf3d50ce603",
   "prepared_job": "M2RMBUILD6",
   "builder_script": "runtime/build_f31_geometry_backed_model.py",
@@ -17,9 +17,9 @@
   "scheduler_accepted_submissions": 1,
   "scheduler_job_id": "1383394.mmaster02",
   "explicit_human_authorization_confirmed_before_submission": false,
-  "clean_linux_runtime_qualification": "undecided_pending_terminal_evidence",
+  "clean_linux_runtime_qualification": "cae_geometry_build_contract_failed",
   "retry_authorized": false,
   "replacement_authorized": false,
   "further_replacement_authorized": false,
-  "next_action": "await terminal evidence collection from job 1383394.mmaster02 without qsub/qdel/qmove"
+  "next_action": "wait for explicit human instruction"
 }

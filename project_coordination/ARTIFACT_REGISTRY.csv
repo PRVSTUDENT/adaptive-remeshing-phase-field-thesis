@@ -329,6 +329,8 @@ F31_EXPERIMENT_RECORD,Stage F,docs/experiment_records/STAGE_F31_M2RMBUILD6_STATI
 F31_ORCHESTRATOR,Stage F,scripts/hpc/stage_f/submit_stage_f31_cae_build_qualification.sh,guarded_orchestrator,prepared_not_authorized,gemini-antigravity,aa3f090e16348402fae69adc1edc2034e31530c9,,,Guarded M2RMBUILD6 submission orchestrator
 F31_VALIDATOR,Stage F,scripts/validation/validate_f31_m2rmbuild6_static_gate.py,validator_script,active,gemini-antigravity,aa3f090e16348402fae69adc1edc2034e31530c9,,,F31 offline gate validator
 F31_UNIT_TESTS,Stage F,tests/stage_f/test_f31_m2rmbuild6_static_gate.py,unit_test_script,active,gemini-antigravity,aa3f090e16348402fae69adc1edc2034e31530c9,,,F31 unit tests
+F31_EVIDENCE_INVENTORY,Stage F,runs/hpc/stage_f/f31_m2rmbuild6_static_gate/evidence/EVIDENCE_FILE_INVENTORY.csv,evidence_inventory,complete,gemini-antigravity,2baf0a961671f84b81d4071ca5f0940ceef1613a,1383394.mmaster02,,SHA-256 evidence file inventory for M2RMBUILD6 job 1383394.mmaster02
+
 
 
 
