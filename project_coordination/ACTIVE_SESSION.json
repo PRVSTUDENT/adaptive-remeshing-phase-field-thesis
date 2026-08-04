@@ -1,12 +1,21 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-04T05:54:18Z",
-  "heartbeat": "2026-08-04T05:54:18Z",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "F26 completed; F25 invalidated; fail-closed CAE model builder build_f26_geometry_backed_model.py implemented; M2RMBUILD1 prepared without execution authorization."
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_scope": [
+    "docs/decisions/F27_CAE_BUILD_PACKAGE_REPAIR_DECISION.md",
+    "docs/experiment_records/STAGE_F27_CAE_BUILD_PACKAGE_REPAIR.md",
+    "runs/hpc/stage_f/f27_cae_build_package_repair/",
+    "models/generated/mode_ii/f27_cae_build_package_repair/",
+    "scripts/",
+    "tests/",
+    "project_coordination/",
+    "docs/project/"
+  ],
+  "completed_at": null,
+  "heartbeat": "2026-08-04T06:01:10Z",
+  "started_at": "2026-08-04T06:01:10Z",
+  "session_id": "F27-GEMINI-ANTIGRAVITY-20260804T060110Z",
+  "starting_commit": "32c3f1f6df35e3fa7a8bb7605b2fe893ce4932a0",
+  "task_id": "F27-INVALIDATE-F26-AND-REPAIR-CAE-BUILD-PACKAGE",
+  "note": "Invalidate F26 package and prepare corrected CAE-only geometry-backed construction qualification (M2RMBUILD2)."
 }

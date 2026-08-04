@@ -1,5 +1,13 @@
 # Current project state
 
+## F27 invalidate F26 and repair CAE build package closeout (2026-08-04)
+
+Invalidated F26 `M2RMBUILD1` qualification claims due to API signature and fail-open defects. F26 classification corrected to `f26_m2rmbuild1_package_invalid_no_submission_authorized`.
+Implemented fail-closed Abaqus/CAE model builder `build_f27_geometry_backed_model.py` with explicit `STANDARD` import, documented `variables=('MISESERI',)` `RemeshingRule`, `assembly.suppressFeatures`, `Part-1-1` instance name preservation via `assembly.renameFeature`, and audited entity rebinding (`unresolved_entity_count = 0`).
+Prepared `M2RMBUILD2.pbs` with `/scratch/pr21vyci/` workspace, immediate terminal trap, qualified module loading (`gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`), fail-closed Telegram notifications, and runtime JSON audit parsing.
+Prepared guarded orchestrator `submit_stage_f27_cae_build_qualification.sh` bound to preparation SHA `32c3f1f6df35e3fa7a8bb7605b2fe893ce4932a0`.
+Classification: `f27_m2rmbuild2_clean_linux_qualified_not_authorized`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
+
 ## F26 invalidate F25 and prepare CAE build qualification closeout (2026-08-04)
 
 Invalidated F25 fail-open qualification claims. F25 classification corrected to `f25_m2rmprov1_package_invalid_no_submission_authorized`.

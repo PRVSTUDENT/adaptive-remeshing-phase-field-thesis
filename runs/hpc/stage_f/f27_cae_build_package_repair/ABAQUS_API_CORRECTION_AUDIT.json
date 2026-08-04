@@ -1,0 +1,30 @@
+{
+  "protocol_version": 1,
+  "task_id": "F27-INVALIDATE-F26-AND-REPAIR-CAE-BUILD-PACKAGE",
+  "corrections": [
+    {
+      "api": "RemeshingRule",
+      "old_signature": "m.RemeshingRule(name=rule_name, stepName='Step-1', region=remesh_region, errorIndicator=MISESERI, sizingMethod=DEFAULT)",
+      "new_signature": "m.RemeshingRule(name=rule_name, stepName='Step-1', variables=('MISESERI',), region=remesh_region, sizingMethod=DEFAULT)",
+      "status": "corrected"
+    },
+    {
+      "api": "SymbolicConstants",
+      "old_imports": "from abaqusConstants import CPE4, STRUCTURED, ANALYSIS, OFF, ON, MISESERI, DEFAULT",
+      "new_imports": "from abaqusConstants import CPE4, STANDARD, STRUCTURED, ANALYSIS, OFF, ON, DEFAULT",
+      "status": "corrected"
+    },
+    {
+      "api": "AssemblyFeatureSuppression",
+      "old_call": "orphan_instance.suppress()",
+      "new_call": "assembly.suppressFeatures(featureNames=('Part-1-1',))",
+      "status": "corrected"
+    },
+    {
+      "api": "InstanceNamePreservation",
+      "old_result": "Part-1-1-GEOM",
+      "new_result": "Part-1-1",
+      "status": "corrected"
+    }
+  ]
+}

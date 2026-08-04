@@ -1,0 +1,26 @@
+{
+  "protocol_version": 1,
+  "task_id": "F27-INVALIDATE-F26-AND-REPAIR-CAE-BUILD-PACKAGE",
+  "f26_qualification_invalidated": true,
+  "f26_defects_recorded": [
+    "STANDARD is used but not imported in builder",
+    "RemeshingRule incorrectly uses errorIndicator=MISESERI instead of the documented variables sequence",
+    "PartInstance.suppress() is not the documented assembly-feature suppression route",
+    "original instance name Part-1-1 is not preserved (used Part-1-1-GEOM)",
+    "sets, surfaces, BCs, equations, constraints and loads are inventoried but not actually reconstructed or rebound",
+    "contract_pass does not require entity-preservation equality",
+    "Telegram configuration is not loaded",
+    "Telegram delivery failures are ignored",
+    "START JSON creation is treated as delivery without proof",
+    "terminal trap is installed after hash and module operations",
+    "PBS checks audit-file existence but does not parse the contract",
+    "compatibility.returncode and counters can be written without corresponding checks",
+    "collector.returncode is hardcoded",
+    "required MISSING_EVIDENCE_REPORT.json and CAE traceback handling are absent",
+    "orchestrator does not bind execution to an exact frozen preparation SHA"
+  ],
+  "corrected_f26_classification": "f26_m2rmbuild1_package_invalid_no_submission_authorized",
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0
+}

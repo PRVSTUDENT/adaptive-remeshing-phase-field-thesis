@@ -1,0 +1,12 @@
+{
+  "protocol_version": 1,
+  "task_id": "F27-INVALIDATE-F26-AND-REPAIR-CAE-BUILD-PACKAGE",
+  "suppression_method": "assembly.suppressFeatures(featureNames=('Part-1-1',))",
+  "rename_method": "assembly.renameFeature(subordinateFeatureName='Part-1-1-TEMP', newName='Part-1-1')",
+  "source_orphan_instance": "Part-1-1",
+  "temporary_geometry_instance": "Part-1-1-TEMP",
+  "final_active_geometry_instance": "Part-1-1",
+  "orphan_instance_suppressed": true,
+  "final_instance_name_preserved": true,
+  "api_audit_pass": true
+}

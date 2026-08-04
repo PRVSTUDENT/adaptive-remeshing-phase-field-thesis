@@ -1,0 +1,12 @@
+{
+  "protocol_version": 1,
+  "task_id": "F27-INVALIDATE-F26-AND-REPAIR-CAE-BUILD-PACKAGE",
+  "prepared_job": "M2RMBUILD2",
+  "execution_authorized": false,
+  "required_files": [
+    "models/generated/mode_ii/f27_cae_build_package_repair/M2RMBUILD2.pbs",
+    "models/generated/mode_ii/f27_cae_build_package_repair/runtime/build_f27_geometry_backed_model.py",
+    "models/generated/mode_ii/f27_cae_build_package_repair/runtime/source_deck.inp",
+    "scripts/hpc/stage_f/submit_stage_f27_cae_build_qualification.sh"
+  ]
+}

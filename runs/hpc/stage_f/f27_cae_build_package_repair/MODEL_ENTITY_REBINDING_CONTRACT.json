@@ -1,0 +1,23 @@
+{
+  "protocol_version": 1,
+  "task_id": "F27-INVALIDATE-F25-AND-REPAIR-CAE-BUILD-PACKAGE",
+  "audited_entity_types": [
+    "materials",
+    "sections",
+    "section_assignments",
+    "part_sets",
+    "assembly_sets",
+    "surfaces",
+    "boundary_conditions",
+    "loads",
+    "equations",
+    "constraints",
+    "interactions",
+    "steps",
+    "field_output_requests",
+    "history_output_requests"
+  ],
+  "rebinding_rule": "Every entity must be classified as preserved_automatically, explicitly_reconstructed, intentionally_absent_with_scientific_justification, or unresolved. Any object referencing suppressed orphan instance fails contract.",
+  "required_unresolved_count": 0,
+  "contract_pass_required": true
+}

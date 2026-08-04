@@ -1,0 +1,22 @@
+{
+  "protocol_version": 1,
+  "task_id": "F27-INVALIDATE-F26-AND-REPAIR-CAE-BUILD-PACKAGE",
+  "allowed_files": [
+    "F26_INVALIDATION_AUDIT.json",
+    "ABAQUS_API_CORRECTION_AUDIT.json",
+    "INSTANCE_REPLACEMENT_API_AUDIT.json",
+    "MODEL_ENTITY_REBINDING_CONTRACT.json",
+    "PBS_EXECUTION_CONTRACT.json",
+    "NOTIFICATION_CONTRACT.json",
+    "EVIDENCE_RETENTION_CONTRACT.json",
+    "F27_DECISION.json",
+    "NO_EXECUTION_AUDIT.json",
+    "PACKAGE_MANIFEST.json",
+    "F27_RUNTIME_MANIFEST.json",
+    "EXECUTION_COUNTERS.json",
+    "STATUS.json",
+    "M2RMBUILD2.pbs",
+    "SHA256SUMS",
+    "F27_SHA256SUMS"
+  ]
+}

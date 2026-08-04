@@ -1,5 +1,13 @@
 # Project Phase Checklist
 
+## F27 invalidate F26 and repair CAE build package gate
+
+- [x] Invalidated F26 fail-open claims (`f26_m2rmbuild1_package_invalid_no_submission_authorized`).
+- [x] Corrected Abaqus API calls (`STANDARD` imported, `variables=('MISESERI',)` in `RemeshingRule`, `assembly.suppressFeatures`, `assembly.renameFeature` for `Part-1-1` instance preservation).
+- [x] Audited and rebound model entities (`MODEL_ENTITY_REBINDING_AUDIT.json`, `unresolved_entity_count = 0`).
+- [x] Prepared `M2RMBUILD2.pbs` with fail-closed `/scratch/pr21vyci/` path, immediate terminal trap, `module load gcc/11.4.0 intel/2024.2.0 abaqus/2023`, `notifications.env` loading, Telegram delivery verification (`"ok": true`), and runtime JSON audit parsing.
+- [x] Classification: `f27_m2rmbuild2_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
 ## F26 invalidate F25 and prepare CAE build qualification gate
 
 - [x] Invalidated F25 fail-open claims (`f25_m2rmprov1_package_invalid_no_submission_authorized`).

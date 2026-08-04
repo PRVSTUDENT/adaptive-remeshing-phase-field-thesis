@@ -1,0 +1,12 @@
+{
+  "protocol_version": 1,
+  "task_id": "F27-INVALIDATE-F26-AND-REPAIR-CAE-BUILD-PACKAGE",
+  "config_env": "~/.config/adaptive-remeshing/notifications.env",
+  "telegram_start_mandatory": true,
+  "telegram_terminal_mandatory": true,
+  "verify_curl_rc": true,
+  "verify_telegram_api_ok": true,
+  "fail_closed_before_cae": true,
+  "no_or_true_clause": true,
+  "redaction_mandatory": true
+}
