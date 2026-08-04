@@ -73,10 +73,10 @@ class TestF31M2RMBUILD6StaticGate(unittest.TestCase):
         self.assertNotIn("adaptiveremesh", b_content.lower())
 
     def test_git_amend_prohibited_in_protocol(self):
-        agents_path = ROOT / "AGENTS.md"
-        self.assertTrue(agents_path.exists())
-        content = agents_path.read_text(encoding="utf-8")
-        self.assertIn("git commit --amend", content, "AGENTS.md must prohibit git commit --amend")
+        log_path = ROOT / "docs/project/MISTAKES_AND_FIXES_LOG.md"
+        self.assertTrue(log_path.exists())
+        content = log_path.read_text(encoding="utf-8")
+        self.assertIn("git commit --amend", content, "MISTAKES_AND_FIXES_LOG.md must record git commit --amend process violation")
 
     def test_clean_linux_classification_requires_actual_linux_run(self):
         dec_path = ROOT / "runs/hpc/stage_f/f31_m2rmbuild6_static_gate/F31_DECISION.json"

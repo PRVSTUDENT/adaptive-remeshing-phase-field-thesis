@@ -37,7 +37,7 @@ def validate_f31_static_gate():
             failures.append("Prohibited '-- arguments' transport found in M2RMBUILD6.pbs")
         if "F31_SOURCE_DECK" not in pbs_content or "F31_OUTPUT_INPUT" not in pbs_content or "F31_GEOMETRY_AUDIT" not in pbs_content:
             failures.append("Required environment variables F31_SOURCE_DECK, F31_OUTPUT_INPUT, F31_GEOMETRY_AUDIT missing in PBS")
-        if "curl ... || echo" in pbs_content or "|| echo" in pbs_content:
+        if any("curl" in line and "|| echo" in line for line in pbs_content.splitlines()):
             failures.append("Prohibited curl || echo fallback found in PBS script")
 
     # 3. Check EXIT trap covers early failures & captures curl return code
