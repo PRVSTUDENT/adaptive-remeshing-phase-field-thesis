@@ -1,0 +1,17 @@
+{
+  "job_id": "1384141.mmaster02",
+  "job_name": "M2RMBUILD10",
+  "state": "terminal_failed",
+  "classification": "cae_geometry_build_contract_failed",
+  "exit_status": 1,
+  "compatibility_returncode": 0,
+  "cae_builder_returncode": 1,
+  "generated_input_validator": "skipped",
+  "runtime_validator": "skipped",
+  "generated_input": "absent",
+  "scientific_result": "none",
+  "authorization_consumed": true,
+  "root_cause": "Abaqus embedded Python lacks str.casefold",
+  "retry_authorized": false,
+  "replacement_authorized": false
+}

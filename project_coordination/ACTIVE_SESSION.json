@@ -1,12 +1,12 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-05T00:00:00Z",
-  "heartbeat": "2026-08-05T00:00:00Z",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "F36 clean-Linux qualification completed at b17b9af; M2RMBUILD10 remains unsubmitted and not authorized."
+  "active": true,
+  "agent": "codex",
+  "allowed_scope": ["project_coordination/**", "models/generated/mode_ii/f37_cae_python_compatibility_repair/**", "runs/hpc/stage_f/f37_m2rmbuild11_static_gate/**", "scripts/hpc/stage_f/submit_stage_f37_cae_build_qualification.sh", "scripts/validation/validate_f37_m2rmbuild11_static_gate.py", "tests/stage_f/test_f37_m2rmbuild11_static_gate.py"],
+  "completed_at": null,
+  "heartbeat": "2026-08-05T10:00:00Z",
+  "started_at": "2026-08-05T10:00:00Z",
+  "session_id": "2026-08-05_codex_F37-CLOSE-M2RMBUILD10-AND-PREPARE-M2RMBUILD11",
+  "starting_commit": "f2e6e3b9c144f63265af867a2b96d57886c0e58a",
+  "task_id": "F37-CLOSE-M2RMBUILD10-AND-PREPARE-M2RMBUILD11",
+  "note": "F37 offline preparation and detached qualification; no HPC or submission action authorized."
 }

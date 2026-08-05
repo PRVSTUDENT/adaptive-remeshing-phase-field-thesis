@@ -1,5 +1,9 @@
 # Current project state
 
+## F37 M2RMBUILD11 embedded-Python compatibility repair (2026-08-05)
+
+M2RMBUILD10 job `1384141.mmaster02` is terminal failed as `cae_geometry_build_contract_failed`: compatibility returned 0, the CAE builder returned 1 on unsupported `str.casefold`, validators were skipped, no input deck or scientific result was produced, and its one-shot authority is consumed. F36 and its raw evidence hashes are preserved. The distinct F37 package replaces imported repository assumptions with one shared Python-2/3-safe `str.lower` resolver, probes that exact resolver through `abaqus python` before CAE, records phase-aware failures, and writes STATUS before the missing-evidence report. Local preparation gates pass 18/18. M2RMBUILD11 remains unauthorized with zero current/future submissions and no retry or replacement authority.
+
 ## F36 M2RMBUILD10 clean-Linux qualification (2026-08-05)
 
 F36 is `f36_m2rmbuild10_clean_linux_qualified_not_authorized`. Detached validation of preparation `b17b9af263c12e124ae4f39288150fd4ce2f44a5` used Python 3.12.3 and pytest 8.4.1: 12/12 tests, static validator, both six-file SHA-256 manifests, Python compilation, PBS/wrapper syntax, LF and prohibited-token/API scans, clean worktree, and F34 identity all passed. M2RMBUILD9 (`1384122.mmaster02`) is terminal failed as `cae_geometry_build_contract_failed` (CAE return code 1; validators skipped; no scientific result; authorization consumed). M2RMBUILD10 remains unsubmitted with every execution, submission, retry, and replacement authorization false.
