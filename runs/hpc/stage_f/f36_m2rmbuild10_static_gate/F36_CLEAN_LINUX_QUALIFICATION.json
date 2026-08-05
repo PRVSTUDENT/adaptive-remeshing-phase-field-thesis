@@ -1,0 +1,29 @@
+{
+  "preparation_sha": "b17b9af263c12e124ae4f39288150fd4ce2f44a5",
+  "prior_blocker_commits": ["5b86552e841b7712cdc949dffc12d6a3b1cad3ec", "2773065bef31bbaae5455fca47ed04cbdbe01e33"],
+  "qualification_python_version": "3.12.3",
+  "qualification_pytest_version": "8.4.1",
+  "qualification_python_path": "/tmp/f36-qual-venv/bin/python",
+  "original_pytest_version": null,
+  "original_version_recoverable": false,
+  "unit_tests_passed": 12,
+  "unit_tests_failed": 0,
+  "static_validator_passed": true,
+  "pbs_syntax_passed": true,
+  "wrapper_syntax_passed": true,
+  "python_compilation_passed": true,
+  "sha256sums_passed": true,
+  "f36_sha256sums_passed": true,
+  "lf_checks_passed": true,
+  "prohibited_token_api_scan_passed": true,
+  "detached_worktree_clean": true,
+  "hpc_actions": 0,
+  "package_sha256": {
+    "M2RMBUILD10.pbs": "e4683df872a2901ce361f5014d1d27fbd93367322cb55aca552f230990feb673",
+    "runtime/build_f36_geometry_backed_model.py": "c2f527c1f9019874a3f40249bc4c452a68b97ad89062b620d560e7f03436088a",
+    "runtime/generate_missing_evidence_report.py": "1b5f061cfd5e52350e2da20b34c8671d801eae383cd4954dfb91aaf1a36e3428",
+    "runtime/source_deck.inp": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2",
+    "runtime/validate_f36_runtime_audits.py": "9c636de3e9773aa514a36497cab291f620ff3a33c2b4ba4ccfe2a54d3b033d2f",
+    "runtime/validate_generated_input.py": "8559102d59815ae088fb58ec5b86861afb512a1ce775824db1b1798d7a20ec8b"
+  }
+}

@@ -1,5 +1,9 @@
 # Current project state
 
+## F36 M2RMBUILD10 clean-Linux qualification (2026-08-05)
+
+F36 is `f36_m2rmbuild10_clean_linux_qualified_not_authorized`. Detached validation of preparation `b17b9af263c12e124ae4f39288150fd4ce2f44a5` used Python 3.12.3 and pytest 8.4.1: 12/12 tests, static validator, both six-file SHA-256 manifests, Python compilation, PBS/wrapper syntax, LF and prohibited-token/API scans, clean worktree, and F34 identity all passed. M2RMBUILD9 (`1384122.mmaster02`) is terminal failed as `cae_geometry_build_contract_failed` (CAE return code 1; validators skipped; no scientific result; authorization consumed). M2RMBUILD10 remains unsubmitted with every execution, submission, retry, and replacement authorization false.
+
 ## F34 M2RMBUILD9 offline runtime-contract repair (2026-08-05)
 
 F33 is invalidated as `f33_m2rmbuild8_runtime_contract_invalid_no_submission_authorized`; package F33 remains preserved and unsubmitted. F34 is offline only: M2RMBUILD9 has no execution authorization, zero current/future submissions, no retry, and no replacement authorization.
