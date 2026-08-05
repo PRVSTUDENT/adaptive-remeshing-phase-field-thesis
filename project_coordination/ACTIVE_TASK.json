@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
   "task_id": "F37-CLOSE-M2RMBUILD10-AND-PREPARE-M2RMBUILD11",
-  "status": "preparation_complete_pending_clean_linux_qualification",
-  "classification": "f37_m2rmbuild11_prepared_pending_clean_linux_qualification",
+  "status": "preparation_complete_not_authorized",
+  "classification": "f37_m2rmbuild11_clean_linux_qualified_not_authorized",
   "starting_commit": "f2e6e3b9c144f63265af867a2b96d57886c0e58a",
   "invalidated_predecessor": "f36_m2rmbuild10_embedded_python_compatibility_failed",
   "prepared_job": "M2RMBUILD11",
@@ -16,5 +16,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "validate preparation commit in detached clean-Linux checkout"
+  "next_action": "await separate explicit authorization for exactly one M2RMBUILD11 submission"
 }
