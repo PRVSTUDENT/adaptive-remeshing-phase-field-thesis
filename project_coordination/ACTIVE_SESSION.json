@@ -3,6 +3,7 @@
   "agent": "codex",
   "allowed_scope": [
     "models/generated/mode_ii/f33_cae_runtime_gate_repair/**",
+    ".gitattributes",
     "runs/hpc/stage_f/f33_m2rmbuild8_static_gate/**",
     "scripts/hpc/stage_f/submit_stage_f33_cae_build_qualification.sh",
     "scripts/validation/validate_f33_m2rmbuild8_static_gate.py",
