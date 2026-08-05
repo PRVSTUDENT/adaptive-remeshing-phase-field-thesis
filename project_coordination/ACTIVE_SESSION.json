@@ -2,11 +2,11 @@
   "active": false,
   "agent": null,
   "allowed_scope": [],
-  "completed_at": "2026-08-05T02:20:00Z",
-  "heartbeat": "2026-08-05T02:20:00Z",
+  "completed_at": "2026-08-05T00:00:00Z",
+  "heartbeat": "2026-08-05T00:00:00Z",
   "started_at": null,
   "session_id": null,
   "starting_commit": null,
   "task_id": null,
-  "note": "F34 offline package preparation and detached clean-Linux validation completed; M2RMBUILD9 remains unauthorized."
+  "note": "F36 detached clean-Linux qualification stopped before pytest because the detached Python 3 environment lacks pytest; package remains frozen at b17b9af and no HPC action occurred."
 }
