@@ -1,19 +1,19 @@
 {
   "protocol_version": 1,
-  "task_id": "F35-CORRECT-F34-BINDING-AUTHORIZE-AND-SUBMIT-M2RMBUILD9",
-  "status": "submitted_queued",
-  "classification": "f34_m2rmbuild9_clean_linux_qualified_not_authorized",
+  "task_id": "F36-CLOSE-M2RMBUILD9-AND-PREPARE-M2RMBUILD10",
+  "status": "preparation_complete_pending_clean_linux_qualification",
+  "classification": "f36_m2rmbuild10_prepared_pending_clean_linux_qualification",
   "starting_commit": "8e752851038ed637fd44d09fc625be4bfc6f2aa0",
   "invalidated_predecessor": "f33_m2rmbuild8_runtime_contract_invalid_no_submission_authorized",
-  "prepared_job": "M2RMBUILD9",
-  "scheduler_job_id": "1384122.mmaster02",
+  "prepared_job": "M2RMBUILD10",
+  "failed_predecessor_job_id": "1384122.mmaster02",
   "package_path": "models/generated/mode_ii/f34_cae_runtime_contract_repair",
-  "execution_authorized": true,
-  "submission_approved": true,
-  "maximum_jobs_now": 1,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0,
   "maximum_future_submissions": 0,
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "await terminal status and collect lightweight evidence without retry"
+  "next_action": "run detached clean-Linux qualification; then await separate exact M2RMBUILD10 authorization"
 }
