@@ -1,12 +1,12 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
+  "active": true,
+  "agent": "codex",
+  "allowed_scope": ["project_coordination/**", "runs/hpc/stage_f/f36_m2rmbuild10_static_gate/**"],
   "completed_at": "2026-08-05T00:00:00Z",
   "heartbeat": "2026-08-05T00:00:00Z",
   "started_at": null,
   "session_id": null,
   "starting_commit": null,
-  "task_id": null,
+  "task_id": "F36-CLOSE-M2RMBUILD9-AND-PREPARE-M2RMBUILD10",
   "note": "F36 clean-Linux qualification completed at b17b9af; M2RMBUILD10 remains unsubmitted and not authorized."
 }
