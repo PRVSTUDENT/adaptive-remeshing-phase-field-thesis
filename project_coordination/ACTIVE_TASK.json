@@ -1,11 +1,12 @@
 {
   "protocol_version": 1,
   "task_id": "F35-CORRECT-F34-BINDING-AUTHORIZE-AND-SUBMIT-M2RMBUILD9",
-  "status": "preparation_complete_not_authorized",
+  "status": "submitted_queued",
   "classification": "f34_m2rmbuild9_clean_linux_qualified_not_authorized",
   "starting_commit": "8e752851038ed637fd44d09fc625be4bfc6f2aa0",
   "invalidated_predecessor": "f33_m2rmbuild8_runtime_contract_invalid_no_submission_authorized",
   "prepared_job": "M2RMBUILD9",
+  "scheduler_job_id": "1384122.mmaster02",
   "package_path": "models/generated/mode_ii/f34_cae_runtime_contract_repair",
   "execution_authorized": true,
   "submission_approved": true,
@@ -14,5 +15,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "await separate explicit authorization for exactly one M2RMBUILD9 submission"
+  "next_action": "await terminal status and collect lightweight evidence without retry"
 }
