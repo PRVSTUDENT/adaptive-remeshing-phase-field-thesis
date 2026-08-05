@@ -1,12 +1,12 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
+  "active": true,
+  "agent": "codex",
+  "allowed_scope": ["runs/hpc/stage_f/f34_m2rmbuild9_static_gate/**", "project_coordination/**"],
   "completed_at": "2026-08-05T02:20:00Z",
   "heartbeat": "2026-08-05T02:20:00Z",
   "started_at": null,
   "session_id": null,
   "starting_commit": null,
-  "task_id": null,
+  "task_id": "F35-CORRECT-F34-BINDING-AUTHORIZE-AND-SUBMIT-M2RMBUILD9",
   "note": "F34 offline package preparation and detached clean-Linux validation completed; M2RMBUILD9 remains unauthorized."
 }
