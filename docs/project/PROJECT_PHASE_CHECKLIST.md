@@ -7,7 +7,7 @@
 - [x] Use verified `python3`, capture actual return codes, and mark unexecuted commands `skipped`.
 - [x] Create distinct package/job `f33_cae_runtime_gate_repair` / `M2RMBUILD8` with fresh hashes.
 - [x] Pass WSL unit tests, static validation, shell syntax, and both manifests.
-- [ ] Pass detached clean-Linux no-submission proof after preparation commit.
+- [x] Pass detached clean-Linux no-submission proof at `a6c4f4377b7fc04fab7a5311de4ffaeeb32c40d7`.
 - [!] No retry, replacement, submission, solver, or remeshing work is authorized.
 
 ## F32 M2RMBUILD7 workdir staging repair gate
