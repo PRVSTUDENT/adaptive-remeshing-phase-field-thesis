@@ -1,5 +1,9 @@
 # Current project state
 
+## F37 M2RMBUILD11 guarded submission (2026-08-05)
+
+Exactly one authorized guarded qsub call submitted frozen F37 as `1384181.mmaster02`. Initial state is Q in `normal_imfdfkmq` with 1 CPU, 8 GB, and 00:30:00. Authority is consumed: zero current/future submissions, automatic retry false, replacement false, and no downstream execution. Next action is terminal monitoring and lightweight evidence collection only.
+
 ## F37 M2RMBUILD11 embedded-Python compatibility repair (2026-08-05)
 
 M2RMBUILD10 job `1384141.mmaster02` is terminal failed as `cae_geometry_build_contract_failed`: compatibility returned 0, the CAE builder returned 1 on unsupported `str.casefold`, validators were skipped, no input deck or scientific result was produced, and its one-shot authority is consumed. F36 and its raw evidence hashes are preserved. The distinct F37 package replaces imported repository assumptions with one shared Python-2/3-safe `str.lower` resolver, probes that exact resolver through `abaqus python` before CAE, records phase-aware failures, and writes STATUS before the missing-evidence report. Preparation `b0dbe1f4f8626773d5717742a86ca89b4862ec5d` passed detached clean-Linux qualification with 18/18 tests. Classification: `f37_m2rmbuild11_clean_linux_qualified_not_authorized`. M2RMBUILD11 remains unauthorized with zero current/future submissions and no retry or replacement authority.
