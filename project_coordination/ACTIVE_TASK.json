@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
   "task_id": "F34-INVALIDATE-F33-AND-PREPARE-M2RMBUILD9",
-  "status": "preparation_pending_validation",
-  "classification": "f34_m2rmbuild9_offline_repair_pending_clean_linux_qualification",
+  "status": "preparation_complete_not_authorized",
+  "classification": "f34_m2rmbuild9_clean_linux_qualified_not_authorized",
   "starting_commit": "8e752851038ed637fd44d09fc625be4bfc6f2aa0",
   "invalidated_predecessor": "f33_m2rmbuild8_runtime_contract_invalid_no_submission_authorized",
   "prepared_job": "M2RMBUILD9",
@@ -14,5 +14,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "complete offline validation only"
+  "next_action": "await separate explicit authorization for exactly one M2RMBUILD9 submission"
 }

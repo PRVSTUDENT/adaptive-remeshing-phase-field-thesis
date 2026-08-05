@@ -1,12 +1,12 @@
 {
-  "active": true,
-  "agent": "codex",
-  "allowed_scope": ["models/generated/mode_ii/f34_cae_runtime_contract_repair/**","runs/hpc/stage_f/f34_m2rmbuild9_static_gate/**","scripts/hpc/stage_f/submit_stage_f34_cae_build_qualification.sh","scripts/validation/validate_f34_m2rmbuild9_static_gate.py","tests/stage_f/test_f34_m2rmbuild9_static_gate.py","docs/**","project_coordination/**",".gitattributes"],
-  "completed_at": null,
-  "heartbeat": "2026-08-05T02:00:00Z",
-  "started_at": "2026-08-05T02:00:00Z",
-  "session_id": "2026-08-05_0200_codex_F34-M2RMBUILD9-OFFLINE-REPAIR",
-  "starting_commit": "8e752851038ed637fd44d09fc625be4bfc6f2aa0",
-  "task_id": "F34-INVALIDATE-F33-AND-PREPARE-M2RMBUILD9",
-  "note": "Offline F34 runtime-contract repair only; all HPC execution and authorization changes are prohibited."
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
+  "completed_at": "2026-08-05T02:20:00Z",
+  "heartbeat": "2026-08-05T02:20:00Z",
+  "started_at": null,
+  "session_id": null,
+  "starting_commit": null,
+  "task_id": null,
+  "note": "F34 offline package preparation and detached clean-Linux validation completed; M2RMBUILD9 remains unauthorized."
 }
