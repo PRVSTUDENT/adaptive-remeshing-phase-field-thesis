@@ -1,7 +1,7 @@
 # F36 detached clean-Linux qualification handoff
 
-Task: `F36-CLOSE-M2RMBUILD9-AND-PREPARE-M2RMBUILD10`  
-Agent: `codex`  
+Task: `F36-CLOSE-M2RMBUILD9-AND-PREPARE-M2RMBUILD10`
+Agent: `codex`
 Preparation commit: `b17b9af263c12e124ae4f39288150fd4ce2f44a5`
 
 ## Result
