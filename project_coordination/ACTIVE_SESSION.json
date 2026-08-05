@@ -1,12 +1,24 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-04T13:31:00Z",
-  "heartbeat": "2026-08-04T13:31:00Z",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "Session completed and released: Submitted M2RMBUILD7 (Job ID 1383537.mmaster02) from cluster login node via SSH using guarded wrapper scripts/hpc/stage_f/submit_stage_f32_cae_build_qualification.sh. Job is currently queued (state Q)."
+  "active": true,
+  "agent": "codex",
+  "allowed_scope": [
+    "models/generated/mode_ii/f33_cae_runtime_gate_repair/**",
+    "runs/hpc/stage_f/f33_m2rmbuild8_static_gate/**",
+    "scripts/hpc/stage_f/submit_stage_f33_cae_build_qualification.sh",
+    "scripts/validation/validate_f33_m2rmbuild8_static_gate.py",
+    "scripts/validation/check_multi_agent_bootstrap.py",
+    "tests/stage_f/test_f33_m2rmbuild8_static_gate.py",
+    "docs/decisions/F33_M2RMBUILD8_STATIC_GATE_DECISION.md",
+    "docs/experiment_records/STAGE_F33_M2RMBUILD8_STATIC_GATE_REPAIR.md",
+    "docs/project/PROJECT_PHASE_CHECKLIST.md",
+    "docs/project/MISTAKES_AND_FIXES_LOG.md",
+    "project_coordination/**"
+  ],
+  "completed_at": null,
+  "heartbeat": "2026-08-05T01:23:00Z",
+  "started_at": "2026-08-05T01:23:00Z",
+  "session_id": "2026-08-05_0123_codex_F33-M2RMBUILD8-OFFLINE-REPAIR",
+  "starting_commit": "d13e6ff6b8738d0474f1b4b961dc7a19c3e772f6",
+  "task_id": "F33-M2RMBUILD8-OFFLINE-REPAIR",
+  "note": "Offline-only repair of the failed M2RMBUILD7 qualification; no submission, retry, replacement authorization, or scheduler mutation permitted."
 }

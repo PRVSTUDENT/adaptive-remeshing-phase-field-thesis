@@ -1,5 +1,11 @@
 # Current project state
 
+## F33 M2RMBUILD8 offline repair (2026-08-05)
+
+Confirmed `1383537.mmaster02` / `M2RMBUILD7` failed with PBS exit 1 and classification `cae_geometry_build_contract_failed`. Abaqus/CAE failed on unsupported `UNPLANNED`; unavailable standalone `python` cleanup and fail-fast return-code capture were secondary defects. No scientific result was produced.
+
+Prepared distinct `M2RMBUILD8` under `models/generated/mode_ii/f33_cae_runtime_gate_repair/`. Imports are limited to `ON`, `CPE4`, `STANDARD`, and `STRUCTURED`; standalone helpers use verified `python3`; actual return codes are captured; unexecuted commands are `skipped`. WSL tests pass 10/10, static validation and shell syntax pass, and both manifests pass. Detached clean-Linux proof is pending. Submission allowance remains zero and replacement authorization false.
+
 ## F32 M2RMBUILD7 static clean-Linux qualification preparation (2026-08-04)
 
 Invalidated F31 `M2RMBUILD6` runtime workdir staging claims. Historical F31 classification updated to `f31_m2rmbuild6_runtime_workdir_staging_failed`.

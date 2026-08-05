@@ -1,5 +1,15 @@
 # Project Phase Checklist
 
+## F33 M2RMBUILD8 offline repair gate
+
+- [x] Classify `1383537.mmaster02` as `cae_geometry_build_contract_failed`; no scientific result produced.
+- [x] Remove unsupported `UNPLANNED` and use only required Abaqus 2023 constants.
+- [x] Use verified `python3`, capture actual return codes, and mark unexecuted commands `skipped`.
+- [x] Create distinct package/job `f33_cae_runtime_gate_repair` / `M2RMBUILD8` with fresh hashes.
+- [x] Pass WSL unit tests, static validation, shell syntax, and both manifests.
+- [ ] Pass detached clean-Linux no-submission proof after preparation commit.
+- [!] No retry, replacement, submission, solver, or remeshing work is authorized.
+
 ## F32 M2RMBUILD7 workdir staging repair gate
 
 - [x] Invalidated F31 qualification claims (`f31_m2rmbuild6_runtime_workdir_staging_failed`).

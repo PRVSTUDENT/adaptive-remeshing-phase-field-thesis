@@ -338,3 +338,10 @@ F32_ORCHESTRATOR,Stage F,scripts/hpc/stage_f/submit_stage_f32_cae_build_qualific
 F32_VALIDATOR,Stage F,scripts/validation/validate_f32_m2rmbuild7_static_gate.py,validator_script,active,gemini-antigravity,a6c087f2ccc759fa8acec4102cd7f47b623618d0,,,F32 offline gate validator
 F32_UNIT_TESTS,Stage F,tests/stage_f/test_f32_m2rmbuild7_static_gate.py,unit_test_script,active,gemini-antigravity,a6c087f2ccc759fa8acec4102cd7f47b623618d0,,,F32 unit tests
 F32_SUBMISSION_RECORD,Stage F,runs/hpc/stage_f/f32_m2rmbuild7_static_gate/M2RMBUILD7_SUBMISSION_RECORD.json,submission_record,authorized,gemini-antigravity,5d07372f12a32e57f3f046a8d540ae7f573d20e4,,,F32 M2RMBUILD7 submission authorization record
+F33_PACKAGE_DIR,Stage F,models/generated/mode_ii/f33_cae_runtime_gate_repair/,immutable_package,prepared_not_authorized,codex,d13e6ff6b8738d0474f1b4b961dc7a19c3e772f6,,,M2RMBUILD8 offline repaired CAE qualification package
+F33_GATE_RUNS_DIR,Stage F,runs/hpc/stage_f/f33_m2rmbuild8_static_gate/,gate_artifacts,prepared_not_authorized,codex,d13e6ff6b8738d0474f1b4b961dc7a19c3e772f6,,,F33 offline repair contracts and audits
+F33_DECISION,Stage F,docs/decisions/F33_M2RMBUILD8_STATIC_GATE_DECISION.md,decision_record,active,codex,d13e6ff6b8738d0474f1b4b961dc7a19c3e772f6,,,F33 offline repair decision
+F33_EXPERIMENT_RECORD,Stage F,docs/experiment_records/STAGE_F33_M2RMBUILD8_STATIC_GATE_REPAIR.md,experiment_record,active,codex,d13e6ff6b8738d0474f1b4b961dc7a19c3e772f6,,,F33 offline repair validation record
+F33_ORCHESTRATOR,Stage F,scripts/hpc/stage_f/submit_stage_f33_cae_build_qualification.sh,guarded_orchestrator,prepared_not_authorized,codex,d13e6ff6b8738d0474f1b4b961dc7a19c3e772f6,,,Fail-closed M2RMBUILD8 orchestrator requiring later explicit preparation binding and authorization
+F33_VALIDATOR,Stage F,scripts/validation/validate_f33_m2rmbuild8_static_gate.py,validator_script,active,codex,d13e6ff6b8738d0474f1b4b961dc7a19c3e772f6,,,F33 offline static validator
+F33_UNIT_TESTS,Stage F,tests/stage_f/test_f33_m2rmbuild8_static_gate.py,unit_test_script,active,codex,d13e6ff6b8738d0474f1b4b961dc7a19c3e772f6,,,F33 offline unit tests

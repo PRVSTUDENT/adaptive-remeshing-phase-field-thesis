@@ -1,5 +1,9 @@
 # Mistakes And Fixes Log
 
+## F32 M2RMBUILD7 unsupported constant and evidence defects (2026-08-05)
+
+The CAE builder imported unsupported `UNPLANNED`, cleanup invoked unavailable standalone `python`, and `set -e` prevented retention of the actual CAE return code. Prevent recurrence by importing only used release-verified constants, preflighting the standalone interpreter, capturing `$?` outside fail-fast mode, and using explicit `skipped` values for commands never invoked.
+
 ## F32 M2RMBUILD7 static clean-Linux qualification preparation (2026-08-04)
 
 Invalidated F31 runtime workdir staging failure (`f31_m2rmbuild6_runtime_workdir_staging_failed`). Job `1383394.mmaster02` failed because `M2RMBUILD6.pbs` staged package manifests into `$WORK_DIR` but omitted `M2RMBUILD6.pbs`, causing `sha256sum -c SHA256SUMS` to fail with file not found (`Exit_status = 1`). Also, line 118 attempted `python` in `on_exit` trap before module loading was executed.
