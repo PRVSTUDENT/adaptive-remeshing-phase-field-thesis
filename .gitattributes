@@ -15,6 +15,7 @@ scripts/hpc/**/*.pbs text eol=lf
 
 # F33 clean-Linux qualification package and offline controls are immutable LF bytes.
 models/generated/mode_ii/f33_cae_runtime_gate_repair/** text eol=lf
+models/generated/mode_ii/f34_cae_runtime_contract_repair/** text eol=lf
 runs/hpc/stage_f/f33_m2rmbuild8_static_gate/** text eol=lf
 scripts/validation/validate_f33_m2rmbuild8_static_gate.py text eol=lf
 tests/stage_f/test_f33_m2rmbuild8_static_gate.py text eol=lf

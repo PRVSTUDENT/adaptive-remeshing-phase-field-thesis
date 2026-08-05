@@ -1,5 +1,9 @@
 # Current project state
 
+## F34 M2RMBUILD9 offline runtime-contract repair (2026-08-05)
+
+F33 is invalidated as `f33_m2rmbuild8_runtime_contract_invalid_no_submission_authorized`; package F33 remains preserved and unsubmitted. F34 is offline only: M2RMBUILD9 has no execution authorization, zero current/future submissions, no retry, and no replacement authorization.
+
 ## F33 M2RMBUILD8 offline repair (2026-08-05)
 
 Confirmed `1383537.mmaster02` / `M2RMBUILD7` failed with PBS exit 1 and classification `cae_geometry_build_contract_failed`. Abaqus/CAE failed on unsupported `UNPLANNED`; unavailable standalone `python` cleanup and fail-fast return-code capture were secondary defects. No scientific result was produced.

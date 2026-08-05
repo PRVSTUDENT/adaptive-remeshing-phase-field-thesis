@@ -1,0 +1,16 @@
+{
+  "protocol_version": 1,
+  "task_id": "F34-M2RMBUILD9-OFFLINE-REPAIR",
+  "invalidated_task_id": "F32-M2RMBUILD7-AUTHORIZED-SUBMISSION",
+  "invalidated_classification": "cae_geometry_build_contract_failed",
+  "f32_package_preparation_sha": "77d618ae313014eb9edc8c9ee64d024d1fe457e0",
+  "f32_authorization_commit_sha": "d53b1ed7babe0544729c22ddb2d87203689946c8",
+  "f32_submission_closeout_sha": "d13e6ff6b8738d0474f1b4b961dc7a19c3e772f6",
+  "hpc_job_id": "1383537.mmaster02",
+  "pbs_exit_status": 1,
+  "blocking_defects": [
+    "build_f32_geometry_backed_model.py imported unsupported Abaqus constant UNPLANNED, so Abaqus/CAE exited 1 before model construction.",
+    "M2RMBUILD7.pbs invoked unavailable standalone python during cleanup.",
+    "set -e terminated immediately after the Abaqus command, leaving cae_builder.returncode at the misleading sentinel -1 instead of the actual exit code 1."
+  ]
+}
