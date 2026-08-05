@@ -1,7 +1,7 @@
 {
   "protocol_version": 1,
   "task_id": "F37-CLOSE-M2RMBUILD10-AND-PREPARE-M2RMBUILD11",
-  "status": "preparation_complete_not_authorized",
+  "status": "authorized_pending_submission",
   "classification": "f37_m2rmbuild11_clean_linux_qualified_not_authorized",
   "starting_commit": "f2e6e3b9c144f63265af867a2b96d57886c0e58a",
   "invalidated_predecessor": "f36_m2rmbuild10_embedded_python_compatibility_failed",
@@ -9,12 +9,12 @@
   "scheduler_job_id": null,
   "failed_predecessor_job_id": "1384141.mmaster02",
   "package_path": "models/generated/mode_ii/f37_cae_python_compatibility_repair",
-  "execution_authorized": false,
-  "submission_approved": false,
-  "maximum_jobs_now": 0,
+  "execution_authorized": true,
+  "submission_approved": true,
+  "maximum_jobs_now": 1,
   "maximum_future_submissions": 0,
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "await separate explicit authorization for exactly one M2RMBUILD11 submission"
+  "next_action": "submit exactly one guarded M2RMBUILD11 job"
 }

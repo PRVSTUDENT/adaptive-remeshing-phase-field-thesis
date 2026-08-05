@@ -1,12 +1,12 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-05T10:30:00Z",
-  "heartbeat": "2026-08-05T10:00:00Z",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "F37 clean-Linux qualification completed at b0dbe1f; M2RMBUILD11 remains unsubmitted and unauthorized."
+  "active": true,
+  "agent": "codex",
+  "allowed_scope": ["project_coordination/**", "runs/hpc/stage_f/f37_m2rmbuild11_static_gate/**"],
+  "completed_at": null,
+  "heartbeat": "2026-08-05T11:00:00Z",
+  "started_at": "2026-08-05T11:00:00Z",
+  "session_id": "2026-08-05_codex_F37-M2RMBUILD11-AUTHORIZED-SUBMISSION",
+  "starting_commit": "f0c48e67888e63e7756a27fb44c786d7275e1ac8",
+  "task_id": "F37-M2RMBUILD11-AUTHORIZED-SUBMISSION",
+  "note": "Exactly one guarded M2RMBUILD11 submission authorized; no retry, replacement, downstream, solver, datacheck, remesh, or state transfer."
 }
