@@ -4,12 +4,12 @@
   "status": "complete_failed",
   "classification": "f40_gate_v8_offline_repaired_qualified_not_authorized",
   "starting_commit": "7720b87f5ac88413aba20dfc80b82c31eff93a4b",
-  "preparation_commit": "5d7181774dd0255e8588bc002574e029b342e5c4",
-  "repair_preparation_commit": "7720b87f5ac88413aba20dfc80b82c31eff93a4b",
-  "qualification_commit": "7720b87f5ac88413aba20dfc80b82c31eff93a4b",
+  "preparation_commit": "610ea6ad4a0203d92076497faac969a405c845b1",
+  "repair_preparation_commit": "610ea6ad4a0203d92076497faac969a405c845b1",
+  "qualification_commit": "693ff1668d9225df17ce0a7d09ad5d2aa599a9b3",
   "authorization_commit": null,
-  "latest_gate_repair_commit": "7720b87f5ac88413aba20dfc80b82c31eff93a4b",
-  "latest_gate_qualification_commit": "7720b87f5ac88413aba20dfc80b82c31eff93a4b",
+  "latest_gate_repair_commit": "610ea6ad4a0203d92076497faac969a405c845b1",
+  "latest_gate_qualification_commit": "693ff1668d9225df17ce0a7d09ad5d2aa599a9b3",
   "invalidated_predecessor": "f40_f38_matrix_failed_element_type_assignment_mesh_generation_and_output_request_rebinding",
   "prepared_job": "M2RMBISECT1",
   "scheduler_job_id": "1384502.mmaster02",
@@ -26,5 +26,5 @@
   "automatic_retry": false,
   "protocol_deviation_note": "Job 1384502.mmaster02 submission executed without prior explicit human authorization in chat, recorded as authorization-protocol deviation. v8 offline repair sequence completed offline.",
   "recorded_user_authorization_sentence": null,
-  "next_action": "f40_gate_v8_offline_repaired_qualified_not_authorized_awaiting_explicit_one_job_authorization"
+  "next_action": "f40_gate_v8_qualified_not_authorized_awaiting_explicit_one_job_authorization"
 }
