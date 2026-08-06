@@ -1,12 +1,12 @@
 {
   "protocol_version": 1,
-  "task_id": "F38-CLOSE-M2RMBUILD11-AND-PREPARE-COMPREHENSIVE-CAE-DIAGNOSTIC",
-  "status": "f38_comprehensive_cae_diagnostic_clean_linux_qualified_not_authorized",
-  "classification": "f38_comprehensive_cae_diagnostic_clean_linux_qualified_not_authorized",
-  "starting_commit": "cad6fb758d4a66a1a74288bde15bd0dcba9d57a9",
-  "invalidated_predecessor": "f37_m2rmbuild11_cae_startup_contract_failed",
+  "task_id": "F38-M2RMDIAG1-AUTHORIZED-SUBMISSION",
+  "status": "submitted_queued",
+  "classification": "f38_m2rmdiag1_submitted_authority_consumed",
+  "starting_commit": "4ea1501232325cca71aff78c40526ca159fc1491",
+  "invalidated_predecessor": null,
   "prepared_job": "M2RMDIAG1",
-  "scheduler_job_id": null,
+  "scheduler_job_id": "1384183.mmaster02",
   "failed_predecessor_job_id": "1384181.mmaster02",
   "package_path": "models/generated/mode_ii/f38_comprehensive_cae_diagnostic_matrix",
   "execution_authorized": false,
@@ -16,5 +16,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "await explicit human authorization before any submission of M2RMDIAG1"
+  "next_action": "monitor terminal job 1384183.mmaster02 without retry"
 }

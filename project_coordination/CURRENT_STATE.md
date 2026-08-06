@@ -1,12 +1,21 @@
 # Current project state
 
+## F38 M2RMDIAG1 guarded submission (2026-08-06)
+
+Following explicit human authorization ("I authorize exactly one guarded submission of M2RMDIAG1 from qualification commit 4ea1501232325cca71aff78c40526ca159fc1491..."), cluster preflight verified frozen package SHA-256 manifests (`SHA256SUMS`, `F38_SHA256SUMS`), PBS syntax, tracked-state cleanliness, fast-forwarded cluster clone (`4ea1501232325cca71aff78c40526ca159fc1491`), and absent lock file.
+
+The single guarded orchestrator (`submit_stage_f38_cae_diagnostic.sh`) executed exactly one `qsub` call, submitting frozen package `models/generated/mode_ii/f38_comprehensive_cae_diagnostic_matrix/M2RMDIAG1.pbs` as PBS job `1384183.mmaster02`. Initial state is `Q` in routed queue `normal_imfdfkmq` with 1 CPU, 8 GB, and 00:30:00 walltime.
+
+Submission authority is fully consumed (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`). Next action is terminal monitoring and lightweight evidence collection only.
+
+
 ## F38 comprehensive CAE phase diagnostic matrix qualification (2026-08-06)
 
 M2RMBUILD11 terminal failure (`1384181.mmaster02`) was closed and published in commit `cad6fb758d4a66a1a74288bde15bd0dcba9d57a9`. Root cause was confirmed as module bootstrap failure due to undefined `__file__` when Abaqus/CAE noGUI executes scripts via `execfile(..., __main__.__dict__)`.
 
 The distinct F38 diagnostic package was prepared under `models/generated/mode_ii/f38_comprehensive_cae_diagnostic_matrix/` with prospective job `M2RMDIAG1`. Following strict detached qualification protocol, preparation commit P `205d38783db8ea8f5f891c4aae15f481571dac67` was checked out in a clean detached Linux worktree (`/tmp/f38_clean_qual_205d387`). It completely eliminates dependence on `__file__` from `runtime/run_f38_cae_diagnostic.py`, mandates `F38_RUNTIME_DIR`, records `CAE_INVOCATION_CONTEXT_AUDIT.json`, implements 20 independent diagnostic phases in `runtime/f38_cae_diagnostic_matrix.py` with explicit dependency handling (`PHASE_DEPENDENCIES`), safe Abaqus imports (`from abaqus import mdb`), dual geometry conversion probes (`model.Part2DGeomFrom2DMesh` and `source_part.Part2DGeomFrom2DMesh`), independent model ownership for `F38_INSTANCE_PROBE`, real crack mesh topology measurements (deriving lower/upper node sets, coincident node pairs, intersection count, and bridge elements), assembly set inventory (`assembly_set_inventory`), and individual output variable probing checking `model.fieldOutputRequests`.
 
-`M2RMDIAG1.pbs` includes mandatory `F38_EVIDENCE_DIR` persistent evidence copying, executes `validate_f38_runtime_audits.py`, and writes `STATUS.json` prior to invoking `generate_missing_evidence_report.py`. Detached clean-Linux validation passed 15/15 unit tests, 0 static failures, and both package SHA-256 manifests (`SHA256SUMS`, `F38_SHA256SUMS`). Classification: `f38_comprehensive_cae_diagnostic_clean_linux_qualified_not_authorized`. All authorization remains false and zero (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`).
+`M2RMDIAG1.pbs` includes mandatory `F38_EVIDENCE_DIR` persistent evidence copying, executes `validate_f38_runtime_audits.py`, and writes `STATUS.json` prior to invoking `generate_missing_evidence_report.py`. Detached clean-Linux validation passed 15/15 unit tests, 0 static failures, and both package SHA-256 manifests (`SHA256SUMS`, `F38_SHA256SUMS`).
 
 
 ## F37 M2RMBUILD11 guarded submission (2026-08-05)
