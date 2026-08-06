@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
   "task_id": "F38-CLOSE-M2RMBUILD11-AND-PREPARE-COMPREHENSIVE-CAE-DIAGNOSTIC",
-  "status": "preparation_complete_pending_clean_linux_qualification",
-  "classification": "f38_comprehensive_cae_diagnostic_prepared_pending_qualification",
+  "status": "f38_comprehensive_cae_diagnostic_clean_linux_qualified_not_authorized",
+  "classification": "f38_comprehensive_cae_diagnostic_clean_linux_qualified_not_authorized",
   "starting_commit": "cad6fb758d4a66a1a74288bde15bd0dcba9d57a9",
   "invalidated_predecessor": "f37_m2rmbuild11_cae_startup_contract_failed",
   "prepared_job": "M2RMDIAG1",
@@ -16,5 +16,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "await detached clean-Linux qualification proof before authorization"
+  "next_action": "await explicit human authorization before any submission of M2RMDIAG1"
 }

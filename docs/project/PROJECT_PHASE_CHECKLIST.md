@@ -7,8 +7,9 @@
 - [x] Mandated `F38_RUNTIME_DIR` and recorded `CAE_INVOCATION_CONTEXT_AUDIT.json`.
 - [x] Implemented 20 independent diagnostic phases in `runtime/f38_cae_diagnostic_matrix.py` with phase-runner writing `CAE_PHASE_DIAGNOSTIC_MATRIX.json` after every phase.
 - [x] Isolated independent diagnostic probes using fresh model names (`F38_IMPORT_PROBE`, `F38_GEOMETRY_PROBE`, `F38_MESH_PROBE`, `F38_INSTANCE_PROBE`, `F38_CRACK_PROBE`, `F38_OUTPUT_PROBE`, `F38_WRITE_INPUT_PROBE`).
-- [x] Inventoried assembly features separately from instances, probed output variables individually, and audited set validity post-replacement.
-- [x] Passed 4/4 WSL unit tests in `tests/unit/test_stage_f38_batch.py` and 0 failures in `scripts/validation/validate_f38_comprehensive_cae_diagnostic_gate.py`.
+- [x] Implemented explicit phase dependencies (`PHASE_DEPENDENCIES`), safe Abaqus imports (`from abaqus import mdb`), dual geometry conversion probes, independent model ownership for instance replacement, real crack topology measurements, assembly set inventory, and individual output variable probing checking `model.fieldOutputRequests`.
+- [x] Enforced PBS trap order (STATUS before missing evidence report), mandatory `F38_EVIDENCE_DIR` persistent copying, and packaged runtime validator invocation (`validate_f38_runtime_audits.py`).
+- [x] Validated preparation commit P `205d38783db8ea8f5f891c4aae15f481571dac67` in a detached clean-Linux checkout (`/tmp/f38_clean_qual_205d387`): 15/15 unit tests passed in `tests/unit/test_stage_f38_batch.py`, 0 static failures in `scripts/validation/validate_f38_comprehensive_cae_diagnostic_gate.py`, and both SHA-256 package manifests verified OK.
 - [!] Classification: `f38_comprehensive_cae_diagnostic_clean_linux_qualified_not_authorized`. All execution, submission, retry, and replacement authorizations remain false and zero.
 
 ## F33 M2RMBUILD8 offline repair gate
