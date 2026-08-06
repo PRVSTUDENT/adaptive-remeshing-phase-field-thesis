@@ -21,14 +21,18 @@ def main():
         ctx_data = json.load(f)
         
     if not ctx_data.get('bootstrap_passed'):
-        print("ERROR: Invocations context bootstrap did not pass")
+        print("ERROR: Invocation context bootstrap did not pass")
         sys.exit(1)
         
     with open(matrix_path, 'r') as f:
         matrix_data = json.load(f)
         
     phases = matrix_data.get('phases', [])
-    print("Found {0} diagnostic phases executed.".format(len(phases)))
+    if not phases:
+        print("ERROR: No diagnostic phases recorded in matrix")
+        sys.exit(1)
+        
+    print("Found {0} diagnostic phases executed cleanly.".format(len(phases)))
     sys.exit(0)
 
 if __name__ == '__main__':

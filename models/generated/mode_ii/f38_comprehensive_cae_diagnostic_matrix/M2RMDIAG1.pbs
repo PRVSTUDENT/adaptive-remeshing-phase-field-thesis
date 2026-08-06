@@ -13,6 +13,10 @@ export OPENMP_NUM_THREADS=1
 export MKL_NUM_THREADS=1
 
 F38_PACKAGE_DIR="${F38_PACKAGE_DIR:-$PBS_O_WORKDIR}"
+F38_EVIDENCE_DIR="${F38_EVIDENCE_DIR:-$F38_PACKAGE_DIR/../../../../runs/hpc/stage_f/f38_comprehensive_cae_diagnostic/evidence}"
+
+mkdir -p "$F38_EVIDENCE_DIR"
+
 WORK_DIR="/scratch/pr21vyci/adaptive-remeshing/runs/stage_f/f38_comprehensive_cae_diagnostic_matrix_${PBS_JOBID:-local}"
 
 mkdir -p "$WORK_DIR"
@@ -40,30 +44,38 @@ export F38_RUNTIME_FAILURE_AUDIT="$WORK_DIR/RUNTIME_FAILURE_AUDIT.json"
 
 python_probe_rc="skipped"
 cae_diagnostic_rc="skipped"
-collector_rc="skipped"
+runtime_val_rc="skipped"
+collector_rc=0
 
 on_exit() {
-    local exit_code=$?
+    local first_failure=$?
     set +e
-    echo "Executing on_exit trap with exit_code=$exit_code..."
-    
-    local first_failure="0"
-    if [ "$python_probe_rc" != "0" ] && [ "$python_probe_rc" != "skipped" ]; then
-        first_failure="$python_probe_rc"
-    elif [ "$cae_diagnostic_rc" != "0" ] && [ "$cae_diagnostic_rc" != "skipped" ]; then
-        first_failure="$cae_diagnostic_rc"
-    fi
-    echo "$first_failure" > first_failure.returncode
+    echo "Executing on_exit trap with exit_code=$first_failure..."
 
+    # 1. Write return codes first
     echo "$python_probe_rc" > python_probe.returncode
     echo "$cae_diagnostic_rc" > cae_diagnostic.returncode
+    echo "$runtime_val_rc" > runtime_validator.returncode
+    echo "$first_failure" > first_failure.returncode
 
-    python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR"
-    collector_rc=$?
+    # 2. Copy evidence to F38_EVIDENCE_DIR
+    local collect_fail_count=0
+    for f in CAE_PHASE_DIAGNOSTIC_MATRIX.json CAE_INVOCATION_CONTEXT_AUDIT.json RUNTIME_FAILURE_AUDIT.json \
+             COMPATIBILITY_AUDIT.json EXECUTION_COUNTERS.json \
+             python_probe.returncode cae_diagnostic.returncode runtime_validator.returncode \
+             first_failure.returncode generated_model.inp abaqus.rpy; do
+        if [ -f "$f" ]; then
+            cp "$f" "$F38_EVIDENCE_DIR/" || collect_fail_count=$((collect_fail_count + 1))
+        fi
+    done
+
+    collector_rc=$collect_fail_count
     echo "$collector_rc" > collector.returncode
+    cp collector.returncode "$F38_EVIDENCE_DIR/" || true
 
+    # 3. Determine classification and write STATUS.json
     local status_str="cae_geometry_build_contract_failed"
-    if [ "$cae_diagnostic_rc" = "0" ]; then
+    if [ "$cae_diagnostic_rc" = "0" ] && [ "$runtime_val_rc" = "0" ] && [ "$first_failure" -eq 0 ]; then
         status_str="cae_geometry_build_contract_passed"
     fi
 
@@ -75,10 +87,22 @@ on_exit() {
   "classification": "$status_str",
   "python_probe_returncode": "$python_probe_rc",
   "cae_diagnostic_returncode": "$cae_diagnostic_rc",
+  "runtime_validator_returncode": "$runtime_val_rc",
   "collector_returncode": "$collector_rc",
-  "exit_code": "$exit_code"
+  "exit_code": "$first_failure"
 }
 EOF
+
+    # 4. Copy STATUS.json to F38_EVIDENCE_DIR
+    cp STATUS.json "$F38_EVIDENCE_DIR/" || true
+
+    # 5. Generate missing-evidence report LAST
+    if [ -f "$WORK_DIR/runtime/generate_missing_evidence_report.py" ]; then
+        python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$F38_EVIDENCE_DIR" || true
+        if [ -f "$WORK_DIR/MISSING_EVIDENCE_REPORT.json" ]; then
+            cp "$WORK_DIR/MISSING_EVIDENCE_REPORT.json" "$F38_EVIDENCE_DIR/" || true
+        fi
+    fi
 }
 
 trap on_exit EXIT
@@ -100,6 +124,17 @@ set -e
 
 if [ "$cae_diagnostic_rc" != "0" ]; then
     echo "ERROR: Abaqus CAE diagnostic failed with code $cae_diagnostic_rc"
+    exit 1
+fi
+
+# Run packaged runtime validator
+set +e
+python3 "$WORK_DIR/runtime/validate_f38_runtime_audits.py" "$WORK_DIR"
+runtime_val_rc=$?
+set -e
+
+if [ "$runtime_val_rc" != "0" ]; then
+    echo "ERROR: Runtime validator failed with code $runtime_val_rc"
     exit 1
 fi
 

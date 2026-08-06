@@ -32,6 +32,8 @@ def validate_f38_static_gate():
         failures.append("F38 diagnostic matrix module f38_cae_diagnostic_matrix.py missing")
     else:
         m_content = matrix_path.read_text(encoding="utf-8")
+        if "from abaqus import mdb" not in m_content:
+            failures.append("Known Abaqus import pattern 'from abaqus import mdb' missing in f38_cae_diagnostic_matrix.py")
         if "write_matrix(matrix" not in m_content:
             failures.append("Matrix must be written after every phase in f38_cae_diagnostic_matrix.py")
         if "import_fresh_model" not in m_content:
@@ -40,6 +42,14 @@ def validate_f38_static_gate():
             failures.append("Assembly features and instances must be inventoried separately")
         if "accepted_variables" not in m_content:
             failures.append("Output variables must be probed individually")
+        if "model.fieldOutputRequests" not in m_content:
+            failures.append("Output variable probe must check model.fieldOutputRequests")
+        if "PHASE_DEPENDENCIES" not in m_content or "dependency_blocked" not in m_content:
+            failures.append("PHASE_DEPENDENCIES dictionary and dependency_blocked tracking missing")
+        if "assembly_set_inventory" not in m_content:
+            failures.append("assembly_set_inventory phase missing or misnamed in diagnostic matrix")
+        if "intersection_count" not in m_content or "coincident_node_pairs_count" not in m_content:
+            failures.append("Real crack-topology measurements missing in phase_crack_mesh_topology")
         for probe in ("F38_IMPORT_PROBE", "F38_GEOMETRY_PROBE", "F38_MESH_PROBE", "F38_INSTANCE_PROBE", "F38_CRACK_PROBE", "F38_OUTPUT_PROBE", "F38_WRITE_INPUT_PROBE"):
             if probe not in m_content:
                 failures.append(f"Independent model probe {probe} missing in diagnostic matrix")
@@ -56,6 +66,15 @@ def validate_f38_static_gate():
             failures.append("Prohibited '-- arguments' transport found in M2RMDIAG1.pbs")
         if "F38_RUNTIME_DIR" not in pbs_content or "F38_SOURCE_DECK" not in pbs_content:
             failures.append("Required environment variables F38_RUNTIME_DIR or F38_SOURCE_DECK missing in PBS")
+        if "F38_EVIDENCE_DIR" not in pbs_content:
+            failures.append("Mandatory F38_EVIDENCE_DIR missing in M2RMDIAG1.pbs")
+        if "validate_f38_runtime_audits.py" not in pbs_content:
+            failures.append("Packaged runtime validator validate_f38_runtime_audits.py missing in M2RMDIAG1.pbs")
+        
+        status_pos = pbs_content.find("STATUS.json")
+        report_pos = pbs_content.find("generate_missing_evidence_report.py")
+        if status_pos != -1 and report_pos != -1 and status_pos > report_pos:
+            failures.append("PBS trap ordering defect: STATUS.json must be written before generate_missing_evidence_report.py")
 
     # 4. Prohibited solver / remesh / execution calls
     for p in [entry_path, matrix_path, pbs_path]:

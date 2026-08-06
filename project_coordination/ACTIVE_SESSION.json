@@ -1,12 +1,21 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-06T09:11:00+02:00",
-  "heartbeat": "2026-08-06T09:11:00+02:00",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "F38 comprehensive CAE phase diagnostic matrix package prepared and static qualified. Execution authorization remains false and zero."
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_scope": [
+    "models/generated/mode_ii/f38_comprehensive_cae_diagnostic_matrix/**",
+    "scripts/hpc/stage_f/submit_stage_f38_cae_diagnostic.sh",
+    "scripts/validation/validate_f38_comprehensive_cae_diagnostic_gate.py",
+    "tests/unit/test_stage_f38_batch.py",
+    "project_coordination/**",
+    "docs/project/PROJECT_PHASE_CHECKLIST.md",
+    "docs/decisions/**",
+    "docs/experiment_records/**"
+  ],
+  "completed_at": null,
+  "heartbeat": "2026-08-06T09:20:00+02:00",
+  "started_at": "2026-08-06T09:20:00+02:00",
+  "session_id": "2026-08-06_0920_gemini-antigravity_F38-REPAIR-AND-QUALIFY",
+  "starting_commit": "82014b2f2dbd0f02965956ffc45e495e5a23f926",
+  "task_id": "F38-CLOSE-M2RMBUILD11-AND-PREPARE-COMPREHENSIVE-CAE-DIAGNOSTIC",
+  "note": "Repair F38 comprehensive CAE diagnostic defects, extend test suite, create preparation commit P, perform detached clean-Linux qualification, and create qualification commit Q."
 }

@@ -6,6 +6,18 @@ import datetime
 import traceback
 import hashlib
 
+PHASE_DEPENDENCIES = {
+    'repository_inventory': ['model_import'],
+    'repository_resolution': ['model_import'],
+    'element_type_assignment': ['geometry_conversion'],
+    'mesh_control_assignment': ['geometry_conversion'],
+    'instance_replacement': ['assembly_feature_inventory'],
+    'crack_edge_detection': ['crack_edge_method_inventory'],
+    'crack_mesh_topology': ['crack_edge_method_inventory'],
+    'output_request_rebinding': ['output_variable_probe'],
+    'generated_input_presence': ['input_write']
+}
+
 def get_hash(filepath):
     if not os.path.exists(filepath):
         return None
@@ -24,12 +36,35 @@ def write_matrix(matrix, matrix_path=None):
     except Exception as e:
         print("Error writing diagnostic matrix:", str(e))
 
-def run_phase(matrix, phase_name, function, context, matrix_path=None):
+def run_phase(matrix, phase_name, function, context, passed_phases, matrix_path=None):
+    prereqs = PHASE_DEPENDENCIES.get(phase_name, [])
+    blocked_by = [p for p in prereqs if not passed_phases.get(p, False)]
+
+    if blocked_by:
+        record = {
+            'phase': phase_name,
+            'attempted': False,
+            'passed': False,
+            'dependency_blocked': True,
+            'blocked_by': blocked_by,
+            'exception_type': None,
+            'exception_message': None,
+            'traceback': None,
+            'started_at': datetime.datetime.now().isoformat(),
+            'finished_at': datetime.datetime.now().isoformat(),
+            'observations': {},
+            'artifacts_written': []
+        }
+        matrix['phases'].append(record)
+        write_matrix(matrix, matrix_path)
+        return False
+
     record = {
         'phase': phase_name,
         'attempted': True,
         'passed': False,
         'dependency_blocked': False,
+        'blocked_by': [],
         'exception_type': None,
         'exception_message': None,
         'traceback': None,
@@ -72,14 +107,19 @@ def phase_bootstrap(ctx):
 
 # Phase 2
 def phase_abaqus_module_import(ctx):
-    import mdb
+    try:
+        from abaqus import mdb
+    except ImportError:
+        import mdb as mdb_module
+        mdb = mdb_module.mdb
+
     import abaqusConstants as ac
     import part
     import mesh
     import assembly
     import step
     import load
-    ctx['mdb'] = mdb.mdb
+    ctx['mdb'] = mdb
     ctx['ac'] = ac
     return {
         'mdb_available': True,
@@ -137,7 +177,7 @@ def phase_repository_resolution(ctx):
     part_keys = list(model.parts.keys())
     instance_keys = list(assembly.instances.keys())
     feature_keys = list(assembly.features.keys())
-    
+
     part_name = str(part_keys[0]) if part_keys else None
     instance_name = str(instance_keys[0]) if instance_keys else None
 
@@ -159,10 +199,40 @@ def phase_geometry_conversion(ctx):
     ctx['geom_model'] = model
     part_keys = list(model.parts.keys())
     source_part = model.parts[part_keys[0]]
-    
-    geom_part = source_part.Part2DGeomFrom2DMesh(name='GeomPart', featureAngle=45.0)
+
+    geom_part = None
+    model_api_passed = False
+    part_api_passed = False
+    model_api_error = None
+    part_api_error = None
+
+    # Model-level conversion API probe (Primary)
+    try:
+        if hasattr(model, 'Part2DGeomFrom2DMesh'):
+            geom_part = model.Part2DGeomFrom2DMesh(name='GeomPartModelApi', part=source_part, featureAngle=45.0)
+            model_api_passed = True
+        else:
+            model_api_error = "model has no Part2DGeomFrom2DMesh attribute"
+    except Exception as e:
+        model_api_error = str(e)
+
+    # Part-level conversion API probe (Alternative)
+    try:
+        if hasattr(source_part, 'Part2DGeomFrom2DMesh'):
+            p_geom = source_part.Part2DGeomFrom2DMesh(name='GeomPartPartApi', featureAngle=45.0)
+            part_api_passed = True
+            if geom_part is None:
+                geom_part = p_geom
+        else:
+            part_api_error = "source_part has no Part2DGeomFrom2DMesh attribute"
+    except Exception as e:
+        part_api_error = str(e)
+
+    if geom_part is None:
+        raise RuntimeError("Both model-level and part-level Part2DGeomFrom2DMesh probes failed. Model error: {0}; Part error: {1}".format(model_api_error, part_api_error))
+
     ctx['geom_part'] = geom_part
-    
+
     capabilities = {
         'object_type': str(type(geom_part)),
         'has_getVertices': hasattr(geom_part, 'getVertices'),
@@ -170,8 +240,12 @@ def phase_geometry_conversion(ctx):
         'has_getNodes': hasattr(geom_part, 'getNodes'),
         'has_pointOn': hasattr(geom_part, 'pointOn')
     }
-    
+
     return {
+        'model_api_passed': model_api_passed,
+        'model_api_error': model_api_error,
+        'part_api_passed': part_api_passed,
+        'part_api_error': part_api_error,
         'geom_part_name': str(geom_part.name),
         'face_count': len(geom_part.faces) if hasattr(geom_part, 'faces') else 0,
         'vertex_count': len(geom_part.vertices) if hasattr(geom_part, 'vertices') else 0,
@@ -184,7 +258,7 @@ def phase_element_type_assignment(ctx):
     ac = ctx['ac']
     if not geom_part:
         raise RuntimeError('geom_part unavailable for element type assignment')
-    
+
     elem_type = mesh.ElemType(elemCode=ac.CPE4, elemLibrary=ac.STANDARD)
     geom_part.setElementType(regions=(geom_part.faces,), elemTypes=(elem_type,))
     return {
@@ -199,7 +273,7 @@ def phase_mesh_control_assignment(ctx):
     ac = ctx['ac']
     if not geom_part:
         raise RuntimeError('geom_part unavailable for mesh control assignment')
-    
+
     geom_part.setMeshControls(regions=geom_part.faces, technique=ac.STRUCTURED)
     return {
         'mesh_controls_assigned': True,
@@ -213,7 +287,10 @@ def phase_mesh_generation(ctx):
     ac = ctx['ac']
     model = import_fresh_model(mdb, source_deck, 'F38_MESH_PROBE')
     source_part = model.parts[list(model.parts.keys())[0]]
-    geom_part = source_part.Part2DGeomFrom2DMesh(name='GeomPartMesh', featureAngle=45.0)
+    if hasattr(model, 'Part2DGeomFrom2DMesh'):
+        geom_part = model.Part2DGeomFrom2DMesh(name='GeomPartMesh', part=source_part, featureAngle=45.0)
+    else:
+        geom_part = source_part.Part2DGeomFrom2DMesh(name='GeomPartMesh', featureAngle=45.0)
     geom_part.setElementType(regions=(geom_part.faces,), elemTypes=(mesh.ElemType(elemCode=ac.CPE4, elemLibrary=ac.STANDARD),))
     geom_part.setMeshControls(regions=geom_part.faces, technique=ac.STRUCTURED)
     geom_part.seedPart(size=0.01)
@@ -241,19 +318,29 @@ def phase_assembly_feature_inventory(ctx):
 
 # Phase 12
 def phase_instance_replacement(ctx):
-    model = ctx.get('inst_model')
-    geom_part = ctx.get('geom_part')
+    mdb = ctx['mdb']
+    source_deck = ctx['source_deck']
     ac = ctx['ac']
-    if not model or not geom_part:
-        raise RuntimeError('inst_model or geom_part unavailable')
-    
+    model = ctx.get('inst_model')
+    if not model:
+        model = import_fresh_model(mdb, source_deck, 'F38_INSTANCE_PROBE')
+        ctx['inst_model'] = model
+
+    source_part = model.parts[list(model.parts.keys())[0]]
+    # Create geometry part owned strictly by F38_INSTANCE_PROBE
+    if hasattr(model, 'Part2DGeomFrom2DMesh'):
+        geom_part = model.Part2DGeomFrom2DMesh(name='GeomPartInst', part=source_part, featureAngle=45.0)
+    else:
+        geom_part = source_part.Part2DGeomFrom2DMesh(name='GeomPartInst', featureAngle=45.0)
+
     assembly = model.rootAssembly
     feature_names = tuple(assembly.features.keys())
     if feature_names:
         assembly.deleteFeatures(featureNames=feature_names)
-    
+
     new_inst = assembly.Instance(name='Part-1-1', part=geom_part, dependent=ac.ON)
     assembly.regenerate()
+    ctx['inst_geom_part'] = geom_part
     return {
         'instance_replaced': True,
         'new_instance_name': str(new_inst.name),
@@ -267,13 +354,16 @@ def phase_crack_edge_method_inventory(ctx):
     model = import_fresh_model(mdb, source_deck, 'F38_CRACK_PROBE')
     ctx['crack_model'] = model
     source_part = model.parts[list(model.parts.keys())[0]]
-    geom_part = source_part.Part2DGeomFrom2DMesh(name='GeomPartCrack', featureAngle=45.0)
+    if hasattr(model, 'Part2DGeomFrom2DMesh'):
+        geom_part = model.Part2DGeomFrom2DMesh(name='GeomPartCrack', part=source_part, featureAngle=45.0)
+    else:
+        geom_part = source_part.Part2DGeomFrom2DMesh(name='GeomPartCrack', featureAngle=45.0)
     ctx['crack_geom_part'] = geom_part
-    
+
     edges = geom_part.edges
     faces = geom_part.faces
     sample_edge = edges[0] if edges else None
-    
+
     capabilities = {
         'edge_has_getFaces': hasattr(sample_edge, 'getFaces') if sample_edge else False,
         'edge_has_getVertices': hasattr(sample_edge, 'getVertices') if sample_edge else False,
@@ -287,7 +377,7 @@ def phase_crack_edge_detection(ctx):
     geom_part = ctx.get('crack_geom_part')
     if not geom_part:
         raise RuntimeError('crack_geom_part unavailable')
-    
+
     top_faces = 0
     bottom_faces = 0
     for face in geom_part.faces:
@@ -297,7 +387,7 @@ def phase_crack_edge_detection(ctx):
                 top_faces += 1
             else:
                 bottom_faces += 1
-                
+
     return {
         'top_faces_count': top_faces,
         'bottom_faces_count': bottom_faces,
@@ -309,19 +399,70 @@ def phase_crack_mesh_topology(ctx):
     geom_part = ctx.get('crack_geom_part')
     if not geom_part:
         raise RuntimeError('crack_geom_part unavailable')
-    
+
+    nodes = geom_part.nodes if hasattr(geom_part, 'nodes') and geom_part.nodes else []
+    elements = geom_part.elements if hasattr(geom_part, 'elements') and geom_part.elements else []
+
+    lower_node_labels = []
+    upper_node_labels = []
+    lower_coords = {}
+    upper_coords = {}
+
+    if hasattr(geom_part, 'sets') and 'notch_lower_face' in geom_part.sets and 'notch_upper_face' in geom_part.sets:
+        lower_nodes = geom_part.sets['notch_lower_face'].nodes
+        upper_nodes = geom_part.sets['notch_upper_face'].nodes
+        lower_node_labels = [n.label for n in lower_nodes]
+        upper_node_labels = [n.label for n in upper_nodes]
+        lower_coords = {n.label: n.coordinates for n in lower_nodes}
+        upper_coords = {n.label: n.coordinates for n in upper_nodes}
+    else:
+        for n in nodes:
+            x, y, z = n.coordinates
+            if x <= 0.001:
+                if y <= 0 and y >= -0.05:
+                    lower_node_labels.append(n.label)
+                    lower_coords[n.label] = (x, y, z)
+                elif y >= 0 and y <= 0.05:
+                    upper_node_labels.append(n.label)
+                    upper_coords[n.label] = (x, y, z)
+
+    lower_set = set(lower_node_labels)
+    upper_set = set(upper_node_labels)
+    intersection_count = len(lower_set.intersection(upper_set))
+    disjoint_node_sets = (intersection_count == 0)
+
+    coincident_pair_count = 0
+    for l_label, l_c in lower_coords.items():
+        for u_label, u_c in upper_coords.items():
+            if abs(l_c[0] - u_c[0]) < 1e-5 and abs(l_c[1] - u_c[1]) < 1e-5:
+                coincident_pair_count += 1
+                break
+
+    bridge_elem_count = 0
+    for elem in elements:
+        n_labels = set()
+        if hasattr(elem, 'getNodes'):
+            n_labels = set(n.label for n in elem.getNodes())
+        elif hasattr(elem, 'connectivity'):
+            n_labels = set(elem.connectivity)
+        if len(n_labels.intersection(lower_set)) > 0 and len(n_labels.intersection(upper_set)) > 0:
+            bridge_elem_count += 1
+
     return {
-        'disjoint_node_sets': True,
-        'coincident_node_pairs_count': 0,
-        'bridge_element_count': 0
+        'lower_node_labels_count': len(lower_node_labels),
+        'upper_node_labels_count': len(upper_node_labels),
+        'intersection_count': intersection_count,
+        'disjoint_node_sets': disjoint_node_sets,
+        'coincident_node_pairs_count': coincident_pair_count,
+        'bridge_element_count': bridge_elem_count
     }
 
 # Phase 16
-def phase_assembly_set_reconstruction(ctx):
+def phase_assembly_set_inventory(ctx):
     model = ctx.get('crack_model')
     if not model:
         raise RuntimeError('crack_model unavailable')
-    
+
     assembly = model.rootAssembly
     sets_data = {}
     for name, s in assembly.sets.items():
@@ -332,9 +473,9 @@ def phase_assembly_set_reconstruction(ctx):
             'edge_count': len(s.edges) if hasattr(s, 'edges') and s.edges else 0,
             'face_count': len(s.faces) if hasattr(s, 'faces') and s.faces else 0
         }
-        
+
     return {
-        'reconstructed_sets_count': len(sets_data),
+        'inventoried_sets_count': len(sets_data),
         'set_details': sets_data
     }
 
@@ -344,23 +485,23 @@ def phase_output_variable_probe(ctx):
     source_deck = ctx['source_deck']
     model = import_fresh_model(mdb, source_deck, 'F38_OUTPUT_PROBE')
     ctx['output_model'] = model
-    
+
     step = model.steps[list(model.steps.keys())[0]]
     candidate_vars = ['U', 'RF', 'S', 'E', 'EVOL', 'MISESERI', 'MISESAVG']
-    
+
     accepted = []
     rejected = []
-    
+
     for var in candidate_vars:
+        req_name = 'PROBE_' + var
         try:
-            req_name = 'PROBE_' + var
-            if req_name in step.fieldOutputRequestState:
-                del step.fieldOutputRequestState[req_name]
+            if req_name in model.fieldOutputRequests:
+                del model.fieldOutputRequests[req_name]
             model.FieldOutputRequest(name=req_name, createStepName=step.name, variables=(var,))
             accepted.append(var)
         except Exception as e:
             rejected.append({'variable': var, 'error': str(e)})
-            
+
     return {
         'accepted_variables': accepted,
         'rejected_variables': rejected
@@ -371,7 +512,7 @@ def phase_output_request_rebinding(ctx):
     model = ctx.get('output_model')
     if not model:
         raise RuntimeError('output_model unavailable')
-    
+
     step = model.steps[list(model.steps.keys())[0]]
     model.FieldOutputRequest(
         name='F38_REBOUND_OUTPUT',
@@ -388,27 +529,27 @@ def phase_input_write(ctx):
     source_deck = ctx['source_deck']
     ac = ctx['ac']
     model = import_fresh_model(mdb, source_deck, 'F38_WRITE_INPUT_PROBE')
-    
+
     job_name = 'F38_TMP_JOB'
     if job_name in mdb.jobs:
         del mdb.jobs[job_name]
-        
+
     job = mdb.Job(name=job_name, model=model.name)
     job.writeInput(consistencyChecking=ac.ON)
-    
+
     tmp_input = job_name + '.inp'
     tmp_exists = os.path.isfile(tmp_input)
-    
+
     output_input = os.environ.get('F38_OUTPUT_INPUT', 'generated_model.inp').strip()
     output_input = os.path.abspath(output_input)
-    
+
     if tmp_exists:
         if os.path.exists(output_input):
             os.remove(output_input)
         os.rename(tmp_input, output_input)
-        
+
     ctx['output_input'] = output_input
-    
+
     return {
         'job_creation_passed': True,
         'write_input_invoked': True,
@@ -423,11 +564,11 @@ def phase_generated_input_presence(ctx):
     if not output_input:
         output_input = os.environ.get('F38_OUTPUT_INPUT', 'generated_model.inp').strip()
     output_input = os.path.abspath(output_input)
-    
+
     exists = os.path.isfile(output_input)
     size = os.path.getsize(output_input) if exists else 0
     sha256 = get_hash(output_input) if exists else None
-    
+
     return {
         'generated_input_exists': exists,
         'generated_size': size,
@@ -445,7 +586,7 @@ def main():
         'overall_passed': False,
         'phases': []
     }
-    
+
     ctx = {}
     phases = [
         ('bootstrap', phase_bootstrap),
@@ -463,19 +604,22 @@ def main():
         ('crack_edge_method_inventory', phase_crack_edge_method_inventory),
         ('crack_edge_detection', phase_crack_edge_detection),
         ('crack_mesh_topology', phase_crack_mesh_topology),
-        ('assembly_set_reconstruction', phase_assembly_set_reconstruction),
+        ('assembly_set_inventory', phase_assembly_set_inventory),
         ('output_variable_probe', phase_output_variable_probe),
         ('output_request_rebinding', phase_output_request_rebinding),
         ('input_write', phase_input_write),
         ('generated_input_presence', phase_generated_input_presence)
     ]
-    
+
+    passed_phases = {}
     all_passed = True
+
     for phase_name, func in phases:
-        passed = run_phase(matrix, phase_name, func, ctx, matrix_path)
+        passed = run_phase(matrix, phase_name, func, ctx, passed_phases, matrix_path)
+        passed_phases[phase_name] = passed
         if not passed:
             all_passed = False
-            
+
     matrix['overall_passed'] = all_passed
     matrix['finished_at'] = datetime.datetime.now().isoformat()
     write_matrix(matrix, matrix_path)
