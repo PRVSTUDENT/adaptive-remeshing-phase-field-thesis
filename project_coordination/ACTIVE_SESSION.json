@@ -1,12 +1,15 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-06T13:13:00+02:00",
-  "heartbeat": "2026-08-06T13:13:00+02:00",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "F40 ACTIVE_TASK.json metadata update completed recording P5 (f546626) and Q5 (98a5f18). All execution/submission authority remains false/zero."
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_scope": [
+    "project_coordination/**",
+    "docs/project/PROJECT_PHASE_CHECKLIST.md"
+  ],
+  "completed_at": null,
+  "heartbeat": "2026-08-06T13:15:00+02:00",
+  "started_at": "2026-08-06T13:15:00+02:00",
+  "session_id": "gemini-f40-v5-authorized-guarded-submission",
+  "starting_commit": "7387549e1e2efd8bcad0dfa2a5c5f4526275e6a2",
+  "task_id": "F40-M2RMBISECT1-V5-AUTHORIZED-SUBMISSION",
+  "note": "Claiming session to record explicit authorization, commit authorization update, fast-forward cluster, run preflight, submit M2RMBISECT1 job, monitor to completion, collect evidence, validate results, and close out."
 }
