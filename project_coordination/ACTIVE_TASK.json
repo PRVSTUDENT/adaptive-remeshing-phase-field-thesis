@@ -1,12 +1,12 @@
 {
   "protocol_version": 1,
-  "task_id": "F39-DIAGNOSE-ABAQUS-CAE-KERNEL-STARTUP",
-  "status": "f39_abaqus_cae_kernel_startup_diagnostic_clean_linux_qualified_not_authorized",
-  "classification": "f39_abaqus_cae_kernel_startup_diagnostic_clean_linux_qualified_not_authorized",
-  "starting_commit": "33b2fc6f14dcf0e2b657badc800e4a4b0f107f69",
+  "task_id": "F39-M2RMKERN1-REPAIRED-SUBMISSION",
+  "status": "complete_success",
+  "classification": "cae_kernel_startup_success",
+  "starting_commit": "988bffdba1fdbb3bfdd76f1f3a3db909c0756eb0",
   "invalidated_predecessor": "f38_abaqus_cae_kernel_startup_failed_before_python_entrypoint",
   "prepared_job": "M2RMKERN1",
-  "scheduler_job_id": null,
+  "scheduler_job_id": "1384431.mmaster02",
   "failed_predecessor_job_id": "1384183.mmaster02",
   "package_path": "models/generated/mode_ii/f39_abaqus_cae_kernel_startup_diagnostic",
   "execution_authorized": false,
@@ -16,5 +16,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "await explicit human authorization before any re-submission of repaired M2RMKERN1"
+  "next_action": "prepare offline task F40 to resolve CAE model building import/topology contract"
 }
