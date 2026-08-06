@@ -16,17 +16,36 @@ def main():
     if not os.path.exists(delta_path):
         errors.append("F38_F39_INVOCATION_DELTA_AUDIT.json missing")
 
-    p00_path = os.path.join(target_dir, "P00_KERNEL_STARTUP_AUDIT.json")
-    if not os.path.exists(p00_path):
-        errors.append("P00_KERNEL_STARTUP_AUDIT.json missing")
-    else:
-        try:
-            with open(p00_path, "r") as f:
-                data = json.load(f)
-                if data.get("phase_name") != "P00_KERNEL_STARTUP":
-                    errors.append("P00_KERNEL_STARTUP_AUDIT.json invalid phase_name")
-        except Exception as exc:
-            errors.append("Error reading P00_KERNEL_STARTUP_AUDIT.json: {}".format(exc))
+    expected_phases = [
+        "P00_KERNEL_STARTUP",
+        "P01_IMPORTS",
+        "P02_MODULE_LOADING",
+        "P03_SOURCE_DECK_DISCOVERY",
+        "P04_MODEL_FROM_INPUT_FILE",
+        "P05_IMPORTED_MODEL_INVENTORY",
+        "P06_GEOMETRY_CONVERSION",
+        "P07_INDEPENDENT_MODEL_OWNERSHIP",
+        "P08_ASSEMBLY_OPERATIONS",
+        "P09_TOPOLOGY_MEASUREMENT",
+        "P10_SETS_SURFACES_INVENTORY",
+        "P11_STEP_OUTPUT_PROBING"
+    ]
+
+    for pname in expected_phases:
+        pfpath = os.path.join(target_dir, "{}_AUDIT.json".format(pname))
+        if not os.path.exists(pfpath):
+            errors.append("{}_AUDIT.json missing".format(pname))
+        else:
+            try:
+                with open(pfpath, "r") as f:
+                    data = json.load(f)
+                    if data.get("phase_name") != pname:
+                        errors.append("{}_AUDIT.json invalid phase_name".format(pname))
+                    metrics = data.get("metrics")
+                    if metrics is None:
+                        errors.append("{}_AUDIT.json missing metrics dictionary".format(pname))
+            except Exception as exc:
+                errors.append("Error reading {}_AUDIT.json: {}".format(pname, exc))
 
     report_path = os.path.join(target_dir, "MISSING_EVIDENCE_REPORT.json")
     if os.path.exists(report_path):

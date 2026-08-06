@@ -7,9 +7,9 @@
 - [x] Implemented contract delta auditor `f40_invocation_contract_delta.py` generating `F38_F39_INVOCATION_DELTA_AUDIT.json`.
 - [x] Qualified preparation commit P40 in a detached clean-Linux checkout (`/tmp/f40_clean_qual_36a779a`): 11/11 unit tests passed, 0 static failures, and both SHA-256 package manifests verified OK.
 - [x] Executed authorized guarded diagnostic job `M2RMBISECT1` (`1384435.mmaster02`).
-- [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384435.mmaster02/`): All 12 phase audits P00-P11 returned `rc=0`.
-- [x] Empirically proved every Abaqus/CAE model building operation (`ModelFromInputFile`, `Part2DGeomFrom2DMesh`, assembly regeneration, topology inspection, output requests) functions cleanly on compute nodes.
-- [!] Classification: `cae_bisection_all_phases_passed`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
+- [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384435.mmaster02/`): Generic primitive phase audits P00-P11 returned `rc=0`, but `runtime_validator_rc=1` due to pre-generation validator invocation, `MISSING_EVIDENCE_REPORT.json` showed `status: incomplete`, and exact F38 model building entrypoint was not executed.
+- [x] Empirically proved generic Abaqus/CAE building blocks function on compute nodes, but original F38 model builder is NOT proven fixed.
+- [!] Classification: `f40_generic_cae_primitives_passed_runtime_evidence_contract_failed`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
 
 
 ## F39 Abaqus CAE kernel startup diagnostic gate

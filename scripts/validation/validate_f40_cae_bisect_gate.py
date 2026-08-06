@@ -46,6 +46,8 @@ def main():
                 failures.append("M2RMBISECT1.pbs does not correctly unbind trap and exit with $first_failure")
             if "entry_imfdfkmq" not in pbs_txt or "select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb" not in pbs_txt:
                 failures.append("M2RMBISECT1.pbs missing entry_imfdfkmq or select resource directive")
+            if "runtime_validator_rc" not in pbs_txt or "first_failure=" not in pbs_txt:
+                failures.append("M2RMBISECT1.pbs does not compute first_failure from runtime_validator_rc")
     else:
         failures.append("M2RMBISECT1.pbs missing")
 

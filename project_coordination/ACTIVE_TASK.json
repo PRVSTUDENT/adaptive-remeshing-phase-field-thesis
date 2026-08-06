@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
   "task_id": "F40-M2RMBISECT1-AUTHORIZED-SUBMISSION",
-  "status": "complete_success",
-  "classification": "cae_bisection_all_phases_passed",
+  "status": "complete_failed",
+  "classification": "f40_generic_cae_primitives_passed_runtime_evidence_contract_failed",
   "starting_commit": "23f2806eb381830d187881e02d6f2aff9dd4e9d9",
   "preparation_commit": "36a779a4e106c812899218a1dd9db0dd00d430e4",
   "invalidated_predecessor": "f38_abaqus_cae_kernel_startup_failed_before_python_entrypoint",
@@ -17,5 +17,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "prepare offline task F41 for production Abaqus CAE model generation with clean path resolution"
+  "next_action": "repair F40 offline diagnostic runner and validator ordering before any future submission consideration"
 }

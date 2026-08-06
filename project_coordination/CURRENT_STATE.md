@@ -19,9 +19,9 @@ Terminal evidence inspection confirmed all 12 bisection phases (`P00` through `P
 - `P11_STEP_OUTPUT_PROBING_AUDIT.json`: `rc=0` (step and field output requests)
 
 **Scientific & Technical Finding**:
-Every phase of the Abaqus/CAE model building contract—from kernel startup to input deck import (`ModelFromInputFile`), geometry conversion (`Part2DGeomFrom2DMesh`), assembly operations, topology inspection, and output request configuration—functions cleanly on compute nodes (`mnode102`). The failure of F38 was caused by execution context path handling (e.g. `__file__` reference or relative import resolution in `run_f38_cae_diagnostic.py`), not by Abaqus CAE API operations.
+The Abaqus environment and several generic building blocks work cleanly on compute nodes (`mnode102`), but `STATUS.json` recorded `runtime_validator_rc = 1` (`STATUS.json` and `MISSING_EVIDENCE_REPORT.json` were missing when `validate_f40_runtime_audits.py` ran), `MISSING_EVIDENCE_REPORT.json` reported `collector.returncode` missing, and the bisection runner phases P00-P11 only tested basic generic primitives rather than executing the exact F38 entrypoint and helper modules. Therefore, F40 did NOT prove that the original F38 problem is fixed.
 
-Classification: `cae_bisection_all_phases_passed`. All submission authority is returned to `false` and `0` (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`).
+Classification: `f40_generic_cae_primitives_passed_runtime_evidence_contract_failed`. All submission authority is returned to `false` and `0` (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`).
 
 
 

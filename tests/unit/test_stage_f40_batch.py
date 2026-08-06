@@ -37,6 +37,14 @@ class TestStageF40Batch(unittest.TestCase):
             content = f.read()
             self.assertIn("trap - EXIT", content)
             self.assertIn('exit "$first_failure"', content)
+            self.assertIn("runtime_validator_rc", content)
+
+    def test_runner_records_metrics(self):
+        runner_path = os.path.join(self.pkg_dir, "runtime", "f40_cae_bisection_runner.py")
+        with open(runner_path, "r") as f:
+            content = f.read()
+            self.assertIn("metrics", content)
+            self.assertIn("write_phase_audit", content)
 
     def test_pbs_mandatory_evidence_dir(self):
         pbs_path = os.path.join(self.pkg_dir, "M2RMBISECT1.pbs")

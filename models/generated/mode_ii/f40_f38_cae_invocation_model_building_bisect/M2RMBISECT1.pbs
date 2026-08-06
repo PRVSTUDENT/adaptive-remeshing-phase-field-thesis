@@ -22,17 +22,57 @@ bisection_runner_rc=1
 runtime_validator_rc=1
 
 on_exit() {
-    local first_failure=$?
+    local cmd_rc=$?
     set +e
 
     echo "$delta_auditor_rc" > "$WORK_DIR/delta_auditor.returncode"
     echo "$bisection_runner_rc" > "$WORK_DIR/bisection_runner.returncode"
-    echo "$runtime_validator_rc" > "$WORK_DIR/runtime_validator.returncode"
-    echo "$first_failure" > "$WORK_DIR/first_failure.returncode"
 
-    local overall_cls="f40_bisection_completed_successfully"
-    if [ "$first_failure" -ne 0 ] || [ "$bisection_runner_rc" -ne 0 ] || [ "$runtime_validator_rc" -ne 0 ]; then
-        overall_cls="f40_bisection_failed_during_cae_probes"
+    # Step 1: Write preliminary STATUS.json
+    local overall_cls="f40_generic_cae_primitives_passed_runtime_evidence_contract_failed"
+    cat <<EOF > "$WORK_DIR/STATUS.json"
+{
+  "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%S')",
+  "delta_auditor_rc": $delta_auditor_rc,
+  "bisection_runner_rc": $bisection_runner_rc,
+  "runtime_validator_rc": $runtime_validator_rc,
+  "first_failure_rc": $cmd_rc,
+  "overall_classification": "$overall_cls"
+}
+EOF
+
+    # Step 2: Generate missing evidence report and collector.returncode
+    python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR" >/dev/null 2>&1
+    local col_rc=$?
+    echo "$col_rc" > "$WORK_DIR/collector.returncode"
+    echo "$col_rc" > "$F40_EVIDENCE_DIR/collector.returncode"
+    cp -f "$WORK_DIR/MISSING_EVIDENCE_REPORT.json" "$F40_EVIDENCE_DIR/" 2>/dev/null || true
+
+    # Step 3: Run runtime validator after STATUS.json and evidence report exist
+    set +e
+    python3 "$WORK_DIR/runtime/validate_f40_runtime_audits.py" "$WORK_DIR"
+    runtime_validator_rc=$?
+    set -e
+    echo "$runtime_validator_rc" > "$WORK_DIR/runtime_validator.returncode"
+
+    # Step 4: Compute final first_failure including runtime_validator_rc and col_rc
+    local first_failure=0
+    if [ "$cmd_rc" -ne 0 ]; then
+        first_failure=$cmd_rc
+    elif [ "$delta_auditor_rc" -ne 0 ]; then
+        first_failure=$delta_auditor_rc
+    elif [ "$bisection_runner_rc" -ne 0 ]; then
+        first_failure=$bisection_runner_rc
+    elif [ "$col_rc" -ne 0 ]; then
+        first_failure=$col_rc
+    elif [ "$runtime_validator_rc" -ne 0 ]; then
+        first_failure=$runtime_validator_rc
+    fi
+
+    if [ "$first_failure" -eq 0 ]; then
+        overall_cls="f40_bisection_completed_successfully"
+    else
+        overall_cls="f40_generic_cae_primitives_passed_runtime_evidence_contract_failed"
     fi
 
     cat <<EOF > "$WORK_DIR/STATUS.json"
@@ -46,6 +86,8 @@ on_exit() {
 }
 EOF
 
+    echo "$first_failure" > "$WORK_DIR/first_failure.returncode"
+
     cp -f "$WORK_DIR"/*.json "$F40_EVIDENCE_DIR/" 2>/dev/null || true
     cp -f "$WORK_DIR"/*.returncode "$F40_EVIDENCE_DIR/" 2>/dev/null || true
     cp -f "$WORK_DIR"/*.txt "$F40_EVIDENCE_DIR/" 2>/dev/null || true
@@ -53,12 +95,6 @@ EOF
         cp -f "$PBS_O_WORKDIR/M2RMBISECT1.o${PBS_JOBID}" "$F40_EVIDENCE_DIR/" 2>/dev/null || true
         cp -f "$PBS_O_WORKDIR/M2RMBISECT1.e${PBS_JOBID}" "$F40_EVIDENCE_DIR/" 2>/dev/null || true
     fi
-
-    python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR" >/dev/null 2>&1
-    local col_rc=$?
-    echo "$col_rc" > "$WORK_DIR/collector.returncode"
-    echo "$col_rc" > "$F40_EVIDENCE_DIR/collector.returncode"
-    cp -f "$WORK_DIR/MISSING_EVIDENCE_REPORT.json" "$F40_EVIDENCE_DIR/" 2>/dev/null || true
 
     trap - EXIT
     exit "$first_failure"
@@ -91,10 +127,4 @@ F40_RUNTIME_DIR="$WORK_DIR/runtime" F40_EVIDENCE_DIR="$F40_EVIDENCE_DIR" abaqus 
 bisection_runner_rc=$?
 set -e
 
-echo "=== Stage 3: Validate Runtime Audits ==="
-set +e
-python3 "$WORK_DIR/runtime/validate_f40_runtime_audits.py" "$WORK_DIR"
-runtime_validator_rc=$?
-set -e
-
-echo "=== F40 Execution Complete (bisection_runner_rc=$bisection_runner_rc, runtime_validator_rc=$runtime_validator_rc) ==="
+echo "=== F40 Bisection Runner Finished (rc=$bisection_runner_rc) ==="
