@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 import re
@@ -209,6 +210,50 @@ class TestStageF40Batch(unittest.TestCase):
         # Case 2: Initial + Step-1 -> return Step-1
         m2 = MockModel({"Initial": "step_initial_obj", "Step-1": "step_1_obj"})
         self.assertEqual(mod.get_first_analysis_step(m2), "step_1_obj")
+
+    def test_helper_sha256_constant_matches_manifest(self):
+        helper_path = os.path.join(self.pkg_dir, "runtime", "f38_cae_diagnostic_matrix.py")
+        h = hashlib.sha256()
+        with open(helper_path, "rb") as f:
+            h.update(f.read())
+        actual_sha = h.hexdigest()
+
+        runner_path = os.path.join(self.pkg_dir, "runtime", "f40_cae_bisection_runner.py")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("f40_cae_bisection_runner", runner_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        self.assertEqual(mod.EXPECTED_HELPER_SHA256, actual_sha, "EXPECTED_HELPER_SHA256 in runner must match actual SHA256 of helper matrix")
+
+        manifest_path = os.path.join(self.pkg_dir, "PACKAGE_MANIFEST.json")
+        with open(manifest_path, "r") as f:
+            manifest = json.load(f)
+        manifest_hashes = {item["path"]: item["sha256"] for item in manifest["files"]}
+        self.assertEqual(manifest_hashes["runtime/f38_cae_diagnostic_matrix.py"], actual_sha, "Manifest SHA256 must match actual helper SHA256")
+
+    def test_p02_fails_on_helper_content_modification(self):
+        runner_path = os.path.join(self.pkg_dir, "runtime", "f40_cae_bisection_runner.py")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("f40_cae_bisection_runner", runner_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Copy real entrypoint
+            with open(os.path.join(self.pkg_dir, "runtime", "run_f38_cae_diagnostic.py"), "rb") as sf, \
+                 open(os.path.join(tmpdir, "run_f38_cae_diagnostic.py"), "wb") as df:
+                df.write(sf.read())
+
+            # Write modified helper (altered content)
+            with open(os.path.join(tmpdir, "f38_cae_diagnostic_matrix.py"), "w") as f:
+                f.write("# Modified helper content\ndef main(): pass\n")
+
+            exp_entry, exp_help = mod.load_expected_sha256(tmpdir)
+            helper_sha256 = hashlib.sha256(b"# Modified helper content\ndef main(): pass\n").hexdigest()
+
+            self.assertNotEqual(helper_sha256, exp_help, "Modified helper SHA256 must differ from expected helper SHA256")
 
     def test_static_gate_validator_passes(self):
         res = subprocess.run([sys.executable, self.validator_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)

@@ -7,7 +7,30 @@ import datetime
 import hashlib
 
 EXPECTED_ENTRYPOINT_SHA256 = "5d6b4b0f2f016ce1ac4e62cfd1044427c971fdb0db476e85919d72cbcabe096d"
-EXPECTED_HELPER_SHA256 = "485b542de81c0b0aef69ea15f23d3486fd5c26a1e15811f185a7557e99e833e7"
+EXPECTED_HELPER_SHA256 = "011a13df33775959aa8aac8fd1a69a8ffa7aca97014c428e010f1f5f1a0a4ba0"
+
+def load_expected_sha256(runtime_dir):
+    manifest_paths = [
+        os.path.join(runtime_dir, "..", "PACKAGE_MANIFEST.json"),
+        os.path.join(runtime_dir, "PACKAGE_MANIFEST.json"),
+        os.path.join(os.getcwd(), "PACKAGE_MANIFEST.json")
+    ]
+    expected_entry = EXPECTED_ENTRYPOINT_SHA256
+    expected_help = EXPECTED_HELPER_SHA256
+    for mp in manifest_paths:
+        if os.path.exists(mp):
+            try:
+                with open(mp, "r") as f:
+                    data = json.load(f)
+                    for item in data.get("files", []):
+                        path = item.get("path", "")
+                        if path.endswith("run_f38_cae_diagnostic.py"):
+                            expected_entry = item.get("sha256", expected_entry)
+                        elif path.endswith("f38_cae_diagnostic_matrix.py"):
+                            expected_help = item.get("sha256", expected_help)
+            except Exception:
+                pass
+    return expected_entry, expected_help
 
 def write_phase_audit(phase_id, phase_name, started, completed, return_code, exc_type, exc_msg, tb_str, dep_status, metrics=None):
     audit_data = {
@@ -100,16 +123,18 @@ def run_bisection_matrix():
         entrypoint_sha256 = get_file_sha256(entrypoint_script)
         helper_sha256 = get_file_sha256(helper_script)
 
-        if entrypoint_sha256 != EXPECTED_ENTRYPOINT_SHA256:
+        exp_entry, exp_help = load_expected_sha256(runtime_dir)
+
+        if entrypoint_sha256 != EXPECTED_ENTRYPOINT_SHA256 or entrypoint_sha256 != exp_entry:
             raise ValueError(
                 "SHA256 hash mismatch for run_f38_cae_diagnostic.py: "
-                "expected {}, got {}".format(EXPECTED_ENTRYPOINT_SHA256, entrypoint_sha256)
+                "expected {}, got {}".format(exp_entry, entrypoint_sha256)
             )
 
-        if helper_sha256 != EXPECTED_HELPER_SHA256:
+        if helper_sha256 != EXPECTED_HELPER_SHA256 or helper_sha256 != exp_help:
             raise ValueError(
                 "SHA256 hash mismatch for f38_cae_diagnostic_matrix.py: "
-                "expected {}, got {}".format(EXPECTED_HELPER_SHA256, helper_sha256)
+                "expected {}, got {}".format(exp_help, helper_sha256)
             )
 
         import f38_cae_diagnostic_matrix

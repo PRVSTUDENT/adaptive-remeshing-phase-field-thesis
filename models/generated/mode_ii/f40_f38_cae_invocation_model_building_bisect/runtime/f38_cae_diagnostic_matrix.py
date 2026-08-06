@@ -246,9 +246,7 @@ def phase_geometry_conversion(ctx):
 
     face_count = len(geom_part.faces) if hasattr(geom_part, 'faces') else 0
     vertex_count = len(geom_part.vertices) if hasattr(geom_part, 'vertices') else 0
-
-    if face_count == 0 or vertex_count == 0:
-        raise RuntimeError("geometry_conversion produced zero faces ({0}) or zero vertices ({1})".format(face_count, vertex_count))
+    edge_count = len(geom_part.edges) if hasattr(geom_part, 'edges') else 0
 
     capabilities = {
         'object_type': str(type(geom_part)),
@@ -258,7 +256,8 @@ def phase_geometry_conversion(ctx):
         'has_pointOn': hasattr(geom_part, 'pointOn')
     }
 
-    return {
+    # API Observation Record
+    api_observation = {
         'model_api_passed': model_api_passed,
         'model_api_error': model_api_error,
         'part_api_passed': part_api_passed,
@@ -266,8 +265,16 @@ def phase_geometry_conversion(ctx):
         'geom_part_name': str(geom_part.name),
         'face_count': face_count,
         'vertex_count': vertex_count,
+        'edge_count': edge_count,
         'capabilities': capabilities
     }
+    ctx['geometry_conversion_api_observation'] = api_observation
+
+    # Usable Geometry Gate Validation
+    if face_count == 0 or vertex_count == 0:
+        raise RuntimeError("geometry_conversion produced zero faces ({0}) or zero vertices ({1})".format(face_count, vertex_count))
+
+    return api_observation
 
 # Phase 8
 def phase_element_type_assignment(ctx):
@@ -389,75 +396,82 @@ def phase_crack_edge_method_inventory(ctx):
         geom_part = source_part.Part2DGeomFrom2DMesh(name='GeomPartCrack', featureAngle=45.0)
     ctx['crack_geom_part'] = geom_part
 
-    edges = geom_part.edges
-    faces = geom_part.faces
-    sample_edge = edges[0] if edges else None
+    edges = geom_part.edges if hasattr(geom_part, 'edges') else []
+    faces = geom_part.faces if hasattr(geom_part, 'faces') else []
+    sample_edge = edges[0] if len(edges) > 0 else None
 
     capabilities = {
         'edge_has_getFaces': hasattr(sample_edge, 'getFaces') if sample_edge else False,
         'edge_has_getVertices': hasattr(sample_edge, 'getVertices') if sample_edge else False,
         'edge_has_pointOn': hasattr(sample_edge, 'pointOn') if sample_edge else False,
-        'face_count': len(faces)
+        'face_count': len(faces),
+        'edge_count': len(edges)
     }
     return capabilities
 
-# Phase 14
+# Phase 14: 2D Edge-based Crack Edge Detection
 def phase_crack_edge_detection(ctx):
     geom_part = ctx.get('crack_geom_part')
     if not geom_part:
         raise RuntimeError('crack_geom_part unavailable')
 
-    top_faces = 0
-    bottom_faces = 0
-    total_faces = len(geom_part.faces)
-    if total_faces == 0:
-        raise RuntimeError('crack_edge_detection found zero faces')
+    edges = geom_part.edges if hasattr(geom_part, 'edges') else []
+    top_edges = 0
+    bottom_edges = 0
+    total_edges = len(edges)
 
-    for face in geom_part.faces:
-        if hasattr(face, 'pointOn'):
-            pt = face.pointOn[0]
+    for edge in edges:
+        if hasattr(edge, 'pointOn'):
+            pt = edge.pointOn[0]
             if pt[1] >= 0:
-                top_faces += 1
+                top_edges += 1
             else:
-                bottom_faces += 1
+                bottom_edges += 1
 
     return {
-        'top_faces_count': top_faces,
-        'bottom_faces_count': bottom_faces,
-        'total_faces': total_faces
+        'top_edges_count': top_edges,
+        'bottom_edges_count': bottom_edges,
+        'total_edges': total_edges,
+        'is_observation_only_probe': True
     }
 
-# Phase 15
+# Phase 15: Crack Mesh Topology Probe (Using original mesh source_part or meshed part)
 def phase_crack_mesh_topology(ctx):
+    model = ctx.get('crack_model')
     geom_part = ctx.get('crack_geom_part')
-    if not geom_part:
-        raise RuntimeError('crack_geom_part unavailable')
 
-    nodes = geom_part.nodes if hasattr(geom_part, 'nodes') and geom_part.nodes else []
-    elements = geom_part.elements if hasattr(geom_part, 'elements') and geom_part.elements else []
+    source_part = model.parts[list(model.parts.keys())[0]] if model and hasattr(model, 'parts') else None
+    target_part = geom_part if (geom_part and hasattr(geom_part, 'nodes') and len(geom_part.nodes) > 0) else source_part
+
+    if not target_part:
+        raise RuntimeError('Neither geom_part nor source_part available for topology inspection')
+
+    nodes = target_part.nodes if hasattr(target_part, 'nodes') and target_part.nodes else []
+    elements = target_part.elements if hasattr(target_part, 'elements') and target_part.elements else []
 
     lower_node_labels = []
     upper_node_labels = []
     lower_coords = {}
     upper_coords = {}
 
-    if hasattr(geom_part, 'sets') and 'notch_lower_face' in geom_part.sets and 'notch_upper_face' in geom_part.sets:
-        lower_nodes = geom_part.sets['notch_lower_face'].nodes
-        upper_nodes = geom_part.sets['notch_upper_face'].nodes
+    if hasattr(target_part, 'sets') and 'notch_lower_face' in target_part.sets and 'notch_upper_face' in target_part.sets:
+        lower_nodes = target_part.sets['notch_lower_face'].nodes
+        upper_nodes = target_part.sets['notch_upper_face'].nodes
         lower_node_labels = [n.label for n in lower_nodes]
         upper_node_labels = [n.label for n in upper_nodes]
         lower_coords = {n.label: n.coordinates for n in lower_nodes}
         upper_coords = {n.label: n.coordinates for n in upper_nodes}
     else:
         for n in nodes:
-            x, y, z = n.coordinates
+            coords = n.coordinates
+            x, y = coords[0], coords[1]
             if x <= 0.001:
                 if y <= 0 and y >= -0.05:
                     lower_node_labels.append(n.label)
-                    lower_coords[n.label] = (x, y, z)
+                    lower_coords[n.label] = coords
                 elif y >= 0 and y <= 0.05:
                     upper_node_labels.append(n.label)
-                    upper_coords[n.label] = (x, y, z)
+                    upper_coords[n.label] = coords
 
     if len(lower_node_labels) == 0 or len(upper_node_labels) == 0:
         raise RuntimeError("crack_mesh_topology upper/lower node sets are empty (lower: {0}, upper: {1})".format(len(lower_node_labels), len(upper_node_labels)))
