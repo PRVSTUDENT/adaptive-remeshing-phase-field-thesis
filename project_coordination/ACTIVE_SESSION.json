@@ -1,12 +1,20 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-06T15:16:45+02:00",
-  "heartbeat": "2026-08-06T15:16:45+02:00",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "F40 v14 offline closeout-order correction completed cleanly: narrowed validate_f40_runtime_audits.py scope to runtime audit inputs (excluding STATUS.json, MISSING_EVIDENCE_REPORT.json, collector.returncode), removed self-referential collector.returncode from EXPECTED_EVIDENCE_FILES in generate_missing_evidence_report.py, reordered M2RMBISECT1.pbs exit trap for linear non-circular evidence generation, added synthetic end-to-end closeout behavior test in test_stage_f40_batch.py (31/31 passed), clean qualification proof Q14 recorded for P14 commit dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5, metadata head M14 committed, and authority closed."
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_scope": [
+    "models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect/**",
+    "scripts/hpc/stage_f/**",
+    "scripts/validation/**",
+    "tests/unit/**",
+    "project_coordination/**",
+    "docs/project/**",
+    "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/**"
+  ],
+  "completed_at": null,
+  "heartbeat": "2026-08-06T15:23:00+02:00",
+  "started_at": "2026-08-06T15:23:00+02:00",
+  "session_id": "2026-08-06_1523_gemini-antigravity_F40-V14-AUTHORIZED-SUBMISSION",
+  "starting_commit": "58eec741a7313f5c9c1fbce8a8509ec2e6d1229f",
+  "task_id": "F40-M2RMBISECT1-V14-AUTHORIZED-SUBMISSION",
+  "note": "Recording explicit user authorization for one guarded submission of M2RMBISECT1 from P14 dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5, Q14 1cdd3cfae1b30b930ca123f41072fbede2dc457c, M14 58eec741a7313f5c9c1fbce8a8509ec2e6d1229f."
 }
