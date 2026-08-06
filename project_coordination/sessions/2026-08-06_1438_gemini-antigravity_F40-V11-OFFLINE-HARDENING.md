@@ -4,7 +4,7 @@
 - **Agent**: `gemini-antigravity`
 - **Task ID**: `F40-M2RMBISECT1-V11-OFFLINE-HARDENING`
 - **Starting Commit**: `46bd7fc68057157c1277bc803e4063aaa2b582a4`
-- **Result Commit**: `pending_P11_Q11_M11`
+- **Result Commit**: `ed9df0e1117960b03534231904a62ba06586d668` (P11), `4df34cb080687a9eb1d9e89f0c3665e27130269f` (Q11)
 - **Classification**: `f40_gate_v11_offline_hardened_qualified_not_authorized`
 
 ## Summary of Accomplished Corrections
