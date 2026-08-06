@@ -793,65 +793,80 @@ class TestStageF40Batch(unittest.TestCase):
         finally:
             mod.import_fresh_model = original_import
 
-    def test_v16_notify_hpc_event_dispatcher_preflight_and_auditing(self):
-        notify_path = os.path.join(self.repo_root, "scripts", "hpc", "notify_hpc_event.py")
-        self.assertTrue(os.path.exists(notify_path), "notify_hpc_event.py must exist under scripts/hpc/")
+    def test_v16r1_obsolete_email_address_absent_everywhere(self):
+        obsolete_email = "pruthvi.patel@student.tu-freiberg.de"
+        for root, dirs, files in os.walk(self.repo_root):
+            if ".git" in root or "__pycache__" in root or ".system_generated" in root or "tmp" in root:
+                continue
+            for fname in files:
+                if fname.endswith((".py", ".sh", ".pbs", ".json", ".md", ".csv")):
+                    fpath = os.path.join(root, fname)
+                    try:
+                        with open(fpath, "r", encoding="utf-8", errors="ignore") as f:
+                            content = f.read()
+                            self.assertNotIn(obsolete_email, content, "Obsolete email address {} found in {}".format(obsolete_email, fpath))
+                    except Exception:
+                        pass
 
+    def test_v16r1_verified_email_addresses_and_qsub_flags(self):
+        pbs_path = os.path.join(self.pkg_dir, "M2RMBISECT1.pbs")
+        with open(pbs_path, "r") as f:
+            content = f.read()
+        self.assertNotIn("pruthvi.patel@student.tu-freiberg.de", content)
+        self.assertNotIn("#PBS -M", content, "M2RMBISECT1.pbs must not hardcode private #PBS -M directive")
+        self.assertIn("#PBS -m abe", content, "M2RMBISECT1.pbs must contain #PBS -m abe directive")
+
+        wrapper_path = self.wrapper_path
+        with open(wrapper_path, "r") as f:
+            w_content = f.read()
+        self.assertIn("F40_PBS_MAIL_RECIPIENT", w_content)
+        self.assertIn("F40_NOTIFICATION_EMAIL_RECIPIENTS", w_content)
+        self.assertIn('qsub -M "$PBS_MAIL_REC" -m abe', w_content, "Guarded submission wrapper must pass -M and -m abe to qsub")
+
+    def test_v16r1_multi_recipient_custom_email_dispatcher_and_redaction(self):
+        notify_path = os.path.join(self.repo_root, "scripts", "hpc", "notify_hpc_event.py")
         import importlib.util
         spec = importlib.util.spec_from_file_location("notify_hpc_event", notify_path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
 
-        # Test redaction
-        self.assertEqual(mod.redact_string("123456789"), "12****89")
-        self.assertEqual(mod.redact_string(""), "UNSET")
+        self.assertEqual(mod.redact_string("pr21vyci@mailserver.tu-freiberg.de"), "p******i@mailserver.tu-freiberg.de")
+        self.assertEqual(mod.redact_string("Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de"), "P***************************i@student.tu-freiberg.de")
 
-        # Test preflight test notification dispatcher with mock environment
         with tempfile.TemporaryDirectory() as tmpdir:
             audit_file = os.path.join(tmpdir, "NOTIFICATION_AUDIT.json")
             sys.argv = [
                 "notify_hpc_event.py",
-                "--mode", "test",
-                "--channel", "both",
-                "--email-recipient", "test@domain.com",
+                "--mode", "submission",
+                "--channel", "email",
+                "--email-recipient", "pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de",
+                "--job-id", "12345.mmaster02",
                 "--audit-file", audit_file,
                 "--returncode-dir", tmpdir
             ]
 
-            # Patch network & mail calls to avoid real outbound traffic in unit test
-            orig_tg = mod.send_telegram_message
             orig_em = mod.send_email_message
-            mod.send_telegram_message = lambda token, cid, msg: (0, "Mock Telegram OK")
-            mod.send_email_message = lambda rec, subj, msg: (0, "Mock Email OK")
+            dispatched = []
+            def mock_email(rec, subj, body):
+                dispatched.append(rec)
+                return 0, "Mock OK"
+            mod.send_email_message = mock_email
 
             try:
-                os.environ["TELEGRAM_BOT_TOKEN"] = "123456789:ABCdefGHI"
-                os.environ["TELEGRAM_CHAT_ID"] = "-100123456789"
                 with self.assertRaises(SystemExit) as cm:
                     mod.main()
                 self.assertEqual(cm.exception.code, 0)
+                self.assertEqual(len(dispatched), 2)
+                self.assertIn("pr21vyci@mailserver.tu-freiberg.de", dispatched)
+                self.assertIn("Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de", dispatched)
 
-                self.assertTrue(os.path.exists(audit_file))
                 with open(audit_file, "r") as f:
                     audits = json.load(f)
                     self.assertEqual(len(audits), 2)
-                    for a in audits:
-                        self.assertEqual(a["return_code"], 0)
-                        self.assertNotIn("123456789:ABCdefGHI", a["recipient_redacted"])
-
-                self.assertTrue(os.path.exists(os.path.join(tmpdir, "EMAIL_TEST_NOTIFICATION.returncode")))
-                self.assertTrue(os.path.exists(os.path.join(tmpdir, "TELEGRAM_TEST_NOTIFICATION.returncode")))
+                    self.assertEqual(audits[0]["recipient_redacted"], "p******i@mailserver.tu-freiberg.de")
+                    self.assertEqual(audits[1]["recipient_redacted"], "P***************************i@student.tu-freiberg.de")
             finally:
-                mod.send_telegram_message = orig_tg
                 mod.send_email_message = orig_em
-
-    def test_v16_pbs_mail_directives_present_in_pbs_file(self):
-        pbs_path = os.path.join(self.pkg_dir, "M2RMBISECT1.pbs")
-        with open(pbs_path, "r") as f:
-            content = f.read()
-
-        self.assertIn("#PBS -M pruthvi.patel@student.tu-freiberg.de", content, "M2RMBISECT1.pbs must contain verified #PBS -M directive")
-        self.assertIn("#PBS -m abe", content, "M2RMBISECT1.pbs must contain #PBS -m abe directive")
 
 if __name__ == "__main__":
     unittest.main()

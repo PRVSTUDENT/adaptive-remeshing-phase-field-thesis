@@ -64,7 +64,35 @@ if printf '%s\n' "$QSTAT_OUTPUT" | awk 'NR > 2 && $2 == "M2RMBISECT1" {found=1} 
   exit 1
 fi
 
-# 8. Mandatory Notification Preflight Test Channel Check
+# 8. Mandatory Recipient Environment Validation and Preflight Test Channel Check
+PBS_MAIL_REC="${F40_PBS_MAIL_RECIPIENT:-}"
+NOTIF_EMAIL_RECS="${F40_NOTIFICATION_EMAIL_RECIPIENTS:-}"
+
+if [ -z "$PBS_MAIL_REC" ]; then
+  echo "FATAL: Required environment variable F40_PBS_MAIL_RECIPIENT is empty or unset." >&2
+  exit 1
+fi
+
+if [ -z "$NOTIF_EMAIL_RECS" ]; then
+  echo "FATAL: Required environment variable F40_NOTIFICATION_EMAIL_RECIPIENTS is empty or unset." >&2
+  exit 1
+fi
+
+if [[ "$PBS_MAIL_REC" =~ [[:space:]] ]] || [[ "$NOTIF_EMAIL_RECS" =~ [[:space:]] ]]; then
+  echo "FATAL: Recipient environment variables must not contain whitespace." >&2
+  exit 1
+fi
+
+if [[ "$NOTIF_EMAIL_RECS" != *"pr21vyci@mailserver.tu-freiberg.de"* ]] || [[ "$NOTIF_EMAIL_RECS" != *"Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de"* ]]; then
+  echo "FATAL: F40_NOTIFICATION_EMAIL_RECIPIENTS must contain both verified addresses." >&2
+  exit 1
+fi
+
+if [[ "$PBS_MAIL_REC" == *"pruthvi.patel@student.tu-freiberg.de"* ]] || [[ "$NOTIF_EMAIL_RECS" == *"pruthvi.patel@student.tu-freiberg.de"* ]]; then
+  echo "FATAL: Obsolete email address pruthvi.patel@student.tu-freiberg.de detected." >&2
+  exit 1
+fi
+
 NOTIFICATION_DISPATCHER="scripts/hpc/notify_hpc_event.py"
 if [ -f "$NOTIFICATION_DISPATCHER" ]; then
   echo "INFO: Running pre-submission test notification check over Email and Telegram..."
@@ -86,7 +114,7 @@ echo "INFO: Submitting M2RMBISECT1..."
 EVIDENCE_ROOT="$(pwd)/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence"
 PACKAGE_DIR="$(pwd)/$PKG_DIR"
 
-JOB_ID=$(qsub -v F40_PACKAGE_DIR="$PACKAGE_DIR",F40_EVIDENCE_ROOT="$EVIDENCE_ROOT",F40_GUARDED_WRAPPER_INVOKED=1 "$PACKAGE_DIR/M2RMBISECT1.pbs")
+JOB_ID=$(qsub -M "$PBS_MAIL_REC" -m abe -v F40_PACKAGE_DIR="$PACKAGE_DIR",F40_EVIDENCE_ROOT="$EVIDENCE_ROOT",F40_GUARDED_WRAPPER_INVOKED=1 "$PACKAGE_DIR/M2RMBISECT1.pbs")
 
 if [ -z "$JOB_ID" ]; then
   echo "ERROR: qsub returned empty Job ID." >&2

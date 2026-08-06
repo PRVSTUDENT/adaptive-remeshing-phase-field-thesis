@@ -24,6 +24,13 @@ def redact_string(val):
     if not val:
         return "UNSET"
     val = str(val).strip()
+    if "@" in val:
+        user, domain = val.split("@", 1)
+        if len(user) <= 2:
+            redacted_user = user[0] + "******" if user else "******"
+        else:
+            redacted_user = user[0] + "*" * (len(user) - 2) + user[-1]
+        return redacted_user + "@" + domain
     if len(val) <= 4:
         return "****"
     return val[:2] + "****" + val[-2:]
@@ -73,11 +80,8 @@ def send_telegram_message(token, chat_id, message_text):
 
 def send_email_message(recipient_email, subject, body_text):
     if not recipient_email:
-        recipient_email = os.environ.get("HPC_NOTIFICATION_EMAIL")
-    if not recipient_email:
-        return 1, "Recipient email (HPC_NOTIFICATION_EMAIL) missing"
+        return 1, "Recipient email missing"
 
-    # Try mailx / mail / sendmail
     mail_bin = None
     for b in ["mailx", "mail", "sendmail"]:
         path = subprocess.run(["which", b], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True).stdout.strip()
@@ -86,7 +90,6 @@ def send_email_message(recipient_email, subject, body_text):
             break
 
     if not mail_bin:
-        # Fallback to python smtp or dry-run log if no mail binary available locally
         return 0, "Email command simulated locally (no mailx binary on host)"
 
     try:
@@ -149,7 +152,8 @@ def main():
     args = parser.parse_args()
 
     tg_token, tg_chat_id = load_telegram_credentials()
-    email_rec = args.email_recipient or os.environ.get("HPC_NOTIFICATION_EMAIL", "pruthvi.patel@student.tu-freiberg.de")
+    raw_email_arg = args.email_recipient or os.environ.get("F40_NOTIFICATION_EMAIL_RECIPIENTS") or os.environ.get("HPC_NOTIFICATION_EMAIL", "pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de")
+    email_recipients = [e.strip() for e in raw_email_arg.split(",") if e.strip()]
 
     results = {}
 
@@ -213,13 +217,19 @@ def main():
     overall_rc = 0
 
     if args.channel in ["email", "both"]:
-        rc_email, msg_email = send_email_message(email_rec, subject, body)
-        results["email"] = (rc_email, msg_email)
-        record_audit(args.audit_file, args.mode, "email", redact_string(email_rec), rc_email, msg_email)
+        email_overall_rc = 0
+        email_msgs = []
+        for target_email in email_recipients:
+            rc_e, msg_e = send_email_message(target_email, subject, body)
+            record_audit(args.audit_file, args.mode, "email", redact_string(target_email), rc_e, msg_e)
+            email_msgs.append("{}: {}".format(target_email, msg_e))
+            if rc_e != 0:
+                email_overall_rc = 1
+        results["email"] = (email_overall_rc, "; ".join(email_msgs))
         rc_path = os.path.join(args.returncode_dir, "EMAIL_{}_NOTIFICATION.returncode".format(args.mode.upper()))
         with open(rc_path, "w") as f:
-            f.write(str(rc_email))
-        if rc_email != 0:
+            f.write(str(email_overall_rc))
+        if email_overall_rc != 0:
             overall_rc = 1
 
     if args.channel in ["telegram", "both"]:

@@ -66,7 +66,7 @@ if [ -f "$NOTIFICATION_DISPATCHER" ]; then
     --walltime "$WALLTIME" \
     --classification "$CLASSIFICATION" \
     --evidence-path "$EVIDENCE_DIR" \
-    --audit-file "$EVIDENCE_DIR/NOTIFICATION_AUDIT.json" \
+    --audit-file "$EVIDENCE_DIR/POST_TERMINAL_NOTIFICATION_AUDIT.json" \
     --returncode-dir "$EVIDENCE_DIR" || true
 fi
 

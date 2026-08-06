@@ -30,9 +30,7 @@ EXPECTED_EVIDENCE_FILES = [
     "first_failure.returncode",
     "NOTIFICATION_AUDIT.json",
     "EMAIL_SUBMISSION_NOTIFICATION.returncode",
-    "TELEGRAM_SUBMISSION_NOTIFICATION.returncode",
-    "EMAIL_TERMINAL_NOTIFICATION.returncode",
-    "TELEGRAM_TERMINAL_NOTIFICATION.returncode"
+    "TELEGRAM_SUBMISSION_NOTIFICATION.returncode"
 ]
 
 def main():

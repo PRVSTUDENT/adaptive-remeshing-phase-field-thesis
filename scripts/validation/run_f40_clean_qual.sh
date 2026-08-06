@@ -62,8 +62,8 @@ data = {
     'sha256_manifest_check': 'pass',
     '__file___scan': 'pass',
     'prohibited_keywords_scan': 'pass',
-    'v16_mandatory_notification_protocol': {
-        'pbs_mail_directives': 'Added verified #PBS -M pruthvi.patel@student.tu-freiberg.de and #PBS -m abe directives to M2RMBISECT1.pbs',
+    'v16r1_mandatory_notification_protocol': {
+        'pbs_mail_directives': 'Added verified qsub -M pr21vyci@mailserver.tu-freiberg.de and -m abe directives',
         'preflight_channel_verification': 'Added pre-submission Email and Telegram test notification preflight check before qsub',
         'submission_and_terminal_dispatchers': 'Added notify_hpc_event.py and monitor_stage_f40_terminal_state.sh notification dispatchers',
         'evidence_contract_auditing': 'Added NOTIFICATION_AUDIT.json and notification returncode files to expected evidence contract and runtime validation'
