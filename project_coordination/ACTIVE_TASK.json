@@ -2,7 +2,7 @@
   "protocol_version": 1,
   "task_id": "F38-M2RMDIAG1-AUTHORIZED-SUBMISSION",
   "status": "complete_failed",
-  "classification": "cae_startup_installation_files_missing",
+  "classification": "abaqus_cae_kernel_startup_failed_before_python_entrypoint",
   "starting_commit": "4ea1501232325cca71aff78c40526ca159fc1491",
   "invalidated_predecessor": null,
   "prepared_job": "M2RMDIAG1",
@@ -16,5 +16,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "await scientific and technical review of terminal failure 1384183.mmaster02 before any further action"
+  "next_action": "prepare offline launcher diagnostic task F39-DIAGNOSE-ABAQUS-CAE-KERNEL-STARTUP"
 }

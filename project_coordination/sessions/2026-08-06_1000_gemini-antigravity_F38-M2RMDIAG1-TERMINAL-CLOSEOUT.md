@@ -8,7 +8,7 @@
 - **Execution Host**: `mnode101/0`
 - **PBS Exit Status**: `0` (PBS job completed cleanly)
 - **Abaqus Return Code**: `1` (Abaqus/CAE kernel launch failure)
-- **Classification**: `cae_startup_installation_files_missing`
+- **Classification**: `abaqus_cae_kernel_startup_failed_before_python_entrypoint`
 
 ---
 
@@ -39,6 +39,24 @@
    - `RUNTIME_FAILURE_AUDIT.json`: Recorded missing context audits `["CAE_INVOCATION_CONTEXT_AUDIT.json", "CAE_PHASE_DIAGNOSTIC_MATRIX.json"]`
    - `MISSING_EVIDENCE_REPORT.json`: `missing_count: 2`, `status: "incomplete"`
    - Both `CAE_INVOCATION_CONTEXT_AUDIT.json` and `CAE_PHASE_DIAGNOSTIC_MATRIX.json` are `MISSING` because the Abaqus/CAE kernel crashed at launch prior to executing `runtime/run_f38_cae_diagnostic.py`.
+
+---
+
+## 2. Three Technical Issues Exposed
+
+1. **Abaqus/CAE Kernel Startup Failure**: Primary blocker (`abaqus_cae_kernel_startup_failed_before_python_entrypoint`). The Python diagnostic code was never reached. The error message ("Files needed for Abaqus/CAE execution missing") does not prove CAE is unsupported on all headless nodes; it may indicate incomplete environment initialization, missing installation paths, launcher environment issues, or node-specific image missing components.
+2. **PBS Failure Masking**: PBS reported `exit_status = 0` even though `cae_diagnostic.returncode = 1` and `first_failure.returncode = 1`. Future PBS scripts must execute `trap - EXIT` and `exit "$first_failure"` after evidence collection.
+3. **Inconsistent Evidence Reporting**: `MISSING_EVIDENCE_REPORT.json` listed audits as both missing and present while `collector.returncode` was missing, indicating path/inventory logic defects in evidence collection.
+
+---
+
+## 3. Next Offline Task Definition
+
+- **Task ID**: `F39-DIAGNOSE-ABAQUS-CAE-KERNEL-STARTUP`
+- **Objective**: Isolate the Abaqus launcher itself without solver execution or model building:
+  - Probe `command -v abaqus`, `abaqus information=release`, `abaqus information=system`, `module list`, `env | sort`, resolved installation paths, library/launcher paths, and node hostname.
+  - Test minimal noGUI kernel startup with a 2-line script (`from __future__ import print_function; print("CAE_KERNEL_STARTED")`).
+- **Dependency**: Full diagnostic matrix F38 will only be retried after minimal CAE kernel startup is proven operational.
 
 ---
 

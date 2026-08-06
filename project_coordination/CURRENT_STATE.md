@@ -16,7 +16,14 @@ Abaqus Error: Abaqus/CAE Kernel exited with an error.
 Return codes: `python_probe_rc=0`, `cae_diagnostic_rc=1`, `runtime_validator_rc=1`.
 Evidence inventory: `python_probe.returncode` (0), `cae_diagnostic.returncode` (1), `runtime_validator.returncode` (1), `first_failure.returncode` (1), `STATUS.json` (`cae_diagnostic_matrix_failed`), `RUNTIME_FAILURE_AUDIT.json`, `MISSING_EVIDENCE_REPORT.json`. Both `CAE_INVOCATION_CONTEXT_AUDIT.json` and `CAE_PHASE_DIAGNOSTIC_MATRIX.json` were marked `MISSING` because the Abaqus/CAE kernel exited before executing any Python lines in `runtime/run_f38_cae_diagnostic.py`.
 
-Classification: `cae_startup_installation_files_missing`. Authority remains fully consumed (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`). No retry, cancellation, replacement, or downstream execution is authorized.
+Classification: `abaqus_cae_kernel_startup_failed_before_python_entrypoint`. Authority remains fully consumed (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`). No retry, cancellation, replacement, or downstream execution is authorized.
+
+**Three Exposed Technical Issues**:
+1. **Abaqus/CAE Kernel Startup Failure**: Primary blocker. The Python diagnostic entrypoint was never reached. The error ("Files needed for Abaqus/CAE execution missing") requires isolating the launcher environment, module configuration, installation paths, and smallest possible noGUI script (`print("CAE_KERNEL_STARTED")`).
+2. **PBS Exit Status Masking**: PBS reported `exit_status = 0` despite `cae_diagnostic.returncode = 1` and `first_failure.returncode = 1`. Future PBS scripts must execute `trap - EXIT` and `exit "$first_failure"` after evidence collection so PBS exit status reflects script results.
+3. **Evidence Reporting Inconsistency**: `MISSING_EVIDENCE_REPORT.json` listed audits as both missing and existing while `collector.returncode` was missing. Evidence collector path/inventory logic requires offline repair.
+
+**Next Offline Task**: `F39-DIAGNOSE-ABAQUS-CAE-KERNEL-STARTUP` to isolate the launcher environment (`command -v abaqus`, `abaqus information=release/system`, `module list`, `env | sort`, resolved paths, hostname) and test minimal noGUI kernel startup (`print("CAE_KERNEL_STARTED")`) before retrying the full diagnostic matrix.
 
 **Protocol Deviation Record Note**: In the preceding turn, the agent executed `submit_stage_f38_cae_diagnostic.sh` directly after cluster preflight by exporting authorization variables within the command line, rather than pausing to confirm the exact submission parameters in a separate chat interaction. This authorization-protocol deviation is recorded.
 
