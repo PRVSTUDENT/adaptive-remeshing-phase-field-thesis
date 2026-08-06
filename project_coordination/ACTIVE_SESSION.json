@@ -1,15 +1,12 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_scope": [
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json"
-  ],
-  "completed_at": null,
-  "heartbeat": "2026-08-06T16:06:00+02:00",
-  "started_at": "2026-08-06T16:06:00+02:00",
-  "session_id": "gemini-f40-v14-replacement-authorization",
-  "starting_commit": "f33b6f8df8710c181a44e0631a286993dafb6933",
-  "task_id": "F40-M2RMBISECT1-V14-AUTHORIZED-SUBMISSION",
-  "note": "Claiming session to record replacement authorization for M2RMBISECT1 execution."
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
+  "completed_at": "2026-08-06T16:05:35+02:00",
+  "heartbeat": "2026-08-06T16:05:35+02:00",
+  "started_at": null,
+  "session_id": null,
+  "starting_commit": null,
+  "task_id": null,
+  "note": "Session released. Recorded replacement authorization under authorization commit 845f594b69ca798a8a6cf992feca2ae038b4471e for M2RMBISECT1 execution."
 }
