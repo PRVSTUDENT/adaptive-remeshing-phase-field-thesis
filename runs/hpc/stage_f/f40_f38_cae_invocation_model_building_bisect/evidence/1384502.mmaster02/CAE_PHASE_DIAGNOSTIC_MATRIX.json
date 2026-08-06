@@ -1,0 +1,482 @@
+{
+  "overall_passed": false, 
+  "phases": [
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:24.695971", 
+      "exception_type": null, 
+      "phase": "bootstrap", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:24.695966", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "runtime_dir": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime", 
+        "python_version": "2.7.15 (default, Jul 30 2022, 01:33:15) \n[GCC 8.2.1 20180905 (Red Hat 8.2.1-3)]", 
+        "sys_path": [
+          "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime", 
+          "/cluster/application/abaqus/2023/linux_a64/code/python2.7/lib", 
+          "/cluster/application/abaqus/2023/linux_a64/tools/SMApy/python2.7/lib", 
+          "/cluster/application/abaqus/2023/linux_a64/tools/SMApy/python2.7/lib/python2.7", 
+          "/cluster/application/abaqus/2023/linux_a64/tools/SMApy/python2.7/lib/python2.7/lib-tk"
+        ]
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:24.708013", 
+      "exception_type": null, 
+      "phase": "abaqus_module_import", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:24.696329", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "constants_imported": [
+          "ON", 
+          "CPE4", 
+          "STANDARD", 
+          "STRUCTURED"
+        ], 
+        "mdb_available": true
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:24.711313", 
+      "exception_type": null, 
+      "phase": "source_deck_access", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:24.709690", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "size_bytes": 342711, 
+        "sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2", 
+        "source_deck_path": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime/source_deck.inp", 
+        "exists": true
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:24.869568", 
+      "exception_type": null, 
+      "phase": "model_import", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:24.712008", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "imported_model_name": "F38_IMPORT_PROBE", 
+        "models_in_mdb": [
+          "F38_IMPORT_PROBE", 
+          "Model-1"
+        ]
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:24.870495", 
+      "exception_type": null, 
+      "phase": "repository_inventory", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:24.870251", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "features": [
+          "PART-1-1", 
+          "RP-1", 
+          "Datum csys-1"
+        ], 
+        "materials": [
+          "ELASTIC_MATRIX"
+        ], 
+        "instances": [
+          "PART-1-1"
+        ], 
+        "parts": [
+          "PART-1"
+        ], 
+        "steps": [
+          "Initial", 
+          "Step-1"
+        ], 
+        "sets": [
+          "ALL_ELEM", 
+          "BOTTOM", 
+          "RP", 
+          "TOP"
+        ], 
+        "sections": [
+          "Section-1-ALL_ELEM"
+        ]
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:24.872910", 
+      "exception_type": null, 
+      "phase": "repository_resolution", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:24.872784", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "resolved_instance_name": "PART-1-1", 
+        "feature_to_instance_match": {
+          "RP-1": false, 
+          "PART-1-1": true, 
+          "Datum csys-1": false
+        }, 
+        "resolved_part_name": "PART-1"
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:24.969713", 
+      "exception_type": null, 
+      "phase": "geometry_conversion", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:24.874937", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "face_count": 0, 
+        "model_api_error": null, 
+        "capabilities": {
+          "has_getNodes": false, 
+          "has_getFaces": false, 
+          "object_type": "<type 'Part'>", 
+          "has_pointOn": false, 
+          "has_getVertices": false
+        }, 
+        "geom_part_name": "GeomPartModelApi", 
+        "model_api_passed": true, 
+        "vertex_count": 0, 
+        "part_api_error": "source_part has no Part2DGeomFrom2DMesh attribute", 
+        "part_api_passed": false
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:24.971951", 
+      "exception_type": "NameError", 
+      "phase": "element_type_assignment", 
+      "exception_message": "global name 'mesh' is not defined", 
+      "started_at": "2026-08-06T13:17:24.971787", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": "Traceback (most recent call last):\n  File \"/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 78, in run_phase\n    observations = function(context)\n  File \"/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 262, in phase_element_type_assignment\n    elem_type = mesh.ElemType(elemCode=ac.CPE4, elemLibrary=ac.STANDARD)\nNameError: global name 'mesh' is not defined\n", 
+      "observations": {}, 
+      "passed": false, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:24.974525", 
+      "exception_type": null, 
+      "phase": "mesh_control_assignment", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:24.974271", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "mesh_controls_assigned": true, 
+        "technique": "STRUCTURED"
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:25.064182", 
+      "exception_type": "NameError", 
+      "phase": "mesh_generation", 
+      "exception_message": "global name 'mesh' is not defined", 
+      "started_at": "2026-08-06T13:17:24.977017", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": "Traceback (most recent call last):\n  File \"/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 78, in run_phase\n    observations = function(context)\n  File \"/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 294, in phase_mesh_generation\n    geom_part.setElementType(regions=(geom_part.faces,), elemTypes=(mesh.ElemType(elemCode=ac.CPE4, elemLibrary=ac.STANDARD),))\nNameError: global name 'mesh' is not defined\n", 
+      "observations": {}, 
+      "passed": false, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:25.101414", 
+      "exception_type": null, 
+      "phase": "assembly_feature_inventory", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:25.065607", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "feature_instance_diff": [
+          "RP-1", 
+          "Datum csys-1"
+        ], 
+        "features_list": [
+          "PART-1-1", 
+          "RP-1", 
+          "Datum csys-1"
+        ], 
+        "instances_list": [
+          "PART-1-1"
+        ]
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:25.155235", 
+      "exception_type": null, 
+      "phase": "instance_replacement", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:25.102450", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "instances_in_assembly": [
+          "Part-1-1"
+        ], 
+        "instance_replaced": true, 
+        "new_instance_name": "Part-1-1"
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:25.243331", 
+      "exception_type": null, 
+      "phase": "crack_edge_method_inventory", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:25.156430", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "face_count": 0, 
+        "edge_has_pointOn": false, 
+        "edge_has_getVertices": false, 
+        "edge_has_getFaces": false
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:25.244857", 
+      "exception_type": null, 
+      "phase": "crack_edge_detection", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:25.244688", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "bottom_faces_count": 0, 
+        "top_faces_count": 0, 
+        "total_faces": 0
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:25.256096", 
+      "exception_type": null, 
+      "phase": "crack_mesh_topology", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:25.247103", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "upper_node_labels_count": 0, 
+        "lower_node_labels_count": 0, 
+        "coincident_node_pairs_count": 0, 
+        "disjoint_node_sets": true, 
+        "bridge_element_count": 0, 
+        "intersection_count": 0
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:25.258906", 
+      "exception_type": null, 
+      "phase": "assembly_set_inventory", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:25.257281", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "inventoried_sets_count": 4, 
+        "set_details": {
+          "TOP": {
+            "element_count": 0, 
+            "node_count": 26, 
+            "edge_count": 0, 
+            "exists": true, 
+            "face_count": 0
+          }, 
+          "RP": {
+            "element_count": 0, 
+            "node_count": 1, 
+            "edge_count": 0, 
+            "exists": true, 
+            "face_count": 0
+          }, 
+          "ALL_ELEM": {
+            "element_count": 3930, 
+            "node_count": 3998, 
+            "edge_count": 0, 
+            "exists": true, 
+            "face_count": 0
+          }, 
+          "BOTTOM": {
+            "element_count": 0, 
+            "node_count": 26, 
+            "edge_count": 0, 
+            "exists": true, 
+            "face_count": 0
+          }
+        }
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:25.316347", 
+      "exception_type": null, 
+      "phase": "output_variable_probe", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:25.261283", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "rejected_variables": [
+          {
+            "variable": "U", 
+            "error": "The specified step either does not exist or is the Initial step."
+          }, 
+          {
+            "variable": "RF", 
+            "error": "The specified step either does not exist or is the Initial step."
+          }, 
+          {
+            "variable": "S", 
+            "error": "The specified step either does not exist or is the Initial step."
+          }, 
+          {
+            "variable": "E", 
+            "error": "The specified step either does not exist or is the Initial step."
+          }, 
+          {
+            "variable": "EVOL", 
+            "error": "The specified step either does not exist or is the Initial step."
+          }, 
+          {
+            "variable": "MISESERI", 
+            "error": "The specified step either does not exist or is the Initial step."
+          }, 
+          {
+            "variable": "MISESAVG", 
+            "error": "The specified step either does not exist or is the Initial step."
+          }
+        ], 
+        "accepted_variables": []
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:25.318275", 
+      "exception_type": "AbaqusException", 
+      "phase": "output_request_rebinding", 
+      "exception_message": "The specified step either does not exist or is the Initial step.", 
+      "started_at": "2026-08-06T13:17:25.318032", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": "Traceback (most recent call last):\n  File \"/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 78, in run_phase\n    observations = function(context)\n  File \"/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 520, in phase_output_request_rebinding\n    variables=('U', 'RF')\nAbaqusException: The specified step either does not exist or is the Initial step.\n", 
+      "observations": {}, 
+      "passed": false, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:25.418849", 
+      "exception_type": null, 
+      "phase": "input_write", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:25.320398", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "job_creation_passed": true, 
+        "temporary_input_path": "F38_TMP_JOB.inp", 
+        "temporary_input_exists": true, 
+        "write_input_invoked": true, 
+        "final_rename_passed": true
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T13:17:25.423598", 
+      "exception_type": null, 
+      "phase": "generated_input_presence", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T13:17:25.421781", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "generated_sha256": "54a021c0c1f19027f58fb7f4ba1ebec48f007fcc9ced1810b51f7a9fbccbf481", 
+        "generated_size": 261983, 
+        "generated_input_exists": true
+      }, 
+      "passed": true, 
+      "attempted": true
+    }
+  ], 
+  "package": "f38_comprehensive_cae_diagnostic_matrix", 
+  "finished_at": "2026-08-06T13:17:25.426652", 
+  "protocol_version": 1, 
+  "started_at": "2026-08-06T13:17:24.695952", 
+  "job_name": "M2RMDIAG1"
+}

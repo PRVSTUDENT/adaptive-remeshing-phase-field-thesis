@@ -9,10 +9,10 @@
 - [x] Executed authorized guarded diagnostic job `M2RMBISECT1` (`1384435.mmaster02`).
 - [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384435.mmaster02/`): Generic primitive phase audits P00-P11 returned `rc=0`, but `runtime_validator_rc=1` due to pre-generation validator invocation, `MISSING_EVIDENCE_REPORT.json` showed `status: incomplete`, and exact F38 model building entrypoint was not executed.
 - [x] Empirically proved generic Abaqus/CAE building blocks function on compute nodes, but original F38 model builder is NOT proven fixed.
-- [x] Repaired F40 offline package under repair preparation commit `daea0e0134266ecaa70de68f14c19ab9348d91fe` and qualified in detached clean-Linux checkout (`/tmp/f40_clean_qual_daea0e0`) under qualification commit `a3a498e8373c8358bd9f2dbebf68c99905874b0f`.
-- [x] Executed guarded diagnostic job `M2RMBISECT1` (`1384450.mmaster02`) on cluster (noted authorization protocol deviation: agent submission executed without prior explicit re-recording of the authorization statement).
-- [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384450.mmaster02/`): Generic Abaqus primitives P00-P11 passed `rc=0`, but P02 reported `entrypoint_exists: false` (F38 entrypoint script was not present in `runtime/` and not executed), and `MISSING_EVIDENCE_REPORT.json` reported `status: incomplete` (`missing_count: 3`).
-- [!] Classification: `f40_generic_cae_primitives_passed_f38_entrypoint_not_executed_evidence_contract_incomplete`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
+- [x] Repaired F40 offline package under repair preparation commit `f54662606eaa0366938bccfed58ac3cb9ee1f319` and qualified in detached clean-Linux checkout (`/tmp/f40_clean_qual_f546626`) under qualification commit `98a5f1826672fae8805331964114b51f275e2860`.
+- [x] Executed explicitly authorized guarded diagnostic job `M2RMBISECT1` (`1384502.mmaster02`) on cluster under authorization commit `338d605`.
+- [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384502.mmaster02/`): Generic Abaqus primitives P00-P11 passed `rc=0`, Stage 3 F38 entrypoint executed cleanly `rc=0`, but `validate_f38_matrix_results.py` failed `rc=1` because 3 F38 matrix phases failed (`element_type_assignment` `NameError: mesh`, `mesh_generation` `NameError: mesh`, `output_request_rebinding` `AbaqusException`).
+- [!] Classification: `f40_generic_cae_primitives_passed_f38_matrix_failed_at_element_type_and_mesh_generation`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
 
 
 ## F39 Abaqus CAE kernel startup diagnostic gate

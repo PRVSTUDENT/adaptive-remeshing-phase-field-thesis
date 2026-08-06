@@ -1,0 +1,32 @@
+{
+  "phase_name": "P02_MODULE_LOADING", 
+  "started": true, 
+  "timestamp": "2026-08-06T11:17:23.407266Z", 
+  "completed": true, 
+  "return_code": 0, 
+  "exception_type": null, 
+  "working_directory": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02", 
+  "exception_message": null, 
+  "process_executable": "/cluster/application/abaqus/2023/linux_a64/code/bin/ABQcaeK", 
+  "metrics": {
+    "sys_path_0": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime", 
+    "helper_script": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime/f38_cae_diagnostic_matrix.py", 
+    "helper_hash_matched": true, 
+    "module_imported": true, 
+    "helper_exists": true, 
+    "runtime_dir": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime", 
+    "file_global_defined": false, 
+    "entrypoint_sha256": "5d6b4b0f2f016ce1ac4e62cfd1044427c971fdb0db476e85919d72cbcabe096d", 
+    "expected_entrypoint_sha256": "5d6b4b0f2f016ce1ac4e62cfd1044427c971fdb0db476e85919d72cbcabe096d", 
+    "entrypoint_exists": true, 
+    "expected_helper_sha256": "485b542de81c0b0aef69ea15f23d3486fd5c26a1e15811f185a7557e99e833e7", 
+    "main_callable": true, 
+    "entrypoint_script": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384502.mmaster02/runtime/run_f38_cae_diagnostic.py", 
+    "helper_sha256": "485b542de81c0b0aef69ea15f23d3486fd5c26a1e15811f185a7557e99e833e7", 
+    "main_executed_in_p02": false, 
+    "entrypoint_hash_matched": true
+  }, 
+  "traceback": null, 
+  "dependency_status": "ok", 
+  "phase_id": "P02"
+}

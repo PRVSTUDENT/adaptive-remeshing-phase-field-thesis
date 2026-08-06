@@ -361,3 +361,5 @@ F38_PACKAGE_DIR,Stage F,models/generated/mode_ii/f38_comprehensive_cae_diagnosti
 F38_ORCHESTRATOR,Stage F,scripts/hpc/stage_f/submit_stage_f38_cae_diagnostic.sh,guarded_orchestrator,not_authorized,gemini-antigravity,cad6fb758d4a66a1a74288bde15bd0dcba9d57a9,,,One-call guarded M2RMDIAG1 wrapper with authorization closed
 F38_VALIDATOR,Stage F,scripts/validation/validate_f38_comprehensive_cae_diagnostic_gate.py,validator_script,active,gemini-antigravity,cad6fb758d4a66a1a74288bde15bd0dcba9d57a9,,,F38 comprehensive CAE phase diagnostic static validator
 F38_UNIT_TESTS,Stage F,tests/unit/test_stage_f38_batch.py,unit_test_script,active,gemini-antigravity,cad6fb758d4a66a1a74288bde15bd0dcba9d57a9,,,F38 offline unit tests
+F40_V5_EVIDENCE,Stage F,runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384502.mmaster02/,hpc_evidence,complete_failed,gemini-antigravity,338d605,1384502.mmaster02,,12 bisection probes P00-P11 passed; Stage 3 F38 entrypoint executed; F38 matrix failed at element_type_assignment, mesh_generation, output_request_rebinding
+
