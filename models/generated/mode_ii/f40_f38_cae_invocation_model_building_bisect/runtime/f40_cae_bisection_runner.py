@@ -4,6 +4,7 @@ import os
 import sys
 import traceback
 import datetime
+import hashlib
 
 def write_phase_audit(phase_id, phase_name, started, completed, return_code, exc_type, exc_msg, tb_str, dep_status, metrics=None):
     audit_data = {
@@ -27,12 +28,18 @@ def write_phase_audit(phase_id, phase_name, started, completed, return_code, exc
     with open(filepath, "w") as f:
         json.dump(audit_data, f, indent=2)
 
-    # Also write in current working directory if different
     if os.getcwd() != out_dir:
         with open(filename, "w") as f:
             json.dump(audit_data, f, indent=2)
 
     print("PHASE_AUDIT_RECORDED: {} (rc={})".format(phase_name, return_code))
+
+def get_file_sha256(filepath):
+    h = hashlib.sha256()
+    with open(filepath, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 def run_bisection_matrix():
     print("=== F40 Abaqus CAE Bisection Matrix Runner ===")
@@ -43,8 +50,9 @@ def run_bisection_matrix():
     p00_id, p00_name = "P00", "P00_KERNEL_STARTUP"
     try:
         metrics = {
-            "python_version": sys.version,
-            "executable": sys.executable
+            "sys_version": sys.version,
+            "executable": sys.executable,
+            "platform": sys.platform
         }
         write_phase_audit(p00_id, p00_name, True, True, 0, None, None, None, "ok", metrics=metrics)
     except Exception as exc:
@@ -71,17 +79,40 @@ def run_bisection_matrix():
     try:
         if runtime_dir not in sys.path:
             sys.path.insert(0, runtime_dir)
-        
+
         file_var_key = '__' + 'file' + '__'
         file_defined = file_var_key in globals()
         entrypoint_script = os.path.join(runtime_dir, "run_f38_cae_diagnostic.py")
+        helper_script = os.path.join(runtime_dir, "f38_cae_diagnostic_matrix.py")
+
         entrypoint_exists = os.path.exists(entrypoint_script)
-        
+        helper_exists = os.path.exists(helper_script)
+
+        if not entrypoint_exists or not helper_exists:
+            raise IOError(
+                "Required F38 entrypoint script or helper matrix missing in runtime_dir: "
+                "entrypoint_exists={}, helper_exists={}".format(entrypoint_exists, helper_exists)
+            )
+
+        entrypoint_sha256 = get_file_sha256(entrypoint_script)
+        helper_sha256 = get_file_sha256(helper_script)
+
+        import f38_cae_diagnostic_matrix
+        main_callable = hasattr(f38_cae_diagnostic_matrix, "main") and callable(f38_cae_diagnostic_matrix.main)
+        if not main_callable:
+            raise AttributeError("f38_cae_diagnostic_matrix does not expose a callable main()")
+
         metrics = {
             "runtime_dir": runtime_dir,
             "file_global_defined": file_defined,
             "entrypoint_script": entrypoint_script,
-            "entrypoint_exists": entrypoint_exists,
+            "entrypoint_exists": True,
+            "helper_script": helper_script,
+            "helper_exists": True,
+            "entrypoint_sha256": entrypoint_sha256,
+            "helper_sha256": helper_sha256,
+            "module_imported": True,
+            "main_callable": True,
             "sys_path_0": sys.path[0]
         }
         write_phase_audit(p02_id, p02_name, True, True, 0, None, None, None, "ok", metrics=metrics)
@@ -100,7 +131,7 @@ def run_bisection_matrix():
             line_count = len(lines)
         if line_count == 0:
             raise ValueError("Source input deck is empty: {}".format(inp_path))
-        
+
         metrics = {
             "deck_path": inp_path,
             "line_count": line_count,
@@ -134,7 +165,7 @@ def run_bisection_matrix():
         instances_count = len(model.rootAssembly.instances)
         part_names = [str(k) for k in model.parts.keys()]
         instance_names = [str(k) for k in model.rootAssembly.instances.keys()]
-        
+
         metrics = {
             "parts_count": parts_count,
             "instances_count": instances_count,
@@ -178,11 +209,9 @@ def run_bisection_matrix():
     try:
         from abaqus import mdb
         probe_model = mdb.Model(name="F40_PROBE_OWNERSHIP")
-        all_models = [str(k) for k in mdb.models.keys()]
         metrics = {
-            "created_model": "F40_PROBE_OWNERSHIP",
-            "all_models": all_models,
-            "model_count": len(all_models)
+            "probe_model_created": "F40_PROBE_OWNERSHIP" in mdb.models,
+            "total_models": len(mdb.models)
         }
         write_phase_audit(p07_id, p07_name, True, True, 0, None, None, None, "ok", metrics=metrics)
     except Exception as exc:
@@ -194,11 +223,11 @@ def run_bisection_matrix():
     try:
         from abaqus import mdb
         model = mdb.models["F40_MODEL"]
-        assembly = model.rootAssembly
-        assembly.regenerate()
+        assy = model.rootAssembly
+        assy.regenerate()
         metrics = {
-            "assembly_instances": len(assembly.instances),
-            "is_regenerated": True
+            "assembly_regenerated": True,
+            "instances_in_assembly": len(assy.instances)
         }
         write_phase_audit(p08_id, p08_name, True, True, 0, None, None, None, "ok", metrics=metrics)
     except Exception as exc:
@@ -215,6 +244,7 @@ def run_bisection_matrix():
         for p in model.parts.values():
             total_nodes += len(p.nodes)
             total_elements += len(p.elements)
+
         metrics = {
             "total_nodes": total_nodes,
             "total_elements": total_elements
@@ -224,49 +254,44 @@ def run_bisection_matrix():
         write_phase_audit(p09_id, p09_name, True, False, 1, type(exc).__name__, str(exc), traceback.format_exc(), "failed")
         return 1
 
-    # Phase 10: Sets and Surfaces Inventory
+    # Phase 10: Sets/Surfaces Inventory
     p10_id, p10_name = "P10", "P10_SETS_SURFACES_INVENTORY"
     try:
         from abaqus import mdb
         model = mdb.models["F40_MODEL"]
-        assembly = model.rootAssembly
-        set_names = [str(k) for k in assembly.sets.keys()]
-        surf_names = [str(k) for k in assembly.surfaces.keys()]
+        assy = model.rootAssembly
+        sets_count = len(assy.sets)
+        surfaces_count = len(assy.surfaces)
+
         metrics = {
-            "set_count": len(set_names),
-            "surface_count": len(surf_names),
-            "set_names": set_names,
-            "surface_names": surf_names
+            "assembly_sets": sets_count,
+            "assembly_surfaces": surfaces_count
         }
         write_phase_audit(p10_id, p10_name, True, True, 0, None, None, None, "ok", metrics=metrics)
     except Exception as exc:
         write_phase_audit(p10_id, p10_name, True, False, 1, type(exc).__name__, str(exc), traceback.format_exc(), "failed")
         return 1
 
-    # Phase 11: Step and Field Output Request Probing
+    # Phase 11: Step Output Probing
     p11_id, p11_name = "P11", "P11_STEP_OUTPUT_PROBING"
     try:
         from abaqus import mdb
         model = mdb.models["F40_MODEL"]
-        step_names = [str(k) for k in model.steps.keys()]
-        fo_names = [str(k) for k in model.fieldOutputRequests.keys()]
-        variables_probed = []
-        for fo in model.fieldOutputRequests.values():
-            if hasattr(fo, 'variables'):
-                variables_probed.extend([str(v) for v in fo.variables])
+        steps_count = len(model.steps)
+        output_requests = len(model.fieldOutputRequests)
+
         metrics = {
-            "step_count": len(step_names),
-            "step_names": step_names,
-            "field_output_requests": fo_names,
-            "variables_probed": variables_probed
+            "steps_count": steps_count,
+            "field_output_requests": output_requests
         }
         write_phase_audit(p11_id, p11_name, True, True, 0, None, None, None, "ok", metrics=metrics)
     except Exception as exc:
         write_phase_audit(p11_id, p11_name, True, False, 1, type(exc).__name__, str(exc), traceback.format_exc(), "failed")
         return 1
 
-    print("ALL_BISECTION_PHASES_COMPLETED_SUCCESSFULLY")
+    print("=== All F40 Bisection Probes Passed Successfully ===")
     return 0
 
 if __name__ == "__main__":
-    sys.exit(run_bisection_matrix())
+    rc = run_bisection_matrix()
+    sys.exit(rc)

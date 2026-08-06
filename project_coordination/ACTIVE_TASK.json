@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
   "task_id": "F40-M2RMBISECT1-AUTHORIZED-SUBMISSION",
-  "status": "complete_success",
-  "classification": "cae_bisection_all_phases_passed",
+  "status": "complete_failed",
+  "classification": "f40_generic_cae_primitives_passed_f38_entrypoint_not_executed_evidence_contract_incomplete",
   "starting_commit": "0fad28489cb5d583215d43c9646a092d2a923405",
   "preparation_commit": "36a779a4e106c812899218a1dd9db0dd00d430e4",
   "repair_preparation_commit": "daea0e0134266ecaa70de68f14c19ab9348d91fe",
@@ -20,5 +20,6 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "prepare F41 model builder package after scientific review"
+  "protocol_deviation_note": "Job 1384450.mmaster02 submission lacked prior explicit re-recording of the authorization statement by the agent.",
+  "next_action": "f40_offline_diagnostic_gate_repaired_ready_for_qualification"
 }

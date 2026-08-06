@@ -2,12 +2,12 @@
 
 ## F40 Repaired M2RMBISECT1 terminal evidence and closeout (2026-08-06)
 
-Guarded diagnostic job `M2RMBISECT1` (`1384450.mmaster02`) executed on `mnode101/0` under routing queue `#PBS -q normal_imfdfkmq` (`walltime = 00:00:03`, `cput = 00:00:01`).
+Guarded diagnostic job `M2RMBISECT1` (`1384450.mmaster02`) executed on `mnode101/0` under routing queue `#PBS -q normal_imfdfkmq` (`walltime = 00:00:03`, `cput = 00:00:01`). Note: Submission occurred without prior explicit re-recording of the authorization statement by the agent, which is recorded as an authorization-protocol deviation.
 
-Terminal evidence inspection confirmed all 12 bisection phases (`P00` through `P11`) completed with `return_code = 0`:
+Terminal evidence inspection confirmed generic bisection phases (`P00` through `P11`) completed with `return_code = 0`:
 - `P00_KERNEL_STARTUP_AUDIT.json`: `rc=0`
 - `P01_IMPORTS_AUDIT.json`: `rc=0` (`import abaqus`, `import abaqusConstants`, `from abaqus import mdb`)
-- `P02_MODULE_LOADING_AUDIT.json`: `rc=0` (`sys.path` runtime binding, entrypoint probe)
+- `P02_MODULE_LOADING_AUDIT.json`: `rc=0` (`entrypoint_exists: false` - F38 entrypoint script was absent and not executed)
 - `P03_SOURCE_DECK_DISCOVERY_AUDIT.json`: `rc=0` (`source_deck.inp` path, existence, line count)
 - `P04_MODEL_FROM_INPUT_FILE_AUDIT.json`: `rc=0` (`mdb.ModelFromInputFile`)
 - `P05_IMPORTED_MODEL_INVENTORY_AUDIT.json`: `rc=0` (models, parts, instances)
@@ -19,9 +19,9 @@ Terminal evidence inspection confirmed all 12 bisection phases (`P00` through `P
 - `P11_STEP_OUTPUT_PROBING_AUDIT.json`: `rc=0` (step and field output requests)
 
 **Scientific & Technical Finding**:
-The repaired `M2RMBISECT1` package executed cleanly in the actual Abaqus CAE Python 2.7 environment on compute nodes (`mnode101`). All 12 phase audits P00-P11, runtime validator (`runtime_validator_rc = 0`), first failure check (`first_failure_rc = 0`), and contract delta auditor (`delta_auditor_rc = 0`) returned `rc=0`. `STATUS.json` recorded `overall_classification: f40_bisection_completed_successfully`.
+Abaqus CAE noGUI starts on compute nodes and generic CAE primitives pass, but `P02_MODULE_LOADING_AUDIT.json` showed `entrypoint_exists: false` (the exact F38 entrypoint script was not present in `runtime/` and was not executed), and `MISSING_EVIDENCE_REPORT.json` reported `status: incomplete` (`missing_count: 3`). Therefore, job `1384450.mmaster02` did NOT validate the exact F38 entrypoint or prove that the original F38 problem is fixed.
 
-Classification: `cae_bisection_all_phases_passed`. All submission authority is returned to `false` and `0` (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`).
+Classification: `f40_generic_cae_primitives_passed_f38_entrypoint_not_executed_evidence_contract_incomplete`. All submission authority is returned to `false` and `0` (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`).
 
 
 

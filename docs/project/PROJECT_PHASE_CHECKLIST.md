@@ -10,10 +10,9 @@
 - [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384435.mmaster02/`): Generic primitive phase audits P00-P11 returned `rc=0`, but `runtime_validator_rc=1` due to pre-generation validator invocation, `MISSING_EVIDENCE_REPORT.json` showed `status: incomplete`, and exact F38 model building entrypoint was not executed.
 - [x] Empirically proved generic Abaqus/CAE building blocks function on compute nodes, but original F38 model builder is NOT proven fixed.
 - [x] Repaired F40 offline package under repair preparation commit `daea0e0134266ecaa70de68f14c19ab9348d91fe` and qualified in detached clean-Linux checkout (`/tmp/f40_clean_qual_daea0e0`) under qualification commit `a3a498e8373c8358bd9f2dbebf68c99905874b0f`.
-- [x] Executed authorized guarded diagnostic job `M2RMBISECT1` (`1384450.mmaster02`) on cluster.
-- [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384450.mmaster02/`): All 12 phase audits P00-P11, runtime validator (`runtime_validator_rc=0`), first failure (`first_failure_rc=0`), and delta auditor (`delta_auditor_rc=0`) passed.
-- [x] Empirically proved Abaqus CAE noGUI startup, module loading, ModelFromInputFile, and generic primitive building blocks function cleanly in Abaqus Python 2.7 on compute nodes.
-- [!] Classification: `cae_bisection_all_phases_passed`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
+- [x] Executed guarded diagnostic job `M2RMBISECT1` (`1384450.mmaster02`) on cluster (noted authorization protocol deviation: agent submission executed without prior explicit re-recording of the authorization statement).
+- [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384450.mmaster02/`): Generic Abaqus primitives P00-P11 passed `rc=0`, but P02 reported `entrypoint_exists: false` (F38 entrypoint script was not present in `runtime/` and not executed), and `MISSING_EVIDENCE_REPORT.json` reported `status: incomplete` (`missing_count: 3`).
+- [!] Classification: `f40_generic_cae_primitives_passed_f38_entrypoint_not_executed_evidence_contract_incomplete`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
 
 
 ## F39 Abaqus CAE kernel startup diagnostic gate

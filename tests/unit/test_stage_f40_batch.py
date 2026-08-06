@@ -63,13 +63,16 @@ class TestStageF40Batch(unittest.TestCase):
         man_path = os.path.join(self.pkg_dir, "PACKAGE_MANIFEST.json")
         with open(man_path, "r") as f:
             manifest = json.load(f)
-            pkg_files = manifest.get("package_files", {})
-            self.assertIn("M2RMBISECT1.pbs", pkg_files)
-            self.assertIn("runtime/f40_cae_bisection_runner.py", pkg_files)
-            self.assertIn("runtime/f40_invocation_contract_delta.py", pkg_files)
-            self.assertIn("runtime/generate_missing_evidence_report.py", pkg_files)
-            self.assertIn("runtime/source_deck.inp", pkg_files)
-            self.assertIn("runtime/validate_f40_runtime_audits.py", pkg_files)
+            file_entries = manifest.get("files", [])
+            paths = [item["path"] for item in file_entries] if isinstance(file_entries, list) else list(manifest.get("package_files", {}).keys())
+            self.assertIn("M2RMBISECT1.pbs", paths)
+            self.assertIn("runtime/f40_cae_bisection_runner.py", paths)
+            self.assertIn("runtime/run_f38_cae_diagnostic.py", paths)
+            self.assertIn("runtime/f38_cae_diagnostic_matrix.py", paths)
+            self.assertIn("runtime/f40_invocation_contract_delta.py", paths)
+            self.assertIn("runtime/generate_missing_evidence_report.py", paths)
+            self.assertIn("runtime/source_deck.inp", paths)
+            self.assertIn("runtime/validate_f40_runtime_audits.py", paths)
 
     def test_wrapper_single_qsub(self):
         with open(self.wrapper_path, "r") as f:

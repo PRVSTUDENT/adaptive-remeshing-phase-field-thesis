@@ -61,10 +61,13 @@ def main():
     if os.path.exists(man_path):
         with open(man_path, "r") as f:
             manifest = json.load(f)
-            pkg_files = manifest.get("package_files", {})
+            file_entries = manifest.get("files", [])
+            pkg_files = [item["path"] for item in file_entries] if isinstance(file_entries, list) else list(manifest.get("package_files", {}).keys())
             required_files = [
                 "M2RMBISECT1.pbs",
                 "runtime/f40_cae_bisection_runner.py",
+                "runtime/run_f38_cae_diagnostic.py",
+                "runtime/f38_cae_diagnostic_matrix.py",
                 "runtime/f40_invocation_contract_delta.py",
                 "runtime/generate_missing_evidence_report.py",
                 "runtime/source_deck.inp",

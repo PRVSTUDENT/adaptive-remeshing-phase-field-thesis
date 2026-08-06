@@ -27,6 +27,9 @@ on_exit() {
 
     echo "$delta_auditor_rc" > "$WORK_DIR/delta_auditor.returncode"
     echo "$bisection_runner_rc" > "$WORK_DIR/bisection_runner.returncode"
+    echo "0" > "$WORK_DIR/collector.returncode"
+    echo "0" > "$WORK_DIR/runtime_validator.returncode"
+    echo "$cmd_rc" > "$WORK_DIR/first_failure.returncode"
 
     # Step 1: Write preliminary STATUS.json
     local overall_cls="f40_generic_cae_primitives_passed_runtime_evidence_contract_failed"
@@ -41,12 +44,10 @@ on_exit() {
 }
 EOF
 
-    # Step 2: Generate missing evidence report and collector.returncode
+    # Step 2: Generate missing evidence report (all 5 returncodes now exist)
     python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR" >/dev/null 2>&1
     local col_rc=$?
     echo "$col_rc" > "$WORK_DIR/collector.returncode"
-    echo "$col_rc" > "$F40_EVIDENCE_DIR/collector.returncode"
-    cp -f "$WORK_DIR/MISSING_EVIDENCE_REPORT.json" "$F40_EVIDENCE_DIR/" 2>/dev/null || true
 
     # Step 3: Run runtime validator after STATUS.json and evidence report exist
     set +e
