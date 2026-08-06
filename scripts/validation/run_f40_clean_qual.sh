@@ -62,12 +62,13 @@ data = {
     'sha256_manifest_check': 'pass',
     '__file___scan': 'pass',
     'prohibited_keywords_scan': 'pass',
-    'v10_offline_corrections': {
-        'matrix_validator_phase_alignment': 'Aligned validate_f40_runtime_audits.py to the 21-phase matrix contract matching validate_f38_matrix_results.py',
-        'cross_validator_phase_contract_test': 'Added unit test test_matrix_validators_share_identical_phase_contract asserting phase list equality across validators',
-        'empirical_crack_mesh_topology': 'Grouped crack region nodes by coordinate in [-0.5, 0.0] and classified mesh as duplicated_crack_face_nodes (15 pairs + tip) or continuous_centerline_mesh',
-        'clean_matrix_finalization': 'Removed duplicate matrix finalization block from f38_cae_diagnostic_matrix.py',
-        'iso_timestamp_formatting': 'Exact ISO 8601 millisecond formatting for local and UTC qualification timestamps'
+    'v12_offline_corrections': {
+        'submission_wrapper_path_freezing': 'Frozen submission wrapper script submit_stage_f40_cae_bisect.sh and package directory in blob identity check',
+        'scheduler_queue_state_checks': 'Enforced qsub/qstat presence and active queue check before submission',
+        'strict_pbs_batch_provenance': 'Enforced PBS_ENVIRONMENT=PBS_BATCH, PBS_O_HOST, PBS_QUEUE, and compute node hostname match in PBS_NODEFILE',
+        'fatal_abaqus_release_query': 'Made Abaqus release query fatal and enforced Abaqus 2023 release',
+        'job_specific_evidence_subdirectories': 'Passed F40_EVIDENCE_ROOT and isolated run artifacts under evidence/<PBS_JOBID>/',
+        'mandatory_scheduler_provenance_validation': 'Added SCHEDULER_PROVENANCE.json to mandatory evidence list and runtime audit validation'
     },
     'qualification_status': 'qualified_not_authorized'
 }

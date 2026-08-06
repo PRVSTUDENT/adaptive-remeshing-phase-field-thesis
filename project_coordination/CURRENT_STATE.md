@@ -1,5 +1,22 @@
 # Current project state
 
+## F40 v12 Offline Hardening Closeout (2026-08-06)
+
+The F40 v12 offline hardening sequence was completed strictly offline.
+
+Completed corrections:
+1. **Submission Wrapper Path Freezing**: Frozen both submission wrapper (`scripts/hpc/stage_f/submit_stage_f40_cae_bisect.sh`) and package directory in blob identity check against preparation SHA.
+2. **Scheduler Queue State Checks**: Added `qsub`/`qstat` executable checks and active `M2RMBISECT1` queue check (`qstat -u "$USER"`) before submission.
+3. **Strict PBS Batch Provenance & Nodefile Host Match**: Enforced `PBS_ENVIRONMENT=PBS_BATCH`, `PBS_O_HOST`, `PBS_QUEUE`, and compute node hostname match in `PBS_NODEFILE`.
+4. **Fatal Abaqus 2023 Release Verification**: Made Abaqus release query fatal and enforced Abaqus 2023 release.
+5. **Job-Specific Evidence Subdirectories**: Passed `F40_EVIDENCE_ROOT` and isolated run evidence under `evidence/<PBS_JOBID>/`.
+6. **Mandatory SCHEDULER_PROVENANCE Validation**: Added `SCHEDULER_PROVENANCE.json` to mandatory evidence list and runtime audit validation.
+7. **Authorization Metadata Correction**: Set `recorded_user_authorization_sentence: null` and stored historical text under `invalid_historical_authorization_record`.
+8. **Git P12 -> Q12 -> M12 Sequence**: Created preparation commit P12, detached qualification proof commit Q12 containing `F40_CLEAN_LINUX_QUALIFICATION.json`, and metadata head M12.
+
+Classification: `f40_gate_v12_offline_hardened_qualified_not_authorized`. All execution and submission authority flags remain strictly `false` and `0`. No scheduler job, solver, datacheck, F41 execution, remeshing simulation, retry, replacement, or new submission is authorized.
+
+
 ## F40 v11 Offline Hardening Closeout (2026-08-06)
 
 The F40 v11 offline hardening sequence was completed strictly offline.

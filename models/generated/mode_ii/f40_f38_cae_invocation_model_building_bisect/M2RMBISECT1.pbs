@@ -14,13 +14,22 @@ if [ "${F40_GUARDED_WRAPPER_INVOKED:-0}" -ne 1 ]; then
 fi
 
 # Check PBS batch provenance guard
-if [ -z "${PBS_JOBID:-}" ] || [ -z "${PBS_NODEFILE:-}" ] || [ ! -f "${PBS_NODEFILE}" ] || [ ! -s "${PBS_NODEFILE}" ]; then
-    echo "FATAL: Genuine PBS batch provenance required (missing or invalid PBS_JOBID or PBS_NODEFILE)." >&2
+if [ "${PBS_ENVIRONMENT:-}" != "PBS_BATCH" ] || [ -z "${PBS_O_HOST:-}" ] || [ -z "${PBS_QUEUE:-}" ] || [ -z "${PBS_JOBID:-}" ] || [ -z "${PBS_NODEFILE:-}" ] || [ ! -f "${PBS_NODEFILE}" ] || [ ! -s "${PBS_NODEFILE}" ]; then
+    echo "FATAL: Genuine PBS batch provenance required (missing or invalid PBS_JOBID, PBS_ENVIRONMENT, PBS_O_HOST, PBS_QUEUE, or PBS_NODEFILE)." >&2
+    exit 1
+fi
+
+CURRENT_SHORT_HOST=$(hostname -s 2>/dev/null || hostname)
+CURRENT_FULL_HOST=$(hostname -f 2>/dev/null || hostname)
+
+if ! grep -Fxq "$CURRENT_SHORT_HOST" "$PBS_NODEFILE" && ! grep -Fxq "$CURRENT_FULL_HOST" "$PBS_NODEFILE"; then
+    echo "FATAL: Current compute host is absent from PBS_NODEFILE." >&2
     exit 1
 fi
 
 F40_PACKAGE_DIR="${F40_PACKAGE_DIR:?F40_PACKAGE_DIR must be exported by launcher}"
-F40_EVIDENCE_DIR="${F40_EVIDENCE_DIR:-${PBS_O_WORKDIR:-$(pwd)}/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence}"
+F40_EVIDENCE_ROOT="${F40_EVIDENCE_ROOT:-${PBS_O_WORKDIR:-$(pwd)}/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence}"
+F40_EVIDENCE_DIR="${F40_EVIDENCE_ROOT}/${PBS_JOBID}"
 
 WORK_DIR="${PBS_O_WORKDIR:-$(pwd)}/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_${PBS_JOBID}"
 mkdir -p "$WORK_DIR" "$F40_EVIDENCE_DIR"
@@ -127,7 +136,7 @@ EOF
 trap on_exit EXIT
 
 echo "=== F40 Launcher Diagnostic Bisection Batch Execution ==="
-echo "Host: $(hostname)"
+echo "Host: $CURRENT_FULL_HOST"
 echo "Date: $(date)"
 echo "Work dir: $WORK_DIR"
 echo "Package dir: $F40_PACKAGE_DIR"
@@ -142,14 +151,31 @@ module purge || true
 module load abaqus/2023 || { echo "FATAL: abaqus/2023 module load failed" >&2; exit 1; }
 command -v abaqus >/dev/null 2>&1 || { echo "FATAL: abaqus executable not found on PATH" >&2; exit 1; }
 
+ABAQUS_RELEASE=$(abaqus information=release 2>&1) || {
+    echo "FATAL: Abaqus release query failed." >&2
+    exit 1
+}
+
+if ! printf '%s\n' "$ABAQUS_RELEASE" | grep -q "2023"; then
+    echo "FATAL: Expected Abaqus 2023, received: $ABAQUS_RELEASE" >&2
+    exit 1
+fi
+
+NODEFILE_HOSTS_JSON=$(python3 -c "import json, sys; print(json.dumps([line.strip() for line in open(sys.argv[1]) if line.strip()]))" "$PBS_NODEFILE" 2>/dev/null || echo "[]")
+
 cat <<EOF > "$WORK_DIR/SCHEDULER_PROVENANCE.json"
 {
   "protocol_version": 1,
   "pbs_jobid": "${PBS_JOBID}",
-  "hostname": "$(hostname -f 2>/dev/null || hostname)",
+  "pbs_environment": "${PBS_ENVIRONMENT}",
+  "pbs_queue": "${PBS_QUEUE}",
+  "pbs_o_host": "${PBS_O_HOST}",
+  "hostname": "${CURRENT_FULL_HOST}",
+  "hostname_short": "${CURRENT_SHORT_HOST}",
   "nodefile": "${PBS_NODEFILE}",
+  "nodefile_hosts": ${NODEFILE_HOSTS_JSON},
   "abaqus_executable": "$(command -v abaqus)",
-  "abaqus_release": "$(abaqus information=release 2>/dev/null | head -n 1 || echo 'unknown')",
+  "abaqus_release": "${ABAQUS_RELEASE}",
   "timestamp_utc": "$(date -u +'%Y-%m-%dT%H:%M:%S.%3NZ')"
 }
 EOF

@@ -6,6 +6,7 @@ import datetime
 
 EXPECTED_EVIDENCE_FILES = [
     "STATUS.json",
+    "SCHEDULER_PROVENANCE.json",
     "F38_F39_INVOCATION_DELTA_AUDIT.json",
     "P00_KERNEL_STARTUP_AUDIT.json",
     "P01_IMPORTS_AUDIT.json",

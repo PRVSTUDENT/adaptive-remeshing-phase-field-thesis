@@ -40,6 +40,38 @@ def main():
     if not os.path.exists(delta_path):
         errors.append("F38_F39_INVOCATION_DELTA_AUDIT.json missing")
 
+    # 0. Parse and validate SCHEDULER_PROVENANCE.json
+    prov_path = os.path.join(target_dir, "SCHEDULER_PROVENANCE.json")
+    if not os.path.exists(prov_path):
+        errors.append("SCHEDULER_PROVENANCE.json missing")
+    else:
+        try:
+            with open(prov_path, "r") as f:
+                prov = json.load(f)
+                if prov.get("protocol_version") != 1:
+                    errors.append("SCHEDULER_PROVENANCE.json protocol_version is not 1")
+                if not prov.get("pbs_jobid"):
+                    errors.append("SCHEDULER_PROVENANCE.json pbs_jobid is missing or empty")
+                if prov.get("pbs_environment") != "PBS_BATCH":
+                    errors.append("SCHEDULER_PROVENANCE.json pbs_environment is not PBS_BATCH")
+                if not prov.get("hostname"):
+                    errors.append("SCHEDULER_PROVENANCE.json hostname is missing or empty")
+                nhosts = prov.get("nodefile_hosts", [])
+                if not isinstance(nhosts, list) or len(nhosts) == 0:
+                    errors.append("SCHEDULER_PROVENANCE.json nodefile_hosts is empty or missing")
+                elif prov.get("hostname") not in nhosts and prov.get("hostname_short") not in nhosts:
+                    errors.append("SCHEDULER_PROVENANCE.json hostname not in nodefile_hosts")
+                abq_exe = prov.get("abaqus_executable", "")
+                if not abq_exe or not os.path.isabs(abq_exe):
+                    errors.append("SCHEDULER_PROVENANCE.json abaqus_executable is not an absolute path: {}".format(abq_exe))
+                abq_rel = prov.get("abaqus_release", "")
+                if "2023" not in abq_rel:
+                    errors.append("SCHEDULER_PROVENANCE.json abaqus_release does not contain 2023: {}".format(abq_rel))
+                if not prov.get("timestamp_utc"):
+                    errors.append("SCHEDULER_PROVENANCE.json timestamp_utc is missing")
+        except Exception as exc:
+            errors.append("Error reading SCHEDULER_PROVENANCE.json: {}".format(exc))
+
     # 1. Parse and validate CAE_INVOCATION_CONTEXT_AUDIT.json using the exact entrypoint output schema
     inv_audit_path = os.path.join(target_dir, "CAE_INVOCATION_CONTEXT_AUDIT.json")
     if not os.path.exists(inv_audit_path):

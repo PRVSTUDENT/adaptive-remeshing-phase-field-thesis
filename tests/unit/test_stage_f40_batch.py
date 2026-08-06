@@ -272,6 +272,63 @@ class TestStageF40Batch(unittest.TestCase):
         self.assertNotEqual(proc.returncode, 0, "Execution without genuine PBS batch provenance must fail")
         self.assertIn("FATAL: Genuine PBS batch provenance required", proc.stderr)
 
+    def test_pbs_script_rejects_non_batch_environment(self):
+        import subprocess, tempfile
+        pbs_path = os.path.join(self.pkg_dir, "M2RMBISECT1.pbs")
+        env = os.environ.copy()
+        env["F40_GUARDED_WRAPPER_INVOKED"] = "1"
+        env["PBS_JOBID"] = "12345.testnode"
+        env["PBS_ENVIRONMENT"] = "PBS_INTERACTIVE"
+        env["PBS_O_HOST"] = "testhost"
+        env["PBS_QUEUE"] = "entry_imfdfkmq"
+        with tempfile.NamedTemporaryFile("w", delete=False) as nf:
+            nf.write("othernode\n")
+            nodefile_path = nf.name
+        env["PBS_NODEFILE"] = nodefile_path
+        try:
+            proc = subprocess.run(["bash", pbs_path], capture_output=True, text=True, env=env)
+            self.assertNotEqual(proc.returncode, 0, "Execution with non-PBS_BATCH environment must fail")
+            self.assertIn("FATAL: Genuine PBS batch provenance required", proc.stderr)
+        finally:
+            if os.path.exists(nodefile_path):
+                os.remove(nodefile_path)
+
+    def test_pbs_script_rejects_host_absent_from_nodefile(self):
+        import subprocess, tempfile
+        pbs_path = os.path.join(self.pkg_dir, "M2RMBISECT1.pbs")
+        env = os.environ.copy()
+        env["F40_GUARDED_WRAPPER_INVOKED"] = "1"
+        env["PBS_JOBID"] = "12345.testnode"
+        env["PBS_ENVIRONMENT"] = "PBS_BATCH"
+        env["PBS_O_HOST"] = "testhost"
+        env["PBS_QUEUE"] = "entry_imfdfkmq"
+        with tempfile.NamedTemporaryFile("w", delete=False) as nf:
+            nf.write("unmatched_node_name\n")
+            nodefile_path = nf.name
+        env["PBS_NODEFILE"] = nodefile_path
+        try:
+            proc = subprocess.run(["bash", pbs_path], capture_output=True, text=True, env=env)
+            self.assertNotEqual(proc.returncode, 0, "Execution with host absent from PBS_NODEFILE must fail")
+            self.assertIn("FATAL: Current compute host is absent from PBS_NODEFILE", proc.stderr)
+        finally:
+            if os.path.exists(nodefile_path):
+                os.remove(nodefile_path)
+
+    def test_runtime_validator_rejects_missing_scheduler_provenance(self):
+        import importlib.util, tempfile
+        v40_path = os.path.join(self.pkg_dir, "runtime", "validate_f40_runtime_audits.py")
+        spec = importlib.util.spec_from_file_location("validate_f40_runtime_audits", v40_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Create a directory missing SCHEDULER_PROVENANCE.json
+            with open(os.path.join(tmpdir, "STATUS.json"), "w") as f:
+                f.write("{}")
+            sys.argv = ["validate_f40_runtime_audits.py", tmpdir]
+            rc = mod.main()
+            self.assertNotEqual(rc, 0, "Runtime validator must fail when SCHEDULER_PROVENANCE.json is missing")
+
     def test_p02_fails_on_helper_content_modification(self):
         runner_path = os.path.join(self.pkg_dir, "runtime", "f40_cae_bisection_runner.py")
         import importlib.util

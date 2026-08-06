@@ -12,14 +12,17 @@
 - [x] Repaired F40 offline package under repair preparation commit `f54662606eaa0366938bccfed58ac3cb9ee1f319` and qualified in detached clean-Linux checkout (`/tmp/f40_clean_qual_f546626`) under qualification commit `98a5f1826672fae8805331964114b51f275e2860`.
 - [x] Executed explicitly authorized guarded diagnostic job `M2RMBISECT1` (`1384502.mmaster02`) on cluster under authorization commit `338d605`.
 - [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384502.mmaster02/`): Generic Abaqus primitives P00-P11 passed `rc=0`, Stage 3 F38 entrypoint executed cleanly `rc=0`, but `validate_f38_matrix_results.py` failed `rc=1` because 3 F38 matrix phases failed (`element_type_assignment` `NameError: mesh`, `mesh_generation` `NameError: mesh`, `output_request_rebinding` `AbaqusException`).
-- [x] Completed F40 v10 offline correction sequence under coordination head `f04a327508b3326fc60de9fd3e463ccf299fb0f8`.
-- [x] Completed F40 v11 offline hardening sequence:
-  - Reclassified run `1384588.mmaster02` as `f40_local_wsl_emulation_failed_no_abaqus_runtime_incomplete_evidence` (`scheduler_submissions_initiated: 0`).
-  - Added fatal `module load abaqus/2023` and `command -v abaqus` guards in `M2RMBISECT1.pbs`.
-  - Enforced PBS batch provenance (`PBS_JOBID`, `PBS_NODEFILE`) and direct execution rejection (`F40_GUARDED_WRAPPER_INVOKED=1`).
-  - Added `SCHEDULER_PROVENANCE.json` generation inside `$WORK_DIR`.
-  - Added v11 unit tests in `test_stage_f40_batch.py` (`25/25` passed) and static gate checks (`pass`).
-- [!] Classification: `f40_gate_v11_offline_hardened_qualified_not_authorized`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
+- [x] Completed F40 v11 offline hardening sequence under coordination head `ef148ed6d2f6b76bd6678c1dd8a5d16285a16b92`.
+- [x] Completed F40 v12 offline hardening sequence:
+  - Frozen submission wrapper `submit_stage_f40_cae_bisect.sh` and package directory in blob identity check.
+  - Added `qsub`/`qstat` executable checks and active `M2RMBISECT1` queue state check before submission.
+  - Enforced `PBS_ENVIRONMENT=PBS_BATCH`, `PBS_O_HOST`, `PBS_QUEUE`, and compute node hostname match in `PBS_NODEFILE`.
+  - Made Abaqus release query fatal and enforced Abaqus 2023 release.
+  - Isolated evidence output in `evidence/<PBS_JOBID>/`.
+  - Added `SCHEDULER_PROVENANCE.json` to mandatory evidence list and runtime audit validation.
+  - Corrected authorization metadata (`recorded_user_authorization_sentence: null`).
+  - Added v12 unit tests in `test_stage_f40_batch.py` (`28/28` passed) and static gate checks (`pass`).
+- [!] Classification: `f40_gate_v12_offline_hardened_qualified_not_authorized`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
 
 
 ## F39 Abaqus CAE kernel startup diagnostic gate

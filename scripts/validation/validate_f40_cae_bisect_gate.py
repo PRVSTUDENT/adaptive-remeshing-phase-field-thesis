@@ -88,7 +88,7 @@ def main():
     else:
         failures.append("PACKAGE_MANIFEST.json missing")
 
-    # Check 6: Submission wrapper gate defaults
+    # Check 6: Submission wrapper gate defaults and v12 hardening
     if os.path.exists(wrapper_path):
         with open(wrapper_path, "r") as f:
             wrap_txt = f.read()
@@ -97,6 +97,12 @@ def main():
                 failures.append("Submission wrapper must contain exactly 1 qsub invocation line, found " + str(len(qsub_matches)))
             if 'F40_ALLOW_SUBMISSION:-false' not in wrap_txt or 'F40_AUTHORIZE_M2RMBISECT1:-false' not in wrap_txt:
                 failures.append("Submission wrapper gates not properly defaulted to false")
+            if "submit_stage_f40_cae_bisect.sh" not in wrap_txt or "FREEZE_PATHS" not in wrap_txt:
+                failures.append("Submission wrapper must freeze its own path in FREEZE_PATHS")
+            if "qstat -u" not in wrap_txt:
+                failures.append("Submission wrapper missing qstat -u active job queue check")
+            if "F40_EVIDENCE_ROOT" not in wrap_txt:
+                failures.append("Submission wrapper missing F40_EVIDENCE_ROOT export")
     else:
         failures.append("Submission wrapper missing")
 
