@@ -62,13 +62,13 @@ data = {
     'sha256_manifest_check': 'pass',
     '__file___scan': 'pass',
     'prohibited_keywords_scan': 'pass',
-    'v16r2_notification_reliability_correction': {
-        'transport_availability_check': 'Absence of email transport fails live preflight test with exit code 1',
-        'transport_separation': 'mail/mailx and sendmail transports implemented separately with distinct arguments',
-        'exact_recipient_set_validation': 'F40_NOTIFICATION_EMAIL_RECIPIENTS validated against exact two-recipient set',
-        'existing_job_detection': 'qstat duplicate check parsed from verified real tabular output',
-        'qstat_f_mail_settings_verification': 'qstat -f captured and verified for Mail_Users, Mail_Points, Job_Name',
-        'terminal_monitor_hardening': 'Verbose qstat -x -f key-value parsing, command failure error handling, bounded timeout, TERMINAL_MONITOR_STATUS.json'
+    'v16r3_notification_scheduler_preflight_reliability_correction': {
+        'fail_closed_queue_preflight': 'qstat -u query failure stops before lock creation or qsub',
+        'full_qstat_f_duplicate_audit': 'Extracts all job IDs from qstat -u and audits full Job_Name via qstat -f into QSTAT_EXISTING_JOB_AUDIT.json',
+        'qstat_f_verification_json': 'Writes verification_passed as real JSON boolean without raw shell interpolation or || true',
+        'renamed_python_terminal_monitor': 'Renamed monitor_stage_f40_terminal_state.py, state E not terminal, STATUS.json overall_classification source',
+        'secure_user_configuration': 'Loads credentials and recipient sets from ~/.config/adaptive-remeshing/notifications.json (dir 700, file 600)',
+        'isolated_preflight_test_directory': 'Pre-submission live test notifications write inside runs/hpc/stage_f/f40_notification_live_test/<timestamp>/'
     },
     'qualification_status': 'qualified_not_authorized'
 }
