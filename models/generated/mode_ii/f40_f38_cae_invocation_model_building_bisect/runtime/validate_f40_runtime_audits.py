@@ -39,7 +39,7 @@ def main():
     if not os.path.exists(delta_path):
         errors.append("F38_F39_INVOCATION_DELTA_AUDIT.json missing")
 
-    # 1. Parse and validate CAE_INVOCATION_CONTEXT_AUDIT.json
+    # 1. Parse and validate CAE_INVOCATION_CONTEXT_AUDIT.json using the exact entrypoint output schema
     inv_audit_path = os.path.join(target_dir, "CAE_INVOCATION_CONTEXT_AUDIT.json")
     if not os.path.exists(inv_audit_path):
         errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json missing")
@@ -47,12 +47,14 @@ def main():
         try:
             with open(inv_audit_path, "r") as f:
                 inv_data = json.load(f)
-                if inv_data.get("abaqus_module_imported") is not True:
-                    errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json abaqus_module_imported is not True")
-                if inv_data.get("mdb_accessible") is not True:
-                    errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json mdb_accessible is not True")
-                if inv_data.get("source_deck_exists") is not True:
-                    errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json source_deck_exists is not True")
+                if inv_data.get("entrypoint") != "run_f38_cae_diagnostic.py":
+                    errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json entrypoint is not run_f38_cae_diagnostic.py (found: {})".format(inv_data.get("entrypoint")))
+                if inv_data.get("runtime_dir_exists") is not True:
+                    errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json runtime_dir_exists is not True")
+                if inv_data.get("runtime_dir_on_sys_path") is not True:
+                    errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json runtime_dir_on_sys_path is not True")
+                if inv_data.get("bootstrap_passed") is not True:
+                    errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json bootstrap_passed is not True")
         except Exception as exc:
             errors.append("Error reading CAE_INVOCATION_CONTEXT_AUDIT.json: {}".format(exc))
 

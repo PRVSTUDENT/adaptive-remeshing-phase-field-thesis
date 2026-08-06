@@ -128,7 +128,15 @@ class TestStageF40Batch(unittest.TestCase):
         mat_val_path = os.path.join(self.pkg_dir, "runtime", "validate_f38_matrix_results.py")
         import tempfile
         with tempfile.TemporaryDirectory() as tmpdir:
-            inv_data = {"abaqus_module_imported": True, "mdb_accessible": True, "source_deck_exists": True}
+            inv_data = {
+                "protocol_version": 1,
+                "entrypoint": "run_f38_cae_diagnostic.py",
+                "file_global_defined": False,
+                "runtime_dir": tmpdir,
+                "runtime_dir_exists": True,
+                "runtime_dir_on_sys_path": True,
+                "bootstrap_passed": True
+            }
             with open(os.path.join(tmpdir, "CAE_INVOCATION_CONTEXT_AUDIT.json"), "w") as f:
                 json.dump(inv_data, f)
             mat_data = {"overall_passed": False, "phases": []}
@@ -138,6 +146,49 @@ class TestStageF40Batch(unittest.TestCase):
             res = subprocess.run([sys.executable, mat_val_path, tmpdir], capture_output=True, text=True)
             self.assertNotEqual(res.returncode, 0, "Validator should fail when overall_passed is False")
             self.assertIn("overall_passed is not True", res.stdout)
+
+    def test_matrix_validator_accepts_exact_entrypoint_schema_when_matrix_passes(self):
+        mat_val_path = os.path.join(self.pkg_dir, "runtime", "validate_f38_matrix_results.py")
+        expected_phases = [
+            "bootstrap", "abaqus_module_import", "source_deck_access", "model_import",
+            "repository_inventory", "repository_resolution", "geometry_conversion",
+            "element_type_assignment", "mesh_control_assignment", "mesh_generation",
+            "assembly_feature_inventory", "instance_replacement", "crack_edge_method_inventory",
+            "crack_edge_detection", "crack_mesh_topology", "assembly_set_inventory",
+            "output_variable_probe", "output_request_rebinding", "input_write", "generated_input_presence"
+        ]
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            inv_data = {
+                "protocol_version": 1,
+                "entrypoint": "run_f38_cae_diagnostic.py",
+                "file_global_defined": False,
+                "runtime_dir": tmpdir,
+                "runtime_dir_exists": True,
+                "runtime_dir_on_sys_path": True,
+                "bootstrap_passed": True
+            }
+            with open(os.path.join(tmpdir, "CAE_INVOCATION_CONTEXT_AUDIT.json"), "w") as f:
+                json.dump(inv_data, f)
+
+            phases_records = []
+            for pname in expected_phases:
+                phases_records.append({
+                    "phase": pname,
+                    "attempted": True,
+                    "passed": True,
+                    "dependency_blocked": False,
+                    "exception_type": None,
+                    "exception_message": None,
+                    "traceback": None
+                })
+            mat_data = {"overall_passed": True, "phases": phases_records}
+            with open(os.path.join(tmpdir, "CAE_PHASE_DIAGNOSTIC_MATRIX.json"), "w") as f:
+                json.dump(mat_data, f)
+
+            res = subprocess.run([sys.executable, mat_val_path, tmpdir], capture_output=True, text=True)
+            self.assertEqual(res.returncode, 0, "Validator failed on valid schema and 20 passing phases: " + res.stdout + res.stderr)
+            self.assertIn("F38_MATRIX_VALIDATION_PASSED", res.stdout)
 
     def test_static_gate_validator_passes(self):
         res = subprocess.run([sys.executable, self.validator_path], capture_output=True, text=True)
