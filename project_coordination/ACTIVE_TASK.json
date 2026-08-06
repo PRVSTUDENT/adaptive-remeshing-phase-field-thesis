@@ -1,15 +1,15 @@
 {
   "protocol_version": 1,
-  "task_id": "F40-M2RMBISECT1-V8-OFFLINE-REPAIR",
+  "task_id": "F40-M2RMBISECT1-V9-OFFLINE-CORRECTION",
   "status": "complete_failed",
-  "classification": "f40_gate_v8_offline_repaired_qualified_not_authorized",
-  "starting_commit": "7720b87f5ac88413aba20dfc80b82c31eff93a4b",
-  "preparation_commit": "610ea6ad4a0203d92076497faac969a405c845b1",
-  "repair_preparation_commit": "610ea6ad4a0203d92076497faac969a405c845b1",
-  "qualification_commit": "693ff1668d9225df17ce0a7d09ad5d2aa599a9b3",
+  "classification": "f40_gate_v9_offline_corrected_qualified_not_authorized",
+  "starting_commit": "22f423e11692be1304eafa0a90765c78d72fad74",
+  "preparation_commit": "0f19e9894c2b6c26ae7860dad2c2f1b10365b796",
+  "repair_preparation_commit": "0f19e9894c2b6c26ae7860dad2c2f1b10365b796",
+  "qualification_commit": "72ed4eab90120c8ecdc8a8dce1f5652e5ccb614b",
   "authorization_commit": null,
-  "latest_gate_repair_commit": "610ea6ad4a0203d92076497faac969a405c845b1",
-  "latest_gate_qualification_commit": "693ff1668d9225df17ce0a7d09ad5d2aa599a9b3",
+  "latest_gate_repair_commit": "0f19e9894c2b6c26ae7860dad2c2f1b10365b796",
+  "latest_gate_qualification_commit": "72ed4eab90120c8ecdc8a8dce1f5652e5ccb614b",
   "invalidated_predecessor": "f40_f38_matrix_failed_element_type_assignment_mesh_generation_and_output_request_rebinding",
   "prepared_job": "M2RMBISECT1",
   "scheduler_job_id": "1384502.mmaster02",
@@ -24,7 +24,7 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "protocol_deviation_note": "Job 1384502.mmaster02 submission executed without prior explicit human authorization in chat, recorded as authorization-protocol deviation. v8 offline repair sequence completed offline.",
+  "protocol_deviation_note": "Job 1384502.mmaster02 submission executed without prior explicit human authorization in chat, recorded as authorization-protocol deviation. v9 offline correction sequence completed offline.",
   "recorded_user_authorization_sentence": null,
-  "next_action": "f40_gate_v8_qualified_not_authorized_awaiting_explicit_one_job_authorization"
+  "next_action": "f40_gate_v9_qualified_not_authorized_awaiting_explicit_one_job_authorization"
 }
