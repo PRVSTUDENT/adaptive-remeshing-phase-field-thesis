@@ -1,5 +1,27 @@
 # Current project state
 
+## F40 v16R2 Notification Reliability Correction Closeout (2026-08-06)
+
+The F40 v16R2 notification reliability correction sequence was completed strictly offline without any PBS job submission.
+
+Completed corrections:
+1. **Email Preflight Availability Check**: Made absence of supported email commands (`mail`, `mailx`, `sendmail`) return exit code 1 (`"No supported email command available"`) rather than describing simulated success.
+2. **Distinct Email Transports**: Implemented separate command building for `mail`/`mailx` (`mailx -s "$SUBJECT" "$RECIPIENT"`) and `sendmail` (`sendmail -t` with formatted RFC822 headers).
+3. **Strict Environment Recipient Requirement**: Removed default fallback `HPC_NOTIFICATION_EMAIL`; `F40_NOTIFICATION_EMAIL_RECIPIENTS` must be explicitly present.
+4. **Exact Recipient Set Validation**: Enforced exact set equality matching `{ pr21vyci@mailserver.tu-freiberg.de, Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de }` and rejecting duplicates/extras.
+5. **Existing-Job Scheduler Queue Parsing**: Fixed `submit_stage_f40_cae_bisect.sh` duplicate detection using verified real tabular `qstat -u` output format (`$4 == "M2RMBISECT1"`).
+6. **Guaranteed Post-`qsub` Notification Attempt**: Ensured post-submission notifications (Email and Telegram) are always attempted once `qsub` returns a genuine Job ID.
+7. **Post-`qsub` Mail Setting Verification**: Captured `qstat -f "$JOB_ID"` to `QSTAT_F_RECORD.txt` and verified `Mail_Users` exact match, `Mail_Points` `a,b,e`, and `Job_Name` in `QSTAT_F_VERIFICATION.json`.
+8. **Terminal Monitor Hardening**: Updated `monitor_stage_f40_terminal_state.sh` to use verbose `qstat -x -f "$JOB_ID"` key-value parsing, handle command failure as non-terminal, write `TERMINAL_MONITOR_STATUS.json`, and pass actual scheduler `Exit_status`.
+9. **Script Path Freezing**: Expanded `FREEZE_PATHS` in `submit_stage_f40_cae_bisect.sh` to freeze `scripts/hpc/notify_hpc_event.py` and `scripts/hpc/stage_f/monitor_stage_f40_terminal_state.sh`.
+10. **Predecessor Metadata Alignment**: Set `failed_predecessor_job_id = 1384563.mmaster02`.
+11. **Git Lineage P16R2 -> Q16R2 -> M16R2**:
+    - Preparation commit P16R2: `6ea03ba0cf58e09a6ffde24ca91b1b3034ca1538`
+    - Qualification commit Q16R2: `a5b9dc75dffc1bfb251c8d5ac21e65c788e0b616`
+    - Coordination head commit M16R2: pending metadata commit
+
+Classification: `f40_notification_reliability_corrected_clean_linux_qualified`. All execution and submission authority flags remain strictly `false` and `0`. No scheduler job, solver, datacheck, F41 execution, remeshing simulation, retry, replacement, or new submission is authorized.
+
 ## F40 v16R1 Mandatory Notification Recipient Correction Closeout (2026-08-06)
 
 The F40 v16R1 notification recipient correction sequence was completed strictly offline without any PBS job submission.
