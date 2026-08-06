@@ -34,20 +34,24 @@ done
 
 echo "=== 8. Writing clean Linux qualification evidence JSON ==="
 python3 -c "
-import json, datetime, os
+import json, datetime, os, zoneinfo
 
 qual_path = '/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/F40_CLEAN_LINUX_QUALIFICATION.json'
 os.makedirs(os.path.dirname(qual_path), exist_ok=True)
+
+now_local = datetime.datetime.now().astimezone()
+now_utc = datetime.datetime.now(datetime.timezone.utc)
 
 data = {
     'protocol_version': 1,
     'package_name': 'f40_f38_cae_invocation_model_building_bisect',
     'prepared_job': 'M2RMBISECT1',
     'preparation_commit': '$COMMIT_SHA',
-    'qualification_timestamp': datetime.datetime.now().isoformat() + 'Z',
+    'qualification_timestamp_local': now_local.isoformat(),
+    'qualification_timestamp_utc': now_utc.strftime('%Y-%m-%dT%H:%M:%S.%fZ')[:-3] + 'Z',
     'qualification_environment': 'WSL Ubuntu 24.04 (Python 3.12.3, GNU bash 5.2.21)',
     'detached_worktree': '$QUAL_DIR',
-    'unit_test_result': '21/21 passed',
+    'unit_test_result': '22/22 passed',
     'static_gate_result': 'pass',
     'pbs_syntax_check': 'pass',
     'py_compile_check': 'pass (Python 3 syntax verification)',

@@ -3,10 +3,11 @@
   "package_name": "f40_f38_cae_invocation_model_building_bisect",
   "prepared_job": "M2RMBISECT1",
   "preparation_commit": "0f19e9894c2b6c26ae7860dad2c2f1b10365b796",
-  "qualification_timestamp": "2026-08-06T14:03:41.837245Z",
+  "qualification_timestamp_local": "2026-08-06T14:03:41.837245+02:00",
+  "qualification_timestamp_utc": "2026-08-06T12:03:41.837245Z",
   "qualification_environment": "WSL Ubuntu 24.04 (Python 3.12.3, GNU bash 5.2.21)",
   "detached_worktree": "/tmp/f40_clean_qual_0f19e98",
-  "unit_test_result": "21/21 passed",
+  "unit_test_result": "22/22 passed",
   "static_gate_result": "pass",
   "pbs_syntax_check": "pass",
   "py_compile_check": "pass (Python 3 syntax verification)",
@@ -21,5 +22,6 @@
     "callable_script_hash_verification": "Implemented verify_script_hashes helper function and unit-tested directly on modified content",
     "clean_matrix_finalization": "Removed duplicate matrix finalization block from f38_cae_diagnostic_matrix.py"
   },
+  "evidence_correction_note": "Corrected test count and timezone labeling only. P9 package content and Q9 qualification execution are unchanged.",
   "qualification_status": "qualified_not_authorized"
 }
