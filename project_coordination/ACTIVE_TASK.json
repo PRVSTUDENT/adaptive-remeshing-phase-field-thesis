@@ -1,15 +1,15 @@
 {
   "protocol_version": 1,
-  "task_id": "F40-M2RMBISECT1-V13-OFFLINE-CORRECTION",
+  "task_id": "F40-M2RMBISECT1-V14-OFFLINE-CORRECTION",
   "status": "qualified_not_authorized",
-  "classification": "f40_gate_v13_offline_corrected_qualified_not_authorized",
-  "starting_commit": "620dfa2580f3351bd0bd44ebd1241a236a0d7410",
-  "preparation_commit": "f94317f50222b7adf8e4dd1ef4eaad019d77c1ca",
-  "repair_preparation_commit": "f94317f50222b7adf8e4dd1ef4eaad019d77c1ca",
-  "qualification_commit": "cd9e9aabd14061c0b0d1d867fe6c9b4119e599f5",
+  "classification": "f40_gate_v14_offline_corrected_qualified_not_authorized",
+  "starting_commit": "8d43679181b73ad25ab4c2cefa5a9fe0d76db3a2",
+  "preparation_commit": "dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5",
+  "repair_preparation_commit": "dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5",
+  "qualification_commit": "1cdd3cfae1b30b930ca123f41072fbede2dc457c",
   "authorization_commit": null,
-  "latest_gate_repair_commit": "f94317f50222b7adf8e4dd1ef4eaad019d77c1ca",
-  "latest_gate_qualification_commit": "cd9e9aabd14061c0b0d1d867fe6c9b4119e599f5",
+  "latest_gate_repair_commit": "dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5",
+  "latest_gate_qualification_commit": "1cdd3cfae1b30b930ca123f41072fbede2dc457c",
   "invalidated_predecessor": "f40_f38_matrix_failed_element_type_assignment_mesh_generation_and_output_request_rebinding",
   "prepared_job": "M2RMBISECT1",
   "scheduler_job_id": null,
@@ -33,5 +33,5 @@
     "valid": false,
     "reason": "Not supplied by the human in chat before execution."
   },
-  "next_action": "f40_gate_v13_qualified_not_authorized_awaiting_explicit_one_job_authorization"
+  "next_action": "f40_gate_v14_qualified_not_authorized_awaiting_explicit_one_job_authorization"
 }
