@@ -1,5 +1,15 @@
 # Current project state
 
+## F40 v16R4 Exact-One-Job Submission Authorization (2026-08-06)
+
+Explicit human authorization recorded for exactly one guarded HPC submission of `M2RMBISECT1`:
+- **Recorded Authorization Sentence**: `"I authorize exactly one guarded HPC submission of M2RMBISECT1 using preparation commit f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, and no downstream job."`
+- **Preparation Commit**: `f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55`
+- **Qualification Commit**: `3693fd829d37cfe48f496b7cc4a15743cb78f9d3`
+- **Submission Limits**: `maximum_jobs_now = 1`, `maximum_future_submissions = 1`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`.
+
+Classification: `f40_m2rmbisect1_submission_authorized_exactly_one_job`.
+
 ## F40 v16R4 Current-Runtime Requalification Closeout (2026-08-06)
 
 The F40 v16R4 current-runtime requalification sequence was completed following successful human receipt confirmation of the live notification preflight test (dispatcher rc=0, email rc=0, Telegram rc=0, human confirmed Telegram receipt).
