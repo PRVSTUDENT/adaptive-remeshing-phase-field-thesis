@@ -1,12 +1,19 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-06T13:33:50+02:00",
-  "heartbeat": "2026-08-06T13:33:50+02:00",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "F40 offline gate repair v7 (commit 5d7181774dd0255e8588bc002574e029b342e5c4) qualified in detached clean Linux (/tmp/f40_clean_qual_5d71817, commit 7c1cd92ed676d08128c9f9f12d350ca7e4d76b2d). All execution/submission authority remains false/zero."
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_scope": [
+    "models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect/**",
+    "scripts/validation/**",
+    "tests/unit/**",
+    "project_coordination/**",
+    "docs/project/**",
+    "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/**"
+  ],
+  "completed_at": null,
+  "heartbeat": "2026-08-06T13:48:00+02:00",
+  "started_at": "2026-08-06T13:48:00+02:00",
+  "session_id": "2026-08-06_1348_gemini-antigravity_F40-V8-COMMIT-AND-QUALIFY",
+  "starting_commit": "7720b87f5ac88413aba20dfc80b82c31eff93a4b",
+  "task_id": "F40-M2RMBISECT1-V8-COMMIT-AND-QUALIFY",
+  "note": "F40 v8 preparation sequence: creating preparation commit P8, running detached clean-Linux qualification proof to generate Q8, updating ACTIVE_TASK.json metadata, creating head commit M8, and pushing to origin main."
 }
