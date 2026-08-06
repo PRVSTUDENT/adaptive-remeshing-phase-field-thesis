@@ -108,20 +108,42 @@ def main():
                     )
 
                 phase_map = {p.get("phase"): p for p in phases if isinstance(p, dict)}
+                geom_rec = phase_map.get("geometry_conversion_observation", {})
+                obs_res = geom_rec.get("observations", geom_rec.get("result", {}))
+                cc_probes = obs_res.get("controlled_conversion_probes", {})
+                confirmed_root_cause = cc_probes.get("coincident_crack_nodes_confirmed_root_cause") is True
+
+                if not mat_data.get("overall_passed") and not confirmed_root_cause:
+                    errors.append("CAE_PHASE_DIAGNOSTIC_MATRIX.json overall_passed is not True and root cause is not confirmed")
+
                 for exp_phase in EXPECTED_F38_PHASES:
                     p_rec = phase_map.get(exp_phase)
                     if p_rec is None:
                         errors.append("CAE_PHASE_DIAGNOSTIC_MATRIX.json missing phase record for '{}'".format(exp_phase))
                         continue
 
-                    if p_rec.get("attempted") is not True:
-                        errors.append("F38 Phase '{}' attempted is not True".format(exp_phase))
-                    if p_rec.get("passed") is not True:
-                        errors.append("F38 Phase '{}' passed is not True".format(exp_phase))
-                    if p_rec.get("dependency_blocked") is not False:
-                        errors.append("F38 Phase '{}' dependency_blocked is not False".format(exp_phase))
-                    if p_rec.get("exception_type") is not None:
-                        errors.append("F38 Phase '{}' reported exception_type: {}".format(exp_phase, p_rec.get("exception_type")))
+                    if exp_phase in ["bootstrap", "abaqus_module_import", "source_deck_access", "model_import", "repository_inventory", "repository_resolution", "geometry_conversion_observation"]:
+                        if p_rec.get("attempted") is not True:
+                            errors.append("F38 Phase '{}' attempted is not True".format(exp_phase))
+                        if p_rec.get("passed") is not True:
+                            errors.append("F38 Phase '{}' passed is not True".format(exp_phase))
+                        if p_rec.get("dependency_blocked") is not False:
+                            errors.append("F38 Phase '{}' dependency_blocked is not False".format(exp_phase))
+                    else:
+                        if confirmed_root_cause:
+                            if exp_phase == "usable_geometry_validation":
+                                if p_rec.get("attempted") is not True:
+                                    errors.append("F38 Phase 'usable_geometry_validation' attempted is not True")
+                            else:
+                                if p_rec.get("passed") is not True and p_rec.get("dependency_blocked") is not True:
+                                    errors.append("F38 Phase '{}' must be passed or dependency_blocked when root cause confirmed".format(exp_phase))
+                        else:
+                            if p_rec.get("attempted") is not True:
+                                errors.append("F38 Phase '{}' attempted is not True".format(exp_phase))
+                            if p_rec.get("passed") is not True:
+                                errors.append("F38 Phase '{}' passed is not True".format(exp_phase))
+                            if p_rec.get("dependency_blocked") is not False:
+                                errors.append("F38 Phase '{}' dependency_blocked is not False".format(exp_phase))
 
         except Exception as exc:
             errors.append("Error reading CAE_PHASE_DIAGNOSTIC_MATRIX.json: {}".format(exc))

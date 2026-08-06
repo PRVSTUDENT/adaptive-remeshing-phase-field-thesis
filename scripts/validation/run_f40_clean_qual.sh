@@ -62,11 +62,11 @@ data = {
     'sha256_manifest_check': 'pass',
     '__file___scan': 'pass',
     'prohibited_keywords_scan': 'pass',
-    'v14_offline_corrections': {
-        'closeout_dependency_order': 'Reordered PBS exit trap to eliminate circular evidence dependencies',
-        'runtime_validator_scope': 'Narrowed validate_f40_runtime_audits.py to runtime audit inputs excluding STATUS.json and MISSING_EVIDENCE_REPORT.json',
-        'non_self_referential_evidence_contract': 'Removed collector.returncode from EXPECTED_EVIDENCE_FILES in generate_missing_evidence_report.py',
-        'successful_closeout_behavior_test': 'Added synthetic end-to-end closeout behavior test verifying zero missing count and complete status'
+    'v15r2_conversion_isolation_corrections': {
+        'matrix_validator_observations_key': 'Updated validate_f38_matrix_results.py to read observations key from CAE_PHASE_DIAGNOSTIC_MATRIX.json',
+        'fail_closed_control_a_merge': 'Implemented fail-closed Control A merge verification requiring 15 coincident node pairs along crack segment [-0.5, 0.0] and 0 remaining pairs',
+        'probe_completeness_schema': 'Added probe completeness validation verifying attempted, completed, and exception fields across all probes',
+        'diagnostic_matrix_classification': 'Updated matrix validator and runtime audits to accept root-cause-confirmed diagnostic matrix execution as valid evidence contract'
     },
     'qualification_status': 'qualified_not_authorized'
 }

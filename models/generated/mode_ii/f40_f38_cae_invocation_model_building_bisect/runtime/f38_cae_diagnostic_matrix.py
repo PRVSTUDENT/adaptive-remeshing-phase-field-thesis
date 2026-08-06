@@ -228,8 +228,13 @@ def run_single_conversion_probe(mdb, source_deck, model_name, part_key, feature_
         source_part = model.parts[list(model.parts.keys())[0]]
 
         if merge_crack_nodes:
-            # 1. Detect coincident coordinate groups along crack y=0 (x in [0.0, 0.5])
-            crack_nodes = [n for n in source_part.nodes if abs(n.coordinates[1]) < 1e-5 and n.coordinates[0] <= 0.5 + 1e-5]
+            # 1. Detect coincident coordinate groups along crack segment y=0, x in [-0.5, 0.0]
+            coord_tol = 1e-4
+            crack_nodes = [
+                n for n in source_part.nodes
+                if abs(n.coordinates[1]) <= coord_tol
+                and -0.5 - coord_tol <= n.coordinates[0] <= 0.0 + coord_tol
+            ]
             coord_groups = {}
             for n in crack_nodes:
                 pt_key = (round(n.coordinates[0], 5), round(n.coordinates[1], 5))
@@ -239,7 +244,7 @@ def run_single_conversion_probe(mdb, source_deck, model_name, part_key, feature_
             probe_record['coincident_pairs_before'] = len(duplicate_pairs)
 
             if len(duplicate_pairs) != 15:
-                raise RuntimeError("Control A fail-closed check failed: expected exactly 15 coincident node pairs along crack, found {0}".format(len(duplicate_pairs)))
+                raise RuntimeError("Control A fail-closed check failed: expected exactly 15 coincident node pairs along crack segment [-0.5, 0.0], found {0}".format(len(duplicate_pairs)))
 
             if not hasattr(source_part, 'mergeNodes'):
                 raise RuntimeError("Control A fail-closed check failed: source_part lacks mergeNodes method")
@@ -252,7 +257,11 @@ def run_single_conversion_probe(mdb, source_deck, model_name, part_key, feature_
             if (nodes_before - nodes_after) != 15:
                 raise RuntimeError("Control A fail-closed check failed: node count reduction expected 15, actual {0}".format(nodes_before - nodes_after))
 
-            rem_nodes = [n for n in source_part.nodes if abs(n.coordinates[1]) < 1e-5 and n.coordinates[0] <= 0.5 + 1e-5]
+            rem_nodes = [
+                n for n in source_part.nodes
+                if abs(n.coordinates[1]) <= coord_tol
+                and -0.5 - coord_tol <= n.coordinates[0] <= 0.0 + coord_tol
+            ]
             rem_groups = {}
             for n in rem_nodes:
                 pt_key = (round(n.coordinates[0], 5), round(n.coordinates[1], 5))
@@ -344,11 +353,34 @@ def phase_geometry_conversion_observation(ctx):
             mdb, source_deck, 'F40_ANGLE_{0}'.format(int(fa)), 'GeomAngle_{0}'.format(int(fa)), fa, merge_crack_nodes=False
         )
 
+    control_a_usable = (
+        control_a.get('completed') is True
+        and control_a.get('exception_type') is None
+        and control_a.get('coincident_pairs_before') == 15
+        and control_a.get('node_reduction') == 15
+        and control_a.get('coincident_pairs_after') == 0
+        and control_a.get('face_count', 0) > 0
+        and control_a.get('vertex_count', 0) > 0
+    )
+
+    control_b_unusable = (
+        control_b.get('completed') is True
+        and control_b.get('exception_type') is None
+        and (
+            control_b.get('face_count', 0) == 0
+            or control_b.get('vertex_count', 0) == 0
+        )
+    )
+
+    confirmed_root_cause = (control_a_usable and control_b_unusable)
+
     controlled_conversion_probes = {
         'control_a': control_a,
         'control_b': control_b,
         'angle_probes': angle_probes,
-        'coincident_crack_nodes_confirmed_root_cause': (control_a.get('face_count', 0) > 0 and control_b.get('face_count', 0) == 0)
+        'control_a_usable': control_a_usable,
+        'control_b_unusable': control_b_unusable,
+        'coincident_crack_nodes_confirmed_root_cause': confirmed_root_cause
     }
 
     # API Observation Record
@@ -357,7 +389,7 @@ def phase_geometry_conversion_observation(ctx):
         'model_api_passed': model_api_passed,
         'model_api_error': model_api_error,
         'part_api_passed': False,
-        'part_api_error': "Part-level fallback probe cleanly removed per F40 v15R1 specification",
+        'part_api_error': "Part-level fallback probe cleanly removed per F40 v15R2 specification",
         'created_repository_key': 'GeomPartModelApi',
         'returned_object_type': str(type(geom_part)),
         'geom_part_name': str(geom_part.name),

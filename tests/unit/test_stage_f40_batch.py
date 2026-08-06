@@ -184,17 +184,35 @@ class TestStageF40Batch(unittest.TestCase):
                     "traceback": None
                 }
                 if pname == "geometry_conversion_observation":
-                    rec["result"] = {
+                    rec["observations"] = {
                         "controlled_conversion_probes": {
-                            "control_a": {"attempted": True, "completed": True},
-                            "control_b": {"attempted": True, "completed": True},
+                            "control_a": {
+                                "attempted": True,
+                                "completed": True,
+                                "exception_type": None,
+                                "exception_message": None,
+                                "coincident_pairs_before": 15,
+                                "node_reduction": 15,
+                                "coincident_pairs_after": 0,
+                                "face_count": 1,
+                                "vertex_count": 3
+                            },
+                            "control_b": {
+                                "attempted": True,
+                                "completed": True,
+                                "exception_type": None,
+                                "exception_message": None,
+                                "face_count": 0,
+                                "vertex_count": 0
+                            },
                             "angle_probes": {
-                                "angle_15deg": {"attempted": True},
-                                "angle_30deg": {"attempted": True},
-                                "angle_45deg": {"attempted": True},
-                                "angle_60deg": {"attempted": True},
-                                "angle_90deg": {"attempted": True}
-                            }
+                                "angle_15deg": {"attempted": True, "completed": True, "exception_type": None, "exception_message": None, "face_count": 0, "vertex_count": 0},
+                                "angle_30deg": {"attempted": True, "completed": True, "exception_type": None, "exception_message": None, "face_count": 0, "vertex_count": 0},
+                                "angle_45deg": {"attempted": True, "completed": True, "exception_type": None, "exception_message": None, "face_count": 0, "vertex_count": 0},
+                                "angle_60deg": {"attempted": True, "completed": True, "exception_type": None, "exception_message": None, "face_count": 0, "vertex_count": 0},
+                                "angle_90deg": {"attempted": True, "completed": True, "exception_type": None, "exception_message": None, "face_count": 0, "vertex_count": 0}
+                            },
+                            "coincident_crack_nodes_confirmed_root_cause": True
                         }
                     }
                 phases_records.append(rec)
@@ -517,17 +535,39 @@ class TestStageF40Batch(unittest.TestCase):
             with open(os.path.join(tmpdir, "CAE_INVOCATION_CONTEXT_AUDIT.json"), "w") as f:
                 json.dump(ctx_data, f)
 
+            phases_rec = []
+            for p in expected_f38_phases:
+                prec = {
+                    "phase": p,
+                    "attempted": True,
+                    "passed": True,
+                    "dependency_blocked": False,
+                    "exception_type": None
+                }
+                if p == "geometry_conversion_observation":
+                    prec["observations"] = {
+                        "controlled_conversion_probes": {
+                            "control_a": {
+                                "attempted": True, "completed": True, "exception_type": None, "exception_message": None,
+                                "coincident_pairs_before": 15, "node_reduction": 15, "coincident_pairs_after": 0,
+                                "face_count": 1, "vertex_count": 3
+                            },
+                            "control_b": {
+                                "attempted": True, "completed": True, "exception_type": None, "exception_message": None,
+                                "face_count": 0, "vertex_count": 0
+                            },
+                            "angle_probes": {
+                                fa_k: {"attempted": True, "completed": True, "exception_type": None, "exception_message": None, "face_count": 0, "vertex_count": 0}
+                                for fa_k in ["angle_15deg", "angle_30deg", "angle_45deg", "angle_60deg", "angle_90deg"]
+                            },
+                            "coincident_crack_nodes_confirmed_root_cause": True
+                        }
+                    }
+                phases_rec.append(prec)
+
             matrix_data = {
                 "overall_passed": True,
-                "phases": [
-                    {
-                        "phase": p,
-                        "attempted": True,
-                        "passed": True,
-                        "dependency_blocked": False,
-                        "exception_type": None
-                    } for p in expected_f38_phases
-                ]
+                "phases": phases_rec
             }
             with open(os.path.join(tmpdir, "CAE_PHASE_DIAGNOSTIC_MATRIX.json"), "w") as f:
                 json.dump(matrix_data, f)
@@ -647,6 +687,105 @@ class TestStageF40Batch(unittest.TestCase):
         required_keys = ['model_name', 'feature_angle', 'merge_crack_nodes_requested', 'attempted', 'completed', 'face_count', 'vertex_count', 'edge_count', 'exception_type', 'exception_message']
         for k in required_keys:
             self.assertIn(k, record, "Probe record missing required key: {}".format(k))
+
+    def test_v15r2_conversion_probe_mock_merge_success_and_failure(self):
+        matrix_path = os.path.join(self.pkg_dir, "runtime", "f38_cae_diagnostic_matrix.py")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("f38_cae_diagnostic_matrix", matrix_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        class MockNode:
+            def __init__(self, nid, x, y):
+                self.label = nid
+                self.coordinates = (x, y, 0.0)
+
+        class MockPart:
+            def __init__(self, nodes):
+                self.nodes = nodes
+                self.faces = [1]
+                self.vertices = [1, 2, 3]
+                self.edges = [1, 2, 3]
+
+            def mergeNodes(self, nodes, tolerance):
+                unique_nodes = []
+                seen = set()
+                for n in self.nodes:
+                    key = (round(n.coordinates[0], 5), round(n.coordinates[1], 5))
+                    if key not in seen:
+                        seen.add(key)
+                        unique_nodes.append(n)
+                self.nodes = unique_nodes
+
+        class MockGeomPart:
+            def __init__(self, faces_count):
+                self.faces = [1] * faces_count
+                self.vertices = [1] * max(1, faces_count)
+                self.edges = [1] * max(1, faces_count)
+
+        class MockModel:
+            def __init__(self, part):
+                self.parts = {'Part-1': part}
+
+            def Part2DGeomFrom2DMesh(self, name, part, featureAngle):
+                faces_count = 1 if 'CtrlA' in name else 0
+                self.parts[name] = MockGeomPart(faces_count)
+
+        class MockMdb:
+            def __init__(self, model):
+                self.models = {'F40_MODEL': model}
+
+        nodes = []
+        nid = 1
+        for i in range(15):
+            x = -0.5 + i * (0.5 / 14.0)
+            nodes.append(MockNode(nid, x, 0.0))
+            nid += 1
+            nodes.append(MockNode(nid, x, 0.0))
+            nid += 1
+
+        mock_part = MockPart(list(nodes))
+        mock_model = MockModel(mock_part)
+        mock_mdb = MockMdb(mock_model)
+
+        original_import = mod.import_fresh_model
+        mod.import_fresh_model = lambda mdb, deck, mname: mock_model
+
+        try:
+            # 1. Control A (merge_crack_nodes=True) -> Merge success
+            rec_a = mod.run_single_conversion_probe(mock_mdb, "deck.inp", "F40_CTRL_A", "GeomCtrlA", 45.0, merge_crack_nodes=True)
+            self.assertTrue(rec_a['attempted'])
+            self.assertTrue(rec_a['completed'])
+            self.assertIsNone(rec_a['exception_type'])
+            self.assertEqual(rec_a['coincident_pairs_before'], 15)
+            self.assertEqual(rec_a['node_reduction'], 15)
+            self.assertEqual(rec_a['coincident_pairs_after'], 0)
+            self.assertEqual(rec_a['face_count'], 1)
+
+            # 2. Control B (merge_crack_nodes=False) -> Cracked topology
+            mock_part_b = MockPart(list(nodes))
+            mock_model_b = MockModel(mock_part_b)
+            mod.import_fresh_model = lambda mdb, deck, mname: mock_model_b
+
+            rec_b = mod.run_single_conversion_probe(mock_mdb, "deck.inp", "F40_CTRL_B", "GeomCtrlB", 45.0, merge_crack_nodes=False)
+            self.assertTrue(rec_b['attempted'])
+            self.assertTrue(rec_b['completed'])
+            self.assertIsNone(rec_b['exception_type'])
+            self.assertEqual(rec_b['face_count'], 0)
+
+            # 3. Fail-Closed behavior when duplicate count is not 15
+            incomplete_nodes = nodes[:20]  # 10 pairs
+            mock_part_inc = MockPart(list(incomplete_nodes))
+            mock_model_inc = MockModel(mock_part_inc)
+            mod.import_fresh_model = lambda mdb, deck, mname: mock_model_inc
+
+            rec_fail = mod.run_single_conversion_probe(mock_mdb, "deck.inp", "F40_FAIL", "GeomFail", 45.0, merge_crack_nodes=True)
+            self.assertTrue(rec_fail['attempted'])
+            self.assertFalse(rec_fail['completed'])
+            self.assertIsNotNone(rec_fail['exception_type'])
+            self.assertIn("Control A fail-closed check failed", rec_fail['exception_message'])
+        finally:
+            mod.import_fresh_model = original_import
 
 if __name__ == "__main__":
     unittest.main()
