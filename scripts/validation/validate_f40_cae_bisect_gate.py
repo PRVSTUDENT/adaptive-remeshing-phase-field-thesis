@@ -71,6 +71,7 @@ def main():
                 "runtime/f40_invocation_contract_delta.py",
                 "runtime/generate_missing_evidence_report.py",
                 "runtime/source_deck.inp",
+                "runtime/validate_f38_matrix_results.py",
                 "runtime/validate_f40_runtime_audits.py"
             ]
             for rf in required_files:
@@ -97,7 +98,7 @@ def main():
     if not os.path.exists(os.path.join(f38_dir, "M2RMDIAG1.pbs")) or not os.path.exists(os.path.join(f39_dir, "M2RMKERN1.pbs")):
         failures.append("F38/F39 frozen packages modified or missing")
 
-    # Check 8: F38 Entrypoint execution, hash comparison, and non-circular ordering checks
+    # Check 8: F38 Entrypoint execution, hash comparison, non-duplicate execution, and matrix failure propagation
     if os.path.exists(runner_path):
         with open(runner_path, "r") as f:
             rtxt = f.read()
@@ -105,14 +106,17 @@ def main():
                 failures.append("f40_cae_bisection_runner.py does not define immutable expected SHA256 hashes")
             if "entrypoint_sha256 != EXPECTED_ENTRYPOINT_SHA256" not in rtxt:
                 failures.append("f40_cae_bisection_runner.py does not enforce SHA256 hash comparison")
-            if "f38_cae_diagnostic_matrix.main()" not in rtxt:
-                failures.append("f40_cae_bisection_runner.py does not execute f38_cae_diagnostic_matrix.main()")
+            p02_block = rtxt[rtxt.find("p02_id, p02_name ="):rtxt.find("p03_id, p03_name =")]
+            if "f38_cae_diagnostic_matrix.main()" in p02_block:
+                failures.append("f40_cae_bisection_runner.py must not execute main() in P02 to prevent duplicate state contamination")
 
     if os.path.exists(pbs_path):
         with open(pbs_path, "r") as f:
             ptxt = f.read()
             if "run_f38_cae_diagnostic.py" not in ptxt or "f38_entrypoint_rc" not in ptxt:
-                failures.append("M2RMBISECT1.pbs does not invoke run_f38_cae_diagnostic.py in a separate stage")
+                failures.append("M2RMBISECT1.pbs does not invoke run_f38_cae_diagnostic.py in Stage 3")
+            if "validate_f38_matrix_results.py" not in ptxt or "f38_matrix_validator_rc" not in ptxt:
+                failures.append("M2RMBISECT1.pbs does not validate F38 matrix results or record f38_matrix_validator.returncode")
             if 'echo "0" > "$WORK_DIR/collector.returncode"' in ptxt:
                 failures.append("M2RMBISECT1.pbs contains placeholder collector.returncode before generation")
 

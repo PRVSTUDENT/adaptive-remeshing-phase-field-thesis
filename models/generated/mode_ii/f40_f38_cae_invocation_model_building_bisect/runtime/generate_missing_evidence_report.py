@@ -23,7 +23,8 @@ EXPECTED_EVIDENCE_FILES = [
     "CAE_PHASE_DIAGNOSTIC_MATRIX.json",
     "delta_auditor.returncode",
     "bisection_runner.returncode",
-    "f38_entrypoint.returncode"
+    "f38_entrypoint.returncode",
+    "f38_matrix_validator.returncode"
 ]
 
 def main():

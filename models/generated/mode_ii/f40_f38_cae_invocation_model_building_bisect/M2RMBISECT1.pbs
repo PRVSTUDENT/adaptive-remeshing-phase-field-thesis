@@ -20,6 +20,7 @@ cp "$F40_PACKAGE_DIR/runtime/"* "$WORK_DIR/runtime/"
 delta_auditor_rc=1
 bisection_runner_rc=1
 f38_entrypoint_rc=1
+f38_matrix_validator_rc=1
 runtime_validator_rc=1
 
 on_exit() {
@@ -30,7 +31,12 @@ on_exit() {
     echo "$bisection_runner_rc" > "$WORK_DIR/bisection_runner.returncode"
     echo "$f38_entrypoint_rc" > "$WORK_DIR/f38_entrypoint.returncode"
 
-    # Step 1: Write preliminary STATUS.json
+    # Step 1: Validate F38 matrix results and write f38_matrix_validator.returncode
+    python3 "$WORK_DIR/runtime/validate_f38_matrix_results.py" "$WORK_DIR"
+    f38_matrix_validator_rc=$?
+    echo "$f38_matrix_validator_rc" > "$WORK_DIR/f38_matrix_validator.returncode"
+
+    # Step 2: Write preliminary STATUS.json
     local overall_cls="f40_generic_cae_primitives_passed_runtime_evidence_contract_failed"
     cat <<EOF > "$WORK_DIR/STATUS.json"
 {
@@ -38,23 +44,24 @@ on_exit() {
   "delta_auditor_rc": $delta_auditor_rc,
   "bisection_runner_rc": $bisection_runner_rc,
   "f38_entrypoint_rc": $f38_entrypoint_rc,
+  "f38_matrix_validator_rc": $f38_matrix_validator_rc,
   "runtime_validator_rc": $runtime_validator_rc,
   "first_failure_rc": $cmd_rc,
   "overall_classification": "$overall_cls"
 }
 EOF
 
-    # Step 2: Generate missing evidence report (for finalized evidence files)
+    # Step 3: Generate missing evidence report (for finalized evidence files)
     python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR" >/dev/null 2>&1
     local col_rc=$?
     echo "$col_rc" > "$WORK_DIR/collector.returncode"
 
-    # Step 3: Run runtime validator
+    # Step 4: Run runtime validator
     python3 "$WORK_DIR/runtime/validate_f40_runtime_audits.py" "$WORK_DIR"
     runtime_validator_rc=$?
     echo "$runtime_validator_rc" > "$WORK_DIR/runtime_validator.returncode"
 
-    # Step 4: Compute final first_failure
+    # Step 5: Compute final first_failure
     local first_failure=0
     if [ "$cmd_rc" -ne 0 ]; then
         first_failure=$cmd_rc
@@ -64,6 +71,8 @@ EOF
         first_failure=$bisection_runner_rc
     elif [ "$f38_entrypoint_rc" -ne 0 ]; then
         first_failure=$f38_entrypoint_rc
+    elif [ "$f38_matrix_validator_rc" -ne 0 ]; then
+        first_failure=$f38_matrix_validator_rc
     elif [ "$col_rc" -ne 0 ]; then
         first_failure=$col_rc
     elif [ "$runtime_validator_rc" -ne 0 ]; then
@@ -82,6 +91,7 @@ EOF
   "delta_auditor_rc": $delta_auditor_rc,
   "bisection_runner_rc": $bisection_runner_rc,
   "f38_entrypoint_rc": $f38_entrypoint_rc,
+  "f38_matrix_validator_rc": $f38_matrix_validator_rc,
   "runtime_validator_rc": $runtime_validator_rc,
   "first_failure_rc": $first_failure,
   "overall_classification": "$overall_cls"

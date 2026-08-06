@@ -77,7 +77,7 @@ def run_bisection_matrix():
         write_phase_audit(p01_id, p01_name, True, False, 1, type(exc).__name__, str(exc), traceback.format_exc(), "failed")
         return 1
 
-    # Phase 02: F38 Entrypoint and Module Execution Probing
+    # Phase 02: F38 Entrypoint and Module Probing (No duplicate main() execution)
     p02_id, p02_name = "P02", "P02_MODULE_LOADING"
     try:
         if runtime_dir not in sys.path:
@@ -117,8 +117,6 @@ def run_bisection_matrix():
         if not main_callable:
             raise AttributeError("f38_cae_diagnostic_matrix does not expose a callable main()")
 
-        f38_cae_diagnostic_matrix.main()
-
         metrics = {
             "runtime_dir": runtime_dir,
             "file_global_defined": file_defined,
@@ -134,7 +132,7 @@ def run_bisection_matrix():
             "helper_hash_matched": True,
             "module_imported": True,
             "main_callable": True,
-            "main_executed": True,
+            "main_executed_in_p02": False,
             "sys_path_0": sys.path[0]
         }
         write_phase_audit(p02_id, p02_name, True, True, 0, None, None, None, "ok", metrics=metrics)

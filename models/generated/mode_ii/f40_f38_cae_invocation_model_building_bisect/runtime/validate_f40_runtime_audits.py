@@ -3,6 +3,29 @@ import json
 import os
 import sys
 
+EXPECTED_F38_PHASES = [
+    "bootstrap",
+    "abaqus_module_import",
+    "source_deck_access",
+    "model_import",
+    "repository_inventory",
+    "repository_resolution",
+    "geometry_conversion",
+    "element_type_assignment",
+    "mesh_control_assignment",
+    "mesh_generation",
+    "assembly_feature_inventory",
+    "instance_replacement",
+    "crack_edge_method_inventory",
+    "crack_edge_detection",
+    "crack_mesh_topology",
+    "assembly_set_inventory",
+    "output_variable_probe",
+    "output_request_rebinding",
+    "input_write",
+    "generated_input_presence"
+]
+
 def main():
     target_dir = sys.argv[1] if len(sys.argv) > 1 else "."
 
@@ -16,13 +39,61 @@ def main():
     if not os.path.exists(delta_path):
         errors.append("F38_F39_INVOCATION_DELTA_AUDIT.json missing")
 
+    # 1. Parse and validate CAE_INVOCATION_CONTEXT_AUDIT.json
     inv_audit_path = os.path.join(target_dir, "CAE_INVOCATION_CONTEXT_AUDIT.json")
     if not os.path.exists(inv_audit_path):
         errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json missing")
+    else:
+        try:
+            with open(inv_audit_path, "r") as f:
+                inv_data = json.load(f)
+                if inv_data.get("abaqus_module_imported") is not True:
+                    errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json abaqus_module_imported is not True")
+                if inv_data.get("mdb_accessible") is not True:
+                    errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json mdb_accessible is not True")
+                if inv_data.get("source_deck_exists") is not True:
+                    errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json source_deck_exists is not True")
+        except Exception as exc:
+            errors.append("Error reading CAE_INVOCATION_CONTEXT_AUDIT.json: {}".format(exc))
 
+    # 2. Parse and validate CAE_PHASE_DIAGNOSTIC_MATRIX.json
     matrix_audit_path = os.path.join(target_dir, "CAE_PHASE_DIAGNOSTIC_MATRIX.json")
     if not os.path.exists(matrix_audit_path):
         errors.append("CAE_PHASE_DIAGNOSTIC_MATRIX.json missing")
+    else:
+        try:
+            with open(matrix_audit_path, "r") as f:
+                mat_data = json.load(f)
+
+                if mat_data.get("overall_passed") is not True:
+                    errors.append("CAE_PHASE_DIAGNOSTIC_MATRIX.json overall_passed is not True")
+
+                phases = mat_data.get("phases", [])
+                if len(phases) != len(EXPECTED_F38_PHASES):
+                    errors.append(
+                        "CAE_PHASE_DIAGNOSTIC_MATRIX.json expected {} phases, found {}".format(
+                            len(EXPECTED_F38_PHASES), len(phases)
+                        )
+                    )
+
+                phase_map = {p.get("phase"): p for p in phases if isinstance(p, dict)}
+                for exp_phase in EXPECTED_F38_PHASES:
+                    p_rec = phase_map.get(exp_phase)
+                    if p_rec is None:
+                        errors.append("CAE_PHASE_DIAGNOSTIC_MATRIX.json missing phase record for '{}'".format(exp_phase))
+                        continue
+
+                    if p_rec.get("attempted") is not True:
+                        errors.append("F38 Phase '{}' attempted is not True".format(exp_phase))
+                    if p_rec.get("passed") is not True:
+                        errors.append("F38 Phase '{}' passed is not True".format(exp_phase))
+                    if p_rec.get("dependency_blocked") is not False:
+                        errors.append("F38 Phase '{}' dependency_blocked is not False".format(exp_phase))
+                    if p_rec.get("exception_type") is not None:
+                        errors.append("F38 Phase '{}' reported exception_type: {}".format(exp_phase, p_rec.get("exception_type")))
+
+        except Exception as exc:
+            errors.append("Error reading CAE_PHASE_DIAGNOSTIC_MATRIX.json: {}".format(exc))
 
     expected_phases = [
         "P00_KERNEL_STARTUP",
@@ -55,9 +126,11 @@ def main():
                     if metrics is None:
                         errors.append("{}_AUDIT.json missing metrics dictionary".format(pname))
                     elif pname == "P02_MODULE_LOADING":
-                        for key in ["entrypoint_exists", "helper_exists", "entrypoint_hash_matched", "helper_hash_matched", "module_imported", "main_callable", "main_executed"]:
+                        for key in ["entrypoint_exists", "helper_exists", "entrypoint_hash_matched", "helper_hash_matched", "module_imported", "main_callable"]:
                             if metrics.get(key) is not True:
                                 errors.append("P02_MODULE_LOADING_AUDIT.json metrics {} is not True (found: {})".format(key, metrics.get(key)))
+                        if metrics.get("main_executed_in_p02") is not False:
+                            errors.append("P02_MODULE_LOADING_AUDIT.json metrics main_executed_in_p02 is not False")
             except Exception as exc:
                 errors.append("Error reading {}_AUDIT.json: {}".format(pname, exc))
 
@@ -65,6 +138,7 @@ def main():
         "bisection_runner.returncode",
         "delta_auditor.returncode",
         "f38_entrypoint.returncode",
+        "f38_matrix_validator.returncode",
         "collector.returncode"
     ]
 
