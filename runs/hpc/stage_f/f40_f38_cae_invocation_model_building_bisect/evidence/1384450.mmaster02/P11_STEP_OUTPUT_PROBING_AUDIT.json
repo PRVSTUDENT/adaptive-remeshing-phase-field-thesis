@@ -1,0 +1,26 @@
+{
+  "phase_name": "P11_STEP_OUTPUT_PROBING", 
+  "started": true, 
+  "timestamp": "2026-08-06T09:08:42.715669Z", 
+  "completed": true, 
+  "return_code": 0, 
+  "exception_type": null, 
+  "working_directory": "/scratch9/pr21vyci/f21_exec_83cbfe0/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384450.mmaster02", 
+  "exception_message": null, 
+  "process_executable": "/cluster/application/abaqus/2023/linux_a64/code/bin/ABQcaeK", 
+  "metrics": {
+    "step_count": 2, 
+    "variables_probed": [], 
+    "field_output_requests": [
+      "F-Output-1", 
+      "F-Output-2"
+    ], 
+    "step_names": [
+      "Initial", 
+      "Step-1"
+    ]
+  }, 
+  "traceback": null, 
+  "dependency_status": "ok", 
+  "phase_id": "P11"
+}

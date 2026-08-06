@@ -1,16 +1,17 @@
 {
   "protocol_version": 1,
   "task_id": "F40-M2RMBISECT1-AUTHORIZED-SUBMISSION",
-  "status": "complete_failed",
-  "classification": "f40_generic_cae_primitives_passed_runtime_evidence_contract_failed",
-  "starting_commit": "23f2806eb381830d187881e02d6f2aff9dd4e9d9",
+  "status": "complete_success",
+  "classification": "cae_bisection_all_phases_passed",
+  "starting_commit": "0fad28489cb5d583215d43c9646a092d2a923405",
   "preparation_commit": "36a779a4e106c812899218a1dd9db0dd00d430e4",
   "repair_preparation_commit": "daea0e0134266ecaa70de68f14c19ab9348d91fe",
   "qualification_commit": "a3a498e8373c8358bd9f2dbebf68c99905874b0f",
   "invalidated_predecessor": "f38_abaqus_cae_kernel_startup_failed_before_python_entrypoint",
   "prepared_job": "M2RMBISECT1",
-  "scheduler_job_id": "1384435.mmaster02",
+  "scheduler_job_id": "1384450.mmaster02",
   "failed_predecessor_job_id": "1384183.mmaster02",
+  "failed_initial_attempt_job_id": "1384435.mmaster02",
   "package_path": "models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect",
   "execution_authorized": false,
   "submission_approved": false,
@@ -19,5 +20,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "f40_offline_repair_and_clean_linux_qualification_complete_no_job_authorized"
+  "next_action": "prepare F41 model builder package after scientific review"
 }

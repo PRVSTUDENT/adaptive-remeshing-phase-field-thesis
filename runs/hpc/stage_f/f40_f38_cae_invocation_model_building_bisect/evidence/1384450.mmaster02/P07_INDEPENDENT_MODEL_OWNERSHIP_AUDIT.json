@@ -1,0 +1,23 @@
+{
+  "phase_name": "P07_INDEPENDENT_MODEL_OWNERSHIP", 
+  "started": true, 
+  "timestamp": "2026-08-06T09:08:42.668363Z", 
+  "completed": true, 
+  "return_code": 0, 
+  "exception_type": null, 
+  "working_directory": "/scratch9/pr21vyci/f21_exec_83cbfe0/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384450.mmaster02", 
+  "exception_message": null, 
+  "process_executable": "/cluster/application/abaqus/2023/linux_a64/code/bin/ABQcaeK", 
+  "metrics": {
+    "all_models": [
+      "F40_MODEL", 
+      "F40_PROBE_OWNERSHIP", 
+      "Model-1"
+    ], 
+    "created_model": "F40_PROBE_OWNERSHIP", 
+    "model_count": 3
+  }, 
+  "traceback": null, 
+  "dependency_status": "ok", 
+  "phase_id": "P07"
+}
