@@ -1,5 +1,29 @@
 # Current project state
 
+## F40 v16R3 Notification and Scheduler-Preflight Reliability Correction Closeout (2026-08-06)
+
+The F40 v16R3 notification and scheduler-preflight reliability correction sequence was completed strictly offline without any PBS job submission.
+
+Completed corrections:
+1. **Fail-Closed Queue Preflight**: Replaced `qstat ... || true` with explicit return code handling. `qstat -u "$USER"` failure stops execution before lock creation or `qsub`, saving `QSTAT_U_PRECHECK.stdout` and `QSTAT_U_PRECHECK.stderr`.
+2. **Full `qstat -f` Job Duplicate Audit**: Extracted all job IDs from `qstat -u` output and ran `qstat -f "$JOB_ID"` for each to parse full `Job_Name`, `job_state`, and `Job_Owner`. Aborts if `Job_Name = M2RMBISECT1` even if tabular output displays truncated `M2RMBISEC*`. Writes `QSTAT_EXISTING_JOB_AUDIT.json`.
+3. **Safe `QSTAT_F_VERIFICATION.json` Generation**: Removed raw shell boolean string interpolation in inline Python. Passed values safely via `sys.argv` to generate `"verification_passed": True/False` as a real JSON boolean without `|| true`.
+4. **Post-`qsub` Output Archiving**: Captured `qsub` stdout, stderr, and returncode (`QSUB_OUTPUT.stdout`, `QSUB_OUTPUT.stderr`, `QSUB_RETURNCODE.txt`) as well as `qstat -f` stdout, stderr, and returncode.
+5. **Post-`qsub` Verification Failure Handling**: Verification failure after genuine `qsub` consumes authorization, attempts submission notifications, records failure, and never re-invokes `qsub`.
+6. **Monitor Script Renaming**: Renamed `scripts/hpc/stage_f/monitor_stage_f40_terminal_state.sh` $\rightarrow$ `scripts/hpc/stage_f/monitor_stage_f40_terminal_state.py`.
+7. **Strict Terminal State Criteria**: Required `job_state in {"F", "C"}` AND `Exit_status` present. State `E` alone is not treated as terminal.
+8. **Monitoring Timeout & Non-Zero Exit**: On timeout or unresolvable scheduler query error, writes `TERMINAL_MONITOR_STATUS.json`, suppresses terminal notification, and exits with non-zero exit status (`sys.exit(1)`).
+9. **Scientific Classification Source**: Reads `overall_classification` directly from `evidence/<job-id>/STATUS.json`.
+10. **Secure User Notification Configuration**: Introduced `~/.config/adaptive-remeshing/notifications.json` (dir mode 700, file mode 600) for credentials and recipient sets, loaded by both submission dispatcher and terminal monitor when environment variables are absent.
+11. **Isolated Preflight Test Output Directory**: Forces pre-submission notification test mode to write strictly inside `runs/hpc/stage_f/f40_notification_live_test/<timestamp>/` (zero files written to repository root).
+12. **Path Freezing & Detached Qualification**: Updated `FREEZE_PATHS` to include renamed monitor script `.py` and verified detached clean-Linux qualification.
+13. **Git Lineage P16R3 -> Q16R3 -> M16R3**:
+    - Preparation commit P16R3: `3fb422104e739f93348faa6f2cb31fd3baff5504`
+    - Qualification commit Q16R3: `a0b0779b3fe860b96c668529f1e34e33ca3c8b28`
+    - Coordination head commit M16R3: pending metadata commit
+
+Classification: `f40_notification_scheduler_preflight_reliability_corrected_clean_linux_qualified`. All execution and submission authority flags remain strictly `false` and `0`. No scheduler job, solver, datacheck, F41 execution, remeshing simulation, retry, replacement, or new submission is authorized.
+
 ## F40 v16R2 Notification Reliability Correction Closeout (2026-08-06)
 
 The F40 v16R2 notification reliability correction sequence was completed strictly offline without any PBS job submission.
