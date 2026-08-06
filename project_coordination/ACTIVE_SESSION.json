@@ -1,15 +1,12 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_scope": [
-    "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/**",
-    "project_coordination/**"
-  ],
-  "completed_at": null,
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
+  "completed_at": "2026-08-06T10:40:00+02:00",
   "heartbeat": "2026-08-06T10:40:00+02:00",
-  "started_at": "2026-08-06T10:40:00+02:00",
-  "session_id": "2026-08-06_1040_gemini-antigravity_F40-M2RMBISECT1-AUTHORIZED-SUBMISSION",
-  "starting_commit": "23f2806eb381830d187881e02d6f2aff9dd4e9d9",
-  "task_id": "F40-M2RMBISECT1-AUTHORIZED-SUBMISSION",
-  "note": "Execute exactly one authorized guarded submission of M2RMBISECT1 from qualification commit 23f2806eb381830d187881e02d6f2aff9dd4e9d9 using preparation commit 36a779a4e106c812899218a1dd9db0dd00d430e4."
+  "started_at": null,
+  "session_id": null,
+  "starting_commit": null,
+  "task_id": null,
+  "note": "Executed authorized guarded submission of F40 M2RMBISECT1. Scheduler job ID: 1384435.mmaster02. Submission authority returned to false."
 }
