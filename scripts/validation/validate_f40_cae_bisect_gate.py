@@ -136,6 +136,11 @@ def main():
             if 'echo "0" > "$WORK_DIR/collector.returncode"' in ptxt:
                 failures.append("M2RMBISECT1.pbs contains placeholder collector.returncode before generation")
 
+    # Check 9: Monitor script exists as .py
+    monitor_py = os.path.join(repo_root, "scripts", "hpc", "stage_f", "monitor_stage_f40_terminal_state.py")
+    if not os.path.exists(monitor_py):
+        failures.append("monitor_stage_f40_terminal_state.py missing")
+
     result = {
         "classification": "pass" if len(failures) == 0 else "fail",
         "failures": failures

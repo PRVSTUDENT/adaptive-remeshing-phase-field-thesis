@@ -947,7 +947,7 @@ class TestStageF40Batch(unittest.TestCase):
             self.assertNotEqual(cm.exception.code, 0)
 
     def test_v16r2_terminal_monitor_parsing_and_bounded_timeout(self):
-        monitor_path = os.path.join(self.repo_root, "scripts", "hpc", "stage_f", "monitor_stage_f40_terminal_state.sh")
+        monitor_path = os.path.join(self.repo_root, "scripts", "hpc", "stage_f", "monitor_stage_f40_terminal_state.py")
         import importlib.machinery
         loader = importlib.machinery.SourceFileLoader("monitor_stage_f40_terminal_state", monitor_path)
         spec = importlib.util.spec_from_loader("monitor_stage_f40_terminal_state", loader)
@@ -968,6 +968,77 @@ class TestStageF40Batch(unittest.TestCase):
         self.assertEqual(parsed.get("Exit_status"), "0")
         self.assertEqual(parsed.get("exec_host"), "mnode106/0")
         self.assertEqual(parsed.get("resources_used.walltime"), "00:04:12")
+
+    def test_v16r3_terminal_monitor_state_e_not_terminal(self):
+        monitor_path = os.path.join(self.repo_root, "scripts", "hpc", "stage_f", "monitor_stage_f40_terminal_state.py")
+        import importlib.machinery
+        loader = importlib.machinery.SourceFileLoader("monitor_stage_f40_terminal_state", monitor_path)
+        spec = importlib.util.spec_from_loader("monitor_stage_f40_terminal_state", loader)
+        mod = importlib.util.module_from_spec(spec)
+        loader.exec_module(mod)
+
+        # State E alone without Exit_status should NOT be treated as terminal
+        qstat_e_sample = "Job_Name = M2RMBISECT1\njob_state = E\n"
+        parsed = mod.parse_qstat_f(qstat_e_sample)
+        last_state = parsed.get("job_state")
+        is_term = (last_state in ["F", "C"]) and ("Exit_status" in parsed)
+        self.assertFalse(is_term, "State E alone must NOT be treated as terminal")
+
+        # State F + Exit_status SHOULD be treated as terminal
+        qstat_f_sample = "Job_Name = M2RMBISECT1\njob_state = F\nExit_status = 0\n"
+        parsed_f = mod.parse_qstat_f(qstat_f_sample)
+        last_state_f = parsed_f.get("job_state")
+        is_term_f = (last_state_f in ["F", "C"]) and ("Exit_status" in parsed_f)
+        self.assertTrue(is_term_f, "State F with Exit_status must be treated as terminal")
+
+    def test_v16r3_secure_notification_config_loader(self):
+        notify_path = os.path.join(self.repo_root, "scripts", "hpc", "notify_hpc_event.py")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("notify_hpc_event", notify_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            cfg_dir = os.path.join(tmpdir, ".config", "adaptive-remeshing")
+            os.makedirs(cfg_dir, mode=0o700, exist_ok=True)
+            cfg_file = os.path.join(cfg_dir, "notifications.json")
+            cfg_data = {
+                "telegram_bot_token": "mock_token_123",
+                "telegram_chat_id": "mock_chat_456",
+                "email_recipients": ["pr21vyci@mailserver.tu-freiberg.de", "Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de"]
+            }
+            with open(cfg_file, "w") as f:
+                json.dump(cfg_data, f)
+            if os.name == "posix":
+                os.chmod(cfg_file, 0o600)
+
+            # Test loader with mock home directory
+            orig_expanduser = os.path.expanduser
+            def mock_expanduser(path):
+                if path.startswith("~/.config/adaptive-remeshing"):
+                    return path.replace("~/.config/adaptive-remeshing", cfg_dir)
+                return orig_expanduser(path)
+            
+            mod.os.path.expanduser = mock_expanduser
+            try:
+                tok, cid, recs = mod.load_notification_config()
+                self.assertIn("pr21vyci@mailserver.tu-freiberg.de", recs or "")
+                self.assertIn("Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de", recs or "")
+            finally:
+                mod.os.path.expanduser = orig_expanduser
+
+    def test_v16r3_qstat_f_verification_json_boolean_logic(self):
+        with open(self.wrapper_path, "r") as f:
+            content = f.read()
+            self.assertIn("'verification_passed': (verif_ok == 'true')", content)
+            self.assertNotIn("($VERIF_OK)", content)
+            self.assertNotIn("2>/dev/null || true", content)
+
+    def test_v16r3_wrapper_freezes_renamed_monitor_path(self):
+        with open(self.wrapper_path, "r") as f:
+            content = f.read()
+            self.assertIn('MONITOR_PATH="scripts/hpc/stage_f/monitor_stage_f40_terminal_state.py"', content)
+            self.assertIn("QSTAT_EXISTING_JOB_AUDIT.json", content)
 
 if __name__ == "__main__":
     unittest.main()

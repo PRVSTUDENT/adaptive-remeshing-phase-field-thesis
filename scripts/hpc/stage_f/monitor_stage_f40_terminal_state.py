@@ -67,7 +67,7 @@ def main():
         parsed_info = parse_qstat_f(proc.stdout)
         last_state = parsed_info.get("job_state", "UNKNOWN")
 
-        if last_state in ["F", "C", "E"] or "Exit_status" in parsed_info:
+        if last_state in ["F", "C"] and "Exit_status" in parsed_info:
             terminal_confirmed = True
             print("INFO: Job {} reached confirmed terminal state '{}'".format(job_id, last_state))
             break
@@ -79,21 +79,21 @@ def main():
     exit_status = parsed_info.get("Exit_status")
     exec_host = parsed_info.get("exec_host", "unknown")
     walltime = parsed_info.get("resources_used.walltime", "unknown")
+    classification = "unknown"
 
     status_json = os.path.join(evidence_dir, "STATUS.json")
-    if exit_status is None and os.path.exists(status_json):
+    if os.path.exists(status_json):
         try:
             with open(status_json, "r") as f:
                 s_data = json.load(f)
-                if "exit_status" in s_data and s_data["exit_status"] is not None:
+                classification = s_data.get("overall_classification", classification)
+                if exit_status is None and "exit_status" in s_data and s_data["exit_status"] is not None:
                     exit_status = str(s_data["exit_status"])
         except Exception:
             pass
 
     if exit_status is None:
         exit_status = "unknown"
-
-    classification = "completed" if exit_status == "0" else ("failed" if exit_status != "unknown" else "unknown")
 
     monitor_status = {
         "job_id": job_id,
@@ -127,8 +127,10 @@ def main():
                 "--returncode-dir", evidence_dir
             ])
         print("SUCCESS: Terminal monitoring and notification closeout complete for {}.".format(job_id))
+        sys.exit(0)
     else:
         print("ERROR: Terminal monitoring timed out or failed to confirm terminal state for {}.".format(job_id), file=sys.stderr)
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

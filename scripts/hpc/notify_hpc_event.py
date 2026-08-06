@@ -35,21 +35,55 @@ def redact_string(val):
         return "****"
     return val[:2] + "****" + val[-2:]
 
-def load_telegram_credentials():
+def check_secure_permissions(path):
+    if os.name != "posix" or not os.path.exists(path):
+        return
+    if os.path.isdir(path):
+        mode = os.stat(path).st_mode & 0o777
+        if mode != 0o700:
+            print("WARNING: Secure directory {} mode is {:o}, expected 700".format(path, mode), file=sys.stderr)
+    elif os.path.isfile(path):
+        mode = os.stat(path).st_mode & 0o777
+        if mode != 0o600:
+            print("WARNING: Secure file {} mode is {:o}, expected 600".format(path, mode), file=sys.stderr)
+
+def load_notification_config():
     token = os.environ.get("TELEGRAM_BOT_TOKEN")
     chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    recipients = os.environ.get("F40_NOTIFICATION_EMAIL_RECIPIENTS")
+
+    cfg_dir = os.path.expanduser("~/.config/adaptive-remeshing")
+    cfg_file = os.path.join(cfg_dir, "notifications.json")
+
+    if os.path.exists(cfg_file):
+        check_secure_permissions(cfg_dir)
+        check_secure_permissions(cfg_file)
+        try:
+            with open(cfg_file, "r") as f:
+                data = json.load(f)
+                token = token or data.get("telegram_bot_token") or data.get("bot_token")
+                chat_id = chat_id or data.get("telegram_chat_id") or data.get("chat_id")
+                if not recipients:
+                    rec_val = data.get("email_recipients")
+                    if isinstance(rec_val, list):
+                        recipients = ",".join(rec_val)
+                    elif isinstance(rec_val, str):
+                        recipients = rec_val
+        except Exception:
+            pass
 
     if not token or not chat_id:
-        cfg_path = os.path.expanduser("~/.config/telegram/credentials.json")
-        if os.path.exists(cfg_path):
+        tg_cfg = os.path.expanduser("~/.config/telegram/credentials.json")
+        if os.path.exists(tg_cfg):
             try:
-                with open(cfg_path, "r") as f:
+                with open(tg_cfg, "r") as f:
                     data = json.load(f)
                     token = token or data.get("bot_token")
                     chat_id = chat_id or data.get("chat_id")
             except Exception:
                 pass
-    return token, chat_id
+
+    return token, chat_id, recipients
 
 def send_telegram_message(token, chat_id, message_text):
     if not token or not chat_id:
@@ -179,11 +213,11 @@ def main():
 
     args = parser.parse_args()
 
-    tg_token, tg_chat_id = load_telegram_credentials()
-    raw_email_arg = args.email_recipient or os.environ.get("F40_NOTIFICATION_EMAIL_RECIPIENTS", "")
+    tg_token, tg_chat_id, cfg_recipients = load_notification_config()
+    raw_email_arg = args.email_recipient or os.environ.get("F40_NOTIFICATION_EMAIL_RECIPIENTS", "") or cfg_recipients or ""
     
     if not raw_email_arg:
-        print("FATAL: Recipient email is missing. F40_NOTIFICATION_EMAIL_RECIPIENTS environment variable or --email-recipient argument is required.", file=sys.stderr)
+        print("FATAL: Recipient email is missing. F40_NOTIFICATION_EMAIL_RECIPIENTS environment variable, --email-recipient argument, or secure config is required.", file=sys.stderr)
         sys.exit(1)
 
     email_recipients = [e.strip() for e in raw_email_arg.split(",") if e.strip()]
@@ -192,6 +226,15 @@ def main():
     if len(email_recipients) != 2 or set(email_recipients) != expected_set:
         print("FATAL: Invalid recipient email set {}. Must equal exact expected set {{'pr21vyci@mailserver.tu-freiberg.de', 'Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de'}}.".format(email_recipients), file=sys.stderr)
         sys.exit(1)
+
+    if args.mode == "test" and (args.audit_file == "NOTIFICATION_AUDIT.json" or args.returncode_dir == "."):
+        ts_dir = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+        test_dir = os.path.join("runs", "hpc", "stage_f", "f40_notification_live_test", ts_dir)
+        os.makedirs(test_dir, exist_ok=True)
+        if args.audit_file == "NOTIFICATION_AUDIT.json":
+            args.audit_file = os.path.join(test_dir, "NOTIFICATION_AUDIT.json")
+        if args.returncode_dir == ".":
+            args.returncode_dir = test_dir
 
     results = {}
 
