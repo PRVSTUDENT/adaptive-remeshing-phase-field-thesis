@@ -1,15 +1,12 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_scope": [
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json"
-  ],
-  "completed_at": null,
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
+  "completed_at": "2026-08-06T16:01:00+02:00",
   "heartbeat": "2026-08-06T16:01:00+02:00",
-  "started_at": "2026-08-06T16:01:00+02:00",
-  "session_id": "gemini-f40-v14-authorization-sentence-record",
-  "starting_commit": "369854b7057467ddc74043b13c41d554fbd6134c",
-  "task_id": "F40-M2RMBISECT1-V14-AUTHORIZED-SUBMISSION",
-  "note": "Claiming session to record user authorization sentence referencing coordination head af9f3e8."
+  "started_at": null,
+  "session_id": null,
+  "starting_commit": null,
+  "task_id": null,
+  "note": "Session released. Recorded user authorization under authorization commit 554afbdc3ff0c54e9ab461cfd53e4378d93e6047 for M2RMBISECT1 execution."
 }
