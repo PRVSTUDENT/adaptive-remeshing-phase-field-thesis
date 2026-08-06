@@ -1,12 +1,19 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-06T10:10:00+02:00",
-  "heartbeat": "2026-08-06T10:10:00+02:00",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "Refined F38 terminal classification to abaqus_cae_kernel_startup_failed_before_python_entrypoint, documented three exposed technical issues, and established next offline task F39-DIAGNOSE-ABAQUS-CAE-KERNEL-STARTUP."
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_scope": [
+    "models/generated/mode_ii/f39_abaqus_cae_kernel_startup_diagnostic/**",
+    "scripts/hpc/stage_f/submit_stage_f39_cae_kernel_diagnostic.sh",
+    "scripts/validation/validate_f39_cae_kernel_startup_gate.py",
+    "tests/unit/test_stage_f39_batch.py",
+    "project_coordination/**",
+    "docs/project/PROJECT_PHASE_CHECKLIST.md"
+  ],
+  "completed_at": null,
+  "heartbeat": "2026-08-06T10:15:00+02:00",
+  "started_at": "2026-08-06T10:15:00+02:00",
+  "session_id": "2026-08-06_1015_gemini-antigravity_F39-PREPARE-AND-QUALIFY",
+  "starting_commit": "dc4d78c2d12756a15eed01433fbe05ab0d1a59af",
+  "task_id": "F39-DIAGNOSE-ABAQUS-CAE-KERNEL-STARTUP",
+  "note": "Prepare F39 launcher diagnostic package, implement launcher environment collection and minimal noGUI probe, repair PBS exit status trapping and evidence reporting, write unit tests and static validator, create preparation commit P, validate in detached clean-Linux worktree, and publish qualification commit Q."
 }

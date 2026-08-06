@@ -1,0 +1,129 @@
+#!/bin/bash
+#PBS -N M2RMKERN1
+#PBS -l nodes=1:ppn=1
+#PBS -l pmem=8gb
+#PBS -l walltime=00:30:00
+#PBS -q normal_imfdfkmq
+#PBS -j oe
+
+set -Eeuo pipefail
+
+# Mandatory runtime directories
+F39_PACKAGE_DIR="${F39_PACKAGE_DIR:?F39_PACKAGE_DIR must be exported by launcher}"
+F39_EVIDENCE_DIR="${F39_EVIDENCE_DIR:-${PBS_O_WORKDIR:-$(pwd)}/runs/hpc/stage_f/f39_abaqus_cae_kernel_startup_diagnostic/evidence}"
+
+# Pre-stage working directory
+WORK_DIR="${PBS_O_WORKDIR:-$(pwd)}/runs/hpc/stage_f/f39_abaqus_cae_kernel_startup_diagnostic/M2RMKERN1_${PBS_JOBID:-local}"
+mkdir -p "$WORK_DIR" "$F39_EVIDENCE_DIR"
+cd "$WORK_DIR"
+
+# Stage runtime files
+mkdir -p "$WORK_DIR/runtime"
+cp "$F39_PACKAGE_DIR/runtime/"*.py "$WORK_DIR/runtime/"
+
+# Track execution return codes
+python_probe_rc=1
+cae_kernel_rc=1
+runtime_validator_rc=1
+
+on_exit() {
+    local first_failure=$?
+    set +e
+
+    echo "$python_probe_rc" > "$WORK_DIR/python_probe.returncode"
+    echo "$cae_kernel_rc" > "$WORK_DIR/cae_kernel.returncode"
+    echo "$runtime_validator_rc" > "$WORK_DIR/runtime_validator.returncode"
+    echo "$first_failure" > "$WORK_DIR/first_failure.returncode"
+
+    local overall_cls="cae_kernel_startup_success"
+    if [ "$first_failure" -ne 0 ] || [ "$cae_kernel_rc" -ne 0 ] || [ "$runtime_validator_rc" -ne 0 ]; then
+        overall_cls="abaqus_cae_kernel_startup_failed_before_python_entrypoint"
+    fi
+
+    # Write STATUS.json before generating missing-evidence report
+    cat <<EOF > "$WORK_DIR/STATUS.json"
+{
+  "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%S')",
+  "python_probe_rc": $python_probe_rc,
+  "cae_kernel_rc": $cae_kernel_rc,
+  "runtime_validator_rc": $runtime_validator_rc,
+  "first_failure_rc": $first_failure,
+  "overall_classification": "$overall_cls"
+}
+EOF
+
+    if [ "$cae_kernel_rc" -ne 0 ]; then
+        cat <<EOF > "$WORK_DIR/RUNTIME_FAILURE_AUDIT.json"
+{
+  "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%S')",
+  "job_name": "M2RMKERN1",
+  "cae_kernel_rc": $cae_kernel_rc,
+  "runtime_validator_rc": $runtime_validator_rc,
+  "classification": "$overall_cls"
+}
+EOF
+    fi
+
+    # Copy persistent evidence files
+    cp -f "$WORK_DIR"/*.json "$F39_EVIDENCE_DIR/" 2>/dev/null || true
+    cp -f "$WORK_DIR"/*.returncode "$F39_EVIDENCE_DIR/" 2>/dev/null || true
+    cp -f "$WORK_DIR"/*.txt "$F39_EVIDENCE_DIR/" 2>/dev/null || true
+    if [ -n "${PBS_JOBID:-}" ]; then
+        cp -f "$PBS_O_WORKDIR/M2RMKERN1.o${PBS_JOBID}" "$F39_EVIDENCE_DIR/" 2>/dev/null || true
+        cp -f "$PBS_O_WORKDIR/M2RMKERN1.e${PBS_JOBID}" "$F39_EVIDENCE_DIR/" 2>/dev/null || true
+    fi
+
+    # Generate missing-evidence report last
+    python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR" >/dev/null 2>&1
+    local col_rc=$?
+    echo "$col_rc" > "$WORK_DIR/collector.returncode"
+    echo "$col_rc" > "$F39_EVIDENCE_DIR/collector.returncode"
+    cp -f "$WORK_DIR/MISSING_EVIDENCE_REPORT.json" "$F39_EVIDENCE_DIR/" 2>/dev/null || true
+
+    trap - EXIT
+    exit "$first_failure"
+}
+
+trap on_exit EXIT
+
+echo "=== F39 Launcher Diagnostic Batch Execution ==="
+echo "Host: $(hostname)"
+echo "Date: $(date)"
+echo "Work dir: $WORK_DIR"
+echo "Package dir: $F39_PACKAGE_DIR"
+echo "Evidence dir: $F39_EVIDENCE_DIR"
+
+# 1. Verify package hashes
+cd "$F39_PACKAGE_DIR"
+sha256sum -c SHA256SUMS
+sha256sum -c F39_SHA256SUMS
+cd "$WORK_DIR"
+
+# 2. Environment and module setup
+module purge || true
+module load abaqus/2023 || true
+
+# 3. Collect launcher / environment evidence
+echo "=== Stage 1: Collect launcher environment evidence ==="
+python3 "$F39_PACKAGE_DIR/runtime/collect_launcher_environment.py"
+python_probe_rc=0
+
+# 4. Minimal Abaqus Python probe
+echo "=== Stage 2: Abaqus Python probe ==="
+abaqus python -c "import sys; print('ABAQUS_PYTHON_OK', sys.version)" || true
+
+# 5. Minimal Abaqus CAE noGUI kernel probe
+echo "=== Stage 3: Abaqus CAE noGUI kernel probe ==="
+set +e
+abaqus cae noGUI="$WORK_DIR/runtime/minimal_cae_kernel_probe.py"
+cae_kernel_rc=$?
+set -e
+
+# 6. Validate runtime audits
+echo "=== Stage 4: Validate runtime audits ==="
+set +e
+python3 "$WORK_DIR/runtime/validate_f39_runtime_audits.py" "$WORK_DIR"
+runtime_validator_rc=$?
+set -e
+
+echo "=== F39 Execution Complete (cae_kernel_rc=$cae_kernel_rc, runtime_validator_rc=$runtime_validator_rc) ==="
