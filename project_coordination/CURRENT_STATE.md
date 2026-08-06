@@ -1,5 +1,23 @@
 # Current project state
 
+## F40 v16R1 Mandatory Notification Recipient Correction Closeout (2026-08-06)
+
+The F40 v16R1 notification recipient correction sequence was completed strictly offline without any PBS job submission.
+
+Completed corrections:
+1. **Obsolete Email Removal**: Completely removed `pruthvi.patel@student.tu-freiberg.de` from all tracked files, scripts, manifests, and tests.
+2. **PBS Directives**: Updated `M2RMBISECT1.pbs` to retain only `#PBS -m abe` without hardcoding a private recipient.
+3. **Environment Variable Enforcement**: Updated `submit_stage_f40_cae_bisect.sh` to validate `F40_PBS_MAIL_RECIPIENT` ("pr21vyci@mailserver.tu-freiberg.de") and `F40_NOTIFICATION_EMAIL_RECIPIENTS` ("pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de") before `qsub`.
+4. **Private `qsub` Invocation**: Modified `submit_stage_f40_cae_bisect.sh` to pass `-M "$PBS_MAIL_REC"` and `-m abe` privately through `qsub`.
+5. **Multi-Recipient Email Dispatch & Redaction**: Updated `notify_hpc_event.py` to dispatch custom email notifications to both verified recipients and record redacted audit entries (`p******i@mailserver.tu-freiberg.de`, `P***************************i@student.tu-freiberg.de`).
+6. **Evidence Contract Separation**: Kept terminal notification artifacts (`EMAIL_TERMINAL_NOTIFICATION.returncode`, `TELEGRAM_TERMINAL_NOTIFICATION.returncode`, `POST_TERMINAL_NOTIFICATION_AUDIT.json`) outside the compute-job exit dependency.
+7. **Git Lineage P16R1 -> Q16R1 -> M16R1**:
+   - Preparation commit P16R1: `f048922f08b5c8ca58de2d3bade19e69dd3ff345`
+   - Qualification commit Q16R1: `2801b295877c7df163fb3bc381a2d1e8d446b186`
+   - Metadata head commit M16R1: pending final metadata commit
+
+Classification: `f40_notification_recipients_corrected_clean_linux_qualified`. All execution and submission authority flags remain strictly `false` and `0`. No scheduler job, solver, datacheck, F41 execution, remeshing simulation, retry, replacement, or new submission is authorized.
+
 ## F40 v16 Mandatory Email and Telegram Notification Protocol Closeout (2026-08-06)
 
 The F40 v16 mandatory notification protocol integration sequence was completed strictly offline.
