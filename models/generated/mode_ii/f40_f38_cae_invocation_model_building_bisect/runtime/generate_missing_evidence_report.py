@@ -26,7 +26,6 @@ EXPECTED_EVIDENCE_FILES = [
     "bisection_runner.returncode",
     "f38_entrypoint.returncode",
     "f38_matrix_validator.returncode",
-    "collector.returncode",
     "runtime_validator.returncode",
     "first_failure.returncode"
 ]

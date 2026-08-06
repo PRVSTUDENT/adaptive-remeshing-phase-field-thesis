@@ -459,6 +459,139 @@ class TestStageF40Batch(unittest.TestCase):
         res_single = mod.phase_crack_mesh_topology(ctx_single)
         self.assertEqual(res_single['crack_mesh_classification'], 'continuous_centerline_mesh')
 
+    def test_full_synthetic_successful_closeout_sequence(self):
+        import importlib.util, json, tempfile
+        val_path = os.path.join(self.pkg_dir, "runtime", "validate_f40_runtime_audits.py")
+        gen_path = os.path.join(self.pkg_dir, "runtime", "generate_missing_evidence_report.py")
+
+        spec_val = importlib.util.spec_from_file_location("validate_f40_runtime_audits", val_path)
+        mod_val = importlib.util.module_from_spec(spec_val)
+        spec_val.loader.exec_module(mod_val)
+
+        spec_gen = importlib.util.spec_from_file_location("generate_missing_evidence_report", gen_path)
+        mod_gen = importlib.util.module_from_spec(spec_gen)
+        spec_gen.loader.exec_module(mod_gen)
+
+        expected_f38_phases = mod_val.EXPECTED_F38_PHASES
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # 1. Populate synthetic successful runtime evidence
+            prov_data = {
+                "protocol_version": 1,
+                "pbs_jobid": "12345.mmaster02",
+                "pbs_environment": "PBS_BATCH",
+                "pbs_queue": "entry_imfdfkmq",
+                "pbs_o_host": "testhost",
+                "hostname": "testnode",
+                "hostname_short": "testnode",
+                "nodefile": "/tmp/nodefile",
+                "nodefile_hosts": ["testnode"],
+                "abaqus_executable": "/usr/bin/abaqus",
+                "abaqus_release": "Abaqus 2023",
+                "timestamp_utc": "2026-08-06T15:00:00.000Z"
+            }
+            with open(os.path.join(tmpdir, "SCHEDULER_PROVENANCE.json"), "w") as f:
+                json.dump(prov_data, f)
+
+            ctx_data = {
+                "entrypoint": "run_f38_cae_diagnostic.py",
+                "runtime_dir_exists": True,
+                "runtime_dir_on_sys_path": True,
+                "bootstrap_passed": True
+            }
+            with open(os.path.join(tmpdir, "CAE_INVOCATION_CONTEXT_AUDIT.json"), "w") as f:
+                json.dump(ctx_data, f)
+
+            matrix_data = {
+                "overall_passed": True,
+                "phases": [
+                    {
+                        "phase": p,
+                        "attempted": True,
+                        "passed": True,
+                        "dependency_blocked": False,
+                        "exception_type": None
+                    } for p in expected_f38_phases
+                ]
+            }
+            with open(os.path.join(tmpdir, "CAE_PHASE_DIAGNOSTIC_MATRIX.json"), "w") as f:
+                json.dump(matrix_data, f)
+
+            with open(os.path.join(tmpdir, "F38_F39_INVOCATION_DELTA_AUDIT.json"), "w") as f:
+                json.dump({"protocol_version": 1}, f)
+
+            p_names = [
+                "P00_KERNEL_STARTUP", "P01_IMPORTS", "P02_MODULE_LOADING",
+                "P03_SOURCE_DECK_DISCOVERY", "P04_MODEL_FROM_INPUT_FILE",
+                "P05_IMPORTED_MODEL_INVENTORY", "P06_GEOMETRY_CONVERSION",
+                "P07_INDEPENDENT_MODEL_OWNERSHIP", "P08_ASSEMBLY_OPERATIONS",
+                "P09_TOPOLOGY_MEASUREMENT", "P10_SETS_SURFACES_INVENTORY",
+                "P11_STEP_OUTPUT_PROBING"
+            ]
+            for pname in p_names:
+                pdata = {
+                    "phase_name": pname,
+                    "return_code": 0,
+                    "metrics": {
+                        "entrypoint_exists": True, "helper_exists": True,
+                        "entrypoint_hash_matched": True, "helper_hash_matched": True,
+                        "module_imported": True, "main_callable": True,
+                        "main_executed_in_p02": False
+                    } if pname == "P02_MODULE_LOADING" else {}
+                }
+                with open(os.path.join(tmpdir, "{}_AUDIT.json".format(pname)), "w") as f:
+                    json.dump(pdata, f)
+
+            rc_files = [
+                "delta_auditor.returncode", "bisection_runner.returncode",
+                "f38_entrypoint.returncode", "f38_matrix_validator.returncode"
+            ]
+            for rcf in rc_files:
+                with open(os.path.join(tmpdir, rcf), "w") as f:
+                    f.write("0")
+
+            # Simulate v14 PBS Trap Step 3: Run runtime audit validator
+            sys.argv = ["validate_f40_runtime_audits.py", tmpdir]
+            rc_val = mod_val.main()
+            self.assertEqual(rc_val, 0, "Runtime audit validator must succeed on complete synthetic evidence")
+
+            with open(os.path.join(tmpdir, "runtime_validator.returncode"), "w") as f:
+                f.write("0")
+
+            # Simulate v14 PBS Trap Step 4: Write preliminary first_failure and STATUS.json
+            with open(os.path.join(tmpdir, "first_failure.returncode"), "w") as f:
+                f.write("0")
+
+            status_data = {
+                "timestamp": "2026-08-06T15:00:00Z",
+                "delta_auditor_rc": 0, "bisection_runner_rc": 0,
+                "f38_entrypoint_rc": 0, "f38_matrix_validator_rc": 0,
+                "runtime_validator_rc": 0, "first_failure_rc": 0,
+                "overall_classification": "f40_bisection_completed_successfully"
+            }
+            with open(os.path.join(tmpdir, "STATUS.json"), "w") as f:
+                json.dump(status_data, f)
+
+            # Simulate v14 PBS Trap Step 5: Run final missing-evidence report generator
+            sys.argv = ["generate_missing_evidence_report.py", tmpdir]
+            rc_gen = mod_gen.main()
+            self.assertEqual(rc_gen, 0, "Missing evidence report generator must succeed when all evidence exists")
+
+            with open(os.path.join(tmpdir, "collector.returncode"), "w") as f:
+                f.write("0")
+
+            with open(os.path.join(tmpdir, "MISSING_EVIDENCE_REPORT.json"), "r") as f:
+                rep = json.load(f)
+                self.assertEqual(rep.get("missing_count"), 0)
+                self.assertEqual(rep.get("status"), "complete")
+
+            # Negative assertion: remove P06_GEOMETRY_CONVERSION_AUDIT.json and verify non-zero failure
+            os.remove(os.path.join(tmpdir, "P06_GEOMETRY_CONVERSION_AUDIT.json"))
+            sys.argv = ["validate_f40_runtime_audits.py", tmpdir]
+            self.assertNotEqual(mod_val.main(), 0, "Runtime validator must fail when P06_GEOMETRY_CONVERSION_AUDIT.json is missing")
+            sys.argv = ["generate_missing_evidence_report.py", tmpdir]
+            self.assertNotEqual(mod_gen.main(), 0, "Missing evidence report generator must fail when P06_GEOMETRY_CONVERSION_AUDIT.json is missing")
+
     def test_static_gate_validator_passes(self):
         res = subprocess.run([sys.executable, self.validator_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         self.assertEqual(res.returncode, 0, "Static validator failed: " + res.stdout + res.stderr)

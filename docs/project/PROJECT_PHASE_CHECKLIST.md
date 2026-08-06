@@ -12,14 +12,13 @@
 - [x] Repaired F40 offline package under repair preparation commit `f54662606eaa0366938bccfed58ac3cb9ee1f319` and qualified in detached clean-Linux checkout (`/tmp/f40_clean_qual_f546626`) under qualification commit `98a5f1826672fae8805331964114b51f275e2860`.
 - [x] Executed explicitly authorized guarded diagnostic job `M2RMBISECT1` (`1384502.mmaster02`) on cluster under authorization commit `338d605`.
 - [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384502.mmaster02/`): Generic Abaqus primitives P00-P11 passed `rc=0`, Stage 3 F38 entrypoint executed cleanly `rc=0`, but `validate_f38_matrix_results.py` failed `rc=1` because 3 F38 matrix phases failed (`element_type_assignment` `NameError: mesh`, `mesh_generation` `NameError: mesh`, `output_request_rebinding` `AbaqusException`).
-- [x] Completed F40 v12 offline hardening sequence under coordination head `620dfa2580f3351bd0bd44ebd1241a236a0d7410`.
-- [x] Completed F40 v13 offline correction sequence:
-  - Repaired `qstat` queue parsing logic in `submit_stage_f40_cae_bisect.sh` using `awk 'NR > 2 && $2 == "M2RMBISECT1" {found=1} END {exit !found}'`.
-  - Used inline Python script to safely generate `SCHEDULER_PROVENANCE.json`.
-  - Added returncode files to `EXPECTED_EVIDENCE_FILES` and made `generate_missing_evidence_report.py` return exit code 1 on missing files.
-  - Created atomic submission-attempt lock before `qsub` using `set -o noclobber`.
-  - Added v13 unit tests in `test_stage_f40_batch.py` (`30/30` passed) and static gate checks (`pass`).
-- [!] Classification: `f40_gate_v13_offline_corrected_qualified_not_authorized`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
+- [x] Completed F40 v13 offline correction sequence under coordination head `8d43679181b73ad25ab4c2cefa5a9fe0d76db3a2`.
+- [x] Completed F40 v14 offline closeout-order correction sequence:
+  - Narrowed `validate_f40_runtime_audits.py` scope to runtime audit inputs excluding `STATUS.json`, `MISSING_EVIDENCE_REPORT.json`, and `collector.returncode`.
+  - Removed `collector.returncode` from `EXPECTED_EVIDENCE_FILES` in `generate_missing_evidence_report.py`.
+  - Reordered `M2RMBISECT1.pbs` exit trap for linear non-circular evidence generation.
+  - Added synthetic closeout behavior test in `test_stage_f40_batch.py` (`31/31` passed) verifying zero missing count and complete status on synthetic evidence.
+- [!] Classification: `f40_gate_v14_offline_corrected_qualified_not_authorized`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
 
 
 ## F39 Abaqus CAE kernel startup diagnostic gate

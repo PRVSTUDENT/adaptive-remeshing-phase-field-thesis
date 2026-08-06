@@ -62,13 +62,11 @@ data = {
     'sha256_manifest_check': 'pass',
     '__file___scan': 'pass',
     'prohibited_keywords_scan': 'pass',
-    'v12_offline_corrections': {
-        'submission_wrapper_path_freezing': 'Frozen submission wrapper script submit_stage_f40_cae_bisect.sh and package directory in blob identity check',
-        'scheduler_queue_state_checks': 'Enforced qsub/qstat presence and active queue check before submission',
-        'strict_pbs_batch_provenance': 'Enforced PBS_ENVIRONMENT=PBS_BATCH, PBS_O_HOST, PBS_QUEUE, and compute node hostname match in PBS_NODEFILE',
-        'fatal_abaqus_release_query': 'Made Abaqus release query fatal and enforced Abaqus 2023 release',
-        'job_specific_evidence_subdirectories': 'Passed F40_EVIDENCE_ROOT and isolated run artifacts under evidence/<PBS_JOBID>/',
-        'mandatory_scheduler_provenance_validation': 'Added SCHEDULER_PROVENANCE.json to mandatory evidence list and runtime audit validation'
+    'v14_offline_corrections': {
+        'closeout_dependency_order': 'Reordered PBS exit trap to eliminate circular evidence dependencies',
+        'runtime_validator_scope': 'Narrowed validate_f40_runtime_audits.py to runtime audit inputs excluding STATUS.json and MISSING_EVIDENCE_REPORT.json',
+        'non_self_referential_evidence_contract': 'Removed collector.returncode from EXPECTED_EVIDENCE_FILES in generate_missing_evidence_report.py',
+        'successful_closeout_behavior_test': 'Added synthetic end-to-end closeout behavior test verifying zero missing count and complete status'
     },
     'qualification_status': 'qualified_not_authorized'
 }

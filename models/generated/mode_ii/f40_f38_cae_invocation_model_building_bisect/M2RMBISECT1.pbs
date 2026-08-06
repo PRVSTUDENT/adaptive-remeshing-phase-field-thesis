@@ -62,7 +62,7 @@ on_exit() {
     runtime_validator_rc=$?
     echo "$runtime_validator_rc" > "$WORK_DIR/runtime_validator.returncode"
 
-    # Step 3: Write preliminary first_failure.returncode
+    # Step 3: Compute preliminary first_failure and write first_failure.returncode
     local first_failure=0
     if [ "$cmd_rc" -ne 0 ]; then
         first_failure=$cmd_rc
@@ -79,15 +79,7 @@ on_exit() {
     fi
     echo "$first_failure" > "$WORK_DIR/first_failure.returncode"
 
-    # Step 4: Generate missing evidence report after all return codes exist
-    python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR" >/dev/null 2>&1
-    local col_rc=$?
-    echo "$col_rc" > "$WORK_DIR/collector.returncode"
-
-    if [ "$first_failure" -eq 0 ] && [ "$col_rc" -ne 0 ]; then
-        first_failure=$col_rc
-    fi
-
+    # Step 4: Write preliminary STATUS.json
     local overall_cls="f40_generic_cae_primitives_passed_runtime_evidence_contract_failed"
     if [ "$first_failure" -eq 0 ]; then
         overall_cls="f40_bisection_completed_successfully"
@@ -101,13 +93,37 @@ on_exit() {
   "f38_entrypoint_rc": $f38_entrypoint_rc,
   "f38_matrix_validator_rc": $f38_matrix_validator_rc,
   "runtime_validator_rc": $runtime_validator_rc,
-  "collector_rc": $col_rc,
   "first_failure_rc": $first_failure,
   "overall_classification": "$overall_cls"
 }
 EOF
 
-    echo "$first_failure" > "$WORK_DIR/first_failure.returncode"
+    # Step 5: Run final missing-evidence generator after STATUS.json and first_failure.returncode exist
+    python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR" >/dev/null 2>&1
+    local col_rc=$?
+    echo "$col_rc" > "$WORK_DIR/collector.returncode"
+
+    # Step 6: If collector_rc != 0, update first_failure.returncode and STATUS.json
+    if [ "$col_rc" -ne 0 ]; then
+        if [ "$first_failure" -eq 0 ]; then
+            first_failure=$col_rc
+        fi
+        overall_cls="f40_generic_cae_primitives_passed_runtime_evidence_contract_failed"
+        echo "$first_failure" > "$WORK_DIR/first_failure.returncode"
+        cat <<EOF > "$WORK_DIR/STATUS.json"
+{
+  "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%S')",
+  "delta_auditor_rc": $delta_auditor_rc,
+  "bisection_runner_rc": $bisection_runner_rc,
+  "f38_entrypoint_rc": $f38_entrypoint_rc,
+  "f38_matrix_validator_rc": $f38_matrix_validator_rc,
+  "runtime_validator_rc": $runtime_validator_rc,
+  "collector_rc": $col_rc,
+  "first_failure_rc": $first_failure,
+  "overall_classification": "$overall_cls"
+}
+EOF
+    fi
 
     cp -f "$WORK_DIR"/*.json "$F40_EVIDENCE_DIR/" 2>/dev/null || true
     cp -f "$WORK_DIR"/*.returncode "$F40_EVIDENCE_DIR/" 2>/dev/null || true
