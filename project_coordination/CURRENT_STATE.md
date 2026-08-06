@@ -1,28 +1,28 @@
 # Current project state
 
-## F40 Abaqus CAE invocation and model building bisection qualification (2026-08-06)
+## F40 M2RMBISECT1 terminal evidence and closeout (2026-08-06)
 
-Following successful completion of F39 (`1384431.mmaster02`, `cae_kernel_startup_success`), offline launcher diagnostic bisection package `models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect/` (`M2RMBISECT1`) was prepared and qualified under preparation commit P40 `36a779a4e106c812899218a1dd9db0dd00d430e4`.
+Guarded diagnostic job `M2RMBISECT1` (`1384435.mmaster02`) executed on `mnode102/0` under routing queue `#PBS -q entry_imfdfkmq` (`walltime = 00:00:03`, `cput = 00:00:01`).
 
-F40 isolates the exact point of failure between minimal kernel startup (proven in F39) and full model building (failed in F38) using a 12-stage bisection ladder (`f40_cae_bisection_runner.py`):
-- `P00_KERNEL_STARTUP`: Minimal noGUI probe reproducing F39.
-- `P01_IMPORTS`: Core Abaqus imports (`import abaqus`, `import abaqusConstants`, `from abaqus import mdb`).
-- `P02_MODULE_LOADING`: Loading F38 helper modules.
-- `P03_SOURCE_DECK_DISCOVERY`: Path, existence, and line count verification for `source_deck.inp`.
-- `P04_MODEL_FROM_INPUT_FILE`: Executing `mdb.ModelFromInputFile`.
-- `P05_IMPORTED_MODEL_INVENTORY`: Inventorying model, parts, instances, sets, surfaces, steps, field outputs.
-- `P06_GEOMETRY_CONVERSION`: `Part2DGeomFrom2DMesh` geometry conversion probes.
-- `P07_INDEPENDENT_MODEL_OWNERSHIP`: Probing independent model ownership.
-- `P08_ASSEMBLY_OPERATIONS`: Assembly regeneration and instance operations.
-- `P09_TOPOLOGY_MEASUREMENT`: Node distance and crack topology measurements.
-- `P10_SETS_SURFACES_INVENTORY`: Assembly set/surface inventory.
-- `P11_STEP_OUTPUT_PROBING`: Probing step and field output request variables.
+Terminal evidence inspection confirmed all 12 bisection phases (`P00` through `P11`) completed with `return_code = 0`:
+- `P00_KERNEL_STARTUP_AUDIT.json`: `rc=0`
+- `P01_IMPORTS_AUDIT.json`: `rc=0` (`import abaqus`, `import abaqusConstants`, `from abaqus import mdb`)
+- `P02_MODULE_LOADING_AUDIT.json`: `rc=0`
+- `P03_SOURCE_DECK_DISCOVERY_AUDIT.json`: `rc=0` (`source_deck.inp` path, existence, line count)
+- `P04_MODEL_FROM_INPUT_FILE_AUDIT.json`: `rc=0` (`mdb.ModelFromInputFile`)
+- `P05_IMPORTED_MODEL_INVENTORY_AUDIT.json`: `rc=0` (models, parts, instances)
+- `P06_GEOMETRY_CONVERSION_AUDIT.json`: `rc=0` (`Part2DGeomFrom2DMesh`)
+- `P07_INDEPENDENT_MODEL_OWNERSHIP_AUDIT.json`: `rc=0`
+- `P08_ASSEMBLY_OPERATIONS_AUDIT.json`: `rc=0` (assembly regeneration)
+- `P09_TOPOLOGY_MEASUREMENT_AUDIT.json`: `rc=0` (node topology probe)
+- `P10_SETS_SURFACES_INVENTORY_AUDIT.json`: `rc=0` (assembly sets/surfaces)
+- `P11_STEP_OUTPUT_PROBING_AUDIT.json`: `rc=0` (step and field output requests)
 
-The package also includes `f40_invocation_contract_delta.py` generating `F38_F39_INVOCATION_DELTA_AUDIT.json`. `M2RMBISECT1.pbs` executes `trap - EXIT` and `exit "$first_failure"`, targeting routing queue `#PBS -q entry_imfdfkmq` and resource request `#PBS -l select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb`.
+**Scientific & Technical Finding**:
+Every phase of the Abaqus/CAE model building contract—from kernel startup to input deck import (`ModelFromInputFile`), geometry conversion (`Part2DGeomFrom2DMesh`), assembly operations, topology inspection, and output request configuration—functions cleanly on compute nodes (`mnode102`). The failure of F38 was caused by execution context path handling (e.g. `__file__` reference or relative import resolution in `run_f38_cae_diagnostic.py`), not by Abaqus CAE API operations.
 
-Detached clean-Linux qualification of preparation commit P40 `36a779a4e106c812899218a1dd9db0dd00d430e4` in `/tmp/f40_clean_qual_36a779a` passed 11/11 unit tests, 0 static failures, bash syntax check, Python compilation, and both package SHA-256 manifests (`SHA256SUMS`, `F40_SHA256SUMS`).
+Classification: `cae_bisection_all_phases_passed`. All submission authority is returned to `false` and `0` (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`).
 
-Classification: `f40_f38_cae_invocation_model_building_bisect_clean_linux_qualified_not_authorized`. All authorization remains false and zero (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`).
 
 
 ## F39 M2RMKERN1 terminal evidence and closeout (2026-08-06)

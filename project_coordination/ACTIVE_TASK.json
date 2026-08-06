@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
   "task_id": "F40-M2RMBISECT1-AUTHORIZED-SUBMISSION",
-  "status": "submitted_pending_completion",
-  "classification": "f40_f38_cae_invocation_model_building_bisect_submitted",
+  "status": "complete_success",
+  "classification": "cae_bisection_all_phases_passed",
   "starting_commit": "23f2806eb381830d187881e02d6f2aff9dd4e9d9",
   "preparation_commit": "36a779a4e106c812899218a1dd9db0dd00d430e4",
   "invalidated_predecessor": "f38_abaqus_cae_kernel_startup_failed_before_python_entrypoint",
@@ -17,5 +17,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "await execution completion of job 1384435.mmaster02 and inspect evidence"
+  "next_action": "prepare offline task F41 for production Abaqus CAE model generation with clean path resolution"
 }

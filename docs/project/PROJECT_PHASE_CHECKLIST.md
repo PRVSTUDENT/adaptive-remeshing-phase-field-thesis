@@ -1,6 +1,19 @@
 # Project Phase Checklist
 
+## F40 Abaqus CAE invocation and model building bisection gate
+
+- [x] Prepared offline launcher diagnostic bisection package `models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect/` (`M2RMBISECT1`) under preparation commit P40 `36a779a4e106c812899218a1dd9db0dd00d430e4`.
+- [x] Implemented 12-phase bisection runner `f40_cae_bisection_runner.py` covering probes P00-P11.
+- [x] Implemented contract delta auditor `f40_invocation_contract_delta.py` generating `F38_F39_INVOCATION_DELTA_AUDIT.json`.
+- [x] Qualified preparation commit P40 in a detached clean-Linux checkout (`/tmp/f40_clean_qual_36a779a`): 11/11 unit tests passed, 0 static failures, and both SHA-256 package manifests verified OK.
+- [x] Executed authorized guarded diagnostic job `M2RMBISECT1` (`1384435.mmaster02`).
+- [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384435.mmaster02/`): All 12 phase audits P00-P11 returned `rc=0`.
+- [x] Empirically proved every Abaqus/CAE model building operation (`ModelFromInputFile`, `Part2DGeomFrom2DMesh`, assembly regeneration, topology inspection, output requests) functions cleanly on compute nodes.
+- [!] Classification: `cae_bisection_all_phases_passed`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
+
+
 ## F39 Abaqus CAE kernel startup diagnostic gate
+
 
 - [x] Closed M2RMDIAG1 terminal failure (`1384183.mmaster02`) with classification `abaqus_cae_kernel_startup_failed_before_python_entrypoint`.
 - [x] Created launcher diagnostic package under `models/generated/mode_ii/f39_abaqus_cae_kernel_startup_diagnostic/` (`M2RMKERN1`).

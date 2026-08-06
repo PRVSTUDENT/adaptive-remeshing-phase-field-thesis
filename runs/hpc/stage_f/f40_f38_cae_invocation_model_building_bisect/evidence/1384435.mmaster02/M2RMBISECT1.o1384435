@@ -1,0 +1,30 @@
+=== F40 Launcher Diagnostic Bisection Batch Execution ===
+Host: mnode102.cluster
+Date: Do 6. Aug 10:39:01 CEST 2026
+Work dir: /scratch9/pr21vyci/f21_exec_83cbfe0/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384435.mmaster02
+Package dir: /scratch9/pr21vyci/f21_exec_83cbfe0/models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect
+Evidence dir: /scratch9/pr21vyci/f21_exec_83cbfe0/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence
+M2RMBISECT1.pbs: OK
+runtime/f40_cae_bisection_runner.py: OK
+runtime/f40_invocation_contract_delta.py: OK
+runtime/generate_missing_evidence_report.py: OK
+runtime/source_deck.inp: OK
+runtime/validate_f40_runtime_audits.py: OK
+M2RMBISECT1.pbs: OK
+runtime/f40_cae_bisection_runner.py: OK
+runtime/f40_invocation_contract_delta.py: OK
+runtime/generate_missing_evidence_report.py: OK
+runtime/source_deck.inp: OK
+runtime/validate_f40_runtime_audits.py: OK
+=== Stage 1: Contract Delta Auditor ===
+F38_F39_INVOCATION_DELTA_AUDIT_GENERATED
+=== Stage 2: Abaqus CAE Bisection Runner ===
+Abaqus License Manager checked out the following license:
+"cae" from Flexnet server license4.imfd.tu-freiberg.de
+<10 out of 20 licenses remain available>.
+Exit code: 0
+=== Stage 3: Validate Runtime Audits ===
+RUNTIME_AUDIT_VALIDATION_FAILED:
+  - STATUS.json missing
+  - MISSING_EVIDENCE_REPORT.json missing
+=== F40 Execution Complete (bisection_runner_rc=0, runtime_validator_rc=1) ===
