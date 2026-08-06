@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+#PBS -N M2RMDIAG1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -m abe
+
+set -euo pipefail
+
+export OMP_NUM_THREADS=1
+export OPENMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+F38_PACKAGE_DIR="${F38_PACKAGE_DIR:-$PBS_O_WORKDIR}"
+WORK_DIR="/scratch/pr21vyci/adaptive-remeshing/runs/stage_f/f38_comprehensive_cae_diagnostic_matrix_${PBS_JOBID:-local}"
+
+mkdir -p "$WORK_DIR"
+cd "$WORK_DIR"
+
+echo "Staging F38 package files into WORK_DIR..."
+cp -r "$F38_PACKAGE_DIR"/* .
+cp "$F38_PACKAGE_DIR/M2RMDIAG1.pbs" .
+
+echo "Verifying SHA256SUMS..."
+sha256sum -c SHA256SUMS
+
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+command -v python3 >/dev/null 2>&1 || { echo "python3 not found"; exit 1; }
+python3 --version
+
+export F38_RUNTIME_DIR="$WORK_DIR/runtime"
+export F38_SOURCE_DECK="$WORK_DIR/runtime/source_deck.inp"
+export F38_OUTPUT_INPUT="$WORK_DIR/generated_model.inp"
+export F38_DIAGNOSTIC_MATRIX="$WORK_DIR/CAE_PHASE_DIAGNOSTIC_MATRIX.json"
+export F38_INVOCATION_AUDIT="$WORK_DIR/CAE_INVOCATION_CONTEXT_AUDIT.json"
+export F38_RUNTIME_FAILURE_AUDIT="$WORK_DIR/RUNTIME_FAILURE_AUDIT.json"
+
+python_probe_rc="skipped"
+cae_diagnostic_rc="skipped"
+collector_rc="skipped"
+
+on_exit() {
+    local exit_code=$?
+    set +e
+    echo "Executing on_exit trap with exit_code=$exit_code..."
+    
+    local first_failure="0"
+    if [ "$python_probe_rc" != "0" ] && [ "$python_probe_rc" != "skipped" ]; then
+        first_failure="$python_probe_rc"
+    elif [ "$cae_diagnostic_rc" != "0" ] && [ "$cae_diagnostic_rc" != "skipped" ]; then
+        first_failure="$cae_diagnostic_rc"
+    fi
+    echo "$first_failure" > first_failure.returncode
+
+    echo "$python_probe_rc" > python_probe.returncode
+    echo "$cae_diagnostic_rc" > cae_diagnostic.returncode
+
+    python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR"
+    collector_rc=$?
+    echo "$collector_rc" > collector.returncode
+
+    local status_str="cae_geometry_build_contract_failed"
+    if [ "$cae_diagnostic_rc" = "0" ]; then
+        status_str="cae_geometry_build_contract_passed"
+    fi
+
+    cat <<EOF > STATUS.json
+{
+  "protocol_version": 1,
+  "task_id": "F38-CLOSE-M2RMBUILD11-AND-PREPARE-COMPREHENSIVE-CAE-DIAGNOSTIC",
+  "job_name": "M2RMDIAG1",
+  "classification": "$status_str",
+  "python_probe_returncode": "$python_probe_rc",
+  "cae_diagnostic_returncode": "$cae_diagnostic_rc",
+  "collector_returncode": "$collector_rc",
+  "exit_code": "$exit_code"
+}
+EOF
+}
+
+trap on_exit EXIT
+
+set +e
+abaqus python -c "import sys; print('Abaqus Python release:', sys.version)"
+python_probe_rc=$?
+set -e
+
+if [ "$python_probe_rc" != "0" ]; then
+    echo "ERROR: Abaqus Python probe failed with code $python_probe_rc"
+    exit 1
+fi
+
+set +e
+abaqus cae noGUI="$WORK_DIR/runtime/run_f38_cae_diagnostic.py"
+cae_diagnostic_rc=$?
+set -e
+
+if [ "$cae_diagnostic_rc" != "0" ]; then
+    echo "ERROR: Abaqus CAE diagnostic failed with code $cae_diagnostic_rc"
+    exit 1
+fi
+
+echo "M2RMDIAG1 script completed successfully."

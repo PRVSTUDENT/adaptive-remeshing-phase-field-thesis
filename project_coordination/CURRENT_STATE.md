@@ -1,8 +1,13 @@
 # Current project state
 
-## F38 close M2RMBUILD11 and prepare comprehensive CAE diagnostic (2026-08-06)
+## F38 comprehensive CAE phase diagnostic matrix preparation (2026-08-06)
 
-M2RMBUILD11 job `1384181.mmaster02` is terminal failed with PBS exit 1 after `04:29:38` eligible time and `00:00:06` runtime on `mnode105`. Compatibility and the embedded Abaqus Python resolver probe returned 0, but Abaqus/CAE executed the builder with `execfile(..., __main__.__dict__)`; therefore `__file__` was undefined at line 16 before model import. Classification is `cae_geometry_build_contract_failed`; no input deck or scientific result was produced. Remote evidence hashes are frozen in `runs/hpc/stage_f/f37_m2rmbuild11_static_gate/M2RMBUILD11_TERMINAL_CLOSEOUT.json`. All F37 authority remains consumed. The next eligible work is offline preparation of a distinct comprehensive phase-diagnostic package; submission, retry, and replacement remain unauthorized.
+M2RMBUILD11 terminal failure (`1384181.mmaster02`) was closed and published in commit `cad6fb758d4a66a1a74288bde15bd0dcba9d57a9`. Root cause was confirmed as module bootstrap failure due to undefined `__file__` when Abaqus/CAE noGUI executes scripts via `execfile(..., __main__.__dict__)`.
+
+The distinct F38 diagnostic package was prepared under `models/generated/mode_ii/f38_comprehensive_cae_diagnostic_matrix/` with prospective job `M2RMDIAG1`. It completely eliminates dependence on `__file__` from the entrypoint `runtime/run_f38_cae_diagnostic.py`, mandates `F38_RUNTIME_DIR`, records `CAE_INVOCATION_CONTEXT_AUDIT.json`, and implements 20 independent diagnostic phases in `runtime/f38_cae_diagnostic_matrix.py` (including fresh model branches for `F38_IMPORT_PROBE`, `F38_GEOMETRY_PROBE`, `F38_MESH_PROBE`, `F38_INSTANCE_PROBE`, `F38_CRACK_PROBE`, `F38_OUTPUT_PROBE`, `F38_WRITE_INPUT_PROBE`).
+
+Static validation passed 4/4 unit tests and 0 static failures. Classification: `f38_comprehensive_cae_diagnostic_clean_linux_qualified_not_authorized`. All authorization remains false and zero (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`).
+
 
 ## F37 M2RMBUILD11 guarded submission (2026-08-05)
 

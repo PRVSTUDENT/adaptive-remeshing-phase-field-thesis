@@ -1,5 +1,16 @@
 # Project Phase Checklist
 
+## F38 comprehensive CAE phase diagnostic gate
+
+- [x] Closed M2RMBUILD11 terminal failure (`1384181.mmaster02`) and published terminal closeout commit `cad6fb758d4a66a1a74288bde15bd0dcba9d57a9`.
+- [x] Removed all dependence on `__file__` from noGUI entrypoint `runtime/run_f38_cae_diagnostic.py`.
+- [x] Mandated `F38_RUNTIME_DIR` and recorded `CAE_INVOCATION_CONTEXT_AUDIT.json`.
+- [x] Implemented 20 independent diagnostic phases in `runtime/f38_cae_diagnostic_matrix.py` with phase-runner writing `CAE_PHASE_DIAGNOSTIC_MATRIX.json` after every phase.
+- [x] Isolated independent diagnostic probes using fresh model names (`F38_IMPORT_PROBE`, `F38_GEOMETRY_PROBE`, `F38_MESH_PROBE`, `F38_INSTANCE_PROBE`, `F38_CRACK_PROBE`, `F38_OUTPUT_PROBE`, `F38_WRITE_INPUT_PROBE`).
+- [x] Inventoried assembly features separately from instances, probed output variables individually, and audited set validity post-replacement.
+- [x] Passed 4/4 WSL unit tests in `tests/unit/test_stage_f38_batch.py` and 0 failures in `scripts/validation/validate_f38_comprehensive_cae_diagnostic_gate.py`.
+- [!] Classification: `f38_comprehensive_cae_diagnostic_clean_linux_qualified_not_authorized`. All execution, submission, retry, and replacement authorizations remain false and zero.
+
 ## F33 M2RMBUILD8 offline repair gate
 
 - [x] Classify `1383537.mmaster02` as `cae_geometry_build_contract_failed`; no scientific result produced.
