@@ -3,11 +3,11 @@
   "task_id": "F40-M2RMBISECT1-V14-AUTHORIZED-SUBMISSION",
   "status": "authorized_ready_for_guarded_submission",
   "classification": "f40_gate_v14_authorized_one_job_guarded_submission",
-  "starting_commit": "2723674a4add96d33f1988b794ef8729c627a82a",
+  "starting_commit": "c83dc5b2de13eeb88a395badc948b371da1ca5fd",
   "preparation_commit": "dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5",
   "repair_preparation_commit": "dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5",
   "qualification_commit": "1cdd3cfae1b30b930ca123f41072fbede2dc457c",
-  "authorization_commit": "b9f95cbb85a4e7119000c7327c62b98734800295",
+  "authorization_commit": null,
   "latest_gate_repair_commit": "dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5",
   "latest_gate_qualification_commit": "1cdd3cfae1b30b930ca123f41072fbede2dc457c",
   "invalidated_predecessor": "f40_f38_matrix_failed_element_type_assignment_mesh_generation_and_output_request_rebinding",
@@ -27,7 +27,7 @@
   "replacement_authorized": false,
   "automatic_retry": false,
   "protocol_deviation_note": null,
-  "recorded_user_authorization_sentence": "I authorize exactly one guarded submission of M2RMBISECT1 from preparation commit dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5, qualified by commit 1cdd3cfae1b30b930ca123f41072fbede2dc457c, with corrected coordination head 2723674a4add96d33f1988b794ef8729c627a82a. Maximum submissions now: 1. Maximum future submissions: 0. Execute the submission wrapper only from the HPC login node after read-only Git, scheduler, package-identity, qstat-format, and persistent-lock preflight checks pass. If any preflight fails, the lock exists, qstat fails, the queue format does not match the verified parser, or an M2RMBISECT1 job is already present, stop without submission. No local or WSL wrapper execution, direct PBS execution, manually fabricated PBS variables, duplicate submission, automatic retry, replacement, solver, datacheck, remeshing simulation, state transfer, F41 execution, or downstream execution is authorized. After one successful qsub, the authorization is consumed regardless of the job result or immediate qstat confirmation result.",
+  "recorded_user_authorization_sentence": "I authorize exactly one guarded submission of M2RMBISECT1 from preparation commit dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5, qualified by commit 1cdd3cfae1b30b930ca123f41072fbede2dc457c, with current coordination head c83dc5b2de13eeb88a395badc948b371da1ca5fd. Maximum submissions now: 1. Maximum future submissions: 0. Execute the submission wrapper only from the HPC login node after read-only Git, scheduler, package-identity, qstat-format, and persistent-lock preflight checks pass. If any preflight fails, the lock exists, qstat fails, the queue format does not match the verified parser, or an M2RMBISECT1 job is already present, stop without submission. No local or WSL wrapper execution, direct PBS execution, manually fabricated PBS variables, duplicate submission, automatic retry, replacement, solver, datacheck, remeshing simulation, state transfer, F41 execution, or downstream execution is authorized. After one successful qsub, the authorization is consumed regardless of the job result or immediate qstat confirmation result.",
   "invalid_historical_authorization_record": null,
   "next_action": "await_hpc_login_node_guarded_execution"
 }
