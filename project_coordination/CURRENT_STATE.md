@@ -1,5 +1,23 @@
 # Current project state
 
+## F40 v16 Mandatory Email and Telegram Notification Protocol Closeout (2026-08-06)
+
+The F40 v16 mandatory notification protocol integration sequence was completed strictly offline.
+
+Completed corrections & features:
+1. **PBS Mail Directives**: Added verified `#PBS -M pruthvi.patel@student.tu-freiberg.de` and `#PBS -m abe` options to `M2RMBISECT1.pbs`.
+2. **Pre-`qsub` Preflight Channel Test**: Updated `submit_stage_f40_cae_bisect.sh` to run a preflight notification test over Email and Telegram before `qsub`. If either test fails, submission is aborted before `qsub`.
+3. **Notification Dispatcher & Secret Protection**: Implemented `scripts/hpc/notify_hpc_event.py` for structured Email and Telegram event notifications. Credentials are loaded strictly from environment variables or `~/.config/telegram/credentials.json` (never committed to Git). All recipient identifiers in `NOTIFICATION_AUDIT.json` are redacted.
+4. **Post-`qsub` & Terminal Dispatchers**: Integrated post-`qsub` submission notifications and created `scripts/hpc/stage_f/monitor_stage_f40_terminal_state.sh` for terminal execution notifications.
+5. **Evidence Contract Auditing**: Added `NOTIFICATION_AUDIT.json`, `EMAIL_SUBMISSION_NOTIFICATION.returncode`, `TELEGRAM_SUBMISSION_NOTIFICATION.returncode`, `EMAIL_TERMINAL_NOTIFICATION.returncode`, and `TELEGRAM_TERMINAL_NOTIFICATION.returncode` to `EXPECTED_EVIDENCE_FILES` and runtime validation.
+6. **Non-Blocking Notification Failure**: Enforced that notification failures after job execution start or termination write non-zero returncode files but **never** trigger automatic job retry or duplicate submission.
+7. **Git P16 -> Q16 -> M16 Sequence**:
+   - Preparation commit P16: `16bdf29635656fc704a88a041bf3cbb5d4336967`
+   - Qualification commit Q16: `e2310c85edd30f1accfc9f7ad5d683f80d1de55e`
+   - Coordination head M16: `1b5495438fad89bb18fb9bf20ca2b36a8e985b7b`
+
+Classification: `f40_mandatory_notification_protocol_integrated_clean_linux_qualified`. All execution and submission authority flags remain strictly `false` and `0`. No scheduler job, solver, datacheck, F41 execution, remeshing simulation, retry, replacement, or new submission is authorized.
+
 ## F40 v15R2 Offline Conversion-Isolation Diagnostic Correction Closeout (2026-08-06)
 
 The F40 v15R2 offline conversion-isolation diagnostic correction sequence was completed strictly offline.
