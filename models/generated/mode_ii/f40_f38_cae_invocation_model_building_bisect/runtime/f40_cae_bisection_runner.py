@@ -7,7 +7,7 @@ import datetime
 import hashlib
 
 EXPECTED_ENTRYPOINT_SHA256 = "5d6b4b0f2f016ce1ac4e62cfd1044427c971fdb0db476e85919d72cbcabe096d"
-EXPECTED_HELPER_SHA256 = "011a13df33775959aa8aac8fd1a69a8ffa7aca97014c428e010f1f5f1a0a4ba0"
+EXPECTED_HELPER_SHA256 = "de56d8326c22a54ea3e42d14604390822b9388f7bfb5164b59f78cae9b7eff03"
 
 def load_expected_sha256(runtime_dir):
     manifest_paths = [
@@ -67,6 +67,52 @@ def get_file_sha256(filepath):
             h.update(chunk)
     return h.hexdigest()
 
+def verify_script_hashes(runtime_dir):
+    entrypoint_script = os.path.join(runtime_dir, "run_f38_cae_diagnostic.py")
+    helper_script = os.path.join(runtime_dir, "f38_cae_diagnostic_matrix.py")
+
+    entrypoint_exists = os.path.exists(entrypoint_script)
+    helper_exists = os.path.exists(helper_script)
+
+    if not entrypoint_exists or not helper_exists:
+        return False, "missing_script_files", {
+            "entrypoint_exists": entrypoint_exists,
+            "helper_exists": helper_exists
+        }
+
+    entrypoint_sha256 = get_file_sha256(entrypoint_script)
+    helper_sha256 = get_file_sha256(helper_script)
+    exp_entry, exp_help = load_expected_sha256(runtime_dir)
+
+    entry_matched = True
+    if entrypoint_sha256 != EXPECTED_ENTRYPOINT_SHA256 or entrypoint_sha256 != exp_entry:
+        entry_matched = False
+
+    helper_matched = True
+    if helper_sha256 != EXPECTED_HELPER_SHA256 or helper_sha256 != exp_help:
+        helper_matched = False
+
+    metrics = {
+        "runtime_dir": runtime_dir,
+        "entrypoint_script": entrypoint_script,
+        "entrypoint_exists": True,
+        "helper_script": helper_script,
+        "helper_exists": True,
+        "entrypoint_sha256": entrypoint_sha256,
+        "expected_entrypoint_sha256": EXPECTED_ENTRYPOINT_SHA256,
+        "entrypoint_hash_matched": entry_matched,
+        "helper_sha256": helper_sha256,
+        "expected_helper_sha256": EXPECTED_HELPER_SHA256,
+        "helper_hash_matched": helper_matched
+    }
+
+    if not entry_matched:
+        return False, "entrypoint_hash_mismatch", metrics
+    if not helper_matched:
+        return False, "helper_hash_mismatch", metrics
+
+    return True, "ok", metrics
+
 def run_bisection_matrix():
     print("=== F40 Abaqus CAE Bisection Matrix Runner ===")
     runtime_dir = os.environ.get("F40_RUNTIME_DIR", os.getcwd())
@@ -108,58 +154,24 @@ def run_bisection_matrix():
 
         file_var_key = '__' + 'file' + '__'
         file_defined = file_var_key in globals()
-        entrypoint_script = os.path.join(runtime_dir, "run_f38_cae_diagnostic.py")
-        helper_script = os.path.join(runtime_dir, "f38_cae_diagnostic_matrix.py")
 
-        entrypoint_exists = os.path.exists(entrypoint_script)
-        helper_exists = os.path.exists(helper_script)
-
-        if not entrypoint_exists or not helper_exists:
-            raise IOError(
-                "Required F38 entrypoint script or helper matrix missing in runtime_dir: "
-                "entrypoint_exists={}, helper_exists={}".format(entrypoint_exists, helper_exists)
-            )
-
-        entrypoint_sha256 = get_file_sha256(entrypoint_script)
-        helper_sha256 = get_file_sha256(helper_script)
-
-        exp_entry, exp_help = load_expected_sha256(runtime_dir)
-
-        if entrypoint_sha256 != EXPECTED_ENTRYPOINT_SHA256 or entrypoint_sha256 != exp_entry:
-            raise ValueError(
-                "SHA256 hash mismatch for run_f38_cae_diagnostic.py: "
-                "expected {}, got {}".format(exp_entry, entrypoint_sha256)
-            )
-
-        if helper_sha256 != EXPECTED_HELPER_SHA256 or helper_sha256 != exp_help:
-            raise ValueError(
-                "SHA256 hash mismatch for f38_cae_diagnostic_matrix.py: "
-                "expected {}, got {}".format(exp_help, helper_sha256)
-            )
+        valid_hashes, status_msg, hash_metrics = verify_script_hashes(runtime_dir)
+        if not valid_hashes:
+            raise ValueError("Script hash verification failed in P02: status={}".format(status_msg))
 
         import f38_cae_diagnostic_matrix
         main_callable = hasattr(f38_cae_diagnostic_matrix, "main") and callable(f38_cae_diagnostic_matrix.main)
         if not main_callable:
             raise AttributeError("f38_cae_diagnostic_matrix does not expose a callable main()")
 
-        metrics = {
-            "runtime_dir": runtime_dir,
+        metrics = dict(hash_metrics)
+        metrics.update({
             "file_global_defined": file_defined,
-            "entrypoint_script": entrypoint_script,
-            "entrypoint_exists": True,
-            "helper_script": helper_script,
-            "helper_exists": True,
-            "entrypoint_sha256": entrypoint_sha256,
-            "expected_entrypoint_sha256": EXPECTED_ENTRYPOINT_SHA256,
-            "entrypoint_hash_matched": True,
-            "helper_sha256": helper_sha256,
-            "expected_helper_sha256": EXPECTED_HELPER_SHA256,
-            "helper_hash_matched": True,
             "module_imported": True,
             "main_callable": True,
             "main_executed_in_p02": False,
             "sys_path_0": sys.path[0]
-        }
+        })
         write_phase_audit(p02_id, p02_name, True, True, 0, None, None, None, "ok", metrics=metrics)
     except Exception as exc:
         write_phase_audit(p02_id, p02_name, True, False, 1, type(exc).__name__, str(exc), traceback.format_exc(), "failed")

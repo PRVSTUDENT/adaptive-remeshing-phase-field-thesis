@@ -9,8 +9,9 @@ import hashlib
 PHASE_DEPENDENCIES = {
     'repository_inventory': ['model_import'],
     'repository_resolution': ['model_import'],
-    'element_type_assignment': ['geometry_conversion'],
-    'mesh_control_assignment': ['geometry_conversion'],
+    'usable_geometry_validation': ['geometry_conversion_observation'],
+    'element_type_assignment': ['usable_geometry_validation'],
+    'mesh_control_assignment': ['usable_geometry_validation'],
     'instance_replacement': ['assembly_feature_inventory'],
     'crack_edge_detection': ['crack_edge_method_inventory'],
     'crack_mesh_topology': ['crack_edge_method_inventory'],
@@ -202,8 +203,8 @@ def phase_repository_resolution(ctx):
         'feature_to_instance_match': mapping
     }
 
-# Phase 7
-def phase_geometry_conversion(ctx):
+# Phase 7: API Invocation Observation
+def phase_geometry_conversion_observation(ctx):
     mdb = ctx['mdb']
     source_deck = ctx['source_deck']
     model = import_fresh_model(mdb, source_deck, 'F38_GEOMETRY_PROBE')
@@ -247,6 +248,9 @@ def phase_geometry_conversion(ctx):
     face_count = len(geom_part.faces) if hasattr(geom_part, 'faces') else 0
     vertex_count = len(geom_part.vertices) if hasattr(geom_part, 'vertices') else 0
     edge_count = len(geom_part.edges) if hasattr(geom_part, 'edges') else 0
+    feature_keys = [str(k) for k in geom_part.features.keys()] if hasattr(geom_part, 'features') else []
+    is_meshed = getattr(geom_part, 'isMeshed', None)
+    is_wire_only = (edge_count > 0 and face_count == 0)
 
     capabilities = {
         'object_type': str(type(geom_part)),
@@ -266,15 +270,34 @@ def phase_geometry_conversion(ctx):
         'face_count': face_count,
         'vertex_count': vertex_count,
         'edge_count': edge_count,
+        'feature_keys': feature_keys,
+        'is_meshed': is_meshed,
+        'is_wire_only': is_wire_only,
         'capabilities': capabilities
     }
     ctx['geometry_conversion_api_observation'] = api_observation
-
-    # Usable Geometry Gate Validation
-    if face_count == 0 or vertex_count == 0:
-        raise RuntimeError("geometry_conversion produced zero faces ({0}) or zero vertices ({1})".format(face_count, vertex_count))
-
     return api_observation
+
+# Phase 8: Usable Geometry Gate Validation
+def phase_usable_geometry_validation(ctx):
+    geom_part = ctx.get('geom_part')
+    if not geom_part:
+        raise RuntimeError("geom_part unavailable for usable_geometry_validation")
+
+    obs = ctx.get('geometry_conversion_api_observation', {})
+    face_count = obs.get('face_count', len(geom_part.faces) if hasattr(geom_part, 'faces') else 0)
+    vertex_count = obs.get('vertex_count', len(geom_part.vertices) if hasattr(geom_part, 'vertices') else 0)
+    is_wire_only = obs.get('is_wire_only', False)
+
+    if face_count == 0 or vertex_count == 0 or is_wire_only:
+        raise RuntimeError("usable_geometry_validation failed: geometry conversion produced zero usable faces ({0}), zero vertices ({1}), or wire-only geometry".format(face_count, vertex_count))
+
+    return {
+        'usable_geometry_valid': True,
+        'face_count': face_count,
+        'vertex_count': vertex_count,
+        'is_wire_only': False
+    }
 
 # Phase 8
 def phase_element_type_assignment(ctx):
@@ -428,11 +451,14 @@ def phase_crack_edge_detection(ctx):
             else:
                 bottom_edges += 1
 
+    if total_edges == 0 or top_edges == 0 or bottom_edges == 0:
+        raise RuntimeError("crack_edge_detection found no usable crack edges (total={0}, top={1}, bottom={2})".format(total_edges, top_edges, bottom_edges))
+
     return {
         'top_edges_count': top_edges,
         'bottom_edges_count': bottom_edges,
         'total_edges': total_edges,
-        'is_observation_only_probe': True
+        'is_observation_only_probe': False
     }
 
 # Phase 15: Crack Mesh Topology Probe (Using original mesh source_part or meshed part)
@@ -454,18 +480,22 @@ def phase_crack_mesh_topology(ctx):
     lower_coords = {}
     upper_coords = {}
 
+    tol = 0.001
+    min_x = -0.5 - tol
+    max_x = 0.0 + tol
+
     if hasattr(target_part, 'sets') and 'notch_lower_face' in target_part.sets and 'notch_upper_face' in target_part.sets:
         lower_nodes = target_part.sets['notch_lower_face'].nodes
         upper_nodes = target_part.sets['notch_upper_face'].nodes
-        lower_node_labels = [n.label for n in lower_nodes]
-        upper_node_labels = [n.label for n in upper_nodes]
-        lower_coords = {n.label: n.coordinates for n in lower_nodes}
-        upper_coords = {n.label: n.coordinates for n in upper_nodes}
+        lower_node_labels = [n.label for n in lower_nodes if min_x <= n.coordinates[0] <= max_x]
+        upper_node_labels = [n.label for n in upper_nodes if min_x <= n.coordinates[0] <= max_x]
+        lower_coords = {n.label: n.coordinates for n in lower_nodes if min_x <= n.coordinates[0] <= max_x}
+        upper_coords = {n.label: n.coordinates for n in upper_nodes if min_x <= n.coordinates[0] <= max_x}
     else:
         for n in nodes:
             coords = n.coordinates
             x, y = coords[0], coords[1]
-            if x <= 0.001:
+            if min_x <= x <= max_x:
                 if y <= 0 and y >= -0.05:
                     lower_node_labels.append(n.label)
                     lower_coords[n.label] = coords
@@ -491,8 +521,9 @@ def phase_crack_mesh_topology(ctx):
                 coincident_pair_count += 1
                 break
 
-    if coincident_pair_count == 0:
-        raise RuntimeError("crack_mesh_topology coincident pair count is zero")
+    expected_coincident_pair_count = 15
+    if coincident_pair_count != expected_coincident_pair_count:
+        raise RuntimeError("crack_mesh_topology coincident pair count is {0}, expected {1}".format(coincident_pair_count, expected_coincident_pair_count))
 
     bridge_elem_count = 0
     for elem in elements:
@@ -507,13 +538,24 @@ def phase_crack_mesh_topology(ctx):
     if bridge_elem_count != 0:
         raise RuntimeError("crack_mesh_topology bridge element count is non-zero ({0})".format(bridge_elem_count))
 
+    bounds_satisfied = True
+    for c in list(lower_coords.values()) + list(upper_coords.values()):
+        if not (min_x <= c[0] <= max_x):
+            bounds_satisfied = False
+            break
+
+    if not bounds_satisfied:
+        raise RuntimeError("crack_mesh_topology selected nodes outside coordinate bounds [-0.5, 0.0]")
+
     return {
         'lower_node_labels_count': len(lower_node_labels),
         'upper_node_labels_count': len(upper_node_labels),
         'intersection_count': intersection_count,
         'disjoint_node_sets': disjoint_node_sets,
         'coincident_node_pairs_count': coincident_pair_count,
-        'bridge_element_count': bridge_elem_count
+        'expected_coincident_pair_count': expected_coincident_pair_count,
+        'bridge_element_count': bridge_elem_count,
+        'coordinate_bounds_satisfied': bounds_satisfied
     }
 
 # Phase 16
@@ -660,7 +702,8 @@ def main():
         ('model_import', phase_model_import),
         ('repository_inventory', phase_repository_inventory),
         ('repository_resolution', phase_repository_resolution),
-        ('geometry_conversion', phase_geometry_conversion),
+        ('geometry_conversion_observation', phase_geometry_conversion_observation),
+        ('usable_geometry_validation', phase_usable_geometry_validation),
         ('element_type_assignment', phase_element_type_assignment),
         ('mesh_control_assignment', phase_mesh_control_assignment),
         ('mesh_generation', phase_mesh_generation),
@@ -684,6 +727,11 @@ def main():
         passed_phases[phase_name] = passed
         if not passed:
             all_passed = False
+
+    matrix['overall_passed'] = all_passed
+    matrix['finished_at'] = datetime.datetime.now().isoformat()
+    write_matrix(matrix, matrix_path)
+    print("F38 CAE Diagnostic Matrix execution complete. Overall passed:", all_passed)
 
     matrix['overall_passed'] = all_passed
     matrix['finished_at'] = datetime.datetime.now().isoformat()

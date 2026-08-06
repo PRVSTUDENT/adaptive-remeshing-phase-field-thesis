@@ -1,5 +1,20 @@
 # Current project state
 
+## F40 v8 Offline Repair Sequence Closeout (2026-08-06)
+
+The F40 v8 offline repair sequence was completed strictly offline under coordination head `7720b87f5ac88413aba20dfc80b82c31eff93a4b` (parent Q7 `7c1cd92ed676d08128c9f9f12d350ca7e4d76b2d`, P7 `5d7181774dd0255e8588bc002574e029b342e5c4`).
+
+Completed repairs:
+1. **Geometry Conversion Phase Split**: Split `geometry_conversion` into `geometry_conversion_observation` (API invocation observation returning face/vertex/edge inventories, feature keys, `is_meshed`, and `is_wire_only` without raising) and `usable_geometry_validation` (raises `RuntimeError` if `face_count == 0` or `vertex_count == 0` or `is_wire_only`).
+2. **Dependency Blocking Enforcement**: Downstream element type and mesh control assignment phases depend on `usable_geometry_validation` and remain cleanly `dependency_blocked` when usable faces are absent.
+3. **Crack Node Coordinate Bounds & Topology**: Tightened crack node selection to `-0.5 - tol <= x <= 0.0 + tol` (`tol = 0.001`), verifying non-empty upper/lower sets, disjoint node labels, zero bridge elements, coordinate bound satisfaction, and **exactly 15 coincident node pairs**.
+4. **Crack Edge Probe Classification**: `phase_crack_edge_detection` raises `RuntimeError` when no usable edges exist (`total_edges == 0` or `top_edges == 0` or `bottom_edges == 0`).
+5. **Callable Script Hash Verification Helper**: Added `verify_script_hashes(runtime_dir)` helper function to `f40_cae_bisection_runner.py` and unit-tested it directly in `test_stage_f40_batch.py`.
+6. **Package Manifest & Validation Alignment**: Updated package manifests (`PACKAGE_MANIFEST.json`, `SHA256SUMS`, `F40_SHA256SUMS`), matrix validator `validate_f38_matrix_results.py` (expecting 21 phases), unit tests `test_stage_f40_batch.py` (21/21 unit tests pass), and static gate validator `validate_f40_cae_bisect_gate.py` (pass).
+
+Classification: `f40_gate_v8_offline_repaired_qualified_not_authorized`. All execution and submission authority remains strictly `false` and `0`. No scheduler job, solver, datacheck, F41 execution, remeshing simulation, retry, replacement, or new submission is authorized.
+
+
 ## F40 Repaired M2RMBISECT1 Terminal Evidence and Closeout (2026-08-06)
 
 Guarded diagnostic job `M2RMBISECT1` (`1384502.mmaster02`) executed on `mnode101/0` under routing queue `#PBS -q normal_imfdfkmq` (`walltime = 00:00:04`, `cput = 00:00:02`) under explicit human authorization commit `338d605`.

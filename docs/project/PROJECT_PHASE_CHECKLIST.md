@@ -12,7 +12,14 @@
 - [x] Repaired F40 offline package under repair preparation commit `f54662606eaa0366938bccfed58ac3cb9ee1f319` and qualified in detached clean-Linux checkout (`/tmp/f40_clean_qual_f546626`) under qualification commit `98a5f1826672fae8805331964114b51f275e2860`.
 - [x] Executed explicitly authorized guarded diagnostic job `M2RMBISECT1` (`1384502.mmaster02`) on cluster under authorization commit `338d605`.
 - [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384502.mmaster02/`): Generic Abaqus primitives P00-P11 passed `rc=0`, Stage 3 F38 entrypoint executed cleanly `rc=0`, but `validate_f38_matrix_results.py` failed `rc=1` because 3 F38 matrix phases failed (`element_type_assignment` `NameError: mesh`, `mesh_generation` `NameError: mesh`, `output_request_rebinding` `AbaqusException`).
-- [!] Classification: `f40_generic_cae_primitives_passed_f38_matrix_failed_at_element_type_and_mesh_generation`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
+- [x] Completed F40 v8 offline repair sequence under coordination head `7720b87f5ac88413aba20dfc80b82c31eff93a4b`:
+  - Split `geometry_conversion` into `geometry_conversion_observation` (API observation returning inventories, feature keys, `is_meshed`, and `is_wire_only`) and `usable_geometry_validation` (validates `face_count > 0`, `vertex_count > 0`, `is_wire_only == False`).
+  - Enforced dependency blocking so downstream element type and mesh control assignment phases are cleanly `dependency_blocked` when usable faces are missing.
+  - Tightened crack-mesh topology checks: enforced coordinate bounds `-0.5 - tol <= x <= 0.0 + tol` (`tol = 0.001`), non-empty upper/lower sets, disjoint node labels, zero bridge elements, coordinate bounds satisfaction, and **exactly 15 coincident node pairs**.
+  - Made crack edge detection probe fail (`RuntimeError`) when no usable edges exist (`total_edges == 0` or `top_edges == 0` or `bottom_edges == 0`).
+  - Added callable `verify_script_hashes(runtime_dir)` helper to `f40_cae_bisection_runner.py` and unit-tested it directly in `test_stage_f40_batch.py`.
+  - Re-generated all package SHA-256 manifests (`PACKAGE_MANIFEST.json`, `SHA256SUMS`, `F40_SHA256SUMS`). Passed 21/21 unit tests and static gate validator.
+- [!] Classification: `f40_gate_v8_offline_repaired_qualified_not_authorized`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
 
 
 ## F39 Abaqus CAE kernel startup diagnostic gate

@@ -104,6 +104,8 @@ def main():
             rtxt = f.read()
             if "EXPECTED_ENTRYPOINT_SHA256" not in rtxt or "EXPECTED_HELPER_SHA256" not in rtxt:
                 failures.append("f40_cae_bisection_runner.py does not define immutable expected SHA256 hashes")
+            if "verify_script_hashes" not in rtxt:
+                failures.append("f40_cae_bisection_runner.py does not define verify_script_hashes helper")
             if "entrypoint_sha256 != EXPECTED_ENTRYPOINT_SHA256" not in rtxt:
                 failures.append("f40_cae_bisection_runner.py does not enforce SHA256 hash comparison")
             p02_block = rtxt[rtxt.find("p02_id, p02_name ="):rtxt.find("p03_id, p03_name =")]

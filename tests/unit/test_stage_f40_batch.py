@@ -152,8 +152,8 @@ class TestStageF40Batch(unittest.TestCase):
         mat_val_path = os.path.join(self.pkg_dir, "runtime", "validate_f38_matrix_results.py")
         expected_phases = [
             "bootstrap", "abaqus_module_import", "source_deck_access", "model_import",
-            "repository_inventory", "repository_resolution", "geometry_conversion",
-            "element_type_assignment", "mesh_control_assignment", "mesh_generation",
+            "repository_inventory", "repository_resolution", "geometry_conversion_observation",
+            "usable_geometry_validation", "element_type_assignment", "mesh_control_assignment", "mesh_generation",
             "assembly_feature_inventory", "instance_replacement", "crack_edge_method_inventory",
             "crack_edge_detection", "crack_mesh_topology", "assembly_set_inventory",
             "output_variable_probe", "output_request_rebinding", "input_write", "generated_input_presence"
@@ -188,7 +188,7 @@ class TestStageF40Batch(unittest.TestCase):
                 json.dump(mat_data, f)
 
             res = subprocess.run([sys.executable, mat_val_path, tmpdir], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-            self.assertEqual(res.returncode, 0, "Validator failed on valid schema and 20 passing phases: " + res.stdout + res.stderr)
+            self.assertEqual(res.returncode, 0, "Validator failed on valid schema and 21 passing phases: " + res.stdout + res.stderr)
             self.assertIn("F38_MATRIX_VALIDATION_PASSED", res.stdout)
 
     def test_get_first_analysis_step_helper(self):
@@ -250,10 +250,34 @@ class TestStageF40Batch(unittest.TestCase):
             with open(os.path.join(tmpdir, "f38_cae_diagnostic_matrix.py"), "w") as f:
                 f.write("# Modified helper content\ndef main(): pass\n")
 
-            exp_entry, exp_help = mod.load_expected_sha256(tmpdir)
-            helper_sha256 = hashlib.sha256(b"# Modified helper content\ndef main(): pass\n").hexdigest()
+            valid_hashes, status_msg, metrics = mod.verify_script_hashes(tmpdir)
+            self.assertFalse(valid_hashes, "verify_script_hashes should return False on modified helper content")
+            self.assertEqual(status_msg, "helper_hash_mismatch")
+            self.assertFalse(metrics.get("helper_hash_matched", True))
 
-            self.assertNotEqual(helper_sha256, exp_help, "Modified helper SHA256 must differ from expected helper SHA256")
+    def test_usable_geometry_validation_fails_on_zero_faces(self):
+        matrix_path = os.path.join(self.pkg_dir, "runtime", "f38_cae_diagnostic_matrix.py")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("f38_cae_diagnostic_matrix", matrix_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        class DummyPart:
+            def __init__(self):
+                self.faces = []
+                self.vertices = []
+                self.edges = [1, 2]
+
+        ctx = {
+            'geom_part': DummyPart(),
+            'geometry_conversion_api_observation': {
+                'face_count': 0,
+                'vertex_count': 0,
+                'is_wire_only': True
+            }
+        }
+        with self.assertRaises(RuntimeError):
+            mod.phase_usable_geometry_validation(ctx)
 
     def test_static_gate_validator_passes(self):
         res = subprocess.run([sys.executable, self.validator_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
