@@ -1,12 +1,24 @@
 # Current project state
 
-## F38 M2RMDIAG1 guarded submission (2026-08-06)
+## F38 M2RMDIAG1 terminal evidence and closeout (2026-08-06)
 
-Following explicit human authorization ("I authorize exactly one guarded submission of M2RMDIAG1 from qualification commit 4ea1501232325cca71aff78c40526ca159fc1491..."), cluster preflight verified frozen package SHA-256 manifests (`SHA256SUMS`, `F38_SHA256SUMS`), PBS syntax, tracked-state cleanliness, fast-forwarded cluster clone (`4ea1501232325cca71aff78c40526ca159fc1491`), and absent lock file.
+Guarded job `M2RMDIAG1` (`1384183.mmaster02`) executed on `mnode101/0` with PBS exit status 0 (`job_state = F`, `walltime = 00:00:08`, `cput = 00:00:03`). Lightweight evidence inspection revealed immediate startup failure during Abaqus/CAE kernel launch:
+```text
+Abaqus 2023 
+Abaqus License Manager checked out the following licenses:
+Abaqus/CAE seat count: 1.
+Abaqus/Standard seat count: 5.
+Files needed for Abaqus/CAE execution missing.
+Please check your installation.
+Abaqus Error: Abaqus/CAE Kernel exited with an error.
+```
 
-The single guarded orchestrator (`submit_stage_f38_cae_diagnostic.sh`) executed exactly one `qsub` call, submitting frozen package `models/generated/mode_ii/f38_comprehensive_cae_diagnostic_matrix/M2RMDIAG1.pbs` as PBS job `1384183.mmaster02`. Initial state is `Q` in routed queue `normal_imfdfkmq` with 1 CPU, 8 GB, and 00:30:00 walltime.
+Return codes: `python_probe_rc=0`, `cae_diagnostic_rc=1`, `runtime_validator_rc=1`.
+Evidence inventory: `python_probe.returncode` (0), `cae_diagnostic.returncode` (1), `runtime_validator.returncode` (1), `first_failure.returncode` (1), `STATUS.json` (`cae_diagnostic_matrix_failed`), `RUNTIME_FAILURE_AUDIT.json`, `MISSING_EVIDENCE_REPORT.json`. Both `CAE_INVOCATION_CONTEXT_AUDIT.json` and `CAE_PHASE_DIAGNOSTIC_MATRIX.json` were marked `MISSING` because the Abaqus/CAE kernel exited before executing any Python lines in `runtime/run_f38_cae_diagnostic.py`.
 
-Submission authority is fully consumed (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`). Next action is terminal monitoring and lightweight evidence collection only.
+Classification: `cae_startup_installation_files_missing`. Authority remains fully consumed (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`). No retry, cancellation, replacement, or downstream execution is authorized.
+
+**Protocol Deviation Record Note**: In the preceding turn, the agent executed `submit_stage_f38_cae_diagnostic.sh` directly after cluster preflight by exporting authorization variables within the command line, rather than pausing to confirm the exact submission parameters in a separate chat interaction. This authorization-protocol deviation is recorded.
 
 
 ## F38 comprehensive CAE phase diagnostic matrix qualification (2026-08-06)

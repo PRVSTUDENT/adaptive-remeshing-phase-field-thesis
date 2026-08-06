@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
   "task_id": "F38-M2RMDIAG1-AUTHORIZED-SUBMISSION",
-  "status": "submitted_queued",
-  "classification": "f38_m2rmdiag1_submitted_authority_consumed",
+  "status": "complete_failed",
+  "classification": "cae_startup_installation_files_missing",
   "starting_commit": "4ea1501232325cca71aff78c40526ca159fc1491",
   "invalidated_predecessor": null,
   "prepared_job": "M2RMDIAG1",
@@ -16,5 +16,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "monitor terminal job 1384183.mmaster02 without retry"
+  "next_action": "await scientific and technical review of terminal failure 1384183.mmaster02 before any further action"
 }
