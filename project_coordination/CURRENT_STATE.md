@@ -4,11 +4,12 @@
 
 Following terminal closeout of F38 (`1384183.mmaster02`, `abaqus_cae_kernel_startup_failed_before_python_entrypoint`), offline launcher diagnostic package `models/generated/mode_ii/f39_abaqus_cae_kernel_startup_diagnostic/` (`M2RMKERN1`) was prepared and qualified.
 
-Following strict detached qualification protocol, preparation commit P `3ab9ab0cc3b1f6ed57c88c6f9f095be69919e191` was checked out in a clean detached Linux worktree (`/tmp/f39_clean_qual_3ab9ab0`). The package isolates the launcher environment (`collect_launcher_environment.py`) collecting redacted environment variables, hostname, resolved binary paths (`command -v abaqus`, `readlink -f`), and `abaqus information=release/system`. It probes minimal noGUI startup (`minimal_cae_kernel_probe.py`) using a 2-line script writing `CAE_KERNEL_STARTUP_AUDIT.json` without any model imports or geometry operations.
+Upon authorized submission invocation of `M2RMKERN1`, `qsub` reported `Access to queue is denied` due to direct submission targeting `normal_imfdfkmq` with `-l nodes=1:ppn=1`. The PBS queue directive in `M2RMKERN1.pbs` was repaired under repair preparation commit P2 `ae8441d945bc3a2d6b176d37de6500a070d1268e` to use routing queue `#PBS -q entry_imfdfkmq` and resource request `#PBS -l select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb`.
 
-`M2RMKERN1.pbs` executes `trap - EXIT` and `exit "$first_failure"` after evidence collection to prevent PBS exit status masking, writes `STATUS.json` prior to generating missing-evidence reports, and mandates persistent copying to `F39_EVIDENCE_DIR`. `generate_missing_evidence_report.py` enforces disjoint missing/existing file sets. Detached clean-Linux validation passed 12/12 unit tests, 0 static failures, bash syntax check, Python compilation, and both package SHA-256 manifests (`SHA256SUMS`, `F39_SHA256SUMS`).
+Package SHA-256 manifests (`SHA256SUMS`, `F39_SHA256SUMS`, `PACKAGE_MANIFEST.json`) were updated and frozen. Detached clean-Linux qualification of repair commit P2 `ae8441d945bc3a2d6b176d37de6500a070d1268e` in `/tmp/f39_clean_qual_ae8441d` passed 12/12 unit tests, 0 static failures, bash syntax check, Python compilation, and manifest integrity checks.
 
-Classification: `f39_abaqus_cae_kernel_startup_diagnostic_clean_linux_qualified_not_authorized`. All authorization remains false and zero (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`, `downstream_authorized=false`).
+Classification: `f39_abaqus_cae_kernel_startup_diagnostic_clean_linux_qualified_not_authorized`. Zero authority consumed; no scheduler job ID issued (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`).
+
 
 
 ## F38 M2RMDIAG1 terminal evidence and closeout (2026-08-06)

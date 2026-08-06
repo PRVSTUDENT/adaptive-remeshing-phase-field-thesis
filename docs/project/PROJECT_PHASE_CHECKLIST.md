@@ -8,7 +8,8 @@
 - [x] Implemented minimal noGUI probe `minimal_cae_kernel_probe.py` without `__file__`, model imports, or geometry operations.
 - [x] Repaired PBS exit status trapping (`trap - EXIT` and `exit "$first_failure"`) in `M2RMKERN1.pbs`.
 - [x] Enforced disjoint missing and existing evidence sets in `generate_missing_evidence_report.py`.
-- [x] Validated preparation commit P `3ab9ab0cc3b1f6ed57c88c6f9f095be69919e191` in a detached clean-Linux checkout (`/tmp/f39_clean_qual_3ab9ab0`): 12/12 unit tests passed in `tests/unit/test_stage_f39_batch.py`, 0 static failures in `scripts/validation/validate_f39_cae_kernel_startup_gate.py`, and both SHA-256 package manifests verified OK.
+- [x] Repaired PBS queue directive in `M2RMKERN1.pbs` (`#PBS -q entry_imfdfkmq`, `#PBS -l select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb`) under repair preparation commit P2 `ae8441d945bc3a2d6b176d37de6500a070d1268e`.
+- [x] Validated repair preparation commit P2 `ae8441d945bc3a2d6b176d37de6500a070d1268e` in a detached clean-Linux checkout (`/tmp/f39_clean_qual_ae8441d`): 12/12 unit tests passed in `tests/unit/test_stage_f39_batch.py`, 0 static failures in `scripts/validation/validate_f39_cae_kernel_startup_gate.py`, and both SHA-256 package manifests verified OK.
 - [!] Classification: `f39_abaqus_cae_kernel_startup_diagnostic_clean_linux_qualified_not_authorized`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
 
 

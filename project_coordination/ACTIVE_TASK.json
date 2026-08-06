@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
-  "task_id": "F39-M2RMKERN1-AUTHORIZED-SUBMISSION",
-  "status": "f39_m2rmkern1_submission_denied_pbs_queue_policy",
-  "classification": "f39_m2rmkern1_submission_denied_pbs_queue_policy",
+  "task_id": "F39-DIAGNOSE-ABAQUS-CAE-KERNEL-STARTUP",
+  "status": "f39_abaqus_cae_kernel_startup_diagnostic_clean_linux_qualified_not_authorized",
+  "classification": "f39_abaqus_cae_kernel_startup_diagnostic_clean_linux_qualified_not_authorized",
   "starting_commit": "33b2fc6f14dcf0e2b657badc800e4a4b0f107f69",
   "invalidated_predecessor": "f38_abaqus_cae_kernel_startup_failed_before_python_entrypoint",
   "prepared_job": "M2RMKERN1",
@@ -16,5 +16,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "prepare offline repair P2 for M2RMKERN1 PBS queue directive and request clean Linux qualification"
+  "next_action": "await explicit human authorization before any re-submission of repaired M2RMKERN1"
 }
