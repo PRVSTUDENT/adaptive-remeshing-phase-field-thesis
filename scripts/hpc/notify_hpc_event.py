@@ -83,6 +83,20 @@ def load_notification_config():
             except Exception:
                 pass
 
+    if not token or not chat_id:
+        tg_env = os.path.expanduser("~/.config/hpc-notify/telegram.env")
+        if os.path.exists(tg_env):
+            try:
+                with open(tg_env, "r") as f:
+                    for line in f:
+                        line = line.strip()
+                        if line.startswith("TELEGRAM_BOT_TOKEN="):
+                            token = token or line.split("=", 1)[1].strip().strip('"').strip("'")
+                        elif line.startswith("TELEGRAM_CHAT_ID="):
+                            chat_id = chat_id or line.split("=", 1)[1].strip().strip('"').strip("'")
+            except Exception:
+                pass
+
     return token, chat_id, recipients
 
 def send_telegram_message(token, chat_id, message_text):
