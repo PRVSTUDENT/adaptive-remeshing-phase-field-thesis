@@ -12,13 +12,12 @@
 - [x] Repaired F40 offline package under repair preparation commit `f54662606eaa0366938bccfed58ac3cb9ee1f319` and qualified in detached clean-Linux checkout (`/tmp/f40_clean_qual_f546626`) under qualification commit `98a5f1826672fae8805331964114b51f275e2860`.
 - [x] Executed explicitly authorized guarded diagnostic job `M2RMBISECT1` (`1384502.mmaster02`) on cluster under authorization commit `338d605`.
 - [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384502.mmaster02/`): Generic Abaqus primitives P00-P11 passed `rc=0`, Stage 3 F38 entrypoint executed cleanly `rc=0`, but `validate_f38_matrix_results.py` failed `rc=1` because 3 F38 matrix phases failed (`element_type_assignment` `NameError: mesh`, `mesh_generation` `NameError: mesh`, `output_request_rebinding` `AbaqusException`).
-- [x] Completed F40 v8 offline repair sequence under coordination head `7720b87f5ac88413aba20dfc80b82c31eff93a4b`.
-- [x] Completed F40 v9 offline correction sequence:
-  - Refactored `phase_crack_mesh_topology` to group nodes by coordinate in $x \in [-0.5, 0.0]$, classifying `source_deck.inp` as `duplicated_crack_face_nodes` (15 pairs + tip node) or `continuous_centerline_mesh`.
-  - Removed duplicate matrix finalization call block from `f38_cae_diagnostic_matrix.py`.
-  - Updated `run_f40_clean_qual.sh` to generate and write repository qualification proof `F40_CLEAN_LINUX_QUALIFICATION.json`.
-  - Ran unit tests (`22/22` passed) and static gate validator (`pass`).
-- [!] Classification: `f40_gate_v9_offline_corrected_qualified_not_authorized`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
+- [x] Completed F40 v9 offline correction sequence under coordination head `1d220125e0525bbd0618a24f6a528f3c733f359e`.
+- [x] Completed F40 v10 offline correction sequence:
+  - Aligned `validate_f40_runtime_audits.py` to the 21-phase matrix contract matching `validate_f38_matrix_results.py`.
+  - Added unit test `test_matrix_validators_share_identical_phase_contract` asserting phase list equality across validators (`23/23` passed).
+  - Updated `run_f40_clean_qual.sh` to output ISO 8601 millisecond timestamps and dynamically derive passed test counts.
+- [!] Classification: `f40_gate_v10_offline_corrected_qualified_not_authorized`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
 
 
 ## F39 Abaqus CAE kernel startup diagnostic gate

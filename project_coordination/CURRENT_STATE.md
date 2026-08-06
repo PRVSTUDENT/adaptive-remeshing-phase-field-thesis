@@ -1,5 +1,18 @@
 # Current project state
 
+## F40 v10 Offline Correction Closeout (2026-08-06)
+
+The F40 v10 offline correction sequence was completed strictly offline.
+
+Completed corrections:
+1. **Matrix Validator Phase Alignment**: Updated `validate_f40_runtime_audits.py` to expect the identical 21-phase matrix contract as `validate_f38_matrix_results.py` (`geometry_conversion_observation`, `usable_geometry_validation`).
+2. **Cross-Validator Phase Contract Unit Test**: Added unit test `test_matrix_validators_share_identical_phase_contract` in `test_stage_f40_batch.py` asserting exact equality of `EXPECTED_F38_PHASES` across both validator scripts (`23/23` tests passed).
+3. **Qualification ISO Timestamp & Dynamic Test Count**: Updated `run_f40_clean_qual.sh` to output exact ISO 8601 millisecond strings for local (`astimezone()`) and UTC timestamps, and dynamically derive passed test counts.
+4. **Git P10 -> Q10 -> M10 Sequence**: Created preparation commit P10, detached qualification proof commit Q10 containing `F40_CLEAN_LINUX_QUALIFICATION.json`, and metadata head M10.
+
+Classification: `f40_gate_v10_offline_corrected_qualified_not_authorized`. All execution and submission authority flags remain strictly `false` and `0`. No scheduler job, solver, datacheck, F41 execution, remeshing simulation, retry, replacement, or new submission is authorized.
+
+
 ## F40 v9 Offline Correction Closeout (2026-08-06)
 
 The F40 v9 offline correction sequence was completed strictly offline.

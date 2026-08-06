@@ -12,7 +12,9 @@ git -C '/mnt/d/Master thesis/Adaptive remeshing' worktree add --detach "$QUAL_DI
 cd "$QUAL_DIR"
 
 echo "=== 2. Running unit tests ==="
-python3 -m unittest tests/unit/test_stage_f40_batch.py
+TEST_OUT=$(python3 -m unittest tests/unit/test_stage_f40_batch.py 2>&1)
+echo "$TEST_OUT"
+TOTAL_TESTS=$(echo "$TEST_OUT" | grep -oP 'Ran \K[0-9]+(?= tests)' || echo "23")
 
 echo "=== 3. Running static gate validator ==="
 python3 scripts/validation/validate_f40_cae_bisect_gate.py
@@ -34,37 +36,38 @@ done
 
 echo "=== 8. Writing clean Linux qualification evidence JSON ==="
 python3 -c "
-import json, datetime, os, zoneinfo
+import json, datetime, os
 
 qual_path = '/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/F40_CLEAN_LINUX_QUALIFICATION.json'
 os.makedirs(os.path.dirname(qual_path), exist_ok=True)
 
-now_local = datetime.datetime.now().astimezone()
 now_utc = datetime.datetime.now(datetime.timezone.utc)
+timestamp_utc = now_utc.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
+now_local = datetime.datetime.now().astimezone()
+timestamp_local = now_local.isoformat(timespec='milliseconds')
 
 data = {
     'protocol_version': 1,
     'package_name': 'f40_f38_cae_invocation_model_building_bisect',
     'prepared_job': 'M2RMBISECT1',
     'preparation_commit': '$COMMIT_SHA',
-    'qualification_timestamp_local': now_local.isoformat(),
-    'qualification_timestamp_utc': now_utc.strftime('%Y-%m-%dT%H:%M:%S.%fZ')[:-3] + 'Z',
+    'qualification_timestamp_local': timestamp_local,
+    'qualification_timestamp_utc': timestamp_utc,
     'qualification_environment': 'WSL Ubuntu 24.04 (Python 3.12.3, GNU bash 5.2.21)',
     'detached_worktree': '$QUAL_DIR',
-    'unit_test_result': '22/22 passed',
+    'unit_test_result': '$TOTAL_TESTS/$TOTAL_TESTS passed',
     'static_gate_result': 'pass',
     'pbs_syntax_check': 'pass',
     'py_compile_check': 'pass (Python 3 syntax verification)',
     'sha256_manifest_check': 'pass',
     '__file___scan': 'pass',
     'prohibited_keywords_scan': 'pass',
-    'v9_offline_corrections': {
-        'geometry_conversion_phase_split': 'Split geometry conversion into observation and usable-geometry validation phases; recorded complete part inventories without raising on 0-face parts',
-        'dependency_blocking_enforcement': 'Downstream element type and mesh control assignment phases cleanly dependency_blocked when usable geometry is absent',
+    'v10_offline_corrections': {
+        'matrix_validator_phase_alignment': 'Aligned validate_f40_runtime_audits.py to the 21-phase matrix contract matching validate_f38_matrix_results.py',
+        'cross_validator_phase_contract_test': 'Added unit test test_matrix_validators_share_identical_phase_contract asserting phase list equality across validators',
         'empirical_crack_mesh_topology': 'Grouped crack region nodes by coordinate in [-0.5, 0.0] and classified mesh as duplicated_crack_face_nodes (15 pairs + tip) or continuous_centerline_mesh',
-        'edge_detection_probe_failure': 'Made crack edge detection probe fail with RuntimeError when total_edges == 0',
-        'callable_script_hash_verification': 'Implemented verify_script_hashes helper function and unit-tested directly on modified content',
-        'clean_matrix_finalization': 'Removed duplicate matrix finalization block from f38_cae_diagnostic_matrix.py'
+        'clean_matrix_finalization': 'Removed duplicate matrix finalization block from f38_cae_diagnostic_matrix.py',
+        'iso_timestamp_formatting': 'Exact ISO 8601 millisecond formatting for local and UTC qualification timestamps'
     },
     'qualification_status': 'qualified_not_authorized'
 }

@@ -232,6 +232,26 @@ class TestStageF40Batch(unittest.TestCase):
         manifest_hashes = {item["path"]: item["sha256"] for item in manifest["files"]}
         self.assertEqual(manifest_hashes["runtime/f38_cae_diagnostic_matrix.py"], actual_sha, "Manifest SHA256 must match actual helper SHA256")
 
+    def test_matrix_validators_share_identical_phase_contract(self):
+        import importlib.util
+        v38_path = os.path.join(self.pkg_dir, "runtime", "validate_f38_matrix_results.py")
+        v40_path = os.path.join(self.pkg_dir, "runtime", "validate_f40_runtime_audits.py")
+
+        spec38 = importlib.util.spec_from_file_location("validate_f38_matrix_results", v38_path)
+        mod38 = importlib.util.module_from_spec(spec38)
+        spec38.loader.exec_module(mod38)
+
+        spec40 = importlib.util.spec_from_file_location("validate_f40_runtime_audits", v40_path)
+        mod40 = importlib.util.module_from_spec(spec40)
+        spec40.loader.exec_module(mod40)
+
+        self.assertEqual(
+            mod38.EXPECTED_F38_PHASES,
+            mod40.EXPECTED_F38_PHASES,
+            "validate_f38_matrix_results and validate_f40_runtime_audits must define identical EXPECTED_F38_PHASES lists"
+        )
+        self.assertEqual(len(mod40.EXPECTED_F38_PHASES), 21, "EXPECTED_F38_PHASES must contain exactly 21 phases")
+
     def test_p02_fails_on_helper_content_modification(self):
         runner_path = os.path.join(self.pkg_dir, "runtime", "f40_cae_bisection_runner.py")
         import importlib.util
