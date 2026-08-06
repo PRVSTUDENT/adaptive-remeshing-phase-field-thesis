@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
   "task_id": "F40-ISOLATE-F38-CAE-INVOCATION-AND-MODEL-BUILDING-FAILURE",
-  "status": "preparation_complete_pending_clean_linux_qualification",
-  "classification": "f40_f38_cae_invocation_model_building_bisect_prepared_pending_qualification",
+  "status": "f40_f38_cae_invocation_model_building_bisect_clean_linux_qualified_not_authorized",
+  "classification": "f40_f38_cae_invocation_model_building_bisect_clean_linux_qualified_not_authorized",
   "starting_commit": "9f03e5c98bd3414338ddd52cfb0690bc779cf738",
   "invalidated_predecessor": "f38_abaqus_cae_kernel_startup_failed_before_python_entrypoint",
   "prepared_job": "M2RMBISECT1",
@@ -16,5 +16,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "await detached clean-Linux qualification proof before authorization"
+  "next_action": "await explicit human authorization before any submission of M2RMBISECT1"
 }

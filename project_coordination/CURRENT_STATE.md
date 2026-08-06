@@ -1,5 +1,30 @@
 # Current project state
 
+## F40 Abaqus CAE invocation and model building bisection qualification (2026-08-06)
+
+Following successful completion of F39 (`1384431.mmaster02`, `cae_kernel_startup_success`), offline launcher diagnostic bisection package `models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect/` (`M2RMBISECT1`) was prepared and qualified under preparation commit P40 `36a779a4e106c812899218a1dd9db0dd00d430e4`.
+
+F40 isolates the exact point of failure between minimal kernel startup (proven in F39) and full model building (failed in F38) using a 12-stage bisection ladder (`f40_cae_bisection_runner.py`):
+- `P00_KERNEL_STARTUP`: Minimal noGUI probe reproducing F39.
+- `P01_IMPORTS`: Core Abaqus imports (`import abaqus`, `import abaqusConstants`, `from abaqus import mdb`).
+- `P02_MODULE_LOADING`: Loading F38 helper modules.
+- `P03_SOURCE_DECK_DISCOVERY`: Path, existence, and line count verification for `source_deck.inp`.
+- `P04_MODEL_FROM_INPUT_FILE`: Executing `mdb.ModelFromInputFile`.
+- `P05_IMPORTED_MODEL_INVENTORY`: Inventorying model, parts, instances, sets, surfaces, steps, field outputs.
+- `P06_GEOMETRY_CONVERSION`: `Part2DGeomFrom2DMesh` geometry conversion probes.
+- `P07_INDEPENDENT_MODEL_OWNERSHIP`: Probing independent model ownership.
+- `P08_ASSEMBLY_OPERATIONS`: Assembly regeneration and instance operations.
+- `P09_TOPOLOGY_MEASUREMENT`: Node distance and crack topology measurements.
+- `P10_SETS_SURFACES_INVENTORY`: Assembly set/surface inventory.
+- `P11_STEP_OUTPUT_PROBING`: Probing step and field output request variables.
+
+The package also includes `f40_invocation_contract_delta.py` generating `F38_F39_INVOCATION_DELTA_AUDIT.json`. `M2RMBISECT1.pbs` executes `trap - EXIT` and `exit "$first_failure"`, targeting routing queue `#PBS -q entry_imfdfkmq` and resource request `#PBS -l select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb`.
+
+Detached clean-Linux qualification of preparation commit P40 `36a779a4e106c812899218a1dd9db0dd00d430e4` in `/tmp/f40_clean_qual_36a779a` passed 11/11 unit tests, 0 static failures, bash syntax check, Python compilation, and both package SHA-256 manifests (`SHA256SUMS`, `F40_SHA256SUMS`).
+
+Classification: `f40_f38_cae_invocation_model_building_bisect_clean_linux_qualified_not_authorized`. All authorization remains false and zero (`execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`).
+
+
 ## F39 M2RMKERN1 terminal evidence and closeout (2026-08-06)
 
 Guarded diagnostic job `M2RMKERN1` (`1384431.mmaster02`) executed on `mnode102/0` under routing queue `#PBS -q entry_imfdfkmq` (`walltime = 00:00:05`, `cput = 00:00:02`).
