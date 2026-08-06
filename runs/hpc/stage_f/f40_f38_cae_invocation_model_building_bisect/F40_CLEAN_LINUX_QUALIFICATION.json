@@ -2,23 +2,23 @@
   "protocol_version": 1,
   "package_name": "f40_f38_cae_invocation_model_building_bisect",
   "prepared_job": "M2RMBISECT1",
-  "preparation_commit": "f2ed8a1fe32ecf3e14ce96055bc01d779176908c",
-  "qualification_timestamp_local": "2026-08-06T19:35:38.356+02:00",
-  "qualification_timestamp_utc": "2026-08-06T17:35:38.356Z",
+  "preparation_commit": "16bdf29635656fc704a88a041bf3cbb5d4336967",
+  "qualification_timestamp_local": "2026-08-06T19:44:36.193+02:00",
+  "qualification_timestamp_utc": "2026-08-06T17:44:36.193Z",
   "qualification_environment": "WSL Ubuntu 24.04 (Python 3.12.3, GNU bash 5.2.21)",
-  "detached_worktree": "/tmp/f40_clean_qual_f2ed8a1",
-  "unit_test_result": "35/35 passed",
+  "detached_worktree": "/tmp/f40_clean_qual_16bdf29",
+  "unit_test_result": "37/37 passed",
   "static_gate_result": "pass",
   "pbs_syntax_check": "pass",
   "py_compile_check": "pass (Python 3 syntax verification)",
   "sha256_manifest_check": "pass",
   "__file___scan": "pass",
   "prohibited_keywords_scan": "pass",
-  "v15r2_conversion_isolation_corrections": {
-    "matrix_validator_observations_key": "Updated validate_f38_matrix_results.py to read observations key from CAE_PHASE_DIAGNOSTIC_MATRIX.json",
-    "fail_closed_control_a_merge": "Implemented fail-closed Control A merge verification requiring 15 coincident node pairs along crack segment [-0.5, 0.0] and 0 remaining pairs",
-    "probe_completeness_schema": "Added probe completeness validation verifying attempted, completed, and exception fields across all probes",
-    "diagnostic_matrix_classification": "Updated matrix validator and runtime audits to accept root-cause-confirmed diagnostic matrix execution as valid evidence contract"
+  "v16_mandatory_notification_protocol": {
+    "pbs_mail_directives": "Added verified #PBS -M pruthvi.patel@student.tu-freiberg.de and #PBS -m abe directives to M2RMBISECT1.pbs",
+    "preflight_channel_verification": "Added pre-submission Email and Telegram test notification preflight check before qsub",
+    "submission_and_terminal_dispatchers": "Added notify_hpc_event.py and monitor_stage_f40_terminal_state.sh notification dispatchers",
+    "evidence_contract_auditing": "Added NOTIFICATION_AUDIT.json and notification returncode files to expected evidence contract and runtime validation"
   },
   "qualification_status": "qualified_not_authorized"
 }
