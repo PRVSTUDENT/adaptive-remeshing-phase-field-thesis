@@ -12,7 +12,10 @@ PHASE_DEPENDENCIES = {
     'usable_geometry_validation': ['geometry_conversion_observation'],
     'element_type_assignment': ['usable_geometry_validation'],
     'mesh_control_assignment': ['usable_geometry_validation'],
-    'instance_replacement': ['assembly_feature_inventory'],
+    'mesh_generation': ['usable_geometry_validation'],
+    'assembly_feature_inventory': ['model_import'],
+    'instance_replacement': ['usable_geometry_validation', 'assembly_feature_inventory'],
+    'crack_edge_method_inventory': ['usable_geometry_validation'],
     'crack_edge_detection': ['crack_edge_method_inventory'],
     'crack_mesh_topology': ['crack_edge_method_inventory'],
     'output_request_rebinding': ['output_variable_probe'],
@@ -203,6 +206,76 @@ def phase_repository_resolution(ctx):
         'feature_to_instance_match': mapping
     }
 
+# Helper to execute a single conversion probe in a fresh model safely
+def run_single_conversion_probe(mdb, source_deck, model_name, part_key, feature_angle, merge_crack_nodes=False):
+    probe_record = {
+        'model_name': model_name,
+        'feature_angle': feature_angle,
+        'merge_crack_nodes_requested': merge_crack_nodes,
+        'attempted': True,
+        'completed': False,
+        'face_count': 0,
+        'vertex_count': 0,
+        'edge_count': 0,
+        'coincident_pairs_before': 0,
+        'coincident_pairs_after': 0,
+        'node_reduction': 0,
+        'exception_type': None,
+        'exception_message': None
+    }
+    try:
+        model = import_fresh_model(mdb, source_deck, model_name)
+        source_part = model.parts[list(model.parts.keys())[0]]
+
+        if merge_crack_nodes:
+            # 1. Detect coincident coordinate groups along crack y=0 (x in [0.0, 0.5])
+            crack_nodes = [n for n in source_part.nodes if abs(n.coordinates[1]) < 1e-5 and n.coordinates[0] <= 0.5 + 1e-5]
+            coord_groups = {}
+            for n in crack_nodes:
+                pt_key = (round(n.coordinates[0], 5), round(n.coordinates[1], 5))
+                coord_groups.setdefault(pt_key, []).append(n)
+
+            duplicate_pairs = {k: v for k, v in coord_groups.items() if len(v) > 1}
+            probe_record['coincident_pairs_before'] = len(duplicate_pairs)
+
+            if len(duplicate_pairs) != 15:
+                raise RuntimeError("Control A fail-closed check failed: expected exactly 15 coincident node pairs along crack, found {0}".format(len(duplicate_pairs)))
+
+            if not hasattr(source_part, 'mergeNodes'):
+                raise RuntimeError("Control A fail-closed check failed: source_part lacks mergeNodes method")
+
+            nodes_before = len(source_part.nodes)
+            source_part.mergeNodes(nodes=crack_nodes, tolerance=1e-4)
+            nodes_after = len(source_part.nodes)
+            probe_record['node_reduction'] = nodes_before - nodes_after
+
+            if (nodes_before - nodes_after) != 15:
+                raise RuntimeError("Control A fail-closed check failed: node count reduction expected 15, actual {0}".format(nodes_before - nodes_after))
+
+            rem_nodes = [n for n in source_part.nodes if abs(n.coordinates[1]) < 1e-5 and n.coordinates[0] <= 0.5 + 1e-5]
+            rem_groups = {}
+            for n in rem_nodes:
+                pt_key = (round(n.coordinates[0], 5), round(n.coordinates[1], 5))
+                rem_groups.setdefault(pt_key, []).append(n)
+            rem_pairs = {k: v for k, v in rem_groups.items() if len(v) > 1}
+            probe_record['coincident_pairs_after'] = len(rem_pairs)
+
+            if len(rem_pairs) != 0:
+                raise RuntimeError("Control A fail-closed check failed: remaining coincident pairs expected 0, actual {0}".format(len(rem_pairs)))
+
+        model.Part2DGeomFrom2DMesh(name=part_key, part=source_part, featureAngle=feature_angle)
+        geom_part = model.parts[part_key]
+
+        probe_record['face_count'] = len(geom_part.faces) if hasattr(geom_part, 'faces') else 0
+        probe_record['vertex_count'] = len(geom_part.vertices) if hasattr(geom_part, 'vertices') else 0
+        probe_record['edge_count'] = len(geom_part.edges) if hasattr(geom_part, 'edges') else 0
+        probe_record['completed'] = True
+    except Exception as e:
+        probe_record['exception_type'] = type(e).__name__
+        probe_record['exception_message'] = str(e)
+
+    return probe_record
+
 # Phase 7: API Invocation Observation
 def phase_geometry_conversion_observation(ctx):
     mdb = ctx['mdb']
@@ -260,45 +333,23 @@ def phase_geometry_conversion_observation(ctx):
         'has_pointOn': hasattr(geom_part, 'pointOn')
     }
 
-    # Controlled conversion probe A (uncracked manifold control) vs B (cracked topology)
-    control_results = {}
-    try:
-        # Control B: Cracked topology with 15 coincident node pairs
-        p_b = source_part
-        model.Part2DGeomFrom2DMesh(name='GeomControlB_45deg', part=p_b, featureAngle=45.0)
-        geom_b = model.parts['GeomControlB_45deg']
-        faces_b = len(geom_b.faces) if hasattr(geom_b, 'faces') else 0
-        control_results['control_b_cracked_faces'] = faces_b
-        control_results['control_b_cracked_passed'] = (faces_b > 0)
+    # Controlled conversion probes executed in separate fresh models & separate try/except blocks
+    control_a = run_single_conversion_probe(mdb, source_deck, 'F40_CTRL_A_UNCRACKED', 'GeomCtrlA', 45.0, merge_crack_nodes=True)
+    control_b = run_single_conversion_probe(mdb, source_deck, 'F40_CTRL_B_CRACKED', 'GeomCtrlB', 45.0, merge_crack_nodes=False)
 
-        # Control A: Manifold uncracked topology
-        model_a = import_fresh_model(mdb, source_deck, 'F40_CONTROL_A_UNCRACKED')
-        p_a = model_a.parts[list(model_a.parts.keys())[0]]
-        # Merge coincident crack nodes (y=0, x in [0.0, 0.5]) if mergeNodes available
-        if hasattr(p_a, 'mergeNodes'):
-            try:
-                crack_nodes = [n for n in p_a.nodes if abs(n.coordinates[1]) < 1e-5 and n.coordinates[0] <= 0.5 + 1e-5]
-                if crack_nodes:
-                    p_a.mergeNodes(nodes=crack_nodes, tolerance=1e-4)
-            except Exception as me:
-                control_results['control_a_merge_note'] = str(me)
+    angle_probes = {}
+    for fa in [15.0, 30.0, 45.0, 60.0, 90.0]:
+        fa_key = 'angle_{0}deg'.format(int(fa))
+        angle_probes[fa_key] = run_single_conversion_probe(
+            mdb, source_deck, 'F40_ANGLE_{0}'.format(int(fa)), 'GeomAngle_{0}'.format(int(fa)), fa, merge_crack_nodes=False
+        )
 
-        model_a.Part2DGeomFrom2DMesh(name='GeomControlA_45deg', part=p_a, featureAngle=45.0)
-        geom_a = model_a.parts['GeomControlA_45deg']
-        faces_a = len(geom_a.faces) if hasattr(geom_a, 'faces') else 0
-        control_results['control_a_uncracked_faces'] = faces_a
-        control_results['control_a_uncracked_passed'] = (faces_a > 0)
-
-        # Feature angle sensitivity sweep on Control B
-        angle_sweep = {}
-        for fa in [15.0, 30.0, 45.0, 60.0, 90.0]:
-            p_name = 'GeomControlB_Angle_{0}'.format(int(fa))
-            model.Part2DGeomFrom2DMesh(name=p_name, part=p_b, featureAngle=fa)
-            angle_sweep['cracked_{0}deg_faces'.format(int(fa))] = len(model.parts[p_name].faces)
-        control_results['feature_angle_sweep_cracked'] = angle_sweep
-        control_results['coincident_crack_nodes_confirmed_root_cause'] = (faces_a > 0 and faces_b == 0)
-    except Exception as ce:
-        control_results['control_probe_error'] = str(ce)
+    controlled_conversion_probes = {
+        'control_a': control_a,
+        'control_b': control_b,
+        'angle_probes': angle_probes,
+        'coincident_crack_nodes_confirmed_root_cause': (control_a.get('face_count', 0) > 0 and control_b.get('face_count', 0) == 0)
+    }
 
     # API Observation Record
     api_observation = {
@@ -306,7 +357,7 @@ def phase_geometry_conversion_observation(ctx):
         'model_api_passed': model_api_passed,
         'model_api_error': model_api_error,
         'part_api_passed': False,
-        'part_api_error': "Part-level fallback probe cleanly removed per F40 v15 specification",
+        'part_api_error': "Part-level fallback probe cleanly removed per F40 v15R1 specification",
         'created_repository_key': 'GeomPartModelApi',
         'returned_object_type': str(type(geom_part)),
         'geom_part_name': str(geom_part.name),
@@ -317,7 +368,7 @@ def phase_geometry_conversion_observation(ctx):
         'is_meshed': is_meshed,
         'is_wire_only': is_wire_only,
         'capabilities': capabilities,
-        'controlled_conversion_probes': control_results
+        'controlled_conversion_probes': controlled_conversion_probes
     }
     ctx['geometry_conversion_api_observation'] = api_observation
     return api_observation
@@ -432,10 +483,10 @@ def phase_instance_replacement(ctx):
         ctx['inst_model'] = model
 
     source_part = model.parts[list(model.parts.keys())[0]]
-    if hasattr(model, 'Part2DGeomFrom2DMesh'):
-        geom_part = model.Part2DGeomFrom2DMesh(name='GeomPartInst', part=source_part, featureAngle=45.0)
-    else:
-        geom_part = source_part.Part2DGeomFrom2DMesh(name='GeomPartInst', featureAngle=45.0)
+    model.Part2DGeomFrom2DMesh(name='GeomPartInst', part=source_part, featureAngle=45.0)
+    geom_part = model.parts['GeomPartInst']
+    if len(geom_part.faces) == 0:
+        raise RuntimeError("instance_replacement blocked: Part2DGeomFrom2DMesh returned zero geometric faces")
 
     assembly = model.rootAssembly
     feature_names = tuple(assembly.features.keys())
@@ -458,10 +509,10 @@ def phase_crack_edge_method_inventory(ctx):
     model = import_fresh_model(mdb, source_deck, 'F38_CRACK_PROBE')
     ctx['crack_model'] = model
     source_part = model.parts[list(model.parts.keys())[0]]
-    if hasattr(model, 'Part2DGeomFrom2DMesh'):
-        geom_part = model.Part2DGeomFrom2DMesh(name='GeomPartCrack', part=source_part, featureAngle=45.0)
-    else:
-        geom_part = source_part.Part2DGeomFrom2DMesh(name='GeomPartCrack', featureAngle=45.0)
+    model.Part2DGeomFrom2DMesh(name='GeomPartCrack', part=source_part, featureAngle=45.0)
+    geom_part = model.parts['GeomPartCrack']
+    if len(geom_part.faces) == 0:
+        raise RuntimeError("crack_edge_method_inventory blocked: Part2DGeomFrom2DMesh returned zero geometric faces")
     ctx['crack_geom_part'] = geom_part
 
     edges = geom_part.edges if hasattr(geom_part, 'edges') else []

@@ -174,7 +174,7 @@ class TestStageF40Batch(unittest.TestCase):
 
             phases_records = []
             for pname in expected_phases:
-                phases_records.append({
+                rec = {
                     "phase": pname,
                     "attempted": True,
                     "passed": True,
@@ -182,7 +182,22 @@ class TestStageF40Batch(unittest.TestCase):
                     "exception_type": None,
                     "exception_message": None,
                     "traceback": None
-                })
+                }
+                if pname == "geometry_conversion_observation":
+                    rec["result"] = {
+                        "controlled_conversion_probes": {
+                            "control_a": {"attempted": True, "completed": True},
+                            "control_b": {"attempted": True, "completed": True},
+                            "angle_probes": {
+                                "angle_15deg": {"attempted": True},
+                                "angle_30deg": {"attempted": True},
+                                "angle_45deg": {"attempted": True},
+                                "angle_60deg": {"attempted": True},
+                                "angle_90deg": {"attempted": True}
+                            }
+                        }
+                    }
+                phases_records.append(rec)
             mat_data = {"overall_passed": True, "phases": phases_records}
             with open(os.path.join(tmpdir, "CAE_PHASE_DIAGNOSTIC_MATRIX.json"), "w") as f:
                 json.dump(mat_data, f)
@@ -596,5 +611,43 @@ class TestStageF40Batch(unittest.TestCase):
         res = subprocess.run([sys.executable, self.validator_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         self.assertEqual(res.returncode, 0, "Static validator failed: " + res.stdout + res.stderr)
 
+    def test_v15r1_dependency_map_blocks_mesh_and_replacement(self):
+        matrix_path = os.path.join(self.pkg_dir, "runtime", "f38_cae_diagnostic_matrix.py")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("f38_cae_diagnostic_matrix", matrix_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        deps = mod.PHASE_DEPENDENCIES
+        self.assertIn('mesh_generation', deps)
+        self.assertIn('usable_geometry_validation', deps['mesh_generation'])
+        self.assertIn('instance_replacement', deps)
+        self.assertIn('usable_geometry_validation', deps['instance_replacement'])
+        self.assertIn('crack_edge_method_inventory', deps)
+        self.assertIn('usable_geometry_validation', deps['crack_edge_method_inventory'])
+
+    def test_v15r1_part_level_fallback_completely_removed(self):
+        matrix_path = os.path.join(self.pkg_dir, "runtime", "f38_cae_diagnostic_matrix.py")
+        with open(matrix_path, "r") as f:
+            content = f.read()
+
+        self.assertNotIn("source_part.Part2DGeomFrom2DMesh", content, "Part-level fallback source_part.Part2DGeomFrom2DMesh must be completely removed")
+        self.assertNotIn("p_a.Part2DGeomFrom2DMesh", content)
+        self.assertNotIn("p_b.Part2DGeomFrom2DMesh", content)
+
+    def test_v15r1_control_probe_schema_completeness(self):
+        matrix_path = os.path.join(self.pkg_dir, "runtime", "f38_cae_diagnostic_matrix.py")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("f38_cae_diagnostic_matrix", matrix_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        # Mock run_single_conversion_probe behavior
+        record = mod.run_single_conversion_probe(None, None, "MOCK", "KEY", 45.0, merge_crack_nodes=False)
+        required_keys = ['model_name', 'feature_angle', 'merge_crack_nodes_requested', 'attempted', 'completed', 'face_count', 'vertex_count', 'edge_count', 'exception_type', 'exception_message']
+        for k in required_keys:
+            self.assertIn(k, record, "Probe record missing required key: {}".format(k))
+
 if __name__ == "__main__":
     unittest.main()
+

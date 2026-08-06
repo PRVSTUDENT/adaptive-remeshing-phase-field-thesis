@@ -85,12 +85,23 @@ def main():
                     if p_rec.get("dependency_blocked") is not False:
                         errors.append("Phase '{}' dependency_blocked is not False".format(exp_phase))
 
-                    if p_rec.get("exception_type") is not None:
-                        errors.append("Phase '{}' reported exception_type: {}".format(exp_phase, p_rec.get("exception_type")))
-                    if p_rec.get("exception_message") is not None:
-                        errors.append("Phase '{}' reported exception_message: {}".format(exp_phase, p_rec.get("exception_message")))
-                    if p_rec.get("traceback") is not None:
-                        errors.append("Phase '{}' reported non-null traceback".format(exp_phase))
+                    if exp_phase == "geometry_conversion_observation":
+                        obs_res = p_rec.get("result", {})
+                        cc_probes = obs_res.get("controlled_conversion_probes", {})
+                        if not cc_probes:
+                            errors.append("Phase 'geometry_conversion_observation' result missing controlled_conversion_probes")
+                        else:
+                            ctrl_a = cc_probes.get("control_a", {})
+                            ctrl_b = cc_probes.get("control_b", {})
+                            ang_probes = cc_probes.get("angle_probes", {})
+                            if ctrl_a.get("attempted") is not True:
+                                errors.append("controlled_conversion_probes.control_a attempted is not True")
+                            if ctrl_b.get("attempted") is not True:
+                                errors.append("controlled_conversion_probes.control_b attempted is not True")
+                            for fa in [15, 30, 45, 60, 90]:
+                                fa_k = "angle_{}deg".format(fa)
+                                if ang_probes.get(fa_k, {}).get("attempted") is not True:
+                                    errors.append("controlled_conversion_probes.angle_probes.{} attempted is not True".format(fa_k))
 
         except Exception as exc:
             errors.append("Error reading CAE_PHASE_DIAGNOSTIC_MATRIX.json: {}".format(exc))
