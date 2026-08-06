@@ -2,11 +2,11 @@
   "active": false,
   "agent": null,
   "allowed_scope": [],
-  "completed_at": "2026-08-06T14:52:00+02:00",
-  "heartbeat": "2026-08-06T14:52:00+02:00",
+  "completed_at": "2026-08-06T15:08:35+02:00",
+  "heartbeat": "2026-08-06T15:08:35+02:00",
   "started_at": null,
   "session_id": null,
   "starting_commit": null,
   "task_id": null,
-  "note": "F40 v12 offline hardening completed cleanly: submission wrapper path frozen in blob identity check, qsub/qstat queue state checks added, strict PBS batch provenance (PBS_ENVIRONMENT=PBS_BATCH, PBS_O_HOST, PBS_QUEUE, nodefile hostname match) enforced in launcher, Abaqus 2023 release query made fatal, evidence output isolated under evidence/<PBS_JOBID>/, mandatory SCHEDULER_PROVENANCE.json added to runtime audit validator, authorization metadata corrected, unit/static tests updated (28/28 passed), clean qualification proof Q12 recorded for P12 commit 6e5d24d7e31b0f260db0c6eeaf381064eaec0bf6, metadata head M12 committed, and authority closed."
+  "note": "F40 v13 offline correction completed cleanly: repaired qstat duplicate job detection using awk 'NR > 2 && $2 == \"M2RMBISECT1\"', generated SCHEDULER_PROVENANCE.json via inline Python reading os.environ to format multiline ABAQUS_RELEASE strings, added returncode files to EXPECTED_EVIDENCE_FILES and made generate_missing_evidence_report.py return exit code 1 on missing files, created atomic submission-attempt lock before qsub using set -o noclobber, updated unit/static tests (30/30 passed), clean qualification proof Q13 recorded for P13 commit f94317f50222b7adf8e4dd1ef4eaad019d77c1ca, metadata head M13 committed, and authority closed."
 }
