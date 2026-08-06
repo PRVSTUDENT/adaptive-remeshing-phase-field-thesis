@@ -103,6 +103,11 @@ def send_telegram_message(token, chat_id, message_text):
     if not token or not chat_id:
         return 1, "Telegram credentials (TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID) missing"
 
+    token = str(token).strip().strip('"').strip("'")
+    if token.startswith("bot"):
+        token = token[3:].strip()
+    chat_id = str(chat_id).strip().strip('"').strip("'")
+
     url = "https://api.telegram.org/bot{}/sendMessage".format(token)
     payload = json.dumps({
         "chat_id": chat_id,
