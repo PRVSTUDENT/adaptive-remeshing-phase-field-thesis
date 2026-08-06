@@ -143,7 +143,7 @@ class TestStageF40Batch(unittest.TestCase):
             with open(os.path.join(tmpdir, "CAE_PHASE_DIAGNOSTIC_MATRIX.json"), "w") as f:
                 json.dump(mat_data, f)
 
-            res = subprocess.run([sys.executable, mat_val_path, tmpdir], capture_output=True, text=True)
+            res = subprocess.run([sys.executable, mat_val_path, tmpdir], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
             self.assertNotEqual(res.returncode, 0, "Validator should fail when overall_passed is False")
             self.assertIn("overall_passed is not True", res.stdout)
 
@@ -186,12 +186,12 @@ class TestStageF40Batch(unittest.TestCase):
             with open(os.path.join(tmpdir, "CAE_PHASE_DIAGNOSTIC_MATRIX.json"), "w") as f:
                 json.dump(mat_data, f)
 
-            res = subprocess.run([sys.executable, mat_val_path, tmpdir], capture_output=True, text=True)
+            res = subprocess.run([sys.executable, mat_val_path, tmpdir], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
             self.assertEqual(res.returncode, 0, "Validator failed on valid schema and 20 passing phases: " + res.stdout + res.stderr)
             self.assertIn("F38_MATRIX_VALIDATION_PASSED", res.stdout)
 
     def test_static_gate_validator_passes(self):
-        res = subprocess.run([sys.executable, self.validator_path], capture_output=True, text=True)
+        res = subprocess.run([sys.executable, self.validator_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         self.assertEqual(res.returncode, 0, "Static validator failed: " + res.stdout + res.stderr)
 
 if __name__ == "__main__":
