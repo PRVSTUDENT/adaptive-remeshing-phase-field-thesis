@@ -64,7 +64,17 @@ if printf '%s\n' "$QSTAT_OUTPUT" | awk 'NR > 2 && $2 == "M2RMBISECT1" {found=1} 
   exit 1
 fi
 
-# 8. Create atomic submission-attempt lock BEFORE qsub
+# 8. Mandatory Notification Preflight Test Channel Check
+NOTIFICATION_DISPATCHER="scripts/hpc/notify_hpc_event.py"
+if [ -f "$NOTIFICATION_DISPATCHER" ]; then
+  echo "INFO: Running pre-submission test notification check over Email and Telegram..."
+  python3 "$NOTIFICATION_DISPATCHER" --mode test --job-name "M2RMBISECT1" || {
+    echo "FATAL: Pre-submission notification channel test failed. Aborting before qsub." >&2
+    exit 1
+  }
+fi
+
+# 9. Create atomic submission-attempt lock BEFORE qsub
 mkdir -p "$(dirname "$LOCK_FILE")"
 if ! (set -o noclobber; printf '%s\n' "submission_attempt_started prep=$PREP_SHA head=$HEAD_SHA" > "$LOCK_FILE") 2>/dev/null; then
   echo "HALT: Submission lock file exists ($LOCK_FILE). Job has already been submitted or submission attempt started." >&2
@@ -89,4 +99,22 @@ echo "$JOB_ID" > "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/
 if ! qstat "$JOB_ID" >/dev/null 2>&1; then
   echo "ERROR: Immediate qstat verification failed for Job ID: $JOB_ID" >&2
   exit 1
+fi
+
+# 10. Mandatory Post-Submission Notification Dispatch
+JOB_EVID_DIR="$EVIDENCE_ROOT/$JOB_ID"
+mkdir -p "$JOB_EVID_DIR"
+QUAL_SHA="${F40_QUALIFICATION_SHA:-$HEAD_SHA}"
+if [ -f "$NOTIFICATION_DISPATCHER" ]; then
+  echo "INFO: Dispatching post-submission notifications..."
+  python3 "$NOTIFICATION_DISPATCHER" \
+    --mode submission \
+    --job-name "M2RMBISECT1" \
+    --job-id "$JOB_ID" \
+    --queue "entry_imfdfkmq" \
+    --resources "1 CPU, 8GB RAM, 30m walltime" \
+    --prep-commit "$PREP_SHA" \
+    --qual-commit "$QUAL_SHA" \
+    --audit-file "$JOB_EVID_DIR/NOTIFICATION_AUDIT.json" \
+    --returncode-dir "$JOB_EVID_DIR" || true
 fi

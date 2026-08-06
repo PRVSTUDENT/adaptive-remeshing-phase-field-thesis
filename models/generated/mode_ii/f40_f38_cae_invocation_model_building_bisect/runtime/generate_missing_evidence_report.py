@@ -27,7 +27,12 @@ EXPECTED_EVIDENCE_FILES = [
     "f38_entrypoint.returncode",
     "f38_matrix_validator.returncode",
     "runtime_validator.returncode",
-    "first_failure.returncode"
+    "first_failure.returncode",
+    "NOTIFICATION_AUDIT.json",
+    "EMAIL_SUBMISSION_NOTIFICATION.returncode",
+    "TELEGRAM_SUBMISSION_NOTIFICATION.returncode",
+    "EMAIL_TERMINAL_NOTIFICATION.returncode",
+    "TELEGRAM_TERMINAL_NOTIFICATION.returncode"
 ]
 
 def main():

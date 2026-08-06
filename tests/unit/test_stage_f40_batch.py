@@ -4,6 +4,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import unittest
 
 class TestStageF40Batch(unittest.TestCase):
@@ -599,11 +600,16 @@ class TestStageF40Batch(unittest.TestCase):
 
             rc_files = [
                 "delta_auditor.returncode", "bisection_runner.returncode",
-                "f38_entrypoint.returncode", "f38_matrix_validator.returncode"
+                "f38_entrypoint.returncode", "f38_matrix_validator.returncode",
+                "EMAIL_SUBMISSION_NOTIFICATION.returncode", "TELEGRAM_SUBMISSION_NOTIFICATION.returncode",
+                "EMAIL_TERMINAL_NOTIFICATION.returncode", "TELEGRAM_TERMINAL_NOTIFICATION.returncode"
             ]
             for rcf in rc_files:
                 with open(os.path.join(tmpdir, rcf), "w") as f:
                     f.write("0")
+
+            with open(os.path.join(tmpdir, "NOTIFICATION_AUDIT.json"), "w") as f:
+                json.dump([{"event_type": "test", "channel": "email", "recipient_redacted": "pr****de", "return_code": 0}], f)
 
             # Simulate v14 PBS Trap Step 3: Run runtime audit validator
             sys.argv = ["validate_f40_runtime_audits.py", tmpdir]
@@ -786,6 +792,66 @@ class TestStageF40Batch(unittest.TestCase):
             self.assertIn("Control A fail-closed check failed", rec_fail['exception_message'])
         finally:
             mod.import_fresh_model = original_import
+
+    def test_v16_notify_hpc_event_dispatcher_preflight_and_auditing(self):
+        notify_path = os.path.join(self.repo_root, "scripts", "hpc", "notify_hpc_event.py")
+        self.assertTrue(os.path.exists(notify_path), "notify_hpc_event.py must exist under scripts/hpc/")
+
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("notify_hpc_event", notify_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        # Test redaction
+        self.assertEqual(mod.redact_string("123456789"), "12****89")
+        self.assertEqual(mod.redact_string(""), "UNSET")
+
+        # Test preflight test notification dispatcher with mock environment
+        with tempfile.TemporaryDirectory() as tmpdir:
+            audit_file = os.path.join(tmpdir, "NOTIFICATION_AUDIT.json")
+            sys.argv = [
+                "notify_hpc_event.py",
+                "--mode", "test",
+                "--channel", "both",
+                "--email-recipient", "test@domain.com",
+                "--audit-file", audit_file,
+                "--returncode-dir", tmpdir
+            ]
+
+            # Patch network & mail calls to avoid real outbound traffic in unit test
+            orig_tg = mod.send_telegram_message
+            orig_em = mod.send_email_message
+            mod.send_telegram_message = lambda token, cid, msg: (0, "Mock Telegram OK")
+            mod.send_email_message = lambda rec, subj, msg: (0, "Mock Email OK")
+
+            try:
+                os.environ["TELEGRAM_BOT_TOKEN"] = "123456789:ABCdefGHI"
+                os.environ["TELEGRAM_CHAT_ID"] = "-100123456789"
+                with self.assertRaises(SystemExit) as cm:
+                    mod.main()
+                self.assertEqual(cm.exception.code, 0)
+
+                self.assertTrue(os.path.exists(audit_file))
+                with open(audit_file, "r") as f:
+                    audits = json.load(f)
+                    self.assertEqual(len(audits), 2)
+                    for a in audits:
+                        self.assertEqual(a["return_code"], 0)
+                        self.assertNotIn("123456789:ABCdefGHI", a["recipient_redacted"])
+
+                self.assertTrue(os.path.exists(os.path.join(tmpdir, "EMAIL_TEST_NOTIFICATION.returncode")))
+                self.assertTrue(os.path.exists(os.path.join(tmpdir, "TELEGRAM_TEST_NOTIFICATION.returncode")))
+            finally:
+                mod.send_telegram_message = orig_tg
+                mod.send_email_message = orig_em
+
+    def test_v16_pbs_mail_directives_present_in_pbs_file(self):
+        pbs_path = os.path.join(self.pkg_dir, "M2RMBISECT1.pbs")
+        with open(pbs_path, "r") as f:
+            content = f.read()
+
+        self.assertIn("#PBS -M pruthvi.patel@student.tu-freiberg.de", content, "M2RMBISECT1.pbs must contain verified #PBS -M directive")
+        self.assertIn("#PBS -m abe", content, "M2RMBISECT1.pbs must contain #PBS -m abe directive")
 
 if __name__ == "__main__":
     unittest.main()

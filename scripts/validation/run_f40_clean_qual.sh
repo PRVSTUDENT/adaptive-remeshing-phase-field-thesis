@@ -62,11 +62,11 @@ data = {
     'sha256_manifest_check': 'pass',
     '__file___scan': 'pass',
     'prohibited_keywords_scan': 'pass',
-    'v15r2_conversion_isolation_corrections': {
-        'matrix_validator_observations_key': 'Updated validate_f38_matrix_results.py to read observations key from CAE_PHASE_DIAGNOSTIC_MATRIX.json',
-        'fail_closed_control_a_merge': 'Implemented fail-closed Control A merge verification requiring 15 coincident node pairs along crack segment [-0.5, 0.0] and 0 remaining pairs',
-        'probe_completeness_schema': 'Added probe completeness validation verifying attempted, completed, and exception fields across all probes',
-        'diagnostic_matrix_classification': 'Updated matrix validator and runtime audits to accept root-cause-confirmed diagnostic matrix execution as valid evidence contract'
+    'v16_mandatory_notification_protocol': {
+        'pbs_mail_directives': 'Added verified #PBS -M pruthvi.patel@student.tu-freiberg.de and #PBS -m abe directives to M2RMBISECT1.pbs',
+        'preflight_channel_verification': 'Added pre-submission Email and Telegram test notification preflight check before qsub',
+        'submission_and_terminal_dispatchers': 'Added notify_hpc_event.py and monitor_stage_f40_terminal_state.sh notification dispatchers',
+        'evidence_contract_auditing': 'Added NOTIFICATION_AUDIT.json and notification returncode files to expected evidence contract and runtime validation'
     },
     'qualification_status': 'qualified_not_authorized'
 }

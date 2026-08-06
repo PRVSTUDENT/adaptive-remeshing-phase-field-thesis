@@ -187,6 +187,24 @@ def main():
             except Exception as exc:
                 errors.append("Error reading {}_AUDIT.json: {}".format(pname, exc))
 
+    # Validate NOTIFICATION_AUDIT.json if present
+    notif_audit_path = os.path.join(target_dir, "NOTIFICATION_AUDIT.json")
+    if os.path.exists(notif_audit_path):
+        try:
+            with open(notif_audit_path, "r") as f:
+                notif_recs = json.load(f)
+                if not isinstance(notif_recs, list):
+                    errors.append("NOTIFICATION_AUDIT.json must be a JSON array of records")
+                else:
+                    for nrec in notif_recs:
+                        if not nrec.get("event_type") or not nrec.get("channel"):
+                            errors.append("NOTIFICATION_AUDIT.json record missing event_type or channel")
+                        recip = nrec.get("recipient_redacted", "")
+                        if "bot" in recip.lower() or "token" in recip.lower() or len(recip) > 35:
+                            errors.append("NOTIFICATION_AUDIT.json recipient field contains unredacted secret key or token")
+        except Exception as exc:
+            errors.append("Error reading NOTIFICATION_AUDIT.json: {}".format(exc))
+
     required_rc_files = [
         "bisection_runner.returncode",
         "delta_auditor.returncode",
