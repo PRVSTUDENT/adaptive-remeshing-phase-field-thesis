@@ -1,0 +1,32 @@
+{
+  "protocol_version": 1,
+  "job_name": "M2RMBISECT1",
+  "timestamp": "2026-08-06T12:32:23.467796Z",
+  "missing_count": 10,
+  "missing_files": [
+    "P02_MODULE_LOADING_AUDIT.json",
+    "P03_SOURCE_DECK_DISCOVERY_AUDIT.json",
+    "P04_MODEL_FROM_INPUT_FILE_AUDIT.json",
+    "P05_IMPORTED_MODEL_INVENTORY_AUDIT.json",
+    "P06_GEOMETRY_CONVERSION_AUDIT.json",
+    "P07_INDEPENDENT_MODEL_OWNERSHIP_AUDIT.json",
+    "P08_ASSEMBLY_OPERATIONS_AUDIT.json",
+    "P09_TOPOLOGY_MEASUREMENT_AUDIT.json",
+    "P10_SETS_SURFACES_INVENTORY_AUDIT.json",
+    "P11_STEP_OUTPUT_PROBING_AUDIT.json"
+  ],
+  "existing_files": [
+    "CAE_INVOCATION_CONTEXT_AUDIT.json",
+    "CAE_PHASE_DIAGNOSTIC_MATRIX.json",
+    "F38_F39_INVOCATION_DELTA_AUDIT.json",
+    "MISSING_EVIDENCE_REPORT.json",
+    "P00_KERNEL_STARTUP_AUDIT.json",
+    "P01_IMPORTS_AUDIT.json",
+    "STATUS.json",
+    "bisection_runner.returncode",
+    "delta_auditor.returncode",
+    "f38_entrypoint.returncode",
+    "f38_matrix_validator.returncode"
+  ],
+  "status": "incomplete"
+}

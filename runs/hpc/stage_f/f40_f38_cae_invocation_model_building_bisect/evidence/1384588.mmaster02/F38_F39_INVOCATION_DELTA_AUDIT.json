@@ -1,0 +1,32 @@
+{
+  "protocol_version": 1,
+  "timestamp": "2026-08-06T12:32:23.054807Z",
+  "job_name": "M2RMBISECT1",
+  "pbs_directives": {
+    "f38_queue": "entry_imfdfkmq",
+    "f39_queue": "entry_imfdfkmq",
+    "f40_queue": "entry_imfdfkmq",
+    "f38_resources": "select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb",
+    "f39_resources": "select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb",
+    "f40_resources": "select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb"
+  },
+  "line_endings": {
+    "f38_pbs": "missing",
+    "f39_pbs": "missing",
+    "f40_pbs": "missing"
+  },
+  "runtime_environment": {
+    "python_version": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+    "working_directory": "/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02",
+    "pythonpath": "",
+    "ld_library_path": "",
+    "f38_runtime_dir": "",
+    "f39_runtime_dir": "",
+    "f40_runtime_dir": "/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02"
+  },
+  "python27_compatibility": {
+    "print_statements": "from __future__ import print_function used",
+    "json_dump": "standard json serializable dicts",
+    "exception_syntax": "except Exception as exc syntax"
+  }
+}

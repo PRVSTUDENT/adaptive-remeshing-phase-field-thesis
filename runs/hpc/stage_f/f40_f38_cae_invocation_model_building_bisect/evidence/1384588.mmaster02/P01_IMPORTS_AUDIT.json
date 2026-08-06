@@ -1,0 +1,15 @@
+{
+  "phase_id": "P01",
+  "phase_name": "P01_IMPORTS",
+  "started": true,
+  "completed": false,
+  "return_code": 1,
+  "exception_type": "ModuleNotFoundError",
+  "exception_message": "No module named 'abaqus'",
+  "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f40_cae_bisection_runner.py\", line 137, in run_bisection_matrix\n    import abaqus\nModuleNotFoundError: No module named 'abaqus'\n",
+  "dependency_status": "failed",
+  "timestamp": "2026-08-06T12:32:23.130909Z",
+  "process_executable": "/usr/bin/python3",
+  "working_directory": "/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02",
+  "metrics": {}
+}

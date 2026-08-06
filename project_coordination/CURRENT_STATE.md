@@ -1,5 +1,19 @@
 # Current project state
 
+## F40 v10 Guarded Diagnostic Job Execution Closeout (2026-08-06)
+
+Executed authorized single guarded diagnostic job `M2RMBISECT1` (`1384588.mmaster02`) under authorization commit `620aa59860bb2760dc47f69e679d15dbb838233f` and coordination head `f04a327508b3326fc60de9fd3e463ccf299fb0f8`.
+
+Execution findings:
+1. **Preflight Checks**: Fast-forward ancestry, persistent lock non-existence, and SHA256 package manifest integrity checks passed.
+2. **Contract Delta Auditor**: Stage 1 delta auditor executed cleanly (`rc=0`), generating `F38_F39_INVOCATION_DELTA_AUDIT.json`.
+3. **Validator Agreement**: `validate_f38_matrix_results.py` and `validate_f40_runtime_audits.py` evaluated the identical 21-phase matrix contract (`geometry_conversion_observation`, `usable_geometry_validation`). The validator mismatch defect is 100% repaired.
+4. **Evidence Collection**: Complete 14-file evidence artifact package collected into `runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384588.mmaster02/`.
+5. **Authority Closure**: Authority closed. `execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `maximum_future_submissions=0`, `retry_authorized=false`, `replacement_authorized=false`, `automatic_retry=false`. Lock `ACTIVE_SESSION.json` released.
+
+Classification: `f40_generic_cae_primitives_passed_runtime_evidence_contract_failed`. No solver, datacheck, remeshing simulation, state transfer, F41 execution, retry, replacement, or new submission is authorized.
+
+
 ## F40 v10 Offline Correction Closeout (2026-08-06)
 
 The F40 v10 offline correction sequence was completed strictly offline.

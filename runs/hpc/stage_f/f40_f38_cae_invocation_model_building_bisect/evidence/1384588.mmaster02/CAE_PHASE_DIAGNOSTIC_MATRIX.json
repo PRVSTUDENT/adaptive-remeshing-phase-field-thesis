@@ -1,0 +1,339 @@
+{
+  "protocol_version": 1,
+  "package": "f38_comprehensive_cae_diagnostic_matrix",
+  "job_name": "M2RMDIAG1",
+  "started_at": "2026-08-06T14:32:23.223388",
+  "finished_at": "2026-08-06T14:32:23.358333",
+  "overall_passed": false,
+  "phases": [
+    {
+      "phase": "bootstrap",
+      "attempted": true,
+      "passed": true,
+      "dependency_blocked": false,
+      "blocked_by": [],
+      "exception_type": null,
+      "exception_message": null,
+      "traceback": null,
+      "started_at": "2026-08-06T14:32:23.223399",
+      "finished_at": "2026-08-06T14:32:23.223404",
+      "observations": {
+        "runtime_dir": "/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime",
+        "sys_path": [
+          "/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime",
+          "/usr/lib/python312.zip",
+          "/usr/lib/python3.12",
+          "/usr/lib/python3.12/lib-dynload",
+          "/usr/local/lib/python3.12/dist-packages"
+        ],
+        "python_version": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]"
+      },
+      "artifacts_written": []
+    },
+    {
+      "phase": "abaqus_module_import",
+      "attempted": true,
+      "passed": false,
+      "dependency_blocked": false,
+      "blocked_by": [],
+      "exception_type": "ModuleNotFoundError",
+      "exception_message": "No module named 'mdb'",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 121, in phase_abaqus_module_import\n    from abaqus import mdb\nModuleNotFoundError: No module named 'abaqus'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 79, in run_phase\n    observations = function(context)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 123, in phase_abaqus_module_import\n    import mdb as mdb_module\nModuleNotFoundError: No module named 'mdb'\n",
+      "started_at": "2026-08-06T14:32:23.225994",
+      "finished_at": "2026-08-06T14:32:23.234264",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "source_deck_access",
+      "attempted": true,
+      "passed": true,
+      "dependency_blocked": false,
+      "blocked_by": [],
+      "exception_type": null,
+      "exception_message": null,
+      "traceback": null,
+      "started_at": "2026-08-06T14:32:23.237830",
+      "finished_at": "2026-08-06T14:32:23.245998",
+      "observations": {
+        "source_deck_path": "/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/source_deck.inp",
+        "exists": true,
+        "size_bytes": 342711,
+        "sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2"
+      },
+      "artifacts_written": []
+    },
+    {
+      "phase": "model_import",
+      "attempted": true,
+      "passed": false,
+      "dependency_blocked": false,
+      "blocked_by": [],
+      "exception_type": "KeyError",
+      "exception_message": "'mdb'",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 79, in run_phase\n    observations = function(context)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 162, in phase_model_import\n    mdb = ctx['mdb']\n          ~~~^^^^^^^\nKeyError: 'mdb'\n",
+      "started_at": "2026-08-06T14:32:23.249919",
+      "finished_at": "2026-08-06T14:32:23.251086",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "repository_inventory",
+      "attempted": false,
+      "passed": false,
+      "dependency_blocked": true,
+      "blocked_by": [
+        "model_import"
+      ],
+      "exception_type": null,
+      "exception_message": null,
+      "traceback": null,
+      "started_at": "2026-08-06T14:32:23.254908",
+      "finished_at": "2026-08-06T14:32:23.254923",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "repository_resolution",
+      "attempted": false,
+      "passed": false,
+      "dependency_blocked": true,
+      "blocked_by": [
+        "model_import"
+      ],
+      "exception_type": null,
+      "exception_message": null,
+      "traceback": null,
+      "started_at": "2026-08-06T14:32:23.261359",
+      "finished_at": "2026-08-06T14:32:23.261368",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "geometry_conversion_observation",
+      "attempted": true,
+      "passed": false,
+      "dependency_blocked": false,
+      "blocked_by": [],
+      "exception_type": "KeyError",
+      "exception_message": "'mdb'",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 79, in run_phase\n    observations = function(context)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 208, in phase_geometry_conversion_observation\n    mdb = ctx['mdb']\n          ~~~^^^^^^^\nKeyError: 'mdb'\n",
+      "started_at": "2026-08-06T14:32:23.265040",
+      "finished_at": "2026-08-06T14:32:23.266191",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "usable_geometry_validation",
+      "attempted": false,
+      "passed": false,
+      "dependency_blocked": true,
+      "blocked_by": [
+        "geometry_conversion_observation"
+      ],
+      "exception_type": null,
+      "exception_message": null,
+      "traceback": null,
+      "started_at": "2026-08-06T14:32:23.270084",
+      "finished_at": "2026-08-06T14:32:23.270101",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "element_type_assignment",
+      "attempted": false,
+      "passed": false,
+      "dependency_blocked": true,
+      "blocked_by": [
+        "usable_geometry_validation"
+      ],
+      "exception_type": null,
+      "exception_message": null,
+      "traceback": null,
+      "started_at": "2026-08-06T14:32:23.275331",
+      "finished_at": "2026-08-06T14:32:23.275338",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "mesh_control_assignment",
+      "attempted": false,
+      "passed": false,
+      "dependency_blocked": true,
+      "blocked_by": [
+        "usable_geometry_validation"
+      ],
+      "exception_type": null,
+      "exception_message": null,
+      "traceback": null,
+      "started_at": "2026-08-06T14:32:23.283570",
+      "finished_at": "2026-08-06T14:32:23.283577",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "mesh_generation",
+      "attempted": true,
+      "passed": false,
+      "dependency_blocked": false,
+      "blocked_by": [],
+      "exception_type": "KeyError",
+      "exception_message": "'mdb'",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 79, in run_phase\n    observations = function(context)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 335, in phase_mesh_generation\n    mdb = ctx['mdb']\n          ~~~^^^^^^^\nKeyError: 'mdb'\n",
+      "started_at": "2026-08-06T14:32:23.288859",
+      "finished_at": "2026-08-06T14:32:23.290172",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "assembly_feature_inventory",
+      "attempted": true,
+      "passed": false,
+      "dependency_blocked": false,
+      "blocked_by": [],
+      "exception_type": "KeyError",
+      "exception_message": "'mdb'",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 79, in run_phase\n    observations = function(context)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 366, in phase_assembly_feature_inventory\n    mdb = ctx['mdb']\n          ~~~^^^^^^^\nKeyError: 'mdb'\n",
+      "started_at": "2026-08-06T14:32:23.295109",
+      "finished_at": "2026-08-06T14:32:23.296069",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "instance_replacement",
+      "attempted": false,
+      "passed": false,
+      "dependency_blocked": true,
+      "blocked_by": [
+        "assembly_feature_inventory"
+      ],
+      "exception_type": null,
+      "exception_message": null,
+      "traceback": null,
+      "started_at": "2026-08-06T14:32:23.300503",
+      "finished_at": "2026-08-06T14:32:23.300513",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "crack_edge_method_inventory",
+      "attempted": true,
+      "passed": false,
+      "dependency_blocked": false,
+      "blocked_by": [],
+      "exception_type": "KeyError",
+      "exception_message": "'mdb'",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 79, in run_phase\n    observations = function(context)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 411, in phase_crack_edge_method_inventory\n    mdb = ctx['mdb']\n          ~~~^^^^^^^\nKeyError: 'mdb'\n",
+      "started_at": "2026-08-06T14:32:23.306761",
+      "finished_at": "2026-08-06T14:32:23.307785",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "crack_edge_detection",
+      "attempted": false,
+      "passed": false,
+      "dependency_blocked": true,
+      "blocked_by": [
+        "crack_edge_method_inventory"
+      ],
+      "exception_type": null,
+      "exception_message": null,
+      "traceback": null,
+      "started_at": "2026-08-06T14:32:23.312293",
+      "finished_at": "2026-08-06T14:32:23.312298",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "crack_mesh_topology",
+      "attempted": false,
+      "passed": false,
+      "dependency_blocked": true,
+      "blocked_by": [
+        "crack_edge_method_inventory"
+      ],
+      "exception_type": null,
+      "exception_message": null,
+      "traceback": null,
+      "started_at": "2026-08-06T14:32:23.316938",
+      "finished_at": "2026-08-06T14:32:23.316954",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "assembly_set_inventory",
+      "attempted": true,
+      "passed": false,
+      "dependency_blocked": false,
+      "blocked_by": [],
+      "exception_type": "RuntimeError",
+      "exception_message": "crack_model unavailable",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 79, in run_phase\n    observations = function(context)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 595, in phase_assembly_set_inventory\n    raise RuntimeError('crack_model unavailable')\nRuntimeError: crack_model unavailable\n",
+      "started_at": "2026-08-06T14:32:23.323177",
+      "finished_at": "2026-08-06T14:32:23.324137",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "output_variable_probe",
+      "attempted": true,
+      "passed": false,
+      "dependency_blocked": false,
+      "blocked_by": [],
+      "exception_type": "KeyError",
+      "exception_message": "'mdb'",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 79, in run_phase\n    observations = function(context)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 616, in phase_output_variable_probe\n    mdb = ctx['mdb']\n          ~~~^^^^^^^\nKeyError: 'mdb'\n",
+      "started_at": "2026-08-06T14:32:23.328986",
+      "finished_at": "2026-08-06T14:32:23.330681",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "output_request_rebinding",
+      "attempted": false,
+      "passed": false,
+      "dependency_blocked": true,
+      "blocked_by": [
+        "output_variable_probe"
+      ],
+      "exception_type": null,
+      "exception_message": null,
+      "traceback": null,
+      "started_at": "2026-08-06T14:32:23.337719",
+      "finished_at": "2026-08-06T14:32:23.337727",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "input_write",
+      "attempted": true,
+      "passed": false,
+      "dependency_blocked": false,
+      "blocked_by": [],
+      "exception_type": "KeyError",
+      "exception_message": "'mdb'",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 79, in run_phase\n    observations = function(context)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/mnt/d/Master thesis/Adaptive remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 662, in phase_input_write\n    mdb = ctx['mdb']\n          ~~~^^^^^^^\nKeyError: 'mdb'\n",
+      "started_at": "2026-08-06T14:32:23.342938",
+      "finished_at": "2026-08-06T14:32:23.344022",
+      "observations": {},
+      "artifacts_written": []
+    },
+    {
+      "phase": "generated_input_presence",
+      "attempted": false,
+      "passed": false,
+      "dependency_blocked": true,
+      "blocked_by": [
+        "input_write"
+      ],
+      "exception_type": null,
+      "exception_message": null,
+      "traceback": null,
+      "started_at": "2026-08-06T14:32:23.350588",
+      "finished_at": "2026-08-06T14:32:23.350597",
+      "observations": {},
+      "artifacts_written": []
+    }
+  ]
+}
