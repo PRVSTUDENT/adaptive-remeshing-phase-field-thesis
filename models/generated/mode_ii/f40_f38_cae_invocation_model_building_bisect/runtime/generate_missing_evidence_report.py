@@ -19,12 +19,11 @@ EXPECTED_EVIDENCE_FILES = [
     "P09_TOPOLOGY_MEASUREMENT_AUDIT.json",
     "P10_SETS_SURFACES_INVENTORY_AUDIT.json",
     "P11_STEP_OUTPUT_PROBING_AUDIT.json",
-    "MISSING_EVIDENCE_REPORT.json",
+    "CAE_INVOCATION_CONTEXT_AUDIT.json",
+    "CAE_PHASE_DIAGNOSTIC_MATRIX.json",
     "delta_auditor.returncode",
     "bisection_runner.returncode",
-    "runtime_validator.returncode",
-    "collector.returncode",
-    "first_failure.returncode"
+    "f38_entrypoint.returncode"
 ]
 
 def main():

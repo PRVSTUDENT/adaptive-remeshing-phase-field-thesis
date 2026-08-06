@@ -6,6 +6,9 @@ import traceback
 import datetime
 import hashlib
 
+EXPECTED_ENTRYPOINT_SHA256 = "5d6b4b0f2f016ce1ac4e62cfd1044427c971fdb0db476e85919d72cbcabe096d"
+EXPECTED_HELPER_SHA256 = "485b542de81c0b0aef69ea15f23d3486fd5c26a1e15811f185a7557e99e833e7"
+
 def write_phase_audit(phase_id, phase_name, started, completed, return_code, exc_type, exc_msg, tb_str, dep_status, metrics=None):
     audit_data = {
         "phase_id": phase_id,
@@ -97,10 +100,24 @@ def run_bisection_matrix():
         entrypoint_sha256 = get_file_sha256(entrypoint_script)
         helper_sha256 = get_file_sha256(helper_script)
 
+        if entrypoint_sha256 != EXPECTED_ENTRYPOINT_SHA256:
+            raise ValueError(
+                "SHA256 hash mismatch for run_f38_cae_diagnostic.py: "
+                "expected {}, got {}".format(EXPECTED_ENTRYPOINT_SHA256, entrypoint_sha256)
+            )
+
+        if helper_sha256 != EXPECTED_HELPER_SHA256:
+            raise ValueError(
+                "SHA256 hash mismatch for f38_cae_diagnostic_matrix.py: "
+                "expected {}, got {}".format(EXPECTED_HELPER_SHA256, helper_sha256)
+            )
+
         import f38_cae_diagnostic_matrix
         main_callable = hasattr(f38_cae_diagnostic_matrix, "main") and callable(f38_cae_diagnostic_matrix.main)
         if not main_callable:
             raise AttributeError("f38_cae_diagnostic_matrix does not expose a callable main()")
+
+        f38_cae_diagnostic_matrix.main()
 
         metrics = {
             "runtime_dir": runtime_dir,
@@ -110,9 +127,14 @@ def run_bisection_matrix():
             "helper_script": helper_script,
             "helper_exists": True,
             "entrypoint_sha256": entrypoint_sha256,
+            "expected_entrypoint_sha256": EXPECTED_ENTRYPOINT_SHA256,
+            "entrypoint_hash_matched": True,
             "helper_sha256": helper_sha256,
+            "expected_helper_sha256": EXPECTED_HELPER_SHA256,
+            "helper_hash_matched": True,
             "module_imported": True,
             "main_callable": True,
+            "main_executed": True,
             "sys_path_0": sys.path[0]
         }
         write_phase_audit(p02_id, p02_name, True, True, 0, None, None, None, "ok", metrics=metrics)

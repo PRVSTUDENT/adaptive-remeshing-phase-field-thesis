@@ -16,6 +16,14 @@ def main():
     if not os.path.exists(delta_path):
         errors.append("F38_F39_INVOCATION_DELTA_AUDIT.json missing")
 
+    inv_audit_path = os.path.join(target_dir, "CAE_INVOCATION_CONTEXT_AUDIT.json")
+    if not os.path.exists(inv_audit_path):
+        errors.append("CAE_INVOCATION_CONTEXT_AUDIT.json missing")
+
+    matrix_audit_path = os.path.join(target_dir, "CAE_PHASE_DIAGNOSTIC_MATRIX.json")
+    if not os.path.exists(matrix_audit_path):
+        errors.append("CAE_PHASE_DIAGNOSTIC_MATRIX.json missing")
+
     expected_phases = [
         "P00_KERNEL_STARTUP",
         "P01_IMPORTS",
@@ -47,21 +55,17 @@ def main():
                     if metrics is None:
                         errors.append("{}_AUDIT.json missing metrics dictionary".format(pname))
                     elif pname == "P02_MODULE_LOADING":
-                        if metrics.get("entrypoint_exists") is not True:
-                            errors.append("P02_MODULE_LOADING_AUDIT.json metrics entrypoint_exists is not True")
-                        if metrics.get("helper_exists") is not True:
-                            errors.append("P02_MODULE_LOADING_AUDIT.json metrics helper_exists is not True")
-                        if metrics.get("module_imported") is not True:
-                            errors.append("P02_MODULE_LOADING_AUDIT.json metrics module_imported is not True")
+                        for key in ["entrypoint_exists", "helper_exists", "entrypoint_hash_matched", "helper_hash_matched", "module_imported", "main_callable", "main_executed"]:
+                            if metrics.get(key) is not True:
+                                errors.append("P02_MODULE_LOADING_AUDIT.json metrics {} is not True (found: {})".format(key, metrics.get(key)))
             except Exception as exc:
                 errors.append("Error reading {}_AUDIT.json: {}".format(pname, exc))
 
     required_rc_files = [
         "bisection_runner.returncode",
         "delta_auditor.returncode",
-        "collector.returncode",
-        "first_failure.returncode",
-        "runtime_validator.returncode"
+        "f38_entrypoint.returncode",
+        "collector.returncode"
     ]
 
     for rc_file in required_rc_files:

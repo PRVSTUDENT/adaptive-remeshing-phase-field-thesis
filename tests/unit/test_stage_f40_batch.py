@@ -92,6 +92,34 @@ class TestStageF40Batch(unittest.TestCase):
         self.assertTrue(os.path.exists(os.path.join(f38_dir, "M2RMDIAG1.pbs")))
         self.assertTrue(os.path.exists(os.path.join(f39_dir, "M2RMKERN1.pbs")))
 
+    def test_runner_executes_f38_entrypoint_and_verifies_hashes(self):
+        runner_path = os.path.join(self.pkg_dir, "runtime", "f40_cae_bisection_runner.py")
+        with open(runner_path, "r") as f:
+            content = f.read()
+            self.assertIn("EXPECTED_ENTRYPOINT_SHA256", content)
+            self.assertIn("EXPECTED_HELPER_SHA256", content)
+            self.assertIn("entrypoint_sha256 != EXPECTED_ENTRYPOINT_SHA256", content)
+            self.assertIn("helper_sha256 != EXPECTED_HELPER_SHA256", content)
+            self.assertIn("f38_cae_diagnostic_matrix.main()", content)
+
+    def test_pbs_stage_3_f38_entrypoint_execution(self):
+        pbs_path = os.path.join(self.pkg_dir, "M2RMBISECT1.pbs")
+        with open(pbs_path, "r") as f:
+            content = f.read()
+            self.assertIn("Stage 3: Exact F38 Entrypoint Execution", content)
+            self.assertIn("run_f38_cae_diagnostic.py", content)
+            self.assertIn("f38_entrypoint_rc", content)
+
+    def test_pbs_non_circular_finalized_evidence_ordering(self):
+        pbs_path = os.path.join(self.pkg_dir, "M2RMBISECT1.pbs")
+        with open(pbs_path, "r") as f:
+            content = f.read()
+            # Ensure generate_missing_evidence_report runs before validate_f40_runtime_audits and after finalized stage returncodes
+            idx_gen = content.find("generate_missing_evidence_report.py")
+            idx_val = content.find("validate_f40_runtime_audits.py")
+            self.assertGreater(idx_gen, 0)
+            self.assertGreater(idx_val, idx_gen)
+
     def test_static_gate_validator_passes(self):
         res = subprocess.run([sys.executable, self.validator_path], capture_output=True, text=True)
         self.assertEqual(res.returncode, 0, "Static validator failed: " + res.stdout + res.stderr)

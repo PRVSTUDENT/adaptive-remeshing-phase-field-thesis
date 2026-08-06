@@ -19,6 +19,7 @@ cp "$F40_PACKAGE_DIR/runtime/"* "$WORK_DIR/runtime/"
 
 delta_auditor_rc=1
 bisection_runner_rc=1
+f38_entrypoint_rc=1
 runtime_validator_rc=1
 
 on_exit() {
@@ -27,9 +28,7 @@ on_exit() {
 
     echo "$delta_auditor_rc" > "$WORK_DIR/delta_auditor.returncode"
     echo "$bisection_runner_rc" > "$WORK_DIR/bisection_runner.returncode"
-    echo "0" > "$WORK_DIR/collector.returncode"
-    echo "0" > "$WORK_DIR/runtime_validator.returncode"
-    echo "$cmd_rc" > "$WORK_DIR/first_failure.returncode"
+    echo "$f38_entrypoint_rc" > "$WORK_DIR/f38_entrypoint.returncode"
 
     # Step 1: Write preliminary STATUS.json
     local overall_cls="f40_generic_cae_primitives_passed_runtime_evidence_contract_failed"
@@ -38,25 +37,24 @@ on_exit() {
   "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%S')",
   "delta_auditor_rc": $delta_auditor_rc,
   "bisection_runner_rc": $bisection_runner_rc,
+  "f38_entrypoint_rc": $f38_entrypoint_rc,
   "runtime_validator_rc": $runtime_validator_rc,
   "first_failure_rc": $cmd_rc,
   "overall_classification": "$overall_cls"
 }
 EOF
 
-    # Step 2: Generate missing evidence report (all 5 returncodes now exist)
+    # Step 2: Generate missing evidence report (for finalized evidence files)
     python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR" >/dev/null 2>&1
     local col_rc=$?
     echo "$col_rc" > "$WORK_DIR/collector.returncode"
 
-    # Step 3: Run runtime validator after STATUS.json and evidence report exist
-    set +e
+    # Step 3: Run runtime validator
     python3 "$WORK_DIR/runtime/validate_f40_runtime_audits.py" "$WORK_DIR"
     runtime_validator_rc=$?
-    set -e
     echo "$runtime_validator_rc" > "$WORK_DIR/runtime_validator.returncode"
 
-    # Step 4: Compute final first_failure including runtime_validator_rc and col_rc
+    # Step 4: Compute final first_failure
     local first_failure=0
     if [ "$cmd_rc" -ne 0 ]; then
         first_failure=$cmd_rc
@@ -64,6 +62,8 @@ EOF
         first_failure=$delta_auditor_rc
     elif [ "$bisection_runner_rc" -ne 0 ]; then
         first_failure=$bisection_runner_rc
+    elif [ "$f38_entrypoint_rc" -ne 0 ]; then
+        first_failure=$f38_entrypoint_rc
     elif [ "$col_rc" -ne 0 ]; then
         first_failure=$col_rc
     elif [ "$runtime_validator_rc" -ne 0 ]; then
@@ -81,6 +81,7 @@ EOF
   "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%S')",
   "delta_auditor_rc": $delta_auditor_rc,
   "bisection_runner_rc": $bisection_runner_rc,
+  "f38_entrypoint_rc": $f38_entrypoint_rc,
   "runtime_validator_rc": $runtime_validator_rc,
   "first_failure_rc": $first_failure,
   "overall_classification": "$overall_cls"
@@ -128,4 +129,10 @@ F40_RUNTIME_DIR="$WORK_DIR/runtime" F40_EVIDENCE_DIR="$F40_EVIDENCE_DIR" abaqus 
 bisection_runner_rc=$?
 set -e
 
-echo "=== F40 Bisection Runner Finished (rc=$bisection_runner_rc) ==="
+echo "=== Stage 3: Exact F38 Entrypoint Execution ==="
+set +e
+F40_RUNTIME_DIR="$WORK_DIR/runtime" F38_RUNTIME_DIR="$WORK_DIR/runtime" F40_INVOCATION_AUDIT="$WORK_DIR/CAE_INVOCATION_CONTEXT_AUDIT.json" F38_INVOCATION_AUDIT="$WORK_DIR/CAE_INVOCATION_CONTEXT_AUDIT.json" F40_DIAGNOSTIC_MATRIX="$WORK_DIR/CAE_PHASE_DIAGNOSTIC_MATRIX.json" F38_DIAGNOSTIC_MATRIX="$WORK_DIR/CAE_PHASE_DIAGNOSTIC_MATRIX.json" abaqus cae noGUI="$WORK_DIR/runtime/run_f38_cae_diagnostic.py"
+f38_entrypoint_rc=$?
+set -e
+
+echo "=== F40 Execution Finished (bisection_rc=$bisection_runner_rc, entrypoint_rc=$f38_entrypoint_rc) ==="
