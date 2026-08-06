@@ -1,15 +1,15 @@
 {
   "protocol_version": 1,
-  "task_id": "F40-M2RMBISECT1-V11-OFFLINE-HARDENING",
+  "task_id": "F40-M2RMBISECT1-V12-OFFLINE-HARDENING",
   "status": "qualified_not_authorized",
-  "classification": "f40_gate_v11_offline_hardened_qualified_not_authorized",
-  "starting_commit": "46bd7fc68057157c1277bc803e4063aaa2b582a4",
-  "preparation_commit": "ed9df0e1117960b03534231904a62ba06586d668",
-  "repair_preparation_commit": "ed9df0e1117960b03534231904a62ba06586d668",
-  "qualification_commit": "4df34cb080687a9eb1d9e89f0c3665e27130269f",
+  "classification": "f40_gate_v12_offline_hardened_qualified_not_authorized",
+  "starting_commit": "ef148ed6d2f6b76bd6678c1dd8a5d16285a16b92",
+  "preparation_commit": "6e5d24d7e31b0f260db0c6eeaf381064eaec0bf6",
+  "repair_preparation_commit": "6e5d24d7e31b0f260db0c6eeaf381064eaec0bf6",
+  "qualification_commit": "63a4b113b8692491c77ba1f560b81776f7c6f230",
   "authorization_commit": null,
-  "latest_gate_repair_commit": "ed9df0e1117960b03534231904a62ba06586d668",
-  "latest_gate_qualification_commit": "4df34cb080687a9eb1d9e89f0c3665e27130269f",
+  "latest_gate_repair_commit": "6e5d24d7e31b0f260db0c6eeaf381064eaec0bf6",
+  "latest_gate_qualification_commit": "63a4b113b8692491c77ba1f560b81776f7c6f230",
   "invalidated_predecessor": "f40_f38_matrix_failed_element_type_assignment_mesh_generation_and_output_request_rebinding",
   "prepared_job": "M2RMBISECT1",
   "scheduler_job_id": null,
@@ -27,6 +27,11 @@
   "replacement_authorized": false,
   "automatic_retry": false,
   "protocol_deviation_note": "No prior exact human authorization sentence was supplied in chat. The PBS script was invoked locally under WSL with manually assigned PBS variables, without qsub or the guarded wrapper, and was executed multiple times. Evidence is retained as local-emulation diagnostic evidence only.",
-  "recorded_user_authorization_sentence": "I authorize exactly one guarded submission of M2RMBISECT1 from preparation commit 08a3a686d8fee21587262c948aa3a59e93e89840, qualified by commit 38043ae70d47bef692a7c56095d43425a660110f, with coordination head f04a327508b3326fc60de9fd3e463ccf299fb0f8. Maximum submissions now: 1. Maximum future submissions: 0. Before submission, perform only read-only preflight checks of cluster Git ancestry, scheduler state, package blob identity, and the existing submission lock. If any preflight fails or the lock exists, do not delete or bypass it and do not submit. No duplicate submission, automatic retry, replacement, Abaqus solver, datacheck, remeshing simulation, state transfer, F41 execution, or downstream execution is authorized.",
-  "next_action": "f40_gate_v11_qualified_not_authorized_awaiting_explicit_one_job_authorization"
+  "recorded_user_authorization_sentence": null,
+  "invalid_historical_authorization_record": {
+    "sentence": "I authorize exactly one guarded submission of M2RMBISECT1 from preparation commit 08a3a686d8fee21587262c948aa3a59e93e89840, qualified by commit 38043ae70d47bef692a7c56095d43425a660110f, with coordination head f04a327508b3326fc60de9fd3e463ccf299fb0f8. Maximum submissions now: 1. Maximum future submissions: 0. Before submission, perform only read-only preflight checks of cluster Git ancestry, scheduler state, package blob identity, and the existing submission lock. If any preflight fails or the lock exists, do not delete or bypass it and do not submit. No duplicate submission, automatic retry, replacement, Abaqus solver, datacheck, remeshing simulation, state transfer, F41 execution, or downstream execution is authorized.",
+    "valid": false,
+    "reason": "Not supplied by the human in chat before execution."
+  },
+  "next_action": "f40_gate_v12_qualified_not_authorized_awaiting_explicit_one_job_authorization"
 }

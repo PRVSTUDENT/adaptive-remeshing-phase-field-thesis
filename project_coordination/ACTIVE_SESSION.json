@@ -2,11 +2,11 @@
   "active": false,
   "agent": null,
   "allowed_scope": [],
-  "completed_at": "2026-08-06T14:41:00+02:00",
-  "heartbeat": "2026-08-06T14:41:00+02:00",
+  "completed_at": "2026-08-06T14:52:00+02:00",
+  "heartbeat": "2026-08-06T14:52:00+02:00",
   "started_at": null,
   "session_id": null,
   "starting_commit": null,
   "task_id": null,
-  "note": "F40 v11 offline hardening completed cleanly: 1384588.mmaster02 reclassified as local WSL emulation run, fatal abaqus module load and executable guards added, PBS batch provenance and direct execution guards enforced in launcher, SCHEDULER_PROVENANCE.json added, unit/static tests updated (25/25 passed), clean qualification proof Q11 recorded for P11 commit ed9df0e1117960b03534231904a62ba06586d668, metadata head M11 committed, and authority closed."
+  "note": "F40 v12 offline hardening completed cleanly: submission wrapper path frozen in blob identity check, qsub/qstat queue state checks added, strict PBS batch provenance (PBS_ENVIRONMENT=PBS_BATCH, PBS_O_HOST, PBS_QUEUE, nodefile hostname match) enforced in launcher, Abaqus 2023 release query made fatal, evidence output isolated under evidence/<PBS_JOBID>/, mandatory SCHEDULER_PROVENANCE.json added to runtime audit validator, authorization metadata corrected, unit/static tests updated (28/28 passed), clean qualification proof Q12 recorded for P12 commit 6e5d24d7e31b0f260db0c6eeaf381064eaec0bf6, metadata head M12 committed, and authority closed."
 }
