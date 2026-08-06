@@ -1,16 +1,16 @@
 {
   "protocol_version": 1,
-  "task_id": "F40-M2RMBISECT1-V16R3-NOTIFICATION-SCHEDULER-PREFLIGHT-RELIABILITY-CORRECTION",
-  "status": "qualified_offline_repair_prepared",
-  "classification": "f40_notification_scheduler_preflight_reliability_corrected_clean_linux_qualified",
-  "starting_commit": "8e95c22f594fa421e7e4c5523dd36db5b086928b",
-  "preparation_commit": "3fb422104e739f93348faa6f2cb31fd3baff5504",
-  "repair_preparation_commit": "3fb422104e739f93348faa6f2cb31fd3baff5504",
-  "qualification_commit": "a0b0779b3fe860b96c668529f1e34e33ca3c8b28",
+  "task_id": "F40-M2RMBISECT1-V16R4-CURRENT-RUNTIME-REQUALIFICATION",
+  "status": "qualified_awaiting_explicit_human_submission_authorization",
+  "classification": "f40_notification_enabled_current_runtime_clean_linux_qualified",
+  "starting_commit": "f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55",
+  "preparation_commit": "f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55",
+  "repair_preparation_commit": "f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55",
+  "qualification_commit": "3693fd829d37cfe48f496b7cc4a15743cb78f9d3",
   "authorization_commit": null,
-  "latest_gate_repair_commit": "3fb422104e739f93348faa6f2cb31fd3baff5504",
-  "latest_gate_qualification_commit": "a0b0779b3fe860b96c668529f1e34e33ca3c8b28",
-  "invalidated_predecessor": "f40_notification_reliability_corrected_clean_linux_qualified",
+  "latest_gate_repair_commit": "f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55",
+  "latest_gate_qualification_commit": "3693fd829d37cfe48f496b7cc4a15743cb78f9d3",
+  "invalidated_predecessor": "f40_notification_scheduler_preflight_reliability_corrected_clean_linux_qualified",
   "prepared_job": "M2RMBISECT1",
   "scheduler_job_id": null,
   "local_emulation_run_id": null,
@@ -29,5 +29,5 @@
   "protocol_deviation_note": null,
   "recorded_user_authorization_sentence": null,
   "invalid_historical_authorization_record": null,
-  "next_action": "await_notification_only_live_test_confirmation_before_any_submission_authorization"
+  "next_action": "await_explicit_human_submission_authorization_for_exactly_one_m2rmbisect1_job"
 }

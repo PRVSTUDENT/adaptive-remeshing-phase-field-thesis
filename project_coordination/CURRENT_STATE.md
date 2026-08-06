@@ -1,5 +1,24 @@
 # Current project state
 
+## F40 v16R4 Current-Runtime Requalification Closeout (2026-08-06)
+
+The F40 v16R4 current-runtime requalification sequence was completed following successful human receipt confirmation of the live notification preflight test (dispatcher rc=0, email rc=0, Telegram rc=0, human confirmed Telegram receipt).
+
+Completed requalification steps:
+1. **Live Test Confirmation**: Accepted notification subsystem as operational following live receipt of test notifications across Telegram and verified Email addresses.
+2. **Requalification Baseline**: Verified preparation revision `f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55`.
+3. **Automated Qualification Verification**:
+   - Unit tests: `46/46` passed under Python 3.12 (`wsl python3 tests/unit/test_stage_f40_batch.py`).
+   - Static gate validator: `pass` (`wsl python3 scripts/validation/validate_f40_cae_bisect_gate.py`).
+   - Detached clean-Linux qualification: `pass` (`/tmp/f40_clean_qual_f7fe49c`).
+4. **Qualification Proof Generation**: Staged generated qualification proof `F40_CLEAN_LINUX_QUALIFICATION.json` under commit Q16R4 (`3693fd829d37cfe48f496b7cc4a15743cb78f9d3`).
+5. **Git Lineage P16R3 -> Q16R4 -> M16R4**:
+   - Preparation SHA: `f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55`
+   - Qualification SHA Q16R4: `3693fd829d37cfe48f496b7cc4a15743cb78f9d3`
+   - Coordination SHA M16R4: pending metadata commit
+
+Classification: `f40_notification_enabled_current_runtime_clean_linux_qualified`. All execution and submission authority flags remain strictly `false` and `0`. No scheduler job, solver, datacheck, F41 execution, remeshing simulation, retry, replacement, or new submission is authorized. Awaiting explicit human submission authorization for exactly one `M2RMBISECT1` job.
+
 ## F40 v16R3 Notification and Scheduler-Preflight Reliability Correction Closeout (2026-08-06)
 
 The F40 v16R3 notification and scheduler-preflight reliability correction sequence was completed strictly offline without any PBS job submission.
