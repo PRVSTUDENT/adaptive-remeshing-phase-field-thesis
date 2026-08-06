@@ -44,12 +44,8 @@ if [ "$PREP_BLOBS" != "$HEAD_BLOBS" ]; then
   exit 1
 fi
 
-# 5. Lock file check
+# 5. Lock file path definition
 LOCK_FILE="runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_SUBMITTED.lock"
-if [ -f "$LOCK_FILE" ]; then
-  echo "HALT: Submission lock file exists ($LOCK_FILE). Job has already been submitted."
-  exit 0
-fi
 
 # 6. Maximum Submission Audit & Binary Check
 if [ "${MAX_SUBMISSIONS:-1}" -ne 1 ]; then
@@ -60,10 +56,18 @@ fi
 command -v qsub >/dev/null 2>&1 || { echo "ERROR: qsub command not found on PATH." >&2; exit 1; }
 command -v qstat >/dev/null 2>&1 || { echo "ERROR: qstat command not found on PATH." >&2; exit 1; }
 
-# 7. Check scheduler queue state
+# 7. Check scheduler queue state for existing M2RMBISECT1 job
 USER_NAME=$(id -un 2>/dev/null || echo "${USER:-}")
-if [ -n "$USER_NAME" ] && qstat -u "$USER_NAME" 2>/dev/null | awk '{print $4}' | grep -Fxq "M2RMBISECT1"; then
+QSTAT_OUTPUT=$(qstat -u "$USER_NAME" 2>/dev/null || true)
+if printf '%s\n' "$QSTAT_OUTPUT" | awk 'NR > 2 && $2 == "M2RMBISECT1" {found=1} END {exit !found}'; then
   echo "HALT: An M2RMBISECT1 job is already present in scheduler state." >&2
+  exit 1
+fi
+
+# 8. Create atomic submission-attempt lock BEFORE qsub
+mkdir -p "$(dirname "$LOCK_FILE")"
+if ! (set -o noclobber; printf '%s\n' "submission_attempt_started prep=$PREP_SHA head=$HEAD_SHA" > "$LOCK_FILE") 2>/dev/null; then
+  echo "HALT: Submission lock file exists ($LOCK_FILE). Job has already been submitted or submission attempt started." >&2
   exit 1
 fi
 
@@ -80,8 +84,6 @@ if [ -z "$JOB_ID" ]; then
 fi
 
 echo "SUCCESS: Submitted M2RMBISECT1 with Job ID: $JOB_ID"
-mkdir -p "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect"
-touch "$LOCK_FILE"
 echo "$JOB_ID" > "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/LAST_JOB_ID.txt"
 
 if ! qstat "$JOB_ID" >/dev/null 2>&1; then

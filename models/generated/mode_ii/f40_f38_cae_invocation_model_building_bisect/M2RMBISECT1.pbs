@@ -57,32 +57,12 @@ on_exit() {
     f38_matrix_validator_rc=$?
     echo "$f38_matrix_validator_rc" > "$WORK_DIR/f38_matrix_validator.returncode"
 
-    # Step 2: Write preliminary STATUS.json
-    local overall_cls="f40_generic_cae_primitives_passed_runtime_evidence_contract_failed"
-    cat <<EOF > "$WORK_DIR/STATUS.json"
-{
-  "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%S')",
-  "delta_auditor_rc": $delta_auditor_rc,
-  "bisection_runner_rc": $bisection_runner_rc,
-  "f38_entrypoint_rc": $f38_entrypoint_rc,
-  "f38_matrix_validator_rc": $f38_matrix_validator_rc,
-  "runtime_validator_rc": $runtime_validator_rc,
-  "first_failure_rc": $cmd_rc,
-  "overall_classification": "$overall_cls"
-}
-EOF
-
-    # Step 3: Generate missing evidence report (for finalized evidence files)
-    python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR" >/dev/null 2>&1
-    local col_rc=$?
-    echo "$col_rc" > "$WORK_DIR/collector.returncode"
-
-    # Step 4: Run runtime validator
+    # Step 2: Run runtime validator and write runtime_validator.returncode
     python3 "$WORK_DIR/runtime/validate_f40_runtime_audits.py" "$WORK_DIR"
     runtime_validator_rc=$?
     echo "$runtime_validator_rc" > "$WORK_DIR/runtime_validator.returncode"
 
-    # Step 5: Compute final first_failure
+    # Step 3: Write preliminary first_failure.returncode
     local first_failure=0
     if [ "$cmd_rc" -ne 0 ]; then
         first_failure=$cmd_rc
@@ -94,16 +74,23 @@ EOF
         first_failure=$f38_entrypoint_rc
     elif [ "$f38_matrix_validator_rc" -ne 0 ]; then
         first_failure=$f38_matrix_validator_rc
-    elif [ "$col_rc" -ne 0 ]; then
-        first_failure=$col_rc
     elif [ "$runtime_validator_rc" -ne 0 ]; then
         first_failure=$runtime_validator_rc
     fi
+    echo "$first_failure" > "$WORK_DIR/first_failure.returncode"
 
+    # Step 4: Generate missing evidence report after all return codes exist
+    python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR" >/dev/null 2>&1
+    local col_rc=$?
+    echo "$col_rc" > "$WORK_DIR/collector.returncode"
+
+    if [ "$first_failure" -eq 0 ] && [ "$col_rc" -ne 0 ]; then
+        first_failure=$col_rc
+    fi
+
+    local overall_cls="f40_generic_cae_primitives_passed_runtime_evidence_contract_failed"
     if [ "$first_failure" -eq 0 ]; then
         overall_cls="f40_bisection_completed_successfully"
-    else
-        overall_cls="f40_generic_cae_primitives_passed_runtime_evidence_contract_failed"
     fi
 
     cat <<EOF > "$WORK_DIR/STATUS.json"
@@ -114,6 +101,7 @@ EOF
   "f38_entrypoint_rc": $f38_entrypoint_rc,
   "f38_matrix_validator_rc": $f38_matrix_validator_rc,
   "runtime_validator_rc": $runtime_validator_rc,
+  "collector_rc": $col_rc,
   "first_failure_rc": $first_failure,
   "overall_classification": "$overall_cls"
 }
@@ -161,24 +149,39 @@ if ! printf '%s\n' "$ABAQUS_RELEASE" | grep -q "2023"; then
     exit 1
 fi
 
-NODEFILE_HOSTS_JSON=$(python3 -c "import json, sys; print(json.dumps([line.strip() for line in open(sys.argv[1]) if line.strip()]))" "$PBS_NODEFILE" 2>/dev/null || echo "[]")
+ABAQUS_EXECUTABLE=$(command -v abaqus)
+export CURRENT_FULL_HOST CURRENT_SHORT_HOST ABAQUS_RELEASE ABAQUS_EXECUTABLE PBS_JOBID PBS_ENVIRONMENT PBS_QUEUE PBS_O_HOST
 
-cat <<EOF > "$WORK_DIR/SCHEDULER_PROVENANCE.json"
-{
-  "protocol_version": 1,
-  "pbs_jobid": "${PBS_JOBID}",
-  "pbs_environment": "${PBS_ENVIRONMENT}",
-  "pbs_queue": "${PBS_QUEUE}",
-  "pbs_o_host": "${PBS_O_HOST}",
-  "hostname": "${CURRENT_FULL_HOST}",
-  "hostname_short": "${CURRENT_SHORT_HOST}",
-  "nodefile": "${PBS_NODEFILE}",
-  "nodefile_hosts": ${NODEFILE_HOSTS_JSON},
-  "abaqus_executable": "$(command -v abaqus)",
-  "abaqus_release": "${ABAQUS_RELEASE}",
-  "timestamp_utc": "$(date -u +'%Y-%m-%dT%H:%M:%S.%3NZ')"
+python3 - "$WORK_DIR/SCHEDULER_PROVENANCE.json" "$PBS_NODEFILE" <<'PY'
+import datetime
+import json
+import os
+import sys
+
+output_path = sys.argv[1]
+nodefile = sys.argv[2]
+
+with open(nodefile, "r", encoding="utf-8") as handle:
+    nodefile_hosts = [line.strip() for line in handle if line.strip()]
+
+data = {
+    "protocol_version": 1,
+    "pbs_jobid": os.environ["PBS_JOBID"],
+    "pbs_environment": os.environ["PBS_ENVIRONMENT"],
+    "pbs_queue": os.environ["PBS_QUEUE"],
+    "pbs_o_host": os.environ["PBS_O_HOST"],
+    "hostname": os.environ["CURRENT_FULL_HOST"],
+    "hostname_short": os.environ["CURRENT_SHORT_HOST"],
+    "nodefile": nodefile,
+    "nodefile_hosts": nodefile_hosts,
+    "abaqus_executable": os.environ["ABAQUS_EXECUTABLE"],
+    "abaqus_release": os.environ["ABAQUS_RELEASE"],
+    "timestamp_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"),
 }
-EOF
+
+with open(output_path, "w", encoding="utf-8") as handle:
+    json.dump(data, handle, indent=2)
+PY
 
 echo "=== Stage 1: Contract Delta Auditor ==="
 python3 "$F40_PACKAGE_DIR/runtime/f40_invocation_contract_delta.py"

@@ -1,5 +1,19 @@
 # Current project state
 
+## F40 v13 Offline Correction Closeout (2026-08-06)
+
+The F40 v13 offline correction sequence was completed strictly offline.
+
+Completed corrections:
+1. **Queue Duplicate Detection**: Repaired `qstat` queue parsing logic in `submit_stage_f40_cae_bisect.sh` using `awk 'NR > 2 && $2 == "M2RMBISECT1" {found=1} END {exit !found}'` and added unit test against `qstat` output fixture.
+2. **Python-Based Provenance JSON Generator**: Replaced shell heredoc JSON writing in `M2RMBISECT1.pbs` with inline Python execution reading `os.environ` to safely format multiline `ABAQUS_RELEASE` strings and JSON fields.
+3. **Evidence-Completeness Report Finalization & Non-Zero Return**: Added `collector.returncode`, `runtime_validator.returncode`, `first_failure.returncode` to `EXPECTED_EVIDENCE_FILES` in `generate_missing_evidence_report.py`. Updated script to return exit code 1 when files are missing and moved report generation to run after runtime validation and `first_failure.returncode` writing.
+4. **Atomic Pre-`qsub` Submission Lock Creation**: Created `$LOCK_FILE` atomically before `qsub` in `submit_stage_f40_cae_bisect.sh` using `set -o noclobber`.
+5. **Git P13 -> Q13 -> M13 Sequence**: Created preparation commit P13, detached qualification proof commit Q13 containing `F40_CLEAN_LINUX_QUALIFICATION.json`, and metadata head M13.
+
+Classification: `f40_gate_v13_offline_corrected_qualified_not_authorized`. All execution and submission authority flags remain strictly `false` and `0`. No scheduler job, solver, datacheck, F41 execution, remeshing simulation, retry, replacement, or new submission is authorized.
+
+
 ## F40 v12 Offline Hardening Closeout (2026-08-06)
 
 The F40 v12 offline hardening sequence was completed strictly offline.

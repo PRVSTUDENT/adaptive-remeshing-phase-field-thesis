@@ -25,7 +25,10 @@ EXPECTED_EVIDENCE_FILES = [
     "delta_auditor.returncode",
     "bisection_runner.returncode",
     "f38_entrypoint.returncode",
-    "f38_matrix_validator.returncode"
+    "f38_matrix_validator.returncode",
+    "collector.returncode",
+    "runtime_validator.returncode",
+    "first_failure.returncode"
 ]
 
 def main():
@@ -49,7 +52,7 @@ def main():
     report = {
         "protocol_version": 1,
         "job_name": "M2RMBISECT1",
-        "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
         "missing_count": len(missing_files),
         "missing_files": missing_files,
         "existing_files": existing_files,
@@ -61,7 +64,7 @@ def main():
         json.dump(report, f, indent=2)
 
     print("MISSING_EVIDENCE_REPORT_GENERATED: missing_count={}".format(len(missing_files)))
-    return 0
+    return 0 if len(missing_files) == 0 else 1
 
 if __name__ == "__main__":
     sys.exit(main())

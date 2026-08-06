@@ -123,7 +123,7 @@ class TestStageF40Batch(unittest.TestCase):
             idx_gen = content.find("generate_missing_evidence_report.py")
             idx_val = content.find("validate_f40_runtime_audits.py")
             self.assertGreater(idx_gen, 0)
-            self.assertGreater(idx_val, idx_gen)
+            self.assertGreater(idx_gen, idx_val, "generate_missing_evidence_report.py must be invoked AFTER validate_f40_runtime_audits.py")
 
     def test_matrix_validator_detects_overall_passed_false(self):
         mat_val_path = os.path.join(self.pkg_dir, "runtime", "validate_f38_matrix_results.py")
@@ -328,6 +328,39 @@ class TestStageF40Batch(unittest.TestCase):
             sys.argv = ["validate_f40_runtime_audits.py", tmpdir]
             rc = mod.main()
             self.assertNotEqual(rc, 0, "Runtime validator must fail when SCHEDULER_PROVENANCE.json is missing")
+
+    def test_wrapper_qstat_duplicate_detection_logic(self):
+        import subprocess
+        # Mock qstat output fixture with M2RMBISECT1 job in 2nd column after header
+        fixture_qstat = "Job ID            Name             User             Time Use S Queue\n----------------- ---------------- ---------------- -------- - -----\n1384588.mmaster02 M2RMBISECT1      testuser         00:00:00 R entry_imfdfkmq\n"
+        cmd = ["awk", "NR > 2 && $2 == \"M2RMBISECT1\" {found=1} END {exit !found}"]
+        proc = subprocess.run(cmd, input=fixture_qstat, text=True, capture_output=True)
+        self.assertEqual(proc.returncode, 0, "Awk logic must detect M2RMBISECT1 job in qstat output fixture")
+
+        # Mock qstat output fixture without M2RMBISECT1 job
+        fixture_other = "Job ID            Name             User             Time Use S Queue\n----------------- ---------------- ---------------- -------- - -----\n1384589.mmaster02 OTHERJOB         testuser         00:00:00 R entry_imfdfkmq\n"
+        proc2 = subprocess.run(cmd, input=fixture_other, text=True, capture_output=True)
+        self.assertNotEqual(proc2.returncode, 0, "Awk logic must return non-zero when M2RMBISECT1 job is absent")
+
+    def test_missing_evidence_report_returncode(self):
+        import importlib.util, tempfile
+        gen_path = os.path.join(self.pkg_dir, "runtime", "generate_missing_evidence_report.py")
+        spec = importlib.util.spec_from_file_location("generate_missing_evidence_report", gen_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Missing files case -> exit 1
+            sys.argv = ["generate_missing_evidence_report.py", tmpdir]
+            rc_missing = mod.main()
+            self.assertEqual(rc_missing, 1, "generate_missing_evidence_report must return 1 when expected files are missing")
+
+            # Complete case -> exit 0
+            for fname in mod.EXPECTED_EVIDENCE_FILES:
+                with open(os.path.join(tmpdir, fname), "w") as f:
+                    f.write("{}")
+            rc_complete = mod.main()
+            self.assertEqual(rc_complete, 0, "generate_missing_evidence_report must return 0 when all expected files exist")
 
     def test_p02_fails_on_helper_content_modification(self):
         runner_path = os.path.join(self.pkg_dir, "runtime", "f40_cae_bisection_runner.py")
