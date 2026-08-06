@@ -190,6 +190,26 @@ class TestStageF40Batch(unittest.TestCase):
             self.assertEqual(res.returncode, 0, "Validator failed on valid schema and 20 passing phases: " + res.stdout + res.stderr)
             self.assertIn("F38_MATRIX_VALIDATION_PASSED", res.stdout)
 
+    def test_get_first_analysis_step_helper(self):
+        matrix_path = os.path.join(self.pkg_dir, "runtime", "f38_cae_diagnostic_matrix.py")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("f38_cae_diagnostic_matrix", matrix_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        class MockModel:
+            def __init__(self, step_dict):
+                self.steps = step_dict
+
+        # Case 1: Only Initial -> raise RuntimeError
+        m1 = MockModel({"Initial": "step_initial_obj"})
+        with self.assertRaises(RuntimeError):
+            mod.get_first_analysis_step(m1)
+
+        # Case 2: Initial + Step-1 -> return Step-1
+        m2 = MockModel({"Initial": "step_initial_obj", "Step-1": "step_1_obj"})
+        self.assertEqual(mod.get_first_analysis_step(m2), "step_1_obj")
+
     def test_static_gate_validator_passes(self):
         res = subprocess.run([sys.executable, self.validator_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         self.assertEqual(res.returncode, 0, "Static validator failed: " + res.stdout + res.stderr)

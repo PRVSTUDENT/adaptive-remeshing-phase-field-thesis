@@ -96,6 +96,15 @@ def import_fresh_model(mdb, source_deck, model_name):
         inputFileName=source_deck
     )
 
+def get_first_analysis_step(model):
+    step_names = [
+        str(name) for name in model.steps.keys()
+        if str(name).lower() != "initial"
+    ]
+    if not step_names:
+        raise RuntimeError("No non-Initial analysis step exists")
+    return model.steps[step_names[0]]
+
 # Phase 1
 def phase_bootstrap(ctx):
     runtime_dir = os.environ.get('F38_RUNTIME_DIR', '').strip()
@@ -121,8 +130,10 @@ def phase_abaqus_module_import(ctx):
     import load
     ctx['mdb'] = mdb
     ctx['ac'] = ac
+    ctx['mesh'] = mesh
     return {
         'mdb_available': True,
+        'mesh_imported': True,
         'constants_imported': ['ON', 'CPE4', 'STANDARD', 'STRUCTURED']
     }
 
@@ -233,6 +244,12 @@ def phase_geometry_conversion(ctx):
 
     ctx['geom_part'] = geom_part
 
+    face_count = len(geom_part.faces) if hasattr(geom_part, 'faces') else 0
+    vertex_count = len(geom_part.vertices) if hasattr(geom_part, 'vertices') else 0
+
+    if face_count == 0 or vertex_count == 0:
+        raise RuntimeError("geometry_conversion produced zero faces ({0}) or zero vertices ({1})".format(face_count, vertex_count))
+
     capabilities = {
         'object_type': str(type(geom_part)),
         'has_getVertices': hasattr(geom_part, 'getVertices'),
@@ -247,8 +264,8 @@ def phase_geometry_conversion(ctx):
         'part_api_passed': part_api_passed,
         'part_api_error': part_api_error,
         'geom_part_name': str(geom_part.name),
-        'face_count': len(geom_part.faces) if hasattr(geom_part, 'faces') else 0,
-        'vertex_count': len(geom_part.vertices) if hasattr(geom_part, 'vertices') else 0,
+        'face_count': face_count,
+        'vertex_count': vertex_count,
         'capabilities': capabilities
     }
 
@@ -256,10 +273,13 @@ def phase_geometry_conversion(ctx):
 def phase_element_type_assignment(ctx):
     geom_part = ctx.get('geom_part')
     ac = ctx['ac']
+    mesh_module = ctx.get('mesh')
+    if mesh_module is None:
+        import mesh as mesh_module
     if not geom_part:
         raise RuntimeError('geom_part unavailable for element type assignment')
 
-    elem_type = mesh.ElemType(elemCode=ac.CPE4, elemLibrary=ac.STANDARD)
+    elem_type = mesh_module.ElemType(elemCode=ac.CPE4, elemLibrary=ac.STANDARD)
     geom_part.setElementType(regions=(geom_part.faces,), elemTypes=(elem_type,))
     return {
         'element_type_assigned': True,
@@ -285,20 +305,30 @@ def phase_mesh_generation(ctx):
     mdb = ctx['mdb']
     source_deck = ctx['source_deck']
     ac = ctx['ac']
+    mesh_module = ctx.get('mesh')
+    if mesh_module is None:
+        import mesh as mesh_module
     model = import_fresh_model(mdb, source_deck, 'F38_MESH_PROBE')
     source_part = model.parts[list(model.parts.keys())[0]]
     if hasattr(model, 'Part2DGeomFrom2DMesh'):
         geom_part = model.Part2DGeomFrom2DMesh(name='GeomPartMesh', part=source_part, featureAngle=45.0)
     else:
         geom_part = source_part.Part2DGeomFrom2DMesh(name='GeomPartMesh', featureAngle=45.0)
-    geom_part.setElementType(regions=(geom_part.faces,), elemTypes=(mesh.ElemType(elemCode=ac.CPE4, elemLibrary=ac.STANDARD),))
+    geom_part.setElementType(regions=(geom_part.faces,), elemTypes=(mesh_module.ElemType(elemCode=ac.CPE4, elemLibrary=ac.STANDARD),))
     geom_part.setMeshControls(regions=geom_part.faces, technique=ac.STRUCTURED)
     geom_part.seedPart(size=0.01)
     geom_part.generateMesh()
     ctx['mesh_geom_part'] = geom_part
+
+    nodes_count = len(geom_part.nodes) if hasattr(geom_part, 'nodes') else 0
+    elements_count = len(geom_part.elements) if hasattr(geom_part, 'elements') else 0
+
+    if nodes_count == 0 or elements_count == 0:
+        raise RuntimeError("mesh_generation produced zero nodes ({0}) or zero elements ({1})".format(nodes_count, elements_count))
+
     return {
-        'mesh_nodes_count': len(geom_part.nodes),
-        'mesh_elements_count': len(geom_part.elements)
+        'mesh_nodes_count': nodes_count,
+        'mesh_elements_count': elements_count
     }
 
 # Phase 11
@@ -327,7 +357,6 @@ def phase_instance_replacement(ctx):
         ctx['inst_model'] = model
 
     source_part = model.parts[list(model.parts.keys())[0]]
-    # Create geometry part owned strictly by F38_INSTANCE_PROBE
     if hasattr(model, 'Part2DGeomFrom2DMesh'):
         geom_part = model.Part2DGeomFrom2DMesh(name='GeomPartInst', part=source_part, featureAngle=45.0)
     else:
@@ -380,6 +409,10 @@ def phase_crack_edge_detection(ctx):
 
     top_faces = 0
     bottom_faces = 0
+    total_faces = len(geom_part.faces)
+    if total_faces == 0:
+        raise RuntimeError('crack_edge_detection found zero faces')
+
     for face in geom_part.faces:
         if hasattr(face, 'pointOn'):
             pt = face.pointOn[0]
@@ -391,7 +424,7 @@ def phase_crack_edge_detection(ctx):
     return {
         'top_faces_count': top_faces,
         'bottom_faces_count': bottom_faces,
-        'total_faces': len(geom_part.faces)
+        'total_faces': total_faces
     }
 
 # Phase 15
@@ -426,10 +459,16 @@ def phase_crack_mesh_topology(ctx):
                     upper_node_labels.append(n.label)
                     upper_coords[n.label] = (x, y, z)
 
+    if len(lower_node_labels) == 0 or len(upper_node_labels) == 0:
+        raise RuntimeError("crack_mesh_topology upper/lower node sets are empty (lower: {0}, upper: {1})".format(len(lower_node_labels), len(upper_node_labels)))
+
     lower_set = set(lower_node_labels)
     upper_set = set(upper_node_labels)
     intersection_count = len(lower_set.intersection(upper_set))
     disjoint_node_sets = (intersection_count == 0)
+
+    if not disjoint_node_sets:
+        raise RuntimeError("crack_mesh_topology node sets are not disjoint (intersection count: {0})".format(intersection_count))
 
     coincident_pair_count = 0
     for l_label, l_c in lower_coords.items():
@@ -437,6 +476,9 @@ def phase_crack_mesh_topology(ctx):
             if abs(l_c[0] - u_c[0]) < 1e-5 and abs(l_c[1] - u_c[1]) < 1e-5:
                 coincident_pair_count += 1
                 break
+
+    if coincident_pair_count == 0:
+        raise RuntimeError("crack_mesh_topology coincident pair count is zero")
 
     bridge_elem_count = 0
     for elem in elements:
@@ -447,6 +489,9 @@ def phase_crack_mesh_topology(ctx):
             n_labels = set(elem.connectivity)
         if len(n_labels.intersection(lower_set)) > 0 and len(n_labels.intersection(upper_set)) > 0:
             bridge_elem_count += 1
+
+    if bridge_elem_count != 0:
+        raise RuntimeError("crack_mesh_topology bridge element count is non-zero ({0})".format(bridge_elem_count))
 
     return {
         'lower_node_labels_count': len(lower_node_labels),
@@ -476,7 +521,8 @@ def phase_assembly_set_inventory(ctx):
 
     return {
         'inventoried_sets_count': len(sets_data),
-        'set_details': sets_data
+        'set_details': sets_data,
+        'is_observation_only_probe': True
     }
 
 # Phase 17
@@ -486,7 +532,7 @@ def phase_output_variable_probe(ctx):
     model = import_fresh_model(mdb, source_deck, 'F38_OUTPUT_PROBE')
     ctx['output_model'] = model
 
-    step = model.steps[list(model.steps.keys())[0]]
+    step = get_first_analysis_step(model)
     candidate_vars = ['U', 'RF', 'S', 'E', 'EVOL', 'MISESERI', 'MISESAVG']
 
     accepted = []
@@ -504,7 +550,8 @@ def phase_output_variable_probe(ctx):
 
     return {
         'accepted_variables': accepted,
-        'rejected_variables': rejected
+        'rejected_variables': rejected,
+        'probe_step_name': step.name
     }
 
 # Phase 18
@@ -513,14 +560,15 @@ def phase_output_request_rebinding(ctx):
     if not model:
         raise RuntimeError('output_model unavailable')
 
-    step = model.steps[list(model.steps.keys())[0]]
+    step = get_first_analysis_step(model)
     model.FieldOutputRequest(
         name='F38_REBOUND_OUTPUT',
         createStepName=step.name,
         variables=('U', 'RF')
     )
     return {
-        'output_request_rebound': True
+        'output_request_rebound': True,
+        'create_step_name': step.name
     }
 
 # Phase 19
@@ -568,6 +616,9 @@ def phase_generated_input_presence(ctx):
     exists = os.path.isfile(output_input)
     size = os.path.getsize(output_input) if exists else 0
     sha256 = get_hash(output_input) if exists else None
+
+    if not exists or size == 0:
+        raise RuntimeError("generated_input_presence file missing or zero bytes")
 
     return {
         'generated_input_exists': exists,
