@@ -1,12 +1,19 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-06T10:25:00+02:00",
-  "heartbeat": "2026-08-06T10:25:00+02:00",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "F39 M2RMKERN1 job 1384431.mmaster02 completed successfully with classification cae_kernel_startup_success. Abaqus CAE noGUI kernel ABQcaeK (Python 2.7.15) verified working on compute nodes. Evidence saved to runs/hpc/stage_f/f39_abaqus_cae_kernel_startup_diagnostic/evidence/1384431.mmaster02/. Terminal closeout commit published. All submission authorization returned to false."
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_scope": [
+    "models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect/**",
+    "scripts/hpc/stage_f/submit_stage_f40_cae_bisect.sh",
+    "scripts/validation/validate_f40_cae_bisect_gate.py",
+    "tests/unit/test_stage_f40_batch.py",
+    "project_coordination/**",
+    "docs/project/PROJECT_PHASE_CHECKLIST.md"
+  ],
+  "completed_at": null,
+  "heartbeat": "2026-08-06T10:30:00+02:00",
+  "started_at": "2026-08-06T10:30:00+02:00",
+  "session_id": "2026-08-06_1030_gemini-antigravity_F40-PREPARE-AND-QUALIFY",
+  "starting_commit": "9f03e5c98bd3414338ddd52cfb0690bc779cf738",
+  "task_id": "F40-ISOLATE-F38-CAE-INVOCATION-AND-MODEL-BUILDING-FAILURE",
+  "note": "Prepare F40 launcher diagnostic bisection package M2RMBISECT1, write individual phase probes P00-P11, contract delta auditor, static validator, unit test suite, preparation commit P40, clean Linux qualification, and qualification commit Q40."
 }

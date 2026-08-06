@@ -1,0 +1,100 @@
+#!/bin/bash
+#PBS -N M2RMBISECT1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+
+set -Eeuo pipefail
+
+F40_PACKAGE_DIR="${F40_PACKAGE_DIR:?F40_PACKAGE_DIR must be exported by launcher}"
+F40_EVIDENCE_DIR="${F40_EVIDENCE_DIR:-${PBS_O_WORKDIR:-$(pwd)}/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence}"
+
+WORK_DIR="${PBS_O_WORKDIR:-$(pwd)}/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_${PBS_JOBID:-local}"
+mkdir -p "$WORK_DIR" "$F40_EVIDENCE_DIR"
+cd "$WORK_DIR"
+
+mkdir -p "$WORK_DIR/runtime"
+cp "$F40_PACKAGE_DIR/runtime/"* "$WORK_DIR/runtime/"
+
+delta_auditor_rc=1
+bisection_runner_rc=1
+runtime_validator_rc=1
+
+on_exit() {
+    local first_failure=$?
+    set +e
+
+    echo "$delta_auditor_rc" > "$WORK_DIR/delta_auditor.returncode"
+    echo "$bisection_runner_rc" > "$WORK_DIR/bisection_runner.returncode"
+    echo "$runtime_validator_rc" > "$WORK_DIR/runtime_validator.returncode"
+    echo "$first_failure" > "$WORK_DIR/first_failure.returncode"
+
+    local overall_cls="f40_bisection_completed_successfully"
+    if [ "$first_failure" -ne 0 ] || [ "$bisection_runner_rc" -ne 0 ] || [ "$runtime_validator_rc" -ne 0 ]; then
+        overall_cls="f40_bisection_failed_during_cae_probes"
+    fi
+
+    cat <<EOF > "$WORK_DIR/STATUS.json"
+{
+  "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%S')",
+  "delta_auditor_rc": $delta_auditor_rc,
+  "bisection_runner_rc": $bisection_runner_rc,
+  "runtime_validator_rc": $runtime_validator_rc,
+  "first_failure_rc": $first_failure,
+  "overall_classification": "$overall_cls"
+}
+EOF
+
+    cp -f "$WORK_DIR"/*.json "$F40_EVIDENCE_DIR/" 2>/dev/null || true
+    cp -f "$WORK_DIR"/*.returncode "$F40_EVIDENCE_DIR/" 2>/dev/null || true
+    cp -f "$WORK_DIR"/*.txt "$F40_EVIDENCE_DIR/" 2>/dev/null || true
+    if [ -n "${PBS_JOBID:-}" ]; then
+        cp -f "$PBS_O_WORKDIR/M2RMBISECT1.o${PBS_JOBID}" "$F40_EVIDENCE_DIR/" 2>/dev/null || true
+        cp -f "$PBS_O_WORKDIR/M2RMBISECT1.e${PBS_JOBID}" "$F40_EVIDENCE_DIR/" 2>/dev/null || true
+    fi
+
+    python3 "$WORK_DIR/runtime/generate_missing_evidence_report.py" "$WORK_DIR" >/dev/null 2>&1
+    local col_rc=$?
+    echo "$col_rc" > "$WORK_DIR/collector.returncode"
+    echo "$col_rc" > "$F40_EVIDENCE_DIR/collector.returncode"
+    cp -f "$WORK_DIR/MISSING_EVIDENCE_REPORT.json" "$F40_EVIDENCE_DIR/" 2>/dev/null || true
+
+    trap - EXIT
+    exit "$first_failure"
+}
+
+trap on_exit EXIT
+
+echo "=== F40 Launcher Diagnostic Bisection Batch Execution ==="
+echo "Host: $(hostname)"
+echo "Date: $(date)"
+echo "Work dir: $WORK_DIR"
+echo "Package dir: $F40_PACKAGE_DIR"
+echo "Evidence dir: $F40_EVIDENCE_DIR"
+
+cd "$F40_PACKAGE_DIR"
+sha256sum -c SHA256SUMS
+sha256sum -c F40_SHA256SUMS
+cd "$WORK_DIR"
+
+module purge || true
+module load abaqus/2023 || true
+
+echo "=== Stage 1: Contract Delta Auditor ==="
+python3 "$F40_PACKAGE_DIR/runtime/f40_invocation_contract_delta.py"
+delta_auditor_rc=0
+
+echo "=== Stage 2: Abaqus CAE Bisection Runner ==="
+set +e
+F40_RUNTIME_DIR="$WORK_DIR/runtime" F40_EVIDENCE_DIR="$F40_EVIDENCE_DIR" abaqus cae noGUI="$WORK_DIR/runtime/f40_cae_bisection_runner.py"
+bisection_runner_rc=$?
+set -e
+
+echo "=== Stage 3: Validate Runtime Audits ==="
+set +e
+python3 "$WORK_DIR/runtime/validate_f40_runtime_audits.py" "$WORK_DIR"
+runtime_validator_rc=$?
+set -e
+
+echo "=== F40 Execution Complete (bisection_runner_rc=$bisection_runner_rc, runtime_validator_rc=$runtime_validator_rc) ==="
