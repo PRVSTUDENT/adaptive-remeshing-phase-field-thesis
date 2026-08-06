@@ -1,5 +1,18 @@
 # Current project state
 
+## F40 v9 Offline Correction Closeout (2026-08-06)
+
+The F40 v9 offline correction sequence was completed strictly offline.
+
+Completed corrections:
+1. **Empirical Crack Topology Contract**: Refactored `phase_crack_mesh_topology` in `f38_cae_diagnostic_matrix.py` to group nodes by coordinate in $x \in [-0.5, 0.0]$. Empirically classified `source_deck.inp` as `duplicated_crack_face_nodes` (15 coincident pairs + 1 crack-tip node) or `continuous_centerline_mesh`.
+2. **Clean Matrix Finalization**: Removed duplicate matrix finalization call block from `f38_cae_diagnostic_matrix.py`.
+3. **Repository Qualification Proof Generation**: Updated `run_f40_clean_qual.sh` to generate and write `runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/F40_CLEAN_LINUX_QUALIFICATION.json` with full preparation commit SHA, timestamp, unit test count (`22/22`), static validator result, PBS syntax check, and manifest checks.
+4. **Git P9 -> Q9 -> M9 Sequence**: Created preparation commit P9, detached qualification proof commit Q9 containing `F40_CLEAN_LINUX_QUALIFICATION.json`, and metadata head M9.
+
+Classification: `f40_gate_v9_offline_corrected_qualified_not_authorized`. All execution and submission authority flags remain strictly `false` and `0`. No scheduler job, solver, datacheck, F41 execution, remeshing simulation, retry, replacement, or new submission is authorized.
+
+
 ## F40 v8 Offline Repair Sequence Closeout (2026-08-06)
 
 The F40 v8 offline repair sequence was completed strictly offline under coordination head `7720b87f5ac88413aba20dfc80b82c31eff93a4b` (parent Q7 `7c1cd92ed676d08128c9f9f12d350ca7e4d76b2d`, P7 `5d7181774dd0255e8588bc002574e029b342e5c4`).

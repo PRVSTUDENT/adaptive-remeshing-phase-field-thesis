@@ -279,6 +279,56 @@ class TestStageF40Batch(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             mod.phase_usable_geometry_validation(ctx)
 
+    def test_crack_mesh_topology_classification(self):
+        matrix_path = os.path.join(self.pkg_dir, "runtime", "f38_cae_diagnostic_matrix.py")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("f38_cae_diagnostic_matrix", matrix_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        class DummyNode:
+            def __init__(self, label, x, y):
+                self.label = label
+                self.coordinates = (x, y, 0.0)
+
+        class DummyElem:
+            def __init__(self, n1, n2):
+                self.connectivity = (n1, n2)
+
+        # Case A: 15 double-label pairs + 1 tip node -> duplicated_crack_face_nodes
+        nodes_dups = [DummyNode(2, 0.0, 0.0)]
+        lbl = 3
+        for i in range(15):
+            x = -0.5 + i * (0.5 / 15.0)
+            nodes_dups.append(DummyNode(lbl, x, 0.0))
+            nodes_dups.append(DummyNode(lbl + 1, x, 0.0))
+            lbl += 2
+
+        class DummyPartDups:
+            def __init__(self):
+                self.nodes = nodes_dups
+                self.elements = [DummyElem(3, 5), DummyElem(4, 6)]
+
+        ctx_dups = {'crack_geom_part': DummyPartDups()}
+        res_dups = mod.phase_crack_mesh_topology(ctx_dups)
+        self.assertEqual(res_dups['crack_mesh_classification'], 'duplicated_crack_face_nodes')
+        self.assertEqual(res_dups['coincident_node_pairs_count'], 15)
+
+        # Case B: 15 single-label nodes -> continuous_centerline_mesh
+        nodes_single = []
+        for i in range(16):
+            x = -0.5 + i * (0.5 / 15.0)
+            nodes_single.append(DummyNode(i + 1, x, 0.0))
+
+        class DummyPartSingle:
+            def __init__(self):
+                self.nodes = nodes_single
+                self.elements = [DummyElem(1, 2)]
+
+        ctx_single = {'crack_geom_part': DummyPartSingle()}
+        res_single = mod.phase_crack_mesh_topology(ctx_single)
+        self.assertEqual(res_single['crack_mesh_classification'], 'continuous_centerline_mesh')
+
     def test_static_gate_validator_passes(self):
         res = subprocess.run([sys.executable, self.validator_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         self.assertEqual(res.returncode, 0, "Static validator failed: " + res.stdout + res.stderr)

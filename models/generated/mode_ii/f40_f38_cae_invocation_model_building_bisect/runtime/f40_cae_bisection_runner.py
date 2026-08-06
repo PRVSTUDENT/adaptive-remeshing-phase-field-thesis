@@ -7,7 +7,7 @@ import datetime
 import hashlib
 
 EXPECTED_ENTRYPOINT_SHA256 = "5d6b4b0f2f016ce1ac4e62cfd1044427c971fdb0db476e85919d72cbcabe096d"
-EXPECTED_HELPER_SHA256 = "de56d8326c22a54ea3e42d14604390822b9388f7bfb5164b59f78cae9b7eff03"
+EXPECTED_HELPER_SHA256 = "6cf3caa8838afa5c4bb705dfc9c56d5d2cdb403be0a8ca58a09f8c6c48dddf44"
 
 def load_expected_sha256(runtime_dir):
     manifest_paths = [
