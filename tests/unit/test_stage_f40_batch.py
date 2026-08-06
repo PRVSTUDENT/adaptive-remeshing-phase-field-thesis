@@ -252,6 +252,26 @@ class TestStageF40Batch(unittest.TestCase):
         )
         self.assertEqual(len(mod40.EXPECTED_F38_PHASES), 21, "EXPECTED_F38_PHASES must contain exactly 21 phases")
 
+    def test_pbs_script_rejects_direct_execution_without_wrapper_guard(self):
+        import subprocess
+        pbs_path = os.path.join(self.pkg_dir, "M2RMBISECT1.pbs")
+        env = os.environ.copy()
+        env.pop("F40_GUARDED_WRAPPER_INVOKED", None)
+        proc = subprocess.run(["bash", pbs_path], capture_output=True, text=True, env=env)
+        self.assertNotEqual(proc.returncode, 0, "Direct execution of M2RMBISECT1.pbs must fail")
+        self.assertIn("FATAL: Direct execution of M2RMBISECT1.pbs is prohibited", proc.stderr)
+
+    def test_pbs_script_rejects_missing_pbs_provenance(self):
+        import subprocess
+        pbs_path = os.path.join(self.pkg_dir, "M2RMBISECT1.pbs")
+        env = os.environ.copy()
+        env["F40_GUARDED_WRAPPER_INVOKED"] = "1"
+        env.pop("PBS_JOBID", None)
+        env.pop("PBS_NODEFILE", None)
+        proc = subprocess.run(["bash", pbs_path], capture_output=True, text=True, env=env)
+        self.assertNotEqual(proc.returncode, 0, "Execution without genuine PBS batch provenance must fail")
+        self.assertIn("FATAL: Genuine PBS batch provenance required", proc.stderr)
+
     def test_p02_fails_on_helper_content_modification(self):
         runner_path = os.path.join(self.pkg_dir, "runtime", "f40_cae_bisection_runner.py")
         import importlib.util

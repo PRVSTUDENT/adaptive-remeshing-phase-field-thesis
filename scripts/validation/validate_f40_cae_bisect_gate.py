@@ -37,7 +37,7 @@ def main():
             except Exception:
                 pass
 
-    # Check 3: M2RMBISECT1.pbs trap unbinds and preserves first_failure
+    # Check 3: M2RMBISECT1.pbs trap unbinds, preserves first_failure, and enforces v11 environment guards
     pbs_path = os.path.join(pkg_dir, "M2RMBISECT1.pbs")
     if os.path.exists(pbs_path):
         with open(pbs_path, "r") as f:
@@ -48,6 +48,14 @@ def main():
                 failures.append("M2RMBISECT1.pbs missing entry_imfdfkmq or select resource directive")
             if "runtime_validator_rc" not in pbs_txt or "first_failure=" not in pbs_txt:
                 failures.append("M2RMBISECT1.pbs does not compute first_failure from runtime_validator_rc")
+            if "F40_GUARDED_WRAPPER_INVOKED" not in pbs_txt:
+                failures.append("M2RMBISECT1.pbs missing F40_GUARDED_WRAPPER_INVOKED direct execution rejection guard")
+            if "PBS_NODEFILE" not in pbs_txt:
+                failures.append("M2RMBISECT1.pbs missing PBS_NODEFILE batch provenance guard")
+            if "SCHEDULER_PROVENANCE.json" not in pbs_txt:
+                failures.append("M2RMBISECT1.pbs missing SCHEDULER_PROVENANCE.json recording")
+            if "module load abaqus/2023 ||" not in pbs_txt:
+                failures.append("M2RMBISECT1.pbs missing fatal module load abaqus/2023 guard")
     else:
         failures.append("M2RMBISECT1.pbs missing")
 

@@ -59,7 +59,7 @@ echo "INFO: Submitting M2RMBISECT1..."
 EVIDENCE_DIR="$(pwd)/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence"
 PACKAGE_DIR="$(pwd)/$PKG_DIR"
 
-JOB_ID=$(qsub -v F40_PACKAGE_DIR="$PACKAGE_DIR",F40_EVIDENCE_DIR="$EVIDENCE_DIR" "$PACKAGE_DIR/M2RMBISECT1.pbs")
+JOB_ID=$(qsub -v F40_PACKAGE_DIR="$PACKAGE_DIR",F40_EVIDENCE_DIR="$EVIDENCE_DIR",F40_GUARDED_WRAPPER_INVOKED=1 "$PACKAGE_DIR/M2RMBISECT1.pbs")
 
 echo "SUCCESS: Submitted M2RMBISECT1 with Job ID: $JOB_ID"
 mkdir -p "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect"

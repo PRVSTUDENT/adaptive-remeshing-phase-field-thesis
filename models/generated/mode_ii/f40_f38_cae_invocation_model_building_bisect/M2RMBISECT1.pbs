@@ -7,15 +7,27 @@
 
 set -Eeuo pipefail
 
+# Check direct execution rejection guard
+if [ "${F40_GUARDED_WRAPPER_INVOKED:-0}" -ne 1 ]; then
+    echo "FATAL: Direct execution of M2RMBISECT1.pbs is prohibited. Must be submitted via submit_stage_f40_cae_bisect.sh wrapper." >&2
+    exit 1
+fi
+
+# Check PBS batch provenance guard
+if [ -z "${PBS_JOBID:-}" ] || [ -z "${PBS_NODEFILE:-}" ] || [ ! -f "${PBS_NODEFILE}" ] || [ ! -s "${PBS_NODEFILE}" ]; then
+    echo "FATAL: Genuine PBS batch provenance required (missing or invalid PBS_JOBID or PBS_NODEFILE)." >&2
+    exit 1
+fi
+
 F40_PACKAGE_DIR="${F40_PACKAGE_DIR:?F40_PACKAGE_DIR must be exported by launcher}"
 F40_EVIDENCE_DIR="${F40_EVIDENCE_DIR:-${PBS_O_WORKDIR:-$(pwd)}/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence}"
 
-WORK_DIR="${PBS_O_WORKDIR:-$(pwd)}/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_${PBS_JOBID:-local}"
+WORK_DIR="${PBS_O_WORKDIR:-$(pwd)}/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_${PBS_JOBID}"
 mkdir -p "$WORK_DIR" "$F40_EVIDENCE_DIR"
 cd "$WORK_DIR"
 
 mkdir -p "$WORK_DIR/runtime"
-cp "$F40_PACKAGE_DIR/runtime/"* "$WORK_DIR/runtime/"
+find "$F40_PACKAGE_DIR/runtime/" -maxdepth 1 -type f -exec cp {} "$WORK_DIR/runtime/" \;
 
 delta_auditor_rc=1
 bisection_runner_rc=1
@@ -127,7 +139,20 @@ sha256sum -c F40_SHA256SUMS
 cd "$WORK_DIR"
 
 module purge || true
-module load abaqus/2023 || true
+module load abaqus/2023 || { echo "FATAL: abaqus/2023 module load failed" >&2; exit 1; }
+command -v abaqus >/dev/null 2>&1 || { echo "FATAL: abaqus executable not found on PATH" >&2; exit 1; }
+
+cat <<EOF > "$WORK_DIR/SCHEDULER_PROVENANCE.json"
+{
+  "protocol_version": 1,
+  "pbs_jobid": "${PBS_JOBID}",
+  "hostname": "$(hostname -f 2>/dev/null || hostname)",
+  "nodefile": "${PBS_NODEFILE}",
+  "abaqus_executable": "$(command -v abaqus)",
+  "abaqus_release": "$(abaqus information=release 2>/dev/null | head -n 1 || echo 'unknown')",
+  "timestamp_utc": "$(date -u +'%Y-%m-%dT%H:%M:%S.%3NZ')"
+}
+EOF
 
 echo "=== Stage 1: Contract Delta Auditor ==="
 python3 "$F40_PACKAGE_DIR/runtime/f40_invocation_contract_delta.py"
