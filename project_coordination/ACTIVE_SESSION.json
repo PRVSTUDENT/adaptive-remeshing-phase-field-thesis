@@ -1,12 +1,16 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "completed_at": "2026-08-06T14:23:00+02:00",
-  "heartbeat": "2026-08-06T14:23:00+02:00",
-  "started_at": null,
-  "session_id": null,
-  "starting_commit": null,
-  "task_id": null,
-  "note": "F40 v10 offline gate correction sequence completed and clean-Linux qualified under P10 08a3a686d8fee21587262c948aa3a59e93e89840 and Q10 38043ae70d47bef692a7c56095d43425a660110f. All execution and submission authority flags remain strictly false/zero."
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_scope": [
+    "project_coordination/**",
+    "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/**",
+    "docs/project/**"
+  ],
+  "completed_at": null,
+  "heartbeat": "2026-08-06T14:31:00+02:00",
+  "started_at": "2026-08-06T14:31:00+02:00",
+  "session_id": "2026-08-06_1431_gemini-antigravity_F40-V10-AUTHORIZED-SUBMISSION",
+  "starting_commit": "f04a327508b3326fc60de9fd3e463ccf299fb0f8",
+  "task_id": "F40-M2RMBISECT1-V10-AUTHORIZED-SUBMISSION",
+  "note": "F40 v10 authorized submission: record explicit user authorization, commit authorization update, fast-forward cluster repo, perform preflight checks, submit guarded M2RMBISECT1 job, collect evidence, update ledgers, and close out session."
 }
