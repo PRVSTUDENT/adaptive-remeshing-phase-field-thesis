@@ -1,16 +1,12 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_scope": [
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json",
-    "project_coordination/sessions/2026-08-06_1545_gemini-antigravity_F40-V14-AUTHORIZED-SUBMISSION-CONFIRMATION.md"
-  ],
-  "completed_at": null,
-  "heartbeat": "2026-08-06T15:51:00+02:00",
-  "started_at": "2026-08-06T15:51:00+02:00",
-  "session_id": "gemini-f40-v14-authorization-record",
-  "starting_commit": "c690ea2a4da49a5aedf0e5a276a290cf97fef448",
-  "task_id": "F40-M2RMBISECT1-V14-AUTHORIZED-SUBMISSION",
-  "note": "Claiming session to record newly supplied human authorization in ACTIVE_TASK.json and update session report."
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
+  "completed_at": "2026-08-06T15:51:45+02:00",
+  "heartbeat": "2026-08-06T15:51:45+02:00",
+  "started_at": null,
+  "session_id": null,
+  "starting_commit": null,
+  "task_id": null,
+  "note": "Session released. Recorded user authorization under authorization commit a18a2eaadc3e8bbc1f752f32f38c761eb7280a6e for M2RMBISECT1 execution."
 }
