@@ -1,14 +1,14 @@
 {
   "protocol_version": 1,
-  "task_id": "F37-CLOSE-M2RMBUILD10-AND-PREPARE-M2RMBUILD11",
-  "status": "submitted_queued",
-  "classification": "f37_m2rmbuild11_clean_linux_qualified_not_authorized",
-  "starting_commit": "f2e6e3b9c144f63265af867a2b96d57886c0e58a",
+  "task_id": "F38-CLOSE-M2RMBUILD11-AND-BUILD-COMPREHENSIVE-CAE-DIAGNOSTIC",
+  "status": "terminal_failure_collected_f38_preparation_pending",
+  "classification": "f37_m2rmbuild11_cae_startup_contract_failed",
+  "starting_commit": "6dde6662fa0143c7dbad4c6e8b52f63c33f88d04",
   "invalidated_predecessor": "f36_m2rmbuild10_embedded_python_compatibility_failed",
-  "prepared_job": "M2RMBUILD11",
+  "prepared_job": null,
   "scheduler_job_id": "1384181.mmaster02",
   "failed_predecessor_job_id": "1384141.mmaster02",
-  "package_path": "models/generated/mode_ii/f37_cae_python_compatibility_repair",
+  "package_path": null,
   "execution_authorized": false,
   "submission_approved": false,
   "maximum_jobs_now": 0,
@@ -16,5 +16,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "await terminal status and collect lightweight evidence without retry"
+  "next_action": "prepare offline-only F38 comprehensive CAE phase diagnostic package; no submission without fresh explicit authorization"
 }

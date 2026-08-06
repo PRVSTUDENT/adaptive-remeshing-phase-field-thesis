@@ -1,5 +1,9 @@
 # Current project state
 
+## F38 close M2RMBUILD11 and prepare comprehensive CAE diagnostic (2026-08-06)
+
+M2RMBUILD11 job `1384181.mmaster02` is terminal failed with PBS exit 1 after `04:29:38` eligible time and `00:00:06` runtime on `mnode105`. Compatibility and the embedded Abaqus Python resolver probe returned 0, but Abaqus/CAE executed the builder with `execfile(..., __main__.__dict__)`; therefore `__file__` was undefined at line 16 before model import. Classification is `cae_geometry_build_contract_failed`; no input deck or scientific result was produced. Remote evidence hashes are frozen in `runs/hpc/stage_f/f37_m2rmbuild11_static_gate/M2RMBUILD11_TERMINAL_CLOSEOUT.json`. All F37 authority remains consumed. The next eligible work is offline preparation of a distinct comprehensive phase-diagnostic package; submission, retry, and replacement remain unauthorized.
+
 ## F37 M2RMBUILD11 guarded submission (2026-08-05)
 
 Exactly one authorized guarded qsub call submitted frozen F37 as `1384181.mmaster02`. Initial state is Q in `normal_imfdfkmq` with 1 CPU, 8 GB, and 00:30:00. Authority is consumed: zero current/future submissions, automatic retry false, replacement false, and no downstream execution. Next action is terminal monitoring and lightweight evidence collection only.
