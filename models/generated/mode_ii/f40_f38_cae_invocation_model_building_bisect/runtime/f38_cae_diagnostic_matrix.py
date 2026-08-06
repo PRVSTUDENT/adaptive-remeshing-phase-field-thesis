@@ -212,36 +212,36 @@ def phase_geometry_conversion_observation(ctx):
     part_keys = list(model.parts.keys())
     source_part = model.parts[part_keys[0]]
 
+    # Source-part topology metrics before conversion
+    source_metrics = {
+        'object_type': str(type(source_part)),
+        'node_count': len(source_part.nodes) if hasattr(source_part, 'nodes') else 0,
+        'element_count': len(source_part.elements) if hasattr(source_part, 'elements') else 0,
+        'geometry_face_count': len(source_part.faces) if hasattr(source_part, 'faces') else 0,
+        'geometry_edge_count': len(source_part.edges) if hasattr(source_part, 'edges') else 0,
+        'geometry_vertex_count': len(source_part.vertices) if hasattr(source_part, 'vertices') else 0,
+        'is_meshed': getattr(source_part, 'isMeshed', None),
+        'space': str(getattr(source_part, 'space', None)),
+        'part_type': str(getattr(source_part, 'type', None)),
+    }
+
     geom_part = None
     model_api_passed = False
-    part_api_passed = False
     model_api_error = None
-    part_api_error = None
 
-    # Model-level conversion API probe (Primary)
+    # Model-level conversion API call only (Part2DGeomFrom2DMesh is a model-level method)
     try:
         if hasattr(model, 'Part2DGeomFrom2DMesh'):
-            geom_part = model.Part2DGeomFrom2DMesh(name='GeomPartModelApi', part=source_part, featureAngle=45.0)
+            model.Part2DGeomFrom2DMesh(name='GeomPartModelApi', part=source_part, featureAngle=45.0)
+            geom_part = model.parts['GeomPartModelApi']
             model_api_passed = True
         else:
             model_api_error = "model has no Part2DGeomFrom2DMesh attribute"
     except Exception as e:
         model_api_error = str(e)
 
-    # Part-level conversion API probe (Alternative)
-    try:
-        if hasattr(source_part, 'Part2DGeomFrom2DMesh'):
-            p_geom = source_part.Part2DGeomFrom2DMesh(name='GeomPartPartApi', featureAngle=45.0)
-            part_api_passed = True
-            if geom_part is None:
-                geom_part = p_geom
-        else:
-            part_api_error = "source_part has no Part2DGeomFrom2DMesh attribute"
-    except Exception as e:
-        part_api_error = str(e)
-
     if geom_part is None:
-        raise RuntimeError("Both model-level and part-level Part2DGeomFrom2DMesh probes failed. Model error: {0}; Part error: {1}".format(model_api_error, part_api_error))
+        raise RuntimeError("Model-level Part2DGeomFrom2DMesh probe failed: {0}".format(model_api_error))
 
     ctx['geom_part'] = geom_part
 
@@ -260,12 +260,55 @@ def phase_geometry_conversion_observation(ctx):
         'has_pointOn': hasattr(geom_part, 'pointOn')
     }
 
+    # Controlled conversion probe A (uncracked manifold control) vs B (cracked topology)
+    control_results = {}
+    try:
+        # Control B: Cracked topology with 15 coincident node pairs
+        p_b = source_part
+        model.Part2DGeomFrom2DMesh(name='GeomControlB_45deg', part=p_b, featureAngle=45.0)
+        geom_b = model.parts['GeomControlB_45deg']
+        faces_b = len(geom_b.faces) if hasattr(geom_b, 'faces') else 0
+        control_results['control_b_cracked_faces'] = faces_b
+        control_results['control_b_cracked_passed'] = (faces_b > 0)
+
+        # Control A: Manifold uncracked topology
+        model_a = import_fresh_model(mdb, source_deck, 'F40_CONTROL_A_UNCRACKED')
+        p_a = model_a.parts[list(model_a.parts.keys())[0]]
+        # Merge coincident crack nodes (y=0, x in [0.0, 0.5]) if mergeNodes available
+        if hasattr(p_a, 'mergeNodes'):
+            try:
+                crack_nodes = [n for n in p_a.nodes if abs(n.coordinates[1]) < 1e-5 and n.coordinates[0] <= 0.5 + 1e-5]
+                if crack_nodes:
+                    p_a.mergeNodes(nodes=crack_nodes, tolerance=1e-4)
+            except Exception as me:
+                control_results['control_a_merge_note'] = str(me)
+
+        model_a.Part2DGeomFrom2DMesh(name='GeomControlA_45deg', part=p_a, featureAngle=45.0)
+        geom_a = model_a.parts['GeomControlA_45deg']
+        faces_a = len(geom_a.faces) if hasattr(geom_a, 'faces') else 0
+        control_results['control_a_uncracked_faces'] = faces_a
+        control_results['control_a_uncracked_passed'] = (faces_a > 0)
+
+        # Feature angle sensitivity sweep on Control B
+        angle_sweep = {}
+        for fa in [15.0, 30.0, 45.0, 60.0, 90.0]:
+            p_name = 'GeomControlB_Angle_{0}'.format(int(fa))
+            model.Part2DGeomFrom2DMesh(name=p_name, part=p_b, featureAngle=fa)
+            angle_sweep['cracked_{0}deg_faces'.format(int(fa))] = len(model.parts[p_name].faces)
+        control_results['feature_angle_sweep_cracked'] = angle_sweep
+        control_results['coincident_crack_nodes_confirmed_root_cause'] = (faces_a > 0 and faces_b == 0)
+    except Exception as ce:
+        control_results['control_probe_error'] = str(ce)
+
     # API Observation Record
     api_observation = {
+        'source_metrics': source_metrics,
         'model_api_passed': model_api_passed,
         'model_api_error': model_api_error,
-        'part_api_passed': part_api_passed,
-        'part_api_error': part_api_error,
+        'part_api_passed': False,
+        'part_api_error': "Part-level fallback probe cleanly removed per F40 v15 specification",
+        'created_repository_key': 'GeomPartModelApi',
+        'returned_object_type': str(type(geom_part)),
         'geom_part_name': str(geom_part.name),
         'face_count': face_count,
         'vertex_count': vertex_count,
@@ -273,7 +316,8 @@ def phase_geometry_conversion_observation(ctx):
         'feature_keys': feature_keys,
         'is_meshed': is_meshed,
         'is_wire_only': is_wire_only,
-        'capabilities': capabilities
+        'capabilities': capabilities,
+        'controlled_conversion_probes': control_results
     }
     ctx['geometry_conversion_api_observation'] = api_observation
     return api_observation
@@ -340,10 +384,11 @@ def phase_mesh_generation(ctx):
         import mesh as mesh_module
     model = import_fresh_model(mdb, source_deck, 'F38_MESH_PROBE')
     source_part = model.parts[list(model.parts.keys())[0]]
-    if hasattr(model, 'Part2DGeomFrom2DMesh'):
-        geom_part = model.Part2DGeomFrom2DMesh(name='GeomPartMesh', part=source_part, featureAngle=45.0)
-    else:
-        geom_part = source_part.Part2DGeomFrom2DMesh(name='GeomPartMesh', featureAngle=45.0)
+    model.Part2DGeomFrom2DMesh(name='GeomPartMesh', part=source_part, featureAngle=45.0)
+    geom_part = model.parts['GeomPartMesh']
+
+    if len(geom_part.faces) == 0:
+        raise RuntimeError("mesh_generation blocked: Part2DGeomFrom2DMesh returned a repository part with zero geometric faces")
     geom_part.setElementType(regions=(geom_part.faces,), elemTypes=(mesh_module.ElemType(elemCode=ac.CPE4, elemLibrary=ac.STANDARD),))
     geom_part.setMeshControls(regions=geom_part.faces, technique=ac.STRUCTURED)
     geom_part.seedPart(size=0.01)
