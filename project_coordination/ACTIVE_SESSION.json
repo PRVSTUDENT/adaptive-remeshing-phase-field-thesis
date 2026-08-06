@@ -1,20 +1,12 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_scope": [
-    "models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect/**",
-    "scripts/hpc/stage_f/**",
-    "scripts/validation/**",
-    "tests/unit/**",
-    "project_coordination/**",
-    "docs/project/**",
-    "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/**"
-  ],
-  "completed_at": null,
-  "heartbeat": "2026-08-06T15:23:00+02:00",
-  "started_at": "2026-08-06T15:23:00+02:00",
-  "session_id": "2026-08-06_1523_gemini-antigravity_F40-V14-AUTHORIZED-SUBMISSION",
-  "starting_commit": "58eec741a7313f5c9c1fbce8a8509ec2e6d1229f",
-  "task_id": "F40-M2RMBISECT1-V14-AUTHORIZED-SUBMISSION",
-  "note": "Recording explicit user authorization for one guarded submission of M2RMBISECT1 from P14 dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5, Q14 1cdd3cfae1b30b930ca123f41072fbede2dc457c, M14 58eec741a7313f5c9c1fbce8a8509ec2e6d1229f."
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
+  "completed_at": "2026-08-06T15:24:35+02:00",
+  "heartbeat": "2026-08-06T15:24:35+02:00",
+  "started_at": null,
+  "session_id": null,
+  "starting_commit": null,
+  "task_id": null,
+  "note": "Recorded user authorization for one guarded submission of M2RMBISECT1 from P14 dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5, Q14 1cdd3cfae1b30b930ca123f41072fbede2dc457c, M14 58eec741a7313f5c9c1fbce8a8509ec2e6d1229f under authorization commit 3fdf242c812235512770ed8295da9b6a94f3a5a9. Verified preflight checks in local workstation environment, which correctly halted due to lack of cluster qsub/qstat on local PATH. Awaiting cluster login node execution."
 }
