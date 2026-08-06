@@ -1,73 +1,134 @@
-#!/bin/bash
-# Terminal state monitoring and mandatory notification dispatch for Stage F40 M2RMBISECT1.
-set -Eeuo pipefail
+#!/usr/bin/env python3
+"""
+Terminal state monitoring and mandatory notification dispatch for Stage F40 M2RMBISECT1.
+"""
+import sys
+import os
+import json
+import time
+import subprocess
+from datetime import datetime, timezone
 
-JOB_ID="${1:-}"
-if [ -z "$JOB_ID" ]; then
-  LAST_JOB_FILE="runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/LAST_JOB_ID.txt"
-  if [ -f "$LAST_JOB_FILE" ]; then
-    JOB_ID=$(cat "$LAST_JOB_FILE" | tr -d '\r\n')
-  fi
-fi
+def parse_qstat_f(output_text):
+    data = {}
+    current_key = None
+    for line in output_text.splitlines():
+        sline = line.strip()
+        if not sline:
+            continue
+        if "=" in sline:
+            parts = sline.split("=", 1)
+            k = parts[0].strip()
+            v = parts[1].strip()
+            data[k] = v
+            current_key = k
+        elif current_key:
+            data[current_key] += sline
+    return data
 
-if [ -z "$JOB_ID" ]; then
-  echo "ERROR: Job ID must be supplied or present in LAST_JOB_ID.txt" >&2
-  exit 1
-fi
+def main():
+    job_id = sys.argv[1] if len(sys.argv) > 1 else ""
+    if not job_id:
+        last_job_file = "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/LAST_JOB_ID.txt"
+        if os.path.exists(last_job_file):
+            with open(last_job_file, "r") as f:
+                job_id = f.read().strip()
 
-EVIDENCE_DIR="runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/$JOB_ID"
-mkdir -p "$EVIDENCE_DIR"
+    if not job_id:
+        print("ERROR: Job ID must be supplied or present in LAST_JOB_ID.txt", file=sys.stderr)
+        sys.exit(1)
 
-NOTIFICATION_DISPATCHER="scripts/hpc/notify_hpc_event.py"
+    evidence_dir = "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/{}".format(job_id)
+    os.makedirs(evidence_dir, exist_ok=True)
+    notification_dispatcher = "scripts/hpc/notify_hpc_event.py"
 
-echo "INFO: Monitoring terminal state for Job ID: $JOB_ID..."
+    print("INFO: Monitoring terminal state for Job ID: {}...".format(job_id))
+    started_utc = datetime.now(timezone.utc).isoformat()
 
-# Poll qstat until job disappears or enters terminal state
-while true; do
-  QSTAT_OUT=$(qstat -x "$JOB_ID" 2>/dev/null || qstat "$JOB_ID" 2>/dev/null || true)
-  if [ -z "$QSTAT_OUT" ]; then
-    break
-  fi
-  # Check if job status shows C or F (completed/finished)
-  STATE=$(echo "$QSTAT_OUT" | awk -v jid="$JOB_ID" '$1 ~ jid {print $5}' 2>/dev/null || echo "")
-  if [ "$STATE" = "C" ] || [ "$STATE" = "F" ] || [ "$STATE" = "E" ]; then
-    break
-  fi
-  sleep 5
-done
+    max_polls = 360  # 30 mins bounded timeout (360 * 5s)
+    poll_interval = 5
+    last_rc = -1
+    last_state = "UNKNOWN"
+    terminal_confirmed = False
+    parsed_info = {}
 
-echo "INFO: Job $JOB_ID reached terminal state."
+    for poll_idx in range(max_polls):
+        proc = subprocess.run(["qstat", "-x", "-f", job_id], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        if proc.returncode != 0:
+            # Fallback to qstat -f
+            proc = subprocess.run(["qstat", "-f", job_id], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
-# Extract terminal evidence attributes if STATUS.json exists
-EXIT_STATUS="0"
-HOST="unknown"
-WALLTIME="unknown"
-CLASSIFICATION="completed"
+        last_rc = proc.returncode
+        if proc.returncode != 0:
+            print("WARNING: qstat query returned exit code {} at poll {}/{} ({})".format(proc.returncode, poll_idx+1, max_polls, proc.stderr.strip()), file=sys.stderr)
+            time.sleep(poll_interval)
+            continue
 
-STATUS_JSON="$EVIDENCE_DIR/STATUS.json"
-if [ -f "$STATUS_JSON" ]; then
-  EXIT_STATUS=$(python3 -c "import json; print(json.load(open('$STATUS_JSON')).get('exit_status', '0'))" 2>/dev/null || echo "0")
-  CLASSIFICATION=$(python3 -c "import json; print(json.load(open('$STATUS_JSON')).get('overall_classification', 'completed'))" 2>/dev/null || echo "completed")
-fi
+        parsed_info = parse_qstat_f(proc.stdout)
+        last_state = parsed_info.get("job_state", "UNKNOWN")
 
-PROV_JSON="$EVIDENCE_DIR/SCHEDULER_PROVENANCE.json"
-if [ -f "$PROV_JSON" ]; then
-  HOST=$(python3 -c "import json; print(json.load(open('$PROV_JSON')).get('hostname', 'unknown'))" 2>/dev/null || echo "unknown")
-fi
+        if last_state in ["F", "C", "E"] or "Exit_status" in parsed_info:
+            terminal_confirmed = True
+            print("INFO: Job {} reached confirmed terminal state '{}'".format(job_id, last_state))
+            break
 
-if [ -f "$NOTIFICATION_DISPATCHER" ]; then
-  echo "INFO: Dispatching terminal state notifications..."
-  python3 "$NOTIFICATION_DISPATCHER" \
-    --mode terminal \
-    --job-name "M2RMBISECT1" \
-    --job-id "$JOB_ID" \
-    --exit-status "$EXIT_STATUS" \
-    --host "$HOST" \
-    --walltime "$WALLTIME" \
-    --classification "$CLASSIFICATION" \
-    --evidence-path "$EVIDENCE_DIR" \
-    --audit-file "$EVIDENCE_DIR/POST_TERMINAL_NOTIFICATION_AUDIT.json" \
-    --returncode-dir "$EVIDENCE_DIR" || true
-fi
+        time.sleep(poll_interval)
 
-echo "SUCCESS: Terminal monitoring and notification closeout complete for $JOB_ID."
+    finished_utc = datetime.now(timezone.utc).isoformat()
+
+    exit_status = parsed_info.get("Exit_status")
+    exec_host = parsed_info.get("exec_host", "unknown")
+    walltime = parsed_info.get("resources_used.walltime", "unknown")
+
+    status_json = os.path.join(evidence_dir, "STATUS.json")
+    if exit_status is None and os.path.exists(status_json):
+        try:
+            with open(status_json, "r") as f:
+                s_data = json.load(f)
+                if "exit_status" in s_data and s_data["exit_status"] is not None:
+                    exit_status = str(s_data["exit_status"])
+        except Exception:
+            pass
+
+    if exit_status is None:
+        exit_status = "unknown"
+
+    classification = "completed" if exit_status == "0" else ("failed" if exit_status != "unknown" else "unknown")
+
+    monitor_status = {
+        "job_id": job_id,
+        "scheduler_query_returncode": last_rc,
+        "last_observed_state": last_state,
+        "terminal_state_confirmed": terminal_confirmed,
+        "exit_status": exit_status,
+        "exec_host": exec_host,
+        "walltime": walltime,
+        "monitoring_started_utc": started_utc,
+        "monitoring_finished_utc": finished_utc
+    }
+
+    with open(os.path.join(evidence_dir, "TERMINAL_MONITOR_STATUS.json"), "w") as f:
+        json.dump(monitor_status, f, indent=2)
+
+    if terminal_confirmed:
+        if os.path.exists(notification_dispatcher):
+            print("INFO: Dispatching terminal state notifications...")
+            subprocess.run([
+                sys.executable, notification_dispatcher,
+                "--mode", "terminal",
+                "--job-name", "M2RMBISECT1",
+                "--job-id", job_id,
+                "--exit-status", str(exit_status),
+                "--host", exec_host,
+                "--walltime", walltime,
+                "--classification", classification,
+                "--evidence-path", evidence_dir,
+                "--audit-file", os.path.join(evidence_dir, "POST_TERMINAL_NOTIFICATION_AUDIT.json"),
+                "--returncode-dir", evidence_dir
+            ])
+        print("SUCCESS: Terminal monitoring and notification closeout complete for {}.".format(job_id))
+    else:
+        print("ERROR: Terminal monitoring timed out or failed to confirm terminal state for {}.".format(job_id), file=sys.stderr)
+
+if __name__ == "__main__":
+    main()

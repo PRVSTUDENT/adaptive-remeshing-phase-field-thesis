@@ -90,25 +90,40 @@ def send_email_message(recipient_email, subject, body_text):
             break
 
     if not mail_bin:
-        return 0, "Email command simulated locally (no mailx binary on host)"
+        return 1, "No supported email command available (mailx/mail/sendmail missing)"
 
     try:
-        proc = subprocess.run(
-            [mail_bin, "-s", subject, recipient_email],
-            input=body_text,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            universal_newlines=True,
-            timeout=15
-        )
+        bin_name = os.path.basename(mail_bin)
+        if bin_name == "sendmail":
+            raw_msg = "To: {}\nSubject: {}\nContent-Type: text/plain; charset=utf-8\n\n{}".format(
+                recipient_email, subject, body_text
+            )
+            proc = subprocess.run(
+                [mail_bin, "-t"],
+                input=raw_msg,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+                timeout=15
+            )
+        else:  # mail or mailx
+            proc = subprocess.run(
+                [mail_bin, "-s", subject, recipient_email],
+                input=body_text,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+                timeout=15
+            )
+
         if proc.returncode == 0:
-            return 0, "Email sent successfully via {}".format(os.path.basename(mail_bin))
+            return 0, "Email sent successfully via {}".format(bin_name)
         else:
             return proc.returncode, "Email command failed: {}".format(proc.stderr.strip())
     except Exception as exc:
         return 1, "Email dispatch exception: {}".format(exc)
 
-def record_audit(audit_file, event_type, channel, recipient_redacted, return_code, message):
+def _do_record_audit(audit_file, event_type, channel, recipient_redacted, return_code, message):
     records = []
     if os.path.exists(audit_file):
         try:
@@ -127,8 +142,21 @@ def record_audit(audit_file, event_type, channel, recipient_redacted, return_cod
     }
     records.append(rec)
 
-    with open(audit_file, "w") as f:
+    tmp_file = "{}.tmp.{}".format(audit_file, os.getpid())
+    with open(tmp_file, "w") as f:
         json.dump(records, f, indent=2)
+    os.replace(tmp_file, audit_file)
+
+def record_audit(audit_file, event_type, channel, recipient_redacted, return_code, message):
+    lock_file = audit_file + ".lock"
+    try:
+        import fcntl
+        with open(lock_file, "w") as lf:
+            fcntl.flock(lf.fileno(), fcntl.LOCK_EX)
+            _do_record_audit(audit_file, event_type, channel, recipient_redacted, return_code, message)
+            fcntl.flock(lf.fileno(), fcntl.LOCK_UN)
+    except Exception:
+        _do_record_audit(audit_file, event_type, channel, recipient_redacted, return_code, message)
 
 def main():
     parser = argparse.ArgumentParser(description="Mandatory HPC Notification Dispatcher")
@@ -152,8 +180,18 @@ def main():
     args = parser.parse_args()
 
     tg_token, tg_chat_id = load_telegram_credentials()
-    raw_email_arg = args.email_recipient or os.environ.get("F40_NOTIFICATION_EMAIL_RECIPIENTS") or os.environ.get("HPC_NOTIFICATION_EMAIL", "pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de")
+    raw_email_arg = args.email_recipient or os.environ.get("F40_NOTIFICATION_EMAIL_RECIPIENTS", "")
+    
+    if not raw_email_arg:
+        print("FATAL: Recipient email is missing. F40_NOTIFICATION_EMAIL_RECIPIENTS environment variable or --email-recipient argument is required.", file=sys.stderr)
+        sys.exit(1)
+
     email_recipients = [e.strip() for e in raw_email_arg.split(",") if e.strip()]
+    expected_set = {"pr21vyci@mailserver.tu-freiberg.de", "Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de"}
+    
+    if len(email_recipients) != 2 or set(email_recipients) != expected_set:
+        print("FATAL: Invalid recipient email set {}. Must equal exact expected set {{'pr21vyci@mailserver.tu-freiberg.de', 'Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de'}}.".format(email_recipients), file=sys.stderr)
+        sys.exit(1)
 
     results = {}
 

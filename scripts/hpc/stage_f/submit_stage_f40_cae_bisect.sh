@@ -29,7 +29,9 @@ fi
 # 4. Blob identity check freezing both package directory and submission wrapper
 PKG_DIR="models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect"
 WRAPPER_PATH="scripts/hpc/stage_f/submit_stage_f40_cae_bisect.sh"
-FREEZE_PATHS=("$PKG_DIR" "$WRAPPER_PATH")
+NOTIFY_PATH="scripts/hpc/notify_hpc_event.py"
+MONITOR_PATH="scripts/hpc/stage_f/monitor_stage_f40_terminal_state.sh"
+FREEZE_PATHS=("$PKG_DIR" "$WRAPPER_PATH" "$NOTIFY_PATH" "$MONITOR_PATH")
 
 PREP_BLOBS=$(git ls-tree -r "$PREP_SHA" -- "${FREEZE_PATHS[@]}" | awk '{print $3, $4}' | sort)
 HEAD_BLOBS=$(git ls-tree -r "$HEAD_SHA" -- "${FREEZE_PATHS[@]}" | awk '{print $3, $4}' | sort)
@@ -58,8 +60,12 @@ command -v qstat >/dev/null 2>&1 || { echo "ERROR: qstat command not found on PA
 
 # 7. Check scheduler queue state for existing M2RMBISECT1 job
 USER_NAME=$(id -un 2>/dev/null || echo "${USER:-}")
+QSTAT_U_DIR="$(pwd)/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence"
+mkdir -p "$QSTAT_U_DIR"
 QSTAT_OUTPUT=$(qstat -u "$USER_NAME" 2>/dev/null || true)
-if printf '%s\n' "$QSTAT_OUTPUT" | awk 'NR > 2 && $2 == "M2RMBISECT1" {found=1} END {exit !found}'; then
+printf '%s\n' "$QSTAT_OUTPUT" > "$QSTAT_U_DIR/QSTAT_U_PRECHECK.txt"
+
+if printf '%s\n' "$QSTAT_OUTPUT" | awk 'NR > 2 && ($4 == "M2RMBISECT1" || $0 ~ /\<M2RMBISECT1\>/) {found=1} END {exit !found}'; then
   echo "HALT: An M2RMBISECT1 job is already present in scheduler state." >&2
   exit 1
 fi
@@ -68,27 +74,34 @@ fi
 PBS_MAIL_REC="${F40_PBS_MAIL_RECIPIENT:-}"
 NOTIF_EMAIL_RECS="${F40_NOTIFICATION_EMAIL_RECIPIENTS:-}"
 
-if [ -z "$PBS_MAIL_REC" ]; then
-  echo "FATAL: Required environment variable F40_PBS_MAIL_RECIPIENT is empty or unset." >&2
+if [ "$PBS_MAIL_REC" != "pr21vyci@mailserver.tu-freiberg.de" ]; then
+  echo "FATAL: F40_PBS_MAIL_RECIPIENT must equal exact expected address 'pr21vyci@mailserver.tu-freiberg.de'." >&2
   exit 1
 fi
 
-if [ -z "$NOTIF_EMAIL_RECS" ]; then
-  echo "FATAL: Required environment variable F40_NOTIFICATION_EMAIL_RECIPIENTS is empty or unset." >&2
+IFS=',' read -ra ADDR_ARRAY <<< "$NOTIF_EMAIL_RECS"
+if [ "${#ADDR_ARRAY[@]}" -ne 2 ]; then
+  echo "FATAL: F40_NOTIFICATION_EMAIL_RECIPIENTS must contain exactly 2 comma-separated addresses." >&2
   exit 1
 fi
 
-if [[ "$PBS_MAIL_REC" =~ [[:space:]] ]] || [[ "$NOTIF_EMAIL_RECS" =~ [[:space:]] ]]; then
-  echo "FATAL: Recipient environment variables must not contain whitespace." >&2
+HAS_MAILSERVER=0
+HAS_STUDENT=0
+for addr in "${ADDR_ARRAY[@]}"; do
+  trimmed=$(echo "$addr" | tr -d '[:space:]')
+  if [ "$trimmed" = "pr21vyci@mailserver.tu-freiberg.de" ]; then
+    HAS_MAILSERVER=1
+  elif [ "$trimmed" = "Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de" ]; then
+    HAS_STUDENT=1
+  fi
+done
+
+if [ "$HAS_MAILSERVER" -ne 1 ] || [ "$HAS_STUDENT" -ne 1 ]; then
+  echo "FATAL: F40_NOTIFICATION_EMAIL_RECIPIENTS must equal exact expected set {pr21vyci@mailserver.tu-freiberg.de, Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de}." >&2
   exit 1
 fi
 
-if [[ "$NOTIF_EMAIL_RECS" != *"pr21vyci@mailserver.tu-freiberg.de"* ]] || [[ "$NOTIF_EMAIL_RECS" != *"Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de"* ]]; then
-  echo "FATAL: F40_NOTIFICATION_EMAIL_RECIPIENTS must contain both verified addresses." >&2
-  exit 1
-fi
-
-if [[ "$PBS_MAIL_REC" == *"pruthvi.patel@student.tu-freiberg.de"* ]] || [[ "$NOTIF_EMAIL_RECS" == *"pruthvi.patel@student.tu-freiberg.de"* ]]; then
+if [[ "$NOTIF_EMAIL_RECS" == *"pruthvi.patel@student.tu-freiberg.de"* ]]; then
   echo "FATAL: Obsolete email address pruthvi.patel@student.tu-freiberg.de detected." >&2
   exit 1
 fi
@@ -124,14 +137,10 @@ fi
 echo "SUCCESS: Submitted M2RMBISECT1 with Job ID: $JOB_ID"
 echo "$JOB_ID" > "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/LAST_JOB_ID.txt"
 
-if ! qstat "$JOB_ID" >/dev/null 2>&1; then
-  echo "ERROR: Immediate qstat verification failed for Job ID: $JOB_ID" >&2
-  exit 1
-fi
-
-# 10. Mandatory Post-Submission Notification Dispatch
 JOB_EVID_DIR="$EVIDENCE_ROOT/$JOB_ID"
 mkdir -p "$JOB_EVID_DIR"
+
+# 10. Mandatory Post-Submission Notification Dispatch (Attempted immediately after qsub returns Job ID)
 QUAL_SHA="${F40_QUALIFICATION_SHA:-$HEAD_SHA}"
 if [ -f "$NOTIFICATION_DISPATCHER" ]; then
   echo "INFO: Dispatching post-submission notifications..."
@@ -145,4 +154,34 @@ if [ -f "$NOTIFICATION_DISPATCHER" ]; then
     --qual-commit "$QUAL_SHA" \
     --audit-file "$JOB_EVID_DIR/NOTIFICATION_AUDIT.json" \
     --returncode-dir "$JOB_EVID_DIR" || true
+fi
+
+# 11. Capture & Verify qstat -f mail settings
+QSTAT_F_OUT=$(qstat -f "$JOB_ID" 2>/dev/null || true)
+printf '%s\n' "$QSTAT_F_OUT" > "$JOB_EVID_DIR/QSTAT_F_RECORD.txt"
+
+VERIF_MAIL_USERS=$(echo "$QSTAT_F_OUT" | grep "Mail_Users" | cut -d'=' -f2 | tr -d '[:space:]' || echo "missing")
+VERIF_MAIL_POINTS=$(echo "$QSTAT_F_OUT" | grep "Mail_Points" | cut -d'=' -f2 | tr -d '[:space:]' || echo "missing")
+VERIF_JOB_NAME=$(echo "$QSTAT_F_OUT" | grep "Job_Name" | cut -d'=' -f2 | tr -d '[:space:]' || echo "missing")
+
+VERIF_OK="true"
+if [ "$VERIF_MAIL_USERS" != "pr21vyci@mailserver.tu-freiberg.de" ]; then VERIF_OK="false"; fi
+if [[ "$VERIF_MAIL_POINTS" != *"a"* ]] || [[ "$VERIF_MAIL_POINTS" != *"b"* ]] || [[ "$VERIF_MAIL_POINTS" != *"e"* ]]; then VERIF_OK="false"; fi
+if [ "$VERIF_JOB_NAME" != "M2RMBISECT1" ]; then VERIF_OK="false"; fi
+
+python3 -c "
+import json
+data = {
+    'job_id': '$JOB_ID',
+    'mail_users': '$VERIF_MAIL_USERS',
+    'mail_points': '$VERIF_MAIL_POINTS',
+    'job_name': '$VERIF_JOB_NAME',
+    'verification_passed': ($VERIF_OK)
+}
+with open('$JOB_EVID_DIR/QSTAT_F_VERIFICATION.json', 'w') as f:
+    json.dump(data, f, indent=2)
+" 2>/dev/null || true
+
+if ! qstat "$JOB_ID" >/dev/null 2>&1; then
+  echo "WARNING: Immediate qstat verification failed for Job ID: $JOB_ID. Job submission was completed." >&2
 fi

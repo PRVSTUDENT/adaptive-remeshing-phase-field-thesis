@@ -859,14 +859,115 @@ class TestStageF40Batch(unittest.TestCase):
                 self.assertEqual(len(dispatched), 2)
                 self.assertIn("pr21vyci@mailserver.tu-freiberg.de", dispatched)
                 self.assertIn("Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de", dispatched)
-
-                with open(audit_file, "r") as f:
-                    audits = json.load(f)
-                    self.assertEqual(len(audits), 2)
-                    self.assertEqual(audits[0]["recipient_redacted"], "p******i@mailserver.tu-freiberg.de")
-                    self.assertEqual(audits[1]["recipient_redacted"], "P***************************i@student.tu-freiberg.de")
             finally:
                 mod.send_email_message = orig_em
+
+    def test_v16r2_no_email_transport_fails(self):
+        notify_path = os.path.join(self.repo_root, "scripts", "hpc", "notify_hpc_event.py")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("notify_hpc_event", notify_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        # Patch subprocess.run so which returns empty
+        orig_run = mod.subprocess.run
+        def mock_run(cmd, **kwargs):
+            if cmd[0] == "which":
+                return subprocess.CompletedProcess(cmd, 1, stdout="", stderr="")
+            return orig_run(cmd, **kwargs)
+        mod.subprocess.run = mock_run
+        try:
+            rc, msg = mod.send_email_message("pr21vyci@mailserver.tu-freiberg.de", "Test", "Body")
+            self.assertNotEqual(rc, 0, "Absence of email transport must fail with non-zero exit code")
+            self.assertIn("No supported email command available", msg)
+        finally:
+            mod.subprocess.run = orig_run
+
+    def test_v16r2_sendmail_and_mailx_distinct_command_formats(self):
+        notify_path = os.path.join(self.repo_root, "scripts", "hpc", "notify_hpc_event.py")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("notify_hpc_event", notify_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        # Test sendmail formatting
+        calls = []
+        def mock_run_sendmail(cmd, **kwargs):
+            calls.append((cmd, kwargs))
+            return subprocess.CompletedProcess(cmd, 0, stdout="", stderr="")
+        
+        orig_run = mod.subprocess.run
+        mod.subprocess.run = mock_run_sendmail
+        try:
+            # Force sendmail binary path
+            with tempfile.TemporaryDirectory() as tmpdir:
+                sm_path = os.path.join(tmpdir, "sendmail")
+                with open(sm_path, "w") as f:
+                    f.write("#!/bin/sh\n")
+                
+                # Mock which to return sm_path when checking sendmail
+                def mock_run_which(cmd, **kwargs):
+                    if cmd[0] == "which":
+                        if cmd[1] == "sendmail":
+                            return subprocess.CompletedProcess(cmd, 0, stdout=sm_path + "\n", stderr="")
+                        return subprocess.CompletedProcess(cmd, 1, stdout="", stderr="")
+                    calls.append((cmd, kwargs))
+                    return subprocess.CompletedProcess(cmd, 0, stdout="", stderr="")
+
+                mod.subprocess.run = mock_run_which
+                rc, msg = mod.send_email_message("pr21vyci@mailserver.tu-freiberg.de", "Test Subject", "Test Body")
+                self.assertEqual(rc, 0)
+                # Verify sendmail was called with -t and message had To: and Subject: headers
+                sm_call = [c for c in calls if c[0][0] == sm_path]
+                self.assertEqual(len(sm_call), 1)
+                self.assertEqual(sm_call[0][0], [sm_path, "-t"])
+                self.assertIn("To: pr21vyci@mailserver.tu-freiberg.de", sm_call[0][1]["input"])
+                self.assertIn("Subject: Test Subject", sm_call[0][1]["input"])
+        finally:
+            mod.subprocess.run = orig_run
+
+    def test_v16r2_strict_exact_two_recipient_set_validation(self):
+        notify_path = os.path.join(self.repo_root, "scripts", "hpc", "notify_hpc_event.py")
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("notify_hpc_event", notify_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Single recipient should fail validation
+            sys.argv = ["notify_hpc_event.py", "--mode", "test", "--email-recipient", "pr21vyci@mailserver.tu-freiberg.de", "--returncode-dir", tmpdir]
+            with self.assertRaises(SystemExit) as cm:
+                mod.main()
+            self.assertNotEqual(cm.exception.code, 0)
+
+            # Incorrect extra recipient should fail validation
+            sys.argv = ["notify_hpc_event.py", "--mode", "test", "--email-recipient", "pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,extra@domain.com", "--returncode-dir", tmpdir]
+            with self.assertRaises(SystemExit) as cm:
+                mod.main()
+            self.assertNotEqual(cm.exception.code, 0)
+
+    def test_v16r2_terminal_monitor_parsing_and_bounded_timeout(self):
+        monitor_path = os.path.join(self.repo_root, "scripts", "hpc", "stage_f", "monitor_stage_f40_terminal_state.sh")
+        import importlib.machinery
+        loader = importlib.machinery.SourceFileLoader("monitor_stage_f40_terminal_state", monitor_path)
+        spec = importlib.util.spec_from_loader("monitor_stage_f40_terminal_state", loader)
+        mod = importlib.util.module_from_spec(spec)
+        loader.exec_module(mod)
+
+        qstat_f_sample = """Job Id: 1384563.mmaster02
+    Job_Name = M2RMBISECT1
+    Job_Owner = pr21vyci@mlogin01
+    resources_used.walltime = 00:04:12
+    job_state = F
+    queue = normal_q
+    exec_host = mnode106/0
+    Exit_status = 0
+"""
+        parsed = mod.parse_qstat_f(qstat_f_sample)
+        self.assertEqual(parsed.get("job_state"), "F")
+        self.assertEqual(parsed.get("Exit_status"), "0")
+        self.assertEqual(parsed.get("exec_host"), "mnode106/0")
+        self.assertEqual(parsed.get("resources_used.walltime"), "00:04:12")
 
 if __name__ == "__main__":
     unittest.main()

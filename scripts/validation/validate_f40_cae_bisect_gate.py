@@ -97,8 +97,8 @@ def main():
                 failures.append("Submission wrapper must contain exactly 1 qsub invocation line, found " + str(len(qsub_matches)))
             if 'F40_ALLOW_SUBMISSION:-false' not in wrap_txt or 'F40_AUTHORIZE_M2RMBISECT1:-false' not in wrap_txt:
                 failures.append("Submission wrapper gates not properly defaulted to false")
-            if "submit_stage_f40_cae_bisect.sh" not in wrap_txt or "FREEZE_PATHS" not in wrap_txt:
-                failures.append("Submission wrapper must freeze its own path in FREEZE_PATHS")
+            if "submit_stage_f40_cae_bisect.sh" not in wrap_txt or "FREEZE_PATHS" not in wrap_txt or "NOTIFY_PATH" not in wrap_txt or "MONITOR_PATH" not in wrap_txt:
+                failures.append("Submission wrapper must freeze package, wrapper, notify, and monitor paths in FREEZE_PATHS")
             if "qstat -u" not in wrap_txt:
                 failures.append("Submission wrapper missing qstat -u active job queue check")
             if "F40_EVIDENCE_ROOT" not in wrap_txt:
