@@ -1,5 +1,17 @@
 # Project Phase Checklist
 
+## F39 Abaqus CAE kernel startup diagnostic gate
+
+- [x] Closed M2RMDIAG1 terminal failure (`1384183.mmaster02`) with classification `abaqus_cae_kernel_startup_failed_before_python_entrypoint`.
+- [x] Created launcher diagnostic package under `models/generated/mode_ii/f39_abaqus_cae_kernel_startup_diagnostic/` (`M2RMKERN1`).
+- [x] Implemented launcher environment collector `collect_launcher_environment.py` with sanitized/redacted variable values (`ABAQUS_LAUNCHER_ENVIRONMENT_AUDIT.json`).
+- [x] Implemented minimal noGUI probe `minimal_cae_kernel_probe.py` without `__file__`, model imports, or geometry operations.
+- [x] Repaired PBS exit status trapping (`trap - EXIT` and `exit "$first_failure"`) in `M2RMKERN1.pbs`.
+- [x] Enforced disjoint missing and existing evidence sets in `generate_missing_evidence_report.py`.
+- [x] Validated preparation commit P `3ab9ab0cc3b1f6ed57c88c6f9f095be69919e191` in a detached clean-Linux checkout (`/tmp/f39_clean_qual_3ab9ab0`): 12/12 unit tests passed in `tests/unit/test_stage_f39_batch.py`, 0 static failures in `scripts/validation/validate_f39_cae_kernel_startup_gate.py`, and both SHA-256 package manifests verified OK.
+- [!] Classification: `f39_abaqus_cae_kernel_startup_diagnostic_clean_linux_qualified_not_authorized`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
+
+
 ## F38 comprehensive CAE phase diagnostic gate
 
 - [x] Closed M2RMBUILD11 terminal failure (`1384181.mmaster02`) and published terminal closeout commit `cad6fb758d4a66a1a74288bde15bd0dcba9d57a9`.

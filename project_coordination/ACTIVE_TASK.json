@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
   "task_id": "F39-DIAGNOSE-ABAQUS-CAE-KERNEL-STARTUP",
-  "status": "preparation_complete_pending_clean_linux_qualification",
-  "classification": "f39_cae_kernel_startup_diagnostic_prepared_pending_qualification",
+  "status": "f39_abaqus_cae_kernel_startup_diagnostic_clean_linux_qualified_not_authorized",
+  "classification": "f39_abaqus_cae_kernel_startup_diagnostic_clean_linux_qualified_not_authorized",
   "starting_commit": "dc4d78c2d12756a15eed01433fbe05ab0d1a59af",
   "invalidated_predecessor": "f38_abaqus_cae_kernel_startup_failed_before_python_entrypoint",
   "prepared_job": "M2RMKERN1",
@@ -16,5 +16,5 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "next_action": "await detached clean-Linux qualification proof before authorization"
+  "next_action": "await explicit human authorization before any submission of M2RMKERN1"
 }
