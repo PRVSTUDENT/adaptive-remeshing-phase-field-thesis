@@ -9,6 +9,8 @@
 - [x] Executed authorized guarded diagnostic job `M2RMBISECT1` (`1384435.mmaster02`).
 - [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384435.mmaster02/`): Generic primitive phase audits P00-P11 returned `rc=0`, but `runtime_validator_rc=1` due to pre-generation validator invocation, `MISSING_EVIDENCE_REPORT.json` showed `status: incomplete`, and exact F38 model building entrypoint was not executed.
 - [x] Empirically proved generic Abaqus/CAE building blocks function on compute nodes, but original F38 model builder is NOT proven fixed.
+- [x] Repaired F40 offline package under repair preparation commit `daea0e0134266ecaa70de68f14c19ab9348d91fe` and qualified in detached clean-Linux checkout (`/tmp/f40_clean_qual_daea0e0`) under qualification commit `a3a498e8373c8358bd9f2dbebf68c99905874b0f`.
+- [!] Limitation note: Offline `python3 -m py_compile` verifies Python 3 syntax validity; complete Abaqus Python 2.7 runtime compatibility requires execution inside Abaqus CAE noGUI.
 - [!] Classification: `f40_generic_cae_primitives_passed_runtime_evidence_contract_failed`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
 
 

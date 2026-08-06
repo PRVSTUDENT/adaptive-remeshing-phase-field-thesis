@@ -28,5 +28,8 @@ echo "=== 6. Verifying SHA256 package manifests ==="
 
 echo "=== 7. Scanning for prohibited operations and __file__ in runner ==="
 ! grep -rn "__file__" models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect/runtime/f40_cae_bisection_runner.py
+for kw in "abaqus datacheck" "abaqus job" "submit()" "remesh" "state_transfer" "qsub "; do
+    ! grep -rn "$kw" models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect/ --exclude="SHA256SUMS" --exclude="F40_SHA256SUMS" --exclude="PACKAGE_MANIFEST.json"
+done
 
 echo "=== Clean Linux Qualification PASSED for commit $COMMIT_SHA ==="
