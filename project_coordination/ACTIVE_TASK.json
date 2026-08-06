@@ -1,9 +1,9 @@
 {
   "protocol_version": 1,
   "task_id": "F40-M2RMBISECT1-V14-AUTHORIZED-SUBMISSION",
-  "status": "submitted_monitoring",
-  "classification": "f40_gate_v14_replacement_submitted_monitoring",
-  "starting_commit": "ecd0c832a7238cd3e6a5f396b049b01cc3f5e59f",
+  "status": "completed_evaluated",
+  "classification": "f40_generic_cae_primitives_passed_runtime_evidence_contract_failed",
+  "starting_commit": "dcd29a935f7fa190a5f34fc1ecbd760cb1519c7c",
   "preparation_commit": "dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5",
   "repair_preparation_commit": "dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5",
   "qualification_commit": "1cdd3cfae1b30b930ca123f41072fbede2dc457c",
@@ -29,5 +29,5 @@
   "protocol_deviation_note": null,
   "recorded_user_authorization_sentence": "I authorize exactly one guarded HPC submission of M2RMBISECT1 from preparation commit dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5, qualification commit 1cdd3cfae1b30b930ca123f41072fbede2dc457c, and current coordination head af9f3e89db0fbceea19cd10d7fea11d891713964. No retry, replacement, local or WSL wrapper execution, direct PBS execution, solver, F41 execution, or downstream submission is authorized.",
   "invalid_historical_authorization_record": null,
-  "next_action": "monitor_terminal_job_1384563_mmaster02"
+  "next_action": "scientific_review_of_f40_bisection_failure"
 }
