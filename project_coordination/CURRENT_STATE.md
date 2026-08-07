@@ -4,11 +4,21 @@
 
 Completed Task F42B single-triangle core UEL qualification, $N_{phys}$ physical index mapping audit, direct production-core equivalence (`F42TRI1_SOURCE_DIFF_AUDIT.json`), Fortran syntax qualification, 67/67 unit test suite execution, detached clean-Linux worktree qualification (`F42TRI1_CORE_QUALIFICATION.json`), and guarded HPC job package preparation (`F42TRI1_CORE`):
 - **Task ID**: `F42B-SINGLE-TRIANGLE-UEL-CORE-VERIFICATION`
-- **Status**: `qualified_not_authorized`
-- **Classification**: `f42b_single_triangle_core_uel_qualified`
-- **Next Action**: `await_exact_human_authorization_for_one_F42TRI1_core_job`
+- **Status**: `complete`
+- **Classification**: `f42b_single_triangle_core_uel_verified_abaqus_standard_matched_oracle`
+- **Next Action**: `implement_and_qualify_facsimile_cpe3_umat_aggregation_layer_f42c`
 - **Preparation Commit (P42B)**: `67809cb7523cdd4047c5c394841f2dca949a1ff3`
 - **Qualification Commit (Q42B)**: `991dd3a1b0308c9859f8db53dcf8b896cc784ede`
+- **Authorization Commit**: `85d4c227e85c1860a4fbe29f5ca29ebae7c3bcab`
+- **HPC Job ID**: `1384666.mmaster02` (Exec Host: `m0202/1*2`, Queue: `short`, Exit Status: `0`)
+- **HPC Runtime Verification Results**:
+  1. **Compilation & Linking**: Intel Fortran compiler and Abaqus 2023 linked `F42TRI1_CORE.for` and executed `Abaqus/Standard` to clean completion (`exit_status = 0`).
+  2. **Branch Entry**: `U3` entered `JTYPE=3` branch ($NNODE=3, NDOFEL=3$), `U4` entered `JTYPE=4` branch ($NNODE=3, NDOFEL=6$).
+  3. **Quadrature**: All 3 triangle integration points visited cleanly (`INPT=3`, `DTM=1.0`).
+  4. **Oracle Match (15 Significant Digits)**:
+     - $U3$ Phase Stiffness $AMATRX_{11}$: Abaqus output = `15.0405000000000` (Exact match to analytical oracle $15.0 + 0.0405$).
+     - $U4$ Displacement Internal Force $RHS_1$: Abaqus output = `-60.5769230769231` (Exact match to CST analytical oracle $-60.5769230769231$).
+     - $U4$ Displacement Stiffness $AMATRX_{11}$: Abaqus output = `141346.153846154` (Exact match to CST analytical oracle $141346.15384615384$).
 - **Key Architectural Findings & Audits**:
   1. **$N_{phys}$ / `JELEM` Physical Mapping Audit**: Repaired Fortran source so array dimensioning `N_CAPACITY = 100000` is strictly separated from physical element count `NPHYS_VAL`. `U3` Phase label 1 maps to `PHYSIDX = 1`, and `U4` Displacement label 2 maps to `PHYSIDX = JELEM - NPHYS_VAL = 2 - 1 = 1`. Both UELs access physical state slot `1`.
   2. **Isolation of Core UEL from CPE3 Facsimile**: Created `f42tri1_core_uel_only/` containing ONLY one $U3$ phase triangle and one $U4$ displacement triangle. CPE3 and UMAT facsimile output layer excluded from the initial HPC verification.

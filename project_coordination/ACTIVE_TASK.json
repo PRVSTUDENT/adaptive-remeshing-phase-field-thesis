@@ -1,24 +1,24 @@
 {
   "protocol_version": 1,
   "task_id": "F42B-SINGLE-TRIANGLE-UEL-CORE-VERIFICATION",
-  "status": "hpc_execution_authorized_one_job",
-  "classification": "f42b_single_triangle_core_uel_authorized",
+  "status": "complete",
+  "classification": "f42b_single_triangle_core_uel_verified_abaqus_standard_matched_oracle",
   "starting_commit": "d5bade67c815c036d9f2d2e21e71fce636397a3a",
   "preparation_commit": "67809cb7523cdd4047c5c394841f2dca949a1ff3",
   "repair_preparation_commit": null,
   "qualification_commit": "991dd3a1b0308c9859f8db53dcf8b896cc784ede",
-  "authorization_commit": "d5bade67c815c036d9f2d2e21e71fce636397a3a",
+  "authorization_commit": "85d4c227e85c1860a4fbe29f5ca29ebae7c3bcab",
   "latest_gate_repair_commit": null,
   "latest_gate_qualification_commit": null,
   "invalidated_predecessor": null,
   "prepared_job": "F42TRI1",
-  "scheduler_job_id": null,
+  "scheduler_job_id": "1384666.mmaster02",
   "local_emulation_run_id": null,
-  "scheduler_submissions_initiated": 0,
+  "scheduler_submissions_initiated": 1,
   "package_path": "models/generated/mode_ii/f42_mixed_element_uel/f42tri1_core_uel_only",
-  "execution_authorized": true,
-  "submission_approved": true,
-  "maximum_jobs_now": 1,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0,
   "maximum_future_submissions": 0,
   "retry_authorized": false,
   "replacement_authorized": false,
@@ -28,7 +28,8 @@
   "jtype_dispatch": "U3->3, U4->4",
   "triangle_quadrature": "3_point_symmetric_degree_2_exact",
   "facsimile_included": false,
-  "next_action": "verify_qstat_synchronize_hpc_clone_and_submit_F42TRI1"
+  "hpc_verification": "abaqus_2023_job_1384666_completed_u3_u4_entered_stiffness_matched_oracle_15_digits",
+  "next_action": "implement_and_qualify_facsimile_cpe3_umat_aggregation_layer_f42c"
 }
 
 
