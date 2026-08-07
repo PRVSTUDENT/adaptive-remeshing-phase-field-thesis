@@ -1,9 +1,6 @@
 C ======================================================================
-C User Subroutine UEL and UMAT for Abaqus: Mixed 3-Node / 4-Node Scheme
-C JTYPE = 1: 4-Node Quad Phase-Field UEL (U1)
-C JTYPE = 2: 4-Node Quad Displacement UEL (U2)
-C JTYPE = 3: 3-Node Triangle Phase-Field UEL (U3)
-C JTYPE = 4: 3-Node Triangle Displacement UEL (U4)
+C F42TRI1_CORE: Single-Element 3-Node Triangular Core UEL Verification
+C Derived deterministically from f42_mixed_uel.for with bounded diagnostics.
 C ======================================================================
       SUBROUTINE UEL(RHS,AMATRX,SVARS,ENERGY,NDOFEL,NRHS,NSVARS,
      1     PROPS,NPROPS,COORDS,MCRD,NNODE,U,DU,V,A,JTYPE,TIME,DTIME,
@@ -13,8 +10,9 @@ C ======================================================================
 C     ==================================================================
       INCLUDE 'ABA_PARAM.INC'
 C     ==================================================================
-      PARAMETER(ZERO=0.D0,ONE=1.D0,TWO=2.D0,THREE=3.D0,
-     1 HALF=0.5D0,SIX=6.D0,N_CAPACITY=100000,NSTV=18)
+      PARAMETER(ZERO=0.D0,ONE=1.D0,MONE=-1.D0,TWO=2.D0,THREE=3.D0,
+     1 TOLER=1.0D-8,FOUR=4.D0,RP25=0.25D0,HALF=0.5D0,SIX=6.D0,
+     2 N_CAPACITY=100000,NSTVTO=2,NSTVTT=14,NSTV=18)
 C     ==================================================================
       DIMENSION RHS(MLVARX,1),AMATRX(NDOFEL,NDOFEL),
      1     SVARS(NSVARS),ENERGY(8),PROPS(NPROPS),COORDS(MCRD,NNODE),
@@ -23,14 +21,14 @@ C     ==================================================================
      4     DDLMAG(MDLOAD,*),PREDEF(2,NPREDF,NNODE),LFLAGS(*),
      5     JPROPS(*)
 
-       INTEGER I,J,L,K,K1,K2,INPT,INODE,NPHYS_VAL,PHYSIDX
+       INTEGER I,J,L,K,K1,K2,K3,K4,INPT,INODE,NPHYS_VAL,PHYSIDX
        REAL*8 XII_Q(4,2),XI(2),dNdxi_Q(4,2),dNdxi_T(3,2),
      1 VJACOB(2,2),dNdx_Q(4,2),dNdx_T(3,2),VJABOBINV(2,2),
-     2 AN_Q(4),AN_T(3),BP_Q(2,4),BP_T(2,3),DP(2),
+     2 AN_Q(4),AN_T(3),BP_Q(2,4),BP_T(2,3),DP(2),SDV(NSTV),
      3 BB_Q(3,8),BB_T(3,6),CMAT(3,3),EPS(3),STRESS(3),
-     4 XII_T(3,2),W_T(3)
-       REAL*8 DTM,THCK,HIST,CLPAR,GCPAR,EMOD,ENU,PARK,ENG,PHASE
-       REAL*8 EG,EG2,ELAM,DEG,WT_FAC
+     4 XII_T(3,2),W_T(3),ULOC_Q(8),ULOC_T(6)
+       REAL*8 DTM,THCK,HIST,CLPAR,GCPAR,EMOD,ENU,PARK,ENG,PHASE,DPHASE
+       REAL*8 EG,EG2,ELAM,DPHI,DEG,PARK_VAL,WT_FAC
 
        COMMON/KUSER/USRVAR(N_CAPACITY,NSTV,4)
 
@@ -249,6 +247,12 @@ C     ==================================================================
         W_T(1) = ONE/SIX
         W_T(2) = ONE/SIX
         W_T(3) = ONE/SIX
+
+        IF (KSTEP.EQ.1 .AND. KINC.EQ.1) THEN
+         WRITE(6,*) 'DIAG F42TRI1_CORE U3: JTYPE=',JTYPE,' JELEM=',
+     1   JELEM,' NNODE=',NNODE,' NDOFEL=',NDOFEL
+        ENDIF
+
         DO INPT=1,3
          XI(1) = XII_T(INPT,1)
          XI(2) = XII_T(INPT,2)
@@ -306,6 +310,11 @@ C     ==================================================================
          USRVAR(PHYSIDX,1,INPT)=PHASE
          USRVAR(PHYSIDX,2,INPT)=HIST
         END DO
+
+        IF (KSTEP.EQ.1 .AND. KINC.EQ.1) THEN
+         WRITE(6,*) 'DIAG F42TRI1_CORE U3 VISITED INPT=3 DTM=',DTM,
+     1   ' RHS1=',RHS(1,1),' AMATRX11=',AMATRX(1,1)
+        ENDIF
         RETURN
        ENDIF
 
@@ -344,6 +353,12 @@ C     ==================================================================
         W_T(1) = ONE/SIX
         W_T(2) = ONE/SIX
         W_T(3) = ONE/SIX
+
+        IF (KSTEP.EQ.1 .AND. KINC.EQ.1) THEN
+         WRITE(6,*) 'DIAG F42TRI1_CORE U4: JTYPE=',JTYPE,' JELEM=',
+     1   JELEM,' NNODE=',NNODE,' NDOFEL=',NDOFEL,' PHYSIDX=',PHYSIDX
+        ENDIF
+
         DO INPT=1,3
          XI(1) = XII_T(INPT,1)
          XI(2) = XII_T(INPT,2)
@@ -419,6 +434,11 @@ C     ==================================================================
           END DO
          END DO
         END DO
+
+        IF (KSTEP.EQ.1 .AND. KINC.EQ.1) THEN
+         WRITE(6,*) 'DIAG F42TRI1_CORE U4 VISITED INPT=3 DTM=',DTM,
+     1   ' RHS1=',RHS(1,1),' AMATRX11=',AMATRX(1,1)
+        ENDIF
         RETURN
        ENDIF
 
@@ -463,58 +483,5 @@ C ======================================================================
       dNdxi(2,2) = ZERO
       dNdxi(3,1) = ZERO
       dNdxi(3,2) = ONE
-      RETURN
-      END
-
-C ======================================================================
-C Subroutine UMAT: Facsimile Post-Processing & Error Indicator Layer
-C ======================================================================
-       SUBROUTINE UMAT(STRESS,STATEV,DDSDDE,SSE,SPD,SCD,
-     1 RPL,DDSDDT,DRPLDE,DRPLDT,STRAN,DSTRAN,
-     2 TIME,DTIME,TEMP,DTEMP,PREDEF,DPRED,MATERL,NDI,NSHR,NTENS,
-     3 NSTATV,PROPS,NPROPS,COORDS,DROT,PNEWDT,CELENT,
-     4 DFGRD0,DFGRD1,NOEL,NPT,KSLAY,KSPT,KSTEP,KINC)
-      INCLUDE 'ABA_PARAM.INC'
-      DIMENSION STRESS(NTENS),STATEV(NSTATV),DDSDDE(NTENS,NTENS),
-     1 PROPS(NPROPS),COORDS(3),DSTRAN(NTENS)
-      REAL*8 EMOD,ENU,EG,EG2,ELAM
-      PARAMETER(ZERO=0.D0,ONE=1.D0,TWO=2.D0,N_CAPACITY=100000)
-      COMMON/KUSER/USRVAR(N_CAPACITY,18,4)
-
-      EMOD=PROPS(1)
-      ENU=PROPS(2)
-      NPHYS_VAL = 1
-      IF (NPROPS.GE.3) THEN
-       NPHYS_VAL = INT(PROPS(3))
-      END IF
-      EG=EMOD/(TWO*(ONE+ENU))
-      EG2=EG*TWO
-      ELAM=EG2*ENU/(ONE-TWO*ENU)
-      DO K1=1, NTENS
-       DO K2=1, NTENS
-        DDSDDE(K2, K1)=ZERO
-       END DO
-      END DO
-      DO K1=1, NDI
-       DO K2=1, NDI
-        DDSDDE(K2, K1)=ELAM
-       END DO
-       DDSDDE(K1, K1)=EG2+ELAM
-      END DO
-      DO K1=NDI+1, NTENS
-       DDSDDE(K1, K1)=EG
-      END DO
-      DO K1=1, NTENS
-       DO K2=1, NTENS
-        STRESS(K2)=STRESS(K2)+DDSDDE(K2, K1)*DSTRAN(K1)
-       END DO
-      END DO
-      PHYSIDX=NOEL - TWO*NPHYS_VAL
-      IF (PHYSIDX.LE.0) PHYSIDX=NOEL
-      NPT_IDX=NPT
-      IF (NPT_IDX.GT.4) NPT_IDX=4
-      DO I=1,NSTATV
-       STATEV(I)=USRVAR(PHYSIDX,I,NPT_IDX)
-      END DO
       RETURN
       END

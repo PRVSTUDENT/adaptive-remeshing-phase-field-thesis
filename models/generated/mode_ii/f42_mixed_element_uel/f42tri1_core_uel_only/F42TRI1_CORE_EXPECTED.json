@@ -1,0 +1,49 @@
+{
+  "protocol_version": 1,
+  "model_name": "F42TRI1_CORE",
+  "verification_type": "single_layered_triangle_core_uel_verification_offline",
+  "physical_element_count": 1,
+  "element_topology": "CPE3_EQUIVALENT_TRIANGLE",
+  "physical_coordinates": [
+    [0.0, 0.0],
+    [1.0, 0.0],
+    [0.0, 1.0]
+  ],
+  "element_area": 0.5,
+  "jacobian_determinant": 1.0,
+  "integration_points": 3,
+  "quadrature_rule": "3_point_symmetric_degree_2_exact",
+  "phase_element": {
+    "type": "U3",
+    "nodes": 3,
+    "dofs": 3,
+    "variables": 6,
+    "expected_jtype": 3,
+    "element_label": 1
+  },
+  "displacement_element": {
+    "type": "U4",
+    "nodes": 3,
+    "dofs": 6,
+    "variables": 42,
+    "expected_jtype": 4,
+    "element_label": 2
+  },
+  "cpe3_facsimile_included": false,
+  "total_element_labels": 2,
+  "all_element_labels_unique": true,
+  "oracle_values": {
+    "u4_strain": [0.0, 0.001, 0.0],
+    "u4_stress": [121.15384615384616, 282.6923076923077, 0.0],
+    "u4_elastic_energy": 0.14134615384615385,
+    "u3_area_weights_sum": 0.5,
+    "u3_k_react_11": 15.0,
+    "u3_k_grad_11": 0.0405
+  },
+  "tolerances": {
+    "detJ_abs": 1.0e-12,
+    "stiffness_rel": 1.0e-8,
+    "residual_rel": 1.0e-8
+  },
+  "execution_status": "prepared_not_submitted"
+}

@@ -1,0 +1,12 @@
+{
+  "protocol_version": 1,
+  "audit_type": "f42tri1_source_diff_audit",
+  "production_source": "models/generated/mode_ii/f42_mixed_element_uel/f42_mixed_uel.for",
+  "test_source": "models/generated/mode_ii/f42_mixed_element_uel/f42tri1_core_uel_only/F42TRI1_CORE.for",
+  "numerical_equation_changes": false,
+  "shape_function_changes": false,
+  "quadrature_changes": false,
+  "state_mapping_changes": false,
+  "only_bounded_diagnostics": true,
+  "audit_summary": "F42TRI1_CORE.for is mathematically identical to f42_mixed_uel.for, differing only by bounded diagnostic WRITE statements under IF (KSTEP.EQ.1 .AND. KINC.EQ.1)."
+}

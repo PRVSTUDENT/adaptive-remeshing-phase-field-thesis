@@ -1,0 +1,21 @@
+{
+  "protocol_version": 1,
+  "package": "F42TRI1_CORE",
+  "purpose": "Single 3-node triangle core phase/displacement UEL verification package without CPE3/UMAT",
+  "files": {
+    "F42TRI1_CORE.inp": {
+      "sha256": "2b2c640379105568ba58ed865153cb7a76f250cd37dd648fc81e5e5d3a7c8fc1"
+    },
+    "F42TRI1_CORE.for": {
+      "sha256": "a269ef5bb57456c58030246003f18be5aa65cd148f5a82fdd0c2a6f721cc38ec"
+    },
+    "F42TRI1_CORE_EXPECTED.json": {
+      "sha256": "ec1cbb6597d7d8f66797af0ca076f395b27cad8fee69f840ea4c517d461f9108"
+    },
+    "F42TRI1_SOURCE_DIFF_AUDIT.json": {
+      "sha256": "f76e09b8d84ac15ca8d1d8e57d8f76166c767cc52d458ea8957d4c7834f52cdb"
+    }
+  },
+  "submission_status": "prepared_not_submitted",
+  "qsub_authorized": false
+}

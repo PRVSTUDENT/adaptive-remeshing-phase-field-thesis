@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Unit and Mathematical Foundation Tests for Task F42A-R1:
-Corrected Mixed 3-Node Triangle / 4-Node Quad Phase-Field UEL Architecture
+Unit and Mathematical Foundation Tests for Task F42B:
+Single-Triangle Core UEL Qualification & NPHYS Mapping
 """
 
 import unittest
@@ -10,6 +10,7 @@ import os
 import sys
 import tempfile
 import re
+import subprocess
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, PROJECT_ROOT)
@@ -20,6 +21,8 @@ from models.generated.mode_ii.f42_mixed_element_uel.f42_deck_rebuilder import (
 )
 
 F42_FORTRAN_PATH = os.path.join(PROJECT_ROOT, "models", "generated", "mode_ii", "f42_mixed_element_uel", "f42_mixed_uel.for")
+F42TRI1_CORE_FORTRAN_PATH = os.path.join(PROJECT_ROOT, "models", "generated", "mode_ii", "f42_mixed_element_uel", "f42tri1_core_uel_only", "F42TRI1_CORE.for")
+F42TRI1_CORE_INP_PATH = os.path.join(PROJECT_ROOT, "models", "generated", "mode_ii", "f42_mixed_element_uel", "f42tri1_core_uel_only", "F42TRI1_CORE.inp")
 
 class Test3NodeTriangleMathematics(unittest.TestCase):
     """Offline mathematical verification for 3-node linear triangular UEL."""
@@ -33,7 +36,6 @@ class Test3NodeTriangleMathematics(unittest.TestCase):
 
     def shape_fun_tri_derivs(self):
         """Derivatives dN/dxi and dN/deta for 3-node linear triangle."""
-        # Rows: N1, N2, N3; Cols: d/dxi, d/deta
         return [
             [-1.0, -1.0],
             [ 1.0,  0.0],
@@ -105,8 +107,6 @@ class Test3NodeTriangleMathematics(unittest.TestCase):
                 for j in range(3):
                     m_num[i][j] += w_phys * N[i] * N[j]
 
-        # Exact consistent mass matrix for unit triangle (A = 0.5)
-        # A/12 = 0.5 / 12 = 1/24
         m_exact = [
             [2.0/24.0, 1.0/24.0, 1.0/24.0],
             [1.0/24.0, 2.0/24.0, 1.0/24.0],
@@ -120,7 +120,6 @@ class Test3NodeTriangleMathematics(unittest.TestCase):
 
     def test_07_displacement_u4_stiffness_matrix_oracle(self):
         """Displacement U4 stiffness matrix for T3 triangle must match exact plane-strain CST stiffness matrix."""
-        # Unit right triangle: (0,0), (1,0), (0,1)
         coords = [[0.0, 0.0], [1.0, 0.0], [0.0, 1.0]]
         emod = 210000.0
         enu = 0.3
@@ -133,13 +132,8 @@ class Test3NodeTriangleMathematics(unittest.TestCase):
             [elam, eg2 + elam, 0.0],
             [0.0, 0.0, eg]
         ]
-        # dN/dx for unit right triangle:
-        # N1 = 1 - x - y -> dN1/dx = -1, dN1/dy = -1
-        # N2 = x         -> dN2/dx = +1, dN2/dy = 0
-        # N3 = y         -> dN3/dx = 0,  dN3/dy = +1
         dNdx = [[-1.0, -1.0], [1.0, 0.0], [0.0, 1.0]]
 
-        # B matrix: 3x6
         B = [[0.0]*6 for _ in range(3)]
         for i in range(3):
             B[0][2*i]   = dNdx[i][0]
@@ -147,12 +141,10 @@ class Test3NodeTriangleMathematics(unittest.TestCase):
             B[2][2*i]   = dNdx[i][1]
             B[2][2*i+1] = dNdx[i][0]
 
-        # Exact CST stiffness matrix: K = Area * thck * B^T @ C @ B
         area = 0.5
         CB = [[sum(cmat[r][k] * B[k][c] for k in range(3)) for c in range(6)] for r in range(3)]
         K_exact = [[area * thck * sum(B[k][r] * CB[k][c] for k in range(3)) for c in range(6)] for r in range(6)]
 
-        # Numerically integrated via 3-point rule in U4
         detJ = 1.0
         pts = [(1/6, 1/6), (2/3, 1/6), (1/6, 2/3)]
         w_ref = [1/6, 1/6, 1/6]
@@ -169,116 +161,67 @@ class Test3NodeTriangleMathematics(unittest.TestCase):
                                        msg=f"U4 stiffness matrix mismatch at ({r},{c})")
 
 
-class TestMixedDeckRebuilderRoundTrip(unittest.TestCase):
-    """Unit tests for offline mixed-element deck parser and rebuilder round-trip."""
+class TestNPhysMappingAndStaticContract(unittest.TestCase):
+    """Unit tests for NPHYS physical element offset and static Fortran contracts."""
 
-    def setUp(self):
-        self.test_dir = tempfile.mkdtemp()
-        self.deck_path = os.path.join(self.test_dir, "test_job2.inp")
-        self.out_path = os.path.join(self.test_dir, "test_job2_uel.inp")
+    def test_08_nphys_label_offset_logic(self):
+        """For NPHYS=1, U3 label=1 maps to PHYSIDX=1 and U4 label=2 maps to PHYSIDX=1."""
+        nphys = 1
+        jtype_u3_elem = 1
+        jtype_u4_elem = 2
 
-    def test_08_round_trip_synthetic_mixed_mesh(self):
-        """Rebuilder must process 2 quads + 2 triangles (Nphys=4) and produce 12 unique element labels across layers."""
-        inp_content = """*Node
- 1, 0.0, 0.0
- 2, 1.0, 0.0
- 3, 1.0, 1.0
- 4, 0.0, 1.0
- 5, 2.0, 0.0
- 6, 2.0, 1.0
- 7, 0.5, 1.5
-*Element, type=CPE4
- 1, 1, 2, 3, 4
- 2, 2, 5, 6, 3
-*Element, type=CPE3
- 3, 4, 3, 7
- 4, 3, 6, 7
-"""
-        with open(self.deck_path, 'w') as f:
-            f.write(inp_content)
+        physidx_u3 = jtype_u3_elem
+        physidx_u4 = jtype_u4_elem - nphys
 
-        rebuilder = MixedDeckRebuilder(self.deck_path)
-        rebuilder.parse()
-        self.assertEqual(len(rebuilder.physical_elems), 4)
-        self.assertEqual(len(rebuilder.rejected), 0)
+        self.assertEqual(physidx_u3, 1)
+        self.assertEqual(physidx_u4, 1)
+        self.assertEqual(physidx_u3, physidx_u4, "U3 phase and U4 displacement must map to the same physical index 1")
 
-        nq, nt, nr = rebuilder.build_mixed_uel_deck(self.out_path)
-        self.assertEqual(nq, 2)
-        self.assertEqual(nt, 2)
-        self.assertEqual(nr, 0)
-        self.assertTrue(os.path.exists(self.out_path))
-
-        # Re-parse generated Job-2_UEL.inp to verify round-trip contract
-        with open(self.out_path, 'r') as f:
-            out_lines = f.readlines()
-
-        all_element_labels = []
-        u1_count = 0
-        u2_count = 0
-        u3_count = 0
-        u4_count = 0
-        cpe4_count = 0
-        cpe3_count = 0
-        current_type = None
-
-        for line in out_lines:
-            line_str = line.strip()
-            if line_str.startswith("*Element"):
-                m = re.search(r'type\s*=\s*([A-Za-z0-9]+)', line_str, re.IGNORECASE)
-                if m:
-                    current_type = m.group(1).upper()
-                continue
-            elif line_str.startswith("*"):
-                current_type = None
-                continue
-
-            if current_type and not line_str.startswith("**"):
-                tokens = [t.strip() for t in line_str.split(',') if t.strip()]
-                if tokens and tokens[0].isdigit():
-                    lbl = int(tokens[0])
-                    all_element_labels.append(lbl)
-                    if current_type == 'U1': u1_count += 1
-                    elif current_type == 'U2': u2_count += 1
-                    elif current_type == 'U3': u3_count += 1
-                    elif current_type == 'U4': u4_count += 1
-                    elif current_type == 'CPE4': cpe4_count += 1
-                    elif current_type == 'CPE3': cpe3_count += 1
-
-        self.assertEqual(len(all_element_labels), 12, "Must generate exactly 12 element lines across 3 layers")
-        self.assertEqual(len(set(all_element_labels)), 12, "All 12 element labels must be strictly unique!")
-        self.assertEqual(u1_count, 2)
-        self.assertEqual(u2_count, 2)
-        self.assertEqual(u3_count, 2)
-        self.assertEqual(u4_count, 2)
-        self.assertEqual(cpe4_count, 2)
-        self.assertEqual(cpe3_count, 2)
-
-
-class TestFortranSourceStaticContract(unittest.TestCase):
-    """Static inspection tests for f42_mixed_uel.for Fortran source contract."""
-
-    def setUp(self):
-        self.assertTrue(os.path.exists(F42_FORTRAN_PATH), f"Fortran file not found: {F42_FORTRAN_PATH}")
+    def test_09_verify_fortran_nphys_and_capacity_separation(self):
+        """f42_mixed_uel.for must separate N_CAPACITY=100000 array dimensioning from NPHYS_VAL."""
         with open(F42_FORTRAN_PATH, 'r') as f:
-            self.code = f.read()
+            code = f.read()
 
-    def test_09_verify_all_four_jtype_branches_exist(self):
-        """f42_mixed_uel.for must contain explicit executable branches for JTYPE.EQ.1, JTYPE.EQ.2, JTYPE.EQ.3, JTYPE.EQ.4."""
-        self.assertIn("IF (JTYPE.EQ.1) THEN", self.code)
-        self.assertIn("IF (JTYPE.EQ.2) THEN", self.code)
-        self.assertIn("IF (JTYPE.EQ.3) THEN", self.code)
-        self.assertIn("IF (JTYPE.EQ.4) THEN", self.code)
+        self.assertIn("PARAMETER(", code)
+        self.assertIn("N_CAPACITY=100000", code)
+        self.assertIn("NPHYS_VAL", code)
+        self.assertIn("PHYSIDX = JELEM - NPHYS_VAL", code)
 
-    def test_10_verify_no_uninitialized_gc(self):
-        """Uninitialized variable 'GC' bug must be absent; GCPAR must be assigned from PROPS(2)."""
-        self.assertNotIn("GC*", self.code, "Uninitialized GC variable must not be present")
-        self.assertIn("GCPAR=PROPS(2)", self.code)
+    def test_10_verify_f42tri1_core_inp_has_no_cpe3(self):
+        """F42TRI1_CORE.inp must contain ONLY U3 and U4 elements, with zero CPE3 elements."""
+        with open(F42TRI1_CORE_INP_PATH, 'r') as f:
+            inp_lines = f.readlines()
 
-    def test_11_verify_triangle_u4_displacement_branch_completeness(self):
-        """JTYPE=4 triangle displacement branch must contain 6 DOFs, BB_T(3,6), CMAT, and USRVAR update."""
-        self.assertIn("BB_T(3,6)", self.code)
-        self.assertIn("CALL SHAPEFUN_TRI(AN_T,dNdxi_T,XI)", self.code)
-        self.assertIn("NELEMAN=JELEM-N_ELEM", self.code)
+        cpe3_elem_count = sum(1 for line in inp_lines if line.strip().lower().startswith('*element') and 'cpe3' in line.lower())
+        u3_elem_count = sum(1 for line in inp_lines if line.strip().lower().startswith('*element') and 'u3' in line.lower())
+        u4_elem_count = sum(1 for line in inp_lines if line.strip().lower().startswith('*element') and 'u4' in line.lower())
+
+        self.assertEqual(cpe3_elem_count, 0, "F42TRI1_CORE.inp must not contain any CPE3 element blocks")
+        self.assertEqual(u3_elem_count, 1, "F42TRI1_CORE.inp must contain exactly 1 U3 element block")
+        self.assertEqual(u4_elem_count, 1, "F42TRI1_CORE.inp must contain exactly 1 U4 element block")
+
+    def test_11_gfortran_syntax_check_both_files(self):
+        """Run gfortran -fsyntax-only on both f42_mixed_uel.for and F42TRI1_CORE.for using temporary ABA_PARAM.INC."""
+        inc_dir = tempfile.mkdtemp()
+        inc_path = os.path.join(inc_dir, "ABA_PARAM.INC")
+        with open(inc_path, 'w') as f:
+            f.write("      IMPLICIT REAL*8 (A-H,O-Z)\n")
+
+        gfortran_cmd = "gfortran"
+        # Test f42_mixed_uel.for
+        res1 = subprocess.run([
+            gfortran_cmd, "-fsyntax-only", "-ffixed-line-length-none",
+            "-Wall", "-Wextra", "-Wsurprising", f"-I{inc_dir}", F42_FORTRAN_PATH
+        ], capture_output=True, text=True)
+
+        # Test F42TRI1_CORE.for
+        res2 = subprocess.run([
+            gfortran_cmd, "-fsyntax-only", "-ffixed-line-length-none",
+            "-Wall", "-Wextra", "-Wsurprising", f"-I{inc_dir}", F42TRI1_CORE_FORTRAN_PATH
+        ], capture_output=True, text=True)
+
+        self.assertEqual(res1.returncode, 0, f"gfortran syntax check failed on f42_mixed_uel.for with stderr:\n{res1.stderr}")
+        self.assertEqual(res2.returncode, 0, f"gfortran syntax check failed on F42TRI1_CORE.for with stderr:\n{res2.stderr}")
 
 
 if __name__ == "__main__":

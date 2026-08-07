@@ -1,0 +1,35 @@
+*Heading
+ F42TRI1_CORE: Single-Element 3-Node Triangular Core UEL Verification Model
+** =========================================================
+** Physical Model: 1 Triangle Element (Nodes 1, 2, 3)
+** Layer 1 (Phase): Element 1 (Type U3, 3 Nodes, 3 DOFs)
+** Layer 2 (Displacement): Element 2 (Type U4, 3 Nodes, 6 DOFs)
+** NO CPE3 facsimile element in this core verification package.
+** =========================================================
+*User Element, nodes=3, type=U3, properties=3, coordinates=2, VARIABLES=6
+ 3
+*User Element, nodes=3, type=U4, properties=5, coordinates=2, VARIABLES=42
+ 1, 2
+*Node
+ 1, 0.0, 0.0
+ 2, 1.0, 0.0
+ 3, 0.0, 1.0
+*Element, type=U3, elset=PHASE
+ 1, 1, 2, 3
+*Element, type=U4, elset=DISP
+ 2, 1, 2, 3
+*UEL Property, elset=PHASE
+ 0.015, 2.7, 1.0
+*UEL Property, elset=DISP
+ 210000.0, 0.3, 1.0, 1.0e-7, 1
+*Boundary
+ 1, 1, 2, 0.0
+ 2, 2, 2, 0.0
+ 3, 1, 1, 0.0
+ 3, 2, 2, 0.001
+*Step, name=Step-1, nlgeom=NO, inc=1
+*Static
+ 1.0, 1.0, 1.0e-5, 1.0
+*Node Output, nset=DISP
+ U, RF
+*End Step
