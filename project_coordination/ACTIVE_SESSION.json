@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "models/generated/mode_ii/f43_stage_c_bridge/**",
@@ -9,11 +9,11 @@
     "docs/**",
     "references/**"
   ],
-  "completed_at": "2026-08-07T15:01:00+02:00",
-  "heartbeat": "2026-08-07T15:01:00+02:00",
-  "started_at": "2026-08-07T15:01:00+02:00",
-  "session_id": "gemini-f43rem1-r2-cae-env-repair-session",
-  "starting_commit": "a8fb18869e19f586d5714c4351f2eb8906e5842c",
-  "task_id": "F43REM1-R2-ABAQUS-CAE-ENVIRONMENT-VARIABLE-DRIVER-CONTRACT-REPAIR",
-  "note": "Completed session for Task F43REM1-R2 Abaqus-CAE environment variable driver contract repair, unit test suite expansion, P43R2 preparation commit, and Q43R2 clean-Linux detached worktree qualification."
+  "completed_at": null,
+  "heartbeat": "2026-08-07T15:07:00+02:00",
+  "started_at": "2026-08-07T15:07:00+02:00",
+  "session_id": "gemini-f43rem1-r2-guarded-submission-session",
+  "starting_commit": "faa18f9325c5df52db8dbfee2a7eab2d91a005c5",
+  "task_id": "F43REM1-R2-GUARDED-REMOTE-HPC-SUBMISSION-AND-EVIDENCE-CLOSEOUT",
+  "note": "Active session claimed for Task F43REM1_CURRENT_R2 single guarded remote HPC submission on tu_freiberg, terminal evidence collection, and Gate C1 mesh review closeout."
 }
