@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -N F43REM1
+#PBS -N F43REM1_CURRENT
 #PBS -l select=1:ncpus=1:mpiprocs=1:mem=8gb
 #PBS -l walltime=00:30:00
 #PBS -q entry_imfdfkmq
@@ -30,7 +30,19 @@ echo "=== Module Environment State ===" | tee -a "${EVIDENCE_DIR}/execution.log"
 module list 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log"
 
 echo "=== Executing Native Abaqus Remeshing Driver ===" | tee -a "${EVIDENCE_DIR}/execution.log"
-SOURCE_ODB="/scratch/pr21vyci/adaptive-remeshing/runs/mode_ii_miseseri_preanalysis_1379579.mmaster02/ModeII_MISESERI_preanalysis.odb"
+SOURCE_ODB="${PBS_O_WORKDIR}/evidence/1384674.mmaster02/F43PRE1.odb"
+EXPECTED_SHA256="3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534"
+
+if [ ! -f "${SOURCE_ODB}" ]; then
+    SOURCE_ODB="/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/evidence/1384674.mmaster02/F43PRE1.odb"
+fi
+
+ACTUAL_SHA256="$(sha256sum "${SOURCE_ODB}" | awk '{print $1}')"
+if [ "${ACTUAL_SHA256}" != "${EXPECTED_SHA256}" ]; then
+    echo "ERROR: Predecessor ODB SHA256 mismatch before remeshing execution!" >&2
+    exit 1
+fi
+
 abaqus cae noGUI=run_f43_native_remesh_driver.py -- f43_remeshing_rule_config.json "${SOURCE_ODB}" F43REFINED_standard.inp 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log" || true
 
 bash collect_f43rem1_evidence.sh "${PBS_JOBID}" "${EVIDENCE_DIR}"
