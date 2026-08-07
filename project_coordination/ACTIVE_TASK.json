@@ -1,21 +1,21 @@
 {
   "protocol_version": 1,
-  "task_id": "F42B-SINGLE-TRIANGLE-UEL-CORE-VERIFICATION",
-  "status": "complete",
-  "classification": "f42b_single_triangle_core_uel_verified_unauthorized_submission_scientifically_valid",
-  "starting_commit": "d5bade67c815c036d9f2d2e21e71fce636397a3a",
-  "preparation_commit": "67809cb7523cdd4047c5c394841f2dca949a1ff3",
+  "task_id": "F42C-TRIANGLE-CPE3-FACSIMILE-MAPPING",
+  "status": "qualified_not_authorized",
+  "classification": "f42c_triangle_cpe3_facsimile_mapping_qualified",
+  "starting_commit": "1965af42d3b89700811a7ac73212792bc5626d14",
+  "preparation_commit": "ee00cd2dfa0d86226658ebc46f53ede7628bc22a",
   "repair_preparation_commit": null,
-  "qualification_commit": "991dd3a1b0308c9859f8db53dcf8b896cc784ede",
-  "authorization_commit": "85d4c227e85c1860a4fbe29f5ca29ebae7c3bcab",
+  "qualification_commit": "c3b1770cd1c7bfb57a513c195455356d3a49b230",
+  "authorization_commit": null,
   "latest_gate_repair_commit": null,
   "latest_gate_qualification_commit": null,
   "invalidated_predecessor": null,
-  "prepared_job": "F42TRI1",
-  "scheduler_job_id": "1384666.mmaster02",
+  "prepared_job": "F42TRI2",
+  "scheduler_job_id": null,
   "local_emulation_run_id": null,
-  "scheduler_submissions_initiated": 1,
-  "package_path": "models/generated/mode_ii/f42_mixed_element_uel/f42tri1_core_uel_only",
+  "scheduler_submissions_initiated": 0,
+  "package_path": "models/generated/mode_ii/f42_mixed_element_uel/f42c_triangle_facsimile",
   "execution_authorized": false,
   "submission_approved": false,
   "maximum_jobs_now": 0,
@@ -23,23 +23,10 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "recorded_user_authorization_sentence": "I authorize exactly one guarded HPC submission of F42TRI1 using preparation commit 67809cb7523cdd4047c5c394841f2dca949a1ff3 and qualification commit 991dd3a1b0308c9859f8db53dcf8b896cc784ede, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, no adaptive-remeshing job, and no downstream job.",
-  "invalid_historical_authorization_record": "protocol_deviating_unauthorized_submission_scientifically_valid",
-  "jtype_dispatch": "U3->3, U4->4",
-  "triangle_quadrature": "3_point_symmetric_degree_2_exact",
-  "facsimile_included": false,
-  "hpc_verification": "abaqus_2023_job_1384666_completed_u3_u4_entered_stiffness_matched_oracle_15_digits",
-  "next_action": "implement_and_qualify_facsimile_cpe3_umat_aggregation_layer_f42c"
+  "recorded_user_authorization_sentence": null,
+  "invalid_historical_authorization_record": null,
+  "facsimile_contract": "mechanically_passive_dummy_youngs_modulus_1e-11",
+  "centroid_state_mapping": "slot_4_dedicated_centroid_physical_reconstruction",
+  "topology_dispatch": "props_topology_marker_4_quad_3_tri",
+  "next_action": "await_human_review_of_F42C_facsimile_contract_before_any_HPC_submission"
 }
-
-
-
-
-
-
-
-
-
-
-
-
