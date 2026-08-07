@@ -1,5 +1,31 @@
 # Current project state
 
+## F43REM2-R6 CAE-Lineage Reconciliation & Branch B Determination (2026-08-07)
+
+Completed task `F43REM2-R6`: Exact original CAE database recovery, Abaqus 2023 compatibility probe, regenerated CAE quarantine, and Branch B determination:
+- **Task ID**: `F43REM2-R6` / `F43PRE3_GEOM`
+- **Status**: `needs_new_preanalysis_lineage` (`F43REM2_NATIVE` blocked)
+- **Branch Selected**: **Branch B** (`branch_b_selected_original_889c_cae_incompatible_with_abaqus2023`)
+- **Exact Original CAE Recovery**:
+  - Recovered exact `889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff` blob from historical commit `5c4557f3142d41ca6b09088116c67221f37ecd50`.
+  - Recovery SHA256 verified: `889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff`.
+- **Abaqus 2023 Compatibility Probe**:
+  - `original_889c_Abaqus2023_open`: **FAIL** (`MdbError: incompatible release number, expected 2023, got 2024`).
+  - Empirical Findings: Original `889c15...` CAE database was saved under Abaqus 2024 and cannot be opened by Abaqus/CAE 2023 kernel.
+- **Regenerated CAE Quarantine**:
+  - Current `0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa` CAE preserved at `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/quarantine/ModeII_Geometry_Source_0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa.cae`.
+- **Scientific Lineage Decision**:
+  - Predecessor ODB `1385392.mmaster02` (from `889c15...` CAE) cannot be used for native remeshing under Abaqus 2023.
+  - A new geometry-backed preanalysis lineage `F43PRE3_GEOM` must be executed using the Abaqus 2023 `0d5b32...` CAE source to generate a new compatible predecessor ODB before native remeshing.
+- **Authority Boundary**:
+  - `execution_authorized`: `false`
+  - `replacement_authorized`: `false`
+  - `maximum_jobs_now`: 0
+  - `HPC_submissions`: 0
+- **Next Action**: `prepare_f43pre3_geom_offline_package_for_new_preanalysis_lineage`
+
+---
+
 ## F43REM2-R5 Abaqus/CAE Kernel Launcher Repair, Kernel Probe & Full Requalification (2026-08-07)
 
 Completed task `F43REM2-R5`: Abaqus/CAE kernel launcher repair, lightweight interactive kernel probe, unit test suite update, and full 507-test Linux-Git detached requalification:
