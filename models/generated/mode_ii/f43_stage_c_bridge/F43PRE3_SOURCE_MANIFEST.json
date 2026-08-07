@@ -1,0 +1,90 @@
+{
+  "protocol_version": 1,
+  "task_id": "F43PRE3_GEOM",
+  "spec_version": "1.0-geo1-abaqus2023",
+  "builder_ready": true,
+  "cae_generated": true,
+  "cae_artifact_policy": "external_immutable_source_with_runtime_work_copy",
+  "cae_lineage": "abaqus_2023_native",
+  "cae_source_path": "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae",
+  "cae_source_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
+  "cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
+  "cae_source_open_in_place": false,
+  "runtime_work_copy_required": true,
+  "runtime_work_copy_hash_must_match_source_before_open": true,
+  "runtime_work_copy_mutation_allowed": true,
+  "inp_path": "models/generated/mode_ii/f43_stage_c_bridge/F43PRE3_GEOM.inp",
+  "inp_sha256": "10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee",
+  "model_name": "ModeII_Geometry_Model",
+  "part_name": "PlatePart",
+  "instance_name": "PlateInstance",
+  "step_name": "Step-1",
+  "remeshing_rule_name": "MISESERI_Adaptive_Rule",
+  "mesh_element_count": 3716,
+  "mesh_node_count": 3800,
+  "cpe4_count": 3600,
+  "cpe3_count": 116,
+  "faces_count": 1,
+  "edges_count": 6,
+  "vertices_count": 6,
+  "seam_verified": true,
+  "cae_reopen_persistence_verified": true,
+  "geometry_backed": true,
+  "orphan_mesh": false,
+  "pre2_provenance": {
+    "cae_source_path": "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae",
+    "cae_sha256": "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff",
+    "cae_release": 2024,
+    "status": "historical_reference_only",
+    "native_remesh_under_abaqus2023": "incompatible_release_got_2024",
+    "predecessor_job_id": "1385392.mmaster02",
+    "predecessor_odb_sha256": "85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72",
+    "predecessor_odb_role": "numerical_comparison_reference_only"
+  },
+  "benchmark_spec": {
+    "benchmark_geometry_physics_source": "Molnar-Gravouil Mode-II single-edge-notch benchmark as represented by the accepted project benchmark configuration",
+    "refinement_workflow_source": "Pandey-Kumar 2025 MISESERI-driven Abaqus native pre-refinement workflow",
+    "width_mm": 1.0,
+    "height_mm": 1.0,
+    "thickness_mm": 1.0,
+    "notch_length_mm": 0.5,
+    "notch_start_mm": [
+      -0.5,
+      0.0
+    ],
+    "notch_tip_mm": [
+      0.0,
+      0.0
+    ],
+    "material": {
+      "youngs_modulus_MPa": 210000.0,
+      "poissons_ratio": 0.3,
+      "gc_N_per_mm": 2.7,
+      "l0_mm": 0.015
+    },
+    "mesh": {
+      "element_family": "CPE4_CPE3_MIXED",
+      "elem_shape": "QUAD_DOMINATED",
+      "technique": "FREE",
+      "algorithm": "ADVANCING_FRONT",
+      "allow_mapped": false,
+      "target_h_mm": 0.018,
+      "planned_coarse_element_count_range": [
+        3500,
+        4300
+      ]
+    },
+    "deterministic_names": {
+      "model_name": "ModeII_Geometry_Model",
+      "part_name": "PlatePart",
+      "instance_name": "PlateInstance",
+      "step_name": "Step-1",
+      "material_name": "Steel",
+      "section_name": "SolidSection",
+      "set_bottom": "bottom_nodes",
+      "set_top": "top_nodes",
+      "set_rp": "RP",
+      "rule_name": "MISESERI_Adaptive_Rule"
+    }
+  }
+}

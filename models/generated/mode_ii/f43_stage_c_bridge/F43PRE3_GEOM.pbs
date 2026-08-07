@@ -1,0 +1,53 @@
+#!/bin/bash
+#PBS -N F43PRE3_GEOM
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -o F43PRE3_GEOM.log
+
+set -euo pipefail
+
+cd "${PBS_O_WORKDIR}"
+
+echo "[F43PRE3_GEOM] Starting Abaqus 2023 preanalysis job at $(date)"
+echo "[F43PRE3_GEOM] PBS_JOBID: ${PBS_JOBID:-local}"
+echo "[F43PRE3_GEOM] Workdir: ${PBS_O_WORKDIR}"
+
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+echo "[F43PRE3_GEOM] Loaded modules:"
+module list
+
+if [ ! -f "F43PRE3_GEOM.inp" ]; then
+    echo "[F43PRE3_GEOM] FATAL ERROR: F43PRE3_GEOM.inp input deck missing!" >&2
+    exit 1
+fi
+
+echo "[F43PRE3_GEOM] Input deck SHA256:"
+sha256sum F43PRE3_GEOM.inp
+
+rm -f F43PRE3_GEOM.lock F43PRE3_GEOM.odb F43PRE3_GEOM.sta F43PRE3_GEOM.msg F43PRE3_GEOM.dat
+
+set +e
+abaqus job=F43PRE3_GEOM input=F43PRE3_GEOM.inp interactive
+solver_rc=$?
+set -e
+
+echo "[F43PRE3_GEOM] Abaqus solver finished with exit status ${solver_rc} at $(date)"
+
+if [ ${solver_rc} -ne 0 ]; then
+    echo "[F43PRE3_GEOM] FATAL ERROR: Abaqus solver exited with non-zero status ${solver_rc}" >&2
+    exit ${solver_rc}
+fi
+
+if [ ! -f "F43PRE3_GEOM.odb" ]; then
+    echo "[F43PRE3_GEOM] FATAL ERROR: Output F43PRE3_GEOM.odb not generated!" >&2
+    exit 1
+fi
+
+echo "[F43PRE3_GEOM] Output ODB generated successfully. SHA256:"
+sha256sum F43PRE3_GEOM.odb
+
+echo "[F43PRE3_GEOM] Job completed successfully at $(date)"
