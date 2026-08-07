@@ -23,11 +23,40 @@ cd "runs/hpc/stage_f/f41_crack_geometry_reconstruction/${JOB_NAME}_${PBS_JOBID}/
 export F41_RUNTIME_DIR="$(pwd)"
 export F41_EVIDENCE_DIR="${PBS_O_WORKDIR}/${EVIDENCE_DIR}"
 
-# Run Abaqus/CAE in noGUI mode
-/cluster/application/abaqus/2023/Commands/abaqus cae noGUI=run_f41_cae_reconstruction.py > "${F41_EVIDENCE_DIR}/ABAQUS_CAE.log" 2>&1 || true
+# Execute Abaqus CAE noGUI mode and capture return code
+set +e
+/cluster/application/abaqus/2023/Commands/abaqus cae noGUI=run_f41_cae_reconstruction.py > "${F41_EVIDENCE_DIR}/ABAQUS_CAE.log" 2>&1
+ABAQUS_RC=$?
+echo "${ABAQUS_RC}" > "${F41_EVIDENCE_DIR}/ABAQUS_CAE.returncode"
 
-python3 validate_f41_matrix_results.py "${F41_EVIDENCE_DIR}" > "${F41_EVIDENCE_DIR}/F41_MATRIX_VALIDATION.txt" 2>&1 || true
-python3 validate_f41_runtime_audits.py "${F41_EVIDENCE_DIR}" > "${F41_EVIDENCE_DIR}/F41_RUNTIME_AUDIT_VALIDATION.txt" 2>&1 || true
-python3 generate_missing_evidence_report.py "${F41_EVIDENCE_DIR}" || true
+# Execute validators and capture return codes
+python3 validate_f41_matrix_results.py "${F41_EVIDENCE_DIR}" > "${F41_EVIDENCE_DIR}/F41_MATRIX_VALIDATION.txt" 2>&1
+MATRIX_VALIDATOR_RC=$?
+echo "${MATRIX_VALIDATOR_RC}" > "${F41_EVIDENCE_DIR}/F41_MATRIX_VALIDATOR.returncode"
+
+python3 validate_f41_runtime_audits.py "${F41_EVIDENCE_DIR}" > "${F41_EVIDENCE_DIR}/F41_RUNTIME_AUDIT_VALIDATION.txt" 2>&1
+RUNTIME_VALIDATOR_RC=$?
+echo "${RUNTIME_VALIDATOR_RC}" > "${F41_EVIDENCE_DIR}/F41_RUNTIME_VALIDATOR.returncode"
+
+python3 generate_missing_evidence_report.py "${F41_EVIDENCE_DIR}" > "${F41_EVIDENCE_DIR}/MISSING_EVIDENCE_REPORT.stdout" 2>&1
+MISSING_EVIDENCE_RC=$?
+echo "${MISSING_EVIDENCE_RC}" > "${F41_EVIDENCE_DIR}/F41_MISSING_EVIDENCE.returncode"
+set -e
+
+# Fail closed if any runtime phase or validator failed
+if [ ${ABAQUS_RC} -ne 0 ]; then
+    echo "ERROR: Abaqus CAE execution failed with returncode ${ABAQUS_RC}" >&2
+    exit ${ABAQUS_RC}
+fi
+
+if [ ${MATRIX_VALIDATOR_RC} -ne 0 ]; then
+    echo "ERROR: F41 matrix validator failed with returncode ${MATRIX_VALIDATOR_RC}" >&2
+    exit ${MATRIX_VALIDATOR_RC}
+fi
+
+if [ ${RUNTIME_VALIDATOR_RC} -ne 0 ]; then
+    echo "ERROR: F41 runtime audit validator failed with returncode ${RUNTIME_VALIDATOR_RC}" >&2
+    exit ${RUNTIME_VALIDATOR_RC}
+fi
 
 exit 0

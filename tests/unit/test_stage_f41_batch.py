@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Unit tests for Stage F41 Topology-Preserving Crack Geometry Reconstruction (F41R2).
+Unit tests for Stage F41 Topology-Preserving Crack Geometry Reconstruction (F41R3).
 Includes pure-Python offline topology tests, synthetic conversion tests, and static runtime-contract tests.
 """
 
@@ -81,48 +81,78 @@ class TestStageF41RuntimeContractStatic(unittest.TestCase):
 
     def setUp(self):
         self.matrix_py = os.path.join(F41_RUNTIME_DIR, "f41_cae_reconstruction_matrix.py")
+        self.launcher_py = os.path.join(F41_RUNTIME_DIR, "run_f41_cae_reconstruction.py")
+        self.pbs_script = os.path.join(PROJECT_ROOT, "models", "generated", "mode_ii", "f41_crack_geometry_reconstruction", "M2RMSTITCH1.pbs")
+
         self.assertTrue(os.path.exists(self.matrix_py), "f41_cae_reconstruction_matrix.py must exist")
+        self.assertTrue(os.path.exists(self.launcher_py), "run_f41_cae_reconstruction.py must exist")
+        self.assertTrue(os.path.exists(self.pbs_script), "M2RMSTITCH1.pbs must exist")
+
         with open(self.matrix_py, 'r') as f:
-            self.source = f.read()
+            self.matrix_source = f.read()
+        with open(self.launcher_py, 'r') as f:
+            self.launcher_source = f.read()
+        with open(self.pbs_script, 'r') as f:
+            self.pbs_source = f.read()
 
     def test_07_both_node_crack_merge_selection_no_upper_only(self):
-        self.assertIn("lower_node_id", self.source)
-        self.assertIn("upper_node_id", self.source)
-        self.assertIn("all_crack_node_labels.append(p[\"lower_node_id\"])", self.source)
-        self.assertIn("all_crack_node_labels.append(p[\"upper_node_id\"])", self.source)
-        self.assertNotIn("upper_node_objs = [", self.source, "Must not build merge selection using upper_node_objs only")
+        self.assertIn("lower_node_id", self.matrix_source)
+        self.assertIn("upper_node_id", self.matrix_source)
+        self.assertIn("all_crack_node_labels.append(p[\"lower_node_id\"])", self.matrix_source)
+        self.assertIn("all_crack_node_labels.append(p[\"upper_node_id\"])", self.matrix_source)
+        self.assertNotIn("upper_node_objs = [", self.matrix_source, "Must not build merge selection using upper_node_objs only")
 
     def test_08_no_edgearray_findat_tolerance_keyword(self):
-        self.assertNotIn("edges.findAt((-0.25, 0.0, 0.0), tolerance=", self.source, "Must not call edges.findAt with tolerance keyword")
-        self.assertNotIn("edges.findAt(coordinates=(-0.25, 0.0, 0.0), tolerance=", self.source, "Must not call edges.findAt with tolerance keyword")
-        self.assertIn("edges.findAt(coordinates=(-0.25, 0.0, 0.0), printWarning=False)", self.source, "Must use supported findAt syntax")
+        self.assertNotIn("edges.findAt((-0.25, 0.0, 0.0), tolerance=", self.matrix_source)
+        self.assertNotIn("edges.findAt(coordinates=(-0.25, 0.0, 0.0), tolerance=", self.matrix_source)
+        self.assertIn("edges.findAt(coordinates=(-0.25, 0.0, 0.0), printWarning=False)", self.matrix_source)
 
     def test_09_getvertices_resolved_through_part_vertices(self):
-        self.assertIn("vertex_ids = crack_edge.getVertices()", self.source)
-        self.assertIn("part.vertices[vertex_ids[0]]", self.source)
-        self.assertIn("part.vertices[vertex_ids[1]]", self.source)
-        self.assertNotIn("edge_v.pointOn", self.source, "Must not call pointOn directly on getVertices elements")
+        self.assertIn("vertex_ids = crack_edge.getVertices()", self.matrix_source)
+        self.assertIn("part.vertices[vertex_ids[0]]", self.matrix_source)
+        self.assertIn("part.vertices[vertex_ids[1]]", self.matrix_source)
+        self.assertNotIn("edge_v.pointOn", self.matrix_source)
 
     def test_10_explicit_seam_region_tuple(self):
-        self.assertIn("engineeringFeatures.assignSeam(regions=(crack_region,))", self.source, "Must pass seam region as an explicit tuple")
-        self.assertNotIn("assignSeam(regions=crack_region)", self.source, "Must not pass bare single region object")
+        self.assertIn("engineeringFeatures.assignSeam(regions=(crack_region,))", self.matrix_source)
+        self.assertNotIn("assignSeam(regions=crack_region)", self.matrix_source)
 
     def test_11_no_false_success_fallback_copying(self):
-        self.assertNotIn("crack_start_after = crack_start_before", self.source, "Must not fallback copy crack_start_before")
-        self.assertNotIn("crack_tip_after = crack_tip_before", self.source, "Must not fallback copy crack_tip_before")
+        self.assertNotIn("crack_start_after = crack_start_before", self.matrix_source)
+        self.assertNotIn("crack_tip_after = crack_tip_before", self.matrix_source)
 
     def test_12_fail_closed_if_endpoint_count_not_two(self):
-        self.assertIn("len(vertex_ids) != 2", self.source)
-        self.assertIn("exactly 2 required", self.source)
+        self.assertIn("len(vertex_ids) != 2", self.matrix_source)
+        self.assertIn("exactly 2 required", self.matrix_source)
+
+    def test_13_launcher_no_file_dependency_and_env_preference(self):
+        self.assertNotIn("__file__", self.launcher_source, "Launcher must not rely on __file__ variable")
+        self.assertIn("os.environ.get(\"F41_RUNTIME_DIR\", \"\")", self.launcher_source)
+        self.assertIn("os.getcwd()", self.launcher_source)
+        self.assertIn("f41_cae_reconstruction_matrix.py", self.launcher_source)
+        self.assertIn("source_deck.inp", self.launcher_source)
+        self.assertIn("F41_RECONSTRUCTION.returncode", self.launcher_source)
+
+    def test_14_pbs_fail_closed_returncode_capture(self):
+        self.assertNotIn("abaqus cae noGUI=run_f41_cae_reconstruction.py > \"${F41_EVIDENCE_DIR}/ABAQUS_CAE.log\" 2>&1 || true", self.pbs_source, "PBS must not mask Abaqus failure with || true")
+        self.assertIn("ABAQUS_RC=$?", self.pbs_source)
+        self.assertIn("MATRIX_VALIDATOR_RC=$?", self.pbs_source)
+        self.assertIn("RUNTIME_VALIDATOR_RC=$?", self.pbs_source)
+        self.assertIn("F41_MATRIX_VALIDATOR.returncode", self.pbs_source)
+        self.assertIn("F41_RUNTIME_VALIDATOR.returncode", self.pbs_source)
+        self.assertIn("ABAQUS_CAE.returncode", self.pbs_source)
+        self.assertIn("exit ${ABAQUS_RC}", self.pbs_source)
+        self.assertIn("exit ${MATRIX_VALIDATOR_RC}", self.pbs_source)
+        self.assertIn("exit ${RUNTIME_VALIDATOR_RC}", self.pbs_source)
 
 
 class TestStageF41SyntheticConversion(unittest.TestCase):
 
-    def test_13_synthetic_unusable_cracked_topology(self):
+    def test_15_synthetic_unusable_cracked_topology(self):
         cracked_conversion = {"face_count": 0, "vertex_count": 0, "usable_geometry": False}
         self.assertFalse(cracked_conversion["usable_geometry"])
 
-    def test_14_synthetic_reconstructed_geometry_crack_recreated_passes_audit(self):
+    def test_16_synthetic_reconstructed_geometry_crack_recreated_passes_audit(self):
         reconstructed = {
             "duplicate_pairs_before": 15,
             "duplicate_pairs_after": 0,
@@ -145,7 +175,7 @@ class TestStageF41SyntheticConversion(unittest.TestCase):
         self.assertTrue(reconstructed["seam_assigned"])
         self.assertTrue(reconstructed["mesh_generated"])
 
-    def test_15_fail_closed_on_unassigned_seam_or_uncreated_mesh(self):
+    def test_17_fail_closed_on_unassigned_seam_or_uncreated_mesh(self):
         bad_audit1 = {"seam_assigned": False, "reconstruction_passed": False}
         bad_audit2 = {"mesh_generated": False, "reconstruction_passed": False}
         self.assertFalse(bad_audit1["reconstruction_passed"])
