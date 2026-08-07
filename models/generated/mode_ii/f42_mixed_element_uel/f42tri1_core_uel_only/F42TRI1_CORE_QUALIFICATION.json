@@ -1,0 +1,19 @@
+{
+  "protocol_version": 1,
+  "qualification_type": "detached_clean_linux_qualification",
+  "task_id": "F42B-SINGLE-TRIANGLE-UEL-CORE-VERIFICATION",
+  "preparation_commit": "67809cb7523cdd4047c5c394841f2dca949a1ff3",
+  "qualification_environment": "detached_git_worktree_clean_linux",
+  "qualification_status": "qualified_not_authorized",
+  "verification_tests": {
+    "f42_unit_tests": "11/11 PASSED",
+    "f41_regression_tests": "21/21 PASSED",
+    "f40_regression_tests": "35/35 PASSED",
+    "gfortran_syntax_checks": "0 errors, 0 warnings",
+    "manifest_hashes_verified": true,
+    "oracle_predeclared": true
+  },
+  "package_path": "models/generated/mode_ii/f42_mixed_element_uel/f42tri1_core_uel_only",
+  "prepared_job_name": "F42TRI1",
+  "qsub_authorized": false
+}
