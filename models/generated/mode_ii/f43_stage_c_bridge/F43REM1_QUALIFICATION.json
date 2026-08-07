@@ -1,13 +1,18 @@
 {
-  "qualification_id": "Q43R1-RQ",
+  "qualification_id": "Q43R1-RQ2",
   "qualified_job": "F43REM1_CURRENT",
   "qualification_target_commit": "3f3eb579c5016ecdc02d23e7d166d831f80be35c",
-  "qualification_mode": "detached_clean_worktree",
+  "qualification_mode": "clean_linux_detached_worktree",
   "detached_HEAD": "3f3eb579c5016ecdc02d23e7d166d831f80be35c",
-  "working_tree_clean_before_tests": true,
-  "all_hashes_pass": true,
-  "all_static_checks_pass": true,
-  "all_tests_pass": true,
+  "clean_linux_detached_worktree": true,
+  "no_file_mutation_during_qualification": true,
+  "raw_git_blob_hashes_match": true,
+  "raw_worktree_hashes_match": true,
+  "pre_test_git_status_clean": true,
+  "post_test_git_status_clean": true,
+  "post_test_hashes_unchanged": true,
+  "static_checks_pass": true,
+  "tests_pass": true,
   "qsub_called": false,
   "scheduler_submissions": 0,
   "predecessor_job": "1384674.mmaster02",
@@ -34,8 +39,8 @@
     "pass": true
   },
   "superseded_qualification_record": {
-    "qualification_id": "Q43R1",
-    "commit": "7e84e94566550c474afa352d7052b3b7be81225b",
-    "status": "superseded_for_authorization_due_to_missing_demonstrated_detached_qualification"
+    "qualification_id": "Q43R1-RQ",
+    "commit": "7741484201cc658505bf2d8f7dc97ca4c029134c",
+    "status": "superseded_for_authorization_due_to_worktree_mutation_during_qualification"
   }
 }
