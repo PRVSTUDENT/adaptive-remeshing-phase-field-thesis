@@ -8,7 +8,7 @@ Completed task `F43REM2-R5`: Abaqus/CAE kernel launcher repair, lightweight inte
 - **Classification**: `f43rem2_r5_cae_kernel_launcher_repaired_and_qualified`
 - **Governance Classification**: `protocol_deviating_no_direct_human_chat_authorization_historical_1385400` (Job 1385400 evidence preserved; zero replacement job submitted; authority reset to 0/false).
 - **Preparation Commit ($P$)**: `P43REM2-R5` (`60f53f1737be7df9168bfcdbbd1c3aef4c730fc9`)
-- **Qualification Commit ($Q$)**: `Q43REM2-R5`
+- **Qualification Commit ($Q$)**: `Q43REM2-R5` (`6be51ac54c60010996dbef505f375fca9b29dd08`)
 - **Execution Mode**: `abaqus_cae_noGUI_kernel`
 - **Manifest Transport**: `environment_variable` (`export F43REM2_MANIFEST_PATH="..."`)
 - **Predecessor ODB**: `1385392.mmaster02/F43PRE2_GEOM.odb` (SHA256: `85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72`)
