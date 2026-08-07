@@ -4,9 +4,9 @@ Stage F42C Single-Triangle Core + CPE3 Facsimile Verification (F42TRI2)
 1, 0.0, 0.0
 2, 1.0, 0.0
 3, 0.0, 1.0
-*User Element, type=U3, nodes=3, iprops=0, real props=3, coordinates=2, variables=18, unsymm
+*User Element, type=U3, nodes=3, coordinates=2, variables=18, properties=3, unsymm
 1, 2
-*User Element, type=U4, nodes=3, iprops=0, real props=5, coordinates=2, variables=18, unsymm
+*User Element, type=U4, nodes=3, coordinates=2, variables=18, properties=5, unsymm
 1, 2
 *Element, type=U3, elset=EL_PHASE
 1, 1, 2, 3

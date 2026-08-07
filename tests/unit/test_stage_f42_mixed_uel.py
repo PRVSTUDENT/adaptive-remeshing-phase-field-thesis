@@ -344,6 +344,37 @@ class TestF42CTriangleFacsimileContract(unittest.TestCase):
         self.assertIn("qsub -v F42TRI2_WRAPPER_AUTHORIZED=1 F42TRI2.pbs", submit_content)
 
 
+    def test_18_f42c_user_element_properties_bounds_and_syntax_validation(self):
+        """Parse f42c_mixed_uel.for and F42TRI2.inp to verify valid Abaqus UEL property keyword contract."""
+        f42c_dir = os.path.join(PROJECT_ROOT, "models", "generated", "mode_ii", "f42_mixed_element_uel", "f42c_triangle_facsimile")
+        inp_path = os.path.join(f42c_dir, "F42TRI2.inp")
+
+        with open(inp_path, 'r') as f:
+            inp_content = f.read()
+
+        # 1. Prohibit invalid Abaqus keyword parameters
+        self.assertNotIn("REAL PROPS", inp_content.upper(), "F42TRI2.inp must NOT contain REAL PROPS")
+        self.assertNotIn("REALPROPS", inp_content.upper(), "F42TRI2.inp must NOT contain REALPROPS")
+        self.assertNotIn("IPROPS", inp_content.upper(), "F42TRI2.inp must NOT contain IPROPS")
+
+        # 2. Check U3 and U4 property declarations and UEL Property cards
+        self.assertIn("properties=3", inp_content.lower(), "U3 user element must declare properties=3")
+        self.assertIn("properties=5", inp_content.lower(), "U4 user element must declare properties=5")
+
+        # 3. Verify *UEL PROPERTY value counts
+        # EL_PHASE -> 3 values
+        uel_prop_phase = re.search(r'\*UEL\s+PROPERTY,\s*elset=EL_PHASE\s*\n\s*([^\n]+)', inp_content, re.IGNORECASE)
+        self.assertIsNotNone(uel_prop_phase, "F42TRI2.inp must contain *UEL PROPERTY, elset=EL_PHASE")
+        phase_vals = [v.strip() for v in uel_prop_phase.group(1).split(',') if v.strip()]
+        self.assertEqual(len(phase_vals), 3, f"EL_PHASE requires 3 real property values, found {len(phase_vals)}")
+
+        # EL_DISP -> 5 values
+        uel_prop_disp = re.search(r'\*UEL\s+PROPERTY,\s*elset=EL_DISP\s*\n\s*([^\n]+)', inp_content, re.IGNORECASE)
+        self.assertIsNotNone(uel_prop_disp, "F42TRI2.inp must contain *UEL PROPERTY, elset=EL_DISP")
+        disp_vals = [v.strip() for v in uel_prop_disp.group(1).split(',') if v.strip()]
+        self.assertEqual(len(disp_vals), 5, f"EL_DISP requires 5 real property values, found {len(disp_vals)}")
+
+
 if __name__ == "__main__":
     unittest.main()
 
