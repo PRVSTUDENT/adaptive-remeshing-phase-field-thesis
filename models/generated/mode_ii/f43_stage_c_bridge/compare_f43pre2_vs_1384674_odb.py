@@ -186,6 +186,22 @@ def extract_odb_data(odb_path, label):
         "s_mises": s_mises_dict
     }
 
+def sanitize_json(obj):
+    if isinstance(obj, dict):
+        return dict((str(k), sanitize_json(v)) for k, v in obj.items())
+    elif isinstance(obj, (list, tuple)):
+        return [sanitize_json(v) for v in obj]
+    elif isinstance(obj, bool):
+        return bool(obj)
+    elif isinstance(obj, (int, long)):
+        return int(obj)
+    elif isinstance(obj, float) or hasattr(obj, '__float__'):
+        return float(obj)
+    elif obj is None:
+        return None
+    else:
+        return str(obj)
+
 def main():
     if len(sys.argv) < 3:
         print("Usage: abaqus python compare_f43pre2_vs_1384674_odb.py <odb_new_path> <odb_old_path> [out_dir]")
@@ -203,19 +219,19 @@ def main():
     with open(csv_new_path, "w") as f:
         f.write("Frame,Time,U1_mm,RF1_N\n")
         for row in new_data["rf_u_history"]:
-            f.write("{},{},{},{}\n".format(row["frame"], row["time"], row["U1"], row["RF1"]))
+            f.write("{},{},{},{}\n".format(row["frame"], row["time"], float(row["U1"]), float(row["RF1"])))
             
     csv_old_path = os.path.join(out_dir, "F43PRE1_1384674_RF1_U1.csv")
     with open(csv_old_path, "w") as f:
         f.write("Frame,Time,U1_mm,RF1_N\n")
         for row in old_data["rf_u_history"]:
-            f.write("{},{},{},{}\n".format(row["frame"], row["time"], row["U1"], row["RF1"]))
+            f.write("{},{},{},{}\n".format(row["frame"], row["time"], float(row["U1"]), float(row["RF1"])))
             
     # 2. Global Load-Displacement Metrics
-    new_final_u1 = new_data["rf_u_history"][-1]["U1"]
-    new_final_rf1 = new_data["rf_u_history"][-1]["RF1"]
-    old_final_u1 = old_data["rf_u_history"][-1]["U1"]
-    old_final_rf1 = old_data["rf_u_history"][-1]["RF1"]
+    new_final_u1 = float(new_data["rf_u_history"][-1]["U1"])
+    new_final_rf1 = float(new_data["rf_u_history"][-1]["RF1"])
+    old_final_u1 = float(old_data["rf_u_history"][-1]["U1"])
+    old_final_rf1 = float(old_data["rf_u_history"][-1]["RF1"])
     
     rf1_rel_err_pct = (abs(new_final_rf1 - old_final_rf1) / abs(old_final_rf1)) * 100.0 if old_final_rf1 != 0 else 0.0
     
@@ -224,50 +240,52 @@ def main():
     k_rel_err_pct = (abs(new_k_eff - old_k_eff) / abs(old_k_eff)) * 100.0 if old_k_eff != 0 else 0.0
     
     # 3. MISESERI Activity & Statistics
-    new_m_stats = compute_stats(list(new_data["miseseri"].values()))
-    old_m_stats = compute_stats(list(old_data["miseseri"].values()))
+    new_m_stats = compute_stats([float(v) for v in new_data["miseseri"].values()])
+    old_m_stats = compute_stats([float(v) for v in old_data["miseseri"].values()])
     
-    new_ma_stats = compute_stats(list(new_data["misesavg"].values()))
-    old_ma_stats = compute_stats(list(old_data["misesavg"].values()))
+    new_ma_stats = compute_stats([float(v) for v in new_data["misesavg"].values()])
+    old_ma_stats = compute_stats([float(v) for v in old_data["misesavg"].values()])
     
     # Max location & crack tip distance (l0 = 0.015 mm)
     l0 = 0.015
     new_max_elem = None
     new_max_val = -1e9
     for el, val in new_data["miseseri"].items():
-        if val > new_max_val:
-            new_max_val = val
+        val_f = float(val)
+        if val_f > new_max_val:
+            new_max_val = val_f
             new_max_elem = el
-    new_max_loc = new_data["elem_centroids"].get(new_max_elem, (0, 0)) if new_max_elem else (0, 0)
-    new_max_dist = math.sqrt(new_max_loc[0]**2 + new_max_loc[1]**2)
+    new_max_loc = new_data["elem_centroids"].get(new_max_elem, (0.0, 0.0)) if new_max_elem else (0.0, 0.0)
+    new_max_dist = math.sqrt(float(new_max_loc[0])**2 + float(new_max_loc[1])**2)
     
     old_max_elem = None
     old_max_val = -1e9
     for el, val in old_data["miseseri"].items():
-        if val > old_max_val:
-            old_max_val = val
+        val_f = float(val)
+        if val_f > old_max_val:
+            old_max_val = val_f
             old_max_elem = el
-    old_max_loc = old_data["elem_centroids"].get(old_max_elem, (0, 0)) if old_max_elem else (0, 0)
-    old_max_dist = math.sqrt(old_max_loc[0]**2 + old_max_loc[1]**2)
+    old_max_loc = old_data["elem_centroids"].get(old_max_elem, (0.0, 0.0)) if old_max_elem else (0.0, 0.0)
+    old_max_dist = math.sqrt(float(old_max_loc[0])**2 + float(old_max_loc[1])**2)
     
-    loc_diff_mm = math.sqrt((new_max_loc[0] - old_max_loc[0])**2 + (new_max_loc[1] - old_max_loc[1])**2)
+    loc_diff_mm = math.sqrt((float(new_max_loc[0]) - float(old_max_loc[0]))**2 + (float(new_max_loc[1]) - float(old_max_loc[1]))**2)
     
     # Near-notch Physical Localization (top 10% MISESERI)
     top10_threshold_new = new_m_stats["p90"]
-    top10_elems_new = [el for el, val in new_data["miseseri"].items() if val >= top10_threshold_new]
+    top10_elems_new = [el for el, val in new_data["miseseri"].items() if float(val) >= top10_threshold_new]
     n_top10 = len(top10_elems_new)
     
-    in_2l0 = sum(1 for el in top10_elems_new if math.sqrt(new_data["elem_centroids"][el][0]**2 + new_data["elem_centroids"][el][1]**2) <= 2.0*l0)
-    in_5l0 = sum(1 for el in top10_elems_new if math.sqrt(new_data["elem_centroids"][el][0]**2 + new_data["elem_centroids"][el][1]**2) <= 5.0*l0)
-    in_10l0 = sum(1 for el in top10_elems_new if math.sqrt(new_data["elem_centroids"][el][0]**2 + new_data["elem_centroids"][el][1]**2) <= 10.0*l0)
+    in_2l0 = sum(1 for el in top10_elems_new if math.sqrt(float(new_data["elem_centroids"][el][0])**2 + float(new_data["elem_centroids"][el][1])**2) <= 2.0*l0)
+    in_5l0 = sum(1 for el in top10_elems_new if math.sqrt(float(new_data["elem_centroids"][el][0])**2 + float(new_data["elem_centroids"][el][1])**2) <= 5.0*l0)
+    in_10l0 = sum(1 for el in top10_elems_new if math.sqrt(float(new_data["elem_centroids"][el][0])**2 + float(new_data["elem_centroids"][el][1])**2) <= 10.0*l0)
     
     top10_frac_2l0 = in_2l0 / float(n_top10) if n_top10 > 0 else 0.0
     top10_frac_5l0 = in_5l0 / float(n_top10) if n_top10 > 0 else 0.0
     top10_frac_10l0 = in_10l0 / float(n_top10) if n_top10 > 0 else 0.0
     
     # 4. EVOL & Volume Consistency
-    new_sum_evol = sum(new_data["evol"].values())
-    old_sum_evol = sum(old_data["evol"].values())
+    new_sum_evol = sum(float(v) for v in new_data["evol"].values())
+    old_sum_evol = sum(float(v) for v in old_data["evol"].values())
     evol_rel_err_pct = (abs(new_sum_evol - old_sum_evol) / abs(old_sum_evol)) * 100.0 if old_sum_evol != 0 else 0.0
     
     # 5. Spatial Common-Grid Comparison (0.02 mm resolution over [-0.5, 0.5] x [-0.5, 0.5])
@@ -293,20 +311,20 @@ def main():
         best_d_new = 1e9
         best_v_new = 0.0
         for el, (cx, cy) in new_data["elem_centroids"].items():
-            d = (gx - cx)**2 + (gy - cy)**2
+            d = (gx - float(cx))**2 + (gy - float(cy))**2
             if d < best_d_new:
                 best_d_new = d
-                best_v_new = new_data["miseseri"].get(el, 0.0)
+                best_v_new = float(new_data["miseseri"].get(el, 0.0))
         grid_vals_new.append(best_v_new / new_max_m)
         
         # Nearest in old mesh
         best_d_old = 1e9
         best_v_old = 0.0
         for el, (cx, cy) in old_data["elem_centroids"].items():
-            d = (gx - cx)**2 + (gy - cy)**2
+            d = (gx - float(cx))**2 + (gy - float(cy))**2
             if d < best_d_old:
                 best_d_old = d
-                best_v_old = old_data["miseseri"].get(el, 0.0)
+                best_v_old = float(old_data["miseseri"].get(el, 0.0))
         grid_vals_old.append(best_v_old / old_max_m)
         
     # Common-grid normalized L2 error %
@@ -355,8 +373,8 @@ def main():
             "new": new_m_stats,
             "old": old_m_stats,
             "nontrivial": miseseri_nontrivial,
-            "new_max_location_mm": new_max_loc,
-            "old_max_location_mm": old_max_loc,
+            "new_max_location_mm": [float(new_max_loc[0]), float(new_max_loc[1])],
+            "old_max_location_mm": [float(old_max_loc[0]), float(old_max_loc[1])],
             "max_location_difference_mm": loc_diff_mm,
             "new_max_distance_from_crack_tip_mm": new_max_dist
         },
@@ -395,12 +413,14 @@ def main():
         "scientific_gate": scientific_gate
     }
     
+    clean_summary = sanitize_json(summary)
+    
     out_json_path = os.path.join(out_dir, "F43PRE2_VS_1384674_COMPARISON_SUMMARY.json")
     with open(out_json_path, "w") as f:
-        json.dump(summary, f, indent=2)
+        json.dump(clean_summary, f, indent=2)
         
     print("\nExtraction & Scientific Comparison Complete:")
-    print(json.dumps(summary, indent=2))
+    print(json.dumps(clean_summary, indent=2))
 
 if __name__ == "__main__":
     main()
