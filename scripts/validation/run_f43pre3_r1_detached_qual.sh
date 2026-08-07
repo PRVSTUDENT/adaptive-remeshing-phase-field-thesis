@@ -28,6 +28,7 @@ fi
 
 echo "Step 1: Running full unit test discovery in detached worktree..."
 cd "${WORKTREE_DIR}"
+export F38_DIAGNOSTIC_MATRIX="${SCRATCH_DIR}/CAE_PHASE_DIAGNOSTIC_MATRIX.json"
 python3 -m unittest discover -s "${WORKTREE_DIR}/tests/unit" -p 'test_*.py'
 
 echo "Step 2: Running static validator in detached worktree..."
