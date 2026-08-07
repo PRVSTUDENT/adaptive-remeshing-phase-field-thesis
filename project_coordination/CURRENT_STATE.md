@@ -1,6 +1,43 @@
 # Current project state
 
+## F42A Mixed Triangle-Quadrilateral UEL Architecture Foundation (2026-08-07)
+
+Completed Task F42A mixed 3-node triangle and 4-node quad UEL formulation, input deck parser & rebuilder, and pure offline mathematical unit test suite:
+- **Task ID**: `F42A-MIXED-TRIANGLE-QUADRILATERAL-UEL-ARCHITECTURE-FOUNDATION`
+- **Status**: `mixed_element_uel_offline_implementation_ready_for_element_verification`
+- **Classification**: `f42a_mixed_element_uel_architecture_foundation_complete`
+- **Next Action**: `prepare_one_triangle_element_verification_without_submission`
+- **Option Adopted**: **Option A — Mixed 3-Node / 4-Node UEL Support** (Scientifically aligned with Pandey & Kumar 2025).
+- **F41 Scientific Results Frozen**:
+  1. **Geometry Pipeline**: Fully validated in Abaqus/CAE 2023 (15 crack pairs detected/merged, `Part2DGeomFrom2DMesh` created usable geometry, crack partition recreated, seam assigned, crack coordinates & outer boundary preserved).
+  2. **Element Contract**: Identified current production UEL as quad-only (`CPE4` / 4-node $U1$ / 4-node $U2$), requiring mixed element extension for Abaqus native adaptivity.
+- **Mixed Element Type Contract**:
+  - `U11`: 4-node Phase Field UEL ($nodes=4$)
+  - `U12`: 4-node Displacement UEL ($nodes=4$)
+  - `U21`: 3-node Phase Field UEL ($nodes=3$)
+  - `U22`: 3-node Displacement UEL ($nodes=3$)
+  - `CPE4`: 4-node Facsimile / Output Layer
+  - `CPE3`: 3-node Facsimile / Output Layer
+- **3-Node Linear Triangle Formulation**:
+  - Natural area coordinates $L_1 = 1 - \xi - \eta, L_2 = \xi, L_3 = \eta$.
+  - Constant shape function derivatives $dNdxi(1..3, 2)$ and $2 \times 2$ constant Jacobian matrix $VJACOB(1..2, 1..2)$ with $\det(\mathbf{J}) = 2 A_e$.
+  - 1-point centroidal quadrature $(\xi=1/3, \eta=1/3, w=0.5 \det(\mathbf{J}) t = A_e t)$.
+- **State Storage Scheme**:
+  - `COMMON/KUSER/USRVAR(N_ELEM, NSTV, 4)` retained.
+  - Quads use slots `NPT = 1..4`. Triangles use slot `NPT = 1` (slots 2..4 unused/zeroed). Quad memory layout 100% backward compatible.
+- **Deck Rebuilder (`f42_deck_rebuilder.py`)**:
+  - Parses `Job-2.inp` from Abaqus adaptive remeshing.
+  - Classifies elements as `CPE4` (4 nodes) vs `CPE3` (3 nodes). Rejects non-positive area elements or invalid node counts.
+  - Builds `Job-2_UEL.inp` containing `U11`, `U12`, `U21`, `U22`, `CPE4`, `CPE3`, `All_elem`, and `umatelem` sets.
+- **Offline Mathematical Unit Test Suite (`test_stage_f42_mixed_uel.py`)**:
+  - All 8 unit tests passed (partition of unity $\sum N_i = 1$, constant field reproduction, linear field reproduction, positive Jacobian determinant $\det(\mathbf{J}) > 0$, B-matrix dimensions $2 \times 3$ and $3 \times 6$, residual/stiffness dimensions, deck rebuilder classification, non-positive area element rejection).
+  - All F41 (21/21) and F40 (35/35) regression unit tests passed cleanly (**64/64 total tests OK**).
+- **Authority Flags**: All default-closed (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`). No HPC jobs submitted.
+
+Classification: `f42a_mixed_element_uel_architecture_foundation_complete`.
+
 ## F41R6 Adaptive-Remeshing Element Compatibility Decision Gate (2026-08-07)
+
 
 Completed Stage F41R6 production element contract audit, seam duplicate mesh node topology validation fix, and evidence safety verification:
 - **Task ID**: `F41R6-ADAPTIVE-REMESHING-COMPATIBILITY-GATE`
