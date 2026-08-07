@@ -11,6 +11,7 @@ import sys
 import tempfile
 import re
 import subprocess
+import shutil
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, PROJECT_ROOT)
@@ -373,6 +374,39 @@ class TestF42CTriangleFacsimileContract(unittest.TestCase):
         self.assertIsNotNone(uel_prop_disp, "F42TRI2.inp must contain *UEL PROPERTY, elset=EL_DISP")
         disp_vals = [v.strip() for v in uel_prop_disp.group(1).split(',') if v.strip()]
         self.assertEqual(len(disp_vals), 5, f"EL_DISP requires 5 real property values, found {len(disp_vals)}")
+
+
+    def test_19_f42d_mixed_quad_tri_patch_model_validation(self):
+        """Verify F42D mixed Quad-Triangle patch model F42MIX1 package structure and syntax."""
+        f42d_dir = os.path.join(PROJECT_ROOT, "models", "generated", "mode_ii", "f42_mixed_element_uel", "f42d_mixed_patch")
+        inp_path = os.path.join(f42d_dir, "F42MIX1.inp")
+        for_path = os.path.join(f42d_dir, "f42d_mixed_uel.for")
+        pbs_path = os.path.join(f42d_dir, "F42MIX1.pbs")
+
+        self.assertTrue(os.path.exists(inp_path), "F42MIX1.inp must exist")
+        self.assertTrue(os.path.exists(for_path), "f42d_mixed_uel.for must exist")
+        self.assertTrue(os.path.exists(pbs_path), "F42MIX1.pbs must exist")
+
+        with open(inp_path, 'r') as f:
+            inp_content = f.read()
+
+        # Check element types U1, U2, U3, U4, CPE4, CPE3 presence
+        self.assertIn("type=U1", inp_content)
+        self.assertIn("type=U2", inp_content)
+        self.assertIn("type=U3", inp_content)
+        self.assertIn("type=U4", inp_content)
+        self.assertIn("type=CPE4", inp_content)
+        self.assertIn("type=CPE3", inp_content)
+
+        # Syntax check via gfortran
+        gfortran_bin = shutil.which("gfortran")
+        if gfortran_bin:
+            inc_dir = tempfile.mkdtemp()
+            inc_path = os.path.join(inc_dir, "ABA_PARAM.INC")
+            with open(inc_path, 'w') as f:
+                f.write("      IMPLICIT REAL*8 (A-H,O-Z)\n")
+            res = subprocess.run([gfortran_bin, "-fsyntax-only", "-ffixed-line-length-none", f"-I{inc_dir}", for_path], capture_output=True, text=True)
+            self.assertEqual(res.returncode, 0, f"gfortran syntax check failed on f42d_mixed_uel.for: {res.stderr}")
 
 
 if __name__ == "__main__":

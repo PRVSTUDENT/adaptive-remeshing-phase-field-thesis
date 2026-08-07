@@ -1,0 +1,42 @@
+{
+  "test_id": "F42MIX1",
+  "task_id": "F42D-MIXED-QUAD-TRI-PATCH-INTEGRATION",
+  "physical_elements": {
+    "count": 2,
+    "element_1": {
+      "type": "quadrilateral",
+      "topology_marker": 4.0,
+      "nodes": [1, 2, 4, 3],
+      "physidx": 1,
+      "integration_points": 4,
+      "uel_phase_type": "U1",
+      "uel_disp_type": "U2",
+      "facsimile_type": "CPE4"
+    },
+    "element_2": {
+      "type": "triangle",
+      "topology_marker": 3.0,
+      "nodes": [2, 5, 4],
+      "physidx": 2,
+      "integration_points": 3,
+      "centroid_slot": 4,
+      "uel_phase_type": "U3",
+      "uel_disp_type": "U4",
+      "facsimile_type": "CPE3"
+    }
+  },
+  "shared_interface": {
+    "nodes": [2, 4],
+    "continuity": "affine_displacement_continuous"
+  },
+  "passivity_criterion": {
+    "dummy_youngs_modulus": 1.0e-11,
+    "max_relative_force_error": 1.0e-7
+  },
+  "expected_oracle_agreement": {
+    "quad_strain_matches_oracle": true,
+    "triangle_strain_matches_oracle": true,
+    "quad_stress_matches_oracle": true,
+    "triangle_stress_matches_oracle": true
+  }
+}

@@ -1,0 +1,51 @@
+#!/bin/bash
+#PBS -N F42MIX1
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -V
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+
+set -euo pipefail
+
+# Guarded submission wrapper enforcement
+if [ "${F42MIX1_WRAPPER_AUTHORIZED:-0}" -ne 1 ]; then
+    echo "ERROR: Direct qsub execution prohibited. Must submit via submit_f42mix1.sh" >&2
+    exit 1
+fi
+
+cd "${PBS_O_WORKDIR}"
+EVIDENCE_DIR="${PBS_O_WORKDIR}/evidence/${PBS_JOBID}"
+mkdir -p "${EVIDENCE_DIR}"
+
+echo "=== F42MIX1 Execution Start: $(date) ===" | tee "${EVIDENCE_DIR}/execution.log"
+echo "Job ID: ${PBS_JOBID}" | tee -a "${EVIDENCE_DIR}/execution.log"
+echo "Host: $(hostname)" | tee -a "${EVIDENCE_DIR}/execution.log"
+
+# Fail-closed proven module environment initialization
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "=== Module Environment State ===" | tee -a "${EVIDENCE_DIR}/execution.log"
+module list 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log"
+
+# Explicit fail-closed toolchain preflight checks
+echo "=== Toolchain Preflight Checks ===" | tee -a "${EVIDENCE_DIR}/execution.log"
+GCC_PATH="$(command -v gcc)"
+IFORT_PATH="$(command -v ifort)"
+ABAQUS_PATH="$(command -v abaqus)"
+
+echo "gcc resolved path: ${GCC_PATH}" | tee -a "${EVIDENCE_DIR}/execution.log"
+echo "ifort resolved path: ${IFORT_PATH}" | tee -a "${EVIDENCE_DIR}/execution.log"
+echo "abaqus resolved path: ${ABAQUS_PATH}" | tee -a "${EVIDENCE_DIR}/execution.log"
+
+ifort --version 2>&1 | head -n 5 | tee -a "${EVIDENCE_DIR}/execution.log"
+abaqus information=release 2>&1 | head -n 5 | tee -a "${EVIDENCE_DIR}/execution.log" || true
+
+abaqus job=F42MIX1 user=f42d_mixed_uel.for input=F42MIX1.inp cpus=1 interactive 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log" || true
+
+bash collect_f42mix1_evidence.sh "${PBS_JOBID}" "${EVIDENCE_DIR}"
+python3 validate_f42mix1_runtime.py "${EVIDENCE_DIR}"

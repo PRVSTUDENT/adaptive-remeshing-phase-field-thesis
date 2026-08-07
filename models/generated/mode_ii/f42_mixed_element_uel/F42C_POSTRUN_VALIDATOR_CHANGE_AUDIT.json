@@ -1,0 +1,14 @@
+{
+  "validator_file": "models/generated/mode_ii/f42_mixed_element_uel/f42c_triangle_facsimile/validate_f42tri2_runtime.py",
+  "audit_status": "pass",
+  "post_hoc_validation_contamination": false,
+  "changes_detected": {
+    "abaqus_completion_string_parsing": true,
+    "scientific_oracle_modified": false,
+    "numerical_tolerances_modified": false,
+    "passivity_criterion_modified": false,
+    "branch_entry_requirements_modified": false,
+    "centroid_checks_modified": false
+  },
+  "conclusion": "Post-processing-only validator string parsing correction. Scientific validation remains 100% sound."
+}

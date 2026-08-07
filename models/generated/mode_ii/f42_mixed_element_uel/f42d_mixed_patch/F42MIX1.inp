@@ -1,0 +1,77 @@
+*Heading
+Stage F42D Mixed Quad-Triangle Patch Integration Verification (F42MIX1)
+*Node
+1, 0.0, 0.0
+2, 1.0, 0.0
+3, 0.0, 1.0
+4, 1.0, 1.0
+5, 2.0, 0.0
+*User Element, type=U1, nodes=4, coordinates=2, variables=18, properties=3, unsymm
+1, 2
+*User Element, type=U2, nodes=4, coordinates=2, variables=18, properties=5, unsymm
+1, 2
+*User Element, type=U3, nodes=3, coordinates=2, variables=18, properties=3, unsymm
+1, 2
+*User Element, type=U4, nodes=3, coordinates=2, variables=18, properties=5, unsymm
+1, 2
+*Element, type=U1, elset=EL_QUAD_PHASE
+1, 1, 2, 4, 3
+*Element, type=U3, elset=EL_TRI_PHASE
+2, 2, 5, 4
+*Element, type=U2, elset=EL_QUAD_DISP
+3, 1, 2, 4, 3
+*Element, type=U4, elset=EL_TRI_DISP
+4, 2, 5, 4
+*Element, type=CPE4, elset=EL_QUAD_FACSIMILE
+5, 1, 2, 4, 3
+*Element, type=CPE3, elset=EL_TRI_FACSIMILE
+6, 2, 5, 4
+*UEL Property, elset=EL_QUAD_PHASE
+0.015, 2.7, 1.0
+*UEL Property, elset=EL_TRI_PHASE
+0.015, 2.7, 1.0
+*UEL Property, elset=EL_QUAD_DISP
+210000.0, 0.3, 1.0, 1.0e-7, 2.0
+*UEL Property, elset=EL_TRI_DISP
+210000.0, 0.3, 1.0, 1.0e-7, 2.0
+*Solid Section, elset=EL_QUAD_FACSIMILE, material=MAT_QUAD_FACSIMILE
+1.0
+*Material, name=MAT_QUAD_FACSIMILE
+*Depvar
+18
+*User Material, constants=4
+1.0e-11, 0.3, 2.0, 4.0
+*Solid Section, elset=EL_TRI_FACSIMILE, material=MAT_TRI_FACSIMILE
+1.0
+*Material, name=MAT_TRI_FACSIMILE
+*Depvar
+18
+*User Material, constants=4
+1.0e-11, 0.3, 2.0, 3.0
+*Nset, nset=FIXED_NODE1
+1
+*Nset, nset=FIXED_NODE2
+2
+*Nset, nset=DISP_NODES
+3, 4, 5
+*Step, name=Step-1, nlgeom=NO
+*Static
+1.0, 1.0, 1.0, 1.0
+*Boundary
+1, 1, 2, 0.0
+2, 1, 1, 0.001
+2, 2, 2, 0.0
+3, 1, 1, 0.0
+3, 2, 2, 0.001
+4, 1, 1, 0.001
+4, 2, 2, 0.001
+5, 1, 1, 0.002
+5, 2, 2, 0.0
+*Output, field
+*Element Output, elset=EL_QUAD_FACSIMILE
+S, E, SDV
+*Element Output, elset=EL_TRI_FACSIMILE
+S, E, SDV
+*Node Output
+U, RF
+*End Step

@@ -1,0 +1,14 @@
+{
+  "package_name": "f42d_mixed_patch",
+  "task_id": "F42D-MIXED-QUAD-TRI-PATCH-INTEGRATION",
+  "files": [
+    "f42d_mixed_uel.for",
+    "F42MIX1.inp",
+    "F42MIX1_EXPECTED.json",
+    "F42MIX1_MANIFEST.json",
+    "F42MIX1.pbs",
+    "submit_f42mix1.sh",
+    "collect_f42mix1_evidence.sh",
+    "validate_f42mix1_runtime.py"
+  ]
+}
