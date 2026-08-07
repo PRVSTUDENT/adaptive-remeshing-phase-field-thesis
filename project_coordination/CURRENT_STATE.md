@@ -1,6 +1,25 @@
 # Current project state
 
+## F43PRE2-Q1 External CAE Freeze & Exact Preparation Qualification Audit (2026-08-07)
+
+Executed Task F43PRE2-Q1 detached qualification audit and HPC external CAE artifact freeze evaluation:
+- **Task ID**: `F43PRE2-Q1-EXTERNAL-CAE-FREEZE-AND-EXACT-PREPARATION-QUALIFICATION`
+- **Status**: `stopped_hash_discrepancy_requires_p43pre2_r1`
+- **Preparation Commit Candidate**: `eb182faa855af2a7f349ca9eeb6ed1f45f55a2c3` (`P43PRE2`)
+- **Prior Qualification Status**: `invalid_qualification_metadata_same_commit_as_preparation` (prior report incorrectly recorded same SHA for P and Q).
+- **Qualification Commit**: `none_pending_p43pre2_r1`
+- **Empirical Audit Findings**:
+  1. **CAE Binary File SHA256 Discrepancy**: Manifest recorded `cae_sha256 = 3b4d28002f49295efc7babf06f37ab508d75e7b840f12d6e5fbbd64c424a5dd8` (computed in memory before `openMdb` closed/flushed the binary file on process exit). The physical `.cae` file on disk right now (`models/generated/mode_ii/f43_stage_c_bridge/ModeII_Geometry_Source.cae`) has SHA256 `0f156004b3cdc3b215ed66f7d4dea95065dd18c2fe209b79f06e40197e07d408`. Protocol mandates stopping if binary SHA256 differs.
+  2. **HPC Network Unreachable**: `ssh mlogin01.hrz.tu-freiberg.de` timed out (off-campus / no active VPN connection). External HPC freeze cannot complete until cluster is reachable.
+  3. **Input Deck Verified**: `F43PRE2_GEOM.inp` raw SHA256 `1f16f8525a7e627b90bd4958f8701a418d0ac2960654787853b2688f8fda75dd` verified exactly (3707 elements, 3597 CPE4, 110 CPE3, 3793 nodes).
+  4. **Regression Tests**: 102/102 offline tests pass cleanly.
+- **Protocol Action**: STOP fail-closed as instructed in Section 1, 3, and 5. Do not recreate CAE silently.
+- **Next Action**: `prepare_p43pre2_r1_with_post_openmdb_cae_sha256_alignment_and_retry_freeze`
+
+---
+
 ## F43GEO2 Geometry-Backed CAE Generation & Adaptivity-Eligibility Gate (2026-08-07)
+
 
 Completed Task F43GEO2 native CAD geometry `.cae` generation, non-PBS Abaqus/CAE model build, mesh controls correction (`QUAD_DOMINATED` / `FREE` / `ADVANCING_FRONT` / `allowMapped=False`), seam verification, `MISESERI_Adaptive_Rule` creation, `openMdb` reopen-persistence qualification, preanalysis input deck export (`F43PRE2_GEOM.inp`), offline test suite execution, and preparation `P43PRE2` / qualification `Q43PRE2`:
 - **Task ID**: `F43GEO2-GEOMETRY-BACKED-CAE-GENERATION-AND-ADAPTIVITY-ELIGIBILITY-GATE`
