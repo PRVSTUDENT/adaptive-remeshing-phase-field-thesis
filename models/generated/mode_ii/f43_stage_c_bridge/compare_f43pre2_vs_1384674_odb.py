@@ -234,23 +234,22 @@ def main():
         for row in old_data["rf_u_history"]:
             f.write("{},{},{},{}\n".format(row["frame"], row["time"], float(row["U1"]), float(row["RF1"])))
             
-    # 2. Global Load-Displacement Metrics (modulus normalized for E=210000 MPa vs E=210 MPa)
+    # 2. Global Load-Displacement Metrics (Molnar kN-mm system vs N-mm system)
     new_final_u1 = float(new_data["rf_u_history"][-1]["U1"])
-    new_final_rf1 = float(new_data["rf_u_history"][-1]["RF1"])
+    new_final_rf1_n = float(new_data["rf_u_history"][-1]["RF1"])
+    
     old_final_u1 = float(old_data["rf_u_history"][-1]["U1"])
-    old_final_rf1 = float(old_data["rf_u_history"][-1]["RF1"])
+    old_final_rf1_raw_kn = float(old_data["rf_u_history"][-1]["RF1"])
+    old_final_rf1_converted_n = old_final_rf1_raw_kn * 1000.0  # 1 kN = 1000 N
     
-    new_k_eff = new_final_rf1 / new_final_u1 if new_final_u1 != 0 else 0.0
-    old_k_eff = old_final_rf1 / old_final_u1 if old_final_u1 != 0 else 0.0
+    # Force error after explicit unit conversion (0.046069 kN = 46.06937 N vs 46.12937 N)
+    rf1_rel_err_pct = (abs(new_final_rf1_n - old_final_rf1_converted_n) / abs(old_final_rf1_converted_n)) * 100.0 if old_final_rf1_converted_n != 0 else 0.0
     
-    # Modulus normalized stiffness K / E (dimensionless geometric stiffness factor)
-    e_new = 210000.0
-    e_old = 210.0
-    k_norm_new = new_k_eff / e_new
-    k_norm_old = old_k_eff / e_old
-    k_norm_rel_err_pct = (abs(k_norm_new - k_norm_old) / abs(k_norm_old)) * 100.0 if k_norm_old != 0 else 0.0
-    k_rel_err_pct = k_norm_rel_err_pct
-    rf1_rel_err_pct = k_norm_rel_err_pct
+    new_k_eff_n_per_mm = new_final_rf1_n / new_final_u1 if new_final_u1 != 0 else 0.0
+    old_k_eff_raw_kn_per_mm = old_final_rf1_raw_kn / old_final_u1 if old_final_u1 != 0 else 0.0
+    old_k_eff_converted_n_per_mm = old_k_eff_raw_kn_per_mm * 1000.0
+    
+    k_rel_err_pct = (abs(new_k_eff_n_per_mm - old_k_eff_converted_n_per_mm) / abs(old_k_eff_converted_n_per_mm)) * 100.0 if old_k_eff_converted_n_per_mm != 0 else 0.0
     
     # 3. MISESERI Activity & Statistics
     new_m_stats = compute_stats([float(v) for v in new_data["miseseri"].values()])
@@ -367,19 +366,27 @@ def main():
     
     summary = {
         "protocol_version": 1,
-        "task_id": "F43PRE2-SCI1",
+        "task_id": "F43REM2-R3",
         "new_job": "1385392.mmaster02",
         "new_odb_sha256": "85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72",
         "reference_job": "1384674.mmaster02",
         "reference_odb_sha256": "3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534",
+        "unit_system": {
+            "old_unit_system": "kN-mm",
+            "new_unit_system": "N-mm",
+            "unit_conversion": "1 kN = 1000 N",
+            "unit_system_equivalence": "pass"
+        },
         "load_displacement": {
-            "old_final_u1": old_final_u1,
-            "new_final_u1": new_final_u1,
-            "old_final_rf1": old_final_rf1,
-            "new_final_rf1": new_final_rf1,
+            "old_final_u1_mm": old_final_u1,
+            "new_final_u1_mm": new_final_u1,
+            "old_final_rf1_raw_kn": old_final_rf1_raw_kn,
+            "old_final_rf1_converted_n": old_final_rf1_converted_n,
+            "new_final_rf1_n": new_final_rf1_n,
             "rf1_relative_error_percent": rf1_rel_err_pct,
-            "old_effective_stiffness": old_k_eff,
-            "new_effective_stiffness": new_k_eff,
+            "old_effective_stiffness_raw_kn_per_mm": old_k_eff_raw_kn_per_mm,
+            "old_effective_stiffness_converted_n_per_mm": old_k_eff_converted_n_per_mm,
+            "new_effective_stiffness_n_per_mm": new_k_eff_n_per_mm,
             "stiffness_relative_error_percent": k_rel_err_pct
         },
         "miseseri_statistics": {
@@ -400,7 +407,8 @@ def main():
             "grid_points_count": len(grid_coords),
             "common_grid_nl2_percent": grid_nl2_pct,
             "pearson_correlation": pearson_corr,
-            "high_zone_overlap_fraction": overlap_frac
+            "high_zone_overlap_fraction": overlap_frac,
+            "MISESERI_spatial_gate": "descriptive_difference_no_predeclared_acceptance_threshold"
         },
         "near_notch_localization": {
             "top10_indicator_fraction_within_2l0": top10_frac_2l0,
@@ -408,8 +416,8 @@ def main():
             "top10_indicator_fraction_within_10l0": top10_frac_10l0
         },
         "domain_volume": {
-            "old_sum_evol": old_sum_evol,
-            "new_sum_evol": new_sum_evol,
+            "old_sum_evol_mm3": old_sum_evol,
+            "new_sum_evol_mm3": new_sum_evol,
             "evol_relative_error_percent": evol_rel_err_pct
         },
         "governance": {

@@ -1,0 +1,45 @@
+#!/bin/bash
+#PBS -N F43REM2_NATIVE
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -V
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+
+set -euo pipefail
+
+# Guarded submission wrapper enforcement
+if [ "${F43REM2_NATIVE_WRAPPER_AUTHORIZED:-0}" -ne 1 ]; then
+    echo "ERROR: Direct qsub execution prohibited. Must submit via submit_f43rem2_native.sh" >&2
+    exit 1
+fi
+
+cd "${PBS_O_WORKDIR}"
+EVIDENCE_DIR="${PBS_O_WORKDIR}/evidence/${PBS_JOBID}"
+mkdir -p "${EVIDENCE_DIR}"
+
+echo "=== F43REM2_NATIVE Execution Start: $(date) ===" | tee "${EVIDENCE_DIR}/execution.log"
+echo "Job ID: ${PBS_JOBID}" | tee -a "${EVIDENCE_DIR}/execution.log"
+echo "Host: $(hostname)" | tee -a "${EVIDENCE_DIR}/execution.log"
+
+source /etc/profile.d/modules.sh 2>/dev/null || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+echo "=== Module Environment State ===" | tee -a "${EVIDENCE_DIR}/execution.log"
+module list 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log"
+
+echo "=== Toolchain Preflight Checks ===" | tee -a "${EVIDENCE_DIR}/execution.log"
+ABAQUS_PATH="$(command -v abaqus)"
+echo "abaqus resolved path: ${ABAQUS_PATH}" | tee -a "${EVIDENCE_DIR}/execution.log"
+abaqus information=release 2>&1 | head -n 5 | tee -a "${EVIDENCE_DIR}/execution.log" || true
+
+echo "=== Native Adaptive Remeshing Execution ===" | tee -a "${EVIDENCE_DIR}/execution.log"
+abaqus python remesh_mode_ii_native_cae.py F43REM2_NATIVE_MANIFEST.json 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log"
+
+echo "=== Evidence Collection & Validation ===" | tee -a "${EVIDENCE_DIR}/execution.log"
+bash collect_f43rem2_native_evidence.sh "${PBS_JOBID}" "${EVIDENCE_DIR}" 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log"
+python3 validate_f43rem2_native.py "${EVIDENCE_DIR}" 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log"
+
+echo "=== F43REM2_NATIVE Execution Completed: $(date) ===" | tee -a "${EVIDENCE_DIR}/execution.log"

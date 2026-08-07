@@ -1,8 +1,11 @@
 {
   "manifest_exists": true,
   "driver_exists": true,
-  "cae_source_exists": true,
-  "cae_source_hash_valid": true,
+  "pbs_script_exists": true,
+  "submit_wrapper_exists": true,
+  "collector_exists": true,
+  "cae_local_binary_absent": true,
+  "cae_external_contract_valid": true,
   "predecessor_odb_sha_contract_valid": true,
   "source_open_in_place_forbidden": true,
   "execution_authorized_false": true,

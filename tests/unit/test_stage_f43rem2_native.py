@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Offline Unit Test Suite for F43REM2_NATIVE Native Adaptive Remeshing Preparation.
+Offline Unit Test Suite for F43REM2_NATIVE Native Adaptive Remeshing Preparation & Qualification.
 """
 
 import sys
@@ -26,25 +26,30 @@ class TestStageF43REM2Native(unittest.TestCase):
         with open(manifest_path, "r") as f:
             m = json.load(f)
             
-        self.assertEqual(m["task_id"], "F43REM2_NATIVE")
-        self.assertEqual(m["predecessor_job"], "1385392.mmaster02")
+        self.assertEqual(m["task_id"], "F43REM2-R3")
+        self.assertEqual(m["predecessor_job_id"], "1385392.mmaster02")
         self.assertEqual(m["predecessor_odb_sha256"], "85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72")
         self.assertEqual(m["source_cae_sha256"], "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff")
-        self.assertEqual(m["source_cae_open_in_place"], "forbidden")
+        self.assertFalse(m["cae_source_open_in_place"])
         self.assertTrue(m["runtime_work_copy_required"])
         
         remesh_params = m["remesh_parameters"]
-        self.assertEqual(remesh_params["minElementSize_mm"], 0.0075)
-        self.assertEqual(remesh_params["maxElementSize_mm"], 0.03)
-        self.assertEqual(remesh_params["length_scale_l0_mm"], 0.015)
+        self.assertEqual(remesh_params["minElementSize"], 0.0075)
+        self.assertEqual(remesh_params["maxElementSize"], 0.03)
+        self.assertEqual(remesh_params["l0"], 0.015)
         self.assertEqual(remesh_params["min_h_over_l0"], 0.5)
 
-    def test_source_cae_hash_integrity(self):
+    def test_execution_package_frozen_files_exist(self):
+        self.assertTrue((PKG_DIR / "F43REM2_NATIVE.pbs").exists(), "F43REM2_NATIVE.pbs must exist in P43REM2-R3")
+        self.assertTrue((PKG_DIR / "submit_f43rem2_native.sh").exists(), "submit_f43rem2_native.sh must exist in P43REM2-R3")
+        self.assertTrue((PKG_DIR / "collect_f43rem2_native_evidence.sh").exists(), "collect_f43rem2_native_evidence.sh must exist in P43REM2-R3")
+        self.assertTrue((PKG_DIR / "remesh_mode_ii_native_cae.py").exists(), "remesh_mode_ii_native_cae.py must exist in P43REM2-R3")
+        self.assertTrue((PKG_DIR / "validate_f43rem2_native.py").exists(), "validate_f43rem2_native.py must exist in P43REM2-R3")
+        self.assertTrue((PKG_DIR / "validate_f43_refined_layered_deck.py").exists(), "validate_f43_refined_layered_deck.py must exist in P43REM2-R3")
+
+    def test_cae_binary_not_tracked_in_package_dir(self):
         cae_path = PKG_DIR / "ModeII_Geometry_Source.cae"
-        self.assertTrue(cae_path.exists(), "ModeII_Geometry_Source.cae must exist")
-        actual_sha = get_sha256(str(cae_path))
-        expected_sha = "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff"
-        self.assertEqual(actual_sha.lower(), expected_sha.lower(), "CAE source hash mismatch")
+        self.assertFalse(cae_path.exists(), "ModeII_Geometry_Source.cae binary must NOT be tracked in Git tree")
 
     def test_execution_authorization_boundary_closed(self):
         manifest_path = PKG_DIR / "F43REM2_NATIVE_MANIFEST.json"

@@ -22,22 +22,18 @@ def generate_figures(summary_path, evidence_dir, out_dir):
     data_new = np.genfromtxt(csv_new, delimiter=',', skip_header=1)
     data_old = np.genfromtxt(csv_old, delimiter=',', skip_header=1)
 
-    # Modulus normalization factor for plotting equivalent force response
-    e_new = 210000.0
-    e_old = 210.0
-
     u_new = data_new[:, 2]
-    rf_norm_new = data_new[:, 3] / e_new
+    rf_new_n = data_new[:, 3]
 
     u_old = data_old[:, 2]
-    rf_norm_old = data_old[:, 3] / e_old
+    rf_old_n = data_old[:, 3] * 1000.0  # Convert old kN raw values to N
 
     plt.figure(figsize=(7, 5))
-    plt.plot(u_old, rf_norm_old, 'b--', label='Reference F43PRE1 (1384674, Orphan Mesh)', linewidth=2)
-    plt.plot(u_new, rf_norm_new, 'r-', label='Geometry F43PRE2_GEOM (1385392, Native CAE)', linewidth=1.5)
+    plt.plot(u_old, rf_old_n, 'b--', label='Reference F43PRE1 (1384674, Orphan Mesh, Converted from kN)', linewidth=2)
+    plt.plot(u_new, rf_new_n, 'r-', label='Geometry F43PRE2_GEOM (1385392, Native CAE)', linewidth=1.5)
     plt.xlabel(r'Prescribed Shear Displacement $U_1$ (mm)', fontsize=11)
-    plt.ylabel(r'Modulus-Normalized Shear Force $RF_1 / E$ (mm$^2$)', fontsize=11)
-    plt.title('Modulus-Normalized Load-Displacement Response ($U_1 - RF_1/E$)', fontsize=12, fontweight='bold')
+    plt.ylabel(r'Shear Reaction Force $RF_1$ (N)', fontsize=11)
+    plt.title('Load-Displacement Response ($U_1 - RF_1$ in N)', fontsize=12, fontweight='bold')
     plt.grid(True, linestyle=':', alpha=0.6)
     plt.legend(loc='upper left', frameon=True)
     plt.tight_layout()
