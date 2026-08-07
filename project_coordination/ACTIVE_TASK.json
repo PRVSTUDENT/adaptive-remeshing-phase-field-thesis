@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
-  "task_id": "F41R3-ABAQUS-NO-GUI-ENTRYPOINT-FIX",
-  "status": "qualified_not_authorized",
-  "classification": "f41r3_crack_reconstruction_entrypoint_repaired_qualified_clean_linux",
+  "task_id": "F41R3-M2RMSTITCH1-REPLACEMENT-SUBMISSION-AUTHORIZATION",
+  "status": "submission_authorized_exactly_one_job",
+  "classification": "f41r3_m2rmstitch1_replacement_submission_authorized_exactly_one_job",
   "starting_commit": "5434cb9587197b92d695a3e79a0ac6fdcdf8bc72",
   "preparation_commit": "5434cb9587197b92d695a3e79a0ac6fdcdf8bc72",
   "repair_preparation_commit": "5434cb9587197b92d695a3e79a0ac6fdcdf8bc72",
@@ -19,18 +19,19 @@
   "failed_initial_attempt_job_id": "1384435.mmaster02",
   "failed_v2_attempt_job_id": "1384450.mmaster02",
   "package_path": "models/generated/mode_ii/f41_crack_geometry_reconstruction",
-  "execution_authorized": false,
-  "submission_approved": false,
-  "maximum_jobs_now": 0,
-  "maximum_future_submissions": 0,
+  "execution_authorized": true,
+  "submission_approved": true,
+  "maximum_jobs_now": 1,
+  "maximum_future_submissions": 1,
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
   "protocol_deviation_note": "A prior command executed 'rm -rf runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384621.mmaster02' on the HPC clone to resolve an untracked git pull conflict. The canonical evidence was committed to git in commit 438d0ea and remains fully preserved.",
-  "recorded_user_authorization_sentence": null,
+  "recorded_user_authorization_sentence": "I authorize exactly one replacement guarded HPC submission of M2RMSTITCH1 using preparation commit 5434cb9587197b92d695a3e79a0ac6fdcdf8bc72 and qualification commit a61aa5f68bc267cd45ca28020bdd000e52fb988d, with MAX_SUBMISSIONS=1, no automatic retry, no further replacement submission, and no downstream job.",
   "invalid_historical_authorization_record": null,
-  "next_action": "await_explicit_human_authorization_for_exactly_one_M2RMSTITCH1_replacement"
+  "next_action": "execute_single_guarded_m2rmstitch1_replacement_submission_on_hpc"
 }
+
 
 
 
