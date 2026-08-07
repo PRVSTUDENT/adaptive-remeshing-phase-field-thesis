@@ -1,9 +1,10 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM1-SUBMISSION-EXECUTION-AND-CLOSEOUT",
+  "task_id": "F43REM1-EVIDENCE-ONLY-MONITORING-AND-LINEAGE-CLASSIFICATION",
   "status": "submitted_queued",
-  "classification": "f43rem1_native_remeshing_submitted_queued",
-  "starting_commit": "3094a602cc855128e1881c6f0fcf602924ce00db",
+  "classification": "f43rem1_submitted_with_post_qualification_executable_package_changes",
+  "governance_classification": "protocol_deviating_unqualified_post_q43a_executable_package_submission",
+  "starting_commit": "6d487eafb61afd067d2f16ff4a7c859e96f7edd6",
   "preparation_commit": "eee0c67b3b0f9b06b0c37bdd2a9f5078e3b8ee7d",
   "repair_preparation_commit": null,
   "qualification_commit": "18901968434e08db73f26a99b1e2c8b0dbd9e6d1",
@@ -29,5 +30,5 @@
   "facsimile_contract": "mechanically_passive_dummy_youngs_modulus_1e-11",
   "centroid_state_mapping": "slot_4_dedicated_centroid_physical_reconstruction",
   "topology_dispatch": "props_topology_marker_4_quad_3_tri",
-  "next_action": "await_f43rem1_terminal_execution_and_evidence_closeout"
+  "next_action": "monitor_f43rem1_job_1384675_read_only_and_classify_terminal_evidence"
 }
