@@ -113,9 +113,9 @@ class TestStageF41RuntimeContractStatic(unittest.TestCase):
         self.assertIn("part.vertices[vertex_ids[1]]", self.matrix_source)
         self.assertNotIn("edge_v.pointOn", self.matrix_source)
 
-    def test_10_explicit_seam_region_tuple(self):
-        self.assertIn("engineeringFeatures.assignSeam(regions=(crack_region,))", self.matrix_source)
-        self.assertNotIn("assignSeam(regions=crack_region)", self.matrix_source)
+    def test_10_direct_seam_region_argument(self):
+        self.assertIn("engineeringFeatures.assignSeam(regions=crack_region)", self.matrix_source)
+        self.assertNotIn("assignSeam(regions=(crack_region,))", self.matrix_source)
 
     def test_11_no_false_success_fallback_copying(self):
         self.assertNotIn("crack_start_after = crack_start_before", self.matrix_source)

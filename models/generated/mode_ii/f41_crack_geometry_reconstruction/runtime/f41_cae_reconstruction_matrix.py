@@ -8,7 +8,7 @@ Executes the topology-preserving crack geometry reconstruction sequence inside A
 3. B-Rep model.Part2DGeomFrom2DMesh geometry conversion
 4. Recreating physical crack geometry via ConstrainedSketch & PartitionFaceBySketch
 5. Supported EdgeArray.findAt(coordinates=..., printWarning=False) lookups & Edge.getVertices() index resolution
-6. Seam edge assignment via engineeringFeatures.assignSeam(regions=(crack_region,))
+6. Seam edge assignment via engineeringFeatures.assignSeam(regions=crack_region)
 7. True post-reconstruction crack measurement & tolerance validation (fail-closed, no false fallbacks)
 8. Meshing phase (element type CPE4, seeding, generateMesh) without solver analysis
 9. Comprehensive audit validation & F41_CRACK_RECONSTRUCTION_AUDIT.json generation
@@ -344,11 +344,11 @@ def run_f41_matrix():
                 abs(crack_mid_after[1] - (0.0)) <= 1e-4
             )
 
-            # Rule 3: Seam region explicit tuple assignment
+            # Rule 3: Seam region assignment (Abaqus CAE 2023 direct Region argument)
             import regionToolset
             crack_edge_seq = part.edges[crack_edge.index:crack_edge.index + 1]
             crack_region = regionToolset.Region(edges=crack_edge_seq)
-            part.engineeringFeatures.assignSeam(regions=(crack_region,))
+            part.engineeringFeatures.assignSeam(regions=crack_region)
             seam_assigned = True
 
             # Measure specimen outer bounding box
