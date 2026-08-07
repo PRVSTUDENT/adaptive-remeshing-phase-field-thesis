@@ -2,17 +2,21 @@
   "active": false,
   "agent": "gemini-antigravity",
   "allowed_scope": [
+    "models/generated/mode_ii/f41_crack_geometry_reconstruction/**",
+    "scripts/**",
+    "tests/**",
     "project_coordination/**",
-    "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/**",
     "docs/**"
   ],
-  "completed_at": "2026-08-07T06:38:00+02:00",
-  "heartbeat": "2026-08-07T06:38:00+02:00",
-  "started_at": "2026-08-07T06:25:30+02:00",
-  "session_id": "gemini-f40-1384621-session",
-  "starting_commit": "464ec6339d1b94fcd3546c438a5ae9336eac9b0a",
-  "task_id": "F40-M2RMBISECT1-CONSUME-SUBMISSION-AUTHORITY-AND-EVALUATE",
-  "note": "Released session after completing M2RMBISECT1 job 1384621 terminal monitoring, evidence collection, scientific evaluation, and metadata closeout."
+  "completed_at": "2026-08-07T07:01:00+02:00",
+  "heartbeat": "2026-08-07T07:01:00+02:00",
+  "started_at": "2026-08-07T06:57:00+02:00",
+  "session_id": "gemini-f41-reconstruction-session",
+  "starting_commit": "438d0ea3be8e404beed47e70eaee90352efce10f",
+  "task_id": "F41-TOPOLOGY-PRESERVING-CRACK-GEOMETRY-RECONSTRUCTION",
+  "note": "Released session after completing Stage F41 implementation, qualification, offline unit testing, prepared M2RMSTITCH1 job deck, and metadata closeout."
 }
+
+
 
 

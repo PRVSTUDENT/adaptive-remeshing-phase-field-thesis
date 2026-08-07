@@ -1,6 +1,29 @@
 # Current project state
 
+## F41 Topology-Preserving Crack Geometry Reconstruction Implementation and Qualification (2026-08-07)
+
+Completed Stage F41 topology-preserving crack geometry reconstruction implementation and clean Linux qualification:
+- **Package Path**: `models/generated/mode_ii/f41_crack_geometry_reconstruction`
+- **Preparation Commit (P41)**: `51dbbcd45f2c94617cf711ad7f87768fefcea166`
+- **Qualification Commit (Q41)**: `1861aa6c86297803135c709edef9b41b21a24fb6`
+- **Status**: `qualified_not_authorized`
+- **Prepared Job**: `M2RMSTITCH1` (Queue: `entry_imfdfkmq`, 1 CPU, 1 rank, 1 thread, 8 GB memory, 00:30:00 walltime).
+- **Crack Reconstruction Algorithm**:
+  1. Parses original 2D cracked mesh deck (`source_deck.inp`).
+  2. Extracts crack trace & 15 coincident node pairs along $x \in [-0.5, 0.0]$, $y = 0.0$ BEFORE any node merging.
+  3. Writes pre-merge crack topology map to `F41_TOPOLOGY_MAP.json`.
+  4. Creates temporary working copy and merges only the 15 crack-face node pairs (`node_reduction = 15`).
+  5. Performs model-level geometry conversion `Part2DGeomFrom2DMesh(featureAngle=45.0)`.
+  6. Recreates crack geometry via face partitioning along saved crack trace $(-0.5, 0.0) \to (0.0, 0.0)$ and assigns seam edge without modifying outer boundary $[-0.5, 0.5] \times [-0.5, 0.5]$.
+  7. Audits reconstructed geometry and generates `F41_CRACK_RECONSTRUCTION_AUDIT.json`.
+- **Validation**: 11 F41 unit tests + 46 F40 unit tests + F41 static gate validator passed cleanly (`F41_QUALIFICATION_SUCCESS`).
+- **Authority Flags**: All authority flags remain strictly `false` and `0` (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`).
+- **Next Action**: `await_human_review_and_exact_one_job_authorization_for_M2RMSTITCH1`.
+
+Classification: `f41_crack_reconstruction_qualified_clean_linux`.
+
 ## F40 M2RMBISECT1 Job 1384621 Terminal Evaluation and Closeout (2026-08-07)
+
 
 Completed terminal monitoring, evidence collection, and scientific evaluation of `M2RMBISECT1` (`1384621.mmaster02`):
 - **Scheduler Outcome**: State `F`, Exit Status `1`, Execution Host `mnode101/0`, Walltime `00:00:05`, Memory `214 MB` (`214188 kb`).
