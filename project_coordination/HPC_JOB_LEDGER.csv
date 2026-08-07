@@ -84,7 +84,9 @@ Stage F,F40-M2RMBISECT1-V5-AUTHORIZED-SUBMISSION,1384502.mmaster02,M2RMBISECT1,f
 Stage F,F40-M2RMBISECT1-V10-LOCAL-EMULATION,local_emulation:1384588.mmaster02,M2RMBISECT1,620aa59860bb2760dc47f69e679d15dbb838233f,f04a327508b3326fc60de9fd3e463ccf299fb0f8,local_wsl_emulation,1,1,1,8 GB,00:30:00,127,1,f40_local_wsl_emulation_failed_no_abaqus_runtime_incomplete_evidence,,runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384588.mmaster02/,false
 Stage F,F40-M2RMBISECT1-V14-REPLACEMENT-SUBMISSION,1384563.mmaster02,M2RMBISECT1,dddd060d8530f9ae875b9ed5a0f8e4d381b09fd5,1cdd3cfae1b30b930ca123f41072fbede2dc457c,normal_imfdfkmq,1,1,1,8 GB,00:30:00,0,1,f40_generic_cae_primitives_passed_runtime_evidence_contract_failed,mnode098/0,runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384563.mmaster02/,false
 Stage F,F40-M2RMBISECT1-JOB-1384621-EVALUATION,1384621.mmaster02,M2RMBISECT1,f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55,3693fd829d37cfe48f496b7cc4a15743cb78f9d3,normal_imfdfkmq,1,1,1,8 GB,00:00:05,1,1,coincident_crack_nodes_confirmed_root_cause,mnode101/0,runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384621.mmaster02/,false
-Stage F,F41R2-M2RMSTITCH1-JOB-1384637-EVALUATION,1384637.mmaster02,M2RMSTITCH1,2b42b61e8fd988c5f703bdc55b195ce934647f72,2657beb13dcbe4e70dc804bc3e83ba96a949e812,normal_imfdfkmq,1,1,1,8 GB,00:30:00,,,submitted_queued,mnode098/0,runs/hpc/stage_f/f41_crack_geometry_reconstruction/evidence/1384637.mmaster02/,false
+Stage F,F41R2-M2RMSTITCH1-JOB-1384637-EVALUATION,1384637.mmaster02,M2RMSTITCH1,2b42b61e8fd988c5f703bdc55b195ce934647f72,2657beb13dcbe4e70dc804bc3e83ba96a949e812,normal_imfdfkmq,1,1,1,8 GB,00:00:02,0,1,f41_launcher_failed_before_matrix_entrypoint,mnode098/0,runs/hpc/stage_f/f41_crack_geometry_reconstruction/evidence/1384637.mmaster02/,false
+Stage F,F41R3-ABAQUS-NO-GUI-ENTRYPOINT-FIX,,M2RMSTITCH1,5434cb9587197b92d695a3e79a0ac6fdcdf8bc72,a61aa5f68bc267cd45ca28020bdd000e52fb988d,entry_imfdfkmq,1,1,1,8 GB,00:30:00,,,qualified_not_authorized,,runs/hpc/stage_f/f41_crack_geometry_reconstruction/evidence/,false
+
 
 
 

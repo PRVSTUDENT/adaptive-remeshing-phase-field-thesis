@@ -1,6 +1,30 @@
 # Current project state
 
+## F41R3 Abaqus No-GUI Entrypoint Fix and Detached Qualification (2026-08-07)
+
+Completed Stage F41R3 entrypoint repair and true detached clean-Linux qualification:
+- **Package Path**: `models/generated/mode_ii/f41_crack_geometry_reconstruction`
+- **Preparation Commit (P41R3)**: `5434cb9587197b92d695a3e79a0ac6fdcdf8bc72`
+- **Qualification Commit (Q41R3)**: `a61aa5f68bc267cd45ca28020bdd000e52fb988d`
+- **Starting Commit**: `5434cb9587197b92d695a3e79a0ac6fdcdf8bc72`
+- **Status**: `qualified_not_authorized`
+- **Prepared Job**: `M2RMSTITCH1` (Queue: `entry_imfdfkmq`, 1 CPU, 1 rank, 1 thread, 8 GB memory, 00:30:00 walltime).
+- **Evaluated Job 1384637.mmaster02**:
+  - `job_state = F`, `Exit_status = 0` (PBS wrapper), `exec_host = mnode098/0`, `walltime = 00:00:02`, `mem = 75140kb`.
+  - **Classification**: `f41_launcher_failed_before_matrix_entrypoint`.
+  - **Diagnostic**: `NameError: global name '__file__' is not defined` inside `run_f41_cae_reconstruction.py`. `f41_cae_reconstruction_matrix.py` was **NEVER** entered; scientific reconstruction logic was not exercised or evaluated.
+- **Entrypoint & Fail-Closed Corrections**:
+  1. **Removed `__file__` Dependency**: `run_f41_cae_reconstruction.py` uses `F41_RUNTIME_DIR` environment variable or `os.getcwd()`, and verifies existence of `f41_cae_reconstruction_matrix.py` and `source_deck.inp` before execution.
+  2. **Evidence Return Code Capture**: `run_f41_cae_reconstruction.py` writes `F41_RECONSTRUCTION.returncode` into `F41_EVIDENCE_DIR`.
+  3. **Fail-Closed PBS Script**: `M2RMSTITCH1.pbs` captures return codes for Abaqus (`ABAQUS_RC`), matrix validator (`MATRIX_VALIDATOR_RC`), and audit validator (`RUNTIME_VALIDATOR_RC`), writing evidence files (`ABAQUS_CAE.returncode`, `F41_MATRIX_VALIDATOR.returncode`, `F41_RUNTIME_VALIDATOR.returncode`), and exits nonzero if any step fails.
+- **Detached Qualification**: Evaluated inside a temporary detached Git worktree at SHA `5434cb9` (`F41_QUALIFICATION_SUCCESS`), updating `F41_CLEAN_LINUX_QUALIFICATION.json`.
+- **Authority Flags**: All authority flags remain strictly `false` and `0` (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`).
+- **Next Action**: `await_explicit_human_authorization_for_exactly_one_M2RMSTITCH1_replacement`.
+
+Classification: `f41r3_crack_reconstruction_entrypoint_repaired_qualified_clean_linux`.
+
 ## F41R2 Single Guarded HPC Submission of M2RMSTITCH1 (2026-08-07)
+
 
 Executed single guarded HPC submission of M2RMSTITCH1 upon explicit human authorization:
 - **Task ID**: `F41R2-M2RMSTITCH1-JOB-1384637-EVALUATION`
