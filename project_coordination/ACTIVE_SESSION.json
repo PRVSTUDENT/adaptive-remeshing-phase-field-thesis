@@ -1,18 +1,17 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
   "allowed_scope": [
-    "models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect/**",
-    "scripts/**",
-    "tests/**",
     "project_coordination/**",
+    "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/**",
     "docs/**"
   ],
-  "completed_at": "2026-08-06T21:20:00+02:00",
-  "heartbeat": "2026-08-06T21:20:00+02:00",
-  "started_at": "2026-08-06T21:17:00+02:00",
-  "session_id": "5a4cad7b-8ba1-4610-9153-7dacd15460be",
-  "starting_commit": "7946685f0a1535f24c2a0cdebb6a7c01ad4e5fb4",
-  "task_id": "F40-M2RMBISECT1-A16R4-EXACT-ONE-JOB-SUBMISSION-AUTHORIZATION",
-  "note": "Released session after completing F40 A16R4 exact one job submission authorization recording."
+  "completed_at": null,
+  "heartbeat": "2026-08-07T06:25:30+02:00",
+  "started_at": "2026-08-07T06:25:30+02:00",
+  "session_id": "gemini-f40-1384621-session",
+  "starting_commit": "464ec6339d1b94fcd3546c438a5ae9336eac9b0a",
+  "task_id": "F40-M2RMBISECT1-CONSUME-SUBMISSION-AUTHORITY-AND-EVALUATE",
+  "note": "Claimed session to record M2RMBISECT1 job 1384621 submission, consume authority, monitor terminal state, and evaluate."
 }
+

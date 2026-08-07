@@ -1,6 +1,21 @@
 # Current project state
 
+## F40 M2RMBISECT1 Job 1384621 Submission Recording and Authority Consumption (2026-08-07)
+
+Recorded the completed single HPC submission of `M2RMBISECT1` (`1384621.mmaster02`) and fully consumed all submission authority:
+- **Scheduler Job ID**: `1384621.mmaster02`
+- **Job Name**: `M2RMBISECT1`
+- **Preparation Commit**: `f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55`
+- **Qualification Commit**: `3693fd829d37cfe48f496b7cc4a15743cb78f9d3`
+- **Submissions Initiated**: `1`
+- **Authority Consumed**: `execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`
+- **Status**: `submitted_queued`
+- **Next Action**: `monitor_1384621_to_terminal_and_evaluate_without_retry`
+
+Classification: `f40_m2rmbisect1_job_1384621_submitted_queued`.
+
 ## F40 v16R4 Exact-One-Job Submission Authorization (2026-08-06)
+
 
 Explicit human authorization recorded for exactly one guarded HPC submission of `M2RMBISECT1`:
 - **Recorded Authorization Sentence**: `"I authorize exactly one guarded HPC submission of M2RMBISECT1 using preparation commit f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, and no downstream job."`
