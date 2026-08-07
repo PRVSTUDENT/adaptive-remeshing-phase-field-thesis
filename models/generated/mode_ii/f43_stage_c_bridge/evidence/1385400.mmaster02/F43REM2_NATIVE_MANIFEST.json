@@ -1,0 +1,37 @@
+{
+  "protocol_version": 1,
+  "task_id": "F43REM2-R3",
+  "prepared_job": "F43REM2_NATIVE",
+  "target_queue": "entry_imfdfkmq",
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0,
+  "maximum_future_submissions": 0,
+  "automatic_retry": false,
+  "predecessor_job_id": "1385392.mmaster02",
+  "predecessor_odb_path": "evidence/1385392.mmaster02/F43PRE2_GEOM.odb",
+  "predecessor_odb_sha256": "85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72",
+  "rejected_predecessor_odb_sha256": "3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534",
+  "source_cae_path": "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae",
+  "source_cae_sha256": "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff",
+  "cae_source_open_in_place": false,
+  "runtime_work_copy_required": true,
+  "model_name": "ModeII_Geometry_Model",
+  "part_name": "PlatePart",
+  "instance_name": "PlateInstance",
+  "step_name": "Step-1",
+  "remeshing_rule_name": "MISESERI_Adaptive_Rule",
+  "remesh_parameters": {
+    "minElementSize": 0.0075,
+    "maxElementSize": 0.03,
+    "l0": 0.015,
+    "min_h_over_l0": 0.5
+  },
+  "pbs_resources": {
+    "ncpus": 1,
+    "mpiprocs": 1,
+    "ompthreads": 1,
+    "mem_gb": 8,
+    "walltime": "00:30:00"
+  }
+}

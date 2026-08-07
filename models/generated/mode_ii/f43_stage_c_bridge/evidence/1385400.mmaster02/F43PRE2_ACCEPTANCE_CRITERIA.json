@@ -1,0 +1,37 @@
+{
+  "protocol_version": 1,
+  "stage": "F43PRE2_GEOM",
+  "reference_preanalysis_job": "1384674.mmaster02",
+  "reference_odb_sha256": "3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534",
+  "reference_role": "numerical_comparison_reference_only",
+  "acceptance_criteria": {
+    "geometry_dimensions": {
+      "width_mm": 1.0,
+      "height_mm": 1.0,
+      "notch_length_mm": 0.5,
+      "tolerance_pct": 0.1
+    },
+    "physics_and_bcs": {
+      "youngs_modulus_MPa": 210000.0,
+      "poissons_ratio": 0.3,
+      "bottom_bc": "u1=0, u2=0",
+      "top_bc": "u2=0, u1=prescribed_via_RP_equation",
+      "prescribed_u1_mm": 0.001
+    },
+    "mesh_resolution": {
+      "coarse_element_count_reference": 3930,
+      "planned_element_count_range": [3500, 4300],
+      "element_type": "CPE4",
+      "mesh_technique": "FREE"
+    },
+    "reaction_force_tolerance": {
+      "metric": "RF1_at_u1_0001mm",
+      "max_relative_difference_pct": 5.0
+    },
+    "miseseri_error_indicator": {
+      "max_error_location_target_mm": [0.0, 0.0],
+      "spatial_error_tolerance_mm": 0.05,
+      "field_variable": "MISESERI"
+    }
+  }
+}

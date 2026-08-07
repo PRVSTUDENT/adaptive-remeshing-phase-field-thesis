@@ -1,21 +1,28 @@
 # Current project state
 
-## F43REM2_NATIVE Authorized Guarded Remote HPC Submission (2026-08-07)
+## F43REM2_NATIVE Guarded HPC Submission & Evidence Closeout (2026-08-07)
 
-Completed authorized remote HPC submission of `F43REM2_NATIVE`:
+Completed single guarded remote HPC submission of `F43REM2_NATIVE` job `1385400.mmaster02` and executed failure closeout:
 - **Task ID**: `F43REM2_NATIVE`
-- **Status**: `submitted_running`
-- **Classification**: `f43rem2_native_submitted_running`
+- **Status**: `complete_failed`
+- **Classification**: `f43rem2_native_cae_kernel_import_error`
 - **PBS Job ID**: `1385400.mmaster02`
-- **Scheduler State**: `R` (Running on `mnode098/0`)
+- **Scheduler State**: `F` (Finished, Exit Status = 1)
 - **Queue**: `normal_imfdfkmq` (submitted via `entry_imfdfkmq`)
 - **Preparation Commit ($P$)**: `P43REM2-R4` (`83f8f493a1f90e7bd982481eb034733a17568f09`)
 - **Qualification Commit ($Q$)**: `Q43REM2-R4` (`b3ce109c9d2b8876706dc9e1494c43ad73dc7567`)
 - **Authorization Commit**: `7159f53d492f44c3065cb872cd5f1a13f5ddbae0`
 - **Predecessor ODB**: `1385392.mmaster02/F43PRE2_GEOM.odb` (SHA256: `85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72`)
 - **External Source CAE**: `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae` (SHA256: `889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff`)
-- **Authority Boundary**: Explicit human authorization sentence recorded. `MAX_SUBMISSIONS=1`, `automatic_retry = false`. 1 submission executed.
-- **Next Action**: Monitor job `1385400.mmaster02` until completion, collect lightweight evidence, validate results, and execute final closeout.
+- **Empirical Failure Diagnosis**:
+  - Environment, predecessor ODB hash validation, source CAE hash validation, and work-copy creation passed cleanly.
+  - Driver failed at `from abaqus import mdb, openMdb` with `ImportError: abaqus module may only be imported in the Abaqus kernel process`.
+  - Root Cause: `F43REM2_NATIVE.pbs` line 39 invoked `abaqus python remesh_mode_ii_native_cae.py` instead of the Abaqus/CAE kernel (`abaqus cae noGUI=...`).
+- **Authority Consumption & Boundary**:
+  - Exactly 1 submission authorized; 1 submission executed (`MAX_SUBMISSIONS=1`).
+  - Authority strictly consumed: `execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `automatic_retry = false`, `replacement_authorized = false`. Zero replacement or retry jobs submitted.
+- **Evidence Bundle**: Archived locally at `models/generated/mode_ii/f43_stage_c_bridge/evidence/1385400.mmaster02/`.
+- **Next Action**: `await_technical_repair_of_cae_kernel_invocation_before_any_replacement_authorization`
 
 ---
 

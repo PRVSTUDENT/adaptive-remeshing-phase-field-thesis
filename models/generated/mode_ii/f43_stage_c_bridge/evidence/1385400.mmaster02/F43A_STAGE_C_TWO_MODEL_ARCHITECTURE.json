@@ -1,0 +1,35 @@
+{
+  "stage_c_benchmark": {
+    "name": "Pandey-Kumar Mode-II Asymmetric Shear Benchmark",
+    "source_path": "models/generated/mode_ii/miseseri_preanalysis_corrected_pbs/ModeII_MISESERI_preanalysis.inp",
+    "coarse_mesh_elements": 3930,
+    "element_type": "CPE4",
+    "material": {
+      "youngs_modulus_MPa": 210000.0,
+      "poissons_ratio": 0.3,
+      "critical_energy_release_rate_N_mm": 2.7,
+      "length_scale_mm": 0.015
+    }
+  },
+  "two_model_architecture": {
+    "model_a_indicator": {
+      "job_name": "F43PRE1",
+      "element_types": ["CPE4", "CPE3"],
+      "physical_stiffness": true,
+      "outputs_requested": ["S", "MISESERI", "MISESAVG", "EVOL", "U", "RF"]
+    },
+    "model_b_refined_phase_field": {
+      "job_name": "F43DRY1",
+      "architecture": "three_layer_uel_facsimile",
+      "layer_1_phase": ["U1", "U3"],
+      "layer_2_disp": ["U2", "U4"],
+      "layer_3_facsimile": ["CPE4", "CPE3"],
+      "facsimile_stiffness": 1.0e-11
+    }
+  },
+  "miseseri_interpretation": {
+    "is_stress_discretization_error": true,
+    "is_phase_field_estimator": false,
+    "is_crack_indicator": false
+  }
+}

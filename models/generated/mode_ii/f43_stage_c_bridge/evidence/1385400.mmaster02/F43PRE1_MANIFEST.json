@@ -1,0 +1,18 @@
+{
+  "package_name": "f43_stage_c_bridge",
+  "task_id": "F43A-STAGE-C-NATIVE-REMESHING-BRIDGE",
+  "files": [
+    "F43PRE1.inp",
+    "F43PRE1_EXPECTED.json",
+    "F43PRE1_MANIFEST.json",
+    "F43PRE1.pbs",
+    "submit_f43pre1.sh",
+    "collect_f43pre1_evidence.sh",
+    "validate_f43pre1_runtime.py",
+    "F43A_STAGE_C_TWO_MODEL_ARCHITECTURE.md",
+    "F43A_STAGE_C_TWO_MODEL_ARCHITECTURE.json",
+    "f43_remeshing_rule_config.json",
+    "run_f43_native_remesh_driver.py",
+    "validate_f43_refined_layered_deck.py"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "manifest_exists": true,
+  "driver_exists": false,
+  "pbs_script_exists": false,
+  "submit_wrapper_exists": false,
+  "collector_exists": false,
+  "cae_local_binary_absent": true,
+  "cae_external_contract_valid": true,
+  "predecessor_odb_sha_contract_valid": true,
+  "source_open_in_place_forbidden": true,
+  "execution_authorized_false": true,
+  "submission_approved_false": true,
+  "maximum_jobs_now_zero": true,
+  "overall_passed": false,
+  "failures": [
+    "remesh_mode_ii_native_cae.py missing",
+    "F43REM2_NATIVE.pbs missing",
+    "submit_f43rem2_native.sh missing",
+    "collect_f43rem2_native_evidence.sh missing"
+  ]
+}

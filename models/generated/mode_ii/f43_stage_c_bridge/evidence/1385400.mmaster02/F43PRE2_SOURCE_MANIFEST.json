@@ -1,0 +1,82 @@
+{
+  "spec_version": "1.0-geo1",
+  "builder_ready": true,
+  "cae_generated": true,
+  "cae_artifact_policy": "external_immutable_source_with_runtime_work_copy",
+  "cae_generation_status": "generated_and_validated",
+  "cae_authoritative_hash_stage": "post_abaqus_process_final_on_disk",
+  "cae_source_path": "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae",
+  "cae_source_sha256": "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff",
+  "cae_sha256": "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff",
+  "cae_source_open_in_place": false,
+  "runtime_work_copy_required": true,
+  "runtime_work_copy_hash_must_match_source_before_open": true,
+  "runtime_work_copy_mutation_allowed": true,
+  "pre_finalization_in_process_hash_non_authoritative": "3b4d28002f49295efc7babf06f37ab508d75e7b840f12d6e5fbbd64c424a5dd8",
+  "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\generated\\mode_ii\\f43_stage_c_bridge\\F43PRE2_GEOM.inp",
+  "inp_sha256": "1f16f8525a7e627b90bd4958f8701a418d0ac2960654787853b2688f8fda75dd",
+  "model_name": "ModeII_Geometry_Model",
+  "part_name": "PlatePart",
+  "instance_name": "PlateInstance",
+  "step_name": "Step-1",
+  "remeshing_rule_name": "MISESERI_Adaptive_Rule",
+  "mesh_element_count": 3707,
+  "mesh_node_count": 3793,
+  "cpe4_count": 3597,
+  "cpe3_count": 110,
+  "faces_count": 1,
+  "edges_count": 6,
+  "vertices_count": 6,
+  "seam_verified": true,
+  "cae_reopen_persistence_verified": true,
+  "geometry_backed": true,
+  "orphan_mesh": false,
+  "reference_job": "1384674.mmaster02",
+  "reference_job_role": "numerical_comparison_reference_only",
+  "benchmark_spec": {
+    "benchmark_geometry_physics_source": "Molnar-Gravouil Mode-II single-edge-notch benchmark as represented by the accepted project benchmark configuration",
+    "refinement_workflow_source": "Pandey-Kumar 2025 MISESERI-driven Abaqus native pre-refinement workflow",
+    "width_mm": 1.0,
+    "height_mm": 1.0,
+    "thickness_mm": 1.0,
+    "notch_length_mm": 0.5,
+    "notch_start_mm": [
+      -0.5,
+      0.0
+    ],
+    "notch_tip_mm": [
+      0.0,
+      0.0
+    ],
+    "material": {
+      "youngs_modulus_MPa": 210000.0,
+      "poissons_ratio": 0.3,
+      "gc_N_per_mm": 2.7,
+      "l0_mm": 0.015
+    },
+    "mesh": {
+      "element_family": "CPE4_CPE3_MIXED",
+      "elem_shape": "QUAD_DOMINATED",
+      "technique": "FREE",
+      "algorithm": "ADVANCING_FRONT",
+      "allow_mapped": false,
+      "target_h_mm": 0.018,
+      "planned_coarse_element_count_range": [
+        3500,
+        4300
+      ]
+    },
+    "deterministic_names": {
+      "model_name": "ModeII_Geometry_Model",
+      "part_name": "PlatePart",
+      "instance_name": "PlateInstance",
+      "step_name": "Step-1",
+      "material_name": "Steel",
+      "section_name": "SolidSection",
+      "set_bottom": "bottom_nodes",
+      "set_top": "top_nodes",
+      "set_rp": "RP",
+      "rule_name": "MISESERI_Adaptive_Rule"
+    }
+  }
+}
