@@ -10,4 +10,4 @@ if [ "${EXECUTION_AUTHORIZED}" != "true" ]; then
 fi
 
 export F42TRI2_WRAPPER_AUTHORIZED=1
-qsub F42TRI2.pbs
+qsub -v F42TRI2_WRAPPER_AUTHORIZED=1 F42TRI2.pbs

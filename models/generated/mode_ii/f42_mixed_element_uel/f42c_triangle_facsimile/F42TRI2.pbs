@@ -4,6 +4,7 @@
 #PBS -l walltime=00:30:00
 #PBS -q entry_imfdfkmq
 #PBS -j oe
+#PBS -V
 #PBS -m abe
 #PBS -M pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
 
