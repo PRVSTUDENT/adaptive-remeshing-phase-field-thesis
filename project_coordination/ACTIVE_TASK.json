@@ -1,11 +1,11 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM1-REMOTE-ODB-HASH-VERIFICATION-AND-TRUE-TERMINAL-CLOSEOUT",
-  "status": "submitted_queued",
-  "classification": "f43rem1_legacy_predecessor_selected_runtime_result_pending",
+  "task_id": "F43REM1-JOB-1384675-TERMINAL-MONITORING-AND-FINAL-EVIDENCE-CLOSEOUT",
+  "status": "failed",
+  "classification": "f43rem1_failed_submission_wrapper_execution_qsub_command_not_found",
   "predecessor_identity_classification": "f43rem1_consumes_legacy_1379579_odb_not_current_f43pre1",
   "governance_classification": "protocol_deviating_unqualified_post_q43a_executable_package_submission",
-  "starting_commit": "9f28242f7b8c9ffd6ed89b23673dcc8e121d7e7d",
+  "starting_commit": "9fcda848cec0ef3709b19d56ae9a77f14629d500",
   "preparation_commit": "eee0c67b3b0f9b06b0c37bdd2a9f5078e3b8ee7d",
   "repair_preparation_commit": null,
   "qualification_commit": "18901968434e08db73f26a99b1e2c8b0dbd9e6d1",
@@ -17,7 +17,9 @@
   "scheduler_job_id": "1384675.mmaster02",
   "local_emulation_run_id": null,
   "scheduler_submissions_initiated": 1,
-  "failed_predecessors": [],
+  "failed_predecessors": [
+    "1384675.mmaster02"
+  ],
   "package_path": "models/generated/mode_ii/f43_stage_c_bridge",
   "execution_authorized": false,
   "submission_approved": false,
@@ -31,5 +33,5 @@
   "facsimile_contract": "mechanically_passive_dummy_youngs_modulus_1e-11",
   "centroid_state_mapping": "slot_4_dedicated_centroid_physical_reconstruction",
   "topology_dispatch": "props_topology_marker_4_quad_3_tri",
-  "next_action": "await_f43rem1_remote_execution_and_true_terminal_closeout"
+  "next_action": "f43rem1_mechanism_unvalidated_awaiting_human_review_and_proper_qualification"
 }
