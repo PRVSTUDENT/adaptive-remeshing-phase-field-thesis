@@ -1,0 +1,25 @@
+{
+  "layer_architecture": {
+    "layer_1": "Phase UEL (U1/U3), labels 1..N_phys",
+    "layer_2": "Displacement UEL (U2/U4), labels N_phys+1..2*N_phys",
+    "layer_3": "Facsimile UMAT (CPE4/CPE3), labels 2*N_phys+1..3*N_phys"
+  },
+  "index_offsets": {
+    "phase_uel_physidx": "JELEM",
+    "disp_uel_physidx": "JELEM - NPHYS_VAL",
+    "facsimile_umat_physidx": "NOEL - 2*NPHYS_VAL"
+  },
+  "quad_integration_point_mapping": {
+    "uel_ips": 4,
+    "cpe4_ips": 4,
+    "npt_mapping": "direct_one_to_one_npt",
+    "permutation": "identity"
+  },
+  "mechanical_role": {
+    "is_passive": true,
+    "dummy_youngs_modulus_gpa": 1e-11,
+    "poissons_ratio": 0.3,
+    "stiffness_contribution": "negligible_dummy_1e-16_relative",
+    "primary_purpose": "odb_sdv_field_output_and_visualization"
+  }
+}

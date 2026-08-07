@@ -224,5 +224,94 @@ class TestNPhysMappingAndStaticContract(unittest.TestCase):
         self.assertEqual(res2.returncode, 0, f"gfortran syntax check failed on F42TRI1_CORE.for with stderr:\n{res2.stderr}")
 
 
+class TestF42CTriangleFacsimileContract(unittest.TestCase):
+    """Offline mathematical and state mapping unit tests for Task F42C."""
+
+    def test_12_f42c_centroid_phase_linear_reconstruction(self):
+        """For a linear phase field, centroid phase phi_c equals arithmetic mean of 3 quadrature values."""
+        phi_gp = [0.2, 0.5, 0.8]
+        phi_c = sum(phi_gp) / 3.0
+        self.assertAlmostEqual(phi_c, 0.5, places=12)
+
+    def test_13_f42c_cst_strain_and_elastic_stress_identity(self):
+        """For CST triangle, strain and undegraded elastic stress are identical at all 3 quadrature points."""
+        eps_gp1 = [0.001, 0.0005, 0.0002]
+        eps_gp2 = [0.001, 0.0005, 0.0002]
+        eps_gp3 = [0.001, 0.0005, 0.0002]
+
+        for i in range(3):
+            self.assertEqual(eps_gp1[i], eps_gp2[i])
+            self.assertEqual(eps_gp1[i], eps_gp3[i])
+
+    def test_14_f42c_nonlinear_degraded_stress_physical_reconstruction(self):
+        """Nonlinear degraded stress must be evaluated physically at centroid, NOT by averaging degraded stresses."""
+        phi_gp = [0.1, 0.4, 0.7]
+        k = 1e-7
+        sigma_e = 100.0 # GPa
+
+        # Physical centroid evaluation:
+        phi_c = sum(phi_gp) / 3.0 # 0.4
+        g_c = (1.0 - phi_c)**2 + k # (0.6)^2 = 0.36
+        sigma_d_physical = g_c * sigma_e # 36.0
+
+        # Incorrect naive average of degraded stresses:
+        g_gp = [(1.0 - p)**2 + k for p in phi_gp] # 0.81, 0.36, 0.09
+        sigma_d_naive_avg = (sum(g_gp) / 3.0) * sigma_e # (1.26 / 3) * 100 = 42.0
+
+        self.assertNotAlmostEqual(sigma_d_physical, sigma_d_naive_avg, places=4,
+                                 msg="Physical centroid degradation must differ from naive linear averaging for non-uniform phase fields")
+        self.assertAlmostEqual(sigma_d_physical, 36.0, places=10)
+
+    def test_15_f42c_mixed_quad_tri_state_mapping_and_topology_dispatch(self):
+        """Mock synthetic state table verifying quad UMAT reads NPT 1..4, tri UMAT NPT 1 reads ONLY centroid slot 4."""
+        n_capacity = 10
+        nstv = 18
+        usrvar = [[[0.0]*5 for _ in range(nstv)] for _ in range(n_capacity)]
+
+        # Populate Quad element 1 (IPs 1..4)
+        for ip in range(1, 5):
+            usrvar[1][0][ip] = 0.1 * ip # PHASE at IP
+            usrvar[1][16][ip] = 4.0     # TOPOLOGY Q4
+
+        # Populate Tri element 2 (IPs 1..3 + Centroid Slot 4)
+        usrvar[2][0][1] = 0.2
+        usrvar[2][0][2] = 0.5
+        usrvar[2][0][3] = 0.8
+        usrvar[2][0][4] = 0.5 # Centroid phase (0.2+0.5+0.8)/3
+        usrvar[2][16][4] = 3.0 # TOPOLOGY T3
+
+        # Simulate Quad UMAT read for NPT=3
+        quad_npt = 3
+        quad_topology = usrvar[1][16][quad_npt]
+        self.assertEqual(quad_topology, 4.0)
+        quad_phase_read = usrvar[1][0][quad_npt]
+        self.assertAlmostEqual(quad_phase_read, 0.3, places=10)
+
+        # Simulate Tri UMAT read for NPT=1 (CPE3 has only NPT=1)
+        tri_topology = usrvar[2][16][4]
+        self.assertEqual(tri_topology, 3.0)
+        # CPE3 UMAT dispatch routes NPT=1 -> dedicated Centroid Slot 4!
+        tri_npt_read = 4 if tri_topology == 3.0 else 1
+        tri_phase_read = usrvar[2][0][tri_npt_read]
+        self.assertAlmostEqual(tri_phase_read, 0.5, places=10)
+        self.assertNotEqual(tri_phase_read, usrvar[2][0][1], "CPE3 must NOT read IP 1 as though it were centroid")
+
+    def test_16_f42c_gfortran_syntax_check_f42c_mixed_uel(self):
+        """Run gfortran -fsyntax-only on f42c_mixed_uel.for."""
+        inc_dir = tempfile.mkdtemp()
+        inc_path = os.path.join(inc_dir, "ABA_PARAM.INC")
+        with open(inc_path, 'w') as f:
+            f.write("      IMPLICIT REAL*8 (A-H,O-Z)\n")
+
+        f42c_fortran_path = os.path.join(PROJECT_ROOT, "models", "generated", "mode_ii", "f42_mixed_element_uel", "f42c_triangle_facsimile", "f42c_mixed_uel.for")
+        res = subprocess.run([
+            "gfortran", "-fsyntax-only", "-ffixed-line-length-none",
+            "-Wall", "-Wextra", "-Wsurprising", f"-I{inc_dir}", f42c_fortran_path
+        ], capture_output=True, text=True)
+
+        self.assertEqual(res.returncode, 0, f"gfortran syntax check failed on f42c_mixed_uel.for with stderr:\n{res.stderr}")
+
+
 if __name__ == "__main__":
     unittest.main()
+

@@ -1,0 +1,44 @@
+*Heading
+Stage F42C Single-Triangle Core + CPE3 Facsimile Verification (F42TRI2)
+*Node
+1, 0.0, 0.0
+2, 1.0, 0.0
+3, 0.0, 1.0
+*User Element, type=U3, nodes=3, iprops=0, real props=3, coordinates=2, variables=18, unsymm
+1, 2
+*User Element, type=U4, nodes=3, iprops=0, real props=5, coordinates=2, variables=18, unsymm
+1, 2
+*Element, type=U3, elset=EL_PHASE
+1, 1, 2, 3
+*Element, type=U4, elset=EL_DISP
+2, 1, 2, 3
+*Element, type=CPE3, elset=EL_FACSIMILE
+3, 1, 2, 3
+*UEL Property, elset=EL_PHASE
+0.015, 2.7, 1.0
+*UEL Property, elset=EL_DISP
+210000.0, 0.3, 1.0, 1.0e-7, 1.0
+*Solid Section, elset=EL_FACSIMILE, material=FACSIMILE_MAT
+1.0
+*Material, name=FACSIMILE_MAT
+*Depvar
+18
+*User Material, constants=4
+1.0e-11, 0.3, 1.0, 3.0
+*Nset, nset=FIXED_NODES
+1, 2
+*Nset, nset=TOP_NODE
+3
+*Step, name=Step-1, nlgeom=NO
+*Static
+1.0, 1.0, 1.0, 1.0
+*Boundary
+FIXED_NODES, 1, 2, 0.0
+TOP_NODE, 1, 1, 0.001
+TOP_NODE, 2, 2, 0.001
+*Output, field
+*Element Output, elset=EL_FACSIMILE
+S, E, SDV
+*Node Output
+U, RF
+*End Step

@@ -1,0 +1,85 @@
+{
+  "centroid_slot": {
+    "quad_element_ip_slots": [1, 2, 3, 4],
+    "triangle_element_ip_slots": [1, 2, 3],
+    "triangle_centroid_output_slot": 4
+  },
+  "sdv_mappings": [
+    {
+      "sdv_id": 1,
+      "name": "PHASE",
+      "meaning": "Phase field damage variable",
+      "topology_rule": "spatially_linear",
+      "reconstruction_formula": "arithmetic_mean_ips_1_2_3"
+    },
+    {
+      "sdv_id": 2,
+      "name": "HIST",
+      "meaning": "Crack driving energy history",
+      "topology_rule": "monotonic_history",
+      "reconstruction_formula": "max_ips_1_2_3"
+    },
+    {
+      "sdv_ids": [3, 4, 5],
+      "name": "EPS",
+      "meaning": "Infinitesimal strain tensor components",
+      "topology_rule": "spatially_constant_cst",
+      "reconstruction_formula": "identity_equal_check_ip1"
+    },
+    {
+      "sdv_ids": [6, 7, 8],
+      "name": "STRESS_E",
+      "meaning": "Undegraded elastic stress tensor components",
+      "topology_rule": "spatially_constant_cst",
+      "reconstruction_formula": "identity_equal_check_ip1"
+    },
+    {
+      "sdv_ids": [9, 10, 11],
+      "name": "STRESS_D",
+      "meaning": "Degraded stress tensor components",
+      "topology_rule": "nonlinear_phase_dependent",
+      "reconstruction_formula": "g_centroid_times_stress_elastic_centroid"
+    },
+    {
+      "sdv_id": 12,
+      "name": "ENERGY_E",
+      "meaning": "Undegraded elastic energy density",
+      "topology_rule": "spatially_constant_cst",
+      "reconstruction_formula": "identity_equal_check_ip1"
+    },
+    {
+      "sdv_id": 13,
+      "name": "ENERGY_D",
+      "meaning": "Degraded strain energy density",
+      "topology_rule": "nonlinear_phase_dependent",
+      "reconstruction_formula": "g_centroid_times_energy_elastic_centroid"
+    },
+    {
+      "sdv_id": 17,
+      "name": "TOPOLOGY",
+      "meaning": "Element topology marker (3=T3, 4=Q4)",
+      "topology_rule": "deterministic_marker",
+      "reconstruction_formula": "set_in_props_checked_in_umat"
+    },
+    {
+      "sdv_id": 18,
+      "name": "VALID_STAMP",
+      "meaning": "Call validity stamp (KSTEP*100000 + KINC)",
+      "topology_rule": "validity_stamp",
+      "reconstruction_formula": "step_inc_hash_checked_in_umat"
+    }
+  ],
+  "history_aggregation_policy": {
+    "is_output_only": true,
+    "core_uel_feedback": false
+  },
+  "topology_marker": {
+    "quad_cpe4_value": 4,
+    "triangle_cpe3_value": 3,
+    "fail_closed_on_unknown": true
+  },
+  "stale_state_protection": {
+    "validity_stamp_formula": "KSTEP * 100000 + KINC",
+    "on_mismatch": "compute_centroid_on_the_fly_or_fail_closed"
+  }
+}

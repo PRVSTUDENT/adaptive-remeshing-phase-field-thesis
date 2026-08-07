@@ -1,0 +1,18 @@
+{
+  "test_name": "F42TRI2 Single-Triangle Core + CPE3 Facsimile Verification Oracle",
+  "expected_tolerances": {
+    "u3_jtype": 3,
+    "u4_jtype": 4,
+    "cpe3_topology_marker": 3,
+    "cpe3_npt": 1,
+    "centroid_phase": 0.0,
+    "centroid_strain_11": 0.001,
+    "centroid_strain_22": 0.001,
+    "centroid_strain_12": 0.0,
+    "centroid_undegraded_stress_11": 282.6923076923077,
+    "centroid_degraded_stress_11": 282.6923076923077,
+    "u4_stiffness_matrix_amatrx11": 141346.15384615384,
+    "u4_residual_rhs1": -60.5769230769231,
+    "facsimile_mechanical_passivity_max_force_deviation": 1e-12
+  }
+}
