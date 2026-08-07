@@ -54,9 +54,21 @@ class TestF43GeometrySourceContract(unittest.TestCase):
         manifest_path = os.path.join(PACKAGE_DIR, "F43PRE2_SOURCE_MANIFEST.json")
         with open(manifest_path, "r") as fp:
             data = json.load(fp)
-        self.assertEqual(data["cae_sha256"], "0f156004b3cdc3b215ed66f7d4dea95065dd18c2fe209b79f06e40197e07d408")
+        self.assertEqual(data["cae_source_sha256"], "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff")
         self.assertEqual(data["cae_authoritative_hash_stage"], "post_abaqus_process_final_on_disk")
         self.assertEqual(data["inp_sha256"], "1f16f8525a7e627b90bd4958f8701a418d0ac2960654787853b2688f8fda75dd")
+
+    def test_immutable_source_and_work_copy_contract_fields(self):
+        manifest_path = os.path.join(PACKAGE_DIR, "F43PRE2_SOURCE_MANIFEST.json")
+        with open(manifest_path, "r") as fp:
+            data = json.load(fp)
+        self.assertEqual(data["cae_artifact_policy"], "external_immutable_source_with_runtime_work_copy")
+        self.assertFalse(data["cae_source_open_in_place"])
+        self.assertTrue(data["runtime_work_copy_required"])
+        self.assertTrue(data["runtime_work_copy_hash_must_match_source_before_open"])
+        self.assertTrue(data["runtime_work_copy_mutation_allowed"])
+        self.assertEqual(data["reference_job"], "1384674.mmaster02")
+        self.assertEqual(data["reference_job_role"], "numerical_comparison_reference_only")
 
     def test_mesh_control_contract_specifies_quad_dominated(self):
         manifest_path = os.path.join(PACKAGE_DIR, "F43PRE2_SOURCE_MANIFEST.json")
