@@ -1,14 +1,24 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM2-R3",
+  "task_id": "F43REM2-R3-LQ1",
   "qualification_target_P": "8bfba63e384c9c094fcd73f83fec015378538801",
-  "qualification_mode": "clean_linux_detached_worktree",
+  "qualification_environment": "WSL/Linux Git-created detached worktree",
+  "worktree_path": "/tmp/f43rem2_r3_linux_qual",
+  "core_autocrlf": "false",
+  "full_unit_discovery": "test_*.py",
   "test_counts": {
-    "F43_tests": 11,
-    "F42_tests": 19,
-    "F41_tests": 21,
-    "F40_tests": 46,
-    "total_tests": 97
+    "F43_related_tests": 29,
+    "F42_related_tests": 19,
+    "F41_related_tests": 21,
+    "F40_related_tests": 46,
+    "total_relevant_regression_tests": 115,
+    "all_relevant_tests_pass": true
+  },
+  "static_checks": {
+    "python_checks": "pass",
+    "shell_checks": "pass",
+    "json_checks": "pass",
+    "static_validator": "pass"
   },
   "pre_test_clean": true,
   "post_test_clean": true,
@@ -24,7 +34,12 @@
     "validator_sha256": "6b817cdf2d49203fb8125dcebac67ee1f10ffffb0eef702bd304f49dbd778a2a",
     "collector_sha256": "7e52437996987d3f0c200171a46324fd29e678fac21d16508d718559d5fd908a"
   },
+  "superseded_qualification": {
+    "Q43REM2-R3": "e0a30cfdf030655fbcb66b3f7c862766523c338d",
+    "reason": "superseded_for_authorization_by_linux_full_regression_qualification"
+  },
   "qsub_called": false,
+  "HPC_submissions": 0,
   "execution_authorized": false,
   "submission_approved": false,
   "maximum_jobs_now": 0
