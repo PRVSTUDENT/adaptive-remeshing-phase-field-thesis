@@ -1,4 +1,4 @@
-# Session Report: Task F42C Job 1384659 Evaluation & P42C-R2 Compiler Module Repair
+# Session Report: Task F42C-R3 Fail-Closed Toolchain & Module Preflight Repair
 
 **Date**: 2026-08-07  
 **Agent**: `gemini-antigravity`  
@@ -7,29 +7,36 @@
 **Preparation Commit (P42C)**: `8daf5086b6a02f1c3c6567506472ec9ffc36e9ba`  
 **Repair Preparation Commit (P42C-R1)**: `651d2d36b3c183d9dddddbc5fefb4e7d67a77245`  
 **Repair Preparation Commit (P42C-R2)**: `a5d2963350246e542697db15f3b9f2e1aa5e8bf7`  
-**Repair Qualification Commit (Q42C-R2)**: `a84405f2b907b5a1e379fbbc266c6fb6278877af`  
-**Coordination Head Commit**: `0a05cd2efbc4a43da884d72b286e54ffffe3b0e8`  
-**Evaluated Job ID**: `1384659.mmaster02`  
+**Repair Preparation Commit (P42C-R3)**: `0e9b0cc0b3890800dc945acf4385f76691dcf475`  
+**Repair Qualification Commit (Q42C-R3)**: `f80a666ce545f2b6417f2081dab5096c71a9c115`  
+**Coordination Head Commit**: `b68327bf6e3e2767a81f496f78d5a43d53e7333c`  
+**Failed Predecessors**: `1384658.mmaster02`, `1384659.mmaster02`  
 **Status**: `qualified_not_authorized`  
 **Classification**: `f42c_triangle_cpe3_facsimile_mapping_qualified`  
 
 ---
 
-### Technical Diagnostic of Job 1384659 & P42C-R2 Compiler Module Repair
+### P42C-R3 Fail-Closed Toolchain & Module Preflight Repair Summary
 
-1. **Job 1384659 Evaluation**:
-   - **Outcome**: Job state `F`, exit status `1`.
-   - **Diagnostic Log**: `execution.log` output: `sh: ifort: Kommando nicht gefunden.` / `Abaqus Error: Problem during compilation - f42c_mixed_uel.for`.
-   - **Root Cause**: On compute node `mnode104`, loading `module load abaqus/2023` alone did not place `ifort` in PATH. The environment required loading `intel/2024.2.0` explicitly before running Abaqus UEL compilation.
-   - **Scientific Core**: Zero solver failure; Abaqus compilation phase failed before loading the user subroutine DLL/SO.
-2. **P42C-R2 Technical Repair**:
-   - Updated `F42TRI2.pbs` to execute: `module load intel/2024.2.0 abaqus/2023 || true`.
-   - Verified `/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort` is present in PATH.
-   - Committed P42C-R2 repair commit `a5d2963350246e542697db15f3b9f2e1aa5e8bf7`.
-3. **Q42C-R2 Detached Qualification**:
-   - Evaluated 83/83 unit & regression tests (83/83 passed OK).
-   - `gfortran -fsyntax-only` verified (0 errors, 0 warnings).
-   - Committed qualification record commit `a84405f2b907b5a1e379fbbc266c6fb6278877af`.
-4. **Authority Reset**:
-   - All authority flags reset strictly to default-closed (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`).
-   - Recorded in `project_coordination/ACTIVE_TASK.json` commit `0a05cd2efbc4a43da884d72b286e54ffffe3b0e8`.
+1. **Fail-Closed Module Environment**:
+   - Removed `|| true` from all module loading lines in `F42TRI2.pbs`.
+   - Implemented strict fail-closed sequence:
+     ```bash
+     module purge
+     module load intel/2024.2.0
+     module load abaqus/2023
+     ```
+2. **Explicit Toolchain Preflight Checks**:
+   - Required `command -v ifort` and `command -v abaqus`.
+   - Captured resolved binary paths and versions in `execution.log`.
+   - Under `set -euo pipefail`, any missing binary or failed module load terminates non-zero before launching Abaqus.
+3. **Login-Node Environment Verification**:
+   - Verified on `tu_freiberg` login node: `ifort` resolved to `/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort` and `abaqus` resolved to `/cluster/application/abaqus/2023/Commands/abaqus` (return code 0).
+4. **Offline Test Suite Extension & Qualification**:
+   - Extended `test_stage_f42_mixed_uel.py` with `test_17_f42c_pbs_preflight_fail_closed_validation`.
+   - Executed offline test suites: F42 (17 tests), F41 (21 tests), F40 (46 tests). All 84/84 tests passed OK.
+   - Verified Fortran syntax on `f42c_mixed_uel.for` (0 errors, 0 warnings).
+5. **Coordination & Authority Reset**:
+   - All authority flags reset to default-closed state (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`).
+   - Pushed to `origin/main` (`b68327b`) and fast-forwarded cluster clone.
+   - Zero HPC submissions initiated (`qstat_rc = 0`, `active_queued_jobs = 0`).
