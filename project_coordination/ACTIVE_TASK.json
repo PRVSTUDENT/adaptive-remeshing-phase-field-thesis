@@ -1,14 +1,14 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM1-R1-EXACT-P43R1-DETACHED-QUALIFICATION-CORRECTION",
+  "task_id": "F43REM1-R1-IMMUTABLE-EXACT-BLOB-CLEAN-LINUX-QUALIFICATION",
   "status": "qualified_not_authorized",
-  "classification": "f43rem1_exact_p43r1_detached_worktree_qualification_pass",
+  "classification": "f43rem1_immutable_clean_linux_qualification_pass",
   "predecessor_identity_classification": "f43rem1_consumes_current_1384674_odb",
-  "governance_classification": "protocol_compliant_p43r1_detached_worktree_qualified_not_authorized",
-  "starting_commit": "942fa317c797e04c9ff8cc923f12f816739c13f7",
+  "governance_classification": "protocol_compliant_p43r1_clean_linux_qualified_not_authorized",
+  "starting_commit": "1bd629444bae28cb4bdb958124f69e335507fea1",
   "preparation_commit": "3f3eb579c5016ecdc02d23e7d166d831f80be35c",
   "repair_preparation_commit": null,
-  "qualification_commit": "7741484201cc658505bf2d8f7dc97ca4c029134c",
+  "qualification_commit": "e7c005c65abfe9d9e491ae29027d60941bd6ca03",
   "authorization_commit": null,
   "latest_gate_repair_commit": null,
   "latest_gate_qualification_commit": null,
@@ -33,5 +33,5 @@
   "facsimile_contract": "mechanically_passive_dummy_youngs_modulus_1e-11",
   "centroid_state_mapping": "slot_4_dedicated_centroid_physical_reconstruction",
   "topology_dispatch": "props_topology_marker_4_quad_3_tri",
-  "next_action": "human_review_of_P43R1_Q43R1_RQ_before_exactly_one_real_HPC_submission"
+  "next_action": "human_review_of_P43R1_Q43R1_RQ2_before_exactly_one_real_HPC_submission"
 }
