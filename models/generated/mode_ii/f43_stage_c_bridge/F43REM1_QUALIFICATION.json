@@ -1,9 +1,9 @@
 {
-  "qualification_id": "Q43R1-RQ2",
-  "qualified_job": "F43REM1_CURRENT",
-  "qualification_target_commit": "3f3eb579c5016ecdc02d23e7d166d831f80be35c",
+  "qualification_id": "Q43R2",
+  "qualified_job": "F43REM1_CURRENT_R2",
+  "qualification_target_commit": "97d2e11450a1c46214bac2b0b193fbc067106b30",
   "qualification_mode": "clean_linux_detached_worktree",
-  "detached_HEAD": "3f3eb579c5016ecdc02d23e7d166d831f80be35c",
+  "detached_HEAD": "97d2e11450a1c46214bac2b0b193fbc067106b30",
   "clean_linux_detached_worktree": true,
   "no_file_mutation_during_qualification": true,
   "raw_git_blob_hashes_match": true,
@@ -13,34 +13,24 @@
   "post_test_hashes_unchanged": true,
   "static_checks_pass": true,
   "tests_pass": true,
+  "total_tests": 98,
   "qsub_called": false,
   "scheduler_submissions": 0,
   "predecessor_job": "1384674.mmaster02",
   "predecessor_odb_path": "/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/evidence/1384674.mmaster02/F43PRE1.odb",
   "predecessor_odb_sha256": "3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534",
   "predecessor_input_sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2",
+  "sys_argv_dependency_removed": true,
+  "empirical_minus_cae_case_tested": true,
+  "failed_job_reference": "1385373.mmaster02",
   "zero_executable_legacy_1379579_references": true,
-  "remote_submission_fail_closed_verified": true,
-  "qsub_fail_closed_verified": true,
-  "fake_job_id_creation_blocked": true,
-  "resource_spec": {
-    "cpus": 1,
-    "memory": "8 GB",
-    "walltime": "00:30:00",
-    "queue": "entry_imfdfkmq"
-  },
   "package_manifest": "models/generated/mode_ii/f43_stage_c_bridge/F43REM1_PACKAGE_MANIFEST.json",
   "offline_regression_test_summary": {
     "f40_tests": 15,
     "f41_tests": 15,
     "f42_tests": 25,
-    "f43_tests": 40,
-    "total_tests": 95,
+    "f43_tests": 43,
+    "total_tests": 98,
     "pass": true
-  },
-  "superseded_qualification_record": {
-    "qualification_id": "Q43R1-RQ",
-    "commit": "7741484201cc658505bf2d8f7dc97ca4c029134c",
-    "status": "superseded_for_authorization_due_to_worktree_mutation_during_qualification"
   }
 }
