@@ -2,7 +2,7 @@
 #PBS -N F42TRI2
 #PBS -l select=1:ncpus=1:mpiprocs=1:mem=8gb
 #PBS -l walltime=00:30:00
-#PBS -q short
+#PBS -q entry_imfdfkmq
 #PBS -j oe
 #PBS -m abe
 #PBS -M pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
