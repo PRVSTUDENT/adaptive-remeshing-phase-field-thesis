@@ -1,0 +1,30 @@
+{
+  "protocol_version": 1,
+  "audit_type": "f42a_r1_defect_audit",
+  "starting_commit": "5efa78e6ece595141da5437db6cb5005cb8470ea",
+  "defects": {
+    "defect_a_invalid_jtype_dispatch": {
+      "deck_types": ["U11", "U12", "U21", "U22"],
+      "fortran_jtype_checked": [1, 2, 3, 4],
+      "actual_abaqus_jtype_passed": [11, 12, 21, 22],
+      "status": "confirmed_invalid"
+    },
+    "defect_b_missing_displacement_branches": {
+      "quad_displacement_executable": false,
+      "triangle_displacement_executable": false,
+      "status": "confirmed_missing"
+    },
+    "defect_c_uninitialized_gc_and_equation_divergence": {
+      "uninitialized_variable": "GC",
+      "molnar_formulation_divergence": true,
+      "status": "confirmed_bug"
+    },
+    "defect_d_deck_rebuilder_layering_and_duplicate_labels": {
+      "displacement_blocks_generated": false,
+      "element_label_offsets_used": false,
+      "duplicate_element_labels_present": true,
+      "umatelem_set_uses_facsimile_layer": false,
+      "status": "confirmed_bug"
+    }
+  }
+}

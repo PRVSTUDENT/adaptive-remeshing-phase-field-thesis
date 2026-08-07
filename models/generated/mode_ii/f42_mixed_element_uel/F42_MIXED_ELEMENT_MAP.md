@@ -1,64 +1,71 @@
-# F42 Mixed 3-Node / 4-Node Element Mapping & Architecture Contract
+# F42-R1 Mixed 3-Node / 4-Node Element Mapping & Architecture Contract
 
 Date: 2026-08-07  
 Agent: Gemini Antigravity  
 Status: `complete`  
-Classification: `triangle_uel_reference_implementation_not_yet_resolved`  
+Classification: `f42a_r1_mixed_uel_contract_corrected`  
 
 ---
 
-## 1. Explicit User-Element Type Contract
+## 1. Corrected User-Element Type Contract
 
-To avoid collision with existing 4-node UEL declarations ($U1, U2, U3, U4$), the mixed-element architecture defines four distinct user element types:
+To preserve the validated Molnár 4-node quad baseline ($U1, U2$) without breaking regression controls, the mixed-element architecture uses $U1..U4$:
 
 | Element Role | Physics / DOFs | Node Count | Type Name | Abaqus Keyword Declaration |
 |---|---|---|---|---|
-| **Quad Phase Field** | Phase ($\phi$, DOF 3) | 4 | `U11` | `*User element, nodes=4, type=U11, properties=3, coordinates=2, VARIABLES=8` |
-| **Quad Displacement** | Displacement ($u_x, u_y$, DOFs 1,2) | 4 | `U12` | `*User element, nodes=4, type=U12, properties=4, coordinates=2, VARIABLES=56` |
-| **Triangle Phase Field** | Phase ($\phi$, DOF 3) | 3 | `U21` | `*User element, nodes=3, type=U21, properties=3, coordinates=2, VARIABLES=8` |
-| **Triangle Displacement**| Displacement ($u_x, u_y$, DOFs 1,2) | 3 | `U22` | `*User element, nodes=3, type=U22, properties=4, coordinates=2, VARIABLES=56` |
-| **Quad Facsimile** | Elastic / Output | 4 | `CPE4` | `*Element, type=CPE4, elset=All_elem_quad` |
-| **Triangle Facsimile** | Elastic / Output | 3 | `CPE3` | `*Element, type=CPE3, elset=All_elem_tri` |
+| **Quad Phase Field** | Phase ($\phi$, DOF 3) | 4 | `U1` | `*User Element, nodes=4, type=U1, properties=3, coordinates=2, VARIABLES=8` |
+| **Quad Displacement** | Displacement ($u_x, u_y$, DOFs 1,2) | 4 | `U2` | `*User Element, nodes=4, type=U2, properties=4, coordinates=2, VARIABLES=56` |
+| **Triangle Phase Field** | Phase ($\phi$, DOF 3) | 3 | `U3` | `*User Element, nodes=3, type=U3, properties=3, coordinates=2, VARIABLES=6` |
+| **Triangle Displacement**| Displacement ($u_x, u_y$, DOFs 1,2) | 3 | `U4` | `*User Element, nodes=3, type=U4, properties=4, coordinates=2, VARIABLES=42` |
+| **Quad Facsimile** | Elastic / Output | 4 | `CPE4` | `*Element, type=CPE4, elset=UMAT_QUAD` |
+| **Triangle Facsimile** | Elastic / Output | 3 | `CPE3` | `*Element, type=CPE3, elset=UMAT_TRI` |
+
+### Abaqus Fortran `JTYPE` Dispatch Rules
+- `type=U1` $\rightarrow$ `JTYPE = 1` (Quad Phase)
+- `type=U2` $\rightarrow$ `JTYPE = 2` (Quad Displacement)
+- `type=U3` $\rightarrow$ `JTYPE = 3` (Triangle Phase)
+- `type=U4` $\rightarrow$ `JTYPE = 4` (Triangle Displacement)
 
 ---
 
-## 2. Mathematical Mapping: 4-Node Quad vs 3-Node Triangle
+## 2. 3-Point Symmetric Triangle Integration Rule (Degree-2 Exact)
 
-| Mathematical Quantity | Existing 4-Node Bilinear Quad (`U11`/`U12`) | Proposed 3-Node Linear Triangle (`U21`/`U22`) |
-|---|---|---|
-| **Nodes ($NNODE$)** | 4 | 3 |
-| **DOFs per Node** | 1 (Phase) or 2 (Displacement) | 1 (Phase) or 2 (Displacement) |
-| **Total DOFs ($NDOFEL$)** | 4 (Phase) or 8 (Displacement) | 3 (Phase) or 6 (Displacement) |
-| **Natural Coordinates** | $\xi \in [-1, 1], \eta \in [-1, 1]$ | $L_1 = 1 - \xi - \eta, L_2 = \xi, L_3 = \eta, (\xi \ge 0, \eta \ge 0, \xi+\eta \le 1)$ |
-| **Shape Functions ($N_i$)** | $N_1 = \frac{1}{4}(1-\xi)(1-\eta)$<br>$N_2 = \frac{1}{4}(1+\xi)(1-\eta)$<br>$N_3 = \frac{1}{4}(1+\xi)(1+\eta)$<br>$N_4 = \frac{1}{4}(1-\xi)(1+\eta)$ | $N_1 = 1 - \xi - \eta$<br>$N_2 = \xi$<br>$N_3 = \eta$ |
-| **Derivatives ($\partial N_i / \partial \xi, \partial N_i / \partial \eta$)** | Bilinear functions of $(\xi, \eta)$ | Constant: $\left[\begin{array}{cc} -1 & -1 \\ +1 & 0 \\ 0 & +1 \end{array}\right]$ |
-| **Jacobian ($\mathbf{J}$)** | $2 \times 2$ spatially variable | $2 \times 2$ constant: $J_{11} = x_2 - x_1, J_{12} = y_2 - y_1, J_{21} = x_3 - x_1, J_{22} = y_3 - y_1$<br>$\det(\mathbf{J}) = 2 A_e$ |
-| **Integration Quadrature** | $2 \times 2 = 4$ Gauss points | 1-point centroidal $(\xi=1/3, \eta=1/3, w=1/2)$ |
-| **Integration Weight** | $w_i = 1.0$ | $w = 0.5 \times \det(\mathbf{J}) \times \text{thickness} = A_e t$ |
-| **B-Matrix Dimension** | Phase: $2 \times 4$<br>Displacement: $3 \times 8$ | Phase: $2 \times 3$<br>Displacement: $3 \times 6$ |
-| **Stiffness Matrix ($AMATRX$)** | $4 \times 4$ (Phase) or $8 \times 8$ (Displacement) | $3 \times 3$ (Phase) or $6 \times 6$ (Displacement) |
-| **Residual Vector ($RHS$)** | $4 \times 1$ (Phase) or $8 \times 1$ (Displacement) | $3 \times 1$ (Phase) or $6 \times 1$ (Displacement) |
+To exactly integrate the quadratic phase-field reaction term $N_i N_j$, a symmetric 3-point quadrature rule is implemented for 3-node triangular elements:
+
+| Point ($k$) | Natural Coords $(\xi_k, \eta_k)$ | Weight ($w_k$) | Physical Integration Weight ($w_{phys, k}$) |
+|---|---|---|---|
+| **1** | $(1/6, 1/6)$ | $1/6$ | $\frac{1}{6} \det(\mathbf{J}) t$ |
+| **2** | $(2/3, 1/6)$ | $1/6$ | $\frac{1}{6} \det(\mathbf{J}) t$ |
+| **3** | $(1/6, 2/3)$ | $1/6$ | $\frac{1}{6} \det(\mathbf{J}) t$ |
+
+- **Sum of Weights**: $w_1 + w_2 + w_3 = 1/2$ (area of reference unit triangle).
+- **State Slots**: $NPT = 1..3$. Slot 4 in `USRVAR(N_ELEM, NSTV, 4)` remains unused for triangles.
+- `U3` `VARIABLES = 3 * NSTVTO = 6`.
+- `U4` `VARIABLES = 3 * NSTVTT = 42`.
 
 ---
 
-## 3. State Variable Storage Scheme (`COMMON/KUSER` & `USRVAR`)
+## 3. Physical Element Layer Offset Scheme
 
-- **Array Dimension**: `COMMON/KUSER/USRVAR(N_ELEM, NSTV, 4)`
-- **Indexing Rules**:
-  - **4-Node Quads**: Use all 4 integration point slots (`NPT = 1..4`).
-  - **3-Node Triangles**: Use slot 1 (`NPT = 1`) for centroidal integration point; slots 2..4 remain unused (zeroed).
-- **Backwards Compatibility**: Guarantees that `USRVAR` memory allocation and indexing for existing quad elements remains 100% untouched.
+Let $N_{phys}$ be the total number of physical remeshed elements ($1 \le p \le N_{phys}$).
+Three non-overlapping element label layers are created:
+
+1. **Phase Layer**: `label = p` ($1 \le p \le N_{phys}$)
+   - Quad $\rightarrow U1$, Triangle $\rightarrow U3$.
+2. **Displacement Layer**: `label = N_phys + p`
+   - Quad $\rightarrow U2$, Triangle $\rightarrow U4$.
+3. **Facsimile Layer**: `label = 2 * N_phys + p`
+   - Quad $\rightarrow CPE4$, Triangle $\rightarrow CPE3$.
+
+### Subroutine Indexing Formulas
+- Phase physical index: `NELEMAN = JELEM`
+- Displacement physical index: `NELEMAN = JELEM - NPHYS`
+- UMAT facsimile physical index: `NELEMAN = NOEL - 2 * NPHYS`
 
 ---
 
-## 4. Input Deck Rebuilder Specifications
-
-The deck rebuilder parses `Job-2.inp` from Abaqus adaptive remeshing:
-1. Identifies element sets:
-   - Elements with 4 nodes $\rightarrow$ classified as `CPE4`.
-   - Elements with 3 nodes $\rightarrow$ classified as `CPE3`.
-2. Generates corresponding layered UEL definitions:
-   - `U11` (Phase Quad) & `U12` (Disp Quad) for 4-node elements.
-   - `U21` (Phase Tri) & `U22` (Disp Tri) for 3-node elements.
-   - Facsimile output layers `All_elem_quad` (`CPE4`) and `All_elem_tri` (`CPE3`).
-3. Re-applies boundary conditions, UEL properties, step controls, and `MISESERI` output requests.
+## 4. Aggregate Element Sets
+- `PHASE`: All $U1$ and $U3$ element labels ($1 .. N_{phys}$)
+- `DISP`: All $U2$ and $U4$ element labels ($N_{phys}+1 .. 2 N_{phys}$)
+- `UMATELEM`: All $CPE4$ and $CPE3$ facsimile labels ($2 N_{phys}+1 .. 3 N_{phys}$)
+- `All_elem`: Points to `UMATELEM` facsimile output layer.
