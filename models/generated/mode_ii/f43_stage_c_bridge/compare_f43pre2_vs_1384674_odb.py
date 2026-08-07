@@ -9,7 +9,7 @@ import sys
 import os
 import math
 import json
-from odbAccess import openOdb, ODB_SET
+from odbAccess import openOdb
 
 def percentile(N, percent):
     if not N:
