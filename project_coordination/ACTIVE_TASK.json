@@ -7,7 +7,7 @@
   "preparation_commit": "8daf5086b6a02f1c3c6567506472ec9ffc36e9ba",
   "repair_preparation_commit": "3e3ea474555086d6b2b3778f3c989640d2857a6c",
   "qualification_commit": "cb3d9b3c881546e3f54e750d01e6e046dd7d4d27",
-  "authorization_commit": null,
+  "authorization_commit": "8962118066f3c932d5bc68314f6cba3cb0fc54d2",
   "latest_gate_repair_commit": null,
   "latest_gate_qualification_commit": null,
   "invalidated_predecessor": "1384660.mmaster02",
@@ -28,10 +28,10 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "recorded_user_authorization_sentence": "I authorize exactly one final guarded HPC submission of F42TRI2 using repair preparation commit 3e3ea474555086d6b2b3778f3c989640d2857a6c and qualification commit cb3d9b3c881546e3f54e750d01e6e046dd7d4d27, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, no adaptive-remeshing job, no mixed-mesh production job, and no downstream job.",
+  "recorded_user_authorization_sentence": "I authorize exactly one final replacement guarded HPC submission of F42TRI2 using repair preparation commit 3e3ea474555086d6b2b3778f3c989640d2857a6c and qualification commit cb3d9b3c881546e3f54e750d01e6e046dd7d4d27, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, no adaptive-remeshing job, no mixed-mesh production job, and no downstream job.",
   "invalid_historical_authorization_record": null,
   "facsimile_contract": "mechanically_passive_dummy_youngs_modulus_1e-11",
   "centroid_state_mapping": "slot_4_dedicated_centroid_physical_reconstruction",
   "topology_dispatch": "props_topology_marker_4_quad_3_tri",
-  "next_action": "commit_authorization_record_and_dispatch_final_replacement_job"
+  "next_action": "push_to_origin_and_dispatch_final_replacement_job"
 }
