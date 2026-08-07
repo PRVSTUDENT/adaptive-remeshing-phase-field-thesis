@@ -1,7 +1,15 @@
 {
-  "qualification_id": "Q43R1",
+  "qualification_id": "Q43R1-RQ",
   "qualified_job": "F43REM1_CURRENT",
-  "preparation_commit": "3f3eb579c5016ecdc02d23e7d166d831f80be35c",
+  "qualification_target_commit": "3f3eb579c5016ecdc02d23e7d166d831f80be35c",
+  "qualification_mode": "detached_clean_worktree",
+  "detached_HEAD": "3f3eb579c5016ecdc02d23e7d166d831f80be35c",
+  "working_tree_clean_before_tests": true,
+  "all_hashes_pass": true,
+  "all_static_checks_pass": true,
+  "all_tests_pass": true,
+  "qsub_called": false,
+  "scheduler_submissions": 0,
   "predecessor_job": "1384674.mmaster02",
   "predecessor_odb_path": "/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/evidence/1384674.mmaster02/F43PRE1.odb",
   "predecessor_odb_sha256": "3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534",
@@ -25,5 +33,9 @@
     "total_tests": 95,
     "pass": true
   },
-  "scheduler_execution": false
+  "superseded_qualification_record": {
+    "qualification_id": "Q43R1",
+    "commit": "7e84e94566550c474afa352d7052b3b7be81225b",
+    "status": "superseded_for_authorization_due_to_missing_demonstrated_detached_qualification"
+  }
 }
