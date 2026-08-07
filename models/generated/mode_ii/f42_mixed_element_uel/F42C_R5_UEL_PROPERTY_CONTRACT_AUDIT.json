@@ -1,0 +1,53 @@
+{
+  "uel_property_requirements": {
+    "U1": {
+      "element_type": "U1",
+      "description": "4-Node Quad Phase-Field UEL",
+      "max_props_referenced": 3,
+      "max_jprops_referenced": 0,
+      "required_properties": 3,
+      "required_i_properties": 0
+    },
+    "U2": {
+      "element_type": "U2",
+      "description": "4-Node Quad Displacement UEL",
+      "max_props_referenced": 5,
+      "max_jprops_referenced": 0,
+      "required_properties": 5,
+      "required_i_properties": 0
+    },
+    "U3": {
+      "element_type": "U3",
+      "description": "3-Node Triangle Phase-Field UEL",
+      "max_props_referenced": 3,
+      "max_jprops_referenced": 0,
+      "required_properties": 3,
+      "required_i_properties": 0
+    },
+    "U4": {
+      "element_type": "U4",
+      "description": "3-Node Triangle Displacement UEL",
+      "max_props_referenced": 5,
+      "max_jprops_referenced": 0,
+      "required_properties": 5,
+      "required_i_properties": 0
+    },
+    "UMAT_CPE4": {
+      "element_type": "CPE4",
+      "description": "4-Node Quad Facsimile UMAT",
+      "max_props_referenced": 4,
+      "required_constants": 4
+    },
+    "UMAT_CPE3": {
+      "element_type": "CPE3",
+      "description": "3-Node Triangle Facsimile UMAT",
+      "max_props_referenced": 4,
+      "required_constants": 4
+    }
+  },
+  "keyword_syntax_rules": {
+    "prohibited": ["REAL PROPS", "REALPROPS", "IPROPS"],
+    "required_real_property_param": "PROPERTIES",
+    "required_integer_property_param": "I PROPERTIES"
+  }
+}
