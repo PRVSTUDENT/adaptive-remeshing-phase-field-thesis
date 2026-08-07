@@ -29,7 +29,9 @@ class TestStageF38Batch(unittest.TestCase):
         tmp_dir = tempfile.mkdtemp()
         try:
             audit_file = os.path.join(tmp_dir, "CAE_INVOCATION_CONTEXT_AUDIT.json")
+            matrix_file = os.path.join(tmp_dir, "CAE_PHASE_DIAGNOSTIC_MATRIX.json")
             os.environ["F38_INVOCATION_AUDIT"] = audit_file
+            os.environ["F38_DIAGNOSTIC_MATRIX"] = matrix_file
 
             entry_path = runtime_dir / "run_f38_cae_diagnostic.py"
             code = compile(entry_path.read_text(encoding="utf-8"), str(entry_path), "exec")
