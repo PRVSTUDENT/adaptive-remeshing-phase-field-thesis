@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "models/generated/mode_ii/f43_stage_c_bridge/**",
@@ -9,11 +9,11 @@
     "docs/**",
     "references/**"
   ],
-  "completed_at": null,
+  "completed_at": "2026-08-07T15:07:00+02:00",
   "heartbeat": "2026-08-07T15:07:00+02:00",
   "started_at": "2026-08-07T15:07:00+02:00",
   "session_id": "gemini-f43rem1-r2-guarded-submission-session",
   "starting_commit": "faa18f9325c5df52db8dbfee2a7eab2d91a005c5",
   "task_id": "F43REM1-R2-GUARDED-REMOTE-HPC-SUBMISSION-AND-EVIDENCE-CLOSEOUT",
-  "note": "Active session claimed for Task F43REM1_CURRENT_R2 single guarded remote HPC submission on tu_freiberg, terminal evidence collection, and Gate C1 mesh review closeout."
+  "note": "Completed session for Task F43REM1_CURRENT_R2 single guarded remote HPC submission of job 1385376.mmaster02, terminal evidence collection, and diagnostic closeout."
 }

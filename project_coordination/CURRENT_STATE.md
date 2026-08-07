@@ -1,5 +1,37 @@
 # Current project state
 
+## F43REM1_CURRENT_R2 Single Guarded Remote HPC Execution & Evidence Closeout (2026-08-07)
+
+Completed single guarded remote HPC submission of `F43REM1_CURRENT_R2` job `1385376.mmaster02` on `tu_freiberg`, captured terminal stdout/stderr logs, extracted evidence package, and performed empirical evidence analysis:
+- **Task ID**: `F43REM1-R2-GUARDED-REMOTE-HPC-SUBMISSION-AND-EVIDENCE-CLOSEOUT`
+- **Status**: `complete_failed`
+- **Classification**: `f43rem1_cae_environment_contract_passed_mdb_model_unresolved`
+- **Predecessor ODB**: `1384674.mmaster02` (`F43PRE1.odb`, SHA256 `3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534`).
+- **Preparation Commit (P43R2)**: `97d2e11450a1c46214bac2b0b193fbc067106b30`
+- **Qualification Commit (Q43R2)**: `40cddf1a5e4452ac06d79639edfb5e3cd6a4218c`
+- **Authorization Commit (A43R2)**: `1b639b6ac2c91b97534a287d330663ab739811a8`
+- **Submission Commit**: `8535779d1e17bfb855152aff316994d0234a2ddc`
+- **Recorded User Authorization Sentence**: `"I authorize exactly one guarded HPC submission of F43REM1_CURRENT_R2 using preparation commit 97d2e11450a1c46214bac2b0b193fbc067106b30 and qualification commit 40cddf1a5e4452ac06d79639edfb5e3cd6a4218c, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, no F43DRY1 submission, no refined phase-field production run, and no downstream job."`
+- **HPC Job ID**: `1385376.mmaster02` (Exec Host: `mnode098/0`, Queue: `normal_imfdfkmq`, Exit Status: `0` / script completed)
+- **Empirical Execution & Diagnostic Summary**:
+  1. **Guarded Submission**: Executed on `mlogin01.cluster` via SSH. Returned real PBS job ID `1385376.mmaster02`.
+  2. **Cluster Execution**: Job ran on compute node `mnode098.cluster`. Abaqus 2023 license checked out cleanly (`16/20 licenses remaining`).
+  3. **Environment-Variable Contract Success**: Log in `abaqus.rpy` confirms the `-cae` argument-parsing failure is **100% RESOLVED**:
+     ```text
+     [F43REM1 Driver] Contract Version: 2.0-env
+     [F43REM1 Driver] sys.argv evidence: ['.../ABQcaeK', '-cae', '-noGUI', 'run_f43_native_remesh_driver.py', ...]
+     [F43REM1 Driver] Config path: .../f43_remeshing_rule_config.json
+     [F43REM1 Driver] ODB path: .../evidence/1384674.mmaster02/F43PRE1.odb
+     [F43REM1 Driver] ODB SHA256: 3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534
+     [F43REM1 Driver] Output INP path: .../F43REFINED_standard.inp
+     ```
+  4. **Empirical Findings on CAE MDB Model State**:
+     The environment contract executed cleanly. In Abaqus CAE noGUI, `mdb.models['Model-1']` was not loaded into memory because the driver script needs to open the CAE database or construct the model from input file before applying `mdb.models['Model-1'].RemeshingRule(...)`.
+- **Authority Flags**: Reset to default closed (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`). No automatic retry or replacement job submitted.
+- **Next Action**: `await_technical_review_of_cae_mdb_model_loading_before_any_replacement_authorization`
+
+---
+
 ## F43REM1_CURRENT Single Guarded Remote HPC Execution & Terminal Closeout (2026-08-07)
 
 Completed single guarded remote HPC submission of `F43REM1_CURRENT` job `1385373.mmaster02` on `tu_freiberg`, captured terminal stdout/stderr logs, extracted evidence package, and performed empirical failure analysis:
