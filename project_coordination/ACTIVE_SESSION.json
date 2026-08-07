@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "models/generated/mode_ii/f43_stage_c_bridge/**",
@@ -9,11 +9,11 @@
     "docs/**",
     "references/**"
   ],
-  "completed_at": "2026-08-07T14:43:00+02:00",
-  "heartbeat": "2026-08-07T14:43:00+02:00",
-  "started_at": "2026-08-07T14:43:00+02:00",
-  "session_id": "gemini-f43rem1-r1-immutable-clean-linux-qualification-session",
-  "starting_commit": "1bd629444bae28cb4bdb958124f69e335507fea1",
-  "task_id": "F43REM1-R1-IMMUTABLE-EXACT-BLOB-CLEAN-LINUX-QUALIFICATION",
-  "note": "Completed session for Task F43REM1-R1 immutable exact-blob clean-Linux qualification at exact P43R1 without any file modification or line-ending normalization."
+  "completed_at": null,
+  "heartbeat": "2026-08-07T14:53:00+02:00",
+  "started_at": "2026-08-07T14:53:00+02:00",
+  "session_id": "gemini-f43rem1-current-guarded-submission-session",
+  "starting_commit": "78537f7f5b45ece610cd426cbd701b090987b207",
+  "task_id": "F43REM1-CURRENT-GUARDED-REMOTE-HPC-SUBMISSION-AND-EVIDENCE-CLOSEOUT",
+  "note": "Active session claimed for Task F43REM1_CURRENT single guarded remote HPC submission on tu_freiberg, terminal evidence collection, and Gate C1 mesh review closeout."
 }
