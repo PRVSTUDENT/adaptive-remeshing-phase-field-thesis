@@ -313,8 +313,9 @@ C     ==================================================================
          PHI_C = PHI_C + PHASE/THREE
          IF (HIST.GT.HIST_C) HIST_C = HIST
         END DO
-        C Dedicated Centroid Slot 4 Aggregation for U3
+C       Dedicated Centroid Slot 4 Aggregation for U3
         USRVAR(PHYSIDX,1,4) = PHI_C
+
         USRVAR(PHYSIDX,2,4) = HIST_C
         USRVAR(PHYSIDX,14,4) = DBLE(KSTEP)
         USRVAR(PHYSIDX,15,4) = DBLE(KINC)
@@ -441,8 +442,9 @@ C     ==================================================================
          EPS_C(3) = EPS(3)
         END DO
 
-        C Dedicated Centroid Physical Reconstruction for U4
+C       Dedicated Centroid Physical Reconstruction for U4
         PHI_C = USRVAR(PHYSIDX,1,4)
+
         DEG_C = (ONE-PHI_C)**TWO + PARK
         DO I=1,3
          STRESS_E_C(I) = ZERO
@@ -566,20 +568,21 @@ C ======================================================================
        END DO
       END DO
 
-      PHYSIDX=NOEL - TWO*NPHYS_VAL
+      PHYSIDX=NOEL - 2*NPHYS_VAL
       IF (PHYSIDX.LE.0) PHYSIDX=NOEL
 
-      C Explicit Topology Dispatch
+C     Explicit Topology Dispatch
       IF (ITOPOLOGY.EQ.4) THEN
-       C CPE4 Quad Facsimile: Direct 1-to-1 NPT read (1..4)
+C      CPE4 Quad Facsimile: Direct 1-to-1 NPT read (1..4)
        NPT_READ=NPT
        IF (NPT_READ.GT.4) NPT_READ=4
       ELSE IF (ITOPOLOGY.EQ.3) THEN
-       C CPE3 Triangle Facsimile: Dedicated Centroid Slot 4 ONLY
+C      CPE3 Triangle Facsimile: Dedicated Centroid Slot 4 ONLY
        NPT_READ=4
       ELSE
-       C Unknown topology marker: Fail Closed
+C      Unknown topology marker: Fail Closed
        WRITE(*,*) 'ERROR UMAT: Unknown topology marker ', ITOPOLOGY
+
        CALL XIT
        RETURN
       END IF

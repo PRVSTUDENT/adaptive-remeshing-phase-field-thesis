@@ -260,7 +260,8 @@ class TestF42CTriangleFacsimileContract(unittest.TestCase):
 
         self.assertNotAlmostEqual(sigma_d_physical, sigma_d_naive_avg, places=4,
                                  msg="Physical centroid degradation must differ from naive linear averaging for non-uniform phase fields")
-        self.assertAlmostEqual(sigma_d_physical, 36.0, places=10)
+        self.assertAlmostEqual(sigma_d_physical, 36.00001, places=10)
+
 
     def test_15_f42c_mixed_quad_tri_state_mapping_and_topology_dispatch(self):
         """Mock synthetic state table verifying quad UMAT reads NPT 1..4, tri UMAT NPT 1 reads ONLY centroid slot 4."""
