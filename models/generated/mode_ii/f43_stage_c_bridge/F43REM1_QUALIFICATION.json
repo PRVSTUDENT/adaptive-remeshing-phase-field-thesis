@@ -1,0 +1,29 @@
+{
+  "qualification_id": "Q43R1",
+  "qualified_job": "F43REM1_CURRENT",
+  "preparation_commit": "3f3eb579c5016ecdc02d23e7d166d831f80be35c",
+  "predecessor_job": "1384674.mmaster02",
+  "predecessor_odb_path": "/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/evidence/1384674.mmaster02/F43PRE1.odb",
+  "predecessor_odb_sha256": "3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534",
+  "predecessor_input_sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2",
+  "zero_executable_legacy_1379579_references": true,
+  "remote_submission_fail_closed_verified": true,
+  "qsub_fail_closed_verified": true,
+  "fake_job_id_creation_blocked": true,
+  "resource_spec": {
+    "cpus": 1,
+    "memory": "8 GB",
+    "walltime": "00:30:00",
+    "queue": "entry_imfdfkmq"
+  },
+  "package_manifest": "models/generated/mode_ii/f43_stage_c_bridge/F43REM1_PACKAGE_MANIFEST.json",
+  "offline_regression_test_summary": {
+    "f40_tests": 15,
+    "f41_tests": 15,
+    "f42_tests": 25,
+    "f43_tests": 40,
+    "total_tests": 95,
+    "pass": true
+  },
+  "scheduler_execution": false
+}
