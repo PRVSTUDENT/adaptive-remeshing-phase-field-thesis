@@ -1,0 +1,32 @@
+{
+  "protocol_version": 1,
+  "timestamp": "2026-08-06T21:09:08.228580Z",
+  "job_name": "M2RMBISECT1",
+  "pbs_directives": {
+    "f38_queue": "entry_imfdfkmq",
+    "f39_queue": "entry_imfdfkmq",
+    "f40_queue": "entry_imfdfkmq",
+    "f38_resources": "select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb",
+    "f39_resources": "select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb",
+    "f40_resources": "select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb"
+  },
+  "line_endings": {
+    "f38_pbs": "missing",
+    "f39_pbs": "missing",
+    "f40_pbs": "missing"
+  },
+  "runtime_environment": {
+    "python_version": "3.6.8 (default, Jul 15 2026, 00:16:55) \n[GCC 8.5.0 20210514 (Red Hat 8.5.0-28)]",
+    "working_directory": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384621.mmaster02",
+    "pythonpath": "",
+    "ld_library_path": "/cluster/application/abaqus/2023/Commands:/cluster/application/abaqus/2023/linux_a64/code/bin:/cluster/application/abaqus/2023/linux_a64/code/lib",
+    "f38_runtime_dir": "",
+    "f39_runtime_dir": "",
+    "f40_runtime_dir": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384621.mmaster02"
+  },
+  "python27_compatibility": {
+    "print_statements": "from __future__ import print_function used",
+    "json_dump": "standard json serializable dicts",
+    "exception_syntax": "except Exception as exc syntax"
+  }
+}

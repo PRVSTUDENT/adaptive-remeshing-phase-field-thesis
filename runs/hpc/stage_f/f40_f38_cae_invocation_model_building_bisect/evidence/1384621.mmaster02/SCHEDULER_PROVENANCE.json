@@ -1,0 +1,16 @@
+{
+  "protocol_version": 1,
+  "pbs_jobid": "1384621.mmaster02",
+  "pbs_environment": "PBS_BATCH",
+  "pbs_queue": "normal_imfdfkmq",
+  "pbs_o_host": "mlogin01.cluster",
+  "hostname": "mnode101.cluster",
+  "hostname_short": "mnode101",
+  "nodefile": "/var/spool/pbs/aux/1384621.mmaster02",
+  "nodefile_hosts": [
+    "mnode101.cluster"
+  ],
+  "abaqus_executable": "/cluster/application/abaqus/2023/Commands/abaqus",
+  "abaqus_release": "Abaqus JOB abaqus\nAbaqus 2023\nAbaqus Site ID: 200000000053187\nAbaqus is located in the directory /cluster/application/abaqus/2023 /cluster/application/abaqus/2023/linux_a64 /cluster/application/abaqus/2023/linux_a64/code /cluster/application/abaqus/2023/linux_a64/code/bin /cluster/application/abaqus/2023/linux_a64/code/bin/SMAExternal /cluster/application/abaqus/2023/linux_a64/CAEresources /cluster/application/abaqus/2023/linux_a64/SMA\nSequence Information:\n    /cluster/application/abaqus/2023/linux_a64: 2022_09_28-20.11.55 183150\nThe Abaqus information files are located in the directory /cluster/application/abaqus/2023/linux_a64/SMA/info\n\n        Release Notes and Installation & Licensing User Assistance\n \n   The Release Notes and the installation user assistance are accessible\n   from the SIMULIA Established Products documentation.\n   They are also accessible at http://help.3ds.com.\n   Select the SIMULIA Version for this release, then select\n   the SIMULIA Established Products link and click on the section\n   on the left. The Release Notes can be found under Abaqus > Release Notes.\n   Abaqus installation and licensing information is available\n   under Installation, Licensing & Configuration.\n \n   The list of supported platforms and other system requirements is given\n   in the Dassault Systemes Program Directory. The Program Directory is\n   additional documentation, similar to release notes, available at\n   http://media.3ds.com/support/progdir. Choose SIMULIA as the\n   product line and the appropriate level, then choose\n   Prerequisites in the left-hand pane. A support contract and private\n   login account are required for access.\n \n   \n Abaqus JOB abaqus COMPLETED",
+  "timestamp_utc": "2026-08-06T21:09:08.208Z"
+}

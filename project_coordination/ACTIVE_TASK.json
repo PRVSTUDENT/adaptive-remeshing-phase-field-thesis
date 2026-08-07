@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
   "task_id": "F40-M2RMBISECT1-A16R4-EXACT-ONE-JOB-SUBMISSION-AUTHORIZATION",
-  "status": "submitted_queued",
-  "classification": "f40_m2rmbisect1_job_1384621_submitted_queued",
+  "status": "completed_evaluated",
+  "classification": "coincident_crack_nodes_confirmed_root_cause",
   "starting_commit": "7946685f0a1535f24c2a0cdebb6a7c01ad4e5fb4",
   "preparation_commit": "f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55",
   "repair_preparation_commit": "f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55",
@@ -29,6 +29,7 @@
   "protocol_deviation_note": null,
   "recorded_user_authorization_sentence": "I authorize exactly one guarded HPC submission of M2RMBISECT1 using preparation commit f7fe49cfc147a2bcbac2631a43d05a0b3fe92e55, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, and no downstream job.",
   "invalid_historical_authorization_record": null,
-  "next_action": "monitor_1384621_to_terminal_and_evaluate_without_retry"
+  "next_action": "proceed_to_thesis_phase_b_geometry_reconstruction_or_f41_crack_node_stitching_without_rerun"
 }
+
 

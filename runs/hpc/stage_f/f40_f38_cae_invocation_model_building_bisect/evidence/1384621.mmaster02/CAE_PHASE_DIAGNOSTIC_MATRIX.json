@@ -1,0 +1,568 @@
+{
+  "overall_passed": false, 
+  "phases": [
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:10.421099", 
+      "exception_type": null, 
+      "phase": "bootstrap", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:10.421093", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "runtime_dir": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384621.mmaster02/runtime", 
+        "python_version": "2.7.15 (default, Jul 30 2022, 01:33:15) \n[GCC 8.2.1 20180905 (Red Hat 8.2.1-3)]", 
+        "sys_path": [
+          "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384621.mmaster02/runtime", 
+          "/cluster/application/abaqus/2023/linux_a64/code/python2.7/lib", 
+          "/cluster/application/abaqus/2023/linux_a64/tools/SMApy/python2.7/lib", 
+          "/cluster/application/abaqus/2023/linux_a64/tools/SMApy/python2.7/lib/python2.7", 
+          "/cluster/application/abaqus/2023/linux_a64/tools/SMApy/python2.7/lib/python2.7/lib-tk"
+        ]
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:10.434316", 
+      "exception_type": null, 
+      "phase": "abaqus_module_import", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:10.422369", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "mesh_imported": true, 
+        "constants_imported": [
+          "ON", 
+          "CPE4", 
+          "STANDARD", 
+          "STRUCTURED"
+        ], 
+        "mdb_available": true
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:10.439521", 
+      "exception_type": null, 
+      "phase": "source_deck_access", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:10.438090", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "size_bytes": 342711, 
+        "sha256": "a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2", 
+        "source_deck_path": "/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384621.mmaster02/runtime/source_deck.inp", 
+        "exists": true
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:10.597183", 
+      "exception_type": null, 
+      "phase": "model_import", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:10.441463", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "imported_model_name": "F38_IMPORT_PROBE", 
+        "models_in_mdb": [
+          "F38_IMPORT_PROBE", 
+          "Model-1"
+        ]
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:10.598094", 
+      "exception_type": null, 
+      "phase": "repository_inventory", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:10.597848", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "features": [
+          "PART-1-1", 
+          "RP-1", 
+          "Datum csys-1"
+        ], 
+        "materials": [
+          "ELASTIC_MATRIX"
+        ], 
+        "instances": [
+          "PART-1-1"
+        ], 
+        "parts": [
+          "PART-1"
+        ], 
+        "steps": [
+          "Initial", 
+          "Step-1"
+        ], 
+        "sets": [
+          "ALL_ELEM", 
+          "BOTTOM", 
+          "RP", 
+          "TOP"
+        ], 
+        "sections": [
+          "Section-1-ALL_ELEM"
+        ]
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:10.600003", 
+      "exception_type": null, 
+      "phase": "repository_resolution", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:10.599875", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "resolved_instance_name": "PART-1-1", 
+        "feature_to_instance_match": {
+          "RP-1": false, 
+          "PART-1-1": true, 
+          "Datum csys-1": false
+        }, 
+        "resolved_part_name": "PART-1"
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:11.409035", 
+      "exception_type": null, 
+      "phase": "geometry_conversion_observation", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:10.601809", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "is_wire_only": false, 
+        "edge_count": 0, 
+        "is_meshed": null, 
+        "capabilities": {
+          "has_getNodes": false, 
+          "has_getFaces": false, 
+          "object_type": "<type 'Part'>", 
+          "has_pointOn": false, 
+          "has_getVertices": false
+        }, 
+        "geom_part_name": "GeomPartModelApi", 
+        "created_repository_key": "GeomPartModelApi", 
+        "vertex_count": 0, 
+        "part_api_passed": false, 
+        "face_count": 0, 
+        "model_api_error": null, 
+        "feature_keys": [
+          "Shell planar-1"
+        ], 
+        "source_metrics": {
+          "geometry_vertex_count": 0, 
+          "element_count": 3930, 
+          "geometry_face_count": 0, 
+          "is_meshed": null, 
+          "space": "TWO_D_PLANAR", 
+          "geometry_edge_count": 0, 
+          "part_type": "DEFORMABLE_BODY", 
+          "node_count": 3998, 
+          "object_type": "<type 'Part'>"
+        }, 
+        "model_api_passed": true, 
+        "part_api_error": "Part-level fallback probe cleanly removed per F40 v15R2 specification", 
+        "returned_object_type": "<type 'Part'>", 
+        "controlled_conversion_probes": {
+          "control_a_usable": true, 
+          "angle_probes": {
+            "angle_30deg": {
+              "edge_count": 0, 
+              "attempted": true, 
+              "completed": true, 
+              "exception_type": null, 
+              "exception_message": null, 
+              "coincident_pairs_after": 0, 
+              "node_reduction": 0, 
+              "vertex_count": 0, 
+              "coincident_pairs_before": 0, 
+              "face_count": 0, 
+              "merge_crack_nodes_requested": false, 
+              "feature_angle": 30.0, 
+              "model_name": "F40_ANGLE_30"
+            }, 
+            "angle_45deg": {
+              "edge_count": 0, 
+              "attempted": true, 
+              "completed": true, 
+              "exception_type": null, 
+              "exception_message": null, 
+              "coincident_pairs_after": 0, 
+              "node_reduction": 0, 
+              "vertex_count": 0, 
+              "coincident_pairs_before": 0, 
+              "face_count": 0, 
+              "merge_crack_nodes_requested": false, 
+              "feature_angle": 45.0, 
+              "model_name": "F40_ANGLE_45"
+            }, 
+            "angle_15deg": {
+              "edge_count": 0, 
+              "attempted": true, 
+              "completed": true, 
+              "exception_type": null, 
+              "exception_message": null, 
+              "coincident_pairs_after": 0, 
+              "node_reduction": 0, 
+              "vertex_count": 0, 
+              "coincident_pairs_before": 0, 
+              "face_count": 0, 
+              "merge_crack_nodes_requested": false, 
+              "feature_angle": 15.0, 
+              "model_name": "F40_ANGLE_15"
+            }, 
+            "angle_90deg": {
+              "edge_count": 0, 
+              "attempted": true, 
+              "completed": true, 
+              "exception_type": null, 
+              "exception_message": null, 
+              "coincident_pairs_after": 0, 
+              "node_reduction": 0, 
+              "vertex_count": 0, 
+              "coincident_pairs_before": 0, 
+              "face_count": 0, 
+              "merge_crack_nodes_requested": false, 
+              "feature_angle": 90.0, 
+              "model_name": "F40_ANGLE_90"
+            }, 
+            "angle_60deg": {
+              "edge_count": 0, 
+              "attempted": true, 
+              "completed": true, 
+              "exception_type": null, 
+              "exception_message": null, 
+              "coincident_pairs_after": 0, 
+              "node_reduction": 0, 
+              "vertex_count": 0, 
+              "coincident_pairs_before": 0, 
+              "face_count": 0, 
+              "merge_crack_nodes_requested": false, 
+              "feature_angle": 60.0, 
+              "model_name": "F40_ANGLE_60"
+            }
+          }, 
+          "control_b_unusable": true, 
+          "control_b": {
+            "edge_count": 0, 
+            "attempted": true, 
+            "completed": true, 
+            "exception_type": null, 
+            "exception_message": null, 
+            "coincident_pairs_after": 0, 
+            "node_reduction": 0, 
+            "vertex_count": 0, 
+            "coincident_pairs_before": 0, 
+            "face_count": 0, 
+            "merge_crack_nodes_requested": false, 
+            "feature_angle": 45.0, 
+            "model_name": "F40_CTRL_B_CRACKED"
+          }, 
+          "control_a": {
+            "edge_count": 6, 
+            "attempted": true, 
+            "completed": true, 
+            "exception_type": null, 
+            "exception_message": null, 
+            "coincident_pairs_after": 0, 
+            "node_reduction": 15, 
+            "vertex_count": 6, 
+            "coincident_pairs_before": 15, 
+            "face_count": 1, 
+            "merge_crack_nodes_requested": true, 
+            "feature_angle": 45.0, 
+            "model_name": "F40_CTRL_A_UNCRACKED"
+          }, 
+          "coincident_crack_nodes_confirmed_root_cause": true
+        }
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:11.411448", 
+      "exception_type": "RuntimeError", 
+      "phase": "usable_geometry_validation", 
+      "exception_message": "usable_geometry_validation failed: geometry conversion produced zero usable faces (0), zero vertices (0), or wire-only geometry", 
+      "started_at": "2026-08-06T23:09:11.411161", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": "Traceback (most recent call last):\n  File \"/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384621.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 82, in run_phase\n    observations = function(context)\n  File \"/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384621.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 420, in phase_usable_geometry_validation\n    raise RuntimeError(\"usable_geometry_validation failed: geometry conversion produced zero usable faces ({0}), zero vertices ({1}), or wire-only geometry\".format(face_count, vertex_count))\nRuntimeError: usable_geometry_validation failed: geometry conversion produced zero usable faces (0), zero vertices (0), or wire-only geometry\n", 
+      "observations": {}, 
+      "passed": false, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [
+        "usable_geometry_validation"
+      ], 
+      "finished_at": "2026-08-06T23:09:11.414243", 
+      "exception_type": null, 
+      "phase": "element_type_assignment", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:11.414237", 
+      "artifacts_written": [], 
+      "dependency_blocked": true, 
+      "traceback": null, 
+      "observations": {}, 
+      "passed": false, 
+      "attempted": false
+    }, 
+    {
+      "blocked_by": [
+        "usable_geometry_validation"
+      ], 
+      "finished_at": "2026-08-06T23:09:11.418009", 
+      "exception_type": null, 
+      "phase": "mesh_control_assignment", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:11.418004", 
+      "artifacts_written": [], 
+      "dependency_blocked": true, 
+      "traceback": null, 
+      "observations": {}, 
+      "passed": false, 
+      "attempted": false
+    }, 
+    {
+      "blocked_by": [
+        "usable_geometry_validation"
+      ], 
+      "finished_at": "2026-08-06T23:09:11.420501", 
+      "exception_type": null, 
+      "phase": "mesh_generation", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:11.420497", 
+      "artifacts_written": [], 
+      "dependency_blocked": true, 
+      "traceback": null, 
+      "observations": {}, 
+      "passed": false, 
+      "attempted": false
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:11.459925", 
+      "exception_type": null, 
+      "phase": "assembly_feature_inventory", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:11.423484", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "feature_instance_diff": [
+          "RP-1", 
+          "Datum csys-1"
+        ], 
+        "features_list": [
+          "PART-1-1", 
+          "RP-1", 
+          "Datum csys-1"
+        ], 
+        "instances_list": [
+          "PART-1-1"
+        ]
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [
+        "usable_geometry_validation"
+      ], 
+      "finished_at": "2026-08-06T23:09:11.461675", 
+      "exception_type": null, 
+      "phase": "instance_replacement", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:11.461668", 
+      "artifacts_written": [], 
+      "dependency_blocked": true, 
+      "traceback": null, 
+      "observations": {}, 
+      "passed": false, 
+      "attempted": false
+    }, 
+    {
+      "blocked_by": [
+        "usable_geometry_validation"
+      ], 
+      "finished_at": "2026-08-06T23:09:11.463731", 
+      "exception_type": null, 
+      "phase": "crack_edge_method_inventory", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:11.463714", 
+      "artifacts_written": [], 
+      "dependency_blocked": true, 
+      "traceback": null, 
+      "observations": {}, 
+      "passed": false, 
+      "attempted": false
+    }, 
+    {
+      "blocked_by": [
+        "crack_edge_method_inventory"
+      ], 
+      "finished_at": "2026-08-06T23:09:11.466385", 
+      "exception_type": null, 
+      "phase": "crack_edge_detection", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:11.466380", 
+      "artifacts_written": [], 
+      "dependency_blocked": true, 
+      "traceback": null, 
+      "observations": {}, 
+      "passed": false, 
+      "attempted": false
+    }, 
+    {
+      "blocked_by": [
+        "crack_edge_method_inventory"
+      ], 
+      "finished_at": "2026-08-06T23:09:11.468730", 
+      "exception_type": null, 
+      "phase": "crack_mesh_topology", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:11.468725", 
+      "artifacts_written": [], 
+      "dependency_blocked": true, 
+      "traceback": null, 
+      "observations": {}, 
+      "passed": false, 
+      "attempted": false
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:11.470948", 
+      "exception_type": "RuntimeError", 
+      "phase": "assembly_set_inventory", 
+      "exception_message": "crack_model unavailable", 
+      "started_at": "2026-08-06T23:09:11.470822", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": "Traceback (most recent call last):\n  File \"/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384621.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 82, in run_phase\n    observations = function(context)\n  File \"/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384621.mmaster02/runtime/f38_cae_diagnostic_matrix.py\", line 723, in phase_assembly_set_inventory\n    raise RuntimeError('crack_model unavailable')\nRuntimeError: crack_model unavailable\n", 
+      "observations": {}, 
+      "passed": false, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:11.510812", 
+      "exception_type": null, 
+      "phase": "output_variable_probe", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:11.473044", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "probe_step_name": "Step-1", 
+        "rejected_variables": [], 
+        "accepted_variables": [
+          "U", 
+          "RF", 
+          "S", 
+          "E", 
+          "EVOL", 
+          "MISESERI", 
+          "MISESAVG"
+        ]
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:11.514369", 
+      "exception_type": null, 
+      "phase": "output_request_rebinding", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:11.513985", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "create_step_name": "Step-1", 
+        "output_request_rebound": true
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:11.587528", 
+      "exception_type": null, 
+      "phase": "input_write", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:11.517773", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "job_creation_passed": true, 
+        "temporary_input_path": "F38_TMP_JOB.inp", 
+        "temporary_input_exists": true, 
+        "write_input_invoked": true, 
+        "final_rename_passed": true
+      }, 
+      "passed": true, 
+      "attempted": true
+    }, 
+    {
+      "blocked_by": [], 
+      "finished_at": "2026-08-06T23:09:11.590456", 
+      "exception_type": null, 
+      "phase": "generated_input_presence", 
+      "exception_message": null, 
+      "started_at": "2026-08-06T23:09:11.589007", 
+      "artifacts_written": [], 
+      "dependency_blocked": false, 
+      "traceback": null, 
+      "observations": {
+        "generated_sha256": "54a021c0c1f19027f58fb7f4ba1ebec48f007fcc9ced1810b51f7a9fbccbf481", 
+        "generated_size": 261983, 
+        "generated_input_exists": true
+      }, 
+      "passed": true, 
+      "attempted": true
+    }
+  ], 
+  "package": "f38_comprehensive_cae_diagnostic_matrix", 
+  "finished_at": "2026-08-06T23:09:11.593031", 
+  "protocol_version": 1, 
+  "started_at": "2026-08-06T23:09:10.421079", 
+  "job_name": "M2RMDIAG1"
+}

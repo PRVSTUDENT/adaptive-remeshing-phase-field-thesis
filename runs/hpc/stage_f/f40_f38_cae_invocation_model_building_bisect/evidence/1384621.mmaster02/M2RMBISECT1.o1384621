@@ -1,0 +1,42 @@
+=== F40 Launcher Diagnostic Bisection Batch Execution ===
+Host: mnode101.cluster
+Date: Do 6. Aug 23:09:07 CEST 2026
+Work dir: /home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384621.mmaster02
+Package dir: /home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect
+Evidence dir: /home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384621.mmaster02
+M2RMBISECT1.pbs: OK
+runtime/f38_cae_diagnostic_matrix.py: OK
+runtime/f40_cae_bisection_runner.py: OK
+runtime/f40_invocation_contract_delta.py: OK
+runtime/generate_missing_evidence_report.py: OK
+runtime/run_f38_cae_diagnostic.py: OK
+runtime/source_deck.inp: OK
+runtime/validate_f38_matrix_results.py: OK
+runtime/validate_f40_runtime_audits.py: OK
+M2RMBISECT1.pbs: OK
+runtime/f38_cae_diagnostic_matrix.py: OK
+runtime/f40_cae_bisection_runner.py: OK
+runtime/f40_invocation_contract_delta.py: OK
+runtime/generate_missing_evidence_report.py: OK
+runtime/run_f38_cae_diagnostic.py: OK
+runtime/source_deck.inp: OK
+runtime/validate_f38_matrix_results.py: OK
+runtime/validate_f40_runtime_audits.py: OK
+=== Stage 1: Contract Delta Auditor ===
+F38_F39_INVOCATION_DELTA_AUDIT_GENERATED
+=== Stage 2: Abaqus CAE Bisection Runner ===
+Abaqus License Manager checked out the following license:
+"cae" from Flexnet server license4.imfd.tu-freiberg.de
+<19 out of 20 licenses remain available>.
+Exit code: 0
+=== Stage 3: Exact F38 Entrypoint Execution ===
+Abaqus License Manager checked out the following license:
+"cae" from Flexnet server license4.imfd.tu-freiberg.de
+<19 out of 20 licenses remain available>.
+=== F40 Execution Finished (bisection_rc=0, entrypoint_rc=0) ===
+F38_MATRIX_VALIDATION_FAILED:
+  - Phase 'assembly_set_inventory' must be passed or dependency_blocked when root cause confirmed
+RUNTIME_AUDIT_VALIDATION_FAILED:
+  - CAE_PHASE_DIAGNOSTIC_MATRIX.json overall_passed is not True
+  - F38 Phase 'assembly_set_inventory' must be passed or dependency_blocked when root cause confirmed
+  - f38_matrix_validator.returncode contains non-zero returncode: 1
