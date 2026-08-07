@@ -1,6 +1,40 @@
 # Current project state
 
+## F43GEO1 Parametric Geometry-Backed Mode-II Source Reconstruction & Co-Generated Preanalysis Architecture (2026-08-07)
+
+Completed Task F43GEO1 parametric CAD geometry builder implementation, benchmark source manifest, acceptance criteria definition, offline validator, unit test suite qualification, and future HPC dependency graph:
+- **Task ID**: `F43GEO1-PARAMETRIC-GEOMETRY-SOURCE-RECONSTRUCTION`
+- **Status**: `complete`
+- **Classification**: `geometry_builder_qualified_cae_generation_pending` (CASE B)
+- **Architecture Strategy**: `new_geometry_backed_preanalysis_required`
+- **Preserved References**:
+  1. Reference pre-analysis job: `1384674.mmaster02` (`F43PRE1.odb`, SHA256 `3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534`), preserved strictly as numerical reference target, not as direct native-remeshing predecessor.
+  2. Evidence job: `1385376.mmaster02` preserved unchanged.
+- **Canonical Benchmark Specification**:
+  1. Domain: $1.0\text{ mm} \times 1.0\text{ mm}$ square plate $[-0.5, 0.5] \times [-0.5, 0.5]$, thickness $1.0\text{ mm}$ (Plane Strain).
+  2. Notch: Single-edge horizontal notch along $y = 0.0\text{ mm}$, $x \in [-0.5, 0.0]\text{ mm}$ ($a = 0.5\text{ mm}$), tip at $(0.0, 0.0)\text{ mm}$, constructed as native sketch partition with seam edge assignment.
+  3. Material: $E = 210000.0\text{ MPa}$, $\nu = 0.3$, $G_c = 2.7\text{ N/mm}$, $l_0 = 0.015\text{ mm}$.
+  4. BCs/Loads: Bottom fixed ($u_1 = u_2 = 0$), top vertical restraint ($u_2 = 0$), top horizontal shear ($u_1 = 0.001\text{ mm}$) coupled to RP $u_1$.
+  5. Deterministic Names: Model `ModeII_Geometry_Model`, Part `PlatePart`, Instance `PlateInstance`, Step `Step-1`, Material `Steel`, Section `SolidSection`.
+- **Adaptivity Mesh Control Strategy**:
+  1. Element Shape: `QUAD` / Technique: `FREE` / Algorithm: `ADVANCING_FRONT` / Element Type: `CPE4`.
+  2. Planned Coarse Resolution: $\approx 3500 - 4300$ elements (comparable to 3930 coarse reference).
+- **Two-Model Architecture & Future Lineage Contract**:
+  1. Model A (`F43PRE2_GEOM`): Geometry-backed standard continuum model generates clean preanalysis ODB and forms source for native remeshing.
+  2. Model B (`F43DRY1`): Layered UEL model built from refined standard deck exported by Model A.
+  3. Lineage: CAD CAE Source -> `F43PRE2_GEOM` -> `F43PRE2_GEOM.odb` -> Reopen CAE -> Native Remesh -> Refined Deck.
+- **Offline Qualification & Test Suite**:
+  1. F43 unit tests (15/15 OK), F42 unit tests (19/19 OK), F41 unit tests (21/21 OK), F40 unit tests (46/46 OK). Total 101/101 tests PASSED.
+  2. Builder script (`build_mode_ii_native_cae.py`) and validator script (`validate_f43pre2_geometry.py`) qualified offline.
+- **Future HPC Dependency Graph**:
+  `F43PRE2_GEOM` (depends on CAE generation) -> `F43REM2_NATIVE` (depends on F43PRE2 evidence review) -> `Gate C1` -> `F43DRY1`. No speculative batching.
+- **Authority Flags**: All default-closed (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`). Zero HPC jobs submitted.
+- **Next Action**: `generate_cae_source_database_and_execute_f43pre2_geom_preanalysis`
+
+---
+
 ## F43REM1-R3 Geometry-Backed CAE Model Provenance Audit & False-Zero-Exit Repair (2026-08-07)
+
 
 Completed offline model-provenance audit, false-zero-exit defect repair, architecture decision report, and offline test suite qualification for `F43REM1_R3`:
 - **Task ID**: `F43REM1-R3-GEOMETRY-BACKED-CAE-MODEL-PROVENANCE-AUDIT-AND-FALSE-ZERO-EXIT-REPAIR`

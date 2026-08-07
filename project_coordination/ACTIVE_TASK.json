@@ -1,19 +1,19 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM1-R3-GEOMETRY-BACKED-CAE-MODEL-PROVENANCE-AUDIT-AND-FALSE-ZERO-EXIT-REPAIR",
+  "task_id": "F43GEO1-PARAMETRIC-GEOMETRY-SOURCE-RECONSTRUCTION",
   "status": "complete",
-  "classification": "f43_no_geometry_backed_cae_source_available",
-  "predecessor_identity_classification": "f43rem1_consumes_current_1384674_odb",
-  "governance_classification": "protocol_compliant_offline_audit_and_false_zero_exit_repair_completed_no_submission",
-  "starting_commit": "44895872ae2eef68b4f6b54c66eef40aac05d568",
-  "preparation_commit": null,
+  "classification": "geometry_builder_qualified_cae_generation_pending",
+  "predecessor_identity_classification": "f43pre2_new_geometry_backed_preanalysis_source_architecture",
+  "governance_classification": "protocol_compliant_p43geo1_prepared_builder_qualified_no_submission",
+  "starting_commit": "5768bc9e095a47323b1c02a047386b5ae5cc9665",
+  "preparation_commit": "P43GEO1",
   "repair_preparation_commit": null,
   "qualification_commit": null,
   "authorization_commit": null,
   "latest_gate_repair_commit": null,
   "latest_gate_qualification_commit": null,
   "invalidated_predecessor": null,
-  "prepared_job": null,
+  "prepared_job": "F43PRE2_GEOM",
   "predecessor_job": "1384674.mmaster02",
   "scheduler_job_id": null,
   "scheduler_job_created": false,
@@ -33,6 +33,7 @@
   "facsimile_contract": "mechanically_passive_dummy_youngs_modulus_1e-11",
   "centroid_state_mapping": "slot_4_dedicated_centroid_physical_reconstruction",
   "topology_dispatch": "props_topology_marker_4_quad_3_tri",
-  "next_action": "reconstruct_geometry_backed_cae_model_before_any_native_remeshing_submission"
+  "next_action": "generate_cae_source_database_and_execute_f43pre2_geom_preanalysis"
 }
+
 

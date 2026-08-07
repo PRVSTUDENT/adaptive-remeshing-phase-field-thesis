@@ -1,0 +1,55 @@
+{
+  "spec_version": "1.0-geo1",
+  "builder_ready": true,
+  "cae_generated": false,
+  "geometry_backed": true,
+  "orphan_mesh": false,
+  "model_name": "ModeII_Geometry_Model",
+  "part_name": "PlatePart",
+  "instance_name": "PlateInstance",
+  "step_name": "Step-1",
+  "benchmark_spec": {
+    "name": "pandey_kumar_2025_mode_ii_asymmetric_shear",
+    "width_mm": 1.0,
+    "height_mm": 1.0,
+    "thickness_mm": 1.0,
+    "notch_length_mm": 0.5,
+    "notch_start_mm": [
+      -0.5,
+      0.0
+    ],
+    "notch_tip_mm": [
+      0.0,
+      0.0
+    ],
+    "material": {
+      "youngs_modulus_MPa": 210000.0,
+      "poissons_ratio": 0.3,
+      "gc_N_per_mm": 2.7,
+      "l0_mm": 0.015
+    },
+    "mesh": {
+      "element_family": "CPE4",
+      "elem_shape": "QUAD",
+      "technique": "FREE",
+      "algorithm": "ADVANCING_FRONT",
+      "target_h_mm": 0.018,
+      "planned_coarse_element_count_range": [
+        3500,
+        4300
+      ]
+    },
+    "deterministic_names": {
+      "model_name": "ModeII_Geometry_Model",
+      "part_name": "PlatePart",
+      "instance_name": "PlateInstance",
+      "step_name": "Step-1",
+      "material_name": "Steel",
+      "section_name": "SolidSection",
+      "set_bottom": "bottom_nodes",
+      "set_top": "top_nodes",
+      "set_rp": "RP",
+      "rule_name": "MISESERI_Adaptive_Rule"
+    }
+  }
+}

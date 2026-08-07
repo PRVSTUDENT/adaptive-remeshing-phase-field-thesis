@@ -2,19 +2,21 @@
   "active": false,
   "agent": "gemini-antigravity",
   "allowed_scope": [
-    "models/generated/mode_ii/f43_stage_c_bridge/**",
+    "models/generated/mode_ii/**",
     "scripts/**",
     "tests/**",
     "project_coordination/**",
     "docs/**",
     "references/**"
   ],
-  "completed_at": "2026-08-07T15:28:00+02:00",
-  "heartbeat": "2026-08-07T15:28:00+02:00",
-  "started_at": "2026-08-07T15:15:00+02:00",
-  "session_id": "gemini-f43rem1-r3-audit-session",
-  "starting_commit": "44895872ae2eef68b4f6b54c66eef40aac05d568",
-  "task_id": "F43REM1-R3-GEOMETRY-BACKED-CAE-MODEL-PROVENANCE-AUDIT-AND-FALSE-ZERO-EXIT-REPAIR",
-  "note": "Session completed for F43REM1-R3 geometry-backed CAE model provenance audit, architecture decision report, and false-zero-exit repair."
+  "completed_at": "2026-08-07T15:38:00+02:00",
+  "heartbeat": "2026-08-07T15:38:00+02:00",
+  "started_at": "2026-08-07T15:35:00+02:00",
+  "session_id": "gemini-f43geo1-parametric-geometry-session",
+  "starting_commit": "5768bc9e095a47323b1c02a047386b5ae5cc9665",
+  "task_id": "F43GEO1-PARAMETRIC-GEOMETRY-SOURCE-RECONSTRUCTION",
+  "note": "Session completed for Task F43GEO1 parametric geometry-backed Mode-II source reconstruction and co-generated preanalysis architecture."
 }
+
+
 
