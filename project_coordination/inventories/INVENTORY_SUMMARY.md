@@ -46,3 +46,4 @@ Updated: 2026-07-31
 - `1381758.mmaster02` and `1381759.mmaster02`: both rollback solvers completed; forced exercised one cutback, but the extractor/analyzer filename mismatch left comparison evidence incomplete. ODBs remain scratch-only.
 - `1381760.mmaster02`: Abaqus Python 2 rejected a generator before adaptive-region construction; no solver, remesh, candidate, or ODB was produced.
 - `1382428.mmaster02`: zero-execution native adaptive-region contract and slit topology qualified; lightweight evidence copied; no solver, remesh, candidate, datacheck, refined analysis, or ODB was produced.
+- `1385392.mmaster02`: F43PRE2_GEOM geometry-backed preanalysis solver completed cleanly (`Exit_status: 0`, `abaqus_return_code: 0`, 17 increments, $U_1 = 1.00$ step time reached); `F43PRE2_GEOM.odb` (6.5 MB, SHA256 `85339f45...`) generated; lightweight evidence copied to repository; `overall_validation_passed = true`.

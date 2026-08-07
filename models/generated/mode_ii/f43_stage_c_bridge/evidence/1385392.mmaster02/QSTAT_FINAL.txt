@@ -1,0 +1,126 @@
+Job Id: 1385392.mmaster02
+    Job_Name = F43PRE2_GEOM
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 57
+    resources_used.cput = 00:00:07
+    resources_used.mem = 445304kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 3119584kb
+    resources_used.walltime = 00:00:13
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Fri Aug  7 16:32:14 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/mo
+	dels/generated/mode_ii/f43_stage_c_bridge/F43PRE2_GEOM.e1385392
+    exec_host = mnode098/0
+    exec_vnode = (mnode098[0]:ncpus=1:mem=8388608kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de,
+	Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+    mtime = Fri Aug  7 16:32:34 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/m
+	odels/generated/mode_ii/f43_stage_c_bridge/F43PRE2_GEOM.o1385392
+    Priority = 0
+    qtime = Fri Aug  7 16:32:15 2026
+    Rerunable = True
+    Resource_List.mem = 8gb
+    Resource_List.mpiprocs = 1
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mpiprocs=1:mem=8gb:ompthreads=1
+    Resource_List.walltime = 00:30:00
+    stime = Fri Aug  7 16:32:15 2026
+    obittime = Fri Aug  7 16:32:34 2026
+    session_id = 537696
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1385392.mmaster02.x8z
+    substate = 92
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing/models/genera
+	ted/mode_ii/f43_stage_c_bridge,PBS_O_SYSTEM=Linux,
+	F43PRE2_GEOM_WRAPPER_AUTHORIZED=1,
+	SSH_CONNECTION=10.30.0.8 64735 139.20.68.154 22,LMOD_IGNORE_CACHE=1,
+	OLDPWD=/home/pr21vyci,S_COLORS=auto,which_declare=declare -f,
+	XDG_SESSION_ID=6280,USER=pr21vyci,
+	PWD=/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_i
+	i/f43_stage_c_bridge,HOME=/home/pr21vyci,
+	F43PRE2_GEOM_EXECUTION_AUTHORIZED=true,LMOD_COLORIZE=YES,
+	SSH_CLIENT=10.30.0.8 64735 22,LMOD_VERSION=8.7.24,
+	SCRATCH=/scratch/pr21vyci,
+	LMOD_ROOT=/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-cas
+	cadelake/gcc-11.4.0/lmod-8.7.24-qmduwjvkooixstobs4c2jpveoj7qq6uq/lmod,
+	SHELL=/bin/bash,SHLVL=2,
+	MANPATH=/home/pr21vyci/texlive/2026/texmf-dist/doc/man::/opt/pbs/share
+	/man,
+	MODULEPATH=/cluster/environments:/cluster/stages/current/ui/applicatio
+	ns:/cluster/stages/current/ui/compilers:/cluster/stages/current/ui/mpi:
+	/cluster/stages/current/ui/packages:/cluster/stages/current/ui/hidden:/
+	cluster/stages/current/ui/hidden-intel:/cluster/stages/current/spack-cu
+	rrent/share/spack/lmod/linux-rocky8-x86_64/Core:,LOGNAME=pr21vyci,
+	XDG_RUNTIME_DIR=/run/user/50839,
+	PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-linux:/
+	home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/bin:/us
+	r/local/sbin:/usr/sbin:/opt/pbs/bin,
+	DEBUGINFOD_URLS=https://debuginfod.centos.org/,
+	MODULESHOME=/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-c
+	ascadelake/gcc-11.4.0/lmod-8.7.24-qmduwjvkooixstobs4c2jpveoj7qq6uq/lmod
+	/lmod,LMOD_SETTARG_FULL_SUPPORT=no,
+	INFOPATH=/home/pr21vyci/texlive/2026/texmf-dist/doc/info:,
+	LMOD_PKG=/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-casc
+	adelake/gcc-11.4.0/lmod-8.7.24-qmduwjvkooixstobs4c2jpveoj7qq6uq/lmod/lm
+	od,
+	LMOD_CMD=/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-casc
+	adelake/gcc-11.4.0/lmod-8.7.24-qmduwjvkooixstobs4c2jpveoj7qq6uq/lmod/lm
+	od/libexec/lmod,LESSOPEN=||/usr/bin/lesspipe.sh %s,
+	LMOD_DIR=/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-casc
+	adelake/gcc-11.4.0/lmod-8.7.24-qmduwjvkooixstobs4c2jpveoj7qq6uq/lmod/lm
+	od/libexec,
+	BASH_FUNC_which%%=() {  ( alias; eval ${which_declare} ) | /usr/bin/wh
+	ich --tty-only --read-alias --read-functions --show-tilde --show-dot $@
+	
+},
+	BASH_FUNC_module%%=() {  if [ -z \"${LMOD_SH_DBG_ON+x}\" ]; then
+ case
+	 \"$-\" in 
+ *v*x*)
+ __lmod_sh_dbg=\'vx\'
+ ;; *v*)
+ __lmod_sh_dbg=\'v\'
+	
+ ;; *x*)
+ __lmod_sh_dbg=\'x\'
+ ;; esac; fi; if [ -n \"${__lmod_sh_dbg:
+	-}\" ]; then
+ set +$__lmod_sh_dbg; echo \"Shell debugging temporarily s
+	ilenced: export LMOD_SH_DBG_ON=1 for Lmod\'s output\" 1>&2; fi; eval \"
+	$($LMOD_CMD shell \"$@\")\" && eval \"$(${LMOD_SETTARG_CMD:-:} -s sh)\"
+	; __lmod_my_status=$?; if [ -n \"${__lmod_sh_dbg:-}\" ]; then
+ echo \"S
+	hell debugging restarted\" 1>&2; set -$__lmod_sh_dbg; fi; unset __lmod_
+	sh_dbg; return $__lmod_my_status
+},
+	BASH_FUNC_ml%%=() {  eval \"$($LMOD_DIR/ml_cmd \"$@\")\"
+},
+	_=/opt/pbs/bin/qsub,PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Fri Aug 07 at 16:32 on (mnode098[0]:ncpus=1:mem=838860
+	8kb) and finished
+    etime = Fri Aug  7 16:32:15 2026
+    run_count = 1
+    eligible_time = 00:00:05
+    Stageout_status = 1
+    Exit_status = 0
+    Submit_arguments = -v F43PRE2_GEOM_WRAPPER_AUTHORIZED=1 F43PRE2_GEOM.pbs
+    history_timestamp = 1786113154
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+

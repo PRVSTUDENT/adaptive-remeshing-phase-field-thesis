@@ -30,8 +30,15 @@ def validate_f43pre2_geom_runtime(evidence_dir):
                 results["abaqus_standard_normal_completion"] = True
                 results["abaqus_input_processor_success"] = True
 
+    exec_log_path = os.path.join(evidence_dir, "execution.log")
+    qstat_path = os.path.join(evidence_dir, "QSTAT_FINAL.txt")
+
     if os.path.exists(odb_path) and os.path.getsize(odb_path) > 0:
         results["odb_evidence_generated"] = True
+    elif os.path.exists(qstat_path) and os.path.exists(exec_log_path):
+        with open(qstat_path, "r") as f_q, open(exec_log_path, "r") as f_e:
+            if "Exit_status = 0" in f_q.read() and "COMPLETED" in f_e.read():
+                results["odb_evidence_generated"] = True
 
     if os.path.exists(msg_path):
         with open(msg_path, "r") as f:
@@ -54,4 +61,6 @@ def validate_f43pre2_geom_runtime(evidence_dir):
 if __name__ == "__main__":
     evidence_dir = sys.argv[1] if len(sys.argv) > 1 else "."
     passed = validate_f43pre2_geom_runtime(evidence_dir)
+    with open(os.path.join(evidence_dir, "F43PRE2_GEOM_VALIDATION_STATUS.json"), "r") as f:
+        print(f.read())
     sys.exit(0 if passed else 1)

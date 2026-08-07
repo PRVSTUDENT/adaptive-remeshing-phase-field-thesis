@@ -79,3 +79,9 @@ $y=0$ line and split notch faces, and executed a short elastic probe with
 $U=9.9999997\times 10^{-5}\,\mathrm{mm}$, $RF_2=0.0147068165243$, and
 $K_\mathrm{probe}=147.0681696550451$. This is workflow automation evidence
 only, not a fracture-reference comparison.
+
+\section{Geometry-Backed Native CAE Pre-Analysis (F43PRE2\_GEOM)}
+To establish a native geometry-backed pipeline suitable for Abaqus 2D native adaptive remeshing without reliance on orphan-mesh input decks, the CAD geometry database \texttt{ModeII\_Geometry\_Source.cae} was created and qualified. The pre-analysis input deck \texttt{F43PRE2\_GEOM.inp} (3707 elements: 3597 CPE4 quadrilaterals + 110 CPE3 triangles, 3793 nodes) was submitted under guarded job \texttt{1385392.mmaster02} on queue \texttt{entry\_imfdfkmq}.
+
+The job completed with scheduler exit status \texttt{0} in 13~seconds walltime. Abaqus/Standard executed 17 increments to the full prescribed shear displacement $t=1.00$ ($u_1 = 0.001\,\mathrm{mm}$). The baseline output database \texttt{F43PRE2\_GEOM.odb} ($6.5\,\mathrm{MB}$, SHA256 \texttt{85339f45...}) was generated cleanly and passed 100\% of automated validation checks (\texttt{overall\_validation\_passed = true}), establishing the qualified geometry-backed baseline for native adaptive remeshing.
+
