@@ -5,8 +5,8 @@
   "classification": "f42c_triangle_cpe3_facsimile_mapping_qualified",
   "starting_commit": "1965af42d3b89700811a7ac73212792bc5626d14",
   "preparation_commit": "8daf5086b6a02f1c3c6567506472ec9ffc36e9ba",
-  "repair_preparation_commit": "a5d2963350246e542697db15f3b9f2e1aa5e8bf7",
-  "qualification_commit": "a84405f2b907b5a1e379fbbc266c6fb6278877af",
+  "repair_preparation_commit": "0e9b0cc0b3890800dc945acf4385f76691dcf475",
+  "qualification_commit": "f80a666ce545f2b6417f2081dab5096c71a9c115",
   "authorization_commit": null,
   "latest_gate_repair_commit": null,
   "latest_gate_qualification_commit": null,
@@ -15,6 +15,10 @@
   "scheduler_job_id": "1384659.mmaster02",
   "local_emulation_run_id": null,
   "scheduler_submissions_initiated": 2,
+  "failed_predecessors": [
+    "1384658.mmaster02",
+    "1384659.mmaster02"
+  ],
   "package_path": "models/generated/mode_ii/f42_mixed_element_uel/f42c_triangle_facsimile",
   "execution_authorized": false,
   "submission_approved": false,
@@ -28,5 +32,5 @@
   "facsimile_contract": "mechanically_passive_dummy_youngs_modulus_1e-11",
   "centroid_state_mapping": "slot_4_dedicated_centroid_physical_reconstruction",
   "topology_dispatch": "props_topology_marker_4_quad_3_tri",
-  "next_action": "await_exact_human_authorization_for_one_P42C_R2_F42TRI2_job"
+  "next_action": "await_exact_human_authorization_for_final_F42TRI2_replacement"
 }
