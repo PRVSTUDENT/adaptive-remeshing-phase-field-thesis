@@ -1,20 +1,21 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM2-R3-LQ3",
-  "status": "complete",
-  "classification": "f43rem2_native_qualified_not_authorized_r4_lq3",
+  "task_id": "F43REM2_NATIVE",
+  "status": "submission_authorized",
+  "classification": "f43rem2_native_submission_authorized",
   "predecessor_identity_classification": "f43pre2_geometry_backed_preanalysis_source_architecture",
-  "governance_classification": "protocol_compliant_p43rem2_r4_prepared_q43rem2_r4_qualified",
+  "governance_classification": "explicit_human_authorization_granted",
   "scientific_classification": "provisional_pass_with_unit_conversion_correction",
-  "starting_commit": "4ccc2d643d48c77ca8847a88f81c7b1fe482cfbd",
+  "starting_commit": "c5602b196c5365f0f767f0fe925e4610e1233c70",
   "preparation_commit": "83f8f493a1f90e7bd982481eb034733a17568f09",
   "qualification_commit": "b3ce109c9d2b8876706dc9e1494c43ad73dc7567",
   "authorization_commit": null,
-  "execution_authorized": false,
-  "submission_approved": false,
-  "maximum_jobs_now": 0,
-  "maximum_future_submissions": 0,
+  "execution_authorized": true,
+  "submission_approved": true,
+  "maximum_jobs_now": 1,
+  "maximum_future_submissions": 1,
   "automatic_retry": false,
+  "authorization_sentence": "I authorize exactly one guarded HPC submission of F43REM2_NATIVE using preparation commit 83f8f493a1f90e7bd982481eb034733a17568f09 and qualification commit b3ce109c9d2b8876706dc9e1494c43ad73dc7567, using predecessor ODB 1385392.mmaster02 with SHA256 85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72 and immutable external CAE SHA256 889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff, through entry_imfdfkmq, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, no F43DRY1 submission, no refined phase-field production run, and no downstream job.",
   "target_queue": "entry_imfdfkmq",
   "expected_job_name": "F43REM2_NATIVE",
   "predecessor_job_id": "1385392.mmaster02",
@@ -22,9 +23,5 @@
   "reference_job_id": "1384674.mmaster02",
   "reference_odb_sha256": "3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534",
   "source_cae_sha256": "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff",
-  "superseded_qualifications": {
-    "Q43REM2-R3-LQ2": "266a2505bc1dc6198b1c1d480ec6e7be40e71baf",
-    "reason": "superseded_for_authorization_by_exact_full_discovery_LQ3"
-  },
-  "next_action": "human_review_before_exactly_one_F43REM2_NATIVE_submission"
+  "next_action": "execute_guarded_remote_hpc_submission"
 }
