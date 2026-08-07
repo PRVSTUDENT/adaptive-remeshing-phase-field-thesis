@@ -2,20 +2,21 @@
   "active": false,
   "agent": "gemini-antigravity",
   "allowed_scope": [
-    "models/generated/mode_ii/f43_stage_c_bridge/evidence/1385392.mmaster02/**",
+    "models/generated/mode_ii/f43_stage_c_bridge/**",
+    "scripts/**",
+    "tests/**",
     "docs/experiment_records/**",
-    "docs/thesis/**",
     "results/figures/**",
     "project_coordination/**",
     "docs/project/**"
   ],
-  "completed_at": "2026-08-07T16:41:00+02:00",
-  "heartbeat": "2026-08-07T16:41:00+02:00",
-  "started_at": "2026-08-07T16:36:00+02:00",
-  "session_id": "gemini-f43pre2-geom-closeout-and-reporting-session",
-  "starting_commit": "efe93e60918a2d51d0cf2064a85f2ff9c525ce5a",
-  "task_id": "F43PRE2_GEOM",
-  "note": "Session completed. F43PRE2_GEOM job 1385392.mmaster02 results collected, validated, uploaded to GitHub, reported in thesis LaTeX and experiment records, and coordination ledgers updated."
+  "completed_at": "2026-08-07T17:02:00+02:00",
+  "heartbeat": "2026-08-07T17:02:00+02:00",
+  "started_at": "2026-08-07T16:53:00+02:00",
+  "session_id": "gemini-f43pre2-sci1-comparison-and-f43rem2-prep-session",
+  "starting_commit": "cdda7fcbe7f3f46e73eda54889147aed577352c6",
+  "task_id": "F43PRE2-SCI1",
+  "note": "Session completed. F43PRE2-SCI1 scientific ODB comparison against 1384674 completed (PROVISIONAL_PASS), job 1385392 governance reclassified, and F43REM2_NATIVE prepared & qualified offline (qualified_not_authorized)."
 }
 
 

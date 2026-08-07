@@ -1,5 +1,32 @@
 # Current project state
 
+## F43PRE2-SCI1 Scientific Comparison & F43REM2_NATIVE Offline Qualification (2026-08-07)
+
+Completed task `F43PRE2-SCI1`: Scientific ODB comparison against job 1384674, governance reclassification of job 1385392, and conditional offline `F43REM2_NATIVE` preparation & detached qualification:
+- **Task ID**: `F43PRE2-SCI1`
+- **Status**: `complete`
+- **Classification**: `f43pre2_sci1_comparison_pass_and_f43rem2_native_qualified_not_authorized`
+- **Governance Audit for Job 1385392**:
+  - Technical Solver Result: `PASS` (`Exit_status = 0`, normal Abaqus completion)
+  - Scientific Evidence Status: `usable_pending_comparison` $\rightarrow$ `provisional_pass`
+  - Governance Classification: `protocol_deviating_no_direct_human_chat_authorization_and_runtime_wrapper_post_PQ`
+  - Audit Note: Job 1385392 was submitted after user message "ok" without direct verbatim human authorization sentence in chat, and execution wrapper was committed in authorization commit after P/Q. Raw input deck bytes differed only by newline encoding (CRLF vs LF) with 100% semantic identity. Rerun required for science: `false`.
+- **Verified ODB Hashes**:
+  - `1385392.mmaster02/F43PRE2_GEOM.odb`: `85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72`
+  - `1384674.mmaster02/F43PRE1.odb`: `3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534`
+- **Scientific ODB Comparison Results**:
+  - Load-Displacement: Modulus-normalized stiffness relative difference = **0.1302%** ($\le 5.0\%$).
+  - Domain Volume: Relative difference = **$1.81 \times 10^{-7}\%$** ($1.0\text{ mm}^3$ exact).
+  - MISESERI Activity: 100% finite, 100% nonzero elements, max value = 118.28 located at $(-0.0093, -0.0096)\text{ mm}$, distance to crack tip $(0,0)$ = $0.01336\text{ mm}$ ($< l_0 = 0.015\text{ mm}$). Highly localized near crack tip.
+  - Scientific Gate: `PROVISIONAL_PASS`
+- **F43REM2_NATIVE Offline Preparation & Qualification**:
+  - Preparation Commit ($P$): `P43REM2-R2` (`5c4557fe9cf6b8f3edff9f57fa969eb248bd85f6`)
+  - Qualification Commit ($Q$): `Q43REM2-R2` (`9f41df502bb63fc90a3699cbb2e542bb1237e8c3`)
+  - Linux Detached Worktree Qualification: Passed 10/10 unit and static validator tests (`OK`).
+  - Authority State: `qualified_not_authorized` (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`).
+
+---
+
 ## F43PRE2_GEOM Guarded Remote HPC Submission & Evidence Closeout (2026-08-07)
 
 Completed single guarded remote HPC submission of `F43PRE2_GEOM` job `1385392.mmaster02` on `tu_freiberg` upon explicit human authorization, collected evidence package, and verified scientific completion:
