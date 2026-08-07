@@ -313,6 +313,36 @@ class TestF42CTriangleFacsimileContract(unittest.TestCase):
         self.assertEqual(res.returncode, 0, f"gfortran syntax check failed on f42c_mixed_uel.for with stderr:\n{res.stderr}")
 
 
+    def test_17_f42c_pbs_preflight_fail_closed_validation(self):
+        """Verify F42TRI2.pbs and submit_f42tri2.sh enforce fail-closed module loading and toolchain preflight."""
+        f42c_dir = os.path.join(PROJECT_ROOT, "models", "generated", "mode_ii", "f42_mixed_element_uel", "f42c_triangle_facsimile")
+        pbs_path = os.path.join(f42c_dir, "F42TRI2.pbs")
+        submit_path = os.path.join(f42c_dir, "submit_f42tri2.sh")
+
+        with open(pbs_path, 'r') as f:
+            pbs_content = f.read()
+
+        with open(submit_path, 'r') as f:
+            submit_content = f.read()
+
+        # 1. Prohibit fail-open || true on module commands
+        self.assertNotIn("module load intel/2024.2.0 abaqus/2023 || true", pbs_content, "PBS script must NOT use fail-open || true on module loads")
+        self.assertNotIn("module load intel/2024.2.0 || true", pbs_content, "Module load intel must fail closed")
+        self.assertNotIn("module load abaqus/2023 || true", pbs_content, "Module load abaqus must fail closed")
+
+        # 2. Require module purge, module load intel, module load abaqus, command -v ifort, command -v abaqus
+        self.assertIn("module purge", pbs_content, "PBS script must purge module state")
+        self.assertIn("module load intel/2024.2.0", pbs_content, "PBS script must load intel/2024.2.0")
+        self.assertIn("module load abaqus/2023", pbs_content, "PBS script must load abaqus/2023")
+        self.assertIn("command -v ifort", pbs_content, "PBS script must check ifort resolution")
+        self.assertIn("command -v abaqus", pbs_content, "PBS script must check abaqus resolution")
+
+        # 3. Require submit script to have exactly one qsub invocation with wrapper variable
+        qsub_matches = re.findall(r'^\s*qsub\b', submit_content, flags=re.MULTILINE)
+        self.assertEqual(len(qsub_matches), 1, f"submit_f42tri2.sh must contain exactly 1 qsub invocation, found {len(qsub_matches)}")
+        self.assertIn("qsub -v F42TRI2_WRAPPER_AUTHORIZED=1 F42TRI2.pbs", submit_content)
+
+
 if __name__ == "__main__":
     unittest.main()
 

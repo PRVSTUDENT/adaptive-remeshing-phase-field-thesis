@@ -24,7 +24,24 @@ echo "=== F42TRI2 Execution Start: $(date) ===" | tee "${EVIDENCE_DIR}/execution
 echo "Job ID: ${PBS_JOBID}" | tee -a "${EVIDENCE_DIR}/execution.log"
 echo "Host: $(hostname)" | tee -a "${EVIDENCE_DIR}/execution.log"
 
-module load intel/2024.2.0 abaqus/2023 || true
+# Fail-closed module environment initialization
+module purge
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "=== Module Environment State ===" | tee -a "${EVIDENCE_DIR}/execution.log"
+module list 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log"
+
+# Explicit fail-closed toolchain preflight checks
+echo "=== Toolchain Preflight Checks ===" | tee -a "${EVIDENCE_DIR}/execution.log"
+IFORT_PATH="$(command -v ifort)"
+ABAQUS_PATH="$(command -v abaqus)"
+
+echo "ifort resolved path: ${IFORT_PATH}" | tee -a "${EVIDENCE_DIR}/execution.log"
+echo "abaqus resolved path: ${ABAQUS_PATH}" | tee -a "${EVIDENCE_DIR}/execution.log"
+
+ifort --version 2>&1 | head -n 5 | tee -a "${EVIDENCE_DIR}/execution.log"
+abaqus information=release 2>&1 | head -n 5 | tee -a "${EVIDENCE_DIR}/execution.log" || true
 
 abaqus job=F42TRI2 user=f42c_mixed_uel.for input=F42TRI2.inp cpus=1 interactive 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log" || true
 
