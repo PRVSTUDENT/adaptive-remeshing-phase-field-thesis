@@ -1,21 +1,21 @@
 {
   "protocol_version": 1,
-  "task_id": "F41R3-M2RMSTITCH1-REPLACEMENT-JOB-1384638-EVALUATION",
-  "status": "submitted_completed",
-  "classification": "f41r3_m2rmstitch1_assignseam_typeerror_tuple_expecting_set",
-  "starting_commit": "5434cb9587197b92d695a3e79a0ac6fdcdf8bc72",
-  "preparation_commit": "5434cb9587197b92d695a3e79a0ac6fdcdf8bc72",
-  "repair_preparation_commit": "5434cb9587197b92d695a3e79a0ac6fdcdf8bc72",
-  "qualification_commit": "a61aa5f68bc267cd45ca28020bdd000e52fb988d",
-  "authorization_commit": "78571b5bb4c61c9ba493dd8351e1a8c2f755739c",
-  "latest_gate_repair_commit": "5434cb9587197b92d695a3e79a0ac6fdcdf8bc72",
-  "latest_gate_qualification_commit": "a61aa5f68bc267cd45ca28020bdd000e52fb988d",
+  "task_id": "F41R4-ASSIGNSEAM-REGION-CORRECTION",
+  "status": "qualified_not_authorized",
+  "classification": "f41r4_assignseam_region_corrected_qualified_clean_linux",
+  "starting_commit": "c9a6f31e4321babfb2c9c5abc98706de73eae3ac",
+  "preparation_commit": "c9a6f31e4321babfb2c9c5abc98706de73eae3ac",
+  "repair_preparation_commit": "c9a6f31e4321babfb2c9c5abc98706de73eae3ac",
+  "qualification_commit": "8891345c8bb7ba040e3d85087bdd3634924dc5ff",
+  "authorization_commit": null,
+  "latest_gate_repair_commit": "c9a6f31e4321babfb2c9c5abc98706de73eae3ac",
+  "latest_gate_qualification_commit": "8891345c8bb7ba040e3d85087bdd3634924dc5ff",
   "invalidated_predecessor": null,
   "prepared_job": "M2RMSTITCH1",
-  "scheduler_job_id": "1384638.mmaster02",
+  "scheduler_job_id": null,
   "local_emulation_run_id": null,
-  "scheduler_submissions_initiated": 1,
-  "failed_predecessor_job_id": "1384637.mmaster02",
+  "scheduler_submissions_initiated": 0,
+  "failed_predecessor_job_id": "1384638.mmaster02",
   "failed_initial_attempt_job_id": "1384435.mmaster02",
   "failed_v2_attempt_job_id": "1384450.mmaster02",
   "package_path": "models/generated/mode_ii/f41_crack_geometry_reconstruction",
@@ -27,10 +27,11 @@
   "replacement_authorized": false,
   "automatic_retry": false,
   "protocol_deviation_note": "A prior command executed 'rm -rf runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384621.mmaster02' on the HPC clone to resolve an untracked git pull conflict. The canonical evidence was committed to git in commit 438d0ea and remains fully preserved.",
-  "recorded_user_authorization_sentence": "I authorize exactly one replacement guarded HPC submission of M2RMSTITCH1 using preparation commit 5434cb9587197b92d695a3e79a0ac6fdcdf8bc72 and qualification commit a61aa5f68bc267cd45ca28020bdd000e52fb988d, with MAX_SUBMISSIONS=1, no automatic retry, no further replacement submission, and no downstream job.",
+  "recorded_user_authorization_sentence": null,
   "invalid_historical_authorization_record": null,
-  "next_action": "await_human_scientific_review_and_correction_authorization_for_assignseam_typeerror"
+  "next_action": "await_human_exact_one_job_authorization_for_final_M2RMSTITCH1_validation"
 }
+
 
 
 

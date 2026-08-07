@@ -1,6 +1,35 @@
 # Current project state
 
+## F41R4 Minimal AssignSeam Region Argument Fix and Detached Qualification (2026-08-07)
+
+Completed Stage F41R4 minimal `assignSeam` Region argument fix and true detached clean-Linux qualification:
+- **Package Path**: `models/generated/mode_ii/f41_crack_geometry_reconstruction`
+- **Preparation Commit (P41R4)**: `c9a6f31e4321babfb2c9c5abc98706de73eae3ac`
+- **Qualification Commit (Q41R4)**: `8891345c8bb7ba040e3d85087bdd3634924dc5ff`
+- **Starting Commit**: `c9a6f31e4321babfb2c9c5abc98706de73eae3ac`
+- **Status**: `qualified_not_authorized`
+- **Prepared Job**: `M2RMSTITCH1` (Queue: `entry_imfdfkmq`, 1 CPU, 1 rank, 1 thread, 8 GB memory, 00:30:00 walltime).
+- **Scientific Evaluation of Job 1384638.mmaster02**:
+  - `job_state = F`, `Exit_status = 1` (PBS fail-closed error propagation verified).
+  - **Classification**: `f41_geometry_reconstruction_passed_assignseam_argument_typeerror`.
+  - **Scientific Milestones Verified**:
+    - `bootstrap`: passed (3999 nodes, 3930 elements)
+    - `crack_trace_extraction`: passed (15 duplicate pairs, start [-0.5, 0.0], tip [0.0, 0.0], length 0.5)
+    - `temporary_working_copy_merge`: passed (15 pairs merged, node reduction 15)
+    - **`model_level_geometry_conversion`**: **PASSED!** (`PART-1-RECONSTRUCTED`, `reconstructed_face_count = 1`, `reconstructed_edge_count = 6`, `reconstructed_vertex_count = 6`, `wire_only = false`). Geometry conversion confirmed working on HPC Abaqus CAE 2023!
+    - `crack_geometry_recreation`: failed with `TypeError: regions; found tuple, expecting Set` on line `part.engineeringFeatures.assignSeam(regions=(crack_region,))`.
+    - `meshing_phase`: not_reached.
+- **Seam Argument Form Correction**:
+  - Changed `part.engineeringFeatures.assignSeam(regions=(crack_region,))` to direct Region object: `part.engineeringFeatures.assignSeam(regions=crack_region)` as required by Abaqus CAE 2023 runtime API.
+  - Frozen all 15-pair detection, temporary merge, `Part2DGeomFrom2DMesh`, sketch partitioning, crack edge detection, and downstream validation rules.
+- **Detached Qualification**: Evaluated inside a temporary detached Git worktree at SHA `c9a6f31` (`F41_QUALIFICATION_SUCCESS`), updating `F41_CLEAN_LINUX_QUALIFICATION.json`.
+- **Authority Flags**: All authority flags remain strictly `false` and `0` (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`).
+- **Next Action**: `await_human_exact_one_job_authorization_for_final_M2RMSTITCH1_validation`.
+
+Classification: `f41r4_assignseam_region_corrected_qualified_clean_linux`.
+
 ## F41R3 Single Guarded HPC Replacement Submission of M2RMSTITCH1 (2026-08-07)
+
 
 Executed single guarded HPC replacement submission of `M2RMSTITCH1` upon explicit human authorization:
 - **Task ID**: `F41R3-M2RMSTITCH1-REPLACEMENT-JOB-1384638-EVALUATION`
