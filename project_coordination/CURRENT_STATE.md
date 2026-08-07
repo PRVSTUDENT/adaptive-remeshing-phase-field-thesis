@@ -1,5 +1,41 @@
 # Current project state
 
+## F43PRE3-GEO1 Abaqus 2023 Geometry-Lineage Freeze, Deck Generation & Qualification (2026-08-07)
+
+Completed task `F43PRE3-GEO1`: Abaqus 2023 geometry lineage freeze, INP deck export from 2023 CAE, model inventory audit, semantic physics verification against PRE2, fail-closed PBS/wrapper preparation, and full 512-test detached qualification:
+- **Task ID**: `F43PRE3-GEO1` / `F43PRE3_GEOM`
+- **Status**: `qualified_not_authorized`
+- **Classification**: `f43pre3_geom_qualified_not_authorized`
+- **Dependency Graph**:
+  - `F43PRE3_GEOM`: `qualified_not_authorized` (ready for single guarded HPC submission upon explicit human approval)
+  - `F43REM3_NATIVE`: `blocked_pending_PRE3_execution_and_scientific_review`
+  - `F43DRY1`: `blocked`
+- **Preparation Commit ($P$)**: `P43PRE3-R1` (`f4857d98841854c6c769d865bfd8ca1d8dcd2dfd`)
+- **Qualification Commit ($Q$)**: `Q43PRE3-R1` (`51fd10587d0ecdfccfddbc8fbca8ff9f2c6114a1`)
+- **Toolchain**: `gcc/11.4.0 intel/2024.2.0 abaqus/2023`
+- **Abaqus 2023 Source CAE**: `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae` (SHA256: `0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa`)
+- **Exported Input Deck**: `models/generated/mode_ii/f43_stage_c_bridge/F43PRE3_GEOM.inp` (SHA256: `10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee`)
+- **CAE Model Inventory Audit**:
+  - `node_count`: 3800
+  - `total_elements`: 3716 (`cpe4_count`: 3600, `cpe3_count`: 116)
+  - `parts`: `['PlatePart']`, `instances`: `['PlateInstance']`, `steps`: `['Initial', 'Step-1']`, `materials`: `['Steel']`, `sections`: `['SolidSection']`, `remeshing_rules`: `['MISESERI_Adaptive_Rule']`
+- **Semantic Physics Comparison to PRE2**:
+  - `raw_byte_identity`: `false`
+  - `semantic_model_identity`: **PASS** (`E = 210000 MPa`, `nu = 0.3`, plane strain, thickness 1 mm, displacement `0.001 mm`, outputs `S`, `MISESERI`, `MISESAVG`, `EVOL`, `U`, `RF`).
+- **Predecessor ODB Role**: Predecessor ODB `1385392.mmaster02` (`85339f45...`) retained as `numerical_comparison_reference_only`.
+- **Full Discovery Unit Test Execution**:
+  - Ran `python3 -m unittest discover -s tests/unit -p 'test_*.py'` in Linux-Git detached worktree.
+  - Discovered tests: **512 passed** (0 failures, 0 errors, 0 skips).
+  - Detached worktree clean status gate: **PASS** (`F43PRE3_R1_DETACHED_QUALIFICATION_SUCCESS`).
+- **Authority Boundary**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `HPC_submissions`: 0
+- **Next Action**: `fresh_human_authorization_required_for_exactly_one_F43PRE3_GEOM_submission`
+
+---
+
 ## F43REM2-R6 CAE-Lineage Reconciliation & Branch B Determination (2026-08-07)
 
 Completed task `F43REM2-R6`: Exact original CAE database recovery, Abaqus 2023 compatibility probe, regenerated CAE quarantine, and Branch B determination:
