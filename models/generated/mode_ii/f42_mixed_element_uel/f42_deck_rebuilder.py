@@ -123,13 +123,13 @@ class MixedDeckRebuilder:
 
         # 1. User Element Cards
         lines.append("** User Element Declarations")
-        lines.append("*User Element, nodes=4, type=U1, properties=3, coordinates=2, VARIABLES=8")
+        lines.append("*User Element, nodes=4, type=U1, properties=3, coordinates=2, VARIABLES=18")
         lines.append(" 3")
-        lines.append("*User Element, nodes=4, type=U2, properties=4, coordinates=2, VARIABLES=56")
+        lines.append("*User Element, nodes=4, type=U2, properties=5, coordinates=2, VARIABLES=18")
         lines.append(" 1, 2")
-        lines.append("*User Element, nodes=3, type=U3, properties=3, coordinates=2, VARIABLES=6")
+        lines.append("*User Element, nodes=3, type=U3, properties=3, coordinates=2, VARIABLES=18")
         lines.append(" 3")
-        lines.append("*User Element, nodes=3, type=U4, properties=4, coordinates=2, VARIABLES=42")
+        lines.append("*User Element, nodes=3, type=U4, properties=5, coordinates=2, VARIABLES=18")
         lines.append(" 1, 2")
 
         # 2. Nodes

@@ -1,0 +1,9 @@
+{
+  "test_id": "F43PRE1",
+  "task_id": "F43A-STAGE-C-NATIVE-REMESHING-BRIDGE",
+  "model_type": "standard_continuum_mechanical_preanalysis",
+  "element_type": "CPE4",
+  "physical_elements": 3930,
+  "required_outputs": ["S", "MISESERI", "MISESAVG", "EVOL", "U", "RF"],
+  "expected_normal_completion": true
+}
