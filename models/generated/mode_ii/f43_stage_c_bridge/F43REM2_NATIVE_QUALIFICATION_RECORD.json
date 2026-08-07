@@ -1,9 +1,10 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM2-R3-LQ1",
+  "task_id": "F43REM2-R3-LQ2",
   "qualification_target_P": "8bfba63e384c9c094fcd73f83fec015378538801",
-  "qualification_environment": "WSL/Linux Git-created detached worktree",
-  "worktree_path": "/tmp/f43rem2_r3_linux_qual",
+  "qualification_environment": "Linux Git-created detached worktree",
+  "worktree_path": "/tmp/f43rem2_r3_linux_qual_lq2",
+  "scratch_dir_path": "/tmp/f43rem2_r3_scratch",
   "core_autocrlf": "false",
   "full_unit_discovery": "test_*.py",
   "test_counts": {
@@ -20,8 +21,9 @@
     "json_checks": "pass",
     "static_validator": "pass"
   },
-  "pre_test_clean": true,
-  "post_test_clean": true,
+  "natural_post_test_clean": true,
+  "post_test_cleanup_required": false,
+  "cleanup_commands_before_clean_gate": "none",
   "external_CAE_path": "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae",
   "external_CAE_SHA256": "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff",
   "predecessor_ODB_path": "evidence/1385392.mmaster02/F43PRE2_GEOM.odb",
@@ -34,9 +36,9 @@
     "validator_sha256": "6b817cdf2d49203fb8125dcebac67ee1f10ffffb0eef702bd304f49dbd778a2a",
     "collector_sha256": "7e52437996987d3f0c200171a46324fd29e678fac21d16508d718559d5fd908a"
   },
-  "superseded_qualification": {
-    "Q43REM2-R3": "e0a30cfdf030655fbcb66b3f7c862766523c338d",
-    "reason": "superseded_for_authorization_by_linux_full_regression_qualification"
+  "superseded_qualifications": {
+    "Q43REM2-R3-LQ1": "c8856040dcafbbe954b3c89f552623ee10e1b3ea",
+    "reason": "superseded_for_authorization_pending_naturally_clean_qualification"
   },
   "qsub_called": false,
   "HPC_submissions": 0,
