@@ -1,13 +1,13 @@
 {
   "protocol_version": 1,
   "task_id": "F42B-SINGLE-TRIANGLE-UEL-CORE-VERIFICATION",
-  "status": "qualified_not_authorized",
-  "classification": "f42b_single_triangle_core_uel_qualified",
-  "starting_commit": "7b23ed1a50f39aeb205f9ce52d387febaef8f7c1",
+  "status": "hpc_execution_authorized_one_job",
+  "classification": "f42b_single_triangle_core_uel_authorized",
+  "starting_commit": "d5bade67c815c036d9f2d2e21e71fce636397a3a",
   "preparation_commit": "67809cb7523cdd4047c5c394841f2dca949a1ff3",
   "repair_preparation_commit": null,
   "qualification_commit": "991dd3a1b0308c9859f8db53dcf8b896cc784ede",
-  "authorization_commit": null,
+  "authorization_commit": "d5bade67c815c036d9f2d2e21e71fce636397a3a",
   "latest_gate_repair_commit": null,
   "latest_gate_qualification_commit": null,
   "invalidated_predecessor": null,
@@ -16,19 +16,19 @@
   "local_emulation_run_id": null,
   "scheduler_submissions_initiated": 0,
   "package_path": "models/generated/mode_ii/f42_mixed_element_uel/f42tri1_core_uel_only",
-  "execution_authorized": false,
-  "submission_approved": false,
-  "maximum_jobs_now": 0,
+  "execution_authorized": true,
+  "submission_approved": true,
+  "maximum_jobs_now": 1,
   "maximum_future_submissions": 0,
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "recorded_user_authorization_sentence": null,
+  "recorded_user_authorization_sentence": "I authorize exactly one guarded HPC submission of F42TRI1 using preparation commit 67809cb7523cdd4047c5c394841f2dca949a1ff3 and qualification commit 991dd3a1b0308c9859f8db53dcf8b896cc784ede, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, no adaptive-remeshing job, and no downstream job.",
   "invalid_historical_authorization_record": null,
   "jtype_dispatch": "U3->3, U4->4",
   "triangle_quadrature": "3_point_symmetric_degree_2_exact",
   "facsimile_included": false,
-  "next_action": "await_exact_human_authorization_for_one_F42TRI1_core_job"
+  "next_action": "verify_qstat_synchronize_hpc_clone_and_submit_F42TRI1"
 }
 
 
