@@ -1,14 +1,14 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM2-R3-LQ1",
+  "task_id": "F43REM2-R3-LQ2",
   "status": "complete",
-  "classification": "f43rem2_native_qualified_not_authorized_r3_lq1",
+  "classification": "f43rem2_native_qualified_not_authorized_r3_lq2",
   "predecessor_identity_classification": "f43pre2_geometry_backed_preanalysis_source_architecture",
-  "governance_classification": "protocol_compliant_p43rem2_r3_prepared_q43rem2_r3_lq1_qualified",
+  "governance_classification": "protocol_compliant_p43rem2_r3_prepared_q43rem2_r3_lq2_qualified",
   "scientific_classification": "provisional_pass_with_unit_conversion_correction",
-  "starting_commit": "e365456939fb75b598739312a27b1d1a5d3f784e",
+  "starting_commit": "a251d93078af486b1794b2c6c43335bd46a21456",
   "preparation_commit": "8bfba63e384c9c094fcd73f83fec015378538801",
-  "qualification_commit": "c8856040dcafbbe954b3c89f552623ee10e1b3ea",
+  "qualification_commit": "266a2505bc1dc6198b1c1d480ec6e7be40e71baf",
   "authorization_commit": null,
   "execution_authorized": false,
   "submission_approved": false,
@@ -23,8 +23,8 @@
   "reference_odb_sha256": "3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534",
   "source_cae_sha256": "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff",
   "superseded_qualifications": {
-    "Q43REM2-R3": "e0a30cfdf030655fbcb66b3f7c862766523c338d",
-    "reason": "superseded_for_authorization_by_linux_full_regression_qualification"
+    "Q43REM2-R3-LQ1": "c8856040dcafbbe954b3c89f552623ee10e1b3ea",
+    "reason": "superseded_for_authorization_pending_naturally_clean_qualification"
   },
   "next_action": "human_review_before_exactly_one_F43REM2_NATIVE_submission"
 }

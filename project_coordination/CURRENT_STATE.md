@@ -1,5 +1,25 @@
 # Current project state
 
+## F43REM2-R3-LQ2 Naturally-Clean Linux-Git Exact-P Qualification (2026-08-07)
+
+Completed task `F43REM2-R3-LQ2`: Naturally clean Linux-Git exact-P detached worktree qualification with zero post-test manual cleanup:
+- **Task ID**: `F43REM2-R3-LQ2`
+- **Status**: `complete`
+- **Classification**: `f43rem2_native_qualified_not_authorized_r3_lq2`
+- **Preparation Commit ($P$)**: `P43REM2-R3` (`8bfba63e384c9c094fcd73f83fec015378538801`)
+- **Qualification Commit ($Q$)**: `Q43REM2-R3-LQ2` (`266a2505bc1dc6198b1c1d480ec6e7be40e71baf`)
+- **Superceded Qualification**: `Q43REM2-R3-LQ1` (`c8856040dcafbbe954b3c89f552623ee10e1b3ea` superseded due to requiring post-test manual cleanup).
+- **Naturally Clean Post-Test Worktree**:
+  - Executed tests with working directory set to isolated `/tmp/f43rem2_r3_scratch` with `PYTHONPATH=/tmp/f43rem2_r3_linux_qual_lq2`.
+  - Immediate post-test status check: `git status --porcelain=v1` returned **ABSOLUTELY EMPTY** with ZERO manual cleanup command executed before the clean gate.
+  - Tracked diff (`git diff --exit-code`) and cached diff (`git diff --cached --exit-code`) returned exit code 0.
+- **115-Test Full Unit Discovery & Static Validation**:
+  - Passed **115 / 115** relevant regression tests across F43 (29), F42 (19), F41 (21), F40 (46).
+  - Passed Python syntax (`py_compile`), shell syntax (`bash -n`), JSON parsing, and static validator checks (`validate_f43rem2_native.py`).
+- **Authority State**: `qualified_not_authorized` (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`).
+
+---
+
 ## F43REM2-R3-LQ1 True Linux-Git Exact-P Full-Regression Supplemental Qualification (2026-08-07)
 
 Completed supplemental qualification task `F43REM2-R3-LQ1`: True Linux-Git exact-P detached worktree creation and 115-test full regression suite validation:
