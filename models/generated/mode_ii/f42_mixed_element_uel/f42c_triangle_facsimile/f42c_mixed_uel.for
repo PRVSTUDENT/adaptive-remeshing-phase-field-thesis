@@ -591,7 +591,7 @@ C      Unknown topology marker: Fail Closed
        STATEV(I)=USRVAR(PHYSIDX,I,NPT_READ)
       END DO
 
-      C For CPE3 Triangle Facsimile: Populate STRESS output tensor with degraded stress
+C     For CPE3 Triangle Facsimile: Populate STRESS output tensor with degraded stress
       IF (ITOPOLOGY.EQ.3) THEN
        STRESS(1) = USRVAR(PHYSIDX,9,4)
        STRESS(2) = USRVAR(PHYSIDX,10,4)
