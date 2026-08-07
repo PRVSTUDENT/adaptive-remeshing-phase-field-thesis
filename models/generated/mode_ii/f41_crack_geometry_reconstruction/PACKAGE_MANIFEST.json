@@ -1,0 +1,26 @@
+{
+  "protocol_version": 1,
+  "package_name": "f41_crack_geometry_reconstruction",
+  "job_name": "M2RMSTITCH1",
+  "stage": "Stage F",
+  "target_queue": "entry_imfdfkmq",
+  "resources": {
+    "select": 1,
+    "ncpus": 1,
+    "mpiprocs": 1,
+    "ompthreads": 1,
+    "mem": "8gb",
+    "walltime": "00:30:00"
+  },
+  "files": [
+    "M2RMSTITCH1.pbs",
+    "PACKAGE_MANIFEST.json",
+    "runtime/source_deck.inp",
+    "runtime/f41_crack_topology_extractor.py",
+    "runtime/f41_cae_reconstruction_matrix.py",
+    "runtime/run_f41_cae_reconstruction.py",
+    "runtime/validate_f41_matrix_results.py",
+    "runtime/validate_f41_runtime_audits.py",
+    "runtime/generate_missing_evidence_report.py"
+  ]
+}

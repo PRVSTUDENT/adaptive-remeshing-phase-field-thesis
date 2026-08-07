@@ -1,0 +1,33 @@
+#!/bin/bash
+#PBS -N M2RMSTITCH1
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+
+JOB_NAME="M2RMSTITCH1"
+PACKAGE_DIR="models/generated/mode_ii/f41_crack_geometry_reconstruction"
+EVIDENCE_DIR="runs/hpc/stage_f/f41_crack_geometry_reconstruction/evidence/${PBS_JOBID}"
+
+cd "${PBS_O_WORKDIR}"
+
+mkdir -p "${EVIDENCE_DIR}"
+mkdir -p "runs/hpc/stage_f/f41_crack_geometry_reconstruction/${JOB_NAME}_${PBS_JOBID}/runtime"
+
+cp -r "${PACKAGE_DIR}/runtime/"* "runs/hpc/stage_f/f41_crack_geometry_reconstruction/${JOB_NAME}_${PBS_JOBID}/runtime/"
+cd "runs/hpc/stage_f/f41_crack_geometry_reconstruction/${JOB_NAME}_${PBS_JOBID}/runtime"
+
+export F41_RUNTIME_DIR="$(pwd)"
+export F41_EVIDENCE_DIR="${PBS_O_WORKDIR}/${EVIDENCE_DIR}"
+
+# Run Abaqus/CAE in noGUI mode
+/cluster/application/abaqus/2023/Commands/abaqus cae noGUI=run_f41_cae_reconstruction.py > "${F41_EVIDENCE_DIR}/ABAQUS_CAE.log" 2>&1 || true
+
+python3 validate_f41_matrix_results.py "${F41_EVIDENCE_DIR}" > "${F41_EVIDENCE_DIR}/F41_MATRIX_VALIDATION.txt" 2>&1 || true
+python3 validate_f41_runtime_audits.py "${F41_EVIDENCE_DIR}" > "${F41_EVIDENCE_DIR}/F41_RUNTIME_AUDIT_VALIDATION.txt" 2>&1 || true
+python3 generate_missing_evidence_report.py "${F41_EVIDENCE_DIR}" || true
+
+exit 0
