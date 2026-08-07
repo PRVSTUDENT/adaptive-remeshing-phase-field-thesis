@@ -54,14 +54,19 @@ class TestModeIIH1EndpointSweep(unittest.TestCase):
     def test_result_validator_classifications(self):
         # Test result validator logic for physical state classifications
         # Pre-peak case
-        res_prepeak = validate_results(
-            evidence_dir=ROOT / "runs/hpc/stage_f/mode_ii_h1/evidence/1379433.mmaster02",
-            abaqus_return_code=0,
-            extractor_return_code=0,
-            expected_u1_target=0.010,
-        )
-        self.assertTrue(res_prepeak["technical_pass"])
-        self.assertEqual(res_prepeak["classification"], "stage_f_mode_ii_h1_prepeak")
+        import shutil, tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            src_dir = ROOT / "runs/hpc/stage_f/mode_ii_h1/evidence/1379433.mmaster02"
+            tmp_evidence = Path(tmpdir) / "1379433.mmaster02"
+            shutil.copytree(src_dir, tmp_evidence)
+            res_prepeak = validate_results(
+                evidence_dir=tmp_evidence,
+                abaqus_return_code=0,
+                extractor_return_code=0,
+                expected_u1_target=0.010,
+            )
+            self.assertTrue(res_prepeak["technical_pass"])
+            self.assertEqual(res_prepeak["classification"], "stage_f_mode_ii_h1_prepeak")
 
 
 if __name__ == "__main__":

@@ -56,8 +56,10 @@ class TestStageF4BatchOrchestrator(unittest.TestCase):
             self.skipTest("No bash binary found for preflight unittest")
 
         import sys
+        status_temp = Path(self.tmp_dir.name) / "STAGE_F4_REPLACEMENT_BATCH_STATUS.json"
         env = dict(os.environ)
         env["PROJECT_ROOT_OVERRIDE"] = str(repo_root)
+        env["STATUS_OUT_OVERRIDE"] = str(status_temp)
         env["PYTHON_CMD"] = sys.executable.replace("\\", "/")
 
         res = subprocess.run([bash_bin, str(script_path)], env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -65,7 +67,7 @@ class TestStageF4BatchOrchestrator(unittest.TestCase):
         self.assertIn("Preflight check PASSED cleanly", res.stdout)
         self.assertIn("Preflight mode complete. Zero jobs submitted.", res.stdout)
 
-        status_file = repo_root / "runs/hpc/stage_f/STAGE_F4_REPLACEMENT_BATCH_STATUS.json"
+        status_file = status_temp
         self.assertTrue(status_file.is_file())
         status_data = json.loads(status_file.read_text(encoding="utf-8"))
         self.assertEqual(status_data["batch_status"], "preflight_passed_zero_submitted")
