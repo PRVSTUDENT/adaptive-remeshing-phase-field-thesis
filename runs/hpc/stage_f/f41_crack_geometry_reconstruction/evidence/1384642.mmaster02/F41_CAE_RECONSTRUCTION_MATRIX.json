@@ -1,0 +1,125 @@
+{
+  "overall_passed": false, 
+  "phases": [
+    {
+      "phase": "audit_artifact_generation", 
+      "attempted": true, 
+      "dependency_blocked": false, 
+      "passed": false, 
+      "observations": {
+        "audit_written": true, 
+        "reconstruction_passed": false
+      }
+    }, 
+    {
+      "phase": "bootstrap", 
+      "attempted": true, 
+      "dependency_blocked": false, 
+      "passed": true, 
+      "observations": {
+        "element_count": 3930, 
+        "source_deck_exists": true, 
+        "bounding_box_before": {
+          "x_min": -0.5, 
+          "y_max": 0.5, 
+          "y_min": -0.5, 
+          "x_max": 0.5
+        }, 
+        "node_count": 3999
+      }
+    }, 
+    {
+      "phase": "model_level_geometry_conversion", 
+      "attempted": true, 
+      "dependency_blocked": false, 
+      "passed": true, 
+      "observations": {
+        "reconstructed_part_name": "PART-1-RECONSTRUCTED", 
+        "face_count": 1, 
+        "vertex_count": 6, 
+        "edge_count": 6, 
+        "wire_only": false
+      }
+    }, 
+    {
+      "phase": "crack_geometry_recreation", 
+      "attempted": true, 
+      "dependency_blocked": false, 
+      "passed": true, 
+      "observations": {
+        "crack_geometry_recreated": true, 
+        "crack_length_error": 0.0, 
+        "reconstructed_vertex_count": 7, 
+        "crack_tip_after": [
+          0.0, 
+          0.0
+        ], 
+        "crack_edge_id": "CRACK_EDGE_INDEX_4", 
+        "crack_tip_preserved": true, 
+        "crack_start_after": [
+          -0.5, 
+          0.0
+        ], 
+        "reconstructed_face_count": 1, 
+        "outer_boundary_preserved": true, 
+        "crack_length_after": 0.5, 
+        "reconstructed_edge_count": 7, 
+        "seam_assigned": true, 
+        "bounding_box_after": {
+          "x_min": -0.5, 
+          "y_max": 0.5, 
+          "y_min": -0.5, 
+          "x_max": 0.5
+        }
+      }
+    }, 
+    {
+      "phase": "temporary_working_copy_merge", 
+      "attempted": true, 
+      "dependency_blocked": false, 
+      "passed": true, 
+      "observations": {
+        "duplicate_pairs_after": 0, 
+        "merged_pair_count": 15, 
+        "nodes_before": 3998, 
+        "node_count_reduction": 15, 
+        "duplicate_pairs_before": 15, 
+        "nodes_after": 3983
+      }
+    }, 
+    {
+      "exception_type": "AbaqusException", 
+      "dependency_blocked": false, 
+      "observations": {}, 
+      "passed": false, 
+      "phase": "meshing_phase", 
+      "attempted": true, 
+      "exception_message": "Error: Some regions cannot be Mapped.", 
+      "traceback": "Traceback (most recent call last):\n  File \"/home/pr21vyci/projects/adaptive-remeshing/runs/hpc/stage_f/f41_crack_geometry_reconstruction/M2RMSTITCH1_1384642.mmaster02/runtime/f41_cae_reconstruction_matrix.py\", line 451, in run_f41_matrix\n    part.setMeshControls(regions=part.faces, technique=STRUCTURED)\nAbaqusException: Error: Some regions cannot be Mapped.\n"
+    }, 
+    {
+      "phase": "crack_trace_extraction", 
+      "attempted": true, 
+      "dependency_blocked": false, 
+      "passed": true, 
+      "observations": {
+        "duplicate_pairs_before": 15, 
+        "topology_map_written": true, 
+        "crack_start_before": [
+          -0.5, 
+          0.0
+        ], 
+        "crack_tip_before": [
+          0.0, 
+          0.0
+        ], 
+        "crack_length_before": 0.5
+      }
+    }
+  ], 
+  "package": "f41_crack_geometry_reconstruction", 
+  "finished_at": "", 
+  "protocol_version": 1, 
+  "started_at": "", 
+  "job_name": "M2RMSTITCH1"
+}

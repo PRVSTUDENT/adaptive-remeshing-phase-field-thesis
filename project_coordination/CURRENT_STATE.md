@@ -1,6 +1,32 @@
 # Current project state
 
+## F41R4 Single Guarded HPC Final Submission of M2RMSTITCH1 (2026-08-07)
+
+Executed single guarded HPC final submission of `M2RMSTITCH1` (`1384642.mmaster02`) upon explicit human authorization:
+- **Task ID**: `F41R4-M2RMSTITCH1-FINAL-JOB-1384642-EVALUATION`
+- **Scheduler Job ID**: `1384642.mmaster02` (Job Name: `M2RMSTITCH1`, Queue: `normal_imfdfkmq`, `exec_host = mnode098/0`, `walltime = 00:00:02`, `mem = 100128kb`)
+- **Preparation Commit (P41R4)**: `c9a6f31e4321babfb2c9c5abc98706de73eae3ac`
+- **Qualification Commit (Q41R4)**: `8891345c8bb7ba040e3d85087bdd3634924dc5ff`
+- **Authorization Commit (A41R4)**: `87c338dcd060b7977c185ef4ac7f27fd83d63c75`
+- **Recorded User Authorization**: *"I authorize exactly one final guarded HPC submission of M2RMSTITCH1 using preparation commit c9a6f31e4321babfb2c9c5abc98706de73eae3ac and qualification commit 8891345c8bb7ba040e3d85087bdd3634924dc5ff, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, and no downstream job."*
+- **PBS Execution & Fail-Closed Result**:
+  - `job_state = F`, `Exit_status = 1` (PBS exit code fail-closed error propagation verified).
+  - `ABAQUS_CAE.returncode = 1`, `F41_RECONSTRUCTION.returncode = 1`, `F41_MATRIX_VALIDATOR.returncode = 1`.
+- **Abaqus CAE 2023 Matrix Scientific Evaluation by Phase**:
+  - `bootstrap`: **PASSED** (3999 nodes, 3930 elements)
+  - `crack_trace_extraction`: **PASSED** (15 duplicate crack node pairs, start [-0.5, 0.0], tip [0.0, 0.0], length 0.5)
+  - `temporary_working_copy_merge`: **PASSED** (15 node pairs merged, node count reduced from 3998 to 3983, 0 duplicate pairs remaining)
+  - `model_level_geometry_conversion`: **PASSED** (`PART-1-RECONSTRUCTED`, `face_count = 1`, `vertex_count = 6`, `edge_count = 6`, `wire_only = false`).
+  - **`crack_geometry_recreation`**: **PASSED!** (`crack_geometry_recreated = true`, `crack_tip_preserved = true`, `crack_start_after = [-0.5, 0.0]`, `crack_tip_after = [0.0, 0.0]`, `crack_length_error = 0.0`, `outer_boundary_preserved = true`, `reconstructed_face_count = 1`, `reconstructed_edge_count = 7`, `reconstructed_vertex_count = 7`).
+  - **`seam assignment`**: **PASSED!** (`seam_assigned = true` via `part.engineeringFeatures.assignSeam(regions=crack_region)`). Direct Region object API form verified working on HPC Abaqus CAE 2023!
+  - `meshing_phase`: **FAILED** with `AbaqusException: Error: Some regions cannot be Mapped.` at line `part.setMeshControls(regions=part.faces, technique=STRUCTURED)`. (Abaqus structured mesh technique requires a 4-sided topological region; partitioned seam-slit face with 7 boundary segments requires free or unstructured meshing).
+- **Authority Consumption**: Recorded immediately (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`).
+- **Next Action**: `stop_no_further_submission_or_retry_authorized`.
+
+Classification: `f41r4_geometry_reconstruction_passed_meshing_technique_structured_abaqusexception`.
+
 ## F41R4 Minimal AssignSeam Region Argument Fix and Detached Qualification (2026-08-07)
+
 
 Completed Stage F41R4 minimal `assignSeam` Region argument fix and true detached clean-Linux qualification:
 - **Package Path**: `models/generated/mode_ii/f41_crack_geometry_reconstruction`
