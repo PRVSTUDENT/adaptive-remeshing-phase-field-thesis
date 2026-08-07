@@ -1,12 +1,12 @@
 {
   "protocol_version": 1,
-  "task_id": "F42A-MIXED-TRIANGLE-QUADRILATERAL-UEL-ARCHITECTURE-FOUNDATION",
-  "status": "mixed_element_uel_offline_implementation_ready_for_element_verification",
-  "classification": "f42a_mixed_element_uel_architecture_foundation_complete",
-  "starting_commit": "fda937c7a1a116de30b2709998ab44c18c1adaef",
-  "preparation_commit": "fda937c7a1a116de30b2709998ab44c18c1adaef",
+  "task_id": "F42A-R1-MIXED-UEL-CONTRACT-CORRECTION",
+  "status": "offline_verified_not_hpc_qualified",
+  "classification": "f42a_r1_mixed_uel_contract_corrected",
+  "starting_commit": "5efa78e6ece595141da5437db6cb5005cb8470ea",
+  "preparation_commit": "9f8e570b27eb420d42a46df0781ae6282fd1be7b",
   "repair_preparation_commit": null,
-  "qualification_commit": "fda937c7a1a116de30b2709998ab44c18c1adaef",
+  "qualification_commit": null,
   "authorization_commit": null,
   "latest_gate_repair_commit": null,
   "latest_gate_qualification_commit": null,
@@ -16,6 +16,7 @@
   "local_emulation_run_id": null,
   "scheduler_submissions_initiated": 0,
   "package_path": "models/generated/mode_ii/f42_mixed_element_uel",
+  "verification_package": "models/generated/mode_ii/f42_mixed_element_uel/f42tri1_single_element",
   "execution_authorized": false,
   "submission_approved": false,
   "maximum_jobs_now": 0,
@@ -25,12 +26,10 @@
   "automatic_retry": false,
   "recorded_user_authorization_sentence": null,
   "invalid_historical_authorization_record": null,
-  "f41_geometry_pipeline": "validated",
-  "f41_element_contract": "f41_geometry_reconstruction_validated_current_uel_mixed_element_incompatible",
-  "option_selected": "Option A: Mixed 3-Node / 4-Node UEL Support",
-  "triangle_uel_formulation": "derived_linear_triangle_centroidal_quadrature",
-  "deck_rebuilder": "cpe4_cpe3_parser_and_layer_generator_implemented",
-  "next_action": "prepare_one_triangle_element_verification_without_submission"
+  "jtype_dispatch": "U1->1, U2->2, U3->3, U4->4",
+  "triangle_quadrature": "3_point_symmetric_degree_2_exact",
+  "element_labeling": "non_overlapping_3_layer_nphys_offset",
+  "next_action": "prepare_single_layered_triangle_uel_verification_package_without_submission"
 }
 
 

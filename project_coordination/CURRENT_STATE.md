@@ -1,6 +1,38 @@
 # Current project state
 
+## F42A-R1 Mixed-Element UEL Contract Correction & One-Triangle Verification Preparation (2026-08-07)
+
+Completed Task F42A-R1 mixed 3-node triangle and 4-node quad UEL contract correction, degree-2 3-point triangle quadrature, 3-layer offset element rebuilder, static Fortran syntax verification, and single-triangle `F42TRI1` verification package:
+- **Task ID**: `F42A-R1-MIXED-UEL-CONTRACT-CORRECTION`
+- **Status**: `offline_verified_not_hpc_qualified`
+- **Classification**: `f42a_r1_mixed_uel_contract_corrected`
+- **Next Action**: `prepare_single_layered_triangle_uel_verification_package_without_submission`
+- **Preparation Commit (P42A-R1)**: `9f8e570b27eb420d42a46df0781ae6282fd1be7b`
+- **Defects Audited & Corrected (`F42A_R1_DEFECT_AUDIT.md`)**:
+  1. **Defect A (`JTYPE` Dispatch)**: Replaced invalid `U11/U12/U21/U22` declarations with standard `U1` (quad phase), `U2` (quad disp), `U3` (tri phase), `U4` (tri disp). Abaqus `type=Un` passes integer `n` into `JTYPE` (`U1` $\rightarrow 1$, `U2` $\rightarrow 2$, `U3` $\rightarrow 3$, `U4` $\rightarrow 4$).
+  2. **Defect B (Complete Displacement Branches)**: Implemented complete executable $U4$ triangle displacement branch ($NNODE=3, NDOFEL=6, \mathbf{B}=3 \times 6$) alongside $U2$ quad displacement branch ($NNODE=4, NDOFEL=8, \mathbf{B}=3 \times 8$).
+  3. **Defect C (Uninitialized Variable & Phase Formulation)**: Removed uninitialized `GC` variable bug. Restored exact Molnár phase equation weak form: $(G_c/l_0 + 2H) \phi - 2H$.
+  4. **Defect D (Rebuilder Layering & Label Offset)**: Implemented 3 non-overlapping element label layers using $N_{phys}$ offset ($Phase = p$, $Disp = N_{phys} + p$, $Facsimile = 2 N_{phys} + p$). All element labels are 100% unique across layers. Fixed `All_elem` / `UMATELEM` sets to point to facsimile (`CPE4`/`CPE3`) layer.
+- **3-Point Symmetric Triangle Quadrature Rule (Degree-2 Exact)**:
+  - Integration points $(\xi_k, \eta_k)$: $(1/6, 1/6)$, $(2/3, 1/6)$, $(1/6, 2/3)$.
+  - Weights $w_k = 1/6$ (sum $= 1/2$, reference triangle area).
+  - Integrates quadratic $N_i N_j$ phase reaction term and consistent mass matrix $\frac{A_e}{12} \left[\begin{array}{ccc} 2 & 1 & 1 \\ 1 & 2 & 1 \\ 1 & 1 & 2 \end{array}\right]$ exactly.
+  - State slots: $NPT = 1..3$. `U3` `VARIABLES=6`, `U4` `VARIABLES=42`.
+- **Fortran Syntax Verification**:
+  - `gfortran -fsyntax-only` executed in WSL $\rightarrow$ **0 errors, 0 warnings**.
+- **Offline Unit & Oracle Test Suite (`test_stage_f42_mixed_uel.py`)**:
+  - **11 unit tests executed, 11 passed** (partition of unity, constant field reproduction, linear field reproduction, positive Jacobian determinant, 3-point quadrature weight sum, phase-field mass matrix oracle match, U4 CST plane-strain stiffness matrix oracle match, 12 unique element labels round-trip, static Fortran `JTYPE` dispatch audit, zero uninitialized `GC` audit, U4 branch completeness audit).
+  - All F41 (21/21) and F40 (35/35) regression unit tests passed cleanly (**67/67 total unit tests OK**).
+- **Single-Element Verification Package Prepared Offline (`F42TRI1`)**:
+  - Path: `models/generated/mode_ii/f42_mixed_element_uel/f42tri1_single_element/`
+  - Artifacts created: `F42TRI1.inp`, `F42TRI1.for`, `F42TRI1_EXPECTED.json`, `F42TRI1_MANIFEST.json`.
+  - Single physical triangle with $U3$ phase, $U4$ displacement, and $CPE3$ facsimile layer.
+- **Authority Flags**: All default-closed (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`). No HPC jobs submitted.
+
+Classification: `f42a_r1_mixed_uel_contract_corrected`.
+
 ## F42A Mixed Triangle-Quadrilateral UEL Architecture Foundation (2026-08-07)
+
 
 Completed Task F42A mixed 3-node triangle and 4-node quad UEL formulation, input deck parser & rebuilder, and pure offline mathematical unit test suite:
 - **Task ID**: `F42A-MIXED-TRIANGLE-QUADRILATERAL-UEL-ARCHITECTURE-FOUNDATION`
