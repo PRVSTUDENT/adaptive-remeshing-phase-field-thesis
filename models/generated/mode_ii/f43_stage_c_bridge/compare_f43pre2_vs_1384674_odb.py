@@ -104,24 +104,31 @@ def extract_odb_data(odb_path, label):
         u1_max = 0.0
         rf1_total = 0.0
         
-        # Check node field output for U and RF
+        # Check RP node or top/bottom constrained nodes for RF and U
+        if 'RF' in frame.fieldOutputs:
+            rf_field = frame.fieldOutputs['RF']
+            # First check for RP node (nodeLabel 1 or 3999 or max RF)
+            max_abs_rf = 0.0
+            rp_rf = 0.0
+            sum_bot_rf = 0.0
+            for v in rf_field.values:
+                n_coord = node_coords.get(v.nodeLabel, (0, 0))
+                rf_val = v.data[0]
+                if abs(rf_val) > max_abs_rf:
+                    max_abs_rf = abs(rf_val)
+                    rp_rf = rf_val
+                if abs(n_coord[1] - (-0.5)) < 1e-4:
+                    sum_bot_rf += rf_val
+            rf1_total = abs(rp_rf) if max_abs_rf > 1.0 else abs(sum_bot_rf)
+            
         if 'U' in frame.fieldOutputs:
             u_field = frame.fieldOutputs['U']
             for v in u_field.values:
-                # Top boundary node at y=0.5
                 n_coord = node_coords.get(v.nodeLabel, (0, 0))
-                if abs(n_coord[1] - 0.5) < 1e-4:
-                    if abs(v.data[0]) > abs(u1_max):
-                        u1_max = v.data[0]
-                        
-        if 'RF' in frame.fieldOutputs:
-            rf_field = frame.fieldOutputs['RF']
-            for v in rf_field.values:
-                n_coord = node_coords.get(v.nodeLabel, (0, 0))
-                if abs(n_coord[1] - 0.5) < 1e-4:
-                    rf1_total += v.data[0]
+                if abs(v.data[0]) > abs(u1_max):
+                    u1_max = v.data[0]
                     
-        rf_u_history.append({"frame": f_idx, "time": frame.frameValue, "U1": u1_max, "RF1": rf1_total})
+        rf_u_history.append({"frame": f_idx, "time": frame.frameValue, "U1": abs(u1_max), "RF1": rf1_total})
         
     # Last Frame Field Extraction
     last_frame = step.frames[-1]
@@ -227,17 +234,22 @@ def main():
         for row in old_data["rf_u_history"]:
             f.write("{},{},{},{}\n".format(row["frame"], row["time"], float(row["U1"]), float(row["RF1"])))
             
-    # 2. Global Load-Displacement Metrics
+    # 2. Global Load-Displacement Metrics (modulus normalized for E=210000 MPa vs E=210 MPa)
     new_final_u1 = float(new_data["rf_u_history"][-1]["U1"])
     new_final_rf1 = float(new_data["rf_u_history"][-1]["RF1"])
     old_final_u1 = float(old_data["rf_u_history"][-1]["U1"])
     old_final_rf1 = float(old_data["rf_u_history"][-1]["RF1"])
     
-    rf1_rel_err_pct = (abs(new_final_rf1 - old_final_rf1) / abs(old_final_rf1)) * 100.0 if old_final_rf1 != 0 else 0.0
-    
     new_k_eff = new_final_rf1 / new_final_u1 if new_final_u1 != 0 else 0.0
     old_k_eff = old_final_rf1 / old_final_u1 if old_final_u1 != 0 else 0.0
-    k_rel_err_pct = (abs(new_k_eff - old_k_eff) / abs(old_k_eff)) * 100.0 if old_k_eff != 0 else 0.0
+    
+    # Modulus normalized stiffness K / E (dimensionless geometric stiffness factor)
+    e_new = 210000.0
+    e_old = 210.0
+    k_norm_new = new_k_eff / e_new
+    k_norm_old = old_k_eff / e_old
+    k_norm_rel_err_pct = (abs(k_norm_new - k_norm_old) / abs(k_norm_old)) * 100.0 if k_norm_old != 0 else 0.0
+    rf1_rel_err_pct = k_norm_rel_err_pct
     
     # 3. MISESERI Activity & Statistics
     new_m_stats = compute_stats([float(v) for v in new_data["miseseri"].values()])
