@@ -1,6 +1,27 @@
 # Current project state
 
+## F43PRE2-R1 Final On-Disk CAE Hash Contract & Q43PRE2-R1 Detached Qualification (2026-08-07)
+
+Completed Task F43PRE2-R1 post-process final-on-disk CAE hash contract, external HPC CAE artifact freeze, immutable detached Linux worktree qualification, and separate Q43PRE2-R1 qualification commit:
+- **Task ID**: `F43PRE2_GEOM`
+- **Status**: `qualified_not_authorized`
+- **Preparation Commit**: `610bc5f5594d485eafe32a96b6b65dd94361327c` (`P43PRE2-R1`)
+- **Qualification Commit**: `Q43PRE2-R1` (separate commit after P43PRE2-R1)
+- **Authoritative Hash Stage**: `post_abaqus_process_final_on_disk`
+- **External CAE Artifact Sync**:
+  1. Local Path: `models/generated/mode_ii/f43_stage_c_bridge/ModeII_Geometry_Source.cae`
+  2. HPC Path: `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae`
+  3. Hash Identity: `889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff` (Local == Remote HPC == Manifest, verified over SCP/SSH).
+- **Input Deck (`F43PRE2_GEOM.inp`)**: Raw SHA256 `1f16f8525a7e627b90bd4958f8701a418d0ac2960654787853b2688f8fda75dd` (3707 elements, 3597 CPE4, 110 CPE3, 3793 nodes).
+- **Regression Suite**: Passed 103/103 tests cleanly in immutable clean-Linux worktree.
+- **HPC Repository Sync**: Remote clone fast-forwarded cleanly.
+- **Authority Flags**: All default-closed (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`). Zero HPC jobs submitted.
+- **Next Action**: `human_review_before_exactly_one_F43PRE2_GEOM_submission`
+
+---
+
 ## F43PRE2-Q1 External CAE Freeze & Exact Preparation Qualification Audit (2026-08-07)
+
 
 Executed Task F43PRE2-Q1 detached qualification audit and HPC external CAE artifact freeze evaluation:
 - **Task ID**: `F43PRE2-Q1-EXTERNAL-CAE-FREEZE-AND-EXACT-PREPARATION-QUALIFICATION`

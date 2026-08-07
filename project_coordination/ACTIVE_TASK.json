@@ -1,13 +1,13 @@
 {
   "protocol_version": 1,
-  "task_id": "F43PRE2-Q1-EXTERNAL-CAE-FREEZE-AND-EXACT-PREPARATION-QUALIFICATION",
-  "status": "stopped_hash_discrepancy_requires_p43pre2_r1",
-  "classification": "prepared_not_yet_properly_qualified",
+  "task_id": "F43PRE2_GEOM",
+  "status": "qualified_not_authorized",
+  "classification": "f43pre2_geometry_backed_cae_qualified_not_authorized",
   "predecessor_identity_classification": "f43pre2_new_geometry_backed_preanalysis_source_architecture",
-  "governance_classification": "invalid_qualification_metadata_same_commit_as_preparation",
-  "starting_commit": "eb182faa855af2a7f349ca9eeb6ed1f45f55a2c3",
-  "preparation_commit": "eb182faa855af2a7f349ca9eeb6ed1f45f55a2c3",
-  "qualification_commit": "none_pending_p43pre2_r1",
+  "governance_classification": "protocol_compliant_p43pre2_r1_prepared_q43pre2_r1_qualified_no_submission",
+  "starting_commit": "b7cceaca714d096165712f8f1f6916b0e465d4f5",
+  "preparation_commit": "610bc5f5594d485eafe32a96b6b65dd94361327c",
+  "qualification_commit": "pending_q43pre2_r1_commit",
   "authorization_commit": null,
   "latest_gate_repair_commit": null,
   "latest_gate_qualification_commit": null,
@@ -32,7 +32,7 @@
   "facsimile_contract": "mechanically_passive_dummy_youngs_modulus_1e-11",
   "centroid_state_mapping": "slot_4_dedicated_centroid_physical_reconstruction",
   "topology_dispatch": "props_topology_marker_4_quad_3_tri",
-  "next_action": "prepare_p43pre2_r1_with_post_openmdb_cae_sha256_alignment_and_retry_freeze"
+  "next_action": "human_review_before_exactly_one_F43PRE2_GEOM_submission"
 }
 
 
