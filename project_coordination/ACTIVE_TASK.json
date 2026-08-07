@@ -1,14 +1,14 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM2-R3",
+  "task_id": "F43REM2-R3-LQ1",
   "status": "complete",
-  "classification": "f43rem2_native_qualified_not_authorized_r3",
+  "classification": "f43rem2_native_qualified_not_authorized_r3_lq1",
   "predecessor_identity_classification": "f43pre2_geometry_backed_preanalysis_source_architecture",
-  "governance_classification": "protocol_compliant_p43rem2_r3_prepared_q43rem2_r3_qualified",
+  "governance_classification": "protocol_compliant_p43rem2_r3_prepared_q43rem2_r3_lq1_qualified",
   "scientific_classification": "provisional_pass_with_unit_conversion_correction",
-  "starting_commit": "efeeb6b539b700b1527883ff1470b167b32453b5",
+  "starting_commit": "e365456939fb75b598739312a27b1d1a5d3f784e",
   "preparation_commit": "8bfba63e384c9c094fcd73f83fec015378538801",
-  "qualification_commit": "e0a30cfdf030655fbcb66b3f7c862766523c338d",
+  "qualification_commit": "c8856040dcafbbe954b3c89f552623ee10e1b3ea",
   "authorization_commit": null,
   "execution_authorized": false,
   "submission_approved": false,
@@ -22,10 +22,9 @@
   "reference_job_id": "1384674.mmaster02",
   "reference_odb_sha256": "3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534",
   "source_cae_sha256": "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff",
-  "superseded_revisions": {
-    "P43REM2-R2": "5c4557fe9cf6b8f3edff9f57fa969eb248bd85f6",
-    "Q43REM2-R2": "9f41df502bb63fc90a3699cbb2e542bb1237e8c3",
-    "reason": "superseded_incomplete_execution_package_and_cae_binary_in_tree"
+  "superseded_qualifications": {
+    "Q43REM2-R3": "e0a30cfdf030655fbcb66b3f7c862766523c338d",
+    "reason": "superseded_for_authorization_by_linux_full_regression_qualification"
   },
   "next_action": "human_review_before_exactly_one_F43REM2_NATIVE_submission"
 }

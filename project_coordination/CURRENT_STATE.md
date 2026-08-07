@@ -1,5 +1,31 @@
 # Current project state
 
+## F43REM2-R3-LQ1 True Linux-Git Exact-P Full-Regression Supplemental Qualification (2026-08-07)
+
+Completed supplemental qualification task `F43REM2-R3-LQ1`: True Linux-Git exact-P detached worktree creation and 115-test full regression suite validation:
+- **Task ID**: `F43REM2-R3-LQ1`
+- **Status**: `complete`
+- **Classification**: `f43rem2_native_qualified_not_authorized_r3_lq1`
+- **Preparation Commit ($P$)**: `P43REM2-R3` (`8bfba63e384c9c094fcd73f83fec015378538801`)
+- **Qualification Commit ($Q$)**: `Q43REM2-R3-LQ1` (`c8856040dcafbbe954b3c89f552623ee10e1b3ea`)
+- **Superceded Qualification**: `Q43REM2-R3` (`e0a30cfdf030655fbcb66b3f7c862766523c338d` supersedes for authorization due to Linux-Git full-regression requirement).
+- **True Linux-Git Detached Worktree**:
+  - Created worktree via Linux Git (WSL): `/tmp/f43rem2_r3_linux_qual`
+  - Checkout SHA: `8bfba63e384c9c094fcd73f83fec015378538801`
+  - `core.autocrlf`: `false`
+  - Pre/post test worktree clean: `true` (`git status --porcelain=v1` empty).
+- **Raw Blob / Checkout Identity**:
+  - 100% byte identity verified across all package files (`F43REM2_NATIVE_MANIFEST.json`, `F43REM2_NATIVE.pbs`, `submit_f43rem2_native.sh`, `collect_f43rem2_native_evidence.sh`, `remesh_mode_ii_native_cae.py`, `validate_f43rem2_native.py`, `validate_f43_refined_layered_deck.py`, `test_stage_f43rem2_native.py`).
+- **External CAE & Predecessor ODB Hashes**:
+  - External source CAE path (HPC): `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae` (SHA256: `889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff`). Local `.cae` binary is NOT tracked (`CAE_NOT_TRACKED_PASS`).
+  - Predecessor ODB path (HPC): `1385392.mmaster02/F43PRE2_GEOM.odb` (SHA256: `85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72`).
+- **Full Unit Discovery & Static Checks**:
+  - Passed **115/115** relevant regression tests: F43 (29), F42 (19), F41 (21), F40 (46).
+  - Passed Python syntax (`py_compile`), shell syntax (`bash -n`), JSON parsing, and static validator checks (`validate_f43rem2_native.py`).
+- **Authority State**: `qualified_not_authorized` (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`).
+
+---
+
 ## F43REM2-R3 Unit Consistency, External CAE Restoration, Execution Freeze & Full Qualification (2026-08-07)
 
 Completed task `F43REM2-R3`: Unit consistency correction, external CAE contract restoration, complete execution package freeze, and full 97-test detached Linux qualification:
