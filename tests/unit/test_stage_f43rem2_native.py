@@ -26,10 +26,12 @@ class TestStageF43REM2Native(unittest.TestCase):
         with open(manifest_path, "r") as f:
             m = json.load(f)
             
-        self.assertEqual(m["task_id"], "F43REM2-R3")
+        self.assertEqual(m["task_id"], "F43REM2-R5")
+        self.assertEqual(m["execution_mode"], "abaqus_cae_noGUI_kernel")
+        self.assertEqual(m["manifest_transport"], "environment_variable")
         self.assertEqual(m["predecessor_job_id"], "1385392.mmaster02")
         self.assertEqual(m["predecessor_odb_sha256"], "85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72")
-        self.assertEqual(m["source_cae_sha256"], "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff")
+        self.assertEqual(m["source_cae_sha256"], "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa")
         self.assertFalse(m["cae_source_open_in_place"])
         self.assertTrue(m["runtime_work_copy_required"])
         
@@ -40,12 +42,12 @@ class TestStageF43REM2Native(unittest.TestCase):
         self.assertEqual(remesh_params["min_h_over_l0"], 0.5)
 
     def test_execution_package_frozen_files_exist(self):
-        self.assertTrue((PKG_DIR / "F43REM2_NATIVE.pbs").exists(), "F43REM2_NATIVE.pbs must exist in P43REM2-R3")
-        self.assertTrue((PKG_DIR / "submit_f43rem2_native.sh").exists(), "submit_f43rem2_native.sh must exist in P43REM2-R3")
-        self.assertTrue((PKG_DIR / "collect_f43rem2_native_evidence.sh").exists(), "collect_f43rem2_native_evidence.sh must exist in P43REM2-R3")
-        self.assertTrue((PKG_DIR / "remesh_mode_ii_native_cae.py").exists(), "remesh_mode_ii_native_cae.py must exist in P43REM2-R3")
-        self.assertTrue((PKG_DIR / "validate_f43rem2_native.py").exists(), "validate_f43rem2_native.py must exist in P43REM2-R3")
-        self.assertTrue((PKG_DIR / "validate_f43_refined_layered_deck.py").exists(), "validate_f43_refined_layered_deck.py must exist in P43REM2-R3")
+        self.assertTrue((PKG_DIR / "F43REM2_NATIVE.pbs").exists(), "F43REM2_NATIVE.pbs must exist")
+        self.assertTrue((PKG_DIR / "submit_f43rem2_native.sh").exists(), "submit_f43rem2_native.sh must exist")
+        self.assertTrue((PKG_DIR / "collect_f43rem2_native_evidence.sh").exists(), "collect_f43rem2_native_evidence.sh must exist")
+        self.assertTrue((PKG_DIR / "remesh_mode_ii_native_cae.py").exists(), "remesh_mode_ii_native_cae.py must exist")
+        self.assertTrue((PKG_DIR / "validate_f43rem2_native.py").exists(), "validate_f43rem2_native.py must exist")
+        self.assertTrue((PKG_DIR / "validate_f43_refined_layered_deck.py").exists(), "validate_f43_refined_layered_deck.py must exist")
 
     def test_cae_binary_not_tracked_in_package_dir(self):
         cae_path = PKG_DIR / "ModeII_Geometry_Source.cae"
@@ -68,6 +70,27 @@ class TestStageF43REM2Native(unittest.TestCase):
             m = json.load(f)
             
         self.assertNotEqual(m["predecessor_odb_sha256"], ref_odb_sha, "Reference ODB 1384674 must be rejected for native remeshing")
+
+    def test_pbs_launcher_uses_cae_nogui_and_exports_manifest_env(self):
+        pbs_path = PKG_DIR / "F43REM2_NATIVE.pbs"
+        with open(pbs_path, "r") as f:
+            content = f.read()
+            
+        self.assertIn("abaqus cae noGUI=remesh_mode_ii_native_cae.py", content, "PBS must launch via abaqus cae noGUI=")
+        self.assertNotIn("abaqus python remesh_mode_ii_native_cae.py", content, "PBS must NOT launch via legacy abaqus python")
+        self.assertIn("export F43REM2_MANIFEST_PATH=", content, "PBS must export F43REM2_MANIFEST_PATH environment variable")
+        self.assertIn("if [ ${cae_rc} -ne 0 ]; then", content, "PBS must check cae returncode fail-closed")
+        self.assertIn("exit ${cae_rc}", content, "PBS must preserve non-zero cae exit status")
+
+    def test_driver_kernel_probe_and_manifest_env_support(self):
+        driver_path = PKG_DIR / "remesh_mode_ii_native_cae.py"
+        with open(driver_path, "r") as f:
+            content = f.read()
+            
+        self.assertIn("F43REM2_MANIFEST_PATH", content, "Driver must support F43REM2_MANIFEST_PATH environment variable")
+        self.assertIn("F43REM2_KERNEL_PROBE_ONLY", content, "Driver must support F43REM2_KERNEL_PROBE_ONLY probe mode")
+        self.assertIn("1384674", content, "Driver must explicitly reject predecessor 1384674")
+        self.assertIn("open_mdb_fn", content, "Driver must resolve openMdb safely from CAE kernel namespace")
 
     def test_static_validator_passes(self):
         res = validate_f43rem2_native(str(PKG_DIR))

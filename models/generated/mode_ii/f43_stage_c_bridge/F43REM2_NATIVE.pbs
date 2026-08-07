@@ -35,8 +35,18 @@ ABAQUS_PATH="$(command -v abaqus)"
 echo "abaqus resolved path: ${ABAQUS_PATH}" | tee -a "${EVIDENCE_DIR}/execution.log"
 abaqus information=release 2>&1 | head -n 5 | tee -a "${EVIDENCE_DIR}/execution.log" || true
 
-echo "=== Native Adaptive Remeshing Execution ===" | tee -a "${EVIDENCE_DIR}/execution.log"
-abaqus python remesh_mode_ii_native_cae.py F43REM2_NATIVE_MANIFEST.json 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log"
+echo "=== Native Adaptive Remeshing Execution (Abaqus/CAE Kernel noGUI) ===" | tee -a "${EVIDENCE_DIR}/execution.log"
+export F43REM2_MANIFEST_PATH="${PBS_O_WORKDIR}/F43REM2_NATIVE_MANIFEST.json"
+export F43REM2_WORK_DIR="${PBS_O_WORKDIR}"
+
+cae_rc=0
+abaqus cae noGUI=remesh_mode_ii_native_cae.py 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log" || cae_rc=$?
+
+if [ ${cae_rc} -ne 0 ]; then
+    echo "ERROR: Abaqus/CAE native remeshing kernel execution failed with return code ${cae_rc}" | tee -a "${EVIDENCE_DIR}/execution.log"
+    bash collect_f43rem2_native_evidence.sh "${PBS_JOBID}" "${EVIDENCE_DIR}" 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log" || true
+    exit ${cae_rc}
+fi
 
 echo "=== Evidence Collection & Validation ===" | tee -a "${EVIDENCE_DIR}/execution.log"
 bash collect_f43rem2_native_evidence.sh "${PBS_JOBID}" "${EVIDENCE_DIR}" 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log"

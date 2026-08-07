@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Unit tests for the static solver staging contract validator."""
 
+import sys
 import subprocess
 import unittest
 from pathlib import Path
@@ -15,7 +16,7 @@ class TestValidateModeIIH0EndpointCorrectedSolverStagingContract(unittest.TestCa
     def test_validator_pass(self):
         """Validator returns exit code 0 and pass classification."""
         res = subprocess.run(
-            ["python", str(VALIDATOR), "--json"],
+            [sys.executable, str(VALIDATOR), "--json"],
             cwd=str(ROOT),
             capture_output=True,
             text=True,

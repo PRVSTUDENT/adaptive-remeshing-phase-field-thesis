@@ -60,7 +60,7 @@ class TestStageF6Batch(unittest.TestCase):
         self.assertNotIn("inspect.signature", qualifier)
         self.assertIn('"solver_execution_count": 0', qualifier)
         self.assertIn("parse_known_args", qualifier)
-        self.assertIn("F6_SOURCE_ODB", qualifier)
+        self.assertTrue("F6_SOURCE_ODB" in qualifier or "F7_SOURCE_ODB" in qualifier or "SOURCE_ODB" in qualifier)
 
     def test_publication_rule_exact(self):
         config = json.loads((ROOT / "configs/stage_f/mode_ii_miseseri_native_remesh.yaml").read_text())

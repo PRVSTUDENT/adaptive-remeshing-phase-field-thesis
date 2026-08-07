@@ -55,7 +55,7 @@ def validate_f43rem2_native(pkg_dir="."):
             else:
                 results["failures"].append("Manifest predecessor ODB SHA256 contract invalid")
                 
-            if m.get("source_cae_sha256") == "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff":
+            if m.get("source_cae_sha256") == "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa":
                 results["cae_external_contract_valid"] = True
             else:
                 results["failures"].append("External CAE SHA256 contract invalid")
@@ -111,6 +111,40 @@ def validate_f43rem2_native(pkg_dir="."):
     else:
         results["failures"].append("ModeII_Geometry_Source.cae binary present in local tracked tree")
 
+    # 4. Launcher Execution Mode & Environment Transport Audit
+    if results["pbs_script_exists"]:
+        with open(pbs_path, "r") as f:
+            pbs_content = f.read()
+
+        if "abaqus cae noGUI=remesh_mode_ii_native_cae.py" in pbs_content:
+            results["cae_kernel_execution_mode_valid"] = True
+        else:
+            results["failures"].append("F43REM2_NATIVE.pbs does not use abaqus cae noGUI= launcher")
+
+        if "abaqus python remesh_mode_ii_native_cae.py" not in pbs_content:
+            results["legacy_python_launcher_prohibited"] = True
+        else:
+            results["failures"].append("F43REM2_NATIVE.pbs still uses legacy abaqus python launcher")
+
+        if "F43REM2_MANIFEST_PATH" in pbs_content:
+            results["manifest_env_exported"] = True
+        else:
+            results["failures"].append("F43REM2_NATIVE.pbs does not export F43REM2_MANIFEST_PATH")
+
+    if results["driver_exists"]:
+        with open(driver_path, "r") as f:
+            driver_content = f.read()
+
+        if "F43REM2_MANIFEST_PATH" in driver_content:
+            results["driver_manifest_env_supported"] = True
+        else:
+            results["failures"].append("remesh_mode_ii_native_cae.py does not check F43REM2_MANIFEST_PATH")
+
+        if "1384674" in driver_content:
+            results["driver_rejects_1384674"] = True
+        else:
+            results["failures"].append("remesh_mode_ii_native_cae.py does not explicitly reject predecessor 1384674")
+
     results["overall_passed"] = (
         results["manifest_exists"] and
         results["driver_exists"] and
@@ -123,7 +157,12 @@ def validate_f43rem2_native(pkg_dir="."):
         results["source_open_in_place_forbidden"] and
         results["execution_authorized_false"] and
         results["submission_approved_false"] and
-        results["maximum_jobs_now_zero"]
+        results["maximum_jobs_now_zero"] and
+        results.get("cae_kernel_execution_mode_valid", False) and
+        results.get("legacy_python_launcher_prohibited", False) and
+        results.get("manifest_env_exported", False) and
+        results.get("driver_manifest_env_supported", False) and
+        results.get("driver_rejects_1384674", False)
     )
 
     out_status_path = os.path.join(pkg_dir, "F43REM2_NATIVE_VALIDATION_STATUS.json")
