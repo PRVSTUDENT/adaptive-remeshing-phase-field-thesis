@@ -1,21 +1,18 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "models/generated/mode_ii/**",
     "scripts/**",
-    "tests/**",
     "project_coordination/**",
-    "docs/**",
-    "references/**"
+    "docs/**"
   ],
-  "completed_at": "2026-08-07T16:21:00+02:00",
-  "heartbeat": "2026-08-07T16:21:00+02:00",
-  "started_at": "2026-08-07T16:21:00+02:00",
-  "session_id": "gemini-f43pre2-r2-reconciliation-and-detached-qualification-session",
-  "starting_commit": "0bb2c46193dd3f0798a647a0254285df43401609",
-  "task_id": "F43PRE2-R2-PACKAGE-STATE-RECONCILIATION-IMMUTABLE-CAE-SOURCE-WORK-COPY-CONTRACT-AND-TRUE-DETACHED-QUALIFICATION",
-  "note": "Session completed for Task F43PRE2-R2 package-state reconciliation, immutable CAE contract, and true exact-P detached qualification."
+  "started_at": "2026-08-07T16:28:00+02:00",
+  "heartbeat": "2026-08-07T16:28:00+02:00",
+  "session_id": "gemini-f43pre2-geom-guarded-submission-session",
+  "starting_commit": "8e689a5749e7ecfb9b1787cceb3df91ad5d7ee33",
+  "task_id": "F43PRE2_GEOM_AUTHORIZATION_AND_SUBMISSION",
+  "note": "Claimed session for executing human-authorized guarded submission of F43PRE2_GEOM."
 }
 
 

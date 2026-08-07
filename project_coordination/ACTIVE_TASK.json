@@ -1,10 +1,10 @@
 {
   "protocol_version": 1,
   "task_id": "F43PRE2_GEOM",
-  "status": "qualified_not_authorized",
-  "classification": "f43pre2_geometry_backed_cae_qualified_not_authorized",
+  "status": "authorized",
+  "classification": "f43pre2_geometry_backed_cae_authorized",
   "predecessor_identity_classification": "f43pre2_new_geometry_backed_preanalysis_source_architecture",
-  "governance_classification": "protocol_compliant_p43pre2_r2_prepared_q43pre2_r2_qualified_no_submission",
+  "governance_classification": "protocol_compliant_p43pre2_r2_prepared_q43pre2_r2_qualified_a43pre2_r2_authorized",
   "starting_commit": "b691ef4d8921c2e9d9ecb454a6aa930edb5e7296",
   "preparation_commit": "b72174bada751f05bbf075963392a950f5580c3e",
   "qualification_commit": "43af99d756db401f1c6a84f95860521e176ab915",
@@ -31,14 +31,14 @@
   "scheduler_submissions_initiated": 0,
   "failed_predecessors": ["1385373.mmaster02", "1385376.mmaster02"],
   "package_path": "models/generated/mode_ii/f43_stage_c_bridge",
-  "execution_authorized": false,
-  "submission_approved": false,
-  "maximum_jobs_now": 0,
+  "execution_authorized": true,
+  "submission_approved": true,
+  "maximum_jobs_now": 1,
   "maximum_future_submissions": 0,
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "recorded_user_authorization_sentence": null,
+  "recorded_user_authorization_sentence": "I authorize exactly one guarded HPC submission of F43PRE2_GEOM using preparation commit b72174bada751f05bbf075963392a950f5580c3e and qualification commit 43af99d756db401f1c6a84f95860521e176ab915, through entry_imfdfkmq, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, no F43REM2_NATIVE submission, no F43DRY1 submission, no refined phase-field production run, and no downstream job.",
   "invalid_historical_authorization_record": null,
   "historical_lineage_audit": {
     "old_P43PRE2": "eb182faa855af2a7f349ca9eeb6ed1f45f55a2c3",
@@ -49,8 +49,9 @@
   "facsimile_contract": "mechanically_passive_dummy_youngs_modulus_1e-11",
   "centroid_state_mapping": "slot_4_dedicated_centroid_physical_reconstruction",
   "topology_dispatch": "props_topology_marker_4_quad_3_tri",
-  "next_action": "human_review_before_exactly_one_F43PRE2_GEOM_submission"
+  "next_action": "execute_guarded_hpc_submission_for_f43pre2_geom"
 }
+
 
 
 
