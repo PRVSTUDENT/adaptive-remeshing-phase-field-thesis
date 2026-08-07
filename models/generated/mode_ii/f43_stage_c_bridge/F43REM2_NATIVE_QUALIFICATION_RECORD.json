@@ -1,29 +1,23 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM2-R3-LQ3",
-  "qualification_target_P": "83f8f493a1f90e7bd982481eb034733a17568f09",
+  "task_id": "F43REM2-R5",
+  "qualification_target_P": "60f53f1737be7df9168bfcdbbd1c3aef4c730fc9",
   "qualification_environment": "Linux Git detached worktree + external scratch cwd",
-  "worktree_path": "/tmp/f43rem2_r4_linux_qual_lq3",
-  "scratch_dir_path": "/tmp/f43rem2_r4_lq3_scratch",
   "core_autocrlf": "false",
+  "execution_mode": "abaqus_cae_noGUI_kernel",
+  "manifest_transport": "environment_variable",
   "full_discovery_pattern": "test_*.py",
   "full_discovery_command_executed": true,
   "test_counts": {
-    "F43_related_tests": 29,
-    "F42_related_tests": 19,
-    "F41_related_tests": 21,
-    "F40_related_tests": 58,
-    "other_tests": 369,
-    "total_discovered_tests": 496,
-    "discovered_test_files": 58,
-    "all_relevant_tests_pass": true
+    "total_discovered_tests": 507,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "all_tests_passed": true
   },
-  "non_stage_prefixed_f43_tests_included": {
-    "test_f43_geometry_source.py": true,
-    "test_f43_remesh_repair_contract.py": true,
-    "test_stage_f43_bridge.py": true,
-    "test_stage_f43rem2_native.py": true
-  },
+  "cae_kernel_probe": "PASS",
+  "openMdb_probe": "PASS",
+  "native_remesh_called": false,
   "static_checks": {
     "python_checks": "pass",
     "shell_checks": "pass",
@@ -31,26 +25,32 @@
     "static_validator": "pass"
   },
   "natural_post_test_clean": true,
-  "manual_cleanup_before_clean_gate": false,
+  "pre_test_clean": true,
+  "post_test_clean": true,
+  "package_hash_identity": true,
   "external_CAE_path": "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae",
-  "external_CAE_SHA256": "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff",
+  "external_CAE_SHA256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
   "predecessor_ODB_path": "evidence/1385392.mmaster02/F43PRE2_GEOM.odb",
   "predecessor_ODB_SHA256": "85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72",
   "package_hashes": {
-    "manifest_sha256": "10c98dd70292f0135b25b380c1000c45a1b8e8813354bc99f0ee3f9add6fe5ff",
-    "pbs_sha256": "97217ad997cbf37f902f64b6e437140aaefe665e0f3f29dece8627e8dc39fec7",
-    "wrapper_sha256": "8a7ae848f0171421da6bb09ba93e4730a9f2596b79cf6ac5f894f204d361c3ff",
-    "driver_sha256": "440e9bda272b7efa31d75c6711aba07f2201beb84c04a831ac7a95e7d66b1d43",
-    "validator_sha256": "6b817cdf2d49203fb8125dcebac67ee1f10ffffb0eef702bd304f49dbd778a2a",
+    "manifest_sha256": "ae9dfdb3c09844d62cfa6087b1ce3b0c182ec76126740dfaf91edc91e3286f03",
+    "pbs_sha256": "98d8ad16ce9908292fae6bc1eed1b03fb801261b76de3452e2f6586768faef7f",
+    "wrapper_sha256": "5bd5f48e5f9d8ae79e84111e3eb9731008536d9e2d90651fed867e467eeec94d",
+    "driver_sha256": "51703e1c1be3fb7bf0e77ad84fea98523017429213b5b2f197354211210372fb",
+    "validator_sha256": "0c9d8c1245546af6e84165996a181ea782e1d5b8d390fec2d05f74271502d76b",
     "collector_sha256": "7e52437996987d3f0c200171a46324fd29e678fac21d16508d718559d5fd908a"
   },
-  "superseded_qualifications": {
-    "Q43REM2-R3-LQ2": "266a2505bc1dc6198b1c1d480ec6e7be40e71baf",
-    "reason": "superseded_for_authorization_by_exact_full_discovery_LQ3"
-  },
+  "previous_failed_job": "1385400.mmaster02",
+  "previous_failure": "wrong_execution_process_abaqus_python_instead_of_cae_kernel",
   "qsub_called": false,
   "HPC_submissions": 0,
   "execution_authorized": false,
   "submission_approved": false,
-  "maximum_jobs_now": 0
+  "maximum_jobs_now": 0,
+  "maximum_future_submissions": 0,
+  "automatic_retry": false,
+  "replacement_authorized": false,
+  "qualification_status": "qualified_not_authorized",
+  "F43REM2_NATIVE_qualified": true,
+  "next_action": "fresh_human_authorization_required_for_exactly_one_replacement_F43REM2_NATIVE"
 }

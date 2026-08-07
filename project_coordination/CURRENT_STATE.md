@@ -1,5 +1,39 @@
 # Current project state
 
+## F43REM2-R5 Abaqus/CAE Kernel Launcher Repair, Kernel Probe & Full Requalification (2026-08-07)
+
+Completed task `F43REM2-R5`: Abaqus/CAE kernel launcher repair, lightweight interactive kernel probe, unit test suite update, and full 507-test Linux-Git detached requalification:
+- **Task ID**: `F43REM2-R5`
+- **Status**: `qualified_not_authorized`
+- **Classification**: `f43rem2_r5_cae_kernel_launcher_repaired_and_qualified`
+- **Governance Classification**: `protocol_deviating_no_direct_human_chat_authorization_historical_1385400` (Job 1385400 evidence preserved; zero replacement job submitted; authority reset to 0/false).
+- **Preparation Commit ($P$)**: `P43REM2-R5` (`60f53f1737be7df9168bfcdbbd1c3aef4c730fc9`)
+- **Qualification Commit ($Q$)**: `Q43REM2-R5`
+- **Execution Mode**: `abaqus_cae_noGUI_kernel`
+- **Manifest Transport**: `environment_variable` (`export F43REM2_MANIFEST_PATH="..."`)
+- **Predecessor ODB**: `1385392.mmaster02/F43PRE2_GEOM.odb` (SHA256: `85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72`)
+- **External Source CAE**: `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae` (SHA256: `0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa` Abaqus 2023 database)
+- **Lightweight CAE Kernel Probe**:
+  - `cae_kernel_probe`: `PASS`
+  - `openMdb_probe`: `PASS`
+  - `native_remesh_called`: `false`
+  - Verified Model (`ModeII_Geometry_Model`), Part (`PlatePart`), Instance (`PlateInstance`), Step (`Step-1`), RemeshingRule (`MISESERI_Adaptive_Rule`), WorkCopy (`ModeII_Geometry_WorkCopy.cae`).
+- **Full Discovery Unit Test Execution**:
+  - Ran `python3 -m unittest discover -s tests/unit -p 'test_*.py'` in Linux-Git detached worktree.
+  - Discovered tests: **507** tests across **58** files.
+  - Test result: **507 passed**, 0 failures, 0 errors, 0 skips.
+- **Static Gate Validator**: `overall_passed: true` across all checks including `cae_kernel_execution_mode_valid`, `legacy_python_launcher_prohibited`, `manifest_env_exported`, `driver_manifest_env_supported`, `driver_rejects_1384674`.
+- **Authority Boundary**:
+  - `qsub_called`: `false`
+  - `HPC_submissions`: 0
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `replacement_authorized`: `false`
+- **Next Action**: `fresh_human_authorization_required_for_exactly_one_replacement_F43REM2_NATIVE`
+
+---
+
 ## F43REM2_NATIVE Guarded HPC Submission & Evidence Closeout (2026-08-07)
 
 Completed single guarded remote HPC submission of `F43REM2_NATIVE` job `1385400.mmaster02` and executed failure closeout:
