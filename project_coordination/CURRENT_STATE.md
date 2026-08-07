@@ -1,6 +1,33 @@
 # Current project state
 
+## F43REM1-R3 Geometry-Backed CAE Model Provenance Audit & False-Zero-Exit Repair (2026-08-07)
+
+Completed offline model-provenance audit, false-zero-exit defect repair, architecture decision report, and offline test suite qualification for `F43REM1_R3`:
+- **Task ID**: `F43REM1-R3-GEOMETRY-BACKED-CAE-MODEL-PROVENANCE-AUDIT-AND-FALSE-ZERO-EXIT-REPAIR`
+- **Status**: `complete`
+- **Classification**: `f43_no_geometry_backed_cae_source_available` (CASE C / CASE D)
+- **Predecessor ODB**: `1384674.mmaster02` (`F43PRE1.odb`, SHA256 `3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534`).
+- **Empirical Evidence Job Preserved**: `1385376.mmaster02` (Launcher/driver contract = PASS, Native remeshing = NOT EXECUTED).
+- **False-Zero-Exit Defect Audit**:
+  1. Abaqus/PBS returned `Exit_status = 0` for `1385376` despite zero remeshing and no refined deck.
+  2. Cause: `run_f43_native_remesh_driver.py` ran on default empty `Model-1`, `F43REM1.pbs` masked return code via `|| true`, and `validate_f43rem1_runtime.py` checked file presence without validating content or terminal success markers.
+  3. Repair: Hardened `run_f43_native_remesh_driver.py` with 14 mandatory scientific success gates (raises `RuntimeError` and exits code 1 on failure; emits `F43REM1_RUNTIME_SUCCESS=true` marker on pass), updated `validate_f43rem1_runtime.py` to check success marker and non-empty valid continuum deck, and updated `F43REM1.pbs` to trap non-zero exit codes fail-closed.
+- **Model Provenance Audit & Decision**:
+  1. Searched repository: 0 `.cae` files exist.
+  2. `F43PRE1.inp` source is a flat input deck which imports into Abaqus CAE as an **orphan-mesh part** (`Part-1`).
+  3. Abaqus documentation explicitly dictates that **native adaptive remeshing cannot be used with an orphan-mesh part**.
+  4. Classified under **CASE C: `f43_no_geometry_backed_cae_source_available`** / **CASE D: `f43_source_is_orphan_mesh_and_native_adaptive_remeshing_not_supported`**.
+  5. Per decision matrix: **No runnable `F43REM1_R3` package (`P43R3`/`Q43R3`) prepared or submitted**. Published `F43REM1_R3_MODEL_PROVENANCE_AND_GEOMETRY_DECISION_REPORT.md` and `F43REM1_R3_MODEL_PROVENANCE_AUDIT.json`.
+- **Offline Qualification & Test Suite**:
+  1. F43 unit tests (10/10 OK), F42 unit tests (19/19 OK), F41 unit tests (21/21 OK), F40 unit tests (46/46 OK).
+  2. Python, bash, and JSON syntax checks passed. Zero executable references to legacy `1379579`.
+- **Authority Flags**: All default-closed (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`). Zero HPC jobs submitted.
+- **Next Action**: `reconstruct_geometry_backed_cae_model_before_any_native_remeshing_submission`
+
+---
+
 ## F43REM1_CURRENT_R2 Single Guarded Remote HPC Execution & Evidence Closeout (2026-08-07)
+
 
 Completed single guarded remote HPC submission of `F43REM1_CURRENT_R2` job `1385376.mmaster02` on `tu_freiberg`, captured terminal stdout/stderr logs, extracted evidence package, and performed empirical evidence analysis:
 - **Task ID**: `F43REM1-R2-GUARDED-REMOTE-HPC-SUBMISSION-AND-EVIDENCE-CLOSEOUT`

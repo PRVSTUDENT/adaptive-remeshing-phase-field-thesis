@@ -99,10 +99,10 @@ class TestF43RemeshRepairContract(unittest.TestCase):
             os.environ["F43REM1_OUTPUT_INP"] = output_inp_path
             os.environ["F43REM1_EXPECTED_ODB_SHA256"] = actual_hash
 
-            cfg_res, odb_res, out_res = f43_driver.resolve_runtime_environment()
-            self.assertEqual(cfg_res, os.path.abspath(config_path))
-            self.assertEqual(odb_res, os.path.abspath(tmp_odb_path))
-            self.assertEqual(out_res, os.path.abspath(output_inp_path))
+            env_res = f43_driver.resolve_runtime_environment()
+            self.assertEqual(env_res["config_path"], os.path.abspath(config_path))
+            self.assertEqual(env_res["odb_path"], os.path.abspath(tmp_odb_path))
+            self.assertEqual(env_res["out_path"], os.path.abspath(output_inp_path))
         finally:
             sys.argv = old_argv
             os.environ.clear()
@@ -169,5 +169,86 @@ class TestF43RemeshRepairContract(unittest.TestCase):
             if os.path.exists(tmp_odb_path):
                 os.remove(tmp_odb_path)
 
+    def test_missing_cae_path_driver_fails_gate_1(self):
+        import tempfile, importlib.util
+        driver_path = os.path.join(PACKAGE_DIR, "run_f43_native_remesh_driver.py")
+        spec = importlib.util.spec_from_file_location("f43_driver", driver_path)
+        f43_driver = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(f43_driver)
+
+        config_path = os.path.join(PACKAGE_DIR, "f43_remeshing_rule_config.json")
+        env = {
+            "config_path": config_path,
+            "odb_path": config_path,
+            "out_path": "dummy_out.inp",
+            "cae_path": None,
+            "cae_sha256": None,
+            "model_name": None,
+            "part_name": None,
+            "step_name": "Step-1"
+        }
+
+        # Mocking abaqus module presence in dry-run to trigger Gate 1 check
+        import sys
+        class MockMdb:
+            models = {}
+        class MockSession:
+            pass
+        mock_abaqus = type(sys)('abaqus')
+        mock_abaqus.mdb = MockMdb()
+        mock_abaqus.session = MockSession()
+        
+        mock_constants = type(sys)('abaqusConstants')
+        mock_constants.STANDARD = 1
+        mock_constants.ALLOW_COARSENING = 2
+
+        old_modules = dict(sys.modules)
+        sys.modules['abaqus'] = mock_abaqus
+        sys.modules['abaqusConstants'] = mock_constants
+        try:
+            with self.assertRaises(RuntimeError) as ctx:
+                f43_driver.run_f43_native_remesh_driver(env)
+            self.assertIn("FAIL_GATE_1", str(ctx.exception))
+        finally:
+            sys.modules.clear()
+            sys.modules.update(old_modules)
+
+    def test_runtime_validator_rejects_missing_success_marker(self):
+        import tempfile, importlib.util
+        validator_path = os.path.join(PACKAGE_DIR, "validate_f43rem1_runtime.py")
+        spec = importlib.util.spec_from_file_location("f43_validator", validator_path)
+        f43_validator = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(f43_validator)
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            exec_log = os.path.join(tmp_dir, "execution.log")
+            refined_deck = os.path.join(tmp_dir, "F43REFINED_standard.inp")
+            with open(exec_log, "w") as f:
+                f.write("Log without success marker\n")
+            with open(refined_deck, "w") as f:
+                f.write("*Element, type=CPE4\n1, 1, 2, 3, 4\n" * 10)
+
+            passed = f43_validator.validate_f43rem1_runtime(tmp_dir)
+            self.assertFalse(passed, "Validator must fail when F43REM1_RUNTIME_SUCCESS=true is missing!")
+
+    def test_runtime_validator_passes_on_valid_marker_and_deck(self):
+        import tempfile, importlib.util
+        validator_path = os.path.join(PACKAGE_DIR, "validate_f43rem1_runtime.py")
+        spec = importlib.util.spec_from_file_location("f43_validator", validator_path)
+        f43_validator = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(f43_validator)
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            exec_log = os.path.join(tmp_dir, "execution.log")
+            refined_deck = os.path.join(tmp_dir, "F43REFINED_standard.inp")
+            with open(exec_log, "w") as f:
+                f.write("Log line\nF43REM1_RUNTIME_SUCCESS=true\nLog line\n")
+            with open(refined_deck, "w") as f:
+                f.write("*Element, type=CPE4\n1, 1, 2, 3, 4\n" * 10)
+
+            passed = f43_validator.validate_f43rem1_runtime(tmp_dir)
+            self.assertTrue(passed, "Validator must pass when success marker and valid deck are present!")
+
 if __name__ == "__main__":
     unittest.main()
+

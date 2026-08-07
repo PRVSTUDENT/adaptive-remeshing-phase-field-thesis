@@ -48,7 +48,21 @@ export F43REM1_ODB_PATH="${SOURCE_ODB}"
 export F43REM1_OUTPUT_INP="${PBS_O_WORKDIR}/F43REFINED_standard.inp"
 export F43REM1_EXPECTED_ODB_SHA256="${EXPECTED_SHA256}"
 
-abaqus cae noGUI=run_f43_native_remesh_driver.py 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log" || true
+# Execute Abaqus driver fail-closed without masking exit codes
+set +e
+abaqus cae noGUI=run_f43_native_remesh_driver.py 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log"
+ABAQUS_RC=${PIPESTATUS[0]}
+set -e
 
 bash collect_f43rem1_evidence.sh "${PBS_JOBID}" "${EVIDENCE_DIR}"
+
+set +e
 python3 validate_f43rem1_runtime.py "${EVIDENCE_DIR}"
+VALIDATOR_RC=$?
+set -e
+
+if [ "${ABAQUS_RC}" -ne 0 ] || [ "${VALIDATOR_RC}" -ne 0 ]; then
+    echo "ERROR: Scientific execution or runtime validation failed! ABAQUS_RC=${ABAQUS_RC}, VALIDATOR_RC=${VALIDATOR_RC}" | tee -a "${EVIDENCE_DIR}/execution.log"
+    exit 1
+fi
+
