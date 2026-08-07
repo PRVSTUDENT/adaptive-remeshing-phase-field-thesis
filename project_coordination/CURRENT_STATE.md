@@ -1,6 +1,25 @@
 # Current project state
 
-## F43PRE2-R2 Immutable CAE Source / Scratch Work-Copy Contract & True Detached Qualification (2026-08-07)
+## F43PRE2_GEOM Guarded Remote HPC Submission & Evidence Closeout (2026-08-07)
+
+Completed single guarded remote HPC submission of `F43PRE2_GEOM` job `1385392.mmaster02` on `tu_freiberg` upon explicit human authorization, collected evidence package, and verified scientific completion:
+- **Task ID**: `F43PRE2_GEOM`
+- **Status**: `complete_pass`
+- **Classification**: `f43pre2_geom_preanalysis_solver_pass`
+- **Preparation Commit (P43PRE2-R2)**: `b72174bada751f05bbf075963392a950f5580c3e`
+- **Qualification Commit (Q43PRE2-R2)**: `43af99d756db401f1c6a84f95860521e176ab915`
+- **Authorization Commit (A43PRE2-R2)**: `91e809be04ed2bb4ef1131c9a63cfc3db6f387fa`
+- **Recorded User Authorization Sentence**: `"I authorize exactly one guarded HPC submission of F43PRE2_GEOM using preparation commit b72174bada751f05bbf075963392a950f5580c3e and qualification commit 43af99d756db401f1c6a84f95860521e176ab915, through entry_imfdfkmq, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, no F43REM2_NATIVE submission, no F43DRY1 submission, no refined phase-field production run, and no downstream job."`
+- **HPC Job ID**: `1385392.mmaster02` (Exec Host: `mnode098/0`, Queue: `entry_imfdfkmq`, Exit Status: `0`)
+- **Empirical Execution & Scientific Summary**:
+  1. **Guarded Submission**: Executed on `mlogin01.cluster` via SSH (`submit_f43pre2_geom.sh`). Returned PBS job ID `1385392.mmaster02`.
+  2. **Cluster Execution**: Job ran on compute node `mnode098.cluster`. Abaqus 2023 license checked out cleanly (`5 tokens`). Walltime: 13 seconds.
+  3. **Abaqus/Standard Execution**: Input file processor completed cleanly, solver completed 17 increments to target step time 1.00 (`THE ANALYSIS HAS COMPLETED SUCCESSFULLY`).
+  4. **Output Evidence**: `F43PRE2_GEOM.odb` generated (6.5 MB, SHA256 `85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72`). `F43PRE2_GEOM_VALIDATION_STATUS.json` passed 100% of runtime checks (`overall_validation_passed = true`).
+- **Authority Consumption**: Recorded immediately (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`).
+- **Next Action**: `scientific_comparison_against_1384674_and_f43rem2_native_preparation_review`
+
+---
 
 Completed Task F43PRE2-R2 immutable external CAE source with scratch work-copy contract, package reconciliation post P43PRE2-R1, preparation commit P43PRE2-R2, and true clean Linux detached-worktree qualification:
 - **Task ID**: `F43PRE2_GEOM`
