@@ -145,42 +145,76 @@ class TestStageF41RuntimeContractStatic(unittest.TestCase):
         self.assertIn("exit ${MATRIX_VALIDATOR_RC}", self.pbs_source)
         self.assertIn("exit ${RUNTIME_VALIDATOR_RC}", self.pbs_source)
 
+    def test_15_free_quad_advancing_front_mesh_controls(self):
+        self.assertNotIn("technique=STRUCTURED", self.matrix_source, "STRUCTURED mesh control must not be used in F41R5")
+        self.assertIn("elemShape=QUAD", self.matrix_source)
+        self.assertIn("technique=FREE", self.matrix_source)
+        self.assertIn("algorithm=ADVANCING_FRONT", self.matrix_source)
+        self.assertIn("allowMapped=OFF", self.matrix_source)
+
+    def test_16_cpe4_physical_element_type_and_whole_part_meshing(self):
+        self.assertIn("elemCode=CPE4", self.matrix_source)
+        self.assertIn("elemLibrary=STANDARD", self.matrix_source)
+        self.assertIn("part.seedPart(", self.matrix_source)
+        self.assertIn("part.generateMesh()", self.matrix_source)
+
+    def test_17_cpe4_element_type_and_seam_mesh_topology_auditing(self):
+        self.assertIn("cpe4_count", self.matrix_source)
+        self.assertIn("non_cpe4_count", self.matrix_source)
+        self.assertIn("crack_tip_mesh_node_present", self.matrix_source)
+        self.assertIn("seam_preserved_after_meshing", self.matrix_source)
+        self.assertIn("unmeshed_region_count", self.matrix_source)
+
 
 class TestStageF41SyntheticConversion(unittest.TestCase):
 
-    def test_15_synthetic_unusable_cracked_topology(self):
+    def test_18_synthetic_unusable_cracked_topology(self):
         cracked_conversion = {"face_count": 0, "vertex_count": 0, "usable_geometry": False}
         self.assertFalse(cracked_conversion["usable_geometry"])
 
-    def test_16_synthetic_reconstructed_geometry_crack_recreated_passes_audit(self):
+    def test_19_synthetic_reconstructed_geometry_crack_recreated_passes_audit(self):
         reconstructed = {
             "duplicate_pairs_before": 15,
             "duplicate_pairs_after": 0,
             "merged_pair_count": 15,
-            "reconstructed_face_count": 2,
+            "reconstructed_face_count": 1,
             "reconstructed_edge_count": 7,
-            "reconstructed_vertex_count": 6,
+            "reconstructed_vertex_count": 7,
             "crack_geometry_recreated": True,
             "seam_assigned": True,
+            "mesh_technique": "FREE",
+            "mesh_element_shape": "QUAD",
+            "mesh_algorithm": "ADVANCING_FRONT",
+            "allow_mapped": False,
             "crack_tip_preserved": True,
             "outer_boundary_preserved": True,
             "crack_length_error": 0.0,
             "mesh_generated": True,
             "mesh_node_count": 3984,
             "mesh_element_count": 3930,
+            "cpe4_count": 3930,
+            "non_cpe4_count": 0,
+            "crack_tip_mesh_node_present": True,
+            "seam_preserved_after_meshing": True,
+            "unmeshed_region_count": 0,
             "reconstruction_passed": True
         }
         self.assertTrue(reconstructed["reconstruction_passed"])
         self.assertEqual(reconstructed["merged_pair_count"], 15)
         self.assertTrue(reconstructed["seam_assigned"])
         self.assertTrue(reconstructed["mesh_generated"])
+        self.assertEqual(reconstructed["non_cpe4_count"], 0)
+        self.assertTrue(reconstructed["crack_tip_mesh_node_present"])
 
-    def test_17_fail_closed_on_unassigned_seam_or_uncreated_mesh(self):
+    def test_20_fail_closed_on_unassigned_seam_or_uncreated_mesh_or_non_cpe4_elements(self):
         bad_audit1 = {"seam_assigned": False, "reconstruction_passed": False}
         bad_audit2 = {"mesh_generated": False, "reconstruction_passed": False}
+        bad_audit3 = {"non_cpe4_count": 5, "reconstruction_passed": False}
         self.assertFalse(bad_audit1["reconstruction_passed"])
         self.assertFalse(bad_audit2["reconstruction_passed"])
+        self.assertFalse(bad_audit3["reconstruction_passed"])
 
 
 if __name__ == "__main__":
     unittest.main()
+

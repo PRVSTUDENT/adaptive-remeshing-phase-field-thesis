@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
   "task_id": "F41R4-M2RMSTITCH1-FINAL-JOB-1384642-EVALUATION",
-  "status": "submitted_queued",
-  "classification": "f41r4_m2rmstitch1_job_1384642_submitted_queued",
+  "status": "completed_evaluated",
+  "classification": "f41r4_geometry_reconstruction_passed_structured_mesh_control_incompatible",
   "starting_commit": "c9a6f31e4321babfb2c9c5abc98706de73eae3ac",
   "preparation_commit": "c9a6f31e4321babfb2c9c5abc98706de73eae3ac",
   "repair_preparation_commit": "c9a6f31e4321babfb2c9c5abc98706de73eae3ac",
@@ -29,7 +29,12 @@
   "protocol_deviation_note": "A prior command executed 'rm -rf runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384621.mmaster02' on the HPC clone to resolve an untracked git pull conflict. The canonical evidence was committed to git in commit 438d0ea and remains fully preserved.",
   "recorded_user_authorization_sentence": "I authorize exactly one final guarded HPC submission of M2RMSTITCH1 using preparation commit c9a6f31e4321babfb2c9c5abc98706de73eae3ac and qualification commit 8891345c8bb7ba040e3d85087bdd3634924dc5ff, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, and no downstream job.",
   "invalid_historical_authorization_record": null,
-  "next_action": "monitor_1384642_to_terminal_and_evaluate"
+  "geometry_reconstruction": "passed",
+  "crack_recreation": "passed",
+  "seam_assignment": "passed",
+  "meshing": "failed_at_STRUCTURED_mesh_control",
+  "scientific_geometry_result": "validated",
+  "next_action": "prepare_f41r5_free_quadrilateral_mesh_control_correction"
 }
 
 

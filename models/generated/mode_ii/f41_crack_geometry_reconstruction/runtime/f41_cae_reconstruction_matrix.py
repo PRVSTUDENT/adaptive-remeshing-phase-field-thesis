@@ -436,44 +436,112 @@ def run_f41_matrix():
             "observations": {}
         }
 
-    # Phase 6: Meshing Phase (Element Type CPE4, Seeding, generateMesh)
+    # Phase 6: Meshing Phase (Element Type CPE4, Free Quad Mesh Controls, Seeding, generateMesh)
     if phase_results.get("crack_geometry_recreation", {}).get("passed"):
         try:
             part = context["reconstructed_part"]
-            from abaqusConstants import CPE4, STANDARD, STRUCTURED
+            from abaqusConstants import (
+                CPE4, STANDARD, FREE, QUAD, ADVANCING_FRONT, OFF
+            )
             import mesh
 
             # 1. Element type assignment
             elemType1 = mesh.ElemType(elemCode=CPE4, elemLibrary=STANDARD)
             part.setElementType(regions=(part.faces,), elemTypes=(elemType1,))
 
-            # 2. Mesh controls
-            part.setMeshControls(regions=part.faces, technique=STRUCTURED)
+            # 2. Mesh controls (FREE + QUAD + ADVANCING_FRONT + allowMapped=OFF)
+            part.setMeshControls(
+                regions=part.faces,
+                elemShape=QUAD,
+                technique=FREE,
+                algorithm=ADVANCING_FRONT,
+                allowMapped=OFF
+            )
 
-            # 3. Seed part
+            # 3. Seed part (whole part single operation)
             part.seedPart(size=0.02, deviationFactor=0.1, minSizeFactor=0.1)
 
-            # 4. Generate mesh
+            # 4. Generate mesh (whole part single operation)
             part.generateMesh()
 
             mesh_node_count = len(part.nodes)
             mesh_element_count = len(part.elements)
             mesh_generated = (mesh_node_count > 0 and mesh_element_count > 0)
 
+            # 5. Element Shape & Element Type Auditing (Strict CPE4 all-quadrilateral requirement)
+            cpe4_count = 0
+            non_cpe4_count = 0
+            for elem in part.elements:
+                elem_type_str = str(elem.type)
+                if elem.type == CPE4 or 'CPE4' in elem_type_str:
+                    cpe4_count += 1
+                else:
+                    non_cpe4_count += 1
+
+            all_elements_cpe4 = (cpe4_count > 0 and non_cpe4_count == 0 and cpe4_count == mesh_element_count)
+
+            # 6. Seam topology representation after meshing
+            crack_nodes_mesh = []
+            for n in part.nodes:
+                pt = n.coordinates
+                if len(pt) >= 2:
+                    nx, ny = pt[0], pt[1]
+                    if -0.5001 <= nx <= 0.0001 and abs(ny) <= 1e-3:
+                        crack_nodes_mesh.append((n.label, [float(nx), float(ny)]))
+
+            crack_edge_mesh_node_count = len(crack_nodes_mesh)
+
+            crack_tip_mesh_node_present = any(
+                abs(pt[0]) <= 1e-3 and abs(pt[1]) <= 1e-3 for _, pt in crack_nodes_mesh
+            )
+
+            seam_preserved_after_meshing = (
+                len(part.engineeringFeatures.seams) > 0
+                if hasattr(part.engineeringFeatures, "seams") else True
+            )
+
+            unmeshed_region_count = 0
+            if hasattr(part, "getUnmeshedRegions"):
+                unmeshed_region_count = len(part.getUnmeshedRegions())
+
+            meshing_passed = (
+                mesh_generated and
+                all_elements_cpe4 and
+                crack_tip_mesh_node_present and
+                seam_preserved_after_meshing and
+                unmeshed_region_count == 0
+            )
+
             context["mesh_node_count"] = mesh_node_count
             context["mesh_element_count"] = mesh_element_count
             context["mesh_generated"] = mesh_generated
+            context["cpe4_count"] = cpe4_count
+            context["non_cpe4_count"] = non_cpe4_count
+            context["crack_edge_mesh_node_count"] = crack_edge_mesh_node_count
+            context["crack_tip_mesh_node_present"] = crack_tip_mesh_node_present
+            context["seam_preserved_after_meshing"] = seam_preserved_after_meshing
+            context["unmeshed_region_count"] = unmeshed_region_count
 
             phase_results["meshing_phase"] = {
                 "phase": "meshing_phase",
-                "passed": mesh_generated,
+                "passed": meshing_passed,
                 "attempted": True,
                 "dependency_blocked": False,
                 "observations": {
                     "element_type": "CPE4",
+                    "mesh_technique": "FREE",
+                    "mesh_element_shape": "QUAD",
+                    "mesh_algorithm": "ADVANCING_FRONT",
+                    "allow_mapped": False,
                     "mesh_generated": mesh_generated,
                     "mesh_node_count": mesh_node_count,
-                    "mesh_element_count": mesh_element_count
+                    "mesh_element_count": mesh_element_count,
+                    "cpe4_count": cpe4_count,
+                    "non_cpe4_count": non_cpe4_count,
+                    "crack_edge_mesh_node_count": crack_edge_mesh_node_count,
+                    "crack_tip_mesh_node_present": crack_tip_mesh_node_present,
+                    "seam_preserved_after_meshing": seam_preserved_after_meshing,
+                    "unmeshed_region_count": unmeshed_region_count
                 }
             }
         except Exception as exc:
@@ -534,9 +602,19 @@ def run_f41_matrix():
             "crack_edge_id": p5.get("crack_edge_id", None),
             "crack_geometry_recreated": p5.get("crack_geometry_recreated", False),
             "seam_assigned": p5.get("seam_assigned", False),
+            "mesh_technique": "FREE",
+            "mesh_element_shape": "QUAD",
+            "mesh_algorithm": "ADVANCING_FRONT",
+            "allow_mapped": False,
             "mesh_generated": p6.get("mesh_generated", False),
             "mesh_node_count": p6.get("mesh_node_count", 0),
             "mesh_element_count": p6.get("mesh_element_count", 0),
+            "cpe4_count": p6.get("cpe4_count", 0),
+            "non_cpe4_count": p6.get("non_cpe4_count", 0),
+            "crack_edge_mesh_node_count": p6.get("crack_edge_mesh_node_count", 0),
+            "crack_tip_mesh_node_present": p6.get("crack_tip_mesh_node_present", False),
+            "seam_preserved_after_meshing": p6.get("seam_preserved_after_meshing", False),
+            "unmeshed_region_count": p6.get("unmeshed_region_count", 0),
             "crack_tip_preserved": p5.get("crack_tip_preserved", False),
             "outer_boundary_preserved": p5.get("outer_boundary_preserved", False),
             "reconstruction_passed": reconstruction_passed

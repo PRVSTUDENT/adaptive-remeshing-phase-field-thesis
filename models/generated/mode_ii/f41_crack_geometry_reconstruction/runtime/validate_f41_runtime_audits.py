@@ -13,7 +13,7 @@ REQUIRED_EVIDENCE_FILES = [
     "F41_TOPOLOGY_MAP.json",
     "F41_CRACK_RECONSTRUCTION_AUDIT.json",
     "F41_CAE_RECONSTRUCTION_MATRIX.json",
-    "f41_reconstruction.returncode"
+    "F41_RECONSTRUCTION.returncode"
 ]
 
 def main():
