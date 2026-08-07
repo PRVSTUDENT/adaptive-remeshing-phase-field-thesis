@@ -1,0 +1,31 @@
+{
+  "successful_job": "1384666.mmaster02",
+  "successful_package": "models/generated/mode_ii/f42_mixed_element_uel/f42tri1_core_uel_only",
+  "successful_pbs_script": "F42TRI1_CORE.pbs",
+  "module_purge_used": false,
+  "module_load_command": "module load abaqus/2023",
+  "inherited_gcc_path": "/usr/bin/gcc",
+  "inherited_gcc_version": "11.4.0",
+  "failed_predecessors": [
+    {
+      "job_id": "1384658.mmaster02",
+      "failure_stage": "wrapper_authorization_guard",
+      "cause": "PBS environment variable transport F42TRI2_WRAPPER_AUTHORIZED missing"
+    },
+    {
+      "job_id": "1384659.mmaster02",
+      "failure_stage": "subroutine_compilation",
+      "cause": "ifort command not found on compute node PATH"
+    },
+    {
+      "job_id": "1384660.mmaster02",
+      "failure_stage": "toolchain_preflight",
+      "cause": "module purge removed gcc, causing ifort error #10417"
+    }
+  ],
+  "proven_module_recipe": [
+    "module load gcc/11.4.0",
+    "module load intel/2024.2.0",
+    "module load abaqus/2023"
+  ]
+}

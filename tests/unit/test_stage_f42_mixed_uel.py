@@ -330,10 +330,11 @@ class TestF42CTriangleFacsimileContract(unittest.TestCase):
         self.assertNotIn("module load intel/2024.2.0 || true", pbs_content, "Module load intel must fail closed")
         self.assertNotIn("module load abaqus/2023 || true", pbs_content, "Module load abaqus must fail closed")
 
-        # 2. Require module purge, module load intel, module load abaqus, command -v ifort, command -v abaqus
-        self.assertIn("module purge", pbs_content, "PBS script must purge module state")
+        # 2. Require module load gcc/11.4.0, module load intel, module load abaqus, command -v gcc, command -v ifort, command -v abaqus
+        self.assertIn("module load gcc/11.4.0", pbs_content, "PBS script must load gcc/11.4.0")
         self.assertIn("module load intel/2024.2.0", pbs_content, "PBS script must load intel/2024.2.0")
         self.assertIn("module load abaqus/2023", pbs_content, "PBS script must load abaqus/2023")
+        self.assertIn("command -v gcc", pbs_content, "PBS script must check gcc resolution")
         self.assertIn("command -v ifort", pbs_content, "PBS script must check ifort resolution")
         self.assertIn("command -v abaqus", pbs_content, "PBS script must check abaqus resolution")
 
