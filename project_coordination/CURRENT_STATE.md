@@ -1,6 +1,39 @@
 # Current project state
 
+## F41R5 Free All-Quadrilateral Mesh Control Correction & Detached Qualification (2026-08-07)
+
+Completed Stage F41R5 free all-quadrilateral mesh control correction and true detached clean-Linux qualification:
+- **Package Path**: `models/generated/mode_ii/f41_crack_geometry_reconstruction`
+- **Preparation Commit (P41R5)**: `4e79f8da81357abefe2c89a1d1e93d373a6ec9f7`
+- **Qualification Commit (Q41R5)**: `9ada1b45cb53c87d7c59f99bdd7fcebce1eb04dd`
+- **Starting Commit**: `1faca38e1ad4ad1844ffffa1d938807c9f8b14ec`
+- **Status**: `qualified_not_authorized`
+- **Prepared Job**: `M2RMSTITCH1` (Queue: `normal_imfdfkmq`, 1 CPU, 1 rank, 1 thread, 8 GB memory, 00:30:00 walltime).
+- **Frozen Validated Geometry & Seam Pipeline**:
+  - 15 duplicate crack node pair detection, temporary merge, `Part2DGeomFrom2DMesh` geometry conversion, sketch face partitioning, seam assignment via direct Region object, crack tip preservation, crack start preservation, and outer boundary preservation remain **100% frozen and unchanged**.
+- **Free All-Quadrilateral Mesh Control Strategy**:
+  - Replaced `part.setMeshControls(regions=part.faces, technique=STRUCTURED)` with:
+    ```python
+    part.setMeshControls(
+        regions=part.faces,
+        elemShape=QUAD,
+        technique=FREE,
+        algorithm=ADVANCING_FRONT,
+        allowMapped=OFF
+    )
+    ```
+  - Physical element family remains strictly `CPE4` (`STANDARD`). Triangles and `QUAD_DOMINATED` are prohibited.
+  - Whole-part single-operation seeding (`size=0.02`) and meshing (`part.generateMesh()`) retained.
+  - Added strict element-type auditing (`cpe4_count == mesh_element_count` and `non_cpe4_count == 0`).
+  - Added seam-after-mesh topology verification (`crack_tip_mesh_node_present == True` and `seam_preserved_after_meshing == True`).
+- **Detached Qualification**: Evaluated inside a temporary detached Git worktree at SHA `4e79f8d` (`F41_QUALIFICATION_SUCCESS`), updating `F41_CLEAN_LINUX_QUALIFICATION.json`.
+- **Authority Flags**: All authority flags remain strictly `false` and `0` (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`).
+- **Next Action**: `await_human_exact_one_job_authorization_for_M2RMSTITCH1_free_quad_validation`.
+
+Classification: `f41r5_free_quadrilateral_seam_meshing_qualified_clean_linux`.
+
 ## F41R4 Single Guarded HPC Final Submission of M2RMSTITCH1 (2026-08-07)
+
 
 Executed single guarded HPC final submission of `M2RMSTITCH1` (`1384642.mmaster02`) upon explicit human authorization:
 - **Task ID**: `F41R4-M2RMSTITCH1-FINAL-JOB-1384642-EVALUATION`
