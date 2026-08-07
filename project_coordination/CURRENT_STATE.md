@@ -1,6 +1,32 @@
 # Current project state
 
+## F41R6 Adaptive-Remeshing Element Compatibility Decision Gate (2026-08-07)
+
+Completed Stage F41R6 production element contract audit, seam duplicate mesh node topology validation fix, and evidence safety verification:
+- **Task ID**: `F41R6-ADAPTIVE-REMESHING-COMPATIBILITY-GATE`
+- **Status**: `scientific_design_decision_required`
+- **Classification**: `native_adaptive_remeshing_element_shape_incompatibility_requires_design_decision`
+- **Next Action**: `resolve_triangle_vs_quad_production_element_contract_before_HPC`
+- **Empirical Audit Finding**:
+  - Production UEL Fortran subroutines (`SingleNotch_v2.for`, `M2IRR_F13.for`, `M2RTLOAD1.for`), input deck layer generators, and validation contracts strictly hardcode 4-node quadrilateral elements (`CPE4`, 4-node $U1$, 4-node $U2$, 4 Gauss integration points, bilinear shape functions $AN(1..4)$).
+  - Abaqus 2D native adaptive remeshing requires `TRI + FREE` or `QUAD_DOMINATED + FREE + ADVANCING_FRONT` (which generates mixed triangular and quadrilateral meshes).
+  - Therefore, Abaqus native 2D adaptive remeshing cannot be directly applied without resolving this element shape contract incompatibility first.
+- **Seam Duplicate Mesh Node Topology Validation**:
+  - Removed weak `hasattr(part.engineeringFeatures, "seams")` fallback.
+  - Implemented strict mesh node coordinate duplicate grouping along $x \in [-0.5, 0.0], y \approx 0$.
+  - Requires `seam_duplicate_coordinate_group_count > 0` and `crack_tip_mesh_node_present == True`.
+- **Historical Evidence Working-Tree Safety**:
+  - Verified HPC working tree for `runs/hpc/stage_f/f41_crack_geometry_reconstruction/evidence/1384642.mmaster02`. All 13 tracked evidence files are 100% present and clean against `HEAD`. Recorded `F41R5` temporary `rm -rf` as a protocol deviation.
+- **Decision Options**:
+  - **Option A**: Add 3-node triangular UEL (`CPE3`, 3-node $U1$ & $U2$) and mixed layer support.
+  - **Option B**: Post-remeshing triangle-to-quad conversion/rebuild stage.
+  - **Option C**: Custom all-quadrilateral refinement route without native adaptivity.
+- **Authority Flags**: All authority flags remain default-closed (`false` and `0`). No scheduler job was prepared or submitted.
+
+Classification: `native_adaptive_remeshing_element_shape_incompatibility_requires_design_decision`.
+
 ## F41R5 Free All-Quadrilateral Mesh Control Correction & Detached Qualification (2026-08-07)
+
 
 Completed Stage F41R5 free all-quadrilateral mesh control correction and true detached clean-Linux qualification:
 - **Package Path**: `models/generated/mode_ii/f41_crack_geometry_reconstruction`

@@ -480,25 +480,28 @@ def run_f41_matrix():
 
             all_elements_cpe4 = (cpe4_count > 0 and non_cpe4_count == 0 and cpe4_count == mesh_element_count)
 
-            # 6. Seam topology representation after meshing
-            crack_nodes_mesh = []
+            # 6. Seam topology representation after meshing (Strict Duplicate Mesh Node Coordinate Grouping)
+            coord_groups = {}
             for n in part.nodes:
                 pt = n.coordinates
                 if len(pt) >= 2:
-                    nx, ny = pt[0], pt[1]
+                    nx, ny = float(pt[0]), float(pt[1])
                     if -0.5001 <= nx <= 0.0001 and abs(ny) <= 1e-3:
-                        crack_nodes_mesh.append((n.label, [float(nx), float(ny)]))
+                        key = (round(nx, 4), round(ny, 4))
+                        if key not in coord_groups:
+                            coord_groups[key] = []
+                        coord_groups[key].append(n.label)
 
-            crack_edge_mesh_node_count = len(crack_nodes_mesh)
+            seam_coordinate_group_count = len(coord_groups)
+            seam_duplicate_coordinate_group_count = sum(1 for labels in coord_groups.values() if len(labels) >= 2)
+            seam_duplicate_node_count = sum(len(labels) for labels in coord_groups.values() if len(labels) >= 2)
 
             crack_tip_mesh_node_present = any(
-                abs(pt[0]) <= 1e-3 and abs(pt[1]) <= 1e-3 for _, pt in crack_nodes_mesh
+                abs(key[0]) <= 1e-3 and abs(key[1]) <= 1e-3 for key in coord_groups
             )
 
-            seam_preserved_after_meshing = (
-                len(part.engineeringFeatures.seams) > 0
-                if hasattr(part.engineeringFeatures, "seams") else True
-            )
+            # A meshed Abaqus seam MUST create overlapping/duplicate mesh nodes along the embedded crack edge
+            seam_preserved_after_meshing = (seam_duplicate_coordinate_group_count > 0)
 
             unmeshed_region_count = 0
             if hasattr(part, "getUnmeshedRegions"):
@@ -517,7 +520,9 @@ def run_f41_matrix():
             context["mesh_generated"] = mesh_generated
             context["cpe4_count"] = cpe4_count
             context["non_cpe4_count"] = non_cpe4_count
-            context["crack_edge_mesh_node_count"] = crack_edge_mesh_node_count
+            context["seam_coordinate_group_count"] = seam_coordinate_group_count
+            context["seam_duplicate_coordinate_group_count"] = seam_duplicate_coordinate_group_count
+            context["seam_duplicate_node_count"] = seam_duplicate_node_count
             context["crack_tip_mesh_node_present"] = crack_tip_mesh_node_present
             context["seam_preserved_after_meshing"] = seam_preserved_after_meshing
             context["unmeshed_region_count"] = unmeshed_region_count
@@ -538,7 +543,9 @@ def run_f41_matrix():
                     "mesh_element_count": mesh_element_count,
                     "cpe4_count": cpe4_count,
                     "non_cpe4_count": non_cpe4_count,
-                    "crack_edge_mesh_node_count": crack_edge_mesh_node_count,
+                    "seam_coordinate_group_count": seam_coordinate_group_count,
+                    "seam_duplicate_coordinate_group_count": seam_duplicate_coordinate_group_count,
+                    "seam_duplicate_node_count": seam_duplicate_node_count,
                     "crack_tip_mesh_node_present": crack_tip_mesh_node_present,
                     "seam_preserved_after_meshing": seam_preserved_after_meshing,
                     "unmeshed_region_count": unmeshed_region_count
@@ -611,7 +618,9 @@ def run_f41_matrix():
             "mesh_element_count": p6.get("mesh_element_count", 0),
             "cpe4_count": p6.get("cpe4_count", 0),
             "non_cpe4_count": p6.get("non_cpe4_count", 0),
-            "crack_edge_mesh_node_count": p6.get("crack_edge_mesh_node_count", 0),
+            "seam_coordinate_group_count": p6.get("seam_coordinate_group_count", 0),
+            "seam_duplicate_coordinate_group_count": p6.get("seam_duplicate_coordinate_group_count", 0),
+            "seam_duplicate_node_count": p6.get("seam_duplicate_node_count", 0),
             "crack_tip_mesh_node_present": p6.get("crack_tip_mesh_node_present", False),
             "seam_preserved_after_meshing": p6.get("seam_preserved_after_meshing", False),
             "unmeshed_region_count": p6.get("unmeshed_region_count", 0),

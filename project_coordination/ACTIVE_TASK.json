@@ -1,9 +1,9 @@
 {
   "protocol_version": 1,
-  "task_id": "F41R5-FREE-QUADRILATERAL-SEAM-MESHING",
-  "status": "qualified_not_authorized",
-  "classification": "f41r5_free_quadrilateral_seam_meshing_qualified_clean_linux",
-  "starting_commit": "1faca38e1ad4ad1844ffffa1d938807c9f8b14ec",
+  "task_id": "F41R6-ADAPTIVE-REMESHING-COMPATIBILITY-GATE",
+  "status": "scientific_design_decision_required",
+  "classification": "native_adaptive_remeshing_element_shape_incompatibility_requires_design_decision",
+  "starting_commit": "200b131f7cf3d6a9ee61ac3fee60a72419700545",
   "preparation_commit": "4e79f8da81357abefe2c89a1d1e93d373a6ec9f7",
   "repair_preparation_commit": "4e79f8da81357abefe2c89a1d1e93d373a6ec9f7",
   "qualification_commit": "9ada1b45cb53c87d7c59f99bdd7fcebce1eb04dd",
@@ -32,9 +32,10 @@
   "geometry_reconstruction": "passed",
   "crack_recreation": "passed",
   "seam_assignment": "passed",
-  "meshing_controls": "free_quadrilateral_advancing_front_allow_mapped_off",
+  "production_uel_supports_triangles": false,
+  "production_pipeline_element_type": "CPE4",
   "scientific_geometry_result": "validated",
-  "next_action": "await_human_exact_one_job_authorization_for_M2RMSTITCH1_free_quad_validation"
+  "next_action": "resolve_triangle_vs_quad_production_element_contract_before_HPC"
 }
 
 

@@ -161,18 +161,30 @@ class TestStageF41RuntimeContractStatic(unittest.TestCase):
     def test_17_cpe4_element_type_and_seam_mesh_topology_auditing(self):
         self.assertIn("cpe4_count", self.matrix_source)
         self.assertIn("non_cpe4_count", self.matrix_source)
+        self.assertIn("seam_duplicate_coordinate_group_count", self.matrix_source)
+        self.assertIn("seam_duplicate_node_count", self.matrix_source)
         self.assertIn("crack_tip_mesh_node_present", self.matrix_source)
         self.assertIn("seam_preserved_after_meshing", self.matrix_source)
-        self.assertIn("unmeshed_region_count", self.matrix_source)
+        self.assertNotIn("hasattr(part.engineeringFeatures, \"seams\") else True", self.matrix_source, "Weak seams fallback must be removed")
+
+    def test_18_compatibility_audit_files_exist(self):
+        audit_md = os.path.join(PROJECT_ROOT, "models", "generated", "mode_ii", "f41_crack_geometry_reconstruction", "F41_ADAPTIVE_REMESHING_ELEMENT_COMPATIBILITY_AUDIT.md")
+        audit_json = os.path.join(PROJECT_ROOT, "models", "generated", "mode_ii", "f41_crack_geometry_reconstruction", "F41_ADAPTIVE_REMESHING_ELEMENT_COMPATIBILITY_AUDIT.json")
+        self.assertTrue(os.path.exists(audit_md), "F41_ADAPTIVE_REMESHING_ELEMENT_COMPATIBILITY_AUDIT.md must exist")
+        self.assertTrue(os.path.exists(audit_json), "F41_ADAPTIVE_REMESHING_ELEMENT_COMPATIBILITY_AUDIT.json must exist")
+        with open(audit_json, 'r') as f:
+            data = json.load(f)
+        self.assertEqual(data.get("classification"), "native_adaptive_remeshing_element_shape_incompatibility_requires_design_decision")
+        self.assertFalse(data.get("production_uel_supports_triangles"))
 
 
 class TestStageF41SyntheticConversion(unittest.TestCase):
 
-    def test_18_synthetic_unusable_cracked_topology(self):
+    def test_19_synthetic_unusable_cracked_topology(self):
         cracked_conversion = {"face_count": 0, "vertex_count": 0, "usable_geometry": False}
         self.assertFalse(cracked_conversion["usable_geometry"])
 
-    def test_19_synthetic_reconstructed_geometry_crack_recreated_passes_audit(self):
+    def test_20_synthetic_reconstructed_geometry_crack_recreated_passes_audit(self):
         reconstructed = {
             "duplicate_pairs_before": 15,
             "duplicate_pairs_after": 0,
@@ -194,6 +206,9 @@ class TestStageF41SyntheticConversion(unittest.TestCase):
             "mesh_element_count": 3930,
             "cpe4_count": 3930,
             "non_cpe4_count": 0,
+            "seam_coordinate_group_count": 16,
+            "seam_duplicate_coordinate_group_count": 15,
+            "seam_duplicate_node_count": 30,
             "crack_tip_mesh_node_present": True,
             "seam_preserved_after_meshing": True,
             "unmeshed_region_count": 0,
@@ -204,15 +219,18 @@ class TestStageF41SyntheticConversion(unittest.TestCase):
         self.assertTrue(reconstructed["seam_assigned"])
         self.assertTrue(reconstructed["mesh_generated"])
         self.assertEqual(reconstructed["non_cpe4_count"], 0)
+        self.assertGreater(reconstructed["seam_duplicate_coordinate_group_count"], 0)
         self.assertTrue(reconstructed["crack_tip_mesh_node_present"])
 
-    def test_20_fail_closed_on_unassigned_seam_or_uncreated_mesh_or_non_cpe4_elements(self):
+    def test_21_fail_closed_on_unassigned_seam_or_uncreated_mesh_or_non_cpe4_elements(self):
         bad_audit1 = {"seam_assigned": False, "reconstruction_passed": False}
         bad_audit2 = {"mesh_generated": False, "reconstruction_passed": False}
         bad_audit3 = {"non_cpe4_count": 5, "reconstruction_passed": False}
+        bad_audit4 = {"seam_duplicate_coordinate_group_count": 0, "reconstruction_passed": False}
         self.assertFalse(bad_audit1["reconstruction_passed"])
         self.assertFalse(bad_audit2["reconstruction_passed"])
         self.assertFalse(bad_audit3["reconstruction_passed"])
+        self.assertFalse(bad_audit4["reconstruction_passed"])
 
 
 if __name__ == "__main__":

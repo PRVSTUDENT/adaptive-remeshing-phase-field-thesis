@@ -63,6 +63,8 @@ def main():
                 errors.append("non_cpe4_count ({0}) is not 0".format(audit.get("non_cpe4_count")))
             if audit.get("crack_tip_mesh_node_present") is not True:
                 errors.append("crack_tip_mesh_node_present is not True")
+            if audit.get("seam_duplicate_coordinate_group_count", 0) <= 0:
+                errors.append("seam_duplicate_coordinate_group_count ({0}) is not > 0".format(audit.get("seam_duplicate_coordinate_group_count")))
             if audit.get("seam_preserved_after_meshing") is not True:
                 errors.append("seam_preserved_after_meshing is not True")
             if audit.get("reconstruction_passed") is not True:

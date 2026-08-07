@@ -1,0 +1,20 @@
+{
+  "protocol_version": 1,
+  "audit_type": "f41_adaptive_remeshing_element_compatibility_audit",
+  "classification": "native_adaptive_remeshing_element_shape_incompatibility_requires_design_decision",
+  "production_uel_supports_triangles": false,
+  "production_pipeline_element_type": "CPE4",
+  "production_uel_node_count": 4,
+  "cpe3_support_found_in_codebase": false,
+  "abaqus_2023_native_adaptive_remesh_controls_supported": [
+    "TRI + FREE",
+    "QUAD_DOMINATED + FREE + ADVANCING_FRONT"
+  ],
+  "abaqus_2023_pure_quad_supports_native_adaptivity": false,
+  "pandey_kumar_uses_triangles": true,
+  "design_options": [
+    "Option A: Add 3-node triangular UEL and layer support",
+    "Option B: Post-remeshing triangle-to-quad conversion stage",
+    "Option C: Custom all-quadrilateral refinement route without native adaptivity"
+  ]
+}
