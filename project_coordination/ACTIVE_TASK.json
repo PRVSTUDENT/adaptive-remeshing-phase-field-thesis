@@ -1,14 +1,14 @@
 {
   "protocol_version": 1,
-  "task_id": "F43PRE2-SCI1",
+  "task_id": "F43REM2-R3",
   "status": "complete",
-  "classification": "f43pre2_sci1_comparison_pass_and_f43rem2_native_qualified_not_authorized",
+  "classification": "f43rem2_native_qualified_not_authorized_r3",
   "predecessor_identity_classification": "f43pre2_geometry_backed_preanalysis_source_architecture",
-  "governance_classification": "protocol_deviating_no_direct_human_chat_authorization_and_runtime_wrapper_post_PQ",
-  "scientific_classification": "provisional_pass",
-  "starting_commit": "cdda7fcbe7f3f46e73eda54889147aed577352c6",
-  "preparation_commit": "5c4557fe9cf6b8f3edff9f57fa969eb248bd85f6",
-  "qualification_commit": "9f41df502bb63fc90a3699cbb2e542bb1237e8c3",
+  "governance_classification": "protocol_compliant_p43rem2_r3_prepared_q43rem2_r3_qualified",
+  "scientific_classification": "provisional_pass_with_unit_conversion_correction",
+  "starting_commit": "efeeb6b539b700b1527883ff1470b167b32453b5",
+  "preparation_commit": "8bfba63e384c9c094fcd73f83fec015378538801",
+  "qualification_commit": "e0a30cfdf030655fbcb66b3f7c862766523c338d",
   "authorization_commit": null,
   "execution_authorized": false,
   "submission_approved": false,
@@ -22,5 +22,10 @@
   "reference_job_id": "1384674.mmaster02",
   "reference_odb_sha256": "3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534",
   "source_cae_sha256": "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff",
-  "next_action": "human_review_and_exact_one_job_authorization_for_F43REM2_NATIVE_submission"
+  "superseded_revisions": {
+    "P43REM2-R2": "5c4557fe9cf6b8f3edff9f57fa969eb248bd85f6",
+    "Q43REM2-R2": "9f41df502bb63fc90a3699cbb2e542bb1237e8c3",
+    "reason": "superseded_incomplete_execution_package_and_cae_binary_in_tree"
+  },
+  "next_action": "human_review_before_exactly_one_F43REM2_NATIVE_submission"
 }

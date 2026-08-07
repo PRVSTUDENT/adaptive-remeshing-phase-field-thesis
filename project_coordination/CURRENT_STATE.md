@@ -1,5 +1,34 @@
 # Current project state
 
+## F43REM2-R3 Unit Consistency, External CAE Restoration, Execution Freeze & Full Qualification (2026-08-07)
+
+Completed task `F43REM2-R3`: Unit consistency correction, external CAE contract restoration, complete execution package freeze, and full 97-test detached Linux qualification:
+- **Task ID**: `F43REM2-R3`
+- **Status**: `complete`
+- **Classification**: `f43rem2_native_qualified_not_authorized_r3`
+- **Scientific Gate Status**: `PROVISIONAL_PASS_WITH_UNIT_CONVERSION_CORRECTION`
+  - Old unit system: `kN-mm` ($E_{\text{old}} = 210\text{ kN/mm}^2 = 210000\text{ N/mm}^2$)
+  - New unit system: `N-mm` ($E_{\text{new}} = 210000\text{ N/mm}^2$)
+  - Converted reaction force error: $0.04606937\text{ kN} \rightarrow 46.06937\text{ N}$ vs $46.12937\text{ N}$, relative error = **0.1302%** ($\le 5.0\%$).
+  - MISESERI spatial comparison: `descriptive_difference_no_predeclared_acceptance_threshold` (common-grid NL2 $\approx 102.4\%$, correlation $\approx 0.728$, high-zone overlap $= 0.0$).
+- **External CAE Policy Restoration**:
+  - `ModeII_Geometry_Source.cae` binary removed from active Git tracked tree (`cae_local_binary_absent = true`). Added `.gitignore` pattern `*.cae`.
+  - External source CAE path on HPC: `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae` (SHA256: `889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff`).
+- **Complete Execution Package Freeze**:
+  - `F43REM2_NATIVE.pbs` (PBS job script, queue `entry_imfdfkmq`, 1 CPU, 8 GB, 30 min)
+  - `submit_f43rem2_native.sh` (Guarded submission wrapper requiring explicit human authorization)
+  - `collect_f43rem2_native_evidence.sh` (Lightweight evidence collector)
+  - `remesh_mode_ii_native_cae.py` (Fail-closed native remeshing driver)
+  - `validate_f43rem2_native.py` (Static offline package validator)
+  - `validate_f43_refined_layered_deck.py` (Refined standard deck offline validator)
+- **Full Detached Linux Worktree Qualification**:
+  - Preparation Commit ($P$): `P43REM2-R3` (`8bfba63e384c9c094fcd73f83fec015378538801`)
+  - Qualification Commit ($Q$): `Q43REM2-R3` (`e0a30cfdf030655fbcb66b3f7c862766523c338d`)
+  - Linux Detached Worktree Qualification: Passed **97/97** unit and regression tests across F43 (11), F42 (19), F41 (21), and F40 (46).
+- **Authority State**: `qualified_not_authorized` (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`).
+
+---
+
 ## F43PRE2-SCI1 Scientific Comparison & F43REM2_NATIVE Offline Qualification (2026-08-07)
 
 Completed task `F43PRE2-SCI1`: Scientific ODB comparison against job 1384674, governance reclassification of job 1385392, and conditional offline `F43REM2_NATIVE` preparation & detached qualification:
