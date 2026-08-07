@@ -1,14 +1,14 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM1-R1-CURRENT-PREDECESSOR-REMOTE-SUBMISSION-REPAIR",
+  "task_id": "F43REM1-R1-EXACT-P43R1-DETACHED-QUALIFICATION-CORRECTION",
   "status": "qualified_not_authorized",
-  "classification": "f43rem1_local_submission_wrapper_failed_qsub_not_found_no_hpc_job_created",
+  "classification": "f43rem1_exact_p43r1_detached_worktree_qualification_pass",
   "predecessor_identity_classification": "f43rem1_consumes_current_1384674_odb",
-  "governance_classification": "protocol_deviating_unqualified_post_q43a_submission_attempt_no_scheduler_job_created",
-  "starting_commit": "4d1adc2bdd50b7db42203f57f9ca31d928f6ac30",
+  "governance_classification": "protocol_compliant_p43r1_detached_worktree_qualified_not_authorized",
+  "starting_commit": "942fa317c797e04c9ff8cc923f12f816739c13f7",
   "preparation_commit": "3f3eb579c5016ecdc02d23e7d166d831f80be35c",
   "repair_preparation_commit": null,
-  "qualification_commit": "7e84e94566550c474afa352d7052b3b7be81225b",
+  "qualification_commit": "7741484201cc658505bf2d8f7dc97ca4c029134c",
   "authorization_commit": null,
   "latest_gate_repair_commit": null,
   "latest_gate_qualification_commit": null,
@@ -33,5 +33,5 @@
   "facsimile_contract": "mechanically_passive_dummy_youngs_modulus_1e-11",
   "centroid_state_mapping": "slot_4_dedicated_centroid_physical_reconstruction",
   "topology_dispatch": "props_topology_marker_4_quad_3_tri",
-  "next_action": "human_review_of_P43R1_Q43R1_before_exactly_one_real_HPC_submission"
+  "next_action": "human_review_of_P43R1_Q43R1_RQ_before_exactly_one_real_HPC_submission"
 }
