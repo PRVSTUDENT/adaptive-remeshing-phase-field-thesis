@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "models/generated/mode_ii/**",
@@ -9,13 +9,13 @@
     "docs/**",
     "references/**"
   ],
-  "completed_at": "2026-08-07T16:10:00+02:00",
-  "heartbeat": "2026-08-07T16:10:00+02:00",
-  "started_at": "2026-08-07T16:05:00+02:00",
-  "session_id": "gemini-f43pre2-r1-cae-hash-contract-session",
-  "starting_commit": "b7cceaca714d096165712f8f1f6916b0e465d4f5",
-  "task_id": "F43PRE2-R1-FINAL-ON-DISK-CAE-HASH-CONTRACT-FREEZE-QUALIFICATION",
-  "note": "Session completed for Task F43PRE2-R1 final on-disk CAE hash contract, external artifact freeze, and separate P/Q qualification."
+  "completed_at": null,
+  "heartbeat": "2026-08-07T16:17:00+02:00",
+  "started_at": "2026-08-07T16:17:00+02:00",
+  "session_id": "gemini-f43pre2-r2-immutable-cae-contract-session",
+  "starting_commit": "b691ef4d8921c2e9d9ecb454a6aa930edb5e7296",
+  "task_id": "F43PRE2-R2-IMMUTABLE-CAE-SOURCE-WORK-COPY-CONTRACT-AND-DETACHED-QUALIFICATION",
+  "note": "Session claimed for Task F43PRE2-R2 immutable CAE source / scratch work-copy contract and true detached qualification."
 }
 
 

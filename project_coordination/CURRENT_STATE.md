@@ -1,6 +1,35 @@
 # Current project state
 
-## F43PRE2-R1 Final On-Disk CAE Hash Contract & Q43PRE2-R1 Detached Qualification (2026-08-07)
+## F43PRE2-R2 Immutable CAE Source / Scratch Work-Copy Contract & True Detached Qualification (2026-08-07)
+
+Completed Task F43PRE2-R2 immutable external CAE source with scratch work-copy contract, package reconciliation post P43PRE2-R1, preparation commit P43PRE2-R2, and true clean Linux detached-worktree qualification:
+- **Task ID**: `F43PRE2_GEOM`
+- **Status**: `qualified_not_authorized`
+- **Preparation Commit**: `b72174bada751f05bbf075963392a950f5580c3e` (`P43PRE2-R2`)
+- **Qualification Commit**: `Q43PRE2-R2` (separate commit after P43PRE2-R2)
+- **Historical Lineage Status**: `P43PRE2-R1` (`610bc5f...`) and `Q43PRE2-R1` (`29d59e1...`) recorded as `superseded_for_authorization_due_to_post_preparation_package_changes_and_missing_demonstrated_exact_detached_qualification`.
+- **Immutable CAE Source Contract**:
+  1. Source Path (HPC): `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae`
+  2. Source Path (Local): `models/generated/mode_ii/f43_stage_c_bridge/ModeII_Geometry_Source.cae`
+  3. Source SHA256: `889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff` (Local == Remote HPC == Manifest, verified over SCP/SSH).
+  4. In-Place Open Policy: `forbidden` (`cae_source_open_in_place = false`).
+  5. Work-Copy Policy: `required` (`runtime_work_copy_required = true`). Source CAE is hashed before copy; work copy is hashed before Abaqus open; Abaqus opens ONLY the work copy.
+  6. Empirical Immutability Test: Passed. `source_hash_after == source_hash_before` (`889c15ba...`). Work copy mutated cleanly on disk without altering source.
+- **Input Deck (`F43PRE2_GEOM.inp`)**: Raw SHA256 `1f16f8525a7e627b90bd4958f8701a418d0ac2960654787853b2688f8fda75dd` (3707 elements, 3597 CPE4, 110 CPE3, 3793 nodes).
+- **True Detached Qualification**:
+  - Fresh Linux detached worktree at `b72174bada751f05bbf075963392a950f5580c3e` (`core.autocrlf=false`).
+  - Pre-test clean status: verified (`pre_test_clean = true`).
+  - Raw Git blob SHA == checked-out file SHA: verified for all package files.
+  - Regression Suite: Passed 109/109 tests cleanly (F43: 23/23, F42: 19/19, F41: 21/21, F40: 46/46).
+  - Post-test clean status: verified (`post_test_clean = true`, zero modified/untracked files).
+- **HPC Repository Sync**: Remote clone fast-forwarded cleanly.
+- **Authority Flags**: All default-closed (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`). Zero HPC jobs submitted.
+- **Next Action**: `human_review_before_exactly_one_F43PRE2_GEOM_submission`
+
+---
+
+## F43PRE2-R1 Final On-Disk CAE Hash Contract (Superseded, 2026-08-07)
+
 
 Completed Task F43PRE2-R1 post-process final-on-disk CAE hash contract, external HPC CAE artifact freeze, immutable detached Linux worktree qualification, and separate Q43PRE2-R1 qualification commit:
 - **Task ID**: `F43PRE2_GEOM`
