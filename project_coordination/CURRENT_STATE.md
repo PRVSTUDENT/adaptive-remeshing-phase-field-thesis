@@ -1,6 +1,22 @@
 # Current project state
 
+## F41R2 Single Guarded HPC Submission of M2RMSTITCH1 (2026-08-07)
+
+Executed single guarded HPC submission of M2RMSTITCH1 upon explicit human authorization:
+- **Task ID**: `F41R2-M2RMSTITCH1-JOB-1384637-EVALUATION`
+- **Scheduler Job ID**: `1384637.mmaster02` (Job Name: `M2RMSTITCH1`, Queue: `normal_imfdfkmq`, `exec_host = mnode098/0`, status: `R` / Running)
+- **Preparation Commit (P41R2)**: `2b42b61e8fd988c5f703bdc55b195ce934647f72`
+- **Qualification Commit (Q41R2)**: `2657beb13dcbe4e70dc804bc3e83ba96a949e812`
+- **Authorization Commit (A41R2)**: `d4401ddf59fe2527c017336452789faf4fa75d75`
+- **Status**: `submitted_queued`
+- **Submissions Initiated**: `1`
+- **Authority Consumption**: Submission authority consumed immediately. All authority flags reset strictly to `false` and `0` (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`).
+- **Next Action**: `await_job_completion_and_evidence_collection_for_1384637`.
+
+Classification: `f41r2_m2rmstitch1_submitted_queued`.
+
 ## F41R2 Final Abaqus API Compatibility Correction and Detached Qualification (2026-08-07)
+
 
 Completed Stage F41R2 final Abaqus API compatibility correction and true detached clean-Linux qualification:
 - **Package Path**: `models/generated/mode_ii/f41_crack_geometry_reconstruction`

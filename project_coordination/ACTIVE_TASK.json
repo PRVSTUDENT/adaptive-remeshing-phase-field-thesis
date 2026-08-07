@@ -1,36 +1,37 @@
 {
   "protocol_version": 1,
-  "task_id": "F41R2-M2RMSTITCH1-SUBMISSION-AUTHORIZATION",
-  "status": "submission_authorized_exactly_one_job",
-  "classification": "f41r2_m2rmstitch1_submission_authorized_exactly_one_job",
+  "task_id": "F41R2-M2RMSTITCH1-JOB-1384637-EVALUATION",
+  "status": "submitted_queued",
+  "classification": "f41r2_m2rmstitch1_submitted_queued",
   "starting_commit": "2b42b61e8fd988c5f703bdc55b195ce934647f72",
   "preparation_commit": "2b42b61e8fd988c5f703bdc55b195ce934647f72",
   "repair_preparation_commit": "2b42b61e8fd988c5f703bdc55b195ce934647f72",
   "qualification_commit": "2657beb13dcbe4e70dc804bc3e83ba96a949e812",
-  "authorization_commit": null,
+  "authorization_commit": "d4401ddf59fe2527c017336452789faf4fa75d75",
   "latest_gate_repair_commit": "2b42b61e8fd988c5f703bdc55b195ce934647f72",
   "latest_gate_qualification_commit": "2657beb13dcbe4e70dc804bc3e83ba96a949e812",
   "invalidated_predecessor": null,
   "prepared_job": "M2RMSTITCH1",
-  "scheduler_job_id": null,
+  "scheduler_job_id": "1384637.mmaster02",
   "local_emulation_run_id": null,
-  "scheduler_submissions_initiated": 0,
+  "scheduler_submissions_initiated": 1,
   "failed_predecessor_job_id": "1384621.mmaster02",
   "failed_initial_attempt_job_id": "1384435.mmaster02",
   "failed_v2_attempt_job_id": "1384450.mmaster02",
   "package_path": "models/generated/mode_ii/f41_crack_geometry_reconstruction",
-  "execution_authorized": true,
-  "submission_approved": true,
-  "maximum_jobs_now": 1,
-  "maximum_future_submissions": 1,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0,
+  "maximum_future_submissions": 0,
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
   "protocol_deviation_note": "A prior command executed 'rm -rf runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384621.mmaster02' on the HPC clone to resolve an untracked git pull conflict. The canonical evidence was committed to git in commit 438d0ea and remains fully preserved.",
   "recorded_user_authorization_sentence": "I authorize exactly one guarded HPC submission of M2RMSTITCH1 using preparation commit 2b42b61e8fd988c5f703bdc55b195ce934647f72 and qualification commit 2657beb13dcbe4e70dc804bc3e83ba96a949e812, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, and no downstream job.",
   "invalid_historical_authorization_record": null,
-  "next_action": "execute_single_guarded_m2rmstitch1_submission_on_hpc"
+  "next_action": "await_job_completion_and_evidence_collection_for_1384637"
 }
+
 
 
 
