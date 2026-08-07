@@ -1,0 +1,35 @@
+{
+  "protocol_version": 1,
+  "task_id": "F43REM2_NATIVE",
+  "stage": "Stage C",
+  "predecessor_job": "1385392.mmaster02",
+  "predecessor_odb_sha256": "85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72",
+  "source_cae_sha256": "889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff",
+  "source_cae_hpc_path": "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae",
+  "source_cae_open_in_place": "forbidden",
+  "runtime_work_copy_required": true,
+  "identities": {
+    "model_name": "ModeII_Geometry_Model",
+    "part_name": "PlatePart",
+    "instance_name": "PlateInstance",
+    "step_name": "Step-1",
+    "remeshing_rule": "MISESERI_Adaptive_Rule",
+    "indicator": "MISESERI"
+  },
+  "remesh_parameters": {
+    "minElementSize_mm": 0.0075,
+    "maxElementSize_mm": 0.03,
+    "length_scale_l0_mm": 0.015,
+    "min_h_over_l0": 0.5
+  },
+  "acceptance_criteria": {
+    "element_type": "CPE4",
+    "refined_mesh_generated": true,
+    "miseseri_nontrivial_verified": true
+  },
+  "status": "prepared_not_authorized",
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0,
+  "maximum_future_submissions": 0
+}

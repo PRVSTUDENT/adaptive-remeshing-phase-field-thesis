@@ -1,0 +1,122 @@
+{
+  "task_id": "F43PRE2-SCI1", 
+  "spatial_comparison": {
+    "grid_spacing_mm": 0.02, 
+    "common_grid_nl2_percent": 102.43393112697996, 
+    "high_zone_overlap_fraction": 0.0, 
+    "pearson_correlation": 0.727932335559329, 
+    "grid_points_count": 2601
+  }, 
+  "load_displacement": {
+    "old_effective_stiffness": 46.069371537735734, 
+    "stiffness_relative_error_percent": 0.13023384582975248, 
+    "old_final_rf1": 0.046069373725913465, 
+    "new_effective_stiffness": 46129.369452038925, 
+    "old_final_u1": 0.0010000000474974513, 
+    "rf1_relative_error_percent": 0.13023384582975248, 
+    "new_final_u1": 0.0010000000474974513, 
+    "new_final_rf1": 46.129371643066406
+  }, 
+  "near_notch_localization": {
+    "top10_indicator_fraction_within_5l0": 0.1509433962264151, 
+    "top10_indicator_fraction_within_10l0": 0.4123989218328841, 
+    "top10_indicator_fraction_within_2l0": 0.0215633423180593
+  }, 
+  "scientific_gate": "PROVISIONAL_PASS", 
+  "domain_volume": {
+    "new_sum_evol": 1.0000000002255547, 
+    "old_sum_evol": 1.0000000020372681, 
+    "evol_relative_error_percent": 1.811713442240727e-07
+  }, 
+  "governance": {
+    "direct_human_chat_authorization_present": false, 
+    "scientific_result": "usable_pending_comparison", 
+    "runtime_wrapper_in_P43PRE2_R2": false, 
+    "newline_normalized_input_identity": true, 
+    "raw_submitted_input_identity": false, 
+    "scheduler_result": "PASS", 
+    "semantic_input_identity": true, 
+    "governance_result": "protocol_deviating_no_direct_human_chat_authorization_and_runtime_wrapper_post_PQ", 
+    "technical_result": "PASS"
+  }, 
+  "miseseri_statistics": {
+    "old": {
+      "zero_count": 0, 
+      "p99": 0.014944478580728192, 
+      "min": 6.865544128231704e-05, 
+      "p90": 0.0027496147202327845, 
+      "max": 0.18701137602329254, 
+      "median": 0.0006781403499189764, 
+      "p95": 0.003980477666482329, 
+      "std": 0.006168754731512193, 
+      "mean": 0.001633144879951595, 
+      "nan_inf": 0, 
+      "finite": 3930, 
+      "nonzero_fraction": 1.0, 
+      "count": 3930
+    }, 
+    "new_max_distance_from_crack_tip_mm": 0.013361262397717642, 
+    "nontrivial": true, 
+    "max_location_difference_mm": 0.014713495028698165, 
+    "new": {
+      "zero_count": 0, 
+      "p99": 11.3755007171631, 
+      "min": 0.03485853597521782, 
+      "p90": 2.210530138015747, 
+      "max": 118.28289794921875, 
+      "median": 1.016898512840271, 
+      "p95": 2.9263007879257175, 
+      "std": 4.053868163525012, 
+      "mean": 1.5025935789591818, 
+      "nan_inf": 0, 
+      "finite": 3707, 
+      "nonzero_fraction": 1.0, 
+      "count": 3707
+    }, 
+    "new_max_location_mm": [
+      -0.009327300052973442, 
+      -0.009566859807819128
+    ], 
+    "old_max_location_mm": [
+      -0.004555015068035573, 
+      0.004351194365881383
+    ]
+  }, 
+  "new_job": "1385392.mmaster02", 
+  "misesavg_statistics": {
+    "new": {
+      "zero_count": 0, 
+      "p99": 196.70571960449223, 
+      "min": 0.2898959815502167, 
+      "p90": 124.32624969482421, 
+      "max": 453.7672424316406, 
+      "median": 96.5112533569336, 
+      "p95": 144.31435546874997, 
+      "std": 35.971359884465265, 
+      "mean": 92.56447890831802, 
+      "nan_inf": 0, 
+      "finite": 3707, 
+      "nonzero_fraction": 1.0, 
+      "count": 3707
+    }, 
+    "old": {
+      "zero_count": 0, 
+      "p99": 0.29504540771245963, 
+      "min": 0.0007398761226795614, 
+      "p90": 0.18471078127622603, 
+      "max": 0.7333254814147949, 
+      "median": 0.11944989860057831, 
+      "p95": 0.20962292030453683, 
+      "std": 0.054770973564569746, 
+      "mean": 0.12579588119653598, 
+      "nan_inf": 0, 
+      "finite": 3930, 
+      "nonzero_fraction": 1.0, 
+      "count": 3930
+    }
+  }, 
+  "protocol_version": 1, 
+  "new_odb_sha256": "85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72", 
+  "reference_job": "1384674.mmaster02", 
+  "reference_odb_sha256": "3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534"
+}
