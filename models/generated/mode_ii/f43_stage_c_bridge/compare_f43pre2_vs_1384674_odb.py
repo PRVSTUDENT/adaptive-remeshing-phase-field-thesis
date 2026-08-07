@@ -249,6 +249,7 @@ def main():
     k_norm_new = new_k_eff / e_new
     k_norm_old = old_k_eff / e_old
     k_norm_rel_err_pct = (abs(k_norm_new - k_norm_old) / abs(k_norm_old)) * 100.0 if k_norm_old != 0 else 0.0
+    k_rel_err_pct = k_norm_rel_err_pct
     rf1_rel_err_pct = k_norm_rel_err_pct
     
     # 3. MISESERI Activity & Statistics
