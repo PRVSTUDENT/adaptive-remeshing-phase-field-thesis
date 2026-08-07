@@ -1,6 +1,28 @@
 # Current project state
 
+## F41R2 Final Abaqus API Compatibility Correction and Detached Qualification (2026-08-07)
+
+Completed Stage F41R2 final Abaqus API compatibility correction and true detached clean-Linux qualification:
+- **Package Path**: `models/generated/mode_ii/f41_crack_geometry_reconstruction`
+- **Preparation Commit (P41R2)**: `2b42b61e8fd988c5f703bdc55b195ce934647f72`
+- **Qualification Commit (Q41R2)**: `2657beb13dcbe4e70dc804bc3e83ba96a949e812`
+- **Starting Commit**: `438d0ea1f1d135a1e05fd298ea911238a64aaf6d`
+- **Status**: `qualified_not_authorized`
+- **Prepared Job**: `M2RMSTITCH1` (Queue: `entry_imfdfkmq`, 1 CPU, 1 rank, 1 thread, 8 GB memory, 00:30:00 walltime).
+- **Final Abaqus API Corrections**:
+  1. **EdgeArray.findAt Syntax**: Updated `part.edges.findAt(coordinates=(-0.25, 0.0, 0.0), printWarning=False)` without custom `tolerance` keyword argument.
+  2. **Edge.getVertices Index Resolution**: Resolved vertex indices returned by `crack_edge.getVertices()` through `part.vertices[vertex_ids[0]]` and `part.vertices[vertex_ids[1]]`.
+  3. **Explicit Seam Region Tuple**: Passed seam region to `part.engineeringFeatures.assignSeam(regions=(crack_region,))` as an explicit sequence tuple.
+  4. **Removal of False-Success Fallbacks**: Removed fallback copying of pre-reconstruction coordinates to `crack_start_after` / `crack_tip_after`. Endpoint extraction failure immediately fails closed (`reconstruction_passed = false`).
+  5. **Geometric Midpoint & Error Verification**: Ordered endpoints by x coordinate, verified start $\approx [-0.5, 0.0]$, tip $\approx [0.0, 0.0]$, midpoint $\approx [-0.25, 0.0]$, and `crack_length_error <= 1e-4`.
+- **Detached Qualification**: Evaluated inside a temporary detached Git worktree at SHA `2b42b61` (`F41_QUALIFICATION_SUCCESS`), updating `F41_CLEAN_LINUX_QUALIFICATION.json`.
+- **Authority Flags**: All authority flags remain strictly `false` and `0` (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`).
+- **Next Action**: `await_human_exact_one_job_authorization_for_M2RMSTITCH1`.
+
+Classification: `f41r2_crack_reconstruction_qualified_clean_linux`.
+
 ## F41R1 Surgical Abaqus-Runtime Correction and Detached Qualification (2026-08-07)
+
 
 Completed Stage F41R1 surgical Abaqus-runtime correction and true detached clean-Linux qualification:
 - **Package Path**: `models/generated/mode_ii/f41_crack_geometry_reconstruction`

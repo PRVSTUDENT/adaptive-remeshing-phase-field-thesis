@@ -1,15 +1,15 @@
 {
   "protocol_version": 1,
-  "task_id": "F41R1-SURGICAL-ABAQUS-RUNTIME-CORRECTION",
+  "task_id": "F41R2-FINAL-ABAQUS-API-COMPATIBILITY-CORRECTION",
   "status": "qualified_not_authorized",
-  "classification": "f41r1_crack_reconstruction_qualified_clean_linux",
+  "classification": "f41r2_crack_reconstruction_qualified_clean_linux",
   "starting_commit": "438d0ea1f1d135a1e05fd298ea911238a64aaf6d",
-  "preparation_commit": "1800961e5f4746ea1bf59811062714ba75ec3d55",
-  "repair_preparation_commit": "1800961e5f4746ea1bf59811062714ba75ec3d55",
-  "qualification_commit": "7764b08c33df865139e5d32ed7be4716d4ac01ad",
+  "preparation_commit": "2b42b61e8fd988c5f703bdc55b195ce934647f72",
+  "repair_preparation_commit": "2b42b61e8fd988c5f703bdc55b195ce934647f72",
+  "qualification_commit": "2657beb13dcbe4e70dc804bc3e83ba96a949e812",
   "authorization_commit": null,
-  "latest_gate_repair_commit": "1800961e5f4746ea1bf59811062714ba75ec3d55",
-  "latest_gate_qualification_commit": "7764b08c33df865139e5d32ed7be4716d4ac01ad",
+  "latest_gate_repair_commit": "2b42b61e8fd988c5f703bdc55b195ce934647f72",
+  "latest_gate_qualification_commit": "2657beb13dcbe4e70dc804bc3e83ba96a949e812",
   "invalidated_predecessor": null,
   "prepared_job": "M2RMSTITCH1",
   "scheduler_job_id": null,
@@ -31,6 +31,7 @@
   "invalid_historical_authorization_record": null,
   "next_action": "await_human_exact_one_job_authorization_for_M2RMSTITCH1"
 }
+
 
 
 
