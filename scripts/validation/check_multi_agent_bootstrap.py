@@ -167,6 +167,7 @@ ALLOWED_TASK_IDS = frozenset(
         "F43REM2-R3",
         "F43REM2-R3-LQ1",
         "F43REM2-R3-LQ2",
+        "F43REM2-R3-LQ3",
     }
 )
 
