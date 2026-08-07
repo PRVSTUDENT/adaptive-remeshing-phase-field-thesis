@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
-Unit tests for F43GEO1 geometry-backed Mode-II source reconstruction and preanalysis contract.
+Unit tests for F43GEO2 geometry-backed Mode-II CAE generation and adaptivity-eligibility gate.
 """
 import unittest
 import os
 import json
-import hashlib
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 PACKAGE_DIR = os.path.join(REPO_ROOT, "models", "generated", "mode_ii", "f43_stage_c_bridge")
@@ -29,7 +28,7 @@ class TestF43GeometrySourceContract(unittest.TestCase):
         self.assertEqual(data["reference_role"], "numerical_comparison_reference_only")
         self.assertEqual(data["acceptance_criteria"]["mesh_resolution"]["mesh_technique"], "FREE")
 
-    def test_standalone_builder_and_geometry_validator_pass(self):
+    def test_builder_manifest_and_geometry_validator_pass(self):
         import importlib.util
         val_path = os.path.join(PACKAGE_DIR, "validate_f43pre2_geometry.py")
         spec = importlib.util.spec_from_file_location("geo_val", val_path)
@@ -43,6 +42,20 @@ class TestF43GeometrySourceContract(unittest.TestCase):
         self.assertTrue(results["deterministic_names_valid"])
         self.assertTrue(results["adaptivity_mesh_controls_valid"])
         self.assertTrue(results["reference_1384674_isolated"])
+        self.assertTrue(results["cae_generated"])
+        self.assertTrue(results["cae_reopen_persistence_verified"])
+        self.assertTrue(results["seam_verified"])
+        self.assertTrue(results["cae_eligibility_gate_passed"])
+
+    def test_mesh_control_contract_specifies_quad_dominated(self):
+        manifest_path = os.path.join(PACKAGE_DIR, "F43PRE2_SOURCE_MANIFEST.json")
+        with open(manifest_path, "r") as fp:
+            data = json.load(fp)
+        mesh_spec = data["benchmark_spec"]["mesh"]
+        self.assertEqual(mesh_spec["elem_shape"], "QUAD_DOMINATED")
+        self.assertEqual(mesh_spec["technique"], "FREE")
+        self.assertEqual(mesh_spec["algorithm"], "ADVANCING_FRONT")
+        self.assertFalse(mesh_spec["allow_mapped"])
 
     def test_legacy_odb_1384674_rejected_as_direct_native_remeshing_predecessor(self):
         manifest_path = os.path.join(PACKAGE_DIR, "F43PRE2_SOURCE_MANIFEST.json")

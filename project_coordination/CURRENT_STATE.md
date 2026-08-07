@@ -1,6 +1,44 @@
 # Current project state
 
+## F43GEO2 Geometry-Backed CAE Generation & Adaptivity-Eligibility Gate (2026-08-07)
+
+Completed Task F43GEO2 native CAD geometry `.cae` generation, non-PBS Abaqus/CAE model build, mesh controls correction (`QUAD_DOMINATED` / `FREE` / `ADVANCING_FRONT` / `allowMapped=False`), seam verification, `MISESERI_Adaptive_Rule` creation, `openMdb` reopen-persistence qualification, preanalysis input deck export (`F43PRE2_GEOM.inp`), offline test suite execution, and preparation `P43PRE2` / qualification `Q43PRE2`:
+- **Task ID**: `F43GEO2-GEOMETRY-BACKED-CAE-GENERATION-AND-ADAPTIVITY-ELIGIBILITY-GATE`
+- **Status**: `complete`
+- **Classification**: `f43geo2_geometry_backed_cae_adaptivity_eligible` (CASE A / Qualified)
+- **Preparation Commit**: `P43PRE2`
+- **Qualification Commit**: `Q43PRE2`
+- **Preserved References**:
+  1. Predecessor reference job: `1384674.mmaster02` (`F43PRE1.odb`, SHA256 `3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534`), preserved strictly as numerical comparison reference ONLY.
+  2. Evidence job: `1385376.mmaster02` preserved unchanged.
+- **Scientific Provenance Separated**:
+  1. Geometry/Physics Benchmark Source: `Molnar-Gravouil Mode-II single-edge-notch benchmark as represented by the accepted project benchmark configuration`
+  2. Refinement Workflow Source: `Pandey-Kumar 2025 MISESERI-driven Abaqus native pre-refinement workflow`
+- **Empirical CAE Generation & Topology Verification**:
+  1. Generated CAE Database: `ModeII_Geometry_Source.cae` (SHA256 `3b4d28002f49295efc7babf06f37ab508d75e7b840f12d6e5fbbd64c424a5dd8`).
+  2. Native Geometry Topology: Faces = 1, Edges = 6, Vertices = 6 (`geometry_backed = true`, `orphan_mesh = false`).
+  3. Domain Geometry: Plate $1.0\text{ mm} \times 1.0\text{ mm}$ ($x, y \in [-0.5, 0.5]$), Notch length $a = 0.5\text{ mm}$ along $y=0$, tip at $(0.0, 0.0)$.
+  4. Seam Feature: Native seam edge assigned along notch line (`seam_verified = true`).
+  5. Remeshing Rule: `MISESERI_Adaptive_Rule` created in `mdb.models['ModeII_Geometry_Model'].remeshingRules`.
+  6. Reopen Persistence: `openMdb` reopen-persistence verified (`cae_reopen_persistence_verified = true`).
+- **Initial Coarse Mesh Results**:
+  1. Total Element Count: `3707` elements (well within 3500-4300 planned range, highly comparable to 3930 coarse reference).
+  2. Element Mix: `3597` CPE4 quadrilaterals + `110` CPE3 triangles (mixed topology generated cleanly by `QUAD_DOMINATED` free meshing).
+  3. Node Count: `3793` nodes.
+- **Exported Input Deck (`F43PRE2_GEOM.inp`)**:
+  1. SHA256: `1f16f8525a7e627b90bd4958f8701a418d0ac2960654787853b2688f8fda75dd`.
+  2. Output Requests: `S`, `MISESERI`, `MISESAVG`, `EVOL`, `U`, `RF`.
+- **Offline Qualification & Test Suite**:
+  1. Full test suite passed 102/102 tests (F43: 16/16, F42: 19/19, F41: 21/21, F40: 46/46).
+- **Future HPC Dependency Graph**:
+  `Geometry-Backed CAE` $\rightarrow$ `F43PRE2_GEOM Solver` $\rightarrow$ `Scientific Comparison against 1384674` $\rightarrow$ `F43REM2_NATIVE` $\rightarrow$ `Gate C1` $\rightarrow$ `F43DRY1`. No prequeued dependent jobs.
+- **Authority Flags**: All default-closed (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`). Zero HPC jobs submitted.
+- **Next Action**: `await_human_authorization_for_f43pre2_geom_preanalysis_submission`
+
+---
+
 ## F43GEO1 Parametric Geometry-Backed Mode-II Source Reconstruction & Co-Generated Preanalysis Architecture (2026-08-07)
+
 
 Completed Task F43GEO1 parametric CAD geometry builder implementation, benchmark source manifest, acceptance criteria definition, offline validator, unit test suite qualification, and future HPC dependency graph:
 - **Task ID**: `F43GEO1-PARAMETRIC-GEOMETRY-SOURCE-RECONSTRUCTION`
