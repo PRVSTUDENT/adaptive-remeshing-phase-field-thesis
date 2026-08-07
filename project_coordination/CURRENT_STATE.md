@@ -1,6 +1,34 @@
 # Current project state
 
+## F42B Single-Triangle Core UEL Qualification & Verification Preparation (2026-08-07)
+
+Completed Task F42B single-triangle core UEL qualification, $N_{phys}$ physical index mapping audit, direct production-core equivalence (`F42TRI1_SOURCE_DIFF_AUDIT.json`), Fortran syntax qualification, 67/67 unit test suite execution, detached clean-Linux worktree qualification (`F42TRI1_CORE_QUALIFICATION.json`), and guarded HPC job package preparation (`F42TRI1_CORE`):
+- **Task ID**: `F42B-SINGLE-TRIANGLE-UEL-CORE-VERIFICATION`
+- **Status**: `qualified_not_authorized`
+- **Classification**: `f42b_single_triangle_core_uel_qualified`
+- **Next Action**: `await_exact_human_authorization_for_one_F42TRI1_core_job`
+- **Preparation Commit (P42B)**: `67809cb7523cdd4047c5c394841f2dca949a1ff3`
+- **Qualification Commit (Q42B)**: `991dd3a1b0308c9859f8db53dcf8b896cc784ede`
+- **Key Architectural Findings & Audits**:
+  1. **$N_{phys}$ / `JELEM` Physical Mapping Audit**: Repaired Fortran source so array dimensioning `N_CAPACITY = 100000` is strictly separated from physical element count `NPHYS_VAL`. `U3` Phase label 1 maps to `PHYSIDX = 1`, and `U4` Displacement label 2 maps to `PHYSIDX = JELEM - NPHYS_VAL = 2 - 1 = 1`. Both UELs access physical state slot `1`.
+  2. **Isolation of Core UEL from CPE3 Facsimile**: Created `f42tri1_core_uel_only/` containing ONLY one $U3$ phase triangle and one $U4$ displacement triangle. CPE3 and UMAT facsimile output layer excluded from the initial HPC verification.
+  3. **Facsimile Integration Point Mismatch Decision (`F42_TRIANGLE_FACSIMILE_MAPPING_DECISION.md`)**: Documented that 3 UEL quadrature points vs 1 CPE3 centroid point require an explicit aggregation mapping (Option A/B) in future post-processing steps.
+  4. **Source Equivalence**: `F42TRI1_CORE.for` is mathematically identical to `f42_mixed_uel.for` (`only_bounded_diagnostics = true`).
+- **Fortran Syntax Verification**:
+  - `gfortran -fsyntax-only -ffixed-line-length-none -Wall -Wextra -Wsurprising` executed on both `f42_mixed_uel.for` and `F42TRI1_CORE.for` $\rightarrow$ **0 errors, 0 warnings**.
+- **Detached Clean-Linux Worktree Qualification (`F42TRI1_CORE_QUALIFICATION.json`)**:
+  - Qualification environment: `detached_git_worktree_clean_linux` at commit `67809cb7...`.
+  - All 11 F42 unit tests, 21 F41 regression tests, and 35 F40 regression tests passed cleanly (**67/67 OK**).
+- **Prepared Guarded HPC Package (`F42TRI1_CORE`)**:
+  - Package path: `models/generated/mode_ii/f42_mixed_element_uel/f42tri1_core_uel_only/`
+  - PBS script: `F42TRI1_CORE.pbs` (1 node, 2 cpus, 8GB mem, 30 min walltime, queue `short`).
+  - Guarded wrapper: `submit_f42tri1_core.sh` (requires explicit `--authorize-execution` flag).
+- **Authority Flags**: All default-closed (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`). No HPC jobs submitted.
+
+Classification: `f42b_single_triangle_core_uel_qualified`.
+
 ## F42A-R1 Mixed-Element UEL Contract Correction & One-Triangle Verification Preparation (2026-08-07)
+
 
 Completed Task F42A-R1 mixed 3-node triangle and 4-node quad UEL contract correction, degree-2 3-point triangle quadrature, 3-layer offset element rebuilder, static Fortran syntax verification, and single-triangle `F42TRI1` verification package:
 - **Task ID**: `F42A-R1-MIXED-UEL-CONTRACT-CORRECTION`

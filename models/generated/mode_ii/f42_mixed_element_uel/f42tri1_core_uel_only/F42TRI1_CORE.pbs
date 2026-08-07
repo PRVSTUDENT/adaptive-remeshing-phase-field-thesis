@@ -1,0 +1,31 @@
+#!/bin/bash
+#PBS -N F42TRI1
+#PBS -l select=1:ncpus=2:mpiprocs=2:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -q short
+#PBS -j oe
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+
+set -euo pipefail
+
+# Guarded submission wrapper enforcement
+if [ "${F42TRI1_CORE_WRAPPER_AUTHORIZED:-0}" -ne 1 ]; then
+    echo "ERROR: Direct qsub execution prohibited. Must submit via submit_f42tri1_core.sh" >&2
+    exit 1
+fi
+
+cd "${PBS_O_WORKDIR}"
+EVIDENCE_DIR="${PBS_O_WORKDIR}/evidence/${PBS_JOBID}"
+mkdir -p "${EVIDENCE_DIR}"
+
+echo "=== F42TRI1_CORE Execution Start: $(date) ===" | tee "${EVIDENCE_DIR}/execution.log"
+echo "Job ID: ${PBS_JOBID}" | tee -a "${EVIDENCE_DIR}/execution.log"
+echo "Host: $(hostname)" | tee -a "${EVIDENCE_DIR}/execution.log"
+
+module load abaqus/2023 || true
+
+abaqus job=F42TRI1_CORE user=F42TRI1_CORE.for input=F42TRI1_CORE.inp cpus=2 mp_mode=mpi interactive 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log" || true
+
+bash collect_f42tri1_core_evidence.sh "${PBS_JOBID}" "${EVIDENCE_DIR}"
+python3 validate_f42tri1_core_runtime.py "${EVIDENCE_DIR}"
