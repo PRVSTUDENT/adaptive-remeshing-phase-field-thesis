@@ -73,5 +73,101 @@ class TestF43RemeshRepairContract(unittest.TestCase):
             self.assertIn(key, data)
             self.assertEqual(len(data[key]), 64)
 
+    def test_env_var_path_resolution_with_empirical_cae_argv(self):
+        import sys, tempfile, importlib.util
+        driver_path = os.path.join(PACKAGE_DIR, "run_f43_native_remesh_driver.py")
+        spec = importlib.util.spec_from_file_location("f43_driver", driver_path)
+        f43_driver = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(f43_driver)
+
+        with tempfile.NamedTemporaryFile("wb", delete=False) as tmp_odb:
+            dummy_content = b"DUMMY_ODB_CONTENT_FOR_3a201a6d"
+            tmp_odb.write(dummy_content)
+            tmp_odb_path = tmp_odb.name
+
+        actual_hash = hashlib.sha256(dummy_content).hexdigest()
+        config_path = os.path.join(PACKAGE_DIR, "f43_remeshing_rule_config.json")
+        output_inp_path = os.path.join(REPO_ROOT, "F43REFINED_standard.inp")
+
+        old_argv = sys.argv
+        sys.argv = ['-cae', 'f43_remeshing_rule_config.json', 'evidence/1384674.mmaster02/F43PRE1.odb', 'F43REFINED_standard.inp']
+
+        old_env = dict(os.environ)
+        try:
+            os.environ["F43REM1_CONFIG_PATH"] = config_path
+            os.environ["F43REM1_ODB_PATH"] = tmp_odb_path
+            os.environ["F43REM1_OUTPUT_INP"] = output_inp_path
+            os.environ["F43REM1_EXPECTED_ODB_SHA256"] = actual_hash
+
+            cfg_res, odb_res, out_res = f43_driver.resolve_runtime_environment()
+            self.assertEqual(cfg_res, os.path.abspath(config_path))
+            self.assertEqual(odb_res, os.path.abspath(tmp_odb_path))
+            self.assertEqual(out_res, os.path.abspath(output_inp_path))
+        finally:
+            sys.argv = old_argv
+            os.environ.clear()
+            os.environ.update(old_env)
+            if os.path.exists(tmp_odb_path):
+                os.remove(tmp_odb_path)
+
+    def test_missing_env_vars_fail(self):
+        import importlib.util
+        driver_path = os.path.join(PACKAGE_DIR, "run_f43_native_remesh_driver.py")
+        spec = importlib.util.spec_from_file_location("f43_driver", driver_path)
+        f43_driver = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(f43_driver)
+
+        required_vars = [
+            "F43REM1_CONFIG_PATH",
+            "F43REM1_ODB_PATH",
+            "F43REM1_OUTPUT_INP",
+            "F43REM1_EXPECTED_ODB_SHA256"
+        ]
+        for missing_var in required_vars:
+            old_env = dict(os.environ)
+            try:
+                os.environ["F43REM1_CONFIG_PATH"] = "dummy_cfg"
+                os.environ["F43REM1_ODB_PATH"] = "dummy_odb"
+                os.environ["F43REM1_OUTPUT_INP"] = "dummy_out"
+                os.environ["F43REM1_EXPECTED_ODB_SHA256"] = "dummy_hash"
+                del os.environ[missing_var]
+
+                with self.assertRaises(RuntimeError) as ctx:
+                    f43_driver.resolve_runtime_environment()
+                self.assertIn("Missing required environment variable", str(ctx.exception))
+            finally:
+                os.environ.clear()
+                os.environ.update(old_env)
+
+    def test_odb_hash_validation_and_legacy_rejection(self):
+        import tempfile, importlib.util
+        driver_path = os.path.join(PACKAGE_DIR, "run_f43_native_remesh_driver.py")
+        spec = importlib.util.spec_from_file_location("f43_driver", driver_path)
+        f43_driver = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(f43_driver)
+
+        with tempfile.NamedTemporaryFile("wb", delete=False) as tmp_odb:
+            tmp_odb.write(b"LEGACY_ODB_1379579")
+            tmp_odb_path = tmp_odb.name
+
+        config_path = os.path.join(PACKAGE_DIR, "f43_remeshing_rule_config.json")
+        output_inp_path = os.path.join(REPO_ROOT, "F43REFINED_standard.inp")
+
+        old_env = dict(os.environ)
+        try:
+            os.environ["F43REM1_CONFIG_PATH"] = config_path
+            os.environ["F43REM1_ODB_PATH"] = tmp_odb_path
+            os.environ["F43REM1_OUTPUT_INP"] = output_inp_path
+            os.environ["F43REM1_EXPECTED_ODB_SHA256"] = "3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534"
+
+            with self.assertRaises(RuntimeError) as ctx:
+                f43_driver.resolve_runtime_environment()
+            self.assertIn("Source ODB SHA256 mismatch", str(ctx.exception))
+        finally:
+            os.environ.clear()
+            os.environ.update(old_env)
+            if os.path.exists(tmp_odb_path):
+                os.remove(tmp_odb_path)
+
 if __name__ == "__main__":
     unittest.main()

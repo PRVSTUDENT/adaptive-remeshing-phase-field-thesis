@@ -43,7 +43,12 @@ if [ "${ACTUAL_SHA256}" != "${EXPECTED_SHA256}" ]; then
     exit 1
 fi
 
-abaqus cae noGUI=run_f43_native_remesh_driver.py -- f43_remeshing_rule_config.json "${SOURCE_ODB}" F43REFINED_standard.inp 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log" || true
+export F43REM1_CONFIG_PATH="${PBS_O_WORKDIR}/f43_remeshing_rule_config.json"
+export F43REM1_ODB_PATH="${SOURCE_ODB}"
+export F43REM1_OUTPUT_INP="${PBS_O_WORKDIR}/F43REFINED_standard.inp"
+export F43REM1_EXPECTED_ODB_SHA256="${EXPECTED_SHA256}"
+
+abaqus cae noGUI=run_f43_native_remesh_driver.py 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log" || true
 
 bash collect_f43rem1_evidence.sh "${PBS_JOBID}" "${EVIDENCE_DIR}"
 python3 validate_f43rem1_runtime.py "${EVIDENCE_DIR}"
