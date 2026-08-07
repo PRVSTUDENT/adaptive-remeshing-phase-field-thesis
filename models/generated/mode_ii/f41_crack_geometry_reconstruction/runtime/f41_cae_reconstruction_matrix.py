@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """
-F41 CAE Reconstruction Matrix (F41R1 Surgical Abaqus-Runtime Correction)
+F41 CAE Reconstruction Matrix (F41R2 Final Abaqus API Compatibility Correction)
 
 Executes the topology-preserving crack geometry reconstruction sequence inside Abaqus Python 2.7:
 1. Pre-merge crack trace extraction & F41_TOPOLOGY_MAP.json generation
 2. Temporary working copy creation & BOTH-member 15-pair node merging
 3. B-Rep model.Part2DGeomFrom2DMesh geometry conversion
 4. Recreating physical crack geometry via ConstrainedSketch & PartitionFaceBySketch
-5. Seam edge assignment via engineeringFeatures.assignSeam & regionToolset.Region
-6. True post-reconstruction crack measurement & tolerance validation
-7. Meshing phase (element type CPE4, seeding, generateMesh) without solver analysis
-8. Comprehensive audit validation & F41_CRACK_RECONSTRUCTION_AUDIT.json generation
+5. Supported EdgeArray.findAt(coordinates=..., printWarning=False) lookups & Edge.getVertices() index resolution
+6. Seam edge assignment via engineeringFeatures.assignSeam(regions=(crack_region,))
+7. True post-reconstruction crack measurement & tolerance validation (fail-closed, no false fallbacks)
+8. Meshing phase (element type CPE4, seeding, generateMesh) without solver analysis
+9. Comprehensive audit validation & F41_CRACK_RECONSTRUCTION_AUDIT.json generation
 """
 
 import json
@@ -294,43 +295,61 @@ def run_f41_matrix():
 
             part.PartitionFaceBySketch(faces=part.faces, sketch=sketch)
 
-            # Find resulting embedded crack edge by midpoint (-0.25, 0.0)
-            crack_edge = part.edges.findAt((-0.25, 0.0, 0.0), tolerance=1e-4)
+            # Rule 1: Use supported EdgeArray.findAt syntax (no custom tolerance keyword argument)
+            crack_edge = part.edges.findAt(coordinates=(-0.25, 0.0, 0.0), printWarning=False)
+            if crack_edge is None:
+                raise ValueError("part.edges.findAt returned None for coordinates (-0.25, 0.0, 0.0)")
 
-            seam_assigned = False
-            crack_edge_id = None
+            crack_edge_id = "CRACK_EDGE_INDEX_{0}".format(crack_edge.index)
 
-            if crack_edge:
-                crack_edge_id = "CRACK_EDGE_INDEX_{0}".format(crack_edge.index)
+            # Rule 2: Edge.getVertices() returns vertex indices
+            vertex_ids = crack_edge.getVertices()
+            if len(vertex_ids) != 2:
+                raise ValueError("crack_edge.getVertices() returned {0} indices; exactly 2 required".format(len(vertex_ids)))
 
-                # Use Abaqus EngineeringFeature API and regionToolset.Region
-                import regionToolset
-                crack_edge_seq = part.edges[crack_edge.index:crack_edge.index + 1]
-                crack_region = regionToolset.Region(edges=crack_edge_seq)
-                part.engineeringFeatures.assignSeam(regions=crack_region)
+            # Resolve vertex indices through part.vertices
+            v1 = part.vertices[vertex_ids[0]]
+            v2 = part.vertices[vertex_ids[1]]
+            v1_pt = v1.pointOn[0]
+            v2_pt = v2.pointOn[0]
 
-                if hasattr(part.engineeringFeatures, 'seams') and len(part.engineeringFeatures.seams) > 0:
-                    seam_assigned = True
-                else:
-                    seam_assigned = True  # assignSeam call succeeded without exception
-
-            # Measure post-reconstruction crack geometry
-            v_pts = [edge_v.pointOn[0] for edge_v in crack_edge.getVertices()] if crack_edge else []
-            if len(v_pts) >= 2:
-                if v_pts[0][0] < v_pts[1][0]:
-                    crack_start_after = [v_pts[0][0], v_pts[0][1]]
-                    crack_tip_after = [v_pts[1][0], v_pts[1][1]]
-                else:
-                    crack_start_after = [v_pts[1][0], v_pts[1][1]]
-                    crack_tip_after = [v_pts[0][0], v_pts[0][1]]
+            # Rule 5: Order endpoints by x coordinate
+            if v1_pt[0] < v2_pt[0]:
+                crack_start_after = [v1_pt[0], v1_pt[1]]
+                crack_tip_after = [v2_pt[0], v2_pt[1]]
             else:
-                crack_start_after = crack_start_before
-                crack_tip_after = crack_tip_before
+                crack_start_after = [v2_pt[0], v2_pt[1]]
+                crack_tip_after = [v1_pt[0], v1_pt[1]]
 
             dx_after = crack_tip_after[0] - crack_start_after[0]
             dy_after = crack_tip_after[1] - crack_start_after[1]
             crack_length_after = math.sqrt(dx_after * dx_after + dy_after * dy_after)
             crack_length_error = abs(crack_length_after - crack_length_before)
+
+            crack_mid_after = [
+                (crack_start_after[0] + crack_tip_after[0]) / 2.0,
+                (crack_start_after[1] + crack_tip_after[1]) / 2.0
+            ]
+
+            start_preserved = (
+                abs(crack_start_after[0] - (-0.5)) <= 1e-4 and
+                abs(crack_start_after[1] - (0.0)) <= 1e-4
+            )
+            tip_preserved = (
+                abs(crack_tip_after[0] - (0.0)) <= 1e-4 and
+                abs(crack_tip_after[1] - (0.0)) <= 1e-4
+            )
+            midpoint_valid = (
+                abs(crack_mid_after[0] - (-0.25)) <= 1e-4 and
+                abs(crack_mid_after[1] - (0.0)) <= 1e-4
+            )
+
+            # Rule 3: Seam region explicit tuple assignment
+            import regionToolset
+            crack_edge_seq = part.edges[crack_edge.index:crack_edge.index + 1]
+            crack_region = regionToolset.Region(edges=crack_edge_seq)
+            part.engineeringFeatures.assignSeam(regions=(crack_region,))
+            seam_assigned = True
 
             # Measure specimen outer bounding box
             all_v_xs = [v.pointOn[0][0] for v in part.vertices]
@@ -349,22 +368,12 @@ def run_f41_matrix():
                 abs(bbox_after["y_max"] - (0.5)) <= 1e-4
             )
 
-            tip_preserved = (
-                abs(crack_tip_after[0] - crack_tip_before[0]) <= 1e-4 and
-                abs(crack_tip_after[1] - crack_tip_before[1]) <= 1e-4
-            )
-
-            start_preserved = (
-                abs(crack_start_after[0] - crack_start_before[0]) <= 1e-4 and
-                abs(crack_start_after[1] - crack_start_before[1]) <= 1e-4
-            )
-
             recreated_passed = (
-                (crack_edge is not None) and
                 seam_assigned and
                 bbox_preserved and
                 tip_preserved and
                 start_preserved and
+                midpoint_valid and
                 (crack_length_error <= 1e-4)
             )
 
@@ -393,7 +402,7 @@ def run_f41_matrix():
                 "dependency_blocked": False,
                 "observations": {
                     "crack_edge_id": crack_edge_id,
-                    "crack_geometry_recreated": (crack_edge is not None),
+                    "crack_geometry_recreated": True,
                     "seam_assigned": seam_assigned,
                     "crack_start_after": crack_start_after,
                     "crack_tip_after": crack_tip_after,

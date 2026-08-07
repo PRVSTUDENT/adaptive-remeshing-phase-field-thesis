@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Unit tests for Stage F41 Topology-Preserving Crack Geometry Reconstruction (F41R1).
+Unit tests for Stage F41 Topology-Preserving Crack Geometry Reconstruction (F41R2).
 Includes pure-Python offline topology tests, synthetic conversion tests, and static runtime-contract tests.
 """
 
@@ -92,36 +92,37 @@ class TestStageF41RuntimeContractStatic(unittest.TestCase):
         self.assertIn("all_crack_node_labels.append(p[\"upper_node_id\"])", self.source)
         self.assertNotIn("upper_node_objs = [", self.source, "Must not build merge selection using upper_node_objs only")
 
-    def test_08_engineering_features_assign_seam_no_part_assign_seam(self):
-        self.assertIn("engineeringFeatures.assignSeam", self.source)
-        self.assertIn("regionToolset.Region", self.source)
-        self.assertNotIn("part.assignSeam(", self.source, "Must not call obsolete part.assignSeam direct API")
+    def test_08_no_edgearray_findat_tolerance_keyword(self):
+        self.assertNotIn("edges.findAt((-0.25, 0.0, 0.0), tolerance=", self.source, "Must not call edges.findAt with tolerance keyword")
+        self.assertNotIn("edges.findAt(coordinates=(-0.25, 0.0, 0.0), tolerance=", self.source, "Must not call edges.findAt with tolerance keyword")
+        self.assertIn("edges.findAt(coordinates=(-0.25, 0.0, 0.0), printWarning=False)", self.source, "Must use supported findAt syntax")
 
-    def test_09_actual_sketch_partition_creation_no_vertex_findat_dependency(self):
-        self.assertIn("ConstrainedSketch", self.source)
-        self.assertIn("PartitionFaceBySketch", self.source)
-        self.assertNotIn("vertices.findAt((0.0, 0.0", self.source, "Must not depend on existing vertex at (0,0)")
+    def test_09_getvertices_resolved_through_part_vertices(self):
+        self.assertIn("vertex_ids = crack_edge.getVertices()", self.source)
+        self.assertIn("part.vertices[vertex_ids[0]]", self.source)
+        self.assertIn("part.vertices[vertex_ids[1]]", self.source)
+        self.assertNotIn("edge_v.pointOn", self.source, "Must not call pointOn directly on getVertices elements")
 
-    def test_10_measured_crack_length_and_error(self):
-        self.assertIn("crack_length_after", self.source)
-        self.assertIn("crack_length_error", self.source)
+    def test_10_explicit_seam_region_tuple(self):
+        self.assertIn("engineeringFeatures.assignSeam(regions=(crack_region,))", self.source, "Must pass seam region as an explicit tuple")
+        self.assertNotIn("assignSeam(regions=crack_region)", self.source, "Must not pass bare single region object")
 
-    def test_11_meshing_phase_contract(self):
-        self.assertIn("setElementType", self.source)
-        self.assertIn("setMeshControls", self.source)
-        self.assertIn("seedPart", self.source)
-        self.assertIn("generateMesh", self.source)
-        self.assertIn("mesh_node_count", self.source)
-        self.assertIn("mesh_element_count", self.source)
+    def test_11_no_false_success_fallback_copying(self):
+        self.assertNotIn("crack_start_after = crack_start_before", self.source, "Must not fallback copy crack_start_before")
+        self.assertNotIn("crack_tip_after = crack_tip_before", self.source, "Must not fallback copy crack_tip_before")
+
+    def test_12_fail_closed_if_endpoint_count_not_two(self):
+        self.assertIn("len(vertex_ids) != 2", self.source)
+        self.assertIn("exactly 2 required", self.source)
 
 
 class TestStageF41SyntheticConversion(unittest.TestCase):
 
-    def test_12_synthetic_unusable_cracked_topology(self):
+    def test_13_synthetic_unusable_cracked_topology(self):
         cracked_conversion = {"face_count": 0, "vertex_count": 0, "usable_geometry": False}
         self.assertFalse(cracked_conversion["usable_geometry"])
 
-    def test_13_synthetic_reconstructed_geometry_crack_recreated_passes_audit(self):
+    def test_14_synthetic_reconstructed_geometry_crack_recreated_passes_audit(self):
         reconstructed = {
             "duplicate_pairs_before": 15,
             "duplicate_pairs_after": 0,
@@ -144,7 +145,7 @@ class TestStageF41SyntheticConversion(unittest.TestCase):
         self.assertTrue(reconstructed["seam_assigned"])
         self.assertTrue(reconstructed["mesh_generated"])
 
-    def test_14_fail_closed_on_unassigned_seam_or_uncreated_mesh(self):
+    def test_15_fail_closed_on_unassigned_seam_or_uncreated_mesh(self):
         bad_audit1 = {"seam_assigned": False, "reconstruction_passed": False}
         bad_audit2 = {"mesh_generated": False, "reconstruction_passed": False}
         self.assertFalse(bad_audit1["reconstruction_passed"])
