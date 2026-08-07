@@ -1,10 +1,11 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM1-TERMINAL-MONITORING-ODB-HASH-RESOLUTION-AND-SCIENTIFIC-CLOSEOUT",
+  "task_id": "F43REM1-REMOTE-ODB-HASH-VERIFICATION-AND-TRUE-TERMINAL-CLOSEOUT",
   "status": "submitted_queued",
-  "classification": "f43rem1_native_remeshing_mechanism_validated_on_legacy_1379579_predecessor_not_current_f43pre1",
+  "classification": "f43rem1_legacy_predecessor_selected_runtime_result_pending",
+  "predecessor_identity_classification": "f43rem1_consumes_legacy_1379579_odb_not_current_f43pre1",
   "governance_classification": "protocol_deviating_unqualified_post_q43a_executable_package_submission",
-  "starting_commit": "993301836e66442c5309f8f999a9f227e5f816c5",
+  "starting_commit": "9f28242f7b8c9ffd6ed89b23673dcc8e121d7e7d",
   "preparation_commit": "eee0c67b3b0f9b06b0c37bdd2a9f5078e3b8ee7d",
   "repair_preparation_commit": null,
   "qualification_commit": "18901968434e08db73f26a99b1e2c8b0dbd9e6d1",
@@ -30,5 +31,5 @@
   "facsimile_contract": "mechanically_passive_dummy_youngs_modulus_1e-11",
   "centroid_state_mapping": "slot_4_dedicated_centroid_physical_reconstruction",
   "topology_dispatch": "props_topology_marker_4_quad_3_tri",
-  "next_action": "await_f43rem1_terminal_evidence_and_single_combined_closeout"
+  "next_action": "await_f43rem1_remote_execution_and_true_terminal_closeout"
 }
