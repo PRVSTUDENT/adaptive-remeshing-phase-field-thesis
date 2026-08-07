@@ -84,18 +84,25 @@ def validate_f43pre2_geometry(package_dir="."):
     results["cae_generated"] = manifest.get("cae_generated", False)
     results["cae_reopen_persistence_verified"] = manifest.get("cae_reopen_persistence_verified", False)
     results["seam_verified"] = manifest.get("seam_verified", False)
+    results["cae_authoritative_hash_stage"] = manifest.get("cae_authoritative_hash_stage")
     elem_count = manifest.get("mesh_element_count", 0)
     results["element_count"] = elem_count
     results["cpe4_count"] = manifest.get("cpe4_count", 0)
     results["cpe3_count"] = manifest.get("cpe3_count", 0)
 
+    results["cae_hash_valid"] = (manifest.get("cae_sha256") == "0f156004b3cdc3b215ed66f7d4dea95065dd18c2fe209b79f06e40197e07d408")
+    results["inp_hash_valid"] = (manifest.get("inp_sha256") == "1f16f8525a7e627b90bd4958f8701a418d0ac2960654787853b2688f8fda75dd")
+
     if (results["cae_generated"] and
         results["cae_reopen_persistence_verified"] and
         results["seam_verified"] and
+        results["cae_hash_valid"] and
+        results["inp_hash_valid"] and
+        results["cae_authoritative_hash_stage"] == "post_abaqus_process_final_on_disk" and
         3500 <= elem_count <= 4300):
         results["cae_eligibility_gate_passed"] = True
     else:
-        results["failures"].append("CAE generation / persistence / seam / element count check failed! count=" + str(elem_count))
+        results["failures"].append("CAE generation / persistence / hash contract / seam / element count check failed! count=" + str(elem_count))
 
     results["overall_passed"] = (
         results["source_manifest_exists"] and
