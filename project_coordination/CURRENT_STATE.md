@@ -1,5 +1,24 @@
 # Current project state
 
+## F43REM2_NATIVE Authorized Guarded Remote HPC Submission (2026-08-07)
+
+Completed authorized remote HPC submission of `F43REM2_NATIVE`:
+- **Task ID**: `F43REM2_NATIVE`
+- **Status**: `submitted_running`
+- **Classification**: `f43rem2_native_submitted_running`
+- **PBS Job ID**: `1385400.mmaster02`
+- **Scheduler State**: `R` (Running on `mnode098/0`)
+- **Queue**: `normal_imfdfkmq` (submitted via `entry_imfdfkmq`)
+- **Preparation Commit ($P$)**: `P43REM2-R4` (`83f8f493a1f90e7bd982481eb034733a17568f09`)
+- **Qualification Commit ($Q$)**: `Q43REM2-R4` (`b3ce109c9d2b8876706dc9e1494c43ad73dc7567`)
+- **Authorization Commit**: `7159f53d492f44c3065cb872cd5f1a13f5ddbae0`
+- **Predecessor ODB**: `1385392.mmaster02/F43PRE2_GEOM.odb` (SHA256: `85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72`)
+- **External Source CAE**: `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/ModeII_Geometry_Source.cae` (SHA256: `889c15ba6621ae8435324473bb385cb0da6a62866dd8c996865806b876c051ff`)
+- **Authority Boundary**: Explicit human authorization sentence recorded. `MAX_SUBMISSIONS=1`, `automatic_retry = false`. 1 submission executed.
+- **Next Action**: Monitor job `1385400.mmaster02` until completion, collect lightweight evidence, validate results, and execute final closeout.
+
+---
+
 ## F43REM2-R3-LQ3 Exact Full test_*.py Discovery Naturally-Clean Final Qualification (2026-08-07)
 
 Completed final qualification task `F43REM2-R3-LQ3`: Exact complete `test_*.py` full discovery naturally clean Linux-Git detached worktree qualification with zero post-test manual cleanup:
