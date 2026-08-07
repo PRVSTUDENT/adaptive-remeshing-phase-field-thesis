@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Validate F41 Matrix Results
+Validate F41 Matrix Results (F41R1 Fail-Closed Runtime Audit Validator)
 
 Validates that F41_CRACK_RECONSTRUCTION_AUDIT.json, F41_TOPOLOGY_MAP.json, and
 F41_CAE_RECONSTRUCTION_MATRIX.json satisfy all scientific and technical acceptance criteria.
@@ -35,10 +35,20 @@ def main():
                 errors.append("reconstructed_face_count ({0}) is less than 1".format(audit.get("reconstructed_face_count")))
             if audit.get("crack_geometry_recreated") is not True:
                 errors.append("crack_geometry_recreated is not True")
+            if audit.get("seam_assigned") is not True:
+                errors.append("seam_assigned is not True")
             if audit.get("crack_tip_preserved") is not True:
                 errors.append("crack_tip_preserved is not True")
             if audit.get("outer_boundary_preserved") is not True:
                 errors.append("outer_boundary_preserved is not True")
+            if audit.get("crack_length_error", 1.0) > 1e-4:
+                errors.append("crack_length_error ({0}) exceeds tolerance 1e-4".format(audit.get("crack_length_error")))
+            if audit.get("mesh_generated") is not True:
+                errors.append("mesh_generated is not True")
+            if audit.get("mesh_node_count", 0) <= 0:
+                errors.append("mesh_node_count ({0}) is not > 0".format(audit.get("mesh_node_count")))
+            if audit.get("mesh_element_count", 0) <= 0:
+                errors.append("mesh_element_count ({0}) is not > 0".format(audit.get("mesh_element_count")))
             if audit.get("reconstruction_passed") is not True:
                 errors.append("reconstruction_passed is not True")
 
