@@ -1,6 +1,29 @@
 # Current project state
 
+## F41R1 Surgical Abaqus-Runtime Correction and Detached Qualification (2026-08-07)
+
+Completed Stage F41R1 surgical Abaqus-runtime correction and true detached clean-Linux qualification:
+- **Package Path**: `models/generated/mode_ii/f41_crack_geometry_reconstruction`
+- **Preparation Commit (P41R1)**: `1800961e5f4746ea1bf59811062714ba75ec3d55`
+- **Qualification Commit (Q41R1)**: `7764b08c33df865139e5d32ed7be4716d4ac01ad`
+- **Starting Commit**: `438d0ea1f1d135a1e05fd298ea911238a64aaf6d`
+- **Status**: `qualified_not_authorized`
+- **Prepared Job**: `M2RMSTITCH1` (Queue: `entry_imfdfkmq`, 1 CPU, 1 rank, 1 thread, 8 GB memory, 00:30:00 walltime).
+- **Surgical Runtime Corrections**:
+  1. **Both-Node Crack Merge**: Merges all crack nodes from both lower and upper coincident node pairs using `all_crack_nodes` (`node_count_reduction = 15`, `duplicate_pairs_after = 0`).
+  2. **Sketch Face Partitioning**: Recreates physical crack geometry via `ConstrainedSketch` + `PartitionFaceBySketch` without relying on pre-existing vertices at `(0,0)`.
+  3. **EngineeringFeature Seam API**: Assigns seam using `engineeringFeatures.assignSeam(regions=crack_region)` with `regionToolset.Region`.
+  4. **True Post-Reconstruction Crack Measurement**: Measures actual `crack_start_after`, `crack_tip_after`, `crack_length_after`, and verifies `crack_length_error <= 1e-4`.
+  5. **Meshing Phase**: Added 2D continuum meshing phase (`setElementType` CPE4, `setMeshControls`, `seedPart`, `generateMesh`) verifying `mesh_node_count > 0` and `mesh_element_count > 0` without solver analysis.
+- **Detached Qualification**: Evaluated inside a temporary detached Git worktree at SHA `1800961` (`F41_QUALIFICATION_SUCCESS`), generating `F41_CLEAN_LINUX_QUALIFICATION.json`.
+- **Protocol Deviation Recorded**: Recorded prior HPC workspace evidence directory cleanup (`rm -rf .../evidence/1384621.mmaster02`) required to resolve git pull conflicts. Canonical F40 evidence remains fully preserved in Git history.
+- **Authority Flags**: All authority flags remain strictly `false` and `0` (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`).
+- **Next Action**: `await_human_exact_one_job_authorization_for_M2RMSTITCH1`.
+
+Classification: `f41r1_crack_reconstruction_qualified_clean_linux`.
+
 ## F41 Topology-Preserving Crack Geometry Reconstruction Implementation and Qualification (2026-08-07)
+
 
 Completed Stage F41 topology-preserving crack geometry reconstruction implementation and clean Linux qualification:
 - **Package Path**: `models/generated/mode_ii/f41_crack_geometry_reconstruction`

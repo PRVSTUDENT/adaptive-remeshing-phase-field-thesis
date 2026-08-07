@@ -1,15 +1,15 @@
 {
   "protocol_version": 1,
-  "task_id": "F41-TOPOLOGY-PRESERVING-CRACK-GEOMETRY-RECONSTRUCTION",
+  "task_id": "F41R1-SURGICAL-ABAQUS-RUNTIME-CORRECTION",
   "status": "qualified_not_authorized",
-  "classification": "f41_crack_reconstruction_qualified_clean_linux",
-  "starting_commit": "438d0ea3be8e404beed47e70eaee90352efce10f",
-  "preparation_commit": "51dbbcd45f2c94617cf711ad7f87768fefcea166",
-  "repair_preparation_commit": "51dbbcd45f2c94617cf711ad7f87768fefcea166",
-  "qualification_commit": "1861aa6c86297803135c709edef9b41b21a24fb6",
+  "classification": "f41r1_crack_reconstruction_qualified_clean_linux",
+  "starting_commit": "438d0ea1f1d135a1e05fd298ea911238a64aaf6d",
+  "preparation_commit": "1800961e5f4746ea1bf59811062714ba75ec3d55",
+  "repair_preparation_commit": "1800961e5f4746ea1bf59811062714ba75ec3d55",
+  "qualification_commit": "7764b08c33df865139e5d32ed7be4716d4ac01ad",
   "authorization_commit": null,
-  "latest_gate_repair_commit": "51dbbcd45f2c94617cf711ad7f87768fefcea166",
-  "latest_gate_qualification_commit": "1861aa6c86297803135c709edef9b41b21a24fb6",
+  "latest_gate_repair_commit": "1800961e5f4746ea1bf59811062714ba75ec3d55",
+  "latest_gate_qualification_commit": "7764b08c33df865139e5d32ed7be4716d4ac01ad",
   "invalidated_predecessor": null,
   "prepared_job": "M2RMSTITCH1",
   "scheduler_job_id": null,
@@ -26,11 +26,12 @@
   "retry_authorized": false,
   "replacement_authorized": false,
   "automatic_retry": false,
-  "protocol_deviation_note": null,
+  "protocol_deviation_note": "A prior command executed 'rm -rf runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384621.mmaster02' on the HPC clone to resolve an untracked git pull conflict. The canonical evidence was committed to git in commit 438d0ea and remains fully preserved.",
   "recorded_user_authorization_sentence": null,
   "invalid_historical_authorization_record": null,
-  "next_action": "await_human_review_and_exact_one_job_authorization_for_M2RMSTITCH1"
+  "next_action": "await_human_exact_one_job_authorization_for_M2RMSTITCH1"
 }
+
 
 
 
