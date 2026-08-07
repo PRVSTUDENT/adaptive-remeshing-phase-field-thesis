@@ -149,3 +149,42 @@ Scientific sequence for the current thesis phase:
 Batch only scientifically independent, sufficiently defined work. Reproducibility,
 dependency control, validation, and formulation consistency take precedence over
 reducing token usage or scheduler idle time.
+
+# Immediate-Failure Recovery Policy
+
+Do not return to the user for an immediately diagnosable implementation
+failure if the repair is local/offline, deterministic, scientifically
+equivalent, and within the authorization boundary.
+
+If the first attempt fails:
+
+1. Capture the exact error.
+2. Identify the first concrete root cause.
+3. Apply the smallest valid repair yourself.
+4. Re-run the failed check.
+5. Run affected regression tests.
+6. Continue the remaining task if the repair passes.
+7. Preserve both the original failure and repair evidence.
+
+For known likely failure modes:
+
+- Deterministic local/offline failures (wrong path, missing directory, syntax/API mismatch, environment variable, stale hash, missing generated metadata, CAE object name mismatch, SSH alias issue, etc.): diagnose, apply minimal repair, rerun validation, and continue.
+- If Abaqus/Python API rejects a method for a specific version: inspect actual API/object state and use alternative supported API method.
+- Do not perform repeated blind retries; base repair strictly on empirical error evidence.
+
+HPC execution safety boundary:
+- Automatic repair is permitted ONLY for local/offline preparation and pre-submission checks.
+- Do NOT perform an unauthorized second `qsub`, replacement job, retry job, downstream job, `qdel`, or `qmove`.
+- A consumed one-submission authorization remains strictly consumed.
+- A modified executable package still requires a new P/Q qualification and fresh human authorization.
+
+STOP and return to the user when:
+- the failure changes scientific assumptions;
+- multiple scientifically different choices exist;
+- required source information is missing;
+- the repair would alter an already qualified package;
+- new HPC authorization is required;
+- another qsub/retry/replacement would be required;
+- destructive Git/HPC actions would be required;
+- or the cause remains uncertain after reasonable diagnosis.
+
