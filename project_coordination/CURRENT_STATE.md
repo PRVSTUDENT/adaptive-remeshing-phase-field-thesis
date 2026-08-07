@@ -1,6 +1,30 @@
 # Current project state
 
+## F41R3 Single Guarded HPC Replacement Submission of M2RMSTITCH1 (2026-08-07)
+
+Executed single guarded HPC replacement submission of `M2RMSTITCH1` upon explicit human authorization:
+- **Task ID**: `F41R3-M2RMSTITCH1-REPLACEMENT-JOB-1384638-EVALUATION`
+- **Scheduler Job ID**: `1384638.mmaster02` (Job Name: `M2RMSTITCH1`, Queue: `normal_imfdfkmq`, `exec_host = mnode098/0`, `walltime = 00:00:02`, `mem = 103588kb`)
+- **Preparation Commit (P41R3)**: `5434cb9587197b92d695a3e79a0ac6fdcdf8bc72`
+- **Qualification Commit (Q41R3)**: `a61aa5f68bc267cd45ca28020bdd000e52fb988d`
+- **Authorization Commit (A41R3)**: `78571b5bb4c61c9ba493dd8351e1a8c2f755739c`
+- **Recorded User Authorization**: *"I authorize exactly one replacement guarded HPC submission of M2RMSTITCH1 using preparation commit 5434cb9587197b92d695a3e79a0ac6fdcdf8bc72 and qualification commit a61aa5f68bc267cd45ca28020bdd000e52fb988d, with MAX_SUBMISSIONS=1, no automatic retry, no further replacement submission, and no downstream job."*
+- **PBS Execution & Fail-Closed Result**:
+  - `job_state = F`, `Exit_status = 1` (PBS exit code fail-closed error propagation verified).
+  - `ABAQUS_CAE.returncode = 1`, `F41_RECONSTRUCTION.returncode = 1`, `F41_MATRIX_VALIDATOR.returncode = 2`.
+- **Abaqus CAE 2023 Matrix Scientific Result**:
+  - `bootstrap`: passed (3999 nodes, 3930 elements)
+  - `crack_trace_extraction`: passed (15 duplicate crack node pairs, start [-0.5, 0.0], tip [0.0, 0.0], length 0.5)
+  - `temporary_working_copy_merge`: passed (15 pairs merged, node reduction 15)
+  - **`model_level_geometry_conversion`**: **PASSED!** (`PART-1-RECONSTRUCTED`, `face_count = 1`, `vertex_count = 6`, `edge_count = 6`, `wire_only = false`).
+  - `crack_geometry_recreation`: failed with `TypeError: regions; found tuple, expecting Set` on line `part.engineeringFeatures.assignSeam(regions=(crack_region,))`.
+- **Authority Consumption**: Recorded immediately (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`).
+- **Next Action**: `await_human_scientific_review_and_correction_authorization_for_assignseam_typeerror`.
+
+Classification: `f41r3_m2rmstitch1_assignseam_typeerror_tuple_expecting_set`.
+
 ## F41R3 Abaqus No-GUI Entrypoint Fix and Detached Qualification (2026-08-07)
+
 
 Completed Stage F41R3 entrypoint repair and true detached clean-Linux qualification:
 - **Package Path**: `models/generated/mode_ii/f41_crack_geometry_reconstruction`
