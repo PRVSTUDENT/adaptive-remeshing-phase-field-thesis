@@ -24,7 +24,7 @@ echo "=== F42TRI2 Execution Start: $(date) ===" | tee "${EVIDENCE_DIR}/execution
 echo "Job ID: ${PBS_JOBID}" | tee -a "${EVIDENCE_DIR}/execution.log"
 echo "Host: $(hostname)" | tee -a "${EVIDENCE_DIR}/execution.log"
 
-module load abaqus/2023 || true
+module load intel/2024.2.0 abaqus/2023 || true
 
 abaqus job=F42TRI2 user=f42c_mixed_uel.for input=F42TRI2.inp cpus=1 interactive 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log" || true
 
