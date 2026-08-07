@@ -1,5 +1,30 @@
 # Current project state
 
+## F43REM1_CURRENT Single Guarded Remote HPC Execution & Terminal Closeout (2026-08-07)
+
+Completed single guarded remote HPC submission of `F43REM1_CURRENT` job `1385373.mmaster02` on `tu_freiberg`, captured terminal stdout/stderr logs, extracted evidence package, and performed empirical failure analysis:
+- **Task ID**: `F43REM1-CURRENT-GUARDED-REMOTE-HPC-SUBMISSION-AND-EVIDENCE-CLOSEOUT`
+- **Status**: `complete_failed`
+- **Classification**: `f43rem1_driver_cli_argument_parsing_missing_cae_flag`
+- **Predecessor ODB**: `1384674.mmaster02` (`F43PRE1.odb`, SHA256 `3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534`).
+- **Preparation Commit (P43R1)**: `3f3eb579c5016ecdc02d23e7d166d831f80be35c`
+- **Qualification Commit (Q43R1-RQ2)**: `e7c005c65abfe9d9e491ae29027d60941bd6ca03`
+- **Authorization Commit (A43R1)**: `50a36262843c40c8e28ab23bb51c91f5400fe8b1`
+- **Submission Commit**: `581ef6430fe3f939fdd024b28a0175dd6011d0de`
+- **Recorded User Authorization Sentence**: `"I authorize exactly one guarded HPC submission of F43REM1_CURRENT using preparation commit 3f3eb579c5016ecdc02d23e7d166d831f80be35c and qualification commit e7c005c65abfe9d9e491ae29027d60941bd6ca03, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission, no F43DRY1 submission, no refined phase-field production run, and no downstream job."`
+- **HPC Job ID**: `1385373.mmaster02` (Exec Host: `mnode098/0`, Queue: `normal_imfdfkmq`, Exit Status: `1`)
+- **Empirical Execution & Diagnostic Summary**:
+  1. **Guarded Submission**: Executed on `mlogin01.cluster` via SSH. Returned real PBS job ID `1385373.mmaster02`.
+  2. **Cluster Execution**: Job ran on compute node `mnode098.cluster`. Abaqus 2023 license checked out cleanly (`16/20 licenses remaining`).
+  3. **Evidence Collection**: Output files captured in `/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/evidence/1385373.mmaster02/`.
+  4. **Empirical Error & Root Cause**: `abaqus cae noGUI=run_f43_native_remesh_driver.py -- ...` appends CLI option flags to `sys.argv`. Inside Abaqus Python, `sys.argv` contained `['-cae', 'f43_remeshing_rule_config.json', ...]`.
+     `sys.argv[1]` evaluated to `"-cae"`, causing `run_f43_native_remesh_driver.py` line 14 to raise:
+     `RuntimeError: Remeshing rule config missing: -cae`.
+- **Authority Flags**: Reset to default closed (`execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `maximum_future_submissions = 0`, `retry_authorized = false`, `replacement_authorized = false`, `automatic_retry = false`). No automatic retry or replacement job submitted.
+- **Next Action**: `await_technical_review_of_driver_cli_argument_parsing_before_any_replacement_authorization`
+
+---
+
 ## F42B Single-Triangle Core UEL Qualification & Verification Preparation (2026-08-07)
 
 Completed Task F42B single-triangle core UEL qualification, $N_{phys}$ physical index mapping audit, direct production-core equivalence (`F42TRI1_SOURCE_DIFF_AUDIT.json`), Fortran syntax qualification, 67/67 unit test suite execution, detached clean-Linux worktree qualification (`F42TRI1_CORE_QUALIFICATION.json`), and guarded HPC job package preparation (`F42TRI1_CORE`):
