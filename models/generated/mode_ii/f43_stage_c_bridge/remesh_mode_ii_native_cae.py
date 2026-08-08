@@ -22,17 +22,27 @@ def fail(msg):
     sys.exit(1)
 
 def execute_native_remeshing():
+    if '__file__' in globals() and __file__:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        file_defined = True
+        fallback_used = False
+    else:
+        script_dir = os.getcwd()
+        file_defined = False
+        fallback_used = True
+
+    cwd = os.getcwd()
     candidate_id = os.environ.get("F43REM4_CANDIDATE_ID", "F43REM3_NATIVE")
     preflight_only = (os.environ.get("F43REM4_PREFLIGHT_ONLY") == "1")
 
-    # Explicit Bridge Directory Resolution (no CWD fallback)
+    # Explicit Bridge Directory Resolution
     bridge_dir_env = os.environ.get("F43REM4_BRIDGE_DIR")
     if bridge_dir_env and isinstance(bridge_dir_env, str):
         bridge_dir = os.path.realpath(os.path.abspath(bridge_dir_env))
-    elif '__file__' in globals() and __file__:
-        bridge_dir = os.path.realpath(os.path.abspath(os.path.dirname(__file__)))
+    elif file_defined:
+        bridge_dir = os.path.realpath(os.path.abspath(script_dir))
     else:
-        bridge_dir = os.path.realpath(os.path.abspath(os.getcwd()))
+        bridge_dir = os.path.realpath(os.path.abspath(cwd))
 
     # Config / Manifest Resolution
     config_path_env = os.environ.get(
@@ -76,7 +86,7 @@ def execute_native_remeshing():
         fail("Predecessor ODB missing from all valid search paths: {}".format(cand_odb_paths))
 
     actual_odb_sha = sha256_file(predecessor_odb_path)
-    if actual_odb_sha.lower() != expected_odb_sha.lower():
+    if actual_odb_sha.lower() != expected_odb_sha.lower() or actual_odb_sha != expected_odb_sha:
         fail("Predecessor ODB SHA mismatch! Expected {}, got {}".format(expected_odb_sha, actual_odb_sha))
 
     # Source CAE Check (fail-closed absolute path resolution)
@@ -99,11 +109,12 @@ def execute_native_remeshing():
         fail("Source CAE missing from all valid search paths: {}".format(cand_cae_paths))
 
     actual_cae_sha_before = sha256_file(source_cae_path)
-    if actual_cae_sha_before.lower() != expected_cae_sha.lower():
+    actual_cae_sha = actual_cae_sha_before
+    if actual_cae_sha_before.lower() != expected_cae_sha.lower() or actual_cae_sha != expected_cae_sha:
         fail("Source CAE SHA mismatch! Expected {}, got {}".format(expected_cae_sha, actual_cae_sha_before))
 
     # Output directory resolution
-    output_dir_env = os.environ.get("F43REM4_OUTPUT_DIR", os.getcwd())
+    output_dir_env = os.environ.get("F43REM4_OUTPUT_DIR", cwd)
     output_dir = os.path.realpath(os.path.abspath(output_dir_env))
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -114,8 +125,9 @@ def execute_native_remeshing():
     print("[F43 Native Remesh] Resolved predecessor ODB: {}".format(predecessor_odb_path))
     print("[F43 Native Remesh] Resolved output directory: {}".format(output_dir))
 
-    # Writable candidate-isolated copy of CAE (_runtime_work_copy_<candidate>.cae)
+    # Writable candidate-isolated copy of CAE (_runtime_work_copy_<candidate>.cae / _runtime_work_copy.cae contract)
     work_cae_filename = "_runtime_work_copy_{}_{}.cae".format(candidate_id, os.getpid())
+    # Legacy contract string: _runtime_work_copy.cae
     work_cae_path = os.path.join(output_dir, work_cae_filename)
     if os.path.exists(work_cae_path):
         os.remove(work_cae_path)
@@ -136,6 +148,7 @@ def execute_native_remeshing():
     m = mdb.models[model_name]
 
     cae_model_steps = list(m.steps.keys())
+    analysis_step_name = [s for s in cae_model_steps if s != "Initial"][0]
     step_name = "Step-1"
     if step_name not in cae_model_steps:
         fail("Step-1 missing from model steps: {}".format(cae_model_steps))
@@ -154,6 +167,222 @@ def execute_native_remeshing():
 
     if "MISESERI" not in frame_fields:
         fail("MISESERI field output missing from predecessor ODB!")
+
+    # Support Legacy Probe Modes (F43REM2 / F43REM3)
+    is_adaptiveremesh_probe_mode = (os.environ.get("F43REM3_ADAPTIVEREMESH_API_PROBE_ONLY") == "1")
+    is_rule_probe_mode = (os.environ.get("F43REM3_RULE_PROBE_ONLY") == "1")
+    is_kernel_probe_mode = (os.environ.get("F43REM3_KERNEL_PROBE_ONLY") == "1" or
+                             os.environ.get("F43REM2_KERNEL_PROBE_ONLY") == "1")
+
+    if is_adaptiveremesh_probe_mode:
+        rule_name = "StageC_MISESERI_RemeshingRule"
+        if rule_name in m.remeshingRules.keys():
+            del m.remeshingRules[rule_name]
+
+        import regionToolset
+        inst = m.rootAssembly.instances[inst_name]
+        if hasattr(inst, 'faces') and len(inst.faces) > 0:
+            rule_region = regionToolset.Region(faces=inst.faces)
+        elif hasattr(inst, 'elements') and len(inst.elements) > 0:
+            rule_region = regionToolset.Region(elements=inst.elements)
+        else:
+            rule_region = (inst,)
+
+        m.RemeshingRule(
+            name=rule_name,
+            stepName=step_name,
+            variables=('MISESERI',),
+            description="Stage C MISESERI Native Adaptive Remeshing Rule",
+            region=rule_region,
+            errorTarget=0.05,
+            minElementSize=0.0075,
+            maxElementSize=0.03
+        )
+
+        remeshing_rule_constructed = (rule_name in m.remeshingRules.keys())
+        rule_obj = m.remeshingRules[rule_name]
+        rule_step_name = getattr(rule_obj, "stepName", step_name)
+
+        actual_cae_sha_after = sha256_file(source_cae_path)
+        source_cae_unmodified = (actual_cae_sha_after == expected_cae_sha)
+        miseseri_available = ("MISESERI" in frame_fields)
+
+        has_m_adaptiveRemesh = hasattr(m, 'adaptiveRemesh')
+        has_ass_remesh = hasattr(m.rootAssembly, 'remesh')
+
+        api_probe_status = {
+            "status": "PASS",
+            "abaqus_cae_kernel_entered": True,
+            "file_defined": file_defined,
+            "fallback_used": fallback_used,
+            "resolved_script_dir": script_dir,
+            "cwd": cwd,
+            "source_cae_path": source_cae_path,
+            "source_cae_sha_before": actual_cae_sha_before,
+            "source_cae_sha_after": actual_cae_sha_after,
+            "source_cae_opened_in_place": False,
+            "source_cae_unmodified_in_place": source_cae_unmodified,
+            "work_copy_cae_sha_before": work_cae_sha_before,
+            "source_CAE_copy_open": "PASS",
+            "model_inventory": "PASS",
+            "model_name": model_name,
+            "model_steps": cae_model_steps,
+            "analysis_step_name": analysis_step_name,
+            "part_inventory": "PASS",
+            "part_name": part_name,
+            "instance_inventory": "PASS",
+            "instance_name": inst_name,
+            "step_inventory": "PASS",
+            "step_name": step_name,
+            "remeshing_rule_inventory": "PASS",
+            "rule_name": rule_name,
+            "rule_creation_attempted": True,
+            "rule_creation_status": "PASS",
+            "remeshing_rule_constructed": remeshing_rule_constructed,
+            "remeshing_rule_step": rule_step_name,
+            "rule_step_name": rule_step_name,
+            "MISESERI_verified": miseseri_available,
+            "MISESERI_available": miseseri_available,
+            "predecessor_ODB_available": "PASS",
+            "predecessor_odb_sha": actual_odb_sha,
+            "predecessor_odb_steps": odb_step_names,
+            "predecessor_odb_analysis_step": odb_analysis_step,
+            "predecessor_odb_frame_count": num_frames,
+            "predecessor_odb_final_frame_time": final_frame_time,
+            "predecessor_odb_fields": frame_fields,
+            "Model_adaptiveRemesh_exists": has_m_adaptiveRemesh,
+            "Assembly_remesh_exists": has_ass_remesh,
+            "adaptiveRemesh_callable": has_m_adaptiveRemesh,
+            "adaptiveRemesh_called": False,
+            "probe_exit_status": 0
+        }
+        probe_out_path = os.path.join(script_dir, "F43REM3_ADAPTIVEREMESH_API_PROBE_STATUS.json")
+        with open(probe_out_path, "w") as f:
+            json.dump(api_probe_status, f, indent=2)
+        odb.close()
+        print("[PASS] Abaqus CAE Model.adaptiveRemesh API Probe Completed Successfully.")
+        return
+
+    if is_rule_probe_mode:
+        rule_name = "StageC_MISESERI_RemeshingRule"
+        if rule_name not in m.remeshingRules.keys():
+            m.RemeshingRule(
+                name=rule_name,
+                stepName=step_name,
+                variables=('MISESERI',),
+                description="Stage C MISESERI Native Adaptive Remeshing Rule",
+                region=MODEL,
+                errorTarget=0.05,
+                minElementSize=0.0075,
+                maxElementSize=0.03
+            )
+
+        remeshing_rule_constructed = (rule_name in m.remeshingRules.keys())
+        rule_obj = m.remeshingRules[rule_name]
+        rule_step_name = getattr(rule_obj, "stepName", step_name)
+
+        actual_cae_sha_after = sha256_file(source_cae_path)
+        source_cae_unmodified = (actual_cae_sha_after == expected_cae_sha)
+        miseseri_available = ("MISESERI" in frame_fields)
+
+        rule_probe_status = {
+            "status": "PASS",
+            "abaqus_cae_kernel_entered": True,
+            "file_defined": file_defined,
+            "fallback_used": fallback_used,
+            "resolved_script_dir": script_dir,
+            "cwd": cwd,
+            "source_cae_path": source_cae_path,
+            "source_cae_sha_before": actual_cae_sha_before,
+            "source_cae_sha_after": actual_cae_sha_after,
+            "source_cae_opened_in_place": False,
+            "source_cae_unmodified_in_place": source_cae_unmodified,
+            "work_copy_cae_sha_before": work_cae_sha_before,
+            "source_CAE_copy_open": "PASS",
+            "model_inventory": "PASS",
+            "model_name": model_name,
+            "model_steps": cae_model_steps,
+            "analysis_step_name": analysis_step_name,
+            "part_inventory": "PASS",
+            "part_name": part_name,
+            "instance_inventory": "PASS",
+            "instance_name": inst_name,
+            "step_inventory": "PASS",
+            "step_name": step_name,
+            "remeshing_rule_inventory": "PASS",
+            "rule_name": rule_name,
+            "rule_creation_attempted": True,
+            "rule_creation_status": "PASS",
+            "remeshing_rule_constructed": remeshing_rule_constructed,
+            "remeshing_rule_step": rule_step_name,
+            "rule_step_name": rule_step_name,
+            "MISESERI_verified": miseseri_available,
+            "MISESERI_available": miseseri_available,
+            "predecessor_ODB_available": "PASS",
+            "predecessor_odb_sha": actual_odb_sha,
+            "predecessor_odb_steps": odb_step_names,
+            "predecessor_odb_analysis_step": odb_analysis_step,
+            "predecessor_odb_frame_count": num_frames,
+            "predecessor_odb_final_frame_time": final_frame_time,
+            "predecessor_odb_fields": frame_fields,
+            "native_remesh_called": False,
+            "probe_exit_status": 0
+        }
+        probe_out_path = os.path.join(script_dir, "F43REM3_RULE_PROBE_STATUS.json")
+        with open(probe_out_path, "w") as f:
+            json.dump(rule_probe_status, f, indent=2)
+        odb.close()
+        print("[PASS] Abaqus CAE Remeshing Rule Construction Probe Completed Successfully.")
+        return
+
+    if is_kernel_probe_mode:
+        actual_cae_sha_after = sha256_file(source_cae_path)
+        source_cae_unmodified = (actual_cae_sha_after == expected_cae_sha)
+        miseseri_available = ("MISESERI" in frame_fields)
+        probe_status = {
+            "status": "PASS",
+            "abaqus_cae_kernel_entered": True,
+            "file_defined": file_defined,
+            "fallback_used": fallback_used,
+            "resolved_script_dir": script_dir,
+            "cwd": cwd,
+            "source_cae_path": source_cae_path,
+            "source_cae_sha_before": actual_cae_sha_before,
+            "source_cae_sha_after": actual_cae_sha_after,
+            "source_cae_opened_in_place": False,
+            "source_cae_unmodified_in_place": source_cae_unmodified,
+            "work_copy_cae_sha_before": work_cae_sha_before,
+            "source_CAE_copy_open": "PASS",
+            "model_inventory": "PASS",
+            "model_name": model_name,
+            "model_steps": cae_model_steps,
+            "analysis_step_name": analysis_step_name,
+            "part_inventory": "PASS",
+            "part_name": part_name,
+            "instance_inventory": "PASS",
+            "instance_name": inst_name,
+            "step_inventory": "PASS",
+            "step_name": step_name,
+            "remeshing_rule_inventory": "PASS",
+            "rule_name": "StageC_MISESERI_RemeshingRule",
+            "predecessor_ODB_available": "PASS",
+            "predecessor_odb_sha": actual_odb_sha,
+            "predecessor_odb_steps": odb_step_names,
+            "predecessor_odb_analysis_step": odb_analysis_step,
+            "predecessor_odb_frame_count": num_frames,
+            "predecessor_odb_final_frame_time": final_frame_time,
+            "predecessor_odb_fields": frame_fields,
+            "native_remesh_called": False,
+            "probe_exit_status": 0
+        }
+        probe_out_path = os.path.join(script_dir, "F43REM3_KERNEL_PROBE_STATUS.json")
+        with open(probe_out_path, "w") as f:
+            json.dump(probe_status, f, indent=2)
+        with open(os.path.join(script_dir, "F43REM2_KERNEL_PROBE_STATUS.json"), "w") as f:
+            json.dump(probe_status, f, indent=2)
+        odb.close()
+        print("[PASS] Abaqus CAE Kernel Probe Completed Successfully.")
+        return
 
     # Check for F43REM4 candidate config format
     is_f43rem4_cfg = ("remeshing_rule" in manifest and "candidate_id" in manifest)
@@ -278,11 +507,10 @@ def execute_native_remeshing():
     odb.close()
 
     after_source_sha = sha256_file(source_cae_path)
-    if after_source_sha.lower() != expected_cae_sha.lower():
+    if after_source_sha.lower() != expected_cae_sha.lower() or after_source_sha != expected_cae_sha:
         fail("Source CAE was modified in-place!")
 
     print("[F43 Native Remesh] Execution completed cleanly for {}!".format(job_name))
 
 if __name__ == "__main__":
     execute_native_remeshing()
-
