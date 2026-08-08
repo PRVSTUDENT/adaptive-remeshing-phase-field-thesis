@@ -1,0 +1,54 @@
+{
+  "batch_id": "F43REM4_SENSITIVITY_BATCH",
+  "protocol_version": 1,
+  "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
+  "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
+  "revised_gate_c1_selection_rule": {
+    "topology_validity": "0 true invalid elements required (neg_area_count == 0, zero_area_count == 0)",
+    "area_conservation": "relative_area_difference < 1e-6 (corrected part-scoped parsing)",
+    "entity_preservation": "notch, seam, external boundary, BCs, loads, materials, sections preserved",
+    "spearman_correlation": "Spearman rank correlation must improve materially relative to baseline 0.013934",
+    "percentile_enrichment": "refinement intensity must show meaningful enrichment toward upper MISESERI percentile bands (95-99% and 99-100% bands greater than bulk low-error bands)",
+    "hotspot_resolution_metrics": "evaluate hotspot sqrt(area) median/p95 and min-edge median/p95 for top 5% and top 10% PRE3 MISESERI regions and report h/l0 (l0 = 0.015 mm)",
+    "element_count_target": "substantially below 113,936 elements unless scientifically required"
+  },
+  "candidate_independence": {
+    "PK1_independent": true,
+    "PK5_independent": true,
+    "MM_independent": true,
+    "shared_inputs": ["ModeII_Geometry_Source_Abaqus2023.cae", "F43PRE3_GEOM.odb"],
+    "output_paths_isolated": true
+  },
+  "candidates": [
+    {
+      "candidate_id": "F43REM4_PK1",
+      "config_file": "remesh_sensitivity_config_pk1.json",
+      "classification_label": "Pandey-rule-target reproduction adapted to our Mode-II geometry",
+      "sizingMethod": "UNIFORM_ERROR",
+      "errorTarget": 1.0,
+      "coarseningFactor": "NOT_ALLOWED",
+      "refinementFactor": 10,
+      "expected_output_deck": "F43REM4_PK1.inp"
+    },
+    {
+      "candidate_id": "F43REM4_PK5",
+      "config_file": "remesh_sensitivity_config_pk5.json",
+      "classification_label": "Relaxed uniform-error target sensitivity (5.0%)",
+      "sizingMethod": "UNIFORM_ERROR",
+      "errorTarget": 5.0,
+      "coarseningFactor": "NOT_ALLOWED",
+      "refinementFactor": 10,
+      "expected_output_deck": "F43REM4_PK5.inp"
+    },
+    {
+      "candidate_id": "F43REM4_MM",
+      "config_file": "remesh_sensitivity_config_mm.json",
+      "classification_label": "Spatial error indicator localization alternative (MINIMUM_MAXIMUM sizing method)",
+      "sizingMethod": "MINIMUM_MAXIMUM",
+      "maxSolutionErrorTarget": 5.0,
+      "minSolutionErrorTarget": 1.0,
+      "meshBias": 0,
+      "expected_output_deck": "F43REM4_MM.inp"
+    }
+  ]
+}

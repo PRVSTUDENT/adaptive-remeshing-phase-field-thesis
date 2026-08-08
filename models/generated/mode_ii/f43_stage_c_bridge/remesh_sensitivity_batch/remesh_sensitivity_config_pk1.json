@@ -1,0 +1,22 @@
+{
+  "candidate_id": "F43REM4_PK1",
+  "classification_label": "Pandey-rule-target reproduction adapted to our Mode-II geometry",
+  "remeshing_rule": {
+    "name": "MISESERI_Adaptive_Rule_PK1",
+    "stepName": "Step-1",
+    "variables": ["MISESERI"],
+    "region": "MODEL",
+    "sizingMethod": "UNIFORM_ERROR",
+    "errorTarget": 1.0,
+    "specifyMinSize": true,
+    "minElementSize": 0.0075,
+    "specifyMaxSize": true,
+    "maxElementSize": 0.03,
+    "coarseningFactor": "NOT_ALLOWED",
+    "refinementFactor": 10
+  },
+  "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
+  "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
+  "expected_output_deck": "F43REM4_PK1.inp",
+  "work_subdir": "F43REM4_PK1"
+}

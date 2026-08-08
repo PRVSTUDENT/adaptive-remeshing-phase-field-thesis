@@ -1,6 +1,42 @@
 # Current project state
 
-## F43REM3-R10 PRE3 ODB/CAE Set Identity Forensic Audit & Pandey-Kumar Compatibility Decision (2026-08-08)
+## F43GATEC1-R3 errorTarget Interpretation Correction & Remesh Sensitivity Batch Preparation (2026-08-08)
+
+Completed task `F43GATEC1-R3`: Corrected Abaqus 2023 `errorTarget` percentage semantics, retired raw `MISESERI` threshold comparison, preserved part-scoped Gate C1 geometry corrections (`PRE3_EVOL_sum = 1.0000000005 mm³`, 100% area conservation, 0 invalid elements), updated `minElementSize`/`maxElementSize` sizing function interpretation, and prepared controlled 3-candidate remesh sensitivity batch package (`F43REM4_SENSITIVITY_BATCH`):
+- **Task ID**: `F43GATEC1-R3`
+- **Status**: `complete` (`f43gatec1r3_remesh_sensitivity_batch_prepared_unauthorized`)
+- **Scientific Classification**: `Gate_C1 = HOLD` (Preserved)
+- **Scientific Semantics Correction**:
+  - `MISESERI`: Raw stress-discretization error indicator in stress units ($\text{MPa}$).
+  - `RemeshingRule.errorTarget`: Percentage target used by Abaqus sizing algorithm (`errorTarget=0.05` = 0.05%, `errorTarget=1.0` = 1.0%, `errorTarget=5.0` = 5.0%).
+  - Raw `MISESERI > errorTarget` direct comparison: **Retired**.
+- **Gate C1 Geometry Findings (Preserved)**:
+  - `PRE3_EVOL_sum`: **`1.0000000005 mm³`**
+  - `source_corrected_area`: **`1.0000000000 mm²`**
+  - `refined_corrected_area`: **`1.0000000000 mm²`**
+  - `corrected_area_relative_difference`: **`0.0000000000%`** (`1.0658e-14`)
+  - `true_invalid_element_count`: **`0`** (100% valid elements across 113,936 elements)
+  - Former 2 negative area elements confirmed as parser artifacts from Assembly RP node re-binding.
+- **Element Size Bound Semantics (Corrected)**:
+  - Abaqus `minElementSize` and `maxElementSize` constrain the sizing function and are approximate scale parameters, not strict bounding limits on generated element edge lengths.
+- **Prepared 3-Candidate Remesh Sensitivity Batch (`F43REM4_SENSITIVITY_BATCH`)**:
+  - **Candidate PK1** (`F43REM4_PK1`): `sizingMethod = UNIFORM_ERROR`, `errorTarget = 1.0` (1% target error, literal Pandey & Kumar Listing 1 reproduction), `coarseningFactor = NOT_ALLOWED`.
+  - **Candidate PK5** (`F43REM4_PK5`): `sizingMethod = UNIFORM_ERROR`, `errorTarget = 5.0` (5% target error, relaxed uniform error sensitivity), `coarseningFactor = NOT_ALLOWED`.
+  - **Candidate MM** (`F43REM4_MM`): `sizingMethod = MINIMUM_MAXIMUM`, `maxSolutionErrorTarget = 5.0`, `minSolutionErrorTarget = 1.0`, `meshBias = 0.0` (localization alternative).
+- **Batch Governance & Authority Boundary**:
+  - `authorization_ready`: `true`
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `maximum_jobs_authorized`: 3 (upon direct human approval)
+  - `automatic_retry`: `false`
+  - `replacement_authorized`: `false`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: 0
+- **Next Action**: Awaiting explicit direct human authorization sentence for `F43REM4_SENSITIVITY_BATCH`.
+
+---
+
 
 Completed task `F43REM3-R10` to perform forensic audit of PRE3 ODB element sets, CAE remeshing rules, and Pandey-Kumar contract:
 - **Task ID**: `F43REM3-R10`

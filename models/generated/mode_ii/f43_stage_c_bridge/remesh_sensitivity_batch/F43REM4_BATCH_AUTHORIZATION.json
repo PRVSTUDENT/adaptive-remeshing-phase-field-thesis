@@ -1,0 +1,60 @@
+{
+  "protocol_version": 1,
+  "batch_id": "F43REM4_SENSITIVITY_BATCH",
+  "status": "prepared_disabled",
+  "authorization_ready": true,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0,
+  "maximum_jobs_authorized": 3,
+  "scheduler_concurrency_limit": 2,
+  "automatic_retry": false,
+  "replacement_authorized": false,
+  "jobs": [
+    {
+      "job_name": "F43REM4_PK1",
+      "candidate_id": "F43REM4_PK1",
+      "scientific_purpose": "Literal Pandey & Kumar Listing 1 errorTarget=1.0 (1%) reproduction",
+      "model": "ModeII_Geometry_Model",
+      "package_dir": "models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch",
+      "config_file": "remesh_sensitivity_config_pk1.json",
+      "cpus": 1,
+      "memory": "8 GB",
+      "walltime": "00:30:00",
+      "queue": "entry_imfdfkmq",
+      "execution_mode": "abaqus_cae_nogui",
+      "expected_output_deck": "F43REM4_PK1.inp",
+      "dependencies": []
+    },
+    {
+      "job_name": "F43REM4_PK5",
+      "candidate_id": "F43REM4_PK5",
+      "scientific_purpose": "Relaxed uniform-error errorTarget=5.0 (5%) sensitivity",
+      "model": "ModeII_Geometry_Model",
+      "package_dir": "models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch",
+      "config_file": "remesh_sensitivity_config_pk5.json",
+      "cpus": 1,
+      "memory": "8 GB",
+      "walltime": "00:30:00",
+      "queue": "entry_imfdfkmq",
+      "execution_mode": "abaqus_cae_nogui",
+      "expected_output_deck": "F43REM4_PK5.inp",
+      "dependencies": []
+    },
+    {
+      "job_name": "F43REM4_MM",
+      "candidate_id": "F43REM4_MM",
+      "scientific_purpose": "Localization alternative using MINIMUM_MAXIMUM sizing method",
+      "model": "ModeII_Geometry_Model",
+      "package_dir": "models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch",
+      "config_file": "remesh_sensitivity_config_mm.json",
+      "cpus": 1,
+      "memory": "8 GB",
+      "walltime": "00:30:00",
+      "queue": "entry_imfdfkmq",
+      "execution_mode": "abaqus_cae_nogui",
+      "expected_output_deck": "F43REM4_MM.inp",
+      "dependencies": []
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "candidate_id": "F43REM4_MM",
+  "classification_label": "Spatial error indicator localization alternative (MINIMUM_MAXIMUM sizing method)",
+  "remeshing_rule": {
+    "name": "MISESERI_Adaptive_Rule_MM",
+    "stepName": "Step-1",
+    "variables": ["MISESERI"],
+    "region": "MODEL",
+    "sizingMethod": "MINIMUM_MAXIMUM",
+    "maxSolutionErrorTarget": 5.0,
+    "minSolutionErrorTarget": 1.0,
+    "meshBias": 0,
+    "specifyMinSize": true,
+    "minElementSize": 0.0075,
+    "specifyMaxSize": true,
+    "maxElementSize": 0.03
+  },
+  "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
+  "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
+  "expected_output_deck": "F43REM4_MM.inp",
+  "work_subdir": "F43REM4_MM"
+}
