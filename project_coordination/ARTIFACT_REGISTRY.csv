@@ -385,5 +385,11 @@ F43REM2_NATIVE_CLOSEOUT_REPORT,Stage C,docs/experiment_records/STAGE_F43REM2_NAT
 F43REM2_NATIVE_EVIDENCE_1385400,Stage C,models/generated/mode_ii/f43_stage_c_bridge/evidence/1385400.mmaster02/,hpc_evidence,complete_failed,gemini-antigravity,7159f53d492f44c3065cb872cd5f1a13f5ddbae0,1385400.mmaster02,,F43REM2_NATIVE job 1385400.mmaster02 evidence directory with execution.log and scheduler records
 F43REM2_R5_DETACHED_QUAL_SCRIPT,Stage C,scripts/validation/run_f43rem2_r5_detached_qual.sh,qualification_script,active,gemini-antigravity,60f53f1737be7df9168bfcdbbd1c3aef4c730fc9,,,F43REM2-R5 Linux-Git detached worktree requalification script
 F43PRE2_QUARANTINED_0D5B32_CAE,Stage C,/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre2/quarantine/ModeII_Geometry_Source_0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa.cae,external_artifact,quarantined,gemini-antigravity,1e6e8cf4d11696a7aa3a4303be8e5a0b7d7d86b0,,,Quarantined Abaqus 2023 0d5b32 CAE source database on HPC
+F43PRE3_GEOM_INP_DECK,Stage C,models/generated/mode_ii/f43_stage_c_bridge/F43PRE3_GEOM.inp,input_deck,active,gemini-antigravity,f4857d98841854c6c769d865bfd8ca1d8dcd2dfd,,,F43PRE3_GEOM geometry-backed Abaqus 2023 input deck
+F43PRE3_GEOM_QUALIFICATION_RECORD,Stage C,models/generated/mode_ii/f43_stage_c_bridge/F43PRE3_GEOM_QUALIFICATION_RECORD.json,qualification_record,active,gemini-antigravity,f4857d98841854c6c769d865bfd8ca1d8dcd2dfd,,,F43PRE3_GEOM 512-test detached qualification record
+F43PRE3_SEMANTIC_EQUIVALENCE_VALIDATOR,Stage C,scripts/validation/validate_f43pre3_semantic_equivalence.py,validator_script,active,gemini-antigravity,,,,F43PRE3-R2 rigorous PRE2 vs PRE3 semantic equivalence validator script
+F43PRE3_SEMANTIC_EQUIVALENCE_TESTS,Stage C,tests/unit/test_f43pre3_semantic_equivalence.py,unit_test,active,gemini-antigravity,,,,F43PRE3-R2 semantic equivalence unit test suite
+F43PRE3_R2_DETACHED_QUAL_SCRIPT,Stage C,scripts/validation/run_f43pre3_r2_detached_qual.sh,qualification_script,active,gemini-antigravity,,,,F43PRE3-R2 Linux-Git detached worktree qualification script
+
 
 
