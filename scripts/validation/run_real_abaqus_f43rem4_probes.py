@@ -10,12 +10,13 @@ import sys
 import os
 import json
 import hashlib
+import shutil
 
 from abaqus import *
 from abaqusConstants import *
 import caeModules
 
-# Project root detection: allow explicit argument via sys.argv or fallback to cwd / script location
+# Project root detection: allow explicit argument via sys.argv or fallback
 PROJECT_ROOT = None
 for arg in sys.argv:
     if os.path.isabs(arg) and os.path.exists(os.path.join(arg, "models", "generated", "mode_ii")):
@@ -27,7 +28,6 @@ if not PROJECT_ROOT:
     if os.path.exists(os.path.join(cwd, "models", "generated", "mode_ii")):
         PROJECT_ROOT = cwd
     else:
-        # Search parent directories for models/generated/mode_ii
         curr = os.path.abspath(os.path.dirname(__file__))
         while curr and curr != os.path.dirname(curr):
             if os.path.exists(os.path.join(curr, "models", "generated", "mode_ii")):
@@ -41,9 +41,10 @@ if not PROJECT_ROOT:
 BATCH_DIR = os.path.join(
     PROJECT_ROOT, "models", "generated", "mode_ii", "f43_stage_c_bridge", "remesh_sensitivity_batch"
 )
-SOURCE_CAE_PATH = os.path.join(
-    PROJECT_ROOT, "models", "generated", "mode_ii", "f43_stage_c_bridge", "ModeII_Geometry_Source_Abaqus2023.cae"
+MODEL_DIR = os.path.join(
+    PROJECT_ROOT, "models", "generated", "mode_ii", "f43_stage_c_bridge"
 )
+SOURCE_CAE_PATH = os.path.join(MODEL_DIR, "ModeII_Geometry_Source_Abaqus2023.cae")
 
 def sha256_file(filepath):
     h = hashlib.sha256()
@@ -55,21 +56,39 @@ def sha256_file(filepath):
             h.update(chunk)
     return h.hexdigest()
 
+def ensure_source_cae():
+    expected_cae_sha = "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa"
+    if os.path.exists(SOURCE_CAE_PATH):
+        if sha256_file(SOURCE_CAE_PATH) == expected_cae_sha:
+            return SOURCE_CAE_PATH
+
+    # Search for pre-built CAE in parent project root or build directory
+    parent_cae = "/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/ModeII_Geometry_Source_Abaqus2023.cae"
+    if os.path.exists(parent_cae) and sha256_file(parent_cae) == expected_cae_sha:
+        shutil.copyfile(parent_cae, SOURCE_CAE_PATH)
+        return SOURCE_CAE_PATH
+
+    # Otherwise build source CAE using build_mode_ii_native_cae.py
+    builder = os.path.join(MODEL_DIR, "build_mode_ii_native_cae.py")
+    print("Building source CAE via:", builder)
+    execfile(builder)
+    assert os.path.exists(SOURCE_CAE_PATH), "Source CAE build failed"
+    assert sha256_file(SOURCE_CAE_PATH) == expected_cae_sha, "Generated CAE SHA mismatch"
+    return SOURCE_CAE_PATH
+
 def main():
     print("=== STARTING REAL ABAQUS 2023 KERNEL RULE PROBES FOR F43REM4 BATCH ===")
     print("Project Root:", PROJECT_ROOT)
 
-    expected_cae_sha = "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa"
-    actual_cae_sha = sha256_file(SOURCE_CAE_PATH)
+    cae_file = ensure_source_cae()
+    actual_cae_sha = sha256_file(cae_file)
     print("Source CAE SHA256:", actual_cae_sha)
-    assert actual_cae_sha == expected_cae_sha, "Source CAE SHA mismatch"
 
     tmp_cae = "/tmp/f43rem4_real_abaqus_probe_work.cae"
     if os.path.exists(tmp_cae):
         os.remove(tmp_cae)
 
-    import shutil
-    shutil.copyfile(SOURCE_CAE_PATH, tmp_cae)
+    shutil.copyfile(cae_file, tmp_cae)
     openMdb(pathName=tmp_cae)
     m = mdb.models['ModeII_Geometry_Model']
     print("Opened MDB model: ModeII_Geometry_Model")
