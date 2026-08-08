@@ -50,12 +50,12 @@ def execute_native_remeshing():
     if "1384674" in pred_id or "1384674" in pred_path_val:
         fail("Driver explicitly rejects 1384674 predecessor")
 
-    source_cae_path = manifest.get("source_cae_path", "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae")
-    expected_cae_sha = manifest.get("source_cae_sha256", "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa")
+    source_cae_path = str(manifest.get("source_cae_path", "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae"))
+    expected_cae_sha = str(manifest.get("source_cae_sha256", "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa"))
 
-    raw_pred_path = manifest.get("predecessor_odb_path", "evidence/1385461.mmaster02/F43PRE3_GEOM.odb")
-    predecessor_odb_path = raw_pred_path if os.path.isabs(raw_pred_path) else os.path.join(script_dir, raw_pred_path)
-    expected_odb_sha = manifest.get("predecessor_odb_sha256", "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1")
+    raw_pred_path = str(manifest.get("predecessor_odb_path", "evidence/1385461.mmaster02/F43PRE3_GEOM.odb"))
+    predecessor_odb_path = str(raw_pred_path if os.path.isabs(raw_pred_path) else os.path.join(script_dir, raw_pred_path))
+    expected_odb_sha = str(manifest.get("predecessor_odb_sha256", "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1"))
 
     print("[F43 Native Remesh] Verifying pre-execution file integrity...")
     if not os.path.exists(source_cae_path):
@@ -74,7 +74,7 @@ def execute_native_remeshing():
         fail("Predecessor ODB SHA mismatch! Expected {}, got {}".format(expected_odb_sha, actual_odb_sha))
 
     # Create runtime writable COPY of source CAE (source CAE remains strictly immutable)
-    work_cae_path = os.path.join(script_dir, "_runtime_work_copy.cae")
+    work_cae_path = str(os.path.join(script_dir, "_runtime_work_copy.cae"))
     if os.path.exists(work_cae_path):
         os.remove(work_cae_path)
     shutil.copy2(source_cae_path, work_cae_path)
