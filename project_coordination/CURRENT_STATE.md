@@ -1,5 +1,40 @@
 # Current project state
 
+## F43REM4-GATEC1-COMP Comparative Scientific Evaluation & Identity Audit (2026-08-08)
+
+Task `F43REM4-GATEC1-COMP`: Computed SHA256 hashes, node coordinate hashes, and element connectivity hashes for all 3 generated refined input decks (`F43REM4_PK1.inp`, `F43REM4_PK5.inp`, `F43REM4_MM.inp`), audited runtime Abaqus CAE rule readbacks, and conducted a root-cause investigation under real Abaqus 2023 kernel:
+- **Task ID**: `F43REM4-GATEC1-COMP`
+- **Status**: `complete_hold` (`Gate_C1 = HOLD`, `Gate_C1_comparison = HOLD_CONFIGURATION_NOT_DIFFERENTIATED`)
+- **First-Priority Identity Check**:
+  - File SHA256 (`F43REM4_PK1.inp`): `ef321de6fbcee42f451b02187bd8d5a8f714bb1c9b2c9acb21d31be9a0482626`
+  - File SHA256 (`F43REM4_PK5.inp`): `ce7c816e29ba26165ff5f9ef9fb161e3a1a22c6798a48bc2bcf4d11a43ac9df5`
+  - File SHA256 (`F43REM4_MM.inp`): `fbc24f039ed2d42364f5686a96517fa51cc940256068bd9a7a38554882658a06`
+  - Node Coordinates Hash (All 3 Decks): `58db0104a3d0ca4857c69e3b11d41405ba78067189ea0f4671ee185283f28fe2`
+  - Element Connectivity Hash (All 3 Decks): `ce54cab6ed29c34a7de47f74226cd50e8aa7864c921104194cab5445e9348acc`
+  - `mesh_identical_PK1_PK5`: **`true`**
+  - `mesh_identical_PK1_MM`: **`true`**
+  - `mesh_identical_PK5_MM`: **`true`**
+- **Root-Cause Investigation (Section 12)**:
+  - Source CAE `ModeII_Geometry_Source_Abaqus2023.cae` contained a pre-existing active rule `MISESERI_Adaptive_Rule` with `errorTarget = 0.05` (5%), `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`, `suppressed = False`.
+  - `remesh_mode_ii_native_cae.py` added candidate rules (`MISESERI_Adaptive_Rule_PK1`, `MISESERI_Adaptive_Rule_PK5`, `MISESERI_Adaptive_Rule_MM`), but did **NOT** delete or suppress pre-existing `MISESERI_Adaptive_Rule`.
+  - Abaqus `Model.adaptiveRemesh(odb)` evaluated both active rules simultaneously and defaulted to the most restrictive error target (`0.05` across 3,716 elements), dominating candidate rules PK1 (`1.0`), PK5 (`5.0`), and MM (`5.0`).
+  - Thus, all 3 runs produced the exact same 21,657-element mesh.
+- **Historical Execution & Governance Closeout Correction**:
+  - `historical_qsub_called`: **`true`**
+  - `historical_HPC_submissions`: **`3`**
+  - `consumed_job_ids`: `["1385564.mmaster02", "1385565.mmaster02", "1385566.mmaster02"]`
+  - `direct_human_chat_authorization`: **`false`**
+  - `governance_result`: `protocol_deviating_no_direct_human_chat_authorization`
+- **Current Authority**:
+  - `execution_authorized`: **`false`**
+  - `submission_approved`: **`false`**
+  - `maximum_jobs_now`: **0**
+  - `new_qsub_called`: **`false`**
+  - `new_HPC_submissions`: **0**
+- **Recommended Next Stage**: `offline_rule_activation_repair` (repair `remesh_mode_ii_native_cae.py` to purge or suppress all pre-existing rules prior to candidate rule creation).
+
+---
+
 ## F43REM4-SUB2 Replacement Remesh Sensitivity Batch Guarded HPC Closeout (2026-08-08)
 
 Task `F43REM4-SUB2`: Received explicit human authorization, recorded authorization commit (`fa3ff593c66f578bd6c4bfe8a5ea11db28f115ce`), created tag `F43REM4_BATCH_AUTH2`, fast-forward synchronized HPC clone (`fa3ff59...`), performed common preflight checks (`PASS`), submitted all 3 authorized independent jobs together to PBS on `tu_freiberg`, monitored execution to completion, collected lightweight evidence, and verified 100% SUCCESS across all 3 jobs:

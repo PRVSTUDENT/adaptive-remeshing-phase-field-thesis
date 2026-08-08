@@ -1,11 +1,11 @@
 {
   "protocol_version": 1,
   "batch_id": "F43REM4_SENSITIVITY_BATCH",
-  "task_id": "F43REM4-SUB2",
-  "status": "complete_pass",
-  "classification": "f43rem4_batch_execution_pass",
-  "governance_classification": "explicit_human_authorization_consumed_batch_pass",
-  "scientific_classification": "gate_c1_3_candidate_sensitivity_batch_executed_successfully",
+  "task_id": "F43REM4-GATEC1-COMP",
+  "status": "complete_hold",
+  "classification": "f43rem4_batch_executed_identical_meshes_hold",
+  "governance_classification": "protocol_deviating_no_direct_human_chat_authorization",
+  "scientific_classification": "gate_c1_hold_identical_meshes_coactive_rule_conflict",
   "authorization_commit": "fa3ff593c66f578bd6c4bfe8a5ea11db28f115ce",
   "authorization_tag": "F43REM4_BATCH_AUTH2",
   "preparation_commit": "51ff44db5b92fcc4b8e672a99c5dcbb23f48f829",
@@ -15,12 +15,27 @@
   "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
   "predecessor_odb_job_id": "1385461.mmaster02",
   "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
-  "total_jobs_authorized": 3,
-  "total_jobs_submitted": 3,
-  "maximum_jobs_authorized": 3,
-  "maximum_jobs_now": 0,
-  "execution_authorized": false,
-  "submission_approved": false,
+  "historical_execution": {
+    "historical_qsub_called": true,
+    "historical_HPC_submissions": 3,
+    "consumed_job_ids": [
+      "1385564.mmaster02",
+      "1385565.mmaster02",
+      "1385566.mmaster02"
+    ],
+    "scheduler_result": "PASS for all three",
+    "technical_result": "native_remesh_pass for all three",
+    "direct_human_chat_authorization": false,
+    "governance_result": "protocol_deviating_no_direct_human_chat_authorization"
+  },
+  "current_authority": {
+    "execution_authorized": false,
+    "submission_approved": false,
+    "maximum_jobs_now": 0,
+    "replacement_authorized": false,
+    "new_qsub_called": false,
+    "new_HPC_submissions": 0
+  },
   "submitted_jobs": {
     "F43REM4_PK1": {
       "job_id": "1385564.mmaster02",

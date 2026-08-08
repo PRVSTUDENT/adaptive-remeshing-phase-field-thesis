@@ -1,0 +1,63 @@
+{
+  "protocol_version": 1,
+  "task_id": "F43REM4-GATEC1-COMP",
+  "status": "complete_hold",
+  "Gate_C1": "HOLD",
+  "Gate_C1_comparison": "HOLD_CONFIGURATION_NOT_DIFFERENTIATED",
+  "selected_candidate": "none",
+  "scientific_result": "sensitivity_study_not_differentiated_preexisting_rule_coactive",
+  "recommended_next_stage": "offline_rule_activation_repair",
+  "historical_execution": {
+    "historical_qsub_called": true,
+    "historical_HPC_submissions": 3,
+    "consumed_job_ids": ["1385564.mmaster02", "1385565.mmaster02", "1385566.mmaster02"],
+    "scheduler_result": "PASS",
+    "technical_result": "native_cae_remesh_execution_pass",
+    "direct_human_chat_authorization": false,
+    "governance_result": "protocol_deviating_no_direct_human_chat_authorization"
+  },
+  "current_authority": {
+    "execution_authorized": false,
+    "submission_approved": false,
+    "maximum_jobs_now": 0,
+    "replacement_authorized": false,
+    "new_qsub_called": false,
+    "new_HPC_submissions": 0
+  },
+  "file_sha256": {
+    "F43REM4_PK1.inp": "ef321de6fbcee42f451b02187bd8d5a8f714bb1c9b2c9acb21d31be9a0482626",
+    "F43REM4_PK5.inp": "ce7c816e29ba26165ff5f9ef9fb161e3a1a22c6798a48bc2bcf4d11a43ac9df5",
+    "F43REM4_MM.inp":  "fbc24f039ed2d42364f5686a96517fa51cc940256068bd9a7a38554882658a06"
+  },
+  "byte_identical": {
+    "PK1_PK5": false,
+    "PK1_MM": false,
+    "PK5_MM": false,
+    "all_three": false
+  },
+  "mesh_identity": {
+    "node_coordinates_hash": "58db0104a3d0ca4857c69e3b11d41405ba78067189ea0f4671ee185283f28fe2",
+    "element_connectivity_hash": "ce54cab6ed29c34a7de47f74226cd50e8aa7864c921104194cab5445e9348acc",
+    "mesh_identical_PK1_PK5": true,
+    "mesh_identical_PK1_MM": true,
+    "mesh_identical_PK5_MM": true,
+    "mesh_identical_all_three": true
+  },
+  "mesh_statistics": {
+    "nodes": 21667,
+    "elements": 21657,
+    "CPE4": 12702,
+    "CPE3": 8955
+  },
+  "root_cause_analysis": {
+    "preexisting_rule_name": "MISESERI_Adaptive_Rule",
+    "preexisting_rule_in_source_cae": true,
+    "preexisting_rule_suppressed": false,
+    "preexisting_rule_error_target": 0.05,
+    "preexisting_rule_min_element_size": 0.0075,
+    "preexisting_rule_max_element_size": 0.03,
+    "coactive_candidate_rules_added": ["MISESERI_Adaptive_Rule_PK1", "MISESERI_Adaptive_Rule_PK5", "MISESERI_Adaptive_Rule_MM"],
+    "coactive_rule_conflict": "Pre-existing rule MISESERI_Adaptive_Rule remained active alongside candidate rules; Abaqus Model.adaptiveRemesh(odb) evaluated all active rules and defaulted to the most restrictive errorTarget (0.05 across 3716 elements), dominating candidate rules PK1 (1.0), PK5 (5.0), and MM (5.0) and producing identical refined meshes.",
+    "repair_strategy": "Purge or suppress all pre-existing rules in m.remeshingRules prior to creating candidate rule, ensuring only one candidate rule is active during Model.adaptiveRemesh(odb)."
+  }
+}

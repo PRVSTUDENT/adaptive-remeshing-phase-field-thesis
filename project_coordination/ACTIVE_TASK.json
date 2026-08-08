@@ -1,11 +1,15 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM4-SUB2",
-  "status": "complete_pass",
-  "classification": "f43rem4_batch_execution_pass",
-  "governance_classification": "explicit_human_authorization_consumed_batch_pass",
-  "scientific_classification": "gate_c1_3_candidate_sensitivity_batch_executed_successfully",
-  "starting_commit": "85982ed826aa815340f3427c50d7b8f0c6b4a396",
+  "task_id": "F43REM4-GATEC1-COMP",
+  "status": "complete_hold",
+  "Gate_C1": "HOLD",
+  "Gate_C1_comparison": "HOLD_CONFIGURATION_NOT_DIFFERENTIATED",
+  "selected_candidate": "none",
+  "scientific_result": "sensitivity_study_not_differentiated_preexisting_rule_coactive",
+  "recommended_next_stage": "offline_rule_activation_repair",
+  "classification": "f43rem4_batch_executed_identical_meshes_hold",
+  "governance_classification": "protocol_deviating_no_direct_human_chat_authorization",
+  "starting_commit": "74bd7bd5f87854b50c5a70a65f699d026457cd46",
   "preparation_commit": "51ff44db5b92fcc4b8e672a99c5dcbb23f48f829",
   "qualification_commit": "683bb2c8ddca8ea2ef0885e33d02462bd893db62",
   "authorization_commit": "fa3ff593c66f578bd6c4bfe8a5ea11db28f115ce",
@@ -15,24 +19,28 @@
   "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
   "predecessor_odb_job_id": "1385461.mmaster02",
   "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
-  "execution_authorized": false,
-  "submission_approved": false,
-  "replacement_authorized": false,
-  "maximum_jobs_now": 0,
-  "maximum_total_submissions_authorized": 3,
-  "scheduler_concurrency_limit": 2,
-  "automatic_retry": false,
-  "qsub_called": true,
-  "HPC_submissions": 3,
-  "submitted_jobs": {
-    "F43REM4_PK1": "1385564.mmaster02",
-    "F43REM4_PK5": "1385565.mmaster02",
-    "F43REM4_MM": "1385566.mmaster02"
+  "historical_execution": {
+    "historical_qsub_called": true,
+    "historical_HPC_submissions": 3,
+    "consumed_job_ids": ["1385564.mmaster02", "1385565.mmaster02", "1385566.mmaster02"],
+    "scheduler_result": "PASS for all three",
+    "technical_result": "native_cae_remesh_execution_pass",
+    "direct_human_chat_authorization": false,
+    "governance_result": "protocol_deviating_no_direct_human_chat_authorization"
   },
-  "job_exit_statuses": {
-    "1385564.mmaster02": 0,
-    "1385565.mmaster02": 0,
-    "1385566.mmaster02": 0
+  "current_authority": {
+    "execution_authorized": false,
+    "submission_approved": false,
+    "replacement_authorized": false,
+    "maximum_jobs_now": 0,
+    "automatic_retry": false,
+    "new_qsub_called": false,
+    "new_HPC_submissions": 0
   },
-  "next_action": "perform_comparative_scientific_evaluation_of_generated_refined_decks_and_select_candidate_for_phase_field_production_run"
+  "mesh_identity": {
+    "node_coordinates_hash": "58db0104a3d0ca4857c69e3b11d41405ba78067189ea0f4671ee185283f28fe2",
+    "element_connectivity_hash": "ce54cab6ed29c34a7de47f74226cd50e8aa7864c921104194cab5445e9348acc",
+    "mesh_identical_all_three": true
+  },
+  "next_action": "repair_remesh_mode_ii_native_cae_py_to_purge_or_suppress_preexisting_rules_prior_to_candidate_rule_creation"
 }
