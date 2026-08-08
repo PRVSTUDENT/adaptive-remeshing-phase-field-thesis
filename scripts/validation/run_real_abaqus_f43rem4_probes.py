@@ -48,7 +48,6 @@ BATCH_DIR = os.path.join(
 MODEL_DIR = os.path.join(
     PROJECT_ROOT, "models", "generated", "mode_ii", "f43_stage_c_bridge"
 )
-SOURCE_CAE_PATH = os.path.join(MODEL_DIR, "ModeII_Geometry_Source_Abaqus2023.cae")
 
 def sha256_file(filepath):
     h = hashlib.sha256()
@@ -62,28 +61,29 @@ def sha256_file(filepath):
 
 def ensure_source_cae():
     expected_cae_sha = "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa"
-    if os.path.exists(SOURCE_CAE_PATH):
-        if sha256_file(SOURCE_CAE_PATH) == expected_cae_sha:
-            return SOURCE_CAE_PATH
+    candidate_paths = [
+        os.path.join(MODEL_DIR, "ModeII_Geometry_Source.cae"),
+        os.path.join(MODEL_DIR, "ModeII_Geometry_Source_Abaqus2023.cae"),
+        os.path.join("/home/pr21vyci/projects/adaptive-remeshing", "models", "generated", "mode_ii", "f43_stage_c_bridge", "ModeII_Geometry_Source.cae"),
+        os.path.join("/home/pr21vyci/projects/adaptive-remeshing", "models", "generated", "mode_ii", "f43_stage_c_bridge", "ModeII_Geometry_Source_Abaqus2023.cae"),
+    ]
 
-    parent_cae = os.path.join(
-        "/home/pr21vyci/projects/adaptive-remeshing",
-        "models",
-        "generated",
-        "mode_ii",
-        "f43_stage_c_bridge",
-        "ModeII_Geometry_Source_Abaqus2023.cae",
-    )
-    if os.path.exists(parent_cae) and sha256_file(parent_cae) == expected_cae_sha:
-        shutil.copyfile(parent_cae, SOURCE_CAE_PATH)
-        return SOURCE_CAE_PATH
+    for p in candidate_paths:
+        if os.path.exists(p) and sha256_file(p) == expected_cae_sha:
+            target = os.path.join(MODEL_DIR, "ModeII_Geometry_Source_Abaqus2023.cae")
+            if p != target:
+                shutil.copyfile(p, target)
+            return target
 
     builder = os.path.join(MODEL_DIR, "build_mode_ii_native_cae.py")
     print("Building source CAE via:", builder)
     execfile(builder, globals())
-    assert os.path.exists(SOURCE_CAE_PATH), "Source CAE build failed"
-    assert sha256_file(SOURCE_CAE_PATH) == expected_cae_sha, "Generated CAE SHA mismatch"
-    return SOURCE_CAE_PATH
+    
+    for p in [os.path.join(MODEL_DIR, "ModeII_Geometry_Source.cae"), os.path.join(MODEL_DIR, "ModeII_Geometry_Source_Abaqus2023.cae")]:
+        if os.path.exists(p) and sha256_file(p) == expected_cae_sha:
+            return p
+
+    raise RuntimeError("Source CAE build failed or SHA mismatch")
 
 def main():
     print("=== STARTING REAL ABAQUS 2023 KERNEL RULE PROBES FOR F43REM4 BATCH ===")
