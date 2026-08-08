@@ -52,8 +52,9 @@ echo "Job ID Username Queue Jobname SessID NDS TSK Memory Time S Time"
             ["bash", WRAPPER_PATH],
             cwd=REPO_ROOT,
             env=self.env,
-            capture_output=True,
-            text=True
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
         )
         self.assertEqual(res.returncode, 0, f"Wrapper failed: {res.stderr}")
         self.assertTrue(os.path.exists(self.fake_qsub_log), "qsub log not found")
@@ -79,8 +80,9 @@ echo "Job ID Username Queue Jobname SessID NDS TSK Memory Time S Time"
             ["bash", WRAPPER_PATH],
             cwd=unrelated_dir,
             env=self.env,
-            capture_output=True,
-            text=True
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
         )
         self.assertEqual(res.returncode, 0, f"Wrapper failed from arbitrary dir: {res.stderr}")
         
@@ -122,8 +124,9 @@ echo "Module command mock"
             ["bash", os.path.join(mock_pkg, "F43PRE3_GEOM.pbs")],
             cwd=self.temp_dir,
             env=pbs_env,
-            capture_output=True,
-            text=True
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
         )
         self.assertEqual(res.returncode, 0, f"PBS script failed: {res.stdout}\n{res.stderr}")
         self.assertIn("[F43PRE3_GEOM] working_directory =", res.stdout)
@@ -162,8 +165,9 @@ echo "Module command mock"
             ["bash", spool_pbs],
             cwd=spool_dir,
             env=pbs_env,
-            capture_output=True,
-            text=True
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
         )
         self.assertEqual(res.returncode, 0, f"Spooled PBS script failed: {res.stdout}\n{res.stderr}")
         self.assertIn("PBS_SPOOL_DIR =", res.stdout)
@@ -184,8 +188,9 @@ echo "Module command mock"
             ["bash", PBS_PATH],
             cwd=REPO_ROOT,
             env=bad_env,
-            capture_output=True,
-            text=True
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
         )
         self.assertNotEqual(res.returncode, 0, "PBS script should fail closed when PBS_O_WORKDIR is repo root")
         self.assertIn("F43PRE3_GEOM.inp missing", res.stderr)
@@ -199,8 +204,9 @@ echo "Module command mock"
             ["bash", PBS_PATH],
             cwd=PACKAGE_DIR,
             env=bad_env,
-            capture_output=True,
-            text=True
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
         )
         self.assertNotEqual(res.returncode, 0, "PBS script must fail if PBS_O_WORKDIR is missing")
         self.assertIn("PBS_O_WORKDIR is required", res.stderr)
@@ -226,8 +232,9 @@ echo "Module command mock"
             ["bash", os.path.join(corrupt_pkg, "F43PRE3_GEOM.pbs")],
             cwd=corrupt_pkg,
             env=bad_env,
-            capture_output=True,
-            text=True
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
         )
         self.assertNotEqual(res.returncode, 0, "PBS script must fail on input deck SHA mismatch")
         self.assertIn("Input deck SHA mismatch", res.stderr)

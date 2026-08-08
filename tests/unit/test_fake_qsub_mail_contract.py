@@ -49,8 +49,9 @@ class TestFakeQsubMailContract(unittest.TestCase):
                 ["bash", WRAPPER_PATH],
                 cwd=PACKAGE_DIR,
                 env=env,
-                capture_output=True,
-                text=True
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True
             )
 
             self.assertEqual(res.returncode, 0, f"Wrapper failed with stdout: {res.stdout}, stderr: {res.stderr}")
