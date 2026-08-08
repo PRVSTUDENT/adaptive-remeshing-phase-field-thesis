@@ -15,7 +15,14 @@ from abaqus import *
 from abaqusConstants import *
 import caeModules
 
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+# Safe script path detection inside Abaqus execfile environment
+try:
+    SCRIPT_PATH = os.path.abspath(__file__)
+except NameError:
+    SCRIPT_PATH = os.path.abspath(sys.argv[0]) if sys.argv and sys.argv[0] else os.path.join(os.getcwd(), "scripts", "validation", "run_real_abaqus_f43rem4_probes.py")
+
+SCRIPT_DIR = os.path.dirname(SCRIPT_PATH)
+PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
 BATCH_DIR = os.path.join(
     PROJECT_ROOT, "models", "generated", "mode_ii", "f43_stage_c_bridge", "remesh_sensitivity_batch"
 )
@@ -35,7 +42,8 @@ def sha256_file(filepath):
 
 def main():
     print("=== STARTING REAL ABAQUS 2023 KERNEL RULE PROBES FOR F43REM4 BATCH ===")
-    
+    print("Project Root:", PROJECT_ROOT)
+
     expected_cae_sha = "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa"
     actual_cae_sha = sha256_file(SOURCE_CAE_PATH)
     print("Source CAE SHA256:", actual_cae_sha)
