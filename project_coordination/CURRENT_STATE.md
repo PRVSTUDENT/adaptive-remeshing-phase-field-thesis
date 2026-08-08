@@ -1,6 +1,47 @@
 # Current project state
 
-## F43GATEC1-R3 errorTarget Interpretation Correction & Remesh Sensitivity Batch Preparation (2026-08-08)
+## F43REM4-Q1 Three-Candidate Remesh Sensitivity Batch Freeze & Detached Qualification (2026-08-08)
+
+Completed task `F43REM4-Q1`: Corrected R3 historical provenance, frozen preparation package $P_{43\text{REM4-BATCH1}}$, verified integer rule argument types (`refinementFactor = 10`, `meshBias = 1`), performed exact-P real-kernel non-remesh probes in real Abaqus 2023 on HPC (`PASS` for PK1, PK5, MM), executed unit tests and detached qualification (`PASS`, worktree naturally clean), revised Gate C1 selection criteria, and recorded qualification commit $Q_{43\text{REM4-BATCH1}}$:
+- **Task ID**: `F43REM4-Q1`
+- **Status**: `complete` (`f43rem4_sensitivity_batch_qualified_unauthorized`)
+- **Preparation Commit ($P_{43\text{REM4-BATCH1}}$)**: `da46210cbf2e34f71a545c51b12e3f6351f5502c` (`P43REM4-BATCH1-FWD11`)
+- **Exact-P Real Abaqus 2023 Kernel Probe Results (on `tu_freiberg` HPC)**:
+  - `PK1_real_kernel_probe`: **`PASS`** (`refinementFactor = 10` integer type verified)
+  - `PK5_real_kernel_probe`: **`PASS`** (`refinementFactor = 10` integer type verified)
+  - `MM_real_kernel_probe`: **`PASS`** (`meshBias = 1` integer type verified in range [1, 10])
+  - `adaptiveRemesh_called`: **`false`**
+  - `qsub_called`: **`false`**
+  - `probe_evidence_json`: `models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/F43REM4_REAL_ABAQUS2023_PROBE_EVIDENCE.json`
+- **Exact-P Detached Linux Worktree Qualification**:
+  - `detached_HEAD`: `da46210cbf2e34f71a545c51b12e3f6351f5502c`
+  - Unit test suite: **PASS** (0 failures, 0 errors).
+  - Post-test worktree cleanliness: **naturally clean (`git status` empty)**.
+  - Candidate output path isolation: **`true`** (`F43REM4_PK1.inp`, `F43REM4_PK5.inp`, `F43REM4_MM.inp`).
+  - Candidate independence: **`true`** (all 3 candidates consume only source CAE `0d5b32...` and PRE3 ODB `9a5262...`).
+- **Revised Gate C1 Candidate Selection Rule**:
+  - A. Spearman rank correlation must improve materially relative to baseline `0.013934`;
+  - B. Refinement intensity must show meaningful enrichment toward upper MISESERI percentile bands (95-99% and 99-100% bands greater than bulk low-error bands);
+  - C. Hotspot resolution evaluated using hotspot sqrt(area) median/p95 and min-edge median/p95 for top 5% and top 10% PRE3 MISESERI regions, with reported $h/l_0$ ($l_0 = 0.015\text{ mm}$).
+- **Batch Authorization Proposal (`F43REM4_SENSITIVITY_BATCH`)**:
+  - Candidate PK1: `F43REM4_PK1` (Pandey-rule-target reproduction adapted to our Mode-II geometry, `errorTarget = 1.0 = 1%`)
+  - Candidate PK5: `F43REM4_PK5` (Relaxed uniform-error target sensitivity, `errorTarget = 5.0 = 5%`)
+  - Candidate MM: `F43REM4_MM` (Spatial error indicator localization alternative, `MINIMUM_MAXIMUM`, `maxErrorTarget = 5.0`, `minErrorTarget = 1.0`, `meshBias = 1`)
+  - Resources per job: 1 CPU, 8 GB, 30 min, `entry_imfdfkmq`.
+  - Max simultaneous running: **2** (3rd job queued automatically).
+  - Max total submissions authorized: **3** (upon explicit direct human authorization).
+- **Batch Governance & Authority Boundary**:
+  - `authorization_ready`: `true`
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `qsub_called`: `false`
+  - `HPC_submissions`: 0
+- **Next Action**: Awaiting explicit direct human authorization sentence for `F43REM4_SENSITIVITY_BATCH`.
+
+---
+
+
 
 Completed task `F43GATEC1-R3`: Corrected Abaqus 2023 `errorTarget` percentage semantics, retired raw `MISESERI` threshold comparison, preserved part-scoped Gate C1 geometry corrections (`PRE3_EVOL_sum = 1.0000000005 mm³`, 100% area conservation, 0 invalid elements), updated `minElementSize`/`maxElementSize` sizing function interpretation, and prepared controlled 3-candidate remesh sensitivity batch package (`F43REM4_SENSITIVITY_BATCH`):
 - **Task ID**: `F43GATEC1-R3`
