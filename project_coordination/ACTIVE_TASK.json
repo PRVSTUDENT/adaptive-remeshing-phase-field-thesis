@@ -1,15 +1,17 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM4-R2",
-  "status": "completed_qualification_pending_reauthorization",
-  "classification": "f43rem4_batch_execution_bytes_reconciled_and_qualified",
-  "governance_classification": "exact_P_preflights_and_detached_qualification_complete",
-  "scientific_classification": "gate_c1_hold_3_candidate_sensitivity_batch_qualified_pending_reauthorization",
-  "starting_commit": "51ff44db5b92fcc4b8e672a99c5dcbb23f48f829",
+  "task_id": "F43REM4-SUB2",
+  "status": "complete_pass",
+  "classification": "f43rem4_batch_execution_pass",
+  "governance_classification": "explicit_human_authorization_consumed_batch_pass",
+  "scientific_classification": "gate_c1_3_candidate_sensitivity_batch_executed_successfully",
+  "starting_commit": "85982ed826aa815340f3427c50d7b8f0c6b4a396",
   "preparation_commit": "51ff44db5b92fcc4b8e672a99c5dcbb23f48f829",
   "qualification_commit": "683bb2c8ddca8ea2ef0885e33d02462bd893db62",
+  "authorization_commit": "fa3ff593c66f578bd6c4bfe8a5ea11db28f115ce",
   "forward_P_tag": "P43REM4-BATCH3",
   "forward_Q_tag": "Q43REM4-BATCH3",
+  "authorization_tag": "F43REM4_BATCH_AUTH2",
   "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
   "predecessor_odb_job_id": "1385461.mmaster02",
   "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
@@ -17,15 +19,20 @@
   "submission_approved": false,
   "replacement_authorized": false,
   "maximum_jobs_now": 0,
-  "maximum_total_submissions_authorized": 0,
+  "maximum_total_submissions_authorized": 3,
   "scheduler_concurrency_limit": 2,
   "automatic_retry": false,
-  "qsub_called": false,
-  "HPC_submissions": 0,
-  "preflight_probes": {
-    "F43REM4_PK1": "PASS",
-    "F43REM4_PK5": "PASS",
-    "F43REM4_MM": "PASS"
+  "qsub_called": true,
+  "HPC_submissions": 3,
+  "submitted_jobs": {
+    "F43REM4_PK1": "1385564.mmaster02",
+    "F43REM4_PK5": "1385565.mmaster02",
+    "F43REM4_MM": "1385566.mmaster02"
   },
-  "next_action": "stopped_awaiting_fresh_direct_human_chat_authorization_sentence_before_any_f43rem4_resubmission"
+  "job_exit_statuses": {
+    "1385564.mmaster02": 0,
+    "1385565.mmaster02": 0,
+    "1385566.mmaster02": 0
+  },
+  "next_action": "perform_comparative_scientific_evaluation_of_generated_refined_decks_and_select_candidate_for_phase_field_production_run"
 }

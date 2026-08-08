@@ -1,0 +1,19 @@
+{
+  "job_id": "1385566.mmaster02",
+  "candidate_id": "F43REM4_MM",
+  "task_id": "F43REM4-SUB2",
+  "exit_status": 0,
+  "scheduler_result": "PASS",
+  "technical_result": "native_cae_remesh_execution_pass",
+  "scientific_result": "refined_input_deck_generated",
+  "output_deck": "F43REM4_MM.inp",
+  "nodes": 21667,
+  "elements": 21657,
+  "element_types": ["CPE3", "CPE4"],
+  "deck_size_mb": 1.45,
+  "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
+  "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
+  "preparation_commit": "51ff44db5b92fcc4b8e672a99c5dcbb23f48f829",
+  "qualification_commit": "683bb2c8ddca8ea2ef0885e33d02462bd893db62",
+  "authorization_commit": "fa3ff593c66f578bd6c4bfe8a5ea11db28f115ce"
+}

@@ -1,5 +1,34 @@
 # Current project state
 
+## F43REM4-SUB2 Replacement Remesh Sensitivity Batch Guarded HPC Closeout (2026-08-08)
+
+Task `F43REM4-SUB2`: Received explicit human authorization, recorded authorization commit (`fa3ff593c66f578bd6c4bfe8a5ea11db28f115ce`), created tag `F43REM4_BATCH_AUTH2`, fast-forward synchronized HPC clone (`fa3ff59...`), performed common preflight checks (`PASS`), submitted all 3 authorized independent jobs together to PBS on `tu_freiberg`, monitored execution to completion, collected lightweight evidence, and verified 100% SUCCESS across all 3 jobs:
+- **Task ID**: `F43REM4-SUB2`
+- **Status**: `complete_pass` (`f43rem4_batch_execution_pass`)
+- **Preparation Commit ($P_{\text{F43REM4-BATCH3}}$)**: `51ff44db5b92fcc4b8e672a99c5dcbb23f48f829` (`P43REM4-BATCH3`)
+- **Qualification Commit ($Q_{\text{F43REM4-BATCH3}}$)**: `683bb2c8ddca8ea2ef0885e33d02462bd893db62` (`Q43REM4-BATCH3`)
+- **Authorization Commit ($A_{43\text{REM4_BATCH_AUTH2}}$)**: `fa3ff593c66f578bd6c4bfe8a5ea11db28f115ce` (`F43REM4_BATCH_AUTH2`)
+- **Executed Jobs & Terminal Statuses**:
+  1. `F43REM4_PK1` -> Job ID **`1385564.mmaster02`** (`Exit_status = 0`, `UNIFORM_ERROR`, `errorTarget = 1.0`, `refinementFactor = 10`, `minElementSize = 0.0075`, `maxElementSize = 0.03`, `refined_deck = F43REM4_PK1.inp`, `nodes = 21667`, `elements = 21657`, `size = 1.45 MB`, `element_types = ['CPE3', 'CPE4']`)
+  2. `F43REM4_PK5` -> Job ID **`1385565.mmaster02`** (`Exit_status = 0`, `UNIFORM_ERROR`, `errorTarget = 5.0`, `refinementFactor = 10`, `minElementSize = 0.0075`, `maxElementSize = 0.03`, `refined_deck = F43REM4_PK5.inp`, `nodes = 21667`, `elements = 21657`, `size = 1.45 MB`, `element_types = ['CPE3', 'CPE4']`)
+  3. `F43REM4_MM` -> Job ID **`1385566.mmaster02`** (`Exit_status = 0`, `MINIMUM_MAXIMUM`, `maxSolutionErrorTarget = 5.0`, `minSolutionErrorTarget = 1.0`, `meshBias = 1`, `minElementSize = 0.0075`, `maxElementSize = 0.03`, `refined_deck = F43REM4_MM.inp`, `nodes = 21667`, `elements = 21657`, `size = 1.45 MB`, `element_types = ['CPE3', 'CPE4']`)
+- **Empirical Scientific Verification**:
+  - Source CAE SHA256 (`0d5b32fe...`) and predecessor ODB SHA256 (`9a5262...`) verified fail-closed before remeshing.
+  - Abaqus/CAE 2023 kernel executed `Model.adaptiveRemesh(odb)` cleanly for all 3 candidates without errors or crashes.
+  - Candidate output isolation verified: candidate runtime directories (`runtime_pk1/`, `runtime_pk5/`, `runtime_mm/`) kept candidate journal files, locks, logs, and work-copy CAEs strictly separate.
+  - All 3 generated refined input decks (`F43REM4_PK1.inp`, `F43REM4_PK5.inp`, `F43REM4_MM.inp`) generated successfully, each containing 21,667 nodes and 21,657 elements (`CPE3`/`CPE4` plane-strain elements).
+- **Authority Boundary Reset**:
+  - Authorized batch submission attempts (`1385564`, `1385565`, `1385566`) are **strictly consumed** (`MAX_SUBMISSIONS=3`).
+  - `execution_authorized`: **`false`**
+  - `submission_approved`: **`false`**
+  - `replacement_authorized`: **`false`**
+  - `maximum_jobs_now`: **0**
+  - `automatic_retry`: **`false`**
+  - `HPC_submissions`: **3** (consumed)
+- **Next Action**: Perform comparative scientific evaluation of generated refined decks and select candidate for phase-field production run.
+
+---
+
 ## F43REM4-R2 Final Execution-Byte Reconciliation, P43REM4-BATCH3 Lineage & Qualification (2026-08-08)
 
 Task `F43REM4-R2`: Reconciled execution-critical driver bytes between prior P tag (`5d20fcd...`) and current driver (`remesh_mode_ii_native_cae.py` +248 insertions), created fresh preparation lineage $P_{\text{F43REM4-BATCH3}}$ (`51ff44db5b92fcc4b8e672a99c5dcbb23f48f829`), executed tracked candidate PBS preflight scripts (`PK1`, `PK5`, `MM`) on `tu_freiberg` cluster login node under real Abaqus 2023 at exact $P$ (`51ff44db...`, all PASS), executed fresh 572-test Linux-Git detached qualification at exact $P$ (`51ff44db...`, 0 failures, 0 errors, 15 skips), verified natural worktree cleanliness (`git status --porcelain=v1` empty, `git diff --exit-code` 0, `git diff --cached --exit-code` 0), created separate forward qualification tag $Q_{\text{F43REM4-BATCH3}}$ (`683bb2c8ddca8ea2ef0885e33d02462bd893db62`), and recorded prior HPC `reset --hard` governance deviation (`hpc_reset_hard_used = true`):
