@@ -34,7 +34,7 @@ class TestF43REM4BatchContract(unittest.TestCase):
                 self.assertEqual(rule["refinementFactor"], 10)
             elif candidate_id == "mm":
                 self.assertIsInstance(rule["meshBias"], int)
-                self.assertEqual(rule["meshBias"], 0)
+                self.assertEqual(rule["meshBias"], 1)
 
     def test_03_batch_manifest_and_isolation(self):
         manifest_path = os.path.join(BATCH_DIR, "F43REM4_BATCH_MANIFEST.json")

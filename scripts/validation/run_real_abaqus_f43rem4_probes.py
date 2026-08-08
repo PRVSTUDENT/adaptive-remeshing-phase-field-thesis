@@ -141,7 +141,7 @@ def main():
                 sizingMethod=MINIMUM_MAXIMUM,
                 maxSolutionErrorTarget=float(rule_cfg["maxSolutionErrorTarget"]),
                 minSolutionErrorTarget=float(rule_cfg["minSolutionErrorTarget"]),
-                meshBias=float(rule_cfg["meshBias"]),
+                meshBias=int(rule_cfg["meshBias"]),
                 specifyMinSize=ON if rule_cfg["specifyMinSize"] else OFF,
                 minElementSize=float(rule_cfg["minElementSize"]),
                 specifyMaxSize=ON if rule_cfg["specifyMaxSize"] else OFF,
