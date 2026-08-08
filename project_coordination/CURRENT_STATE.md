@@ -11,7 +11,7 @@ Completed task `F43PRE3-R2`: Rigorous PRE2/PRE3 input-deck semantic equivalence 
   - `F43REM3_NATIVE`: `blocked_pending_PRE3_execution_and_scientific_review`
   - `F43DRY1`: `blocked`
 - **Preparation Commit ($P$)**: `P43PRE3-R2` (`400c8ae9d538719ffd2cd6d43c1bc5d0fd81e43f`)
-- **Qualification Commit ($Q$)**: `pending_q43pre3_r2_commit`
+- **Qualification Commit ($Q$)**: `Q43PRE3-R2` (`40ff9617b40ad060ecf636030f32c18877984b6d`)
 - **Superceded Qualification**: `Q43PRE3-R1` (`51fd10587d0ecdfccfddbc8fbca8ff9f2c6114a1` superseded for authorization by rigorous semantic-equivalence R2).
 - **Abaqus 2023 Source CAE**: `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae` (SHA256: `0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa`)
 - **Exported Input Deck**: `models/generated/mode_ii/f43_stage_c_bridge/F43PRE3_GEOM.inp` (SHA256: `10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee`)
