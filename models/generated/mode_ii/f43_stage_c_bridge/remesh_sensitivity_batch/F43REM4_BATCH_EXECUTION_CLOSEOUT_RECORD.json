@@ -1,0 +1,46 @@
+{
+  "batch_id": "F43REM4_SENSITIVITY_BATCH",
+  "task_id": "F43REM4-SUB1",
+  "closeout_timestamp_utc": "2026-08-08T09:51:00Z",
+  "direct_human_chat_authorization": false,
+  "governance_result": "protocol_deviating_no_direct_human_chat_authorization",
+  "common_root_cause": "cwd_dependent_predecessor_odb_resolution",
+  "job_results": {
+    "F43REM4_PK1": {
+      "job_id": "1385556.mmaster02",
+      "scheduler_result": "FAIL",
+      "technical_result": "predecessor_ODB_path_resolution_failure",
+      "scientific_result": "not_executed",
+      "adaptiveRemesh_entered": false,
+      "refined_mesh_generated": false,
+      "refined_deck_generated": false,
+      "submission_attempt_consumed": true,
+      "direct_human_chat_authorization": false,
+      "governance_result": "protocol_deviating_no_direct_human_chat_authorization"
+    },
+    "F43REM4_PK5": {
+      "job_id": "1385557.mmaster02",
+      "scheduler_result": "FAIL",
+      "technical_result": "predecessor_ODB_path_resolution_failure",
+      "scientific_result": "not_executed",
+      "adaptiveRemesh_entered": false,
+      "refined_mesh_generated": false,
+      "refined_deck_generated": false,
+      "submission_attempt_consumed": true,
+      "direct_human_chat_authorization": false,
+      "governance_result": "protocol_deviating_no_direct_human_chat_authorization"
+    },
+    "F43REM4_MM": {
+      "job_id": "1385558.mmaster02",
+      "scheduler_result": "FAIL",
+      "technical_result": "predecessor_ODB_path_resolution_failure",
+      "scientific_result": "not_executed",
+      "adaptiveRemesh_entered": false,
+      "refined_mesh_generated": false,
+      "refined_deck_generated": false,
+      "submission_attempt_consumed": true,
+      "direct_human_chat_authorization": false,
+      "governance_result": "protocol_deviating_no_direct_human_chat_authorization"
+    }
+  }
+}

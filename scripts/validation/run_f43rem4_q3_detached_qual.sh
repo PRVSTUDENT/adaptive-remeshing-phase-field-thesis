@@ -4,7 +4,7 @@ set -eo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
-TARGET_P="da46210cbf2e34f71a545c51b12e3f6351f5502c"
+TARGET_P="${1:-23824ab66fd34e9e802a0d586080485e177c7585}"
 WORKTREE_DIR="/tmp/f43rem4_q3_detached_qual_worktree"
 
 echo "=== STARTING F43REM4-Q3 DETACHED WORKTREE QUALIFICATION AT EXACT P=${TARGET_P} ==="

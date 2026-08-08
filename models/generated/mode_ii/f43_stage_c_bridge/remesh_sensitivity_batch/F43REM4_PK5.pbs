@@ -11,21 +11,43 @@
 set -euo pipefail
 
 : "${PBS_O_WORKDIR:?PBS_O_WORKDIR is required}"
-WORKDIR="${PBS_O_WORKDIR}"
+BATCH_DIR="$(cd "${PBS_O_WORKDIR}" && pwd)"
+BRIDGE_DIR="$(cd "${BATCH_DIR}/.." && pwd)"
 
-cd "${WORKDIR}" || exit 1
+CANDIDATE_ID="F43REM4_PK5"
+RUNTIME_DIR="${BATCH_DIR}/runtime_pk5"
+mkdir -p "${RUNTIME_DIR}"
+cd "${RUNTIME_DIR}" || exit 1
 
-echo "[F43REM4_PK5] Starting Abaqus 2023 native adaptive remeshing job at $(date)"
-echo "[F43REM4_PK5] PBS_JOBID: ${PBS_JOBID:-local}"
+echo "[${CANDIDATE_ID}] Starting Abaqus 2023 native adaptive remeshing job at $(date)"
+echo "[${CANDIDATE_ID}] PBS_JOBID: ${PBS_JOBID:-local}"
 
 module purge
 module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
 
-export F43REM4_CONFIG_PATH="${WORKDIR}/remesh_sensitivity_config_pk5.json"
+SOURCE_CAE_CAND="${BRIDGE_DIR}/ModeII_Geometry_Source_Abaqus2023.cae"
+if [ ! -f "${SOURCE_CAE_CAND}" ]; then
+    SOURCE_CAE_CAND="/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae"
+fi
+
+PRED_ODB_CAND="${BRIDGE_DIR}/evidence/1385461.mmaster02/F43PRE3_GEOM.odb"
+if [ ! -f "${PRED_ODB_CAND}" ]; then
+    PRED_ODB_CAND="/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/evidence/1385461.mmaster02/F43PRE3_GEOM.odb"
+fi
+
+export F43REM4_CANDIDATE_ID="${CANDIDATE_ID}"
+export F43REM4_BRIDGE_DIR="${BRIDGE_DIR}"
+export F43REM4_CONFIG_PATH="${BATCH_DIR}/remesh_sensitivity_config_pk5.json"
+export F43REM4_SOURCE_CAE="${SOURCE_CAE_CAND}"
+export F43REM4_PREDECESSOR_ODB="${PRED_ODB_CAND}"
+export F43REM4_OUTPUT_DIR="${RUNTIME_DIR}"
+
+export SOURCE_CAE_PATH="${F43REM4_SOURCE_CAE}"
+export PREDECESSOR_ODB_PATH="${F43REM4_PREDECESSOR_ODB}"
 
 remesh_rc=0
 set +e
-abaqus cae noGUI=../remesh_mode_ii_native_cae.py
+abaqus cae noGUI="${BRIDGE_DIR}/remesh_mode_ii_native_cae.py"
 remesh_rc=$?
 set -e
 
@@ -34,10 +56,16 @@ if [ ${remesh_rc} -ne 0 ]; then
     exit ${remesh_rc}
 fi
 
-if [ ! -f "F43REM4_PK5.inp" ]; then
-    echo "FATAL ERROR: Refined input deck F43REM4_PK5.inp not generated!" >&2
+if [ "${F43REM4_PREFLIGHT_ONLY:-0}" -eq 1 ]; then
+    echo "[${CANDIDATE_ID}] Preflight probe complete (exit status 0)."
+    exit 0
+fi
+
+if [ ! -f "${RUNTIME_DIR}/${CANDIDATE_ID}.inp" ]; then
+    echo "FATAL ERROR: Refined input deck ${CANDIDATE_ID}.inp not generated!" >&2
     exit 1
 fi
 
-echo "[F43REM4_PK5] Refined input deck generated successfully. SHA256:"
-sha256sum F43REM4_PK5.inp
+echo "[${CANDIDATE_ID}] Refined input deck generated successfully. SHA256:"
+sha256sum "${RUNTIME_DIR}/${CANDIDATE_ID}.inp"
+
