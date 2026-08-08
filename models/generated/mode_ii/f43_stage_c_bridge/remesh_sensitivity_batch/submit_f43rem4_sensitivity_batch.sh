@@ -67,7 +67,7 @@ fi
 EMAIL_RECIPIENTS="pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de"
 
 # Verify qstat capacity
-if ! qstat_out=$(qstat -u "$USER" 2>&1); then
+if ! qstat_out=$(qstat -u "${USER:-${USERNAME:-pr21vyci}}" 2>&1); then
     echo "FATAL ERROR: qstat check failed!" >&2
     exit 1
 fi
@@ -97,8 +97,8 @@ echo "[F43REM4 Batch Wrapper] Submitted F43REM4_PK1 job ID: ${JOB1_ID}"
 JOB2_ID=$(qsub -m abe -M "${EMAIL_RECIPIENTS}" "${SCRIPT_DIR}/F43REM4_PK5.pbs")
 echo "[F43REM4 Batch Wrapper] Submitted F43REM4_PK5 job ID: ${JOB2_ID}"
 
-JOB3_ID=$(qsub -m abe -M "${EMAIL_RECIPIENTS}" "${SCRIPT_DIR}/F43REM4_MM.pbs")
-echo "[F43REM4 Batch Wrapper] Submitted F43REM4_MM job ID: ${JOB3_ID}"
+JOB3_ID=$(qsub -W depend=afterany:"${JOB1_ID}" -m abe -M "${EMAIL_RECIPIENTS}" "${SCRIPT_DIR}/F43REM4_MM.pbs")
+echo "[F43REM4 Batch Wrapper] Submitted F43REM4_MM job ID: ${JOB3_ID} (dependent on ${JOB1_ID})"
 
 SUBMISSION_RECORD_JSON="${SCRIPT_DIR}/F43REM4_BATCH_SUBMISSION_RECORD.json"
 cat <<EOF > "${SUBMISSION_RECORD_JSON}"

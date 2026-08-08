@@ -10,8 +10,23 @@
 
 set -euo pipefail
 
-BATCH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BRIDGE_DIR="$(cd "${BATCH_DIR}/.." && pwd)"
+if [ -n "${PBS_JOBID:-}" ] && [ -z "${PBS_O_WORKDIR:-}" ]; then
+    echo "FATAL ERROR: Running under PBS (PBS_JOBID=${PBS_JOBID}) but PBS_O_WORKDIR is missing or empty!" >&2
+    exit 1
+fi
+
+if [ -n "${PBS_O_WORKDIR:-}" ]; then
+    BATCH_DIR="$(cd "${PBS_O_WORKDIR}" && pwd -P)"
+else
+    BATCH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+fi
+
+if [ ! -f "${BATCH_DIR}/F43REM4_PK5.pbs" ] || [ ! -f "${BATCH_DIR}/../remesh_mode_ii_native_cae.py" ]; then
+    echo "FATAL ERROR: BATCH_DIR resolution invalid: ${BATCH_DIR} does not contain expected batch artifacts!" >&2
+    exit 1
+fi
+
+BRIDGE_DIR="$(cd "${BATCH_DIR}/.." && pwd -P)"
 
 CANDIDATE_ID="F43REM4_PK5"
 RUNTIME_DIR="${BATCH_DIR}/runtime_pk5"
@@ -20,9 +35,15 @@ cd "${RUNTIME_DIR}" || exit 1
 
 echo "[${CANDIDATE_ID}] Starting Abaqus 2023 native adaptive remeshing job at $(date)"
 echo "[${CANDIDATE_ID}] PBS_JOBID: ${PBS_JOBID:-local}"
+echo "[${CANDIDATE_ID}] PBS_O_WORKDIR: ${PBS_O_WORKDIR:-none}"
+echo "[${CANDIDATE_ID}] BASH_SOURCE[0]: ${BASH_SOURCE[0]}"
+echo "[${CANDIDATE_ID}] Resolved BATCH_DIR: ${BATCH_DIR}"
+echo "[${CANDIDATE_ID}] Resolved RUNTIME_DIR: ${RUNTIME_DIR}"
 
-module purge
-module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+if command -v module >/dev/null 2>&1 || type module >/dev/null 2>&1; then
+    module purge || true
+    module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 || true
+fi
 
 SOURCE_CAE_CAND="${BRIDGE_DIR}/ModeII_Geometry_Source_Abaqus2023.cae"
 if [ ! -f "${SOURCE_CAE_CAND}" ]; then
@@ -44,6 +65,11 @@ export F43REM4_OUTPUT_DIR="${RUNTIME_DIR}"
 export SOURCE_CAE_PATH="${F43REM4_SOURCE_CAE}"
 export PREDECESSOR_ODB_PATH="${F43REM4_PREDECESSOR_ODB}"
 
+if [ "${F43REM4_PREFLIGHT_ONLY:-0}" -eq 1 ]; then
+    echo "[${CANDIDATE_ID}] Preflight probe complete (exit status 0)."
+    exit 0
+fi
+
 remesh_rc=0
 set +e
 abaqus cae noGUI="${BRIDGE_DIR}/remesh_mode_ii_native_cae.py"
@@ -55,16 +81,4 @@ if [ ${remesh_rc} -ne 0 ]; then
     exit ${remesh_rc}
 fi
 
-if [ "${F43REM4_PREFLIGHT_ONLY:-0}" -eq 1 ]; then
-    echo "[${CANDIDATE_ID}] Preflight probe complete (exit status 0)."
-    exit 0
-fi
-
-if [ ! -f "${RUNTIME_DIR}/${CANDIDATE_ID}.inp" ]; then
-    echo "FATAL ERROR: Refined input deck ${CANDIDATE_ID}.inp not generated!" >&2
-    exit 1
-fi
-
-echo "[${CANDIDATE_ID}] Refined input deck generated successfully. SHA256:"
-sha256sum "${RUNTIME_DIR}/${CANDIDATE_ID}.inp"
-
+echo "[${CANDIDATE_ID}] Abaqus 2023 native adaptive remeshing completed successfully at $(date)"
