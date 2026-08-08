@@ -464,17 +464,27 @@ def execute_native_remeshing():
     active_rule_attrs = {}
     if active_rule_count > 0:
         ar = active_rules[0]
+        def clean_val(v):
+            if v is None or isinstance(v, (int, float, bool, str)):
+                return v
+            try:
+                if isinstance(v, unicode):
+                    return str(v)
+            except NameError:
+                pass
+            return str(v)
+
         active_rule_attrs = {
             "name": ar.name,
             "stepName": getattr(ar, "stepName", None),
             "variables": list(getattr(ar, "variables", [])),
             "region": "MODEL",
-            "sizingMethod": str(getattr(ar, "sizingMethod", None)),
+            "sizingMethod": clean_val(getattr(ar, "sizingMethod", None)),
             "errorTarget": getattr(ar, "errorTarget", None),
             "maxSolutionErrorTarget": getattr(ar, "maxSolutionErrorTarget", None),
             "minSolutionErrorTarget": getattr(ar, "minSolutionErrorTarget", None),
             "meshBias": getattr(ar, "meshBias", None),
-            "refinementFactor": getattr(ar, "refinementFactor", None),
+            "refinementFactor": clean_val(getattr(ar, "refinementFactor", None)),
             "minElementSize": getattr(ar, "minElementSize", None),
             "maxElementSize": getattr(ar, "maxElementSize", None),
         }
