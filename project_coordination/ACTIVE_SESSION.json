@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "models/generated/mode_ii/f43_stage_c_bridge/**",
@@ -8,14 +8,14 @@
     "docs/experiment_records/**",
     "results/figures/**",
     "project_coordination/**",
-    "docs/project/**",
-    "runs/hpc/**"
+    "docs/project/**"
   ],
-  "started_at": "2026-08-08T05:13:00+02:00",
-  "completed_at": "2026-08-08T05:19:00+02:00",
-  "heartbeat": "2026-08-08T05:19:00+02:00",
-  "session_id": "gemini-f43pre3-geom-submission-session",
-  "starting_commit": "fb496046b395df75681c6eed5b7bc130488bfa6a",
-  "task_id": "F43PRE3_GEOM_SUBMISSION",
-  "note": "Session completed. F43PRE3_GEOM job 1385460 executed and closed out; root-cause diagnosis completed, deterministic working directory repair applied to wrapper and PBS script, evidence collected, ledgers updated."
+  "started_at": "2026-08-08T05:23:00+02:00",
+  "completed_at": null,
+  "heartbeat": "2026-08-08T05:23:00+02:00",
+  "session_id": "gemini-f43pre3-r3-requalification-session",
+  "starting_commit": "ef5031be2a4573df2cce3029aa033490fd02580d",
+  "task_id": "F43PRE3-R3",
+  "note": "Active session for F43PRE3-R3 robust PBS working-directory contract, governance correction, unit test creation, and full detached qualification."
 }
+
