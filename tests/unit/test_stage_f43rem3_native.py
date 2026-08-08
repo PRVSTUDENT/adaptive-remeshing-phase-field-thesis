@@ -206,6 +206,9 @@ class TestStageF43REM3Native(unittest.TestCase):
         self.assertIn('if step_name not in m.steps.keys():', self.driver)
         self.assertIn('if step_name == "Initial":', self.driver)
         self.assertIn('stepName=step_name', self.driver)
+        self.assertIn("variables=('MISESERI',)", self.driver)
+        self.assertIn("import regionToolset", self.driver)
+
 
     def test_Z_probe_safety_contract(self):
         self.assertIn('if is_rule_probe_mode:', self.driver)
