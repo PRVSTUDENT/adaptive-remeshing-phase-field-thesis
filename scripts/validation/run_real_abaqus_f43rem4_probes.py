@@ -16,7 +16,6 @@ from abaqus import *
 from abaqusConstants import *
 import caeModules
 
-# Project root detection: allow explicit argument via sys.argv or fallback
 PROJECT_ROOT = None
 for arg in sys.argv:
     if os.path.isabs(arg) and os.path.exists(os.path.join(arg, "models", "generated", "mode_ii")):
@@ -142,7 +141,7 @@ def main():
                 sizingMethod=MINIMUM_MAXIMUM,
                 maxSolutionErrorTarget=float(rule_cfg["maxSolutionErrorTarget"]),
                 minSolutionErrorTarget=float(rule_cfg["minSolutionErrorTarget"]),
-                meshBias=int(rule_cfg["meshBias"]),
+                meshBias=float(rule_cfg["meshBias"]),
                 specifyMinSize=ON if rule_cfg["specifyMinSize"] else OFF,
                 minElementSize=float(rule_cfg["minElementSize"]),
                 specifyMaxSize=ON if rule_cfg["specifyMaxSize"] else OFF,
@@ -153,11 +152,13 @@ def main():
         print("  sizingMethod:", r.sizingMethod)
         print("  specifyMinSize:", r.specifyMinSize, "minElementSize:", r.minElementSize)
         print("  specifyMaxSize:", r.specifyMaxSize, "maxElementSize:", r.maxElementSize)
+        print("  readback meshBias:", getattr(r, 'meshBias', None))
 
         probe_results[cfg["candidate_id"]] = {
             "probe_status": "PASS",
             "rule_name": str(r.name),
             "sizingMethod": str(r.sizingMethod),
+            "meshBias_readback": getattr(r, 'meshBias', None),
             "adaptiveRemesh_called": False,
             "Abaqus_Standard_called": False,
             "qsub_called": False
