@@ -1,55 +1,67 @@
 {
   "protocol_version": 1,
-  "task_id": "F43PRE3-GEO1",
-  "qualification_target_P": "f4857d98841854c6c769d865bfd8ca1d8dcd2dfd",
-  "detached_HEAD": "f4857d98841854c6c769d865bfd8ca1d8dcd2dfd",
+  "task_id": "F43PRE3-R2",
+  "qualification_target_P": "400c8ae9d538719ffd2cd6d43c1bc5d0fd81e43f",
+  "detached_HEAD": "400c8ae9d538719ffd2cd6d43c1bc5d0fd81e43f",
   "detached_HEAD_matches_P": true,
-  "qualification_environment": "Linux Git detached worktree + external scratch CWD",
-  "core_autocrlf": "false",
-  "toolchain": "gcc/11.4.0 intel/2024.2.0 abaqus/2023",
-  "PRE3_CAE_external_path": "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae",
-  "PRE3_CAE_external_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
-  "PRE3_input_sha256": "10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee",
-  "inventory": {
-    "node_count": 3800,
-    "total_elements": 3716,
-    "cpe4_count": 3600,
-    "cpe3_count": 116,
-    "parts": ["PlatePart"],
-    "instances": ["PlateInstance"],
-    "steps": ["Initial", "Step-1"],
-    "materials": ["Steel"],
-    "sections": ["SolidSection"],
-    "remeshing_rules": ["MISESERI_Adaptive_Rule"]
+  "status": "qualified_not_authorized",
+  "classification": "f43pre3_geom_rigorous_semantic_equivalence_qualified_not_authorized",
+  "pre3_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
+  "pre3_input_sha256": "10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee",
+  "pre2_reference_input_sha256": "1f16f8525a7e627b90bd4958f8701a418d0ac2960654787853b2688f8fda75dd",
+  "continuum_semantic_audit": {
+    "material_equivalence": "PASS",
+    "section_equivalence": "PASS",
+    "geometry_equivalence": "PASS",
+    "notch_seam_equivalence": "PASS",
+    "BC_equivalence": "PASS",
+    "load_equivalence": "PASS",
+    "step_equivalence": "PASS",
+    "output_request_equivalence": "PASS",
+    "mesh_topology_identity": false,
+    "continuum_model_semantic_identity": "PASS"
   },
-  "test_counts": {
-    "total_discovered_tests": 512,
-    "failures": 0,
-    "errors": 0,
-    "skips": 0,
-    "all_tests_passed": true
+  "mesh_delta_analysis": {
+    "PRE2_nodes": 3793,
+    "PRE3_nodes": 3800,
+    "delta_nodes": 7,
+    "PRE2_elements": 3707,
+    "PRE3_elements": 3716,
+    "delta_elements": 9,
+    "PRE2_CPE4": 3597,
+    "PRE3_CPE4": 3600,
+    "delta_CPE4": 3,
+    "PRE2_CPE3": 110,
+    "PRE3_CPE3": 116,
+    "delta_CPE3": 6,
+    "element_count_relative_difference_percent": 0.24278,
+    "mesh_difference_classification": "accepted_discretization_difference_between_Abaqus2024_and_Abaqus2023_lineages"
   },
-  "static_checks": {
-    "python_checks": "pass",
-    "shell_checks": "pass",
-    "json_checks": "pass",
-    "static_validator": "pass"
+  "domain_area_comparison": {
+    "PRE2_mesh_area_mm2": 1.0,
+    "PRE3_mesh_area_mm2": 1.0,
+    "relative_difference_percent": 0.0,
+    "negative_element_areas": 0
   },
-  "natural_post_test_clean": true,
-  "package_hashes": {
-    "manifest_sha256": "cf13e3eca0faa59312d7631d02b04eae29451b0e2ec68e718d5d3bd03234934d",
-    "criteria_sha256": "111a06bc68779e70e8c5846c7ca96960cdf6ff51805a9733e69cbcceb57d9585",
+  "full_test_count": 523,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "pre_test_clean": true,
+  "post_test_clean": true,
+  "hashes": {
     "inp_sha256": "10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee",
-    "pbs_sha256": "4342fe1be6e3a1877ebfef025f7528aa65a3e9c9030241177e1164ef650edaa9",
-    "wrapper_sha256": "3fb18a0fe69b6ef93fb896f43af6b9b3525bc7689816619970f7f72857057143",
-    "collector_sha256": "c67241a21febafd715b4d6ecee4b861943f775d299bd8b29e3c44d157cee0895",
-    "validator_sha256": "fc1ce8bdaa8dc5490006192a8fb6a6f3ca50f2ecd0f59c34f968f328b535d7f0"
+    "pbs_script_sha256": "4342fe1be6e3a1877ebfef025f7528aa65a3e9c9030241177e1164ef650edaa9",
+    "submission_wrapper_sha256": "b3d6f09c1d47e09acaa91bf2fabf973956d12a51efb231fee79314657cf4e687",
+    "evidence_collector_sha256": "c67241a21febafd715b4d6ecee4b861943f775d299bd8b29e3c44d157cee0895",
+    "static_validator_sha256": "fc1ce8bdaa8dc5490006192a8fb6a6f3ca50f2ecd0f59c34f968f328b535d7f0",
+    "semantic_validator_sha256": "3b56548fffd716020979f26f736b42d7a98f7aff13da2a3bb36375362746312f",
+    "detached_qual_script_sha256": "3e130a6bcb3ef00f9cd160ae83dcea422ee2cd84514df397da1b05d3949aaaeb"
   },
   "qsub_called": false,
   "HPC_submissions": 0,
   "execution_authorized": false,
   "submission_approved": false,
   "maximum_jobs_now": 0,
-  "qualification_status": "qualified_not_authorized",
-  "F43PRE3_GEOM_qualified": true
+  "superseded_r1_note": "R1 superseded for authorization by rigorous semantic-equivalence R2 qualification."
 }

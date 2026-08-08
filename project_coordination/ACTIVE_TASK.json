@@ -2,13 +2,13 @@
   "protocol_version": 1,
   "task_id": "F43PRE3_GEOM",
   "status": "qualified_not_authorized",
-  "classification": "f43pre3_geom_qualified_not_authorized",
+  "classification": "f43pre3_geom_rigorous_semantic_equivalence_qualified_not_authorized",
   "predecessor_identity_classification": "existing_1385392_lineage_numerical_reference_only",
   "governance_classification": "f43rem3_native_blocked_pending_pre3_execution_and_review",
   "scientific_classification": "abaqus2023_native_preanalysis_package_qualified",
-  "starting_commit": "4986f2b728af09ef88a0a3aca4436b19bdfd7903",
-  "preparation_commit": "f4857d98841854c6c769d865bfd8ca1d8dcd2dfd",
-  "qualification_commit": "51fd10587d0ecdfccfddbc8fbca8ff9f2c6114a1",
+  "starting_commit": "a031c8feed75f71c9163f5e91a9c064a9e45df84",
+  "preparation_commit": "400c8ae9d538719ffd2cd6d43c1bc5d0fd81e43f",
+  "qualification_commit": "pending_q43pre3_r2_commit",
   "execution_authorized": false,
   "submission_approved": false,
   "maximum_jobs_now": 0,
@@ -16,5 +16,8 @@
   "automatic_retry": false,
   "pre3_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
   "pre3_input_sha256": "10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee",
-  "next_action": "fresh_human_authorization_required_for_exactly_one_F43PRE3_GEOM_submission"
+  "pre2_reference_input_sha256": "1f16f8525a7e627b90bd4958f8701a418d0ac2960654787853b2688f8fda75dd",
+  "continuum_semantic_identity": "PASS",
+  "mesh_difference_classification": "accepted_discretization_difference_between_Abaqus2024_and_Abaqus2023_lineages",
+  "next_action": "human_review_before_exactly_one_F43PRE3_GEOM_submission"
 }

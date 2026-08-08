@@ -1,5 +1,59 @@
 # Current project state
 
+## F43PRE3-R2 Rigorous PRE2/PRE3 Semantic Equivalence Audit & Mesh Delta Qualification (2026-08-08)
+
+Completed task `F43PRE3-R2`: Rigorous PRE2/PRE3 input-deck semantic equivalence audit, mesh-delta spatial explanation, domain area verification, fail-closed semantic validator implementation, unit test suite creation, and full 523-test Linux-Git detached qualification:
+- **Task ID**: `F43PRE3-R2` / `F43PRE3_GEOM`
+- **Status**: `qualified_not_authorized`
+- **Classification**: `f43pre3_geom_rigorous_semantic_equivalence_qualified_not_authorized`
+- **Dependency Graph**:
+  - `F43PRE3_GEOM`: `qualified_not_authorized` (ready for single guarded HPC submission upon explicit human approval)
+  - `F43REM3_NATIVE`: `blocked_pending_PRE3_execution_and_scientific_review`
+  - `F43DRY1`: `blocked`
+- **Preparation Commit ($P$)**: `P43PRE3-R2` (`400c8ae9d538719ffd2cd6d43c1bc5d0fd81e43f`)
+- **Qualification Commit ($Q$)**: `pending_q43pre3_r2_commit`
+- **Superceded Qualification**: `Q43PRE3-R1` (`51fd10587d0ecdfccfddbc8fbca8ff9f2c6114a1` superseded for authorization by rigorous semantic-equivalence R2).
+- **Abaqus 2023 Source CAE**: `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae` (SHA256: `0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa`)
+- **Exported Input Deck**: `models/generated/mode_ii/f43_stage_c_bridge/F43PRE3_GEOM.inp` (SHA256: `10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee`)
+- **PRE2 Reference Deck**: `models/generated/mode_ii/f43_stage_c_bridge/F43PRE2_GEOM.inp` (SHA256: `1f16f8525a7e627b90bd4958f8701a418d0ac2960654787853b2688f8fda75dd`)
+- **Rigorous Semantic Equivalence Audit Results**:
+  - `mesh_byte/topology_identity`: `false`
+  - `continuum_model_semantic_identity`: **PASS**
+  - `material_physics`: **PASS** (`E = 210000.0 N/mm^2`, `nu = 0.3`, `Steel`)
+  - `section_physics`: **PASS** (`SolidSection`, thickness `1.0 mm`, plane strain `CPE4`/`CPE3`)
+  - `domain_geometry`: **PASS** ($x \in [-0.5, 0.5]\text{ mm}$, $y \in [-0.5, 0.5]\text{ mm}$)
+  - `notch_seam_geometry`: **PASS** ($y = 0\text{ mm}$, $x \in [-0.5, 0.0]\text{ mm}$, crack tip at $(0,0)$)
+  - `boundary_conditions`: **PASS** (`bottom_nodes` $u_1=u_2=0$ at $y=-0.5$, `top_nodes` $u_2=0$ at $y=0.5$, `RP` at $(0,0.6)$)
+  - `equation_coupling`: **PASS** (`top_nodes` $u_1$ tied 1:1 to `RP` $u_1$)
+  - `load_endpoint`: **PASS** (`RP` $u_1 = 0.001\text{ mm}$)
+  - `step_physics`: **PASS** (`*STATIC`, step time `1.0`, initial inc `0.001`, `NLGEOM=NO`)
+  - `output_requests`: **PASS** (`S`, `MISESERI`, `MISESAVG`, `EVOL`, `U`, `RF`)
+- **Mesh Delta Explanation**:
+  - `PRE2`: 3793 nodes, 3707 elements (3597 CPE4, 110 CPE3)
+  - `PRE3`: 3800 nodes, 3716 elements (3600 CPE4, 116 CPE3)
+  - `delta_nodes`: +7, `delta_elements`: +9 (`delta_CPE4`: +3, `delta_CPE3`: +6), relative element diff = `+0.24278%`
+  - `spatial_distribution`: External boundary = 0 delta (214 elements in both), Notch region = -1 total delta (200 in PRE2 vs 199 in PRE3), Interior transition zone = +10 total delta (+3 CPE4, +7 CPE3). Extra elements are strictly localized to free-meshing interior transition zone due to mesher release variation between Abaqus 2024 and 2023.
+  - `mesh_difference_classification`: `accepted_discretization_difference_between_Abaqus2024_and_Abaqus2023_lineages`
+- **Domain Area Verification**:
+  - `PRE2_total_mesh_area`: $1.0000000000\text{ mm}^2$
+  - `PRE3_total_mesh_area`: $1.0000000000\text{ mm}^2$
+  - `relative_area_difference`: `0.0000000000%`
+  - `negative_element_areas`: 0 (100% positive element areas)
+- **Full Detached Worktree Qualification**:
+  - Target commit ($P$): `P43PRE3-R2` (`400c8ae9d538719ffd2cd6d43c1bc5d0fd81e43f`)
+  - Ran `test_*.py` full discovery in Linux-Git detached worktree (`/tmp/f43pre3_r2_qual_worktree`).
+  - Discovered tests: **523 passed** (0 failures, 0 errors, 0 skips across 59 files).
+  - Executed static validator (`validate_f43pre3_geom_runtime.py`) and semantic equivalence validator (`validate_f43pre3_semantic_equivalence.py`).
+  - Detached worktree clean status gate: **PASS** (`F43PRE3_R2_DETACHED_QUALIFICATION_SUCCESS`, `git status --porcelain=v1` empty).
+- **Authority Boundary**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `HPC_submissions`: 0
+- **Next Action**: `human_review_before_exactly_one_F43PRE3_GEOM_submission`
+
+---
+
 ## F43PRE3-GEO1 Abaqus 2023 Geometry-Lineage Freeze, Deck Generation & Qualification (2026-08-07)
 
 Completed task `F43PRE3-GEO1`: Abaqus 2023 geometry lineage freeze, INP deck export from 2023 CAE, model inventory audit, semantic physics verification against PRE2, fail-closed PBS/wrapper preparation, and full 512-test detached qualification:
