@@ -1,0 +1,22 @@
+{
+  "task_id": "F43REM3_NATIVE",
+  "native_remeshing_acceptance_criteria": {
+    "abaqus_cae_kernel_exit_code_must_equal": 0,
+    "source_cae_sha256_must_equal": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
+    "predecessor_odb_sha256_must_equal": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
+    "source_cae_unmodified_in_place": true,
+    "work_copy_cae_used": true,
+    "miseseri_consumed_from_predecessor_odb": true,
+    "refined_output_inp_generated": true,
+    "refined_mesh_node_count_greater_than": 3800,
+    "refined_mesh_element_count_greater_than": 3716,
+    "all_element_areas_positive": true,
+    "preserved_geometry_sets": ["LOAD_P", "FIX_BOT", "FIX_LEFT", "FIX_RIGHT"],
+    "element_types_allowed": ["CPE4", "CPE3"],
+    "min_element_size_mm": 0.0075,
+    "max_element_size_mm": 0.03,
+    "coarsening_policy": "DISALLOW_COARSENING",
+    "max_remeshing_passes": 1
+  },
+  "initial_classification_after_remesh": "technical_pass_scientific_unchecked"
+}
