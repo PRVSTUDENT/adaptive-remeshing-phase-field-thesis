@@ -1,17 +1,15 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM4-SUB1",
-  "status": "complete_failed",
-  "classification": "f43rem4_batch_execution_predecessor_odb_relative_path_missing_error",
-  "governance_classification": "explicit_human_authorization_consumed_batch_failed_predecessor_odb_lookup",
-  "scientific_classification": "gate_c1_hold_3_candidate_sensitivity_batch_predecessor_odb_missing",
-  "starting_commit": "137e34cf0e7f9763a3f38210459417119e4ebf58",
-  "preparation_commit": "23824ab66fd34e9e802a0d586080485e177c7585",
-  "qualification_commit": "a6a8647f235411b5d8aceda4e79b762439fd2c81",
-  "authorization_commit": "137e34cf0e7f9763a3f38210459417119e4ebf58",
-  "forward_P_tag": "P43REM4-BATCH1-FINAL1",
-  "forward_Q_tag": "Q43REM4-BATCH1-FINAL1",
-  "authorization_tag": "F43REM4_BATCH_AUTH1",
+  "task_id": "F43REM4-R1",
+  "status": "completed_qualification_pending_reauthorization",
+  "classification": "f43rem4_batch_path_resolution_repaired_and_qualified",
+  "governance_classification": "local_offline_repair_and_preflight_qualification_complete",
+  "scientific_classification": "gate_c1_hold_3_candidate_sensitivity_batch_qualified_pending_reauthorization",
+  "starting_commit": "4e62ea1386b989d9a186a883cc6735ce8053f611",
+  "preparation_commit": "5d20fcd4c7d03a11b6d05f3366fb8e154f3ed9fe",
+  "qualification_commit": "86e6c35c6fe29b265ee124317fbc8bb8beabf58f",
+  "forward_P_tag": "P43REM4-BATCH2-FINAL",
+  "forward_Q_tag": "Q43REM4-BATCH2",
   "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
   "predecessor_odb_job_id": "1385461.mmaster02",
   "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
@@ -19,20 +17,15 @@
   "submission_approved": false,
   "replacement_authorized": false,
   "maximum_jobs_now": 0,
-  "maximum_total_submissions_authorized": 3,
+  "maximum_total_submissions_authorized": 0,
   "scheduler_concurrency_limit": 2,
   "automatic_retry": false,
-  "qsub_called": true,
-  "HPC_submissions": 3,
-  "submitted_jobs": {
-    "F43REM4_PK1": "1385556.mmaster02",
-    "F43REM4_PK5": "1385557.mmaster02",
-    "F43REM4_MM": "1385558.mmaster02"
+  "qsub_called": false,
+  "HPC_submissions": 0,
+  "preflight_probes": {
+    "F43REM4_PK1": "PASS",
+    "F43REM4_PK5": "PASS",
+    "F43REM4_MM": "PASS"
   },
-  "job_exit_statuses": {
-    "1385556.mmaster02": 1,
-    "1385557.mmaster02": 1,
-    "1385558.mmaster02": 1
-  },
-  "next_action": "stopped_awaiting_repair_qualification_and_fresh_direct_human_authorization_for_f43rem4_batch"
+  "next_action": "stopped_awaiting_fresh_direct_human_chat_authorization_sentence_before_any_f43rem4_resubmission"
 }

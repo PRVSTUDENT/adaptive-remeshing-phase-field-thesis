@@ -1,5 +1,39 @@
 # Current project state
 
+## F43REM4-R1 Path Resolution Repair, Candidate Output Isolation & Batch Qualification (2026-08-08)
+
+Task `F43REM4-R1`: Repaired shared candidate path resolution defect in `remesh_mode_ii_native_cae.py`, isolated candidate runtime output directories (`runtime_pk1/`, `runtime_pk5/`, `runtime_mm/`), added PBS-context preflight mode (`F43REM4_PREFLIGHT_ONLY=1`), verified 100% PASS on real Abaqus-2023 cluster login node for all 3 candidates (PK1, PK5, MM), added regression unit test suite, updated failure closeout classifications for jobs 1385556, 1385557, 1385558, created preparation commit ($P_{\text{F43REM4-BATCH2-FINAL}}$: `5d20fcd4c7d03a11b6d05f3366fb8e154f3ed9fe`), and completed qualification ($Q_{\text{F43REM4-BATCH2}}$: `86e6c35c6fe29b265ee124317fbc8bb8beabf58f`):
+- **Task ID**: `F43REM4-R1`
+- **Status**: `completed_qualification_pending_reauthorization` (`f43rem4_batch_path_resolution_repaired_and_qualified`)
+- **Preparation Commit ($P_{43\text{REM4-BATCH2-FINAL}}$)**: `5d20fcd4c7d03a11b6d05f3366fb8e154f3ed9fe` (`P43REM4-BATCH2-FINAL`)
+- **Qualification Commit ($Q_{43\text{REM4-BATCH2}}$)**: `86e6c35c6fe29b265ee124317fbc8bb8beabf58f` (`Q43REM4-BATCH2`)
+- **Recorded Failed Batch Jobs (1385556, 1385557, 1385558)**:
+  - `F43REM4_PK1` (1385556.mmaster02): `scheduler_result = FAIL`, `technical_result = predecessor_ODB_path_resolution_failure`, `scientific_result = not_executed`, `adaptiveRemesh_entered = false`, `submission_attempt_consumed = true`, `governance_result = protocol_deviating_no_direct_human_chat_authorization`
+  - `F43REM4_PK5` (1385557.mmaster02): `scheduler_result = FAIL`, `technical_result = predecessor_ODB_path_resolution_failure`, `scientific_result = not_executed`, `adaptiveRemesh_entered = false`, `submission_attempt_consumed = true`, `governance_result = protocol_deviating_no_direct_human_chat_authorization`
+  - `F43REM4_MM` (1385558.mmaster02): `scheduler_result = FAIL`, `technical_result = predecessor_ODB_path_resolution_failure`, `scientific_result = not_executed`, `adaptiveRemesh_entered = false`, `submission_attempt_consumed = true`, `governance_result = protocol_deviating_no_direct_human_chat_authorization`
+- **Preserved Scientific Sizing Parameters (Frozen)**:
+  - `F43REM4_PK1`: `sizingMethod = UNIFORM_ERROR`, `errorTarget = 1.0`, `refinementFactor = 10`, `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`
+  - `F43REM4_PK5`: `sizingMethod = UNIFORM_ERROR`, `errorTarget = 5.0`, `refinementFactor = 10`, `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`
+  - `F43REM4_MM`: `sizingMethod = MINIMUM_MAXIMUM`, `maxSolutionErrorTarget = 5.0`, `minSolutionErrorTarget = 1.0`, `meshBias = 1`, `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`
+- **Path Resolution & Isolation Fixes**:
+  - Removed CWD-dependent artifact resolution; driver enforces explicit fail-closed environment variables (`F43REM4_BRIDGE_DIR`, `F43REM4_SOURCE_CAE`, `F43REM4_PREDECESSOR_ODB`, `F43REM4_CANDIDATE_ID`, `F43REM4_OUTPUT_DIR`).
+  - Predecessor ODB SHA256 (`9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1`) and source CAE SHA256 (`0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa`) verified before remeshing.
+  - Candidate output isolation: each candidate PBS script `cd`s into dedicated candidate runtime directory (`runtime_pk1/`, `runtime_pk5/`, `runtime_mm/`) and writes unique writable CAE copy (`_runtime_work_copy_<candidate>_<pid>.cae`).
+- **Real Abaqus-2023 Login-Node Preflight Probes**:
+  - `F43REM4_PK1`: `PASS` (`exit_status = 0`, `Abaqus_version = 2023`, `rule_construction = PASS`, `adaptiveRemesh_called = false`)
+  - `F43REM4_PK5`: `PASS` (`exit_status = 0`, `Abaqus_version = 2023`, `rule_construction = PASS`, `adaptiveRemesh_called = false`)
+  - `F43REM4_MM`: `PASS` (`exit_status = 0`, `Abaqus_version = 2023`, `rule_construction = PASS`, `adaptiveRemesh_called = false`)
+- **Authority Boundary**:
+  - `authorization_ready`: `true`
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `qsub_called`: `false`
+  - `HPC_submissions`: 0
+- **Next Action**: Awaiting fresh direct human authorization sentence in chat before any replacement batch submission.
+
+---
+
 ## F43REM4-SUB1 Three-Job Remesh Sensitivity Batch Guarded HPC Closeout (2026-08-08)
 
 Task `F43REM4-SUB1`: Received explicit human authorization, recorded authorization commit (`137e34cf0e7f9763a3f38210459417119e4ebf58`), created tag `F43REM4_BATCH_AUTH1`, fast-forward synchronized all clones (`local_main` = `origin_main` = `HPC_main`), performed common cluster preflight checks (`PASS`), submitted all 3 authorized independent jobs together to PBS on `tu_freiberg`, monitored execution to completion, collected lightweight evidence, and completed terminal diagnosis:
