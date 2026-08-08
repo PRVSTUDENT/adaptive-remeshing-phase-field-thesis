@@ -1,41 +1,40 @@
 # Current project state
 
-## F43REM3-R1 PRE3 Scientific Review & F43REM3_NATIVE Offline Qualification (2026-08-08)
+## F43REM3-R4 Reaction-Force Audit & Remesh Configuration Reconciliation (2026-08-08)
 
-Completed task `F43REM3-R1` / `F43PRE3-SCI1`: Scientific review of successful PRE3 job `1385461.mmaster02` against reference `1385392.mmaster02`, verification of `provisional_pass` scientific gate (CASE A), freeze of execution package `F43REM3_NATIVE`, and full 551-test Linux-Git detached qualification:
-- **Task ID**: `F43REM3-R1` / `F43PRE3_SCI1_AND_F43REM3_NATIVE_PREPARATION`
+Completed task `F43REM3-R4` / `F43PRE3-SCI2`: Physical reaction-force extraction audit, equilibrium verification ($|R_{\text{top}} + R_{\text{bottom}}| \approx 0$), remeshing parameter reconciliation (`DISALLOW_COARSENING`, `remesh_passes = 1`), creation of preparation commit $P_{43\text{REM3-R4}}$ (`b03fa144d2aeabf30b48df52b5825a10a41afef2`), and full 551-test Linux-Git detached qualification $Q_{43\text{REM3-R4}}$:
+- **Task ID**: `F43REM3-R4` / `F43PRE3_SCI2_REACTION_FORCE_AND_F43REM3_RECONCILIATION`
 - **Status**: `complete` (`f43rem3_native_offline_prepared_and_qualified_not_authorized`)
-- **Preparation Tag ($P$)**: `P43REM3-R2` (`ca22fe8c03ca1e527f3a4b3028dc9a1e338ab761`)
-- **Qualification Tag ($Q$)**: `Q43REM3-R1` (recorded at qualification commit SHA)
-- **PRE3 Scientific Review Results (`1385461.mmaster02` vs `1385392.mmaster02`)**:
-  - `PRE3_ODB_SHA256`: `9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1`
-  - `PRE2_ODB_SHA256`: `85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72`
-  - `PRE2_final_U` = `0.001000 mm`, `PRE3_final_U` = `0.001000 mm` (Target $0.001\text{ mm}$ reached)
-  - `PRE2_final_RF` = `92.2587 N`, `PRE3_final_RF` = `92.2822 N`
-  - `final_RF_relative_error_percent`: **0.0254%** ($\le 5.0\%$, **PASS**)
-  - `PRE2_peak_RF` = `92.2587 N`, `PRE3_peak_RF` = `92.2822 N`
-  - `peak_RF_relative_error_percent`: **0.0254%** ($\le 5.0\%$, **PASS**)
-  - `RF_U_normalized_L2_percent`: **0.0254%** ($\le 5.0\%$, **PASS**)
-  - `PRE2_EVOL_sum` = `1.000000000226 mm^3`, `PRE3_EVOL_sum` = `1.000000000473 mm^3`
-  - `EVOL_relative_difference_percent`: **$2.47 \times 10^{-8}\%$** ($\le 1.0\%$, **PASS**)
-  - `MISESERI_spatial_correlation`: **0.98945** (98.95% correlation)
-  - `MISESERI_spatial_L2_normalized`: **14.24%**
-  - `MISESERI_max_location_distance`: **0.0190 mm** ($\approx 1.27 l_0$ for $l_0 = 0.015\text{ mm}$)
-  - `PRE3_required_fields`: **PASS** (`S`, `MISESERI`, `MISESAVG`, `EVOL`, `U`, `RF`)
+- **Preparation Tag ($P$)**: `P43REM3-R4` (`b03fa144d2aeabf30b48df52b5825a10a41afef2`)
+- **Qualification Target**: `b03fa144d2aeabf30b48df52b5825a10a41afef2`
+- **Reaction-Force Extraction Audit Results**:
+  - **Root Cause**: Previous SCI1 fallback reaction extraction summed absolute values of reactions across all nodes in the mesh ($\sum |RF_1|$), double-counting action on top boundary ($R_{\text{top}} \approx 46.13\text{ N}$) and reaction on bottom fixed boundary ($R_{\text{bottom}} \approx -46.13\text{ N}$), yielding $\approx 92.26\text{ N}$.
+  - **Audited Physical Resultant Endpoints**:
+    - `PRE2_final_RF_corrected`: **`46.129372 N`** (matching historical baseline $\approx 46.12937\text{ N}$).
+    - `PRE3_final_RF_corrected`: **`46.141109 N`**.
+    - `PRE2_peak_RF_corrected`: **`46.129372 N`**.
+    - `PRE3_peak_RF_corrected`: **`46.141109 N`**.
+    - `equilibrium_residual` $|R_{\text{top}} + R_{\text{bottom}}|$: **`0.000000 N`** ($< 10^{-6}\text{ N}$, **PASS**).
+  - **Relative Errors (Mathematically Invariant)**:
+    - `final_RF_relative_error_percent`: **`0.025444%`** ($\le 5.0\%$, **PASS**).
+    - `peak_RF_relative_error_percent`: **`0.025444%`** ($\le 5.0\%$, **PASS**).
+    - `RF_U_normalized_L2_percent`: **`0.025441%`** ($\le 5.0\%$, **PASS**).
+  - `EVOL_relative_difference_percent`: **`2.47e-8%`** ($1.0000000005\text{ mm}^3$ vs $1.0000000002\text{ mm}^3$).
+  - `MISESERI_spatial_correlation`: **`0.98945`** (98.95% correlation).
+  - `MISESERI_max_location_distance`: **`0.0190 mm`** ($\approx 1.27 l_0$).
   - `PRE3_scientific_result`: **`provisional_pass`** $\rightarrow$ **CASE A Selected**.
-- **F43REM3_NATIVE Package Lineage & Parameters**:
-  - `source_cae_path`: `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae`
-  - `source_cae_sha256`: `0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa`
-  - `predecessor_odb_sha256`: `9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1`
-  - `error_target`: `0.05` (5%), `refinement_factor`: `0.5`, `min_element_size_mm`: `0.0075`, `max_element_size_mm`: `0.03`, `coarsening`: `ALLOW_COARSENING`, `remesh_passes`: `3`
-  - Runtime copy immutability contract enforced (`_runtime_work_copy.cae` used; source CAE byte-identical before/after).
-  - `#PBS -m abe` and `#PBS -M pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de` configured.
-  - Guarded wrapper with `qsub -m abe -M ...`, `qstat -f`, `MAX_SUBMISSIONS=1`, `AUTOMATIC_RETRY=false`.
-- **Detached Qualification Result**:
-  - Linux-Git detached worktree at exact $P$ (`ca22fe8c03ca1e527f3a4b3028dc9a1e338ab761`).
-  - Full discovery unit tests: **551 passed** in 25.10s (`OK`). 0 failures, 0 errors, 0 skips across 61 test files.
-  - Static validator: `overall_passed: true`.
-  - Worktree status: 0 modified files, 100% clean (`PASS`).
+- **Remeshing Configuration Reconciliation**:
+  - `coarsening_policy`: **`DISALLOW_COARSENING`** (coarsening disabled for first irreversible-fracture baseline per project policy).
+  - `remesh_passes`: **`1`** (`max_remeshing_passes = 1`, single pass driver on predecessor ODB).
+  - `error_target`: `0.05` (5%).
+  - `refinement_factor`: `0.5`.
+  - `min_element_size_mm`: `0.0075` ($h_{\text{min}}/l_0 = 0.5$ for $l_0 = 0.015\text{ mm}$, working resolution target).
+  - `max_element_size_mm`: `0.03`.
+- **Detached Qualification Result ($Q_{43\text{REM3-R4}}$)**:
+  - Linux-Git detached worktree at exact $P$ (`b03fa144d2aeabf30b48df52b5825a10a41afef2`).
+  - Full discovery unit tests: **551 passed** in 22.92s (`OK`). 0 failures, 0 errors, 0 skips.
+  - Static package validator: `overall_passed = true`.
+  - Natural worktree cleanliness: 100% clean (`git diff --exit-code`: 0).
 - **Authority Boundary Reset**:
   - `execution_authorized`: `false`
   - `submission_approved`: `false`

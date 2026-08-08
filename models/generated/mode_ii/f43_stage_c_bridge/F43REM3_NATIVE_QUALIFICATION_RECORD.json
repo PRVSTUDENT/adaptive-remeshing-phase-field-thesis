@@ -1,15 +1,25 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM3-R1",
-  "qualification_target_P": "93d29d1c94e4a85911078a626b6620986ddebf06",
-  "detached_HEAD": "93d29d1c94e4a85911078a626b6620986ddebf06",
+  "task_id": "F43REM3-R4",
+  "qualification_target_P": "b03fa144d2aeabf30b48df52b5825a10a41afef2",
+  "detached_HEAD": "b03fa144d2aeabf30b48df52b5825a10a41afef2",
   "detached_HEAD_matches_P": true,
   "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
   "source_cae_path": "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae",
   "predecessor_odb_job_id": "1385461.mmaster02",
   "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
+  "reference_pre2_job_id": "1385392.mmaster02",
+  "reference_pre2_odb_sha256": "85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72",
   "PRE3_scientific_classification": "provisional_pass",
-  "PRE3_scientific_evidence": {
+  "scientific_review_audit": {
+    "reaction_force_definition_corrected": true,
+    "previous_SCI1_double_counted_RF": true,
+    "equilibrium_check": "PASS",
+    "historical_PRE2_endpoint_N": 46.129371643066406,
+    "PRE2_final_RF_corrected": 46.129371643066406,
+    "PRE3_final_RF_corrected": 46.141109,
+    "PRE2_peak_RF_corrected": 46.129371643066406,
+    "PRE3_peak_RF_corrected": 46.141109,
     "final_RF_relative_error_percent": 0.025443958187272186,
     "peak_RF_relative_error_percent": 0.025443958187272186,
     "RF_U_normalized_L2_percent": 0.025441456249044557,
@@ -18,13 +28,14 @@
     "MISESERI_max_location_distance_mm": 0.019028237816603462,
     "required_fields_verified": ["EVOL", "MISESAVG", "MISESERI", "RF", "S", "U"]
   },
-  "remesh_parameters": {
+  "remesh_parameters_reconciled": {
     "error_target": 0.05,
     "refinement_factor": 0.5,
     "min_element_size_mm": 0.0075,
     "max_element_size_mm": 0.03,
-    "coarsening": "ALLOW_COARSENING",
-    "remesh_passes": 3
+    "coarsening": "DISALLOW_COARSENING",
+    "remesh_passes": 1,
+    "resolution_ratio_hmin_over_l0": 0.5
   },
   "full_test_count": 551,
   "test_failures": 0,
