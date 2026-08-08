@@ -38,7 +38,6 @@ if not PROJECT_ROOT:
 if not PROJECT_ROOT:
     raise RuntimeError("Could not determine PROJECT_ROOT in Abaqus environment")
 
-# Add scripts directory to sys.path for benchmark spec imports if builder is invoked
 scripts_dir = os.path.join(PROJECT_ROOT, "scripts")
 if scripts_dir not in sys.path:
     sys.path.insert(0, scripts_dir)
@@ -81,7 +80,7 @@ def ensure_source_cae():
 
     builder = os.path.join(MODEL_DIR, "build_mode_ii_native_cae.py")
     print("Building source CAE via:", builder)
-    execfile(builder)
+    execfile(builder, globals())
     assert os.path.exists(SOURCE_CAE_PATH), "Source CAE build failed"
     assert sha256_file(SOURCE_CAE_PATH) == expected_cae_sha, "Generated CAE SHA mismatch"
     return SOURCE_CAE_PATH
