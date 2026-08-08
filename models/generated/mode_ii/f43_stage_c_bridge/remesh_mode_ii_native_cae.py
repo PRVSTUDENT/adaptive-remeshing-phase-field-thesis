@@ -184,12 +184,14 @@ def execute_native_remeshing():
         name=rule_name,
         description="Stage C MISESERI Native Adaptive Remeshing Rule",
         region=(inst,),
+        stepName=step_name,
         errorIndicator="MISESERI",
         errorTarget=remesh_params["error_target"],
         refinementFactor=remesh_params["refinement_factor"],
         minElementSize=remesh_params["min_element_size_mm"],
         maxElementSize=remesh_params["max_element_size_mm"]
     )
+
     print("[F43 Native Remesh] Created remeshing rule: {}".format(rule_name))
 
     # Execute native adaptive remeshing

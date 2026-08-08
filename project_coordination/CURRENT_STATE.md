@@ -1,5 +1,41 @@
 # Current project state
 
+## F43REM3_NATIVE Guarded HPC Submission 1385473 Execution Closeout & Deterministic StepName Repair (2026-08-08)
+
+Executed authorized single guarded HPC replacement submission of `F43REM3_NATIVE` job `1385473.mmaster02` on TU Freiberg HPC cluster upon explicit human authorization:
+- **Task ID**: `F43REM3_NATIVE` / `F43REM3_NATIVE_REPLACEMENT_SUBMISSION`
+- **Status**: `complete_failed` (`f43rem3_native_remeshing_rule_step_name_missing_error`)
+- **Queue**: `entry_imfdfkmq` (routed to `normal_imfdfkmq`)
+- **Preparation Commit ($P$)**: `P43REM3-R7` (`f17b31e6d14ae98f8caf7445689804b1b962dfb7`)
+- **Qualification Commit ($Q$)**: `Q43REM3-R7` (`ca4db36474b71ff9c2691f16bf49eaedfe5e44ee`)
+- **Authorization Commit**: `a7f67c06786ee46f777c95a2862d66579203a936`
+- **Guarded Submission Execution**:
+  - `qsub` executed cleanly via `submit_f43rem3_native.sh`.
+  - Job `1385473.mmaster02` ran on compute node `mnode098/0`.
+  - `PBS_O_WORKDIR` verified strictly as `/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge`.
+- **Empirical Failure Diagnosis**:
+  - Pre-execution file integrity, source CAE SHA256 (`0d5b32...`), predecessor ODB SHA256 (`9a5262...`), and runtime work-copy creation passed cleanly.
+  - Abaqus/CAE kernel exited with status `1`.
+  - Log Error: `The step for the remeshing rule cannot be found in the current model.` at `remesh_mode_ii_native_cae.py:191`.
+  - **Root Cause**: `m.RemeshingRule(...)` call in `remesh_mode_ii_native_cae.py` omitted the `stepName` argument. Abaqus CAE defaulted to the `"Initial"` step (which has no field error outputs and cannot hold remeshing rules), causing Abaqus CAE kernel to reject rule instantiation.
+- **Minimal Deterministic Local Repair Applied**:
+  - Added `stepName=step_name` to `m.RemeshingRule(...)` in `remesh_mode_ii_native_cae.py`.
+  - Updated unit test assertion in `tests/unit/test_stage_f43rem3_native.py`.
+  - All 557 unit tests passed (`OK`).
+- **Authority Boundary Reset**:
+  - Authorized submission attempt `1385473.mmaster02` is **strictly consumed**.
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `replacement_authorized`: `false`
+  - `maximum_jobs_now`: 0
+  - `maximum_future_submissions`: 0
+  - `automatic_retry`: `false`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: 1 (consumed)
+- **Next Action**: `fresh_direct_human_authorization_for_exactly_one_replacement_F43REM3_NATIVE`
+
+---
+
 ## F43REM3-R7 Final Step-Target Audit, Tag Reconciliation & Qualification (2026-08-08)
 
 Completed task `F43REM3-R7`: Step-target audit of Abaqus/CAE source model and predecessor ODB, deterministic update of `remesh_mode_ii_native_cae.py` to explicitly target mechanical analysis step `Step-1` rather than `Initial`, tag governance incident recording (force-moved tags `P43REM3-R6` / `Q43REM3-R6` recorded without further force pushes), verification of `main` history forward alignment, creation of preparation tag $P_{43\text{REM3-R7}}$ (`f17b31e6d14ae98f8caf7445689804b1b962dfb7`), and full 557-test Linux-Git detached qualification $Q_{43\text{REM3-R7}}$:

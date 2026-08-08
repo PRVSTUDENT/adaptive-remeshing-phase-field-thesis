@@ -185,11 +185,13 @@ class TestStageF43REM3Native(unittest.TestCase):
 
     def test_W_step_target_and_openodb_syntax(self):
         self.assertIn('analysis_step_name = [s for s in cae_model_steps if s != "Initial"][0]', self.driver)
+        self.assertIn('stepName=step_name', self.driver)
         self.assertIn('odb = openOdb(predecessor_odb_path, readOnly=True)', self.driver)
         self.assertNotIn('openOdb(pathName=', self.driver)
         self.assertIn('"model_steps": cae_model_steps', self.driver)
         self.assertIn('"analysis_step_name": analysis_step_name', self.driver)
         self.assertIn('"predecessor_odb_analysis_step": odb_analysis_step', self.driver)
+
 
 if __name__ == "__main__":
     unittest.main()
