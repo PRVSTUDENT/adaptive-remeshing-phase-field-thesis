@@ -61,9 +61,10 @@ def execute_native_remeshing():
     if not os.path.exists(source_cae_path):
         fail("Source CAE missing: {}".format(source_cae_path))
 
-    actual_cae_sha_before = sha256_file(source_cae_path)
-    if actual_cae_sha_before != expected_cae_sha:
-        fail("Source CAE SHA mismatch! Expected {}, got {}".format(expected_cae_sha, actual_cae_sha_before))
+    actual_cae_sha = sha256_file(source_cae_path)
+    actual_cae_sha_before = actual_cae_sha
+    if actual_cae_sha != expected_cae_sha:
+        fail("Source CAE SHA mismatch! Expected {}, got {}".format(expected_cae_sha, actual_cae_sha))
 
     if not os.path.exists(predecessor_odb_path):
         fail("Predecessor ODB missing: {}".format(predecessor_odb_path))
