@@ -1,5 +1,44 @@
 # Current project state
 
+## F43REM4-R2 Final Execution-Byte Reconciliation, P43REM4-BATCH3 Lineage & Qualification (2026-08-08)
+
+Task `F43REM4-R2`: Reconciled execution-critical driver bytes between prior P tag (`5d20fcd...`) and current driver (`remesh_mode_ii_native_cae.py` +248 insertions), created fresh preparation lineage $P_{\text{F43REM4-BATCH3}}$ (`51ff44db5b92fcc4b8e672a99c5dcbb23f48f829`), executed tracked candidate PBS preflight scripts (`PK1`, `PK5`, `MM`) on `tu_freiberg` cluster login node under real Abaqus 2023 at exact $P$ (`51ff44db...`, all PASS), executed fresh 572-test Linux-Git detached qualification at exact $P$ (`51ff44db...`, 0 failures, 0 errors, 15 skips), verified natural worktree cleanliness (`git status --porcelain=v1` empty, `git diff --exit-code` 0, `git diff --cached --exit-code` 0), created separate forward qualification tag $Q_{\text{F43REM4-BATCH3}}$ (`683bb2c8ddca8ea2ef0885e33d02462bd893db62`), and recorded prior HPC `reset --hard` governance deviation (`hpc_reset_hard_used = true`):
+- **Task ID**: `F43REM4-R2`
+- **Status**: `completed_qualification_pending_reauthorization` (`f43rem4_batch_execution_bytes_reconciled_and_qualified`)
+- **Preparation Commit ($P_{43\text{REM4-BATCH3}}$)**: `51ff44db5b92fcc4b8e672a99c5dcbb23f48f829` (`P43REM4-BATCH3`)
+- **Qualification Commit ($Q_{43\text{REM4-BATCH3}}$)**: `683bb2c8ddca8ea2ef0885e33d02462bd893db62` (`Q43REM4-BATCH3`)
+- **Recorded Prior HPC Governance Deviation**:
+  - `hpc_reset_hard_used`: **`true`**
+  - `governance_result`: `repository_governance_deviation_reset_hard`
+  - Future HPC sync method: `git fetch origin main && git merge --ff-only origin/main` (No `reset --hard`).
+- **Execution Byte Reconciliation**:
+  - `old_reported_P`: `5d20fcd4c7d03a11b6d05f3366fb8e154f3ed9fe` (`P43REM4-BATCH2-FINAL`)
+  - `old_reported_Q`: `86e6c35c6fe29b265ee124317fbc8bb8beabf58f` (`Q43REM4-BATCH2`)
+  - `execution_bytes_changed_after_old_P`: **`true`** (`remesh_mode_ii_native_cae.py` edited after `5d20fcd`)
+  - `decision_branch`: **CASE B** (New preparation tag `P43REM4-BATCH3` created at exact finalized driver commit `51ff44db5b92fcc4b8e672a99c5dcbb23f48f829`).
+- **Real Abaqus-2023 PBS-Context Tracked Preflight Probes at Exact P (`51ff44db...`)**:
+  - `F43REM4_PK1`: `PASS` (`exit_status = 0`, `Abaqus_version = 2023`, `rule_construction = PASS`, `source_CAE_SHA_match = true`, `predecessor_ODB_SHA_match = true`, `adaptiveRemesh_called = false`)
+  - `F43REM4_PK5`: `PASS` (`exit_status = 0`, `Abaqus_version = 2023`, `rule_construction = PASS`, `source_CAE_SHA_match = true`, `predecessor_ODB_SHA_match = true`, `adaptiveRemesh_called = false`)
+  - `F43REM4_MM`: `PASS` (`exit_status = 0`, `Abaqus_version = 2023`, `rule_construction = PASS`, `source_CAE_SHA_match = true`, `predecessor_ODB_SHA_match = true`, `adaptiveRemesh_called = false`)
+- **Fresh Exact-P Detached Linux Qualification at Exact P (`51ff44db...`)**:
+  - `detached_HEAD`: `51ff44db5b92fcc4b8e672a99c5dcbb23f48f829`
+  - `full_test_count`: 572 passed (0 failures, 0 errors, 15 skips)
+  - `natural_post_test_clean`: **`true`** (`porcelain_status_len = 0`, `diff_rc = 0`, `cached_diff_rc = 0` verified before worktree removal)
+- **Scheduler Queue Audit**:
+  - `qstat_rc`: 0
+  - `running_jobs`: 0
+  - `queued_jobs`: 0
+- **Authority Boundary Reset**:
+  - `authorization_ready`: `true`
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `qsub_called`: `false`
+  - `HPC_submissions`: 0
+- **Next Action**: Awaiting fresh direct human authorization sentence in chat before any replacement batch submission.
+
+---
+
 ## F43REM4-R1 Path Resolution Repair, Candidate Output Isolation & Batch Qualification (2026-08-08)
 
 Task `F43REM4-R1`: Repaired shared candidate path resolution defect in `remesh_mode_ii_native_cae.py`, isolated candidate runtime output directories (`runtime_pk1/`, `runtime_pk5/`, `runtime_mm/`), added PBS-context preflight mode (`F43REM4_PREFLIGHT_ONLY=1`), verified 100% PASS on real Abaqus-2023 cluster login node for all 3 candidates (PK1, PK5, MM), added regression unit test suite, updated failure closeout classifications for jobs 1385556, 1385557, 1385558, created preparation commit ($P_{\text{F43REM4-BATCH2-FINAL}}$: `5d20fcd4c7d03a11b6d05f3366fb8e154f3ed9fe`), and completed qualification ($Q_{\text{F43REM4-BATCH2}}$: `86e6c35c6fe29b265ee124317fbc8bb8beabf58f`):
