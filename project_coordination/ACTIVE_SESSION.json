@@ -1,18 +1,12 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_scope": [
-    "models/generated/mode_ii/f43_stage_c_bridge/**",
-    "scripts/**",
-    "tests/unit/**",
-    "project_coordination/**",
-    "docs/**"
-  ],
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
   "started_at": "2026-08-08T18:45:00+02:00",
-  "completed_at": null,
-  "heartbeat": "2026-08-08T18:45:00+02:00",
+  "completed_at": "2026-08-08T19:00:00+02:00",
+  "heartbeat": "2026-08-08T19:00:00+02:00",
   "session_id": "90623bd8-8595-506e-a325-e56b1553c581",
   "starting_commit": "36353c7b7dcdd0a27d4fa348eb027b6394a6fe54",
   "task_id": "F43REM4-SUB4",
-  "note": "Claimed session for authorized replacement sensitivity batch submission F43REM4-SUB4 under human chat authorization."
+  "note": "Released session after successful guarded execution of 3 authorized replacement jobs (1385573, 1385574, 1385575), concurrency enforcement (max 2 running), terminal evidence collection, and Gate C1 comparative analysis."
 }

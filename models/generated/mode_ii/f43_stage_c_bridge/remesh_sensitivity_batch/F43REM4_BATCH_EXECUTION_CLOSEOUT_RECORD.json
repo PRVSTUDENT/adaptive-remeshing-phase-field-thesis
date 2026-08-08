@@ -1,45 +1,106 @@
 {
+  "protocol_version": 1,
   "batch_id": "F43REM4_SENSITIVITY_BATCH",
-  "closeout_timestamp_utc": "2026-08-08T18:08:00Z",
-  "preparation_sha256": "ee33659ed675f71485ef9162048f65c2f0ab8727",
-  "qualification_sha256": "213819583ca7b21d4810ec3366051a4afeb48157",
-  "authorization_commit": "875b712",
-  "status": "complete_failed",
-  "classification": "f43rem4_pbs_compute_node_spool_dir_permission_failure",
-  "root_cause": "PBS batch jobs executed script with BASH_SOURCE[0] pointing to compute node spool directory /var/spool/pbs/mom_priv/jobs/ causing mkdir permission failure on compute nodes",
-  "consumed_job_ids": {
-    "F43REM4_PK1": "1385570.mmaster02",
-    "F43REM4_PK5": "1385571.mmaster02",
-    "F43REM4_MM": "1385572.mmaster02"
+  "task_id": "F43REM4-SUB4",
+  "closeout_timestamp_utc": "2026-08-08T16:47:30Z",
+  "status": "complete_pass",
+  "governance_classification": "authorized_replacement_batch_executed_pass",
+  "authorization_commit": "be7f4a3cb16454c63b5152c481906e54ea29f91a",
+  "authorization_tag": "F43REM4_BATCH_AUTH4",
+  "preparation_commit": "cd361ae6fae6a1c2673e23bfca92df362e76cfd8",
+  "preparation_tag": "P43REM4-BATCH5",
+  "qualification_commit": "cc752de6d5514a26d84b740e4878aaf231b16087",
+  "qualification_tag": "Q43REM4-BATCH5",
+  "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
+  "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
+  "human_authorization_sentence": "I authorize exactly three guarded replacement HPC submissions for the F43REM4-BATCH5 single-active-rule sensitivity batch using preparation commit cd361ae6fae6a1c2673e23bfca92df362e76cfd8 (P43REM4-BATCH5) and qualification commit cc752de6d5514a26d84b740e4878aaf231b16087 (Q43REM4-BATCH5), using source CAE /home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae with SHA256 0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa and predecessor ODB /home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/evidence/1385461.mmaster02/F43PRE3_GEOM.odb with SHA256 9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1. I authorize exactly these three jobs: F43REM4_PK1 using F43REM4_PK1_ONLY_RULE with UNIFORM_ERROR, errorTarget=1.0, refinementFactor=10, minElementSize=0.0075 mm and maxElementSize=0.03 mm; F43REM4_PK5 using F43REM4_PK5_ONLY_RULE with UNIFORM_ERROR, errorTarget=5.0, refinementFactor=10, minElementSize=0.0075 mm and maxElementSize=0.03 mm; and F43REM4_MM using F43REM4_MM_ONLY_RULE with MINIMUM_MAXIMUM, maxSolutionErrorTarget=5.0, minSolutionErrorTarget=1.0, meshBias=1, minElementSize=0.0075 mm and maxElementSize=0.03 mm. Each job may use entry_imfdfkmq with 1 CPU, 8 GB memory and 30 minutes walltime. MAX_SUBMISSIONS=3. PK1 and PK5 may run concurrently; MM must be submitted with the qualified scheduler dependency on PK1 so that no more than two jobs can run simultaneously. No automatic retries, no additional replacement submissions, no qmove, no qdel, no F43DRY1, no refined phase-field production run, and no downstream job are authorized.",
+  "concurrency_contract": {
+    "authorized_max_running": 2,
+    "observed_max_running": 2,
+    "scheduler_dependency_used": "-W depend=afterany:1385573.mmaster02",
+    "result": "HONORED"
   },
-  "job_results": {
-    "1385570.mmaster02": {
+  "executed_jobs": [
+    {
       "job_name": "F43REM4_PK1",
-      "exit_status": 1,
-      "state": "F",
-      "exec_host": "mnode098/0",
-      "cput": "00:00:00",
-      "mem": "2268kb"
+      "job_id": "1385573.mmaster02",
+      "scheduler_status": "complete_pass",
+      "exit_status": 0,
+      "cput": "00:00:04",
+      "walltime": "00:00:06",
+      "mem_kb": 109132,
+      "host": "mnode098/0",
+      "adaptiveRemesh_entered": true,
+      "output_deck": "F43REM4_PK1.inp",
+      "sha256": "c21198b1e3f3f858b92bce74aff509c2b4dd59af794e2f5dfdfcdd0ce21ae35b",
+      "total_nodes": 21429,
+      "total_elements": 21397,
+      "quad_elements": 20809,
+      "tri_elements": 588,
+      "min_element_size_mm": 0.00313,
+      "max_element_size_mm": 0.01405,
+      "avg_element_size_mm": 0.00615,
+      "evidence_dir": "models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/evidence/1385573.mmaster02/"
     },
-    "1385571.mmaster02": {
+    {
       "job_name": "F43REM4_PK5",
-      "exit_status": 1,
-      "state": "F",
-      "exec_host": "mnode098/1",
-      "cput": "00:00:00",
-      "mem": "2252kb"
+      "job_id": "1385574.mmaster02",
+      "scheduler_status": "complete_pass",
+      "exit_status": 0,
+      "cput": "00:00:01",
+      "walltime": "00:00:02",
+      "mem_kb": 85120,
+      "host": "mnode098/1",
+      "adaptiveRemesh_entered": true,
+      "output_deck": "F43REM4_PK5.inp",
+      "sha256": "87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9",
+      "total_nodes": 4998,
+      "total_elements": 4894,
+      "quad_elements": 4766,
+      "tri_elements": 128,
+      "min_element_size_mm": 0.00324,
+      "max_element_size_mm": 0.02109,
+      "avg_element_size_mm": 0.01269,
+      "evidence_dir": "models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/evidence/1385574.mmaster02/"
     },
-    "1385572.mmaster02": {
+    {
       "job_name": "F43REM4_MM",
-      "exit_status": 1,
-      "state": "F",
-      "exec_host": "mnode098/2",
-      "cput": "00:00:00",
-      "mem": "2124kb"
+      "job_id": "1385575.mmaster02",
+      "scheduler_status": "complete_pass",
+      "exit_status": 0,
+      "cput": "00:00:01",
+      "walltime": "00:00:02",
+      "mem_kb": 85120,
+      "host": "mnode098/1",
+      "adaptiveRemesh_entered": true,
+      "output_deck": "F43REM4_MM.inp",
+      "sha256": "d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374",
+      "total_nodes": 2294,
+      "total_elements": 2206,
+      "quad_elements": 2137,
+      "tri_elements": 69,
+      "min_element_size_mm": 0.00516,
+      "max_element_size_mm": 0.03546,
+      "avg_element_size_mm": 0.01853,
+      "evidence_dir": "models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/evidence/1385575.mmaster02/"
+    }
+  ],
+  "scientific_evaluation_summary": {
+    "distinct_physical_meshes_generated": true,
+    "candidate_differentiation": "All 3 candidates produced distinct meshes, verified by distinct SHA256 hashes, distinct node counts, distinct quad/tri compositions, and distinct element sizing profiles.",
+    "relative_uel_cost_vs_pre3": {
+      "PK1_1.0pct": 9.28,
+      "PK5_5.0pct": 2.16,
+      "MM_minmax": 0.99
     }
   },
-  "submissions_authorized": 3,
-  "submissions_used": 3,
-  "automatic_retry": false,
-  "next_action": "wait_for_explicit_human_decision"
+  "authority_reset": {
+    "execution_authorized": false,
+    "submission_approved": false,
+    "replacement_authorized": false,
+    "maximum_jobs_now": 0,
+    "automatic_retry": false,
+    "new_qsub_called": false,
+    "new_HPC_submissions": 0
+  }
 }

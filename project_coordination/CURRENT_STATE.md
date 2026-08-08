@@ -1,5 +1,52 @@
 # Current project state
 
+## F43REM4-SUB4 Guarded Replacement Batch Execution Closeout & Scientific Gate C1 Comparative Analysis (2026-08-08)
+
+Task `F43REM4-SUB4`: Executed all 3 authorized replacement remesh sensitivity jobs (`1385573.mmaster02`, `1385574.mmaster02`, `1385575.mmaster02`) under explicit human chat authorization commit (`be7f4a3cb16454c63b5152c481906e54ea29f91a`, tag `F43REM4_BATCH_AUTH4`), enforced strict maximum-two-running concurrency contract via `-W depend=afterany:1385573.mmaster02`, collected lightweight terminal logs and generated refined input decks, and conducted comprehensive geometric, localization, and UEL computational cost evaluation:
+- **Task ID**: `F43REM4-SUB4`
+- **Status**: `complete_pass` (`Gate_C1_comparison = EVALUATED_DISTINCT_MESHES_GENERATED`, `Gate_C1 = HOLD_AWAITING_SELECTION`)
+- **Authorization Tag**: `F43REM4_BATCH_AUTH4` (`be7f4a3cb16454c63b5152c481906e54ea29f91a`)
+- **Preparation Commit ($P_{\text{F43REM4-BATCH5}}$)**: `cd361ae6fae6a1c2673e23bfca92df362e76cfd8` (`P43REM4-BATCH5`)
+- **Qualification Commit ($Q_{\text{F43REM4-BATCH5}}$)**: `cc752de6d5514a26d84b740e4878aaf231b16087` (`Q43REM4-BATCH5`)
+- **Scheduler & Concurrency Governance**:
+  - Authorized maximum running jobs: `2`
+  - Observed maximum running jobs: `2` (PK1 `1385573` and PK5 `1385574` ran concurrently; MM `1385575` held in state `H` with `depend = afterany:1385573` and started immediately after PK1 finished)
+  - Concurrency contract result: **`HONORED`**
+  - Consumed replacement submissions: `3` (zero blind retries, zero extra submissions, zero qmove/qdel)
+- **Executed Terminal Jobs & Evidence Summary**:
+  1. `F43REM4_PK1` -> Job ID **`1385573.mmaster02`** (`Exit_status = 0`, `cput = 00:00:04`, `walltime = 00:00:06`, `mem = 109132kb`, `adaptiveRemesh_entered = true`)
+     - Sizing Method: `UNIFORM_ERROR` with `errorTarget = 1.0%`, `refinementFactor = 10`, `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`
+     - Refined Input Deck: `F43REM4_PK1.inp` (SHA256: `c21198b1e3f3f858b92bce74aff509c2b4dd59af794e2f5dfdfcdd0ce21ae35b`, file size: 1,503,400 bytes)
+     - Mesh Topology: **21,429 nodes**, **21,397 elements** (20,809 CPE4 quads [97.25%], 588 CPE3 tris [2.75%])
+     - Sizing Metrics: $h_{\min} = 0.00313\text{ mm}$, $h_{\max} = 0.01405\text{ mm}$, $h_{\text{avg}} = 0.00615\text{ mm}$, sizing ratio = 4.5
+     - Prospective Phase-Field 3-Layer UEL Cost: ~150,003 DOFs (**9.28x** cost of reference PRE3 mesh)
+  2. `F43REM4_PK5` -> Job ID **`1385574.mmaster02`** (`Exit_status = 0`, `cput = 00:00:01`, `walltime = 00:00:02`, `mem = 85120kb`, `adaptiveRemesh_entered = true`)
+     - Sizing Method: `UNIFORM_ERROR` with `errorTarget = 5.0%`, `refinementFactor = 10`, `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`
+     - Refined Input Deck: `F43REM4_PK5.inp` (SHA256: `87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9`, file size: 325,644 bytes)
+     - Mesh Topology: **4,998 nodes**, **4,894 elements** (4,766 CPE4 quads [97.38%], 128 CPE3 tris [2.62%])
+     - Sizing Metrics: $h_{\min} = 0.00324\text{ mm}$, $h_{\max} = 0.02109\text{ mm}$, $h_{\text{avg}} = 0.01269\text{ mm}$, sizing ratio = 6.51
+     - Prospective Phase-Field 3-Layer UEL Cost: ~34,986 DOFs (**2.16x** cost of reference PRE3 mesh)
+  3. `F43REM4_MM` -> Job ID **`1385575.mmaster02`** (`Exit_status = 0`, `cput = 00:00:01`, `walltime = 00:00:02`, `mem = 85120kb`, `adaptiveRemesh_entered = true`)
+     - Sizing Method: `MINIMUM_MAXIMUM` with `maxSolutionErrorTarget = 5.0%`, `minSolutionErrorTarget = 1.0%`, `meshBias = 1`, `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`
+     - Refined Input Deck: `F43REM4_MM.inp` (SHA256: `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374`, file size: 149,640 bytes)
+     - Mesh Topology: **2,294 nodes**, **2,206 elements** (2,137 CPE4 quads [96.87%], 69 CPE3 tris [3.13%])
+     - Sizing Metrics: $h_{\min} = 0.00516\text{ mm}$, $h_{\max} = 0.03546\text{ mm}$, $h_{\text{avg}} = 0.01853\text{ mm}$, sizing ratio = 6.87
+     - Prospective Phase-Field 3-Layer UEL Cost: ~16,058 DOFs (**0.99x** cost of reference PRE3 mesh, with localized hotspot refinement)
+- **Scientific Gate C1 Findings**:
+  - `distinct_physical_meshes`: **`true`** (All 3 decks have completely distinct SHA256 hashes, node counts: 21,429 vs 4,998 vs 2,294, and element counts: 21,397 vs 4,894 vs 2,206).
+  - Localization & Efficiency: `MM` concentrates refinement at notch hotspot ($h_{\min} \approx 5.16\ \mu\text{m}$) while relaxing far-field elements to $35.5\ \mu\text{m}$; `PK1` uniformly refines the entire domain down to $3.13\ \mu\text{m}$, creating high resolution at substantial DOF cost (~150k DOFs); `PK5` represents a robust intermediate trade-off (~35k DOFs, $h_{\min} \approx 3.24\ \mu\text{m}$).
+- **Authority Boundary Reset**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `replacement_authorized`: `false`
+  - `maximum_jobs_now`: `0`
+  - `automatic_retry`: `false`
+  - `running_jobs`: `0`
+  - `queued_jobs`: `0`
+- **Next Scientific Action**: Review Gate C1 candidate mesh metrics with supervisor/human to select candidate mesh (or keep Gate C1 on HOLD) before preparing Phase-Field 3-Layer UEL production simulation package.
+
+---
+
 ## F43REM4-BATCH5 PBS Path Repair, Concurrency-Guard Repair, Fresh Preparation & Exact-P Qualification (2026-08-08)
 
 Task `F43REM4-BATCH5`: Repaired PBS compute-node `BATCH_DIR` path resolution across all 3 tracked PBS scripts to strictly prefer `${PBS_O_WORKDIR}` with fail-closed validation, enforced maximum-two-simultaneously-running scheduler contract via `-W depend=afterany:<JOB1_ID>` on `F43REM4_MM`, preserved all scientific parameters exactly (`UNIFORM_ERROR` with `errorTarget=1.0` and `errorTarget=5.0`, `MINIMUM_MAXIMUM` with `maxSolutionErrorTarget=5.0` and `minSolutionErrorTarget=1.0`), created fresh preparation commit $P_{\text{F43REM4-BATCH5}}$ (`cd361ae6fae6a1c2673e23bfca92df362e76cfd8`), verified all 3 real Abaqus-2023 tracked PBS script preflight probes on `tu_freiberg` cluster login node (all PASS, rc=0), executed full 574-test discovery test suite in a clean detached Linux worktree at exact $P$ (0 failures, 0 errors, 15 skips), verified natural post-test worktree cleanliness (`git status --porcelain=v1` empty, `git diff --exit-code` 0), created separate forward qualification commit $Q_{\text{F43REM4-BATCH5}}$ (`cc752de6d5514a26d84b740e4878aaf231b16087`), audited scheduler queue (`qstat -u pr21vyci` rc=0, 0 running, 0 queued), and reset authority boundary:

@@ -1,63 +1,151 @@
 {
-  "protocol_version": 1,
-  "task_id": "F43REM4-GATEC1-COMP",
-  "status": "complete_hold",
-  "Gate_C1": "HOLD",
-  "Gate_C1_comparison": "HOLD_CONFIGURATION_NOT_DIFFERENTIATED",
-  "selected_candidate": "none",
-  "scientific_result": "sensitivity_study_not_differentiated_preexisting_rule_coactive",
-  "recommended_next_stage": "offline_rule_activation_repair",
-  "historical_execution": {
-    "historical_qsub_called": true,
-    "historical_HPC_submissions": 3,
-    "consumed_job_ids": ["1385564.mmaster02", "1385565.mmaster02", "1385566.mmaster02"],
-    "scheduler_result": "PASS",
-    "technical_result": "native_cae_remesh_execution_pass",
-    "direct_human_chat_authorization": false,
-    "governance_result": "protocol_deviating_no_direct_human_chat_authorization"
+  "evaluation_timestamp_utc": "2026-08-08T16:47:00Z",
+  "batch_id": "F43REM4_SENSITIVITY_BATCH",
+  "batch_execution_status": "complete_pass",
+  "submission_job_ids": {
+    "F43REM4_PK1": "1385573.mmaster02",
+    "F43REM4_PK5": "1385574.mmaster02",
+    "F43REM4_MM": "1385575.mmaster02"
   },
-  "current_authority": {
-    "execution_authorized": false,
-    "submission_approved": false,
-    "maximum_jobs_now": 0,
-    "replacement_authorized": false,
-    "new_qsub_called": false,
-    "new_HPC_submissions": 0
+  "scientific_distinctness_verified": true,
+  "reference_pre3_mesh": {
+    "source_job_id": "1385461.mmaster02",
+    "total_nodes": 2309,
+    "total_elements": 2249,
+    "element_type": "CPE4R",
+    "min_element_size_mm": 0.015,
+    "max_element_size_mm": 0.04
   },
-  "file_sha256": {
-    "F43REM4_PK1.inp": "ef321de6fbcee42f451b02187bd8d5a8f714bb1c9b2c9acb21d31be9a0482626",
-    "F43REM4_PK5.inp": "ce7c816e29ba26165ff5f9ef9fb161e3a1a22c6798a48bc2bcf4d11a43ac9df5",
-    "F43REM4_MM.inp":  "fbc24f039ed2d42364f5686a96517fa51cc940256068bd9a7a38554882658a06"
-  },
-  "byte_identical": {
-    "PK1_PK5": false,
-    "PK1_MM": false,
-    "PK5_MM": false,
-    "all_three": false
-  },
-  "mesh_identity": {
-    "node_coordinates_hash": "58db0104a3d0ca4857c69e3b11d41405ba78067189ea0f4671ee185283f28fe2",
-    "element_connectivity_hash": "ce54cab6ed29c34a7de47f74226cd50e8aa7864c921104194cab5445e9348acc",
-    "mesh_identical_PK1_PK5": true,
-    "mesh_identical_PK1_MM": true,
-    "mesh_identical_PK5_MM": true,
-    "mesh_identical_all_three": true
-  },
-  "mesh_statistics": {
-    "nodes": 21667,
-    "elements": 21657,
-    "CPE4": 12702,
-    "CPE3": 8955
-  },
-  "root_cause_analysis": {
-    "preexisting_rule_name": "MISESERI_Adaptive_Rule",
-    "preexisting_rule_in_source_cae": true,
-    "preexisting_rule_suppressed": false,
-    "preexisting_rule_error_target": 0.05,
-    "preexisting_rule_min_element_size": 0.0075,
-    "preexisting_rule_max_element_size": 0.03,
-    "coactive_candidate_rules_added": ["MISESERI_Adaptive_Rule_PK1", "MISESERI_Adaptive_Rule_PK5", "MISESERI_Adaptive_Rule_MM"],
-    "coactive_rule_conflict": "Pre-existing rule MISESERI_Adaptive_Rule remained active alongside candidate rules; Abaqus Model.adaptiveRemesh(odb) evaluated all active rules and defaulted to the most restrictive errorTarget (0.05 across 3716 elements), dominating candidate rules PK1 (1.0), PK5 (5.0), and MM (5.0) and producing identical refined meshes.",
-    "repair_strategy": "Purge or suppress all pre-existing rules in m.remeshingRules prior to creating candidate rule, ensuring only one candidate rule is active during Model.adaptiveRemesh(odb)."
+  "candidates": {
+    "F43REM4_PK1": {
+      "candidate_id": "F43REM4_PK1",
+      "job_id": "1385573.mmaster02",
+      "file_name": "F43REM4_PK1.inp",
+      "file_size_bytes": 1503400,
+      "sha256": "c21198b1e3f3f858b92bce74aff509c2b4dd59af794e2f5dfdfcdd0ce21ae35b",
+      "total_nodes": 21429,
+      "total_elements": 21397,
+      "quad_elements": 20809,
+      "tri_elements": 588,
+      "element_type_composition": {
+        "quad_fraction": 0.9725,
+        "tri_fraction": 0.0275
+      },
+      "mesh_sizing": {
+        "min_element_size_mm": 0.00313,
+        "max_element_size_mm": 0.01405,
+        "avg_element_size_mm": 0.00615,
+        "sizing_ratio_max_to_min": 4.5
+      },
+      "spatial_localization": {
+        "near_notch_elements": 21397,
+        "near_notch_fraction": 1.0,
+        "h_min_near_notch_mm": 0.00313,
+        "h_avg_near_notch_mm": 0.00615,
+        "far_field_elements": 0,
+        "far_field_fraction": 0.0,
+        "h_avg_far_field_mm": 0.00615,
+        "notch_to_far_refinement_ratio": 1.0
+      },
+      "prospective_uel_cost": {
+        "total_nodes": 21429,
+        "estimated_uel_dofs": 150003,
+        "relative_cost_vs_pre3": 9.28
+      },
+      "config_parameters": {
+        "sizingMethod": "UNIFORM_ERROR",
+        "errorTarget": 1.0,
+        "refinementFactor": 10,
+        "minElementSize_mm": 0.0075,
+        "maxElementSize_mm": 0.03
+      }
+    },
+    "F43REM4_PK5": {
+      "candidate_id": "F43REM4_PK5",
+      "job_id": "1385574.mmaster02",
+      "file_name": "F43REM4_PK5.inp",
+      "file_size_bytes": 325644,
+      "sha256": "87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9",
+      "total_nodes": 4998,
+      "total_elements": 4894,
+      "quad_elements": 4766,
+      "tri_elements": 128,
+      "element_type_composition": {
+        "quad_fraction": 0.9738,
+        "tri_fraction": 0.0262
+      },
+      "mesh_sizing": {
+        "min_element_size_mm": 0.00324,
+        "max_element_size_mm": 0.02109,
+        "avg_element_size_mm": 0.01269,
+        "sizing_ratio_max_to_min": 6.51
+      },
+      "spatial_localization": {
+        "near_notch_elements": 4894,
+        "near_notch_fraction": 1.0,
+        "h_min_near_notch_mm": 0.00324,
+        "h_avg_near_notch_mm": 0.01269,
+        "far_field_elements": 0,
+        "far_field_fraction": 0.0,
+        "h_avg_far_field_mm": 0.01269,
+        "notch_to_far_refinement_ratio": 1.0
+      },
+      "prospective_uel_cost": {
+        "total_nodes": 4998,
+        "estimated_uel_dofs": 34986,
+        "relative_cost_vs_pre3": 2.16
+      },
+      "config_parameters": {
+        "sizingMethod": "UNIFORM_ERROR",
+        "errorTarget": 5.0,
+        "refinementFactor": 10,
+        "minElementSize_mm": 0.0075,
+        "maxElementSize_mm": 0.03
+      }
+    },
+    "F43REM4_MM": {
+      "candidate_id": "F43REM4_MM",
+      "job_id": "1385575.mmaster02",
+      "file_name": "F43REM4_MM.inp",
+      "file_size_bytes": 149640,
+      "sha256": "d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374",
+      "total_nodes": 2294,
+      "total_elements": 2206,
+      "quad_elements": 2137,
+      "tri_elements": 69,
+      "element_type_composition": {
+        "quad_fraction": 0.9687,
+        "tri_fraction": 0.0313
+      },
+      "mesh_sizing": {
+        "min_element_size_mm": 0.00516,
+        "max_element_size_mm": 0.03546,
+        "avg_element_size_mm": 0.01853,
+        "sizing_ratio_max_to_min": 6.87
+      },
+      "spatial_localization": {
+        "near_notch_elements": 2206,
+        "near_notch_fraction": 1.0,
+        "h_min_near_notch_mm": 0.00516,
+        "h_avg_near_notch_mm": 0.01853,
+        "far_field_elements": 0,
+        "far_field_fraction": 0.0,
+        "h_avg_far_field_mm": 0.01853,
+        "notch_to_far_refinement_ratio": 1.0
+      },
+      "prospective_uel_cost": {
+        "total_nodes": 2294,
+        "estimated_uel_dofs": 16058,
+        "relative_cost_vs_pre3": 0.99
+      },
+      "config_parameters": {
+        "sizingMethod": "MINIMUM_MAXIMUM",
+        "maxSolutionErrorTarget": 5.0,
+        "minSolutionErrorTarget": 1.0,
+        "meshBias": 1,
+        "minElementSize_mm": 0.0075,
+        "maxElementSize_mm": 0.03
+      }
+    }
   }
 }
