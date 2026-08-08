@@ -4,7 +4,7 @@ set -eo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
-P_SHA="${1:-519186771adf848a91971c612c7c0fc67f6dc592}"
+P_SHA="${1:-40f0467add17583f783c30f66e9a18a0582b0c6a}"
 WORKTREE_DIR="/tmp/f43rem4_real_kernel_probe_worktree"
 
 echo "=== STARTING REAL ABAQUS 2023 KERNEL PROBE ON HPC AT P_SHA=${P_SHA} ==="
@@ -13,6 +13,11 @@ rm -rf "${WORKTREE_DIR}"
 cd "${PROJECT_ROOT}"
 git worktree prune
 git worktree add --detach "${WORKTREE_DIR}" "${P_SHA}"
+
+# Copy untracked pre-built source CAE file from main repository into detached worktree
+if [ -f "${PROJECT_ROOT}/models/generated/mode_ii/f43_stage_c_bridge/ModeII_Geometry_Source_Abaqus2023.cae" ]; then
+  cp "${PROJECT_ROOT}/models/generated/mode_ii/f43_stage_c_bridge/ModeII_Geometry_Source_Abaqus2023.cae" "${WORKTREE_DIR}/models/generated/mode_ii/f43_stage_c_bridge/"
+fi
 
 cd "${WORKTREE_DIR}"
 HEAD_SHA="$(git rev-parse HEAD)"
