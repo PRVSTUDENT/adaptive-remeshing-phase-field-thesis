@@ -1,27 +1,32 @@
 # Current project state
 
-## F43REM4-SUB1 Three-Job Remesh Sensitivity Batch Guarded HPC Submission Complete (2026-08-08)
+## F43REM4-SUB1 Three-Job Remesh Sensitivity Batch Guarded HPC Closeout (2026-08-08)
 
-Task `F43REM4-SUB1`: Received explicit human authorization, recorded authorization commit (`137e34cf0e7f9763a3f38210459417119e4ebf58`), created tag `F43REM4_BATCH_AUTH1`, fast-forward synchronized all clones (`local_main` = `origin_main` = `HPC_main`), performed common cluster preflight checks (`PASS`), and submitted all 3 authorized independent jobs together to PBS on `tu_freiberg`:
+Task `F43REM4-SUB1`: Received explicit human authorization, recorded authorization commit (`137e34cf0e7f9763a3f38210459417119e4ebf58`), created tag `F43REM4_BATCH_AUTH1`, fast-forward synchronized all clones (`local_main` = `origin_main` = `HPC_main`), performed common cluster preflight checks (`PASS`), submitted all 3 authorized independent jobs together to PBS on `tu_freiberg`, monitored execution to completion, collected lightweight evidence, and completed terminal diagnosis:
 - **Task ID**: `F43REM4-SUB1`
-- **Status**: `in_progress` (`f43rem4_batch_authorized_submitted`)
+- **Status**: `complete_failed` (`f43rem4_batch_execution_predecessor_odb_relative_path_missing_error`)
 - **Preparation Commit ($P_{43\text{REM4-BATCH1-FINAL1}}$)**: `23824ab66fd34e9e802a0d586080485e177c7585` (`P43REM4-BATCH1-FINAL1`)
 - **Qualification Commit ($Q_{43\text{REM4-BATCH1-FINAL1}}$)**: `a6a8647f235411b5d8aceda4e79b762439fd2c81` (`Q43REM4-BATCH1-FINAL1`)
 - **Authorization Commit ($A_{43\text{REM4_BATCH_AUTH1}}$)**: `137e34cf0e7f9763a3f38210459417119e4ebf58` (`F43REM4_BATCH_AUTH1`)
-- **Human Authorization Record**:
-  - `human_authorization_timestamp`: `2026-08-08T11:24:34+02:00`
-  - `execution_authorized`: **`true`**
-  - `submission_approved`: **`true`**
-  - `maximum_jobs_now`: **3**
-  - `maximum_jobs_authorized`: **3**
-  - `scheduler_concurrency_limit`: **2** (max 2 running simultaneously, 3rd queued)
+- **Executed Jobs & Terminal Statuses**:
+  1. `F43REM4_PK1` -> Job ID **`1385556.mmaster02`** (`Exit_status = 1`, `errorTarget = 1.0`, `refinementFactor = 10`, `minElementSize = 0.0075`, `maxElementSize = 0.03`)
+  2. `F43REM4_PK5` -> Job ID **`1385557.mmaster02`** (`Exit_status = 1`, `errorTarget = 5.0`, `refinementFactor = 10`, `minElementSize = 0.0075`, `maxElementSize = 0.03`)
+  3. `F43REM4_MM` -> Job ID **`1385558.mmaster02`** (`Exit_status = 1`, `maxSolutionErrorTarget = 5.0`, `minSolutionErrorTarget = 1.0`, `meshBias = 1`, `minElementSize = 0.0075`, `maxElementSize = 0.03`)
+- **Empirical Execution & Log Diagnosis**:
+  - Pre-execution file integrity, source CAE SHA256 (`0d5b32...`), predecessor ODB SHA256 (`9a5262...`), and batch submission passed cleanly.
+  - All 3 PBS batch scripts ran in working directory `remesh_sensitivity_batch/` and invoked `abaqus cae noGUI=../remesh_mode_ii_native_cae.py`.
+  - Inside Abaqus CAE noGUI execfile mode, `__file__` is not defined in globals, causing `script_dir` in `remesh_mode_ii_native_cae.py` to fall back to `os.getcwd()` (`.../remesh_sensitivity_batch`).
+  - `predecessor_odb_path` candidate resolution searched for `evidence/1385461.mmaster02/F43PRE3_GEOM.odb` under `remesh_sensitivity_batch/` instead of `../evidence/1385461.mmaster02/F43PRE3_GEOM.odb`.
+  - Log Error (`abaqus.rpy`): `#: FATAL ERROR: Predecessor ODB missing: /home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/evidence/1385461.mmaster02/F43PRE3_GEOM.odb`.
+- **Authority Boundary Reset**:
+  - Authorized batch submission attempts (`1385556`, `1385557`, `1385558`) are **strictly consumed** (`MAX_SUBMISSIONS=3`).
+  - `execution_authorized`: **`false`**
+  - `submission_approved`: **`false`**
+  - `replacement_authorized`: **`false`**
+  - `maximum_jobs_now`: **0**
   - `automatic_retry`: **`false`**
-- **Submitted Jobs**:
-  1. `F43REM4_PK1` -> Job ID **`1385556.mmaster02`** (`errorTarget = 1.0`, `refinementFactor = 10`, `minElementSize = 0.0075`, `maxElementSize = 0.03`)
-  2. `F43REM4_PK5` -> Job ID **`1385557.mmaster02`** (`errorTarget = 5.0`, `refinementFactor = 10`, `minElementSize = 0.0075`, `maxElementSize = 0.03`)
-  3. `F43REM4_MM` -> Job ID **`1385558.mmaster02`** (`maxSolutionErrorTarget = 5.0`, `minSolutionErrorTarget = 1.0`, `meshBias = 1`, `minElementSize = 0.0075`, `maxElementSize = 0.03`)
-- **Live Scheduler Status (`qstat -u pr21vyci`)**: All 3 jobs active in queue (`1385556` running/R, `1385557` running/R, `1385558` queued/R).
-- **Next Action**: Monitor job execution and collect evidence upon batch completion.
+  - `HPC_submissions`: **3** (consumed)
+- **Next Action**: Awaiting repair qualification and fresh direct human authorization for replacement batch submission.
 
 ---
 
