@@ -6,6 +6,7 @@ import sys
 import shutil
 import json
 import hashlib
+from abaqusConstants import OFF, ON, MODEL, NOT_ALLOWED, UNIFORM_ERROR, MINIMUM_MAXIMUM
 
 def sha256_file(filepath):
     h = hashlib.sha256()
@@ -150,8 +151,12 @@ def execute_native_remeshing():
     cae_model_steps = list(m.steps.keys())
     analysis_step_name = [s for s in cae_model_steps if s != "Initial"][0]
     step_name = "Step-1"
-    if step_name not in cae_model_steps:
+    if "Step-1" not in cae_model_steps:
         fail("Step-1 missing from model steps: {}".format(cae_model_steps))
+    if step_name not in m.steps.keys():
+        fail("Step-1 missing from model steps")
+    if step_name == "Initial":
+        fail("Initial step cannot be remeshed")
 
     part_name = "Part-1"
     inst_name = "Part-1-1"
@@ -207,6 +212,8 @@ def execute_native_remeshing():
         source_cae_unmodified = (actual_cae_sha_after == expected_cae_sha)
         miseseri_available = ("MISESERI" in frame_fields)
 
+        if not hasattr(m, 'adaptiveRemesh') or hasattr(m.rootAssembly, 'remesh'):
+            fail("Assembly.remesh is forbidden")
         has_m_adaptiveRemesh = hasattr(m, 'adaptiveRemesh')
         has_ass_remesh = hasattr(m.rootAssembly, 'remesh')
 
@@ -265,8 +272,9 @@ def execute_native_remeshing():
 
     if is_rule_probe_mode:
         rule_name = "StageC_MISESERI_RemeshingRule"
-        if rule_name not in m.remeshingRules.keys():
-            m.RemeshingRule(
+        if rule_name in m.remeshingRules.keys():
+            del m.remeshingRules[rule_name]
+        m.RemeshingRule(
                 name=rule_name,
                 stepName=step_name,
                 variables=('MISESERI',),
