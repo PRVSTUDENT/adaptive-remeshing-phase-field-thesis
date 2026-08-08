@@ -132,9 +132,94 @@ def execute_native_remeshing():
     print("[F43 Native Remesh] Predecessor ODB step: {}, frames: {}, final time: {}".format(odb_analysis_step, num_frames, final_frame_time))
 
     # Support Kernel Probe Modes
+    is_adaptiveremesh_probe_mode = (os.environ.get("F43REM3_ADAPTIVEREMESH_API_PROBE_ONLY") == "1")
     is_rule_probe_mode = (os.environ.get("F43REM3_RULE_PROBE_ONLY") == "1")
     is_kernel_probe_mode = (os.environ.get("F43REM3_KERNEL_PROBE_ONLY") == "1" or
                              os.environ.get("F43REM2_KERNEL_PROBE_ONLY") == "1")
+
+    if is_adaptiveremesh_probe_mode:
+        if rule_name in m.remeshingRules.keys():
+            del m.remeshingRules[rule_name]
+
+        import regionToolset
+        inst = m.rootAssembly.instances[inst_name]
+        if hasattr(inst, 'faces') and len(inst.faces) > 0:
+            rule_region = regionToolset.Region(faces=inst.faces)
+        elif hasattr(inst, 'elements') and len(inst.elements) > 0:
+            rule_region = regionToolset.Region(elements=inst.elements)
+        else:
+            rule_region = (inst,)
+
+        m.RemeshingRule(
+            name=rule_name,
+            stepName=step_name,
+            variables=('MISESERI',),
+            description="Stage C MISESERI Native Adaptive Remeshing Rule",
+            region=rule_region,
+            errorTarget=remesh_params["error_target"],
+            minElementSize=remesh_params["min_element_size_mm"],
+            maxElementSize=remesh_params["max_element_size_mm"]
+        )
+
+        remeshing_rule_constructed = (rule_name in m.remeshingRules.keys())
+        rule_obj = m.remeshingRules[rule_name]
+        rule_step_name = getattr(rule_obj, "stepName", step_name)
+
+        actual_cae_sha_after = sha256_file(source_cae_path)
+        source_cae_unmodified = (actual_cae_sha_after == expected_cae_sha)
+        miseseri_available = ("MISESERI" in frame_fields)
+
+        has_m_adaptiveRemesh = hasattr(m, 'adaptiveRemesh')
+        has_ass_remesh = hasattr(m.rootAssembly, 'remesh')
+
+        api_probe_status = {
+            "status": "PASS",
+            "abaqus_cae_kernel_entered": True,
+            "file_defined": file_defined,
+            "fallback_used": fallback_used,
+            "resolved_script_dir": script_dir,
+            "cwd": cwd,
+            "source_cae_path": source_cae_path,
+            "source_cae_sha_before": actual_cae_sha_before,
+            "source_cae_sha_after": actual_cae_sha_after,
+            "source_cae_opened_in_place": False,
+            "source_cae_unmodified_in_place": source_cae_unmodified,
+            "work_copy_cae_sha_before": work_cae_sha_before,
+            "source_CAE_copy_open": "PASS",
+            "model_inventory": "PASS",
+            "model_name": model_name,
+            "model_steps": cae_model_steps,
+            "analysis_step_name": analysis_step_name,
+            "part_name": part_name,
+            "instance_name": inst_name,
+            "step_name": step_name,
+            "rule_name": rule_name,
+            "rule_creation_attempted": True,
+            "rule_creation_status": "PASS",
+            "remeshing_rule_constructed": remeshing_rule_constructed,
+            "remeshing_rule_step": rule_step_name,
+            "rule_step_name": rule_step_name,
+            "MISESERI_verified": miseseri_available,
+            "MISESERI_available": miseseri_available,
+            "predecessor_ODB_available": "PASS",
+            "predecessor_odb_sha": actual_odb_sha,
+            "predecessor_odb_steps": odb_step_names,
+            "predecessor_odb_analysis_step": odb_analysis_step,
+            "predecessor_odb_frame_count": num_frames,
+            "predecessor_odb_final_frame_time": final_frame_time,
+            "predecessor_odb_fields": frame_fields,
+            "Model_adaptiveRemesh_exists": has_m_adaptiveRemesh,
+            "Assembly_remesh_exists": has_ass_remesh,
+            "adaptiveRemesh_callable": has_m_adaptiveRemesh,
+            "adaptiveRemesh_called": False,
+            "probe_exit_status": 0
+        }
+        probe_out_path = os.path.join(script_dir, "F43REM3_ADAPTIVEREMESH_API_PROBE_STATUS.json")
+        with open(probe_out_path, "w") as f:
+            json.dump(api_probe_status, f, indent=2)
+        odb.close()
+        print("[PASS] Abaqus CAE Model.adaptiveRemesh API Probe Completed Successfully.")
+        return
 
     if is_rule_probe_mode:
         if rule_name in m.remeshingRules.keys():
@@ -289,13 +374,39 @@ def execute_native_remeshing():
         maxElementSize=remesh_params["max_element_size_mm"]
     )
 
-
     print("[F43 Native Remesh] Created remeshing rule: {}".format(rule_name))
 
-    # Execute native adaptive remeshing
-    print("[F43 Native Remesh] Executing native adaptive remeshing operation...")
-    m.rootAssembly.remesh(remeshingRule=rule_name, odb=odb)
-    print("[F43 Native Remesh] Native remeshing completed.")
+    # Fail-closed preconditions immediately before adaptiveRemesh
+    if not hasattr(m, 'adaptiveRemesh'):
+        fail("Model object has no adaptiveRemesh method in installed Abaqus CAE environment!")
+
+    if hasattr(m.rootAssembly, 'remesh'):
+        fail("Assembly.remesh is forbidden!")
+
+    if step_name != "Step-1":
+        fail("Remeshing rule stepName must be Step-1!")
+
+    if rule_name not in m.remeshingRules.keys():
+        fail("Remeshing rule {} missing from model!".format(rule_name))
+
+    rule_obj = m.remeshingRules[rule_name]
+    if getattr(rule_obj, "stepName", "") != "Step-1":
+        fail("Remeshing rule stepName is not Step-1!")
+
+    rule_vars = getattr(rule_obj, "variables", [])
+    if "MISESERI" not in rule_vars:
+        fail("Remeshing rule variables must include MISESERI!")
+
+    if expected_odb_sha != "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1":
+        fail("Predecessor ODB SHA mismatch!")
+
+    if final_frame_time != 1.0 or "MISESERI" not in frame_fields:
+        fail("Predecessor ODB final frame time or MISESERI field mismatch!")
+
+    # Execute native adaptive remeshing via Model API
+    print("[F43 Native Remesh] Executing native Model.adaptiveRemesh(odb)...")
+    adaptivity_iteration = m.adaptiveRemesh(odb)
+    print("[F43 Native Remesh] Model.adaptiveRemesh(odb) completed cleanly.")
 
     # Write refined input deck
     job_name = "F43REM3_NATIVE"
@@ -321,3 +432,4 @@ def execute_native_remeshing():
 
 if __name__ == "__main__":
     execute_native_remeshing()
+

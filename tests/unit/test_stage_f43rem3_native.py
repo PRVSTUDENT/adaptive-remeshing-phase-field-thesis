@@ -217,6 +217,34 @@ class TestStageF43REM3Native(unittest.TestCase):
         self.assertNotIn('qsub', self.driver)
         self.assertIn('odb.close()', self.driver)
 
+    def test_Z1_assembly_remesh_forbidden_and_model_adaptiveremesh_required(self):
+        self.assertNotIn("m.rootAssembly.remesh(", self.driver)
+        self.assertIn("m.adaptiveRemesh(odb)", self.driver)
+        self.assertIn("not hasattr(m, 'adaptiveRemesh')", self.driver)
+        self.assertIn("hasattr(m.rootAssembly, 'remesh')", self.driver)
+        self.assertIn("Assembly.remesh is forbidden", self.driver)
+
+    def test_Z2_adaptiveremesh_api_probe_mode_contract(self):
+        self.assertIn("F43REM3_ADAPTIVEREMESH_API_PROBE_ONLY", self.driver)
+        self.assertIn("F43REM3_ADAPTIVEREMESH_API_PROBE_STATUS.json", self.driver)
+        self.assertIn('"Model_adaptiveRemesh_exists": has_m_adaptiveRemesh', self.driver)
+        self.assertIn('"Assembly_remesh_exists": has_ass_remesh', self.driver)
+        self.assertIn('"adaptiveRemesh_callable": has_m_adaptiveRemesh', self.driver)
+        self.assertIn('"adaptiveRemesh_called": False', self.driver)
+
+    def test_Z3_no_adaptivity_process_submit_in_manual_package(self):
+        self.assertNotIn("AdaptivityProcess", self.driver)
+        self.assertNotIn("submit()", self.driver)
+        self.assertNotIn("qsub", self.driver)
+
+    def test_Z4_failed_job_1385552_governance_classification(self):
+        hpc_ledger_path = os.path.join(REPO_ROOT, "project_coordination", "HPC_JOB_LEDGER.csv")
+        with open(hpc_ledger_path, "r") as f:
+            ledger_text = f.read()
+        self.assertIn("1385552.mmaster02", ledger_text)
+        self.assertIn("f43rem3_native_cae_assembly_remesh_attribute_error", ledger_text)
+
 if __name__ == "__main__":
     unittest.main()
+
 
