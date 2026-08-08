@@ -1,5 +1,34 @@
 # Current project state
 
+## F43PRE3_GEOM Replacement Guarded Remote HPC Submission 1385461 Execution Closeout (2026-08-08)
+
+Executed authorized guarded replacement remote HPC submission of `F43PRE3_GEOM` job `1385461.mmaster02` on cluster `tu_freiberg` upon explicit human authorization:
+- **Job ID**: `1385461.mmaster02`
+- **Task ID**: `F43PRE3_GEOM` / `F43PRE3_GEOM_REPLACEMENT_SUBMISSION`
+- **Status**: `complete_pass` (`f43pre3_geom_preanalysis_solver_pass`)
+- **Queue**: `entry_imfdfkmq` (routed to `normal_imfdfkmq`)
+- **Preparation Commit ($P$)**: `P43PRE3-R3` (`b98ff859539e023f808926c6578c3d57a94c72c2`)
+- **Qualification Commit ($Q$)**: `Q43PRE3-R3` (`6fdf2d98398f34b09c721d9256d309de127ad095`)
+- **User Authorization Sentence**: `"I authorize exactly one guarded replacement HPC submission of F43PRE3_GEOM using preparation commit b98ff859539e023f808926c6578c3d57a94c72c2 and qualification commit 6fdf2d98398f34b09c721d9256d309de127ad095, using F43PRE3_GEOM.inp with SHA256 10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee and the Abaqus-2023 geometry source CAE with SHA256 0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa, through entry_imfdfkmq with 1 CPU, 8 GB, and 30 minutes walltime, with MAX_SUBMISSIONS=1, no automatic retry, no further replacement submission, no F43REM3_NATIVE submission, no F43DRY1 submission, and no downstream job."`
+- **Terminal Empirical Result**:
+  - `qsub` executed cleanly via `submit_f43pre3_geom.sh`.
+  - Job `1385461.mmaster02` ran on compute node `mnode098/0`.
+  - `PBS_O_WORKDIR` verified strictly as `/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge`.
+  - Pre-solver fail-closed input deck and CAE SHA verification passed cleanly.
+  - Abaqus/Standard solver completed 17 increments to step time 1.00 (`Abaqus JOB F43PRE3_GEOM COMPLETED`).
+  - Terminal solver exit code: `0`.
+  - Output ODB `F43PRE3_GEOM.odb` generated successfully (SHA256: `9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1`).
+- **Evidence Bundle Collected**:
+  - Archived locally at `models/generated/mode_ii/f43_stage_c_bridge/evidence/1385461.mmaster02/`.
+- **Authority Boundary Reset**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `HPC_submissions`: 1 (consumed)
+- **Next Action**: `perform_scientific_odb_comparison_against_pre2_reference_and_prepare_f43rem3_native`
+
+---
+
 ## F43PRE3-R3 Robust PBS Working-Directory Contract & Fail-Closed Governance Qualification (2026-08-08)
 
 Completed task `F43PRE3-R3`: Robust PBS working-directory contract implementation, failed-job 1385460 governance correction, unit test suite creation, and full 530-test Linux-Git detached qualification:
