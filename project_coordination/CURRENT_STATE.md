@@ -1,6 +1,37 @@
 # Current project state
 
+## F43REM3_NATIVE Guarded HPC Submission 1385552 Execution Closeout (2026-08-08)
+
+Executed authorized single guarded HPC replacement submission of `F43REM3_NATIVE` job `1385552.mmaster02` on TU Freiberg HPC cluster upon explicit human authorization:
+- **Task ID**: `F43REM3_NATIVE_REPLACEMENT_EXECUTION`
+- **Status**: `complete_failed` (`f43rem3_native_cae_assembly_remesh_attribute_error`)
+- **Queue**: `entry_imfdfkmq` (routed to `normal_imfdfkmq`)
+- **Preparation Commit ($P$)**: `P43REM3-R8FWD1` (`76cdcfce5c95601c390040112286680adac571d5`)
+- **Qualification Commit ($Q$)**: `Q43REM3-R8FWD2` (`9dcb261a8ef131804c86720fefcbeee0c1fe699d`)
+- **Authorization Commit**: `4aa4b24f4ac0e0acc9f9579a879421a7fd8ab301`
+- **Guarded Submission Execution**:
+  - `qsub` executed cleanly via `submit_f43rem3_native.sh`.
+  - Job `1385552.mmaster02` ran on compute node `mnode098/0`.
+- **Empirical Failure Diagnosis**:
+  - Pre-execution file integrity, source CAE SHA256 (`0d5b32...`), predecessor ODB SHA256 (`9a5262...`), and runtime work-copy creation passed cleanly.
+  - Abaqus/CAE kernel exited with status `1`.
+  - Log Error: `AttributeError: 'Assembly' object has no attribute 'remesh'` at `remesh_mode_ii_native_cae.py:297`.
+  - **Root Cause**: `m.rootAssembly.remesh(...)` in `remesh_mode_ii_native_cae.py` line 297 is not a valid method on Abaqus `Assembly` in Abaqus/CAE 2023. In Abaqus CAE Python API, native adaptive remeshing execution requires `AdaptivityProcess` or `RemeshingRule` execution methods.
+- **Authority Boundary Reset**:
+  - Authorized submission attempt `1385552.mmaster02` is **strictly consumed**.
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `replacement_authorized`: `false`
+  - `maximum_jobs_now`: 0
+  - `maximum_future_submissions`: 0
+  - `automatic_retry`: `false`
+  - `HPC_submissions`: 1 (consumed)
+- **Next Action**: Awaiting explicit direct human decision in chat.
+
+---
+
 ## F43REM3_NATIVE Guarded HPC Submission 1385473 Execution Closeout & Deterministic StepName Repair (2026-08-08)
+
 
 Executed authorized single guarded HPC replacement submission of `F43REM3_NATIVE` job `1385473.mmaster02` on TU Freiberg HPC cluster upon explicit human authorization:
 - **Task ID**: `F43REM3_NATIVE` / `F43REM3_NATIVE_REPLACEMENT_SUBMISSION`

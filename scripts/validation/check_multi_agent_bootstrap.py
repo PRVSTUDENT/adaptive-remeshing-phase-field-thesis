@@ -169,8 +169,13 @@ ALLOWED_TASK_IDS = frozenset(
         "F43REM2-R3-LQ1",
         "F43REM2-R3-LQ2",
         "F43REM2-R3-LQ3",
+        "F43REM3_NATIVE_REPLACEMENT_EXECUTION",
+        "F43REM3-R8",
+        "F43REM3-R8FWD1",
+        "F43REM3-R8FWD2",
     }
 )
+
 
 
 
