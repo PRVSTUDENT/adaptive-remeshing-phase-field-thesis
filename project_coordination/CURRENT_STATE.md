@@ -1,12 +1,13 @@
 # Current project state
 
-## F43REM4-SUB1 Three-Job Remesh Sensitivity Batch Explicit Human Authorization & Guarded HPC Submission (2026-08-08)
+## F43REM4-SUB1 Three-Job Remesh Sensitivity Batch Guarded HPC Submission Complete (2026-08-08)
 
-Task `F43REM4-SUB1`: Received explicit human authorization for 3 guarded HPC submissions (`F43REM4_PK1`, `F43REM4_PK5`, `F43REM4_MM`) at preparation commit $P_{43\text{REM4-BATCH1-FINAL1}}$ (`23824ab66fd34e9e802a0d586080485e177c7585`) and qualification commit $Q_{43\text{REM4-BATCH1-FINAL1}}$ (`a6a8647f235411b5d8aceda4e79b762439fd2c81`):
+Task `F43REM4-SUB1`: Received explicit human authorization, recorded authorization commit (`137e34cf0e7f9763a3f38210459417119e4ebf58`), created tag `F43REM4_BATCH_AUTH1`, fast-forward synchronized all clones (`local_main` = `origin_main` = `HPC_main`), performed common cluster preflight checks (`PASS`), and submitted all 3 authorized independent jobs together to PBS on `tu_freiberg`:
 - **Task ID**: `F43REM4-SUB1`
-- **Status**: `in_progress` (`f43rem4_batch_authorized_submitting`)
+- **Status**: `in_progress` (`f43rem4_batch_authorized_submitted`)
 - **Preparation Commit ($P_{43\text{REM4-BATCH1-FINAL1}}$)**: `23824ab66fd34e9e802a0d586080485e177c7585` (`P43REM4-BATCH1-FINAL1`)
 - **Qualification Commit ($Q_{43\text{REM4-BATCH1-FINAL1}}$)**: `a6a8647f235411b5d8aceda4e79b762439fd2c81` (`Q43REM4-BATCH1-FINAL1`)
+- **Authorization Commit ($A_{43\text{REM4_BATCH_AUTH1}}$)**: `137e34cf0e7f9763a3f38210459417119e4ebf58` (`F43REM4_BATCH_AUTH1`)
 - **Human Authorization Record**:
   - `human_authorization_timestamp`: `2026-08-08T11:24:34+02:00`
   - `execution_authorized`: **`true`**
@@ -15,14 +16,15 @@ Task `F43REM4-SUB1`: Received explicit human authorization for 3 guarded HPC sub
   - `maximum_jobs_authorized`: **3**
   - `scheduler_concurrency_limit`: **2** (max 2 running simultaneously, 3rd queued)
   - `automatic_retry`: **`false`**
-- **Authorized Jobs**:
-  1. `F43REM4_PK1`: `errorTarget = 1.0`, `refinementFactor = 10`, `minElementSize = 0.0075`, `maxElementSize = 0.03`
-  2. `F43REM4_PK5`: `errorTarget = 5.0`, `refinementFactor = 10`, `minElementSize = 0.0075`, `maxElementSize = 0.03`
-  3. `F43REM4_MM`: `maxSolutionErrorTarget = 5.0`, `minSolutionErrorTarget = 1.0`, `meshBias = 1`, `minElementSize = 0.0075`, `maxElementSize = 0.03`
-- **Resources per job**: 1 CPU, 8 GB, 30 min, queue `entry_imfdfkmq`.
-- **Next Action**: Commit authorization record, tag `F43REM4_BATCH_AUTH1`, push to `origin`, fast-forward HPC clone, and submit guarded 3-job batch on `tu_freiberg`.
+- **Submitted Jobs**:
+  1. `F43REM4_PK1` -> Job ID **`1385556.mmaster02`** (`errorTarget = 1.0`, `refinementFactor = 10`, `minElementSize = 0.0075`, `maxElementSize = 0.03`)
+  2. `F43REM4_PK5` -> Job ID **`1385557.mmaster02`** (`errorTarget = 5.0`, `refinementFactor = 10`, `minElementSize = 0.0075`, `maxElementSize = 0.03`)
+  3. `F43REM4_MM` -> Job ID **`1385558.mmaster02`** (`maxSolutionErrorTarget = 5.0`, `minSolutionErrorTarget = 1.0`, `meshBias = 1`, `minElementSize = 0.0075`, `maxElementSize = 0.03`)
+- **Live Scheduler Status (`qstat -u pr21vyci`)**: All 3 jobs active in queue (`1385556` running/R, `1385557` running/R, `1385558` queued/R).
+- **Next Action**: Monitor job execution and collect evidence upon batch completion.
 
 ---
+
 
 
 
