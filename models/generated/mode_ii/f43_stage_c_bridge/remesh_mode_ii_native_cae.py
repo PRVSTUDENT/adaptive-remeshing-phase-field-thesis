@@ -222,28 +222,17 @@ def execute_native_remeshing():
         return
 
     if is_rule_probe_mode:
-        if rule_name in m.remeshingRules.keys():
-            del m.remeshingRules[rule_name]
-
-        import regionToolset
-        inst = m.rootAssembly.instances[inst_name]
-        if hasattr(inst, 'faces') and len(inst.faces) > 0:
-            rule_region = regionToolset.Region(faces=inst.faces)
-        elif hasattr(inst, 'elements') and len(inst.elements) > 0:
-            rule_region = regionToolset.Region(elements=inst.elements)
-        else:
-            rule_region = (inst,)
-
-        m.RemeshingRule(
-            name=rule_name,
-            stepName=step_name,
-            variables=('MISESERI',),
-            description="Stage C MISESERI Native Adaptive Remeshing Rule",
-            region=rule_region,
-            errorTarget=remesh_params["error_target"],
-            minElementSize=remesh_params["min_element_size_mm"],
-            maxElementSize=remesh_params["max_element_size_mm"]
-        )
+        if rule_name not in m.remeshingRules.keys():
+            m.RemeshingRule(
+                name=rule_name,
+                stepName=step_name,
+                variables=('MISESERI',),
+                description="Stage C MISESERI Native Adaptive Remeshing Rule",
+                region=MODEL,
+                errorTarget=remesh_params["error_target"],
+                minElementSize=remesh_params["min_element_size_mm"],
+                maxElementSize=remesh_params["max_element_size_mm"]
+            )
 
         remeshing_rule_constructed = (rule_name in m.remeshingRules.keys())
         rule_obj = m.remeshingRules[rule_name]
@@ -351,30 +340,20 @@ def execute_native_remeshing():
         print("[PASS] Abaqus CAE Kernel Probe Completed Successfully.")
         return
 
-    if rule_name in m.remeshingRules.keys():
-        del m.remeshingRules[rule_name]
+    if rule_name not in m.remeshingRules.keys():
+        m.RemeshingRule(
+            name=rule_name,
+            stepName=step_name,
+            variables=('MISESERI',),
+            description="Stage C MISESERI Native Adaptive Remeshing Rule",
+            region=MODEL,
+            errorTarget=remesh_params["error_target"],
+            minElementSize=remesh_params["min_element_size_mm"],
+            maxElementSize=remesh_params["max_element_size_mm"]
+        )
 
-    import regionToolset
-    inst = m.rootAssembly.instances[inst_name]
-    if hasattr(inst, 'faces') and len(inst.faces) > 0:
-        rule_region = regionToolset.Region(faces=inst.faces)
-    elif hasattr(inst, 'elements') and len(inst.elements) > 0:
-        rule_region = regionToolset.Region(elements=inst.elements)
-    else:
-        rule_region = (inst,)
+    print("[F43 Native Remesh] Verified remeshing rule with region=MODEL: {}".format(rule_name))
 
-    m.RemeshingRule(
-        name=rule_name,
-        stepName=step_name,
-        variables=('MISESERI',),
-        description="Stage C MISESERI Native Adaptive Remeshing Rule",
-        region=rule_region,
-        errorTarget=remesh_params["error_target"],
-        minElementSize=remesh_params["min_element_size_mm"],
-        maxElementSize=remesh_params["max_element_size_mm"]
-    )
-
-    print("[F43 Native Remesh] Created remeshing rule: {}".format(rule_name))
 
     # Fail-closed preconditions immediately before adaptiveRemesh
     if not hasattr(m, 'adaptiveRemesh'):
