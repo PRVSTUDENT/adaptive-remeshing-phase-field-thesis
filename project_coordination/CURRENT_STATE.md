@@ -1,6 +1,37 @@
 # Current project state
 
+## F43REM3_NATIVE Guarded HPC Submission 1385553 Execution Closeout (2026-08-08)
+
+Executed authorized single guarded HPC replacement submission of `F43REM3_NATIVE` job `1385553.mmaster02` on TU Freiberg HPC cluster upon explicit human authorization:
+- **Task ID**: `F43REM3_NATIVE_EXECUTION`
+- **Status**: `complete_failed` (`f43rem3_native_cae_remeshing_rule_odb_region_set_missing_error`)
+- **Queue**: `entry_imfdfkmq` (routed to `normal_imfdfkmq`)
+- **Preparation Commit ($P$)**: `P43REM3-R9` (`8d23e78f9c0c3a812df08bf5bfcf471fecfb8835`)
+- **Qualification Commit ($Q$)**: `Q43REM3-R9` (`46898642055ce8c005391d1e434cd6d729a67dd4`)
+- **Authorization Commit**: `3bdf8044d03e9ff76f1406e12e3aa9e1c3132e4d`
+- **Guarded Submission Execution**:
+  - `qsub` executed cleanly via `submit_f43rem3_native.sh`.
+  - Job `1385553.mmaster02` ran on compute node `mnode098/0`.
+- **Empirical Execution & Log Diagnosis**:
+  - Pre-execution file integrity, source CAE SHA256 (`0d5b32...`), predecessor ODB SHA256 (`9a5262...`), and runtime work-copy creation passed cleanly.
+  - Abaqus/CAE kernel successfully entered `m.adaptiveRemesh(odb)` at `remesh_mode_ii_native_cae.py:408`.
+  - Log Error: `Sets corresponding to the active remeshing rules cannot be found in the specified ODB.`
+  - **Root Cause**: Abaqus CAE manual remeshing engine requires the `RemeshingRule` region to correspond directly to an element set present in the predecessor ODB. In CAE model `m`, passing `regionToolset.Region(faces=inst.faces)` created a CAE geometry region that did not match an existing element set in `F43PRE3_GEOM.odb`.
+- **Authority Boundary Reset**:
+  - Authorized submission attempt `1385553.mmaster02` is **strictly consumed**.
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `replacement_authorized`: `false`
+  - `maximum_jobs_now`: 0
+  - `maximum_future_submissions`: 0
+  - `automatic_retry`: `false`
+  - `HPC_submissions`: 1 (consumed)
+- **Next Action**: Awaiting explicit direct human decision in chat.
+
+---
+
 ## F43REM3-R9 Abaqus 2023 Model.adaptiveRemesh API Verification & Qualification (2026-08-08)
+
 
 Completed task `F43REM3-R9` to verify and integrate the exact Abaqus 2023 `Model.adaptiveRemesh(odb)` API method:
 - **Task ID**: `F43REM3-R9`

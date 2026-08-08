@@ -1,0 +1,66 @@
+Job Id: 1385553.mmaster02
+    Job_Name = F43REM3_NATIVE
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 55
+    resources_used.cput = 00:00:01
+    resources_used.mem = 79616kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 0kb
+    resources_used.walltime = 00:00:03
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Sat Aug  8 09:35:27 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/mo
+	dels/generated/mode_ii/f43_stage_c_bridge/F43REM3_NATIVE.e1385553
+    exec_host = mnode098/0
+    exec_vnode = (mnode098[0]:ncpus=1:mem=8388608kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de,
+	Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+    mtime = Sat Aug  8 09:35:37 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/m
+	odels/generated/mode_ii/f43_stage_c_bridge/F43REM3_NATIVE.log
+    Priority = 0
+    qtime = Sat Aug  8 09:35:28 2026
+    Rerunable = True
+    Resource_List.mem = 8gb
+    Resource_List.mpiprocs = 1
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mpiprocs=1:mem=8gb:ompthreads=1
+    Resource_List.walltime = 00:30:00
+    stime = Sat Aug  8 09:35:28 2026
+    obittime = Sat Aug  8 09:35:36 2026
+    session_id = 555978
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1385553.mmaster02.x8z
+    substate = 93
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing/models/genera
+	ted/mode_ii/f43_stage_c_bridge,PBS_O_SYSTEM=Linux,
+	PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Sat Aug 08 at 09:35 on (mnode098[0]:ncpus=1:mem=838860
+	8kb) and failed
+    etime = Sat Aug  8 09:35:28 2026
+    run_count = 1
+    eligible_time = 00:00:04
+    Stageout_status = 1
+    Exit_status = 1
+    Submit_arguments = -m abe -M pr21vyci@mailserver.tu-freiberg.de,
+	Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de /home/pr21vyci/pr
+	ojects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/F
+	43REM3_NATIVE.pbs
+    history_timestamp = 1786174537
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+
