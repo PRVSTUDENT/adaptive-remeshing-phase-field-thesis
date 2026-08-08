@@ -1,8 +1,8 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM3-R4",
-  "qualification_target_P": "b03fa144d2aeabf30b48df52b5825a10a41afef2",
-  "detached_HEAD": "b03fa144d2aeabf30b48df52b5825a10a41afef2",
+  "task_id": "F43REM3-R5",
+  "qualification_target_P": "e6b38e88fc5ab84838ace12f901f9cac7750c6cc",
+  "detached_HEAD": "e6b38e88fc5ab84838ace12f901f9cac7750c6cc",
   "detached_HEAD_matches_P": true,
   "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
   "source_cae_path": "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae",
@@ -10,7 +10,14 @@
   "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
   "reference_pre2_job_id": "1385392.mmaster02",
   "reference_pre2_odb_sha256": "85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72",
-  "PRE3_scientific_classification": "provisional_pass",
+  "terminal_attempt_recorded": {
+    "job_id": "1385466.mmaster02",
+    "exit_status": 1,
+    "classification": "f43rem3_native_cae_file_variable_undefined_error",
+    "root_cause": "NameError: global name '__file__' is not defined in Abaqus CAE noGUI execfile mode",
+    "repair": "Robust script_dir fallback: os.path.dirname(os.path.abspath(__file__)) if '__file__' in globals() else os.getcwd()",
+    "authority_consumed": true
+  },
   "scientific_review_audit": {
     "reaction_force_definition_corrected": true,
     "previous_SCI1_double_counted_RF": true,
@@ -37,7 +44,7 @@
     "remesh_passes": 1,
     "resolution_ratio_hmin_over_l0": 0.5
   },
-  "full_test_count": 551,
+  "full_test_count": 553,
   "test_failures": 0,
   "test_errors": 0,
   "test_skips": 0,
@@ -53,5 +60,5 @@
     "qsub_called": false,
     "HPC_submissions": 0
   },
-  "classification": "f43rem3_native_offline_prepared_and_qualified_not_authorized"
+  "classification": "f43rem3_native_repaired_and_qualified_not_authorized"
 }

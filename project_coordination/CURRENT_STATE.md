@@ -1,5 +1,38 @@
 # Current project state
 
+## F43REM3-R5 Guarded HPC Closeout & Deterministic __file__ Repair (2026-08-08)
+
+Completed task `F43REM3-R5`: Remote submission and terminal closeout of authorized single job `1385466.mmaster02`, root cause diagnosis of Abaqus/CAE headless execution `NameError: global name '__file__' is not defined`, implementation of minimal deterministic script_dir repair in `remesh_mode_ii_native_cae.py`, creation of preparation commit $P_{43\text{REM3-R5}}$ (`e6b38e88fc5ab84838ace12f901f9cac7750c6cc`), and full 553-test Linux-Git detached qualification $Q_{43\text{REM3-R5}}$:
+- **Task ID**: `F43REM3_NATIVE_EXECUTION_AND_EVIDENCE_CLOSEOUT` / `F43REM3-R5`
+- **Status**: `complete` (`f43rem3_native_repaired_and_qualified_not_authorized`)
+- **Preparation Tag ($P$)**: `P43REM3-R5` (`e6b38e88fc5ab84838ace12f901f9cac7750c6cc`)
+- **Qualification Target**: `e6b38e88fc5ab84838ace12f901f9cac7750c6cc`
+- **Guarded HPC Execution Evidence (`1385466.mmaster02`)**:
+  - **Job ID**: `1385466.mmaster02` (`F43REM3_NATIVE`) on `mnode098[0]`.
+  - **Exit Status**: `1` (`f43rem3_native_cae_file_variable_undefined_error`).
+  - **Error Captured**: `NameError: global name '__file__' is not defined` at `remesh_mode_ii_native_cae.py:25` during `abaqus cae noGUI=...` execfile startup.
+  - **Evidence Directory**: `models/generated/mode_ii/f43_stage_c_bridge/evidence/1385466.mmaster02/` (`execution.log`, manifest, acceptance criteria).
+- **Minimal Deterministic Local Repair**:
+  - `script_dir` resolved via `os.path.dirname(os.path.abspath(__file__)) if '__file__' in globals() and __file__ else os.getcwd()`.
+  - Explicit `from abaqusConstants import OFF` imported.
+- **Detached Qualification Result ($Q_{43\text{REM3-R5}}$)**:
+  - Linux-Git detached worktree at exact $P_{43\text{REM3-R5}}$ (`e6b38e88fc5ab84838ace12f901f9cac7750c6cc`) with `core.autocrlf=false`.
+  - Full discovery unit tests: **553 passed** in 18.07s (`OK`). 0 failures, 0 errors, 0 skips.
+  - Static package validator: `overall_passed = true`.
+  - Natural worktree cleanliness: 100% clean (`git diff --exit-code`: 0).
+- **Authority Boundary Reset**:
+  - One-submission authorization for `1385466.mmaster02` is **strictly consumed**.
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `maximum_future_submissions`: 0
+  - `automatic_retry`: `false`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: 0
+- **Next Action**: `fresh_direct_human_authorization_for_exactly_one_replacement_F43REM3_NATIVE_submission`
+
+---
+
 ## F43REM3-R4 Reaction-Force Audit & Remesh Configuration Reconciliation (2026-08-08)
 
 Completed task `F43REM3-R4` / `F43PRE3-SCI2`: Physical reaction-force extraction audit, equilibrium verification ($|R_{\text{top}} + R_{\text{bottom}}| \approx 0$), remeshing parameter reconciliation (`DISALLOW_COARSENING`, `remesh_passes = 1`), creation of preparation commit $P_{43\text{REM3-R4}}$ (`b03fa144d2aeabf30b48df52b5825a10a41afef2`), and full 551-test Linux-Git detached qualification $Q_{43\text{REM3-R4}}$:
