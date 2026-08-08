@@ -1,5 +1,36 @@
 # Current project state
 
+## F43PRE3-R4 Notification Pipeline Audit, Wiring, Login-Node Smoke Test, and Requalification (2026-08-08)
+
+Completed task `F43PRE3-R4`: Notification pipeline audit, wiring config to PBS directives and wrapper script, login-node smoke test verification, and full Linux-Git 533-test detached qualification:
+- **Task ID**: `F43PRE3-R4`
+- **Status**: `complete` (`f43pre3_r4_notification_pipeline_qualified_not_authorized`)
+- **Preparation Tag ($P_{R4}$)**: `P43PRE3-R4` (`cc333837f18007d43ababfb121d74cdeaef19965`)
+- **Qualification Tag ($Q_{R4}$)**: `Q43PRE3-R4` (`cc333837f18007d43ababfb121d74cdeaef19965`)
+- **Notification Pipeline Audit & Wiring**:
+  - Secure config verified at `~/.config/adaptive-remeshing/notifications.json` with 2 email recipients (`pr21vyci@mailserver.tu-freiberg.de` and `Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de`) and Telegram credentials.
+  - Executed login-node smoke test directly to Telegram and Email:
+    ```text
+    Adaptive-remeshing notification test:
+    login-node notification channel verified.
+    No HPC job submitted.
+    ```
+  - Added `#PBS -m abe` and `#PBS -M ...` to `F43PRE3_GEOM.pbs` and `qsub -m abe -M ...` to `submit_f43pre3_geom.sh`.
+  - Added immediate post-`qsub` scheduler mail verification (`qstat -f "$job_id" | grep -E "Mail_Users|Mail_Points"`).
+  - Wired submission and terminal notification dispatchers (`notify_hpc_event.py`).
+- **Detached Qualification Result**:
+  - Full discovery unit tests: 533 tests passed (`OK`).
+  - Static runtime validator: `overall_passed: true`.
+  - Notification pipeline validator: 12/12 criteria passed (`overall_passed: true`).
+  - Worktree status: 0 modified files, clean (`PASS`).
+- **Authority Boundary Reset**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+- **Next Action**: `perform_scientific_odb_comparison_against_pre2_reference_and_prepare_f43rem3_native_offline_package`
+
+---
+
 ## F43PRE3_GEOM Replacement Guarded Remote HPC Submission 1385461 Execution Closeout (2026-08-08)
 
 Executed authorized guarded replacement remote HPC submission of `F43PRE3_GEOM` job `1385461.mmaster02` on cluster `tu_freiberg` upon explicit human authorization:

@@ -1,14 +1,14 @@
 {
   "protocol_version": 1,
-  "task_id": "F43PRE3_GEOM",
-  "status": "complete_pass",
-  "classification": "f43pre3_geom_preanalysis_solver_pass",
+  "task_id": "F43PRE3-R4",
+  "status": "complete",
+  "classification": "f43pre3_r4_notification_pipeline_qualified_not_authorized",
   "predecessor_identity_classification": "existing_1385392_lineage_numerical_reference_only",
-  "governance_classification": "f43rem3_native_blocked_pending_pre3_scientific_review",
-  "scientific_classification": "abaqus2023_native_preanalysis_solver_completed",
-  "starting_commit": "86258ddbed9093bc77c646dcaa1820c5cdb347f2",
-  "preparation_commit": "b98ff859539e023f808926c6578c3d57a94c72c2",
-  "qualification_commit": "6fdf2d98398f34b09c721d9256d309de127ad095",
+  "governance_classification": "f43pre3_r4_qualified_not_authorized",
+  "scientific_classification": "notification_pipeline_wired_and_re-qualified",
+  "starting_commit": "dfd67abf8b78406269dad1695d8520330cae15dc",
+  "preparation_commit": "cc333837f18007d43ababfb121d74cdeaef19965",
+  "qualification_commit": "cc333837f18007d43ababfb121d74cdeaef19965",
   "submitted_job_id": "1385461.mmaster02",
   "execution_authorized": false,
   "submission_approved": false,
@@ -21,5 +21,5 @@
   "pre2_reference_input_sha256": "1f16f8525a7e627b90bd4958f8701a418d0ac2960654787853b2688f8fda75dd",
   "continuum_semantic_identity": "PASS",
   "mesh_difference_classification": "accepted_discretization_difference_between_Abaqus2024_and_Abaqus2023_lineages",
-  "next_action": "perform_scientific_odb_comparison_against_pre2_reference_and_prepare_f43rem3_native"
+  "next_action": "perform_scientific_odb_comparison_against_pre2_reference_and_prepare_f43rem3_native_offline_package"
 }
