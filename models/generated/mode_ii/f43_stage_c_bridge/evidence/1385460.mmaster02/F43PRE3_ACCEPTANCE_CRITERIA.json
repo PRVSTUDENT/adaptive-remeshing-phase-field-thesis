@@ -1,0 +1,28 @@
+{
+  "protocol_version": 1,
+  "task_id": "F43PRE3_GEOM",
+  "solver_acceptance_criteria": {
+    "abaqus_exit_code_must_equal": 0,
+    "target_displacement_mm": 0.001,
+    "required_field_outputs": [
+      "S",
+      "MISESERI",
+      "MISESAVG",
+      "EVOL",
+      "U",
+      "RF"
+    ],
+    "miseseri_checks": {
+      "must_be_finite": true,
+      "must_be_nontrivial": true,
+      "min_nontrivial_max_value": 0.001
+    },
+    "reference_comparison": {
+      "reference_job_id": "1385392.mmaster02",
+      "reference_odb_sha256": "85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72",
+      "reference_role": "numerical_comparison_reference_only",
+      "expected_reaction_force_N_approx": 46.12937,
+      "scalar_curve_working_tolerance_pct": 5.0
+    }
+  }
+}

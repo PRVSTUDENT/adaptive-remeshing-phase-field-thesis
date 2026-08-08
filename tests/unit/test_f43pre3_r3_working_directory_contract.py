@@ -95,8 +95,10 @@ echo "Job ID Username Queue Jobname SessID NDS TSK Memory Time S Time"
         self.assertEqual(os.path.realpath(recorded_pwd), os.path.realpath(PACKAGE_DIR))
 
     def test_C_pbs_presolver_shell_portion_with_valid_pbs_o_workdir(self):
-        # Test pre-solver portion of F43PRE3_GEOM.pbs
-        # Mock abaqus command to verify prechecks pass before solver invocation
+        # Create isolated mock package directory in temp_dir to avoid dirtying tracked repo
+        mock_pkg = os.path.join(self.temp_dir, "mock_pkg")
+        shutil.copytree(PACKAGE_DIR, mock_pkg)
+
         fake_abaqus = os.path.join(self.fake_bin_dir, "abaqus")
         with open(fake_abaqus, "w") as f:
             f.write("""#!/bin/bash
@@ -105,10 +107,6 @@ exit 0
 """)
         os.chmod(fake_abaqus, 0o755)
 
-        # Mock sha256sum if not in environment
-
-
-        # Mock module command
         fake_module = os.path.join(self.fake_bin_dir, "module")
         with open(fake_module, "w") as f:
             f.write("""#!/bin/bash
@@ -117,12 +115,12 @@ echo "Module command mock"
         os.chmod(fake_module, 0o755)
 
         pbs_env = self.env.copy()
-        pbs_env["PBS_O_WORKDIR"] = PACKAGE_DIR
+        pbs_env["PBS_O_WORKDIR"] = mock_pkg
         pbs_env["PBS_JOBID"] = "1385999.mmaster02"
 
         res = subprocess.run(
-            ["bash", PBS_PATH],
-            cwd=self.temp_dir, # Run script from unrelated CWD, rely on PBS_O_WORKDIR
+            ["bash", os.path.join(mock_pkg, "F43PRE3_GEOM.pbs")],
+            cwd=self.temp_dir,
             env=pbs_env,
             capture_output=True,
             text=True
@@ -132,13 +130,15 @@ echo "Module command mock"
         self.assertIn("10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee", res.stdout)
 
     def test_D_pbs_script_executed_from_scheduler_spool_directory(self):
-        # Create a fake scheduler spool directory
+        # Create isolated mock package directory in temp_dir
+        mock_pkg = os.path.join(self.temp_dir, "mock_pkg_spool")
+        shutil.copytree(PACKAGE_DIR, mock_pkg)
+
         spool_dir = os.path.join(self.temp_dir, "var", "spool", "pbs", "spool")
         os.makedirs(spool_dir, exist_ok=True)
         spool_pbs = os.path.join(spool_dir, "1385460.OU")
-        shutil.copy(PBS_PATH, spool_pbs)
+        shutil.copy(os.path.join(mock_pkg, "F43PRE3_GEOM.pbs"), spool_pbs)
 
-        # Mock abaqus
         fake_abaqus = os.path.join(self.fake_bin_dir, "abaqus")
         with open(fake_abaqus, "w") as f:
             f.write("""#!/bin/bash
@@ -146,8 +146,6 @@ touch F43PRE3_GEOM.odb
 exit 0
 """)
         os.chmod(fake_abaqus, 0o755)
-
-
 
         fake_module = os.path.join(self.fake_bin_dir, "module")
         with open(fake_module, "w") as f:
@@ -157,10 +155,9 @@ echo "Module command mock"
         os.chmod(fake_module, 0o755)
 
         pbs_env = self.env.copy()
-        pbs_env["PBS_O_WORKDIR"] = PACKAGE_DIR
+        pbs_env["PBS_O_WORKDIR"] = mock_pkg
         pbs_env["PBS_JOBID"] = "1385460.mmaster02"
 
-        # Execute spooled PBS copy directly from spool directory
         res = subprocess.run(
             ["bash", spool_pbs],
             cwd=spool_dir,
@@ -170,7 +167,8 @@ echo "Module command mock"
         )
         self.assertEqual(res.returncode, 0, f"Spooled PBS script failed: {res.stdout}\n{res.stderr}")
         self.assertIn("PBS_SPOOL_DIR =", res.stdout)
-        self.assertIn(os.path.realpath(PACKAGE_DIR), res.stdout)
+        self.assertIn(os.path.realpath(mock_pkg), res.stdout)
+
 
     def test_E_historical_1385460_failure_mode_prevention(self):
         # Verify that running PBS without changing directory to PACKAGE_DIR fails if PBS_O_WORKDIR points to repo root
