@@ -8,12 +8,53 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "${SCRIPT_DIR}"
+: "${PBS_O_WORKDIR:?PBS_O_WORKDIR is required}"
+WORKDIR="${PBS_O_WORKDIR}"
+
+cd "${WORKDIR}" || exit 1
+if [ "$(pwd)" != "${WORKDIR}" ]; then
+    echo "FATAL ERROR: Failed to navigate to PBS_O_WORKDIR=${WORKDIR}" >&2
+    exit 1
+fi
 
 echo "[F43PRE3_GEOM] Starting Abaqus 2023 preanalysis job at $(date)"
 echo "[F43PRE3_GEOM] PBS_JOBID: ${PBS_JOBID:-local}"
-echo "[F43PRE3_GEOM] Workdir: ${SCRIPT_DIR}"
+echo "[F43PRE3_GEOM] working_directory = ${WORKDIR}"
+
+# Optional diagnostic log of script source (do not rely on for package location)
+SPOOL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "[F43PRE3_GEOM] PBS_SPOOL_DIR = ${SPOOL_DIR} (diagnostic only, package anchor is PBS_O_WORKDIR)"
+
+# Pre-solver fail-closed package checks
+EXPECTED_INPUT_SHA="10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee"
+EXPECTED_CAE_SHA="0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa"
+EXTERNAL_CAE_PATH="/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae"
+
+if [ ! -f "${WORKDIR}/F43PRE3_GEOM.inp" ]; then
+    echo "FATAL ERROR: F43PRE3_GEOM.inp missing in ${WORKDIR}" >&2
+    exit 1
+fi
+
+if [ ! -f "${WORKDIR}/collect_f43pre3_geom_evidence.sh" ]; then
+    echo "FATAL ERROR: collect_f43pre3_geom_evidence.sh missing in ${WORKDIR}" >&2
+    exit 1
+fi
+
+ACTUAL_INPUT_SHA=$(sha256sum "${WORKDIR}/F43PRE3_GEOM.inp" | awk '{print $1}')
+echo "[F43PRE3_GEOM] input_SHA = ${ACTUAL_INPUT_SHA}"
+if [ "${ACTUAL_INPUT_SHA}" != "${EXPECTED_INPUT_SHA}" ]; then
+    echo "FATAL ERROR: Input deck SHA mismatch! Expected ${EXPECTED_INPUT_SHA}, got ${ACTUAL_INPUT_SHA}" >&2
+    exit 1
+fi
+
+if [ -f "${EXTERNAL_CAE_PATH}" ]; then
+    ACTUAL_CAE_SHA=$(sha256sum "${EXTERNAL_CAE_PATH}" | awk '{print $1}')
+    echo "[F43PRE3_GEOM] CAE_SHA = ${ACTUAL_CAE_SHA}"
+    if [ "${ACTUAL_CAE_SHA}" != "${EXPECTED_CAE_SHA}" ]; then
+        echo "FATAL ERROR: External CAE SHA mismatch! Expected ${EXPECTED_CAE_SHA}, got ${ACTUAL_CAE_SHA}" >&2
+        exit 1
+    fi
+fi
 
 module purge
 module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
@@ -21,16 +62,9 @@ module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
 echo "[F43PRE3_GEOM] Loaded modules:"
 module list
 
-if [ ! -f "F43PRE3_GEOM.inp" ]; then
-    echo "[F43PRE3_GEOM] FATAL ERROR: F43PRE3_GEOM.inp input deck missing!" >&2
-    exit 1
-fi
-
-echo "[F43PRE3_GEOM] Input deck SHA256:"
-sha256sum F43PRE3_GEOM.inp
-
 rm -f F43PRE3_GEOM.lock F43PRE3_GEOM.odb F43PRE3_GEOM.sta F43PRE3_GEOM.msg F43PRE3_GEOM.dat
 
+solver_rc=0
 set +e
 abaqus job=F43PRE3_GEOM input=F43PRE3_GEOM.inp interactive
 solver_rc=$?
@@ -38,20 +72,30 @@ set -e
 
 echo "[F43PRE3_GEOM] Abaqus solver finished with exit status ${solver_rc} at $(date)"
 
-bash collect_f43pre3_geom_evidence.sh "${PBS_JOBID:-local}"
+collector_rc=0
+set +e
+bash "${WORKDIR}/collect_f43pre3_geom_evidence.sh" "${PBS_JOBID:-local}"
+collector_rc=$?
+set -e
+
+echo "[F43PRE3_GEOM] Collector finished with exit status ${collector_rc} at $(date)"
 
 if [ ${solver_rc} -ne 0 ]; then
-    echo "[F43PRE3_GEOM] FATAL ERROR: Abaqus solver exited with non-zero status ${solver_rc}" >&2
+    echo "FATAL ERROR: Abaqus solver exited with status ${solver_rc}" >&2
     exit ${solver_rc}
 fi
 
 if [ ! -f "F43PRE3_GEOM.odb" ]; then
-    echo "[F43PRE3_GEOM] FATAL ERROR: Output F43PRE3_GEOM.odb not generated!" >&2
+    echo "FATAL ERROR: Output F43PRE3_GEOM.odb not generated!" >&2
     exit 1
 fi
 
 echo "[F43PRE3_GEOM] Output ODB generated successfully. SHA256:"
 sha256sum F43PRE3_GEOM.odb
 
-echo "[F43PRE3_GEOM] Job completed successfully at $(date)"
+if [ ${collector_rc} -ne 0 ]; then
+    echo "FATAL ERROR: Collector failed with status ${collector_rc}" >&2
+    exit ${collector_rc}
+fi
 
+echo "[F43PRE3_GEOM] Job completed successfully at $(date)"

@@ -34,6 +34,14 @@ if [ "${REPLACEMENT_AUTHORIZED:-false}" = "true" ]; then
     exit 1
 fi
 
+# Verify local required files in SCRIPT_DIR
+for required_file in "F43PRE3_GEOM.inp" "F43PRE3_GEOM.pbs" "collect_f43pre3_geom_evidence.sh" "validate_f43pre3_geom_runtime.py"; do
+    if [ ! -f "${SCRIPT_DIR}/${required_file}" ]; then
+        echo "FATAL ERROR: Package file ${required_file} missing in ${SCRIPT_DIR}!" >&2
+        exit 1
+    fi
+done
+
 # Verify input deck SHA
 ACTUAL_INPUT_SHA=$(sha256sum "${SCRIPT_DIR}/F43PRE3_GEOM.inp" | awk '{print $1}')
 if [ "${ACTUAL_INPUT_SHA}" != "${EXPECTED_INPUT_SHA}" ]; then
@@ -63,11 +71,17 @@ fi
 
 echo "[F43PRE3 Wrapper] All pre-flight checks passed."
 
+cd "${SCRIPT_DIR}"
+if [ "$(pwd)" != "${SCRIPT_DIR}" ]; then
+    echo "FATAL ERROR: Failed to change working directory to ${SCRIPT_DIR}!" >&2
+    exit 1
+fi
+
 if [ "${DRY_RUN:-0}" -eq 1 ]; then
     echo "[F43PRE3 Wrapper] DRY_RUN=1: qsub call skipped."
     exit 0
 fi
 
-cd "${SCRIPT_DIR}"
 job_id=$(qsub "${SCRIPT_DIR}/F43PRE3_GEOM.pbs")
 echo "[F43PRE3 Wrapper] Submitted job ID: ${job_id}"
+
