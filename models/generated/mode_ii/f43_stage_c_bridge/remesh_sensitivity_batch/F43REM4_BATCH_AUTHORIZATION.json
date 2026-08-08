@@ -1,21 +1,40 @@
 {
   "protocol_version": 1,
   "batch_id": "F43REM4_SENSITIVITY_BATCH",
-  "status": "authorized",
+  "status": "unauthorized_awaiting_fresh_human_approval",
   "authorization_ready": true,
-  "execution_authorized": true,
-  "submission_approved": true,
-  "maximum_jobs_now": 3,
-  "maximum_jobs_authorized": 3,
+  "execution_authorized": false,
+  "submission_approved": false,
+  "maximum_jobs_now": 0,
+  "maximum_jobs_authorized": 0,
   "scheduler_concurrency_limit": 2,
   "automatic_retry": false,
   "replacement_authorized": false,
-  "preparation_sha256": "ee33659ed675f71485ef9162048f65c2f0ab8727",
-  "qualification_sha256": "213819583ca7b21d4810ec3366051a4afeb48157",
+  "preparation_sha256": "cd361ae6fae6a1c2673e23bfca92df362e76cfd8",
+  "preparation_tag": "P43REM4-BATCH5",
+  "qualification_tag": "Q43REM4-BATCH5",
   "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
   "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
-  "human_authorization_sentence": "I authorize exactly three guarded HPC submissions for the F43REM4 single-active-rule replacement sensitivity batch using preparation commit ee33659ed675f71485ef9162048f65c2f0ab8727 (P43REM4-BATCH4-FINAL3) and qualification commit 213819583ca7b21d4810ec3366051a4afeb48157 (Q43REM4-BATCH4-FINAL3), using source CAE /home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae with SHA256 0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa and predecessor ODB /home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/evidence/1385461.mmaster02/F43PRE3_GEOM.odb with SHA256 9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1. I authorize exactly these three independent jobs: F43REM4_PK1 using only F43REM4_PK1_ONLY_RULE with UNIFORM_ERROR, errorTarget=1.0, refinementFactor=10, minElementSize=0.0075 mm and maxElementSize=0.03 mm; F43REM4_PK5 using only F43REM4_PK5_ONLY_RULE with UNIFORM_ERROR, errorTarget=5.0, refinementFactor=10, minElementSize=0.0075 mm and maxElementSize=0.03 mm; and F43REM4_MM using only F43REM4_MM_ONLY_RULE with MINIMUM_MAXIMUM, maxSolutionErrorTarget=5.0, minSolutionErrorTarget=1.0, meshBias=1, minElementSize=0.0075 mm and maxElementSize=0.03 mm. Each job may use entry_imfdfkmq with 1 CPU, 8 GB memory and 30 minutes walltime. MAX_SUBMISSIONS=3 in total, with no more than two jobs running simultaneously and the third permitted to remain queued. No automatic retries, no replacement submissions beyond these three, no qmove, no qdel, no F43DRY1 submission, no refined phase-field production run, and no downstream job are authorized.",
-  "human_authorization_timestamp": "2026-08-08T18:05:00+02:00",
+  "human_authorization_sentence": "NONE_AWAITING_NEW_HUMAN_AUTHORIZATION",
+  "human_authorization_timestamp": null,
+  "qualification_results": {
+    "pbs_compute_node_spool_path_repair": "PASS",
+    "pbs_o_workdir_fail_closed_validation": "PASS",
+    "scheduler_concurrency_guard_afterany": "PASS",
+    "fake_qsub_offline_wrapper_test": "PASS",
+    "real_abaqus2023_pbs_context_preflights": {
+      "F43REM4_PK1": "PASS (rc=0, single active rule, expected paths)",
+      "F43REM4_PK5": "PASS (rc=0, single active rule, expected paths)",
+      "F43REM4_MM": "PASS (rc=0, single active rule, expected paths)"
+    },
+    "full_repository_unit_suite": {
+      "total_tests": 580,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "post_test_clean_worktree": true
+    }
+  },
   "jobs": [
     {
       "job_name": "F43REM4_PK1",
@@ -50,7 +69,7 @@
     {
       "job_name": "F43REM4_MM",
       "candidate_id": "F43REM4_MM",
-      "scientific_purpose": "Localization alternative using MINIMUM_MAXIMUM sizing method (meshBias=1) using single active rule F43REM4_MM_ONLY_RULE",
+      "scientific_purpose": "Minimum-maximum error sizing (max=5.0, min=1.0) using single active rule F43REM4_MM_ONLY_RULE",
       "model": "ModeII_Geometry_Model",
       "package_dir": "models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch",
       "config_file": "remesh_sensitivity_config_mm.json",
@@ -60,7 +79,9 @@
       "queue": "entry_imfdfkmq",
       "execution_mode": "abaqus_cae_nogui",
       "expected_output_deck": "F43REM4_MM.inp",
-      "dependencies": []
+      "dependencies": [
+        "-W depend=afterany:<JOB1_ID>"
+      ]
     }
   ]
 }
