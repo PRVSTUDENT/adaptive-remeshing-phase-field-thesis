@@ -1,32 +1,36 @@
 # Current project state
 
-## F43REM4-Q1 Three-Candidate Remesh Sensitivity Batch Freeze & Detached Qualification (2026-08-08)
+## F43REM4-Q3 Final Forward-Only Lineage Repair & Exact-Final-P Detached Qualification (2026-08-08)
 
-Completed task `F43REM4-Q1`: Corrected R3 historical provenance, frozen preparation package $P_{43\text{REM4-BATCH1}}$, verified integer rule argument types (`refinementFactor = 10`, `meshBias = 1`), performed exact-P real-kernel non-remesh probes in real Abaqus 2023 on HPC (`PASS` for PK1, PK5, MM), executed unit tests and detached qualification (`PASS`, worktree naturally clean), revised Gate C1 selection criteria, and recorded qualification commit $Q_{43\text{REM4-BATCH1}}$:
-- **Task ID**: `F43REM4-Q1`
+Completed task `F43REM4-Q3`: Audited main history integrity (`main_history_rewritten = false`, `main_history_integrity = PASS`), recorded prior governance force-tag deviation, verified zero execution-critical byte differences relative to preparation P (`23824ab66fd34e9e802a0d586080485e177c7585`), validated exact-P real Abaqus 2023 kernel probes on HPC (`PASS` for PK1, PK5, MM), executed fresh isolated detached worktree qualification (567 unit tests `PASS`, worktree naturally clean), created new forward-only tags (`P43REM4-BATCH1-FINAL1` and `Q43REM4-BATCH1-FINAL1`), and fast-forward synchronized all repositories (`local_main` = `origin/main` = `HPC_main`):
+- **Task ID**: `F43REM4-Q3`
 - **Status**: `complete` (`f43rem4_sensitivity_batch_qualified_unauthorized`)
-- **Preparation Commit ($P_{43\text{REM4-BATCH1}}$)**: `da46210cbf2e34f71a545c51b12e3f6351f5502c` (`P43REM4-BATCH1-FWD11`)
+- **Governance Audit & Lineage Repair**:
+  - `previous_force_moved_P_tag`: `P43REM4-BATCH1`
+  - `previous_force_moved_Q_tag`: `Q43REM4-BATCH1`
+  - `force_push_main_attempted`: `true`
+  - `main_history_rewritten`: **`false`** (all prior main commits remain linear ancestors)
+  - `main_history_integrity`: **`PASS`**
+- **Preparation Commit ($P_{43\text{REM4-BATCH1-FINAL1}}$)**: `23824ab66fd34e9e802a0d586080485e177c7585` (`P43REM4-BATCH1-FINAL1`)
+- **Execution Bytes Inventory**: **`execution_bytes_unchanged_from_final_P = true`** (0 differences across all 10 execution-critical files)
 - **Exact-P Real Abaqus 2023 Kernel Probe Results (on `tu_freiberg` HPC)**:
-  - `PK1_real_kernel_probe`: **`PASS`** (`refinementFactor = 10` integer type verified)
-  - `PK5_real_kernel_probe`: **`PASS`** (`refinementFactor = 10` integer type verified)
-  - `MM_real_kernel_probe`: **`PASS`** (`meshBias = 1` integer type verified in range [1, 10])
+  - `PK1_real_Abaqus2023_probe`: **`PASS`** (`sizingMethod = UNIFORM_ERROR`, `errorTarget = 1.0`, `refinementFactor = 10`)
+  - `PK5_real_Abaqus2023_probe`: **`PASS`** (`sizingMethod = UNIFORM_ERROR`, `errorTarget = 5.0`, `refinementFactor = 10`)
+  - `MM_real_Abaqus2023_probe`: **`PASS`** (`sizingMethod = MINIMUM_MAXIMUM`, `maxSolutionErrorTarget = 5.0`, `minSolutionErrorTarget = 1.0`, `meshBias = 1`)
+  - `meshBias` attribute finding: PK1/PK5 readback=7 is Abaqus default attribute for UNIFORM_ERROR; MM readback=1 is exact integer parameter in range [1, 10].
   - `adaptiveRemesh_called`: **`false`**
+  - `Abaqus_Standard_called`: **`false`**
   - `qsub_called`: **`false`**
-  - `probe_evidence_json`: `models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/F43REM4_REAL_ABAQUS2023_PROBE_EVIDENCE.json`
-- **Exact-P Detached Linux Worktree Qualification**:
-  - `detached_HEAD`: `da46210cbf2e34f71a545c51b12e3f6351f5502c`
-  - Unit test suite: **PASS** (0 failures, 0 errors).
-  - Post-test worktree cleanliness: **naturally clean (`git status` empty)**.
-  - Candidate output path isolation: **`true`** (`F43REM4_PK1.inp`, `F43REM4_PK5.inp`, `F43REM4_MM.inp`).
-  - Candidate independence: **`true`** (all 3 candidates consume only source CAE `0d5b32...` and PRE3 ODB `9a5262...`).
-- **Revised Gate C1 Candidate Selection Rule**:
-  - A. Spearman rank correlation must improve materially relative to baseline `0.013934`;
-  - B. Refinement intensity must show meaningful enrichment toward upper MISESERI percentile bands (95-99% and 99-100% bands greater than bulk low-error bands);
-  - C. Hotspot resolution evaluated using hotspot sqrt(area) median/p95 and min-edge median/p95 for top 5% and top 10% PRE3 MISESERI regions, with reported $h/l_0$ ($l_0 = 0.015\text{ mm}$).
+- **Fresh Exact-Final-P Detached Linux Worktree Qualification**:
+  - `detached_HEAD`: `23824ab66fd34e9e802a0d586080485e177c7585`
+  - `full_test_count`: **567** (0 failures, 0 errors, 1 skipped)
+  - `natural_post_test_clean`: **`true`** (`git status --porcelain=v1` empty)
+  - `candidate_output_paths_isolated`: **`true`** (`F43REM4_PK1.inp`, `F43REM4_PK5.inp`, `F43REM4_MM.inp`)
+  - `candidate_independence`: **`true`** (all 3 candidates consume only source CAE `0d5b32...` and PRE3 ODB `9a5262...`)
 - **Batch Authorization Proposal (`F43REM4_SENSITIVITY_BATCH`)**:
-  - Candidate PK1: `F43REM4_PK1` (Pandey-rule-target reproduction adapted to our Mode-II geometry, `errorTarget = 1.0 = 1%`)
+  - Candidate PK1: `F43REM4_PK1` (Pandey-rule-target reproduction adapted to Mode-II geometry, `errorTarget = 1.0 = 1%`)
   - Candidate PK5: `F43REM4_PK5` (Relaxed uniform-error target sensitivity, `errorTarget = 5.0 = 5%`)
-  - Candidate MM: `F43REM4_MM` (Spatial error indicator localization alternative, `MINIMUM_MAXIMUM`, `maxErrorTarget = 5.0`, `minErrorTarget = 1.0`, `meshBias = 1`)
+  - Candidate MM: `F43REM4_MM` (Spatial error indicator localization alternative, `MINIMUM_MAXIMUM`, `meshBias = 1`)
   - Resources per job: 1 CPU, 8 GB, 30 min, `entry_imfdfkmq`.
   - Max simultaneous running: **2** (3rd job queued automatically).
   - Max total submissions authorized: **3** (upon explicit direct human authorization).
@@ -40,6 +44,7 @@ Completed task `F43REM4-Q1`: Corrected R3 historical provenance, frozen preparat
 - **Next Action**: Awaiting explicit direct human authorization sentence for `F43REM4_SENSITIVITY_BATCH`.
 
 ---
+
 
 
 
