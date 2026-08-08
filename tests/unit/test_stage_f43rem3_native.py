@@ -98,7 +98,8 @@ class TestStageF43REM3Native(unittest.TestCase):
 
     def test_J_missing_miseseri_fails(self):
         self.assertEqual(self.criteria["native_remeshing_acceptance_criteria"]["miseseri_consumed_from_predecessor_odb"], True)
-        self.assertIn('errorIndicator="MISESERI"', self.driver)
+        self.assertIn("variables=('MISESERI',)", self.driver)
+
 
     def test_K_wrong_abaqus_launcher_rejected(self):
         self.assertIn("abaqus cae noGUI=remesh_mode_ii_native_cae.py", self.pbs)
