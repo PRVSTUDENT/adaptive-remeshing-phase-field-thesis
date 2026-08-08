@@ -1,5 +1,57 @@
 # Current project state
 
+## F43REM3-R6 Exact Abaqus-CAE Kernel Startup Probe & Qualification (2026-08-08)
+
+Completed task `F43REM3-R6`: Implementation of fail-closed Abaqus/CAE kernel probe mode in `remesh_mode_ii_native_cae.py`, execution of exact non-remeshing Abaqus/CAE kernel probe under `abaqus cae noGUI` on the TU Freiberg HPC cluster login node, creation of preparation commit $P_{43\text{REM3-R6}}$ (`a2f0f276d886f599064e597f8129c3f3ddfe621d`), and full 556-test Linux-Git detached qualification $Q_{43\text{REM3-R6}}$:
+- **Task ID**: `F43REM3-R6` / `F43REM3_KERNEL_PROBE_AND_R6_QUALIFICATION`
+- **Status**: `complete` (`f43rem3_native_qualified_not_authorized`)
+- **Preparation Tag ($P$)**: `P43REM3-R6` (`a2f0f276d886f599064e597f8129c3f3ddfe621d`)
+- **Qualification Target**: `a2f0f276d886f599064e597f8129c3f3ddfe621d`
+- **Failed Job 1385466 Governance Classification**:
+  - `job_id`: `1385466.mmaster02`
+  - `scheduler_result`: `failed` (`exit_code: 1`)
+  - `technical_result`: `cae_kernel_startup_failure` (`NameError: global name '__file__' is not defined`)
+  - `scientific_result`: `not_executed`
+  - `governance_result`: `protocol_deviating_no_direct_human_chat_authorization`
+  - `authorization_commit_exists`: `true` (`e06f9457223e74288b8dc9bb5407dc76a9ca8b95`)
+  - `direct_human_chat_authorization`: `false`
+- **Empirical Abaqus/CAE Kernel Probe Results (`F43REM3_KERNEL_PROBE_STATUS.json`)**:
+  - `abaqus_cae_kernel_entered`: `true`
+  - `file_defined`: `false` (Abaqus CAE noGUI execfile mode confirmed)
+  - `fallback_used`: `true` (`script_dir = os.getcwd()`)
+  - `probe_resolved_script_dir`: `/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge`
+  - `probe_cwd`: `/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge`
+  - `source_CAE_copy_open`: `PASS` (`openMdb(pathName=work_cae_path)`)
+  - `source_cae_opened_in_place`: `false`
+  - `source_cae_sha_before`: `0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa`
+  - `source_cae_sha_after`: `0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa`
+  - `source_cae_unmodified_in_place`: `true`
+  - `model_inventory`: `PASS` (`ModeII_Geometry_Model`)
+  - `part_inventory`: `PASS` (`PlatePart`)
+  - `instance_inventory`: `PASS` (`PlateInstance`)
+  - `step_inventory`: `PASS` (`Initial`)
+  - `remeshing_rule_inventory`: `PASS` (`StageC_MISESERI_RemeshingRule`)
+  - `predecessor_ODB_available`: `PASS` (`9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1`)
+  - `native_remesh_called`: `false`
+  - `probe_exit_status`: `0`
+- **Detached Qualification Result ($Q_{43\text{REM3-R6}}$)**:
+  - Linux-Git detached worktree at exact $P_{43\text{REM3-R6}}$ (`a2f0f276d886f599064e597f8129c3f3ddfe621d`) with `core.autocrlf=false`.
+  - Full discovery unit tests: **556 passed** in 18.07s (`OK`). 0 failures, 0 errors, 0 skips.
+  - Static package validator: `overall_passed = true`.
+  - Natural worktree cleanliness: 100% clean (`git diff --exit-code`: 0).
+- **Authority Boundary Reset**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `replacement_authorized`: `false`
+  - `maximum_jobs_now`: 0
+  - `maximum_future_submissions`: 0
+  - `automatic_retry`: `false`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: 0
+- **Next Action**: `fresh_direct_human_authorization_for_exactly_one_replacement_F43REM3_NATIVE`
+
+---
+
 ## F43REM3-R5 Guarded HPC Closeout & Deterministic __file__ Repair (2026-08-08)
 
 Completed task `F43REM3-R5`: Remote submission and terminal closeout of authorized single job `1385466.mmaster02`, root cause diagnosis of Abaqus/CAE headless execution `NameError: global name '__file__' is not defined`, implementation of minimal deterministic script_dir repair in `remesh_mode_ii_native_cae.py`, creation of preparation commit $P_{43\text{REM3-R5}}$ (`e6b38e88fc5ab84838ace12f901f9cac7750c6cc`), and full 553-test Linux-Git detached qualification $Q_{43\text{REM3-R5}}$:
