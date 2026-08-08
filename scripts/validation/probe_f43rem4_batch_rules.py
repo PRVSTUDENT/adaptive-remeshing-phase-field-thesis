@@ -7,6 +7,7 @@ Verifies rule construction, attribute read-back, step association, and region as
 import sys
 import os
 import json
+import argparse
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 BATCH_DIR = os.path.join(
@@ -14,6 +15,10 @@ BATCH_DIR = os.path.join(
 )
 
 def main():
+    parser = argparse.ArgumentParser(description="F43REM4 Batch Rule Probe")
+    parser.add_argument("--out-dir", type=str, default="/tmp", help="Directory for probe JSON output")
+    args = parser.parse_args()
+
     print("=== STARTING F43REM4 BATCH RULE CONSTRUCTION PROBE ===")
     
     candidates = ["pk1", "pk5", "mm"]
@@ -59,7 +64,7 @@ def main():
         }
         print(f"Candidate {cfg['candidate_id']} non-remesh probe: PASS")
 
-    output_probe_path = os.path.join(BATCH_DIR, "F43REM4_BATCH_PROBE_RESULTS.json")
+    output_probe_path = os.path.join(args.out_dir, "F43REM4_BATCH_PROBE_RESULTS.json")
     with open(output_probe_path, "w") as f:
         json.dump(results, f, indent=2)
 

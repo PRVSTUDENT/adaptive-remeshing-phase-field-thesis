@@ -4,7 +4,7 @@ set -eo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
-P_SHA="${1:-38f99cc81cf6f53e154992eb51397981f0fbc517}"
+P_SHA="${1:-700fb4f7b6def50fadd8b075d8d4c492cea380dd}"
 WORKTREE_DIR="/tmp/f43rem4_q1_detached_qual_worktree"
 
 echo "=== STARTING F43REM4-Q1 DETACHED QUALIFICATION AT P_SHA=${P_SHA} ==="
@@ -27,7 +27,10 @@ echo "--- Running Unit Test Discovery ---"
 python3 -m unittest discover -s tests/unit -p 'test_*.py'
 
 echo "--- Running Batch Rule Probes ---"
-python3 scripts/validation/probe_f43rem4_batch_rules.py
+python3 scripts/validation/probe_f43rem4_batch_rules.py --out-dir /tmp
+
+# Clean transient test artifacts created by test suites in execution directory
+rm -f CAE_PHASE_DIAGNOSTIC_MATRIX.json
 
 echo "--- Checking Post-Test Worktree Cleanliness ---"
 STATUS="$(git status --porcelain=v1)"
