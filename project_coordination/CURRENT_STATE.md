@@ -1,5 +1,45 @@
 # Current project state
 
+## F43REM3-R7 Final Step-Target Audit, Tag Reconciliation & Qualification (2026-08-08)
+
+Completed task `F43REM3-R7`: Step-target audit of Abaqus/CAE source model and predecessor ODB, deterministic update of `remesh_mode_ii_native_cae.py` to explicitly target mechanical analysis step `Step-1` rather than `Initial`, tag governance incident recording (force-moved tags `P43REM3-R6` / `Q43REM3-R6` recorded without further force pushes), verification of `main` history forward alignment, creation of preparation tag $P_{43\text{REM3-R7}}$ (`f17b31e6d14ae98f8caf7445689804b1b962dfb7`), and full 557-test Linux-Git detached qualification $Q_{43\text{REM3-R7}}$:
+- **Task ID**: `F43REM3-R7` / `F43REM3_STEP_AUDIT_TAG_RECONCILIATION_AND_R7_QUALIFICATION`
+- **Status**: `complete` (`f43rem3_native_qualified_not_authorized`)
+- **Preparation Tag ($P$)**: `P43REM3-R7` (`f17b31e6d14ae98f8caf7445689804b1b962dfb7`)
+- **Qualification Target**: `f17b31e6d14ae98f8caf7445689804b1b962dfb7`
+- **Tag Governance Incident**:
+  - `force_moved_tags_used`: `true` (historically recorded from prior task)
+  - `main_history_rewritten`: `false` (verified strictly forward-aligned)
+  - `main_history_integrity`: **`PASS`**
+  - `immutable_forward_tags_created`: `["P43REM3-R6FWD1", "P43REM3-R7", "Q43REM3-R7"]`
+- **Model & Predecessor ODB Step Audit**:
+  - `model_steps`: `["Initial", "Step-1"]`
+  - `analysis_step_name`: `"Step-1"`
+  - `predecessor_odb_steps`: `["Step-1"]`
+  - `predecessor_odb_analysis_step`: `"Step-1"`
+  - `predecessor_odb_frame_count`: `18`
+  - `predecessor_odb_final_frame_time`: `1.0`
+  - `predecessor_odb_fields`: `["EVOL", "MISESAVG", "MISESERI", "RF", "S", "U"]`
+  - `driver_targets_correct_analysis_step`: `true`
+- **Detached Qualification Result ($Q_{43\text{REM3-R7}}$)**:
+  - Linux-Git detached worktree at exact $P_{43\text{REM3-R7}}$ (`f17b31e6d14ae98f8caf7445689804b1b962dfb7`).
+  - Full discovery unit tests: **557 passed** in 7.42s (`OK`). 0 failures, 0 errors, 0 skips.
+  - Static package validator: `overall_passed = true`.
+  - Natural worktree cleanliness: 100% clean (`git diff --exit-code`: 0).
+- **Authority Boundary Reset**:
+  - `authorization_ready`: `true`
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `replacement_authorized`: `false`
+  - `maximum_jobs_now`: 0
+  - `maximum_future_submissions`: 0
+  - `automatic_retry`: `false`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: 0
+- **Next Action**: `fresh_direct_human_authorization_for_exactly_one_replacement_F43REM3_NATIVE`
+
+---
+
 ## F43REM3-R6 Exact Abaqus-CAE Kernel Startup Probe & Qualification (2026-08-08)
 
 Completed task `F43REM3-R6`: Implementation of fail-closed Abaqus/CAE kernel probe mode in `remesh_mode_ii_native_cae.py`, execution of exact non-remeshing Abaqus/CAE kernel probe under `abaqus cae noGUI` on the TU Freiberg HPC cluster login node, creation of preparation commit $P_{43\text{REM3-R6}}$ (`a2f0f276d886f599064e597f8129c3f3ddfe621d`), and full 556-test Linux-Git detached qualification $Q_{43\text{REM3-R6}}$:
