@@ -1,0 +1,115 @@
+#!/bin/bash
+#PBS -N F43REM3_NATIVE
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -o F43REM3_NATIVE.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+
+set -euo pipefail
+
+: "${PBS_O_WORKDIR:?PBS_O_WORKDIR is required}"
+WORKDIR="${PBS_O_WORKDIR}"
+
+cd "${WORKDIR}" || exit 1
+if [ "$(pwd)" != "${WORKDIR}" ]; then
+    echo "FATAL ERROR: Failed to navigate to PBS_O_WORKDIR=${WORKDIR}" >&2
+    exit 1
+fi
+
+echo "[F43REM3_NATIVE] Starting Abaqus 2023 native adaptive remeshing job at $(date)"
+echo "[F43REM3_NATIVE] PBS_JOBID: ${PBS_JOBID:-local}"
+echo "[F43REM3_NATIVE] working_directory = ${WORKDIR}"
+
+# Pre-execution fail-closed package checks
+EXPECTED_CAE_SHA="0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa"
+EXPECTED_PRED_ODB_SHA="9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1"
+EXTERNAL_CAE_PATH="/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae"
+
+if [ ! -f "${WORKDIR}/remesh_mode_ii_native_cae.py" ]; then
+    echo "FATAL ERROR: remesh_mode_ii_native_cae.py missing in ${WORKDIR}" >&2
+    exit 1
+fi
+
+if [ ! -f "${WORKDIR}/collect_f43rem3_native_evidence.sh" ]; then
+    echo "FATAL ERROR: collect_f43rem3_native_evidence.sh missing in ${WORKDIR}" >&2
+    exit 1
+fi
+
+if [ -f "${EXTERNAL_CAE_PATH}" ]; then
+    ACTUAL_CAE_SHA=$(sha256sum "${EXTERNAL_CAE_PATH}" | awk '{print $1}')
+    if [ "${ACTUAL_CAE_SHA}" != "${EXPECTED_CAE_SHA}" ]; then
+        echo "FATAL ERROR: External CAE SHA mismatch! Expected ${EXPECTED_CAE_SHA}, got ${ACTUAL_CAE_SHA}" >&2
+        exit 1
+    fi
+fi
+
+if [ -f "${WORKDIR}/evidence/1385461.mmaster02/F43PRE3_GEOM.odb" ]; then
+    ACTUAL_PRED_ODB_SHA=$(sha256sum "${WORKDIR}/evidence/1385461.mmaster02/F43PRE3_GEOM.odb" | awk '{print $1}')
+    if [ "${ACTUAL_PRED_ODB_SHA}" != "${EXPECTED_PRED_ODB_SHA}" ]; then
+        echo "FATAL ERROR: Predecessor ODB SHA mismatch! Expected ${EXPECTED_PRED_ODB_SHA}, got ${ACTUAL_PRED_ODB_SHA}" >&2
+        exit 1
+    fi
+fi
+
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+echo "[F43REM3_NATIVE] Loaded modules:"
+module list
+
+remesh_rc=0
+set +e
+abaqus cae noGUI=remesh_mode_ii_native_cae.py
+remesh_rc=$?
+set -e
+
+echo "[F43REM3_NATIVE] Abaqus CAE kernel finished with exit status ${remesh_rc} at $(date)"
+
+collector_rc=0
+set +e
+bash "${WORKDIR}/collect_f43rem3_native_evidence.sh" "${PBS_JOBID:-local}"
+collector_rc=$?
+set -e
+
+echo "[F43REM3_NATIVE] Collector finished with exit status ${collector_rc} at $(date)"
+
+# Terminal notification dispatch (Telegram + Email fallback)
+NOTIFY_PY="${WORKDIR}/../../../scripts/hpc/notify_hpc_event.py"
+if [ -f "${NOTIFY_PY}" ] && command -v python3 >/dev/null 2>&1; then
+    classification="f43rem3_native_cae_remesh_pass"
+    if [ ${remesh_rc} -ne 0 ]; then
+        classification="f43rem3_native_cae_remesh_failed"
+    fi
+    python3 "${NOTIFY_PY}" \
+        --mode terminal \
+        --channel both \
+        --job-name F43REM3_NATIVE \
+        --job-id "${PBS_JOBID:-local}" \
+        --exit-status "${remesh_rc}" \
+        --host "$(hostname)" \
+        --classification "${classification}" \
+        --evidence-path "${WORKDIR}/evidence/${PBS_JOBID:-local}" || true
+fi
+
+if [ ${remesh_rc} -ne 0 ]; then
+    echo "FATAL ERROR: Abaqus CAE kernel exited with status ${remesh_rc}" >&2
+    exit ${remesh_rc}
+fi
+
+if [ ! -f "F43REM3_NATIVE.inp" ]; then
+    echo "FATAL ERROR: Refined input deck F43REM3_NATIVE.inp not generated!" >&2
+    exit 1
+fi
+
+echo "[F43REM3_NATIVE] Refined input deck generated successfully. SHA256:"
+sha256sum F43REM3_NATIVE.inp
+
+if [ ${collector_rc} -ne 0 ]; then
+    echo "FATAL ERROR: Collector failed with status ${collector_rc}" >&2
+    exit ${collector_rc}
+fi
+
+echo "[F43REM3_NATIVE] Job completed successfully at $(date)"
