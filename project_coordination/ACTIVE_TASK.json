@@ -1,14 +1,14 @@
 {
   "protocol_version": 1,
-  "task_id": "F43PRE3-R4",
+  "task_id": "F43PRE3-R5",
   "status": "complete",
-  "classification": "f43pre3_r4_notification_pipeline_qualified_not_authorized",
+  "classification": "f43pre3_r5_notification_pipeline_qualified_not_authorized",
   "predecessor_identity_classification": "existing_1385392_lineage_numerical_reference_only",
-  "governance_classification": "f43pre3_r4_qualified_not_authorized",
-  "scientific_classification": "notification_pipeline_wired_and_re-qualified",
-  "starting_commit": "dfd67abf8b78406269dad1695d8520330cae15dc",
+  "governance_classification": "f43pre3_r5_qualified_not_authorized",
+  "scientific_classification": "notification_pipeline_wired_and_qualified_with_strict_p5_q5_separate_lineage",
+  "starting_commit": "abe45cad5c72f5ee7175bbbaf8c2cabf9864fec1",
   "preparation_commit": "cc333837f18007d43ababfb121d74cdeaef19965",
-  "qualification_commit": "cc333837f18007d43ababfb121d74cdeaef19965",
+  "qualification_commit": "ddb872ec167ae98553f892974602242a7fb3df83",
   "submitted_job_id": "1385461.mmaster02",
   "execution_authorized": false,
   "submission_approved": false,
@@ -21,5 +21,5 @@
   "pre2_reference_input_sha256": "1f16f8525a7e627b90bd4958f8701a418d0ac2960654787853b2688f8fda75dd",
   "continuum_semantic_identity": "PASS",
   "mesh_difference_classification": "accepted_discretization_difference_between_Abaqus2024_and_Abaqus2023_lineages",
-  "next_action": "perform_scientific_odb_comparison_against_pre2_reference_and_prepare_f43rem3_native_offline_package"
+  "next_action": "stopped_awaiting_explicit_human_authorization_sentence_for_exactly_one_F43PRE3_GEOM_submission"
 }

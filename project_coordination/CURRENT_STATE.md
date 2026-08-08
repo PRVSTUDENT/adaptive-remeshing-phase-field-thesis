@@ -1,5 +1,35 @@
 # Current project state
 
+## F43PRE3-R5 Notification Pipeline Lineage Reconciliation and Qualification (2026-08-08)
+
+Completed task `F43PRE3-R5`: Notification pipeline lineage reconciliation under strict protocol rule $P_{R5} \neq Q_{R5}$, separate preparation commit $P_{R5}$ and qualification commit $Q_{R5}$ creation, and full Linux-Git 534-test detached qualification:
+- **Task ID**: `F43PRE3-R5`
+- **Status**: `complete` (`f43pre3_r5_notification_pipeline_qualified_not_authorized`)
+- **Preparation Tag ($P_{R5}$)**: `P43PRE3-R5` (`cc333837f18007d43ababfb121d74cdeaef19965`)
+- **Qualification Tag ($Q_{R5}$)**: `Q43PRE3-R5` (recorded at qualification commit SHA)
+- **Lineage Identity Audit**:
+  - $P_{R5} \neq Q_{R5}$ (Strict separate preparation and qualification commits established).
+  - $Q_{R5} \text{ qualification\_target\_P} == P_{R5}$ (`cc333837f18007d43ababfb121d74cdeaef19965`).
+  - Detached qualification executed at exact HEAD $P_{R5}$ (`cc333837f18007d43ababfb121d74cdeaef19965`).
+- **Frozen Execution & Notification Package Integrity**:
+  - `submit_f43pre3_geom.sh`: frozen at $P_{R5}$ with `qsub -m abe -M ...`, `qstat -f` check, submission notification.
+  - `F43PRE3_GEOM.pbs`: frozen at $P_{R5}$ with `#PBS -m abe`, `#PBS -M ...`, terminal notification dispatch.
+  - Input deck SHA: `10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee`.
+  - CAE SHA: `0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa`.
+  - Secret safety: secure config untracked/ignored outside Git with mode 0700/0600.
+- **Detached Qualification Result**:
+  - Full discovery unit tests: 534 tests passed in 31.55s (`OK`).
+  - Static runtime validator: `overall_passed: true`.
+  - Notification pipeline validator: 12/12 criteria passed (`overall_passed: true`).
+  - Worktree status: 0 modified files, 100% clean (`PASS`).
+- **Authority Boundary Reset**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+- **Next Action**: `stopped_awaiting_explicit_human_authorization_sentence_for_exactly_one_F43PRE3_GEOM_submission`
+
+---
+
 ## F43PRE3-R4 Notification Pipeline Audit, Wiring, Login-Node Smoke Test, and Requalification (2026-08-08)
 
 Completed task `F43PRE3-R4`: Notification pipeline audit, wiring config to PBS directives and wrapper script, login-node smoke test verification, and full Linux-Git 533-test detached qualification:
