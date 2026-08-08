@@ -1,5 +1,33 @@
 # Current project state
 
+## F43PRE3-R5-FWD1 Governance Reconciliation & Forward Qualification Record (2026-08-08)
+
+Completed task `F43PRE3-R5-FWD1`: Audit of previous force-push/amend incident, remote-main history integrity verification, confirmation of 0 lost scientific/execution files, and creation of forward-only qualification record `Q43PRE3-R5-FWD1`:
+- **Task ID**: `F43PRE3-R5-FWD1`
+- **Status**: `complete` (`f43pre3_r5_forward_qualified_not_authorized`)
+- **Preparation Tag ($P_{R5}$)**: `P43PRE3-R5` (`cc333837f18007d43ababfb121d74cdeaef19965`)
+- **Forward Qualification Commit ($Q_{R5-FWD1}$)**: (recorded at forward qualification commit SHA)
+- **Governance Incident Audit**:
+  - Previous task recorded `git commit --amend` and `git push -f` usage.
+  - History audit confirmed `0` lost commits and `0` lost scientific/execution files.
+  - All 10 frozen notification/execution files verified 100% intact at $P_{R5}$ (`cc333837f18007d43ababfb121d74cdeaef19965`).
+  - Intermediate commit `ddb872ec167ae98553f892974602242a7fb3df83` contained only transient coordination metadata ("PENDING_RECORDING"), which was fully preserved and updated in $Q_{R5-FWD1}$.
+- **Lineage Integrity**:
+  - $P_{R5} \neq Q_{R5-FWD1}$ (`cc333837f18007d43ababfb121d74cdeaef19965` $\neq$ forward qualification commit).
+  - Qualification target $P$ matches $P_{R5}$ (`cc333837f18007d43ababfb121d74cdeaef19965`).
+  - Detached qualification HEAD matches $P_{R5}$ (`cc333837f18007d43ababfb121d74cdeaef19965`).
+- **Qualification Evidence**:
+  - 534 unit tests passed (`OK`), 0 failures, 0 errors, 0 skips, natural post-test worktree clean.
+  - Live Telegram and Email smoke tests verified (`PASS`). Additional live notifications sent: 0.
+  - `qsub` called: `false`, HPC submissions: 0.
+- **Authority Boundary Reset**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+- **Next Action**: `stopped_awaiting_fresh_direct_human_authorization_sentence_for_exactly_one_F43PRE3_GEOM_submission`
+
+---
+
 ## F43PRE3-R5 Notification Pipeline Lineage Reconciliation and Qualification (2026-08-08)
 
 Completed task `F43PRE3-R5`: Notification pipeline lineage reconciliation under strict protocol rule $P_{R5} \neq Q_{R5}$, separate preparation commit $P_{R5}$ and qualification commit $Q_{R5}$ creation, and full Linux-Git 534-test detached qualification:

@@ -401,6 +401,7 @@ NOTIFICATION_PIPELINE_VALIDATOR,Stage C,scripts/validation/validate_notification
 F43PRE3_R4_NOTIFICATION_CONTRACT_TESTS,Stage C,tests/unit/test_f43pre3_r4_notification_contract.py,unit_test,active,gemini-antigravity,,,,F43PRE3-R4 notification contract unit tests
 F43PRE3_R4_DETACHED_QUAL_SCRIPT,Stage C,scripts/validation/run_f43pre3_r4_detached_qual.sh,qualification_script,active,gemini-antigravity,,,,F43PRE3-R4 Linux-Git detached worktree qualification script
 FAKE_QSUB_MAIL_CONTRACT_TESTS,Stage C,tests/unit/test_fake_qsub_mail_contract.py,unit_test,active,gemini-antigravity,,,,Fake qsub mail options unit tests
+F43PRE3_R5_FWD1_SESSION_REPORT,Stage C,project_coordination/sessions/SESSION_2026-08-08_F43PRE3-R5-FWD1.md,session_report,active,gemini-antigravity,cc333837f18007d43ababfb121d74cdeaef19965,,,F43PRE3-R5-FWD1 session report for governance reconciliation and forward qualification
 
 
 
