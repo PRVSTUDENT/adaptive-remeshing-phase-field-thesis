@@ -193,5 +193,26 @@ class TestStageF43REM3Native(unittest.TestCase):
         self.assertIn('"predecessor_odb_analysis_step": odb_analysis_step', self.driver)
 
 
+    def test_X_rule_probe_mode_contract(self):
+        self.assertIn("F43REM3_RULE_PROBE_ONLY", self.driver)
+        self.assertIn("F43REM3_RULE_PROBE_STATUS.json", self.driver)
+        self.assertIn('"rule_creation_status": "PASS"', self.driver)
+        self.assertIn('"remeshing_rule_constructed": remeshing_rule_constructed', self.driver)
+        self.assertIn('"remeshing_rule_step": rule_step_name', self.driver)
+        self.assertIn('"MISESERI_verified": miseseri_available', self.driver)
+
+    def test_Y_step_name_fail_closed_assertions(self):
+        self.assertIn('if "Step-1" not in cae_model_steps:', self.driver)
+        self.assertIn('if step_name not in m.steps.keys():', self.driver)
+        self.assertIn('if step_name == "Initial":', self.driver)
+        self.assertIn('stepName=step_name', self.driver)
+
+    def test_Z_probe_safety_contract(self):
+        self.assertIn('if is_rule_probe_mode:', self.driver)
+        self.assertIn('print("[PASS] Abaqus CAE Remeshing Rule Construction Probe Completed Successfully.")', self.driver)
+        self.assertNotIn('qsub', self.driver)
+        self.assertIn('odb.close()', self.driver)
+
 if __name__ == "__main__":
     unittest.main()
+

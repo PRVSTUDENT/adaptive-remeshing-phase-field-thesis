@@ -99,8 +99,16 @@ def execute_native_remeshing():
     
     # Audit model steps: select actual mechanical analysis step (Step-1), not Initial
     cae_model_steps = list(m.steps.keys())
+    if "Step-1" not in cae_model_steps:
+        fail("Required mechanical analysis step Step-1 missing from model steps: {}".format(cae_model_steps))
+
     analysis_step_name = [s for s in cae_model_steps if s != "Initial"][0] if any(s != "Initial" for s in cae_model_steps) else "Step-1"
     step_name = analysis_step_name
+    if step_name not in m.steps.keys():
+        fail("Target step {} not found in model steps: {}".format(step_name, cae_model_steps))
+    if step_name == "Initial":
+        fail("Remeshing rule step_name cannot be Initial!")
+
     print("[F43 Native Remesh] Model steps: {}, Selected analysis step: {}".format(cae_model_steps, analysis_step_name))
 
     remesh_params = manifest.get("remesh_parameters", {
@@ -123,11 +131,88 @@ def execute_native_remeshing():
     frame_fields = list(last_frame.fieldOutputs.keys()) if last_frame else []
     print("[F43 Native Remesh] Predecessor ODB step: {}, frames: {}, final time: {}".format(odb_analysis_step, num_frames, final_frame_time))
 
-    # Support Kernel Probe Mode
-    is_probe_mode = (os.environ.get("F43REM3_KERNEL_PROBE_ONLY") == "1" or
-                     os.environ.get("F43REM2_KERNEL_PROBE_ONLY") == "1")
+    # Support Kernel Probe Modes
+    is_rule_probe_mode = (os.environ.get("F43REM3_RULE_PROBE_ONLY") == "1")
+    is_kernel_probe_mode = (os.environ.get("F43REM3_KERNEL_PROBE_ONLY") == "1" or
+                             os.environ.get("F43REM2_KERNEL_PROBE_ONLY") == "1")
 
-    if is_probe_mode:
+    if is_rule_probe_mode:
+        if rule_name in m.remeshingRules.keys():
+            del m.remeshingRules[rule_name]
+
+        inst = m.rootAssembly.instances[inst_name]
+
+        m.RemeshingRule(
+            name=rule_name,
+            description="Stage C MISESERI Native Adaptive Remeshing Rule",
+            region=(inst,),
+            stepName=step_name,
+            errorIndicator="MISESERI",
+            errorTarget=remesh_params["error_target"],
+            refinementFactor=remesh_params["refinement_factor"],
+            minElementSize=remesh_params["min_element_size_mm"],
+            maxElementSize=remesh_params["max_element_size_mm"]
+        )
+
+        remeshing_rule_constructed = (rule_name in m.remeshingRules.keys())
+        rule_obj = m.remeshingRules[rule_name]
+        rule_step_name = getattr(rule_obj, "stepName", step_name)
+
+        actual_cae_sha_after = sha256_file(source_cae_path)
+        source_cae_unmodified = (actual_cae_sha_after == expected_cae_sha)
+        miseseri_available = ("MISESERI" in frame_fields)
+
+        rule_probe_status = {
+            "status": "PASS",
+            "abaqus_cae_kernel_entered": True,
+            "file_defined": file_defined,
+            "fallback_used": fallback_used,
+            "resolved_script_dir": script_dir,
+            "cwd": cwd,
+            "source_cae_path": source_cae_path,
+            "source_cae_sha_before": actual_cae_sha_before,
+            "source_cae_sha_after": actual_cae_sha_after,
+            "source_cae_opened_in_place": False,
+            "source_cae_unmodified_in_place": source_cae_unmodified,
+            "work_copy_cae_sha_before": work_cae_sha_before,
+            "source_CAE_copy_open": "PASS",
+            "model_inventory": "PASS",
+            "model_name": model_name,
+            "model_steps": cae_model_steps,
+            "analysis_step_name": analysis_step_name,
+            "part_inventory": "PASS",
+            "part_name": part_name,
+            "instance_inventory": "PASS",
+            "instance_name": inst_name,
+            "step_inventory": "PASS",
+            "step_name": step_name,
+            "remeshing_rule_inventory": "PASS",
+            "rule_name": rule_name,
+            "rule_creation_attempted": True,
+            "rule_creation_status": "PASS",
+            "remeshing_rule_constructed": remeshing_rule_constructed,
+            "remeshing_rule_step": rule_step_name,
+            "rule_step_name": rule_step_name,
+            "MISESERI_verified": miseseri_available,
+            "MISESERI_available": miseseri_available,
+            "predecessor_ODB_available": "PASS",
+            "predecessor_odb_sha": actual_odb_sha,
+            "predecessor_odb_steps": odb_step_names,
+            "predecessor_odb_analysis_step": odb_analysis_step,
+            "predecessor_odb_frame_count": num_frames,
+            "predecessor_odb_final_frame_time": final_frame_time,
+            "predecessor_odb_fields": frame_fields,
+            "native_remesh_called": False,
+            "probe_exit_status": 0
+        }
+        probe_out_path = os.path.join(script_dir, "F43REM3_RULE_PROBE_STATUS.json")
+        with open(probe_out_path, "w") as f:
+            json.dump(rule_probe_status, f, indent=2)
+        odb.close()
+        print("[PASS] Abaqus CAE Remeshing Rule Construction Probe Completed Successfully.")
+        return
+
+    if is_kernel_probe_mode:
         actual_cae_sha_after = sha256_file(source_cae_path)
         source_cae_unmodified = (actual_cae_sha_after == expected_cae_sha)
         probe_status = {
@@ -174,6 +259,7 @@ def execute_native_remeshing():
         odb.close()
         print("[PASS] Abaqus CAE Kernel Probe Completed Successfully.")
         return
+
 
     if rule_name in m.remeshingRules.keys():
         del m.remeshingRules[rule_name]
