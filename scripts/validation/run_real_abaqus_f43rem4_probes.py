@@ -15,14 +15,29 @@ from abaqus import *
 from abaqusConstants import *
 import caeModules
 
-# Safe script path detection inside Abaqus execfile environment
-try:
-    SCRIPT_PATH = os.path.abspath(__file__)
-except NameError:
-    SCRIPT_PATH = os.path.abspath(sys.argv[0]) if sys.argv and sys.argv[0] else os.path.join(os.getcwd(), "scripts", "validation", "run_real_abaqus_f43rem4_probes.py")
+# Project root detection: allow explicit argument via sys.argv or fallback to cwd / script location
+PROJECT_ROOT = None
+for arg in sys.argv:
+    if os.path.isabs(arg) and os.path.exists(os.path.join(arg, "models", "generated", "mode_ii")):
+        PROJECT_ROOT = os.path.abspath(arg)
+        break
 
-SCRIPT_DIR = os.path.dirname(SCRIPT_PATH)
-PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
+if not PROJECT_ROOT:
+    cwd = os.getcwd()
+    if os.path.exists(os.path.join(cwd, "models", "generated", "mode_ii")):
+        PROJECT_ROOT = cwd
+    else:
+        # Search parent directories for models/generated/mode_ii
+        curr = os.path.abspath(os.path.dirname(__file__))
+        while curr and curr != os.path.dirname(curr):
+            if os.path.exists(os.path.join(curr, "models", "generated", "mode_ii")):
+                PROJECT_ROOT = curr
+                break
+            curr = os.path.dirname(curr)
+
+if not PROJECT_ROOT:
+    raise RuntimeError("Could not determine PROJECT_ROOT in Abaqus environment")
+
 BATCH_DIR = os.path.join(
     PROJECT_ROOT, "models", "generated", "mode_ii", "f43_stage_c_bridge", "remesh_sensitivity_batch"
 )
