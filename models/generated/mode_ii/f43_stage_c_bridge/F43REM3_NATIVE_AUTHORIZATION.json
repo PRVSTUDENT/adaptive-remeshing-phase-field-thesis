@@ -1,0 +1,32 @@
+{
+  "task_id": "F43REM3_NATIVE",
+  "authorization_sentence": "I authorize exactly one guarded HPC submission of F43REM3_NATIVE using preparation commit b03fa144d2aeabf30b48df52b5825a10a41afef2 and qualification commit f053342f031ea8feb27e7eb09b8d0a9095f59281, using the Abaqus-2023 source CAE with SHA256 0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa and predecessor PRE3 ODB from job 1385461.mmaster02 with SHA256 9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1, through entry_imfdfkmq with 1 CPU, 8 GB, and 30 minutes walltime, with MAX_SUBMISSIONS=1, no automatic retry, no replacement submission beyond this one, no F43DRY1 submission, no refined phase-field production run, and no downstream job",
+  "authorized_by": "user",
+  "authorized_at": "2026-08-08T07:07:47+02:00",
+  "execution_authorized": true,
+  "submission_approved": true,
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "preparation_commit": "b03fa144d2aeabf30b48df52b5825a10a41afef2",
+  "qualification_commit": "f053342f031ea8feb27e7eb09b8d0a9095f59281",
+  "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
+  "source_cae_path": "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae",
+  "predecessor_odb_job_id": "1385461.mmaster02",
+  "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
+  "predecessor_odb_path": "evidence/1385461.mmaster02/F43PRE3_GEOM.odb",
+  "execution_resources": {
+    "queue": "entry_imfdfkmq",
+    "ncpus": 1,
+    "mpiprocs": 1,
+    "memory": "8gb",
+    "walltime": "00:30:00"
+  },
+  "remesh_parameters": {
+    "min_element_size_mm": 0.0075,
+    "max_element_size_mm": 0.03,
+    "refinement_factor": 0.5,
+    "error_target": 0.05,
+    "coarsening_policy": "DISALLOW_COARSENING",
+    "max_remeshing_passes": 1
+  }
+}
