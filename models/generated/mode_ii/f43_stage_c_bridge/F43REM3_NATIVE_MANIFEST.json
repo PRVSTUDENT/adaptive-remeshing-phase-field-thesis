@@ -14,8 +14,8 @@
     "max_element_size_mm": 0.03,
     "refinement_factor": 0.5,
     "error_target": 0.05,
-    "coarsening_policy": "ALLOW_COARSENING",
-    "max_remeshing_passes": 3
+    "coarsening_policy": "DISALLOW_COARSENING",
+    "max_remeshing_passes": 1
   },
   "governance": {
     "execution_authorized": false,

@@ -7,14 +7,16 @@
     "refinement_factor": 0.5,
     "min_element_size_mm": 0.0075,
     "max_element_size_mm": 0.03,
-    "coarsening_policy": "ALLOW_COARSENING",
+    "coarsening_policy": "DISALLOW_COARSENING",
     "output_frame": "LAST",
-    "max_remeshing_passes": 3,
+    "max_remeshing_passes": 1,
     "source_reference": "Pandey-Kumar Stage-C Pre-Refinement Protocol",
     "reasons": {
-      "min_element_size_mm": "h_min = 0.0075 mm ensures h/l_0 <= 0.5 for l_0 = 0.015 mm",
+      "min_element_size_mm": "h_min = 0.0075 mm ensures h/l_0 = 0.5 for l_0 = 0.015 mm working resolution target",
       "max_element_size_mm": "h_max = 0.03 mm matches coarse H0 mesh size",
-      "error_target": "5% relative Mises stress discretization error threshold"
+      "error_target": "5% relative Mises stress discretization error threshold",
+      "coarsening_policy": "Coarsening disabled for first irreversible-fracture baseline per project policy",
+      "max_remeshing_passes": "Single native remeshing pass executed on frozen predecessor ODB"
     }
   },
   "element_controls": {

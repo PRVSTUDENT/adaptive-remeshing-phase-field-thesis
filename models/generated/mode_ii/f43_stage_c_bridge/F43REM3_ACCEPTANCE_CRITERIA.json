@@ -14,7 +14,9 @@
     "preserved_geometry_sets": ["LOAD_P", "FIX_BOT", "FIX_LEFT", "FIX_RIGHT"],
     "element_types_allowed": ["CPE4", "CPE3"],
     "min_element_size_mm": 0.0075,
-    "max_element_size_mm": 0.03
+    "max_element_size_mm": 0.03,
+    "coarsening_policy": "DISALLOW_COARSENING",
+    "max_remeshing_passes": 1
   },
   "initial_classification_after_remesh": "technical_pass_scientific_unchecked"
 }

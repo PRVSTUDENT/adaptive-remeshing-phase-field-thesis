@@ -11,6 +11,8 @@ PBS_PATH = os.path.join(PACKAGE_DIR, "F43REM3_NATIVE.pbs")
 VALIDATOR_PATH = os.path.join(PACKAGE_DIR, "validate_f43rem3_native.py")
 CRITERIA_PATH = os.path.join(PACKAGE_DIR, "F43REM3_ACCEPTANCE_CRITERIA.json")
 DRIVER_PATH = os.path.join(PACKAGE_DIR, "remesh_mode_ii_native_cae.py")
+CONFIG_PATH = os.path.join(PACKAGE_DIR, "f43_remeshing_rule_config.json")
+SCI_COMP_PATH = os.path.join(PACKAGE_DIR, "evidence", "1385461.mmaster02", "F43PRE3_SCIENTIFIC_COMPARISON.json")
 
 class TestStageF43REM3Native(unittest.TestCase):
 
@@ -25,6 +27,10 @@ class TestStageF43REM3Native(unittest.TestCase):
             self.criteria = json.load(f)
         with open(DRIVER_PATH, "r") as f:
             self.driver = f.read()
+        with open(CONFIG_PATH, "r") as f:
+            self.config = json.load(f)
+        with open(SCI_COMP_PATH, "r") as f:
+            self.sci_comp = json.load(f)
 
     def test_A_manifest_and_acceptance_criteria_hashes(self):
         self.assertEqual(self.manifest["source_cae_sha256"], "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa")
@@ -32,12 +38,24 @@ class TestStageF43REM3Native(unittest.TestCase):
         self.assertEqual(self.manifest["predecessor_odb_job_id"], "1385461.mmaster02")
         self.assertNotEqual(self.manifest["predecessor_odb_job_id"], "1385392.mmaster02", "PRE2 ODB 1385392 must not be used as native remesh predecessor")
 
-    def test_B_remesh_parameters(self):
+    def test_B_remesh_parameters_and_config_consistency(self):
         params = self.manifest["remesh_parameters"]
+        cfg_rule = self.config["remeshing_rule_configuration"]
+
         self.assertEqual(params["min_element_size_mm"], 0.0075)
         self.assertEqual(params["max_element_size_mm"], 0.03)
         self.assertEqual(params["refinement_factor"], 0.5)
         self.assertEqual(params["error_target"], 0.05)
+        self.assertEqual(params["coarsening_policy"], "DISALLOW_COARSENING")
+        self.assertEqual(params["max_remeshing_passes"], 1)
+
+        # Reconciled config matches manifest
+        self.assertEqual(cfg_rule["min_element_size_mm"], params["min_element_size_mm"])
+        self.assertEqual(cfg_rule["max_element_size_mm"], params["max_element_size_mm"])
+        self.assertEqual(cfg_rule["refinement_factor"], params["refinement_factor"])
+        self.assertEqual(cfg_rule["error_target"], params["error_target"])
+        self.assertEqual(cfg_rule["coarsening_policy"], params["coarsening_policy"])
+        self.assertEqual(cfg_rule["max_remeshing_passes"], params["max_remeshing_passes"])
 
     def test_C_pbs_mail_directives_and_governance(self):
         self.assertIn("#PBS -N F43REM3_NATIVE", self.pbs)
@@ -116,6 +134,31 @@ class TestStageF43REM3Native(unittest.TestCase):
         self.assertGreater(params["refinement_factor"], 0.0)
         self.assertLess(params["refinement_factor"], 1.0)
         self.assertGreater(params["error_target"], 0.0)
+
+    def test_R_reaction_force_physical_definition_and_equilibrium(self):
+        # Physical reaction force verification
+        self.assertTrue(self.sci_comp["reaction_force_definition_corrected"])
+        self.assertTrue(self.sci_comp["previous_SCI1_double_counted_RF"])
+        self.assertEqual(self.sci_comp["equilibrium_check"], "PASS")
+
+        pre2_rf = self.sci_comp["pre2_final_RF"]
+        pre3_rf = self.sci_comp["pre3_final_RF"]
+
+        # Expected historical magnitude ~46.12937 N
+        self.assertAlmostEqual(pre2_rf, 46.129372, places=4)
+        self.assertAlmostEqual(pre3_rf, 46.141109, places=4)
+
+        # Relative errors remain <= 5%
+        self.assertLess(self.sci_comp["final_RF_relative_error_percent"], 5.0)
+        self.assertLess(self.sci_comp["peak_RF_relative_error_percent"], 5.0)
+        self.assertLess(self.sci_comp["RF_U_normalized_L2_percent"], 5.0)
+
+    def test_S_coarsening_and_pass_count_governance(self):
+        # Pass count and coarsening reconciled
+        self.assertEqual(self.manifest["remesh_parameters"]["max_remeshing_passes"], 1)
+        self.assertEqual(self.manifest["remesh_parameters"]["coarsening_policy"], "DISALLOW_COARSENING")
+        self.assertEqual(self.criteria["native_remeshing_acceptance_criteria"]["coarsening_policy"], "DISALLOW_COARSENING")
+        self.assertEqual(self.criteria["native_remeshing_acceptance_criteria"]["max_remeshing_passes"], 1)
 
 if __name__ == "__main__":
     unittest.main()
