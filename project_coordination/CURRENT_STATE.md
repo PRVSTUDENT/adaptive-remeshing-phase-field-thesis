@@ -1,6 +1,37 @@
 # Current project state
 
+## F43REM3-R9 Abaqus 2023 Model.adaptiveRemesh API Verification & Qualification (2026-08-08)
+
+Completed task `F43REM3-R9` to verify and integrate the exact Abaqus 2023 `Model.adaptiveRemesh(odb)` API method:
+- **Task ID**: `F43REM3-R9`
+- **Status**: `complete` (`f43rem3_native_qualified_not_authorized`)
+- **Preparation Commit ($P_{43\text{REM3-R9}}$)**: `8d23e78f9c0c3a812df08bf5bfcf471fecfb8835` (`P43REM3-R9`)
+- **Qualification Commit ($Q_{43\text{REM3-R9}}$)**: `Q43REM3-R9`
+- **Empirical Abaqus 2023 Kernel API Audit**:
+  - `hasattr(m, 'adaptiveRemesh')`: `true` (`Model.adaptiveRemesh(odb)` verified)
+  - `hasattr(m.rootAssembly, 'remesh')`: `false` (`Assembly.remesh` confirmed non-existent)
+  - Kernel Docstring: `Model.adaptiveRemesh(odb) -> This method remeshes the model using the active remesh rules in the model and the error indicator results from a previous analysis.`
+  - `RemeshingRule` Parameters: `coarseningFactor = DEFAULT_LIMIT`, `refinementFactor = DEFAULT_LIMIT` (symbolic constants in Abaqus constants). Project parameter `refinement_factor = 0.5` represents project metadata configuration setting.
+- **Production Driver Update**:
+  - Replaced invalid `m.rootAssembly.remesh(...)` with `m.adaptiveRemesh(odb)` in `remesh_mode_ii_native_cae.py`.
+  - Added fail-closed assertions for `hasattr(m, 'adaptiveRemesh')`, `not hasattr(m.rootAssembly, 'remesh')`, `stepName == "Step-1"`, `variables == ('MISESERI',)` and predecessor ODB SHA.
+  - Added non-executing real-kernel API probe mode `F43REM3_ADAPTIVEREMESH_API_PROBE_ONLY=1`.
+- **Real Abaqus/CAE 2023 Kernel Probe**:
+  - Executed on `tu_freiberg` login node at exact $P_{43\text{REM3-R9}}$: `PASS` (`probe_exit_status = 0`, `Model_adaptiveRemesh_exists = true`, `Assembly_remesh_exists = false`, `remeshing_rule_constructed = true`, `rule_step = Step-1`, `MISESERI_available = true`, `adaptiveRemesh_called = false`).
+  - Source CAE SHA256 preserved (`0d5b32fe...`).
+- **Detached Linux-Git Worktree Qualification**:
+  - Executed at exact $P_{43\text{REM3-R9}}$: 564 unit tests `OK` (1 skipped), static validator `PASS`, post-test worktree naturally clean (`git status` empty).
+- **Governance**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `HPC_submissions`: 0
+- **Next Action**: `fresh_direct_human_authorization_for_exactly_one_replacement_F43REM3_NATIVE`
+
+---
+
 ## F43REM3_NATIVE Guarded HPC Submission 1385552 Execution Closeout (2026-08-08)
+
 
 Executed authorized single guarded HPC replacement submission of `F43REM3_NATIVE` job `1385552.mmaster02` on TU Freiberg HPC cluster upon explicit human authorization:
 - **Task ID**: `F43REM3_NATIVE_REPLACEMENT_EXECUTION`
