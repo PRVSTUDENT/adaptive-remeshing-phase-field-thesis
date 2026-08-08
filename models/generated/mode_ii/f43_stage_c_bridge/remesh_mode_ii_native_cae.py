@@ -96,7 +96,12 @@ def execute_native_remeshing():
 
     part_name = m.parts.keys()[0] if m.parts else "PlatePart"
     inst_name = m.rootAssembly.instances.keys()[0] if m.rootAssembly.instances else "PlateInstance"
-    step_name = m.steps.keys()[0] if m.steps else "Step-1"
+    
+    # Audit model steps: select actual mechanical analysis step (Step-1), not Initial
+    cae_model_steps = list(m.steps.keys())
+    analysis_step_name = [s for s in cae_model_steps if s != "Initial"][0] if any(s != "Initial" for s in cae_model_steps) else "Step-1"
+    step_name = analysis_step_name
+    print("[F43 Native Remesh] Model steps: {}, Selected analysis step: {}".format(cae_model_steps, analysis_step_name))
 
     remesh_params = manifest.get("remesh_parameters", {
         "min_element_size_mm": 0.0075,
@@ -105,6 +110,18 @@ def execute_native_remeshing():
         "error_target": 0.05
     })
     rule_name = "StageC_MISESERI_RemeshingRule"
+
+    print("[F43 Native Remesh] Opening predecessor ODB read-only...")
+    odb = openOdb(predecessor_odb_path, readOnly=True)
+
+    odb_step_names = list(odb.steps.keys())
+    odb_analysis_step = odb_step_names[0] if odb_step_names else "Step-1"
+    st = odb.steps[odb_analysis_step]
+    num_frames = len(st.frames)
+    last_frame = st.frames[-1] if num_frames > 0 else None
+    final_frame_time = float(last_frame.frameValue) if last_frame else 0.0
+    frame_fields = list(last_frame.fieldOutputs.keys()) if last_frame else []
+    print("[F43 Native Remesh] Predecessor ODB step: {}, frames: {}, final time: {}".format(odb_analysis_step, num_frames, final_frame_time))
 
     # Support Kernel Probe Mode
     is_probe_mode = (os.environ.get("F43REM3_KERNEL_PROBE_ONLY") == "1" or
@@ -123,35 +140,40 @@ def execute_native_remeshing():
             "source_cae_path": source_cae_path,
             "source_cae_sha_before": actual_cae_sha_before,
             "source_cae_sha_after": actual_cae_sha_after,
+            "source_cae_opened_in_place": False,
             "source_cae_unmodified_in_place": source_cae_unmodified,
             "work_copy_cae_sha_before": work_cae_sha_before,
             "source_CAE_copy_open": "PASS",
             "model_inventory": "PASS",
+            "model_name": model_name,
+            "model_steps": cae_model_steps,
+            "analysis_step_name": analysis_step_name,
             "part_inventory": "PASS",
+            "part_name": part_name,
             "instance_inventory": "PASS",
+            "instance_name": inst_name,
             "step_inventory": "PASS",
+            "step_name": step_name,
             "remeshing_rule_inventory": "PASS",
+            "rule_name": rule_name,
             "predecessor_ODB_available": "PASS",
             "predecessor_odb_sha": actual_odb_sha,
+            "predecessor_odb_steps": odb_step_names,
+            "predecessor_odb_analysis_step": odb_analysis_step,
+            "predecessor_odb_frame_count": num_frames,
+            "predecessor_odb_final_frame_time": final_frame_time,
+            "predecessor_odb_fields": frame_fields,
             "native_remesh_called": False,
-            "probe_exit_status": 0,
-            "model_name": model_name,
-            "part_name": part_name,
-            "instance_name": inst_name,
-            "step_name": step_name,
-            "rule_name": rule_name
+            "probe_exit_status": 0
         }
         probe_out_path = os.path.join(script_dir, "F43REM3_KERNEL_PROBE_STATUS.json")
         with open(probe_out_path, "w") as f:
             json.dump(probe_status, f, indent=2)
-        # Also write legacy probe status file if queried
         with open(os.path.join(script_dir, "F43REM2_KERNEL_PROBE_STATUS.json"), "w") as f:
             json.dump(probe_status, f, indent=2)
+        odb.close()
         print("[PASS] Abaqus CAE Kernel Probe Completed Successfully.")
         return
-
-    print("[F43 Native Remesh] Opening predecessor ODB read-only...")
-    odb = openOdb(pathName=predecessor_odb_path, readOnly=True)
 
     if rule_name in m.remeshingRules.keys():
         del m.remeshingRules[rule_name]
