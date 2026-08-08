@@ -1,0 +1,27 @@
+{
+  "protocol_version": 1,
+  "batch_id": "F43REM4_SENSITIVITY_BATCH",
+  "qualification_target_P": "dc753f6ffdd855065f838afa5d87365dfb0db628",
+  "detached_HEAD": "dc753f6ffdd855065f838afa5d87365dfb0db628",
+  "probes": {
+    "PK1_real_kernel_probe": "PASS",
+    "PK5_real_kernel_probe": "PASS",
+    "MM_real_kernel_probe": "PASS",
+    "adaptiveRemesh_called": false
+  },
+  "unit_tests": {
+    "full_test_count": 567,
+    "failures": 0,
+    "errors": 0,
+    "skips": 1
+  },
+  "natural_post_test_clean": true,
+  "candidate_independence": {
+    "PK1_independent": true,
+    "PK5_independent": true,
+    "MM_independent": true
+  },
+  "candidate_output_paths_isolated": true,
+  "qsub_called": false,
+  "HPC_submissions": 0
+}
