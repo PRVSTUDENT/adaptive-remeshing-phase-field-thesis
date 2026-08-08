@@ -1,6 +1,39 @@
 # Current project state
 
+## F43REM3-R10 PRE3 ODB/CAE Set Identity Forensic Audit & Pandey-Kumar Compatibility Decision (2026-08-08)
+
+Completed task `F43REM3-R10` to perform forensic audit of PRE3 ODB element sets, CAE remeshing rules, and Pandey-Kumar contract:
+- **Task ID**: `F43REM3-R10`
+- **Status**: `complete` (`f43rem3_native_qualified_not_authorized`)
+- **Preparation Commit ($P_{43\text{REM3-R10}}$)**: `33e10f8ae7f6ca1923ee82ae68ee5f583597dfc2` (`P43REM3-R10`)
+- **Qualification Commit ($Q_{43\text{REM3-R10}}$)**: `Q43REM3-R10`
+- **Empirical Forensic Audit Results**:
+  - `F43PRE3_GEOM.odb` Element Sets: `[' ALL ELEMENTS', 'BOTTOM_NODES', 'PIBATCH', 'TOP_NODES']`
+  - `F43PRE3_GEOM.odb` MISESERI Field Output: 3716 elements, instance `PLATEINSTANCE`, sorted label hash `836d22f4566050e189d0bd46bba376a90c35d3f00460a49d36140818208cb40f`.
+  - ODB Element Set `' ALL ELEMENTS'` / `'PIBATCH'`: 3716 elements, instance `PLATEINSTANCE`, sorted label hash `836d22f4566050e189d0bd46bba376a90c35d3f00460a49d36140818208cb40f`.
+  - MISESERI vs ODB Element Set Exact Membership Match: **`true`** (100% identical element count and SHA256 membership hash).
+  - Source CAE Model (`ModeII_Geometry_Source_Abaqus2023.cae`): `MISESERI_Adaptive_Rule` exists with `region=MODEL`, `stepName='Step-1'`, `variables=('MISESERI',)`, `errorTarget=0.05`, `minElementSize=0.0075`, `maxElementSize=0.03`.
+  - Pandey-Kumar Contract Audit: `MATCH`. (Pandey & Kumar specify remeshing rule region covering all elements; in Abaqus CAE geometry-backed models, `region=MODEL` represents the entire model domain and matches `' ALL ELEMENTS'` in the predecessor ODB).
+- **Decision Branch**: **`CASE_A_REPAIR_REMESH_DRIVER`** (`PRE3_ODB_reusable_for_manual_remesh = true`).
+- **Production Driver Repair**:
+  - Updated `remesh_mode_ii_native_cae.py` to preserve pre-existing rule `MISESERI_Adaptive_Rule` with `region=MODEL` (symbolic constant `MODEL`).
+- **Real Abaqus/CAE 2023 NON-REMESH Probe**:
+  - Executed on `tu_freiberg` login node at exact $P_{43\text{REM3-R10}}$: `PASS` (`probe_exit_status = 0`, `Model_adaptiveRemesh_exists = true`, `Assembly_remesh_exists = false`, `remeshing_rule_constructed = true`, `rule_step = Step-1`, `MISESERI_available = true`, `adaptiveRemesh_called = false`).
+  - Source CAE SHA256 preserved (`0d5b32fe...`).
+- **Detached Linux-Git Worktree Qualification**:
+  - Executed at exact $P_{43\text{REM3-R10}}$: 564 unit tests `OK` (1 skipped), static validator `PASS`, post-test worktree naturally clean (`git status` empty).
+- **Governance**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `qsub_called`: `false`
+  - `HPC_submissions`: 0
+- **Next Action**: Awaiting explicit direct human decision in chat.
+
+---
+
 ## F43REM3_NATIVE Guarded HPC Submission 1385553 Execution Closeout (2026-08-08)
+
 
 Executed authorized single guarded HPC replacement submission of `F43REM3_NATIVE` job `1385553.mmaster02` on TU Freiberg HPC cluster upon explicit human authorization:
 - **Task ID**: `F43REM3_NATIVE_EXECUTION`
