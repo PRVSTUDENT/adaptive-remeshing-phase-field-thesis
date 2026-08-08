@@ -1,5 +1,13 @@
 # Mistakes And Fixes Log
 
+## F43REM4 compute node BASH_SOURCE[0] spool directory permission failure (2026-08-08)
+
+HPC Jobs `1385570.mmaster02`, `1385571.mmaster02`, `1385572.mmaster02` failed instantly on compute node startup (`Exit_status = 1`). In `F43REM4_PK1.pbs`, `F43REM4_PK5.pbs`, `F43REM4_MM.pbs`, `BATCH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"` was used to resolve the script's directory. However, when PBS executes a batch job on a compute node, PBS copies the script into the spool directory `/var/spool/pbs/mom_priv/jobs/<job_id>.SC`. Therefore `${BASH_SOURCE[0]}` evaluated to `/var/spool/pbs/mom_priv/jobs`, causing `mkdir -p ${RUNTIME_DIR}` to attempt writing to `/var/spool/pbs/mom_priv/jobs/runtime_pk1`, which failed due to compute-node permission restrictions (`Permission denied`).
+Consequence: Batch execution failed before launching Abaqus.
+Prevention: In PBS batch scripts executing on compute nodes, path resolution must prefer `${PBS_O_WORKDIR}` (`if [ -n "${PBS_O_WORKDIR:-}" ]; then BATCH_DIR="${PBS_O_WORKDIR}"; else BATCH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; fi`).
+
+---
+
 ## F32 M2RMBUILD7 unsupported constant and evidence defects (2026-08-05)
 
 The CAE builder imported unsupported `UNPLANNED`, cleanup invoked unavailable standalone `python`, and `set -e` prevented retention of the actual CAE return code. Prevent recurrence by importing only used release-verified constants, preflighting the standalone interpreter, capturing `$?` outside fail-fast mode, and using explicit `skipped` values for commands never invoked.

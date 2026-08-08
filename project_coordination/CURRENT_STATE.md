@@ -1,5 +1,32 @@
 # Current project state
 
+## F43REM4 Single-Active-Rule Replacement Sensitivity Batch Execution Closeout (2026-08-08)
+
+Task `F43REM4-BATCH4-CLOSE`: Collected terminal scheduler and log evidence for the 3 authorized guarded sensitivity batch jobs (`1385570.mmaster02`, `1385571.mmaster02`, `1385572.mmaster02`) submitted under human authorization (`875b712`):
+- **Task ID**: `F43REM4-BATCH4-CLOSE`
+- **Status**: `complete_failed` (`f43rem4_pbs_compute_node_spool_dir_permission_failure`)
+- **Preparation Commit ($P_{\text{F43REM4-BATCH4-FINAL3}}$)**: `ee33659ed675f71485ef9162048f65c2f0ab8727` (`P43REM4-BATCH4-FINAL3`)
+- **Qualification Commit ($Q_{\text{F43REM4-BATCH4-FINAL3}}$)**: `213819583ca7b21d4810ec3366051a4afeb48157` (`Q43REM4-BATCH4-FINAL3`)
+- **Authorization Commit**: `875b712`
+- **Executed Jobs & Terminal Statuses**:
+  1. `F43REM4_PK1` -> Job ID **`1385570.mmaster02`** (`job_state = F`, `Exit_status = 1`, `host = mnode098/0`, `cput = 00:00:00`, `mem = 2268kb`)
+  2. `F43REM4_PK5` -> Job ID **`1385571.mmaster02`** (`job_state = F`, `Exit_status = 1`, `host = mnode098/1`, `cput = 00:00:00`, `mem = 2252kb`)
+  3. `F43REM4_MM` -> Job ID **`1385572.mmaster02`** (`job_state = F`, `Exit_status = 1`, `host = mnode098/2`, `cput = 00:00:00`, `mem = 2124kb`)
+- **Root Cause Diagnosis**:
+  - All 3 jobs failed instantly on compute node startup: `mkdir: das Verzeichnis „/var/spool/pbs/mom_priv/jobs/runtime_pk1“ kann nicht angelegt werden: Keine Berechtigung`.
+  - In `F43REM4_PK1.pbs`, `F43REM4_PK5.pbs`, `F43REM4_MM.pbs`, `BATCH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"` evaluated `BASH_SOURCE[0]` to the PBS compute-node spool script `/var/spool/pbs/mom_priv/jobs/1385570.mmaster02.SC`. Compute node write permissions are prohibited under `/var/spool/pbs/mom_priv/jobs/`.
+  - Fix: Update `BATCH_DIR` path resolution in PBS scripts to prefer `${PBS_O_WORKDIR}` (`if [ -n "${PBS_O_WORKDIR:-}" ]; then BATCH_DIR="${PBS_O_WORKDIR}"; else BATCH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; fi`).
+- **Authority Boundary Reset**:
+  - All 3 authorization slots consumed (`submissions_used = 3`).
+  - `execution_authorized`: **`false`**
+  - `submission_approved`: **`false`**
+  - `replacement_authorized`: **`false`**
+  - `maximum_jobs_now`: **0**
+  - `automatic_retry`: **`false`**
+- **Recommended Next Action**: Wait for explicit human decision on fixing PBS script `BATCH_DIR` path resolution and authorizing a replacement batch. Downstream jobs remain strictly blocked.
+
+---
+
 ## F43REM4-GATEC1-COMP Comparative Scientific Evaluation & Identity Audit (2026-08-08)
 
 Task `F43REM4-GATEC1-COMP`: Computed SHA256 hashes, node coordinate hashes, and element connectivity hashes for all 3 generated refined input decks (`F43REM4_PK1.inp`, `F43REM4_PK5.inp`, `F43REM4_MM.inp`), audited runtime Abaqus CAE rule readbacks, and conducted a root-cause investigation under real Abaqus 2023 kernel:

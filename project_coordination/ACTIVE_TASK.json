@@ -1,32 +1,32 @@
 {
   "protocol_version": 1,
-  "task_id": "F43REM4-GATEC1-COMP",
-  "status": "complete_hold",
+  "task_id": "F43REM4-BATCH4-CLOSE",
+  "status": "complete_failed",
   "Gate_C1": "HOLD",
-  "Gate_C1_comparison": "HOLD_CONFIGURATION_NOT_DIFFERENTIATED",
+  "Gate_C1_comparison": "HOLD_COMPUTE_NODE_SPOOL_DIR_FAILURE",
   "selected_candidate": "none",
-  "scientific_result": "sensitivity_study_not_differentiated_preexisting_rule_coactive",
-  "recommended_next_stage": "offline_rule_activation_repair",
-  "classification": "f43rem4_batch_executed_identical_meshes_hold",
-  "governance_classification": "protocol_deviating_no_direct_human_chat_authorization",
-  "starting_commit": "74bd7bd5f87854b50c5a70a65f699d026457cd46",
-  "preparation_commit": "51ff44db5b92fcc4b8e672a99c5dcbb23f48f829",
-  "qualification_commit": "683bb2c8ddca8ea2ef0885e33d02462bd893db62",
-  "authorization_commit": "fa3ff593c66f578bd6c4bfe8a5ea11db28f115ce",
-  "forward_P_tag": "P43REM4-BATCH3",
-  "forward_Q_tag": "Q43REM4-BATCH3",
-  "authorization_tag": "F43REM4_BATCH_AUTH2",
+  "scientific_result": "batch_execution_failed_spool_dir_permission",
+  "recommended_next_stage": "fix_pbs_script_spool_dir_resolution_and_wait_for_human_authorization",
+  "classification": "f43rem4_pbs_compute_node_spool_dir_permission_failure",
+  "governance_classification": "authorized_batch_executed_failed_spool_permission",
+  "starting_commit": "bc38abe32e84e8ef82f539ffbc8e3f48fae59253",
+  "preparation_commit": "ee33659ed675f71485ef9162048f65c2f0ab8727",
+  "qualification_commit": "213819583ca7b21d4810ec3366051a4afeb48157",
+  "authorization_commit": "875b712",
+  "forward_P_tag": "P43REM4-BATCH4-FINAL3",
+  "forward_Q_tag": "Q43REM4-BATCH4-FINAL3",
+  "authorization_tag": "F43REM4_BATCH_AUTH3",
   "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
   "predecessor_odb_job_id": "1385461.mmaster02",
   "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
   "historical_execution": {
     "historical_qsub_called": true,
     "historical_HPC_submissions": 3,
-    "consumed_job_ids": ["1385564.mmaster02", "1385565.mmaster02", "1385566.mmaster02"],
-    "scheduler_result": "PASS for all three",
-    "technical_result": "native_cae_remesh_execution_pass",
-    "direct_human_chat_authorization": false,
-    "governance_result": "protocol_deviating_no_direct_human_chat_authorization"
+    "consumed_job_ids": ["1385570.mmaster02", "1385571.mmaster02", "1385572.mmaster02"],
+    "scheduler_result": "Exit_status=1 for all three (mkdir /var/spool/pbs/mom_priv/jobs permission error)",
+    "technical_result": "failed_compute_node_spool_dir_permission",
+    "direct_human_chat_authorization": true,
+    "governance_result": "authorized_batch_executed_complete_failed"
   },
   "current_authority": {
     "execution_authorized": false,
@@ -36,11 +36,5 @@
     "automatic_retry": false,
     "new_qsub_called": false,
     "new_HPC_submissions": 0
-  },
-  "mesh_identity": {
-    "node_coordinates_hash": "58db0104a3d0ca4857c69e3b11d41405ba78067189ea0f4671ee185283f28fe2",
-    "element_connectivity_hash": "ce54cab6ed29c34a7de47f74226cd50e8aa7864c921104194cab5445e9348acc",
-    "mesh_identical_all_three": true
-  },
-  "next_action": "repair_remesh_mode_ii_native_cae_py_to_purge_or_suppress_preexisting_rules_prior_to_candidate_rule_creation"
+  }
 }

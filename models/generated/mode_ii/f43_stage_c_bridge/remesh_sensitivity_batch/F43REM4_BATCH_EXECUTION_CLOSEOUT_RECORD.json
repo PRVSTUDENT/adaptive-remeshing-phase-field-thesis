@@ -1,77 +1,45 @@
 {
-  "protocol_version": 1,
   "batch_id": "F43REM4_SENSITIVITY_BATCH",
-  "task_id": "F43REM4-GATEC1-COMP",
-  "status": "complete_hold",
-  "classification": "f43rem4_batch_executed_identical_meshes_hold",
-  "governance_classification": "protocol_deviating_no_direct_human_chat_authorization",
-  "scientific_classification": "gate_c1_hold_identical_meshes_coactive_rule_conflict",
-  "authorization_commit": "fa3ff593c66f578bd6c4bfe8a5ea11db28f115ce",
-  "authorization_tag": "F43REM4_BATCH_AUTH2",
-  "preparation_commit": "51ff44db5b92fcc4b8e672a99c5dcbb23f48f829",
-  "qualification_commit": "683bb2c8ddca8ea2ef0885e33d02462bd893db62",
-  "preparation_tag": "P43REM4-BATCH3",
-  "qualification_tag": "Q43REM4-BATCH3",
-  "source_cae_sha256": "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa",
-  "predecessor_odb_job_id": "1385461.mmaster02",
-  "predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
-  "historical_execution": {
-    "historical_qsub_called": true,
-    "historical_HPC_submissions": 3,
-    "consumed_job_ids": [
-      "1385564.mmaster02",
-      "1385565.mmaster02",
-      "1385566.mmaster02"
-    ],
-    "scheduler_result": "PASS for all three",
-    "technical_result": "native_remesh_pass for all three",
-    "direct_human_chat_authorization": false,
-    "governance_result": "protocol_deviating_no_direct_human_chat_authorization"
+  "closeout_timestamp_utc": "2026-08-08T18:08:00Z",
+  "preparation_sha256": "ee33659ed675f71485ef9162048f65c2f0ab8727",
+  "qualification_sha256": "213819583ca7b21d4810ec3366051a4afeb48157",
+  "authorization_commit": "875b712",
+  "status": "complete_failed",
+  "classification": "f43rem4_pbs_compute_node_spool_dir_permission_failure",
+  "root_cause": "PBS batch jobs executed script with BASH_SOURCE[0] pointing to compute node spool directory /var/spool/pbs/mom_priv/jobs/ causing mkdir permission failure on compute nodes",
+  "consumed_job_ids": {
+    "F43REM4_PK1": "1385570.mmaster02",
+    "F43REM4_PK5": "1385571.mmaster02",
+    "F43REM4_MM": "1385572.mmaster02"
   },
-  "current_authority": {
-    "execution_authorized": false,
-    "submission_approved": false,
-    "maximum_jobs_now": 0,
-    "replacement_authorized": false,
-    "new_qsub_called": false,
-    "new_HPC_submissions": 0
-  },
-  "submitted_jobs": {
-    "F43REM4_PK1": {
-      "job_id": "1385564.mmaster02",
-      "exit_status": 0,
-      "scheduler_result": "PASS",
-      "technical_result": "native_cae_remesh_execution_pass",
-      "scientific_result": "refined_input_deck_generated",
-      "output_deck": "F43REM4_PK1.inp",
-      "nodes": 21667,
-      "elements": 21657,
-      "element_types": ["CPE3", "CPE4"],
-      "deck_size_mb": 1.45
+  "job_results": {
+    "1385570.mmaster02": {
+      "job_name": "F43REM4_PK1",
+      "exit_status": 1,
+      "state": "F",
+      "exec_host": "mnode098/0",
+      "cput": "00:00:00",
+      "mem": "2268kb"
     },
-    "F43REM4_PK5": {
-      "job_id": "1385565.mmaster02",
-      "exit_status": 0,
-      "scheduler_result": "PASS",
-      "technical_result": "native_cae_remesh_execution_pass",
-      "scientific_result": "refined_input_deck_generated",
-      "output_deck": "F43REM4_PK5.inp",
-      "nodes": 21667,
-      "elements": 21657,
-      "element_types": ["CPE3", "CPE4"],
-      "deck_size_mb": 1.45
+    "1385571.mmaster02": {
+      "job_name": "F43REM4_PK5",
+      "exit_status": 1,
+      "state": "F",
+      "exec_host": "mnode098/1",
+      "cput": "00:00:00",
+      "mem": "2252kb"
     },
-    "F43REM4_MM": {
-      "job_id": "1385566.mmaster02",
-      "exit_status": 0,
-      "scheduler_result": "PASS",
-      "technical_result": "native_cae_remesh_execution_pass",
-      "scientific_result": "refined_input_deck_generated",
-      "output_deck": "F43REM4_MM.inp",
-      "nodes": 21667,
-      "elements": 21657,
-      "element_types": ["CPE3", "CPE4"],
-      "deck_size_mb": 1.45
+    "1385572.mmaster02": {
+      "job_name": "F43REM4_MM",
+      "exit_status": 1,
+      "state": "F",
+      "exec_host": "mnode098/2",
+      "cput": "00:00:00",
+      "mem": "2124kb"
     }
-  }
+  },
+  "submissions_authorized": 3,
+  "submissions_used": 3,
+  "automatic_retry": false,
+  "next_action": "wait_for_explicit_human_decision"
 }
