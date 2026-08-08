@@ -10,12 +10,7 @@
 
 set -euo pipefail
 
-: "${PBS_O_WORKDIR:?PBS_O_WORKDIR is required}"
-if [[ "${PBS_O_WORKDIR}" =~ ^[A-Za-z]: ]]; then
-    BATCH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-else
-    BATCH_DIR="$(cd "${PBS_O_WORKDIR}" && pwd)"
-fi
+BATCH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BRIDGE_DIR="$(cd "${BATCH_DIR}/.." && pwd)"
 
 CANDIDATE_ID="F43REM4_MM"
