@@ -3,16 +3,14 @@
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "models/generated/mode_ii/f43_stage_c_bridge/**",
-    "scripts/**",
-    "tests/unit/**",
     "project_coordination/**",
     "docs/**"
   ],
-  "started_at": "2026-08-08T18:00:00+02:00",
-  "completed_at": "2026-08-08T18:06:00+02:00",
-  "heartbeat": "2026-08-08T18:06:00+02:00",
+  "started_at": "2026-08-08T18:08:00+02:00",
+  "completed_at": "2026-08-08T18:09:00+02:00",
+  "heartbeat": "2026-08-08T18:09:00+02:00",
   "session_id": "89592ac7-7484-495d-9214-f45a0442b470",
-  "starting_commit": "70660c3d6ba2c68c98b2fa5233108ca95bbe4622",
-  "task_id": "F43REM4-RULE4",
-  "note": "Released session after explicit human authorization update and successful guarded submission of 3 F43REM4 sensitivity jobs (1385570, 1385571, 1385572)."
+  "starting_commit": "bc38abe32e84e8ef82f539ffbc8e3f48fae59253",
+  "task_id": "F43REM4-BATCH4-CLOSE",
+  "note": "Released session lock after F43REM4 sensitivity batch execution closeout."
 }
