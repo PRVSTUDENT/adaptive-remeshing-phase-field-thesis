@@ -258,11 +258,13 @@ def main():
     results = {}
 
     if args.mode == "test":
-        subject = "HPC Channel Preflight Test - {}".format(args.job_name)
-        body = ("HPC Notification Channel Preflight Verification\n"
-                "Timestamp: {}\n"
-                "Status: Operational test passed.\n").format(datetime.now(timezone.utc).isoformat())
-        tg_text = "<b>HPC Notification Preflight Test</b>\nJob: <code>{}</code>\nStatus: Operational test passed.".format(args.job_name)
+        subject = "Adaptive-remeshing notification test"
+        body = ("Adaptive-remeshing notification test:\n"
+                "login-node notification channel verified.\n"
+                "No HPC job submitted.\n")
+        tg_text = ("<b>Adaptive-remeshing notification test:</b>\n"
+                   "login-node notification channel verified.\n"
+                   "No HPC job submitted.")
 
     elif args.mode == "submission":
         subject = "HPC Job Submitted - {} ({})".format(args.job_name, args.job_id)

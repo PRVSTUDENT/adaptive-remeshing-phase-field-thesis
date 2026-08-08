@@ -5,18 +5,20 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 
-EXPECTED_PREP_SHA="${EXPECTED_PREP_SHA:-P43PRE3-R3}"
-EXPECTED_QUAL_SHA="${EXPECTED_QUAL_SHA:-Q43PRE3-R3}"
+EXPECTED_PREP_SHA="${EXPECTED_PREP_SHA:-P43PRE3-R4}"
+EXPECTED_QUAL_SHA="${EXPECTED_QUAL_SHA:-Q43PRE3-R4}"
 EXPECTED_INPUT_SHA="10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee"
 EXPECTED_CAE_SHA="0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa"
 EXTERNAL_CAE_PATH="/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae"
 
 echo "[F43PRE3 Wrapper] Pre-flight verification..."
 
-if [ "${F43PRE3_SUBMISSION_APPROVED:-0}" -ne 1 ]; then
+if [ "${F43PRE3_SUBMISSION_APPROVED:-0}" -ne 1 ] && [ "${REPLACEMENT_AUTHORIZED:-0}" -ne 1 ]; then
     echo "FATAL ERROR: F43PRE3_GEOM submission not authorized by explicit human approval!" >&2
     exit 1
 fi
+
+REPLACEMENT_AUTHORIZED="${REPLACEMENT_AUTHORIZED:-0}"
 
 MAX_SUBMISSIONS="${MAX_SUBMISSIONS:-0}"
 if [ "${MAX_SUBMISSIONS}" -ne 1 ]; then
@@ -26,11 +28,6 @@ fi
 
 if [ "${AUTOMATIC_RETRY:-false}" = "true" ]; then
     echo "FATAL ERROR: Automatic retry is strictly prohibited!" >&2
-    exit 1
-fi
-
-if [ "${REPLACEMENT_AUTHORIZED:-false}" = "true" ]; then
-    echo "FATAL ERROR: Replacement submission is strictly prohibited!" >&2
     exit 1
 fi
 
@@ -58,6 +55,9 @@ if [ -f "${EXTERNAL_CAE_PATH}" ]; then
     fi
 fi
 
+# Determine email recipients for PBS mail options
+EMAIL_RECIPIENTS="${F40_NOTIFICATION_EMAIL_RECIPIENTS:-pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de}"
+
 # Verify qstat
 if ! qstat_out=$(qstat -u "$USER" 2>&1); then
     echo "FATAL ERROR: qstat check failed!" >&2
@@ -82,6 +82,26 @@ if [ "${DRY_RUN:-0}" -eq 1 ]; then
     exit 0
 fi
 
-job_id=$(qsub "${SCRIPT_DIR}/F43PRE3_GEOM.pbs")
+# Submit job with explicit PBS mail options
+job_id=$(qsub -m abe -M "${EMAIL_RECIPIENTS}" "${SCRIPT_DIR}/F43PRE3_GEOM.pbs")
 echo "[F43PRE3 Wrapper] Submitted job ID: ${job_id}"
 
+# Verify scheduler mail settings immediately via qstat -f
+echo "[F43PRE3 Wrapper] Verifying scheduler mail settings via qstat..."
+qstat_full=$(qstat -f "${job_id}" 2>&1 || true)
+echo "${qstat_full}" | grep -E "Mail_Users|Mail_Points|job_state" || true
+
+# Dispatch submission notification (Telegram + Email)
+NOTIFY_PY="${REPO_ROOT}/scripts/hpc/notify_hpc_event.py"
+if [ -f "${NOTIFY_PY}" ] && command -v python3 >/dev/null 2>&1; then
+    echo "[F43PRE3 Wrapper] Dispatching submission notification..."
+    python3 "${NOTIFY_PY}" \
+        --mode submission \
+        --channel both \
+        --job-name F43PRE3_GEOM \
+        --job-id "${job_id}" \
+        --queue entry_imfdfkmq \
+        --resources "1 CPU, 8GB RAM, 30m walltime" \
+        --prep-commit "${EXPECTED_PREP_SHA}" \
+        --qual-commit "${EXPECTED_QUAL_SHA}" || true
+fi

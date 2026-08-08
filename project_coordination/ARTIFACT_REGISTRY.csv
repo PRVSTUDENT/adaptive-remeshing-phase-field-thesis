@@ -397,6 +397,9 @@ F43PRE3_R3_DETACHED_QUAL_SCRIPT,Stage C,scripts/validation/run_f43pre3_r3_detach
 F43PRE3_R3_SESSION_REPORT,Stage C,project_coordination/sessions/SESSION_2026-08-08_F43PRE3-R3.md,session_report,active,gemini-antigravity,b98ff859539e023f808926c6578c3d57a94c72c2,,,F43PRE3-R3 session report for robust working-directory contract and requalification
 F43PRE3_GEOM_EVIDENCE_1385461,Stage C,models/generated/mode_ii/f43_stage_c_bridge/evidence/1385461.mmaster02/,hpc_evidence,complete_pass,gemini-antigravity,b98ff859539e023f808926c6578c3d57a94c72c2,1385461.mmaster02,,F43PRE3_GEOM replacement job 1385461.mmaster02 evidence directory with solver outputs and log
 F43PRE3_GEOM_REPLACEMENT_CLOSEOUT_REPORT,Stage C,docs/experiment_records/STAGE_F43PRE3_GEOM_REPLACEMENT_GUARDED_HPC_CLOSEOUT.md,experiment_record,complete_pass,gemini-antigravity,b98ff859539e023f808926c6578c3d57a94c72c2,1385461.mmaster02,,F43PRE3_GEOM replacement job 1385461.mmaster02 terminal closeout experiment record
+NOTIFICATION_PIPELINE_VALIDATOR,Stage C,scripts/validation/validate_notification_pipeline.py,validator_script,active,gemini-antigravity,,,,F43PRE3-R4 notification pipeline offline and online validator script
+F43PRE3_R4_NOTIFICATION_CONTRACT_TESTS,Stage C,tests/unit/test_f43pre3_r4_notification_contract.py,unit_test,active,gemini-antigravity,,,,F43PRE3-R4 notification contract unit tests
+F43PRE3_R4_DETACHED_QUAL_SCRIPT,Stage C,scripts/validation/run_f43pre3_r4_detached_qual.sh,qualification_script,active,gemini-antigravity,,,,F43PRE3-R4 Linux-Git detached worktree qualification script
 
 
 

@@ -5,6 +5,8 @@
 #PBS -l walltime=00:30:00
 #PBS -j oe
 #PBS -o F43PRE3_GEOM.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
 
 set -euo pipefail
 
@@ -21,7 +23,7 @@ echo "[F43PRE3_GEOM] Starting Abaqus 2023 preanalysis job at $(date)"
 echo "[F43PRE3_GEOM] PBS_JOBID: ${PBS_JOBID:-local}"
 echo "[F43PRE3_GEOM] working_directory = ${WORKDIR}"
 
-# Optional diagnostic log of script source (do not rely on for package location)
+# Diagnostic log of script source (do not rely on for package location)
 SPOOL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 echo "[F43PRE3_GEOM] PBS_SPOOL_DIR = ${SPOOL_DIR} (diagnostic only, package anchor is PBS_O_WORKDIR)"
 
@@ -79,6 +81,24 @@ collector_rc=$?
 set -e
 
 echo "[F43PRE3_GEOM] Collector finished with exit status ${collector_rc} at $(date)"
+
+# Terminal notification dispatch (Telegram + Email fallback)
+NOTIFY_PY="${WORKDIR}/../../../scripts/hpc/notify_hpc_event.py"
+if [ -f "${NOTIFY_PY}" ] && command -v python3 >/dev/null 2>&1; then
+    classification="f43pre3_geom_preanalysis_solver_pass"
+    if [ ${solver_rc} -ne 0 ]; then
+        classification="f43pre3_geom_preanalysis_solver_failed"
+    fi
+    python3 "${NOTIFY_PY}" \
+        --mode terminal \
+        --channel both \
+        --job-name F43PRE3_GEOM \
+        --job-id "${PBS_JOBID:-local}" \
+        --exit-status "${solver_rc}" \
+        --host "$(hostname)" \
+        --classification "${classification}" \
+        --evidence-path "${WORKDIR}/evidence/${PBS_JOBID:-local}" || true
+fi
 
 if [ ${solver_rc} -ne 0 ]; then
     echo "FATAL ERROR: Abaqus solver exited with status ${solver_rc}" >&2
