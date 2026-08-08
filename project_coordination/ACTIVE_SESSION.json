@@ -1,12 +1,18 @@
 {
-  "active": false,
-  "agent": null,
-  "allowed_scope": [],
-  "started_at": "2026-08-08T18:15:00+02:00",
-  "completed_at": "2026-08-08T18:40:00+02:00",
-  "heartbeat": "2026-08-08T18:40:00+02:00",
-  "session_id": "89592ac7-7484-495d-9214-f45a0442b470",
-  "starting_commit": "a43d4d6bc6ed3fc034a2a138a8f4c8ddfa24b86c",
-  "task_id": "F43REM4-BATCH5",
-  "note": "Released session after F43REM4-BATCH5 execution-wrapper repair, concurrency-guard repair, real Abaqus-2023 preflights, exact-P qualification, and queue check."
+  "active": true,
+  "agent": "gemini-antigravity",
+  "allowed_scope": [
+    "models/generated/mode_ii/f43_stage_c_bridge/**",
+    "scripts/**",
+    "tests/unit/**",
+    "project_coordination/**",
+    "docs/**"
+  ],
+  "started_at": "2026-08-08T18:45:00+02:00",
+  "completed_at": null,
+  "heartbeat": "2026-08-08T18:45:00+02:00",
+  "session_id": "90623bd8-8595-506e-a325-e56b1553c581",
+  "starting_commit": "36353c7b7dcdd0a27d4fa348eb027b6394a6fe54",
+  "task_id": "F43REM4-SUB4",
+  "note": "Claimed session for authorized replacement sensitivity batch submission F43REM4-SUB4 under human chat authorization."
 }
