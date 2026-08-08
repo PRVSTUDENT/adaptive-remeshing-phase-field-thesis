@@ -11,6 +11,7 @@ echo "=== STARTING F43REM4-Q1 DETACHED QUALIFICATION AT P_SHA=${P_SHA} ==="
 
 rm -rf "${WORKTREE_DIR}"
 cd "${PROJECT_ROOT}"
+git worktree prune
 git worktree add --detach "${WORKTREE_DIR}" "${P_SHA}"
 
 cd "${WORKTREE_DIR}"
