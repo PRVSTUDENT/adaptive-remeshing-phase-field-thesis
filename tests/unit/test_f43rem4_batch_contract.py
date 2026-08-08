@@ -92,22 +92,78 @@ class TestF43REM4BatchContract(unittest.TestCase):
         self.assertIn("_runtime_work_copy_", code)
 
     def test_08_scientific_parameters_frozen(self):
-        pk1_cfg = json.load(open(os.path.join(BATCH_DIR, "remesh_sensitivity_config_pk1.json")))
+        with open(os.path.join(BATCH_DIR, "remesh_sensitivity_config_pk1.json")) as f:
+            pk1_cfg = json.load(f)
+        self.assertEqual(pk1_cfg["remeshing_rule"]["name"], "F43REM4_PK1_ONLY_RULE")
         self.assertEqual(pk1_cfg["remeshing_rule"]["sizingMethod"], "UNIFORM_ERROR")
         self.assertEqual(pk1_cfg["remeshing_rule"]["errorTarget"], 1.0)
         self.assertEqual(pk1_cfg["remeshing_rule"]["refinementFactor"], 10)
 
-        pk5_cfg = json.load(open(os.path.join(BATCH_DIR, "remesh_sensitivity_config_pk5.json")))
+        with open(os.path.join(BATCH_DIR, "remesh_sensitivity_config_pk5.json")) as f:
+            pk5_cfg = json.load(f)
+        self.assertEqual(pk5_cfg["remeshing_rule"]["name"], "F43REM4_PK5_ONLY_RULE")
         self.assertEqual(pk5_cfg["remeshing_rule"]["sizingMethod"], "UNIFORM_ERROR")
         self.assertEqual(pk5_cfg["remeshing_rule"]["errorTarget"], 5.0)
         self.assertEqual(pk5_cfg["remeshing_rule"]["refinementFactor"], 10)
 
-        mm_cfg = json.load(open(os.path.join(BATCH_DIR, "remesh_sensitivity_config_mm.json")))
+        with open(os.path.join(BATCH_DIR, "remesh_sensitivity_config_mm.json")) as f:
+            mm_cfg = json.load(f)
+        self.assertEqual(mm_cfg["remeshing_rule"]["name"], "F43REM4_MM_ONLY_RULE")
         self.assertEqual(mm_cfg["remeshing_rule"]["sizingMethod"], "MINIMUM_MAXIMUM")
         self.assertEqual(mm_cfg["remeshing_rule"]["maxSolutionErrorTarget"], 5.0)
         self.assertEqual(mm_cfg["remeshing_rule"]["minSolutionErrorTarget"], 1.0)
         self.assertEqual(mm_cfg["remeshing_rule"]["meshBias"], 1)
 
+    def test_09_single_active_rule_contract_in_driver(self):
+        driver_path = os.path.abspath(os.path.join(BATCH_DIR, "..", "remesh_mode_ii_native_cae.py"))
+        with open(driver_path, "r") as f:
+            code = f.read()
+        self.assertIn("del m.remeshingRules[existing_rule_name]", code)
+        self.assertIn("F43REM4_ACTIVE_RULE_AUDIT.json", code)
+        self.assertIn("active_rule_count", code)
+        self.assertIn("contract_match", code)
+        self.assertIn("FAIL-CLOSED SINGLE-ACTIVE-RULE CONTRACT VIOLATION", code)
+
+    def test_10_canonical_rule_hashes_distinct(self):
+        import hashlib
+        configs = {}
+        rule_hashes = {}
+        for c in ["pk1", "pk5", "mm"]:
+            p = os.path.join(BATCH_DIR, f"remesh_sensitivity_config_{c}.json")
+            with open(p) as f:
+                cfg = json.load(f)
+            r = cfg["remeshing_rule"]
+            spec_str = json.dumps(r, sort_keys=True)
+            h = hashlib.sha256(spec_str.encode()).hexdigest()
+            rule_hashes[c] = h
+
+        self.assertNotEqual(rule_hashes["pk1"], rule_hashes["pk5"], "PK1 and PK5 rule specs must be distinct")
+        self.assertNotEqual(rule_hashes["pk1"], rule_hashes["mm"], "PK1 and MM rule specs must be distinct")
+        self.assertNotEqual(rule_hashes["pk5"], rule_hashes["mm"], "PK5 and MM rule specs must be distinct")
+
+    def test_11_single_active_rule_assertion_logic(self):
+        def evaluate_active_rule_contract(rule_dict, expected_name):
+            all_rule_names = list(rule_dict.keys())
+            all_suppression_states = {r_name: rule_dict[r_name].get("suppressed", False) for r_name in all_rule_names}
+            active_rules = [r_name for r_name in all_rule_names if not all_suppression_states[r_name]]
+            active_rule_count = len(active_rules)
+            active_rule_name = active_rules[0] if active_rule_count > 0 else None
+            return (active_rule_count == 1) and (active_rule_name == expected_name) and (all_rule_names == [expected_name])
+
+        # Source rule alone -> FAIL
+        self.assertFalse(evaluate_active_rule_contract({"MISESERI_Adaptive_Rule": {}}, "F43REM4_PK1_ONLY_RULE"))
+        # Source rule + candidate rule -> FAIL
+        self.assertFalse(evaluate_active_rule_contract({"MISESERI_Adaptive_Rule": {}, "F43REM4_PK1_ONLY_RULE": {}}, "F43REM4_PK1_ONLY_RULE"))
+        # Two candidate rules -> FAIL
+        self.assertFalse(evaluate_active_rule_contract({"F43REM4_PK1_ONLY_RULE": {}, "F43REM4_PK5_ONLY_RULE": {}}, "F43REM4_PK1_ONLY_RULE"))
+        # Zero rules -> FAIL
+        self.assertFalse(evaluate_active_rule_contract({}, "F43REM4_PK1_ONLY_RULE"))
+        # Exactly one correct candidate rule -> PASS
+        self.assertTrue(evaluate_active_rule_contract({"F43REM4_PK1_ONLY_RULE": {}}, "F43REM4_PK1_ONLY_RULE"))
+        self.assertTrue(evaluate_active_rule_contract({"F43REM4_PK5_ONLY_RULE": {}}, "F43REM4_PK5_ONLY_RULE"))
+        self.assertTrue(evaluate_active_rule_contract({"F43REM4_MM_ONLY_RULE": {}}, "F43REM4_MM_ONLY_RULE"))
+
 if __name__ == "__main__":
     unittest.main()
+
 

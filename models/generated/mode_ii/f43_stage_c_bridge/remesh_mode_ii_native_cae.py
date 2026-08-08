@@ -392,8 +392,14 @@ def execute_native_remeshing():
         rule_name = str(rule_cfg["name"])
         job_name = str(manifest.get("expected_output_deck", manifest["candidate_id"] + ".inp")).replace(".inp", "")
 
-        if rule_name in m.remeshingRules.keys():
-            del m.remeshingRules[rule_name]
+    # Delete ALL pre-existing remeshing rules from the writable model copy to enforce single-rule execution contract
+    for existing_rule_name in list(m.remeshingRules.keys()):
+        del m.remeshingRules[existing_rule_name]
+
+    if is_f43rem4_cfg:
+        rule_cfg = manifest["remeshing_rule"]
+        rule_name = str(rule_cfg["name"])
+        job_name = str(manifest.get("expected_output_deck", manifest["candidate_id"] + ".inp")).replace(".inp", "")
 
         if rule_cfg["sizingMethod"] == "UNIFORM_ERROR":
             r = m.RemeshingRule(
@@ -435,19 +441,72 @@ def execute_native_remeshing():
         rule_name = "StageC_MISESERI_RemeshingRule"
         job_name = "F43REM3_NATIVE"
 
-        if rule_name not in m.remeshingRules.keys():
-            m.RemeshingRule(
-                name=rule_name,
-                stepName=step_name,
-                variables=('MISESERI',),
-                description="Stage C MISESERI Native Adaptive Remeshing Rule",
-                region=MODEL,
-                errorTarget=remesh_params["error_target"],
-                minElementSize=remesh_params["min_element_size_mm"],
-                maxElementSize=remesh_params["max_element_size_mm"]
-            )
+        m.RemeshingRule(
+            name=rule_name,
+            stepName=step_name,
+            variables=('MISESERI',),
+            description="Stage C MISESERI Native Adaptive Remeshing Rule",
+            region=MODEL,
+            errorTarget=remesh_params["error_target"],
+            minElementSize=remesh_params["min_element_size_mm"],
+            maxElementSize=remesh_params["max_element_size_mm"]
+        )
 
     remeshing_rule_constructed = (rule_name in m.remeshingRules.keys())
+
+    # Fail-closed active-rule audit
+    all_rule_names = list(m.remeshingRules.keys())
+    all_suppression_states = {r_name: getattr(m.remeshingRules[r_name], 'suppressed', False) for r_name in all_rule_names}
+    active_rules = [m.remeshingRules[r_name] for r_name in all_rule_names if not all_suppression_states[r_name]]
+    active_rule_count = len(active_rules)
+    active_rule_name = active_rules[0].name if active_rule_count > 0 else None
+
+    active_rule_attrs = {}
+    if active_rule_count > 0:
+        ar = active_rules[0]
+        active_rule_attrs = {
+            "name": ar.name,
+            "stepName": getattr(ar, "stepName", None),
+            "variables": list(getattr(ar, "variables", [])),
+            "region": "MODEL",
+            "sizingMethod": str(getattr(ar, "sizingMethod", None)),
+            "errorTarget": getattr(ar, "errorTarget", None),
+            "maxSolutionErrorTarget": getattr(ar, "maxSolutionErrorTarget", None),
+            "minSolutionErrorTarget": getattr(ar, "minSolutionErrorTarget", None),
+            "meshBias": getattr(ar, "meshBias", None),
+            "refinementFactor": getattr(ar, "refinementFactor", None),
+            "minElementSize": getattr(ar, "minElementSize", None),
+            "maxElementSize": getattr(ar, "maxElementSize", None),
+        }
+
+    expected_attrs = rule_cfg if is_f43rem4_cfg else {}
+
+    contract_match = (
+        active_rule_count == 1 and
+        active_rule_name == rule_name and
+        all_rule_names == [rule_name]
+    )
+
+    rule_audit_report = {
+        "candidate_id": candidate_id,
+        "all_rule_names": all_rule_names,
+        "all_rule_suppression_states": all_suppression_states,
+        "active_rule_count": active_rule_count,
+        "active_rule_name": active_rule_name,
+        "active_rule_attributes": active_rule_attrs,
+        "expected_rule_attributes": expected_attrs,
+        "contract_match": contract_match,
+        "adaptiveRemesh_called": False
+    }
+
+    audit_json_path = os.path.join(output_dir, "F43REM4_ACTIVE_RULE_AUDIT.json")
+    with open(audit_json_path, "w") as f:
+        json.dump(rule_audit_report, f, indent=2)
+
+    if not contract_match:
+        fail("FAIL-CLOSED SINGLE-ACTIVE-RULE CONTRACT VIOLATION: candidate {} has active_rule_count={}, all_rule_names={}, active_rule_name={}, expected_rule_name={}".format(
+            candidate_id, active_rule_count, all_rule_names, active_rule_name, rule_name
+        ))
 
     # Preflight Mode Execution
     if preflight_only:
@@ -465,6 +524,8 @@ def execute_native_remeshing():
             "predecessor_ODB_found": True,
             "predecessor_ODB_SHA_match": True,
             "rule_construction": "PASS",
+            "active_rule_count": active_rule_count,
+            "active_rule_name": active_rule_name,
             "rule_name": rule_name,
             "rule_step": step_name,
             "variables": ["MISESERI"],
@@ -479,6 +540,11 @@ def execute_native_remeshing():
         odb.close()
         print("[PASS] F43REM4 Preflight Completed Successfully for {}!".format(candidate_id))
         return
+
+    # Non-preflight full remeshing execution
+    rule_audit_report["adaptiveRemesh_called"] = True
+    with open(audit_json_path, "w") as f:
+        json.dump(rule_audit_report, f, indent=2)
 
     # Non-preflight full remeshing execution
     print("[F43 Native Remesh] Executing native Model.adaptiveRemesh(odb)...")
