@@ -1,6 +1,29 @@
 # Project Phase Checklist
 
-## F40 Abaqus CAE invocation and model building bisection gate
+## F43REM3-R1 Native Adaptive Remeshing Offline Preparation and Qualification Gate
+
+- [x] Performed comprehensive read-only ODB extraction and scientific review on PRE3 job `1385461.mmaster02` (`F43PRE3_GEOM.odb`, SHA256: `9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1`) against numerical reference PRE2 job `1385392.mmaster02` (`F43PRE2_GEOM.odb`, SHA256: `85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72`).
+- [x] Verified full endpoint displacement reached ($U_{\text{final}} = 0.001000\text{ mm}$ for both PRE2 and PRE3 across 17 increments to step time 1.00).
+- [x] Verified reaction force error $\le 5.0\%$: final RF error = **0.0254%** ($92.2822\text{ N}$ vs $92.2587\text{ N}$), peak RF error = **0.0254%**, normalized $RF-U$ $L_2$ error = **0.0254%**.
+- [x] Verified element domain consistency $\le 1.0\%$: domain volume ($EVOL$) relative error = **$2.47 \times 10^{-8}\%$**.
+- [x] Verified all required field outputs present in PRE3 ODB (`S`, `MISESERI`, `MISESAVG`, `EVOL`, `U`, `RF`).
+- [x] Evaluated stress error indicator statistics: MISESERI finite count 3716/3716, 0 NaN, 0 Inf, spatial correlation $R = 0.98945$ (98.95%), peak location distance $0.0190\text{ mm}$ ($\approx 1.27 l_0$ at notch root).
+- [x] Passed scientific review gate: **`provisional_pass`** $\rightarrow$ Selected **CASE A** (Offline native adaptive remeshing preparation).
+- [x] Frozen `F43REM3_NATIVE` execution package:
+  - Source CAE: `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae` (SHA256: `0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa`).
+  - Predecessor ODB: `evidence/1385461.mmaster02/F43PRE3_GEOM.odb` (SHA256: `9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1`).
+  - Remesh parameters: `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`, `refinementFactor = 0.5`, `errorTarget = 0.05`, `coarsening = ALLOW_COARSENING`, `passes = 3`.
+  - Fail-closed CAE kernel driver `remesh_mode_ii_native_cae.py` enforcing writable work copy `_runtime_work_copy.cae` and source byte immutability.
+  - PBS script `F43REM3_NATIVE.pbs` with `#PBS -m abe` and dual email recipients.
+  - Guarded wrapper `submit_f43rem3_native.sh` with `MAX_SUBMISSIONS=1`, `AUTOMATIC_RETRY=false`, and `qstat -f`.
+  - Static package validator `validate_f43rem3_native.py` and acceptance criteria `F43REM3_ACCEPTANCE_CRITERIA.json`.
+- [x] Qualified preparation commit in detached Linux worktree at target commit `93d29d1c94e4a85911078a626b6620986ddebf06`:
+  - 551 unit tests passed (`OK`), 0 failures, 0 errors, 0 skips.
+  - Static validator passed `overall_passed: true`.
+  - Natural post-test worktree cleanliness verified 100% clean.
+- [!] Classification: `f43rem3_native_offline_prepared_and_qualified_not_authorized`. All execution, submission, retry, and downstream authorizations remain false and zero.
+
+
 
 - [x] Prepared offline launcher diagnostic bisection package `models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect/` (`M2RMBISECT1`) under preparation commit P40 `36a779a4e106c812899218a1dd9db0dd00d430e4`.
 - [x] Implemented 12-phase bisection runner `f40_cae_bisection_runner.py` covering probes P00-P11.

@@ -401,7 +401,7 @@ NOTIFICATION_PIPELINE_VALIDATOR,Stage C,scripts/validation/validate_notification
 F43PRE3_R4_NOTIFICATION_CONTRACT_TESTS,Stage C,tests/unit/test_f43pre3_r4_notification_contract.py,unit_test,active,gemini-antigravity,,,,F43PRE3-R4 notification contract unit tests
 F43PRE3_R4_DETACHED_QUAL_SCRIPT,Stage C,scripts/validation/run_f43pre3_r4_detached_qual.sh,qualification_script,active,gemini-antigravity,,,,F43PRE3-R4 Linux-Git detached worktree qualification script
 FAKE_QSUB_MAIL_CONTRACT_TESTS,Stage C,tests/unit/test_fake_qsub_mail_contract.py,unit_test,active,gemini-antigravity,,,,Fake qsub mail options unit tests
-F43PRE3_R5_FWD1_SESSION_REPORT,Stage C,project_coordination/sessions/SESSION_2026-08-08_F43PRE3-R5-FWD1.md,session_report,active,gemini-antigravity,cc333837f18007d43ababfb121d74cdeaef19965,,,F43PRE3-R5-FWD1 session report for governance reconciliation and forward qualification
-
-
-
+F43PRE3_SCIENTIFIC_REVIEW_REPORT,Stage C,docs/experiment_records/STAGE_F43PRE3_SCIENTIFIC_REVIEW.md,experiment_record,active,gemini-antigravity,93d29d1c94e4a85911078a626b6620986ddebf06,1385461.mmaster02,,PRE3 job 1385461 scientific review and reference PRE2 comparison report
+F43REM3_NATIVE_EXECUTION_PACKAGE,Stage C,models/generated/mode_ii/f43_stage_c_bridge/F43REM3_NATIVE_MANIFEST.json,package,active,gemini-antigravity,93d29d1c94e4a85911078a626b6620986ddebf06,,,F43REM3_NATIVE frozen execution package manifest and components
+F43REM3_NATIVE_QUALIFICATION_RECORD,Stage C,models/generated/mode_ii/f43_stage_c_bridge/F43REM3_NATIVE_QUALIFICATION_RECORD.json,qualification_record,active,gemini-antigravity,93d29d1c94e4a85911078a626b6620986ddebf06,,,F43REM3_NATIVE exact 551-test detached Linux-Git qualification record
+F43REM3_R1_SESSION_REPORT,Stage C,project_coordination/sessions/SESSION_2026-08-08_F43REM3-R1.md,session_report,active,gemini-antigravity,93d29d1c94e4a85911078a626b6620986ddebf06,,,F43REM3-R1 session report for scientific review and native remeshing preparation
