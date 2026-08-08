@@ -137,6 +137,7 @@ def execute_native_remeshing():
     work_cae_sha_before = sha256_file(work_cae_path)
 
     from abaqus import mdb, openMdb
+    open_mdb_fn = openMdb
     from abaqusConstants import MODEL, UNIFORM_ERROR, MINIMUM_MAXIMUM, NOT_ALLOWED, ON, OFF
     from odbAccess import openOdb
 
