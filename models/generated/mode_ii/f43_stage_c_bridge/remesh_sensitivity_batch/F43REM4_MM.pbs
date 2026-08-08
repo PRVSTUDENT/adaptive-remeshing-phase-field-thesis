@@ -1,0 +1,43 @@
+#!/bin/bash
+#PBS -N F43REM4_MM
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -o F43REM4_MM.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+
+set -euo pipefail
+
+: "${PBS_O_WORKDIR:?PBS_O_WORKDIR is required}"
+WORKDIR="${PBS_O_WORKDIR}"
+
+cd "${WORKDIR}" || exit 1
+
+echo "[F43REM4_MM] Starting Abaqus 2023 native adaptive remeshing job at $(date)"
+echo "[F43REM4_MM] PBS_JOBID: ${PBS_JOBID:-local}"
+
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+export F43REM4_CONFIG_PATH="${WORKDIR}/remesh_sensitivity_config_mm.json"
+
+remesh_rc=0
+set +e
+abaqus cae noGUI=../remesh_mode_ii_native_cae.py
+remesh_rc=$?
+set -e
+
+if [ ${remesh_rc} -ne 0 ]; then
+    echo "FATAL ERROR: Abaqus CAE kernel exited with status ${remesh_rc}" >&2
+    exit ${remesh_rc}
+fi
+
+if [ ! -f "F43REM4_MM.inp" ]; then
+    echo "FATAL ERROR: Refined input deck F43REM4_MM.inp not generated!" >&2
+    exit 1
+fi
+
+echo "[F43REM4_MM] Refined input deck generated successfully. SHA256:"
+sha256sum F43REM4_MM.inp
