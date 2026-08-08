@@ -38,6 +38,11 @@ if not PROJECT_ROOT:
 if not PROJECT_ROOT:
     raise RuntimeError("Could not determine PROJECT_ROOT in Abaqus environment")
 
+# Add scripts directory to sys.path for benchmark spec imports if builder is invoked
+scripts_dir = os.path.join(PROJECT_ROOT, "scripts")
+if scripts_dir not in sys.path:
+    sys.path.insert(0, scripts_dir)
+
 BATCH_DIR = os.path.join(
     PROJECT_ROOT, "models", "generated", "mode_ii", "f43_stage_c_bridge", "remesh_sensitivity_batch"
 )
@@ -62,13 +67,18 @@ def ensure_source_cae():
         if sha256_file(SOURCE_CAE_PATH) == expected_cae_sha:
             return SOURCE_CAE_PATH
 
-    # Search for pre-built CAE in parent project root or build directory
-    parent_cae = "/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/ModeII_Geometry_Source_Abaqus2023.cae"
+    parent_cae = os.path.join(
+        "/home/pr21vyci/projects/adaptive-remeshing",
+        "models",
+        "generated",
+        "mode_ii",
+        "f43_stage_c_bridge",
+        "ModeII_Geometry_Source_Abaqus2023.cae",
+    )
     if os.path.exists(parent_cae) and sha256_file(parent_cae) == expected_cae_sha:
         shutil.copyfile(parent_cae, SOURCE_CAE_PATH)
         return SOURCE_CAE_PATH
 
-    # Otherwise build source CAE using build_mode_ii_native_cae.py
     builder = os.path.join(MODEL_DIR, "build_mode_ii_native_cae.py")
     print("Building source CAE via:", builder)
     execfile(builder)
