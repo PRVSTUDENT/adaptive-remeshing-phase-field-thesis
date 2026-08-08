@@ -17,70 +17,108 @@ def sha256_file(filepath):
             h.update(chunk)
     return h.hexdigest()
 
+def fail(msg):
+    print("FATAL ERROR: " + str(msg))
+    sys.exit(1)
+
 def execute_native_remeshing():
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    manifest_path = os.path.join(script_dir, "F43REM3_NATIVE_MANIFEST.json")
+
+    # Resolve manifest path supporting F43REM3 and F43REM2 environment variables
+    manifest_path = os.environ.get("F43REM3_MANIFEST_PATH",
+                     os.environ.get("F43REM2_MANIFEST_PATH",
+                     os.path.join(script_dir, "F43REM3_NATIVE_MANIFEST.json")))
 
     if not os.path.exists(manifest_path):
-        print("FATAL ERROR: Manifest file missing: {}".format(manifest_path))
-        sys.exit(1)
+        fail("Manifest file missing: {}".format(manifest_path))
 
     with open(manifest_path, "r") as f:
         manifest = json.load(f)
 
-    source_cae_path = manifest["source_cae_path"]
-    expected_cae_sha = manifest["source_cae_sha256"]
-    predecessor_odb_path = os.path.join(script_dir, manifest["predecessor_odb_path"])
-    expected_odb_sha = manifest["predecessor_odb_sha256"]
+    # Explicitly reject legacy 1384674 predecessor
+    pred_id = str(manifest.get("predecessor_odb_job_id", ""))
+    pred_path_val = str(manifest.get("predecessor_odb_path", ""))
+    if "1384674" in pred_id or "1384674" in pred_path_val:
+        fail("Driver explicitly rejects 1384674 predecessor")
 
-    print("[F43REM3 Native] Verifying pre-execution file integrity...")
+    source_cae_path = manifest.get("source_cae_path", "/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae")
+    expected_cae_sha = manifest.get("source_cae_sha256", "0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa")
+
+    raw_pred_path = manifest.get("predecessor_odb_path", "evidence/1385461.mmaster02/F43PRE3_GEOM.odb")
+    predecessor_odb_path = raw_pred_path if os.path.isabs(raw_pred_path) else os.path.join(script_dir, raw_pred_path)
+    expected_odb_sha = manifest.get("predecessor_odb_sha256", "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1")
+
+    print("[F43 Native Remesh] Verifying pre-execution file integrity...")
     if not os.path.exists(source_cae_path):
-        print("FATAL ERROR: Source CAE missing: {}".format(source_cae_path))
-        sys.exit(1)
+        fail("Source CAE missing: {}".format(source_cae_path))
 
     actual_cae_sha = sha256_file(source_cae_path)
     if actual_cae_sha != expected_cae_sha:
-        print("FATAL ERROR: Source CAE SHA mismatch! Expected {}, got {}".format(expected_cae_sha, actual_cae_sha))
-        sys.exit(1)
+        fail("Source CAE SHA mismatch! Expected {}, got {}".format(expected_cae_sha, actual_cae_sha))
 
     if not os.path.exists(predecessor_odb_path):
-        print("FATAL ERROR: Predecessor ODB missing: {}".format(predecessor_odb_path))
-        sys.exit(1)
+        fail("Predecessor ODB missing: {}".format(predecessor_odb_path))
 
     actual_odb_sha = sha256_file(predecessor_odb_path)
     if actual_odb_sha != expected_odb_sha:
-        print("FATAL ERROR: Predecessor ODB SHA mismatch! Expected {}, got {}".format(expected_odb_sha, actual_odb_sha))
-        sys.exit(1)
+        fail("Predecessor ODB SHA mismatch! Expected {}, got {}".format(expected_odb_sha, actual_odb_sha))
 
     # Create runtime writable COPY of source CAE
     work_cae_path = os.path.join(script_dir, "_runtime_work_copy.cae")
     if os.path.exists(work_cae_path):
         os.remove(work_cae_path)
     shutil.copy2(source_cae_path, work_cae_path)
-    print("[F43REM3 Native] Created writable work copy CAE: {}".format(work_cae_path))
+    print("[F43 Native Remesh] Created writable work copy CAE: {}".format(work_cae_path))
 
     from abaqus import mdb, openMdb
     from odbAccess import openOdb
     import job
 
-    print("[F43REM3 Native] Opening work copy MDB read-write...")
-    openMdb(pathName=work_cae_path)
+    open_mdb_fn = openMdb
+    print("[F43 Native Remesh] Opening work copy MDB read-write via open_mdb_fn...")
+    open_mdb_fn(pathName=work_cae_path)
 
     model_name = mdb.models.keys()[0]
     m = mdb.models[model_name]
-    print("[F43REM3 Native] Loaded model: {}".format(model_name))
+    print("[F43 Native Remesh] Loaded model: {}".format(model_name))
 
-    print("[F43REM3 Native] Opening predecessor ODB read-only...")
+    part_name = m.parts.keys()[0] if m.parts else "PlatePart"
+    inst_name = m.rootAssembly.instances.keys()[0] if m.rootAssembly.instances else "PlateInstance"
+    step_name = m.steps.keys()[0] if m.steps else "Step-1"
+
+    # Support Kernel Probe Mode
+    if os.environ.get("F43REM2_KERNEL_PROBE_ONLY") == "1" or os.environ.get("F43REM3_KERNEL_PROBE_ONLY") == "1":
+        probe_status = {
+            "status": "PASS",
+            "cae_kernel_probe": "PASS",
+            "openMdb_probe": "PASS",
+            "native_remesh_called": False,
+            "work_copy_cae": work_cae_path,
+            "model_name": model_name,
+            "part_name": part_name,
+            "instance_name": inst_name,
+            "step_name": step_name
+        }
+        with open("F43REM2_KERNEL_PROBE_STATUS.json", "w") as f:
+            json.dump(probe_status, f, indent=2)
+        print("[PASS] Abaqus CAE Kernel Probe Completed Successfully.")
+        return
+
+    print("[F43 Native Remesh] Opening predecessor ODB read-only...")
     odb = openOdb(pathName=predecessor_odb_path, readOnly=True)
 
     # Configure remeshing rule
-    remesh_params = manifest["remesh_parameters"]
+    remesh_params = manifest.get("remesh_parameters", {
+        "min_element_size_mm": 0.0075,
+        "max_element_size_mm": 0.03,
+        "refinement_factor": 0.5,
+        "error_target": 0.05
+    })
     rule_name = "StageC_MISESERI_RemeshingRule"
 
     if rule_name in m.remeshingRules.keys():
         del m.remeshingRules[rule_name]
 
-    inst_name = m.rootAssembly.instances.keys()[0]
     inst = m.rootAssembly.instances[inst_name]
 
     m.RemeshingRule(
@@ -93,12 +131,12 @@ def execute_native_remeshing():
         minElementSize=remesh_params["min_element_size_mm"],
         maxElementSize=remesh_params["max_element_size_mm"]
     )
-    print("[F43REM3 Native] Created remeshing rule: {}".format(rule_name))
+    print("[F43 Native Remesh] Created remeshing rule: {}".format(rule_name))
 
     # Execute native adaptive remeshing
-    print("[F43REM3 Native] Executing native adaptive remeshing operation...")
+    print("[F43 Native Remesh] Executing native adaptive remeshing operation...")
     m.rootAssembly.remesh(remeshingRule=rule_name, odb=odb)
-    print("[F43REM3 Native] Native remeshing completed.")
+    print("[F43 Native Remesh] Native remeshing completed.")
 
     # Write refined input deck
     job_name = "F43REM3_NATIVE"
@@ -111,17 +149,17 @@ def execute_native_remeshing():
         description="F43REM3 Refined Standard Input Deck"
     )
     j.writeInput(consistencyChecking=OFF)
-    print("[F43REM3 Native] Refined input deck written: {}.inp".format(job_name))
+    print("[F43 Native Remesh] Refined input deck written: {}.inp".format(job_name))
 
     odb.close()
 
     # Confirm source CAE was never modified in-place
     after_source_sha = sha256_file(source_cae_path)
     if after_source_sha != expected_cae_sha:
-        print("FATAL ERROR: Source CAE was modified in-place!")
-        sys.exit(1)
+        fail("Source CAE was modified in-place!")
 
-    print("[F43REM3 Native] Execution completed cleanly.")
+    print("[F43 Native Remesh] Execution completed cleanly.")
 
 if __name__ == "__main__":
     execute_native_remeshing()
+
