@@ -2,17 +2,19 @@
 # Linux-Git detached worktree qualification script for P43REM3-R1 / Q43REM3-R1
 set -euo pipefail
 
-TARGET_P_SHA="${1:-P43REM3-R1}"
+TARGET_P_SHA="${1:-P43REM3-R2}"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 echo "=== F43REM3-R1 DETACHED WORKTREE QUALIFICATION ==="
 echo "Target P SHA: ${TARGET_P_SHA}"
 
-WORKTREE_DIR="$(mktemp -d /tmp/f43rem3_r1_qual_XXXXXX)"
+WORKTREE_DIR="$(mktemp -d /tmp/f43rem3_r1_qual_worktree_XXXXXX)"
+SCRATCH_DIR="$(mktemp -d /tmp/f43rem3_r1_qual_scratch_XXXXXX)"
+
 cleanup() {
-    echo "Cleaning up worktree ${WORKTREE_DIR}..."
+    echo "Cleaning up worktree ${WORKTREE_DIR} and scratch ${SCRATCH_DIR}..."
     git -C "${REPO_ROOT}" worktree remove --force "${WORKTREE_DIR}" 2>/dev/null || true
-    rm -rf "${WORKTREE_DIR}"
+    rm -rf "${WORKTREE_DIR}" "${SCRATCH_DIR}"
 }
 trap cleanup EXIT
 
@@ -20,6 +22,11 @@ git -C "${REPO_ROOT}" worktree add --detach "${WORKTREE_DIR}" "${TARGET_P_SHA}"
 
 cd "${WORKTREE_DIR}"
 git config core.autocrlf false
+
+export F38_DIAGNOSTIC_MATRIX="${SCRATCH_DIR}/CAE_PHASE_DIAGNOSTIC_MATRIX.json"
+export TMPDIR="${SCRATCH_DIR}"
+export TEMP="${SCRATCH_DIR}"
+export TMP="${SCRATCH_DIR}"
 
 echo "Running full unit test suite at exact target P..."
 python3 -m unittest discover -s tests/unit -p 'test_*.py'
@@ -34,4 +41,8 @@ if [ -n "$(git status --porcelain=v1)" ]; then
     exit 1
 fi
 
+git diff --exit-code
+git diff --cached --exit-code
+
 echo "=== F43REM3-R1 DETACHED QUALIFICATION SUCCESS ==="
+
