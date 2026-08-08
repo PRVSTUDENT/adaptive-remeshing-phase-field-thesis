@@ -68,7 +68,7 @@ esac
         self.count.unlink(missing_ok=True)
         env = self.env()
         env.update(changes or {})
-        result = subprocess.run(["bash", str(SCRIPT)], env=env, text=True, capture_output=True)
+        result = subprocess.run(["bash", str(SCRIPT)], env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         records = []
         if self.log.exists():
             for block in self.log.read_text(encoding="utf-8").split("CALL=")[1:]:

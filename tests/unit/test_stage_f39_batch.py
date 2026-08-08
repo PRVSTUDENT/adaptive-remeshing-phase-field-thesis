@@ -89,7 +89,7 @@ class TestStageF39Batch(unittest.TestCase):
         self.assertTrue(os.path.exists(os.path.join(f38_dir, "PACKAGE_MANIFEST.json")))
 
     def test_static_gate_validator_passes(self):
-        res = subprocess.run([sys.executable, self.validator_path], capture_output=True, text=True)
+        res = subprocess.run([sys.executable, self.validator_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         self.assertEqual(res.returncode, 0, "Static validator failed: " + res.stdout + res.stderr)
 
 if __name__ == "__main__":

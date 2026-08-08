@@ -30,14 +30,14 @@ class F20PreparationTests(unittest.TestCase):
 
     def test_guarded_orchestrator_mock(self):
         script=ROOT/'scripts/hpc/stage_f/submit_stage_f20_adaptive_r7.sh'
-        closed=subprocess.run(['bash',str(script)],text=True,capture_output=True)
+        closed=subprocess.run(['bash',str(script)],stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
         self.assertEqual(closed.returncode,3); self.assertIn('activation_gate_closed',closed.stdout)
         with tempfile.TemporaryDirectory() as temporary:
             base=pathlib.Path(temporary); package=base/'package'; evidence=base/'evidence'; bindir=base/'bin'
             shutil.copytree(PACKAGE,package); bindir.mkdir()
             qsub=bindir/'qsub'; qsub.write_text('#!/bin/sh\nprintf "900001.mmaster02\\n"\n'); qsub.chmod(0o755)
             env=os.environ.copy(); env.update({'PATH':str(bindir)+os.pathsep+env['PATH'],'F20_ACTIVATE_SUBMISSION':'1','F20_EXPLICIT_AUTHORIZATION':'1','F20_ADAPTIVE_PACKAGE_DIR':str(package),'F20_EVIDENCE_ROOT':str(evidence)})
-            run=subprocess.run(['bash',str(script)],env=env,text=True,capture_output=True)
+            run=subprocess.run(['bash',str(script)],env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
             self.assertEqual(run.returncode,0,run.stdout+run.stderr); self.assertIn('submitted_adaptive_r7',run.stdout)
             self.assertIn('"qsub_attempts":1',run.stdout)
 

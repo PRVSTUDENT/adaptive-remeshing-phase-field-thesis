@@ -291,7 +291,7 @@ class TestStageF40Batch(unittest.TestCase):
         pbs_path = os.path.join(self.pkg_dir, "M2RMBISECT1.pbs")
         env = os.environ.copy()
         env.pop("F40_GUARDED_WRAPPER_INVOKED", None)
-        proc = subprocess.run(["bash", pbs_path], capture_output=True, text=True, env=env)
+        proc = subprocess.run(["bash", pbs_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, env=env)
         self.assertNotEqual(proc.returncode, 0, "Direct execution of M2RMBISECT1.pbs must fail")
         self.assertIn("FATAL: Direct execution of M2RMBISECT1.pbs is prohibited", proc.stderr)
 
@@ -302,7 +302,7 @@ class TestStageF40Batch(unittest.TestCase):
         env["F40_GUARDED_WRAPPER_INVOKED"] = "1"
         env.pop("PBS_JOBID", None)
         env.pop("PBS_NODEFILE", None)
-        proc = subprocess.run(["bash", pbs_path], capture_output=True, text=True, env=env)
+        proc = subprocess.run(["bash", pbs_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, env=env)
         self.assertNotEqual(proc.returncode, 0, "Execution without genuine PBS batch provenance must fail")
         self.assertIn("FATAL: Genuine PBS batch provenance required", proc.stderr)
 
@@ -320,7 +320,7 @@ class TestStageF40Batch(unittest.TestCase):
             nodefile_path = nf.name
         env["PBS_NODEFILE"] = nodefile_path
         try:
-            proc = subprocess.run(["bash", pbs_path], capture_output=True, text=True, env=env)
+            proc = subprocess.run(["bash", pbs_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, env=env)
             self.assertNotEqual(proc.returncode, 0, "Execution with non-PBS_BATCH environment must fail")
             self.assertIn("FATAL: Genuine PBS batch provenance required", proc.stderr)
         finally:
@@ -341,7 +341,7 @@ class TestStageF40Batch(unittest.TestCase):
             nodefile_path = nf.name
         env["PBS_NODEFILE"] = nodefile_path
         try:
-            proc = subprocess.run(["bash", pbs_path], capture_output=True, text=True, env=env)
+            proc = subprocess.run(["bash", pbs_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, env=env)
             self.assertNotEqual(proc.returncode, 0, "Execution with host absent from PBS_NODEFILE must fail")
             self.assertIn("FATAL: Current compute host is absent from PBS_NODEFILE", proc.stderr)
         finally:
@@ -368,12 +368,12 @@ class TestStageF40Batch(unittest.TestCase):
         # Mock qstat output fixture with M2RMBISECT1 job in 2nd column after header
         fixture_qstat = "Job ID            Name             User             Time Use S Queue\n----------------- ---------------- ---------------- -------- - -----\n1384588.mmaster02 M2RMBISECT1      testuser         00:00:00 R entry_imfdfkmq\n"
         cmd = ["awk", "NR > 2 && $2 == \"M2RMBISECT1\" {found=1} END {exit !found}"]
-        proc = subprocess.run(cmd, input=fixture_qstat, text=True, capture_output=True)
+        proc = subprocess.run(cmd, input=fixture_qstat, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.assertEqual(proc.returncode, 0, "Awk logic must detect M2RMBISECT1 job in qstat output fixture")
 
         # Mock qstat output fixture without M2RMBISECT1 job
         fixture_other = "Job ID            Name             User             Time Use S Queue\n----------------- ---------------- ---------------- -------- - -----\n1384589.mmaster02 OTHERJOB         testuser         00:00:00 R entry_imfdfkmq\n"
-        proc2 = subprocess.run(cmd, input=fixture_other, text=True, capture_output=True)
+        proc2 = subprocess.run(cmd, input=fixture_other, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.assertNotEqual(proc2.returncode, 0, "Awk logic must return non-zero when M2RMBISECT1 job is absent")
 
     def test_missing_evidence_report_returncode(self):
