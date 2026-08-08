@@ -1,5 +1,50 @@
 # Current project state
 
+## F43PRE3-R3 Robust PBS Working-Directory Contract & Fail-Closed Governance Qualification (2026-08-08)
+
+Completed task `F43PRE3-R3`: Robust PBS working-directory contract implementation, failed-job 1385460 governance correction, unit test suite creation, and full 530-test Linux-Git detached qualification:
+- **Task ID**: `F43PRE3-R3` / `F43PRE3_GEOM`
+- **Status**: `qualified_not_authorized`
+- **Classification**: `f43pre3_geom_r3_working_directory_contract_qualified_not_authorized`
+- **Dependency Graph**:
+  - `F43PRE3_GEOM`: `qualified_not_authorized` (ready for single guarded HPC submission upon explicit human approval)
+  - `F43REM3_NATIVE`: `blocked_pending_PRE3_execution_and_scientific_review`
+  - `F43DRY1`: `blocked`
+- **Preparation Commit ($P$)**: `P43PRE3-R3` (`b98ff859539e023f808926c6578c3d57a94c72c2`)
+- **Qualification Commit ($Q$)**: `Q43PRE3-R3` (`6fdf2d98398f34b09c721d9256d309de127ad095`)
+- **Superceded Qualification**: `Q43PRE3-R2` (`40ff9617b40ad060ecf636030f32c18877984b6d` superseded for authorization by robust PBS working-directory contract R3).
+- **Job 1385460 Governance Correction**:
+  - `1385460.mmaster02` consumed the single authorized submission attempt (`MAX_SUBMISSIONS=1`).
+  - Failure occurred pre-solver because `PBS_O_WORKDIR` resolved to repository root instead of package directory.
+  - Consumed authorization cannot be reused; a new explicit human approval is strictly required before any replacement submission.
+- **Robust Working-Directory Architecture Contract**:
+  - Submission Wrapper (`submit_f43pre3_geom.sh`): determines `SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"`, changes directory (`cd "${SCRIPT_DIR}"`), asserts `[ "$(pwd)" = "${SCRIPT_DIR}" ]`, verifies local package files (`F43PRE3_GEOM.inp`, `F43PRE3_GEOM.pbs`, `collect_f43pre3_geom_evidence.sh`, `validate_f43pre3_geom_runtime.py`) and exact input deck SHA `10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee` before calling `qsub`.
+  - PBS Batch Script (`F43PRE3_GEOM.pbs`): DOES NOT rely on `BASH_SOURCE[0]` to locate package directory. Enforces `: "${PBS_O_WORKDIR:?PBS_O_WORKDIR is required}"`, `WORKDIR="${PBS_O_WORKDIR}"`, `cd "${WORKDIR}" || exit 1`, `[ "$(pwd)" = "${WORKDIR}" ] || exit 1`. Performs pre-solver fail-closed package checks (input deck presence, input deck SHA, source CAE SHA, module loading) before invoking `abaqus`.
+  - Evidence Collector Contract: invokes `${WORKDIR}/collect_f43pre3_geom_evidence.sh "${PBS_JOBID:-local}"`. Preserves solver exit code (`solver_rc`); calculates `final_rc` (`solver_rc` if non-zero else `collector_rc`).
+- **Working-Directory Unit & Regression Test Suite**:
+  - Created `tests/unit/test_f43pre3_r3_working_directory_contract.py` containing 7 fail-closed tests:
+    1. Test A: Wrapper invoked from repository root -> fake `qsub` CWD = `models/generated/mode_ii/f43_stage_c_bridge` (**PASS**).
+    2. Test B: Wrapper invoked from arbitrary temporary directory -> fake `qsub` CWD = `models/generated/mode_ii/f43_stage_c_bridge` (**PASS**).
+    3. Test C: PBS script pre-solver shell portion executed with valid `PBS_O_WORKDIR` -> finds input deck (**PASS**).
+    4. Test D: PBS script executed from scheduler spool directory (`/tmp/fake_spool/1385460.OU`) -> resolves package via `PBS_O_WORKDIR` (**PASS**).
+    5. Test E: Historical 1385460 failure mode regression test -> fails closed when `PBS_O_WORKDIR` is repo root (**PASS**).
+    6. Test F: Missing `PBS_O_WORKDIR` negative contract test -> fails closed (**PASS**).
+    7. Test G: Input deck SHA mismatch negative contract test -> fails closed (**PASS**).
+- **Full Detached Worktree Qualification**:
+  - Target commit ($P$): `P43PRE3-R3` (`b98ff859539e023f808926c6578c3d57a94c72c2`)
+  - Executed `scripts/validation/run_f43pre3_r3_detached_qual.sh` in fresh Linux-Git detached worktree (`/tmp/f43pre3_r3_qual_worktree`).
+  - Discovered tests: **530 passed** (0 failures, 0 errors, 0 skips across 60 files).
+  - Static validator, semantic equivalence validator, and contract unit tests: **PASS**.
+  - Detached worktree clean status gate: **PASS** (`F43PRE3_R3_DETACHED_QUALIFICATION_SUCCESS`, `git status --porcelain=v1` empty).
+- **Authority Boundary**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `HPC_submissions`: 0
+- **Next Action**: `stopped_awaiting_explicit_human_authorization_block_for_single_replacement_F43PRE3_GEOM_submission`
+
+---
+
 ## F43PRE3_GEOM Guarded Remote HPC Submission 1385460 Closeout & Offline Path Repair (2026-08-08)
 
 Executed authorized guarded remote HPC submission of `F43PRE3_GEOM` job `1385460.mmaster02` on cluster `tu_freiberg`:

@@ -1,21 +1,12 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "allowed_scope": [
-    "models/generated/mode_ii/f43_stage_c_bridge/**",
-    "scripts/**",
-    "tests/**",
-    "docs/experiment_records/**",
-    "results/figures/**",
-    "project_coordination/**",
-    "docs/project/**"
-  ],
-  "started_at": "2026-08-08T05:23:00+02:00",
-  "completed_at": null,
-  "heartbeat": "2026-08-08T05:23:00+02:00",
-  "session_id": "gemini-f43pre3-r3-requalification-session",
-  "starting_commit": "ef5031be2a4573df2cce3029aa033490fd02580d",
-  "task_id": "F43PRE3-R3",
-  "note": "Active session for F43PRE3-R3 robust PBS working-directory contract, governance correction, unit test creation, and full detached qualification."
+  "active": false,
+  "agent": null,
+  "allowed_scope": [],
+  "started_at": null,
+  "completed_at": "2026-08-08T05:31:00+02:00",
+  "heartbeat": null,
+  "session_id": null,
+  "starting_commit": null,
+  "task_id": null,
+  "note": "Released session after F43PRE3-R3 robust PBS working-directory contract implementation and full detached qualification."
 }
-
