@@ -1,5 +1,37 @@
 # Current project state
 
+## F43PRE3_GEOM Guarded Remote HPC Submission 1385460 Closeout & Offline Path Repair (2026-08-08)
+
+Executed authorized guarded remote HPC submission of `F43PRE3_GEOM` job `1385460.mmaster02` on cluster `tu_freiberg`:
+- **Job ID**: `1385460.mmaster02`
+- **Task ID**: `F43PRE3_GEOM`
+- **Status**: `failed` (`f43pre3_geom_pbs_workdir_input_deck_not_found`)
+- **Queue**: `entry_imfdfkmq` (routed to `normal_imfdfkmq`)
+- **Authorization Commit**: `b9386f47a1f468e5037e7185009df0ceae92ac8a`
+- **Preparation Commit ($P$)**: `P43PRE3-R2` (`400c8ae9d538719ffd2cd6d43c1bc5d0fd81e43f`)
+- **Qualification Commit ($Q$)**: `Q43PRE3-R2` (`40ff9617b40ad060ecf636030f32c18877984b6d`)
+- **Terminal Empirical Result**:
+  - `qsub` executed cleanly via `submit_f43pre3_geom.sh`.
+  - Job `1385460.mmaster02` started on compute node (`mnode098/0`).
+  - Execution log `F43PRE3_GEOM.log` recorded: `[F43PRE3_GEOM] FATAL ERROR: F43PRE3_GEOM.inp input deck missing!`.
+- **Root-Cause Diagnosis**:
+  - `submit_f43pre3_geom.sh` invoked `qsub "${SCRIPT_DIR}/F43PRE3_GEOM.pbs"` from the repository root `/home/pr21vyci/projects/adaptive-remeshing`.
+  - As a result, PBS set `PBS_O_WORKDIR` to the repository root instead of `${SCRIPT_DIR}` (`models/generated/mode_ii/f43_stage_c_bridge`).
+  - `F43PRE3_GEOM.pbs` checked for `F43PRE3_GEOM.inp` in `${PBS_O_WORKDIR}` and failed immediately.
+- **Deterministic Offline Repair Applied**:
+  - Updated `submit_f43pre3_geom.sh` to explicitly `cd "${SCRIPT_DIR}"` before calling `qsub`.
+  - Updated `F43PRE3_GEOM.pbs` to resolve `SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"`, change directory to `${SCRIPT_DIR}`, and invoke `collect_f43pre3_geom_evidence.sh "${PBS_JOBID}"` upon completion.
+- **Evidence Collected**:
+  - Collected terminal log `models/generated/mode_ii/f43_stage_c_bridge/evidence/1385460.mmaster02/execution.log`.
+- **Authority Boundary**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: 0
+  - `HPC_submissions`: 1 (consumed)
+- **Next Action**: `fresh_human_authorization_required_for_exactly_one_replacement_F43PRE3_GEOM_submission`
+
+---
+
 ## F43PRE3-R2 Rigorous PRE2/PRE3 Semantic Equivalence Audit & Mesh Delta Qualification (2026-08-08)
 
 Completed task `F43PRE3-R2`: Rigorous PRE2/PRE3 input-deck semantic equivalence audit, mesh-delta spatial explanation, domain area verification, fail-closed semantic validator implementation, unit test suite creation, and full 523-test Linux-Git detached qualification:

@@ -8,11 +8,12 @@
 
 set -euo pipefail
 
-cd "${PBS_O_WORKDIR}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "${SCRIPT_DIR}"
 
 echo "[F43PRE3_GEOM] Starting Abaqus 2023 preanalysis job at $(date)"
 echo "[F43PRE3_GEOM] PBS_JOBID: ${PBS_JOBID:-local}"
-echo "[F43PRE3_GEOM] Workdir: ${PBS_O_WORKDIR}"
+echo "[F43PRE3_GEOM] Workdir: ${SCRIPT_DIR}"
 
 module purge
 module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
@@ -37,6 +38,8 @@ set -e
 
 echo "[F43PRE3_GEOM] Abaqus solver finished with exit status ${solver_rc} at $(date)"
 
+bash collect_f43pre3_geom_evidence.sh "${PBS_JOBID:-local}"
+
 if [ ${solver_rc} -ne 0 ]; then
     echo "[F43PRE3_GEOM] FATAL ERROR: Abaqus solver exited with non-zero status ${solver_rc}" >&2
     exit ${solver_rc}
@@ -51,3 +54,4 @@ echo "[F43PRE3_GEOM] Output ODB generated successfully. SHA256:"
 sha256sum F43PRE3_GEOM.odb
 
 echo "[F43PRE3_GEOM] Job completed successfully at $(date)"
+

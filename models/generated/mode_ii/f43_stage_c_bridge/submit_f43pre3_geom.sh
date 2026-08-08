@@ -68,5 +68,6 @@ if [ "${DRY_RUN:-0}" -eq 1 ]; then
     exit 0
 fi
 
+cd "${SCRIPT_DIR}"
 job_id=$(qsub "${SCRIPT_DIR}/F43PRE3_GEOM.pbs")
 echo "[F43PRE3 Wrapper] Submitted job ID: ${job_id}"
