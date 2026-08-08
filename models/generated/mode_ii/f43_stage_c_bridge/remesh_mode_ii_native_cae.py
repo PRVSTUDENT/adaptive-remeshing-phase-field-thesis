@@ -22,7 +22,10 @@ def fail(msg):
     sys.exit(1)
 
 def execute_native_remeshing():
-    script_dir = os.path.dirname(os.path.abspath(__file__))
+    if '__file__' in globals() and __file__:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+    else:
+        script_dir = os.getcwd()
 
     # Resolve manifest path supporting F43REM3 and F43REM2 environment variables
     manifest_path = os.environ.get("F43REM3_MANIFEST_PATH",
@@ -71,6 +74,7 @@ def execute_native_remeshing():
     print("[F43 Native Remesh] Created writable work copy CAE: {}".format(work_cae_path))
 
     from abaqus import mdb, openMdb
+    from abaqusConstants import OFF
     from odbAccess import openOdb
     import job
 
