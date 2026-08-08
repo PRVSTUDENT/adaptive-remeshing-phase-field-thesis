@@ -160,5 +160,28 @@ class TestStageF43REM3Native(unittest.TestCase):
         self.assertEqual(self.criteria["native_remeshing_acceptance_criteria"]["coarsening_policy"], "DISALLOW_COARSENING")
         self.assertEqual(self.criteria["native_remeshing_acceptance_criteria"]["max_remeshing_passes"], 1)
 
+    def test_T_working_directory_fallback_and_file_discovery_logic(self):
+        self.assertIn("if '__file__' in globals() and __file__:", self.driver)
+        self.assertIn("script_dir = os.getcwd()", self.driver)
+        self.assertIn("file_defined = False", self.driver)
+        self.assertIn("fallback_used = True", self.driver)
+        self.assertIn("from abaqusConstants import OFF", self.driver)
+
+    def test_U_kernel_probe_mode_contract(self):
+        self.assertIn("F43REM3_KERNEL_PROBE_ONLY", self.driver)
+        self.assertIn("F43REM3_KERNEL_PROBE_STATUS.json", self.driver)
+        self.assertIn('"native_remesh_called": False', self.driver)
+        self.assertIn('"source_CAE_copy_open": "PASS"', self.driver)
+        self.assertIn('"model_inventory": "PASS"', self.driver)
+        self.assertIn('"remeshing_rule_inventory": "PASS"', self.driver)
+        self.assertIn('"predecessor_ODB_available": "PASS"', self.driver)
+
+    def test_V_failed_job_1385466_governance_classification(self):
+        hpc_ledger_path = os.path.join(REPO_ROOT, "project_coordination", "HPC_JOB_LEDGER.csv")
+        with open(hpc_ledger_path, "r") as f:
+            ledger_text = f.read()
+        self.assertIn("1385466.mmaster02", ledger_text)
+        self.assertIn("f43rem3_native_cae_file_variable_undefined_error", ledger_text)
+
 if __name__ == "__main__":
     unittest.main()

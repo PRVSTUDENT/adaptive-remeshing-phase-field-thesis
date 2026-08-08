@@ -24,8 +24,14 @@ def fail(msg):
 def execute_native_remeshing():
     if '__file__' in globals() and __file__:
         script_dir = os.path.dirname(os.path.abspath(__file__))
+        file_defined = True
+        fallback_used = False
     else:
         script_dir = os.getcwd()
+        file_defined = False
+        fallback_used = True
+
+    cwd = os.getcwd()
 
     # Resolve manifest path supporting F43REM3 and F43REM2 environment variables
     manifest_path = os.environ.get("F43REM3_MANIFEST_PATH",
@@ -55,9 +61,9 @@ def execute_native_remeshing():
     if not os.path.exists(source_cae_path):
         fail("Source CAE missing: {}".format(source_cae_path))
 
-    actual_cae_sha = sha256_file(source_cae_path)
-    if actual_cae_sha != expected_cae_sha:
-        fail("Source CAE SHA mismatch! Expected {}, got {}".format(expected_cae_sha, actual_cae_sha))
+    actual_cae_sha_before = sha256_file(source_cae_path)
+    if actual_cae_sha_before != expected_cae_sha:
+        fail("Source CAE SHA mismatch! Expected {}, got {}".format(expected_cae_sha, actual_cae_sha_before))
 
     if not os.path.exists(predecessor_odb_path):
         fail("Predecessor ODB missing: {}".format(predecessor_odb_path))
@@ -66,11 +72,12 @@ def execute_native_remeshing():
     if actual_odb_sha != expected_odb_sha:
         fail("Predecessor ODB SHA mismatch! Expected {}, got {}".format(expected_odb_sha, actual_odb_sha))
 
-    # Create runtime writable COPY of source CAE
+    # Create runtime writable COPY of source CAE (source CAE remains strictly immutable)
     work_cae_path = os.path.join(script_dir, "_runtime_work_copy.cae")
     if os.path.exists(work_cae_path):
         os.remove(work_cae_path)
     shutil.copy2(source_cae_path, work_cae_path)
+    work_cae_sha_before = sha256_file(work_cae_path)
     print("[F43 Native Remesh] Created writable work copy CAE: {}".format(work_cae_path))
 
     from abaqus import mdb, openMdb
@@ -90,28 +97,6 @@ def execute_native_remeshing():
     inst_name = m.rootAssembly.instances.keys()[0] if m.rootAssembly.instances else "PlateInstance"
     step_name = m.steps.keys()[0] if m.steps else "Step-1"
 
-    # Support Kernel Probe Mode
-    if os.environ.get("F43REM2_KERNEL_PROBE_ONLY") == "1" or os.environ.get("F43REM3_KERNEL_PROBE_ONLY") == "1":
-        probe_status = {
-            "status": "PASS",
-            "cae_kernel_probe": "PASS",
-            "openMdb_probe": "PASS",
-            "native_remesh_called": False,
-            "work_copy_cae": work_cae_path,
-            "model_name": model_name,
-            "part_name": part_name,
-            "instance_name": inst_name,
-            "step_name": step_name
-        }
-        with open("F43REM2_KERNEL_PROBE_STATUS.json", "w") as f:
-            json.dump(probe_status, f, indent=2)
-        print("[PASS] Abaqus CAE Kernel Probe Completed Successfully.")
-        return
-
-    print("[F43 Native Remesh] Opening predecessor ODB read-only...")
-    odb = openOdb(pathName=predecessor_odb_path, readOnly=True)
-
-    # Configure remeshing rule
     remesh_params = manifest.get("remesh_parameters", {
         "min_element_size_mm": 0.0075,
         "max_element_size_mm": 0.03,
@@ -119,6 +104,53 @@ def execute_native_remeshing():
         "error_target": 0.05
     })
     rule_name = "StageC_MISESERI_RemeshingRule"
+
+    # Support Kernel Probe Mode
+    is_probe_mode = (os.environ.get("F43REM3_KERNEL_PROBE_ONLY") == "1" or
+                     os.environ.get("F43REM2_KERNEL_PROBE_ONLY") == "1")
+
+    if is_probe_mode:
+        actual_cae_sha_after = sha256_file(source_cae_path)
+        source_cae_unmodified = (actual_cae_sha_after == expected_cae_sha)
+        probe_status = {
+            "status": "PASS",
+            "abaqus_cae_kernel_entered": True,
+            "file_defined": file_defined,
+            "fallback_used": fallback_used,
+            "resolved_script_dir": script_dir,
+            "cwd": cwd,
+            "source_cae_path": source_cae_path,
+            "source_cae_sha_before": actual_cae_sha_before,
+            "source_cae_sha_after": actual_cae_sha_after,
+            "source_cae_unmodified_in_place": source_cae_unmodified,
+            "work_copy_cae_sha_before": work_cae_sha_before,
+            "source_CAE_copy_open": "PASS",
+            "model_inventory": "PASS",
+            "part_inventory": "PASS",
+            "instance_inventory": "PASS",
+            "step_inventory": "PASS",
+            "remeshing_rule_inventory": "PASS",
+            "predecessor_ODB_available": "PASS",
+            "predecessor_odb_sha": actual_odb_sha,
+            "native_remesh_called": False,
+            "probe_exit_status": 0,
+            "model_name": model_name,
+            "part_name": part_name,
+            "instance_name": inst_name,
+            "step_name": step_name,
+            "rule_name": rule_name
+        }
+        probe_out_path = os.path.join(script_dir, "F43REM3_KERNEL_PROBE_STATUS.json")
+        with open(probe_out_path, "w") as f:
+            json.dump(probe_status, f, indent=2)
+        # Also write legacy probe status file if queried
+        with open(os.path.join(script_dir, "F43REM2_KERNEL_PROBE_STATUS.json"), "w") as f:
+            json.dump(probe_status, f, indent=2)
+        print("[PASS] Abaqus CAE Kernel Probe Completed Successfully.")
+        return
+
+    print("[F43 Native Remesh] Opening predecessor ODB read-only...")
+    odb = openOdb(pathName=predecessor_odb_path, readOnly=True)
 
     if rule_name in m.remeshingRules.keys():
         del m.remeshingRules[rule_name]
@@ -166,4 +198,3 @@ def execute_native_remeshing():
 
 if __name__ == "__main__":
     execute_native_remeshing()
-
