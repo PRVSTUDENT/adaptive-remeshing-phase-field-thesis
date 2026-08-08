@@ -1,5 +1,58 @@
 # Current project state
 
+## F43REM4-BATCH5 PBS Path Repair, Concurrency-Guard Repair, Fresh Preparation & Exact-P Qualification (2026-08-08)
+
+Task `F43REM4-BATCH5`: Repaired PBS compute-node `BATCH_DIR` path resolution across all 3 tracked PBS scripts to strictly prefer `${PBS_O_WORKDIR}` with fail-closed validation, enforced maximum-two-simultaneously-running scheduler contract via `-W depend=afterany:<JOB1_ID>` on `F43REM4_MM`, preserved all scientific parameters exactly (`UNIFORM_ERROR` with `errorTarget=1.0` and `errorTarget=5.0`, `MINIMUM_MAXIMUM` with `maxSolutionErrorTarget=5.0` and `minSolutionErrorTarget=1.0`), created fresh preparation commit $P_{\text{F43REM4-BATCH5}}$ (`cd361ae6fae6a1c2673e23bfca92df362e76cfd8`), verified all 3 real Abaqus-2023 tracked PBS script preflight probes on `tu_freiberg` cluster login node (all PASS, rc=0), executed full 574-test discovery test suite in a clean detached Linux worktree at exact $P$ (0 failures, 0 errors, 15 skips), verified natural post-test worktree cleanliness (`git status --porcelain=v1` empty, `git diff --exit-code` 0), created separate forward qualification commit $Q_{\text{F43REM4-BATCH5}}$ (`cc752de6d5514a26d84b740e4878aaf231b16087`), audited scheduler queue (`qstat -u pr21vyci` rc=0, 0 running, 0 queued), and reset authority boundary:
+- **Task ID**: `F43REM4-BATCH5`
+- **Status**: `completed_qualification_pending_reauthorization` (`f43rem4_batch_spool_and_concurrency_repaired_and_qualified`)
+- **Preparation Commit ($P_{\text{F43REM4-BATCH5}}$)**: `cd361ae6fae6a1c2673e23bfca92df362e76cfd8` (`P43REM4-BATCH5`)
+- **Qualification Commit ($Q_{\text{F43REM4-BATCH5}}$)**: `cc752de6d5514a26d84b740e4878aaf231b16087` (`Q43REM4-BATCH5`)
+- **Recorded Failed Historical Batch**:
+  - `failed_PK1_job`: `1385570.mmaster02` (`scheduler_result = FAILED`, `technical_result = pre_launcher_pbs_path_failure`, `scientific_result = not_executed`, `adaptiveRemesh_entered = false`, `refined_mesh_generated = false`)
+  - `failed_PK5_job`: `1385571.mmaster02` (`scheduler_result = FAILED`, `technical_result = pre_launcher_pbs_path_failure`, `scientific_result = not_executed`, `adaptiveRemesh_entered = false`, `refined_mesh_generated = false`)
+  - `failed_MM_job`: `1385572.mmaster02` (`scheduler_result = FAILED`, `technical_result = pre_launcher_pbs_path_failure`, `scientific_result = not_executed`, `adaptiveRemesh_entered = false`, `refined_mesh_generated = false`)
+  - `common_failure`: `pbs_compute_node_spool_directory_resolution` (`BASH_SOURCE[0]` referred to `/var/spool/pbs/mom_priv/jobs/<job>.SC`, causing runtime directory creation under protected PBS spool storage)
+- **Governance & Concurrency Deviation Recording**:
+  - `historical_submissions_consumed`: `3` (`["1385570.mmaster02", "1385571.mmaster02", "1385572.mmaster02"]`)
+  - `direct_human_chat_authorization_before_failed_batch`: `false`
+  - `governance_result`: `protocol_deviating_no_direct_human_chat_authorization`
+  - `previous_max_running_authorized`: `2`
+  - `previous_max_running_observed`: `3`
+  - `concurrency_contract_previous_result`: `VIOLATED`
+- **Repairs Implemented & Tested**:
+  - `PBS_O_WORKDIR_repair_implemented`: **`true`** (`F43REM4_PK1.pbs`, `F43REM4_PK5.pbs`, `F43REM4_MM.pbs` resolve `BATCH_DIR` from `${PBS_O_WORKDIR}` with fail-closed validation)
+  - `spool_path_regression`: **`PASS`** (`test_f43rem4_batch_spool_and_concurrency.py` tests executed and passing)
+  - `max_two_running_scheduler_guard_implemented`: **`true`** (`submit_f43rem4_sensitivity_batch.sh` attaches `-W depend=afterany:<JOB1_ID>` to `F43REM4_MM`)
+  - `scientific_parameters_changed`: **`false`** (PK1 `UNIFORM_ERROR` 1.0%, PK5 `UNIFORM_ERROR` 5.0%, MM `MINIMUM_MAXIMUM` 5.0%/1.0%)
+- **Real Abaqus-2023 Login-Node Preflight Probes at Exact P (`cd361ae6...`)**:
+  - `PK1_real_Abaqus2023_preflight`: `PASS` (`exit_status = 0`, `active_rule_count = 1`, `rule = F43REM4_PK1_ONLY_RULE`, `adaptiveRemesh_called = false`)
+  - `PK5_real_Abaqus2023_preflight`: `PASS` (`exit_status = 0`, `active_rule_count = 1`, `rule = F43REM4_PK5_ONLY_RULE`, `adaptiveRemesh_called = false`)
+  - `MM_real_Abaqus2023_preflight`: `PASS` (`exit_status = 0`, `active_rule_count = 1`, `rule = F43REM4_MM_ONLY_RULE`, `adaptiveRemesh_called = false`)
+- **Detached Linux-Git Qualification at Exact P (`cd361ae6...`)**:
+  - `full_repository_test_count`: `574` passed
+  - `failures`: `0`
+  - `errors`: `0`
+  - `skips`: `15`
+  - `natural_post_test_clean`: **`true`** (`PORCELAIN_STATUS` empty, `git diff --exit-code` 0, `git diff --cached --exit-code` 0)
+- **Forward Qualification Commit ($Q_{\text{F43REM4-BATCH5}}$)**:
+  - `new_Q_SHA`: `cc752de6d5514a26d84b740e4878aaf231b16087` (`Q43REM4-BATCH5`)
+  - `Q_differs_from_P`: `true`
+  - `Q_descends_from_P`: `true`
+- **Scheduler Queue Audit**:
+  - `queue_check_rc`: `0`
+  - `running_jobs`: `0`
+  - `queued_jobs`: `0`
+- **Authority Boundary Reset**:
+  - `authorization_ready`: `true`
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `new_qsub_called`: `false`
+  - `new_HPC_submissions`: `0`
+- **Next Action**: Awaiting fresh direct human authorization in chat before any replacement batch submission.
+
+---
+
 ## F43REM4 Single-Active-Rule Replacement Sensitivity Batch Execution Closeout (2026-08-08)
 
 Task `F43REM4-BATCH4-CLOSE`: Collected terminal scheduler and log evidence for the 3 authorized guarded sensitivity batch jobs (`1385570.mmaster02`, `1385571.mmaster02`, `1385572.mmaster02`) submitted under human authorization (`875b712`):

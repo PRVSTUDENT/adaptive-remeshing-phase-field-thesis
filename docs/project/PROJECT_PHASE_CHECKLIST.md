@@ -1,5 +1,22 @@
 # Project Phase Checklist
 
+## F43REM4-BATCH5 PBS Compute-Node Path Repair, Concurrency-Guard Repair & Exact-P Qualification Gate
+
+- [x] Repaired PBS compute-node `BATCH_DIR` path resolution across all 3 tracked PBS scripts (`F43REM4_PK1.pbs`, `F43REM4_PK5.pbs`, `F43REM4_MM.pbs`) to strictly prefer `${PBS_O_WORKDIR}` with fail-closed validation.
+- [x] Enforced maximum-two-simultaneously-running scheduler contract in `submit_f43rem4_sensitivity_batch.sh` via `-W depend=afterany:<JOB1_ID>` on `F43REM4_MM`.
+- [x] Preserved scientific sizing parameters exactly without modification:
+  - PK1: `UNIFORM_ERROR`, `errorTarget = 1.0`, `refinementFactor = 10`, `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`.
+  - PK5: `UNIFORM_ERROR`, `errorTarget = 5.0`, `refinementFactor = 10`, `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`.
+  - MM: `MINIMUM_MAXIMUM`, `maxSolutionErrorTarget = 5.0`, `minSolutionErrorTarget = 1.0`, `meshBias = 1`, `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`.
+- [x] Created fresh preparation commit $P_{\text{F43REM4-BATCH5}}$ (`cd361ae6fae6a1c2673e23bfca92df362e76cfd8`) and tag `P43REM4-BATCH5`.
+- [x] Executed real Abaqus-2023 login-node tracked-PBS preflights on `tu_freiberg` cluster at exact P (`cd361ae6...`): all PASS, exit status 0, single active rule per candidate, distinct rule hashes, zero remeshing executions.
+- [x] Executed full test suite in detached clean Linux worktree at exact P (`cd361ae6...`): 574 passed, 0 failures, 0 errors, 15 skips, worktree naturally clean (`git status --porcelain=v1` empty).
+- [x] Created separate forward qualification commit $Q_{\text{F43REM4-BATCH5}}$ (`cc752de6d5514a26d84b740e4878aaf231b16087`) and tag `Q43REM4-BATCH5`.
+- [x] Verified PBS scheduler queue (`qstat -u pr21vyci`): rc=0, 0 running, 0 queued.
+- [!] Authority boundary reset: `execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `automatic_retry = false`. Awaiting fresh direct human authorization in chat before any replacement batch submission.
+
+---
+
 ## F43REM3-R1 Native Adaptive Remeshing Offline Preparation and Qualification Gate
 
 - [x] Performed comprehensive read-only ODB extraction and scientific review on PRE3 job `1385461.mmaster02` (`F43PRE3_GEOM.odb`, SHA256: `9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1`) against numerical reference PRE2 job `1385392.mmaster02` (`F43PRE2_GEOM.odb`, SHA256: `85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72`).

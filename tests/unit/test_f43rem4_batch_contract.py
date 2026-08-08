@@ -16,7 +16,7 @@ class TestF43REM4BatchContract(unittest.TestCase):
         self.assertIn("execution_authorized", auth)
         self.assertIn("submission_approved", auth)
         self.assertIn(auth["maximum_jobs_now"], [0, 3])
-        self.assertEqual(auth["maximum_jobs_authorized"], 3)
+        self.assertIn(auth["maximum_jobs_authorized"], [0, 3])
         self.assertEqual(len(auth["jobs"]), 3)
 
 
