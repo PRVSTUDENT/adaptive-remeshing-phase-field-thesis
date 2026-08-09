@@ -1,6 +1,37 @@
 # Project Phase Checklist
 
+## F43DUALDRY-LINEAGE1 Immutable Final Dry-Test Preparation / Q Reconciliation
+
+- [x] Recorded historical tag movement:
+  - `historical_preparation_tag`: `P43DUALDRY1`.
+  - `historical_P43DUALDRY1_tag_moved`: `true` (acknowledged and preserved without deletion).
+- [x] Verified accepted execution SHA:
+  - `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6` is a valid commit.
+  - `execution_bytes_unchanged_since_accepted_SHA`: `true` across all candidate decks, subroutines, PBS scripts, and validator tools.
+- [x] Verified frozen artifact hashes:
+  - `MM`: `b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f`.
+  - `PK5`: `01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6`.
+  - `UEL`: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`.
+- [x] Verified retained exact-P qualification:
+  - Detached HEAD: `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6`.
+  - Toolchains: `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, `python/gcc/11.4.0/3.11.7`.
+  - Full discovery unit suite: **599 passed, 0 failures, 0 errors, 17 skips (`OK`)**.
+  - Natural post-test cleanliness: `true`.
+- [x] Created immutable final P tag:
+  - `P43DUALDRY1-FINAL1` pointing to `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6`.
+- [x] Created separate final Q lineage:
+  - `Q43DUALDRY1-FINAL1` pointing to provenance-only Q commit.
+  - $Q_{\text{SHA}} \ne P_{\text{SHA}}$, $Q$ descends from $P$, $Q$ execution-critical changes = `false`.
+- [x] Retained two-job technical execution contract:
+  - `F43DRY_MM` and `F43DRY_PK5` (`entry_imfdfkmq`, 1 CPU, 8 GB, 00:30:00).
+- [x] Preserved zero-submission boundary:
+  - `authorization_ready_for_dual_dry_test`: `true`.
+  - `execution_authorized`: `false`, `maximum_jobs_now`: `0`.
+
+---
+
 ## F43DUALDRY-PREP1 Dual-Candidate Mixed-UEL Dry-Test Preparation & Lineage Qualification
+
 
 - [x] Froze rebuilt candidate decks without modification:
   - `F43UEL_MM_REBUILT.inp`: SHA256 `b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f` (2,206 physical -> 6,618 layered elements).

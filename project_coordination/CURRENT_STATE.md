@@ -1,6 +1,46 @@
 # Current project state
 
+## F43DUALDRY-LINEAGE1 Immutable Final Dry-Test Preparation / Q Reconciliation (2026-08-09)
+
+Task `F43DUALDRY-LINEAGE1`: Completed immutable tag reconciliation and established final authorization-ready P/Q lineage around the qualified execution SHA `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6`:
+- **Task ID**: `F43DUALDRY-LINEAGE1`
+- **Status**: `complete_pass`
+- **Historical Tag Movement Acknowledged**:
+  - `historical_preparation_tag`: `P43DUALDRY1`
+  - `historical_P43DUALDRY1_tag_moved`: `true` (historical tag was moved during local/offline script adjustments; preserved in-place, never to be moved/deleted again)
+- **Immutable Lineage**:
+  - `final_P_SHA`: **`2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6`**
+  - `final_P_tag`: **`P43DUALDRY1-FINAL1`** (immutable single-creation alias)
+  - `final_Q_tag`: **`Q43DUALDRY1-FINAL1`**
+- **Execution-Critical Byte Invariance**:
+  - `execution_bytes_unchanged_since_accepted_SHA`: **`true`**
+- **Frozen Source & Deck Hashes**:
+  - `MM_rebuilt_SHA`: `b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f`
+  - `PK5_rebuilt_SHA`: `01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6`
+  - `UEL_SHA`: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`
+- **Retained Exact-P Qualification on tu_freiberg**:
+  - `retained_detached_HEAD`: `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6`
+  - `retained_full_repository_test_count`: **`599`**
+  - `retained_failures`: **`0`**
+  - `retained_errors`: **`0`**
+  - `retained_skips`: **`17`**
+  - `retained_natural_post_test_clean`: **`true`**
+- **Dual Dry-Test Execution Contract**:
+  - Two independent technical jobs: `F43DRY_MM` and `F43DRY_PK5` (`entry_imfdfkmq`, 1 CPU, 8 GB, 00:30:00).
+  - Maximum submissions: 2.
+  - Purpose: Pure technical validation of Abaqus input deck parsing, Fortran UEL compilation/linking, U1/U2/U3/U4 invocation, passive facsimile stability, and initial elastic stiffness.
+- **Authority Boundary**:
+  - `authorization_ready_for_dual_dry_test`: **`true`**
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: `0`
+
+---
+
 ## F43DUALDRY-PREP1 Dual-Candidate Mixed-UEL Dry-Test Preparation & Lineage Qualification (2026-08-09)
+
 
 Task `F43DUALDRY-PREP1`: Completed formal package preparation, compiler/toolchain contract qualification, branch coverage audits, and fresh P/Q lineage creation (`P43DUALDRY1` -> `Q43DUALDRY1`) for the two-job technical dry test:
 - **Task ID**: `F43DUALDRY-PREP1`
