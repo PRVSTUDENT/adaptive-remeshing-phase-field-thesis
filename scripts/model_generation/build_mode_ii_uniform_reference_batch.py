@@ -366,12 +366,12 @@ def generate_reference_deck(
 
     out_file.parent.mkdir(parents=True, exist_ok=True)
     deck_text = "\n".join(lines) + "\n"
-    out_file.write_text(deck_text, encoding="utf-8")
+    out_file.write_bytes(deck_text.encode("utf-8"))
     return sha256_file(out_file)
 
 
-def generate_pbs_script(case_name: str, pkg_dir: Path, cfg: Dict[str, Any]) -> str:
-    """Generate guarded PBS execution script."""
+def generate_pbs_script(case_name: str, pkg_dir: Path, cfg: dict) -> str:
+    """Generate PBS batch execution script."""
     pbs_file = pkg_dir / f"{case_name}.pbs"
     content = f"""#!/bin/bash
 #PBS -N {case_name}
@@ -399,7 +399,9 @@ abaqus job={case_name} input={case_name}.inp user=f42_mixed_uel.for cpus=1 inter
 echo "=== Execution Complete ==="
 date
 """
-    pbs_file.write_text(content, encoding="utf-8")
+    # Force Unix LF line endings
+    content_lf = content.replace("\r\n", "\n")
+    pbs_file.write_bytes(content_lf.encode("utf-8"))
     return sha256_file(pbs_file)
 
 
@@ -423,7 +425,9 @@ fi
 echo "Submitting {case_name} to PBS..."
 qsub {case_name}.pbs
 """
-    sh_file.write_text(content, encoding="utf-8")
+    # Force Unix LF line endings
+    content_lf = content.replace("\r\n", "\n")
+    sh_file.write_bytes(content_lf.encode("utf-8"))
     return sha256_file(sh_file)
 
 
