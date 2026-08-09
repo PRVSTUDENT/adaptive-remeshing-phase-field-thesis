@@ -1,5 +1,55 @@
 # Current project state
 
+## F43MODEREF-PREP6 True TU-Freiberg Exact-P HPC Qualification & Clean Lineage (2026-08-09)
+
+Task `F43MODEREF-PREP6`: Executed true remote exact-P qualification on `tu_freiberg` HPC cluster (`mlogin01.cluster`) under detached worktree at `P43MODEREF3` (`417e3b8`), verified actual HPC toolchain (`gcc/11.4.0`, `ifort/2024.2.0`, `abaqus/2023`, `python/3.11.7`), canonical hashes, static shell syntax, 15 focused tests, 612 full repository discovery tests, natural post-test worktree cleanliness, and created fresh qualification anchor `Q43MODEREF3-FINAL1`:
+- **Task ID**: `F43MODEREF-PREP6`
+- **Status**: `complete_pass`
+- **Remote Host & Provenance Identity**:
+  - `remote_hostname`: `mlogin01.cluster`
+  - `remote_user`: `pr21vyci`
+  - `remote_repository`: `/home/pr21vyci/projects/adaptive-remeshing`
+  - `P_SHA`: `417e3b8dbb74e36bb6942250e56b6c0ac9427475`
+  - `P_tag`: `P43MODEREF3`
+  - `remote_detached_HEAD`: `417e3b8dbb74e36bb6942250e56b6c0ac9427475`
+- **HPC Toolchain Verified**:
+  - `remote_gcc_version`: `11.4.0`
+  - `remote_ifort_version`: `2021.13.0 20240602`
+  - `remote_abaqus_version`: `2023`
+  - `remote_python_version`: `3.11.7`
+- **Canonical Execution Hashes Verified on HPC**:
+  - `canonical_H0_SHA`: `e17a8895ede9cc1a85d00950586e679f95796310211667bc28b4b037be7162e6`
+  - `canonical_H1_SHA`: `4ac37c50a26d67106e5c1e6083937f9b0716c3646c90ad87c51a8ef9b172808e`
+  - `canonical_H2_SHA`: `a651cef82999d333bd9062cc4d743a98908178535623dd8ca8ed7993dfe23de0`
+  - `canonical_UEL_SHA`: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`
+- **Remote HPC Qualification Results**:
+  - Shell syntax checks (`bash -n` on all `.pbs` and submit wrappers): `ALL PASS`
+  - Contract validation (`validate_mode_ii_reference_contract.py`): **`PASS`** (`duplicate_node_labels = 0`, `duplicate_element_labels = 0`, `undefined_node_refs = 0`, `zero_area_elements = 0`, `negative_area_elements = 0`)
+  - Focused reference tests: **15/15 PASS (`failures = 0`, `errors = 0`)**
+  - Remote full repository test suite: **612 tests completed (`failures = 0`, `errors = 0`, `skips = 17`)**
+  - Historical H0 reuse: `historical_H0_reused_for_convergence = true`
+  - `remote_natural_status_empty`: `true`
+  - `remote_git_diff_exit_code`: `0`, `remote_git_diff_cached_exit_code`: `0`
+  - Queue status (`qstat -u pr21vyci`): `queue_check_rc = 0`, `running_jobs = 0`, `queued_jobs = 0`
+- **Final Qualification Tag**:
+  - `final_Q_tag`: `Q43MODEREF3-FINAL1`
+  - `Q_differs_from_P`: `true`
+  - `Q_descends_from_P`: `true`
+  - `Q_execution_critical_changes`: `false`
+- **Future Reference Jobs**:
+  - `future_reference_jobs`: `M2REF_H1_REPAIR`, `M2REF_H2_REPAIR`
+  - `planned_future_submissions`: `2`
+  - `maximum_concurrent`: `2`
+- **Current Authority Boundary**:
+  - `authorization_ready_for_replacement_reference_batch`: `true`
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: `0`
+
+---
+
 ## F43MODEREF-PREP5 Final HPC Exact-P Qualification & Clean Replacement Authorization Lineage (2026-08-09)
 
 Task `F43MODEREF-PREP5`: Reconciled lineage across P43MODEREF2 and Q43MODEREF2-FINAL1, tagged fresh immutable preparation anchor `P43MODEREF3` at `417e3b8`, executed exact-P qualification under detached worktree, verified canonical hashes and natural post-test worktree cleanliness, and created fresh qualification anchor `Q43MODEREF3`:
