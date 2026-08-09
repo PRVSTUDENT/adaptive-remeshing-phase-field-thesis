@@ -1,7 +1,7 @@
 {
   "protocol_version": 1,
   "task_id": "F43MODEREF-VERIFY-SUBMIT1",
-  "status": "authorized_submitting_verification_batch",
+  "status": "submitted_running_verification_batch",
   "remote_hostname": "mlogin01.cluster",
   "remote_user": "pr21vyci",
   "remote_repository": "/home/pr21vyci/projects/adaptive-remeshing",
@@ -42,8 +42,8 @@
     "execution_authorized": true,
     "submission_approved": true,
     "maximum_jobs_authorized": 2,
-    "actual_submissions_made": 0,
-    "qsub_called": false,
+    "actual_submissions_made": 2,
+    "qsub_called": true,
     "authorized_jobs": [
       "M2REF_ONEEL_FRACFIX_VERIFY",
       "M2REF_H0_FRACFIX_REPRO"
