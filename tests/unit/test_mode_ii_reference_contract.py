@@ -30,7 +30,7 @@ class TestModeIIReferenceContract(unittest.TestCase):
     def setUpClass(cls):
         if not MANIFEST_PATH.is_file():
             raise FileNotFoundError(f"Manifest not found: {MANIFEST_PATH}")
-        cls.manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+        cls.manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8-sig"))
         cls.candidates = cls.manifest.get("candidates", {})
 
     def test_manifest_structure(self):
