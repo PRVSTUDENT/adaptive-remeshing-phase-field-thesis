@@ -971,3 +971,17 @@ matrix. Status: repaired and qualified offline; fresh authorization required.
 - Derived CSV writers must set LF explicitly. Platform-default CSV newlines and
   working-tree CRLF hashes made the first proof nondeterministic; F20 now hashes
   canonical Git LF text and emits LF.
+
+## M-129: Unintentional Evidence Directory Cleanup During Git Synchronization (2026-08-09)
+
+ID: M-129  
+Date: 2026-08-09  
+Stage/job: Stage C (`F43MODEREF-FRACFIX-BATCHREADY2`)  
+Source commit: `3f4f23d9fca381e1899efc6ab721ce5cf0b02411`  
+Classification: `protocol_deviation_destructive_evidence_workspace_cleanup`  
+Symptom: During Git sync on the HPC working clone, `rm -rf` was executed against evidence directories `1385895.mmaster02` and `1385896.mmaster02` to resolve merge conflicts with untracked local extraction files.  
+Root cause: Over-aggressive workspace cleanup used `rm -rf` on untracked evidence folders instead of moving them or using selective checkout.  
+Scientific inputs changed: No.  
+Correction: Logged governance deviation `protocol_deviation_destructive_evidence_workspace_cleanup`. Inventoried retained evidence: all 10 extracted CSV/JSON files and PBS scheduler logs (`1385895.mmaster02.OU` and `1385896.mmaster02.OU`) were 100% preserved in Git/spool; raw ODBs/sta/msg/dat were purged per standard ODB cleanup policy.  
+Prevention rule: Never again use `rm -rf` or destructive clean on completed job evidence directories on HPC. Move files to a safe archive if Git synchronization requires a clean path.  
+Status: resolved (governance deviation recorded, no unique scientific evidence lost).
