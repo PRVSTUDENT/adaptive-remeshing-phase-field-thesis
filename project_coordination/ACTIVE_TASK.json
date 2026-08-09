@@ -1,6 +1,6 @@
 {
   "protocol_version": 1,
-  "task_id": "F43MODEREF-PREP7",
+  "task_id": "F43MODEREF-PREP7R",
   "status": "complete_pass",
   "remote_hostname": "mlogin01.cluster",
   "remote_user": "pr21vyci",
@@ -8,9 +8,10 @@
   "P_SHA": "417e3b8dbb74e36bb6942250e56b6c0ac9427475",
   "P_tag": "P43MODEREF3",
   "remote_detached_HEAD": "417e3b8dbb74e36bb6942250e56b6c0ac9427475",
-  "test_count_difference_617_vs_612_explained": true,
-  "test_count_difference_reason": "environment_specific_collection",
-  "five_missing_tests_or_cases": [
+  "historical_local_617_count": "noncanonical_dirty_worktree_observation",
+  "canonical_exact_P_test_count": 612,
+  "historical_617_vs_612_arithmetic_reconciliation": "not_required_for_exact_P_qualification",
+  "noncanonical_local_untracked_tests_observed": [
     "test_candidate_deck_hashes_and_sizing",
     "test_comparison_report_file_integrity",
     "test_pre3_baseline_mesh_integrity",
@@ -21,6 +22,7 @@
     "test_master_report_updated_classification",
     "test_svg_figures_generated"
   ],
+  "total_untracked_tests_observed": 9,
   "canonical_H0_SHA": "e17a8895ede9cc1a85d00950586e679f95796310211667bc28b4b037be7162e6",
   "canonical_H1_SHA": "4ac37c50a26d67106e5c1e6083937f9b0716c3646c90ad87c51a8ef9b172808e",
   "canonical_H2_SHA": "a651cef82999d333bd9062cc4d743a98908178535623dd8ca8ed7993dfe23de0",
@@ -52,7 +54,9 @@
   "queue_check_rc": 0,
   "running_jobs": 0,
   "queued_jobs": 0,
-  "final_Q_tag": "Q43MODEREF3-FINAL2",
+  "Q43MODEREF3_FINAL2_execution_qualification_valid": true,
+  "Q43MODEREF3_FINAL2_provenance_text_contains_test_count_explanation_error": true,
+  "final_Q_tag": "Q43MODEREF3-FINAL3",
   "Q_differs_from_P": true,
   "Q_descends_from_P": true,
   "Q_execution_critical_changes": false,

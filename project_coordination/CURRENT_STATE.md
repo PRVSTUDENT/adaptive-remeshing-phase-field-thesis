@@ -1,5 +1,54 @@
 # Current project state
 
+## F43MODEREF-PREP7R Provenance-Only Test-Count Correction & Q43MODEREF3-FINAL3 (2026-08-09)
+
+Task `F43MODEREF-PREP7R`: Corrected PREP7 provenance terminology (explicitly recording `historical_local_617_count = noncanonical_dirty_worktree_observation`, `canonical_exact_P_test_count = 612`, and `historical_617_vs_612_arithmetic_reconciliation = not_required_for_exact_P_qualification`), replaced misleading `five_missing_tests_or_cases` field with `noncanonical_local_untracked_tests_observed` listing all 9 untracked tests accurately, preserved historical `Q43MODEREF3-FINAL2`, created fresh qualification tag `Q43MODEREF3-FINAL3`:
+- **Task ID**: `F43MODEREF-PREP7R`
+- **Status**: `complete_pass`
+- **Provenance Identity**:
+  - `P_SHA`: `417e3b8dbb74e36bb6942250e56b6c0ac9427475` (`P43MODEREF3`)
+  - `Q43MODEREF3_FINAL2_execution_qualification_valid`: `true`
+  - `Q43MODEREF3_FINAL2_provenance_text_contains_test_count_explanation_error`: `true`
+- **Canonical Qualification Results Preserved**:
+  - `full_test_count`: `612`
+  - `full_test_rc`: `0`
+  - `full_failures`: `0`
+  - `full_errors`: `0`
+  - `full_skips`: `17`
+  - `cleanup_between_tests_and_status`: `false`
+  - `natural_status_empty`: `true`
+  - `git_diff_exit_code`: `0`, `git_diff_cached_exit_code`: `0`
+- **Canonical Hashes Preserved**:
+  - `canonical_H0_SHA`: `e17a8895ede9cc1a85d00950586e679f95796310211667bc28b4b037be7162e6`
+  - `canonical_H1_SHA`: `4ac37c50a26d67106e5c1e6083937f9b0716c3646c90ad87c51a8ef9b172808e`
+  - `canonical_H2_SHA`: `a651cef82999d333bd9062cc4d743a98908178535623dd8ca8ed7993dfe23de0`
+  - `canonical_UEL_SHA`: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`
+  - `historical_H0_reused_for_convergence`: `true`
+- **Corrected Terminology**:
+  - `historical_local_617_count`: `noncanonical_dirty_worktree_observation`
+  - `canonical_exact_P_test_count`: `612`
+  - `historical_617_vs_612_arithmetic_reconciliation`: `not_required_for_exact_P_qualification`
+  - `noncanonical_local_untracked_tests_observed`: `[test_candidate_deck_hashes_and_sizing, test_comparison_report_file_integrity, test_pre3_baseline_mesh_integrity, test_shoelace_area_correctness, test_spearman_correlation_function, test_audit_json_structure_and_governance, test_extracted_summary_metrics_values, test_master_report_updated_classification, test_svg_figures_generated]`
+  - `total_untracked_tests_observed`: `9`
+- **Final Qualification Tag**:
+  - `final_Q_tag`: `Q43MODEREF3-FINAL3`
+  - `Q_differs_from_P`: `true`
+  - `Q_descends_from_P`: `true`
+  - `Q_execution_critical_changes`: `false`
+- **Future Reference Jobs**:
+  - `future_reference_jobs`: `M2REF_H1_REPAIR`, `M2REF_H2_REPAIR`
+  - `planned_future_submissions`: `2`
+  - `maximum_concurrent`: `2`
+- **Current Authority Boundary**:
+  - `authorization_ready_for_replacement_reference_batch`: `true`
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: `0`
+
+---
+
 ## F43MODEREF-PREP7 Final Single-Run TU-Freiberg Qualification Evidence Reconciliation (2026-08-09)
 
 Task `F43MODEREF-PREP7`: Reconciled test discovery discrepancy (617 vs 612 tests explained by untracked local F43REM4 files absent at exact commit `P43MODEREF3`), executed a single authoritative remote qualification run on `tu_freiberg` (`mlogin01.cluster`) under detached worktree at `P43MODEREF3` (`417e3b8`), verified canonical hashes, static shell syntax, 15 focused tests, 612 full repository discovery tests (`FULL_TEST_RC = 0`), natural post-test cleanliness without cleanup (`PORCELAIN_LEN = 0`, `diff rc = 0`, `cached diff rc = 0`), and created definitive qualification anchor `Q43MODEREF3-FINAL2`:
