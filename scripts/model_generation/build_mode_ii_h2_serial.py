@@ -7,7 +7,6 @@ Physical elements = 33852, layered elements = 101556, node count = 34508, Fortra
 Target displacement: U1 = 0.020 mm (frozen reference endpoint).
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

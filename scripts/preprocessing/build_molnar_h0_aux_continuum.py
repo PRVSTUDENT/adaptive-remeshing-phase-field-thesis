@@ -5,7 +5,6 @@ Standard plane-strain continuum with real elastic properties for Abaqus
 MISESERI recovery. Same H0 geometry/mesh/BCs and U_pre=0.00464 mm.
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

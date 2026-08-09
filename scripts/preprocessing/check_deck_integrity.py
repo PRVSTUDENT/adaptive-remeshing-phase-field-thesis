@@ -6,7 +6,6 @@ without a deck to verify the tool path, and it performs simple keyword/set
 checks once an input deck is supplied.
 """
 
-from __future__ import annotations
 
 import argparse
 import sys

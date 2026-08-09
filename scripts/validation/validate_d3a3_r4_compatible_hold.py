@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Validate D3A3-R4 compatible active-set release-hold outputs."""
 
-from __future__ import annotations
 
 import argparse
 import csv

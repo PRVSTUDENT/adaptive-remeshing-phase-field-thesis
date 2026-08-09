@@ -5,7 +5,6 @@ Revalidates evidence bundles without re-running Abaqus or overwriting original e
 Outputs revalidation results to runs/hpc/stage_f/mode_ii_h1_endpoint_sweep/revalidation/<job_id>/REVALIDATION_RESULTS.json.
 """
 
-from __future__ import annotations
 
 import sys
 from pathlib import Path

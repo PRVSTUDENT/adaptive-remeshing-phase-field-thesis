@@ -5,7 +5,6 @@ Verifies wrapper-to-PBS variable mapping, hash verification, authorization check
 and login-manifest schema static properties.
 """
 
-from __future__ import annotations
 
 import argparse
 import json

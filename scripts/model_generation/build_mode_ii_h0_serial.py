@@ -6,7 +6,6 @@ mesh. Changes only pure-shear boundary conditions, job metadata, and required
 output requests. Does not submit jobs or enable MISESERI remeshing.
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

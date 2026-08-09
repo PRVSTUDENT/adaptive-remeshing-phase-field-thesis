@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Validate D3A5 actual-history reprojection and prepare package_compatible_r2."""
 
-from __future__ import annotations
 
 import argparse
 import csv

@@ -5,7 +5,6 @@ Performs thorough offline validation of the finite element deck, Fortran source,
 and metadata files for the H1 endpoint-corrected package.
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

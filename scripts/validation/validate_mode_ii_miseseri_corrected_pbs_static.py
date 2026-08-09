@@ -12,7 +12,6 @@ Verifies:
 - Unique short Abaqus/PBS job name: M2MISER1
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

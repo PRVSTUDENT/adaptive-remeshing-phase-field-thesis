@@ -7,7 +7,6 @@ and writes the target-state CSV/provenance/support-map files that a later D2A
 Abaqus/UEL ingestion job must consume and verify.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

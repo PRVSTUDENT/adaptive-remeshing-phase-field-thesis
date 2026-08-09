@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Fail-closed static validator for Stage F37 M2RMBUILD11 qualification."""
 
-from __future__ import annotations
 import os
 import sys
 import json

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Static checks for Molnar paper-matched single-notch candidates."""
 
-from __future__ import annotations
 
 import argparse
 import csv

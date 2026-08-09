@@ -6,7 +6,6 @@ points as raw evidence and writes a separately binned processed curve. The
 result is an approximate published-reference trace, not author data.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

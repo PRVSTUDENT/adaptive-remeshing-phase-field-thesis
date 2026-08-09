@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Fail-closed consistency checks for multi-agent bootstrap entrypoints."""
 
-from __future__ import annotations
 
 import argparse
 import json

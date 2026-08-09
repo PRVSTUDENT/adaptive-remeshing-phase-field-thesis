@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Atomically consume P3-SB authorization after a valid qsub response."""
-from __future__ import annotations
 
 import argparse
 import json

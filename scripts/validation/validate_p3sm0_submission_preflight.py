@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Fail-closed authorization and staging checks for P3-SM0."""
-from __future__ import annotations
 
 import argparse
 import hashlib

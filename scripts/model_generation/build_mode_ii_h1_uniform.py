@@ -7,7 +7,6 @@ Physical elements = 12064, layered elements = 36192, node count = 12382, Fortran
 Applies Mode-II pure shear boundary conditions and the Amp-2 endpoint correction (0.2s).
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

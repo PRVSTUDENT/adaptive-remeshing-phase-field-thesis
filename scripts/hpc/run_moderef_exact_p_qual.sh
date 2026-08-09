@@ -4,9 +4,9 @@ set -euo pipefail
 echo "=== Fast-forwarding main repo on cluster ==="
 cd /home/pr21vyci/projects/adaptive-remeshing
 git fetch origin main
-git merge --ff-only origin/main
+git fetch origin tag P43MODEREF1-FINAL1 || true
 
-TARGET_SHA="cf082a32dfa85d114acfe9702731a7a16e457eb8"
+TARGET_SHA="48a714571994d21ee6af2f6e91122a6114eb91dc"
 
 WORKTREE_DIR=$(mktemp -d /tmp/f43moderef_qual_XXXXXX)
 echo "WORKTREE_DIR=$WORKTREE_DIR"

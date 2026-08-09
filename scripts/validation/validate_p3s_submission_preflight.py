@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Fail-closed login/staging checks for the one-shot P3-S submission lane."""
-from __future__ import annotations
 
 import argparse
 import hashlib

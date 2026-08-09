@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Synthetic and fixture tests for the D3D-A1 offline checkpoint update."""
 
-from __future__ import annotations
 
 import copy
 import csv

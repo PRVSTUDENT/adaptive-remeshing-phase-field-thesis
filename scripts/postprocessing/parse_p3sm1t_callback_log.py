@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Parse P3-SM1T callback and isolated GETTHREADID events."""
-from __future__ import annotations
 
 import argparse
 import csv

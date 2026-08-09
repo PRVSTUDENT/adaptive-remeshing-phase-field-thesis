@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Build isolated D3D Route-B active-set-validity segment deck from accepted R4."""
 
-from __future__ import annotations
 
 import argparse
 import csv

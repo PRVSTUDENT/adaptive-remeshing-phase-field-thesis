@@ -6,7 +6,6 @@ Snaps lower and upper notch-face node coordinates to exact y=0.0 while preservin
 Outputs von Mises stress discretization recovery error indicators (MISESERI, MISESAVG, S, E, EVOL) at load level U1 = 0.001 mm.
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

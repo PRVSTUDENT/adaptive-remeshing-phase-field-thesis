@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Atomically consume P3-T4 authorization after a valid future submission."""
-from __future__ import annotations
 
 import argparse
 import json

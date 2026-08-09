@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Validate P3-SM0 gates plus corrected documented get_thread_id behavior."""
-from __future__ import annotations
 
 import argparse
 import json

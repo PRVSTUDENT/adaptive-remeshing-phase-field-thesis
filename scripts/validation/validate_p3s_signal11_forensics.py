@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Offline validation for P3-S signal-11 evidence and P3-SB preparation."""
 
-from __future__ import annotations
 
 import hashlib
 import json

@@ -1,20 +1,22 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "project_coordination/**",
-    "models/generated/mode_ii/f43_stage_c_bridge/**",
+    "models/generated/mode_ii/**",
     "scripts/**",
+    "tests/unit/**",
     "docs/**"
   ],
-  "started_at": "2026-08-09T07:05:00+02:00",
-  "completed_at": "2026-08-09T07:18:00+02:00",
-  "heartbeat": "2026-08-09T07:18:00+02:00",
-  "session_id": "a91b2345-d859-440b-f234-d01e6998a0d7",
-  "starting_commit": "66b8c37542141278b7762b220cdad0dd922c0fe4",
-  "task_id": "F43DUALDRY-SUB1",
-  "note": "Completed Task F43DUALDRY-SUB1: Guarded submission and execution closeout of authorized dual dry tests (F43DRY_MM and F43DRY_PK5, both PASS)."
+  "started_at": "2026-08-09T07:25:00+02:00",
+  "completed_at": null,
+  "heartbeat": "2026-08-09T07:25:00+02:00",
+  "session_id": "c12d3456-e960-451c-a345-e12f7009b1e8",
+  "starting_commit": "92b2643068da66651cc6ea7bfa163edfa2670b2f",
+  "task_id": "F43MODEREF-PREP1",
+  "note": "Claimed session for Task F43MODEREF-PREP1: Mode-II uniform phase-field reference inventory, convergence contract, offline deck preparation, and P/Q qualification."
 }
+
 
 
 

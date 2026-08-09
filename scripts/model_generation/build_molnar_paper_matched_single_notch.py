@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Generate deterministic Molnar paper-matched single-notch candidate decks."""
 
-from __future__ import annotations
 
 import argparse
 import csv

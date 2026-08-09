@@ -10,7 +10,6 @@ nonfinite values). Negative active multipliers are scientific results: the
 analyzer still finishes and lets the final validator classify the outcome.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

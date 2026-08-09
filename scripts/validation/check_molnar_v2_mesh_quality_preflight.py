@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Final mesh-quality preflight for Molnar paper-matched candidate v2."""
 
-from __future__ import annotations
 
 import argparse
 import csv

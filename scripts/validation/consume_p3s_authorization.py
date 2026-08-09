@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Atomically consume the one-shot P3-S authorization after valid qsub."""
-from __future__ import annotations
 
 import argparse
 import json

@@ -7,7 +7,6 @@ non-mesh scientific settings from the supplementary model while varying only
 local crack-path resolution.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

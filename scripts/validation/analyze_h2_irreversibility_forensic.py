@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Analyze Stage-F7 fixed-key extraction and create lightweight decisions."""
-from __future__ import annotations
 
 import argparse
 import csv

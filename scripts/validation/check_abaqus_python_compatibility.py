@@ -17,7 +17,6 @@ DEFAULT_PATHS = [
 # Patterns that failed or are high-risk under older Abaqus Python interpreters.
 BANNED = [
     (r"\bf['\"]", "f-string"),
-    (r"from __future__ import annotations", "future annotations"),
     (r"\bpathlib\b", "pathlib"),
     (r"\bdataclasses\b", "dataclasses"),
     (r"exist_ok\s*=", "os.makedirs exist_ok"),

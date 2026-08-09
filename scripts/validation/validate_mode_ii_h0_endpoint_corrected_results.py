@@ -5,7 +5,6 @@ Evaluates extracted result files against scientific acceptance criteria.
 Target displacement: U1 = 0.010 mm. Crack path must be non-empty.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

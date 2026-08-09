@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Fail-closed authorization/preflight checks for Stage-F Mode-II H0."""
 
-from __future__ import annotations
 
 import argparse
 import hashlib

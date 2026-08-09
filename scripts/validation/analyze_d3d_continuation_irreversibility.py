@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Consecutive-frame phase/history irreversibility audit for D3D Step 4."""
 
-from __future__ import annotations
 
 import argparse
 import csv

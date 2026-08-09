@@ -10,7 +10,6 @@ Never submits jobs. Checks:
   - bash -n syntax where bash is available
 """
 
-from __future__ import annotations
 
 import json
 import os

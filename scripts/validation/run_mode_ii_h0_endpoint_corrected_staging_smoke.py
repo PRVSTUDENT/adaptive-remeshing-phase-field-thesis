@@ -6,7 +6,6 @@ Verifies prestaging tree creation, login manifest generation, hash integrity,
 and mocked qsub argument composition.
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

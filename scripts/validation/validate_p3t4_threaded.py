@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Validate bounded one-rank/four-thread P3-T4 characterization."""
-from __future__ import annotations
 
 import argparse
 import json

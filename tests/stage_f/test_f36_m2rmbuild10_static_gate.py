@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Offline unit tests for Stage F36 M2RMBUILD10 static qualification gate."""
 
-from __future__ import annotations
 import json
 import os
 import sys

@@ -5,7 +5,6 @@ Reuses committed base-extraction products only. Does not read ODB, run Abaqus,
 compile Fortran, or modify the preserved failure evidence directory.
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

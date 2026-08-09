@@ -4,7 +4,6 @@
 Does not require Abaqus. Uses frozen RF-U CSVs.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

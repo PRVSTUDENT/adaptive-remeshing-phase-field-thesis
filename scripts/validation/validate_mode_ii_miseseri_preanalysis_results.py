@@ -7,7 +7,6 @@ Evaluates extracted MISESERI CSV and summary JSON files against criteria:
 - final displacement U1 within tolerance of 0.001 mm
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

@@ -9,7 +9,6 @@ folder are removed before the new snapshot is copied. Large/generated Abaqus
 outputs are rejected by default.
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

@@ -4,7 +4,6 @@
 No Abaqus deck, ODB access, PBS artifact, or solver submission is performed.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Parse P3-SM1TC callback and documented get_thread_id events."""
-from __future__ import annotations
 
 import argparse
 import csv

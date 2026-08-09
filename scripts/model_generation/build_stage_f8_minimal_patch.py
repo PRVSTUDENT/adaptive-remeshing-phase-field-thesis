@@ -4,7 +4,6 @@
 The two decks are byte-identical.  Their only scientific difference is the
 user-subroutine source selected at execution.
 """
-from __future__ import annotations
 
 import argparse
 import hashlib

@@ -4,7 +4,6 @@
 Creates D3A3_R3.ok and D3A3.ok only when every scientific gate passes.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

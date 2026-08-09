@@ -6,7 +6,6 @@ nonmatching structured meshes and reports mapping, accuracy, bounds,
 no-healing, determinism, and energy checks.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

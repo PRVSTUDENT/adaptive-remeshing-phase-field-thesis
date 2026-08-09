@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Validate P3-SM0 gates plus the documented GETRANK call interface."""
-from __future__ import annotations
 
 import argparse
 import json

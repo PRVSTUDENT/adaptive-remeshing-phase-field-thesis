@@ -6,7 +6,6 @@ field using the exact D3A4 quadrature/assembly and sparse active-set solver.
 No Abaqus solve, ODB read, Fortran, mesh generation, or PBS submission.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

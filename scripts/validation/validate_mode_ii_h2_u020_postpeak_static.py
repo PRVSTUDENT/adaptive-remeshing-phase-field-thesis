@@ -12,7 +12,6 @@ Verifies:
 - Fortran SHA: 49c9054ab5faec9e069e0a9149af5058e6f1e11ab164c2a0e318f60282309b37
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

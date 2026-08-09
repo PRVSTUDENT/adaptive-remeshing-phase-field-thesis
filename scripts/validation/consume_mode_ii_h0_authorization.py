@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Consume Mode-II H0 datacheck or solver authorization after valid qsub."""
 
-from __future__ import annotations
 
 import argparse
 import json

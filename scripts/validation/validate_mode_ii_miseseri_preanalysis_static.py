@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Static validator for Stage F Candidate Job B: Pandey-Kumar MISESERI pre-analysis package."""
 
-from __future__ import annotations
 
 import argparse
 import hashlib

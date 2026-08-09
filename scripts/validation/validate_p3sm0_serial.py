@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Validate P3-SM0 scientific baseline gates plus minimal callback markers."""
-from __future__ import annotations
 
 import argparse
 import json

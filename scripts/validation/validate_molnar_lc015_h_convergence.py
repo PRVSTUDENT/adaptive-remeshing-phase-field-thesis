@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Static validation for Molnar lc=0.015 h-convergence study cases."""
 
-from __future__ import annotations
 
 import argparse
 import csv

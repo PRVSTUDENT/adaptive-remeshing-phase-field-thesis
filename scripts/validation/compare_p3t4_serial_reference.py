@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Compare P3-T4 state, RF-U, energy and increments to frozen P3-SM0."""
-from __future__ import annotations
 
 import argparse
 import csv

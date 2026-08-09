@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Static validator for Stage F Candidate Job A: Mode-II H2 uniform reference package."""
 
-from __future__ import annotations
 
 import argparse
 import hashlib

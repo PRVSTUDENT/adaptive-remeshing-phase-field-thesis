@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Generate figures and small tables for the Stage A baseline LaTeX report."""
 
-from __future__ import annotations
 
 import csv
 from pathlib import Path

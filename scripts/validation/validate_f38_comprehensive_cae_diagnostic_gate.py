@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Fail-closed static validator for Stage F38 M2RMDIAG1 comprehensive CAE phase diagnostic."""
 
-from __future__ import annotations
 import os
 import sys
 import json

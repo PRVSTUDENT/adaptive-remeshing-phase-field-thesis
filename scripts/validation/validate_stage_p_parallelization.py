@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Static Stage-P scan for shared-state and file-I/O constructs in Fortran."""
-from __future__ import annotations
 import argparse, csv, json, os, re
 from collections import Counter
 from pathlib import Path

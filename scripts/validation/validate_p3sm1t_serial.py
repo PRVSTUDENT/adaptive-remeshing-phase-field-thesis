@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Validate P3-SM0 gates plus isolated P3-SM1T GETTHREADID behavior."""
-from __future__ import annotations
 
 import argparse
 import json

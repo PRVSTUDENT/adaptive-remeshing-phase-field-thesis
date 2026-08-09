@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Static validator for Stage-F Mode-II H0 endpoint-corrected serial package."""
 
-from __future__ import annotations
 
 import argparse
 import hashlib

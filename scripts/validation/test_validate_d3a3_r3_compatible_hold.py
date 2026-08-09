@@ -8,7 +8,6 @@ Proves that:
   - a valid fixture creates both markers
 """
 
-from __future__ import annotations
 
 import csv
 import json

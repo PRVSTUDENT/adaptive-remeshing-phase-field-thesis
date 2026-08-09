@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Validate the living project phase checklist."""
 
-from __future__ import annotations
 
 import re
 import sys

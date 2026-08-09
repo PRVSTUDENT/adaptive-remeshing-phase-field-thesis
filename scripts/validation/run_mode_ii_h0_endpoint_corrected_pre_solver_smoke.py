@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Run pre-solver smoke qualification for Stage-F Mode-II H0 endpoint-corrected serial lane."""
 
-from __future__ import annotations
 
 import argparse
 import datetime

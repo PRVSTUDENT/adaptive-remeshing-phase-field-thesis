@@ -5,7 +5,6 @@ Extracts geometry, layer structure, materials, BC sets, loading, and
 Fortran N_ELEM consistency. Writes JSON/MD/CSV/keyword-diff reports.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

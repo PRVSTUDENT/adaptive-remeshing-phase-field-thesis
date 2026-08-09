@@ -6,7 +6,6 @@ Applies Mode-II pure-shear boundary conditions and the Amp-2 endpoint correction
 N_ELEM = 12064, node count = 12382, physical element count = 12064.
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

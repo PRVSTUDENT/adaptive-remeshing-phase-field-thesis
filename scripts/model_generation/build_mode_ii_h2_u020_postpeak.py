@@ -5,7 +5,6 @@ Immutable package path: models/generated/mode_ii/h2_uniform_serial_u020_postpeak
 Target displacement: U1 = 0.020 mm (frozen reference endpoint).
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

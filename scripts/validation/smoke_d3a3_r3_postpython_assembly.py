@@ -6,7 +6,6 @@ quadrature/assembly path and transferred IP history from package_compatible_r1.
 No active-set solve is performed.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

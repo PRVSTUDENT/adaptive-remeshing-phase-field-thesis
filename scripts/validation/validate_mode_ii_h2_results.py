@@ -5,7 +5,6 @@ Evaluates extracted result files against scientific acceptance criteria.
 Target displacement: U1 = 0.020 mm.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

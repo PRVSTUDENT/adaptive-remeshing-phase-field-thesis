@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Static validator for the Mode-II H0 endpoint-corrected serial solver staging contract."""
 
-from __future__ import annotations
 
 import argparse
 import json

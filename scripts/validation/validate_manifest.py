@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Validate starter run manifests without Abaqus dependencies."""
 
-from __future__ import annotations
 
 import argparse
 import json

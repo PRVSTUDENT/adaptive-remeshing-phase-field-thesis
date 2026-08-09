@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Fail-closed validation of lightweight extraction outputs for Mode-II H0 serial run."""
 
-from __future__ import annotations
 
 import argparse
 import csv

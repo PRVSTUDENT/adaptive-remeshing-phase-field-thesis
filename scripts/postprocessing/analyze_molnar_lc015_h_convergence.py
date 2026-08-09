@@ -4,7 +4,6 @@
 No Abaqus/PBS. Uses CAE-exported RF2-U2 CSVs and documented mesh/resource metadata.
 """
 
-from __future__ import annotations
 
 import argparse
 import csv

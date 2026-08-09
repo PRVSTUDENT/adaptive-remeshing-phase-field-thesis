@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Validate one Stage-F8 minimal patch result without changing its evidence."""
-from __future__ import annotations
 import argparse
 import json
 from pathlib import Path

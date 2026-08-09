@@ -6,7 +6,6 @@ Uses the corrected 3,930-element plane-strain CPE4 deck lineage (a927b831...).
 Target displacement: U1 = 0.001 mm.
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

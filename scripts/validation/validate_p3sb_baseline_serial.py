@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Scientific and technical gates for the uninstrumented P3-SB baseline."""
-from __future__ import annotations
 
 import argparse
 import csv

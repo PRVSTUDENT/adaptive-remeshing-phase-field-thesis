@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Parse bounded Stage P Fortran diagnostics from an Abaqus message file."""
-from __future__ import annotations
 
 import argparse
 import csv

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Check that literature index entries point to existing PDFs, notes, and maps."""
 
-from __future__ import annotations
 
 import argparse
 import json

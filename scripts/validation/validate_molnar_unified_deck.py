@@ -15,7 +15,6 @@ Checks (no Abaqus execution):
   - no silent inheritance of remeshing parameters from another case
 """
 
-from __future__ import annotations
 
 import argparse
 import json

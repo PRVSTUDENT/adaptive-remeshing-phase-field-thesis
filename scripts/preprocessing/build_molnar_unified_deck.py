@@ -19,7 +19,6 @@ H1/H2 physical meshes use the graded MeshBuilder (same family as h-convergence).
 Does not submit PBS/Abaqus jobs.
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

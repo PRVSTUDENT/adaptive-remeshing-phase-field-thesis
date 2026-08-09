@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Validate D3D-A1 offline checkpoint update and prepare its candidate package."""
 
-from __future__ import annotations
 
 import argparse
 import csv

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Standalone, fail-closed runtime staging verifier for Stage F Mode-II H0 serial runs."""
 
-from __future__ import annotations
 
 import argparse
 import json

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Parse P3-SM1R baseline callbacks and documented GETRANK events."""
-from __future__ import annotations
 
 import argparse
 import csv

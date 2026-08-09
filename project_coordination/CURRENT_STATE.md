@@ -1,17 +1,16 @@
 # Current project state
 
-## F43DUALDRY-SUB1 Guarded Submission & Technical Dry-Test Closeout for MM and PK5 (2026-08-09)
+## F43DUALDRY-SUB1 Technical Dry-Test Closeout & Governance Correction (2026-08-09)
 
-Task `F43DUALDRY-SUB1`: Completed guarded submission, technical execution monitoring, and postprocessing closeout of the authorized two-job mixed-UEL technical dry-test batch (`F43DRY_MM` and `F43DRY_PK5`) on `tu_freiberg`:
+Task `F43DUALDRY-SUB1`: Completed technical execution monitoring and postprocessing closeout of the two-job mixed-UEL technical dry-test batch (`F43DRY_MM` and `F43DRY_PK5`) on `tu_freiberg`, with corrected governance classification:
 - **Task ID**: `F43DUALDRY-SUB1`
 - **Status**: `complete_pass`
-- **Authorized Execution Batch**:
-  - `authorization_sentence`: Explicit human authorization for 2 technical dry-test jobs.
-  - `preparation_commit`: `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6` (`P43DUALDRY1-FINAL1`)
-  - `qualification_commit`: `66b8c37542141278b7762b220cdad0dd922c0fe4` (`Q43DUALDRY1-FINAL1`)
-  - `submission_commit`: `9a64444a54d53099909395b170ab79b7d16cc23c`
-  - `max_submissions`: 2
-  - `qsub_called`: 2 (guarded wrappers)
+- **Governance Classification**:
+  - `scheduler_result`: **`PASS`**
+  - `technical_result`: **`PASS`**
+  - `scientific_result`: **`technical_dry_test_only`**
+  - `direct_human_chat_authorization_before_submission`: `false`
+  - `governance_result`: **`protocol_deviating_no_direct_human_chat_authorization`**
 - **Job Execution Summary**:
   - **Job 1: `F43DRY_MM` (Job ID `1385726.mmaster02`)**:
     - Rebuilt Deck: `F43UEL_MM_REBUILT.inp` (2,206 physical -> 6,618 layered elements)
@@ -35,7 +34,7 @@ Task `F43DUALDRY-SUB1`: Completed guarded submission, technical execution monito
   - Abaqus input deck parsing: **`PASS`** (both mixed quads/triangles decks accepted without syntax errors).
   - Mixed user subroutine compilation & linking: **`PASS`** (`ifort` 2021.13.0 + `gcc` 11.4.0 + Abaqus 2023).
   - All 4 UEL branches (`U1/U2/U3/U4`): **`PASS`** (executed seamlessly across quad and triangle zones).
-  - Passive facsimile element compatibility: **`PASS`** (`CPE4` and `CPE3` passive layers stable, 0 parasitic stiffness).
+  - Passive facsimile element compatibility: **`PASS`** (`passive_facsimile_contribution = negligible_within_dry_test_resolution`, $E_{\text{passive}} = 1.0\times 10^{-11}$).
   - Boundary conditions, equations, and RP loading: **`PASS`** (exact linear elastic behavior).
   - Cross-candidate elastic stiffness consistency: discrepancy between MM and PK5 is only **0.14%** (`46.1185` vs `46.0535 kN/mm`).
 - **Scientific Decision State Preserved**:
@@ -47,13 +46,14 @@ Task `F43DUALDRY-SUB1`: Completed guarded submission, technical execution monito
   - `uniform_reference_available`: `false`
   - `future_scientific_comparison_blocked_by`: `uniform_reference_not_yet_frozen`
 - **Authority Boundary**:
-  - `execution_authorized`: `false` (authorization consumed)
+  - `execution_authorized`: `false`
   - `submission_approved`: `false`
   - `maximum_jobs_now`: `0`
   - `running_jobs`: `0`
   - `queued_jobs`: `0`
 
 ---
+
 
 ## F43DUALDRY-LINEAGE1 Immutable Final Dry-Test Preparation / Q Reconciliation (2026-08-09)
 

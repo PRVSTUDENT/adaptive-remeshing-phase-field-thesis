@@ -15,7 +15,6 @@ Proves:
   - valid fixture creates D3D.ok
 """
 
-from __future__ import annotations
 
 import csv
 import json

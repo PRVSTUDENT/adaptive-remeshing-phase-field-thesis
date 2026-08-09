@@ -7,7 +7,6 @@ Fortran source remains 100% byte-identical to historical source.
 Fail-closed checks ensure deterministic, verified output.
 """
 
-from __future__ import annotations
 
 import argparse
 import hashlib

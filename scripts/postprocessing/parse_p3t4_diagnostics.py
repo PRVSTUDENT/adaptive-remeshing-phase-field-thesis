@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Parse the frozen P3-T4 callback, access, ownership and conflict protocol."""
-from __future__ import annotations
 
 import argparse
 import csv

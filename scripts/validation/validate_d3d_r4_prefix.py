@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Compare D3D prefix endpoint against accepted R4 F3 release state."""
 
-from __future__ import annotations
 
 import argparse
 import csv

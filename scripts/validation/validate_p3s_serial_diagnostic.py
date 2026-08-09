@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Apply strict technical, callback, state and completion gates to P3-S."""
-from __future__ import annotations
 
 import argparse
 import csv

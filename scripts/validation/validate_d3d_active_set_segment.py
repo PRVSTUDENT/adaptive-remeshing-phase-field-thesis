@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Final scientific validation for the D3D Route-B active-set segment."""
 
-from __future__ import annotations
 
 import argparse
 import csv

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Shared mesh-spacing and estimate utilities for the Molnar paper candidate."""
 
-from __future__ import annotations
 
 import argparse
 import json

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Run local or cluster pre-solver smoke test for Stage F Mode-II H0 serial PBS script."""
 
-from __future__ import annotations
 
 import argparse
 import datetime

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Parse bounded P3-SM0 constant callback markers from the Abaqus message log."""
-from __future__ import annotations
 
 import argparse
 import csv

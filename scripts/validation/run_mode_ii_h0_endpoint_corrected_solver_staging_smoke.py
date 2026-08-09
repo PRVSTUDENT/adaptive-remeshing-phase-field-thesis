@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Run solver staging smoke test for Mode-II H0 endpoint-corrected serial solver lane."""
 
-from __future__ import annotations
 
 import argparse
 import hashlib

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Offline validation of Mode-II H0 serial staging contract."""
 
-from __future__ import annotations
 
 import argparse
 import hashlib

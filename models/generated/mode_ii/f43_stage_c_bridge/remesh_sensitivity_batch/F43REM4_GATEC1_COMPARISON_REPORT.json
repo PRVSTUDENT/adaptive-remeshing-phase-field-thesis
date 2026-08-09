@@ -1,151 +1,609 @@
 {
-  "evaluation_timestamp_utc": "2026-08-08T16:47:00Z",
-  "batch_id": "F43REM4_SENSITIVITY_BATCH",
-  "batch_execution_status": "complete_pass",
-  "submission_job_ids": {
-    "F43REM4_PK1": "1385573.mmaster02",
-    "F43REM4_PK5": "1385574.mmaster02",
-    "F43REM4_MM": "1385575.mmaster02"
+  "evaluation_timestamp_utc": "2026-08-09T04:00:00Z",
+  "task_id": "F43REM4-GATEC1-R3",
+  "gate_c1_decision": {
+    "gate_c1": "HOLD",
+    "Gate_C1_localization": "PASS",
+    "best_adaptive_candidate": "F43REM4_MM",
+    "Gate_C1_phase_field_resolution": "HOLD",
+    "final_production_mesh_selected": false,
+    "selected_candidate": "none",
+    "scientific_result": "best_adaptive_candidate_identified_phase_field_corridor_coverage_on_hold",
+    "next_stage": "human_decision_on_crack_corridor_coverage_tradeoff",
+    "selection_rationale": "MM contains local minimum element sizes below l0/2 (h_min = 0.3004 l0) and exhibits the strongest MISESERI localization (5.07x top-1% enrichment); adequacy of phase-field resolution along the prospective crack corridor is placed on HOLD pending human review of corridor coverage vs computational economy."
   },
-  "scientific_distinctness_verified": true,
-  "reference_pre3_mesh": {
-    "source_job_id": "1385461.mmaster02",
-    "total_nodes": 2309,
-    "total_elements": 2249,
-    "element_type": "CPE4R",
-    "min_element_size_mm": 0.015,
-    "max_element_size_mm": 0.04
+  "baseline_correction_audit": {
+    "previous_PRE3_baseline_in_report": "INCORRECT",
+    "previous_reported_values": {
+      "nodes": 2309,
+      "elements": 2249,
+      "element_type": "100% CPE4R"
+    },
+    "root_cause_explanation": "The previous closeout script 'evaluate_f43rem4_batch_execution_closeout.py' hardcoded 2,309 nodes and 2,249 elements from an unverified template/proxy instead of parsing the canonical predecessor input deck F43PRE3_GEOM.inp / predecessor ODB 1385461.mmaster02. The validated PRE3 physical mesh contains exactly 3,716 physical elements (3,600 CPE4 + 116 CPE3), 3,799 physical Part nodes, and 3,800 total Assembly nodes including the Reference Point (RP).",
+    "corrected_PRE3_baseline": "PASS",
+    "canonical_predecessor_job": "1385461.mmaster02",
+    "canonical_predecessor_odb_sha256": "9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1",
+    "pre3_validated_metrics": {
+      "pre3_canonical_file": "F43PRE3_GEOM.inp",
+      "source_job_id": "1385461.mmaster02",
+      "sha256": "10d4fb75cc97d92fbb1491361624e92f4cc4269ed40e4420164af28ed15207ee",
+      "integrity": {
+        "part_nodes": 3799,
+        "assembly_nodes": 3800,
+        "total_physical_elements": 3716,
+        "cpe4_elements": 3600,
+        "cpe3_elements": 116,
+        "total_area_mm2": 1.0,
+        "zero_area_elements": 0,
+        "negative_area_elements": 0,
+        "status": "PASS"
+      },
+      "element_sizing": {
+        "min_h_area_mm": 0.006112,
+        "max_h_area_mm": 0.021548,
+        "median_h_area_mm": 0.016666,
+        "min_h_area_over_l0": 0.4075,
+        "max_h_area_over_l0": 1.4365,
+        "median_h_area_over_l0": 1.1111,
+        "min_edge_mm": 0.007618,
+        "max_edge_mm": 0.026881,
+        "min_edge_over_l0": 0.5079,
+        "max_edge_over_l0": 1.7921
+      },
+      "hotspot_farfield": {
+        "top_5pct_miseseri": {
+          "median_h_area_over_l0": 1.1928,
+          "p95_h_area_over_l0": 1.3562,
+          "median_min_edge_over_l0": 1.1383,
+          "p95_min_edge_over_l0": 1.2402
+        },
+        "top_10pct_miseseri": {
+          "median_h_area_over_l0": 1.171,
+          "p95_h_area_over_l0": 1.3437,
+          "median_min_edge_over_l0": 1.1283,
+          "p95_min_edge_over_l0": 1.2262
+        },
+        "bottom_50pct_miseseri": {
+          "median_h_area_over_l0": 1.0715,
+          "p95_h_area_over_l0": 1.2576,
+          "median_min_edge_over_l0": 0.9765,
+          "p95_min_edge_over_l0": 1.185
+        }
+      },
+      "prospective_model_size_proxy": {
+        "physical_elements": 3716,
+        "physical_part_nodes": 3799,
+        "assembly_nodes_including_rp": 3800,
+        "prospective_3nphys_elements": 11148,
+        "active_dofs_proxy_5x": 18995,
+        "active_dofs_proxy_7x": 26593
+      }
+    }
   },
-  "candidates": {
+  "candidates_evaluation": {
     "F43REM4_PK1": {
       "candidate_id": "F43REM4_PK1",
       "job_id": "1385573.mmaster02",
-      "file_name": "F43REM4_PK1.inp",
-      "file_size_bytes": 1503400,
+      "deck_file": "F43REM4_PK1.inp",
       "sha256": "c21198b1e3f3f858b92bce74aff509c2b4dd59af794e2f5dfdfcdd0ce21ae35b",
-      "total_nodes": 21429,
-      "total_elements": 21397,
-      "quad_elements": 20809,
-      "tri_elements": 588,
-      "element_type_composition": {
-        "quad_fraction": 0.9725,
-        "tri_fraction": 0.0275
+      "integrity": {
+        "part_nodes": 21429,
+        "assembly_nodes": 21430,
+        "total_physical_elements": 21397,
+        "cpe4_elements": 20809,
+        "cpe3_elements": 588,
+        "total_area_mm2": 1.0,
+        "area_error_percent": 0.0,
+        "zero_area_elements": 0,
+        "negative_area_elements": 0,
+        "unassigned_refined_centroids": 0,
+        "status": "PASS"
       },
-      "mesh_sizing": {
-        "min_element_size_mm": 0.00313,
-        "max_element_size_mm": 0.01405,
-        "avg_element_size_mm": 0.00615,
-        "sizing_ratio_max_to_min": 4.5
+      "element_sizing": {
+        "min_h_area_mm": 0.002402,
+        "max_h_area_mm": 0.014403,
+        "median_h_area_mm": 0.006836,
+        "min_h_area_over_l0": 0.1601,
+        "max_h_area_over_l0": 0.9602,
+        "median_h_area_over_l0": 0.4557,
+        "min_edge_mm": 0.003125,
+        "max_edge_mm": 0.016649,
+        "min_edge_over_l0": 0.2084,
+        "max_edge_over_l0": 1.1099
       },
-      "spatial_localization": {
-        "near_notch_elements": 21397,
-        "near_notch_fraction": 1.0,
-        "h_min_near_notch_mm": 0.00313,
-        "h_avg_near_notch_mm": 0.00615,
-        "far_field_elements": 0,
-        "far_field_fraction": 0.0,
-        "h_avg_far_field_mm": 0.00615,
-        "notch_to_far_refinement_ratio": 1.0
+      "correlation": {
+        "spearman_raw_refinement_count": 0.355522,
+        "spearman_area_normalized_density": 0.181754,
+        "historical_baseline_spearman": 0.013934,
+        "materially_better_than_historical": true
       },
-      "prospective_uel_cost": {
-        "total_nodes": 21429,
-        "estimated_uel_dofs": 150003,
-        "relative_cost_vs_pre3": 9.28
+      "percentile_bands": {
+        "0-50%": {
+          "pre3_elements": 1858,
+          "pre3_area_mm2": 0.468782,
+          "refined_elements": 9597,
+          "mean_refinement_count": 5.165,
+          "median_refinement_count": 5.0,
+          "area_normalized_density": 20472.21,
+          "median_h_area_mm": 0.006891,
+          "median_h_area_over_l0": 0.4594
+        },
+        "50-75%": {
+          "pre3_elements": 929,
+          "pre3_area_mm2": 0.252136,
+          "refined_elements": 5673,
+          "mean_refinement_count": 6.107,
+          "median_refinement_count": 6,
+          "area_normalized_density": 22499.76,
+          "median_h_area_mm": 0.006731,
+          "median_h_area_over_l0": 0.4488
+        },
+        "75-90%": {
+          "pre3_elements": 557,
+          "pre3_area_mm2": 0.163214,
+          "refined_elements": 3643,
+          "mean_refinement_count": 6.54,
+          "median_refinement_count": 6,
+          "area_normalized_density": 22320.35,
+          "median_h_area_mm": 0.006754,
+          "median_h_area_over_l0": 0.4503
+        },
+        "90-95%": {
+          "pre3_elements": 186,
+          "pre3_area_mm2": 0.05641,
+          "refined_elements": 1250,
+          "mean_refinement_count": 6.72,
+          "median_refinement_count": 6.5,
+          "area_normalized_density": 22159.11,
+          "median_h_area_mm": 0.006856,
+          "median_h_area_over_l0": 0.4571
+        },
+        "95-99%": {
+          "pre3_elements": 148,
+          "pre3_area_mm2": 0.046647,
+          "refined_elements": 983,
+          "mean_refinement_count": 6.642,
+          "median_refinement_count": 6.0,
+          "area_normalized_density": 21073.21,
+          "median_h_area_mm": 0.006981,
+          "median_h_area_over_l0": 0.4654
+        },
+        "99-100%": {
+          "pre3_elements": 38,
+          "pre3_area_mm2": 0.012811,
+          "refined_elements": 251,
+          "mean_refinement_count": 6.605,
+          "median_refinement_count": 7.0,
+          "area_normalized_density": 19593.02,
+          "median_h_area_mm": 0.007229,
+          "median_h_area_over_l0": 0.482
+        }
       },
-      "config_parameters": {
-        "sizingMethod": "UNIFORM_ERROR",
-        "errorTarget": 1.0,
-        "refinementFactor": 10,
-        "minElementSize_mm": 0.0075,
-        "maxElementSize_mm": 0.03
+      "top_population_fractions": {
+        "top_1pct": {
+          "pre3_elements": 38,
+          "refined_elements": 251,
+          "fraction_of_total_refined": 0.0117
+        },
+        "top_5pct": {
+          "pre3_elements": 186,
+          "refined_elements": 1234,
+          "fraction_of_total_refined": 0.0577
+        },
+        "top_10pct": {
+          "pre3_elements": 372,
+          "refined_elements": 2484,
+          "fraction_of_total_refined": 0.1161
+        },
+        "top_20pct": {
+          "pre3_elements": 744,
+          "refined_elements": 4959,
+          "fraction_of_total_refined": 0.2318
+        }
+      },
+      "hotspot_farfield": {
+        "top_5pct_miseseri": {
+          "median_h_area_over_l0": 0.4686,
+          "p95_h_area_over_l0": 0.5279,
+          "median_min_edge_over_l0": 0.4423,
+          "p95_min_edge_over_l0": 0.4933,
+          "density": 20754.29
+        },
+        "top_10pct_miseseri": {
+          "median_h_area_over_l0": 0.4637,
+          "p95_h_area_over_l0": 0.5247,
+          "median_min_edge_over_l0": 0.4339,
+          "p95_min_edge_over_l0": 0.4916,
+          "density": 21438.23
+        },
+        "bottom_50pct_miseseri": {
+          "median_h_area_over_l0": 0.4594,
+          "p95_h_area_over_l0": 0.5736,
+          "median_min_edge_over_l0": 0.419,
+          "p95_min_edge_over_l0": 0.522,
+          "density": 20472.21
+        },
+        "ratios": {
+          "top5_to_bot50_h_ratio": 1.0202,
+          "top5_to_bot50_density_ratio": 1.0138,
+          "top10_to_bot50_h_ratio": 1.0094,
+          "top10_to_bot50_density_ratio": 1.0472
+        }
+      },
+      "localization_classification": "near_global_refinement",
+      "prospective_model_size_proxy": {
+        "physical_elements": 21397,
+        "physical_part_nodes": 21429,
+        "assembly_nodes_including_rp": 21430,
+        "prospective_3nphys_elements": 64191,
+        "active_dofs_proxy_5x": 107145,
+        "active_dofs_proxy_7x": 150003,
+        "element_ratio_vs_pre3": 5.758,
+        "node_ratio_vs_pre3": 5.641
       }
     },
     "F43REM4_PK5": {
       "candidate_id": "F43REM4_PK5",
       "job_id": "1385574.mmaster02",
-      "file_name": "F43REM4_PK5.inp",
-      "file_size_bytes": 325644,
+      "deck_file": "F43REM4_PK5.inp",
       "sha256": "87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9",
-      "total_nodes": 4998,
-      "total_elements": 4894,
-      "quad_elements": 4766,
-      "tri_elements": 128,
-      "element_type_composition": {
-        "quad_fraction": 0.9738,
-        "tri_fraction": 0.0262
+      "integrity": {
+        "part_nodes": 4998,
+        "assembly_nodes": 4999,
+        "total_physical_elements": 4894,
+        "cpe4_elements": 4766,
+        "cpe3_elements": 128,
+        "total_area_mm2": 1.0,
+        "area_error_percent": 0.0,
+        "zero_area_elements": 0,
+        "negative_area_elements": 0,
+        "unassigned_refined_centroids": 0,
+        "status": "PASS"
       },
-      "mesh_sizing": {
-        "min_element_size_mm": 0.00324,
-        "max_element_size_mm": 0.02109,
-        "avg_element_size_mm": 0.01269,
-        "sizing_ratio_max_to_min": 6.51
+      "element_sizing": {
+        "min_h_area_mm": 0.002321,
+        "max_h_area_mm": 0.022367,
+        "median_h_area_mm": 0.014395,
+        "min_h_area_over_l0": 0.1547,
+        "max_h_area_over_l0": 1.4912,
+        "median_h_area_over_l0": 0.9597,
+        "min_edge_mm": 0.003239,
+        "max_edge_mm": 0.028323,
+        "min_edge_over_l0": 0.2159,
+        "max_edge_over_l0": 1.8882
       },
-      "spatial_localization": {
-        "near_notch_elements": 4894,
-        "near_notch_fraction": 1.0,
-        "h_min_near_notch_mm": 0.00324,
-        "h_avg_near_notch_mm": 0.01269,
-        "far_field_elements": 0,
-        "far_field_fraction": 0.0,
-        "h_avg_far_field_mm": 0.01269,
-        "notch_to_far_refinement_ratio": 1.0
+      "correlation": {
+        "spearman_raw_refinement_count": 0.214458,
+        "spearman_area_normalized_density": 0.038628,
+        "historical_baseline_spearman": 0.013934,
+        "materially_better_than_historical": true
       },
-      "prospective_uel_cost": {
-        "total_nodes": 4998,
-        "estimated_uel_dofs": 34986,
-        "relative_cost_vs_pre3": 2.16
+      "percentile_bands": {
+        "0-50%": {
+          "pre3_elements": 1858,
+          "pre3_area_mm2": 0.468782,
+          "refined_elements": 2153,
+          "mean_refinement_count": 1.159,
+          "median_refinement_count": 1.0,
+          "area_normalized_density": 4592.75,
+          "median_h_area_mm": 0.014643,
+          "median_h_area_over_l0": 0.9762
+        },
+        "50-75%": {
+          "pre3_elements": 929,
+          "pre3_area_mm2": 0.252136,
+          "refined_elements": 1125,
+          "mean_refinement_count": 1.211,
+          "median_refinement_count": 1,
+          "area_normalized_density": 4461.88,
+          "median_h_area_mm": 0.014769,
+          "median_h_area_over_l0": 0.9846
+        },
+        "75-90%": {
+          "pre3_elements": 557,
+          "pre3_area_mm2": 0.163214,
+          "refined_elements": 718,
+          "mean_refinement_count": 1.289,
+          "median_refinement_count": 1,
+          "area_normalized_density": 4399.12,
+          "median_h_area_mm": 0.015058,
+          "median_h_area_over_l0": 1.0038
+        },
+        "90-95%": {
+          "pre3_elements": 186,
+          "pre3_area_mm2": 0.05641,
+          "refined_elements": 287,
+          "mean_refinement_count": 1.543,
+          "median_refinement_count": 1.0,
+          "area_normalized_density": 5087.73,
+          "median_h_area_mm": 0.014211,
+          "median_h_area_over_l0": 0.9474
+        },
+        "95-99%": {
+          "pre3_elements": 148,
+          "pre3_area_mm2": 0.046647,
+          "refined_elements": 421,
+          "mean_refinement_count": 2.845,
+          "median_refinement_count": 3.0,
+          "area_normalized_density": 9025.25,
+          "median_h_area_mm": 0.010085,
+          "median_h_area_over_l0": 0.6723
+        },
+        "99-100%": {
+          "pre3_elements": 38,
+          "pre3_area_mm2": 0.012811,
+          "refined_elements": 190,
+          "mean_refinement_count": 5.0,
+          "median_refinement_count": 5.0,
+          "area_normalized_density": 14831.37,
+          "median_h_area_mm": 0.008034,
+          "median_h_area_over_l0": 0.5356
+        }
       },
-      "config_parameters": {
-        "sizingMethod": "UNIFORM_ERROR",
-        "errorTarget": 5.0,
-        "refinementFactor": 10,
-        "minElementSize_mm": 0.0075,
-        "maxElementSize_mm": 0.03
+      "top_population_fractions": {
+        "top_1pct": {
+          "pre3_elements": 38,
+          "refined_elements": 190,
+          "fraction_of_total_refined": 0.0388
+        },
+        "top_5pct": {
+          "pre3_elements": 186,
+          "refined_elements": 611,
+          "fraction_of_total_refined": 0.1248
+        },
+        "top_10pct": {
+          "pre3_elements": 372,
+          "refined_elements": 898,
+          "fraction_of_total_refined": 0.1835
+        },
+        "top_20pct": {
+          "pre3_elements": 744,
+          "refined_elements": 1380,
+          "fraction_of_total_refined": 0.282
+        }
+      },
+      "hotspot_farfield": {
+        "top_5pct_miseseri": {
+          "median_h_area_over_l0": 0.6033,
+          "p95_h_area_over_l0": 0.9389,
+          "median_min_edge_over_l0": 0.5527,
+          "p95_min_edge_over_l0": 0.8846,
+          "density": 10276.23
+        },
+        "top_10pct_miseseri": {
+          "median_h_area_over_l0": 0.6906,
+          "p95_h_area_over_l0": 1.1124,
+          "median_min_edge_over_l0": 0.6241,
+          "p95_min_edge_over_l0": 1.052,
+          "density": 7750.21
+        },
+        "bottom_50pct_miseseri": {
+          "median_h_area_over_l0": 0.9762,
+          "p95_h_area_over_l0": 1.2095,
+          "median_min_edge_over_l0": 0.8883,
+          "p95_min_edge_over_l0": 1.1388,
+          "density": 4592.75
+        },
+        "ratios": {
+          "top5_to_bot50_h_ratio": 0.618,
+          "top5_to_bot50_density_ratio": 2.2375,
+          "top10_to_bot50_h_ratio": 0.7075,
+          "top10_to_bot50_density_ratio": 1.6875
+        }
+      },
+      "localization_classification": "mixed_local_global_refinement",
+      "prospective_model_size_proxy": {
+        "physical_elements": 4894,
+        "physical_part_nodes": 4998,
+        "assembly_nodes_including_rp": 4999,
+        "prospective_3nphys_elements": 14682,
+        "active_dofs_proxy_5x": 24990,
+        "active_dofs_proxy_7x": 34986,
+        "element_ratio_vs_pre3": 1.317,
+        "node_ratio_vs_pre3": 1.316
       }
     },
     "F43REM4_MM": {
       "candidate_id": "F43REM4_MM",
       "job_id": "1385575.mmaster02",
-      "file_name": "F43REM4_MM.inp",
-      "file_size_bytes": 149640,
+      "deck_file": "F43REM4_MM.inp",
       "sha256": "d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374",
-      "total_nodes": 2294,
-      "total_elements": 2206,
-      "quad_elements": 2137,
-      "tri_elements": 69,
-      "element_type_composition": {
-        "quad_fraction": 0.9687,
-        "tri_fraction": 0.0313
+      "integrity": {
+        "part_nodes": 2294,
+        "assembly_nodes": 2295,
+        "total_physical_elements": 2206,
+        "cpe4_elements": 2137,
+        "cpe3_elements": 69,
+        "total_area_mm2": 1.0,
+        "area_error_percent": 0.0,
+        "zero_area_elements": 0,
+        "negative_area_elements": 0,
+        "unassigned_refined_centroids": 0,
+        "status": "PASS"
       },
-      "mesh_sizing": {
-        "min_element_size_mm": 0.00516,
-        "max_element_size_mm": 0.03546,
-        "avg_element_size_mm": 0.01853,
-        "sizing_ratio_max_to_min": 6.87
+      "element_sizing": {
+        "min_h_area_mm": 0.004505,
+        "max_h_area_mm": 0.040241,
+        "median_h_area_mm": 0.021067,
+        "min_h_area_over_l0": 0.3004,
+        "max_h_area_over_l0": 2.6827,
+        "median_h_area_over_l0": 1.4045,
+        "min_edge_mm": 0.005159,
+        "max_edge_mm": 0.047616,
+        "min_edge_over_l0": 0.3439,
+        "max_edge_over_l0": 3.1744
       },
-      "spatial_localization": {
-        "near_notch_elements": 2206,
-        "near_notch_fraction": 1.0,
-        "h_min_near_notch_mm": 0.00516,
-        "h_avg_near_notch_mm": 0.01853,
-        "far_field_elements": 0,
-        "far_field_fraction": 0.0,
-        "h_avg_far_field_mm": 0.01853,
-        "notch_to_far_refinement_ratio": 1.0
+      "correlation": {
+        "spearman_raw_refinement_count": 0.160602,
+        "spearman_area_normalized_density": 0.06912,
+        "historical_baseline_spearman": 0.013934,
+        "materially_better_than_historical": true
       },
-      "prospective_uel_cost": {
-        "total_nodes": 2294,
-        "estimated_uel_dofs": 16058,
-        "relative_cost_vs_pre3": 0.99
+      "percentile_bands": {
+        "0-50%": {
+          "pre3_elements": 1858,
+          "pre3_area_mm2": 0.468782,
+          "refined_elements": 939,
+          "mean_refinement_count": 0.505,
+          "median_refinement_count": 0.0,
+          "area_normalized_density": 2003.06,
+          "median_h_area_mm": 0.021874,
+          "median_h_area_over_l0": 1.4583
+        },
+        "50-75%": {
+          "pre3_elements": 929,
+          "pre3_area_mm2": 0.252136,
+          "refined_elements": 465,
+          "mean_refinement_count": 0.501,
+          "median_refinement_count": 0,
+          "area_normalized_density": 1844.24,
+          "median_h_area_mm": 0.022099,
+          "median_h_area_over_l0": 1.4733
+        },
+        "75-90%": {
+          "pre3_elements": 557,
+          "pre3_area_mm2": 0.163214,
+          "refined_elements": 329,
+          "mean_refinement_count": 0.591,
+          "median_refinement_count": 1,
+          "area_normalized_density": 2015.75,
+          "median_h_area_mm": 0.022162,
+          "median_h_area_over_l0": 1.4775
+        },
+        "90-95%": {
+          "pre3_elements": 186,
+          "pre3_area_mm2": 0.05641,
+          "refined_elements": 141,
+          "mean_refinement_count": 0.758,
+          "median_refinement_count": 1.0,
+          "area_normalized_density": 2499.55,
+          "median_h_area_mm": 0.019822,
+          "median_h_area_over_l0": 1.3215
+        },
+        "95-99%": {
+          "pre3_elements": 148,
+          "pre3_area_mm2": 0.046647,
+          "refined_elements": 202,
+          "mean_refinement_count": 1.365,
+          "median_refinement_count": 1.0,
+          "area_normalized_density": 4330.41,
+          "median_h_area_mm": 0.015112,
+          "median_h_area_over_l0": 1.0075
+        },
+        "99-100%": {
+          "pre3_elements": 38,
+          "pre3_area_mm2": 0.012811,
+          "refined_elements": 130,
+          "mean_refinement_count": 3.421,
+          "median_refinement_count": 4.0,
+          "area_normalized_density": 10147.78,
+          "median_h_area_mm": 0.009975,
+          "median_h_area_over_l0": 0.665
+        }
       },
-      "config_parameters": {
-        "sizingMethod": "MINIMUM_MAXIMUM",
-        "maxSolutionErrorTarget": 5.0,
-        "minSolutionErrorTarget": 1.0,
-        "meshBias": 1,
-        "minElementSize_mm": 0.0075,
-        "maxElementSize_mm": 0.03
+      "top_population_fractions": {
+        "top_1pct": {
+          "pre3_elements": 38,
+          "refined_elements": 130,
+          "fraction_of_total_refined": 0.0589
+        },
+        "top_5pct": {
+          "pre3_elements": 186,
+          "refined_elements": 332,
+          "fraction_of_total_refined": 0.1505
+        },
+        "top_10pct": {
+          "pre3_elements": 372,
+          "refined_elements": 473,
+          "fraction_of_total_refined": 0.2144
+        },
+        "top_20pct": {
+          "pre3_elements": 744,
+          "refined_elements": 684,
+          "fraction_of_total_refined": 0.3101
+        }
+      },
+      "hotspot_farfield": {
+        "top_5pct_miseseri": {
+          "median_h_area_over_l0": 0.817,
+          "p95_h_area_over_l0": 1.3595,
+          "median_min_edge_over_l0": 0.7029,
+          "p95_min_edge_over_l0": 1.2058,
+          "density": 5583.81
+        },
+        "top_10pct_miseseri": {
+          "median_h_area_over_l0": 0.9718,
+          "p95_h_area_over_l0": 1.5884,
+          "median_min_edge_over_l0": 0.8459,
+          "p95_min_edge_over_l0": 1.4695,
+          "density": 4082.24
+        },
+        "bottom_50pct_miseseri": {
+          "median_h_area_over_l0": 1.4583,
+          "p95_h_area_over_l0": 1.8948,
+          "median_min_edge_over_l0": 1.3195,
+          "p95_min_edge_over_l0": 1.7479,
+          "density": 2003.06
+        },
+        "ratios": {
+          "top5_to_bot50_h_ratio": 0.5602,
+          "top5_to_bot50_density_ratio": 2.7876,
+          "top10_to_bot50_h_ratio": 0.6664,
+          "top10_to_bot50_density_ratio": 2.038
+        }
+      },
+      "localization_classification": "mixed_local_global_refinement",
+      "prospective_model_size_proxy": {
+        "physical_elements": 2206,
+        "physical_part_nodes": 2294,
+        "assembly_nodes_including_rp": 2295,
+        "prospective_3nphys_elements": 6618,
+        "active_dofs_proxy_5x": 11470,
+        "active_dofs_proxy_7x": 16058,
+        "element_ratio_vs_pre3": 0.594,
+        "node_ratio_vs_pre3": 0.604
       }
     }
+  },
+  "historical_comparison": {
+    "historical_overrefined_job_1385554": {
+      "elements": 113936,
+      "nodes": 114569,
+      "spearman_correlation": 0.013934,
+      "classification": "near_global_overrefinement"
+    }
+  },
+  "authority_and_governance": {
+    "execution_authorized": false,
+    "submission_approved": false,
+    "replacement_authorized": false,
+    "maximum_jobs_now": 0,
+    "automatic_retry": false,
+    "new_qsub_called": false,
+    "new_HPC_submissions": 0
+  },
+  "crack_corridor_audit_summary": {
+    "MM_top1_fraction_h_le_l0_over_2": 0.0462,
+    "MM_top5_fraction_h_le_l0_over_2": 0.0301,
+    "MM_top10_fraction_h_le_l0_over_2": 0.0211,
+    "PK5_top1_fraction_h_le_l0_over_2": 0.1263,
+    "PK5_top5_fraction_h_le_l0_over_2": 0.1064,
+    "PK5_top10_fraction_h_le_l0_over_2": 0.0846,
+    "PK1_top1_fraction_h_le_l0_over_2": 0.8247,
+    "PK1_top5_fraction_h_le_l0_over_2": 0.8493,
+    "PK1_top10_fraction_h_le_l0_over_2": 0.8692,
+    "MM_top5_p95_h_over_l0": 1.3595,
+    "PK5_top5_p95_h_over_l0": 0.9389,
+    "PK1_top5_p95_h_over_l0": 0.5279,
+    "MM_connected_fine_corridor": false,
+    "PK5_connected_fine_corridor": false,
+    "PK1_connected_fine_corridor": true,
+    "MM_connected_fine_corridor_075": true,
+    "PK5_connected_fine_corridor_075": true,
+    "PK1_connected_fine_corridor_075": true,
+    "best_adaptive_candidate": "MM",
+    "final_selected_candidate": "none",
+    "Gate_C1": "HOLD",
+    "next_stage": "human_decision_on_crack_corridor_coverage_tradeoff"
   }
 }

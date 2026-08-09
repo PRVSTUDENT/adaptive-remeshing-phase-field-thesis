@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Generate or validate F17 manifests from explicit package allowlists."""
-from __future__ import annotations
 
 import argparse
 import hashlib
