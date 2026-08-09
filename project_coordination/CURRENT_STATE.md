@@ -11,7 +11,7 @@ Protocol Version: 1
 - Historical Invalid Preparation Tag: `P43MODEREF6-FINAL2` (`9c8d267d76eb9be8ecc8bc64499dfe5d35afeecf`, moved/deleted/recreated multiple times -> invalid)
 - Historical Invalid Qualification Tag: `Q43MODEREF6` (`9c8d267d76eb9be8ecc8bc64499dfe5d35afeecf`, Q == P -> invalid)
 - Recovered Preparation Tag: `P43MODEREF7-FINAL1` (`226cfc837205f5a0665ec84e9ac993279a4022ce`)
-- Recovered Qualification Tag: `Q43MODEREF7-FINAL1` (Will point to provenance-only Q commit)
+- Recovered Qualification Tag: `Q43MODEREF7-FINAL1` (`d36a6a7f8f4b1eed40f1a6ed62382b9d76ca533d`)
 - Qualification Location: Isolated worktree `/tmp/p7_final1_test_worktree` on `tu_freiberg` (619/619 unit discovery tests pass, rc=0, focused qualification checks pass, naturally clean)
 
 ## Verification Batch Pair 1 Historical Results & Corrected Classification
