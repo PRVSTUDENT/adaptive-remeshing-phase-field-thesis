@@ -1,6 +1,6 @@
 {
   "protocol_version": 1,
-  "task_id": "F43MODEREF-FRACFIX-BATCHREADY2",
+  "task_id": "F43MODEREF-FRACFIX-BATCHREADY3",
   "status": "verification_batch_ready_awaiting_authorization",
   "remote_hostname": "mlogin01.cluster",
   "remote_user": "pr21vyci",
@@ -18,7 +18,10 @@
       "UEL_SHA256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
       "PBS_SHA256": "240969e9be531f0e917619ae422ce78ae21c3c5ef889b4feb85c4477b22a24df",
       "submit_wrapper_SHA256": "09edb59b8943f0577b96512d8a4f900bb4e04525691d6ce772cd3f95400cb99c",
-      "resources": "1 CPU, 8 GB memory, 00:15:00 walltime, Queue entry_imfdfkmq"
+      "queue": "entry_imfdfkmq",
+      "ncpus": 1,
+      "memory": "8 GB",
+      "walltime": "00:15:00"
     },
     "JOB_2": {
       "job_name": "M2REF_H0_FRACFIX_REPRO",
@@ -26,7 +29,10 @@
       "UEL_SHA256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
       "PBS_SHA256": "9c326977bf9a9100811062b6bc367e442b83086103efe8f66d6e405fc025db65",
       "submit_wrapper_SHA256": "16d4d2d7746b3144bdf6a5de2c858e44c33ede0fc7b951f96f879507c16b4d9a",
-      "resources": "1 CPU, 8 GB memory, 01:00:00 walltime, Queue entry_imfdfkmq"
+      "queue": "entry_imfdfkmq",
+      "ncpus": 1,
+      "memory": "8 GB",
+      "walltime": "01:00:00"
     },
     "planned_future_submissions": 2,
     "maximum_running_jobs": 2
@@ -38,14 +44,13 @@
   "governance_record": {
     "historical_evidence_directory_deletion": true,
     "evidence_deletion_governance_result": "protocol_deviation_destructive_evidence_workspace_cleanup",
-    "H1_raw_evidence_preserved": false,
-    "H2_raw_evidence_preserved": false,
-    "unique_evidence_permanently_lost": false
+    "unique_raw_solver_evidence_permanently_lost": true,
+    "derived_extracted_evidence_preserved": true,
+    "pbs_scheduler_logs_preserved": true
   },
-  "phase_bounds_analysis": {
-    "historical_dmax": 1.0105,
-    "phase_overshoot": 0.0105,
-    "phase_overshoot_classification": "observed_historical_unconstrained_phase_overshoot"
+  "notification_contract": {
+    "notification_mail_points": "abe",
+    "notification_recipient_configuration_present": true
   },
   "queue_check_rc": 0,
   "running_jobs": 0,
