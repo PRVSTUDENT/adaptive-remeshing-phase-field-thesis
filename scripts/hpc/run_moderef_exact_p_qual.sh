@@ -6,7 +6,7 @@ cd /home/pr21vyci/projects/adaptive-remeshing
 git fetch origin main
 git fetch origin tag P43MODEREF1-FINAL1 || true
 
-TARGET_SHA="P43MODEREF1-FINAL2"
+TARGET_SHA="P43MODEREF1-FINAL3"
 
 WORKTREE_DIR=$(mktemp -d /tmp/f43moderef_qual_XXXXXX)
 echo "WORKTREE_DIR=$WORKTREE_DIR"
