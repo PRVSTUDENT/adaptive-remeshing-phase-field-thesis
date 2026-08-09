@@ -1,0 +1,55 @@
+#!/bin/bash
+#PBS -N F43DRY_PK5
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -o F43DRY_PK5.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de,Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de
+
+set -euo pipefail
+
+# Guarded submission wrapper enforcement
+if [ "${F43DRY_PK5_WRAPPER_AUTHORIZED:-0}" -ne 1 ]; then
+    echo "ERROR: Direct qsub execution prohibited. Must submit via submit_f43dry_pk5.sh" >&2
+    exit 1
+fi
+
+if [ -n "${PBS_JOBID:-}" ] && [ -z "${PBS_O_WORKDIR:-}" ]; then
+    echo "FATAL ERROR: Running under PBS (PBS_JOBID=${PBS_JOBID}) but PBS_O_WORKDIR is missing or empty!" >&2
+    exit 1
+fi
+
+if [ -n "${PBS_O_WORKDIR:-}" ]; then
+    PACKAGE_DIR="$(cd "${PBS_O_WORKDIR}" && pwd -P)"
+else
+    PACKAGE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+fi
+
+cd "${PACKAGE_DIR}"
+EVIDENCE_DIR="${PACKAGE_DIR}/evidence/${PBS_JOBID:-local}"
+mkdir -p "${EVIDENCE_DIR}"
+
+echo "=== F43DRY_PK5 Execution Start: $(date) ===" | tee "${EVIDENCE_DIR}/execution.log"
+echo "Job ID: ${PBS_JOBID:-local}" | tee -a "${EVIDENCE_DIR}/execution.log"
+echo "Host: $(hostname)" | tee -a "${EVIDENCE_DIR}/execution.log"
+
+if command -v module >/dev/null 2>&1 || type module >/dev/null 2>&1; then
+    module purge || true
+    module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+fi
+
+echo "=== Toolchain Preflight Checks ===" | tee -a "${EVIDENCE_DIR}/execution.log"
+echo "gcc resolved path: $(command -v gcc)" | tee -a "${EVIDENCE_DIR}/execution.log"
+echo "ifort resolved path: $(command -v ifort)" | tee -a "${EVIDENCE_DIR}/execution.log"
+echo "abaqus resolved path: $(command -v abaqus)" | tee -a "${EVIDENCE_DIR}/execution.log"
+
+if [ "${F43DRY_PREFLIGHT_ONLY:-0}" -eq 1 ]; then
+    echo "Preflight probe complete for F43DRY_PK5 (exit status 0)."
+    exit 0
+fi
+
+abaqus job=F43DRY_PK5 user=f43_mixed_uel.for input=F43UEL_PK5_REBUILT.inp cpus=1 interactive 2>&1 | tee -a "${EVIDENCE_DIR}/execution.log" || true
+
+echo "=== F43DRY_PK5 Completed at $(date) ===" | tee -a "${EVIDENCE_DIR}/execution.log"

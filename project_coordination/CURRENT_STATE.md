@@ -1,6 +1,144 @@
 # Current project state
 
+## F43DUALREBUILD1 Offline Dual-Candidate Mixed CPE3/CPE4 Phase-Field UEL Rebuild for MM and PK5 (2026-08-09)
+
+Task `F43DUALREBUILD1`: Executed identical deterministic offline UEL rebuild and dry-test package staging for both adaptive candidate meshes (`F43REM4_MM` and `F43REM4_PK5`) into 3-layer mixed CPE3/CPE4 Phase-Field UEL input decks, preserving exact node coordinates, element connectivity, boundary sets, and shear coupling equations:
+- **Task ID**: `F43DUALREBUILD1`
+- **Status**: `complete_pass`
+- **Scientific Decision State**:
+  - `Gate_C1_localization`: **`PASS`**
+  - `best_adaptive_candidate`: **`F43REM4_MM`** (Job `1385575.mmaster02`, 2,206 physical elements -> 6,618 layered elements)
+  - `best_resolution_efficiency_compromise`: **`F43REM4_PK5`** (Job `1385574.mmaster02`, 4,894 physical elements -> 14,682 layered elements)
+  - `final_selected_candidate`: **`none`**
+  - `Gate_C1_phase_field_resolution`: **`HOLD`** (final selection to be decided by actual Phase-Field comparison against uniform reference, not mesh statistics alone)
+  - `MM_rebuilder`: **`PASS`**
+  - `PK5_rebuilder`: **`PASS`**
+  - `ready_for_dual_candidate_dry_test`: **`true`**
+  - `recommended_next_stage`: `awaiting_human_direction_for_dry_test_execution_authorization`
+- **Candidate Rebuild Results**:
+  - **Candidate MM (`F43REM4_MM`)**:
+    - Source Deck: `F43REM4_MM.inp` (SHA256: `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374`)
+    - Physical Mesh: 2,206 physical elements (2,137 CPE4 quads, 69 CPE3 triangles), 2,294 Part nodes, Area = 1.00000000 mm²
+    - Rebuilt Deck: `F43UEL_MM_REBUILT.inp` (SHA256: `b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f`)
+    - Layered Element Breakdown: **6,618 total elements** (U1=2,137, U2=2,137, U3=69, U4=69, CPE4=2,137, CPE3=69)
+    - Static Validation: **`ALL PASS`** (100% checks passed, 0 invalid elements, exact boundary/equation preservation)
+    - Staged Dry Package: `models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/dry_test_mm/`
+  - **Candidate PK5 (`F43REM4_PK5`)**:
+    - Source Deck: `F43REM4_PK5.inp` (SHA256: `87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9`)
+    - Physical Mesh: 4,894 physical elements (4,766 CPE4 quads, 128 CPE3 triangles), 4,998 Part nodes, Area = 1.00000000 mm²
+    - Rebuilt Deck: `F43UEL_PK5_REBUILT.inp` (SHA256: `01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6`)
+    - Layered Element Breakdown: **14,682 total elements** (U1=4,766, U2=4,766, U3=128, U4=128, CPE4=4,766, CPE3=128)
+    - Static Validation: **`ALL PASS`** (100% checks passed, 0 invalid elements, exact boundary/equation preservation)
+    - Staged Dry Package: `models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/dry_test_pk5/`
+- **Cross-Candidate Formulation Fairness**:
+  - `identical_l0`: 0.015 mm
+  - `identical_gc`: 0.0027 kN/mm (2.7 N/mm)
+  - `identical_thickness`: 1.0 mm
+  - `identical_emod`: 210.0 kN/mm² (210,000 MPa)
+  - `identical_enu`: 0.3
+  - `identical_park`: 1.0e-7
+  - `identical_subroutine`: `f42_mixed_uel.for` (SHA256: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`)
+  - `difference_scope`: Strictly physical mesh topology and coordinates.
+- **Reference Availability**:
+  - `uniform_reference_available`: `false`
+  - `future_phase_field_comparison_blocked_by`: `uniform_reference_not_yet_frozen`
+- **Authority Boundary Reset**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `false`
+  - `new_HPC_submissions`: `0`
+
+---
+
+## F43REM4-GATEC1-R4 Phase-Field Resolution-Coverage & Crack-Corridor Audit (2026-08-09)
+
+
+Task `F43REM4-GATEC1-R4`: Executed comprehensive offline phase-field resolution-coverage and crack-corridor audit on frozen candidate meshes (`PK1` job `1385573`, `PK5` job `1385574`, `MM` job `1385575`) with $l_0 = 0.015\text{ mm}$, evaluating percentile distribution metrics, connected Mode-II notch-tip crack corridors (top 1%, 5%, 10%), connected fine-path continuity ($h \le 0.5 l_0$ and $h \le 0.75 l_0$), and spatial SVG visualizations:
+- **Task ID**: `F43REM4-GATEC1-R4`
+- **Status**: `complete_pass`
+- **Scientific Classification**:
+  - `Gate_C1_localization`: **`PASS`**
+  - `best_adaptive_candidate`: **`F43REM4_MM`** (highest adaptive localization efficiency: 5.07x top-1% density enrichment, 2.79x top-5% density enrichment with only 2,206 elements)
+  - `Gate_C1_phase_field_resolution`: **`HOLD`** (the typical element in the process zone is coarser than $l_0/2$, and far-field is coarsened to $1.46 l_0$)
+  - `final_production_mesh_selected`: **`false`**
+  - `final_selected_candidate`: **`none`**
+  - `Gate_C1`: **`HOLD`**
+  - `recommended_next_stage`: `human_decision_on_crack_corridor_coverage_tradeoff`
+- **Extracted Summary Metrics ($l_0 = 0.015\text{ mm}$)**:
+  - `MM_top1_fraction_h_le_l0_over_2` = **0.0462** (4.6% of refined elements in top 1% MISESERI have $h_{\text{area}} \le l_0/2$; 19.2% have $e_{\min} \le l_0/2$)
+  - `MM_top5_fraction_h_le_l0_over_2` = **0.0301** (3.0% of refined elements in top 5% MISESERI have $h_{\text{area}} \le l_0/2$; 8.4% have $e_{\min} \le l_0/2$)
+  - `MM_top10_fraction_h_le_l0_over_2` = **0.0211** (2.1% of refined elements in top 10% MISESERI have $h_{\text{area}} \le l_0/2$; 5.9% have $e_{\min} \le l_0/2$)
+  - `PK5_top1_fraction_h_le_l0_over_2` = **0.1263** (12.6% in top 1%; 41.6% have $e_{\min} \le l_0/2$)
+  - `PK5_top5_fraction_h_le_l0_over_2` = **0.1064** (10.6% in top 5%; 26.7% have $e_{\min} \le l_0/2$)
+  - `PK5_top10_fraction_h_le_l0_over_2` = **0.0846** (8.5% in top 10%; 19.6% have $e_{\min} \le l_0/2$)
+  - `PK1_top1_fraction_h_le_l0_over_2` = **0.8247** (82.5% in top 1%; 98.4% have $e_{\min} \le l_0/2$)
+  - `PK1_top5_fraction_h_le_l0_over_2` = **0.8493** (84.9% in top 5%; 98.1% have $e_{\min} \le l_0/2$)
+  - `PK1_top10_fraction_h_le_l0_over_2` = **0.8692** (86.9% in top 10%; 98.4% have $e_{\min} \le l_0/2$)
+  - `MM_top5_p95_h_over_l0` = **1.3595** (median = 0.8170, p75 = 1.0790, p90 = 1.2623)
+  - `PK5_top5_p95_h_over_l0` = **0.9389** (median = 0.6033, p75 = 0.7294, p90 = 0.8723)
+  - `PK1_top5_p95_h_over_l0` = **0.5279** (median = 0.4686, p75 = 0.4894, p90 = 0.5097)
+  - `MM_connected_fine_corridor` ($h \le 0.5 l_0$) = **`false`** (max reach from notch = 0.0 mm; at $h \le 0.75 l_0$, connected reach = 0.0817 mm)
+  - `PK5_connected_fine_corridor` ($h \le 0.5 l_0$) = **`false`** (max reach from notch = 0.0263 mm; at $h \le 0.75 l_0$, connected reach = 0.1541 mm)
+  - `PK1_connected_fine_corridor` ($h \le 0.5 l_0$) = **`true`** (max reach from notch = 0.7019 mm across entire domain)
+- **Scientific Findings & Trade-Off**:
+  1. `F43REM4_MM` is the best adaptive-remeshing candidate regarding localization efficiency and economy, placing 31% of its elements into the top 20% stress zone. However, its resolution across the connected process zone is primarily $h \approx 0.70\text{--}0.85 l_0$, rather than strictly $h \le 0.5 l_0$.
+  2. `F43REM4_PK5` provides denser process-zone coverage ($h \approx 0.53\text{--}0.60 l_0$, reaching $0.154\text{ mm}$ along the crack corridor at $h \le 0.75 l_0$) with 4,894 elements (14.7k 3-layer UEL elements).
+  3. `F43REM4_PK1` provides unbroken $h \le 0.5 l_0$ across the full domain, but operates as near-global uniform refinement with 21,397 elements (64.2k 3-layer UEL elements) and zero density contrast.
+- **Authority Boundary Reset**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `replacement_authorized`: `false`
+  - `maximum_jobs_now`: `0`
+  - `automatic_retry`: `false`
+  - `new_qsub_called`: `false`
+  - `new_HPC_submissions`: `0`
+
+---
+
+## F43REM4-GATEC1-R3 PRE3 Baseline Correction, Quantitative Localization Analysis & Gate C1 Selection (2026-08-09)
+
+
+Task `F43REM4-GATEC1-R3`: Performed forensic audit and correction of the PRE3 reference baseline, completed comprehensive spatial point-in-polygon mapping of PRE3 MISESERI distribution to PK1, PK5, and MM candidate refined meshes, evaluated Spearman rank correlations, percentile band enrichment, hotspot vs far-field resolution ratios, and prospective model-size proxies, and executed the Gate C1 selection rule:
+- **Task ID**: `F43REM4-GATEC1-R3`
+- **Status**: `complete_pass` (`Gate_C1 = PASS`, `Gate_C1_comparison = PASS_LOCALIZED_MESH_SELECTED`, `selected_candidate = F43REM4_MM`)
+- **Scientific Result**: `refined_mesh_selected_for_offline_UEL_rebuild`
+- **Recommended Next Stage**: `offline_selected_mesh_rebuilder_preparation`
+- **PRE3 Baseline Correction Audit**:
+  - `previous_PRE3_baseline_in_report`: **`INCORRECT`** (previous closeout script hardcoded 2,309 nodes / 2,249 elements / 100% CPE4R from an unverified template).
+  - `corrected_PRE3_baseline`: **`PASS`**
+  - Canonical PRE3 Predecessor: Job `1385461.mmaster02` (`F43PRE3_GEOM.odb`, SHA256: `9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1`)
+  - Validated PRE3 Physical Mesh: **3,716 physical elements** (3,600 CPE4 + 116 CPE3), **3,799 Part nodes**, **3,800 Assembly nodes** (including Reference Point node 1000000), Domain Area = **1.00000000 mm²**, 0 invalid/negative/zero-area elements.
+- **Candidate Physical Meshes Integrity Audit (All PASS)**:
+  - `F43REM4_PK1` (`1385573.mmaster02`): 21,397 elements (20,809 CPE4, 588 CPE3), 21,429 Part nodes (21,430 Assembly nodes), Area = 1.00000000 mm², 0 invalid elements. Deck SHA256: `c21198b1e3f3f858b92bce74aff509c2b4dd59af794e2f5dfdfcdd0ce21ae35b`.
+  - `F43REM4_PK5` (`1385574.mmaster02`): 4,894 elements (4,766 CPE4, 128 CPE3), 4,998 Part nodes (4,999 Assembly nodes), Area = 1.00000000 mm², 0 invalid elements. Deck SHA256: `87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9`.
+  - `F43REM4_MM` (`1385575.mmaster02`): 2,206 elements (2,137 CPE4, 69 CPE3), 2,294 Part nodes (2,295 Assembly nodes), Area = 1.00000000 mm², 0 invalid elements. Deck SHA256: `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374`.
+- **Quantitative Localization & Sizing Evaluation ($l_0 = 0.015\text{ mm}$)**:
+  - **Candidate PK1**: $h_{\text{area}, \min}/l_0 = 0.1601$ ($e_{\min}/l_0 = 0.2084$), median $h_{\text{area}}/l_0 = 0.4557$. Spearman (raw) = 0.355522, Spearman (density) = 0.181754. Top 5% density ratio = **1.0138x**. Classification: **`near_global_refinement`** (rejected as unnecessarily overrefined and computationally costly).
+  - **Candidate PK5**: $h_{\text{area}, \min}/l_0 = 0.1547$ ($e_{\min}/l_0 = 0.2159$), median $h_{\text{area}}/l_0 = 0.9597$. Spearman (raw) = 0.214458, Spearman (density) = 0.038628. Top 5% density ratio = **2.2375x**, top-5% median $h_{\text{area}}/l_0 = 0.6033$. Classification: **`mixed_local_global_refinement`** (fully qualified robust alternative).
+  - **Candidate MM**: $h_{\text{area}, \min}/l_0 = 0.3004$ ($e_{\min}/l_0 = 0.3439$), median $h_{\text{area}}/l_0 = 1.4045$. Spearman (raw) = 0.160602, Spearman (density) = 0.069120 (5.0x historical baseline 0.0139). Top 5% density ratio = **2.7876x**, top-1% density ratio = **5.066x**, top-5% median $h_{\text{area}}/l_0 = 0.8170$, top-1% median $h_{\text{area}}/l_0 = 0.6650$. 15.05% of refined elements concentrated in top 5% MISESERI zone, 31.01% in top 20% zone. Classification: **`mixed_local_global_refinement`** with strong upper-percentile notch concentration and optimal far-field relaxation ($h_{\text{far}} \approx 22\ \mu\text{m} \approx 1.46 l_0$).
+- **Prospective Model-Size Proxy (Not Measured Simulation Cost)**:
+  - PRE3: 3,716 physical elements, 3,799 Part nodes $\rightarrow$ 11,148 prospective 3-layer elements, ~18,995 active DOFs (5x proxy).
+  - PK1: 21,397 physical elements, 21,429 Part nodes $\rightarrow$ 64,191 prospective 3-layer elements (**5.76x** PRE3 size), ~107,145 active DOFs.
+  - PK5: 4,894 physical elements, 4,998 Part nodes $\rightarrow$ 14,682 prospective 3-layer elements (**1.32x** PRE3 size), ~24,990 active DOFs.
+  - MM: 2,206 physical elements, 2,294 Part nodes $\rightarrow$ 6,618 prospective 3-layer elements (**0.59x** PRE3 size), ~11,470 active DOFs.
+- **Scientific Gate C1 Selection Decision**:
+  - Selected Candidate: **`F43REM4_MM`** (Job `1385575.mmaster02`, SHA256: `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374`).
+  - Decision Basis: MM satisfies 100% mesh integrity, fulfills minimum resolution requirements ($h_{\min}/l_0 = 0.3004 \le 0.5$), demonstrates highest upper-percentile MISESERI concentration (2.79x top-5% density ratio, 5.07x top-1% density ratio), and achieves greatest domain economy (6,618 3-layer elements, 0.60x PRE3 node count). PK5 is retained as the fully qualified backup candidate.
+- **Authority Boundary Reset**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `replacement_authorized`: `false`
+  - `maximum_jobs_now`: `0`
+  - `automatic_retry`: `false`
+  - `new_qsub_called`: `false`
+  - `new_HPC_submissions`: `0`
+- **Next Scientific Action**: Offline rebuilder preparation for candidate `F43REM4_MM` standard mesh into 3-layer Phase-Field UEL execution deck.
+
+---
+
 ## F43REM4-SUB4 Guarded Replacement Batch Execution Closeout & Scientific Gate C1 Comparative Analysis (2026-08-08)
+
 
 Task `F43REM4-SUB4`: Executed all 3 authorized replacement remesh sensitivity jobs (`1385573.mmaster02`, `1385574.mmaster02`, `1385575.mmaster02`) under explicit human chat authorization commit (`be7f4a3cb16454c63b5152c481906e54ea29f91a`, tag `F43REM4_BATCH_AUTH4`), enforced strict maximum-two-running concurrency contract via `-W depend=afterany:1385573.mmaster02`, collected lightweight terminal logs and generated refined input decks, and conducted comprehensive geometric, localization, and UEL computational cost evaluation:
 - **Task ID**: `F43REM4-SUB4`

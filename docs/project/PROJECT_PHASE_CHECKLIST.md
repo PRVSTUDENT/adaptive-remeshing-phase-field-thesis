@@ -1,6 +1,130 @@
 # Project Phase Checklist
 
+## F43DUALREBUILD1 Offline Dual-Candidate Mixed CPE3/CPE4 Phase-Field UEL Rebuild for MM and PK5
+
+- [x] Preserved scientific decision state:
+  - `Gate_C1_localization`: `PASS`
+  - `best_adaptive_candidate`: `F43REM4_MM`
+  - `best_resolution_efficiency_compromise`: `F43REM4_PK5`
+  - `final_selected_candidate`: `none`
+  - `Gate_C1_phase_field_resolution`: `HOLD` (final selection based on later phase-field benchmark comparison against uniform reference)
+- [x] Verified exact frozen candidate input deck hashes before rebuilding:
+  - `MM`: `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374` (2,206 physical elements = 2,137 CPE4 + 69 CPE3; 2,294 Part nodes).
+  - `PK5`: `87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9` (4,894 physical elements = 4,766 CPE4 + 128 CPE3; 4,998 Part nodes).
+- [x] Developed unified deterministic rebuilder `scripts/model_generation/rebuild_f43_mixed_uel_deck.py`:
+  - Phase Layer: U1 (quad) + U3 (tri), labels $1 \dots N_{\text{PHYS}}$
+  - Displacement Layer: U2 (quad) + U4 (tri), labels $N_{\text{PHYS}}+1 \dots 2 N_{\text{PHYS}}$
+  - Facsimile Output Layer: CPE4 (quad) + CPE3 (tri), labels $2 N_{\text{PHYS}}+1 \dots 3 N_{\text{PHYS}}$
+- [x] Generated offline rebuilt Phase-Field UEL decks:
+  - `F43UEL_MM_REBUILT.inp`: SHA256 `b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f`, **6,618 layered elements** (U1=2,137, U2=2,137, U3=69, U4=69, CPE4=2,137, CPE3=69).
+  - `F43UEL_PK5_REBUILT.inp`: SHA256 `01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6`, **14,682 layered elements** (U1=4,766, U2=4,766, U3=128, U4=128, CPE4=4,766, CPE3=128).
+- [x] Verified element type contract:
+  - CPE4 $\rightarrow$ U1 (Phase), U2 (Disp), CPE4 (Facsimile)
+  - CPE3 $\rightarrow$ U3 (Phase), U4 (Disp), CPE3 (Facsimile)
+  - Exact physical connectivity preserved, 0 quads converted to triangles, 0 triangles converted to quads.
+- [x] Verified node contract:
+  - MM Part nodes = 2,294, PK5 Part nodes = 4,998 (no geometry smoothing, no node relocation, no duplicate geometric nodes).
+  - RP node preserved separately in Assembly.
+- [x] Validated orientation and geometry:
+  - Positive signed area for all elements (0 invalid elements).
+  - Reconstructed total area = 1.00000000 mm² within numerical tolerance.
+- [x] Preserved sets, equations, and boundary conditions:
+  - NSETs: `RP`, `bottom_nodes`, `top_nodes`
+  - ELSETS: `PHASE`, `DISP`, `UMATELEM`, `All_elem`
+  - Equations: Mode-II Pure Shear coupling `top_nodes, 1, 1.` $\rightarrow$ `RP, 1, -1.`
+  - Boundaries: `bottom_nodes, 1, 2` fixed; `top_nodes, 2, 2` fixed; `RP, 1, 1, 0.001` shear load.
+- [x] Proved cross-candidate formulation fairness:
+  - Identical parameters ($l_0=0.015\text{ mm}$, $G_c=0.0027\text{ kN/mm}$, $E=210.0\text{ kN/mm}^2$, $\nu=0.3$, $k=1.0\times 10^{-7}$).
+  - Identical subroutine `f42_mixed_uel.for` (SHA256: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`).
+  - Identical step, solver controls, loads, and output requests.
+- [x] Staged candidate dry-test packages (without running):
+  - `dry_test_mm/` (deck + Fortran + `MANIFEST.json`)
+  - `dry_test_pk5/` (deck + Fortran + `MANIFEST.json`)
+- [x] Audited reference availability:
+  - `uniform_reference_available = false` (`future_phase_field_comparison_blocked_by = uniform_reference_not_yet_frozen`).
+- [x] Added and executed unit test suite: 9 unit tests passed, 45 full Stage C suite tests passed (`OK`).
+- [x] Preserved zero-submission authority boundary (`execution_authorized = false`, `maximum_jobs_now = 0`).
+
+---
+
+## F43REM4-GATEC1-R4 Phase-Field Resolution-Coverage & Crack-Corridor Audit
+
+
+- [x] Froze existing candidate decks and predecessor lineage without modifications:
+  - `F43REM4_PK1`: Job `1385573.mmaster02` (SHA256: `c21198b1e3f3f858b92bce74aff509c2b4dd59af794e2f5dfdfcdd0ce21ae35b`, 21,429 nodes / 21,397 elements).
+  - `F43REM4_PK5`: Job `1385574.mmaster02` (SHA256: `87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9`, 4,998 nodes / 4,894 elements).
+  - `F43REM4_MM`: Job `1385575.mmaster02` (SHA256: `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374`, 2,294 nodes / 2,206 elements).
+  - Phase-field length scale: $l_0 = 0.015\text{ mm}$.
+- [x] Preserved adaptive localization conclusion (`Gate_C1_localization = PASS`, `best_adaptive_candidate = MM`).
+- [x] Placed full phase-field production mesh selection on HOLD (`Gate_C1_phase_field_resolution = HOLD`, `final_production_mesh_selected = false`, `final_selected_candidate = none`).
+- [x] Evaluated refined element resolution fractions ($h_{\text{area}} \le 1.0 l_0$, $\le 0.5 l_0$, $\le 1/3 l_0$, and corresponding $\min(\text{edge})$ and $\max(\text{edge})$ fractions) across top 1%, 5%, 10%, and 20% PRE3 MISESERI regions:
+  - MM top-1% $h_{\text{area}} \le l_0/2$ fraction: **0.0462** (4.6%); $\min(\text{edge}) \le l_0/2$ fraction: **0.1923** (19.2%).
+  - MM top-5% $h_{\text{area}} \le l_0/2$ fraction: **0.0301** (3.0%); $\min(\text{edge}) \le l_0/2$ fraction: **0.0843** (8.4%).
+  - PK5 top-1% $h_{\text{area}} \le l_0/2$ fraction: **0.1263** (12.6%); $\min(\text{edge}) \le l_0/2$ fraction: **0.4158** (41.6%).
+  - PK5 top-5% $h_{\text{area}} \le l_0/2$ fraction: **0.1064** (10.6%); $\min(\text{edge}) \le l_0/2$ fraction: **0.2668** (26.7%).
+  - PK1 top-1% $h_{\text{area}} \le l_0/2$ fraction: **0.8247** (82.5%); top-5% $h_{\text{area}} \le l_0/2$ fraction: **0.8493** (84.9%).
+- [x] Computed percentile distribution metrics (median, p75, p90, p95, max $h_{\text{area}}/l_0$) for each region:
+  - MM top-5%: median = 0.8170, p75 = 1.0790, p90 = 1.2623, p95 = 1.3595, max = 1.5834.
+  - PK5 top-5%: median = 0.6033, p75 = 0.7294, p90 = 0.8723, p95 = 0.9389, max = 1.3257.
+  - PK1 top-5%: median = 0.4686, p75 = 0.4894, p90 = 0.5097, p95 = 0.5279, max = 0.6091.
+- [x] Constructed geometric connected crack corridors emanating from the Mode-II notch tip $(0, 0)$ on the PRE3 mesh:
+  - Top-1% connected corridor: 26 elements ($0.0089\text{ mm}^2$).
+  - Top-5% connected corridor: 114 elements ($0.0359\text{ mm}^2$).
+  - Top-10% connected corridor: 191 elements ($0.0580\text{ mm}^2$).
+- [x] Evaluated corridor coverage, area fractions, and largest under-resolved sections along connected corridors:
+  - MM top-5% corridor: area fraction with $h \le 0.5 l_0$ is **0.4%**, largest under-resolved section is $0.0364\text{ mm}^2$ at distance $0.0068\text{ mm}$ from notch.
+  - PK5 top-5% corridor: area fraction with $h \le 0.5 l_0$ is **7.3%**, largest under-resolved section is $0.0273\text{ mm}^2$ at distance $0.0097\text{ mm}$ from notch.
+  - PK1 top-5% corridor: area fraction with $h \le 0.5 l_0$ is **81.1%**.
+- [x] Evaluated connected fine-mesh paths:
+  - $h \le 0.50 l_0$: MM = `false` (0.0 mm reach), PK5 = `false` (0.026 mm reach), PK1 = `true` (0.702 mm reach across domain).
+  - $h \le 0.75 l_0$: MM = `true` (0.082 mm reach), PK5 = `true` (0.154 mm reach), PK1 = `true` (0.702 mm reach).
+- [x] Generated standalone vector SVG figures in `remesh_sensitivity_batch/figures/`:
+  - `f43rem4_pk1_crack_corridor_audit.svg`
+  - `f43rem4_pk5_crack_corridor_audit.svg`
+  - `f43rem4_mm_crack_corridor_audit.svg`
+- [x] Updated master report `F43REM4_GATEC1_COMPARISON_REPORT.json` and generated `F43REM4_CRACK_CORRIDOR_AUDIT.json`.
+- [x] Verified full unit test suite: 28 tests passed (`OK`), 0 failures, 0 errors.
+- [x] Preserved zero-submission authority boundary (`execution_authorized = false`, `maximum_jobs_now = 0`).
+
+---
+
+## F43REM4-GATEC1-R3 PRE3 Baseline Correction, Quantitative Localization Analysis & Gate C1 Selection
+
+
+- [x] Corrected PRE3 reference baseline in master Gate C1 comparison report:
+  - Fixed erroneous placeholder representation (2,309 nodes / 2,249 elements / 100% CPE4R).
+  - Validated exact PRE3 physical mesh from canonical predecessor input deck `F43PRE3_GEOM.inp` and ODB `1385461.mmaster02`: **3,716 physical elements** (3,600 CPE4 + 116 CPE3), **3,799 Part nodes**, **3,800 Assembly nodes** (including Reference Point node 1000000), Domain Area = **1.00000000 mm²**, 0 invalid/negative/zero-area elements.
+- [x] Verified frozen candidate input deck SHA-256 hashes and topology integrity:
+  - `F43REM4_PK1`: SHA256 `c21198b1e3f3f858b92bce74aff509c2b4dd59af794e2f5dfdfcdd0ce21ae35b`, 21,429 nodes, 21,397 elements, area = 1.00000000 mm², 0 invalid elements.
+  - `F43REM4_PK5`: SHA256 `87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9`, 4,998 nodes, 4,894 elements, area = 1.00000000 mm², 0 invalid elements.
+  - `F43REM4_MM`: SHA256 `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374`, 2,294 nodes, 2,206 elements, area = 1.00000000 mm², 0 invalid elements.
+- [x] Computed exact physical element geometry using Shoelace polygon formula ($h_{\text{area}} = \sqrt{\text{Area}}$, min/max edge lengths).
+- [x] Executed spatial polygon point-in-polygon mapping of PRE3 MISESERI distribution to all candidate refined meshes (100% assignment, 0 unassigned centroids).
+- [x] Evaluated Spearman rank correlation coefficients (raw counts and area-normalized density):
+  - PK1: Spearman raw = 0.3555, Spearman density = 0.1818.
+  - PK5: Spearman raw = 0.2145, Spearman density = 0.0386.
+  - MM: Spearman raw = 0.1606, Spearman density = 0.0691 (5.0x higher than historical overrefined baseline 0.0139).
+- [x] Evaluated 6-band MISESERI percentile distribution and top population fractions:
+  - MM concentrates 15.05% of its elements in the top 5% MISESERI zone (and 31.01% in top 20%), while coarsening far field ($h \approx 22\ \mu\text{m} \approx 1.46 l_0$).
+  - PK5 concentrates 12.48% in top 5% zone, far field at $h \approx 14.6\ \mu\text{m} \approx 0.98 l_0$.
+  - PK1 refines uniformly across domain (density ratio = 1.0138x).
+- [x] Evaluated hotspot (top 5%, top 10%) and far-field (bottom 50%) resolution and grading ratios:
+  - MM: Top 5% / Bot 50% density ratio = **2.7876x** (Top 1% density ratio = **5.066x**), Top 5% median $h_{\text{area}}/l_0 = 0.8170$, Top 1% median $h_{\text{area}}/l_0 = 0.6650$, min $h_{\text{area}}/l_0 = 0.3004$, min edge $/l_0 = 0.3439$.
+  - PK5: Top 5% / Bot 50% density ratio = **2.2375x**, Top 5% median $h_{\text{area}}/l_0 = 0.6033$, min $h_{\text{area}}/l_0 = 0.1547$, min edge $/l_0 = 0.2159$.
+  - PK1: Top 5% / Bot 50% density ratio = **1.0138x**, min $h_{\text{area}}/l_0 = 0.1601$.
+- [x] Applied quantitative Gate C1 selection rule:
+  - **Gate C1 Result**: **`PASS`**
+  - **Selected Candidate**: **`F43REM4_MM`** (Job `1385575.mmaster02`, SHA256: `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374`).
+  - **Backup Candidate**: `F43REM4_PK5` (fully qualified alternative).
+  - **Rejected**: `F43REM4_PK1` (near-global overrefinement with excessive model size).
+- [x] Replaced ungrounded terminology and ensured all UEL metrics are framed strictly as prospective model-size proxies.
+- [x] Verified full unit test suite: 588 passed, 0 failures, 0 errors.
+- [x] Preserved zero-submission authority boundary (`execution_authorized = false`, `maximum_jobs_now = 0`).
+
+---
+
 ## F43REM4-BATCH5 PBS Compute-Node Path Repair, Concurrency-Guard Repair & Exact-P Qualification Gate
+
 
 - [x] Repaired PBS compute-node `BATCH_DIR` path resolution across all 3 tracked PBS scripts (`F43REM4_PK1.pbs`, `F43REM4_PK5.pbs`, `F43REM4_MM.pbs`) to strictly prefer `${PBS_O_WORKDIR}` with fail-closed validation.
 - [x] Enforced maximum-two-simultaneously-running scheduler contract in `submit_f43rem4_sensitivity_batch.sh` via `-W depend=afterany:<JOB1_ID>` on `F43REM4_MM`.

@@ -1,0 +1,79 @@
+{
+  "task_id": "F43DUALDRY-PREP1",
+  "status": "complete_pass",
+  "all_passed": true,
+  "checks": {
+    "mm_rebuilt_sha_frozen": true,
+    "pk5_rebuilt_sha_frozen": true,
+    "uel_source_sha_frozen": true,
+    "dry_mm_deck_sha": true,
+    "dry_mm_for_sha": true,
+    "dry_pk5_deck_sha": true,
+    "dry_pk5_for_sha": true,
+    "mm_static_validation_pass": true,
+    "pk5_static_validation_pass": true,
+    "mm_u1_quad_phase_branch": true,
+    "mm_u2_quad_disp_branch": true,
+    "mm_u3_tri_phase_branch": true,
+    "mm_u4_tri_disp_branch": true,
+    "mm_cpe4_facsimile_branch": true,
+    "mm_cpe3_facsimile_branch": true,
+    "pk5_u1_quad_phase_branch": true,
+    "pk5_u2_quad_disp_branch": true,
+    "pk5_u3_tri_phase_branch": true,
+    "pk5_u4_tri_disp_branch": true,
+    "pk5_cpe4_facsimile_branch": true,
+    "pk5_cpe3_facsimile_branch": true,
+    "mm_passive_material_valid": true,
+    "pk5_passive_material_valid": true,
+    "pbs_mm_queue_entry": true,
+    "pbs_mm_resources": true,
+    "pbs_mm_wrapper_guard": true,
+    "pbs_pk5_queue_entry": true,
+    "pbs_pk5_resources": true,
+    "pbs_pk5_wrapper_guard": true,
+    "submit_mm_guarded": true,
+    "submit_pk5_guarded": true
+  },
+  "details": {
+    "MM_rebuilt_SHA": "b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f",
+    "PK5_rebuilt_SHA": "01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6",
+    "UEL_SHA": "5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3",
+    "MM_layered_elements": 6618,
+    "PK5_layered_elements": 14682,
+    "MM_branches": {
+      "U1": 2137,
+      "U2": 2137,
+      "U3": 69,
+      "U4": 69,
+      "CPE4": 2137,
+      "CPE3": 69
+    },
+    "PK5_branches": {
+      "U1": 4766,
+      "U2": 4766,
+      "U3": 128,
+      "U4": 128,
+      "CPE4": 4766,
+      "CPE3": 128
+    },
+    "toolchain_contract": [
+      "gcc/11.4.0",
+      "intel/2024.2.0",
+      "abaqus/2023"
+    ],
+    "queue_contract": {
+      "queue": "entry_imfdfkmq",
+      "ncpus": 1,
+      "memory": "8gb",
+      "walltime": "00:30:00"
+    }
+  },
+  "authority_boundary": {
+    "execution_authorized": false,
+    "submission_approved": false,
+    "maximum_jobs_now": 0,
+    "qsub_called": false,
+    "new_HPC_submissions": 0
+  }
+}

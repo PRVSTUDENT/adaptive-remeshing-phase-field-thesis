@@ -1,0 +1,120 @@
+{
+  "task_id": "F43DUALREBUILD1",
+  "protocol_version": 1,
+  "status": "complete_pass",
+  "scientific_decision_state": {
+    "Gate_C1_localization": "PASS",
+    "best_adaptive_candidate": "F43REM4_MM",
+    "best_resolution_efficiency_compromise": "F43REM4_PK5",
+    "final_selected_candidate": "none",
+    "Gate_C1_phase_field_resolution": "HOLD",
+    "reason": "Neither MM nor PK5 provides a continuous h/l0 <= 0.5 crack corridor; final selection deferred to actual Phase-Field comparison against uniform reference."
+  },
+  "candidates": {
+    "MM": {
+      "candidate_name": "F43REM4_MM",
+      "source_job": "1385575.mmaster02",
+      "source_sha256": "d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374",
+      "rebuilt_deck": "models\\generated\\mode_ii\\f43_stage_c_bridge\\remesh_sensitivity_batch\\F43UEL_MM_REBUILT.inp",
+      "rebuilt_sha256": "b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f",
+      "physical_elements": 2206,
+      "physical_quads": 2137,
+      "physical_tris": 69,
+      "part_nodes": 2294,
+      "total_layered_elements": 6618,
+      "element_counts": {
+        "U1": 2137,
+        "U2": 2137,
+        "U3": 69,
+        "U4": 69,
+        "CPE4": 2137,
+        "CPE3": 69,
+        "total": 6618
+      },
+      "static_validation_passed": true
+    },
+    "PK5": {
+      "candidate_name": "F43REM4_PK5",
+      "source_job": "1385574.mmaster02",
+      "source_sha256": "87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9",
+      "rebuilt_deck": "models\\generated\\mode_ii\\f43_stage_c_bridge\\remesh_sensitivity_batch\\F43UEL_PK5_REBUILT.inp",
+      "rebuilt_sha256": "01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6",
+      "physical_elements": 4894,
+      "physical_quads": 4766,
+      "physical_tris": 128,
+      "part_nodes": 4998,
+      "total_layered_elements": 14682,
+      "element_counts": {
+        "U1": 4766,
+        "U2": 4766,
+        "U3": 128,
+        "U4": 128,
+        "CPE4": 4766,
+        "CPE3": 128,
+        "total": 14682
+      },
+      "static_validation_passed": true
+    }
+  },
+  "fairness_audit": {
+    "identical_l0": true,
+    "identical_gc": true,
+    "identical_thickness": true,
+    "identical_emod": true,
+    "identical_enu": true,
+    "identical_park": true,
+    "identical_subroutine_sha256": true,
+    "identical_rebuilder_logic": true,
+    "identical_step_definition": true,
+    "identical_coupling_equations": true,
+    "identical_boundary_conditions": true,
+    "difference_scope_strictly_mesh_topology": true
+  },
+  "subroutine": {
+    "path": "models\\generated\\mode_ii\\f42_mixed_element_uel\\f42_mixed_uel.for",
+    "sha256": "5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3"
+  },
+  "reference_availability": {
+    "uniform_reference_available": false,
+    "future_phase_field_comparison_blocked_by": "uniform_reference_not_yet_frozen",
+    "historical_reference_candidates": [
+      {
+        "job": "1379481.mmaster02",
+        "name": "m2h1_u015",
+        "type": "H1 uniform sweep u=0.015 mm"
+      },
+      {
+        "job": "1379482.mmaster02",
+        "name": "m2h1_u020",
+        "type": "H1 uniform sweep u=0.020 mm"
+      },
+      {
+        "job": "1379966.mmaster02",
+        "name": "M2H2U20F1",
+        "type": "H2 uniform full u=0.020 mm"
+      }
+    ]
+  },
+  "future_comparison_metrics": [
+    "peak_reaction_force",
+    "initiation_displacement",
+    "force_displacement_normalized_L2_error",
+    "fracture_dissipated_energy",
+    "phase_field_crack_path",
+    "declared_crack_threshold",
+    "crack_path_geometric_error",
+    "wall_time",
+    "cpu_time",
+    "peak_memory",
+    "increment_count",
+    "iteration_count",
+    "active_dofs"
+  ],
+  "authority_boundary": {
+    "execution_authorized": false,
+    "submission_approved": false,
+    "maximum_jobs_now": 0,
+    "qsub_called": false,
+    "new_HPC_submissions": 0
+  }
+}

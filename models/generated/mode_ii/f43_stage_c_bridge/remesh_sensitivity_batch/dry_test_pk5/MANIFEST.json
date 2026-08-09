@@ -1,0 +1,30 @@
+{
+  "candidate": "F43REM4_PK5",
+  "job_id": "1385574.mmaster02",
+  "deck_name": "F43UEL_PK5_REBUILT.inp",
+  "deck_sha256": "01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6",
+  "subroutine_name": "f43_mixed_uel.for",
+  "subroutine_sha256": "5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3",
+  "parameters": {
+    "l0": 0.015,
+    "gc": 0.0027,
+    "thickness": 1.0,
+    "emod": 210.0,
+    "enu": 0.3,
+    "park": 1e-07
+  },
+  "mesh_counts": {
+    "physical_elements": 4894,
+    "physical_quads": 4766,
+    "physical_tris": 128,
+    "physical_nodes": 4998,
+    "layered_elements": 14682,
+    "U1": 4766,
+    "U2": 4766,
+    "U3": 128,
+    "U4": 128,
+    "CPE4": 4766,
+    "CPE3": 128
+  },
+  "status": "dry_test_package_staged_unauthorized"
+}
