@@ -26,7 +26,10 @@ class TestPBSNotify(unittest.TestCase):
             shutil.rmtree(self.work_dir, ignore_errors=True)
 
     def _run_bash_trap_simulation(self, sim_script_body: str, env_vars: dict | None = None) -> tuple[int, str]:
+        if self.notify_log.exists():
+            self.notify_log.unlink()
         script_path = self.work_dir / "sim_job.sh"
+
         rel_notify_sh = PBS_NOTIFY_SH.relative_to(ROOT).as_posix()
         rel_log = self.notify_log.relative_to(ROOT).as_posix()
         rel_work = self.work_dir.relative_to(ROOT).as_posix()
