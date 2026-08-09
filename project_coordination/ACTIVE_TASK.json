@@ -1,7 +1,7 @@
 {
   "protocol_version": 1,
   "task_id": "F43MODEREF-SUB1",
-  "status": "in_progress_submission_authorized",
+  "status": "complete_pass",
   "historical_FINAL3_P_moved": true,
   "historical_FINAL3_Q_moved": false,
   "accepted_execution_SHA": "f8237054c6b55e0a318c0f5b1ce820be8c1cc20b",
@@ -25,26 +25,36 @@
   "Q_differs_from_P": true,
   "Q_descends_from_P": true,
   "Q_execution_critical_changes": false,
-  "authorized_future_reference_job_count": 2,
-  "authorized_future_reference_jobs": [
-    "M2REF_H1",
-    "M2REF_H2"
+  "submitted_reference_job_count": 2,
+  "submitted_reference_jobs": [
+    {
+      "job_name": "M2REF_H1",
+      "job_id": "1385728.mmaster02",
+      "status": "QUEUED_RUNNING"
+    },
+    {
+      "job_name": "M2REF_H2",
+      "job_id": "1385729.mmaster02",
+      "status": "QUEUED_RUNNING"
+    }
   ],
   "planned_future_batch_size": 2,
   "planned_future_max_submissions": 2,
   "queue_check_rc": 0,
   "running_jobs": 0,
-  "queued_jobs": 0,
+  "queued_jobs": 2,
   "acceptance_metrics_frozen": true,
   "acceptance_threshold_source": "provisional_working_gate",
   "current_authority": {
     "authorization_ready_for_reference_batch": true,
-    "execution_authorized": true,
-    "submission_approved": true,
-    "maximum_jobs_now": 2,
-    "qsub_called": false,
-    "HPC_submissions": 0,
-    "authorization_timestamp": "2026-08-09T09:00:49+02:00",
-    "authorization_sentence": "I authorize exactly two guarded HPC submissions for the Mode-II uniform phase-field reference convergence batch using preparation commit f8237054c6b55e0a318c0f5b1ce820be8c1cc20b (P43MODEREF1-FINAL4) and qualification commit 6c76ad77507ab331640963fb7425e36a7212137d (Q43MODEREF1-FINAL4)."
+    "execution_authorized": false,
+    "submission_approved": false,
+    "maximum_jobs_now": 0,
+    "qsub_called": true,
+    "HPC_submissions": 2,
+    "consumed_authorization_jobs": [
+      "1385728.mmaster02",
+      "1385729.mmaster02"
+    ]
   }
 }

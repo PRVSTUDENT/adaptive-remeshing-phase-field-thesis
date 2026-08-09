@@ -1,5 +1,30 @@
 # Current project state
 
+## F43MODEREF-SUB1 Mode-II Uniform Phase-Field Reference Batch Guarded Submission (2026-08-09)
+
+Task `F43MODEREF-SUB1`: Received direct explicit human chat authorization, fast-forwarded `tu_freiberg` cluster clone, executed common preflight validation, and submitted the authorized 2-job Mode-II uniform phase-field reference convergence batch:
+- **Task ID**: `F43MODEREF-SUB1`
+- **Status**: `complete_pass`
+- **Explicit Human Chat Authorization**: Received in chat; recorded in commit `17721c7849edaf0dbe5afbfd30cb4112e4313f88` and authorization manifest `M2REF_BATCH_SUBMISSION_RECORD.json`.
+- **Preparation & Qualification Anchors**:
+  - `preparation_commit`: **`f8237054c6b55e0a318c0f5b1ce820be8c1cc20b`** (`P43MODEREF1-FINAL4`)
+  - `qualification_commit`: **`6c76ad77507ab331640963fb7425e36a7212137d`** (`Q43MODEREF1-FINAL4`)
+- **Preflight Checks**:
+  - `validate_mode_ii_reference_contract.py`: **`PASS`**
+  - Hash match verification: `M2REF_H1` input SHA `e3f80451...` (**MATCH**), `M2REF_H2` input SHA `b6fd1c30...` (**MATCH**), UEL SHA `5dc00538...` (**MATCH**).
+- **Submitted Jobs**:
+  1. **`M2REF_H1`**: PBS Job ID **`1385728.mmaster02`** (Queue `entry_imfdfkmq`, 1 CPU, 16 GB RAM, 06:00:00 walltime, State: Queued / Running)
+  2. **`M2REF_H2`**: PBS Job ID **`1385729.mmaster02`** (Queue `entry_imfdfkmq`, 1 CPU, 32 GB RAM, 18:00:00 walltime, State: Queued / Running)
+- **Batch Sizing & Concurrency**: Total submissions = 2 (`MAX_SUBMISSIONS=2` consumed). Both jobs queued and executing concurrently on `tu_freiberg`.
+- **Current Authority Boundary**:
+  - `execution_authorized`: `false` (consumed for this 2-job batch)
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `true` (`1385728.mmaster02`, `1385729.mmaster02`)
+  - `HPC_submissions`: `2`
+
+---
+
 ## F43MODEREF-LINEAGE3 Final Immutable Mode-II Reference Batch Authorization Lineage Reconciliation (2026-08-09)
 
 Task `F43MODEREF-LINEAGE3`: Successfully reconciled Mode-II reference lineage governance, recorded force-movement history of preparation tags, verified 100% byte integrity of accepted execution SHA `f8237054c6b55e0a318c0f5b1ce820be8c1cc20b`, established never-moved preparation tag `P43MODEREF1-FINAL4` and fresh qualification tag `Q43MODEREF1-FINAL4`, confirmed clean HPC fast-forward merge, and established 2-job future reference batch contract (`M2REF_H1` + `M2REF_H2`):
