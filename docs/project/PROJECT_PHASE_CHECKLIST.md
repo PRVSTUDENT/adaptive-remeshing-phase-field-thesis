@@ -1,6 +1,33 @@
 # Project Phase Checklist
 
+## F43MODEREF7-ANCHORRECOVERY1 Immutable Preparation/Qualification Lineage Recovery for Pair 1R
+
+- [x] Historical Tag Invalidation Recorded:
+  - `P43MODEREF6-FINAL2` recorded as invalid preparation anchor (`P43MODEREF6_FINAL2_tag_moved_multiple_times = true`, `P43MODEREF6_FINAL2_force_pushed = true`, `P43MODEREF6_FINAL2_deleted_or_recreated = true`).
+  - `Q43MODEREF6` recorded as invalid qualification anchor (`Q43MODEREF6_commit == P43MODEREF6_FINAL2_commit`, `Q43MODEREF6_differs_from_P = false`).
+  - Both tags preserved without modification or retrospective repair.
+- [x] Pair 1R Execution Byte Contract Verified:
+  - All 8 execution-critical files (`.inp`, `.for`, `.pbs`, `.sh` for both jobs) recomputed and verified to match candidate SHA256 hashes 100% byte-for-byte (`pair1r_execution_bytes_changed_since_candidate = false`).
+- [x] Scientific & Validation State Confirmed:
+  - `corrected_H0_semantic_identity = PASS` (3,998 physical nodes, 3,930 physical elements).
+  - Reference roles preserved: `1378942` = canonical historical topology / original convergence lineage evidence; `1379393` = endpoint-corrected scientific metric source.
+- [x] Immutable Preparation Tag Created:
+  - `P43MODEREF7-FINAL1` annotated tag created on commit `226cfc837205f5a0665ec84e9ac993279a4022ce` and pushed ONCE normally to origin.
+- [x] Detached Exact-P Remote Qualification:
+  - Isolated worktree `/tmp/p7_final1_test_worktree` on `tu_freiberg` (`mlogin01.cluster`).
+  - Toolchain loaded: `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, `python/gcc/11.4.0/3.11.7`.
+  - Authoritative unmasked full unit test suite: **619 passed, 0 failures, 0 errors, exit code 0 (`OK`)**.
+  - All 12 focused qualification checks passed.
+- [x] Natural Cleanliness Verified:
+  - `git status --porcelain=v1` empty, `git diff` exit code 0, `git diff --cached` exit code 0 (`natural_status_empty = true`).
+- [x] Provenance-Only Q Commit & Tag Created:
+  - Created provenance commit containing test evidence and metadata.
+  - Created `Q43MODEREF7-FINAL1` tag on provenance commit ($Q_{\text{commit}} \ne P_{\text{commit}}$, $Q$ descends from $P$, $Q$ execution-critical changes = `false`).
+
+---
+
 ## F43MODEREF-H0IDENTITY-FIX1 Reference-Identity Forensics, Pointwise Audit & Pair-1R Preparation
+
 
 - [x] Scientific Classification Correction:
   - Job `1386248.mmaster02` (`M2REF_ONEEL_FRACFIX_VERIFY`): `scheduler_result = PASS`, `technical_result = PASS`, `scientific_result = provisional_PASS_for_local_UEL_behavior`.

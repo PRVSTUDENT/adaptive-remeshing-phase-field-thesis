@@ -1,16 +1,18 @@
 # Project Current State
 
-Last Updated: 2026-08-09T18:30:00+02:00
+Last Updated: 2026-08-09T19:30:00+02:00
 Active Agent: gemini-antigravity
 Protocol Version: 1
 
 ## Active Task
-- Task ID: `F43MODEREF-H0IDENTITY-FIX1`
-- Task Description: Reference-Identity Forensics, Pointwise Irreversibility Audit, and Exact Two-Job Verification-Batch Preparation (Pair 1R).
-- Status: `pair1r_fully_qualified_awaiting_human_authorization`
-- Preparation Tag: `P43MODEREF6-FINAL2` (`9c8d267d76eb9be8ecc8bc64499dfe5d35afeecf`)
-- Qualification Tag: `Q43MODEREF6` (`9c8d267d76eb9be8ecc8bc64499dfe5d35afeecf`)
-- Qualification Location: Isolated worktree `/tmp/p6_final2_test_worktree` on `tu_freiberg` (all unit tests, semantic validators, preflight immutability checks pass, naturally clean)
+- Task ID: `F43MODEREF7-ANCHORRECOVERY1`
+- Task Description: Immutable Preparation/Qualification Lineage Recovery for Pair 1R.
+- Status: `pair1r_immutable_lineage_recovered_awaiting_human_authorization`
+- Historical Invalid Preparation Tag: `P43MODEREF6-FINAL2` (`9c8d267d76eb9be8ecc8bc64499dfe5d35afeecf`, moved/deleted/recreated multiple times -> invalid)
+- Historical Invalid Qualification Tag: `Q43MODEREF6` (`9c8d267d76eb9be8ecc8bc64499dfe5d35afeecf`, Q == P -> invalid)
+- Recovered Preparation Tag: `P43MODEREF7-FINAL1` (`226cfc837205f5a0665ec84e9ac993279a4022ce`)
+- Recovered Qualification Tag: `Q43MODEREF7-FINAL1` (Will point to provenance-only Q commit)
+- Qualification Location: Isolated worktree `/tmp/p7_final1_test_worktree` on `tu_freiberg` (619/619 unit discovery tests pass, rc=0, focused qualification checks pass, naturally clean)
 
 ## Verification Batch Pair 1 Historical Results & Corrected Classification
 1. **`M2REF_ONEEL_FRACFIX_VERIFY`**:
@@ -48,8 +50,9 @@ Protocol Version: 1
    - Resources: 1 CPU, 8 GB memory (`mem=8GB`), 01:00:00 walltime, queue `entry_imfdfkmq`
 
 ## Current HPC Authority Boundary
-- `authorization_ready_for_verification_batch = true`
+- `authorization_ready_for_corrected_verification_batch = true`
 - `execution_authorized = false`
 - `submission_approved = false`
 - `maximum_jobs_authorized = 0`
 - `qsub_called = false`
+
