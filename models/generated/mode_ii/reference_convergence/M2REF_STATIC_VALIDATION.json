@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "errors": [],
+  "warnings": [],
+  "candidate_results": {
+    "M2REF_H0": {
+      "n_nodes": 4003,
+      "n_u1": 3930,
+      "n_u2": 3930,
+      "n_cpe4": 3930,
+      "n_layered": 11790,
+      "equations_count": 27,
+      "has_amp1": true,
+      "has_amp2": true,
+      "has_step1": true,
+      "has_step2": true,
+      "has_uel_prop_phase": true,
+      "has_uel_prop_disp": true,
+      "has_mat_facsimile": true
+    },
+    "M2REF_H1": {
+      "n_nodes": 12387,
+      "n_u1": 12064,
+      "n_u2": 12064,
+      "n_cpe4": 12064,
+      "n_layered": 36192,
+      "equations_count": 234,
+      "has_amp1": true,
+      "has_amp2": true,
+      "has_step1": true,
+      "has_step2": true,
+      "has_uel_prop_phase": true,
+      "has_uel_prop_disp": true,
+      "has_mat_facsimile": true
+    },
+    "M2REF_H2": {
+      "n_nodes": 34513,
+      "n_u1": 33852,
+      "n_u2": 33852,
+      "n_cpe4": 33852,
+      "n_layered": 101556,
+      "equations_count": 548,
+      "has_amp1": true,
+      "has_amp2": true,
+      "has_step1": true,
+      "has_step2": true,
+      "has_uel_prop_phase": true,
+      "has_uel_prop_disp": true,
+      "has_mat_facsimile": true
+    }
+  },
+  "manifest_summary": {
+    "study_name": "Mode-II Uniform Phase-Field Reference Convergence",
+    "task_id": "F43MODEREF-PREP1",
+    "candidates_count": 3
+  }
+}
