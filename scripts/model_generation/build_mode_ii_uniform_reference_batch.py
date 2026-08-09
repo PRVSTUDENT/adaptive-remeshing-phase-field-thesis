@@ -174,7 +174,7 @@ def generate_reference_deck(
     quads: Dict[int, List[int]],
     out_file: Path
 ) -> str:
-    """Generate a complete 3-layer mixed-UEL input deck for Mode-II full fracture."""
+    n_phys = len(quads)
     physical_node_ids = set(nodes.keys())
     rp_node_id = max(physical_node_ids) + 1
     if rp_node_id in physical_node_ids:
