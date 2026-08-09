@@ -16,8 +16,10 @@ cd "$WORKTREE_DIR"
 
 DETACHED_HEAD=$(git rev-parse HEAD)
 echo "DETACHED_HEAD=$DETACHED_HEAD"
-if [ "$DETACHED_HEAD" != "$TARGET_SHA" ]; then
-    echo "ERROR: Detached HEAD mismatch! $DETACHED_HEAD != $TARGET_SHA" >&2
+EXPECTED_SHA=$(git rev-parse "${TARGET_SHA}^{commit}")
+echo "EXPECTED_SHA=$EXPECTED_SHA"
+if [ "$DETACHED_HEAD" != "$EXPECTED_SHA" ]; then
+    echo "ERROR: Detached HEAD mismatch! $DETACHED_HEAD != $EXPECTED_SHA" >&2
     exit 1
 fi
 
