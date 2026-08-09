@@ -7,11 +7,12 @@ Task: F43MODEREF-PREP1
 import subprocess
 import sys
 
-target_sha = "8d38d0ab0ba36e7d31dfbdb2c0159a4992599deb"
+target_sha = "417e3b8dbb74e36bb6942250e56b6c0ac9427475"
 
 remote_script = f"""
 set -euo pipefail
 
+ORIGIN_DIR=$(pwd)
 WORKTREE_DIR=$(mktemp -d /tmp/f43moderef_qual_XXXXXX)
 echo "WORKTREE_DIR=$WORKTREE_DIR"
 
@@ -60,7 +61,7 @@ git diff --exit-code
 git diff --cached --exit-code
 
 echo "=== Natural post-test cleanliness: ALL PASS ==="
-cd ..
+cd "$ORIGIN_DIR"
 git worktree remove --force "$WORKTREE_DIR"
 echo "QUALIFICATION_COMPLETE_PASS=true"
 """

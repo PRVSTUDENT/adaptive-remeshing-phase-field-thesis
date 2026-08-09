@@ -22,12 +22,12 @@ J2_DIR = ROOT / "models/generated/mode_ii/verification_batch/M2REF_H0_FRACFIX_RE
 EXPECTED_HASHES = {
     "J1_INP": ("0a86b66a5434e06415c1721fbf6b21ee0e38b1107803efb2836070c9f5b35512", J1_DIR / "M2REF_ONEEL_FRACFIX_VERIFY.inp"),
     "J1_UEL": ("0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8", J1_DIR / "f42_mixed_uel.for"),
-    "J1_PBS": ("240969e9be531f0e917619ae422ce78ae21c3c5ef889b4feb85c4477b22a24df", J1_DIR / "M2REF_ONEEL_FRACFIX_VERIFY.pbs"),
+    "J1_PBS": ("ab099bddfe035f37df9b034b56eb38756019f5012ca590a279efc75b48c6bd26", J1_DIR / "M2REF_ONEEL_FRACFIX_VERIFY.pbs"),
     "J1_SH":  ("09edb59b8943f0577b96512d8a4f900bb4e04525691d6ce772cd3f95400cb99c", J1_DIR / "submit_m2ref_oneel_fracfix_verify.sh"),
 
     "J2_INP": ("4bcc529509d3491bfffb28b33078f0759cb55cdac2bcabbbadb6be99a5fc08f5", J2_DIR / "M2REF_H0_FRACFIX_REPRO.inp"),
     "J2_UEL": ("0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8", J2_DIR / "f42_mixed_uel.for"),
-    "J2_PBS": ("9c326977bf9a9100811062b6bc367e442b83086103efe8f66d6e405fc025db65", J2_DIR / "M2REF_H0_FRACFIX_REPRO.pbs"),
+    "J2_PBS": ("fe146489d62fe6cca6cdcf6584c3637687229878bcc9508f7f676bc26d52d064", J2_DIR / "M2REF_H0_FRACFIX_REPRO.pbs"),
     "J2_SH":  ("16d4d2d7746b3144bdf6a5de2c858e44c33ede0fc7b951f96f879507c16b4d9a", J2_DIR / "submit_m2ref_h0_fracfix_repro.sh"),
 }
 

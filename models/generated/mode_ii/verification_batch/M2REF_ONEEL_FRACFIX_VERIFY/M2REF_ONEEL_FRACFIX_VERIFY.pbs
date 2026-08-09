@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N M2REF_ONEEL_FRACFIX_VERIFY
-#PBS -l select=1:ncpus=1:mem=8 GB
+#PBS -l select=1:ncpus=1:mem=8GB
 #PBS -l walltime=00:15:00
 #PBS -q entry_imfdfkmq
 #PBS -j oe

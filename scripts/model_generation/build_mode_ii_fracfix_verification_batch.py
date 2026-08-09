@@ -23,14 +23,14 @@ EXPECTED_UEL_SHA256 = "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7
 
 VERIFY_CONFIGS = {
     "M2REF_ONEEL_FRACFIX_VERIFY": {
-        "memory": "8 GB",
+        "memory": "8GB",
         "walltime": "00:15:00",
         "queue": "entry_imfdfkmq",
         "n_div_x": 1,
         "n_div_y": 1,
     },
     "M2REF_H0_FRACFIX_REPRO": {
-        "memory": "8 GB",
+        "memory": "8GB",
         "walltime": "01:00:00",
         "queue": "entry_imfdfkmq",
         "n_div_x": 50,
