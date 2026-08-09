@@ -213,13 +213,13 @@ class TestNPhysMappingAndStaticContract(unittest.TestCase):
         res1 = subprocess.run([
             gfortran_cmd, "-fsyntax-only", "-ffixed-line-length-none",
             "-Wall", "-Wextra", "-Wsurprising", f"-I{inc_dir}", F42_FORTRAN_PATH
-        ], capture_output=True, text=True)
+        ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
         # Test F42TRI1_CORE.for
         res2 = subprocess.run([
             gfortran_cmd, "-fsyntax-only", "-ffixed-line-length-none",
             "-Wall", "-Wextra", "-Wsurprising", f"-I{inc_dir}", F42TRI1_CORE_FORTRAN_PATH
-        ], capture_output=True, text=True)
+        ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
         self.assertEqual(res1.returncode, 0, f"gfortran syntax check failed on f42_mixed_uel.for with stderr:\n{res1.stderr}")
         self.assertEqual(res2.returncode, 0, f"gfortran syntax check failed on F42TRI1_CORE.for with stderr:\n{res2.stderr}")
@@ -309,7 +309,7 @@ class TestF42CTriangleFacsimileContract(unittest.TestCase):
         res = subprocess.run([
             "gfortran", "-fsyntax-only", "-ffixed-line-length-none",
             "-Wall", "-Wextra", "-Wsurprising", f"-I{inc_dir}", f42c_fortran_path
-        ], capture_output=True, text=True)
+        ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
         self.assertEqual(res.returncode, 0, f"gfortran syntax check failed on f42c_mixed_uel.for with stderr:\n{res.stderr}")
 
@@ -405,7 +405,7 @@ class TestF42CTriangleFacsimileContract(unittest.TestCase):
             inc_path = os.path.join(inc_dir, "ABA_PARAM.INC")
             with open(inc_path, 'w') as f:
                 f.write("      IMPLICIT REAL*8 (A-H,O-Z)\n")
-            res = subprocess.run([gfortran_bin, "-fsyntax-only", "-ffixed-line-length-none", f"-I{inc_dir}", for_path], capture_output=True, text=True)
+            res = subprocess.run([gfortran_bin, "-fsyntax-only", "-ffixed-line-length-none", f"-I{inc_dir}", for_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
             self.assertEqual(res.returncode, 0, f"gfortran syntax check failed on f42d_mixed_uel.for: {res.stderr}")
 
 
