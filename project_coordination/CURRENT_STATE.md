@@ -1,5 +1,62 @@
 # Current project state
 
+## F43MODEREF-PREP7 Final Single-Run TU-Freiberg Qualification Evidence Reconciliation (2026-08-09)
+
+Task `F43MODEREF-PREP7`: Reconciled test discovery discrepancy (617 vs 612 tests explained by untracked local F43REM4 files absent at exact commit `P43MODEREF3`), executed a single authoritative remote qualification run on `tu_freiberg` (`mlogin01.cluster`) under detached worktree at `P43MODEREF3` (`417e3b8`), verified canonical hashes, static shell syntax, 15 focused tests, 612 full repository discovery tests (`FULL_TEST_RC = 0`), natural post-test cleanliness without cleanup (`PORCELAIN_LEN = 0`, `diff rc = 0`, `cached diff rc = 0`), and created definitive qualification anchor `Q43MODEREF3-FINAL2`:
+- **Task ID**: `F43MODEREF-PREP7`
+- **Status**: `complete_pass`
+- **Remote Host & Provenance Identity**:
+  - `remote_hostname`: `mlogin01.cluster`
+  - `remote_user`: `pr21vyci`
+  - `remote_repository`: `/home/pr21vyci/projects/adaptive-remeshing`
+  - `P_SHA`: `417e3b8dbb74e36bb6942250e56b6c0ac9427475`
+  - `P_tag`: `P43MODEREF3`
+  - `remote_detached_HEAD`: `417e3b8dbb74e36bb6942250e56b6c0ac9427475`
+- **Test Discovery Reconciliation**:
+  - `test_count_difference_617_vs_612_explained`: `true`
+  - `test_count_difference_reason`: `environment_specific_collection` / `untracked_local_files_in_dirty_worktree`
+  - `five_missing_tests_or_cases`: `[test_candidate_deck_hashes_and_sizing, test_comparison_report_file_integrity, test_pre3_baseline_mesh_integrity, test_shoelace_area_correctness, test_spearman_correlation_function, test_audit_json_structure_and_governance, test_extracted_summary_metrics_values, test_master_report_updated_classification, test_svg_figures_generated]`
+- **HPC Toolchain Verified**:
+  - `remote_gcc_version`: `11.4.0`
+  - `remote_ifort_version`: `2021.13.0 20240602`
+  - `remote_abaqus_version`: `2023`
+  - `remote_python_version`: `3.11.7`
+- **Canonical Execution Hashes Verified on HPC**:
+  - `canonical_H0_SHA`: `e17a8895ede9cc1a85d00950586e679f95796310211667bc28b4b037be7162e6`
+  - `canonical_H1_SHA`: `4ac37c50a26d67106e5c1e6083937f9b0716c3646c90ad87c51a8ef9b172808e`
+  - `canonical_H2_SHA`: `a651cef82999d333bd9062cc4d743a98908178535623dd8ca8ed7993dfe23de0`
+  - `canonical_UEL_SHA`: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`
+- **Single Authoritative Remote HPC Qualification Results**:
+  - Shell syntax checks (`bash -n` on all `.pbs` and submit wrappers): `ALL PASS`
+  - Contract validation (`validate_mode_ii_reference_contract.py`): **`PASS`**
+  - Historical H0 reuse (`audit_historical_h0_reuse.py`): **`PASS`** (`historical_H0_reused_for_convergence = true`)
+  - Focused reference tests: **15/15 PASS (`failures = 0`, `errors = 0`)**
+  - Full test suite command: `python3 -m unittest discover -s tests/unit -p 'test_*.py'`
+  - `full_test_rc`: `0`
+  - Full test count: **612 (`failures = 0`, `errors = 0`, `skips = 17`)**
+  - `cleanup_between_tests_and_status`: `false`
+  - `natural_status_empty`: `true` (`git status --porcelain=v1` length = `0`, repr = `''`)
+  - `git_diff_exit_code`: `0`, `git_diff_cached_exit_code`: `0`
+  - Queue status (`qstat -u pr21vyci`): `queue_check_rc = 0`, `running_jobs = 0`, `queued_jobs = 0`
+- **Final Qualification Tag**:
+  - `final_Q_tag`: `Q43MODEREF3-FINAL2`
+  - `Q_differs_from_P`: `true`
+  - `Q_descends_from_P`: `true`
+  - `Q_execution_critical_changes`: `false`
+- **Future Reference Jobs**:
+  - `future_reference_jobs`: `M2REF_H1_REPAIR`, `M2REF_H2_REPAIR`
+  - `planned_future_submissions`: `2`
+  - `maximum_concurrent`: `2`
+- **Current Authority Boundary**:
+  - `authorization_ready_for_replacement_reference_batch`: `true`
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: `0`
+
+---
+
 ## F43MODEREF-PREP6 True TU-Freiberg Exact-P HPC Qualification & Clean Lineage (2026-08-09)
 
 Task `F43MODEREF-PREP6`: Executed true remote exact-P qualification on `tu_freiberg` HPC cluster (`mlogin01.cluster`) under detached worktree at `P43MODEREF3` (`417e3b8`), verified actual HPC toolchain (`gcc/11.4.0`, `ifort/2024.2.0`, `abaqus/2023`, `python/3.11.7`), canonical hashes, static shell syntax, 15 focused tests, 612 full repository discovery tests, natural post-test worktree cleanliness, and created fresh qualification anchor `Q43MODEREF3-FINAL1`:
