@@ -41,19 +41,31 @@ def sha256_file(path: Path) -> str:
 
 
 def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
-    """Parse key structural and parameter features of a reference deck."""
+    """
+    Re-read and parse complete generated .inp deck from disk and validate:
+      1. Duplicate node labels == 0 (all written node labels are unique)
+      2. Duplicate element labels == 0
+      3. RP node ID > max physical node ID and NOT in physical node IDs
+      4. Undefined node references == 0
+      5. Zero / negative area elements calculated from FINAL written node coordinates == 0
+    """
     text = deck_path.read_text(encoding="utf-8", errors="replace")
     lines = text.splitlines()
 
-    n_nodes = 0
-    u1_elements = []
-    u2_elements = []
-    cpe4_elements = []
+    node_dict: Dict[int, Tuple[float, float]] = {}
+    all_node_labels: List[int] = []
+    all_elem_labels: List[int] = []
+    u1_elements: Dict[int, List[int]] = {}
+    u2_elements: Dict[int, List[int]] = {}
+    cpe4_elements: Dict[int, List[int]] = {}
+    rp_set_nodes: List[int] = []
     equations = 0
+
+    in_node = False
     in_u1 = False
     in_u2 = False
     in_cpe4 = False
-    in_node = False
+    in_rp_nset = False
 
     for line in lines:
         s = line.strip()
@@ -62,51 +74,95 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
         sl = s.lower()
         if sl.startswith("*node"):
             in_node = True
-            in_u1 = False
-            in_u2 = False
-            in_cpe4 = False
+            in_u1 = in_u2 = in_cpe4 = in_rp_nset = False
             continue
         elif sl.startswith("*element, type=u1"):
-            in_node = False
             in_u1 = True
-            in_u2 = False
-            in_cpe4 = False
+            in_node = in_u2 = in_cpe4 = in_rp_nset = False
             continue
         elif sl.startswith("*element, type=u2"):
-            in_node = False
-            in_u1 = False
             in_u2 = True
-            in_cpe4 = False
+            in_node = in_u1 = in_cpe4 = in_rp_nset = False
             continue
         elif sl.startswith("*element, type=cpe4"):
-            in_node = False
-            in_u1 = False
-            in_u2 = False
             in_cpe4 = True
+            in_node = in_u1 = in_u2 = in_rp_nset = False
+            continue
+        elif sl.startswith("*nset, nset=rp") or sl.startswith("*nset, nset=set_rp"):
+            in_rp_nset = True
+            in_node = in_u1 = in_u2 = in_cpe4 = False
             continue
         elif s.startswith("*"):
-            in_node = False
-            in_u1 = False
-            in_u2 = False
-            in_cpe4 = False
+            in_node = in_u1 = in_u2 = in_cpe4 = in_rp_nset = False
 
         if in_node:
-            n_nodes += 1
+            parts = [p.strip() for p in s.split(",")]
+            if len(parts) >= 3 and parts[0].isdigit():
+                nid = int(parts[0])
+                all_node_labels.append(nid)
+                node_dict[nid] = (float(parts[1]), float(parts[2]))
         elif in_u1:
             parts = [p.strip() for p in s.split(",")]
-            if parts and parts[0].isdigit():
-                u1_elements.append(int(parts[0]))
+            if len(parts) >= 5 and parts[0].isdigit():
+                eid = int(parts[0])
+                all_elem_labels.append(eid)
+                u1_elements[eid] = [int(p) for p in parts[1:5]]
         elif in_u2:
             parts = [p.strip() for p in s.split(",")]
-            if parts and parts[0].isdigit():
-                u2_elements.append(int(parts[0]))
+            if len(parts) >= 5 and parts[0].isdigit():
+                eid = int(parts[0])
+                all_elem_labels.append(eid)
+                u2_elements[eid] = [int(p) for p in parts[1:5]]
         elif in_cpe4:
             parts = [p.strip() for p in s.split(",")]
-            if parts and parts[0].isdigit():
-                cpe4_elements.append(int(parts[0]))
+            if len(parts) >= 5 and parts[0].isdigit():
+                eid = int(parts[0])
+                all_elem_labels.append(eid)
+                cpe4_elements[eid] = [int(p) for p in parts[1:5]]
+        elif in_rp_nset:
+            parts = [p.strip() for p in s.split(",")]
+            for p in parts:
+                if p.isdigit():
+                    rp_set_nodes.append(int(p))
 
         if sl.startswith("*equation"):
             equations += 1
+
+    # Quality and Integrity Checks
+    duplicate_node_count = len(all_node_labels) - len(node_dict)
+    duplicate_elem_count = len(all_elem_labels) - len(set(all_elem_labels))
+
+    rp_node_id = rp_set_nodes[0] if rp_set_nodes else -1
+    physical_node_ids = set(node_dict.keys()) - {rp_node_id} if rp_node_id in node_dict else set(node_dict.keys())
+    max_physical_node_id = max(physical_node_ids) if physical_node_ids else 0
+
+    rp_is_valid = (
+        rp_node_id > max_physical_node_id and
+        rp_node_id not in physical_node_ids
+    )
+
+    # Check undefined node references and element areas using FINAL node coordinates
+    undefined_node_refs = 0
+    zero_area_elems = 0
+    negative_area_elems = 0
+
+    for eid, conn in u1_elements.items():
+        coords = []
+        for n in conn:
+            if n not in node_dict:
+                undefined_node_refs += 1
+            else:
+                coords.append(node_dict[n])
+        if len(coords) == 4:
+            x1, y1 = coords[0]
+            x2, y2 = coords[1]
+            x3, y3 = coords[2]
+            x4, y4 = coords[3]
+            signed_area = 0.5 * ((x1*y2 - x2*y1) + (x2*y3 - x3*y2) + (x3*y4 - x4*y3) + (x4*y1 - x1*y4))
+            if abs(signed_area) <= 1.0e-12:
+                zero_area_elems += 1
+            elif signed_area < 0:
+                negative_area_elems += 1
 
     has_amp1 = "*Amplitude, name=Amp-1" in text
     has_amp2 = "*Amplitude, name=Amp-2" in text
@@ -117,12 +173,20 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
     has_mat_facsimile = "*Material, name=MAT_QUAD_FACSIMILE" in text
 
     return {
-        "n_nodes": n_nodes,
+        "n_nodes": len(node_dict),
         "n_u1": len(u1_elements),
         "n_u2": len(u2_elements),
         "n_cpe4": len(cpe4_elements),
         "n_layered": len(u1_elements) + len(u2_elements) + len(cpe4_elements),
         "equations_count": equations,
+        "duplicate_node_count": duplicate_node_count,
+        "duplicate_elem_count": duplicate_elem_count,
+        "rp_node_id": rp_node_id,
+        "max_physical_node_id": max_physical_node_id,
+        "rp_is_valid": rp_is_valid,
+        "undefined_node_refs": undefined_node_refs,
+        "zero_area_elems": zero_area_elems,
+        "negative_area_elems": negative_area_elems,
         "has_amp1": has_amp1,
         "has_amp2": has_amp2,
         "has_step1": has_step1,
@@ -198,6 +262,19 @@ def validate_reference_batch(write_report: bool = False) -> Dict[str, Any]:
                 errors.append(f"{cname} missing Step-1 or Step-2 definition")
             if not struct["has_uel_prop_phase"] or not struct["has_uel_prop_disp"] or not struct["has_mat_facsimile"]:
                 errors.append(f"{cname} missing UEL property or facsimile material definitions")
+
+            if struct["duplicate_node_count"] > 0:
+                errors.append(f"{cname} contains {struct['duplicate_node_count']} duplicate node label(s)")
+            if struct["duplicate_elem_count"] > 0:
+                errors.append(f"{cname} contains {struct['duplicate_elem_count']} duplicate element label(s)")
+            if not struct["rp_is_valid"]:
+                errors.append(f"{cname} RP node ID {struct['rp_node_id']} is invalid (max physical node ID: {struct['max_physical_node_id']})")
+            if struct["undefined_node_refs"] > 0:
+                errors.append(f"{cname} contains {struct['undefined_node_refs']} undefined node reference(s) in elements")
+            if struct["zero_area_elems"] > 0:
+                errors.append(f"{cname} contains {struct['zero_area_elems']} zero-area element(s)")
+            if struct["negative_area_elems"] > 0:
+                errors.append(f"{cname} contains {struct['negative_area_elems']} negative-area element(s)")
 
             candidate_results[cname] = struct
 
