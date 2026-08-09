@@ -236,7 +236,7 @@ def validate_reference_batch(write_report: bool = False) -> Dict[str, Any]:
 
 
 def main():
-    res = validate_reference_batch(write_report=True)
+    res = validate_reference_batch()
 
     print(f"Validation Result: {'PASS' if res['passed'] else 'FAIL'}")
     if res["errors"]:
@@ -245,8 +245,6 @@ def main():
             print(f"  - {e}")
     else:
         print("All static checks passed successfully.")
-    out_json = ROOT / "models/generated/mode_ii/reference_convergence/M2REF_STATIC_VALIDATION.json"
-    print(f"Validation summary written to: {out_json}")
     sys.exit(0 if res["passed"] else 1)
 
 
