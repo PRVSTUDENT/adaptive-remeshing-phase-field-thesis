@@ -1,18 +1,18 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "project_coordination/**",
-    "models/generated/mode_ii/**",
+    "models/generated/mode_ii/reference_convergence/**",
     "scripts/**",
     "tests/unit/**",
     "docs/**"
   ],
-  "started_at": "2026-08-09T09:25:00+02:00",
-  "completed_at": null,
-  "heartbeat": "2026-08-09T09:25:00+02:00",
-  "session_id": "b23c4567-d890-562e-f345-g6789012f53d",
-  "starting_commit": "9ae13f281bae6f616059fd29b5c392e8b1fced3a",
-  "task_id": "F43MODEREF-PREP2",
-  "note": "Claimed session for Task F43MODEREF-PREP2: Mode-II reference generator RP dynamic allocation repair, full final .inp parser validator hardening, unit/regression test expansion, and detached exact-P qualification."
+  "started_at": "2026-08-09T10:05:00+02:00",
+  "completed_at": "2026-08-09T10:12:00+02:00",
+  "heartbeat": "2026-08-09T10:12:00+02:00",
+  "session_id": "c34d5678-e901-673f-g456-h7890123g64e",
+  "starting_commit": "2491d474c3e87bfdfccd9ae6c523f608603c200f",
+  "task_id": "F43MODEREF-PREP3",
+  "note": "Completed Task F43MODEREF-PREP3: Final RP-repair qualification, physical node count discrepancy reconciliation, pre/post repair mesh semantics comparison, historical H0 reuse re-audit, and fresh P43MODEREF2/Q43MODEREF2 tagging."
 }

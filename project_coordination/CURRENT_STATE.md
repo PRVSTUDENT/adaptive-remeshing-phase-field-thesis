@@ -1,5 +1,64 @@
 # Current project state
 
+## F43MODEREF-PREP3 Mode-II Reference Final RP Qualification, Mesh-Identity Reconciliation & Immutable Tagging (2026-08-09)
+
+Task `F43MODEREF-PREP3`: Completed comprehensive final RP-repair qualification, physical node count discrepancy reconciliation, pre/post repair mesh semantics comparison, historical H0 reuse re-audit, and created new immutable preparation tag `P43MODEREF2` and qualification tag `Q43MODEREF2`:
+- **Task ID**: `F43MODEREF-PREP3`
+- **Status**: `complete_pass`
+- **RP Dynamic Allocation & Static Validation**:
+  - `RP_dynamic_allocation`: `PASS` (`rp_node_id = max(physical_node_ids) + 1`)
+  - All 5 static validation gates (`duplicate_node_labels = 0`, `duplicate_element_labels = 0`, `undefined_node_refs = 0`, `zero_area_elements = 0`, `negative_area_elements = 0`) verified by parsing final written `.inp` files from disk.
+- **Node Count Discrepancy Reconciled**:
+  - `previous_node_count_difference_explained`: `true` (Cause: `counting_convention_only`; $3998 + 5 = 4003$ and $34508 + 5 = 34513$ due to auxiliary assembly nodes in legacy notes. Physical Part mesh nodes in raw `.inp` source decks are 3,998 and 34,508).
+  - `scientific_mesh_semantics_changed_by_RP_fix`: `false` (Physical node coordinates, connectivities, element counts, notch geometry, boundary sets, and formulation parameters are 100% byte/coordinate identical).
+- **Historical H0 Reuse Re-audited**:
+  - `historical_H0_reused_for_convergence`: `true` (Confirmed `M2REF_H0` remains scientifically semantically equivalent to historical H0 run `1378942.mmaster02`).
+- **Repaired Hashes Recorded**:
+  - `H0_repaired_SHA`: `43a5550c6de54532941964f444ec764e2830f8abd0ecb97215645bbd20593e84`
+  - `H1_repaired_SHA`: `7a27668db0e3e51e26a602ead039cff2555b368b7033c8ebb923946c656eaebf`
+  - `H2_repaired_SHA`: `bc03aa2c883fcbab74f0dcce620a5de842098b51c49e389a1c0ea25ad686e277`
+  - `UEL_SHA`: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`
+- **Unit & Regression Suite**:
+  - Focused reference integrity & contract suite: **15/15 passed (`OK`)**.
+- **Immutable Lineage Tags**:
+  - `new_P_tag`: `P43MODEREF2`
+  - `new_Q_tag`: `Q43MODEREF2`
+- **Current Authority Boundary**:
+  - `authorization_ready_for_replacement_reference_batch`: `true`
+  - `execution_authorized`: `false` (consumed for previous 2-job batch)
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: `0`
+
+---
+
+## F43MODEREF-PREP2 Mode-II Reference Generator RP Dynamic Allocation Repair & Final Deck Validator Hardening (2026-08-09)
+
+Task `F43MODEREF-PREP2`: Repaired dynamic RP node ID allocation in `build_mode_ii_uniform_reference_batch.py`, regenerated reference decks (`M2REF_H0`, `M2REF_H1`, `M2REF_H2`) offline, hardened `validate_mode_ii_reference_contract.py` to re-read and parse final `.inp` decks from disk, and expanded the unit test suite with 4 new regression tests:
+- **Task ID**: `F43MODEREF-PREP2`
+- **Status**: `complete_pass`
+- **Generator Repair (`build_mode_ii_uniform_reference_batch.py`)**:
+  - Implemented dynamic RP node allocation: `rp_node_id = max(physical_node_ids) + 1` with explicit assertions `assert rp_node_id not in physical_node_ids` and `assert len(all_node_labels) == len(set(all_node_labels))`.
+- **Regenerated Offline Decks**:
+  - `M2REF_H0`: 3,998 physical nodes -> `RP_node_id = 3999` (SHA256: `43a5550c6de545326cf543598d1a1b41bb8eeea2fbcdcae1ddfe4f828114f620`)
+  - `M2REF_H1`: 12,382 physical nodes -> `RP_node_id = 12383` (SHA256: `7a27668db0e3e51e70e9a7e6bdf255653b6fa6ce23554b419eb0a25fe44d183d`)
+  - `M2REF_H2`: 34,508 physical nodes -> `RP_node_id = 34509` (SHA256: `bc03aa2c883fcbab27042a9a0890666014e4bafc4fc1fae1ce49377484dfce47`)
+- **Hardened Final Deck Parser Validator (`validate_mode_ii_reference_contract.py`)**:
+  - Re-reads final `.inp` deck from disk and reconstructs node dictionary as seen by Abaqus input processor.
+  - Enforces `duplicate_node_count == 0`, `duplicate_elem_count == 0`, `RP_node_id > max_physical_node_id`, `undefined_node_refs == 0`, and `zero_area_elems == 0` (calculated from final written node coordinates). Static Validation: **`PASS`**.
+- **Expanded Unit Test Suite**:
+  - Executed `test_mode_ii_reference_contract.py` & `test_mode_ii_reference_generator_integrity.py`: **11 passed in 1.55s (`OK`)**.
+- **Current Authority Boundary**:
+  - `authorization_ready_for_reference_batch`: `true`
+  - `execution_authorized`: `false` (consumed for previous 2-job batch)
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: `0`
+
+---
+
 ## F43MODEREF-DIAG1 Reference Batch HPC Early-Exit Diagnostic & Root-Cause Analysis (2026-08-09)
 
 Task `F43MODEREF-DIAG1`: Completed diagnostic investigation of early exit for submitted jobs `1385728.mmaster02` (`M2REF_H1`) and `1385729.mmaster02` (`M2REF_H2`) on `tu_freiberg`, identifying the exact concrete root cause in input-deck node numbering:
