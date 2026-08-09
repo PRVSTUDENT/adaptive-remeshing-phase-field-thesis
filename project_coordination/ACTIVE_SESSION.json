@@ -1,12 +1,16 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "allowed_scope": [],
-  "started_at": "2026-08-09T17:05:00+02:00",
-  "completed_at": "2026-08-09T17:10:00+02:00",
-  "heartbeat": "2026-08-09T17:10:00+02:00",
-  "session_id": "f67g8901-h234-567c-j890-k1234567j53c",
-  "starting_commit": "25c7f88db0369cda60d2a01177c7f93e090b4b95",
-  "task_id": "F43MODEREF-FRACFIX-BATCHREADY3",
-  "note": "Released session for Task F43MODEREF-FRACFIX-BATCHREADY3. Provenance distinction corrected (raw vs derived evidence), complete PBS runtime contract surfaced, and final two-job verification batch frozen."
+  "allowed_scope": [
+    "project_coordination/**",
+    "models/generated/mode_ii/verification_batch/**",
+    "scripts/**"
+  ],
+  "started_at": "2026-08-09T17:15:00+02:00",
+  "completed_at": null,
+  "heartbeat": "2026-08-09T17:15:00+02:00",
+  "session_id": "g78h9012-i345-678d-k901-l2345678k64d",
+  "starting_commit": "82fa76ce9cf0cff6fa2000fecb67c5475ffa4943",
+  "task_id": "F43MODEREF-VERIFY-SUBMIT1",
+  "note": "Claimed session for Task F43MODEREF-VERIFY-SUBMIT1: Execute preflight checks and submit authorized two-job verification batch (M2REF_ONEEL_FRACFIX_VERIFY and M2REF_H0_FRACFIX_REPRO)."
 }
