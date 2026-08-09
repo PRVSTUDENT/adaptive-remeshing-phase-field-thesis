@@ -1,0 +1,25 @@
+#!/bin/bash
+#PBS -N M2REF_ONEEL_FRACFIX_VERIFY_R2
+#PBS -l select=1:ncpus=1:mem=8GB
+#PBS -l walltime=00:15:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -o evidence/$PBS_JOBID/execution.log
+
+set -euo pipefail
+
+cd "$PBS_O_WORKDIR"
+mkdir -p evidence/"$PBS_JOBID"
+
+echo "=== Host Environment ==="
+hostname
+date
+module list || true
+
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+echo "=== Running Abaqus Job M2REF_ONEEL_FRACFIX_VERIFY_R2 ==="
+abaqus job=M2REF_ONEEL_FRACFIX_VERIFY_R2 input=M2REF_ONEEL_FRACFIX_VERIFY_R2.inp user=f42_mixed_uel.for cpus=1 interactive double=both ask_delete=OFF
+
+echo "=== Execution Complete ==="
+date

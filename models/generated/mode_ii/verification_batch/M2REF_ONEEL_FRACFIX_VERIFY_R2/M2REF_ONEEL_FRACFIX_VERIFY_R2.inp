@@ -1,0 +1,91 @@
+*Heading
+** Mode-II Phase-Field Verification Study: M2REF_ONEEL_FRACFIX_VERIFY_R2
+** 3-Layer Mixed UEL Architecture: U1/U2/CPE4 (4 physical nodes, 1 quad)
+*Preprint, echo=NO, model=NO, history=NO, contact=NO
+*Node
+       1,   -0.5000000000,   -0.5000000000
+       2,    0.5000000000,   -0.5000000000
+       3,    0.5000000000,    0.5000000000
+       4,   -0.5000000000,    0.5000000000
+       5,    0.0000000000,    0.6000000000
+*Nset, nset=bottom_nodes
+ 1, 2
+*Nset, nset=top_nodes
+ 3, 4
+*Nset, nset=RP
+ 5
+*User Element, type=U1, nodes=4, coordinates=2, properties=3, variables=8
+ 8,
+*User Element, type=U2, nodes=4, coordinates=2, properties=5, variables=56
+ 1, 2
+*Element, type=U1, elset=PHASE_QUAD
+       1,       1,       2,       3,       4
+*Element, type=U2, elset=DISP_QUAD
+       5,       1,       2,       3,       4
+*Element, type=CPE4, elset=UMAT_QUAD
+       9,       1,       2,       3,       4
+*Elset, elset=PHASE
+ PHASE_QUAD
+*Elset, elset=DISP
+ DISP_QUAD
+*Elset, elset=UMATELEM
+ UMAT_QUAD
+*UEL Property, elset=PHASE_QUAD
+ 1.500000e-02, 2.700000e-03, 1.000000e+00
+*UEL Property, elset=DISP_QUAD
+ 2.100000e+02, 3.000000e-01, 1.000000e+00, 1.000000e-07, 4.0
+*Solid Section, elset=UMAT_QUAD, material=MAT_QUAD_FACSIMILE
+ 1.000000,
+*Material, name=MAT_QUAD_FACSIMILE
+*Depvar
+ 18
+*User Material, constants=4
+ 1.000000e-11, 3.000000e-01, 4.0, 4.0
+*Equation
+ 2
+ 3, 1, 1.0, 5, 1, -1.0
+*Equation
+ 2
+ 4, 1, 1.0, 5, 1, -1.0
+*Boundary
+ bottom_nodes, 1, 2
+*Boundary
+ top_nodes, 2, 2
+*Amplitude, name=Amp-1
+ 0.0, 0.0, 0.5, 0.005
+*Amplitude, name=Amp-2
+ 0.0, 0.005, 0.2, 0.010
+*Step, name=Step-1, nlgeom=NO, inc=500
+*Static, direct
+ 0.001, 0.5,
+*Boundary, amplitude=Amp-1
+ RP, 1, 1, 1.0
+*Restart, write, frequency=0
+*Output, field, time interval=0.01
+*Node Output
+ U, RF
+*Node Output, nset=RP
+ RF, U
+*Element Output, elset=UMATELEM
+ SDV, S, EVOL
+*Output, history, variable=PRESELECT
+*Energy Output
+ ALLAE, ALLCD, ALLIE, ALLKE, ALLPD, ALLSE, ALLWK, ETOTAL
+*End Step
+*Step, name=Step-2, nlgeom=NO, inc=2000
+*Static, direct
+ 0.0001, 0.2,
+*Boundary, amplitude=Amp-2
+ RP, 1, 1, 1.0
+*Restart, write, frequency=0
+*Output, field, time interval=0.01
+*Node Output
+ U, RF
+*Node Output, nset=RP
+ RF, U
+*Element Output, elset=UMATELEM
+ SDV, S, EVOL
+*Output, history, variable=PRESELECT
+*Energy Output
+ ALLAE, ALLCD, ALLIE, ALLKE, ALLPD, ALLSE, ALLWK, ETOTAL
+*End Step
