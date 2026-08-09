@@ -33,8 +33,8 @@ def extract_dry_results():
 
         for f_idx, frame in enumerate(step.frames):
             time = float(frame.frameValue)
-            u_field = frame.fieldOutputs.get("U")
-            rf_field = frame.fieldOutputs.get("RF")
+            u_field = frame.fieldOutputs["U"] if "U" in frame.fieldOutputs else None
+            rf_field = frame.fieldOutputs["RF"] if "RF" in frame.fieldOutputs else None
 
             # Check RP node
             rp_u_x = None
@@ -54,6 +54,7 @@ def extract_dry_results():
                             rp_rf_x = float(rf_sub.values[0].data[0])
                 except Exception as e:
                     pass
+
 
             frames_data.append({
                 "frame_index": f_idx,
