@@ -1,5 +1,50 @@
 # Current project state
 
+## F43MODEREF-PREP5 Final HPC Exact-P Qualification & Clean Replacement Authorization Lineage (2026-08-09)
+
+Task `F43MODEREF-PREP5`: Reconciled lineage across P43MODEREF2 and Q43MODEREF2-FINAL1, tagged fresh immutable preparation anchor `P43MODEREF3` at `417e3b8`, executed exact-P qualification under detached worktree, verified canonical hashes and natural post-test worktree cleanliness, and created fresh qualification anchor `Q43MODEREF3`:
+- **Task ID**: `F43MODEREF-PREP5`
+- **Status**: `complete_pass`
+- **Old Lineage Reconciliation**:
+  - `old_P43MODEREF2_usable`: `false` (`P43MODEREF2_was_followed_by_execution_critical_changes = true`)
+  - `old_Q43MODEREF2_FINAL1_usable`: `false` (`Q43MODEREF2_FINAL1_qualified_SHA` did not equal `P43MODEREF2`)
+- **Final Execution Anchor**:
+  - `FINAL_EXECUTION_SHA`: `417e3b8dbb74e36bb6942250e56b6c0ac9427475`
+  - `new_P_tag`: `P43MODEREF3` (`417e3b8dbb74e36bb6942250e56b6c0ac9427475`)
+- **Canonical Execution Hashes Verified**:
+  - `canonical_H0_SHA`: `e17a8895ede9cc1a85d00950586e679f95796310211667bc28b4b037be7162e6`
+  - `canonical_H1_SHA`: `4ac37c50a26d67106e5c1e6083937f9b0716c3646c90ad87c51a8ef9b172808e`
+  - `canonical_H2_SHA`: `a651cef82999d333bd9062cc4d743a98908178535623dd8ca8ed7993dfe23de0`
+  - `canonical_UEL_SHA`: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`
+- **Exact-P Qualification & Test Results**:
+  - `exact_HPC_detached_HEAD`: `417e3b8dbb74e36bb6942250e56b6c0ac9427475`
+  - Shell syntax checks (`bash -n` on all `.pbs` and `.sh` scripts): `ALL PASS`
+  - Contract validation (`validate_mode_ii_reference_contract.py`): **`PASS`** (`duplicate_node_labels = 0`, `duplicate_element_labels = 0`, `undefined_node_refs = 0`, `zero_area_elements = 0`, `negative_area_elements = 0`)
+  - RP Node Allocation: `H0 RP = 3999`, `H1 RP = 12383`, `H2 RP = 34509`
+  - Node counts: `H0 physical = 3998`, `H1 physical = 12382`, `H2 physical = 34508`
+  - Focused reference tests: **15/15 PASS (`failures = 0`, `errors = 0`)**
+  - Full repository test suite: **617 tests completed (`failures = 0`, `errors = 0`, `skips = 17`)**
+  - `natural_status_empty`: `true`
+  - `git_diff_exit_code`: `0`, `git_diff_cached_exit_code`: `0`
+- **Final Qualification Tag**:
+  - `new_Q_tag`: `Q43MODEREF3`
+  - `Q_differs_from_P`: `true`
+  - `Q_descends_from_P`: `true`
+  - `Q_execution_critical_changes`: `false`
+- **Future Reference Jobs**:
+  - `future_reference_jobs`: `M2REF_H1_REPAIR`, `M2REF_H2_REPAIR`
+  - `planned_future_submissions`: `2`
+  - `maximum_concurrent`: `2`
+- **Current Authority Boundary**:
+  - `authorization_ready_for_replacement_reference_batch`: `true`
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: `0`
+
+---
+
 ## F43MODEREF-PREP4 Exact-P Linux Qualification & Replacement Reference Lineage Reconciliation (2026-08-09)
 
 Task `F43MODEREF-PREP4`: Executed exact-P detached Linux qualification, resolved CRLF/LF line-ending hash discrepancy, marked premature tag `Q43MODEREF2` historically unusable, verified natural worktree post-test cleanliness, and tagged fresh final qualification anchor `Q43MODEREF2-FINAL1`:
