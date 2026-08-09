@@ -1,6 +1,33 @@
 # Project Phase Checklist
 
+## F43DUALDRY-SUB1 Guarded Submission & Technical Dry-Test Closeout for MM and PK5
+
+- [x] Authorized submission executed under explicit human directive:
+  - Jobs submitted: `F43DRY_MM` (`1385726.mmaster02`) and `F43DRY_PK5` (`1385727.mmaster02`).
+  - Max submissions: 2.
+  - Concurrent execution: 2 running jobs simultaneously on `entry_imfdfkmq`.
+- [x] Technical dry-test execution results:
+  - `F43DRY_MM`: Exit code 0, completed all 17 increments in Step-1. Final $u_x = 0.001000\text{ mm}$, $RF_x = 0.046119\text{ kN}$ ($46.1185\text{ N}$), initial shear stiffness $K_{\text{initial}} = 46.1185\text{ kN/mm}$.
+  - `F43DRY_PK5`: Exit code 0, completed all 17 increments in Step-1. Final $u_x = 0.001000\text{ mm}$, $RF_x = 0.046053\text{ kN}$ ($46.0535\text{ N}$), initial shear stiffness $K_{\text{initial}} = 46.0535\text{ kN/mm}$.
+- [x] Formulation and architecture validation:
+  - Abaqus input parser: `PASS` on both rebuilt mixed-element decks.
+  - Subroutine compilation and linking: `PASS` (`ifort` 2021.13.0, `f42_mixed_uel.for`).
+  - UEL element branch coverage: `PASS` (`U1`, `U2`, `U3`, `U4` all invoked without issue).
+  - Passive facsimile stability: `PASS` (`CPE4` and `CPE3` passive layers benign).
+  - RP boundary loading and coupling equations: `PASS` (linear elastic behavior).
+  - Initial stiffness agreement: discrepancy between candidate MM and PK5 is only 0.14%.
+- [x] Scientific boundaries maintained:
+  - `Gate_C1_localization`: `PASS`
+  - `Gate_C1_phase_field_resolution`: `HOLD`
+  - `final_selected_candidate`: `none`
+  - `uniform_reference_available`: `false` (blocks scientific fracture comparison, not dry test)
+- [x] Authorization consumed and zero running jobs:
+  - `execution_authorized`: `false`, `maximum_jobs_now`: `0`, `running_jobs`: `0`.
+
+---
+
 ## F43DUALDRY-LINEAGE1 Immutable Final Dry-Test Preparation / Q Reconciliation
+
 
 - [x] Recorded historical tag movement:
   - `historical_preparation_tag`: `P43DUALDRY1`.

@@ -1,7 +1,7 @@
 {
   "protocol_version": 1,
   "task_id": "F43DUALDRY-SUB1",
-  "status": "submitting",
+  "status": "complete_pass",
   "Gate_C1": "HOLD",
   "Gate_C1_localization": "PASS",
   "best_adaptive_candidate": "F43REM4_MM",
@@ -9,20 +9,37 @@
   "Gate_C1_phase_field_resolution": "HOLD",
   "final_production_mesh_selected": false,
   "final_selected_candidate": "none",
-  "scientific_result": "authorized_technical_dry_test_batch_execution",
-  "recommended_next_stage": "hpc_job_monitoring_and_technical_closeout",
-  "classification": "f43_dual_dry_test_submission",
-  "governance_classification": "guarded_hpc_submission_pass",
+  "scientific_result": "dual_mixed_uel_dry_tests_technical_pass",
+  "recommended_next_stage": "freeze_and_qualify_uniform_mode_ii_reference",
+  "classification": "f43_dual_dry_test_technical_pass",
+  "governance_classification": "dual_dry_test_execution_pass",
   "starting_commit": "66b8c37542141278b7762b220cdad0dd922c0fe4",
   "preparation_commit": "2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6",
   "preparation_tag": "P43DUALDRY1-FINAL1",
   "qualification_commit": "66b8c37542141278b7762b220cdad0dd922c0fe4",
   "qualification_tag": "Q43DUALDRY1-FINAL1",
+  "submission_commit": "9a64444a54d53099909395b170ab79b7d16cc23c",
+  "jobs": [
+    {
+      "job_id": "1385726.mmaster02",
+      "job_name": "F43DRY_MM",
+      "status": "complete_pass",
+      "exit_code": 0,
+      "stiffness_kN_per_mm": 46.1185
+    },
+    {
+      "job_id": "1385727.mmaster02",
+      "job_name": "F43DRY_PK5",
+      "status": "complete_pass",
+      "exit_code": 0,
+      "stiffness_kN_per_mm": 46.0535
+    }
+  ],
   "current_authority": {
-    "execution_authorized": true,
-    "submission_approved": true,
+    "execution_authorized": false,
+    "submission_approved": false,
     "replacement_authorized": false,
-    "maximum_jobs_now": 2,
+    "maximum_jobs_now": 0,
     "automatic_retry": false,
     "new_qsub_called": false,
     "new_HPC_submissions": 0

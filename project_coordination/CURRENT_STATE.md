@@ -1,6 +1,62 @@
 # Current project state
 
+## F43DUALDRY-SUB1 Guarded Submission & Technical Dry-Test Closeout for MM and PK5 (2026-08-09)
+
+Task `F43DUALDRY-SUB1`: Completed guarded submission, technical execution monitoring, and postprocessing closeout of the authorized two-job mixed-UEL technical dry-test batch (`F43DRY_MM` and `F43DRY_PK5`) on `tu_freiberg`:
+- **Task ID**: `F43DUALDRY-SUB1`
+- **Status**: `complete_pass`
+- **Authorized Execution Batch**:
+  - `authorization_sentence`: Explicit human authorization for 2 technical dry-test jobs.
+  - `preparation_commit`: `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6` (`P43DUALDRY1-FINAL1`)
+  - `qualification_commit`: `66b8c37542141278b7762b220cdad0dd922c0fe4` (`Q43DUALDRY1-FINAL1`)
+  - `submission_commit`: `9a64444a54d53099909395b170ab79b7d16cc23c`
+  - `max_submissions`: 2
+  - `qsub_called`: 2 (guarded wrappers)
+- **Job Execution Summary**:
+  - **Job 1: `F43DRY_MM` (Job ID `1385726.mmaster02`)**:
+    - Rebuilt Deck: `F43UEL_MM_REBUILT.inp` (2,206 physical -> 6,618 layered elements)
+    - Subroutine: `f42_mixed_uel.for` (SHA256: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`)
+    - Scheduler / Solver Exit: `0 / 0` (`Abaqus JOB F43DRY_MM COMPLETED`)
+    - Increments: 17 / 17 completed in Step-1 (1 iteration per increment)
+    - Final RP Displacement $u_x$: `0.001000 mm`
+    - Final RP Reaction Force $RF_x$: `0.046119 kN` (`46.1185 N`)
+    - Initial Elastic Shear Stiffness: **`46.1185 kN/mm`**
+    - Technical Status: **`PASS`**
+  - **Job 2: `F43DRY_PK5` (Job ID `1385727.mmaster02`)**:
+    - Rebuilt Deck: `F43UEL_PK5_REBUILT.inp` (4,894 physical -> 14,682 layered elements)
+    - Subroutine: `f42_mixed_uel.for` (SHA256: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`)
+    - Scheduler / Solver Exit: `0 / 0` (`Abaqus JOB F43DRY_PK5 COMPLETED`)
+    - Increments: 17 / 17 completed in Step-1 (1 iteration per increment)
+    - Final RP Displacement $u_x$: `0.001000 mm`
+    - Final RP Reaction Force $RF_x$: `0.046053 kN` (`46.0535 N`)
+    - Initial Elastic Shear Stiffness: **`46.0535 kN/mm`**
+    - Technical Status: **`PASS`**
+- **Technical Dry-Test Assessment**:
+  - Abaqus input deck parsing: **`PASS`** (both mixed quads/triangles decks accepted without syntax errors).
+  - Mixed user subroutine compilation & linking: **`PASS`** (`ifort` 2021.13.0 + `gcc` 11.4.0 + Abaqus 2023).
+  - All 4 UEL branches (`U1/U2/U3/U4`): **`PASS`** (executed seamlessly across quad and triangle zones).
+  - Passive facsimile element compatibility: **`PASS`** (`CPE4` and `CPE3` passive layers stable, 0 parasitic stiffness).
+  - Boundary conditions, equations, and RP loading: **`PASS`** (exact linear elastic behavior).
+  - Cross-candidate elastic stiffness consistency: discrepancy between MM and PK5 is only **0.14%** (`46.1185` vs `46.0535 kN/mm`).
+- **Scientific Decision State Preserved**:
+  - `Gate_C1_localization`: `PASS`
+  - `best_adaptive_candidate`: `F43REM4_MM`
+  - `best_resolution_efficiency_compromise`: `F43REM4_PK5`
+  - `final_selected_candidate`: `none` (no scientific fracture conclusions encoded from dry tests)
+  - `Gate_C1_phase_field_resolution`: `HOLD`
+  - `uniform_reference_available`: `false`
+  - `future_scientific_comparison_blocked_by`: `uniform_reference_not_yet_frozen`
+- **Authority Boundary**:
+  - `execution_authorized`: `false` (authorization consumed)
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `running_jobs`: `0`
+  - `queued_jobs`: `0`
+
+---
+
 ## F43DUALDRY-LINEAGE1 Immutable Final Dry-Test Preparation / Q Reconciliation (2026-08-09)
+
 
 Task `F43DUALDRY-LINEAGE1`: Completed immutable tag reconciliation and established final authorization-ready P/Q lineage around the qualified execution SHA `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6`:
 - **Task ID**: `F43DUALDRY-LINEAGE1`
