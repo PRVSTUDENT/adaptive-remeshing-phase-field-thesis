@@ -589,9 +589,11 @@ class F43MixedUELDeckRebuilder:
         out_path = Path(output_path).resolve()
         out_path.parent.mkdir(parents=True, exist_ok=True)
         deck_text = "\n".join(lines) + "\n"
-        out_path.write_text(deck_text, encoding="utf-8", newline="\n")
+        with open(out_path, "w", encoding="utf-8", newline="\n") as f:
+            f.write(deck_text)
 
         rebuilt_sha = hashlib.sha256(deck_text.encode("utf-8")).hexdigest()
+
 
         summary = {
             "candidate": self.candidate_name,
