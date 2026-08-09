@@ -59,7 +59,7 @@ class TestModeIIReferenceGeneratorIntegrity(unittest.TestCase):
                 )
 
     def test_final_written_decks_have_positive_element_areas(self):
-        """Verify all physical element signed areas calculated from final written coordinates are strictly positive."""
+        """Verify all physical element signed areas calculated from final written coordinates are strictly positive and convex."""
         ref_dir = ROOT / "models/generated/mode_ii/reference_convergence"
         for case in ["M2REF_H0", "M2REF_H1", "M2REF_H2"]:
             deck_path = ref_dir / case / f"{case}.inp"
@@ -70,8 +70,8 @@ class TestModeIIReferenceGeneratorIntegrity(unittest.TestCase):
                     f"{case} contains {struct['zero_area_elems']} zero-area elements"
                 )
                 self.assertEqual(
-                    struct["negative_area_elems"], 0,
-                    f"{case} contains {struct['negative_area_elems']} negative-area elements"
+                    struct["distorted_elems"], 0,
+                    f"{case} contains {struct['distorted_elems']} distorted/non-convex elements"
                 )
 
     def test_deliberate_rp_node_collision_fails_validation(self):
@@ -85,7 +85,7 @@ class TestModeIIReferenceGeneratorIntegrity(unittest.TestCase):
             "  9999, 0.0, 0.01",
             " 10000, 0.01, 0.01",
             " 10001, 0.02, 0.01",
-            " 10000, 0.0, 0.6",  # COLLISION OVERWRITE!
+            " 10000, 0.0, 0.6",  # COLLISION OVERWRITE! Overwrites (0.01, 0.01) with (0.0, 0.6), collapsing element 1
             "*Nset, nset=RP",
             " 10000",
             "*Element, type=U1, elset=PHASE_QUAD",
@@ -102,7 +102,7 @@ class TestModeIIReferenceGeneratorIntegrity(unittest.TestCase):
 
             self.assertGreater(struct["duplicate_node_count"], 0)
             self.assertFalse(struct["rp_is_valid"])
-            self.assertTrue(struct["zero_area_elems"] > 0 or struct["negative_area_elems"] > 0)
+            self.assertTrue(struct["zero_area_elems"] > 0 or struct["distorted_elems"] > 0)
 
 
 if __name__ == "__main__":

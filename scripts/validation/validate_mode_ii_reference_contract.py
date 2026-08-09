@@ -144,7 +144,7 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
     # Check undefined node references and element areas using FINAL node coordinates
     undefined_node_refs = 0
     zero_area_elems = 0
-    negative_area_elems = 0
+    distorted_elems = 0
 
     for eid, conn in u1_elements.items():
         coords = []
@@ -154,15 +154,21 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
             else:
                 coords.append(node_dict[n])
         if len(coords) == 4:
-            x1, y1 = coords[0]
-            x2, y2 = coords[1]
-            x3, y3 = coords[2]
-            x4, y4 = coords[3]
+            (x1, y1), (x2, y2), (x3, y3), (x4, y4) = coords
             signed_area = 0.5 * ((x1*y2 - x2*y1) + (x2*y3 - x3*y2) + (x3*y4 - x4*y3) + (x4*y1 - x1*y4))
-            if abs(signed_area) <= 1.0e-12:
+            abs_area = abs(signed_area)
+
+            cp1 = (x2 - x1)*(y3 - y2) - (y2 - y1)*(x3 - x2)
+            cp2 = (x3 - x2)*(y4 - y3) - (y3 - y2)*(x4 - x3)
+            cp3 = (x4 - x3)*(y1 - y4) - (y4 - y3)*(x1 - x4)
+            cp4 = (x1 - x4)*(y2 - y1) - (y1 - y4)*(x2 - x1)
+
+            is_convex = (cp1 > 0 and cp2 > 0 and cp3 > 0 and cp4 > 0) or (cp1 < 0 and cp2 < 0 and cp3 < 0 and cp4 < 0)
+
+            if abs_area <= 1.0e-12:
                 zero_area_elems += 1
-            elif signed_area < 0:
-                negative_area_elems += 1
+            if not is_convex:
+                distorted_elems += 1
 
     has_amp1 = "*Amplitude, name=Amp-1" in text
     has_amp2 = "*Amplitude, name=Amp-2" in text
@@ -186,7 +192,7 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
         "rp_is_valid": rp_is_valid,
         "undefined_node_refs": undefined_node_refs,
         "zero_area_elems": zero_area_elems,
-        "negative_area_elems": negative_area_elems,
+        "distorted_elems": distorted_elems,
         "has_amp1": has_amp1,
         "has_amp2": has_amp2,
         "has_step1": has_step1,
@@ -273,8 +279,8 @@ def validate_reference_batch(write_report: bool = False) -> Dict[str, Any]:
                 errors.append(f"{cname} contains {struct['undefined_node_refs']} undefined node reference(s) in elements")
             if struct["zero_area_elems"] > 0:
                 errors.append(f"{cname} contains {struct['zero_area_elems']} zero-area element(s)")
-            if struct["negative_area_elems"] > 0:
-                errors.append(f"{cname} contains {struct['negative_area_elems']} negative-area element(s)")
+            if struct["distorted_elems"] > 0:
+                errors.append(f"{cname} contains {struct['distorted_elems']} distorted/non-convex element(s)")
 
             candidate_results[cname] = struct
 
