@@ -7,7 +7,7 @@ Task: F43MODEREF-PREP1
 import subprocess
 import sys
 
-target_sha = "cf082a32dfa85d114acfe9702731a7a16e457eb8"
+target_sha = "5be9a439e012d9f94ad84ebc96de10e19ba0e158"
 
 remote_script = f"""
 set -euo pipefail
@@ -52,13 +52,13 @@ echo "=== Mode-II Reference Contract Validation ==="
 python3 scripts/validation/validate_mode_ii_reference_contract.py
 
 echo "=== Focused Mode-II Reference Contract Unit Tests ==="
-python3 -m unittest -v tests/unit/test_mode_ii_reference_contract.py
+python3 -m unittest -v tests.unit.test_mode_ii_reference_contract
+python3 -m unittest -v tests.unit.test_mode_ii_reference_generator_integrity
 
 echo "=== Full Repository Unit Discovery Suite ==="
 python3 -m unittest discover -s tests/unit -p 'test_*.py'
 
-echo "=== Restoring test fixture runtime files and verifying worktree cleanliness ==="
-git checkout -- .
+echo "=== Verifying natural worktree post-test cleanliness without checkout ==="
 
 PORCELAIN=$(git status --porcelain=v1)
 if [ -n "$PORCELAIN" ]; then
