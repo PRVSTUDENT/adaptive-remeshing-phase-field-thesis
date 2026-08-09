@@ -36,9 +36,11 @@ def sha256_file(path: Path) -> str:
 
 
 def audit_h0_reuse() -> Dict[str, Any]:
-    # Check if historical files exist
-    h_deck_sha = sha256_file(HISTORICAL_DECK_PATH)
-    h_src_sha = sha256_file(HISTORICAL_UEL_PATH)
+    hist_deck_path = HISTORICAL_DECK_PATH
+    hist_uel_path = HISTORICAL_UEL_PATH
+
+    h_deck_sha = sha256_file(hist_deck_path)
+    h_src_sha = sha256_file(hist_uel_path)
 
     new_deck_sha = sha256_file(M2REF_H0_DECK_PATH)
     new_src_sha = sha256_file(M2REF_H0_UEL_PATH)
@@ -47,14 +49,14 @@ def audit_h0_reuse() -> Dict[str, Any]:
     if h_deck_sha != HISTORICAL_DECK_SHA256:
         for p in ROOT.rglob("*.inp"):
             if sha256_file(p) == HISTORICAL_DECK_SHA256:
-                HISTORICAL_DECK_PATH = p
+                hist_deck_path = p
                 h_deck_sha = HISTORICAL_DECK_SHA256
                 break
 
     if h_src_sha != HISTORICAL_SRC_SHA256:
         for p in ROOT.rglob("*.for"):
             if sha256_file(p) == HISTORICAL_SRC_SHA256:
-                HISTORICAL_UEL_PATH = p
+                hist_uel_path = p
                 h_src_sha = HISTORICAL_SRC_SHA256
                 break
 
