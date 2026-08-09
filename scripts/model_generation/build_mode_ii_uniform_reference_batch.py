@@ -180,6 +180,10 @@ def generate_reference_deck(
     if rp_node_id in physical_node_ids:
         raise RuntimeError(f"RP node ID collision: {rp_node_id} already exists in physical node IDs")
 
+    assert rp_node_id not in physical_node_ids
+    all_node_labels = list(nodes.keys()) + [rp_node_id]
+    assert len(all_node_labels) == len(set(all_node_labels))
+
     # Determine boundary node sets
     tol = 1.0e-5
     y_min = -0.50
@@ -451,11 +455,12 @@ def main():
             "thickness_mm": THICKNESS
         },
         "loading_endpoint": {
-            "step1_u_target_mm": 0.0050,
+            "mode": "shear_displacement",
+            "step1_u1_mm": 0.0050,
             "step1_increments": 500,
-            "step2_u_target_mm": 0.0100,
+            "step2_u1_mm": 0.0100,
             "step2_increments": 2000,
-            "final_u_target_mm": 0.0100
+            "target_final_u1_mm": 0.0100
         },
         "candidates": {}
     }

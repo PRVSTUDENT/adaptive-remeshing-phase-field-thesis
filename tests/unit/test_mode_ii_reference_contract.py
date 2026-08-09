@@ -48,7 +48,7 @@ class TestModeIIReferenceContract(unittest.TestCase):
         self.assertAlmostEqual(mat["thickness_mm"], 1.0, places=4)
 
         load = self.manifest["loading_endpoint"]
-        self.assertAlmostEqual(load["final_u_target_mm"], 0.0100, places=6)
+        self.assertAlmostEqual(load.get("target_final_u1_mm", load.get("final_u_target_mm")), 0.0100, places=6)
         self.assertEqual(load["step1_increments"], 500)
         self.assertEqual(load["step2_increments"], 2000)
 

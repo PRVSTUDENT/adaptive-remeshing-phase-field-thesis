@@ -25,7 +25,7 @@ import json
 import hashlib
 import re
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Tuple
 
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST_PATH = ROOT / "models/generated/mode_ii/reference_convergence/M2REF_BATCH_MANIFEST.json"
@@ -144,6 +144,7 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
     # Check undefined node references and element areas using FINAL node coordinates
     undefined_node_refs = 0
     zero_area_elems = 0
+    negative_area_elems = 0
     distorted_elems = 0
 
     for eid, conn in u1_elements.items():
@@ -168,6 +169,10 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
 
             if abs_area <= 1.0e-12:
                 zero_area_elems += 1
+            if signed_area <= 1.0e-12:
+                negative_area_elems += 1
+            if not is_convex:
+                distorted_elems += 1
 
     has_amp1 = "*Amplitude, name=Amp-1" in text
     has_amp2 = "*Amplitude, name=Amp-2" in text
@@ -179,6 +184,7 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
 
     return {
         "n_nodes": len(node_dict),
+        "all_node_labels": all_node_labels,
         "n_u1": len(u1_elements),
         "n_u2": len(u2_elements),
         "n_cpe4": len(cpe4_elements),
@@ -191,6 +197,8 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
         "rp_is_valid": rp_is_valid,
         "undefined_node_refs": undefined_node_refs,
         "zero_area_elems": zero_area_elems,
+        "negative_area_elems": negative_area_elems,
+        "distorted_elems": distorted_elems,
         "has_amp1": has_amp1,
         "has_amp2": has_amp2,
         "has_step1": has_step1,

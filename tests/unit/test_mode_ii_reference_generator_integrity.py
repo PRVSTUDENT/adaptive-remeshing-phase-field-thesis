@@ -70,6 +70,52 @@ class TestModeIIReferenceGeneratorIntegrity(unittest.TestCase):
                     f"{case} contains {struct['zero_area_elems']} zero-area elements"
                 )
 
+    def test_final_written_decks_have_unique_element_labels(self):
+        """Verify all generated reference decks (H0, H1, H2) have globally unique element labels."""
+        ref_dir = ROOT / "models/generated/mode_ii/reference_convergence"
+        for case in ["M2REF_H0", "M2REF_H1", "M2REF_H2"]:
+            deck_path = ref_dir / case / f"{case}.inp"
+            if deck_path.is_file():
+                struct = parse_deck_structure(deck_path)
+                self.assertEqual(
+                    struct["duplicate_elem_count"], 0,
+                    f"{case} contains {struct['duplicate_elem_count']} duplicate element labels"
+                )
+
+    def test_every_element_node_reference_exists(self):
+        """Verify every element node reference in H0, H1, H2 exists in the node table."""
+        ref_dir = ROOT / "models/generated/mode_ii/reference_convergence"
+        for case in ["M2REF_H0", "M2REF_H1", "M2REF_H2"]:
+            deck_path = ref_dir / case / f"{case}.inp"
+            if deck_path.is_file():
+                struct = parse_deck_structure(deck_path)
+                self.assertEqual(
+                    struct["undefined_node_refs"], 0,
+                    f"{case} contains {struct['undefined_node_refs']} undefined node references"
+                )
+
+    def test_h1_h2_do_not_contain_duplicate_node_labels(self):
+        """Specifically verify H1 and H2 decks contain zero duplicate node labels."""
+        ref_dir = ROOT / "models/generated/mode_ii/reference_convergence"
+        for case in ["M2REF_H1", "M2REF_H2"]:
+            deck_path = ref_dir / case / f"{case}.inp"
+            if deck_path.is_file():
+                struct = parse_deck_structure(deck_path)
+                self.assertEqual(struct["duplicate_node_count"], 0)
+
+    def test_rp_set_and_equation_reference_dynamically_allocated_rp(self):
+        """Verify that *NSET, NSET=RP and *EQUATION reference the dynamically allocated RP node ID."""
+        ref_dir = ROOT / "models/generated/mode_ii/reference_convergence"
+        for case in ["M2REF_H0", "M2REF_H1", "M2REF_H2"]:
+            deck_path = ref_dir / case / f"{case}.inp"
+            if deck_path.is_file():
+                text = deck_path.read_text(encoding="utf-8")
+                struct = parse_deck_structure(deck_path)
+                rp_id = str(struct["rp_node_id"])
+
+                self.assertIn("*Nset, nset=RP", text)
+                self.assertIn(f"{rp_id}, 1, -1.0", text)
+
     def test_deliberate_rp_node_collision_fails_validation(self):
         """Verify that a deck with hardcoded RP node 10000 colliding with physical mesh node 10000 fails validation."""
         mock_deck_lines = [
