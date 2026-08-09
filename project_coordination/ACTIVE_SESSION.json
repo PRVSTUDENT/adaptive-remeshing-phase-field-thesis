@@ -1,18 +1,21 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "project_coordination/**",
+    "models/generated/mode_ii/f43_stage_c_bridge/**",
+    "scripts/**",
     "docs/**"
   ],
-  "started_at": "2026-08-09T07:00:00+02:00",
-  "completed_at": "2026-08-09T07:05:00+02:00",
+  "started_at": "2026-08-09T07:05:00+02:00",
+  "completed_at": null,
   "heartbeat": "2026-08-09T07:05:00+02:00",
-  "session_id": "f78a1234-c948-439a-e123-c90e5997f9c6",
-  "starting_commit": "29935852fb8ebaf27e97fb6759bf5db3c0c942bd",
-  "task_id": "F43DUALDRY-LINEAGE1",
-  "note": "Completed Task F43DUALDRY-LINEAGE1: Immutable final dry-test preparation/Q reconciliation (P43DUALDRY1-FINAL1 / Q43DUALDRY1-FINAL1)."
+  "session_id": "a91b2345-d859-440b-f234-d01e6998a0d7",
+  "starting_commit": "66b8c37542141278b7762b220cdad0dd922c0fe4",
+  "task_id": "F43DUALDRY-SUB1",
+  "note": "Claimed session for Task F43DUALDRY-SUB1: Guarded submission and technical execution monitoring of authorized dual dry-test batch (F43DRY_MM and F43DRY_PK5)."
 }
+
 
 
 

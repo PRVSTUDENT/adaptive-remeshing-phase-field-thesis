@@ -1,0 +1,38 @@
+{
+  "protocol_version": 1,
+  "task_id": "F43DUALDRY-SUB1",
+  "batch_name": "F43DUALDRY_TECHNICAL_DRY_TEST_BATCH",
+  "authorization_sentence": "I authorize exactly two guarded HPC submissions for the F43 dual mixed-UEL technical dry-test batch using preparation commit 2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6 (P43DUALDRY1-FINAL1) and qualification commit 66b8c37542141278b7762b220cdad0dd922c0fe4 (Q43DUALDRY1-FINAL1). I authorize exactly these two independent technical jobs: F43DRY_MM using rebuilt deck F43UEL_MM_REBUILT.inp with SHA256 b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f, and F43DRY_PK5 using rebuilt deck F43UEL_PK5_REBUILT.inp with SHA256 01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6. Both jobs shall use user subroutine f42_mixed_uel.for with SHA256 5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3 and the qualified toolchain gcc/11.4.0, intel/2024.2.0 and abaqus/2023. Each job may use entry_imfdfkmq with 1 CPU, 8 GB memory and 30 minutes walltime. MAX_SUBMISSIONS=2 and both jobs may run simultaneously. These jobs are authorized only as technical dry tests to verify Abaqus input processing, user-subroutine compilation/linking, execution of U1/U2/U3/U4 branches, passive CPE4/CPE3 facsimile compatibility, boundary conditions, equations, RP loading, initial increments, and initial reaction response. No scientific crack-path, fracture-energy, peak-load, or final mesh-selection conclusions are authorized from these dry tests. No automatic retries, no replacement submissions, no qmove, no qdel, no F43DRY1 legacy job, no uniform-reference run, no full scientific phase-field production run, and no downstream job are authorized.",
+  "preparation_commit": "2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6",
+  "preparation_tag": "P43DUALDRY1-FINAL1",
+  "qualification_commit": "66b8c37542141278b7762b220cdad0dd922c0fe4",
+  "qualification_tag": "Q43DUALDRY1-FINAL1",
+  "max_submissions": 2,
+  "automatic_retry": false,
+  "queue": "entry_imfdfkmq",
+  "resources": "select=1:ncpus=1:mpiprocs=1:mem=8gb,walltime=00:30:00",
+  "jobs": [
+    {
+      "job_name": "F43DRY_MM",
+      "package_dir": "models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/dry_test_mm",
+      "deck_filename": "F43UEL_MM_REBUILT.inp",
+      "deck_sha256": "b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f",
+      "subroutine_filename": "f43_mixed_uel.for",
+      "subroutine_sha256": "5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3",
+      "pbs_script": "F43DRY_MM.pbs",
+      "submit_script": "submit_f43dry_mm.sh",
+      "wrapper_env": "F43DRY_MM_WRAPPER_AUTHORIZED=1"
+    },
+    {
+      "job_name": "F43DRY_PK5",
+      "package_dir": "models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/dry_test_pk5",
+      "deck_filename": "F43UEL_PK5_REBUILT.inp",
+      "deck_sha256": "01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6",
+      "subroutine_filename": "f43_mixed_uel.for",
+      "subroutine_sha256": "5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3",
+      "pbs_script": "F43DRY_PK5.pbs",
+      "submit_script": "submit_f43dry_pk5.sh",
+      "wrapper_env": "F43DRY_PK5_WRAPPER_AUTHORIZED=1"
+    }
+  ]
+}
