@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST_PATH = ROOT / "models/generated/mode_ii/reference_convergence/M2REF_BATCH_MANIFEST.json"
-EXPECTED_UEL_SHA256 = "562ff3c0bcd1257744ce39f79765110ddca54e658b98c57dcc48aed3b442f1c0"
+EXPECTED_UEL_SHA256 = "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8"
 
 
 def sha256_file(path: Path) -> str:
