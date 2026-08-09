@@ -20,8 +20,10 @@ class TestF43REM4BatchSpoolAndConcurrency(unittest.TestCase):
 
     def setUp(self):
         self.repo_root = Path(__file__).resolve().parent.parent.parent
-        self.batch_dir = self.repo_root / "models" / "generated" / "mode_ii" / "f43_stage_c_bridge" / "remesh_sensitivity_batch"
+        orig_batch = self.repo_root / "models" / "generated" / "mode_ii" / "f43_stage_c_bridge" / "remesh_sensitivity_batch"
         self.tmp_dir = tempfile.mkdtemp()
+        self.batch_dir = Path(self.tmp_dir) / "remesh_sensitivity_batch"
+        shutil.copytree(orig_batch, self.batch_dir)
 
     def tearDown(self):
         shutil.rmtree(self.tmp_dir, ignore_errors=True)

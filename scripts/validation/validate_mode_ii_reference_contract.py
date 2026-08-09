@@ -232,7 +232,7 @@ def main():
     res = validate_reference_batch()
     out_json = ROOT / "models/generated/mode_ii/reference_convergence/M2REF_STATIC_VALIDATION.json"
     out_json.parent.mkdir(parents=True, exist_ok=True)
-    out_json.write_text(json.dumps(res, indent=2), encoding="utf-8")
+    out_json.write_text(json.dumps(res, indent=2) + "\n", encoding="utf-8")
 
     print(f"Validation Result: {'PASS' if res['passed'] else 'FAIL'}")
     if res["errors"]:

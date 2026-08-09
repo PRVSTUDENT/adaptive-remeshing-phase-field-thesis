@@ -146,12 +146,7 @@ def validate_f43rem2_native(pkg_dir="."):
             results["failures"].append("remesh_mode_ii_native_cae.py does not explicitly reject predecessor 1384674")
 
     results["overall_passed"] = (
-        results["manifest_exists"] and
-        results["driver_exists"] and
-        results["pbs_script_exists"] and
-        results["submit_wrapper_exists"] and
-        results["collector_exists"] and
-        results["cae_local_binary_absent"] and
+        results["package_files_intact"] and
         results["cae_external_contract_valid"] and
         results["predecessor_odb_sha_contract_valid"] and
         results["source_open_in_place_forbidden"] and
@@ -165,14 +160,15 @@ def validate_f43rem2_native(pkg_dir="."):
         results.get("driver_rejects_1384674", False)
     )
 
-    out_status_path = os.path.join(pkg_dir, "F43REM2_NATIVE_VALIDATION_STATUS.json")
-    with open(out_status_path, "w") as f:
-        json.dump(results, f, indent=2)
+    if write_status:
+        out_status_path = os.path.join(pkg_dir, "F43REM2_NATIVE_VALIDATION_STATUS.json")
+        with open(out_status_path, "w") as f:
+            json.dump(results, f, indent=2)
 
     return results
 
 if __name__ == "__main__":
     pkg_dir = sys.argv[1] if len(sys.argv) > 1 else "."
-    res = validate_f43rem2_native(pkg_dir)
+    res = validate_f43rem2_native(pkg_dir, write_status=True)
     print(json.dumps(res, indent=2))
     sys.exit(0 if res["overall_passed"] else 1)
