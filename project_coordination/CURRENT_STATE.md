@@ -1,5 +1,89 @@
 # Current project state
 
+## F43MODEREF-ROOTFIX1 Forensic Root-Cause Diagnosis, UEL Formulation Repair, Extractor Hardening & Replacement Batch Qualification (2026-08-09)
+
+Task `F43MODEREF-ROOTFIX1`: Completed exhaustive scientific forensic diagnosis, UEL source formulation repair, input deck variable count fixes, extractor hardening, unit regression gate construction, and exact-P/Q qualification for the Mode-II reference family:
+- **Task ID**: `F43MODEREF-ROOTFIX1`
+- **Status**: `complete_pass`
+- **Reclassification & Retraction**:
+  - `1385895.mmaster02` (`M2REF_H1_REPAIR`): `scheduler_result = PASS`, `technical_result = PASS`, `scientific_result = HOLD_phase_field_result_inconsistent_with_historical_H0`.
+  - `1385896.mmaster02` (`M2REF_H2_REPAIR`): `scheduler_result = PASS`, `technical_result = PASS`, `scientific_result = HOLD_phase_field_result_inconsistent_with_historical_H0`.
+  - Formally retracted the speculative $G_c / (2 l_0)$ nominal shear initiation explanation because historical H0 (Job `1378942.mmaster02`) reached $d_{\max} \approx 0.9909$ at the exact same $U_1 = 0.0100$ mm endpoint.
+- **Forensic Diagnosis**:
+  - **Case Classification**: **CASE C**: `SDV14 = 0`, `SDV15 = 0`, `SDV16 = 0` in ODB field outputs.
+  - **Root Cause 1 (Formulation Bug)**: `f42_mixed_uel.for` Phase UEL (Types 1 and 3) erroneously multiplied the history driving term $2 H$ by `GCPAR*CLPAR` ($G_c \cdot l_0 = 0.0027 \times 0.015 = 0.0000405$), suppressing phase field growth by a factor of 24,691!
+  - **Root Cause 2 (State Variable Indexing)**: `f42_mixed_uel.for` mapped phase field $d$ to `USRVAR(..., 1)` and history $H$ to `USRVAR(..., 2)` (`SDV1`/`SDV2`), while `USRVAR(..., 14/15/16)` (`SDV14`/`SDV15`/`SDV16`) were left unwritten (0.0).
+  - **Root Cause 3 (Deck UEL Declarations)**: Generator scripts wrote `*User Element, type=U1 ... variables=1` (should be 8) and `variables=18` for U2 (should be 56).
+- **Deterministic Offline Repairs & Hardening**:
+  - Corrected `f42_mixed_uel.for` phase driving term from `(GCPAR*CLPAR*TWO*HIST + GCPAR/CLPAR)*PHASE - GCPAR*CLPAR*TWO*HIST` to `(TWO*HIST + GCPAR/CLPAR)*PHASE - TWO*HIST`.
+  - Populated `USRVAR(PHYSIDX, 14, INPT) = PHASE`, `USRVAR(PHYSIDX, 15, INPT) = PHASE`, `USRVAR(PHYSIDX, 16, INPT) = HIST`.
+  - Updated `build_mode_ii_uniform_reference_batch.py` and built `build_mode_ii_uniform_reference_fracfix_batch.py` with `variables=8` (U1) and `variables=56` (U2).
+  - Upgraded `extract_mode_ii_uniform_reference.py` to inspect `SDV1`, `SDV14`, `SDV15`, `SDV16` and handle assembly vs instance RP set lookups safely.
+- **Regression Gate & Unit Tests**:
+  - Created `scripts/validation/validate_mode_ii_reference_regression_gate.py` and `tests/unit/test_mode_ii_reference_regression_gate.py`.
+  - Full repository test suite run on `tu_freiberg`: 616 out of 616 unit tests passed 100%.
+- **Qualified Replacement Batch (FRACFIX)**:
+  - `M2REF_H1_FRACFIX`: 12,064 physical elements, Input SHA256 `794db3f411`, Subroutine SHA256 `562ff3c0bc`, 1 CPU, 8 GB memory, 02:00:00 walltime.
+  - `M2REF_H2_FRACFIX`: 33,852 physical elements, Input SHA256 `ce4652ac3b`, Subroutine SHA256 `562ff3c0bc`, 1 CPU, 8 GB memory, 04:00:00 walltime.
+- **Git Provenance**:
+  - Preparation Commit: `151e8e5bdee52e02604b26bb7ce514865425e56d` (`P43MODEREF4`)
+  - Qualification Commit: `86ddfdd94790bc10debbd4799be37885d935edfa` (`Q43MODEREF4-FINAL4`)
+- **Current Authority State**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub` / `qdel` / `qmove` / automatic retries prohibited.
+
+---
+
+## F43MODEREF-CLOSEOUT1 Mode-II Uniform Phase-Field Reference Convergence Closeout (2026-08-09)
+
+Task `F43MODEREF-CLOSEOUT1`: Completed execution monitoring, postprocessing extractor repair, error diagnosis, and scientific evidence closeout for the two authorized replacement Mode-II reference jobs `M2REF_H1_REPAIR` and `M2REF_H2_REPAIR` on `tu_freiberg`:
+- **Task ID**: `F43MODEREF-CLOSEOUT1`
+- **Status**: `complete_pass`
+- **Solver Execution Results**:
+  - `M2REF_H1_REPAIR` (PBS `1385895.mmaster02`): Solver Exit = 0, Scheduler Exit = 0, Walltime = `00:41:47`, CPU time = `00:41:35`, Total Increments = 2,000 completed cleanly (`THE ANALYSIS HAS COMPLETED SUCCESSFULLY`).
+  - `M2REF_H2_REPAIR` (PBS `1385896.mmaster02`): Solver Exit = 0, Scheduler Exit = 0, Walltime = `01:57:21`, CPU time = `01:56:53`, Total Increments = 2,000 completed cleanly (`THE ANALYSIS HAS COMPLETED SUCCESSFULLY`).
+- **Post-Processing Error & Diagnostic Root Cause**:
+  - **Initial Postprocessing Error**: Extractor `extract_mode_ii_uniform_reference.py` failed with `ERROR: Reference point set 'RP' not found in .../M2REF_H1.odb`.
+  - **Root Cause**: `extract_mode_ii_uniform_reference.py` queried `odb.rootAssembly.nodeSets` directly. Single-part Abaqus input decks place model node sets inside `odb.rootAssembly.instances['PART-1-1'].nodeSets`.
+  - **Deterministic Repair**: Updated `extract_mode_ii_uniform_reference.py` to check both assembly-level and instance-level node sets (`root.instances.values()`), and replaced fixed index node coordinate mapping with a node label dictionary map `node_dict`.
+- **Extracted Scientific Results**:
+  - `M2REF_H1_REPAIR` (`1385895.mmaster02`): Initial Elastic Shear Stiffness $K_0 = 46.0066\text{ kN/mm}$, Peak $RF_1 = 0.46006\text{ kN}$ ($460.06\text{ N}$), Final $u_1 = 0.0100\text{ mm}$, Maximum Phase Field $d_{\max} = 0.0$.
+  - `M2REF_H2_REPAIR` (`1385896.mmaster02`): Initial Elastic Shear Stiffness $K_0 = 45.9774\text{ kN/mm}$, Peak $RF_1 = 0.45977\text{ kN}$ ($459.77\text{ N}$), Final $u_1 = 0.0100\text{ mm}$, Maximum Phase Field $d_{\max} = 0.0$.
+  - **Grid Convergence Across Meshes**: $H_0 = 46.1185\text{ kN/mm}$ (Job `1378942.mmaster02`), $H_1 = 46.0066\text{ kN/mm}$, $H_2 = 45.9774\text{ kN/mm}$ (Total initial stiffness variation across 3 mesh levels is only 0.31%).
+  - **Phase-Field Damage Explanation ($d_{\max} = 0.0$)**: Applied loading $U_{1, \text{final}} = 0.0100\text{ mm}$ produces maximum nominal shear strain $\gamma = 0.0100$ (1.0%), yielding peak strain energy density $\psi = \frac{1}{2} G \gamma^2 = 0.00404\text{ kN/mm}^2$ ($4.04\text{ MPa}$), which is well below the phase-field crack initiation threshold $g_c = \frac{G_c}{2 l_0} = \frac{0.0027}{2 \times 0.015} = 0.0900\text{ kN/mm}^2$ ($90.0\text{ MPa}$). The material remains 100% in the linear elastic regime.
+- **Authority Boundary Enforced**:
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `running_jobs`: `0`, `queued_jobs`: `0`
+  - Zero resubmissions, zero automatic retries, zero speculative submissions executed.
+
+---
+
+## F43MODEREF-SUBMIT1 Guarded Submissions of Repaired M2REF_H1 & M2REF_H2 (2026-08-09)
+
+Task `F43MODEREF-SUBMIT1`: Executed guarded PBS submissions for the two authorized replacement reference jobs `M2REF_H1_REPAIR` and `M2REF_H2_REPAIR` on `tu_freiberg` under explicit human chat authorization using preparation commit `417e3b8` (`P43MODEREF3`) and qualification anchor `4244468` (`Q43MODEREF3-FINAL3`):
+- **Task ID**: `F43MODEREF-SUBMIT1`
+- **Status**: `complete_pass`
+- **Submitted Jobs**:
+  - `M2REF_H1_REPAIR`: PBS Job ID `1385895.mmaster02`, Status `Q`, Input SHA256 `4ac37c50a26d67106e5c1e6083937f9b0716c3646c90ad87c51a8ef9b172808e`, 1 CPU, 16 GB memory, 06:00:00 walltime, Queue `entry_imfdfkmq`.
+  - `M2REF_H2_REPAIR`: PBS Job ID `1385896.mmaster02`, Status `Q`, Input SHA256 `a651cef82999d333bd9062cc4d743a98908178535623dd8ca8ed7993dfe23de0`, 1 CPU, 32 GB memory, 18:00:00 walltime, Queue `entry_imfdfkmq`.
+- **User Subroutine**: SHA256 `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3` (`f42_mixed_uel.for`).
+- **Toolchain Used**: Abaqus 2023, `gcc/11.4.0`, `intel/2024.2.0`.
+- **Accepted Coarse Point**: Historical H0 job `1378942.mmaster02` remains preserved as accepted coarse convergence point.
+- **Authority Consumption**:
+  - `execution_authorized`: `true`
+  - `submission_approved`: `true`
+  - `maximum_jobs_authorized`: `2`
+  - `actual_submissions_made`: `2`
+  - `qsub_called`: `true`
+  - `consumed_authorization_jobs`: `["1385895.mmaster02", "1385896.mmaster02"]`
+  - `remaining_authorized_submissions`: `0`
+
+---
+
 ## F43MODEREF-PREP7R Provenance-Only Test-Count Correction & Q43MODEREF3-FINAL3 (2026-08-09)
 
 Task `F43MODEREF-PREP7R`: Corrected PREP7 provenance terminology (explicitly recording `historical_local_617_count = noncanonical_dirty_worktree_observation`, `canonical_exact_P_test_count = 612`, and `historical_617_vs_612_arithmetic_reconciliation = not_required_for_exact_P_qualification`), replaced misleading `five_missing_tests_or_cases` field with `noncanonical_local_untracked_tests_observed` listing all 9 untracked tests accurately, preserved historical `Q43MODEREF3-FINAL2`, created fresh qualification tag `Q43MODEREF3-FINAL3`:
