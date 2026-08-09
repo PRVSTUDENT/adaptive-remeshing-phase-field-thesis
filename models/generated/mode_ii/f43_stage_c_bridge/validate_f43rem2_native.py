@@ -146,7 +146,12 @@ def validate_f43rem2_native(pkg_dir="."):
             results["failures"].append("remesh_mode_ii_native_cae.py does not explicitly reject predecessor 1384674")
 
     results["overall_passed"] = (
-        results["package_files_intact"] and
+        results["manifest_exists"] and
+        results["driver_exists"] and
+        results["pbs_script_exists"] and
+        results["submit_wrapper_exists"] and
+        results["collector_exists"] and
+        results["cae_local_binary_absent"] and
         results["cae_external_contract_valid"] and
         results["predecessor_odb_sha_contract_valid"] and
         results["source_open_in_place_forbidden"] and

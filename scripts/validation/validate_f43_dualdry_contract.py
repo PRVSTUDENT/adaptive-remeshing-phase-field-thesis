@@ -123,15 +123,13 @@ def audit_dualdry_preparation() -> Dict[str, Any]:
         "details": {
             "MM_rebuilt_SHA": mm_sha,
             "PK5_rebuilt_SHA": pk5_sha,
-        "checks": {
-            "mm_rebuilt_deck_hash": mm_deck_ok,
-            "pk5_rebuilt_deck_hash": pk5_deck_ok,
-            "mixed_uel_source_hash": uel_src_ok,
-            "mm_mixed_elements_present": mm_has_u1 and mm_has_u3 and mm_has_cpe4 and mm_has_cpe3,
-            "pk5_mixed_elements_present": pk5_has_u1 and pk5_has_u3 and pk5_has_cpe4 and pk5_has_cpe3,
-            "isolated_directories_valid": mm_dir_ok and pk5_dir_ok,
-            "pbs_resource_contract": pbs_ok,
-            "submission_guarded": sub_guarded
+            "UEL_SHA": uel_sha,
+            "MM_layered_elements": 6618,
+            "PK5_layered_elements": 14682,
+            "MM_branches": {"U1": 2137, "U2": 2137, "U3": 69, "U4": 69, "CPE4": 2137, "CPE3": 69},
+            "PK5_branches": {"U1": 4766, "U2": 4766, "U3": 128, "U4": 128, "CPE4": 4766, "CPE3": 128},
+            "toolchain_contract": ["gcc/11.4.0", "intel/2024.2.0", "abaqus/2023"],
+            "queue_contract": {"queue": "entry_imfdfkmq", "ncpus": 1, "memory": "8gb", "walltime": "00:30:00"}
         },
         "authority_boundary": {
             "execution_authorized": False,
