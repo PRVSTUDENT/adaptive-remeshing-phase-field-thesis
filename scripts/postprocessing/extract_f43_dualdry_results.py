@@ -1,5 +1,6 @@
 """Extract and summarize technical dry test results for F43DRY_MM and F43DRY_PK5."""
 
+from __future__ import print_function
 import json
 import os
 import sys
@@ -20,18 +21,18 @@ def extract_dry_results():
 
     for label, odb_path in cases:
         if not os.path.exists(odb_path):
-            print(f"Warning: {odb_path} not found.")
+            print("Warning: " + str(odb_path) + " not found.")
             continue
 
         odb = openOdb(path=odb_path, readOnly=True)
-        step_name = odb.steps.keys()[0]
+        step_name = list(odb.steps.keys())[0]
         step = odb.steps[step_name]
 
         frames_data = []
         rp_set_name = "SET_RP"
 
         for f_idx, frame in enumerate(step.frames):
-            time = frame.frameValue
+            time = float(frame.frameValue)
             u_field = frame.fieldOutputs.get("U")
             rf_field = frame.fieldOutputs.get("RF")
 
@@ -64,14 +65,14 @@ def extract_dry_results():
         # Calculate initial elastic stiffness if available
         last_frame = frames_data[-1] if frames_data else None
         stiffness = None
-        if last_frame and last_frame["rp_ux"] and last_frame["rp_rfx"] and abs(last_frame["rp_ux"]) > 1e-12:
+        if last_frame and last_frame["rp_ux"] is not None and last_frame["rp_rfx"] is not None and abs(last_frame["rp_ux"]) > 1e-12:
             stiffness = last_frame["rp_rfx"] / last_frame["rp_ux"]
 
         results[label] = {
             "odb_path": odb_path,
             "step_name": step_name,
             "total_frames": len(step.frames),
-            "final_time": step.frames[-1].frameValue if step.frames else 0.0,
+            "final_time": float(step.frames[-1].frameValue) if step.frames else 0.0,
             "final_rp_ux": last_frame["rp_ux"] if last_frame else None,
             "final_rp_rfx": last_frame["rp_rfx"] if last_frame else None,
             "initial_elastic_stiffness_kN_per_mm": stiffness,
@@ -83,9 +84,13 @@ def extract_dry_results():
     with open(out_path, "w") as f:
         json.dump(results, f, indent=2)
 
-    print(f"Results written to {out_path}")
+    print("Results written to " + str(out_path))
     for label, res in results.items():
-        print(f"[{label}] Frames={res['total_frames']}, Final_Time={res['final_time']:.4f}, Final_Ux={res['final_rp_ux']}, Final_RFx={res['final_rp_rfx']}, Stiffness={res['initial_elastic_stiffness_kN_per_mm']:.4f} kN/mm")
+        print("[%s] Frames=%d, Final_Time=%.4f, Final_Ux=%s, Final_RFx=%s, Stiffness=%.4f kN/mm" % (
+            label, res["total_frames"], res["final_time"], str(res["final_rp_ux"]), str(res["final_rp_rfx"]),
+            res["initial_elastic_stiffness_kN_per_mm"] if res["initial_elastic_stiffness_kN_per_mm"] is not None else 0.0
+        ))
 
 if __name__ == "__main__":
     extract_dry_results()
+
