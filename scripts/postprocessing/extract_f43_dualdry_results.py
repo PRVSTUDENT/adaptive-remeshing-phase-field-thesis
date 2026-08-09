@@ -31,37 +31,62 @@ def extract_dry_results():
         frames_data = []
         rp_set_name = "SET_RP"
 
+        # Locate RP node and boundary nodes
+        rp_node_label = None
+        rp_instance_name = None
+
+        # Check rootAssembly nodeSets
+        for nset_name, nset in odb.rootAssembly.nodeSets.items():
+            if "RP" in nset_name.upper():
+                rp_node_label = nset.nodes[0][0].label if nset.nodes and nset.nodes[0] else None
+                rp_instance_name = None
+
+        # Check instances nodeSets
+        if rp_node_label is None:
+            for inst_name, inst in odb.rootAssembly.instances.items():
+                for nset_name, nset in inst.nodeSets.items():
+                    if "RP" in nset_name.upper():
+                        if nset.nodes:
+                            rp_node_label = nset.nodes[0].label
+                            rp_instance_name = inst_name
+                            break
+
         for f_idx, frame in enumerate(step.frames):
             time = float(frame.frameValue)
             u_field = frame.fieldOutputs["U"] if "U" in frame.fieldOutputs else None
             rf_field = frame.fieldOutputs["RF"] if "RF" in frame.fieldOutputs else None
 
-            # Check RP node
             rp_u_x = None
-            rp_rf_x = None
+            rp_rf_x = 0.0
+            found_rf = False
 
-            if u_field and rf_field:
-                # Find RP
-                try:
-                    root_assembly = odb.rootAssembly
-                    if rp_set_name in root_assembly.nodeSets:
-                        rp_set = root_assembly.nodeSets[rp_set_name]
-                        u_sub = u_field.getSubset(region=rp_set)
-                        rf_sub = rf_field.getSubset(region=rp_set)
-                        if u_sub.values:
-                            rp_u_x = float(u_sub.values[0].data[0])
-                        if rf_sub.values:
-                            rp_rf_x = float(rf_sub.values[0].data[0])
-                except Exception as e:
-                    pass
+            if u_field:
+                for val in u_field.values:
+                    if rp_node_label is not None and val.nodeLabel == rp_node_label:
+                        rp_u_x = float(val.data[0])
+                        break
+                    elif val.nodeLabel == 1000000 or val.nodeLabel == 999999 or val.nodeLabel == 10000:
+                        rp_u_x = float(val.data[0])
 
+            if rf_field:
+                for val in rf_field.values:
+                    # If this is the RP node:
+                    if rp_node_label is not None and val.nodeLabel == rp_node_label:
+                        rp_rf_x = float(val.data[0])
+                        found_rf = True
+                        break
+                    # Otherwise sum reaction forces from bottom boundary (Y=0) or top boundary
+                    elif val.nodeLabel == 1000000 or val.nodeLabel == 999999:
+                        rp_rf_x = float(val.data[0])
+                        found_rf = True
 
             frames_data.append({
                 "frame_index": f_idx,
                 "step_time": time,
                 "rp_ux": rp_u_x,
-                "rp_rfx": rp_rf_x,
+                "rp_rfx": rp_rf_x if found_rf else None,
             })
+
 
         # Calculate initial elastic stiffness if available
         last_frame = frames_data[-1] if frames_data else None
