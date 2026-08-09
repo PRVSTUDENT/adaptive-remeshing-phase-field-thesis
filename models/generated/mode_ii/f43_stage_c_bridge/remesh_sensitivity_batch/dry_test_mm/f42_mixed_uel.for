@@ -117,9 +117,7 @@ C     ==================================================================
          END DO
          USRVAR(PHYSIDX,1,INPT)=PHASE
          USRVAR(PHYSIDX,2,INPT)=HIST
-         USRVAR(PHYSIDX,14,INPT)=PHASE
          USRVAR(PHYSIDX,15,INPT)=PHASE
-         USRVAR(PHYSIDX,16,INPT)=HIST
         END DO
         RETURN
        ENDIF
@@ -231,6 +229,8 @@ C     ==================================================================
            END DO
           END DO
          END DO
+         USRVAR(PHYSIDX,14,INPT)=PHASE
+         USRVAR(PHYSIDX,16,INPT)=USRVAR(PHYSIDX,13,INPT)
         END DO
         RETURN
        ENDIF
@@ -308,9 +308,7 @@ C     ==================================================================
          END DO
          USRVAR(PHYSIDX,1,INPT)=PHASE
          USRVAR(PHYSIDX,2,INPT)=HIST
-         USRVAR(PHYSIDX,14,INPT)=PHASE
          USRVAR(PHYSIDX,15,INPT)=PHASE
-         USRVAR(PHYSIDX,16,INPT)=HIST
         END DO
         RETURN
        ENDIF
@@ -424,6 +422,8 @@ C     ==================================================================
            END DO
           END DO
          END DO
+         USRVAR(PHYSIDX,14,INPT)=PHASE
+         USRVAR(PHYSIDX,16,INPT)=USRVAR(PHYSIDX,13,INPT)
         END DO
         RETURN
        ENDIF
