@@ -1,5 +1,45 @@
 # Current project state
 
+## F43MODEREF-PREP4 Exact-P Linux Qualification & Replacement Reference Lineage Reconciliation (2026-08-09)
+
+Task `F43MODEREF-PREP4`: Executed exact-P detached Linux qualification, resolved CRLF/LF line-ending hash discrepancy, marked premature tag `Q43MODEREF2` historically unusable, verified natural worktree post-test cleanliness, and tagged fresh final qualification anchor `Q43MODEREF2-FINAL1`:
+- **Task ID**: `F43MODEREF-PREP4`
+- **Status**: `complete_pass`
+- **Remote P Tag Verification**:
+  - `candidate_P_SHA`: `8d38d0ab0ba36e7d31dfbdb2c0159a4992599deb`
+  - `P43MODEREF2_remote_verified`: `true` (Pushed to origin without force)
+- **Premature Q Tag Handling**:
+  - `premature_Q_tag`: `Q43MODEREF2` (`c591fbc2db1dbbcdd9e0eef0a88efabf9ee6ff3d`)
+  - `premature_Q_usable`: `false` (`Q43MODEREF2_created_before_required_exact_P_linux_qualification = true`)
+- **Hash Mismatch Resolution**:
+  - `hash_difference_cause`: `line_endings_only` (CRLF vs LF line endings during raw file generation on Windows).
+  - Canonical LF SHA256 Hashes at Exact P (`417e3b8`):
+    - `canonical_H0_SHA`: `e17a8895ede9cc1a85d00950586e679f95796310211667bc28b4b037be7162e6`
+    - `canonical_H1_SHA`: `4ac37c50a26d67106e5c1e6083937f9b0716c3646c90ad87c51a8ef9b172808e`
+    - `canonical_H2_SHA`: `a651cef82999d333bd9062cc4d743a98908178535623dd8ca8ed7993dfe23de0`
+    - `canonical_UEL_SHA`: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`
+- **Detached Linux Qualification & Test Results**:
+  - `exact_P_detached_HEAD`: `417e3b8dbb74e36bb6942250e56b6c0ac9427475`
+  - Shell syntax checks (`M2REF_H0.pbs`, `submit_m2ref_h0.sh`, `M2REF_H1.pbs`, `submit_m2ref_h1.sh`, `M2REF_H2.pbs`, `submit_m2ref_h2.sh`): `ALL PASS`
+  - Focused reference tests: **15/15 OK** (`failures = 0`, `errors = 0`)
+  - Full repository test suite: **617 tests completed (`failures = 0`, `errors = 0`)**
+  - `natural_post_test_status_empty`: `true`
+  - `git_diff_exit_code`: `0`, `git_diff_cached_exit_code`: `0`
+- **Final Immutable Qualification Tag**:
+  - `final_Q_tag`: `Q43MODEREF2-FINAL1`
+  - `Q_differs_from_P`: `true`
+  - `Q_descends_from_P`: `true`
+  - `Q_execution_critical_changes`: `false`
+- **Current Authority Boundary**:
+  - `authorization_ready_for_replacement_reference_batch`: `true`
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: `0`
+
+---
+
 ## F43MODEREF-PREP3 Mode-II Reference Final RP Qualification, Mesh-Identity Reconciliation & Immutable Tagging (2026-08-09)
 
 Task `F43MODEREF-PREP3`: Completed comprehensive final RP-repair qualification, physical node count discrepancy reconciliation, pre/post repair mesh semantics comparison, historical H0 reuse re-audit, and created new immutable preparation tag `P43MODEREF2` and qualification tag `Q43MODEREF2`:
