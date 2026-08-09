@@ -104,19 +104,22 @@ C     ==================================================================
          END DO
          HIST=USRVAR(PHYSIDX,13,INPT)
          DO I=1,4
-          RHS(I,1)=RHS(I,1)-THCK*DTM*(AN_Q(I)*((GCPAR*CLPAR*TWO*HIST+
-     1    GCPAR/CLPAR)*PHASE-GCPAR*CLPAR*TWO*HIST)+GCPAR*CLPAR*
+          RHS(I,1)=RHS(I,1)-THCK*DTM*(AN_Q(I)*((TWO*HIST+
+     1    GCPAR/CLPAR)*PHASE-TWO*HIST)+GCPAR*CLPAR*
      2    (BP_Q(1,I)*DP(1)+BP_Q(2,I)*DP(2)))
          END DO
          DO I=1,4
           DO J=1,4
            AMATRX(I,J)=AMATRX(I,J)+THCK*DTM*(AN_Q(I)*AN_Q(J)*
-     1     (GCPAR*CLPAR*TWO*HIST+GCPAR/CLPAR)+GCPAR*CLPAR*
+     1     (TWO*HIST+GCPAR/CLPAR)+GCPAR*CLPAR*
      2     (BP_Q(1,I)*BP_Q(1,J)+BP_Q(2,I)*BP_Q(2,J)))
           END DO
          END DO
          USRVAR(PHYSIDX,1,INPT)=PHASE
          USRVAR(PHYSIDX,2,INPT)=HIST
+         USRVAR(PHYSIDX,14,INPT)=PHASE
+         USRVAR(PHYSIDX,15,INPT)=PHASE
+         USRVAR(PHYSIDX,16,INPT)=HIST
         END DO
         RETURN
        ENDIF
@@ -292,19 +295,22 @@ C     ==================================================================
          HIST=USRVAR(PHYSIDX,13,INPT)
          WT_FAC=THCK*DTM*W_T(INPT)
          DO I=1,3
-          RHS(I,1)=RHS(I,1)-WT_FAC*(AN_T(I)*((GCPAR*CLPAR*TWO*HIST+
-     1    GCPAR/CLPAR)*PHASE-GCPAR*CLPAR*TWO*HIST)+GCPAR*CLPAR*
+          RHS(I,1)=RHS(I,1)-WT_FAC*(AN_T(I)*((TWO*HIST+
+     1    GCPAR/CLPAR)*PHASE-TWO*HIST)+GCPAR*CLPAR*
      2    (BP_T(1,I)*DP(1)+BP_T(2,I)*DP(2)))
          END DO
          DO I=1,3
           DO J=1,3
            AMATRX(I,J)=AMATRX(I,J)+WT_FAC*(AN_T(I)*AN_T(J)*
-     1     (GCPAR*CLPAR*TWO*HIST+GCPAR/CLPAR)+GCPAR*CLPAR*
+     1     (TWO*HIST+GCPAR/CLPAR)+GCPAR*CLPAR*
      2     (BP_T(1,I)*BP_T(1,J)+BP_T(2,I)*BP_T(2,J)))
           END DO
          END DO
          USRVAR(PHYSIDX,1,INPT)=PHASE
          USRVAR(PHYSIDX,2,INPT)=HIST
+         USRVAR(PHYSIDX,14,INPT)=PHASE
+         USRVAR(PHYSIDX,15,INPT)=PHASE
+         USRVAR(PHYSIDX,16,INPT)=HIST
         END DO
         RETURN
        ENDIF
