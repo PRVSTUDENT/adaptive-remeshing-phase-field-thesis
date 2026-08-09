@@ -133,7 +133,7 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
     }
 
 
-def validate_reference_batch() -> Dict[str, Any]:
+def validate_reference_batch(write_report: bool = False) -> Dict[str, Any]:
     errors = []
     warnings = []
 
@@ -215,7 +215,7 @@ def validate_reference_batch() -> Dict[str, Any]:
 
     passed = len(errors) == 0
 
-    return {
+    res = {
         "passed": passed,
         "errors": errors,
         "warnings": warnings,
@@ -227,12 +227,16 @@ def validate_reference_batch() -> Dict[str, Any]:
         }
     }
 
+    if write_report:
+        out_json = ROOT / "models/generated/mode_ii/reference_convergence/M2REF_STATIC_VALIDATION.json"
+        out_json.parent.mkdir(parents=True, exist_ok=True)
+        out_json.write_text(json.dumps(res, indent=2) + "\n", encoding="utf-8")
+
+    return res
+
 
 def main():
-    res = validate_reference_batch()
-    out_json = ROOT / "models/generated/mode_ii/reference_convergence/M2REF_STATIC_VALIDATION.json"
-    out_json.parent.mkdir(parents=True, exist_ok=True)
-    out_json.write_text(json.dumps(res, indent=2) + "\n", encoding="utf-8")
+    res = validate_reference_batch(write_report=True)
 
     print(f"Validation Result: {'PASS' if res['passed'] else 'FAIL'}")
     if res["errors"]:
@@ -241,6 +245,7 @@ def main():
             print(f"  - {e}")
     else:
         print("All static checks passed successfully.")
+    out_json = ROOT / "models/generated/mode_ii/reference_convergence/M2REF_STATIC_VALIDATION.json"
     print(f"Validation summary written to: {out_json}")
     sys.exit(0 if res["passed"] else 1)
 
