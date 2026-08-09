@@ -82,9 +82,16 @@ pbs_notify_finish() {
   return "${rc}"
 }
 
+_pbs_trap_handler() {
+  local rc=$?
+  pbs_notify_finish "${rc}"
+  exit "${rc}"
+}
+
 pbs_notify_install_traps() {
-  # Preserve prior EXIT trap behavior by chaining
-  trap 'rc=$?; pbs_notify_finish "$rc"; exit "$rc"' EXIT
+  trap '_pbs_trap_handler' EXIT
   trap 'exit 143' TERM INT HUP
 }
+
+
 
