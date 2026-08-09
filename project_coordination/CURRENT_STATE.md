@@ -1,5 +1,31 @@
 # Current project state
 
+## F43MODEREF-DIAG1 Reference Batch HPC Early-Exit Diagnostic & Root-Cause Analysis (2026-08-09)
+
+Task `F43MODEREF-DIAG1`: Completed diagnostic investigation of early exit for submitted jobs `1385728.mmaster02` (`M2REF_H1`) and `1385729.mmaster02` (`M2REF_H2`) on `tu_freiberg`, identifying the exact concrete root cause in input-deck node numbering:
+- **Task ID**: `F43MODEREF-DIAG1`
+- **Status**: `complete_pass`
+- **Diagnostic Inspection (`qstat -fx`)**:
+  - `1385728.mmaster02` (`M2REF_H1`): Exit status = `1`, walltime = `00:00:12`, cput = `00:00:09` (Failed in Abaqus pre-processor).
+  - `1385729.mmaster02` (`M2REF_H2`): Exit status = `1`, walltime = `00:00:13`, cput = `00:00:10` (Failed in Abaqus pre-processor).
+- **Solver Output Evidence (`.dat`)**:
+  - `M2REF_H1.dat`: `***ERROR: The area of 2 elements is zero, small, or negative (33821, 34053)` & `Distorted isoparametric elements (33822, 34054)`.
+  - `M2REF_H2.dat`: `***ERROR: The area of 3 elements is zero, small, or negative (77139, 77685, 77686)` & `Distorted isoparametric elements (77140, 77686)`.
+- **Concrete Root Cause**:
+  - **RP Node ID Collision**: In `build_mode_ii_uniform_reference_batch.py`, the Reference Point node `RP` was hardcoded as **Node ID 10000** (`10000, 0.0, 0.6`).
+  - In `M2REF_H0` (4,003 nodes), node ID 10000 exceeded the max mesh node ID, avoiding collision.
+  - In `M2REF_H1` (12,382 nodes) and `M2REF_H2` (34,513 nodes), node ID 10000 fell inside the physical mesh node ID range. At the end of the `*NODE` block, node 10000's physical coordinates `(0.3725, 0.25409)` were overwritten by `RP` coordinates `(0.0, 0.6)`.
+  - Moving node 10000 across the domain collapsed adjacent elements (33821-34054 in H1, 77139-77686 in H2), producing zero-area elements during Abaqus input processing.
+- **Authority Boundary Enforced**:
+  - `authorization_ready_for_reference_batch`: `false`
+  - `execution_authorized`: `false` (previous authorization consumed)
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `running_jobs`: `0`, `queued_jobs`: `0`
+  - **No Resubmission**: Zero `qsub`, zero automatic retries, zero replacement jobs executed.
+
+---
+
 ## F43MODEREF-SUB1 Mode-II Uniform Phase-Field Reference Batch Guarded Submission (2026-08-09)
 
 Task `F43MODEREF-SUB1`: Received direct explicit human chat authorization, fast-forwarded `tu_freiberg` cluster clone, executed common preflight validation, and submitted the authorized 2-job Mode-II uniform phase-field reference convergence batch:
