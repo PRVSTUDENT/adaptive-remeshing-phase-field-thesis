@@ -1,5 +1,55 @@
 # Current project state
 
+## F43MODEREF-LINEAGE2 Reference H0 Reuse Audit, Natural Exact-P Qualification & Lineage Reconciliation (2026-08-09)
+
+Task `F43MODEREF-LINEAGE2`: Successfully completed scientific H0 reuse audit, eliminated destructive `git checkout` qualification artifacts, demonstrated natural worktree post-test cleanliness, established fresh preparation commit $P_{\text{P43MODEREF1-FINAL3}}$ and immutable qualification commit $Q_{\text{Q43MODEREF1-FINAL3}}$, and reduced future reference batch size to 2 jobs:
+- **Task ID**: `F43MODEREF-LINEAGE2`
+- **Status**: `complete_pass`
+- **Tag Provenance Audit**:
+  - `historical_Q43MODEREF1_FINAL1_force_moved`: **`true`** (force-moved with `git tag -f` / `git push -f`).
+  - `historical_Q43MODEREF1_FINAL1_usable_as_final_anchor`: **`false`** (invalidated as an immutable anchor due to tag movement).
+  - `Q43MODEREF1-FINAL3_created_and_immutable`: **`true`** (pushed normally without force-push or tag replacement).
+- **Historical Worktree Cleanup Audit**:
+  - `historical_checkout_restore_used`: **`true`** (qualification script previously ran `git checkout -- .` before status check).
+  - `previous_natural_post_test_cleanliness_proven`: **`false`** (cleanliness was masked by destructive cleanup).
+- **Preparation Commit Integrity**:
+  - `preparation_commit`: **`f8237053531b2ecbcbb804473b64c0dd580b0b8c`** ($P_{\text{P43MODEREF1-FINAL3}}$)
+  - `P43MODEREF1-FINAL2_immutable`: **`true`** (commit `7d832fb86b82340908ba434f4ceb6fd17a61945d` remains intact).
+  - `reference_execution_bytes_changed_since_FINAL2`: **`false`** (all reference input decks, UEL subroutines, PBS scripts, submitters, and manifest remain byte-for-byte identical).
+- **Historical H0 Reuse Audit & Equivalence**:
+  - Historical H0 (Job `1378942.mmaster02`): Deck SHA256 `c9160d50c944de7037a9f05dc1dbccfa9718f69b198bb48659f784bac220ddef`, Source SHA256 `5decf4b1f587019d6bdd904e8ceed22175c113e070e714777cb998da428e4d8c`.
+  - Candidate `M2REF_H0`: Deck SHA256 `ef7f76293f9e115590518a4b8c006ec17bd211ebb30b9d73dc0ba3401c7f3acb`, Source SHA256 `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`.
+  - `M2REF_H0_byte_identical_to_historical`: **`false`**
+  - `M2REF_H0_scientifically_semantically_equivalent`: **`true`**
+  - UEL Source Difference: **`scientifically_identical_implementation_change`** (unified mixed UEL vs pure quad UEL; evaluates exact identical strain-displacement matrices and phase degradation $g(d)$ for pure quad mesh H0).
+  - `historical_H0_reused_for_convergence`: **`true`**
+  - `M2REF_H0_requires_new_execution`: **`false`**
+- **Detached Natural Exact-P Qualification**:
+  - `detached_HEAD`: `f8237053531b2ecbcbb804473b64c0dd580b0b8c`
+  - Preflights `PASS`, shell syntax `PASS`, reference validator `PASS`, reference unit suite **`7/7 PASS`**, H0 reuse unit suite **`1/1 PASS`**, full repository unit discovery suite **`604/604 PASS`** (`0 failures, 0 errors, 17 skips, 110s`).
+  - Natural post-test cleanliness: **`git status --porcelain=v1` is 100% EMPTY, `git diff` zero diffs**.
+  - `natural_post_test_clean`: **`true`**
+- **Qualification Commit & Lineage Reconciliation**:
+  - `qualification_commit`: **`4643a2fe21bdc3fa9cb90726bbad3d7e6e580436`** ($Q_{\text{Q43MODEREF1-FINAL3}}$)
+  - `qualification_tag`: **`Q43MODEREF1-FINAL3`**
+  - `Q_differs_from_P`: **`true`**
+  - `Q_descends_from_P`: **`true`**
+- **Future Reference Batch Size & Sizing**:
+  - `future_reference_job_count`: **`2`** (`M2REF_H1`, `M2REF_H2`)
+  - `maximum_jobs_authorized`: **`2`**
+  - **`M2REF_H1`**: Deck SHA256 `e3f804510ec777ee210ae46ab56b1bce2576d3e7a12eb91085e9af28f7a41421`, 12,064 physical (36,192 layered) elements, 37.15k DOFs, Queue `entry_imfdfkmq`, 1 CPU / 16 GB RAM / 06:00:00 walltime.
+  - **`M2REF_H2`**: Deck SHA256 `b6fd1c30253c65cb3d982132c65cd0c8d2960ee0e02ced5114437ee55b7a0cf0`, 33,852 physical (101,556 layered) elements, 103.52k DOFs, Queue `entry_imfdfkmq`, 1 CPU / 32 GB RAM / 18:00:00 walltime.
+  - `running_jobs`: **`0`**, `queued_jobs`: **`0`**.
+- **Current Authority Boundary**:
+  - `authorization_ready_for_reference_batch`: **`true`**
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: `0`
+
+---
+
 ## F43MODEREF-PREP1 Mode-II Uniform Phase-Field Reference Inventory, Contract, Offline Preparation & P/Q Qualification (2026-08-09)
 
 Task `F43MODEREF-PREP1`: Completed inventory of Mode-II phase-field reference artifacts, defined reference scientific contract, frozen comparison acceptance metrics, prepared 3-level uniform reference study offline packages (`M2REF_H0`, `M2REF_H1`, `M2REF_H2`), and established immutable P/Q qualification lineage (`P43MODEREF1-FINAL2` -> `Q43MODEREF1-FINAL1`):
