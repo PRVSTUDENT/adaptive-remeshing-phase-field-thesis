@@ -208,7 +208,7 @@ def validate_reference_batch(write_report: bool = False) -> Dict[str, Any]:
     if not MANIFEST_PATH.is_file():
         return {"passed": False, "errors": [f"Manifest not found: {MANIFEST_PATH}"], "warnings": []}
 
-    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8-sig"))
+    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8-sig", errors="replace"))
     candidates = manifest.get("candidates", {})
 
     expected_cases = ["M2REF_H0", "M2REF_H1", "M2REF_H2"]
