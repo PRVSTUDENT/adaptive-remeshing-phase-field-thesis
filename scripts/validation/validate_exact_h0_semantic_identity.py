@@ -172,8 +172,9 @@ def validate_semantic_identity():
         "failures": failures,
     }
 
-    out_artifact = ROOT / "models/generated/mode_ii/verification_batch/M2REF_H0_EXACT_SEMANTIC_AUDIT.json"
+    out_artifact = Path("/tmp/M2REF_H0_EXACT_SEMANTIC_AUDIT.json")
     out_artifact.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+
     print(f"Wrote semantic audit artifact to {out_artifact}")
     print(f"Result: corrected_H0_semantic_identity = {status_str}")
 

@@ -90,7 +90,7 @@ exit 0
     def test_nonzero_exit_produces_fail(self) -> None:
         sim = """
 pbs_notify_begin
-exit 12
+pbs_notify_finish 12
 """
         rc, log = self._run_bash_trap_simulation(sim)
         self.assertEqual(rc, 12)
@@ -100,7 +100,7 @@ exit 12
     def test_signal_exit_143_produces_aborted(self) -> None:
         sim = """
 pbs_notify_begin
-exit 143
+pbs_notify_finish 143
 """
         rc, log = self._run_bash_trap_simulation(sim)
         self.assertEqual(rc, 143)
@@ -109,7 +109,7 @@ exit 143
     def test_signal_exit_137_produces_aborted(self) -> None:
         sim = """
 pbs_notify_begin
-exit 137
+pbs_notify_finish 137
 """
         rc, log = self._run_bash_trap_simulation(sim)
         self.assertEqual(rc, 137)
