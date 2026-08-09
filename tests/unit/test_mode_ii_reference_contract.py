@@ -59,10 +59,10 @@ class TestModeIIReferenceContract(unittest.TestCase):
 
     def test_file_presence_and_hashes(self):
         for cname, cinfo in self.candidates.items():
-            deck = ROOT / cinfo["deck_path"]
-            uel = ROOT / cinfo["uel_path"]
-            pbs = ROOT / cinfo["pbs_path"]
-            submit = ROOT / cinfo["submit_wrapper"]
+            deck = ROOT / Path(cinfo["deck_path"].replace("\\", "/"))
+            uel = ROOT / Path(cinfo["uel_path"].replace("\\", "/"))
+            pbs = ROOT / Path(cinfo["pbs_path"].replace("\\", "/"))
+            submit = ROOT / Path(cinfo["submit_wrapper"].replace("\\", "/"))
 
             self.assertTrue(deck.is_file(), f"Deck missing for {cname}")
             self.assertTrue(uel.is_file(), f"UEL missing for {cname}")

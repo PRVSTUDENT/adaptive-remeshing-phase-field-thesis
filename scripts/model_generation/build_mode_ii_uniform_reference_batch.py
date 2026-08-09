@@ -360,7 +360,7 @@ def generate_reference_deck(
 
     out_file.parent.mkdir(parents=True, exist_ok=True)
     deck_text = "\n".join(lines) + "\n"
-    out_file.write_text(deck_text, encoding="utf-8", newline="\n")
+    out_file.write_text(deck_text, encoding="utf-8")
     return sha256_file(out_file)
 
 
@@ -393,7 +393,7 @@ abaqus job={case_name} input={case_name}.inp user=f42_mixed_uel.for cpus=1 inter
 echo "=== Execution Complete ==="
 date
 """
-    pbs_file.write_text(content, encoding="utf-8", newline="\n")
+    pbs_file.write_text(content, encoding="utf-8")
     return sha256_file(pbs_file)
 
 
@@ -417,7 +417,7 @@ fi
 echo "Submitting {case_name} to PBS..."
 qsub {case_name}.pbs
 """
-    sh_file.write_text(content, encoding="utf-8", newline="\n")
+    sh_file.write_text(content, encoding="utf-8")
     return sha256_file(sh_file)
 
 
@@ -486,13 +486,13 @@ def main():
         # Record candidate details
         batch_manifest["candidates"][case_name] = {
             "job_name": case_name,
-            "deck_path": str(deck_file.relative_to(ROOT)),
+            "deck_path": deck_file.relative_to(ROOT).as_posix(),
             "deck_sha256": deck_sha,
-            "uel_path": str(dest_uel.relative_to(ROOT)),
+            "uel_path": dest_uel.relative_to(ROOT).as_posix(),
             "uel_sha256": uel_sha,
-            "pbs_path": str((pkg_dir / f"{case_name}.pbs").relative_to(ROOT)),
+            "pbs_path": (pkg_dir / f"{case_name}.pbs").relative_to(ROOT).as_posix(),
             "pbs_sha256": pbs_sha,
-            "submit_wrapper": str((pkg_dir / f"submit_{case_name.lower()}.sh").relative_to(ROOT)),
+            "submit_wrapper": (pkg_dir / f"submit_{case_name.lower()}.sh").relative_to(ROOT).as_posix(),
             "submit_sha256": submit_sha,
             "physical_elements": stats["n_physical"],
             "physical_nodes": stats["n_nodes"],

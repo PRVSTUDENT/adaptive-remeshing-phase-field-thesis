@@ -157,10 +157,10 @@ def validate_reference_batch() -> Dict[str, Any]:
         if cname not in candidates:
             continue
         cinfo = candidates[cname]
-        deck_file = ROOT / cinfo["deck_path"]
-        uel_file = ROOT / cinfo["uel_path"]
-        pbs_file = ROOT / cinfo["pbs_path"]
-        submit_file = ROOT / cinfo["submit_wrapper"]
+        deck_file = ROOT / Path(cinfo["deck_path"].replace("\\", "/"))
+        uel_file = ROOT / Path(cinfo["uel_path"].replace("\\", "/"))
+        pbs_file = ROOT / Path(cinfo["pbs_path"].replace("\\", "/"))
+        submit_file = ROOT / Path(cinfo["submit_wrapper"].replace("\\", "/"))
 
         # Check file existence
         for f, label in [(deck_file, "deck"), (uel_file, "uel"), (pbs_file, "pbs"), (submit_file, "submit")]:
