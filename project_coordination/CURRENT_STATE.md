@@ -1,5 +1,50 @@
 # Current project state
 
+## F43MODEREF-LINEAGE3 Final Immutable Mode-II Reference Batch Authorization Lineage Reconciliation (2026-08-09)
+
+Task `F43MODEREF-LINEAGE3`: Successfully reconciled Mode-II reference lineage governance, recorded force-movement history of preparation tags, verified 100% byte integrity of accepted execution SHA `f8237054c6b55e0a318c0f5b1ce820be8c1cc20b`, established never-moved preparation tag `P43MODEREF1-FINAL4` and fresh qualification tag `Q43MODEREF1-FINAL4`, confirmed clean HPC fast-forward merge, and established 2-job future reference batch contract (`M2REF_H1` + `M2REF_H2`):
+- **Task ID**: `F43MODEREF-LINEAGE3`
+- **Status**: `complete_pass`
+- **Tag Provenance Audit**:
+  - `P43MODEREF1_FINAL3_was_force_moved`: **`true`** (force-moved repeatedly during troubleshooting).
+  - `P43MODEREF1_FINAL3_usable_as_immutable_authorization_anchor`: **`false`**
+  - `Q43MODEREF1_FINAL3_moved`: **`false`**
+- **Accepted Execution SHA & Byte Integrity**:
+  - `accepted_execution_SHA`: **`f8237054c6b55e0a318c0f5b1ce820be8c1cc20b`** (`git cat-file -t` = `commit`).
+  - `execution_bytes_unchanged_since_f823705`: **`true`** (reference input decks, UEL subroutines, PBS scripts, submitters, collector scripts, manifests, and contract validators are 100% byte-identical).
+  - `retained_detached_HEAD`: `f8237054c6b55e0a318c0f5b1ce820be8c1cc20b`
+  - Retained exact-P qualification: **604 tests, 0 failures, 0 errors, 17 skips, natural post-test clean**.
+- **Frozen Hash Verification**:
+  - `M2REF_H1` input SHA256: `e3f804510ec777ee210ae46ab56b1bce2576d3e7a12eb91085e9af28f7a41421` (**MATCH**)
+  - `M2REF_H2` input SHA256: `b6fd1c30253c65cb3d982132c65cd0c8d2960ee0e02ced5114437ee55b7a0cf0` (**MATCH**)
+  - `UEL` SHA256: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3` (**MATCH**)
+- **Preserved H0 Reuse & Future Batch Contract**:
+  - `historical_H0_reused_for_convergence`: **`true`** (Job `1378942.mmaster02`, UEL source difference classified as `scientifically_identical_implementation_change`).
+  - `M2REF_H0_requires_new_execution`: **`false`**
+  - Future reference jobs: **`M2REF_H1`** and **`M2REF_H2`** (2 jobs, running concurrently).
+  - `planned_future_batch_size`: **2**
+  - `planned_future_max_submissions`: **2**
+- **Immutable Final Lineage**:
+  - `final_P_SHA`: **`f8237054c6b55e0a318c0f5b1ce820be8c1cc20b`**
+  - `final_P_tag`: **`P43MODEREF1-FINAL4`** (created once, never moved).
+  - `final_Q_SHA`: **`6c76ad77507ab331640963fb7425e36a7212137d`**
+  - `final_Q_tag`: **`Q43MODEREF1-FINAL4`** (created once on provenance commit `6c76ad77`, never moved).
+  - `Q_differs_from_P`: **`true`**
+  - `Q_descends_from_P`: **`true`**
+  - `Q_execution_critical_changes`: **`false`**
+- **HPC Cluster Forward Sync**:
+  - Executed `git fetch origin main && git fetch origin --tags && git merge --ff-only origin/main` on `tu_freiberg`. Clean fast-forward merge completed.
+- **Queue Status & Authority Boundary**:
+  - `queue_check_rc`: **`0`**, `running_jobs`: **`0`**, `queued_jobs`: **`0`**
+  - `authorization_ready_for_reference_batch`: **`true`**
+  - `execution_authorized`: **`false`**
+  - `submission_approved`: **`false`**
+  - `maximum_jobs_now`: **`0`**
+  - `qsub_called`: **`false`**
+  - `HPC_submissions`: **`0`**
+
+---
+
 ## F43MODEREF-LINEAGE2 Reference H0 Reuse Audit, Natural Exact-P Qualification & Lineage Reconciliation (2026-08-09)
 
 Task `F43MODEREF-LINEAGE2`: Successfully completed scientific H0 reuse audit, eliminated destructive `git checkout` qualification artifacts, demonstrated natural worktree post-test cleanliness, established fresh preparation commit $P_{\text{P43MODEREF1-FINAL3}}$ and immutable qualification commit $Q_{\text{Q43MODEREF1-FINAL3}}$, and reduced future reference batch size to 2 jobs:
