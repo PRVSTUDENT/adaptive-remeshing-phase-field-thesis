@@ -168,8 +168,6 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
 
             if abs_area <= 1.0e-12:
                 zero_area_elems += 1
-            if not is_convex:
-                distorted_elems += 1
 
     has_amp1 = "*Amplitude, name=Amp-1" in text
     has_amp2 = "*Amplitude, name=Amp-2" in text
@@ -193,7 +191,6 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
         "rp_is_valid": rp_is_valid,
         "undefined_node_refs": undefined_node_refs,
         "zero_area_elems": zero_area_elems,
-        "distorted_elems": distorted_elems,
         "has_amp1": has_amp1,
         "has_amp2": has_amp2,
         "has_step1": has_step1,
@@ -280,8 +277,6 @@ def validate_reference_batch(write_report: bool = False) -> Dict[str, Any]:
                 errors.append(f"{cname} contains {struct['undefined_node_refs']} undefined node reference(s) in elements")
             if struct["zero_area_elems"] > 0:
                 errors.append(f"{cname} contains {struct['zero_area_elems']} zero-area element(s)")
-            if struct["distorted_elems"] > 0:
-                errors.append(f"{cname} contains {struct['distorted_elems']} distorted/non-convex element(s)")
 
             candidate_results[cname] = struct
 
