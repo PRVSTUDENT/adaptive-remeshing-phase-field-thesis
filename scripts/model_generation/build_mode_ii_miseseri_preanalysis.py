@@ -32,7 +32,7 @@ def sha256_file(path: Path) -> str:
 
 def write_text_lf(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(text, encoding="utf-8", newline="\n")
+    path.write_bytes(text.replace("\r\n", "\n").encode("utf-8"))
 
 
 def parse_h0_inp(inp_path: Path):
