@@ -1,6 +1,49 @@
 # Current project state
 
+## F43DUALDRY-PREP1 Dual-Candidate Mixed-UEL Dry-Test Preparation & Lineage Qualification (2026-08-09)
+
+Task `F43DUALDRY-PREP1`: Completed formal package preparation, compiler/toolchain contract qualification, branch coverage audits, and fresh P/Q lineage creation (`P43DUALDRY1` -> `Q43DUALDRY1`) for the two-job technical dry test:
+- **Task ID**: `F43DUALDRY-PREP1`
+- **Status**: `complete_pass`
+- **Lineage**:
+  - `P_tag`: **`P43DUALDRY1`** (`2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6`)
+  - `Q_tag`: **`Q43DUALDRY1`**
+- **Frozen Source & Deck Hashes**:
+  - `MM_rebuilt_SHA`: `b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f`
+  - `PK5_rebuilt_SHA`: `01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6`
+  - `UEL_SHA`: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`
+- **Static Contract Audits**:
+  - `MM_static_validation`: **`PASS`** (6,618 layered elements: 2,137 U1, 2,137 U2, 69 U3, 69 U4, 2,137 CPE4, 69 CPE3)
+  - `PK5_static_validation`: **`PASS`** (14,682 layered elements: 4,766 U1, 4,766 U2, 128 U3, 128 U4, 4,766 CPE4, 128 CPE3)
+  - `MM_all_four_UEL_branches_present`: **`true`**
+  - `PK5_all_four_UEL_branches_present`: **`true`**
+  - `cross_candidate_fairness`: **`PASS`** (identical materials, length scale $l_0=0.015\text{ mm}$, energy $G_c=0.0027\text{ kN/mm}$, boundary conditions, step and solver definitions)
+  - `passive_facsimile_contract`: **`PASS`** ($E_{\text{passive}}=1.0\times 10^{-11}$, $\nu=0.3$, Depvar=18, negligible stiffness contribution)
+- **Detached Exact-P Qualification on tu_freiberg**:
+  - `preflights`: `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, `python/gcc/11.4.0/3.11.7` all verified.
+  - `shell_syntax`: **`PASS`** (`bash -n` clean on all PBS and submission scripts).
+  - `unit_suite_discovery`: **`599 passed, 0 failures, 0 errors, 17 skips (OK in 7.915s)`**.
+  - `natural_post_test_clean`: **`true`** (`git status --porcelain=v1` empty, `git diff` clean).
+- **Two-Job Technical Dry-Test Boundary**:
+  - Job 1: `F43DRY_MM` (`dry_test_mm/`, `entry_imfdfkmq`, 1 CPU, 8 GB, 00:30:00)
+  - Job 2: `F43DRY_PK5` (`dry_test_pk5/`, `entry_imfdfkmq`, 1 CPU, 8 GB, 00:30:00)
+  - Purpose: Technical execution qualification only (Abaqus parse, subroutine compilation/linking, U1..U4 branch invocation, passive facsimile stability, initial elastic response).
+  - No fracture interpretation or scientific selection encoded.
+- **Reference Status**:
+  - `uniform_reference_available`: `false`
+  - `future_scientific_comparison_blocked_by`: `uniform_reference_not_yet_frozen`
+- **Authority Boundary**:
+  - `authorization_ready_for_dual_dry_test`: `true`
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: `0`
+
+---
+
 ## F43DUALREBUILD1 Offline Dual-Candidate Mixed CPE3/CPE4 Phase-Field UEL Rebuild for MM and PK5 (2026-08-09)
+
 
 Task `F43DUALREBUILD1`: Executed identical deterministic offline UEL rebuild and dry-test package staging for both adaptive candidate meshes (`F43REM4_MM` and `F43REM4_PK5`) into 3-layer mixed CPE3/CPE4 Phase-Field UEL input decks, preserving exact node coordinates, element connectivity, boundary sets, and shear coupling equations:
 - **Task ID**: `F43DUALREBUILD1`

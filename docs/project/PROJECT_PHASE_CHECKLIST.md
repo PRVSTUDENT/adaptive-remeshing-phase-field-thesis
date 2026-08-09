@@ -1,6 +1,41 @@
 # Project Phase Checklist
 
+## F43DUALDRY-PREP1 Dual-Candidate Mixed-UEL Dry-Test Preparation & Lineage Qualification
+
+- [x] Froze rebuilt candidate decks without modification:
+  - `F43UEL_MM_REBUILT.inp`: SHA256 `b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f` (2,206 physical -> 6,618 layered elements).
+  - `F43UEL_PK5_REBUILT.inp`: SHA256 `01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6` (4,894 physical -> 14,682 layered elements).
+- [x] Froze qualified mixed UEL subroutine:
+  - `models/generated/mode_ii/f42_mixed_element_uel/f42_mixed_uel.for`: SHA256 `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`.
+- [x] Verified isolated candidate dry-test packages:
+  - `dry_test_mm/`: `F43UEL_MM_REBUILT.inp`, `f43_mixed_uel.for`, `F43DRY_MM.pbs`, `submit_f43dry_mm.sh`, `MANIFEST.json`.
+  - `dry_test_pk5/`: `F43UEL_PK5_REBUILT.inp`, `f43_mixed_uel.for`, `F43DRY_PK5.pbs`, `submit_f43dry_pk5.sh`, `MANIFEST.json`.
+- [x] Static deck contract:
+  - MM: U1=2,137, U2=2,137, U3=69, U4=69, CPE4=2,137, CPE3=69, Total=6,618. `ALL PASS`.
+  - PK5: U1=4,766, U2=4,766, U3=128, U4=128, CPE4=4,766, CPE3=128, Total=14,682. `ALL PASS`.
+  - 100% positive orientation, unique element labels, exact layer connectivity, RP/Equations/Sets/BCs preserved.
+- [x] UEL branch coverage contract:
+  - MM has all four UEL branches (U1, U2, U3, U4).
+  - PK5 has all four UEL branches (U1, U2, U3, U4).
+- [x] Passive facsimile contract:
+  - $E_{\text{passive}} = 1.0\times 10^{-11}$, $\nu = 0.3$, Depvar = 18.
+- [x] Cross-candidate fairness:
+  - Identical materials ($E=210.0$, $\nu=0.3$, $G_c=0.0027$, $l_0=0.015$, $k=10^{-7}$, $t=1.0$), subroutine, step, loads, output requests.
+  - Differences strictly confined to mesh topology and coordinates.
+- [x] Prepared two independent technical dry-test jobs:
+  - `F43DRY_MM` and `F43DRY_PK5` (`entry_imfdfkmq`, 1 CPU, 8 GB, 00:30:00).
+- [x] Created preparation P lineage: `P43DUALDRY1` at SHA `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6`.
+- [x] Real environment preflight on `tu_freiberg` (`gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, `python/gcc/11.4.0/3.11.7`).
+- [x] Detached exact-P qualification in isolated Linux worktree:
+  - Unit discovery suite: **599 passed, 0 failures, 0 errors, 17 skips (`OK`)**.
+  - Natural post-test cleanliness: `true` (`git status --porcelain=v1` empty, `git diff` clean).
+- [x] Reference status preserved: `uniform_reference_available = false`, `future_scientific_comparison_blocked_by = uniform_reference_not_yet_frozen`.
+- [x] Zero HPC submission boundary preserved (`execution_authorized = false`, `maximum_jobs_now = 0`).
+
+---
+
 ## F43DUALREBUILD1 Offline Dual-Candidate Mixed CPE3/CPE4 Phase-Field UEL Rebuild for MM and PK5
+
 
 - [x] Preserved scientific decision state:
   - `Gate_C1_localization`: `PASS`
