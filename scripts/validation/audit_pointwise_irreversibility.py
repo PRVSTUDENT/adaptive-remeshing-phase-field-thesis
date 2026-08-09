@@ -1,62 +1,91 @@
 #!/usr/bin/env python
-"""Pointwise Irreversibility and Producer Ownership Auditor for Abaqus ODBs.
+"""Hardened Pointwise Irreversibility and Producer Ownership Auditor for Abaqus ODBs.
 Runs under Abaqus Python (Python 2.7 / 3).
 Audits SDV15 (phase field) and SDV16 (history) pointwise across all frames.
-Also audits pointwise SDV14 - SDV15 differences.
+Audits pointwise SDV14 vs SDV15 agreement.
+Explicitly keys every value by (step_name, frame_id, instance, element_label, integration_point).
+Fails closed on missing fields, empty outputs, duplicate keys, or inconsistent frame coverage.
 """
 
 from __future__ import print_function
 import sys
 import os
 import json
-import math
-from odbAccess import openOdb
 
 def audit_odb_pointwise(odb_path, label):
     print("==========================================================")
     print("=== Pointwise Audit for " + label + " (" + odb_path + ") ===")
     print("==========================================================")
     if not os.path.exists(odb_path):
-        print("ERROR: File does not exist: " + odb_path)
-        return None
+        raise ValueError("ERROR: File does not exist: " + odb_path)
 
+    from odbAccess import openOdb
     odb = openOdb(odb_path, readOnly=True)
     root = odb.rootAssembly
     steps = sorted(odb.steps.keys())
 
-    # Build sequence of frames
+    if not steps:
+        odb.close()
+        raise ValueError("ERROR: ODB contains no steps: " + odb_path)
+
+    # Build sequence of frames: list of (step_name, frame_id, frame_value, frame_obj)
     all_frames = []
     for sname in steps:
         step = odb.steps[sname]
         for f in step.frames:
-            all_frames.append((sname, f.frameId, f.frameValue, f))
+            all_frames.append((sname, f.frameId, float(f.frameValue), f))
 
     n_frames = len(all_frames)
+    if n_frames == 0:
+        odb.close()
+        raise ValueError("ERROR: ODB contains no output frames: " + odb_path)
+
     print("Total frames to audit: %d across steps %s" % (n_frames, steps))
 
-    # We will track SDV14, SDV15, SDV16 by key: (instance_name, element_label, integration_point)
-    # Stored as dict of lists: key -> list of float values (one per frame)
-    sdv14_history = {}
-    sdv15_history = {}
-    sdv16_history = {}
+    # Master dictionaries keyed by: (instance_name, element_label, integration_point) -> dict of (step_name, frame_id) -> float
+    sdv14_data = {}
+    sdv15_data = {}
+    sdv16_data = {}
 
     for sname, fid, fval, f in all_frames:
-        for sdv_name, target_dict in [('SDV14', sdv14_history), ('SDV15', sdv15_history), ('SDV16', sdv16_history)]:
-            if sdv_name in f.fieldOutputs:
-                sub = f.fieldOutputs[sdv_name]
-                for v in sub.values:
-                    inst_name = v.instance.name if v.instance else "ASSEMBLY"
-                    el_lbl = v.elementLabel
-                    ip_num = v.integrationPoint if v.integrationPoint is not None else 1
-                    key = (inst_name, el_lbl, ip_num)
-                    
-                    val = float(v.data[0]) if hasattr(v.data, '__getitem__') else float(v.data)
-                    if key not in target_dict:
-                        target_dict[key] = []
-                    target_dict[key].append(val)
+        for sdv_name, target_dict in [('SDV14', sdv14_data), ('SDV15', sdv15_data), ('SDV16', sdv16_data)]:
+            if sdv_name not in f.fieldOutputs:
+                odb.close()
+                raise ValueError("ERROR: Missing expected field " + sdv_name + " in step " + str(sname) + " frame " + str(fid))
+
+            sub = f.fieldOutputs[sdv_name]
+            if not sub.values:
+                odb.close()
+                raise ValueError("ERROR: Empty field values for " + sdv_name + " in step " + str(sname) + " frame " + str(fid))
+
+            seen_keys_in_frame = set()
+            for v in sub.values:
+                inst_name = v.instance.name if v.instance else "ASSEMBLY"
+                el_lbl = int(v.elementLabel)
+                ip_num = int(v.integrationPoint) if v.integrationPoint is not None else 1
+                ip_key = (inst_name, el_lbl, ip_num)
+                frame_key = (sname, fid)
+
+                if ip_key in seen_keys_in_frame:
+                    odb.close()
+                    raise ValueError("ERROR: Duplicate key " + str(ip_key) + " in step " + str(sname) + " frame " + str(fid))
+                seen_keys_in_frame.add(ip_key)
+
+                val = float(v.data[0]) if hasattr(v.data, '__getitem__') else float(v.data)
+
+                if ip_key not in target_dict:
+                    target_dict[ip_key] = {}
+                target_dict[ip_key][frame_key] = val
+
+    # Verify frame coverage consistency across all keys
+    all_frame_keys = [(sname, fid) for sname, fid, fval, f in all_frames]
+    for ip_key, frame_map in sdv15_data.items():
+        if len(frame_map) != n_frames:
+            odb.close()
+            raise ValueError("ERROR: Inconsistent frame coverage for key " + str(ip_key) + " (got " + str(len(frame_map)) + " vs expected " + str(n_frames) + ")")
 
     # 1. Audit Pointwise SDV15 Irreversibility
-    keys15 = sorted(sdv15_history.keys())
+    keys15 = sorted(sdv15_data.keys())
     total_sequences15 = len(keys15)
     total_transitions15 = 0
     neg_transitions15 = 0
@@ -66,8 +95,9 @@ def audit_odb_pointwise(odb_path, label):
     sum_neg_dec15 = 0.0
     worst_loc15 = None
 
-    for key in keys15:
-        vals = sdv15_history[key]
+    for ip_key in keys15:
+        frame_map = sdv15_data[ip_key]
+        vals = [frame_map[fk] for fk in all_frame_keys]
         for idx in range(1, len(vals)):
             total_transitions15 += 1
             diff = vals[idx] - vals[idx-1]
@@ -77,7 +107,7 @@ def audit_odb_pointwise(odb_path, label):
                 sum_neg_dec15 += abs_dec
                 if diff < worst_dec15:
                     worst_dec15 = diff
-                    worst_loc15 = (key, idx, vals[idx-1], vals[idx])
+                    worst_loc15 = (ip_key, idx, vals[idx-1], vals[idx])
                 if abs_dec > 1.0e-8:
                     neg_gt_1e8_15 += 1
                 if abs_dec > 1.0e-6:
@@ -93,12 +123,9 @@ def audit_odb_pointwise(odb_path, label):
     print("Negative transitions > 1e-6: %d" % neg_gt_1e6_15)
     print("Worst decrease: %.10f" % worst_dec15)
     print("Mean negative decrease: %.10f" % mean_neg_dec15)
-    if worst_loc15:
-        print("Worst decrease location: Inst=%s, Elem=%d, IP=%d at frame_idx %d (val %f -> %f)" % 
-              (worst_loc15[0][0], worst_loc15[0][1], worst_loc15[0][2], worst_loc15[1], worst_loc15[2], worst_loc15[3]))
 
     # 2. Audit Pointwise SDV16 History Monotonicity
-    keys16 = sorted(sdv16_history.keys())
+    keys16 = sorted(sdv16_data.keys())
     total_sequences16 = len(keys16)
     total_transitions16 = 0
     neg_transitions16 = 0
@@ -108,8 +135,9 @@ def audit_odb_pointwise(odb_path, label):
     sum_neg_dec16 = 0.0
     worst_loc16 = None
 
-    for key in keys16:
-        vals = sdv16_history[key]
+    for ip_key in keys16:
+        frame_map = sdv16_data[ip_key]
+        vals = [frame_map[fk] for fk in all_frame_keys]
         for idx in range(1, len(vals)):
             total_transitions16 += 1
             diff = vals[idx] - vals[idx-1]
@@ -119,7 +147,7 @@ def audit_odb_pointwise(odb_path, label):
                 sum_neg_dec16 += abs_dec
                 if diff < worst_dec16:
                     worst_dec16 = diff
-                    worst_loc16 = (key, idx, vals[idx-1], vals[idx])
+                    worst_loc16 = (ip_key, idx, vals[idx-1], vals[idx])
                 if abs_dec > 1.0e-8:
                     neg_gt_1e8_16 += 1
                 if abs_dec > 1.0e-6:
@@ -134,17 +162,18 @@ def audit_odb_pointwise(odb_path, label):
     print("Negative transitions > 1e-8: %d" % neg_gt_1e8_16)
     print("Negative transitions > 1e-6: %d" % neg_gt_1e6_16)
     print("Worst decrease: %.10f" % worst_dec16)
-    print("Mean negative decrease: %.10f" % mean_neg_dec16)
 
-    # 3. Audit Pointwise SDV14 vs SDV15 Agreement across all frames
+    # 3. Audit Pointwise SDV14 vs SDV15 Agreement
     diff_sdv14_15 = []
     unequal_gt_1e6 = 0
-    common_keys = sorted(set(sdv14_history.keys()).intersection(set(sdv15_history.keys())))
+    common_keys = sorted(set(sdv14_data.keys()).intersection(set(sdv15_data.keys())))
 
-    for key in common_keys:
-        v14_list = sdv14_history[key]
-        v15_list = sdv15_history[key]
-        for v14, v15 in zip(v14_list, v15_list):
+    for ip_key in common_keys:
+        fmap14 = sdv14_data[ip_key]
+        fmap15 = sdv15_data[ip_key]
+        for fk in all_frame_keys:
+            v14 = fmap14[fk]
+            v15 = fmap15[fk]
             diff = abs(v14 - v15)
             diff_sdv14_15.append(diff)
             if diff > 1.0e-6:
@@ -161,7 +190,7 @@ def audit_odb_pointwise(odb_path, label):
 
     odb.close()
 
-    result_summary = {
+    return {
         "label": label,
         "odb_path": odb_path,
         "sdv15_pointwise": {
@@ -189,7 +218,6 @@ def audit_odb_pointwise(odb_path, label):
             "unequal_points_gt_1e6": unequal_gt_1e6,
         }
     }
-    return result_summary
 
 if __name__ == '__main__':
     base_dir = '/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/verification_batch'
