@@ -122,7 +122,7 @@ class TestExportMISESERIPreanalysisCSV(unittest.TestCase):
                         "MISESAVG": float(r["MISESAVG"]),
                         "EVOL": float(r["EVOL"]),
                         "von_mises": float(r["von_mises"]),
-                        "SDV15": float(r["SDV15"]),
+                        "SDV15": float(r["SDV15"]) if r.get("SDV15") not in (None, "") else 0.0,
                     })
 
             summary = quantify_miseseri_field(rows, target_disp=0.001, expected_elements=3930, u_final=0.001, rf_final=0.046069372445344925)
