@@ -134,12 +134,19 @@ def extract_mode_ii_odb(
     odb = openOdb(odb_path, readOnly=True)
     root = odb.rootAssembly
 
-    if rp_set_name not in root.nodeSets:
+    rp = None
+    if rp_set_name in root.nodeSets:
+        rp = root.nodeSets[rp_set_name]
+    else:
+        for inst in root.instances.values():
+            if rp_set_name in inst.nodeSets:
+                rp = inst.nodeSets[rp_set_name]
+                break
+
+    if rp is None:
         print("ERROR: Reference point set '%s' not found in %s" % (rp_set_name, odb_path), file=sys.stderr)
         odb.close()
         return 1
-
-    rp = root.nodeSets[rp_set_name]
     disp_idx = disp_comp - 1
     react_idx = react_comp - 1
 
@@ -257,13 +264,13 @@ def extract_mode_ii_odb(
 
     if phase_var in last_frame.fieldOutputs:
         psub = last_frame.fieldOutputs[phase_var]
-        # Map element labels to coordinates and SDV15
         inst = list(root.instances.values())[0] if root.instances else None
         if inst:
+            node_dict = {n.label: n.coordinates for n in inst.nodes}
             elem_centroids = {}
             for elem in inst.elements:
                 nodes = elem.connectivity
-                coords = [inst.nodes[nid-1].coordinates for nid in nodes if nid <= len(inst.nodes)]
+                coords = [node_dict[nid] for nid in nodes if nid in node_dict]
                 if coords:
                     cx = sum(c[0] for c in coords) / float(len(coords))
                     cy = sum(c[1] for c in coords) / float(len(coords))

@@ -231,9 +231,9 @@ def generate_reference_deck(
     lines.append("** ==========================================================")
     lines.append("** USER ELEMENTS (Layer 1: Phase U1, Layer 2: Displacement U2)")
     lines.append("** ==========================================================")
-    lines.append("*User Element, type=U1, nodes=4, coordinates=2, properties=3, variables=1")
+    lines.append("*User Element, type=U1, nodes=4, coordinates=2, properties=3, variables=8")
     lines.append(" 8,")
-    lines.append("*User Element, type=U2, nodes=4, coordinates=2, properties=5, variables=18")
+    lines.append("*User Element, type=U2, nodes=4, coordinates=2, properties=5, variables=56")
     lines.append(" 1, 2")
 
     # Layer 1: Phase UEL
