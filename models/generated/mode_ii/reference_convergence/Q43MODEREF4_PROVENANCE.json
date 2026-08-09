@@ -1,0 +1,32 @@
+{
+  "qualification_id": "Q43MODEREF4",
+  "task_id": "F43MODEREF-ROOTFIX1",
+  "prep_commit": "151e8e5bdee52e02604b26bb7ce514865425e56d",
+  "prep_tag": "P43MODEREF4",
+  "qual_commit": "86ddfdd94790bc10debbd4799be37885d935edfa",
+  "cluster_head_commit": "86ddfdd94790bc10debbd4799be37885d935edfa",
+  "natural_cleanliness_pass": true,
+  "unit_tests_run": 616,
+  "unit_tests_passed": 616,
+  "unit_tests_failed": 0,
+  "unit_test_status": "PASS",
+  "subroutine_sha256": "562ff3c0bcd1257744ce39f79765110ddca54e658b98c57dcc48aed3b442f1c0",
+  "cases": {
+    "M2REF_H1_FRACFIX": {
+      "inp_sha256": "794db3f41108ae53372c3d5ee2bbba75440ed359a3ebfdbeafce3c9eeaa28ae0",
+      "uel_sha256": "562ff3c0bcd1257744ce39f79765110ddca54e658b98c57dcc48aed3b442f1c0",
+      "pbs_sha256": "19ca329bef419d210ae6ce9b3294ee5cbf653068e4bf9f2c39d89dddbba370b3",
+      "memory": "8 GB",
+      "walltime": "02:00:00",
+      "queue": "entry_imfdfkmq"
+    },
+    "M2REF_H2_FRACFIX": {
+      "inp_sha256": "ce4652ac3bb30ccfc2b3f1c1cae8ddfb2e052063fb55877c21124acb2c7e0c4a",
+      "uel_sha256": "562ff3c0bcd1257744ce39f79765110ddca54e658b98c57dcc48aed3b442f1c0",
+      "pbs_sha256": "be8401ed5ad9c70ae866d93fbcf4e2f9b846cff8d2b270a48a97441fc9a7ea2b",
+      "memory": "8 GB",
+      "walltime": "04:00:00",
+      "queue": "entry_imfdfkmq"
+    }
+  }
+}
