@@ -163,7 +163,8 @@ def parse_deck_structure(deck_path: Path) -> Dict[str, Any]:
             cp3 = (x4 - x3)*(y1 - y4) - (y4 - y3)*(x1 - x4)
             cp4 = (x1 - x4)*(y2 - y1) - (y1 - y4)*(x2 - x1)
 
-            is_convex = (cp1 > 0 and cp2 > 0 and cp3 > 0 and cp4 > 0) or (cp1 < 0 and cp2 < 0 and cp3 < 0 and cp4 < 0)
+            tol = -1.0e-12
+            is_convex = (cp1 >= tol and cp2 >= tol and cp3 >= tol and cp4 >= tol) or (cp1 <= -tol and cp2 <= -tol and cp3 <= -tol and cp4 <= -tol)
 
             if abs_area <= 1.0e-12:
                 zero_area_elems += 1
