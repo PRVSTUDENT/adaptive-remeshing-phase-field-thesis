@@ -7,7 +7,7 @@ Task: F43MODEREF-PREP1
 import subprocess
 import sys
 
-target_sha = "fd8f660f397a9dd129d5a7c700a795b515be10c9"
+target_sha = "fbeb23c0488d44450c760dd1e90a839dee875041"
 
 remote_script = f"""
 set -euo pipefail
