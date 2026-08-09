@@ -76,7 +76,7 @@ git worktree remove --force "$WORKTREE_DIR"
 echo "QUALIFICATION_COMPLETE_PASS=true"
 """
 
-p = subprocess.run(["ssh", "-F", r"C:\Users\pruth\.ssh\codex_config", "tu_freiberg", remote_script], capture_output=True, text=True)
+p = subprocess.run(["bash", "-c", remote_script], capture_output=True, text=True)
 print("STDOUT:")
 print(p.stdout)
 print("STDERR:")
