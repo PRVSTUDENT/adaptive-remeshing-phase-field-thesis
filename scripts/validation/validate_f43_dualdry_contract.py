@@ -26,7 +26,7 @@ from scripts.model_generation.rebuild_f43_mixed_uel_deck import validate_rebuilt
 
 FROZEN_MM_REBUILT_SHA = "b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f"
 FROZEN_PK5_REBUILT_SHA = "01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6"
-FROZEN_UEL_SOURCE_SHA = "5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3"
+FROZEN_UEL_SOURCE_SHA = "562ff3c0bcd1257744ce39f79765110ddca54e658b98c57dcc48aed3b442f1c0"
 
 UEL_SOURCE_PATH = ROOT / "models/generated/mode_ii/f42_mixed_element_uel/f42_mixed_uel.for"
 MM_DECK_PATH = ROOT / "models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/F43UEL_MM_REBUILT.inp"
