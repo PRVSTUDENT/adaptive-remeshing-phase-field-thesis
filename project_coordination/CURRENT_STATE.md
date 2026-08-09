@@ -1,5 +1,55 @@
 # Current project state
 
+## F43MODEREF-PREP1 Mode-II Uniform Phase-Field Reference Inventory, Contract, Offline Preparation & P/Q Qualification (2026-08-09)
+
+Task `F43MODEREF-PREP1`: Completed inventory of Mode-II phase-field reference artifacts, defined reference scientific contract, frozen comparison acceptance metrics, prepared 3-level uniform reference study offline packages (`M2REF_H0`, `M2REF_H1`, `M2REF_H2`), and established immutable P/Q qualification lineage (`P43MODEREF1-FINAL2` -> `Q43MODEREF1-FINAL1`):
+- **Task ID**: `F43MODEREF-PREP1`
+- **Status**: `complete_pass`
+- **Governance Classification Correction (Dry Tests)**:
+  - Jobs `1385726.mmaster02` (`F43DRY_MM`) and `1385727.mmaster02` (`F43DRY_PK5`)
+  - `scheduler_result`: **`PASS`**
+  - `technical_result`: **`PASS`**
+  - `scientific_result`: **`technical_dry_test_only`**
+  - `direct_human_chat_authorization_before_submission`: `false`
+  - `governance_result`: **`protocol_deviating_no_direct_human_chat_authorization`**
+- **Frozen Dry-Test Results**:
+  - `MM` final $u_1 = 0.001\text{ mm}$, $RF_1 = 0.0461185\text{ kN}$ ($46.1185\text{ kN/mm}$)
+  - `PK5` final $u_1 = 0.001\text{ mm}$, $RF_1 = 0.0460535\text{ kN}$ ($46.0535\text{ kN/mm}$)
+  - Relative elastic stiffness difference: **0.14%**
+  - `mixed_UEL_execution`: **`PASS`**
+  - `passive_facsimile_contribution`: **`negligible_within_dry_test_resolution`** ($E_{\text{passive}} = 1.0\times 10^{-11}$)
+  - No fracture accuracy, crack-path accuracy, fracture-energy accuracy, or final mesh superiority inferred.
+- **Reference Inventory Summary**:
+  - `existing_ModeII_H0_available`: **`true`**
+  - `existing_ModeII_H0_full_fracture_endpoint_available`: **`true`** ($U_1 = 0.0100\text{ mm}$, $d_{\max} \approx 0.9909$; development baseline only)
+  - `existing_ModeII_H1_available`: **`true`**
+  - `existing_ModeII_H2_available`: **`true`**
+  - `existing_complete_reference_convergence`: **`false`** (prepared offline; awaiting HPC execution)
+  - `ModeII_uniform_reference_currently_available`: **`false`** (blocks Gate C2 adaptive comparison until frozen by convergence)
+- **Reference Candidates Prepared Offline**:
+  - **`M2REF_H0`**: Coarse reference candidate (3,930 physical -> 11,790 3-layer elements, 3,998 nodes, 11.99k DOFs, target $h=0.0050\text{ mm}$, $h_{\min}/l_0 = 0.2473$, 1 CPU / 8 GB RAM / 02:00:00, Queue `entry_imfdfkmq`, Deck SHA256: `ef7f76293f9e115590518a4b8c006ec17bd211ebb30b9d73dc0ba3401c7f3acb`)
+  - **`M2REF_H1`**: Medium reference candidate (12,064 physical -> 36,192 3-layer elements, 12,382 nodes, 37.15k DOFs, target $h=0.0025\text{ mm}$, $h_{\min}/l_0 = 0.1667$, 1 CPU / 16 GB RAM / 06:00:00, Queue `entry_imfdfkmq`, Deck SHA256: `e3f804510ec777ee210ae46ab56b1bce2576d3e7a12eb91085e9af28f7a41421`)
+  - **`M2REF_H2`**: Fine reference candidate (33,852 physical -> 101,556 3-layer elements, 34,508 nodes, 103.52k DOFs, target $h=0.0010\text{ mm}$, $h_{\min}/l_0 = 0.0667$, 1 CPU / 32 GB RAM / 18:00:00, Queue `entry_imfdfkmq`, Deck SHA256: `b6fd1c30253c65cb3d982132c65cd0c8d2960ee0e02ced5114437ee55b7a0cf0`)
+- **Frozen Acceptance Metrics & Quantitative Crack Path**:
+  - Metrics: $RF_{1, \max}$ ($\le 1.0\%$), $U_{1, \text{peak}}$, $RF_1-U_1$ curve error ($\le 2.0\%$), dissipated energy $W_{\text{diss}}$ ($\le 1.0\%$), initiation $U_{1, d>0.05}$, $d_{\max}$, monotonicity $\dot{d} \ge 0$, wall/CPU time, memory, increment/iteration count.
+  - Quantitative crack path: Phase threshold $d_{\text{thresh}} = 0.90$, 8-neighbor connected component from notch tip $(0.5, 0.0)$, sampled centerline distance & Hausdorff distance ($d_H \le l_0/4 = 0.00375\text{ mm}$).
+  - Threshold Source: `provisional_working_gate`
+- **Lineage & Qualification**:
+  - `preparation_commit`: **`7d832fb86b82340908ba434f4ceb6fd17a61945d`**
+  - `preparation_tag`: **`P43MODEREF1-FINAL2`**
+  - `qualification_commit`: **`f6097cd818816f0648216c0dd920e5c9a0bc43f1`**
+  - `qualification_tag`: **`Q43MODEREF1-FINAL1`**
+  - Detached Qualification on `tu_freiberg`: Preflights `PASS`, shell syntax `PASS`, reference validator `PASS`, reference unit suite **`7/7 PASS`**, full repository suite **`603/603 PASS`**, natural worktree cleanliness **`PASS`**.
+- **Current Authority Boundary**:
+  - `authorization_ready_for_reference_batch`: **`true`**
+  - `execution_authorized`: `false`
+  - `submission_approved`: `false`
+  - `maximum_jobs_now`: `0`
+  - `qsub_called`: `false`
+  - `HPC_submissions`: `0`
+
+---
+
 ## F43DUALDRY-SUB1 Technical Dry-Test Closeout & Governance Correction (2026-08-09)
 
 Task `F43DUALDRY-SUB1`: Completed technical execution monitoring and postprocessing closeout of the two-job mixed-UEL technical dry-test batch (`F43DRY_MM` and `F43DRY_PK5`) on `tu_freiberg`, with corrected governance classification:
