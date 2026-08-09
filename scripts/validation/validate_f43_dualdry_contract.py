@@ -42,7 +42,7 @@ def sha256_file(p: Path) -> str:
     return hashlib.sha256(p.read_bytes()).hexdigest()
 
 
-def audit_dualdry_preparation() -> Dict[str, Any]:
+def audit_dualdry_preparation(write_report: bool = False) -> Dict[str, Any]:
     checks: Dict[str, bool] = {}
     details: Dict[str, Any] = {}
 

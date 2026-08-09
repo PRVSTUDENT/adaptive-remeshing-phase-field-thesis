@@ -18,7 +18,7 @@ def get_sha256(filepath):
             h.update(chunk)
     return h.hexdigest()
 
-def validate_f43rem2_native(pkg_dir="."):
+def validate_f43rem2_native(pkg_dir=".", write_status=False):
     manifest_path = os.path.join(pkg_dir, "F43REM2_NATIVE_MANIFEST.json")
     driver_path = os.path.join(pkg_dir, "remesh_mode_ii_native_cae.py")
     pbs_path = os.path.join(pkg_dir, "F43REM2_NATIVE.pbs")
