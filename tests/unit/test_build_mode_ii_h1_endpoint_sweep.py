@@ -17,21 +17,23 @@ from scripts.validation.validate_mode_ii_h1_results import validate_results
 class TestModeIIH1EndpointSweep(unittest.TestCase):
 
     def test_package_generation_and_static_validation(self):
-        sweep_dir = ROOT / "models/generated/mode_ii/h1_endpoint_sweep"
-        manifests = build_all_packages(sweep_dir)
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            sweep_dir = Path(tmpdir) / "h1_endpoint_sweep"
+            manifests = build_all_packages(sweep_dir)
 
-        self.assertEqual(set(manifests.keys()), set(VARIANTS.keys()))
+            self.assertEqual(set(manifests.keys()), set(VARIANTS.keys()))
 
-        for vkey, m in manifests.items():
-            self.assertEqual(m["physical_element_count"], 12064)
-            self.assertEqual(m["layered_element_count"], 36192)
-            self.assertEqual(m["node_count"], 12382)
-            self.assertEqual(m["n_elem_fortran"], 12064)
-            self.assertTrue((sweep_dir / vkey / f"{m['job_name']}.inp").is_file())
-            self.assertTrue((sweep_dir / vkey / f"{m['job_name']}.for").is_file())
+            for vkey, m in manifests.items():
+                self.assertEqual(m["physical_element_count"], 12064)
+                self.assertEqual(m["layered_element_count"], 36192)
+                self.assertEqual(m["node_count"], 12382)
+                self.assertEqual(m["n_elem_fortran"], 12064)
+                self.assertTrue((sweep_dir / vkey / f"{m['job_name']}.inp").is_file())
+                self.assertTrue((sweep_dir / vkey / f"{m['job_name']}.for").is_file())
 
-        summary = validate_all_sweep_packages(sweep_dir)
-        self.assertTrue(summary["all_passed"], f"Static validation failed: {summary}")
+            summary = validate_all_sweep_packages(sweep_dir)
+            self.assertTrue(summary["all_passed"], f"Static validation failed: {summary}")
 
     def test_pbs_script_extractor_cli(self):
         pbs_path = ROOT / "scripts/hpc/stage_f/mode_ii_h1_endpoint_sweep/mode_ii_h1_endpoint_sweep.pbs"

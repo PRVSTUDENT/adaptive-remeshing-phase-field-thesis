@@ -43,15 +43,16 @@ bash -n models/generated/mode_ii/reference_convergence/M2REF_H2/submit_m2ref_h2.
 
 echo "=== Mode-II Reference Contract Validation ==="
 python3 scripts/validation/validate_mode_ii_reference_contract.py
+python3 scripts/validation/audit_historical_h0_reuse.py
 
 echo "=== Focused Mode-II Reference Contract Unit Tests ==="
 python3 -m unittest -v tests/unit/test_mode_ii_reference_contract.py
+python3 -m unittest -v tests/unit/test_audit_historical_h0_reuse.py
 
 echo "=== Full Repository Unit Discovery Suite ==="
 python3 -m unittest discover -s tests/unit -p 'test_*.py'
 
-echo "=== Restoring test fixture runtime files and verifying worktree cleanliness ==="
-git checkout -- .
+echo "=== Verifying natural worktree cleanliness without Git restoration ==="
 
 PORCELAIN=$(git status --porcelain=v1)
 if [ -n "$PORCELAIN" ]; then
