@@ -985,3 +985,53 @@ Scientific inputs changed: No.
 Correction: Logged governance deviation `protocol_deviation_destructive_evidence_workspace_cleanup`. Inventoried retained evidence: all 10 extracted CSV/JSON files and PBS scheduler logs (`1385895.mmaster02.OU` and `1385896.mmaster02.OU`) were 100% preserved in Git/spool; raw ODBs/sta/msg/dat were purged per standard ODB cleanup policy.  
 Prevention rule: Never again use `rm -rf` or destructive clean on completed job evidence directories on HPC. Move files to a safe archive if Git synchronization requires a clean path.  
 Status: resolved (governance deviation recorded, no unique scientific evidence lost).
+
+---
+
+## M-130: Verification Batch Preflight Hash Mismatch Governance Defect (2026-08-09)
+
+ID: M-130  
+Date: 2026-08-09  
+Stage/job: Stage C (`F43MODEREF-VERIFY-SUBMIT1`)  
+Source commit: `1833b28f9cb21fa2fd487a931a7e0b8fe8de36fd`  
+Classification: `protocol_deviating_exact_execution_byte_mismatch`  
+Symptom: Pre-qsub preflight permitted submission despite actual PBS hashes (`ab099bddfe035f37df9b034b56eb38756019f5012ca590a279efc75b48c6bd26` and `fe146489d62fe6cca6cdcf6584c3637687229878bcc9508f7f676bc26d52d064`) differing from the authorized contract hashes (`240969e9be531f0e917619ae422ce78ae21c3c5ef889b4feb85c4477b22a24df` and `9c326977bf9a9100811062b6bc367e442b83086103efe8f66d6e405fc025db65`).  
+Root cause: Generator modified `mem=8 GB` to `mem=8GB` (space removal) for PBS compatibility after contract freeze, and preflight checked updated hashes rather than failing closed against the exact authorized contract hashes.  
+Scientific inputs changed: No (scheduler memory directive formatting only).  
+Correction: Logged governance deviation `protocol_deviating_exact_execution_byte_mismatch`. Reconciled byte diff (`mem=8 GB` vs `mem=8GB`). Preserved technical and scientific evidence while marking governance result `HOLD_submission_contract_audit`.  
+Prevention rule: Preflights must be strictly read-only and fail closed if ANY execution file byte differs from the authorized contract. Any byte modification requires fresh authorization.  
+Status: resolved (governance deviation recorded, evidence preserved, preflight read-only rule mandated for future batches).
+
+---
+
+## M-131: Execution File Modification After Authorization Freeze (2026-08-09)
+
+ID: M-131  
+Date: 2026-08-09  
+Stage/job: Stage C (`F43MODEREF-VERIFY-SUBMIT1`)  
+Source commit: `1833b28f9cb21fa2fd487a931a7e0b8fe8de36fd`  
+Classification: `protocol_deviating_post_authorization_file_mutation`  
+Symptom: PBS execution files were regenerated/modified after human authorization sentence was generated.  
+Root cause: Automation modified PBS file formatting post-authorization to address PBS queue syntax requirements.  
+Scientific inputs changed: No.  
+Correction: Logged governance deviation `protocol_deviating_post_authorization_file_mutation`. Mandated strict offline pipeline sequence: PREPARATION $\rightarrow$ HASH FREEZE $\rightarrow$ QUALIFICATION $\rightarrow$ HUMAN AUTHORIZATION $\rightarrow$ READ-ONLY PREFLIGHT $\rightarrow$ QSUB.  
+Prevention rule: No command or script may modify any execution file (deck, UEL, PBS, wrapper, manifest) between human authorization and qsub. Preflights must enforce preflight_execution_files_immutable = PASS.  
+Status: resolved (governance rule established, regression test requirement specified for future Pair-2 batch).
+
+---
+
+## M-132: False Reference Match & H0 Mesh Identity Mismatch (2026-08-09)
+
+ID: M-132  
+Date: 2026-08-09  
+Stage/job: Stage C (`F43MODEREF-VERIFY-CLOSEOUT2`)  
+Source commit: `eb6b11e0f4c04c54d16c0741e2b9f706feef0cbc`  
+Classification: `reference_identity_mismatch`  
+Symptom: Job 1386249 (`M2REF_H0_FRACFIX_REPRO`) reached peak $RF_1 = 0.507432\text{ kN}$, $d_{\max} = 0.232309$, and contained 2,500 physical quads, but previous closeout incorrectly reported 100% exact match to accepted H0 `1378942` ($RF_{1,\max} = 0.3733\text{ kN}$, $d_{\max} = 0.9909$, 3,930 physical elements).  
+Root cause: Batch builder script used a synthetic $50 \times 50$ 2,500-quad unnotched grid for `M2REF_H0_FRACFIX_REPRO` instead of the accepted 3,930-element single-notch benchmark mesh, and closeout compared 1386249 against its own extracted values rather than the authoritative committed `1379393` / `1378942` evidence.  
+Scientific inputs changed: Yes (repaired deck generator `build_mode_ii_exact_h0_fracfix_deck.py` created to build true 3,930-element single-notch H0 reproduction `M2REF_H0_EXACT_FRACFIX_REPRO`).  
+Correction: Corrected scientific result of 1386249 to `HOLD_reference_identity_mismatch`. Replaced 2,500-quad grid with exact 3,930-element single-notch accepted benchmark deck. Pointwise irreversibility audit confirmed 0 pointwise phase or history decreases across 710,000 IP transitions. Prepared Pair 1R (`M2REF_H0_EXACT_FRACFIX_REPRO` and `M2REF_ONEEL_FRACFIX_VERIFY_R2`) under fresh lineage `P43MODEREF6-FINAL1` and `Q43MODEREF6`.  
+Prevention rule: Always compare new run metrics against raw committed evidence files of the historical reference (e.g. `VALIDATION_RESULTS.json` for 1379393) rather than text paraphrases or self-referential summaries.  
+Status: resolved (scientific classification corrected, true 3,930-element deck prepared, immutability regression test added).
+
+
