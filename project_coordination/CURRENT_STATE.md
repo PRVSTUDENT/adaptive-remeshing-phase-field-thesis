@@ -2,7 +2,7 @@
 
 # Current Project State - Stage C Reference Baseline Verification
 
-**Active Task**: `F43MODEREF11-PAIR2-ANCHORRECOVERY1`
+**Active Task**: `F43MODEREF12-PAIR2-FINALANCHOR1`
 **Date**: 2026-08-10
 **Active Agent**: `gemini-antigravity`
 **Task Status**: `complete_pass`
@@ -11,18 +11,22 @@
 
 ## 1. Recovered Immutable Lineage & Qualified Pair-2 Jobs (M2REF_H1_FRACFIX & M2REF_H2_FRACFIX)
 
-- **Preparation Tag P**: `P43MODEREF11-FINAL1` (`9f3d66afbe30af00685590f31f4f6ec5792e35d6`)
-- **Qualification Tag Q**: `Q43MODEREF11-FINAL1` (`abd9ab5a651e38ffeb925c53bba1b861a51eff1a`)
+- **Candidate Commit SHA**: `b39b430b28967ed2d58d4ae11173fd2cffafc4e3`
+- **Preparation Tag P**: `P43MODEREF12-FINAL1` (`b39b430b28967ed2d58d4ae11173fd2cffafc4e3`, Tag Object `ee86f837dec618b293eec4019ea1e0a7f322a2d5`)
+- **Qualification Tag Q**: `Q43MODEREF12-FINAL1` (`30fed2ee68865eca5f25e459c72644b1f64e65a8`, Tag Object `0f49c3cc73ada0d205be5e21d05753d46bcb5b6f`)
+- **P12 Creation Protocol**: Created ONCE after 100% successful pre-anchor rehearsal; zero force push, zero tag movement.
 - **Historical Governance Deviations Recorded**:
-  - `P43MODEREF10_FINAL1_authorization_anchor_valid`: `false` (moved via `git tag -f` after creation)
-  - `Q43MODEREF10_FINAL1_authorization_anchor_valid`: `false` (certified non-immutable preparation SHA)
-  - `protocol_deviation_preparation_tag_moved_and_force_pushed`: `true`
-  - `previous_final_P_exact_qualification_proven`: `false`
-  - `previous_qualification_cleanup_commands_used`: `true`
-- **Current P11/Q11 Qualification Status**:
-  - `fresh_isolated_worktree`: `true` (`/home/pr21vyci/projects/qual_worktree_p11_final1`)
+  - `P43MODEREF11_FINAL1_authorization_anchor_valid`: `false` (moved via `git tag -f` after creation)
+  - `Q43MODEREF11_FINAL1_authorization_anchor_valid`: `false` (certified reused preparation-tag identity)
+  - `P11_tag_force_move_deviation_recorded`: `true`
+- **Current P12/Q12 Qualification Status**:
+  - `pre_anchor_rehearsal_worktree`: `fresh` (`/home/pr21vyci/projects/qual_worktree_p12_rehearsal`)
+  - `pre_anchor_full_test_count`: 624 (624/624 `PASS`, 0 failures, 0 errors, 0 skips)
+  - `pre_anchor_focused_pass`: `true`
+  - `pre_anchor_natural_clean`: `true`
+  - `exact_P_worktree`: `fresh` (`/home/pr21vyci/projects/qual_worktree_p12_final1`)
   - `pretest_status_empty`: `true`
-  - `authoritative_unit_tests`: 624/624 `PASS` (0 failures, 0 errors, 0 skips)
+  - `authoritative_unit_tests`: 624/624 `PASS`
   - `natural_status_empty`: `true`
   - `qualification_cleanup_commands_used`: `false`
   - `H1_execution_bytes_unchanged_P_to_Q`: `true`

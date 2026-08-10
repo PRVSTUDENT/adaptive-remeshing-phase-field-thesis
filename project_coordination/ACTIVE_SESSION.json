@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "project_coordination/**",
@@ -9,10 +9,10 @@
     "docs/**"
   ],
   "started_at": "2026-08-10T11:16:00+02:00",
-  "completed_at": null,
-  "heartbeat": "2026-08-10T11:16:00+02:00",
+  "completed_at": "2026-08-10T11:22:00+02:00",
+  "heartbeat": "2026-08-10T11:22:00+02:00",
   "session_id": "f43ref12-pair2-finalanchor1-session-001",
   "starting_commit": "6176023",
   "task_id": "F43MODEREF12-PAIR2-FINALANCHOR1",
-  "note": "Claimed session for Task F43MODEREF12-PAIR2-FINALANCHOR1: Final Pair-2 anchor recovery using a pre-anchor rehearsal gate so no preparation tag is created until the candidate commit is already fully green."
+  "note": "Session completed and released for Task F43MODEREF12-PAIR2-FINALANCHOR1: Pristine P12/Q12 lineage recovered and qualified via pre-anchor rehearsal gate; authorization_ready_for_pair2 = true; zero submission authority."
 }
