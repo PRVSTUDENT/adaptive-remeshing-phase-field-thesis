@@ -1,0 +1,84 @@
+{
+  "qualification_tag": "Q43MODEREF13-FINAL1",
+  "preparation_tag": "P43MODEREF13-FINAL1",
+  "preparation_commit_sha": "4ea47dd74972b76535ff4d394161235e57953f90",
+  "task_id": "F43MODEREF13-PAIR2-PBSFIX-PREP1",
+  "date": "2026-08-10",
+  "agent": "gemini-antigravity",
+  "historical_submission_attempt_audit": {
+    "direct_human_authorization_message_found": false,
+    "qsub_attempts_total": 1,
+    "H1_qsub_attempts": 1,
+    "H2_qsub_attempts": 0,
+    "reason_H2_not_attempted": "Command used && and H1 submit wrapper returned exit code 1",
+    "scheduler_jobs_created": 0,
+    "running_jobs_after_attempt": 0,
+    "queued_jobs_after_attempt": 0,
+    "H1_scheduler_result": "REJECTED_BEFORE_QUEUE_ENTRY",
+    "H1_technical_result": "NOT_EXECUTED",
+    "H1_scientific_result": "NOT_EXECUTED",
+    "H1_governance_result": "protocol_deviating_no_direct_human_chat_authorization",
+    "git_reset_hard_deviation_recorded": true,
+    "pbs_failure_root_cause": "invalid_mem_resource_token_with_embedded_space",
+    "P43MODEREF12_pair2_execution_ready": false,
+    "Q43MODEREF12_pair2_execution_ready": false
+  },
+  "pre_anchor_rehearsal": {
+    "worktree": "/home/pr21vyci/projects/qual_worktree_p13_rehearsal",
+    "candidate_commit_sha": "4ea47dd74972b76535ff4d394161235e57953f90",
+    "pre_anchor_full_test_count": 633,
+    "pre_anchor_full_test_rc": 0,
+    "pre_anchor_focused_pass": true,
+    "pre_anchor_natural_clean": true,
+    "tag_existed_during_rehearsal": false
+  },
+  "exact_p_qualification_results": {
+    "worktree": "/home/pr21vyci/projects/qual_worktree_p13_final1",
+    "authoritative_unit_tests": {
+      "python_version": "3.11.7",
+      "total_tests_run": 633,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "status": "PASS"
+    },
+    "notification_contract_regression": {
+      "mail_points": "abe",
+      "recipient_count": 2,
+      "approved_recipients": [
+        "Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de",
+        "pr21vyci@mailserver.tu-freiberg.de"
+      ],
+      "status": "PASS"
+    },
+    "pbs_resource_contract": {
+      "canonical_memory_directive": "mem=8gb",
+      "pbs_resource_contract_H1": "PASS",
+      "pbs_resource_contract_H2": "PASS",
+      "status": "PASS"
+    },
+    "pair2_package_preflight": {
+      "pair2_package_preflight_without_authorization": "PASS",
+      "pair2_submission_preflight": "BLOCKED_no_direct_human_authorization",
+      "H1_NPHYS": 12064,
+      "H2_NPHYS": 33852,
+      "H1_raw_inp_sha256": "407f88694d35d86bdc321d090c0678f6c9a348a462249690b4ac2c06d708f10c",
+      "H1_raw_uel_sha256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
+      "H1_raw_pbs_sha256": "42a640cd4afa6e44a15c174e1fc17a888635e474ae10afefd7a21515ee904039",
+      "H1_raw_wrapper_sha256": "2d354ec6e00e09657b867d36fcadde69269f09c78b6e10dea537679d3d5c57a3",
+      "H1_raw_manifest_sha256": "94d79421a48c66e95c1c8c11e74f07a72d7331804b407ec937aedcf9bb5dcba3",
+      "H2_raw_inp_sha256": "c9a3f496cf2cb0daa455cfae31f5bd699b56f3b410f0a7f2a12014b2718be5b0",
+      "H2_raw_uel_sha256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
+      "H2_raw_pbs_sha256": "ba16a0b64d85f069c03878a6e20f913cd6daf2f65f91e8f64c1c2046a762d32a",
+      "H2_raw_wrapper_sha256": "dd3f85dcc62fe855f965a1a58478228d032a394b9f61573a240bd8fc8ca66053",
+      "H2_raw_manifest_sha256": "d5769188aa1ff72cb25fd1a92e1fe1a457497d519b7dcaee7df78bb1e2aa05a9",
+      "status": "PASS"
+    },
+    "natural_git_status_clean": true,
+    "qualification_cleanup_commands_used": false
+  },
+  "execution_bytes_unchanged_P_to_Q": {
+    "M2REF_H1_FRACFIX": true,
+    "M2REF_H2_FRACFIX": true
+  }
+}
