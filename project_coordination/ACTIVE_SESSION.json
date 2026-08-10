@@ -2,11 +2,11 @@
   "protocol_version": 1,
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F43STATE-M2-SUBMIT1",
-  "started_at": "2026-08-10T17:57:08+02:00",
-  "completed_at": "2026-08-10T17:58:48+02:00",
-  "starting_commit": "d759922a9ea5505f64ee9bfa507d4b4a39009df3",
-  "result_commit": "3bb3e76a6ce764ef1a2e37fcbdf64cf44aa0a012",
+  "task_id": "F43STATE-M2-OVERNIGHT-CONTINUE1",
+  "started_at": "2026-08-10T18:01:12+02:00",
+  "completed_at": "2026-08-10T18:04:28+02:00",
+  "starting_commit": "26bc4f1795d5c149dc2cb6065989381828839421",
+  "result_commit": "56dc8ab1c50bd04b427cc749583349b39b415b10",
   "allowed_scope": [
     "project_coordination/**",
     "models/generated/mode_ii/**",
@@ -16,5 +16,5 @@
     "results/**",
     "runs/hpc/**"
   ],
-  "note": "Completed F43STATE-M2-SUBMIT1: Performed fail-closed read-only tag provenance audit, consumed human authorization, and submitted authorized overnight state-transfer restart job 1386471.mmaster02."
+  "note": "Completed F43STATE-M2-OVERNIGHT-CONTINUE1: Performed terminal check and scientific closeout of job 1386471 (PASS), and prepared Stage-2 evolving-remesh restart package M2STATE_FRACFIX_RESTART2 with frozen execution hashes and immutable P/Q lineage."
 }
