@@ -3,6 +3,8 @@
 #PBS -l select=1:ncpus=1:mem=8 GB
 #PBS -l walltime=02:00:00
 #PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
 #PBS -j oe
 #PBS -o evidence/$PBS_JOBID/execution.log
 

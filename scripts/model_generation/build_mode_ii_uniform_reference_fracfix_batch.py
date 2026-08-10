@@ -6,7 +6,8 @@ Generates both replacement reference packages:
   2. M2REF_H2_FRACFIX (33,852 elements)
 
 Employs the corrected f42_mixed_uel.for subroutine (with 2*HIST driving term and
-populated SDV14/15/16 state variables) and corrected *User Element variable counts.
+populated SDV14/15/16 state variables), exact NPHYS producer-consumer mapping,
+and explicit #PBS -m abe 2-recipient email notification contract.
 """
 
 import sys
@@ -24,17 +25,15 @@ EXPECTED_UEL_SHA256 = "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7
 
 BATCH_CONFIGS = {
     "M2REF_H1_FRACFIX": {
-        "h_nominal": 0.010,
-        "n_div_x": 100,
-        "n_div_y": 100,
+        "source": ROOT / "models/generated/molnar_gravouil_2017/h_convergence_lc015/H1_h0025/H1_h0025.inp",
+        "n_phys_expected": 12064,
         "memory": "8 GB",
         "walltime": "02:00:00",
         "queue": "entry_imfdfkmq",
     },
     "M2REF_H2_FRACFIX": {
-        "h_nominal": 0.005,
-        "n_div_x": 200,
-        "n_div_y": 200,
+        "source": ROOT / "models/generated/molnar_gravouil_2017/h_convergence_lc015/H2_pub_h0010/H2_pub_h0010.inp",
+        "n_phys_expected": 33852,
         "memory": "8 GB",
         "walltime": "04:00:00",
         "queue": "entry_imfdfkmq",
@@ -50,6 +49,8 @@ THCK = 1.0
 DEPVAR = 18
 PASSIVE_E = 1.0e-11
 
+APPROVED_EMAIL_DIRECTIVE = "#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de"
+
 
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
@@ -59,53 +60,71 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def generate_structured_mesh(n_div_x: int, n_div_y: int) -> Tuple[Dict[int, Tuple[float, float]], Dict[int, List[int]]]:
-    """Generate structured Quad mesh over [-0.5, 0.5] x [-0.5, 0.5]."""
-    x_min, x_max = -0.50, 0.50
-    y_min, y_max = -0.50, 0.50
+def parse_physical_mesh(deck_path: Path, n_phys_expected: int) -> Tuple[Dict[int, Tuple[float, float]], Dict[int, List[int]]]:
+    """Parse node coordinates and physical quad element connectivities from source deck."""
+    nodes: Dict[int, Tuple[float, float]] = {}
+    quads: Dict[int, List[int]] = {}
 
-    dx = (x_max - x_min) / float(n_div_x)
-    dy = (y_max - y_min) / float(n_div_y)
+    lines = deck_path.read_text(encoding="utf-8", errors="replace").splitlines()
+    in_nodes = False
+    in_elem = False
 
-    nodes = {}
-    node_id_grid = {}
-    nid = 1
+    for line in lines:
+        s = line.strip()
+        if not s or s.startswith("**"):
+            continue
+        if s.lower().startswith("*node"):
+            in_nodes = True
+            in_elem = False
+            continue
+        elif s.lower().startswith("*element"):
+            in_nodes = False
+            if "u1" in s.lower() or not quads:
+                in_elem = True
+            else:
+                in_elem = False
+            continue
+        elif s.startswith("*") and (in_nodes or in_elem):
+            in_nodes = False
+            in_elem = False
 
-    for j in range(n_div_y + 1):
-        y = y_min + j * dy
-        for i in range(n_div_x + 1):
-            x = x_min + i * dx
-            nodes[nid] = (round(x, 10), round(y, 10))
-            node_id_grid[(i, j)] = nid
-            nid += 1
+        if in_nodes:
+            parts = [p.strip() for p in s.split(",")]
+            if len(parts) >= 3:
+                try:
+                    nid = int(parts[0])
+                    x = float(parts[1])
+                    y = float(parts[2])
+                    if y <= 0.51:
+                        nodes[nid] = (x, y)
+                except ValueError:
+                    pass
 
-    quads = {}
-    eid = 1
-    for j in range(n_div_y):
-        for i in range(n_div_x):
-            n1 = node_id_grid[(i, j)]
-            n2 = node_id_grid[(i + 1, j)]
-            n3 = node_id_grid[(i + 1, j + 1)]
-            n4 = node_id_grid[(i, j + 1)]
-            quads[eid] = [n1, n2, n3, n4]
-            eid += 1
+        if in_elem:
+            parts = [p.strip() for p in s.split(",")]
+            if len(parts) >= 5:
+                try:
+                    eid = int(parts[0])
+                    if eid <= n_phys_expected:
+                        nids = [int(p) for p in parts[1:5]]
+                        quads[eid] = nids
+                except ValueError:
+                    pass
 
     return nodes, quads
 
 
-def generate_inp_deck(case_name: str, pkg_dir: Path, n_div_x: int, n_div_y: int) -> str:
+def generate_inp_deck(case_name: str, pkg_dir: Path, source_deck: Path, n_phys_expected: int) -> Tuple[str, int, int]:
     """Generate Abaqus .inp deck for the replacement Mode-II study."""
     out_file = pkg_dir / f"{case_name}.inp"
-    nodes, quads = generate_structured_mesh(n_div_x, n_div_y)
+    nodes, quads = parse_physical_mesh(source_deck, n_phys_expected)
 
     n_phys = len(nodes)
     n_quad_elems = len(quads)
+    assert n_quad_elems == n_phys_expected, f"Expected {n_phys_expected} elements, found {n_quad_elems}"
 
-    rp_node_id = n_phys + 1
-    physical_node_ids = set(nodes.keys())
-
-    all_node_labels = list(nodes.keys()) + [rp_node_id]
-    assert len(all_node_labels) == len(set(all_node_labels))
+    max_nid = max(nodes.keys())
+    rp_node_id = max_nid + 1
 
     tol = 1.0e-5
     y_min, y_max = -0.50, 0.50
@@ -115,7 +134,7 @@ def generate_inp_deck(case_name: str, pkg_dir: Path, n_div_x: int, n_div_y: int)
     lines = []
     lines.append("*Heading")
     lines.append(f"** Mode-II Phase-Field Uniform Reference Study (FRACFIX): {case_name}")
-    lines.append(f"** 3-Layer Mixed UEL Architecture: U1/U2/CPE4 ({n_phys} physical -> {3*n_phys} layered elements)")
+    lines.append(f"** 3-Layer Mixed UEL Architecture: U1/U2/CPE4 ({n_quad_elems} physical -> {3*n_quad_elems} layered elements)")
     lines.append(f"** Formulation: l0={L0} mm, Gc={GC} kN/mm, E={EMOD} kN/mm^2, nu={ENU}, k={PARK}")
     lines.append(f"** Loading: 2-Step Shear Displacement to U1_final = 0.0100 mm")
     lines.append("*Preprint, echo=NO, model=NO, history=NO, contact=NO")
@@ -164,7 +183,7 @@ def generate_inp_deck(case_name: str, pkg_dir: Path, n_div_x: int, n_div_y: int)
     lines.append("** Layer 2: Displacement UEL Elements (U2)")
     lines.append("*Element, type=U2, elset=DISP_QUAD")
     for eid in sorted(quads.keys()):
-        disp_id = n_phys + eid
+        disp_id = n_quad_elems + eid
         conn = ", ".join(f"{n:7d}" for n in quads[eid])
         lines.append(f" {disp_id:7d}, {conn}")
 
@@ -172,7 +191,7 @@ def generate_inp_deck(case_name: str, pkg_dir: Path, n_div_x: int, n_div_y: int)
     lines.append("** Layer 3: Passive Facsimile Elements (CPE4)")
     lines.append("*Element, type=CPE4, elset=UMAT_QUAD")
     for eid in sorted(quads.keys()):
-        fac_id = 2 * n_phys + eid
+        fac_id = 2 * n_quad_elems + eid
         conn = ", ".join(f"{n:7d}" for n in quads[eid])
         lines.append(f" {fac_id:7d}, {conn}")
 
@@ -194,7 +213,7 @@ def generate_inp_deck(case_name: str, pkg_dir: Path, n_div_x: int, n_div_y: int)
     lines.append("*UEL Property, elset=PHASE_QUAD")
     lines.append(f" {L0:.6e}, {GC:.6e}, {THCK:.6e}")
     lines.append("*UEL Property, elset=DISP_QUAD")
-    lines.append(f" {EMOD:.6e}, {ENU:.6e}, {THCK:.6e}, {PARK:.6e}, {n_phys}.0")
+    lines.append(f" {EMOD:.6e}, {ENU:.6e}, {THCK:.6e}, {PARK:.6e}, {n_quad_elems}.0")
 
     # Solid Section for Facsimile
     lines.append("** ==========================================================")
@@ -206,7 +225,7 @@ def generate_inp_deck(case_name: str, pkg_dir: Path, n_div_x: int, n_div_y: int)
     lines.append("*Depvar")
     lines.append(f" {DEPVAR}")
     lines.append("*User Material, constants=4")
-    lines.append(f" {PASSIVE_E:.6e}, {ENU:.6e}, {n_phys}.0, 4.0")
+    lines.append(f" {PASSIVE_E:.6e}, {ENU:.6e}, {n_quad_elems}.0, 4.0")
 
     # Linear Equations for Top Node Shear Coupling to RP
     lines.append("** ==========================================================")
@@ -278,17 +297,19 @@ def generate_inp_deck(case_name: str, pkg_dir: Path, n_div_x: int, n_div_y: int)
     out_file.parent.mkdir(parents=True, exist_ok=True)
     deck_text = "\n".join(lines) + "\n"
     out_file.write_bytes(deck_text.encode("utf-8"))
-    return sha256_file(out_file)
+    return sha256_file(out_file), n_phys, n_quad_elems
 
 
 def generate_pbs_script(case_name: str, pkg_dir: Path, cfg: dict) -> str:
-    """Generate PBS batch execution script."""
+    """Generate PBS batch execution script with explicit #PBS -m abe and 2-recipient contract."""
     pbs_file = pkg_dir / f"{case_name}.pbs"
     content = f"""#!/bin/bash
 #PBS -N {case_name}
 #PBS -l select=1:ncpus=1:mem={cfg['memory']}
 #PBS -l walltime={cfg['walltime']}
 #PBS -q {cfg['queue']}
+#PBS -m abe
+{APPROVED_EMAIL_DIRECTIVE}
 #PBS -j oe
 #PBS -o evidence/$PBS_JOBID/execution.log
 
@@ -346,12 +367,13 @@ def main():
     uel_sha = sha256_file(SRC_UEL)
     print(f"Source UEL: {SRC_UEL}")
     print(f"Source UEL SHA256: {uel_sha}")
+    assert uel_sha == EXPECTED_UEL_SHA256, f"UEL SHA256 mismatch! Found {uel_sha}, expected {EXPECTED_UEL_SHA256}"
 
     uel_bytes = SRC_UEL.read_bytes()
 
     batch_manifest = {
         "study_name": "Mode-II Uniform Phase-Field Reference Convergence (FRACFIX)",
-        "task_id": "F43MODEREF-ROOTFIX1",
+        "task_id": "F43MODEREF10-PAIR2-PREP1",
         "uel_source_sha256": uel_sha,
         "cases": {},
     }
@@ -365,14 +387,14 @@ def main():
         dest_uel.write_bytes(uel_bytes)
         assert sha256_file(dest_uel) == uel_sha
 
-        inp_sha = generate_inp_deck(case_name, pkg_dir, cfg["n_div_x"], cfg["n_div_y"])
+        inp_sha, n_phys, n_quad = generate_inp_deck(case_name, pkg_dir, cfg["source"], cfg["n_phys_expected"])
         pbs_sha = generate_pbs_script(case_name, pkg_dir, cfg)
         sh_sha = generate_submit_wrapper(case_name, pkg_dir)
 
         pkg_manifest = {
             "case_name": case_name,
-            "n_div_x": cfg["n_div_x"],
-            "n_div_y": cfg["n_div_y"],
+            "physical_node_count": n_phys,
+            "physical_element_count": n_quad,
             "inp_sha256": inp_sha,
             "uel_sha256": uel_sha,
             "pbs_sha256": pbs_sha,
@@ -385,7 +407,7 @@ def main():
             json.dump(pkg_manifest, f, indent=2)
 
         batch_manifest["cases"][case_name] = pkg_manifest
-        print(f"Generated {case_name}: INP={inp_sha[:10]}, UEL={uel_sha[:10]}, PBS={pbs_sha[:10]}")
+        print(f"Generated {case_name} (NPHYS={n_quad}): INP={inp_sha[:10]}, UEL={uel_sha[:10]}, PBS={pbs_sha[:10]}")
 
     manifest_path = OUT_BASE / "FRACFIX_BATCH_MANIFEST.json"
     with open(manifest_path, "w") as f:

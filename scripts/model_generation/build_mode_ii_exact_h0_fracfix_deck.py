@@ -203,6 +203,8 @@ def generate_pbs_script(case_name: str, pkg_dir: Path, cfg: dict) -> str:
 #PBS -l select=1:ncpus=1:mem={cfg['memory']}
 #PBS -l walltime={cfg['walltime']}
 #PBS -q {cfg['queue']}
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
 #PBS -j oe
 #PBS -o evidence/$PBS_JOBID/execution.log
 
