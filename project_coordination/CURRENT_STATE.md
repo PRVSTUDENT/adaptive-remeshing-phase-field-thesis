@@ -5,33 +5,45 @@ Active Agent: gemini-antigravity
 Protocol Version: 1
 
 ## Active Task
-- Task ID: `F43MODEREF7-H0-ZEROPHASE-FORENSICS1`
-- Task Description: Isolate the exact cause of zero phase evolution in Job 1386365 using existing ODB, deck, source, and historical evidence only.
-- Status: `forensics_in_progress`
-- Final Immutable Preparation Tag (P): `P43MODEREF7-FINAL2` (`13ea9ec77c75c98f6d80028264d344fc84143aa4` pointing to preparation commit `55822a75adc0e9a8223a703ca6ca8f168b96facd`)
-- Final Immutable Qualification Tag (Q): `Q43MODEREF7-FINAL2` (`ea64ce9577f678ae4050d2915f1947e45748d5d2`)
+- Task ID: `F43MODEREF8-NPHYSFIX-PREP1`
+- Task Description: Fix the NPHYS producer-consumer contract for the Mode-II reference family, add fail-closed validation, and prepare a fresh immutable H0/H1/H2 lineage without submission.
+- Status: `lineage_prepared_and_qualified_awaiting_human_authorization`
+- Final Immutable Preparation Tag (P): `P43MODEREF8-FINAL1` (`28740377035174092ffcbeae6287c88b0a94d817`)
+- Final Immutable Qualification Tag (Q): `Q43MODEREF8-FINAL1` (pointing to fresh provenance-only commit)
 
-## Verification Batch Pair 1R Scientific Re-Evaluation
+## Verification Batch Scientific & Lineage Status
 1. **`M2REF_ONEEL_FRACFIX_VERIFY_R2`** (Job ID: `1386364.mmaster02`):
    - `Scheduler_Result`: `PASS`
    - `Technical_Result`: `PASS`
-   - `Scientific_Result`: `HOLD_pending_nontrivial_field_range_confirmation`
+   - `Scientific_Result`: `provisional_PASS_for_nontrivial_local_UEL_behavior` (SDV14/15 max = 0.042945, SDV16 max = 0.004039)
 
 2. **`M2REF_H0_EXACT_FRACFIX_REPRO`** (Job ID: `1386365.mmaster02`):
    - `Scheduler_Result`: `PASS`
    - `Technical_Result`: `PASS`
-   - `Scientific_Result`: `FAIL_or_HOLD_zero_phase_evolution_reference_mismatch` (24% force overestimation, zero phase evolution)
+   - `Scientific_Result`: `FAIL_zero_phase_due_to_NPHYS_history_mapping_defect` (SDV14/15 = 0 everywhere, SDV16 max = 0.0048589 kN/mm^2 = 4.8589 MPa)
+
+3. **`M2REF_H0_NPHYSFIX_REPRO`** (Prepared & Qualified Package):
+   - `NPHYS`: `3930.0` (Corrected 5th UEL property and UMAT constant)
+   - `NPHYS_Contract_Validation`: `PASS` (Pointwise p->p history index identity verified for p=1, 1965, 3930)
+   - `Status`: `prepared_and_qualified_awaiting_human_authorization`
 
 ## Combined Scientific & Governance Summary
 - `pair1r_scientific_result = HOLD`
 - `scientifically_ready_for_pair2 = false`
 - `authorization_ready_for_pair2 = false`
+- `authorization_ready_for_corrected_H0 = true`
+- `future_verification_jobs = ["M2REF_H0_NPHYSFIX_REPRO"]`
+- `planned_future_submissions = 1`
+- `maximum_running_jobs = 2`
+- `H1_status = blocked_pending_corrected_H0_scientific_PASS`
+- `H2_status = blocked_pending_corrected_H0_scientific_PASS`
 
 ## Current HPC Authority Boundary
+- `authorization_ready_for_corrected_H0 = true`
 - `authorization_ready_for_pair2 = false`
 - `execution_authorized = false`
 - `submission_approved = false`
 - `maximum_jobs_now = 0`
 - `maximum_running_jobs = 2`
-- `qsub_called = false` (No Abaqus/PBS submissions permitted during forensics)
+- `qsub_called = false` (No Abaqus/PBS submissions permitted without fresh explicit human authorization)
 

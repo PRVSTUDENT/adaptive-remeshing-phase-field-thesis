@@ -1,41 +1,47 @@
 {
   "protocol_version": 1,
-  "task_id": "F43MODEREF7-H0-ZEROPHASE-FORENSICS1",
-  "status": "forensics_in_progress",
+  "task_id": "F43MODEREF8-NPHYSFIX-PREP1",
+  "status": "lineage_prepared_and_qualified_awaiting_human_authorization",
   "remote_hostname": "mlogin01.cluster",
   "remote_user": "pr21vyci",
   "remote_repository": "/home/pr21vyci/projects/adaptive-remeshing",
-  "P_SHA": "55822a75adc0e9a8223a703ca6ca8f168b96facd",
-  "P_tag": "P43MODEREF7-FINAL2",
-  "Q_SHA": "ea64ce9577f678ae4050d2915f1947e45748d5d2",
-  "Q_tag": "Q43MODEREF7-FINAL2",
-  "pair1r_jobs": {
-    "1386364.mmaster02": {
-      "job_name": "M2REF_ONEEL_FRACFIX_VERIFY_R2",
-      "scheduler_result": "PASS",
-      "technical_result": "PASS",
-      "scientific_result": "HOLD_pending_nontrivial_field_range_confirmation"
-    },
-    "1386365.mmaster02": {
-      "job_name": "M2REF_H0_EXACT_FRACFIX_REPRO",
-      "scheduler_result": "PASS",
-      "technical_result": "PASS",
-      "scientific_result": "FAIL_or_HOLD_zero_phase_evolution_reference_mismatch"
-    }
+  "P_SHA": "28740377035174092ffcbeae6287c88b0a94d817",
+  "P_tag": "P43MODEREF8-FINAL1",
+  "Q_SHA": null,
+  "Q_tag": "Q43MODEREF8-FINAL1",
+  "qualification_evidence": {
+    "detached_head": "28740377035174092ffcbeae6287c88b0a94d817",
+    "full_tests": 2,
+    "rc": 0,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "focused_qualification_pass": true,
+    "natural_clean": true
   },
   "summary": {
     "pair1r_scientific_result": "HOLD",
     "pair1r_governance_result": "PASS",
     "scientifically_ready_for_pair2": false,
-    "authorization_ready_for_pair2": false
+    "authorization_ready_for_pair2": false,
+    "authorization_ready_for_corrected_H0": true,
+    "future_verification_jobs": [
+      "M2REF_H0_NPHYSFIX_REPRO"
+    ],
+    "planned_future_submissions": 1,
+    "maximum_running_jobs": 2,
+    "H1_status": "blocked_pending_corrected_H0_scientific_PASS",
+    "H2_status": "blocked_pending_corrected_H0_scientific_PASS"
   },
   "current_authority": {
+    "authorization_ready_for_corrected_H0": true,
     "authorization_ready_for_pair2": false,
     "execution_authorized": false,
     "submission_approved": false,
     "maximum_jobs_now": 0,
     "maximum_running_jobs": 2,
-    "qsub_called": false
+    "qsub_called": false,
+    "HPC_submissions": 0
   },
   "submission_approved": false,
   "execution_authorized": false,
