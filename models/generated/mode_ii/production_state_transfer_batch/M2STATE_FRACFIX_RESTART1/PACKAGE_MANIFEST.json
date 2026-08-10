@@ -1,0 +1,32 @@
+{
+  "job_name": "M2STATE_FRACFIX_RESTART1",
+  "task_id": "F43STATE-M2-OVERNIGHT-PREP1",
+  "source_checkpoint": {
+    "source_job": "M2ADAPT_MM_FRACFIX_PROD",
+    "source_job_id": "1386469.mmaster02",
+    "u1_mm": 0.005,
+    "dmax": 0.1245,
+    "n_phys_source": 2206
+  },
+  "target_mesh": {
+    "candidate_key": "PK5",
+    "n_phys_target": 4894,
+    "n_nodes": 4998,
+    "n_layered": 14682
+  },
+  "resource_request": {
+    "cpus": 1,
+    "memory": "8gb",
+    "walltime": "08:00:00",
+    "queue": "entry_imfdfkmq"
+  },
+  "raw_execution_hashes": {
+    "input_sha256": "211bcbc7aeade414818b1127656b054e16c1425d02321a474a8b63d5afdb181b",
+    "uel_sha256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
+    "pbs_sha256": "e0177e8f80a70aaec263b6b5bd34624b48b7e6b53d9133c4fb26e65dd42b5209",
+    "wrapper_sha256": "a2ec9bea11499c60e6eb5b31c00ad5918e77a739054ec8be59c2f441732b709f",
+    "transfer_artifact_sha256": "71b62a941abfa702aa7a327789fcbc4ffe158ec3bdba1a1fcbb0c6e9515b238e",
+    "transfer_manifest_sha256": "b60ab220605da5a4583149a725a53a7bc79f812b3dccee8e6d2c79f08aa7dfb8",
+    "acceptance_contract_sha256": "59f5dc4e5f3a77af482cd0019a94540078b904c0cb908bd6fef856f7b75bc279"
+  }
+}

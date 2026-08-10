@@ -1,0 +1,23 @@
+{
+  "source_job": "M2ADAPT_MM_FRACFIX_PROD",
+  "source_job_id": "1386469.mmaster02",
+  "source_checkpoint": "Step-1 frame 500 (u1 = 0.005000 mm)",
+  "source_u1_mm": 0.005,
+  "source_dmax": 0.1245,
+  "source_physical_elements": 2206,
+  "source_nodes": 2294,
+  "target_job": "M2STATE_FRACFIX_RESTART1",
+  "target_physical_elements": 4894,
+  "target_nodes": 4998,
+  "interpolation_method": "shape_function_bivariate_quad_tri",
+  "phase_l2_error_pct": 0.0482,
+  "phase_max_error": 0.00185,
+  "history_l2_error_pct": 0.0521,
+  "history_max_error": 1.2e-05,
+  "phase_bound_violations": 0,
+  "healing_count": 0,
+  "sdv16_decrease_count": 0,
+  "energy_jump_pct": 0.421,
+  "energy_jump_pass": true,
+  "transfer_validation_status": "PASS"
+}

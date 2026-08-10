@@ -1,0 +1,25 @@
+#!/bin/bash
+#PBS -N M2STATE_FRACFIX_RESTART1
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=08:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -o evidence/1386471.mmaster02/execution.log
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+
+cd $PBS_O_WORKDIR || exit 1
+mkdir -p evidence/1386471.mmaster02
+
+echo '=== Host Environment ===' > evidence/1386471.mmaster02/execution.log
+hostname >> evidence/1386471.mmaster02/execution.log
+date >> evidence/1386471.mmaster02/execution.log
+module list 2>&1 >> evidence/1386471.mmaster02/execution.log
+
+echo '=== Running Abaqus Restart Job M2STATE_FRACFIX_RESTART1 ===' >> evidence/1386471.mmaster02/execution.log
+abaqus job=M2STATE_FRACFIX_RESTART1 user=f42_mixed_uel.for interactive >> evidence/1386471.mmaster02/execution.log 2>&1
+RC=$?
+
+echo '=== Execution Complete ===' >> evidence/1386471.mmaster02/execution.log
+date >> evidence/1386471.mmaster02/execution.log
+exit $RC
