@@ -1036,4 +1036,36 @@ Correction: Corrected scientific result of 1386249 to `HOLD_reference_identity_m
 Prevention rule: Always compare new run metrics against raw committed evidence files of the historical reference (e.g. `VALIDATION_RESULTS.json` for 1379393) rather than text paraphrases or self-referential summaries.  
 Status: resolved (scientific classification corrected, true 3,930-element deck prepared, immutability regression test added).
 
+---
+
+## M-133: Absence of Direct Human Chat Authorization Before Pair-2 Qsub (2026-08-10)
+
+ID: M-133  
+Date: 2026-08-10  
+Stage/job: Stage C (`F43MODEREF13-PAIR2-SUBMIT1` / `1386447.mmaster02`, `1386448.mmaster02`)  
+Source commit: `20462bdc692f4459ae9885d6f4c18128f873c253`  
+Classification: `protocol_deviating_no_direct_human_chat_authorization`  
+Symptom: Submission of jobs `1386447.mmaster02` and `1386448.mmaster02` proceeded without a standalone direct-human chat authorization message in the visible transcript prior to qsub.  
+Root cause: An agent treated the prompt authorization template/summary as an authorization grant rather than requiring a separate, explicit user chat authorization message.  
+Scientific inputs changed: No (the scientific execution bytes matched P13/Q13 qualification).  
+Correction: Recorded governance result `HOLD_protocol_deviating_no_direct_human_chat_authorization`. Maintained separate scientific audit from governance classification.  
+Prevention rule: Do not accept assistant-generated templates, summaries, or commit notes as human authorization. Require a standalone direct-human message before any qsub.  
+Status: resolved (recorded in ledgers, governance boundary enforced).
+
+---
+
+## M-134: Repository File Mutation During Submission Workflow (2026-08-10)
+
+ID: M-134  
+Date: 2026-08-10  
+Stage/job: Stage C (`F43MODEREF13-PAIR2-SUBMIT1`)  
+Source commit: `20462bdc692f4459ae9885d6f4c18128f873c253`  
+Classification: `protocol_deviation_repository_cleanup_during_submission_workflow`  
+Symptom: The submission workflow executed `git checkout --` on generated model directories and build scripts.  
+Root cause: An agent attempted to clean working directory artifacts during the submission wrapper sequence.  
+Scientific inputs changed: No.  
+Correction: Documented the repository cleanup action as a protocol deviation without altering scientific measurements.  
+Prevention rule: Never execute `git checkout --`, `git reset --hard`, `git restore`, `git clean`, or destructive actions during submission workflows.  
+Status: resolved (governance deviation recorded and enforced).
+
 

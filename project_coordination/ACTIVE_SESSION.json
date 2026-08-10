@@ -1,18 +1,19 @@
 {
-  "active": true,
+  "protocol_version": 1,
+  "active": false,
   "agent": "gemini-antigravity",
+  "task_id": "F43MODEREF13-PAIR2-CLOSEOUT1",
+  "started_at": "2026-08-10T12:09:00+02:00",
+  "released_at": "2026-08-10T16:35:00+02:00",
+  "starting_commit": "20462bdc692f4459ae9885d6f4c18128f873c253",
   "allowed_scope": [
     "project_coordination/**",
     "models/generated/mode_ii/**",
     "scripts/**",
     "tests/**",
-    "docs/**"
+    "docs/**",
+    "results/**",
+    "runs/**"
   ],
-  "started_at": "2026-08-10T11:57:00+02:00",
-  "completed_at": null,
-  "heartbeat": "2026-08-10T11:57:00+02:00",
-  "session_id": "f43ref13-pair2-submit1-session-001",
-  "starting_commit": "3567f3b",
-  "task_id": "F43MODEREF13-PAIR2-SUBMIT1",
-  "note": "Claimed session for Task F43MODEREF13-PAIR2-SUBMIT1: Guarded submission and execution monitoring of authorized Mode-II FRACFIX Pair-2 convergence batch (M2REF_H1_FRACFIX & M2REF_H2_FRACFIX) under P13/Q13."
+  "note": "Closed task F43MODEREF13-PAIR2-CLOSEOUT1: Mode-II FRACFIX Pair-2 jobs (1386447 and 1386448) monitored, lightweight evidence archived, scientific convergence audited, and governance boundary preserved."
 }

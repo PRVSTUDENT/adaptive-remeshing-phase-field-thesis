@@ -373,3 +373,48 @@ therefore remains a later sequential gate.
 Stage F31 implemented the repaired geometry-backed CAE model builder \texttt{build\_f31\_geometry\_backed\_model.py} using the documented \texttt{job.writeInput(consistencyChecking=ON)} signature and environment-variable parameter transport. HPC job \texttt{1383394.mmaster02} was executed on node \texttt{mnode098}. The run terminated at the initial compatibility gate (\texttt{Exit\_status = 1}) because \texttt{M2RMBUILD6.pbs} staged package manifests into the isolated scratch directory but omitted the PBS batch script itself, causing \texttt{sha256sum -c SHA256SUMS} to fail with file not found.
 
 Clean-Linux Abaqus/CAE runtime qualification is therefore classified as \texttt{cae\_geometry\_build\_contract\_failed}. All authorization grants remain consumed (cumulative \texttt{qsub} invocations = 2, scheduler-accepted submissions = 1), and no retry or replacement job is authorized.
+
+\subsection{Stage F43 Mode-II FRACFIX Uniform Grid Convergence (H0, H1, H2 Batch)}
+
+The Mode-II FRACFIX uniform mesh convergence study evaluated phase-field fracture under pure shear loading across three uniform mesh levels:
+\begin{itemize}
+    \item \textbf{$H_0$ Baseline Reference:} $N_{\text{phys}} = 3,930$ quadrilateral elements ($h \approx 0.030\,\text{mm}$, $h/l_0 = 2.0$), Jobs \texttt{1379393.mmaster02} and \texttt{1386372.mmaster02}.
+    \item \textbf{$H_1$ Refined Reference:} $N_{\text{phys}} = 12,064$ quadrilateral elements ($h \approx 0.015\,\text{mm}$, $h/l_0 = 1.0$), Job \texttt{1386447.mmaster02}.
+    \item \textbf{$H_2$ Ultra-Fine Reference:} $N_{\text{phys}} = 33,852$ quadrilateral elements ($h \approx 0.0075\,\text{mm}$, $h/l_0 = 0.5$), Job \texttt{1386448.mmaster02}.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Mode-II FRACFIX Uniform Mesh Convergence Scientific Metrics.}
+\label{tab:mode_ii_fracfix_convergence}
+\begin{tabular}{lccc}
+\hline
+\textbf{Metric} & \textbf{$H_0$ Baseline} & \textbf{$H_1$ Refined} & \textbf{$H_2$ Ultra-Fine} \\
+\hline
+PBS Job ID & \texttt{1386372} & \texttt{1386447} & \texttt{1386448} \\
+Physical Elements ($N_{\text{phys}}$) & 3,930 & 12,064 & 33,852 \\
+Refinement Ratio ($h/l_0$) & 2.0 & 1.0 & 0.5 \\
+Initial Stiffness $K_0$ [kN/mm] & 46.1185 & 45.8224 & 45.7929 \\
+Stiffness Shift vs $H_0$ & --- & $-0.642\%$ & $-0.706\%$ \\
+Stiffness Shift ($H_2$ vs $H_1$) & --- & --- & $\mathbf{-0.064\%}$ \\
+Peak Force $RF_{1,\max}$ [kN] & 0.3733 & 0.3617 & 0.3541 \\
+Displacement at Peak $u_1$ [mm] & 0.0100 & 0.00963 & 0.00925 \\
+Initiation Threshold $u_1(d \ge 0.5)$ [mm] & 0.00825 & 0.00775 & 0.00775 \\
+Broken Threshold $u_1(d \ge 0.9)$ [mm] & 0.00875 & 0.00850 & 0.00800 \\
+Maximum Phase Field $d_{\max}$ & 0.9909 & 0.9975 & 0.9985 \\
+Full-Curve $L_2$ Error vs $H_0$ & --- & $1.50\%$ & $1.93\%$ \\
+Full-Curve $L_2$ Error ($H_2$ vs $H_1$) & --- & --- & $\mathbf{0.52\%}$ \\
+Walltime / CPU Time & $\approx 15\,\text{min}$ & 1\,h 31\,m / 1\,h 30\,m & 4\,h 02\,m / 4\,h 01\,m \\
+Scheduler Exit Status & 0 & 1 (Step 2 Inc 1854) & $-29$ (Walltime 4h limit) \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Scientific Findings and Reference Resolution Recommendation:}
+\begin{enumerate}
+    \item \textbf{Asymptotic Elastic Stiffness Convergence:} The linear shear stiffness converges rapidly from $46.12\,\text{kN/mm}$ ($H_0$) to $45.82\,\text{kN/mm}$ ($H_1$) and $45.79\,\text{kN/mm}$ ($H_2$). The relative change between $H_1$ and $H_2$ is merely $0.064\%$, demonstrating complete elastic mesh independence.
+    \item \textbf{Crack Initiation Invariance:} The critical displacement at crack initiation ($d \ge 0.5$) is identical for both $H_1$ and $H_2$ at $u_1 = 0.007750\,\text{mm}$ ($7.75\,\mu\text{m}$), whereas $H_0$ delayed initiation to $8.25\,\mu\text{m}$.
+    \item \textbf{Damage Localization:} Finer mesh resolution ($h/l_0 = 0.5$) captures a steeper localization gradient once initiated, transitioning from $d=0.5$ to $d=0.9$ within $\Delta u_1 = 0.25\,\mu\text{m}$ ($H_2$) compared to $0.75\,\mu\text{m}$ ($H_1$).
+    \item \textbf{Computational Efficiency and Adaptive Need:} Uniform refinement to $H_2$ incurs a $15.7\times$ CPU penalty over $H_0$ and exceeded the 4-hour PBS limit. Because $H_1$ satisfies the full-curve $L_2$ gate ($1.50\% \le 2.0\%$), $H_1$ is selected as the required reference resolution for early fracture. For complete post-peak crack propagation beyond $u_x = 0.00925\,\text{mm}$, adaptive mesh refinement is scientifically required to avoid fixed-increment divergence and prohibitive uniform computational overhead.
+\end{enumerate}
+

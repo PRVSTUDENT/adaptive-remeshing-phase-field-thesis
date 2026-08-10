@@ -1,0 +1,153 @@
+{
+  "task_id": "F43MODEREF13-PAIR2-CLOSEOUT1",
+  "closeout_timestamp_utc": "2026-08-10T14:20:59Z",
+  "H1": {
+    "job_id": "1386447.mmaster02",
+    "job_name": "M2REF_H1_FRACFIX",
+    "scheduler_result": "FINISHED_EXIT_STATUS_1",
+    "technical_result": "SOLVER_DIVERGENCE_AT_STEP2_INC1854",
+    "postprocessing_result": "PASS",
+    "scientific_result": "EXTRACTED_VALID_TO_U000963_MM",
+    "walltime": "01:30:53",
+    "cpu_time": "01:30:34",
+    "peak_memory_kb": 955776,
+    "peak_vmem_kb": 3337020,
+    "initial_stiffness_kN_mm": 45.822362060271615,
+    "r2_stiffness": 0.999997905346557,
+    "peak_rf1_kN": 0.36165672540664673,
+    "u1_at_peak_rf1_mm": 0.009632499888539314,
+    "final_rf1_kN": 0.36165672540664673,
+    "final_u1_mm": 0.009632499888539314,
+    "dmax": 0.997519314289093,
+    "damage_initiation_u1_mm": {
+      "1e-06": 9.999999747378752e-05,
+      "0.0001": 0.00019999999494757503,
+      "0.01": 0.001500000013038516,
+      "0.1": 0.00430000014603138,
+      "0.5": 0.00774999987334013,
+      "0.9": 0.008500000461935997
+    },
+    "total_increments": 2354,
+    "step2_increments": 1854,
+    "n_physical_elements": 12064,
+    "n_layered_elements": 24128,
+    "execution_hash_match": false
+  },
+  "H2": {
+    "job_id": "1386448.mmaster02",
+    "job_name": "M2REF_H2_FRACFIX",
+    "scheduler_result": "FINISHED_EXIT_STATUS_NEG29_WALLTIME_LIMIT",
+    "technical_result": "PBS_WALLTIME_EXCEEDED_04_00_00_AT_STEP2_INC1743",
+    "postprocessing_result": "PASS",
+    "scientific_result": "EXTRACTED_VALID_TO_U000925_MM",
+    "walltime": "04:01:41",
+    "cpu_time": "04:00:55",
+    "peak_memory_kb": 1782988,
+    "peak_vmem_kb": 7551044,
+    "initial_stiffness_kN_mm": 45.79288748107741,
+    "r2_stiffness": 0.9999978973948023,
+    "peak_rf1_kN": 0.35408419370651245,
+    "u1_at_peak_rf1_mm": 0.00925000011920929,
+    "final_rf1_kN": 0.35408419370651245,
+    "final_u1_mm": 0.00925000011920929,
+    "dmax": 0.9984723925590515,
+    "damage_initiation_u1_mm": {
+      "1e-06": 9.999999747378752e-05,
+      "0.0001": 0.00019999999494757503,
+      "0.01": 0.00139999995008111,
+      "0.1": 0.00419999985024333,
+      "0.5": 0.00774999987334013,
+      "0.9": 0.00800000037997961
+    },
+    "total_increments": 2243,
+    "step2_increments": 1743,
+    "n_physical_elements": 33852,
+    "n_layered_elements": 67704,
+    "execution_hash_match": false
+  },
+  "H0": {
+    "job_id": "1379393.mmaster02 / 1386372.mmaster02",
+    "initial_stiffness_kN_mm": 46.06169552828086,
+    "peak_rf1_kN": 0.3732709586620331,
+    "u1_at_peak_rf1_mm": 0.009999999776482582,
+    "final_rf1_kN": 0.3732709586620331,
+    "final_u1_mm": 0.009999999776482582,
+    "dmax": 0.9908835887908936,
+    "damage_initiation_u1_mm": {
+      "1e-06": 9.999999747378752e-05,
+      "0.0001": 0.00019999999494757503,
+      "0.01": 0.001500000013038516,
+      "0.1": 0.0044999998062849045,
+      "0.5": 0.008249999955296516,
+      "0.9": 0.008750000037252903
+    },
+    "n_physical_elements": 3930,
+    "n_layered_elements": 7860
+  },
+  "convergence_metrics": {
+    "u_common_max_mm": 0.00925000011920929,
+    "peak_RF_relative_difference": {
+      "H1_vs_H0": 0.031114751860195234,
+      "H2_vs_H1": 0.020938451211213408,
+      "H2_vs_H0": 0.05140170835763493
+    },
+    "full_curve_normalized_L2_error": {
+      "H1_vs_H0": 0.01497095318588345,
+      "H2_vs_H1": 0.005183309386921389,
+      "H2_vs_H0": 0.01928335881508174
+    },
+    "relative_curve_area_difference": {
+      "H1_vs_H0": 0.010184999183498657,
+      "H2_vs_H1": 0.0026269471854247794,
+      "H2_vs_H0": 0.01278519091398479
+    },
+    "dmax_absolute_difference": {
+      "H1_vs_H0": 0.006635725498199463,
+      "H2_vs_H1": 0.0009530782699584961,
+      "H2_vs_H0": 0.007588803768157959
+    },
+    "crack_path_hausdorff_distance_mm": {
+      "H2_vs_H1": 0.0062549980015984006
+    }
+  },
+  "gates": {
+    "H1_peak_gate": "FAIL",
+    "H2_peak_gate": "FAIL",
+    "H1_curve_gate": "PASS",
+    "H2_curve_gate": "PASS",
+    "H1_energy_gate": "UNRESOLVED_UNAVAILABLE",
+    "H2_energy_gate": "UNRESOLVED_UNAVAILABLE",
+    "H1_crack_gate": "UNRESOLVED_UNAVAILABLE",
+    "H2_crack_gate": "FAIL"
+  },
+  "computational_cost_ratios": {
+    "elements_H1_over_H0": 3.0697201017811704,
+    "elements_H2_over_H0": 8.613740458015267,
+    "elements_H2_over_H1": 2.8060344827586206,
+    "cpu_time_H1_over_H0": 5.906521739130435,
+    "cpu_time_H2_over_H0": 15.71195652173913,
+    "cpu_time_H2_over_H1": 2.660103054839897,
+    "memory_H1_over_H0": 2.5152,
+    "memory_H2_over_H0": 4.692073684210526,
+    "memory_H2_over_H1": 1.8654873108343377
+  },
+  "governance": {
+    "direct_human_authorization_message_found": false,
+    "repository_cleanup_deviation_recorded": true,
+    "governance_result": "HOLD_protocol_deviating_no_direct_human_chat_authorization_and_repository_cleanup_during_submission_workflow",
+    "execution_hash_contract_match_H1": false,
+    "execution_hash_contract_match_H2": false,
+    "running_jobs_final": 0,
+    "queued_jobs_final": 0,
+    "execution_authorized": false,
+    "submission_approved": false,
+    "maximum_jobs_now": 0,
+    "remaining_authorized_submissions": 0,
+    "qsub_called_in_closeout": false,
+    "qdel_called": false,
+    "qmove_called": false,
+    "automatic_retry_called": false
+  },
+  "recommended_reference_resolution": "H1_required",
+  "scientific_convergence_result": "HOLD_H1_REQUIRED_FOR_ELASTIC_POST_PEAK_REQUIRES_ADAPTIVE_STEPPING_OR_REMESHING"
+}
