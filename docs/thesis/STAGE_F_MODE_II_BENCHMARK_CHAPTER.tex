@@ -374,47 +374,71 @@ Stage F31 implemented the repaired geometry-backed CAE model builder \texttt{bui
 
 Clean-Linux Abaqus/CAE runtime qualification is therefore classified as \texttt{cae\_geometry\_build\_contract\_failed}. All authorization grants remain consumed (cumulative \texttt{qsub} invocations = 2, scheduler-accepted submissions = 1), and no retry or replacement job is authorized.
 
-\subsection{Stage F43 Mode-II FRACFIX Uniform Grid Convergence (H0, H1, H2 Batch)}
+\subsection{Stage F43 Mode-II FRACFIX Uniform Grid Refinement Comparison (H0, H1, H2)}
 
-The Mode-II FRACFIX uniform mesh convergence study evaluated phase-field fracture under pure shear loading across three uniform mesh levels:
+The Mode-II FRACFIX uniform mesh refinement investigation evaluated phase-field fracture under pure shear loading across three discretization levels:
 \begin{itemize}
-    \item \textbf{$H_0$ Baseline Reference:} $N_{\text{phys}} = 3,930$ quadrilateral elements ($h \approx 0.030\,\text{mm}$, $h/l_0 = 2.0$), Jobs \texttt{1379393.mmaster02} and \texttt{1386372.mmaster02}.
-    \item \textbf{$H_1$ Refined Reference:} $N_{\text{phys}} = 12,064$ quadrilateral elements ($h \approx 0.015\,\text{mm}$, $h/l_0 = 1.0$), Job \texttt{1386447.mmaster02}.
-    \item \textbf{$H_2$ Ultra-Fine Reference:} $N_{\text{phys}} = 33,852$ quadrilateral elements ($h \approx 0.0075\,\text{mm}$, $h/l_0 = 0.5$), Job \texttt{1386448.mmaster02}.
+    \item \textbf{$H_0$ Baseline Reference:} $N_{\text{phys}} = 3,930$ quadrilateral elements ($h \approx 0.030\,\text{mm}$, $h/l_0 = 2.0$), Job \texttt{1386372.mmaster02} (completed full prescribed loading to $u_1 = 0.0100\,\text{mm}$).
+    \item \textbf{$H_1$ Refined Model:} $N_{\text{phys}} = 12,064$ quadrilateral elements ($h \approx 0.015\,\text{mm}$, $h/l_0 = 1.0$), Job \texttt{1386447.mmaster02} (terminated at Step-2 inc 1854, $u_1 = 0.009632\,\text{mm}$, due to fixed-increment solver divergence).
+    \item \textbf{$H_2$ Ultra-Fine Model:} $N_{\text{phys}} = 33,852$ quadrilateral elements ($h \approx 0.0075\,\text{mm}$, $h/l_0 = 0.5$), Job \texttt{1386448.mmaster02} (terminated at Step-2 inc 1743, $u_1 = 0.009250\,\text{mm}$, due to the 4-hour PBS walltime limit).
 \end{itemize}
+
+Because $H_1$ and $H_2$ terminated prior to the prescribed $u_1 = 0.0100\,\text{mm}$ endpoint while their force responses were still monotonically increasing (positive terminal slopes), the observed maximum reaction forces represent censored values rather than global interior peak loads. Rigorous convergence metrics are therefore evaluated over the common overlap displacement domain:
+\begin{equation}
+    0 \le u_1 \le u_{\max,\text{common}} = 0.009250\,\text{mm} \quad (9.25\,\mu\text{m}).
+\end{equation}
 
 \begin{table}[htbp]
 \centering
-\caption{Mode-II FRACFIX Uniform Mesh Convergence Scientific Metrics.}
+\caption{Mode-II FRACFIX Uniform Grid Refinement Comparison and Common-Window Metrics.}
 \label{tab:mode_ii_fracfix_convergence}
 \begin{tabular}{lccc}
 \hline
-\textbf{Metric} & \textbf{$H_0$ Baseline} & \textbf{$H_1$ Refined} & \textbf{$H_2$ Ultra-Fine} \\
+\textbf{Parameter / Metric} & \textbf{$H_0$ Baseline} & \textbf{$H_1$ Refined} & \textbf{$H_2$ Ultra-Fine} \\
 \hline
 PBS Job ID & \texttt{1386372} & \texttt{1386447} & \texttt{1386448} \\
 Physical Elements ($N_{\text{phys}}$) & 3,930 & 12,064 & 33,852 \\
 Refinement Ratio ($h/l_0$) & 2.0 & 1.0 & 0.5 \\
-Initial Stiffness $K_0$ [kN/mm] & 46.1185 & 45.8224 & 45.7929 \\
-Stiffness Shift vs $H_0$ & --- & $-0.642\%$ & $-0.706\%$ \\
-Stiffness Shift ($H_2$ vs $H_1$) & --- & --- & $\mathbf{-0.064\%}$ \\
-Peak Force $RF_{1,\max}$ [kN] & 0.3733 & 0.3617 & 0.3541 \\
-Displacement at Peak $u_1$ [mm] & 0.0100 & 0.00963 & 0.00925 \\
-Initiation Threshold $u_1(d \ge 0.5)$ [mm] & 0.00825 & 0.00775 & 0.00775 \\
-Broken Threshold $u_1(d \ge 0.9)$ [mm] & 0.00875 & 0.00850 & 0.00800 \\
-Maximum Phase Field $d_{\max}$ & 0.9909 & 0.9975 & 0.9985 \\
-Full-Curve $L_2$ Error vs $H_0$ & --- & $1.50\%$ & $1.93\%$ \\
-Full-Curve $L_2$ Error ($H_2$ vs $H_1$) & --- & --- & $\mathbf{0.52\%}$ \\
-Walltime / CPU Time & $\approx 15\,\text{min}$ & 1\,h 31\,m / 1\,h 30\,m & 4\,h 02\,m / 4\,h 01\,m \\
-Scheduler Exit Status & 0 & 1 (Step 2 Inc 1854) & $-29$ (Walltime 4h limit) \\
+Valid Displacement Domain $u_1$ [mm] & $[0, 0.01000]$ & $[0, 0.00963]$ & $[0, 0.00925]$ \\
+Termination Cause & Completed & Solver Divergence & PBS Walltime (4h) \\
+\hline
+\multicolumn{4}{c}{\textbf{Reconciled Linear Elastic Shear Response ($0 < u_1 \le 2\,\mu\text{m}$)}} \\
+Initial Shear Stiffness $K_0$ [kN/mm] & 46.1396 & 45.9035 & 45.8741 \\
+Linear Regression Linearity ($R^2$) & 0.999996 & 0.999996 & 0.999996 \\
+Relative Stiffness Shift vs $H_0$ & --- & $-0.512\%$ & $-0.575\%$ \\
+Relative Stiffness Shift ($H_2$ vs $H_1$) & --- & --- & $\mathbf{-0.064\%}$ \\
+\hline
+\multicolumn{4}{c}{\textbf{Damage Initiation and Matched-State Comparison ($u_1 = 9.25\,\mu\text{m}$)}} \\
+Damage Initiation Threshold $u_1(d \ge 0.5)$ [mm] & 0.008250 & 0.007750 & 0.007750 \\
+Fully Broken Threshold $u_1(d \ge 0.9)$ [mm] & 0.008750 & 0.008500 & 0.008000 \\
+Reaction Force at Matched Endpoint $RF_1(9.25\,\mu\text{m})$ [kN] & 0.359812 & 0.355641 & 0.354084 \\
+Force Difference at Matched Endpoint vs $H_0$ & --- & $-1.16\%$ & $-1.59\%$ \\
+Force Difference at Matched Endpoint ($H_2$ vs $H_1$) & --- & --- & $\mathbf{-0.44\%}$ \\
+Damage at Matched Endpoint $d_{\max}(9.25\,\mu\text{m})$ & 0.97815 & 0.99553 & 0.99847 \\
+Matched-State Crack Path Hausdorff Dist. ($H_2$ vs $H_1$) & --- & --- & $0.005443\,\text{mm}$ \\
+\hline
+\multicolumn{4}{c}{\textbf{Common-Window Force Curve Errors ($0 \le u_1 \le 9.25\,\mu\text{m}$)}} \\
+Common-Window Normalized $L_2$ Error vs $H_0$ & --- & $1.363\%$ & $1.802\%$ \\
+Common-Window Normalized $L_2$ Error ($H_2$ vs $H_1$) & --- & --- & $\mathbf{0.518\%}$ \\
+Common-Window Work/Area Error vs $H_0$ & --- & $0.943\%$ & $1.203\%$ \\
+Common-Window Work/Area Error ($H_2$ vs $H_1$) & --- & --- & $\mathbf{0.263\%}$ \\
+\hline
+\multicolumn{4}{c}{\textbf{Computational Cost Provenance (Primary Scheduler Evidence)}} \\
+Walltime [s] & 2004.0 (33m 24s) & 5453.0 (1h 30m 53s) & 14501.0 (4h 01m 41s) \\
+Total CPU Time [s] & 2000.0 (33m 20s) & 5434.0 (1h 30m 34s) & 14455.0 (4h 00m 55s) \\
+CPU Cost Ratio vs $H_0$ & $1.00\times$ & $2.72\times$ & $7.23\times$ \\
+CPU Cost Ratio ($H_2$ vs $H_1$) & --- & --- & $2.66\times$ \\
 \hline
 \end{tabular}
 \end{table}
 
-\paragraph{Scientific Findings and Reference Resolution Recommendation:}
+\paragraph{Scientific Claim Audit and Nuanced Findings:}
 \begin{enumerate}
-    \item \textbf{Asymptotic Elastic Stiffness Convergence:} The linear shear stiffness converges rapidly from $46.12\,\text{kN/mm}$ ($H_0$) to $45.82\,\text{kN/mm}$ ($H_1$) and $45.79\,\text{kN/mm}$ ($H_2$). The relative change between $H_1$ and $H_2$ is merely $0.064\%$, demonstrating complete elastic mesh independence.
-    \item \textbf{Crack Initiation Invariance:} The critical displacement at crack initiation ($d \ge 0.5$) is identical for both $H_1$ and $H_2$ at $u_1 = 0.007750\,\text{mm}$ ($7.75\,\mu\text{m}$), whereas $H_0$ delayed initiation to $8.25\,\mu\text{m}$.
-    \item \textbf{Damage Localization:} Finer mesh resolution ($h/l_0 = 0.5$) captures a steeper localization gradient once initiated, transitioning from $d=0.5$ to $d=0.9$ within $\Delta u_1 = 0.25\,\mu\text{m}$ ($H_2$) compared to $0.75\,\mu\text{m}$ ($H_1$).
-    \item \textbf{Computational Efficiency and Adaptive Need:} Uniform refinement to $H_2$ incurs a $15.7\times$ CPU penalty over $H_0$ and exceeded the 4-hour PBS limit. Because $H_1$ satisfies the full-curve $L_2$ gate ($1.50\% \le 2.0\%$), $H_1$ is selected as the required reference resolution for early fracture. For complete post-peak crack propagation beyond $u_x = 0.00925\,\text{mm}$, adaptive mesh refinement is scientifically required to avoid fixed-increment divergence and prohibitive uniform computational overhead.
+    \item \textbf{Pre-Peak and Damage-Initiation Consistency (\texttt{PASS}):} In the response regime shared by all three meshes ($0 \le u_1 \le 9.25\,\mu\text{m}$), $H_1$ and $H_2$ exhibit exceptional quantitative agreement. The initial elastic shear stiffness differs by merely $\mathbf{0.064\%}$, phase-field damage initiation ($d \ge 0.5$) occurs at the exact identical displacement $u_1 = 0.007750\,\text{mm}$ ($7.75\,\mu\text{m}$), the common-window normalized $L_2$ difference is only $\mathbf{0.518\%}$, and the work/area difference is $\mathbf{0.263\%}$.
+    \item \textbf{$H_1$ Supported as Minimum Pre-Peak Comparison Mesh (\texttt{SUPPORTED}):} Because $H_0$ ($h/l_0 = 2.0$) delays damage initiation to $8.25\,\mu\text{m}$ and overpredicts the matched-displacement force by $1.16\%$, $H_1$ ($h/l_0 = 1.0$) is supported as the necessary minimum uniform mesh resolution for pre-peak and damage initiation benchmark comparisons.
+    \item \textbf{Post-Peak Convergence and Peak Force (\texttt{UNRESOLVED}):} Because neither $H_1$ nor $H_2$ reached the intended $10\,\mu\text{m}$ displacement endpoint, global peak force convergence and full post-peak fracture trajectory convergence remain scientifically unresolved. The maximum forces observed before termination ($361.66\,\text{N}$ for $H_1$ at $9.63\,\mu\text{m}$; $354.08\,\text{N}$ for $H_2$ at $9.25\,\mu\text{m}$) are censored by termination.
+    \item \textbf{Matched-State Crack Geometry:} At the matched displacement $u_1 = 9.25\,\mu\text{m}$, the Hausdorff distance between the $H_1$ and $H_2$ crack contours ($d \ge 0.5$) is $0.005443\,\text{mm}$ ($5.44\,\mu\text{m}$). While exceeding the strict $0.00375\,\text{mm}$ gate, it demonstrates smooth crack localization along the prescribed Mode-II shear plane.
+    \item \textbf{Strong Computational Motivation for Adaptive Remeshing (\texttt{STRONGLY\_SUPPORTED}):} The uniform $H_2$ mesh ($33,852$ elements) required $7.23\times$ the CPU time of $H_0$ and was terminated by the 4-hour queue walltime limit prior to post-peak completion. This computational scaling strongly motivates localized adaptive mesh refinement, where high resolution ($h \le 0.0075\,\text{mm}$) is confined dynamically to the evolving crack corridor while maintaining coarse efficiency elsewhere.
 \end{enumerate}
+
 

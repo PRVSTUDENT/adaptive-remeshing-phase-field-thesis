@@ -2,18 +2,17 @@
   "protocol_version": 1,
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F43MODEREF13-PAIR2-CLOSEOUT1",
-  "started_at": "2026-08-10T12:09:00+02:00",
-  "released_at": "2026-08-10T16:35:00+02:00",
-  "starting_commit": "20462bdc692f4459ae9885d6f4c18128f873c253",
+  "task_id": "F43MODEREF13-PAIR2-CENSORING-CLAIMAUDIT1",
+  "started_at": "2026-08-10T16:45:00+02:00",
+  "released_at": "2026-08-10T16:55:00+02:00",
+  "starting_commit": "4f76fe079e9e385c6ac1a6b10038c17d46bbea9c",
   "allowed_scope": [
     "project_coordination/**",
     "models/generated/mode_ii/**",
     "scripts/**",
     "tests/**",
     "docs/**",
-    "results/**",
-    "runs/**"
+    "results/**"
   ],
-  "note": "Closed task F43MODEREF13-PAIR2-CLOSEOUT1: Mode-II FRACFIX Pair-2 jobs (1386447 and 1386448) monitored, lightweight evidence archived, scientific convergence audited, and governance boundary preserved."
+  "note": "Closed task F43MODEREF13-PAIR2-CENSORING-CLAIMAUDIT1: scientific claim audit of H0/H1/H2 Mode-II FRACFIX evidence completed (peak censoring classified as unresolved_censored, common-window metrics 0-9.25 um computed, matched-state crack path Hausdorff evaluated, stiffness reconciled, cost provenance audited, figures/thesis updated)."
 }

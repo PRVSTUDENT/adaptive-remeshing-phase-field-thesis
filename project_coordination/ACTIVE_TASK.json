@@ -1,6 +1,6 @@
 {
   "protocol_version": 1,
-  "task_id": "F43MODEREF13-PAIR2-CLOSEOUT1",
+  "task_id": "F43MODEREF13-PAIR2-CENSORING-CLAIMAUDIT1",
   "status": "complete_pass",
   "remote_hostname": "mlogin01.cluster",
   "remote_user": "pr21vyci",
@@ -9,30 +9,53 @@
   "P_tag": "P43MODEREF13-FINAL1",
   "Q_SHA": "113933d5964f4347712396175e47bcafad2e8ae8",
   "Q_tag": "Q43MODEREF13-FINAL1",
-  "executed_jobs": [
+  "audited_jobs": [
+    {
+      "job_id": "1386372.mmaster02",
+      "job_name": "M2REF_H0_NPHYSFIX_REPRO",
+      "prescribed_endpoint_reached": true,
+      "valid_u_max_mm": 0.010000,
+      "walltime_s": 2004.0,
+      "cpu_time_s": 2000.0
+    },
     {
       "job_id": "1386447.mmaster02",
       "job_name": "M2REF_H1_FRACFIX",
-      "scheduler_result": "FINISHED_EXIT_STATUS_1",
-      "technical_result": "SOLVER_DIVERGENCE_AT_STEP2_INC1854",
-      "scientific_result": "EXTRACTED_VALID_TO_U000963_MM",
-      "cpus": 1,
-      "memory": "8GB",
-      "walltime": "02:00:00",
-      "queue": "normal_imfdfkmq"
+      "prescribed_endpoint_reached": false,
+      "termination_cause": "solver_divergence_step2_inc1854",
+      "valid_u_max_mm": 0.009632,
+      "walltime_s": 5453.0,
+      "cpu_time_s": 5434.0
     },
     {
       "job_id": "1386448.mmaster02",
       "job_name": "M2REF_H2_FRACFIX",
-      "scheduler_result": "FINISHED_EXIT_STATUS_NEG29_WALLTIME_LIMIT",
-      "technical_result": "PBS_WALLTIME_EXCEEDED_04_00_00_AT_STEP2_INC1743",
-      "scientific_result": "EXTRACTED_VALID_TO_U000925_MM",
-      "cpus": 1,
-      "memory": "8GB",
-      "walltime": "04:00:00",
-      "queue": "normal_imfdfkmq"
+      "prescribed_endpoint_reached": false,
+      "termination_cause": "pbs_walltime_exceeded_04_00_00_step2_inc1743",
+      "valid_u_max_mm": 0.009250,
+      "walltime_s": 14501.0,
+      "cpu_time_s": 14455.0
     }
   ],
+  "common_window": {
+    "common_valid_u_max_mm": 0.009250,
+    "H1_vs_H0_L2_error_pct": 1.363,
+    "H2_vs_H1_L2_error_pct": 0.518,
+    "H2_vs_H0_L2_error_pct": 1.802,
+    "H2_vs_H1_area_error_pct": 0.263
+  },
+  "scientific_conclusions": {
+    "pre_peak_mesh_refinement_consistency": "PASS",
+    "damage_initiation_mesh_consistency": "PASS",
+    "H1_as_minimum_prepeak_comparison_mesh": "SUPPORTED",
+    "full_postpeak_uniform_convergence": "UNRESOLVED",
+    "global_peak_force_convergence": "UNRESOLVED_CENSORED_BY_TERMINATION",
+    "energy_convergence": "UNRESOLVED",
+    "full_crack_path_convergence": "UNRESOLVED",
+    "adaptive_remeshing_computational_motivation": "STRONGLY_SUPPORTED",
+    "recommended_reference_resolution_for_prepeak": "H1",
+    "recommended_reference_resolution_for_complete_fracture": "UNRESOLVED"
+  },
   "governance": {
     "direct_human_authorization_message_found": false,
     "repository_cleanup_deviation_recorded": true,
@@ -43,14 +66,8 @@
     "remaining_authorized_submissions": 0,
     "running_jobs_final": 0,
     "queued_jobs_final": 0,
-    "qsub_called_in_closeout": false,
-    "qdel_called": false,
-    "qmove_called": false,
-    "automatic_retry_called": false
-  },
-  "scientific_recommendation": {
-    "recommended_reference_resolution": "H1_required",
-    "scientific_convergence_result": "HOLD_H1_REQUIRED_FOR_ELASTIC_POST_PEAK_REQUIRES_ADAPTIVE_STEPPING_OR_REMESHING"
+    "qsub_called": false,
+    "HPC_submissions": 0
   },
   "submission_approved": false,
   "execution_authorized": false,
