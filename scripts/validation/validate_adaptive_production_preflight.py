@@ -67,11 +67,16 @@ def run_preflight() -> Dict[str, Any]:
     checks["contract_md_exists"] = CONTRACT_MD.is_file()
     if checks["contract_json_exists"]:
         contract_data = json.loads(CONTRACT_JSON.read_text(encoding="utf-8"))
-        checks["contract_task_id_valid"] = (contract_data.get("protocol_version") == 1)
-        checks["contract_domain_separation"] = ("domain_A" in contract_data and "domain_B" in contract_data)
-        checks["contract_h1_role_valid"] = (contract_data.get("uniform_references", {}).get("H1", {}).get("role") == "minimum_prepeak_global_response_reference")
-        checks["contract_h2_role_valid"] = (contract_data.get("uniform_references", {}).get("H2", {}).get("role") == "fine_spatial_resolution_diagnostic")
-        checks["contract_crack_path_fail"] = (contract_data.get("uniform_references", {}).get("matched_state_crack_path_convergence") == "FAIL")
+        meta = contract_data.get("contract_metadata", {})
+        checks["contract_task_id_valid"] = (meta.get("protocol_version") == 1)
+        checks["contract_domain_separation"] = ("comparison_domains" in contract_data and
+                                                "DOMAIN_A" in contract_data["comparison_domains"] and
+                                                "DOMAIN_B" in contract_data["comparison_domains"])
+        roles = contract_data.get("uniform_reference_roles", {})
+        checks["contract_h1_role_valid"] = ("Minimum supported uniform comparison mesh" in roles.get("H1", ""))
+        checks["contract_h2_role_valid"] = ("Fine uniform spatial-resolution diagnostic" in roles.get("H2", ""))
+        crack_path = contract_data.get("crack_path_classification", {})
+        checks["contract_crack_path_fail"] = (crack_path.get("matched_state_crack_path_convergence") == "FAIL")
 
     # 2. Package static validation
     val_res = validate_production_batch()
