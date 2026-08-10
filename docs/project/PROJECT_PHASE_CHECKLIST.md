@@ -1,5 +1,27 @@
 # Project Phase Checklist
 
+## F43MODEREF7-ANCHORRECOVERY2 Real Immutable P/Q Pair Creation and Qualification for Pair 1R
+
+- [x] Governance & Lineage Verification:
+  - `P43MODEREF7_FINAL1_created_after_qualification = true`, `P43MODEREF7_FINAL1_authorization_anchor_valid = false`, `Q43MODEREF7_FINAL1_authorization_anchor_valid = false`.
+  - Historical tags preserved without force-push or recreation.
+- [x] Pair 1R Execution Byte Contract Verified:
+  - All 8 execution-critical files recomputed and verified 100% byte-for-byte (`pair1r_execution_bytes_unchanged = true`).
+- [x] Fresh Immutable Preparation Tag Created:
+  - Proven absence of `P43MODEREF7-FINAL2` locally and remotely.
+  - Created ONE annotated tag `P43MODEREF7-FINAL2` on commit `55822a75adc0e9a8223a703ca6ca8f168b96facd` and pushed ONCE normally (`remote_P_tag_object_SHA = 13ea9ec77c75c98f6d80028264d344fc84143aa4`).
+- [x] Detached Exact-P Remote Qualification on `tu_freiberg`:
+  - Worktree `/tmp/p7_final2_test_worktree` on `tu_freiberg` (`mlogin01.cluster`).
+  - Loaded `gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7`.
+  - Authoritative unmasked full test suite: **619 passed, 0 failures, 0 errors, exit code 0 (`OK`)**.
+  - All 12 focused qualification checks passed cleanly.
+- [x] Natural Cleanliness Verified:
+  - `git status --porcelain=v1` empty, `git diff` exit code 0, `git diff --cached` exit code 0 (`natural_status_empty = true`).
+- [x] Provenance-Only Q Commit & Tag Created:
+  - Fresh annotated tag `Q43MODEREF7-FINAL2` created on provenance commit descending from P ($Q_{\text{commit}} \ne P_{\text{commit}}$, $Q$ execution-critical changes = `false`).
+
+---
+
 ## F43MODEREF7-ANCHORRECOVERY1 Immutable Preparation/Qualification Lineage Recovery for Pair 1R
 
 - [x] Historical Tag Invalidation Recorded:

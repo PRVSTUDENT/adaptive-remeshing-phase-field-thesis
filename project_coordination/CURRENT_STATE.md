@@ -1,18 +1,17 @@
 # Project Current State
 
-Last Updated: 2026-08-09T19:30:00+02:00
+Last Updated: 2026-08-10T04:04:00+02:00
 Active Agent: gemini-antigravity
 Protocol Version: 1
 
 ## Active Task
-- Task ID: `F43MODEREF7-ANCHORRECOVERY1`
-- Task Description: Immutable Preparation/Qualification Lineage Recovery for Pair 1R.
-- Status: `pair1r_immutable_lineage_recovered_awaiting_human_authorization`
-- Historical Invalid Preparation Tag: `P43MODEREF6-FINAL2` (`9c8d267d76eb9be8ecc8bc64499dfe5d35afeecf`, moved/deleted/recreated multiple times -> invalid)
-- Historical Invalid Qualification Tag: `Q43MODEREF6` (`9c8d267d76eb9be8ecc8bc64499dfe5d35afeecf`, Q == P -> invalid)
-- Recovered Preparation Tag: `P43MODEREF7-FINAL1` (`226cfc837205f5a0665ec84e9ac993279a4022ce`)
-- Recovered Qualification Tag: `Q43MODEREF7-FINAL1` (`d36a6a7f8f4b1eed40f1a6ed62382b9d76ca533d`)
-- Qualification Location: Isolated worktree `/tmp/p7_final1_test_worktree` on `tu_freiberg` (619/619 unit discovery tests pass, rc=0, focused qualification checks pass, naturally clean)
+- Task ID: `F43MODEREF7-ANCHORRECOVERY2`
+- Task Description: Real Immutable P/Q Pair Creation and Detached Qualification for Pair 1R.
+- Status: `pair1r_immutable_p_q_qualification_complete_awaiting_human_authorization`
+- Historical Invalid Tag Lineage: `P43MODEREF7-FINAL1` (`P43MODEREF7_FINAL1_created_after_qualification = true`, invalid authorization anchor), `Q43MODEREF7-FINAL1` (preserved historically)
+- Final Immutable Preparation Tag (P): `P43MODEREF7-FINAL2` (`13ea9ec77c75c98f6d80028264d344fc84143aa4` pointing to preparation commit `55822a75adc0e9a8223a703ca6ca8f168b96facd`)
+- Final Immutable Qualification Tag (Q): `Q43MODEREF7-FINAL2` (provenance commit descending from P)
+- Qualification Location: Isolated worktree `/tmp/p7_final2_test_worktree` on `tu_freiberg` (619/619 unit discovery tests pass, rc=0, 12/12 focused qualification checks pass, naturally clean)
 
 ## Verification Batch Pair 1 Historical Results & Corrected Classification
 1. **`M2REF_ONEEL_FRACFIX_VERIFY`**:
