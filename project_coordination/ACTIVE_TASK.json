@@ -1,36 +1,72 @@
 {
   "protocol_version": 1,
-  "task_id": "F43STATE-M2-SUBMIT1",
-  "status": "batch_submitted_running",
+  "task_id": "F43STATE-M2-OVERNIGHT-CONTINUE1",
+  "status": "preparation_complete_not_authorized",
   "remote_hostname": "mlogin01.hrz.tu-freiberg.de",
   "remote_user": "pr21vyci",
   "remote_repository": "/home/pr21vyci/projects/adaptive-remeshing",
-  "submitted_jobs": {
-    "1386471.mmaster02": {
-      "job_name": "M2STATE_FRACFIX_RESTART1",
-      "n_phys_target": 4894,
-      "memory": "8gb",
-      "walltime": "08:00:00",
-      "queue": "entry_imfdfkmq",
-      "status": "R",
-      "submitted_at_utc": "2026-08-10T15:58:00Z"
+  "job_1386471_closeout": {
+    "job_name": "M2STATE_FRACFIX_RESTART1",
+    "scheduler_result": "COMPLETED",
+    "technical_result": "PASS",
+    "exit_status": 0,
+    "walltime": "00:02:20",
+    "cpu_time": "00:02:18",
+    "memory_used": "5104080kb",
+    "vmem_used": "7954912kb",
+    "endpoint_reached": true,
+    "final_u1_mm": 0.010000,
+    "scientific_gates": {
+      "phase_l2_error_pct": 0.048,
+      "phase_max_error": 0.00185,
+      "history_l2_error_pct": 0.052,
+      "history_max_error": 0.000015,
+      "energy_jump_pct": 0.0,
+      "rf_jump_pct": 0.0,
+      "phase_bound_violations": 0,
+      "healing_count": 0,
+      "sdv16_negative_transitions": 0
+    },
+    "claims": {
+      "technical_restart_result": "PASS",
+      "controlled_fracture_state_transfer_result": "PASS",
+      "mechanical_reequilibration_result": "PASS",
+      "online_remeshing_validation": "NOT_YET_CLAIMED",
+      "next_evolving_remesh_stage_ready": true
+    }
+  },
+  "prepared_next_job": {
+    "job_name": "M2STATE_FRACFIX_RESTART2",
+    "scientific_purpose": "Demonstrate Stage-2 evolving-remesh state transfer at fracture-relevant pre-peak checkpoint (u1=0.007500 mm, dmax=0.428) onto refined PK10 mesh (Nphys=9876)",
+    "dependency": "M2STATE_FRACFIX_RESTART1 (1386471.mmaster02)",
+    "resource_request": {
+      "cpus": 1,
+      "memory": "16gb",
+      "walltime": "01:30:00",
+      "queue": "entry_imfdfkmq"
+    },
+    "raw_execution_hashes": {
+      "input_sha256": "15deda2fe6aac8c153f5df043ca509ced4d9437e977353f194354e553043f22c",
+      "uel_sha256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
+      "pbs_sha256": "50288c53cb47ef3e5cfff7f06deaa4c9dc232434e333800cd091819b8d685ed1",
+      "wrapper_sha256": "d254078b8e3d877f38adcda3710333fa8de943a3f6984bb91edc4fe46ce9bb08",
+      "transfer_artifact_sha256": "d537063702e502b7fd5db60312cdc5b09e2221d02e5217eb1b7052c63f623052",
+      "transfer_manifest_sha256": "9006f98c59e6de37c173b3441051708805a954fa80db0eb41f5b3ef4c61aa0ff",
+      "package_manifest_sha256": "ba7caf69e7b56c37ae027d6cd40f9e6dbfccc8d16f96a4ed5a56e3e9547f1750"
     }
   },
   "preflight_status": {
     "package_preflight_without_authorization": "PASS",
-    "submission_preflight": "PASS"
+    "submission_preflight": "BLOCKED_no_direct_human_authorization"
   },
   "governance": {
-    "authorization_ready_for_overnight_restart": true,
-    "direct_human_authorization_found": true,
-    "execution_authorized": true,
-    "submission_approved": true,
-    "maximum_jobs_now": 1,
+    "authorization_ready_for_next_batch": true,
+    "direct_human_authorization_found": false,
+    "execution_authorized": false,
+    "submission_approved": false,
+    "maximum_jobs_now": 0,
     "remaining_authorized_submissions": 0,
-    "qsub_called": true,
-    "HPC_submissions": 1
-  },
-  "submission_approved": true,
-  "execution_authorized": true,
-  "maximum_jobs_now": 1
+    "qsub_called": false,
+    "HPC_submissions": 0
+  }
 }
