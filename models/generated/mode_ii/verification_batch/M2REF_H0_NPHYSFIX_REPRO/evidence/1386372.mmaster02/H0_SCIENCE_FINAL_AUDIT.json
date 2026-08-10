@@ -1,0 +1,115 @@
+{
+  "sdv15_irreversibility_comparison": {
+    "reference_median_negative_SDV15_decrease": 3.958120942115784e-09, 
+    "reference_SDV15_negative_transitions": 794, 
+    "reference_SDV15_negative_gt_1e8": 314, 
+    "reference_SDV15_negative_gt_1e6": 59, 
+    "reference_worst_decrease_location": {
+      "frame_to": 1700, 
+      "step": "Step-2", 
+      "integration_point": 1, 
+      "U1_after": 0.00925000011920929, 
+      "U1_before": 0.008999999612569809, 
+      "d_after": 0.009670693427324295, 
+      "frame_from": 1600, 
+      "d_before": 0.009680002927780151, 
+      "element": 9905
+    }, 
+    "reference_worst_SDV15_decrease": 9.309500455856323e-06, 
+    "candidate_median_negative_SDV15_decrease": 4.321918822824955e-09, 
+    "reference_p95_negative_SDV15_decrease": 1.4211982488632202e-06, 
+    "candidate_p95_negative_SDV15_decrease": 1.2652017176151276e-06, 
+    "candidate_SDV15_negative_transitions": 770, 
+    "reference_SDV15_negative_gt_1e10": 791, 
+    "candidate_SDV15_negative_gt_1e8": 296, 
+    "candidate_worst_SDV15_decrease": 1.3763085007667542e-05, 
+    "candidate_SDV15_negative_gt_1e4": 0, 
+    "irreversibility_result": "PASS_staggered_numerical_noise", 
+    "candidate_SDV15_negative_gt_1e10": 766, 
+    "reference_SDV15_negative_gt_1e4": 0, 
+    "candidate_SDV15_negative_gt_1e6": 48, 
+    "candidate_worst_decrease_location": {
+      "frame_to": 1600, 
+      "step": "Step-2", 
+      "integration_point": 2, 
+      "U1_after": 0.008999999612569809, 
+      "U1_before": 0.008750000037252903, 
+      "d_after": 0.013960754498839378, 
+      "frame_from": 1500, 
+      "d_before": 0.013974517583847046, 
+      "element": 7887
+    }
+  }, 
+  "producer_consistency": {
+    "max_abs_SDV14_minus_SDV15": 0.0, 
+    "mean_abs_SDV14_minus_SDV15": 0.0
+  }, 
+  "scientific_result": "PASS", 
+  "authorization_ready_for_pair2": false, 
+  "force_displacement_comparison": {
+    "reference_final_RF1_kN": 0.3732709586620331, 
+    "reference_final_U1_mm": 0.009999999776482582, 
+    "curve_gate_result": "PASS", 
+    "reference_curve_points": 72, 
+    "normalized_IAE_curve_error": 0.0009330770814822345, 
+    "final_RF_relative_error": 0.004680278756827902, 
+    "prior_extractor_audit_note": "The prior report duplicated peak_RF_relative_error into full_curve_normalized_error. True normalized L2 curve error is 0.00197705241948.", 
+    "candidate_final_RF1_kN": 0.3715239465236664, 
+    "candidate_curve_points": 72, 
+    "relative_curve_area_error": 0.000933077081482293, 
+    "candidate_peak_RF1_kN": 0.3715239465236664, 
+    "candidate_final_U1_mm": 0.009999999776482582, 
+    "reference_peak_RF1_kN": 0.3732709586620331, 
+    "peak_RF_relative_error": 0.004680278756827902, 
+    "normalized_L2_curve_error": 0.0019770524194837403, 
+    "peak_gate_result": "PASS"
+  }, 
+  "damage_and_bounds_comparison": {
+    "reference_dmin": 0.0, 
+    "damage_initiation_reference_U1_mm": {
+      "gt_01": 0.0044999998062849045, 
+      "gt_001": 0.001500000013038516, 
+      "gt_1e4": 0.00019999999494757503, 
+      "gt_1e6": 9.999999747378752e-05
+    }, 
+    "damage_initiation_difference_mm": {
+      "gt_01": 0.0, 
+      "gt_001": 0.0, 
+      "gt_1e4": 0.0, 
+      "gt_1e6": 0.0
+    }, 
+    "reference_dmax": 0.9908835887908936, 
+    "candidate_dmax": 0.9905792474746704, 
+    "candidate_dmin": 0.0, 
+    "candidate_overshoot": 0.0, 
+    "reference_overshoot": 0.0, 
+    "dmax_absolute_error": 0.00030434131622314453, 
+    "damage_initiation_candidate_U1_mm": {
+      "gt_01": 0.0044999998062849045, 
+      "gt_001": 0.001500000013038516, 
+      "gt_1e4": 0.00019999999494757503, 
+      "gt_1e6": 9.999999747378752e-05
+    }
+  }, 
+  "qsub_called": false, 
+  "sdv16_history_comparison": {
+    "candidate_SDV16_negative_transitions": 0, 
+    "reference_SDV16_negative_transitions": 0
+  }, 
+  "energy_and_crack_metrics": {
+    "candidate_energy_allpd": 0.0, 
+    "reference_energy_allpd": 0.0, 
+    "energy_relative_error": null, 
+    "crack_path_gate_result": "unresolved", 
+    "crack_path_distance": "unresolved", 
+    "energy_gate_result": "unresolved"
+  }, 
+  "scientifically_ready_for_pair2": true, 
+  "submission_approved": false, 
+  "reference_job": "1379393.mmaster02", 
+  "execution_authorized": false, 
+  "governance_result": "HOLD_protocol_deviating_authorization_and_notification_contract", 
+  "HPC_submissions": 0, 
+  "maximum_jobs_now": 0, 
+  "candidate_job": "1386372.mmaster02"
+}
