@@ -66,12 +66,10 @@ def main():
     rc_diff, diff_out, _ = run_cmd("git diff --exit-code")
     rc_cached, cached_out, _ = run_cmd("git diff --cached --exit-code")
 
-    # Filter out preserved raw solver evidence directories (1386364/1386365 evidence)
-    stat_lines = [l for l in stat_out.splitlines() if l.strip() and "/evidence/" not in l]
-    clean = (len(stat_lines) == 0 and rc_diff == 0 and rc_cached == 0)
-    print(f"Natural Cleanliness (excluding preserved raw evidence): {clean}")
-    if stat_lines:
-        print("Untracked / Modified non-evidence files:\n", "\n".join(stat_lines))
+    clean = (len(stat_out) == 0 and rc_diff == 0 and rc_cached == 0)
+    print(f"Natural Cleanliness: {clean}")
+    if stat_out:
+        print("Untracked / Modified files:\n", stat_out)
 
     qual_results = {
         "head_sha": head_sha,
