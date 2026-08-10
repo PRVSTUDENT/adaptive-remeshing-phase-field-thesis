@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "project_coordination/**",
@@ -9,10 +9,10 @@
     "docs/**"
   ],
   "started_at": "2026-08-10T11:30:00+02:00",
-  "completed_at": null,
+  "completed_at": "2026-08-10T11:30:00+02:00",
   "heartbeat": "2026-08-10T11:30:00+02:00",
   "session_id": "f43ref12-pair2-submit1-session-001",
   "starting_commit": "5098d98",
   "task_id": "F43MODEREF12-PAIR2-SUBMIT1",
-  "note": "Claimed session for Task F43MODEREF12-PAIR2-SUBMIT1: Guarded submission and execution monitoring of authorized Mode-II FRACFIX Pair-2 convergence batch (M2REF_H1_FRACFIX & M2REF_H2_FRACFIX)."
+  "note": "Session completed and released for Task F43MODEREF12-PAIR2-SUBMIT1: Guarded submission attempt halted on OpenPBS memory directive space syntax error; 0 jobs queued; zero submission authority retained."
 }
