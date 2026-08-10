@@ -34636,9 +34636,9 @@
 ** ==========================================================
 ** USER ELEMENTS (Layer 1: Phase U1, Layer 2: Displacement U2)
 ** ==========================================================
-*User Element, type=U1, nodes=4, coordinates=2, properties=3, variables=1
+*User Element, type=U1, nodes=4, coordinates=2, properties=3, variables=8
  8,
-*User Element, type=U2, nodes=4, coordinates=2, properties=5, variables=18
+*User Element, type=U2, nodes=4, coordinates=2, properties=5, variables=56
  1, 2
 ** Layer 1: Phase UEL Elements (U1)
 *Element, type=U1, elset=PHASE_QUAD
