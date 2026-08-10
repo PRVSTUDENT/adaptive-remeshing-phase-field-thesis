@@ -5,12 +5,12 @@ Active Agent: gemini-antigravity
 Protocol Version: 1
 
 ## Active Task
-- Task ID: `F43MODEREF7-ANCHORRECOVERY2`
-- Task Description: Real Immutable P/Q Pair Creation and Detached Qualification for Pair 1R.
-- Status: `pair1r_immutable_p_q_qualification_complete_awaiting_human_authorization`
+- Task ID: `F43MODEREF-VERIFY-SUBMIT2`
+- Task Description: Guarded Submission and Monitoring of Authorized Pair 1R Verification Batch (1-element analytical verify & exact 3,930-element H0 reproduction).
+- Status: `pair1r_verification_batch_authorized_submitting`
 - Historical Invalid Tag Lineage: `P43MODEREF7-FINAL1` (`P43MODEREF7_FINAL1_created_after_qualification = true`, invalid authorization anchor), `Q43MODEREF7-FINAL1` (preserved historically)
 - Final Immutable Preparation Tag (P): `P43MODEREF7-FINAL2` (`13ea9ec77c75c98f6d80028264d344fc84143aa4` pointing to preparation commit `55822a75adc0e9a8223a703ca6ca8f168b96facd`)
-- Final Immutable Qualification Tag (Q): `Q43MODEREF7-FINAL2` (provenance commit descending from P)
+- Final Immutable Qualification Tag (Q): `Q43MODEREF7-FINAL2` (`ea64ce9577f678ae4050d2915f1947e45748d5d2`)
 - Qualification Location: Isolated worktree `/tmp/p7_final2_test_worktree` on `tu_freiberg` (619/619 unit discovery tests pass, rc=0, 12/12 focused qualification checks pass, naturally clean)
 
 ## Verification Batch Pair 1 Historical Results & Corrected Classification
@@ -33,7 +33,7 @@ Protocol Version: 1
 - `pointwise_sdv14_vs_sdv15_agreement`: max abs diff $|SDV14 - SDV15| = 0.0000000000$ across all 720,000 sample points!
 - `exact_H0_semantic_identity`: `PASS` (3,998 physical nodes, 3,930 physical quad elements per layer, 101 split-notch nodes, 0 non-positive area elements).
 
-## Prepared Verification Batch Pair 1R (Ready for Human Authorization)
+## Prepared Verification Batch Pair 1R (Authorized by Human Directive)
 1. **`M2REF_ONEEL_FRACFIX_VERIFY_R2`** (1-element analytical/unit verification):
    - `INP_SHA256`: `40e5adf0dff1b03da96ab0bef09d3aa45317d5790b4a19931e228d85e33041ea`
    - `UEL_SHA256`: `0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8`
@@ -50,8 +50,9 @@ Protocol Version: 1
 
 ## Current HPC Authority Boundary
 - `authorization_ready_for_corrected_verification_batch = true`
-- `execution_authorized = false`
-- `submission_approved = false`
-- `maximum_jobs_authorized = 0`
-- `qsub_called = false`
+- `execution_authorized = true`
+- `submission_approved = true`
+- `maximum_jobs_authorized = 2`
+- `authorized_jobs = ["M2REF_ONEEL_FRACFIX_VERIFY_R2", "M2REF_H0_EXACT_FRACFIX_REPRO"]`
+- `qsub_called = true` (via guarded submission wrappers)
 
