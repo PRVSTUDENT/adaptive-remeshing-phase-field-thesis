@@ -2,11 +2,11 @@
   "protocol_version": 1,
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F43STATE-M2-OVERNIGHT-PREP1",
-  "started_at": "2026-08-10T17:46:04+02:00",
-  "completed_at": "2026-08-10T17:50:55+02:00",
-  "starting_commit": "b941458d75d4c4657e8f29842b1cc204850b7c12",
-  "result_commit": "a75f940d80fa69e04f262a6bdf580164b486cb73",
+  "task_id": "F43STATE-M2-SUBMIT1",
+  "started_at": "2026-08-10T17:57:08+02:00",
+  "completed_at": "2026-08-10T17:58:48+02:00",
+  "starting_commit": "d759922a9ea5505f64ee9bfa507d4b4a39009df3",
+  "result_commit": "3bb3e76a6ce764ef1a2e37fcbdf64cf44aa0a012",
   "allowed_scope": [
     "project_coordination/**",
     "models/generated/mode_ii/**",
@@ -16,5 +16,5 @@
     "results/**",
     "runs/hpc/**"
   ],
-  "note": "Completed F43STATE-M2-OVERNIGHT-PREP1: Prepared one overnight Mode-II state-transfer restart package M2STATE_FRACFIX_RESTART1 with frozen execution hashes and immutable P/Q qualification."
+  "note": "Completed F43STATE-M2-SUBMIT1: Performed fail-closed read-only tag provenance audit, consumed human authorization, and submitted authorized overnight state-transfer restart job 1386471.mmaster02."
 }
