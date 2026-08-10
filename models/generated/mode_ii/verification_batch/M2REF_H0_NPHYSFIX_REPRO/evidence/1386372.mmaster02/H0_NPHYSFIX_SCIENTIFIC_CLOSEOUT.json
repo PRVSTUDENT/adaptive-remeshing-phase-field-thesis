@@ -1,0 +1,109 @@
+{
+  "pointwise_audit": {
+    "SDV16_negative_transitions": 0, 
+    "mean_abs_SDV14_minus_SDV15": 0.0, 
+    "worst_SDV15_decrease": 1.3763085007667542e-05, 
+    "max_abs_SDV14_minus_SDV15": 0.0, 
+    "worst_SDV16_decrease": 0.0, 
+    "SDV15_negative_transitions": 770
+  }, 
+  "postprocessing_result": "PASS", 
+  "scientific_result": "PASS", 
+  "cpu_time_sec": 2000.0, 
+  "governance_result": "HOLD_protocol_deviating_notification_and_authorization_contract_mismatch", 
+  "walltime_sec": 2004.0, 
+  "damage_metrics": {
+    "nonzero_counts": {
+      "SDV16": 1115248, 
+      "SDV15": 1116053, 
+      "SDV14": 1116053
+    }, 
+    "max_history_H": 43.61263656616211, 
+    "first_frame_sdv16_gt_1e8": {
+      "frame_id": 10, 
+      "step": "Step-1", 
+      "step_time": 0.009999999776482582, 
+      "u1_mm": 9.999999747378752e-05
+    }, 
+    "sdv15_final_threshold_counts": {
+      "gt_1e_4": 15668, 
+      "gt_1e_6": 1, 
+      "gt_0_5": 264, 
+      "gt_0_01": 14428, 
+      "gt_0_1": 2889
+    }, 
+    "first_frame_sdv15_gt_1e8": {
+      "frame_id": 10, 
+      "step": "Step-1", 
+      "step_time": 0.009999999776482582, 
+      "u1_mm": 9.999999747378752e-05
+    }, 
+    "dmax": 0.9905792474746704, 
+    "phase_overshoot_above_1": 0.0
+  }, 
+  "job_id": "1386372.mmaster02", 
+  "governance": {
+    "qmove_called": false, 
+    "direct_human_authorization_message_found": false, 
+    "remaining_authorized_submissions": 0, 
+    "scientifically_ready_for_pair2": true, 
+    "execution_hash_contract_match": true, 
+    "execution_authorized": false, 
+    "qsub_called_in_this_closeout": false, 
+    "authorization_ready_for_pair2": false, 
+    "actual_mail_points": "a", 
+    "notification_contract_match": false, 
+    "qdel_called": false, 
+    "submission_approved": false, 
+    "automatic_retry_called": false, 
+    "authorized_mail_points": "abe", 
+    "maximum_jobs_now": 0
+  }, 
+  "sdv_ranges": {
+    "final_SDV15_min_max": [
+      2.6660638923203805e-06, 
+      0.9905792474746704
+    ], 
+    "SDV16_range": [
+      0.0, 
+      43.61263656616211
+    ], 
+    "SDV14_range": [
+      0.0, 
+      0.9905792474746704
+    ], 
+    "final_SDV16_min_max": [
+      5.748891140910928e-08, 
+      43.61263656616211
+    ], 
+    "final_SDV14_min_max": [
+      2.6660638923203805e-06, 
+      0.9905792474746704
+    ], 
+    "SDV15_range": [
+      0.0, 
+      0.9905792474746704
+    ]
+  }, 
+  "scheduler_result": "PASS", 
+  "quantitative_comparison": {
+    "initial_stiffness_relative_error": 3.960294946968383e-05, 
+    "reference_peak_RF1": 0.373271, 
+    "reference_dmax": 0.990884, 
+    "reference_final_RF1": 0.373271, 
+    "peak_RF_relative_error": 0.0046803889836972, 
+    "final_RF_relative_error": 0.0046803889836972, 
+    "dmax_absolute_error": 0.00030475252532957686, 
+    "peak_gate_result": "PASS"
+  }, 
+  "job_name": "M2REF_H0_NPHYSFIX_REPRO", 
+  "force_displacement_response": {
+    "U1_at_peak_mm": 0.009999999776482582, 
+    "final_RF1_kN": 0.3715239465236664, 
+    "final_U1_mm": 0.009999999776482582, 
+    "curve_area_kN_mm": 0.0021413838019520076, 
+    "initial_stiffness_kN_per_mm": 46.24251858734369, 
+    "peak_RF1_kN": 0.3715239465236664
+  }, 
+  "technical_result": "PASS"
+}
