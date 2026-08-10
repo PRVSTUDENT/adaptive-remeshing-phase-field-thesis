@@ -28,6 +28,8 @@ DECKS_TO_VALIDATE = [
     ("M2REF_ONEEL_FRACFIX_VERIFY_R2", ROOT / "models/generated/mode_ii/verification_batch/M2REF_ONEEL_FRACFIX_VERIFY_R2/M2REF_ONEEL_FRACFIX_VERIFY_R2.inp", 4),
     ("M2REF_H1_FRACFIX", ROOT / "models/generated/mode_ii/reference_convergence/M2REF_H1/M2REF_H1.inp", 12064),
     ("M2REF_H2_FRACFIX", ROOT / "models/generated/mode_ii/reference_convergence/M2REF_H2/M2REF_H2.inp", 33852),
+    ("M2ADAPT_MM_FRACFIX_PROD", ROOT / "models/generated/mode_ii/production_adaptive_batch/M2ADAPT_MM_FRACFIX_PROD/M2ADAPT_MM_FRACFIX_PROD.inp", 2206),
+    ("M2ADAPT_PK5_FRACFIX_PROD", ROOT / "models/generated/mode_ii/production_adaptive_batch/M2ADAPT_PK5_FRACFIX_PROD/M2ADAPT_PK5_FRACFIX_PROD.inp", 4894),
 ]
 
 
