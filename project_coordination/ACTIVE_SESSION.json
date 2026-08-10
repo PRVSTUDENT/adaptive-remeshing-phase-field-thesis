@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "project_coordination/**",
@@ -8,11 +8,11 @@
     "tests/**",
     "docs/**"
   ],
-  "started_at": "2026-08-10T11:16:00+02:00",
-  "completed_at": "2026-08-10T11:22:00+02:00",
-  "heartbeat": "2026-08-10T11:22:00+02:00",
-  "session_id": "f43ref12-pair2-finalanchor1-session-001",
-  "starting_commit": "6176023",
-  "task_id": "F43MODEREF12-PAIR2-FINALANCHOR1",
-  "note": "Session completed and released for Task F43MODEREF12-PAIR2-FINALANCHOR1: Pristine P12/Q12 lineage recovered and qualified via pre-anchor rehearsal gate; authorization_ready_for_pair2 = true; zero submission authority."
+  "started_at": "2026-08-10T11:30:00+02:00",
+  "completed_at": null,
+  "heartbeat": "2026-08-10T11:30:00+02:00",
+  "session_id": "f43ref12-pair2-submit1-session-001",
+  "starting_commit": "5098d98",
+  "task_id": "F43MODEREF12-PAIR2-SUBMIT1",
+  "note": "Claimed session for Task F43MODEREF12-PAIR2-SUBMIT1: Guarded submission and execution monitoring of authorized Mode-II FRACFIX Pair-2 convergence batch (M2REF_H1_FRACFIX & M2REF_H2_FRACFIX)."
 }
