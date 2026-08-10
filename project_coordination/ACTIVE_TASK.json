@@ -1,7 +1,7 @@
 {
   "protocol_version": 1,
-  "task_id": "F43MODEREF9-H0NPHYSFIX-SUBMIT1",
-  "status": "hpc_job_submission_authorized_and_in_progress",
+  "task_id": "F43MODEREF9-H0NPHYSFIX-CLOSEOUT1",
+  "status": "hpc_job_running_closeout_in_progress",
   "remote_hostname": "mlogin01.cluster",
   "remote_user": "pr21vyci",
   "remote_repository": "/home/pr21vyci/projects/adaptive-remeshing",
@@ -28,14 +28,14 @@
   "current_authority": {
     "authorization_ready_for_corrected_H0": true,
     "authorization_ready_for_pair2": false,
-    "execution_authorized": true,
-    "submission_approved": true,
-    "maximum_jobs_now": 1,
+    "execution_authorized": false,
+    "submission_approved": false,
+    "maximum_jobs_now": 0,
     "maximum_running_jobs": 2,
-    "qsub_called": false,
-    "HPC_submissions": 0
+    "qsub_called": true,
+    "HPC_submissions": 1
   },
-  "submission_approved": true,
-  "execution_authorized": true,
-  "maximum_jobs_now": 1
+  "submission_approved": false,
+  "execution_authorized": false,
+  "maximum_jobs_now": 0
 }
