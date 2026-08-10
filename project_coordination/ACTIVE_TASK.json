@@ -1,71 +1,52 @@
 {
   "protocol_version": 1,
-  "task_id": "F43MODEREF13-PAIR2-CENSORING-CLAIMAUDIT1",
+  "task_id": "F43ADAPT-COMPARE-CONTRACT1",
   "status": "complete_pass",
   "remote_hostname": "mlogin01.cluster",
   "remote_user": "pr21vyci",
   "remote_repository": "/home/pr21vyci/projects/adaptive-remeshing",
-  "P_SHA": "4ea47dd74972b76535ff4d394161235e57953f90",
-  "P_tag": "P43MODEREF13-FINAL1",
-  "Q_SHA": "113933d5964f4347712396175e47bcafad2e8ae8",
-  "Q_tag": "Q43MODEREF13-FINAL1",
-  "audited_jobs": [
-    {
-      "job_id": "1386372.mmaster02",
-      "job_name": "M2REF_H0_NPHYSFIX_REPRO",
-      "prescribed_endpoint_reached": true,
-      "valid_u_max_mm": 0.010000,
-      "walltime_s": 2004.0,
-      "cpu_time_s": 2000.0
-    },
-    {
-      "job_id": "1386447.mmaster02",
-      "job_name": "M2REF_H1_FRACFIX",
-      "prescribed_endpoint_reached": false,
-      "termination_cause": "solver_divergence_step2_inc1854",
-      "valid_u_max_mm": 0.009632,
-      "walltime_s": 5453.0,
-      "cpu_time_s": 5434.0
-    },
-    {
-      "job_id": "1386448.mmaster02",
-      "job_name": "M2REF_H2_FRACFIX",
-      "prescribed_endpoint_reached": false,
-      "termination_cause": "pbs_walltime_exceeded_04_00_00_step2_inc1743",
-      "valid_u_max_mm": 0.009250,
-      "walltime_s": 14501.0,
-      "cpu_time_s": 14455.0
-    }
-  ],
-  "common_window": {
-    "common_valid_u_max_mm": 0.009250,
-    "H1_vs_H0_L2_error_pct": 1.363,
-    "H2_vs_H1_L2_error_pct": 0.518,
-    "H2_vs_H0_L2_error_pct": 1.802,
-    "H2_vs_H1_area_error_pct": 0.263
+  "source_jobs": {
+    "H0": "1386372.mmaster02",
+    "H1": "1386447.mmaster02",
+    "H2": "1386448.mmaster02"
   },
-  "scientific_conclusions": {
+  "uniform_common_domain_max_U1_mm": 0.009250,
+  "H1_role": "minimum_prepeak_global_response_reference",
+  "H2_role": "fine_spatial_resolution_diagnostic",
+  "scientific_classifications": {
     "pre_peak_mesh_refinement_consistency": "PASS",
     "damage_initiation_mesh_consistency": "PASS",
-    "H1_as_minimum_prepeak_comparison_mesh": "SUPPORTED",
+    "initial_stiffness_mesh_consistency": "PASS",
+    "H1_minimum_prepeak_reference": "SUPPORTED",
+    "matched_state_crack_path_convergence": "FAIL",
+    "matched_state_H1_H2_Hausdorff_mm": 0.005443,
+    "global_peak_force_convergence": "UNRESOLVED_CENSORED",
     "full_postpeak_uniform_convergence": "UNRESOLVED",
-    "global_peak_force_convergence": "UNRESOLVED_CENSORED_BY_TERMINATION",
     "energy_convergence": "UNRESOLVED",
-    "full_crack_path_convergence": "UNRESOLVED",
-    "adaptive_remeshing_computational_motivation": "STRONGLY_SUPPORTED",
-    "recommended_reference_resolution_for_prepeak": "H1",
-    "recommended_reference_resolution_for_complete_fracture": "UNRESOLVED"
+    "complete_uniform_fracture_reference": "NONE",
+    "adaptive_remeshing_motivation": "STRONGLY_SUPPORTED"
+  },
+  "adaptive_candidates": {
+    "candidate_1": "MM",
+    "candidate_2": "PK5",
+    "adaptive_metrics_frozen": true,
+    "adaptive_output_sufficiency_MM": "PASS",
+    "adaptive_output_sufficiency_PK5": "PASS",
+    "adaptive_comparison_contract_created": true
+  },
+  "cost_baselines": {
+    "H0_CPU_s": 2000.0,
+    "H1_CPU_s": 5434.0,
+    "H2_CPU_s": 14455.0,
+    "H1_to_H0_ratio": 2.717,
+    "H2_to_H0_ratio": 7.228,
+    "H2_to_H1_ratio": 2.660
   },
   "governance": {
-    "direct_human_authorization_message_found": false,
-    "repository_cleanup_deviation_recorded": true,
-    "governance_result": "HOLD_protocol_deviating_no_direct_human_chat_authorization_and_repository_cleanup_during_submission_workflow",
+    "authorization_ready_for_adaptive_production": false,
     "execution_authorized": false,
     "submission_approved": false,
     "maximum_jobs_now": 0,
-    "remaining_authorized_submissions": 0,
-    "running_jobs_final": 0,
-    "queued_jobs_final": 0,
     "qsub_called": false,
     "HPC_submissions": 0
   },

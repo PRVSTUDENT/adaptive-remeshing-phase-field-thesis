@@ -1,0 +1,217 @@
+{
+  "contract_metadata": {
+    "task_id": "F43ADAPT-COMPARE-CONTRACT1",
+    "protocol_version": 1,
+    "created_at_utc": "2026-08-10T15:00:00Z",
+    "benchmark_case": "Mode-II Pure Shear Phase-Field Fracture",
+    "status": "FROZEN_FOR_ADAPTIVE_PRODUCTION",
+    "description": "Frozen scientific comparison contract for adaptive Mode-II production runs using censoring-corrected H0/H1/H2 evidence"
+  },
+  "source_evidence": {
+    "H0": {
+      "job_id": "1386372.mmaster02",
+      "model_name": "M2REF_H0_NPHYSFIX_REPRO",
+      "physical_elements": 3930,
+      "mesh_ratio_h_over_l0": 2.0,
+      "prescribed_endpoint_reached": true,
+      "valid_u_max_mm": 0.010000,
+      "walltime_s": 2004.0,
+      "cpu_time_s": 2000.0,
+      "exit_status": 0
+    },
+    "H1": {
+      "job_id": "1386447.mmaster02",
+      "model_name": "M2REF_H1_FRACFIX",
+      "physical_elements": 12064,
+      "mesh_ratio_h_over_l0": 1.0,
+      "prescribed_endpoint_reached": false,
+      "termination_cause": "solver_divergence_step2_inc1854",
+      "valid_u_max_mm": 0.009632,
+      "walltime_s": 5453.0,
+      "cpu_time_s": 5434.0,
+      "exit_status": 1
+    },
+    "H2": {
+      "job_id": "1386448.mmaster02",
+      "model_name": "M2REF_H2_FRACFIX",
+      "physical_elements": 33852,
+      "mesh_ratio_h_over_l0": 0.5,
+      "prescribed_endpoint_reached": false,
+      "termination_cause": "pbs_walltime_exceeded_04_00_00_step2_inc1743",
+      "valid_u_max_mm": 0.009250,
+      "walltime_s": 14501.0,
+      "cpu_time_s": 14455.0,
+      "exit_status": -29
+    },
+    "canonical_censoring_audit_task": "F43MODEREF13-PAIR2-CENSORING-CLAIMAUDIT1",
+    "common_valid_u_max_mm": 0.009250
+  },
+  "uniform_reference_roles": {
+    "H0": "Coarse historical/corrected baseline (N_phys = 3930, h/l0 = 2.0)",
+    "H1": "Minimum supported uniform comparison mesh for elastic stiffness (45.9035 kN/mm), pre-peak RF-U response, damage initiation (7.75 um), and common-window global response (0 <= u1 <= 0.009250 mm)",
+    "H2": "Fine uniform spatial-resolution diagnostic (N_phys = 33852, h/l0 = 0.5) for H1/H2 refinement sensitivity, matched-state crack geometry, and h/l0 = 0.5 resolution evidence",
+    "negative_rules": [
+      "Do NOT call H2 a completed post-peak reference.",
+      "Do NOT call H1 a fully converged fracture reference."
+    ]
+  },
+  "crack_path_classification": {
+    "matched_state_displacement_mm": 0.009250,
+    "matched_state_H1_H2_Hausdorff_mm": 0.005443,
+    "frozen_crack_path_gate_mm": 0.003750,
+    "matched_state_crack_path_convergence": "FAIL",
+    "scientific_interpretation": "H1 is not accepted as a converged crack-path reference. Spatial fracture geometry remains mesh-sensitive at the tested matched state (0.005443 mm > 0.00375 mm) even though global RF-U response exhibits high convergence."
+  },
+  "global_response_classification": {
+    "common_window_L2_error_pct": 0.518,
+    "common_window_area_error_pct": 0.263,
+    "initial_stiffness_shift_pct": 0.064,
+    "damage_initiation_parity_displacement_mm": 0.007750,
+    "pre_peak_mesh_refinement_consistency": "PASS",
+    "damage_initiation_mesh_consistency": "PASS",
+    "initial_stiffness_mesh_consistency": "PASS",
+    "H1_minimum_prepeak_reference": "SUPPORTED"
+  },
+  "censored_peak_rule": {
+    "H1_terminal_force_N": 361.66,
+    "H2_terminal_force_N": 354.08,
+    "classification": "maximum_observed_before_termination",
+    "global_peak_force_convergence": "UNRESOLVED_CENSORED",
+    "full_postpeak_uniform_convergence": "UNRESOLVED",
+    "energy_convergence": "UNRESOLVED",
+    "complete_fracture_reference_resolution": "UNRESOLVED",
+    "complete_uniform_fracture_reference": "NONE",
+    "rule": "For adaptive comparisons, prohibit using 361.66 N (H1) and 354.08 N (H2) as demonstrated global peak forces. Any future comparison script must distinguish maximum_observed_RF from global_peak_RF."
+  },
+  "comparison_domains": {
+    "DOMAIN_A": {
+      "name": "COMMON_PREPEAK_UNIFORM_DOMAIN",
+      "displacement_interval_mm": [0.0, 0.009250],
+      "applicable_evaluations": [
+        "RF-U normalized L2 error versus H1",
+        "Curve-area error versus H1",
+        "Initial elastic shear stiffness regression (0 < u1 <= 2 um)",
+        "Damage initiation thresholds (d >= 0.5, d >= 0.9)",
+        "Matched-state phase field metrics (d_max at 9.25 um)",
+        "Matched-state crack geometry (Hausdorff vs H1 and H2 at 9.25 um)"
+      ]
+    },
+    "DOMAIN_B": {
+      "name": "POST_0p009250_ADAPTIVE_DOMAIN",
+      "displacement_interval_mm": [0.009250, 0.010000],
+      "applicable_evaluations": [
+        "Adaptive-run continuation only",
+        "Physical consistency",
+        "Internal adaptive convergence between MM and PK5",
+        "Energy balance where extractable",
+        "Crack-path stability between adaptive candidates",
+        "Retained literature and benchmark behavior"
+      ],
+      "prohibition": "No completed uniform H1/H2 reference exists in Domain B. Post-0.009250 mm conclusions must NOT compare against fabricated or extrapolated H1/H2 curves."
+    }
+  },
+  "adaptive_candidate_roles": {
+    "MM": {
+      "candidate_id": "F43REM4_MM",
+      "classification_label": "Spatial error indicator localization alternative (MINIMUM_MAXIMUM sizing method)",
+      "physical_elements": 2206,
+      "physical_nodes": 2294,
+      "layered_elements": 6618,
+      "sizing_method": "MINIMUM_MAXIMUM",
+      "target_solution_error_bounds_pct": [1.0, 5.0],
+      "local_h_over_l0_range": [0.3004, 2.0015],
+      "crack_corridor_h_over_l0_median": 0.8170,
+      "top5_pct_fraction_h_le_l0_over_2": 0.0301,
+      "expected_role": "Stronger adaptive localization / lower global computational cost"
+    },
+    "PK5": {
+      "candidate_id": "F43REM4_PK5",
+      "classification_label": "Relaxed uniform-error target sensitivity (5.0%)",
+      "physical_elements": 4894,
+      "physical_nodes": 4998,
+      "layered_elements": 14682,
+      "sizing_method": "UNIFORM_ERROR",
+      "target_error_pct": 5.0,
+      "local_h_over_l0_range": [0.4500, 2.0000],
+      "crack_corridor_h_over_l0_median": 0.6033,
+      "top5_pct_fraction_h_le_l0_over_2": 0.1064,
+      "expected_role": "Higher crack-corridor resolution / intermediate-cost comparison"
+    },
+    "physical_formulation_parity": {
+      "length_scale_l0_mm": 0.015,
+      "critical_fracture_energy_Gc_kN_mm": 0.001,
+      "youngs_modulus_E_kN_mm2": 210.0,
+      "poissons_ratio_nu": 0.3,
+      "user_element_type": "Mixed 4-node/3-node UEL with 18 SDVs (SDV14=d, SDV15=broken, SDV16=psi_e)"
+    },
+    "selection_policy": "Do not select the winner before fracture results."
+  },
+  "adaptive_scientific_metrics": {
+    "domain_A_metrics": [
+      "Initial elastic shear stiffness K0 (Origin OLS on 0 < u1 <= 2 um)",
+      "RF1 vs U1 normalized L2 error versus H1 (<= 2.0% gate)",
+      "RF1 vs U1 curve-area (work) difference versus H1",
+      "Displacement at damage initiation threshold u1(d >= 0.5)",
+      "Displacement at fully broken threshold u1(d >= 0.9)",
+      "Maximum phase field damage d_max at matched displacement u1 = 0.009250 mm",
+      "SDV14 / SDV15 / SDV16 field consistency",
+      "Matched-state crack path Hausdorff distance versus H1 and H2 at u1 = 0.009250 mm"
+    ],
+    "full_trajectory_adaptive_metrics": [
+      "Maximum observed force versus demonstrated global peak force classification",
+      "Complete RF1 vs U1 response curve",
+      "Fracture / dissipated energy balance where extractable",
+      "Complete crack trajectory and bifurcations",
+      "Final maximum phase field d_max",
+      "Phase bounds strict adherence (0 <= d <= 1)",
+      "Framewise history monotonicity / irreversibility",
+      "Total walltime, CPU time, peak memory, and element count scaling"
+    ]
+  },
+  "adaptive_acceptance_logic": {
+    "comparator_assignments": {
+      "H1": "Global-response comparator (pre-peak force, damage initiation, stiffness)",
+      "H2": "Fine-mesh spatial sensitivity comparator at matched state (u1 = 0.009250 mm)",
+      "MM_vs_PK5": "Adaptive spatial convergence evidence across refinement strategies"
+    },
+    "acceptance_criteria": "A final adaptive candidate is accepted if it matches H1 pre-peak global response within 2%, respects damage initiation parity at 7.75 um, demonstrates crack-corridor refinement consistent with H2, maintains stable energy balance, and achieves substantial computational cost reduction over uniform H2."
+  },
+  "frozen_gates": {
+    "RF1_U1_common_window_L2_pct_max": 2.0,
+    "energy_difference_pct_max": 1.0,
+    "crack_path_matched_state_hausdorff_mm_max": 0.00375,
+    "global_peak_force_gate": "NOT_APPLICABLE_WHEN_COMPARATOR_PEAK_IS_CENSORED"
+  },
+  "cost_baselines": {
+    "H0_CPU_s": 2000.0,
+    "H1_CPU_s": 5434.0,
+    "H2_CPU_s": 14455.0,
+    "H1_to_H0_CPU_ratio": 2.717,
+    "H2_to_H0_CPU_ratio": 7.228,
+    "H2_to_H1_CPU_ratio": 2.660,
+    "adaptive_remeshing_motivation": "STRONGLY_SUPPORTED"
+  },
+  "output_sufficiency_audit": {
+    "MM_output_sufficiency": "PASS",
+    "PK5_output_sufficiency": "PASS",
+    "verified_requested_outputs": [
+      "RP U1 (displacement)",
+      "RP RF1 (reaction force)",
+      "SDV14 (phase field d)",
+      "SDV15 (damage indicator)",
+      "SDV16 (elastic energy density)",
+      "S, E, EVOL (stresses, strains, element volume)",
+      "Energy output: ALLAE, ALLCD, ALLIE, ALLKE, ALLPD, ALLSE, ALLWK, ETOTAL",
+      "Solver resource / timing evidence"
+    ],
+    "notes": "Existing dry-run packages contain full output definitions. Multi-step fracture production execution packages will inherit these complete output definitions."
+  },
+  "governance": {
+    "authorization_ready_for_adaptive_production": false,
+    "execution_authorized": false,
+    "submission_approved": false,
+    "maximum_jobs_now": 0,
+    "qsub_called": false,
+    "HPC_submissions": 0
+  }
+}

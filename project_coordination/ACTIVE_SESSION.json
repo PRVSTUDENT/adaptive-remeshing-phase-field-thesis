@@ -2,17 +2,16 @@
   "protocol_version": 1,
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F43MODEREF13-PAIR2-CENSORING-CLAIMAUDIT1",
-  "started_at": "2026-08-10T16:45:00+02:00",
-  "released_at": "2026-08-10T16:55:00+02:00",
-  "starting_commit": "4f76fe079e9e385c6ac1a6b10038c17d46bbea9c",
+  "task_id": "F43ADAPT-COMPARE-CONTRACT1",
+  "started_at": "2026-08-10T17:00:00+02:00",
+  "released_at": "2026-08-10T17:15:00+02:00",
+  "starting_commit": "07523320eec37ce35a91804da18e5eb0f04f6119",
   "allowed_scope": [
     "project_coordination/**",
     "models/generated/mode_ii/**",
-    "scripts/**",
-    "tests/**",
     "docs/**",
+    "scripts/**",
     "results/**"
   ],
-  "note": "Closed task F43MODEREF13-PAIR2-CENSORING-CLAIMAUDIT1: scientific claim audit of H0/H1/H2 Mode-II FRACFIX evidence completed (peak censoring classified as unresolved_censored, common-window metrics 0-9.25 um computed, matched-state crack path Hausdorff evaluated, stiffness reconciled, cost provenance audited, figures/thesis updated)."
+  "note": "Closed task F43ADAPT-COMPARE-CONTRACT1: froze scientific comparison contract for adaptive Mode-II production runs (MM and PK5) using censoring-corrected H0/H1/H2 evidence."
 }
