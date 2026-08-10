@@ -121,7 +121,9 @@ def validate_pair2_preflight():
             print("  ERROR: " + e)
         return False, errors
 
-    print("=== Pair-2 Preflight PASS ===")
+    print("=== Pair-2 Package Preflight (without authorization gate) PASS ===")
+    print("  pair2_package_preflight_without_authorization = PASS")
+    print("  pair2_submission_preflight = BLOCKED_no_direct_human_authorization")
     print("  M2REF_H1_FRACFIX: NPHYS=12064, Hash Match PASS, #PBS -m abe PASS")
     print("  M2REF_H2_FRACFIX: NPHYS=33852, Hash Match PASS, #PBS -m abe PASS")
     return True, []
