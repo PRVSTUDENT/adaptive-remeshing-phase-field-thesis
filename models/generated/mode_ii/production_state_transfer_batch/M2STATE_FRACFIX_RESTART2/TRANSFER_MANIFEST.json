@@ -1,0 +1,18 @@
+{
+  "package_name": "M2STATE_FRACFIX_RESTART2",
+  "source_candidate": "RESTART1",
+  "target_candidate": "PK10",
+  "source_nphys": 4894,
+  "target_nphys": 9876,
+  "checkpoint_u1_mm": 0.0075,
+  "nphys_slot5_property_contract": "PASS",
+  "transfer_variables": [
+    "U1",
+    "U2",
+    "SDV14",
+    "SDV15",
+    "SDV16",
+    "EVOL"
+  ],
+  "transfer_validation": "PASS"
+}
