@@ -39,7 +39,7 @@ DEPVAR = 18           # SDVs count
 
 # Source Fortran UEL
 SRC_UEL = ROOT / "models/generated/mode_ii/f42_mixed_element_uel/f42_mixed_uel.for"
-EXPECTED_UEL_SHA256 = "5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3"
+EXPECTED_UEL_SHA256 = "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8"
 
 # Source Mesh Decks
 SRC_MESH_DECKS = {
