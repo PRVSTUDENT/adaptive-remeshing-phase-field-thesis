@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="/home/pr21vyci/projects/adaptive-remeshing"
-WORKTREE_DIR="/home/pr21vyci/projects/qual_worktree_p8_final2"
+WORKTREE_DIR="/home/pr21vyci/projects/qual_worktree_p9_final1"
 
 cd "$ROOT_DIR"
 git fetch origin --tags
@@ -12,8 +12,8 @@ if [ -d "$WORKTREE_DIR" ]; then
     git worktree remove --force "$WORKTREE_DIR" 2>/dev/null || rm -rf "$WORKTREE_DIR"
 fi
 
-# 1. Create fresh isolated worktree at P43MODEREF8-FINAL2
-git worktree add --detach "$WORKTREE_DIR" P43MODEREF8-FINAL2
+# 1. Create fresh isolated worktree at P43MODEREF9-FINAL1
+git worktree add --detach "$WORKTREE_DIR" P43MODEREF9-FINAL1
 
 cd "$WORKTREE_DIR"
 
@@ -44,6 +44,7 @@ python3 -m unittest discover -s tests/unit -p 'test_*.py'
 
 echo "=== Step 4: Focused Qualification ==="
 python3 scripts/validation/validate_nphys_producer_consumer_contract.py
+python3 scripts/validation/audit_raw_byte_execution_hashes.py
 
 bash -n models/generated/mode_ii/verification_batch/M2REF_H0_NPHYSFIX_REPRO/submit_m2ref_h0_nphysfix_repro.sh
 bash -n models/generated/mode_ii/verification_batch/M2REF_H0_NPHYSFIX_REPRO/M2REF_H0_NPHYSFIX_REPRO.pbs

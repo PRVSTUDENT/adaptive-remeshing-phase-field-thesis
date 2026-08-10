@@ -32,8 +32,11 @@ NPHYS_H0 = 3930
 
 
 def sha256_file(path: Path) -> str:
-    text = path.read_text(encoding="utf-8", errors="replace").replace("\r\n", "\n")
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 def generate_nphysfix_h0_inp(pkg_dir: Path) -> str:

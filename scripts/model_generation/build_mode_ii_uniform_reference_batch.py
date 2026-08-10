@@ -76,8 +76,11 @@ OUT_BASE = ROOT / "models/generated/mode_ii/reference_convergence"
 
 
 def sha256_file(path: Path) -> str:
-    text = path.read_text(encoding="utf-8", errors="replace").replace("\r\n", "\n")
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
 def parse_physical_mesh(deck_path: Path, n_phys_expected: int) -> Tuple[Dict[int, Tuple[float, float]], Dict[int, List[int]]]:
