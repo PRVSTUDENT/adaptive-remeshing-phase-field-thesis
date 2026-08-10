@@ -27,14 +27,14 @@ BATCH_CONFIGS = {
     "M2REF_H1_FRACFIX": {
         "source": ROOT / "models/generated/molnar_gravouil_2017/h_convergence_lc015/H1_h0025/H1_h0025.inp",
         "n_phys_expected": 12064,
-        "memory": "8 GB",
+        "memory": "8gb",
         "walltime": "02:00:00",
         "queue": "entry_imfdfkmq",
     },
     "M2REF_H2_FRACFIX": {
         "source": ROOT / "models/generated/molnar_gravouil_2017/h_convergence_lc015/H2_pub_h0010/H2_pub_h0010.inp",
         "n_phys_expected": 33852,
-        "memory": "8 GB",
+        "memory": "8gb",
         "walltime": "04:00:00",
         "queue": "entry_imfdfkmq",
     },
@@ -303,9 +303,10 @@ def generate_inp_deck(case_name: str, pkg_dir: Path, source_deck: Path, n_phys_e
 def generate_pbs_script(case_name: str, pkg_dir: Path, cfg: dict) -> str:
     """Generate PBS batch execution script with explicit #PBS -m abe and 2-recipient contract."""
     pbs_file = pkg_dir / f"{case_name}.pbs"
+    mem_str = str(cfg["memory"]).replace(" ", "").lower()
     content = f"""#!/bin/bash
 #PBS -N {case_name}
-#PBS -l select=1:ncpus=1:mem={cfg['memory']}
+#PBS -l select=1:ncpus=1:mem={mem_str}
 #PBS -l walltime={cfg['walltime']}
 #PBS -q {cfg['queue']}
 #PBS -m abe

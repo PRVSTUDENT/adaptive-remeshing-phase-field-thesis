@@ -22,18 +22,18 @@ EXPECTED_HASHES = {
         "n_phys": 12064,
         "inp": "407f88694d35d86bdc321d090c0678f6c9a348a462249690b4ac2c06d708f10c",
         "uel": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
-        "pbs": "80c1a509a621c8e6a66a03174a3c1890303b3f137365d3bd01603b9b0fa6373d",
+        "pbs": "42a640cd4afa6e44a15c174e1fc17a888635e474ae10afefd7a21515ee904039",
         "sh":  "2d354ec6e00e09657b867d36fcadde69269f09c78b6e10dea537679d3d5c57a3",
-        "memory": "8 GB",
+        "memory": "8gb",
         "walltime": "02:00:00",
     },
     "M2REF_H2_FRACFIX": {
         "n_phys": 33852,
         "inp": "c9a3f496cf2cb0daa455cfae31f5bd699b56f3b410f0a7f2a12014b2718be5b0",
         "uel": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
-        "pbs": "f7040080f6efd80619b32eece2f52c047ab21894fc304b39c15937fa9e2d19f3",
+        "pbs": "ba16a0b64d85f069c03878a6e20f913cd6daf2f65f91e8f64c1c2046a762d32a",
         "sh":  "dd3f85dcc62fe855f965a1a58478228d032a394b9f61573a240bd8fc8ca66053",
-        "memory": "8 GB",
+        "memory": "8gb",
         "walltime": "04:00:00",
     }
 }
@@ -50,6 +50,42 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: f.read(1024 * 1024), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def validate_pbs_resource_grammar(pbs_path: Path):
+    """Statically validate OpenPBS resource directive grammar."""
+    import re
+    mem_regex = re.compile(r"^mem=(\d+)(b|kb|mb|gb|tb)$")
+    text = pbs_path.read_text(encoding="utf-8")
+    found_select = False
+    for line in text.splitlines():
+        line = line.strip()
+        if not line.startswith("#PBS -l"):
+            continue
+        raw_spec = line[7:].strip()
+        if raw_spec.startswith("select="):
+            found_select = True
+            tokens = raw_spec.split(":")
+            mem_found = 0
+            for token in tokens:
+                token = token.strip()
+                if token.startswith("select="):
+                    val = token.split("=")[1].strip()
+                    if not val.isdigit():
+                        return False, f"{pbs_path.name} invalid select count: {val}"
+                elif token.startswith("ncpus="):
+                    val = token.split("=")[1].strip()
+                    if not val.isdigit():
+                        return False, f"{pbs_path.name} invalid ncpus count: {val}"
+                elif token.startswith("mem"):
+                    mem_found += 1
+                    if not mem_regex.match(token):
+                        return False, f"{pbs_path.name} invalid mem resource directive syntax: {token!r} (embedded space or invalid unit)"
+            if mem_found != 1:
+                return False, f"{pbs_path.name} select directive must contain exactly 1 mem spec, found {mem_found}"
+    if not found_select:
+        return False, f"{pbs_path.name} missing '#PBS -l select=...' directive"
+    return True, None
 
 
 def validate_pair2_preflight():
@@ -74,6 +110,11 @@ def validate_pair2_preflight():
 
         if errors:
             continue
+
+        # Check static PBS resource directive grammar
+        ok_grammar, err_grammar = validate_pbs_resource_grammar(pbs_path)
+        if not ok_grammar:
+            errors.append(err_grammar)
 
         # Check raw hashes
         inp_h = sha256_file(inp_path)
@@ -124,8 +165,10 @@ def validate_pair2_preflight():
     print("=== Pair-2 Package Preflight (without authorization gate) PASS ===")
     print("  pair2_package_preflight_without_authorization = PASS")
     print("  pair2_submission_preflight = BLOCKED_no_direct_human_authorization")
-    print("  M2REF_H1_FRACFIX: NPHYS=12064, Hash Match PASS, #PBS -m abe PASS")
-    print("  M2REF_H2_FRACFIX: NPHYS=33852, Hash Match PASS, #PBS -m abe PASS")
+    print("  pbs_resource_contract_H1 = PASS")
+    print("  pbs_resource_contract_H2 = PASS")
+    print("  M2REF_H1_FRACFIX: NPHYS=12064, Hash Match PASS, #PBS -m abe PASS, mem=8gb PASS")
+    print("  M2REF_H2_FRACFIX: NPHYS=33852, Hash Match PASS, #PBS -m abe PASS, mem=8gb PASS")
     return True, []
 
 

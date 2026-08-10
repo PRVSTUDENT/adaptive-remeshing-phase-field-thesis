@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N M2REF_H2_FRACFIX
-#PBS -l select=1:ncpus=1:mem=8 GB
+#PBS -l select=1:ncpus=1:mem=8gb
 #PBS -l walltime=04:00:00
 #PBS -q entry_imfdfkmq
 #PBS -m abe
