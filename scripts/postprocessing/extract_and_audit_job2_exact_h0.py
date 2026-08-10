@@ -15,7 +15,8 @@ if val_dir not in sys.path:
 
 from audit_pointwise_irreversibility import audit_odb_pointwise
 
-def extract_job2_metrics(job_dir, job_name, job_id):
+def extract_job2_metrics(job_dir_rel, job_name, job_id):
+    job_dir = os.path.abspath(job_dir_rel)
     odb_path = os.path.join(job_dir, job_name + ".odb")
     dat_path = os.path.join(job_dir, job_name + ".dat")
     sta_path = os.path.join(job_dir, job_name + ".sta")
@@ -26,7 +27,6 @@ def extract_job2_metrics(job_dir, job_name, job_id):
 
     print("=== Extracting Job 2 (" + job_name + ") from " + odb_path + " ===")
 
-    # 1. Parse DAT file for walltime, CPU time, warnings
     walltime_sec = None
     cpu_time_sec = None
     if os.path.exists(dat_path):
@@ -47,7 +47,6 @@ def extract_job2_metrics(job_dir, job_name, job_id):
                         except:
                             pass
 
-    # 2. Extract ODB history and field outputs using Abaqus Python API
     from odbAccess import openOdb
     odb = openOdb(odb_path, readOnly=True)
 
