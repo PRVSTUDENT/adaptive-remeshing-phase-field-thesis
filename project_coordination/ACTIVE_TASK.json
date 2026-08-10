@@ -1,7 +1,7 @@
 {
   "protocol_version": 1,
-  "task_id": "F43MODEREF7-PAIR1R-SUBMIT1",
-  "status": "pair1r_verification_batch_complete_pass",
+  "task_id": "F43MODEREF7-H0-ZEROPHASE-FORENSICS1",
+  "status": "forensics_in_progress",
   "remote_hostname": "mlogin01.cluster",
   "remote_user": "pr21vyci",
   "remote_repository": "/home/pr21vyci/projects/adaptive-remeshing",
@@ -14,54 +14,28 @@
       "job_name": "M2REF_ONEEL_FRACFIX_VERIFY_R2",
       "scheduler_result": "PASS",
       "technical_result": "PASS",
-      "postprocessing_result": "PASS",
-      "scientific_result": "PASS",
-      "governance_result": "PASS",
-      "walltime": "31s",
-      "cpu_time": "29s",
-      "sdv15_negative_transitions": 0,
-      "sdv16_negative_transitions": 0,
-      "max_abs_diff_sdv14_sdv15": 0.0
+      "scientific_result": "HOLD_pending_nontrivial_field_range_confirmation"
     },
     "1386365.mmaster02": {
       "job_name": "M2REF_H0_EXACT_FRACFIX_REPRO",
       "scheduler_result": "PASS",
       "technical_result": "PASS",
-      "postprocessing_result": "PASS",
-      "scientific_result": "PASS",
-      "governance_result": "PASS",
-      "walltime": "797s",
-      "cpu_time": "792s",
-      "initial_stiffness_kN_per_mm": 46.24435,
-      "peak_RF1_kN": 0.4624435,
-      "U1_at_peak_mm": 0.0100,
-      "final_RF1_kN": 0.4624435,
-      "final_U1_mm": 0.0100,
-      "sdv15_negative_transitions": 0,
-      "sdv16_negative_transitions": 0,
-      "max_abs_diff_sdv14_sdv15": 0.0
+      "scientific_result": "FAIL_or_HOLD_zero_phase_evolution_reference_mismatch"
     }
   },
   "summary": {
-    "pair1r_scientific_result": "PASS",
+    "pair1r_scientific_result": "HOLD",
     "pair1r_governance_result": "PASS",
-    "authorization_ready_for_pair2": true,
-    "future_pair2": [
-      "M2REF_H1_FRACFIX",
-      "M2REF_H2_FRACFIX"
-    ]
+    "scientifically_ready_for_pair2": false,
+    "authorization_ready_for_pair2": false
   },
   "current_authority": {
-    "authorization_ready_for_pair2": true,
+    "authorization_ready_for_pair2": false,
     "execution_authorized": false,
     "submission_approved": false,
     "maximum_jobs_now": 0,
     "maximum_running_jobs": 2,
-    "qsub_called": false,
-    "future_pair2": [
-      "M2REF_H1_FRACFIX",
-      "M2REF_H2_FRACFIX"
-    ]
+    "qsub_called": false
   },
   "submission_approved": false,
   "execution_authorized": false,
