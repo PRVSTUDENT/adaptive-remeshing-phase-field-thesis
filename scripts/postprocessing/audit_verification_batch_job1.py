@@ -4,10 +4,11 @@ import os
 import json
 
 repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-if repo_root not in sys.path:
-    sys.path.insert(0, repo_root)
+val_dir = os.path.join(repo_root, "scripts", "validation")
+if val_dir not in sys.path:
+    sys.path.insert(0, val_dir)
 
-from scripts.validation.audit_pointwise_irreversibility import audit_odb_pointwise
+from audit_pointwise_irreversibility import audit_odb_pointwise
 
 if __name__ == "__main__":
     odb_path = sys.argv[1] if len(sys.argv) > 1 else "models/generated/mode_ii/verification_batch/M2REF_ONEEL_FRACFIX_VERIFY_R2/M2REF_ONEEL_FRACFIX_VERIFY_R2.odb"
