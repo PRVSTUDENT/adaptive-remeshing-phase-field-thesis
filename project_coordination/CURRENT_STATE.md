@@ -1,26 +1,31 @@
 # Project Current State
 
-# Current Project State - Stage C Mode-II Adaptive Production Pair Submitted & Running (MM & PK5)
+# Current Project State - Stage C Mode-II Adaptive Production Pair Terminal PASS (MM & PK5)
 
-**Active Task**: `F43ADAPT-PROD-SUBMIT1`  
+**Active Task**: `F43ADAPT-PROD-TERMINALCHECK1`  
 **Date**: 2026-08-10  
 **Active Agent**: `gemini-antigravity`  
-**Task Status**: `batch_submitted_running`  
+**Task Status**: `production_jobs_complete_pass`  
 
 ---
 
-## 1. Submitted Mode-II Adaptive Production Jobs
+## 1. Mode-II Adaptive Production Solve Terminal Results
 
-Guarded submissions completed successfully on HPC (`mlogin01.hrz.tu-freiberg.de`) after fail-closed read-only tag provenance audit and common preflight checks:
+Both adaptive production runs completed 100% successfully on HPC node `mnode099` to full prescribed endpoint $u_1 = 0.01000\,\text{mm}$ ($10.0\,\mu\text{m}$, 2,500 total increments, 0 cutbacks):
 
 ### Job 1: `1386469.mmaster02` (`M2ADAPT_MM_FRACFIX_PROD`)
-- **Status**: Running (`R`)
+- **Scheduler Result**: `PASS` (`exit_status = 0`, `job_state = F`)
+- **Technical Result**: `PASS` (Abaqus completed successfully, `Step-2` increment `2000`, $u_1 = 0.010000\,\text{mm}$)
+- **Scientific Result**: `PENDING_EXTRACTION` (Complete ODB/DAT dataset ready for scientific extraction)
 - **Candidate Lineage**: `F43REM4_MM` (Sizing: `MINIMUM_MAXIMUM`, $e^* \in [1.0\%, 5.0\%]$)
-- **Mesh Totals**: $N_{\text{phys}} = 2,206$ physical elements ($2,137$ quads, $69$ trias), $2,294$ nodes, $6,618$ layered elements (U1: $2137$, U2: $2137$, U3: $69$, U4: $69$, CPE4: $2137$, CPE3: $69$)
+- **Mesh Totals**: $N_{\text{phys}} = 2,206$ physical elements ($2,137$ quads, $69$ trias), $2,294$ nodes, $6,618$ layered elements
 - **Formulation**: $l_0 = 0.015\,\text{mm}$, $G_c = 0.0027\,\text{kN/mm}$, $E = 210.0\,\text{kN/mm}^2$, $\nu = 0.3$, $k = 1.0\times 10^{-7}$, thickness $= 1.0\,\text{mm}$
-- **Loading**: Two-Step Pure Shear to $u_1 = 0.0100\,\text{mm}$ (Step-1 to $0.0050\,\text{mm}$, Step-2 to $0.0100\,\text{mm}$)
-- **Resources**: `select=1:ncpus=1:mem=8gb`, `walltime=02:00:00`, `queue=entry_imfdfkmq`
-- **Raw SHA256 Hashes**:
+- **Runtime Performance**:
+  - **CPU Time**: $164.0\,\text{s}$ ($00:02:44$)
+  - **Walltime**: $166.0\,\text{s}$ ($00:02:46$)
+  - **Peak Memory**: $4.86\,\text{GB}$ ($5,092,040\,\text{KB}$) / VMEM $7.58\,\text{GB}$
+  - **Speedup vs Uniform $H_2$**: **$88.1\times$ CPU speedup** ($164\,\text{s}$ vs $14,455\,\text{s}$)
+- **Raw Execution Hashes**:
   - Input (`M2ADAPT_MM_FRACFIX_PROD.inp`): `774c1385c111649b66dcc18e3990cef3b14c76acc64fc6809c586de3f1cfffb7`
   - Subroutine (`f42_mixed_uel.for`): `0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8`
   - PBS Script (`M2ADAPT_MM_FRACFIX_PROD.pbs`): `6409ff55a3af0b9bfbc8520aacc5b8d492d7f78c5768e308954392f2548e8010`
@@ -28,13 +33,18 @@ Guarded submissions completed successfully on HPC (`mlogin01.hrz.tu-freiberg.de`
   - Manifest (`PACKAGE_MANIFEST.json`): `eb44f05282a3c06edc2f0456027ba0ca583ac6e5b451cb0bf7edc0a752e1435d`
 
 ### Job 2: `1386470.mmaster02` (`M2ADAPT_PK5_FRACFIX_PROD`)
-- **Status**: Running (`R`)
+- **Scheduler Result**: `PASS` (`exit_status = 0`, `job_state = F`)
+- **Technical Result**: `PASS` (Abaqus completed successfully, `Step-2` increment `2000`, $u_1 = 0.010000\,\text{mm}$)
+- **Scientific Result**: `PENDING_EXTRACTION` (Complete ODB/DAT dataset ready for scientific extraction)
 - **Candidate Lineage**: `F43REM4_PK5` (Sizing: `UNIFORM_ERROR`, $e^* = 5.0\%$)
-- **Mesh Totals**: $N_{\text{phys}} = 4,894$ physical elements ($4,766$ quads, $128$ trias), $4,998$ nodes, $14,682$ layered elements (U1: $4766$, U2: $4766$, U3: $128$, U4: $128$, CPE4: $4766$, CPE3: $128$)
+- **Mesh Totals**: $N_{\text{phys}} = 4,894$ physical elements ($4,766$ quads, $128$ trias), $4,998$ nodes, $14,682$ layered elements
 - **Formulation**: $l_0 = 0.015\,\text{mm}$, $G_c = 0.0027\,\text{kN/mm}$, $E = 210.0\,\text{kN/mm}^2$, $\nu = 0.3$, $k = 1.0\times 10^{-7}$, thickness $= 1.0\,\text{mm}$
-- **Loading**: Two-Step Pure Shear to $u_1 = 0.0100\,\text{mm}$ (Step-1 to $0.0050\,\text{mm}$, Step-2 to $0.0100\,\text{mm}$)
-- **Resources**: `select=1:ncpus=1:mem=8gb`, `walltime=04:00:00`, `queue=entry_imfdfkmq`
-- **Raw SHA256 Hashes**:
+- **Runtime Performance**:
+  - **CPU Time**: $366.0\,\text{s}$ ($00:06:06$)
+  - **Walltime**: $368.0\,\text{s}$ ($00:06:08$)
+  - **Peak Memory**: $10.12\,\text{GB}$ ($10,609,204\,\text{KB}$) / VMEM $12.90\,\text{GB}$
+  - **Speedup vs Uniform $H_2$**: **$39.5\times$ CPU speedup** ($366\,\text{s}$ vs $14,455\,\text{s}$)
+- **Raw Execution Hashes**:
   - Input (`M2ADAPT_PK5_FRACFIX_PROD.inp`): `32e67a70cce767c6d2f914f1f121bbfac421a9807a21256a645bf2406a339356`
   - Subroutine (`f42_mixed_uel.for`): `0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8`
   - PBS Script (`M2ADAPT_PK5_FRACFIX_PROD.pbs`): `316140e61e90f45e506b4eec7d19f921886213da803306acbaadd4b03f8311cb`
@@ -43,19 +53,15 @@ Guarded submissions completed successfully on HPC (`mlogin01.hrz.tu-freiberg.de`
 
 ---
 
-## 2. Provenance Audit & Governance Summary
+## 2. Governance and Active Queue Boundary
 
-- **Read-Only Tag Audit**:
-  - `P43ADAPT1-FINAL1`: Created once at commit `99e40bf4ed5e64687cdd41c13ceba7c545a4f237` (Tag object SHA: `c70088af88a950295895774dc6a4335e377effa6`). Created after successful pre-anchor rehearsal; exact-P qualification passed (619 tests OK). Force push = `false`.
-  - `Q43ADAPT1-FINAL1`: Created once at commit `39f52934ecff4f64cbf03f6f1c4df2fa5f056ec1` descending from P.
-  - $P \to Q$ byte identity: All 10 execution files verified 100% byte-for-byte unchanged.
-- **Authorization & Preflight Status**:
-  - `direct_human_authorization_found`: `true`
-  - `execution_authorized`: `true`
-  - `submission_approved`: `true`
-  - `maximum_jobs_now`: `2`
-  - `remaining_authorized_submissions`: `0` (Authority fully consumed)
-  - `running_jobs_final`: `2` (`1386469.mmaster02`, `1386470.mmaster02`)
-  - `queued_jobs_final`: `0`
-  - `qsub_called`: `true`
-  - `HPC_submissions`: `2`
+- `running_jobs`: `0`
+- `queued_jobs`: `0`
+- `automatic_retry`: `false`
+- `replacement_submission`: `false`
+- `execution_authorized`: `false`
+- `submission_approved`: `false`
+- `maximum_jobs_now`: `0`
+- `remaining_authorized_submissions`: `0`
+- `qsub_called`: `false`
+- `HPC_submissions`: `0`
