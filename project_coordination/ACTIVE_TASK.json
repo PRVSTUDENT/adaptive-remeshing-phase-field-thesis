@@ -1,80 +1,47 @@
 {
   "protocol_version": 1,
-  "task_id": "F43ADAPT-PROD-PREP1",
-  "status": "preparation_complete_not_authorized",
-  "remote_hostname": "mlogin01.cluster",
+  "task_id": "F43ADAPT-PROD-SUBMIT1",
+  "status": "batch_submitted_running",
+  "remote_hostname": "mlogin01.hrz.tu-freiberg.de",
   "remote_user": "pr21vyci",
   "remote_repository": "/home/pr21vyci/projects/adaptive-remeshing",
-  "scientific_comparison_contract": {
-    "Domain_A_max_U1_mm": 0.009250,
-    "Domain_B_max_U1_mm": 0.010000,
-    "H1_role": "minimum_prepeak_global_response_reference",
-    "H2_role": "fine_spatial_resolution_diagnostic",
-    "pre_peak_mesh_refinement_consistency": "PASS",
-    "damage_initiation_mesh_consistency": "PASS",
-    "initial_stiffness_mesh_consistency": "PASS",
-    "matched_state_crack_path_convergence": "FAIL",
-    "matched_state_H1_H2_Hausdorff_mm": 0.005443,
-    "global_peak_force_convergence": "UNRESOLVED_CENSORED",
-    "full_postpeak_uniform_convergence": "UNRESOLVED",
-    "energy_convergence": "UNRESOLVED",
-    "complete_uniform_fracture_reference": "NONE",
-    "work_area_gate_value": 2.0,
-    "work_area_gate_source": "inherited_from_established_2pct_curve_difference_gate"
-  },
-  "production_batch": {
-    "M2ADAPT_MM_FRACFIX_PROD": {
+  "submitted_jobs": {
+    "1386469.mmaster02": {
+      "job_name": "M2ADAPT_MM_FRACFIX_PROD",
       "candidate_key": "MM",
-      "candidate_name": "F43REM4_MM",
       "n_phys": 2206,
-      "n_quads": 2137,
-      "n_tris": 69,
-      "n_nodes": 2294,
-      "n_layered": 6618,
-      "raw_input_sha256": "774c1385c111649b66dcc18e3990cef3b14c76acc64fc6809c586de3f1cfffb7",
-      "raw_uel_sha256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
-      "raw_pbs_sha256": "6409ff55a3af0b9bfbc8520aacc5b8d492d7f78c5768e308954392f2548e8010",
-      "raw_wrapper_sha256": "3f3711663a97e5a2fc1cf0054464bddeead8213ab130513bf4a30760bef6eb8d",
-      "raw_manifest_sha256": "eb44f05282a3c06edc2f0456027ba0ca583ac6e5b451cb0bf7edc0a752e1435d",
       "memory": "8gb",
       "walltime": "02:00:00",
       "queue": "entry_imfdfkmq",
-      "cpus": 1
+      "status": "R",
+      "submitted_at_utc": "2026-08-10T15:31:40Z"
     },
-    "M2ADAPT_PK5_FRACFIX_PROD": {
+    "1386470.mmaster02": {
+      "job_name": "M2ADAPT_PK5_FRACFIX_PROD",
       "candidate_key": "PK5",
-      "candidate_name": "F43REM4_PK5",
       "n_phys": 4894,
-      "n_quads": 4766,
-      "n_tris": 128,
-      "n_nodes": 4998,
-      "n_layered": 14682,
-      "raw_input_sha256": "32e67a70cce767c6d2f914f1f121bbfac421a9807a21256a645bf2406a339356",
-      "raw_uel_sha256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
-      "raw_pbs_sha256": "316140e61e90f45e506b4eec7d19f921886213da803306acbaadd4b03f8311cb",
-      "raw_wrapper_sha256": "76fdd18e9809f8a7ca8ef34297b7ad4ba5d0039784364ebe6fd7f237f65084db",
-      "raw_manifest_sha256": "f03a73511fd7683a42a9177e82cb277ed26456de5ea80b41028ce0eba0608b70",
       "memory": "8gb",
       "walltime": "04:00:00",
       "queue": "entry_imfdfkmq",
-      "cpus": 1
+      "status": "R",
+      "submitted_at_utc": "2026-08-10T15:31:40Z"
     }
   },
   "preflight_status": {
     "adaptive_package_preflight_without_authorization": "PASS",
-    "adaptive_submission_preflight": "BLOCKED_no_direct_human_authorization"
+    "adaptive_submission_preflight": "PASS"
   },
   "governance": {
     "authorization_ready_for_adaptive_production": true,
-    "direct_human_authorization_found": false,
-    "execution_authorized": false,
-    "submission_approved": false,
-    "maximum_jobs_now": 0,
+    "direct_human_authorization_found": true,
+    "execution_authorized": true,
+    "submission_approved": true,
+    "maximum_jobs_now": 2,
     "remaining_authorized_submissions": 0,
-    "qsub_called": false,
-    "HPC_submissions": 0
+    "qsub_called": true,
+    "HPC_submissions": 2
   },
-  "submission_approved": false,
-  "execution_authorized": false,
-  "maximum_jobs_now": 0
+  "submission_approved": true,
+  "execution_authorized": true,
+  "maximum_jobs_now": 2
 }
