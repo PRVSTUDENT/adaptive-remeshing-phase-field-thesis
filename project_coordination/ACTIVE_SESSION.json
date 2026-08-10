@@ -2,11 +2,11 @@
   "protocol_version": 1,
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F43ADAPT-PROD-TERMINALCHECK1",
-  "started_at": "2026-08-10T17:39:27+02:00",
-  "completed_at": "2026-08-10T17:41:00+02:00",
-  "starting_commit": "f0268c5b0213083dbfd4ecb83fececcfca0874e0",
-  "result_commit": "86ec9925206ef1cb349a5b3a4e98fecfa9cffaa7",
+  "task_id": "F43STATE-M2-OVERNIGHT-PREP1",
+  "started_at": "2026-08-10T17:46:04+02:00",
+  "completed_at": "2026-08-10T17:50:55+02:00",
+  "starting_commit": "b941458d75d4c4657e8f29842b1cc204850b7c12",
+  "result_commit": "a75f940d80fa69e04f262a6bdf580164b486cb73",
   "allowed_scope": [
     "project_coordination/**",
     "models/generated/mode_ii/**",
@@ -16,5 +16,5 @@
     "results/**",
     "runs/hpc/**"
   ],
-  "note": "Completed F43ADAPT-PROD-TERMINALCHECK1: Performed read-only terminal-state audit of MM and PK5 production jobs 1386469 and 1386470. Both jobs completed 100% PASS."
+  "note": "Completed F43STATE-M2-OVERNIGHT-PREP1: Prepared one overnight Mode-II state-transfer restart package M2STATE_FRACFIX_RESTART1 with frozen execution hashes and immutable P/Q qualification."
 }
