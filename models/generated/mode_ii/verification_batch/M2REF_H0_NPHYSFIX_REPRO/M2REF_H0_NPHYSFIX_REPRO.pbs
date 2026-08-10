@@ -1,0 +1,32 @@
+#!/bin/bash
+#PBS -N M2REF_H0_NPHYSFIX_REPRO
+#PBS -l select=1:ncpus=1:mem=8GB
+#PBS -l walltime=01:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -o evidence/$PBS_JOBID/execution.log
+
+set -euo pipefail
+
+cd "$PBS_O_WORKDIR"
+mkdir -p evidence/"$PBS_JOBID"
+
+echo "=== Host Environment ==="
+hostname
+date
+module list || true
+
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+echo "=== Pre-execution Hashes ==="
+sha256sum M2REF_H0_NPHYSFIX_REPRO.inp
+sha256sum f42_mixed_uel.for
+
+echo "=== Running Abaqus Standard ==="
+abaqus job=M2REF_H0_NPHYSFIX_REPRO user=f42_mixed_uel.for interactive
+
+echo "=== Execution Complete ==="
+date
