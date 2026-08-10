@@ -51,31 +51,18 @@ def extract_job2_metrics(job_dir, job_name, job_id):
     from odbAccess import openOdb
     odb = openOdb(odb_path, readOnly=True)
 
-    rf1_u1_data = []
-    # Find RP node output or step reaction output
-    # Try step history outputs or field outputs at node set RP
-    rp_u1 = []
-    rp_rf1 = []
-
-    # Iterate over steps and frames
     all_frames = []
     for sname in sorted(odb.steps.keys()):
         step = odb.steps[sname]
         for f in step.frames:
             all_frames.append((sname, f.frameId, float(f.frameValue), f))
 
-    # Extract RF1 and U1 for RP node or rootAssembly.nodeSets['RP']
-    # If RP set exists:
     rp_nset = None
     if 'RP' in odb.rootAssembly.nodeSets:
         rp_nset = odb.rootAssembly.nodeSets['RP']
-    elif 'RP' in odb.rootAssembly.instances.keys():
-        pass
 
     rf1_u1_curve = []
-    sdv14_max_ev = []
     sdv15_max_ev = []
-    sdv16_max_ev = []
 
     max_phase_overall = 0.0
     min_phase_overall = 1e9
@@ -83,7 +70,6 @@ def extract_job2_metrics(job_dir, job_name, job_id):
     damage_init_u1 = None
 
     for sname, fid, fval, f in all_frames:
-        # Extract U1 and RF1 from frame
         u1_val = 0.0
         rf1_val = 0.0
 
@@ -94,7 +80,6 @@ def extract_job2_metrics(job_dir, job_name, job_id):
                 if sub_u.values:
                     u1_val = float(sub_u.values[0].data[0])
             else:
-                # search for max U1 or RP node
                 for v in u_field.values:
                     if abs(v.data[0]) > abs(u1_val):
                         u1_val = float(v.data[0])
@@ -106,15 +91,13 @@ def extract_job2_metrics(job_dir, job_name, job_id):
                 if sub_rf.values:
                     rf1_val = float(sub_rf.values[0].data[0])
             else:
-                # Sum RF1 over constrained boundary nodes if needed, or get max
                 sum_rf1 = 0.0
                 for v in rf_field.values:
                     sum_rf1 += float(v.data[0])
-                rf1_val = sum_rf1 / 2.0 # top/bottom sum symmetry
+                rf1_val = sum_rf1 / 2.0
 
         rf1_u1_curve.append((sname, fid, fval, u1_val, rf1_val))
 
-        # Extract SDV15 max in frame
         if 'SDV15' in f.fieldOutputs:
             v15_vals = [float(v.data[0] if hasattr(v.data, '__getitem__') else v.data) for v in f.fieldOutputs['SDV15'].values]
             if v15_vals:
@@ -134,7 +117,6 @@ def extract_job2_metrics(job_dir, job_name, job_id):
 
     odb.close()
 
-    # Calculate curve summary metrics
     u1_series = [pt[3] for pt in rf1_u1_curve]
     rf1_series = [pt[4] for pt in rf1_u1_curve]
 
@@ -144,10 +126,8 @@ def extract_job2_metrics(job_dir, job_name, job_id):
     final_rf1 = rf1_series[-1] if rf1_series else 0.0
     final_u1 = u1_series[-1] if u1_series else 0.0
 
-    # Initial stiffness (linear slope before damage initiation)
     stiffness = (peak_rf1 / u1_at_peak) if u1_at_peak > 0 else 0.0
 
-    # Run pointwise audit
     audit_res = audit_odb_pointwise(odb_path, "Job 2 Exact H0 (" + job_name + ")")
 
     out_metrics = {
