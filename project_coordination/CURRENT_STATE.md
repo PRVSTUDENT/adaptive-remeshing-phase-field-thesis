@@ -2,24 +2,38 @@
 
 # Current Project State - Stage C Reference Baseline Verification
 
-**Active Task**: `F43MODEREF10-PAIR2-PREP1`
+**Active Task**: `F43MODEREF11-PAIR2-ANCHORRECOVERY1`
 **Date**: 2026-08-10
 **Active Agent**: `gemini-antigravity`
 **Task Status**: `complete_pass`
 
 ---
 
-## 1. Prepared & Qualified Pair-2 Jobs (M2REF_H1_FRACFIX & M2REF_H2_FRACFIX)
+## 1. Recovered Immutable Lineage & Qualified Pair-2 Jobs (M2REF_H1_FRACFIX & M2REF_H2_FRACFIX)
 
-- **Preparation Tag P**: `P43MODEREF10-FINAL1` (`888a780bbd978a3c8e4ce2ee2e5ddb015112fa52`)
-- **Qualification Tag Q**: `Q43MODEREF10-FINAL1` (`ffdb59a06a3666ac3270a6fc97b7ef106c9d67b6`)
+- **Preparation Tag P**: `P43MODEREF11-FINAL1` (`9f3d66afbe30af00685590f31f4f6ec5792e35d6`)
+- **Qualification Tag Q**: `Q43MODEREF11-FINAL1` (`abd9ab5a651e38ffeb925c53bba1b861a51eff1a`)
+- **Historical Governance Deviations Recorded**:
+  - `P43MODEREF10_FINAL1_authorization_anchor_valid`: `false` (moved via `git tag -f` after creation)
+  - `Q43MODEREF10_FINAL1_authorization_anchor_valid`: `false` (certified non-immutable preparation SHA)
+  - `protocol_deviation_preparation_tag_moved_and_force_pushed`: `true`
+  - `previous_final_P_exact_qualification_proven`: `false`
+  - `previous_qualification_cleanup_commands_used`: `true`
+- **Current P11/Q11 Qualification Status**:
+  - `fresh_isolated_worktree`: `true` (`/home/pr21vyci/projects/qual_worktree_p11_final1`)
+  - `pretest_status_empty`: `true`
+  - `authoritative_unit_tests`: 624/624 `PASS` (0 failures, 0 errors, 0 skips)
+  - `natural_status_empty`: `true`
+  - `qualification_cleanup_commands_used`: `false`
+  - `H1_execution_bytes_unchanged_P_to_Q`: `true`
+  - `H2_execution_bytes_unchanged_P_to_Q`: `true`
+- **Preflight Classification**:
+  - `pair2_package_preflight_without_authorization`: `PASS`
+  - `pair2_submission_preflight`: `BLOCKED_no_direct_human_authorization`
 - **Prepared Jobs**:
   1. `M2REF_H1_FRACFIX`: NPHYS = 12064, 1 CPU, 8 GB, 02:00:00 walltime, queue `entry_imfdfkmq`
   2. `M2REF_H2_FRACFIX`: NPHYS = 33852, 1 CPU, 8 GB, 04:00:00 walltime, queue `entry_imfdfkmq`
-- **Notification Contract**: Explicit `#PBS -m abe` and exact 2 approved recipients (`Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de`, `pr21vyci@mailserver.tu-freiberg.de`)
-- **Raw Execution Hashes**:
-  - `M2REF_H1_FRACFIX`: INP `407f88694d...`, UEL `0bc4378179...`, PBS `80c1a509a6...`, SH `2d354ec6e0...`
-  - `M2REF_H2_FRACFIX`: INP `c9a3f496cf...`, UEL `0bc4378179...`, PBS `f7040080f6...`, SH `dd3f85dcc6...`
+- **Notification Contract**: Explicit `#PBS -m abe` and exact 2 approved recipients
 - **Readiness Flags**:
   - `H0_scoped_scientific_result`: `provisional_PASS_on_available_H0_reproduction_gates`
   - `scientifically_ready_for_pair2`: `true`
