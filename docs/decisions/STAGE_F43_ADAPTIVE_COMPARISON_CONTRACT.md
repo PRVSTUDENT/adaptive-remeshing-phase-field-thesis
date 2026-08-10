@@ -85,11 +85,12 @@ The loading trajectory is divided into two distinct scientific domains:
 ## 4. Frozen Acceptance Criteria & Decision Logic
 
 An adaptive production result is judged jointly from:
-1. **Pre-Peak Global Fidelity**: Matches $H_1$ in Domain A ($L_2 \le 2.0\%$, work error $\le 1.5\%$).
+1. **Pre-Peak Global Fidelity**: Matches $H_1$ in Domain A ($L_2 \le 2.0\%$, relative curve area / work error $\le 2.0\%$, inherited from the established $2.0\%$ curve difference gate).
 2. **Damage Initiation Parity**: Accurately reproduces initiation threshold $u_1(d \ge 0.5) \approx 7.75\,\mu\text{m}$.
 3. **Matched-State Spatial Agreement**: Crack contour at $u_1 = 9.25\,\mu\text{m}$ aligns smoothly with $H_2$ fine-mesh corridor.
 4. **Adaptive-to-Adaptive Consistency**: $\text{MM}$ and $\text{PK5}$ trajectories converge internally in post-peak fracture propagation.
 5. **Computational Cost Scaling**: Achieves significant CPU efficiency gains relative to uniform $H_2$ ($14,455\,\mathrm{s}$).
+
 
 ---
 

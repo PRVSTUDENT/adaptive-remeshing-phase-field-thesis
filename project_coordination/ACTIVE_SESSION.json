@@ -1,17 +1,17 @@
 {
   "protocol_version": 1,
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "task_id": "F43ADAPT-COMPARE-CONTRACT1",
-  "started_at": "2026-08-10T17:00:00+02:00",
-  "released_at": "2026-08-10T17:15:00+02:00",
-  "starting_commit": "07523320eec37ce35a91804da18e5eb0f04f6119",
+  "task_id": "F43ADAPT-PROD-PREP1",
+  "started_at": "2026-08-10T17:15:00+02:00",
+  "starting_commit": "2c6b6cd7df8c3b6ce3e3818c4d8a35ebfee01277",
   "allowed_scope": [
     "project_coordination/**",
     "models/generated/mode_ii/**",
     "docs/**",
     "scripts/**",
+    "tests/**",
     "results/**"
   ],
-  "note": "Closed task F43ADAPT-COMPARE-CONTRACT1: froze scientific comparison contract for adaptive Mode-II production runs (MM and PK5) using censoring-corrected H0/H1/H2 evidence."
+  "note": "Claimed task F43ADAPT-PROD-PREP1: Prepare Mode-II adaptive MM/PK5 fracture production pair under frozen comparison contract with verified output sufficiency, frozen raw hashes, and immutable P/Q lineage."
 }

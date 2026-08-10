@@ -1,0 +1,65 @@
+{
+  "protocol_version": 1,
+  "task_id": "F43ADAPT-PROD-PREP1",
+  "uel_source_sha256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
+  "packages": {
+    "M2ADAPT_MM_FRACFIX_PROD": {
+      "dir": "/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/production_adaptive_batch/M2ADAPT_MM_FRACFIX_PROD",
+      "manifest": {
+        "case_name": "M2ADAPT_MM_FRACFIX_PROD",
+        "candidate_key": "MM",
+        "candidate_name": "F43REM4_MM",
+        "physical_node_count": 2294,
+        "physical_element_count": 2206,
+        "physical_quads": 2137,
+        "physical_tris": 69,
+        "layered_element_count": 6618,
+        "inp_sha256": "774c1385c111649b66dcc18e3990cef3b14c76acc64fc6809c586de3f1cfffb7",
+        "uel_sha256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
+        "pbs_sha256": "6409ff55a3af0b9bfbc8520aacc5b8d492d7f78c5768e308954392f2548e8010",
+        "submit_sh_sha256": "3f3711663a97e5a2fc1cf0054464bddeead8213ab130513bf4a30760bef6eb8d",
+        "memory": "8gb",
+        "walltime": "02:00:00",
+        "queue": "entry_imfdfkmq",
+        "cpus": 1
+      },
+      "manifest_sha256": "eb44f05282a3c06edc2f0456027ba0ca583ac6e5b451cb0bf7edc0a752e1435d",
+      "raw_hashes": {
+        "input": "774c1385c111649b66dcc18e3990cef3b14c76acc64fc6809c586de3f1cfffb7",
+        "uel": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
+        "pbs": "6409ff55a3af0b9bfbc8520aacc5b8d492d7f78c5768e308954392f2548e8010",
+        "wrapper": "3f3711663a97e5a2fc1cf0054464bddeead8213ab130513bf4a30760bef6eb8d",
+        "manifest": "eb44f05282a3c06edc2f0456027ba0ca583ac6e5b451cb0bf7edc0a752e1435d"
+      }
+    },
+    "M2ADAPT_PK5_FRACFIX_PROD": {
+      "dir": "/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/production_adaptive_batch/M2ADAPT_PK5_FRACFIX_PROD",
+      "manifest": {
+        "case_name": "M2ADAPT_PK5_FRACFIX_PROD",
+        "candidate_key": "PK5",
+        "candidate_name": "F43REM4_PK5",
+        "physical_node_count": 4998,
+        "physical_element_count": 4894,
+        "physical_quads": 4766,
+        "physical_tris": 128,
+        "layered_element_count": 14682,
+        "inp_sha256": "32e67a70cce767c6d2f914f1f121bbfac421a9807a21256a645bf2406a339356",
+        "uel_sha256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
+        "pbs_sha256": "316140e61e90f45e506b4eec7d19f921886213da803306acbaadd4b03f8311cb",
+        "submit_sh_sha256": "76fdd18e9809f8a7ca8ef34297b7ad4ba5d0039784364ebe6fd7f237f65084db",
+        "memory": "8gb",
+        "walltime": "04:00:00",
+        "queue": "entry_imfdfkmq",
+        "cpus": 1
+      },
+      "manifest_sha256": "f03a73511fd7683a42a9177e82cb277ed26456de5ea80b41028ce0eba0608b70",
+      "raw_hashes": {
+        "input": "32e67a70cce767c6d2f914f1f121bbfac421a9807a21256a645bf2406a339356",
+        "uel": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
+        "pbs": "316140e61e90f45e506b4eec7d19f921886213da803306acbaadd4b03f8311cb",
+        "wrapper": "76fdd18e9809f8a7ca8ef34297b7ad4ba5d0039784364ebe6fd7f237f65084db",
+        "manifest": "f03a73511fd7683a42a9177e82cb277ed26456de5ea80b41028ce0eba0608b70"
+      }
+    }
+  }
+}

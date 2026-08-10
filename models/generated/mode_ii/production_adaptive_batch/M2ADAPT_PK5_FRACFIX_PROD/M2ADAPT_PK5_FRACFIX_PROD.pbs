@@ -1,0 +1,27 @@
+#!/bin/bash
+#PBS -N M2ADAPT_PK5_FRACFIX_PROD
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=04:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o evidence/$PBS_JOBID/execution.log
+
+set -euo pipefail
+
+cd "$PBS_O_WORKDIR"
+mkdir -p evidence/"$PBS_JOBID"
+
+echo "=== Host Environment ==="
+hostname
+date
+module list || true
+
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+echo "=== Running Abaqus Job M2ADAPT_PK5_FRACFIX_PROD ==="
+abaqus job=M2ADAPT_PK5_FRACFIX_PROD input=M2ADAPT_PK5_FRACFIX_PROD.inp user=f42_mixed_uel.for cpus=1 interactive double=both ask_delete=OFF
+
+echo "=== Execution Complete ==="
+date

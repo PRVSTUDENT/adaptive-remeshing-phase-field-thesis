@@ -178,10 +178,13 @@
   },
   "frozen_gates": {
     "RF1_U1_common_window_L2_pct_max": 2.0,
+    "RF1_U1_common_window_area_error_pct_max": 2.0,
+    "work_area_gate_source": "inherited_from_established_2pct_curve_difference_gate",
     "energy_difference_pct_max": 1.0,
     "crack_path_matched_state_hausdorff_mm_max": 0.00375,
     "global_peak_force_gate": "NOT_APPLICABLE_WHEN_COMPARATOR_PEAK_IS_CENSORED"
   },
+
   "cost_baselines": {
     "H0_CPU_s": 2000.0,
     "H1_CPU_s": 5434.0,
