@@ -44,8 +44,15 @@ def generate_nphysfix_h0_inp(pkg_dir: Path) -> str:
     src_text = SRC_H0_INP.read_text(encoding="utf-8")
 
     lines = []
+    skip_next_prop = False
+
     for line in src_text.splitlines():
         line_s = line.strip()
+
+        if skip_next_prop:
+            skip_next_prop = False
+            continue
+
         if line_s.startswith("*Heading"):
             lines.append("*Heading")
             lines.append("** Mode-II Phase-Field Corrected H0 Benchmark: M2REF_H0_NPHYSFIX_REPRO")
@@ -53,24 +60,24 @@ def generate_nphysfix_h0_inp(pkg_dir: Path) -> str:
             lines.append("** NPHYS Contract: NPHYS = 3930.0 under U2 UEL property and UMAT material constants")
         elif line_s.lower().startswith("*user element") and "type=u2" in line_s.lower():
             lines.append("*User element, nodes=4, type=U2, properties=5, coordinates=2, VARIABLES=56")
-            lines.append("1,2")
+            lines.append(" 1, 2")
+            skip_next_prop = True  # skip next line ("1, 2")
         elif line_s.lower().startswith("*user element") and "type=u1" in line_s.lower():
             lines.append("*User element, nodes=4, type=U1, properties=3, coordinates=2, VARIABLES=8")
-            lines.append("3")
+            lines.append(" 3")
+            skip_next_prop = True  # skip next line ("3")
         elif line_s.lower().startswith("*uel property") and ("plate_ss" in line_s.lower() or "disp" in line_s.lower()):
             lines.append(line)
             lines.append(f" {EMOD:.6e}, {ENU:.6e}, {THCK:.6e}, {PARK:.6e}, {NPHYS_H0:.1f}")
+            skip_next_prop = True  # skip old property values line
         elif line_s.lower().startswith("*uel property") and ("plate" in line_s.lower() or "phase" in line_s.lower()) and "plate_ss" not in line_s.lower():
             lines.append(line)
             lines.append(f" {L0:.6e}, {GC:.6e}, {THCK:.6e}")
+            skip_next_prop = True  # skip old property values line
         elif line_s.lower().startswith("*user material") and "constants=" in line_s.lower():
             lines.append("*User Material, constants=4")
             lines.append(f" {PASSIVE_E:.6e}, {ENU:.6e}, {NPHYS_H0:.1f}, 4.0")
-        elif "2.100000e+05" in line_s or "210.0" in line_s or "1.000000e-11" in line_s:
-            # Skip old property value lines from source deck
-            continue
-        elif "1.500000e-02, 2.700000e-03" in line_s or "0.015, 0.0027" in line_s:
-            continue
+            skip_next_prop = True  # skip old material constants line
         else:
             lines.append(line)
 
