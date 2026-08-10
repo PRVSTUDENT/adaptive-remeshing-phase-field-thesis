@@ -3,15 +3,16 @@
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "project_coordination/**",
-    "models/generated/mode_ii/verification_batch/**",
+    "models/generated/mode_ii/**",
     "scripts/**",
+    "tests/**",
     "docs/**"
   ],
-  "started_at": "2026-08-10T09:15:00+02:00",
-  "completed_at": "2026-08-10T10:35:00+02:00",
-  "heartbeat": "2026-08-10T10:35:00+02:00",
-  "session_id": "f43ref9-h0science-final1-session-001",
-  "starting_commit": "ae947de",
-  "task_id": "F43MODEREF9-H0SCIENCE-FINAL1",
-  "note": "Session completed and released for Task F43MODEREF9-H0SCIENCE-FINAL1: H0 scientific PASS fully verified across all 13 metrics; governance HOLD recorded; scientifically ready for Pair 2."
+  "started_at": "2026-08-10T10:38:00+02:00",
+  "completed_at": "2026-08-10T10:49:00+02:00",
+  "heartbeat": "2026-08-10T10:49:00+02:00",
+  "session_id": "f43ref10-pair2-prep1-session-001",
+  "starting_commit": "d01728f",
+  "task_id": "F43MODEREF10-PAIR2-PREP1",
+  "note": "Session completed and released for Task F43MODEREF10-PAIR2-PREP1: Pair-2 H1/H2 prepared and qualified with clean notification contract; authorization_ready_for_pair2 = true; zero submission authority."
 }
