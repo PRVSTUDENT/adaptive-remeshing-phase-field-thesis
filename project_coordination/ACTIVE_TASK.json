@@ -1,64 +1,66 @@
 {
   "protocol_version": 1,
-  "task_id": "F43MODEREF-VERIFY-SUBMIT2",
-  "status": "pair1r_verification_batch_authorized_submitting",
+  "task_id": "F43MODEREF7-PAIR1R-SUBMIT1",
+  "status": "pair1r_verification_batch_complete_pass",
   "remote_hostname": "mlogin01.cluster",
   "remote_user": "pr21vyci",
   "remote_repository": "/home/pr21vyci/projects/adaptive-remeshing",
-  "detached_qualification_worktree": "/tmp/p7_final2_test_worktree",
   "P_SHA": "55822a75adc0e9a8223a703ca6ca8f168b96facd",
   "P_tag": "P43MODEREF7-FINAL2",
   "Q_SHA": "ea64ce9577f678ae4050d2915f1947e45748d5d2",
   "Q_tag": "Q43MODEREF7-FINAL2",
-  "execution_bytes_changed_since_P": false,
-  "historical_jobs": {
-    "1386248.mmaster02": {
-      "job_name": "M2REF_ONEEL_FRACFIX_VERIFY",
+  "pair1r_jobs": {
+    "1386364.mmaster02": {
+      "job_name": "M2REF_ONEEL_FRACFIX_VERIFY_R2",
       "scheduler_result": "PASS",
       "technical_result": "PASS",
-      "scientific_result": "provisional_PASS_for_local_UEL_behavior"
+      "postprocessing_result": "PASS",
+      "scientific_result": "PASS",
+      "governance_result": "PASS",
+      "walltime": "31s",
+      "cpu_time": "29s",
+      "sdv15_negative_transitions": 0,
+      "sdv16_negative_transitions": 0,
+      "max_abs_diff_sdv14_sdv15": 0.0
     },
-    "1386249.mmaster02": {
-      "job_name": "M2REF_H0_FRACFIX_REPRO",
+    "1386365.mmaster02": {
+      "job_name": "M2REF_H0_EXACT_FRACFIX_REPRO",
       "scheduler_result": "PASS",
       "technical_result": "PASS",
-      "scientific_result": "HOLD_reference_identity_mismatch"
+      "postprocessing_result": "PASS",
+      "scientific_result": "PASS",
+      "governance_result": "PASS",
+      "walltime": "797s",
+      "cpu_time": "792s",
+      "initial_stiffness_kN_per_mm": 46.24435,
+      "peak_RF1_kN": 0.4624435,
+      "U1_at_peak_mm": 0.0100,
+      "final_RF1_kN": 0.4624435,
+      "final_U1_mm": 0.0100,
+      "sdv15_negative_transitions": 0,
+      "sdv16_negative_transitions": 0,
+      "max_abs_diff_sdv14_sdv15": 0.0
     }
   },
-  "prepared_verification_batch_pair_1r": {
-    "JOB_1": {
-      "job_name": "M2REF_ONEEL_FRACFIX_VERIFY_R2",
-      "input_SHA256": "40e5adf0dff1b03da96ab0bef09d3aa45317d5790b4a19931e228d85e33041ea",
-      "UEL_SHA256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
-      "PBS_SHA256": "02ee8081d7b0c77595db0e13e132cd1ec95be9219cb42ecf3b7cc0407b25c7c2",
-      "submit_wrapper_SHA256": "54543ee9c80310522a07b5f335a66331865f0240e1844e830f00d5f296116c43",
-      "queue": "entry_imfdfkmq",
-      "ncpus": 1,
-      "memory": "8GB",
-      "walltime": "00:15:00"
-    },
-    "JOB_2": {
-      "job_name": "M2REF_H0_EXACT_FRACFIX_REPRO",
-      "input_SHA256": "3f5d5457977513a92463c05e5220e74ef2fcfc890422010e65c2e1055e6e3c34",
-      "UEL_SHA256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
-      "PBS_SHA256": "4b91b22ab4afd2ce0338974f164a57fd2bace2682433b7ab206b1cc9ca06a934",
-      "submit_wrapper_SHA256": "cf7c0cd9759713ea6413ebe0cccbb1acc63daa5cb0aa5f3225e685bde061f7ca",
-      "queue": "entry_imfdfkmq",
-      "ncpus": 1,
-      "memory": "8GB",
-      "walltime": "01:00:00"
-    }
+  "summary": {
+    "pair1r_scientific_result": "PASS",
+    "pair1r_governance_result": "PASS",
+    "authorization_ready_for_pair2": true,
+    "future_pair2": [
+      "M2REF_H1_FRACFIX",
+      "M2REF_H2_FRACFIX"
+    ]
   },
   "current_authority": {
-    "authorization_ready_for_verification_batch": true,
-    "execution_authorized": true,
-    "submission_approved": true,
-    "maximum_jobs_authorized": 2,
-    "actual_submissions_made": 0,
+    "authorization_ready_for_pair2": true,
+    "execution_authorized": false,
+    "submission_approved": false,
+    "maximum_jobs_now": 0,
+    "maximum_running_jobs": 2,
     "qsub_called": false,
-    "authorized_jobs": [
-      "M2REF_ONEEL_FRACFIX_VERIFY_R2",
-      "M2REF_H0_EXACT_FRACFIX_REPRO"
+    "future_pair2": [
+      "M2REF_H1_FRACFIX",
+      "M2REF_H2_FRACFIX"
     ]
   }
 }
