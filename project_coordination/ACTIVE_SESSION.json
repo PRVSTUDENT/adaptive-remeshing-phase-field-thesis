@@ -1,18 +1,17 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
   "allowed_scope": [
     "project_coordination/**",
-    "models/generated/mode_ii/**",
+    "models/generated/mode_ii/verification_batch/**",
     "scripts/**",
-    "tests/**",
     "docs/**"
   ],
-  "started_at": "2026-08-10T09:01:00+02:00",
-  "completed_at": "2026-08-10T09:07:00+02:00",
-  "heartbeat": "2026-08-10T09:01:00+02:00",
-  "session_id": "f43ref9-finalanchor1-session-001",
-  "starting_commit": "d502a3d5d2504f808174d2437bf831aeb83a474c",
-  "task_id": "F43MODEREF9-FINALANCHOR1",
-  "note": "Completed Task F43MODEREF9-FINALANCHOR1: Final immutable anchor recovery P43MODEREF9-FINAL1 and Q43MODEREF9-FINAL1 with raw Linux byte SHA256 audit for corrected NPHYS lineage."
+  "started_at": "2026-08-10T09:15:00+02:00",
+  "completed_at": null,
+  "heartbeat": "2026-08-10T09:15:00+02:00",
+  "session_id": "f43ref9-h0nphysfix-submit1-session-001",
+  "starting_commit": "7090ff8225576a911762c162e0ea43905cf784d1",
+  "task_id": "F43MODEREF9-H0NPHYSFIX-SUBMIT1",
+  "note": "Claimed session for Task F43MODEREF9-H0NPHYSFIX-SUBMIT1: Guarded submission and HPC execution monitoring of authorized M2REF_H0_NPHYSFIX_REPRO job."
 }

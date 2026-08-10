@@ -2,60 +2,35 @@
 
 # Current Project State - Stage C Reference Baseline Verification
 
-**Active Task**: `F43MODEREF9-FINALANCHOR1`
+**Active Task**: `F43MODEREF9-H0NPHYSFIX-SUBMIT1`
 **Date**: 2026-08-10
 **Active Agent**: `gemini-antigravity`
-**Task Status**: `lineage_prepared_and_qualified_awaiting_human_authorization`
+**Task Status**: `hpc_job_submission_authorized_and_in_progress`
 
 ---
 
-## 1. Lineage & Qualification Status
+## 1. Active Submitted HPC Job
 
-- **Preparation Tag P**: `P43MODEREF9-FINAL1` at commit `bc97faf70aae0ae981bcabfcbc528203f677be0a`
-  - Tag Object SHA: `29574abe40c1c117989497038be69919372e127e`
-  - Remote Tag Object SHA: `29574abe40c1c117989497038be69919372e127e`
-- **Qualification Tag Q**: `Q43MODEREF9-FINAL1` (to be tagged at qualification closeout commit)
-- **Qualification Environment**:
-  - Fresh isolated worktree: `/home/pr21vyci/projects/qual_worktree_p9_final1`
-  - Pre-test status: 100% EMPTY (`pretest_status_empty = true`)
-  - Toolchain: `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, `python/gcc/11.4.0/3.11.7` (`Python 3.11.7`)
-  - Full Unit Suite: 621 tests ran in 129.563s, 0 errors, 0 failures (`full_test_rc = 0`).
-  - Focused NPHYS Contract Validator: PASS (`corrected_H0_mapping_validator = PASS`, `H1 = PASS`, `H2 = PASS`).
-  - Raw-Byte SHA256 Audit: ALL raw Linux byte SHA256 hashes match expected values (`raw_byte_hash_contract_match = true`).
-  - Natural Cleanliness: 100% EMPTY (`natural_status_empty = true`, `git_diff_exit_code = 0`, `git_diff_cached_exit_code = 0`).
-  - Qualification cleanup commands used: `false`.
+- **Job Name**: `M2REF_H0_NPHYSFIX_REPRO`
+- **Job ID**: `1386372.mmaster02`
+- **PBS Queue Status**: `RUNNING` (`R`)
+- **Preparation Tag P**: `P43MODEREF9-FINAL1` (`bc97faf70aae0ae981bcabfcbc528203f677be0a`)
+- **Qualification Tag Q**: `Q43MODEREF9-FINAL1` (`9ad3c19ad1cbb7a1518f8e02d6b35d8868735ea5`)
+- **Execution Hashes**:
+  - Input: `e86ad4b439fb93d2a43d3100e19911ed0f2df3ac25dcbe584a3b549830069268`
+  - UEL: `0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8`
+  - PBS: `a1af3bc73828e0184fdb272ff2d50985bc00593bb0d905835e81e609e6a5e49b`
+  - Wrapper: `f54d9261b7087c16f25533a324d3f4e58e61c4a81700b4bc1fafd947a692e331`
+  - Manifest: `44fadd1c882a15a60facffa20202cdb35bca7b316434a6a582d3810b7ad70fdb`
 
 ---
 
-## 2. Governance Deviation & Historical Lineage Records
+## 2. Current Authority Boundary
 
-- **P8/Q8 FINAL2 Historical Status**:
-  - `P43MODEREF8_FINAL2_deleted_and_recreated = true`
-  - `P43MODEREF8_FINAL2_authorization_anchor_valid = false` (tag was created, deleted, and recreated across commits)
-  - `Q43MODEREF8_FINAL2_authorization_anchor_valid = false` (depended on recreated tag)
-  - Tag Governance Deviation Recorded: `protocol_deviation_preparation_tag_deleted_and_recreated`.
-  - Historical tags `P43MODEREF8-FINAL2` and `Q43MODEREF8-FINAL2` preserved unchanged.
-
----
-
-## 3. Raw-Byte Execution Hashes Verification
-
-All corrected H0/H1/H2 raw Linux byte SHA256 hashes match frozen targets 100%:
-- **H0**: input `e86ad4b439fb93d2a43d3100e19911ed0f2df3ac25dcbe584a3b549830069268`, UEL `0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8`, PBS `a1af3bc73828e0184fdb272ff2d50985bc00593bb0d905835e81e609e6a5e49b`, wrapper `f54d9261b7087c16f25533a324d3f4e58e61c4a81700b4bc1fafd947a692e331`, manifest `44fadd1c882a15a60facffa20202cdb35bca7b316434a6a582d3810b7ad70fdb`.
-- **H1**: input `94fda0134500b6ebadd7ae869f2c8909454b4112c6951b930c89ca02da907281`, UEL `0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8`, PBS `273e06fbff87d6a521fb9aeab87f120070040d85109624171c7fa7cac01b5fd5`, wrapper `9a39efa92a3de74d24381beab3cad3fb1125b2f7db50a6a52db59bc413ca9f80`, manifest `4b6e81203909a2837031de39c5a882019dce8e04336c0a7650acb5d4e9c3b27c`.
-- **H2**: input `c3119217eb57662289971ad814c1f6c0020b15a4c10da170da91d990e774586a`, UEL `0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8`, PBS `bed6926f473d185c2dfe9d55c57c4a7d0d7cb2ef1e9a8a9ff220508f4bd2e879`, wrapper `b7592b020b4758ec1c68f07674b1980af392493c6d297eace9fcd1cfd7a5143b`, manifest `4b6e81203909a2837031de39c5a882019dce8e04336c0a7650acb5d4e9c3b27c`.
-
----
-
-## 4. Current Authority & Next Scientific Job
-
-- `authorization_ready_for_corrected_H0 = true`
-- `future_verification_jobs = ["M2REF_H0_NPHYSFIX_REPRO"]`
-- `planned_future_submissions = 1`
-- `maximum_running_jobs = 2`
+- `execution_authorized = true` (Explicit human approval for Job `1386372.mmaster02`)
+- `submission_approved = true`
+- `maximum_jobs_now = 1`
+- `qsub_called = true` (1 submission consumed)
+- `HPC_submissions = 1`
 - `H1_status = blocked_pending_corrected_H0_scientific_PASS`
 - `H2_status = blocked_pending_corrected_H0_scientific_PASS`
-- `execution_authorized = false`
-- `submission_approved = false`
-- `maximum_jobs_now = 0`
-- `qsub_called = false` (No Abaqus/PBS submissions permitted without fresh explicit human authorization)
