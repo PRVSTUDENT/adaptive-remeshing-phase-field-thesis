@@ -105,3 +105,10 @@
 - The claim matrix is 9.5 pt, the reproducibility appendix is split across two pages, and page numbering is dynamic.
 - The report explicitly explains that Abaqus 2024 documentation is current SIMULIA guidance supplementing assessment of the installed Abaqus 2023 implementation.
 - PDF build and all-page rendered visual audit passed. No scientific values/classifications changed and no HPC activity occurred.
+## Supervisor-report final presentation polish (11 August 2026)
+
+- Figure 1 annotations were repositioned inside the plot with separated leader lines and unchanged numerical values.
+- Pages 5--6 now use concise `Damage evolution` and `Initial stiffness` headings without continuation-word hyphenation.
+- The uniform table presents the common-endpoint RF and damage differences explicitly; the claim matrix uses ragged-right columns with reduced hyphenation.
+- The next-work language is supervisor-facing rather than execution-governance-facing.
+- The report remains 16 pages at 11 pt. Tectonic build, zero-overfull-box check, and all-page visual audit passed; no scientific values or classifications changed and no HPC activity occurred.

@@ -18,6 +18,7 @@
 \newcommand{\tablefont}{\fontsize{9.5}{11.5}\selectfont}
 \newcommand{\densefont}{\fontsize{9}{10.8}\selectfont}
 \newcommand{\captionfont}{\fontsize{9.5}{11.5}\selectfont}
+\newcolumntype{R}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcommand{\pass}{\status{green}{PASS}}\newcommand{\supported}{\status{green}{SUPPORTED}}
 \newcommand{\hold}{\status{amber}{HOLD}}\newcommand{\fail}{\status{red}{FAIL}}
 \newcommand{\unresolved}{\status{gray}{UNRESOLVED}}\newcommand{\notclaimed}{\status{gray}{NOT YET CLAIMED}}
@@ -75,7 +76,7 @@ Valid $u_1$ maximum (mm)&0.010000&0.0096325&0.0097625&H1/H2 common: 0--0.0096325
 $K_0$ (kN/mm)&46.1396&45.9035&45.8741&H2--H1: $-0.064\%$\\
 $u_1(d\geq0.5)$ (mm)&0.008250&0.007750&0.007750&H1/H2 parity\\
 H2 vs H1 $L_2$ / work area&--&--&0.536\% / 0.287\%&new common domain\\
-H2$-$H1 matched RF / $d_{\max}$&--&--&$-1.445\%$ / $+0.001948$&at $u_{\max}^{\rm common}$\\
+H2$-$H1 at common endpoint&--&--&RF difference: $-1.445\%$&$d_{\max}$ difference: $+0.001948$\\
 CPU / wall (s)&2000/2004&5434/5453&15949/15990&measured serial cost\\
 Termination&endpoint&divergence&divergence&H1/H2 incomplete\\\bottomrule
 \end{tabularx}
@@ -98,13 +99,13 @@ full post-peak uniform convergence&\unresolved\\complete uniform fracture refere
 \captionfont\textbf{Figure 1.} $RF_1$--$u_1$ comparison from primary extracted curves. H2 reproduces the previous solution exactly to 9.25 $\mu$m, reaches an interior peak at 9.50 $\mu$m, and diverges at 9.7625 $\mu$m. H1 diverges at 9.6325 $\mu$m; global H1/H2 peak convergence remains unresolved.\\[2mm]
 \end{center}
 
-\clearpage\headx{3. Uniform-reference figures and interpretation (continued)}
+\clearpage\headx{3. Damage evolution}
 \begin{center}
 \includegraphics[width=.82\linewidth]{../../results/figures/mode_ii_reference_convergence/mode_ii_h0_h1_h2_damage_evolution_comparison.pdf}\\[2mm]
 \captionfont\textbf{Figure 2.} Extended damage evolution. H1 and H2 share $d_{\max}\geq0.5$ initiation at 7.75 $\mu$m. The $d_{\max}\geq0.9$ threshold occurs at 8.00 $\mu$m for H2 and 8.50 $\mu$m for H1.
 \end{center}
 
-\clearpage\headx{3. Uniform-reference figures and interpretation (continued)}
+\clearpage\headx{3. Initial stiffness}
 \begin{center}
 \includegraphics[width=.88\linewidth]{../../results/figures/mode_ii_reference_convergence/mode_ii_h0_h1_h2_initial_stiffness_fit.pdf}\\[2mm]
 \captionfont\textbf{Figure 3.} Identical origin-OLS stiffness fits over $0<u_1\leq0.002$ mm. $K_0=$46.1396, 45.9035, and 45.8741 kN/mm for H0/H1/H2, respectively.
@@ -215,14 +216,14 @@ For every stage, compare the complete RF--U curve, SDV14/15/16 fields, history o
 
 \clearpage\headx{10. Claim matrix: 24 July versus 11 August}
 \tablefont
-\begin{tabularx}{\linewidth}{@{}p{29mm}p{24mm}p{27mm}Xp{29mm}@{}}\toprule
+\begin{tabularx}{\linewidth}{@{}R{29mm}R{24mm}R{30mm}>{\raggedright\arraybackslash}XR{29mm}@{}}\toprule
 Claim&24 July&11 August&Evidence&Remaining limitation\\\midrule
 MISESERI pre-refinement&validated in scope&SUPPORTED&offline/native candidate generation&indicator is not fracture solution\\
 Uniform verification&partial Mode-I roles&PASS pre-peak&H2 reproduced its earlier path and revealed an interior peak; jobs 1386372, 1386447, 1388330&H1/H2 diverge before endpoint; peak convergence unresolved\\
 Adaptive global response&pre-peak refined-v3&HOLD&1386469/70 agree mutually ($\sim0.16\%$ maximum RF difference), but late force is about half the uniform level&primary adaptive curves require curve-level reconciliation\\
 Adaptive crack path&not equivalent&FAIL gate&H1/H2 matched Hausdorff 0.005443 mm&gate 0.003750 mm\\
 Nonmatching transfer&bounded offline/ingestion&artifact prepared&MM-to-target offline mapping&active initialization path did not consume it\\
-Mechanical continuation&unproven&NOT DEMONSTRATED&1386471 followed the virgin PK5 trajectory&requires explicit ingestion\\
+Mechanical continuation&unproven&\shortstack[l]{NOT\\DEMONSTRATED}&1386471 followed the virgin PK5 trajectory&requires explicit ingestion\\
 Runtime ingestion&bounded older test only&FAIL current path&UEL ignores SVARS/artifact&reader/init redesign\\
 Evolving remesh&withheld&HOLD&second controlled stage is not scientifically executable&dependent on ingestion proof\\
 COMMON thread safety&not general&UNRESOLVED&D2C positive; static risks; P3-T4 compile fail&general equality absent\\
@@ -240,7 +241,7 @@ Online remeshing&withheld&NOT YET CLAIMED&offline CAE remesh/candidate work only
 \boxx{pb}{\textbf{Scientifically required}
 \begin{enumerate}
 \item Implement and prove artifact-to-target runtime initialization for nodal phase and integration-point history.
-\item Qualify the corrected initialization path before any newly authorized execution, then verify source $\rightarrow$ artifact $\rightarrow$ first solver state.
+\item Validate the corrected initialization path before repeating the transfer calculation, then verify the complete source $\rightarrow$ mapped state $\rightarrow$ first solver-state chain.
 \item If that passes, perform one controlled second evolving-remesh transfer and matched-state audit.
 \item Retrieve the primary adaptive curves and complete the adaptive-to-uniform RF--U/work audit before making an accuracy-versus-cost claim.
 \item Complete P-A/P-B and design the thread-safe state boundary before further parallel tests.
@@ -252,7 +253,7 @@ Online remeshing&withheld&NOT YET CLAIMED&offline CAE remesh/candidate work only
 \item Additional corridor refinement only if the matched-state crack metric motivates it.
 \item Alternative transfer projection only after runtime ingestion is proven.
 \item MPI/hybrid performance study only after equality and determinism gates pass.
-\item No further H2 rerun: the extended calculation has answered the outstanding H2 termination question.
+\item No additional H2 calculation is currently required; the extended calculation has established its numerical termination behavior.
 \end{enumerate}}
 \end{minipage}
 \boxx{pr}{\textbf{Scientific progression gate.} Do not execute the second controlled transfer stage or claim evolving/online remeshing until the executable initialization path consumes the state and the first solver state is independently verified.}
@@ -267,8 +268,8 @@ Runtime-ingestion audit revision&\texttt{d2c9c6a6d5f8dce94924ecb9cf6ab77fec96d7b
 Parallel-study closure revision&\texttt{8d920db09bb79846fe15697d785d37a012426638}\\
 Current production UEL SHA-256&\path{0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8}\\
 Uniform jobs&H0 \texttt{1386372}; H1 \texttt{1386447}; earlier H2 \texttt{1386448}; extended H2 \texttt{1388330}\\
-Adaptive jobs&MM \texttt{1386469} (M2ADAPT\_MM\_FRACFIX\_PROD); PK5 \texttt{1386470} (M2ADAPT\_PK5\_FRACFIX\_PROD)\\
-Restart audit&\texttt{1386471} (M2STATE\_FRACFIX\_RESTART1); primary audit: {\ttfamily project\_coordination/sessions/\newline 2026-08-11\_0525\_gemini-antigravity\_\newline F43STATE-M2-RUNTIME-INGESTION-AUDIT1.md}; revision \texttt{d2c9c6a6d5f8dce94924ecb9cf6ab77fec96d7be}\\
+Adaptive jobs&MM \texttt{1386469} (\path{M2ADAPT_MM_FRACFIX_PROD}); PK5 \texttt{1386470} (\path{M2ADAPT_PK5_FRACFIX_PROD})\\
+Restart audit&\texttt{1386471} (\path{M2STATE_FRACFIX_RESTART1}); primary audit: \path{project_coordination/sessions/2026-08-11_0525_gemini-antigravity_F43STATE-M2-RUNTIME-INGESTION-AUDIT1.md}; revision \path{d2c9c6a6d5f8dce94924ecb9cf6ab77fec96d7be}\\
 Uniform evidence&\path{models/generated/mode_ii/reference_convergence/}; Pair-2 censoring audit\\
 Adaptive evidence&\path{models/generated/mode_ii/production_adaptive_batch/}\\
 Transfer evidence&\path{models/generated/mode_ii/production_state_transfer_batch/}\\
