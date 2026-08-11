@@ -1,5 +1,11 @@
 # Project Current State
 
+## July 24 supervisor report archived beside current report (11 August 2026)
+
+- The exact 12-page detailed report sent on 24 July was copied to `docs/supervisor_reports/SUPERVISOR_PROGRESS_UPDATE_DETAILED_2026-07-24.pdf`.
+- Its SHA-256 matches both the preserved `Necessary Reading` copy and the generated detailed-report output: `62d7deb58f9291c9cd7eafca8e8d0b3b355b4823de215e716f191cf79a92b8e0`.
+- The source was preserved, and all 12 rendered pages passed visual inspection. No HPC submission occurred.
+
 ## Supervisor report Section 3 hierarchy corrected (11 August 2026)
 
 - The canonical 16-page report now uses `3.1 Damage evolution` and `3.2 Initial stiffness` beneath `3. Uniform-reference figures and interpretation`.

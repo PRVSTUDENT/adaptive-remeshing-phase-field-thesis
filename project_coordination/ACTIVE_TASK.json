@@ -1,7 +1,7 @@
 {
   "protocol_version": 1,
-  "task_id": "SUPERVISOR-REPORT-SECTION-NUMBERING-FIX1",
-  "status": "complete_section_numbering_pass",
+  "task_id": "SUPERVISOR-REPORT-JULY24-ARCHIVE1",
+  "status": "complete_archival_copy_pass",
   "report_deliverables": {
     "pdf": "docs/supervisor_reports/SUPERVISOR_PROGRESS_UPDATE_DETAILED_2026-08-11.pdf",
     "tex": "docs/supervisor_reports/SUPERVISOR_PROGRESS_UPDATE_DETAILED_2026-08-11.tex",
@@ -41,5 +41,13 @@
     "maximum_jobs_now": 0,
     "HPC_submissions_this_task": 0,
     "next_scientific_task": "retrieve_primary_MM_PK5_curves_and_reconcile_against_uniform_H1_before_send"
+  },
+  "archived_report": {
+    "pdf": "docs/supervisor_reports/SUPERVISOR_PROGRESS_UPDATE_DETAILED_2026-07-24.pdf",
+    "source_preserved": true,
+    "byte_identical_to_archived_sent_copy": true,
+    "page_count": 12,
+    "sha256": "62d7deb58f9291c9cd7eafca8e8d0b3b355b4823de215e716f191cf79a92b8e0",
+    "visual_page_audit": "PASS"
   }
 }
