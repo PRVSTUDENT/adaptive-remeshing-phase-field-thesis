@@ -1,7 +1,7 @@
 {
   "protocol_version": 1,
-  "task_id": "F43MODEREF-H2-ENDPOINT-RESOLUTION-PREP1",
-  "status": "preparation_complete_not_authorized",
+  "task_id": "F43MODEREF-H2-ENDPOINT-RESOLUTION-AUTH-MISMATCH1",
+  "status": "authorization_rejected_fail_closed_zero_submissions",
   "remote_hostname": "mlogin01.hrz.tu-freiberg.de",
   "remote_user": "pr21vyci",
   "remote_repository": "/home/pr21vyci/projects/adaptive-remeshing",
@@ -70,7 +70,10 @@
     "Q_commit": "b4d3e55a9d56cfad7151dc6249d1d3c6262b55c8",
     "exact_P_qualification": "PASS",
     "P_to_Q_execution_bytes_identical": true,
-    "submission_preflight": "BLOCKED_no_direct_human_authorization"
+    "submission_preflight": "BLOCKED_authorization_walltime_mismatch",
+    "authorization_requested_walltime": "12:00:00",
+    "frozen_qualified_walltime": "24:00:00",
+    "authorization_package_consistency": "FAIL"
   },
   "governance": {
     "next_evolving_remesh_stage_ready": false,
@@ -82,6 +85,6 @@
     "remaining_authorized_submissions": 0,
     "qsub_called": false,
     "HPC_submissions": 0,
-    "next_scientific_task": "await_exact_one_job_authorization_for_H2_endpoint_resolution"
+    "next_scientific_task": "await_corrected_exact_one_job_authorization_for_frozen_24h_H2_package"
   }
 }

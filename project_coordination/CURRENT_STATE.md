@@ -1,5 +1,12 @@
 # Project Current State
 
+## H2 endpoint authorization mismatch; zero submissions (11 August 2026)
+
+- A one-job authorization specified `12:00:00`, but the exact frozen P/Q-qualified package uses `24:00:00` and PBS SHA256 `96854cf7058ecf6d7d571b758aa937bf199ec9b8a5eef90d7578e4d969f5be89`.
+- Because the authorization also required exact qualified hashes, the terms are internally inconsistent and the fail-closed condition applied.
+- No authorization record was created and no submission wrapper or `qsub` was invoked; submissions remain 0.
+- A corrected direct authorization explicitly naming the frozen `24:00:00` package is required.
+
 ## H2 endpoint-resolution package qualified; submission blocked (11 August 2026)
 
 - Task `F43MODEREF-H2-ENDPOINT-RESOLUTION-PREP1` prepared a new H2 package with exact byte-identical scientific input and UEL relative to job `1386448.mmaster02`.
