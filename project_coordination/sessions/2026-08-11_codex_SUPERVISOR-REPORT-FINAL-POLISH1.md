@@ -2,6 +2,7 @@
 
 - Agent: codex
 - Starting commit: `f1ffebe2f81e604ba3f535edddd5f879ccc6fcd0`
+- Result commit: `d713b66e`
 - Scope: canonical report, report-owned Figure 1, and coordination metadata
 - HPC submissions: 0
 
