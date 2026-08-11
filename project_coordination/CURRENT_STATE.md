@@ -89,3 +89,11 @@
   - `maximum_jobs_now`: **0**
   - `qsub_called`: **false**
   - `HPC_submissions`: **0**
+## Final supervisor-report scientific audit (11 August 2026)
+
+- The 13-page report, source, and email draft were rebuilt and visually audited under task `SUPERVISOR-REPORT-FINAL-SCIENTIFIC-AUDIT-AND-FIX1`.
+- The adaptive and uniform decks/extractors use the same reference-point RF1/U1 definition, sign, units, and loading amplitude; no constant normalization factor is justified.
+- MM and PK5 agree closely with each other, but their late force level is approximately half the uniform-reference level. Exact MM/PK5-versus-H1 curve and work metrics remain unavailable because the primary adaptive curves could not be retrieved during this audit.
+- Adaptive-to-uniform accuracy and accuracy-versus-cost are therefore `HOLD`; the report is not supervisor-send-ready until primary curve-level reconciliation is completed.
+- Parallelization text and Figure 6 now distinguish pure-thread, MPI, and hybrid obligations; the hybrid COMMON/DATA/SAVE limitation is explicit.
+- No Abaqus/PBS submission, retry, move, deletion, or authorization change occurred in this reporting task.
