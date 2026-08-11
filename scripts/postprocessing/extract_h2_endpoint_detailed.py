@@ -47,7 +47,7 @@ def main():
 
     from odbAccess import openOdb
     odb = openOdb(path=args.odb, readOnly=True)
-    rp = odb.rootAssembly.nodeSets.get("RP")
+    rp = odb.rootAssembly.nodeSets["RP"] if "RP" in odb.rootAssembly.nodeSets else None
     if rp is None:
         for instance in odb.rootAssembly.instances.values():
             if "RP" in instance.nodeSets:
