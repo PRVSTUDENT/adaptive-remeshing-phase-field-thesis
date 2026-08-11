@@ -1,7 +1,7 @@
 {
   "protocol_version": 1,
   "task_id": "F43MODEREF-H2-ENDPOINT-RESOLUTION-SUBMIT1",
-  "status": "authorized_preflight_pending",
+  "status": "submitted_running_authority_consumed",
   "remote_hostname": "mlogin01.hrz.tu-freiberg.de",
   "remote_user": "pr21vyci",
   "remote_repository": "/home/pr21vyci/projects/adaptive-remeshing",
@@ -70,7 +70,7 @@
     "Q_commit": "b4d3e55a9d56cfad7151dc6249d1d3c6262b55c8",
     "exact_P_qualification": "PASS",
     "P_to_Q_execution_bytes_identical": true,
-    "submission_preflight": "PENDING_exact_authorized_preflight",
+    "submission_preflight": "PASS_exact_one_job_authorization",
     "authorization_requested_walltime": "24:00:00",
     "frozen_qualified_walltime": "24:00:00",
     "authorization_package_consistency": "PASS"
@@ -79,12 +79,15 @@
     "next_evolving_remesh_stage_ready": false,
     "authorization_ready_for_next_batch": false,
     "direct_human_authorization_found": true,
-    "execution_authorized": true,
-    "submission_approved": true,
-    "maximum_jobs_now": 1,
-    "remaining_authorized_submissions": 1,
-    "qsub_called": false,
-    "HPC_submissions": 0,
-    "next_scientific_task": "run_exact_preflight_then_guarded_single_submission"
+    "execution_authorized": false,
+    "submission_approved": false,
+    "maximum_jobs_now": 0,
+    "remaining_authorized_submissions": 0,
+    "qsub_called": true,
+    "HPC_submissions": 1,
+    "submitted_job_id": "1388330.mmaster02",
+    "submitted_job_state": "R",
+    "authorization_consumed": true,
+    "next_scientific_task": "monitor_1388330_terminal_then_extract_and_rebuild_supervisor_report"
   }
 }

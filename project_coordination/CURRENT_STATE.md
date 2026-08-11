@@ -1,11 +1,19 @@
 # Project Current State
 
+## H2 endpoint-resolution job submitted and running (11 August 2026)
+
+- Exactly one guarded submission passed the frozen-hash, P/Q lineage, scientific identity, NPHYS, notification, PBS, duplicate-job, queue, concurrency, and authorization preflight.
+- PBS accepted `M2H2ENDPOINT` as job `1388330.mmaster02`; immediate state was `R` in execution queue `normal_imfdfkmq`.
+- Scheduler resources: 1 CPU, 8 GB, `24:00:00`; the route request was `entry_imfdfkmq`.
+- Authorization is consumed: attempts/successes = 1/1, remaining submissions = 0, automatic retry and replacement remain prohibited.
+- Next action is read-only terminal monitoring, followed by evidence extraction and supervisor-report rebuild only after scientific classification.
+
 ## H2 endpoint 24-hour authorization received (11 August 2026)
 
 - The user explicitly corrected the prior mismatch and authorized exactly one guarded submission of the frozen `24:00:00` H2 package.
 - Authorized package hashes and P/Q lineage are unchanged; maximum submissions is 1 and maximum running jobs is 2.
 - Automatic retry, replacement, `qmove`, `qdel`, downstream submission, and scientific changes remain prohibited.
-- Authorization is pending exact remote preflight and has not yet been consumed.
+- Authorization was consumed by job `1388330.mmaster02` after exact remote preflight passed.
 
 ## H2 endpoint authorization mismatch; zero submissions (11 August 2026)
 
