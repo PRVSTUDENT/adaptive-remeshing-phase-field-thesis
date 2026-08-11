@@ -2,6 +2,7 @@
 
 - Agent: codex
 - Starting commit: `351190415f92c8fc2db5ffd69b92be3008ae1ce9`
+- Result commit: `4f7708bf`
 - Scope: canonical supervisor report, report-owned H2 figures, and coordination metadata
 - HPC submissions: 0
 
