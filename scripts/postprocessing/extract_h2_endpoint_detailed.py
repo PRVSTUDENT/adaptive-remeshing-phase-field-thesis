@@ -47,7 +47,14 @@ def main():
 
     from odbAccess import openOdb
     odb = openOdb(path=args.odb, readOnly=True)
-    rp = odb.rootAssembly.nodeSets["RP"]
+    rp = odb.rootAssembly.nodeSets.get("RP")
+    if rp is None:
+        for instance in odb.rootAssembly.instances.values():
+            if "RP" in instance.nodeSets:
+                rp = instance.nodeSets["RP"]
+                break
+    if rp is None:
+        raise KeyError("RP node set not found")
     frames = []
     for step_name in sorted(odb.steps.keys()):
         for frame in odb.steps[step_name].frames:
