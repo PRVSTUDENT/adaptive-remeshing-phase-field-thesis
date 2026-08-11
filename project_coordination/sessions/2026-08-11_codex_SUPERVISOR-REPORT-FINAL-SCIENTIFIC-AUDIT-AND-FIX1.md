@@ -2,6 +2,7 @@
 
 - Agent: codex
 - Starting commit: `ccb4355e104f805993cdd27a4c36cde6bbcb9819`
+- Result commit: `ef380640`
 - Scope: reporting artifacts, the two report-owned H2 figures, and coordination closeout only
 - HPC submissions: 0
 

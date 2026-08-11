@@ -1,19 +1,12 @@
 {
   "protocol_version": 1,
   "active": false,
-  "agent": "codex",
-  "task_id": "SUPERVISOR-REPORT-H2-ENDPOINT-FINAL1",
-  "started_at": "2026-08-11T14:15:00+02:00",
-  "completed_at": "2026-08-11T14:45:00+02:00",
-  "starting_commit": "a09908541cb7c1bd1647aa8739feb8a22246fe7f",
-  "result_commit": "c98bb916",
-  "allowed_scope": [
-    "project_coordination/**",
-    "docs/supervisor_reports/**",
-    "scripts/postprocessing/generate_supervisor_h2_figures.py",
-    "results/figures/mode_ii_reference_convergence/**",
-    "results/latex_build_supervisor_progress_2026-08-11/**",
-    "project_coordination/**"
-  ],
-  "note": "Final 13-page supervisor report, updated RF-U/damage/cost figures, and email completed; build and all-page visual audit passed. No HPC activity performed."
+  "agent": null,
+  "task_id": null,
+  "started_at": "2026-08-11T15:00:00+02:00",
+  "completed_at": "2026-08-11T16:10:00+02:00",
+  "starting_commit": "ccb4355e104f805993cdd27a4c36cde6bbcb9819",
+  "result_commit": "ef380640",
+  "allowed_scope": [],
+  "note": "Session released after final scientific audit and verified 13-page report rebuild. Adaptive-to-uniform accuracy remains HOLD; no HPC activity."
 }
