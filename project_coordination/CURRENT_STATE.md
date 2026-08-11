@@ -1,5 +1,12 @@
 # Project Current State
 
+## H2 endpoint 24-hour authorization received (11 August 2026)
+
+- The user explicitly corrected the prior mismatch and authorized exactly one guarded submission of the frozen `24:00:00` H2 package.
+- Authorized package hashes and P/Q lineage are unchanged; maximum submissions is 1 and maximum running jobs is 2.
+- Automatic retry, replacement, `qmove`, `qdel`, downstream submission, and scientific changes remain prohibited.
+- Authorization is pending exact remote preflight and has not yet been consumed.
+
 ## H2 endpoint authorization mismatch; zero submissions (11 August 2026)
 
 - A one-job authorization specified `12:00:00`, but the exact frozen P/Q-qualified package uses `24:00:00` and PBS SHA256 `96854cf7058ecf6d7d571b758aa937bf199ec9b8a5eef90d7578e4d969f5be89`.

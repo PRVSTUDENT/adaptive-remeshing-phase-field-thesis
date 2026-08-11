@@ -1,15 +1,15 @@
 {
   "protocol_version": 1,
-  "active": false,
+  "active": true,
   "agent": "codex",
-  "task_id": "F43MODEREF-H2-ENDPOINT-RESOLUTION-AUTH-MISMATCH1",
-  "started_at": "2026-08-11T06:35:00+02:00",
-  "completed_at": "2026-08-11T06:36:00+02:00",
-  "starting_commit": "085deb437e9b0b35a97961a0e1d47f96845d9797",
-  "result_commit": "working_tree_pending_closeout_commit",
+  "task_id": "F43MODEREF-H2-ENDPOINT-RESOLUTION-SUBMIT1",
+  "started_at": "2026-08-11T06:38:00+02:00",
+  "completed_at": null,
+  "starting_commit": "b440ba170c7b9bd018c314aa05b8456e05c2c2be",
+  "result_commit": null,
   "allowed_scope": [
     "project_coordination/**",
-    "project_coordination/**"
+    "models/generated/mode_ii/reference_convergence/M2REF_H2_FRACFIX_ENDPOINT/H2_ENDPOINT_SUBMISSION_AUTHORIZATION.json"
   ],
-  "note": "Authorization rejected fail closed: user specified 12-hour walltime but exact frozen qualified package is 24 hours. Zero submissions; no authorization record or wrapper invocation."
+  "note": "User explicitly authorized exactly one guarded submission of the frozen qualified 24-hour H2 endpoint-resolution package; fail-closed preflight and submission in progress."
 }
