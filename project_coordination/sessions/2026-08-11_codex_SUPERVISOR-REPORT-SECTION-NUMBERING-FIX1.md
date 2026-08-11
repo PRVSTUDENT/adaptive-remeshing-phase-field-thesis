@@ -21,4 +21,4 @@ Changed only the page-5 and page-6 display headings from `3.` to `3.1` and `3.2`
 
 ## Result
 
-The report is send-ready. Result commit is recorded in the task ledger after commit creation.
+The report is send-ready. Result commit: `bd84c5d0`.
