@@ -1,0 +1,64 @@
+Job Id: 1388330.mmaster02
+    Job_Name = M2H2ENDPOINT
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 99
+    resources_used.cput = 04:25:49
+    resources_used.mem = 2330664kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 3624500kb
+    resources_used.walltime = 04:26:30
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Tue Aug 11 06:42:30 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/mo
+	dels/generated/mode_ii/reference_convergence/M2REF_H2_FRACFIX_ENDPOINT/
+	M2H2ENDPOINT.e1388330
+    exec_host = mnode098/0
+    exec_vnode = (mnode098[0]:ncpus=1:mem=8388608kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,
+	pr21vyci@mailserver.tu-freiberg.de
+    mtime = Tue Aug 11 11:09:41 2026
+    Output_Path = mlogin01.cluster:/home/pr21vyci/projects/adaptive-remeshing/m
+	odels/generated/mode_ii/reference_convergence/M2REF_H2_FRACFIX_ENDPOINT
+	/evidence/$PBS_JOBID/execution.log
+    Priority = 0
+    qtime = Tue Aug 11 06:42:31 2026
+    Rerunable = True
+    Resource_List.mem = 8gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=8gb
+    Resource_List.walltime = 24:00:00
+    stime = Tue Aug 11 06:42:31 2026
+    obittime = Tue Aug 11 11:09:40 2026
+    session_id = 678906
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1388330.mmaster02.x8z
+    substate = 93
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci/projects/adaptive-remeshing/models/genera
+	ted/mode_ii/reference_convergence/M2REF_H2_FRACFIX_ENDPOINT,
+	PBS_O_SYSTEM=Linux,PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Tue Aug 11 at 06:42 on (mnode098[0]:ncpus=1:mem=838860
+	8kb) and failed
+    etime = Tue Aug 11 06:42:31 2026
+    run_count = 1
+    eligible_time = 00:00:04
+    Stageout_status = 0
+    Exit_status = 1
+    Submit_arguments = M2REF_H2_FRACFIX_ENDPOINT.pbs
+    history_timestamp = 1786439381
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+
