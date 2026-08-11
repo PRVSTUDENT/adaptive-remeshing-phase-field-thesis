@@ -1,0 +1,20 @@
+{
+  "package_name": "M2STATE_INGEST_SMOKE1",
+  "purpose": "Minimal solver-consumed state ingestion qualification fixture",
+  "created_at": "2026-08-11T13:34:37Z",
+  "cpus": 1,
+  "memory": "8gb",
+  "walltime": "00:15:00",
+  "queue": "entry_imfdfkmq",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "file_hashes": {
+    "ACCEPTANCE_CONTRACT.json": "74a91b97493b42a98cdf3439560fa02955e19bc69e92b1c4d51c24bfe1cc5371",
+    "f42_mixed_uel.for": "914e65557d57c913c871b78da518bece78667ed88ea59358d498fc61e9e004f8",
+    "M2STATE_INGEST_SMOKE1.inp": "2c7acffb588629a081ca25e0b458baf61f37bddd6e65b22a9e48b92ded053837",
+    "M2STATE_INGEST_SMOKE1.pbs": "15f5f3980a39fbba34daa3bb769fd6a4788cd95be7562d21ed21f94b941a2327",
+    "STATE_TRANSFER_ARTIFACT.json": "567b71515afb278849fbcecc263f1df8b871e4ea18d6c5fae669694a7a199ba0",
+    "submit_m2state_ingest_smoke1.sh": "93a8624cf8a657c130a29929f98b0e18e3af80e3cc0a205154f0d4140abc67e0",
+    "TRANSFER_MANIFEST.json": "aacba15dfdf1096e334913376edb4766f955a3c82806e1f517dcfd768b1ba40f"
+  }
+}

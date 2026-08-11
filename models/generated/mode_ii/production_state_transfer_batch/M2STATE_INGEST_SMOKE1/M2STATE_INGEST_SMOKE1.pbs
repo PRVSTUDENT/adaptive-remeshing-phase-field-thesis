@@ -1,0 +1,27 @@
+#!/bin/bash
+#PBS -N M2STATE_INGEST_SMOKE1
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:15:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@tu-freiberg.de
+
+set -e
+cd "$PBS_O_WORKDIR"
+
+echo "=================================================================="
+echo "Starting job: M2STATE_INGEST_SMOKE1 on $(hostname)"
+echo "Date: $(date)"
+echo "Directory: $(pwd)"
+echo "=================================================================="
+
+# Check input files
+sha256sum M2STATE_INGEST_SMOKE1.inp f42_mixed_uel.for STATE_TRANSFER_ARTIFACT.json TRANSFER_MANIFEST.json
+
+# Run Abaqus
+module load abaqus/2023 || true
+abaqus job=M2STATE_INGEST_SMOKE1 user=f42_mixed_uel.for interactive
+
+echo "=================================================================="
+echo "Abaqus completed with status $?"
+echo "=================================================================="

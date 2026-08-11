@@ -1,0 +1,126 @@
+*HEADING
+M2STATE_INGEST_SMOKE1: Minimal Solver Ingestion Qualification Fixture
+** Purpose: Prove solver-consumed ingestion of transferred phase (nodal U) and history (SVARS)
+** Physical elements: 4 (2 quads, 2 tris). Layered elements: 20.
+**
+*NODE
+1, 0.0, 0.0
+2, 1.0, 0.0
+3, 1.0, 1.0
+4, 0.0, 1.0
+5, 2.0, 0.0
+6, 2.0, 1.0
+7, 3.0, 0.0
+8, 3.0, 1.0
+**
+** ------------------------------------------------------------------
+** USER ELEMENT DEFINITIONS
+** ------------------------------------------------------------------
+*USER ELEMENT, TYPE=U1, NODES=4, INTEGRATION=4, IPERIODIC=0, PROPERTIES=3, COORDINATES=2, VARIABLES=18
+1
+*USER ELEMENT, TYPE=U2, NODES=4, INTEGRATION=4, IPERIODIC=0, PROPERTIES=5, COORDINATES=2, VARIABLES=18
+1, 2
+*USER ELEMENT, TYPE=U3, NODES=3, INTEGRATION=3, IPERIODIC=0, PROPERTIES=3, COORDINATES=2, VARIABLES=18
+1
+*USER ELEMENT, TYPE=U4, NODES=3, INTEGRATION=3, IPERIODIC=0, PROPERTIES=5, COORDINATES=2, VARIABLES=18
+1, 2
+**
+** ------------------------------------------------------------------
+** ELEMENT CONNECTIVITY
+** ------------------------------------------------------------------
+** JTYPE=1: Quad Phase UEL (1..2)
+*ELEMENT, TYPE=U1
+1, 1, 2, 3, 4
+2, 2, 5, 6, 3
+**
+** JTYPE=2: Quad Displacement UEL (5..6, NPHYS=4)
+*ELEMENT, TYPE=U2
+5, 1, 2, 3, 4
+6, 2, 5, 6, 3
+**
+** JTYPE=3: Tri Phase UEL (9..10)
+*ELEMENT, TYPE=U3
+9, 5, 7, 6
+10, 7, 8, 6
+**
+** JTYPE=4: Tri Displacement UEL (13..14, NPHYS=4)
+*ELEMENT, TYPE=U4
+13, 5, 7, 6
+14, 7, 8, 6
+**
+** Facsimile UMAT elements (17..20, NPHYS=4)
+*ELEMENT, TYPE=CPE4, ELSET=E_QUAD_UMAT
+17, 1, 2, 3, 4
+18, 2, 5, 6, 3
+*ELEMENT, TYPE=CPE3, ELSET=E_TRI_UMAT
+19, 5, 7, 6
+20, 7, 8, 6
+**
+** ------------------------------------------------------------------
+** ELEMENT PROPERTIES
+** ------------------------------------------------------------------
+*UEL PROPERTY, ELSET=E_U1
+0.015, 0.0027, 1.0
+*UEL PROPERTY, ELSET=E_U2
+210.0, 0.3, 1.0, 1.0e-7, 4
+*UEL PROPERTY, ELSET=E_U3
+0.015, 0.0027, 1.0
+*UEL PROPERTY, ELSET=E_U4
+210.0, 0.3, 1.0, 1.0e-7, 4
+*SOLID SECTION, ELSET=E_QUAD_UMAT, MATERIAL=MAT_FACSIMILE
+1.0
+*SOLID SECTION, ELSET=E_TRI_UMAT, MATERIAL=MAT_FACSIMILE
+1.0
+**
+*MATERIAL, NAME=MAT_FACSIMILE
+*USER MATERIAL, CONSTANTS=3
+210.0, 0.3, 4
+*DEPVAR
+18
+**
+*ELSET, ELSET=E_U1
+1, 2
+*ELSET, ELSET=E_U2
+5, 6
+*ELSET, ELSET=E_U3
+9, 10
+*ELSET, ELSET=E_U4
+13, 14
+**
+** ------------------------------------------------------------------
+** INITIAL CONDITIONS: SENTINEL PHASE (NODAL U) AND HISTORY (SVARS)
+** ------------------------------------------------------------------
+*INITIAL CONDITIONS, TYPE=DISPLACEMENT
+1, 1, 0.110000
+2, 1, 0.230000
+3, 1, 0.370000
+4, 1, 0.610000
+5, 1, 0.250000
+6, 1, 0.450000
+7, 1, 0.150000
+8, 1, 0.050000
+**
+*INITIAL CONDITIONS, TYPE=SOLUTION
+1, 0.000110, 0.000120, 0.000130, 0.000140
+2, 0.000210, 0.000220, 0.000230, 0.000240
+5, 0.000110, 0.000120, 0.000130, 0.000140
+6, 0.000210, 0.000220, 0.000230, 0.000240
+9, 0.000310, 0.000320, 0.000330, 0.000000
+10, 0.000410, 0.000420, 0.000430, 0.000000
+13, 0.000310, 0.000320, 0.000330, 0.000000
+14, 0.000410, 0.000420, 0.000430, 0.000000
+**
+** ------------------------------------------------------------------
+** ANALYSIS STEP: BOUNDARY CONDITIONS & EQUILIBRIUM SOLVE
+** ------------------------------------------------------------------
+*STEP, NAME=Step-1, NLGEOM=NO
+*STATIC
+1.0, 1.0, 1.0e-5, 1.0
+*BOUNDARY
+1, 1, 2, 0.0
+4, 1, 2, 0.0
+*NODE FILE
+U
+*EL FILE
+SDV
+*END STEP

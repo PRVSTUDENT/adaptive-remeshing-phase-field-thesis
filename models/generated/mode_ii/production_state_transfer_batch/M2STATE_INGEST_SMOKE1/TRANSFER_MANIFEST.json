@@ -1,0 +1,15 @@
+{
+  "package_name": "M2STATE_INGEST_SMOKE1",
+  "source_candidate": "SENTINEL_FIXTURE",
+  "target_candidate": "SMOKE_4ELEM_MESH",
+  "source_nphys": 4,
+  "target_nphys": 4,
+  "nphys_slot5_property_contract": "PASS",
+  "transfer_variables": [
+    "U1",
+    "SDV14",
+    "SDV15",
+    "SDV16"
+  ],
+  "transfer_validation": "PASS"
+}

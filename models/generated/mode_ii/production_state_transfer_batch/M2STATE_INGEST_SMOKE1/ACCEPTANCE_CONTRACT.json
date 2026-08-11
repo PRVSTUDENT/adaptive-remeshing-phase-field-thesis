@@ -1,0 +1,19 @@
+{
+  "package_name": "M2STATE_INGEST_SMOKE1",
+  "acceptance_gates": {
+    "abaqus_exit_status": 0,
+    "solver_normal_completion": "PASS",
+    "phase_sentinel_observed_by_uel_incoming_u": "PASS",
+    "history_sentinel_observed_by_uel_incoming_svars": "PASS",
+    "internal_phase_equals_expected_initial_phase": "PASS",
+    "internal_history_equals_expected_initial_history": "PASS",
+    "sdv14_15_16_expected_first_state_values": "PASS",
+    "element_ip_ordering": "PASS",
+    "phase_history_nonzero_sentinel_coverage_pct": 100.0,
+    "unexpected_zero_initialization_records": 0,
+    "nan_inf_count": 0,
+    "nphys_order_errors": 0
+  },
+  "max_submissions": 1,
+  "automatic_retry": false
+}
