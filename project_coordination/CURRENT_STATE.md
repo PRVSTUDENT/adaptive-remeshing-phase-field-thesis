@@ -59,12 +59,29 @@
 - Corrected $G_c$, mixed U1/U2/U3/U4 plus passive CPE4/CPE3 architecture, SDV14/15/16 contract, stiffness figure, provenance, and three diagram layouts.
 - PDF build and all-page 180-dpi visual audit passed. Final PDF SHA-256: `29c58cb706fb0405c44bbaf86f198e6e824ce7e71ef5b3be7d8b50201627c512`.
 
-# Current Project State - Stage C Mode-II Job 1386471 Runtime State Ingestion Audit Complete (FAIL) & RESTART2 Authorization Hold
+# Current Project State - Mode-II State-Ingestion UEL Architecture Fixed & Qualification Package M2STATE_INGEST_SMOKE1 Qualified (Not Authorized)
 
-**Active Task**: `F43STATE-M2-RUNTIME-INGESTION-AUDIT1`  
+**Active Task**: `F43STATE-M2-INGESTION-FIX-PREP1`  
 **Date**: 2026-08-11  
 **Active Agent**: `gemini-antigravity`  
-**Task Status**: `audit_complete_ingestion_failed`  
+**Task Status**: `preparation_and_qualification_complete_not_authorized`  
+
+---
+
+## 1. Corrected UEL State-Ingestion Architecture
+
+- **Ingestion Path**: Corrected `f42_mixed_uel.for` to ingest history $H$ directly from Abaqus `SVARS(1..4)` (supplied via `*INITIAL CONDITIONS, TYPE=SOLUTION`) and phase $d$ directly from nodal phase DOFs `U` (supplied via `*INITIAL CONDITIONS, TYPE=DISPLACEMENT`).
+- **Parallelization Assessment**: Documented in `docs/technical/F43_STATE_INGESTION_PARALLELIZATION_NOTE.md`. `COMMON/KUSER/USRVAR` memory classified as shared mutable; `serial_ingestion_fix_parallel_safe = NOT_PROVEN`.
+- **Qualification Fixture**: Prepared `M2STATE_INGEST_SMOKE1` (4-element mesh, 2 quads, 2 tris) with distinct non-zero sentinel values.
+- **Local Unit Tests**: `tests/unit/test_m2state_ingest_smoke1.py` passed (5/5 PASS).
+- **Lineage**: Immutable `P43STATE-INGEST1-FINAL1` tag anchored at commit `e666a9a4`. Provenance `Q43STATE-INGEST1-FINAL1` tag.
+- **Authorization State**:
+  - `M2STATE_INGEST_SMOKE1_authorization_ready`: **true**
+  - `execution_authorized`: **false**
+  - `submission_approved`: **false**
+  - `maximum_jobs_now`: **0**
+  - `qsub_called`: **false**
+  - `HPC_submissions`: **0**
 
 ---
 
