@@ -1,20 +1,18 @@
 {
   "protocol_version": 1,
   "active": false,
-  "agent": "gemini-antigravity",
-  "task_id": "F43STATE-M2-RUNTIME-INGESTION-AUDIT1",
-  "started_at": "2026-08-11T03:25:00+02:00",
-  "completed_at": "2026-08-11T03:31:00+02:00",
-  "starting_commit": "3134a175abb89d4493d8d2a7027df3ee7ce39268",
-  "result_commit": "3134a175abb89d4493d8d2a7027df3ee7ce39268",
+  "agent": "codex",
+  "task_id": "F43MODEREF-H2-ENDPOINT-RESOLUTION-PREP1",
+  "started_at": "2026-08-11T06:20:00+02:00",
+  "completed_at": "2026-08-11T06:33:00+02:00",
+  "starting_commit": "d2c9c6a6d5f8dce94924ecb9cf6ab77fec96d7be",
+  "result_commit": "b4d3e55a9d56cfad7151dc6249d1d3c6262b55c8",
   "allowed_scope": [
     "project_coordination/**",
-    "models/generated/mode_ii/**",
-    "docs/**",
-    "scripts/**",
-    "tests/**",
-    "results/**",
-    "runs/hpc/**"
+    "models/generated/mode_ii/reference_convergence/M2REF_H2_FRACFIX_ENDPOINT/**",
+    "scripts/hpc/**",
+    "scripts/validation/**",
+    "tests/**"
   ],
-  "note": "Completed F43STATE-M2-RUNTIME-INGESTION-AUDIT1: Proved that Job 1386471 (M2STATE_FRACFIX_RESTART1) did not ingest the transferred MM state at runtime due to f42_mixed_uel.for state memory zero initialization and unread SVARS array. Placed RESTART2 authorization on hold."
+  "note": "Prepared and clean-Linux-qualified a scientifically byte-identical H2 endpoint-resolution package with 24-hour walltime. P/Q immutable lineage created. No qsub; authorization remains blocked."
 }

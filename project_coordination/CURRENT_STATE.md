@@ -1,5 +1,22 @@
 # Project Current State
 
+## H2 endpoint-resolution package qualified; submission blocked (11 August 2026)
+
+- Task `F43MODEREF-H2-ENDPOINT-RESOLUTION-PREP1` prepared a new H2 package with exact byte-identical scientific input and UEL relative to job `1386448.mmaster02`.
+- Only scheduler/provenance identity changed; walltime is now `24:00:00`, with 1 CPU, 8 GB, serial Abaqus/Standard, and queue `entry_imfdfkmq` preserved.
+- Immutable lineage: `P43MODEREF-H2END1-FINAL1` at `195e37d8c4398058c0ff19e0a7d9d78d0c27d529`; provenance-only `Q43MODEREF-H2END1-FINAL1` at `b4d3e55a9d56cfad7151dc6249d1d3c6262b55c8`.
+- Rehearsal and exact-P clean Linux qualification passed; P-to-Q execution bytes are identical; `qstat -u pr21vyci` returned rc=0 with 0 running and 0 queued jobs during rehearsal.
+- No authorization exists: `execution_authorized=false`, `submission_approved=false`, `maximum_jobs_now=0`, `qsub_called=false`, `HPC_submissions=0`.
+- The current supervisor report is provisional until H2 reaches 0.010000 mm or terminates for a genuine solver/numerical reason and the PDF is rebuilt.
+
+## Supervisor progress report closeout (11 August 2026)
+
+- Correction audit `SUPERVISOR-REPORT-2026-08-11-CORRECTION-AUDIT1` is complete, but the report is now provisional pending the H2 endpoint-resolution run.
+- The 13-page detailed PDF, LaTeX source, and email draft are under `docs/supervisor_reports/`.
+- The report preserves the controlling scientific state below: job 1386471 did not ingest transferred state at runtime; Restart2 remains on hold; no HPC work was submitted.
+- Corrected $G_c$, mixed U1/U2/U3/U4 plus passive CPE4/CPE3 architecture, SDV14/15/16 contract, stiffness figure, provenance, and three diagram layouts.
+- PDF build and all-page 180-dpi visual audit passed. Final PDF SHA-256: `29c58cb706fb0405c44bbaf86f198e6e824ce7e71ef5b3be7d8b50201627c512`.
+
 # Current Project State - Stage C Mode-II Job 1386471 Runtime State Ingestion Audit Complete (FAIL) & RESTART2 Authorization Hold
 
 **Active Task**: `F43STATE-M2-RUNTIME-INGESTION-AUDIT1`  
@@ -42,4 +59,3 @@
   - `maximum_jobs_now`: **0**
   - `qsub_called`: **false**
   - `HPC_submissions`: **0**
-

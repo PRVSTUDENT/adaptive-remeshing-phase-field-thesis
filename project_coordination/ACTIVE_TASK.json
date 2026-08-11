@@ -1,11 +1,34 @@
 {
   "protocol_version": 1,
-  "task_id": "F43STATE-M2-RUNTIME-INGESTION-AUDIT1",
-  "status": "audit_complete_ingestion_failed",
+  "task_id": "F43MODEREF-H2-ENDPOINT-RESOLUTION-PREP1",
+  "status": "preparation_complete_not_authorized",
   "remote_hostname": "mlogin01.hrz.tu-freiberg.de",
   "remote_user": "pr21vyci",
   "remote_repository": "/home/pr21vyci/projects/adaptive-remeshing",
-  "audit_findings": {
+  "report_deliverables": {
+    "pdf": "docs/supervisor_reports/SUPERVISOR_PROGRESS_UPDATE_DETAILED_2026-08-11.pdf",
+    "tex": "docs/supervisor_reports/SUPERVISOR_PROGRESS_UPDATE_DETAILED_2026-08-11.tex",
+    "email": "docs/supervisor_reports/SUPERVISOR_PROGRESS_UPDATE_EMAIL_2026-08-11.md",
+    "page_count": 13,
+    "pdf_sha256": "29c58cb706fb0405c44bbaf86f198e6e824ce7e71ef5b3be7d8b50201627c512",
+    "pdf_build": "PASS",
+    "visual_page_audit": "PASS",
+    "supervisor_send_ready": false,
+    "correction_audit": {
+      "Gc_corrected": true,
+      "element_architecture_corrected": true,
+      "SDV_contract_corrected": true,
+      "stiffness_percentage_corrected": true,
+      "H1_vs_H0_common_window_L2_pct": 1.3632590357096928,
+      "H2_vs_H0_common_window_L2_pct": 1.8024131677798059,
+      "H2_vs_H1_common_window_L2_pct": 0.5183739416889613,
+      "runtime_ingestion_primary_evidence_cited": true,
+      "parallelization_claims_verified": true,
+      "diagram_overlaps": "none",
+      "claim_matrix_readability": "PASS"
+    }
+  },
+  "controlling_scientific_audit": {
     "job_name": "M2STATE_FRACFIX_RESTART1",
     "job_id": "1386471.mmaster02",
     "transfer_artifact_runtime_consumed": false,
@@ -32,6 +55,23 @@
     },
     "root_cause": "f42_mixed_uel.for does not read SVARS or STATE_TRANSFER_ARTIFACT.json; internal USRVAR state initialized to 0.0."
   },
+  "h2_endpoint_resolution": {
+    "job_name": "M2H2ENDPOINT",
+    "historical_job": "1386448.mmaster02",
+    "scientific_identity_with_historical_H2": "PASS",
+    "NPHYS": 33852,
+    "walltime": "24:00:00",
+    "cpus": 1,
+    "memory": "8gb",
+    "queue": "entry_imfdfkmq",
+    "P_tag": "P43MODEREF-H2END1-FINAL1",
+    "P_commit": "195e37d8c4398058c0ff19e0a7d9d78d0c27d529",
+    "Q_tag": "Q43MODEREF-H2END1-FINAL1",
+    "Q_commit": "b4d3e55a9d56cfad7151dc6249d1d3c6262b55c8",
+    "exact_P_qualification": "PASS",
+    "P_to_Q_execution_bytes_identical": true,
+    "submission_preflight": "BLOCKED_no_direct_human_authorization"
+  },
   "governance": {
     "next_evolving_remesh_stage_ready": false,
     "authorization_ready_for_next_batch": false,
@@ -41,6 +81,7 @@
     "maximum_jobs_now": 0,
     "remaining_authorized_submissions": 0,
     "qsub_called": false,
-    "HPC_submissions": 0
+    "HPC_submissions": 0,
+    "next_scientific_task": "await_exact_one_job_authorization_for_H2_endpoint_resolution"
   }
 }

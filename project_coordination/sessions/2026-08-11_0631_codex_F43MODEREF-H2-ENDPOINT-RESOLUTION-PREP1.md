@@ -36,6 +36,14 @@ Prepared a new, submission-blocked H2 Mode-II FRACFIX endpoint-resolution packag
 - Remote tag object: `9bce2126761584debab79a9cccaf5f70afd2e4dd`
 - Created once and pushed once normally.
 
+## Provenance-only Q
+
+- Tag: `Q43MODEREF-H2END1-FINAL1`
+- Commit: `b4d3e55a9d56cfad7151dc6249d1d3c6262b55c8`
+- Local tag object: `985412bfdc54b759fab22e1dc6ece178379a4b9c`
+- Remote tag object: `985412bfdc54b759fab22e1dc6ece178379a4b9c`
+- P to Q execution-critical byte identity: PASS.
+
 ## Execution state
 
 - `execution_authorized=false`
