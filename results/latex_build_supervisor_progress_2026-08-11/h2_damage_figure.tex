@@ -3,14 +3,14 @@
 \definecolor{navy}{HTML}{17365D}\definecolor{blue}{HTML}{2F75B5}\definecolor{gray}{HTML}{666666}\definecolor{red}{HTML}{C00000}
 \begin{document}
 \begin{tikzpicture}
-\begin{axis}[width=12cm,height=8cm,xlabel={$u_1$ ($\mu$m)},ylabel={$d_{\max}$},xmin=4.8,xmax=10.1,ymin=0,ymax=1.05,grid=both,legend style={at={(.02,.98)},anchor=north west,font=\scriptsize},tick label style={font=\scriptsize},label style={font=\small}]
+\begin{axis}[width=13cm,height=9cm,xlabel={$u_1$ ($\mu$m)},ylabel={$d_{\max}$},xmin=4.8,xmax=10.1,ymin=0,ymax=1.05,grid=both,legend style={at={(.02,.98)},anchor=north west,font=\fontsize{9.5}{11}\selectfont},tick label style={font=\fontsize{9.5}{11}\selectfont},label style={font=\fontsize{10.5}{12.5}\selectfont}]
 \addplot[gray,thick] table[x expr=\thisrow{u1}*1000,y=d_max,col sep=comma]{../../models/generated/mode_ii/verification_batch/M2REF_H0_NPHYSFIX_REPRO/evidence/1386372.mmaster02/damage_history.csv};\addlegendentry{H0}
 \addplot[blue,thick,dashed] table[x expr=\thisrow{u1}*1000,y=d_max,col sep=comma]{../../models/generated/mode_ii/reference_convergence/M2REF_H1_FRACFIX/evidence/1386447.mmaster02/damage_history.csv};\addlegendentry{H1}
 \addplot[navy,very thick] table[x expr=\thisrow{u1}*1000,y=d_max,col sep=comma]{../../models/generated/mode_ii/reference_convergence/M2REF_H2_FRACFIX_ENDPOINT/evidence/1388330.mmaster02/damage_history.csv};\addlegendentry{H2}
 \draw[dashed] (axis cs:4.8,.5)--(axis cs:10.1,.5);\draw[dotted] (axis cs:4.8,.9)--(axis cs:10.1,.9);
-\addplot[only marks,mark=*,mark size=2pt,blue] coordinates {(7.75,.5)} node[below right,font=\tiny]{$d\geq0.5$: H1/H2};
-\addplot[only marks,mark=triangle*,mark size=2pt,navy] coordinates {(8,.9)} node[above left,font=\tiny]{H2 $d\geq0.9$};
-\addplot[only marks,mark=triangle*,mark size=2pt,blue] coordinates {(8.5,.9)} node[below right,font=\tiny]{H1 $d\geq0.9$};
+\addplot[only marks,mark=*,mark size=2pt,blue] coordinates {(7.75,.5)} node[below right,font=\fontsize{9.5}{11}\selectfont]{$d\geq0.5$: H1/H2, 7.75 $\mu$m};
+\addplot[only marks,mark=triangle*,mark size=2pt,navy] coordinates {(8,.9)} node[above left,font=\fontsize{9.5}{11}\selectfont]{H2 $d\geq0.9$: 8.00 $\mu$m};
+\addplot[only marks,mark=triangle*,mark size=2pt,blue] coordinates {(8.5,.9)} node[below right,font=\fontsize{9.5}{11}\selectfont]{H1 $d\geq0.9$: 8.50 $\mu$m};
 \draw[dashed,blue] (axis cs:9.6325,0)--(axis cs:9.6325,1.05);\draw[dashed,red] (axis cs:9.7625,0)--(axis cs:9.7625,1.05);
 \end{axis}
 \end{tikzpicture}

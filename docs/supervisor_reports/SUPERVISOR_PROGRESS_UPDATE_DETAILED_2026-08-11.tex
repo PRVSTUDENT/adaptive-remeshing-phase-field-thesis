@@ -1,29 +1,32 @@
-\documentclass[10pt,a4paper]{article}
-\usepackage[margin=13mm,top=12mm,bottom=14mm]{geometry}
-\usepackage{graphicx,xcolor,tabularx,booktabs,array,enumitem,microtype,lmodern,fancyhdr,tikz}
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=21mm,top=18mm,bottom=19mm]{geometry}
+\usepackage{graphicx,xcolor,tabularx,booktabs,array,enumitem,microtype,lmodern,fancyhdr,tikz,lastpage}
 \usepackage[T1]{fontenc}
 \usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc}
 \usepackage{url}
-\setlength{\parindent}{0pt}\setlength{\parskip}{3pt}
+\setlength{\parindent}{0pt}\setlength{\parskip}{4pt}\linespread{1.06}
 \sloppy
-\setlist{leftmargin=5mm,itemsep=1pt,topsep=2pt}
+\setlist{leftmargin=6mm,itemsep=2pt,topsep=3pt}
 \definecolor{navy}{HTML}{17365D}\definecolor{blue}{HTML}{2F75B5}
 \definecolor{green}{HTML}{548235}\definecolor{amber}{HTML}{BF8F00}
 \definecolor{red}{HTML}{C00000}\definecolor{gray}{HTML}{666666}
 \definecolor{pb}{HTML}{E7F0F8}\definecolor{pg}{HTML}{EAF2E3}
 \definecolor{pa}{HTML}{FFF3D6}\definecolor{pr}{HTML}{FBE5E5}\definecolor{px}{HTML}{EEEEEE}
 \newcommand{\boxx}[2]{\colorbox{#1}{\parbox{\dimexpr\linewidth-2\fboxsep}{#2}}}
-\newcommand{\headx}[1]{{\color{navy}\LARGE\bfseries #1}\par\vspace{1mm}{\color{blue}\rule{\linewidth}{1.1pt}}\vspace{2mm}}
-\newcommand{\status}[2]{\colorbox{#1}{\textcolor{white}{\bfseries\scriptsize #2}}}
+\newcommand{\headx}[1]{{\color{navy}\fontsize{17}{20}\selectfont\bfseries #1}\par\vspace{1.5mm}{\color{blue}\rule{\linewidth}{1.1pt}}\vspace{3mm}}
+\newcommand{\status}[2]{\colorbox{#1}{\textcolor{white}{\bfseries\fontsize{8.5}{10}\selectfont #2}}}
+\newcommand{\tablefont}{\fontsize{9.5}{11.5}\selectfont}
+\newcommand{\densefont}{\fontsize{9}{10.8}\selectfont}
+\newcommand{\captionfont}{\fontsize{9.5}{11.5}\selectfont}
 \newcommand{\pass}{\status{green}{PASS}}\newcommand{\supported}{\status{green}{SUPPORTED}}
 \newcommand{\hold}{\status{amber}{HOLD}}\newcommand{\fail}{\status{red}{FAIL}}
 \newcommand{\unresolved}{\status{gray}{UNRESOLVED}}\newcommand{\notclaimed}{\status{gray}{NOT YET CLAIMED}}
-\pagestyle{fancy}\fancyhf{}\lhead{\footnotesize Detailed supervisor progress report}
-\rhead{\footnotesize 11 August 2026}\cfoot{\footnotesize\thepage\ / 13}\renewcommand{\headrulewidth}{.3pt}
+\pagestyle{fancy}\fancyhf{}\lhead{\fontsize{8.5}{10}\selectfont Detailed supervisor progress report}
+\rhead{\fontsize{8.5}{10}\selectfont 11 August 2026}\cfoot{\fontsize{8.5}{10}\selectfont\thepage\ / \pageref{LastPage}}\renewcommand{\headrulewidth}{.3pt}
 \begin{document}
 
 \headx{Technical Progress Report}
-{\Large\bfseries Mode-II Reference Verification, Adaptive Remeshing,\par State Transfer, and Parallelization Assessment\par for Phase-Field Fracture in Abaqus\par}
+{\fontsize{17}{20}\selectfont\bfseries Mode-II Reference Verification, Adaptive Remeshing,\par State Transfer, and Parallelization Assessment\par for Phase-Field Fracture in Abaqus\par}
 \begin{tabularx}{\linewidth}{@{}lX@{}}
 \textbf{Author} & Pruthviraja Reddy Vandavagali\\
 \textbf{Programme} & Master Thesis, TU Bergakademie Freiberg\\
@@ -33,9 +36,9 @@
 \boxx{pb}{\textbf{Progress since the 24 July report.} The work has advanced to a Mode-II verification and adaptive-production branch: corrected coarse/intermediate/fine uniform references (H0/H1/H2), two endpoint-complete locally refined calculations, and an executable-path assessment of nonmatching state transfer.}
 \boxx{pg}{\textbf{Major supported result.} The fine H2 reference calculation was extended to characterize the near-peak response more completely. It remained identical to the previous H2 response over the shared loading range, developed an interior reaction-force peak of 0.3581 kN at $u_1=0.00950$ mm, and subsequently terminated by nonlinear solver divergence at $u_1=0.0097625$ mm. H1 and H2 closely agree before and near the peak; complete post-peak convergence remains unresolved.}
 \boxx{pr}{\textbf{Current evidence boundary.} Crack-path convergence fails its frozen matched-state gate. Runtime state ingestion fails. A second evolving remesh, general thread safety, MPI/hybrid safety, and an online adaptive-remesh loop are not established.}
-\small
+\tablefont
 \begin{tabularx}{\linewidth}{@{}XrXr@{}}\toprule
-Pre-peak uniform verification&\pass&Adaptive MM/PK5 production&\pass\\
+Pre-peak uniform verification&\pass&Locally refined adaptive calculations&\pass\\
 Adaptive-to-uniform accuracy&\hold&Matched-state crack path&\fail\\
 Nonmatching transfer artifact&\supported&Mechanical re-equilibration claim&\fail\\
 Runtime state ingestion&\fail&Second evolving remesh&\hold\\
@@ -43,7 +46,7 @@ Parallel thread safety&\unresolved&MPI / hybrid safety&\unresolved\\
 Online adaptive remeshing&\notclaimed&Thesis integration&\supported\\\bottomrule
 \end{tabularx}
 \boxx{pa}{\textbf{Adaptive comparison boundary.} The two locally refined solutions agree closely with each other, but their late-loading reaction-force magnitude is approximately half that of the uniform references. The deck and extraction audit found no justified constant normalization factor. Adaptive-to-uniform accuracy and accuracy-versus-cost are therefore held pending curve-level reconciliation.}
-\vfill\footnotesize Evidence snapshot: \texttt{0b36c8ed3e5420f34ed66f6468c5994ad3f3e0f4}.
+\vfill\captionfont Evidence snapshot: \texttt{0b36c8ed3e5420f34ed66f6468c5994ad3f3e0f4}.
 
 \clearpage\headx{1. From Mode I development to Mode II verification}
 The 24 July report documented the Mode-I development benchmark, layered UEL/UMAT/UEXTERNALDB architecture, MISESERI-guided offline refinement, bounded transfer, fixed-active-set failure, and offline KKT correction. None of that evidence is invalidated. The present Mode-II branch is a later, more demanding verification and adaptive-production benchmark that retains the same methodology: one physical mesh reconstructed as coincident phase, mechanics, and visualization layers; deterministic packages; and claim-by-claim validation.
@@ -56,15 +59,15 @@ The current corrected phase-field UEL formulation (internally FRACFIX) uses the 
 \resizebox{.90\linewidth}{!}{\begin{tikzpicture}[node distance=15mm,box/.style={draw=navy,rounded corners,fill=pb,minimum width=34mm,minimum height=9mm,align=center},arr/.style={-{Latex},thick,blue}]
 \node[box] (m1) {Mode-I development\\architecture + transfer methods};
 \node[box,right=of m1] (m2) {Mode-II verification\\split-notch pure shear};
-\node[box,right=of m2] (m3) {Adaptive production\\MM and PK5};
+\node[box,right=of m2] (m3) {Adaptive production\\two locally refined meshes};
 \draw[arr] (m1)--(m2);\draw[arr](m2)--(m3);
 \end{tikzpicture}}
-\\[-1mm]\footnotesize Method continuity $\rightarrow$ verified Mode-II branch $\rightarrow$ adaptive production.
+\\[1mm]\captionfont Method continuity $\rightarrow$ verified Mode-II branch $\rightarrow$ adaptive production.
 \end{center}
 \boxx{pa}{\textbf{Reason for the transition.} Mode II supplies the current common reference/adaptive comparison problem and exercises mixed-mode-sensitive localization. It is not a replacement for the Mode-I development evidence; it is the next verification and production branch.}
 
 \clearpage\headx{2. Uniform H0/H1/H2 reference verification}
-\small
+\tablefont
 \begin{tabularx}{\linewidth}{@{}lrrrr@{}}\toprule
 Metric&H0&H1&H2&Interpretation\\\midrule
 Physical elements&3,930&12,064&33,852&$h/l_0=2.0,1.0,0.5$\\
@@ -91,17 +94,26 @@ full post-peak uniform convergence&\unresolved\\complete uniform fracture refere
 
 \clearpage\headx{3. Uniform-reference figures and interpretation}
 \begin{center}
-\includegraphics[width=.88\linewidth]{../../results/figures/mode_ii_reference_convergence/mode_ii_h0_h1_h2_rf1_u1_comparison.pdf}\\[-1mm]
-\footnotesize\textbf{Figure 1.} $RF_1$--$u_1$ comparison from primary extracted curves. H2 reproduces the previous solution exactly to 9.25 $\mu$m, reaches an interior peak at 9.50 $\mu$m, and diverges at 9.7625 $\mu$m. H1 diverges at 9.6325 $\mu$m; global H1/H2 peak convergence remains unresolved.\\[2mm]
-\includegraphics[width=.48\linewidth]{../../results/figures/mode_ii_reference_convergence/mode_ii_h0_h1_h2_damage_evolution_comparison.pdf}\hfill
-\includegraphics[width=.48\linewidth]{../../results/figures/mode_ii_reference_convergence/mode_ii_h0_h1_h2_initial_stiffness_fit.pdf}\\[-1mm]
-\footnotesize\textbf{Figures 2--3.} Extended damage evolution and identical origin-OLS stiffness over $0<u_1\leq0.002$ mm. H1/H2 share $d_{\max}\geq0.5$ initiation at 0.00775 mm; $d_{\max}\geq0.9$ shifts from 0.00850 mm (H1) to 0.00800 mm (H2). $K_0=$46.1396, 45.9035, and 45.8741 kN/mm for H0/H1/H2.
+\includegraphics[width=.96\linewidth]{../../results/figures/mode_ii_reference_convergence/mode_ii_h0_h1_h2_rf1_u1_comparison.pdf}\\[1mm]
+\captionfont\textbf{Figure 1.} $RF_1$--$u_1$ comparison from primary extracted curves. H2 reproduces the previous solution exactly to 9.25 $\mu$m, reaches an interior peak at 9.50 $\mu$m, and diverges at 9.7625 $\mu$m. H1 diverges at 9.6325 $\mu$m; global H1/H2 peak convergence remains unresolved.\\[2mm]
+\end{center}
+
+\clearpage\headx{3. Uniform-reference figures and interpretation (continued)}
+\begin{center}
+\includegraphics[width=.82\linewidth]{../../results/figures/mode_ii_reference_convergence/mode_ii_h0_h1_h2_damage_evolution_comparison.pdf}\\[2mm]
+\captionfont\textbf{Figure 2.} Extended damage evolution. H1 and H2 share $d_{\max}\geq0.5$ initiation at 7.75 $\mu$m. The $d_{\max}\geq0.9$ threshold occurs at 8.00 $\mu$m for H2 and 8.50 $\mu$m for H1.
+\end{center}
+
+\clearpage\headx{3. Uniform-reference figures and interpretation (continued)}
+\begin{center}
+\includegraphics[width=.88\linewidth]{../../results/figures/mode_ii_reference_convergence/mode_ii_h0_h1_h2_initial_stiffness_fit.pdf}\\[2mm]
+\captionfont\textbf{Figure 3.} Identical origin-OLS stiffness fits over $0<u_1\leq0.002$ mm. $K_0=$46.1396, 45.9035, and 45.8741 kN/mm for H0/H1/H2, respectively.
 \end{center}
 \normalsize H2's global phase range is 0 to 0.999966 with no overshoot. SDV16 has no negative transitions, but eight small SDV15 decreases occur (worst $-3.9768\times10^{-4}$). History monotonicity is supported; strict solved-phase pointwise irreversibility is not established.
 
 \clearpage\headx{4. Adaptive mesh development and production}
 MISESERI pre-analysis was used to localize resolution before the fracture solves. Two locally refined meshes were selected for production. The first is a lower-cost, strongly localized mesh with 2,206 physical elements, referred to internally as MM. The second is a finer crack-corridor mesh with 4,894 physical elements, referred to internally as PK5. MM uses minimum/maximum local-size control and has crack-corridor median $h/l_0=0.8170$; PK5 uses a 5\% error-target criterion and has median $h/l_0=0.6033$. They represent different compromises between cost and local fracture-process-zone resolution.
-\small
+\tablefont
 \begin{tabularx}{\linewidth}{@{}p{18mm}p{14mm}p{19mm}p{26mm}XX@{}}\toprule
 Job&Elements&CPU / wall&Peak RAM / VMEM&Solver result&Scope\\\midrule
 Lower-cost mesh (MM) 1386469&2,206&164 / 166 s&4.86 / 7.58 GB&endpoint, 2,500 increments, 0 cutbacks&strong localization\\
@@ -122,8 +134,8 @@ Finer mesh (PK5) 1386470&4,894&366 / 368 s&10.12 / 12.90 GB&endpoint, 2,500 incr
 \end{tikzpicture}
 }
 \end{center}
-\footnotesize\raggedright\textbf{Figure 4.} Audited one-CPU time. MM denotes the lower-cost adaptive mesh (2,206 physical elements); PK5 denotes the finer crack-corridor adaptive mesh (4,894 physical elements). H1/H2 are incomplete uniform diagnostics; MM/PK5 are endpoint-complete. Cost alone does not establish adaptive-to-uniform accuracy.\par
-\small
+\captionfont\raggedright\textbf{Figure 4.} Audited one-CPU time. MM denotes the lower-cost adaptive mesh (2,206 physical elements); PK5 denotes the finer crack-corridor adaptive mesh (4,894 physical elements). H1/H2 are incomplete uniform diagnostics; MM/PK5 are endpoint-complete. Cost alone does not establish adaptive-to-uniform accuracy.\par
+\tablefont
 \begin{tabularx}{\linewidth}{@{}lrrX@{}}\toprule
 Case&H2 / case CPU ratio&Elements&Scientifically comparable response statement\\\midrule
 H0&7.9745$\times$&3,930&coarse uniform baseline; full endpoint\\
@@ -142,7 +154,7 @@ PK5&43.58$\times$&4,894&endpoint-complete; adaptive-reference accuracy HOLD\\\bo
 \draw[arr](s)--(a);\draw[-{Latex},very thick,green](a)--node[right=4mm,text=green]{offline mapping: \textbf{PASS}}(i);\draw[-{Latex},very thick,red](i)--node[right=4mm,text=red]{runtime ingestion: \textbf{FAIL}}(t);
 \end{tikzpicture}}
 \end{center}
-\footnotesize\textbf{Figure 5.} Audited source-to-runtime chain for job 1386471. The artifact exists and offline mapping is traceable, but the executable path does not ingest it. Source: runtime-ingestion audit F43STATE-M2-RUNTIME-INGESTION-AUDIT1.\par
+\captionfont\textbf{Figure 5.} Audited source-to-runtime chain for job 1386471. The artifact exists and offline mapping is traceable, but the executable path does not ingest it. Source: runtime-ingestion audit F43STATE-M2-RUNTIME-INGESTION-AUDIT1.\par
 \normalsize
 Job 1386471 used MM Step-1 frame 500 ($u_1=0.005000$ mm) as the intended source and a nonmatching PK5 target (4,894 physical; 14,682 layered elements). The artifact contained mapped nodal phase and integration-point history; the offline phase $L_2$ mapping error was 0.048\%, with bounds and coverage checks passing. The target solve then completed to $u_1=0.010000$ mm in 2,100 increments, 4,200 equilibrium iterations, and no cutbacks.
 
@@ -155,27 +167,27 @@ Subsequent executable-path verification showed that the prepared transfer artifa
 The evidence supports a more precise answer than a blanket prohibition. UEXTERNALDB is a lifecycle callback and does not itself prohibit parallel execution. In pure thread mode, threads share process memory; COMMON blocks, files, and other shared resources require race protection, and Abaqus provides mutex and allocatable-array utilities. MPI ranks are separate processes: ordinary COMMON storage is replicated and process-private, so inter-rank consistency requires explicit ownership, communication, or distribution. Hybrid MPI+threads combines both obligations and requires thread-safe user routines; SIMULIA explicitly states that this precludes COMMON blocks, DATA statements, and SAVE statements. The present shared-state architecture must therefore be refactored, not merely mutex-guarded, before hybrid qualification.\footnote{SIMULIA, \emph{About User Subroutines and Utilities}, ``Parallelization,'' and \emph{About Parallel Execution}, ``Use with User Subroutines,'' Abaqus documentation (accessed 11 August 2026).}
 
 \begin{center}
-\resizebox{.88\linewidth}{!}{\begin{tikzpicture}[node distance=10mm,rank/.style={draw=navy,rounded corners,fill=pb,minimum width=58mm,minimum height=27mm,align=center},shared/.style={draw=red,fill=pr,rounded corners,minimum width=42mm,minimum height=10mm,align=center},arr/.style={-{Latex},thick,blue}]
+\resizebox{.96\linewidth}{!}{\begin{tikzpicture}[font=\large,node distance=11mm,rank/.style={draw=navy,rounded corners,fill=pb,minimum width=58mm,minimum height=29mm,align=center},shared/.style={draw=red,fill=pr,rounded corners,minimum width=44mm,minimum height=11mm,align=center},arr/.style={-{Latex},thick,blue}]
 \node[rank](r0){\textbf{MPI rank 0: private process state}\\UEXTERNALDB/runtime; UEL + UMAT\\threads may share rank-local memory};
 \node[rank,right=24mm of r0](r1){\textbf{MPI rank 1: private process state}\\UEXTERNALDB/runtime; UEL + UMAT\\threads may share rank-local memory};
-\draw[<->,very thick,blue](r0.east)--node[above,font=\scriptsize]{MPI exchange}(r1.west);
+\draw[<->,very thick,blue](r0.east)--node[above,font=\normalsize]{MPI exchange}(r1.west);
 \node[shared,below=14mm of r0](s0){rank-local shared/global state\\mutex boundary in pure thread mode};
 \node[shared,below=14mm of r1](s1){rank-local shared/global state\\mutex boundary in pure thread mode};
 \draw[arr](r0)--(s0);\draw[arr](r1)--(s1);
 \node[below=7mm of $(s0)!0.5!(s1)$,text=red,align=center]{Hybrid mode: refactor COMMON / DATA / SAVE; mutexes alone do not qualify the architecture};
 \end{tikzpicture}}
 \end{center}
-\footnotesize\textbf{Figure 6.} Each MPI rank executes its own UEL/UMAT work with process-private state; threads within a rank share memory. Pure-thread race protection and explicit inter-rank distribution are separate obligations; hybrid execution requires removal/refactoring of COMMON/DATA/SAVE state.\par
+\captionfont\textbf{Figure 6.} Each MPI rank executes its own UEL/UMAT work with process-private state; threads within a rank share memory. Pure-thread race protection and explicit inter-rank distribution are separate obligations; hybrid execution requires removal/refactoring of COMMON/DATA/SAVE state.\par
 \normalsize
 The parallelization qualification study found 38 COMMON, 7 SAVE, 21 DATA, and 87 WRITE occurrences across the audited variants. USRVAR is read/written from UEL and UMAT, and UEXTERNALDB variants perform shared-state loading and file I/O. Static inspection identifies risk; it cannot prove callback order, same-thread ownership, or cross-rank consistency.
 
 \clearpage\headx{8. Parallelization evidence and current status}
-\small
+\tablefont
 \begin{tabularx}{\linewidth}{@{}p{29mm}p{38mm}Xp{29mm}@{}}\toprule
 Execution mode&Abaqus capability / memory model&Current implementation evidence&Status\\\midrule
-Serial&ordinary user-subroutine baseline&P3-S failed with signal 11; minimized P3-SM0 and later serial identifier lanes completed; finalized P3-SB evidence retained&\colorbox{green}{\textcolor{white}{\bfseries\tiny SERIAL BASELINE}}\\
-1 MPI rank, 4 threads&threads share process state&Small repeatability test D2C matched its serial case. Threaded attempt P3-T4 failed compilation before callbacks/solver.&\status{amber}{CASE EVIDENCE}\\
-Multiple MPI ranks&separate rank address spaces&no proof that COMMON/global state is distributed consistently&\status{gray}{UNQUALIFIED}\\
+Serial&ordinary user-subroutine baseline&P3-S failed with signal 11; minimized P3-SM0 and later serial identifier lanes completed; finalized P3-SB evidence retained&\status{green}{SERIAL}\\
+1 MPI rank, 4 threads&threads share process state&Small repeatability test D2C matched its serial case. Threaded attempt P3-T4 failed compilation before callbacks/solver.&\status{amber}{SCOPED}\\
+Multiple MPI ranks&separate rank address spaces&no proof that COMMON/global state is distributed consistently&\status{gray}{UNQUAL.}\\
 Hybrid MPI + threads&thread-safe routines required; COMMON/DATA/SAVE precluded&no valid scientific hybrid evidence; shared-state refactor required&\status{gray}{UNTESTED}\\\bottomrule
 \end{tabularx}
 \normalsize
@@ -186,7 +198,7 @@ A serial diagnostic (P3-S) and minimized callback tests (P3-SM0/P3-SM1) establis
 
 \clearpage\headx{9. Proposed parallelization subproblem}
 The next investigation should proceed as a gated engineering subproblem, with no promise of production parallel speedup before numerical equality and determinism are demonstrated.
-\small
+\tablefont
 \begin{tabularx}{\linewidth}{@{}p{13mm}p{47mm}X@{}}\toprule
 Stage&Action&Measurable output / pass condition\\\midrule
 P-A&Static shared-state and file-I/O inventory&owner, writer, lifecycle, rank/thread scope for every mutable value\\
@@ -202,7 +214,7 @@ For every stage, compare the complete RF--U curve, SDV14/15/16 fields, history o
 \boxx{pb}{\textbf{Direct answer.} The limitation is best understood as an implementation thread-safety and inter-rank-state problem, not as ``UEXTERNALDB forbids parallelism.'' The present code nevertheless remains serial-qualified only, with one small case-specific threaded repeat; refactoring and staged tests are required before parallel production use.}
 
 \clearpage\headx{10. Claim matrix: 24 July versus 11 August}
-\footnotesize
+\tablefont
 \begin{tabularx}{\linewidth}{@{}p{29mm}p{24mm}p{27mm}Xp{29mm}@{}}\toprule
 Claim&24 July&11 August&Evidence&Remaining limitation\\\midrule
 MISESERI pre-refinement&validated in scope&SUPPORTED&offline/native candidate generation&indicator is not fracture solution\\
@@ -246,29 +258,30 @@ Online remeshing&withheld&NOT YET CLAIMED&offline CAE remesh/candidate work only
 \boxx{pr}{\textbf{Scientific progression gate.} Do not execute the second controlled transfer stage or claim evolving/online remeshing until the executable initialization path consumes the state and the first solver state is independently verified.}
 
 \clearpage\headx{12. Reproducibility appendix}
-\small
+\densefont
 \begin{tabularx}{\linewidth}{@{}p{32mm}X@{}}\toprule
 Item&Frozen identity or location\\\midrule
 Evidence snapshot revision&\texttt{0b36c8ed3e5420f34ed66f6468c5994ad3f3e0f4}\\
 H2 endpoint closeout revision&\texttt{0b36c8ed3e5420f34ed66f6468c5994ad3f3e0f4}\\
 Runtime-ingestion audit revision&\texttt{d2c9c6a6d5f8dce94924ecb9cf6ab77fec96d7be}\\
 Parallel-study closure revision&\texttt{8d920db09bb79846fe15697d785d37a012426638}\\
-Current production UEL SHA-256&\texttt{0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8}\\
+Current production UEL SHA-256&\path{0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8}\\
 Uniform jobs&H0 \texttt{1386372}; H1 \texttt{1386447}; earlier H2 \texttt{1386448}; extended H2 \texttt{1388330}\\
 Adaptive jobs&MM \texttt{1386469} (M2ADAPT\_MM\_FRACFIX\_PROD); PK5 \texttt{1386470} (M2ADAPT\_PK5\_FRACFIX\_PROD)\\
 Restart audit&\texttt{1386471} (M2STATE\_FRACFIX\_RESTART1); primary audit: {\ttfamily project\_coordination/sessions/\newline 2026-08-11\_0525\_gemini-antigravity\_\newline F43STATE-M2-RUNTIME-INGESTION-AUDIT1.md}; revision \texttt{d2c9c6a6d5f8dce94924ecb9cf6ab77fec96d7be}\\
-Uniform evidence&\texttt{models/generated/mode\_ii/reference\_convergence/}; Pair-2 censoring audit\\
-Adaptive evidence&\texttt{models/generated/mode\_ii/production\_adaptive\_batch/}\\
-Transfer evidence&\texttt{models/generated/mode\_ii/production\_state\_transfer\_batch/}\\
-Parallel evidence&\texttt{runs/hpc/stage\_p/}; \texttt{results/validation/stage\_p\_static\_audit/}\\
+Uniform evidence&\path{models/generated/mode_ii/reference_convergence/}; Pair-2 censoring audit\\
+Adaptive evidence&\path{models/generated/mode_ii/production_adaptive_batch/}\\
+Transfer evidence&\path{models/generated/mode_ii/production_state_transfer_batch/}\\
+Parallel evidence&\path{runs/hpc/stage_p/}; \path{results/validation/stage_p_static_audit/}\\
 Software&Abaqus 2023; Intel 2024.2.0 and GCC 11.4.0 environment; Abaqus Python runtime; serial jobs reported here use one CPU\\\bottomrule
 \end{tabularx}
 \normalsize
+\clearpage\headx{12. Reproducibility appendix (continued)}
 \textbf{Glossary.} H0/H1/H2 are the coarse/intermediate/fine uniform meshes. MM is the lower-cost locally refined mesh; PK5 is the finer 5\%-criterion crack-corridor mesh. FRACFIX is the current corrected phase-field UEL formulation. $N_{\rm phys}$ is the number of physical elements, excluding coincident logical/output layers. D2C is the small one-rank/four-thread repeatability case; P3-T4 is the threaded qualification attempt that stopped during compilation.
 
 \textbf{Evidence notes.} Numerical values come from primary scheduler/solver records, extracted curves, frozen comparison contracts, endpoint closeout, and the executable-path audit. H2 has a defensible interior peak; cross-mesh global peak convergence remains unresolved because H1 is incomplete. H0/H2 available-domain RF $L_2=1.891\%$ and work difference $=1.304\%$ through 0.0097625 mm are contextual, not full-path convergence. The report does not expose credentials or reproduce bulky solver artifacts.
 
-\textbf{Parallelization references.} SIMULIA, \emph{About User Subroutines and Utilities}: \url{https://docs.software.vt.edu/abaqusv2024/English/SIMACAEANLRefMap/simaanl-c-subroutineover.htm}; and \emph{About Parallel Execution}: \url{https://docs.software.vt.edu/abaqusv2024/English/SIMACAEEXCRefMap/simaexc-c-parallelmodes.htm} (accessed 11 August 2026).
+\textbf{Parallelization references.} The installed implementation was assessed in Abaqus 2023. The linked Abaqus 2024 pages are cited deliberately as current SIMULIA guidance supplementing that 2023 implementation assessment: SIMULIA, \emph{About User Subroutines and Utilities}: \url{https://docs.software.vt.edu/abaqusv2024/English/SIMACAEANLRefMap/simaanl-c-subroutineover.htm}; and \emph{About Parallel Execution}: \url{https://docs.software.vt.edu/abaqusv2024/English/SIMACAEEXCRefMap/simaexc-c-parallelmodes.htm} (accessed 11 August 2026).
 
 \vfill
 \boxx{pb}{\textbf{Current claim boundary in one sentence.} The work now supports scoped Mode-II pre-peak uniform consistency and mutual agreement of two endpoint-complete adaptive solutions, but adaptive-to-uniform accuracy, converged crack geometry, actual nonmatching runtime state ingestion, a second evolving remesh, online adaptivity, and generally safe parallel execution are not yet demonstrated.}

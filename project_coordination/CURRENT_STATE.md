@@ -97,3 +97,11 @@
 - Adaptive-to-uniform accuracy and accuracy-versus-cost are therefore `HOLD`; the report is not supervisor-send-ready until primary curve-level reconciliation is completed.
 - Parallelization text and Figure 6 now distinguish pure-thread, MPI, and hybrid obligations; the hybrid COMMON/DATA/SAVE limitation is explicit.
 - No Abaqus/PBS submission, retry, move, deletion, or authorization change occurred in this reporting task.
+## Supervisor-report typography/readability closeout (11 August 2026)
+
+- The canonical report was rebuilt as a 16-page A4 document with 11 pt body text, 9--9.5 pt tables, 9.5 pt captions, and enlarged scientific-figure labels.
+- Uniform-reference Figures 1--3 now use separate pages; Figure 1 callouts and the damage thresholds are readable without zooming.
+- MM and PK5 no longer appear on pages 1--2; their first occurrence remains the descriptive definition in the adaptive section.
+- The claim matrix is 9.5 pt, the reproducibility appendix is split across two pages, and page numbering is dynamic.
+- The report explicitly explains that Abaqus 2024 documentation is current SIMULIA guidance supplementing assessment of the installed Abaqus 2023 implementation.
+- PDF build and all-page rendered visual audit passed. No scientific values/classifications changed and no HPC activity occurred.
