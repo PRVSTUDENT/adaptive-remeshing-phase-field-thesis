@@ -16,7 +16,7 @@ Job `M2H2ENDPOINT` finished with PBS state `F`, exit status `1`, CPU `04:25:49`,
 - Maximum RF1: `0.358134001493454 kN` at `U1=0.009499999694526196 mm`; this is an interior peak.
 - Final RF1: `0.35292819142341614 kN`.
 - Origin-OLS initial stiffness (`0<U1<=0.002 mm`): `45.8741275290422 kN/mm`.
-- Final dmax: `0.9999661445617676`.
+- Final-frame dmax: `0.9998552203178406`; the global maximum over all frames is `0.9999661445617676`.
 - Global phase bounds: `[0, 0.9999661445617676]`; overshoot `0`.
 - SDV16 maximum `2303.837646484375`; negative transitions `0`.
 - SDV15 negative transitions `8`; worst decrease `-0.00039768218994140625`.
