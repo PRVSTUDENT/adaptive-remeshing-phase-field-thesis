@@ -1,5 +1,11 @@
 # Project Current State
 
+## Supervisor report Section 3 hierarchy corrected (11 August 2026)
+
+- The canonical 16-page report now uses `3.1 Damage evolution` and `3.2 Initial stiffness` beneath `3. Uniform-reference figures and interpretation`.
+- Only the two heading labels changed; scientific text, numerical values, figures, captions, typography, classifications, and references were preserved.
+- The PDF rebuilt successfully and rendered pages 4--6 passed visual inspection. No HPC submission occurred.
+
 ## Final supervisor report updated with H2 endpoint-resolution evidence (11 August 2026)
 
 - The canonical 13-page supervisor PDF, LaTeX source, and email draft now incorporate job `1388330.mmaster02`.
