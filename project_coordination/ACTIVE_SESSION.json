@@ -2,14 +2,17 @@
   "protocol_version": 1,
   "active": false,
   "agent": "codex",
-  "task_id": "F43MODEREF-H2-ENDPOINT-RESOLUTION-SUBMIT1",
-  "started_at": "2026-08-11T06:38:00+02:00",
-  "completed_at": "2026-08-11T06:42:00+02:00",
-  "starting_commit": "b440ba170c7b9bd018c314aa05b8456e05c2c2be",
-  "result_commit": "1c95f9df25ba16f5e7637a72a69fd4c5179ea46f",
+  "task_id": "F43MODEREF-H2-ENDPOINT-RESOLUTION-CLOSEOUT1",
+  "started_at": "2026-08-11T11:12:00+02:00",
+  "completed_at": "2026-08-11T14:05:00+02:00",
+  "starting_commit": "7d3129c45cd3d8370c9ce8dc3c9dd78da661c843",
+  "result_commit": "0b36c8ed",
   "allowed_scope": [
     "project_coordination/**",
-    "models/generated/mode_ii/reference_convergence/M2REF_H2_FRACFIX_ENDPOINT/H2_ENDPOINT_SUBMISSION_AUTHORIZATION.json"
+    "models/generated/mode_ii/reference_convergence/M2REF_H2_FRACFIX_ENDPOINT/evidence/1388330.mmaster02/**",
+    "scripts/postprocessing/**",
+    "results/figures/mode_ii_reference_convergence/**",
+    "results/supervisor_progress_update/**"
   ],
-  "note": "Exact preflight passed and one guarded qsub produced running job 1388330.mmaster02. Authorization consumed; no retry or further submission permitted."
+  "note": "Closeout complete: solver divergence at U1=0.0097625004 mm, exact old-H2 overlap reproduction, revised H1/H2 convergence. No retry or submission performed."
 }
