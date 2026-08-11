@@ -2,11 +2,11 @@
   "protocol_version": 1,
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F43STATE-M2-OVERNIGHT-CONTINUE1",
-  "started_at": "2026-08-10T18:01:12+02:00",
-  "completed_at": "2026-08-10T18:04:28+02:00",
-  "starting_commit": "26bc4f1795d5c149dc2cb6065989381828839421",
-  "result_commit": "56dc8ab1c50bd04b427cc749583349b39b415b10",
+  "task_id": "F43STATE-M2-RUNTIME-INGESTION-AUDIT1",
+  "started_at": "2026-08-11T03:25:00+02:00",
+  "completed_at": "2026-08-11T03:31:00+02:00",
+  "starting_commit": "3134a175abb89d4493d8d2a7027df3ee7ce39268",
+  "result_commit": "3134a175abb89d4493d8d2a7027df3ee7ce39268",
   "allowed_scope": [
     "project_coordination/**",
     "models/generated/mode_ii/**",
@@ -16,5 +16,5 @@
     "results/**",
     "runs/hpc/**"
   ],
-  "note": "Completed F43STATE-M2-OVERNIGHT-CONTINUE1: Performed terminal check and scientific closeout of job 1386471 (PASS), and prepared Stage-2 evolving-remesh restart package M2STATE_FRACFIX_RESTART2 with frozen execution hashes and immutable P/Q lineage."
+  "note": "Completed F43STATE-M2-RUNTIME-INGESTION-AUDIT1: Proved that Job 1386471 (M2STATE_FRACFIX_RESTART1) did not ingest the transferred MM state at runtime due to f42_mixed_uel.for state memory zero initialization and unread SVARS array. Placed RESTART2 authorization on hold."
 }
