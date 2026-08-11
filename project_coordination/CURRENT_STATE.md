@@ -1,5 +1,13 @@
 # Project Current State
 
+## Final supervisor report updated with H2 endpoint-resolution evidence (11 August 2026)
+
+- The canonical 13-page supervisor PDF, LaTeX source, and email draft now incorporate job `1388330.mmaster02`.
+- H2 scheduler censoring is resolved: exact reproduction through `u1=0.009250 mm`, interior peak `RF1=0.358134 kN` at `u1=0.009500 mm`, and genuine numerical divergence at `u1=0.0097625004 mm` after 15,990 s walltime.
+- The enlarged H1/H2 common-domain RF L2 is `0.5359988%` and work difference is `0.2870731%` through `u1=0.0096324999 mm`.
+- Frozen crack-path convergence remains FAIL (`0.005443 mm > 0.003750 mm`); complete uniform post-peak and energy convergence remain unresolved.
+- RF-U, damage-evolution, and cost figures were regenerated; all 13 rendered pages passed visual inspection. No HPC submission occurred.
+
 ## H2 endpoint-resolution job submitted and running (11 August 2026)
 
 - Exactly one guarded submission passed the frozen-hash, P/Q lineage, scientific identity, NPHYS, notification, PBS, duplicate-job, queue, concurrency, and authorization preflight.

@@ -1,7 +1,7 @@
 {
   "protocol_version": 1,
-  "task_id": "F43MODEREF-H2-ENDPOINT-RESOLUTION-SUBMIT1",
-  "status": "submitted_running_authority_consumed",
+  "task_id": "SUPERVISOR-REPORT-H2-ENDPOINT-FINAL1",
+  "status": "complete_send_ready",
   "remote_hostname": "mlogin01.hrz.tu-freiberg.de",
   "remote_user": "pr21vyci",
   "remote_repository": "/home/pr21vyci/projects/adaptive-remeshing",
@@ -10,10 +10,10 @@
     "tex": "docs/supervisor_reports/SUPERVISOR_PROGRESS_UPDATE_DETAILED_2026-08-11.tex",
     "email": "docs/supervisor_reports/SUPERVISOR_PROGRESS_UPDATE_EMAIL_2026-08-11.md",
     "page_count": 13,
-    "pdf_sha256": "29c58cb706fb0405c44bbaf86f198e6e824ce7e71ef5b3be7d8b50201627c512",
+    "pdf_sha256": "fa90bfd6a87ffb7cf2d8b12d7224074877d2a6b42da25cbf1a8b5c999865162c",
     "pdf_build": "PASS",
     "visual_page_audit": "PASS",
-    "supervisor_send_ready": false,
+    "supervisor_send_ready": true,
     "correction_audit": {
       "Gc_corrected": true,
       "element_architecture_corrected": true,
@@ -86,8 +86,8 @@
     "qsub_called": true,
     "HPC_submissions": 1,
     "submitted_job_id": "1388330.mmaster02",
-    "submitted_job_state": "R",
+    "submitted_job_state": "F",
     "authorization_consumed": true,
-    "next_scientific_task": "monitor_1388330_terminal_then_extract_and_rebuild_supervisor_report"
+    "next_scientific_task": "send_final_report_then_correct_and_prove_runtime_state_ingestion"
   }
 }

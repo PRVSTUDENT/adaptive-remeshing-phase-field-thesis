@@ -1,0 +1,16 @@
+\documentclass[tikz,border=3pt]{standalone}
+\usepackage{pgfplots}\pgfplotsset{compat=1.18}
+\definecolor{navy}{HTML}{17365D}\definecolor{blue}{HTML}{2F75B5}\definecolor{green}{HTML}{548235}\definecolor{red}{HTML}{C00000}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[width=15.8cm,height=8.1cm,xlabel={$u_1$ (mm)},ylabel={$RF_1$ (kN)},xmin=0,xmax=.0101,ymin=0,ymax=.385,grid=both,legend style={at={(.02,.98)},anchor=north west,font=\small},tick label style={font=\small},label style={font=\small}]
+\addplot[gray,thick] table[x=u1,y=rf1,col sep=comma]{../../models/generated/mode_ii/verification_batch/M2REF_H0_NPHYSFIX_REPRO/evidence/1386372.mmaster02/rf1_u1_curve.csv};\addlegendentry{H0 endpoint-complete}
+\addplot[blue,thick] table[x=u1,y=rf1,col sep=comma]{../../models/generated/mode_ii/reference_convergence/M2REF_H1_FRACFIX/evidence/1386447.mmaster02/rf1_u1_curve.csv};\addlegendentry{H1}
+\addplot[navy,very thick] table[x=u1,y=rf1,col sep=comma]{../../models/generated/mode_ii/reference_convergence/M2REF_H2_FRACFIX_ENDPOINT/evidence/1388330.mmaster02/rf1_u1_curve.csv};\addlegendentry{extended H2}
+\draw[dashed,blue] (axis cs:.0096325,0)--(axis cs:.0096325,.385);
+\addplot[only marks,mark=x,mark size=3pt,blue] coordinates {(.0096325,.361657)} node[above left,font=\scriptsize,align=right]{H1 divergence\\common boundary};
+\addplot[only marks,mark=*,mark size=2.5pt,green] coordinates {(.0095,.358134)} node[below left,font=\scriptsize,align=right]{H2 interior peak\\0.358134 kN};
+\addplot[only marks,mark=x,mark size=3pt,red] coordinates {(.0097625,.352928)} node[below right,font=\scriptsize,align=left]{H2 divergence};
+\end{axis}
+\end{tikzpicture}
+\end{document}
