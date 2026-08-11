@@ -9,7 +9,7 @@
   },
   "differences": [
     {"file": "PBS", "field": "job_name", "old": "M2REF_H2_FRACFIX", "new": "M2H2ENDPOINT", "classification": "provenance-only"},
-    {"file": "PBS", "field": "walltime", "old": "04:00:00", "new": "12:00:00", "classification": "scheduler-only"},
+    {"file": "PBS", "field": "walltime", "old": "04:00:00", "new": "24:00:00", "classification": "scheduler-only"},
     {"file": "PBS", "field": "input_and_job_identity", "old": "M2REF_H2_FRACFIX", "new": "M2REF_H2_FRACFIX_ENDPOINT", "classification": "provenance-only"},
     {"file": "wrapper", "field": "package_and_authorization_identity", "classification": "provenance-only"},
     {"file": "manifest", "field": "execution_and_provenance_hashes", "classification": "provenance-only"}

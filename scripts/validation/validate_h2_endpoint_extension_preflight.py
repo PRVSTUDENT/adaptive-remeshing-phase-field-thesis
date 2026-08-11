@@ -14,9 +14,9 @@ NEW = ROOT / "models/generated/mode_ii/reference_convergence/M2REF_H2_FRACFIX_EN
 EXPECTED = {
     "inp": "c9a3f496cf2cb0daa455cfae31f5bd699b56f3b410f0a7f2a12014b2718be5b0",
     "uel": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
-    "pbs": "a3977490c87f5c76941fa7f03e851d3bceddfed0cf3a7178d03dc2bc9b7ac1bf",
+    "pbs": "96854cf7058ecf6d7d571b758aa937bf199ec9b8a5eef90d7578e4d969f5be89",
     "wrapper": "4293ceaf961b067ea24031d218e303f107984289d0e9434fe1b7adc169066318",
-    "manifest": "c1bfd1d86709d999143b19322e0ea05940ce6dc072bcaa88ce4f61c7014e75aa",
+    "manifest": "2238e1461ef9b7744f2d0b5e8b79c59a49048f465bb77a6d99d769ca2d13296e",
 }
 
 
@@ -77,7 +77,7 @@ def main():
     required_output = (" U, RF", " SDV, S, EVOL", "ALLAE, ALLCD, ALLIE, ALLKE, ALLPD, ALLSE, ALLWK, ETOTAL")
     if any(item not in inp for item in required_output):
         errors.append("scientific output parity contract missing")
-    required_pbs = ("#PBS -N M2H2ENDPOINT", "select=1:ncpus=1:mem=8gb", "walltime=12:00:00", "#PBS -q entry_imfdfkmq", "#PBS -m abe")
+    required_pbs = ("#PBS -N M2H2ENDPOINT", "select=1:ncpus=1:mem=8gb", "walltime=24:00:00", "#PBS -q entry_imfdfkmq", "#PBS -m abe")
     if any(item not in pbs for item in required_pbs):
         errors.append("PBS resource or notification contract mismatch")
     recipients = "Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de"
