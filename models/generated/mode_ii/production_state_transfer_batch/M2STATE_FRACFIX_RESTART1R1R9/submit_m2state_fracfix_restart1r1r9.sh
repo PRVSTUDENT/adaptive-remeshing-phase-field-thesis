@@ -1,0 +1,34 @@
+#!/bin/bash
+# Guarded Submission Wrapper for Candidate M2STATE_FRACFIX_RESTART1R1R9
+# Max Submissions: 1 (Single Job Batch)
+# Automatic Retry: FALSE
+
+set -euo pipefail
+
+CANDIDATE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$CANDIDATE_DIR"
+
+echo "=== Preflight Verification for M2STATE_FRACFIX_RESTART1R1R9 ==="
+python3 validate_package_manifest.py
+
+DRY_RUN=false
+if [ "${1:-}" == "--dry-run" ]; then
+    DRY_RUN=true
+    echo "[INFO] Dry run mode enabled. Submission wrapper verified without qsub."
+    exit 0
+fi
+
+if [ "${1:-}" != "--execute" ]; then
+    echo "Usage: $0 --dry-run | --execute"
+    exit 1
+fi
+
+echo "=== Submitting Job M2STATE_FRACFIX_RESTART1R1R9 to PBS ==="
+JOB_ID=$(qsub M2STATE_FRACFIX_RESTART1R1R9.pbs)
+echo "[SUBMISSION] Job submitted successfully: $JOB_ID"
+
+if [ -f "$CANDIDATE_DIR/job_notifications.sh" ]; then
+    source "$CANDIDATE_DIR/job_notifications.sh"
+    load_notification_config
+    notify_submitted "$JOB_ID" "M2STATE_FRACFIX_RESTART1R1R9" "entry_imfdfkmq" "1" "16gb" "24:00:00"
+fi

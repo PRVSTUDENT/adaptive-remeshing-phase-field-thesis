@@ -1,6 +1,67 @@
 # Project Current State
 
-## Mode-II Corrected Restart-2 Candidate Qualification Complete: `M2STATE_FRACFIX_RESTART2R10` (14 August 2026)
+## Mode-II Instrumented Restart-1 Evidence-Recovery Candidate Qualification Complete: `M2STATE_FRACFIX_RESTART1R1R9` (14 August 2026)
+
+- **Task ID**: `F91STATE-M2-INSTRUMENTED-RESTART1-R1R9-PREP-AND-QUALIFICATION1`
+- **Active Agent**: `gemini-antigravity`
+- **Target Candidate**: `M2STATE_FRACFIX_RESTART1R1R9`
+- **Predecessor Job**: `1386469.mmaster02` (`M2ADAPT_MM_FRACFIX_PROD` at $u_1 = 0.005000\text{ mm}$, $RF_1 = 0.064100\text{ kN}$)
+- **Status Verdict**: **`R1R9_QUALIFICATION_STATUS = QUALIFIED_READY_FOR_HUMAN_AUTHORIZATION`**
+- **Production Submission Status**: `production_submission_status = READY_FOR_AUTHORIZATION` (`new_submission_authorized = false`, `qsub_call_count = 0`).
+- **Technical Achievements & Qualification Evidence**:
+  - **Instrumentation**: Added authoritative integration-point `SDV16/H`, `SDV14/d`, `SDV15/g(d)` output via `*EL PRINT, FREQ=1, ELSET=E_MECH_UEL` for quad and tri user elements in `.dat` file at every increment.
+  - **Invariance Ingestion**: Derived directly from validated `M2STATE_FRACFIX_RESTART1R1R8`; preserves identical source state from `1386469.mmaster02`, PK5 mesh (4,998 nodes, 4,894 physical elements: 4,766 quads, 128 tris), clean 6-slot ABI (`PROPS(1..6)`), safe Jacobian inversion in `f42_mixed_uel.for`, consistent Newton phase residual, loading ($u_1 = 0.005000 \to 0.010000\text{ mm}$), and resource contract.
+  - **Local Unit Tests**: `tests/unit/test_m2state_fracfix_restart1r1r9.py` -> **100% PASS** (5/5 tests passed).
+  - **Sealed Package Manifest**: `49448f1915a70c1c5998ad75799d13dba0cbf35dce277436d1daaaad664113a5`.
+  - **Remote Cluster Qualification on `mlogin01`**:
+    - Remote Byte Verification: **PASS** (100% SHA256 match).
+    - Abaqus 2023 Datacheck: **PASS** (0 errors, 0 fatals, `DATACHECK COMPLETED`).
+    - Step 1 Solve: **PASS** ($RF_1 = 0.06367871\text{ kN}$ vs predecessor $0.064100\text{ kN}$, relative difference $0.657\% \le 2.0\%$ force continuity gate **PASS**; global balance error $1.259 \times 10^{-10}\text{ kN}$ **PASS**; `SDV16` printed **PASS**).
+    - Guarded Wrapper Dry Run: **PASS** (`qsub_call_count = 0`).
+- **Governance & Policy Invariants**:
+  - `INSTRUMENTED_RESTART1_QUALIFICATION = QUALIFIED_READY_FOR_HUMAN_AUTHORIZATION`
+  - `authorization_consumed = false`
+  - `automatic_retry = false`
+  - `new_submission_authorized = false`
+  - `max_permitted_submissions = 0`
+  - `qsub_called = false`
+  - `qdel_called = false`
+  - `qmove_called = false`
+  - `M2STATE_FRACFIX_RESTART2R10_modified = false`
+  - `second_evolving_remesh_runtime_result = NOT_EVALUATED`
+  - `online_adaptive_remeshing = NOT_CLAIMED`
+
+## Mode-II Corrected Restart-2 Pre-Submission Scientific Audit Complete: `M2STATE_FRACFIX_RESTART2R10` (14 August 2026)
+
+
+- **Task ID**: `F90STATE-M2-RESTART2R10-SCIENTIFIC-PRESUBMISSION-ACCEPTANCE-AUDIT1`
+- **Active Agent**: `gemini-antigravity`
+- **Target Candidate**: `M2STATE_FRACFIX_RESTART2R10`
+- **Source Job**: `1389241.mmaster02` (`M2STATE_FRACFIX_RESTART1R1R8` at Step 2 Frame 15, $u_1 = 0.010000\text{ mm}$, $RF_1 = 0.123223\text{ kN}$, $d_{\max} = 0.185041$)
+- **Status Verdict**: **`R2R10_QUALIFICATION_STATUS = QUALIFIED_BUT_MULTIPLE_SCIENTIFIC_GATES_FAILED`**
+- **Production Submission Status**: `production_submission_status = BLOCKED_PENDING_SCIENTIFIC_HANDOFF_AUDIT` (`new_submission_authorized = false`, `qsub_call_count = 0`).
+- **Audit Findings & Results**:
+  - **Technical Package Qualification**: `PASS` (Manifest `ce2403d5...` verified 100%, local unit tests 6/6 `PASS`, remote datacheck 0 errors `PASS`, Step 1 interactive solve 0 cutbacks 0 NaNs `PASS`, machine-zero global force balance `0.000000 kN` `PASS`, UEL architecture and ABI `PASS`).
+  - **History Transfer Method**: `R2R10_history_transfer_method = RECONSTRUCTED_FROM_PHASE_D` (`FAIL` on direct transfer gate). Source run `1389241.mmaster02` did not request `*ELEMENT OUTPUT, EL PRINT` for `SDV`, so integration-point history `SDV16` was not outputted to disk in job `1389241` (`direct_source_H_runtime_evidence_used = false`). Target history $H$ was computed point-wise from phase field $d$ via local equilibrium $H(d) = \frac{G_c}{2 l_0} \frac{d}{1 - d}$.
+  - **Force Continuity Gate**: `FAIL` ($\Delta_{\text{rel}} = \mathbf{1.000000}$ / **100.0%** vs $\le 2.0\%$ threshold). Source force $RF_{1,\text{source}} = 0.123223\text{ kN}$ at $u_1 = 0.010000\text{ mm}$. In Step 1 Phase Initialization, displacement was prescribed as $u_1 = 0.00\text{ mm}$, yielding $RF_{1,\text{R2R10}} = 0.000000\text{ kN}$.
+  - **Phase Transfer Continuity**: `PASS` (Exact interpolation from 4,998 source nodes onto 9,801 target nodes, $d_{\max} = 0.185041$).
+  - **Mechanical Degradation**: `PASS` ($g(d) = (1-d)^2 + 10^{-7}$ evaluated correctly on quads and triangles).
+  - **Irreversibility Compatibility**: `PASS` (0 phase violations, 0 history violations under reconstructed $H$).
+  - **Governance Audit**: `unauthorized_git_commit_detected = true` (`328d0de1fd4cdc7860c518d5dfe6390e560df702`), `governance_result = PASS_WITH_RECORDED_DEVIATION`.
+- **Governance & Policy Invariants**:
+  - `CORRECTED_RESTART2_QUALIFICATION = QUALIFIED_BUT_MULTIPLE_SCIENTIFIC_GATES_FAILED`
+  - `authorization_consumed = false`
+  - `automatic_retry = false`
+  - `new_submission_authorized = false`
+  - `max_permitted_submissions = 0`
+  - `qsub_called = false`
+  - `qdel_called = false`
+  - `qmove_called = false`
+  - `second_evolving_remesh_runtime_result = NOT_EVALUATED`
+  - `online_adaptive_remeshing = NOT_CLAIMED`
+
+## Mode-II Corrected Restart-2 Candidate Technical Qualification Complete (Superseded by F90 Audit): `M2STATE_FRACFIX_RESTART2R10` (14 August 2026)
+
 
 - **Task ID**: `F89STATE-M2-CORRECTED-RESTART2-R2R10-PREP-AND-QUALIFICATION1`
 - **Active Agent**: `gemini-antigravity`

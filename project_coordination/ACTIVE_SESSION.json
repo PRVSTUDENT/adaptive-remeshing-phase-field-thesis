@@ -1,10 +1,16 @@
 {
   "protocol_version": 1,
-  "active": false,
-  "agent": null,
-  "task_id": null,
-  "start_commit": null,
-  "allowed_write_scope": [],
-  "session_start_time": null,
-  "session_end_time": "2026-08-14T09:03:30Z"
+  "active": true,
+  "agent": "gemini-antigravity",
+  "task_id": "F92SUB-M2-INSTRUMENTED-RESTART1-R1R9-PRODUCTION-SUBMISSION1",
+  "start_commit": "328d0de1fd4cdc7860c518d5dfe6390e560df702",
+  "allowed_write_scope": [
+    "models/generated/mode_ii/production_state_transfer_batch/**",
+    "scripts/**",
+    "tests/**",
+    "project_coordination/**",
+    "runs/hpc/**"
+  ],
+  "session_start_time": "2026-08-14T09:33:20Z",
+  "session_end_time": null
 }

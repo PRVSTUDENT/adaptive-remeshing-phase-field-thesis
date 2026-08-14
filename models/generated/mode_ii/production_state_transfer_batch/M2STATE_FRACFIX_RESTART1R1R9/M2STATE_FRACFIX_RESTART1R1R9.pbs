@@ -1,0 +1,34 @@
+#!/bin/bash
+#PBS -N M2STATE_FRACFIX_RESTART1R1R9
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+
+CANDIDATE_DIR="/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/production_state_transfer_batch/M2STATE_FRACFIX_RESTART1R1R9"
+cd "$PBS_O_WORKDIR"
+
+if [ -f "$CANDIDATE_DIR/job_notifications.sh" ]; then
+    source "$CANDIDATE_DIR/job_notifications.sh"
+    load_notification_config
+    notify_start "$PBS_JOBID" "M2STATE_FRACFIX_RESTART1R1R9" "mnode" "entry_imfdfkmq" "24:00:00"
+    notification_install_terminal_trap "$PBS_JOBID" "M2STATE_FRACFIX_RESTART1R1R9"
+fi
+
+source /etc/profile.d/modules.sh 2>/dev/null || source /etc/profile 2>/dev/null || true
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+echo "[PBS_JOB] Job ID: $PBS_JOBID"
+echo "[PBS_JOB] Host: $(hostname)"
+echo "[PBS_JOB] Start: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+JOB_NAME="M2STATE_FRACFIX_RESTART1R1R9"
+abaqus job="$JOB_NAME" user=f42_mixed_uel.for input="$JOB_NAME.inp" interactive
+
+EXIT_CODE=$?
+echo "[PBS_JOB] Abaqus finished with exit code: $EXIT_CODE"
+exit $EXIT_CODE
