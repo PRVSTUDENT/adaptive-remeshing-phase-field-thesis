@@ -1,0 +1,8 @@
+{
+  "package_name": "M2STATE_FRACFIX_RESTART2R10",
+  "source_predecessor_job": "1389241.mmaster02",
+  "force_continuity_acceptance_gate": "PASS_LE_2.0_PCT",
+  "force_continuity_denominator": "source_RF1_selected_kN (0.123223 kN)",
+  "global_force_balance_error_gate_kN": 1e-05,
+  "step1_interactive_solve_gate": "CONVERGED_ZERO_CUTBACKS_ZERO_NANS"
+}

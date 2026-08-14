@@ -1,0 +1,17 @@
+{
+  "protocol_version": 1,
+  "package_name": "M2STATE_FRACFIX_RESTART2R10",
+  "source_candidate": "M2STATE_FRACFIX_RESTART1R1R8",
+  "target_candidate": "PK10R1",
+  "source_job_id": "1389241.mmaster02",
+  "source_nphys": 4894,
+  "target_nphys": 9612,
+  "checkpoint_u1_mm": 0.01,
+  "history_state_transfer_provenance": "EXACT_POINTWISE_PHASE_HISTORY_EQUILIBRIUM_SDV16",
+  "props_abi_6slot_contract": "PASS",
+  "props_slot5_residual_stiffness_k": 1e-07,
+  "props_slot6_nphys": 9612,
+  "all_target_phase_initialization_exact": true,
+  "all_restart_step_phase_DOF3_released": true,
+  "historical_invalid_runtime_path_reused": false
+}
