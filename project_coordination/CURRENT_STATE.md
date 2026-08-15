@@ -1,26 +1,23 @@
 # Project Current State
 
-## Mode-II PK10R1 Native Restart Control Replacement Submission (15 August 2026)
+## Mode-II PK10R1 Native Restart Control Replacement Status & DAT Audit (15 August 2026)
 
-- **Task ID**: `F176SUB-M2-PK10R1-NATIVE-RESTART-CONTROL-REPLACEMENT-SUBMIT1`
+- **Task ID**: `F177STATUS-M2-PK10R1-NATIVE-RESTART-CONTROL-REPLACEMENT-STATUS1`
 - **Active Agent**: `gemini-antigravity`
-- **Submitted Replacement Job ID**: **`1389717.mmaster02`** (`M2NAT_INC29`)
-- **Replaces Failed Job**: `1389716.mmaster02` (`FINISHED_FAILED_INITIALIZATION`)
-- **Queue & Scheduler Status**: **`RUNNING`** (`R`) on queue `normal_imfdfkmq` (`qstat -x 1389717.mmaster02`)
-- **Scientific Purpose**: Isolate whether exact Abaqus-native binary restart (`*RESTART, READ, STEP=1, INC=29`) from `1389707.mmaster02` reproduces the uninterrupted continuous trajectory without manual boundary installation artifacts.
-- **Verified Pre-Submission Hashes**:
-  - **INP SHA256**: `08c24de3115cf5a0ce33496607718de9e0268b97086718f039b2a7fcab5c4a20` (**PASS**)
-  - **Repaired PBS SHA256**: `fb5d31e0d351fa1890db747a81839b2d23dfc1afdc4857edc58b1940b4bcc9f4` (**PASS**)
-  - **Manifest SHA256**: `5e9f443ae6af946e2d9685ef9a7b76a892a807f4a324d4660d16dcc967a39154` (**PASS**)
-  - **UEL SHA256**: `ed1586d6427a4b1a01d99f7e219891ec7be9fe911e066d9360724942e7d27720` (Local) / `e3b373253069f9b36085ee426568ce002a7f195a4d5356c6c6a5549c97767138` (Manifest) (**PASS**)
-- **Execution Resource Configuration**: `1 CPU / 16 GB RAM / 24:00:00 walltime / entry_imfdfkmq`
+- **Audited Replacement Job ID**: **`1389717.mmaster02`** (`M2NAT_INC29`)
+- **Replaces Failed Job**: `1389716.mmaster02`
+- **Terminal Status**: **`FINISHED_FAILED_DAT_SYNTAX_ERROR`** (`exit_code = 1`)
+- **Pre-Processor Analysis & Binary Reading Findings**:
+  - Binary restart database files from source replay job `1389707.mmaster02` were successfully read by Abaqus 2023 restart driver up to Increment 29:
+    `STEP 1 INCREMENT 1 HAS BEEN FOUND ON THE RESTART FILE` ... `STEP 1 INCREMENT 29 HAS BEEN FOUND ON THE RESTART FILE` (**NATIVE BINARY RESTART READ SUCCESSFUL**)
+  - Analysis Input File Processor failed on line 19 of `M2CORR_PK10R1_NATIVE_RESTART_CONTROL_INC29_R1.inp`:
+    `***ERROR: in keyword *ELEMENTOUTPUT, file "M2CORR_PK10R1_NATIVE_RESTART_CONTROL_INC29_R1.inp", line 19: Unknown assembly set E_ALL_PHYSICAL_UEL`
+  - **Defect Mechanism**: The restart input deck contained `*ELEMENT OUTPUT, ELSET=E_ALL_PHYSICAL_UEL`. In Abaqus, UEL elements do not support standard `*ELEMENT OUTPUT` requests, and referencing user-element sets in restart output requests triggers pre-processor rejection.
+  - Zero solver iterations were executed; zero state was corrupted.
 - **Governance & Policy Invariants**:
-  - `replacement_allowance_consumed` = **`true`** (The single permitted automatic technical replacement has been executed)
-  - `automatic_retry` = **`false`**
-  - `qsub_called` = **`true`** (Exactly 1 qsub call: Job ID `1389717.mmaster02`)
-  - `qdel_called` = **`false`**
-  - `qmove_called` = **`false`**
-- **Next Scientific Phase**: Await job completion and perform post-execution scientific evaluation of native restart trajectory versus continuous reference `1389684.mmaster02`.
+  - `replacement_allowance_consumed` = **`true`** (Technical replacement `1389717.mmaster02` was executed)
+  - `new_submission_authorized` = **`false`**
+
 
 
 
