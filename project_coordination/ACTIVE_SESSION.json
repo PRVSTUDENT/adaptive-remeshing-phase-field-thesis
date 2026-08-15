@@ -1,16 +1,17 @@
 {
-  "protocol_version": 1,
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F92SUB-M2-INSTRUMENTED-RESTART1-R1R9-PRODUCTION-SUBMISSION1",
-  "start_commit": "328d0de1fd4cdc7860c518d5dfe6390e560df702",
+  "task_id": "F174SUB-M2-PK10R1-NATIVE-RESTART-CONTROL-SUBMIT1",
+  "start_commit": "b6e9b4ea5d4b3d012b2500a52b069a6a3423e37c",
   "allowed_write_scope": [
-    "models/generated/mode_ii/production_state_transfer_batch/**",
-    "scripts/**",
-    "tests/**",
+    "runs/hpc/**",
     "project_coordination/**",
-    "runs/hpc/**"
+    "scripts/**",
+    "models/generated/mode_ii/**",
+    "tests/unit/**",
+    "docs/**"
   ],
-  "session_start_time": "2026-08-14T09:33:20Z",
-  "session_end_time": null
+  "started_at": "2026-08-15T14:46:25+02:00"
 }
+
+
