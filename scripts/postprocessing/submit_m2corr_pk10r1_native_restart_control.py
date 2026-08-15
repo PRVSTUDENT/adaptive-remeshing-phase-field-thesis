@@ -23,8 +23,9 @@ PBS_FILE = PKG_DIR / "run_native_restart_control.pbs"
 MANIFEST_FILE = PKG_DIR / "manifest.json"
 
 EXPECTED_INP_SHA256 = "08c24de3115cf5a0ce33496607718de9e0268b97086718f039b2a7fcab5c4a20"
-EXPECTED_PBS_SHA256 = "554949a33d65ed567c3ee359203f0f2b28d4bab0a1482a867a54568b4d9d23b4"
-EXPECTED_MANIFEST_SHA256 = "6a6f068555234aef41a02de87cf676a7278734ae4b033c768d5064ce77d80614"
+EXPECTED_PBS_SHA256 = "fb5d31e0d351fa1890db747a81839b2d23dfc1afdc4857edc58b1940b4bcc9f4"
+EXPECTED_MANIFEST_SHA256 = "5e9f443ae6af946e2d9685ef9a7b76a892a807f4a324d4660d16dcc967a39154"
+
 
 def main():
     print("================================================================================")
