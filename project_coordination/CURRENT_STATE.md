@@ -1,25 +1,26 @@
 # Project Current State
 
-## Mode-II PK10R1 Native Restart Control Submission (15 August 2026)
+## Mode-II PK10R1 Native Restart Control Status & Preflighted Replacement (15 August 2026)
 
-- **Task ID**: `F174SUB-M2-PK10R1-NATIVE-RESTART-CONTROL-SUBMIT1`
+- **Task ID**: `F175STATUS-M2-PK10R1-NATIVE-RESTART-CONTROL-STATUS1`
 - **Active Agent**: `gemini-antigravity`
-- **Submitted Cluster Job ID**: **`1389716.mmaster02`** (`M2NAT_INC29`)
-- **Queue & Scheduler Status**: **`RUNNING`** (`R`) on queue `normal_imfdfkmq` (`qstat -x 1389716.mmaster02`)
-- **Scientific Purpose**: Isolate whether exact Abaqus-native binary restart (`*RESTART, READ, STEP=1, INC=29`) from `1389707.mmaster02` reproduces the uninterrupted continuous trajectory without manual boundary installation artifacts.
-- **Pre-Submission Verified Frozen Hashes**:
-  - **INP SHA256**: `08c24de3115cf5a0ce33496607718de9e0268b97086718f039b2a7fcab5c4a20` (**PASS**)
-  - **PBS SHA256**: `554949a33d65ed567c3ee359203f0f2b28d4bab0a1482a867a54568b4d9d23b4` (**PASS**)
-  - **Manifest SHA256**: `6a6f068555234aef41a02de87cf676a7278734ae4b033c768d5064ce77d80614` (**PASS**)
-  - **UEL SHA256**: `ed1586d6427a4b1a01d99f7e219891ec7be9fe911e066d9360724942e7d27720` (Local) / `e3b373253069f9b36085ee426568ce002a7f195a4d5356c6c6a5549c97767138` (Manifest) (**PASS**)
-- **Execution Resource Configuration**: `1 CPU / 16 GB RAM / 24:00:00 walltime / entry_imfdfkmq`
-- **Governance & Policy Invariants**:
-  - `authorization_consumed` = **`true`** (Exactly 1 single authorized submission executed)
-  - `automatic_retry` = **`false`**
-  - `qsub_called` = **`true`** (Job ID `1389716.mmaster02`)
-  - `qdel_called` = **`false`**
-  - `qmove_called` = **`false`**
-- **Next Scientific Phase**: Await job completion and perform post-execution scientific evaluation of native restart trajectory versus continuous reference `1389684.mmaster02`.
+- **Audited Cluster Job ID**: **`1389716.mmaster02`** (`M2NAT_INC29`)
+- **Terminal Status**: **`FINISHED_FAILED_INITIALIZATION`** (`exit_code = 1`)
+- **Diagnostic Root Cause Analysis**:
+  - `M2NAT_INC29.o1389716`: `Abaqus Error: The following file(s) could not be located: M2CORR_PK10R1_CONTINUOUS_U050_STATECAPTURE_R1.odb`
+  - **Defect Mechanism**: The launcher PBS script `run_native_restart_control.pbs` copied `.res`, `.stt`, `.mdl`, `.prt` binary restart files into `$PBS_O_WORKDIR`, but omitted copying `$SOURCE_JOB.odb` (`M2CORR_PK10R1_CONTINUOUS_U050_STATECAPTURE_R1.odb`). Abaqus 2023 restart driver requires the predecessor `.odb` file to be present when invoking `abaqus job=... oldjob=...`.
+  - Zero simulation steps or solver increments were executed; zero scientific state was corrupted; initial submission authorization is consumed (`authorization_consumed = true`).
+- **Preflighted Repaired Replacement Package**:
+  - **Package Directory**: `models/generated/mode_ii/production_control_batch/M2CORR_PK10R1_NATIVE_RESTART_CONTROL_INC29_R1`
+  - **Job Name**: `M2CORR_PK10R1_NATIVE_RESTART_CONTROL_INC29_R1`
+  - **INP SHA256**: `08c24de3115cf5a0ce33496607718de9e0268b97086718f039b2a7fcab5c4a20`
+  - **Repaired PBS SHA256**: `fb5d31e0d351fa1890db747a81839b2d23dfc1afdc4857edc58b1940b4bcc9f4`
+  - **Updated Manifest SHA256**: `5e9f443ae6af946e2d9685ef9a7b76a892a807f4a324d4660d16dcc967a39154`
+  - **UEL SHA256**: `ed1586d6427a4b1a01d99f7e219891ec7be9fe911e066d9360724942e7d27720` (Local) / `e3b373253069f9b36085ee426568ce002a7f195a4d5356c6c6a5549c97767138` (Manifest)
+  - **Resources**: `1 CPU / 16 GB RAM / 24:00:00 walltime / entry_imfdfkmq`
+  - `replacement_ready_for_authorization` = **`true`**
+  - `new_submission_authorized` = **`false`**
+
 
 ## Mode-II PK10R1 Same-Mesh R2 Failure Root Cause & Native Restart Control Package (15 August 2026)
 
