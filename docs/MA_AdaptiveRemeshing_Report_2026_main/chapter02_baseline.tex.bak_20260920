@@ -1,0 +1,105 @@
+\chapter{Mode-I Benchmark and Fixed-Mesh Reference}
+\label{ch:mode1_reference}
+
+\section{Geometry and material parameters}
+
+The benchmark is a $1.0\,\mathrm{mm}\times1.0\,\mathrm{mm}$ square plate containing a sharp, zero-gap horizontal crack of length $a_0=0.5\,\mathrm{mm}$ along $y=0.5\,\mathrm{mm}$ (Fig.~\ref{fig:mode1_geometry}). The zero-gap seam is essential: it represents the published sharp edge crack without introducing the compliance of a finite-width notch.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.52\textwidth]{fig_mode1_geometry.png}
+  \caption{Mode-I benchmark geometry. The publication supports vertical loading and lower-edge support. The rigid-body restraint and any additional lateral constraints must be identified separately as reconstruction choices.}
+  \label{fig:mode1_geometry}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Material and phase-field parameters used for the Mode-I benchmark \citep{pandey2025}.}
+\label{tab:mode1_parameters}
+\begin{tabular}{lll}
+\toprule
+Quantity & Symbol & Value \\
+\midrule
+Young's modulus & $E$ & $210\,\mathrm{GPa}$ \\
+Poisson's ratio & $\nu$ & $0.3$ \\
+Critical energy-release rate & $G_c$ & $2.7\times10^{-3}\,\mathrm{kN/mm}$ \\
+Regularization length & $l_0$ & $0.0075\,\mathrm{mm}$ \\
+Residual stiffness parameter & $k_{\mathrm{res}}$ & $1.0\times 10^{-7}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Boundary-condition provenance}
+
+Pandey and Kumar specify Mode-I displacement loading and lower-edge support in the benchmark description and figure \citep{pandey2025}. The project reconstruction constrains vertical motion on the lower edge and removes horizontal rigid-body translation at one point. A uniform top-edge $u_x=0$ constraint appears in project models, but it is a reconstruction choice and is not presented here as a condition explicitly reported by the publication. This distinction is retained because boundary conditions influence both the mechanical response and the elastic stress field that drives pre-refinement.
+
+\section{Verified fixed-mesh response}
+
+The reference calculation, Job \texttt{1398090}, uses 15,192 finite elements. It provides the response anchor against which the corrected adaptive calculation is compared. The peak reaction force is $F_{\max}=0.757778\,\mathrm{kN}$ at $u(F_{\max})=0.005857\,\mathrm{mm}$.
+
+Initial stiffness is defined in this project by an unconstrained ordinary-least-squares fit with intercept over the first 400 active increments:
+\begin{equation}
+F_i=K_0u_i+b+\epsilon_i,
+\qquad
+K_0=137.945520\,\mathrm{kN/mm},
+\label{eq:k0_fit}
+\end{equation}
+with $b=4.472368\times10^{-5}\,\mathrm{kN}$ and $R^2=0.99999960$. Pandey and Kumar do not report $K_0$; it is a project-derived diagnostic and must not be attributed to the paper.
+
+\begin{table}[htbp]
+\centering
+\caption{Verified fixed-reference quantities.}
+\label{tab:fixed_reference}
+\begin{tabular}{lll}
+\toprule
+Quantity & Value & Provenance \\
+\midrule
+Element count & $15{,}192$ & Project Job \texttt{1398090} \\
+$F_{\max}$ & $0.757778\,\mathrm{kN}$ & Project extraction \\
+$u(F_{\max})$ & $0.005857\,\mathrm{mm}$ & Project extraction \\
+$K_0$ & $137.945520\,\mathrm{kN/mm}$ & Project OLS fit, $N=400$ \\
+OLS intercept & $4.472368\times10^{-5}\,\mathrm{kN}$ & Project OLS fit \\
+$R^2$ & $0.99999960$ & Project OLS fit \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Boundary-set formatting defect and correction}
+
+The first complete 71,320-element fracture deck contained a preprocessing defect in \texttt{N\_BOTTOM}. The intended set contained 150 nodes, but all identifiers were written on one malformed data line. Abaqus retained only the first 16 identifiers, so 134 intended bottom nodes were not constrained vertically. The resulting bottom-edge motion introduced artificial compliance and altered the fracture response.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.94\textwidth]{fig_nbottom_lift.png}
+  \caption{Measured bottom-edge motion in the defective and corrected decks. Correct line wrapping restores all 150 intended vertical constraints and eliminates the artificial lift.}
+  \label{fig:nbottom_lift}
+\end{figure}
+
+The correction is purely syntactic: node-set data are wrapped across valid input lines. No constitutive or remeshing parameter is changed. Table~\ref{tab:nbottom_comparison} shows the resulting recovery.
+
+\begin{table}[htbp]
+\centering
+\caption{Mechanical effect of the \texttt{N\_BOTTOM} defect and its correction.}
+\label{tab:nbottom_comparison}
+\small
+\begin{tabularx}{\textwidth}{Yrrrr}
+\toprule
+Case & Finite elements & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $u(F_{\max})$ [mm] \\
+\midrule
+Fixed reference, Job \texttt{1398090} & 15,192 & 137.945520 & 0.757778 & 0.005857 \\
+Defective diagnostic, Job \texttt{1399632} & 71,320 & $\approx122.38$ & 0.478203 & 0.004150 \\
+Corrected full fracture, Job \texttt{1404933} & 71,320 & 137.820804 & 0.745325 & 0.005750 \\
+Independent elastic requalification, Job \texttt{1405044} & 71,320 & 138.021013 & -- & -- \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\clearpage
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\textwidth]{fig_mode1_fu_recovery.pdf}
+  \caption{Force--displacement response of the fixed reference, the defective diagnostic case, and the corrected nominal 1\% reconstruction. The elastic-range agreement after repair demonstrates that the stiffness anomaly was an input-format defect, not an adaptive-mesh effect.}
+  \label{fig:mode1_fu_recovery}
+\end{figure}
+
+The corrected adaptive result recovers the reference stiffness to within approximately $0.09\%$. Its peak force remains about $1.64\%$ below the fixed reference, so complete curve, field, temporal, and energy comparisons remain necessary before a general convergence conclusion is drawn.

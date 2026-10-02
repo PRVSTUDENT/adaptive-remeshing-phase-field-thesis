@@ -1,0 +1,49 @@
+\appendix
+\chapter{Reproducibility and Current Execution Record}
+\label{app:repro}
+\section{Direct visual evidence status}
+All primary results in this report are backed by verified direct Abaqus CAE viewport exports and primary ODB extractions:
+\begin{itemize}
+  \item Baseline fixed-mesh Moln\'ar/standard Mode-I phase evolution and meshes (from jobs \texttt{1398090} and author-supplied runs);
+  \item Coarse pre-analysis \texttt{MISESERI} spatial extraction (job \texttt{1379893});
+  \item Direct standard vs sharp-slit adaptive mesh comparison (Figure~\ref{fig:mode1_standard_adaptive_mesh});
+  \item Completed sharp-slit adaptive phase-field evolution at matched displacement levels (Figure~\ref{fig:phase_evolution_comparison});
+  \item Common-axis reaction-force--displacement comparison (Figure~\ref{fig:mode1_rf_u_comp});
+  \item Mode-II multi-resolution H1/H2 damage and mesh contours.
+\end{itemize}
+No synthetic, reconstructed or interpolated contours are used in place of primary simulation evidence.
+
+\section{Key calculations}
+\begin{table}[htbp]
+\centering
+\caption{Authoritative execution ledger defining the current project state.}
+\label{tab:app_job_ledger}
+\small
+\begin{tabular}{p{0.25\textwidth}p{0.22\textwidth}p{0.45\textwidth}}
+\toprule
+Role & PBS job & Scientific interpretation \\
+\midrule
+Fixed-mesh Mode-I reference & 1398090.mmaster02 & Peak $0.757778\,\mathrm{kN}$ at $0.005857\,\mathrm{mm}$; accepted quantitative baseline. \\
+Coarse MISESERI extraction & 1379893.mmaster02 & Completed; 3,930-row CSV SHA-256 \texttt{49b0c5f7...}; pre-refinement indicator passed. \\
+Blunt-notch adaptive attempt & 1398807.mmaster02 & Technical pass, model error; $K_0=75.47\,\mathrm{kN/mm}$, peak $0.1963\,\mathrm{kN}$. \\
+First sharp-slit solve & 1398865.mmaster02 & Terminated in Step~2 ($u=0.00632\,\mathrm{mm}$) due to $\Delta t_{\min}=10^{-9}$ limit. \\
+Authoritative production solve & 1399632.mmaster02 & Technical pass, quantitative fail; peak $0.478203\,\mathrm{kN}$ at $0.004150\,\mathrm{mm}$ ($-36.91\%$); $94.4\%$ drop to $u=0.010\,\mathrm{mm}$. \\
+Adaptive fidelity audit & 1399639.mmaster02 & Verified deterministic Abaqus remeshing; confirmed $1\%$ target produces $71{,}320$ elements. \\
+Frame-40 topology transfer & 1398767.mmaster02 & Full continuation completed; relaxed force changed by $26.31\%$. \\
+Frame-43 topology transfer & 1398783.mmaster02 & Full continuation completed; relaxed force changed by $99.56\%$. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Current Task-5 scientific parameters and provenance}
+The corrected sharp-slit production model uses $E=210\,\mathrm{GPa}$, $\nu=0.3$, $l_0=0.0075\,\mathrm{mm}$, $G_c=0.0027\,\mathrm{kN/mm}$ and residual regularization $10^{-7}$. The native remeshing settings are \texttt{errorTarget=1.0}, \texttt{refinementFactor=10}, $h_{\min}=0.001\,\mathrm{mm}$, $h_{\max}=0.02\,\mathrm{mm}$ with coarsening disabled. The verified physical mesh contains $71{,}320$ elements ($69{,}443$ quads, $1{,}877$ triangles) and $70{,}845$ nodes.
+
+Primary execution file SHA-256 hashes for job \texttt{1399632.mmaster02}:
+\begin{itemize}
+  \item Production UEL input deck (\texttt{PK\_MODE1\_PROPOSED\_PFM.inp}): \\ \texttt{cb01d04105257099fd248bd713578b5c0499a4f58639996d55238dfb8c9e3bdf}
+  \item User subroutine (\texttt{f42\_mixed\_uel.for}): \\ \texttt{5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd}
+  \item PBS launcher script (\texttt{submit\_solver.pbs}): \\ \texttt{04b18c1517c9b6f00de61444c81c6a0a89eaff56846f7b7c3542df8875761386}
+\end{itemize}
+
+\section{Notification path status}
+Job completion notifications for job \texttt{1399632} were processed via the configured terminal hooks. Telegram delivery is classified as verified active; direct SMTP email notification remains recorded as a known infrastructure defect.

@@ -1,0 +1,57 @@
+\chapter{Nonmatching State Transfer and Restart}
+\label{ch:transfer}
+
+\section{Why state transfer is required}
+Pre-refinement does not require state transfer because the final fracture calculation starts from the virgin state. Evolving remeshing is different: when the mesh changes after damage has developed, the receiving discretization must recover the mechanical displacement, phase field and irreversible history state of the donor analysis. A technically valid interpolation is not sufficient; the restarted model must also remain mechanically and thermodynamically consistent.
+
+\section{Transferred quantities and mapping spaces}
+The implemented transfer path distinguishes nodal and integration-point quantities. Displacement and phase field are transferred in nodal space using donor-element search and isoparametric interpolation. The crack-driving history field is stored at integration points and is therefore transferred with a separate Gauss-point mapping procedure. Crack flanks are treated as separate topological regions to avoid interpolation across an existing slit.
+
+The receiving state is checked for phase bounds and history positivity. For irreversible fracture, preservation of the donor history is more important than reproducing a visually smooth field because a reduced history value can permit unphysical damage recovery.
+
+\section{Runtime state ingestion}
+An early transfer attempt generated a mapping artifact correctly but did not alter the running solution because the active UEL initialization path did not consume the prepared state. This distinction led to a redesign in which the transfer data are loaded explicitly at runtime through \texttt{UEXTERNALDB} and shared with the user-element routines. Subsequent tests confirmed that the transferred displacement, phase and history data were actually installed into the receiver analysis.
+
+Figure~\ref{fig:transfer_phase_history} shows the actual checkpoint phase and history fields used by the transfer workflow. It complements the numerical transfer tables by making the donor localization state visible.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.94\textwidth]{fig07_state_transfer_phase_history.png}
+\caption{Checkpoint phase-field and history-field evidence used by the nonmatching state-transfer workflow. The panels originate from extracted simulation fields at the same donor checkpoint.}
+\label{fig:transfer_phase_history}
+\end{figure}
+
+\section{Restart sequence}
+To separate state installation from subsequent equilibration, the receiver calculation is divided conceptually into four stages:
+\begin{enumerate}
+  \item install the transferred state and prescribed donor kinematics;
+  \item establish mechanical equilibrium while the phase field is held fixed;
+  \item release the phase-field constraints and allow the coupled state to relax;
+  \item continue the external loading.
+\end{enumerate}
+This sequence improved numerical robustness, but it must not be interpreted as a guarantee of physical continuity. The decisive comparison is the state after the phase field has been released and relaxed.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.94\textwidth]{fig08_state_transfer_continuation.png}
+\caption{Topology-changing transfer and continuation evidence across state installation, equilibration, phase release and continuation. The figure visualizes why successful ingestion and solver continuation do not by themselves establish restart equivalence.}
+\label{fig:transfer_continuation}
+\end{figure}
+
+\section{Topology-changing restart results}
+Two topology-changing Mode-II restart calculations reached the continuation stage but failed the predeclared reaction-force continuity check after phase release. A transfer based on an earlier donor state exhibited a force reduction of approximately $26.31\%$. A later donor state with a more strongly degraded crack-tip facet exhibited a reduction of approximately $99.56\%$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.78\textwidth]{fig_transfer_force_drop.pdf}
+\caption{Magnitude of the reaction-force change between the mechanically equilibrated receiver state and the relaxed phase-release state for two tested topology-changing restarts. The results demonstrate that successful solver continuation is not equivalent to mechanically continuous state transfer.}
+\label{fig:transfer_drop}
+\end{figure}
+
+The later case is particularly informative: the geometric facet selected for separation carried only a small local traction before the split, yet releasing the phase field caused a much larger structural response. This shows that a local crack-tip criterion alone is insufficient to establish restart equivalence; the receiving phase-field problem can reorganize over a larger process zone.
+
+\section{Energy-accounting limitation}
+The current UEL includes the Abaqus \texttt{ENERGY(8)} argument but does not populate a qualified internal-energy contribution. Consequently, global Abaqus variables such as \texttt{ALLSE} and \texttt{ALLIE} do not provide a complete UEL-aware fracture-energy balance for these restart comparisons. External work or $\tfrac12 Fu$ estimates are therefore not substituted for the missing internal-energy continuity check.
+
+\section{Current conclusion}
+The work demonstrates nonmatching data mapping and actual runtime ingestion of the transferred variables. It does not yet demonstrate a topology-changing restart that preserves the relaxed mechanical state. This distinction is retained in the remainder of the thesis: state-transfer infrastructure is available, while mechanically consistent evolving remeshing remains an open problem.

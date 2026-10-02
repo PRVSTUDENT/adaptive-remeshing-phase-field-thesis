@@ -1,0 +1,109 @@
+{
+  "active_task": {
+    "task_id": "task_7_fracture_benchmark_and_sensitivity_studies",
+    "task_name": "Task 7: Fracture Benchmark and Mesh/Increment Sensitivity Studies",
+    "status": "RUNNING_PRODUCTION_BATCH",
+    "start_time": "2026-09-02T17:10:00+02:00",
+    "phase": "TASK7_PRODUCTION_SENSITIVITY_BATCH_EXECUTION",
+    "governing_rules": {
+      "task_6_status_preserved": "TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
+      "task_6_companion_status": "COMPANION_VISUALIZATION_BRIDGE_FULLY_VERIFIED",
+      "cluster_execution_constraint": "SERIAL_CPUS_1_ONLY",
+      "two_concurrent_job_limit": "2_ACTIVE_JOBS_MAX",
+      "notification_status": "TELEGRAM_ACTIVE_EMAIL_DEFECT_KNOWN"
+    },
+    "submitted_jobs": [
+      {
+        "case_name": "PK_M1_2P_INC2X",
+        "job_id": "1400738.mmaster02",
+        "job_name": "PK_M1_INC2X",
+        "node": "mnode097/0",
+        "queue": "normal_imfdfkmq",
+        "type": "LOAD_INCREMENT_SENSITIVITY",
+        "factor_varied": "Fixed time stepping doubled (3,500 increments total vs 7,000 baseline)",
+        "factor_held_fixed": "Accepted 15,396-element physical mesh, geometry, all material properties, subroutine",
+        "input_deck_sha256": "79093a117a14b9bc94e0d814253b61f5a4655001214ea7931e12e68e99610e02",
+        "subroutine_sha256": "5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd",
+        "datacheck_job_id": "1400732.mmaster02",
+        "datacheck_status": "EXIT_0_CLEAN",
+        "status": "RUNNING"
+      },
+      {
+        "case_name": "PK_M1_3P_PFM",
+        "job_id": "1400739.mmaster02",
+        "job_name": "PK_M1_3P_SOLVE",
+        "node": "mnode097/1",
+        "queue": "normal_imfdfkmq",
+        "type": "MESH_REFINEMENT_SENSITIVITY",
+        "factor_varied": "errorTarget = 3.0% (7,633 physical elements, 7,694 nodes)",
+        "factor_held_fixed": "Authoritative 7,000-increment fixed schedule, geometry, material properties, subroutine",
+        "input_deck_sha256": "80e15fa8e4d02b61cf3dcffb46a6942d7d2896599df41b63094691dd4648cded",
+        "subroutine_sha256": "5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd",
+        "datacheck_job_id": "1400737.mmaster02",
+        "datacheck_status": "EXIT_0_CLEAN",
+        "status": "RUNNING"
+      }
+    ]
+  },
+  "authoritative_supervisor_report": {
+    "report_pdf": "docs/supervisor_reports/SUPERVISOR_PROGRESS_REPORT_2026-09-02.pdf",
+    "pdf_sha256": "FD56980515B45C998B7F71A7D3CEF33B17F73CD71E9FEF41CB12EA212819E73B",
+    "report_source": "docs/supervisor_reports/1-09-2026/MA_AdaptiveRemeshing_Report_2026_revised_content_pack/draft_main.tex",
+    "compilation_status": "COMPLETED_45_PAGES_VERIFIED",
+    "compilation_timestamp": "2026-09-02T17:16:45+02:00"
+  },
+  "accepted_task_provenance": {
+    "task_3_fixed_mesh_reference": {
+      "task_id": "task_3_pandey_kumar_mode1_fixed_mesh_baseline",
+      "accepted_job_id": "1398090.mmaster02",
+      "num_elements": 15192,
+      "num_nodes": 15305,
+      "f_peak_kn": 0.757778,
+      "u_peak_mm": 0.005857,
+      "k0_kn_per_mm": 137.9455,
+      "f_error_pct": -0.029,
+      "u_error_pct": -0.051,
+      "walltime": "06:31:14",
+      "cput": "06:30:34",
+      "exit_code": 0,
+      "verdict": "SCIENTIFICALLY_ACCEPTED"
+    },
+    "task_4_native_python_refinement": {
+      "task_id": "task_4_abaqus_native_mesh_refinement_implementation",
+      "status": "COMPLETE_VERIFIED_END_TO_END"
+    },
+    "task_5_authoritative_reproduction": {
+      "task_id": "task_5_pandey_kumar_mode1_reproduction",
+      "accepted_job_id": "1400395.mmaster02",
+      "error_target": "2.0%",
+      "num_elements": 15396,
+      "num_nodes": 15414,
+      "f_peak_kn": 0.748197,
+      "u_peak_mm": 0.005775,
+      "k0_kn_per_mm": 137.8437,
+      "walltime": "07:06:46",
+      "cput": "06:52:21",
+      "exit_code": 0,
+      "verdict": "SCIENTIFICALLY_ACCEPTED"
+    },
+    "task_5_sensitivity_5pct": {
+      "task_id": "task_5_pandey_kumar_mode1_sensitivity_5pct",
+      "job_id": "1400396.mmaster02",
+      "error_target": "5.0%",
+      "num_elements": 4194,
+      "num_nodes": 4274,
+      "f_peak_kn": 0.764964,
+      "u_peak_mm": 0.007060,
+      "walltime": "01:55:29",
+      "cput": "01:50:39",
+      "exit_code": 0,
+      "verdict": "SCIENTIFICALLY_EVALUATED"
+    },
+    "task_6_imfd_abaquser_visualization": {
+      "task_id": "task_6_imfd_abaquser_visualization",
+      "accepted_job_id": "1400408.mmaster02",
+      "status": "TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
+      "substatus": "COMPANION_VISUALIZATION_BRIDGE_FULLY_VERIFIED"
+    }
+  }
+}

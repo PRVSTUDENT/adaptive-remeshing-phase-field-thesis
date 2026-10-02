@@ -319,7 +319,7 @@ ax.scatter(df_h2['u1'][mask2]*1000.0, df_h2['rf1'][mask2]*1000.0, color='red', s
 
 u_fit_line = np.linspace(0.0, 0.0020, 100)
 ax.plot(u_fit_line*1000.0, canonical_h0_k0 * u_fit_line * 1000.0, 'k-', lw=1.5, label=r'$H_0$ Linear Fit: $K_0 = %.4f\,\mathrm{kN/mm}$' % canonical_h0_k0)
-ax.plot(u_fit_line*1000.0, canonical_h1_k0 * u_fit_line * 1000.0, 'b--', lw=1.5, label=r'$H_1$ Linear Fit: $K_0 = %.4f\,\mathrm{kN/mm}$ ($-0.642$%%)' % canonical_h1_k0)
+ax.plot(u_fit_line*1000.0, canonical_h1_k0 * u_fit_line * 1000.0, 'b--', lw=1.5, label=r'$H_1$ Linear Fit: $K_0 = %.4f\,\mathrm{kN/mm}$ ($%.3f$%% vs $H_0$)' % (canonical_h1_k0, (canonical_h1_k0 / canonical_h0_k0 - 1.0) * 100.0))
 ax.plot(u_fit_line*1000.0, canonical_h2_k0 * u_fit_line * 1000.0, 'r-.', lw=1.5, label=r'$H_2$ Linear Fit: $K_0 = %.4f\,\mathrm{kN/mm}$ ($\mathbf{-0.064}$%% vs $H_1$)' % canonical_h2_k0)
 
 

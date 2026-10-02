@@ -1,0 +1,50 @@
+================================================================================
+MODE-I BENCHMARK SUPERVISOR REPRODUCTION INSTRUCTIONS (GATE 6B)
+================================================================================
+Environment: Abaqus 2023 (Linux / Windows)
+Prerequisites: Intel Fortran Compiler (ifx / ifort) linked with Abaqus; Python 3.10+
+
+--------------------------------------------------------------------------------
+1. SOLVER EXECUTION COMMANDS (SERIAL REFERENCE)
+--------------------------------------------------------------------------------
+To reproduce the authoritative serial reference runs:
+
+# S1 Baseline Reference (15,192 cells, h/l0 = 0.400, Job 1406015):
+abaqus job=PK_M1_S1_H0030 input=PK_M1_FIX_H0030_VIS.inp user=f42_mixed_uel.for cpus=1 interactive
+
+# S3 Fine Fixed Mesh Anchor (41,912 cells, h/l0 = 0.200, Job 1406017):
+abaqus job=PK_M1_S3_H0015 input=PK_M1_S3_H0015.inp user=f42_mixed_uel.for cpus=1 interactive
+
+# S5 Ultra-Fine Fixed Mesh (69,384 cells, h/l0 = 0.133, Job 1406019):
+abaqus job=PK_M1_S5_H00100 input=PK_M1_S5_H00100.inp user=f42_mixed_uel.for cpus=1 interactive
+
+# T3 Fine Time-Step Reference (0.5x dt, Job 1406317):
+abaqus job=PK_M1_T3_FULLU010 input=PK_M1_T3_DTFINE.inp user=f42_mixed_uel.for cpus=1 interactive
+
+# Diagnostic Runtime Energy Logging Twin (Job 1406839):
+abaqus job=PK_M1_S1_DIAG input=PK_M1_FIX_H0030_VIS.inp user=f42_mixed_uel_diagnostic.for cpus=1 interactive
+
+--------------------------------------------------------------------------------
+2. SHARED-MEMORY MULTI-THREADED ADAPTIVE EXECUTION
+--------------------------------------------------------------------------------
+To run the production adaptive meshes (single MPI rank x 4 shared-memory threads):
+
+# A2 Production Adaptive Mesh (15,396 cells, 2.0% target error, Job 1406278):
+abaqus job=PK_M1_A2_ADAPT2PCT input=PK_M1_A2_ADAPT2PCT.inp user=f42_mixed_uel.for cpus=4 mp_mode=threads interactive
+
+# A3 Production Adaptive Mesh (7,633 cells, 3.0% target error, Job 1406273):
+abaqus job=PK_M1_A3_ADAPT3PCT input=PK_M1_A3_ADAPT3PCT.inp user=f42_mixed_uel.for cpus=4 mp_mode=threads interactive
+
+--------------------------------------------------------------------------------
+3. POST-PROCESSING AND PROVENANCE AUDIT COMMANDS
+--------------------------------------------------------------------------------
+To extract metrics, audit provenance, and verify load-displacement curves:
+
+# Run length-scale post-processing and anchor validation:
+python postprocess_l0_sensitivity_series.py
+
+# Extract spatial crack centroid trajectories and localization band-widths:
+python process_spatial_profiles_and_plots.py
+
+# Run programmatic provenance and ledger verification:
+python audit_provenance.py

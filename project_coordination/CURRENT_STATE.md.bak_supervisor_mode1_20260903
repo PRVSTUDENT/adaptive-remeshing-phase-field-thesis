@@ -1,0 +1,77 @@
+# Project Coordination State
+
+## Active Protocol
+- **Task ID**: `TASK10_FINAL_MASTER_THESIS_MANUSCRIPT`
+- **Workflow State**: **`PROJECT_CLOSED_AWAITING_SUPERVISOR_FEEDBACK`**
+- **Simulation Campaign Status**: **`ALL_SIMULATION_TASKS_COMPLETED_AND_PRESERVED`**
+- **Supervisor Feedback Intake Template**: [`docs/supervisor_reports/SUPERVISOR_FEEDBACK_INTAKE_TEMPLATE.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/SUPERVISOR_FEEDBACK_INTAKE_TEMPLATE.md)
+- **Repository Consistency Audit**: [`docs/project/FINAL_REPOSITORY_CONSISTENCY_AUDIT_2026-09-03.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/project/FINAL_REPOSITORY_CONSISTENCY_AUDIT_2026-09-03.md)
+- **Post-Submission Maintenance Plan**: [`docs/project/POST_SUBMISSION_MAINTENANCE_PLAN.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/project/POST_SUBMISSION_MAINTENANCE_PLAN.md)
+- **Final Project Status Report**: [`docs/supervisor_reports/FINAL_PROJECT_STATUS_REPORT_2026-09-03.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/FINAL_PROJECT_STATUS_REPORT_2026-09-03.md)
+- **Supervisor Submission Cover Note**: [`docs/supervisor_reports/SUPERVISOR_SUBMISSION_COVER_NOTE_2026-09-03.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/SUPERVISOR_SUBMISSION_COVER_NOTE_2026-09-03.md)
+- **Final Archive Manifest & Handover**: [`docs/thesis/FINAL_THESIS_ARCHIVE_MANIFEST_AND_HANDOVER.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/thesis/FINAL_THESIS_ARCHIVE_MANIFEST_AND_HANDOVER.md)
+- **Final Supervisor Revision Package**: [`docs/supervisor_reports/FINAL_SUPERVISOR_REVISION_PACKAGE_2026-09-03.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/FINAL_SUPERVISOR_REVISION_PACKAGE_2026-09-03.md)
+- **Master Thesis Manuscript PDF**: [`docs/thesis/PROPOSAL_ALIGNED_THESIS_MANUSCRIPT_DRAFT.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/thesis/PROPOSAL_ALIGNED_THESIS_MANUSCRIPT_DRAFT.pdf) (21 pages, 337,300 bytes, MiKTeX pdflatex build clean)
+- **Thesis Build Report**: [`docs/thesis/TASK10_FINAL_THESIS_BUILD_REPORT.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/thesis/TASK10_FINAL_THESIS_BUILD_REPORT.md)
+- **Supervisor Review Package**: [`docs/supervisor_reports/SUPERVISOR_REVIEW_PACKAGE_2026-09-03.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/SUPERVISOR_REVIEW_PACKAGE_2026-09-03.md)
+- **Master Thesis Manuscript LaTeX**: [`docs/thesis/PROPOSAL_ALIGNED_THESIS_MANUSCRIPT_DRAFT.tex`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/thesis/PROPOSAL_ALIGNED_THESIS_MANUSCRIPT_DRAFT.tex)
+- **Thesis Refinement Roadmap & QC Checklist**: [`docs/thesis/TASK10_THESIS_REFINEMENT_ROADMAP_AND_QC_CHECKLIST.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/thesis/TASK10_THESIS_REFINEMENT_ROADMAP_AND_QC_CHECKLIST.md)
+- **Thesis Evidence Map**: [`docs/thesis/TASK10_THESIS_WRITING_PACKAGE_AND_EVIDENCE_MAP.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/thesis/TASK10_THESIS_WRITING_PACKAGE_AND_EVIDENCE_MAP.md)
+- **Future User Workflow Guide**: [`docs/guides/TASK9_FUTURE_USER_WORKFLOW_GUIDE.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/guides/TASK9_FUTURE_USER_WORKFLOW_GUIDE.md)
+- **Meshing Parameter Recommendations**: [`docs/guides/TASK8_MESHING_AND_INCREMENT_RECOMMENDATIONS.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/guides/TASK8_MESHING_AND_INCREMENT_RECOMMENDATIONS.md)
+- **Authoritative Supervisor Report**: [`docs/supervisor_reports/SUPERVISOR_PROGRESS_REPORT_2026-09-02.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/SUPERVISOR_PROGRESS_REPORT_2026-09-02.pdf) (45 pages, SHA-256: `FD56980515B45C998B7F71A7D3CEF33B17F73CD71E9FEF41CB12EA212819E73B`)
+- **Date**: 2026-09-03T06:50:00+02:00
+
+---
+
+## 1. Master Thesis Work Package Status Matrix
+
+```text
+=======================================================================================================================================================
+TASK ID   WORK PACKAGE DESCRIPTION                                   GOVERNED STATUS                       AUTHORITATIVE EVIDENCE & KEY METRICS
+=======================================================================================================================================================
+Task 1    Phase-Field Fracture (PFF) Familiarization                 COMPLETE / DOCUMENTED                 Molnar one-element & single-notch verified
+Task 2    Literature Review & Reference Methodology                  COMPLETE / INTEGRATED                 Molnar (2017), Pandey (2025), Diddige (2025)
+Task 3    Reproduce Reference Simulations w/o Refinement             SCIENTIFICALLY_ACCEPTED               Job 1398090 (F_peak=0.7578 kN, error -0.029%)
+Task 4    Implement Native Refinement in Python                      COMPLETE / VERIFIED_END_TO_END        MISESERI, RemeshingRule, adaptiveRemesh
+Task 5    Reproduce Reference Results WITH Refinement                QUANTITATIVE_REPRODUCTION_PASSED      Job 1400395 (F_peak=0.7482 kN, error -1.29%)
+          - Nominal-1% Preprocessing Discrepancy Audit               CLOSED (PROVENANCE_AUDITED)           DOCUMENTED_UNRESOLVABLE_FROM_PUBLISHED_INFO
+          - Empirical 2% Error Target Mesh Reconstruction            SCIENTIFICALLY_ACCEPTED               15,396 elements (+10.4% match), 0 cutbacks
+          - Controlled 5% Error Target Sensitivity Evaluation        SCIENTIFICALLY_EVALUATED              Job 1400396 (4,194 elem, F_peak=0.7650 kN)
+Task 6    Integrate IMFD ABAQUSER Visualization Tool                 EXTERNALLY_BLOCKED / BRIDGE_VERIFIED  Job 1400408 (0.000000% RF parity, SDV15/16)
+          - Companion In-Solver UMAT Visualization Bridge            COMPANION_BRIDGE_FULLY_VERIFIED       Zero parasitic stiffness, max(d)=1.00518
+          - Authentic IMFD ABAQUSER Tool Integration                 TASK6_BLOCKED_EXTERNAL_DEPENDENCY     Awaiting supervisor / IMFD software artifact
+Task 7    Apply to Fracture Benchmarks & Sensitivity Studies         SENSITIVITY_STUDIES_EVALUATED         Jobs 1400738 (INC2X) & 1400739 (MESH3P)
+          - Load-Increment Sensitivity (Doubled Time Stepping)       SCIENTIFICALLY_EVALUATED              Job 1400738 (3,500 incs, <0.06% diff, -48.4% time)
+          - Mesh-Refinement Sizing Sensitivity (errorTarget=3.0%)    SCIENTIFICALLY_EVALUATED              Job 1400739 (7,633 elem, F_peak=+12.84% error)
+Task 8    Formulate Meshing-Parameter Recommendations                COMPLETE / DOCUMENTED                 docs/guides/TASK8_MESHING_AND_INCREMENT_RECOMMENDATIONS.md
+Task 9    Document Workflow for Future Users                         COMPLETE / DOCUMENTED                 docs/guides/TASK9_FUTURE_USER_WORKFLOW_GUIDE.md
+Task 10   Final Master Thesis Manuscript                             PROJECT_CLOSED_AWAITING_SUPERVISOR    docs/supervisor_reports/SUPERVISOR_SUBMISSION_COVER_NOTE_2026-09-03.md
+=======================================================================================================================================================
+```
+
+---
+
+## 2. Completed Simulation Campaign Summary
+
+| Parameter | Task 3 Baseline | Task 5 Accepted 2% | Task 7 INC2X | Task 7 3% Mesh | Task 5 5% Mesh |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **PBS Job ID** | `1398090.mmaster02` | `1400395.mmaster02` | `1400738.mmaster02` | `1400739.mmaster02` | `1400396.mmaster02` |
+| **Physical Discretization** | $15{,}192$ elems | $15{,}396$ elems | $15{,}396$ elems | $7{,}633$ elems | $4{,}194$ elems |
+| **Schedule** | $7{,}000$ incs | $7{,}028$ incs | **$3{,}521$ incs** | $7{,}057$ incs | $7{,}000$ incs |
+| **Walltime / CPUT** | $06\text{h }31\text{m} / 06\text{h }30\text{m}$ | $07\text{h }06\text{m} / 06\text{h }52\text{m}$ | **$03\text{h }40\text{m} / 03\text{h }32\text{m}$** | $03\text{h }36\text{m} / 03\text{h }29\text{m}$ | $01\text{h }55\text{m} / 01\text{h }50\text{m}$ |
+| **Initial Stiffness $K_0$** | $138.0877\,\mathrm{kN/mm}$ | $137.9858\,\mathrm{kN/mm}$ | $137.9857\,\mathrm{kN/mm}$ | $127.9782\,\mathrm{kN/mm}$ | $138.1085\,\mathrm{kN/mm}$ |
+| **Peak Force $F_{\text{peak}}$** | $0.757778\,\mathrm{kN}$ | $0.748197\,\mathrm{kN}$ | $0.748597\,\mathrm{kN}$ | $0.855332\,\mathrm{kN}$ | $0.764964\,\mathrm{kN}$ |
+| **Peak Force Error** | **$-0.03\%$** | **$-1.29\%$** | **$-1.24\%$** | **$+12.84\%$** | $+0.92\%$ |
+| **Peak Displacement $u_{\text{peak}}$** | $0.005857\,\mathrm{mm}$ | $0.005775\,\mathrm{mm}$ | $0.005782\,\mathrm{mm}$ | $0.007339\,\mathrm{mm}$ | $0.007060\,\mathrm{mm}$ |
+| **Peak Disp Error** | **$-0.05\%$** | **$-1.45\%$** | **$-1.33\%$** | **$+25.24\%$** | **$+20.48\%$** |
+| **Load Drop** | $99.97\%$ | $98.31\%$ | $97.65\%$ | $98.78\%$ | $95.71\%$ |
+| **Governed Verdict** | **ACCEPTED (Task 3)** | **ACCEPTED (Task 5)** | **EVALUATED (Task 7)** | **EVALUATED (Task 7)** | **EVALUATED (Task 5)** |
+
+---
+
+## 3. Maintenance Protocol & Repository Hold
+The repository is placed in read-only maintenance mode awaiting supervisor feedback on:
+1. IMFD ABAQUSER software provision vs. companion facsimile bridge approval;
+2. Numerical toughening physical derivation concurrence;
+3. Master thesis manuscript structure approval and defense scheduling.

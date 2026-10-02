@@ -1,0 +1,246 @@
+{
+  "inp_diff_line_count": 37,
+  "for_diff_line_count": 61,
+  "inp_changes": [
+    [
+      "DEL",
+      "*ELEMENT OUTPUT, ELSET=DISP_QUAD"
+    ],
+    [
+      "DEL",
+      "SDV"
+    ],
+    [
+      "DEL",
+      "*ELEMENT OUTPUT, ELSET=DISP_TRI"
+    ],
+    [
+      "DEL",
+      "SDV"
+    ],
+    [
+      "ADD",
+      "*ELEMENT OUTPUT, ELSET=umatelem"
+    ],
+    [
+      "ADD",
+      "SDV"
+    ],
+    [
+      "DEL",
+      "2.0E-4, 1.0, 1.0E-14, 2.0E-4"
+    ],
+    [
+      "ADD",
+      "2.0E-4, 0.24, 1.0E-14, 2.0E-4"
+    ],
+    [
+      "DEL",
+      "*ELEMENT OUTPUT, ELSET=DISP_QUAD"
+    ],
+    [
+      "DEL",
+      "SDV"
+    ],
+    [
+      "DEL",
+      "*ELEMENT OUTPUT, ELSET=DISP_TRI"
+    ],
+    [
+      "DEL",
+      "SDV"
+    ],
+    [
+      "ADD",
+      "*ELEMENT OUTPUT, ELSET=umatelem"
+    ],
+    [
+      "ADD",
+      "SDV"
+    ]
+  ],
+  "for_changes": [
+    [
+      "DEL",
+      "C Dummy UMAT stub for passive visualizer elements if present"
+    ],
+    [
+      "ADD",
+      "C Verified Companion Visualizer UMAT with Common Block State Transfer"
+    ],
+    [
+      "ADD",
+      "PARAMETER(N_CAPACITY=100000)"
+    ],
+    [
+      "DEL",
+      "DIMENSION STRESS(NTENS),STATEV(NSTATV),"
+    ],
+    [
+      "DEL",
+      "1 DDSDDE(NTENS,NTENS),DDSDDT(NTENS),DRPLDE(NTENS),"
+    ],
+    [
+      "DEL",
+      "2 STRAN(NTENS),DSTRAN(NTENS),TIME(2),PREDEF(1),DPRED(1),"
+    ],
+    [
+      "DEL",
+      "3 PROPS(NPROPS),COORDS(3),DROT(3,3),DFGRD0(3,3),DFGRD1(3,3)"
+    ],
+    [
+      "ADD",
+      "DIMENSION STRESS(NTENS),STATEV(NSTATV),DDSDDE(NTENS,NTENS),"
+    ],
+    [
+      "ADD",
+      "1 STRAN(NTENS),DSTRAN(NTENS),TIME(2),PREDEF(1),DPRED(1),"
+    ],
+    [
+      "ADD",
+      "2 PROPS(NPROPS),COORDS(3),DROT(3,3),DFGRD0(3,3),DFGRD1(3,3)"
+    ],
+    [
+      "ADD",
+      ""
+    ],
+    [
+      "ADD",
+      "DOUBLE PRECISION SV_PHASE_COMMITTED(N_CAPACITY)"
+    ],
+    [
+      "ADD",
+      "DOUBLE PRECISION SV_PHASE_TRIAL(N_CAPACITY)"
+    ],
+    [
+      "ADD",
+      "DOUBLE PRECISION SV_H_COMMITTED(N_CAPACITY,4)"
+    ],
+    [
+      "ADD",
+      "DOUBLE PRECISION SV_H_TRIAL(N_CAPACITY,4)"
+    ],
+    [
+      "ADD",
+      ""
+    ],
+    [
+      "ADD",
+      "COMMON /CB_STATE_TRANS/ SV_PHASE_COMMITTED, SV_PHASE_TRIAL,"
+    ],
+    [
+      "ADD",
+      "1                        SV_H_COMMITTED, SV_H_TRIAL"
+    ],
+    [
+      "ADD",
+      ""
+    ],
+    [
+      "ADD",
+      "INTEGER I, J, NPHYS_VAL, PHYSIDX, KPT_IDX"
+    ],
+    [
+      "ADD",
+      ""
+    ],
+    [
+      "ADD",
+      "NPHYS_VAL = 71320"
+    ],
+    [
+      "ADD",
+      "PHYSIDX = NOEL - 2 * NPHYS_VAL"
+    ],
+    [
+      "ADD",
+      "IF (PHYSIDX .LE. 0) PHYSIDX = NOEL"
+    ],
+    [
+      "ADD",
+      ""
+    ],
+    [
+      "ADD",
+      "DO I=1, NTENS"
+    ],
+    [
+      "ADD",
+      "STRESS(I) = 0.D0"
+    ],
+    [
+      "ADD",
+      "DO J=1, NTENS"
+    ],
+    [
+      "ADD",
+      "DDSDDE(I,J) = 0.D0"
+    ],
+    [
+      "ADD",
+      "ENDDO"
+    ],
+    [
+      "ADD",
+      "DDSDDE(I,I) = 1.D-11"
+    ],
+    [
+      "ADD",
+      "ENDDO"
+    ],
+    [
+      "ADD",
+      ""
+    ],
+    [
+      "ADD",
+      "IF (PHYSIDX .LE. N_CAPACITY .AND. PHYSIDX .GT. 0) THEN"
+    ],
+    [
+      "ADD",
+      "KPT_IDX = NPT"
+    ],
+    [
+      "ADD",
+      "IF (KPT_IDX .GT. 4) KPT_IDX = 4"
+    ],
+    [
+      "ADD",
+      "IF (KPT_IDX .LT. 1) KPT_IDX = 1"
+    ],
+    [
+      "ADD",
+      ""
+    ],
+    [
+      "ADD",
+      "IF (NSTATV .GE. 1)  STATEV(1)  = SV_PHASE_TRIAL(PHYSIDX)"
+    ],
+    [
+      "ADD",
+      "IF (NSTATV .GE. 2)  STATEV(2)  = SV_H_TRIAL(PHYSIDX, KPT_IDX)"
+    ],
+    [
+      "ADD",
+      "IF (NSTATV .GE. 14) STATEV(14) = SV_PHASE_TRIAL(PHYSIDX)"
+    ],
+    [
+      "ADD",
+      "IF (NSTATV .GE. 15) STATEV(15) = (1.D0 - SV_PHASE_TRIAL(PHYSIDX))**2 + 1.D-7"
+    ],
+    [
+      "ADD",
+      "IF (NSTATV .GE. 16) STATEV(16) = SV_H_TRIAL(PHYSIDX, KPT_IDX)"
+    ],
+    [
+      "ADD",
+      "ENDIF"
+    ],
+    [
+      "ADD",
+      ""
+    ]
+  ],
+  "permitted_changes_only": true,
+  "classification": "VERIFIED_ONE_FACTOR_DIAGNOSTIC_TWIN"
+}

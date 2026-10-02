@@ -1,0 +1,61 @@
+{
+  "evaluation_title": "Mode-II Triangular Element (JTYPE=3,4) Abaqus Runtime Patch Test Qualification",
+  "qualification_status": "TRI_JTYPE3_4_ABAQUS_RUNTIME_PATCH_QUALIFIED",
+  "datacheck_job": {
+    "job_id": "1408558.mmaster02",
+    "job_name": "M2_TRI_PATCH_DC",
+    "exit_code": 0,
+    "input_deck": "models/pandey_kumar_mode2/05_tri_patch_test/M2_tri_patch_uel.inp",
+    "input_sha256": "8de6ed37eccf5b3cf0eabe1f6009aa93f1431c6ac4cbf639ad7356ae8dda8d79",
+    "subroutine": "models/pandey_kumar_mode2/f42_mixed_uel.for",
+    "subroutine_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46"
+  },
+  "production_job": {
+    "job_id": "1408559.mmaster02",
+    "job_name": "M2_TRI_PATCH_PROD",
+    "exit_code": 0,
+    "host": "mnode097.cluster",
+    "cput": "00:00:10",
+    "walltime": "00:00:15",
+    "peak_mem_kb": 197136,
+    "input_deck_uel": "models/pandey_kumar_mode2/05_tri_patch_test/M2_tri_patch_uel.inp",
+    "input_deck_uel_sha256": "8de6ed37eccf5b3cf0eabe1f6009aa93f1431c6ac4cbf639ad7356ae8dda8d79",
+    "input_deck_cpe3_ref": "models/pandey_kumar_mode2/05_tri_patch_test/M2_tri_patch_cpe3_ref.inp",
+    "input_deck_cpe3_ref_sha256": "e02766f5161f7155004d4df5a2e551d4f2da8c3f113f1839f252532d41a899b8",
+    "subroutine": "models/pandey_kumar_mode2/f42_mixed_uel.for",
+    "subroutine_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46"
+  },
+  "step1_mechanical_parity": {
+    "strain_state": {
+      "E11": 0.01,
+      "E22": 0.01,
+      "E12": 0.01
+    },
+    "max_reaction_discrepancy_kN": 3e-09,
+    "cpe3_total_strain_energy_kN_mm": 2.221154e-06,
+    "uel_sdv18_strain_energy_kN_mm": 2.2212e-06,
+    "analytical_strain_energy_kN_mm": 2.22115385e-06,
+    "parity_classification": "EXACT_PARITY_AT_DAT_PRECISION"
+  },
+  "step2_phase_field_parity": {
+    "prescribed_phase": 0.5,
+    "degradation_factor_sdv15": 0.25,
+    "expected_degradation_factor": 0.25,
+    "degraded_rf1_kN": 0.0050480789,
+    "undegraded_rf1_kN": 0.02019231,
+    "reaction_scale_ratio": 0.25,
+    "fracture_energy_sdv17_kN_mm": 1.125e-06,
+    "analytical_fracture_energy_kN_mm": 1.125e-06,
+    "degraded_elastic_energy_sdv18_kN_mm": 5.5529e-07,
+    "analytical_degraded_elastic_energy_kN_mm": 5.552885e-07,
+    "parity_classification": "EXACT_PARITY_TO_ALL_PRINTED_DIGITS"
+  },
+  "companion_cpe3_sdv_mapping": {
+    "SDV1": 0.5,
+    "SDV14": 0.5,
+    "SDV15": 0.25,
+    "SDV17": 1.125e-06,
+    "SDV18": 5.5529e-07,
+    "mapping_verified": true
+  }
+}

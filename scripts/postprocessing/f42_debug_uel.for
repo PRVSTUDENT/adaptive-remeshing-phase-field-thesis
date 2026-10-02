@@ -1,0 +1,349 @@
+C ======================================================================
+C USER SUBROUTINE UEL FOR COUPLED PHASE-FIELD FRACTURE (DEBUG HARNESS)
+C ======================================================================
+      SUBROUTINE UEL(RHS,AMATRX,SVARS,ENERGY,NDOFEL,NRHS,NSVARS,
+     1     PROPS,NPROPS,COORDS,MCRD,NNODE,U,DU,V,A,JTYPE,TIME,DTIME,
+     2     KSTEP,KINC,JELEM,PARAMS,NDLOAD,JDLTYP,ADLMAG,PREDEF,
+     3     NPREDF,LFLAGS,MLVARX,DDLMAG,MDLOAD,PNEWDT,JPROPS,NJPROP,
+     4     PERIOD)
+      INCLUDE 'ABA_PARAM.INC'
+      PARAMETER(ZERO=0.D0,ONE=1.D0,TWO=2.D0,THREE=3.D0,FOUR=4.D0,
+     1 HALF=0.5D0,SIX=6.D0,N_CAPACITY=100000,NSTV=18)
+
+      DIMENSION RHS(MLVARX,1),AMATRX(NDOFEL,NDOFEL),
+     1     SVARS(NSVARS),ENERGY(8),PROPS(NPROPS),
+     2     COORDS(MCRD,NNODE),U(NDOFEL),DU(NDOFEL),V(NDOFEL),
+     3     A(NDOFEL),TIME(2),PARAMS(*),JDLTYP(MDLOAD,*),
+     4     ADLMAG(MDLOAD,*),PREDEF(2,NPREDF,NNODE),
+     5     LFLAGS(*),DDLMAG(MDLOAD,*),JPROPS(*)
+
+      DOUBLE PRECISION SV_PHASE(N_CAPACITY), SV_H(N_CAPACITY,4)
+      COMMON /CB_STATE_TRANSFER/ SV_PHASE, SV_H
+
+      DOUBLE PRECISION W4(4), XG4(4), YG4(4)
+      DOUBLE PRECISION W3(3), XG3(3), YG3(3)
+      DOUBLE PRECISION B(3,8), B_PHASE(2,4), B_TRI(3,6), B_PHTRI(2,3)
+      DOUBLE PRECISION D_ELAS(3,3), STRESS(3), STRAIN(3)
+      DOUBLE PRECISION N_VEC(4), N_TRI(3), D_N(2,4), D_NTRI(2,3)
+
+      INTEGER I, J, K, KPT, PHYSIDX
+      DOUBLE PRECISION XI, ETA, WT, CJAC, DETJ, INVJ(2,2)
+      DOUBLE PRECISION D_AVG, DEG, HIST, HIST_MAX
+      DOUBLE PRECISION E_MOD, E_NU, E_L0, E_GC, E_K, D_VAL
+      DOUBLE PRECISION E11, E22, E12, TR_E, E_POS, POS_M
+      DOUBLE PRECISION C11, C12, C22, C33
+      DOUBLE PRECISION F_INT(8)
+
+      WRITE(6,*) '=== UEL CALL === JELEM=',JELEM,' JTYPE=',JTYPE,
+     1  ' NDOFEL=',NDOFEL,' KSTEP=',KSTEP,' KINC=',KINC,' LFLAGS(3)=',
+     2  LFLAGS(3)
+      WRITE(6,*) '  INCOMING U:', (U(I), I=1, NDOFEL)
+
+      E_L0  = PROPS(1)
+      E_GC  = PROPS(2)
+      E_MOD = PROPS(3)
+      E_NU  = PROPS(4)
+      E_K   = PROPS(5)
+
+      DO I=1, NDOFEL
+        RHS(I,1) = ZERO
+        DO J=1, NDOFEL
+          AMATRX(I,J) = ZERO
+        ENDDO
+      ENDDO
+
+      PHYSIDX = JELEM
+
+C ======================================================================
+C JTYPE = 1: QUADRILATERAL PHASE-FIELD LAYER (4 Nodes, Active DOF 3)
+C ======================================================================
+      IF (JTYPE .EQ. 1) THEN
+        D_AVG = ZERO
+        DO I=1, 4
+          D_AVG = D_AVG + U(I) * 0.25D0
+        ENDDO
+
+        SV_PHASE(PHYSIDX) = D_AVG
+
+        XG4(1) = -0.577350269189626D0
+        YG4(1) = -0.577350269189626D0
+        W4(1)  =  1.0D0
+        XG4(2) =  0.577350269189626D0
+        YG4(2) = -0.577350269189626D0
+        W4(2)  =  1.0D0
+        XG4(3) =  0.577350269189626D0
+        YG4(3) =  0.577350269189626D0
+        W4(3)  =  1.0D0
+        XG4(4) = -0.577350269189626D0
+        YG4(4) =  0.577350269189626D0
+        W4(4)  =  1.0D0
+
+        DO KPT=1, 4
+          XI  = XG4(KPT)
+          ETA = YG4(KPT)
+          WT  = W4(KPT)
+          N_VEC(1) = 0.25D0*(ONE-XI)*(ONE-ETA)
+          N_VEC(2) = 0.25D0*(ONE+XI)*(ONE-ETA)
+          N_VEC(3) = 0.25D0*(ONE+XI)*(ONE+ETA)
+          N_VEC(4) = 0.25D0*(ONE-XI)*(ONE+ETA)
+          D_N(1,1) = -0.25D0*(ONE-ETA)
+          D_N(1,2) =  0.25D0*(ONE-ETA)
+          D_N(1,3) =  0.25D0*(ONE+ETA)
+          D_N(1,4) = -0.25D0*(ONE+ETA)
+          D_N(2,1) = -0.25D0*(ONE-XI)
+          D_N(2,2) = -0.25D0*(ONE+XI)
+          D_N(2,3) =  0.25D0*(ONE+XI)
+          D_N(2,4) =  0.25D0*(ONE-XI)
+
+          DETJ = ((COORDS(1,2)-COORDS(1,1))*(COORDS(2,4)-COORDS(2,1)) -
+     1            (COORDS(1,4)-COORDS(1,1))*(COORDS(2,2)-COORDS(2,1)))/FOUR
+          IF (DETJ .LE. ZERO) DETJ = 1.0D-6
+          CJAC = DETJ * WT
+
+          INVJ(1,1) = (COORDS(2,4)-COORDS(2,1))/(FOUR*DETJ)
+          INVJ(1,2) =-(COORDS(2,2)-COORDS(2,1))/(FOUR*DETJ)
+          INVJ(2,1) =-(COORDS(1,4)-COORDS(1,1))/(FOUR*DETJ)
+          INVJ(2,2) = (COORDS(1,2)-COORDS(1,1))/(FOUR*DETJ)
+
+          DO I=1, 4
+            B_PHASE(1,I) = INVJ(1,1)*D_N(1,I) + INVJ(1,2)*D_N(2,I)
+            B_PHASE(2,I) = INVJ(2,1)*D_N(1,I) + INVJ(2,2)*D_N(2,I)
+          ENDDO
+
+          HIST = SV_H(PHYSIDX, KPT)
+
+          DO I=1, 4
+            DO J=1, 4
+              AMATRX(I,J) = AMATRX(I,J) + CJAC*(
+     1          (E_GC/E_L0 + TWO*HIST)*N_VEC(I)*N_VEC(J) +
+     2          E_GC*E_L0*(B_PHASE(1,I)*B_PHASE(1,J) + B_PHASE(2,I)*B_PHASE(2,J)) )
+            ENDDO
+            RHS(I,1) = RHS(I,1) + CJAC*TWO*HIST*N_VEC(I)
+          ENDDO
+        ENDDO
+
+C ======================================================================
+C JTYPE = 2: QUADRILATERAL MECHANICAL LAYER (4 Nodes, Active DOFs 1, 2)
+C ======================================================================
+      ELSE IF (JTYPE .EQ. 2) THEN
+        D_VAL = SV_PHASE(PHYSIDX)
+        DEG = (ONE - D_VAL)**2 + E_K
+        C11 = E_MOD*(ONE-E_NU)/((ONE+E_NU)*(ONE-TWO*E_NU)) * DEG
+        C12 = E_MOD*E_NU/((ONE+E_NU)*(ONE-TWO*E_NU)) * DEG
+        C22 = C11
+        C33 = E_MOD/(TWO*(ONE+E_NU)) * DEG
+
+        XG4(1) = -0.577350269189626D0
+        YG4(1) = -0.577350269189626D0
+        W4(1)  =  1.0D0
+        XG4(2) =  0.577350269189626D0
+        YG4(2) = -0.577350269189626D0
+        W4(2)  =  1.0D0
+        XG4(3) =  0.577350269189626D0
+        YG4(3) =  0.577350269189626D0
+        W4(3)  =  1.0D0
+        XG4(4) = -0.577350269189626D0
+        YG4(4) =  0.577350269189626D0
+        W4(4)  =  1.0D0
+
+        DO KPT=1, 4
+          XI  = XG4(KPT)
+          ETA = YG4(KPT)
+          WT  = W4(KPT)
+          D_N(1,1) = -0.25D0*(ONE-ETA)
+          D_N(1,2) =  0.25D0*(ONE-ETA)
+          D_N(1,3) =  0.25D0*(ONE+ETA)
+          D_N(1,4) = -0.25D0*(ONE+ETA)
+          D_N(2,1) = -0.25D0*(ONE-XI)
+          D_N(2,2) = -0.25D0*(ONE+XI)
+          D_N(2,3) =  0.25D0*(ONE+XI)
+          D_N(2,4) =  0.25D0*(ONE-XI)
+
+          DETJ = ((COORDS(1,2)-COORDS(1,1))*(COORDS(2,4)-COORDS(2,1)) -
+     1            (COORDS(1,4)-COORDS(1,1))*(COORDS(2,2)-COORDS(2,1)))/FOUR
+          IF (DETJ .LE. ZERO) DETJ = 1.0D-6
+          CJAC = DETJ * WT
+
+          INVJ(1,1) = (COORDS(2,4)-COORDS(2,1))/(FOUR*DETJ)
+          INVJ(1,2) =-(COORDS(2,2)-COORDS(2,1))/(FOUR*DETJ)
+          INVJ(2,1) =-(COORDS(1,4)-COORDS(1,1))/(FOUR*DETJ)
+          INVJ(2,2) = (COORDS(1,2)-COORDS(1,1))/(FOUR*DETJ)
+
+          DO I=1, 4
+            B(1,2*I-1) = INVJ(1,1)*D_N(1,I) + INVJ(1,2)*D_N(2,I)
+            B(1,2*I)   = ZERO
+            B(2,2*I-1) = ZERO
+            B(2,2*I)   = INVJ(2,1)*D_N(1,I) + INVJ(2,2)*D_N(2,I)
+            B(3,2*I-1) = B(2,2*I)
+            B(3,2*I)   = B(1,2*I-1)
+          ENDDO
+
+          STRAIN(1) = ZERO
+          STRAIN(2) = ZERO
+          STRAIN(3) = ZERO
+          DO I=1, 8
+            STRAIN(1) = STRAIN(1) + B(1,I)*U(I)
+            STRAIN(2) = STRAIN(2) + B(2,I)*U(I)
+            STRAIN(3) = STRAIN(3) + B(3,I)*U(I)
+          ENDDO
+
+          STRESS(1) = C11*STRAIN(1) + C12*STRAIN(2)
+          STRESS(2) = C12*STRAIN(1) + C22*STRAIN(2)
+          STRESS(3) = C33*STRAIN(3)
+
+          DO I=1, 8
+            RHS(I,1) = RHS(I,1) - CJAC*(B(1,I)*STRESS(1) + B(2,I)*STRESS(2) + B(3,I)*STRESS(3))
+          ENDDO
+
+          DO I=1, 8
+            DO J=1, 8
+              AMATRX(I,J) = AMATRX(I,J) + CJAC*(
+     1          B(1,I)*(C11*B(1,J) + C12*B(2,J)) +
+     2          B(2,I)*(C12*B(1,J) + C22*B(2,J)) +
+     3          B(3,I)*(C33*B(3,J)) )
+            ENDDO
+          ENDDO
+        ENDDO
+
+C ======================================================================
+C JTYPE = 3: TRIANGULAR PHASE-FIELD LAYER (3 Nodes, Active DOF 3)
+C ======================================================================
+      ELSE IF (JTYPE .EQ. 3) THEN
+        D_AVG = ZERO
+        DO I=1, 3
+          D_AVG = D_AVG + U(I) / THREE
+        ENDDO
+
+        SV_PHASE(PHYSIDX) = D_AVG
+
+        XG3(1) = 1.D0/3.D0
+        YG3(1) = 1.D0/3.D0
+        W3(1)  = 0.5D0
+        XG3(2) = 0.6D0
+        YG3(2) = 0.2D0
+        W3(2)  = 1.D0/6.D0
+        XG3(3) = 0.2D0
+        YG3(3) = 0.6D0
+        W3(3)  = 1.D0/6.D0
+
+        DETJ = (COORDS(1,2)-COORDS(1,1))*(COORDS(2,3)-COORDS(2,1)) -
+     1         (COORDS(1,3)-COORDS(1,1))*(COORDS(2,2)-COORDS(2,1))
+        IF (DETJ .LE. ZERO) DETJ = 1.0D-6
+
+        INVJ(1,1) = (COORDS(2,3)-COORDS(2,1))/DETJ
+        INVJ(1,2) =-(COORDS(2,2)-COORDS(2,1))/DETJ
+        INVJ(2,1) =-(COORDS(1,3)-COORDS(1,1))/DETJ
+        INVJ(2,2) = (COORDS(1,2)-COORDS(1,1))/DETJ
+
+        B_PHTRI(1,1) = -INVJ(1,1) - INVJ(1,2)
+        B_PHTRI(1,2) =  INVJ(1,1)
+        B_PHTRI(1,3) =  INVJ(1,2)
+        B_PHTRI(2,1) = -INVJ(2,1) - INVJ(2,2)
+        B_PHTRI(2,2) =  INVJ(2,1)
+        B_PHTRI(2,3) =  INVJ(2,2)
+
+        DO KPT=1, 3
+          XI  = XG3(KPT)
+          ETA = YG3(KPT)
+          WT  = W3(KPT)
+          CJAC = DETJ * WT
+          N_TRI(1) = ONE - XI - ETA
+          N_TRI(2) = XI
+          N_TRI(3) = ETA
+
+          HIST = SV_H(PHYSIDX, KPT)
+
+          DO I=1, 3
+            DO J=1, 3
+              AMATRX(I,J) = AMATRX(I,J) + CJAC*(
+     1          (E_GC/E_L0 + TWO*HIST)*N_TRI(I)*N_TRI(J) +
+     2          E_GC*E_L0*(B_PHTRI(1,I)*B_PHTRI(1,J) + B_PHTRI(2,I)*B_PHTRI(2,J)) )
+            ENDDO
+            RHS(I,1) = RHS(I,1) + CJAC*TWO*HIST*N_TRI(I)
+          ENDDO
+        ENDDO
+
+C ======================================================================
+C JTYPE = 4: TRIANGULAR MECHANICAL LAYER (3 Nodes, Active DOFs 1, 2)
+C ======================================================================
+      ELSE IF (JTYPE .EQ. 4) THEN
+        D_VAL = SV_PHASE(PHYSIDX)
+        DEG = (ONE - D_VAL)**2 + E_K
+        C11 = E_MOD*(ONE-E_NU)/((ONE+E_NU)*(ONE-TWO*E_NU)) * DEG
+        C12 = E_MOD*E_NU/((ONE+E_NU)*(ONE-TWO*E_NU)) * DEG
+        C22 = C11
+        C33 = E_MOD/(TWO*(ONE+E_NU)) * DEG
+
+        DETJ = (COORDS(1,2)-COORDS(1,1))*(COORDS(2,3)-COORDS(2,1)) -
+     1         (COORDS(1,3)-COORDS(1,1))*(COORDS(2,2)-COORDS(2,1))
+        IF (DETJ .LE. ZERO) DETJ = 1.0D-6
+        CJAC = DETJ * 0.5D0
+
+        INVJ(1,1) = (COORDS(2,3)-COORDS(2,1))/DETJ
+        INVJ(1,2) =-(COORDS(2,2)-COORDS(2,1))/DETJ
+        INVJ(2,1) =-(COORDS(1,3)-COORDS(1,1))/DETJ
+        INVJ(2,2) = (COORDS(1,2)-COORDS(1,1))/DETJ
+
+        B_TRI(1,1) = -INVJ(1,1) - INVJ(1,2)
+        B_TRI(1,2) =  ZERO
+        B_TRI(1,3) =  INVJ(1,1)
+        B_TRI(1,4) =  ZERO
+        B_TRI(1,5) =  INVJ(1,2)
+        B_TRI(1,6) =  ZERO
+
+        B_TRI(2,1) =  ZERO
+        B_TRI(2,2) = -INVJ(2,1) - INVJ(2,2)
+        B_TRI(2,3) =  ZERO
+        B_TRI(2,4) =  INVJ(2,1)
+        B_TRI(2,5) =  ZERO
+        B_TRI(2,6) =  INVJ(2,2)
+
+        B_TRI(3,1) = B_TRI(2,2)
+        B_TRI(3,2) = B_TRI(1,1)
+        B_TRI(3,3) = B_TRI(2,4)
+        B_TRI(3,4) = B_TRI(1,3)
+        B_TRI(3,5) = B_TRI(2,6)
+        B_TRI(3,6) = B_TRI(1,5)
+
+        STRAIN(1) = ZERO
+        STRAIN(2) = ZERO
+        STRAIN(3) = ZERO
+        DO I=1, 6
+          STRAIN(1) = STRAIN(1) + B_TRI(1,I)*U(I)
+          STRAIN(2) = STRAIN(2) + B_TRI(2,I)*U(I)
+          STRAIN(3) = STRAIN(3) + B_TRI(3,I)*U(I)
+        ENDDO
+
+        STRESS(1) = C11*STRAIN(1) + C12*STRAIN(2)
+        STRESS(2) = C12*STRAIN(1) + C22*STRAIN(2)
+        STRESS(3) = C33*STRAIN(3)
+
+        DO I=1, 6
+          RHS(I,1) = RHS(I,1) - CJAC*(B_TRI(1,I)*STRESS(1) + B_TRI(2,I)*STRESS(2) + B_TRI(3,I)*STRESS(3))
+        ENDDO
+
+        DO I=1, 6
+          DO J=1, 6
+            AMATRX(I,J) = AMATRX(I,J) + CJAC*(
+     1        B_TRI(1,I)*(C11*B_TRI(1,J) + C12*B_TRI(2,J)) +
+     2        B_TRI(2,I)*(C12*B_TRI(1,J) + C22*B_TRI(2,J)) +
+     3        B_TRI(3,I)*(C33*B_TRI(3,J)) )
+          ENDDO
+        ENDDO
+      ENDIF
+
+      WRITE(6,*) '  OUTGOING RHS:', (RHS(I,1), I=1, NDOFEL)
+      WRITE(6,*) '  OUTGOING AMATRX DIAG:', (AMATRX(I,I), I=1, NDOFEL)
+
+      RETURN
+      END
+
+      SUBROUTINE UMAT(STRESS,STATEV,DDSDDE,SSE,SPD,SCD,
+     1 RPL,DDSDDT,DRPLDE,DRPLDT,STRAN,DSTRAN,
+     2 TIME,DTIME,TEMP,DTEMP,PREDEF,DPRED,CMNAME,
+     3 NDI,NSHR,NTENS,NSTATV,PROPS,NPROPS,COORDS,
+     4 DROT,PNEWDT,CELENT,DFGRD0,DFGRD1,NOEL,NPT,
+     5 KSLPT,KSTEP,KINC)
+      INCLUDE 'ABA_PARAM.INC'
+      RETURN
+      END

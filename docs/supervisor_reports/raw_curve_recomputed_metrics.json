@@ -1,0 +1,76 @@
+{
+  "raw_csv_hashes": {
+    "adapt_1404454": "e40eb63a529f1d99f54b9d60fafd178bd8c566d190386f0967aa1434c3ba9a96",
+    "ref_1398090": "780d05d39532e778802cdd8503cdd0df25568e412c3d4a51c50f4e001febede6"
+  },
+  "k0_initial_stiffness": {
+    "fit_window": "0 < u <= 0.0010 mm",
+    "adapt_1404454": {
+      "K0_kN_mm": 137.82080365829515,
+      "intercept_b_kN": 4.47021296551553e-05,
+      "R2": 0.9999995991902494,
+      "N_points": 400
+    },
+    "ref_1398090": {
+      "K0_kN_mm": 137.94551964508426,
+      "intercept_b_kN": 4.4723675101498994e-05,
+      "R2": 0.9999995995397413,
+      "N_points": 400
+    },
+    "delta_K0_pct": -0.09040959583898822
+  },
+  "peak_metrics": {
+    "adapt_1404454": {
+      "F_max_kN": 0.74532473087,
+      "u_peak_mm": 0.0057500000112
+    },
+    "ref_1398090": {
+      "F_max_kN": 0.75777849,
+      "u_peak_mm": 0.005857
+    },
+    "delta_Fmax_pct": -1.6434564050505074,
+    "delta_upeak_pct": -1.8268736349667098
+  },
+  "cutoff_state": {
+    "u_cut_mm": 0.00677406881,
+    "rf_cut_adapt_kN": 0.18446542323,
+    "rf_cut_ref_kN": 0.0004542092151639
+  },
+  "external_work": {
+    "interval": "0 <= u <= 0.00677407 mm",
+    "quadrature": "trapezoidal rule (kN*mm = J)",
+    "W_adapt_J": 0.0025726023332088674,
+    "W_adapt_mJ": 2.5726023332088674,
+    "W_ref_common_J": 0.0023582876457708614,
+    "W_ref_common_mJ": 2.3582876457708615,
+    "W_ref_full_10mm_J": 0.002359328927990399,
+    "W_ref_full_10mm_mJ": 2.359328927990399,
+    "delta_W_pct": 9.087724638779262
+  },
+  "curve_errors": {
+    "common_interval_full": {
+      "interval": "0 <= u <= 0.00677407 mm",
+      "N_pts_evaluated": 3786,
+      "rms_discrete_kN": 0.16050148215446144,
+      "rms_discrete_N": 160.50148215446146,
+      "rms_discrete_normalized_pct": 21.180527591177924,
+      "l2_continuous_kN": 0.1197485197772016,
+      "l2_continuous_N": 119.74851977720161,
+      "l2_continuous_normalized_pct": 15.802575733866714,
+      "rms_uniform_1000_grid_kN": 0.11969646419884461,
+      "rms_uniform_1000_grid_normalized_pct": 15.795706235847973
+    },
+    "pre_peak_only": {
+      "interval": "0 <= u <= 0.005750 mm",
+      "N_pts_evaluated": 2752,
+      "rms_discrete_kN": 0.0006247044046287532,
+      "rms_discrete_N": 0.6247044046287532,
+      "rms_discrete_normalized_pct": 0.08243892019536649,
+      "l2_continuous_kN": 0.0005066714922778494,
+      "l2_continuous_N": 0.5066714922778495,
+      "l2_continuous_normalized_pct": 0.06686274405570017,
+      "rms_uniform_grid_pre_kN": 0.0005024407966753181,
+      "rms_uniform_grid_pre_normalized_pct": 0.06630444164168847
+    }
+  }
+}

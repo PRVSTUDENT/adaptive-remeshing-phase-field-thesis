@@ -1,0 +1,76 @@
+{
+  "candidate_id": "L2",
+  "job_name": "PK_M1_L2_L01125_ENERGY",
+  "package_directory": "models/pandey_kumar_mode1/21_length_scale_l2_intermediate",
+  "characterization_role": "phase_field_length_scale_sensitivity",
+  "length_scale_l0_mm": 0.01125,
+  "length_scale_ratio_label": "1.5x_intermediate (l0=11.25 um)",
+  "process_zone_mesh_size_h_mm": 0.0015,
+  "mesh_resolution_ratio_h_over_l0": 0.1333,
+  "mesh": {
+    "n_elements": 41912,
+    "n_nodes": 42364,
+    "mesh_size_h": 0.0015,
+    "element_types": [
+      "U1",
+      "U2",
+      "CPE4"
+    ]
+  },
+  "material": {
+    "E": 210.0,
+    "nu": 0.3,
+    "Gc": 0.0027,
+    "l0": 0.01125,
+    "k": 1e-07,
+    "nphys": 41912.0
+  },
+  "thickness_convention": {
+    "t_ref_mm": 1.0,
+    "provenance": "project_baseline_unit_thickness_explicit_convention"
+  },
+  "step_schedule": {
+    "step1_dt": 0.0005,
+    "step1_incs": 2500,
+    "step2_dt": 0.0002,
+    "step2_incs": 6000,
+    "total_nominal_increments": 8500
+  },
+  "files": {
+    "input_deck": {
+      "name": "PK_MODE1_L2_L01125_ENERGY.inp",
+      "sha256": "4F60EFCC8BA6CE8CBB8FAB1D88FFB790E2F679DE740FBCF8C3B781A8DE976940"
+    },
+    "user_subroutine": {
+      "name": "f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "notifications": {
+      "name": "job_notifications.sh",
+      "sha256": "96756A681D2D36C11B36B89288F631F8ECC9537543C2C745A4BAE1B425984B47"
+    },
+    "datacheck_pbs": {
+      "name": "submit_datacheck.pbs",
+      "sha256": "9CAF2A1FD69AB88B77C025334E183CDFA2F06429ABF8478A9FDD20EE7462FE77"
+    },
+    "solver_pbs": {
+      "name": "submit_solver.pbs",
+      "sha256": "EBCEAEF937FE17649B14E1ECEA3E1C98F140B1484923B1BFEC7F7A9FE819216E"
+    }
+  },
+  "scheduler_configuration": {
+    "queue": "normal_imfdfkmq",
+    "cpus": 1,
+    "memory": "32gb",
+    "walltime": "48:00:00",
+    "execution_mode": "single_rank_shared_memory_serial"
+  },
+  "historical_reference": {
+    "historical_job_id": "1406895.mmaster02",
+    "historical_deck": "PK_M1_S3_L01125.inp",
+    "historical_fortran_sha256": "C540B54A7871C81FA1E4398D934444DFCCF21B7C37ED3DE18CDE32810C6EC798"
+  },
+  "status": "DATACHECK_PASSED_READY_AFTER_CORRECTED_S1_ENERGY_QUALIFICATION",
+  "authorized": false,
+  "submission_hold_reason": "Awaiting S1 reference (Job 1409734) run completion and formal qualification review before solver submission"
+}

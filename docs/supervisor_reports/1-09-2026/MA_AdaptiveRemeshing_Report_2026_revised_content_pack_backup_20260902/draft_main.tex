@@ -1,0 +1,56 @@
+\documentclass[11pt,a4paper,oneside]{report}
+\usepackage[margin=27mm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\graphicspath{{figures/generated/}}
+% ODB-derived result images are inserted only after frame and field-range validation.
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+\setlength{\emergencystretch}{2em}
+\title{Application of Built-in Adaptive Remeshing and Mesh Refinement Features in Abaqus to Fracture Simulations Using Phase-field User Elements\\[0.7em]\large Supervisor Progress Report Draft -- 1 September 2026}
+\author{Pruthviraja Reddy Vandavagali\\TU Bergakademie Freiberg}
+\date{1 September 2026}
+\begin{document}
+\maketitle
+\tableofcontents
+\clearpage
+\input{abstract}
+\input{chapter01_introduction_theory}
+\input{chapter02_baseline}
+\input{chapter03_mesh_refinement}
+\input{chapter04_state_transfer}
+\input{chapter05_multiresolution}
+\input{chapter06_hpc}
+\input{chapter07_production_validation}
+\input{chapter08_conclusions}
+\input{appendix}
+\begin{thebibliography}{9}
+\bibitem[Moln\'ar and Gravouil(2017)]{Molnar2017}
+G. Moln\'ar and A. Gravouil.
+\newblock 2D and 3D Abaqus implementation of a robust staggered phase-field solution for modeling brittle fracture.
+\newblock \emph{Finite Elements in Analysis and Design}, 130:27--38, 2017.
+
+\bibitem[Msekh et~al.(2015)]{Msekh2015}
+M. A. Msekh, J. M. Sargado, M. Jamshidian, P. M. Areias, and T. Rabczuk.
+\newblock Abaqus implementation of phase-field model for brittle fracture.
+\newblock \emph{Computational Materials Science}, 96:472--484, 2015.
+
+\bibitem[Pandey and Kumar(2025)]{Pandey2025}
+A. Pandey and S. Kumar.
+\newblock A simple and robust mesh refinement implementation in Abaqus for phase field modelling of brittle fracture.
+\newblock \emph{Computer Modeling in Engineering \& Sciences}, 144(3):3251--3286, 2025.
+
+\bibitem[Diddige et~al.(2025)]{Diddige2025}
+V. Diddige, S. Roth, and B. Kiefer.
+\newblock Phase-field modeling of hydrogen-promoted fracture: Natural incorporation of hydrostatic stress dependencies via a chemical potential-based variational formulation.
+\newblock \emph{Computer Methods in Applied Mechanics and Engineering}, 445:118143, 2025.
+\end{thebibliography}
+\end{document}

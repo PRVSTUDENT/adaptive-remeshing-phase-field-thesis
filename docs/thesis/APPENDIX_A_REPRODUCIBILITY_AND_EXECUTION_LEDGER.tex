@@ -1,0 +1,152 @@
+\chapter{Reproducibility Tables, Job Execution Provenance, and Diagnostic Logs}
+\label{chap:reproducibility_appendix}
+
+\section{Master High-Performance Computing Job Ledgers}
+\label{sec:app_job_ledger}
+
+To ensure complete scientific reproducibility, Table~\ref{tab:app_mode1_job_ledger} records all authoritative Mode-I simulations constituting the primary empirical evidence base of this thesis, executed on the TU Bergakademie Freiberg HPC cluster (\texttt{mmaster02}, queue \texttt{normal\_imfdfkmq}). Table~\ref{tab:app_historical_job_ledger} preserves the exploratory Stage A--G and Mode-II developmental simulation history.
+
+\begin{table}[htbp]
+\centering
+\fontsize{6.0}{7.2}\selectfont
+\setlength{\tabcolsep}{2.0pt}
+\renewcommand{\arraystretch}{0.78}
+\caption{Authoritative HPC Simulation Job Ledger for the Primary Mode-I Benchmark Series.}
+\label{tab:app_mode1_job_ledger}
+\begin{tabularx}{\textwidth}{llXlrl}
+\toprule
+\textbf{PBS Job ID} & \textbf{Model Name} & \textbf{Scientific Description} & \textbf{Input Deck SHA} & \textbf{Elements} & \textbf{Scheduler State} \\
+\midrule
+\texttt{1406015.mmaster02} & \texttt{PK\_M1\_S1\_H0030} & Canonical spatial baseline $S_1$ ($h=3.0\,\mu\text{m}$) & \texttt{bc000e0c57...} & $15{,}192$ & Exit 0 (Completed full $10.0\,\mu\text{m}$ horizon) \\
+\texttt{1398090.mmaster02} & \texttt{PK\_M1\_FIX\_REF} & Historical reference anchor & \texttt{a845ef1a37...} & $15{,}192$ & Exit 0 ($K_0 = 137.95\,\text{kN/mm}$) \\
+\texttt{1404933.mmaster02} & \texttt{PK\_M1\_NOM1\_1404933} & Corrected 71k full fracture & \texttt{72674e2ba0...} & $71{,}320$ & Exit 0 ($N_{\mathrm{BOTTOM}}$ wrap) \\
+\texttt{1405044.mmaster02} & \texttt{PK\_M1\_FROZEN\_71K} & Frozen elastic requalification & \texttt{3bbdfb9a52...} & $71{,}320$ & Exit 0 ($K_0 = 138.02\,\text{kN/mm}$) \\
+\texttt{1406016.mmaster02} & \texttt{PK\_M1\_S2\_H0020} & Spatial fine $S_2$ ($h=2.0\,\mu\text{m}$) & \texttt{34ec7f0b5d...} & $32{,}130$ & Exit 0 (Cutback $u=6.82\,\mu\text{m}$) \\
+\texttt{1406017.mmaster02} & \texttt{PK\_M1\_S3\_H0015} & Spatial fine $S_3$ ($h=1.5\,\mu\text{m}, l_0=7.5\,\mu\text{m}$) & \texttt{eb009f188a...} & $41{,}912$ & Exit 0 (Cutback $u=7.84\,\mu\text{m}$) \\
+\texttt{1406018.mmaster02} & \texttt{PK\_M1\_S4\_H00125} & Spatial fine $S_4$ ($h=1.25\,\mu\text{m}$) & \texttt{cc88dfd1b0...} & $51{,}408$ & Exit 0 (Cutback $u=7.21\,\mu\text{m}$) \\
+\texttt{1406019.mmaster02} & \texttt{PK\_M1\_S5\_H00100} & Historical fine mesh ($h=1.0\,\mu\text{m}$; legacy deck name \texttt{PK\_M1\_S5\_H00100}; separate historical fine case, not governed $S_5$) & \texttt{634b3d758f...} & $69{,}384$ & Exit 0 (Cutback $u=9.58\,\mu\text{m}$) \\
+\texttt{1406020.mmaster02} & \texttt{PK\_M1\_T1\_DT2X} & Temporal coarse $T_1$ ($2.0\times\Delta t$) & \texttt{ad9dfa6d89...} & $15{,}192$ & Exit 0 (Full path completed) \\
+\texttt{1406021.mmaster02} & \texttt{PK\_M1\_T2\_DT1X} & Temporal nominal $T_2$ ($1.0\times\Delta t$) & \texttt{fa88301c27...} & $15{,}192$ & Exit 0 (Full path completed) \\
+\texttt{1406317.mmaster02} & \texttt{PK\_M1\_T3\_DT05X\_R2} & Temporal fine $T_3$ ($0.5\times\Delta t$) & \texttt{9256247963...} & $15{,}192$ & Exit 0 ($10{,}022$ incs to $10\,\mu\text{m}$) \\
+\texttt{1406023.mmaster02} & \texttt{PK\_M1\_A1\_NOM1PCT} & Adaptive $A_1$ ($1\%$ \texttt{errorTarget}, planned truncation) & \texttt{a1239a6c33...} & $71{,}320$ & Exit 0 (Truncated $u=6.20\,\mu\text{m}$) \\
+\texttt{1406313.mmaster02} & \texttt{PK\_M1\_A1\_FULL\_U010} & Adaptive $A_1$ extended ($1\%$ \texttt{errorTarget}, post-peak cutback) & \texttt{7c8a59e374...} & $71{,}320$ & Exit 0 (Cutback $u=6.77\,\mu\text{m}$) \\
+\texttt{1406278.mmaster02} & \texttt{PK\_M1\_A2\_2PCT} & Adaptive $A_2$ ($2\%$ \texttt{errorTarget}) & \texttt{d4ec8aa9eb...} & $15{,}396$ & Exit 0 (Plateau observed) \\
+\texttt{1406273.mmaster02} & \texttt{PK\_M1\_A3\_3PCT} & Adaptive $A_3$ ($3\%$ \texttt{errorTarget}) & \texttt{bb185fca48...} & $7{,}633$ & Exit 0 (Plateau observed) \\
+\texttt{1406311.mmaster02} & \texttt{PK\_M1\_A3\_FINE\_DT} & Adaptive $A_3$ fine $\Delta t$ ($0.5\times$) & \texttt{8c14cf29b4...} & $7{,}633$ & Exit 0 (Plateau observed) \\
+\texttt{1406279.mmaster02} & \texttt{PK\_M1\_A4\_5PCT} & Adaptive $A_4$ ($5\%$ \texttt{errorTarget}) & \texttt{82bcf2ff1c...} & $4{,}194$ & Exit 0 (Plateau observed) \\
+\texttt{1406839.mmaster02} & \texttt{PK\_M1\_S1\_DIAG\_R2} & Diagnostic energy run; non-canonical ($15{,}192$ el., non-authoritative) & \texttt{fa88301c27...} & $15{,}192$ & Exit 0 ($7{,}000$ incs diagnostic run) \\
+\texttt{1406895.mmaster02} & \texttt{PK\_M1\_S3\_L01125} & $l_0 = 11.25\,\mu\text{m}$ on fixed $S_3$ mesh & \texttt{77df64d10d...} & $41{,}912$ & Exit 0 (Full, $u_{\mathrm{peak}}=5.590\,\mu\text{m}$) \\
+\texttt{1406896.mmaster02} & \texttt{PK\_M1\_S3\_L01500} & $l_0 = 15.00\,\mu\text{m}$ on fixed $S_3$ mesh & \texttt{ff13ba6080...} & $41{,}912$ & Exit 0 (Full, $u_{\mathrm{peak}}=5.579\,\mu\text{m}$) \\
+\texttt{1406904.mmaster02} & \texttt{PK\_M1\_PARITY\_MINI\_UNINST} & Section~7.7.3 Mini parity uninstrumented baseline & \texttt{---} & $15{,}192$ & Exit 0 (30 incs, 3 iter/inc) \\
+\texttt{1406905.mmaster02} & \texttt{PK\_M1\_PARITY\_MINI\_INST} & Section~7.7.3 Mini parity instrumented twin (\nolinkurl{f42_mixed_uel.for}) & \texttt{---} & $15{,}192$ & Exit 0 (30 incs, $|\Delta F|=0.0\,\text{kN}$) \\
+\texttt{1406906.mmaster02} & \texttt{PK\_M1\_PARITY\_EXT\_UNINST} & Section~7.7.3 Extended parity uninstrumented baseline & \texttt{---} & $15{,}192$ & Exit 0 (129 incs to $u=0.035\,\text{mm}$) \\
+\texttt{1406907.mmaster02} & \texttt{PK\_M1\_PARITY\_EXT\_INST} & Section~7.7.3 Extended parity instrumented twin (\nolinkurl{f42_mixed_uel.for}) & \texttt{---} & $15{,}192$ & Exit 0 (129 incs, $|\Delta F|=0.0\,\text{kN}$) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\fontsize{6.5}{7.8}\selectfont
+\setlength{\tabcolsep}{2.2pt}
+\renewcommand{\arraystretch}{0.80}
+\caption{Historical Stage A--G Exploratory and Proof-of-Concept HPC Job Ledger.}
+\label{tab:app_historical_job_ledger}
+\begin{tabularx}{\textwidth}{lllcclX}
+\toprule
+\textbf{Stage} & \textbf{Job Name} & \textbf{PBS Job ID} & \textbf{CPUs} & \textbf{RAM} & \textbf{Scheduler State} & \textbf{Outcome / Role} \\
+\midrule
+Stage A & \texttt{SingleNotch\_v2} & \texttt{1374864.mmaster02} & 1 & 32\,GB & Exit 0 ($00{:}38{:}38$) & Baseline Molnar SENT verification \\
+Stage A & \texttt{M2REF\_H0} & \texttt{1386372.mmaster02} & 1 & 8\,GB & Exit 0 ($00{:}33{:}24$) & Uniform coarse baseline ($h/l_0 = 2.0$) \\
+Stage A & \texttt{M2REF\_H1} & \texttt{1386447.mmaster02} & 1 & 8\,GB & Exit 1 ($01{:}30{:}53$) & Uniform refined baseline ($h/l_0 = 1.0$) \\
+Stage A & \texttt{M2REF\_H2} & \texttt{1386448.mmaster02} & 1 & 8\,GB & Exit -29 ($04{:}01{:}41$) & Uniform fine diagnostic ($h/l_0 = 0.5$) \\
+\midrule
+Stage C & \texttt{F43PRE3\_GEOM} & \texttt{1385461.mmaster02} & 1 & 8\,GB & Exit 0 ($00{:}01{:}15$) & Elastic \texttt{MISESERI} pre-analysis \\
+Stage C & \texttt{F43REM4\_MM} & \texttt{1385575.mmaster02} & 1 & 8\,GB & Exit 0 ($00{:}02{:}10$) & Min-Max remeshed input generation \\
+Stage C & \texttt{F43REM4\_PK5} & \texttt{1385574.mmaster02} & 1 & 8\,GB & Exit 0 ($00{:}03{:}45$) & Uniform-Error remeshed generation \\
+\midrule
+Stage D & \texttt{D2A\_INGEST} & \texttt{1388706.mmaster02} & 1 & 8\,GB & Exit 0 ($00{:}08{:}12$) & Multi-field binary state ingestion \\
+Stage D & \texttt{D3A3\_RESTART} & \texttt{1389718.mmaster02} & 1 & 16\,GB & Exit 0 ($00{:}24{:}15$) & Native restart reproducibility ($0.0001\%$) \\
+Stage D & \texttt{D3D\_ACTIVESET} & \texttt{1389715.mmaster02} & 1 & 16\,GB & Exit 0 ($00{:}45{:}20$) & Active-set multiplier violation proof \\
+\midrule
+Stage E & \texttt{M2\_REF\_TRANSFER} & \texttt{1390829.mmaster02} & 1 & 16\,GB & Exit 0 ($00{:}35{:}12$) & Refined target grid transfer verification \\
+Stage E & \texttt{M2\_CRS\_TRANSFER} & \texttt{1390830.mmaster02} & 1 & 16\,GB & Exit 0 ($00{:}18{:}45$) & Coarsened target grid transfer verification \\
+\midrule
+Stage F & \texttt{M2STAGE\_F\_VAL} & \texttt{1393159.mmaster02} & 1 & 16\,GB & Exit 1 ($00{:}30{:}49$) & Synthetic topology transfer (194 incs) \\
+\midrule
+Stage G & \texttt{M2PROD\_ADAPT\_MM} & \texttt{1394260.mmaster02} & 1 & 8\,GB & Exit 0 ($00{:}19{:}44$) & Production Min-Max locally refined run \\
+Stage G & \texttt{M2PROD\_ADAPT\_PK5} & \texttt{1394261.mmaster02} & 1 & 8\,GB & Exit 0 ($00{:}43{:}27$) & Production Uniform-Error locally refined \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Cryptographic Checksums and Package Provenance}
+\label{sec:app_checksums}
+
+Table~\ref{tab:app_checksums} records the full 64-character SHA-256 cryptographic hashes for the authoritative Mode-I production packages as well as the historical exploratory models.
+
+\begin{table}[htbp]
+\centering
+\fontsize{7.0}{8.2}\selectfont
+\setlength{\tabcolsep}{2.2pt}
+\renewcommand{\arraystretch}{0.85}
+\caption{Cryptographic SHA-256 Checksums for Production and Historical Executable Artifacts.}
+\label{tab:app_checksums}
+\begin{tabularx}{\textwidth}{lX>{\ttfamily\fontsize{5.4}{6.4}\selectfont}l}
+\toprule
+\textbf{Model / Stage} & \textbf{Component / File} & \textbf{Exact SHA-256 Cryptographic Hash} \\
+\midrule
+\multicolumn{3}{l}{\textbf{Governing Mode-I Production Infrastructure:}} \\
+\texttt{f42\_mixed\_uel.for} & Fortran UEL Subroutine & 5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46 \\
+\texttt{PK\_M1\_S1\_H0030.inp} & Canonical $S_1$ Input Deck & bc000e0c5791150a711cb7af447a0bb34d1b9d9af5c6ce9d096c98749e8edf61 \\
+\texttt{S1\_h0030\_15k\_MECHANICAL\_FU\_AUDITED.csv} & Audited Mechanical $F$--$u$ Data & e3100b7429e14b8bceab9952ddf8b0419ca9f71df058f5916668922185aa25e2 \\
+\texttt{PK\_M1\_NOM1\_1404933.inp} & Full Fracture 71k Input Deck & 72674e2ba0527b1fc6a02b5420e6f33342502758155bb904ec1d152c92e737c3 \\
+\texttt{PK\_M1\_S3\_H0015.inp} & Length-Scale Study $S_3$ Deck & eb009f188a2b53fce985392cf99a803f295b9a47326442653229b4ef3b293d5a \\
+\texttt{PK\_M1\_A4\_ADAPT5PCT.inp} & Adaptive $A_4$ Input Deck & 82bcf2ff1c5fbda39208ff4d4df071ec5465a4092c6e33047091b7fc60fe8c96 \\
+\texttt{PK\_M1\_A1\_NOM1PCT.inp} & Adaptive $A_1$ Truncated Input Deck & a1239a6c335e1606e148547c5f43a71b6884aa294fc857ba50e10a09c9c7d5ec \\
+\texttt{PK\_M1\_A1\_FULL\_U010.inp} & Adaptive $A_1$ Extended Input Deck & 7c8a59e374751c6ba683748fc9819d474601b1b57f4cb3b5c5eb3340764338ca \\
+\midrule
+\multicolumn{3}{l}{\textbf{Historical Stage F and G Exploratory Artifacts:}} \\
+\texttt{M2PROD\_ADAPT\_MM} & Input Deck (\texttt{.inp}) & 774c1385c111649b66dcc18e3990cef3b14c76acc64fc6809c586de3f1cfffb7 \\
+\texttt{M2PROD\_ADAPT\_MM} & User Subroutine (\texttt{.for}) & 0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8 \\
+\texttt{M2PROD\_ADAPT\_MM} & PBS Script (\texttt{.pbs}) & 6409ff55a3af0b9bfbc8520aacc5b8d492d7f78c5768e308954392f2548e8010 \\
+\midrule
+\texttt{M2PROD\_ADAPT\_PK5} & Input Deck (\texttt{.inp}) & 32e67a70cce767c6d2f914f1f121bbfac421a9807a21256a645bf2406a339356 \\
+\texttt{M2PROD\_ADAPT\_PK5} & User Subroutine (\texttt{.for}) & 0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8 \\
+\texttt{M2PROD\_ADAPT\_PK5} & PBS Script (\texttt{.pbs}) & 316140e61e90f45e506b4eec7d19f921886213da803306acbaadd4b03f8311cb \\
+\midrule
+\texttt{M2STAGE\_F\_VAL} & Input Deck (\texttt{.inp}) & 168f4fd6777c3e7c110747b800c0565fa93f16fec32e655adf67f2cb3ef470aa \\
+\texttt{M2STAGE\_F\_VAL} & User Subroutine (\texttt{.for}) & 62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab \\
+\texttt{M2STAGE\_F\_VAL} & Committed Binary & c63681b1c0b029f7b3bf5a1ee986e3fabfbbd240cf0bc89a030a811b82a84722 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Historical Solver Diagnostic Codes and Failure Mode Catalog}
+\label{sec:app_failure_modes}
+
+To document the technical challenges resolved during the research campaign, Table~\ref{tab:app_failure_modes} provides a diagnostic catalog of key software failure modes encountered and their architectural resolutions.
+
+\begin{table}[htbp]
+\centering
+\fontsize{7.0}{8.2}\selectfont
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{0.85}
+\caption{Catalog of Technical Failure Modes and Engineering Resolutions.}
+\label{tab:app_failure_modes}
+\begin{tabularx}{\textwidth}{lXXX}
+\toprule
+\textbf{Error Identifier} & \textbf{Observed Manifestation} & \textbf{Root Cause Diagnosis} & \textbf{Architectural Resolution} \\
+\midrule
+\texttt{ErrElemAreaSmallNegZero} & Abaqus pre-solver aborts with zero/negative area elements & Global node number collision between auxiliary Reference Point and mesh vertices & Strict \texttt{*Part} node scoping isolating RP node from mesh assembly \\
+\midrule
+\texttt{FortranImplicitReal8} & Compiler typing error in \texttt{INQUIRE} statement & Implicit type assignment of \texttt{EXISTS} as \texttt{REAL*8} instead of \texttt{LOGICAL} & Explicit type declarations (\texttt{LOGICAL :: file\_exists}) across all subroutines \\
+\midrule
+\texttt{ModuleCompilerMissing} & \texttt{ifort: command not found} on compute nodes & PBS execution environment omitted required toolchain modules & Explicit \texttt{module load intel/2024.2.0 gcc/11.4.0} in all job wrappers \\
+\midrule
+\texttt{AbaqusPy2UnicodeError} & \texttt{TypeError} in \texttt{RemeshingRule.variables} & Abaqus Python 2.7 passed Unicode string \texttt{u'MISESERI'} instead of native string & Explicit ASCII string conversion \texttt{str('MISESERI')} in CAE generator scripts \\
+\midrule
+\texttt{CrossSlitContamination} & Artificial phase smoothing across physical notch flanks & Nonmatching geometric search interpolated across opposite slit surfaces & Slit-barrier topological partitioning restricting search to same flank \\
+\bottomrule
+\end{tabularx}
+\end{table}

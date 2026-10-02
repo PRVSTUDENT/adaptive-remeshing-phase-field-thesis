@@ -1,0 +1,234 @@
+\chapter{Production Validation: Task 5 Adaptive Reproduction and Task 6 Visualization Integration}
+\label{chap:production_validation}
+
+\section{Introduction and Objectives}
+This chapter presents the production execution, quantitative validation, and forensic provenance resolution for two central thesis milestones:
+\begin{enumerate}
+  \item \textbf{Task 5: Adaptive Mode-I Benchmark Reproduction,} validating the error-guided refinement methodology against the published benchmark of Pandey \& Kumar (2025) \citep{Pandey2025};
+  \item \textbf{Task 6: Visualization Workflow Integration,} evaluating the in-solver companion UMAT visualization bridge and defining the status of the external IMFD \textsc{ABAQUSER} post-processing utility \citep{Roth2014}.
+\end{enumerate}
+
+\section{Part I: Task 5 Predecessor Calculations and Diagnostic Attempts}
+
+\subsection{Blunt-notch exploratory trial (Job \texttt{1398807.mmaster02}, Rejected)}
+In early workflow development, an exploratory trial modeled the initial crack as an explicit finite-width blunt notch ($w = 0.001\,\mathrm{mm}$). When subjected to native adaptive remeshing at $\text{errorTarget} = 1.0\%$, the stress singularities at the two sharp notch corners forced extreme over-refinement, producing $74{,}261$ physical elements ($72{,}260$ Quad4, $2{,}001$ Tri3). The calculation completed technically but exhibited an unphysical elastic compliance ($K_0 = 75.47\,\mathrm{kN/mm}$ vs $138.08\,\mathrm{kN/mm}$ baseline) and a severely reduced peak load ($0.1963\,\mathrm{kN}$). This case was formally classified as \textbf{TECHNICAL\_PASS\_SCIENTIFIC\_FAIL} and rejected due to incorrect notch geometry.
+
+\subsection{Sharp-seam nominal-1\% execution (Jobs \texttt{1398865} and \texttt{1399632})}
+The geometry was corrected to a true mathematical zero-gap seam using Abaqus \texttt{assignSeam} ($100$ coincident node pairs along the crack flank). Running the native remeshing workflow with the published nominal parameters ($\text{errorTarget} = 1.0\%$, $\text{refinementFactor} = 10$, $h_{\mathrm{cms}} = 0.02\,\mathrm{mm}$, $h_{\min} = 0.001\,\mathrm{mm}$, $h_{\max} = 0.02\,\mathrm{mm}$, coarsening disabled) generated a physical mesh of $\mathbf{71{,}320}$ elements ($69{,}443$ Quad4, $1{,}877$ Tri3; $71{,}490$ nodes).
+
+An initial production solve (Job \texttt{1398865.mmaster02}) aborted in Step~2 at $u = 0.00632\,\mathrm{mm}$ when the automatic time increment reached the default minimum of $\Delta t_{\min} = 10^{-9}$. A remediated calculation (Job \texttt{1399632.mmaster02}) with $\Delta t_{\min} = 10^{-14}$ ran to full completion (\texttt{Exit status 0}) across $7{,}058$ converged increments in $35\,\mathrm{h}\,08\,\mathrm{min}\,41\,\mathrm{s}$ of walltime ($34\,\mathrm{h}\,03\,\mathrm{min}\,45\,\mathrm{s}$ CPUT), resolving a smooth post-peak softening branch down to a $94.42\%$ load drop ($F_{\text{final}} = 0.02669\,\mathrm{kN}$) and a straight Mode-I crack path.
+
+However, extracting the force-displacement curve revealed a substantial quantitative discrepancy against the benchmark:
+\begin{itemize}
+  \item Peak reaction force: $F_{\text{peak}} = 0.478203\,\mathrm{kN}$ vs $0.758000\,\mathrm{kN}$ target ($\mathbf{-36.91\%}$ difference);
+  \item Displacement at peak: $u_{\text{peak}} = 0.004150\,\mathrm{mm}$ vs $0.005860\,\mathrm{mm}$ target ($\mathbf{-29.18\%}$ difference);
+  \item Initial elastic stiffness: $K_0 = 122.38\,\mathrm{kN/mm}$ vs $138.08\,\mathrm{kN/mm}$ baseline ($\mathbf{-11.29\%}$ difference);
+  \item Mesh element count: $71{,}320$ physical elements vs $\approx 13{,}941$ reported in the literature ($\mathbf{5.12\times}$ denser).
+\end{itemize}
+This result established that while Job \texttt{1399632} completed technically, it failed the quantitative benchmark reproduction gates (\textbf{TECHNICAL\_COMPLETION / QUANTITATIVE\_REPRODUCTION\_FAILED}).
+
+\section{Part II: Forensic Audit of the Nominal-1\% Mesh Discrepancy}
+
+\subsection{Mathematical analysis of \texttt{MISESERI} and scale invariance}
+To determine why native Abaqus remeshing at nominal $\text{errorTarget} = 1.0\%$ generated $71{,}320$ elements instead of the reported $\approx 13{,}941$ elements, an exhaustive forensic audit was conducted.
+
+In the Abaqus Analysis User's Guide, \texttt{MISESERI} represents the dimensional stress error magnitude in $\mathrm{MPa}$. The relative percentage error $\eta_i$ for element $i$ is evaluated against the domain-average von Mises stress $\bar{\sigma}_{\mathrm{Mises}}$:
+\begin{equation}
+\eta_i = \frac{\text{MISESERI}_i}{\bar{\sigma}_{\mathrm{Mises}}} \times 100\%.
+\end{equation}
+In linear elasticity of a cracked body, both the singular stress field $\sigma_{ij}(r, \theta) \sim K_I / \sqrt{2\pi r}$ and the average stress $\bar{\sigma}_{\mathrm{Mises}}$ scale strictly linearly with applied boundary displacement $u$. Consequently, the relative error field $\eta(\mathbf{x})$ is \textbf{dimensionless and scale-invariant across all pre-analysis increments and frames}.
+
+At the strict threshold of $\eta_{\mathrm{target}} = 1.0\%$, the singular stress concentration at the pre-crack tip elevates $\eta_i > 1.0\%$ across more than $\mathbf{80\%}$ of the entire $1.0 \times 1.0\,\mathrm{mm}^2$ plate domain. The advancing-front meshing algorithm responds by applying the maximum refinement factor ($\text{refinementFactor} = 10$) across almost the entire specimen, forcing element sizes down towards $h_{\min} = 0.001\,\mathrm{mm}$ and yielding $\approx 66{,}000\text{--}71{,}320$ elements.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}\centering
+\includegraphics[width=\linewidth]{TASK5_NOMINAL_1PCT_MISESERI_CDF_HISTOGRAM.png}\\[-0.3em]
+\small (a) Cumulative distribution of \texttt{MISESERI} error
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}\centering
+\includegraphics[width=\linewidth]{TASK5_NOMINAL_1PCT_TARGET_SIZE_DISTRIBUTION.png}\\[-0.3em]
+\small (b) Target element size distribution
+\end{minipage}
+\caption{Forensic analysis of the nominal-1\% sizing field, showing that $>80\%$ of elements exceed the 1\% threshold in our native Abaqus workflow, driving extensive refinement.}
+\label{fig:miseseri_cdf_target}
+\end{figure}
+
+\subsection{Systematic hypothesis testing matrix}
+Table~\ref{tab:hypothesis_matrix} summarizes the systematic hypothesis testing conducted to isolate the source of the mesh-density difference.
+
+\begin{table}[htbp]
+\centering
+\caption{Systematic hypothesis testing matrix for the nominal-1\% mesh-density discrepancy.}
+\label{tab:hypothesis_matrix}
+\footnotesize
+\begin{tabularx}{\linewidth}{p{0.22\linewidth}p{0.28\linewidth}p{0.30\linewidth}p{0.14\linewidth}}
+\toprule
+\textbf{Hypothesis} & \textbf{Controlled Test} & \textbf{Verified Result} & \textbf{Classification} \\
+\midrule
+\textbf{H1: Elastic crack-tip error response} & Sweep errorTarget $\in [1.0, 5.0\%]$ on linear elastic sharp seam & $1.0\% \to 66{,}142\text{--}71{,}320$ elem; $2.0\% \to 15{,}396\text{--}16{,}786$ elem; $5.0\% \to 4{,}194\text{--}4{,}250$ elem & \textbf{CONFIRMED} \\
+\textbf{H2: Empirical 2\% mesh reconciliation} & Compare 2.0\% mesh ($15{,}396$) to literature target ($13{,}941$) & $15{,}396$ elements ($+10.4\%$ match); reproduces $F_{\text{peak}}$ within $1.29\%$ & \textbf{SUPPORTED} (Empirical) \\
+\textbf{H3: Paper loading schedule} & Compare 2-step (1,500 inc) vs 1-step (10 inc) pre-analysis & 2-step: $66{,}142$ elem; 1-step: $65{,}982$ elem (difference $<0.24\%$) & \textbf{RULED OUT} \\
+\textbf{H4: Step / frame selection} & Compare Step-1 vs Step-2 and \texttt{ALL\_INCREMENTS} vs \texttt{LAST} & Step-2 ALL: $66{,}142$; Step-2 LAST: $66{,}142$; Step-1 ALL: $65{,}982$ & \textbf{RULED OUT} \\
+\textbf{H5: Crack topology} & Compare sharp seam vs blunt notch ($w=0.001\,\mathrm{mm}$) & Sharp seam: $65{,}982\text{--}71{,}320$; Blunt notch: $58{,}570\text{--}74{,}261$ & \textbf{SUPPORTED} (Minor impact) \\
+\textbf{H6: Coarse seed resolution} & Compare $h_{\mathrm{cms}} = 0.02\,\mathrm{mm}$ vs $0.03\,\mathrm{mm}$ & $h_{\mathrm{cms}}=0.02$: $15{,}396$ ($2\%$); $h_{\mathrm{cms}}=0.03$: $12{,}679$ ($2\%$) & \textbf{SUPPORTED} \\
+\textbf{H7: Abaqus release sizing behavior} & Compare Abaqus 2023 (Linux) vs Abaqus 2024 (Windows) & Abq 2023: $15{,}396$ ($2\%$); Abq 2024: $16{,}786$ ($2\%$) & \textbf{NOT ESTABLISHED} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{TASK5_NOMINAL_1PCT_DISCREPANCY_CAUSE_MATRIX.png}
+\caption{Visual cause-and-effect matrix isolating the factors influencing adaptive mesh density.}
+\label{fig:discrepancy_cause_matrix}
+\end{figure}
+
+\subsection{Authoritative scientific discrepancy classification}
+Pandey \& Kumar (2025) explicitly list \texttt{errorTarget = 1.0} in their script (Listing~1) and report $13{,}941$ elements for the proposed Mode-I mesh. Our exact numerical reconstruction using native Abaqus advancing-front remeshing at $\text{errorTarget} = 1.0\%$ produces $71{,}320$ elements. 
+
+The singular stress error scale-invariance explains our observed over-refinement; however, it does not explain why the published script produced $13{,}941$ elements, as that discrepancy cannot be uniquely determined from the published text alone. Therefore, the exact nominal-$1\%$ published preprocessing reproduction is authoritatively classified as:
+\begin{center}
+\textbf{\texttt{DOCUMENTED\_UNRESOLVABLE\_FROM\_PUBLISHED\_INFORMATION}}
+\end{center}
+Furthermore, setting $\text{errorTarget} = 2.0\%$ produces $15{,}396$ elements ($+10.4\%$ match) and accurately reproduces the benchmark fracture response. This finding is classified as:
+\begin{center}
+\textbf{\texttt{EMPIRICALLY\_RECONCILED\_AT\_2PCT\_BUT\_NOT\_PROVEN\_EQUIVALENT\_TO\_PUBLISHED\_1PCT}}
+\end{center}
+\textbf{Scientific Integrity Note:} The thesis does \emph{not} claim or imply that Pandey \& Kumar actually used $2.0\%$. Rather, the report documents that an error target of $2.0\%$ empirically reconciles both the element count and the physical fracture response in a standard Abaqus installation.
+
+\section{Part III: Authoritative Task 5 Quantitative Reproduction (Job \texttt{1400395.mmaster02})}
+
+\subsection{Production 2.0\% adaptive mesh properties}
+The authoritative Task-5 adaptive candidate was generated using $\text{errorTarget} = 2.0\%$:
+\begin{itemize}
+  \item \textbf{Total Physical Elements:} $15{,}396$ ($14{,}963$ Quad4 / $97.19\%$, $433$ Tri3 / $2.81\%$);
+  \item \textbf{Physical Nodes:} $15{,}414$;
+  \item \textbf{Element Size Bounds:} $h_{\min} = 0.000435\,\mathrm{mm}$, $h_{\max} = 0.023106\,\mathrm{mm}$, $h_{\mathrm{mean}} = 0.006747\,\mathrm{mm}$;
+  \item \textbf{Seam Topology:} Exactly $59$ coincident node pairs along the sharp crack flank $(0.0, 0.5) \to (0.5, 0.5)\,\mathrm{mm}$ and a unique tip node (\#145);
+  \item \textbf{Multi-Layer Model Size:} $46{,}188$ total elements ($15{,}396$ Phase UEL + $15{,}396$ Mech UEL + $15{,}396$ Facsimile UMAT).
+\end{itemize}
+
+\subsection{Quantitative benchmark reproduction results}
+Production Job \texttt{1400395.mmaster02} was executed serially on compute node \texttt{mnode097} using Abaqus 2023 with $32\,\mathrm{GB}$ RAM in queue \texttt{normal\_imfdfkmq}. The job ran to normal completion (\texttt{Exit status 0}) in $07\,\mathrm{h}\,06\,\mathrm{min}\,46\,\mathrm{s}$ of walltime ($06\,\mathrm{h}\,52\,\mathrm{min}\,21\,\mathrm{s}$ CPUT), executing all $7{,}028$ increments ($2{,}000$ in Step 1, $5{,}028$ in Step 2) with \textbf{zero cutbacks} and \textbf{zero numerical warnings}.
+
+\begin{table}[htbp]
+\centering
+\caption{Quantitative validation of the accepted 2.0\% adaptive reproduction (Job \texttt{1400395.mmaster02}) and 5.0\% sensitivity case (Job \texttt{1400396.mmaster02}) against benchmark targets and predecessor runs.}
+\label{tab:task5_final_metrics}
+\footnotesize
+\begin{tabularx}{\linewidth}{p{0.22\linewidth}p{0.14\linewidth}p{0.14\linewidth}p{0.16\linewidth}p{0.16\linewidth}p{0.12\linewidth}}
+\toprule
+\textbf{Metric} & \textbf{Fixed Baseline} & \textbf{Over-Ref. 1\%} & \textbf{Accepted 2\%} & \textbf{Sensitivity 5\%} & \textbf{Target} \\
+\midrule
+PBS Job ID & \texttt{1398090} & \texttt{1399632} & \textbf{\texttt{1400395}} & \texttt{1400396} & Pandey (2025) \\
+Physical Elements & $15{,}192$ & $71{,}320$ & $\mathbf{15{,}396}$ & $4{,}194$ & $\approx 13{,}941$ \\
+Physical Nodes & $15{,}305$ & $71{,}490$ & $\mathbf{15{,}414}$ & $4{,}274$ & $\approx 14{,}000$ \\
+errorTarget & N/A & $1.0\%$ & $\mathbf{2.0\%}$ & $5.0\%$ & $1.0\%$ (nom.) \\
+Solver Exit Status & 0 & 0 & \textbf{0} & 0 & Completed \\
+Cutbacks / Warnings & 0 / 0 & 0 / 0 & \textbf{0 / 0} & 0 / 0 & -- \\
+Walltime (hh:mm:ss) & $06:31:14$ & $35:08:41$ & $\mathbf{07:06:46}$ & $01:55:29$ & -- \\
+CPUT (hh:mm:ss) & $06:30:34$ & $34:03:45$ & $\mathbf{06:52:21}$ & $01:50:39$ & -- \\
+\midrule
+$K_0$ [$\mathrm{kN/mm}$] & $137.95$ & $122.38$ & $\mathbf{137.84}$ & $137.97$ & $\approx 138.08$ \\
+$F_{\text{peak}}$ [$\mathrm{kN}$] & $0.757778$ & $0.478203$ & $\mathbf{0.748197}$ & $0.764964$ & $0.758000$ \\
+$u_{\text{peak}}$ [$\mathrm{mm}$] & $0.005857$ & $0.004150$ & $\mathbf{0.005775}$ & $0.007060$ & $0.005860$ \\
+$u_{\text{final}}$ [$\mathrm{mm}$] & $0.0100$ & $0.0100$ & $\mathbf{0.0100}$ & $0.0100$ & $0.0100$ \\
+$F_{\text{final}}$ [$\mathrm{kN}$] & $0.000232$ & $0.026690$ & $\mathbf{0.012671}$ & $0.032830$ & $\approx 0.0000$ \\
+Post-Peak Drop [\%] & $99.97\%$ & $94.42\%$ & $\mathbf{98.31\%}$ & $95.71\%$ & $\approx 100\%$ \\
+\midrule
+Force Error $e_F$ [\%] & $-0.029\%$ & $-36.91\%$ & $\mathbf{-1.29\%}$ & $+0.92\%$ & $\le 5.0\%$ \\
+Disp. Error $e_u$ [\%] & $-0.051\%$ & $-29.18\%$ & $\mathbf{-1.45\%}$ & $\mathbf{+20.48\%}$ & $\le 5.0\%$ \\
+Stiffness Error $e_K$ [\%] & $-0.10\%$ & $-11.29\%$ & $\mathbf{-0.08\%}$ & $-0.08\%$ & $\le 3.0\%$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Figure~\ref{fig:task5_ld_comparison} compares the full reaction-force versus displacement curves. The $2.0\%$ adaptive reproduction tracks the fixed-mesh baseline and published reference curve throughout the entire elastic loading, peak localization, and steep post-peak softening regimes.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{TASK5_LOAD_DISPLACEMENT_COMPARISON.png}
+\caption{Reaction force versus prescribed displacement comparison for the Pandey \& Kumar Mode-I tensile benchmark, demonstrating quantitative agreement of the accepted 2.0\% adaptive reproduction (\texttt{1400395.mmaster02}) against the fixed-mesh reference (\texttt{1398090.mmaster02}) and published target.}
+\label{fig:task5_ld_comparison}
+\end{figure}
+
+\subsection{Evaluation of Task-5 scientific acceptance gates}
+The $2.0\%$ adaptive reproduction was evaluated against all five predeclared scientific acceptance gates:
+\begin{enumerate}
+  \item \textbf{Gate 1 (Peak Reaction Force):} $\lvert F_{\text{peak}} - F_{\text{target}} \rvert / F_{\text{target}} = 1.29\% \le 5.0\%$ $\implies$ \textbf{PASSED}.
+  \item \textbf{Gate 2 (Peak Displacement):} $\lvert u_{\text{peak}} - u_{\text{target}} \rvert / u_{\text{target}} = 1.45\% \le 5.0\%$ $\implies$ \textbf{PASSED}.
+  \item \textbf{Gate 3 (Initial Elastic Stiffness):} $\lvert K_0 - K_{\text{target}} \rvert / K_{\text{target}} = 0.08\% \le 3.0\%$ $\implies$ \textbf{PASSED}.
+  \item \textbf{Gate 4 (Post-Peak Load Drop):} Final load drop of $98.31\% \ge 90.0\%$ $\implies$ \textbf{PASSED}.
+  \item \textbf{Gate 5 (Numerical Stability):} $0$ cutbacks, $0$ numerical warnings, \texttt{Exit status 0} $\implies$ \textbf{PASSED}.
+\end{enumerate}
+
+Authoritative Job \texttt{1400395.mmaster02} is formally designated as \textbf{SCIENTIFICALLY\_ACCEPTED}, and Task 5 is concluded as \textbf{QUANTITATIVE ADAPTIVE REPRODUCTION PASSED}.
+
+In contrast, while the 5.0\% sensitivity solve (\texttt{1400396.mmaster02}) passed peak force ($+0.92\%$) and stiffness ($-0.08\%$), its peak displacement shifted to $u_{\text{peak}} = 0.007060\,\mathrm{mm}$ ($+20.48\%$), failing Gate 2. This proves that $h \approx 0.00136\,\mathrm{mm}$ at 5\% error target is insufficiently fine to resolve the diffuse crack gradient without delaying damage localization, classifying the 5\% case as \textbf{SCIENTIFICALLY\_EVALUATED} rather than accepted.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{TASK5_MESH_CONVERGENCE_METRICS.png}
+\caption{Parametric mesh convergence metrics showing the progression of initial stiffness, peak force, and element counts across error targets.}
+\label{fig:mesh_convergence_metrics}
+\end{figure}
+
+\section{Part IV: Task 6 Visualization Workflow and Companion UMAT Bridge}
+
+\subsection{Concept separation: Companion UMAT bridge vs authentic ABAQUSER}
+To prevent ambiguity in scientific reporting, two visualization concepts must be strictly distinguished:
+\begin{enumerate}[label=\Alph*.,leftmargin=12mm]
+  \item \textbf{Verified In-Solver Companion Visualization Bridge (Developed in this project):} An internal multi-layer UMAT coupling implemented within \texttt{f42\_mixed\_uel.for} that maps UEL solution fields into standard Abaqus library elements during solver execution, writing $\text{STATEV}(15) = d$ and $\text{STATEV}(16) = \mathcal{H}$ directly to the primary ODB.
+  \item \textbf{Authentic IMFD ABAQUSER Tool (External proposal requirement):} The proprietary/in-house post-processing Python utility developed at IMFD Freiberg \citep{Roth2014} that operates externally on completed ODB files to reconstruct UEL results into standard library elements.
+\end{enumerate}
+
+\subsection{Architecture and verification of the companion UMAT bridge (Job \texttt{1400408.mmaster02})}
+The companion visualization bridge operates via a 3-layer element architecture:
+\begin{itemize}
+  \item Layer 1: Phase UEL (\texttt{JTYPE 1/3}) solves for nodal phase field $d$.
+  \item Layer 2: Mechanical UEL (\texttt{JTYPE 2/4}) solves for displacements $\mathbf{u}$.
+  \item Layer 3: Companion UMAT (\texttt{CPE4/CPE3}) assigned near-zero artificial stiffness ($E_{\mathrm{vis}} = 10^{-11}\,\mathrm{kN/mm^2}$). State variables are transferred from UEL to UMAT via Fortran \texttt{COMMON /CB\_STATE\_TRANS/} and synchronized via \texttt{UEXTERNALDB}.
+\end{itemize}
+
+Production Job \texttt{1400408.mmaster02} (\texttt{PK\_M1\_2P\_VIS}) was executed on the accepted $15{,}396$-element adaptive mesh. The calculation completed all $7{,}028$ increments with \texttt{Exit status 0} in $07\,\mathrm{h}\,23\,\mathrm{min}\,57\,\mathrm{s}$ of walltime ($07\,\mathrm{h}\,08\,\mathrm{min}\,31\,\mathrm{s}$ CPUT).
+
+\textbf{Mechanical Parity Audit:} Evaluating the full reaction force history of Job \texttt{1400408} against the accepted Task-5 baseline \texttt{1400395} across all $7{,}028$ increments revealed:
+\begin{itemize}
+  \item Maximum absolute RF difference: $\mathbf{0.000000\,\mathrm{kN}}$;
+  \item Maximum relative RF difference: $\mathbf{0.000000\%}$;
+  \item Integrated external work difference: $\mathbf{0.000000\,\mathrm{kJ}}$.
+\end{itemize}
+This rigorous check proves \textbf{zero parasitic stiffness or mechanical interference} from the companion visualization layer.
+
+\subsection{Phase-field numerical overshoot investigation}
+Evaluating the extracted field output \texttt{SDV15} from the production ODB revealed a minor numerical overshoot above the theoretical upper bound ($d = 1.0$):
+\begin{itemize}
+  \item Peak observed phase field: $\max(\text{SDV15}) = \mathbf{1.00518084}$ ($+0.52\%$ excess);
+  \item Spatial extent: First occurs at Frame 791 of Step 2 ($u = 0.005791\,\mathrm{mm}$) affecting 8 elements ($0.052\%$), peaks at Frame 3200 ($u = 0.008173\,\mathrm{mm}$) affecting 27 elements ($0.175\%$), and relaxes to $1.004512$ at final fracture ($u = 0.0100\,\mathrm{mm}$) without growing unboundedly.
+\end{itemize}
+
+\textbf{Forensic Root-Cause Findings:}
+\begin{enumerate}
+  \item In user subroutine \texttt{f42\_mixed\_uel.for}, $\text{STATEV}(15)$ is directly assigned from the solved UEL phase variable \texttt{SV\_PHASE\_TRIAL(PHYSIDX)}. Comparing the solved UEL nodal phase degree of freedom ($U_3$) with the companion \texttt{SDV15} confirms exact pointwise agreement. The overshoot is confirmed as \textbf{\texttt{FORMULATION\_LEVEL\_NOT\_VISUALIZATION\_TRANSFER}}.
+  \item The underlying physical cause is classified as \textbf{\texttt{POSSIBLE\_FORMULATION\_DISCRETIZATION\_CAUSE}}, arising from standard Galerkin spatial discretization of the continuous unconstrained phase Helmholtz equation (\ref{eq:pde_phase}) without explicit variational box inequality constraints ($d \le 1.0$).
+  \item An asymptotic scaling law (e.g., $\mathcal{O}(h^2/\ell_0^2)$) is not asserted because present evidence has not proven a specific scaling exponent.
+  \item In accordance with scientific data governance, raw simulation datasets remain completely unclipped. Direct CAE contour plots employ the fixed physical display range $d \in [0, 1]$ while explicitly reporting the $+0.52\%$ numerical boundary.
+\end{enumerate}
+
+\subsection{Status of authentic IMFD ABAQUSER dependency}
+An exhaustive search across the accessible project repository, Git commit history, and HPC user environment confirmed that no authentic \textsc{ABAQUSER} executable, Python module, or binary is currently present. The tool is an in-house IMFD development \citep{Roth2014} requiring internal institute access.
+
+Formal dependency status:
+\begin{center}
+\textbf{\texttt{TASK6\_BLOCKED\_EXTERNAL\_ABAQUSER\_DEPENDENCY}}
+\end{center}
+A formal supervisor request package (\texttt{TASK6\_ABAQUSER\_EXTERNAL\_DEPENDENCY\_REQUEST.md}) and a re-entry checklist (\texttt{TASK6\_REENTRY\_CHECKLIST.md}) have been established. Because the authentic tool remains unavailable, \textbf{Task 6 is not scientifically complete}. Once the authentic tool is provided by IMFD, it will be executed directly on existing verified ODB files in post-processing without requiring additional solver runs.
+
+\section{Chapter Summary}
+\begin{enumerate}
+  \item \textbf{Task 5 (Adaptive Mode-I Reproduction):} Fully completed and validated under Job \texttt{1400395.mmaster02} ($\text{errorTarget} = 2.0\%$, $15{,}396$ elements, $F_{\text{peak}} = 0.7482\,\mathrm{kN}$, $-1.29\%$ error vs target, \textbf{SCIENTIFICALLY\_ACCEPTED}).
+  \item \textbf{5.0\% Sensitivity Solve:} Evaluated under Job \texttt{1400396.mmaster02} ($4{,}194$ elements, $F_{\text{peak}} = 0.7650\,\mathrm{kN}$, $u_{\text{peak}} = 0.007060\,\mathrm{mm}$ [$+20.48\%$], \textbf{SCIENTIFICALLY\_EVALUATED}).
+  \item \textbf{Nominal-1\% Discrepancy:} Reconciled as scale-invariant over-refinement of the singular elastic crack tip in our native Abaqus workflow, classified as \texttt{DOCUMENTED\_UNRESOLVABLE\_FROM\_PUBLISHED\_INFORMATION}.
+  \item \textbf{Task 6 (Companion Visualization Bridge):} \textbf{COMPANION\_VISUALIZATION\_BRIDGE\_FULLY\_VERIFIED} under Job \texttt{1400408.mmaster02} with $0.000000\%$ mechanical parity. Formal authentic tool integration remains \textbf{TASK6\_BLOCKED\_EXTERNAL\_ABAQUSER\_DEPENDENCY}, meaning Task 6 is not complete.
+\end{enumerate}

@@ -1,0 +1,236 @@
+# Mode-I Phase-Field Fracture Benchmark: Master Scientific Synthesis & Gate Execution Dossier (Gates 0–6)
+
+**Document Identifier**: `docs/supervisor_reports/MODE1_SUPERVISOR_MASTER_GATES_0_TO_6_SYNTHESIS.md`  
+**Author**: Pruthviraja Reddy Vandavagali (Matriculation No. 68865)  
+**Supervisors**: Prof. Dipl.-Ing. Björn Kiefer, Ph.D., and Dr.-Ing. Stephan Roth  
+**Institution**: Institute of Mechanics and Fluid Dynamics (IMFD), TU Bergakademie Freiberg  
+**Date**: September 10, 2026  
+**Governing Directive**: *"We need to have understood everything related to the first model before we increase complexity."*  
+
+---
+
+## Master Gate Execution Status Dashboard
+
+```text
+=======================================================================================================================
+GATE      GATE DESCRIPTION                                 STATUS               EXIT EVIDENCE & GOVERNANCE BASIS
+=======================================================================================================================
+Gate 0    Source & Scope Freeze                            CLOSED_PASSED        Literature, proposal, & Mode-I freeze verified
+Gate 1    Conventional Mode-I Reference                    QUALIFIED_ANCHOR     Job 1398090/1401091 evaluated (Fmax=0.7578 kN, K0=137.95)
+Gate 2    Multi-Quantity Convergence Qualification         QUALIFIED_INTERVAL   Common interval qualified; profile symmetry confirmed
+Gate 3    MISESERI Mechanism Verification                  CLOSED_VERIFIED      Mathematical patch-recovery error verified
+Gate 4    Native Python Refinement Implementation          CLOSED_VERIFIED      Headless CAE pipeline & deck integrity verified
+Gate 5    Nominal 1% Discrepancy Audit                     CLOSED_UNRESOLVED    Defensible OFAT tested; missing info documented
+Gate 6    Reference Reproduction with Refinement           PARTIALLY_QUALIFIED  1% fails reproduction; 2% reproduces as sensitivity
+Gate 7    ABAQUSER / Companion Vis Bridge Integration      TASK6_EXT_BLOCKED    Companion bridge verified (0.000000% parity)
+Gate 8    Higher-Complexity Benchmarks (Mode-II)           ON_HOLD              Paused per supervisor directive
+Gate 9    Parameter & Sizing Recommendations               BLOCKED_BY_GATE_6    Sequential gate hold
+Gate 10   Future-User Documentation                        BLOCKED_BY_GATE_6    Sequential gate hold
+Gate 11   Thesis Synthesis & Final Submission              BLOCKED_BY_GATE_6    Sequential gate hold
+=======================================================================================================================
+```
+
+---
+
+## Metric-Definition Specification Box
+
+To ensure unambiguous mathematical interpretation and complete reproducibility across all analyses:
+
+```text
+========================================================================================================================
+                                          METRIC-DEFINITION SPECIFICATION BOX
+========================================================================================================================
+1. Initial Elastic Stiffness K0 [kN/mm]:
+   - Definition: Unconstrained Ordinary Least Squares (OLS) linear regression of F(u) = K0 * u + F0
+   - Fitting Interval: u in (0.000000, 0.001000] mm (first 400 uniform increments, step size Delta u = 2.500000e-6 mm)
+   - Equation: K0 = Cov(u, F) / Var(u), with reported intercept F0 and coefficient of determination R^2.
+   - Origin note: u = 0 is excluded as the pre-step reference origin; solver increment 1 begins at u = 2.5e-6 mm.
+
+2. Peak Reaction Force F_max [kN] & Peak Displacement u(F_max) [mm]:
+   - F_max = max_{i} F(u_i)
+   - u(F_max) = argmax_{u_i} F(u_i)
+
+3. Disaggregated Relative L2 Trajectory Error Norm epsilon_L2 [%]:
+   - Pre-Peak Error (u in [0, u_pre_end], where u_pre_end = min(u_peak^ref, u_peak^case)):
+       epsilon_{L2,pre} = sqrt( int_0^{u_pre_end} [F_case(u) - F_ref(u)]^2 du / int_0^{u_pre_end} [F_ref(u)]^2 du ) * 100%
+   - Post-Peak Error (u in (u_pre_end, u_max]):
+       epsilon_{L2,post} = sqrt( int_{u_pre_end}^{u_max} [F_case(u) - F_ref(u)]^2 du / int_{u_pre_end}^{u_max} [F_ref(u)]^2 du ) * 100%
+   - Full-Curve Error (u in [0, u_max], u_max = 0.007000 mm):
+       epsilon_{L2,full} = sqrt( int_0^{u_max} [F_case(u) - F_ref(u)]^2 du / int_0^{u_max} [F_ref(u)]^2 du ) * 100%
+   - Uniform Interpolation Grid: N = 7,001 points, grid spacing Delta u = 1.000000e-6 mm.
+
+4. Additive Squared-Error Numerator Contribution [%] (NOT Energy):
+   - Total Squared Error Integral: E_{num,total} = int_0^{u_max} [F_case(u) - F_ref(u)]^2 du
+   - Pre-Peak Numerator Contribution:  eta_{pre}  = ( int_0^{u_pre_end} [F_case(u) - F_ref(u)]^2 du / E_{num,total} ) * 100%
+   - Post-Peak Numerator Contribution: eta_{post} = ( int_{u_pre_end}^{u_max} [F_case(u) - F_ref(u)]^2 du / E_{num,total} ) * 100%
+   - Note: eta_{pre} + eta_{post} = 100.0000% (Strictly Additive).
+
+5. External Work W_ext [mJ / J / uJ]:
+   - Definition: W_ext = int_0^{u_final} F(u) du  (Trapezoidal numerical integration)
+   - Unit Consistency: 1 kN*mm = 10^3 N * 10^-3 m = 1.0 J = 1,000.0 mJ = 1,000,000.0 uJ.
+   - For Mode-I: W_ext ~ 2.36e-3 kN*mm = 2.36e-3 J = 2.36 mJ = 2,358.4 uJ.
+
+6. Spatial Crack-Path Symmetry Metric Delta y [mm]:
+   - Evaluated as the maximum absolute deviation along the horizontal crack centerline y = 0.500 mm:
+       Delta y = max |y_crack(x) - 0.500 mm|
+   - Formal classification: CRACK_PATH_CENTERLINE_CONSISTENCY_ONLY.
+========================================================================================================================
+```
+
+---
+
+## Chapter 1: Problem Definition & Governing Directives (Gate 0)
+
+### 1.1 Boundary Value Problem Specification
+The foundational benchmark investigated throughout Gates 0–6 is the 2D square plate under pure tensile Mode-I loading:
+- **Specimen Dimensions**: $L \times W = 1.0\,\text{mm} \times 1.0\,\text{mm}$.
+- **Initial Crack**: Horizontal zero-gap sharp slit seam at $y = 0.5\,\text{mm}$, extending from left edge $x = 0.0\,\text{mm}$ to center $x = 0.5\,\text{mm}$ ($a_0 = 0.5\,\text{mm}$). (Note: Finite-width blunt notches are excluded due to artificial compliance corruption).
+- **Material & Phase-Field Properties**:
+  * Young's modulus $E = 210\,\text{GPa}$ ($210\,\text{kN/mm}^2$)
+  * Poisson's ratio $\nu = 0.30$
+  * Critical energy release rate $G_c = 2.7 \times 10^{-3}\,\text{kN/mm}$ ($2.7\,\text{kJ/m}^2$)
+  * Length-scale parameter $l_0 = 0.0075\,\text{mm}$ ($7.5\,\mu\text{m}$).
+- **Boundary Conditions (BVP)**: Bottom edge $y = 0.0\,\text{mm}$ roller supported ($u_y = 0$) with origin pinned ($u_x = 0, u_y = 0$); top edge $y = 1.0\,\text{mm}$ pulled vertically ($u_y = \bar{u}$).
+
+---
+
+## Chapter 2: Conventional Fixed-Mesh Reference Anchor (Gate 1)
+
+### 2.1 Quantitative Baseline Anchor
+- **Mandatory Reference Statement**: *"This is the reference response that my adaptive solution must reproduce to an acceptable accuracy."*
+- **Fixed Reference Model (Job `1398090.mmaster02`, $15,192$ structured quad elements)**:
+  * Canonical Initial Elastic Stiffness: $K_0 = \mathbf{137.945520\,\text{kN/mm}}$ ($R^2 = 0.99999960$, $N=400$ over $0 < u \le 0.001000\,\text{mm}$, intercept $F_0 = 4.472 \times 10^{-5}\,\text{kN}$).
+  * Peak Reaction Force: $F_{\max} = \mathbf{0.757778\,\text{kN}}$ ($-0.029\%$ vs $0.7580\,\text{kN}$ text target).
+  * Displacement at Peak: $u(F_{\max}) = \mathbf{0.005857\,\text{mm}}$ ($-0.051\%$ vs $0.005860\,\text{mm}$ text target).
+  * Load Drop: $99.9694\%$ load drop ($F_{\text{final}} = 0.000232\,\text{kN}$).
+  * External Work Integral ($u \le 0.0070\,\text{mm}$): $W_{\text{pre}} = \mathbf{2.3017\,\text{mJ}}$, $W_{\text{post}} = \mathbf{0.0567\,\text{mJ}}$, $W_{\text{total}} = \mathbf{2.3584\,\text{mJ}}$ ($2.3584 \times 10^{-3}\,\text{J} = 2,358.39\,\mu\text{J}$).
+  * Walltime (1 CPU Serial): $23,460\,\text{s}$ ($06\text{h }31\text{m}$, 0 cutbacks, 7,000 increments).
+- **Harmonized Boundary Condition Reference (Job `1401091.mmaster02`, Top $u_x$ Free)**:
+  * $K_0 = 134.324115\,\text{kN/mm}$ ($-2.63\%$), $F_{\max} = 0.764998\,\text{kN}$ ($+0.95\%$), $u(F_{\max}) = 0.006072\,\text{mm}$ ($+3.67\%$).
+  * External Work: $W_{\text{pre}} = 2.4084\,\text{mJ}$, $W_{\text{post}} = 0.0541\,\text{mJ}$, $W_{\text{total}} = 2.4625\,\text{mJ}$ ($2,462.55\,\mu\text{J}$).
+
+---
+
+## Chapter 3: Expected Refinement Behavior & MISESERI Mechanics (Gates 2, 3 & 4)
+
+### 3.1 Theory of \texttt{MISESERI} Error Indicator
+- **Zienkiewicz-Zhu Superconvergent Patch Recovery (SPR)**: The integration-point stress field $\boldsymbol\sigma_h$ is smoothed across element patches into a continuous polynomial stress field $\boldsymbol\sigma^*$.
+- **Discretization Error Tensor**:
+  $$\mathbf{e}_\sigma = \boldsymbol\sigma^* - \boldsymbol\sigma_h, \qquad \text{MISESERI} = \sqrt{\frac{3}{2}\mathbf{s}_e : \mathbf{s}_e}$$
+  where $\mathbf{s}_e$ is the deviatoric component of $\mathbf{e}_\sigma$.
+- **Hard-Stop Rule**: $\text{MISESERI}$ is strictly an elastic stress discretization error indicator on the continuum pre-analysis, **not** phase-field or damage error.
+
+### 3.2 Multi-Layer UEL/UMAT Model Architecture
+Because Abaqus does not evaluate native error indicators on user elements (UEL), a multi-layer model architecture is deployed:
+1. **Layer 1 (Phase UEL)**: Solves the phase-field evolution equation ($\Delta d = 0$).
+2. **Layer 2 (Mechanical UEL)**: Solves the degraded momentum balance ($g(d)\boldsymbol\sigma_0$).
+3. **Layer 3 (Companion Standard Elements)**: Coincident standard continuum elements (`CPE4`/`CPE3`) with zero stiffness ($E_{\text{fac}} \approx 0$) providing native stress recovery output for \texttt{MISESERI} and visual post-processing.
+
+---
+
+## Chapter 4: Actual Adaptive Results & Gate-5 Discrepancy Audit (Gate 5)
+
+### 4.1 Publication Listing 1 & Abaqus API Semantics
+- Pandey & Kumar (2025, p. 3262) Listing 1 explicitly defines `errorTarget=1.0`.
+- In Abaqus CAE/Standard Python API, `errorTarget=1.0` denotes $1.0\%$ error (`ERROR_TARGET_PERCENT_FRACTION_SEMANTICS_MATCH_VERIFIED`).
+- Running literal `errorTarget=1.0` under Plane Strain `CPE4` generates **$71,320$ finite elements** ($69,443$ quads + $1,877$ triangles, $70,845$ mesh nodes).
+- Primary publication sufficiency audit confirmed that internal sizing mapping ($\xi(\eta)$) and execution details were omitted in the literature.
+- **Formal Exit Classification**: **`CLOSED_UNRESOLVED_DUE_TO_MISSING_PUBLISHED_OR_INTERNAL_SIZING_INFORMATION`**.
+
+---
+
+## Chapter 5: Full Fracture Response Comparison & Master Synthesis (Gate 6)
+
+### 5.1 Reconciled Master Multi-Quantity Fracture Comparison Table
+
+Re-extracted deterministically from authoritative source data (`gate6_master_fracture_comparison_metrics.json`):
+
+| Case Description | PBS Job ID | FE Count | Canonical $K_0$ ($\text{kN/mm}$) | $\Delta K_0$ (%) | $F_{\max}$ ($\text{kN}$) | $\Delta F_{\max}$ (%) | $u(F_{\max})$ ($\text{mm}$) | $\Delta u_{\text{peak}}$ (%) | Pre-Peak $\epsilon_{L_2}$ (%) | Full-Curve $\epsilon_{L_2}$ (%) | External Work $W_{\text{ext}}$ ($\text{mJ}$) | Walltime | Scientific Verdict |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Fixed Ref Anchor** | `1398090` | $15,192$ | $137.9455$ | **Anchor** | $0.757778$ | **Anchor** | $0.005857$ | **Anchor** | **Anchor** | **Anchor** | $2.3584$ ($2,358.4\,\mu\text{J}$) | $06\text{h }31\text{m}$ | **`SCIENTIFIC_ANCHOR`** |
+| **Harmonized Ref** | `1401091` | $15,192$ | $134.3241$ | $-2.63\%$ | $0.764998$ | $+0.95\%$ | $0.006072$ | $+3.67\%$ | $2.37\%$ | $28.76\%$ | $2.4625$ ($2,462.5\,\mu\text{J}$) | $06\text{h }32\text{m}$ | **`QUALIFIED_ROLLER_REF`** |
+| **Nominal 1% Adaptive**| `1399632` | $71,320$ | $122.3785$ | **$-11.28\%$** | $0.478203$ | **$-36.89\%$** | $0.004150$ | **$-29.14\%$** | **$12.14\%$** | **$34.55\%$** | $2.0069$ ($2,006.9\,\mu\text{J}$) | $35\text{h }08\text{m}$ | **`NOMINAL1PCT_71320_REFERENCE_REPRODUCTION_FAILED`** |
+| **Empirical 2% Adaptive**| `1400395`| $15,396$ | $137.8437$ | **$-0.07\%$** | $0.748197$ | **$-1.26\%$** | $0.005775$ | **$-1.40\%$** | **$0.095\%$** | **$53.32\%$** | $2.9465$ ($2,946.5\,\mu\text{J}$) | $07\text{h }51\text{m}$ | **`EMPIRICAL_2PCT_PARTIAL_RESPONSE_AGREEMENT_ONLY`** |
+| **Empirical 5% Adaptive**| `1400396`| $4,194$ | $137.9662$ | $+0.01\%$ | $0.764964$ | $+0.95\%$ | $0.007060$ | $+20.54\%$ | **$0.021\%$** | **$69.05\%$** | $3.1544$ ($4.2646\,\text{mJ}_{\text{full}}$) | $02\text{h }16\text{m}$ | **`COARSE_DELAYED_PEAK`** |
+
+### 5.2 Additive Trajectory-Error Numerator Contributions & Softening Tail
+1. **Pre-Peak vs Post-Peak Additive Numerator Contributions**:
+   - Harmonized Ref (`1401091`): $\eta_{\text{pre}} = 0.6639\%$, $\eta_{\text{post}} = 99.3361\%$, Sum = $100.0000\%$.
+   - Nominal 1% (`1399632`): $\eta_{\text{pre}} = 4.4392\%$, $\eta_{\text{post}} = 95.5608\%$, Sum = $100.0000\%$.
+   - Empirical 2% (`1400395`): $\eta_{\text{pre}} = 0.000296\% \approx 0.0003\%$, $\eta_{\text{post}} = 99.9997\%$, Sum = $100.0000\%$.
+   - Empirical 5% (`1400396`): $\eta_{\text{pre}} = 0.000009\% \approx 0.00001\%$, $\eta_{\text{post}} = 99.99999\%$, Sum = $100.0000\%$.
+   - In the pre-peak regime ($u \le 0.005775\,\text{mm}$), the Empirical 2% Adaptive model tracks the fixed reference anchor with **$0.095\%$ relative $L_2$ error**, an average force error of only **$0.33\,\text{N}$** ($0.044\%$ of $F_{\max}$), max deviation of $2.6\,\text{N}$, and a pre-peak numerator contribution of only **$0.0003\%$**.
+   - The entire $53.32\%$ global $L_2$ norm arises from the post-peak interval where the fixed reference undergoes brittle failure while the adaptive mesh exhibits progressive softening ($F_{\text{2\%}} \approx 0.50–0.60\,\text{kN}$ vs $F_{\text{ref}} \approx 0.0005\,\text{kN}$).
+
+2. **Fortran Source Lineage & Element Formulations**:
+   - Fixed reference (`ed1586d6427a...`) and adaptive subroutine (`5abf77b570c6...`) share **bitwise identical 4-node quad displacement element formulations** (JTYPE 2, 0 diff lines).
+   - The adaptive subroutine incorporates 3-node linear phase-field (JTYPE 3) and displacement (JTYPE 4) elements to support mixed quad-tri transition zones.
+
+3. **Phase-Field & Crack Path Spatial Verification**:
+   - Centerline crack propagation strictly adheres to the horizontal symmetry line $y = 0.500\,\text{mm}$ with maximum deviation $\Delta y = 0.000\,\text{mm}$ across all models (`CRACK_PATH_CENTERLINE_CONSISTENCY_ONLY`).
+   - Mechanical element SDVs are mapped to: SDV14 = phase field $d$, SDV15 = degradation function $g(d) = (1-d)^2 + k$, and SDV16 = strain history $\mathcal{H}$.
+
+### 5.3 Authoritative State Variable (SDV) Direct Line Mapping
+
+| Element Type / Family | Variable Name | Physical Meaning | Source Code Location | Field Output Mapping |
+| :--- | :--- | :--- | :--- | :--- |
+| **Mechanical Quad (`JTYPE = 2`)** | `SVARS(9)` / `SVARS(14)` | Phase-field damage $d(x,y)$ | Lines 390, 395 | SDV9, SDV14 |
+| | `SVARS(10)` / `SVARS(15)` | Degradation function $g(d) = (1-d)^2 + k$ | Lines 391, 396 | SDV10, SDV15 |
+| | `SVARS(13)` / `SVARS(16)` | Crack driving strain history $\mathcal{H}(x,y)$ | Lines 394, 397 | SDV13, SDV16 |
+| | `SVARS(17)` / `SVARS(18)` | Continuum strain $\varepsilon_{11}$ and stress $\sigma_{11}$ | Lines 398, 399 | SDV17, SDV18 |
+| **Mechanical Tri (`JTYPE = 4`)** | `SVARS(14)` | Phase-field damage $d(x,y)$ | Line 639 | SDV14 |
+| | `SVARS(15)` | Degradation function $g(d) = (1-d)^2 + k$ | Line 640 | SDV15 |
+| | `SVARS(16)` | Crack driving strain history $\mathcal{H}(x,y)$ | Line 641 | SDV16 |
+| | `SVARS(17)` / `SVARS(18)` | Continuum strain $\varepsilon_{11}$ and stress $\sigma_{11}$ | Lines 642, 643 | SDV17, SDV18 |
+| **Phase-Field Quad (`JTYPE = 1`)** | `SVARS(1..4)` | Integration-point phase-field damage $d_{\text{int}}$ | Lines 243–245 | SDV1..4 |
+| | `SVARS(5..8)` | Integration-point history variable $\mathcal{H}_{\text{int}}$ | Line 245 | SDV5..8 |
+| | `SVARS(14)` | Element-average phase field $d_{\text{avg}}$ | Line 259 | SDV14 |
+| | `SVARS(15)` | Degradation $g(d_{\text{avg}}) = (1-d_{\text{avg}})^2 + k$ | Line 260 | SDV15 |
+| | `SVARS(16)` | Element history variable $\mathcal{H}$ | Line 261 | SDV16 |
+| **Phase-Field Tri (`JTYPE = 3`)** | `SVARS(1..3)` | Integration-point phase-field damage $d_{\text{int}}$ | Lines 480–482 | SDV1..3 |
+| | `SVARS(4..6)` | Integration-point history variable $\mathcal{H}_{\text{int}}$ | Line 482 | SDV4..6 |
+| | `SVARS(14)` | Element-average phase field $d_{\text{avg}}$ | Line 495 | SDV14 |
+| | `SVARS(15)` | Degradation $g(d_{\text{avg}}) = (1-d_{\text{avg}})^2 + k$ | Line 496 | SDV15 |
+| | `SVARS(16)` | Element history variable $\mathcal{H}$ | Line 497 | SDV16 |
+
+> [!NOTE]
+> **Complete UEL Energy Balance Status**: Internal strain energy vs fracture dissipation balance is governed by `COMPLETE_UEL_ENERGY_BALANCE_NOT_AVAILABLE` because Abaqus does not assemble native `ALLSE` or `ALLFD` for user-defined element subroutines.
+
+### 5.4 Mechanistic Diagnostics & Factorial Decomposition
+- $2 \times 2$ factorial matrix proves that the initial stiffness drop ($\Delta K_{\text{int}} = -15.421423\,\text{kN/mm}$ / $-11.173243\%$) is an interaction between the non-symmetric equation solver (`UNSYMM=ON`) and the multi-layer companion mesh **specifically in the tested frozen-intact linear-elastic 71,320-element context**.
+- The fixed-mesh model is a counterexample (`FIXED_REFERENCE_IS_COUNTEREXAMPLE_TO_GENERAL_UNSYMM_X_COMPANION_TRIGGER`), proving that uniform structured meshes do not trigger the solver compliance shift.
+- Full-fracture failure mechanics, crack initiation thresholds, and softening differences remain empirical observations; internal mechanism is governed by **`INTERNAL_MECHANISM_NOT_YET_ESTABLISHED`**.
+
+---
+
+## Chapter 6: Supervisor Figure References
+
+The following publication-quality figures have been regenerated, audited, and cryptographically indexed:
+
+- **Figure 1**: [`docs/supervisor_reports/gate6_full_fu_comparison.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/gate6_full_fu_comparison.png) (SHA-256: `f8ceb2315ba243087936414aa8d7afab357d21e54bbb05d5312fb01da2259dce`) — Complete load-displacement comparison with peak markers.
+- **Figure 2**: [`docs/supervisor_reports/gate6_error_summary_metrics.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/gate6_error_summary_metrics.png) (SHA-256: `ac124de0a7802465013b57fb5b54ef9ccbb2b29d728318b182651ff7d1a2bb48`) — Relative error summary and normalized full-curve $L_2$ error norms.
+- **Figure 3**: [`docs/supervisor_reports/gate6_computational_cost_comparison.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/gate6_computational_cost_comparison.png) (SHA-256: `b3d4a14ecde7b48aceadd8edafb3fdc17e4b4196626160eb3be1db729364b50e`) — Walltime versus element count discretization scale.
+- **Figure 4**: [`docs/supervisor_reports/gate6_interval_disaggregated_curve_audit.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/gate6_interval_disaggregated_curve_audit.png) (SHA-256: `5a5c59f0fe84ae1ccc3e7ca82f3bc059b08f5e4cc7a40dedb99943288e7d76d0`) — 3-panel interval-disaggregated trajectory audit showing full curves, force discrepancy $\Delta F(u)$, and cumulative $L_2$ error accumulation.
+- **Figure 5**: [`docs/supervisor_reports/gate6_matched_phase_field_contours.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/gate6_matched_phase_field_contours.png) (SHA-256: `8645f507bff11fdac2c25de8e0b8d964eac4dddc880a86b5ec351b95e3a3326b`) — $4 \times 3$ matrix of matched-displacement phase-field damage contours ($0 \le d \le 1$) across elastic ($u=0.0010\,\text{mm}$), pre-peak ($u=0.0040\,\text{mm}$), and post-peak ($u=0.0060\,\text{mm}$) checkpoints.
+- **Figure 6**: [`docs/supervisor_reports/gate6_ligament_damage_profiles.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/gate6_ligament_damage_profiles.png) (SHA-256: `6ef255bad729783f18a376f2a1a61f5e33a791dc8538d84404d2b210dcbb0db0`) — Quantitative phase-field damage profiles $d(x, y=0.500)$ along the uncracked ligament at each physical displacement checkpoint.
+
+---
+
+## Chapter 7: Epistemological Governance & Claims Discipline
+
+### 7.1 I Know This (Analytical & Physical Truths)
+1. **Benchmark BVP Specification**: Pure Mode-I tensile loading on a $1\times 1\,\text{mm}$ square plate with an initial zero-gap sharp slit seam $a_0 = 0.5\,\text{mm}$ along $y=0.5\,\text{mm}$, with material parameters $E = 210\,\text{GPa}, \nu = 0.30, G_c = 2.7\,\text{kJ/m}^2, \ell_0 = 0.0075\,\text{mm}$.
+2. **Initial Stiffness Definition**: $K_0$ is a global structural stiffness $[\text{kN/mm}]$ evaluated via unconstrained OLS over $0 < u \le 0.001000\,\text{mm}$ ($N=400$ uniform increments), not the continuum modulus $E$.
+3. **External Work Units**: $1\,\text{kN}\cdot\text{mm} = 1.0\,\text{J} = 1,000.0\,\text{mJ} = 1,000,000.0\,\mu\text{J}$.
+4. **MISESERI Nature**: \texttt{MISESERI} is strictly a Zienkiewicz-Zhu recovered von Mises stress discretization error indicator on the linear pre-analysis, not a damage or phase-field error.
+
+### 7.2 I Verified This Numerically (Solver Extractions & Empirical Evidence)
+1. **Fixed Reference Benchmark (`1398090`)**: Reconstructs literature text metrics to within $-0.029\%$ peak force ($0.757778\,\text{kN}$ vs $0.7580\,\text{kN}$), $-0.051\%$ peak displacement ($0.005857\,\text{mm}$ vs $0.005860\,\text{mm}$), with $K_0 = 137.945520\,\text{kN/mm}$ and $W_{\text{ext}} = 2.3584\,\text{mJ}$.
+2. **Nominal 1% Adaptive Model Failure (`1399632`)**: Generating $71,320$ finite elements fails reference reproduction, showing a $-36.89\%$ peak drop ($0.478203\,\text{kN}$), $-11.28\%$ compliance shift ($K_0 = 122.378544\,\text{kN/mm}$), and $-29.14\%$ premature softening ($u_{\text{peak}} = 0.004150\,\text{mm}$).
+3. **Empirical 2% Partial Agreement (`1400395`)**: Generating $15,396$ elements matches initial stiffness within $-0.07\%$ ($K_0 = 137.8437\,\text{kN/mm}$), peak load within $-1.26\%$ ($F_{\max} = 0.748197\,\text{kN}$), peak displacement within $-1.40\%$ ($u_{\text{peak}} = 0.005775\,\text{mm}$), and pre-peak trajectory with **$0.095\%$ relative $L_2$ error** ($0.33\,\text{N}$ average error, representing $0.0003\%$ of squared error numerator).
+4. **Softening Tail Discrepancy**: The 2% mesh sustains $0.50–0.60\,\text{kN}$ resistance across $\Delta u \approx 0.0010\,\text{mm}$ after peak, while the fixed reference undergoes instantaneous brittle separation, fully explaining the $53.32\%$ global $L_2$ norm.
+5. **Frozen Factorial Interaction**: The $2\times 2$ factorial proves the $-11.17\%$ stiffness drop ($\Delta K_{\text{int}} = -15.421423\,\text{kN/mm}$) requires both `UNSYMM=ON` and the multi-layer companion mesh **strictly in the tested frozen-intact 71,320-element context**. The uniform fixed mesh serves as a counterexample (`FIXED_REFERENCE_IS_COUNTEREXAMPLE_TO_GENERAL_UNSYMM_X_COMPANION_TRIGGER`).
+
+### 7.3 I Do Not Yet Understand This (Open Scientific Questions)
+1. **71,320 vs 13,941 Element Count Discrepancy**: Why the literal published setting `errorTarget=1.0` produces $71,320$ finite elements in Abaqus CAE while the paper reported $\approx 13,941$ remains unresolved due to undocumented internal sizing function ($\xi(\eta)$) details (`GATE5_UNRESOLVED_DUE_TO_INSUFFICIENT_PUBLISHED_REMESHING_DETAILS`).
+2. **Internal Solver Compliance Shift Mechanism**: The exact equation-solver graph modification in Abaqus' unsymmetric direct sparse solver that causes stiffness loss on graded adaptive companion meshes while leaving uniform structured meshes unaffected remains unisolated (`INTERNAL_MECHANISM_NOT_YET_ESTABLISHED`).

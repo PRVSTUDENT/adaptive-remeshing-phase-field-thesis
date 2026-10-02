@@ -1,0 +1,64 @@
+{
+  "status": "PRODUCTION_SOLVER_RUNNING_1399632", 
+  "files_generated": {
+    "subroutine_for": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/02_proposed_adaptive_refined/f42_mixed_uel.for", 
+    "production_uel_inp_sha256": "cb01d04105257099fd248bd713578b5c0499a4f58639996d55238dfb8c9e3bdf", 
+    "subroutine_for_sha256": "5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd", 
+    "production_uel_inp": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/02_proposed_adaptive_refined/PK_MODE1_PROPOSED_PFM.inp"
+  }, 
+  "benchmark": "PANDEY_KUMAR_2025_MODE_I_PROPOSED_ADAPTIVE_PFM", 
+  "case_name": "PK_MODE1_PROPOSED_PFM", 
+  "coarse_mesh": {
+    "num_elements": 2906, 
+    "nominal_size_mm": 0.02, 
+    "num_nodes": 2988
+  }, 
+  "preanalysis_stiffness_qualification": {
+    "evaluated_K0_kN_per_mm": 141.82, 
+    "relative_difference_pct": 2.65, 
+    "task3_baseline_K0_kN_per_mm": 138.15, 
+    "verdict": "PASSED_WITHIN_TOLERANCE"
+  }, 
+  "remeshing_rule": {
+    "coarsening": "NOT_ALLOWED", 
+    "name": "RR: 1", 
+    "error_target": 1.0, 
+    "sizing_method": "UNIFORM_ERROR", 
+    "variable": "MISESERI", 
+    "max_element_size_mm": 0.02, 
+    "min_element_size_mm": 0.001, 
+    "refinement_factor": 10
+  }, 
+  "material_parameters": {
+    "eta": 1e-07, 
+    "E_GPa": 210.0, 
+    "l0_mm": 0.0075, 
+    "nu": 0.3, 
+    "Gc_kN_per_mm": 0.0027
+  }, 
+  "layered_uel_mesh": {
+    "num_elements": 71320, 
+    "uel_deck_path": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/02_proposed_adaptive_refined/PK_MODE1_PROPOSED_PFM.inp", 
+    "num_tris": 1877, 
+    "num_nodes": 70845, 
+    "num_quads": 69443, 
+    "num_seam_pairs": 100, 
+    "tip_node": [
+      145
+    ]
+  }, 
+  "refined_mesh": {
+    "num_elements": 71320, 
+    "max_size_mm": 0.02, 
+    "min_size_mm": 0.001, 
+    "num_nodes": 70845
+  }, 
+  "sharp_slit_specification": {
+    "slot_width_mm": 0.0, 
+    "method": "assignSeam on partition edge (0,0.5)->(0.5,0.5)", 
+    "tip_node": [
+      145
+    ], 
+    "coincident_flank_pairs": 100
+  }
+}

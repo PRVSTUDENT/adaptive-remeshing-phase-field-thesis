@@ -1,0 +1,30 @@
+\contentsline {chapter}{\numberline {1}Introduction and Motivation}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Background and Computational Fracture Challenges}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Thesis Objectives and Governed Work Packages}{1}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Phase-Field Fracture Theory and User-Element Formulation}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Variational Framework and Governing Equations}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Spectral Strain Energy Decomposition}{4}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Finite Element Residuals and Jacobian Tangent Derivations}{4}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Mechanical Residual and Tangent Operator}{4}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Phase-Field Residual and Tangent Operator}{5}{subsection.2.3.2}%
+\contentsline {chapter}{\numberline {3}Literature Review}{6}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Evolution of Adaptive Refinement in Fracture Modeling}{6}{section.3.1}%
+\contentsline {section}{\numberline {3.2}IMFD User-Element Visualization Context}{6}{section.3.2}%
+\contentsline {chapter}{\numberline {4}Abaqus Adaptive Remeshing Methodology and Implementation}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Superconvergent Patch Recovery (SPR) Stress Error Estimator}{7}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Multi-Layer Co-Located Subroutine Architecture}{7}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Fortran COMMON Block Memory Layout and Thread Safety}{7}{subsection.4.2.1}%
+\contentsline {chapter}{\numberline {5}Verification and Quantitative Reproduction Results}{9}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Verification Without Refinement: Task-3 Reference Baseline}{9}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Adaptive Refinement Reproduction: Task-5 Accepted Baseline}{9}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Forensic Audit of the Nominal 1.0\% Discrepancy}{10}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Sensitivity Studies and Meshing Recommendations}{11}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Mesh Sizing Sensitivity and Artificial Numerical Toughening}{11}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Load Incrementation Optimization (Task 7 INC2X)}{11}{section.6.2}%
+\contentsline {chapter}{\numberline {7}Visualization Integration and Dependency Discussion}{13}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Companion Facsimile UMAT Visualization Bridge}{13}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Authentic IMFD ABAQUSER External Dependency Boundary}{13}{section.7.2}%
+\contentsline {chapter}{\numberline {8}Formal Scope and Limitations}{14}{chapter.8}%
+\contentsline {chapter}{\numberline {9}Conclusions and Outlook}{15}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Summary of Key Findings}{15}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Future Research Directions}{15}{section.9.2}%

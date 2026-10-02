@@ -1,0 +1,53 @@
+{
+    "benchmark": "PANDEY_KUMAR_2025_MODE_I_EXACT",
+    "cases": [
+        {
+            "case_name": "PK_MODE1_STANDARD_PFM",
+            "n_physical_elements": 15192,
+            "n_physical_nodes": 15521,
+            "local_h_mm": 0.003,
+            "l0_mm": 0.0075,
+            "E_GPa": 210.0,
+            "nu": 0.3,
+            "Gc_kJ_m2": 2.7,
+            "is_aux_continuum": false,
+            "inp_sha256": "c1773707d2f12fb8bfe1324ac6be47d28d1fd6b06c4c3780cd98e9527fa7ef82",
+            "uel_sha256": "ed1586d6427a4b1a01d99f7e219891ec7be9fe911e066d9360724942e7d27720",
+            "datacheck_pbs_sha256": "a8186a02e0c3fdad462215ff2cf7e676fb634ea35236587f6841a82908faa5df",
+            "solver_pbs_sha256": "251e19ec3e98314dc8424d9f2f0fdd0e92df077a1952c600013e559619cfd321",
+            "notif_sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+        },
+        {
+            "case_name": "PK_MODE1_PROPOSED_PFM",
+            "n_physical_elements": 14235,
+            "n_physical_nodes": 14263,
+            "local_h_mm": 0.001,
+            "l0_mm": 0.0075,
+            "E_GPa": 210.0,
+            "nu": 0.3,
+            "Gc_kJ_m2": 2.7,
+            "is_aux_continuum": false,
+            "inp_sha256": "e56087a3d76a346fcfd166de8b3625992beb8854b6f40802a1b873ddabfaeb9c",
+            "uel_sha256": "5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd",
+            "datacheck_pbs_sha256": "44606bde7d4d5f68458ea93c788b727b135e7428976c63ef13a1ccb14d647555",
+            "solver_pbs_sha256": "cbfbc79977a6840b39b58bbe68a04cbf24e0c8d37a9ba532be20323c5519ba7f",
+            "notif_sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+        },
+        {
+            "case_name": "PK_MODE1_AUX_CONTINUUM",
+            "n_physical_elements": 2700,
+            "n_physical_nodes": 2830,
+            "local_h_mm": 0.02,
+            "l0_mm": 0.0075,
+            "E_GPa": 210.0,
+            "nu": 0.3,
+            "Gc_kJ_m2": 2.7,
+            "is_aux_continuum": true,
+            "inp_sha256": "c253d91c9d3bd40a5e1bff181485cebfab27c4004270e601691f3e1e23e50f93",
+            "uel_sha256": "ed1586d6427a4b1a01d99f7e219891ec7be9fe911e066d9360724942e7d27720",
+            "datacheck_pbs_sha256": "74a8b6bee7e379357fc5eb58bebf82079785f788d59e7c5b8b4735ddd6ab0c12",
+            "solver_pbs_sha256": "931834b14fbee806d76a66011ec310e1325ccae5a266bca3812bfd844b311456",
+            "notif_sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+        }
+    ]
+}

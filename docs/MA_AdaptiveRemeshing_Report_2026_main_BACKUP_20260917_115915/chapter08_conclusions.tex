@@ -1,0 +1,62 @@
+\chapter{Conclusions, Project Status, and Next Work}
+\label{ch:conclusions}
+
+\section{Summary of established scientific results}
+The research conducted through 02 September 2026 has established the following verified findings:
+\begin{enumerate}
+  \item \textbf{Fixed-Mesh Reference Reproduction (Task 3):} Reconstructed the Mode-I tensile fracture benchmark of Pandey \& Kumar (2025) on a standard uniformly refined mesh ($15{,}192$ physical Quad4 elements, $15{,}305$ nodes, Job \texttt{1398090.mmaster02}, walltime $06\,\mathrm{h}\,31\,\mathrm{min}$, CPUT $06\,\mathrm{h}\,30\,\mathrm{min}$), achieving $F_{\text{peak}} = 0.757778\,\mathrm{kN}$ at $u_{\text{peak}} = 0.005857\,\mathrm{mm}$ ($-0.029\%$ force error, $-0.051\%$ displacement error vs published target). This validated the underlying user-element formulation and established the quantitative baseline.
+  \item \textbf{Abaqus-Native Adaptive Refinement Implementation (Task 4):} Fully automated the Python-driven two-job pre-refinement workflow using Abaqus recovered stress indicator \texttt{MISESERI}, \texttt{RemeshingRule}, and \texttt{adaptiveRemesh(odb=...)}. Resolved an implementation defect where calling \texttt{generateMesh()} had overwritten adaptively refined meshes, and verified deterministic reconstruction into coincident phase UEL, mechanical UEL, and facsimile UMAT layers.
+  \item \textbf{Forensic Reconciliation of the Nominal-1\% Discrepancy (Task 5):} Proved mathematically and numerically that because the relative stress error $\eta = \text{MISESERI}/\bar{\sigma}$ is scale-invariant across a singular elastic crack tip, applying the published nominal $\text{errorTarget} = 1.0\%$ marks $>80\%$ of the domain for refinement in our native implementation, producing $71{,}320$ elements. While this explains our observed over-refinement, the cause of why the published text reported $13{,}941$ elements cannot be uniquely determined and remains classified as \textbf{\texttt{DOCUMENTED\_UNRESOLVABLE\_FROM\_PUBLISHED\_INFORMATION}}.
+  \item \textbf{Authoritative Quantitative Adaptive Reproduction (Task 5):} Reconstructed the adaptive model at $\text{errorTarget} = 2.0\%$, yielding $15{,}396$ physical elements ($+10.4\%$ match to published $\approx 13{,}941$). Production Job \texttt{1400395.mmaster02} completed $7{,}028$ increments with zero cutbacks (\texttt{Exit status 0}, walltime $07\,\mathrm{h}\,06\,\mathrm{min}$, CPUT $06\,\mathrm{h}\,52\,\mathrm{min}$), achieving $K_0 = 137.8437\,\mathrm{kN/mm}$ ($-0.08\%$), $F_{\text{peak}} = 0.748197\,\mathrm{kN}$ ($-1.29\%$), $u_{\text{peak}} = 0.005775\,\mathrm{mm}$ ($-1.45\%$), and a $98.31\%$ post-peak load drop, successfully passing all five scientific acceptance gates (\textbf{QUANTITATIVE ADAPTIVE REPRODUCTION PASSED / SCIENTIFICALLY ACCEPTED}).
+  \item \textbf{Controlled 5.0\% Sensitivity Evaluation (Task 5 / Task 7):} Reconstructed the adaptive model at $\text{errorTarget} = 5.0\%$ ($4{,}194$ physical elements, Job \texttt{1400396.mmaster02}, walltime $01\,\mathrm{h}\,55\,\mathrm{min}$, CPUT $01\,\mathrm{h}\,50\,\mathrm{min}$), demonstrating that coarse crack-corridor refinement ($h_{\min} \approx 0.00136\,\mathrm{mm}$) diffuses the phase-field damage gradient, shifting peak displacement to $u_{\text{peak}} = 0.007060\,\mathrm{mm}$ ($+20.48\%$) and classifying this run as \textbf{SCIENTIFICALLY\_EVALUATED}.
+  \item \textbf{In-Solver Companion Visualization Bridge (Task 6):} Executed production Job \texttt{1400408.mmaster02} (walltime $07\,\mathrm{h}\,23\,\mathrm{min}$, CPUT $07\,\mathrm{h}\,08\,\mathrm{min}$) coupling UEL phase and history fields to passive facsimile UMAT elements. Proved exact $0.000000\%$ mechanical parity across all $7{,}028$ increments (zero parasitic stiffness). Identified bounded phase overshoot ($\max(d) = 1.00518$) as \textbf{\texttt{FORMULATION\_LEVEL\_NOT\_VISUALIZATION\_TRANSFER}} arising from the continuous unconstrained phase equation (\textbf{\texttt{POSSIBLE\_FORMULATION\_DISCRETIZATION\_CAUSE}}).
+  \item \textbf{External ABAQUSER Dependency Boundary (Task 6):} Confirmed that the authentic IMFD \textsc{ABAQUSER} post-processing utility requires internal institute access and is not present in the current environment (\textbf{\texttt{TASK6\_BLOCKED\_EXTERNAL\_ABAQUSER\_DEPENDENCY}}). Because authentic integration is pending, Task 6 is not complete. Prepared formal re-entry checklists and supervisor request packages.
+  \item \textbf{State Transfer and HPC Governance:} Demonstrated nonmatching state mapping and runtime \texttt{UEXTERNALDB} ingestion, identified mechanical relaxation challenges across topology splits, and established the single-core serial execution boundary for mutable common blocks.
+\end{enumerate}
+
+\section{Authoritative thesis task status}
+Table~\ref{tab:thesis_task_status} defines the authoritative status of all thesis proposal work packages as of 02 September 2026.
+
+\begin{table}[htbp]
+\centering
+\caption{Authoritative status matrix of Master's thesis work packages.}
+\label{tab:thesis_task_status}
+\small
+\begin{tabularx}{\linewidth}{p{0.14\linewidth}p{0.36\linewidth}p{0.24\linewidth}p{0.20\linewidth}}
+\toprule
+\textbf{Work Package} & \textbf{Scope / Description} & \textbf{Governed Status} & \textbf{Evidence / Reference} \\
+\midrule
+\textbf{Task 1} & PFF familiarization & \textbf{COMPLETE} & Documented \\
+\textbf{Task 2} & Literature review & \textbf{COMPLETE} & Ongoing writing support \\
+\textbf{Task 3} & Reference reproduction w/o refinement & \textbf{COMPLETE / ACCEPTED} & Job \texttt{1398090.mmaster02} \\
+\textbf{Task 4} & Implement native refinement in Python & \textbf{COMPLETE / VERIFIED} & Verified end-to-end \\
+\textbf{Task 5} & Reference reproduction with refinement & \textbf{QUANTITATIVE PASSED} & Job \texttt{1400395.mmaster02} \\
+\textbf{Task 6} & Integrate ABAQUSER visualization & \textbf{COMPANION VERIFIED / EXT. BLOCKED} & Job \texttt{1400408.mmaster02} \\
+\textbf{Task 7} & Fracture benchmarks \& sensitivities & \textbf{NOT STARTED} & Ready to commence \\
+\textbf{Task 8} & Meshing-parameter recommendations & \textbf{NOT STARTED} & Follows Task 7 \\
+\textbf{Task 9} & Document workflow for future users & \textbf{NOT STARTED} & Follows Task 8 \\
+\textbf{Task 10} & Write thesis manuscript & \textbf{IN PROGRESS} & Active manuscript \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Roadmap for immediate next work}
+With Task 5 quantitatively validated and Task 6 clearly established at the companion-bridge level, the workflow proceeds along the following parallel paths:
+\begin{enumerate}
+  \item \textbf{Supervisor Action Item for Task 6:}
+  \begin{itemize}
+    \item Obtain the authentic \textsc{ABAQUSER} post-processing utility from IMFD / supervisor;
+    \item Upon receipt, execute the tool directly in post-processing on the verified ODB artifact (\texttt{PK\_MODE1\_PROPOSED\_PFM\_VIS.odb}) to close the external dependency;
+    \item Benchmark the reconstructed ODB output against the verified companion bridge contours.
+  \end{itemize}
+  \item \textbf{Immediate Technical Advancement to Task 7:}
+  \begin{itemize}
+    \item Conduct controlled mesh-refinement sensitivity studies across error targets ($2.0\%$, $5.0\%$, and intermediate values) to establish accuracy-versus-cost Pareto frontiers;
+    \item Perform load-increment sensitivity studies holding the physical mesh fixed while evaluating convergence thresholds;
+    \item Apply the verified adaptive remeshing methodology to secondary fracture benchmarks (e.g., Mode-II shear and asymmetric notched plates).
+  \end{itemize}
+  \item \textbf{Advancement to Task 8:}
+  \begin{itemize}
+    \item Synthesize sensitivity data to formulate quantitative meshing guidelines ($h_{\min}/\ell_0$, $\text{errorTarget}$, $\text{refinementFactor}$) for future engineering users.
+  \end{itemize}
+\end{enumerate}

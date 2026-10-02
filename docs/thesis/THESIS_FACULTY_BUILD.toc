@@ -1,0 +1,102 @@
+\contentsline {chapter}{Abstract}{vi}{chapter*.4}%
+\contentsline {chapter}{\numberline {1}Introduction, Theoretical Foundations, and Literature Review}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Motivation and Problem Statement}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Variational Formulation of Phase-Field Brittle Fracture}{2}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Regularized Energy Functional}{2}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Strain Energy Decomposition and Constitutive Degradation}{2}{subsection.1.2.2}%
+\contentsline {paragraph}{Formulation Implemented in the User Subroutine (\nolinkurl {f42_mixed_uel.for}):}{3}{section*.5}%
+\contentsline {subsection}{\numberline {1.2.3}Irreversibility and the Crack-Driving History Field}{4}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Coupled Weak Form and Staggered Solution Algorithm}{4}{subsection.1.2.4}%
+\contentsline {section}{\numberline {1.3}Abaqus User-Element (UEL/UMAT) Architecture}{4}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Error Estimation and Mesh Refinement Principles}{6}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Zienkiewicz--Zhu Recovery-Based Error Estimator}{6}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Abaqus MISESERI Formulation}{6}{subsection.1.4.2}%
+\contentsline {subsection}{\numberline {1.4.3}The Pandey--Kumar Pre-Refinement Methodology}{7}{subsection.1.4.3}%
+\contentsline {section}{\numberline {1.5}Multi-Field State Transfer across Nonmatching Meshes}{7}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Primary Field Transfer (Nodal Interpolation)}{7}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Secondary History Field Transfer (Gauss-Point Mapping)}{8}{subsection.1.5.2}%
+\contentsline {section}{\numberline {1.6}Scope of Work and Thesis Organization}{8}{section.1.6}%
+\contentsline {subsection}{\numberline {1.6.1}Distinction of Methodological Scope}{8}{subsection.1.6.1}%
+\contentsline {subsection}{\numberline {1.6.2}Thesis Organization}{9}{subsection.1.6.2}%
+\contentsline {chapter}{\numberline {2}Mode-I Phase-Field Fracture Benchmark and Reference Baseline}{10}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Introduction and Objectives}{10}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Mode-I Single-Edge-Notched Tension Benchmark}{10}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Geometry and Boundary Conditions}{10}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Material and Phase-Field Regularization Parameters}{12}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Structural Stiffness: Notch vs.\ Sharp Seam Disambiguation}{12}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Multi-Layer UEL/UMAT Layered Architecture in Abaqus}{12}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Canonical S1 Reference Baseline Provenance}{14}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Error-Indicator-Guided Mesh Refinement and Reproduction Analysis}{15}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Introduction and Theoretical Motivation}{15}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Pandey--Kumar Two-Job Adaptive Refinement Procedure}{15}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Physical Understanding and Provenance of MISESERI}{16}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Stress Discretization Error Indicator}{16}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Sizing Rules and Target Error Interpretation}{17}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Canonical Mode-I Pre-Analysis and Adapted Mesh Topologies}{17}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Resolution of the 71,320-Element Initial Stiffness Defect}{17}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Root Cause Isolation: Keyword Preprocessing Card Limit}{17}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Verified Mechanical Recovery and Gate Closure}{20}{subsection.3.5.2}%
+\contentsline {section}{\numberline {3.6}Discrepancy Audit: 71,320 vs 13,941 Elements and Governing Supervisor Decision}{21}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Publication Discrepancy Investigation}{21}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Governing Supervisor Decision and Parametric Sensitivity Trends}{21}{subsection.3.6.2}%
+\contentsline {chapter}{\numberline {4}Nonmatching State Transfer and Restart Methodology}{22}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction and Problem Formulation}{22}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Mathematical Formulation of Multi-Field Transfer Operators}{22}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Primary Field Projection (Nodal Quantities)}{22}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Secondary History Field Mapping (Gauss-Point History)}{23}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}The Four-Stage Restart Protocol}{24}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Active-Set Formulations and KKT Admissibility Analysis}{24}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Active-Set Freeze Formulation (Stage D3D)}{24}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Forensic Proof of Active-Set Inadmissibility}{25}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Offline KKT Correction (Candidate D3D-A1)}{25}{subsection.4.4.3}%
+\contentsline {paragraph}{Validation Boundary}{26}{section*.22}%
+\contentsline {section}{\numberline {4.5}Chapter Summary}{26}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Multi-Resolution and Topology-Transfer Benchmarks}{27}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Introduction and Objectives}{27}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Multi-Resolution Refinement and Coarsening Transfer}{27}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Benchmark Configuration and Donor Checkpoint}{27}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Slit-Barrier Isolation and Invariant Preservation}{27}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}Mode-II Pure Shear Phase-Field Fracture Benchmark}{28}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Problem Formulation and Boundary Conditions}{28}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Model Lineage and Disambiguation}{29}{subsection.5.3.2}%
+\contentsline {section}{\numberline {5.4}Uniform Grid Refinement and Censoring Analysis}{29}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Censored Peak Force and Common-Window Formulation}{29}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Key Findings from Uniform Refinement}{30}{subsection.5.4.2}%
+\contentsline {section}{\numberline {5.5}Synthetic Crack-Tip Topology-Transfer Validation}{31}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Synthetic Single-Facet Extension Formulation}{31}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Validation Results and Post-Peak Trajectory}{31}{subsection.5.5.2}%
+\contentsline {paragraph}{Physical Invariant Adherence:}{31}{section*.25}%
+\contentsline {section}{\numberline {5.6}Chapter Summary}{32}{section.5.6}%
+\contentsline {chapter}{\numberline {6}High-Performance Computing Implementation and Shared-State Analysis}{33}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Introduction and Parallelization Challenges in Phase-Field UELs}{33}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Abaqus UEXTERNALDB Common-Block Memory Architecture}{34}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Inter-Subroutine Shared State Communication}{34}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Shared-State Safety in Multi-Threaded Execution}{34}{subsection.6.2.2}%
+\contentsline {section}{\numberline {6.3}Thread-Safety and Parallelization Boundary Audit}{34}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Controlled Rank and Thread Indexing}{34}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Formal Parallel Safety Claims and Boundaries}{35}{subsection.6.3.2}%
+\contentsline {section}{\numberline {6.4}Cluster Execution Environment and Dual-Channel Notification System}{35}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}HPC Environment Isolation and Toolchain Modules}{35}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Fail-Closed Dual-Channel Notification Design}{35}{subsection.6.4.2}%
+\contentsline {section}{\numberline {6.5}Chapter Summary}{36}{section.6.5}%
+\contentsline {chapter}{\numberline {7}Multifaceted Mode-I Convergence Evaluation and UEL Energy Audit}{37}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Introduction and Comprehensive Convergence Framework}{37}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Spatial Discretization Series ($S_1$--$S_4$)}{38}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Temporal Time-Increment Scaling ($T_1$--$T_3$)}{38}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Adaptive Remeshing Series ($A_1$--$A_4$)}{39}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Three-Point Physical Length-Scale Study ($l_0$ on Fixed $S_3$ Mesh)}{39}{section.7.5}%
+\contentsline {section}{\numberline {7.6}Spatial Phase-Field Localization, Crack Symmetry, and Bandwidth}{42}{section.7.6}%
+\contentsline {section}{\numberline {7.7}UEL Energy Formulation, Single-IP Rule, and Global Energy Balance}{42}{section.7.7}%
+\contentsline {subsection}{\numberline {7.7.1}Implemented Discrete Energy Formulations}{42}{subsection.7.7.1}%
+\contentsline {subsection}{\numberline {7.7.2}Single-IP Deduplication Rule}{44}{subsection.7.7.2}%
+\contentsline {subsection}{\numberline {7.7.3}Non-Invasiveness and Mechanical Parity Verification}{46}{subsection.7.7.3}%
+\contentsline {subsection}{\numberline {7.7.4}Discrete Potential Disproval and Observability Boundary}{46}{subsection.7.7.4}%
+\contentsline {chapter}{\numberline {8}Synthesis, Decision Framework, and Conclusions}{48}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Synthesis of Validated Research Outcomes and Epistemological Ledger}{48}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Master Gate Dashboard and Governance Summary}{48}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Supervisory Decisions and Methodological Limitations}{48}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Conclusions}{51}{section.8.4}%
+\contentsline {chapter}{\numberline {A}Reproducibility Tables, Job Execution Provenance, and Diagnostic Logs}{52}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Master High-Performance Computing Job Ledgers}{52}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Cryptographic Checksums and Package Provenance}{52}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Historical Solver Diagnostic Codes and Failure Mode Catalog}{52}{section.A.3}%

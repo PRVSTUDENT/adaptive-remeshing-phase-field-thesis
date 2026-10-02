@@ -1,0 +1,48 @@
+\section{Supervisor Decisions Required \& Action Paths}
+\label{sec:supervisor_decisions}
+
+\subsection{Decision Context for the 17 September 2026 Meeting}
+With the complete resolution of the stiffness anomaly (Priority Question A is \textbf{\texttt{RESOLVED\_AND\_CLOSED}}), the simulation demonstrates excellent mechanical fidelity to the benchmark reference ($K_0$ within $0.09\%$, $F_{\max}$ within $1.64\%$). 
+
+The sole unresolved item in the Mode-I benchmark is Priority Question B (the $71{,}320$ vs $\approx 13{,}941$ finite element count discrepancy). An exhaustive 15-factor audit has proved that this discrepancy cannot be resolved through any accessible Abaqus parameter without departing from the published text.
+
+\subsection{The Two Actionable Supervisor Decision Pathways}
+The supervisor is requested to select one of two clear pathways to conclude Gate~5:
+
+\begin{tcolorbox}[colback=blue!4!white,colframe=blue!75!black,title=\textbf{Option A: Accept Gate 5 as Externally Under-Specified \& Proceed with Mode-I Synthesis},top=1.5pt,bottom=1.5pt,left=3pt,right=3pt]
+\textbf{Decision Description:}
+\begin{itemize}[leftmargin=4mm,itemsep=0.5pt,topsep=1pt]
+  \item Accept Gate~5 as externally under-specified based on the exhaustive 15-factor audit.
+  \item Retain $71{,}320$ finite elements as the verified publication-literal reconstruction under $\texttt{errorTarget}=1.0$ and whole-specimen remeshing.
+  \item Document $\approx 13{,}941$ as unresolved due to missing publication information.
+  \item Proceed only with Mode-I thesis synthesis/documentation pending further supervisor direction.
+\end{itemize}
+\textbf{Scope Limitation:} Gate~7 (ABAQUSER), Mode-II benchmarks, state transfer, and higher-complexity work remain explicitly \textbf{ON HOLD} pending separate supervisor authorization.
+\end{tcolorbox}
+
+\vspace{0.2em}
+
+\begin{tcolorbox}[colback=orange!4!white,colframe=orange!85!black,title=\textbf{Option B: Authorize Transmission of Author Reproducibility Inquiry},top=1.5pt,bottom=1.5pt,left=3pt,right=3pt]
+\textbf{Decision Description:}
+\begin{itemize}[leftmargin=4mm,itemsep=0.5pt,topsep=1pt]
+  \item Approve sending the finalized 6-question reproducibility inquiry to the corresponding authors (Dr.~Anshul Pandey and Dr.~Sachin Kumar).
+  \item Keep Gate~5 open pending the author response.
+  \item No further target-tuning exercises are authorized; $\texttt{errorTarget}=1.0$ remains the publication-literal reference and numerical proximity at $2\%$ is not evidence of parameter identity.
+\end{itemize}
+\textbf{Scope Limitation:} Gate~7 (ABAQUSER), Mode-II benchmarks, state transfer, and higher-complexity work remain explicitly \textbf{ON HOLD} pending separate supervisor authorization.
+\end{tcolorbox}
+
+\begin{quote}
+\textbf{Strict Governance Rule:} In strict accordance with supervisor safety guidelines, the prepared author inquiry remains \textbf{UNSENT} and will not be transmitted without explicit written authorization from the supervisor. Under both options, increasing model complexity remains prohibited until authorized.
+\end{quote}
+
+\subsection{Summary of Prepared Author Questions (Held Unsent)}
+The prepared inquiry focuses exclusively on the missing reproducibility facts:
+\begin{enumerate}[leftmargin=4mm,itemsep=0.5pt,topsep=1pt]
+  \item \textbf{Remeshing Region Set:} Was \texttt{RemeshingRule} applied to the whole plate (\texttt{All\_elem}) or a local geometric corridor?
+  \item \textbf{Exact Error Target:} Was $\texttt{errorTarget}=1.0$ applied without modification for the $\approx 13{,}941$ mesh?
+  \item \textbf{Pre-Analysis Coarse Mesh:} What was the exact element and node count of the initial pre-analysis mesh?
+  \item \textbf{Coarsening Settings:} Was \texttt{coarseningFactor} kept at \texttt{NOT\_ALLOWED} or enabled?
+  \item \textbf{Abaqus Release:} Under which Abaqus version was the remeshing script executed?
+  \item \textbf{Sizing Controls:} Were any additional mesh controls (e.g., \texttt{sizeDeviationFactor}) applied?
+\end{enumerate}

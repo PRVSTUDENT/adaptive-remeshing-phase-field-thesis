@@ -1,0 +1,129 @@
+\chapter{Mode-I Benchmark and Fixed-Mesh Reference}
+\label{ch:mode1_reference}
+
+\section{Benchmark Geometry and Sharp Seam Representation}
+\label{sec:benchmark_geometry}
+
+The foundational benchmark is a $1.0\,\mathrm{mm} \times 1.0\,\mathrm{mm}$ square plate containing an initial edge crack of length $a_0 = 0.5\,\mathrm{mm}$ located along the horizontal symmetry line $y = 0.5\,\mathrm{mm}$ (Fig.~\ref{fig:mode1_geometry}). The crack is modeled as a zero-gap sharp seam with duplicate, coincident nodal pairs rather than a finite-width notch.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.52\textwidth]{fig_mode1_geometry.png}
+  \caption{Mode-I benchmark boundary value problem: $1.0\,\mathrm{mm} \times 1.0\,\mathrm{mm}$ square domain with a sharp edge crack of length $a_0 = 0.5\,\mathrm{mm}$ at $y = 0.5\,\mathrm{mm}$. Boundary conditions prescribe roller support ($u_y = 0$) along the bottom edge with a pinned point ($u_x = 0$) to eliminate rigid-body translation, and uniform tensile displacement $u_y = u$ on the top boundary.}
+  \label{fig:mode1_geometry}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Material and phase-field constitutive parameters for the Mode-I benchmark \citep{pandey2025}.}
+\label{tab:mode1_parameters}
+\begin{tabular}{llrl}
+\toprule
+Parameter & Symbol & Value & Units / Description \\
+\midrule
+Young's modulus & $E$ & $210.0$ & $\mathrm{GPa}$ ($\mathrm{kN/mm^2}$) \\
+Poisson's ratio & $\nu$ & $0.30$ & -- \\
+Critical fracture energy release rate & $G_c$ & $2.7 \times 10^{-3}$ & $\mathrm{kN/mm}$ ($2.7\,\mathrm{N/mm}$) \\
+Phase-field regularization length scale & $l_0$ & $0.0075$ & $\mathrm{mm}$ ($7.5\,\mu\mathrm{m}$) \\
+Residual stiffness parameter & $k_{\mathrm{res}}$ & $1.0 \times 10^{-7}$ & Artificial residual stiffness \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Structural stiffness: notch vs.\ sharp seam disambiguation}
+\label{sec:notch_vs_seam}
+
+A vital physical distinction must be drawn between the material Young's modulus $E = 210.0\,\mathrm{GPa}$ and the global initial structural stiffness $K_0$:
+\begin{equation}
+  K_0 = \left. \frac{\mathrm{d}F}{\mathrm{d}u} \right|_{\text{initial elastic range}} \approx \frac{\Delta F}{\Delta u}.
+  \label{eq:k0_definition}
+\end{equation}
+In early modeling attempts, an erroneous finite-width notch geometry (such as Molnar-style blunt notches) introduced massive compliance into the specimen, artificially degrading initial structural stiffness down to $K_0 \approx 75.47\,\mathrm{kN/mm}$. Replacing the notch with the zero-gap sharp seam fully restored structural stiffness to the reference level of $K_0 \approx 137.95\,\mathrm{kN/mm}$ (Fig.~\ref{fig:notch_stiffness}).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.75\textwidth]{fig_notch_stiffness.pdf}
+  \caption{Comparison of global structural stiffness $K_0$ across notch and seam representations: the blunt finite-width notch radically softens the specimen ($K_0 \approx 75.47\,\mathrm{kN/mm}$), whereas the zero-gap sharp seam correctly achieves $K_0 \approx 137.95\,\mathrm{kN/mm}$, matching the published reference response.}
+  \label{fig:notch_stiffness}
+\end{figure}
+
+\section{Boundary-Condition Specification and Reconstruction Provenance}
+\label{sec:boundary_conditions}
+
+The boundary conditions governing the Mode-I benchmark are:
+\begin{itemize}
+  \item \textbf{Bottom Boundary ($y = 0.0\,\mathrm{mm}$):} Vertical displacement is fixed ($u_y = 0.0$) across all bottom nodes ($\mathtt{N\_BOTTOM}$). A single reference point or midpoint node is restrained in the horizontal direction ($u_x = 0.0$) to eliminate rigid-body motion without over-constraining Poisson contraction.
+  \item \textbf{Top Boundary ($y = 1.0\,\mathrm{mm}$):} Prescribed uniform tensile displacement loading $u_y = u(t)$ applied monotonically.
+  \item \textbf{Crack Flanks and Lateral Edges ($x = 0, 1.0\,\mathrm{mm}$):} Traction-free boundaries with natural boundary conditions for the phase field $\nabla d \cdot \mathbf{n} = 0$.
+\end{itemize}
+
+\section{Verified Fixed-Mesh Reference Anchor}
+\label{sec:fixed_reference_anchor}
+
+The fixed-mesh reference solution, Job \texttt{1398090.mmaster02} ($15{,}192$ finite elements, $15{,}445$ nodes), serves as the authoritative quantitative anchor against which all adaptive remeshing results are evaluated. Under quasi-static displacement-controlled tension, the specimen exhibits linear elasticity up to damage localization, reaching a peak reaction force $F_{\max} = 0.757778\,\mathrm{kN}$ at $u(F_{\max}) = 0.005857\,\mathrm{mm}$, followed by sharp post-peak softening as the crack propagates horizontally through the remaining ligament.
+
+Initial structural stiffness is extracted using an unconstrained ordinary-least-squares (OLS) linear fit over the initial $N = 400$ active increments ($u \le 1.0\,\mu\mathrm{m}$):
+\begin{equation}
+  F_i = K_0 u_i + b + \epsilon_i, \qquad K_0 = 137.945520\,\mathrm{kN/mm},
+  \label{eq:k0_ols_anchor}
+\end{equation}
+with intercept $b = 4.472368 \times 10^{-5}\,\mathrm{kN}$ and coefficient of determination $R^2 = 0.99999960$. Digitized values from \citet{pandey2025} (Fig.~7(a)) report $F_{\max} \approx 0.758\,\mathrm{kN}$ and $u(F_{\max}) \approx 0.005860\,\mathrm{mm}$, demonstrating excellent numerical agreement (Table~\ref{tab:fixed_reference}).
+
+\begin{table}[htbp]
+\centering
+\caption{Verified quantitative metrics for the fixed-mesh reference anchor (Job \texttt{1398090}).}
+\label{tab:fixed_reference}
+\begin{tabular}{llrl}
+\toprule
+Quantity & Symbol & Value & Source / Extraction Method \\
+\midrule
+Finite element count & $N_{\mathrm{mesh}}$ & $15{,}192$ & Structured CPE4 mesh \\
+Total nodes & $N_{\mathrm{nodes}}$ & $15{,}445$ & Layer 1/2/3 coincident nodes \\
+Peak reaction force & $F_{\max}$ & $0.757778\,\mathrm{kN}$ & Sum of top reaction forces $R_{y}$ \\
+Peak displacement & $u(F_{\max})$ & $0.005857\,\mathrm{mm}$ & Prescribed stroke at limit load \\
+Initial structural stiffness & $K_0$ & $137.945520\,\mathrm{kN/mm}$ & OLS fit ($N=400$, $u \le 1.0\,\mu\mathrm{m}$) \\
+OLS intercept & $b$ & $4.472368 \times 10^{-5}\,\mathrm{kN}$ & Intercept from linear regression \\
+Coefficient of determination & $R^2$ & $0.99999960$ & Goodness of fit \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Resolution of the Boundary-Set Formatting Defect}
+\label{sec:nbottom_defect}
+
+During initial deployment of the native adaptive 71,320-element mesh (Job \texttt{1399632}), an apparent stiffness defect was observed ($K_0 \approx 122.38\,\mathrm{kN/mm}$, $-11.28\%$). Forensic audit revealed that this was caused by an Abaqus keyword input card limit: the node set \texttt{N\_BOTTOM} contained 150 node identifiers formatted on a single data line without \texttt{GENERATE}. Abaqus \texttt{pre} silently parsed only the first 16 node identifiers and omitted the remaining 134 entries.
+
+Under tensile loading, the unconstrained bottom nodes lifted vertically off the support by up to $48.34\%$ of the applied stroke (Fig.~\ref{fig:nbottom_lift}), creating artificial kinematic compliance. Wrapping the node identifiers across valid data lines ($\le 16$ entries per card) restored all 150 vertical boundary constraints.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_nbottom_lift.png}
+  \caption{Bottom-edge kinematic lift caused by the \texttt{N\_BOTTOM} card-formatting defect (left) and its complete elimination after proper multi-line data wrapping (right), recovering rigid support conditions.}
+  \label{fig:nbottom_lift}
+\end{figure}
+
+The corrected input deck was verified in authoritative full-fracture Job \texttt{1404933} and frozen elastic Job \texttt{1405044}. As shown in Table~\ref{tab:nbottom_comparison} and Fig.~\ref{fig:mode1_fu_recovery}, proper boundary set wrapping restores initial stiffness to $K_0 = 137.820804\,\mathrm{kN/mm}$ ($-0.09\%$ vs reference anchor), definitively resolving and closing this diagnostic defect (\textbf{\texttt{RESOLVED\_AND\_CLOSED}}).
+
+\begin{table}[htbp]
+\centering
+\caption{Mechanical response recovery after resolving the \texttt{N\_BOTTOM} keyword formatting defect.}
+\label{tab:nbottom_comparison}
+\small
+\begin{tabularx}{\textwidth}{lrrrrY}
+\toprule
+Case Description & Job ID & Elements & $K_0$ [kN/mm] & $F_{\max}$ [kN] & Status / Diagnosis \\
+\midrule
+Fixed Reference Anchor & \texttt{1398090} & $15{,}192$ & $137.945520$ & $0.757778$ & Canonical reference anchor \\
+Defective Preprocessing & \texttt{1399632} & $71{,}320$ & $122.379000$ & $0.478203$ & 16/150 nodes constrained; bottom lift \\
+Corrected Full Fracture & \texttt{1404933} & $71{,}320$ & $137.820804$ & $0.745325$ & 150/150 nodes constrained; $K_0$ recovered \\
+Frozen Requalification & \texttt{1405044} & $71{,}320$ & $138.021013$ & -- & Independent elastic verification \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.86\textwidth]{fig_mode1_fu_recovery.pdf}
+  \caption{Force--displacement response demonstrating full structural stiffness recovery upon correcting the \texttt{N\_BOTTOM} boundary node set, proving that the initial stiffness anomaly was a preprocessing defect rather than an adaptive remeshing artifact.}
+  \label{fig:mode1_fu_recovery}
+\end{figure}

@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "title": "Stage-G Production Adaptive Validation Frozen Thesis Dataset",
+    "date": "2026-08-21",
+    "authoritative_mesh_counts": {
+      "H1_ref": 12064,
+      "H2_base": 33852,
+      "MM_adapt": 2206,
+      "PK5_adapt": 4894
+    },
+    "increment_schedule": {
+      "step1": 500,
+      "step2": 2000,
+      "total": 2500,
+      "saved_frames": 72
+    },
+    "status": "VALIDATED_PRODUCTION_ADAPTIVE_ACCURACY_AND_EFFICIENCY_VALIDATED"
+  },
+  "accuracy_domain_a": {
+    "H1_external_work_kN_mm": 0.00184893,
+    "MM_vs_H1_L2_error_pct": 1.4249,
+    "MM_vs_H1_work_error_pct": 0.8134,
+    "MM_vs_H1_stiffness_error_pct": 0.2425,
+    "PK5_vs_H1_L2_error_pct": 1.1467,
+    "PK5_vs_H1_work_error_pct": 0.5751,
+    "PK5_vs_H1_stiffness_error_pct": 0.1003,
+    "MM_vs_PK5_mutual_L2_pct": 0.3003,
+    "MM_vs_PK5_mutual_work_pct": 0.237
+  },
+  "continuation_domain_b": {
+    "MM_vs_PK5_mutual_L2_pct": 0.3402,
+    "MM_vs_PK5_mutual_work_pct": 0.3074,
+    "MM_terminal_RF1_kN": 0.373693,
+    "PK5_terminal_RF1_kN": 0.371313,
+    "terminal_force_diff_pct": 0.64
+  },
+  "hard_invariants_saved_frames": {
+    "phase_bounds_MM": [
+      0.0,
+      0.98231
+    ],
+    "phase_bounds_PK5": [
+      0.0,
+      0.984
+    ],
+    "history_bounds_MM": [
+      0.0,
+      31.47184
+    ],
+    "history_bounds_PK5": [
+      0.0,
+      35.364414
+    ],
+    "irreversibility_violations": 0,
+    "history_monotonicity_violations": 0,
+    "verification_scope": "Independently verified at all 72 saved ODB field frames"
+  },
+  "computational_efficiency": {
+    "H2_base_CPU_s": 14455.0,
+    "H2_censoring_displacement_mm": 0.00925,
+    "MM_CPU_s": 1180.0,
+    "PK5_CPU_s": 2600.0,
+    "MM_scheduler_CPU_ratio": 12.25,
+    "PK5_scheduler_CPU_ratio": 5.56,
+    "interpretation": "Diagnostic scheduler-CPU ratio; H2 was censored at 0.009250 mm"
+  }
+}

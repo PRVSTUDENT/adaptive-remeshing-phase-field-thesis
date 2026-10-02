@@ -1,0 +1,38 @@
+\section{Mode-I Benchmark Definition and Canonical S1 Reference Baseline}
+\label{sec:benchmark_and_reference}
+
+\subsection{Benchmark Boundary Value Problem}
+The Mode-I benchmark is defined on a two-dimensional square domain $\Omega = [0, 1.0\,\mathrm{mm}] \times [0, 1.0\,\mathrm{mm}]$ containing an initial sharp horizontal edge crack of length $a_0 = 0.50\,\mathrm{mm}$ along the symmetry plane $y = 0.50\,\mathrm{mm}$ (Fig.~\ref{fig:mode1_geometry_pack}). The crack is discretized as a zero-gap seam with duplicate coincident nodal lines, preserving exact geometric compliance.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.48\textwidth]{fig_mode1_geometry.png}
+  \caption{Mode-I benchmark boundary value problem: $1.0\,\mathrm{mm} \times 1.0\,\mathrm{mm}$ square domain with a sharp edge crack of length $a_0 = 0.5\,\mathrm{mm}$ along $y = 0.5\,\mathrm{mm}$. Boundary conditions enforce roller support ($u_y = 0$) on the bottom edge with a pinned point ($u_x = 0$) to eliminate rigid-body motion, and uniform tensile displacement $u_y = u$ on the top edge.}
+  \label{fig:mode1_geometry_pack}
+\end{figure}
+
+The material and phase-field constitutive parameters follow \citet{pandey2025}:
+\begin{itemize}[noitemsep,topsep=1pt]
+  \item Young's modulus: $E = 210.0\,\mathrm{GPa} = 210.0\,\mathrm{kN/mm^2}$;
+  \item Poisson's ratio: $\nu = 0.30$;
+  \item Critical fracture energy release rate: $G_c = 2.7 \times 10^{-3}\,\mathrm{kN/mm}$ ($2.7\,\mathrm{N/mm}$);
+  \item Phase-field regularization length scale: $l_0 = 0.0075\,\mathrm{mm} = 7.5\,\mu\mathrm{m}$;
+  \item Residual stiffness parameter: $k_{\mathrm{res}} = 1.0 \times 10^{-7}$.
+\end{itemize}
+
+\subsection{Structural Stiffness: Notch vs.\ Sharp Seam Disambiguation}
+A critical early diagnostic distinction is the difference between material modulus $E$ and global structural stiffness $K_0 = \Delta F / \Delta u$. Early geometry-sanity-check models (Fig.~\ref{fig:notch_stiffness_pack}) compared an uncracked solid ($K_0 \approx 138.15\,\mathrm{kN/mm}$), a blunt notch ($K_0 \approx 75.47\,\mathrm{kN/mm}$), and an early sharp seam diagnostic ($K_0 \approx 141.82\,\mathrm{kN/mm}$), demonstrating that blunt notches introduce artificial compliance. These values represent early sanity-check configurations under preliminary boundary approximations; the final governed canonical $S_1$ benchmark stiffness established below is $K_0 = 137.945520\,\mathrm{kN/mm}$.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.72\textwidth]{fig_notch_stiffness.pdf}
+  \caption{Early geometry-sanity-check comparison of structural stiffness $K_0$: uncracked solid ($\approx 138.15\,\mathrm{kN/mm}$), blunt notch introducing artificial compliance ($\approx 75.47\,\mathrm{kN/mm}$), and early sharp seam diagnostic ($\approx 141.82\,\mathrm{kN/mm}$). The final governed canonical $S_1$ sharp-seam reference stiffness is $K_0 = 137.945520\,\mathrm{kN/mm}$ (Section~\ref{sec:benchmark_and_reference}.3).}
+  \label{fig:notch_stiffness_pack}
+\end{figure}
+
+\subsection{Canonical S1 Baseline Provenance}
+The governed canonical baseline for the Mode-I benchmark is Job \texttt{1406015.mmaster02} ($S_1$, $15{,}192$ underlying finite elements, $15{,}522$ total \texttt{*NODE} entries ($15{,}521$ mesh nodes + RP 999999)), generated from the canonical input deck (\nolinkurl{SHA256: bc000e0c5791150a711cb7af447a0bb34d1b9d9af5c6ce9d096c98749e8edf61}). Extracted from the audited source file \nolinkurl{S1_h0030_15k_MECHANICAL_FU_AUDITED.csv} (\nolinkurl{SHA256: E3100B7429E14B8BCEAB9952DDF8B0419CA9F71DF058F5916668922185AA25E2}) over the initial $N = 400$ active increments ($u \le 1.0\,\mu\mathrm{m}$), unconstrained ordinary least squares yields:
+\begin{equation}
+  K_0 = 137.945520\,\mathrm{kN/mm}, \quad b = 4.472368 \times 10^{-5}\,\mathrm{kN}, \quad R^2 = 0.99999960.
+\end{equation}
+The peak reaction force is $F_{\max} = 0.757778\,\mathrm{kN}$ at displacement $u(F_{\max}) = 0.005857\,\mathrm{mm}$, matching digitized literature values from \citet{pandey2025} ($F_{\max} \approx 0.758\,\mathrm{kN}, u \approx 0.005860\,\mathrm{mm}$). Reconstructed Job \texttt{1398090.mmaster02} is preserved as historical baseline evidence.

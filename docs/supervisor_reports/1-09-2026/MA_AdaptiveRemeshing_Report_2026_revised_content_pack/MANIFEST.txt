@@ -1,0 +1,34 @@
+Revised supervisor-report scientific content pack (2026-09-01)
+
+Primary deliverable:
+- SUPERVISOR_PROGRESS_REPORT_REVISED_DRAFT_2026-09-01.pdf
+
+University-template replacement content:
+- abstract.tex
+- chapter01_introduction_theory.tex
+- chapter02_baseline.tex
+- chapter03_mesh_refinement.tex
+- chapter04_state_transfer.tex
+- chapter05_multiresolution.tex
+- chapter06_hpc.tex
+- chapter07_production_validation.tex
+- chapter08_conclusions.tex
+- appendix.tex
+
+Standalone review build:
+- draft_main.tex
+- literature_revised.bib
+
+Figures:
+- figures/generated/
+- Molnar one-element Abaqus mesh and SDV15 exports
+- Molnar single-notch mesh, direct four-state CAE phase evolution, RF-U comparison, and actual H0/H1/H2 meshes
+- MISESERI coarse pre-analysis spatial map
+- direct coarse and accepted nominal 1% adaptive Mode-I CAE mesh exports
+- state-transfer phase/history and continuation evidence
+- Mode-II H0/H1/H2 damage and RF-U comparison figures, plus direct H1/H2 CAE mesh exports
+
+Instructions:
+- README_APPLY_TO_UNIVERSITY_TEMPLATE.md
+
+Do not replace the university preambel.tex or abbrvnat_custom.bst with anything from this package.

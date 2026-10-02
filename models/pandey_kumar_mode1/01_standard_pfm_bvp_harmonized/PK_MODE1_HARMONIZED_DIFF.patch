@@ -1,0 +1,14 @@
+--- PK_MODE1_STANDARD_PFM.inp (authoritative)
++++ PK_MODE1_STANDARD_PFM.inp (candidate_harmonized)
+@@ -61833,11 +61833,10 @@
+ *Static
+  5.0E-4, 1.0, 1.0E-9, 5.0E-4
+ *Boundary
+  N_BOTTOM, 2, 2, 0.0
+  N_PIN, 1, 1, 0.0
+- N_TOP, 1, 1, 0.0
+  N_RP, 2, 2, 0.0050
+ *Restart, write, frequency=0
+ *Output, field, frequency=1
+ *Node Output, nset=N_RP
+  U, RF

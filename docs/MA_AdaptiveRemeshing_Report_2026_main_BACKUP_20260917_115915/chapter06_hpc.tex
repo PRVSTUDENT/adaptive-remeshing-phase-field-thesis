@@ -1,0 +1,35 @@
+\chapter{HPC Execution and Parallelization Boundary}
+\label{ch:hpc}
+
+\section{HPC cluster execution environment}
+Production finite element simulations and remeshing workflows are executed on the high-performance computing cluster at TU Bergakademie Freiberg. The verified software environment comprises:
+\begin{itemize}
+  \item \textbf{Finite Element Solver:} \Abaqus/Standard 2023 (hotfix-level 2023.HF4);
+  \item \textbf{Compiler Toolchain:} Intel oneAPI Fortran Compiler (ifx 2024.2.0 / ifort compatibility);
+  \item \textbf{Workload Manager:} PBS Professional batch queuing system;
+  \item \textbf{Compute Nodes:} Dedicated compute nodes (e.g., \texttt{mnode097}, \texttt{mnode099}) equipped with dual-socket Intel Xeon processors and 128--256\,GB RAM;
+  \item \textbf{Standard Allocation Directives:} \texttt{nodes=1:ppn=1}, 16--32\,GB requested RAM, queue \texttt{normal\_imfdfkmq}.
+\end{itemize}
+
+Operational job identifiers, execution checksums, walltimes, and resource allocations are cataloged in Appendix~\ref{app:repro}.
+
+\section{Serial execution boundary and state synchronization}
+A key technical finding of this project concerns the parallelization safety of the coupled phase-field UEL implementation.
+
+In the Moln\'ar--Gravouil staggered architecture \citep{Molnar2017}, the phase-field UEL and mechanical UEL layers exchange trial strains, driving energy $\mathcal{H}$, and phase damage $d$ through shared Fortran global arrays in common storage:
+\begin{verbatim}
+COMMON /CB_STATE_TRANS/ SV_PHASE_TRIAL(MAXELEM), SV_HIST_TRIAL(MAXELEM, 4), ...
+\end{verbatim}
+During an Abaqus solver iteration, element stiffness and residual evaluations are executed in an element-by-element loop. In a shared-memory multithreaded execution (e.g., \texttt{cpus=4} or OpenMP threading), multiple worker threads execute the UEL subroutine concurrently for different element ranges. Because the common block storage lacks explicit thread-level mutual exclusion locks or memory barriers, concurrent read and write operations on shared element indices create race conditions and non-deterministic memory corruption.
+
+In distributed-memory MPI execution (e.g., domain decomposition across ranks), each MPI rank runs in a private address space; common blocks are replicated per process rather than shared globally, causing ranks to lose access to elements residing on other partitions.
+
+Consequently, all production calculations in this research are governed by a strict \textbf{single-core serial execution boundary} (\texttt{cpus=1}). A prospective multithreaded or MPI implementation requires refactoring state storage from global common blocks to Abaqus-managed user state tensors (\texttt{STATEV}) or explicit MPI communication buffers.
+
+\section{Notification path verification}
+To ensure reliable monitoring of long-running cluster jobs (which require up to 35 hours of walltime), automated notification traps were integrated into the PBS job submission scripts:
+\begin{itemize}
+  \item \textbf{Telegram Bot Webhook Trap:} Configured to transmit job start, step transitions, walltime milestones, and terminal exit codes ($0$ vs error) directly to the engineering team. This notification channel has been verified as \textbf{ACTIVE AND RELIABLE}.
+  \item \textbf{Direct SMTP Email Notification (\texttt{\#PBS -m abe}):} PBS mail delivery exhibited an internal relay failure on the cluster network and is recorded as a \textbf{KNOWN INFRASTRUCTURE DEFECT}.
+\end{itemize}
+In accordance with project governance rules, a running scientific job is never cancelled or invalidated due to email delivery failures when the calculation itself executes normally.

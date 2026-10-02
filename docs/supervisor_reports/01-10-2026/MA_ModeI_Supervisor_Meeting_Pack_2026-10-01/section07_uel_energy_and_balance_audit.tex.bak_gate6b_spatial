@@ -1,0 +1,79 @@
+\section{UEL Energy Formulation and Global Energy Balance Audit}
+\label{sec:uel_energy_and_balance_audit}
+
+\subsection{Implemented Discrete Energy Formulations}
+In user subroutine \nolinkurl{f42_mixed_uel.for}, stored elastic strain energy $E_{\mathrm{elas}}$ and fracture surface energy $E_{\mathrm{frac}}$ are evaluated over the $N_{\mathrm{mesh}}$ cells:
+\begin{align}
+  E_{\mathrm{elas}} &= \sum_{e=1}^{N_{\mathrm{mesh}}} \int_{\Omega_e} \frac{1}{2} g(\bar{d}_e)\,\boldsymbol{\varepsilon} : \mathbb{C}_0 : \boldsymbol{\varepsilon} \,\mathrm{d}\Omega, \\
+  E_{\mathrm{frac}} &= \sum_{e=1}^{N_{\mathrm{mesh}}} \int_{\Omega_e} G_c \left[ \frac{\bar{d}_e^2}{2 l_0} + \frac{l_0}{2} |\nabla d|^2 \right] \mathrm{d}\Omega,
+\end{align}
+where $g(\bar{d}_e) = (1-\bar{d}_e)^2 + k_{\mathrm{res}}$ ($k_{\mathrm{res}} = 10^{-7}$). External boundary work is evaluated via the trapezoidal boundary-work estimate:
+\begin{equation}
+  W_{\mathrm{trap},n} = \sum_{i=1}^{n} \frac{F_i + F_{i-1}}{2}(u_i - u_{i-1}).
+\end{equation}
+
+\subsection{Single-IP Deduplication Rule}
+In the 3-layer architecture, companion visualizer elements (Layer~3, CPE4) receive whole-element scalar energies into state variables $\mathrm{STATEV}(17) = E_{\mathrm{frac}}^{(e)}$ and $\mathrm{STATEV}(18) = E_{\mathrm{elas}}^{(e)}$ across all 4 integration points. Summing across all Gauss points creates a $4\times$ overcounting artifact. Post-processors strictly enforce extraction at \textbf{Integration Point 1 (\texttt{IP1}) only}, recovering the once-per-underlying-finite-element global energy sum under the 2D implicit-unit-thickness convention.
+
+\subsection{Non-Invasiveness and Mechanical Parity Verification}
+Energy logging is mathematically decoupled from the element residual vector (\texttt{RHS}) and stiffness matrix (\texttt{AMATRX}). Controlled HPC benchmarks established:
+\begin{center}
+  \textbf{\texttt{ENERGY\_SOURCE\_MECHANICAL\_PARITY --- QUALIFIED (COMMON QUAD FORMULATION)}}
+\end{center}
+Global mechanical force trajectories were identical ($|\Delta F| = 0.0\,\mathrm{kN}$) against uninstrumented baselines across:
+\begin{itemize}
+  \item \textbf{Elastic Parity (Job 1406904 vs 1406905, 30 incs):} Exact force trajectory agreement ($|\Delta F| = 0.00000000\,\mathrm{kN}$).
+  \item \textbf{Full Softening Parity (Job 1406906 vs 1406907, 129 incs):} Exact force trajectory agreement through complete failure to $u = 0.035\,\mathrm{mm}$ ($|\Delta F| = 0.0\,\mathrm{kN}$, $d_{\max} = 0.977$, $74.2\%$ softening drop).
+\end{itemize}
+Old-run $d/\mathcal{H}$ state-field parity was not observable in standard ODBs and triangle parity was not established.
+
+\subsection{Discrete Potential Disproval and Observability Boundary}
+Because the staggered solver alternates between displacement $\mathbf{u}_n$ and phase field $d_{n+1}$, discrete cross-derivatives do not commute:
+\begin{equation}
+  \frac{\partial^2 \Pi}{\partial \mathbf{q}_u\,\partial \mathbf{q}_d} \ne \frac{\partial^2 \Pi}{\partial \mathbf{q}_d\,\partial \mathbf{q}_u}.
+\end{equation}
+Consequently, \textbf{\texttt{COMMON\_DISCRETE\_POTENTIAL\_DISPROVEN\_BY\_CROSS\_DERIVATIVE\_INCOMPATIBILITY}} governs. The two-term bookkeeping difference is defined as:
+\begin{equation}
+  \mathcal{R}_{\mathrm{bookkeeping}}(u) \equiv W_{\mathrm{trap}}(u) - \left[ E_{\mathrm{elas}}(u) + E_{\mathrm{frac}}(u) \right].
+\end{equation}
+Because standard Abaqus ODB files do not persist within-increment Newton paths, \textbf{\texttt{DECOMPOSITION\_REQUIRES\_\allowbreak WITHIN\_INCREMENT\_\allowbreak PATH\_INFORMATION}} applies, and \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}} is strictly maintained.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth]{fig_mode1_s1_energy_balance.pdf}
+  \caption{Global energy component evolution for the baseline $S_1$/$T_2$ trajectory ($15{,}192$ elements). The two-term bookkeeping difference remains within $\pm0.008\%$ over the specifically qualified pre-peak $S_1$/$T_1$--$T_3$ trajectories. In the post-peak regime it reaches $+0.7607\%$ for $S_1$/$T_2$. This quantity is an endpoint bookkeeping difference and is not interpreted as an energy residual or conservation error. \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}}.}
+  \label{fig:energy_balance_pack}
+\end{figure}
+
+\subsection{Temporal Discretization Scaling of Global Energy Components ($T_1$--$T_3$)}
+Figure~\ref{fig:temporal_energy_pack} and Table~\ref{tab:energy_audit_pack} evaluate the temporal sensitivity of all energetic components across time increment scales ($T_1$: coarse $2\times$, $T_2$: nominal $1\times$, $T_3$: fine $0.5\times$):
+\begin{itemize}
+  \item Stored elastic strain energy $E_{\mathrm{elas}}(u)$ and fracture surface energy $E_{\mathrm{frac}}(u)$ exhibit excellent temporal agreement throughout deformation, with $E_{\mathrm{elas}}$ peaking at $u \approx 5.86\,\mu\mathrm{m}$ before transferring into crack surface energy $E_{\mathrm{frac}}$ during rapid crack propagation.
+  \item Pre-peak boundary work $W_{\mathrm{trap}}$ is temporally invariant ($|\Delta| < 0.001\%$). In the post-peak softening tail, finer time stepping slightly decreases external boundary work ($2.41011 \to 2.35933 \to 2.33189\,\mathrm{mJ}$, a $3.24\%$ reduction), reflecting sharper resolution of the steep load drop.
+  \item Consequently, the terminal two-term bookkeeping difference shifts from $+0.378\%$ ($T_1$) to $+0.761\%$ ($T_2$) to $+3.541\%$ ($T_3$), establishing that post-peak bookkeeping values are \textbf{\texttt{TEMPORALLY SENSITIVE}}.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_temporal_energy_comparison.pdf}
+  \caption{Temporal discretization scaling of global energy components across schedules $T_1$ ($2\times$), $T_2$ ($1\times$), and $T_3$ ($0.5\times$, Job \texttt{1406317}) on fixed $S_1$ mesh: (a) boundary work $W_{\mathrm{trap}}(u)$; (b) stored elastic energy $E_{\mathrm{elas}}(u)$; (c) fracture surface energy $E_{\mathrm{frac}}(u)$; (d) two-term bookkeeping difference $\mathcal{R}_{\mathrm{bookkeeping}}(u)$.}
+  \label{fig:temporal_energy_pack}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Global energy bookkeeping audit for completed uniform mesh cases ($u = 0.010\,\mathrm{mm}$).}
+\label{tab:energy_audit_pack}
+\small
+\begin{tabularx}{\textwidth}{Yrrrr}
+\toprule
+Energetic Quantity & Case $T_1$ (Coarse $\Delta t$) & Case $T_2$ (Nominal $\Delta t$) & Case $T_3$ (Fine $\Delta t$) & Case $S_1$ (Baseline) \\
+\midrule
+Boundary Work $W_{\mathrm{trap}}$ [$\mathrm{mJ}$] & $2.41011$ & $2.35933$ & $2.33189$ & $2.35933$ \\
+Elastic Energy $E_{\mathrm{elas}}$ [$\mathrm{mJ}$] & $0.00104$ & $0.00116$ & $0.00120$ & $0.00116$ \\
+Fracture Energy $E_{\mathrm{frac}}$ [$\mathrm{mJ}$] & $2.39995$ & $2.34022$ & $2.24813$ & $2.34022$ \\
+Bookkeeping Diff [$\mathrm{mJ}$] & $0.00912$ & $0.01795$ & $0.08256$ & $0.01795$ \\
+Normalized Difference & $\mathbf{0.3783\,\%}$ & $\mathbf{0.7607\,\%}$ & $\mathbf{3.5408\,\%}$ & $\mathbf{0.7607\,\%}$ \\
+\bottomrule
+\end{tabularx}
+\end{table}

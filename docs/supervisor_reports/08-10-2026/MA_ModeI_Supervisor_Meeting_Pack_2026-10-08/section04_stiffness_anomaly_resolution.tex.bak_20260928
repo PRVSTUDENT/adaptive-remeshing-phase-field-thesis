@@ -1,0 +1,52 @@
+\section{Resolution of the 71,320-Element Stiffness Defect}
+\label{sec:stiffness_anomaly_resolution}
+
+\subsection{Root Cause Isolation and Kinematic Mechanism}
+The early 71,320-element adaptive full-fracture run (Job \texttt{1399632}) exhibited an unexpected structural stiffness deficit ($K_0 \approx 122.38\,\mathrm{kN/mm}$ vs.\ $137.95\,\mathrm{kN/mm}$, $-11.28\%$).
+
+A comprehensive keyword-level audit proved that this was caused by an input preprocessing card defect:
+\begin{itemize}
+  \item The bottom boundary set \texttt{N\_BOTTOM} contained 150 node identifiers written on a single data line without the \texttt{GENERATE} parameter.
+  \item Standard Abaqus free-format input deck syntax parses at most 16 node identifiers per card line; the remaining 134 intended nodes were silently omitted from the active constraint set.
+  \item Consequently, only 16 bottom nodes were constrained in $u_y$, allowing the remaining unconstrained edge nodes to lift vertically by up to $48.34\%$ of the applied displacement stroke (Fig.~\ref{fig:nbottom_lift_pack}).
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.90\textwidth]{fig_nbottom_lift.png}
+  \caption{Bottom-edge kinematics showing unconstrained vertical lift in the defective deck (left) and rigid planar support restored after multi-line card wrapping (right).}
+  \label{fig:nbottom_lift_pack}
+\end{figure}
+
+\subsection{Verified Correction and Phase Closure}
+Wrapping the \texttt{N\_BOTTOM} data across valid lines ($\le 16$ node entries per line) restored all 150 vertical boundary constraints. The corrected model was verified in:
+\begin{enumerate}
+  \item \textbf{Frozen Elastic Requalification (Job \texttt{1405044.mmaster02}):} Achieved $K_0 = 138.021013\,\mathrm{kN/mm}$ ($+0.05\%$ vs reference anchor) with zero node lift and zero Abaqus preprocessing warnings.
+  \item \textbf{Authoritative Full Fracture (Job \texttt{1404933.mmaster02}):} Solved the complete fracture process, achieving $K_0 = 137.820804\,\mathrm{kN/mm}$ ($-0.09\%$) and $F_{\max} = 0.745325\,\mathrm{kN}$ (Table~\ref{tab:nbottom_summary_pack} and Fig.~\ref{fig:mode1_fu_recovery_pack}).
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{Mechanical response recovery after resolving the \texttt{N\_BOTTOM} keyword line limit.}
+\label{tab:nbottom_summary_pack}
+\small
+\begin{tabularx}{\textwidth}{lrrrrY}
+\toprule
+Case Description & Job ID & Elements & $K_0$ [kN/mm] & $F_{\max}$ [kN] & Status / Diagnosis \\
+\midrule
+Fixed Reference Anchor & \texttt{1398090} & $15{,}192$ & $137.945520$ & $0.757778$ & Reference anchor \\
+Defective Preprocessing & \texttt{1399632} & $71{,}320$ & $122.379000$ & $0.478203$ & 16/150 nodes parsed; edge lift \\
+Corrected Full Fracture & \texttt{1404933} & $71{,}320$ & $137.820804$ & $0.745325$ & All 150 nodes constrained \\
+Frozen Requalification & \texttt{1405044} & $71{,}320$ & $138.021013$ & -- & Independent elastic verification \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth]{fig_mode1_fu_recovery.pdf}
+  \caption{Force--displacement response demonstrating reference-consistent structural stiffness recovery (within 0.09\%) upon correcting the \texttt{N\_BOTTOM} card format.}
+  \label{fig:mode1_fu_recovery_pack}
+\end{figure}
+
+This issue is formally classified as \textbf{\texttt{RESOLVED\_AND\_CLOSED}}.

@@ -1,0 +1,115 @@
+# Mode-I Gate 5: Supervisor Decision Packet & Reproducibility Boundary
+
+**Document Target**: Human / Supervisor Master Review  
+**Date**: 2026-09-10  
+**Active Gate Status**: `CLOSED_UNRESOLVED_DUE_TO_MISSING_PUBLISHED_OR_INTERNAL_SIZING_INFORMATION`  
+**Active Research Status**: `GATE5_REPRODUCTION_DISCREPANCY_RESOLUTION_ACTIVE`  
+**Governing Controller Directives**:  
+- `ELEMENT_COUNT_PROXIMITY_NOT_PARAMETER_IDENTITY`  
+- `LITERATURE_EFFECTIVE_ERROR_TARGET_NOT_ESTABLISHED`  
+- `MODE1_RESOLUTION_EXTENSION_ACTIVE`  
+
+---
+
+## 1. What Has Been Verified Numerically (`VERIFIED`)
+
+Through exhaustive, isolated one-factor-at-a-time (OFAT) experiments and forensic input deck/ODB parsing, the following facts are established with complete numerical proof:
+
+1. **Canonical Coarse Source Mesh**:
+   - **Physical Deck**: `JOB1_LOAD_1p0X.inp` (SHA-256 `4cc11fbda9ec773c645f7ad6a0f37e6426c399158bd8f2d291678e5c1bcffa91`).
+   - **Topology**: Exactly **`2,906` finite elements** ($2,818$ `CPE4` quads + $88$ `CPE3` triangles) and **`2,988` mesh nodes** ($1.000000\,\text{mm}^2$ specimen area).
+   - *Retired Artifact*: Historical notes reporting 2,786 quads / 120 tris are formally retired as `RETIRED_HISTORICAL_COARSE_MESH_ELEMENT_TYPE_BREAKDOWN_DUE_TO_IN_MEMORY_QUERY_ARTIFACT`.
+2. **Canonical MISESERI Error Indicator Source & Multiplicity**:
+   - **Dataset**: `canonical_mode1_coarse_miseseri_2906.csv` extracted directly from `JOB1_LOAD_1p0X.odb`.
+   - **Multiplicity & Duplicate Integrity**: Exactly 5,812 raw `FieldValue` records at `WHOLE_ELEMENT` position across 2,906 element keys ($2$ values per element). All 2,906 duplicate pairs are **100.0000000000% numerically identical** ($|v_1 - v_2| = 0.000000\times 10^0$).
+   - **Duplicate Collapse Rule**: Transparent identical-pair collapse (NOT averaging).
+   - **Multiplicity Status**: `MISESERI_5812_TO_2906_MULTIPLICITY_MECHANISM_NOT_YET_ESTABLISHED` is preserved (no API-visible attribute distinguishes the two passes).
+   - *Retired Artifact*: Historical 3,930-row CSV retired as `SUPERSEDED_AUXILIARY_CONTINUUM_EXTRACTION_NOT_CANONICAL_MODE1`.
+3. **Native 1% Reconstruction Mesh Count**:
+   - Literal execution of Pandey & Kumar (2025) Listing 1 (`errorTarget=1.0`) generates **`71,320` finite elements** ($69,443$ `CPE4` quads + $1,877$ `CPE3` triangles, $70,845$ mesh nodes).
+   - Bit-for-bit coordinate and connectivity hashes match across all project baselines.
+4. **Abaqus Release / Build Invariance (2022 vs 2023)**:
+   - Clean exact-twin experiment (Job `1404373.mmaster02`) across Abaqus 2022 (Build `2021_09_15`) and Abaqus 2023 (Build `2022_09_28`) established bit-for-bit identical meshes: $71,320$ elements at 1% and $17,687$ elements at 2% (`NO_RELEASE_EFFECT_DETECTED_FOR_THE_TESTED_CPE4_MODE1_CONFIGURATION`).
+5. **Pre-Analysis Scalar Load Magnitude Invariance**:
+   - 10-fold displacement range ($0.2\times$ to $2.0\times$, Job `1404383.mmaster02`) confirmed that while max stress error scales linearly ($0.201 \to 2.014\,\text{MPa}$), refined element count remains strictly invariant at **$71,070 - 71,512$ elements** ($\pm 0.3\%$).
+   - Authoritative geometry metrics ($h_e = \sqrt{A_e}$) from raw `.inp` cards: $h_{\min} = 0.000326\,\text{mm}$, median $h_e = 0.002925\,\text{mm}$, $h_{\max} = 0.016835\,\text{mm} \le 0.020\,\text{mm}$.
+   - *Retired Artifact*: Prior in-memory CAE metrics ($0.082 - 0.123\,\text{mm}$) retired as `RETIRED_LOAD_SENSITIVITY_ELEMENT_SIZE_METRICS_DUE_TO_EXTRACTION_ERROR`.
+6. **Spatial MISESERI / Refinement Association**:
+   - Spearman rank correlation $\mathbf{\rho \in [-0.7391, -0.7364]}$ across all 6 spatial mapping methods (Point-in-Polygon, Nearest Centroid, Bounding Radii $r \in [0.50, 1.25] h_e$), proving strong monotonic refinement targeting without claiming recovery of Abaqus' proprietary sizing formula (`CANONICAL_MISESERI_REFINEMENT_SPATIAL_ASSOCIATION_VERIFIED`).
+   - Crack tip zone contains **100.00%** elements finer than global median ($h_e = 0.001841\,\text{mm}$ vs global median $0.002925\,\text{mm}$).
+
+---
+
+## 2. Publication Explicit Statements vs Generic / Sensitivity Data
+
+A line-by-line audit of Pandey & Kumar (2025, *CMES*, 144(3), pp. 3251–3282) establishes the exact textual boundary:
+
+| Parameter | Location in Paper | Primary Text Context | Epistemic Classification |
+| :--- | :--- | :--- | :--- |
+| **`errorTarget`** | Listing 1 (p. 3262) & Sec. 4.1 (p. 3265) | `errorTarget=1.0` in Listing 1; omitted from Sec. 4.1 text for 13,941 case; Sec. 4.1.1 uses 5; Sec. 4.1.3 tests {2,5,10,20} | **`GENERIC_METHOD_LISTING_ONLY`** / **`NOT_STATED_FOR_13941_CASE`** |
+| **`minElementSize`** | Sec. 4.1 (p. 3265) & Listing 1 | *"locally refined mesh size $h = 0.001\,\text{mm}$"* / `minElementSize=minSize` | **`EXPLICIT_FOR_13941_CASE`** ($h = 0.001\,\text{mm}$) |
+| **`maxElementSize`** | Sec. 4.1 (p. 3265) & Listing 1 | *"global mesh size of $0.02\,\text{mm}$"* / `maxElementSize=maxSize` | **`EXPLICIT_FOR_13941_CASE`** ($h = 0.020\,\text{mm}$) |
+| **`refinementFactor`** | Listing 1 (p. 3262) & Sec. 4.1.3 | `refinementFactor=10` in Listing 1; Sec. 4.1.3 tests {2,5,10} | **`GENERIC_METHOD_LISTING_ONLY`** |
+| **`coarseningFactor`** | Listing 1 (p. 3262) | `coarseningFactor=NOT_ALLOWED` | **`GENERIC_METHOD_LISTING_ONLY`** |
+| **`elementCountLimit`**| Listing 1 (p. 3262) | `elementCountLimit=None` | **`GENERIC_METHOD_LISTING_ONLY`** |
+| **Adaptive Cycles** | Sec. 3 & Sec. 4.1 (p. 3265) | Single pre-analysis step + single remesh pass | **`EXPLICIT_FOR_13941_CASE`** (1 cycle) |
+| **Coarse Global Seed** | Sec. 4.1 (p. 3265) | *"global mesh size of 0.02 mm without local mesh refinement"* | **`EXPLICIT_FOR_13941_CASE`** ($h_{\text{cms}}=0.02\,\text{mm}$) |
+| **Coarse Element Count**| Sec. 4.1 | Not stated for initial coarse mesh | **`NOT_STATED_FOR_13941_CASE`** |
+| **CAE Meshing Algorithm**| Abaqus Defaults | Free quad-dominated meshing algorithm omitted from text | **`NOT_STATED_FOR_13941_CASE`** |
+| **Seed Curvature Controls**| Abaqus Defaults | `deviationFactor` and `minSizeFactor` omitted from text | **`NOT_STATED_FOR_13941_CASE`** |
+| **Ligament Partitioning**| Geometry Definition | Slit seam line vs full-domain horizontal guide partition omitted | **`NOT_STATED_FOR_13941_CASE`** |
+
+> [!WARNING]
+> **Key Finding**:  
+> The value `errorTarget=1.0` appears **only in generic method Listing 1** and is **never stated in the Section 4.1 narrative describing the 13,941 mesh**.  
+> The ~13,941 mesh must **NOT** be described as a verified 1% publication case.
+
+---
+
+## 3. What Remains Genuinely Unknown (`UNKNOWN / EXTERNAL_BLOCK`)
+
+1. **Effective Error Target of Literature Baseline**:
+   - The exact numerical `errorTarget` passed to `RemeshingRule` for the 13,941-element model is omitted from Section 4.1.
+   - Preserved status: **`LITERATURE_EFFECTIVE_ERROR_TARGET_NOT_ESTABLISHED`**.
+2. **Coarse Pre-Analysis Mesh Topology**:
+   - The initial finite element count and node count of Pandey & Kumar's coarse mesh are unpublished.
+3. **CAE Mesh Generation & Seed Constraints**:
+   - Free meshing algorithm (`MEDIAL_AXIS` vs `ADVANCING_FRONT`), seed curvature/deviation controls (`deviationFactor`, `minSizeFactor`), and whether a guide partition crossed the intact ligament ($y = 0.5\,\text{mm}, 0.5 \le x \le 1.0\,\text{mm}$) are unpublished.
+4. **Proprietary Remeshing Sizing Engine**:
+   - Internal sizing smoothers, gradient damping, or element bounding in Dassault Systèmes' `adaptiveRemesh` engine are proprietary and inaccessible without author clarification.
+
+---
+
+## 4. Supervisor / Human Decision Required
+
+All accessible publication-supported one-factor parameter investigations are **exhausted**. To avoid unscientific parameter tuning (e.g. arbitrarily forcing 2% or adding artificial element caps), the human supervisor is presented with exactly **two scientific choices**:
+
+```text
++-------------------------------------------------------------------------------------------------------------------------------+
+|                                            SUPERVISOR DECISION CHOICES FOR GATE 5                                             |
++-------------------------------------------------------------------------------------------------------------------------------+
+| CHOICE A: ACCEPT GATE 5 AS EXTERNALLY BLOCKED WITH CURRENT REPRODUCIBILITY BOUNDARY                                           |
+|   - Formally close Gate 5 as CLOSED_UNRESOLVED_DUE_TO_MISSING_PUBLISHED_OR_INTERNAL_SIZING_INFORMATION.                       |
+|   - Retain 71,320 elements as the publication-literal reconstruction of Listing 1 (errorTarget=1.0).                          |
+|   - Report the ~13,941 literature mesh as an under-specified external data point with unstated effective error target.        |
+|   - Freeze Gate-5 runtime simulations and proceed with full-fracture mechanical requalification of the 71,320 mesh (Gate 6).  |
++-------------------------------------------------------------------------------------------------------------------------------+
+| CHOICE B: AUTHORIZE SENDING MINIMAL AUTHOR-INFORMATION REQUEST                                                                |
+|   - Authorize dispatching the prepared 4-point technical inquiry to the corresponding authors (Pandey & Kumar).              |
+|   - Maintain Gate 5 as GATE5_REPRODUCTION_DISCREPANCY_RESOLUTION_ACTIVE pending author response.                              |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## 5. Minimal Author-Information Request (UNSENT Pending Approval)
+
+The following four questions represent the exact, non-redundant information boundary:
+
+> **Technical Reproducibility Inquiry for Pandey & Kumar (2025, CMES 144(3))**:
+> 1. **Abaqus/CAE Coarse Mesh Generation**: Which free meshing algorithm was assigned to the $1.0 \times 1.0\,\text{mm}$ plate (`MEDIAL_AXIS` or `ADVANCING_FRONT`), and was the geometry partitioned across the entire width ($y = 0.5\,\text{mm}, 0 \le x \le 1.0\,\text{mm}$) or only along the crack seam ($0 \le x \le 0.5\,\text{mm}$)?
+> 2. **Part Seed Controls**: Were default part seed curvature/deviation controls modified (`deviationFactor`, `minSizeFactor`) during part seeding?
+> 3. **Initial Coarse Mesh Counts**: What were the exact initial finite element and node counts of the coarse pre-analysis mesh prior to remeshing?
+> 4. **Remeshing Rule Arguments**: What exact numerical `errorTarget` (and any other arguments such as `elementCountLimit` or modified `coarseningFactor`) was supplied to `mdb.models[...].RemeshingRule` for the 13,941-element Mode-I simulation?
+
+*Correspondence Status: **UNSENT pending explicit human/supervisor authorization**.*

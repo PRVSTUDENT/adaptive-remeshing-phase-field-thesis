@@ -39,7 +39,7 @@ In single-CPU / serial execution, `COMMON/KUSER/USRVAR(N_CAPACITY, NSTV, 4)` act
 Under thread-parallel execution (`ncpus > 1`), multiple threads execute UEL calls simultaneously. If thread A executes JTYPE=1 while thread B executes JTYPE=2 for an overlapping element range without mutex synchronization, thread A reads stale or partially-written history $H$ from `USRVAR`, violating deterministic convergence.
 
 ### MPI Rank-Local Replication Risk:
-Under MPI domain decomposition, element sets are partitioned across distinct process ranks. Memory in `COMMON/KUSER/USRVAR` is rank-local and not synchronized by Abaqus across MPI processes. When physical element $k$ (Phase UEL) resides on MPI Rank 0 and its paired element $k + N_{\text{phys}}$ (Displacement UEL) resides on MPI Rank 1, `USRVAR` reads across ranks fail silently, returning default $0.0$.
+Under MPI domain decomposition, element sets are partitioned across distinct process ranks. Memory in `COMMON/KUSER/USRVAR` is rank-local and not synchronized by Abaqus across MPI processes. When underlying mesh element $k$ (Phase UEL) resides on MPI Rank 0 and its co-located companion element $k + N_{\text{elem}}$ (Displacement UEL) resides on MPI Rank 1, `USRVAR` reads across ranks fail silently, returning default $0.0$.
 
 ---
 

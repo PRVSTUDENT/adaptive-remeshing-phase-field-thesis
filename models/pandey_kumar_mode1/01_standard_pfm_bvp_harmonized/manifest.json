@@ -1,0 +1,20 @@
+{
+  "case_name": "PK_MODE1_STANDARD_PFM_HARMONIZED",
+  "benchmark": "PANDEY_KUMAR_2025_MODE_I_HARMONIZED_BVP",
+  "hypothesis": "Removing unintended top-edge u_x=0 lateral clamp restores the frozen Mode-I BVP with unconstrained Poisson contraction.",
+  "single_intended_change": "Removal of Step-1 boundary condition N_TOP, 1, 1, 0.0",
+  "n_elements": 15192,
+  "n_nodes": 15521,
+  "n_total_abaqus_nodes": 15522,
+  "local_h_mm": 0.003,
+  "l0_mm": 0.0075,
+  "E_GPa": 210.0,
+  "nu": 0.3,
+  "Gc_kJ_m2": 2.7,
+  "k_residual": 1.0e-7,
+  "inp_sha256": "4c669dc0a1ec64af0537b92490e88659e032f2935000852fa8bc96db6497f397",
+  "uel_sha256": "ed1586d6427a4b1a01d99f7e219891ec7be9fe911e066d9360724942e7d27720",
+  "notif_sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+  "datacheck_pbs_sha256": "cb353963ae1422ef7d9bf790fbf5576cc0f836f092f7d1bea4a2f01e2aa76e56",
+  "solver_pbs_sha256": "a3dda939a0b439e879ce809e126d5fb22f839b9ddde8b0a7bd2af742c286df61"
+}

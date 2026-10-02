@@ -1,0 +1,51 @@
+\section{Epistemological Audit: Knowns, Verifications, and Open Questions}
+\label{sec:epistemological_audit}
+
+\subsection{Claims Discipline and Epistemological Categorization}
+To maintain the highest scientific rigor, every finding in this Master's thesis is strictly separated into three epistemic tiers:
+\begin{enumerate}[label=\textbf{Tier \arabic*:},leftmargin=18mm,itemsep=0.5pt,topsep=1pt]
+  \item \textbf{I Know This:} Analytical definitions, benchmark geometry, constitutive constants, and published literal text.
+  \item \textbf{I Verified This Numerically:} Empirical results demonstrated by exact solver runs, output database extractions, and SHA-256 checksums.
+  \item \textbf{I Do Not Yet Know This:} Genuine scientific open questions arising from omitted publication details or software internals.
+\end{enumerate}
+
+\begin{table}[htbp]
+  \centering
+  \scriptsize
+  \renewcommand{\arraystretch}{1.08}
+  \caption{Comprehensive epistemological audit table for the Mode-I adaptive remeshing reproduction.}
+  \label{tab:epistemological_matrix}
+  \begin{tabularx}{\textwidth}{L{52mm} L{42mm} L{48mm}}
+    \toprule
+    \textbf{Scientific Statement / Feature} & \textbf{Epistemic Status} & \textbf{Empirical Evidence / Basis} \\
+    \midrule
+    Plate geometry ($1\times 1\,\mathrm{mm}$) and sharp crack seam ($a_0 = 0.5\,\mathrm{mm}$, $y=0.5\,\mathrm{mm}$) & \textbf{I know this from theory \& definition} & Benchmark specification; zero-gap slit seam representation. \\
+    \addlinespace
+    Elastic constants ($E=210\,\mathrm{GPa}, \nu=0.3$) and fracture parameters ($G_c=2.7\,\mathrm{N/mm}, \ell_0=7.5\,\mu\mathrm{m}$) & \textbf{I know this from the publication} & Pandey \& Kumar \citep{Pandey2025}, Section~4.1; Table~1. \\
+    \addlinespace
+    RemeshingRule parameters (\texttt{MISESERI}, $\texttt{errorTarget}=1.0$, $h_{\min}=0.001$, $h_{\max}=0.020$) & \textbf{I know this from the publication} & Pandey \& Kumar \citep{Pandey2025}, Listing~1 (hard-coded parameters). \\
+    \addlinespace
+    Fixed-mesh reference reproduces literature ($F_{\max}=0.7578\,\mathrm{kN}$, $u=5.86\,\mu\mathrm{m}$, $K_0=137.95\,\mathrm{kN/mm}$) & \textbf{I verified this numerically} & Job \texttt{1398090}; $15{,}192$ elements; $-0.029\%$ error vs literature anchor. \\
+    \addlinespace
+    Canonical Mode-I pre-analysis consists of $2{,}906$ elements and $2{,}906$ \texttt{WHOLE\_ELEMENT} errors & \textbf{I verified this numerically} & \texttt{JOB1\_LOAD\_1p0X.odb} field extraction; retired old $3{,}930$-row dataset. \\
+    \addlinespace
+    Abaqus \texttt{pre} enforces $\le 16$ entries per line in free-format \texttt{*NSET} without \texttt{GENERATE} & \textbf{I verified this numerically} & Job \texttt{1404318} parser limit test; Abaqus documentation \citep{Abaqus2023}. \\
+    \addlinespace
+    Stiffness anomaly was caused by \texttt{*NSET} 16-entry limit where Abaqus issued preprocessing warnings and retained only 16 of 150 \texttt{N\_BOTTOM} nodes & \textbf{I verified the causal mechanism} & Verified \texttt{.dat} warnings; bottom-edge lift up to $\approx 48.34\%$ of stroke in malformed case vs $u_2=0$ in corrected case. \\
+    \addlinespace
+    Line wrapping ($\le 16$ items/line) recovers reference stiffness ($K_0=138.021\,\mathrm{kN/mm}$ frozen) & \textbf{I verified this numerically} & Job \texttt{1405044} (frozen); Job \texttt{1404933} (full fracture $K_0 \approx 137.821\,\mathrm{kN/mm}$). \\
+    \addlinespace
+    Solver asymmetry and companion elements do not affect structural stiffness ($0.000\%$ change) & \textbf{I verified this numerically} & Factorial runs 72b--79; formal retraction of asymmetry hypothesis. \\
+    \addlinespace
+    Literal 1\% remeshing generates $71{,}320$ elements identically across Abaqus 2019--2023 & \textbf{I verified this numerically} & Four-generation Linux release audit (Abaqus 2019, 2021, 2022, 2023 identical). \\
+    \addlinespace
+    Process zone contains $9{,}061$ elements; far-field and transition account for $62{,}259$ elements ($87.3\%$) of our reconstruction & \textbf{I verified this numerically} & 5-region spatial decomposition of 71,320-element mesh (Figure~\ref{fig:mesh_discrepancy}). \\
+    \addlinespace
+    Which unpublished implementation detail accounts for the reported $\approx 13{,}941$-element mesh & \textbf{I do not yet know this} & Accessible evidence does not identify unpublished settings (e.g. region definition or call-site linkage); hypotheses unestablished without author input. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\begin{quote}
+\textbf{Epistemological Principle:} Stating \emph{``I do not yet know this''} is scientifically superior to advancing an unsupported hypothesis. The thesis maintains absolute fidelity to demonstrated numerical evidence.
+\end{quote}

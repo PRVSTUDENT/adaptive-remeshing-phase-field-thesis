@@ -1,6 +1,227 @@
-# Project Phase Checklist
+﻿# Master Thesis Project Phase Checklist
+
+## SUPERVISOR-ALIGNED MASTER GATE DASHBOARD (MODE-I BENCHMARK ROADMAP)
+
+### Active Scientific Roadmap & Governance State:
+- **Governing Directive**: *"We need to have understood everything related to the first model before we increase complexity."*
+- **Active Phase**: MODE1_GATE6B_STEP2_ACTIVE_EVALUATION_AND_CONTINUATION
+- **Next Supervisor Meeting**: Thursday, 08 October 2026, 10:00
+- **Active Gate**: **GATE 6B: MODE-I ENERGETIC & CONVERGENCE QUALIFICATION & STEP-2 ADAPTIVE MECHANICAL QUALIFICATION (ACTIVE_EVALUATION_AND_CONTINUATION)**
+- **Gate 6C Status**: NOT_YET_PERFORMED_PENDING_GATE_6B
+- **Scope Restriction**: Mode-II, Mixed Mode, Higher-Complexity Benchmarks, and Gate 7 (ABAQUSER) are strictly **ON HOLD**.
+
+---
+
+### Master Gate Summary Dashboard
+
+| Gate ID | Gate Name & Description | Governed Status | Key Evidence / Artifact Reference |
+| :--- | :--- | :---: | :--- |
+| **Gate 0** | Source & Scope Freeze | **CLOSED_PASSED** | Pandey & Kumar (2025) DOI indexed, benchmark geometry and parameters frozen. |
+| **Gate 1** | Conventional Mode-I Reference | **CLOSED_PASSED** | Job 1398090 (15,192 el): $K_0 = 137.95\,\text{kN/mm}$, $F_{\max} = 0.758\,\text{kN}$, $u_{\text{peak}} = 0.00586\,\text{mm}$. |
+| **Gate 2** | Multi-Quantity Convergence Qualification | **CLOSED_PASSED** | Multi-quantity baseline established (F-u, $K_0$, $F_{\max}$, $u_{\text{peak}}$, energy evolution). |
+| **Gate 3** | MISESERI Mechanism Verification | **CLOSED_PASSED** | Linear-elastic continuum stress recovery indicator verified (2,906 CPE4/CPE3 elements, 2,988 nodes). |
+| **Gate 4** | Native Python Refinement Implementation | **CLOSED_VERIFIED** | Automated `RemeshingRule` and `adaptiveRemesh` workflow verified. |
+| **Gate 5** | Native-Remesh Reproduction (71k vs 14k) | **SUPERVISOR_ACCEPTED_LIMITATION_CLOSED** | Supervisor accepted missing publication information boundary; sensitivity trends documented. |
+| **Gate 6A** | Mechanical Mode-I Implementation | **RESOLVED_AND_CLOSED** | N_BOTTOM 16-entry card limit defect identified and resolved with wrapped cards (Jobs 1405044, 1404933). |
+| **Gate 6B** | Mode-I Energetic & Convergence Qualification | **ACTIVE_EVALUATION_AND_CONTINUATION** | UEL energy audit complete; governed source SHA-256 `5CD0D2C0...`; $S_1 \to S_4$ spatial convergence qualified ($+1.56\%$); `GLOBAL_ENERGY_IDENTITY — NOT_YET_CLOSED`; Job 1409577 running in background; candidate Step-2 verification Job 1409585 running. |
+| **Gate 6C** | Mode-I State-Transfer Energy Preservation | **NOT_YET_PERFORMED_PENDING_GATE_6B** | Blocked until supervisor review and decision on Gate 6B. |
+| **Gate 7** | ABAQUSER Integration / Visualization | **ON_HOLD** | Blocked on external ABAQUSER dependency until Mode-I fundamentals qualified. |
+| **Gate 8** | Higher-Complexity Benchmarks | **ON_HOLD** | Mode-II, mixed mode, and complex geometries held until Mode-I qualified. |
+| **Gate 9** | Parameter Recommendations | **ACTIVE_CONTINUOUSLY** | Sensitivity trends and mesh sizing guidance continuously maintained. |
+| **Gate 10** | Future-User Documentation | **ACTIVE_CONTINUOUSLY** | Reproduction package (.inp, .for, .py, commands.txt) maintained. |
+| **Gate 11** | Thesis Synthesis | **ACTIVE_CONTINUOUSLY** | Thesis drafts aligned with scientific logic; awaiting 08-Oct-2026 supervisor meeting. |
+
+---
+
+## GATE 0: SOURCE & SCOPE FREEZE (PROPOSAL TASKS 1-2) -- CLOSED_PASSED
+
+| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+| :--- | :--- | :---: | :--- |
+| **G0-01** | **Primary Literature & DOI Indexed** | **PASS** | references/notes/pandey_kumar_2025.md & references/pandey_pdf_text.txt<br>Pandey & Kumar (2025), *CMES*, 144(3), 3251â€“3276. doi:10.32604/cmes.2025.067858 |
+| **G0-02** | **Formal Proposal & Execution Plan Indexed** | **PASS** | Literature review/MA_AdaptiveRemeshing_Proposal_2026.pdf & docs/supervisor_reports/Supervisor_Aligned_Integrated_Thesis_Proposal_Plan.md<br>Tasks 1â€“10 formally mapped to sequential gates. |
+| **G0-03** | **Mode-I Benchmark Parameters Frozen** | **PASS** | $\Omega = 1.0 \times 1.0\,\text{mm}$, $a_0 = 0.5\,\text{mm}$, $E = 210\,\text{GPa}$, $\nu = 0.3$, $G_c = 2.7\times 10^{-3}\,\text{kN/mm}$, $l_0 = 0.0075\,\text{mm}$, $k = 10^{-7}$.<br>Verified in models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.inp. |
+| **G0-04** | **Single Active Scientific Question Stated** | **PASS** | *"What is the quantitative baseline response of the Mode-I benchmark, and why does native error-indicator refinement behave as observed?"* |
+| **G0-05** | **Complexity Pause Imposed (Mode-II & State Transfer)** | **HOLD** | Mode-II work (models/generated/mode_ii/) and multi-step state transfer (models/state_transfer/) are frozen on **HOLD** until Mode-I is fully understood. |
+
+---
+
+## GATE 1: CONVENTIONAL MODE-I REFERENCE (PROPOSAL TASK 3) -- CLOSED_PASSED
+
+| Item ID | Verification Requirement | Governed Status | Exact Numerical / Evidence Value | Literature Comparison & Audit Basis |
+| :--- | :--- | :---: | :--- | :--- |
+| **G1-01** | **Benchmark Geometry** | **PASS** | $\Omega = 1.0\,\text{mm} \times 1.0\,\text{mm}$ square domain | Exact match to Pandey & Kumar (2025) Sec. 4.1 Fig. 4a. |
+| **G1-02** | **Crack Representation** | **PASS** | $a_0 = 0.5\,\text{mm}$ zero-gap sharp seam along $y=0.5\,\text{mm}$ ($0 \le x \le 0.5\,\text{mm}$) | Model uses zero-gap seam to prevent compliance distortion. Literature describes sharp edge crack. |
+| **G1-03** | **Boundary Conditions** | **PASS** | Bottom ($y=0$): $u_y=0$, pinned point ($x=0, y=0$): $u_x=0$; Top ($y=1$): $u_y$ displacement control (RP 999999) | Correct roller boundary condition restored. |
+| **G1-04** | **Material & Phase-Field Properties** | **PASS** | $E = 210.0\,\text{kN/mm}^2$ ($210\,\text{GPa}$), $\nu = 0.3$, $G_c = 0.0027\,\text{kN/mm}$, $l_0 = 0.0075\,\text{mm}$, $k = 10^{-7}$ | Exact match to published constants in Sec. 4.1 (Page 3264). |
+| **G1-05** | **Fixed-Mesh Topology & Seeding** | **PASS** | 15,192 finite elements ($h_{\text{refined}} = 0.003\,\text{mm}$ in corridor, $h_{\text{global}} = 0.02\,\text{mm}$); 15,521 mesh nodes (15,522 total with RP 999999) | Standard PFM structured baseline mesh (manifest.json, PK_MODE1_STANDARD_PFM.inp). Node count 15,521 verified. |
+| **G1-06** | **Complete -u$ Response Curve** | **PASS** | Full monotonic curve: linear elastic $\to$ damage localization $\to$ peak $\to$ sharp softening $\to$ residual | Extracted from PK_MODE1_STANDARD_PFM.dat across 7,000 increments. |
+| **G1-07** | **Peak Reaction Force {\max}$** | **PASS** | $F_{\max} = 0.757778\,\text{kN}$ | $-0.029\%$ error vs digitized literature target ($\sim 0.758\,\text{kN}$ digitized from Fig. 7(a)). |
+| **G1-08** | **Displacement at Peak (F_{\max})$** | **PASS** | $u(F_{\max}) = 0.005857\,\text{mm}$ (Increment 2857) | $-0.051\%$ error vs digitized literature target ($\sim 0.005860\,\text{mm}$ digitized from Fig. 7(a)). |
+| **G1-09** | **Initial Global Structural Stiffness $** | **PASS** | $K_0 = 137.945520\,\text{kN/mm}$ ($N=400$, $u \le 0.0010\,\text{mm}$, $R^2 = 0.99999960$) | Rigorous structural stiffness definition $K_0 = dF/du|_{\text{elastic}}$. Confirms specimen compliance restoration vs notch. |
+| **G1-10** | **Post-Peak Endpoint & Load Drop** | **PASS** | $F_{\text{final}} = 0.000232\,\text{kN}$ at $u = 0.010000\,\text{mm}$ ($99.97\%$ load drop) | Mechanical load drop complete. |
+| **G1-11** | **Computational Metadata & Provenance** | **PASS** | Job ID: 1398090.mmaster02, Abaqus 2023, Walltime: 06:31:14, CPUT: 06:30:34, Cutbacks: 0, Exit: 0 | PK_MODE1_STANDARD_PFM_SOLVE.out & HPC_JOB_LEDGER.csv. Baseline qualified. |
+
+---
+
+## GATE 2: MULTI-QUANTITY CONVERGENCE QUALIFICATION -- CLOSED_PASSED
+
+| Item ID | Verification Quantity / Dimension | Governed Status | Exact Numerical / Evidence Value | Method / Artifact Reference & Evaluation Finding |
+| :--- | :--- | :---: | :--- | :--- |
+| **G2-01** | **Complete -u$ Response History** | **PASS** | 7,000 increments evaluated; linear elastic, localization, peak, softening, residual unloading | Extracted from PK_MODE1_STANDARD_PFM.dat. Full monotonic curve established across all 7,000 increments. |
+| **G2-02** | **Initial Structural Stiffness $** | **PASS** | $K_0 = 137.945520\,\text{kN/mm}$ ($N=400$, $u \le 0.0010\,\text{mm}$, $R^2 = 0.99999960$) | Linear regression on initial elastic range. Canonical reference stiffness value. |
+| **G2-03** | **Peak Reaction Force {\max}$** | **PASS** | $F_{\max} = 0.757778\,\text{kN}$ | $-0.029\%$ error vs published target ($0.758\,\text{kN}$, digitized from Pandey & Kumar 2025 Fig. 7(a)). |
+| **G2-04** | **Displacement at Peak (F_{\max})$** | **PASS** | $u(F_{\max}) = 0.005857\,\text{mm}$ (Increment 2857) | $-0.051\%$ error vs published target ($0.005860\,\text{mm}$). |
+| **G2-05** | **Damage Field Distribution ($-field)** | **PASS** | $d_{\max} \ge 1.0004$ across $S_1$--$ series with dense spatial companion outputs | Captured via Layer 3 companion UMAT elements (SDV14/SDV1). |
+| **G2-06** | **Crack-Path & Localization Profile** | **PASS** | Horizontal propagation along symmetry plane $y = 0.5\,\text{mm}$ | Spatial profile verified in Section 7.5 of meeting report. |
+| **G2-07** | **Energy Evolution & Balance** | **PASS** | $W_{\text{trap}}$, $E_{\text{elas}}$, $E_{\text{frac}}$ evaluated; pre-peak $\Delta_{\text{book}} < 0.007\%$ | Energy output audit completed and documented in Section 7.6. |
+| **G2-08** | **Computational Cost & Telemetry** | **PASS** | 0 cutbacks across standard baseline; walltime documented | Extracted from .sta and scheduler records. |
+
+---
+
+## GATE 3: MISESERI MECHANISM VERIFICATION (TASK 4 PREREQUISITE) -- CLOSED_PASSED
+
+| Item ID | Verification Requirement | Governed Status | Exact Numerical / Evidence Value | Literature Comparison & Audit Basis |
+| :--- | :--- | :---: | :--- | :--- |
+| **G3-01** | **Physical Definition of MISESERI** | **PASS** | Recovered von Mises stress discretization error indicator via Zienkiewicz-Zhu SPR: $\text{MISESERI} = \sqrt{\frac{3}{2}\mathbf{s}_e : \mathbf{s}_e}$ | Stress recovery error estimate on linear-elastic continuum stress field $\mathbf{\sigma}_h$. Not an empirical heuristic. |
+| **G3-02** | **Strict Epistemological Distinction (Hard Stop Rule)** | **PASS** | **NOT phase-field error, NOT damage error** | Verified from PK_MODE1_AUX_CONTINUUM.inp: calculated on linear-elastic CPS4 continuum pre-analysis before damage onset ($d \equiv 0$). |
+| **G3-03** | **Units & Dimensionless Normalization** | **PASS** | Units: $\mathrm{MPa}$ or $\mathrm{kN/mm^2}$ (stress). Relative indicator $\eta_e = \text{MISESERI}_e / \text{MISESAVG}$ is dimensionless | Normalized against domain-average Mises equivalent stress `MISESAVG` for comparison with `errorTarget`. |
+| **G3-04** | **Element Set & Step Output Position** | **PASS** | Evaluated on `All_elem` (CPS4/CPE4 continuum elements) at element centroids | Element-field variable in Abaqus ODB. 2,906 WHOLE_ELEMENT MISESERI values (2,818 CPE4 + 88 CPE3) and 2,988 nodes. |
+| **G3-05** | **Singularity Marking & Spatial Correspondence** | **PASS** | Crack tip peak: 1.0836; Far-field mean: 0.0075 ($>144\times$ ratio). Corresponds exactly to crack-tip $1/\sqrt{r}$ stress singularity | Under-resolved crack-tip stress gradient drives local element sizing calculation $h(x,y) \to h_{\min} = 0.001\,\text{mm}$ along the crack propagation corridor. |
+| **G3-06** | **Loading Schedule Invariance** | **PASS** | Difference between 1-step (10 incs) and 2-step (1500 incs) loading is $<0.24\%$ (65,982 vs 66,142 elements) | Proves sizing response is governed by spatial stress distribution, not artificial load-path transients. |
+| **G3-07** | **Unit Test & API Verification** | **PASS** | 11/11 unit tests passed (`test_pandey_kumar_adaptive_refinement.py`: 8/8, `test_pandey_kumar_step_increment_consistency.py`: 3/3) | Verified native Python remeshing rule construction, element mapping, and step-increment consistency. |
+
+---
+
+## GATE 4: NATIVE PYTHON REFINEMENT IMPLEMENTATION -- CLOSED_VERIFIED
+
+| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+| :--- | :--- | :---: | :--- |
+| **G4-01** | **Automated CAE Remeshing Rule Construction** | **PASS** | Verified native Python script constructing RemeshingRule on linear-elastic pre-analysis ODB. |
+| **G4-02** | **Multi-Layer Dual UEL/UMAT Layer Reconstruction** | **PASS** | Layer 1 (Phase U1), Layer 2 (Mech U2), Layer 3 (Companion CPE4/UMAT) reconstructed deterministically. |
+| **G4-03** | **Boundary Condition Preservation** | **PASS** | Preserves roller BC ($u_y=0$ on $y=0$, pinned point $x=0,y=0$), displacement-control top RP coupling. |
+
+---
+
+## GATE 5: NATIVE-REMESH REPRODUCTION (71k vs 14k) -- CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION
+
+| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+| :--- | :--- | :---: | :--- |
+| **G5-01** | **Missing Information Boundary Formal Acceptance** | **PASS** | Supervisor explicitly accepted publication missing-information boundary (17-Sep-2026 meeting). Exact 13,941 matching closed. |
+| **G5-02** | **Sizing Sensitivity Trend Documentation** | **PASS** | Tested sensitivity trends documented: errorTarget=1.0 (71,320 el), 2.0 (17,687 el), 3.0 (8,120 el), 5.0 (4,356 el). |
+| **G5-03** | **Author Inquiry Boundary** | **PASS** | `AUTHOR_INFORMATION_REQUEST_READY_FOR_HUMAN_APPROVAL_UNSENT` preserved un-sent. |
+
+---
+
+## GATE 6A: MECHANICAL MODE-I IMPLEMENTATION (N_BOTTOM FIX) -- RESOLVED_AND_CLOSED
+
+| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+| :--- | :--- | :---: | :--- |
+| **G6A-01** | **N_BOTTOM Card Limit Defect Root Cause** | **PASS** | Abaqus keyword/NSET 16-entry limit silently omitted 134/150 bottom nodes. Corrected by wrapping cards across lines. |
+| **G6A-02** | **Mechanical Response Recovery** | **PASS** | $K_0 = 137.820804\,\text{kN/mm}$ ($-0.09\%$ vs reference), $F_{\max} = 0.745325\,\text{kN}$, Jobs 1405044, 1404933 verified. |
+
+---
+
+## GATE 6B: MODE-I ENERGETIC & CONVERGENCE QUALIFICATION -- FROZEN_PENDING_SUPERVISOR_REVIEW_AND_DECISION
+
+| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+| :--- | :--- | :---: | :--- |
+| **G6B-01** | **Governed Production UEL Fortran Source** | **PASS** | models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for (SHA-256 `5CD0D2C015C9EAD91C99D7A744156CC86F5B5EA26473BBED7D6E5515FE30FA46`, 901 lines, 100% bit-identical across batch subdirs). |
+| **G6B-02** | **Energy State Variables & Unit Semantics** | **PASS** | SDV17 ($E_{\text{frac}}$), SDV18 ($E_{\text{elas}}$) evaluated in $\text{kN}\cdot\text{mm} = \text{J}$; SDV19 ($\bar{\psi}_f$), SDV20 ($\bar{\psi}_e$) in $\text{kN/mm} = \text{J/mm}^2$ (volumetric $\text{J/mm}^3$ under $B = 1.0\,\text{mm}$). |
+| **G6B-03** | **Single-IP Extraction Rule** | **PASS** | Single-IP1 extraction verified to prevent $4\times$ overcounting artifact from 4-IP companion elements. |
+| **G6B-04** | **Spatial Discretization Convergence ( \to S_4$)** | **PASS** | Post-peak fracture energy converges to $2.33886 \to 2.37531\,\text{mJ}$ ($+1.56\%$ change, $1.94\%$ min-max spread), classified `STABLE_OVER_TESTED_RANGE`. |
+| **G6B-05** | **Global Energy Balance Identity** | **OPEN** | `GLOBAL_ENERGY_IDENTITY â€” NOT_YET_CLOSED`. Pre-peak $\Delta_{\text{book}} < 0.007\%$; post-peak differences strictly designated as bookkeeping differences for supervisor review. |
+| **G6B-06** | **Pre-Meeting Meeting Pack Frozen** | **PASS** | 26-page report_main.pdf (SHA-256 `4BE9136E...`) and SUPERVISOR_REQUEST_COMPLIANCE_CHECKLIST.md (Version 1.3, SHA-256 `CBFC617F...`) completed and frozen; all 21 figures have attached scientific conclusions. |
+
+---
+
+## GATE 6C: MODE-I STATE-TRANSFER CONSERVATION -- NOT_YET_PERFORMED_PENDING_GATE_6B
+
+| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+| :--- | :--- | :---: | :--- |
+| **G6C-01** | **State-Transfer Energy Preservation** | **PENDING** | On hold until supervisor review and decision on Gate 6B. |
+
+---
+
+## GATE 7: ABAQUSER INTEGRATION / VISUALIZATION -- ON_HOLD
+
+| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+| :--- | :--- | :---: | :--- |
+| **G7-01** | **Authentic ABAQUSER Tool Integration** | **HOLD** | Blocked on external ABAQUSER dependency until Mode-I fundamentals are qualified. |
+
+---
+
+## GATE 8: HIGHER-COMPLEXITY BENCHMARKS (MODE-II / MIXED MODE) -- ON_HOLD
+
+| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+| :--- | :--- | :---: | :--- |
+| **G8-01** | **Mode-II and Higher Complexity Reproduction** | **HOLD** | Paused per supervisor governing directive until Mode-I is fully understood. |
+
+---
+
+## GATE 9: PARAMETER RECOMMENDATIONS -- ACTIVE_CONTINUOUSLY
+
+| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+| :--- | :--- | :---: | :--- |
+| **G9-01** | **Mesh Sizing & Numerical Recommendations** | **ACTIVE** | Maintained continuously based on verified sensitivity trends. |
+
+---
+
+## GATE 10: FUTURE-USER DOCUMENTATION & REPRODUCTION PACKAGE -- ACTIVE_CONTINUOUSLY
+
+| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+| :--- | :--- | :---: | :--- |
+| **G10-01** | **Lightweight Reproduction Package** | **ACTIVE** | Clean reproduction package (.inp, .for, .py, commands.txt) maintained without multi-GB ODB transfers. |
+
+---
+
+## GATE 11: THESIS SYNTHESIS -- ACTIVE_CONTINUOUSLY
+
+| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+| :--- | :--- | :---: | :--- |
+| **G11-01** | **Master Thesis Report & Synthesis** | **ACTIVE** | 65-page Faculty Build V6 Audited aligned with Mode-I pack; awaiting 08-Oct-2026 supervisor meeting. |
+
+---
+## F98STATE Corrected Restart-2 Candidate Preparation & Qualification Complete: `M2STATE_FRACFIX_RESTART2R11`
+
+- [x] Ingestion & Handoff Contract:
+  - Ingests source state exclusively from validated job `1389278.mmaster02` (`M2STATE_FRACFIX_RESTART1R1R11`) Frame 15 ($u_1 = 0.010000\text{ mm}$, $RF_1 = 0.123223\text{ kN}$, $d_{\max} = 0.169900$, $H_{\max} = 0.163800\text{ kN/mm}^2$).
+  - Ingests authoritative runtime history `SDV16/H` field from [`M2STATE_RESTART1R1R11_RESTART2_SOURCE_TRANSFER_ARTIFACT.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/generated/mode_ii/production_state_transfer_batch/M2STATE_FRACFIX_RESTART1R1R11/M2STATE_RESTART1R1R11_RESTART2_SOURCE_TRANSFER_ARTIFACT.json).
+  - Prescribes Step 1 Phase Initialization boundary condition on RP 99999 as $u_1 = 0.010000\text{ mm}$ (matching handoff displacement) to guarantee Step 1 force continuity.
+- [x] Target Mesh & Physical Formulations:
+  - Preserves exact PK10R1 nonmatching structured mesh topology (9,849 nodes, 9,612 physical elements: 9,588 quads, 24 tris, $\det J > 0$).
+  - Clean 6-slot UEL Property ABI (`PROPS(1..5)=(l0, Gc, E, nu, k)`, `PROPS(6)=9612.0`).
+  - Fortran UEL `f42_mixed_uel.for` with safe $2 \times 2$ Jacobian inversion and consistent Newton phase residual vector.
+- [x] Local Unit Tests & Sealed Package Manifest:
+  - `tests/unit/test_m2state_fracfix_restart2r11.py`: **100% PASS** (6/6 tests passed).
+  - Sealed SHA256 package manifest: `494c77dd5985da6d84231f1041932a95edd9c7d9580dcf3baedf4f66eeb0053c`.
+  - Guarded submit wrapper: `submit_m2state_fracfix_restart2r11.sh` (`--dry-run` pass, 0 qsub calls).
+- [x] Governance Boundary Maintained:
+  - `authorization_consumed = false`, `new_submission_authorized = false`, `automatic_retry = false`, `qsub_called = false`.
+
+---
+
+## F97STATE Instrumented Restart-1 Trajectory Evaluation & Scientific Acceptance
+
+
+- [x] Scheduler & Technical Verdict:
+  - Job `1389278.mmaster02` (`M2STATE_FRACFIX_RESTART1R1R11`) completed with `exit_code = 0`, walltime `00:00:35`, cputime `00:00:28`.
+  - Abaqus/Standard executed Step 1 (1 inc) and Step 2 (15 incs) to terminal displacement $u_1 = 0.010000\text{ mm}$ with 0 cutbacks, 0 NaNs, 0 errors (`THE ANALYSIS HAS COMPLETED SUCCESSFULLY`).
+- [x] Scientific Acceptance Gates Verified:
+  - Step 1 Force Continuity: $RF_1 = 0.063678713\text{ kN}$ vs predecessor MM reference $0.064100\text{ kN} \implies \Delta_{\text{rel}} = \mathbf{0.657\%} \le 2.0\%$ force continuity gate (`PASS`).
+  - Global Force Balance: Max error across all 16 increments is $1.362 \times 10^{-6}\text{ kN} \ll 10^{-5}\text{ kN}$ (`PASS`).
+  - Terminal Reaction Force: $RF_1 = 0.123223\text{ kN}$ at $u_1 = 0.010000\text{ mm}$ (matches reference `1389241` to 6 sig figs).
+- [x] Authoritative Integration-Point SDV Recovery:
+  - Directly recovered `SDV16/H`, `SDV14/d`, and `SDV15/g(d)` from DAT element output tables for all 4,894 physical elements (4,766 quads + 128 tris).
+  - Phase field $d$: $d_{\min} = 1.4739 \times 10^{-7}$, $d_{\max} = 0.169900$, $d_{\text{mean}} = 0.008047$.
+  - History field $H$: $H_{\min} = 8.1500 \times 10^{-11}\text{ kN/mm}^2$, $H_{\max} = 0.163800\text{ kN/mm}^2$, $H_{\text{mean}} = 0.000780\text{ kN/mm}^2$.
+  - Degradation function $g(d)$: $g_{\min} = 0.689000$, $g_{\max} = 1.000000$, $g_{\text{mean}} = 0.984148$.
+- [x] Durable Source Artifact Generated:
+  - Created `M2STATE_RESTART1R1R11_RESTART2_SOURCE_TRANSFER_ARTIFACT.json` containing integration point data, element mappings, and provenance metadata (SHA256: `fcb78b392cb9590fedbeee65074db485a40ee18e7d0fa114ac69fafa80ff94f1`).
+
+---
 
 ## F43MODEREF7-ANCHORRECOVERY2 Real Immutable P/Q Pair Creation and Qualification for Pair 1R
+
 
 - [x] Governance & Lineage Verification:
   - `P43MODEREF7_FINAL1_created_after_qualification = true`, `P43MODEREF7_FINAL1_authorization_anchor_valid = false`, `Q43MODEREF7_FINAL1_authorization_anchor_valid = false`.
@@ -196,7 +417,7 @@
   - RP node preserved separately in Assembly.
 - [x] Validated orientation and geometry:
   - Positive signed area for all elements (0 invalid elements).
-  - Reconstructed total area = 1.00000000 mm² within numerical tolerance.
+  - Reconstructed total area = 1.00000000 mmÂ² within numerical tolerance.
 - [x] Preserved sets, equations, and boundary conditions:
   - NSETs: `RP`, `bottom_nodes`, `top_nodes`
   - ELSETS: `PHASE`, `DISP`, `UMATELEM`, `All_elem`
@@ -262,11 +483,11 @@
 
 - [x] Corrected PRE3 reference baseline in master Gate C1 comparison report:
   - Fixed erroneous placeholder representation (2,309 nodes / 2,249 elements / 100% CPE4R).
-  - Validated exact PRE3 physical mesh from canonical predecessor input deck `F43PRE3_GEOM.inp` and ODB `1385461.mmaster02`: **3,716 physical elements** (3,600 CPE4 + 116 CPE3), **3,799 Part nodes**, **3,800 Assembly nodes** (including Reference Point node 1000000), Domain Area = **1.00000000 mm²**, 0 invalid/negative/zero-area elements.
+  - Validated exact PRE3 physical mesh from canonical predecessor input deck `F43PRE3_GEOM.inp` and ODB `1385461.mmaster02`: **3,716 physical elements** (3,600 CPE4 + 116 CPE3), **3,799 Part nodes**, **3,800 Assembly nodes** (including Reference Point node 1000000), Domain Area = **1.00000000 mmÂ²**, 0 invalid/negative/zero-area elements.
 - [x] Verified frozen candidate input deck SHA-256 hashes and topology integrity:
-  - `F43REM4_PK1`: SHA256 `c21198b1e3f3f858b92bce74aff509c2b4dd59af794e2f5dfdfcdd0ce21ae35b`, 21,429 nodes, 21,397 elements, area = 1.00000000 mm², 0 invalid elements.
-  - `F43REM4_PK5`: SHA256 `87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9`, 4,998 nodes, 4,894 elements, area = 1.00000000 mm², 0 invalid elements.
-  - `F43REM4_MM`: SHA256 `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374`, 2,294 nodes, 2,206 elements, area = 1.00000000 mm², 0 invalid elements.
+  - `F43REM4_PK1`: SHA256 `c21198b1e3f3f858b92bce74aff509c2b4dd59af794e2f5dfdfcdd0ce21ae35b`, 21,429 nodes, 21,397 elements, area = 1.00000000 mmÂ², 0 invalid elements.
+  - `F43REM4_PK5`: SHA256 `87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9`, 4,998 nodes, 4,894 elements, area = 1.00000000 mmÂ², 0 invalid elements.
+  - `F43REM4_MM`: SHA256 `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374`, 2,294 nodes, 2,206 elements, area = 1.00000000 mmÂ², 0 invalid elements.
 - [x] Computed exact physical element geometry using Shoelace polygon formula ($h_{\text{area}} = \sqrt{\text{Area}}$, min/max edge lengths).
 - [x] Executed spatial polygon point-in-polygon mapping of PRE3 MISESERI distribution to all candidate refined meshes (100% assignment, 0 unassigned centroids).
 - [x] Evaluated Spearman rank correlation coefficients (raw counts and area-normalized density):
@@ -490,11 +711,11 @@ Status markers:
 - `[?]` awaiting review, approval, or missing evidence
 - `[~]` completed provisionally but not scientifically validated
 
-Gate A3 (RF–U validation use): **conditionally accepted** — supervisor Decisions **1A** and **2B**  
+Gate A3 (RFâ€“U validation use): **conditionally accepted** â€” supervisor Decisions **1A** and **2B**  
 Internal status: `gate_a3_conditionally_accepted_rf_u`; `contour_validation_deferred`; `stage_c_miseseri_preparation_authorized`  
 HPC submission: **not authorized** without explicit new approval  
 Stage A: `frozen_with_residual_scientific_limitations` (conditional Gate-A3
-RF–U acceptance does not remove provisional tolerances, post-peak dependence,
+RFâ€“U acceptance does not remove provisional tolerances, post-peak dependence,
 or deferred contour/crack-path evidence)
 
 ## Overall Phase Dashboard
@@ -505,7 +726,7 @@ or deferred contour/crack-path evidence)
 | WP1 | One-element verification | `[~]` completed provisionally | source-defined numerical checks passed under provisional tolerances | `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/` |
 | WP2A | Supplementary Molnar single-notch technical benchmark | `[~]` completed provisionally | technical pass; not exact Fig. 7 comparison | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/` |
 | WP2B | Paper-matched Molnar reconstruction | `[~]` completed provisionally | technical pass; scientific review incomplete | `runs/hpc/paper_matched_single_notch_v2/RUN_MANIFEST.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md` |
-| Gate A3 | Uniform RF–U reference scientific justification | `[~]` conditionally accepted for RF–U | 1A mesh roles + 2B contour deferred; H2-PUB validation / H1 production / H0 test | `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`; `docs/decisions/MESH_USE_POLICY.md`; `docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md` |
+| Gate A3 | Uniform RFâ€“U reference scientific justification | `[~]` conditionally accepted for RFâ€“U | 1A mesh roles + 2B contour deferred; H2-PUB validation / H1 production / H0 test | `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`; `docs/decisions/MESH_USE_POLICY.md`; `docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md` |
 | WP3 | MISESERI pre-analysis and remeshing reproduction | `[x]` closed at scoped Stage C result | C2C-v3 frozen; T5 preserved as failed guard evidence | `docs/decisions/STAGE_C_CLOSEOUT_FREEZE.md`; `runs/hpc/stage_c2/STAGE_C_FINAL_STATUS.md` |
 | WP4 | Refined phase-field benchmark and efficiency comparison | `[x]` closed at scoped Stage C result | peak/pre-peak supported; post-peak limited; crack-path H1 equivalence not supported | `runs/hpc/stage_c2/closeout/STAGE_C_CLOSEOUT_JOB_SUMMARY.md` |
 | WP5 | Evolving remesh and state transfer | `[~]` scoped completion with limitation | bounded pre-peak transfer proven; corrected mechanical restart unproven | `docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex`; `docs/decisions/STAGE_D3D_A1H0_EXECUTION_CLOSURE.md` |
@@ -590,22 +811,22 @@ or deferred contour/crack-path evidence)
 - [~] Crack-path and SDV diagnostics completed. Result: final element-mean `SDV15 >= 0.95` crack extension about `0.0505 mm`; `SDV16` monotonic; detailed SDV15 review reproduced `6113` decrease events and mapping resolution reclassified the remaining `817` non-staggered events as `insufficient_output_evidence`. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_review/CRACK_PATH_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV15_IRREVERSIBILITY_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV16_MONOTONICITY_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/SDV15_DETAILED_EVENT_DECISION.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/SDV15_MAPPING_RESOLUTION_DECISION.md`.
 - [~] Scientific decision report completed. Result: `paper_matched_v2_scientific_review_incomplete`; post-peak RF-U mismatch dominates, crack path is connected/horizontal but threshold-dependent, SDV15 label/IP mapping is resolved, and retained outputs still leave `817` above-precision non-staggered events as `insufficient_output_evidence`. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/sdv15_decrease_events_full.csv`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/sdv15_unresolved_event_mapping.csv`.
 - [?] Gate A3 supervisor-review package prepared. Result: no supervisor decision inferred; routes documented as provisional pass, waiver with limitations, keep open, or candidate-v2 scientific fail. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; `docs/decisions/MOLNAR_TARGETED_OUTPUT_RERUN_REQUIREMENTS.md`; `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`.
-- [x] Perform mesh-size / h-convergence RF–U study (lc=0.015). Solvers H0/H1/H2 technical pass; CAE job `1376236` RF–U pass; formal analysis complete. Peak/pre-peak supported; post-peak not fully demonstrated; contours not assessed. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`; `runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md`.
-- [x] Select provisional RF–U meshes from analysis: H2-PUB / H1 / H0. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`.
-- [x] Supervisor Decision **1A** recorded: H2-PUB fine RF–U validation; H1 production/report; H0 development/testing. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`; `docs/decisions/MESH_USE_POLICY.md`.
+- [x] Perform mesh-size / h-convergence RFâ€“U study (lc=0.015). Solvers H0/H1/H2 technical pass; CAE job `1376236` RFâ€“U pass; formal analysis complete. Peak/pre-peak supported; post-peak not fully demonstrated; contours not assessed. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`; `runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md`.
+- [x] Select provisional RFâ€“U meshes from analysis: H2-PUB / H1 / H0. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`.
+- [x] Supervisor Decision **1A** recorded: H2-PUB fine RFâ€“U validation; H1 production/report; H0 development/testing. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`; `docs/decisions/MESH_USE_POLICY.md`.
 - [x] Supervisor Decision **2B** recorded: contour/crack-path deferred; does not block Stage C preparation. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`.
 - [x] Freeze H0/H1/H2-PUB results, jobs, and source hashes. Evidence: `docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md`.
 - [!] Perform length-scale study. Not authorized by the current supervisor decision.
 - [!] Perform load-increment study. Not authorized by the current supervisor decision.
-- [x] Establish justified uniform fine RF–U reference (**H2-PUB**) and production mesh (**H1**). Contour/crack-path deferred (2B). Evidence: `docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md`.
-- [~] Gate A3 RF–U use conditionally accepted (1A+2B). Residual historical Stage A items may remain open. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`.
+- [x] Establish justified uniform fine RFâ€“U reference (**H2-PUB**) and production mesh (**H1**). Contour/crack-path deferred (2B). Evidence: `docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md`.
+- [~] Gate A3 RFâ€“U use conditionally accepted (1A+2B). Residual historical Stage A items may remain open. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`.
 
 ## WP3 - MISESERI Pre-Analysis And Remeshing Reproduction
 
 - [x] Stage C preparation authorized after Decisions 1A+2B. Evidence: `docs/studies/STAGE_C_MISESERI_PREPARATION_PLAN.md`.
 - [x] Five-job MISESERI campaign plan prepared (no submission). Evidence: `docs/studies/STAGE_C_FIVE_JOB_CAMPAIGN_PLAN.md`.
 - [x] Unified H0/H1 preprocessing config created. Evidence: `configs/preprocessing/molnar_h0_h1_unified.yaml`.
-- [x] Full automated H0/H1 preprocessing pipeline (geometry/mesh → U1 → U2 → CPS4 → sets/BC → outputs). Evidence: `scripts/preprocessing/build_molnar_unified_deck.py`; `models/generated/molnar_gravouil_2017/unified_preprocessing/H0_fullgen/`; `H1_fullgen/`.
+- [x] Full automated H0/H1 preprocessing pipeline (geometry/mesh â†’ U1 â†’ U2 â†’ CPS4 â†’ sets/BC â†’ outputs). Evidence: `scripts/preprocessing/build_molnar_unified_deck.py`; `models/generated/molnar_gravouil_2017/unified_preprocessing/H0_fullgen/`; `H1_fullgen/`.
 - [x] Generated H0 scientifically equivalent to frozen H0 (nodes, connectivity, layers, sets, props, loading). Evidence: `H0_fullgen/FROZEN_H0_EQUIVALENCE.json`.
 - [x] Gate P1 full generation pass (H0 twice, byte-identical deck/fortran/mesh). Evidence: `models/generated/molnar_gravouil_2017/unified_preprocessing/gate_p1_full/GATE_P1_FULL_REPORT.json`.
 - [x] H1 full generation + H0/H1 family compare pass. Evidence: `H0_H1_FAMILY_COMPARE.json`; static validation under `results/validation/unified_preprocessing/`.
@@ -614,7 +835,7 @@ or deferred contour/crack-path evidence)
 - [x] Five PBS scripts + static validation prepared (no qsub). Evidence: `scripts/hpc/molnar_h0_miseseri_*.pbs`; `results/validation/stage_c_five_job/STATIC_PBS_VALIDATION.json`.
 - [!] HPC submission blocked until: pre-analysis load mode decided, Job 3 CAE remesh implemented, explicit authorization. Evidence: `runs/hpc/stage_c_miseseri/CAMPAIGN_PREPARATION_STATUS.md`.
 - [~] Secondary literature / analytical matrices expanded (parallel). Evidence: `references/derived/secondary_validation/`.
-- [ ] Reproduce Pandey-Kumar MISESERI extraction (Job 1–2 when authorized).
+- [ ] Reproduce Pandey-Kumar MISESERI extraction (Job 1â€“2 when authorized).
 - [ ] Validate physical-element to visualization-element mapping.
 - [ ] Generate locally refined mesh (Job 3 when authorized).
 - [ ] Regenerate valid UEL/UMAT layered deck.
@@ -695,7 +916,7 @@ or deferred contour/crack-path evidence)
 - [x] Stage P parallelization thesis subsection added and included in the closeout build. Bundled Tectonic rebuilt the 28-page closeout PDF successfully; existing appendix layout warnings remain nonfatal. Evidence: `docs/thesis/EXTERNALDB_COMMONBLOCK_PARALLELIZATION_STUDY.tex`; `results/latex_build_stage_p/THESIS_CLOSEOUT_BUILD.pdf`.
 - [!] Stage P3 execution blocked pending committed review and explicit authorization. No P3-S submission, P3-T4, P3-M2, P3-H22, production H1, D3D-A1 reopening, or D3E job is authorized. Evidence: `docs/decisions/STAGE_P_PARALLELIZATION_SCOPE.md`; `runs/hpc/stage_p/README.md`.
 - [!] No online/evolving-remeshing claim until these checks pass. Evidence: `THESIS_PLAN.md`.
-- [!] D3D/D3E blocker: explicit fracture-continuation authorization — not missing `D3A3.ok`.
+- [!] D3D/D3E blocker: explicit fracture-continuation authorization â€” not missing `D3A3.ok`.
 
 ## WP6 - IMFD/ABAQUSER
 
@@ -822,7 +1043,7 @@ or deferred contour/crack-path evidence)
 - [!] F6 Job A `1379966.mmaster02` completed Abaqus and extraction at `U1=0.020 mm` (peak `RF1=0.138727 kN`, final `RF1=0.080544 kN`, 41.94% drop), but Python 3.11 offline validation failed the declared irreversibility gate: 11 framewise maximum-damage decreases, largest `-1.0073e-4`. PBS exit 12 also preserves the embedded Python 2.7 validator incompatibility. Classification: `stage_f_mode_ii_h2_uniform_serial_validation_fail`; no retry authorized.
 - [!] F6 Job B `1379967.mmaster02` closed as `abaqus_cae_start_failure` (PBS exit 10): CAE started/license checkout succeeded, but Python 2.7 rejected Abaqus driver arguments before source hash/API audit. Rule creation was not reached; native remesh count 0, solver count 0, candidate deck count 0. M-104 records a prevention-only environment-variable correction. No retry is authorized.
 - [-] F7 prepares exactly two independent non-solver jobs: a read-only fixed-material-point audit of the retained H2 ODB and a corrected CAE-only native RemeshingRule API qualification. No H2 rerun, datacheck, adaptive analysis, refined solve, retry, replacement, or third job is authorized.
-- [!] F2–F5 (H1 solver execution, MISESERI, refined compare, transfer) blocked pending explicit human authorization before job submission.
+- [!] F2â€“F5 (H1 solver execution, MISESERI, refined compare, transfer) blocked pending explicit human authorization before job submission.
 
 
 
@@ -835,11 +1056,11 @@ or deferred contour/crack-path evidence)
 | One-element technical | unchanged model completes and outputs exist | passed | none |
 | One-element scientific | source relations and irreversibility checks | provisional pass | tolerances provisional |
 | Supplementary benchmark technical | unchanged deck completes | passed | none |
-| Gate A3 RF–U | mesh roles + RF–U reference for validation | conditionally accepted | contours deferred; residual Stage A items open |
-| Preprocessing Gate P1 | same config → identical H0 deck | not started | pipeline build |
+| Gate A3 RFâ€“U | mesh roles + RFâ€“U reference for validation | conditionally accepted | contours deferred; residual Stage A items open |
+| Preprocessing Gate P1 | same config â†’ identical H0 deck | not started | pipeline build |
 | MISESERI gate | refined deck valid and local size achieved | preparation authorized | qsub not authorized |
 | Refined benchmark gate | accepted error and measured benefit | closed at scoped Stage C result | crack-path equivalence not supported; H1 remains production |
-| State-transfer gate | closed at D3A3-R4 for the bounded pre-peak compatibility/release-hold scope | Gate closed by accepted job `1377471.mmaster02` (`stage_d3a3_r4_compatible_release_pass` / `stage_d3a3_state_transfer_gate_closed`); canonical `D3A3.ok` committed under `target_ingestion_r4_compatible/`; package `package_compatible_r2`; active/free 6446/155; closure evidence `docs/decisions/STAGE_D3_STATE_TRANSFER_CLOSURE.md` and `runs/hpc/stage_d3/interrupted_transfer/D3A3_ACCEPTED_CLOSURE.json` | D2D blocked by missing ABAQUSER; D3D/D3E blocked by explicit fracture-continuation authorization — not missing `D3A3.ok` |
+| State-transfer gate | closed at D3A3-R4 for the bounded pre-peak compatibility/release-hold scope | Gate closed by accepted job `1377471.mmaster02` (`stage_d3a3_r4_compatible_release_pass` / `stage_d3a3_state_transfer_gate_closed`); canonical `D3A3.ok` committed under `target_ingestion_r4_compatible/`; package `package_compatible_r2`; active/free 6446/155; closure evidence `docs/decisions/STAGE_D3_STATE_TRANSFER_CLOSURE.md` and `runs/hpc/stage_d3/interrupted_transfer/D3A3_ACCEPTED_CLOSURE.json` | D2D blocked by missing ABAQUSER; D3D/D3E blocked by explicit fracture-continuation authorization â€” not missing `D3A3.ok` |
 | ABAQUSER gate | output agrees with independent extraction | blocked | D2D0 found no ABAQUSER executable/module/source/interface |
 | Stage F Mode-II H0 | package prepared; baseline run completed solver but failed scientific gate | scientific validation failed (job 1378942.mmaster02, validator rc: 20) | deck endpoint / validator target mismatch; F2 blocked |
 
@@ -1316,3 +1537,15 @@ Submission-review priority:
 - [x] Executed offline unit tests and gate validator (`classification: pass`).
 - [x] Cluster scheduler accepted `M2RMBUILD6` as job `1383394.mmaster02` in queued state. Corrected authorization audit: `explicit_human_authorization_confirmed_before_submission = false`.
 - [!] Qualification status: `submitted_without_confirmed_explicit_authorization`. Cumulative `qsub` invocations = 2, scheduler-accepted submissions = 1, `scheduler_job_id = 1383394.mmaster02`. Job `1383394.mmaster02` preserved queued/running without `qdel`/`qmove`/`qsub`. Runtime scientific qualification remains undecided pending terminal evidence collection.
+
+## Stage F93 Instrumented Restart1 Technical Replacement (2026-08-14)
+
+- [x] Verified pre-solver initialization failure on failed job `1389261.mmaster02` (`load_notification_config` vs `notification_load_config`).
+- [x] Verified all 12 automatic technical replacement eligibility conditions (`scientific_model_change_count = 0`, `mesh_change_count = 0`, `resource_change_count = 0`, `solver_executed = false`, `previous_replacements = 0`).
+- [x] Created candidate `M2STATE_FRACFIX_RESTART1R1R10` correcting notification configuration loading function invocation in PBS script and submission wrapper.
+- [x] Created and executed unit and regression tests in `tests/unit/test_m2state_fracfix_restart1r1r10.py` (`100% PASS`, `notification_function_name_regression = PASS`).
+- [x] Completed full remote qualification on `mlogin01` (Datacheck PASS, Step-1 solve PASS, Force Continuity $0.657\% \le 2.0\%$ PASS, SDV16 printed PASS, dry-run PASS).
+- [x] Executed single policy-permitted automatic technical replacement submission via guarded wrapper: Job `1389266.mmaster02` on PBS queue `entry_imfdfkmq`.
+- [x] Recorded job in ledgers without post-submission scheduler polling.
+
+

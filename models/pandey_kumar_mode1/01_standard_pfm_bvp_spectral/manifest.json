@@ -1,0 +1,21 @@
+{
+  "case_name": "PK_MODE1_STANDARD_PFM_SPECTRAL",
+  "parent_job": "1401091.mmaster02",
+  "benchmark": "PANDEY_KUMAR_2025_MODE_I_HARMONIZED_BVP",
+  "predeclared_question": "With geometry, mesh, BCs, loading, solver controls and damage-transfer treatment frozen, what is the isolated effect of replacing the local isotropic/heuristic energy split with the Pandey–Kumar/Miehe anisotropic spectral split on the Mode-I response?",
+  "single_intended_change": "Replacement of local isotropic/heuristic driving energy and isotropic degradation with Pandey-Kumar/Miehe anisotropic spectral decomposition",
+  "n_elements": 15192,
+  "n_nodes": 15521,
+  "n_total_abaqus_nodes": 15522,
+  "local_h_mm": 0.003,
+  "l0_mm": 0.0075,
+  "E_GPa": 210.0,
+  "nu": 0.3,
+  "Gc_kJ_m2": 2.7,
+  "k_residual": 1.0e-7,
+  "inp_sha256": "4c669dc0a1ec64af0537b92490e88659e032f2935000852fa8bc96db6497f397",
+  "uel_sha256": "1716386edf9a414ae61885b8fa48acc2c02950601c1629115b8d2e226c503d2b",
+  "notif_sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+  "datacheck_pbs_sha256": "ca1373a696c80a0b3f70b0cf59343352db85d6dfafa9b4e20cc77b7a644b9026",
+  "solver_pbs_sha256": "9b6ced52aeb7f31f8bed6add159fd5cb5e8a6c6b9a8856dbd6307c11290ab6a9"
+}

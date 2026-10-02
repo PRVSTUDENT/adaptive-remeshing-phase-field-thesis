@@ -1,0 +1,277 @@
+{
+    "manifest_version": "1.0",
+    "manifest_id": "GATE6B-POST-S1-BATCH-RELEASE-MANIFEST-V1.0",
+    "phase": "MODE1_GATE6B_ENERGY_CONVERGENCE_AND_STEP2_RECONCILIATION_ACTIVE",
+    "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+    "active_reference_job": {
+        "job_id": "1409734.mmaster02",
+        "job_name": "PK_M1_REF15K_ENERGY",
+        "package_directory": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k",
+        "status": "RUNNING_IN_NORMAL_IMFDFKMQ",
+        "non_polling_guard": "ENFORCED",
+        "required_qualification_flag": "CORRECTED_S1_ENERGY_QUALIFIED"
+    },
+    "batch_status": "PREPARED_NOT_SUBMITTED_AWAITING_CORRECTED_S1_ENERGY_QUALIFICATION",
+    "production_fortran": {
+        "file_name": "f42_mixed_uel.for",
+        "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+        "working_directory_csv_mechanism": "CALL GETOUTDIR",
+        "output_csv_filename": "uel_energy_balance.csv",
+        "statev_mapping": {
+            "STATEV_17": "E_frac (element-integrated fracture surface energy in kN*mm)",
+            "STATEV_18": "E_elas (element-integrated elastic strain energy in kN*mm)",
+            "STATEV_19": "psi_f (local fracture surface energy density in kN/mm^2 == J/mm^3)",
+            "STATEV_20": "psi_e (local elastic strain energy density in kN/mm^2 == J/mm^3)"
+        },
+        "companion_index_mapping": "PHYSIDX = NOEL - 2 * NPHYS_VAL"
+    },
+    "slice_convention": {
+        "t_ref_mm": 1.0,
+        "description": "2D literature benchmark formulation omits thickness; Tier 1 native per-unit-thickness UEL quadrature evaluated with 0 thickness factors; Tier 2 project 1.0 mm slice convention maps to resultant physical force (kN) and scalar energy (kN*mm == J = 1000 mJ) for 1-mm slice."
+    },
+    "execution_architecture": {
+        "parallel_mode": "1_CPU_SERIAL_SHARED_MEMORY",
+        "mpi_ranks": 1,
+        "threads": 1,
+        "compiler_environment": "Abaqus 2023 / Intel Fortran (ifx 2024.2.0 / ifort 2021.13.0)",
+        "double_precision": "both"
+    },
+    "notification_configuration": {
+        "pbs_mail_directive": "#PBS -m abe",
+        "pbs_recipient": "pr21vyci@mailserver.tu-freiberg.de",
+        "telegram_trap_script": "job_notifications.sh",
+        "telegram_trap_function": "notification_install_terminal_trap",
+        "notifications_env_path": "~/.config/adaptive-remeshing/notifications.env"
+    },
+    "release_candidates_count": 6,
+    "release_candidates": [
+        {
+            "candidate_id": "S2",
+            "candidate_key": "S2_spatial_32k",
+            "scientific_branch": "spatial_convergence",
+            "job_name": "PK_M1_S2_ENERGY",
+            "package_directory": "models/pandey_kumar_mode1/12_fixed_convergence_h0020",
+            "deck_filename": "PK_MODE1_FIX_H0020_ENERGY.inp",
+            "deck_sha256": "9A5C3BD7EA9AF8CD38715FAC9FB062B1590766B7A7CF3A800D2F8C9E95C3767F",
+            "nphys": 32130.0,
+            "elements_count": 32130,
+            "nodes_count": 32471,
+            "element_size_target_mm": 0.0020,
+            "varied_variable": "Spatial discretization mesh density (h = 0.0020 mm, 32,130 finite elements)",
+            "frozen_quantities": "Domain (1.0x1.0 mm), seam crack (a0=0.5 mm), E=210.0 kN/mm^2, nu=0.3, Gc=0.0027 kN/mm, l0=0.0075 mm, k=1e-7, dt_step1=5e-4, dt_step2=2e-4, 1-CPU serial, BCs, SDV17-20 mapping, GETOUTDIR",
+            "datacheck_evidence": {
+                "job_name": "PK_M1_S2_DC",
+                "exit_code": 0,
+                "preprocessor_errors": 0,
+                "status": "PASS"
+            },
+            "pbs_script_filename": "submit_solver.pbs",
+            "pbs_script_sha256": "E0C00C60CBB05801601695B31F4142859DBE35357AE8E7720B9699294144524B",
+            "pbs_queue": "entry_imfdfkmq",
+            "resources": {
+                "nodes": 1,
+                "ppn": 1,
+                "mem": "32gb",
+                "walltime": "48:00:00"
+            },
+            "working_directory": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/12_fixed_convergence_h0020",
+            "expected_csv_path": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/12_fixed_convergence_h0020/uel_energy_balance.csv",
+            "submission_authorization": "AUTHORIZED_UNDER_GATE6B_BATCH_PENDING_S1_QUALIFICATION",
+            "authorized": false
+        },
+        {
+            "candidate_id": "S3",
+            "candidate_key": "S3_spatial_42k",
+            "scientific_branch": "spatial_convergence",
+            "job_name": "PK_M1_S3_ENERGY",
+            "package_directory": "models/pandey_kumar_mode1/13_fixed_convergence_h0015",
+            "deck_filename": "PK_MODE1_FIX_H0015_ENERGY.inp",
+            "deck_sha256": "1500ECA5028660045789AF04AD3112E26CA76BBF7BFAC6437A42008A4307408F",
+            "nphys": 41912.0,
+            "elements_count": 41912,
+            "nodes_count": 42364,
+            "element_size_target_mm": 0.0015,
+            "varied_variable": "Spatial discretization mesh density (h = 0.0015 mm, 41,912 finite elements)",
+            "frozen_quantities": "Domain (1.0x1.0 mm), seam crack (a0=0.5 mm), E=210.0 kN/mm^2, nu=0.3, Gc=0.0027 kN/mm, l0=0.0075 mm, k=1e-7, dt_step1=5e-4, dt_step2=2e-4, 1-CPU serial, BCs, SDV17-20 mapping, GETOUTDIR",
+            "datacheck_evidence": {
+                "job_name": "PK_M1_S3_DC",
+                "exit_code": 0,
+                "preprocessor_errors": 0,
+                "status": "PASS"
+            },
+            "pbs_script_filename": "submit_solver.pbs",
+            "pbs_script_sha256": "6890D38C5FD5FF64B4E28C669DA896BAB52D2BA6379D46C6F046712A1809B0F9",
+            "pbs_queue": "entry_imfdfkmq",
+            "resources": {
+                "nodes": 1,
+                "ppn": 1,
+                "mem": "32gb",
+                "walltime": "48:00:00"
+            },
+            "working_directory": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/13_fixed_convergence_h0015",
+            "expected_csv_path": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/13_fixed_convergence_h0015/uel_energy_balance.csv",
+            "submission_authorization": "AUTHORIZED_UNDER_GATE6B_BATCH_PENDING_S1_QUALIFICATION",
+            "authorized": false
+        },
+        {
+            "candidate_id": "T1",
+            "candidate_key": "T1_temporal_coarse",
+            "scientific_branch": "temporal_convergence",
+            "job_name": "PK_MODE1_T1_COARSE_ENERGY",
+            "package_directory": "models/pandey_kumar_mode1/17_temporal_convergence_t1_coarse",
+            "deck_filename": "PK_MODE1_T1_COARSE_ENERGY.inp",
+            "deck_sha256": "33183ADA17DA6712F93DA5648D1D4C9B41C27398DA472EE6619E0839E96ACCFF",
+            "nphys": 15192.0,
+            "elements_count": 15192,
+            "nodes_count": 15521,
+            "dt_step1": 0.001,
+            "dt_step2": 0.0004,
+            "total_nominal_increments": 3500,
+            "varied_variable": "Temporal discretization coarse schedule 2x (dt_step1=1.0e-3, dt_step2=4.0e-4, 3,500 total incs)",
+            "frozen_quantities": "Mesh (15,192 elements), Geometry, E=210.0 kN/mm^2, nu=0.3, Gc=0.0027 kN/mm, l0=0.0075 mm, k=1e-7, 1-CPU serial, BCs, SDV17-20 mapping, GETOUTDIR",
+            "datacheck_evidence": {
+                "job_name": "PK_M1_T1_DC",
+                "exit_code": 0,
+                "preprocessor_errors": 0,
+                "status": "PASS"
+            },
+            "pbs_script_filename": "submit_solver.pbs",
+            "pbs_script_sha256": "CC9B696EF8AA12A8BB1F352634EDBAAD76F61958DB3F82A87534F1F0AACCA9A9",
+            "pbs_queue": "normal_imfdfkmq",
+            "resources": {
+                "nodes": 1,
+                "ppn": 1,
+                "mem": "32gb",
+                "walltime": "24:00:00"
+            },
+            "working_directory": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/17_temporal_convergence_t1_coarse",
+            "expected_csv_path": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/17_temporal_convergence_t1_coarse/uel_energy_balance.csv",
+            "submission_authorization": "AUTHORIZED_UNDER_GATE6B_BATCH_PENDING_S1_QUALIFICATION",
+            "authorized": false
+        },
+        {
+            "candidate_id": "T3",
+            "candidate_key": "T3_temporal_fine",
+            "scientific_branch": "temporal_convergence",
+            "job_name": "PK_MODE1_T3_FINE_ENERGY",
+            "package_directory": "models/pandey_kumar_mode1/19_temporal_convergence_t3_fine",
+            "deck_filename": "PK_MODE1_T3_FINE_ENERGY.inp",
+            "deck_sha256": "72D6CC5176326BFAB60FB9B23AFBE4AD6882A0ABC030465BAF10A5DC2A19519C",
+            "nphys": 15192.0,
+            "elements_count": 15192,
+            "nodes_count": 15521,
+            "dt_step1": 0.00025,
+            "dt_step2": 0.0001,
+            "total_nominal_increments": 14000,
+            "varied_variable": "Temporal discretization fine schedule 0.5x (dt_step1=2.5e-4, dt_step2=1.0e-4, 14,000 total incs)",
+            "frozen_quantities": "Mesh (15,192 elements), Geometry, E=210.0 kN/mm^2, nu=0.3, Gc=0.0027 kN/mm, l0=0.0075 mm, k=1e-7, 1-CPU serial, BCs, SDV17-20 mapping, GETOUTDIR",
+            "datacheck_evidence": {
+                "job_name": "PK_M1_T3_DC",
+                "exit_code": 0,
+                "preprocessor_errors": 0,
+                "status": "PASS"
+            },
+            "pbs_script_filename": "submit_solver.pbs",
+            "pbs_script_sha256": "B0797C8AF633EC0AC8E57142287F5DAEE33237E07610EC2587C8E39C5389803D",
+            "pbs_queue": "normal_imfdfkmq",
+            "resources": {
+                "nodes": 1,
+                "ppn": 1,
+                "mem": "32gb",
+                "walltime": "48:00:00"
+            },
+            "working_directory": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/19_temporal_convergence_t3_fine",
+            "expected_csv_path": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/19_temporal_convergence_t3_fine/uel_energy_balance.csv",
+            "submission_authorization": "AUTHORIZED_UNDER_GATE6B_BATCH_PENDING_S1_QUALIFICATION",
+            "authorized": false
+        },
+        {
+            "candidate_id": "L2",
+            "candidate_key": "L2_length_scale_intermediate",
+            "scientific_branch": "length_scale_sensitivity",
+            "job_name": "PK_M1_L2_L01125_ENERGY",
+            "package_directory": "models/pandey_kumar_mode1/21_length_scale_l2_intermediate",
+            "deck_filename": "PK_MODE1_L2_L01125_ENERGY.inp",
+            "deck_sha256": "4F60EFCC8BA6CE8CBB8FAB1D88FFB790E2F679DE740FBCF8C3B781A8DE976940",
+            "nphys": 41912.0,
+            "elements_count": 41912,
+            "nodes_count": 42364,
+            "l0_mm": 0.01125,
+            "varied_variable": "Phase-field regularization length scale l0 = 0.01125 mm (1.5x baseline)",
+            "frozen_quantities": "Mesh (41,912 elements), Geometry, E=210.0 kN/mm^2, nu=0.3, Gc=0.0027 kN/mm, k=1e-7, dt_step1=5e-4, dt_step2=2e-4, 1-CPU serial, BCs, SDV17-20 mapping, GETOUTDIR",
+            "datacheck_evidence": {
+                "job_name": "PK_M1_L2_DC",
+                "exit_code": 0,
+                "preprocessor_errors": 0,
+                "status": "PASS"
+            },
+            "pbs_script_filename": "submit_solver.pbs",
+            "pbs_script_sha256": "EBCEAEF937FE17649B14E1ECEA3E1C98F140B1484923B1BFEC7F7A9FE819216E",
+            "pbs_queue": "entry_imfdfkmq",
+            "resources": {
+                "nodes": 1,
+                "ppn": 1,
+                "mem": "32gb",
+                "walltime": "48:00:00"
+            },
+            "working_directory": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/21_length_scale_l2_intermediate",
+            "expected_csv_path": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/21_length_scale_l2_intermediate/uel_energy_balance.csv",
+            "submission_authorization": "AUTHORIZED_UNDER_GATE6B_BATCH_PENDING_S1_QUALIFICATION",
+            "authorized": false
+        },
+        {
+            "candidate_id": "L3",
+            "candidate_key": "L3_length_scale_coarse",
+            "scientific_branch": "length_scale_sensitivity",
+            "job_name": "PK_M1_L3_L01500_ENERGY",
+            "package_directory": "models/pandey_kumar_mode1/22_length_scale_l3_coarse",
+            "deck_filename": "PK_MODE1_L3_L01500_ENERGY.inp",
+            "deck_sha256": "0B3F453B875BD3C6A2CB0BCE5A918C5A92F4E73FDDD8F4E12705AA281691D451",
+            "nphys": 41912.0,
+            "elements_count": 41912,
+            "nodes_count": 42364,
+            "l0_mm": 0.01500,
+            "varied_variable": "Phase-field regularization length scale l0 = 0.01500 mm (2.0x baseline)",
+            "frozen_quantities": "Mesh (41,912 elements), Geometry, E=210.0 kN/mm^2, nu=0.3, Gc=0.0027 kN/mm, k=1e-7, dt_step1=5e-4, dt_step2=2e-4, 1-CPU serial, BCs, SDV17-20 mapping, GETOUTDIR",
+            "datacheck_evidence": {
+                "job_name": "PK_M1_L3_DC",
+                "exit_code": 0,
+                "preprocessor_errors": 0,
+                "status": "PASS"
+            },
+            "pbs_script_filename": "submit_solver.pbs",
+            "pbs_script_sha256": "4F97E166682B44B4F88710407BAAFE1E22CF38963FE3423C1E554F41EE13B588",
+            "pbs_queue": "entry_imfdfkmq",
+            "resources": {
+                "nodes": 1,
+                "ppn": 1,
+                "mem": "32gb",
+                "walltime": "48:00:00"
+            },
+            "working_directory": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/22_length_scale_l3_coarse",
+            "expected_csv_path": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/22_length_scale_l3_coarse/uel_energy_balance.csv",
+            "submission_authorization": "AUTHORIZED_UNDER_GATE6B_BATCH_PENDING_S1_QUALIFICATION",
+            "authorized": false
+        }
+    ],
+    "reused_baselines_omitted": [
+        {
+            "candidate_id": "T2",
+            "scientific_branch": "temporal_convergence",
+            "governing_rule": "T2_NOMINAL = REUSE_CORRECTED_S1_REFERENCE",
+            "source_reference_job": "1409734.mmaster02",
+            "source_reference_package": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k",
+            "cluster_submission_action": "OMIT_FROM_CLUSTER_SUBMISSIONS_REUSE_S1",
+            "rationale": "Exact line-by-line equivalence audit proved 0 model, 0 solver, 0 output differences vs corrected S1 reference (15,192 elements, 7,000 increments). Independent solver run is redundant."
+        },
+        {
+            "candidate_id": "L1",
+            "scientific_branch": "length_scale_sensitivity",
+            "governing_rule": "L1_BASELINE = REUSE_S3_REFERENCE",
+            "source_reference_deck": "PK_MODE1_FIX_H0015_ENERGY.inp",
+            "source_reference_package": "models/pandey_kumar_mode1/13_fixed_convergence_h0015",
+            "cluster_submission_action": "OMIT_FROM_CLUSTER_SUBMISSIONS_REUSE_S3",
+            "rationale": "Exact line-by-line audit proved 0 non-comment differences across 169,584 lines vs Candidate S3 reference (41,912 elements, l0=0.0075 mm). Independent solver run is redundant."
+        }
+    ]
+}

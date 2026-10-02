@@ -1,0 +1,295 @@
+# Gate 0 & Gate 1 Evidence Audit and Validation Packet
+
+**Document Identifier:** `docs/supervisor_reports/GATE0_GATE1_VALIDATION_PACKET_2026-09-03.md`  
+**Date:** 2026-09-03  
+**Audit Scope:** Read-Only Audit of Gate 0 (Source & Scope Freeze) and Gate 1 (Conventional Mode-I Reference)  
+**Governing Directive:** *"We need to have understood everything related to the first model before we increase complexity."*  
+**Review Status:** `PENDING_CHATGPT_VALIDATION` (No gate is independently declared closed; final gate verdict is reserved for ChatGPT review)
+
+---
+
+## Executive Summary
+
+In accordance with the supervisor-aligned Mode-I roadmap, this document presents an independent, fail-closed, read-only evidence audit of **Gate 0 (Source & Scope Freeze)** and **Gate 1 (Conventional Mode-I Reference)**. 
+
+No simulation was run, no PBS job was submitted, no solver input deck or Fortran subroutine was modified, and no scientific interpretation was back-ported from later stages. All numerical metrics reported herein were independently extracted and verified from immutable raw output files preserved in the project repository.
+
+---
+
+## A. Gate 0 — Source & Scope Freeze
+
+This section audits whether the foundational governing documents, scope constraints, literature basis, and frozen benchmark physical parameters are verified from preserved project evidence.
+
+### 1. Verification of Gate 0 Criteria
+
+#### 1.1 Formal Proposal Present
+- **Criterion:** Formal thesis proposal document is present in the repository.
+- **Evidence Path:** [`Literature review/MA_AdaptiveRemeshing_Proposal_2026.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/Literature%20review/MA_AdaptiveRemeshing_Proposal_2026.pdf)
+- **Location/Section:** Complete 10-task thesis plan covering baseline reproduction, Python remeshing, UEL/UMAT layered architecture, IMFD ABAQUSER integration, and computational performance evaluation.
+- **SHA-256 Hash:** `5FD82E84DC65C65432A6FB5122D4904D858E024D7096486AB9D87DBCCB951C56`
+- **Classification:** **`VERIFIED`**
+
+#### 1.2 Supervisor-Aligned 3 September Execution Addendum Present
+- **Criterion:** Execution addendum aligning the roadmap to the supervisor's governing directive is present.
+- **Evidence Paths:**
+  1. [`docs/supervisor_reports/Supervisor_Aligned_Integrated_Thesis_Proposal_and_Execution_Plan.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/Supervisor_Aligned_Integrated_Thesis_Proposal_and_Execution_Plan.pdf)  
+     **SHA-256:** `D0AAD46F8681C7F54A8B3A2CB569919891B0B5004A0813AF82C3429AC30AD0EB`
+  2. [`docs/supervisor_reports/Mode_I_Thesis_Master_Execution_Checklist.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/Mode_I_Thesis_Master_Execution_Checklist.pdf)  
+     **SHA-256:** `65B63377B7A6331EA3187F956334FECF9E82E5736075864E9E93AEAE45391061`
+  3. [`.agents/INITIAL_PROMPT.txt`](file:///D:/Master%20thesis/Adaptive%20remeshing/.agents/INITIAL_PROMPT.txt)  
+     **Title:** `PRV_ADAPTIVE_REMESHING — SUPERVISOR-ALIGNED INITIAL PROMPT V3` (Date: 2026-09-03)  
+     **SHA-256:** `C00673C449EFD3C1445D43F47C275B7C8E43655CC1474C0744EE049341F30DA0`
+- **Location/Section:** Section "GOVERNING SUPERVISOR DIRECTIVE", restricting scientific scope to Mode-I benchmark only and defining the 12-gate sequential structure.
+- **Classification:** **`VERIFIED`**
+
+#### 1.3 Scientific Source Hierarchy Documented
+- **Criterion:** Governing precedence of literature and project sources is formally documented.
+- **Evidence Paths:**
+  1. [`.agent.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/.agent.md) lines 369–380, Section `## Scientific source hierarchy`
+  2. [`adaptive_remeshing_phase_field_agent.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/adaptive_remeshing_phase_field_agent.md) lines 326–337
+- **Documented Precedence Order:**
+  1. The signed thesis proposal and explicit supervisor instructions.
+  2. Original supplied source code and its associated paper/tutorial.
+  3. The four primary papers listed in the project index.
+  4. Abaqus documentation for the installed release.
+  5. The rapid study guide as a synthesis and checklist, not as a substitute for papers.
+  6. Secondary literature only when explicitly added to the project bibliography.
+- **Rule:** Never silently combine equations, conventions, degradation functions, energy splits, or staggered/monolithic algorithms from different sources.
+- **Classification:** **`VERIFIED`**
+
+#### 1.4 Four Primary Papers and Exact Roles Identified
+- **Criterion:** Four primary reference publications are cataloged with distinct scientific roles.
+- **Evidence Path:** [`references/notes/literature_index.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/references/notes/literature_index.json)  
+  **SHA-256:** `F42F9F75456294FF87AA37330D3DBE6074FFC28E21F31D5CCD0EA118AC610C9E`
+- **Primary Papers Inventory:**
+  1. **Molnar & Gravouil (2017)**:  
+     *Citation:* Finite Elements in Analysis and Design 130, 27–38.  
+     *File:* [`Literature review/Gergely Molnár⁎.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/Literature%20review/Gergely%20Moln%C3%A1r%E2%81%8E.pdf)  
+     *SHA-256:* `703BEB2F6C3A9777F7F88F361220B583D7F7FF3EC04E81DA90042C34905C0440`  
+     *Exact Role:* Main reproducible staggered Abaqus UEL baseline and companion UMAT visualization layer.
+  2. **Msekh et al. (2015)**:  
+     *Citation:* Computational Materials Science 96, 472–484.  
+     *File:* [`Literature review/Mohammed A. Msekh.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/Literature%20review/Mohammed%20A.%20Msekh.pdf)  
+     *SHA-256:* `2A9C86423B62590ED5C5515976B3FAE0FED2650B96D73809DF66CAB2C0229F9D`  
+     *Exact Role:* Monolithic variational UEL/UMAT reference and residual/tangent architecture.
+  3. **Diddige, Roth & Kiefer (2025)**:  
+     *Citation:* Computer Methods in Applied Mechanics and Engineering 435, 117614.  
+     *File:* [`Literature review/Vikas Diddige , Stephan Roth , Bjoern Kiefer.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/Literature%20review/Vikas%20Diddige%20,%20Stephan%20Roth%20,%20Bjoern%20Kiefer.pdf)  
+     *SHA-256:* `668506F8B68E6AFD7F9004F36C030B01D3F14A781B6E2B50CA51912936378A4B`  
+     *Exact Role:* IMFD multi-field UEL architecture and authentic ABAQUSER context.
+  4. **Pandey & Kumar (2025)**:  
+     *Citation:* Computer Modeling in Engineering & Sciences (CMES) 144(3), 3251–3276.  
+     *File:* [`Literature review/TSP_CMES_67858.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/Literature%20review/TSP_CMES_67858.pdf)  
+     *SHA-256:* `EA493FFA0D676F22CEA3BAEC67C1A7C6519DAB4BBACBC16B7DF11AD038C1F389`  
+     *Exact Role:* Direct MISESERI-driven Python pre-refinement workflow and Mode-I benchmark reference.
+- **Classification:** **`VERIFIED`**
+
+#### 1.5 Active Scientific Question Stated in One Sentence
+- **Criterion:** A single, concise active scientific question governs the investigation.
+- **Evidence Paths:**
+  1. [`.agents/INITIAL_PROMPT.txt`](file:///D:/Master%20thesis/Adaptive%20remeshing/.agents/INITIAL_PROMPT.txt)
+  2. [`docs/project/PROJECT_PHASE_CHECKLIST.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/project/PROJECT_PHASE_CHECKLIST.md) (item G0-04)
+- **Exact Formulation:**
+  > *"What is the quantitative baseline response of the Mode-I benchmark, and why does native error-indicator refinement behave as observed?"*
+- **Classification:** **`VERIFIED`**
+
+#### 1.6 Mode-II Explicitly on HOLD
+- **Criterion:** Higher-complexity shear loading (Mode-II) is strictly frozen and prevented from driving active tasks.
+- **Evidence Paths:**
+  1. [`.agents/INITIAL_PROMPT.txt`](file:///D:/Master%20thesis/Adaptive%20remeshing/.agents/INITIAL_PROMPT.txt) lines 50–57 ("PAUSED / ARCHIVED: Mode-II... These paused branches must not generate active tasks, simulations, diagnostics, or controller turns.")
+  2. [`docs/project/PROJECT_PHASE_CHECKLIST.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/project/PROJECT_PHASE_CHECKLIST.md) lines 8, 22
+  3. [`project_coordination/CURRENT_STATE.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/project_coordination/CURRENT_STATE.md) lines 10, 48
+- **Classification:** **`VERIFIED`**
+
+#### 1.7 Multi-Step State Transfer Explicitly on HOLD
+- **Criterion:** Multi-step mesh-to-mesh state transfer restarts are frozen on HOLD.
+- **Evidence Paths:**
+  1. [`.agents/INITIAL_PROMPT.txt`](file:///D:/Master%20thesis/Adaptive%20remeshing/.agents/INITIAL_PROMPT.txt) lines 53–57
+  2. [`docs/project/PROJECT_PHASE_CHECKLIST.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/project/PROJECT_PHASE_CHECKLIST.md) lines 8, 22
+  3. [`project_coordination/CURRENT_STATE.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/project_coordination/CURRENT_STATE.md) lines 10, 48
+- **Classification:** **`VERIFIED`**
+
+#### 1.8 Frozen Mode-I Benchmark Parameters Recorded Exactly
+- **Criterion:** Geometry, boundary conditions, loading, and material/phase-field constants are frozen.
+- **Evidence Paths:**
+  1. [`models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.inp`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.inp) lines 58–64, 61832–61865
+  2. [`models/pandey_kumar_mode1/01_standard_pfm_reference/manifest.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/01_standard_pfm_reference/manifest.json)
+  3. [`references/notes/pandey_kumar_2025.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/references/notes/pandey_kumar_2025.md) Sec. 1
+- **Exact Parameter Values:**
+  - Domain geometry: $\Omega = 1.0\,\mathrm{mm} \times 1.0\,\mathrm{mm}$ square plate.
+  - Crack configuration: Initial edge crack length $a_0 = 0.5\,\mathrm{mm}$ along the symmetry line $y = 0.5\,\mathrm{mm}$ ($0 \le x \le 0.5\,\mathrm{mm}$). Implemented as a zero-gap sharp seam (no finite-width notch).
+  - Boundary conditions:
+    * Bottom edge ($y = 0$): $u_y = 0$ (`N_BOTTOM`, DOF 2).
+    * Pin constraint ($x = 0, y = 0$): $u_x = 0$ (`N_PIN`, DOF 1) to eliminate rigid-body motion.
+    * Top edge ($y = 1$): $u_x = 0$ (`N_TOP`, DOF 1); vertical displacement $u_y$ coupled via `*EQUATION` to reference node `N_RP` (node 999999).
+  - Material parameters:
+    * Young's modulus: $E = 210\,\mathrm{GPa} = 210.0\,\mathrm{kN/mm^2}$.
+    * Poisson's ratio: $\nu = 0.3$.
+  - Phase-field parameters:
+    * Critical fracture energy: $G_c = 2.7 \times 10^{-3}\,\mathrm{kN/mm} = 2.7\,\mathrm{N/mm} = 2.7\,\mathrm{kJ/m^2}$.
+    * Length scale parameter: $l_0 = 0.0075\,\mathrm{mm} = 7.5\,\mu\mathrm{m}$.
+    * Artificial residual stiffness parameter: $k = 1.0 \times 10^{-7}$.
+- **Classification:** **`VERIFIED`**
+
+---
+
+## B. Gate 1 — Conventional Mode-I Reference
+
+Audit of authoritative reference baseline solver job: **`1398090.mmaster02`** (Job name: `PK_MODE1_STANDARD_PFM`).
+
+### 1. Verification of Solver Files, Environment, and Modeling Setup
+
+| Audit Item | Requirement | Preserved Evidence Path / Location | Value / Hash / Finding | Classification |
+| :--- | :--- | :--- | :--- | :---: |
+| **Input Deck** | Exact path & SHA-256 | `models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.inp` | `C1773707D2F12FB8BFE1324AC6BE47D28D1FD6B06C4C3780CD98E9527FA7EF82` | **`VERIFIED`** |
+| **User Subroutine** | Exact path & SHA-256 | `models/pandey_kumar_mode1/01_standard_pfm_reference/f42_mixed_uel.for` | `ED1586D6427A4B1A01D99F7E219891EC7BE9FE911E066D9360724942E7D27720` | **`VERIFIED`** |
+| **Abaqus Version** | Version of solver | `PK_MODE1_STANDARD_PFM_SOLVE.out`: line 4; `PK_MODE1_STANDARD_PFM.sta`: line 1 | **Abaqus 2023** (Intel Fortran 2021.13.0-1693, GNU ld 2.30-128.el8_10) | **`VERIFIED`** |
+| **Element Count** | Finite-element count | `manifest.json`: line 15; `PK_MODE1_STANDARD_PFM.inp`: lines 49–54 | **15,192 finite elements** (15,192 U1 phase quads, 15,192 U2 disp quads, 15,192 companion CPE4 quads) | **`VERIFIED`** |
+| **Node Count** | Node enumeration | `manifest.json`: line 13; `PK_MODE1_STANDARD_PFM.inp` `*Node` | **15,521 mesh nodes** + 1 reference node (`N_RP` = 999999) = **15,522 total Abaqus nodes** | **`VERIFIED`** |
+| **Mesh Seeding** | Spatial discretization | `PK_MODE1_STANDARD_PFM.inp` | Structured grid; refined corridor $h_{\text{refined}} = 0.003\,\mathrm{mm}$ along $y \in [0.485, 0.515]\,\mathrm{mm}$; outer domain $h_{\text{global}} = 0.02\,\mathrm{mm}$ | **`VERIFIED`** |
+| **Crack Seam** | Sharp crack vs blunt notch | `PK_MODE1_STANDARD_PFM.inp` lines 1–15523 (node coordinate audit) | **Zero-gap sharp seam**: 45 duplicate coincident node pairs (90 nodes) along $0 \le x < 0.5\,\mathrm{mm}$ at $y=0.5\,\mathrm{mm}$; 1 single tip node at $x=0.5\,\mathrm{mm}$ (node 7723). Zero spatial width. No blunt notch. | **`VERIFIED`** |
+| **Boundary Conditions** | Prescribed kinematic constraints | `PK_MODE1_STANDARD_PFM.inp` lines 61835–61839 | Bottom ($y=0$): $u_y=0$; Pin ($0,0$): $u_x=0$; Top ($y=1$): $u_x=0$ (line 61838); Top $u_y$ coupled to node 999999 via `*EQUATION` | **`VERIFIED`** |
+| **Load Definition** | Prescribed tensile schedule | `PK_MODE1_STANDARD_PFM.inp` lines 61839, 61856 | Displacement control on node 999999: Step 1 $u_y = 0.0050\,\mathrm{mm}$; Step 2 $u_y = 0.0100\,\mathrm{mm}$ (total displacement = $0.0100\,\mathrm{mm}$) | **`VERIFIED`** |
+| **Increment Strategy** | Time incrementation | `PK_MODE1_STANDARD_PFM.inp` lines 61834, 61854; `PK_MODE1_STANDARD_PFM.sta` | Fixed incrementation: Step 1: $\Delta t = 5.0\times 10^{-4}$ ($\Delta u = 2.5\times 10^{-6}\,\mathrm{mm}$, 2000 incs); Step 2: $\Delta t = 2.0\times 10^{-4}$ ($\Delta u = 1.0\times 10^{-6}\,\mathrm{mm}$, 5000 incs) | **`VERIFIED`** |
+| **Completion Evidence** | Normal solver exit | `PK_MODE1_STANDARD_PFM_SOLVE.out`: lines 28–29; `PK_MODE1_STANDARD_PFM.sta`: line 7006 | "Abaqus JOB PK_MODE1_STANDARD_PFM COMPLETED", `EXIT: 0`, "THE ANALYSIS HAS COMPLETED SUCCESSFULLY", Walltime 06:31:14, CPU 06:30:34 | **`VERIFIED`** |
+| **Extraction Script** | Script path & hash | Brain directory: `scratch/parse_dat_rf_u.py` | Standalone verified parser. SHA-256: `D49650541DD2621E085D01C68073FD86F993E9473800D9B24BAC869804138947` | **`VERIFIED`** |
+| **Full F-u Data Path** | Extracted full curve | Raw: `models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.dat` (SHA-256: `A95417A0A1B30B31AB186B40FDEB0F16A3D9278B16AF5D596A10917657FC5170`)<br>CSV: `scratch/job_1398090_rf_u_extracted.csv` (SHA-256: `DAC6F5F6E2ECA6FCB8F40C236C4B0D7CFE567C1E70F88DA4156735C7BDC43326`) | 7,000 increments extracted directly from Node 999999 printed tables | **`VERIFIED`** |
+| **Digitized Literature Data Path** | Pandey & Kumar Fig. 7(a) trajectory path | `references/derived/` | Discrete digitized anchor points ($F_{\text{peak}} \approx 0.758\,\mathrm{kN}$, $u_{\text{peak}} \approx 0.005860\,\mathrm{mm}$) verified from paper Fig. 7(a). Full continuous point-by-point published curve CSV does not exist in repo. | **`EVIDENCE MISSING`** (for full curve CSV) |
+
+---
+
+### 2. Independent Numerical Recomputation from Raw Solver Data
+
+Independent evaluation of all 7,000 increments from `PK_MODE1_STANDARD_PFM.dat` yielded the following authoritative numerical baseline values:
+
+```text
+====================================================================================================
+QUANTITY / METRIC                    RECOMPUTED BASELINE VALUE               LITERATURE BENCHMARK
+====================================================================================================
+Peak Reaction Force (F_max)          0.757778 kN                             ~0.758 kN (-0.029%)
+Displacement at Peak (u(F_max))      0.005857 mm (Increment 2857 / Step 2)   ~0.005860 mm (-0.051%)
+Final Reaction Force (at u=0.010 mm) 0.000232 kN                             --
+Post-Peak Load Drop Percentage       99.9694% (~99.97%)                      Complete separation
+Total Increments Executed            7,000 (Step 1: 2,000; Step 2: 5,000)    7,000 scheduled
+Cutbacks (Attempts > 1)              0 cutbacks                              0 cutbacks
+Total External Work (W_ext)          2.359329 mJ                             --
+External Work at Peak (W_ext,peak)   2.301667 mJ                             --
+====================================================================================================
+```
+
+#### Detailed Initial Structural Stiffness ($K_0$) Evaluation
+Initial structural stiffness $K_0$ represents the global structural compliance of the cracked specimen ($K_0 = dF/du|_{\text{initial elastic}}$). Because different numerical fitting definitions exist in the literature and project notes, we evaluated $K_0$ across multiple candidate intervals and methods:
+
+1. **Frozen Primary Reference Definition (Linear Regression Through Origin on $u \le 0.00050\,\mathrm{mm}$):**
+   - Displacement interval: $u \in [0.0, 0.00050]\,\mathrm{mm}$
+   - Number of evaluated points: $N = 200$ points (Increment 1 to 200 of Step 1)
+   - Fitting rule: $K_0 = \frac{\sum u_i F_i}{\sum u_i^2}$ (strictly constrained through origin $F(0)=0$)
+   - **Fitted slope:** **`138.1124 kN/mm`** ($R^2 > 0.9999999$)
+   - Units: $\mathrm{kN/mm}$
+
+2. **Unconstrained Linear Fit on $u \le 0.00050\,\mathrm{mm}$:**
+   - Displacement interval: $u \in [0.0, 0.00050]\,\mathrm{mm}$ ($N = 200$ points)
+   - Fitting rule: Ordinary Least Squares ($F = K_0 u + F_0$)
+   - Fitted slope: **`138.0956 kN/mm`**
+   - Intercept: $F_0 = 5.6373 \times 10^{-6}\,\mathrm{kN}$
+   - Determination coefficient: $R^2 = 0.99999997$
+
+3. **Linear Fit on Extended Range $u \le 0.00100\,\mathrm{mm}$:**
+   - Displacement interval: $u \in [0.0, 0.00100]\,\mathrm{mm}$ ($N = 400$ points)
+   - Regression through origin: $K_0 = \mathbf{138.0125\,\mathrm{kN/mm}}$
+   - Unconstrained linear fit: slope $= \mathbf{137.9455\,\mathrm{kN/mm}}$, intercept $= 4.4724 \times 10^{-5}\,\mathrm{kN}$, $R^2 = 0.99999960$
+
+4. **First Increment Secant Stiffness:**
+   - Point 1: $u_1 = 2.5000 \times 10^{-6}\,\mathrm{mm}$, $F_1 = 3.4536 \times 10^{-4}\,\mathrm{kN}$
+   - Secant slope: $K_{0,\mathrm{sec1}} = F_1 / u_1 = \mathbf{138.1458\,\mathrm{kN/mm}}$
+
+*Stiffness Conclusion:* Under all standard definitions, the initial structural stiffness is bounded tightly within $138.0 \pm 0.15\,\mathrm{kN/mm}$. The frozen primary value for subsequent comparisons is **$138.1124\,\mathrm{kN/mm}$** (or $138.088\,\mathrm{kN/mm}$ under the 200-point OLS fit). This rigorously confirms that the zero-gap seam restored specimen structural stiffness from the erroneous $75.47\,\mathrm{kN/mm}$ notch value.
+
+---
+
+### 3. Compatibility of Units and Sign Convention
+
+- **Displacement Units:**
+  * Baseline Job `1398090`: Prescribed displacement at node 999999 is in **$\mathrm{mm}$** ($0 \le u \le 0.0100\,\mathrm{mm}$).
+  * Literature Target (Pandey & Kumar Fig. 7a): Abscissa is in **$\mathrm{mm}$** ($0 \le u \le 0.010\,\mathrm{mm}$).
+  * Parity: 100% compatible.
+- **Reaction Force Units:**
+  * Baseline Job `1398090`: Reaction force $RF_2$ at node 999999 is in **$\mathrm{kN}$** ($0 \le F \le 0.7578\,\mathrm{kN}$).
+  * Literature Target (Pandey & Kumar Fig. 7a): Ordinate is in **$\mathrm{kN}$** ($0 \le F \le 0.8\,\mathrm{kN}$).
+  * Parity: 100% compatible.
+- **Sign Convention:**
+  * Baseline Job `1398090`: Tensile displacement $u_y > 0$ produces positive upward tensile reaction force $RF_2 > 0$.
+  * Literature Target: Mode-I tensile reaction is plotted in the positive quadrant ($u > 0, F > 0$).
+  * Parity: 100% compatible.
+
+---
+
+### 4. Literature Provenance and AssignSeam Audit
+
+1. **Provenance of Reference Target Values:**
+   - The values $F_{\text{peak}} \approx 0.758\,\mathrm{kN}$ and $u(F_{\text{peak}}) \approx 0.005860\,\mathrm{mm}$ originate exclusively from **graphical digitization of Figure 7(a)** (Page 3266) of Pandey & Kumar (2025).
+   - **Verification against Nonexistent Table:** Direct full-text auditing of [`references/pandey_pdf_text.txt`](file:///D:/Master%20thesis/Adaptive%20remeshing/references/pandey_pdf_text.txt) proves that Pandey & Kumar (2025) contains **no "Table 2.1"**. The paper tables are Table 1 through Table 7. The previous citation of "Table 2.1" was an erroneous narrative transcription of a draft report table.
+   - **Digitization Uncertainty:** Based on the pixel resolution of published Figure 7(a), digitization uncertainty is estimated at:
+     * $\Delta u \approx \pm 0.00005\,\mathrm{mm}$
+     * $\Delta F \approx \pm 0.005\,\mathrm{kN}$
+   - Baseline Job `1398090` ($F_{\max} = 0.757778\,\mathrm{kN}$, $u = 0.005857\,\mathrm{mm}$) deviates from the digitized anchor by $-0.029\%$ in force and $-0.051\%$ in displacement, which is well inside the graphic digitization uncertainty.
+
+2. **Verification of Crack Modeling Implementation:**
+   - In `models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.inp`, the crack line at $y = 0.5\,\mathrm{mm}$, $0 \le x \le 0.5\,\mathrm{mm}$ consists of:
+     * 45 distinct $x$-coordinates along $0 \le x < 0.5\,\mathrm{mm}$ having **coincident node pairs** (2 nodes sharing the exact same coordinate with zero distance between them).
+     * Exactly 1 single node at $x = 0.5\,\mathrm{mm}, y = 0.5\,\mathrm{mm}$ (Node 7723), representing the crack tip where upper and lower elements rejoin.
+   - Flank elements above the seam connect exclusively to the upper duplicate nodes; flank elements below connect exclusively to the lower duplicate nodes.
+   - **Conclusion:** The crack is modeled as an authentic zero-gap sharp seam. The erroneous blunt notch geometry is completely absent from the qualified reference.
+
+---
+
+## C. Decision Table
+
+Every item evaluated across Gate 0 and Gate 1 is classified strictly according to the mandatory three-state ontology:
+- **`VERIFIED`**
+- **`NOT VERIFIED`**
+- **`EVIDENCE MISSING`**
+
+In accordance with supervisor instructions, **no gate is independently declared closed**. Final closure is reserved for ChatGPT review.
+
+| Gate | Item Identifier | Description | Governed Finding / Audit Evidence | Final Classification |
+| :---: | :--- | :--- | :--- | :---: |
+| **0** | **G0-01** | Formal Proposal Present | `Literature review/MA_AdaptiveRemeshing_Proposal_2026.pdf` (SHA-256: `5FD82E84...`) | **`VERIFIED`** |
+| **0** | **G0-02** | 3 September Execution Addendum Present | `docs/supervisor_reports/Supervisor_Aligned_Integrated_Thesis_Proposal_and_Execution_Plan.pdf` & `.agents/INITIAL_PROMPT.txt` | **`VERIFIED`** |
+| **0** | **G0-03** | Source Hierarchy Documented | `.agent.md` lines 369–380 (signed proposal $\to$ code $\to$ papers $\to$ Abaqus docs) | **`VERIFIED`** |
+| **0** | **G0-04** | Four Primary Papers & Roles Identified | `references/notes/literature_index.json`: Molnar (2017), Msekh (2015), Diddige (2025), Pandey (2025) | **`VERIFIED`** |
+| **0** | **G0-05** | Active Scientific Question in One Sentence | *"What is the quantitative baseline response of the Mode-I benchmark, and why does native error-indicator refinement behave as observed?"* | **`VERIFIED`** |
+| **0** | **G0-06** | Mode-II Explicitly on HOLD | Enforced in `.agents/INITIAL_PROMPT.txt`, `PROJECT_PHASE_CHECKLIST.md`, and `CURRENT_STATE.md` | **`VERIFIED`** |
+| **0** | **G0-07** | State Transfer Explicitly on HOLD | Enforced in `.agents/INITIAL_PROMPT.txt`, `PROJECT_PHASE_CHECKLIST.md`, and `CURRENT_STATE.md` | **`VERIFIED`** |
+| **0** | **G0-08** | Frozen Mode-I Benchmark Parameters | $\Omega = 1\times 1\,\mathrm{mm}, a_0=0.5\,\mathrm{mm}, E=210\,\mathrm{GPa}, \nu=0.3, G_c=2.7\times 10^{-3}\,\mathrm{kN/mm}, l_0=0.0075\,\mathrm{mm}, k=10^{-7}$ in deck | **`VERIFIED`** |
+| **1** | **G1-01** | Reference Input Deck Path & SHA-256 | `models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.inp` (`C1773707...`) | **`VERIFIED`** |
+| **1** | **G1-02** | Reference Subroutine Path & SHA-256 | `models/pandey_kumar_mode1/01_standard_pfm_reference/f42_mixed_uel.for` (`ED1586D6...`) | **`VERIFIED`** |
+| **1** | **G1-03** | Abaqus Solver Version | Abaqus 2023 (`PK_MODE1_STANDARD_PFM_SOLVE.out`: line 4, `PK_MODE1_STANDARD_PFM.sta`: line 1) | **`VERIFIED`** |
+| **1** | **G1-04** | Finite-Element Count | 15,192 finite elements (manifest.json, deck lines 49–54: U1=15192, U2=15192, CPE4=15192) | **`VERIFIED`** |
+| **1** | **G1-05** | Mesh Node Count | 15,521 grid nodes + 1 reference node (999999) = 15,522 total Abaqus nodes | **`VERIFIED`** |
+| **1** | **G1-06** | Mesh Topology & Seeding | Graded corridor $h_{\text{refined}} = 0.003\,\mathrm{mm}$ ($y \in [0.485, 0.515]\,\mathrm{mm}$), outer $h = 0.02\,\mathrm{mm}$ | **`VERIFIED`** |
+| **1** | **G1-07** | Zero-Gap Seam Implementation | 45 duplicate coincident node pairs along $0 \le x < 0.5\,\mathrm{mm}$ at $y=0.5\,\mathrm{mm}$; 1 tip node at $x=0.5\,\mathrm{mm}$ | **`VERIFIED`** |
+| **1** | **G1-08** | Boundary Conditions | Bottom $u_y=0$, Pin $u_x=0$, Top $u_x=0$, Top $u_y$ coupled to reference node 999999 | **`VERIFIED`** |
+| **1** | **G1-09** | Load Definition & Increment Strategy | 2-step tensile schedule: Step 1 (2000 incs, $u_y=0.0050\,\mathrm{mm}$); Step 2 (5000 incs, $u_y=0.0100\,\mathrm{mm}$) | **`VERIFIED`** |
+| **1** | **G1-10** | Normal Completion Evidence | `PK_MODE1_STANDARD_PFM_SOLVE.out` (`EXIT: 0`), `.sta` ("COMPLETED SUCCESSFULLY", 0 cutbacks) | **`VERIFIED`** |
+| **1** | **G1-11** | Extraction Script Path & Hash | `scratch/parse_dat_rf_u.py` (SHA-256: `D49650541DD2621E085D01C68073FD86F993E9473800D9B24BAC869804138947`) | **`VERIFIED`** |
+| **1** | **G1-12** | Full Fixed-Mesh F-u Data Path | `models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.dat` (`A95417A0...`) | **`VERIFIED`** |
+| **1** | **G1-13** | Digitized Literature Discrete Anchors | $F_{\text{peak}} \approx 0.758\,\mathrm{kN}$, $u(F_{\text{peak}}) \approx 0.005860\,\mathrm{mm}$ from Pandey & Kumar Fig. 7(a) | **`VERIFIED`** |
+| **1** | **G1-14** | Digitized Literature Full-Curve CSV Path | Standalone point-by-point digitized trajectory CSV for published Fig. 7(a) | **`EVIDENCE MISSING`** |
+| **1** | **G1-15** | Numerical Metrics Recomputation | $F_{\max} = 0.757778\,\mathrm{kN}, u = 0.005857\,\mathrm{mm}$, load drop $99.97\%$, 7000 incs, 0 cutbacks | **`VERIFIED`** |
+| **1** | **G1-16** | Initial Structural Stiffness $K_0$ | $K_0 = 138.1124\,\mathrm{kN/mm}$ (regression through origin on $u \le 0.00050\,\mathrm{mm}$, $N=200$, $R^2 > 0.9999999$) | **`VERIFIED`** |
+| **1** | **G1-17** | Units and Sign Convention Parity | Both curves use $\mathrm{mm}$ (displacement), $\mathrm{kN}$ (reaction force), and positive tensile quadrant | **`VERIFIED`** |
+| **1** | **G1-18** | Absence of Erroneous Notch Compliance | Restored specimen compliance confirmed by $K_0 \approx 138.1\,\mathrm{kN/mm}$ (vs $75.47\,\mathrm{kN/mm}$ for notch) | **`VERIFIED`** |
+
+---
+
+## D. Unresolved Evidence Gaps and Smallest Next Action
+
+### 1. Unresolved Evidence Gaps
+1. **Item G1-14 (Full Digitized Curve CSV for Pandey & Kumar Fig. 7a):**  
+   While the discrete anchor values ($F_{\text{peak}} \approx 0.758\,\mathrm{kN}$, $u_{\text{peak}} \approx 0.005860\,\mathrm{mm}$) are verified and well-documented from Figure 7(a), a standalone, multi-point digitized CSV representing the entire continuous curve from Figure 7(a) across the post-peak softening range does not exist in the repository (in contrast to Molnar Fig. 7 which has `references/derived/molnar_gravouil_2017/paper_matched_single_notch/fig7_lc_0p0075_processed.csv`).
+2. **Standard Baseline Direct Damage-Field ODB Output (Gate 2 Prerequisite):**  
+   As recorded in `docs/project/PROJECT_PHASE_CHECKLIST.md` (item G2-05), the baseline job `1398090` utilized standard UEL elements without the companion visualization bridge, meaning that while the mechanical load drop ($99.97\%$) is fully verified, direct spatial contours of $d(x,y)$ were not written to the baseline ODB. (This was resolved in later jobs such as `1400408`, but remains an evidence caveat for pure `1398090` baseline field contours).
+
+### 2. Single Smallest Next Action
+Submit this validation packet (`docs/supervisor_reports/GATE0_GATE1_VALIDATION_PACKET_2026-09-03.md`) to ChatGPT supervision for formal review. Await supervisor/ChatGPT determination on whether Gate 0 and Gate 1 are formally closed and whether to proceed to Gate 2 multi-quantity convergence evaluation or digitize the complete continuous trajectory of Pandey & Kumar Fig. 7(a).

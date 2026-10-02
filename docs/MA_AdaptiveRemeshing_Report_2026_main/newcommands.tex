@@ -1,0 +1,65 @@
+%
+% This file defines your own symbols, which is very useful
+% to have a consistent mathematical notation throughout your document
+% subdivide into scalars, vectors, tensors, sets, operators, ...
+%
+% scalars
+%
+\newcommand{\strain}{\varepsilon}
+\newcommand{\stress}{\sigma}
+\newcommand{\disp}{u}
+\newcommand{\velo}{v}
+%
+% vectors
+%
+\newcommand{\uvec}{\boldsymbol{u}}
+\newcommand{\vvec}{\boldsymbol{v}}
+%
+% second-order tensors
+%
+\newcommand{\sten}{\boldsymbol{\sigma}}         % stress tensor
+\newcommand{\eten}{\boldsymbol{\varepsilon}}    % strain tensor
+\newcommand{\Iten}{\boldsymbol{I}}              % unit tensor
+\newcommand{\defGrad}{\boldsymbol{F}}           % deformation gradient
+%
+% forth order tensors
+%
+\newcommand{\Cten}{\mathbb{C}}                  % stiffness tensor
+\newcommand{\Dten}{\mathbb{D}}                  % compliance tensor
+\newcommand{\IIten}{\mathbb{I}}                 % forth order unit tensor
+%
+% sets
+%
+\newcommand{\Body}{\mathcal{B}}                 % body
+\newcommand{\Iset}{\mathcal{I}}                 % set of input data
+\newcommand{\Oset}{\mathcal{O}}                 % set of output data
+\newcommand{\Sset}{\mathcal{S}}                 % some set
+%
+% operators with arguments
+%
+\providecommand{\op}[1]{\operatorname{#1}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
+\newcommand{\argmin}[1]{\underset{#1}{\operatorname{argmin}}}
+\newcommand{\deriv}[2]{\dfrac{\mathrm{d}{#1}}{\mathrm{d}{#2}}}
+\newcommand{\dev}[1]{\op{dev}\left( #1 \right)}
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+\newcommand{\pdiff}[2]{\dfrac{\partial{#1}}{\partial{#2}}}
+\newcommand{\pddiff}[2]{\dfrac{\partial^2{#1}}{\partial{#2}^2}}
+\newcommand{\pdddiff}[3]{\dfrac{\partial^2{#1}}{\partial{#2}\partial{#3}}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+%
+% alphabets (just for testing fonts)
+%
+\newcommand{\abc}{abcdefghijklmnopqrstuvwxyz1234567890}
+\newcommand{\ABC}{ABCDEFGHIJKLMNOPQRSTUVWXYZ}
+\newcommand{\greek}{\alpha \beta \gamma \delta \epsilon \varepsilon \zeta \eta \theta \vartheta \iota \kappa \lambda \mu \nu \xi o \pi \rho \varrho \sigma \tau \upsilon \phi \varphi \chi \psi \omega}
+\newcommand{\Greek}{A B \Gamma \Delta E Z H \Theta I K \Lambda M N \Xi O \Pi P \Sigma T \Upsilon \Phi X \Psi \Omega}
+%
+% thesis-specific macros
+%
+\newcommand{\Gc}{G_{\mathrm{c}}}
+\newcommand{\ellzero}{l_0}
+\newcommand{\MISESERI}{\texttt{MISESERI}}
+\newcommand{\Abaqus}{Abaqus}
+\newcommand{\Hist}{\mathcal{H}}

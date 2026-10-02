@@ -1,0 +1,140 @@
+{
+  "canonical_k0": {
+    "sample_count_N": 400, 
+    "fit_interval_u_mm": [
+      2.499999936844688e-06, 
+      0.0010000000474974513
+    ], 
+    "k0_slope_kN_per_mm": 137.82080365780772, 
+    "mean_spacing_du_mm": 2.5000001191995155e-06, 
+    "k0_r2": 0.9999995991902418, 
+    "k0_intercept_kN": 4.470212981823318e-05
+  }, 
+  "force_checkpoints": {
+    "0.0060": {
+      "rf_kN": 0.35116687417030334, 
+      "u_actual_mm": 0.006000000052154064, 
+      "delta_u_mm": 5.2154064053566707e-11, 
+      "target_u_mm": 0.006
+    }, 
+    "0.0058": {
+      "rf_kN": 0.5230000019073486, 
+      "u_actual_mm": 0.005799999926239252, 
+      "delta_u_mm": -7.376074750986561e-11, 
+      "target_u_mm": 0.0058
+    }, 
+    "0.0010": {
+      "rf_kN": 0.1377994567155838, 
+      "u_actual_mm": 0.0010000000474974513, 
+      "delta_u_mm": 4.749745128457272e-11, 
+      "target_u_mm": 0.001
+    }, 
+    "0.0068": {
+      "rf_kN": 0.2058548480272293, 
+      "u_actual_mm": 0.006773999892175198, 
+      "delta_u_mm": -1.0782480203835876e-10, 
+      "target_u_mm": 0.006774
+    }, 
+    "0.0050": {
+      "rf_kN": 0.6613659858703613, 
+      "u_actual_mm": 0.004999999888241291, 
+      "delta_u_mm": -1.1175870905794083e-10, 
+      "target_u_mm": 0.005
+    }, 
+    "0.0040": {
+      "rf_kN": 0.5376912355422974, 
+      "u_actual_mm": 0.004000000189989805, 
+      "delta_u_mm": 1.899898051382909e-10, 
+      "target_u_mm": 0.004
+    }
+  }, 
+  "sta_computational_cost": {
+    "last_step_time": 1.35, 
+    "total_increments": 3804, 
+    "total_cutbacks": 30, 
+    "last_total_time": 0.355, 
+    "increments_summary_count": 3804, 
+    "total_iterations": 11764
+  }, 
+  "damage_checkpoints": {
+    "0.0060": {
+      "actual_u_mm": 0.006000000052154064, 
+      "d_max": 0.0, 
+      "target_u_mm": 0.006
+    }, 
+    "0.0058": {
+      "actual_u_mm": 0.005799999926239252, 
+      "d_max": 0.0, 
+      "target_u_mm": 0.0058
+    }, 
+    "0.0010": {
+      "actual_u_mm": 0.0010000000474974513, 
+      "d_max": 0.0, 
+      "target_u_mm": 0.001
+    }, 
+    "0.0068": {
+      "actual_u_mm": 0.006773999892175198, 
+      "d_max": 0.0, 
+      "target_u_mm": 0.006774
+    }, 
+    "0.0050": {
+      "actual_u_mm": 0.004999999888241291, 
+      "d_max": 0.0, 
+      "target_u_mm": 0.005
+    }, 
+    "0.0040": {
+      "actual_u_mm": 0.004000000189989805, 
+      "d_max": 0.0, 
+      "target_u_mm": 0.004
+    }
+  }, 
+  "crack_path_diagnostics": {
+    "crack_ridge_symmetry_line_y_target_mm": 0.5, 
+    "final_frame_u_mm": 0.006774068810045719, 
+    "high_damage_count_d_gt_05": 0, 
+    "top_damage_elements": []
+  }, 
+  "reference_1398090_comparison": {
+    "partial_window_overlap_points": 3786, 
+    "k0_ref_kN_per_mm": 137.94551964508398, 
+    "partial_window_overlap_l2_rms_kN": 0.16050148215529497, 
+    "delta_u_peak_pct": -1.8268736353786805, 
+    "partial_window_u_max_mm": 0.006774068810045719, 
+    "delta_f_max_pct": -1.6434564046403668, 
+    "k0_ref_intercept_kN": 4.472367510163777e-05, 
+    "ref_source_csv": "curve_standard_1398090.csv", 
+    "partial_window_qualification_note": "Explicitly evaluated over converged partial overlap window 0 <= u <= 0.006774 mm; not a claim of full-range crack complete separation.", 
+    "k0_ref_N": 400, 
+    "f_max_ref_kN": 0.75777849, 
+    "l2_pre_peak_points": 2752, 
+    "delta_k0_pct": -0.09040959619213369, 
+    "k0_ref_r2": 0.9999995995397376, 
+    "u_peak_ref_mm": 0.005857, 
+    "l2_pre_peak_rms_kN": 0.0006247044046703096
+  }, 
+  "defective_1399632_comparison": {
+    "ratio_to_defective_k0": 1.1261843679977974, 
+    "l2_defective_pre_peak_rms_kN": 0.039240784667958745, 
+    "u_peak_defective_mm": 0.00415, 
+    "defective_source_csv": "curve_adaptive_1399632.csv", 
+    "l2_defective_overlap_rms_kN": 0.15813596060626817, 
+    "f_max_defective_kN": 0.47820333, 
+    "k0_defective_kN_per_mm": 122.37854437886965, 
+    "delta_k0_recovery_pct": 12.618436799779738
+  }, 
+  "job_id": "1404306.mmaster02", 
+  "trajectory_endpoints": {
+    "rf_final_kN": 0.1844654232263565, 
+    "total_converged_points": 3786, 
+    "u_final_mm": 0.006774068810045719
+  }, 
+  "fracture_work": {
+    "w_ext_mJ": 2.572602333217726, 
+    "w_ext_J": 0.002572602333217726, 
+    "uel_energy_limitation_note": "Built-in Abaqus ENERGY arrays are not populated for co-located UEL formulation; work is rigorously computed from external reaction force work integral int F du."
+  }, 
+  "peak_metrics": {
+    "u_peak_mm": 0.005750000011175871, 
+    "f_max_kN": 0.7453247308731079
+  }
+}

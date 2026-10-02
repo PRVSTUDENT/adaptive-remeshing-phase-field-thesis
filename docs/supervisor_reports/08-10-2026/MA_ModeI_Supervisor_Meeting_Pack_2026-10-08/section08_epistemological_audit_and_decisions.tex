@@ -1,0 +1,46 @@
+\section{Epistemological Audit, Claim Ledger, and Supervisory Decisions}
+\label{sec:epistemological_audit_and_decisions}
+
+\subsection{Compact Supervisor-Facing Claim Ledger}
+Table~\ref{tab:claim_ledger_pack} classifies the standing of all findings into three mutually exclusive categories: THEORY, VERIFIED NUMERICAL EVIDENCE, and UNRESOLVED.
+
+\begin{table}[htbp]
+\centering
+\caption{Compact Mode-I Claim Ledger across Core Physical and Energetic Metrics.}
+\label{tab:claim_ledger_pack}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\textwidth}{p{2.2cm}p{3.8cm}p{4.2cm}X}
+\toprule
+Metric / Aspect & \textbf{THEORY} (Continuum / Formulation) & \textbf{VERIFIED EVIDENCE} (Audited Artifacts) & \textbf{UNRESOLVED} (Boundaries / Open Scope) \\
+\midrule
+1. Initial Stiffness $K_0$ & Continuum linear elasticity ($\boldsymbol{\sigma} = \mathbb{C}_0 : \boldsymbol{\varepsilon}$) provides reference stiffness. & $K_0 = 137.84$--$137.95\,\mathrm{kN/mm}$ ($\Delta < 0.08\%$ spatial across $S_1$--$S_4$, $\Delta < 0.001\%$ temporal across $T_1$--$T_3$). Baseline $S_1$: $137.9455\,\mathrm{kN/mm}$. & None for standard Mode-I; \textbf{\texttt{CONVERGED / STABLE}}. \\
+\addlinespace
+2. Spatial Peak Force $F_{\max}$ & Degradation $g(d) = (1-d)^2 + k_{\mathrm{res}}$ couples strain energy to damage evolution. & Monotonic reduction: $F_{\max} = 0.7578\,\mathrm{kN}$ ($S_1$) $\to 0.7312\,\mathrm{kN}$ ($S_4$) $\to 0.7255\,\mathrm{kN}$ (historical fine mesh), $4.26\%$ drop across $h/l_0 \in [0.133, 0.400]$. & Asymptotic spatial convergence is not established within the tested mesh range; \textbf{\texttt{MESH-SENSITIVE}}. \\
+\addlinespace
+3. Temporal Peak Force $F_{\max}$ & Temporal invariance of limit load under $\Delta t$ scaling. & Invariant: $F_{\max} = 0.75815\,\mathrm{kN}$ ($T_1$) $\to 0.75763\,\mathrm{kN}$ ($T_3$), spread $\Delta < 0.069\%$. & None across tested time-step range; \textbf{\texttt{CONVERGED / STABLE}}. \\
+\addlinespace
+4. Pre-Peak Work $W_{\mathrm{trap}}$ & Trapezoidal boundary-work estimate $W_{\mathrm{trap},n} = \sum_{i=1}^{n} \frac{F_i+F_{i-1}}{2}(u_i-u_{i-1})$. & $W_{\mathrm{trap}} \in [2.035, 2.038]\,\mathrm{mJ}$ at $u = 5.50\,\mu\mathrm{m}$ across tested cases ($\Delta < 0.15\%$). & Stable over tested pre-peak range; \textbf{\texttt{CONVERGED / STABLE}}. \\
+\addlinespace
+5. Terminal Work $W_{\mathrm{trap}}$ & Endpoint integral along displacement path. & Full runs: $W_{\mathrm{trap}} = 2.4101\,\mathrm{mJ}$ ($T_1$) $\to 2.3319\,\mathrm{mJ}$ ($T_3$) ($3.24\%$ variation); cutback runs truncated at $u=6.8$--$9.6\,\mu\mathrm{m}$. & Cross-mesh terminal comparison at unequal cutback endpoints is not qualified; \textbf{\texttt{TEMPORALLY SENSITIVE}}. \\
+\addlinespace
+6. Length-Scale ($l_0$) Sensitivity & Characteristic width of regularized damage band. & 3-point fixed-$S_3$ study: $l_0 \in \{7.5, 11.25, 15.0\}\,\mu\mathrm{m}$ yields $K_0$ spread $0.13\%$ (\textbf{\texttt{STABLE}}), $F_{\max}$ drop $5.83\%$ ($0.732 \to 0.690\,\mathrm{kN}$) and $u_{\mathrm{peak}}$ shift ($5.633 \to 5.579\,\mu\mathrm{m}$). & Terminal energy across unequal endpoints: \textbf{\texttt{NOT\_YET\_QUALIFIED\_UNEQUAL\_ENDPOINTS}}. \\
+\addlinespace
+7. UEL Energy Terms & Implemented integrals of $E_{\mathrm{elas}}$ and $E_{\mathrm{frac}}$ in \nolinkurl{f42_mixed_uel.for}. & Unit-105 CSV and ODB IP1: $E_{\mathrm{elas}} = 1.1608\times 10^{-3}\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 2.34021\,\mathrm{mJ}$; matched-displacement spatial energy convergence is quantified for $S_1$--$S_4$. & Terminal cross-mesh energy comparison at unequal cutback endpoints is not qualified. \\
+\addlinespace
+8. Bookkeeping Difference & Algebraic difference $W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$. & Baseline $S_1$: $+0.7607\%$ ($+1.795\times 10^{-2}\,\mathrm{mJ}$); $T_1 \to T_3$: $+0.378\% \to +3.541\%$. & Exact decomposition requires within-increment path; \textbf{\texttt{TEMPORALLY SENSITIVE}}. \\
+\addlinespace
+9. Global Energy Identity & Staggered solution scheme lacks joint discrete scalar potential. & Non-commutativity $\partial^2 \Pi / \partial \mathbf{u} \partial d \ne \partial^2 \Pi / \partial d \partial \mathbf{u}$; ODB does not record within-increment paths. & \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}}. \\
+\addlinespace
+10. Damage-Weighted Crack-Centroid Trajectory & Symmetric Mode-I crack extension along centerline $y = 0.500\,\mathrm{mm}$. & Centroid offset $|y_c - 0.5\,\mathrm{mm}| \le 3.10\,\mu\mathrm{m}$ across all meshes; bounded within single element dimension. & Pure Mode-I symmetry preserved; \textbf{\texttt{CONVERGED / STABLE}}. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Decisions and Direction Requested for 08 October Meeting}
+\begin{enumerate}
+  \item \textbf{Mode-I Foundations Approval:} Review and formal acceptance of the updated Mode-I thesis chapters (Chapters 1--3, 7--8) incorporating all verified mechanical, adaptive, and energetic findings.
+  \item \textbf{Supervisor Decision on Gate 6B Closure:} Supervisory ruling on accepting the endpoint energetic qualification and acknowledging the formal epistemic boundary \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}} as the closed state of Gate~6B.
+  \item \textbf{Authorization to Proceed to Gate 6C:} Transition to Gate~6C (State Transfer Energy Preservation) upon formal closure of Gate~6B.
+  \item \textbf{Maintenance of Scope Holds:} Confirmation that Mode-II, multi-crack configurations, and Gate~7 visualization remain paused until Gate~6C state transfer is completed.
+\end{enumerate}

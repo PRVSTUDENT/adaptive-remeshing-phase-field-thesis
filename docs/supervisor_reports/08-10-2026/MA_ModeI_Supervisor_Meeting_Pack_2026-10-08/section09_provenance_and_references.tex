@@ -1,0 +1,46 @@
+\section{Job Ledger, Artifact Provenance, and References}
+\label{sec:provenance_and_references}
+
+\subsection{Authoritative Job Ledger}
+Table~\ref{tab:job_ledger_pack} lists the key Abaqus simulations constituting the Mode-I evidence base, executed on the TU Bergakademie Freiberg HPC cluster (\texttt{mmaster02}, queue \texttt{normal\_imfdfkmq}).
+
+\begin{table}[htbp]
+\centering
+\caption{Authoritative HPC Job Ledger for the Mode-I Benchmark Series.}
+\label{tab:job_ledger_pack}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\textwidth}{llYlrl}
+\toprule
+Job ID & Model Name & Description & Input Deck Hash & Elements & Exit Status \\
+\midrule
+\texttt{1406015.mmaster02} & \texttt{PK\_M1\_S1\_H0030} & Canonical spatial baseline $S_1$ ($h=3.0\,\mu\mathrm{m}$) & \texttt{bc000e0c579...} & $15{,}192$ & \texttt{Exit\_status=0} \\
+\texttt{1398090.mmaster02} & \texttt{PK\_M1\_FIX\_REF} & Historical reference anchor & \texttt{a845ef1a37c...} & $15{,}192$ & \texttt{Exit\_status=0} \\
+\texttt{1404933.mmaster02} & \texttt{PK\_M1\_NOM1\_1404933} & Corrected 71k full fracture & \texttt{72674e2ba05...} & $71{,}320$ & \texttt{Exit\_status=0} \\
+\texttt{1405044.mmaster02} & \texttt{PK\_M1\_FROZEN\_71K} & Frozen elastic requalification & \texttt{3bbdfb9a528...} & $71{,}320$ & \texttt{Exit\_status=0} \\
+\texttt{1406016.mmaster02} & \texttt{PK\_M1\_S2\_H0020} & Spatial fine $S_2$ ($h=2.0\,\mu\mathrm{m}$) & \texttt{34ec7f0b5d0...} & $32{,}130$ & \texttt{Exit\_status=0} (Cutback) \\
+\texttt{1406017.mmaster02} & \texttt{PK\_M1\_S3\_H0015} & Spatial fine $S_3$ ($h=1.5\,\mu\mathrm{m}, l_0=7.5\,\mu\mathrm{m}$) & \texttt{eb009f188a2...} & $41{,}912$ & \texttt{Exit\_status=0} (Cutback) \\
+\texttt{1406018.mmaster02} & \texttt{PK\_M1\_S4\_H00125} & Spatial fine $S_4$ ($h=1.25\,\mu\mathrm{m}$) & \texttt{cc88dfd1b08...} & $51{,}408$ & \texttt{Exit\_status=0} (Cutback) \\
+\texttt{1406019.mmaster02} & \texttt{PK\_M1\_S5\_H00100} & Historical fine ($h=1.0\,\mu\mathrm{m}$; legacy model name; not governed $S_5$) & \texttt{634b3d758f8...} & $69{,}384$ & \texttt{Exit\_status=0} (Cutback) \\
+\texttt{1406020.mmaster02} & \texttt{PK\_M1\_T1\_DT2X} & Temporal coarse $T_1$ ($2.0\times\Delta t$) & \texttt{ad9dfa6d899...} & $15{,}192$ & \texttt{Exit\_status=0} \\
+\texttt{1406021.mmaster02} & \texttt{PK\_M1\_T2\_DT1X} & Temporal nominal $T_2$ ($1.0\times\Delta t$) & \texttt{fa88301c272...} & $15{,}192$ & \texttt{Exit\_status=0} \\
+\texttt{1406317.mmaster02} & \texttt{PK\_M1\_T3\_DT05X\_R2} & Temporal fine $T_3$ ($0.5\times\Delta t$) & \texttt{92562479633...} & $15{,}192$ & \texttt{Exit\_status=0} (Full) \\
+\texttt{1406278.mmaster02} & \texttt{PK\_M1\_A2\_2PCT} & Adaptive $A_2$ (2\% errorTarget) & \texttt{d4ec8aa9ebf...} & $15{,}396$ & \texttt{Exit\_status=0} \\
+\texttt{1406273.mmaster02} & \texttt{PK\_M1\_A3\_3PCT} & Adaptive $A_3$ (3\% errorTarget) & \texttt{bb185fca481...} & $7{,}633$ & \texttt{Exit\_status=0} \\
+\texttt{1406311.mmaster02} & \texttt{PK\_M1\_A3\_FINE\_DT} & Adaptive $A_3$ fine $\Delta t$ ($0.5\times$) & \texttt{8c14cf29b4e...} & $7{,}633$ & \texttt{Exit\_status=0} \\
+\texttt{1406279.mmaster02} & \texttt{PK\_M1\_A4\_5PCT} & Adaptive $A_4$ (5\% errorTarget) & \texttt{82bcf2ff1c5...} & $4{,}194$ & \texttt{Exit\_status=0} \\
+\texttt{1406839.mmaster02} & \texttt{PK\_M1\_S1\_DIAG\_R2} & Historical diagnostic energy-output run; non-authoritative for canonical $S_1$ provenance & \texttt{fa88301c272...} & $15{,}192$ & \texttt{Exit\_status=0} \\
+\texttt{1406895.mmaster02} & \texttt{PK\_M1\_S3\_L01125} & $l_0 = 11.25\,\mu\mathrm{m}$ on fixed $S_3$ mesh & \texttt{77df64d10d0...} & $41{,}912$ & \texttt{Exit\_status=0} (Full) \\
+\texttt{1406896.mmaster02} & \texttt{PK\_M1\_S3\_L01500} & $l_0 = 15.00\,\mu\mathrm{m}$ on fixed $S_3$ mesh & \texttt{ff13ba60800...} & $41{,}912$ & \texttt{Exit\_status=0} (Full) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Subroutine Integrity}
+The authoritative user subroutine \nolinkurl{f42_mixed_uel.for} governing all production calculations has the immutable cryptographic hash:
+\begin{center}
+  \texttt{SHA256: 5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46}
+\end{center}
+
+\bibliographystyle{abbrvnat}
+\bibliography{literature}

@@ -1,0 +1,77 @@
+{
+  "metadata": {
+    "title": "Gate-6 Post-Peak Mesh Hypothesis and Causal Downgrade Audit",
+    "benchmark": "Pandey & Kumar (2025) Mode-I 2D Phase-Field Fracture",
+    "job_reference": "1398090.mmaster02",
+    "job_adaptive": "1404454.mmaster02",
+    "diagnostic_twin_job": "1404931.mmaster02",
+    "date": "2026-09-12",
+    "status": "CONTROLLED_AUDIT_COMPLETED",
+    "gate_status": "CORRECTED_HIGH_BRANCH_ADAPTIVE_REPRODUCTION_PARTIALLY_QUALIFIED"
+  },
+  "audit_claims": [
+    {
+      "claim_id": "CLM-01",
+      "claim": "Downstream element coarsening (h/l0 > 0.40) is the sole primary cause of the artificial load plateau (F ~ 0.18 kN) and Newton-Raphson divergence in Adaptive Job 1404454.",
+      "evidence": "In the qualified fixed-mesh family (h in [0.001, 0.003] mm, h/l0 <= 0.40 across entire ligament), all meshes soften monotonically to complete separation (F_res < 0.0005 kN). In Job 1404454, the downstream ligament coarsens significantly (h/l0 rises to 0.88-1.04 in [0.85, 0.90] mm, and 0.67 near Node 61805 at x=0.94 mm), spatially coinciding with the zone where the solver suffers Newton-Raphson divergence and terminates.",
+      "counterevidence": "Spatial coincidence does not constitute causal proof. Incident elements to failure Node 61805 have h/l0 in [0.635, 0.698], which is strictly less than 1.0 (contrary to initial assumption of h > l0 at the failure node). Furthermore, Job 1404454 concurrently introduces 1,877 linear CST triangles (151 near the ligament), 100 duplicate node pairs vs 45, and unrefined downstream boundaries. No controlled one-factor run isolating mesh coarsening from these other factors has been performed.",
+      "controlled_test_exists": false,
+      "epistemic_classification": "SUPPORTED_ASSOCIATION_NOT_CAUSAL",
+      "next_required_test": "Controlled one-factor benchmark: either a structured pure quad mesh with downstream coarsening (h >= 0.006 mm for x > 0.70 mm) without triangles, or an active dynamic remeshing run tracking the propagating crack tip."
+    },
+    {
+      "claim_id": "CLM-02",
+      "claim": "Degree of freedom 3 at Node 61805 in Job 1404454 corresponds mathematically and directly to the scalar phase-field order parameter d.",
+      "evidence": "Verified directly from input deck syntax in PK_M1_NOM1_FIELD_QUAL.inp: '*USER ELEMENT, TYPE=U1, NODES=4 ... \\n 3' and '*USER ELEMENT, TYPE=U3, NODES=3 ... \\n 3'. In Abaqus UEL definition syntax, the single integer '3' defines active degree of freedom 3 as the sole variable of the phase-field elements. Displacement elements U2 and U4 define active DOFs '1, 2'. Therefore, solver message file reports of largest displacement increment (0.121) and correction (0.05386) at Node 61805 DOF 3 represent phase-field order parameter divergence.",
+      "counterevidence": "None. Syntactic and mathematical linkage is exact and unambiguous.",
+      "controlled_test_exists": true,
+      "epistemic_classification": "VERIFIED",
+      "next_required_test": "None. Syntactically and mathematically closed."
+    },
+    {
+      "claim_id": "CLM-03",
+      "claim": "Companion visualizer layer with DDSDDE(I,I) = 1.D-11 and zero stress is mechanically non-intrusive in the elastic regime.",
+      "evidence": "Proven in Gate-6 2x2 factorial isolation experiment: Case 69b (pure UEL, Job 1403818) has K0 = 138.021015 kN/mm; Case 71b (UEL + 71,320 companion elements with elastic modulus 1e-11 kN/mm^2, Job 1403813) has K0 = 138.021015 kN/mm (R^2 = 1.00000000, delta K = 0.0000%). The mechanical reaction force contribution of 1e-11 kN/mm^2 is < 1e-10% of total reaction force.",
+      "counterevidence": "Factorial cells 69b and 71b were frozen-elastic / pre-cracking runs (u <= 0.0010 mm). Confirmation in the deep nonlinear post-peak fracture regime requires the completed solve of diagnostic twin Job 1404931.",
+      "controlled_test_exists": true,
+      "epistemic_classification": "VERIFIED",
+      "next_required_test": "Extract reaction force curve of Job 1404931 upon completion and verify overlay against Job 1404454 up to u = 0.0062 mm."
+    },
+    {
+      "claim_id": "CLM-04",
+      "claim": "Linear CST triangles (JTYPE 3 & 4) contribute to softening retardation or artificial stiffness along the crack path.",
+      "evidence": "Job 1404454 contains 1,877 linear 3-node triangular elements, with 151 triangles located in |y - 0.50| <= 0.05 mm and 5 triangles directly bisected by the ligament centerline y = 0.50 mm (e.g. Triangle 81 incident to Node 10000). Linear CST triangles with 1 Gauss point have lower order and different shear/volumetric locking characteristics than 2x2 Gauss quads.",
+      "counterevidence": "Triangles are sparse near the crack tip (x in [0.50, 0.65] mm has only 2 triangles on the ligament). No isolated run replacing triangles with quadrilateral elements while keeping the density field identical has been executed.",
+      "controlled_test_exists": false,
+      "epistemic_classification": "PLAUSIBLE_HYPOTHESIS",
+      "next_required_test": "Generate a pure quad adaptive mesh (Q4-only) with equivalent sizing function and compare softening trajectory."
+    },
+    {
+      "claim_id": "CLM-05",
+      "claim": "The minimum time increment dt_min = 1.0e-14 in Job 1404454 altered the terminal cutback behavior compared to 1.0e-9 in Job 1398090.",
+      "evidence": "Job 1398090 had min_dt = 1.0e-9 and ran to completion (u = 0.010 mm). Job 1404454 had min_dt = 1.0e-14 and aborted at u = 0.006774 mm after repeated cutbacks below 1.0e-14. With min_dt = 1.0e-9, Job 1404454 would have terminated earlier at u ~ 0.0063 mm.",
+      "counterevidence": "Altering dt_min controls only the cutback depth before solver abort; it does not generate the underlying Newton-Raphson residual divergence.",
+      "controlled_test_exists": true,
+      "epistemic_classification": "VERIFIED",
+      "next_required_test": "None. Documented as a solver control difference affecting termination threshold."
+    },
+    {
+      "claim_id": "CLM-06",
+      "claim": "The initial crack notch representation in Job 1404454 is numerically identical in dynamic propagation to Job 1398090.",
+      "evidence": "Both decks prescribe a zero-width sharp crack slit along y = 0.50 mm from x = 0.0 to x = 0.50 mm with duplicate coincident nodes.",
+      "counterevidence": "Due to mesh refinement along the notch flank, Job 1404454 contains 100 duplicate node pairs compared to 45 pairs in Job 1398090. This introduces differing crack flank compliance and local energy release rates during initial propagation.",
+      "controlled_test_exists": false,
+      "epistemic_classification": "PLAUSIBLE_HYPOTHESIS",
+      "next_required_test": "Boundary-layer crack-tip asymptotic field verification between 45-pair and 100-pair slit meshes."
+    },
+    {
+      "claim_id": "CLM-07",
+      "claim": "Job 1404931 is a strict, valid one-factor diagnostic twin of Job 1404454.",
+      "evidence": "Line-by-line unified diff between decks and Fortran source confirms exactly three changes: (1) companion visualizer UMAT state transfer logic added to f42_mixed_uel_sdv.for, (2) element output target changed from DISP_QUAD/TRI to umatelem in PK_M1_NOM1_SDV_TRUNC.inp, and (3) Step 2 time duration truncated from 1.0 (u=0.010 mm) to 0.24 (u=0.0062 mm). All kinematics, UEL formulations, geometry, mesh coordinates, and boundary conditions are bitwise identical.",
+      "counterevidence": "None. Unified diff confirms no extraneous modifications exist.",
+      "controlled_test_exists": true,
+      "epistemic_classification": "VERIFIED",
+      "next_required_test": "Await completion of Job 1404931 and harvest scalar damage field SDV14."
+    }
+  ]
+}

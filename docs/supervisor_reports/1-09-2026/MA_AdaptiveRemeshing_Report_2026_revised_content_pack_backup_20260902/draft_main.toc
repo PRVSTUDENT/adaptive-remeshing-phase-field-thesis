@@ -1,0 +1,60 @@
+\contentsline {chapter}{Abstract}{4}{chapter*.2}%
+\contentsline {chapter}{\numberline {1}Problem Statement, Theoretical Basis, and Reference Methods}{6}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Problem statement}{6}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Phase-field fracture formulation}{6}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Abaqus UEL/UMAT architecture}{7}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Reference mesh-refinement method}{7}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Objectives of the present work}{8}{section.1.5}%
+\contentsline {chapter}{\numberline {2}Verification of the Supplied Phase-Field Implementation}{9}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Purpose of the baseline}{9}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Moln\'ar one-element verification}{9}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Moln\'ar--Gravouil single-notch reproduction}{9}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Improved Moln\'ar Mode-I reference}{11}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Fixed-mesh Mode-I benchmark for the Pandey--Kumar comparison}{11}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Fixed-mesh quantitative reproduction}{13}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Geometry sanity check for later adaptive models}{14}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Baseline conclusion}{14}{section.2.8}%
+\contentsline {chapter}{\numberline {3}Abaqus-Native Error-Guided Mesh Refinement}{15}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Role of \texttt {MISESERI}}{15}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Reference-faithful two-job workflow}{15}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Mode-I reference settings}{17}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Observed mesh-density discrepancy}{17}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Interpretation}{18}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Nonmatching State Transfer and Restart}{19}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Why state transfer is required}{19}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Transferred quantities and mapping spaces}{19}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Runtime state ingestion}{19}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Restart sequence}{20}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Topology-changing restart results}{20}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Energy-accounting limitation}{22}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Current conclusion}{22}{section.4.7}%
+\contentsline {chapter}{\numberline {5}Multi-Resolution and Mode-II Validation Studies}{23}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Purpose of the secondary benchmarks}{23}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Uniform Mode-II mesh study}{23}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Multi-resolution transfer}{25}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Relation to the thesis objective}{25}{section.5.4}%
+\contentsline {chapter}{\numberline {6}HPC Execution and Parallelization Boundary}{26}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Production environment}{26}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Why the current production solver is serial}{26}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Computational-cost interpretation}{27}{section.6.3}%
+\contentsline {chapter}{\numberline {7}Task 5: Production Validation of Proposed Adaptive Refinement}{28}{chapter.7}%
+\contentsline {section}{\numberline {7.1}First sharp-slit production attempt}{28}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Authoritative calculation execution (1399632.mmaster02)}{29}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Adaptive-result evaluation and discrepancy audit}{29}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Global force--displacement response}{29}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Fail-closed discrepancy audit findings}{30}{subsection.7.3.2}%
+\contentsline {subsection}{\numberline {7.3.3}Phase-field evolution and crack path}{31}{subsection.7.3.3}%
+\contentsline {section}{\numberline {7.4}Controlled 2.0\% errorTarget qualification and active production solve (1400366.mmaster02)}{31}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Physical mesh forensics}{32}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Independent elastic qualification}{32}{subsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.4.3}Authoritative 2.0\% production submission}{32}{subsection.7.4.3}%
+\contentsline {section}{\numberline {7.5}Scientific verdict and task status}{33}{section.7.5}%
+\contentsline {chapter}{\numberline {8}Conclusions and Remaining Work}{34}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Results established so far}{34}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Open questions}{35}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Next steps}{35}{section.8.3}%
+\contentsline {chapter}{\numberline {A}Reproducibility and Current Execution Record}{36}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Direct visual evidence status}{36}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Key calculations}{36}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Current Task-5 scientific parameters and provenance}{36}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Notification path status}{37}{section.A.4}%

@@ -1,0 +1,97 @@
+\section{Mode-I Benchmark Definition \& Conventional Reference Anchor}
+\label{sec:benchmark_and_reference}
+
+\subsection{Governing Boundary Value Problem}
+The benchmark corresponds to the single-edge-notched square plate under Mode-I tensile loading investigated by Pandey \& Kumar \citep{Pandey2025}, based on the standard variational phase-field formulations of brittle fracture \citep{Msekh2015,Molnar2017}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.36\textwidth]{fig_mode1_geometry.png}
+  \caption{Mode-I fracture benchmark geometry: $1.0\times 1.0\,\mathrm{mm}$ plate with initial sharp slit seam ($a_0 = 0.5\,\mathrm{mm}$ along $y = 0.5\,\mathrm{mm}$, $0 \le x \le 0.5\,\mathrm{mm}$), roller bottom support with pinned origin, and prescribed top tensile displacement.}
+  \label{fig:mode1_geometry}
+\end{figure}
+
+\subsubsection{Geometry and Sharp Seam Representation}
+The computational domain is a unit square plate $\Omega = [0, 1] \times [0, 1]\,\mathrm{mm}$ containing an initial horizontal crack of length $a_0 = 0.5\,\mathrm{mm}$ along the symmetry line $y = 0.5\,\mathrm{mm}$ ($0 \le x \le 0.5\,\mathrm{mm}$). 
+\begin{quote}
+\textbf{Essential Benchmark Representation:} The crack is represented as a \textbf{zero-gap sharp seam} with coincident but geometrically distinct, uncoupled duplicate node pairs along the upper and lower crack flanks. Earlier exploratory models utilizing a finite-width notch radically increased compliance ($K_0 \approx 75.5\,\mathrm{kN/mm}$) and are strictly superseded; the zero-gap sharp seam is the mandatory benchmark representation.
+\end{quote}
+
+\subsubsection{Material and Phase-Field Regularization Parameters}
+The constitutive response follows isotropic linear elasticity coupled to the AT2 phase-field damage formulation:
+\begin{itemize}[leftmargin=4mm,itemsep=1pt,topsep=1pt]
+  \item Young's modulus: $E = 210\,\mathrm{GPa} = 210\,\mathrm{kN/mm^2}$
+  \item Poisson's ratio: $\nu = 0.3$
+  \item Critical energy release rate (fracture toughness): $G_c = 2.7 \times 10^{-3}\,\mathrm{kN/mm} = 2.7\,\mathrm{N/mm}$
+  \item Phase-field regularization length scale: $\ell_0 = 0.0075\,\mathrm{mm} = 7.5\,\mu\mathrm{m}$
+\end{itemize}
+
+\subsubsection{Boundary Conditions and Kinematics}
+The specimen is loaded monotonically under displacement control:
+\begin{itemize}[leftmargin=4mm,itemsep=1pt,topsep=1pt]
+  \item \textbf{Bottom Boundary ($y = 0.0\,\mathrm{mm}$):} Roller support constraining vertical motion ($u_y = 0$). To prevent rigid body translation, the origin node at $(0, 0)$ is pinned ($u_x = 0, u_y = 0$).
+  \item \textbf{Top Boundary ($y = 1.0\,\mathrm{mm}$):} Prescribed uniform vertical tensile displacement $u_y = u$, with lateral displacement constrained ($u_x = 0$, clamped tension).
+\end{itemize}
+
+\subsubsection{Expected Physical Response}
+The anticipated physical response comprises four distinct regimes:
+\begin{enumerate}[leftmargin=4mm,itemsep=1pt,topsep=1pt]
+  \item \textbf{Linear Elastic Loading:} Initial linear elastic deformation with global structural stiffness $K_0 \approx 138\,\mathrm{kN/mm}$ governed by plate geometry and elastic constants.
+  \item \textbf{Sub-Critical Damage Localization:} Growth of the continuous damage parameter $d \in [0, 1]$ within an inner process zone of width $\sim 2\ell_0$ directly ahead of the crack tip $(0.5, 0.5)\,\mathrm{mm}$.
+  \item \textbf{Peak Load and Instability:} Attainment of peak reaction force $F_{\max} \approx 0.758\,\mathrm{kN}$ at $u(F_{\max}) \approx 0.00586\,\mathrm{mm}$.
+  \item \textbf{Post-Peak Softening and Propagation:} Rapid load drop as the crack extends horizontally along the line of symmetry $y = 0.5\,\mathrm{mm}$ towards the right boundary ($x = 1.0\,\mathrm{mm}$).
+\end{enumerate}
+
+\subsection{Fixed-Mesh Reference Solution as Quantitative Anchor}
+To establish an authoritative baseline against which all adaptive remeshing results are judged, a conventional fixed-mesh simulation was executed (Job \texttt{1398090.mmaster02}). 
+
+\begin{quote}
+\textbf{Mandatory Anchor Statement:} \emph{``This fixed-mesh solution is the reference response that any adaptive solution must reproduce to an acceptable accuracy.''} Everything after that must be measured against it.
+\end{quote}
+
+The reference mesh comprises $15{,}192$ linear quadrilateral finite elements (\texttt{CPE4}), with a uniformly refined crack corridor satisfying $h \approx 0.0015\,\mathrm{mm} \le \ell_0 / 5$, guaranteeing resolution of diffuse phase gradients. 
+
+\begin{table}[htbp]
+  \centering
+  \footnotesize
+  \caption{Quantitative comparison between published literature and reconstructed fixed reference anchor.}
+  \label{tab:reference_anchor}
+  \begin{tabularx}{\textwidth}{L{46mm} C{28mm} C{28mm} C{24mm}}
+    \toprule
+    \textbf{Quantity} & \textbf{Literature Target} \citep{Pandey2025} & \textbf{Reconstructed Ref.} (\texttt{1398090}) & \textbf{Relative Error} \\
+    \midrule
+    Number of finite elements & $\sim 15{,}000$ & $15{,}192$ & $+1.28\%$ \\
+    Peak reaction force $F_{\max}$ & $0.7580\,\mathrm{kN}$ & $0.757778\,\mathrm{kN}$ & $-0.029\%$ \\
+    Displacement at peak $u(F_{\max})$ & $0.005860\,\mathrm{mm}$ & $0.005857\,\mathrm{mm}$ & $-0.051\%$ \\
+    Initial stiffness $K_0$ (OLS, $u \le 1.0\,\mu\mathrm{m}$) & -- & $137.945520\,\mathrm{kN/mm}$ & Baseline Anchor \\
+    OLS coefficient of determination $R^2$ & -- & $0.99999960$ ($N=400$) & Baseline Anchor \\
+    OLS intercept $F_0$ & -- & $4.472368 \times 10^{-5}\,\mathrm{kN}$ & Baseline Anchor \\
+    Final load drop at $u = 0.010\,\mathrm{mm}$ & $>98\%$ & $99.97\%$ ($0.23\,\mathrm{N}$) & Severed \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsubsection{Rigorous Definition of Initial Structural Stiffness \texorpdfstring{$K_0$}{K0}}
+In this report, the initial stiffness $K_0$ is defined as the unconstrained Ordinary Least Squares (OLS) slope with intercept fitted over the initial elastic range $u \in [0, 0.0010]\,\mathrm{mm}$ ($400$ uniform increments):
+\begin{equation}
+\label{eq:ols_stiffness}
+K_0 = \left.\frac{\mathrm{d}F}{\mathrm{d}u}\right|_{\mathrm{elastic}} = \frac{\sum_{i=1}^N (u_i - \bar{u})(F_i - \bar{F})}{\sum_{i=1}^N (u_i - \bar{u})^2} = 137.945520\,\mathrm{kN/mm} \quad (R^2 = 0.99999960).
+\end{equation}
+\begin{quote}
+\textbf{Clarification on Historical Values:} Preliminary reports occasionally cited $K_0 \approx 138.084\,\mathrm{kN/mm}$ based on a 2-point secant slope between $u=0$ and $u=0.001\,\mathrm{mm}$. To prevent ambiguity, the authoritative unconstrained OLS value $K_0 = 137.945520\,\mathrm{kN/mm}$ is adopted strictly across all subsequent comparisons. $K_0$ represents a global structural stiffness, distinct from the intrinsic material Young's modulus $E = 210\,\mathrm{GPa}$.
+\end{quote}
+
+\subsubsection{Multifaceted Mesh-Convergence Assessment}
+Peak reaction force ($F_{\max}$) alone is strictly insufficient to demonstrate finite element convergence or model adequacy. Complete convergence evaluation requires:
+\begin{enumerate}[leftmargin=4mm,itemsep=1pt,topsep=1pt]
+  \item Complete force-displacement ($F$--$u$) curve tracking across the full range (elastic, peak, and softening);
+  \item Initial structural stiffness $K_0$ and linearity ($R^2$);
+  \item Peak reaction force $F_{\max}$ and displacement at peak $u(F_{\max})$;
+  \item Spatial damage field $d(x, y)$ contours and process-zone localization profiles;
+  \item Crack-path and localization-profile convergence along the ligament;
+  \item Total external work $W_{\mathrm{ext}} = \int F\,\mathrm{d}u$.
+\end{enumerate}
+
+\begin{quote}
+\textbf{Critical UEL Internal-Energy Balance Limitation:} As documented in Section~4.6 of the project audit, Abaqus' built-in \texttt{ENERGY} history array is not populated for user-defined finite elements (\texttt{UEL}). Consequently, an internal strain-energy vs fracture-energy balance cannot be extracted from standard solver outputs; the integrated measure $W_{\mathrm{ext}} = \int F\,\mathrm{d}u$ represents external mechanical work, not internal energy.
+\end{quote}

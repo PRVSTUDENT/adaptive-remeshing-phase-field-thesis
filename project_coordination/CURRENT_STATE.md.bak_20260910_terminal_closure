@@ -1,0 +1,49 @@
+# Project Coordination State
+
+## Active Protocol
+- **Active Phase**: **`SUPERVISOR_ALIGNED_MODE_I_GATE_EXECUTION`**
+- **Governing Directive**: *"We need to have understood everything related to the first model before we increase complexity."*
+- **Active Task ID**: `TASK_MODE1_SUPERVISOR_MASTER_GATES`
+- **Gate Execution Status**:
+  - **Gate 0 (Source & Scope Freeze)**: **`CLOSED_PASSED`** (Literature, proposal, & Mode-I freeze validated by ChatGPT 2026-09-03)
+  - **Gate 1 (Conventional Mode-I Reference)**: **`OPEN_PENDING_EVAL`** (Harmonized Job 1401091 evaluated: F_max=0.7650 kN, u=0.006072 mm, K0=134.46 kN/mm, 99.96% drop; established Mode-I reference state preserved)
+  - **Gate 2 (Multi-Quantity Convergence Qualification)**: **`PARTIALLY_QUALIFIED_ON_COMMON_INTERVAL`** (Common interval u in [0, 0.006816 mm] qualified; spatial d(x,y) profile symmetry confirmed)
+  - **Gate 3 (MISESERI Mechanism Verification)**: **`CLOSED_VERIFIED`** (Patch-recovery stress error tensor & UMAT facsimile evaluated deterministically)
+  - **Gate 4 (Native Python Refinement Implementation)**: **`CLOSED_VERIFIED`** (Headless CAE pipeline verified; hard-stop no-overwrite proof verified; deck hash lineage reconciled)
+  - **Gate 5 (Nominal 1% Discrepancy Audit)**: **`CLOSED_UNRESOLVED_DUE_TO_MISSING_PUBLISHED_OR_INTERNAL_SIZING_INFORMATION`** (Exact CPE4 control verified; CPS4 vs CPE4 mechanism diagnosed; corrected OFAT matrix evaluated; Shoelace sizing calculated; publication sufficiency audited; historical CPS4 vs corrected CPE4 provenance separated; formally closed)
+  - **Gate 6 (Reference Reproduction with Refinement)**: **`THREAD_DETERMINISM_REPEAT_BATCH_RUNNING`** (Completed: 1403368, 1403369, 1403370, 1403372, 1403373, 1403374, 1403375, 1403376; 2 continuing 16T runs in R state: 1403371, 1403377; 5 new independent 8T determinism repeat jobs running in R state: 1403612, 1403613, 1403614, 1403615, 1403616; controller loop stop issue resolved with concurrency-aware multi-job scheduling)
+  - **Gate 7 (ABAQUSER Integration)**: **`TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY`** (Companion bridge verified; external IMFD utility blocked on dependency)
+  - **Gate 8 (Higher-Complexity Benchmarks / Mode-II)**: **`ON_HOLD`** (Strictly paused per supervisor directive until Gates 1–7 are formally closed)
+  - **Gate 9 (Parameter Recommendations)**: **`BLOCKED_BY_GATE_6`** (Sequential gate hold)
+  - **Gate 10 (Future-User Documentation)**: **`BLOCKED_BY_GATE_6`** (Sequential gate hold)
+  - **Gate 11 (Thesis Synthesis)**: **`BLOCKED_BY_GATE_6`** (Sequential gate hold)
+- **Scope Restrictions & Governance**:
+  - **Mode-II Work**: **`ON_HOLD`** (Paused pending complete scientific closure of Mode-I)
+  - **State Transfer / Topology Restart**: **`ON_HOLD`** (Preserved as enabling research; numerical diffusion acknowledged)
+  - **Task 6 (IMFD ABAQUSER Tool)**: **`TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY`** (Companion bridge verified)
+  - **HPC Concurrency Governance**: 7 active PBS jobs running concurrently in R state using 72 CPUs (1403371 [16T], 1403377 [16T], 1403612 [8T], 1403613 [8T], 1403614 [8T], 1403615 [8T], 1403616 [8T]). Concurrency >= 10 proven minimum floor. Queue `normal_imfdfkmq` limits: 640 CPUs, 4 TB RAM, no per-user max_run. Expansion to 15–20 scientifically useful Mode-I jobs permitted during holiday window.
+- **Date**: 2026-09-08T19:46:00+02:00
+
+
+---
+
+## 1. Master Gate Execution Dashboard (Gates 0–11)
+
+```text
+=======================================================================================================================
+GATE      GATE DESCRIPTION                                 STATUS               EXIT EVIDENCE & GOVERNANCE BASIS
+=======================================================================================================================
+Gate 0    Source & Scope Freeze                            CLOSED_PASSED        ChatGPT validated 2026-09-03
+Gate 1    Conventional Mode-I Reference                    OPEN_PENDING_EVAL    Job 1401091 (Harmonized) evaluated
+Gate 2    Multi-Quantity Convergence Qualification         PART_QUALIFIED       Common interval u in [0, 0.006816 mm] qualified
+Gate 3    MISESERI Mechanism Verification                  CLOSED_VERIFIED      Mathematical patch-recovery error verified
+Gate 4    Native Python Refinement Implementation          CLOSED_VERIFIED      Headless CAE pipeline & deck integrity verified
+Gate 5    Nominal 1% Discrepancy Audit                     CLOSED_UNRESOLVED    Defensible OFAT tested; missing info documented
+Gate 6    Reference Reproduction with Refinement           UNBLOCKED_FOR_EVAL   Ready for multi-quantity comparison
+Gate 7    ABAQUSER Integration                            TASK6_EXT_BLOCKED    Companion bridge verified (0.000000% parity)
+Gate 8    Higher-Complexity Benchmarks (Mode-II)           ON_HOLD              Paused until Mode-I approved
+Gate 9    Parameter Recommendations                        BLOCKED_BY_GATE_6    Sequential gate hold
+Gate 10   Future-User Documentation                        BLOCKED_BY_GATE_6    Sequential gate hold
+Gate 11   Thesis Synthesis                                 BLOCKED_BY_GATE_6    Sequential gate hold
+=======================================================================================================================
+```

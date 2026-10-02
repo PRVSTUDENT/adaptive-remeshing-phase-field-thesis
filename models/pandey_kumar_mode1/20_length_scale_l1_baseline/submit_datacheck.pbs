@@ -1,0 +1,35 @@
+#!/bin/bash
+#PBS -N PK_M1_L1_DC
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -o PK_M1_L1_DC.out
+#PBS -e PK_M1_L1_DC.err
+
+set -euo pipefail
+cd "$PBS_O_WORKDIR" || exit 1
+
+if [ ! -f "./job_notifications.sh" ]; then
+  echo "[LAUNCHER ERROR] job_notifications.sh missing" >&2
+  exit 10
+fi
+
+source ./job_notifications.sh
+notification_load_config || true
+notification_install_terminal_trap
+notify_start || true
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "=== STARTING DATACHECK PK_M1_L1_DC (41,912 Finite Elements, l0=0.0075 mm) ==="
+rm -f PK_M1_L1_DC.* PK_M1_L1_L00075_ENERGY.lck PK_M1_L1_L00075_ENERGY.023
+abaqus datacheck job=PK_M1_L1_DC user=f42_mixed_uel.for input=PK_MODE1_L1_BASELINE_ENERGY.inp cpus=1 memory="16gb" double=both interactive
+ABAQUS_EXIT=$?
+echo "=== FINISHED DATACHECK PK_M1_L1_DC (EXIT: $ABAQUS_EXIT) ==="
+exit "$ABAQUS_EXIT"

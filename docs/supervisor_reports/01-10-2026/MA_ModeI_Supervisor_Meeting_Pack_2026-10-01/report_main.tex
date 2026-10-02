@@ -1,0 +1,93 @@
+\documentclass[10.5pt,a4paper]{article}
+\usepackage[margin=18mm,top=16mm,bottom=18mm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{caption}
+
+\captionsetup{font=footnotesize,labelfont=bf,skip=3pt}
+
+% Compact section styling
+\titleformat{\section}[hang]{\normalfont\large\bfseries}{\thesection.\ }{0pt}{}
+\titlespacing*{\section}{0pt}{6pt}{2pt}
+\titleformat{\subsection}[hang]{\normalfont\normalsize\bfseries}{\thesubsection\ }{0pt}{}
+\titlespacing*{\subsection}{0pt}{4pt}{2pt}
+\titleformat{\subsubsection}[hang]{\normalfont\small\bfseries}{\thesubsubsection\ }{0pt}{}
+\titlespacing*{\subsubsection}{0pt}{3pt}{1pt}
+
+\graphicspath{{figures/}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.28em}
+\setlength{\emergencystretch}{2em}
+
+% Custom table column types
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+% Keep each figure's interpretation physically attached to the visual.
+\newcommand{\figureconclusion}[1]{%
+  \begin{tcolorbox}[
+    colback=blue!2,
+    colframe=blue!45!black,
+    boxrule=0.35pt,
+    arc=1pt,
+    left=4pt,right=4pt,top=2pt,bottom=2pt,
+    before skip=3pt,after skip=0pt]
+    \footnotesize\textbf{Scientific conclusion.} #1
+  \end{tcolorbox}%
+}
+
+\begin{document}
+
+% Compact Title Block
+\begin{center}
+  {\Large\textbf{Application of Built-in Adaptive Remeshing and Mesh Refinement Features in Abaqus to Fracture Simulations Using Phase-field User Elements}}\\[0.3em]
+  {\large\textbf{Comprehensive Mode-I Convergence \& UEL Energy Audit Supervisor Report -- 08 October 2026}}\\[0.2em]
+  {\normalsize\textbf{Pruthviraja Reddy Vandavagali} (Matr. Nr. 68865) \quad $\cdot$ \quad Master Thesis in Computational Materials Science}\\[0.15em]
+  {\footnotesize 1st Examiner: Prof. Dipl.-Ing. Bj\"orn Kiefer, Ph.D. \quad 2nd Examiner: Dr.-Ing. Stephan Roth \quad $\cdot$ \quad Chair of Applied Mechanics (IMFD), TU Bergakademie Freiberg}
+\end{center}
+\vspace{-0.4em}
+\hrule height 0.6pt
+\vspace{0.4em}
+
+\input{section01_executive_summary}
+\clearpage
+
+\input{section02_benchmark_and_reference}
+\clearpage
+
+\input{section03_adaptive_method_miseseri}
+\clearpage
+
+\input{section04_stiffness_anomaly_resolution}
+\clearpage
+
+\input{section05_discrepancy_audit_71k_vs_14k}
+\clearpage
+
+\input{section06_multifaceted_convergence}
+\clearpage
+
+\input{section07_uel_energy_and_balance_audit}
+\clearpage
+
+\input{section08_epistemological_audit_and_decisions}
+\clearpage
+
+\input{section09_provenance_and_references}
+
+\end{document}

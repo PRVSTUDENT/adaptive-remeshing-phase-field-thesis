@@ -1,0 +1,50 @@
+\chapter{Multi-Resolution and Mode-II Validation Studies}
+\label{ch:multiresolution}
+
+\section{Purpose of the secondary benchmarks}
+The Mode-II and multi-resolution studies were introduced to stress-test the transfer and refinement infrastructure under a curved or shear-dominated crack path. They are secondary to the main Pandey--Kumar Mode-I reproduction and are therefore presented here as validation studies rather than as substitutes for the mandatory mesh-refinement benchmark.
+
+\section{Uniform Mode-II mesh study}
+Three uniform discretizations were previously analysed with $3{,}930$, $12{,}064$ and $33{,}852$ physical elements. The intermediate and fine meshes showed close pre-peak force response and similar damage-initiation displacement, but both calculations terminated before a complete post-peak endpoint. Over their common valid domain, the fine-versus-intermediate reaction-force difference remained small compared with the later topology-transfer discontinuities. Crack-path convergence, however, was more sensitive than the global force response.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{fig10_mode2_h0_h1_h2_damage.png}
+\caption{Mode-II H0/H1/H2 damage-evolution comparison from extracted Abaqus state variables. The figure exposes differences in localization history that are not apparent from scalar peak values alone.}
+\label{fig:mode2_damage_comparison}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{fig11_mode2_h0_h1_h2_rf_u.png}
+\caption{Mode-II H0/H1/H2 reaction-force--displacement comparison. Scientific comparisons are restricted to the common valid displacement interval when a reference run terminates earlier.}
+\label{fig:mode2_rf_u_comparison}
+\end{figure}
+
+This result motivated two practices used throughout the later work:
+\begin{enumerate}
+  \item comparisons are restricted to a common displacement interval when a reference calculation terminates early;
+  \item global force agreement and crack-path agreement are reported separately because one does not guarantee the other.
+\end{enumerate}
+
+The archived H1 and H2 ODBs additionally permit a direct, common-viewport CAE mesh comparison (Figure~\ref{fig:mode2_meshes}); the response and damage figures retain the qualified extracted results.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}\centering
+\includegraphics[width=\linewidth]{fig10_modeii_h1_mesh_cae.png}\\[-0.3em]\small (a) H1: 12,064 physical elements
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}\centering
+\includegraphics[width=\linewidth]{fig10_modeii_h2_mesh_cae.png}\\[-0.3em]\small (b) H2: 33,852 physical elements
+\end{minipage}
+\caption{Direct Abaqus CAE exports from the archived Mode-II H1 and H2 ODBs. Coincident UEL and visualization layers make the right half appear dense; the element counts quoted here refer to the physical mesh.}
+\label{fig:mode2_meshes}
+\end{figure}
+
+The H0 input artifact was also checked, but its user-element-only orphan mesh does not import into CAE as a displayable conventional part. It is therefore not replaced by a synthetic H0 screenshot.
+
+\section{Multi-resolution transfer}
+Transfer operators were tested between nonmatching refined and coarsened meshes at a fixed donor checkpoint. These calculations were useful for identifying practical requirements such as crack-flank isolation, element-search robustness, field bounds and integration-point ordering. The tests established that interpolation errors can be made small for controlled states, but they did not remove the mechanical-continuity problem observed when the geometry itself was changed by adding a new traction-free facet.
+
+\section{Relation to the thesis objective}
+The main outcome of this chapter is methodological: the mesh may change without losing the numerical representation of the transferred fields, but evolving fracture requires additional validation at the coupled equilibrium level. The results therefore support the implementation work in Chapters~\ref{ch:refinement} and~\ref{ch:transfer} while leaving the final adaptive reproduction criterion to the Mode-I benchmark in Chapter~\ref{ch:production}.

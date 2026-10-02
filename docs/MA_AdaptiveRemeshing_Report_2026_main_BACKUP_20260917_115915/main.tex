@@ -1,0 +1,87 @@
+%
+% the main document
+%
+% In the preambel all document settings are defined
+%
+\input{preambel}
+%
+% new commands
+% that file contains your own macros
+% handy for defining your symbols and
+% for a consistent mathematical notation
+%
+\input{newcommands}
+
+% Thesis-specific PDF metadata override; the university preamble remains unchanged.
+\hypersetup{
+  pdftitle={Application of Built-in Adaptive Remeshing and Mesh Refinement Features in Abaqus to Fracture Simulations Using Phase-field User Elements},
+  pdfauthor={Pruthviraja Reddy Vandavagali},
+  pdfsubject={Master thesis in Computational Materials Science},
+  pdfkeywords={adaptive remeshing, mesh refinement, phase-field fracture, Abaqus, state transfer}
+}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\begin{document}
+\pagenumbering{Roman}
+%
+% use \input{texfile} to keep the document structured
+%
+% title page
+%
+\input{titlepage}
+\clearpage
+%
+% abstract
+%
+\input{abstract}
+\clearpage
+%
+% declaration on the use of AI tools
+%
+\input{declaration_ai}
+\clearpage
+%
+% toc
+%
+\tableofcontents
+\clearpage
+%
+% list of figures
+%
+\listoffigures
+\clearpage
+%
+% list of tables
+%
+\listoftables
+\clearpage
+%
+% main chapters
+%
+\pagenumbering{arabic}
+
+\input{chapter01_introduction_theory}
+\input{chapter02_baseline}
+\input{chapter03_mesh_refinement}
+\input{chapter04_state_transfer}
+\input{chapter05_multiresolution}
+\input{chapter06_hpc}
+\input{chapter07_production_validation}
+\input{chapter08_conclusions}
+%
+% appendix
+%
+\appendix
+\input{appendix}
+%
+% references
+%
+% the custom version of abbrvnat
+% to have Lastname, A.
+%
+\bibliographystyle{abbrvnat_custom}
+\bibliography{literature}
+\end{document}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

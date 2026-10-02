@@ -1,0 +1,46 @@
+{
+  "status": "PACKAGE_GENERATED_READY_FOR_DATACHECK", 
+  "coarse_mesh": {
+    "num_elements": 3123, 
+    "nominal_size_mm": 0.02, 
+    "num_nodes": 3194
+  }, 
+  "refined_mesh": {
+    "num_elements": 74261, 
+    "max_size_mm": 0.02, 
+    "min_size_mm": 0.001, 
+    "num_nodes": 73806
+  }, 
+  "files_generated": {
+    "subroutine_for": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/02_proposed_adaptive_refined/f42_mixed_uel.for", 
+    "production_uel_inp_sha256": "0f6d32ea626e73aa3f1e97915f674ed52602be9425374c26a962c1e169d6214c", 
+    "subroutine_for_sha256": "5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd", 
+    "production_uel_inp": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/02_proposed_adaptive_refined/PK_MODE1_PROPOSED_PFM.inp"
+  }, 
+  "material_parameters": {
+    "eta": 1e-07, 
+    "E_GPa": 210.0, 
+    "l0_mm": 0.0075, 
+    "nu": 0.3, 
+    "Gc_kN_per_mm": 0.0027
+  }, 
+  "remeshing_rule": {
+    "coarsening": "NOT_ALLOWED", 
+    "name": "RR: 1", 
+    "error_target": 1.0, 
+    "sizing_method": "UNIFORM_ERROR", 
+    "variable": "MISESERI", 
+    "max_element_size_mm": 0.02, 
+    "min_element_size_mm": 0.001, 
+    "refinement_factor": 10
+  }, 
+  "benchmark": "PANDEY_KUMAR_2025_MODE_I_PROPOSED_ADAPTIVE_PFM", 
+  "layered_uel_mesh": {
+    "num_elements": 74261, 
+    "uel_deck_path": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/02_proposed_adaptive_refined/PK_MODE1_PROPOSED_PFM.inp", 
+    "num_quads": 72260, 
+    "num_tris": 2001, 
+    "num_nodes": 73806
+  }, 
+  "case_name": "PK_MODE1_PROPOSED_PFM"
+}

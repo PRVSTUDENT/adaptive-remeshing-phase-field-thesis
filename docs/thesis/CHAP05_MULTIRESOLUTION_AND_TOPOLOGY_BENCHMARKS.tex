@@ -1,0 +1,182 @@
+\chapter{Multi-Resolution and Topology-Transfer Benchmarks}
+\label{chap:multiresolution_topology}
+
+\section{Introduction and Objectives}
+\label{sec:topo_intro}
+
+Building upon the four-stage restart framework developed in Chapter~\ref{chap:state_transfer}, this chapter evaluates the robustness of the multi-field state-transfer operators under two challenging physical benchmarks:
+\begin{enumerate}
+    \item \textbf{Multi-Resolution State Transfer}: Transferring advanced fracture damage states across nonmatching refined ($h \to h/2$) and coarsened ($h \to 2h$) target grids under fixed physical geometry.
+    \item \textbf{Mode-II Shear Fracture \& Synthetic Topology Transfer}: Benchmarking pure shear fracture, reconciling uniform grid refinement baselines ($H_0, H_1, H_2$), and validating state transfer across a synthetic single-facet crack-tip topological split.
+\end{enumerate}
+
+\section{Multi-Resolution Refinement and Coarsening Transfer}
+\label{sec:topo_multiresolution}
+
+\subsection{Benchmark Configuration and Donor Checkpoint}
+To test state-transfer fidelity across varying mesh resolutions, an advanced damage state was captured from a continuous reference simulation at displacement $u_1 = 0.010513\,\text{mm}$ ($d_{\max} = 0.304318$, well within the active non-linear fracture localization regime). The donor state was transferred onto two nonmatching target grids:
+\begin{itemize}
+    \item \textbf{Refined Target Grid}: Local element size $h_T = 0.0025\,\text{mm}$ ($h/l_0 = 0.167$, $N_{\mathrm{phys}} = 12,064$ elements), evaluating transfer fidelity upon mesh refinement.
+    \item \textbf{Coarsened Target Grid}: Local element size $h_T = 0.0100\,\text{mm}$ ($h/l_0 = 0.667$, $N_{\mathrm{phys}} = 3,016$ elements), evaluating transfer stability upon mesh coarsening.
+\end{itemize}
+
+\subsection{Slit-Barrier Isolation and Invariant Preservation}
+When transferring nodal fields in the vicinity of an existing crack or notch, standard spatial interpolation across nonmatching meshes can cause unphysical state bleeding across the open crack flanks (the cross-slit contamination problem).
+
+To eliminate cross-slit contamination:
+\begin{itemize}
+    \item A topological slit-barrier algorithm classifies target nodes into upper flank ($y > y_{\mathrm{slit}}$) and lower flank ($y < y_{\mathrm{slit}}$) partitions.
+    \item Spatial host element search is strictly restricted to donor elements belonging to the same physical flank partition.
+    \item \textbf{Verification Outcome}: Coincident split-node pairs along the notch flanks exhibited independent, unconstrained kinematic sliding ($u_{1,\mathrm{upper}} \neq u_{1,\mathrm{lower}}$) with exactly zero artificial cross-slit smoothing.
+    \item \textbf{Bound and Monotonicity Audit}: All transferred fields satisfied $0 \le d_T \le 1.0$ ($0$ violations) and $\mathcal{H}_T \ge 0.0$ ($0$ violations), validating multi-resolution transfer stability.
+\end{itemize}
+
+\section{Mode-II Pure Shear Phase-Field Fracture Benchmark}
+\label{sec:topo_mode_ii_formulation}
+
+\subsection{Problem Formulation and Boundary Conditions}
+The Mode-II pure shear phase-field fracture benchmark evaluates the staggered user-element implementation under shear-dominated crack propagation~\cite{ambati2015,molnar2017}. In the authoritative FRACFIX model implementation, the specimen geometry consists of a square plate $\Omega = [-L/2, L/2] \times [-H/2, H/2] = [-0.5, 0.5]\,\text{mm} \times [-0.5, 0.5]\,\text{mm}$ ($L = 1.0\,\text{mm}$, $H = 1.0\,\text{mm}$) containing an initial horizontal notch of length $a_0 = 0.5\,\text{mm}$ extending from the left edge ($x = -0.5\,\text{mm}$) to the specimen center ($x = 0.0\,\text{mm}$) along the centerline $y = 0.0\,\text{mm}$.
+
+The material and regularizing parameters are:
+\begin{itemize}
+    \item Young's modulus: $E = 210.0\,\text{GPa} = 210.0\,\text{kN/mm}^2$
+    \item Poisson's ratio: $\nu = 0.30$
+    \item Critical fracture energy: $G_c = 1.0\times 10^{-3}\,\text{kN/mm} = 1000\,\text{J/m}^2$
+    \item Phase-field length scale: $l_0 = 0.015\,\text{mm}$
+    \item Residual stiffness parameter: $k_{\mathrm{res}} = 1.0\times 10^{-7}$
+\end{itemize}
+
+Boundary conditions enforce pure shear:
+\begin{itemize}
+    \item \textbf{Bottom Boundary ($y = -0.5\,\text{mm}$)}: Fully fixed in vertical displacement ($u_2 = 0$) and horizontal displacement ($u_1 = 0$).
+    \item \textbf{Top Boundary ($y = +0.5\,\text{mm}$)}: Fixed vertically ($u_2 = 0$) with prescribed horizontal shear displacement $u_1 = \Delta u$.
+    \item \textbf{Lateral Boundaries ($x = \pm 0.5\,\text{mm}$)}: Traction-free ($\mathbf{t} = \mathbf{0}$).
+\end{itemize}
+
+\subsection{Model Lineage and Disambiguation}
+During project development, multiple numerical revisions of the Mode-II benchmark were executed to optimize solver convergence, damping parameters, and mesh generation. To eliminate potential confusion between early development iterations and the authoritative production baselines, Table~\ref{tab:mode_ii_model_lineage} provides the complete model lineage.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Model Lineage and Canonical Role Disambiguation for Mode-II Simulations.}
+\label{tab:mode_ii_model_lineage}
+\begin{tabular}{lp{3.5cm}cp{5.5cm}}
+\toprule
+\textbf{Model Revision} & \textbf{Representative Jobs} & \textbf{Force Scale} & \textbf{Scientific Role and Lineage Status} \\
+\midrule
+\textbf{Legacy Exploratory} & \texttt{1379433} ($H_1$), \texttt{1379966} ($H_2$) & $\sim 0.12\text{--}0.14\,\text{kN}$ & Early exploratory geometry/viscous iterations. Retained strictly as developmental execution history; \textbf{superseded} for final comparative validation. \\
+\midrule
+\textbf{Corrected FRACFIX} & \texttt{1386372} ($H_0$), \texttt{1386447} ($H_1$), \texttt{1386448} ($H_2$) & $\sim 0.35\text{--}0.36\,\text{kN}$ & \textbf{Authoritative Canonical Baselines}: Exact split-node notch representation without transition element distortion. Governs all Stage-G production accuracy comparisons. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Uniform Grid Refinement and Censoring Analysis}
+\label{sec:topo_uniform_convergence}
+
+The canonical Mode-II FRACFIX uniform mesh refinement investigation evaluated phase-field fracture under pure shear loading across three discretization levels:
+\begin{itemize}
+    \item \textbf{$H_0$ Baseline Reference}: $N_{\text{phys}} = 3,930$ quadrilateral elements ($h \approx 0.030\,\text{mm}$, $h/l_0 = 2.0$), Job \texttt{1386372.mmaster02} (completed full prescribed loading to $u_1 = 0.0100\,\text{mm}$).
+    \item \textbf{$H_1$ Refined Model}: $N_{\text{phys}} = 12,064$ quadrilateral elements ($h \approx 0.015\,\text{mm}$, $h/l_0 = 1.0$), Job \texttt{1386447.mmaster02} (terminated at Step-2 inc 1854, $u_1 = 0.009632\,\text{mm}$, due to solver cutback attempt limit).
+    \item \textbf{$H_2$ Ultra-Fine Model}: $N_{\text{phys}} = 33,852$ quadrilateral elements ($h \approx 0.0075\,\text{mm}$, $h/l_0 = 0.5$), Job \texttt{1386448.mmaster02} (terminated at Step-2 inc 1743, $u_1 = 0.009250\,\text{mm}$, due to the 4-hour PBS queue walltime limit).
+\end{itemize}
+
+\subsection{Censored Peak Force and Common-Window Formulation}
+Because $H_1$ and $H_2$ terminated prior to the prescribed $u_1 = 0.0100\,\text{mm}$ endpoint while their force responses were still monotonically increasing (positive terminal slopes), the observed maximum reaction forces represent \textbf{censored values} rather than global interior peak loads. Rigorous convergence metrics are therefore evaluated over the \textbf{common overlap displacement domain}:
+\begin{equation}
+\label{eq:common_window_domain_a}
+0 \le u_1 \le u_{\max,\mathrm{common}} = 0.009250\,\text{mm} \quad (9.25\,\mu\text{m}).
+\end{equation}
+
+The comparative quantitative metrics are summarized in Table~\ref{tab:mode_ii_fracfix_convergence}.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Mode-II FRACFIX Uniform Grid Refinement Comparison and Common-Window Metrics.}
+\label{tab:mode_ii_fracfix_convergence}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Parameter / Metric} & \textbf{$H_0$ Baseline} & \textbf{$H_1$ Refined} & \textbf{$H_2$ Ultra-Fine} \\
+\midrule
+PBS Job ID & \texttt{1386372} & \texttt{1386447} & \texttt{1386448} \\
+Physical Elements ($N_{\text{phys}}$) & 3,930 & 12,064 & 33,852 \\
+Refinement Ratio ($h/l_0$) & 2.0 & 1.0 & 0.5 \\
+Valid Displacement Domain $u_1$ [mm] & $[0, 0.01000]$ & $[0, 0.00963]$ & $[0, 0.00925]$ \\
+Termination Cause & Completed & Solver Cutback Limit & PBS Walltime (4h) \\
+\midrule
+\multicolumn{4}{c}{\textbf{Linear Elastic Shear Response ($0 < u_1 \le 2\,\mu\text{m}$)}} \\
+Initial Shear Stiffness $K_0$ [kN/mm] & 46.1396 & 45.9035 & 45.8741 \\
+Linear Regression Linearity ($R^2$) & 0.999996 & 0.999996 & 0.999996 \\
+Relative Stiffness Shift ($H_2$ vs $H_1$) & --- & --- & $\mathbf{-0.064\%}$ \\
+\midrule
+\multicolumn{4}{c}{\textbf{Damage Initiation and Matched-State Comparison ($u_1 = 9.25\,\mu\text{m}$)}} \\
+Damage Initiation Threshold $u_1(d \ge 0.5)$ [mm] & 0.008250 & 0.007750 & 0.007750 \\
+Fully Broken Threshold $u_1(d \ge 0.9)$ [mm] & 0.008750 & 0.008500 & 0.008000 \\
+Reaction Force at Matched Endpoint $RF_1(9.25\,\mu\text{m})$ [kN] & 0.359812 & 0.355641 & 0.354084 \\
+Force Difference at Matched Endpoint ($H_2$ vs $H_1$) & --- & --- & $\mathbf{-0.44\%}$ \\
+Matched-State Crack Path Hausdorff Dist. ($H_2$ vs $H_1$) & --- & --- & $0.005443\,\text{mm}$ \\
+\midrule
+\multicolumn{4}{c}{\textbf{Common-Window Force Curve Errors ($0 \le u_1 \le 9.25\,\mu\text{m}$)}} \\
+Common-Window Normalized $L_2$ Error ($H_2$ vs $H_1$) & --- & --- & $\mathbf{0.518\%}$ \\
+Common-Window Work/Area Error ($H_2$ vs $H_1$) & --- & --- & $\mathbf{0.263\%}$ \\
+\midrule
+\multicolumn{4}{c}{\textbf{Computational Cost Scaling}} \\
+Total CPU Time [s] & 2,000.0 & 5,434.0 & 14,455.0 \\
+CPU Cost Ratio vs $H_0$ & $1.00\times$ & $2.72\times$ & $7.23\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Key Findings from Uniform Refinement}
+\begin{enumerate}
+    \item \textbf{Asymptotic Pre-Peak Agreement}: In the common pre-peak domain ($0 \le u_1 \le 9.25\,\mu\text{m}$), $H_1$ and $H_2$ exhibit exceptional quantitative agreement. Initial elastic shear stiffness matches within $0.064\%$, damage initiation ($d \ge 0.5$) occurs at the identical displacement $u_1 = 7.75\,\mu\text{m}$, the normalized $L_2$ force error is $0.518\%$, and the work error is $0.263\%$. This supports $H_1$ ($h/l_0 = 1.0$) as the authoritative global comparison reference.
+    \item \textbf{Spatial Crack Path Sensitivity}: At matched displacement $u_1 = 9.25\,\mu\text{m}$, the bidirectional Hausdorff distance between $H_1$ and $H_2$ crack contours ($d \ge 0.5$) is $5.44\,\mu\text{m}$, exceeding the geometric threshold ($3.75\,\mu\text{m}$). Spatial crack geometry remains sensitive to grid resolution ($h/l_0 = 0.5$ vs $1.0$) even when global force response is tightly converged.
+    \item \textbf{Computational Cost Barrier}: The uniform $H_2$ mesh ($33,852$ elements) consumed $14,455\,\text{s}$ CPU time ($7.23\times H_0$) and exceeded the 4-hour walltime limit before reaching peak load. This severe scaling strongly motivates localized adaptive refinement.
+\end{enumerate}
+
+\section{Synthetic Crack-Tip Topology-Transfer Validation}
+\label{sec:topo_synthetic_validation}
+
+\subsection{Synthetic Single-Facet Extension Formulation}
+To rigorously evaluate whether state-transfer operators remain valid when the underlying geometric domain experiences a discrete topological change, a \textbf{synthetic single-facet topology benchmark} was executed (Job \texttt{1393159.mmaster02}, \texttt{M2STAGE\_F\_VAL}).
+
+In this benchmark:
+\begin{itemize}
+    \item Donor state was captured from reference job \texttt{1390447.mmaster02} (Frame 17, $u_1 = 0.010513\,\text{mm}$, $d_{\max} = 0.304318$).
+    \item The target mesh introduces a single newly separated crack-tip facet ($\Delta a = 0.002\,\text{mm} = 1 h_{\mathrm{tip}}$) along $y = 0.0\,\text{mm}$ (lower flank node \texttt{16962}, duplicate upper node \texttt{34028}, transition crack tip at \texttt{16963}).
+    \item Transferred displacements and binary committed state (\texttt{STAGE\_D\_COMMITTED\_STATE.bin}, 6,400,016 bytes) were ingested via \texttt{UEXTERNALDB(LOP=0)}.
+\end{itemize}
+
+\subsection{Validation Results and Post-Peak Trajectory}
+The synthetic topology benchmark completed the full four-stage restart sequence:
+\begin{enumerate}
+    \item \textbf{Step 1 (\texttt{STATE\_INSTALL})}: 1 increment, total time $1.00$ (\textbf{PASS}).
+    \item \textbf{Step 2 (\texttt{MECH\_EQUILIBRATION})}: 1 increment, total time $2.00$, phase locked (\textbf{PASS}).
+    \item \textbf{Step 3 (\texttt{PHASE\_RELEASE})}: 47 converged increments, total time $3.00$, $I_A = 13$, $\Delta t_{\min} = 5.0\times 10^{-12}\,\text{s}$ (\textbf{PASS}).
+    \item \textbf{Step 4 (\texttt{CONTINUATION})}: \textbf{194 accepted continuation increments}, traversing from $u_1 = 0.010513\,\text{mm}$ through peak reaction force ($RF_1 = 0.135589\,\text{kN}$ at $u_1 = 0.011859\,\text{mm}$) to a terminal accepted state at $u_1 = 0.022783\,\text{mm}$ ($RF_1 = 0.034467\,\text{kN}$, a $>74.5\%$ post-peak load reduction).
+\end{enumerate}
+
+\paragraph{Physical Invariant Adherence:}
+Audits of the final accepted state confirmed strict preservation of all continuum invariants:
+\begin{itemize}
+    \item $0.0 \le d \le 1.0$ strictly satisfied ($d_{\min} = 0.0$, $d_{\max} = 0.3001$ committed).
+    \item $\Delta d \ge 0.0$ strictly satisfied ($0$ negative damage violations).
+    \item $\mathcal{H} \ge 0.0$ and $\mathcal{H}_{n+1} \ge \mathcal{H}_n$ preserved across all integration points.
+    \item Lower flank node \texttt{16962} and duplicate upper node \texttt{34028} exhibited independent kinematics with zero cross-slit state contamination.
+\end{itemize}
+
+At increment 195, standard Newton--Raphson cutbacks reached the attempt limit ($I_A = 12$, 13 attempts), yielding Abaqus error \texttt{TOO MANY ATTEMPTS MADE FOR THIS INCREMENT}. Because full traversal to $u_1 = 0.050\,\text{mm}$ was explicitly predeclared as non-gating and diagnostic only, the terminal state is reconciled as \texttt{POST\_VALIDATION\_CONTINUATION\_SOLVER\_TERMINATION\_DIAGNOSTIC\_ONLY}, validating the synthetic topology transfer workflow for the tested kinematic and state-admissibility criteria, while full energetic preservation during transfer remains subject to Gate~6C qualification.
+
+\section{Chapter Summary}
+\label{sec:topo_summary}
+
+The multi-resolution and topology benchmarks provide critical validation:
+\begin{enumerate}
+    \item Slit-barrier topological isolation prevents cross-slit field contamination during nonmatching state transfer across refined and coarsened target grids.
+    \item Uniform grid refinement on the Mode-II shear benchmark establishes the common pre-peak verification window ($0 \le u_1 \le 0.009250\,\text{mm}$) and demonstrates that spatial crack paths remain mesh-sensitive ($5.44\,\mu\text{m}$ Hausdorff distance).
+    \item Synthetic single-facet topology transfer achieves 194 accepted post-peak continuation increments with $>74.5\%$ load drop while strictly preserving phase/history bounds and irreversibility.
+    \item Full energetic qualification of the transferred state across evolving nonmatching meshes remains pending Gate~6C qualification, while Mode-II production validation is currently held pending energetic closure of Gate~6B.
+\end{enumerate}
+

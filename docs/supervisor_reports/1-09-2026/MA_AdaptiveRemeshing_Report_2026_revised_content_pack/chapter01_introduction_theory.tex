@@ -1,0 +1,104 @@
+\chapter{Problem Statement, Theoretical Basis, and Reference Methods}
+\label{ch:introduction}
+
+\section{Problem statement and thesis scope}
+Phase-field fracture approaches regularize sharp discontinuities over a finite diffuse length scale $\ell_0$, replacing discrete interface tracking with the solution of a continuous differential equation for a scalar damage or phase-field parameter $d \in [0, 1]$. While this variational regularization provides a mathematically elegant framework capable of predicting complex fracture phenomena such as crack initiation, branching, merging, and curving without ad-hoc geometric tracking criteria, it introduces a severe spatial resolution constraint: the finite element discretization must resolve the diffuse crack corridor with element sizes typically satisfying $h \le \ell_0 / 2$ or $h \le \ell_0 / 5$.
+
+When applied to large structural domains, uniform fine meshing becomes computationally prohibitive because fine elements are placed throughout regions that remain purely elastic. This Master's thesis investigates the systematic application of Abaqus built-in adaptive remeshing and mesh refinement capabilities to phase-field fracture simulations implemented via user-defined finite elements (UEL/UMAT). 
+
+The research is governed by the following authoritative proposal work packages:
+\begin{enumerate}[label=\textbf{Task \arabic*:},leftmargin=18mm]
+  \item \textbf{PFF familiarization:} Theoretical and algorithmic verification of the phase-field fracture implementation.
+  \item \textbf{Literature review:} Systematic analysis of variational phase-field formulations, Abaqus user subroutines, adaptive mesh refinement, and visualization methods.
+  \item \textbf{Reproduce reference simulations without refinement:} Reproduce published benchmark fracture results using available user code on fixed reference meshes.
+  \item \textbf{Implement native mesh refinement in Python:} Implement in Python the mesh refinement / adaptive remeshing methodology described in Pandey \& Kumar \citep{Pandey2025}, using Abaqus internal refinement capabilities and required interaction with the PFF user implementation.
+  \item \textbf{Reproduce reference results with mesh refinement:} Reproduce and quantitatively validate the reference-paper results with adaptive mesh refinement enabled.
+  \item \textbf{Integrate ABAQUSER visualization:} Integrate and verify the IMFD ABAQUSER visualization tool \citep{Roth2014} in the modeling workflow.
+  \item \textbf{Apply to fracture benchmarks and sensitivity studies:} Apply the verified adaptive remeshing workflow to standard fracture benchmarks and controlled sensitivity analyses.
+  \item \textbf{Formulate meshing-parameter recommendations:} Derive robust meshing guidelines and error-target selection criteria for future engineering users.
+  \item \textbf{Document workflow for future users:} Prepare comprehensive technical documentation and user guides.
+  \item \textbf{Write thesis:} Finalize the Master's thesis manuscript.
+\end{enumerate}
+
+\section{Governing phase-field fracture formulation}
+The implementation follows the standard second-order AT2 variational regularization of brittle fracture \citep{Msekh2015,Molnar2017,Pandey2025,Diddige2025}. Consider an elastic body occupying domain $\Omega \subset \mathbb{R}^2$ with boundary $\partial \Omega$. For a displacement field $\mathbf{u}: \Omega \to \mathbb{R}^2$ and a continuous phase field $d: \Omega \to [0, 1]$, where $d = 0$ represents the pristine, undamaged material state and $d = 1$ denotes fully localized fracture, the total potential energy of the coupled system is formulated as
+\begin{equation}
+\label{eq:total_potential}
+\Pi(\mathbf{u}, d) = \int_\Omega \psi(\boldsymbol\varepsilon(\mathbf{u}), d)\,\mathrm{d}\Omega + \int_\Omega G_c\,\gamma(d, \nabla d)\,\mathrm{d}\Omega - W_{\mathrm{ext}}(\mathbf{u}),
+\end{equation}
+where $\boldsymbol\varepsilon(\mathbf{u}) = \frac{1}{2}\left(\nabla \mathbf{u} + (\nabla \mathbf{u})^\mathrm{T}\right)$ is the linearized strain tensor, $G_c$ is the critical energy release rate (fracture toughness), $\gamma(d, \nabla d)$ is the crack surface density functional, and $W_{\mathrm{ext}}$ denotes external work.
+
+In the AT2 formulation, the geometric crack density functional is given by
+\begin{equation}
+\label{eq:crack_density}
+\gamma(d, \nabla d) = \frac{1}{2}\left(\frac{d^2}{\ell_0} + \ell_0\,\lvert\nabla d\rvert^2\right),
+\end{equation}
+where $\ell_0 > 0$ is the regularization length parameter governing the diffuse width of the fracture process zone.
+
+To prevent unphysical crack propagation under compressive hydrostatic stress states, the elastic strain energy density $\psi_0(\boldsymbol\varepsilon)$ is decomposed into positive (tensile/crack-driving) and negative (compressive/undegraded) parts:
+\begin{equation}
+\label{eq:strain_energy_split}
+\psi_0(\boldsymbol\varepsilon) = \psi_0^+(\boldsymbol\varepsilon) + \psi_0^-(\boldsymbol\varepsilon).
+\end{equation}
+Under the spectral decomposition of Miehe et al.\ \citep{Msekh2015,Molnar2017}, the principal strains $\varepsilon_i$ ($i=1,2,3$) are separated into positive and negative components $\langle \varepsilon_i \rangle_\pm = (\varepsilon_i \pm \lvert\varepsilon_i\rvert)/2$, yielding
+\begin{equation}
+\psi_0^\pm(\boldsymbol\varepsilon) = \frac{1}{2}\lambda \langle \mathrm{tr}(\boldsymbol\varepsilon) \rangle_\pm^2 + \mu \sum_{i=1}^3 \langle \varepsilon_i \rangle_\pm^2,
+\end{equation}
+where $\lambda$ and $\mu$ are the Lam\'e elastic constants. The coupled strain energy density is then written with a quadratic degradation function $g(d)$:
+\begin{equation}
+\psi(\boldsymbol\varepsilon, d) = g(d)\,\psi_0^+(\boldsymbol\varepsilon) + \psi_0^-(\boldsymbol\varepsilon), \qquad g(d) = (1 - d)^2 + k,
+\end{equation}
+where $k \ll 1$ (typically $k = 10^{-7}$) is a numerical residual stiffness parameter preventing complete mathematical singularity of the mechanical stiffness matrix when $d = 1$.
+
+Crack irreversibility is enforced through the introduction of a local strain-history field $\mathcal{H}(\mathbf{x}, t)$, defined as the maximum positive strain energy density attained over the deformation history:
+\begin{equation}
+\label{eq:history_variable}
+\mathcal{H}(\mathbf{x}, t) = \max_{\tau \in [0, t]} \psi_0^+(\boldsymbol\varepsilon(\mathbf{x}, \tau)).
+\end{equation}
+The Euler--Lagrange equation governing the phase-field evolution then becomes the linear Helmholtz-type partial differential equation:
+\begin{equation}
+\label{eq:pde_phase}
+\left( \frac{2\ell_0 \mathcal{H}}{G_c} + 1 \right) d - \ell_0^2\,\nabla^2 d = \frac{2\ell_0 \mathcal{H}}{G_c} \quad \text{in } \Omega, \qquad \nabla d \cdot \mathbf{n} = 0 \quad \text{on } \partial\Omega.
+\end{equation}
+
+\section{Literature methodology and state of the art}
+The present research builds upon established numerical implementations and recent advances in computational phase-field mechanics:
+\begin{itemize}
+  \item \textbf{Moln\'ar \& Gravouil (2017) \citep{Molnar2017}:} Established a robust staggered solution scheme in Abaqus using user-defined elements (UEL) for the phase-field and mechanical sub-problems, paired with a companion UMAT layer to pass solution-dependent state variables into the Abaqus output database.
+  \item \textbf{Msekh et al.\ (2015) \citep{Msekh2015}:} Provided foundational formulations for 2D and 3D phase-field fracture implementations in Abaqus/Standard, demonstrating the staggered coupling of displacement and damage fields.
+  \item \textbf{Pandey \& Kumar (2025) \citep{Pandey2025}:} Proposed an Abaqus-native error-guided pre-refinement methodology that uses Abaqus's built-in stress recovery error indicator (\texttt{MISESERI}) from a coarse linear elastic pre-analysis to generate non-uniform locally refined meshes before conducting the nonlinear fracture simulation.
+  \item \textbf{Diddige, Roth, and Kiefer (2025) \citep{Diddige2025}:} Developed advanced multiphysics phase-field fracture formulations incorporating chemical-potential and hydrostatic stress dependencies, illustrating high-fidelity coupled modeling in computational materials science.
+  \item \textbf{Roth et al.\ (2012/2014) \citep{Roth2014}:} Developed the in-house post-processing utility \textsc{ABAQUSER} at the Institute of Mechanics and Fluid Dynamics (IMFD), TU Bergakademie Freiberg, which reconstructs user-element results into standard Abaqus/Viewer field outputs without modifying the primary solver stiffness equations.
+\end{itemize}
+
+\section{Abaqus UEL/UMAT multi-layer architecture}
+Because Abaqus does not natively support coupled mechanical-damage user elements with direct visual contouring in standard CAE/Viewer without custom wrappers, the modeling architecture employs three coincident, overlapping element layers:
+\begin{enumerate}
+  \item \textbf{Phase-Field UEL Layer (\texttt{JTYPE 1} / \texttt{JTYPE 3}):} Solves the scalar phase-field Helmholtz equation (\ref{eq:pde_phase}) for nodal damage degrees of freedom ($U_3 = d$).
+  \item \textbf{Mechanical UEL Layer (\texttt{JTYPE 2} / \texttt{JTYPE 4}):} Solves the degraded momentum balance equation $\nabla \cdot \boldsymbol\sigma = \mathbf{0}$ for displacement degrees of freedom ($U_1 = u_x, U_2 = u_y$), using degraded constitutive stiffness $\mathbb{C}(d) = g(d)\mathbb{C}_0^+ + \mathbb{C}_0^-$.
+  \item \textbf{Companion Facsimile UMAT Layer (\texttt{CPE4} / \texttt{CPE3}):} A passive library element layer assigned near-zero artificial stiffness ($E_{\mathrm{vis}} = 10^{-11}\,\mathrm{kN/mm^2}$) that exchanges state variables with the active UEL routines via shared Fortran common blocks (\texttt{COMMON /CB\_STATE\_TRANS/}) and writes solution-dependent variables ($\text{STATEV}(15) = d$, $\text{STATEV}(16) = \mathcal{H}$) directly to the output database (\texttt{.odb}).
+\end{enumerate}
+
+The dataflow of this coupled multi-layer system is summarized schematically:
+\begin{center}
+\fbox{\parbox{0.92\textwidth}{\centering
+Deformation $\mathbf{u}$ (Mech UEL) $\longrightarrow$ Strain $\boldsymbol\varepsilon$, Driving Energy $\mathcal{H}$ $\longrightarrow$ Shared Memory (\texttt{COMMON})\\
+$\downarrow$\\
+Phase Field $d$ (Phase UEL) $\longleftarrow$ Updated Degradation $g(d)$ $\longleftarrow$ Staggered Equilibrium\\
+$\downarrow$\\
+Facsimile UMAT Layer $\longrightarrow$ Direct ODB Output ($\text{SDV15} = d$, $\text{SDV16} = \mathcal{H}$) $\longrightarrow$ Abaqus/Viewer Contours
+}}
+\end{center}
+
+\section{Scope and structure of this report}
+This report documents the verified research progress through 02 September 2026:
+\begin{itemize}
+  \item \textbf{Chapter~\ref{ch:baseline}:} Baseline verification of the supplied phase-field implementation and reproduction of the reference Mode-I benchmark without refinement (Task 3).
+  \item \textbf{Chapter~\ref{ch:refinement}:} Implementation and algorithmic qualification of the Abaqus-native error-guided pre-refinement workflow in Python (Task 4).
+  \item \textbf{Chapter~\ref{ch:transfer}:} Formulation, implementation, and physical evaluation of nonmatching state transfer and restart mechanics across evolving discretizations.
+  \item \textbf{Chapter~\ref{ch:multiresolution}:} Multi-resolution and Mode-II shear benchmark verification studies.
+  \item \textbf{Chapter~\ref{ch:hpc}:} HPC cluster environment, parallelization boundaries, and notification infrastructure.
+  \item \textbf{Chapter~\ref{chap:production_validation}:} Production validation of the proposed adaptive refinement methodology on Mode-I fracture (Task 5), including the forensic reconciliation of the published nominal-1\% mesh discrepancy, authoritative 2\% adaptive reproduction, and Task-6 visualization bridge verification.
+  \item \textbf{Chapter~\ref{ch:conclusions}:} Summary of verified results, comprehensive task status matrix, and roadmap for Task 7 sensitivity studies and Task 8 meshing recommendations.
+  \item \textbf{Appendix~\ref{app:repro}:} Authoritative execution ledger, checksum records, and computational provenance.
+\end{itemize}

@@ -1,0 +1,221 @@
+\section{UEL Energy Formulation and Global Energy Balance Audit}
+\label{sec:uel_energy_and_balance_audit}
+
+\subsection{Implemented Discrete Energy Formulations and Weak-Form Derivation}
+In user subroutine \nolinkurl{f42_mixed_uel.for} (SHA-256 \texttt{5cd0d2c015...}), stored elastic strain energy $E_{\mathrm{elas}}$ and fracture surface energy $E_{\mathrm{frac}}$ are evaluated over the $N_{\mathrm{mesh}}$ finite elements:
+\begin{align}
+  E_{\mathrm{elas}} &= \sum_{e=1}^{N_{\mathrm{mesh}}} \int_{\Omega_e} \frac{1}{2} g(\bar{d}_e)\,\boldsymbol{\varepsilon} : \mathbb{C}_0 : \boldsymbol{\varepsilon} \,\mathrm{d}\Omega, \label{eq:elas_energy} \\
+  E_{\mathrm{frac}} &= \sum_{e=1}^{N_{\mathrm{mesh}}} \int_{\Omega_e} G_c \left[ \frac{\bar{d}_e^2}{2 l_0} + \frac{l_0}{2} |\nabla d|^2 \right] \mathrm{d}\Omega, \label{eq:frac_energy}
+\end{align}
+where $g(\bar{d}_e) = (1-\bar{d}_e)^2 + k_{\mathrm{res}}$ with residual stiffness $k_{\mathrm{res}} = 10^{-7}$. 
+
+External boundary work is evaluated directly from the prescribed top-edge displacement $u_y > 0$ and signed vertical reaction force $F = RF_2 > 0$ via the discrete trapezoidal integration:
+\begin{equation}
+  W_{\mathrm{trap},n} = \sum_{i=1}^{n} \frac{F_i + F_{i-1}}{2}(u_i - u_{i-1}), \quad \text{with } u_0 = 0, F_0 = 0.
+\end{equation}
+Both $F$ and $u$ are positive tensile quantities ($u \ge 0, F \ge 0$), guaranteeing $W_{\mathrm{trap}} \ge 0$.
+
+\subsection{Dimensional and Units Audit across Gauss Points, Elements, and Model}
+In the consistent structural unit system ($\text{mm}$, $\text{kN}$, $\text{tonne}$, $\text{s}$):
+\begin{itemize}
+  \item Modulus $E = 210\,\mathrm{kN/mm^2} = 210\,\mathrm{GPa}$, stress $\boldsymbol{\sigma} \in [\mathrm{kN/mm^2}]$, and strain $\boldsymbol{\varepsilon}$ is dimensionless.
+  \item Volumetric strain energy density $\psi_e = \frac{1}{2}\boldsymbol{\sigma}:\boldsymbol{\varepsilon} \in [\mathrm{kN/mm^2}] \equiv [\mathrm{kN\cdot mm / mm^3}] = [\mathrm{J/mm^3}]$.
+  \item Fracture energy release rate $G_c = 2.7\times 10^{-3}\,\mathrm{kN/mm} = 2.7\,\mathrm{N/mm} = 2700\,\mathrm{J/m^2}$, and length scale $l_0 = 0.0075\,\mathrm{mm}$.
+  \item Volumetric AT2 fracture density $\psi_f = G_c [ d^2/(2l_0) + (l_0/2)|\nabla d|^2 ] \in [\mathrm{kN/mm^2}] = [\mathrm{J/mm^3}]$.
+  \item In 2D plane strain, the element domain differential is $\mathrm{d}\Omega = \mathrm{d}A \times B$, where $B = 1.0\,\mathrm{mm}$ is the implicit Abaqus default unit thickness. The Gauss integration weight $\mathrm{CJAC} = \det(\mathbf{J})\cdot W$ integrates over area $\mathrm{d}A$ in $\mathrm{mm^2}$. Multiplying $\psi \in [\mathrm{kN/mm^2}]$ by $\mathrm{CJAC} \in [\mathrm{mm^2}]$ and unit thickness $B = 1.0\,\mathrm{mm}$ directly yields physical energy in $\mathrm{kN\cdot mm} \equiv \mathrm{J}$.
+\end{itemize}
+
+\subsection{Abaqus UEL Output Slot Semantics and Dedicated State Variables}
+In Abaqus/Standard, the \texttt{ENERGY} array in \texttt{UEL} defines:
+\begin{itemize}
+  \item \texttt{ENERGY(2)}: Elastic strain energy, automatically summed by Abaqus into the whole-model variable \texttt{ALLSE}. In \nolinkurl{f42_mixed_uel.for}, \texttt{ENERGY(2) = E\_ELAS\_ELEM} is verified and active.
+  \item \texttt{ENERGY(7)}: Electrostatic energy (\texttt{ALLEE}) in official Abaqus documentation. While the subroutine assigns \texttt{ENERGY(7) = E\_FRAC\_ELEM}, Abaqus does not expose it as a native fracture energy output.
+  \item \textbf{Authoritative Fracture Output Route:} To ensure rigorous provenance without repurposing electrostatic slots, fracture surface energy is extracted via:
+    \begin{enumerate}
+      \item Companion Layer~3 state variables $\mathrm{STATEV}(17) = E_{\mathrm{frac}}^{(e)}$ and $\mathrm{STATEV}(19) = \psi_f^{(e)}$ (extracted at \texttt{IP1});
+      \item Global summation directly logged to \nolinkurl{uel_energy_balance.csv} via user subroutine \texttt{UEXTERNALDB} at increment acceptance (\texttt{LOP=2}).
+    \end{enumerate}
+\end{itemize}
+
+\subsection{Single-IP Deduplication Rule and Companion Layer 3 Neutrality}
+In the 3-layer architecture, companion visualizer elements (Layer~3, CPE4) receive whole-element scalar energies into state variables $\mathrm{STATEV}(17) = E_{\mathrm{frac}}^{(e)}$ and $\mathrm{STATEV}(18) = E_{\mathrm{elas}}^{(e)}$ across all 4 integration points. Summing across all Gauss points creates a $4\times$ overcounting artifact. Post-processors strictly enforce extraction at \textbf{Integration Point 1 (\texttt{IP1}) only}, recovering the once-per-underlying-finite-element global energy sum. 
+
+Furthermore, Layer~3 companion elements are assigned a scaled visualizer stiffness $E_{\mathrm{comp}} = 10^{-11}\,\mathrm{GPa}$, resulting in a total Layer~3 elastic strain energy of $\sim 10^{-11}\,\mathrm{J}$ (zero double-counting against UEL Layer~2).
+
+\subsection{Non-Invasiveness and Mechanical Parity Verification}
+Energy logging is mathematically decoupled from the element residual vector (\texttt{RHS}) and stiffness matrix (\texttt{AMATRX}). Controlled HPC benchmarks established:
+\begin{center}
+  \textbf{\texttt{ENERGY\_SOURCE\_MECHANICAL\_PARITY --- QUALIFIED (COMMON QUAD FORMULATION)}}
+\end{center}
+Global mechanical force trajectories were identical ($|\Delta F| = 0.0\,\mathrm{kN}$) against uninstrumented baselines across:
+\begin{itemize}
+  \item \textbf{Elastic Parity (Job 1406904 vs 1406905, 30 incs):} Exact force trajectory agreement ($|\Delta F| = 0.00000000\,\mathrm{kN}$).
+  \item \textbf{Full Softening Parity (Job 1406906 vs 1406907, 129 incs):} Exact force trajectory agreement through complete failure to $u = 0.035\,\mathrm{mm}$ ($|\Delta F| = 0.0\,\mathrm{kN}$, $d_{\max} = 0.977$, $74.2\%$ softening drop).
+\end{itemize}
+
+\subsection{History-Field Non-Potentiality and Observed Bookkeeping Residual}
+Because the phase-field evolution replaces the instantaneous elastic energy density $\psi_0(\boldsymbol{\varepsilon}(t))$ with the historical driving variable $\mathcal{H}(\mathbf{x}, t) = \max_{\tau \le t} \psi_0^+(\boldsymbol{\varepsilon}(\tau))$ to enforce irreversibility ($\dot{d} \ge 0$), the coupled system does not represent the Euler-Lagrange equations of any single instantaneous potential $\Pi(\mathbf{u}(t), d(t))$. 
+
+The discrete two-term bookkeeping difference is defined as:
+\begin{equation}
+  \Delta_{\mathrm{book}}(u) \equiv W_{\mathrm{trap}}(u) - \left[ E_{\mathrm{elas}}(u) + E_{\mathrm{frac}}(u) \right].
+\end{equation}
+This quantity is strictly designated as an \textbf{observed endpoint balance residual / bookkeeping difference}. It is not asserted as a closed physical dissipation term or proven conservation identity. \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}} is preserved.
+
+\subsection{Mini-Benchmark Verification and Abaqus Energy Identity Reconciliation}
+\label{subsec:mini_energy_verification}
+To rigorously audit the UEL energy implementation on a small, fast model before full mesh convergence, the 64-element Mode-I benchmark (\nolinkurl{PK_M1_MINI_ENERGY_64.inp}, Job \texttt{1409575.mmaster02}) was evaluated. 
+
+A forensic comparison between Abaqus whole-model history outputs and deduplicated Layer~3 state variables established:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Abaqus Built-in History Output:}
+    \begin{align}
+      \texttt{ALLSE} &= 2.501643\times 10^{-3}\,\mathrm{kN\cdot mm} = 2.501643\,\mathrm{mJ}, \\
+      \texttt{ALLAE} &= 0.000000\,\mathrm{kN\cdot mm} = 0.000000\,\mathrm{mJ} \quad \text{(zero artificial energy)}, \\
+      \texttt{ALLIE} &= 2.564881\times 10^{-3}\,\mathrm{kN\cdot mm} = 2.564881\,\mathrm{mJ}, \\
+      \texttt{ALLWK} &= 2.562345\times 10^{-3}\,\mathrm{kN\cdot mm} = 2.562345\,\mathrm{mJ}.
+    \end{align}
+    In Abaqus, all non-zero UEL \texttt{ENERGY} entries accumulate into the total internal energy $\texttt{ALLIE} = \sum \texttt{ENERGY}(2) + \sum \texttt{ENERGY}(7) = E_{\mathrm{elas}} + E_{\mathrm{frac}}$.
+  \item \textbf{Deduplicated Layer 3 Companion State Variables ($64$ Finite Elements, Single-IP):}
+    \begin{align}
+      E_{\mathrm{elas}} &= \sum_{e=1}^{64} \mathrm{STATEV}(18)_e = 2.501643\,\mathrm{mJ} \quad (\text{matches } \texttt{ALLSE} \text{ to } 10^{-10}\,\mathrm{mJ}), \\
+      E_{\mathrm{frac}} &= \sum_{e=1}^{64} \mathrm{STATEV}(17)_e = 0.063238\,\mathrm{mJ} \quad (\text{physical AT2 regularized fracture energy}), \\
+      E_{\mathrm{model}} &= E_{\mathrm{elas}} + E_{\mathrm{frac}} = 2.564881\,\mathrm{mJ} \quad (\text{matches } \texttt{ALLIE} \text{ to } 10^{-10}\,\mathrm{mJ}).
+    \end{align}
+  \item \textbf{Rigorous Reconciliation:} $\texttt{ALLAE}$ is strictly zero ($0.0\,\mathrm{mJ}$). The quantity $0.063238\,\mathrm{mJ}$ is entirely the physical AT2 fracture surface energy $E_{\mathrm{frac}}$. It is not artificial/hourglass energy.
+  \item \textbf{Work-Energy Balance:} $W_{\mathrm{trap}} - E_{\mathrm{model}} = -0.002535\,\mathrm{mJ}$ ($-0.0989\%$ relative difference), confirming pre-peak energy balance.
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth]{fig_mode1_s1_energy_balance.pdf}
+  \caption{Global energy component evolution for baseline $S_1$/$T_2$ ($15{,}192$ elements). The two-term bookkeeping difference remains within $\pm0.008\%$ over pre-peak deformation ($u \le 5.50\,\mu\mathrm{m}$). In the post-peak regime it reaches $+0.7607\%$ for $S_1$/$T_2$. This quantity is an observed endpoint bookkeeping difference: \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}}.}
+  \label{fig:energy_balance_pack}
+  \figureconclusion{Before propagation, boundary work and $E_{\mathrm{elas}}+E_{\mathrm{frac}}$ track closely; during rapid fracture, elastic energy falls as fracture energy rises. The post-peak difference is an observed balance residual, not proof of global conservation: \texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}.}
+\end{figure}
+
+\subsection{Temporal Discretization Scaling of Global Energy Components ($T_1$--$T_3$)}
+Figure~\ref{fig:temporal_energy_pack} and Table~\ref{tab:energy_audit_pack} evaluate the temporal sensitivity of all energetic components across time increment scales ($T_1$: coarse $2\times$, $T_2$: nominal $1\times$, $T_3$: fine $0.5\times$):
+\begin{itemize}
+  \item Stored elastic strain energy $E_{\mathrm{elas}}(u)$ and fracture surface energy $E_{\mathrm{frac}}(u)$ exhibit excellent temporal agreement throughout deformation. During rapid crack propagation, $E_{\mathrm{elas}}$ decreases while $E_{\mathrm{frac}}$ increases.
+  \item Pre-peak boundary work $W_{\mathrm{trap}}$ is temporally invariant ($|\Delta| < 0.001\%$). In the post-peak softening tail, finer time stepping slightly decreases external boundary work ($2.41011 \to 2.35933 \to 2.33189\,\mathrm{mJ}$, a $3.24\%$ reduction), reflecting sharper resolution of the steep load drop.
+  \item Consequently, the terminal two-term bookkeeping difference shifts from $+0.378\%$ ($T_1$) to $+0.761\%$ ($T_2$) to $+3.541\%$ ($T_3$), establishing that post-peak bookkeeping values are \textbf{\texttt{TEMPORALLY SENSITIVE}}.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_temporal_energy_comparison.pdf}
+  \caption{Temporal discretization scaling of global energy components across schedules $T_1$ ($2\times$), $T_2$ ($1\times$), and $T_3$ ($0.5\times$, Job \texttt{1406317}) on fixed $S_1$ mesh: (a) boundary work $W_{\mathrm{trap}}(u)$; (b) stored elastic energy $E_{\mathrm{elas}}(u)$; (c) fracture surface energy $E_{\mathrm{frac}}(u)$; (d) two-term bookkeeping difference $\Delta_{\mathrm{book}}(u)$.}
+  \label{fig:temporal_energy_pack}
+  \figureconclusion{$E_{\mathrm{elas}}$ and $E_{\mathrm{frac}}$ remain similar across $T_1$--$T_3$, but terminal $W_{\mathrm{trap}}$ changes by $3.24\%$ and $\Delta_{\mathrm{book}}$ changes from $+0.378\%$ to $+3.541\%$. Mechanical peak convergence does not imply post-peak energetic convergence.}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Global energy bookkeeping audit for completed uniform mesh cases ($u = 0.010\,\mathrm{mm}$).}
+\label{tab:energy_audit_pack}
+\small
+\begin{tabularx}{\textwidth}{Yrrrr}
+\toprule
+Energetic Quantity & Case $T_1$ (Coarse $\Delta t$) & Case $T_2$ (Nominal $\Delta t$) & Case $T_3$ (Fine $\Delta t$) & Case $S_1$ (Baseline) \\
+\midrule
+Boundary Work $W_{\mathrm{trap}}$ [$\mathrm{mJ}$] & $2.41011$ & $2.35933$ & $2.33189$ & $2.35933$ \\
+Elastic Energy $E_{\mathrm{elas}}$ [$\mathrm{mJ}$] & $0.00104$ & $0.00116$ & $0.00120$ & $0.00116$ \\
+Fracture Energy $E_{\mathrm{frac}}$ [$\mathrm{mJ}$] & $2.39995$ & $2.34022$ & $2.24813$ & $2.34022$ \\
+Bookkeeping Diff [$\mathrm{mJ}$] & $0.00912$ & $0.01795$ & $0.08256$ & $0.01795$ \\
+Bookkeeping Diff [\%] & $+0.3783\%$ & $+0.7607\%$ & $+3.5407\%$ & $+0.7607\%$ \\
+\midrule
+Status & \texttt{TEMPORALLY SENSITIVE} & Baseline Anchor & \texttt{TEMPORALLY SENSITIVE} & Baseline Anchor \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Spatial Discretization Convergence of Global Energy Components ($S_1$--$S_4$)}
+\label{subsec:spatial_energy_convergence}
+The spatial convergence of UEL energetic quantities is rigorously evaluated across the four authoritative governed fixed meshes: $S_1$ ($h = 3.00\,\mu\mathrm{m}$, $15{,}192$ elements, Job \texttt{1406015}), $S_2$ ($h = 2.00\,\mu\mathrm{m}$, $32{,}130$ elements, Job \texttt{1406016}), $S_3$ ($h = 1.50\,\mu\mathrm{m}$, $41{,}912$ elements, Job \texttt{1406017}), and $S_4$ ($h = 1.25\,\mu\mathrm{m}$, $51{,}408$ elements, Job \texttt{1406018}).
+
+Table~\ref{tab:spatial_energy_convergence} and Figure~\ref{fig:spatial_energy_convergence_pack} present the matched-displacement comparison at the three accepted physical checkpoints:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Pre-Peak Elastic and Damage Initiation ($u = 5.50\,\mu\mathrm{m}$):}
+    \begin{itemize}
+      \item External boundary work $W_{\mathrm{trap}}$ is tightly invariant across meshes ($2.03739 \to 2.03528\,\mathrm{mJ}$, $-0.10\%$), classified \textbf{\texttt{STABLE\_OVER\_TESTED\_RANGE}}.
+      \item Stored elastic strain energy $E_{\mathrm{elas}}$ constitutes over $97.1\%$ of total input work and varies by $-0.23\%$ ($1.98181 \to 1.97717\,\mathrm{mJ}$), classified \textbf{\texttt{STABLE\_OVER\_TESTED\_RANGE}}.
+      \item Regularized fracture surface energy $E_{\mathrm{frac}}$ accounts for the remaining $2.9\%$ of input work, increasing smoothly from $0.05572\,\mathrm{mJ}$ ($S_1$) to $0.05815\,\mathrm{mJ}$ ($S_4$, $+4.36\%$), classified \textbf{\texttt{MESH-SENSITIVE}}.
+      \item The two-term bookkeeping difference $\Delta_{\mathrm{book}}$ is strictly negligible in this pre-peak regime ($-0.00014\,\mathrm{mJ}$ to $-0.00004\,\mathrm{mJ}$, $< 0.007\%$ of $W_{\mathrm{trap}}$).
+    \end{itemize}
+  \item \textbf{Near-Peak / Early Softening Transition ($u = 5.85\,\mu\mathrm{m}$):}
+    Reflects the mesh-induced peak displacement shift ($u_{\mathrm{peak}} = 5.857\,\mu\mathrm{m}$ for $S_1$ vs $5.586\,\mu\mathrm{m}$ for $S_4$). Baseline $S_1$ resides directly at its load peak ($F = 0.75756\,\mathrm{kN}$), whereas refined meshes $S_2$--$S_4$ have already undergone rapid crack extension ($F < 0.0003\,\mathrm{kN}$, $E_{\mathrm{frac}} \approx 2.33 - 2.38\,\mathrm{mJ}$).
+  \item \textbf{Post-Peak Fully Fractured State ($u = 6.20\,\mu\mathrm{m}$):}
+    \begin{itemize}
+      \item All four models have completely severed the ligament ($d_{\max} \ge 1.0004$, residual load $F < 0.0006\,\mathrm{kN}$, $E_{\mathrm{elas}} < 0.0016\,\mathrm{mJ} \approx 0$).
+      \item Regularized fracture surface energy evaluated across the meshes gives $E_{\mathrm{frac}} = 2.33886\,\mathrm{mJ}$ ($S_1$), $2.33022\,\mathrm{mJ}$ ($S_2$, $-0.37\%$), $2.35701\,\mathrm{mJ}$ ($S_3$, $+0.78\%$), and $2.37531\,\mathrm{mJ}$ ($S_4$, $+1.56\%$). The full min--max spread across $S_1$--$S_4$ is \textbf{$1.94\%$}, classified as \textbf{\texttt{STABLE\_OVER\_TESTED\_RANGE}}.
+      \item External boundary work $W_{\mathrm{trap}}$ decreases from $2.35801\,\mathrm{mJ}$ ($S_1$) to $2.17004\,\mathrm{mJ}$ ($S_4$, $-7.97\%$), classified \textbf{\texttt{MESH-SENSITIVE}}.
+      \item The resulting post-peak two-term difference $\Delta_{\mathrm{book}}$ ranges from $+0.01754\,\mathrm{mJ}$ ($+0.74\%$ for $S_1$) to $-0.20585\,\mathrm{mJ}$ ($-9.49\%$ for $S_4$), strictly designated as an observed balance residual under \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}}.
+    \end{itemize}
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_spatial_energy_convergence.pdf}
+  \caption{Spatial discretization convergence of global energy components across meshes $S_1$--$S_4$ at matched displacements $u = 5.50, 5.85, 6.20\,\mu\mathrm{m}$: (a) boundary work $W_{\mathrm{trap}}$; (b) stored elastic strain energy $E_{\mathrm{elas}}$; (c) regularized fracture surface energy $E_{\mathrm{frac}}$; (d) two-term bookkeeping difference $\Delta_{\mathrm{book}}$. \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}}.}
+  \label{fig:spatial_energy_convergence_pack}
+  \figureconclusion{At $u=5.50\,\mu\mathrm{m}$, boundary work and elastic energy are spatially stable. After fracture, $E_{\mathrm{frac}}$ is comparatively stable ($S_1\rightarrow S_4$: $+1.56\%$; full spread: $1.94\%$), while $W_{\mathrm{trap}}$ and $\Delta_{\mathrm{book}}$ remain mesh-sensitive. A closed global energy identity has not been demonstrated.}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Spatial energy convergence audit across fixed meshes $S_1$--$S_4$ at matched displacements.}
+\label{tab:spatial_energy_convergence}
+\fontsize{7.0}{8.5}\selectfont
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrrrl@{}}
+\toprule
+\textbf{Model ($h$)} & \textbf{Elements} & \textbf{$F(u)$ [kN]} & \textbf{$W_{\mathrm{trap}}$ [mJ]} & \textbf{$E_{\mathrm{elas}}$ [mJ]} & \textbf{$E_{\mathrm{frac}}$ [mJ]} & \textbf{$E_{\mathrm{tot}}$ [mJ]} & \textbf{$\Delta_{\mathrm{book}}$ [mJ]} & \textbf{Classification} \\
+\midrule
+\multicolumn{9}{l}{\textbf{State 1: Pre-peak initiation ($u = 5.50\,\mu\mathrm{m}$)}} \\
+$S_1$ ($3.00\,\mu\mathrm{m}$) & $15{,}192$ & $0.72066$ & $2.03739$ & $1.98181$ & $0.05572$ & $2.03753$ & $-0.00014$ & Baseline Qualified \\
+$S_2$ ($2.00\,\mu\mathrm{m}$) & $32{,}130$ & $0.71984$ & $2.03635$ & $1.97957$ & $0.05686$ & $2.03643$ & $-0.00008$ & \texttt{STABLE} ($-0.05\%$) \\
+$S_3$ ($1.50\,\mu\mathrm{m}$) & $41{,}912$ & $0.71925$ & $2.03565$ & $1.97795$ & $0.05775$ & $2.03570$ & $-0.00005$ & \texttt{STABLE} ($-0.09\%$) \\
+$S_4$ ($1.25\,\mu\mathrm{m}$) & $51{,}408$ & $0.71897$ & $2.03528$ & $1.97717$ & $0.05815$ & $2.03532$ & $-0.00004$ & \texttt{STABLE} ($-0.10\%$) \\
+\midrule
+\multicolumn{9}{l}{\textbf{State 2: Near-peak / softening transition ($u = 5.85\,\mu\mathrm{m}$)}} \\
+$S_1$ ($3.00\,\mu\mathrm{m}$) & $15{,}192$ & $0.75756$ & $2.29636$ & $2.21586$ & $0.08068$ & $2.29654$ & $-0.00018$ & Peak State ($u_{\mathrm{peak}}=5.857\,\mu\mathrm{m}$) \\
+$S_2$ ($2.00\,\mu\mathrm{m}$) & $32{,}130$ & $0.00031$ & $2.24774$ & $0.00090$ & $2.33015$ & $2.33105$ & $-0.08331$ & Post-softening ($d_{\max}=1.0006$) \\
+$S_3$ ($1.50\,\mu\mathrm{m}$) & $41{,}912$ & $0.00023$ & $2.18985$ & $0.00067$ & $2.35696$ & $2.35763$ & $-0.16778$ & Post-softening ($d_{\max}=1.0007$) \\
+$S_4$ ($1.25\,\mu\mathrm{m}$) & $51{,}408$ & $0.00020$ & $2.16997$ & $0.00057$ & $2.37528$ & $2.37585$ & $-0.20588$ & Post-softening ($d_{\max}=1.0006$) \\
+\midrule
+\multicolumn{9}{l}{\textbf{State 3: Post-peak fully fractured state ($u = 6.20\,\mu\mathrm{m}$)}} \\
+$S_1$ ($3.00\,\mu\mathrm{m}$) & $15{,}192$ & $0.00052$ & $2.35801$ & $0.00161$ & $2.33886$ & $2.34047$ & $+0.01754$ & Broken Baseline ($d_{\max}=1.0004$) \\
+$S_2$ ($2.00\,\mu\mathrm{m}$) & $32{,}130$ & $0.00028$ & $2.24785$ & $0.00087$ & $2.33022$ & $2.33110$ & $-0.08325$ & $E_{\mathrm{frac}}$ \texttt{STABLE} ($-0.37\%$) \\
+$S_3$ ($1.50\,\mu\mathrm{m}$) & $41{,}912$ & $0.00021$ & $2.18993$ & $0.00066$ & $2.35701$ & $2.35767$ & $-0.16774$ & $E_{\mathrm{frac}}$ \texttt{STABLE} ($+0.78\%$) \\
+$S_4$ ($1.25\,\mu\mathrm{m}$) & $51{,}408$ & $0.00018$ & $2.17004$ & $0.00057$ & $2.37531$ & $2.37589$ & $-0.20585$ & $E_{\mathrm{frac}}$ \texttt{STABLE} ($+1.56\%$) \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\subsection{Itemized Energetic Qualification Status Summary}
+Table~\ref{tab:energy_qualification_status} provides the definitive itemized status of all energetic expressions, separating verified source terms, derived relations, and unclosed physical questions.
+
+\begin{table}[htbp]
+\centering
+\caption{Definitive energetic quantity classification and qualification status.}
+\label{tab:energy_qualification_status}
+\fontsize{7.5}{9.0}\selectfont
+\begin{tabularx}{\textwidth}{lXll}
+\toprule
+\textbf{Quantity} & \textbf{Mathematical Definition / Extraction} & \textbf{Units} & \textbf{Status} \\
+\midrule
+$K_0$ & $dF/du|_{\text{elastic}}$ (RP 999999 $RF_2$) & $\mathrm{kN/mm}$ & \textbf{\texttt{NUMERICALLY\_VERIFIED}} \\
+$F_{\max}, u_{\mathrm{peak}}$ & Peak reaction force and displacement & $\mathrm{kN}, \mathrm{mm}$ & \textbf{\texttt{NUMERICALLY\_VERIFIED}} \\
+$W_{\mathrm{trap}}$ & $\sum \frac{1}{2}(F_n+F_{n-1})(u_n-u_{n-1})$ & $\mathrm{kN\cdot mm} \equiv \mathrm{J}$ & \textbf{\texttt{DERIVED\_AND\_CHECKED}} \\
+$\psi_e$ & $\frac{1}{2}g(d)\boldsymbol{\varepsilon}:\mathbb{C}_0:\boldsymbol{\varepsilon}$ & $\mathrm{kN/mm^2} = \mathrm{J/mm^3}$ & \textbf{\texttt{VERIFIED\_FROM\_SOURCE}} \\
+$E_{\mathrm{elas}}$ & $\int_{\Omega} \psi_e\,\mathrm{d}\Omega \to \texttt{ENERGY(2)} \to \texttt{ALLSE}$ & $\mathrm{kN\cdot mm} \equiv \mathrm{J}$ & \textbf{\texttt{VERIFIED\_FROM\_SOURCE}} \\
+$\psi_f$ & $G_c [ d^2/(2l_0) + (l_0/2)|\nabla d|^2 ]$ & $\mathrm{kN/mm^2} = \mathrm{J/mm^3}$ & \textbf{\texttt{VERIFIED\_FROM\_SOURCE}} \\
+$E_{\mathrm{frac}}$ & $\int_{\Omega} \psi_f\,\mathrm{d}\Omega \to \mathrm{STATEV}(17), \texttt{CSV}$ & $\mathrm{kN\cdot mm} \equiv \mathrm{J}$ & \textbf{\texttt{VERIFIED\_FROM\_SOURCE}} \\
+Pre-peak $\Delta_{\mathrm{book}}$ & $|\Delta_{\mathrm{book}}| / W_{\mathrm{trap}} < 0.007\%$ & Dimensionless & \textbf{\texttt{NUMERICALLY\_VERIFIED}} \\
+Post-peak $\Delta_{\mathrm{book}}$ & $W_{\mathrm{trap}} - (E_{\mathrm{elas}}+E_{\mathrm{frac}})$ residual ($-9.49\%$) & $\mathrm{kN\cdot mm} \equiv \mathrm{J}$ & \textbf{\texttt{NUMERICALLY\_VERIFIED (OBSERVED)}} \\
+$\mathcal{D}_{\mathrm{frac}}$ & $\int_0^t \int_{\Omega} 2(1-d)\mathcal{H}\dot{d}\,\mathrm{d}\Omega\,\mathrm{d}\tau$ & $\mathrm{kN\cdot mm} \equiv \mathrm{J}$ & \textbf{\texttt{NOT\_YET\_QUALIFIED}} \\
+$\mathcal{D}_{\mathrm{frac}} = \dot{E}_{\mathrm{frac}}$ & Rate equality under active damage & $\mathrm{W}$ & \textbf{\texttt{NOT\_YET\_QUALIFIED}} \\
+\bottomrule
+\end{tabularx}
+\end{table}

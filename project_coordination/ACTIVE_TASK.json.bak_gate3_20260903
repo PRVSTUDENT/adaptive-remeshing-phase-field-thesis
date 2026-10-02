@@ -1,0 +1,51 @@
+{
+  "active_task": {
+    "task_id": "task_mode1_supervisor_master_gates",
+    "task_name": "Supervisor-Aligned Mode-I Benchmark Master Gate Execution",
+    "status": "GATE_2_CONVERGENCE_QUALIFICATION_EVALUATED",
+    "governing_rule": "We need to have understood everything related to the first model before we increase complexity.",
+    "start_time": "2026-09-03T11:58:00T+02:00",
+    "phase": "GATE_2_CONVERGENCE_QUALIFICATION_EVALUATED",
+    "active_gate": "Gate 2: Multi-Quantity Convergence Qualification",
+    "gate_status": {
+      "Gate 0": "CLOSED_PASSED",
+      "Gate 1": "CLOSED_PASSED",
+      "Gate 2": "OPEN_HOLD_EVIDENCE_GAP",
+      "Gate 3": "HOLD_PENDING_GATE_2_DECISION",
+      "Gate 4": "HOLD_PENDING_GATE_2_DECISION",
+      "Gate 5": "HOLD_PENDING_GATE_2_DECISION",
+      "Gate 6": "HOLD_PENDING_GATE_2_DECISION",
+      "Gate 7": "HOLD_PENDING_GATE_2_DECISION",
+      "Gate 8": "ON_HOLD",
+      "Gate 9": "HOLD_PENDING_GATE_2_DECISION",
+      "Gate 10": "HOLD_PENDING_GATE_2_DECISION",
+      "Gate 11": "HOLD_PENDING_GATE_2_DECISION"
+    },
+    "scope_restrictions": {
+      "mode_ii_status": "ON_HOLD",
+      "state_transfer_status": "ON_HOLD_ARCHIVED_ENABLING",
+      "task_6_status": "TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
+      "task_6_companion_bridge": "COMPANION_VISUALIZATION_BRIDGE_FULLY_VERIFIED",
+      "new_simulations_or_pbs_jobs": "PROHIBITED_IN_CURRENT_GATE"
+    },
+    "governing_rules": {
+      "cluster_execution_constraint": "SERIAL_CPUS_1_ONLY",
+      "two_concurrent_job_limit": "2_ACTIVE_JOBS_MAX",
+      "notification_status": "TELEGRAM_ACTIVE_EMAIL_DEFECT_KNOWN"
+    }
+  },
+  "gate_2_evaluation": {
+    "verdict": "OPEN_HOLD_EVIDENCE_GAP",
+    "node_count_verified": 15521,
+    "element_count_verified": 15192,
+    "k0_frozen_kN_per_mm": 138.1124,
+    "k0_fitting_method": "Linear regression through origin on u in [0, 0.00050] mm (N=200, R2 > 0.9999999)",
+    "k0_secant_inc1_kN_per_mm": 138.1458,
+    "top_edge_ux_bc": "N_TOP, 1, 1, 0.0 (constrained horizontally, verified in PK_MODE1_STANDARD_PFM.inp:61838)",
+    "crack_path_verification_status": "FIELD_OUTPUT_RECORDING_GAP_IN_1398090_ODB",
+    "energy_status": "INTERNAL_ENERGY_CONVERGENCE_NOT_AVAILABLE",
+    "external_work_peak_mJ": 2.301667,
+    "external_work_final_mJ": 2.359329,
+    "single_smallest_next_action": "Run single controlled coarse fixed-mesh computation (h=0.006 mm, N~4,000) with companion bridge or obtain supervisor confirmation of baseline anchor"
+  }
+}

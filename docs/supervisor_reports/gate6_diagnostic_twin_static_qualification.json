@@ -1,0 +1,218 @@
+{
+  "audit_metadata": {
+    "title": "Gate-6 Diagnostic Twin Static Qualification & Bridge Mapping Audit",
+    "benchmark": "Pandey & Kumar (2025) Mode-I 2D Phase-Field Fracture",
+    "target_model_qualified": "1404454.mmaster02 (PK_M1_NOM1_FIELD_QUAL)",
+    "diagnostic_twin_model": "1404931.mmaster02 (PK_M1_NOM1_SDV_TRUNC)",
+    "audit_date": "2026-09-12",
+    "diagnostic_classification": "NOT_A_STRICT_DIAGNOSTIC_TWIN",
+    "justification": "Boundary ramp scaling caused by altered total step duration (0.24 vs 1.0) with unchanged boundary target (0.0100 mm) scales nominal displacement increment from 1.0 um to 4.167 um and loading rate from 0.0050 mm/s to 0.020833 mm/s.",
+    "job_1404931_permanent_status": "NOT_A_STRICT_DIAGNOSTIC_TWIN_DUE_TO_RAMP_SCALING",
+    "corrected_strict_twin_job": "1404933.mmaster02",
+    "corrected_strict_twin_deck": "PK_M1_NOM1_STRICT_0062.inp",
+    "corrected_strict_twin_deck_sha256": "6e8672eff7b6fff69bb365c6e586cb2e5f1275d10d0c290f4604c0999c86c92b",
+    "corrected_strict_twin_fortran_sha256": "1662b0c574465d91593bc5b76b28d2070fdf730e6741bdc085bb509766c1b2d0",
+    "datacheck_job_1404932_exit": 0,
+    "solver_job_1404933_state": "RUNNING"
+  },
+  "governing_time_dependence_audit": {
+    "source_file": "f42_mixed_uel_sdv.for",
+    "time_variables_screened": [
+      "TIME",
+      "DTIME",
+      "KSTEP",
+      "KINC",
+      "PNEWDT"
+    ],
+    "findings": [
+      {
+        "variable": "TIME / DTIME",
+        "usage_in_subroutines": "Declared in headers of UEXTERNALDB, UEL, and UMAT. Zero occurrences in executable statements of UEL, UEXTERNALDB, or UMAT.",
+        "constitutive_dependence": "None. The phase-field formulation is rate-independent quasi-static with no viscous regularization or relaxation times."
+      },
+      {
+        "variable": "KSTEP / KINC",
+        "usage_in_subroutines": "Checked only at Step 1 Inc 1 (KSTEP==1 .AND. KINC<=1) for SVARS initialization. No step-dependent logic active in Step 2.",
+        "constitutive_dependence": "None."
+      },
+      {
+        "variable": "Material Properties PROPS(1..6)",
+        "values": [
+          0.0075,
+          0.0027,
+          210.0,
+          0.3,
+          1e-07,
+          71320.0
+        ],
+        "meaning": "l0, Gc, E, nu, kappa, N_PHYS",
+        "rate_dependence": "None. Purely rate-independent elastic-damage parameters."
+      }
+    ],
+    "fortran_constitutive_time_neutrality": "VERIFIED_RATE_INDEPENDENT"
+  },
+  "deck_step_and_prescribed_displacement_audit": {
+    "step_1": {
+      "deck_1404454": {
+        "duration": 1.0,
+        "initial_dt": 0.0005,
+        "max_dt": 0.0005,
+        "u_target": 0.005,
+        "delta_u_per_inc": 2.5e-06,
+        "loading_rate_mm_per_s": 0.005
+      },
+      "deck_1404931": {
+        "duration": 1.0,
+        "initial_dt": 0.0005,
+        "max_dt": 0.0005,
+        "u_target": 0.005,
+        "delta_u_per_inc": 2.5e-06,
+        "loading_rate_mm_per_s": 0.005
+      },
+      "parity": "STRICTLY_IDENTICAL"
+    },
+    "step_2": {
+      "deck_1404454": {
+        "step_time_duration": 1.0,
+        "initial_dt": 0.0002,
+        "max_dt": 0.0002,
+        "min_dt": 1e-14,
+        "boundary_target_N_RP": 0.01,
+        "u_start_mm": 0.005,
+        "delta_u_total_mm": 0.005,
+        "ramp_equation": "u(t) = 0.0050 + (t / 1.0) * 0.0050 = 0.0050 + 0.0050 * t",
+        "loading_rate_mm_per_s": 0.005,
+        "delta_u_nominal_per_inc_mm": 1e-06,
+        "t_at_u_0062_s": 0.24,
+        "u_at_t_end_mm": 0.01
+      },
+      "deck_1404931": {
+        "step_time_duration": 0.24,
+        "initial_dt": 0.0002,
+        "max_dt": 0.0002,
+        "min_dt": 1e-14,
+        "boundary_target_N_RP": 0.01,
+        "u_start_mm": 0.005,
+        "delta_u_total_mm": 0.005,
+        "ramp_equation": "u(t) = 0.0050 + (t / 0.24) * 0.0050 = 0.0050 + 0.0208333 * t",
+        "loading_rate_mm_per_s": 0.0208333,
+        "delta_u_nominal_per_inc_mm": 4.166667e-06,
+        "t_at_u_0062_s": 0.0576,
+        "u_at_t_end_mm": 0.01
+      },
+      "comparison_finding": "Altering the step time duration from 1.0 to 0.24 without modifying the boundary card target (left at 0.0100 mm) quadrupled the nominal displacement increment size (4.167 um vs 1.0 um, a factor of 4.167x). Therefore, the prescribed-displacement history per increment is NOT identical between the two decks.",
+      "consequence_on_twin_status": "Reclassified from VERIFIED_ONE_FACTOR_DIAGNOSTIC_TWIN to NOT_A_STRICT_DIAGNOSTIC_TWIN due to step-duration induced displacement-rate scaling."
+    }
+  },
+  "companion_bridge_mapping_audit": {
+    "mesh_discretization_totals": {
+      "total_underlying_finite_elements": 71320,
+      "quadrilaterals": 69443,
+      "triangles": 1877
+    },
+    "layer_element_ranges": {
+      "layer_1_phase_uel": {
+        "triangles_JTYPE_3": {
+          "elset": "PHASE_TRI",
+          "eid_min": 1,
+          "eid_max": 1877,
+          "count": 1877
+        },
+        "quads_JTYPE_1": {
+          "elset": "PHASE_QUAD",
+          "eid_min": 1878,
+          "eid_max": 71320,
+          "count": 69443
+        },
+        "physidx_formula": "PHYSIDX = JELEM",
+        "physidx_range": [
+          1,
+          71320
+        ]
+      },
+      "layer_2_displacement_uel": {
+        "triangles_JTYPE_4": {
+          "elset": "DISP_TRI",
+          "eid_min": 71321,
+          "eid_max": 73197,
+          "count": 1877
+        },
+        "quads_JTYPE_2": {
+          "elset": "DISP_QUAD",
+          "eid_min": 73198,
+          "eid_max": 142640,
+          "count": 69443
+        },
+        "physidx_formula": "PHYSIDX = JELEM - N_PHYS (where N_PHYS = 71320)",
+        "physidx_range": [
+          1,
+          71320
+        ]
+      },
+      "layer_3_companion_umat": {
+        "triangles_CPE3": {
+          "elset": "UMAT_TRIS",
+          "eid_min": 142641,
+          "eid_max": 144517,
+          "count": 1877
+        },
+        "quads_CPE4": {
+          "elset": "UMAT_QUADS",
+          "eid_min": 144518,
+          "eid_max": 213960,
+          "count": 69443
+        },
+        "physidx_formula": "PHYSIDX = NOEL - 2 * NPHYS_VAL (where NPHYS_VAL = 71320)",
+        "physidx_range": [
+          1,
+          71320
+        ]
+      }
+    },
+    "one_to_one_correspondence_proof": {
+      "triangles": "For any tri index k in [1, 1877]: Phase UEL eid = k, Disp UEL eid = 71320 + k, Companion UMAT eid = 142640 + k. All three map strictly to PHYSIDX = k.",
+      "quads": "For any quad index m in [1878, 71320]: Phase UEL eid = m, Disp UEL eid = 71320 + m, Companion UMAT eid = 142640 + m. All three map strictly to PHYSIDX = m.",
+      "bounds_check": "All PHYSIDX values lie strictly within [1, 71320], well below N_CAPACITY = 100,000. Verified zero buffer overflow."
+    },
+    "state_transfer_and_field_semantics": {
+      "common_block_declaration": "COMMON /CB_STATE_TRANS/ SV_PHASE_COMMITTED(100000), SV_PHASE_TRIAL(100000), SV_H_COMMITTED(100000,4), SV_H_TRIAL(100000,4)",
+      "phase_field_source": {
+        "quads": "D_AVG = (U(1)+U(2)+U(3)+U(4))/4.0 in Phase UEL JTYPE=1 -> SV_PHASE_TRIAL(PHYSIDX)",
+        "tris": "D_AVG = (U(1)+U(2)+U(3))/3.0 in Phase UEL JTYPE=3 -> SV_PHASE_TRIAL(PHYSIDX)"
+      },
+      "statev_mapping_in_umat": {
+        "STATEV_1": "SV_PHASE_TRIAL(PHYSIDX) (Phase field d)",
+        "STATEV_2": "SV_H_TRIAL(PHYSIDX, KPT_IDX) (History variable H at Gauss point)",
+        "STATEV_14": "SV_PHASE_TRIAL(PHYSIDX) (Scalar damage d, standard visualization slot)",
+        "STATEV_15": "(1.0 - d)^2 + 1.0e-7 (Degradation function g(d))",
+        "STATEV_16": "SV_H_TRIAL(PHYSIDX, KPT_IDX) (History variable H at Gauss point)"
+      },
+      "statev_14_semantics_verification": "STATEV(14) rigorously represents the element-averaged scalar phase-field order parameter d for 100% of mapped quads and triangles.",
+      "history_field_h_status": "Although SV_H_TRIAL is populated into STATEV(2) and STATEV(16), H was not independently calibrated or verified in the reference baseline. Therefore, H CANNOT be authoritatively evaluated from 1404931 without external reference calibration, and must not be inferred."
+    }
+  },
+  "one_factor_claim_reconciliation": {
+    "statement": "The overall diagnostic package consists of two distinct changes: (1) A measurement-instrumentation package (UMAT state transfer + redirected SDV output), which is mathematically and mechanically neutral (proven K0 match to 6 sig figs); and (2) A procedural endpoint modification (t_step = 0.24 vs 1.0), which scaled the nominal displacement increment by 4.167x. Because the displacement rate differs, the diagnostic is NOT a strict one-factor twin."
+  },
+  "corrected_strict_twin_validation": {
+    "job_id": "1404933.mmaster02",
+    "model_name": "PK_M1_NOM1_STRICT_0062",
+    "step_2_duration_s": 0.24,
+    "step_2_target_u_mm": 0.0062,
+    "step_2_start_u_mm": 0.005,
+    "loading_rate_du_dt_mm_per_s": 0.005,
+    "nominal_delta_u_per_inc_mm": 1e-06,
+    "mathematical_identity_to_1404454": "STRICTLY_VERIFIED (du/dt and Delta u bitwise identical to 1404454 up to u = 0.006200 mm)",
+    "token_diff_categories": [
+      "MEASUREMENT_INSTRUMENTATION_ONLY (UMAT companion state transfer to STATEV(14) + redirected *ELEMENT OUTPUT on umatelem)",
+      "RATE_PRESERVING_EARLY_TERMINATION (Step 2 duration 0.24 with target 0.0062 mm preserving du/dt = 0.0050 mm/s and Delta u = 1.0 um)"
+    ],
+    "ingested_boundary_nodes": {
+      "N_TOP": 210,
+      "N_BOTTOM": 150,
+      "N_PIN": 1
+    },
+    "companion_mapping": "100% verified 1-to-1 matching across 69,443 quads and 1,877 triangles",
+    "datacheck_result": "EXIT: 0 on Job 1404932.mmaster02, SDV1..16 verified allocated in ODB across all 213,960 elements"
+  }
+}

@@ -1,0 +1,58 @@
+\section{Technical Provenance Ledger \& References}
+\label{sec:provenance_and_references}
+
+\subsection{Authoritative Simulation Jobs and Telemetry Ledger}
+All numerical results reported in this document are derived from exact solver jobs executed on the High-Performance Computing Cluster of TU Bergakademie Freiberg (\texttt{normal\_imfdfkmq} partition).
+
+\begin{table}[htbp]
+  \centering
+  \scriptsize
+  \caption{Technical provenance ledger of authoritative Mode-I simulation jobs.}
+  \label{tab:provenance_ledger}
+  \begin{tabularx}{\textwidth}{L{22mm} L{22mm} C{16mm} C{18mm} C{13mm} L{46mm}}
+    \toprule
+    \textbf{Job Identifier} & \textbf{Model Role} & \textbf{Abaqus} & \textbf{CPUs / Threads} & \textbf{Walltime} & \textbf{Primary Telemetry / Status} \\
+    \midrule
+    \texttt{1398090.mmaster02} & Fixed Ref Anchor & 2023.HF4 & 1 CPU (serial) & 06:31:00 & $F_{\max}=0.757778\,\mathrm{kN}$, $K_0=137.946\,\mathrm{kN/mm}$ \\
+    \texttt{1399632.mmaster02} & DEFECTIVE PREPROC. (Diag.) & 2023.HF4 & 1 CPU (serial) & 35:08:00 & DEFECTIVE N\_BOTTOM (16/150 boundary nodes parsed); $K_0=122.38\,\mathrm{kN/mm}$ \\
+    \texttt{1404312.mmaster02} & Boundary ODB Audit & 2023.HF4 & 1 CPU (serial) & 00:03:12 & Bitwise proof of 16-node card truncation \\
+    \texttt{1404318.mmaster02} & Parser Limit Test & 2023.HF4 & 1 CPU (serial) & 00:01:24 & General 16-entry \texttt{*NSET} limit verified \\
+    \texttt{1405044.mmaster02} & Corrected Frozen & 2023.HF4 & 1 CPU (serial) & 00:04:36 & $K_0 = 138.021\,\mathrm{kN/mm}$, 150/150 nodes, 0 lift \\
+    \texttt{1404933.mmaster02} & Corrected Nom 1\% & 2023.HF4 & 1 CPU (serial) & 18:34:50 & $F_{\max}=0.745325\,\mathrm{kN}$, $K_0 \approx 137.821\,\mathrm{kN/mm}$ ($137.820804\,\mathrm{kN/mm}$) \\
+    \texttt{1405003.mmaster02} & 4T Parity Twin & 2023.HF4 & 1 MPI $\times$ 4T & 05:42:15 & Stage-A parity verified; repeat pending \\
+    \texttt{Abaqus 2019 GA} & 2019 Release Control & 2019 GA & 1 CPU (serial) & 00:05:10 & $71{,}320$ elements bitwise identical \\
+    \texttt{1404968.mmaster02} & 2021 Release Control & 2021.HF26 & 1 CPU (serial) & 00:04:45 & $71{,}320$ elements bitwise identical \\
+    \texttt{1404373.mmaster02} & 2022/2023 Controls & 2022/23 & 1 CPU (serial) & 00:04:30 & $71{,}320$ elements bitwise identical \\
+    \texttt{1405055.mmaster02} & Top $u_1 = \mathrm{Free}$ & 2023.HF4 & 1 CPU (serial) & 00:04:15 & $55{,}761$ elements ($-21.8\%$) \\
+    \texttt{1405056.mmaster02} & Reduced \texttt{CPE4R} & 2023.HF4 & 1 CPU (serial) & 00:06:10 & $103{,}706$ elements ($+45.4\%$) \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\vspace{-0.5em}
+
+\subsection{Cryptographic Checksums (SHA-256) \& Execution Commands}
+{\scriptsize
+\begin{itemize}[leftmargin=4mm,itemsep=0.5pt,topsep=1pt]
+  \item User subroutine \texttt{f42\_mixed\_uel.for}: \texttt{4271c66804e82df4b03692ea407c9197825d19488a0fc438efab28a2a537f51a}
+  \item Fixed reference input deck (\texttt{fixture\_h0015.inp}): \texttt{9f3b52dca622a57eb0155b55e3474fc3108c90ebdb52c253dd658d51d9ad2a71}
+  \item Reconstructed nominal 1\% input deck (\texttt{PK\_M1\_NOM1.inp}): \texttt{6385a4a49c4fa66c6b3e77f0a8276f7a62bc61e138a0a9d19451dcf878bb71ef}
+  \item Reference reaction force curve (\texttt{curve\_standard\_1398090.csv}): \texttt{780d05d39532e778802cdd8503cdd0df25568e412c3d4a51c50f4e001febede6}
+  \item Corrected nominal 1\% curve (\texttt{curve\_1404933\_extracted.csv}): \texttt{f71f01d150b12355f7a9f4a4a19563fe6e046ec31d94fe5abe85c103eadf3d56}
+\end{itemize}
+}
+
+\vspace{-0.4em}
+{\footnotesize\textbf{Standard Abaqus CLI Reproduction Commands:}}
+\begin{verbatim}
+abaqus job=PK_M1_PRE input=PK_M1_PRE_CMS0020.inp interactive
+abaqus cae noGUI=run_adaptive_remesh_canonical.py -- job=PK_M1_PRE
+abaqus job=PK_M1_NOM1_STRICT input=PK_M1_NOM1_STRICT.inp \
+       user=f42_mixed_uel.for cpus=1 interactive
+\end{verbatim}
+
+\vspace{-0.8em}
+\renewcommand{\refname}{\normalsize References}
+\setlength{\bibsep}{1.5pt}
+\bibliographystyle{abbrvnat}
+\bibliography{literature}

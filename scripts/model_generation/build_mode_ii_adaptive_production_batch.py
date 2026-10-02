@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build Mode-II Adaptive MM/PK5 Fracture Production Pair (FRACFIX).
-Task: F43ADAPT-PROD-PREP1
+Task: F43ADAPT-PROD-PREP1 (Technical Pre-Solver Scope-Isolation Fix)
 
 Generates deterministic production packages for:
   1. M2ADAPT_MM_FRACFIX_PROD (2,206 physical elements -> 6,618 layered elements)
@@ -15,7 +15,7 @@ Formulation & Architecture:
   - Parameters: l0=0.015 mm, Gc=0.0027 kN/mm, E=210.0 kN/mm^2, nu=0.3, k=1.0e-7, thickness=1.0 mm
   - NPHYS mapping: 5 UEL properties for U2/U4 with true NPHYS passed in 5th property slot.
   - Complete output requests: RP U/RF, UMATELEM S/E/SDV/EVOL, global energy ALLAE..ETOTAL.
-  - Corrected OpenPBS notification: -m abe, 2-recipient email, mem=8gb.
+  - Corrected OpenPBS notification: -m abe, 2-recipient email, mem=16gb, walltime=24:00:00.
 """
 
 import os
@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Dict, Any, List, Tuple
 
 ROOT = Path(__file__).resolve().parents[2]
-SRC_UEL = ROOT / "models/generated/mode_ii/f42_mixed_element_uel/f42_mixed_uel.for"
+SRC_UEL = ROOT / "models/generated/mode_ii/reference_convergence/M2REF_H1_FRACFIX/f42_mixed_uel.for"
 OUT_BASE = ROOT / "models/generated/mode_ii/production_adaptive_batch"
 
 EXPECTED_UEL_SHA256 = "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8"
@@ -43,8 +43,8 @@ BATCH_CONFIGS = {
         "n_quads_expected": 2137,
         "n_tris_expected": 69,
         "n_nodes_expected": 2294,
-        "memory": "8gb",
-        "walltime": "02:00:00",
+        "memory": "16gb",
+        "walltime": "24:00:00",
         "queue": "entry_imfdfkmq",
         "cpus": 1,
     },
@@ -57,8 +57,8 @@ BATCH_CONFIGS = {
         "n_quads_expected": 4766,
         "n_tris_expected": 128,
         "n_nodes_expected": 4998,
-        "memory": "8gb",
-        "walltime": "04:00:00",
+        "memory": "16gb",
+        "walltime": "24:00:00",
         "queue": "entry_imfdfkmq",
         "cpus": 1,
     },
@@ -82,8 +82,20 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def compute_polygon_signed_area(coords: List[Tuple[float, float]]) -> float:
+    """Compute signed 2D area of a polygon using the Shoelace formula."""
+    n = len(coords)
+    if n < 3:
+        return 0.0
+    area = 0.0
+    for i in range(n):
+        j = (i + 1) % n
+        area += coords[i][0] * coords[j][1] - coords[j][0] * coords[i][1]
+    return 0.5 * area
+
+
 def parse_physical_mesh(deck_path: Path) -> Tuple[Dict[int, Tuple[float, float]], Dict[int, List[int]], Dict[int, List[int]]]:
-    """Parse node coordinates, quad elements, and tri elements from standard Abaqus deck."""
+    """Parse node coordinates, quad elements, and tri elements strictly within Part scope."""
     nodes: Dict[int, Tuple[float, float]] = {}
     quads: Dict[int, List[int]] = {}
     tris: Dict[int, List[int]] = {}
@@ -92,17 +104,27 @@ def parse_physical_mesh(deck_path: Path) -> Tuple[Dict[int, Tuple[float, float]]
     in_nodes = False
     in_cpe4 = False
     in_cpe3 = False
+    in_part = False
 
     for line in lines:
         s = line.strip()
         if not s or s.startswith("**"):
             continue
-        if s.lower().startswith("*node"):
+        if s.lower().startswith("*part"):
+            in_part = True
+            continue
+        elif s.lower().startswith("*end part") or s.lower().startswith("*assembly"):
+            in_part = False
+            in_nodes = False
+            in_cpe4 = False
+            in_cpe3 = False
+            continue
+        elif s.lower().startswith("*node") and in_part:
             in_nodes = True
             in_cpe4 = False
             in_cpe3 = False
             continue
-        elif s.lower().startswith("*element"):
+        elif s.lower().startswith("*element") and in_part:
             in_nodes = False
             if "cpe4" in s.lower():
                 in_cpe4 = True
@@ -119,7 +141,7 @@ def parse_physical_mesh(deck_path: Path) -> Tuple[Dict[int, Tuple[float, float]]
             in_cpe4 = False
             in_cpe3 = False
 
-        if in_nodes:
+        if in_nodes and in_part:
             parts = [p.strip() for p in s.split(",")]
             if len(parts) >= 3:
                 try:
@@ -129,7 +151,7 @@ def parse_physical_mesh(deck_path: Path) -> Tuple[Dict[int, Tuple[float, float]]
                     nodes[nid] = (x, y)
                 except ValueError:
                     pass
-        elif in_cpe4:
+        elif in_cpe4 and in_part:
             parts = [p.strip() for p in s.split(",")]
             if len(parts) >= 5:
                 try:
@@ -138,7 +160,7 @@ def parse_physical_mesh(deck_path: Path) -> Tuple[Dict[int, Tuple[float, float]]
                     quads[eid] = conn
                 except ValueError:
                     pass
-        elif in_cpe3:
+        elif in_cpe3 and in_part:
             parts = [p.strip() for p in s.split(",")]
             if len(parts) >= 4:
                 try:
@@ -176,6 +198,24 @@ def generate_production_deck(case_name: str, cfg: Dict[str, Any]) -> str:
         raise ValueError(f"Tri count mismatch for {case_name}: {n_tris} != {cfg['n_tris_expected']}")
     if n_nodes != cfg["n_nodes_expected"]:
         raise ValueError(f"Node count mismatch for {case_name}: {n_nodes} != {cfg['n_nodes_expected']}")
+
+    # Strict mesh integrity validation before generating deck
+    for eid, conn in quads.items():
+        coords = [nodes[nid] for nid in conn]
+        area = compute_polygon_signed_area(coords)
+        if area <= 0.0:
+            raise ValueError(f"Invalid non-positive quad area for element {eid}: {area:.6e} with nodes {conn}")
+
+    for eid, conn in tris.items():
+        coords = [nodes[nid] for nid in conn]
+        area = compute_polygon_signed_area(coords)
+        if area <= 0.0:
+            raise ValueError(f"Invalid non-positive tri area for element {eid}: {area:.6e} with nodes {conn}")
+
+    total_area = sum(compute_polygon_signed_area([nodes[nid] for nid in conn]) for conn in quads.values()) + \
+                 sum(compute_polygon_signed_area([nodes[nid] for nid in conn]) for conn in tris.values())
+    if abs(total_area - 1.0) > 1.0e-5:
+        raise ValueError(f"Total reconstructed mesh area {total_area:.8f} != 1.00000000 mm^2")
 
     sorted_node_ids = sorted(nodes.keys())
     sorted_quad_ids = sorted(quads.keys())
@@ -462,6 +502,7 @@ def generate_production_pbs(case_name: str, cfg: Dict[str, Any]) -> str:
         "date",
         "module list || true",
         "",
+        "module purge",
         "module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7",
         "",
         f'echo "=== Running Abaqus Job {case_name} ==="',

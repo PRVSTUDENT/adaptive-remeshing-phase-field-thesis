@@ -1,0 +1,87 @@
+{
+  "package_name": "88_mode1_preanalysis_uel_corrected",
+  "task": "SOURCE-GROUNDED PANDEY-KUMAR MODE-I REPRODUCTION CORRECTION",
+  "phase": "PASS 1 PRE-ANALYSIS & PASS 2 ADAPTIVE REMESHING COMPLETE",
+  "description": "Publication-faithful Mode-I pre-analysis (Job-1_UEL) and native adaptive remeshing (Job-2) pipeline for Pandey & Kumar (2025) CMES 144(3), 3251-3276",
+  "pass1_preanalysis": {
+    "deck": "PK_M1_PRE_UEL_CORRECTED.inp",
+    "deck_sha256": "D8B64ADAD5B761C1AEB59B8C1FE2E8A4959D74CB673061760C8C06680AFB6D32",
+    "solver_job_id": "1409546.mmaster02",
+    "queue": "normal_imfdfkmq",
+    "walltime": "00:17:08",
+    "cputime": "00:17:04",
+    "exit_code": 0,
+    "completed_increments": 1153,
+    "step1_increments": 500,
+    "step2_increments": 653,
+    "terminal_u_mm": 0.008169,
+    "physical_elements": 2700,
+    "physical_nodes": 2831,
+    "layered_elements": 8100,
+    "miseseri_recovery": "VERIFIED_PHYSICAL_PHASE_FIELD_LIGAMENT_LOCALIZATION (51% coverage at deep softening)",
+    "status": "PREANALYSIS_SOURCE_FAITHFUL_READY_FOR_EXECUTION"
+  },
+  "pass2_adapted_meshes": {
+    "1pct": {
+      "error_target_pct": 1.0,
+      "raw_deck": "PK_M1_ADAPTED_RAW_1PCT.inp",
+      "production_deck": "PK_M1_JOB2_ADAPTED_1PCT.inp",
+      "production_deck_sha256": "028A604FFECAF37454309D4A4C6A966A79BEED72B3BC76AC59413B4E467B74C6",
+      "nodes": 42162,
+      "physical_elements": 42318,
+      "quads": 41224,
+      "tris": 1094,
+      "layered_elements": 126954,
+      "datacheck_status": "PASS"
+    },
+    "2pct": {
+      "error_target_pct": 2.0,
+      "raw_deck": "PK_M1_ADAPTED_RAW_2PCT.inp",
+      "production_deck": "PK_M1_JOB2_ADAPTED_2PCT.inp",
+      "production_deck_sha256": "B3D3B99F43BD1E0CC9C40B8FF1179AC950B37DEDF963DD9092113753274BA685",
+      "nodes": 10321,
+      "physical_elements": 10253,
+      "quads": 9952,
+      "tris": 301,
+      "layered_elements": 30759,
+      "datacheck_status": "PASS"
+    },
+    "3pct": {
+      "error_target_pct": 3.0,
+      "raw_deck": "PK_M1_ADAPTED_RAW_3PCT.inp",
+      "production_deck": "PK_M1_JOB2_ADAPTED_3PCT.inp",
+      "production_deck_sha256": "AA8A3B4189E9789F097BAD674BF8E3D174E546F4A8D0A01BA22882BA4BE901E2",
+      "nodes": 4721,
+      "physical_elements": 4604,
+      "quads": 4484,
+      "tris": 120,
+      "layered_elements": 13812,
+      "datacheck_status": "PASS"
+    },
+    "5pct": {
+      "error_target_pct": 5.0,
+      "raw_deck": "PK_M1_ADAPTED_RAW_5PCT.inp",
+      "production_deck": "PK_M1_JOB2_ADAPTED_5PCT.inp",
+      "production_deck_sha256": "7091DCC89D0068DBD956DA06AA4537CB1125E55CB5B895C48532E514456D485F",
+      "nodes": 3647,
+      "physical_elements": 3536,
+      "quads": 3452,
+      "tris": 84,
+      "layered_elements": 10608,
+      "datacheck_status": "PASS"
+    }
+  },
+  "material_and_fracture_properties": {
+    "E_GPa": 210.0,
+    "nu": 0.3,
+    "Gc_kN_per_mm": 0.0027,
+    "l0_mm": 0.0075,
+    "k_residual": 1e-07
+  },
+  "governed_fortran_source": {
+    "path": "f42_mixed_uel.for",
+    "sha256": "61D82F97D7799242C0788DC5C833EF1B1AB45713223F94A1FFC7293250142A76",
+    "line_count": 928,
+    "description": "Package-local f42_mixed_uel.for with Hooke stress recovery in UMAT layer for superconvergent patch recovery MISESERI"
+  }
+}

@@ -1,0 +1,128 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\geometry{top=0.7cm,bottom=0.7cm,left=0.75cm,right=0.75cm}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{microtype}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\newcommand{\secbanner}[1]{%
+  \vspace{0.45em}%
+  \noindent\colorbox{gray!15}{\makebox[\dimexpr\linewidth-2\fboxsep\relax][l]{\bfseries\small\vphantom{y}#1}}%
+  \vspace{0.25em}%
+}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+\begin{document}
+
+% Compact Header
+\begin{center}
+  {\Large\textbf{Master Thesis Supervisor Meeting -- Authoritative Numbers Cheat Sheet}}\\[0.2em]
+  {\normalsize\textbf{Mode-I Phase-Field Convergence \& UEL Energy Audit} \quad $\cdot$ \quad Date: 08 October 2026, 10:00}\\[0.15em]
+  {\footnotesize Candidate: Pruthviraja Reddy Vandavagali (68865) \quad $\cdot$ \quad Chair of Applied Mechanics (IMFD), TU Bergakademie Freiberg}
+\end{center}
+\vspace{-0.3em}
+\hrule height 0.6pt
+
+% Section 1
+\secbanner{1. Authoritative Mechanical Benchmark Numbers (Job Provenance Audited)}
+\begin{table}[h!]
+  \centering
+  \scriptsize
+  \renewcommand{\arraystretch}{1.08}
+  \begin{tabularx}{\textwidth}{L{36mm} C{16mm} C{21mm} C{19mm} C{17mm} X}
+    \toprule
+    \textbf{Simulation Model} & \textbf{Elements} & $K_0$ \textbf{[kN/mm]} & $F_{\max}$ \textbf{[kN]} & $u(F_{\max})$ \textbf{[mm]} & \textbf{Status \& Extraction Provenance} \\
+    \midrule
+    \textbf{Fixed Reference Anchor}\newline(\texttt{1398090.mmaster02}) & $15{,}192$\newline(\texttt{CPE4}) & $\mathbf{137.945520}$\newline(Ref Anchor) & $\mathbf{0.757778}$\newline(Ref Anchor) & $\mathbf{0.005857}$\newline(Ref Anchor) & Unconstrained OLS, $N=400$ ($u \le 1.0\,\mu\mathrm{m}$),\newline$R^2=0.99999960$, $b=4.472 \times 10^{-5}\,\mathrm{kN}$ \\
+    \midrule
+    \textbf{Corrected Nominal 1\%}\newline(\texttt{1404933.mmaster02}) & $71{,}320$\newline($69\mathrm{kQ}+1.8\mathrm{kT}$) & $\mathbf{137.820804}$\newline($-0.0904\%$) & $\mathbf{0.745325}$\newline($-1.64\%$) & $\mathbf{0.005750}$\newline($-1.83\%$) & Authoritative full-fracture solve: $K_0 \approx 137.821$,\newline$N=400$, $R^2=0.99999960$, $b=4.470 \times 10^{-5}\,\mathrm{kN}$ \\
+    \midrule
+    \textbf{Spatial Fine $S_3$ ($h=1.5\,\mu\mathrm{m}$)\newline(\texttt{1406017.mmaster02})} & $41{,}912$\newline(\texttt{CPE4}) & $\mathbf{137.857612}$\newline($-0.0637\%$) & $\mathbf{0.732185}$\newline($-3.38\%$) & $\mathbf{0.005633}$\newline($-3.82\%$) & Spatial mesh sensitivity anchor ($h/l_0 = 0.200$);\newline cutback at $u=7.84\,\mu\mathrm{m}$ \\
+    \midrule
+    \textbf{Temporal Fine $T_3$ ($0.5\times\Delta t$)\newline(\texttt{1406317.mmaster02})} & $15{,}192$\newline(\texttt{CPE4}) & $\mathbf{137.945892}$\newline($+0.0003\%$) & $\mathbf{0.757634}$\newline($-0.0190\%$) & $\mathbf{0.005855}$\newline($-0.0341\%$) & Authoritative full horizon to $u=10.0\,\mu\mathrm{m}$;\newline 10,022 Step-2 increments, \texttt{Exit\_status=0} \\
+    \midrule
+    \textbf{Diagnostic Twin}\newline(\texttt{1406839.mmaster02}) & $15{,}192$\newline(\texttt{CPE4}) & $\mathbf{137.945520}$\newline($0.0000\%$) & $\mathbf{0.757778}$\newline($0.0000\%$) & $\mathbf{0.005857}$\newline($0.0000\%$) & Full diagnostic twin: exact bit-for-bit parity;\newline 7,000 incs, terminal $\Delta_{\mathrm{book}} = +0.7607\%$ \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+% Section 2
+\secbanner{2. UEL Energy Bookkeeping \& Parity Numbers}
+\begin{minipage}[t]{0.485\textwidth}
+  \textbf{\footnotesize A. Terminal Global Energy Bookkeeping ($S_1$, $u = 10.0\,\mu\mathrm{m}$):}
+  \begin{itemize}[noitemsep,topsep=1pt,leftmargin=4mm]
+    \scriptsize
+    \item External Work $W_{\mathrm{ext}} = W_{\mathrm{trap}}$: $\mathbf{2.35933 \times 10^{-3}\,\mathrm{kN\cdot mm}}$ ($2.35933\,\mathrm{mJ}$).
+    \item Elastic Strain Energy $E_{\mathrm{elas}}$: $\mathbf{1.16081 \times 10^{-6}\,\mathrm{kN\cdot mm}}$ ($0.00116\,\mathrm{mJ}$, residual).
+    \item Fracture Surface Energy $E_{\mathrm{frac}}$: $\mathbf{2.34022 \times 10^{-3}\,\mathrm{kN\cdot mm}}$ ($99.19\%$ of work).
+    \item Two-Term Bookkeeping Difference $\Delta_{\mathrm{book}}$: $\mathbf{1.795 \times 10^{-5}\,\mathrm{kN\cdot mm}}$ ($\mathbf{+0.7607\%}$).
+  \end{itemize}
+  \vspace{0.3em}
+  \textbf{\footnotesize B. Non-Invasive Mechanical Parity Verification:}
+  \begin{itemize}[noitemsep,topsep=1pt,leftmargin=4mm]
+    \scriptsize
+    \item Elastic Stage (Jobs \texttt{1406904} vs \texttt{1406905}): $\max|\Delta F| = \mathbf{0.00000000\,\mathrm{kN}}$ ($30$ incs).
+    \item Coupled Fracture (Jobs \texttt{1406906} vs \texttt{1406907}): $\max|\Delta F| = \mathbf{0.0\,\mathrm{kN}}$ ($129$ incs to $u=35\,\mu\mathrm{m}$).
+    \item Single-IP Extraction Rule: eliminates $4\times$ overcounting on CPE4 visualizers.
+  \end{itemize}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\textwidth}
+  \textbf{\footnotesize C. Crack Symmetry and Localization Band Metrics:}
+  \begin{itemize}[noitemsep,topsep=1pt,leftmargin=4mm]
+    \scriptsize
+    \item Crack Centroid Trajectory: $|y_c - 0.500\,\mathrm{mm}| \le \mathbf{3.10\,\mu\mathrm{m}}$ across all meshes.
+    \item Fixed meshes ($S_1$--$S_4$): $|y_c - 0.5| \le 3.10\,\mu\mathrm{m}$; adaptive ($A_1$--$A_4$): $\le 1.50\,\mu\mathrm{m}$.
+    \item Moderate Damage Band ($d \ge 0.50$): $w_{d \ge 0.5} = \mathbf{20.0\text{--}30.0\,\mu\mathrm{m}}$ (resolution-limited).
+    \item Core Separation Zone ($d \ge 0.90$): $w_{d \ge 0.9} = \mathbf{9.5\text{--}14.4\,\mu\mathrm{m}}$.
+  \end{itemize}
+  \vspace{0.3em}
+  \textbf{\footnotesize D. Preserved Adaptive Sensitivity Trends:}
+  \begin{itemize}[noitemsep,topsep=1pt,leftmargin=4mm]
+    \scriptsize
+    \item $\mathtt{errorTarget}=1.0\% \longrightarrow \mathbf{71{,}320}$ finite elements.
+    \item $\mathtt{errorTarget}=2.0\% \longrightarrow \mathbf{17{,}687}$ (offline) / $\mathbf{15{,}396}$ (production) elements.
+    \item $\mathtt{errorTarget}=3.0\% \longrightarrow \mathbf{8{,}120}$ (offline) / $\mathbf{7{,}633}$ (production) elements.
+    \item $\mathtt{errorTarget}=5.0\% \longrightarrow \mathbf{4{,}356}$ (offline) / $\mathbf{4{,}194}$ (production) elements.
+  \end{itemize}
+\end{minipage}
+
+% Section 3
+\secbanner{3. Multi-Quantity Convergence \& Epistemological Status Summary}
+\begin{table}[h!]
+  \centering
+  \tiny
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabularx}{\textwidth}{p{2.8cm} p{2.2cm} p{3.2cm} X}
+    \toprule
+    \textbf{Evaluated Quantity} & \textbf{Observed Variation} & \textbf{Authoritative Status} & \textbf{Epistemological Grounding / Evidence Boundary} \\
+    \midrule
+    Initial Stiffness $K_0$ (Spatial) & $\Delta < 0.089\%$ across $S_1$--$S_5$ & \textbf{\texttt{CONVERGED / STABLE}} & Stable linear elasticity ($u \le 1.0\,\mu\mathrm{m}$); insensitive to crack-tip damage. \\
+    Initial Stiffness $K_0$ (Temporal) & $\Delta < 0.001\%$ across $T_1$--$T_3$ & \textbf{\texttt{CONVERGED / STABLE}} & Time incrementation does not perturb linear elastic stiffness. \\
+    Peak Reaction Force $F_{\max}$ (Spatial) & $0.7578 \to 0.7255\,\mathrm{kN}$ ($4.26\%$) & \textbf{\texttt{MESH-SENSITIVE}} & Monotonic decrease with $h/l_0$; asymptotic limit requires sub-element models. \\
+    Peak Reaction Force $F_{\max}$ (Temporal) & $\Delta < 0.069\%$ across $T_1$--$T_3$ & \textbf{\texttt{CONVERGED / STABLE}} & Limit load invariant under time-step refinement at fixed spatial mesh. \\
+    Crack Centroid Symmetry $y_c(x)$ & $|y_c - 0.5\,\mathrm{mm}| \le 3.10\,\mu\mathrm{m}$ & \textbf{\texttt{CONVERGED / STABLE}} & Centroid offset strictly bounded within single element dimension. \\
+    Two-Term Bookkeeping $\Delta_{\mathrm{book}}$ & $+0.38\%$ to $+3.54\%$ ($T_1 \to T_3$) & \textbf{\texttt{TEMPORALLY SENSITIVE}} & Algebraic difference $W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$; not a proven balance law. \\
+    Global Energy Identity & Non-commuting staggered steps & \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}} & Standard ODBs unpersisted for internal Newton paths; identity remains open. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\vfill
+\hrule height 0.4pt
+\vspace{0.15em}
+{\tiny\textbf{Authoritative Subroutine Hash:} \texttt{f42\_mixed\_uel.for} (\texttt{SHA256: 5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46}) $\cdot$ Queue: \texttt{normal\_imfdfkmq}}
+
+\end{document}

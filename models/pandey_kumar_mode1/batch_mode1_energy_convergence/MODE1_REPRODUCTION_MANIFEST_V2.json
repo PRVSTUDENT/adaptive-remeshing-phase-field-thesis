@@ -1,0 +1,1202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "package_name": "PANDEY_KUMAR_MODE1_GATE6B_REPRODUCTION_PACKAGE",
+  "generated_timestamp": "2026-09-20T01:32:00+02:00",
+  "active_scientific_phase": "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE",
+  "active_gate": "GATE_6B_OPEN",
+  "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+  "benchmark_specification": {
+    "geometry": "1.0 mm x 1.0 mm square plate",
+    "crack_representation": "a0 = 0.5 mm sharp horizontal seam along y = 0.500 mm (zero-gap)",
+    "boundary_conditions": "Bottom edge y=0: u_y=0 with pinned point (u_x=0) to prevent rigid body motion; Top edge y=1: Prescribed tensile displacement u_y",
+    "material_properties": {
+      "E_GPa": 210.0,
+      "nu": 0.3,
+      "Gc_N_per_mm": 2.7,
+      "l0_mm": 0.0075,
+      "k_res": 1e-06
+    }
+  },
+  "artifacts": [
+    {
+      "category": "INPUT_DECKS",
+      "file": "PK_M1_FIX_H0030_VIS.inp",
+      "sha256": "35c478fbc50c0436def284b6c164d95997f6fe51a65963db501aaf12308d49e4",
+      "role": "S1 Nominal Reference fixed-mesh input deck (15,192 CPE4 cells, h/l0 = 0.400)",
+      "execution_command": "abaqus job=PK_M1_S1_H0030 user=f42_mixed_uel.for cpus=1 interactive"
+    },
+    {
+      "category": "INPUT_DECKS",
+      "file": "PK_M1_S3_H0015.inp",
+      "sha256": "eb009f188a2a66b1b2f6d7ba0b0662354c766e457b74b64bbdb90fdf3dc9625e",
+      "role": "S3 Fine fixed-mesh anchor input deck (41,912 CPE4 cells, h/l0 = 0.200)",
+      "execution_command": "abaqus job=PK_M1_S3_H0015 user=f42_mixed_uel.for cpus=1 interactive"
+    },
+    {
+      "category": "INPUT_DECKS",
+      "file": "PK_M1_S5_H00100.inp",
+      "sha256": "54f118cf138d97bd530202c7d649332e0383838f50d662c13a1c3aefdc9c1b29",
+      "role": "S5 Ultra-Fine fixed-mesh input deck (69,384 CPE4 cells, h/l0 = 0.133)",
+      "execution_command": "abaqus job=PK_M1_S5_H00100 user=f42_mixed_uel.for cpus=1 interactive"
+    },
+    {
+      "category": "INPUT_DECKS",
+      "file": "PK_M1_T3_DTFINE.inp",
+      "sha256": "68befb3fbe33f1f4df7723594aa3991589f5e1464ea68f31943b6ff643b8134b",
+      "role": "T3 Fine time-step input deck (0.5x schedule, 10,022 Step-2 increments)",
+      "execution_command": "abaqus job=PK_M1_T3_FULLU010 user=f42_mixed_uel.for cpus=1 interactive"
+    },
+    {
+      "category": "INPUT_DECKS",
+      "file": "PK_M1_A2_ADAPT2PCT.inp",
+      "sha256": "3e5b9559db38b9868e7a72ca913b1227239de475ef36c0eb51ee88c60ba69a43",
+      "role": "A2 Corrected Production Adaptive input deck (15,396 cells, 2.0% target error)",
+      "execution_command": "abaqus job=PK_M1_A2_ADAPT2PCT user=f42_mixed_uel.for cpus=4 interactive"
+    },
+    {
+      "category": "INPUT_DECKS",
+      "file": "PK_M1_A3_ADAPT3PCT.inp",
+      "sha256": "79be8e83eb080fb0322221851eaf16b718d0462ceac4f5e93542edcc094fcb57",
+      "role": "A3 Corrected Production Adaptive input deck (7,633 cells, 3.0% target error)",
+      "execution_command": "abaqus job=PK_M1_A3_ADAPT3PCT user=f42_mixed_uel.for cpus=4 interactive"
+    },
+    {
+      "category": "USER_SUBROUTINES",
+      "file": "f42_mixed_uel.for",
+      "sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+      "role": "Authoritative Fortran dual-element formulation (Phase JTYPE=1, Mechanical JTYPE=2, companion UMAT visualization)"
+    },
+    {
+      "category": "USER_SUBROUTINES",
+      "file": "f42_mixed_uel_diagnostic.for",
+      "sha256": "3c1b40035e85343c8b63214d8788ec16fd77d8bb3495cf3ed34c2f60147c5c1a",
+      "role": "Diagnostic instrumented Fortran source logging Unit 105 (energy balance), Unit 106 (incremental discrete terms), and Unit 107 (subiteration call order)"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "CLAIM_LEDGER_NUMERICAL_PROVENANCE.csv",
+      "sha256": "b1291e8f8eec6c8f2191f27bc66338e251c9fef59437d97ba57e7d672a6e7131",
+      "role": "Compact 15-row supervisor claim ledger tying every claim to single-channel numerical provenance (reconciled with V4 temporal closure)",
+      "bytes": 41139
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "L0_SENSITIVITY_SERIES_EVALUATION_TEMPLATE.csv",
+      "sha256": "d26e6f54904a541985bb58bb3fa130833375f9ec4c5e7a1696f5804faf8a8902",
+      "role": "Frozen pre-ingestion evaluation template for three-point length-scale series (l0 = 7.5, 11.25, 15.0 um)"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "MASTER_CONVERGENCE_ENERGY_TABLE.csv",
+      "sha256": "a9af55151a2d30971e1b77371daf70407d31439772f7d8057a46a41ee30c092c",
+      "role": "15-case comprehensive master table of mechanical, energetic, and bookkeeping metrics"
+    },
+    {
+      "category": "POSTPROCESSING_SCRIPTS",
+      "file": "postprocess_l0_sensitivity_series.py",
+      "sha256": "679678d43f38e9140857611ece8ade2f44696992ec1a1ba70e9df17cd100cb79",
+      "role": "Canonical l0 evaluation pipeline V6 with machine-enforced 4,837-state trajectory extraction and W_trap normalization"
+    },
+    {
+      "category": "POSTPROCESSING_SCRIPTS",
+      "file": "process_spatial_profiles_and_plots.py",
+      "sha256": "6850367e65ac20a6542f8b60c6fa7689eb7955222aa8dba653810c0359536bfb",
+      "role": "Spatial crack centroid trajectory y_c(x) and localization band full-width w_{d>=0.5} extraction"
+    },
+    {
+      "category": "POSTPROCESSING_SCRIPTS",
+      "file": "postprocess_mechanical_parity.py",
+      "sha256": "58cce339b3a7472ac1d84a3fa296390e4ab9b468e0557b69f67aed0e45400396",
+      "role": "Rigorous full-horizon mechanical bit-parity evaluation script between solver runs"
+    },
+    {
+      "category": "POSTPROCESSING_SCRIPTS",
+      "file": "postprocess_external_work.py",
+      "sha256": "8bc239d3f20918ebeb8eae938d613aabef438a002f24ec8ed516f1c3d33d56ec",
+      "role": "Trapezoidal integration of top boundary reaction force across prescribed displacement"
+    },
+    {
+      "category": "REPORTS_AND_DOCUMENTATION",
+      "file": "MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md",
+      "sha256": "c06be4c98ba2070e5762f71fcfcc496dbc0c8929d463e4785755e2f1f4a76189",
+      "role": "Complete supervisor-facing Gate-6B convergence and energy audit report (Section 15.3 V3 temporal convergence closure and same-frame state alignment discovery)",
+      "bytes": 148670
+    },
+    {
+      "category": "REPORTS_AND_DOCUMENTATION",
+      "file": "ENERGY_VARIABLE_MAP.md",
+      "sha256": "315e90b1358e9b28327717ede19da5052ee67c4a8f7d187f4218aa15e89cc518",
+      "role": "Source-to-code mapping of all physical energy quantities and SDV variables in UEL/UMAT"
+    },
+    {
+      "category": "EXECUTION_INSTRUCTIONS",
+      "file": "commands.txt",
+      "sha256": "72be03e43c6155575d7256ffc194ba46692bac9bad3e2647550928cf00934092",
+      "role": "Exact shell and Abaqus execution instructions for solver runs and post-processing"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "PHASE_FIELD_OUTPUT_PROVENANCE.csv",
+      "sha256": "71c8278bf311b141cbaab6a62f3e690ff15fedfbd823753306d742a05a28c405",
+      "role": "Machine-readable 9-row spatial phase-field output provenance matrix distinguishing true nodal UEL unknowns from companion-element surrogates"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "PHASE_FIELD_QD_VS_COMPANION_AUDIT.csv",
+      "sha256": "d75b97d1c09f6e41fab52e05aa68a23dc08af5db12a515b7eba651774ab36f5a",
+      "role": "Audit matrix resolving authentic nodal q_d vs companion surrogate for S3 anchor across 7 checkpoints"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "PHASE_FIELD_MAXIMA_PROVENANCE.csv",
+      "sha256": "ec6dd0703329e263aee489e2abc779d4126030ed19c5e55ba3fb7d2a4eda6815",
+      "role": "8-state comprehensive maxima taxonomy matrix resolving global, station, and ligament phase-field extrema"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "GATE6B_SPATIAL_CONVERGENCE_AUDIT.csv",
+      "sha256": "89bb5290190ce9150632905d9d805f5cf1accf074f0e828da5253a823dac246d",
+      "role": "Machine-readable 77-state cross-mesh Gate-6B spatial convergence audit across all 8 fixed and adaptive meshes"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "GATE6B_SPATIAL_PHASE_FIELD_METRICS.csv",
+      "sha256": "b610114a7edff422546a733b727751edb27ff056d5226f1a60f2d3c0a322eee4",
+      "role": "Comparative spatial L2/Linf profile errors, exact-plane widths, and auxiliary narrow-band widths relative to S1 baseline"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "GATE6B_SPATIAL_CONVERGENCE_AUDIT_V2.csv",
+      "sha256": "5a1cf24240053bd1c171a7365bc11d6f644334c04ea58a28679843272dffd2f9",
+      "role": "Preserved V2 77-state spatial convergence audit with separated narrow-band widths and semantic absence (Superseded by V3)"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "SPATIAL_METRIC_DEFINITION_AUDIT.csv",
+      "sha256": "92481620facee5ce66e65e5ac1e5f651fdd19f6feda4fe5122bc7c109f7c1f6e",
+      "role": "Formal 8-metric spatial definition audit establishing exact mathematical formulas, field representations, spatial rules, and permitted terminology (V3 Exact Plane)"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "SPATIAL_COMMON_OPERATOR_QUALIFICATION.csv",
+      "sha256": "bc242bc420bf7c388d142bafc470507d963779a277876c1caebc1047cea1a22e",
+      "role": "Qualification matrix comparing exact-plane 2D linear operator (x = 0.550000 mm) against fixed station node-line and auxiliary narrow-band across all 8 meshes"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "GATE6B_SPATIAL_CONVERGENCE_AUDIT_V3.csv",
+      "sha256": "94495b0a642383e2e18fcc30d56ca1afb463a46460b02304938f9cc2f0c9ba50",
+      "role": "Authoritative 77-state V3 spatial convergence audit featuring exact-plane continuous linear interpolation, pre-peak pairwise scaling, and refined set stability"
+    },
+    {
+      "category": "CONVERGENCE_AUDIT_ARTIFACTS",
+      "file": "SPATIAL_EXACT_PLANE_CROSSING_AUDIT.csv",
+      "sha256": "89e7cb7f68034d5e80fad84baadea0fcd092091ea4ea68c2b57d019f83cc8fb8",
+      "role": "Gate-6B Spatial Convergence V4 and Temporal Closure Suite: SPATIAL_EXACT_PLANE_CROSSING_AUDIT.csv",
+      "provenance": "Gate-6B Spatial Convergence V4 Suite"
+    },
+    {
+      "category": "CONVERGENCE_AUDIT_ARTIFACTS",
+      "file": "GATE6B_SPATIAL_CONVERGENCE_AUDIT_V4.csv",
+      "sha256": "d985933f28160e238b0ac8bcf0219ccd49803b29419e39cd2ddb9623f95dad11",
+      "role": "Gate-6B Spatial Convergence V4 and Temporal Closure Suite: GATE6B_SPATIAL_CONVERGENCE_AUDIT_V4.csv",
+      "provenance": "Gate-6B Spatial Convergence V4 Suite"
+    },
+    {
+      "category": "CONVERGENCE_AUDIT_ARTIFACTS",
+      "file": "SPATIAL_PHASE_FIELD_CONVERGENCE_SUMMARY.json",
+      "sha256": "a1b85ca0a3e694256a95a8f311f69ec33462fddb8d839b1c4ff3cefc768e67fe",
+      "role": "Gate-6B Spatial Convergence V4 and Temporal Closure Suite: SPATIAL_PHASE_FIELD_CONVERGENCE_SUMMARY.json",
+      "provenance": "Gate-6B Spatial Convergence V4 Suite"
+    },
+    {
+      "category": "CONVERGENCE_AUDIT_ARTIFACTS",
+      "file": "TEMPORAL_CONVERGENCE_PROVENANCE_AUDIT.csv",
+      "sha256": "3e2ebe0de42f6bcec3fccb772276b2decdc77f0a71be8c7f4ef77da09385c2f4",
+      "role": "Gate-6B Temporal Convergence Provenance and Closure Suite: TEMPORAL_CONVERGENCE_PROVENANCE_AUDIT.csv",
+      "provenance": "Gate-6B Temporal Convergence Suite V2"
+    },
+    {
+      "category": "CONVERGENCE_AUDIT_ARTIFACTS",
+      "file": "TEMPORAL_CONVERGENCE_CLOSURE_V2.csv",
+      "sha256": "c4110d98a4148df1dc190f92095250721d904d341a663e90f0996d9550d885cc",
+      "role": "Preserved V2 temporal convergence closure table (Superseded by V3 due to K0 regression and stride forward-filling extraction errors)",
+      "provenance": "Gate-6B Temporal Convergence Suite V2"
+    },
+    {
+      "category": "CONVERGENCE_AUDIT_ARTIFACTS",
+      "file": "TEMPORAL_STATE_ALIGNMENT_AUDIT.csv",
+      "sha256": "f995c2b8270dc03fad50e8bde4362e629fa2d6a08a08fa11e4a94749b99cb1fd",
+      "role": "Gate-6B 33-row exact same-frame temporal state alignment audit across 11 checkpoints for T1, T2, T3 resolving pre-peak energy balance to <= 0.008%",
+      "provenance": "Gate-6B Temporal Convergence Suite V3"
+    },
+    {
+      "category": "CONVERGENCE_AUDIT_ARTIFACTS",
+      "file": "TEMPORAL_CONVERGENCE_CLOSURE_V3.csv",
+      "sha256": "b384a30c9cc44d5c1726fd9e17623ba88ea1067c4271f755c0eeacde6ee113f1",
+      "role": "Authoritative 60-row V3 temporal convergence closure table featuring exact-frame SDV extraction, canonical K0 regression, and common matched subterminal state u = 9.398 um",
+      "provenance": "Gate-6B Temporal Convergence Suite V3"
+    },
+    {
+      "file": "TEMPORAL_ODB_FRAME_TOPOLOGY_AUDIT.csv",
+      "sha256": "e20655ad3c3e31349b2b5e3db3ad1c06d8200b47f1a9b45812a861dc5fe95c8d",
+      "role": "Authoritative raw ODB step- and frame-topology audit for T1, T2, T3 across all 11 matched states (Step 1 u <= 5 um, Step 2 u > 5 um)"
+    },
+    {
+      "file": "TEMPORAL_CONVERGENCE_CLOSURE_V4.csv",
+      "sha256": "b9c3067e28b55e00f878c23782ab388043b7126bf07d5e6190fd0bfbb3165a2c",
+      "role": "Authoritative Mode-I temporal convergence closure table (V4) with exact ODB frame metadata and compliant observed two-term endpoint equality terminology"
+    },
+    {
+      "file": "L0_TEMPLATE_LINEAGE_DIFF.csv",
+      "sha256": "16eb0b996c32fc09a4e9ebd7b1fdfdfe7a37be32d8bf771eeddf522e9cb73f17",
+      "role": "Complete length-scale (l0) template lineage diff reconciling all 6 historical template SHA-256 hashes (T1, T1-991b, T1-165e, T2, T3, T4)"
+    },
+    {
+      "file": "POSTPROCESSOR_LINEAGE_DIFF.csv",
+      "sha256": "2bd499309ddfac455189c10f8290a4546bbc5ed98904a7053125a1b2c013d3e2",
+      "role": "Complete postprocessor lineage diff reconciling V0 through V6 and classifying disputed candidate 2A31609D"
+    },
+    {
+      "file": "L0_INGESTION_PROVENANCE_GATE.csv",
+      "sha256": "d149da2626fbc32d870930e5192443ffe3eff5e7e8591aab2fe41045ad5fb5aa",
+      "role": "Formal Gate 6B provenance gate enforcing final_ingestion_allowed = NO for running candidate cluster jobs 1406895 and 1406896"
+    },
+    {
+      "category": "CONVERGENCE_AUDIT_ARTIFACTS",
+      "file": "T3_POSTPEAK_INCREMENT_TOPOLOGY_AUDIT.csv",
+      "sha256": "924be0cb743cf6c6ee920e18e2ab88c742238c3588d2b7e33670b3323b0e4a63",
+      "role": "Full increment-by-increment topology audit of T3 Step-2 explaining automatic cutbacks and frame shift.",
+      "provenance": "Gate-6B Solver Diagnostics Suite"
+    },
+    {
+      "category": "GOVERNANCE_AND_QUALIFICATION",
+      "file": "L0_V6_T4_ANCHOR_REGRESSION.csv",
+      "sha256": "6f8dab3cfdd905ce7105262b0e835120f32bfa0bcc73391d13b3fa12234f5983",
+      "role": "Frozen V6 vs T4 S3 anchor regression audit (35 metrics verified PASS).",
+      "provenance": "Gate-6B Length-Scale Pipeline Qualification"
+    },
+    {
+      "category": "GOVERNANCE_AND_QUALIFICATION",
+      "file": "L0_CANDIDATE_INGESTION_CHECKLIST.csv",
+      "sha256": "b4f6a3fd42324f6d8c0fdd225977f78d45e426d1475dd61e59656d47be77e8b0",
+      "role": "Predeclared candidate ingestion checklist for jobs 1406895 and 1406896.",
+      "provenance": "Gate-6B Candidate Ingestion Protocol"
+    },
+    {
+      "category": "GOVERNANCE_AND_QUALIFICATION",
+      "file": "L0_POST_INGESTION_COMPARISON_CONTRACT.csv",
+      "sha256": "c6640dcbf2eb45e97d4b1024e00deadeab68861b212c8b69c34785eefc1d0c0b",
+      "role": "Three-point length-scale sensitivity comparison contract for l0 = {7.5, 11.25, 15} um.",
+      "provenance": "Gate-6B Length-Scale Sensitivity Study"
+    },
+    {
+      "category": "GOVERNANCE_AND_QUALIFICATION",
+      "file": "L0_ANCHOR_SOURCE_IDENTITY_AUDIT.csv",
+      "sha256": "961fa0e4c92756e3ec517d7b7d6aa70364d15fb383baa1fbadce5dfd94ad6246",
+      "role": "Source identity audit reconciling canonical partial snapshot (c3c8...) vs authoritative full trajectory (bdf9...).",
+      "provenance": "Gate-6B Length-Scale Source Provenance Audit"
+    },
+    {
+      "category": "POSTPROCESSING_SCRIPTS",
+      "file": "plot_l0_sensitivity_series.py",
+      "sha256": "8c76b1b85b461de291646554b088188471ed810d21f818431fb81845358b6824",
+      "role": "Five-figure publication-quality visualization generator for Mode-I l0 sensitivity series"
+    },
+    {
+      "category": "DATA_HARVEST_JSON",
+      "file": "L0_CANDIDATES_INGESTION_RESULTS.json",
+      "sha256": "591495ee914945ca065bfbab0a305a4b104c48c2f483d81e4d4e91473dd69416",
+      "role": "Harvested mechanical, energetic, and spatial metrics for Candidate 1 (l0=11.25 um) and Candidate 2 (l0=15.00 um)"
+    },
+    {
+      "category": "DATA_HARVEST_CSV",
+      "file": "S3_h0015_l01125_42k/PK_M1_S3_L01125_CURVES_V6.csv",
+      "sha256": "8e1829ffb466d2f63ea1d332e62d1a2611ad3dc28db1c103a29aa8890172ca2d",
+      "role": "Full 2,845-state formal mechanical and energetic trajectory for Candidate 1 (Job 1406895.mmaster02, l0=11.25 um)"
+    },
+    {
+      "category": "DATA_HARVEST_CSV",
+      "file": "S3_h0015_l01500_42k/PK_M1_S3_L01500_CURVES_V6.csv",
+      "sha256": "3fbb422ddc6f1a6a0ff470a4078804c64fd55d849d898b36c7c6a5c75d24c16a",
+      "role": "Full 3,474-state formal mechanical and energetic trajectory for Candidate 2 (Job 1406896.mmaster02, l0=15.00 um)"
+    },
+    {
+      "category": "PUBLICATION_FIGURES",
+      "file": "fig_mode1_l0_fu_overlay.pdf",
+      "sha256": "c8fac63498718a865417dff7186fbe3d491d70b19207e1c5ea3028174d0ac570",
+      "role": "Multi-curve F-u response overlay across l0 in {7.50, 11.25, 15.00} um on uniform S3 mesh"
+    },
+    {
+      "category": "PUBLICATION_FIGURES",
+      "file": "fig_mode1_l0_metrics_vs_lengthscale.pdf",
+      "sha256": "c78bfecf415f9f3cee0a76bf6a34e092b1baa38917439a8ac675bd9a8e48bf59",
+      "role": "Parametric variations of K0, F_max, u_peak, and W_trap(u=5.5 um) vs length scale l0"
+    },
+    {
+      "category": "PUBLICATION_FIGURES",
+      "file": "fig_mode1_l0_matched_ligament_profiles.pdf",
+      "sha256": "fddf14848fe33b262d9a0852b83851a031da9592ec81f7dbb73c96a1748d3853",
+      "role": "Longitudinal damage profiles d(x, y=0.5 mm) along ligament at matched displacements"
+    },
+    {
+      "category": "PUBLICATION_FIGURES",
+      "file": "fig_mode1_l0_transverse_localization_profiles.pdf",
+      "sha256": "5e31c6153e6f3c091dc424e1ebede06903451719e2429732a487609f0986002a",
+      "role": "Transverse damage localization profiles d(x=0.55 mm, y) across specimen height"
+    },
+    {
+      "category": "PUBLICATION_FIGURES",
+      "file": "fig_mode1_l0_path_deviation_and_widths.pdf",
+      "sha256": "12ccdf1dc7b2c81d7d34962dbd2e34b1eb54bc3ecaec3e93488fbc86d01cc588",
+      "role": "Two-panel evaluation: (a) crack centroid deviation; (b) localization widths and invariant w/l0 scaling"
+    },
+    {
+      "category": "SYNTHESIS_AND_DECISION_PACKET",
+      "file": "GATE6B_FINAL_QUALIFICATION_AND_SUPERVISOR_DECISION_PACKET.md",
+      "sha256": "c6607aa392a06a7d8c5c0ad4233ce88e11cf5d7eca3bd514495c032ad08bee9f",
+      "role": "Authoritative Gate-6B final qualification packet, reconciled synthesis of spatial, temporal, l0 sensitivity, and energy accounting, and explicit supervisor decision framework.",
+      "bytes": 20836
+    },
+    {
+      "category": "EVIDENCE_MATRIX",
+      "file": "GATE6B_FINAL_EVIDENCE_MATRIX.csv",
+      "sha256": "253cd98ea2693f831d185c8bb89a5149c7269907c06b44ce6435d8c7d1df0c4c",
+      "role": "Comprehensive 35-row machine-readable Gate-6B evidence matrix detailing reference, spatial V4, temporal V4, l0 sensitivity, and energy quantities with full source provenance and limitations.",
+      "bytes": 28173
+    },
+    {
+      "category": "GATE_VERIFICATION",
+      "file": "GATE6B_FINAL_CONSISTENCY_GATE.csv",
+      "sha256": "c52047788b5d5f42e45d26e1c7eefe00a06efb2f3d3b2a60db91cb182fbcf039",
+      "role": "Final internal consistency gate verifying 15/15 checks across reference anchor, spatial V4, temporal V4, l0 sensitivity, parity, and supervisor decision criteria with PASS status.",
+      "bytes": 5378
+    }
+  ],
+  "governance_artifacts": {
+    "CLAIM_LEDGER_NUMERICAL_PROVENANCE.csv": {
+      "sha256": "C274E64FA4D755427DEB2243500843BC52A0BF82BBC1438F1E59FFDFCA27F978",
+      "description": "Exhaustive row-by-row numerical claim audit ledger with step, frame index, and source SHA256.",
+      "bytes": 41139,
+      "size_bytes": 41672
+    },
+    "MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md": {
+      "sha256": "E6B72E0CA85FCEEBB53F0E9771E5E14984234351AE8EC0F8C4C6A1CA3F13A640",
+      "size_bytes": 151766,
+      "role": "MASTER_AUDIT_REPORT"
+    },
+    "L0_TEMPLATE_LINEAGE_DIFF.csv": {
+      "sha256": "16eb0b996c32fc09a4e9ebd7b1fdfdfe7a37be32d8bf771eeddf522e9cb73f17",
+      "description": "Full lineage and exact diff audit of all 6 historical l0 template files with explicit byte-availability status."
+    },
+    "POSTPROCESSOR_LINEAGE_DIFF.csv": {
+      "sha256": "2bd499309ddfac455189c10f8290a4546bbc5ed98904a7053125a1b2c013d3e2",
+      "description": "Full lineage and diff audit of all 8 historical postprocessors with explicit byte-availability status."
+    },
+    "L0_INGESTION_PROVENANCE_GATE.csv": {
+      "sha256": "d149da2626fbc32d870930e5192443ffe3eff5e7e8591aab2fe41045ad5fb5aa",
+      "description": "Provenance gate enforcing final_ingestion_allowed = NO pending candidate terminal evidence."
+    },
+    "TEMPORAL_ODB_FRAME_TOPOLOGY_AUDIT.csv": {
+      "sha256": "e20655ad3c3e31349b2b5e3db3ad1c06d8200b47f1a9b45812a861dc5fe95c8d",
+      "description": "Raw ODB multi-step and frame topology audit across all 3 temporal mesh refinements."
+    },
+    "TEMPORAL_CONVERGENCE_CLOSURE_V4.csv": {
+      "sha256": "b9c3067e28b55e00f878c23782ab388043b7126bf07d5e6190fd0bfbb3165a2c",
+      "description": "Authoritative temporal energy balance and convergence closure ledger on exact raw frames."
+    },
+    "T3_POSTPEAK_INCREMENT_TOPOLOGY_AUDIT.csv": {
+      "sha256": "924be0cb743cf6c6ee920e18e2ab88c742238c3588d2b7e33670b3323b0e4a63",
+      "description": "Full increment-by-increment topology audit of T3 Step-2 explaining automatic cutbacks and frame shift."
+    },
+    "L0_V6_T4_ANCHOR_REGRESSION.csv": {
+      "sha256": "6f8dab3cfdd905ce7105262b0e835120f32bfa0bcc73391d13b3fa12234f5983",
+      "description": "Comprehensive regression audit of frozen postprocessor V6 against qualified S3 anchor verifying exact match across all 35 metrics."
+    },
+    "L0_CANDIDATE_INGESTION_CHECKLIST.csv": {
+      "sha256": "b4f6a3fd42324f6d8c0fdd225977f78d45e426d1475dd61e59656d47be77e8b0",
+      "description": "Predeclared ingestion checklist contract for candidate cluster jobs 1406895 and 1406896."
+    },
+    "L0_POST_INGESTION_COMPARISON_CONTRACT.csv": {
+      "sha256": "c6640dcbf2eb45e97d4b1024e00deadeab68861b212c8b69c34785eefc1d0c0b",
+      "description": "Outcome-neutral three-point fixed-S3 length-scale sensitivity study contract with pending candidate cells."
+    },
+    "L0_ANCHOR_SOURCE_IDENTITY_AUDIT.csv": {
+      "sha256": "961fa0e4c92756e3ec517d7b7d6aa70364d15fb383baa1fbadce5dfd94ad6246",
+      "description": "Comprehensive source identity audit distinguishing canonical partial snapshot (c3c8...) from authoritative full trajectory (bdf9...)."
+    },
+    "GATE6B_GLOBAL_ENERGY_IDENTITY_DECISION_PACKET.md": {
+      "sha256": "81d3a694b56b56826f57c908b54b56f8b5f335a789c98547c2bf48d1dee4853a",
+      "description": "Supervisor decision packet for Gate-6B global energy identity covering problem definition, thermodynamic balance, Fortran UEL derivation, 3-level epistemic evidence ledger, and non-prescriptive future pathways for the 01 October 2026 meeting."
+    },
+    "GLOBAL_ENERGY_IDENTITY_EVIDENCE_LEDGER.csv": {
+      "sha256": "0aa9c7fcbc4016370668756f1a6be53c592e2886b80bf652e94508e78d411488",
+      "description": "Machine-readable 16-row epistemic evidence ledger strictly classifying all Gate-6B energetic and morphological claims into source-defined, derived, or unproven tiers."
+    },
+    "S3_ANCHOR_PROVENANCE_STALE_REFERENCE_AUDIT.csv": {
+      "sha256": "1e9596de4d966cf2b11a153830c335e869ce9ed5cea1016132f355d3e8586f7f",
+      "description": "Comprehensive project-wide stale-reference provenance audit confirming resolution of S3 anchor hash duality between early partial snapshots and authoritative full-trajectory raw evidence."
+    },
+    "GLOBAL_ENERGY_SEMANTICS_AUDIT.csv": {
+      "sha256": "4b4d32161dad4460c4241c81be439b21f6e6fd6a9556697bade34a2771745586",
+      "description": "Exhaustive energy semantics and source-provenance audit reconciling UEL whole-element storage, companion integration-point replication, residual stiffness (1.0e-7), thickness convention, and non-prescriptive supervisor pathways."
+    },
+    "UEL_UMAT_ENERGY_ARCHITECTURE_AUDIT.csv": {
+      "sha256": "84baafa1b32752e11d801cfdaf4b81d8e9f1d2620a94af7f8f0f6ecf03bd6436",
+      "description": "Comprehensive source architecture audit across all 4 UEL JTYPE branches, companion UMAT (UEL JTYPE: NOT_APPLICABLE), and UEXTERNALDB Unit 105 logging."
+    },
+    "ENERGY_DIMENSIONAL_UNITS_AUDIT.csv": {
+      "sha256": "F480DA80EDD7BB6BBA4AEDF3E3B4B24B4912FC99676F2216825262AE2E3829D9",
+      "size_bytes": 5632,
+      "role": "SUPERVISOR_HANDOFF_DELIVERABLE"
+    },
+    "L0_CANDIDATE_LIVE_STEP_TOPOLOGY_AUDIT.csv": {
+      "sha256": "acb19e244f37b1af79d0e320d5ab6dcb2b51a1a0c5cca3606f946d3f0015274d",
+      "description": "Live step topology and increment progress audit establishing Step-2 transition for job 1406896 (inc 2026, u=0.005026 mm) and Step-1 progress for job 1406895 (inc 1973, u=0.004933 mm)."
+    },
+    "L0_CANDIDATE_DECK_NORMALIZATION_AUDIT.csv": {
+      "sha256": "8085075e8f6057045a60259502bcd411d1e0cde8639b0dc69da6ddf5b72240c1",
+      "description": "Comprehensive deck normalization audit reconciling raw SHA, canonical LF-normalized SHA, alternate stripped normalization, and exact semantic diff hunks."
+    },
+    "GATE6B_FINAL_QUALIFICATION_AND_SUPERVISOR_DECISION_PACKET.md": {
+      "sha256": "78C98A6CEA7993A64D511A7344DE1CC8090AE88390B7C1DF70FAC8CBD7C7FC38",
+      "size_bytes": 14657,
+      "role": "SUPERVISOR_HANDOFF_DELIVERABLE"
+    },
+    "GATE6B_FINAL_EVIDENCE_MATRIX.csv": {
+      "sha256": "400E888AB32A0DBF2E5856FEF11BA0758866BBDA96280B9DDC48243709046ADF",
+      "description": "Comprehensive 35-row machine-readable Gate-6B evidence matrix detailing reference, spatial V4, temporal V4, l0 sensitivity, and energy quantities with full source provenance and limitations.",
+      "bytes": 28173,
+      "size_bytes": 25371
+    },
+    "GATE6B_FINAL_CONSISTENCY_GATE.csv": {
+      "sha256": "361BF5510B72F15D7172173E1D110F10F1D4645D6D65CA93515BC737730891A9",
+      "description": "Final internal consistency gate verifying 15/15 checks across reference anchor, spatial V4, temporal V4, l0 sensitivity, parity, and supervisor decision criteria with PASS status.",
+      "bytes": 5378,
+      "size_bytes": 6305
+    },
+    "SUPERVISOR_MEETING_01OCT2026_MODE1_BRIEF.md": {
+      "sha256": "59CEB40E79C911E6F864D08B3B59ECCA2AE88B487882FDE8B1E48796136240CF",
+      "size_bytes": 13773,
+      "role": "SUPERVISOR_HANDOFF_DELIVERABLE"
+    },
+    "commands.txt": {
+      "sha256": "916BA429FBC611A8DA49AF69860FE886F1620EBA7F18CB492212A7C7B06675EC",
+      "size_bytes": 3721,
+      "role": "SUPERVISOR_HANDOFF_DELIVERABLE"
+    },
+    "MODE1_SUPERVISOR_TALKING_POINTS.md": {
+      "sha256": "479932DCE579F8ABA726B471C4452A84261E3E23F1F14E7B16B609C7DE4B75B6",
+      "size_bytes": 4123,
+      "role": "SUPERVISOR_HANDOFF_DELIVERABLE"
+    },
+    "MODE1_SUPERVISOR_REPRODUCTION_PACKAGE_CHECKLIST.csv": {
+      "sha256": "635DFDCF9425DA795B9B509C032C7D3CD3C5A2992363C4A552D68B0B366E70AF",
+      "size_bytes": 7755,
+      "role": "SUPERVISOR_HANDOFF_DELIVERABLE"
+    },
+    "MODE1_HANDOFF_CONTENT_VALIDATION_GATE.csv": {
+      "sha256": "0080FDBFB2216FC73EEACE27CB00344BDC67F1860000DBAAE2982157D3CE21D5",
+      "size_bytes": 6817,
+      "role": "SUPERVISOR_HANDOFF_DELIVERABLE"
+    }
+  },
+  "l0_sensitivity_series_artifacts": {
+    "L0_THREE_POINT_FINAL_REGRESSION_GATE.csv": {
+      "file_name": "L0_THREE_POINT_FINAL_REGRESSION_GATE.csv",
+      "bytes": 8187,
+      "sha256": "16af6d3e0f642839296299857a0cb1c23a914ff79ae76f4dfcf97a0e23ec3801",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "L0_THREE_POINT_COMPARABILITY_AND_CLAIM_AUDIT.csv": {
+      "file_name": "L0_THREE_POINT_COMPARABILITY_AND_CLAIM_AUDIT.csv",
+      "bytes": 16368,
+      "sha256": "370e3f88021958446af69eb4c08263ed04e1e52d536b83b9f9c06ea792e812e2",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "L0_CANDIDATE_DECK_NORMALIZATION_AUDIT.csv": {
+      "file_name": "L0_CANDIDATE_DECK_NORMALIZATION_AUDIT.csv",
+      "bytes": 1280,
+      "sha256": "bf0249b9cfd78dea7d720f506e26fefd05a12dbfafa4a1bea39f1c8c2e65365f",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "L0_POST_INGESTION_COMPARISON_CONTRACT.csv": {
+      "file_name": "L0_POST_INGESTION_COMPARISON_CONTRACT.csv",
+      "bytes": 5647,
+      "sha256": "1cb3403d3951ea592cf78ae2149c05deffa6011ede309e9568d67de99e059b85",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "L0_SENSITIVITY_SERIES_EVALUATION_TEMPLATE.csv": {
+      "file_name": "L0_SENSITIVITY_SERIES_EVALUATION_TEMPLATE.csv",
+      "bytes": 2317,
+      "sha256": "e7373a337963d2b573844dfd68db0570a92a8d10791abdf4da81f5840d558b9e",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "L0_INGESTION_PROVENANCE_GATE.csv": {
+      "file_name": "L0_INGESTION_PROVENANCE_GATE.csv",
+      "bytes": 1295,
+      "sha256": "42bdda8c39fe2b4202ed307d58ac8bb0a31f31ad2873b1d26999f26610cc5baa",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "L0_CANDIDATES_INGESTION_RESULTS.json": {
+      "file_name": "L0_CANDIDATES_INGESTION_RESULTS.json",
+      "bytes": 8237,
+      "sha256": "591495ee914945ca065bfbab0a305a4b104c48c2f483d81e4d4e91473dd69416",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "PK_M1_S3_L01125_CURVES_V6.csv": {
+      "file_name": "PK_M1_S3_L01125_CURVES_V6.csv",
+      "bytes": 724098,
+      "sha256": "8e1829ffb466d2f63ea1d332e62d1a2611ad3dc28db1c103a29aa8890172ca2d",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "PK_M1_S3_L01125_SUMMARY_V6.json": {
+      "file_name": "PK_M1_S3_L01125_SUMMARY_V6.json",
+      "bytes": 3803,
+      "sha256": "74e57c4f308420aaea3faf0e19095adcbf26dced66a16b39ad154d6b56c9239f",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "PK_M1_S3_L01500_CURVES_V6.csv": {
+      "file_name": "PK_M1_S3_L01500_CURVES_V6.csv",
+      "bytes": 884017,
+      "sha256": "3fbb422ddc6f1a6a0ff470a4078804c64fd55d849d898b36c7c6a5c75d24c16a",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "PK_M1_S3_L01500_SUMMARY_V6.json": {
+      "file_name": "PK_M1_S3_L01500_SUMMARY_V6.json",
+      "bytes": 3889,
+      "sha256": "5dad0000b06a27b2c2f1191dc0f983c61e7f48691891c188d467b7e1036ae444",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "plot_l0_sensitivity_series.py": {
+      "file_name": "plot_l0_sensitivity_series.py",
+      "bytes": 17191,
+      "sha256": "736671a06566d7c342c581e063e475db9e904b10728f40f7eb344602636d6158",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "fig_mode1_l0_fu_overlay.pdf": {
+      "file_name": "fig_mode1_l0_fu_overlay.pdf",
+      "bytes": 29271,
+      "sha256": "94efb03ebfaed418ade5046fe8da7d337c050f77bb5a00d8611db413b45dd467",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "fig_mode1_l0_fu_overlay.png": {
+      "file_name": "fig_mode1_l0_fu_overlay.png",
+      "bytes": 297123,
+      "sha256": "ee77371ef1a3c6f76d25f24f3d170eb9b0f58050e6ae5381b094abac07883ae5",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "fig_mode1_l0_metrics_vs_lengthscale.pdf": {
+      "file_name": "fig_mode1_l0_metrics_vs_lengthscale.pdf",
+      "bytes": 27141,
+      "sha256": "3dd94556edce100a7386cabd9595159d4e0d609412d70e243a63703b0990161a",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "fig_mode1_l0_metrics_vs_lengthscale.png": {
+      "file_name": "fig_mode1_l0_metrics_vs_lengthscale.png",
+      "bytes": 379811,
+      "sha256": "591a9b6cae8ee321e347fbf129a2c56dc342097eab849df74e241b7493ab9e5a",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "fig_mode1_l0_matched_ligament_profiles.pdf": {
+      "file_name": "fig_mode1_l0_matched_ligament_profiles.pdf",
+      "bytes": 21261,
+      "sha256": "b85c93ece822708f9da7588b188598a48e5c9b03adad834b45ced1f223248653",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "fig_mode1_l0_matched_ligament_profiles.png": {
+      "file_name": "fig_mode1_l0_matched_ligament_profiles.png",
+      "bytes": 228515,
+      "sha256": "6cfe9a88e6fe4fc30f81e78dce0ce377de2da10f0088d86ac89cbf62caa3a6b3",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "fig_mode1_l0_transverse_localization_profiles.pdf": {
+      "file_name": "fig_mode1_l0_transverse_localization_profiles.pdf",
+      "bytes": 26151,
+      "sha256": "669c29a418974ed8c50e760d3dd316bee08636d0b326c5f0a9e14ea5617cf39b",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "fig_mode1_l0_transverse_localization_profiles.png": {
+      "file_name": "fig_mode1_l0_transverse_localization_profiles.png",
+      "bytes": 316810,
+      "sha256": "ffc328b73a0c2cda10801f8f8391042b30b47aea10877739e5bd7a006d1b96fa",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "fig_mode1_l0_path_deviation_and_widths.pdf": {
+      "file_name": "fig_mode1_l0_path_deviation_and_widths.pdf",
+      "bytes": 27044,
+      "sha256": "f030787941312f3096c1c79b8343932774786b1383cf163bac4e2a2de3e1ac12",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "fig_mode1_l0_path_deviation_and_widths.png": {
+      "file_name": "fig_mode1_l0_path_deviation_and_widths.png",
+      "bytes": 290438,
+      "sha256": "b5122874b2a8e41c0bbc087904fc27385d1dbf162a782f4ec544020d0de529c2",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "CLAIM_LEDGER_NUMERICAL_PROVENANCE.csv": {
+      "file_name": "CLAIM_LEDGER_NUMERICAL_PROVENANCE.csv",
+      "bytes": 41139,
+      "sha256": "b1291e8f8eec6c8f2191f27bc66338e251c9fef59437d97ba57e7d672a6e7131",
+      "audit_status": "AUDITED_VERIFIED"
+    },
+    "MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md": {
+      "file_name": "MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md",
+      "bytes": 137021,
+      "sha256": "818e6d1b46086965ebb52a1c64e8351046d3e8c0a0ca7a61deacbbdec6808752",
+      "audit_status": "AUDITED_VERIFIED"
+    }
+  },
+  "manifest_version": "4.2.0",
+  "last_updated": "2026-09-20T03:15:00+02:00",
+  "governance_state": "GATE_6B_OPEN",
+  "gate_6b_qualification_status": "SUPERVISOR_READY",
+  "consistency_gate_checks_passed": "16/16",
+  "scratch_artifacts": {
+    "build_consistency_gate.py": {
+      "sha256": "A9D9478D111F1C3BA7A13DCDD2336A4119E97506B3C7E6F826383039226FE90D",
+      "size_bytes": 9082
+    },
+    "check_ledger.py": {
+      "sha256": "8B8C5227281C55CAA4EFD01881AFB0E6FFF102ACD3BB60F0A15786911DD6AA4E",
+      "size_bytes": 561
+    },
+    "check_packet_keywords.py": {
+      "sha256": "BF9FF6EB584C9FDAE2694448845F26E4A3508BC8FE384ECCCABD6DA1BFB5C946",
+      "size_bytes": 706
+    },
+    "check_spatial_v4_w05.py": {
+      "sha256": "C96A5A0BD70CD8700ADDCAFBFB4B82D25416FF4F5FB5DA0F555994FD75716988",
+      "size_bytes": 1526
+    },
+    "CLAIM_LEDGER_NUMERICAL_PROVENANCE.csv": {
+      "sha256": "A9F993DE255A264C80585EA49F24527934CA27F5322AAD56E06CAD483352D2C9",
+      "size_bytes": 41239
+    },
+    "fix_escapes.py": {
+      "sha256": "5514A0EF3EEEFB6F6EF7FCCC0D330E54A83984C936BB718BECD10F3D26035F22",
+      "size_bytes": 550
+    },
+    "fix_latex.py": {
+      "sha256": "0D7E92E5ECF0B728B54114722AC11F20F4B38DF0D5D45DC9ADDDCF578A6A3584",
+      "size_bytes": 460
+    },
+    "fix_line328.py": {
+      "sha256": "AA0D36E3545BC2638F923ABC53E351A427ACB62C3336CFA25374E8695C39B2B1",
+      "size_bytes": 622
+    },
+    "frozen_artifact_hashes.json": {
+      "sha256": "CB357B4A9864A6D045B385692E3E0B77019949847CBFC4FB23285891C5C6E919",
+      "size_bytes": 1001
+    },
+    "GATE6B_FINAL_CONSISTENCY_GATE.csv": {
+      "sha256": "361BF5510B72F15D7172173E1D110F10F1D4645D6D65CA93515BC737730891A9",
+      "size_bytes": 6305
+    },
+    "GATE6B_FINAL_EVIDENCE_MATRIX.csv": {
+      "sha256": "0805649D5F67D671AD492D51EF1C4C4C1C64F283AAE33E574919838E1368ABA0",
+      "size_bytes": 25295
+    },
+    "GATE6B_FINAL_QUALIFICATION_AND_SUPERVISOR_DECISION_PACKET.md": {
+      "sha256": "A8402090E859D34814124CFF66A647DC0CB7ECDF9F2EA06C2F436443DDBD5384",
+      "size_bytes": 23334
+    },
+    "generate_audit_csvs.py": {
+      "sha256": "0115DF85BAD3169DCC994CD197817B352F3A78F90B45B1E098DA238198865911",
+      "size_bytes": 40891
+    },
+    "generate_final_evidence_matrix.py": {
+      "sha256": "7F7FB23A0B7FAA6434A585A49F3ABF5B11CEC0D3B55A3D17EA080498955BD682",
+      "size_bytes": 25469
+    },
+    "generate_final_packet.py": {
+      "sha256": "68A3095909482E38C4C7599566BB66320B49FC6C330946832A612217B6A865F5",
+      "size_bytes": 32912
+    },
+    "generate_final_regression_and_audit.py": {
+      "sha256": "ECDE3CE768869DC93EE2CF5BA86AC73705823BA0F61D0F9A71F93414986C202B",
+      "size_bytes": 53378
+    },
+    "generate_reconciled_packet.py": {
+      "sha256": "F0A5645CBC62DB20B8996F5DC208133F7CD0FEAE1BC9BC2D790EE3502997A510",
+      "size_bytes": 21370
+    },
+    "get_source_hashes.py": {
+      "sha256": "BE1F908D335AA63AAC529F520C619305CC82AFA4111E69594CB9BFFC1AE13CF9",
+      "size_bytes": 1332
+    },
+    "inspect_all_metrics.py": {
+      "sha256": "B8EB314E9D1837E5290F82680AEF0FCDE09C2D3003E729C3C485A6BE65251CC9",
+      "size_bytes": 3453
+    },
+    "inspect_claims.py": {
+      "sha256": "2A9901D959643B6F26ED99894112FC240F33FADF01332370A240D29AF497F57C",
+      "size_bytes": 572
+    },
+    "inspect_claims_16_20.py": {
+      "sha256": "0F5DA03A8736D749735592814AAFC12C9AF776A7F8F90B254CE7E39F2E2307AE",
+      "size_bytes": 487
+    },
+    "inspect_claim_ledger.py": {
+      "sha256": "5B011D9A1091F6E9A32E6F2303E49D048A330E6EAE6BCAE98A4CF35E69E6A360",
+      "size_bytes": 534
+    },
+    "inspect_claim_rows.py": {
+      "sha256": "B1E74E4A5C59122FA2AB2EFE8260794343B0068ED3DD533CB2F39F41F8F89108",
+      "size_bytes": 487
+    },
+    "inspect_exact_frozen_v4.py": {
+      "sha256": "3135A4318E7AF834628A91476428808E5D632676ECB0B32A420FF887A3962474",
+      "size_bytes": 1922
+    },
+    "inspect_frozen_artifacts.py": {
+      "sha256": "5596786C31E79A93B1B5089C7D87E9A299171A0F104F335D0D19A57D0A3F11D2",
+      "size_bytes": 1743
+    },
+    "inspect_gate.py": {
+      "sha256": "F189D2605FD4D1233DDCBB6E020A01F02E821E0DDB35E5B68C48C6EC340FDBA6",
+      "size_bytes": 438
+    },
+    "inspect_gate6b_data.py": {
+      "sha256": "EBE93DC47C9456101A1BBA87333337BD3032B9B1DDA7ECEEEF965D47754C9B01",
+      "size_bytes": 2383
+    },
+    "inspect_ledger_slice.py": {
+      "sha256": "FB90F2C58A6B81E6D1F66964148C2FC6F821ACABE937C923B0206F5385810CD6",
+      "size_bytes": 551
+    },
+    "inspect_manifest.py": {
+      "sha256": "D4121AE346449C568E7837E119E5DD71A18B580A54514CA0E16C1204557CC0E2",
+      "size_bytes": 478
+    },
+    "inspect_manifest_dicts.py": {
+      "sha256": "E0ABE0C5657E7043ECB5AB7F5D78EF28582C03F994A7C26A0CF41A4A0FB57CFE",
+      "size_bytes": 922
+    },
+    "inspect_manifest_schema.py": {
+      "sha256": "1398949F8B0E3FAF6F314C6DC49973955BAC9DA959A4F49E8043932452CCD6CD",
+      "size_bytes": 478
+    },
+    "inspect_master_table.py": {
+      "sha256": "BC059F3173815F4F97DFAE1DF59D04775C40A98D557A41DA40E59758516FDE4A",
+      "size_bytes": 560
+    },
+    "inspect_matrix_quantities.py": {
+      "sha256": "29D9C06C8C48C5AA2050D513A1E06CF827E5E42993D6C38AC935B4213E6037F0",
+      "size_bytes": 393
+    },
+    "inspect_matrix_rows.py": {
+      "sha256": "9DFCC000B0B8992468C91EC940B4D924C59ECF1B308413457BA41C17CFFFC2A9",
+      "size_bytes": 548
+    },
+    "inspect_packet_headers.py": {
+      "sha256": "FB592BFD94847733CB89455600D9FA8FC2B60F2E320E01302EE6BAC0C3169880",
+      "size_bytes": 473
+    },
+    "inspect_parity_csv.py": {
+      "sha256": "7A24B2901FABB40765E5129FB53810E1E22E5BAACE567E83C36776A6E681D578",
+      "size_bytes": 336
+    },
+    "inspect_report_outline.py": {
+      "sha256": "A64390B3672A5A2D73429DD661B080ADFBD1B99B34BFFA8EE30D55AC3F8B071C",
+      "size_bytes": 402
+    },
+    "inspect_report_s18.py": {
+      "sha256": "B559A0312E251598785D6CFD7F5355A45E3112E655B3A4838DD6939DAE1DD038",
+      "size_bytes": 652
+    },
+    "inspect_report_sections.py": {
+      "sha256": "4CEE711CF4120D80CD27A92ACDDC5185470D7BAE46520338964F0ACA9547DFBF",
+      "size_bytes": 912
+    },
+    "inspect_report_spatial.py": {
+      "sha256": "64181883C7D8D571C5ADF27DC3E60160A70C96432972C1917D8D7C1E6B1140B2",
+      "size_bytes": 554
+    },
+    "inspect_spatial_csvs.py": {
+      "sha256": "4F153BF9BD7286D1758A7B357617BB35A66F9B2298BA843B33DC43C881183398",
+      "size_bytes": 637
+    },
+    "inspect_spatial_frozen.py": {
+      "sha256": "7995D72016031C2FF9E953787423649E13AF158F58E4A1902812C110F18BE5AA",
+      "size_bytes": 2452
+    },
+    "inspect_spatial_summary.py": {
+      "sha256": "1A0E43640594D8C1C1DE1A3D23D6BD5ACB03164F19D2428AA263B0D4D2DBC8C9",
+      "size_bytes": 528
+    },
+    "inspect_step_frames.py": {
+      "sha256": "8DD2E843ABB24169DCEC6346A2FE77A8D96D898659BFD6437E1F45CCB0026B9B",
+      "size_bytes": 2027
+    },
+    "inspect_tables_detail.py": {
+      "sha256": "DB52CA9A37614E959358BEC02008674A629ABBB3C12BD353E561CC1861C19A7E",
+      "size_bytes": 1228
+    },
+    "inspect_temporal_wtrap.py": {
+      "sha256": "84FB71354A106C87AFEB4CF89985BD6135EFC85B167E2D2597B176207E669AAA",
+      "size_bytes": 1099
+    },
+    "inspect_v4_all.py": {
+      "sha256": "A63B34506DC0B4AF7D9DF7BCD9AE487E837BE43018BA756D6F8F0AE0F5E7CB47",
+      "size_bytes": 627
+    },
+    "L0_CANDIDATES_INGESTION_RESULTS.json": {
+      "sha256": "591495EE914945CA065BFBAB0A305A4B104C48C2F483D81E4D4E91473DD69416",
+      "size_bytes": 8237
+    },
+    "L0_CANDIDATE_DECK_NORMALIZATION_AUDIT.csv": {
+      "sha256": "BF0249B9CFD78DEA7D720F506E26FEFD05A12DBFAFA4A1BEA39F1C8C2E65365F",
+      "size_bytes": 1280
+    },
+    "L0_INGESTION_PROVENANCE_GATE.csv": {
+      "sha256": "42BDDA8C39FE2B4202ED307D58AC8BB0A31F31AD2873B1D26999F26610CC5BAA",
+      "size_bytes": 1295
+    },
+    "L0_POST_INGESTION_COMPARISON_CONTRACT.csv": {
+      "sha256": "1CB3403D3951EA592CF78AE2149C05DEFFA6011EDE309E9568D67DE99E059B85",
+      "size_bytes": 5647
+    },
+    "L0_SENSITIVITY_SERIES_EVALUATION_TEMPLATE.csv": {
+      "sha256": "E7373A337963D2B573844DFD68DB0570A92A8D10791ABDF4DA81F5840D558B9E",
+      "size_bytes": 2317
+    },
+    "L0_THREE_POINT_COMPARABILITY_AND_CLAIM_AUDIT.csv": {
+      "sha256": "370E3F88021958446AF69EB4C08263ED04E1E52D536B83B9F9C06EA792E812E2",
+      "size_bytes": 16368
+    },
+    "L0_THREE_POINT_FINAL_REGRESSION_GATE.csv": {
+      "sha256": "16AF6D3E0F642839296299857A0CB1C23A914FF79AE76F4DFCF97A0E23EC3801",
+      "size_bytes": 8187
+    },
+    "mirror_all_final.ps1": {
+      "sha256": "D34408C9152B21E7857AAFC1748C0B08ADB5E336F990B068D898C725E0FB55AB",
+      "size_bytes": 1203
+    },
+    "mirror_artifacts.ps1": {
+      "sha256": "BB38B952A4F97D617FC0C3BD1B04E547CEC5E56241804F313930E442B062FDB1",
+      "size_bytes": 885
+    },
+    "mirror_to_root.ps1": {
+      "sha256": "F6D5A4C157CEB306A11AF3E54762CF02DFA0F4243FB0F656518A7465399C3A45",
+      "size_bytes": 803
+    },
+    "MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md": {
+      "sha256": "49B7B921347B7E812D4E2DF7DD7D01ACF25F14C45EC37E252E6E2283B90D0892",
+      "size_bytes": 150611
+    },
+    "PK_M1_S3_L01125_CURVES_V6.csv": {
+      "sha256": "8E1829FFB466D2F63EA1D332E62D1A2611AD3DC28DB1C103A29AA8890172CA2D",
+      "size_bytes": 724098
+    },
+    "PK_M1_S3_L01125_SUMMARY_V6.json": {
+      "sha256": "74E57C4F308420AAEA3FAF0E19095ADCBF26DCED66A16B39AD154D6B56C9239F",
+      "size_bytes": 3803
+    },
+    "PK_M1_S3_L01500_CURVES_V6.csv": {
+      "sha256": "3FBB422DDC6F1A6A0FF470A4078804C64FD55D849D898B36C7C6A5C75D24C16A",
+      "size_bytes": 884017
+    },
+    "PK_M1_S3_L01500_SUMMARY_V6.json": {
+      "sha256": "5DAD0000B06A27B2C2F1191DC0F983C61E7F48691891C188D467B7E1036AE444",
+      "size_bytes": 3889
+    },
+    "plot_l0_sensitivity_series.py": {
+      "sha256": "736671A06566D7C342C581E063E475DB9E904B10728F40F7EB344602636D6158",
+      "size_bytes": 17191
+    },
+    "print_master_table_detail.py": {
+      "sha256": "6E9F2B4CEC28BF9AEA6A5B8E2FDD1A081C7A36DB9C2038A1F67A620C2389F99E",
+      "size_bytes": 602
+    },
+    "print_operator_csv.py": {
+      "sha256": "84F6E8372FAAF055919ED3E7333076DE9853ECCDFB4E4CC341FDE36A7B177593",
+      "size_bytes": 269
+    },
+    "print_temporal_csv.py": {
+      "sha256": "193608D6C74845DDF02CC0E041494C23F44F2597E00CD312E57C357D2A2502A0",
+      "size_bytes": 275
+    },
+    "rebuild_all_deliverables.py": {
+      "sha256": "CE593309AB572C44DE587CB089AE4CEDC8FDB9D9B7908A0D39C800AE96CC3036",
+      "size_bytes": 76187
+    },
+    "rebuild_final_evidence_matrix.py": {
+      "sha256": "588AE5D21E07E14A69BAB26AE07459B444AA0337C582EFA84D601DFD00B838C7",
+      "size_bytes": 41702
+    },
+    "run_cand2_only.py": {
+      "sha256": "C284045B3DF1FDFCA4D436EC668F05EFA472D01E627B11D88DF32BAB78848D65",
+      "size_bytes": 19839
+    },
+    "run_l0_candidates_ingestion_v6.py": {
+      "sha256": "BE906816389C3E4F6FC418F7BB77D2D0164F2816167266A7ECE41A4A812A3DD3",
+      "size_bytes": 19958
+    },
+    "run_l0_candidates_ingestion_v6_fast.py": {
+      "sha256": "A4A495B42436A56C8D57F27BE1845DDE97378B4F7A7819093C632F452855866B",
+      "size_bytes": 21756
+    },
+    "scratch_check_cand2.py": {
+      "sha256": "62F04D462A59D86F42727ED5DB45EE9256415135BAD00AFB444867CE290CBC79",
+      "size_bytes": 520
+    },
+    "scratch_parse_dat_candidates.py": {
+      "sha256": "DC2DB53B611E015B96404070EE403D793666483D03F7B50BD63B8487E2C1F0F9",
+      "size_bytes": 6166
+    },
+    "search_parity_jobs.py": {
+      "sha256": "01DE9F8774B4D1F30A99A9C6EF542851E8A6D50C07CD3BC6F4170EBAF26BCAE2",
+      "size_bytes": 794
+    },
+    "search_percentages.py": {
+      "sha256": "8A63898D05FF75F67CD976686590848C12D8DBF07377322AE570C99DA59E1442",
+      "size_bytes": 716
+    },
+    "search_repo_parity.py": {
+      "sha256": "12B088B438735972622CF94F37813EB0571A7164FCC4898E1E04DB6DBDFE773D",
+      "size_bytes": 775
+    },
+    "search_spatial_endpoints.py": {
+      "sha256": "AE2C26F5A30FB23CC64F95C0D90BA18CBC9760615EC5273527117C4FABA52191",
+      "size_bytes": 780
+    },
+    "search_w05.py": {
+      "sha256": "18E3B0D7692EEFDE46C8239229C421B68446A1C4E9244786DB63F17D3899F724",
+      "size_bytes": 555
+    },
+    "search_w05_all.py": {
+      "sha256": "DECE4A4506623F46DD84DFCCDFF27FBEE279C425DCDEC8055A618BFC547FB17F",
+      "size_bytes": 692
+    },
+    "sync_ledger.py": {
+      "sha256": "1AB45BBB2FF74AE9B9F422F56F301CE22B89C29E5DA98FC6977DD163BF69FF01",
+      "size_bytes": 1324
+    },
+    "sync_manifest_and_ledgers.py": {
+      "sha256": "AA563FB316F593EEA5D5901F4CB113BEA713B85CB100CC4001A99630FA038E39",
+      "size_bytes": 3953
+    },
+    "sync_manifest_reconciled.py": {
+      "sha256": "745C29DA779178E3FD9F79400CC89A8C142CB5CDA94800AE666A54CA1167DD69",
+      "size_bytes": 4111
+    },
+    "test_anchor_regression.py": {
+      "sha256": "84A1F9090314199DBE18C475FD6361222F24745138273D66437F2ECF2EEF33CA",
+      "size_bytes": 3274
+    },
+    "update_contract.py": {
+      "sha256": "B7199FA3220F20F4423132B583897763F53CB58F8A76624DF6B41A3CB4CC2E46",
+      "size_bytes": 9847
+    },
+    "update_ledger.py": {
+      "sha256": "07ED1DCE40C421CF637178E9E05F1D3F812C7A79292D998D3D9F09D2FCCAA937",
+      "size_bytes": 6165
+    },
+    "update_ledger_v2.py": {
+      "sha256": "BF6EC253A6D304DA1A9728724A034CBD7E0DAA764D47D52BC904EA69EC3362E7",
+      "size_bytes": 19055
+    },
+    "update_manifest.py": {
+      "sha256": "C4B5D91000FD6DB74EC6ACC65C24FB0C5238C4E275412957CC7046293419160C",
+      "size_bytes": 5036
+    },
+    "update_manifest_audit.py": {
+      "sha256": "D0FF5E38B31408332FEC36105B96CC9867ADF4B16FEC066ADAC8A921E03EA429",
+      "size_bytes": 2272
+    },
+    "update_manifest_final.py": {
+      "sha256": "FB69BAE5DCE7A3E872ADA631C94F0D9FE9A669BA46E07C09D7DC6E4FCACFF542",
+      "size_bytes": 1914
+    },
+    "update_manifest_v2.py": {
+      "sha256": "B22676DDE8807C7833BEDC0907C6FD7B9AA54C2A3D57C88B3FFF6271D6777841",
+      "size_bytes": 2218
+    },
+    "update_plot_script.py": {
+      "sha256": "65DCB7D45AE722C318C84D858D9E74C5BEF7060DD5D455176C66C8B5262B0D57",
+      "size_bytes": 17405
+    },
+    "update_report.py": {
+      "sha256": "C5AE7EF27DEF5B7E158DC3226EBA8AE5DD58A3AAC565BEC192ED45F4B98B9C07",
+      "size_bytes": 11311
+    },
+    "update_report_final.py": {
+      "sha256": "20D2C8451C8E32AC9BEA7B6BFBE2BBAB8EC89DF898790B9815FBDB4F4654D668",
+      "size_bytes": 14361
+    },
+    "update_report_reconciled.py": {
+      "sha256": "7A1B319B00396BC63B1358EAA347F92D0CDF1B0B9774B9D133F7C96C3CB5716E",
+      "size_bytes": 12543
+    },
+    "update_report_section14_9.py": {
+      "sha256": "81E10624A5ACB1F67CB6D5AC22D6DA6BBB4E282438BF25E6E98011658DDE8C3D",
+      "size_bytes": 14784
+    },
+    "update_report_section18.py": {
+      "sha256": "E684A92A34CDE00ED3F8BB15D8289C31A66CA18BC90B0BB8B5249081536193C1",
+      "size_bytes": 11970
+    },
+    "update_report_v2.py": {
+      "sha256": "C3EA4DC22CB12562D067465A1513016BD928A988CCA67AD9548899E3B9EE4BC0",
+      "size_bytes": 14958
+    },
+    "verify_consistency_audit.py": {
+      "sha256": "F1F911601590B7431FBA0B6CDF812D3EA6BCA18D9B27DB3E3025DDF69B1566F8",
+      "size_bytes": 3164
+    },
+    "verify_destination_hashes.py": {
+      "sha256": "9FC39065C252D6E2DEA129E9439BE370BF53037E92900359C99FE76E8BFC891C",
+      "size_bytes": 1458
+    },
+    "verify_hashes.ps1": {
+      "sha256": "85A2B90149B1138A96B33C760BF7292036224CD62D060F67BE3C8BD58E399601",
+      "size_bytes": 1037
+    },
+    "verify_pre_mirror.py": {
+      "sha256": "9C318DE7FB200D826C4FB3F4C0708FEE20F31E5E982DAF932571B7B731F28717",
+      "size_bytes": 1444
+    },
+    "write_gate_csv.py": {
+      "sha256": "C08972FFBA19CDC27495808E7BFA97A7836368D2394E45C09EB423E857627652",
+      "size_bytes": 10065
+    },
+    "write_matrix_csv.py": {
+      "sha256": "3F305303D1BF4506847F12F7C6671190F849A9A6D19CFB6C1870A207A5C701D3",
+      "size_bytes": 37944
+    },
+    "write_packet_md.py": {
+      "sha256": "E1B8BD4382ED919E573032E7F1B3161BFB78FED47C540537CD3C5A4008386E58",
+      "size_bytes": 23105
+    }
+  },
+  "supervisor_handoff_bundle": {
+    "SUPERVISOR_MEETING_01OCT2026_MODE1_BRIEF.md": {
+      "path": "batch_mode1_energy_convergence/SUPERVISOR_MEETING_01OCT2026_MODE1_BRIEF.md",
+      "sha256": "59CEB40E79C911E6F864D08B3B59ECCA2AE88B487882FDE8B1E48796136240CF",
+      "size_bytes": 13773,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "commands.txt": {
+      "path": "batch_mode1_energy_convergence/commands.txt",
+      "sha256": "916BA429FBC611A8DA49AF69860FE886F1620EBA7F18CB492212A7C7B06675EC",
+      "size_bytes": 3721,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "MODE1_SUPERVISOR_TALKING_POINTS.md": {
+      "path": "batch_mode1_energy_convergence/MODE1_SUPERVISOR_TALKING_POINTS.md",
+      "sha256": "479932DCE579F8ABA726B471C4452A84261E3E23F1F14E7B16B609C7DE4B75B6",
+      "size_bytes": 4123,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "MODE1_SUPERVISOR_REPRODUCTION_PACKAGE_CHECKLIST.csv": {
+      "path": "batch_mode1_energy_convergence/MODE1_SUPERVISOR_REPRODUCTION_PACKAGE_CHECKLIST.csv",
+      "sha256": "635DFDCF9425DA795B9B509C032C7D3CD3C5A2992363C4A552D68B0B366E70AF",
+      "size_bytes": 7755,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "MODE1_HANDOFF_CONTENT_VALIDATION_GATE.csv": {
+      "path": "batch_mode1_energy_convergence/MODE1_HANDOFF_CONTENT_VALIDATION_GATE.csv",
+      "sha256": "0080FDBFB2216FC73EEACE27CB00344BDC67F1860000DBAAE2982157D3CE21D5",
+      "size_bytes": 6817,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md": {
+      "path": "batch_mode1_energy_convergence/MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md",
+      "sha256": "E6B72E0CA85FCEEBB53F0E9771E5E14984234351AE8EC0F8C4C6A1CA3F13A640",
+      "size_bytes": 151766,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "ENERGY_DIMENSIONAL_UNITS_AUDIT.csv": {
+      "path": "batch_mode1_energy_convergence/ENERGY_DIMENSIONAL_UNITS_AUDIT.csv",
+      "sha256": "F480DA80EDD7BB6BBA4AEDF3E3B4B24B4912FC99676F2216825262AE2E3829D9",
+      "size_bytes": 5632,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "GATE6B_FINAL_QUALIFICATION_AND_SUPERVISOR_DECISION_PACKET.md": {
+      "path": "batch_mode1_energy_convergence/GATE6B_FINAL_QUALIFICATION_AND_SUPERVISOR_DECISION_PACKET.md",
+      "sha256": "78C98A6CEA7993A64D511A7344DE1CC8090AE88390B7C1DF70FAC8CBD7C7FC38",
+      "size_bytes": 14657,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    }
+  },
+  "content_validation_gate_passed": "38/38",
+  "global_energy_identity_status": "GLOBAL_ENERGY_IDENTITY \u2014 NOT_YET_CLOSED",
+  "supervisor_handoff_bundle_v2": {
+    "SUPERVISOR_MEETING_01OCT2026_MODE1_BRIEF_V2.md": {
+      "path": "batch_mode1_energy_convergence/SUPERVISOR_MEETING_01OCT2026_MODE1_BRIEF_V2.md",
+      "sha256": "B5E5B66A4D2CC31B178D49E856806669AB72EC702527C1D57264ECD65BF16A56",
+      "size_bytes": 13952,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "GATE6B_FINAL_QUALIFICATION_AND_SUPERVISOR_DECISION_PACKET_V2.md": {
+      "path": "batch_mode1_energy_convergence/GATE6B_FINAL_QUALIFICATION_AND_SUPERVISOR_DECISION_PACKET_V2.md",
+      "sha256": "F45D593545F8C5B1CB707C665C025A6602EB2442AD7DD888EDF9F290258823F3",
+      "size_bytes": 14692,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "commands.txt": {
+      "path": "batch_mode1_energy_convergence/commands.txt",
+      "sha256": "916BA429FBC611A8DA49AF69860FE886F1620EBA7F18CB492212A7C7B06675EC",
+      "size_bytes": 3721,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "MODE1_SUPERVISOR_TALKING_POINTS.md": {
+      "path": "batch_mode1_energy_convergence/MODE1_SUPERVISOR_TALKING_POINTS.md",
+      "sha256": "479932DCE579F8ABA726B471C4452A84261E3E23F1F14E7B16B609C7DE4B75B6",
+      "size_bytes": 4123,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "MODE1_SUPERVISOR_REPRODUCTION_PACKAGE_CHECKLIST_V2.csv": {
+      "path": "batch_mode1_energy_convergence/MODE1_SUPERVISOR_REPRODUCTION_PACKAGE_CHECKLIST_V2.csv",
+      "sha256": "184BC987587D56153325F779CFBB2FA4B1AF00E1D2185D5D58B9446CACA33AA3",
+      "size_bytes": 8738,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "MODE1_HANDOFF_CONTENT_VALIDATION_GATE_V2.csv": {
+      "path": "batch_mode1_energy_convergence/MODE1_HANDOFF_CONTENT_VALIDATION_GATE_V2.csv",
+      "sha256": "0CA8242224194117F17717C9A5CF94624F9539E52AE6987B439EAB8A89123A13",
+      "size_bytes": 8347,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "GATE6B_FINAL_CONSISTENCY_GATE_V2.csv": {
+      "path": "batch_mode1_energy_convergence/GATE6B_FINAL_CONSISTENCY_GATE_V2.csv",
+      "sha256": "DA4528578544BFB89E4AE9BB66DB9BEE52D6306E413E3BC3B6DC587415E1D21E",
+      "size_bytes": 6724,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md": {
+      "path": "batch_mode1_energy_convergence/MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md",
+      "sha256": "E6B72E0CA85FCEEBB53F0E9771E5E14984234351AE8EC0F8C4C6A1CA3F13A640",
+      "size_bytes": 151766,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "ENERGY_DIMENSIONAL_UNITS_AUDIT.csv": {
+      "path": "batch_mode1_energy_convergence/ENERGY_DIMENSIONAL_UNITS_AUDIT.csv",
+      "sha256": "F480DA80EDD7BB6BBA4AEDF3E3B4B24B4912FC99676F2216825262AE2E3829D9",
+      "size_bytes": 5632,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "GATE6B_FINAL_EVIDENCE_MATRIX.csv": {
+      "path": "batch_mode1_energy_convergence/GATE6B_FINAL_EVIDENCE_MATRIX.csv",
+      "sha256": "400E888AB32A0DBF2E5856FEF11BA0758866BBDA96280B9DDC48243709046ADF",
+      "size_bytes": 25371,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    },
+    "CLAIM_LEDGER_NUMERICAL_PROVENANCE.csv": {
+      "path": "batch_mode1_energy_convergence/CLAIM_LEDGER_NUMERICAL_PROVENANCE.csv",
+      "sha256": "C274E64FA4D755427DEB2243500843BC52A0BF82BBC1438F1E59FFDFCA27F978",
+      "size_bytes": 41672,
+      "status": "REPRODUCTION_PACKAGE_READY"
+    }
+  },
+  "superseded_ledgers": [
+    {
+      "freeze_document_id": "MODE1_SUPERVISOR_HANDOFF_FREEZE_20SEP2026",
+      "status": "SUPERSEDED_PROVENANCE_ERROR_DO_NOT_USE",
+      "sha256": "C4DC680C69D91328B56F5FFEF1FBF52075DCC5718400AEB7E2109F04C11AD4DC",
+      "size_bytes": 9197,
+      "reason": "Contained incorrect S1/S3 provenance anchor values (K0=138.151, w05=22.812, K0=137.859, w05=23.016) in conflict with authoritative frozen Gate-6B evidence."
+    }
+  ]
+}

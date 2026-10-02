@@ -1,0 +1,156 @@
+# CANONICAL ENERGY VARIABLE MAP & DIAGNOSTIC AUDIT
+**Milestone:** `GATE_6B --- OPEN: DISCRETE_GLOBAL_ENERGY_IDENTITY_RUNTIME_VERIFICATION_REQUIRED`  
+**Global Energy Identity Status:** `GLOBAL_ENERGY_IDENTITY --- NOT_YET_CLOSED`  
+**Active Scientific Phase:** `MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE`  
+**Authoritative Diagnostic Source:** `f42_mixed_uel_diagnostic.for` (`SHA256: 3C1B40035E85343C8B63214D8788EC16FD77D8BB3495CF3ED34C2F60147C5C1A`)  
+**Active Diagnostic Run on Cluster:** Job `1406839.mmaster02` (`PK_M1_S1_DIAG_R2` on `mnode097`, walltime `10:00:00`, background harvester active and harvesting CSVs)  
+**Evaluated Diagnostic Run:** Job `1406404.mmaster02` (`PK_M1_S1_DIAG` walltime timeout at $u=0.006833\,\mathrm{mm}$, exact bit match parity, single-IP extraction audited)  
+**Canonical S1 Mesh Anchor:** Job `1406015.mmaster02` ($15{,}192$ cells/layer $\times$ 3 layers = $45{,}576$ elements)
+
+---
+
+## 1. Executive Summary & Companion-Gauss Mapping Qualification
+
+### A. Companion-Gauss Mapping Provenance Audit
+A rigorous source-code audit of `f42_mixed_uel_diagnostic.for` (lines 349–360, 495–506, and 1081–1096) resolves the Gauss-point mapping between co-located Phase UEL (`JTYPE=1`), Mechanical UEL (`JTYPE=2`), and companion visualizer UMAT (`CPE4`):
+1. **Phase & Mechanical UEL Quadrature ($2 \times 2$ Gauss):**
+   ```fortran
+   XG4(1) = -0.577350269189626D0; YG4(1) = -0.577350269189626D0; W4(1) = 1.0D0  ! Point 1: (-1/sqrt(3), -1/sqrt(3)) [SW]
+   XG4(2) =  0.577350269189626D0; YG4(2) = -0.577350269189626D0; W4(2) = 1.0D0  ! Point 2: (+1/sqrt(3), -1/sqrt(3)) [SE]
+   XG4(3) =  0.577350269189626D0; YG4(3) =  0.577350269189626D0; W4(3) = 1.0D0  ! Point 3: (+1/sqrt(3), +1/sqrt(3)) [NE]
+   XG4(4) = -0.577350269189626D0; YG4(4) =  0.577350269189626D0; W4(4) = 1.0D0  ! Point 4: (-1/sqrt(3), +1/sqrt(3)) [NW]
+   ```
+2. **Companion UMAT Integration Mapping:**
+   ```fortran
+   KPT_IDX = NPT
+   IF (KPT_IDX .GT. 4) KPT_IDX = 4
+   IF (KPT_IDX .LT. 1) KPT_IDX = 1
+   IF (NSTATV .GE. 2)  STATEV(2)  = SV_H_TRIAL(PHYSIDX, KPT_IDX)
+   IF (NSTATV .GE. 16) STATEV(16) = SV_H_TRIAL(PHYSIDX, KPT_IDX)
+   ```
+3. **Isoparametric Equivalence and Verification Governance:**
+   - In physical intent, companion `CPE4` elements share identical node connectivity and standard counter-clockwise Gauss point numbering ($1, 2, 3, 4$), mapping $\mathrm{NPT} = k \iff \mathrm{KPT} = k$.
+   - **Classification:** **`ODB_H_GAUSS_MAPPING_CODE_INTENT_VERIFIED; ABAQUS_IP_NUMBERING_EQUIVALENCE_NOT_YET_PRIMARY_SOURCE_VERIFIED`** (demoted from unconditionally verified until primary Abaqus documentation is formally cited).
+
+### B. Element-Average Damage Representation in ODB
+- In UMAT, `STATEV(1)` and `STATEV(14)` receive strictly scalar element-average damage $\bar{d}_e = \frac{1}{4}\sum_{i=1}^4 U_i$, copied across all 4 companion integration points.
+- **Classification:** **`ODB_PHASE_REPRESENTATION = COMPANION_ELEMENT_AVERAGED_D`**.
+
+### C. Unique-Visualization-Element Energy Extraction Rule
+- Because whole-element energies $E_{\mathrm{frac}}^{(e)}$ and $E_{\mathrm{elas}}^{(e)}$ are replicated across all 4 integration points of Layer 3 companion elements in `STATEV(17)` and `STATEV(18)`, energy extraction must sample strictly unique visualization elements ($15{,}192$ elements) or integration point 1 (`intPt = 1`).
+- Prior 4-IP aggregate summations produced an exact $4.0000\times$ overcounting artifact and are formally designated **`SUPERSEDED_EXTRACTION_ERROR`**.
+
+---
+
+## 2. Complete 15-Row Gate-6B Evidence Matrix
+
+| Row | Check / Quantity | Source Data | Nature | Postprocessing Status | Allowed Scientific Claim |
+| :---: | :--- | :--- | :--- | :---: | :--- |
+| **1** | Mechanical Parity vs Reference | ODB History RF2 & U2 | Independent | **PASS** | `FROZEN_MECHANICAL_PARITY_EXACT_BIT_MATCH` |
+| **2** | External Work Sensitivity ($W_{\mathrm{left}}, W_{\mathrm{trap}}, W_{\mathrm{right}}$) | ODB / `.dat` (Deduplicated) | Independent | **PASS** | `WORK_INTEGRATION_SENSITIVITY` |
+| **3** | Stored Elastic Energy $E_{\mathrm{elas}}$ | Unit 105/106, `SDV18` (1-IP) | Independent | **PASS** | `SOURCE_DEFINED_STATE_QUANTITY` |
+| **4** | Fracture Surface Energy $E_{\mathrm{frac}}$ | Unit 105/106, `SDV17` (1-IP) | Independent | **PASS** | `SOURCE_DEFINED_STATE_QUANTITY` |
+| **5** | Two-Term Bookkeeping Diff $\mathcal{R}$ | $W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$ | Independent | **PASS** | `TWO_TERM_BOOKKEEPING_DIFFERENCE` |
+| **6** | History Lag Diagnostic $\mathcal{T}_{\mathrm{hist}}$ | Unit 106 (Col 8/11) | Independent | **PASS** | `PROVISIONAL_RATE_LIKE_DIAGNOSTIC` |
+| **7** | Element Averaging $\mathcal{T}_{\mathrm{avg}}$ | Unit 106 (Col 9/12) | Independent | **PASS** | `PROVISIONAL_RATE_LIKE_DIAGNOSTIC` |
+| **8** | Strain Split $\mathcal{T}_{\mathrm{split}}$ | Unit 106 (Col 10/13) | Independent | **PASS** | `PROVISIONAL_RATE_LIKE_DIAGNOSTIC` |
+| **9** | Cumulative Diagnostic Sum $\mathcal{T}_{\mathrm{sum}}$ | Unit 106 (Col 14) | Independent | **PASS** | `PROVISIONAL_ACCUMULATED_PATH_DIAGNOSTIC` |
+| **10** | Call-Order Sequence | Unit 107 (Tracked Elems) | Independent | **PASS** | `RUNTIME_CALL_ORDER_VERIFIED_FOR_LOGGED_UEL_SUBSET` |
+| **11** | Accepted-Increment Transactions | Unit 105/106 rows | Independent | **PASS** | `TRANSACTIONAL_ACCEPTED_INCREMENT_STATE_VERIFIED` |
+| **12** | Cutback / Retry Trials | Unit 107 UEL calls | Independent | **PASS** | `RETRY_TRANSACTION_DIAGNOSTIC_VERIFIED` |
+| **13** | Exact Elastic Finite Identity | `SDV18` & `SDV1`/`SDV14` | Dependent | **CONDITIONAL** | `DEPENDENT_RECONSTRUCTION_FROM_STORED_ENDPOINT_QUANTITIES` |
+| **14** | Exact Fracture Finite Identity | Nodal $\mathbf{q}_d$ | Missing | **NO** | `FRACTURE_INCREMENT_IDENTITY_RUNTIME_VERIFICATION_NOT_RECONSTRUCTIBLE_FROM_CURRENT_OUTPUT` |
+| **15** | Within-Increment Newton Path | Newton subiterations | Missing | **NO** | `RUNTIME_DIAGNOSTIC_INFORMATION_GAP` |
+
+> **Governance Note on Row 5:** The relation $\mathcal{R} \equiv W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$ is strictly the mathematical definition of the two-term bookkeeping difference between external boundary work and source-defined endpoint energies. It is **not** an exact discrete global energy balance, conservation law, or dissipation balance. Because the discrete equations lack a joint potential (`COMMON_DISCRETE_POTENTIAL_DISPROVEN_BY_CROSS_DERIVATIVE_INCOMPATIBILITY`) and coupling depends on within-increment history (`DECOMPOSITION_REQUIRES_WITHIN_INCREMENT_PATH_INFORMATION`), the governing discrete global energy identity is maintained as `GLOBAL_ENERGY_IDENTITY --- NOT_YET_CLOSED`.
+
+---
+
+## 3. Mini Diagnostic Numerical Evidence Reconciliation (Job `1406343.mmaster02`)
+
+The 15-row post-processing pipeline was executed on the authoritative artifacts of Mini Diagnostic Job `1406343.mmaster02` ($N_{\mathrm{elem}} = 64$ cells, 30 active increments, 31 unique states, 32 raw frames, $u_{\mathrm{term}} = 0.0060\,\mathrm{mm}$):
+- **Mechanical Parity:** $\max |\Delta u| = 0.000\,\mathrm{mm}$, $\max |\Delta F| = 0.000\,\mathrm{kN}$ (**100.000% exact bit match** vs uninstrumented baseline).
+- **Initial Structural Stiffness Provenance Reconciliation:**
+  - **Unconstrained OLS with Intercept ($N=5$ elastic fitting points in $u \in [0.0002, 0.0010]\,\mathrm{mm}$):**
+    $$F(u) = K_0^{\mathrm{OLS}} u + b \implies K_0^{\mathrm{OLS}} = 145.562903\,\mathrm{kN/mm}, \quad b = 7.3478\times 10^{-5}\,\mathrm{kN}, \quad R^2 = 0.99999968$$
+  - **Forced-Through-Origin Least Squares ($N=5$ elastic fitting points):**
+    $$\min_{K_0} \sum_{i=1}^5 (F_i - K_0 u_i)^2 \implies K_0 = \frac{\sum u_i F_i}{\sum u_i^2} = \frac{3.204588276\times 10^{-4}\,\mathrm{kN\cdot mm}}{2.20\times 10^{-6}\,\mathrm{mm}^2} = \mathbf{145.663103\,\mathrm{kN/mm}}$$
+  - **Single-Point Endpoint Secant Slope at Increment 5 ($u=0.0010\,\mathrm{mm}$):**
+    $$K_0^{\mathrm{secant,5}} = \frac{F_5}{u_5} = \frac{0.145606697\,\mathrm{kN}}{0.0010\,\mathrm{mm}} = \mathbf{145.606697\,\mathrm{kN/mm}}$$
+  - **Single-Point Endpoint Secant Slope at Increment 4 ($u=0.0008\,\mathrm{mm}$):**
+    $$K_0^{\mathrm{secant,4}} = \frac{F_4}{u_4} = \frac{0.116541612\,\mathrm{kN}}{0.0008\,\mathrm{mm}} = \mathbf{145.677015\,\mathrm{kN/mm}}$$
+  - **Classification:** **`MINI_K0_METHOD_DIFFERENCE_RESOLVED`**. The 5 fitting increments apply strictly to the initial elastic window; the complete mini run comprised 30 active increments. The canonical full-mesh reference stiffness rule ($K_0 = 137.945520\,\mathrm{kN/mm}$ over $N=400$ active increments) remains unchanged.
+- **External Work Quadrature (31 Deduplicated Unique States across 30 Active Increments):**
+  - $W_{\mathrm{left}} = 2.47895738 \times 10^{-3}\,\mathrm{kN\cdot mm}$ ($2.478957\,\mathrm{mJ}$)
+  - $W_{\mathrm{trap}} = 2.56234546 \times 10^{-3}\,\mathrm{kN\cdot mm}$ ($2.562345\,\mathrm{mJ}$)
+  - $W_{\mathrm{right}} = 2.64573353 \times 10^{-3}\,\mathrm{kN\cdot mm}$ ($2.645734\,\mathrm{mJ}$)
+  - Quadrature Discretization Sensitivity: $\Delta W = 8.338807 \times 10^{-5}\,\mathrm{kN\cdot mm}$ ($3.2544\%$ of $W_{\mathrm{trap}}$).
+- **Authoritative Reconciled Terminal Energetics ($u = 0.0060\,\mathrm{mm}$):**
+  - $E_{\mathrm{elas}} = 2.50164313 \times 10^{-3}\,\mathrm{kN\cdot mm}$ ($2.501643\,\mathrm{mJ}$, $97.6310\%$ of $W_{\mathrm{trap}}$)
+  - $E_{\mathrm{frac}} = 6.32375640 \times 10^{-5}\,\mathrm{kN\cdot mm}$ ($0.063238\,\mathrm{mJ}$, $2.4679\%$ of $W_{\mathrm{trap}}$)
+  - Bookkeeping Difference: $\mathcal{R} = W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}}) = \mathbf{-2.53523728 \times 10^{-6}\,\mathrm{kN\cdot mm}}$ ($\mathbf{-0.098942\%}$ of $W_{\mathrm{trap}}$).
+- **Superseded Placeholder Values:** Prior text draft placeholder values ($E_{\mathrm{elas}} = 2.378906\times 10^{-3}\,\mathrm{kN\cdot mm}$, $E_{\mathrm{frac}} = 1.834389\times 10^{-4}\,\mathrm{kN\cdot mm}$, $\mathcal{R} \approx 3.27\times 10^{-10}\,\mathrm{kN\cdot mm}$) are formally classified as **`SUPERSEDED_EVIDENCE_MISATTRIBUTION`**.
+- **Row 13 Elastic Identity Reconstruction:** $\max |r| = 2.71 \times 10^{-20}\,\mathrm{kN\cdot mm}$, normalized maximum residual $< 2.10 \times 10^{-16}$.
+- **Unit 106 Diagnostic Terms:** $\mathcal{T}_{\mathrm{hist}} = 0.0, \mathcal{T}_{\mathrm{avg}} = 0.0, \mathcal{T}_{\mathrm{split}} = 0.0, \mathcal{T}_{\mathrm{sum}} = 0.0\,\mathrm{kN\cdot mm}$ across all 31 increments.
+- **Unit 107 Call-Order Semantics:** Only UEL calls are written to Unit 107 (Phase UEL `JTYPE=1` followed by Mechanical UEL `JTYPE=2`).
+
+---
+
+## 4. Canonical Full-Domain S1 Audits: Job `1406404` and Replacement `1406839`
+
+### A. Terminal Audit & Reconciled Matched-State Comparison of Job `1406404.mmaster02`
+- **Technical Completion:** `TECHNICAL_COMPLETION_FAIL_WALLTIME` (`Exit_status = 15`, SIGTERM at 14,495 s > 14,400 s limit).
+- **Completed Extent:** 3,833 active increments (2,000 in Step 1, 1,833 in Step 2; 3,835 raw frames, 3,834 unique states), reaching $u = 0.006833\,\mathrm{mm}$ (through peak and deep into post-peak softening, down to $F = 4.477\times 10^{-4}\,\mathrm{kN}$).
+- **Mechanical Parity:** `PARTIAL_HORIZON_MECHANICAL_PARITY_EXACT_BIT_MATCH` vs `1406015.mmaster02` across all 3,834 unique states ($\Delta u = 0.0\,\mathrm{mm}, \Delta F = 0.0\,\mathrm{kN}, K_0 = 137.945520\,\mathrm{kN/mm}, F_{\max} = 0.75777849\,\mathrm{kN}$).
+- **Reconciled Matched-State Energetics (15,192 Unique Elements, IP1 Rule):**
+
+| Evaluated State | Exact $u$ [mm] | $W_{\mathrm{left}}$ [$\mathrm{kN\cdot mm}$] | $W_{\mathrm{trap}}$ [$\mathrm{kN\cdot mm}$] | $W_{\mathrm{right}}$ [$\mathrm{kN\cdot mm}$] | $E_{\mathrm{elas}}$ [$\mathrm{kN\cdot mm}$] | $E_{\mathrm{frac}}$ [$\mathrm{kN\cdot mm}$] | $\mathcal{R}_{\mathrm{bookkeeping}}$ [$\mathrm{kN\cdot mm}$] | Rel Diff | $\Delta$ vs Baseline |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Step 1 Terminal** | $0.005000$ | $1.690759\times 10^{-3}$ | $1.691586\times 10^{-3}$ | $1.692413\times 10^{-3}$ | $1.655130\times 10^{-3}$ ($97.85\%$) | $3.654085\times 10^{-5}$ ($2.16\%$) | $-8.503985\times 10^{-8}$ | $-0.0050\%$ | **$0.0$** |
+| **Peak Load State** | $0.005857$ | $2.300792\times 10^{-3}$ | $2.301667\times 10^{-3}$ | $2.302542\times 10^{-3}$ | $2.219151\times 10^{-3}$ ($96.41\%$) | $8.268958\times 10^{-5}$ ($3.59\%$) | $-1.733465\times 10^{-7}$ | $-0.0075\%$ | **$0.0$** |
+| **Partial Terminal** | $0.006833$ | $2.357818\times 10^{-3}$ | $2.358314\times 10^{-3}$ | $2.358811\times 10^{-3}$ | $1.529520\times 10^{-6}$ ($0.06\%$) | $2.339126\times 10^{-3}$ ($99.19\%$) | $+1.765878\times 10^{-5}$ | $+0.7488\%$ | **$0.0$** |
+
+- **State-Matching Provenance Resolution:**
+  The draft value $+1.693\times 10^{-5}\,\mathrm{kN\cdot mm}$ was an artifact of subtracting terminal energies at $u = 0.0100\,\mathrm{mm}$ (Step 2 Frame 5000) from intermediate external work $W_{\mathrm{trap}}$ at $u = 0.006833\,\mathrm{mm}$. When evaluated at the exact matched frame (Step 2 Frame 1833), BOTH the endpoint energies and external work are **100.000% EXACT BIT MATCHES** ($\Delta = 0.0\,\mathrm{kN\cdot mm}$), with $\mathcal{R}_{\mathrm{bookkeeping}} = +1.7658779\times 10^{-5}\,\mathrm{kN\cdot mm}$ ($+0.7488\%$).
+- **CSV Diagnostics:** Units 105/106/107 were written to compute node scratch `/local/pbs.1406404.mmaster02` and unlinked on timeout (`NOT_EVALUABLE_FROM_1406404_LOST_TMPDIR_OUTPUT`).
+
+### B. Replacement Diagnostic Run `1406839.mmaster02` (`PK_M1_S1_DIAG_R2`)
+- **Status:** `RUNNING` on compute node `mnode097`, submitted under today's human authorization.
+- **Queue & Resources:** Routed to `normal_imfdfkmq`, 1-CPU serial, 16GB memory, walltime `10:00:00` ($>1.36\times$ safety factor).
+- **Input & UEL Hashes:** Verified bit-for-bit identical to baseline (`bc000e0c...` and `3c1b4003...`).
+- **Live Harvester Verification:** Periodic background harvester is actively harvesting Units 105, 106, 107 from `/local/pbs.1406839.mmaster02/*/` into the canonical execution directory every 30 seconds using atomic rename (`.tmp` $\to$ `.csv`). All three CSV streams (`uel_energy_balance.csv`, `uel_discrete_diagnostic.csv`, `uel_call_order_trace.csv`) are confirmed healthy, verified non-zero, and steadily growing.
+
+---
+
+## 5. Validated Post-Processing Suite Inventory
+
+| Script Module | File Path | SHA256 Hash |
+| :--- | :--- | :--- |
+| `postprocess_technical_completion.py` | `.../scratch/postprocess_technical_completion.py` | `182e94dfaaae3e4267cc70a1201c05941eb47126e4ada0499e30c9fab0daee8b` |
+| `postprocess_mechanical_parity.py` | `.../scratch/postprocess_mechanical_parity.py` | `58cce339b3a7472ac1d84a3fa296390e4ab9b468e0557b69f67aed0e45400396` |
+| `postprocess_external_work.py` | `.../scratch/postprocess_external_work.py` | `8bc239d3f20918ebeb8eae938d613aabef438a002f24ec8ed516f1c3d33d56ec` |
+| `postprocess_reconciliation_unit105_106.py` | `.../scratch/postprocess_reconciliation_unit105_106.py` | `a9d187b80d40da60c96fa3339ba6892440993f9631f8f11a61cd9dce94466377` |
+| `postprocess_call_order_unit107.py` | `.../scratch/postprocess_call_order_unit107.py` | `d885de6dc7ea2d8d72f2ba1b71d1b8413a9460da331dd834089fafd4c2b3b438` |
+| `postprocess_evidence_matrix_synthesis.py` | `.../scratch/postprocess_evidence_matrix_synthesis.py` | `789dbbcfe4865245eba300cb28a8e0f3f12a87ccf3f2edf98a35e19fad8db8f2` |
+| `MINI_1406343_EVIDENCE_RECONCILIATION.json` | `.../scratch/MINI_1406343_EVIDENCE_RECONCILIATION.json` | `6e579409028218bbe34465a13abd506a126892c0659f23c41e6c216e4d39f9cf` |
+
+---
+
+## 6. Diagnostic Instrumentation Decision & Execution Protocol
+
+| Category | Postprocessing Decision | Rationale |
+| :--- | :---: | :--- |
+| **Mechanical Parity** | `CURRENT_1406839_OUTPUT_SUFFICIENT` | Extracted directly from ODB history and `.dat` files. |
+| **Global Endpoint Energies** | `CURRENT_1406839_OUTPUT_SUFFICIENT` | Recorded in Unit 105, Unit 106, and ODB `SDV17`/`SDV18` (1-IP rule). |
+| **Work-Integration Sensitivity** | `CURRENT_1406839_OUTPUT_SUFFICIENT` | Reconstructed via left/trapezoidal/right Riemann sums with step boundary deduplication. |
+| **Provisional T-Term Behavior** | `CURRENT_1406839_OUTPUT_SUFFICIENT` | Recorded in Unit 106 (`uel_discrete_diagnostic.csv`) via live harvester. |
+| **Runtime Call Order** | `CURRENT_1406839_OUTPUT_SUFFICIENT` | Logged in Unit 107 (`uel_call_order_trace.csv`) via live harvester. |
+| **Exact Elastic Finite Identity** | `CURRENT_1406839_OUTPUT_SUFFICIENT` | Computable as `DEPENDENT_RECONSTRUCTION_FROM_STORED_ENDPOINT_QUANTITIES`. |
+| **Exact Fracture Finite Identity** | `ADDITIONAL_INSTRUMENTATION_REQUIRED` | Nodal $\mathbf{q}_d$ absent in current output; Option 2 internal scalar evaluation proposed for future release. |
+| **Within-Increment Newton Path** | `ADDITIONAL_INSTRUMENTATION_REQUIRED` | Subiteration path is internal to Abaqus; out of scope for standard accepted increment logging. |
+
+### Standby & Trigger Sequence
+Upon terminal notification of Job `1406839.mmaster02`, execution follows the strict sequence:
+$$\text{1406839 terminal} \longrightarrow \text{technical completion} \longrightarrow \text{frozen mechanical parity} \longrightarrow \text{runtime diagnostic evaluation} \longrightarrow \text{update energy-status classification}.$$
+
+> **Gate 6B Scope Clarification:** Successful evaluation of Job `1406839.mmaster02` addresses the canonical S1 runtime-energy-diagnostic question. It does **not** automatically finalize Gate 6B. Gate 6B additionally requires the complete multifaceted Mode-I convergence evidence: complete force-displacement comparison, spatial phase-field localization convergence, temporal discretization convergence, and relevant length-scale qualification.

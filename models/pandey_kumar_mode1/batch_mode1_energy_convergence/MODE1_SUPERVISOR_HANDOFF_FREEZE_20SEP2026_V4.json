@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "freeze_document_id": "MODE1_SUPERVISOR_HANDOFF_FREEZE_20SEP2026_V4",
+  "freeze_timestamp": "2026-09-20T03:45:00+02:00",
+  "freeze_date": "20 September 2026",
+  "freeze_scope": "PANDEY_KUMAR_2025_MODE1_BENCHMARK_PRIORITY1_ENERGY_QUALIFICATION",
+  "freeze_status": "SUPERVISOR_READY / REPRODUCTION_PACKAGE_READY",
+  "governance_state": "GATE_6B_OPEN",
+  "global_energy_identity_status": "GLOBAL_ENERGY_IDENTITY \u2014 NOT_YET_CLOSED",
+  "remaining_gate6b_action": "Supervisor judgment on the already frozen decision question (Pathway 1 vs Pathway 2) at the 01 October 2026 meeting (10:00).",
+  "superseded_freeze_ledgers": [
+    {
+      "freeze_document_id": "MODE1_SUPERVISOR_HANDOFF_FREEZE_20SEP2026",
+      "status": "SUPERSEDED_PROVENANCE_ERROR_DO_NOT_USE",
+      "sha256": "C4DC680C69D91328B56F5FFEF1FBF52075DCC5718400AEB7E2109F04C11AD4DC",
+      "size_bytes": 9197,
+      "superseded_reason": "Contained incorrect S1/S3 provenance anchor values (K0=138.151, w05=22.812, K0=137.859, w05=23.016). Preserved byte-identical on disk."
+    },
+    {
+      "freeze_document_id": "MODE1_SUPERVISOR_HANDOFF_FREEZE_20SEP2026_V2",
+      "status": "SUPERSEDED_PROVENANCE_SOURCE_ATTRIBUTION_RECONCILED",
+      "sha256": "5186938727F1F2BD5A7A815D552D41E5C06E85CA9081A7B67CB32C53F0F65F76",
+      "size_bytes": 9027,
+      "superseded_reason": "Contained S1 source misattribution (cited S3_K0_400_POINTS_ARCHIVE.csv instead of S1_h0030_15k_MECHANICAL_FU_AUDITED.csv), unproven diagnostic twin 1406839, and quad topology inference. Preserved byte-identical on disk."
+    },
+    {
+      "freeze_document_id": "MODE1_SUPERVISOR_HANDOFF_FREEZE_20SEP2026_V3",
+      "status": "SUPERSEDED_PRE_ENERGY_AUDIT_EXPANSION_BASELINE",
+      "sha256": "5AFD992BB1906F437AF38D02865827D499338242B5761E23AF60C617DEC1C3DC",
+      "size_bytes": 11372,
+      "superseded_reason": "Baseline pre-expansion ledger. Preserved byte-identical on disk."
+    }
+  ],
+  "active_scope_holds": [
+    "Gate 6C (Mode-I State Transfer Energy Preservation)",
+    "Mode-II (Shear Loading & Mixed Mode)",
+    "Gate 7 (ABAQUSER Integration / Visualization)",
+    "Higher-Complexity Examples (Holes / Asymmetric)",
+    "True Distributed-Memory MPI Sweeps",
+    "Multi-Threaded Scaling Sweeps"
+  ],
+  "authoritative_subroutine": {
+    "relative_path": "15_energy_qualification_small/f42_mixed_uel.for",
+    "sha256": "5CD0D2C015C9EAD91C99D7A744156CC86F5B5EA26473BBED7D6E5515FE30FA46",
+    "formulation": "Dual-element coupled phase-field UEL (JTYPE=1 Phase, JTYPE=2 Mechanical, single-IP companion UMAT visualization)"
+  },
+  "content_validation_gate": {
+    "check_file": "MODE1_HANDOFF_CONTENT_VALIDATION_GATE_V4.csv",
+    "sha256": "AC5E225699F91779B2DC718C0BC359537041B804743E6A7CEE0A8D36068BD572",
+    "checks_passed": "46/46",
+    "status": "100% PASS (46 / 46 CHECKS SATISFIED)"
+  },
+  "consistency_gate": {
+    "check_file": "GATE6B_FINAL_CONSISTENCY_GATE_V4.csv",
+    "sha256": "B6A437729CB1301E5FD4024C7242DAABDCB87FFB170A0BD9839E356A676D22C4",
+    "checks_passed": "18/18",
+    "status": "100% PASS (18 / 18 CHECKS SATISFIED)"
+  },
+  "reproduction_manifest": {
+    "manifest_file": "MODE1_REPRODUCTION_MANIFEST_V4.json",
+    "manifest_version": "4.4.0",
+    "sha256": "2A63914C857E6B1EF26EE411CC9E48EF2328F4BE9543BFB6430163BD89FEADBD"
+  },
+  "reproduction_checklist": {
+    "checklist_file": "MODE1_SUPERVISOR_REPRODUCTION_PACKAGE_CHECKLIST_V4.csv",
+    "sha256": "35B50BD212172BE4BFA8F89FAF0FB0A3C61508198951A52AAFF5F17BDC8CEBC1",
+    "total_deliverable_rows": 52
+  },
+  "deliverables_v4_sha256_registry": {
+    "SUPERVISOR_MEETING_01OCT2026_MODE1_BRIEF_V2.md": "B5E5B66A4D2CC31B178D49E856806669AB72EC702527C1D57264ECD65BF16A56",
+    "GATE6B_FINAL_QUALIFICATION_AND_SUPERVISOR_DECISION_PACKET_V2.md": "F45D593545F8C5B1CB707C665C025A6602EB2442AD7DD888EDF9F290258823F3",
+    "commands.txt": "916BA429FBC611A8DA49AF69860FE886F1620EBA7F18CB492212A7C7B06675EC",
+    "MODE1_SUPERVISOR_TALKING_POINTS.md": "479932DCE579F8ABA726B471C4452A84261E3E23F1F14E7B16B609C7DE4B75B6",
+    "MODE1_HANDOFF_CONTENT_VALIDATION_GATE_V4.csv": "AC5E225699F91779B2DC718C0BC359537041B804743E6A7CEE0A8D36068BD572",
+    "GATE6B_FINAL_CONSISTENCY_GATE_V4.csv": "B6A437729CB1301E5FD4024C7242DAABDCB87FFB170A0BD9839E356A676D22C4",
+    "MODE1_SUPERVISOR_REPRODUCTION_PACKAGE_CHECKLIST_V4.csv": "35B50BD212172BE4BFA8F89FAF0FB0A3C61508198951A52AAFF5F17BDC8CEBC1",
+    "MODE1_REPRODUCTION_MANIFEST_V4.json": "2A63914C857E6B1EF26EE411CC9E48EF2328F4BE9543BFB6430163BD89FEADBD",
+    "MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT_V4.md": "ED8ACA63B4556F94D81689E4E0A90A08BA3B155EFCAD3B6E06B480BC452E4643",
+    "ENERGY_DIMENSIONAL_UNITS_AUDIT.csv": "F480DA80EDD7BB6BBA4AEDF3E3B4B24B4912FC99676F2216825262AE2E3829D9",
+    "GATE6B_FINAL_EVIDENCE_MATRIX.csv": "400E888AB32A0DBF2E5856FEF11BA0758866BBDA96280B9DDC48243709046ADF",
+    "CLAIM_LEDGER_NUMERICAL_PROVENANCE.csv": "C274E64FA4D755427DEB2243500843BC52A0BF82BBC1438F1E59FFDFCA27F978"
+  },
+  "provenance_anchors": {
+    "S1_canonical_reference_anchor": {
+      "pbs_job_id": "1406015.mmaster02",
+      "mesh_element_count": 15192,
+      "element_description": "15,192 underlying finite elements",
+      "nominal_element_size_mm": 0.003,
+      "peak_force_kN": 0.757778,
+      "u_peak_mm": 0.005857,
+      "initial_stiffness_kN_per_mm": 137.94552,
+      "intercept_kN": 4.472368e-05,
+      "r2": 0.9999996,
+      "n_increments": 400,
+      "regression_interval": "Step 1, increments 1 to 400, u in [2.5e-6, 0.001000] mm",
+      "w05_localization_width_um": 23.3418,
+      "w05_exact_plane_definition": "OP_EXACT_PLANE_S1_EXPANDED (LinearNDInterpolator at station x = 0.550000 mm, fully propagated u = 7.00 um)",
+      "authoritative_k0_source_csv": {
+        "filename": "S1_h0030_15k_MECHANICAL_FU_AUDITED.csv",
+        "sha256": "E3100B7429E14B8BCEAB9952DDF8B0419CA9F71DF058F5916668922185AA25E2",
+        "size_bytes": 268733,
+        "description": "Authoritative S1 mechanical reaction force-displacement data (Job 1406015.mmaster02) yielding unconstrained OLS slope K0 = 137.945519645084 kN/mm (137.945520), intercept = 4.472368e-5 kN, R2 = 0.99999960 over N=400 elastic increments."
+      },
+      "misattribution_correction": "S3_K0_400_POINTS_ARCHIVE.csv disproven as S1 source container; verified as S3 container (Job 1406017). S1 K0 is derived strictly from S1_h0030_15k_MECHANICAL_FU_AUDITED.csv.",
+      "twin_diagnostic_status": "Diagnostic Job 1406839 removed from S1 baseline definition to preserve single governed canonical baseline (Job 1406015.mmaster02).",
+      "topology_status": "Described strictly as '15,192 underlying finite elements' without unproven quadrilateral topology inference from element count alone.",
+      "rejected_obsolete_values": {
+        "obsolete_k0": 138.151,
+        "obsolete_w05": 22.812
+      }
+    },
+    "S3_nominal_anchor": {
+      "pbs_job_id": "1406017.mmaster02",
+      "mesh_quad_elements": 41912,
+      "nominal_element_size_mm": 0.0015,
+      "peak_force_kN": 0.732196,
+      "u_peak_mm": 0.005633,
+      "initial_stiffness_kN_per_mm": 137.8576082908,
+      "terminal_u_mm": 0.007836,
+      "native_e_frac_kN_mm": 0.00235718764301,
+      "reported_e_frac_mJ": 2.357188,
+      "w05_localization_width_um": 23.1397,
+      "authoritative_full_trajectory_curves_csv": {
+        "filename": "S3_nominal_AUDIT_CURVES.csv",
+        "sha256": "BDF98420B950519A17C578C2809D0CFDAAF1EE540D822DDA804747E47AB8C9EE",
+        "total_increments": 4839,
+        "description": "Full-trajectory authoritative curves file captured upon completion of Job 1406017.mmaster02 (4,839 increments, terminal u = 7.836 um)."
+      },
+      "authoritative_full_trajectory_summary_json": {
+        "filename": "S3_nominal_AUDIT_SUMMARY.json",
+        "sha256": "373C547739DED2CF5A99E0DC368B4A8D1BC065808B684A9EDBA200D559746282"
+      }
+    }
+  }
+}

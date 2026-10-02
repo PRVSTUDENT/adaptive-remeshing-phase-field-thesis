@@ -1,0 +1,111 @@
+\chapter{High-Performance Computing Implementation and Shared-State Analysis}
+\label{chap:hpc_parallelization}
+
+\section{Introduction and Parallelization Challenges in Phase-Field UELs}
+\label{sec:hpc_intro}
+
+Phase-field fracture modeling involves tightly coupled multi-field equations that must be solved across hundreds to thousands of non-linear equilibrium increments. To make fine-grid or adaptive simulations computationally tractable, high-performance computing (HPC) cluster architectures and multi-core parallel execution are indispensable.
+
+In Abaqus/Standard, parallel solver execution is supported via two primary paradigms:
+\begin{enumerate}
+    \item \textbf{Shared-Memory Parallelism (OpenMP / Multi-Threading)}: Multiple execution threads share a single virtual address space on a shared-memory compute node (\texttt{mp\_mode=threads}).
+    \item \textbf{Distributed-Memory Parallelism (MPI)}: Computational domains are partitioned across distinct processes with explicit message passing (\texttt{mp\_mode=mpi}).
+\end{enumerate}
+
+When custom user elements (UELs) interact with external databases or store shared state variables in Fortran \texttt{COMMON} blocks or \texttt{SAVE} arrays, multi-threaded execution introduces significant risk of race conditions, memory corruption, and non-deterministic numerical divergence. This chapter investigates the shared-state memory architecture, evaluates thread safety in user subroutines, and documents the fail-closed cluster execution framework.
+
+\section{Abaqus UEXTERNALDB Common-Block Memory Architecture}
+\label{sec:hpc_common_block_architecture}
+
+\subsection{Inter-Subroutine Shared State Communication}
+In the multi-layer UEL formulation (Section~\ref{sec:theory_uel_architecture}), user subroutine \texttt{UEXTERNALDB} acts as the persistent memory manager. At solver initialization (\texttt{LOP=0}), \texttt{UEXTERNALDB} allocates and populates global Fortran common blocks:
+\begin{verbatim}
+      COMMON /SV_ELEM_NODAL_PHASE_COM/ SV_ELEM_NODAL_PHASE(4, 100000)
+      COMMON /SV_H_COMMITTED/          SV_H_COMMITTED(4, 100000)
+\end{verbatim}
+These arrays store the committed nodal phase values $d$ and integration-point history variables $\mathcal{H}$ across all elements.
+
+During element stiffness assembly inside \texttt{UEL}, individual integration points access these common blocks to evaluate constitutive degradation and history updates:
+\begin{equation}
+\mathcal{H}_{\mathrm{old}} = \text{SV\_H\_COMMITTED}(k_{\mathrm{int}}, j_{\mathrm{elem}}).
+\end{equation}
+
+\subsection{Shared-State Safety in Multi-Threaded Execution}
+When Abaqus/Standard executes under multi-threading (\texttt{threads=4}), element assembly loops are dynamically partitioned across worker threads. Because Fortran common blocks reside in global memory shared across all threads, concurrent read/write operations on shared element indices can produce severe race conditions unless strict thread isolation is maintained:
+\begin{itemize}
+    \item \textbf{Read-Only Shared Access}: If common blocks are populated once at \texttt{LOP=0} and treated as strictly read-only during increment iterations (as in the frozen history formulation), multiple threads can safely read simultaneously without locking.
+    \item \textbf{Concurrent State Updates}: If worker threads write updated history $\mathcal{H}_{n+1}$ back into common arrays during element iterations, thread race conditions occur whenever neighboring elements or companion layers are processed asynchronously.
+\end{itemize}
+
+\section{Thread-Safety and Parallelization Boundary Audit}
+\label{sec:hpc_parallel_audit}
+
+\subsection{Controlled Rank and Thread Indexing}
+To investigate thread identification inside Abaqus UEL callbacks, diagnostic probes were implemented utilizing Abaqus internal utilities \texttt{get\_thread\_id()} and \texttt{CALL GETRANK}:
+\begin{itemize}
+    \item \textbf{One-Rank / Four-Thread Evaluation (Stage D2C)}: A controlled single-notch transfer restart executed on 1 rank with 4 threads. The multi-threaded solution reproduced the serial reference solution exactly (relative difference $< 10^{-14}$), confirming that read-only common block access is thread-safe for the tested single-node configuration.
+    \item \textbf{Dedicated Shared-State Benchmark (Task P3-T4)}: A dedicated multi-threaded shared-memory stress test was formulated to evaluate concurrent write safety. However, compilation of the test harness was blocked prior to linking due to compiler header interface mismatches.
+\end{itemize}
+
+\subsection{Formal Parallel Safety Claims and Boundaries}
+In accordance with the thesis claim matrix:
+\begin{enumerate}
+    \item \textbf{Validated Claim}: One-rank multi-threaded execution with read-only common blocks is validated for the tested single-node configuration.
+    \item \textbf{Withheld Claims}: General thread safety for concurrent read/write common blocks, distributed MPI safety, and hybrid MPI/OpenMP execution are \textbf{not supported} and remain strictly outside the validated scope of this thesis.
+    \item \textbf{Production Execution Policy}: To guarantee 100\% numerical determinism and eliminate potential race conditions, all production adaptive validation runs are executed in single-core serial mode (1 CPU, 16\,GB RAM).
+\end{enumerate}
+
+\section{Cluster Execution Environment and Dual-Channel Notification System}
+\label{sec:hpc_notification_architecture}
+
+\subsection{HPC Environment Isolation and Toolchain Modules}
+All cluster simulations were executed on the high-performance computing cluster at TU Bergakademie Freiberg using PBS Pro scheduler queues (\texttt{entry\_imfdfkmq} routed to \texttt{normal\_imfdfkmq}). The software environment enforces strict toolchain module isolation:
+\begin{itemize}
+    \item Fortran / C++ Compiler: Intel oneAPI 2024.2.0 (\texttt{module load intel/2024.2.0})
+    \item GCC Compatibility Layer: GCC 11.4.0 (\texttt{module load gcc/11.4.0})
+    \item Finite Element Solver: Abaqus 2023 (\texttt{module load abaqus/2023})
+\end{itemize}
+
+\subsection{Fail-Closed Dual-Channel Notification Design}
+To guarantee real-time monitoring and complete provenance tracking across long-running cluster jobs, a fail-closed dual-channel notification protocol was designed and deployed (Fig.~\ref{fig:notification_architecture}):
+
+\begin{figure}[htbp]
+\centering
+\small
+\begin{verbatim}
++-------------------------------------------------------------------------+
+|                  HPC Dual-Channel Notification Architecture             |
++-------------------------------------------------------------------------+
+|  Channel 1: PBS Native System Mail                                      |
+|    - Directives: #PBS -m abe (Abort, Begin, End)                        |
+|    - Recipient: pr21vyci@mailserver.tu-freiberg.de                      |
+|    - Fallback: mailx helper script (pbs_job_mail_notify.sh)             |
++-------------------------------------------------------------------------+
+|  Channel 2: Telegram Bot Webhook API                                    |
+|    - Credentials: ~/.config/hpc-notify/telegram.env (chmod 600)         |
+|    - Script: telegram_notify.py (strict zero-leakage token handling)   |
+|    - Lifecycle Hooks (pbs_notify.sh):                                   |
+|        * SUBMITTED: Dispatched from login node upon qsub                |
+|        * BEGIN:     Dispatched upon compute-node allocation start       |
+|        * PASS/FAIL: Dispatched upon solver exit via trap handler        |
++-------------------------------------------------------------------------+
+\end{verbatim}
+\caption[Schematic of the dual-channel fail-closed HPC notification system.]{Schematic of the dual-channel fail-closed HPC notification system.}
+\label{fig:notification_architecture}
+\end{figure}
+
+The notification workflow enforces:
+\begin{itemize}
+    \item \textbf{Security \& Zero Secret Leakage}: Bot tokens are stored exclusively in user-owned private files (\texttt{chmod 600}) and never exposed in command lines, PBS scripts, or Git logs.
+    \item \textbf{Transport vs Receipt Separation}: Network transport success ($\text{return code} = 0$) confirms API dispatch only; human verification is logged independently.
+\end{itemize}
+
+\section{Chapter Summary}
+\label{sec:hpc_summary}
+
+The high-performance computing investigations establish:
+\begin{enumerate}
+    \item Read-only access to \texttt{UEXTERNALDB} common blocks is verified for one-rank multi-threaded execution, while concurrent write operations require careful synchronization.
+    \item Production adaptive simulations are standardized on single-core serial execution to guarantee strict numerical reproducibility.
+    \item The fail-closed dual-channel notification architecture ensures reliable tracking across all HPC job lifecycles.
+\end{enumerate}

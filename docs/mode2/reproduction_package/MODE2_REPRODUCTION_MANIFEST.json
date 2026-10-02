@@ -1,0 +1,63 @@
+{
+  "package_name": "MODE2_LIGHTWEIGHT_REPRODUCTION_PACKAGE",
+  "version": "1.0",
+  "created_at": "2026-09-24T10:48:00+02:00",
+  "scientific_classification": "MODE2_NATIVE_ADAPTIVE_WORKFLOW_VALIDATED \u2014 POSTPEAK_SPATIAL_SENSITIVITY_REMAINS",
+  "files": {
+    "ModeII_MISESERI_preanalysis.inp": {
+      "source_path": "models\\pandey_kumar_mode2\\00_aux_continuum_preanalysis\\ModeII_MISESERI_preanalysis.inp",
+      "sha256": "96af41fd4ffe09a046815e754f0b382c171e4c84f752c172be5eb2abf5e601fd",
+      "size_bytes": 350689
+    },
+    "M2_H1_reference.inp": {
+      "source_path": "models\\pandey_kumar_mode2\\02_reference_h1\\M2_H1_reference.inp",
+      "sha256": "59b639dd64e7441d70d93cdb3ed6a6cbfa1370fd3fd7553800591fc20bd850f4",
+      "size_bytes": 2202929
+    },
+    "ModeII_adaptive_candidate.inp": {
+      "source_path": "models\\pandey_kumar_mode2\\04_adaptive_miseseri\\ModeII_adaptive_candidate.inp",
+      "sha256": "d864d604292e5a7202d70a6bff82afda8cb65d71fe865454f06c08c2d4dbeabf",
+      "size_bytes": 1526716
+    },
+    "M2_tri_patch_uel.inp": {
+      "source_path": "models\\pandey_kumar_mode2\\05_tri_patch_test\\M2_tri_patch_uel.inp",
+      "sha256": "8de6ed37eccf5b3cf0eabe1f6009aa93f1431c6ac4cbf639ad7356ae8dda8d79",
+      "size_bytes": 2002
+    },
+    "M2_tri_patch_cpe3_ref.inp": {
+      "source_path": "models\\pandey_kumar_mode2\\05_tri_patch_test\\M2_tri_patch_cpe3_ref.inp",
+      "sha256": "e02766f5161f7155004d4df5a2e551d4f2da8c3f113f1839f252532d41a899b8",
+      "size_bytes": 769
+    },
+    "f42_mixed_uel.for": {
+      "source_path": "models\\pandey_kumar_mode2\\02_reference_h1\\f42_mixed_uel.for",
+      "sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+      "size_bytes": 29401
+    },
+    "generate_mode2_native_adaptive_mesh.py": {
+      "source_path": "scripts\\remeshing\\generate_mode2_native_adaptive_mesh.py",
+      "sha256": "7315a2802a9eb7fb0f639b3fc009e36ca65a85bc15f8d587bea6a5780b95a3a7",
+      "size_bytes": 5333
+    },
+    "postprocess_mode2_adaptive_full.py": {
+      "source_path": "scripts\\postprocessing\\postprocess_mode2_adaptive_full.py",
+      "sha256": "bb4b626813355391be438a27d642f224c4ab2f0533bee6718f4b5a1bc30ea2d4",
+      "size_bytes": 7276
+    },
+    "compare_triangular_patch_results.py": {
+      "source_path": "models\\pandey_kumar_mode2\\05_tri_patch_test\\compare_triangular_patch_results.py",
+      "sha256": "95d8da62a9c23e18debb40bea2140effe0837bffd1edb47fe5e669da74d0e0fd",
+      "size_bytes": 5844
+    },
+    "pandey_kumar_2025_fig13a_digitized.csv": {
+      "source_path": "references\\derived\\pandey_kumar_2025_fig13a_digitized.csv",
+      "sha256": "0562087b8a4ac7ba7e0b327603d4984cfcafb757ba89f2059271ff66ce1c138e",
+      "size_bytes": 2145
+    },
+    "commands.txt": {
+      "source_path": "commands.txt",
+      "sha256": "b820a9d0d17e87ec2146738d93b7e51dacb032e1b9e2ced20217b404d49ba0e3",
+      "size_bytes": 2976
+    }
+  }
+}

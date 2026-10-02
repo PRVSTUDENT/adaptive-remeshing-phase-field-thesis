@@ -1,0 +1,31 @@
+%% setspace.sty
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{setspace}[2011/12/19 v6.7a Contributed and Supported LaTeX2e package]
+
+\newcommand{\setstretch}[1]{%
+  \def\baselinestretch{#1}%
+  \@currsize
+}
+
+\newcommand{\singlespacing}{%
+  \setstretch{1}%
+}
+
+\newcommand{\onehalfspacing}{%
+  \setstretch{1.25}%
+}
+
+\newcommand{\doublespacing}{%
+  \setstretch{1.667}%
+}
+
+\newenvironment{spacing}[1]{%
+  \par
+  \begingroup
+    \setstretch{#1}%
+}{%
+  \par
+  \endgroup
+}
+
+\endinput

@@ -1,0 +1,132 @@
+\chapter{Nonmatching State Transfer and Restart Methodology}
+\label{chap:state_transfer}
+
+\section{Introduction and Problem Formulation}
+\label{sec:transfer_intro}
+
+When advancing from fixed pre-refinement toward multi-stage adaptive simulation, finite element discretizations must be updated during loading. This requires transferring the complete physical state---comprising nodal displacements $\mathbf{u}$, nodal damage $d$, and internal integration-point history variables $\mathcal{H}$---from a predecessor donor mesh $\Omega_D$ onto a topologically and geometrically nonmatching target mesh $\Omega_T$.
+
+In commercial finite element solvers like Abaqus, native restart capabilities (\texttt{*RESTART}) require identical node and element numbering. Transferring state across nonmatching meshes requires custom transfer operators that satisfy three essential physical and mathematical constraints:
+\begin{enumerate}
+    \item \textbf{Kinematic Consistency}: Transferred displacement fields must satisfy Dirichlet boundary conditions without introducing unphysical kinematic discontinuities.
+    \item \textbf{Thermodynamic Admissibility}: Transferred damage must lie strictly within the theoretical phase bounds ($0 \le d_T \le 1$) and satisfy temporal irreversibility ($\Delta d \ge 0$).
+    \item \textbf{Constitutive Equilibrium \& KKT Admissibility}: The transferred history field $\mathcal{H}_T$ must provide a valid driving force that satisfies Karush--Kuhn--Tucker (KKT) complementary slackness conditions without causing spurious premature crack advance upon restart.
+\end{enumerate}
+
+\section{Mathematical Formulation of Multi-Field Transfer Operators}
+\label{sec:transfer_operators}
+
+\subsection{Primary Field Projection (Nodal Quantities)}
+Let $\Omega_D = \bigcup_{e=1}^{N_D} \Omega_{D,e}$ denote the donor mesh and $\Omega_T = \bigcup_{k=1}^{N_T} \Omega_{T,k}$ denote the target mesh. For any target node with spatial coordinates $\mathbf{x}_T \in \Omega_T$, a bounding-box spatial tree algorithm identifies the candidate host donor element $\Omega_{D,e}$ such that $\mathbf{x}_T \in \Omega_{D,e}$.
+
+\begin{figure}[htbp]
+\centering
+\small
+\begin{verbatim}
+       Donor Element \Omega_{D,e}              Target Mesh \Omega_T
+       Nodes: x_{D,1}, ..., x_{D,4}             Node: x_T (x, y)
+       
+       (x_D,4) o---------------+---o (x_D,3)
+               |               |   |
+               |       * x_T   |   |        Target Node x_T is mapped
+               |     (\xi, \eta)|   |        to local coordinates (\xi_T, \eta_T)
+               |               |   |        via Newton-Raphson inversion.
+       (x_D,1) o---------------+---o (x_D,2)
+\end{verbatim}
+\caption[Schematic of inverse isoparametric mapping from donor element to target node.]{Schematic of inverse isoparametric mapping from donor element to target node.}
+\label{fig:inverse_isoparametric_mapping}
+\end{figure}
+
+The local isoparametric coordinates $(\xi_T, \eta_T) \in [-1, 1]^2$ are computed via Newton--Raphson inversion of the geometric mapping (Fig.~\ref{fig:inverse_isoparametric_mapping}):
+\begin{equation}
+\label{eq:geometric_inversion}
+\mathbf{R}(\xi_T, \eta_T) = \sum_{a=1}^{n_{\mathrm{node}}} N_a(\xi_T, \eta_T) \mathbf{x}_{D,a} - \mathbf{x}_T = \mathbf{0},
+\end{equation}
+iterating until $\|\mathbf{R}\| < 10^{-12}\,\text{mm}$.
+
+Once local coordinates are determined, the transferred nodal displacement vector $\mathbf{u}_T(\mathbf{x}_T) = (u_{1,T}, u_{2,T})^{\mathsf{T}}$ and nodal damage $d_T(\mathbf{x}_T)$ are evaluated directly via donor shape function interpolation~\cite{farhat1998,cebral1997}:
+\begin{equation}
+\label{eq:nodal_transfer_eval}
+\mathbf{u}_T(\mathbf{x}_T) = \sum_{a=1}^{n_{\mathrm{node}}} N_a(\xi_T, \eta_T) \mathbf{u}_{D,a}, \qquad d_T(\mathbf{x}_T) = \sum_{a=1}^{n_{\mathrm{node}}} N_a(\xi_T, \eta_T) d_{D,a}.
+\end{equation}
+
+To prevent extrapolation or interpolation overshoots outside physical limits, the transferred phase field is strictly projected onto the admissible convex set:
+\begin{equation}
+\label{eq:phase_field_hard_clamp}
+d_T(\mathbf{x}_T) \leftarrow \min\left( 1.0, \max(0.0, d_T(\mathbf{x}_T)) \right).
+\end{equation}
+
+\subsection{Secondary History Field Mapping (Gauss-Point History)}
+Unlike continuous nodal fields, the crack-driving history variable $\mathcal{H}$ is an internal Gauss-point quantity defined at quadrature points $\mathbf{x}_{T,g}$ ($g = 1, \dots, n_{\mathrm{gp}}$). Evaluating $\mathcal{H}_T$ requires specialized transfer to avoid numerical diffusion or spurious loss of strain energy memory~\cite{peric1996,jiao2004}:
+\begin{enumerate}
+    \item \textbf{Direct Patch Interpolation}: For target Gauss point $\mathbf{x}_{T,g}$, the host donor element is located and $\mathcal{H}_T(\mathbf{x}_{T,g})$ is interpolated using bilinear host element shape functions from donor nodal projections.
+    \item \textbf{Positivity and Floor Clamping}: The transferred history variable is strictly constrained to be non-negative:
+    \begin{equation}
+    \label{eq:history_positivity}
+    \mathcal{H}_T(\mathbf{x}_{T,g}) \leftarrow \max\left( 0.0, \mathcal{H}_T(\mathbf{x}_{T,g}) \right).
+    \end{equation}
+    \item \textbf{Monotonicity Enforcement}: In a sequential restart from time $t_n$ to $t_{n+1}$, the updated history satisfies $\mathcal{H}_{T,n+1} \ge \mathcal{H}_{T,n}$ globally.
+\end{enumerate}
+
+\section{The Four-Stage Restart Protocol}
+\label{sec:transfer_four_stage_protocol}
+
+Directly applying transferred displacements and phase fields simultaneously into a standard single-step continuation analysis induces large artificial stress shocks and dynamic transients, frequently causing solver divergence. To ensure smooth numerical restart, a \textbf{four-stage state initialization protocol} was developed and implemented:
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{stage_d_workflow.png}
+\caption[Overview of the four-stage multi-field state transfer and restart workflow in Abaqus.]{Overview of the four-stage multi-field state transfer and restart workflow in Abaqus.}
+\label{fig:stage-d-workflow}
+\end{figure}
+
+As illustrated in Figure~\ref{fig:stage-d-workflow}, the restart analysis progresses through four governing steps:
+\begin{enumerate}
+    \item \textbf{Step 1: \texttt{STATE\_INSTALL} ($\Delta t = 1.0\,\text{s}$)}: Transferred nodal displacements $\mathbf{u}_T$ and phase values $d_T$ are prescribed at all target nodes via Dirichlet boundary conditions (\texttt{*BOUNDARY}). Subroutine \texttt{UEXTERNALDB(LOP=0)} ingests the binary committed state payload (\texttt{COMMITTED\_STATE.bin}) into global memory arrays, initializing common blocks for all UEL instances.
+    \item \textbf{Step 2: \texttt{MECH\_EQUILIBRATION} ($\Delta t = 1.0\,\text{s}$)}: Transferred internal displacements are released, allowing the mechanical displacement field to equilibrate internal stresses against prescribed boundary tractions. Crucially, the phase field unknown ($d = \text{DOF 3}$) remains \textbf{strictly locked} via nodal boundary constraints ($U_3 = d_T$), preventing artificial damage evolution during stress equilibration.
+    \item \textbf{Step 3: \texttt{PHASE\_RELEASE} ($\Delta t = 1.0\,\text{s}$, $I_A = 13$, $\Delta t_{\min} = 5.0\times 10^{-12}\,\text{s}$)}: The artificial boundary constraints locking the phase field are deactivated. The phase field solver converges to variational equilibrium governed by the stored history field $\mathcal{H}_T$ under refined numerical cutback controls.
+    \item \textbf{Step 4: \texttt{CONTINUATION} ($I_A = 12$, $\Delta t_{\min} = 1.0\times 10^{-11}\,\text{s}$)}: Monotonic mechanical shear/tensile loading resumes from the validated transferred state.
+\end{enumerate}
+
+\section{Active-Set Formulations and KKT Admissibility Analysis}
+\label{sec:transfer_active_set_kkt}
+
+\subsection{Active-Set Freeze Formulation (Stage D3D)}
+An alternative approach to enforcing irreversibility is the \textbf{active-set method}~\cite{heister2015}, where nodes exceeding a critical damage threshold (e.g., $d \ge 0.95$) are assigned to an active set $\mathcal{A}$ with frozen phase field ($d_i = 1.0$), while the remaining inactive nodes $\mathcal{I} = \mathcal{N} \setminus \mathcal{A}$ are governed by unconstrained variational equations:
+\begin{align}
+\label{eq:active_set_pde}
+d_i &= 1.0, \quad \lambda_i \ge 0 \quad \forall \, i \in \mathcal{A}, \\
+\left[ \mathbf{K}_d \mathbf{d} - \mathbf{f}_d \right]_i &= 0, \quad \lambda_i = 0 \quad \forall \, i \in \mathcal{I},
+\end{align}
+where $\lambda_i$ is the Lagrange multiplier associated with the bound constraint $d_i \le 1.0$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{violating_active_nodes_vs_displacement.png}
+\caption[Evolution of active-set Lagrange multiplier violations under continuation loading.]{Evolution of active-set Lagrange multiplier violations ($-\lambda < 0$) versus applied displacement under continuation loading in the D3D active-set model.}
+\label{fig:active-set-limitation}
+\end{figure}
+
+\subsection{Forensic Proof of Active-Set Inadmissibility}
+To evaluate whether a frozen active set $\mathcal{A}$ remains valid under continued loading, a forensic continuation study (task \texttt{STAGE\_D3D}) was conducted. As shown in Figure~\ref{fig:active-set-limitation}, tracking the Karush--Kuhn--Tucker multipliers $\lambda_i = \left[ \mathbf{f}_d - \mathbf{K}_d \mathbf{d} \right]_i$ revealed that:
+\begin{itemize}
+    \item Upon advancing displacement, the count of active nodes exhibiting negative Lagrange multipliers ($\lambda_i < 0$, signifying an active constraint that seeks to pull $d_i$ below $1.0$) escalated rapidly from 0 to over 140 violating nodes.
+    \item \textbf{Scientific Implication}: A fixed active set $\mathcal{A}$ \textbf{cannot remain frozen} across subsequent loading increments. As stress redistributes, the active set must be dynamically updated via active-set iterations at every solver increment~\cite{heister2015}.
+\end{itemize}
+
+\subsection{Offline KKT Correction (Candidate D3D-A1)}
+To resolve this limitation, candidate \texttt{D3D-A1} implemented a deterministic offline active-set solve under frozen history $\mathcal{H}_F$. By iteratively transferring nodes between active and inactive sets ($\mathcal{A}^{(k+1)} = \{i : d_i^{(k)} + c \lambda_i^{(k)} \ge 1.0\}$), \texttt{D3D-A1} achieved complete KKT admissibility ($0$ multiplier violations, $\|\mathbf{R}_d\|_{\infty} < 10^{-10}$) within 4 active-set iterations.
+
+\paragraph{Validation Boundary}: While candidate \texttt{D3D-A1} provides a rigorous mathematical proof of KKT-admissible state correction under frozen history, it was not subjected to subsequent non-linear mechanical equilibration. Consequently, \texttt{D3D-A1} is classified as a validated offline mathematical correction rather than an accepted mechanical restart.
+
+\section{Chapter Summary}
+\label{sec:transfer_summary}
+
+The state-transfer investigations establish the mathematical foundations and operational rules for nonmatching restart:
+\begin{enumerate}
+    \item Isoparametric inverse mapping combined with phase clamping ($0 \le d \le 1$) and history positivity ($\mathcal{H} \ge 0$) enables accurate, bounded multi-field data transfer between nonmatching grids.
+    \item The four-stage restart protocol (\texttt{STATE\_INSTALL} $\to$ \texttt{MECH\_EQUILIBRATION} with phase locked $\to$ \texttt{PHASE\_RELEASE} $\to$ \texttt{CONTINUATION}) mitigates initial kinematic transfer discontinuities and provides numerical equilibration for the tested configurations.
+    \item Active-set multiplier analysis proves that fixed active sets are inadmissible under further loading, establishing that history-field tracking ($\mathcal{H}$) is the mathematically robust formulation for multi-stage phase-field simulation.
+    \item While kinematic and state-admissibility criteria are systematically verified for the tested transfer configurations, complete energetic preservation during nonmatching mesh mapping remains subject to pending Gate~6C qualification.
+\end{enumerate}
+

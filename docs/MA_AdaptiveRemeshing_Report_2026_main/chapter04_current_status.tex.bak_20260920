@@ -1,0 +1,477 @@
+\chapter{Current Status: Mode-I Verification, UEL Energy Audit, and Multifaceted Convergence}
+\label{cha:current_status}
+\label{ch:current_status}
+
+\section{Introduction and Milestone Governance}
+\label{sec:gate6b_governance}
+
+Following the supervisor decisions of 17 September 2026, the active scientific phase of this thesis is governed as:
+\begin{center}
+  \textbf{\texttt{MODE1\_ENERGY\_CONVERGENCE\_AND\_STATE\_TRANSFER\_FOUNDATIONS\_ACTIVE}}
+\end{center}
+Under this directive, all scientific activity is focused exclusively on the qualified Mode-I benchmark before increasing geometric or loading complexity. Specific governance holds remain strictly in force:
+\begin{itemize}
+  \item \textbf{71,320-Mesh Stiffness Defect:} \textbf{\texttt{RESOLVED\_AND\_CLOSED}}. (Abaqus keyword 16-entry card limit silently omitted 134 of 150 bottom nodes; corrected by card wrapping across lines, verified in Jobs \texttt{1405044} and \texttt{1404933}).
+  \item \textbf{13,941 vs.\ 71,320 Reproduction:} \textbf{\texttt{CLOSED\_WITH\_SUPERVISOR\_ACCEPTED\_PUBLICATION\_LIMITATION}}. The supervisor explicitly accepted that publication details do not expose enough information to reproduce every reported element count exactly; general sensitivity trends are preserved ($1.0\% \to 71{,}320$; $2.0\% \to 17{,}687$; $3.0\% \to 8{,}120$; $5.0\% \to 4{,}356$ finite elements).
+  \item \textbf{Active Priority 1:} UEL Energy Formulation and Output Audit (Status: \textbf{\texttt{GATE\_6B --- OPEN (PENDING GLOBAL ENERGY IDENTITY CLOSURE AND LENGTH-SCALE SENSITIVITY)}} with \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}}).
+  \item \textbf{Scope Holds:} Mode-II, Gate~6C (State Transfer), Gate~7 (Visualization), and multi-rank MPI remain on \textbf{strict hold}.
+\end{itemize}
+
+\section{Governing Mathematical Energy Formulation and Bookkeeping Identity}
+\label{sec:mode1_energy_formulation}
+
+\subsection{Exact implemented discrete energy terms}
+In the authoritative dual-element formulation implemented in \nolinkurl{f42_mixed_uel.for}, the physical domain $\Omega$ is discretized by $N_{\mathrm{mesh}}$ finite element cells. For each cell $e$, the implemented stored elastic strain energy and phase-field fracture surface energy are defined by:
+\begin{align}
+  E_{\mathrm{elas}} &= \sum_{e=1}^{N_{\mathrm{mesh}}} \int_{\Omega_e} \frac{1}{2} g(\bar{d}_e)\,\boldsymbol{\varepsilon} : \mathbb{C}_0 : \boldsymbol{\varepsilon} \,\mathrm{d}\Omega, \label{eq:e_elas_def} \\
+  E_{\mathrm{frac}} &= \sum_{e=1}^{N_{\mathrm{mesh}}} \int_{\Omega_e} G_c \left[ \frac{\bar{d}_e^2}{2 l_0} + \frac{l_0}{2} |\nabla d|^2 \right] \mathrm{d}\Omega, \label{eq:e_frac_def}
+\end{align}
+where $g(\bar{d}_e) = (1-\bar{d}_e)^2 + k_{\mathrm{res}}$ is the quadratic degradation function ($k_{\mathrm{res}} = 10^{-6}$) evaluated from the element-average phase field $\bar{d}_e$, $\mathbb{C}_0$ is the unperturbed fourth-order isotropic elasticity tensor, $G_c = 2.7\times 10^{-3}\,\mathrm{kN/mm}$ is the critical fracture energy release rate, and $l_0 = 0.0075\,\mathrm{mm} = 7.5\,\mu\mathrm{m}$ is the phase-field regularization length scale. A source-to-equation audit of \nolinkurl{f42_mixed_uel.for} confirms that the mechanical quad (\texttt{JTYPE=2}) implements fully degraded isotropic elasticity $\boldsymbol{\sigma} = g(\bar{d}_e) \mathbb{C}_0 : \boldsymbol{\varepsilon}$, while the spectral tensile strain energy $\psi_0^+(\boldsymbol{\varepsilon})$ is evaluated exclusively to advance the crack-driving history field $\mathcal{H}_n$.
+
+The external boundary work done on the specimen under prescribed displacement $u_y = u$ on the top boundary $\Gamma_{\mathrm{top}}$ is computed by trapezoidal integration of the global reaction force $F(u) = \sum_{k \in \Gamma_{\mathrm{top}}} R_{y, k}$:
+\begin{equation}
+  W_{\mathrm{ext}}(u) = \int_0^u F(\tilde{u})\,\mathrm{d}\tilde{u} \approx W_{\mathrm{trap}} = \sum_{n=1}^{N_{\mathrm{inc}}} \frac{1}{2}\left( F_n + F_{n-1} \right) \left( u_n - u_{n-1} \right).
+  \label{eq:w_ext_def}
+\end{equation}
+The discrete two-term bookkeeping difference between external boundary work and total internal energy is defined strictly as:
+\begin{equation}
+  \mathcal{R}_{\mathrm{bookkeeping}}(u) \equiv W_{\mathrm{ext}}(u) - \left[ E_{\mathrm{elas}}(u) + E_{\mathrm{frac}}(u) \right].
+  \label{eq:r_bookkeeping_def}
+\end{equation}
+
+\subsection{Discrete non-existence proof and multi-term decomposition}
+Because the staggered solver evaluates the crack-driving force history field $\mathcal{H}_n$ at step $n$ while advancing the phase field $d_{n+1}$ at step $n+1$, the cross-derivatives of the discrete residual equations do not commute:
+\begin{equation}
+  \frac{\partial^2 \Pi}{\partial \mathbf{q}_u\,\partial \mathbf{q}_d} \ne \frac{\partial^2 \Pi}{\partial \mathbf{q}_d\,\partial \mathbf{q}_u}.
+\end{equation}
+Consequently, \textbf{\texttt{COMMON\_DISCRETE\_POTENTIAL\_DISPROVEN\_BY\_CROSS\_DERIVATIVE\_INCOMPATIBILITY}} governs: there is no single joint discrete potential $\Pi(\mathbf{q}_u, \mathbf{q}_d)$ whose total derivative equals zero across finite increments. The exact midpoint secant degradation identity:
+\begin{equation}
+  \Delta g_e = -2\left(1 - \bar{d}_{e, \mathrm{mid}}\right)\Delta \bar{d}_e, \quad \bar{d}_{e, \mathrm{mid}} = \frac{1}{2}\left( \bar{d}_{e, n} + \bar{d}_{e, n+1} \right),
+\end{equation}
+establishes that the bookkeeping difference decomposes into four physical/numerical contributions:
+\begin{equation}
+  \mathcal{R}_{\mathrm{bookkeeping}} = \mathcal{T}_{\mathrm{hist}} + \mathcal{T}_{\mathrm{avg}} + \mathcal{T}_{\mathrm{split}} + \mathcal{T}_{\mathrm{time}},
+  \label{eq:decomp_4term}
+\end{equation}
+where $\mathcal{T}_{\mathrm{hist}}$ represents the history-state lag $\sum_e \int_{\Omega_e} \Delta g_e (\mathcal{H}_{n} - \psi_0^+)\,\mathrm{d}\Omega$, $\mathcal{T}_{\mathrm{avg}}$ represents element-average vs.\ Gauss-point coupling, $\mathcal{T}_{\mathrm{split}}$ represents spectral split strain transitions, and $\mathcal{T}_{\mathrm{time}}$ is temporal integration truncation. The equality in Eq.~\eqref{eq:r_bookkeeping_def} is a mathematical bookkeeping definition; it is not proof of an unclosed continuous physical dissipation.
+
+\subsection{Layer decoupling and Gauss-point deduplication}
+The finite element model contains three co-located layers: Layer~1 (Phase UEL, $d$, $15{,}192$ elements), Layer~2 (Mechanical UEL, $\mathbf{u}$, $15{,}192$ elements), and Layer~3 (Companion visualizer UMAT, CPE4/CPE3, $15{,}192$ elements), yielding $45{,}576$ total element objects in the Abaqus ODB. In \nolinkurl{f42_mixed_uel.for}, Layer~3 elements receive whole-element energies into state variables $\mathrm{STATEV}(17) = E_{\mathrm{frac}}^{(e)}$ and $\mathrm{STATEV}(18) = E_{\mathrm{elas}}^{(e)}$ across all integration points.
+
+Filtering strictly by unique element labels or integration point 1 ($\mathrm{intPt} = 1$) on set \texttt{UMATELEM} eliminates the historical four-fold summation artifact (\textbf{\texttt{SUPERSEDED\_EXTRACTION\_ERROR}}). Table~\ref{tab:energy_audit_summary} summarizes the resulting deduplicated energy bookkeeping ($1\,\mathrm{kN\cdot mm} = 1000\,\mathrm{N\cdot mm} = 1\,\mathrm{J}$) for completed uniform mesh cases at terminal displacement $u = 0.010\,\mathrm{mm}$.
+
+\begin{table}[htbp]
+\centering
+\caption{Global energy bookkeeping audit for completed uniform mesh cases ($15{,}192$ mesh cells / $45{,}576$ Abaqus element objects, $u=0.010\,\mathrm{mm}$).}
+\label{tab:energy_audit_summary}
+\small
+\begin{tabularx}{\textwidth}{Yrrrr}
+\toprule
+Energetic Quantity & Case $T_1$ (Coarse $\Delta t$) & Case $T_2$ (Nominal $\Delta t$) & Case $T_3$ (Fine $\Delta t$, 1406317) & Case $S_1$ (Baseline) \\
+\midrule
+External Work $W_{\mathrm{ext}}$ [$\mathrm{kN\cdot mm}$] & $2.41011\times 10^{-3}$ & $2.35933\times 10^{-3}$ & $2.33189\times 10^{-3}$ & $2.35933\times 10^{-3}$ \\
+External Work $W_{\mathrm{ext}}$ [$\mathrm{mJ}$] & $2.41011$ & $2.35933$ & $2.33189$ & $2.35933$ \\
+Elastic Energy $E_{\mathrm{elas}}$ [$\mathrm{kN\cdot mm}$] & $1.0390\times 10^{-6}$ & $1.1608\times 10^{-6}$ & $1.1980\times 10^{-6}$ & $1.1608\times 10^{-6}$ \\
+Fracture Energy $E_{\mathrm{frac}}$ [$\mathrm{kN\cdot mm}$] & $2.39995\times 10^{-3}$ & $2.34022\times 10^{-3}$ & $2.24813\times 10^{-3}$ & $2.34022\times 10^{-3}$ \\
+Two-Term Diff $\mathcal{R}_{\mathrm{bookkeeping}}$ [$\mathrm{kN\cdot mm}$] & $9.118\times 10^{-6}$ & $1.795\times 10^{-5}$ & $8.256\times 10^{-5}$ & $1.795\times 10^{-5}$ \\
+Relative Difference $\mathcal{R}/W_{\mathrm{ext}}$ & $\mathbf{0.3783\,\%}$ & $\mathbf{0.7607\,\%}$ & $\mathbf{3.5408\,\%}$ & $\mathbf{0.7607\,\%}$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{fig_mode1_s1_energy_balance.pdf}
+  \caption{Global energy evolution and two-term bookkeeping difference for baseline Case $S_1$ ($15{,}192$ mesh cells / $45{,}576$ Abaqus element objects). In the linear-elastic regime ($u < 0.005\,\mathrm{mm}$), $W_{\mathrm{ext}} = E_{\mathrm{elas}}$ with relative difference $< 10^{-4}\,\%$. During post-peak crack propagation, stored elastic strain energy converts into fracture surface energy, satisfying $W_{\mathrm{ext}} \approx E_{\mathrm{frac}}$ with terminal difference $\mathcal{R}_{\mathrm{bookkeeping}} < 0.77\,\%$.}
+  \label{fig:s1_energy_balance}
+\end{figure}
+
+\section{Audit of Runtime Diagnostic Job 1406839 and Persistence Integrity}
+\label{sec:diagnostic_audit}
+
+\subsection{Bit-for-bit mechanical parity verification}
+To audit the runtime logging instrumentation and energy transaction order, replacement diagnostic Job \texttt{1406839.mmaster02} (\texttt{PK\_M1\_S1\_DIAG\_R2}) was executed on node \texttt{mnode097} using authoritative Fortran \nolinkurl{f42_mixed_uel_diagnostic.for} (\texttt{SHA256: 3c1b40035e85343c8b63214d8788ec16fd77d8bb3495cf3ed34c2f60147c5c1a}). The job completed all 7,000 increments to terminal displacement $u = 0.010000\,\mathrm{mm}$ with \texttt{Exit\_status=0}.
+
+Evaluating candidate \texttt{1406839} against baseline \texttt{1406015} across all 7,000 accepted increments established:
+\begin{itemize}
+  \item $|\Delta K_0| / K_0 = 0.000000\%$ ($K_0 = 137.945520\,\mathrm{kN/mm}$, identical to 8 decimal places).
+  \item $|\Delta F_{\max}| / F_{\max} = 0.000000\%$ ($F_{\max} = 0.75777849\,\mathrm{kN}$ at $u = 0.005857\,\mathrm{mm}$).
+  \item Pre-peak and full-horizon force deviations: $\max |\Delta F| = 0.0\,\mathrm{kN}$ (bit-for-bit identity, \textbf{\texttt{FULL\_HORIZON\_MECHANICAL\_PARITY\_EXACT\_BIT\_MATCH}}).
+\end{itemize}
+
+\subsection{Historical baseline vs.\ energy-qualified production UEL parity}
+To establish that the energy instrumentation in \nolinkurl{f42_mixed_uel.for} (\texttt{SHA256: 5cd0d2c0...}) is strictly non-invasive with respect to the historical pre-energy baseline (\texttt{SHA256: ed1586d6...}), a two-stage controlled numerical benchmark was executed on the Freiberg HPC cluster using a 64-quad mesh (85 mesh nodes + 1 RP):
+\begin{enumerate}
+  \item \textbf{Stage 1 (Elastic Verification, $u \le 0.0060\,\mathrm{mm}$, 30 incs):} Twin jobs \texttt{1406904.mmaster02} (Job A, pre-energy) and \texttt{1406905.mmaster02} (Job B, energy-qualified) produced identical elastic trajectories ($K_0 = 145.80213\,\mathrm{kN/mm}$, $\max|\Delta F| = 0.0\,\mathrm{kN}$, $d_{\max} = 0.038$), establishing \textbf{\texttt{ENERGY\_SOURCE\_ELASTIC\_PARITY: QUALIFIED}}.
+  \item \textbf{Stage 2 (Coupled Damage and Softening, $u \le 0.0350\,\mathrm{mm}$, 129 incs):} Twin jobs \texttt{1406906.mmaster02} (Job A) and \texttt{1406907.mmaster02} (Job B) traversed the complete fracture envelope: damage initiation at $u = 0.00338\,\mathrm{mm}$, peak force $F_{\max} = 1.7310678\,\mathrm{kN}$ at $u = 0.019020\,\mathrm{mm}$, core localization ($d \ge 0.90$ at $u = 0.02352\,\mathrm{mm}$), and $74.20\%$ post-peak softening drop to $F_{\mathrm{term}} = 0.446637\,\mathrm{kN}$ ($d_{\max} = 0.977308$, $\mathcal{H}_{\max} = 9.6864\,\mathrm{kN/mm^2}$). Across all 129 accepted increments, the two implementations produced bit-identical reaction forces ($\max|\Delta F| = 0.0\,\mathrm{kN}$), identical Newton iterations per increment, and identical convergence sequences (\textbf{\texttt{ENERGY\_SOURCE\_MECHANICAL\_PARITY: QUALIFIED\_BIT\_IDENTICAL (COMMON QUAD FORMULATION)}}).
+\end{enumerate}
+This confirms that the additions of whole-element energy arrays (\texttt{ENERGY(2,7)}, \texttt{SVARS(17,18)}) and companion visualizer UMAT state mapping do not perturb the discrete governing equations. Crucially, the added triangular element routines ($\mathrm{JTYPE}=3,4$) remain unexercised in this quad test and are not claimed as parity-qualified, and mechanical parity does not close the unresolved global energy identity (\textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY: NOT\_YET\_CLOSED}}).
+
+\subsection{Unit 105/106 logging persistence reconciliation}
+Harvested diagnostic files contain 6,994 accepted increment rows in Units 105 and 106, while the Abaqus \texttt{.dat} and \texttt{.odb} files prove 7,000 accepted increments to $u = 0.010000\,\mathrm{mm}$. Investigation proved this is a \textbf{harvester-persistence gap}, not missing solver increments:
+\begin{itemize}
+  \item The periodic background harvester captured its final active snapshot at 04:20:15 during Step~2 Inc~4994.
+  \item Abaqus completed the final 6 increments and exited cleanly at 04:20:37 (22 seconds later).
+  \item The cluster PBS batch epilogue immediately unlinked compute-node scratch \texttt{/local/pbs.1406839.mmaster02} before the next 30-second harvest cycle could run.
+  \item Consequently, all reported cumulative $\sum T_*$ terms in Unit~106 are \textbf{cumulative through Inc~4994}, not terminal values.
+  \item Exact terminal energies $E_{\mathrm{elas}} = 1.160811\times 10^{-6}\,\mathrm{kN\cdot mm}$ and $E_{\mathrm{frac}} = 2.340220\times 10^{-3}\,\mathrm{kN\cdot mm}$ are taken directly from the completed ODB IP1 extraction.
+\end{itemize}
+
+\subsection{Unit 107 sampled call-order qualification}
+Unit 107 logged 393,386 UEL execution records. Strict qualification reveals:
+\begin{itemize}
+  \item Unit 107 records a \textbf{sampled UEL call trace for selected finite element indices} (\texttt{PHYSIDX}), not a trace of every element in the mesh.
+  \item Within the sampled elements, the observed execution order is strictly sequential: $\mathrm{JTYPE}=1$ (Phase UEL) evaluates trial crack-driving force $\mathcal{H}_n$ and advances $d_{n+1}$, followed immediately by $\mathrm{JTYPE}=2$ (Mechanical UEL), which reads $d_{n+1}$ to evaluate degraded stress and stiffness.
+  \item Unit 107 contains no UMAT identifier; no ordering claim regarding UMAT is inferred.
+  \item Because subiteration trajectories inside the solver kernel are unpersisted, \textbf{\texttt{DECOMPOSITION\_REQUIRES\_WITHIN\_INCREMENT\_PATH\_INFORMATION}} is retained.
+\end{itemize}
+
+\subsection{Reconciled Gate-6B master evidence matrix}
+Table~\ref{tab:master_evidence_matrix} restores the frozen 15-row Gate-6B evidence matrix semantics.
+
+\begin{table}[htbp]
+\centering
+\caption{Reconciled Master Evidence Matrix for Gate 6B Runtime Qualification.}
+\label{tab:master_evidence_matrix}
+\footnotesize
+\begin{tabularx}{\textwidth}{cYXY}
+\toprule
+Row & Category / Property & Evaluated Numerical Evidence / Formulation & Authoritative Classification \\
+\midrule
+1 & Technical Completion & Job \texttt{1406839.mmaster02} (\texttt{Exit\_status=0}, 7,000 incs, $u=0.010\,\mathrm{mm}$) & \texttt{TECHNICAL\_COMPLETION\_QUALIFIED} \\
+2 & Full-Horizon Parity & $|\Delta K_0|=0.0\%$, $|\Delta F_{\max}|=0.0\%$, $\max|\Delta F|=0.0\,\mathrm{kN}$ vs \texttt{1406015} & \texttt{EXACT\_BIT\_PARITY\_PASS} \\
+3 & Work Quadrature & $W_{\mathrm{left}}=0.00235883$, $W_{\mathrm{trap}}=0.00235933$, $W_{\mathrm{right}}=0.00235983\,\mathrm{kN\cdot mm}$ & \texttt{BOUNDED\_QUADRATURE\_VERIFIED} \\
+4 & Endpoint $E_{\mathrm{elas}}$ & $1.160811\times 10^{-6}\,\mathrm{kN\cdot mm}$ (vanishes post-fracture) & \texttt{PHYSICALLY\_CONSISTENT} \\
+5 & Endpoint $E_{\mathrm{frac}}$ & $2.340220\times 10^{-3}\,\mathrm{kN\cdot mm}$ ($G_c \times \Delta a \times B \times \eta$) & \texttt{PHYSICALLY\_CONSISTENT} \\
+6 & Unit 105 Logging & 6,994 persisted rows; matches ODB field integral across increments & \texttt{RUNTIME\_ENERGY\_LOGGING\_VERIFIED} \\
+7 & Unit 106 Diagnostics & 6,994 rows through Inc 4994; committed $\sum T_{\mathrm{sum}} = 3.5284\times 10^{-4}\,\mathrm{kN\cdot mm}$ & \texttt{DISCRETE\_COUPLING\_COMMITTED} \\
+8 & Unit 107 Call Trace & 393,386 sampled events; sequential $\mathrm{JTYPE}=1 \to \mathrm{JTYPE}=2$ order verified & \texttt{CALL\_ORDER\_VERIFIED} \\
+9 & Elastic Finite-Increment Identity & Midpoint secant degradation $\Delta g_e = -2(1-\bar{d}_{e,\mathrm{mid}})\Delta \bar{d}_e$ & \texttt{DISCRETE\_INCREMENT\_IDENTITY\_VERIFIED} \\
+10 & Fracture Finite-Increment Identity & Nodal phase vector $\mathbf{q}_d$ not persisted in standard output channels & \texttt{NOT\_RECONSTRUCTIBLE\_FROM\_PERSISTED\_FIELDS} \\
+11 & Complete Subiteration Path & Sampled calls recorded; continuous Newton solver path unpersisted & \texttt{INTERNAL\_SOLVER\_PATH\_UNPERSISTED} \\
+12 & Two-Term Bookkeeping Difference & $\mathcal{R} = W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}}) = 1.79485\times 10^{-5}\,\mathrm{kN\cdot mm}$ ($0.7607\%$) & \texttt{TWO\_TERM\_BOOKKEEPING\_DIFFERENCE} \\
+13 & Global Energy Identity & Staggered UEL formulation lacks single path-independent potential & \texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED} \\
+14 & Information Gap Boundary & Reconstruction requires within-increment subiteration tracking & \texttt{EVIDENCE\_GAP\_CONFIRMED} \\
+15 & Milestone Governance & Runtime diagnostic reconciled; Gate 6B remains OPEN pending energy closure and $l_0$ sweep & \texttt{GATE\_6B --- OPEN (IN PROGRESS)} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Spatial Mesh Convergence and Resolution Ratio Evaluation}
+\label{sec:spatial_convergence}
+
+\subsection{Classification of stiffness vs.\ peak response}
+The spatial fixed-mesh series comprises five uniform meshes: $S_1$ ($h=3.00\,\mu\mathrm{m}$, $15{,}192$ elements), $S_2$ ($h=2.00\,\mu\mathrm{m}$, $32{,}130$ elements), $S_3$ ($h=1.50\,\mu\mathrm{m}$, $41{,}912$ elements), $S_4$ ($h=1.25\,\mu\mathrm{m}$, $51{,}408$ elements), and $S_5$ ($h=1.00\,\mu\mathrm{m}$, $69{,}384$ elements). With fixed $l_0 = 0.0075\,\mathrm{mm}$, the discretization ratio $h/l_0$ varies from $0.400$ down to $0.133$.
+
+Evaluating these solutions demonstrates two distinct physical behaviors:
+\begin{enumerate}
+  \item \textbf{Initial Structural Stiffness $K_0$ is Stable:} Extracted over the initial elastic window ($u \le 0.0010\,\mathrm{mm}$, $N=400$), $K_0$ varies from $137.945520\,\mathrm{kN/mm}$ ($S_1$) to $137.823301\,\mathrm{kN/mm}$ ($S_5$). The total spread across all five meshes is only \textbf{$0.0886\%$ ($< 0.09\%$, $R^2 > 0.999999$)}. Initial structural stiffness is therefore classified as \textbf{\texttt{CONVERGED / STABLE}}.
+  \item \textbf{Peak Force $F_{\max}$ and Displacement $u(F_{\max})$ are Mesh-Sensitive:} Peak force decreases monotonically with refinement: $F_{\max} = 0.7578\,\mathrm{kN}$ ($S_1$) $\to 0.7412\,\mathrm{kN}$ ($S_2$) $\to 0.7322\,\mathrm{kN}$ ($S_3$) $\to 0.7290\,\mathrm{kN}$ ($S_4$) $\to 0.7255\,\mathrm{kN}$ ($S_5$), representing a total reduction of $4.26\%$. Peak displacement decreases from $5.857\,\mu\mathrm{m}$ to $5.575\,\mu\mathrm{m}$. In accordance with rigorous scientific epistemology, \textbf{this variation is classified as \texttt{MESH-SENSITIVE}; monotonic reduction alone does not establish asymptotic convergence}, and causal claims attributing the shift to damage-gradient resolution remain unproven without sub-element local gradient metrics.
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{fig_mode1_spatial_fu_convergence.pdf}
+  \caption{Mode-I tensile force-displacement response for the spatial fixed-mesh series ($S_1$--$S_4$). Incomplete cases ($S_2, S_3, S_4$) terminate at their real post-peak cutback states ($u = 6.82, 7.84, 7.21\,\mu\mathrm{m}$, marked by circles). All cases reproduce identical linear-elastic stiffness ($K_0 \approx 137.9\,\mathrm{kN/mm}$); peak load shows systematic mesh sensitivity.}
+  \label{fig:spatial_fu}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{fig_mode1_spatial_convergence_metrics.pdf}
+  \caption{Spatial convergence metrics as a function of discretization ratio $h/l_0$: (a) initial structural stiffness $K_0$ is exceptionally stable ($\Delta < 0.09\%$); (b) peak force $F_{\max}$ exhibits monotonic mesh sensitivity ($4.26\%$ variation); (c) peak displacement $u_{\mathrm{peak}}$ decreases from $5.86\,\mu\mathrm{m}$ to $5.58\,\mu\mathrm{m}$.}
+  \label{fig:spatial_metrics}
+\end{figure}
+
+\subsection{Comparability boundary: terminal vs.\ matched-displacement work}
+Crucially, solver execution records show that while $S_1$ completed the full horizon to $u = 0.010000\,\mathrm{mm}$, finer models terminated early due to solver cutbacks at the crack tip: $S_2$ at $u = 0.006816\,\mathrm{mm}$, $S_3$ at $u = 0.007836\,\mathrm{mm}$, $S_4$ at $u = 0.007208\,\mathrm{mm}$, and $S_5$ at $u = 0.009580\,\mathrm{mm}$.
+
+\textbf{Methodological Imperative:} Terminal work values evaluated at different displacements are \textbf{\texttt{NOT COMPARABLE AT COMMON TERMINAL STATE}}. Comparing terminal $W_{\mathrm{ext}}(u=0.0068\,\mathrm{mm})$ against $E_{\mathrm{frac}}$ yields artificial negative differences that do not represent full-horizon energy balance. To establish rigorous comparability, Table~\ref{tab:matched_work_force} evaluates external work $W_{\mathrm{trap}}$ and reaction force $F$ at common matched displacement states inside the shared available horizon.
+
+\begin{table}[htbp]
+\centering
+\caption{Matched-displacement external work $W_{\mathrm{trap}}$ [$\mathrm{kN\cdot mm}$] and reaction force $F$ [$\mathrm{kN}$] across spatial, temporal, and adaptive cases inside the common displacement horizon.}
+\label{tab:matched_work_force}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\textwidth}{lrrrrrr}
+\toprule
+Case ID & $u=5.00\,\mu\mathrm{m}$ & $u=5.50\,\mu\mathrm{m}$ & $u=5.70\,\mu\mathrm{m}$ & $u=5.857\,\mu\mathrm{m}$ (Peak) & $u=6.00\,\mu\mathrm{m}$ & $u=6.20\,\mu\mathrm{m}$ \\
+\midrule
+\multicolumn{7}{l}{\textbf{External Work $W_{\mathrm{trap}}$ [$\mathrm{kN\cdot mm}$]}} \\
+$S_1$ ($h=3.00\,\mu\mathrm{m}$) & $0.001692$ & $0.002037$ & $0.002184$ & $0.002302$ & $0.002358$ & $0.002358$ \\
+$S_2$ ($h=2.00\,\mu\mathrm{m}$) & $0.001691$ & $0.002036$ & $0.002182$ & $0.002248$ & $0.002248$ & $0.002248$ \\
+$S_3$ ($h=1.50\,\mu\mathrm{m}$) & $0.001690$ & $0.002036$ & $0.002173$ & $0.002190$ & $0.002190$ & $0.002190$ \\
+$S_4$ ($h=1.25\,\mu\mathrm{m}$) & $0.001690$ & $0.002035$ & $0.002162$ & $0.002170$ & $0.002170$ & $0.002170$ \\
+$T_1$ (Coarse $\Delta t$) & $0.001692$ & $0.002037$ & $0.002184$ & $0.002302$ & $0.002388$ & $0.002409$ \\
+$T_2$ (Nominal $\Delta t$) & $0.001692$ & $0.002037$ & $0.002184$ & $0.002302$ & $0.002358$ & $0.002358$ \\
+$T_3$ (Fine $\Delta t$, 1406317) & $0.001692$ & $0.002037$ & $0.002184$ & $0.002302$ & $0.002330$ & $0.002331$ \\
+$A_1$ (1\% Remesh, 71k) & $0.001690$ & $0.002035$ & $0.002182$ & $0.002275$ & $0.002324$ & $0.002393$ \\
+$A_2$ (2\% Remesh, 15k) & $0.001690$ & $0.002036$ & $0.002182$ & $0.002289$ & $0.002371$ & $0.002490$ \\
+$A_3$ (3\% Remesh, 7.6k) & $0.001690$ & $0.002036$ & $0.002182$ & $0.002288$ & $0.002380$ & $0.002512$ \\
+$A_4$ (5\% Remesh, 4.2k) & $0.001692$ & $0.002038$ & $0.002184$ & $0.002302$ & $0.002407$ & $0.002552$ \\
+\midrule
+\multicolumn{7}{l}{\textbf{Reaction Force $F$ [$\mathrm{kN}$]}} \\
+$S_1$ ($h=3.00\,\mu\mathrm{m}$) & $0.662052$ & $0.720657$ & $0.742904$ & $0.757778$ & $0.000546$ & $0.000520$ \\
+$S_2$ ($h=2.00\,\mu\mathrm{m}$) & $0.661627$ & $0.719842$ & $0.740689$ & $0.000308$ & $0.000297$ & $0.000282$ \\
+$S_3$ ($h=1.50\,\mu\mathrm{m}$) & $0.661354$ & $0.719255$ & $0.436596$ & $0.000229$ & $0.000222$ & $0.000214$ \\
+$S_4$ ($h=1.25\,\mu\mathrm{m}$) & $0.661219$ & $0.718971$ & $0.304294$ & $0.000195$ & $0.000191$ & $0.000185$ \\
+$T_1$ (Coarse $\Delta t$) & $0.662052$ & $0.720657$ & $0.742904$ & $0.758004$ & $0.388547$ & $0.000463$ \\
+$T_2$ (Nominal $\Delta t$) & $0.662052$ & $0.720657$ & $0.742904$ & $0.757778$ & $0.000546$ & $0.000520$ \\
+$T_3$ (Fine $\Delta t$, 1406317) & $0.662052$ & $0.720657$ & $0.742904$ & $0.757534$ & $0.000567$ & $0.000541$ \\
+$A_1$ (1\% Remesh, 71k) & $0.661366$ & $0.719700$ & $0.741315$ & $0.343842$ & $0.351167$ & $0.335775$ \\
+$A_2$ (2\% Remesh, 15k) & $0.661486$ & $0.719885$ & $0.741733$ & $0.569658$ & $0.582546$ & $0.598446$ \\
+$A_3$ (3\% Remesh, 7.6k) & $0.661478$ & $0.719756$ & $0.741124$ & $0.641380$ & $0.655603$ & $0.659898$ \\
+$A_4$ (5\% Remesh, 4.2k) & $0.662101$ & $0.720709$ & $0.743033$ & $0.759341$ & $0.710721$ & $0.732323$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Physical length scale ($l_0$) sensitivity audit}
+In phase-field fracture, $l_0$ is an intrinsic constitutive regularization parameter governing the diffuse crack width $\approx 2 l_0$ and the cohesive tensile strength $\sigma_c \propto \sqrt{G_c E / l_0}$. In the Pandey \& Kumar (2025) benchmark, $l_0 = 0.0075\,\mathrm{mm}$ is an invariant benchmark definition. Changing $l_0$ alters the physical material response rather than testing numerical discretization convergence. Across the earlier 16 production and diagnostic runs of the active Mode-I series, $l_0$ was frozen at $0.0075\,\mathrm{mm}$ ($7.5\,\mu\mathrm{m}$). While spatial discretization convergence has been qualified across $h/l_0 \in [0.133, 0.400]$ at fixed $l_0$, a parametric sensitivity sweep of $l_0$ itself was required for complete Gate~6B exit qualification.
+
+To satisfy this requirement without introducing confounding variables, an isolated single-factor physical length-scale study has been designed and deployed on the qualified $S_3$ uniform mesh ($41{,}912$ finite elements, $125{,}736$ total elements, $42{,}492$ total nodes, $h_{\mathrm{tip}} \approx 1.50\,\mu\mathrm{m}$). By fixing the mesh topology, element connectivity, boundary conditions, and time-incrementation schedule identically across all runs, the influence of $l_0$ is isolated cleanly from spatial discretization artifacts:
+\begin{enumerate}
+  \item \textbf{Anchor Baseline ($l_0 = 7.50\,\mu\mathrm{m}$):} Authoritative Job \texttt{1406017.mmaster02} on mesh $S_3$ ($h/l_0 = 0.200$), providing the reference response ($K_0 = 137.8576\,\mathrm{kN/mm}$, $F_{\max} = 0.7322\,\mathrm{kN}$).
+  \item \textbf{Case 1 ($l_0 = 11.25\,\mu\mathrm{m}$):} Input deck \texttt{PK\_M1\_S3\_L01125.inp}, Job \texttt{1406895.mmaster02}. With $h/l_0 = 0.0015 / 0.01125 \approx 0.133 \le 0.20$, the mesh comfortably resolves the diffuse localization profile.
+  \item \textbf{Case 2 ($l_0 = 15.00\,\mu\mathrm{m}$):} Input deck \texttt{PK\_M1\_S3\_L01500.inp}, Job \texttt{1406896.mmaster02}. Discretization ratio $h/l_0 = 0.0015 / 0.0150 = 0.100 \le 0.20$, offering 10 elements across the regularized core zone.
+  \item \textbf{Controlled Exclusion of Under-Resolved Case ($l_0 = 3.75\,\mu\mathrm{m}$):} On the $S_3$ mesh ($h \approx 1.5\,\mu\mathrm{m}$), a reduction to $l_0 = 3.75\,\mu\mathrm{m}$ yields $h/l_0 = 0.400 > 0.20$, violating the discretization resolution requirement and contaminating physical length-scale sensitivity with mesh under-resolution errors. This case is therefore excluded from the physical sensitivity batch and preserved for future high-resolution diagnostic studies on ultra-fine meshes ($h \le 0.75\,\mu\mathrm{m}$).
+\end{enumerate}
+
+Both new input decks were verified to differ from the canonical $S_3$ reference solely in the constitutive $l_0$ parameter cards. An automated, machine-readable line-by-line diff confirms that of the $169{,}621$ lines in each deck, exactly three lines differ: the title comment (line 4), the \texttt{PHASE\_QUAD} property card (line 168353), and the \texttt{DISP\_QUAD} property card (line 168355). All other $169{,}618$ lines are 100\% bit-for-bit identical, strictly preserving mesh node coordinates ($42{,}492$ nodes), element connectivity ($125{,}736$ total elements), boundary conditions, displacement loading rates, step definitions, solver controls, and output requests. The exact input deck SHA-256 hashes are: \texttt{PK\_M1\_S3\_H0015.inp} (\texttt{eb009f188a2a...}), \texttt{PK\_M1\_S3\_L01125.inp} (\texttt{77df64d10d01...}), and \texttt{PK\_M1\_S3\_L01500.inp} (\texttt{ff13ba60800e...}). Both production jobs execute the exact authoritative non-diagnostic Fortran source \texttt{f42\_mixed\_uel.for} (\texttt{5cd0d2c015c9...}).
+
+The submission chronology was independently audited via cluster filesystem timestamps: the datacheck for Candidate 1 completed at 11:10:26 CEST (\texttt{Exit\_status=0}), and the datacheck for Candidate 2 completed at 11:11:22 CEST (\texttt{Exit\_status=0}). The two production PBS jobs were submitted together at 11:12:43 CEST---strictly after both datachecks had passed with zero errors and identical standard warnings. Both jobs run in serial 1-CPU mode on \texttt{mmaster02} (queue \texttt{normal\_imfdfkmq}, 16\,GB memory). Table~\ref{tab:l0_sensitivity_matrix} summarizes this one-factor investigation. Gate~6B remains strictly \textbf{\texttt{OPEN}} pending solver completion and scientific post-processing.
+
+\begin{table}[htbp]
+\centering
+\caption{One-factor physical length-scale ($l_0$) sensitivity study on the qualified $S_3$ mesh ($41{,}912$ finite elements, $125{,}736$ total elements, $42{,}492$ total nodes, $h_{\mathrm{tip}} \approx 1.5\,\mu\mathrm{m}$).}
+\label{tab:l0_sensitivity_matrix}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\textwidth}{lcccccY}
+\toprule
+Case & $l_0$ [$\mu\mathrm{m}$] & $h_{\mathrm{tip}}/l_0$ & Resolution Check & PBS Job ID & Mode & Execution Status / Comparability \\
+\midrule
+$S_3$ Baseline & $7.50$ & $0.200$ & $h/l_0 \le 0.20$ (Compliant) & \texttt{1406017} & Serial 1-CPU & Completed ($K_0=137.8576\,\mathrm{kN/mm}, F_{\max}=0.7322\,\mathrm{kN}$) \\
+$S_3$ Case 1 & $11.25$ & $0.133$ & $h/l_0 \le 0.20$ (Compliant) & \texttt{1406895} & Serial 1-CPU & \textbf{\texttt{IN EXECUTION / NOT YET SCIENTIFICALLY QUALIFIED}} \\
+$S_3$ Case 2 & $15.00$ & $0.100$ & $h/l_0 \le 0.20$ (Compliant) & \texttt{1406896} & Serial 1-CPU & \textbf{\texttt{IN EXECUTION / NOT YET SCIENTIFICALLY QUALIFIED}} \\
+$S_3$ Diagnostic & $3.75$ & $0.400$ & $h/l_0 > 0.20$ (Under-resolved) & --- & --- & Excluded from physical batch; requires $h \le 0.75\,\mu\mathrm{m}$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+\section{Temporal Time-Increment Convergence}
+\label{sec:temporal_convergence}
+
+The temporal convergence study examines time-step sensitivity at fixed spatial mesh ($h=3.0\,\mu\mathrm{m}$, $15{,}192$ elements):
+\begin{itemize}
+  \item Case~$T_1$ (Coarse): $\Delta t \times 2.0$, $3{,}500$ increments ($1{,}000$ Step 1 + $2{,}500$ Step 2).
+  \item Case~$T_2$ (Nominal): $\Delta t \times 1.0$, $7{,}000$ increments ($2{,}000$ Step 1 + $5{,}000$ Step 2; exact twin to $S_1$).
+  \item Case~$T_3$ (Fine, Truncated): Job \texttt{1406246}, truncated at $u=0.009398\,\mathrm{mm}$ under earlier 6-hour walltime.
+  \item Case~$T_3$ (Fine, Completed Full Horizon): Job \texttt{1406317}, executed under 16-hour walltime allocation; completed all $10{,}022$ Step-2 increments to $u = 0.010000\,\mathrm{mm}$ with \texttt{Exit\_status=0}.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{fig_mode1_temporal_convergence.pdf}
+  \caption{Mode-I temporal convergence across time increment scales ($T_1$: coarse $2\times$, $T_2$: nominal $1\times$, $T_3$: fine $0.5\times$). The mechanical peak response is virtually identical ($F_{\max} \in [0.7576, 0.7582]\,\mathrm{kN}$, spread $< 0.07\%$). Authoritative Job \texttt{1406317} completes the full horizon to $u=10.0\,\mu\mathrm{m}$.}
+  \label{fig:temporal_convergence}
+\end{figure}
+
+Evaluating the completed temporal series reveals:
+\begin{itemize}
+  \item \textbf{Peak Mechanical Response is Stable:} Initial stiffness $K_0$ varies by only $0.0009\%$ ($137.9447 \to 137.9459\,\mathrm{kN/mm}$). Peak force varies by only $0.069\%$ ($0.75815 \to 0.75763\,\mathrm{kN}$). Peak displacement varies by only $9\,\mathrm{nm}$ ($0.005864 \to 0.005855\,\mathrm{mm}$). Peak mechanical quantities are therefore classified as \textbf{\texttt{CONVERGED / STABLE}}.
+  \item \textbf{Energetic Bookkeeping is Temporally Sensitive:} Terminal external work $W_{\mathrm{ext}}$ varies by $3.2\%$ ($2.4101 \times 10^{-3} \to 2.3319 \times 10^{-3}\,\mathrm{kN\cdot mm}$), with $\mathcal{R}_{\mathrm{bookkeeping}}$ moving from $+0.38\%$ to $+3.54\%$. Energy evolution is therefore classified as \textbf{\texttt{TEMPORALLY SENSITIVE}}.
+\end{itemize}
+
+\section{Native Adaptive Remeshing and Lineage Separation}
+\label{sec:adaptive_refinement}
+
+\subsection{Lineage reconciliation: sensitivity study vs.\ production batch}
+A source audit clarifies the distinction between earlier sensitivity mesh counts and active production cases:
+\begin{itemize}
+  \item Case~$A_1$: $71{,}320$ finite elements ($1.0\%$ errorTarget, identical across sensitivity and production).
+  \item Case~$A_2$: $15{,}396$ production finite elements ($14{,}963$ quads + $433$ tris), compared to $17{,}687$ in the sensitivity study.
+  \item Case~$A_3$: $7{,}633$ production finite elements ($7{,}400$ quads + $233$ tris), compared to $8{,}120$ in the sensitivity study.
+  \item Case~$A_4$: $4{,}194$ production finite elements ($4{,}008$ quads + $186$ tris), compared to $4{,}356$ in the sensitivity study.
+\end{itemize}
+These lineages are formally recorded as separate datasets. Neither is treated as an error; both are preserved.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{fig_mode1_adaptive_convergence.pdf}
+  \caption{Mode-I force-displacement curves for native adaptive remeshing cases ($A_1$--$A_4$) alongside fixed-mesh baseline $S_1$. In pre-peak loading, all adaptive meshes reproduce reference stiffness $K_0 \approx 137.85\,\mathrm{kN/mm}$. During post-peak propagation, coarser background meshes ($A_2$--$A_4$) exhibit gradual softening with sustained load capacity.}
+  \label{fig:adaptive_convergence}
+\end{figure}
+
+\subsection{Corrected adaptive response and temporal twin}
+In earlier summaries, $A_4$ response quantities were misattributed. Audited CSV records confirm:
+\begin{itemize}
+  \item Case~$A_4$ ($4{,}194$ elements): $K_0 = 137.966183\,\mathrm{kN/mm}$, $F_{\max} = 0.764964\,\mathrm{kN}$ at $u = 0.007060\,\mathrm{mm}$, $W_{\mathrm{ext}} = 0.00426461\,\mathrm{kN\cdot mm}$, and $\mathcal{R}_{\mathrm{bookkeeping}} = 4.3283\times 10^{-4}\,\mathrm{kN\cdot mm}$ ($10.15\%$). In the pre-peak elastic range ($u \le 5.50\,\mu\mathrm{m}$), $A_4$ external work agrees with baseline $S_1$ within $0.01\%$ ($0.0020376$ vs.\ $0.0020374\,\mathrm{kN\cdot mm}$). However, beyond $u = 5.857\,\mu\mathrm{m}$, case~$A_4$ sustains an elevated force plateau ($F \approx 0.75\,\mathrm{kN}$) extending through $u = 0.0080\,\mathrm{mm}$, which inflates terminal external work to $0.0042646\,\mathrm{kN\cdot mm}$ ($+80.7\%$ compared to baseline $S_1$). The mechanistic attribution of this plateau to numerical crack-pinning caused by coarse background elements ($h \gg l_0$) is currently a working hypothesis (\textbf{\texttt{HYPOTHESIS / NOT YET INDEPENDENTLY PROVEN}}), as local crack-tip stress and energy-flux fields have not yet been independently extracted to rule out alternative discretization or boundary artifacts.
+  \item Case~$A_3$ Controlled Temporal Twin (Job \texttt{1406311}, $0.5\times\Delta t$): Yields $F_{\max} = 0.743289\,\mathrm{kN}$ (vs.\ $0.743471\,\mathrm{kN}$ in nominal $A_3$, $\Delta = 0.024\%$) and $\mathcal{R}_{\mathrm{bookkeeping}} = 10.47\%$ (vs.\ $10.53\%$), proving that the $\sim 10.5\%$ adaptive bookkeeping difference is driven by spatial element sizing outside the crack path rather than time-step integration lag.
+\end{itemize}
+
+\section{Crack-Path Symmetry and Localization Profile Audit}
+\label{sec:crack_path}
+
+\subsection{Rigorous distinction between crack-centroid trajectory and localization-band width}
+A critical epistemological clarification must be established regarding crack trajectory and damage localization. Prior drafts conflated the finite transverse width of the regularized damage band with crack-path deviation from symmetry. A rigorous re-audit of the stored field data (\texttt{SPATIAL\_PHASE\_FIELD\_CONVERGENCE\_SUMMARY.json} and \texttt{GATE6B\_SPATIAL\_PHASE\_FIELD\_METRICS.csv}) separates these quantities:
+\begin{enumerate}
+  \item \textbf{Crack-Path Centroid Trajectory $y_c(x)$:} Along the ligament ($x \in [0.5, 1.0]\,\mathrm{mm}$), the crack centroid is defined by the damage-weighted vertical position $y_c(x) = \int y d\,\mathrm{d}y / \int d\,\mathrm{d}y$. Across all evaluated fixed ($S_1$--$S_4$) and adaptive ($A_1$--$A_4$) meshes and all loading increments, the damage-weighted crack centroid deviation from the symmetry line $|y_c - 0.5\,\mathrm{mm}|$ is strictly bounded by $\le 3.10\,\mu\mathrm{m}$ ($S_1$: $2.46\,\mu\mathrm{m}$, $S_2$: $2.62\,\mu\mathrm{m}$, $S_3$: $3.10\,\mu\mathrm{m}$, $S_4$: $2.93\,\mu\mathrm{m}$; adaptive meshes $A_1$--$A_4 \le 1.50\,\mu\mathrm{m}$). The crack extension is therefore confirmed to be \textbf{strictly horizontal along the symmetry plane $y = 0.500\,\mathrm{mm}$}, satisfying pure Mode-I symmetry within discrete element bounds.
+  \item \textbf{Diffusive Localization-Band Width:} The regularized phase field $d(x, y)$ transitions continuously from undamaged bulk ($d=0$) to crack separation ($d \approx 1$). The localized damage zone is characterized by its threshold contours:
+    \begin{itemize}
+      \item \textit{Moderate Damage Band ($d \ge 0.50$):} Expands transversely with a half-width from the crack center of $\max_{d \ge 0.5} |y - 0.5| = 10.0$ to $15.0\,\mu\mathrm{m}$ (full transverse band width $w_{d \ge 0.5} = 20.0$ to $30.0\,\mu\mathrm{m}$ across all ligament points, and $20.0$ to $22.9\,\mu\mathrm{m}$ at station $x = 0.55\,\mathrm{mm}$). Because discrete element sizing ($h \in [1.0, 3.0]\,\mu\mathrm{m}$) directly dictates cell-averaged sampling, this measurement varies by $>40\%$ across resolutions and is classified as \textbf{\texttt{QUALIFIED (MESH-SENSITIVE / RESOLUTION-LIMITED)}} rather than unreservedly converged.
+      \item \textit{Core Separation Zone ($d \ge 0.90$):} Exhibits a transverse half-width of $5.3$ to $8.2\,\mu\mathrm{m}$ (full core width $9.5$ to $14.4\,\mu\mathrm{m}$).
+    \end{itemize}
+  \item \textbf{Disproval of Heuristic ``$\approx 3 l_0$'' Assertions:} Earlier informal claims that the damage band ``must theoretically equal $3 l_0$'' are replaced by the exact AT-2 1D regularized profile $d(y) = \exp(-|y|/l_0)$ with $l_0 = 7.5\,\mu\mathrm{m}$, for which $d = 0.5$ occurs at $|y| = l_0 \ln 2 \approx 0.693 l_0$ (FWHM $\approx 1.386 l_0 = 10.4\,\mu\mathrm{m}$) and perceptible damage $d \ge 0.05$ spans $|y| \le l_0 \ln 20 \approx 3.0 l_0$. The observed full band width of $\sim 21$--$23\,\mu\mathrm{m}$ represents the moderate-damage envelope ($d \ge 0.2$--$0.5$), not a path deviation.
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{fig1_fixed_mesh_ligament_profiles.png}
+  \caption{Spatial phase-field localization profiles $d(x, y=0.5\,\mathrm{mm})$ along the crack ligament for fixed-mesh series ($S_1$--$S_4$) at matched displacement increments ($u = 5.0, 5.5, 5.7, 5.85, 6.0, 6.2\,\mu\mathrm{m}$). Finer meshes resolve steeper initiation gradients.}
+  \label{fig:ligament_profiles}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{fig4_vertical_path_localization_deviation.png}
+  \caption{Rigorous separation of crack-centroid trajectory and damage localization band width: (a) damage-weighted crack-centroid vertical deviation $|y_c - 0.5\,\mathrm{mm}| \le 3.1\,\mu\mathrm{m}$ across all meshes confirms strict Mode-I symmetry within element bounds; (b) regularized damage localization-band half-width for $d \ge 0.50$ ($10$--$15\,\mu\mathrm{m}$, total full-width $20.0$--$30.0\,\mu\mathrm{m}$ overall, $20.0$--$22.9\,\mu\mathrm{m}$ at $x=0.55\,\mathrm{mm}$, mesh-sensitive and resolution-limited).}
+  \label{fig:path_deviation}
+\end{figure}
+
+\section{Authoritative Master Production Matrix and Convergence Classifications}
+\label{sec:master_matrix}
+
+Table~\ref{tab:master_16case_matrix} presents the complete numerical synthesis of all 16 benchmark and diagnostic jobs, separating comparable full-horizon metrics from cutback runs.
+
+\begin{table}[htbp]
+\centering
+\caption{Complete 16-case Mode-I production matrix and energy bookkeeping summary with exact job provenance and separate classifications.}
+\label{tab:master_16case_matrix}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\begin{tabularx}{\textwidth}{llrcccrrY}
+\toprule
+Case ID & Job ID & Elements & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $u_{\mathrm{peak}}$ [mm] & $W_{\mathrm{ext}}$ [$\mathrm{kN\cdot mm}$] & $\mathcal{R}$ [$\mathrm{kN\cdot mm}$] & Comparability / Status \\
+\midrule
+\multicolumn{9}{l}{\textbf{Spatial Fixed-Mesh Series ($l_0 = 0.0075\,\mathrm{mm}$ fixed)}} \\
+$S_1$ (Baseline) & \texttt{1406015} & $15{,}192$ & $137.9455$ & $0.7578$ & $0.005857$ & $2.3593\times 10^{-3}$ & $1.795\times 10^{-5}$ & Comparable Full Horizon ($u=10\,\mu\mathrm{m}$) \\
+$S_2$ ($h=2.00\,\mu\mathrm{m}$) & \texttt{1406016} & $32{,}130$ & $137.8941$ & $0.7412$ & $0.005711$ & $2.2480\times 10^{-3}$ & --- & Cutback ($u=6.82\,\mu\mathrm{m}$; not comparable terminal) \\
+$S_3$ ($h=1.50\,\mu\mathrm{m}$) & \texttt{1406017} & $41{,}912$ & $137.8576$ & $0.7322$ & $0.005633$ & $2.1902\times 10^{-3}$ & --- & Cutback ($u=7.84\,\mu\mathrm{m}$; not comparable terminal) \\
+$S_4$ ($h=1.25\,\mu\mathrm{m}$) & \texttt{1406018} & $51{,}408$ & $137.8368$ & $0.7290$ & $0.005606$ & $2.1702\times 10^{-3}$ & --- & Cutback ($u=7.21\,\mu\mathrm{m}$; not comparable terminal) \\
+$S_5$ ($h=1.00\,\mu\mathrm{m}$) & \texttt{1406019} & $69{,}384$ & $137.8233$ & $0.7255$ & $0.005575$ & $2.1479\times 10^{-3}$ & --- & Cutback ($u=9.58\,\mu\mathrm{m}$; not comparable terminal) \\
+\midrule
+\multicolumn{9}{l}{\textbf{Temporal Series ($h = 3.00\,\mu\mathrm{m}$ fixed)}} \\
+$T_1$ (Coarse $2\times$) & \texttt{1406020} & $15{,}192$ & $137.9447$ & $0.7582$ & $0.005864$ & $2.4101\times 10^{-3}$ & $9.118\times 10^{-6}$ & Comparable Full Horizon ($u=10\,\mu\mathrm{m}$) \\
+$T_2$ (Nominal $1\times$) & \texttt{1406021} & $15{,}192$ & $137.9455$ & $0.7578$ & $0.005857$ & $2.3593\times 10^{-3}$ & $1.795\times 10^{-5}$ & Comparable Full Horizon ($u=10\,\mu\mathrm{m}$) \\
+$T_3$ (Truncated) & \texttt{1406246} & $15{,}192$ & $137.9459$ & $0.7576$ & $0.005855$ & $2.3317\times 10^{-3}$ & --- & Walltime limit ($u=9.40\,\mu\mathrm{m}$) \\
+$T_3$ (Full Horizon) & \texttt{1406317} & $15{,}192$ & $137.9459$ & $0.7576$ & $0.005855$ & $2.3319\times 10^{-3}$ & $8.256\times 10^{-5}$ & Authoritative Full Horizon ($u=10\,\mu\mathrm{m}$) \\
+\midrule
+\multicolumn{9}{l}{\textbf{Adaptive Remeshing Series}} \\
+$A_1$ (1\% Remesh) & \texttt{1406023} & $71{,}320$ & $137.8208$ & $0.7453$ & $0.005750$ & $2.3931\times 10^{-3}$ & --- & Planned Truncation ($u=6.20\,\mu\mathrm{m}$) \\
+$A_1$ (Full $u_{010}$) & \texttt{1406313} & $71{,}320$ & $137.8208$ & $0.7453$ & $0.005750$ & $2.5726\times 10^{-3}$ & --- & Cutback ($u=6.77\,\mu\mathrm{m}$; not comparable terminal) \\
+$A_2$ (2\% Remesh) & \texttt{1406278} & $15{,}396$ & $137.8437$ & $0.7482$ & $0.005775$ & $3.4884\times 10^{-3}$ & $3.318\times 10^{-4}$ & Comparable Full Horizon ($u=10\,\mu\mathrm{m}$) \\
+$A_3$ (3\% Remesh) & \texttt{1406273} & $7{,}633$ & $137.8541$ & $0.7435$ & $0.005733$ & $3.8459\times 10^{-3}$ & $4.049\times 10^{-4}$ & Comparable Full Horizon ($u=10\,\mu\mathrm{m}$) \\
+$A_3$ (Fine $\Delta t$) & \texttt{1406311} & $7{,}633$ & $137.8545$ & $0.7433$ & $0.005730$ & $3.8392\times 10^{-3}$ & $4.019\times 10^{-4}$ & Comparable Full Horizon ($u=10\,\mu\mathrm{m}$) \\
+$A_4$ (5\% Remesh) & \texttt{1406279} & $4{,}194$ & $137.9662$ & $0.7650$ & $0.007060$ & $4.2646\times 10^{-3}$ & $4.328\times 10^{-4}$ & Comparable Full Horizon ($u=10\,\mu\mathrm{m}$) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Multi-quantity convergence classification matrix}
+In accordance with the supervisor directive that peak reaction force alone is explicitly insufficient, Table~\ref{tab:convergence_status_matrix} provides an independent, multifaceted classification for every evaluated physical and numerical quantity.
+
+\begin{table}[htbp]
+\centering
+\caption{Comprehensive Supervisor Convergence Status Matrix across Spatial, Temporal, and Energetic Quantities.}
+\label{tab:convergence_status_matrix}
+\tiny
+\setlength{\tabcolsep}{2pt}
+\begin{tabularx}{\textwidth}{p{2.2cm}p{1.4cm}p{1.8cm}p{1.7cm}p{2.3cm}p{1.8cm}X}
+\toprule
+Quantity & Cases & Common Horizon & Raw Source & Metric / Spread & Classification & Evidence Limitation \\
+\midrule
+Initial Stiffness $K_0$ (Spatial) & $S_1$--$S_5$ & $u \le 1.0\,\mu\mathrm{m}$ ($N=400$) & 1406015--1406019 & $137.82$ to $137.95\,\mathrm{kN/mm}$ ($\Delta < 0.09\%$) & \textbf{\texttt{CONVERGED / STABLE}} & Linear-elastic domain only; insensitive to crack-tip damage. \\
+Initial Stiffness $K_0$ (Temporal) & $T_1$--$T_3$ & $u \le 1.0\,\mu\mathrm{m}$ ($N=400$) & 1406020, 1406021, 1406317 & $137.9447 \to 137.9459\,\mathrm{kN/mm}$ ($\Delta < 0.001\%$) & \textbf{\texttt{CONVERGED / STABLE}} & Time-step size does not affect linear elasticity. \\
+Peak Force $F_{\max}$ (Spatial) & $S_1$--$S_5$ & Peak envelope ($u \in [5.5, 5.9]\,\mu\mathrm{m}$) & 1406015--1406019 & $0.7578 \to 0.7255\,\mathrm{kN}$ ($4.26\%$ monotonic drop) & \textbf{\texttt{MESH-SENSITIVE}} & Monotonic decrease with $h/l_0$; asymptotic limit requires finer sub-element models. \\
+Peak Displacement $u_{\mathrm{peak}}$ (Spatial) & $S_1$--$S_5$ & Peak envelope & 1406015--1406019 & $5.857 \to 5.575\,\mu\mathrm{m}$ ($4.81\%$ shift) & \textbf{\texttt{MESH-SENSITIVE}} & Softening initiates earlier on fine meshes; superseded narrative value $5.527\,\mu\mathrm{m}$ corrected. \\
+Peak Force $F_{\max}$ (Temporal) & $T_1$--$T_3$ & Peak envelope & 1406020, 1406021, 1406317 & $0.75815 \to 0.75763\,\mathrm{kN}$ ($\Delta < 0.07\%$) & \textbf{\texttt{CONVERGED / STABLE}} & Fixed spatial mesh ($h/l_0=0.400$); peak invariant under time-step scaling. \\
+Pre-Peak Work $W_{\mathrm{ext}}$ & All 11 cases & $u = 5.50\,\mu\mathrm{m}$ & Audited CSVs & $W \in [0.002035, 0.002038]\,\mathrm{kN\cdot mm}$ ($\Delta < 0.13\%$) & \textbf{\texttt{CONVERGED / STABLE}} & Shared pre-cracking elastic regime only. \\
+Post-Peak Spatial Response & $S_1$ vs $S_2$--$S_5$ & Softening range $u > 6.0\,\mu\mathrm{m}$ & 1406015--1406019 & $S_1$ full to $10\,\mu\mathrm{m}$; $S_2$--$S_5$ cutback at $6.8$--$9.6\,\mu\mathrm{m}$ & \textbf{\texttt{NOT COMPARABLE}} (endpoints) & Premature solver cutbacks truncate post-peak propagation in fine meshes. \\
+Terminal Work (Spatial) & $S_1$--$S_5$ & Terminal states & 1406015--1406019 & $W_{\mathrm{term}} \in [0.002148, 0.002359]\,\mathrm{kN\cdot mm}$ & \textbf{\texttt{NOT COMPARABLE}} & Different integration endpoints; physical comparison requires matched horizon. \\
+Terminal Work (Temporal) & $T_1$--$T_3$ & Full horizon $u = 10.0\,\mu\mathrm{m}$ & 1406020, 1406021, 1406317 & $W_{\mathrm{trap}} = 2.4101 \to 2.3319\,\mathrm{mJ}$ ($3.24\%$ variation) & \textbf{\texttt{TEMPORALLY SENSITIVE}} & Coarse time stepping lags unloading branch, increasing integrated area. \\
+Terminal Bookkeeping $\mathcal{R}$ (Temporal) & $T_1$--$T_3$ & Full horizon $u = 10.0\,\mu\mathrm{m}$ & 1406020, 1406021, 1406317 & $+0.378\%$ ($T_1$) $\to +0.761\%$ ($T_2$) $\to +3.541\%$ ($T_3$) & \textbf{\texttt{TEMPORALLY SENSITIVE}} & Measured algebraic difference $W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$; reported numerically without unproven causality assertions. \\
+Spatial Energy Convergence ($E_{\mathrm{elas}}, E_{\mathrm{frac}}$) & $S_1$--$S_5, A_1$--$A_4$ & Shared horizon $u \le 5.50\,\mu\mathrm{m}$ & Audited ODBs / CSVs & Continuous energy output verified in $S_1, S_3, A_4$; unpopulated in $S_2, S_4, S_5, A_1, A_2, A_3$ & \textbf{\texttt{NOT YET QUALIFIED}} & Spatial energy convergence unprovable until uniform logging is deployed across all meshes. \\
+Adaptive Post-Peak Work (A4) & $A_4$ vs $S_1$ & Full horizon $u = 10.0\,\mu\mathrm{m}$ & 1406279 & $W_{\mathrm{trap}} = 4.2646\,\mathrm{mJ}$ ($+80.7\%$ vs $S_1$; $F \approx 0.75\,\mathrm{kN}$ plateau) & \textbf{\texttt{OBSERVED FORCE PLATEAU}} (Hypothesis) & Working hypothesis: coarse background mesh ($h \gg l_0$) locks damage band; unproven. \\
+Crack Centroid Path $y_c(x)$ & $S_1$--$S_4, A_1$--$A_4$ & Full ligament $x \in [0.5, 1.0]\,\mathrm{mm}$ & Spatial Summary JSON & Max dev $|y_c - 0.5\,\mathrm{mm}| \le 3.10\,\mu\mathrm{m}$ across all meshes & \textbf{\texttt{QUALIFIED (SYMMETRIC / ELEMENT-BOUNDED)}} & Pure Mode-I symmetric loading; centroid offset bounded within single element dimension. \\
+Localization Band Full-Width & $S_1$--$S_4, A_1$--$A_4$ & Ligament points / $x = 0.55\,\mathrm{mm}$ & Spatial Summary JSON & $w_{d \ge 0.5} = 20.0$--$30.0\,\mu\mathrm{m}$ ($20.0$--$22.9\,\mu\mathrm{m}$ at $x=0.55\,\mathrm{mm}$) & \textbf{\texttt{QUALIFIED (MESH-SENSITIVE / RES.-LIMITED)}} & Varies $>40\%$ with mesh resolution; discrete cell averaging limits measurement. \\
+Phase-Field Length Scale $l_0$ & Active $S_3$ sweep & In execution & Jobs 1406895, 1406896, 1406017 & $l_0 \in \{7.5, 11.25, 15.0\}\,\mu\mathrm{m}$ at $h/l_0 \le 0.20$ & \textbf{\texttt{IN EXECUTION / NOT YET SCIENTIFICALLY QUALIFIED}} & Serial 1-CPU jobs actively advancing on cluster; Gate 6B remains strictly OPEN. \\
+Continuous Discrete Energy Identity & $S_1$ Baseline / Diagnostic & Full horizon $u \in [0, 10.0\,\mu\mathrm{m}]$ & Jobs 1406015, 1406839 & $\mathcal{R}_{\mathrm{book}} = 1.795\times 10^{-5}\,\mathrm{kN\cdot mm}$ ($+0.7607\%$) & \textbf{\texttt{NOT YET QUALIFIED}} & \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}}; no exact closed algorithmic identity has been established for this staggered implementation; current standard uninstrumented outputs are insufficient to reconstruct one, and any future instrumentation would only test a separately derived candidate accounting relation rather than presuppose $\Delta \mathcal{R}_{\mathrm{closed}} = 0$. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Summary of Active Scientific Findings}
+\label{sec:findings_summary}
+
+The multifaceted provenance audit yields the following verified conclusions:
+\begin{enumerate}
+  \item \textbf{Baseline $S_1$ Parity and Integrity:} Diagnostic Job \texttt{1406839} reproduces baseline \texttt{1406015} with bit-for-bit mechanical parity across all 7,000 increments. Logging persistence is reconciled; the terminal two-term bookkeeping difference is strictly $+0.7607\%$ ($1.795\times 10^{-5}\,\mathrm{kN\cdot mm}$).
+  \item \textbf{Global Energy Identity Boundary:} Because the staggered implementation lacks a joint potential, the bookkeeping difference is an endpoint algebraic consequence rather than proof of a continuous physical conservation law. \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}} is preserved; no exact closed algorithmic identity has been established for this staggered implementation; current standard uninstrumented outputs are insufficient to reconstruct one, and any future instrumentation would only test a separately derived candidate accounting relation rather than presuppose $\Delta \mathcal{R}_{\mathrm{closed}} = 0$.
+  \item \textbf{Spatial and Temporal Decoupling:} Initial structural stiffness $K_0$ is completely stable across meshes ($<0.09\%$) and time steps ($<0.001\%$). Peak load is strictly stable temporally ($<0.07\%$) but mesh-sensitive spatially ($4.26\%$ variation across $h/l_0 \in [0.13, 0.40]$).
+  \item \textbf{Strict Comparability Discipline:} Incomplete cutback cases ($S_2$--$S_5$, $A_1$) cannot be compared at terminal states. Within the shared available horizon ($u \le 0.0055\,\mathrm{mm}$), external work and reaction force agree within $0.15\%$ across all 11 evaluated models.
+  \item \textbf{Crack Localization Integrity:} Crack extension is strictly horizontal along $y = 0.500\,\mathrm{mm}$ with damage-weighted centroid deviation bounded by $\le 3.10\,\mu\mathrm{m}$ across all meshes (element-bounded pure Mode-I symmetry), while the regularized damage localization band ($d \ge 0.50$) spans a full-width of $20.0$--$30.0\,\mu\mathrm{m}$ ($20.0$--$22.9\,\mu\mathrm{m}$ at $x=0.55\,\mathrm{mm}$), qualified as mesh-sensitive and resolution-limited.
+  \item \textbf{Next Step Governance:} Gate~6B remains \textbf{\texttt{OPEN}} pending global-energy identity closure and scientific evaluation of the active one-factor phase-field length-scale sensitivity jobs (\texttt{1406895} and \texttt{1406896}). Gate~6C (State Transfer), Mode-II, Gate~7 (Visualization), and thread scaling remain on strict hold until all Gate~6B exit requirements are resolved.
+\end{enumerate}
+
+\section{Compact Supervisor-Facing Gate-6B Claim Ledger}
+\label{sec:claim_ledger}
+
+To establish the complete epistemological standing of all findings for academic supervision, Table~\ref{tab:claim_ledger} organizes all 13 core metrics into three mutually exclusive categories:
+\begin{itemize}
+  \item \textbf{THEORY:} Implemented mathematical formulation and continuum expectations.
+  \item \textbf{VERIFIED NUMERICAL EVIDENCE:} Quantities audited directly from raw solver files with verified SHA-256 hashes (cross-referenced to machine-checkable database \texttt{CLAIM\_LEDGER\_NUMERICAL\_PROVENANCE.csv}, SHA-256: \texttt{febf76cefb8a...}).
+  \item \textbf{UNRESOLVED:} Uninstrumented solver internal states, knowledge boundaries, and active computation items.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Compact Supervisor-Facing Gate-6B Claim Ledger across 13 Core Metrics.}
+\label{tab:claim_ledger}
+\tiny
+\setlength{\tabcolsep}{2pt}
+\begin{tabularx}{\textwidth}{p{2.2cm}p{3.8cm}p{4.2cm}X}
+\toprule
+Metric / Aspect & \textbf{THEORY} (Continuum / Formulation) & \textbf{VERIFIED EVIDENCE} (Audited Artifacts) & \textbf{UNRESOLVED} (Boundaries / Open Scope) \\
+\midrule
+1. Initial Stiffness $K_0$ & Continuum linear elasticity ($\boldsymbol{\sigma} = \mathbb{C}_0 : \boldsymbol{\varepsilon}$) provides reference stiffness; numerical $K_0$ stabilizes under adequate resolution; no direct constitutive $l_0$ dependence in mechanical operator; no damage threshold in AT2. & $K_0 = 137.82$--$137.95\,\mathrm{kN/mm}$ ($\Delta < 0.089\%$ spatial across $S_1$--$S_5$, $\Delta < 0.001\%$ temporal across $T_1$--$T_3$, $R^2 > 0.999999$). Baseline $S_1$ (\texttt{1406015}): $137.9455\,\mathrm{kN/mm}$; $S_5$ (\texttt{1406019}): $137.8233\,\mathrm{kN/mm}$; $T_3$ (\texttt{1406317}): $137.9459\,\mathrm{kN/mm}$. & None for standard Mode-I; \textbf{\texttt{CONVERGED / STABLE}} (linear-elastic regime $u \le 1.0\,\mu\mathrm{m}$, $N=400$, prior to localized damage evolution). \\
+\addlinespace
+2. Spatial Peak Force $F_{\max}$ & Implemented degradation $g(d) = (1-d)^2 + k_{\mathrm{res}}$ couples strain energy to damage evolution; peak reaction force depends on spatial resolution of steep crack-tip strain gradients. & Monotonic reduction: $F_{\max} = 0.7578\,\mathrm{kN}$ ($S_1$, \texttt{1406015}) $\to 0.7412\,\mathrm{kN}$ ($S_2$, \texttt{1406016}) $\to 0.7322\,\mathrm{kN}$ ($S_3$, \texttt{1406017}) $\to 0.7290\,\mathrm{kN}$ ($S_4$, \texttt{1406018}) $\to 0.7255\,\mathrm{kN}$ ($S_5$, \texttt{1406019}), $4.26\%$ drop across $h/l_0 \in [0.133, 0.400]$. & Asymptotic limit requires sub-element models ($h/l_0 < 0.10$); monotonic decrease alone does not prove convergence; \textbf{\texttt{MESH-SENSITIVE}}. \\
+\addlinespace
+3. Spatial Peak Disp. $u_{\mathrm{peak}}$ & Peak displacement $u_{\mathrm{peak}}$ marks the limit load state on the global load-displacement curve. & Monotonic shift: $u_{\mathrm{peak}} = 5.857\,\mu\mathrm{m}$ ($S_1$, \texttt{1406015}) $\to 5.711\,\mu\mathrm{m}$ ($S_2$) $\to 5.633\,\mu\mathrm{m}$ ($S_3$) $\to 5.606\,\mu\mathrm{m}$ ($S_4$) $\to 5.575\,\mu\mathrm{m}$ ($S_5$, \texttt{1406019}), $4.81\%$ ($\Delta u = 0.282\,\mu\mathrm{m}$) advance across $S_1 \to S_5$. & Asymptotic initiation displacement unresolved without finer models; \textbf{\texttt{MESH-SENSITIVE}}. \\
+\addlinespace
+4. Temporal Peak Force $F_{\max}$ & Temporal invariance of limit load is the numerical-convergence expectation being tested under $\Delta t$ scaling. & Invariant: $F_{\max} = 0.75815\,\mathrm{kN}$ ($T_1$, \texttt{1406020}) $\to 0.75778\,\mathrm{kN}$ ($T_2$, \texttt{1406021}) $\to 0.75763\,\mathrm{kN}$ ($T_3$, \texttt{1406317}), spread $\Delta < 0.069\%$. & None across tested time-step range; \textbf{\texttt{CONVERGED / STABLE}}. \\
+\addlinespace
+5. Temporal Peak Disp. $u_{\mathrm{peak}}$ & Temporal invariance of peak displacement is the numerical-convergence expectation being tested under $\Delta t$ refinement. & Invariant: $u_{\mathrm{peak}} = 5.864\,\mu\mathrm{m}$ ($T_1$, \texttt{1406020}) $\to 5.857\,\mu\mathrm{m}$ ($T_2$, \texttt{1406021}) $\to 5.855\,\mu\mathrm{m}$ ($T_3$, \texttt{1406317}), spread $\Delta = 9\,\mathrm{nm}$ ($0.15\%$). & None across tested time-step range; \textbf{\texttt{CONVERGED / STABLE}}. \\
+\addlinespace
+6. Pre-Peak Work $W_{\mathrm{trap}}$ ($u \le 5.50\,\mu\mathrm{m}$) & Boundary work $W_{\mathrm{trap}} = \int F\,\mathrm{d}u$ is obtained by trapezoidal integration of measured reaction force along displacement path. & $W_{\mathrm{trap}} \in [2.035, 2.038]\,\mathrm{mJ}$ across all 11 cases ($\Delta < 0.15\%$). Baseline production (\texttt{1406015}) / diagnostic (\texttt{1406839}): elastic $u=2\,\mu\mathrm{m}$ gives $W_{\mathrm{trap}} = 0.27540\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.27452\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 0.00089\,\mathrm{mJ}$, $\mathcal{R}_{\mathrm{book}} = -0.001\%$; $u=5.5\,\mu\mathrm{m}$ yields $E_{\mathrm{frac}} = 0.05572\,\mathrm{mJ}$. & Stable over tested pre-peak range; \textbf{\texttt{CONVERGED / STABLE}}. \\
+\addlinespace
+7. Terminal Work $W_{\mathrm{trap}}$ ($u = 10.0\,\mu\mathrm{m}$) & Terminal $W_{\mathrm{trap}}$, $E_{\mathrm{elas}}$, and $E_{\mathrm{frac}}$ are separately observable endpoint quantities; their difference is reported algebraically. & Completed full runs: $W_{\mathrm{trap}} = 2.4101\,\mathrm{mJ}$ ($T_1$, \texttt{1406020}) $\to 2.3593\,\mathrm{mJ}$ ($T_2$, \texttt{1406021} / $S_1$, \texttt{1406015}) $\to 2.3319\,\mathrm{mJ}$ ($T_3$, \texttt{1406317}) ($3.24\%$ variation); cutback runs ($S_2$--$S_5$) truncated at $u=6.8$--$9.6\,\mu\mathrm{m}$. & Terminal work for $S_2$--$S_5$ unmeasured due to cutbacks; endpoint values not comparable across different horizons; \textbf{\texttt{TEMPORALLY SENSITIVE}}. \\
+\addlinespace
+8. Elastic Strain Energy $E_{\mathrm{elas}}$ & $E_{\mathrm{elas}} = \sum_e \int \frac{1}{2} g(\bar{d}_e) \boldsymbol{\varepsilon} : \mathbb{C}_0 : \boldsymbol{\varepsilon}\,\mathrm{d}\Omega$ with isotropic quadratic degradation $g(\bar{d}_e) = (1-\bar{d}_e)^2 + k_{\mathrm{res}}$. & Unit-105 CSV (\texttt{1406839}) \& ODB SDV18 IP1 (\texttt{1406015}, 15,192 elems): $0.2745\,\mathrm{mJ}$ ($u=2.0\,\mu\mathrm{m}$) $\to$ peaks near limit load at $2.2192\,\mathrm{mJ}$ ($u=5.857\,\mu\mathrm{m}$) $\to$ drops post-fracture to residual $0.0012\,\mathrm{mJ}$ ($1.1608\times 10^{-6}\,\mathrm{kN\cdot mm}$ at $u=10\,\mu\mathrm{m}$). In $S_3$ (\texttt{1406017}, 41,912 elems): $0.00067\,\mathrm{mJ}$ ($u=5.857\,\mu\mathrm{m}$, Frame 857) and $0.00066\,\mathrm{mJ}$ ($u=7.836\,\mu\mathrm{m}$, Frame 2837). & Spatial convergence across $S_2, S_4, S_5, A_1$--$A_3$ unquantified (unpopulated companion UMAT); residual stiffness $k_{\mathrm{res}}=10^{-7}$ retained; \textbf{\texttt{NOT YET QUALIFIED}}. \\
+\addlinespace
+9. Fracture Surface Energy $E_{\mathrm{frac}}$ & $E_{\mathrm{frac}} = \sum_e \int G_c [\frac{d^2}{2l_0} + \frac{l_0}{2}|\nabla d|^2]\,\mathrm{d}\Omega$; regularized fracture surface energy of diffuse crack. & Unit-105 CSV (\texttt{1406839}) \& ODB SDV17 IP1 (\texttt{1406015}): $0.0009\,\mathrm{mJ}$ ($u=2\,\mu\mathrm{m}$) $\to 0.0827\,\mathrm{mJ}$ ($u=5.857\,\mu\mathrm{m}$) $\to 2.3402\,\mathrm{mJ}$ ($u=10\,\mu\mathrm{m}$ in $S_1$, $99.19\%$ work). In $S_3$ (\texttt{1406017}): $2.3570\,\mathrm{mJ}$ ($u=5.857\,\mu\mathrm{m}$, Frame 857) and $2.3572\,\mathrm{mJ}$ ($u=7.836\,\mu\mathrm{m}$, Frame 2837). & Spatial convergence across fine meshes unquantified in cutback runs; \textbf{\texttt{NOT YET QUALIFIED}}. \\
+\addlinespace
+10. Two-Term Bookkeeping $\mathcal{R}_{\mathrm{book}}$ & Pure algebraic difference defined as $\mathcal{R}_{\mathrm{book}} \equiv W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$; cause of nonzero value/trend unproven. & Baseline $S_1$ (\texttt{1406015}) / diagnostic (\texttt{1406839}): elastic $u=2\,\mu\mathrm{m}$ gives $-0.001\%$; peak $u=5.857\,\mu\mathrm{m}$ gives $-0.007\% \approx -0.01\%$; terminal $u=10\,\mu\mathrm{m}$ gives $+0.7607\%$. $T_1 \to T_3$: $+0.378\% \to +3.541\%$. Mesh $S_3$ (\texttt{1406017}): at reference peak $u=5.857\,\mu\mathrm{m}$ (Frame 857, post-peak residual state in $S_3$), $W_{\mathrm{trap}} = 2.1899\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.00067\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 2.3570\,\mathrm{mJ}$, $\mathcal{R}_{\mathrm{book}} = -0.1678\,\mathrm{mJ}$ ($-7.66\%$ on $W_{\mathrm{trap}}$, $-7.12\%$ on $E_{\mathrm{int}}$); at terminal $u=7.836\,\mu\mathrm{m}$ (Frame 2837), $W_{\mathrm{trap}} = 2.1902\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.00066\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 2.3572\,\mathrm{mJ}$, $\mathcal{R}_{\mathrm{book}} = -0.1676\,\mathrm{mJ}$ ($-7.65\%$ on $W_{\mathrm{trap}}$, $-7.11\%$ on $E_{\mathrm{int}}$). & Causal attribution unproved without subiteration logging; unlabeled percentages prohibited; \textbf{\texttt{TEMPORALLY SENSITIVE}}. \\
+\addlinespace
+11. Global Energy Identity $\Delta \mathcal{R}_{\mathrm{closed}}$ & Candidate closed form $\Delta \mathcal{R}_{\mathrm{closed}} = 0$ is not established for this staggered implementation (lacks joint potential). & Standard uninstrumented Abaqus output does not persist within-increment path $\mathbf{u}(\tau)$ or $\psi_0^{+, n+1/2}$ (Outcome~B). & \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}}; no exact closed algorithmic identity established; standard outputs insufficient; \textbf{\texttt{NOT YET QUALIFIED}}. \\
+\addlinespace
+12. Crack Centroid Path $y_c(x)$ & Symmetric Mode-I benchmark is expected to favor crack extension along geometric centerline $y = 0.500\,\mathrm{mm}$. & Damage-weighted centroid offset $|y_c - 0.5\,\mathrm{mm}| \le 3.10\,\mu\mathrm{m}$ across all fixed and adaptive meshes ($S_1$: $2.46\,\mu\mathrm{m}$ [\texttt{1406015}], $S_2$: $2.62\,\mu\mathrm{m}$ [\texttt{1406016}], $S_3$: $3.10\,\mu\mathrm{m}$ [\texttt{1406017}], $S_4$: $2.93\,\mu\mathrm{m}$ [\texttt{1406018}], $A_1$--$A_4 \le 1.50\,\mu\mathrm{m}$); bounded within single element dimension. & Pure Mode-I symmetry preserved within discrete grid resolution; \textbf{\texttt{CONVERGED / STABLE}}. \\
+\addlinespace
+13. Localization Band Full-Width & Ideal 1D stationary AT2 profile $d(y) = \exp(-|y|/l_0)$ has theoretical FWHM $2 l_0 \ln 2 \approx 1.386 l_0 = 10.4\,\mu\mathrm{m}$ for $l_0 = 7.5\,\mu\mathrm{m}$ (ideal reference, not 2D propagating target). & Measured transverse width $w_{d \ge 0.5} = 20.0$--$30.0\,\mu\mathrm{m}$ across ligament ($20.0$--$22.9\,\mu\mathrm{m}$ at $x=0.55\,\mathrm{mm}$ in \texttt{1406015}); core zone spans $9.5$--$14.4\,\mu\mathrm{m}$. & Band width varies $>40\%$ with mesh resolution (cell-averaged sampling); active $l_0$ sweep (\texttt{1406895}, \texttt{1406896}) will characterize $w/l_0$; \textbf{\texttt{MESH-SENSITIVE}}. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+

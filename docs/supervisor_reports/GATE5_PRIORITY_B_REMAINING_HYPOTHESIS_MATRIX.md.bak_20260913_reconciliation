@@ -1,0 +1,86 @@
+# Gate 5: Priority-B Remaining-Hypothesis Matrix (71,320 vs 13,941 Discrepancy)
+
+**Document Reference:** `GATE5_PRIORITY_B_REMAINING_HYPOTHESIS_MATRIX.md`  
+**Date:** September 13, 2026  
+**Status:** `AUTHOR_INFORMATION_REQUEST_READY_FOR_HUMAN_APPROVAL_UNSENT`  
+**Investigation Topic:** Forensic Attribution of the Discrepancy between Published Nominal 1% Cardinality ($N_{\text{el}} = 13,941$, Section 4.1) and Literal Reproduction ($N_{\text{el}} = 71,320$, Listing 1).  
+**Primary Reference:** Pandey, A., & Kumar, S. (2025). "A Simple and Robust Mesh Refinement Implementation in Abaqus for Phase Field Modelling of Brittle Fracture." *Computer Modeling in Engineering & Sciences* (CMES), Vol. 144, No. 3, pp. 3251–3286. DOI: [10.32604/cmes.2025.067858](https://doi.org/10.32604/cmes.2025.067858)  
+**Associated Inquiry Draft:** [`docs/supervisor_reports/GATE5_AUTHOR_REPRODUCIBILITY_INQUIRY_DRAFT.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/GATE5_AUTHOR_REPRODUCIBILITY_INQUIRY_DRAFT.md)  
+**Accompanying Visual Artifact:** [`docs/thesis/figures/figure_gate5_author_inquiry_mesh_comparison.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/thesis/figures/figure_gate5_author_inquiry_mesh_comparison.png)
+
+---
+
+## 1. Executive Summary
+
+This matrix synthesizes all tested numerical, algorithmic, and formulation factors investigated to explain why literal execution of the published Python workflow (Listing 1: `errorTarget=1.0`, $h_{\min}=0.001\,\text{mm}, h_{\max}=0.020\,\text{mm}, \text{refinementFactor}=10, \text{coarseningFactor}=\text{NOT\_ALLOWED}$) produces **71,320 finite elements** across Abaqus 2021, 2022, and 2023 on Linux, while Section 4.1 (p. 3265, Line 1027) reports approximately **13,941 finite elements**.
+
+Every factor is assigned an explicit epistemic classification:
+- `RULED_OUT`: Proven by rigorous numerical/topological testing to have zero effect or to be impossible under the native Abaqus workflow.
+- `TESTED_NO_MATERIAL_EFFECT`: Evaluated across realistic parameter ranges with no substantial change toward 13,941.
+- `PLAUSIBLE_UNTESTED`: Potentially influential mechanism that has not yet been isolated by a controlled one-factor test.
+- `PUBLICATION_INFORMATION_MISSING` / `PUBLICATION_LINKAGE_AMBIGUOUS`: Verified parameter, rule, or setting omitted from the publication text/listings.
+- `RELEASE_PLUS_PLATFORM_CONFOUNDED` / `CONFOUNDED`: Tested configuration that simultaneously varied multiple numerical/formulation parameters or produced secondary artifacts.
+
+---
+
+## 2. Comprehensive Hypothesis Matrix
+
+| # | Investigated Factor / Dimension | Tested Configuration / Range | Observed Outcome | Epistemic Classification | Supporting Artifacts & Evidence |
+| :-: | :--- | :--- | :--- | :---: | :--- |
+| **1** | **Abaqus Release Invariance (Linux)** | Abaqus 2021.HF26 vs 2022 GA vs 2023.HF4 on Ubuntu/Linux | Identical substantive mesh topology and geometry (71,320 finite elements: 69,443 CPE4 + 1,877 CPE3, 70,845 nodes; identical normalized coord/conn hashes) | `RULED_OUT` | Jobs `1404373.mmaster02`, `1404968.mmaster02`; [`docs/supervisor_reports/GATE5_ABQ2021_RELEASE_INVARIANCE_AUDIT.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/GATE5_ABQ2021_RELEASE_INVARIANCE_AUDIT.md) |
+| **2** | **Abaqus Platform & Release Variation** | Abaqus 2024 GA Windows (`win_b64`) vs Linux (`lnx86_64`) | 71,904 elements on Windows (+584 elements, +0.82% delta vs Linux 71,320); does not bridge the gap to 13,941 | `RELEASE_PLUS_PLATFORM_CONFOUNDED` | Local 2024 GA execution; shows accessible software variation does not explain 13,941 |
+| **3** | **Pre-Analysis Load Scale / Frame** | Linear elastic stroke $u_2 \in [0.0010, 0.0100]\,\text{mm}$ ($0.2\times$ to $2.0\times$ reference) | Relative error $\eta = \text{MISESERI}/\bar{\sigma}$ is scale-invariant; identical element sizing and 71,320 count | `RULED_OUT` | Job `1404383.mmaster02`; scale-invariance proven analytically and empirically |
+| **4** | **Coarse Meshing Algorithm (Quad vs Quad-Dominated)** | Default `QUAD_DOMINATED/ADVANCING_FRONT` vs `QUAD/MEDIAL_AXIS` vs `QUAD/ADVANCING_FRONT` | Pure quad setups (`MEDIAL_AXIS`, `ADVANCING_FRONT`) caused `adaptiveRemesh` to fail with `No active adaptive meshable regions found`; default `QUAD_DOMINATED` yields 2,906 coarse and 71,320 adapted elements | `RULED_OUT` | [`ADAPTIVE_REMESH_COMPAT_RESULTS.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/90_gate5_coarse_mesher_ofat/ADAPTIVE_REMESH_COMPAT_RESULTS.json) |
+| **5** | **Coarse Mesh Seed Parameters** | `minSizeFactor` $\in [0.01, 0.50]$, `deviationFactor` $\in [0.01, 0.50]$, explicit edge seeds | Identical 2,906 coarse meshes (coord hash `3eb02385...`, conn hash `f947ad99...`) and 71,320 adapted meshes | `RULED_OUT` | [`GATE5_COARSE_SEEDING_OFAT_RESULTS.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/90_gate5_coarse_mesher_ofat/GATE5_COARSE_SEEDING_OFAT_RESULTS.json) |
+| **6** | **Coarser Initial Mesh Size ($h_{\text{cms}}$)** | $h_{\text{cms}} = 0.030\,\text{mm}$ (1,303 coarse elements) vs $h_{\text{cms}} = 0.020\,\text{mm}$ (2,906 elements) | Yields 39,375 adapted elements at $\eta=1.0\%$ (does not reach 13,941 without coarsening) | `TESTED_NO_MATERIAL_EFFECT` | Candidate $D6$ / $C6$; Table 1 of paper associates $h_{\text{cms}}=0.03$ with sensitivity study |
+| **7** | **Pre-Analysis Continuum Formulation** | Plane Strain (CPE4) vs Plane Stress (CPS4) | CPE4 yields 71,320 elements; CPS4 yields 58,679 elements (at $\eta=1.0\%$) | `CONFOUNDED` | Job `1404959.mmaster02`; CPS4 shifts Poisson coupling but remains far above 13,941 |
+| **8** | **Remeshing Sizing Bounds Policy** | Unconstrained sizing (`specifyMinSize=False`, `specifyMaxSize=False`) | Yields 58,131 elements (Abaqus default bounds $h_{\min}=0.30$, $h_{\max}=100.0$) | `TESTED_NO_MATERIAL_EFFECT` | Candidate $D3$; does not account for 13,941 |
+| **9** | **Coarsening Policy** | `coarseningFactor = DEFAULT_LIMIT` (~3.0) vs `NOT_ALLOWED` | Yields 58,813 elements under nominal $h_0 = 0.02\,\text{mm}$ | `TESTED_NO_MATERIAL_EFFECT` | Candidate $D2$; coarsening reduces bulk elements but remains $>4\times$ literature |
+| **10** | **Output Frequency Specification** | `outputFrequency = LAST_INCREMENT` vs `ALL_INCREMENTS` | Yields 58,679 elements (CPS4) / 58,679 elements under single-increment static solve | `TESTED_NO_MATERIAL_EFFECT` | Candidate $D5$; pre-analysis is single static step so frame content is identical |
+| **11** | **Adaptive Region Definition (Whole Specimen vs Sub-Region)** | Full part faces (`inst.All_elem`, whole specimen) vs unstated partitioned sub-domain | Section 3.3 and Section 4.1 explicitly prescribe whole-domain remeshing on `All_elem` (yielding 71,320 elements). No partition, corridor, or bounding box is mentioned in publication text (0 hits). Restricting remeshing to an unstated local partition would require inventing arbitrary geometric parameters. | `PUBLICATION_INFORMATION_MISSING` | Sec. 3.3 (p. 3262), Sec. 4.1 (p. 3265), Listing 1 (`reg = a.sets[instance_name + '.All_elem']`); [`scratch/TSP_CMES_67858_text.txt`](file:///C:/Users/pruth/.gemini/antigravity-cli/brain/2e534900-9673-4d4a-984d-3f065170c029/scratch/TSP_CMES_67858_text.txt) |
+| **12** | **Multi-Pass Remeshing Loop** | 2-pass (pre-analysis $\to$ single remesh) vs iterative multi-pass | Section 3 explicitly describes a 2-pass workflow (Job-1 $\to$ Job-2); multi-pass not supported by text | `RULED_OUT` | Section 3.1-3.3 text specifies 2-pass static pre-refinement |
+| **13** | **Section 4.1 Error Target Linkage** | Listing 1 literal $\text{errorTarget}=1.0\%$ vs Section 4.1 call configuration | Listing 1 hardcodes 1.0; Section 4.1 text does not explicitly state parameter linkage; executing literal code yields 71,320 | `PUBLICATION_LINKAGE_AMBIGUOUS` | Section 4.1 text, p. 3265; Listing 1, p. 3262 |
+
+---
+
+## 3. Epistemic Classification Summary
+
+```
++---------------------------------------------------------------------------------------+
+| TOTAL INVESTIGATED FACTORS: 13                                                        |
++---------------------------------------------------------------------------------------+
+| 1. RULED OUT (5 factors):                                                             |
+|    - Abaqus Linux release effect (2021, 2022, 2023 substantive mesh identity)         |
+|    - Pre-analysis load scale (scale-invariance of relative error eta)                 |
+|    - Coarse meshing algorithm controls (pure quads fail adaptiveRemesh)               |
+|    - Coarse seeding parameters (minSizeFactor, devFactor, edge seeds invariant)       |
+|    - Multi-pass iterative remeshing (2-pass architecture explicitly defined)          |
+|                                                                                       |
+| 2. TESTED NO MATERIAL EFFECT (4 factors):                                             |
+|    - Coarser initial mesh h_cms = 0.03 mm (yields 39,375 elements)                    |
+|    - Unconstrained sizing bounds (yields 58,131 elements)                             |
+|    - Coarsening factor DEFAULT_LIMIT (yields 58,813 elements)                         |
+|    - Output frequency specification (yields 58,679 elements)                          |
+|                                                                                       |
+| 3. CONFOUNDED (2 factors):                                                            |
+|    - Platform & release variation (Windows 2024 GA: +0.82% delta)                     |
+|    - Plane stress CPS4 formulation (58,679 elements, formulation test)                |
+|                                                                                       |
+| 4. PUBLICATION INFORMATION MISSING (1 factor):                                        |
+|    - Sub-domain remeshing region partitioning (unstated in text; 0 hits in paper)     |
+|                                                                                       |
+| 5. PUBLICATION LINKAGE AMBIGUOUS (1 factor):                                          |
+|    - Section 4.1 call-site linkage to Listing 1 (errorTarget=1.0 -> 71,320)           |
++---------------------------------------------------------------------------------------+
+```
+
+---
+
+## 4. Current Status & Governance Directive
+
+The 71,320-versus-13,941 cardinality discrepancy is **not** an artifact of numerical error, solver version, loading amplitude, or coarse mesh generation controls. Literal execution of the published code (Listing 1) across all verified environments deterministically generates 71,320 elements. 
+
+To resolve the missing publication facts without speculative parameter tuning:
+- **Author Inquiry Prepared:** Minimal 7-question technical query formatted in [`GATE5_AUTHOR_REPRODUCIBILITY_INQUIRY_DRAFT.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/GATE5_AUTHOR_REPRODUCIBILITY_INQUIRY_DRAFT.md).
+- **Current Operational Status:** `AUTHOR_INFORMATION_REQUEST_READY_FOR_HUMAN_APPROVAL_UNSENT`.
+- **Transmission Constraint:** Unsent pending explicit human/supervisor authorization.

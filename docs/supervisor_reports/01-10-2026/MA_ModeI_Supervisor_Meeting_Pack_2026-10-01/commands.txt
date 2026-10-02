@@ -1,0 +1,43 @@
+================================================================================
+MODE-I SUPERVISOR MEETING PACKAGE (08 OCTOBER 2026) -- EXECUTION COMMANDS
+================================================================================
+
+1. COMPILING THE SUPERVISOR MEETING PACKAGE (LATEX -> PDF):
+--------------------------------------------------------------------------------
+# Using pdflatex + bibtex
+pdflatex -interaction=nonstopmode report_main.tex
+bibtex report_main
+pdflatex -interaction=nonstopmode report_main.tex
+pdflatex -interaction=nonstopmode report_main.tex
+
+# Compiling the One-Page Meeting Agenda
+pdflatex -interaction=nonstopmode MEETING_AGENDA_ONE_PAGE.tex
+
+# Compiling the Authoritative Key Numbers Cheat Sheet
+pdflatex -interaction=nonstopmode MEETING_KEY_NUMBERS_ONE_PAGE.tex
+
+--------------------------------------------------------------------------------
+2. COMPILING THE FULL THESIS REPORT (CHAPTERS 1-4):
+--------------------------------------------------------------------------------
+cd "D:\Master thesis\Adaptive remeshing\docs\MA_AdaptiveRemeshing_Report_2026_main"
+pdflatex -interaction=nonstopmode main.tex
+bibtex main
+pdflatex -interaction=nonstopmode main.tex
+pdflatex -interaction=nonstopmode main.tex
+
+--------------------------------------------------------------------------------
+3. LOCAL/HPC REPRODUCTION OF MODE-I ABAQUS SIMULATIONS:
+--------------------------------------------------------------------------------
+# Pre-analysis Job 1 (Linear Elasticity on Coarse Grid):
+abaqus job=PK_M1_PRE input=PK_M1_PRE.inp user=f42_mixed_uel.for interactive
+
+# Native Adaptive Remeshing Execution (Python):
+abaqus cae noGUI=apply_miseseri_remesh_export.py
+
+# Multi-Layer Fracture Solve (Job 2):
+abaqus job=PK_M1_S1_H0030 input=PK_M1_S1_H0030.inp user=f42_mixed_uel.for cpus=1 interactive
+
+# Single-IP Energy Post-Processing Extraction:
+python extract_mode1_convergence_energy.py --job PK_M1_S1_H0030 --odb PK_M1_S1_H0030.odb
+
+================================================================================

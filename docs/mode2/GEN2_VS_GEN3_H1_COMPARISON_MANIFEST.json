@@ -1,0 +1,72 @@
+{
+  "manifest_metadata": {
+    "title": "Mode-II Literature-Faithful Free-uy (H1) Comparison Manifest",
+    "purpose": "Define exact equivalence ledger between Gen-2 transactional baseline and Gen-3 energy-instrumented candidate",
+    "governing_authorization": "Human Authorized (24 September 2026)",
+    "scientific_phase": "MODE2_BENCHMARK_PROVENANCE_QUALIFICATION_ACTIVE",
+    "provisional_parity_classification": "H1_GEN3_MECHANICAL_PARITY_QUALIFIED — MODE2_FIXED_REFERENCE_SCIENTIFIC_QUALIFICATION_ACTIVE"
+  },
+  "epistemological_anchors": {
+    "boundary_value_problem": "Pandey & Kumar (2025) Section 4.2 Mode-II shear plate (1x1 mm, clamped bottom, horizontal shear top)",
+    "top_vertical_displacement_uy": "[UNRESOLVED_FROM_PUBLICATION] — literature-faithful candidate model leaves top uy unconstrained (free-uy)",
+    "initial_elastic_stiffness_k0": "[PROJECT-DERIVED H1 RESPONSE FOR TOP-UY-FREE IMPLEMENTATION] (~12.83 kN/mm, not a published fact)",
+    "governing_case_name": "Mode-II literature-faithful free-uy H1 candidate",
+    "element_layer_composition": "12,064 underlying finite elements across 3 co-located layers = 36,192 Abaqus element objects (U1 phase, U2 mechanical, CPE4 companion visualizer)",
+    "energy_governance": "GLOBAL_ENERGY_IDENTITY — NOT_YET_CLOSED",
+    "external_work_wtrap_status": "Reconciled exact trapezoidal external work W_trap = 0.002732851 kN*mm = 2.732851 mJ across all 144 increments"
+  },
+  "baseline_package": {
+    "solver_job_id": "1389686.mmaster02",
+    "deck_path": "models/generated/mode_ii/production_verification_batch/M2CORR_H1_FREEU2_FULL_U050/M2CORR_H1_FREEU2_FULL_U050.inp",
+    "deck_sha256": "ba79fc5a89b51edceee5830252d0eed6f6213992cee056fb968cea9acad8b0b7",
+    "deck_size_bytes": 2203145,
+    "deck_lines": 49435,
+    "subroutine_file": "f42_mixed_uel_transactional.for",
+    "subroutine_class": "Generation 2 Transactional Subroutine",
+    "subroutine_sha256": "ed1586d6427a4b1a01d99f7e219891ec7be9fe911e066d9360724942e7d27720",
+    "subroutine_size_bytes": 13597,
+    "total_increments": 144,
+    "total_attempts": 151,
+    "k0_secant_kN_mm": 12.834574,
+    "k0_linear_fit_kN_mm": 12.734791,
+    "f_max_kN": 0.143686,
+    "u_fmax_mm": 0.012530,
+    "terminal_f_kN": 0.008640,
+    "terminal_u_mm": 0.050000,
+    "w_trap_kN_mm": 0.002732851,
+    "w_trap_mJ": 2.732851
+  },
+  "candidate_package": {
+    "solver_job_id": "1408543.mmaster02",
+    "deck_path": "models/pandey_kumar_mode2/02_reference_h1/M2_H1_reference.inp",
+    "deck_sha256": "81c3c9f2b8429188f5a415ff68f44ffdafe10e6e7c10b77b1e4f4d2f00d2da0a",
+    "deck_size_bytes": 2202929,
+    "deck_lines": 49428,
+    "subroutine_file": "f42_mixed_uel.for",
+    "subroutine_class": "Generation 3 Energy-Instrumented Subroutine",
+    "subroutine_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "subroutine_size_bytes": 29401,
+    "total_increments": 144,
+    "total_attempts": 151,
+    "k0_secant_kN_mm": 12.834574,
+    "k0_linear_fit_kN_mm": 12.734791,
+    "f_max_kN": 0.143686,
+    "u_fmax_mm": 0.012530,
+    "terminal_f_kN": 0.008640,
+    "terminal_u_mm": 0.050000,
+    "w_trap_kN_mm": 0.002732851,
+    "w_trap_mJ": 2.732851
+  },
+  "parity_ledger": {
+    "geometry_domain": "IDENTICAL (1.0 x 1.0 mm square domain)",
+    "initial_crack_geometry": "IDENTICAL (0.5 mm sharp horizontal slit at y = 0.0 mm on [-0.5, 0.5] domain)",
+    "node_count": "IDENTICAL (12,383 nodes: 1 to 12382, RP 12383)",
+    "underlying_elements": "IDENTICAL (12,064 elements)",
+    "element_layers": "IDENTICAL (3 layers: 12,064 U1 + 12,064 U2 + 12,064 CPE4 = 36,192 objects)",
+    "multipoint_constraints": "IDENTICAL (234 equations coupling top nodes in DOF 1 to RP)",
+    "boundary_conditions": "IDENTICAL (bottom clamped in DOF 1 and 2; top nodes free in DOF 2; RP sheared)",
+    "step_and_incrementation_controls": "IDENTICAL (Static, monotonic shear u1 = 0.050 mm, dt0=1e-5, dtmin=1e-9)",
+    "mechanical_parity_status": "NUMERICAL_MECHANICAL_PARITY_CONFIRMED AT EXTRACTED OUTPUT PRECISION (Delta = 0.000% across all 144 increments)",
+    "energy_instrumentation_invasiveness": "CONFIRMED ZERO MECHANICAL INVASIVENESS for common H1 quadrilateral case"
+  }
+}

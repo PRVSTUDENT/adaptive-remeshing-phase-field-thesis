@@ -1,0 +1,163 @@
+{
+  "active_task_id": "TASK5_PANDEY_KUMAR_PROPOSED_ADAPTIVE_PFM_DUAL_PRODUCTION_TERMINAL_EVALUATION",
+  "workflow_phase": "TASK5_DUAL_PRODUCTION_SOLVES_COMPLETED_TERMINAL_EVALUATION",
+  "thesis_milestone": "TASK_5_ACTIVE_QUANTITATIVE_RECONCILIATION",
+  "task_status": "DUAL_PRODUCTION_SOLVES_COMPLETED_SUCCESSFULLY_EXIT_0",
+  "job_identity_reconciliation": {
+    "1400381.mmaster02": {
+      "exact_job_name": "PK_M1_5PCT_DC",
+      "submit_arguments": "submit_datacheck.pbs",
+      "classification": "DATACHECK_ONLY_PASS_EXIT_0",
+      "model_directory": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/07_production_adaptive_5pct",
+      "reconciliation_verdict": "VERIFIED_DATACHECK_NOT_PRODUCTION_SOLVE"
+    },
+    "1400382.mmaster02": {
+      "exact_job_name": "PK_M1_5PCT_SOLVE",
+      "submit_arguments": "submit_solver.pbs",
+      "classification": "5PCT_NONLINEAR_PRODUCTION_SOLVE_COMPLETED_EXIT_0",
+      "model_directory": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/07_production_adaptive_5pct",
+      "reconciliation_verdict": "AUTHORITATIVE_5PCT_PRODUCTION_SOLVE"
+    },
+    "1400368.mmaster02": {
+      "exact_job_name": "PK_MODE1_P_SOLVE",
+      "submit_arguments": "submit_solver.pbs",
+      "classification": "2PCT_NONLINEAR_PRODUCTION_SOLVE_COMPLETED_EXIT_0",
+      "model_directory": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/06_production_adaptive_2pct",
+      "reconciliation_verdict": "AUTHORITATIVE_2PCT_PRODUCTION_SOLVE"
+    }
+  },
+  "concurrency_control": {
+    "max_concurrent_running_jobs": 2,
+    "current_running_jobs_count": 0,
+    "available_execution_slots": 2,
+    "enforcement": "STRICT_CANDIDATE_IDENTITY_AND_SLOT_BOUNDED"
+  },
+  "completed_production_jobs": [
+    {
+      "pbs_job_id": "1400368.mmaster02",
+      "job_name": "PK_MODE1_P_SOLVE",
+      "queue": "normal_imfdfkmq",
+      "job_state": "F",
+      "exit_status": 0,
+      "execution_node": "mnode097/0",
+      "start_time": "2026-09-01T21:11:10+02:00",
+      "end_time": "2026-09-01T21:46:20+02:00",
+      "walltime_used": "00:35:04",
+      "cput_used": "00:34:57",
+      "cpupercent": 99,
+      "mem_used_kb": 564076,
+      "model_directory": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/06_production_adaptive_2pct",
+      "case_name": "PK_MODE1_PROPOSED_PFM",
+      "input_deck_sha256": "9c5b64a132f9ed6021c8b305bd47af48bfa096c52fd9b6746708fe54970b3de8",
+      "phys_inp_sha256": "ad5e74a96ee2fc00c93a9789225ef0175422a7b7e07752e7211a2aa07773d080",
+      "subroutine_sha256": "5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd",
+      "pbs_script_sha256": "04b18c1517c9b6f00de61444c81c6a0a89eaff56846f7b7c3542df8875761386",
+      "datacheck_job_id": "1400367.mmaster02",
+      "datacheck_status": "PASSED_EXIT_0",
+      "solver_completion_status": "THE ANALYSIS HAS COMPLETED SUCCESSFULLY",
+      "mesh_discretization": {
+        "error_target_pct": 2.0,
+        "physical_elements": 15396,
+        "quad_elements": 14963,
+        "tri_elements": 433,
+        "quad_ratio_pct": 97.19,
+        "physical_nodes": 15414,
+        "min_element_size_mm": 0.000435,
+        "max_element_size_mm": 0.023106,
+        "mean_element_size_mm": 0.006747
+      },
+      "elastic_qualification": {
+        "K0_linear_elastic_kN_per_mm": 125.586922,
+        "damage_d_zero_verified": true
+      }
+    },
+    {
+      "pbs_job_id": "1400382.mmaster02",
+      "job_name": "PK_M1_5PCT_SOLVE",
+      "queue": "normal_imfdfkmq",
+      "job_state": "F",
+      "exit_status": 0,
+      "execution_node": "mnode097/1",
+      "start_time": "2026-09-01T21:32:40+02:00",
+      "end_time": "2026-09-01T21:42:32+02:00",
+      "walltime_used": "00:09:45",
+      "cput_used": "00:09:41",
+      "cpupercent": 99,
+      "mem_used_kb": 347096,
+      "model_directory": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/07_production_adaptive_5pct",
+      "case_name": "PK_MODE1_5PCT_PFM",
+      "input_deck_sha256": "1c5835440d2a2c32b47e6d243185125c494afdc58f2acfd83992382a11705be8",
+      "phys_inp_sha256": "c80c0dc7d7849e06630da07002b98df1f1763426cb5ee1df3e5c63eeafc22787",
+      "subroutine_sha256": "5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd",
+      "pbs_script_sha256": "2b199ba11c4b688da20a9fd60d5a87dc71023b7fa477d75ec712bb04de816028",
+      "datacheck_job_id": "1400381.mmaster02",
+      "datacheck_status": "PASSED_EXIT_0",
+      "solver_completion_status": "THE ANALYSIS HAS COMPLETED SUCCESSFULLY",
+      "mesh_discretization": {
+        "error_target_pct": 5.0,
+        "physical_elements": 4194,
+        "quad_elements": 4055,
+        "tri_elements": 139,
+        "quad_ratio_pct": 96.69,
+        "physical_nodes": 4274,
+        "min_element_size_mm": 0.001357,
+        "max_element_size_mm": 0.024531,
+        "mean_element_size_mm": 0.014735
+      },
+      "elastic_qualification": {
+        "K0_linear_elastic_kN_per_mm": 132.770286,
+        "damage_d_zero_verified": true
+      }
+    }
+  ],
+  "stiffness_progression_summary": {
+    "standard_unrefined_baseline_1398090": {
+      "elements": 15192,
+      "K0_kN_per_mm": 138.08
+    },
+    "adaptive_1pct_1399632": {
+      "elements": 71320,
+      "K0_kN_per_mm": 122.53
+    },
+    "adaptive_2pct_1400368": {
+      "elements": 15396,
+      "K0_kN_per_mm": 125.5869
+    },
+    "adaptive_5pct_1400382": {
+      "elements": 4194,
+      "K0_kN_per_mm": 132.7703
+    }
+  },
+  "predecessor_records": [
+    {
+      "pbs_job_id": "1400364.mmaster02",
+      "error_target_pct": 2.0,
+      "classification": "TECHNICAL_INVALID_FILE_COLLISION",
+      "archive_directory": "models/pandey_kumar_mode1/02_proposed_adaptive_refined/predecessor_collision_1400364_1400366/"
+    },
+    {
+      "pbs_job_id": "1400366.mmaster02",
+      "error_target_pct": 2.0,
+      "classification": "ACCIDENTAL_DUPLICATE_CANCELLED_FILE_COLLISION",
+      "archive_directory": "models/pandey_kumar_mode1/02_proposed_adaptive_refined/predecessor_collision_1400364_1400366/"
+    },
+    {
+      "pbs_job_id": "1399632.mmaster02",
+      "error_target_pct": 1.0,
+      "physical_elements": 71320,
+      "classification": "TECHNICAL_COMPLETION_QUANTITATIVE_REPRODUCTION_FAILED",
+      "F_peak_kN": 0.478203,
+      "u_peak_mm": 0.004150,
+      "K0_kN_per_mm": 122.53,
+      "archive_directory": "models/pandey_kumar_mode1/02_proposed_adaptive_refined/predecessor_1399632/"
+    },
+    {
+      "pbs_job_id": "1398865.mmaster02",
+      "classification": "NUMERICAL_TERMINATION_MINIMUM_INCREMENT_1E-9_EXHAUSTED",
+      "archive_directory": "models/pandey_kumar_mode1/02_proposed_adaptive_refined/predecessor_1398865/"
+    }
+  ],
+  "notification_status": "Telegram = VERIFIED WORKING / Email = DEFECT (retained)",
+  "next_mandated_thesis_task": "TASK_5_EXTRACT_AND_EVALUATE_NONLINEAR_RF_U_RESULTS_FROM_1400368_AND_1400382",
+  "timestamp": "2026-09-01T21:53:00+02:00"
+}

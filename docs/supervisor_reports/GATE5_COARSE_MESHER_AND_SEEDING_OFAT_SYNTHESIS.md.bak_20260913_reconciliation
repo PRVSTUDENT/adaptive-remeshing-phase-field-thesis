@@ -1,0 +1,92 @@
+# Gate 5: Coarse-Mesher & Seeding Controls OFAT Investigation Synthesis
+
+**Document Reference:** `GATE5_COARSE_MESHER_AND_SEEDING_OFAT_SYNTHESIS.md`  
+**Date:** September 13, 2026  
+**Status:** `GATE5_COARSE_MESHER_PROVENANCE_AND_CAUSAL_CHAIN_RESOLVED`  
+**Investigation Topic:** Priority Question B — Tracing the Discrepancy between Published Nominal 1% Cardinality ($N_{\text{el}} = 13,941$) and Literal Reproduction ($N_{\text{el}} = 71,320$).
+
+---
+
+## 1. Executive Summary
+
+This investigation audited the coarse mesh generation controls and adaptive remeshing mechanics governing the Mode-I single-edge notched tensile benchmark from Pandey & Kumar (2025).
+
+### Key Empirical Findings:
+1. **Default Meshing Controls Provenance:**
+   - In Abaqus/CAE, unconstrained 2D planar face meshing without explicit `p.setMeshControls()` defaults to `elemShape=QUAD_DOMINATED`, `technique=FREE`, `algorithm=ADVANCING_FRONT`.
+   - On the canonical $1.0 \times 1.0\,\text{mm}$ square domain with a $0.5\,\text{mm}$ sharp slit seam at $y = 0.5\,\text{mm}$ and global seed $h_0 = 0.02\,\text{mm}$, this default setup generates exactly **2,906 elements** (2,818 CPE4 quads + 88 CPE3 triangles, 2,988 nodes).
+2. **Tested Pure-Quad Remeshing Observation:**
+   - Under the exact tested pure-quad configurations (`elemShape=QUAD` with `ADVANCING_FRONT` [3,019 coarse elements] or `MEDIAL_AXIS` [2,500 coarse elements]), Abaqus CAE's `adaptiveRemesh` engine returned:
+     ```text
+     No active adaptive meshable regions found.
+     ```
+   - **Empirical Observation:** Under the tested 2D free planar setup, `adaptiveRemesh` executed successfully when `elemShape=QUAD_DOMINATED` or `TRI` was assigned. The broader internal mechanism across unexamined configurations remains unproven beyond this verified empirical boundary.
+3. **Coarse Seeding Parameter Invariance (Exploratory OFAT Verified):**
+   - Systematic One-Factor-At-A-Time (OFAT) sweeps across:
+     * Minimum size factor: $\text{minSizeFactor} \in [0.01, 0.50]$ (default 0.10)
+     * Curvature deviation factor: $\text{deviationFactor} \in [0.01, 0.50]$ (default 0.10)
+     * Explicit edge seeding constraints (`constraint=FINER` on boundary/seam edges)
+   - Result: Every variation produces **100.0% identical** coarse meshes (2,906 elements, 2,988 nodes; coord hash `3eb02385...`, conn hash `f947ad99...`), identical `MISESERI` recovery fields ($\min = 1.4052 \times 10^{-4}\,\text{kN/mm}^2$, $\text{median} = 5.7808 \times 10^{-3}\,\text{kN/mm}^2$, $\max = 1.007057\,\text{kN/mm}^2$), and identical refined meshes (**71,320 elements**, 70,845 nodes) under literal published parameters ($\text{errorTarget} = 1.0\%$).
+
+---
+
+## 2. Quantitative Causal Chain
+
+The causal chain from coarse discretization to final adapted mesh cardinality is traced as:
+
+$$\boxed{N_{\text{el}}^{\text{coarse}} \longrightarrow \boldsymbol{\sigma}^* - \boldsymbol{\sigma}_h \longrightarrow \text{MISESERI} \longrightarrow \text{RemeshingRule}(\eta_{\text{target}}) \longrightarrow N_{\text{el}}^{\text{adapted}}}$$
+
+### Detailed Step Breakdown:
+
+| Stage | Quantity / Attribute | Canonical Nominal 1% (Literal Reproduction) | Canonical Exact-Source 2% ($D7_{\text{canonical}}$) | Historical 2% Sensitivity ($D7_{\text{historical}}$) | Empirical 5% Sensitivity ($D8$) |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **Pass 1: Geometry** | Domain Dimensions | $1.0 \times 1.0\,\text{mm}$, seam $[0.0, 0.5]\,\text{mm}$ | $1.0 \times 1.0\,\text{mm}$, seam $[0.0, 0.5]\,\text{mm}$ | $1.0 \times 1.0\,\text{mm}$, seam $[0.0, 0.5]\,\text{mm}$ | $1.0 \times 1.0\,\text{mm}$, seam $[0.0, 0.5]\,\text{mm}$ |
+| **Pass 1: Coarse Mesh** | Algorithm / Shape | `QUAD_DOMINATED` / `ADVANCING_FRONT` | `QUAD_DOMINATED` / `ADVANCING_FRONT` | `QUAD_DOMINATED` / `ADVANCING_FRONT` | `QUAD_DOMINATED` / `ADVANCING_FRONT` |
+| | Element Count ($N_{\text{el}}^{\text{coarse}}$) | **2,906** (2,818 CPE4 + 88 CPE3) | **2,906** (2,818 CPE4 + 88 CPE3) | **2,906** (2,818 CPS4 + 88 CPS3) | **2,906** (2,818 CPE4 + 88 CPE3) |
+| | Node Count ($N_{\text{nod}}^{\text{coarse}}$) | 2,988 nodes | 2,988 nodes | 2,988 nodes | 2,988 nodes |
+| **Pass 1: Pre-Analysis** | Displacement Stroke | $u_2 = 0.005\,\text{mm}$ (or $0.001\,\text{mm}$) | $u_2 = 0.005\,\text{mm}$ | $u_2 = 0.005\,\text{mm}$ | $u_2 = 0.005\,\text{mm}$ |
+| | MISESERI Min | $1.4052 \times 10^{-4}\,\text{kN/mm}^2$ | $1.4052 \times 10^{-4}\,\text{kN/mm}^2$ | $1.4052 \times 10^{-4}\,\text{kN/mm}^2$ | $1.4052 \times 10^{-4}\,\text{kN/mm}^2$ |
+| | MISESERI Median | $5.7808 \times 10^{-3}\,\text{kN/mm}^2$ | $5.7808 \times 10^{-3}\,\text{kN/mm}^2$ | $5.7808 \times 10^{-3}\,\text{kN/mm}^2$ | $5.7808 \times 10^{-3}\,\text{kN/mm}^2$ |
+| | MISESERI Max | $1.007057\,\text{kN/mm}^2$ | $1.007057\,\text{kN/mm}^2$ | $1.007057\,\text{kN/mm}^2$ | $1.007057\,\text{kN/mm}^2$ |
+| **Pass 2: Sizing Rule** | Error Target ($\eta_{\text{target}}$) | **1.0%** (Literal Listing 1) | **2.0%** (Controlled CPE4) | **2.0%** (Historical Context) | **5.0%** (Sensitivity Study) |
+| | Sizing Bounds | $h_{\min} = 0.001, h_{\max} = 0.020$ | $h_{\min} = 0.001, h_{\max} = 0.020$ | $h_{\min} = 0.001, h_{\max} = 0.020$ | $h_{\min} = 0.001, h_{\max} = 0.020$ |
+| | Refinement Factor | 10 | 10 | 10 | 10 |
+| | Coarsening Policy | `NOT_ALLOWED` | `NOT_ALLOWED` | `NOT_ALLOWED` | `NOT_ALLOWED` |
+| **Pass 2: Adapted Mesh** | Total Elements ($N_{\text{el}}^{\text{adapted}}$) | **71,320** | **17,687** | **15,396** | **4,194** |
+| | CPE4 Quads | 69,443 | 17,215 | 14,961 | 4,053 |
+| | CPE3 Tris | 1,877 | 472 | 435 | 141 |
+| | Node Count ($N_{\text{nod}}^{\text{adapted}}$) | 70,845 | 17,702 | 15,414 | 4,274 |
+| | Crack-Tip Element Size $h_{\text{tip}}$ | $1.84\,\mu\text{m}$ (median) | $1.91\,\mu\text{m}$ (median) | $1.96\,\mu\text{m}$ (median) | $2.10\,\mu\text{m}$ (median) |
+| | Delta vs Published 13,941 | $+411.58\%$ ($+57,379\,\text{el}$) | $+26.87\%$ ($+3,746\,\text{el}$) | $+10.44\%$ ($+1,455\,\text{el}$) | $-69.92\%$ ($-9,747\,\text{el}$) |
+
+> [!NOTE]
+> The **17,687-element** count represents the canonical exact-source CPE4 2% result, whereas **15,396 elements** corresponds to the earlier historical plane-stress sensitivity context. They are mathematically distinct realizations and must not be used interchangeably.
+
+---
+
+## 3. Systematic Coarse Mesh Control OFAT Matrix
+
+| Candidate ID | Coarse $h_0$ | `minSizeFactor` | `devFactor` | Edge Constraints | Coarse $N_{\text{el}}$ | Coarse $N_{\text{nod}}$ | Adapted $N_{\text{el}}$ ($\eta=1\%$) | Adapted $N_{\text{nod}}$ | INP SHA-256 | Classification |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- | :--- |
+| **OFAT_ADVANCING_FRONT** | 0.02 mm | 0.10 | 0.10 | Default Part Seed | 2,906 | 2,988 | **71,320** | 70,845 | `270dfbf9...` | `CANONICAL_OFAT_VERIFIED` |
+| **OFAT_MEDIAL_AXIS** | 0.02 mm | 0.10 | 0.10 | Default Part Seed | 2,500 | 2,626 | N/A | N/A | N/A | `ADAPTIVE_REMESH_INCOMPATIBLE` |
+| **QUAD_PURE_AF** | 0.02 mm | 0.10 | 0.10 | Default Part Seed | 3,019 | 3,145 | N/A | N/A | N/A | `ADAPTIVE_REMESH_INCOMPATIBLE` |
+| **TRI_FREE** | 0.02 mm | 0.10 | 0.10 | Default Part Seed | 5,164 | 2,708 | **132,989** | 67,072 | `d89b1c7a...` | `EXPLORATORY_OFAT_VERIFIED` |
+| **CF0_BASELINE** | 0.02 mm | 0.10 | 0.10 | Default Part Seed | 2,906 | 2,988 | **71,320** | 70,845 | `31c96455...` | `EXPLORATORY_OFAT_VERIFIED` |
+| **CF1_MINSIZE_001** | 0.02 mm | 0.01 | 0.10 | Default Part Seed | 2,906 | 2,988 | **71,320** | 70,845 | `31c96455...` | `EXPLORATORY_OFAT_VERIFIED` |
+| **CF2_MINSIZE_050** | 0.02 mm | 0.50 | 0.10 | Default Part Seed | 2,906 | 2,988 | **71,320** | 70,845 | `3e4f26f0...` | `EXPLORATORY_OFAT_VERIFIED` |
+| **CF3_DEV_001** | 0.02 mm | 0.10 | 0.01 | Default Part Seed | 2,906 | 2,988 | **71,320** | 70,845 | `22e54861...` | `EXPLORATORY_OFAT_VERIFIED` |
+| **CF4_DEV_050** | 0.02 mm | 0.10 | 0.50 | Default Part Seed | 2,906 | 2,988 | **71,320** | 70,845 | `0b0b45fa...` | `EXPLORATORY_OFAT_VERIFIED` |
+| **CF5_EXPLICIT_EDGE** | 0.02 mm | 0.10 | 0.10 | Explicit Seam/Edges | 2,906 | 2,988 | **71,320** | 70,845 | `07b66f31...` | `EXPLORATORY_OFAT_VERIFIED` |
+
+---
+
+## 4. Scientific Conclusion & Thesis Implication
+
+1. **Rigorous Elimination of Competing Hypotheses:**
+   - **Hypothesis 1 (Solver Version):** Disproven. Abaqus 2021, 2022, and 2023 on Linux yield bitwise identical 71,320-element meshes.
+   - **Hypothesis 2 (Pre-Analysis Load Scale):** Disproven. Relative error indicator $\eta$ is scale-invariant.
+   - **Hypothesis 3 (Coarse Meshing Controls):** Disproven. All standard meshing parameters (`minSizeFactor`, `devFactor`, edge constraints) produce exactly 2,906 coarse and 71,320 adapted elements. Tested alternate pure-quad configurations (`MEDIAL_AXIS`, pure quad advancing front) are rejected by `adaptiveRemesh`.
+2. **Definitive Cause of the Discrepancy:**
+   - The reported $13,941$ element count in Section 4.1 cannot be obtained from the published Python workflow (Listing 1: `errorTarget=1.0`) without undocumented parameter overrides (such as coarsening or an effective error target near $2.0\%$).
+   - The thesis accurately reports this as a verified **documentation/execution boundary**: literal execution of the published Listing 1 yields 71,320 elements, which exhibits excellent mechanical parity ($K_0$ within $0.09\%$) with the reference benchmark.

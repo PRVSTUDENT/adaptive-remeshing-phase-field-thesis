@@ -1,0 +1,848 @@
+{
+  "REFINEMENT_COARSE_TO_FINE": {
+    "LOCALIZED_PEAK": {
+      "SPR_BOUNDED": {
+        "l2_error": 0.10090259362438041, 
+        "src_range": [
+          1.4616813626194876e-41, 
+          5.737945792970464
+        ], 
+        "tgt_range": [
+          0.0, 
+          5.178683948457845
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "NEAREST_GLOBAL": {
+        "l2_error": 0.07097288810679572, 
+        "src_range": [
+          1.4616813626194876e-41, 
+          5.737945792970464
+        ], 
+        "tgt_range": [
+          1.4616813626194876e-41, 
+          5.737945792970464
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "d_transfer": {
+        "src_range": [
+          3.534072177219844e-44, 
+          0.95
+        ], 
+        "bounds_preserved": true, 
+        "l2_error": 0.009251273757760135, 
+        "tgt_range": [
+          3.534072177219844e-44, 
+          0.95
+        ]
+      }, 
+      "HOST_NEAREST_GP": {
+        "l2_error": 0.07097288810679572, 
+        "src_range": [
+          1.4616813626194876e-41, 
+          5.737945792970464
+        ], 
+        "tgt_range": [
+          1.4616813626194876e-41, 
+          5.737945792970464
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "ELEMENT_AVERAGE": {
+        "l2_error": 0.14426881426061727, 
+        "src_range": [
+          1.4616813626194876e-41, 
+          5.737945792970464
+        ], 
+        "tgt_range": [
+          2.1401782182077854e-37, 
+          4.389377996569946
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }
+    }, 
+    "CONSTANT": {
+      "SPR_BOUNDED": {
+        "l2_error": 7.571347620779677e-18, 
+        "src_range": [
+          0.05, 
+          0.05
+        ], 
+        "tgt_range": [
+          0.04999999999999999, 
+          0.050000000000000024
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "NEAREST_GLOBAL": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.05, 
+          0.05
+        ], 
+        "tgt_range": [
+          0.05, 
+          0.05
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "d_transfer": {
+        "src_range": [
+          0.4, 
+          0.4
+        ], 
+        "bounds_preserved": true, 
+        "l2_error": 2.387165867970037e-17, 
+        "tgt_range": [
+          0.39999999999999997, 
+          0.40000000000000013
+        ]
+      }, 
+      "HOST_NEAREST_GP": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.05, 
+          0.05
+        ], 
+        "tgt_range": [
+          0.05, 
+          0.05
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "ELEMENT_AVERAGE": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.05, 
+          0.05
+        ], 
+        "tgt_range": [
+          0.05, 
+          0.05
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }
+    }, 
+    "LINEAR": {
+      "SPR_BOUNDED": {
+        "l2_error": 0.0003829708431025351, 
+        "src_range": [
+          0.011267949192431122, 
+          0.12873205080756886
+        ], 
+        "tgt_range": [
+          0.009434906729424968, 
+          0.12569569219381652
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "NEAREST_GLOBAL": {
+        "l2_error": 0.0006815022134084469, 
+        "src_range": [
+          0.011267949192431122, 
+          0.12873205080756886
+        ], 
+        "tgt_range": [
+          0.011267949192431122, 
+          0.12873205080756886
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "d_transfer": {
+        "src_range": [
+          0.0, 
+          0.7
+        ], 
+        "bounds_preserved": true, 
+        "l2_error": 3.3559868503211974e-17, 
+        "tgt_range": [
+          0.0, 
+          0.7
+        ]
+      }, 
+      "HOST_NEAREST_GP": {
+        "l2_error": 0.0006815022134084469, 
+        "src_range": [
+          0.011267949192431122, 
+          0.12873205080756886
+        ], 
+        "tgt_range": [
+          0.011267949192431122, 
+          0.12873205080756886
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "ELEMENT_AVERAGE": {
+        "l2_error": 0.0012668016621851137, 
+        "src_range": [
+          0.011267949192431122, 
+          0.12873205080756886
+        ], 
+        "tgt_range": [
+          0.013, 
+          0.12699999999999997
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }
+    }, 
+    "MODE_II_CRACK_BAND": {
+      "SPR_BOUNDED": {
+        "l2_error": 0.2799833898819295, 
+        "src_range": [
+          0.0, 
+          4.903000327424881
+        ], 
+        "tgt_range": [
+          0.0, 
+          3.1240213325575272
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "NEAREST_GLOBAL": {
+        "l2_error": 0.1360080139624283, 
+        "src_range": [
+          0.0, 
+          4.903000327424881
+        ], 
+        "tgt_range": [
+          0.0, 
+          4.903000327424881
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "d_transfer": {
+        "src_range": [
+          0.0, 
+          1.0
+        ], 
+        "bounds_preserved": true, 
+        "l2_error": 0.09498268911535952, 
+        "tgt_range": [
+          0.0, 
+          1.0
+        ]
+      }, 
+      "HOST_NEAREST_GP": {
+        "l2_error": 0.1360080139624283, 
+        "src_range": [
+          0.0, 
+          4.903000327424881
+        ], 
+        "tgt_range": [
+          0.0, 
+          4.903000327424881
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "ELEMENT_AVERAGE": {
+        "l2_error": 0.21218265998749136, 
+        "src_range": [
+          0.0, 
+          4.903000327424881
+        ], 
+        "tgt_range": [
+          0.0, 
+          3.300052019251676
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }
+    }
+  }, 
+  "SAME_MESH_IDENTITY": {
+    "LOCALIZED_PEAK": {
+      "SPR_BOUNDED": {
+        "l2_error": 0.017992898063330546, 
+        "src_range": [
+          1.2017598046728723e-42, 
+          5.957280931496507
+        ], 
+        "tgt_range": [
+          0.0, 
+          5.734687046861914
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": false, 
+        "no_overshoot": true
+      }, 
+      "NEAREST_GLOBAL": {
+        "l2_error": 0.0, 
+        "src_range": [
+          1.2017598046728723e-42, 
+          5.957280931496507
+        ], 
+        "tgt_range": [
+          1.2017598046728723e-42, 
+          5.957280931496507
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "d_transfer": {
+        "src_range": [
+          3.534072177219844e-44, 
+          0.95
+        ], 
+        "bounds_preserved": true, 
+        "l2_error": 0.0, 
+        "tgt_range": [
+          3.534072177219844e-44, 
+          0.95
+        ]
+      }, 
+      "HOST_NEAREST_GP": {
+        "l2_error": 0.0, 
+        "src_range": [
+          1.2017598046728723e-42, 
+          5.957280931496507
+        ], 
+        "tgt_range": [
+          1.2017598046728723e-42, 
+          5.957280931496507
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "ELEMENT_AVERAGE": {
+        "l2_error": 0.061094104936829034, 
+        "src_range": [
+          1.2017598046728723e-42, 
+          5.957280931496507
+        ], 
+        "tgt_range": [
+          3.3846213902698767e-41, 
+          5.691417974944947
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": false, 
+        "no_overshoot": true
+      }
+    }, 
+    "CONSTANT": {
+      "SPR_BOUNDED": {
+        "l2_error": 9.605043423171473e-18, 
+        "src_range": [
+          0.05, 
+          0.05
+        ], 
+        "tgt_range": [
+          0.049999999999999996, 
+          0.050000000000000024
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "NEAREST_GLOBAL": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.05, 
+          0.05
+        ], 
+        "tgt_range": [
+          0.05, 
+          0.05
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "d_transfer": {
+        "src_range": [
+          0.4, 
+          0.4
+        ], 
+        "bounds_preserved": true, 
+        "l2_error": 0.0, 
+        "tgt_range": [
+          0.4, 
+          0.4
+        ]
+      }, 
+      "HOST_NEAREST_GP": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.05, 
+          0.05
+        ], 
+        "tgt_range": [
+          0.05, 
+          0.05
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "ELEMENT_AVERAGE": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.05, 
+          0.05
+        ], 
+        "tgt_range": [
+          0.05, 
+          0.05
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }
+    }, 
+    "LINEAR": {
+      "SPR_BOUNDED": {
+        "l2_error": 9.42054492408305e-05, 
+        "src_range": [
+          0.010507179676972449, 
+          0.12949282032302756
+        ], 
+        "tgt_range": [
+          0.010276239569296599, 
+          0.12816905989232413
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": false, 
+        "no_overshoot": true
+      }, 
+      "NEAREST_GLOBAL": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.010507179676972449, 
+          0.12949282032302756
+        ], 
+        "tgt_range": [
+          0.010507179676972449, 
+          0.12949282032302756
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "d_transfer": {
+        "src_range": [
+          0.0, 
+          0.7
+        ], 
+        "bounds_preserved": true, 
+        "l2_error": 0.0, 
+        "tgt_range": [
+          0.0, 
+          0.7
+        ]
+      }, 
+      "HOST_NEAREST_GP": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.010507179676972449, 
+          0.12949282032302756
+        ], 
+        "tgt_range": [
+          0.010507179676972449, 
+          0.12949282032302756
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "ELEMENT_AVERAGE": {
+        "l2_error": 0.0005163977794943222, 
+        "src_range": [
+          0.010507179676972449, 
+          0.12949282032302756
+        ], 
+        "tgt_range": [
+          0.011199999999999998, 
+          0.1288
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": false, 
+        "no_overshoot": true
+      }
+    }, 
+    "MODE_II_CRACK_BAND": {
+      "SPR_BOUNDED": {
+        "l2_error": 0.12224288239182428, 
+        "src_range": [
+          0.0, 
+          4.972398942191768
+        ], 
+        "tgt_range": [
+          0.0, 
+          4.637191481651417
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": false, 
+        "no_overshoot": true
+      }, 
+      "NEAREST_GLOBAL": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.0, 
+          4.972398942191768
+        ], 
+        "tgt_range": [
+          0.0, 
+          4.972398942191768
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "d_transfer": {
+        "src_range": [
+          0.0, 
+          1.0
+        ], 
+        "bounds_preserved": true, 
+        "l2_error": 0.0, 
+        "tgt_range": [
+          0.0, 
+          1.0
+        ]
+      }, 
+      "HOST_NEAREST_GP": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.0, 
+          4.972398942191768
+        ], 
+        "tgt_range": [
+          0.0, 
+          4.972398942191768
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "ELEMENT_AVERAGE": {
+        "l2_error": 0.1045370439009853, 
+        "src_range": [
+          0.0, 
+          4.972398942191768
+        ], 
+        "tgt_range": [
+          0.0, 
+          4.19832060983407
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": false, 
+        "no_overshoot": true
+      }
+    }
+  }, 
+  "COARSENING_FINE_TO_COARSE": {
+    "LOCALIZED_PEAK": {
+      "SPR_BOUNDED": {
+        "l2_error": 0.021211093248007552, 
+        "src_range": [
+          1.2017598046728723e-42, 
+          5.957280931496507
+        ], 
+        "tgt_range": [
+          0.0, 
+          5.463143973795552
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "NEAREST_GLOBAL": {
+        "l2_error": 0.044219414904797104, 
+        "src_range": [
+          1.2017598046728723e-42, 
+          5.957280931496507
+        ], 
+        "tgt_range": [
+          1.1107582729479256e-40, 
+          5.4316237063625366
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "d_transfer": {
+        "src_range": [
+          3.534072177219844e-44, 
+          0.95
+        ], 
+        "bounds_preserved": true, 
+        "l2_error": 0.00021701418724673197, 
+        "tgt_range": [
+          3.534072177219844e-44, 
+          0.95
+        ]
+      }, 
+      "HOST_NEAREST_GP": {
+        "l2_error": 0.044219414904797104, 
+        "src_range": [
+          1.2017598046728723e-42, 
+          5.957280931496507
+        ], 
+        "tgt_range": [
+          1.1107582729479256e-40, 
+          5.4316237063625366
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "ELEMENT_AVERAGE": {
+        "l2_error": 0.08256621368255034, 
+        "src_range": [
+          1.2017598046728723e-42, 
+          5.957280931496507
+        ], 
+        "tgt_range": [
+          3.3846213902698767e-41, 
+          5.691417974944947
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }
+    }, 
+    "CONSTANT": {
+      "SPR_BOUNDED": {
+        "l2_error": 7.777289843892384e-18, 
+        "src_range": [
+          0.05, 
+          0.05
+        ], 
+        "tgt_range": [
+          0.049999999999999996, 
+          0.050000000000000024
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "NEAREST_GLOBAL": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.05, 
+          0.05
+        ], 
+        "tgt_range": [
+          0.05, 
+          0.05
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "d_transfer": {
+        "src_range": [
+          0.4, 
+          0.4
+        ], 
+        "bounds_preserved": true, 
+        "l2_error": 9.890652812036248e-18, 
+        "tgt_range": [
+          0.3999999999999999, 
+          0.4
+        ]
+      }, 
+      "HOST_NEAREST_GP": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.05, 
+          0.05
+        ], 
+        "tgt_range": [
+          0.05, 
+          0.05
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "ELEMENT_AVERAGE": {
+        "l2_error": 0.0, 
+        "src_range": [
+          0.05, 
+          0.05
+        ], 
+        "tgt_range": [
+          0.05, 
+          0.05
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }
+    }, 
+    "LINEAR": {
+      "SPR_BOUNDED": {
+        "l2_error": 8.577452228980225e-05, 
+        "src_range": [
+          0.010507179676972449, 
+          0.12949282032302756
+        ], 
+        "tgt_range": [
+          0.011337009084755274, 
+          0.12804641016151375
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "NEAREST_GLOBAL": {
+        "l2_error": 0.0004025568794880159, 
+        "src_range": [
+          0.010507179676972449, 
+          0.12949282032302756
+        ], 
+        "tgt_range": [
+          0.011892820323027551, 
+          0.12810717967697244
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "d_transfer": {
+        "src_range": [
+          0.0, 
+          0.7
+        ], 
+        "bounds_preserved": true, 
+        "l2_error": 2.1190944164528553e-17, 
+        "tgt_range": [
+          0.0, 
+          0.7
+        ]
+      }, 
+      "HOST_NEAREST_GP": {
+        "l2_error": 0.0004025568794880159, 
+        "src_range": [
+          0.010507179676972449, 
+          0.12949282032302756
+        ], 
+        "tgt_range": [
+          0.011892820323027551, 
+          0.12810717967697244
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "ELEMENT_AVERAGE": {
+        "l2_error": 0.0005977169814453686, 
+        "src_range": [
+          0.010507179676972449, 
+          0.12949282032302756
+        ], 
+        "tgt_range": [
+          0.011199999999999998, 
+          0.1288
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }
+    }, 
+    "MODE_II_CRACK_BAND": {
+      "SPR_BOUNDED": {
+        "l2_error": 0.12116000238983715, 
+        "src_range": [
+          0.0, 
+          4.972398942191768
+        ], 
+        "tgt_range": [
+          0.0, 
+          4.018954758476765
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "NEAREST_GLOBAL": {
+        "l2_error": 0.08544607232474632, 
+        "src_range": [
+          0.0, 
+          4.972398942191768
+        ], 
+        "tgt_range": [
+          0.0, 
+          4.869953207187994
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "d_transfer": {
+        "src_range": [
+          0.0, 
+          1.0
+        ], 
+        "bounds_preserved": true, 
+        "l2_error": 0.008353901768363408, 
+        "tgt_range": [
+          0.0, 
+          1.0
+        ]
+      }, 
+      "HOST_NEAREST_GP": {
+        "l2_error": 0.08544607232474632, 
+        "src_range": [
+          0.0, 
+          4.972398942191768
+        ], 
+        "tgt_range": [
+          0.0, 
+          4.869953207187994
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }, 
+      "ELEMENT_AVERAGE": {
+        "l2_error": 0.121359583200726, 
+        "src_range": [
+          0.0, 
+          4.972398942191768
+        ], 
+        "tgt_range": [
+          0.0, 
+          4.19832060983407
+        ], 
+        "is_non_negative": true, 
+        "exact_identity": true, 
+        "no_overshoot": true
+      }
+    }
+  }
+}

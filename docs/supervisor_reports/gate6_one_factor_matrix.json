@@ -1,0 +1,149 @@
+{
+  "audit_metadata": {
+    "title": "One-Factor Forensic Audit Matrix: Fixed Reference (1398090) vs Corrected Adaptive Nominal 1% (1404454)",
+    "benchmark": "Pandey & Kumar (2025) Mode-I 2D Phase-Field Fracture",
+    "job_reference": "1398090.mmaster02",
+    "job_adaptive": "1404454.mmaster02",
+    "pre_peak_parity": {
+      "delta_k0_pct": -0.0904,
+      "k0_ref_kN_per_mm": 137.94552,
+      "k0_adapt_kN_per_mm": 137.820804,
+      "delta_fmax_pct": -1.643,
+      "fmax_ref_kN": 0.757778,
+      "fmax_adapt_kN": 0.745325,
+      "first_1N_divergence_u_mm": 0.005533,
+      "u_peak_ref_mm": 0.005857,
+      "u_peak_adapt_mm": 0.00575
+    },
+    "post_peak_status": {
+      "common_interval_rms_error_pct": 21.18,
+      "f_residual_ref_at_cut_kN": 0.00045,
+      "f_residual_adapt_at_cut_kN": 0.1845,
+      "cut_u_mm": 0.006774,
+      "termination_mode_1404454": "NONLINEAR_CONVERGENCE_FAILURE_MIN_DT_EXHAUSTION",
+      "diverging_dof": "DOF 3 (Phase Field) at Node 61805 (x=0.940 mm, y=0.509 mm)"
+    }
+  },
+  "factors": [
+    {
+      "factor": "Domain Geometry and Plate Dimensions",
+      "category": "Geometry",
+      "job_1398090_value": "1.0 mm x 1.0 mm square plate, crack along y=0.50 mm",
+      "job_1404454_value": "1.0 mm x 1.0 mm square plate, crack along y=0.50 mm",
+      "identical": true,
+      "classification": "IDENTICAL",
+      "scientifically_capable_of_affecting_postpeak": false,
+      "evidence": "Both bounding boxes are strictly [0, 1] x [0, 1] mm with crack along y=0.5 mm."
+    },
+    {
+      "factor": "Initial Notch Representation",
+      "category": "Geometry",
+      "job_1398090_value": "Sharp slit with zero opening; duplicate nodes from x=0.0 to x=0.497059 mm at y=0.5 mm (45 pairs); tip at x=0.50 mm",
+      "job_1404454_value": "Sharp slit with zero opening; duplicate nodes from x=0.0 to x=0.497884 mm at y=0.5 mm (100 pairs); tip at x=0.50 mm",
+      "identical": true,
+      "classification": "EQUIVALENT_GEOMETRY_TOPOLOGY_DIFFERING_UNPROVEN_EQUIVALENCE",
+      "scientifically_capable_of_affecting_postpeak": true,
+      "evidence": "Both models represent a sharp initial crack a_0 = 0.50 mm with coincident duplicate nodes across the crack flank. However, the duplicate node count differs (45 pairs in structured mesh vs 100 pairs in adaptive mesh) due to refined mesh discretization along the notch flank. While intended geometry is identical, unproven numerical equivalence under dynamic propagation remains until verified."
+    },
+    {
+      "factor": "Constitutive Material Parameters (E, nu, Gc, l0, kappa)",
+      "category": "Material",
+      "job_1398090_value": "E=210.0 kN/mm^2, nu=0.3, Gc=0.0027 kN/mm, l0=0.0075 mm, kappa=1.0e-7",
+      "job_1404454_value": "E=210.0 kN/mm^2, nu=0.3, Gc=0.0027 kN/mm, l0=0.0075 mm, kappa=1.0e-7",
+      "identical": true,
+      "classification": "IDENTICAL",
+      "scientifically_capable_of_affecting_postpeak": false,
+      "evidence": "Exact float match in *UEL PROPERTY cards PROPS(1..5)."
+    },
+    {
+      "factor": "Boundary Conditions & Pin Restraint",
+      "category": "Boundary Conditions",
+      "job_1398090_value": "u2=0 on N_BOTTOM (y=0); u1=0 on N_PIN (Node 1 at 0,0); u1=0 on N_TOP (y=1)",
+      "job_1404454_value": "u2=0 on N_BOTTOM (y=0); u1=0 on N_PIN (Node 37 at 0,0); u1=0 on N_TOP (y=1)",
+      "identical": true,
+      "classification": "IDENTICAL",
+      "scientifically_capable_of_affecting_postpeak": false,
+      "evidence": "N_PIN node coordinates in both models are exactly (0.0, 0.0); all bottom nodes clamped in u2; all top nodes clamped in u1."
+    },
+    {
+      "factor": "Kinematic Coupling on Top Edge",
+      "category": "Boundary Conditions",
+      "job_1398090_value": "212 *EQUATION constraints tying top nodes to N_RP (Node 999999) in DOF 2",
+      "job_1404454_value": "210 *EQUATION constraints tying top nodes to N_RP (Node 999999) in DOF 2 with clean line-wrapping",
+      "identical": true,
+      "classification": "NUMERICALLY_EQUIVALENT_VERIFIED",
+      "scientifically_capable_of_affecting_postpeak": false,
+      "evidence": "Every top edge node is rigidly coupled to RP with coeff 1.0, -1.0. Line wrapping verified."
+    },
+    {
+      "factor": "Loading Schedule & Time Increment Controls",
+      "category": "Step Controls",
+      "job_1398090_value": "Step 1: dt=5.0e-4 (2000 incs to u=0.005 mm); Step 2: dt=2.0e-4, min_dt=1.0e-9 (5000 incs to u=0.010 mm)",
+      "job_1404454_value": "Step 1: dt=5.0e-4 (2000 incs to u=0.005 mm); Step 2: dt=2.0e-4, min_dt=1.0e-14 (target u=0.010 mm)",
+      "identical": false,
+      "classification": "DIFFERING_SOLVER_CONTROLS_AFFECTING_TERMINATION",
+      "scientifically_capable_of_affecting_postpeak": true,
+      "evidence": "Step increment size dt=2.0e-4 mm is identical; however, min_dt in 1404454 is 1.0e-14 compared to 1.0e-9 in 1398090. A smaller min_dt allows the Newton-Raphson solver to attempt cutbacks down to 10^-14 before declaring job failure, directly influencing at what residual displacement and load the solver terminates when experiencing severe post-peak divergence."
+    },
+    {
+      "factor": "Abaqus Solver & Matrix Storage Directives",
+      "category": "Solver Controls",
+      "job_1398090_value": "Direct sparse solver, UNSYMM storage on UEL",
+      "job_1404454_value": "Direct sparse solver, UNSYMM storage on UEL",
+      "identical": true,
+      "classification": "IDENTICAL",
+      "scientifically_capable_of_affecting_postpeak": false,
+      "evidence": "Both execute UNSYMMETRIC DIRECT SPARSE SOLVER on 1 host MPI rank."
+    },
+    {
+      "factor": "Fortran UEXTERNALDB Transaction Management",
+      "category": "User Subroutines",
+      "job_1398090_value": "Transactional committed/trial state management with LOP=0, 1, 2, capacity=100000",
+      "job_1404454_value": "Transactional committed/trial state management with LOP=0, 1, 2, capacity=100000",
+      "identical": true,
+      "classification": "IDENTICAL",
+      "scientifically_capable_of_affecting_postpeak": false,
+      "evidence": "Subroutine code in both files is identical line-by-line."
+    },
+    {
+      "factor": "Fortran UEL Quad Formulation (JTYPE 1 & 2)",
+      "category": "User Subroutines",
+      "job_1398090_value": "4-node quad with 2x2 Gauss integration; driving energy POS_M = 0.5*C12*(E_pos^2) + C33*(E11^2+E22^2+2*E12^2); degradation DEG=(1-d)^2+kappa",
+      "job_1404454_value": "4-node quad with 2x2 Gauss integration; driving energy POS_M = 0.5*C12*(E_pos^2) + C33*(E11^2+E22^2+2*E12^2); degradation DEG=(1-d)^2+kappa",
+      "identical": true,
+      "classification": "NUMERICALLY_EQUIVALENT_VERIFIED",
+      "scientifically_capable_of_affecting_postpeak": false,
+      "evidence": "Kinematics, B-matrix, AMATRX, RHS, and strain energy split equations are identical. SVARS indexing changes affect only output arrays."
+    },
+    {
+      "factor": "Fortran UEL Triangular Formulation (JTYPE 3 & 4)",
+      "category": "User Subroutines",
+      "job_1398090_value": "Not present (Reference mesh is 100% quads)",
+      "job_1404454_value": "Present: 3-node CST with 1 Gauss point (wt=0.5, xi=1/3, eta=1/3); POS_M undegraded driving energy; 1,877 elements",
+      "identical": false,
+      "classification": "POTENTIALLY_PHYSICS_AFFECTING",
+      "scientifically_capable_of_affecting_postpeak": true,
+      "evidence": "1-point integrated CST triangles are softer and have lower order than 2x2 Gauss quads. 151 tri elements reside near crack path."
+    },
+    {
+      "factor": "Companion Visualization Layer & UMAT State Transfer",
+      "category": "Output Architecture",
+      "job_1398090_value": "CPE4 with built-in *Elastic (1e-11); element output targeted DISP_QUAD (UEL); no SDV in ODB",
+      "job_1404454_value": "CPE4/CPE3 with *User Material DUMMY_MAT; blank UMAT stub; element output targeted DISP_QUAD/TRI (UEL); no SDV in ODB",
+      "identical": false,
+      "classification": "OUTPUT_ONLY",
+      "scientifically_capable_of_affecting_postpeak": false,
+      "evidence": "Neither job successfully wrote SDVs to ODB because both targeted UEL layers. Dummy UMAT in 1404454 has zero stress and zero stiffness, proven in Gate-6 isolation matrix (Dir 71 vs Dir 69: K0=138.0210 kN/mm identical to 6 sig figs)."
+    },
+    {
+      "factor": "Mesh Discretization Density (Element Count & Resolution)",
+      "category": "Mesh",
+      "job_1398090_value": "15,192 elements; uniform structured quad mesh across entire ligament: h = 0.00301 mm (h/l0 = 0.40) from x=0.50 to x=1.00 mm",
+      "job_1404454_value": "71,320 elements (69,443 Q4, 1,877 T3); highly non-uniform: h = 0.0015-0.0024 mm (h/l0 = 0.20-0.32) at notch tip, coarsening to h = 0.0085-0.0134 mm (h/l0 = 1.13-1.78, h > l0) at x >= 0.80 mm",
+      "identical": false,
+      "classification": "SUPPORTED_ASSOCIATION_NOT_CAUSAL",
+      "scientifically_capable_of_affecting_postpeak": true,
+      "evidence": "Spatial coincidence exists: the downstream ligament coarsens significantly relative to the tip (h/l0 rises from 0.235 at the tip to 0.67-0.88 downstream, peaking at 1.04 in [0.85, 0.90] mm), and severe Newton-Raphson divergence in phase-field DOF 3 occurs at Node 61805 (x=0.940 mm, y=0.509 mm, incident h/l0 ~ 0.64-0.70). However, because the adaptive mesh simultaneously introduces 1,877 linear triangles, differing notch topology, and unrefined downstream transition, spatial coincidence is NOT causal proof without an isolated one-factor test on uniform coarsening vs adaptive static mesh."
+    }
+  ]
+}

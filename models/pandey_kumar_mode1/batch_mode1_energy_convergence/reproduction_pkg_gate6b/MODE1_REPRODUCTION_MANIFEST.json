@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "package_name": "PANDEY_KUMAR_MODE1_GATE6B_REPRODUCTION_PACKAGE",
+  "generated_timestamp": "2026-09-19T13:30:00+02:00",
+  "active_scientific_phase": "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE",
+  "active_gate": "GATE_6B_OPEN",
+  "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+  "benchmark_specification": {
+    "geometry": "1.0 mm x 1.0 mm square plate",
+    "crack_representation": "a0 = 0.5 mm sharp horizontal seam along y = 0.500 mm (zero-gap)",
+    "boundary_conditions": "Bottom edge y=0: u_y=0 with pinned point (u_x=0) to prevent rigid body motion; Top edge y=1: Prescribed tensile displacement u_y",
+    "material_properties": {
+      "E_GPa": 210.0,
+      "nu": 0.3,
+      "Gc_N_per_mm": 2.7,
+      "l0_mm": 0.0075,
+      "k_res": 1e-06
+    }
+  },
+  "artifacts": [
+    {
+      "category": "INPUT_DECKS",
+      "file": "PK_M1_FIX_H0030_VIS.inp",
+      "sha256": "35c478fbc50c0436def284b6c164d95997f6fe51a65963db501aaf12308d49e4",
+      "role": "S1 Nominal Reference fixed-mesh input deck (15,192 CPE4 cells, h/l0 = 0.400)",
+      "execution_command": "abaqus job=PK_M1_S1_H0030 user=f42_mixed_uel.for cpus=1 interactive"
+    },
+    {
+      "category": "INPUT_DECKS",
+      "file": "PK_M1_S3_H0015.inp",
+      "sha256": "eb009f188a2a66b1b2f6d7ba0b0662354c766e457b74b64bbdb90fdf3dc9625e",
+      "role": "S3 Fine fixed-mesh anchor input deck (41,912 CPE4 cells, h/l0 = 0.200)",
+      "execution_command": "abaqus job=PK_M1_S3_H0015 user=f42_mixed_uel.for cpus=1 interactive"
+    },
+    {
+      "category": "INPUT_DECKS",
+      "file": "PK_M1_S5_H00100.inp",
+      "sha256": "54f118cf138d97bd530202c7d649332e0383838f50d662c13a1c3aefdc9c1b29",
+      "role": "S5 Ultra-Fine fixed-mesh input deck (69,384 CPE4 cells, h/l0 = 0.133)",
+      "execution_command": "abaqus job=PK_M1_S5_H00100 user=f42_mixed_uel.for cpus=1 interactive"
+    },
+    {
+      "category": "INPUT_DECKS",
+      "file": "PK_M1_T3_DTFINE.inp",
+      "sha256": "68befb3fbe33f1f4df7723594aa3991589f5e1464ea68f31943b6ff643b8134b",
+      "role": "T3 Fine time-step input deck (0.5x schedule, 10,022 Step-2 increments)",
+      "execution_command": "abaqus job=PK_M1_T3_FULLU010 user=f42_mixed_uel.for cpus=1 interactive"
+    },
+    {
+      "category": "INPUT_DECKS",
+      "file": "PK_M1_A2_ADAPT2PCT.inp",
+      "sha256": "3e5b9559db38b9868e7a72ca913b1227239de475ef36c0eb51ee88c60ba69a43",
+      "role": "A2 Corrected Production Adaptive input deck (15,396 cells, 2.0% target error)",
+      "execution_command": "abaqus job=PK_M1_A2_ADAPT2PCT user=f42_mixed_uel.for cpus=4 interactive"
+    },
+    {
+      "category": "INPUT_DECKS",
+      "file": "PK_M1_A3_ADAPT3PCT.inp",
+      "sha256": "79be8e83eb080fb0322221851eaf16b718d0462ceac4f5e93542edcc094fcb57",
+      "role": "A3 Corrected Production Adaptive input deck (7,633 cells, 3.0% target error)",
+      "execution_command": "abaqus job=PK_M1_A3_ADAPT3PCT user=f42_mixed_uel.for cpus=4 interactive"
+    },
+    {
+      "category": "USER_SUBROUTINES",
+      "file": "f42_mixed_uel.for",
+      "sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+      "role": "Authoritative Fortran dual-element formulation (Phase JTYPE=1, Mechanical JTYPE=2, companion UMAT visualization)"
+    },
+    {
+      "category": "USER_SUBROUTINES",
+      "file": "f42_mixed_uel_diagnostic.for",
+      "sha256": "3c1b40035e85343c8b63214d8788ec16fd77d8bb3495cf3ed34c2f60147c5c1a",
+      "role": "Diagnostic instrumented Fortran source logging Unit 105 (energy balance), Unit 106 (incremental discrete terms), and Unit 107 (subiteration call order)"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "CLAIM_LEDGER_NUMERICAL_PROVENANCE.csv",
+      "sha256": "f02650f26a8f4f1416245161527e2a75d52792315ce31393950a5c154b54d1fb",
+      "role": "Machine-checkable 61-row one-to-one provenance ledger for all numbers in the 13-row supervisor ledger"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "L0_SENSITIVITY_SERIES_EVALUATION_TEMPLATE.csv",
+      "sha256": "acfa39594c440c87c0738e6647d6df53d63e1a41c5f1f153add20427c90b83c8",
+      "role": "Frozen pre-ingestion evaluation template for three-point length-scale series (l0 = 7.5, 11.25, 15.0 um)"
+    },
+    {
+      "category": "PROVENANCE_AND_LEDGER",
+      "file": "MASTER_CONVERGENCE_ENERGY_TABLE.csv",
+      "sha256": "a9af55151a2d30971e1b77371daf70407d31439772f7d8057a46a41ee30c092c",
+      "role": "15-case comprehensive master table of mechanical, energetic, and bookkeeping metrics"
+    },
+    {
+      "category": "POSTPROCESSING_SCRIPTS",
+      "file": "postprocess_l0_sensitivity_series.py",
+      "sha256": "9d94579607150c9cb8b57d24dbfe350dab399c8e4768db86bc728e566cd34c08",
+      "role": "Canonical l0 evaluation and anchor validation script with W_trap normalization enforcement"
+    },
+    {
+      "category": "POSTPROCESSING_SCRIPTS",
+      "file": "process_spatial_profiles_and_plots.py",
+      "sha256": "6850367e65ac20a6542f8b60c6fa7689eb7955222aa8dba653810c0359536bfb",
+      "role": "Spatial crack centroid trajectory y_c(x) and localization band full-width w_{d>=0.5} extraction"
+    },
+    {
+      "category": "POSTPROCESSING_SCRIPTS",
+      "file": "postprocess_mechanical_parity.py",
+      "sha256": "58cce339b3a7472ac1d84a3fa296390e4ab9b468e0557b69f67aed0e45400396",
+      "role": "Rigorous full-horizon mechanical bit-parity evaluation script between solver runs"
+    },
+    {
+      "category": "POSTPROCESSING_SCRIPTS",
+      "file": "postprocess_external_work.py",
+      "sha256": "8bc239d3f20918ebeb8eae938d613aabef438a002f24ec8ed516f1c3d33d56ec",
+      "role": "Trapezoidal integration of top boundary reaction force across prescribed displacement"
+    },
+    {
+      "category": "REPORTS_AND_DOCUMENTATION",
+      "file": "MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md",
+      "sha256": "0ef8c6908bd8458520e0f7da5ff2ea0a7b0934db6265ed5e4474b3ac46d51eeb",
+      "role": "Complete supervisor-facing Gate-6B convergence and energy audit report (16 sections, figures, and claim ledger)"
+    },
+    {
+      "category": "REPORTS_AND_DOCUMENTATION",
+      "file": "ENERGY_VARIABLE_MAP.md",
+      "sha256": "315e90b1358e9b28327717ede19da5052ee67c4a8f7d187f4218aa15e89cc518",
+      "role": "Source-to-code mapping of all physical energy quantities and SDV variables in UEL/UMAT"
+    },
+    {
+      "category": "EXECUTION_INSTRUCTIONS",
+      "file": "commands.txt",
+      "sha256": "72be03e43c6155575d7256ffc194ba46692bac9bad3e2647550928cf00934092",
+      "role": "Exact shell and Abaqus execution instructions for solver runs and post-processing"
+    }
+  ]
+}

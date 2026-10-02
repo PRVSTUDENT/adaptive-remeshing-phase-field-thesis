@@ -1,0 +1,349 @@
+{
+  "1398090 (Standard Baseline)": {
+    "filepath": "models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.inp",
+    "sha256": "c1773707d2f12fb8bfe1324ac6be47d28d1fd6b06c4c3780cd98e9527fa7ef82",
+    "heading": "",
+    "steps": [
+      {
+        "header": "*Step, name=Step-1, nlgeom=NO, inc=2500",
+        "static": "*Static",
+        "static_params": "5.0E-4, 1.0, 1.0E-9, 5.0E-4",
+        "boundary": [
+          "N_BOTTOM, 2, 2, 0.0",
+          "N_PIN, 1, 1, 0.0",
+          "N_TOP, 1, 1, 0.0",
+          "N_RP, 2, 2, 0.0050"
+        ],
+        "outputs": [
+          "*Restart, write, frequency=0",
+          "*Output, field, frequency=1",
+          "*Node Output, nset=N_RP",
+          "U, RF",
+          "*Node Print, freq=1, nset=N_RP",
+          "U2, RF2"
+        ],
+        "controls": []
+      },
+      {
+        "header": "*Step, name=Step-2, nlgeom=NO, inc=6000",
+        "static": "*Static",
+        "static_params": "2.0E-4, 1.0, 1.0E-9, 2.0E-4",
+        "boundary": [
+          "N_RP, 2, 2, 0.0100"
+        ],
+        "outputs": [
+          "*Restart, write, frequency=0",
+          "*Output, field, frequency=1",
+          "*Node Output, nset=N_RP",
+          "U, RF",
+          "*Node Print, freq=1, nset=N_RP",
+          "U2, RF2"
+        ],
+        "controls": []
+      }
+    ],
+    "user_elements": [
+      "*USER ELEMENT, TYPE=U1, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM",
+      "*USER ELEMENT, TYPE=U2, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM"
+    ],
+    "elements": {
+      "U1": 15192,
+      "U2": 15192,
+      "CPE4": 15192,
+      "UNKNOWN": 2
+    },
+    "nodes_count": 15522,
+    "uel_properties": [
+      [
+        "*UEL Property, elset=PHASE_QUAD",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 15192.0"
+      ],
+      [
+        "*UEL Property, elset=DISP_QUAD",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 15192.0"
+      ]
+    ],
+    "solid_sections": [
+      "*Solid Section, elset=All_elem, material=MAT_PASSIVE"
+    ],
+    "materials": [
+      "*Material, name=MAT_PASSIVE"
+    ],
+    "equations_count": 212,
+    "boundary_conditions": [],
+    "outputs": [],
+    "restart_requests": [],
+    "controls": []
+  },
+  "1399632 (Adaptive 1.0% Predecessor)": {
+    "filepath": "models/pandey_kumar_mode1/02_proposed_adaptive_refined/predecessor_1399632/PK_MODE1_PROPOSED_PFM.inp",
+    "sha256": "cb01d04105257099fd248bd713578b5c0499a4f58639996d55238dfb8c9e3bdf",
+    "heading": "Pandey & Kumar (2025) Mode-I Proposed Adaptive Refined PFM Solve (Sharp Slit)",
+    "steps": [
+      {
+        "header": "*STEP, NAME=Step-1, NLGEOM=NO, INC=6000",
+        "static": "*STATIC",
+        "static_params": "5.0E-4, 1.0, 1.0E-9, 5.0E-4",
+        "boundary": [
+          "N_BOTTOM, 2, 2, 0.0",
+          "N_PIN, 1, 1, 0.0",
+          "N_TOP, 1, 1, 0.0",
+          "N_RP, 2, 2, 0.0050"
+        ],
+        "outputs": [
+          "*RESTART, WRITE, FREQUENCY=0",
+          "*OUTPUT, FIELD, FREQUENCY=1",
+          "*NODE OUTPUT, NSET=N_RP",
+          "U, RF",
+          "*NODE OUTPUT",
+          "U, RF",
+          "*NODE PRINT, FREQ=1, NSET=N_RP",
+          "U2, RF2"
+        ],
+        "controls": []
+      },
+      {
+        "header": "*STEP, NAME=Step-2, NLGEOM=NO, INC=10000",
+        "static": "*STATIC",
+        "static_params": "2.0E-4, 1.0, 1.0E-14, 2.0E-4",
+        "boundary": [
+          "N_RP, 2, 2, 0.0100"
+        ],
+        "outputs": [
+          "*RESTART, WRITE, FREQUENCY=0",
+          "*OUTPUT, FIELD, FREQUENCY=1",
+          "*NODE OUTPUT, NSET=N_RP",
+          "U, RF",
+          "*NODE OUTPUT",
+          "U, RF",
+          "*NODE PRINT, FREQ=1, NSET=N_RP",
+          "U2, RF2"
+        ],
+        "controls": []
+      }
+    ],
+    "user_elements": [
+      "*USER ELEMENT, TYPE=U1, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM",
+      "*USER ELEMENT, TYPE=U2, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM",
+      "*USER ELEMENT, TYPE=U3, NODES=3, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM",
+      "*USER ELEMENT, TYPE=U4, NODES=3, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM"
+    ],
+    "elements": {
+      "U1": 69443,
+      "U3": 1877,
+      "U2": 69443,
+      "U4": 1877,
+      "CPE4": 69443,
+      "CPE3": 1877,
+      "UNKNOWN": 2
+    },
+    "nodes_count": 70846,
+    "uel_properties": [
+      [
+        "*UEL PROPERTY, ELSET=PHASE_QUAD",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 71320.0"
+      ],
+      [
+        "*UEL PROPERTY, ELSET=DISP_QUAD",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 71320.0"
+      ],
+      [
+        "*UEL PROPERTY, ELSET=PHASE_TRI",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 71320.0"
+      ],
+      [
+        "*UEL PROPERTY, ELSET=DISP_TRI",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 71320.0"
+      ]
+    ],
+    "solid_sections": [
+      "*SOLID SECTION, ELSET=All_elem, MATERIAL=DUMMY_MAT"
+    ],
+    "materials": [
+      "*MATERIAL, NAME=DUMMY_MAT"
+    ],
+    "equations_count": 210,
+    "boundary_conditions": [],
+    "outputs": [],
+    "restart_requests": [],
+    "controls": []
+  },
+  "1400368 (Adaptive 2.0% Deployed)": {
+    "filepath": "models/pandey_kumar_mode1/06_production_adaptive_2pct/PK_MODE1_PROPOSED_PFM.inp",
+    "sha256": "9c5b64a132f9ed6021c8b305bd47af48bfa096c52fd9b6746708fe54970b3de8",
+    "heading": "Pandey & Kumar (2025) Mode-I 2.0% Adaptive Refined PFM Solve",
+    "steps": [
+      {
+        "header": "*STEP, NAME=Step-1, NLGEOM=NO, INC=10000",
+        "static": "*STATIC",
+        "static_params": "0.02, 1.0, 1.0e-7, 0.02",
+        "boundary": [
+          "N_BOTTOM, 2, 2, 0.0",
+          "N_PIN, 1, 1, 0.0",
+          "N_TOP, 1, 1, 0.0",
+          "N_RP, 2, 2, 0.0050"
+        ],
+        "outputs": [
+          "*RESTART, WRITE, FREQUENCY=0",
+          "*OUTPUT, FIELD, FREQUENCY=1",
+          "*NODE OUTPUT, NSET=N_RP",
+          "U, RF",
+          "*NODE PRINT, FREQ=1, NSET=N_RP",
+          "U2, RF2"
+        ],
+        "controls": []
+      },
+      {
+        "header": "*STEP, NAME=Step-2, NLGEOM=NO, INC=20000",
+        "static": "*STATIC",
+        "static_params": "0.002, 1.0, 1.0e-14, 0.002",
+        "boundary": [
+          "N_RP, 2, 2, 0.0100"
+        ],
+        "outputs": [
+          "*RESTART, WRITE, FREQUENCY=0",
+          "*OUTPUT, FIELD, FREQUENCY=1",
+          "*NODE OUTPUT, NSET=N_RP",
+          "U, RF",
+          "*NODE PRINT, FREQ=1, NSET=N_RP",
+          "U2, RF2"
+        ],
+        "controls": []
+      }
+    ],
+    "user_elements": [
+      "*USER ELEMENT, TYPE=U1, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM",
+      "*USER ELEMENT, TYPE=U2, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM",
+      "*USER ELEMENT, TYPE=U3, NODES=3, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM",
+      "*USER ELEMENT, TYPE=U4, NODES=3, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM"
+    ],
+    "elements": {
+      "U1": 14963,
+      "U3": 433,
+      "U2": 14963,
+      "U4": 433,
+      "CPE4": 14963,
+      "CPE3": 433,
+      "UNKNOWN": 2
+    },
+    "nodes_count": 15415,
+    "uel_properties": [
+      [
+        "*UEL PROPERTY, ELSET=PHASE_QUAD",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 15396."
+      ],
+      [
+        "*UEL PROPERTY, ELSET=DISP_QUAD",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 15396."
+      ],
+      [
+        "*UEL PROPERTY, ELSET=PHASE_TRI",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 15396."
+      ],
+      [
+        "*UEL PROPERTY, ELSET=DISP_TRI",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 15396."
+      ]
+    ],
+    "solid_sections": [
+      "*SOLID SECTION, ELSET=All_elem, MATERIAL=DUMMY_MAT"
+    ],
+    "materials": [
+      "*MATERIAL, NAME=DUMMY_MAT"
+    ],
+    "equations_count": 112,
+    "boundary_conditions": [],
+    "outputs": [],
+    "restart_requests": [],
+    "controls": []
+  },
+  "1400382 (Adaptive 5.0% Deployed)": {
+    "filepath": "models/pandey_kumar_mode1/07_production_adaptive_5pct/PK_MODE1_5PCT_PFM.inp",
+    "sha256": "1c5835440d2a2c32b47e6d243185125c494afdc58f2acfd83992382a11705be8",
+    "heading": "Pandey & Kumar (2025) Mode-I 5.0% Adaptive Refined PFM Solve",
+    "steps": [
+      {
+        "header": "*STEP, NAME=Step-1, NLGEOM=NO, INC=10000",
+        "static": "*STATIC",
+        "static_params": "0.02, 1.0, 1.0e-7, 0.02",
+        "boundary": [
+          "N_BOTTOM, 2, 2, 0.0",
+          "N_PIN, 1, 1, 0.0",
+          "N_TOP, 1, 1, 0.0",
+          "N_RP, 2, 2, 0.0050"
+        ],
+        "outputs": [
+          "*RESTART, WRITE, FREQUENCY=0",
+          "*OUTPUT, FIELD, FREQUENCY=1",
+          "*NODE OUTPUT, NSET=N_RP",
+          "U, RF",
+          "*NODE PRINT, FREQ=1, NSET=N_RP",
+          "U2, RF2"
+        ],
+        "controls": []
+      },
+      {
+        "header": "*STEP, NAME=Step-2, NLGEOM=NO, INC=20000",
+        "static": "*STATIC",
+        "static_params": "0.002, 1.0, 1.0e-14, 0.002",
+        "boundary": [
+          "N_RP, 2, 2, 0.0100"
+        ],
+        "outputs": [
+          "*RESTART, WRITE, FREQUENCY=0",
+          "*OUTPUT, FIELD, FREQUENCY=1",
+          "*NODE OUTPUT, NSET=N_RP",
+          "U, RF",
+          "*NODE PRINT, FREQ=1, NSET=N_RP",
+          "U2, RF2"
+        ],
+        "controls": []
+      }
+    ],
+    "user_elements": [
+      "*USER ELEMENT, TYPE=U1, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM",
+      "*USER ELEMENT, TYPE=U2, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM",
+      "*USER ELEMENT, TYPE=U3, NODES=3, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM",
+      "*USER ELEMENT, TYPE=U4, NODES=3, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM"
+    ],
+    "elements": {
+      "U1": 4055,
+      "U3": 139,
+      "U2": 4055,
+      "U4": 139,
+      "CPE4": 4055,
+      "CPE3": 139,
+      "UNKNOWN": 2
+    },
+    "nodes_count": 4275,
+    "uel_properties": [
+      [
+        "*UEL PROPERTY, ELSET=PHASE_QUAD",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 4194."
+      ],
+      [
+        "*UEL PROPERTY, ELSET=DISP_QUAD",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 4194."
+      ],
+      [
+        "*UEL PROPERTY, ELSET=PHASE_TRI",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 4194."
+      ],
+      [
+        "*UEL PROPERTY, ELSET=DISP_TRI",
+        "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 4194."
+      ]
+    ],
+    "solid_sections": [
+      "*SOLID SECTION, ELSET=All_elem, MATERIAL=DUMMY_MAT"
+    ],
+    "materials": [
+      "*MATERIAL, NAME=DUMMY_MAT"
+    ],
+    "equations_count": 57,
+    "boundary_conditions": [],
+    "outputs": [],
+    "restart_requests": [],
+    "controls": []
+  }
+}

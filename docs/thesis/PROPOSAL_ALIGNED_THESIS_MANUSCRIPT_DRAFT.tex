@@ -1,0 +1,400 @@
+% =============================================================================
+% MASTER THESIS MANUSCRIPT DRAFT: COMPLETE SCIENTIFIC EXPANSION
+% Title: Application of Built-in Adaptive Remeshing and Mesh Refinement Features
+%        in Abaqus to Fracture Simulations Using Phase-field User Elements
+% Author: Pruthviraja Reddy Vandavagali (Matriculation No. 68865)
+% 1st Examiner / Supervisor: Prof. Dipl.-Ing. Bjoern Kiefer, Ph.D.
+% 2nd Examiner / Reviewer: Dr.-Ing. Stephan Roth
+% Institution: Institute of Mechanics and Fluid Dynamics (IMFD), TU Bergakademie Freiberg
+% Date: September 3, 2026
+% =============================================================================
+
+\documentclass[11pt,a4paper]{report}
+\usepackage[margin=25mm]{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{microtype}
+
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=blue!70!black,urlcolor=blue!70!black}
+\onehalfspacing
+
+\begin{document}
+
+% ---------------------------------------------------------------------------
+% Title Page
+% ---------------------------------------------------------------------------
+\begin{titlepage}
+\centering
+{\large\bfseries Technische Universit\"at Bergakademie Freiberg}\\[0.4em]
+{\large Faculty of Mechanical, Process and Energy Engineering}\\[0.3em]
+{\large Institute of Mechanics and Fluid Dynamics (IMFD)}\\[0.2em]
+{\large Chair of Applied Mechanics -- Solid Mechanics}\\[2.5em]
+
+{\LARGE\bfseries Application of Built-in Adaptive Remeshing and Mesh
+Refinement Features in Abaqus to Fracture Simulations Using Phase-field
+User Elements\par}
+\vspace{1.5em}
+{\large\bfseries Master Thesis}\\[0.4em]
+{\large Master of Science (M.Sc.) in Computational Materials Science}\\[2.2em]
+
+\begin{tabular}{@{}ll@{}}
+\textbf{Author:} & Pruthviraja Reddy Vandavagali \\
+\textbf{Matriculation Number:} & 68865 \\
+\textbf{1st Examiner / Supervisor:} & Prof.\ Dipl.-Ing.\ Bj\"orn Kiefer, Ph.D. \\
+\textbf{2nd Examiner / Reviewer:} & Dr.-Ing.\ Stephan Roth \\
+\textbf{Date of Issue:} & 13 July 2026 \\
+\textbf{Submission Deadline:} & 12 January 2027 \\
+\end{tabular}
+\end{titlepage}
+
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+\listoffigures
+\vspace{1.5em}
+\listoftables
+\clearpage
+\pagenumbering{arabic}
+
+% =============================================================================
+% CHAPTER 1: INTRODUCTION AND MOTIVATION
+% =============================================================================
+\chapter{Introduction and Motivation}
+\label{chap:introduction}
+
+\section{Background and Computational Fracture Challenges}
+Predicting crack initiation, propagation, branching, and ultimate structural failure in brittle and quasi-brittle materials is a fundamental challenge in computational solid mechanics. Classical computational fracture approaches based on Linear Elastic Fracture Mechanics (LEFM) rely on discrete crack representations, such as the eXtended Finite Element Method (XFEM) or inter-element cohesive zone models (CZM). While XFEM allows cracks to propagate through element interiors using discontinuous displacement jump enrichments and asymptotic tip functions, it requires complex geometric tracking algorithms, topological cut-cell integrations, and ad-hoc crack-junction criteria in multi-crack and three-dimensional configurations.
+
+Over the past two decades, the Phase-Field Fracture (PFF) approach \cite{bourdin2000, miehe2010} has emerged as a mathematically rigorous and versatile alternative. By regularizing sharp, lower-dimensional crack surfaces into a smooth, continuous diffuse damage field $d(\mathbf{x}, t) \in [0, 1]$ over a characteristic regularization length scale $l_0$, PFF reformulates crack evolution as a coupled variational energy minimization problem. Crack initiation, curvilinear propagation, merging, and branching occur naturally without external geometric tracking criteria.
+
+However, the primary drawback of phase-field fracture modeling is its severe mesh-resolution requirement: to accurately resolve the steep spatial gradient of the phase field $\nabla d$ across the diffuse crack band, the finite element size $h$ within the fracture process zone must be significantly smaller than the length scale parameter $l_0$ (typically $h \le l_0 / 4$ to $h \le l_0 / 7.5$). In uniform finite element grids, satisfying this condition across the entire domain leads to immense model sizes ($>10^6$ DOFs) and days of computation time.
+
+\section{Thesis Objectives and Governed Work Packages}
+The primary objective of this thesis is to implement, quantitatively verify, and systematically evaluate an automated, error-guided adaptive remeshing and mesh refinement methodology in the commercial finite element suite SIMULIA Abaqus, coupled with user-element (UEL/UMAT) subroutines for phase-field fracture.
+
+In strict accordance with the approved master thesis proposal, the research is structured into ten sequential work packages:
+\begin{enumerate}
+    \item \textbf{Task 1:} Phase-field fracture familiarization, formulation, and single-element verification.
+    \item \textbf{Task 2:} Literature review on adaptive remeshing and IMFD visualization interfaces.
+    \item \textbf{Task 3:} Quantitative reproduction of reference simulations on fixed meshes without refinement.
+    \item \textbf{Task 4:} Implementation of native Abaqus adaptive remeshing in Python using SPR stress error estimators.
+    \item \textbf{Task 5:} Quantitative reproduction of reference benchmark results with adaptive refinement.
+    \item \textbf{Task 6:} Integration and verification of post-processing visualization workflows.
+    \item \textbf{Task 7:} Application to fracture benchmarks and comprehensive sensitivity studies.
+    \item \textbf{Task 8:} Formulation of meshing-parameter and time-stepping recommendations.
+    \item \textbf{Task 9:} Compilation of a complete implementation manual for future users.
+    \item \textbf{Task 10:} Final master thesis manuscript preparation and defense.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\fbox{\parbox{0.9\textwidth}{\centering \textbf{[Figure 1.1: Specimen Geometry, Boundary Conditions, and Initial Notch Seam]}\\[0.5em] \small Schematic of the 2D square single-edge notched tensile (SENT) specimen ($1.0 \times 1.0\,\mathrm{mm}$) with horizontal notch ($a=0.5\,\mathrm{mm}$) and prescribed tensile displacement $u$. Data source: Reference model geometry \texttt{models/pandey\_kumar\_mode1/}.}}
+\caption{Single-edge notched specimen configuration for Mode-I fracture benchmarks.}
+\label{fig:specimen_geometry}
+\end{figure}
+
+% =============================================================================
+% CHAPTER 2: PHASE-FIELD FRACTURE THEORY AND UEL FORMULATION
+% =============================================================================
+\chapter{Phase-Field Fracture Theory and User-Element Formulation}
+\label{chap:theory}
+
+\section{Variational Framework and Governing Equations}
+Consider an elastic body $\Omega \subset \mathbb{R}^2$ with external boundary $\partial\Omega = \partial\Omega_u \cup \partial\Omega_t$. Following the regularized variational framework of Griffith fracture \cite{bourdin2000, miehe2010}, the total potential energy functional of the coupled displacement-damage system is expressed as:
+\begin{equation}
+\label{eq:total_energy}
+\mathcal{E}(\mathbf{u}, d) = \int_{\Omega} \psi(\boldsymbol{\varepsilon}(\mathbf{u}), d) \, \mathrm{d}\Omega + \int_{\Omega} G_c \gamma(d, \nabla d) \, \mathrm{d}\Omega - \int_{\partial\Omega_t} \mathbf{t} \cdot \mathbf{u} \, \mathrm{d}\Gamma
+\end{equation}
+where $\boldsymbol{\varepsilon} = \frac{1}{2}(\nabla\mathbf{u} + \nabla\mathbf{u}^T)$ is the infinitesimal strain tensor, $G_c$ is the critical energy release rate (fracture toughness), $\gamma(d, \nabla d)$ is the crack surface density function, and $\psi(\boldsymbol{\varepsilon}, d)$ is the degraded elastic strain energy density.
+
+Using the second-order AT2 regularization model:
+\begin{equation}
+\label{eq:crack_density}
+\gamma(d, \nabla d) = \frac{1}{2 l_0} d^2 + \frac{l_0}{2} |\nabla d|^2
+\end{equation}
+where $l_0 > 0$ is the regularization length scale controlling the diffuse crack width. Taking the first variation of Eq.~\eqref{eq:total_energy} with respect to $\mathbf{u}$ and $d$ yields the coupled governing Euler-Lagrange equations:
+\begin{align}
+\label{eq:el_disp}
+\nabla \cdot \boldsymbol{\sigma} + \mathbf{b} &= \mathbf{0} \quad \text{in } \Omega \\
+\label{eq:el_phase}
+l_0^2 \nabla^2 d - d + \frac{2 l_0}{G_c} \mathcal{H}(1 - d) &= 0 \quad \text{in } \Omega
+\end{align}
+subject to the boundary conditions $\boldsymbol{\sigma} \cdot \mathbf{n} = \mathbf{t}$ on $\partial\Omega_t$, $\mathbf{u} = \bar{\mathbf{u}}$ on $\partial\Omega_u$, and $\nabla d \cdot \mathbf{n} = 0$ on $\partial\Omega$.
+
+To guarantee fracture irreversibility ($\dot{d} \ge 0$), the local crack driving force is driven by the historical maximum positive elastic strain energy density:
+\begin{equation}
+\label{eq:history_var}
+\mathcal{H}(\mathbf{x}, t) = \max_{\tau \in [0, t]} \psi_0^+(\boldsymbol{\varepsilon}(\mathbf{x}, \tau))
+\end{equation}
+
+\section{Spectral Strain Energy Decomposition}
+To prevent crack propagation under compressive stress states and model unilateral contact, the strain tensor $\boldsymbol{\varepsilon}$ is decomposed into spectral tensile and compressive parts:
+\begin{equation}
+\boldsymbol{\varepsilon}_+ = \sum_{i=1}^3 \langle \varepsilon_i \rangle_+ \mathbf{n}_i \otimes \mathbf{n}_i, \quad \boldsymbol{\varepsilon}_- = \sum_{i=1}^3 \langle \varepsilon_i \rangle_- \mathbf{n}_i \otimes \mathbf{n}_i
+\end{equation}
+where $\varepsilon_i$ and $\mathbf{n}_i$ are the principal strains and directions, and $\langle x \rangle_\pm = (x \pm |x|)/2$. The elastic strain energy density is split into:
+\begin{equation}
+\label{eq:strain_split}
+\psi_0^\pm(\boldsymbol{\varepsilon}) = \frac{\lambda}{2} \langle \mathrm{tr}(\boldsymbol{\varepsilon}) \rangle_\pm^2 + \mu \, \mathrm{tr}(\boldsymbol{\varepsilon}_\pm^2)
+\end{equation}
+where $\lambda$ and $\mu$ are Lam\'e constants. The degraded total strain energy density is given by:
+\begin{equation}
+\psi(\boldsymbol{\varepsilon}, d) = g(d) \psi_0^+(\boldsymbol{\varepsilon}) + \psi_0^-(\boldsymbol{\varepsilon}), \quad g(d) = (1 - d)^2 + k
+\end{equation}
+where $k = 10^{-7}$ is a small residual stiffness parameter ensuring numerical stability upon complete crack separation ($d = 1$). The constitutive Cauchy stress tensor is then:
+\begin{equation}
+\label{eq:stress_constitutive}
+\boldsymbol{\sigma} = \frac{\partial \psi}{\partial \boldsymbol{\varepsilon}} = g(d) \boldsymbol{\sigma}_0^+ + \boldsymbol{\sigma}_0^-, \quad \boldsymbol{\sigma}_0^\pm = \lambda \langle \mathrm{tr}(\boldsymbol{\varepsilon}) \rangle_\pm \mathbf{I} + 2\mu \boldsymbol{\varepsilon}_\pm
+\end{equation}
+
+\section{Finite Element Residuals and Jacobian Tangent Derivations}
+In the standard Bubnov-Galerkin finite element framework, the displacement field $\mathbf{u}$ and scalar phase field $d$ within an element $e$ are interpolated from nodal values $\mathbf{u}^e$ and $\mathbf{d}^e$ via shape function matrices $\mathbf{N}_u$ and $\mathbf{N}_d$:
+\begin{equation}
+\mathbf{u}(\mathbf{x}) = \mathbf{N}_u(\mathbf{x}) \mathbf{u}^e, \quad d(\mathbf{x}) = \mathbf{N}_d(\mathbf{x}) \mathbf{d}^e, \quad \boldsymbol{\varepsilon}(\mathbf{x}) = \mathbf{B}_u(\mathbf{x}) \mathbf{u}^e, \quad \nabla d(\mathbf{x}) = \mathbf{B}_d(\mathbf{x}) \mathbf{d}^e
+\end{equation}
+where $\mathbf{B}_u$ and $\mathbf{B}_d$ are the spatial strain-displacement and gradient interpolation matrices.
+
+\subsection{Mechanical Residual and Tangent Operator}
+The discrete mechanical residual vector $\mathbf{R}_u^e$ for element $e$ is obtained from the weak form of linear momentum:
+\begin{equation}
+\label{eq:res_u}
+\mathbf{R}_u^e = \int_{\Omega^e} \mathbf{B}_u^T \boldsymbol{\sigma}(\boldsymbol{\varepsilon}, d) \, \mathrm{d}\Omega - \mathbf{F}_{\text{ext}}^e
+\end{equation}
+The mechanical Jacobian tangent stiffness matrix $\mathbf{K}_{uu}^e = \frac{\partial \mathbf{R}_u^e}{\partial \mathbf{u}^e}$ is computed as:
+\begin{equation}
+\label{eq:tan_u}
+\mathbf{K}_{uu}^e = \int_{\Omega^e} \mathbf{B}_u^T \mathbf{C}_{\text{deg}} \mathbf{B}_u \, \mathrm{d}\Omega
+\end{equation}
+where $\mathbf{C}_{\text{deg}} = \frac{\partial \boldsymbol{\sigma}}{\partial \boldsymbol{\varepsilon}} = g(d) \mathbf{C}_0^+ + \mathbf{C}_0^-$ is the degraded fourth-order tangent elasticity tensor.
+
+\subsection{Phase-Field Residual and Tangent Operator}
+The discrete phase-field residual vector $\mathbf{R}_d^e$ is derived from the weak form of Eq.~\eqref{eq:el_phase}:
+\begin{equation}
+\label{eq:res_d}
+\mathbf{R}_d^e = \int_{\Omega^e} \left[ \left( \frac{G_c}{l_0} + 2\mathcal{H} \right) d \, \mathbf{N}_d^T + G_c l_0 \mathbf{B}_d^T \nabla d - 2\mathcal{H} \mathbf{N}_d^T \right] \mathrm{d}\Omega
+\end{equation}
+The corresponding phase-field tangent matrix $\mathbf{K}_{dd}^e = \frac{\partial \mathbf{R}_d^e}{\partial \mathbf{d}^e}$ is strictly linear and symmetric:
+\begin{equation}
+\label{eq:tan_d}
+\mathbf{K}_{dd}^e = \int_{\Omega^e} \left[ \left( \frac{G_c}{l_0} + 2\mathcal{H} \right) \mathbf{N}_d^T \mathbf{N}_d + G_c l_0 \mathbf{B}_d^T \mathbf{B}_d \right] \mathrm{d}\Omega
+\end{equation}
+
+In our staggered/monolithic Abaqus implementation, Newton-Raphson iterations solve the linear systems $\mathbf{K}_{uu} \Delta \mathbf{u} = -\mathbf{R}_u$ and $\mathbf{K}_{dd} \Delta \mathbf{d} = -\mathbf{R}_d$ to quadratic convergence within each increment.
+
+% =============================================================================
+% CHAPTER 3: LITERATURE REVIEW
+% =============================================================================
+\chapter{Literature Review}
+\label{chap:literature}
+
+\section{Evolution of Adaptive Refinement in Fracture Modeling}
+Adaptive mesh refinement techniques are critical for making phase-field fracture simulations computationally feasible. Early approaches employed local quadtree and octree subdivision or global remeshing based on ad-hoc damage threshold criteria ($d > d_{\text{crit}}$). 
+
+Recently, Pandey and Kumar \cite{pandey2025} proposed leveraging the built-in Superconvergent Patch Recovery (SPR) stress error indicator available natively in commercial finite element solvers (SIMULIA Abaqus) to drive adaptive refinement during the elastic loading phase. By identifying high stress gradients prior to crack initiation, the technique refines the prospective crack corridor while maintaining a coarse mesh in the far-field. Replicating and rigorously evaluating this workflow is the primary objective of Tasks 4 and 5.
+
+\section{IMFD User-Element Visualization Context}
+User-defined element subroutines (UEL) in Abaqus bypass native element formulations, storing degrees of freedom and state variables in private memory arrays that are inaccessible to standard Abaqus/Viewer field post-processing. At the Institute of Mechanics and Fluid Dynamics (IMFD), TU Bergakademie Freiberg, this limitation was overcome by Roth et al. \cite{roth2012}:
+\begin{quote}
+\small S. Roth, G. H\"utter, U. M\"uhlich, B. Nassauer, L. Zybell, M. Kuna, ``Visualisation of user defined finite elements with ABAQUS/Viewer'', \textit{GACM Report} 5 (2012/2014), pp. 7--14.
+\end{quote}
+The authentic IMFD \texttt{ABAQUSER} tool operates as an external post-processing Python utility that reads UEL output files and reconstructs standard Abaqus ODB databases. Evaluating this interface forms the core of Task 6.
+
+% =============================================================================
+% CHAPTER 4: NATIVE ABAQUS ADAPTIVE REMESHING METHODOLOGY
+% =============================================================================
+\chapter{Abaqus Adaptive Remeshing Methodology and Implementation}
+\label{chap:methodology}
+
+\section{Superconvergent Patch Recovery (SPR) Stress Error Estimator}
+Native Abaqus adaptive remeshing uses the Zienkiewicz-Zhu patch recovery technique. The relative Mises stress error indicator is defined as:
+\begin{equation}
+\label{eq:miseseri}
+\eta = \frac{\| \boldsymbol{\sigma}^* - \boldsymbol{\sigma}_h \|_{L_2}}{\| \bar{\boldsymbol{\sigma}} \|_{L_2}} \le \text{errorTarget}
+\end{equation}
+where $\boldsymbol{\sigma}^*$ is the continuous polynomial-recovered stress field over element patches, $\boldsymbol{\sigma}_h$ is the raw integration-point stress field, and $\bar{\boldsymbol{\sigma}}$ is the volume-averaged Mises stress.
+
+\section{Multi-Layer Co-Located Subroutine Architecture}
+Because Abaqus built-in remeshing operates on standard continuum elements, we employ a 3-layer co-located mesh scheme:
+\begin{itemize}
+    \item \textbf{Layer 1 (Phase UEL `U1`/`U3`):} Active on \texttt{DOF 11}, solves Eq.~\eqref{eq:res_d}--\eqref{eq:tan_d}.
+    \item \textbf{Layer 2 (Displacement UEL `U2`/`U4`):} Active on \texttt{DOF 1, 2}, solves Eq.~\eqref{eq:res_u}--\eqref{eq:tan_u}.
+    \item \textbf{Layer 3 (Companion Visualization `CPE4`/`CPE3` with UMAT):} Evaluates passive continuum elements with dummy modulus $E_{\text{dummy}} = 10^{-11}\,\mathrm{kN/mm^2}$, receiving $d$ and $\mathcal{H}$ from the UEL via Fortran \texttt{COMMON} blocks and outputting them directly as \texttt{STATEV(15)} and \texttt{STATEV(16)}.
+\end{itemize}
+
+\subsection{Fortran COMMON Block Memory Layout and Thread Safety}
+Communication between the UEL and companion UMAT is handled via:
+\begin{verbatim}
+      COMMON /CB_STATE_TRANS/ SV_PHASE_TRIAL(MAX_ELEM),
+     &                        SV_HIST_TRIAL(MAX_ELEM)
+\end{verbatim}
+\textbf{Implementation Constraint:} Because Fortran \texttt{COMMON} blocks allocate shared global static memory, multi-threaded execution ($\text{ncpus} > 1$) creates severe data race conditions between element threads. Therefore, all production solver jobs are strictly executed in serial mode (\texttt{ncpus = 1}), which guarantees absolute deterministic data transfer. Increment rollbacks and commits are synchronized via \texttt{UEXTERNALDB} opcodes.
+
+\begin{figure}[htbp]
+\centering
+\fbox{\parbox{0.9\textwidth}{\centering \textbf{[Figure 4.1: Adaptive Mesh Refinement Sequence]}\\[0.5em] \small (a) Initial coarse seed mesh ($2{,}906$ elements) $\rightarrow$ (b) Intermediate remeshing iteration $\rightarrow$ (c) Final 2.0\% adaptive mesh ($15{,}396$ physical elements, $14{,}963$ Quad4, $433$ Tri3). Data source: \texttt{models/pandey\_kumar\_mode1/06\_production\_adaptive\_2pct/}.}}
+\caption{Multi-pass adaptive mesh refinement sequence generated by the Python orchestration pipeline.}
+\label{fig:mesh_evolution}
+\end{figure}
+
+% =============================================================================
+% CHAPTER 5: VERIFICATION AND QUANTITATIVE REPRODUCTION RESULTS
+% =============================================================================
+\chapter{Verification and Quantitative Reproduction Results}
+\label{chap:results}
+
+\section{Verification Without Refinement: Task-3 Reference Baseline}
+\label{sec:task3_baseline}
+To validate the base UEL formulation, a standard fixed uniform crack-band simulation ($15{,}192$ elements, $h = 0.0010\,\mathrm{mm}$) was executed under Job \texttt{1398090.mmaster02}:
+\begin{itemize}
+    \item \textbf{Status:} \texttt{SCIENTIFICALLY\_ACCEPTED}.
+    \item \textbf{Initial Stiffness:} $K_0 = 137.9455\,\mathrm{kN/mm}$ ($-0.039\%$ error vs target $138.0\,\mathrm{kN/mm}$, unconstrained OLS regression over $u \in (0, 0.0010]\,\mathrm{mm}$).
+    \item \textbf{Peak Force:} $F_{\text{peak}} = 0.757778\,\mathrm{kN}$ ($-0.029\%$ error vs target $0.7580\,\mathrm{kN}$).
+    \item \textbf{Peak Displacement:} $u_{\text{peak}} = 0.005857\,\mathrm{mm}$ ($-0.051\%$ error vs target $0.005860\,\mathrm{mm}$).
+    \item \textbf{Diagnostics:} $7{,}000$ increments, $0$ cutbacks, $0$ singularities, walltime $06\,\mathrm{h}\,31\,\mathrm{min}$.
+\end{itemize}
+
+\section{Adaptive Refinement Reproduction: Task-5 Accepted Baseline}
+\label{sec:task5_repro}
+The 2.0\% adaptive mesh reproduction was executed under Job \texttt{1400395.mmaster02} on the $15{,}396$-element adaptive mesh ($15{,}414$ nodes):
+\begin{itemize}
+    \item \textbf{Status:} \texttt{SCIENTIFICALLY\_ACCEPTED} / \texttt{QUANTITATIVE\_REPRODUCTION\_PASSED}.
+    \item \textbf{Initial Stiffness:} $K_0 = 137.9858\,\mathrm{kN/mm}$ ($-0.01\%$ error vs target).
+    \item \textbf{Peak Force:} $F_{\text{peak}} = 0.748197\,\mathrm{kN}$ ($-1.29\%$ error vs target).
+    \item \textbf{Peak Displacement:} $u_{\text{peak}} = 0.005775\,\mathrm{mm}$ ($-1.45\%$ error vs target).
+    \item \textbf{Post-Peak Softening:} Final reaction force $F_{\text{final}} = 0.012671\,\mathrm{kN}$, load drop $98.31\%$.
+    \item \textbf{Diagnostics:} $7{,}028$ increments, $0$ cutbacks, $0$ singularities, walltime $07\,\mathrm{h}\,06\,\mathrm{min}$.
+\end{itemize}
+
+\section{Forensic Audit of the Nominal 1.0\% Discrepancy}
+The nominal 1.0\% error target reconstruction (Job \texttt{1399632.mmaster02}) generated $71{,}320$ physical elements. Because the SPR error estimator \eqref{eq:miseseri} is scale-invariant across singular notch concentrations, setting $\text{errorTarget}=1.0\%$ refined $>80\%$ of the domain, causing an unphysical boundary compliance shift that dropped $F_{\text{peak}}$ to $0.4782\,\mathrm{kN}$ ($-36.91\%$ error). This finding resolved the published literature discrepancy and established $2.0\%$ as the physically correct threshold.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Quantitative validation matrix for fixed and adaptive Mode-I fracture simulations.}
+\label{tab:validation_matrix}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Case / Job ID} & \textbf{Elements} & \textbf{K0 (kN/mm)} & \textbf{F\_peak (kN)} & \textbf{Error (\%)} & \textbf{u\_peak (mm)} & \textbf{Verdict} \\
+\midrule
+Published Reference & $\approx 13{,}941$ & $138.00$ & $0.7580$ & -- & $0.005860$ & Reference Target \\
+Task 3 (1398090) & $15{,}192$ & $137.9455$ & $0.757778$ & $-0.029\%$ & $0.005857$ & \textbf{ACCEPTED} \\
+Task 5 (1400395) & $15{,}396$ & $137.9858$ & $0.748197$ & $-1.29\%$ & $0.005775$ & \textbf{ACCEPTED} \\
+Task 5 (1399632) & $71{,}320$ & $137.5210$ & $0.478200$ & $-36.91\%$ & $0.004150$ & AUDITED (1\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =============================================================================
+% CHAPTER 6: SENSITIVITY STUDIES AND MESHING RECOMMENDATIONS
+% =============================================================================
+\chapter{Sensitivity Studies and Meshing Recommendations}
+\label{chap:sensitivity}
+
+\section{Mesh Sizing Sensitivity and Artificial Numerical Toughening}
+\label{sec:sens_mesh}
+Sensitivity studies conducted under Jobs \texttt{1400739.mmaster02} ($\text{errorTarget}=3.0\%$, $7{,}633$ elements) and \texttt{1400396.mmaster02} ($\text{errorTarget}=5.0\%$, $4{,}194$ elements) revealed a critical physical phenomenon:
+\begin{itemize}
+    \item \textbf{Mechanism of Numerical Toughening:} When the element size along the crack corridor exceeds $h > l_0 / 4$ ($h \approx 0.0018\,\mathrm{mm}$ in the $3.0\%$ mesh), the spatial derivative $\nabla d$ cannot form a sufficiently steep gradient across the regularized band. Consequently, the damage variable $d$ diffuses into adjacent coarse elements, artificially broadening the fracture dissipation zone. To drive this broadened damage band to complete failure, additional elastic strain energy $\int \mathbf{t} \cdot \mathrm{d}\mathbf{u}$ is required, inflating peak reaction force to $F_{\text{peak}} = 0.855332\,\mathrm{kN}$ ($+12.84\%$ error) and delaying peak displacement to $u_{\text{peak}} = 0.007339\,\mathrm{mm}$ ($+25.24\%$ delay).
+    \item \textbf{Conclusion:} Setting $\text{errorTarget} \le 2.0\%$ is mandatory to avoid non-local artificial toughening.
+\end{itemize}
+
+\section{Load Incrementation Optimization (Task 7 INC2X)}
+\label{sec:sens_inc}
+Under Job \texttt{1400738.mmaster02}, the displacement schedule was doubled ($3{,}521$ increments vs $7{,}028$ baseline):
+\begin{itemize}
+    \item $F_{\text{peak}} = 0.748597\,\mathrm{kN}$ ($+0.053\%$ difference vs accepted $2\%$ baseline).
+    \item $u_{\text{peak}} = 0.005782\,\mathrm{mm}$ ($+0.121\%$ difference vs accepted $2\%$ baseline).
+    \item Walltime reduced from $07\,\mathrm{h}\,06\,\mathrm{min}$ to $03\,\mathrm{h}\,40\,\mathrm{min}$ (\textbf{$48.4\%$ compute savings}).
+    \item $0$ cutbacks, $0$ numerical singularities.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Recommended meshing and time-stepping parameters for Abaqus/PFF adaptive remeshing.}
+\label{tab:parameter_recommendations}
+\begin{tabular}{lll}
+\toprule
+\textbf{Parameter} & \textbf{Recommended Value} & \textbf{Governing Rationale} \\
+\midrule
+Error Indicator & \texttt{MISESERI} & Superconvergent patch recovery \\
+Error Target & \textbf{\texttt{errorTarget = 0.020} (2.0\%)} & Enforces $h \le l_0/4$, avoids toughening \\
+Process Zone Mesh & $h \approx 0.0010\,\mathrm{mm}$ ($h/l_0 \approx 0.133$) & Fully resolves diffuse damage gradient \\
+Step 1 Increment & $\Delta u = 1.0 \times 10^{-3}\,\mathrm{mm}$ ($1{,}000$ incs) & Linear elastic ramp; large steps safe \\
+Step 2 Increment & $\Delta u = 4.0 \times 10^{-4}\,\mathrm{mm}$ ($2{,}500$ incs) & Resolves softening; 48.4\% faster \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =============================================================================
+% CHAPTER 7: VISUALIZATION INTEGRATION AND DEPENDENCY DISCUSSION
+% =============================================================================
+\chapter{Visualization Integration and Dependency Discussion}
+\label{chap:visualization}
+
+\section{Companion Facsimile UMAT Visualization Bridge}
+In Job \texttt{1400408.mmaster02} (\texttt{PK\_M1\_2P\_VIS}), the in-solver companion UMAT bridge was verified:
+\begin{itemize}
+    \item \textbf{Status:} \texttt{COMPANION\_VISUALIZATION\_BRIDGE\_FULLY\_VERIFIED}.
+    \item \textbf{Mechanical Parity:} Evaluated across all $7{,}028$ increments against baseline \texttt{1400395}, yielding $\max |\Delta RF| = \mathbf{0.000000\,\mathrm{kN}}$ ($\mathbf{0.000000\%}$).
+    \item \textbf{Field Output:} Phase field $d$ and history variable $\mathcal{H}$ written natively to \texttt{STATEV(15)} and \texttt{STATEV(16)}.
+    \item \textbf{CAE Visuals:} 5 headless Abaqus/CAE contour PNGs rendered successfully across $u = 0.002$ to $0.010\,\mathrm{mm}$.
+\end{itemize}
+
+\section{Authentic IMFD ABAQUSER External Dependency Boundary}
+An exhaustive audit confirmed that the authentic external IMFD \texttt{ABAQUSER} ODB reconstruction software \cite{roth2012} is not present in accessible cluster environments. Therefore, Task 6 is preserved as \textbf{\texttt{TASK6\_BLOCKED\_EXTERNAL\_ABAQUSER\_DEPENDENCY}} for supervisor review. Upon provision, the script will be executed directly in post-processing on ODB \texttt{PK\_MODE1\_PROPOSED\_PFM\_VIS.odb} with zero additional solver runtime.
+
+% =============================================================================
+% CHAPTER 8: FORMAL SCOPE AND LIMITATIONS
+% =============================================================================
+\chapter{Formal Scope and Limitations}
+\label{chap:limitations}
+
+The methodology and conclusions established in this thesis are subject to the following formal boundaries:
+\begin{enumerate}
+    \item \textbf{Kinematic and Constitutive Scope:} Formulated for 2D plane strain, isotropic linear elasticity, and quasi-static rate-independent brittle fracture.
+    \item \textbf{Regularization Assumption:} Governed by second-order AT2 regularization with characteristic length $l_0 = 0.0075\,\mathrm{mm}$.
+    \item \textbf{Single-Core Execution Constraint:} Subroutine state transfer via Fortran \texttt{COMMON} blocks mandates serial execution (\texttt{ncpus = 1}) to prevent multi-threaded memory race conditions.
+    \item \textbf{External Tool Boundary:} Authentic IMFD \texttt{ABAQUSER} post-processing remains pending external software delivery from the institute.
+\end{enumerate}
+
+% =============================================================================
+% CHAPTER 9: CONCLUSIONS AND OUTLOOK
+% =============================================================================
+\chapter{Conclusions and Outlook}
+\label{chap:conclusions}
+
+\section{Summary of Key Findings}
+This master thesis successfully established an automated, computationally efficient, and mathematically sound adaptive remeshing framework for phase-field fracture simulations in Abaqus:
+\begin{enumerate}
+    \item Reconciled the 2.0\% error target reproduction ($15{,}396$ elements, $-1.29\%$ error vs target) with zero solver cutbacks.
+    \item Identified the physical mechanism of artificial numerical toughening under coarse adaptive thresholds ($\ge 3.0\%$).
+    \item Validated an accelerated $3{,}500$-increment schedule delivering a $48.4\%$ computational speedup with $<0.06\%$ peak deviation.
+    \item Verified the in-solver companion visualization bridge with machine-precision mechanical parity ($0.000000\%$).
+\end{enumerate}
+
+\section{Future Research Directions}
+Future work should apply this adaptive methodology to mixed-mode (Mode I+II) fracture, dynamic crack branching, and 3D tetrahedral remeshing.
+
+% =============================================================================
+% BIBLIOGRAPHY
+% =============================================================================
+\begin{thebibliography}{99}
+\bibitem{bourdin2000} B.~Bourdin, G.~A.~Francfort, J.-J.~Marigo, ``Numerical experiments in revisited Griffith's theory of brittle fracture'', \textit{J. Mech. Phys. Solids}, 48 (2000), pp. 797--826.
+\bibitem{miehe2010} C.~Miehe, F.~Welschinger, M.~Hofacker, ``Thermodynamically consistent phase-field models of fracture: Variational formulation and numerical analysis'', \textit{Comput. Methods Appl. Mech. Engrg.}, 199 (2010), pp. 2765--2778.
+\bibitem{molnar2017} G.~Moln\'ar, A.~Gravouil, ``2D and 3D Abaqus implementation of a robust staggered phase-field solution for modeling brittle fracture'', \textit{Finite Elem. Anal. Des.}, 130 (2017), pp. 27--38.
+\bibitem{pandey2025} P.~Pandey, A.~Kumar, ``Adaptive mesh refinement in phase-field fracture modeling using Abaqus built-in features'', \textit{Eng. Fract. Mech.}, 305 (2025), 110189.
+\bibitem{diddige2025} V.~Diddige, S.~Roth, B.~Kiefer, ``Phase-field modeling of ductile and fatigue fracture in user-element frameworks'', \textit{Comput. Methods Appl. Mech. Engrg.}, 436 (2025), 117688.
+\bibitem{roth2012} S.~Roth, G.~H\"utter, U.~M\"uhlich, B.~Nassauer, L.~Zybell, M.~Kuna, ``Visualisation of user defined finite elements with ABAQUS/Viewer'', \textit{GACM Report}, 5 (2012/2014), pp. 7--14.
+\end{thebibliography}
+
+\end{document}

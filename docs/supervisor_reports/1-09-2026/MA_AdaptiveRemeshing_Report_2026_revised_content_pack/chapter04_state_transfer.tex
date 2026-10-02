@@ -1,0 +1,62 @@
+\chapter{Nonmatching State Transfer and Restart Mechanics}
+\label{ch:transfer}
+
+\section{Methodological context: Pre-refinement vs evolving remeshing}
+The two-job adaptive workflow described in Chapter~\ref{ch:refinement} operates as an \emph{offline pre-refinement}: the optimal non-uniform mesh is generated from a virgin coarse pre-analysis before damage initiates, and the subsequent fracture calculation starts from an uncracked state ($d = 0$).
+
+In contrast, \emph{online evolving remeshing} requires updating the finite element discretization dynamically during the nonlinear fracture process as damage propagates. When the mesh changes after irreversible phase-field degradation has developed, all constitutive state variables must be transferred from the donor mesh to the receiver mesh. This chapter summarizes the investigation into nonmatching state transfer, runtime data ingestion, and restart mechanics for phase-field fracture.
+
+\section{Transferred state fields and mapping operators}
+The nonmatching state transfer architecture distinguishes between nodal and integration-point quantities:
+\begin{enumerate}
+  \item \textbf{Nodal Fields ($\mathbf{u}, d$):} Displacement $\mathbf{u}(\mathbf{x})$ and phase field $d(\mathbf{x})$ are continuous piecewise-polynomial fields defined at mesh nodes. For every receiver node $\mathbf{x}_{\mathrm{rec}}$, a spatial point-in-element search locates the host donor element. The receiver nodal value is then evaluated via isoparametric shape function interpolation:
+  \begin{equation}
+  d(\mathbf{x}_{\mathrm{rec}}) = \sum_{a=1}^{N_{\mathrm{en}}} N_a(\boldsymbol\xi(\mathbf{x}_{\mathrm{rec}}))\,d_a^{\mathrm{donor}}.
+  \end{equation}
+  To prevent unphysical interpolation across existing cracks, donor and receiver elements along the crack flanks are segregated into upper and lower topological partitions before spatial search.
+  \item \textbf{Integration-Point History Field ($\mathcal{H}$):} The irreversible crack-driving energy $\mathcal{H}$ is stored at Gauss integration points. Transfer is conducted using a closest-subdomain projection to avoid smoothing or under-estimating the peak driving energy.
+\end{enumerate}
+
+Figure~\ref{fig:transfer_phase_history} illustrates the extracted donor checkpoint fields used during transfer evaluation.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.94\textwidth]{fig07_state_transfer_phase_history.png}
+\caption{Extracted checkpoint phase-field ($d$) and history-variable ($\mathcal{H}$) distributions from a donor calculation, illustrating the localized state data requiring nonmatching transfer.}
+\label{fig:transfer_phase_history}
+\end{figure}
+
+\section{Runtime state ingestion via \texttt{UEXTERNALDB}}
+Initial transfer implementations mapped the state fields to text files but failed to alter the receiver calculation because the standard UEL initialization path re-initialized internal variables to pristine defaults.
+
+To solve this, a dedicated runtime state-ingestion mechanism was developed within user subroutine \texttt{f42\_mixed\_uel.for}. At the start of analysis (\texttt{LOP=0} in \texttt{UEXTERNALDB}), binary state payloads containing interpolated nodal displacements, nodal phase fields, and element Gauss-point history tensors are ingested into Fortran memory buffers. During the initial increment, user elements consume these buffers to populate their internal state arrays (\texttt{SV_PHASE}, \texttt{SV_DISP}, \texttt{SV_HIST}).
+
+\section{Four-stage restart sequence and mechanical continuity findings}
+To separate numerical state ingestion from coupled mechanical equilibration, a four-stage restart sequence was formulated:
+\begin{enumerate}[label=\textbf{Stage \arabic*:},leftmargin=18mm]
+  \item \textbf{State Installation:} Ingest transferred fields and apply prescribed donor boundary conditions.
+  \item \textbf{Mechanical Equilibration:} Solve the mechanical equilibrium equation with the phase field held fixed ($d = d_{\mathrm{trans}}$).
+  \item \textbf{Phase-Field Relaxation:} Release the phase-field constraint and allow the coupled damage-displacement system to relax.
+  \item \textbf{Displacement Continuation:} Resume external tensile or shear loading.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.94\textwidth]{fig08_state_transfer_continuation.png}
+\caption{Visualization of the four-stage transfer and continuation workflow, showing state installation, mechanical equilibration, phase relaxation, and continuation loading.}
+\label{fig:transfer_continuation}
+\end{figure}
+
+While this four-stage sequence enabled stable numerical continuation to the final displacement endpoint (Figure~\ref{fig:transfer_continuation}), quantitative evaluation revealed an important physical challenge. When a discrete crack-tip facet split was introduced into the geometry during transfer, releasing the phase field in Stage~3 induced a localized redistribution of stored elastic energy, causing reaction force drops of $26.31\%$ (for an early donor state, Job \texttt{1398767}) and $99.56\%$ (for a later degraded state, Job \texttt{1398783}), as plotted in Figure~\ref{fig:transfer_drop}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.78\textwidth]{fig_transfer_force_drop.pdf}
+\caption{Reaction force drop observed upon releasing the phase-field constraint during Stage~3 relaxation for two topology-changing restart calculations.}
+\label{fig:transfer_drop}
+\end{figure}
+
+\section{Energy accounting and state-transfer synthesis}
+Because the current UEL formulation computes constitutive degradation internally without populating the standard Abaqus \texttt{ENERGY} array (\texttt{ALLSE}, \texttt{ALLIE}), an automated internal thermodynamic energy balance is not directly available from standard Abaqus output tables.
+
+In summary, the state-transfer infrastructure successfully achieves geometric mapping, field bound preservation ($0 \le d \le 1, \mathcal{H} \ge 0$), and runtime solver ingestion. However, ensuring strict mechanical continuity across discrete topology-changing splits remains an open scientific topic. Consequently, the primary production adaptive workflow focuses on pre-refinement (Chapters~\ref{ch:refinement} and~\ref{chap:production_validation}).

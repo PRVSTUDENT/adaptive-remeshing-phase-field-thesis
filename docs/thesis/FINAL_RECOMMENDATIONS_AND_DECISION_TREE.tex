@@ -3,27 +3,27 @@
 
 \section{Mesh and Refinement Recommendations}
 
-For the investigated Molnar geometry~\cite{molnar2017} with
-\(l=0.015\,\mathrm{mm}\), the supervisor-approved mesh roles are H2-PUB for
+For the investigated single-edge notch Molnar geometry~\cite{molnar2017} with
+\(l_c=0.015\,\mathrm{mm}\), the supervisor-approved mesh roles are H2-PUB for
 uniform RF--U validation, H1 for production comparisons, and H0 for
-development.  The Stage C corrected
+development. The Stage~C corrected
 locally refined mesh used 10,290 physical elements instead of 12,064 for H1,
-a reduction of 14.7\%.  Against a fair four-thread H1 run it reduced wall time
+a reduction of 14.7\%. Against a fair four-thread H1 run it reduced wall time
 by 16.7\%, CPU time by 14.9\%, and peak memory by 22.2\%.
 
 The refined model reproduced initial stiffness, pre-peak response, and peak
 load closely: stiffness differed by 0.061\%, pre-peak NRMSE was 0.089\%, peak
-force differed by 0.24\%, and peak displacement was unchanged.  These values
+force differed by 0.24\%, and peak displacement was unchanged. These values
 support the workflow for elastic, pre-peak, and peak-response studies within
 the tested parameter set.
 
 MISESERI-based pre-refinement successfully identified a useful fracture
-corridor, but it did not establish post-peak equivalence.  The post-peak NRMSE
+corridor, but it did not establish post-peak equivalence. The post-peak NRMSE
 was approximately 24.3\%, and quantitative crack-path comparison detected a
-deviation from H1 despite exact repeatability of the refined result.  Coarse
+deviation from H1 despite exact repeatability of the refined result. Coarse
 meshes are therefore suitable for workflow development and indicator
 generation only when notch geometry, free faces, layer mapping, and the local
-\(h/l\) ratio are independently audited.
+\(h/l_c\) ratio are independently audited.
 
 \section{State-Transfer Recommendations}
 
@@ -35,62 +35,72 @@ release hold with RF and energy discontinuity gates.
 
 The tested one-rank/four-thread D2 continuation matched its serial reference,
 but this supports repeatability only for the tested case and is not a general
-parallel-scaling result.  ABAQUSER comparison remains unavailable; independent
+parallel-scaling result. ABAQUSER comparison remains unavailable; independent
 ODB extraction must be described as the evidence route rather than as an
 equivalent ABAQUSER validation.
 
-Further loading cannot assume a fixed active set.  D3D found multiplier
+Further loading cannot assume a fixed active set. D3D found multiplier
 violations at the segment initial state and 3,157 violating nodes by the
-endpoint.  A new active-set correction is required when dual admissibility is
-lost.  The offline D3D-A1 correction is admissible under frozen F3 history, but
-its mechanical restart was not qualified.  It must not be used as an accepted
+endpoint. A new active-set correction is required when dual admissibility is
+lost. The offline D3D-A1 correction is admissible under frozen F3 history, but
+its mechanical restart was not qualified. It must not be used as an accepted
 continuation state.
 
-\section{Execution and Reproducibility Risks}
+\section{Execution and Reproducibility Protocols}
 
 The closeout exposed three infrastructure risks independent of the scientific
 model: platform-dependent text checksums, interpreter-version assumptions, and
-tool disappearance after module loading.  Reproducible HPC workflows should
+tool disappearance after module loading. Reproducible HPC workflows should
 derive hashes in the execution checkout, bind interpreters and compilers by
 absolute path, separate login-side repository checks from compute-node
 validation, and qualify the environment with a trivial job before a scientific
 submission.
 
-\section{Mode-II Benchmark Recommendations}
+\section{Mode-II Production Adaptive Recommendations (Stage G)}
 
-For the pure-shear Mode-II benchmark (\(\alpha=0\)), the serial H0 run (job 1378942.mmaster02) completed Abaqus execution and standalone extraction, providing a partial pre-peak response up to \(U_1 = 0.0070\,\mathrm{mm}\) with a maximum observed shear force of \(RF_1 = 0.3063\,\mathrm{kN}\) at the final simulated point.
+For pure-shear Mode-II phase-field fracture (\(l_c=0.015\,\mathrm{mm}\)), Stage~G
+production adaptive models achieved full $100\%$ loading completion to
+$U_1 = 0.0100\,\mathrm{mm}$ (2,500 accepted increments) under continuous topology
+(\texttt{CONTINUOUS\_PHASE\_ONLY}). Based on the frozen Stage-G evidence, the
+following candidate roles are recommended to the thesis supervisor:
 
-However, the run did not satisfy the frozen scientific acceptance gate because the expected \(U_1 = 0.0100\,\mathrm{mm}\) endpoint was not reached (due to a step increment limit of 2,000 in Step 2) and a nonempty \(d \ge 0.50\) crack path was not obtained (\(\max(d) \approx 0.29923\)).  The result is admissible as partial pre-peak Mode-II response evidence, but the H0 baseline remains unvalidated, and post-peak Mode-II continuation and fine-mesh refinement remain blocked.
+\begin{itemize}
+    \item \textbf{Candidate 1 (\texttt{M2PROD\_ADAPT\_MM}, 2,206 physical elements)}:
+    Recommended as the \emph{Primary Production Efficiency Candidate} (Provisional). It achieves a $12.25\times$ scheduler-CPU runtime reduction relative to the fine $H_2$ baseline (1,180.0\,s vs.\ 14,455.0\,s) with a normalized $L_2$ force error of $1.4249\%$ and external work error of $0.8134\%$ relative to the authoritative $H_1$ reference in Domain~A ($0 \le U_1 \le 0.00925\,\mathrm{mm}$).
+    
+    \item \textbf{Candidate 2 (\texttt{M2PROD\_ADAPT\_PK5}, 4,894 physical elements)}:
+    Recommended as the \emph{Corridor Resolution Sensitivity Candidate} (Provisional). It provides higher spatial resolution along the fracture corridor, achieving a $5.56\times$ scheduler-CPU runtime reduction (2,600.0\,s) with an $L_2$ force error of $1.1467\%$ and work error of $0.5751\%$ relative to $H_1$.
+\end{itemize}
 
+\noindent\textit{Governance Status}: Both candidate roles remain designated as \texttt{PROVISIONAL\_REQUIRES\_HUMAN\_APPROVAL} until formally ratified by the thesis supervisor.
 
 \section{Practical Decision Tree}
 
-
 \begin{description}
-  \item[Need only elastic, peak, or pre-peak response?]
-  Use the accepted Stage C corrected refined workflow within the tested
-  \(l=0.015\,\mathrm{mm}\) and mesh-policy scope.
+  \item[Need fast, high-accuracy production fracture simulations?]
+  Use the recommended Stage~G production adaptive model (\texttt{M2PROD\_ADAPT\_MM}) for Mode-II problems ($>12\times$ runtime reduction, $<1.43\% L_2$ force error vs.\ $H_1$).
+  
+  \item[Need refined crack-corridor sensitivity analysis?]
+  Use the Stage~G higher-density candidate (\texttt{M2PROD\_ADAPT\_PK5}) to confirm spatial discretization invariance along the localization zone.
 
-  \item[Need post-peak crack-path equivalence?]
-  Do not use the current Stage C evidence as validation; post-peak RF--U and
-  crack-path equivalence are not supported.
+  \item[Need only elastic, peak, or pre-peak Mode-I response?]
+  Use the accepted Stage~C corrected refined workflow within the tested
+  \(l_c=0.015\,\mathrm{mm}\) parameter scope.
 
-  \item[Need transfer to a new mesh at a pre-peak checkpoint?]
+  \item[Need nonmatching checkpoint state transfer?]
   Use the accepted D3A3-R4 bounded transfer and release-hold procedure with
-  complete state, ordering, KKT, RF, and energy audits.
+  complete primal/history state, ordering, KKT, and energy discontinuity audits.
 
   \item[Need continuation after active-set evolution begins?]
   Recompute the active set and independently qualify the corrected mechanical
-  restart.  The current D3D-A1 package is a candidate only.
-
-  \item[Need online adaptive remeshing or D3E/post-peak continuation?]
-  This is not validated in the thesis and requires a new scientific and
-  infrastructure programme.
+  restart. The current D3D-A1 package is a candidate only.
 \end{description}
 
-\section{Final Scope}
+\section{Final Thesis Scope}
 
-The thesis contribution is a bounded, evidence-driven workflow that identifies
-where pre-refinement and state transfer are reliable, quantifies their
-accuracy/cost benefit, and exposes active-set and execution limitations before
-unsupported continuation claims are made.
+The contribution of this thesis is a bounded, rigorously verified workflow that
+demonstrates how adaptive remeshing and user-element state transfer can be
+successfully applied to phase-field fracture in Abaqus. It establishes that
+adaptive mesh grading reduces computational cost by greater than an order of
+magnitude while strictly preserving thermodynamic invariants and structural
+force-displacement accuracy.

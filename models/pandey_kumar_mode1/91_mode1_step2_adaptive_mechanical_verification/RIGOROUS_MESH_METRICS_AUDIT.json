@@ -1,0 +1,382 @@
+{
+  "ORIGINAL_STEP1_EXPORT_48K": {
+    "edge_length_statistics": {
+      "median_edge_um": 3.6341741885447902, 
+      "mean_edge_um": 4.0557867582584946, 
+      "p01_edge_um": 1.2198506247606467, 
+      "max_edge_um": 27.414257778917783, 
+      "p05_edge_um": 1.4824546512608552, 
+      "p95_edge_um": 8.138967124843631, 
+      "pct_within_1_to_20_um": 99.82607880608828, 
+      "p99_edge_um": 10.790017140714104, 
+      "min_edge_um": 0.727005861355357
+    }, 
+    "mesh_label": "ORIGINAL_STEP1_EXPORT_48K", 
+    "total_nodes": 48093, 
+    "localization_statistics": {
+      "fine_5um": {
+        "inside_forward_corridor": 4606, 
+        "pct_inside_forward": 13.702623906705538, 
+        "in_crack_wake": 2676, 
+        "total_elements": 33614, 
+        "in_farfield": 10358, 
+        "pct_outside_forward": 86.29737609329446, 
+        "outside_forward_corridor": 29008
+      }, 
+      "fine_2um": {
+        "inside_forward_corridor": 3351, 
+        "pct_inside_forward": 31.690940041611498, 
+        "in_crack_wake": 1773, 
+        "total_elements": 10574, 
+        "in_farfield": 1408, 
+        "pct_outside_forward": 68.3090599583885, 
+        "outside_forward_corridor": 7223
+      }
+    }, 
+    "cpe4_quads": 47054, 
+    "transverse_cut_profiles": {
+      "0.9": {
+        "near_crack_median_h_A_um": 11.451937478333488, 
+        "farfield_median_h_A_um": 4.3862640503718, 
+        "corridor_width_5um_dy_mm": 0.6831603642499999, 
+        "near_crack_min_h_A_um": 10.114951667199675, 
+        "num_intersecting_elements": 219, 
+        "h_A_at_crack_plane_y05_um": 12.576255197594818, 
+        "min_edge_at_y05_um": 10.080407301196376
+      }, 
+      "0.55": {
+        "near_crack_median_h_A_um": 1.5041259870834587, 
+        "farfield_median_h_A_um": 4.691465522838254, 
+        "corridor_width_5um_dy_mm": 0.7812260118500001, 
+        "near_crack_min_h_A_um": 1.088095742237193, 
+        "num_intersecting_elements": 429, 
+        "h_A_at_crack_plane_y05_um": 1.6845924399547907, 
+        "min_edge_at_y05_um": 1.395761966183709
+      }, 
+      "0.65": {
+        "near_crack_median_h_A_um": 4.051775812019149, 
+        "farfield_median_h_A_um": 4.822339062271341, 
+        "corridor_width_5um_dy_mm": 0.694732938, 
+        "near_crack_min_h_A_um": 3.118471406303211, 
+        "num_intersecting_elements": 281, 
+        "h_A_at_crack_plane_y05_um": 4.681599188752783, 
+        "min_edge_at_y05_um": 3.9718405221289683
+      }, 
+      "0.75": {
+        "near_crack_median_h_A_um": 5.898880888057015, 
+        "farfield_median_h_A_um": 5.92677683721397, 
+        "corridor_width_5um_dy_mm": 0.79998172825, 
+        "near_crack_min_h_A_um": 4.223953146289446, 
+        "num_intersecting_elements": 210, 
+        "h_A_at_crack_plane_y05_um": 5.2076510479741716, 
+        "min_edge_at_y05_um": 3.953443318236107
+      }
+    }, 
+    "ligament_intersection_y05": {
+      "median_edge_um": 2.3099503608189877, 
+      "mean_h_A_um": 4.099088283436971, 
+      "min_h_A_um": 1.2435626179566994, 
+      "num_intersecting_elements": 150, 
+      "max_h_A_um": 14.53368316383291, 
+      "median_h_A_um": 2.4846932962015815, 
+      "min_edge_um": 1.0560144890602312
+    }, 
+    "total_elements": 48329, 
+    "area_equivalent_h_A_statistics": {
+      "p99_h_A_um": 10.568514772129685, 
+      "p05_h_A_um": 1.4742002516493469, 
+      "mean_h_A_um": 3.9851910625520923, 
+      "min_h_A_um": 0.5884347652577905, 
+      "max_h_A_um": 22.48347480811389, 
+      "median_h_A_um": 3.5677925205623593, 
+      "p95_h_A_um": 7.984427670853938, 
+      "p01_h_A_um": 1.1964021969099348
+    }, 
+    "cpe3_tris": 1275
+  }, 
+  "REPRODUCED_STEP1_REP1_48K": {
+    "edge_length_statistics": {
+      "median_edge_um": 3.6341741885447902, 
+      "mean_edge_um": 4.0557867582584946, 
+      "p01_edge_um": 1.2198506247606467, 
+      "max_edge_um": 27.414257778917783, 
+      "p05_edge_um": 1.4824546512608552, 
+      "p95_edge_um": 8.138967124843631, 
+      "pct_within_1_to_20_um": 99.82607880608828, 
+      "p99_edge_um": 10.790017140714104, 
+      "min_edge_um": 0.727005861355357
+    }, 
+    "mesh_label": "REPRODUCED_STEP1_REP1_48K", 
+    "total_nodes": 48093, 
+    "localization_statistics": {
+      "fine_5um": {
+        "inside_forward_corridor": 4606, 
+        "pct_inside_forward": 13.702623906705538, 
+        "in_crack_wake": 2676, 
+        "total_elements": 33614, 
+        "in_farfield": 10358, 
+        "pct_outside_forward": 86.29737609329446, 
+        "outside_forward_corridor": 29008
+      }, 
+      "fine_2um": {
+        "inside_forward_corridor": 3351, 
+        "pct_inside_forward": 31.690940041611498, 
+        "in_crack_wake": 1773, 
+        "total_elements": 10574, 
+        "in_farfield": 1408, 
+        "pct_outside_forward": 68.3090599583885, 
+        "outside_forward_corridor": 7223
+      }
+    }, 
+    "cpe4_quads": 47054, 
+    "transverse_cut_profiles": {
+      "0.9": {
+        "near_crack_median_h_A_um": 11.451937478333488, 
+        "farfield_median_h_A_um": 4.3862640503718, 
+        "corridor_width_5um_dy_mm": 0.6831603642499999, 
+        "near_crack_min_h_A_um": 10.114951667199675, 
+        "num_intersecting_elements": 219, 
+        "h_A_at_crack_plane_y05_um": 12.576255197594818, 
+        "min_edge_at_y05_um": 10.080407301196376
+      }, 
+      "0.55": {
+        "near_crack_median_h_A_um": 1.5041259870834587, 
+        "farfield_median_h_A_um": 4.691465522838254, 
+        "corridor_width_5um_dy_mm": 0.7812260118500001, 
+        "near_crack_min_h_A_um": 1.088095742237193, 
+        "num_intersecting_elements": 429, 
+        "h_A_at_crack_plane_y05_um": 1.6845924399547907, 
+        "min_edge_at_y05_um": 1.395761966183709
+      }, 
+      "0.65": {
+        "near_crack_median_h_A_um": 4.051775812019149, 
+        "farfield_median_h_A_um": 4.822339062271341, 
+        "corridor_width_5um_dy_mm": 0.694732938, 
+        "near_crack_min_h_A_um": 3.118471406303211, 
+        "num_intersecting_elements": 281, 
+        "h_A_at_crack_plane_y05_um": 4.681599188752783, 
+        "min_edge_at_y05_um": 3.9718405221289683
+      }, 
+      "0.75": {
+        "near_crack_median_h_A_um": 5.898880888057015, 
+        "farfield_median_h_A_um": 5.92677683721397, 
+        "corridor_width_5um_dy_mm": 0.79998172825, 
+        "near_crack_min_h_A_um": 4.223953146289446, 
+        "num_intersecting_elements": 210, 
+        "h_A_at_crack_plane_y05_um": 5.2076510479741716, 
+        "min_edge_at_y05_um": 3.953443318236107
+      }
+    }, 
+    "ligament_intersection_y05": {
+      "median_edge_um": 2.3099503608189877, 
+      "mean_h_A_um": 4.099088283436971, 
+      "min_h_A_um": 1.2435626179566994, 
+      "num_intersecting_elements": 150, 
+      "max_h_A_um": 14.53368316383291, 
+      "median_h_A_um": 2.4846932962015815, 
+      "min_edge_um": 1.0560144890602312
+    }, 
+    "total_elements": 48329, 
+    "area_equivalent_h_A_statistics": {
+      "p99_h_A_um": 10.568514772129685, 
+      "p05_h_A_um": 1.4742002516493469, 
+      "mean_h_A_um": 3.9851910625520923, 
+      "min_h_A_um": 0.5884347652577905, 
+      "max_h_A_um": 22.48347480811389, 
+      "median_h_A_um": 3.5677925205623593, 
+      "p95_h_A_um": 7.984427670853938, 
+      "p01_h_A_um": 1.1964021969099348
+    }, 
+    "cpe3_tris": 1275
+  }, 
+  "DIAGNOSTIC_STEP2_62K": {
+    "edge_length_statistics": {
+      "median_edge_um": 2.551718296295732, 
+      "mean_edge_um": 3.357466228488273, 
+      "p01_edge_um": 1.1444332308742595, 
+      "max_edge_um": 22.552032125656343, 
+      "p05_edge_um": 1.3936998477396447, 
+      "p95_edge_um": 8.421877219490497, 
+      "pct_within_1_to_20_um": 99.69991889699918, 
+      "p99_edge_um": 12.424683276627572, 
+      "min_edge_um": 0.6384302551728178
+    }, 
+    "mesh_label": "DIAGNOSTIC_STEP2_62K", 
+    "total_nodes": 61646, 
+    "localization_statistics": {
+      "fine_5um": {
+        "inside_forward_corridor": 12483, 
+        "pct_inside_forward": 23.917458614347026, 
+        "in_crack_wake": 913, 
+        "total_elements": 52192, 
+        "in_farfield": 13867, 
+        "pct_outside_forward": 76.08254138565297, 
+        "outside_forward_corridor": 39709
+      }, 
+      "fine_2um": {
+        "inside_forward_corridor": 9442, 
+        "pct_inside_forward": 45.21597548127574, 
+        "in_crack_wake": 428, 
+        "total_elements": 20882, 
+        "in_farfield": 1488, 
+        "pct_outside_forward": 54.78402451872426, 
+        "outside_forward_corridor": 11440
+      }
+    }, 
+    "cpe4_quads": 60429, 
+    "transverse_cut_profiles": {
+      "0.9": {
+        "near_crack_median_h_A_um": 4.129462058977901, 
+        "farfield_median_h_A_um": 4.480774948839951, 
+        "corridor_width_5um_dy_mm": 0.9472902213500001, 
+        "near_crack_min_h_A_um": 2.6293594920478123, 
+        "num_intersecting_elements": 325, 
+        "h_A_at_crack_plane_y05_um": 3.859950577502534, 
+        "min_edge_at_y05_um": 3.627579360292107
+      }, 
+      "0.55": {
+        "near_crack_median_h_A_um": 1.9883770834209173, 
+        "farfield_median_h_A_um": 5.80594456174779, 
+        "corridor_width_5um_dy_mm": 0.6131109185, 
+        "near_crack_min_h_A_um": 1.173732765634082, 
+        "num_intersecting_elements": 301, 
+        "h_A_at_crack_plane_y05_um": 1.8873038787248642, 
+        "min_edge_at_y05_um": 1.8255502507123589
+      }, 
+      "0.65": {
+        "near_crack_median_h_A_um": 1.4605918610873958, 
+        "farfield_median_h_A_um": 5.152170388940586, 
+        "corridor_width_5um_dy_mm": 0.7289997488666666, 
+        "near_crack_min_h_A_um": 0.821548298072609, 
+        "num_intersecting_elements": 411, 
+        "h_A_at_crack_plane_y05_um": 1.2040607908358687, 
+        "min_edge_at_y05_um": 0.8522038793740032
+      }, 
+      "0.75": {
+        "near_crack_median_h_A_um": 1.5425925051033373, 
+        "farfield_median_h_A_um": 3.416184868191641, 
+        "corridor_width_5um_dy_mm": 0.9401994821283333, 
+        "near_crack_min_h_A_um": 0.6641485395481987, 
+        "num_intersecting_elements": 510, 
+        "h_A_at_crack_plane_y05_um": 1.4862652426950234, 
+        "min_edge_at_y05_um": 1.223129247398664
+      }
+    }, 
+    "ligament_intersection_y05": {
+      "median_edge_um": 1.6936358492559507, 
+      "mean_h_A_um": 2.143042926830073, 
+      "min_h_A_um": 0.6371523972767481, 
+      "num_intersecting_elements": 293, 
+      "max_h_A_um": 5.1701793577343285, 
+      "median_h_A_um": 1.8337357183831324, 
+      "min_edge_um": 0.6530902606653968
+    }, 
+    "total_elements": 62057, 
+    "area_equivalent_h_A_statistics": {
+      "p99_h_A_um": 12.070566844344876, 
+      "p05_h_A_um": 1.383574077562792, 
+      "mean_h_A_um": 3.2996084013015876, 
+      "min_h_A_um": 0.45191703110636583, 
+      "max_h_A_um": 19.33945167061784, 
+      "median_h_A_um": 2.5181373240178098, 
+      "p95_h_A_um": 8.261018978850352, 
+      "p01_h_A_um": 1.0789829281214505
+    }, 
+    "cpe3_tris": 1628
+  }, 
+  "DIAGNOSTIC_STEP1_42K": {
+    "edge_length_statistics": {
+      "median_edge_um": 3.8626076337478477, 
+      "mean_edge_um": 4.316826286572924, 
+      "p01_edge_um": 1.2911102496311286, 
+      "max_edge_um": 23.953537152862673, 
+      "p05_edge_um": 1.5367550798829412, 
+      "p95_edge_um": 8.7161252096247, 
+      "pct_within_1_to_20_um": 99.91913329924247, 
+      "p99_edge_um": 11.582031083810321, 
+      "min_edge_um": 0.7922057341530989
+    }, 
+    "mesh_label": "DIAGNOSTIC_STEP1_42K", 
+    "total_nodes": 42162, 
+    "localization_statistics": {
+      "fine_5um": {
+        "inside_forward_corridor": 3871, 
+        "pct_inside_forward": 14.127737226277373, 
+        "in_crack_wake": 2912, 
+        "total_elements": 27400, 
+        "in_farfield": 7237, 
+        "pct_outside_forward": 85.87226277372262, 
+        "outside_forward_corridor": 23529
+      }, 
+      "fine_2um": {
+        "inside_forward_corridor": 2625, 
+        "pct_inside_forward": 30.241935483870968, 
+        "in_crack_wake": 2067, 
+        "total_elements": 8680, 
+        "in_farfield": 1003, 
+        "pct_outside_forward": 69.75806451612904, 
+        "outside_forward_corridor": 6055
+      }
+    }, 
+    "cpe4_quads": 41224, 
+    "transverse_cut_profiles": {
+      "0.9": {
+        "near_crack_median_h_A_um": 11.685678976768386, 
+        "farfield_median_h_A_um": 4.948165416605573, 
+        "corridor_width_5um_dy_mm": 0.6629133973333334, 
+        "near_crack_min_h_A_um": 9.366575595205376, 
+        "num_intersecting_elements": 201, 
+        "h_A_at_crack_plane_y05_um": 11.60558688942015, 
+        "min_edge_at_y05_um": 10.33764427073838
+      }, 
+      "0.55": {
+        "near_crack_median_h_A_um": 1.7353867579034918, 
+        "farfield_median_h_A_um": 4.923188643730123, 
+        "corridor_width_5um_dy_mm": 0.6917485315, 
+        "near_crack_min_h_A_um": 1.2944435542011463, 
+        "num_intersecting_elements": 369, 
+        "h_A_at_crack_plane_y05_um": 1.793071615914497, 
+        "min_edge_at_y05_um": 1.762490544726437
+      }, 
+      "0.65": {
+        "near_crack_median_h_A_um": 3.9037709597244987, 
+        "farfield_median_h_A_um": 5.554084131500154, 
+        "corridor_width_5um_dy_mm": 0.8428968280166668, 
+        "near_crack_min_h_A_um": 3.085030762971382, 
+        "num_intersecting_elements": 250, 
+        "h_A_at_crack_plane_y05_um": 5.333938952230758, 
+        "min_edge_at_y05_um": 4.4420604362891405
+      }, 
+      "0.75": {
+        "near_crack_median_h_A_um": 6.321356953598973, 
+        "farfield_median_h_A_um": 6.203489780462551, 
+        "corridor_width_5um_dy_mm": 0.544198409, 
+        "near_crack_min_h_A_um": 3.7778767724576285, 
+        "num_intersecting_elements": 198, 
+        "h_A_at_crack_plane_y05_um": 6.944307041533745, 
+        "min_edge_at_y05_um": 6.1704508660837405
+      }
+    }, 
+    "ligament_intersection_y05": {
+      "median_edge_um": 2.5806780838617995, 
+      "mean_h_A_um": 4.289585855848822, 
+      "min_h_A_um": 0.8574125123527399, 
+      "num_intersecting_elements": 143, 
+      "max_h_A_um": 12.420649763393921, 
+      "median_h_A_um": 2.974206188694684, 
+      "min_edge_um": 1.0223367871543159
+    }, 
+    "total_elements": 42318, 
+    "area_equivalent_h_A_statistics": {
+      "p99_h_A_um": 11.142012817183145, 
+      "p05_h_A_um": 1.527885015303071, 
+      "mean_h_A_um": 4.242648639866691, 
+      "min_h_A_um": 0.6653233874894944, 
+      "max_h_A_um": 19.837827828621787, 
+      "median_h_A_um": 3.7996494190334875, 
+      "p95_h_A_um": 8.53502529555421, 
+      "p01_h_A_um": 1.2682333965897477
+    }, 
+    "cpe3_tris": 1094
+  }
+}

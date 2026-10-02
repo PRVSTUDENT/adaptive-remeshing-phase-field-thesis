@@ -1,0 +1,95 @@
+{
+  "candidate_id": "L1",
+  "job_name": "PK_M1_L1_L00075_ENERGY",
+  "package_directory": "models/pandey_kumar_mode1/20_length_scale_l1_baseline",
+  "characterization_role": "phase_field_length_scale_sensitivity",
+  "length_scale_l0_mm": 0.0075,
+  "length_scale_ratio_label": "1.0x_baseline (l0=7.5 um)",
+  "process_zone_mesh_size_h_mm": 0.0015,
+  "mesh_resolution_ratio_h_over_l0": 0.2,
+  "mesh": {
+    "n_elements": 41912,
+    "n_nodes": 42364,
+    "mesh_size_h": 0.0015,
+    "element_types": [
+      "U1",
+      "U2",
+      "CPE4"
+    ]
+  },
+  "material": {
+    "E": 210.0,
+    "nu": 0.3,
+    "Gc": 0.0027,
+    "l0": 0.0075,
+    "k": 1e-07,
+    "nphys": 41912.0
+  },
+  "thickness_convention": {
+    "t_ref_mm": 1.0,
+    "provenance": "project_baseline_unit_thickness_explicit_convention"
+  },
+  "step_schedule": {
+    "step1_dt": 0.0005,
+    "step1_incs": 2500,
+    "step2_dt": 0.0002,
+    "step2_incs": 6000,
+    "total_nominal_increments": 8500
+  },
+  "files": {
+    "input_deck": {
+      "name": "PK_MODE1_L1_BASELINE_ENERGY.inp",
+      "sha256": "1EDC670D587CBBCE2ACB98F215CFFF4AE9DA0C84633BD832A6241B530AB90AC4"
+    },
+    "user_subroutine": {
+      "name": "f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "notifications": {
+      "name": "job_notifications.sh",
+      "sha256": "96756A681D2D36C11B36B89288F631F8ECC9537543C2C745A4BAE1B425984B47"
+    },
+    "datacheck_pbs": {
+      "name": "submit_datacheck.pbs",
+      "sha256": "14359B0936C679CE5F489835231150466D523E5D1F9A11CDA731BB54BA8CDAC4"
+    },
+    "solver_pbs": {
+      "name": "submit_solver.pbs",
+      "sha256": "9DA2A8D2CB035B51B9F932075ACCA5976F37DB5C7023F433A1A5DDB5301F2CBA"
+    }
+  },
+  "scheduler_configuration": {
+    "queue": "normal_imfdfkmq",
+    "cpus": 1,
+    "memory": "32gb",
+    "walltime": "48:00:00",
+    "execution_mode": "single_rank_shared_memory_serial"
+  },
+  "historical_reference": {
+    "historical_job_id": "1406017.mmaster02",
+    "historical_deck": "PK_M1_S3_H0015.inp",
+    "historical_fortran_sha256": "C540B54A7871C81FA1E4398D934444DFCCF21B7C37ED3DE18CDE32810C6EC798"
+  },
+  "status": "DATACHECK_PASSED_REUSED_AS_S3_REFERENCE",
+  "authorized": false,
+  "submission_action": "OMIT_FROM_CLUSTER_SUBMISSIONS_REUSE_S3",
+  "equivalence_audit": {
+    "status": "EQUIVALENT_TO_S3_REFERENCE",
+    "governing_classification": "L1_BASELINE = REUSE_S3_REFERENCE",
+    "reference_package": "13_fixed_convergence_h0015",
+    "reference_deck": "PK_MODE1_FIX_H0015_ENERGY.inp",
+    "audit_findings": {
+      "geometry_diffs": 0,
+      "mesh_elements_diffs": 0,
+      "mesh_nodes_diffs": 0,
+      "material_constants_diffs": 0,
+      "phase_field_constants_diffs": 0,
+      "step_controls_diffs": 0,
+      "output_requests_diffs": 0,
+      "solver_controls_diffs": 0,
+      "source_subroutine_diffs": 0
+    },
+    "justification": "Candidate L1 baseline (l0=0.0075 mm, 41,912 elements) is mathematically, physically, and numerically identical to the staged Candidate S3 reference (PK_MODE1_FIX_H0015_ENERGY.inp). Submitting an independent solver run would redundantly consume 24-48 hours of cluster compute with zero scientific information gain. L1 baseline is formally mapped to reuse Candidate S3 as its trajectory anchor."
+  },
+  "submission_hold_reason": "Omitted from future solver submissions under verified equivalence rule L1_BASELINE = REUSE_S3_REFERENCE. Candidate S3 solve directly provides baseline length-scale trajectory."
+}

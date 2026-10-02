@@ -20,5 +20,31 @@ IMFD multi-field UEL architecture and ABAQUSER post-processing context. The hydr
 
 ## Open Extraction Items
 
-- Minimal ABAQUSER test case definition.
-- Independent extraction quantities for numerical verification.
+- Obtain the authentic ABAQUSER software artifact and its license/runtime notes.
+- Obtain a minimal UEL input, matching `.fil`, ABAQUSER information file, and
+  expected `.odb` for version-compatible verification.
+
+## Public Interface Recovery (2026-09-23)
+
+The interface is no longer classified as wholly unknown. Roth et al. (2012)
+documents ABAQUSER as a shell/Python post-processing package controlled by
+`abaquser.sh`. The published route is binary `.fil` extraction, reconstruction
+of assembly/instance ownership, decomposition of UEL SDVs by integration point
+and physical field, mapping to standard-library dummy elements, and ODB
+creation/update for Abaqus/Viewer.
+
+The auxiliary information-file grammar includes `*DIM`, `*UEL`, `TYPE`,
+`NUMIP`, `NUMSDV`, `NUMSDVPIP`, `ABADUMMY`, and `*SDV`, together with user-to-
+dummy node/integration-point ordering and field name/description/rank/component
+indices. Roth and Kiefer (2022) confirms CPE8 mappings for quadratic UELs and
+CPE4 approximations for cubic UELs when no matching built-in element exists.
+
+No attributable public source or executable package was located in targeted TU
+Freiberg, GitHub, GitLab, Zenodo, Qucosa, or archive searches. Detailed record:
+`docs/experiment_records/F1080RESEARCH_ABAQUSER_PUBLIC_ARTIFACT_DISCOVERY_RECORD.md`.
+
+Current boundary:
+
+- literature/interface concept: substantially recovered;
+- authentic source/executable: not obtained;
+- authentic integration/execution: still blocked and on hold.

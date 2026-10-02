@@ -1,0 +1,7 @@
+check_id,check_description,scope,status,details
+GATE-01,ODB State Ingestion Integrity,"Both candidates (1406895, 1406896)",PASS,"Extracted with v6 pipeline; cutback frames (845, 1474) purged; 2844 and 3473 valid states."
+GATE-02,Input Deck Hash & Diff Reconciliation,"PK_M1_S3_L01125.inp, PK_M1_S3_L01500.inp",PASS,"Raw CRLF & canonical LF SHA-256 reconciled; strictly 2 *UEL PROPERTY lines + 1 header comment diff verified across 169,621 lines."
+GATE-03,Discretization Compliance Verification,"All three cases (h/l0 = 0.200, 0.133, 0.100)",PASS,All cases strictly satisfy h <= l0/5 = 0.200 resolution criterion.
+GATE-04,Matched Domain Comparability Qualification,"Common domain u in [0, 5.839] um",PASS,"Matched-state comparisons (K0, F_max, u_peak, F(u), W_trap(u), normalized widths) fully qualified."
+GATE-05,Terminal State Separation Enforcement,Cross-case terminal energy comparisons,ENFORCED,Terminal energy metrics explicitly disqualified from cross-case physical sensitivity claims due to unequal displacement horizons.
+GATE-06,Energy Terminology & Identity Compliance,"All CSVs, reports, ledgers",PASS,"Enforces 'fracture surface energy' (E_frac), 'trapezoidal boundary work' (W_trap), 'two-term bookkeeping difference' (R_book), and GLOBAL_ENERGY_IDENTITY — NOT_YET_CLOSED."

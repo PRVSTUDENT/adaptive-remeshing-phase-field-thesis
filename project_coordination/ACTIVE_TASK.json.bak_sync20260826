@@ -1,0 +1,50 @@
+{
+    "task_id":  "F501-PANDEY-KUMAR-MODE-I-REPRODUCTION",
+    "task_name":  "Pandey & Kumar (2025) Mode-I Fracture Benchmark Reproduction (CMES 2025, doi:10.32604/cmes.2025.067858)",
+    "workflow_state":  "TASK5_PANDEY_KUMAR_INITIALIZED",
+    "status":  "PRODUCTION_SOLVER_SUBMITTED",
+    "target_package":  "models/pandey_kumar_mode1/",
+    "pilot_checkpoint":  {
+                             "campaign":  "REAL_PILOT_CYCLES_006_019",
+                             "final_cycle":  "REAL_PILOT_CYCLE_019",
+                             "final_production_job_id":  "1398028.mmaster02",
+                             "status":  "CAMPAIGN_CHECKPOINTED_CLEAN",
+                             "total_cycles_executed":  14,
+                             "conclusions":  "Validated automated external-driver restart, state transfer, and HPC execution pipeline. Paused continuation chain to pivot to Task 5 reproduction."
+                         },
+    "benchmark_specification":  {
+                                    "benchmark":  "PANDEY_KUMAR_2025_MODE_I_TENSION",
+                                    "domain_mm":  [
+                                                      1.0,
+                                                      1.0
+                                                  ],
+                                    "initial_crack":  "horizontal slit from (0.0, 0.5) to (0.5, 0.5)",
+                                    "material_parameters":  {
+                                                                "E_GPa":  210.0,
+                                                                "nu":  0.3,
+                                                                "Gc_kJ_per_m2":  2.7,
+                                                                "l0_mm":  0.0075
+                                                            },
+                                    "stages":  [
+                                                   "STAGE_1_UNIFORM_COARSE_BASELINE",
+                                                   "STAGE_2_MISESERI_ERROR_INDICATOR_EXTRACTION",
+                                                   "STAGE_3_OFFLINE_ERROR_GUIDED_LOCAL_REFINEMENT",
+                                                   "STAGE_4_REFINED_PHASE_FIELD_SIMULATION",
+                                                   "STAGE_5_ACCURACY_COST_COMPARISON"
+                                               ]
+                                },
+    "governance_status":  {
+                              "submission_authorized":  true,
+                              "qsub_authorized":  false,
+                              "datacheck_mode":  false,
+                              "solver_submission_authorized":  true,
+                              "active_job_id":  "1398090.mmaster02",
+                              "next_action":  "MONITOR_PANDEY_KUMAR_PRODUCTION_SOLVERS",
+                              "active_job_ids":  {
+                                                     "datacheck_job_id":  "1398089.mmaster02",
+                                                     "proposed_pfm_job_id":  "1398057.mmaster02",
+                                                     "standard_pfm_job_id":  "1398090.mmaster02"
+                                                 },
+                              "failed_predecessor_job_id":  "1398058.mmaster02"
+                          }
+}

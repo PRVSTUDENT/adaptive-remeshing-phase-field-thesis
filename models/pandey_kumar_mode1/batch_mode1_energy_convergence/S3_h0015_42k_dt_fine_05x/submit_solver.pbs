@@ -1,0 +1,35 @@
+#!/bin/bash
+#PBS -N PK_M1_S3_DTFINE
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=4
+#PBS -l mem=24gb
+#PBS -l walltime=12:00:00
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -o PK_M1_S3_H0015_DTFINE.out
+#PBS -e PK_M1_S3_H0015_DTFINE.err
+
+set -euo pipefail
+cd /home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/batch_mode1_energy_convergence/S3_h0015_42k_dt_fine_05x || exit 1
+
+if [ ! -f ./job_notifications.sh ]; then
+  echo "[LAUNCHER ERROR] job_notifications.sh missing" >&2
+  exit 10
+fi
+
+source ./job_notifications.sh
+notification_load_config || true
+notification_install_terminal_trap
+notify_start || true
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "=== STARTING SOLVER PK_M1_S3_DTFINE (CPUs: 4, Mem: 24GB) ==="
+rm -f PK_M1_S3_H0015_DTFINE.lck PK_M1_S3_H0015_DTFINE.023 uel_energy_balance.csv
+abaqus job=PK_M1_S3_H0015_DTFINE user=f42_mixed_uel.for input=PK_M1_S3_H0015_DTFINE.inp cpus=4 memory="24gb" double=both interactive
+ABAQUS_EXIT=$?
+echo "=== FINISHED SOLVER PK_M1_S3_DTFINE (EXIT: $ABAQUS_EXIT) ==="
+exit "$ABAQUS_EXIT"

@@ -1,0 +1,65 @@
+\chapter{Abaqus-Native Error-Guided Mesh Refinement}
+\label{ch:refinement}
+
+\section{Role of \texttt{MISESERI}}
+Abaqus provides recovered-stress error indicators for standard continuum elements. In the present workflow, the companion UMAT elements reproduce the mechanical fields of the user-element discretization so that Abaqus can evaluate \texttt{MISESERI}. The indicator measures stress-discretization error associated with the recovered von Mises stress field; it is not a measure of phase-field discretization error. Its role is therefore predictive: it identifies mechanically under-resolved regions in the preliminary solution that are plausible candidates for subsequent fracture localization.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{fig04_miseseri_spatial_map.png}
+\caption{Spatial distribution of the official PBS-extracted \texttt{MISESERI} field from coarse pre-analysis job \texttt{1379893.mmaster02}. The plot is generated from the 3,930-row extraction CSV with SHA-256 \texttt{49b0c5f7a784f361...}; the ODB, CSV and repaired validation are recorded together in the Stage-F4 replacement evidence. This is a derived plot of Abaqus element-field output, not a reconstructed phase-field contour.}
+\label{fig:miseseri_spatial_map}
+\end{figure}
+
+\section{Reference-faithful two-job workflow}
+The implemented Python sequence follows the structure reported by Pandey and Kumar \citep{Pandey2025}:
+\begin{enumerate}
+  \item create the coarse physical model and the coincident output/facsimile layer;
+  \item run the preliminary analysis and request \texttt{MISESERI}, \texttt{MISESAVG}, stress, volume, reaction force and displacement;
+  \item define an Abaqus \texttt{RemeshingRule} on the assembly set corresponding to \texttt{All\_elem};
+  \item open the preliminary ODB and execute \texttt{model.adaptiveRemesh(odb=odb)};
+  \item export the newly refined physical mesh;
+  \item reconstruct the phase-field UEL layer, mechanical UEL layer and visualization/UMAT layer on the new connectivity;
+  \item audit node coordinates, element connectivity, sets, boundary conditions, element types and property assignments before the fracture solve.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.98\textwidth]{fig_refinement_workflow.pdf}
+\caption{Computational sequence used to reproduce the Pandey--Kumar error-guided pre-refinement method. The fracture calculation begins from a virgin state on the final refined mesh; state transfer is not part of this two-job pre-refinement workflow.}
+\label{fig:refinement_workflow}
+\end{figure}
+
+A headless qualification revealed an important Abaqus scripting detail. The operation \texttt{adaptiveRemesh} already modifies the model mesh. Calling \texttt{generateMesh()} afterwards reapplied the original part seeds and overwrote the refined mesh. Removing that second meshing call changed the test problem from an unchanged $553$-element mesh to a genuinely refined $2{,}222$-element mesh. This check was added as a regression condition: an adaptive-remesh operation that leaves topology unchanged when nontrivial \texttt{MISESERI} requires refinement is treated as a failed qualification.
+
+\section{Mode-I reference settings}
+For the principal Mode-I case, Pandey and Kumar report a global element size of $0.02\,\mathrm{mm}$ and a local element size of $0.001\,\mathrm{mm}$ \citep{Pandey2025}. The remeshing rule uses \texttt{errorTarget=1.0} and \texttt{refinementFactor=10}, with coarsening disabled. Their refined Mode-I mesh contains $13{,}941$ triangular and quadrilateral elements. The present reconstruction uses these nominal settings together with the corrected sharp seam.
+
+Figure~\ref{fig:coarse_adaptive_meshes} provides direct CAE mesh evidence for the two ends of the implemented workflow. The sensitivity cases remain represented by their audited counts until their distinct mesh artifacts can be exported with the same viewport; no reconstructed pattern is substituted.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}\centering
+\includegraphics[width=\linewidth]{fig03a_coarse_mesh_cae.png}\\[-0.3em]\small (a) Coarse pre-analysis mesh
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}\centering
+\includegraphics[width=\linewidth]{fig13_adaptive_71320_mesh_cae.png}\\[-0.3em]\small (b) Nominal $1\%$ refined physical mesh
+\end{minipage}
+\caption{Direct Abaqus CAE mesh exports from the coarse pre-analysis input and the accepted nominal refined physical input. The dense central corridor in (b) is the actual native-remeshing result, not an illustrative reconstruction.}
+\label{fig:coarse_adaptive_meshes}
+\end{figure}
+
+\section{Observed mesh-density discrepancy}
+The reconstructed $1\%$ case produced $71{,}320$ physical elements, substantially more than the published $13{,}941$. Because a model may solve correctly while still failing to reproduce the reference refinement pattern, a separate preprocessing sensitivity study was performed without changing the fracture parameters. For the current reconstruction, $2\%$ and $5\%$ error targets generated $15{,}396$ and $4{,}194$ elements, respectively.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{fig_adaptivity_element_counts.pdf}
+\caption{Physical-element counts obtained from the present Abaqus-native refinement reconstruction. The $2\%$ and $5\%$ cases are sensitivity calculations, not replacements for the nominal $1\%$ production setting. The publication reports $13{,}941$ elements for its Mode-I proposed mesh.}
+\label{fig:adaptive_counts}
+\end{figure}
+
+The sensitivity study demonstrates that the remeshing outcome is highly sensitive to the interpretation of the error target and the resulting Abaqus sizing field. It does \emph{not} establish that the publication used $2\%$ in the Mode-I result. In fact, the paper explicitly lists \texttt{errorTarget=1.0} in its remeshing-rule function and separately reports a later sensitivity study with other error-target values. The origin of the remaining element-count discrepancy must therefore be stated as unresolved. Plausible contributors to examine include the precise pre-analysis loading history, the spatial region attached to the remeshing rule, Abaqus release-dependent sizing behaviour, and details of the coarse-mesh topology that are not completely recoverable from the publication.
+
+\section{Interpretation}
+Task 4 is considered implemented at the level of the execution chain: Abaqus-native refinement runs headlessly, produces a genuinely changed mesh, and the result can be converted into the layered UEL/UMAT model with deterministic connectivity checks. Task 5 remains a quantitative reproduction problem because the refined mesh density and the final fracture response must both be compared with the publication. The current $1\%$ fracture calculation is discussed in Chapter~\ref{ch:production} and is still running at the time of report preparation.

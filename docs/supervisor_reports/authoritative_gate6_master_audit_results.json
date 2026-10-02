@@ -1,0 +1,174 @@
+{
+  "metadata": {
+    "title": "Authoritative Gate-6 Mode-I Single-Factor Causal Isolation & Master Stiffness Reconciliation",
+    "timestamp_iso": "2026-09-09T09:23:45.888495",
+    "underlying_finite_element_mesh": {
+      "name": "Nominal 1% Adaptive Refined Mesh (C9/Gate-6 Topology)",
+      "total_finite_elements": 71320,
+      "quadrilateral_element_count": 69443,
+      "triangular_element_count": 1877,
+      "nodes": 70845,
+      "layer_1_phase_uel_elem_ids": "1 .. 71320",
+      "layer_2_disp_uel_elem_ids": "71321 .. 142640",
+      "layer_3_companion_standard_elem_ids": "142641 .. 213960",
+      "total_elements_in_deck": 213960,
+      "duplicate_element_ids": 0,
+      "topology_mapping_mismatches": 0
+    },
+    "k0_definition": "Unconstrained OLS linear fit F = K0 * u + b across frozen intact interval u in [0, 0.0010] mm",
+    "analytical_offline_assembly_reference_kN_per_mm": 138.021015,
+    "legacy_offline_assembly_transposition_bug_value_kN_per_mm": 134.445519,
+    "legacy_offline_assembly_status": "PERMANENTLY_RETIRED_TRANSPOSE_BUG_RESOLVED"
+  },
+  "single_factor_factorial_matrix": {
+    "K00_mech_plus_phase_symmetric": {
+      "job_id": "1403704",
+      "model_tag": "PK_M1_DECOMP_MECH_PLUS_PHASE",
+      "unsymm": false,
+      "companion_config": "NONE",
+      "k0_ols_kN_per_mm": 138.021015,
+      "r2": 1.0,
+      "description": "Baseline Mech + Phase UEL, UNSYMM=OFF, Companion=OFF"
+    },
+    "K10_mech_plus_phase_unsymmetric": {
+      "job_id": "1403706",
+      "model_tag": "PK_M1_DECOMP_UNSYMM",
+      "unsymm": true,
+      "companion_config": "NONE",
+      "k0_ols_kN_per_mm": 138.021015,
+      "r2": 1.0,
+      "description": "Mech + Phase UEL, UNSYMM=ON, Companion=OFF"
+    },
+    "K01_mech_plus_phase_companion_symmetric": {
+      "job_id": "1403707",
+      "model_tag": "PK_M1_DECOMP_COMPANION",
+      "unsymm": false,
+      "companion_config": "FULL (69,443 CPE4 + 1,877 CPE3)",
+      "k0_ols_kN_per_mm": 138.021015,
+      "r2": 1.0,
+      "description": "Mech + Phase UEL + Companion, UNSYMM=OFF, Companion=ON"
+    },
+    "K11_full_model_standard_umat": {
+      "job_id": "1403698",
+      "model_tag": "PK_M1_FROZEN_INTACT_NOM1",
+      "unsymm": true,
+      "companion_config": "FULL (Original Immediate-Return UMAT)",
+      "k0_ols_kN_per_mm": 122.599592,
+      "r2": 1.0,
+      "description": "Full Model, UNSYMM=ON, Companion=ON (Original Immediate-Return UMAT)"
+    },
+    "K11_diagnostic_explicit_zero_umat": {
+      "job_id": "1403711",
+      "model_tag": "PK_M1_FULL_UNSYMM_COMP_EXPLICIT_ZERO_UMAT",
+      "unsymm": true,
+      "companion_config": "FULL (Explicit-Zero Output Assignment UMAT)",
+      "k0_ols_kN_per_mm": 122.599592,
+      "r2": 1.0,
+      "description": "Full Model, UNSYMM=ON, Companion=ON (Explicit-Zero Output Assignment UMAT)"
+    },
+    "K11_diagnostic_native_builtin_elastic": {
+      "job_id": "1403712",
+      "model_tag": "PK_M1_FULL_UNSYMM_COMP_BUILTIN_NEARZERO",
+      "unsymm": true,
+      "companion_config": "FULL (Native Abaqus *ELASTIC: 2.10E-10, 0.3)",
+      "k0_ols_kN_per_mm": 122.599592,
+      "r2": 1.0,
+      "description": "Full Model, UNSYMM=ON, Companion=ON (Native Abaqus *ELASTIC: 2.10E-10, 0.3)"
+    },
+    "K11_diagnostic_cpe4_only": {
+      "job_id": "1403753",
+      "model_tag": "PK_M1_UNSYMM_COMP_CPE4_ONLY",
+      "unsymm": true,
+      "companion_config": "CPE4-ONLY (69,443 CPE4, 0 CPE3)",
+      "k0_ols_kN_per_mm": 122.599592,
+      "r2": 1.0,
+      "description": "Full Model, UNSYMM=ON, CPE4 Companion Only (0 CPE3)"
+    },
+    "K11_diagnostic_cpe3_only": {
+      "job_id": "1403754",
+      "model_tag": "PK_M1_UNSYMM_COMP_CPE3_ONLY",
+      "unsymm": true,
+      "companion_config": "CPE3-ONLY (1,877 CPE3, 0 CPE4)",
+      "k0_ols_kN_per_mm": 122.599591,
+      "r2": 1.0,
+      "description": "Full Model, UNSYMM=ON, CPE3 Companion Only (0 CPE4)"
+    },
+    "factorial_effects": {
+      "main_effect_unsymm_kN_per_mm": 0.0,
+      "main_effect_unsymm_pct": 0.0,
+      "main_effect_companion_kN_per_mm": 0.0,
+      "main_effect_companion_pct": 0.0,
+      "interaction_delta_k_int_kN_per_mm": -15.421423,
+      "interaction_delta_k_int_pct": -11.1732
+    }
+  },
+  "pure_continuum_baselines": {
+    "pure_mechanical_uel_control": {
+      "job_id": "1403703",
+      "model_tag": "PK_M1_DECOMP_MECH_ONLY",
+      "k0_ols_kN_per_mm": 138.021015,
+      "r2": 1.0,
+      "description": "Displacement DOFs (1,2) only, Phase field omitted, Companion omitted"
+    },
+    "pure_elastic_standard_control": {
+      "job_id": "1403684",
+      "model_tag": "PK_M1_ELAST_NOM1",
+      "k0_ols_kN_per_mm": 137.973464,
+      "r2": 1.0,
+      "description": "Standard Continuum Elastic Solve (71,320 standard finite elements, E=210 GPa, nu=0.3)"
+    }
+  },
+  "original_umat_runtime_probe": {
+    "job_id": "1403768",
+    "element": 1,
+    "integration_point": 1,
+    "increment": 1,
+    "incoming_stress": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "incoming_ddsdde_row1": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "incoming_ddsdde_row2": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "incoming_ddsdde_row3": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "incoming_ddsdde_row4": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "incoming_sse": 0.0,
+    "incoming_spd": 0.0,
+    "incoming_scd": 0.0,
+    "empirical_finding": "STRESS, DDSDDE, and energy scalars are passed into UMAT pre-initialized to exactly zero by Abaqus on increment 1. Immediate return without modification leaves exact zeros intact."
+  },
+  "scientific_classifications_and_verifications": {
+    "underlying_continuum_mesh": "RULED_OUT (Mesh supports 137.97 .. 138.02 kN/mm in all uncoupled single-layer models)",
+    "local_uel_quad_triangle_formulations": "RULED_OUT_LOCALLY (Matches offline global assembly to 7 significant figures)",
+    "early_damage_degradation": "RULED_OUT (Forced intact d=0, g(d)=1 preserves exact linear elasticity across interval)",
+    "offline_assembly_contradiction": "DEFINITIVELY_RESOLVED (134.445519 kN/mm retired due to transposition bug; corrected value = 138.021015 kN/mm)",
+    "immediate_return_uninitialized_umat_output": "RULED_OUT_AS_REQUIRED_TRIGGER (Empirical probe confirms zero initialization; explicit zero assignment and native *ELASTIC produce identical 122.599592 kN/mm)",
+    "umat_interface_requirement": "UMAT_INTERFACE_NOT_REQUIRED_FOR_TRIGGER (Trigger reproduced identically with native Abaqus *ELASTIC without user subroutine)",
+    "unsymm_x_companion_trigger": "VERIFIED_UNSYMM_X_COMPANION_FACTORIAL_TRIGGER_ON_FROZEN_INTERVAL",
+    "companion_cpe4_vs_cpe3_contribution": "BOTH_INDIVIDUALLY_SUFFICIENT (CPE4-only yields 122.599592 kN/mm, CPE3-only yields 122.599591 kN/mm; generic co-located standard-element presence under UNSYMM is sufficient)",
+    "internal_abaqus_mechanism": "INTERNAL_MECHANISM_NOT_YET_ESTABLISHED",
+    "miseseri_to_size_mapping": "UNRESOLVED / INTERNAL_SIZING_MAPPING_NOT_DOCUMENTED",
+    "internal_energy_convergence": "INTERNAL_ENERGY_CONVERGENCE_NOT_AVAILABLE"
+  }
+}

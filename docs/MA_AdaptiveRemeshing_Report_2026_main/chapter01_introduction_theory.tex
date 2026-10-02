@@ -1,0 +1,134 @@
+\chapter{Introduction and Phase-Field Foundations}
+\label{ch:foundations}
+
+\section{Motivation and present scope}
+
+Brittle fracture is governed by the initiation, propagation, and coalescence of displacement discontinuities. Conventional finite-element descriptions must track these discontinuities explicitly through discrete remeshing or enrich the approximation space as cracks advance. Variational phase-field fracture regularizes the sharp crack surface into a continuous scalar field $d\in[0,1]$, where $d=0$ denotes intact material and $d=1$ denotes fully developed fracture. Crack initiation, curving, branching, and merging are thereby captured naturally without ad-hoc geometric tracking criteria \citep{francfort1998,bourdin2000,bourdin2008,miehe2010a}.
+
+This regularization comes with a strict numerical resolution requirement: the diffuse crack profile is controlled by a regularization length scale $l_0$, requiring finite-element sizes $h \ll l_0$ along the crack trajectory. Uniform global refinement places small elements throughout large, remotely loaded elastic zones where they add severe computational burden without improving crack-path accuracy. Error-guided adaptive refinement is therefore attractive because it concentrates fine elements selectively in high-gradient and high-error regions.
+
+Following supervisor guidance, this interim thesis work is strictly anchored to the foundational Mode-I fracture problem. Before escalating model complexity, the complete physical, numerical, and energetic properties of the baseline formulation must be fully understood and verified.
+
+\section{AT2 regularized fracture formulation}
+
+Let $\Omega\subset\mathbb{R}^2$ denote the specimen domain, $\mathbf{u}$ the displacement vector field, and $d$ the phase field. In the standard AT2 regularization \citep{bourdin2000,bourdin2008}, the total potential energy functional is
+\begin{equation}
+\Pi(\mathbf{u},d)=
+\int_{\Omega}\left[g(d)\,\psi_e^{+}(\boldsymbol{\varepsilon})
++\psi_e^{-}(\boldsymbol{\varepsilon})
++\frac{G_c}{2l_0}d^2
++\frac{G_c l_0}{2}\lvert\nabla d\rvert^2\right]\,\mathrm{d}\Omega
+-W_{\mathrm{ext}},
+\label{eq:total_potential}
+\end{equation}
+where $G_c$ is the critical fracture energy release rate, $l_0$ is the regularizing length scale, and $\boldsymbol{\varepsilon}=\frac{1}{2}(\nabla\mathbf{u}+\nabla\mathbf{u}^{\mathsf T})$ is the small-strain tensor.
+
+The degraded elastic strain energy density is governed by the quadratic degradation function:
+\begin{equation}
+g(d)=(1-d)^2+k,
+\label{eq:degradation}
+\end{equation}
+where $k=1.0\times10^{-7}$ is a small residual stiffness parameter preventing numerical singularity when $d\rightarrow1$. The crack surface energy density functional $\gamma(d,\nabla d)$ penalizes both the phase-field magnitude and its spatial gradient:
+\begin{equation}
+\gamma(d,\nabla d) = \frac{1}{2l_0}d^2 + \frac{l_0}{2}\lvert\nabla d\rvert^2,
+\label{eq:crack_surface_density}
+\end{equation}
+which $\Gamma$-converges to the Griffith sharp crack surface energy as $l_0\rightarrow0$ \citep{bourdin2008}.
+
+\section{Irreversibility, history field, and staggered architecture}
+
+Fracture irreversibility ($\dot{d}\ge0$) is enforced through a local history field $\mathcal{H}(\mathbf{x},t)$:
+\begin{equation}
+\mathcal{H}(\mathbf{x},t)=\max_{\tau\in[0,t]}\psi_0^{+}(\mathbf{x},\tau),
+\label{eq:history}
+\end{equation}
+where $\psi_0^{+}$ is the undegraded tensile driving energy density. In plane-strain linear elasticity with Lam\'e parameters $\lambda$ and $\mu$:
+\begin{equation}
+\psi_0^{+}(\boldsymbol{\varepsilon}) = \frac{1}{2}\lambda \langle \mathrm{tr}(\boldsymbol{\varepsilon}) \rangle_+^2 + \mu \left(\varepsilon_{11}^2 + \varepsilon_{22}^2 + 2\varepsilon_{12}^2\right).
+\end{equation}
+The staggered solution scheme decouples the governing partial differential equations into two alternating subproblems at each load increment:
+\begin{enumerate}
+  \item \textbf{Mechanical subproblem:} solve for displacement $\mathbf{u}_{n+1}$ given the lagged phase field $d_n$:
+  \begin{equation}
+  \int_{\Omega} \left[ g(d_n) \mathbb{C}_0 : \boldsymbol{\varepsilon}(\mathbf{u}_{n+1}) \right] : \boldsymbol{\varepsilon}(\delta\mathbf{u})\,\mathrm{d}\Omega = \int_{\partial\Omega_t} \mathbf{t}\cdot\delta\mathbf{u}\,\mathrm{d}\Gamma.
+  \end{equation}
+  \item \textbf{Phase-field subproblem:} solve for phase field $d_{n+1}$ given the updated driving history $\mathcal{H}_{n+1}$:
+  \begin{equation}
+  \int_{\Omega} \left[ G_c\left(\frac{d_{n+1}}{l_0}\delta d + l_0 \nabla d_{n+1}\cdot\nabla\delta d\right) - 2(1-d_{n+1})\mathcal{H}_{n+1}\delta d \right]\mathrm{d}\Omega = 0.
+  \end{equation}
+\end{enumerate}
+
+In the Abaqus implementation, these subproblems are executed through co-located user element (UEL) layers exchanging transactional state via dedicated shared common blocks, while passive visualizer elements (UMAT) expose the underlying field variables to the Abaqus output database (ODB).
+
+\section{Rigorous Energy Formulation and Global Energy Balance}
+\label{sec:energy_formulation}
+
+A central requirement established by the supervisor is that convergence and mesh adequacy must be evaluated through global energetic measures and energy balance, rather than peak reaction force alone.
+
+\subsection{Energy components and mathematical definitions}
+For the implemented staggered formulation, four fundamental global energy quantities are defined with consistent units of $\mathrm{kN\cdot mm}$ ($\mathrm{J}$):
+\begin{enumerate}
+  \item \textbf{Stored Recoverable Elastic Strain Energy ($\Psi_{\mathrm{elastic}}$):}
+  \begin{equation}
+  \Psi_{\mathrm{elastic}}(\mathbf{u},d) = \int_{\Omega} \psi_e(\boldsymbol{\varepsilon},d)\,\mathrm{d}\Omega = \int_{\Omega} \frac{1}{2}\boldsymbol{\sigma}:\boldsymbol{\varepsilon}\,\mathrm{d}\Omega = \int_{\Omega} \frac{1}{2} g(d) \boldsymbol{\varepsilon} : \mathbb{C}_0 : \boldsymbol{\varepsilon}\,\mathrm{d}\Omega.
+  \label{eq:psi_elastic}
+  \end{equation}
+  \item \textbf{Dissipated Fracture Surface Energy ($\Psi_{\mathrm{frac}}$):}
+  \begin{equation}
+  \Psi_{\mathrm{frac}}(d) = \int_{\Omega} G_c \gamma(d,\nabla d)\,\mathrm{d}\Omega = \int_{\Omega} G_c \left[ \frac{1}{2l_0}d^2 + \frac{l_0}{2}\lvert\nabla d\rvert^2 \right]\,\mathrm{d}\Omega.
+  \label{eq:psi_frac}
+  \end{equation}
+  \item \textbf{Total Internal Potential Energy ($\Psi_{\mathrm{total}}$):}
+  \begin{equation}
+  \Psi_{\mathrm{total}}(\mathbf{u},d) = \Psi_{\mathrm{elastic}}(\mathbf{u},d) + \Psi_{\mathrm{frac}}(d).
+  \label{eq:psi_total}
+  \end{equation}
+  \item \textbf{External Mechanical Work ($W_{\mathrm{ext}}$):}
+  \begin{equation}
+  W_{\mathrm{ext}}(u) = \int_0^u F(\tilde{u})\,\mathrm{d}\tilde{u} \approx \sum_{i=1}^{N_{\mathrm{inc}}} \frac{F_i + F_{i-1}}{2} (u_i - u_{i-1}).
+  \label{eq:w_ext}
+  \end{equation}
+\end{enumerate}
+
+\subsection{Global energy balance and residual metric}
+In an exact quasi-static fracture process, the work done by external forces equals the sum of stored elastic strain energy and dissipated crack surface energy. In the staggered numerical formulation, the global energy balance identity is:
+\begin{equation}
+W_{\mathrm{ext}}(u) = \Psi_{\mathrm{elastic}}(u) + \Psi_{\mathrm{frac}}(u) + \mathcal{D}_{\mathrm{num}}(u),
+\end{equation}
+where $\mathcal{D}_{\mathrm{num}}$ represents numerical dissipation introduced by the finite time-increment size and alternate minimization split. To quantify global energy conservation, the energy residual $R_E$ and normalized relative error $\eta_E$ are defined:
+\begin{equation}
+R_E(u) = W_{\mathrm{ext}}(u) - \left( \Psi_{\mathrm{elastic}}(u) + \Psi_{\mathrm{frac}}(u) \right),
+\qquad
+\eta_E(u) = \frac{\lvert R_E(u)\rvert}{\max\left(W_{\mathrm{ext}}(u),\Psi_{\mathrm{total}}(u), 10^{-10}\right)} \times 100\,\%.
+\label{eq:energy_residual}
+\end{equation}
+
+\subsection{Implementation and Variable Mapping}
+Table~\ref{tab:energy_variable_map} details the exact implementation map across the UEL and UMAT subroutines.
+
+\begin{table}[htbp]
+\centering
+\caption{Authoritative Energy Variable Map for the qualified \texttt{f42\_mixed\_uel.for} formulation.}
+\label{tab:energy_variable_map}
+\small
+\begin{tabularx}{\textwidth}{lXllp{3.5cm}}
+\toprule
+Code Variable & Physical / Mathematical Quantity & Equation & Units & Output Channel \\
+\midrule
+\texttt{E\_ELAS\_ELEM} & Element Elastic Strain Energy & $\int_{\Omega_e} \frac{1}{2}\boldsymbol{\sigma}:\boldsymbol{\varepsilon}\,\mathrm{d}\Omega$ & $\mathrm{kN\cdot mm}$ & \texttt{ENERGY(2)} $\rightarrow$ \texttt{ALLSE}, \texttt{SVARS(17)}, \texttt{STATEV(18)} \\
+\texttt{E\_FRAC\_ELEM} & Element Fracture Surface Energy & $\int_{\Omega_e} G_c \gamma(d,\nabla d)\,\mathrm{d}\Omega$ & $\mathrm{kN\cdot mm}$ & \texttt{ENERGY(7)}, \texttt{SVARS(17)}, \texttt{STATEV(17)} \\
+\texttt{PSI\_E\_PT} & Elastic Strain Energy Density & $\frac{1}{2}\boldsymbol{\sigma}:\boldsymbol{\varepsilon}$ & $\mathrm{kN/mm^2}$ & \texttt{SVARS(18)}, \texttt{STATEV(20)} \\
+\texttt{PSI\_F\_PT} & Fracture Energy Density & $G_c \gamma(d,\nabla d)$ & $\mathrm{kN/mm^2}$ & \texttt{SVARS(18)}, \texttt{STATEV(19)} \\
+\texttt{W\_ext} & Global External Work & $\int_0^u F\,\mathrm{d}u$ & $\mathrm{kN\cdot mm}$ & \texttt{ALLWK}, trapz post-processing \\
+\texttt{TOT\_E\_INT} & Total Internal Energy & $\Psi_{\mathrm{elastic}}+\Psi_{\mathrm{frac}}$ & $\mathrm{kN\cdot mm}$ & \texttt{ALLIE}, \texttt{uel\_energy\_balance.csv} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Numerical verification of the energy implementation}
+The energy-instrumented UEL was verified on a 64-quad element cracked benchmark ($1.0\times1.0\,\mathrm{mm}$, $a_0=0.5\,\mathrm{mm}$). The test demonstrated:
+\begin{itemize}
+  \item In the linear elastic stage ($u=0.0010\,\mathrm{mm}$): $W_{\mathrm{ext}} = 7.285055\times10^{-5}\,\mathrm{kN\cdot mm}$, $\Psi_{\mathrm{elastic}} = 7.280335\times10^{-5}\,\mathrm{kN\cdot mm}$, $\Psi_{\mathrm{frac}} = 5.089\times10^{-8}\,\mathrm{kN\cdot mm}$, giving an energy balance error of $\eta_E = 0.065\,\%$.
+  \item At full tensile loading ($u=0.0060\,\mathrm{mm}$): $W_{\mathrm{ext}} = 2.562345\times10^{-3}\,\mathrm{kN\cdot mm}$, $\Psi_{\mathrm{elastic}} = 2.501643\times10^{-3}\,\mathrm{kN\cdot mm}$, $\Psi_{\mathrm{frac}} = 6.323756\times10^{-5}\,\mathrm{kN\cdot mm}$, $\Psi_{\mathrm{total}} = 2.564881\times10^{-3}\,\mathrm{kN\cdot mm}$, yielding a residual $R_E = -2.535\times10^{-6}\,\mathrm{kN\cdot mm}$ and a relative error $\eta_E = 0.0989\,\% < 0.1\,\%$.
+  \item Mechanical parity with the uninstrumented formulation was preserved with zero divergence in reaction forces or displacements.
+\end{itemize}

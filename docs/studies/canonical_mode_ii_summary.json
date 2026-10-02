@@ -1,0 +1,154 @@
+{
+  "PK10R3_REFINED_TIP": {
+    "model_id": "PK10R3_REFINED_TIP", 
+    "trajectory_csv_sha256": "4e2a7030b8c7eaa53105a30e9def018cde0cec079f14bd5e986bf8359806448f", 
+    "job_name": "M2CORR_PK10R3_REFINED_TIP", 
+    "pbs_job_id": "1390098.mmaster02", 
+    "canonical_metrics": {
+      "total_energy_dissipated_kN_mm": 0.01132968112355727, 
+      "peak_frame": 109, 
+      "terminal_rf1_kN": 0.3485652208328247, 
+      "peak_u1_mm": 0.05000000074505806, 
+      "k0_kN_mm": 12.824058973093145, 
+      "total_steps": 1, 
+      "peak_step": "ShearStep", 
+      "peak_rf1_kN": 0.3485652208328247, 
+      "total_frames": 110, 
+      "terminal_u1_mm": 0.05000000074505806
+    }, 
+    "mesh_stats": {
+      "physical_quads": 17732, 
+      "h_min_mm": 0.002
+    }
+  }, 
+  "PK10R1_DEFECTIVE_BASELINE": {
+    "model_id": "PK10R1_DEFECTIVE_BASELINE", 
+    "trajectory_csv_sha256": "61e64463583f4080cf2d1d40908d108adde495d1ef6a00b5fd7dabf38e6105b6", 
+    "job_name": "M2CORR_PK10R1_CONTINUOUS_U050", 
+    "pbs_job_id": "1389684.mmaster02", 
+    "canonical_metrics": {
+      "total_energy_dissipated_kN_mm": 0.003922278038949213, 
+      "peak_frame": 49, 
+      "terminal_rf1_kN": 0.0036385066341608763, 
+      "peak_u1_mm": 0.013606223277747631, 
+      "k0_kN_mm": 31.989909701725747, 
+      "total_steps": 1, 
+      "peak_step": "ShearStep", 
+      "peak_rf1_kN": 0.3831014633178711, 
+      "total_frames": 149, 
+      "terminal_u1_mm": 0.05000000074505806
+    }, 
+    "mesh_stats": {
+      "physical_quads": 9612, 
+      "h_min_mm": 0.005
+    }
+  }, 
+  "PK10R2_TOPOLOGY_CORRECTED": {
+    "model_id": "PK10R2_TOPOLOGY_CORRECTED", 
+    "trajectory_csv_sha256": "3e64ea894708f8c819079105ad6be13975a5bfbe292c7138f8c9cec5c3b93dab", 
+    "job_name": "M2CORR_PK10R2_TOPOLOGY_CORRECTED", 
+    "pbs_job_id": "1390056.mmaster02", 
+    "canonical_metrics": {
+      "total_energy_dissipated_kN_mm": 0.011392527098952616, 
+      "peak_frame": 109, 
+      "terminal_rf1_kN": 0.35152244567871094, 
+      "peak_u1_mm": 0.05000000074505806, 
+      "k0_kN_mm": 12.863640183514208, 
+      "total_steps": 1, 
+      "peak_step": "ShearStep", 
+      "peak_rf1_kN": 0.35152244567871094, 
+      "total_frames": 110, 
+      "terminal_u1_mm": 0.05000000074505806
+    }, 
+    "mesh_stats": {
+      "physical_quads": 6048, 
+      "h_min_mm": 0.005
+    }
+  }, 
+  "H2_UNIFORM_ULTRAFINE": {
+    "model_id": "H2_UNIFORM_ULTRAFINE", 
+    "trajectory_csv_sha256": "06234e38f1e2e704cc76f3bf51ab350fea3e243126c416ac743800529243a76d", 
+    "job_name": "M2CORR_H2_FREEU2_FULL_U050", 
+    "pbs_job_id": "1389687.mmaster02", 
+    "canonical_metrics": {
+      "total_energy_dissipated_kN_mm": 0.0026339626790969875, 
+      "peak_frame": 37, 
+      "terminal_rf1_kN": 0.014403986744582653, 
+      "peak_u1_mm": 0.012213612906634808, 
+      "k0_kN_mm": 12.816395934340301, 
+      "total_steps": 1, 
+      "peak_step": "ShearStep", 
+      "peak_rf1_kN": 0.14141474664211273, 
+      "total_frames": 106, 
+      "terminal_u1_mm": 0.04257916659116745
+    }, 
+    "mesh_stats": {
+      "physical_quads": 33852, 
+      "h_min_mm": 0.001
+    }
+  }, 
+  "R7_SAMEMESH_RESTART_VALIDATED": {
+    "model_id": "R7_SAMEMESH_RESTART_VALIDATED", 
+    "trajectory_csv_sha256": "e61c97e9ca861ac713760091e02cacd332af8cc4583eaa4b99ce42769969a462", 
+    "job_name": "M2CORR_PK10R1_SAMEMESH_RESTART_VALIDATION_R7", 
+    "pbs_job_id": "1390042.mmaster02", 
+    "canonical_metrics": {
+      "total_energy_dissipated_kN_mm": 0.0024883699201841275, 
+      "peak_frame": 19, 
+      "terminal_rf1_kN": 0.003586889011785388, 
+      "peak_u1_mm": 0.014235214330255985, 
+      "k0_kN_mm": 0.0, 
+      "total_steps": 4, 
+      "peak_step": "CONTINUATION", 
+      "peak_rf1_kN": 0.38757023215293884, 
+      "total_frames": 96, 
+      "terminal_u1_mm": 0.05000000074505806
+    }, 
+    "mesh_stats": {
+      "physical_quads": 9612, 
+      "h_min_mm": 0.005
+    }
+  }, 
+  "H1_UNIFORM_FINE": {
+    "model_id": "H1_UNIFORM_FINE", 
+    "trajectory_csv_sha256": "0621a63a18edc67b3b8ea8f5a5c05de8afd0ac12d3675b0d9c416e9e81ff6829", 
+    "job_name": "M2CORR_H1_FREEU2_FULL_U050", 
+    "pbs_job_id": "1389686.mmaster02", 
+    "canonical_metrics": {
+      "total_energy_dissipated_kN_mm": 0.0027328512314116152, 
+      "peak_frame": 38, 
+      "terminal_rf1_kN": 0.008639795705676079, 
+      "peak_u1_mm": 0.012530019506812096, 
+      "k0_kN_mm": 12.834574187302799, 
+      "total_steps": 1, 
+      "peak_step": "ShearStep", 
+      "peak_rf1_kN": 0.1436861902475357, 
+      "total_frames": 145, 
+      "terminal_u1_mm": 0.05000000074505806
+    }, 
+    "mesh_stats": {
+      "physical_quads": 12064, 
+      "h_min_mm": 0.002
+    }
+  },
+  "STAGE_D_NONMATCHING_TRANSFER_VALIDATED": {
+    "model_id": "STAGE_D_NONMATCHING_TRANSFER_VALIDATED",
+    "job_name": "M2CORR_STAGE_D_NONMATCHING_TRANSFER_VAL",
+    "pbs_job_id": "1390176.mmaster02",
+    "source_job_id": "1389686.mmaster02",
+    "source_handoff_u1_mm": 0.0101433,
+    "canonical_metrics": {
+      "handoff_rf1_kN": 0.12205097,
+      "peak_rf1_kN": 0.14899425,
+      "peak_u1_mm": 0.01374068,
+      "terminal_rf1_kN": 0.00624773,
+      "terminal_u1_mm": 0.05000000,
+      "total_steps": 4,
+      "total_frames": 236
+    },
+    "mesh_stats": {
+      "physical_quads": 8836,
+      "h_min_mm": 0.002632
+    }
+  }
+}

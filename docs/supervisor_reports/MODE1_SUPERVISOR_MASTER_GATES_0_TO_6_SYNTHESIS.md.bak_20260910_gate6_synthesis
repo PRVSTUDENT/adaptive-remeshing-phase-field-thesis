@@ -1,0 +1,141 @@
+# Mode-I Phase-Field Fracture Benchmark: Master Scientific Synthesis & Gate Execution Dossier (Gates 0–5)
+
+**Document Identifier**: `docs/supervisor_reports/MODE1_SUPERVISOR_MASTER_GATES_0_TO_6_SYNTHESIS.md`  
+**Author**: Pruthviraja Reddy Vandavagali (Matriculation No. 68865)  
+**Supervisors**: Prof. Dipl.-Ing. Björn Kiefer, Ph.D., and Dr.-Ing. Stephan Roth  
+**Institution**: Institute of Mechanics and Fluid Dynamics (IMFD), TU Bergakademie Freiberg  
+**Date**: September 7, 2026  
+**Governing Directive**: *"We need to have understood everything related to the first model before we increase complexity."*  
+
+---
+
+## Master Gate Execution Status Dashboard
+
+```text
+=======================================================================================================================
+GATE      GATE DESCRIPTION                                 STATUS               EXIT EVIDENCE & GOVERNANCE BASIS
+=======================================================================================================================
+Gate 0    Source & Scope Freeze                            CLOSED_PASSED        Literature, proposal, & Mode-I freeze verified
+Gate 1    Conventional Mode-I Reference                    OPEN_PENDING_EVAL    Job 1401091 (Harmonized) evaluated
+Gate 2    Multi-Quantity Convergence Qualification         PARTIALLY_QUALIFIED  Common interval u in [0, 0.006816 mm] qualified
+Gate 3    MISESERI Mechanism Verification                  CLOSED_VERIFIED      Mathematical patch-recovery error verified
+Gate 4    Native Python Refinement Implementation          CLOSED_VERIFIED      Headless CAE pipeline & deck integrity verified
+Gate 5    Nominal 1% Discrepancy Audit                     CLOSED_UNRESOLVED    Defensible OFAT tested; missing info documented
+Gate 6    Reference Reproduction with Refinement           UNBLOCKED_FOR_EVAL   Ready for formal multi-quantity evaluation
+Gate 7    ABAQUSER / Companion Vis Bridge Integration      BRIDGE_VERIFIED      Job 1400408 (0.000000% parity; SDV15/16 visual)
+Gate 8    Higher-Complexity Benchmarks (Mode-II)           ON_HOLD              Paused per supervisor directive
+Gate 9    Parameter & Sizing Recommendations               BLOCKED_BY_GATE_6    Sequential gate hold
+Gate 10   Future-User Documentation                        BLOCKED_BY_GATE_6    Sequential gate hold
+Gate 11   Thesis Synthesis & Final Submission              BLOCKED_BY_GATE_6    Sequential gate hold
+=======================================================================================================================
+```
+
+---
+
+## Chapter 1: Introduction & Governing Directives (Gate 0)
+
+### 1.1 Academic Context & Proposal Scope
+Phase-field fracture (PFF) methods regularize sharp cracks over a finite diffusive length scale $l_0$, eliminating the need for ad-hoc tracking of geometric discontinuities. However, resolving the sharp gradients in the crack phase field $d \in [0, 1]$ demands fine mesh refinement ($h \ll l_0$) throughout the potential fracture path.
+
+The primary objective of this thesis is to evaluate and establish an automated, Abaqus-native adaptive remeshing methodology for phase-field fracture modeling, leveraging standard Superconvergent Patch Recovery (SPR) discretization error estimators (\texttt{MISESERI}) as proposed by Pandey & Kumar (2025).
+
+### 1.2 The Single-Notch Benchmark Model
+The foundational benchmark investigated throughout Gates 0–5 is the 2D square plate under pure tensile Mode-I loading:
+- **Specimen Dimensions**: $L \times W = 1.0\,\text{mm} \times 1.0\,\text{mm}$.
+- **Initial Crack**: Horizontal sharp slit at $y = 0.5\,\text{mm}$, extending from left edge $x = 0.0\,\text{mm}$ to center $x = 0.5\,\text{mm}$ ($a_0 = 0.5\,\text{mm}$).
+- **Material Properties**: Young's modulus $E = 210\,\text{GPa}$, Poisson's ratio $\nu = 0.30$, critical energy release rate $G_c = 2.7 \times 10^{-3}\,\text{kN/mm}$ ($2.7\,\text{kJ/m}^2$), length-scale parameter $l_0 = 0.0075\,\text{mm}$ ($7.5\,\mu\text{m}$).
+- **Boundary Conditions (BVP)**: Bottom edge $y = 0.0\,\text{mm}$ roller supported ($u_y = 0$) with origin pinned ($u_x = 0, u_y = 0$); top edge $y = 1.0\,\text{mm}$ pulled vertically ($u_y = \bar{u}$, roller condition $u_x$ unconstrained).
+
+---
+
+## Chapter 2: Conventional Fixed-Mesh Reference Anchor (Gate 1)
+
+### 2.1 Boundary Condition Audit and Resolution
+A strict forensic audit of the historical project baseline (Job `1398090.mmaster02`, $15,192$ structured quad elements) revealed that input deck line 61838 applied $u_x = 0$ to the entire top edge (`N_TOP, 1, 1, 0.0`). While this historical anchor produced an exact match to the primary literature text ($F_{\text{peak}} = 0.7578\,\text{kN}$ vs $0.7580\,\text{kN}$, $-0.029\%$), the top constraint contradicted the roller boundary condition of the governing BVP.
+
+In production Job `1401091.mmaster02`, the top horizontal constraint was removed to establish the harmonized boundary condition:
+- **Initial Stiffness**: $K_0 = 134.4610\,\text{kN/mm}$ ($R^2 = 0.99999998$, $-2.63\%$ shift vs clamped baseline).
+- **Peak Reaction Force**: $F_{\max} = 0.764998\,\text{kN}$ ($+0.92\%$ vs $0.7580\,\text{kN}$ text target).
+- **Displacement at Peak**: $u(F_{\max}) = 0.006072\,\text{mm}$ ($+3.62\%$ vs $0.005860\,\text{mm}$ text target).
+- **Brittle Separation**: $99.9639\%$ load drop across $6,297$ converged increments.
+
+### 2.2 Reconciliation with Digitized Raster Data
+Digitization of the uncompressed raster stream of Figure 7(a) in Pandey & Kumar (2025) yielded:
+- **Standard PFM Curve (Blue dashed)**: $F_{\max} \approx 0.7348\,\text{kN}$ at $u \approx 0.005743\,\text{mm}$.
+- **Proposed PFM Curve (Red solid)**: $F_{\max} \approx 0.7205\,\text{kN}$ at $u \approx 0.005628\,\text{mm}$.
+- **Raster Envelope Ceiling**: $F = 0.7424\,\text{kN}$ (no pixel exists above $0.7424\,\text{kN}$).
+
+Both the published text reference ($0.7580\,\text{kN}$) and the digitized raster curves are preserved transparently as dual literature benchmarks.
+
+---
+
+## Chapter 3: Multi-Quantity Convergence & Field Qualification (Gate 2)
+
+### 3.1 Spatial Phase-Field Profile Qualification
+To verify length-scale regularization, the spatial phase-field damage profile $d(x,y)$ across the diffuse crack width was extracted and compared against the 1D analytical solution $d(y) = \exp(-|y - y_0| / l_0)$:
+- **Damage Profile Symmetry**: Measured spatial profiles exhibit symmetric exponential decay with half-width $l_0 \approx 7.5\,\mu\text{m}$.
+- **Common Qualification Interval**: All fixed-mesh refinement models ($h = 0.0030\,\text{mm}, 0.0020\,\text{mm}, 0.0015\,\text{mm}$) were evaluated and qualified on the common displacement interval $u \in [0, 0.006816\,\text{mm}]$, confirming that spatial mesh refinement systematically converges to the theoretical fracture threshold.
+
+---
+
+## Chapter 4: Expected Refinement Behavior & MISESERI Indicator Mechanics (Gates 3 & 4)
+
+### 4.1 Theory of \texttt{MISESERI} Stress Error Indicator
+The Abaqus adaptive remeshing engine employs the Zienkiewicz-Zhu Superconvergent Patch Recovery (SPR) technique. The integration-point stress field $\boldsymbol\sigma_h$ is smoothed across element patches into a continuous polynomial stress field $\boldsymbol\sigma^*$. The stress discretization error tensor is defined as:
+\begin{equation}
+\mathbf{e}_\sigma = \boldsymbol\sigma^* - \boldsymbol\sigma_h, \qquad \text{MISESERI} = \sqrt{\frac{3}{2}\mathbf{s}_e : \mathbf{s}_e}
+\end{equation}
+where $\mathbf{s}_e$ is the deviatoric component of $\mathbf{e}_\sigma$. The normalized percentage error indicator is evaluated relative to the volume-averaged von Mises stress $\bar{\sigma}_{\mathrm{Mises}}$:
+\begin{equation}
+\eta_i = \frac{\text{MISESERI}_i}{\bar{\sigma}_{\mathrm{Mises}}} \times 100\%
+\end{equation}
+
+### 4.2 Multi-Layer Facsimile UMAT Architecture
+Because Abaqus does not evaluate native error indicators on user-defined elements (UEL), a multi-layer model architecture is implemented:
+1. **Layer 1 (Phase UEL)**: Solves the phase-field evolution equation ($\Delta d = 0$).
+2. **Layer 2 (Mechanical UEL)**: Solves the degraded momentum balance ($g(d)\boldsymbol\sigma_0$).
+3. **Layer 3 (Facsimile UMAT)**: Coincident standard continuum elements (`CPE4`/`CPE3`) with zero stiffness ($E_{\text{fac}} \approx 0$) providing native stress recovery output for \texttt{MISESERI}.
+
+### 4.3 Automated Python Pipeline & The `generateMesh()` Defect
+An automated Python orchestration pipeline executes the coarse pre-analysis, instantiates the \texttt{RemeshingRule}, and invokes \texttt{model.adaptiveRemesh(odb=...)}. Calling `part.generateMesh()` after `adaptiveRemesh()` causes Abaqus to overwrite the adaptively calculated sizing field and regenerate the original coarse mesh. Eliminating redundant `generateMesh()` calls guarantees pristine, deterministic native refinement.
+
+---
+
+## Chapter 5: Actual Adaptive Results & Formal Gate 5 Closure Audit
+
+### 5.1 Corrected CPE4 Baseline Control (C0) & Topology Identity
+The canonical baseline control C0 (Plane Strain `CPE4`, $h_0 = 0.02\,\text{mm}$, `errorTarget=1.0%`, `refinementFactor=10`, `minElementSize=0.001`, `maxElementSize=0.020`, `coarseningFactor=NOT_ALLOWED`) reproduces **exactly 71,320 finite elements (69,443 quads + 1,877 triangles, 70,845 nodes)** with **`TOPOLOGY_AND_CONNECTIVITY_IDENTITY_VERIFIED`** to canonical Gate 4.
+
+### 5.2 Corrected One-Factor-At-A-Time (OFAT) Diagnostic Matrix
+```text
++-------------------------------------------------------------------------------------------------------------------------------+
+|                                 GATE-5 CORRECTED CPE4 OFAT REMESHING DIAGNOSTIC MATRIX RESULTS                                |
++-------------------------------------------------------------------------------------------------------------------------------+
+| ID | Description             | Single Changed Factor | Coarse N | Refined N | Quads | Tris | Diff vs 71,320 | Diff vs 13,941  |
++----+-------------------------+-----------------------+----------+-----------+-------+------+----------------+-----------------+
+| C0 | Canonical Control       | NONE (CPE4 Control)   | 2,906    | 71,320    | 69,443| 1,877|      0 ( 0.0%) | +57,379 (+412%) |
+| C1 | Default Refinement      | refFactor=DEFAULT(3)  | 2,906    | 47,428    | 46,234| 1,194| -23,892 (-33.5%)| +33,487 (+240%) |
+| C2 | Default Coarsening      | coarsening=DEFAULT(3) | 2,906    | 71,037    | 69,172| 1,865|   -283 (-0.4%) | +57,096 (+410%) |
+| C3 | Unconstrained Min Size  | specifyMinSize=False  | 2,906    | 71,320    | 69,443| 1,877|      0 ( 0.0%) | +57,379 (+412%) |
+| C4 | Unconstrained Max Size  | specifyMaxSize=False  | 2,906    | 70,736    | 68,862| 1,874|   -584 (-0.8%) | +56,795 (+407%) |
+| C5 | Output Freq (LAST)      | freq=LAST_INCREMENT   | 2,906    | 71,320    | 69,443| 1,877|      0 ( 0.0%) | +57,379 (+412%) |
+| C6 | Coarser Initial Mesh    | coarse_h = 0.03 mm    | 1,303    | 48,919    | 47,610| 1,309| -22,401 (-31.4%)| +34,978 (+251%) |
+| C7 | Error Target 2.0% (Sens)| errorTarget = 2.0     | 2,906    | 17,687    | 17,196|   491| -53,633 (-75.2%)|  +3,746 (+26.9%)|
+| C8 | Error Target 5.0% (Sens)| errorTarget = 5.0     | 2,906    |  4,356    |  4,211|   145| -66,964 (-93.9%)|  -9,585 (-68.8%)|
++----+-------------------------+-----------------------+----------+-----------+-------+------+----------------+-----------------+
+```
+
+### 5.3 Physical Element Sizing Statistics ($h_e = \sqrt{A_e}$)
+Calculated via direct 2D Shoelace polygon integration ($\sum A_e = 1.000000\,\text{mm}^2$):
+- **C0 Control Baseline**: $h_{\min} = 0.000564\,\text{mm}$, $h_{\text{median}} = 0.002925\,\text{mm}$, $h_{\text{mean}} = 0.003347\,\text{mm}$, $h_{\max} = 0.016720\,\text{mm}$, $h_{\text{tip}} = 0.001841\,\text{mm}$ ($r \le 0.05\,\text{mm}$, $N=2,341$), $h_{\text{far}} = 0.002169\,\text{mm}$ (corners, $N=6,826$).
+- **Historical 2% Production (Job 1400395, CPS4 Branch)**: $15,396$ finite elements ($14,963\text{ Q} + 433\text{ T}$, $h_{\text{median}} = 0.005668\,\text{mm}$, $h_{\text{tip}} = 0.001963\,\text{mm}$).
+- **Corrected 2% Sensitivity (C7, CPE4 Branch)**: $17,687$ finite elements ($17,196\text{ Q} + 491\text{ T}$, $h_{\text{median}} = 0.005653\,\text{mm}$, $h_{\text{tip}} = 0.002009\,\text{mm}$).
+- **Historical 5% Production (Job 1400396, CPS4 Branch)**: $4,194$ finite elements ($4,053\text{ Q} + 141\text{ T}$, $4,252$ nodes).
+- **Corrected 5% Sensitivity (C8, CPE4 Branch)**: $4,356$ finite elements ($4,211\text{ Q} + 145\text{ T}$, $h_{\text{median}} = 0.015635\,\text{mm}$, $h_{\text{tip}} = 0.004380\,\text{mm}$).
+
+### 5.4 Primary Publication Sufficiency & Gate 5 Closure
+- **`VERIFIED`**: Canonical control C0 reproduces $71,320$ finite elements with verified topological identity. Pre-analysis formulation change alters $\text{MISESERI}$ field by $-10.67\%$, explaining why `CPS4` generated $58,679$ elements.
+- **`RULED_OUT`**: Coarsening policy (`C2`, $-0.4\%$), sizing bounds (`C3` $0.0\%$, `C4` $-0.8\%$), and increment output frequency (`C5` $0.0\%$) do not explain the discrepancy.
+- **`SUPPORTED_NOT_CAUSAL`**: Refinement factor (`C1`, $-33.5\% \to 47,428$) and initial mesh density (`C6`, $-31.4\% \to 48,919$) reduce element counts, but still yield $>47\text{k}$ elements.
+- **`UNRESOLVED`**: Sizing at literal `errorTarget=1.0` on the full plate under Plane Strain generates $71,320$ elements (and $47,428–71,320$ across all single-factor variations). The reason why Pandey & Kumar (2025) obtained ~13,941 linear elements at `errorTarget=1.0` cannot be uniquely resolved from published information alone due to undocumented internal sizing mapping and unstated simulation parameters.
+- **Formal Gate 5 Exit Status**: **`CLOSED_UNRESOLVED_DUE_TO_MISSING_PUBLISHED_OR_INTERNAL_SIZING_INFORMATION`**.

@@ -1,0 +1,17 @@
+\chapter{HPC Execution and Parallelization Boundary}
+\label{ch:hpc}
+
+\section{Production environment}
+The production calculations are executed with Abaqus/Standard on the TU Bergakademie Freiberg HPC system. The current production path uses Abaqus 2023 together with the institute compiler environment. Long-running jobs are submitted through the available routed queues; the current Task-5 serial calculation uses a $168$-hour walltime allocation.
+
+Operational scheduler details are intentionally kept out of the main scientific discussion. Exact job identifiers, hashes and resource records are listed in Appendix~\ref{app:repro} where they support reproducibility.
+
+\section{Why the current production solver is serial}
+The user-element implementation exchanges phase and history data through mutable Fortran \texttt{COMMON} arrays. The phase and mechanical UEL layers may access related entries during the same Abaqus increment. Static inspection of the current production source identified unsynchronised read/write paths between these layers.
+
+A shared address space therefore does not by itself make the implementation thread-safe. In a threaded Abaqus execution, two worker threads can access the same global arrays without a barrier or lock. With MPI, each rank has a separate address space, so ordinary \texttt{COMMON} storage is replicated rather than globally shared. The two problems are different: threading requires race-free shared-state access, while MPI requires an explicit distributed-state design.
+
+For this reason, the present Task-5 production calculation remains serial. A four-thread candidate was prepared conceptually but was not promoted to production because thread safety could not be established from the current source. Future parallelization should first refactor ownership of the shared state and then demonstrate numerical equivalence and repeated-run determinism before any speedup is reported.
+
+\section{Computational-cost interpretation}
+Runtime comparisons in this thesis are treated as secondary to scientific equivalence. A smaller mesh or faster job is useful only when the compared force-displacement response, damage evolution and crack path remain within the declared validation scope. Accordingly, the final adaptive-efficiency claim will be made only after the Task-5 fracture response has been evaluated against the fixed-mesh reference.

@@ -1,0 +1,67 @@
+{
+  "case_100_requalification": {
+    "pbs_job_id": "1405044.mmaster02",
+    "package": "100_gate6_frozen_intact_nom1_requal_serial",
+    "deck_name": "PK_M1_FROZEN_INTACT_REQUAL.inp",
+    "nset_bottom_lines": 10,
+    "nset_bottom_parsed_nodes": 150,
+    "preprocessor_deleted_warnings": 0,
+    "preprocessor_truncated_warnings": 0,
+    "k0_unconstrained_kN_per_mm": 138.02101258230883,
+    "r_squared": 0.9999999999999947,
+    "intercept_kN": 9.947819261044155e-12,
+    "bottom_max_lift_nm": 0.0,
+    "bottom_lifting_nodes": 0,
+    "rf_reaction_balance_imbalance_kN": 7.848166561075232e-13,
+    "execution_mode": "1 CPU serial",
+    "fortran_sha256": "5b381dd5a0d87539dab35a70d60ea4df9df0adc76c9c96a0c53ab3696ad91134"
+  },
+  "case_61_low_branch_reference": {
+    "pbs_job_id": "1403698.mmaster02",
+    "package": "61_gate6_frozen_intact_pfm_nom1_serial",
+    "deck_name": "PK_M1_FROZEN_INTACT_NOM1.inp",
+    "nset_bottom_lines": 1,
+    "nset_bottom_parsed_nodes": 16,
+    "preprocessor_deleted_warnings": 2,
+    "preprocessor_truncated_warnings": 2,
+    "k0_unconstrained_kN_per_mm": 123.592,
+    "bottom_max_lift_nm": 241.69,
+    "bottom_lifting_nodes": 134,
+    "execution_mode": "1 CPU serial",
+    "fortran_sha256": "5b381dd5a0d87539dab35a70d60ea4df9df0adc76c9c96a0c53ab3696ad91134"
+  },
+  "case_98_diagnostic_low": {
+    "pbs_job_id": "1405041.mmaster02",
+    "package": "98_gate6_diag_mechanism_low_branch",
+    "nset_bottom_parsed_nodes": 16,
+    "k0_unconstrained_kN_per_mm": 123.592,
+    "bottom_max_lift_nm": 241.69,
+    "bottom_lifting_nodes": 134
+  },
+  "case_99_diagnostic_high": {
+    "pbs_job_id": "1405042.mmaster02",
+    "package": "99_gate6_diag_mechanism_high_branch",
+    "nset_bottom_parsed_nodes": 150,
+    "k0_unconstrained_kN_per_mm": 138.021,
+    "bottom_max_lift_nm": 0.0,
+    "bottom_lifting_nodes": 0
+  },
+  "case_87_serial_high_anchor": {
+    "pbs_job_id": "1404933.mmaster02",
+    "package": "87_gate6_adaptive_nominal_1pct_strict_twin_trunc0062",
+    "nset_bottom_parsed_nodes": 150,
+    "k0_unconstrained_kN_per_mm": 138.021,
+    "bottom_max_lift_nm": 0.0,
+    "bottom_lifting_nodes": 0,
+    "execution_mode": "1 CPU serial"
+  },
+  "case_97_4thread_high_anchor": {
+    "pbs_job_id": "1405003.mmaster02",
+    "package": "97_gate6_thread_nonlinear_4th_replacement",
+    "nset_bottom_parsed_nodes": 150,
+    "k0_unconstrained_kN_per_mm": 138.021,
+    "bottom_max_lift_nm": 0.0,
+    "bottom_lifting_nodes": 0,
+    "execution_mode": "4 threads (OpenMP/SMP)"
+  }
+}

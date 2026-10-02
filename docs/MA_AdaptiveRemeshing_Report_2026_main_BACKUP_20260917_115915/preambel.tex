@@ -1,0 +1,149 @@
+%
+% preambel
+%
+\documentclass[fontsize=12pt,paper=a4,numbers=enddot,twoside,titlepage,fleqn,parskip=half-]{scrreprt}
+%
+% necessary encoding packages
+%
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%
+% tex gyre fonts
+%
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+%
+% font settings for headings (as headings=normal)
+%
+\setkomafont{chapter}{\normalfont\rmfamily\Large\textbf}
+\setkomafont{section}{\normalfont\rmfamily\large\textbf}
+\setkomafont{subsection}{\normalfont\rmfamily\normalsize\textbf}
+\setkomafont{subsubsection}{\normalfont\rmfamily\normalsize\textbf}
+\setkomafont{paragraph}{\normalfont\rmfamily\normalsize\textbf}
+\setkomafont{subparagraph}{\normalfont\rmfamily\normalsize\textbf}
+%
+% font settings for toc entries
+%
+\setkomafont{chapterentry}{\normalfont\rmfamily\normalsize\upshape\textbf}
+\setkomafont{chapterentrydots}{\normalfont\rmfamily\normalsize\upshape\textbf}
+\setkomafont{disposition}{\normalfont\rmfamily\normalsize\upshape}
+%
+% rmfamily for headlines and page numbers
+%
+\setkomafont{pagehead}{\normalfont\rmfamily\small}
+\setkomafont{pagenumber}{\normalfont\rmfamily\small}
+%
+% font for description label
+%
+\setkomafont{descriptionlabel}{\normalfont\rmfamily\textbf}
+%
+% footnote settings
+%
+\deffootnote[1em]{1em}{1em}{\textsuperscript{\thefootnotemark}
+}
+%
+% single headline, no footline
+%
+\usepackage[automark,headsepline,plainheadsepline]{scrlayer-scrpage}
+%
+% head marks for plain pages (chapter, ...)
+%
+\ihead*{}
+\chead*{}
+\ohead*{\pagemark}
+%
+% head marks for normal pages
+%
+\ihead{\headmark}
+\chead{}
+\ohead{\pagemark}
+%
+% no foot marks for plain pages (chapter, ...)
+%
+\ifoot*{}
+\cfoot*{}
+\ofoot*{}
+%
+% no foot marks for normal pages
+%
+\ifoot{}
+\cfoot{}
+\ofoot{}
+%
+% page layout for single headline with page number and footline
+% textwidth=15.5cm
+%
+\usepackage{geometry}
+\geometry{
+    left=3.5cm,
+    right=2.0cm,    
+    top=3.0cm,    % including headline
+    bottom=2.0cm, % 2.0 cm without footline
+    marginparsep=0.5cm,
+    marginparwidth=1.0cm,
+    headheight=0.54cm,
+    headsep=0.5cm,
+    footskip=1.0cm}
+%
+% caption package
+%
+\usepackage{caption}
+\captionsetup{font=small}
+\captionsetup{labelfont=bf}
+\captionsetup{format=plain}       % plain: no indent, hang: with indent
+\captionsetup{skip=6pt}           % skip between figure and caption
+% for skip between caption and table use \captionabove{caption text}
+\captionsetup{margin=1.0cm}       % margins between left and right border
+\captionsetup[figure]{name=Fig.}  % abbreviation for english
+\captionsetup[table]{name=Tab.}   % abbreviation for english 
+%\captionsetup[figure]{name=Abb.} % abbreviation for german
+%
+% subcaption package (for subfigures)
+%
+\usepackage{subcaption}
+%
+% citations
+%
+\usepackage[sort&compress,square,numbers]{natbib}
+%
+% references as links [in blue color], and pdf meta data
+%
+\usepackage[
+  pdftex,
+  bookmarks,
+  bookmarksopen=true,
+  bookmarksnumbered=true,
+  pdftitle={Thesis},
+  pdfauthor={Author},
+  pdfsubject={Subject},
+  pdfkeywords={kw1,kw2,kw3},
+  pdfstartview=FitH,
+  colorlinks=true,
+  linkcolor=blue,
+  anchorcolor=blue,
+  citecolor=blue,
+  filecolor=blue,
+  menucolor=blue,
+  urlcolor=blue]{hyperref}
+%
+% doi as links
+%
+\usepackage{doi}
+%
+% other useful packages
+%
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage{paralist}   % compact lists
+\usepackage{layout} %  um die Seitenränder als Bild auszugeben
+%\usepackage{booktabs}   % toprule, midrule, bottomrule for tables
+%\usepackage{flafter}   % floats always after corresponding headings
+%\usepackage{nicefrac}
+%\usepackage{siunitx}
+%\sisetup{locale = DE, parse-numbers=false, input-uncertainty-signs}
+%\usepackage[version=4]{mhchem}
+%\usepackage{csquotes}
+%\usepackage[german]{babel}
+%\usepackage{longtable}
+%\usepackage{multirow}
+%\usepackage{xspace}

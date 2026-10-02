@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "freeze_document_id": "MODE1_SUPERVISOR_HANDOFF_FREEZE_20SEP2026_V2",
+  "freeze_timestamp": "2026-09-20T03:15:00+02:00",
+  "freeze_date": "20 September 2026",
+  "freeze_scope": "PANDEY_KUMAR_2025_MODE1_BENCHMARK_PRIORITY1_ENERGY_QUALIFICATION",
+  "freeze_status": "SUPERVISOR_READY / REPRODUCTION_PACKAGE_READY",
+  "governance_state": "GATE_6B_OPEN",
+  "global_energy_identity_status": "GLOBAL_ENERGY_IDENTITY \u2014 NOT_YET_CLOSED",
+  "remaining_gate6b_action": "Supervisor judgment on the already frozen decision question (Pathway 1 vs Pathway 2) at the 01 October 2026 meeting (10:00).",
+  "superseded_freeze_ledgers": [
+    {
+      "freeze_document_id": "MODE1_SUPERVISOR_HANDOFF_FREEZE_20SEP2026",
+      "status": "SUPERSEDED_PROVENANCE_ERROR_DO_NOT_USE",
+      "sha256": "C4DC680C69D91328B56F5FFEF1FBF52075DCC5718400AEB7E2109F04C11AD4DC",
+      "size_bytes": 9197,
+      "superseded_reason": "Contained incorrect S1/S3 provenance anchor values (K0=138.151, w05=22.812, K0=137.859, w05=23.016) in conflict with authoritative frozen Gate-6B evidence."
+    }
+  ],
+  "active_scope_holds": [
+    "Gate 6C (Mode-I State Transfer Energy Preservation)",
+    "Mode-II (Shear Loading & Mixed Mode)",
+    "Gate 7 (ABAQUSER Integration / Visualization)",
+    "Higher-Complexity Examples (Holes / Asymmetric)",
+    "True Distributed-Memory MPI Sweeps",
+    "Multi-Threaded Scaling Sweeps"
+  ],
+  "authoritative_subroutine": {
+    "relative_path": "15_energy_qualification_small/f42_mixed_uel.for",
+    "sha256": "5CD0D2C015C9EAD91C99D7A744156CC86F5B5EA26473BBED7D6E5515FE30FA46",
+    "formulation": "Dual-element coupled phase-field UEL (JTYPE=1 Phase, JTYPE=2 Mechanical, single-IP companion UMAT visualization)"
+  },
+  "content_validation_gate": {
+    "check_file": "MODE1_HANDOFF_CONTENT_VALIDATION_GATE_V2.csv",
+    "sha256": "0CA8242224194117F17717C9A5CF94624F9539E52AE6987B439EAB8A89123A13",
+    "checks_passed": "38/38",
+    "status": "100% PASS (38 / 38 CHECKS SATISFIED)"
+  },
+  "consistency_gate": {
+    "check_file": "GATE6B_FINAL_CONSISTENCY_GATE_V2.csv",
+    "sha256": "DA4528578544BFB89E4AE9BB66DB9BEE52D6306E413E3BC3B6DC587415E1D21E",
+    "checks_passed": "16/16",
+    "status": "100% PASS (16 / 16 CHECKS SATISFIED)"
+  },
+  "reproduction_manifest": {
+    "manifest_file": "MODE1_REPRODUCTION_MANIFEST_V2.json",
+    "manifest_version": "4.2.0",
+    "sha256": "BE78849064FD3C34D5C65C578E64A5C31EDC787B02E41473A7202302E5FC66F1"
+  },
+  "reproduction_checklist": {
+    "checklist_file": "MODE1_SUPERVISOR_REPRODUCTION_PACKAGE_CHECKLIST_V2.csv",
+    "sha256": "184BC987587D56153325F779CFBB2FA4B1AF00E1D2185D5D58B9446CACA33AA3",
+    "total_deliverable_rows": 45
+  },
+  "deliverables_v2_sha256_registry": {
+    "SUPERVISOR_MEETING_01OCT2026_MODE1_BRIEF_V2.md": "B5E5B66A4D2CC31B178D49E856806669AB72EC702527C1D57264ECD65BF16A56",
+    "GATE6B_FINAL_QUALIFICATION_AND_SUPERVISOR_DECISION_PACKET_V2.md": "F45D593545F8C5B1CB707C665C025A6602EB2442AD7DD888EDF9F290258823F3",
+    "commands.txt": "916BA429FBC611A8DA49AF69860FE886F1620EBA7F18CB492212A7C7B06675EC",
+    "MODE1_SUPERVISOR_TALKING_POINTS.md": "479932DCE579F8ABA726B471C4452A84261E3E23F1F14E7B16B609C7DE4B75B6",
+    "MODE1_HANDOFF_CONTENT_VALIDATION_GATE_V2.csv": "0CA8242224194117F17717C9A5CF94624F9539E52AE6987B439EAB8A89123A13",
+    "GATE6B_FINAL_CONSISTENCY_GATE_V2.csv": "DA4528578544BFB89E4AE9BB66DB9BEE52D6306E413E3BC3B6DC587415E1D21E",
+    "MODE1_SUPERVISOR_REPRODUCTION_PACKAGE_CHECKLIST_V2.csv": "184BC987587D56153325F779CFBB2FA4B1AF00E1D2185D5D58B9446CACA33AA3",
+    "MODE1_REPRODUCTION_MANIFEST_V2.json": "BE78849064FD3C34D5C65C578E64A5C31EDC787B02E41473A7202302E5FC66F1",
+    "MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md": "E6B72E0CA85FCEEBB53F0E9771E5E14984234351AE8EC0F8C4C6A1CA3F13A640",
+    "ENERGY_DIMENSIONAL_UNITS_AUDIT.csv": "F480DA80EDD7BB6BBA4AEDF3E3B4B24B4912FC99676F2216825262AE2E3829D9",
+    "GATE6B_FINAL_EVIDENCE_MATRIX.csv": "400E888AB32A0DBF2E5856FEF11BA0758866BBDA96280B9DDC48243709046ADF",
+    "CLAIM_LEDGER_NUMERICAL_PROVENANCE.csv": "C274E64FA4D755427DEB2243500843BC52A0BF82BBC1438F1E59FFDFCA27F978"
+  },
+  "provenance_anchors": {
+    "S1_canonical_reference_anchor": {
+      "pbs_job_id": "1406015.mmaster02",
+      "diagnostic_twin_job_id": "1406839.mmaster02",
+      "mesh_element_count": 15192,
+      "nominal_element_size_mm": 0.003,
+      "peak_force_kN": 0.757778,
+      "u_peak_mm": 0.005857,
+      "initial_stiffness_kN_per_mm": 137.94552,
+      "intercept_kN": 4.472368e-05,
+      "r2": 0.9999996,
+      "n_increments": 400,
+      "w05_localization_width_um": 23.3418,
+      "w05_exact_plane_definition": "OP_EXACT_PLANE_S1_EXPANDED (LinearNDInterpolator at station x = 0.550000 mm, fully propagated u = 7.00 um)",
+      "rejected_obsolete_values": {
+        "initial_stiffness_kN_per_mm": 138.151,
+        "w05_localization_width_um": 22.812,
+        "rejection_rationale": "Historical approximate values superseded by canonical 400-point unconstrained linear regression and authoritative exact-plane Spatial-V4 operator."
+      },
+      "source_evidence_files": [
+        "S1_h0030_15k_MECHANICAL_FU_AUDITED.csv",
+        "GATE6B_SPATIAL_CONVERGENCE_AUDIT_V4.csv",
+        "SPATIAL_COMMON_OPERATOR_QUALIFICATION.csv"
+      ]
+    },
+    "S3_nominal_anchor": {
+      "pbs_job_id": "1406017.mmaster02",
+      "mesh_element_count": 41912,
+      "element_type": "CPE4 (quads)",
+      "nominal_element_size_mm": 0.0015,
+      "peak_force_kN": 0.732196,
+      "u_peak_mm": 0.005633,
+      "accepted_terminal_u_mm": 0.007836,
+      "initial_stiffness_kN_per_mm": 137.8576082908,
+      "w05_localization_width_um": 23.1397,
+      "w05_exact_plane_definition": "OP_EXACT_PLANE_2D_LINEAR (LinearNDInterpolator at station x = 0.550000 mm, fully propagated u = 7.00 um)",
+      "native_fracture_energy_kN_mm": 0.00235718764301,
+      "reported_fracture_energy_mJ": 2.357188,
+      "rejected_obsolete_values": {
+        "initial_stiffness_kN_per_mm": 137.859,
+        "w05_localization_width_um": 23.016,
+        "rejection_rationale": "Rounded text values superseded by authoritative 400-point regression and exact-plane Spatial-V4 operator."
+      },
+      "authoritative_curves_file": {
+        "filename": "S3_nominal_AUDIT_CURVES.csv",
+        "sha256": "BDF98420B950519A17C578C2809D0CFDAAF1EE540D822DDA804747E47AB8C9EE",
+        "size_bytes": 1031978,
+        "description": "Full authoritative S3 trajectory provenance containing frame-by-frame reaction force, displacement, native integrated energies, and trapezoidal work."
+      },
+      "authoritative_summary_file": {
+        "filename": "S3_nominal_AUDIT_SUMMARY.json",
+        "sha256": "373C547739DED2CF5A99E0DC368B4A8D1BC065808B684A9EDBA200D559746282",
+        "size_bytes": 1414,
+        "description": "Authoritative summary lineage for nominal S3 fine mesh anchor."
+      },
+      "source_evidence_files": [
+        "S3_nominal_AUDIT_CURVES.csv",
+        "S3_nominal_AUDIT_SUMMARY.json",
+        "S3_K0_400_POINTS_ARCHIVE.csv",
+        "GATE6B_SPATIAL_CONVERGENCE_AUDIT_V4.csv",
+        "SPATIAL_COMMON_OPERATOR_QUALIFICATION.csv",
+        "MASTER_CONVERGENCE_ENERGY_TABLE.json"
+      ]
+    },
+    "temporal_v4_series": {
+      "T1_coarse_dt": {
+        "pbs_job_id": "1406020.mmaster02",
+        "dt_scale": "2.0x",
+        "F_max_kN": 0.758153,
+        "u_peak_um": 5.864
+      },
+      "T2_nominal_dt": {
+        "pbs_job_id": "1406021.mmaster02",
+        "dt_scale": "1.0x",
+        "F_max_kN": 0.757778,
+        "u_peak_um": 5.857
+      },
+      "T3_fine_dt": {
+        "pbs_job_id": "1406317.mmaster02",
+        "dt_scale": "0.5x",
+        "F_max_kN": 0.75763,
+        "u_peak_um": 5.8545
+      },
+      "prepeak_two_term_bookkeeping_difference_values": {
+        "u_5000_um": "-0.000085 mJ (-0.0050% of W_trap)",
+        "u_5500_um": "-0.000135 mJ (-0.0066% of W_trap)",
+        "u_5700_um": "-0.000160 mJ (-0.0073% of W_trap)",
+        "u_5856_um": "-0.000174 mJ (-0.0075% of W_trap)"
+      },
+      "prepeak_bound": "|TWO_TERM_BOOKKEEPING_DIFFERENCE| / W_trap <= 0.008% on frozen S1 / temporal T1-T3 trajectories"
+    },
+    "l0_sensitivity_series_u550": {
+      "l0_750_um_nominal_S3": {
+        "F_max_kN": 0.732196,
+        "w05_um": 22.969,
+        "two_term_diff_u550": "+0.17%"
+      },
+      "l0_1125_um_cand1": {
+        "pbs_job_id": "1406895.mmaster02",
+        "F_max_kN": 0.643328,
+        "w05_um": 34.219,
+        "two_term_diff_u550": "-0.002%"
+      },
+      "l0_1500_um_cand2": {
+        "pbs_job_id": "1406896.mmaster02",
+        "F_max_kN": 0.584102,
+        "w05_um": 45.469,
+        "two_term_diff_u550": "-0.002%"
+      }
+    }
+  },
+  "immutability_declaration": "This baseline ledger (V2) replaces MODE1_SUPERVISOR_HANDOFF_FREEZE_20SEP2026 as the authoritative freeze record as of 20 September 2026. The previous ledger is preserved as superseded history. Any future modifications before or after the 01 October 2026 supervisor meeting must be recorded as a new version."
+}

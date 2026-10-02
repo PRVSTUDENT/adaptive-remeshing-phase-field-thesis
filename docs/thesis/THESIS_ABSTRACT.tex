@@ -1,35 +1,12 @@
-Phase-field fracture models implemented as Abaqus user elements (UEL/UMAT)
-enable regularized crack evolution, but production use on non-uniform meshes
-raises three coupled questions: whether a published staggered baseline can be
-reproduced with defensible reaction-force evidence; whether offline
-MISESERI-driven pre-refinement can recover peak and pre-peak response at lower
-cost than a uniform production mesh; and whether nonmatching state transfer
-supports a controlled pre-peak checkpoint without overstating restart or
-parallel claims.
+Phase-field fracture methods implemented within commercial finite element software via custom user subroutines (UEL/UMAT) provide a powerful variational framework for regularized crack initiation, propagation, and complex branching. However, resolving the regularizing material length scale $l_0$ requires extremely fine spatial discretizations, rendering uniform fine meshes computationally prohibitive for large-scale engineering structures. This thesis investigates the application of error-indicator-guided mesh refinement, multifaceted numerical convergence, and nonmatching multi-field state transfer to phase-field brittle fracture simulations in Abaqus/Standard.
 
-This thesis documents a staged Abaqus workflow built around the Molnar and
-Gravouil staggered single-notch benchmark~\cite{molnar2017}, phase-field
-implementation context from related UEL literature~\cite{msekh2015,diddige2025},
-and MISESERI pre-refinement practice motivated by Pandey and
-Kumar~\cite{pandey2025}. Uniform mesh roles were fixed after supervisor
-decisions that accept H2-PUB for fine RF--U validation, H1 for production
-comparisons, and H0 for development. Offline refinement then produced a
-corrected locally refined mesh with 14.7\% fewer physical elements than H1,
-close peak/pre-peak RF--U agreement, and measured wall-time and memory savings
-under a fair four-thread comparison. Controlled analytical transfer, Abaqus
-ingestion, serial continuation, and a bounded pre-peak nonmatching release hold
-were demonstrated; an offline active-set correction at a later checkpoint was
-shown to be KKT-admissible under frozen history.
+The investigation is established upon the canonical Mode-I single-edge-notched tensile fracture benchmark. First, the boundary value problem is formulated using a three-layer co-located element architecture in user subroutine \nolinkurl{f42_mixed_uel.for}, rigorously disambiguating material modulus $E$ from structural compliance $K_0$ and demonstrating that a zero-gap duplicate-node seam is essential to prevent artificial notch compliance. Unconstrained linear regression establishes the canonical $S_1$ baseline ($15{,}192$ elements, Job \texttt{1406015.mmaster02}, $K_0 = 137.945520\,\text{kN/mm}$, $F_{\max} = 0.757778\,\text{kN}$) as the quantitative anchor for all subsequent evaluations.
 
-The same evidence sets hard limits. Unrestricted post-peak RF--U convergence
-and crack-path mesh independence are not supported. Fixed active-set
-continuation under further loading is disproven in the tested segment. The
-D3D-A1 corrected package is not an accepted mechanically equilibrated restart.
-Threaded shared-state characterization (P3-T4) produced no threaded evidence;
-MPI and hybrid safety remain unqualified. ABAQUSER equivalence remains
-externally blocked. Validated online adaptive remeshing is not claimed.
+To alleviate the severe computational cost of uniform grids, an error-indicator-guided pre-refinement methodology is implemented following Pandey and Kumar~\cite{pandey2025}. A linear elastic pre-analysis extracts the recovery-based Von Mises stress discretization error indicator (\texttt{MISESERI}) based on the Zienkiewicz--Zhu energy norm. Investigation of preprocessor execution revealed that standard Abaqus \texttt{*NSET} keyword card limits silently discarded boundary nodes, introducing edge lift and compliance loss; multi-line card wrapping resolved this anomaly and restored reference-consistent stiffness within $0.09\%$ ($K_0 = 137.820804\,\text{kN/mm}$). Graded meshes concentrate fine resolution ($h \le l_0/2$) exclusively along the prospective crack corridor.
 
-Practically, the work identifies where pre-refinement and pre-peak state
-transfer are usable, quantifies accuracy/cost benefits within those scopes, and
-provides a decision tree that blocks unsupported post-peak, restart, and
-parallel generalizations.
+To establish the prerequisites for multi-stage adaptive simulation, a multi-field state-transfer framework is formulated across nonmatching discretizations. The transfer pipeline combines shape-function interpolation for primary kinematic and damage degrees of freedom with centroid-based mapping and strict positivity clamping for the internal crack-driving history variable $\mathcal{H}$. State transfer is systematically verified across same-mesh restarts, multi-resolution refined and coarsened grids, and a synthetic single-facet crack-tip topology cut with post-peak continuation under a four-stage restart protocol. These studies establish kinematic and state-admissibility qualification for the tested configurations, while full energetic preservation during transfer is explicitly identified as pending Gate~6C qualification.
+
+A multifaceted convergence evaluation demonstrates that numerical adequacy cannot be assessed by peak reaction force alone. Across spatial resolutions ($S_1$--$S_4$, $h/l_0 \in [0.167, 0.400]$) and historical fine-mesh data, structural stiffness $K_0$ exhibits exceptional invariance ($\Delta < 0.09\%$), while peak force exhibits monotonic mesh sensitivity ($4.26\%$ reduction). Temporal incrementation ($T_1$--$T_3$, $0.5\times$ to $2.0\times\Delta t$) confirms mechanical peak load invariance ($\Delta < 0.07\%$) alongside energetic temporal sensitivity. A controlled three-point physical length-scale study on a fixed $S_3$ grid ($l_0 \in \{7.5, 11.25, 15.0\}\,\mu\text{m}$) demonstrates stiffness stability ($0.13\%$) and observed limit-load reductions ($5.83\%$). In adaptive meshes ($A_1$--$A_4$), post-peak softening resistance is characterized under the crack-pinning hypothesis (\texttt{OBSERVED\_FORCE\_PLATEAU}).
+
+Finally, a comprehensive UEL energy audit is implemented. A Single-IP extraction rule eliminates a $4\times$ visualization overcounting artifact and recovers the once-per-underlying-finite-element global energy sum under the 2D implicit-unit-thickness convention. Mechanical parity against uninstrumented solvers is rigorously qualified. Because standard Abaqus output databases do not record within-increment Newton paths and cross-derivatives do not commute for the implemented staggered displacement--damage coupling, the endpoint bookkeeping difference remains within $\pm0.008\%$ pre-peak ($+0.7607\%$ post-peak for $S_1$/$T_2$), and \texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED} is preserved. This thesis provides an evidence-based foundation and practical decision tree for error-guided refinement and state transfer in phase-field fracture mechanics.
+

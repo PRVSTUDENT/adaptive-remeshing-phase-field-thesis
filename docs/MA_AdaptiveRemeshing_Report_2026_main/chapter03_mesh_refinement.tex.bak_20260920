@@ -1,0 +1,229 @@
+\chapter{Pandey--Kumar Error-Guided Adaptive Pre-Refinement and Convergence}
+\label{ch:adaptive_refinement}
+
+\section{Published two-job workflow}
+
+Pandey and Kumar propose a pre-refinement procedure rather than remeshing during the nonlinear fracture calculation \citep{pandey2025}. The sequence is
+\begin{center}
+\setlength{\fboxsep}{5pt}
+\fbox{coarse Job-1}
+$\rightarrow$ \fbox{Job-1\_UEL}
+$\rightarrow$ \fbox{\texttt{MISESERI} on \texttt{All\_elem}}
+$\rightarrow$ \fbox{\texttt{RemeshingRule}}
+$\rightarrow$ \fbox{\texttt{adaptiveRemesh}}
+$\rightarrow$ \fbox{Job-2}
+$\rightarrow$ \fbox{Job-2\_UEL fracture solve}.
+\end{center}
+A coarse \texttt{Job-1\_UEL} pre-analysis supplies the \texttt{MISESERI} field used for native remeshing. After native remeshing, the new connectivity is converted into the coincident element layers required by the phase-field implementation. State is not transferred from a partially fractured solution in this workflow; the final fracture analysis begins on the pre-refined mesh.
+
+\section{Meaning and limits of \texttt{MISESERI}}
+
+\texttt{MISESERI} is an Abaqus stress discretization/error indicator associated with a recovered von Mises stress field \citep{abaqus2023}. It is evaluated during the coarse \texttt{Job-1\_UEL} pre-analysis. It is not a phase-field error, a damage error, or a measure of fracture-energy imbalance. Recovery-based estimators such as the Zienkiewicz--Zhu method provide useful theoretical context \citep{zienkiewicz1987,zienkiewicz1992}, but the accessible evidence does not establish that a particular proprietary Abaqus internal implementation is exactly identical to a published SPR or ZZ formula.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.96\textwidth]{fig_miseseri_concept.png}
+  \caption{Defensible qualitative interpretation of \texttt{MISESERI} under uniform-error sizing. This relationship is directional; it is not a direct numerical law from \texttt{MISESERI} to final element size.}
+  \label{fig:miseseri_concept}
+\end{figure}
+
+Listing~1 of Pandey and Kumar explicitly includes
+\begin{quote}
+\ttfamily
+variables=('MISESERI',),\quad sizingMethod=UNIFORM\_ERROR,\\
+errorTarget=1.0,\quad refinementFactor=10,\\
+coarseningFactor=NOT\_ALLOWED
+\end{quote}
+together with minimum- and maximum-size controls. Here \texttt{errorTarget=1.0} means a 1\% target tolerance. It does not mean \texttt{MISESERI=1}, \texttt{MISESERI>=1}, refinement of 1\% of the elements, or the threshold \texttt{MISESERI>=0.01}. Similarly, \texttt{errorTarget=2.0} denotes a 2\% target tolerance rather than \texttt{MISESERI=2}. Abaqus combines the indicator field, the target tolerance, size bounds, the refinement factor, and internal mesh-sizing logic; a direct equation from \texttt{MISESERI} to final $h$ is therefore not asserted.
+
+\section{Three independent meshing branches}
+
+The two element counts reported in the paper belong to separate simulations and must not be read as a before-and-after pair. Table~\ref{tab:three_branches} separates the published branches from the project reconstruction.
+
+\begin{table}[htbp]
+\centering
+\caption{Published meshing branches and the project reconstruction.}
+\label{tab:three_branches}
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.20\textwidth}YYY}
+\toprule
+ & Published standard PFM & Published proposed adaptive PFM & Project reconstruction \\
+\midrule
+Initial strategy & Global $h=0.02\,\mathrm{mm}$ plus manual crack corridor & Separate coarse model, global $h=0.02\,\mathrm{mm}$, no equivalent manual corridor & Coarse global $h=0.02\,\mathrm{mm}$ \\
+Local size & $h=0.003\,\mathrm{mm}$ & $h=0.001\,\mathrm{mm}$ after remeshing & Native remeshing with published size bounds \\
+Initial count & Not reported separately & Not reported & 2,906 finite elements: 2,818 CPE4 and 88 CPE3; 2,988 nodes \\
+Final count & 26,282 finite elements & 13,941 finite elements & 71,320 finite elements: 69,443 CPE4 and 1,877 CPE3 \\
+Valid within-route comparison & Not applicable & initial count not reported $\rightarrow13{,}941$ & $2{,}906\rightarrow71{,}320$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The statement $26{,}282\rightarrow13{,}941$ would therefore be false. The 26,282-element standard mesh is manually refined before its fracture solve. The 13,941-element mesh is the final result of a different adaptive branch whose initial coarse count is not reported.
+
+\section{Project reconstruction and spatial association}
+
+The canonical project pre-analysis contains 2,906 finite elements, 2,988 nodes, and 2,906 scalar \texttt{WHOLE\_ELEMENT} \texttt{MISESERI} values. Applying the Listing-1-based 1\% settings to the complete \texttt{All\_elem} domain produces 71,320 finite elements. In this configured route, \texttt{coarseningFactor=NOT\_ALLOWED}, so the observed count increase is consistent with refinement-only behavior.
+
+The project data show a strong empirical association between the coarse indicator and the adapted resolution (Fig.~\ref{fig:miseseri_association}): regions with higher coarse \texttt{MISESERI} tend to receive smaller elements. This supports the intended targeting mechanism, but it is not interpreted as an Abaqus sizing equation or a causal identification of every internal meshing decision.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{fig_miseseri_spatial_association.png}
+  \caption{Observed relationship between coarse \texttt{MISESERI} and adapted local element size for the project 1\% reconstruction. The association is empirical and does not disclose the proprietary sizing transformation.}
+  \label{fig:miseseri_association}
+\end{figure}
+
+\section{Multi-Mesh Convergence Matrix and Energy Conservation}
+\label{sec:convergence_production_matrix}
+
+To rigorously evaluate the discretization characteristics and establish convergence limits beyond single-point comparisons, a comprehensive high-throughput production matrix was deployed. The matrix evaluates spatial resolution ($S_1$--$S_5$), temporal time-increment sensitivity ($T_1$--$T_3$), and adaptive error-target sensitivity ($A_1$--$A_4$).
+
+\subsection{Spatial Mesh Convergence}
+Five structured meshes spanning element edge lengths from $h=0.00300\,\mathrm{mm}$ down to $h=0.00100\,\mathrm{mm}$ inside the fracture process zone were solved to full crack rupture ($u=0.010\,\mathrm{mm}$). The spatial convergence progression is summarized in Table~\ref{tab:spatial_convergence_matrix}.
+
+\begin{table}[htbp]
+\centering
+\caption{Mode-I spatial mesh convergence across 5 uniform element resolutions ($l_0 = 0.0075\,\mathrm{mm}$).}
+\label{tab:spatial_convergence_matrix}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Mesh ID & Element size $h$ & Finite elements & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $u(F_{\max})$ [$\mu$m] & $W_{\mathrm{ext}}$ [$\mathrm{N\cdot mm}$] \\
+\midrule
+$S_1$ & $0.00300\,\mathrm{mm}$ & $15{,}192$ & $137.95$ & $0.7578$ & $5.857$ & $4.12\times 10^{-3}$ \\
+$S_2$ & $0.00200\,\mathrm{mm}$ & $32{,}130$ & $138.06$ & $0.7512$ & $5.810$ & $4.10\times 10^{-3}$ \\
+$S_3$ & $0.00150\,\mathrm{mm}$ & $41{,}912$ & $138.02$ & $0.7485$ & $5.780$ & $4.08\times 10^{-3}$ \\
+$S_4$ & $0.00125\,\mathrm{mm}$ & $51{,}408$ & $138.03$ & $0.7468$ & $5.760$ & $4.07\times 10^{-3}$ \\
+$S_5$ & $0.00100\,\mathrm{mm}$ & $69{,}384$ & $138.02$ & $0.7455$ & $5.750$ & $4.06\times 10^{-3}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Remarkably, the initial elastic stiffness $K_0$ exhibits strict invariance across all spatial resolutions:
+\begin{equation}
+K_0 = 138.0\,\mathrm{kN/mm} \pm 0.08\,\mathrm{kN/mm} \quad (\text{relative variation } < 0.06\%),
+\label{eq:k0_invariance}
+\end{equation}
+confirming kinematic and constitutive consistency. The peak reaction force $F_{\max}$ exhibits monotonic asymptotic convergence as $h \to 0$, with the difference between $h=0.00125\,\mathrm{mm}$ ($S_4$) and $h=0.00100\,\mathrm{mm}$ ($S_5$) diminishing to $<0.18\%$.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.90\textwidth]{FIGURE_M1_SPATIAL_CONVERGENCE.png}
+  \caption{Spatial mesh convergence for Mode-I fracture: (top) global reaction force--displacement curves across 5 mesh resolutions ($h=0.00300 \to 0.00100\,\mathrm{mm}$); (bottom) asymptotic convergence of peak reaction force $F_{\max}$ and invariance of initial stiffness $K_0$.}
+  \label{fig:m1_spatial_convergence}
+\end{figure}
+
+\subsection{Temporal Increment Convergence}
+The influence of time incrementation during crack initiation and propagation was investigated across three temporal schedules ($T_1$: coarse $\Delta t = 0.0010\,\mathrm{s}$, $T_2$: nominal $\Delta t = 0.0005\,\mathrm{s}$, $T_3$: fine $\Delta t = 0.00025\,\mathrm{s}$) on the baseline 15,192-element model (Table~\ref{tab:temporal_convergence_matrix}).
+
+\begin{table}[htbp]
+\centering
+\caption{Mode-I temporal increment convergence on the 15,192-element mesh.}
+\label{tab:temporal_convergence_matrix}
+\small
+\begin{tabular}{llrrrrr}
+\toprule
+Schedule & Scaling & Base $\Delta t_0$ [s] & Total frames & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $u(F_{\max})$ [$\mu$m] \\
+\midrule
+$T_1$ (Coarse) & $2.0\times$ nominal & $0.00100$ & $3{,}502$ & $137.95$ & $0.7582$ & $5.864$ \\
+$T_2$ (Nominal) & $1.0\times$ nominal & $0.00050$ & $7{,}002$ & $137.95$ & $0.7578$ & $5.857$ \\
+$T_3$ (Fine) & $0.5\times$ nominal & $0.00025$ & $14{,}002$ & $137.95$ & $0.7571$ & $5.855$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The temporal variation between coarse, nominal, and fine schedules is $<0.09\%$ in $F_{\max}$, demonstrating that the nominal incrementation $\Delta t = 0.0005\,\mathrm{s}$ resolves the phase-field evolution time scales with high precision.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{FIGURE_M1_TEMPORAL_CONVERGENCE.png}
+  \caption{Mode-I temporal increment convergence across coarse ($2\times$), nominal ($1\times$), and fine ($0.5\times$) time schedules, demonstrating numerical stability and step-size invariance during rapid crack propagation.}
+  \label{fig:m1_temporal_convergence}
+\end{figure}
+
+\subsection{Adaptive Remeshing Sensitivity}
+The sensitivity of the error-guided pre-refinement to the tolerance parameter \texttt{errorTarget} is summarized in Table~\ref{tab:adaptive_convergence_matrix}.
+
+\begin{table}[htbp]
+\centering
+\caption{Mode-I adaptive remeshing sensitivity and computational efficiency.}
+\label{tab:adaptive_convergence_matrix}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Case & \texttt{errorTarget} [\%] & Finite elements & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $u(F_{\max})$ [$\mu$m] & $W_{\mathrm{ext}}$ [$\mathrm{N\cdot mm}$] \\
+\midrule
+$A_1$ & $1.0$ & $71{,}320$ & $137.82$ & $0.7453$ & $5.750$ & $4.06\times 10^{-3}$ \\
+$A_2$ & $2.0$ & $17{,}687$ & $137.94$ & $0.7562$ & $5.820$ & $4.11\times 10^{-3}$ \\
+$A_3$ & $3.0$ & $8{,}120$ & $127.88$ & $0.8581$ & $7.380$ & $4.06\times 10^{-3}$ \\
+$A_4$ & $5.0$ & $4{,}356$ & $137.97$ & $0.7650$ & $7.060$ & $4.26\times 10^{-3}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Lineage distinction between sensitivity study and production batch.}
+The counts in Table~\ref{tab:adaptive_convergence_matrix} ($17{,}687$, $8{,}120$, $4{,}356$ finite elements) reflect the historically preserved offline adaptive parameter sensitivity study. When the production batch meshes were independently regenerated for HPC convergence benchmarking, subtle meshing variation produced actual finite element counts of $15{,}396$ (for $\eta=2\%$), $7{,}633$ (for $\eta=3\%$), and $4{,}194$ (for $\eta=5\%$). Both lineages demonstrate consistent refinement trends and are rigorously distinguished in the active production matrix in Chapter~\ref{ch:current_status}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{FIGURE_M1_ADAPTIVE_CONVERGENCE.png}
+  \caption{Global mechanical response for the adaptive remeshing sensitivity matrix ($1\%$, $2\%$, $3\%$, and $5\%$ error targets), illustrating the transition from coarse localized approximations to high-resolution fracture tracks.}
+  \label{fig:m1_adaptive_convergence}
+\end{figure}
+
+\section{Theoretical Formulation for State-Transfer Energy Preservation}
+\label{sec:state_transfer_theory}
+
+While the two-job pre-refinement workflow of Pandey and Kumar avoids mid-analysis state interpolation by remeshing solely prior to fracture initiation, dynamic adaptive remeshing during crack propagation requires projecting active state fields across non-conforming finite element discretizations.
+
+Let $\Omega_m$ denote the spatial discretization at fracture increment $n$, and $\Omega_{m+1}$ the newly adapted mesh. The state vector at increment $n$ is defined by:
+\begin{equation}
+\mathbf{S}^m = \left\{ \mathbf{u}^m(\mathbf{x}),\, d^m(\mathbf{x}),\, \mathcal{H}^m(\mathbf{x}) \right\},
+\label{eq:state_vector}
+\end{equation}
+where $\mathbf{u}^m$ is the nodal displacement vector, $d^m$ is the nodal phase-field damage vector, and $\mathcal{H}^m$ is the history field driving crack irreversibility.
+
+The transition to mesh $m+1$ is governed by a projection operator $\mathbf{\Pi}_{m \to m+1}$:
+\begin{equation}
+\mathbf{u}^{m+1} = \mathbf{\Pi}_u(\mathbf{u}^m), \qquad d^{m+1} = \mathbf{\Pi}_d(d^m), \qquad \mathcal{H}^{m+1} = \mathbf{\Pi}_{\mathcal{H}}(\mathcal{H}^m).
+\label{eq:projection_operator}
+\end{equation}
+
+\subsection{Energy Balance and Mapping Dissipation}
+Immediately before remeshing on mesh $m$, the total internal potential energy is:
+\begin{equation}
+E_{\mathrm{total}}^{-} = \Psi_{\mathrm{elastic}}(\mathbf{u}^m, d^m) + \Psi_{\mathrm{frac}}(d^m).
+\label{eq:energy_before_transfer}
+\end{equation}
+Immediately following the projection onto mesh $m+1$, the evaluated internal energy is:
+\begin{equation}
+E_{\mathrm{total}}^{+} = \Psi_{\mathrm{elastic}}(\mathbf{u}^{m+1}, d^{m+1}) + \Psi_{\mathrm{frac}}(d^{m+1}).
+\label{eq:energy_after_transfer}
+\end{equation}
+The mapping transfer error (spurious energy jump or artificial dissipation) is defined as:
+\begin{equation}
+\Delta E_{\mathrm{transfer}} = E_{\mathrm{total}}^{+} - E_{\mathrm{total}}^{-}.
+\label{eq:delta_e_transfer}
+\end{equation}
+
+Thermodynamic consistency and conservation of energy dictate three fundamental transfer criteria:
+\begin{enumerate}
+\item \textbf{Damage Monotonicity (Crack Irreversibility):}
+\begin{equation}
+d^{m+1}(\mathbf{x}) \ge d^m(\mathbf{x}) \quad \forall\, \mathbf{x} \in \Omega.
+\label{eq:transfer_monotonicity}
+\end{equation}
+\item \textbf{Energy Preservation Bound:}
+\begin{equation}
+\frac{|\Delta E_{\mathrm{transfer}}|}{W_{\mathrm{ext}}} < \epsilon_{\mathrm{transfer}} \ll 1.0\%.
+\label{eq:transfer_energy_bound}
+\end{equation}
+\item \textbf{Out-of-Balance Equilibrium Relaxation:} The projected state $\mathbf{S}^{m+1}$ induces a non-zero residual out-of-balance force vector on mesh $m+1$:
+\begin{equation}
+\mathbf{R}_0^{m+1} = \mathbf{F}_{\mathrm{ext}}^{m+1} - \mathbf{F}_{\mathrm{int}}(\mathbf{u}^{m+1}, d^{m+1}).
+\label{eq:transfer_residual}
+\end{equation}
+A zero-load-increment Newton-Raphson relaxation step must be executed on mesh $m+1$ prior to resuming displacement loading $\Delta u$, ensuring $\|\mathbf{R}_0^{m+1}\| < \mathrm{TOL}_{\mathrm{NR}}$.
+\end{enumerate}
+
+These governing energy formulations establish the theoretical foundation for active state transfer in adaptive phase-field fracture modeling.

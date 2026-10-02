@@ -1,0 +1,57 @@
+\section{Pandey--Kumar Native Adaptive Remeshing Methodology}
+\label{sec:adaptive_method_miseseri}
+
+\subsection{Two-Job Pre-Refinement Workflow Architecture}
+Pandey \& Kumar \citep{Pandey2025} proposed an adaptive mesh refinement scheme leveraging the built-in adaptive remeshing capabilities of Abaqus/Standard. The workflow operates as an automated two-stage procedure executed via Python scripting:
+\begin{equation*}
+\boxed{\text{Coarse Mesh}} \xrightarrow{\text{Job 1}} \boxed{\text{Elastic Pre-Analysis}} \xrightarrow{\text{Extract}} \boxed{\texttt{MISESERI}\text{ Field}} \xrightarrow{\text{Apply}} \boxed{\texttt{RemeshingRule}} \xrightarrow{\texttt{adaptiveRemesh()}} \boxed{\text{Adapted Mesh}} \xrightarrow{\text{Job 2}} \boxed{\text{Fracture Solve}}
+\end{equation*}
+
+\begin{enumerate}[label=\textbf{Step \arabic*:},leftmargin=18mm,itemsep=1pt,topsep=1pt]
+  \item \textbf{Coarse Mesh Generation:} The domain $\Omega$ is discretized with a coarse global seed $h_{\mathrm{cms}} = 0.020\,\mathrm{mm}$, containing the initial sharp crack seam.
+  \item \textbf{Linear Elastic Pre-Analysis (Job 1):} A standard elastic solve is executed under prescribed Mode-I tensile stroke. Because no user elements or damage evolutions are active, this step solves in seconds.
+  \item \textbf{Error Indicator Evaluation:} Abaqus calculates the recovered stress discretization error indicator \texttt{MISESERI} across the domain.
+  \item \textbf{Abaqus Remeshing Rule Execution:} An Abaqus Python script defines a \texttt{RemeshingRule} and invokes \texttt{adaptiveRemesh()}, generating a new mesh tailored to reduce stress discretization error.
+  \item \textbf{UEL/UMAT Layer Reconstruction:} Python scripts parse the adapted mesh and generate coincident co-located \texttt{UEL} user elements and companion visualization \texttt{UMAT} elements.
+  \item \textbf{Phase-Field Fracture Simulation (Job 2):} The final nonlinear fracture simulation is executed on the refined mesh using the user-defined element formulation.
+\end{enumerate}
+
+\subsection{Canonical Mode-I Pre-Analysis Mesh \& Error Extraction}
+A rigorous audit of the source pre-analysis deck established the canonical baseline:
+\begin{itemize}[leftmargin=4mm,itemsep=1pt,topsep=1pt]
+  \item \textbf{Mesh Discretization:} Exactly $2{,}906$ finite elements ($2{,}818$ quadrilateral \texttt{CPE4} elements and $88$ triangular \texttt{CPE3} transition elements), defined by $2{,}988$ nodes.
+  \item \textbf{Seam Topology:} Zero-gap sharp slit seam ($a_0 = 0.5\,\mathrm{mm}$) with duplicate coincident nodes on upper and lower flanks.
+  \item \textbf{Extracted Error Records:} Direct inspection of \texttt{JOB1\_LOAD\_1p0X.odb} confirmed that the field output contains exactly \textbf{$2{,}906$ scalar values} at the \texttt{WHOLE\_ELEMENT} position ($1$ value per finite element).
+\end{itemize}
+
+\begin{quote}
+\textbf{Resolution of Obsolete Provenance Data:} In the preliminary 02 September report, Figure~3.1 erroneously plotted a $3{,}930$-row dataset extracted from Job \texttt{1379893.mmaster02}. That run belonged to the earlier Mode-II shear mesh, not the canonical Mode-I pre-analysis. That obsolete dataset is formally retired and replaced with the verified $2{,}906$-element Mode-I field shown in Figure~\ref{fig:miseseri_canonical}.
+\end{quote}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.68\textwidth]{figure_3_1_canonical_mode1_miseseri_error_map.png}
+  \caption{Canonical Mode-I pre-analysis von Mises stress discretization error indicator (\texttt{MISESERI}) field ($2{,}906$ finite elements). Error is sharply peaked at the singular crack tip ($\max = 1.007\,\mathrm{MPa}$), while remaining low in far-field regions ($\mathrm{median} = 5.78 \times 10^{-3}\,\mathrm{MPa}$).}
+  \label{fig:miseseri_canonical}
+\end{figure}
+
+\subsection{Physical Meaning and Epistemic Limits of MISESERI}
+It is essential to maintain absolute scientific clarity regarding what \texttt{MISESERI} represents:
+\begin{itemize}[leftmargin=4mm,itemsep=1pt,topsep=1pt]
+  \item \textbf{Definition:} \texttt{MISESERI} is the Abaqus stress discretization/error indicator associated with the recovered von Mises stress field \citep{Abaqus2023}; it is not a phase-field or damage error indicator.
+  \item \textbf{Epistemic Scope:} It measures stress discretization error in the linear-elastic pre-analysis rather than damage evolution or crack propagation.
+  \item \textbf{Abaqus Internal Sizing Transformation:} While \texttt{MISESERI} guides mesh sizing, the exact transformation algorithms, smoothing filters, and element-growth constraints internal to \texttt{adaptiveRemesh} remain undocumented proprietary routines of the Abaqus kernel \citep{Abaqus2023}. We report verified numerical outputs rather than conjecturing undocumented internal formulas.
+\end{itemize}
+
+\subsection{Published Remeshing Rule Implementation}
+To guarantee literal adherence to the published method, the Abaqus remeshing rule is scripted exactly as specified in Listing~1 of Pandey \& Kumar \citep{Pandey2025}:
+\begin{itemize}[leftmargin=4mm,itemsep=1pt,topsep=1pt]
+  \item Error indicator variable: \texttt{variables=('MISESERI',)}
+  \item Sizing method: \texttt{sizingMethod=UNIFORM\_ERROR}
+  \item Error target: \texttt{errorTarget=1.0} (representing $1.0\%$ relative stress error)
+  \item Element size bounds: \texttt{minElementSize=0.001}, \texttt{maxElementSize=0.020}
+  \item Refinement dynamics: \texttt{refinementFactor=10}, \texttt{coarseningFactor=NOT\_ALLOWED}
+  \item Output frequency: \texttt{outputFrequency=ALL\_INCREMENTS}
+  \item Remeshing domain: Whole specimen (\texttt{All\_elem})
+\end{itemize}
+Applying this literal rule to the canonical Mode-I pre-analysis produces an adapted mesh of $71{,}320$ finite elements.

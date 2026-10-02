@@ -1,0 +1,85 @@
+================================================================================
+SUPERVISOR MEETING PACK MANIFEST -- 17 SEPTEMBER 2026
+================================================================================
+Project: Application of Built-in Adaptive Remeshing and Mesh Refinement
+         Features in Abaqus to Fracture Simulations Using Phase-field User Elements
+Author:  Pruthviraja Reddy Vandavagali (Matr. Nr. 68865)
+Chairs:  Prof. Dipl.-Ing. Bjoern Kiefer, Ph.D. / Dr.-Ing. Stephan Roth
+         Chair of Applied Mechanics (IMFD), TU Bergakademie Freiberg
+Date:    17 September 2026
+
+PURPOSE:
+This package provides the complete, self-contained, reproducible documentation
+pack for the supervisor meeting on Thursday, 17 September 2026. The report
+focuses strictly on the Mode-I benchmark reproduction from Pandey & Kumar (2025),
+documenting:
+1. The mathematical definition of the Mode-I benchmark and the fixed-mesh reference
+   solution (Job 1398090, authoritative OLS K_0 = 137.945520 kN/mm).
+2. The exact Pandey-Kumar native two-job adaptive remeshing workflow (MISESERI,
+   errorTarget=1.0, 2,906 elements -> 71,320 elements).
+3. The root-cause discovery and resolution of the 71,320-element stiffness defect
+   (Abaqus pre 16-node card limit on free-format *NSET records, where Abaqus issued
+   warnings and retained only 16 of the 150 bottom nodes).
+4. The full-fracture requalification of the nominal-1% adaptive mesh (Job 1404933)
+   with complete recovery of initial stiffness (K_0 = 137.820804 kN/mm, K_0 ~ 137.821 kN/mm, -0.0904% vs reference).
+5. The remaining Gate-5 discrepancy audit: why published literature reports ~13,941
+   elements while official Abaqus produces 71,320 elements across versions 2019-2023.
+6. The epistemological audit separating verified mathematical facts from unpublished
+   author implementation details.
+7. Two explicit supervisor decision pathways (Option A: Accept Gate 5 as externally
+   under-specified & proceed with Mode-I synthesis vs Option B: Authorize transmission
+   of author reproducibility inquiry). External inquiry remains strictly UNSENT.
+   All higher-complexity work (Gate 7, Mode-II, state transfer) remains explicitly ON HOLD.
+
+--------------------------------------------------------------------------------
+PACKAGE FILE INVENTORY & ROLES
+--------------------------------------------------------------------------------
+
+1. COMPILED REPORT
+   - report_main.pdf: Complete 12-page supervisor meeting report PDF.
+
+2. LATEX SOURCE FILES
+   - report_main.tex: Master document configuration, geometry, packages, title block.
+   - section01_executive_summary.tex: Executive briefing and core results summary.
+   - section02_benchmark_and_reference.tex: Benchmark geometry, material, phase-field
+     UEL formulation, fixed reference anchor (Job 1398090), energy balance note.
+   - section03_adaptive_method_miseseri.tex: Pre-analysis linear solve (Job PK_M1_PRE),
+     MISESERI stress error indicator definition, remeshing rule, whole domain scope.
+   - section04_stiffness_anomaly_resolution.tex: Priority Question A resolution,
+     16-item card truncation mechanism, bottom-edge lift kinematics, Job 1405044
+     frozen requalification, Job 1404933 fracture recovery, retraction of asymmetry.
+   - section05_discrepancy_audit_71k_vs_14k.tex: Priority Question B audit, multi-release
+     invariance (Abaqus 2019-2023 bitwise identical), 15-factor OFAT audit, regional
+     element distribution (R1-R5).
+   - section06_epistemological_audit.tex: 3-column epistemological matrix of knowns,
+     verified facts, and remaining unknowns.
+   - section07_supervisor_decisions.tex: Decision Option A vs Option B callouts,
+     6 prepared author questions, unsent protocol.
+   - section08_provenance_and_references.tex: Technical job provenance ledger (Table 5),
+     reproduction hash integrity, and formal bibliography.
+   - literature.bib: BibTeX references (Pandey2025, Molnar2017, Msekh2015, etc.).
+   - report_main.bbl: Processed bibliography file for standalone compilation.
+   - report_main.log: LaTeX compilation log file verifying 0 errors, 12 pages.
+
+3. FIGURE ASSETS (figures/)
+   - fig1_mode1_fu_recovery.pdf/.png: Mandatory Figure 1 (Force-displacement overlay
+     with initial stiffness inset comparing Reference, Corrected 71k, and Defective).
+   - fig2_gate5_mesh_discrepancy_and_regions.pdf/.png: Mandatory Figure 2 (Specimen
+     regional partition and 71,320 reconstruction regional distribution across R1-R5).
+   - fig3_boundary_truncation_mechanism.png: Visual diagram of the 16-node card truncation.
+   - fig3_bottom_edge_lift_kinematics.png: Bottom-edge kinematics and lift profile.
+   - fig_mode1_geometry.png: Standard Mode-I geometry and boundary condition schematic.
+   - figure_3_1_canonical_mode1_miseseri_error_map.png: Canonical 2,906-element von Mises
+     stress discretization error indicator distribution.
+   - figure_3_2_canonical_miseseri_vs_refined_mesh.png: Side-by-side error indicator
+     contour vs refined adapted mesh.
+
+4. REPRODUCTION & AUTOMATION SCRIPTS
+   - commands.txt: Step-by-step terminal execution guide for PDF compilation, figure
+     generation, and Abaqus solver execution.
+   - generate_report_figures.py: Standalone Python script to regenerate publication
+     figures from raw simulation CSV curves.
+   - SHA256SUMS.txt: Cryptographic SHA-256 hashes for all pack assets.
+   - MANIFEST.txt: This inventory description file.
+
+================================================================================

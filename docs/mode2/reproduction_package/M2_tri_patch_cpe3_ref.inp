@@ -1,0 +1,35 @@
+*Heading
+Abaqus Runtime Patch Test: Standard CPE3 Reference
+*Preprint, echo=NO, model=NO, history=NO, contact=NO
+*Node
+  1,  0.01000000,  0.00000000
+  2,  0.00000000,  0.01000000
+  3,  0.00000000,  0.00000000
+*Element, type=CPE3, elset=All_elem
+  1, 1, 2, 3
+*Solid Section, elset=All_elem, material=Elastic_Matrix
+1.0
+*Material, name=Elastic_Matrix
+*Elastic
+ 210.0, 0.3
+*Step, name=Step-1, nlgeom=NO
+Constant Strain Mechanical Reference Test
+*Static
+1.0, 1.0, 1e-05, 1.0
+*Boundary
+  3, 1, 2, 0.0
+  1, 1, 1, 0.0001
+  1, 2, 2, 0.0
+  2, 1, 2, 0.0001
+*Output, field, frequency=1
+*Node Output
+U, RF
+*Element Output, elset=All_elem
+S, E
+*Node Print, summary=NO
+U, RF
+*El Print, elset=All_elem, summary=NO
+S, E
+*Energy Print
+ALLSE
+*End Step

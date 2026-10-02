@@ -1,0 +1,154 @@
+{
+    "manifest_version": "1.0",
+    "manifest_id": "GATE6B-POST-S1-POSTPROCESSING-MANIFEST-V1.0",
+    "phase": "MODE1_GATE6B_ENERGY_CONVERGENCE_AND_STEP2_RECONCILIATION_ACTIVE",
+    "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+    "active_reference_job": "1409734.mmaster02",
+    "pipelines": {
+        "spatial_convergence": {
+            "branch_id": "spatial_convergence",
+            "pipeline_script": "scripts/validation/spatial_convergence_pipeline.py",
+            "test_suite": "tests/unit/test_mode1_spatial_convergence_pipeline.py",
+            "candidates_sequence": [
+                {
+                    "candidate_id": "S1",
+                    "mesh_size": 15192,
+                    "element_size_target_mm": 0.0030,
+                    "source_package": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k",
+                    "source_job_id": "1409734.mmaster02",
+                    "execution_status": "RUNNING_AUTHORITATIVE_REFERENCE"
+                },
+                {
+                    "candidate_id": "S2",
+                    "mesh_size": 32130,
+                    "element_size_target_mm": 0.0020,
+                    "source_package": "models/pandey_kumar_mode1/12_fixed_convergence_h0020",
+                    "deck_filename": "PK_MODE1_FIX_H0020_ENERGY.inp",
+                    "execution_status": "POST_S1_RELEASE_CANDIDATE"
+                },
+                {
+                    "candidate_id": "S3",
+                    "mesh_size": 41912,
+                    "element_size_target_mm": 0.0015,
+                    "source_package": "models/pandey_kumar_mode1/13_fixed_convergence_h0015",
+                    "deck_filename": "PK_MODE1_FIX_H0015_ENERGY.inp",
+                    "execution_status": "POST_S1_RELEASE_CANDIDATE"
+                }
+            ],
+            "reference_anchor": "S1",
+            "interpolation_discipline": {
+                "rule": "ZERO_EXTRAPOLATION",
+                "common_displacement_support": "min(u_max(S1), u_max(S2), u_max(S3))",
+                "resampling_points": 1000
+            },
+            "stiffness_extraction": {
+                "rule": "LINEAR_OLS_ORIGIN_CONSTRAINED",
+                "displacement_limit_mm": 0.0010,
+                "target_reference_k0_kn_per_mm": 137.945520
+            },
+            "error_evaluation_governance": {
+                "rule": "TREND_ONLY_SUCCESSIVE_RELATIVE_DECAY",
+                "post_hoc_thresholds": "REVOKED_AND_DISQUALIFIED"
+            },
+            "energy_deduplication": {
+                "rule": "MANDATORY_UNIQUE_FINITE_ELEMENT_DEDUPLICATION",
+                "layer": "All_elem companion Layer-3"
+            }
+        },
+        "temporal_convergence": {
+            "branch_id": "temporal_convergence",
+            "pipeline_script": "scripts/validation/temporal_convergence_pipeline.py",
+            "test_suite": "tests/unit/test_mode1_temporal_convergence_pipeline.py",
+            "candidates_sequence": [
+                {
+                    "candidate_id": "T1",
+                    "schedule_label": "coarse_2x",
+                    "dt_step1": 0.001,
+                    "dt_step2": 0.0004,
+                    "total_nominal_increments": 3500,
+                    "source_package": "models/pandey_kumar_mode1/17_temporal_convergence_t1_coarse",
+                    "deck_filename": "PK_MODE1_T1_COARSE_ENERGY.inp",
+                    "execution_status": "POST_S1_RELEASE_CANDIDATE"
+                },
+                {
+                    "candidate_id": "T2",
+                    "schedule_label": "nominal_1x",
+                    "dt_step1": 0.0005,
+                    "dt_step2": 0.0002,
+                    "total_nominal_increments": 7000,
+                    "source_package": "models/pandey_kumar_mode1/18_temporal_convergence_t2_nominal",
+                    "deck_filename": "PK_MODE1_T2_NOMINAL_ENERGY.inp",
+                    "execution_status": "OMITTED_REUSE_S1_REFERENCE",
+                    "reuse_source": "1409734.mmaster02"
+                },
+                {
+                    "candidate_id": "T3",
+                    "schedule_label": "fine_0.5x",
+                    "dt_step1": 0.00025,
+                    "dt_step2": 0.0001,
+                    "total_nominal_increments": 14000,
+                    "source_package": "models/pandey_kumar_mode1/19_temporal_convergence_t3_fine",
+                    "deck_filename": "PK_MODE1_T3_FINE_ENERGY.inp",
+                    "execution_status": "POST_S1_RELEASE_CANDIDATE"
+                }
+            ],
+            "reference_anchor": "T2",
+            "interpolation_discipline": {
+                "rule": "ZERO_EXTRAPOLATION",
+                "common_displacement_support": "min(u_max(T1), u_max(T2_reused_S1), u_max(T3))",
+                "resampling_points": 1000
+            },
+            "stiffness_extraction": {
+                "rule": "LINEAR_OLS_ORIGIN_CONSTRAINED",
+                "displacement_limit_mm": 0.0010
+            },
+            "error_evaluation_governance": {
+                "rule": "TREND_ONLY_SUCCESSIVE_RELATIVE_DECAY"
+            }
+        },
+        "length_scale_sensitivity": {
+            "branch_id": "length_scale_sensitivity",
+            "pipeline_script": "scripts/validation/length_scale_sensitivity_pipeline.py",
+            "test_suite": "tests/unit/test_mode1_length_scale_sensitivity_pipeline.py",
+            "terminology_governance": "STRICTLY_DESIGNATED_LENGTH_SCALE_SENSITIVITY_NOT_CONVERGENCE",
+            "theoretical_stress_scaling": "sigma_c = sqrt(3*G_c*E / (8*l_0))",
+            "candidates_sequence": [
+                {
+                    "candidate_id": "L1",
+                    "l0_mm": 0.0075,
+                    "scale_factor": 1.0,
+                    "source_package": "models/pandey_kumar_mode1/20_length_scale_l1_baseline",
+                    "deck_filename": "PK_MODE1_L1_BASELINE_ENERGY.inp",
+                    "execution_status": "OMITTED_REUSE_S3_REFERENCE",
+                    "reuse_source": "Candidate S3 (PK_MODE1_FIX_H0015_ENERGY)"
+                },
+                {
+                    "candidate_id": "L2",
+                    "l0_mm": 0.01125,
+                    "scale_factor": 1.5,
+                    "source_package": "models/pandey_kumar_mode1/21_length_scale_l2_intermediate",
+                    "deck_filename": "PK_MODE1_L2_L01125_ENERGY.inp",
+                    "execution_status": "POST_S1_RELEASE_CANDIDATE"
+                },
+                {
+                    "candidate_id": "L3",
+                    "l0_mm": 0.01500,
+                    "scale_factor": 2.0,
+                    "source_package": "models/pandey_kumar_mode1/22_length_scale_l3_coarse",
+                    "deck_filename": "PK_MODE1_L3_L01500_ENERGY.inp",
+                    "execution_status": "POST_S1_RELEASE_CANDIDATE"
+                }
+            ],
+            "reference_anchor": "L1",
+            "interpolation_discipline": {
+                "rule": "ZERO_EXTRAPOLATION",
+                "common_displacement_support": "min(u_max(L1_reused_S3), u_max(L2), u_max(L3))",
+                "resampling_points": 1000
+            },
+            "stiffness_extraction": {
+                "rule": "LINEAR_OLS_ORIGIN_CONSTRAINED",
+                "displacement_limit_mm": 0.0010
+            }
+        }
+    }
+}

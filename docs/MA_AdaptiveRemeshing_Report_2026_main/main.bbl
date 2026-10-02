@@ -1,0 +1,66 @@
+\begin{thebibliography}{8}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bourdin et~al.(2000)Bourdin, Francfort, and Marigo]{bourdin2000}
+Bourdin, B., Francfort, G.~A., and Marigo, J.-J.
+\newblock Numerical experiments in revisited brittle fracture.
+\newblock \emph{Journal of the Mechanics and Physics of Solids}, 48\penalty0
+  (4):\penalty0 797--826, 2000.
+\newblock \doi{10.1016/S0022-5096(99)00028-9}.
+
+\bibitem[Bourdin et~al.(2008)Bourdin, Francfort, and Marigo]{bourdin2008}
+Bourdin, B., Francfort, G.~A., and Marigo, J.-J.
+\newblock The variational approach to fracture.
+\newblock \emph{Journal of Elasticity}, 91\penalty0 (1--3):\penalty0 5--148,
+  2008.
+\newblock \doi{10.1007/s10659-007-9107-3}.
+
+\bibitem[Das(2023)]{abaqus2023}
+\emph{{Abaqus 2023 Documentation: Analysis User's Guide, User Subroutines
+  Reference Guide, and CAE User's Guide}}.
+\newblock Dassault Syst{\`e}mes Simulia Corp., Providence, RI, USA, 2023.
+
+\bibitem[Francfort and Marigo(1998)]{francfort1998}
+Francfort, G.~A. and Marigo, J.-J.
+\newblock Revisiting brittle fracture as an energy minimization problem.
+\newblock \emph{Journal of the Mechanics and Physics of Solids}, 46\penalty0
+  (8):\penalty0 1319--1342, 1998.
+\newblock \doi{10.1016/S0022-5096(98)00034-9}.
+
+\bibitem[Miehe et~al.(2010)Miehe, Welschinger, and Hofacker]{miehe2010a}
+Miehe, C., Welschinger, F., and Hofacker, M.
+\newblock Thermodynamically consistent phase-field models of fracture:
+  Variational principles and multi-field {FE} implementations.
+\newblock \emph{International Journal for Numerical Methods in Engineering},
+  83\penalty0 (10):\penalty0 1273--1311, 2010.
+\newblock \doi{10.1002/nme.2861}.
+
+\bibitem[Pandey and Kumar(2025)]{pandey2025}
+Pandey, A. and Kumar, S.
+\newblock A simple and robust mesh refinement implementation in {Abaqus} for
+  phase field modelling of brittle fracture.
+\newblock \emph{Computer Modeling in Engineering \& Sciences}, 144\penalty0
+  (3):\penalty0 3251--3286, 2025.
+\newblock \doi{10.32604/cmes.2025.067858}.
+
+\bibitem[Zienkiewicz and Zhu(1987)]{zienkiewicz1987}
+Zienkiewicz, O.~C. and Zhu, J.~Z.
+\newblock A simple error estimator and adaptivity for practical engineering
+  analysis.
+\newblock \emph{International Journal for Numerical Methods in Engineering},
+  24\penalty0 (2):\penalty0 337--357, 1987.
+\newblock \doi{10.1002/nme.1620240206}.
+
+\bibitem[Zienkiewicz and Zhu(1992)]{zienkiewicz1992}
+Zienkiewicz, O.~C. and Zhu, J.~Z.
+\newblock The superconvergent patch recovery and a posteriori error estimates.
+  {Part 1}: The recovery technique.
+\newblock \emph{International Journal for Numerical Methods in Engineering},
+  33\penalty0 (7):\penalty0 1331--1364, 1992.
+\newblock \doi{10.1002/nme.1620330702}.
+
+\end{thebibliography}

@@ -1,0 +1,55 @@
+================================================================================
+MODE-I BENCHMARK REPRODUCTION & BUILD INSTRUCTIONS
+Supervisor Meeting Report -- 17 September 2026
+================================================================================
+
+1. PDF COMPILATION INSTRUCTIONS
+--------------------------------------------------------------------------------
+To compile the condensed 12-page meeting report from source:
+  pdflatex -interaction=nonstopmode report_main.tex
+  bibtex report_main
+  pdflatex -interaction=nonstopmode report_main.tex
+  pdflatex -interaction=nonstopmode report_main.tex
+
+Output:
+  report_main.pdf (12 pages)
+
+2. FIGURE GENERATION (PYTHON 3.10+)
+--------------------------------------------------------------------------------
+To regenerate the publication figures from raw CSV data:
+  python generate_report_figures.py
+Requires: matplotlib, numpy, pandas
+
+3. ABAQUS SOLVER REPRODUCTION COMMANDS (CLUSTER / LOCAL)
+--------------------------------------------------------------------------------
+A. Job 1: Pre-Analysis Linear Elastic Solve (Coarse Mesh, 2,906 elements)
+   abaqus job=PK_M1_PRE_CMS0020 input=PK_M1_PRE_CMS0020.inp interactive
+
+B. Adaptive Remeshing Execution (Python CAE Kernel)
+   abaqus cae noGUI=run_adaptive_remesh_canonical.py -- job=PK_M1_PRE_CMS0020
+   (Applies published RemeshingRule: MISESERI, errorTarget=1.0, whole domain)
+   Output: Adapted mesh deck with 71,320 finite elements.
+
+C. Deck Preprocessing & NSET Line Wrapping
+   python wrap_boundary_nsets.py --input PK_M1_NOM1_RAW.inp --output PK_M1_NOM1_STRICT.inp
+   (Ensures all *NSET records contain <= 16 items per data line to prevent
+    the Abaqus 'pre' 16-item truncation and deletion warnings that caused the stiffness defect)
+
+D. Job 2: Phase-Field Nonlinear Fracture Simulation (Serial Authoritative)
+   abaqus job=PK_M1_NOM1_STRICT input=PK_M1_NOM1_STRICT.inp \
+          user=f42_mixed_uel.for cpus=1 interactive
+
+E. Optional: Shared-Memory 4-Thread Parity Twin (Stage A Qualification)
+   abaqus job=PK_M1_NOM1_STRICT_4T input=PK_M1_NOM1_STRICT.inp \
+          user=f42_mixed_uel.for cpus=4 interactive
+   (Requires 1 MPI rank x 4 shared-memory threads; multi-rank MPI is unqualified)
+
+4. VERIFIED BENCHMARK ACCEPTANCE METRICS
+--------------------------------------------------------------------------------
+- Fixed Reference Anchor (Job 1398090, 15,192 elements):
+    F_max = 0.757778 kN,  u(F_max) = 0.005857 mm,  K_0 = 137.945520 kN/mm
+- Corrected Frozen 71k Requalification (Job 1405044, 71,320 elements):
+    K_0 = 138.021013 kN/mm  (+0.0547% vs reference)
+- Corrected Full-Fracture Nominal 1% (Job 1404933, 71,320 elements):
+    F_max = 0.745325 kN,  u(F_max) = 0.005750 mm,  K_0 = 137.820804 kN/mm (rounded: 137.821 kN/mm)
+    Initial stiffness agreement: -0.0904% vs reference anchor

@@ -1,0 +1,81 @@
+\chapter{Task 4: Abaqus-Native Error-Guided Mesh Refinement Implementation}
+\label{ch:refinement}
+
+\section{Methodological principle and role of \texttt{MISESERI}}
+Abaqus/Standard provides built-in adaptive remeshing technology for standard continuum elements based on stress-recovery error estimators. In the approach proposed by Pandey \& Kumar \citep{Pandey2025}, this native capability is leveraged for phase-field fracture simulations through an error-guided two-job pre-refinement workflow.
+
+In this framework, the primary error indicator is \texttt{MISESERI}, which represents the von Mises equivalent of the stress discretization error tensor $\mathbf{e}_\sigma$:
+\begin{equation}
+\mathbf{e}_\sigma = \boldsymbol\sigma^* - \boldsymbol\sigma_h, \qquad \text{MISESERI} = \sqrt{\frac{3}{2}\mathbf{s}_e : \mathbf{s}_e},
+\end{equation}
+where $\boldsymbol\sigma_h$ is the raw finite-element integration-point stress field, $\boldsymbol\sigma^*$ is the continuous, recovered stress field obtained via polynomial superconvergent patch recovery (SPR), and $\mathbf{s}_e = \mathbf{e}_\sigma - \frac{1}{3}\mathrm{tr}(\mathbf{e}_\sigma)\mathbf{I}$ is the deviatoric error stress tensor.
+
+Because user elements (UEL) do not expose native element error indicators directly to Abaqus, the companion facsimile UMAT layer (Chapter~\ref{ch:introduction}) is employed to mirror the mechanical stress state into standard continuum elements (\texttt{CPE4}/\texttt{CPE3}). Abaqus evaluates \texttt{MISESERI} on this facsimile set. As illustrated in Figure~\ref{fig:miseseri_spatial_map}, the recovered stress error concentrates heavily in the singular elastic stress field surrounding the pre-crack tip, providing a predictive spatial indicator of the future fracture process zone.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{fig04_miseseri_spatial_map.png}
+\caption{Spatial distribution of the extracted \texttt{MISESERI} stress error indicator from the coarse linear elastic pre-analysis (Job \texttt{1379893.mmaster02}), showing strong localization at the singular crack tip.}
+\label{fig:miseseri_spatial_map}
+\end{figure}
+
+\section{Automated Python workflow architecture}
+The automated Python implementation of the Pandey--Kumar adaptive remeshing workflow operates in two consecutive stages (Figure~\ref{fig:refinement_workflow}):
+\begin{enumerate}[label=\textbf{Step \arabic*:},leftmargin=18mm]
+  \item \textbf{Coarse Pre-Analysis Setup:} A coarse physical model ($h_{\mathrm{cms}} = 0.02\,\mathrm{mm}$) is generated with the initial crack seam and assigned standard elastic properties ($E = 210\,\mathrm{GPa}, \nu = 0.3$). Field output requests are defined for \texttt{MISESERI}, \texttt{MISESAVG}, \texttt{S}, \texttt{U}, \texttt{RF}, and element volume.
+  \item \textbf{Pre-Analysis Execution:} The job is submitted and solved elastically under small displacement loading.
+  \item \textbf{Remeshing Rule Definition:} An Abaqus \texttt{RemeshingRule} is instantiated on the part instance with specified error targets:
+\begin{verbatim}
+model.RemeshingRule(name='RemeshRule_Mode1',
+                    stepName='Step-1',
+                    variables=('MISESERI',),
+                    sizingMethod=UNIFORM_ERROR,
+                    errorTarget=errorTarget,
+                    refinementFactor=10.0,
+                    minElementSize=0.001,
+                    maxElementSize=0.02,
+                    coarseningFactor=NOT_ALLOWED,
+                    outputFrequency=ALL_INCREMENTS)
+\end{verbatim}
+  \item \textbf{Adaptive Remesh Execution:} The pre-analysis output database is opened and the native remeshing operation is invoked:
+\begin{verbatim}
+model.adaptiveRemesh(odb=odb)
+\end{verbatim}
+  \item \textbf{Physical Mesh Extraction:} The newly generated non-uniform mesh is extracted from the remeshed model part.
+  \item \textbf{Layered UEL/UMAT Model Assembly:} The single physical mesh is automatically converted into three coincident layers: Layer 1 (Phase UEL), Layer 2 (Mechanical UEL), and Layer 3 (Facsimile UMAT), with identical node numbers and synchronized element offsets.
+  \item \textbf{Preflight Audit and Submission:} Topological connectivity, seam node pairs, boundary condition node sets, and property cards are audited before submitting the final nonlinear fracture simulation.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.98\textwidth]{fig_refinement_workflow.pdf}
+\caption{Flowchart of the Python-automated Abaqus-native adaptive pre-refinement workflow, showing the transition from coarse elastic pre-analysis to the final multi-layer phase-field fracture model.}
+\label{fig:refinement_workflow}
+\end{figure}
+
+\section{Critical implementation finding: The \texttt{generateMesh()} overwrite defect}
+During headless workflow qualification, an important Abaqus Python API behavior was uncovered. In standard Abaqus/CAE scripting, calling \texttt{part.generateMesh()} is the standard method for meshing a part. However, when \texttt{model.adaptiveRemesh(odb=...)} executes, Abaqus internally modifies the part mesh based on the calculated sizing field.
+
+If a script subsequently invokes \texttt{part.generateMesh()}, Abaqus discards the adaptively refined mesh and regenerates a standard mesh based on the original part seed attributes. In early tests, this defect caused the output mesh to revert from an adaptively refined discretization back to the original coarse $553$-element mesh without raising an exception.
+
+Eliminating the redundant \texttt{generateMesh()} call preserved the true native adaptive mesh ($2{,}222$ elements in the qualification test and $15{,}396$ elements in the production candidate). This verification rule has been integrated as an automated preflight test in the project pipeline.
+
+\section{Discretization characteristics and mesh comparison}
+Figure~\ref{fig:coarse_adaptive_meshes} illustrates the direct Abaqus CAE mesh comparison between the initial coarse pre-analysis discretization ($2{,}906$ physical elements) and the resulting adaptively refined physical mesh.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}\centering
+\includegraphics[width=\linewidth]{fig03a_coarse_mesh_cae.png}\\[-0.3em]\small (a) Coarse pre-analysis mesh ($h_{\mathrm{cms}} = 0.02\,\mathrm{mm}$)
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}\centering
+\includegraphics[width=\linewidth]{fig13_adaptive_71320_mesh_cae.png}\\[-0.3em]\small (b) Adaptively refined mesh
+\end{minipage}
+\caption{Direct Abaqus CAE viewport exports showing the initial coarse pre-analysis mesh and the resulting locally refined mesh with high element density focused along the horizontal crack propagation line.}
+\label{fig:coarse_adaptive_meshes}
+\end{figure}
+
+The adaptive remeshing algorithm concentrates fine quadrilateral and transition triangular elements ($h \sim 0.001\,\mathrm{mm}$) in a dense band surrounding the crack tip and along the prospective ligament, while retaining the coarse global element size ($h = 0.02\,\mathrm{mm}$) in the far field.
+
+\section{Task 4 verification conclusion}
+The end-to-end implementation of the Abaqus-native error-guided refinement workflow in Python was verified headlessly, with deterministic generation of mixed Quad4/Tri3 physical meshes, validated topological seam checks, and automated assembly into the multi-layer UEL/UMAT architecture (Task 4: \textbf{COMPLETE / VERIFIED END-TO-END}). Production fracture validation on these meshes is presented in Chapter~\ref{chap:production_validation}.

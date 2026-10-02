@@ -1,0 +1,5 @@
+Model,Job ID,Physical Elements,Physical Nodes,Layered Elements,Step 1 Incs,Step 2 Incs,Total Incs,Saved Frames,CPU Time (s),Walltime (s),Endpoint U1 (mm),Scheduler CPU Ratio,Censoring
+H1 Reference,1386447.mmaster02,12064,12382,36192,500,1354 (term),1854,70,4210.0,4218.0,0.00963,—,Terminated (pre-peak)
+H2 Baseline,1386448.mmaster02,33852,34508,101556,500,1243 (cens),1743,68,14455.0,14460.0,0.00925,1.00x,Walltime-censored at 0.009250 mm
+Candidate 1 (MM),1394260.mmaster02,2206,2294,6618,500,2000,2500,72,1180.0,1184.0,0.01,12.25x (diag),Full 100% completion
+Candidate 2 (PK5),1394261.mmaster02,4894,4998,14682,500,2000,2500,72,2600.0,2607.0,0.01,5.56x (diag),Full 100% completion

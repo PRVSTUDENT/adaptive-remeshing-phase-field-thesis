@@ -1,0 +1,32 @@
+\section{Executive Summary \& Problem Overview}
+\label{sec:executive_summary}
+
+\subsection{Supervisor Governing Directive \& Project Scope Freeze}
+This meeting report responds directly to the directive issued by the academic supervisor:
+\begin{quote}
+\emph{``We need to have understood everything related to the first model before we increase complexity.''}
+\end{quote}
+Accordingly, all secondary research tracks---including Mode-II shear fracture benchmarks (Task~7), nonmatching mesh state transfer (Ch.~4), and external \texttt{ABAQUSER} visualization integration (Task~6)---remain on formal hold. Autonomous research is confined entirely to the fundamental Mode-I tensile benchmark of Pandey \& Kumar \citep{Pandey2025}.
+
+\subsection{Active Scientific Questions for the 17 September 2026 Meeting}
+This meeting report presents the conclusive resolution of the two core questions established at the Gates~0--6 handoff:
+\begin{enumerate}[label=\textbf{Priority Question \Alph*:},leftmargin=36mm,itemsep=0pt,topsep=1pt]
+  \item \textbf{Stiffness Anomaly:} \emph{Why did the nominal 1\% 71,320-element adaptive model exhibit a compliant initial branch ($K_0 \approx 122.38\,\mathrm{kN/mm}$) while the fixed reference anchor is $137.95\,\mathrm{kN/mm}$?}
+  \item \textbf{Element-Count Discrepancy:} \emph{Why does the publication-literal native Abaqus remeshing reconstruction with $\texttt{errorTarget}=1.0$ yield $71{,}320$ finite elements while Pandey \& Kumar report approximately $13{,}941$?}
+\end{enumerate}
+
+\subsection{Definitive Epistemic Status Summary}
+\begin{itemize}[leftmargin=4mm,itemsep=1.5pt,topsep=1pt]
+  \item \textbf{Priority Question A is \texttt{RESOLVED\_AND\_CLOSED}:} 
+  The mechanical stiffness anomaly was \textbf{not} caused by adaptive remeshing, nor by UEL tangent formulations, nor by companion element coupling. The root cause was definitively isolated to input record line limits in the Abaqus input preprocessor (\texttt{pre}): an overlong single-line \texttt{*NSET} record caused Abaqus to issue preprocessing warnings and retain only 16 of the intended 150 \texttt{N\_BOTTOM} node IDs; the remaining 134 entries were deleted from the parsed set, leaving those nodes unconstrained. This permitted bottom-edge vertical lift up to approximately $48.34\%$ of the applied stroke, artificially softening the global structural response. Line wrapping to $\le 16$ items/line restored all 150 intended bottom roller constraints to $u_2=0$, recovering the reference stiffness ($K_0 = 138.021\,\mathrm{kN/mm}$ frozen; $K_0 \approx 137.821\,\mathrm{kN/mm}$ full fracture). Earlier speculative hypotheses regarding solver asymmetry are formally retracted.
+  
+  \item \textbf{Priority Question B Status: \texttt{EXHAUSTIVE\_AUDIT\_COMPLETE / EXTERNAL\_INFO\_REQUIRED}:} 
+  Using the publication-literal native Abaqus workflow with $\texttt{errorTarget}=1.0$, our verified result is $71{,}320$ finite elements ($69{,}443$ \texttt{CPE4} quads + $1{,}877$ \texttt{CPE3} triangles). A 15-factor One-Factor-At-A-Time (OFAT) audit proved that this discretization is bitwise invariant across four generations of Abaqus Linux releases (2019 GA, 2021.HF26, 2022 GA, 2023.HF4) and scale-invariant to pre-analysis load magnitudes. Spatial decomposition reveals that far-field ($41{,}986$ elements) and transition regions ($20{,}273$ elements) account for $87.3\%$ of our 71,320-element reconstruction. The accessible evidence does not identify which unpublished implementation detail accounts for the reported $\approx 13{,}941$-element mesh. Possible distinctions such as call-site parameter linkage or an unstated region definition remain hypotheses requiring author information; neither is established.
+\end{itemize}
+
+\subsection{Supervisor Decisions Required}
+In Section~\ref{sec:supervisor_decisions}, the supervisor is presented with two actionable pathways to conclude Gate~5:
+\begin{itemize}[leftmargin=4mm,itemsep=0pt,topsep=1pt]
+  \item \textbf{Option A (Accept Gate 5 as Externally Under-Specified):} Retain $71{,}320$ finite elements as the verified publication-literal reconstruction, document $\approx 13{,}941$ as unresolved due to missing publication information, and proceed only with Mode-I thesis synthesis/documentation pending further supervisor direction.
+  \item \textbf{Option B (Authorize Transmission of Author Inquiry):} Approve sending the prepared author reproducibility inquiry (held strictly \textbf{UNSENT}) and keep Gate~5 open pending the response. Gate~7, Mode-II, state transfer, and higher-complexity work remain explicitly \textbf{ON HOLD} under both options unless the supervisor separately authorizes release.
+\end{itemize}

@@ -1,18 +1,32 @@
-% Faculty-format thesis candidate (WP7-F3).
-% Clean A4 layout: no official faculty template was available in the repository.
-% Scientific claim boundaries remain those of docs/thesis/FINAL_CLAIM_MATRIX.md.
+% Master's Thesis Master Document
+% Technische Universität Bergakademie Freiberg
+% Faculty of Mechanical, Process and Energy Engineering
+% Institute of Mechanics and Fluid Dynamics
+% Chair of Applied Mechanics -- Solid Mechanics
+
 \documentclass[11pt,a4paper]{report}
 \usepackage[margin=25mm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{longtable}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{amsmath}
-\usepackage{setspace}
+\usepackage{tabularx}
+\usepackage{caption}
 \usepackage{array}
+\usepackage{setspace}
 \usepackage{xcolor}
-\graphicspath{{../../results/figures/}{../../results/final/stage_d/figures/}}
-\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue}
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[numbers]{natbib}
+\usepackage[hidelinks]{hyperref}
+
+\graphicspath{{./figures/}{./}{../../results/figures/}{../../results/final/stage_d/figures/}{../../results/figures/mode_ii_h2/1379966.mmaster02/}}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=blue!70!black,urlcolor=blue!70!black}
+
+\onehalfspacing
+
 \begin{document}
 
 % ---------------------------------------------------------------------------
@@ -20,48 +34,44 @@
 % ---------------------------------------------------------------------------
 \begin{titlepage}
 \centering
-{\large Technische Universit\"at Bergakademie Freiberg}\\[0.4em]
+{\large\bfseries Technische Universit\"at Bergakademie Freiberg}\\[0.4em]
 {\large Faculty of Mechanical, Process and Energy Engineering}\\[0.3em]
 {\large Institute of Mechanics and Fluid Dynamics}\\[0.2em]
-{\large Chair of Applied Mechanics -- Solid Mechanics}\\[2.2em]
+{\large Chair of Applied Mechanics -- Solid Mechanics}\\[2.5em]
 
 {\LARGE\bfseries Application of Built-in Adaptive Remeshing and Mesh
 Refinement Features in Abaqus to Fracture Simulations Using Phase-field
 User Elements\par}
-\vspace{1.2em}
-{\large Master Thesis}\\[0.4em]
-{\large Master of Science}\\[0.3em]
-{\large Course of study: Master Computational Materials Science}\\[2.0em]
+\vspace{1.5em}
+{\large\bfseries Master Thesis}\\[0.4em]
+{\large Master of Science (M.Sc.)}\\[0.3em]
+{\large Course of study: Computational Materials Science}\\[2.2em]
 
 \begin{tabular}{@{}ll@{}}
-\textbf{Author} & Pruthviraja Reddy Vandavagali \\
-\textbf{Matriculation number} & 68865 \\
-\end{tabular}\\[1.6em]
+\textbf{Author:} & Pruthviraja Reddy Vandavagali \\
+\textbf{Matriculation number:} & 68865 \\
+\end{tabular}\\[1.8em]
 
-\begin{tabular}{@{}p{0.42\textwidth}p{0.48\textwidth}@{}}
-\textbf{1st Examiner (Supervisor)} &
-Prof.\ Dipl.-Ing.\ Bj\"orn Kiefer, Ph.D. \\[0.6em]
-\textbf{2nd Examiner (Reviewer)} &
+\begin{tabular}{@{}p{0.45\textwidth}p{0.45\textwidth}@{}}
+\textbf{1st Examiner (Supervisor):} &
+Prof.\ Dipl.-Ing.\ Bj\"orn Kiefer, Ph.D. \\[0.8em]
+\textbf{2nd Examiner (Reviewer):} &
 Dr.-Ing.\ Stephan Roth \\
-\end{tabular}\\[2.0em]
-
-\begin{tabular}{@{}ll@{}}
-\textbf{Date of issue} & 13 July 2026 \\
-\textbf{Submission deadline} & 12 January 2027 \\
 \end{tabular}\\[2.2em]
 
-{\small Running title: Adaptive Remeshing, MISESERI Refinement, and State
-Transfer for Phase-Field Fracture in Abaqus}\\[0.8em]
-{\small Faculty-format candidate generated from the frozen scientific
-closeout (WP7-F3). Submission date is taken from the assignment sheet only
-after final human/administrative clearance.}
+\begin{tabular}{@{}ll@{}}
+\textbf{Date of issue:} & 13 July 2026 \\
+\textbf{Submission deadline:} & 12 January 2027 \\
+\end{tabular}\\[2.5em]
+
+{\small Running title: \textit{Adaptive Remeshing, Error-Guided Refinement, and State Transfer for Phase-Field Fracture in Abaqus}}
 \end{titlepage}
 
 \pagenumbering{roman}
 \tableofcontents
 \clearpage
 \listoffigures
-\clearpage
+\vspace{1.5em}
 \listoftables
 \clearpage
 
@@ -75,20 +85,22 @@ after final human/administrative clearance.}
 \pagenumbering{arabic}
 
 % ---------------------------------------------------------------------------
-% Body (frozen scientific chapters)
+% Core Scientific Chapters
 % ---------------------------------------------------------------------------
-\input{STAGE_A_MOLNAR_BENCHMARK_CHAPTER.tex}
-\input{THESIS_KEY_FIGURES.tex}
-\input{STAGE_C_OFFLINE_REFINEMENT_CHAPTER.tex}
-\input{STAGE_D_STATE_TRANSFER_CHAPTER.tex}
-\input{STAGE_D_STATE_TRANSFER_SYNTHESIS.tex}
-\input{STAGE_D3D_A1_CHECKPOINT_CORRECTION_AND_LIMITATION.tex}
-\input{EXTERNALDB_COMMONBLOCK_PARALLELIZATION_STUDY.tex}
-\input{STAGE_F_MODE_II_BENCHMARK_CHAPTER.tex}
-\input{FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex}
+\input{CHAP01_INTRODUCTION_AND_THEORY.tex}
+\input{CHAP02_BASELINE_VERIFICATION.tex}
+\input{CHAP03_MISESERI_MESH_REFINEMENT.tex}
+\input{CHAP04_STATE_TRANSFER_METHODOLOGY.tex}
+\input{CHAP05_MULTIRESOLUTION_AND_TOPOLOGY_BENCHMARKS.tex}
+\input{CHAP06_HPC_PARALLELIZATION_AND_RUNTIME.tex}
+\input{CHAP07_PRODUCTION_REFINED_FRACTURE_VALIDATION.tex}
+\input{CHAP08_SYNTHESIS_AND_CONCLUSIONS.tex}
 
+% ---------------------------------------------------------------------------
+% Appendices
+% ---------------------------------------------------------------------------
 \appendix
-\input{STAGE_A_REPRODUCIBILITY_APPENDIX.tex}
+\input{APPENDIX_A_REPRODUCIBILITY_AND_EXECUTION_LEDGER.tex}
 
 % ---------------------------------------------------------------------------
 % Bibliography

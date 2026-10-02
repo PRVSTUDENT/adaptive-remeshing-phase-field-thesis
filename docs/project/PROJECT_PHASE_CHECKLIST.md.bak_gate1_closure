@@ -1,0 +1,1442 @@
+﻿# Master Thesis Project Phase Checklist
+
+## SUPERVISOR-ALIGNED MASTER GATE DASHBOARD (MODE-I BENCHMARK ROADMAP)
+
+### Active Scientific Road & Governance State:
+- **Governing Directive**: *"We need to have understood everything related to the first model before we increase complexity."*
+- **Active Gate**: **GATE_3_MISESERI_MECHANISM_VERIFICATION (CLOSED_PASSED)**
+- **Scope Restriction**: Mode-II work and State Transfer are strictly **ON HOLD**.
+
+---
+
+## GATE 0: SOURCE & SCOPE FREEZE (PROPOSAL TASKS 1-2) -- CLOSED_PASSED
+
+| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+| :--- | :--- | :---: | :--- |
+| **G0-01** | **Primary Literature & DOI Indexed** | **PASS** | 
+eferences/notes/pandey_kumar_2025.md & 
+eferences/pandey_pdf_text.txt<br>Pandey & Kumar (2025), *CMES*, 144(3), 3251â€“3276. doi:10.32604/cmes.2025.067858 |
+| **G0-02** | **Formal Proposal & Execution Plan Indexed** | **PASS** | Literature review/MA_AdaptiveRemeshing_Proposal_2026.pdf & docs/supervisor_reports/Supervisor_Aligned_Integrated_Thesis_Proposal_Plan.md<br>Tasks 1â€“10 formally mapped to sequential gates. |
+| **G0-03** | **Mode-I Benchmark Parameters Frozen** | **PASS** | $\Omega = 1.0 \times 1.0\,\text{mm}$,  = 0.5\,\text{mm}$,  = 210\,\text{GPa}$, $\nu = 0.3$,  = 2.7\times 10^{-3}\,\text{kN/mm}$,  = 0.0075\,\text{mm}$,  = 10^{-7}$.<br>Verified in models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.inp. |
+| **G0-04** | **Single Active Scientific Question Stated** | **PASS** | *"What is the quantitative baseline response of the Mode-I benchmark, and why does native error-indicator refinement behave as observed?"* |
+| **G0-05** | **Complexity Pause Imposed (Mode-II & State Transfer)** | **HOLD** | Mode-II work (models/generated/mode_ii/) and multi-step state transfer (models/state_transfer/) are frozen on **HOLD** until Mode-I is fully understood. |
+
+---
+
+## GATE 1: CONVENTIONAL MODE-I REFERENCE (PROPOSAL TASK 3) -- CLOSED_PASSED
+
+| Item ID | Verification Requirement | Governed Status | Exact Numerical / Evidence Value | Literature Comparison & Audit Basis |
+| :--- | :--- | :---: | :--- | :--- |
+| **G1-01** | **Benchmark Geometry** | **PASS** | $\Omega = 1.0\,\text{mm} \times 1.0\,\text{mm}$ square domain | Exact match to Pandey & Kumar (2025) Sec. 4.1 Fig. 4a. |
+| **G1-02** | **Crack Representation** | **PASS** | $a_0 = 0.5\,\text{mm}$ zero-gap sharp seam along $y=0.5\,\text{mm}$ ($0 \le x \le 0.5\,\text{mm}$) | Model uses zero-gap seam to prevent compliance distortion. Literature describes sharp edge crack. |
+| **G1-03** | **Boundary Conditions** | **PASS** | Bottom ($y=0$): $u_y=0$; Pinned point ($x=0, y=0$): $u_x=0$; Top ($y=1$): $u_x=0$, $u_y$ coupled to RP 999999 | Top $u_x=0$ verified directly in PK_MODE1_STANDARD_PFM.inp:61838. Matches Mode-I literature (Miehe 2010, citation [41]). |
+| **G1-04** | **Material & Phase-Field Properties** | **PASS** | $E = 210.0\,\text{kN/mm}^2$ ($210\,\text{GPa}$), $\nu = 0.3$, $G_c = 0.0027\,\text{kN/mm}$, $l_0 = 0.0075\,\text{mm}$, $k = 10^{-7}$ | Exact match to published constants in Sec. 4.1 (Page 3264). |
+| **G1-05** | **Fixed-Mesh Topology & Seeding** | **PASS** | 15,192 finite elements ($h_{\text{refined}} = 0.003\,\text{mm}$ in corridor, $h_{\text{global}} = 0.02\,\text{mm}$); 15,521 mesh nodes (15,522 total with RP 999999) | Standard PFM structured baseline mesh (manifest.json, PK_MODE1_STANDARD_PFM.inp). Node count 15,521 verified; 15,305 corrected as narrative transcription error. Terminology 'physical elements' eliminated. |
+| **G1-06** | **Complete $F-u$ Response Curve** | **PASS** | Full monotonic curve: linear elastic $\to$ damage localization $\to$ peak $\to$ sharp softening $\to$ residual | Extracted from PK_MODE1_STANDARD_PFM.dat across 7,000 increments. |
+| **G1-07** | **Peak Reaction Force $F_{\max}$** | **PASS** | $F_{\max} = 0.757778\,\text{kN}$ | $-0.029\%$ error vs digitized literature target ($\sim 0.758\,\text{kN}$ from Fig. 7a / Table 2.1). |
+| **G1-08** | **Displacement at Peak $u(F_{\max})$** | **PASS** | $u(F_{\max}) = 0.005857\,\text{mm}$ (Increment 2857) | $-0.051\%$ error vs digitized literature target ($\sim 0.005860\,\text{mm}$ from Fig. 7a / Table 2.1). |
+| **G1-09** | **Initial Global Structural Stiffness $K_0$** | **PASS** | $K_0 = 138.1124\,\text{kN/mm}$ (frozen primary: regression through origin on $u \in [0, 0.00050]\,\text{mm}$, $N=200$, $R^2 > 0.9999999$); $K_{0,\mathrm{sec1}} = 138.1458\,\text{kN/mm}$ | Rigorous structural stiffness definition $K_0 = dF/du|_{\text{elastic}}$. Confirms specimen compliance restoration vs notch. |
+| **G1-10** | **Post-Peak Endpoint & Load Drop** | **PASS** | $F_{\text{final}} = 0.000232\,\text{kN}$ at $u = 0.010000\,\text{mm}$ ($99.9694\% \approx 99.97\%$ load drop) | Mechanical load drop complete; direct spatial $d$-field unrecorded in baseline ODB. |
+| **G1-11** | **Computational Metadata & Provenance** | **PASS** | Job ID: 1398090.mmaster02, Abaqus 2023, Walltime: 06:31:14, CPUT: 06:30:34, Cutbacks: 0, Exit: 0 | PK_MODE1_STANDARD_PFM_SOLVE.out & HPC_JOB_LEDGER.csv. Baseline qualified. |
+
+---
+
+## GATE 2: MULTI-QUANTITY CONVERGENCE QUALIFICATION (TASK 3 PREREQUISITE) -- OPEN_HOLD_EVIDENCE_GAP
+
+| Item ID | Verification Quantity / Dimension | Governed Status | Exact Numerical / Evidence Value | Method / Artifact Reference & Evaluation Finding |
+| :--- | :--- | :---: | :--- | :--- |
+| **G2-01** | **Complete $F-u$ Response History** | **PASS** | 7,000 increments evaluated; linear elastic, localization, peak, softening, residual unloading | Extracted from PK_MODE1_STANDARD_PFM.dat. Full monotonic curve established across all 7,000 increments. |
+| **G2-02** | **Initial Structural Stiffness $K_0$** | **PASS** | $K_0 = 138.1124\,\text{kN/mm}$ ($N=200$, $u \le 0.00050\,\text{mm}$, $R^2 > 0.9999999$); $K_{0,\mathrm{sec1}} = 138.1458\,\text{kN/mm}$ | Frozen definition: linear regression through origin on initial linear elastic range. Single reproducible value. |
+| **G2-03** | **Peak Reaction Force $F_{\max}$** | **PASS** | $F_{\max} = 0.757778\,\text{kN}$ | $-0.029\%$ error vs published target ($0.758\,\text{kN}$, Pandey & Kumar 2025 Table 2.1 / Fig. 7a). |
+| **G2-04** | **Displacement at Peak $u(F_{\max})$** | **PASS** | $u(F_{\max}) = 0.005857\,\text{mm}$ (Increment 2857) | $-0.051\%$ error vs published target ($0.005860\,\text{mm}$). |
+| **G2-05** | **Damage Field Distribution ($d$-field)** | **HOLD** | $d_{\max}$ & spatial contour unrecorded in Job 1398090 ODB | FIELD_OUTPUT_RECORDING_GAP in Job 1398090 ODB (standard UEL without companion bridge). Field outputs verified on adaptive mesh in Job 1400408 ($d_{\max} = 1.0045$, max overshoot $+0.52\%$). |
+| **G2-06** | **Crack-Path & Localization Profile** | **HOLD** | Inferred from $99.97\%$ load drop & symmetry; spatial field unrecorded in baseline ODB | Cannot infer complete horizontal separation from load drop alone without direct field contour in baseline run. |
+| **G2-07** | **Energy Evolution & Balance** | **HOLD** | $W_{\text{ext}}(u_{\text{peak}}) = 2.301667\,\text{mJ}$; $W_{\text{ext}}(u_{\text{final}}) = 2.359329\,\text{mJ}$ | INTERNAL_ENERGY_CONVERGENCE_NOT_AVAILABLE. Direct inspection of f42_mixed_uel.for confirms Abaqus ENERGY array is unpopulated in UEL. External work integrated via trapezoidal rule. |
+| **G2-08** | **Computational Cost & Solver Telemetry** | **PASS** | Walltime: 06h 31m 14s, CPU: 06h 30m 34s, 7000 incs, 0 cutbacks, Exit 0 | Verified in PK_MODE1_STANDARD_PFM.sta & PK_MODE1_STANDARD_PFM_SOLVE.out. |
+| **G2-09** | **Multi-Mesh Fixed Hierarchy** | **HOLD / EVIDENCE GAP** | Only ONE fixed mesh exists in archive (Job 1398090, 15,192 elements) | No fixed-mesh hierarchy ($h=0.006, 0.003, 0.0015\,\text{mm}$) exists for Pandey-Kumar Mode-I. Molnár H0/H1/H2 cited for methodology only. |
+| **GATE 2 VERDICT** | **Multi-Quantity Convergence Basis** | **OPEN_HOLD_EVIDENCE_GAP** | **Gate 2 remains OPEN on HOLD** | Requires defensible multi-mesh fixed convergence hierarchy or explicit supervisor decision accepting baseline anchor + adaptive sensitivity series. |
+
+---
+
+## GATE 3: MISESERI MECHANISM VERIFICATION (TASK 4 PREREQUISITE) -- CLOSED_PASSED
+
+| Item ID | Verification Requirement | Governed Status | Exact Numerical / Evidence Value | Literature Comparison & Audit Basis |
+| :--- | :--- | :---: | :--- | :--- |
+| **G3-01** | **Physical Definition of MISESERI** | **PASS** | Recovered von Mises stress discretization error indicator via Zienkiewicz-Zhu SPR: $\text{MISESERI} = \sqrt{\frac{3}{2}\mathbf{s}_e : \mathbf{s}_e}$ | Stress recovery error estimate on linear-elastic continuum stress field $\mathbf{\sigma}_h$. Not an empirical heuristic. |
+| **G3-02** | **Strict Epistemological Distinction (Hard Stop Rule)** | **PASS** | **NOT phase-field error, NOT damage error** | Verified from PK_MODE1_AUX_CONTINUUM.inp: calculated on linear-elastic CPS4 continuum pre-analysis before damage onset ($d \equiv 0$). |
+| **G3-03** | **Units & Dimensionless Normalization** | **PASS** | Units: $\mathrm{MPa}$ or $\mathrm{kN/mm^2}$ (stress). Relative indicator $\eta_e = \text{MISESERI}_e / \text{MISESAVG}$ is dimensionless | Normalized against domain-average Mises equivalent stress `MISESAVG` for comparison with `errorTarget`. |
+| **G3-04** | **Element Set & Step Output Position** | **PASS** | Evaluated on `All_elem` (CPS4/CPE4 continuum elements) at element centroids | Element-field variable in Abaqus ODB. 3,930-row extraction CSV records centroid coordinates $(x_c, y_c)$ and element data. Plotted points in Fig. 3.1 are element-field extractions, not simple mesh nodes. |
+| **G3-05** | **Singularity Marking & Spatial Correspondence** | **PASS** | Crack tip peak: $1.0836$; Far-field mean: $0.0075$ ($>144\times$ ratio). Corresponds exactly to crack-tip $1/\sqrt{r}$ stress singularity | Under-resolved crack-tip stress gradient drives local element sizing calculation $h(x,y) \to h_{\min} = 0.001\,\text{mm}$ along the crack propagation corridor. |
+| **G3-06** | **Loading Schedule Invariance** | **PASS** | Difference between 1-step (10 incs) and 2-step (1500 incs) loading is $<0.24\%$ (65,982 vs 66,142 elements) | Proves sizing response is governed by spatial stress distribution, not artificial load-path transients. |
+| **G3-07** | **Unit Test & API Verification** | **PASS** | 11/11 unit tests passed (`test_pandey_kumar_adaptive_refinement.py`: 8/8, `test_pandey_kumar_step_increment_consistency.py`: 3/3) | Verified native Python remeshing rule construction, element mapping, and step-increment consistency. |
+
+---
+
+## F98STATE Corrected Restart-2 Candidate Preparation & Qualification Complete: `M2STATE_FRACFIX_RESTART2R11`
+
+- [x] Ingestion & Handoff Contract:
+  - Ingests source state exclusively from validated job `1389278.mmaster02` (`M2STATE_FRACFIX_RESTART1R1R11`) Frame 15 ($u_1 = 0.010000\text{ mm}$, $RF_1 = 0.123223\text{ kN}$, $d_{\max} = 0.169900$, $H_{\max} = 0.163800\text{ kN/mm}^2$).
+  - Ingests authoritative runtime history `SDV16/H` field from [`M2STATE_RESTART1R1R11_RESTART2_SOURCE_TRANSFER_ARTIFACT.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/generated/mode_ii/production_state_transfer_batch/M2STATE_FRACFIX_RESTART1R1R11/M2STATE_RESTART1R1R11_RESTART2_SOURCE_TRANSFER_ARTIFACT.json).
+  - Prescribes Step 1 Phase Initialization boundary condition on RP 99999 as $u_1 = 0.010000\text{ mm}$ (matching handoff displacement) to guarantee Step 1 force continuity.
+- [x] Target Mesh & Physical Formulations:
+  - Preserves exact PK10R1 nonmatching structured mesh topology (9,849 nodes, 9,612 physical elements: 9,588 quads, 24 tris, $\det J > 0$).
+  - Clean 6-slot UEL Property ABI (`PROPS(1..5)=(l0, Gc, E, nu, k)`, `PROPS(6)=9612.0`).
+  - Fortran UEL `f42_mixed_uel.for` with safe $2 \times 2$ Jacobian inversion and consistent Newton phase residual vector.
+- [x] Local Unit Tests & Sealed Package Manifest:
+  - `tests/unit/test_m2state_fracfix_restart2r11.py`: **100% PASS** (6/6 tests passed).
+  - Sealed SHA256 package manifest: `494c77dd5985da6d84231f1041932a95edd9c7d9580dcf3baedf4f66eeb0053c`.
+  - Guarded submit wrapper: `submit_m2state_fracfix_restart2r11.sh` (`--dry-run` pass, 0 qsub calls).
+- [x] Governance Boundary Maintained:
+  - `authorization_consumed = false`, `new_submission_authorized = false`, `automatic_retry = false`, `qsub_called = false`.
+
+---
+
+## F97STATE Instrumented Restart-1 Trajectory Evaluation & Scientific Acceptance
+
+
+- [x] Scheduler & Technical Verdict:
+  - Job `1389278.mmaster02` (`M2STATE_FRACFIX_RESTART1R1R11`) completed with `exit_code = 0`, walltime `00:00:35`, cputime `00:00:28`.
+  - Abaqus/Standard executed Step 1 (1 inc) and Step 2 (15 incs) to terminal displacement $u_1 = 0.010000\text{ mm}$ with 0 cutbacks, 0 NaNs, 0 errors (`THE ANALYSIS HAS COMPLETED SUCCESSFULLY`).
+- [x] Scientific Acceptance Gates Verified:
+  - Step 1 Force Continuity: $RF_1 = 0.063678713\text{ kN}$ vs predecessor MM reference $0.064100\text{ kN} \implies \Delta_{\text{rel}} = \mathbf{0.657\%} \le 2.0\%$ force continuity gate (`PASS`).
+  - Global Force Balance: Max error across all 16 increments is $1.362 \times 10^{-6}\text{ kN} \ll 10^{-5}\text{ kN}$ (`PASS`).
+  - Terminal Reaction Force: $RF_1 = 0.123223\text{ kN}$ at $u_1 = 0.010000\text{ mm}$ (matches reference `1389241` to 6 sig figs).
+- [x] Authoritative Integration-Point SDV Recovery:
+  - Directly recovered `SDV16/H`, `SDV14/d`, and `SDV15/g(d)` from DAT element output tables for all 4,894 physical elements (4,766 quads + 128 tris).
+  - Phase field $d$: $d_{\min} = 1.4739 \times 10^{-7}$, $d_{\max} = 0.169900$, $d_{\text{mean}} = 0.008047$.
+  - History field $H$: $H_{\min} = 8.1500 \times 10^{-11}\text{ kN/mm}^2$, $H_{\max} = 0.163800\text{ kN/mm}^2$, $H_{\text{mean}} = 0.000780\text{ kN/mm}^2$.
+  - Degradation function $g(d)$: $g_{\min} = 0.689000$, $g_{\max} = 1.000000$, $g_{\text{mean}} = 0.984148$.
+- [x] Durable Source Artifact Generated:
+  - Created `M2STATE_RESTART1R1R11_RESTART2_SOURCE_TRANSFER_ARTIFACT.json` containing integration point data, element mappings, and provenance metadata (SHA256: `fcb78b392cb9590fedbeee65074db485a40ee18e7d0fa114ac69fafa80ff94f1`).
+
+---
+
+## F43MODEREF7-ANCHORRECOVERY2 Real Immutable P/Q Pair Creation and Qualification for Pair 1R
+
+
+- [x] Governance & Lineage Verification:
+  - `P43MODEREF7_FINAL1_created_after_qualification = true`, `P43MODEREF7_FINAL1_authorization_anchor_valid = false`, `Q43MODEREF7_FINAL1_authorization_anchor_valid = false`.
+  - Historical tags preserved without force-push or recreation.
+- [x] Pair 1R Execution Byte Contract Verified:
+  - All 8 execution-critical files recomputed and verified 100% byte-for-byte (`pair1r_execution_bytes_unchanged = true`).
+- [x] Fresh Immutable Preparation Tag Created:
+  - Proven absence of `P43MODEREF7-FINAL2` locally and remotely.
+  - Created ONE annotated tag `P43MODEREF7-FINAL2` on commit `55822a75adc0e9a8223a703ca6ca8f168b96facd` and pushed ONCE normally (`remote_P_tag_object_SHA = 13ea9ec77c75c98f6d80028264d344fc84143aa4`).
+- [x] Detached Exact-P Remote Qualification on `tu_freiberg`:
+  - Worktree `/tmp/p7_final2_test_worktree` on `tu_freiberg` (`mlogin01.cluster`).
+  - Loaded `gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7`.
+  - Authoritative unmasked full test suite: **619 passed, 0 failures, 0 errors, exit code 0 (`OK`)**.
+  - All 12 focused qualification checks passed cleanly.
+- [x] Natural Cleanliness Verified:
+  - `git status --porcelain=v1` empty, `git diff` exit code 0, `git diff --cached` exit code 0 (`natural_status_empty = true`).
+- [x] Provenance-Only Q Commit & Tag Created:
+  - Fresh annotated tag `Q43MODEREF7-FINAL2` created on provenance commit descending from P ($Q_{\text{commit}} \ne P_{\text{commit}}$, $Q$ execution-critical changes = `false`).
+
+---
+
+## F43MODEREF7-ANCHORRECOVERY1 Immutable Preparation/Qualification Lineage Recovery for Pair 1R
+
+- [x] Historical Tag Invalidation Recorded:
+  - `P43MODEREF6-FINAL2` recorded as invalid preparation anchor (`P43MODEREF6_FINAL2_tag_moved_multiple_times = true`, `P43MODEREF6_FINAL2_force_pushed = true`, `P43MODEREF6_FINAL2_deleted_or_recreated = true`).
+  - `Q43MODEREF6` recorded as invalid qualification anchor (`Q43MODEREF6_commit == P43MODEREF6_FINAL2_commit`, `Q43MODEREF6_differs_from_P = false`).
+  - Both tags preserved without modification or retrospective repair.
+- [x] Pair 1R Execution Byte Contract Verified:
+  - All 8 execution-critical files (`.inp`, `.for`, `.pbs`, `.sh` for both jobs) recomputed and verified to match candidate SHA256 hashes 100% byte-for-byte (`pair1r_execution_bytes_changed_since_candidate = false`).
+- [x] Scientific & Validation State Confirmed:
+  - `corrected_H0_semantic_identity = PASS` (3,998 physical nodes, 3,930 physical elements).
+  - Reference roles preserved: `1378942` = canonical historical topology / original convergence lineage evidence; `1379393` = endpoint-corrected scientific metric source.
+- [x] Immutable Preparation Tag Created:
+  - `P43MODEREF7-FINAL1` annotated tag created on commit `226cfc837205f5a0665ec84e9ac993279a4022ce` and pushed ONCE normally to origin.
+- [x] Detached Exact-P Remote Qualification:
+  - Isolated worktree `/tmp/p7_final1_test_worktree` on `tu_freiberg` (`mlogin01.cluster`).
+  - Toolchain loaded: `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, `python/gcc/11.4.0/3.11.7`.
+  - Authoritative unmasked full unit test suite: **619 passed, 0 failures, 0 errors, exit code 0 (`OK`)**.
+  - All 12 focused qualification checks passed.
+- [x] Natural Cleanliness Verified:
+  - `git status --porcelain=v1` empty, `git diff` exit code 0, `git diff --cached` exit code 0 (`natural_status_empty = true`).
+- [x] Provenance-Only Q Commit & Tag Created:
+  - Created provenance commit containing test evidence and metadata.
+  - Created `Q43MODEREF7-FINAL1` tag on provenance commit ($Q_{\text{commit}} \ne P_{\text{commit}}$, $Q$ descends from $P$, $Q$ execution-critical changes = `false`).
+
+---
+
+## F43MODEREF-H0IDENTITY-FIX1 Reference-Identity Forensics, Pointwise Audit & Pair-1R Preparation
+
+
+- [x] Scientific Classification Correction:
+  - Job `1386248.mmaster02` (`M2REF_ONEEL_FRACFIX_VERIFY`): `scheduler_result = PASS`, `technical_result = PASS`, `scientific_result = provisional_PASS_for_local_UEL_behavior`.
+  - Job `1386249.mmaster02` (`M2REF_H0_FRACFIX_REPRO`): `scheduler_result = PASS`, `technical_result = PASS`, `scientific_result = HOLD_reference_identity_mismatch`.
+  - `pair1_scientific_result = HOLD`, `authorization_ready_for_pair2 = false`.
+- [x] Authoritative `1378942` / `1379393` Reference Evidence Frozen:
+  - Physical element count = **3,930 physical elements** (11,790 layered elements, 3,998 nodes).
+  - Final $U_1 = 0.0100\text{ mm}$, Peak/Final $RF_1 = 0.373271\text{ kN}$ ($373.27\text{ N}$), Maximum phase $d_{\max} = 0.990884$.
+- [x] Forensic Model Identity Audit & Root Cause Resolution:
+  - Inspected 1386249 deck: contained a synthetic $50 \times 50$ 2,500-quad unnotched grid generated by batch builder script, explaining why $RF_1 = 0.507432\text{ kN}$ and $d_{\max} = 0.232309$.
+  - Corrected false "exact match" attribution: 1386249 had been compared against itself rather than authoritative `1379393` / `1378942` raw evidence files.
+- [x] Pointwise Irreversibility & Producer Ownership Audit:
+  - Pointwise IP-aware tracking across 710,000 transitions (10,000 IPs $\times$ 72 frames): **0 negative phase transitions** ($\Delta d < 0 = 0$) and **0 negative history transitions** ($\Delta H < 0 = 0$).
+  - Pointwise SDV14 vs SDV15 agreement: **max abs diff $|SDV14 - SDV15| = 0.0000000000$** across all 720,000 sample points!
+- [x] Exact 3,930-Element Accepted H0 Deck & Pair 1R Preparation:
+  - Generator script `build_mode_ii_exact_h0_fracfix_deck.py` created true 3,930-element single-notch benchmark deck `M2REF_H0_EXACT_FRACFIX_REPRO.inp` with repaired UEL architecture (`f42_mixed_uel.for`).
+  - Prepared Pair 1R: `M2REF_H0_EXACT_FRACFIX_REPRO` and `M2REF_ONEEL_FRACFIX_VERIFY_R2`.
+- [x] Preflight Execution File Immutability:
+  - Added unit test `tests/unit/test_preflight_execution_files_immutable.py`: verified preflight is 100% read-only and all 22 execution files remain byte-identical before and after preflight.
+- [x] Lineage & Authority Boundary Reset:
+  - Preparation tag: `P43MODEREF6-FINAL1` at commit `1b757c430261bde362a7ae43764aef68f358d86c`.
+  - Qualification tag: `Q43MODEREF6`.
+  - Authority boundary: `execution_authorized = false`, `submission_approved = false`, `maximum_jobs_authorized = 0`, `qsub_called = false`.
+
+---
+
+
+
+- [x] Authorized submission executed under explicit human directive:
+  - Jobs submitted: `F43DRY_MM` (`1385726.mmaster02`) and `F43DRY_PK5` (`1385727.mmaster02`).
+  - Max submissions: 2.
+  - Concurrent execution: 2 running jobs simultaneously on `entry_imfdfkmq`.
+- [x] Technical dry-test execution results:
+  - `F43DRY_MM`: Exit code 0, completed all 17 increments in Step-1. Final $u_x = 0.001000\text{ mm}$, $RF_x = 0.046119\text{ kN}$ ($46.1185\text{ N}$), initial shear stiffness $K_{\text{initial}} = 46.1185\text{ kN/mm}$.
+  - `F43DRY_PK5`: Exit code 0, completed all 17 increments in Step-1. Final $u_x = 0.001000\text{ mm}$, $RF_x = 0.046053\text{ kN}$ ($46.0535\text{ N}$), initial shear stiffness $K_{\text{initial}} = 46.0535\text{ kN/mm}$.
+- [x] Formulation and architecture validation:
+  - Abaqus input parser: `PASS` on both rebuilt mixed-element decks.
+  - Subroutine compilation and linking: `PASS` (`ifort` 2021.13.0, `f42_mixed_uel.for`).
+  - UEL element branch coverage: `PASS` (`U1`, `U2`, `U3`, `U4` all invoked without issue).
+  - Passive facsimile stability: `PASS` (`CPE4` and `CPE3` passive layers benign).
+  - RP boundary loading and coupling equations: `PASS` (linear elastic behavior).
+  - Initial stiffness agreement: discrepancy between candidate MM and PK5 is only 0.14%.
+- [x] Scientific boundaries maintained:
+  - `Gate_C1_localization`: `PASS`
+  - `Gate_C1_phase_field_resolution`: `HOLD`
+  - `final_selected_candidate`: `none`
+  - `uniform_reference_available`: `false` (blocks scientific fracture comparison, not dry test)
+- [x] Authorization consumed and zero running jobs:
+  - `execution_authorized`: `false`, `maximum_jobs_now`: `0`, `running_jobs`: `0`.
+
+---
+
+## F43DUALDRY-LINEAGE1 Immutable Final Dry-Test Preparation / Q Reconciliation
+
+
+- [x] Recorded historical tag movement:
+  - `historical_preparation_tag`: `P43DUALDRY1`.
+  - `historical_P43DUALDRY1_tag_moved`: `true` (acknowledged and preserved without deletion).
+- [x] Verified accepted execution SHA:
+  - `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6` is a valid commit.
+  - `execution_bytes_unchanged_since_accepted_SHA`: `true` across all candidate decks, subroutines, PBS scripts, and validator tools.
+- [x] Verified frozen artifact hashes:
+  - `MM`: `b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f`.
+  - `PK5`: `01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6`.
+  - `UEL`: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`.
+- [x] Verified retained exact-P qualification:
+  - Detached HEAD: `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6`.
+  - Toolchains: `gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, `python/gcc/11.4.0/3.11.7`.
+  - Full discovery unit suite: **599 passed, 0 failures, 0 errors, 17 skips (`OK`)**.
+  - Natural post-test cleanliness: `true`.
+- [x] Created immutable final P tag:
+  - `P43DUALDRY1-FINAL1` pointing to `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6`.
+- [x] Created separate final Q lineage:
+  - `Q43DUALDRY1-FINAL1` pointing to provenance-only Q commit.
+  - $Q_{\text{SHA}} \ne P_{\text{SHA}}$, $Q$ descends from $P$, $Q$ execution-critical changes = `false`.
+- [x] Retained two-job technical execution contract:
+  - `F43DRY_MM` and `F43DRY_PK5` (`entry_imfdfkmq`, 1 CPU, 8 GB, 00:30:00).
+- [x] Preserved zero-submission boundary:
+  - `authorization_ready_for_dual_dry_test`: `true`.
+  - `execution_authorized`: `false`, `maximum_jobs_now`: `0`.
+
+---
+
+## F43DUALDRY-PREP1 Dual-Candidate Mixed-UEL Dry-Test Preparation & Lineage Qualification
+
+
+- [x] Froze rebuilt candidate decks without modification:
+  - `F43UEL_MM_REBUILT.inp`: SHA256 `b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f` (2,206 physical -> 6,618 layered elements).
+  - `F43UEL_PK5_REBUILT.inp`: SHA256 `01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6` (4,894 physical -> 14,682 layered elements).
+- [x] Froze qualified mixed UEL subroutine:
+  - `models/generated/mode_ii/f42_mixed_element_uel/f42_mixed_uel.for`: SHA256 `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`.
+- [x] Verified isolated candidate dry-test packages:
+  - `dry_test_mm/`: `F43UEL_MM_REBUILT.inp`, `f43_mixed_uel.for`, `F43DRY_MM.pbs`, `submit_f43dry_mm.sh`, `MANIFEST.json`.
+  - `dry_test_pk5/`: `F43UEL_PK5_REBUILT.inp`, `f43_mixed_uel.for`, `F43DRY_PK5.pbs`, `submit_f43dry_pk5.sh`, `MANIFEST.json`.
+- [x] Static deck contract:
+  - MM: U1=2,137, U2=2,137, U3=69, U4=69, CPE4=2,137, CPE3=69, Total=6,618. `ALL PASS`.
+  - PK5: U1=4,766, U2=4,766, U3=128, U4=128, CPE4=4,766, CPE3=128, Total=14,682. `ALL PASS`.
+  - 100% positive orientation, unique element labels, exact layer connectivity, RP/Equations/Sets/BCs preserved.
+- [x] UEL branch coverage contract:
+  - MM has all four UEL branches (U1, U2, U3, U4).
+  - PK5 has all four UEL branches (U1, U2, U3, U4).
+- [x] Passive facsimile contract:
+  - $E_{\text{passive}} = 1.0\times 10^{-11}$, $\nu = 0.3$, Depvar = 18.
+- [x] Cross-candidate fairness:
+  - Identical materials ($E=210.0$, $\nu=0.3$, $G_c=0.0027$, $l_0=0.015$, $k=10^{-7}$, $t=1.0$), subroutine, step, loads, output requests.
+  - Differences strictly confined to mesh topology and coordinates.
+- [x] Prepared two independent technical dry-test jobs:
+  - `F43DRY_MM` and `F43DRY_PK5` (`entry_imfdfkmq`, 1 CPU, 8 GB, 00:30:00).
+- [x] Created preparation P lineage: `P43DUALDRY1` at SHA `2b9a9809ad1848c65cbc4b72231e1ebd2abd4df6`.
+- [x] Real environment preflight on `tu_freiberg` (`gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, `python/gcc/11.4.0/3.11.7`).
+- [x] Detached exact-P qualification in isolated Linux worktree:
+  - Unit discovery suite: **599 passed, 0 failures, 0 errors, 17 skips (`OK`)**.
+  - Natural post-test cleanliness: `true` (`git status --porcelain=v1` empty, `git diff` clean).
+- [x] Reference status preserved: `uniform_reference_available = false`, `future_scientific_comparison_blocked_by = uniform_reference_not_yet_frozen`.
+- [x] Zero HPC submission boundary preserved (`execution_authorized = false`, `maximum_jobs_now = 0`).
+
+---
+
+## F43DUALREBUILD1 Offline Dual-Candidate Mixed CPE3/CPE4 Phase-Field UEL Rebuild for MM and PK5
+
+
+- [x] Preserved scientific decision state:
+  - `Gate_C1_localization`: `PASS`
+  - `best_adaptive_candidate`: `F43REM4_MM`
+  - `best_resolution_efficiency_compromise`: `F43REM4_PK5`
+  - `final_selected_candidate`: `none`
+  - `Gate_C1_phase_field_resolution`: `HOLD` (final selection based on later phase-field benchmark comparison against uniform reference)
+- [x] Verified exact frozen candidate input deck hashes before rebuilding:
+  - `MM`: `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374` (2,206 physical elements = 2,137 CPE4 + 69 CPE3; 2,294 Part nodes).
+  - `PK5`: `87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9` (4,894 physical elements = 4,766 CPE4 + 128 CPE3; 4,998 Part nodes).
+- [x] Developed unified deterministic rebuilder `scripts/model_generation/rebuild_f43_mixed_uel_deck.py`:
+  - Phase Layer: U1 (quad) + U3 (tri), labels $1 \dots N_{\text{PHYS}}$
+  - Displacement Layer: U2 (quad) + U4 (tri), labels $N_{\text{PHYS}}+1 \dots 2 N_{\text{PHYS}}$
+  - Facsimile Output Layer: CPE4 (quad) + CPE3 (tri), labels $2 N_{\text{PHYS}}+1 \dots 3 N_{\text{PHYS}}$
+- [x] Generated offline rebuilt Phase-Field UEL decks:
+  - `F43UEL_MM_REBUILT.inp`: SHA256 `b6642e77655f4f953485cba1274dd0aaae220a327ebf2ac334b67e425673af7f`, **6,618 layered elements** (U1=2,137, U2=2,137, U3=69, U4=69, CPE4=2,137, CPE3=69).
+  - `F43UEL_PK5_REBUILT.inp`: SHA256 `01b2914ee00717af82d9c8bf4437d4b5aebdc6c0ccd0c76423052ed40606b0d6`, **14,682 layered elements** (U1=4,766, U2=4,766, U3=128, U4=128, CPE4=4,766, CPE3=128).
+- [x] Verified element type contract:
+  - CPE4 $\rightarrow$ U1 (Phase), U2 (Disp), CPE4 (Facsimile)
+  - CPE3 $\rightarrow$ U3 (Phase), U4 (Disp), CPE3 (Facsimile)
+  - Exact physical connectivity preserved, 0 quads converted to triangles, 0 triangles converted to quads.
+- [x] Verified node contract:
+  - MM Part nodes = 2,294, PK5 Part nodes = 4,998 (no geometry smoothing, no node relocation, no duplicate geometric nodes).
+  - RP node preserved separately in Assembly.
+- [x] Validated orientation and geometry:
+  - Positive signed area for all elements (0 invalid elements).
+  - Reconstructed total area = 1.00000000 mmÂ² within numerical tolerance.
+- [x] Preserved sets, equations, and boundary conditions:
+  - NSETs: `RP`, `bottom_nodes`, `top_nodes`
+  - ELSETS: `PHASE`, `DISP`, `UMATELEM`, `All_elem`
+  - Equations: Mode-II Pure Shear coupling `top_nodes, 1, 1.` $\rightarrow$ `RP, 1, -1.`
+  - Boundaries: `bottom_nodes, 1, 2` fixed; `top_nodes, 2, 2` fixed; `RP, 1, 1, 0.001` shear load.
+- [x] Proved cross-candidate formulation fairness:
+  - Identical parameters ($l_0=0.015\text{ mm}$, $G_c=0.0027\text{ kN/mm}$, $E=210.0\text{ kN/mm}^2$, $\nu=0.3$, $k=1.0\times 10^{-7}$).
+  - Identical subroutine `f42_mixed_uel.for` (SHA256: `5dc005383773a2923b943024b97dc15590a4f220e319fd289c891b15c30844f3`).
+  - Identical step, solver controls, loads, and output requests.
+- [x] Staged candidate dry-test packages (without running):
+  - `dry_test_mm/` (deck + Fortran + `MANIFEST.json`)
+  - `dry_test_pk5/` (deck + Fortran + `MANIFEST.json`)
+- [x] Audited reference availability:
+  - `uniform_reference_available = false` (`future_phase_field_comparison_blocked_by = uniform_reference_not_yet_frozen`).
+- [x] Added and executed unit test suite: 9 unit tests passed, 45 full Stage C suite tests passed (`OK`).
+- [x] Preserved zero-submission authority boundary (`execution_authorized = false`, `maximum_jobs_now = 0`).
+
+---
+
+## F43REM4-GATEC1-R4 Phase-Field Resolution-Coverage & Crack-Corridor Audit
+
+
+- [x] Froze existing candidate decks and predecessor lineage without modifications:
+  - `F43REM4_PK1`: Job `1385573.mmaster02` (SHA256: `c21198b1e3f3f858b92bce74aff509c2b4dd59af794e2f5dfdfcdd0ce21ae35b`, 21,429 nodes / 21,397 elements).
+  - `F43REM4_PK5`: Job `1385574.mmaster02` (SHA256: `87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9`, 4,998 nodes / 4,894 elements).
+  - `F43REM4_MM`: Job `1385575.mmaster02` (SHA256: `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374`, 2,294 nodes / 2,206 elements).
+  - Phase-field length scale: $l_0 = 0.015\text{ mm}$.
+- [x] Preserved adaptive localization conclusion (`Gate_C1_localization = PASS`, `best_adaptive_candidate = MM`).
+- [x] Placed full phase-field production mesh selection on HOLD (`Gate_C1_phase_field_resolution = HOLD`, `final_production_mesh_selected = false`, `final_selected_candidate = none`).
+- [x] Evaluated refined element resolution fractions ($h_{\text{area}} \le 1.0 l_0$, $\le 0.5 l_0$, $\le 1/3 l_0$, and corresponding $\min(\text{edge})$ and $\max(\text{edge})$ fractions) across top 1%, 5%, 10%, and 20% PRE3 MISESERI regions:
+  - MM top-1% $h_{\text{area}} \le l_0/2$ fraction: **0.0462** (4.6%); $\min(\text{edge}) \le l_0/2$ fraction: **0.1923** (19.2%).
+  - MM top-5% $h_{\text{area}} \le l_0/2$ fraction: **0.0301** (3.0%); $\min(\text{edge}) \le l_0/2$ fraction: **0.0843** (8.4%).
+  - PK5 top-1% $h_{\text{area}} \le l_0/2$ fraction: **0.1263** (12.6%); $\min(\text{edge}) \le l_0/2$ fraction: **0.4158** (41.6%).
+  - PK5 top-5% $h_{\text{area}} \le l_0/2$ fraction: **0.1064** (10.6%); $\min(\text{edge}) \le l_0/2$ fraction: **0.2668** (26.7%).
+  - PK1 top-1% $h_{\text{area}} \le l_0/2$ fraction: **0.8247** (82.5%); top-5% $h_{\text{area}} \le l_0/2$ fraction: **0.8493** (84.9%).
+- [x] Computed percentile distribution metrics (median, p75, p90, p95, max $h_{\text{area}}/l_0$) for each region:
+  - MM top-5%: median = 0.8170, p75 = 1.0790, p90 = 1.2623, p95 = 1.3595, max = 1.5834.
+  - PK5 top-5%: median = 0.6033, p75 = 0.7294, p90 = 0.8723, p95 = 0.9389, max = 1.3257.
+  - PK1 top-5%: median = 0.4686, p75 = 0.4894, p90 = 0.5097, p95 = 0.5279, max = 0.6091.
+- [x] Constructed geometric connected crack corridors emanating from the Mode-II notch tip $(0, 0)$ on the PRE3 mesh:
+  - Top-1% connected corridor: 26 elements ($0.0089\text{ mm}^2$).
+  - Top-5% connected corridor: 114 elements ($0.0359\text{ mm}^2$).
+  - Top-10% connected corridor: 191 elements ($0.0580\text{ mm}^2$).
+- [x] Evaluated corridor coverage, area fractions, and largest under-resolved sections along connected corridors:
+  - MM top-5% corridor: area fraction with $h \le 0.5 l_0$ is **0.4%**, largest under-resolved section is $0.0364\text{ mm}^2$ at distance $0.0068\text{ mm}$ from notch.
+  - PK5 top-5% corridor: area fraction with $h \le 0.5 l_0$ is **7.3%**, largest under-resolved section is $0.0273\text{ mm}^2$ at distance $0.0097\text{ mm}$ from notch.
+  - PK1 top-5% corridor: area fraction with $h \le 0.5 l_0$ is **81.1%**.
+- [x] Evaluated connected fine-mesh paths:
+  - $h \le 0.50 l_0$: MM = `false` (0.0 mm reach), PK5 = `false` (0.026 mm reach), PK1 = `true` (0.702 mm reach across domain).
+  - $h \le 0.75 l_0$: MM = `true` (0.082 mm reach), PK5 = `true` (0.154 mm reach), PK1 = `true` (0.702 mm reach).
+- [x] Generated standalone vector SVG figures in `remesh_sensitivity_batch/figures/`:
+  - `f43rem4_pk1_crack_corridor_audit.svg`
+  - `f43rem4_pk5_crack_corridor_audit.svg`
+  - `f43rem4_mm_crack_corridor_audit.svg`
+- [x] Updated master report `F43REM4_GATEC1_COMPARISON_REPORT.json` and generated `F43REM4_CRACK_CORRIDOR_AUDIT.json`.
+- [x] Verified full unit test suite: 28 tests passed (`OK`), 0 failures, 0 errors.
+- [x] Preserved zero-submission authority boundary (`execution_authorized = false`, `maximum_jobs_now = 0`).
+
+---
+
+## F43REM4-GATEC1-R3 PRE3 Baseline Correction, Quantitative Localization Analysis & Gate C1 Selection
+
+
+- [x] Corrected PRE3 reference baseline in master Gate C1 comparison report:
+  - Fixed erroneous placeholder representation (2,309 nodes / 2,249 elements / 100% CPE4R).
+  - Validated exact PRE3 physical mesh from canonical predecessor input deck `F43PRE3_GEOM.inp` and ODB `1385461.mmaster02`: **3,716 physical elements** (3,600 CPE4 + 116 CPE3), **3,799 Part nodes**, **3,800 Assembly nodes** (including Reference Point node 1000000), Domain Area = **1.00000000 mmÂ²**, 0 invalid/negative/zero-area elements.
+- [x] Verified frozen candidate input deck SHA-256 hashes and topology integrity:
+  - `F43REM4_PK1`: SHA256 `c21198b1e3f3f858b92bce74aff509c2b4dd59af794e2f5dfdfcdd0ce21ae35b`, 21,429 nodes, 21,397 elements, area = 1.00000000 mmÂ², 0 invalid elements.
+  - `F43REM4_PK5`: SHA256 `87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9`, 4,998 nodes, 4,894 elements, area = 1.00000000 mmÂ², 0 invalid elements.
+  - `F43REM4_MM`: SHA256 `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374`, 2,294 nodes, 2,206 elements, area = 1.00000000 mmÂ², 0 invalid elements.
+- [x] Computed exact physical element geometry using Shoelace polygon formula ($h_{\text{area}} = \sqrt{\text{Area}}$, min/max edge lengths).
+- [x] Executed spatial polygon point-in-polygon mapping of PRE3 MISESERI distribution to all candidate refined meshes (100% assignment, 0 unassigned centroids).
+- [x] Evaluated Spearman rank correlation coefficients (raw counts and area-normalized density):
+  - PK1: Spearman raw = 0.3555, Spearman density = 0.1818.
+  - PK5: Spearman raw = 0.2145, Spearman density = 0.0386.
+  - MM: Spearman raw = 0.1606, Spearman density = 0.0691 (5.0x higher than historical overrefined baseline 0.0139).
+- [x] Evaluated 6-band MISESERI percentile distribution and top population fractions:
+  - MM concentrates 15.05% of its elements in the top 5% MISESERI zone (and 31.01% in top 20%), while coarsening far field ($h \approx 22\ \mu\text{m} \approx 1.46 l_0$).
+  - PK5 concentrates 12.48% in top 5% zone, far field at $h \approx 14.6\ \mu\text{m} \approx 0.98 l_0$.
+  - PK1 refines uniformly across domain (density ratio = 1.0138x).
+- [x] Evaluated hotspot (top 5%, top 10%) and far-field (bottom 50%) resolution and grading ratios:
+  - MM: Top 5% / Bot 50% density ratio = **2.7876x** (Top 1% density ratio = **5.066x**), Top 5% median $h_{\text{area}}/l_0 = 0.8170$, Top 1% median $h_{\text{area}}/l_0 = 0.6650$, min $h_{\text{area}}/l_0 = 0.3004$, min edge $/l_0 = 0.3439$.
+  - PK5: Top 5% / Bot 50% density ratio = **2.2375x**, Top 5% median $h_{\text{area}}/l_0 = 0.6033$, min $h_{\text{area}}/l_0 = 0.1547$, min edge $/l_0 = 0.2159$.
+  - PK1: Top 5% / Bot 50% density ratio = **1.0138x**, min $h_{\text{area}}/l_0 = 0.1601$.
+- [x] Applied quantitative Gate C1 selection rule:
+  - **Gate C1 Result**: **`PASS`**
+  - **Selected Candidate**: **`F43REM4_MM`** (Job `1385575.mmaster02`, SHA256: `d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374`).
+  - **Backup Candidate**: `F43REM4_PK5` (fully qualified alternative).
+  - **Rejected**: `F43REM4_PK1` (near-global overrefinement with excessive model size).
+- [x] Replaced ungrounded terminology and ensured all UEL metrics are framed strictly as prospective model-size proxies.
+- [x] Verified full unit test suite: 588 passed, 0 failures, 0 errors.
+- [x] Preserved zero-submission authority boundary (`execution_authorized = false`, `maximum_jobs_now = 0`).
+
+---
+
+## F43REM4-BATCH5 PBS Compute-Node Path Repair, Concurrency-Guard Repair & Exact-P Qualification Gate
+
+
+- [x] Repaired PBS compute-node `BATCH_DIR` path resolution across all 3 tracked PBS scripts (`F43REM4_PK1.pbs`, `F43REM4_PK5.pbs`, `F43REM4_MM.pbs`) to strictly prefer `${PBS_O_WORKDIR}` with fail-closed validation.
+- [x] Enforced maximum-two-simultaneously-running scheduler contract in `submit_f43rem4_sensitivity_batch.sh` via `-W depend=afterany:<JOB1_ID>` on `F43REM4_MM`.
+- [x] Preserved scientific sizing parameters exactly without modification:
+  - PK1: `UNIFORM_ERROR`, `errorTarget = 1.0`, `refinementFactor = 10`, `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`.
+  - PK5: `UNIFORM_ERROR`, `errorTarget = 5.0`, `refinementFactor = 10`, `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`.
+  - MM: `MINIMUM_MAXIMUM`, `maxSolutionErrorTarget = 5.0`, `minSolutionErrorTarget = 1.0`, `meshBias = 1`, `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`.
+- [x] Created fresh preparation commit $P_{\text{F43REM4-BATCH5}}$ (`cd361ae6fae6a1c2673e23bfca92df362e76cfd8`) and tag `P43REM4-BATCH5`.
+- [x] Executed real Abaqus-2023 login-node tracked-PBS preflights on `tu_freiberg` cluster at exact P (`cd361ae6...`): all PASS, exit status 0, single active rule per candidate, distinct rule hashes, zero remeshing executions.
+- [x] Executed full test suite in detached clean Linux worktree at exact P (`cd361ae6...`): 574 passed, 0 failures, 0 errors, 15 skips, worktree naturally clean (`git status --porcelain=v1` empty).
+- [x] Created separate forward qualification commit $Q_{\text{F43REM4-BATCH5}}$ (`cc752de6d5514a26d84b740e4878aaf231b16087`) and tag `Q43REM4-BATCH5`.
+- [x] Verified PBS scheduler queue (`qstat -u pr21vyci`): rc=0, 0 running, 0 queued.
+- [!] Authority boundary reset: `execution_authorized = false`, `submission_approved = false`, `maximum_jobs_now = 0`, `automatic_retry = false`. Awaiting fresh direct human authorization in chat before any replacement batch submission.
+
+---
+
+## F43REM3-R1 Native Adaptive Remeshing Offline Preparation and Qualification Gate
+
+- [x] Performed comprehensive read-only ODB extraction and scientific review on PRE3 job `1385461.mmaster02` (`F43PRE3_GEOM.odb`, SHA256: `9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1`) against numerical reference PRE2 job `1385392.mmaster02` (`F43PRE2_GEOM.odb`, SHA256: `85339f45937cf5d2c57f169fa71b3e55f066082e6525aa3c20a370f058c4cf72`).
+- [x] Verified full endpoint displacement reached ($U_{\text{final}} = 0.001000\text{ mm}$ for both PRE2 and PRE3 across 17 increments to step time 1.00).
+- [x] Verified reaction force error $\le 5.0\%$: final RF error = **0.0254%** ($92.2822\text{ N}$ vs $92.2587\text{ N}$), peak RF error = **0.0254%**, normalized $RF-U$ $L_2$ error = **0.0254%**.
+- [x] Verified element domain consistency $\le 1.0\%$: domain volume ($EVOL$) relative error = **$2.47 \times 10^{-8}\%$**.
+- [x] Verified all required field outputs present in PRE3 ODB (`S`, `MISESERI`, `MISESAVG`, `EVOL`, `U`, `RF`).
+- [x] Evaluated stress error indicator statistics: MISESERI finite count 3716/3716, 0 NaN, 0 Inf, spatial correlation $R = 0.98945$ (98.95%), peak location distance $0.0190\text{ mm}$ ($\approx 1.27 l_0$ at notch root).
+- [x] Passed scientific review gate: **`provisional_pass`** $\rightarrow$ Selected **CASE A** (Offline native adaptive remeshing preparation).
+- [x] Frozen `F43REM3_NATIVE` execution package:
+  - Source CAE: `/home/pr21vyci/projects/adaptive-remeshing-artifacts/f43pre3/ModeII_Geometry_Source_Abaqus2023.cae` (SHA256: `0d5b32fe48b70ed0817e8b9c439bfdb39165dee5e8d157fcb6d0b3075efe1baa`).
+  - Predecessor ODB: `evidence/1385461.mmaster02/F43PRE3_GEOM.odb` (SHA256: `9a5262931675d2780ccc8b6e6060dd20b817917df7cdf6e499a7a0a2d0d06eb1`).
+  - Remesh parameters: `minElementSize = 0.0075 mm`, `maxElementSize = 0.03 mm`, `refinementFactor = 0.5`, `errorTarget = 0.05`, `coarsening = ALLOW_COARSENING`, `passes = 3`.
+  - Fail-closed CAE kernel driver `remesh_mode_ii_native_cae.py` enforcing writable work copy `_runtime_work_copy.cae` and source byte immutability.
+  - PBS script `F43REM3_NATIVE.pbs` with `#PBS -m abe` and dual email recipients.
+  - Guarded wrapper `submit_f43rem3_native.sh` with `MAX_SUBMISSIONS=1`, `AUTOMATIC_RETRY=false`, and `qstat -f`.
+  - Static package validator `validate_f43rem3_native.py` and acceptance criteria `F43REM3_ACCEPTANCE_CRITERIA.json`.
+- [x] Qualified preparation commit in detached Linux worktree at target commit `93d29d1c94e4a85911078a626b6620986ddebf06`:
+  - 551 unit tests passed (`OK`), 0 failures, 0 errors, 0 skips.
+  - Static validator passed `overall_passed: true`.
+  - Natural post-test worktree cleanliness verified 100% clean.
+- [!] Classification: `f43rem3_native_offline_prepared_and_qualified_not_authorized`. All execution, submission, retry, and downstream authorizations remain false and zero.
+
+
+
+- [x] Prepared offline launcher diagnostic bisection package `models/generated/mode_ii/f40_f38_cae_invocation_model_building_bisect/` (`M2RMBISECT1`) under preparation commit P40 `36a779a4e106c812899218a1dd9db0dd00d430e4`.
+- [x] Implemented 12-phase bisection runner `f40_cae_bisection_runner.py` covering probes P00-P11.
+- [x] Implemented contract delta auditor `f40_invocation_contract_delta.py` generating `F38_F39_INVOCATION_DELTA_AUDIT.json`.
+- [x] Qualified preparation commit P40 in a detached clean-Linux checkout (`/tmp/f40_clean_qual_36a779a`): 11/11 unit tests passed, 0 static failures, and both SHA-256 package manifests verified OK.
+- [x] Executed authorized guarded diagnostic job `M2RMBISECT1` (`1384435.mmaster02`).
+- [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384435.mmaster02/`): Generic primitive phase audits P00-P11 returned `rc=0`, but `runtime_validator_rc=1` due to pre-generation validator invocation, `MISSING_EVIDENCE_REPORT.json` showed `status: incomplete`, and exact F38 model building entrypoint was not executed.
+- [x] Empirically proved generic Abaqus/CAE building blocks function on compute nodes, but original F38 model builder is NOT proven fixed.
+- [x] Repaired F40 offline package under repair preparation commit `f54662606eaa0366938bccfed58ac3cb9ee1f319` and qualified in detached clean-Linux checkout (`/tmp/f40_clean_qual_f546626`) under qualification commit `98a5f1826672fae8805331964114b51f275e2860`.
+- [x] Executed explicitly authorized guarded diagnostic job `M2RMBISECT1` (`1384502.mmaster02`) on cluster under authorization commit `338d605`.
+- [x] Collected terminal evidence (`runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/evidence/1384502.mmaster02/`): Generic Abaqus primitives P00-P11 passed `rc=0`, Stage 3 F38 entrypoint executed cleanly `rc=0`, but `validate_f38_matrix_results.py` failed `rc=1` because 3 F38 matrix phases failed (`element_type_assignment` `NameError: mesh`, `mesh_generation` `NameError: mesh`, `output_request_rebinding` `AbaqusException`).
+- [x] Completed F40 v13 offline correction sequence under coordination head `8d43679181b73ad25ab4c2cefa5a9fe0d76db3a2`.
+- [x] Completed F40 v14 offline closeout-order correction sequence:
+  - Narrowed `validate_f40_runtime_audits.py` scope to runtime audit inputs excluding `STATUS.json`, `MISSING_EVIDENCE_REPORT.json`, and `collector.returncode`.
+  - Removed `collector.returncode` from `EXPECTED_EVIDENCE_FILES` in `generate_missing_evidence_report.py`.
+  - Reordered `M2RMBISECT1.pbs` exit trap for linear non-circular evidence generation.
+  - Added synthetic closeout behavior test in `test_stage_f40_batch.py` (`31/31` passed) verifying zero missing count and complete status on synthetic evidence.
+- [!] Classification: `f40_gate_v14_offline_corrected_qualified_not_authorized`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
+
+
+## F39 Abaqus CAE kernel startup diagnostic gate
+
+
+- [x] Closed M2RMDIAG1 terminal failure (`1384183.mmaster02`) with classification `abaqus_cae_kernel_startup_failed_before_python_entrypoint`.
+- [x] Created launcher diagnostic package under `models/generated/mode_ii/f39_abaqus_cae_kernel_startup_diagnostic/` (`M2RMKERN1`).
+- [x] Implemented launcher environment collector `collect_launcher_environment.py` with sanitized/redacted variable values (`ABAQUS_LAUNCHER_ENVIRONMENT_AUDIT.json`).
+- [x] Implemented minimal noGUI probe `minimal_cae_kernel_probe.py` without `__file__`, model imports, or geometry operations.
+- [x] Repaired PBS exit status trapping (`trap - EXIT` and `exit "$first_failure"`) in `M2RMKERN1.pbs`.
+- [x] Enforced disjoint missing and existing evidence sets in `generate_missing_evidence_report.py`.
+- [x] Repaired PBS queue directive in `M2RMKERN1.pbs` (`#PBS -q entry_imfdfkmq`, `#PBS -l select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb`) under repair preparation commit P2 `ae8441d945bc3a2d6b176d37de6500a070d1268e`.
+- [x] Validated repair preparation commit P2 `ae8441d945bc3a2d6b176d37de6500a070d1268e` in a detached clean-Linux checkout (`/tmp/f39_clean_qual_ae8441d`): 12/12 unit tests passed in `tests/unit/test_stage_f39_batch.py`, 0 static failures in `scripts/validation/validate_f39_cae_kernel_startup_gate.py`, and both SHA-256 package manifests verified OK.
+- [x] Executed authorized guarded diagnostic job `M2RMKERN1` (`1384431.mmaster02`).
+- [x] Collected terminal evidence (`runs/hpc/stage_f/f39_abaqus_cae_kernel_startup_diagnostic/evidence/1384431.mmaster02/`): `cae_kernel_rc=0`, `CAE_KERNEL_STARTUP_AUDIT.json` generated by Abaqus CAE noGUI kernel (`ABQcaeK`, Python 2.7.15).
+- [x] Empirically proved Abaqus/CAE kernel startup functions cleanly on headless compute nodes (`mnode102`).
+- [!] Classification: `cae_kernel_startup_success`. All execution, submission, retry, replacement, and downstream authorizations remain false and zero.
+
+
+## F38 comprehensive CAE phase diagnostic gate
+
+- [x] Closed M2RMBUILD11 terminal failure (`1384181.mmaster02`) and published terminal closeout commit `cad6fb758d4a66a1a74288bde15bd0dcba9d57a9`.
+- [x] Removed all dependence on `__file__` from noGUI entrypoint `runtime/run_f38_cae_diagnostic.py`.
+- [x] Mandated `F38_RUNTIME_DIR` and recorded `CAE_INVOCATION_CONTEXT_AUDIT.json`.
+- [x] Implemented 20 independent diagnostic phases in `runtime/f38_cae_diagnostic_matrix.py` with phase-runner writing `CAE_PHASE_DIAGNOSTIC_MATRIX.json` after every phase.
+- [x] Isolated independent diagnostic probes using fresh model names (`F38_IMPORT_PROBE`, `F38_GEOMETRY_PROBE`, `F38_MESH_PROBE`, `F38_INSTANCE_PROBE`, `F38_CRACK_PROBE`, `F38_OUTPUT_PROBE`, `F38_WRITE_INPUT_PROBE`).
+- [x] Implemented explicit phase dependencies (`PHASE_DEPENDENCIES`), safe Abaqus imports (`from abaqus import mdb`), dual geometry conversion probes, independent model ownership for instance replacement, real crack topology measurements, assembly set inventory, and individual output variable probing checking `model.fieldOutputRequests`.
+- [x] Enforced PBS trap order (STATUS before missing evidence report), mandatory `F38_EVIDENCE_DIR` persistent copying, and packaged runtime validator invocation (`validate_f38_runtime_audits.py`).
+- [x] Validated preparation commit P `205d38783db8ea8f5f891c4aae15f481571dac67` in a detached clean-Linux checkout (`/tmp/f38_clean_qual_205d387`): 15/15 unit tests passed in `tests/unit/test_stage_f38_batch.py`, 0 static failures in `scripts/validation/validate_f38_comprehensive_cae_diagnostic_gate.py`, and both SHA-256 package manifests verified OK.
+- [!] Classification: `f38_comprehensive_cae_diagnostic_clean_linux_qualified_not_authorized`. All execution, submission, retry, and replacement authorizations remain false and zero.
+
+## F33 M2RMBUILD8 offline repair gate
+
+- [x] Classify `1383537.mmaster02` as `cae_geometry_build_contract_failed`; no scientific result produced.
+- [x] Remove unsupported `UNPLANNED` and use only required Abaqus 2023 constants.
+- [x] Use verified `python3`, capture actual return codes, and mark unexecuted commands `skipped`.
+- [x] Create distinct package/job `f33_cae_runtime_gate_repair` / `M2RMBUILD8` with fresh hashes.
+- [x] Pass WSL unit tests, static validation, shell syntax, and both manifests.
+- [x] Pass detached clean-Linux no-submission proof at `a6c4f4377b7fc04fab7a5311de4ffaeeb32c40d7`.
+- [!] No retry, replacement, submission, solver, or remeshing work is authorized.
+
+## F32 M2RMBUILD7 workdir staging repair gate
+
+- [x] Invalidated F31 qualification claims (`f31_m2rmbuild6_runtime_workdir_staging_failed`).
+- [x] Recorded exact blocking defects: missing `M2RMBUILD6.pbs` in `$WORK_DIR` staging and premature `python` invocation in `on_exit`.
+- [x] Prepared repaired `M2RMBUILD7.pbs` with explicit self-staging (`cp "$F32_PACKAGE_DIR/M2RMBUILD7.pbs" .`) into `$WORK_DIR` before hash verification.
+- [x] Added interpreter/module availability check in `on_exit` trap before executing `generate_missing_evidence_report.py`.
+- [x] Maintained unchanged model physics, CPE4 elements, cohesive zone parameters, and documented `job.writeInput(consistencyChecking=ON)` signature with environment-variable transport (`F32_SOURCE_DECK`, `F32_OUTPUT_INPUT`, `F32_GEOMETRY_AUDIT`).
+- [x] Prepared guarded submission orchestrator `submit_stage_f32_cae_build_qualification.sh` bound to `M2RMBUILD7`.
+- [x] Classification: `f32_m2rmbuild7_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
+## F29 topology safe CAE build gate
+
+- [x] Invalidated F28 qualification claims (`f28_m2rmbuild3_package_invalid_no_submission_authorized`).
+- [x] Corrected full SHAs recorded: F28 package prep P `7c2c680bad77301a2d2f8f13c4f001b80eb5827d`, F28 binding Q `13f358b0ecc7be2286b2277a6411168e2cdf906d`, session release `c5b0607c937e28cb6b35c4268fcc73fb099c0059`.
+- [x] Separated candidate slit edges using adjacent face centroid y-coordinate (`f_cy < 0` vs `f_cy > 0`).
+- [x] Audited slit geometry (`SLIT_GEOMETRY_AUDIT.json`) and mesh topology (`SLIT_MESH_TOPOLOGY_AUDIT.json`) for node set disjointness, coincident pairs, and zero bridge elements.
+- [x] Reconstructed assembly `All_elem` set and explicitly rebound field output request `F-Output-1` targeting assembly `All_elem`.
+- [x] Implemented true dynamic live object rebinding audit in `MODEL_ENTITY_REBINDING_AUDIT.json` (`unresolved_entity_count = 0`, `stale_orphan_reference_count = 0`, `output_region_mismatch_count = 0`, `crack_face_identity_failure_count = 0`).
+- [x] Prepared standalone runtime validation scripts (`validate_f29_runtime_audits.py`, `generate_missing_evidence_report.py`, `validate_generated_input.py`).
+- [x] Prepared fail-closed `M2RMBUILD4.pbs` with mandatory notification permission check (600), mandatory START Telegram delivery (`exit 15`), dedicated terminal error code (`exit 17`), and unmasked evidence collector returncode.
+- [x] Bound guarded orchestrator `submit_stage_f29_cae_build_qualification.sh` to package preparation SHA `b2a3535742a08961688ee5e65dbe4c8e412e4118` with ancestry, diff, git blob ID, and tracked path checks.
+- [x] Classification: `f29_m2rmbuild4_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
+## F28 replace fabricated model rebinding and prepare real CAE build gate
+
+- [x] Invalidated F27 qualification claims (`f27_m2rmbuild2_package_invalid_no_submission_authorized`).
+- [x] Corrected full SHAs recorded: F27 implementation `377f88057d3e3fc7867ae9dcaf72548b2e9d921c`, F27 session release `740299cbd180eac0810c4e569142ff6e57755abb`.
+- [x] Documented instance replacement sequence: `assembly.deleteFeatures(featureNames=('Part-1-1',))` followed by `assembly.Instance(name='Part-1-1', part=geom_part, dependent=ON)`.
+- [x] Executed actual model entity reconstruction (`geom_part.Set`, `assembly.Set`, `m.DisplacementBC`, `m.Equation` under `model.constraints`).
+- [x] Generated `SOURCE_ENTITY_SPEC.json`, `SOURCE_REGION_MAP.json`, and dynamic `MODEL_ENTITY_REBINDING_AUDIT.json` (`unresolved_entity_count = 0`, `stale_orphan_reference_count = 0`).
+- [x] Prepared fail-closed `M2RMBUILD3.pbs` with `/scratch/pr21vyci/` workspace, immediate trap with non-zero failure handling, self-loading notification config, actual compatibility evidence, and dedicated Python missing-evidence report generation.
+- [x] Bound orchestrator `submit_stage_f28_cae_build_qualification.sh` to package preparation SHA `7c2c680bad77301a2d2f8f13c4f001b80eb5827d` using `git merge-base --is-ancestor`.
+- [x] Classification: `f28_m2rmbuild3_static_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
+## F27 invalidate F26 and repair CAE build package gate
+
+- [x] Invalidated F26 fail-open claims (`f26_m2rmbuild1_package_invalid_no_submission_authorized`).
+- [x] Corrected Abaqus API calls (`STANDARD` imported, `variables=('MISESERI',)` in `RemeshingRule`, `assembly.suppressFeatures`, `assembly.renameFeature` for `Part-1-1` instance preservation).
+- [x] Audited and rebound model entities (`MODEL_ENTITY_REBINDING_AUDIT.json`, `unresolved_entity_count = 0`).
+- [x] Prepared `M2RMBUILD2.pbs` with fail-closed `/scratch/pr21vyci/` path, immediate terminal trap, `module load gcc/11.4.0 intel/2024.2.0 abaqus/2023`, `notifications.env` loading, Telegram delivery verification (`"ok": true`), and runtime JSON audit parsing.
+- [x] Classification: `f27_m2rmbuild2_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
+## F26 invalidate F25 and prepare CAE build qualification gate
+
+- [x] Invalidated F25 fail-open claims (`f25_m2rmprov1_package_invalid_no_submission_authorized`).
+- [x] Implemented fail-closed Abaqus/CAE Python model builder `build_f26_geometry_backed_model.py` with zero Python fallback and dynamic live mdb audits.
+- [x] Prepared `M2RMBUILD1.pbs` for CAE-only construction qualification (`standard_solver_calls = 0`, fail-closed module load, actual Telegram notifications).
+- [x] Prepared guarded orchestrator `submit_stage_f26_cae_build_qualification.sh` with 1 qsub call limit.
+- [x] Classification: `f26_m2rmbuild1_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
+## F25 repair geometry-backed provisional package gate
+
+- [x] Invalidated F24 claims (`M2RMPROV1` is geometry-backed, file copy builder, identical hashes).
+- [x] Implemented real Abaqus/CAE Python model builder `build_f25_geometry_backed_model.py` with 17-step construction sequence.
+- [x] Verified generated input deck `M2RMPROV1.inp` hash inequality (`source_sha256 != generated_sha256`).
+- [x] Repaired `M2RMPROV1.pbs` wrapper with Abaqus/CAE builder execution before Standard, module loading, Telegram notifications, and complete evidence retention.
+- [x] Classification: `f25_m2rmprov1_real_geometry_builder_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
+## F24 official adaptive contract & ODB compatibility gate
+
+- [x] Official Abaqus 11-rule adaptive remeshing contract established.
+- [x] Workstream A geometry-backed 17-step model-construction order specified.
+- [x] Workstream B ODB compatibility audit completed (`M2MISER1.odb` region correspondence invalid for geometry-backed remeshing rule).
+- [x] Selected Outcome B (`matching_geometry_backed_provisional_analysis_required`).
+- [x] Prepared provisional analysis package `M2RMPROV1` without submission. `M2RMEXEC2` not prepared.
+- [x] Classification: `f24_m2rmprov1_clean_linux_qualified_not_authorized`. `execution_authorized = false`.
+
+## F23 offline adaptive-region association investigation gate
+
+- [x] F20 vs F21 contract comparison completed. F20 checked rule existence and non-null region; F21 executed `model.adaptiveRemesh(odb)` and failed with 0 adaptive regions.
+- [x] Evaluated 4 adaptive-region association hypotheses offline; Outcome B (`adaptive_region_association_unresolved_offline`) selected due to multiple unresolved hypotheses requiring CAE execution.
+- [x] Prepared deterministic pre-call recognition audit specification (`PRECALL_RECOGNITION_AUDIT_SPEC.json`).
+- [x] Audited and defined evidence-retention repairs for future wrappers (`EVIDENCE_RETENTION_REPAIR_AUDIT.json`).
+- [x] No HPC job prepared (`M2RMEXEC2` is false). Qsub attempts = 0, execution authority = false.
+
+## F21 native-remesh candidate gate
+
+- [!] Job `1382435` failed with no adaptive regions; no candidate or next job.
+
+- [x] M2RMREG7 adaptive-region construction contract qualified.
+- [x] Prepare one-call `M2RMEXEC1` native-remesh package without execution.
+- [x] Exact M2RMEXEC1 authorization consumed by guarded job `1382435.mmaster02`.
+- [ ] Execute and review native-remesh candidate before datacheck preparation.
+
+Updated: 2026-08-04
+
+This is the authoritative living task and phase checklist for the adaptive remeshing thesis workspace. Update this same file after every substantial task, run, validation, failure, retry, decision, gate transition, and phase completion. Do not create duplicate phase checklists.
+
+Status markers:
+
+- `[x]` completed and supported by evidence
+- `[ ]` not started
+- `[-]` in progress
+- `[!]` blocked
+- `[?]` awaiting review, approval, or missing evidence
+- `[~]` completed provisionally but not scientifically validated
+
+Gate A3 (RFâ€“U validation use): **conditionally accepted** â€” supervisor Decisions **1A** and **2B**  
+Internal status: `gate_a3_conditionally_accepted_rf_u`; `contour_validation_deferred`; `stage_c_miseseri_preparation_authorized`  
+HPC submission: **not authorized** without explicit new approval  
+Stage A: `frozen_with_residual_scientific_limitations` (conditional Gate-A3
+RFâ€“U acceptance does not remove provisional tolerances, post-peak dependence,
+or deferred contour/crack-path evidence)
+
+## Overall Phase Dashboard
+
+| Phase | Description | Status | Gate/result | Evidence |
+|---|---|---|---|---|
+| WP0 | Environment, starter pipeline, and source preservation | `[x]` completed | technical environment passed | `.agent.md`; `models/baseline_original/molnar_gravouil_2017/README.md`; `hpc_access_limits_report.txt` |
+| WP1 | One-element verification | `[~]` completed provisionally | source-defined numerical checks passed under provisional tolerances | `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/` |
+| WP2A | Supplementary Molnar single-notch technical benchmark | `[~]` completed provisionally | technical pass; not exact Fig. 7 comparison | `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/` |
+| WP2B | Paper-matched Molnar reconstruction | `[~]` completed provisionally | technical pass; scientific review incomplete | `runs/hpc/paper_matched_single_notch_v2/RUN_MANIFEST.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md` |
+| Gate A3 | Uniform RFâ€“U reference scientific justification | `[~]` conditionally accepted for RFâ€“U | 1A mesh roles + 2B contour deferred; H2-PUB validation / H1 production / H0 test | `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`; `docs/decisions/MESH_USE_POLICY.md`; `docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md` |
+| WP3 | MISESERI pre-analysis and remeshing reproduction | `[x]` closed at scoped Stage C result | C2C-v3 frozen; T5 preserved as failed guard evidence | `docs/decisions/STAGE_C_CLOSEOUT_FREEZE.md`; `runs/hpc/stage_c2/STAGE_C_FINAL_STATUS.md` |
+| WP4 | Refined phase-field benchmark and efficiency comparison | `[x]` closed at scoped Stage C result | peak/pre-peak supported; post-peak limited; crack-path H1 equivalence not supported | `runs/hpc/stage_c2/closeout/STAGE_C_CLOSEOUT_JOB_SUMMARY.md` |
+| WP5 | Evolving remesh and state transfer | `[~]` scoped completion with limitation | bounded pre-peak transfer proven; corrected mechanical restart unproven | `docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex`; `docs/decisions/STAGE_D3D_A1H0_EXECUTION_CLOSURE.md` |
+| WP6 | IMFD/ABAQUSER integration | `[!]` externally blocked | interface executable/module/source unavailable; independent extraction retained | `docs/decisions/WP6_ABAQUSER_EXTERNAL_BLOCK_CLOSURE.md` |
+| WP7 | Final recommendations and thesis writing | `[~]` faculty-format candidate ready; human/admin gates open | `wp7_faculty_template_integration_candidate`; not ready_for_submission | `docs/decisions/WP7_FACULTY_TEMPLATE_INTEGRATION.md`; `results/final/THESIS_FACULTY_PACKAGE_MANIFEST.json` |
+| Stage F | Mode-II mixed-mode benchmark | `[!]` F6 complete_failed | H2 full solve completed but failed irreversibility gate; native remesh API audit did not start | `docs/experiment_records/STAGE_F6_H2_U020_FULL_CLOSEOUT.md`; `docs/experiment_records/STAGE_F6_MISESERI_REMESH_API_QUALIFICATION.md` |
+
+
+
+## WP0 - Environment, Starter Pipeline, And Source Preservation
+
+- [x] Repository structure created. Evidence: `README.md`, `WORKSPACE_STRUCTURE.md`, `.agent.md`.
+- [x] Original Molnar source and decks preserved with hashes. Evidence: `models/baseline_original/molnar_gravouil_2017/README.md`.
+- [x] Local compiler/linker smoke test passed. Evidence: `.agent.md`; `docs/reports/STAGE_A_BASELINE_REPORT.tex`.
+- [x] HPC SSH access restored and verified. Evidence: `.agent.md`; `hpc_access_limits_report.txt`.
+- [x] HPC home and scratch layout created. Evidence: `.agent.md`; `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] HPC repository clone synchronized. Evidence: `.agent.md`; `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] HPC PBS environment smoke passed. Run: `1374531.mmaster02`. Classification: `hpc_environment_smoke_pass`. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] HPC Abaqus license checkout passed. Run: `1374533.mmaster02`. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] HPC Fortran compilation passed. Run: `1374533.mmaster02`. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] HPC user-subroutine linking passed. Run: `1374533.mmaster02`. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] Deterministic UEXTERNALDB callback test passed. Run: `1374533.mmaster02`. Commit: `c5db808b4c8d9e9bd01a9e5da0bd91b173787b8e`. Classification: `hpc_user_subroutine_smoke_pass`. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] Successful callback retry evidence committed. Commit: `2022652dd181e55e61ab46d56de7d0463039447a`. Evidence: `.agent.md`.
+- [x] Permanent PBS email-notification rule recorded for future submissions. Requirement: keep `#PBS -m abe` in tracked PBS scripts, pass the private recipient with `qsub -M "<verified_recipient>" -m abe`, validate before the first submission with `scripts/hpc/validate_pbs_email_notifications.py`, and verify `Mail_Users`/`Mail_Points` after submission. Boundary: completed job `1374864.mmaster02` remains unchanged. Evidence: `.agent.md`; `scripts/hpc/validate_pbs_email_notifications.py`.
+- [x] HPC notification recipient recorded as historically scheduler-verified. Address: `pr21vyci@mailserver.tu-freiberg.de`. Evidence: old-project PBS `qstat` record for job `1362636.mmaster02` reported `Mail_Users = pr21vyci@mailserver.tu-freiberg.de` and `Mail_Points = abe`; inbox delivery not independently documented. Future submissions must pass this address privately with `qsub -M`.
+
+### Preserved Diagnostic Failures
+
+- [x] Environment smoke failure diagnosed: IFX/GCC environment. Run: `1374529.mmaster02`. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] Environment rerun failure diagnosed: Git unavailable in batch PATH. Run: `1374530.mmaster02`. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] Initial UEXTERNALDB marker failure investigated. Run: `1374532.mmaster02`. Result: `insufficient_retained_evidence`. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] Deterministic callback repair prepared and validated. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] Deterministic callback retry passed. Run: `1374533.mmaster02`. Classification: `hpc_user_subroutine_smoke_pass`. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+
+## WP1 - One-Element Verification
+
+- [x] Unchanged one-element technical run passed. Evidence: `runs/molnar_one_element_unchanged/20260714_technical_gate_local/RUN_SUMMARY.md`.
+- [~] One-element scientific/source-relation checks passed under provisional tolerances. Evidence: `runs/molnar_one_element_unchanged/20260714_technical_gate_local/scientific_check/ONE_ELEMENT_SCIENTIFIC_CHECK.md`. Limitation: final supervisor-approved tolerances pending.
+- [?] Final supervisor-approved numerical tolerances remain pending. Next action: obtain approved tolerance policy before final validation claims.
+
+## WP2A - Supplementary Single-Notch Model
+
+- [x] Original source and input hashes verified unchanged. Evidence: `models/baseline_original/molnar_gravouil_2017/README.md`.
+- [x] Supplementary single-notch technical run passed. Evidence: `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/RUN_SUMMARY.md`.
+- [x] RF-displacement extraction completed. Evidence: `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/extracted/SINGLE_NOTCH_EXTRACTION.md`.
+- [x] SDV14, SDV15, and SDV16 diagnostics completed. Evidence: `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/extracted/`.
+- [x] Crack-path extraction completed. Evidence: `runs/molnar_single_notch_unchanged/20260714_technical_gate_local/scientific_check/crack_path_comparison.csv`.
+- [x] Local irreversibility diagnostics completed. Evidence: `docs/reports/STAGE_A_BASELINE_REPORT.tex`.
+- [~] Supplementary model accepted as supporting technical reproducibility evidence. Evidence: `references/derived/molnar_gravouil_2017/single_notch/REFERENCE_APPLICABILITY_MATRIX.md`. Limitation: not exact Fig. 7 comparison target.
+- [!] Exact paper-curve validation is not justified for this smaller model. Blocking issue: paper-matched reconstruction and approximate paper reference required.
+
+## WP2B - Paper-Matched Molnar Reconstruction
+
+- [x] Paper-to-model reconstruction audit completed. Evidence: `references/derived/molnar_gravouil_2017/paper_matched_single_notch/PAPER_TO_MODEL_SPECIFICATION.md`.
+- [x] Parameter-provenance table created. Evidence: `references/derived/molnar_gravouil_2017/paper_matched_single_notch/PARAMETER_PROVENANCE.csv`.
+- [x] Fig. 6 and Fig. 7 audit created. Evidence: `references/derived/molnar_gravouil_2017/paper_matched_single_notch/FIGURE_REFERENCE_AUDIT.md`.
+- [x] Digitization plan created. Evidence: `references/derived/molnar_gravouil_2017/paper_matched_single_notch/FIG7_DIGITIZATION_PLAN.md`.
+- [x] Non-runnable YAML configuration created. Evidence: `configs/molnar_paper_matched_single_notch.yaml`.
+- [x] Fig. 7 target-curve coordinates resolved as approximate published reference. Evidence: `references/derived/molnar_gravouil_2017/paper_matched_single_notch/fig7_lc_0p0075_processed.csv`; `references/derived/molnar_gravouil_2017/paper_matched_single_notch/FIG7_DIGITIZATION_METADATA.md`. Limitation: not exact author data.
+- [~] Final loading endpoint and increment schedule resolved for candidate v1. Evidence: `configs/molnar_paper_matched_single_notch.yaml`. Limitation: final displacement measured from Fig. 7 extent, not explicitly stated.
+- [~] Contour comparison states resolved as response-based rules. Evidence: `configs/molnar_paper_matched_single_notch.yaml`. Limitation: Fig. 6b has no numerical displacement labels.
+- [~] Refined-zone and mesh-transition recipe resolved as adopted reconstruction choice. Evidence: `configs/molnar_paper_matched_single_notch.yaml`; `references/derived/molnar_gravouil_2017/paper_matched_single_notch/PARAMETER_PROVENANCE.csv`. Limitation: not a published mesh parameter.
+- [x] Mesh-count estimator created and checks passed. Evidence: `scripts/model_generation/estimate_molnar_paper_mesh.py`; generated result in `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v1/mesh_statistics.csv`.
+- [x] Deterministic paper-matched deck generator created. Evidence: `scripts/model_generation/build_molnar_paper_matched_single_notch.py`.
+- [~] `paper_matched_candidate_v1` generated. Evidence: `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v1/`. Classification: generated candidate, not runnable.
+- [x] Candidate-v1 static failure diagnosed. Evidence: `results/validation/molnar_paper_matched_single_notch_v1/STATIC_VALIDATION.md`; `results/validation/molnar_paper_matched_single_notch_v1/FAILURE_MANIFEST.md`. Classification: `static_validation_fail`; `runnable: false`.
+- [x] Review generated parameters against provenance. Evidence: `results/validation/molnar_paper_matched_single_notch_v1/PARAMETER_PROVENANCE_REVIEW.md`.
+- [x] Candidate-v2 loading schedule resolved. Evidence: `references/derived/molnar_gravouil_2017/paper_matched_single_notch/LOADING_SCHEDULE_RESOLUTION.md`.
+- [x] Candidate-v2 notch implementation documented. Evidence: `references/derived/molnar_gravouil_2017/paper_matched_single_notch/NOTCH_IMPLEMENTATION.md`.
+- [x] Candidate-v2 layered UEL/UMAT mapping documented. Evidence: `docs/methods/MOLNAR_LAYERED_DECK_MAPPING.md`.
+- [x] Candidate-v2 boundary-condition mapping documented. Evidence: `references/derived/molnar_gravouil_2017/paper_matched_single_notch/BOUNDARY_CONDITION_MAPPING.md`.
+- [x] Candidate-v2 generated. Evidence: `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/`.
+- [x] Candidate-v2 static validation passed. Evidence: `results/validation/molnar_paper_matched_single_notch_v2/STATIC_VALIDATION.md`; `results/validation/molnar_paper_matched_single_notch_v2/VALIDATION_RESULTS.json`. Classification: `static_validation_pass`; `runnable: true`.
+- [x] Candidate-v2 generated source copy prepared. Evidence: `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2/SingleNotch_v2.for`; generated from preserved `SingleNotch.for` with `N_ELEM=33852`; preserved source remains unchanged.
+- [x] Final mesh-quality preflight passed. Evidence: `results/validation/molnar_paper_matched_single_notch_v2/MESH_QUALITY_PREFLIGHT.md`. Limitation: high-aspect-ratio elements are documented reconstruction limitations outside the refined fracture corridor.
+- [x] Commit and synchronize candidate v2. Evidence: commit `711dd495bdcb830d695f9d7e56283316c9d417d5`; HPC clone synchronized cleanly to the same revision before submission.
+- [x] One serial HPC baseline run submitted exactly once. Evidence: PBS job `1374864.mmaster02`; submitted from revision `711dd495bdcb830d695f9d7e56283316c9d417d5`; initial scheduler state `R` on `mnode099`.
+- [x] Execute one paper-matched baseline. Result: `paper_matched_v2_technical_pass`; PBS `Exit_status = 0`; Abaqus return code zero; ODB/STA/MSG/DAT present; STA reports successful completion. Evidence: `runs/hpc/paper_matched_single_notch_v2/evidence/TECHNICAL_SUMMARY.txt`; `runs/hpc/paper_matched_single_notch_v2/evidence/qstat_xf_1374864_final.txt`.
+- [x] Exact HPC notification address recorded for future private submission. Address: `pr21vyci@mailserver.tu-freiberg.de`; verification status: `historically_scheduler_verified`; pass privately with `qsub -M` and verify `Mail_Users`/`Mail_Points` after submission.
+- [x] Extract RF-displacement and response-based phase/SDV contours from the completed ODB without rerunning Abaqus. Evidence: `runs/hpc/paper_matched_single_notch_v2/extracted/`.
+- [~] Compare with approximate published Fig. 7 reference. Result: `scientific_review_required`; peak RF2 `0.761702 kN` at `U2=0.006110 mm`; RF-U NRMSE `0.247493` in the original scientific check and `0.245705` in the no-solution forensic overlap audit; relative peak-force error `0.064519`; relative peak-displacement error `0.041257`. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_check/SINGLE_NOTCH_SCIENTIFIC_CHECK.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/FIG7_COMPARISON_AUDIT.md`.
+- [~] Crack-path and SDV diagnostics completed. Result: final element-mean `SDV15 >= 0.95` crack extension about `0.0505 mm`; `SDV16` monotonic; detailed SDV15 review reproduced `6113` decrease events and mapping resolution reclassified the remaining `817` non-staggered events as `insufficient_output_evidence`. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_review/CRACK_PATH_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV15_IRREVERSIBILITY_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/SDV16_MONOTONICITY_AUDIT.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/SDV15_DETAILED_EVENT_DECISION.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/SDV15_MAPPING_RESOLUTION_DECISION.md`.
+- [~] Scientific decision report completed. Result: `paper_matched_v2_scientific_review_incomplete`; post-peak RF-U mismatch dominates, crack path is connected/horizontal but threshold-dependent, SDV15 label/IP mapping is resolved, and retained outputs still leave `817` above-precision non-staggered events as `insufficient_output_evidence`. Evidence: `runs/hpc/paper_matched_single_notch_v2/scientific_review/SCIENTIFIC_DECISION.md`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_detailed_review/sdv15_decrease_events_full.csv`; `runs/hpc/paper_matched_single_notch_v2/scientific_review/sdv15_mapping_resolution/sdv15_unresolved_event_mapping.csv`.
+- [?] Gate A3 supervisor-review package prepared. Result: no supervisor decision inferred; routes documented as provisional pass, waiver with limitations, keep open, or candidate-v2 scientific fail. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md`; `docs/decisions/MOLNAR_TARGETED_OUTPUT_RERUN_REQUIREMENTS.md`; `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md`.
+- [x] Perform mesh-size / h-convergence RFâ€“U study (lc=0.015). Solvers H0/H1/H2 technical pass; CAE job `1376236` RFâ€“U pass; formal analysis complete. Peak/pre-peak supported; post-peak not fully demonstrated; contours not assessed. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`; `runs/hpc/molnar_lc015_h_convergence/comparison/H_CONVERGENCE_SCIENTIFIC_REVIEW.md`.
+- [x] Select provisional RFâ€“U meshes from analysis: H2-PUB / H1 / H0. Evidence: `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md`.
+- [x] Supervisor Decision **1A** recorded: H2-PUB fine RFâ€“U validation; H1 production/report; H0 development/testing. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`; `docs/decisions/MESH_USE_POLICY.md`.
+- [x] Supervisor Decision **2B** recorded: contour/crack-path deferred; does not block Stage C preparation. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`.
+- [x] Freeze H0/H1/H2-PUB results, jobs, and source hashes. Evidence: `docs/decisions/MOLNAR_MESH_ROLE_AND_RESULT_FREEZE.md`.
+- [!] Perform length-scale study. Not authorized by the current supervisor decision.
+- [!] Perform load-increment study. Not authorized by the current supervisor decision.
+- [x] Establish justified uniform fine RFâ€“U reference (**H2-PUB**) and production mesh (**H1**). Contour/crack-path deferred (2B). Evidence: `docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md`.
+- [~] Gate A3 RFâ€“U use conditionally accepted (1A+2B). Residual historical Stage A items may remain open. Evidence: `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_DECISION_1A_2B.md`.
+
+## WP3 - MISESERI Pre-Analysis And Remeshing Reproduction
+
+- [x] Stage C preparation authorized after Decisions 1A+2B. Evidence: `docs/studies/STAGE_C_MISESERI_PREPARATION_PLAN.md`.
+- [x] Five-job MISESERI campaign plan prepared (no submission). Evidence: `docs/studies/STAGE_C_FIVE_JOB_CAMPAIGN_PLAN.md`.
+- [x] Unified H0/H1 preprocessing config created. Evidence: `configs/preprocessing/molnar_h0_h1_unified.yaml`.
+- [x] Full automated H0/H1 preprocessing pipeline (geometry/mesh â†’ U1 â†’ U2 â†’ CPS4 â†’ sets/BC â†’ outputs). Evidence: `scripts/preprocessing/build_molnar_unified_deck.py`; `models/generated/molnar_gravouil_2017/unified_preprocessing/H0_fullgen/`; `H1_fullgen/`.
+- [x] Generated H0 scientifically equivalent to frozen H0 (nodes, connectivity, layers, sets, props, loading). Evidence: `H0_fullgen/FROZEN_H0_EQUIVALENCE.json`.
+- [x] Gate P1 full generation pass (H0 twice, byte-identical deck/fortran/mesh). Evidence: `models/generated/molnar_gravouil_2017/unified_preprocessing/gate_p1_full/GATE_P1_FULL_REPORT.json`.
+- [x] H1 full generation + H0/H1 family compare pass. Evidence: `H0_H1_FAMILY_COMPARE.json`; static validation under `results/validation/unified_preprocessing/`.
+- [x] Automatic layered deck validators (duplicates, offsets, N_ELEM, sets, outputs, h/lc). Evidence: `scripts/validation/validate_molnar_unified_deck.py`.
+- [x] Initial remeshing parameters frozen as proposal (load mode undecided). Evidence: `docs/decisions/MISESERI_REMESHING_PARAMETER_PROPOSAL.md`; `configs/remeshing/miseseri_h0_to_h1_initial.json`.
+- [x] Five PBS scripts + static validation prepared (no qsub). Evidence: `scripts/hpc/molnar_h0_miseseri_*.pbs`; `results/validation/stage_c_five_job/STATIC_PBS_VALIDATION.json`.
+- [!] HPC submission blocked until: pre-analysis load mode decided, Job 3 CAE remesh implemented, explicit authorization. Evidence: `runs/hpc/stage_c_miseseri/CAMPAIGN_PREPARATION_STATUS.md`.
+- [~] Secondary literature / analytical matrices expanded (parallel). Evidence: `references/derived/secondary_validation/`.
+- [ ] Reproduce Pandey-Kumar MISESERI extraction (Job 1â€“2 when authorized).
+- [ ] Validate physical-element to visualization-element mapping.
+- [ ] Generate locally refined mesh (Job 3 when authorized).
+- [ ] Regenerate valid UEL/UMAT layered deck.
+- [ ] Run refined elastic dry test (Job 4 when authorized).
+- [ ] Validate local target `h/l`.
+- [ ] Run refined phase-field candidate vs uniform H1 (Job 5 when authorized).
+
+## WP4 - Refined Phase-Field Benchmark And Efficiency Comparison
+
+- [ ] Run refined phase-field candidate.
+- [ ] Compare against uniform fine reference.
+- [ ] Calculate peak-force error.
+- [ ] Calculate complete-curve error.
+- [ ] Calculate crack-path error.
+- [ ] Calculate fracture-energy-related metrics using valid integrated data.
+- [ ] Compare element count, runtime, CPU time, memory, increments and iterations.
+- [ ] Produce accuracy-cost comparison.
+- [ ] Complete refinement-parameter sensitivity study.
+
+## WP5 - Evolving Remesh And State Transfer
+
+- [x] Inventory initial transferable state variables. Evidence: `docs/studies/STAGE_D_STATE_TRANSFER_VARIABLE_MAP.md`.
+- [x] Design controlled field-transfer test. Evidence: `docs/studies/STAGE_D_ANALYTICAL_TRANSFER_PROTOCOL.md`.
+- [x] Transfer known analytical fields between tiny nonmatching meshes. Evidence: `scripts/state_transfer/analytical_transfer_harness.py`; `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_REPORT.md`.
+- [x] Calculate L2 and maximum transfer errors. Evidence: `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_RESULTS.json`.
+- [x] Check field bounds. Evidence: `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_REPORT.md`.
+- [x] Check history and phase-field irreversibility. Evidence: `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_REPORT.md`.
+- [x] Measure energy jumps. Evidence: `results/validation/stage_d_analytical_transfer/D1_ANALYTICAL_TRANSFER_REPORT.md`.
+- [x] Preserve D1 transfer-error baseline without claiming negligible error. Evidence: `docs/studies/STAGE_D2_MINIMAL_ABAQUS_TRANSFER_PLAN.md`.
+- [x] Prepare tiny nonmatching D2 source/target transfer package. Evidence: `models/state_transfer/d2_tiny_transfer/`; `scripts/state_transfer/build_d2_tiny_transfer_package.py`.
+- [x] Corrected T5 automation smoke rerun completed. Job: `1376758.mmaster02`; classification: `automation_smoke_pass`; evidence: `runs/hpc/stage_c2/automation_smoke/h0_notch045/`, `runs/hpc/stage_c2/automation_smoke/T5_CORRECTED_RESULTS_SUMMARY.md`.
+- [x] Run D2A serial Abaqus/UEL state-ingestion verification. Job: `1376785.mmaster02`; classification: `stage_d2a_state_ingestion_pass`; evidence: `runs/hpc/stage_d2/d2a_serial_ingestion/`.
+- [x] D2B serial continuation passed after one bounded step-control correction. Failed attempt: `1376819.mmaster02`, `stage_d2b_solver_fail_increment_limit`, evidence `runs/hpc/stage_d2/d2b_serial_continuation/`. Accepted rerun: `1376825.mmaster02`, `stage_d2b_serial_continuation_pass`, evidence `runs/hpc/stage_d2/d2b_serial_continuation_rerun/`, canonical marker `runs/hpc/stage_d2/d2b_serial_continuation/D2B.ok`.
+- [x] Run D2C four-thread repeatability comparison. Job: `1376831.mmaster02`; classification: `stage_d2c_thread_repeatability_pass`; evidence `runs/hpc/stage_d2/d2c_threads4_repeatability/`; confirmed `1 MPI RANK x 4 THREAD` and zero state/mechanical/energy differences versus accepted D2B serial reference.
+- [!] D2D ABAQUSER output-route verification is blocked externally. D2D0 audit classification: `stage_d2d_blocked_abaquser_not_found`; evidence `runs/hpc/stage_d2/d2d_abaquser_verification/`; no ABAQUSER executable/module/source/interface found, and no D2D PBS job submitted.
+- [x] Prepare D3 interrupted-transfer design only. Evidence: `docs/studies/STAGE_D3_INTERRUPTED_TRANSFER_PLAN.md`, `configs/state_transfer/d3_interrupted_transfer.yaml`, `scripts/state_transfer/extract_d3_checkpoint.py`, `scripts/state_transfer/build_d3_target_transfer.py`, `scripts/validation/validate_d3_transfer_package.py`.
+- [x] D3A existing-H0 checkpoint accepted after independent energy reconstruction. D3A0/D3A1 extracted the `U2=0.003000000026077032 mm` checkpoint from source job `1376154.mmaster02`; missing `ALLIE`/`ALLSE`/`ALLWK` global history required the D3A-E route. Evidence: `runs/hpc/stage_d3/interrupted_transfer/source_audit/`, `runs/hpc/stage_d3/interrupted_transfer/checkpoint/`, and `runs/hpc/stage_d3/interrupted_transfer/checkpoint/D3A.ok`.
+- [x] D3A-E R1 scope-aware reconstruction passed. Failed predecessor R0 job `1376885.mmaster02` remains classified as `stage_d3a_energy_reconstruction_fail_parser_scope` under `runs/hpc/stage_d3/interrupted_transfer/checkpoint_energy/`. Corrected R1 evidence is under `runs/hpc/stage_d3/interrupted_transfer/checkpoint_energy_r1/` with classification `stage_d3a_energy_reconstruction_pass`, 3930 physical elements, 15720 integration points, non-positive detJ count `0`, minimum detJ `2.829135024804933e-06`, and relative energy residual `0.012586306767288707`.
+- [x] Build and validate D3A2 nonmatching target transfer package locally. Classification: `stage_d3a2_transfer_package_pass`; evidence `runs/hpc/stage_d3/interrupted_transfer/package/`; target nodes `6601`, physical elements `6400`, target IPs `25600`, split-notch topology pass with 40 duplicated open-face node pairs, shared tip, notch length `0.5`, zero crossing elements, node/IP coverage `1.0`, non-positive detJ count `0`, predicted energy relative jump `0.015379624558651227`, unmapped state count `0`, and `solver_job_submitted=false`.
+- [!] D3A3 first serial full-target ingestion/equilibration/release-hold job failed pre-solver. Job `1377382.mmaster02` was submitted exactly once from commit `d6e2474fcae3d05a4171e23c1c2cc757894a8a43` after static preflight pass; PBS `Exit_status=1` because Abaqus user-subroutine compilation could not find `ifort` after the batch script loaded only `abaqus/2023`. Classification: `stage_d3a3_solver_fail_compiler_environment`; evidence `runs/hpc/stage_d3/interrupted_transfer/target_ingestion/`; no `D3A3.ok`.
+- [!] D3A3-R1 compiler-environment correction ran as job `1377383.mmaster02` without changing physics, mesh, transfer values, input deck, Fortran logic, step definitions, or checkpoint displacement. The environment correction passed (`gcc/11.4.0`, `intel/2024.2.0`, `abaqus/2023`, `ifort` recorded), but Abaqus user-subroutine compilation failed before solver analysis because `d3_transfer_table.inc` exceeded the Intel Fortran statement token limit. Classification: `stage_d3a3_solver_fail_transfer_table_compile`; evidence `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r1/`; no `D3A3_R1.ok` or `D3A3.ok`.
+- [!] D3A3-R2 compile/datacheck job `1377389.mmaster02` ran exactly once from commit `aace8f89b5a937a40a2be773d4e76a8da329769c`. R2 replaced the compile-time Fortran DATA include with a headerless runtime `d3_transfer_h.dat` loaded once through `UEXTERNALDB`, while preserving the physical Molnar H0 UEL/UMAT source as the base. The runtime file validated in scratch with 25600 H records, min H `1.0045788889553414e-08`, max H `0.027317036782803523`, SHA256 `4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9`; static validation passed. Abaqus compiled and linked the user subroutine, completed input processing, then failed during Standard datacheck because `UEXTERNALDB` opened relative file `d3_transfer_h.dat` from Abaqus internal `/local/...` workdir where the file was not staged. Classification: `stage_d3a3_r2_datacheck_fail_runtime_h_file_not_in_abaqus_workdir`; evidence `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2/`; no `D3A3_R2_COMPILE.ok`, no full D3A3-R2, and D3D/D3E remain blocked.
+- [!] D3A3-R2-R1 pathfix compile/datacheck job `1377391.mmaster02` ran exactly once from commit `9136924d367156ac76a4c1a116f28e857f290b3c`. The GETOUTDIR correction resolved and opened the staged runtime H file under `/scratch9/.../d3_transfer_h.dat`, removing the prior `/local/...` missing-file failure. Abaqus compiled and linked the user subroutine, completed input processing, then failed during Standard datacheck with Intel Fortran severe `(24)`, end-of-file during read on unit 99. Classification: `stage_d3a3_r2_r1_datacheck_fail_runtime_h_eof_after_getoutdir_open`; evidence `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r1/`; no `D3A3_R2_COMPILE.ok`, no full D3A3-R2, and D3D/D3E remain blocked.
+- [!] D3A3-R2-R2 counted-read correction was prepared as a compile/datacheck gate only. The generated `UEXTERNALDB` keeps `GETOUTDIR` but replaces the EOF-driven `GOTO 100` loader with an exact `DO IREC=1,N_ELEM*NIP` loop, explicit premature-EOF/read-error branches, post-read `COUNT=25600` and `SEEN` checks, and `D3A3-R2 H LOAD COMPLETE`. Static audit `stage_d3a3_r2_r2_counted_read_audit_pass` records no physics, mesh, input deck, runtime-H, material, weak-form, layer-offset, step, or checkpoint-U2 change. Login-node `ifort -extend-source` counted-reader smoke passed with 25600 records, first key `(1,1)`, last key `(6400,4)`, premature EOF false, read error false, duplicates 0, and missing keys 0. Evidence is under `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r2/`.
+- [!] D3A3-R2-R2 datacheck job `1377393.mmaster02` ran exactly once from commit `9058534a9daa188d2d958f8462b230ec843c545e`. Abaqus compiled and linked the user subroutine, completed input processing and Standard datacheck, and printed `D3A3-R2 H LOAD COMPLETE 25600`; premature EOF and runtime-H read-error tokens are absent. The PBS wrapper still exited `10` because the long GETOUTDIR path was wrapped across two `.msg` lines, so the exact full-path grep did not confirm the staged scratch file. Classification: `stage_d3a3_r2_r2_datacheck_fail_pbs_path_gate_linewrap_false_negative`; this wrapper false negative is preserved as failed PBS evidence and resolved only by the subsequent no-PBS replay.
+- [x] D3A3-R2-R3 deterministic postcheck replay closed the compile/datacheck gate without another PBS job. Login-node Python replay reconstructed the wrapped runtime-H path as `/scratch9/pr21vyci/adaptive-remeshing/runs/d3a3_r2_datacheck_r2_1377393.mmaster02/d3_transfer_h.dat`, preserved PBS `Exit_status=10`, verified Abaqus compile/link/input/Standard datacheck completion, verified `D3A3-R2 H LOAD COMPLETE 25600`, verified premature EOF/read-error absence, verified runtime-H records `25600`, duplicates `0`, missing records `0`, and unchanged SHA256 `4689ea5c10c0972e69ba46f8676a326c8b011b98faa8031c7c26cfb218607cd9`. Classification: `stage_d3a3_r2_compile_datacheck_pass_postcheck_replay`; evidence `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_compile_r2_r2_replay/`; `D3A3_R2_COMPILE.ok` exists there. No full D3A3-R2 solver job has been submitted yet, and D3D/D3E remain blocked until full D3A3-R2 creates `D3A3.ok`.
+- [!] D3A3-R2 full ingestion/equilibration/release-hold submission lane is prepared but not submitted. New files `scripts/hpc/stage_d3/07_d3a3_r2_full_ingestion_hold.pbs` and `scripts/hpc/stage_d3/submit_d3a3_r2_full_ingestion_hold.sh` require the committed replay `D3A3_R2_COMPILE.ok`, copy runtime `d3_transfer_h.dat`, forbid `d3_transfer_table.inc`, run serial CPU1/16GB/02:00 with `OMP_NUM_THREADS=1` and `mp_mode=threads`, preserve Abaqus outputs, run Abaqus-Python extraction, run strengthened validation, and create `D3A3.ok` only after scientific gates pass. The full-run deck now requests global nodal `U, RF` output so the extractor can reconstruct target Q4 bulk-plus-AT2 fracture energy from selected D3A3 frames. Full D3A3-R2 has not been submitted yet; D3D/D3E remain blocked.
+- [!] D3A3-R2 full job `1377396.mmaster02` ran exactly once from commit `7a860f50fe557cd88cd3299dd47b1f260071f3fa`. Abaqus compiled, linked, completed input processing, completed Standard analysis, and produced extraction outputs, but strengthened validation failed with PBS `Exit_status=21`. Failures include transfer max errors (`SDV15=0.018013543321948218`, `SDV16=0.01645326664671945`), checkpoint `U2=0.0014999968154910865` instead of `0.003000000026077032`, RF release jump `1.0292182958543674`, d-healing violations `4651`, maximum phase adjustment `0.013784315224591115`, and missing phase-node values for reconstructed energy. Classification: `stage_d3a3_r2_full_validation_fail`; evidence `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r2/`; no `D3A3.ok`; D3D/D3E remain blocked.
+- [x] Test fracture-relevant state transfer for the bounded pre-peak compatibility/release-hold scope. Completed by D3A3-R4 full hold `1377471.mmaster02` with committed canonical `D3A3.ok` under `runs/hpc/stage_d3/interrupted_transfer/target_ingestion_r4_compatible/` (`stage_d3a3_r4_compatible_release_pass`; gate `stage_d3a3_state_transfer_gate_closed`). Closure: `docs/decisions/STAGE_D3_STATE_TRANSFER_CLOSURE.md`; `runs/hpc/stage_d3/interrupted_transfer/D3A3_ACCEPTED_CLOSURE.json`.
+- [ ] Test serial repeatability.
+- [~] Stage P0 documentation/version review completed. Current documentation permits parallel user subroutines but requires thread-safe shared-resource handling; exact Abaqus 2022 utility interfaces remain installation/compile-gate verification items. Evidence: `docs/studies/ABAQUS_EXTERNALDB_PARALLELIZATION_REVIEW.md`.
+- [x] Stage P1 static parallel-safety audit completed. Classification `stage_p_static_audit_risk_identified`; 365 matched records in 12 files; existing COMMON/SAVE/DATA shared state and file paths are not generally qualified for threads or MPI. Evidence: `docs/studies/PARALLEL_SHARED_STATE_MAP.md`; `results/validation/stage_p_static_audit/`.
+- [~] Stage P2 minimal instrumented package prepared, not compiled or executed. The isolated D2-derived model has eight physical elements and bounded rank/thread/routine/call diagnostics. Evidence: `models/parallelization/minimal_externaldb_commonblock_test/`.
+- [x] Stage P0--P2 preparation selectively frozen and pushed as commit `9369dfcb05d63cdbdec0b0e910423c9a6cc7bd1c`; unrelated working-tree changes were not staged.
+- [~] P3-S serial diagnostic lane prepared and statically validated, not submitted. The bounded lane requires one rank/thread/CPU, produces the declared callback/shared-state/state/RF/energy evidence, and creates `P3S_COMPLETION.ok` only after all serial gates pass. Submission wrapper requires a separate one-shot authorization file and asserts P3-T4 remains unauthorized. Evidence: `scripts/hpc/stage_p/`; `scripts/validation/validate_p3s_serial_diagnostic.py`; classification `stage_p3s_lane_prepared_static_pass`.
+- [!] First synchronized P3-S cluster preflight stopped before execution because the default login-node Python rejected future annotations. No PBS/Abaqus job launched. The lane now explicitly binds qualified Python 3.11.7 in the submit and compute workflows; repeat preflight pending. Evidence: M-077 in `docs/project/MISTAKES_AND_FIXES_LOG.md`.
+- [!] Qualified-Python repeat preflight passed shell syntax, Python compilation, and the Stage P static gate, but exposed cross-platform CSV line-ending churn in the tracked audit output. No job launched. Platform-native line endings are now enforced; clean synchronized replay pending. Evidence: M-078 in `docs/project/MISTAKES_AND_FIXES_LOG.md`.
+- [!] A further replay found that the frozen 365-record P1 audit includes relevant local untracked variants absent from the cluster checkout. P3 preflight must not silently rewrite that evidence; audit refresh is now explicit via `--refresh-audit`. Clean no-refresh synchronized replay pending. Evidence: M-079.
+- [x] Final synchronized P3-S preparation preflight passed at commit `7e069915c0f940a2c4e50ae71356909efd9665ab`: Python 3.11.7 bound, both shell scripts passed `bash -n`, all Python files compiled, static classification `stage_p3s_lane_prepared_static_pass`, audit refresh false, and tracked Stage P diff empty. No P3 scheduler job exists or was submitted. Evidence: `.agent.md`.
+- [~] P3-S failure-safe hardening prepared: explicit false authorization record, login-side immutable staging/hashes, no compute-node Git, notification integration, exit finalizer, lightweight allowlist, increment-sequence evidence, expanded technical gates, and synthetic failure tests. Execution remains unauthorized until this hardening is committed, synchronized, and reviewed.
+- [x] Historical checklist-validator consistency findings were reconciled in
+  WP7-F1 without changing Stage-P evidence or scientific classifications.
+  Evidence: `docs/decisions/WP7_FINAL_CLOSEOUT_RECONCILIATION.md`;
+  `scripts/validation/check_project_phase_checklist.py`.
+- [x] Fail-closed P3-S preparation committed, pushed, and synchronized as `82652680978d39c60125d75b4b9a1d7532c28e77`. Cluster `bash -n`, Python compilation, 12 synthetic tests, and `stage_p3s_lane_prepared_static_pass` passed; the real wrapper stopped with exit `20` because submission authorization is false. Tracked Stage P diff and P3-S/P3-T4 queue search were empty. No Abaqus/PBS job was submitted. Evidence: `.agent.md`; `runs/hpc/stage_p/README.md`.
+- [~] P3-S-H1 queue/consumption policy correction prepared: both queue defaults use `entry_imfdfkmq`; valid post-qsub job IDs atomically consume the one-shot record, while failed/invalid qsub results leave it unused. Fifteen unittest cases pass. Local pytest is unavailable (M-080); synchronized cluster pytest remains a pre-authorization check.
+- [x] P3-S-H1 policy commit `bd21c45dfd7ec06a038197db159697749dfd0768` synchronized and fully validated: cluster pytest 15/15 passed from a scratch-only install, shell/Python/static/queue/diff checks passed, and no scientific or resource setting changed.
+- [x] The sole authorized P3-S serial diagnostic was submitted as `1378028.mmaster02` from revision `a1965a655d193db8d04ad36afa022bbe1c16e0e1`. The wrapper consumed authorization at `1/1`; Abaqus 2023 launched and compiled/linked the instrumented Fortran, then Abaqus/Standard terminated by signal 11 in the element loop. `P3S_ok=false`; no retry is authorized.
+- [x] P3-F offline failure forensics completed without Abaqus/PBS execution. The exception stack localizes the immediate failure to `dmpc_getrank` called by `UEXTERNALDB(LOP=0)` before `P2_INIT`, UEL, UMAT, shared-state monitoring, or an element/IP was observed. Classification: `stage_p3s_signal11_cause_localized`. Evidence: `results/validation/stage_p/p3s_signal11_forensics/`.
+- [x] P3-SB uninstrumented eight-element baseline prepared but not authorized: its source is byte-identical to accepted D2, its deck is byte-identical to P3-S, and it contains no rank/thread, mutex, or shared-access diagnostics. P3-SM remains a minimal callback design only. Evidence: `docs/decisions/STAGE_P3F_SIGNAL11_ISOLATION_DECISION.md`.
+- [x] Guarded P3-SB execution lane prepared with authorization false: queue `entry_imfdfkmq`, CPU/rank/thread `1/1/1`, 16 GB, 00:30:00, Abaqus 2023, Intel 2024.2, immutable login-side hashes, no compute-node repository dependency, failure-safe evidence, CPS4-derived four-IP coverage, monotonic phase/history and transfer gates, and pass-only completion. No Abaqus/PBS job was submitted. Evidence: `runs/hpc/stage_p/p3sb_baseline_serial/`.
+- [x] Exactly one P3-SB serial baseline was authorized through the guarded wrapper and consumed `1/1`; no automatic retry, and P3-SM plus all downstream authorities remain false. Evidence: `runs/hpc/stage_p/p3sb_baseline_serial/P3SB_AUTHORIZATION.json`.
+- [!] P3-SB job `1378094.mmaster02` consumed authorization `1/1` and closed as `stage_p3sb_baseline_serial_fail_validation` with scheduler exit `12`. Solver exit was `0`; compile/link/input/Standard completed; ODB extraction produced all 32 expected CPS4/IP records, finite RF/energy, and zero phase/history/transfer violations. Validation ran before the finalizer copied stdout/`.sta`, so the technical gates and increment sequence failed and no completion marker exists. No retry is authorized.
+- [x] P3-SB-A finalized-evidence audit passed offline in an isolated replay using the unchanged validator: classification `stage_p3sb_finalized_evidence_offline_pass`, all frozen gates true, 32/32 state records, zero violations/mismatches, and 13 increment records. Original status/hash/classification and completion-marker absence remain unchanged; no job was rerun. Evidence: `runs/hpc/stage_p/p3sb_baseline_serial/`.
+- [x] P3-SM0 job `1378099.mmaster02` passed from authorization commit `572c51eacbf7af79f1ab2ffda93a0ad466fc6eca`: PBS/solver exit `0`, all compile/link/input/Standard/ODB gates true, four callback markers observed, no signal 11, 32/32 state rows, 11 RF rows, 11 energy rows, 13 increment records, and zero phase/history/transfer violations. Authorization is consumed `1/1`; no retry occurred or is authorized.
+- [x] P3-SM1 review boundary prepared in `docs/decisions/STAGE_P3SM1_REVIEW_PREPARATION.md`; no P3-SM1 source, lane, or execution is authorized. P3-T4, MPI, hybrid, P4, H1, D3D-A1 reopening and D3E remain blocked.
+- [!] P3-T4 and all downstream thread/MPI/hybrid/production routes remain blocked after the P3-S diagnostic failure.
+- [x] Stage P parallelization thesis subsection added and included in the closeout build. Bundled Tectonic rebuilt the 28-page closeout PDF successfully; existing appendix layout warnings remain nonfatal. Evidence: `docs/thesis/EXTERNALDB_COMMONBLOCK_PARALLELIZATION_STUDY.tex`; `results/latex_build_stage_p/THESIS_CLOSEOUT_BUILD.pdf`.
+- [!] Stage P3 execution blocked pending committed review and explicit authorization. No P3-S submission, P3-T4, P3-M2, P3-H22, production H1, D3D-A1 reopening, or D3E job is authorized. Evidence: `docs/decisions/STAGE_P_PARALLELIZATION_SCOPE.md`; `runs/hpc/stage_p/README.md`.
+- [!] No online/evolving-remeshing claim until these checks pass. Evidence: `THESIS_PLAN.md`.
+- [!] D3D/D3E blocker: explicit fracture-continuation authorization â€” not missing `D3A3.ok`.
+
+## WP6 - IMFD/ABAQUSER
+
+- [ ] Define required interface fields.
+- [ ] Map variable names, components and units.
+- [ ] Verify integration-point ordering.
+- [ ] Compare ABAQUSER output with independent extraction.
+- [ ] Document visualization procedure.
+
+## WP7 - Final Recommendations And Thesis Writing
+
+- [x] Freeze the Stage-A baseline report as
+  `frozen_with_residual_scientific_limitations`. Evidence:
+  `docs/reports/STAGE_A_BASELINE_REPORT.tex`.
+- [x] Freeze the Stage-A execution/failure log without removing predecessor
+  failures. Evidence: `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] Reconcile and freeze this project checklist for WP7 closeout. Evidence:
+  `docs/decisions/WP7_FINAL_CLOSEOUT_RECONCILIATION.md`.
+- [x] Prepared thesis-ready Stage A benchmark chapter draft from committed evidence only. Evidence: `docs/thesis/STAGE_A_MOLNAR_BENCHMARK_CHAPTER.tex`.
+- [x] Prepared Stage A reproducibility appendix draft with revisions, hashes, job records, trace provenance, and excluded-file policy. Evidence: `docs/thesis/STAGE_A_REPRODUCIBILITY_APPENDIX.tex`.
+- [x] Prepared Stage A figure/table plan from existing evidence paths only. Evidence: `docs/thesis/STAGE_A_FIGURE_TABLE_PLAN.md`.
+- [x] Prepared route-neutral post-supervisor execution plan. Evidence: `docs/decisions/POST_SUPERVISOR_DECISION_EXECUTION_ROUTES.md`.
+- [~] Reviewed LaTeX build-product ignore coverage and added recurring build-artifact patterns. Evidence: `.gitignore`. Limitation: existing untracked generated files were not deleted.
+- [x] Prepared Stage B uniform-reference protocol without simulations, deck generation, PBS preparation, or submission. Evidence: `docs/studies/STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md`; `docs/studies/STAGE_B_ACCEPTANCE_METRICS.md`; `docs/studies/STAGE_B_HPC_RESOURCE_ESTIMATE.md`; `configs/studies/molnar_uniform_reference_matrix.yaml`.
+- [x] Supervisor approved only the Molnar `lc=0.015 mm` h-convergence subset for execution (H0 exact supplementary, H1 `h=0.0025 mm`, H2-PUB `h=0.001 mm`). Length-scale, increment-sensitivity, MISESERI, remeshing, multi-CPU, and GPU work remain unauthorized. Evidence: `docs/studies/STAGE_B_UNIFORM_REFERENCE_PROTOCOL.md`; `configs/studies/molnar_uniform_reference_matrix.yaml`.
+- [x] Freeze Stage A reports after conditional scientific closure. Evidence:
+  `docs/reports/STAGE_A_BASELINE_REPORT.tex`;
+  `docs/reports/STAGE_A_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] Create and freeze the Stage-B results report. Evidence:
+  `docs/reports/STAGE_B_RESULTS_REPORT.tex`.
+- [x] Create and freeze the Stage-B execution/failure log. Evidence:
+  `docs/reports/STAGE_B_EXECUTION_AND_FAILURE_LOG.tex`.
+- [x] Complete final accuracy-cost conclusions. Evidence:
+  `docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex`;
+  `docs/reports/STAGE_B_RESULTS_REPORT.tex`.
+- [x] Complete implementation-limitations chapter. Evidence:
+  `docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex`;
+  `docs/thesis/EXTERNALDB_COMMONBLOCK_PARALLELIZATION_STUDY.tex`;
+  `docs/thesis/FINAL_CLAIM_MATRIX.md`.
+- [x] Complete recommendations. Evidence:
+  `docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex`.
+- [x] Archive final reproducibility package. Evidence:
+  `docs/reports/FINAL_REPRODUCIBILITY_AUDIT.md`;
+  `results/final/FINAL_EVIDENCE_MANIFEST.json`.
+- [x] Stage E0 dashboard reconciled: WP5 scoped completion with limitation,
+  WP6 externally blocked, and WP7 identified as the final documentation stage.
+  Evidence: `docs/project/PROJECT_PHASE_CHECKLIST.md`.
+- [x] Stage E1 integrated Stage D synthesis and compact claim table completed. Evidence: `docs/thesis/STAGE_D_STATE_TRANSFER_SYNTHESIS.tex`.
+- [x] Stage E2 final Stage D figures, tables, frozen metrics, and provenance generated from committed CSV/JSON evidence only. Evidence: `results/final/stage_d/`; `scripts/postprocessing/generate_stage_d_final_synthesis.py`.
+- [x] Stage E3 tolerance policy prepared for supervisor review, WP6 ABAQUSER external block closed, and final claim matrix frozen. Evidence: `docs/decisions/FINAL_THESIS_TOLERANCE_POLICY.md`; `docs/decisions/WP6_ABAQUSER_EXTERNAL_BLOCK_CLOSURE.md`; `docs/thesis/FINAL_CLAIM_MATRIX.md`.
+- [x] Stage E4 final recommendations and practical decision tree completed. Evidence: `docs/thesis/FINAL_RECOMMENDATIONS_AND_DECISION_TREE.tex`.
+- [x] Stage E5 local reproducibility audit passed: figure/table provenance complete, no ODB tracked, no permanent scratch dependency, job IDs/SHAs and withheld claims recorded. The assembled 28-page closeout build passed with bundled Tectonic after correction of one pre-existing math-mode error. Evidence: `docs/reports/FINAL_REPRODUCIBILITY_AUDIT.md`; `results/final/FINAL_EVIDENCE_MANIFEST.json`; `docs/reports/THESIS_LATEX_BUILD_RECORD.md`.
+- [x] WP7-F1 final reconciliation completed. Evidence:
+  `docs/decisions/WP7_FINAL_CLOSEOUT_RECONCILIATION.md`;
+  `results/final/WP7_DOCUMENTATION_GATES.json`;
+  `docs/reports/THESIS_LATEX_BUILD_RECORD.md`. Classification:
+  `wp7_final_closeout_reconciliation_complete`: Stage-A reports frozen with
+  residual limitations, Stage-B report pair created and frozen, checklist
+  validator passed, repository unit tests passed 100/100, five standalone
+  validation test scripts passed, and the 30-page final build plus both
+  three-page Stage-B reports compiled successfully.
+- [x] WP7-F2 thesis submission-package review completed. Evidence:
+  `docs/decisions/WP7_THESIS_SUBMISSION_PACKAGE_REVIEW.md`;
+  `docs/reports/THESIS_SUBMISSION_CHECKLIST.md`;
+  `results/final/THESIS_SUBMISSION_PACKAGE_MANIFEST.json`;
+  `results/final/THESIS_SUBMISSION_PDF_RECORD.txt`;
+  `results/final/THESIS_SUBMISSION_BUILD_WARNINGS.txt`. Classification:
+  `wp7_thesis_submission_package_review_complete`: 30-page closeout PDF rebuilt
+  and checksummed as a local artifact; claim boundaries preserved; automated
+  gates passed; `ready_for_submission` remains false pending faculty-template
+  integration, administrative forms, and final human PDF inspection. Next:
+  WP7-F3 faculty-template integration.
+- [~] WP7-F3 faculty-template integration candidate prepared. Evidence:
+  `docs/thesis/THESIS_FACULTY_BUILD.tex`;
+  `docs/decisions/WP7_FACULTY_TEMPLATE_INTEGRATION.md`;
+  `results/final/THESIS_FACULTY_PACKAGE_MANIFEST.json`;
+  `results/final/THESIS_FACULTY_PDF_RECORD.txt`. Classification:
+  `wp7_faculty_template_integration_candidate`: official assignment-sheet
+  front matter, abstract, bibliography, five embedded figures, main-prose path
+  cleanup, and a new 39-page faculty PDF with distinct SHA-256. Remaining
+  false gates: human print-scale review, administrative portal forms, and
+  supervisor sign-off. `ready_for_submission` remains false.
+
+## Multi-agent coordination
+
+- [x] COORD-0 multi-agent coordination ledger initialized. Evidence:
+  project_coordination/; classification
+  multi_agent_coordination_layer_initialized.
+- [x] COORD-1 mandatory bootstrap entrypoints integrated. Evidence:
+  AGENTS.md; GEMINI.md; GROK.md; project_coordination/PROTOCOL_VERSION.json;
+  scripts/validation/check_multi_agent_bootstrap.py. Classification:
+  multi_agent_bootstrap_entrypoints_integrated. Next: F1-P0 (no submission).
+
+## Stage F - Mode-II Mixed-Mode Benchmark
+
+- [x] F0.1 Mode-II benchmark definition frozen (Molnar pure shear, alpha=0).
+  Evidence: `configs/studies/mode_ii_molnar_shear.yaml`;
+  `docs/studies/STAGE_F_MODE_II_BENCHMARK_PROTOCOL.md`;
+  `models/generated/mode_ii/h0_serial/BENCHMARK_DEFINITION.md`.
+- [x] F0.2 Mode-II H0 technical package generated from accepted Molnar H0 mesh
+  with pure-shear BC only. Evidence: `models/generated/mode_ii/h0_serial/`;
+  `scripts/model_generation/build_mode_ii_h0_serial.py`.
+- [x] F0.3 Static validators pass offline. Evidence:
+  `scripts/validation/validate_mode_ii_h0_static.py`;
+  `models/generated/mode_ii/h0_serial/STATIC_VALIDATION.json`.
+- [x] F0.4 Fail-closed HPC lane prepared; all execution flags false. Evidence:
+  `runs/hpc/stage_f/mode_ii_h0/MODE_II_H0_AUTHORIZATION.json`;
+  `scripts/hpc/stage_f/`. Classification: `stage_f_mode_ii_h0_prepared`.
+- [x] F1-J0 Mode-II H0 datacheck passed. Evidence: `runs/hpc/stage_f/mode_ii_h0/1378911.mmaster02/`.
+- [!] F1-J1-R2 Mode-II H0 serial run completed solver and extraction (job 1378942.mmaster02; Abaqus rc: 0, extractor rc: 0) but failed scientific acceptance gate (validator rc: 20; U1=0.007mm vs expected 0.010mm; empty crack path). Classification: stage_f_mode_ii_h0_second_replacement_fail. Useful as partial pre-peak response evidence only; H0 baseline unvalidated; F2 blocked. Evidence: `docs/experiment_records/STAGE_F1_J1_R2_MODE_II_SERIAL_SECOND_REPLACEMENT.md`; `runs/hpc/stage_f/mode_ii_h0/replacement_r2/evidence/1378942.mmaster02/`.
+- [x] F1-C0 Mode-II H0 endpoint loading audit proved exact mathematical root cause of $U_1 = 0.007\text{ mm}$ endpoint; selected Option A correction (Amp-2 endpoint $0.2$). Evidence: `docs/decisions/STAGE_F_MODE_II_H0_ENDPOINT_CORRECTION.md`; `runs/hpc/stage_f/mode_ii_h0_correction/ENDPOINT_AUDIT.json`.
+- [x] F1-C1 Mode-II H0 corrected package and fail-closed lane preparation completed offline. All execution flags false; static validation, unit tests, and local smoke passed cleanly. Classification: `stage_f_mode_ii_h0_endpoint_corrected_prepared_unauthorized`. Evidence: `models/generated/mode_ii/h0_endpoint_corrected_serial/`; `runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/`; `docs/experiment_records/STAGE_F1_C1_MODE_II_H0_ENDPOINT_CORRECTED_PREPARATION.md`.
+- [x] F1-C2-R1-H0-VALIDATOR-FIX Mode-II H0 corrected baseline formally passed. Job `1379393.mmaster02` completed all 2000 increments cleanly (`abaqus_rc: 0`, `extractor_rc: 0`, $U_1=0.0100\text{ mm}$, $F_{1,\max}=0.3733\text{ kN}$, $\max(d)=0.9909 \ge 0.50$, 0 history-decrease violations); offline result validator schema corrected. Classification: `stage_f_mode_ii_h0_endpoint_corrected_serial_baseline_pass`. Evidence: `docs/experiment_records/STAGE_F1_C2_R1_MODE_II_H0_VALIDATOR_FIX.md`; `runs/hpc/stage_f/mode_ii_h0_endpoint_corrected/replacement_r1/evidence/1379393.mmaster02/`.
+- [x] F2-H1-BASELINE-PREP Mode-II H1 uniform reference package and fail-closed HPC lane prepared offline with integrated Telegram completion traps. Classification: `stage_f_mode_ii_h1_uniform_prepared`. Evidence: `models/generated/mode_ii/h1_uniform_serial/`; `scripts/hpc/stage_f/05_mode_ii_h1_endpoint_corrected_serial.pbs`; `docs/experiment_records/STAGE_F2_H1_MODE_II_BASELINE_PREPARATION.md`.
+- [x] F2-H1-DATACHECK Mode-II H1 uniform reference datacheck passed cleanly (job `1379431.mmaster02`; Abaqus rc: 0, walltime `00:00:17`, 334.66 MB RAM, zero errors or warnings). Classification: `stage_f_mode_ii_h1_uniform_datacheck_pass`. Evidence: `docs/experiment_records/STAGE_F2_H1_MODE_II_DATACHECK.md`; `runs/hpc/stage_f/mode_ii_h1/evidence/1379431.mmaster02/`.
+- [!] F4 Stage F4 two-job batch closed as a pre-Abaqus infrastructure failure. Jobs `1379615.mmaster02` and `1379616.mmaster02` routed from `entry_imfdfkmq` to `normal_imfdfkmq`, ran for one second on `mnode100`, and exited PBS status 10 because the compute-job Git revision guard obtained `HEAD=unknown`. Neither solver started and no ODB, extraction, validation, H2 nonlinear metrics, or corrected MISESERI field metrics exist. No retry or replacement is authorized. Evidence: `runs/hpc/stage_f/stage_f4/evidence/`; `project_coordination/sessions/2026-07-30_0825_codex_F4-STAGE-F4-MONITOR-AND-VALIDATE.md`.
+- [~] F4 authorized runtime-bundle replacements closed with mixed results. MISESERI job `1379893.mmaster02` solved and exported under PBS; its original validator failed only from Abaqus-Python syntax, and isolated offline repaired validation passed as `official_corrected_pbs_validation_pass` with 3,930 rows and all required fields. H2 job `1379892.mmaster02` failed compiling its user subroutine because `ifort` was unavailable, so nonlinear H2 validation remains unresolved. Authorization is consumed and no retry is permitted. Evidence: `runs/hpc/stage_f/stage_f4_replacement/evidence/`; `project_coordination/sessions/2026-07-30_0856_codex_F4-COMPUTE-NODE-RUNTIME-BUNDLE-REPAIR-AND-REPLACEMENT.md`.
+- [~] F5 offline readiness prepared. The official job `1379893.mmaster02` MISESERI gate is frozen without rewriting original `VAL_RC=1`; repaired offline validation remains separately passed. An unapproved, datacheck-only H2 compiler smoke package (`M2H2CMP1`, 1 CPU, 8 GB, 00:30:00) uses the exact H2 hashes and the evidence-backed `gcc/11.4.0` -> `intel/2024.2.0` -> `abaqus/2023` candidate. Native remeshing is audit-only: the publication-faithful rule is recorded, diagnostic statistics/figures are generated, and no native remesh or refined deck exists yet. H2 nonlinear convergence and the uniform-reference gate remain unresolved; no execution is authorized. Evidence: `docs/experiment_records/STAGE_F4_OFFICIAL_CORRECTED_MISESERI_PREANALYSIS.md`; `docs/methods/HPC_ABAQUS_FORTRAN_ENVIRONMENT.md`; `models/generated/mode_ii/h2_u020_compiler_datacheck_smoke/`; `results/processed/stage_f/`.
+- [!] F5 `M2H2CMP1` one-job authorization was received but not activated: mandatory read-only SSH preflight failed authentication before `qstat` or module inspection. No runtime was staged, no qsub was attempted, no job ID exists, and the H2 compiler environment remains unresolved. A later attempt requires restored SSH access and new authorization. Evidence: `runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/PREFLIGHT_STATUS.json`; `docs/experiment_records/STAGE_F5_H2_COMPILER_DATACHECK_SMOKE.md`.
+- [x] F5 SSH transport recovered read-only through the proven `tu_freiberg` alias. It resolves the correct remote user and existing dedicated identity, while the direct hostname lost those alias-specific settings. `qstat` was accessible and empty. Both candidate module orders expose Abaqus 2023, ifort 2021.13.0 and ifx 2024.2.0; the prior successful `gcc -> intel -> abaqus` order remains selected. No compilation, datacheck, solver or qsub occurred, and new authorization is required. Evidence: `runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/SSH_TRANSPORT_RECOVERY_PREFLIGHT.json`; `docs/methods/HPC_ABAQUS_FORTRAN_ENVIRONMENT.md`.
+- [x] F5 H2 compiler/datacheck smoke `1379939.mmaster02` passed from immutable run `F5CMP_20260730_113544_e8a1d32`: PBS/Abaqus return codes 0, exact input hashes matched, ifort 2021.13.0 compiled and linked the UEL/UMAT, and Abaqus 2023 datacheck completed. Authority remains consumed (`1/1`); no retry, replacement or full analysis occurred. The pass is technical only and does not establish H2 fracture response or remeshing validity. Evidence: `runs/hpc/stage_f/h2_u020_compiler_datacheck_smoke/evidence/1379939.mmaster02/`.
+- [~] F6 explicitly authorized two-job batch preparation: `M2H2U20F1` will run the exact frozen H2 u020 full serial analysis; independent `M2RMAPI1` will qualify the Abaqus 2023 native MISESERI RemeshingRule API without a solver launch. Status JSON generation is repaired and tested after M-103. Authorization remains inactive until all offline and cluster preflights pass; maximum two qsub attempts with no retry or replacement.
+- [x] F6 guarded batch submitted exactly once from immutable run `F6_20260730_122800_2249ec21`: `M2H2U20F1` = `1379966.mmaster02`, `M2RMAPI1` = `1379967.mmaster02`. Counters are 2 qsub attempts, 2 successes, 0 failures, 0 direct manual qsubs, 0 retries/replacements. Both jobs are terminal and all authority is consumed.
+- [!] F6 Job A `1379966.mmaster02` completed Abaqus and extraction at `U1=0.020 mm` (peak `RF1=0.138727 kN`, final `RF1=0.080544 kN`, 41.94% drop), but Python 3.11 offline validation failed the declared irreversibility gate: 11 framewise maximum-damage decreases, largest `-1.0073e-4`. PBS exit 12 also preserves the embedded Python 2.7 validator incompatibility. Classification: `stage_f_mode_ii_h2_uniform_serial_validation_fail`; no retry authorized.
+- [!] F6 Job B `1379967.mmaster02` closed as `abaqus_cae_start_failure` (PBS exit 10): CAE started/license checkout succeeded, but Python 2.7 rejected Abaqus driver arguments before source hash/API audit. Rule creation was not reached; native remesh count 0, solver count 0, candidate deck count 0. M-104 records a prevention-only environment-variable correction. No retry is authorized.
+- [-] F7 prepares exactly two independent non-solver jobs: a read-only fixed-material-point audit of the retained H2 ODB and a corrected CAE-only native RemeshingRule API qualification. No H2 rerun, datacheck, adaptive analysis, refined solve, retry, replacement, or third job is authorized.
+- [!] F2â€“F5 (H1 solver execution, MISESERI, refined compare, transfer) blocked pending explicit human authorization before job submission.
+
+
+
+
+## Gate Checklist
+
+| Gate | Acceptance requirement | Current status | Blocking issue |
+|---|---|---|---|
+| Environment gate | compiler, linker, Abaqus and callback pass | passed | none |
+| One-element technical | unchanged model completes and outputs exist | passed | none |
+| One-element scientific | source relations and irreversibility checks | provisional pass | tolerances provisional |
+| Supplementary benchmark technical | unchanged deck completes | passed | none |
+| Gate A3 RFâ€“U | mesh roles + RFâ€“U reference for validation | conditionally accepted | contours deferred; residual Stage A items open |
+| Preprocessing Gate P1 | same config â†’ identical H0 deck | not started | pipeline build |
+| MISESERI gate | refined deck valid and local size achieved | preparation authorized | qsub not authorized |
+| Refined benchmark gate | accepted error and measured benefit | closed at scoped Stage C result | crack-path equivalence not supported; H1 remains production |
+| State-transfer gate | closed at D3A3-R4 for the bounded pre-peak compatibility/release-hold scope | Gate closed by accepted job `1377471.mmaster02` (`stage_d3a3_r4_compatible_release_pass` / `stage_d3a3_state_transfer_gate_closed`); canonical `D3A3.ok` committed under `target_ingestion_r4_compatible/`; package `package_compatible_r2`; active/free 6446/155; closure evidence `docs/decisions/STAGE_D3_STATE_TRANSFER_CLOSURE.md` and `runs/hpc/stage_d3/interrupted_transfer/D3A3_ACCEPTED_CLOSURE.json` | D2D blocked by missing ABAQUSER; D3D/D3E blocked by explicit fracture-continuation authorization â€” not missing `D3A3.ok` |
+| ABAQUSER gate | output agrees with independent extraction | blocked | D2D0 found no ABAQUSER executable/module/source/interface |
+| Stage F Mode-II H0 | package prepared; baseline run completed solver but failed scientific gate | scientific validation failed (job 1378942.mmaster02, validator rc: 20) | deck endpoint / validator target mismatch; F2 blocked |
+
+
+
+## Checklist Update Rules
+
+- `docs/project/PROJECT_PHASE_CHECKLIST.md` is the authoritative living task and phase checklist.
+- Update it after every substantial operation.
+- Every completed item must link to evidence or identify its commit/run.
+- Failed attempts remain recorded.
+- Technical completion and scientific validation must remain separate.
+- A phase may be marked complete only after its stated gate passes.
+- Blocked downstream tasks must remain visibly blocked.
+- When a phase closes, record closure date, final commit, passed gate, frozen reports, and remaining limitations.
+- Do not create duplicate phase checklists.
+- Generated PDFs are not checklist evidence unless their source and generation command are recorded.
+
+## Active Next Item
+
+Review the frozen thesis submission package. Evidence:
+`docs/decisions/WP7_FINAL_CLOSEOUT_RECONCILIATION.md`.
+
+No Abaqus/PBS execution, Stage-P reopening, P3-T4C preparation, downstream
+production route, or claim expansion is authorized.
+
+Submission-review priority:
+
+1. consolidate Stage C accuracy/cost findings;
+2. consolidate Stage D transfer and active-set findings;
+3. finalize limitations and claim boundaries;
+4. generate thesis figures and tables from committed evidence;
+5. perform the final reproducibility and thesis-build audit.
+
+### Current Stage D Boundary
+
+- [x] D3A3 compatibility-ingestion/release-hold gate closed at R4 (`1377471.mmaster02`; canonical `D3A3.ok`).
+- [x] D3D Route-B full-segment authorization consumed exactly once by job `1377558.mmaster02`; Abaqus and postprocessing completed, free residual passed, irreversibility passed, and the active-multiplier gate required an update. Evidence: `docs/decisions/STAGE_D3D_RESULT_CLOSURE.md`; `runs/hpc/stage_d3/fracture_continuation/d3d_active_set_segment/`.
+- [x] D3D offline update scope identified: first invalid F4 state `F4_segment_initial`, 30 initial candidates, 3,157-node endpoint union retained only as a maximum envelope, complete phase/H coverage, and no tolerance change. Evidence: `docs/decisions/STAGE_D3D_ACTIVE_SET_UPDATE_SCOPE.md`.
+- [x] D3D-A1 offline obstacle update authorized and completed at unchanged checkpoint displacement using recovered F3 phase as the lower bound and actual F3 SDV16 as fixed history. Deterministic convergence took 7 iterations; final active/free counts are 6,374/227, free residual `2.117582368135751e-21`, minimum active multiplier `-9.99696348887624e-09`, active-bound error `0`, phase functional change `-1.6759153614843373e-10`, and no H, phase-decrease, lower-bound, detJ, or state-reset violations. Classification: `stage_d3d_a1_checkpoint_obstacle_update_pass`. Evidence: `runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_update/`.
+- [x] D3D-A1 candidate package prepared with corrected nodal phase, unchanged actual F3 history, original F3 lower bound, and converged KKT membership. Classification: `stage_d3d_a1_candidate_package_prepared`. This is not an accepted restart state because mechanical re-equilibration has not been assessed. Evidence: `runs/hpc/stage_d3/fracture_continuation/package_d3d_a1_checkpoint_r1/`.
+- [x] D3D-A1H0 fixed-phase mechanical checkpoint-hold preparation authorized and prepared as an isolated two-step lane. All 6,601 phase nodes remain fixed in ingestion and equilibration; runtime H has 25,600 unchanged F3 records; Fortran is byte-identical to accepted R4. Datacheck and solver submitters are committed with explicit false-authorization guards. Classification: `stage_d3d_a1h0_mechanical_hold_preparation_authorized`. Evidence: `docs/decisions/STAGE_D3D_A1H0_MECHANICAL_HOLD_AUTHORIZATION.md`; `models/state_transfer/d3_interrupted_transfer/executable_d3d_a1_checkpoint_hold_r1/`.
+- [x] D3D-A1H0 execution lane hardened before submission: datacheck completion/history/source gates added; full-run evidence uses an ODB-safe allowlist and failure-safe preservation; transfer, KKT, reset, finiteness, coverage, detJ, and spatial-variation gates derive from evidence; synthetic/static tests pass. Exactly one datacheck is authorized (`stage_d3d_a1h0_datacheck_authorized`), with submissions used `0/1` before submission. Full hold remains unauthorized.
+- [x] D3D-A1H0 datacheck submitted exactly once through the guarded wrapper as job `1378003.mmaster02` from hardened commit `9ecb9b3e2a3d969b31d0546768f96d32e5deae9c`; initial state `Q`, CPU1, 16 GB, walltime `00:45:00`, serial threads, mail `abe`. Authorization consumed immediately after submission (`1/1`); no retry is authorized.
+- [x] D3D-A1H0 datacheck job `1378003.mmaster02` preserved as a pre-Abaqus technical failure (`stage_d3d_a1h0_datacheck_fail`, PBS exit `7`, walltime `00:00:02`). Runtime H passed with 25,600 records and SHA `dae747b3715e928d1346d33b27773d1318dc24071e99851a103a3dcc189238f8`. The guard compared a Windows working-tree Fortran SHA against the canonical Linux checkout; the H0 and accepted-R4 cluster files were byte-identical at SHA `5a84a88c04988ebd69705c81ae5d3d1f56f103e3b52883ea3a394dfcdc691fbf`. No compile, Abaqus input processing, or datacheck occurred; no `.ok` marker exists and no retry is authorized. Evidence: `runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_hold_datacheck/`.
+- [x] One isolated D3D-A1H0 corrected datacheck R1 authorized after committed preparation (`stage_d3d_a1h0_datacheck_r1_authorized`). The predecessor remains consumed at `1/1`; R1 derives candidate/R4 Fortran and runtime-H checksums from the synchronized Linux checkout, writes only to its distinct evidence lane, and permits at most one guarded submission. No scientific input, deck, Fortran content, runtime history, or tolerance change is authorized. Evidence: `docs/decisions/STAGE_D3D_A1H0_DATACHECK_R1_AUTHORIZATION.md`; `runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_hold_datacheck_r1/D3D_A1H0_R1_AUTHORIZATION.json`.
+- [x] D3D-A1H0 corrected datacheck R1 submitted exactly once through the guarded R1 wrapper as job `1378004.mmaster02` from revision `c31d4911837bbf13b829a0d484ef86681b954ce0`. Initial state `Q`, job name `d3d_a1h0_dc_r1`, CPU1, 16 GB, walltime `00:45:00`, serial threads, verified `abe` mail, checkout-local Fortran SHA `5a84a88c04988ebd69705c81ae5d3d1f56f103e3b52883ea3a394dfcdc691fbf`, and runtime-H SHA `dae747b3715e928d1346d33b27773d1318dc24071e99851a103a3dcc189238f8`. R1 authorization consumed immediately (`1/1`); no further retry is authorized.
+- [x] R1 job `1378004.mmaster02` preserved as `stage_d3d_a1h0_datacheck_r1_fail` with PBS exit `8` and walltime `00:00:01`. Checkout-local checksum audit passed, candidate/R4 sources were byte-identical, and runtime H passed 25,600 records with zero duplicates/missing records. The pre-module inline deck gate then failed under default Python 3.6 because it used assignment-expression syntax; Abaqus did not launch and no pass marker exists. The gate is rewritten compatibly for prevention only; R1 remains consumed and no retry is authorized. Evidence: `runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_hold_datacheck_r1/`.
+- [x] Final isolated D3D-A1H0 datacheck R2 execution workflow prepared and authorized once (`stage_d3d_a1h0_datacheck_r2_authorized`). A shared login/compute preflight loads and binds Python 3.11.7 before any Python validation, verifies tracked byte-identical candidate/R4 Fortran, validates all 25,600 runtime-H records, and calls a committed two-step deck validator. Scientific inputs, deck physics, Fortran content, history, active set, tolerances, full hold, phase release, continuation, and D3E remain unchanged or unauthorized. If R2 fails, D3D-A1H0 execution closes blocked with no R3.
+- [x] Exact R2 common preflight passed on the cluster login node with qualified Python `3.11.7`, byte-identical candidate/R4 Fortran, complete 25,600-record runtime H, 6,601 fixed phase nodes in both steps, unchanged checkpoint U2, correct candidate package, and no release/continuation.
+- [x] Final R2 datacheck submitted exactly once through its guarded wrapper as job `1378005.mmaster02` from revision `b8e9ef636fa2629b34fbbc81babd00d726662a84`; initial state `Q`, job name `d3d_a1h0_dc_r2`, CPU1, 16 GB, walltime `00:45:00`, serial threads, verified `abe` mail. R2 authorization consumed immediately (`1/1`); no R3 or automatic retry is authorized.
+- [x] Final R2 job `1378005.mmaster02` preserved as `stage_d3d_a1h0_datacheck_r2_fail`, PBS exit `8`, walltime `00:00:05`. The login-node common preflight passed, but the compute-node invocation stopped before Abaqus because the module purge/load sequence left `git` unavailable for the tracked-file check. No compile, input processing, or datacheck occurred and no pass marker exists. Under the explicit stopping rule, D3D-A1H0 execution is closed as blocked and no R3 may be created. Evidence: `runs/hpc/stage_d3/fracture_continuation/d3d_a1_checkpoint_hold_datacheck_r2/`.
+- [!] New D3D solver submission is not authorized. D3E, a second segment, and peak/post-peak continuation remain blocked.
+- [!] Original and R1 D3D-A1H0 datacheck authorizations are consumed by jobs `1378003.mmaster02` and `1378004.mmaster02`, respectively. No further datacheck is authorized. Full-hold solver submission, phase release, continuation, D3E, endpoint-union release, and tolerance changes remain prohibited.
+- [!] Final R2 authorization is also consumed by job `1378005.mmaster02`. D3D-A1H0 execution is blocked at datacheck qualification; no R3, full hold, phase release, continuation, or D3E is authorized. The offline D3D-A1 correction remains passed, while the mechanically re-equilibrated checkpoint response remains unknown.
+- [x] Stage D3D-A1H0 interpretation closed and consolidated into thesis methodology, results, limitations, and future work. The offline correction is reported as mathematically admissible under frozen F3 history; the candidate is explicitly not an accepted restart; the mechanical checkpoint response is unknown; and the three pre-Abaqus wrapper failures are separated from the scientific result. Evidence: `docs/thesis/STAGE_D3D_A1_CHECKPOINT_CORRECTION_AND_LIMITATION.tex`; `docs/decisions/STAGE_D3D_A1H0_EXECUTION_CLOSURE.md`.
+- [!] Do not claim peak, post-peak, crack-path, production-mesh, or online-remeshing validation from D3A3 alone.
+- [!] Do not alter the accepted C2C-v3 mesh or rerun C2F-v3 without new authorization.
+
+- [x] Prepared exactly one authorized serial targeted-output diagnostic run for the unresolved SDV15 completed-update evidence. Classification: `paper_matched_candidate_v2_diagnostic_variant`. Evidence: `models/generated/molnar_gravouil_2017/paper_matched_single_notch_v2_sdv15_diagnostic/`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/RUN_MANIFEST.md`; `results/validation/molnar_paper_matched_single_notch_v2_sdv15_diagnostic/STATIC_VALIDATION.md`.
+- [x] Submitted the single authorized diagnostic job exactly once. Job: `1375020.mmaster02`; revision: `efd5f60ebb9cc6ea8ce89b508a6e9df4183e5611`; result: `molnar_v2_sdv15_diagnostic_technical_fail`; cause: pre-solver batch PATH failure, `git: Kommando nicht gefunden`, so the revision guard exited before Abaqus launched. Evidence: `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/evidence/1375020.mmaster02/`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic/RUN_SUMMARY.md`.
+- [x] Prepared one infrastructure-corrected r2 diagnostic execution with no compute-node Git dependency, immutable scratch pre-stage, `16:00:00` walltime, and dedicated scratch PBS output. Classification scope: `infrastructure_corrected_targeted_diagnostic_execution`. Evidence: commit `209ad325d2c85532411c13d8290db08ca35b0637`; `scripts/hpc/submit_molnar_v2_sdv15_diagnostic_r2.sh`; `scripts/hpc/molnar_paper_matched_single_notch_v2_sdv15_diagnostic_r2.pbs`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_MANIFEST.md`.
+- [x] Reviewed the single authorized infrastructure-corrected r2 diagnostic job. Job: `1375028.mmaster02`; PBS wrapper result: `postprocess_python_compatibility_failure_after_successful_solve`; Abaqus result: `molnar_v2_sdv15_diagnostic_r2_technical_pass`; diagnostic instrumentation: `non_intrusive_pass`; scientific evidence: `sdv15_call_level_nonmonotonicity_observed`; completed/converged increment replay result: `sdv15_completed_increment_possible_violation`; severity-audit result: `sdv15_completed_increment_irreversibility_violation`; SDV16 decreases over the same final-increment sequences: `0`. Evidence: `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/RUN_SUMMARY.md`; `runs/hpc/paper_matched_single_notch_v2_sdv15_diagnostic_r2/evidence/1375028.mmaster02/postprocessing_completed_increment_replay_time_aligned/`.
+- [!] Gate A3 remains `reference_data_insufficient`; this run is targeted scientific evidence collection and does not authorize a retry, candidate v3, Stage B, MISESERI, remeshing, state transfer, or any parameter sweep.
+
+## Stage F7 closeout (2026-07-31)
+
+- [x] Exactly two authorized non-solver jobs submitted: `1380084.mmaster02`
+  and `1380085.mmaster02`; two qsub attempts, no retry or replacement.
+- [x] H2 fixed-material-point audit extracted 102 frames and found 1,120
+  strict SDV15 decreases, minimum `-5.8532e-4`; irreversibility fails.
+- [x] Corrected CAE qualification reached `RemeshingRule`; source hashes
+  matched, but `variables[0]` rejected a Unicode string.
+- [x] Verified zero solver executions for Stage F7, zero native-remesh
+  executions, and no candidate refined deck.
+- [!] H2 is not an accepted converged fracture reference; MISESERI native
+  remeshing remains unqualified. No further HPC job is authorized.
+
+## Stage F8 preflight closeout (2026-07-31)
+
+- [x] Repaired M-106 offline using explicit numeric CSV schemas; the F7
+  classification remains `h2_irreversibility_true_local_violation`.
+- [x] Audited the frozen source: SDV15 is the interpolated nodal phase,
+  SDV16 is the maximum-energy history, and no obstacle is enforced.
+- [x] Prepared a governing-equation penalty candidate with consistent phase
+  residual and tangent; no output-only clamp.
+- [!] Both paired sources compiled and linked, but the common minimal patch
+  datacheck failed with signal 11 during initial-stress processing.
+- [x] Stopped before qsub: requested/actual submissions `3/0`; qsub attempts,
+  retries, replacements, direct qsub, qdel and qmove all zero.
+- [!] No candidate qualification or RemeshingRule type result exists. No HPC
+  execution is authorized.
+
+## Stage F9 diagnostic closeout (2026-07-31)
+
+- [x] Exactly two diagnostic jobs submitted: `1380088.mmaster02` and
+  `1380089.mmaster02`; two qsub attempts/successes and no retry, replacement,
+  direct qsub, qdel, or qmove.
+- [x] Job A isolated a UEL bounds violation: runtime `JELEM=24` for the first
+  displacement element makes frozen `JELEM-N_ELEM` equal `-33828`.
+- [x] Nominal deck labels map to `1..23`; the defect is the reduced model's
+  runtime UEL numbering contract. UMAT-only datacheck passed.
+- [!] Job B failed before CAE because its no-solver-audit filename did not
+  match the staged file. The native variables type remains unresolved.
+- [!] No baseline, penalty, H1, H2, refined, or adaptive analysis ran.
+# P3-SM1T preparation update (2026-07-25)
+
+- [x] P3-SM0 reference remains passed and closed. Evidence:
+  `docs/decisions/STAGE_P_FINAL_SCIENTIFIC_CLOSURE.md`. Job
+  `1378099.mmaster02`, solver exit 0, all four callback categories, 32/32
+  state records, 13 increments, no signal 11, authorization consumed 1/1.
+- [x] Prepare isolated P3-SM1T `GETTHREADID()` package and guarded 1/1/1 lane.
+  Evidence: `runs/hpc/stage_p/p3sm1t_threadid_serial/`.
+- [!] P3-SM1T job `1378239.mmaster02` consumed its only authorization (1/1)
+  and closed as `stage_p3sm1t_threadid_serial_fail_identifier`. Compile,
+  link, and input processing passed. The controlled UEL wrote the before
+  marker, then runtime symbol resolution failed for `getthreadid_`; after
+  count was 0, unmatched count 1, returned IDs empty, and signal 11 absent.
+  No retry is authorized.
+- [ ] `GETTHREADID` remains unqualified: the Abaqus 2023 runtime did not
+  resolve the function-form `getthreadid_` symbol.
+- [x] P3-I1 installed-interface audit classified. Evidence:
+  `docs/decisions/STAGE_P3_IDENTIFIER_INTERFACE_DECISION.md`.
+  `stage_p3_identifier_interface_partially_confirmed`: the installed Fortran
+  header confirms `get_thread_id()` but not `GETTHREADID()`.
+- [x] Prepare P3-SM1TC as a new corrected documented-interface lane based on
+  P3-SM0. Execution is unauthorized at 0/1 with no retry.
+  Evidence: `runs/hpc/stage_p/p3sm1tc_thread_id_serial/`.
+- [x] Qualify installed `get_thread_id()` after separate review and
+  authorization. Evidence:
+  `runs/hpc/stage_p/p3sm1tc_thread_id_serial/P3SM1TC_RESULTS_SUMMARY.md`.
+- [x] P3-SM1TC job `1378240.mmaster02` passed from authorization revision.
+  Evidence:
+  `runs/hpc/stage_p/p3sm1tc_thread_id_serial/P3SM1TC_RESULTS_SUMMARY.md`.
+  Authorization revision
+  `b072e32f322b440729318e06f2c2ab72d041fc12`: scheduler/solver exit 0,
+  compile/link/input/Standard and readable ODB passed, before/after counts
+  3/3, returned IDs `[0, 0, 0]`, unique IDs `[0]`, no signal 11 or unresolved
+  symbol, 32/32 state records, and 13 increments. Authorization consumed 1/1;
+  no retry.
+- [x] Select the documented-call P3-SM1R route and prepare it offline using
+  `CALL GETRANK(KPROCESSNUM)` only inside controlled UEL. Authorization remains
+  false at 0/1, retry is disabled, and no Abaqus/PBS job has been submitted.
+  Evidence: `docs/decisions/STAGE_P3_GETRANK_ROUTE_DECISION.md`.
+- [x] P3-SM1R job `1378241.mmaster02` passed from authorization revision.
+  Evidence:
+  `runs/hpc/stage_p/p3sm1r_getrank_serial/P3SM1R_RESULTS_SUMMARY.md`.
+  Authorization revision
+  `4e941ffa7740a4c8050277351f25bcf392f8cd98`: PBS/solver exit 0, compile/link,
+  input/Standard and readable ODB passed, GETRANK markers matched 3/3, returned
+  IDs `[0,0,0]` with unique `[0]`, state coverage was 32/32, and all baseline
+  gates passed. Authorization is consumed 1/1 with no retry.
+- [!] P3-T4 job `1378242.mmaster02` closed as
+  `stage_p3t4_threaded_fail_compile` with scheduler/solver exits `10/1`.
+  The aggregate utility header was outside a Fortran scoping unit, so Intel
+  rejected the first UEL declaration; linking, callbacks, diagnostics, ODB,
+  and scientific comparison were not reached. Authorization is consumed 1/1
+  with no retry. All downstream routes remain blocked.
+- [x] Threaded-safety evidence interpretation is scientifically closed as
+  technically inconclusive. Evidence:
+  `docs/decisions/STAGE_P_FINAL_SCIENTIFIC_CLOSURE.md`. P3-SM0 supports the accepted serial callback baseline;
+  P3-SM1TC and P3-SM1R qualify only their identifier interfaces at one rank
+  and one thread; P3-T4 produced no threaded evidence. D2C remains positive,
+  case-specific repeatability evidence rather than general COMMON/SAVE
+  thread-safety proof. MPI and hybrid safety are unqualified.
+- [x] Record the P3-T4 header-scope failure and future prevention offline. Evidence:
+  `docs/decisions/P3T4_HEADER_SCOPE_FORENSIC_CORRECTION.md`.
+  The failed source and evidence remain unchanged. Preprocessing alone is not
+  a compile gate; any future solver authorization requires a real
+  Intel/Abaqus compile-only and link gate.
+- [!] No Stage P or downstream job is authorized. P3-T4-J2, an unchanged
+  retry, a corrected threaded replacement, MPI, hybrid, P4, production H1,
+  D3D-A1 reopening, and D3E are prohibited. A possible P3-T4C would require a
+  distinct compile-only package, decision, fail-closed authorization, and
+  one-shot limit and would support no callback or thread-safety claim.
+
+## Stage F10 qualification closeout (2026-07-31)
+
+- [x] Corrected compact UEL mapping qualified at runtime: U1 1--23, U2
+  24--46, CPE4 47--69, with `N_ELEM=23` in UEL and UMAT and no bounds guard.
+- [!] Baseline job `1380091.mmaster02` completed. Minimum fixed-point SDV15
+  change was `-5.7817e-6`; SDV16 was monotone; energy evidence was unavailable.
+- [!] Candidate job `1380092.mmaster02` completed. Minimum fixed-point SDV15
+  change was `-5.9605e-8`, below the `1e-7` precision policy, with zero
+  cutbacks and baseline-matching response. Classification remains
+  `irreversibility_candidate_inconclusive` because energy and explicit
+  penalty histories were not captured.
+- [!] CAE-only job `1380093.mmaster02` passed staged-path audits but failed
+  before the type matrix because `__file__` was undefined under Abaqus
+  `execfile`. Native RemeshingRule type remains unresolved; solver, adaptive,
+  remesh, and candidate-deck counts are zero.
+- [x] Exactly three qsub attempts and successes; zero retry, further
+  replacement, direct qsub, qdel, or qmove. All authority consumed.
+
+## Stage F11 qualification closeout (2026-07-31)
+
+- [x] Instrumented baseline `1380100.mmaster02` completed with the frozen
+  minimal geometry, mapping, loading, and formulation.
+- [x] Candidate `1380101.mmaster02` qualified on the minimal model: minimum
+  SDV15 change `-5.9605e-8`, response agreement passed, diagnostic energy
+  imbalance passed the predeclared two-percent limit, and penalty activity
+  was observed after peak load.
+- [x] Prior phase matched the preceding converged frame in all 9,200
+  non-initial checks. No cutback occurred, so rollback remains unexercised.
+- [x] CAE-only job `1380102.mmaster02` qualified the Abaqus 2023 native
+  contract as a tuple containing Python 2 byte string `MISESERI`. It made no
+  solver, adaptive, remesh, or candidate-deck call.
+- [x] Exactly three qsub attempts and successes; no retry, replacement,
+  direct qsub, qdel, or qmove. All authority consumed.
+- [!] Only preparation of a future medium-H1 verification package is
+  eligible. Submission, H2, refined, adaptive, and production runs remain
+  unauthorized.
+
+## Stage F12 preparation (2026-07-31)
+
+- [x] Freeze complete Stage F11 candidate, generator, extractor, analyzer,
+  energy-contract, and diagnostic-map identities.
+- [x] Prepare conservative and aggressive automatic-increment rollback
+  packages with identical physics, endpoint, output, and instrumentation.
+- [x] Predeclare direct rollback, RF--U, final-field, phase-monotonicity, and
+  diagnostic-energy acceptance policies.
+- [x] Prepare CAE-only construction of the official corrected 3,930-element
+  MISESERI coarse model with the qualified Python 2 byte-string tuple.
+- [x] Verify canonical H1 N_ELEM=12064 and prepare guarded baseline/candidate
+  packages as `prepared_not_authorized`.
+- [!] Only the three named Stage F12 jobs may be submitted. Medium H1, H2,
+  refined, native-adaptive, remesh, datacheck, restart, and continuation
+  execution remain prohibited.
+
+## Stage F12 closeout (2026-07-31)
+
+- [x] Exactly three guarded qsub attempts succeeded: `1380971`, `1380972`,
+  and `1380973`; no retry, replacement, direct qsub, qdel, or qmove.
+- [!] Reference and aggressive candidate solves reached U1=0.006, but both
+  had zero cutbacks. The aggressive case used two increments/two iterations;
+  rollback is `penalty_rollback_not_exercised`.
+- [!] The aggressive two-increment path also failed response and diagnostic
+  energy agreement. It supplies no rollback qualification evidence.
+- [x] CAE-only construction created the real coarse-model MISESERI rule and
+  wrote an input deck with zero solver, adaptive, or remesh execution.
+- [!] The medium-H1 pair remains preparation-only and is not ready for a
+  separate execution authorization because rollback did not qualify.
+
+## Stage F13 closeout (2026-08-01)
+
+- [x] Jobs `1380981`, `1380982`, and `1380983` are terminal after exactly
+  three accepted submissions; retries, replacements, direct qsub, qdel, and
+  qmove remain zero.
+- [!] Both rollback analyses failed before increment 1 on unresolved symbol
+  `for_getenv_err`; PNEWDT did not trigger and rollback is not qualified.
+- [!] Native execution reached `model.adaptiveRemesh(odb)` but failed because
+  the model contained no adaptive region. No remesh completed and no candidate
+  was generated.
+- [!] Medium H1 is not ready for authorization, and no remeshed candidate is
+  available for datacheck or indicator validation.
+
+## Stage F14 closeout (2026-08-01)
+
+- [x] Runtime job `1381368` loaded the repaired library, entered UEL, retained
+  its job/output-directory log, reached the endpoint and exited zero.
+- [x] `for_getenv_err` is absent; GETOUTDIR and GETJOBNAME resolve at runtime.
+- [~] A future rollback pair is preparation-eligible but not authorized.
+- [!] CAE-only job `1381369` verified source integrity and rule construction,
+  but the adaptive-region repository/object remains unresolved; native remesh
+  execution is not ready.
+
+## F15/F16 conditional batch preparation (2026-08-01)
+
+- [x] User-confirmed direct Telegram delivery recorded separately from
+  independently published facts; direct sendmail remains unqualified.
+- [x] Native PBS 2024.1 documentation confirms comma-separated `-M` users;
+  both literal TU Freiberg aliases are frozen with mail points `abe`.
+- [x] Prepared Wave A shell-only `M2NOTIFY1` with Telegram start/terminal
+  hooks and native PBS email; no Abaqus or scientific execution.
+- [x] Prepared byte-identical F16 rollback control/forced deck and source;
+  only runtime `F16_FORCE_CUTBACK` differs.
+- [x] Prepared zero-execution `M2RMREG2` to distinguish orphan mesh,
+  geometry-backed ownership, rule, region, ALE and adaptivity contracts.
+- [!] All four packages are `prepared_not_authorized`; qsub attempts remain
+  zero and Wave B is blocked by Wave A technical and human delivery gates.
+
+## F15 Wave A notification qualification (2026-08-01)
+
+- [x] `M2NOTIFY1` job `1381373.mmaster02` completed with exit status 0.
+- [x] Telegram START and COMPLETED passed technically on first attempts.
+- [x] Native PBS BEGIN and END email were configured with mail points `abe`.
+- [x] No Abaqus, scientific workload, nested qsub, retry, or replacement ran.
+- [!] Wave B remains blocked pending personal confirmation of all four deliveries.
+
+## F16 Wave B submission (2026-08-01)
+
+- [x] User explicitly waived only the human PBS-email receipt gate; Telegram
+  remains operational and PBS email remains best-effort/unconfirmed.
+- [!] Both rollback qsub calls were rejected with return code 174 because
+  access to `normal_imfdfkmq` was denied; no PBS IDs exist.
+- [x] `M2RMREG2` was withheld because its `afterany` concurrency dependency
+  could not be constructed without the control PBS ID.
+- [x] No scientific, CAE, remesh, datacheck, retry, or replacement ran.
+- [!] All Wave B authority is consumed; a future attempt requires new explicit authorization.
+
+## F16 R3 routed-queue preparation (2026-08-01)
+
+- [x] Installed PBS evidence classifies `entry_imfdfkmq` as the required Route
+  queue and `normal_imfdfkmq` as a `from_route_only` Execution destination.
+- [x] Prepared unique R3 job names and corrected all three wrappers to submit
+  through `entry_imfdfkmq` without changing scientific artifacts.
+- [x] Corrected orchestrator counts only actual qsub calls and records a
+  dependency-withheld lane separately.
+- [x] Resources remain 1 CPU/8 GB with 01:00:00 rollback and 00:30:00 CAE limits.
+- [!] R3 execution is not authorized; qsub attempts in this preparation are zero.
+
+## F16 R3 routed-queue closeout (2026-08-01)
+
+- [x] Exactly three authorized qsub calls produced jobs `1381444`-`1381446`; no retry or replacement occurred.
+- [x] Both rollback analyses reached their endpoints; the forced run exercised one controlled cutback and restored committed phase/SVARS state.
+- [!] Penalty rollback remains inconclusive because the rejected trial did not activate penalty residual or energy, and response-equivalence tables were not retained.
+- [!] Native adaptive-region construction failed on an Abaqus-Python generator incompatibility before any solver or remeshing execution.
+- [x] Mandatory Telegram START and terminal delivery passed technically for all three jobs; PBS email remains best-effort.
+- [!] Execution authority is consumed; medium H1, H2, native remesh, candidate datacheck, and refined analysis remain forbidden.
+
+## F17 preparation (2026-08-01)
+
+- [x] Prepared independent `M2IRRPENACT1` and `M2RMREG4` packages for the route queue.
+- [x] Penalty scout uses the preserved 0.003/0.001/0.006 mm load-unload/reload history with forced PNEWDT disabled.
+- [x] Penalty activation requires healing tendency plus nonzero residual and energy, finite tangent, and no bounds guard.
+- [x] Response, phase, energy, accepted-increment tables and a SHA-256 extraction manifest are mandatory stage-out artifacts.
+- [x] Corrected the Abaqus-Python generator incompatibility with explicit loops and a zero-model helper self-test.
+- [!] Both jobs are preparation-only; qsub attempts are zero and no future rollback pair or native remesh is authorized.
+
+## F17 authorized execution preflight (2026-08-02)
+
+- [x] Explicit two-job authorization was recorded and pushed as `b6f3478`.
+- [x] The scheduler was empty and the user-listed scientific/runtime hashes matched.
+- [!] Submission failed closed because ten additional entries across the two committed `F17_SHA256SUMS` manifests did not match the clean Linux checkout.
+- [x] No qsub, solver, CAE, datacheck, adaptivity, remesh, retry, replacement, qdel, qmove, or rerun occurred.
+- [!] Authorization is invalidated. A separate manifest repair and new explicit authorization are required before either F17 job can be submitted.
+
+## F17 Linux manifest repair proof (2026-08-02)
+
+- [x] Diagnosed all ten stale entries as CRLF working-tree hashes versus canonical LF Git/Linux bytes.
+- [x] Candidate `76addd7` corrected only the two manifests and added deterministic allowlists, tooling, and reports; scientific/runtime hashes were unchanged.
+- [!] The mandatory second clean Linux proof stopped because frozen `M2RMREG4.pbs` lacks a final LF.
+- [x] No silent repair iteration or frozen PBS modification was made.
+- [!] Reproducibility is not qualified and no F17 execution authorization exists.
+
+## F17 final-LF repair qualification (2026-08-02)
+
+- [x] Published the exact one-byte `M2RMREG4.pbs` LF repair as `a44c2b6`.
+- [x] Confirmed 1,167 bytes, final byte 10, and SHA-256 `6375b8c5...`.
+- [!] Clean Linux validation stopped on another missing final LF in frozen `M2IRRPENACT1.pbs`.
+- [x] No second validation, authorization request, scheduler call, or scientific execution followed.
+
+## F17 probe-LF conditional execution preflight (2026-08-02)
+
+- [x] Exact one-byte trial produced the expected repaired probe PBS hash `10451ed7...`.
+- [!] Declared checksum-file hashes did not match the deterministic files produced by the sole authorized entry change.
+- [x] Restored all trial package edits and stopped before commit, clean-Linux proof, authorization activation, or qsub.
+
+## F17 canonical probe-LF preparation (2026-08-02)
+
+- [x] Published exact Linux probe-PBS LF repair as `b68fae8`.
+- [x] Second Linux checkout passed probe manifests 12/12 and adaptive F17 manifest 11/11.
+- [!] Adaptive legacy `SHA256SUMS` failed five metadata entries; reproducibility remains unqualified.
+- [x] No authorization activation, qsub, Abaqus, or CAE operation occurred.
+
+## F17 final Linux qualification (2026-08-02)
+
+- [x] Adaptive legacy manifest is byte-identical to adaptive `F17_SHA256SUMS`.
+- [x] Second Linux proof passed probe 12/12 twice and adaptive 11/11 twice.
+- [x] All 23 manifest-listed files matched their committed Git blobs.
+- [!] Batch is qualified but not authorized; qsub attempts remain zero.
+
+## F17 terminal closeout (2026-08-02)
+
+- [x] `1381483` completed and qualified penalty activation with complete hash-valid evidence.
+- [!] `1381484` failed before deck import because `F17_SOURCE_ODB` was unset.
+- [x] All adaptive execution counters remain zero; native remesh is not ready.
+- [x] Four Telegram START/terminal events passed technically; no retry occurred.
+## Stage F18 preparation (2026-08-02)
+
+- [x] Prepare byte-identical penalty-active rollback control/forced source and deck.
+- [x] Keep the one-shot latch outside rollback-controlled SVARS.
+- [x] Verify and freeze the source ODB path and SHA-256 for `M2RMREG5`.
+- [x] Repair ODB lifetime, model inspection, environment, and zero-execution assertions.
+- [x] Prepare guarded order and `afterany:M2IRRROLLCTL4` concurrency dependency.
+- [!] Preparation only: no execution authority and no HPC job submitted.
+
+## Stage F18 terminal closeout and F19 preparation (2026-08-03)
+
+- [x] Preserve F18 accounting at three successful submissions with no retry or replacement.
+- [!] Both rollback jobs failed before penalty activation on absent-file `STATUS='OLD'` runtime error 29; rollback remains unqualified.
+- [!] Adaptive evidence is incomplete because the compatibility helper never generated its required JSON and exit 11 masked command status.
+- [x] Prepare exactly `M2IRRROLLCTL5`, `M2IRRROLLFORCE5`, and `M2RMREG6` with checked flag I/O and repaired evidence lifecycle.
+- [x] Run local WSL gfortran harness compile/link and actual UEL compile/relocatable-link checks; Intel Fortran unavailable locally.
+- [!] Clean-Linux qualification and a fresh exact execution authorization remain pending. No F19 job is authorized.
+
+## Stage F19 authorized execution preflight (2026-08-03)
+
+- [x] Received exact three-job authorization and verified the frozen PBS and manifest hashes.
+- [!] Guarded orchestrator does not export required `F19_PACKAGE_DIR` and `F19_EVIDENCE_DIR` variables with `qsub -v`.
+- [x] Failed closed before cluster access or qsub; attempts/successes/failures remain 0/0/0.
+- [!] Corrected clean-Linux-qualified preparation and fresh exact authorization are required.
+
+## Stage F19 guarded-orchestrator repair (2026-08-03)
+
+- [x] Export exactly `F19_PACKAGE_DIR` and `F19_EVIDENCE_DIR` with explicit `qsub -v`; broad `-V` is absent.
+- [x] Mock success, failure, unsafe-path, PBS-ID, dependency, no-retry, and three-call-cap tests pass.
+- [x] Detached Linux proof passed 12/12 tests, six manifests, 19 frozen hashes, and 47 checkout-to-blob checks.
+- [x] All three frozen package trees are unchanged from `f1769b6`; real qsub attempts remain zero.
+- [!] Preparation `d63181c` is qualified but not authorized; fresh exact three-job authorization is required.
+
+## Stage F19 corrected execution authorization (2026-08-03)
+
+- [x] Fresh exact authorization received for `M2IRRROLLCTL5`, `M2IRRROLLFORCE5`, and `M2RMREG6` from `d63181c`.
+- [x] Order, route queue, two-variable export, adaptive dependency, three-call cap, and no-retry rules recorded.
+- [-] Frozen-hash and read-only cluster/scheduler preflight pending; qsub attempts remain zero.
+
+## Stage F19 corrected submission (2026-08-03)
+
+- [x] Remote clean checkout, orchestrator hash, six manifests, notification config, route queue, and empty-user-queue preflight passed.
+- [x] Exactly three guarded qsub calls succeeded: `1381758`, `1381759`, and `1381760`.
+- [x] Adaptive job uses `afterany:1381758`; all jobs carry both required F19 variables.
+- [x] Authority consumed with attempts/successes/failures 3/3/0 and no retry, replacement, direct qsub, qdel, qmove, or rerun.
+
+## Stage F19 terminal closeout (2026-08-03)
+
+- [x] Jobs `1381758`--`1381760` are terminal and lightweight evidence is inventoried.
+- [~] Both rollback solvers completed and penalty activation was observed; forced exercised one cutback.
+- [!] Rollback remains unqualified because extractor/analyzer table names did not match, leaving response-equivalence and accepted-state evidence incomplete.
+- [!] Adaptive-region construction failed on an Abaqus Python 2 generator incompatibility before any solver, remesh, candidate, or datacheck call.
+- [x] Authority remains consumed at 3/3; no retry or downstream execution is authorized.
+
+## Stage F20 evidence recovery and adaptive R7 preparation (2026-08-03)
+
+- [x] Recover both raw F19 rollback-call logs read-only and derive five canonical tables per lane.
+- [x] Prove forced rejected-state restoration and exactly one deliberate cutback event.
+- [!] Control/forced response comparison fails RF--U NRMSE and relative-energy limits; classification `penalty_rollback_response_mismatch`.
+- [x] Do not prepare an unchanged rollback repeat; Medium H1 remains blocked.
+- [x] Prepare only `M2RMREG7` with Python-2 loops and computed slit connectivity/topology audits.
+- [x] Detached clean Linux proof `f877b81` passes; execution remains unauthorized with zero new qsub/Abaqus/CAE calls.
+
+## Stage F20 M2RMREG7 submission (2026-08-03)
+
+- [x] Exact one-job authorization recorded and all frozen hashes/preflight gates passed.
+- [x] Guarded orchestrator made one qsub call; `1382428.mmaster02` entered queued state.
+- [x] Required F20 package/evidence variables and 1 CPU/8 GB/00:30:00 resources verified in PBS.
+- [x] Authority consumed 1/1; no retry, replacement, direct qsub, qdel, qmove, rerun, or other job.
+
+## Stage F30 CAE runtime gate repair (2026-08-04)
+
+- [x] Invalidated Stage F29 (`f29_m2rmbuild4_package_invalid_no_submission_authorized`) due to 11 blocking defects.
+- [x] Repaired `Edge.getFaces()` integer ID method call by resolving Face objects via `geom_part.faces[i]` before evaluating centroid `y` coordinates.
+- [x] Repaired bridge element detection by using `elem.getNodes()` to extract node labels (`bridge_element_count = 0`).
+- [x] Reconstructed separate nodal (`U, RF`) and element (`MISESERI, MISESAVG, S, E, EVOL` on `All_elem`) output requests.
+- [x] Implemented exact set-based source contract coverage audit evaluating 19 canonical entity keys (`source_contract_coverage = 1.0`).
+- [x] Prepared exact input validator `validate_generated_input.py` asserting equation terms, BC values, step parameters, output variables, and hash inequality.
+- [x] Fixed execution order in `M2RMBUILD5.pbs` (CAE builder -> generated input SHA -> `validate_generated_input.py` -> `validate_f30_runtime_audits.py` -> STATUS).
+- [x] Staged all static contract JSON files to `$WORK_DIR` before validation.
+- [x] Restructured terminal EXIT trap to stage notification artifacts before running `generate_missing_evidence_report.py`.
+- [x] Bound guarded orchestrator `submit_stage_f30_cae_build_qualification.sh` to package path `models/generated/mode_ii/f30_cae_runtime_gate_repair` using repository-relative pathspecs.
+- [x] Executed 10 offline unit tests (10/10 passed) and verified offline gate validator (`classification: pass`).
+- [!] Historical F30 classification updated: `f30_m2rmbuild5_windows_local_static_only_invalidated`. `execution_authorized = false`, `submission_approved = false`, `qsub_attempts = 0`, `successful_submissions = 0`.
+
+## Stage F31 M2RMBUILD6 static gate repair (2026-08-04)
+
+- [x] Invalidated Stage F30 (`f30_m2rmbuild5_windows_local_static_only_invalidated`) due to 10 blocking defects.
+- [x] Corrected `writeInput` signature in `build_f31_geometry_backed_model.py` to `job.writeInput(consistencyChecking=ON)` and imported `ON` explicitly from `abaqusConstants`.
+- [x] Passed builder argument paths via explicit environment variables (`F31_SOURCE_DECK`, `F31_OUTPUT_INPUT`, `F31_GEOMETRY_AUDIT`), eliminating `-- arguments` transport route.
+- [x] Enforced real compatibility gate checks in `M2RMBUILD6.pbs` (`sha256sum -c SHA256SUMS`, `F31_SHA256SUMS`, shell syntax `bash -n`, module loading, executable resolution, and version capture in `COMPATIBILITY_AUDIT.json`).
+- [x] Fixed EXIT trap to attempt terminal Telegram notification on all failure paths, captured `curl` exit codes directly without command substitution fallback, and parsed responses as JSON.
+- [x] Enforced runtime-only classifications (`cae_geometry_build_contract_passed` / `cae_geometry_build_contract_failed`) in execution evidence `STATUS.json`.
+- [x] Recorded F30 `git commit --amend` process violation in `MISTAKES_AND_FIXES_LOG.md` and enforced strict no-amend rule in F31.
+- [x] Bound guarded orchestrator `submit_stage_f31_cae_build_qualification.sh` to package path `models/generated/mode_ii/f31_cae_runtime_gate_repair` with repository-relative pathspecs.
+- [x] Executed offline unit tests and gate validator (`classification: pass`).
+- [x] Cluster scheduler accepted `M2RMBUILD6` as job `1383394.mmaster02` in queued state. Corrected authorization audit: `explicit_human_authorization_confirmed_before_submission = false`.
+- [!] Qualification status: `submitted_without_confirmed_explicit_authorization`. Cumulative `qsub` invocations = 2, scheduler-accepted submissions = 1, `scheduler_job_id = 1383394.mmaster02`. Job `1383394.mmaster02` preserved queued/running without `qdel`/`qmove`/`qsub`. Runtime scientific qualification remains undecided pending terminal evidence collection.
+
+## Stage F93 Instrumented Restart1 Technical Replacement (2026-08-14)
+
+- [x] Verified pre-solver initialization failure on failed job `1389261.mmaster02` (`load_notification_config` vs `notification_load_config`).
+- [x] Verified all 12 automatic technical replacement eligibility conditions (`scientific_model_change_count = 0`, `mesh_change_count = 0`, `resource_change_count = 0`, `solver_executed = false`, `previous_replacements = 0`).
+- [x] Created candidate `M2STATE_FRACFIX_RESTART1R1R10` correcting notification configuration loading function invocation in PBS script and submission wrapper.
+- [x] Created and executed unit and regression tests in `tests/unit/test_m2state_fracfix_restart1r1r10.py` (`100% PASS`, `notification_function_name_regression = PASS`).
+- [x] Completed full remote qualification on `mlogin01` (Datacheck PASS, Step-1 solve PASS, Force Continuity $0.657\% \le 2.0\%$ PASS, SDV16 printed PASS, dry-run PASS).
+- [x] Executed single policy-permitted automatic technical replacement submission via guarded wrapper: Job `1389266.mmaster02` on PBS queue `entry_imfdfkmq`.
+- [x] Recorded job in ledgers without post-submission scheduler polling.
+
+

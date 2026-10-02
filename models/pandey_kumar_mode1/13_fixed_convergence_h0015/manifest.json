@@ -1,0 +1,26 @@
+{
+  "case_id": "13_fixed_convergence_h0015",
+  "candidate_job_name": "PK_M1_S3_ENERGY",
+  "status": "READY_AFTER_ENERGY_QUALIFICATION",
+  "submission_authorized": false,
+  "h_corridor_mm": 0.0015,
+  "h_over_l0": 0.2,
+  "num_mesh_nodes": 42364,
+  "num_finite_elements": 41912,
+  "total_layered_elements": 125736,
+  "candidate_inp": "PK_MODE1_FIX_H0015_ENERGY.inp",
+  "candidate_inp_sha256": "1500eca5028660045789af04ad3112e26ca76bbf7bfac6437a42008a4307408f",
+  "fortran_uel": "f42_mixed_uel.for",
+  "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+  "notifications_sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+  "submit_datacheck_pbs_sha256": "75af7059759348a76a25d21a4261c4a213ef3fa88a4d7ef17bf008b39b36d5ac",
+  "submit_solver_pbs_sha256": "98dd9ac943f4a4a6a99f7f29bcb41beabe360f1b9d1d299d8688ad3acad6ff63",
+  "historical_baseline_run": {
+    "job_id": "1406017.mmaster02",
+    "inp_historical": "PK_M1_FIX_H0015_VIS.inp",
+    "K0_kN_per_mm": 137.86,
+    "F_max_kN": 0.7322,
+    "termination_u_mm": 0.00784,
+    "note": "Historical run cut back at u=0.00784 mm; companion SDVs requested with Depvar 18"
+  }
+}

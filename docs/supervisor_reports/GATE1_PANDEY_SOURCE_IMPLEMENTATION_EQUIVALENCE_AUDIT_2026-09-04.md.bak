@@ -1,0 +1,257 @@
+# Gate 1 Source-to-Implementation Equivalence Audit: Pandey & Kumar (2025) vs. Local Abaqus Implementation
+
+**Document Identifier:** `docs/supervisor_reports/GATE1_PANDEY_SOURCE_IMPLEMENTATION_EQUIVALENCE_AUDIT_2026-09-04.md`  
+**Audit Date:** 2026-09-04  
+**Audit Scope:** Rigorous, Read-Only Source-to-Code Equivalence Audit of Mode-I Benchmark  
+**Primary Published Paper:** Pandey, P., & Kumar, S. (2025). *Adaptive Finite Element Phase-Field Modeling of Brittle Fracture Using Error Indicator Approach*. Computer Modeling in Engineering & Sciences (CMES), Vol. 144, No. 3, pp. 3251–3276. DOI: `10.32604/cmes.2025.067858` (`Literature review/TSP_CMES_67858.pdf`)  
+**Secondary Foundation Source:** Molnár, G., & Gravouil, A. (2017). *2D and 3D Abaqus implementation of a robust staggered phase-field solution for modeling brittle fracture*. Finite Elements in Analysis and Design, Vol. 130, pp. 27–38. (`Literature review/Gergely Molnár⁎.pdf`)  
+**Local Candidate Model:** `models/pandey_kumar_mode1/01_standard_pfm_bvp_harmonized/` (Job `1401091.mmaster02`, `PK_MODE1_STANDARD_PFM.inp`, `f42_mixed_uel.for`)  
+**Authoritative Project Anchor:** `models/pandey_kumar_mode1/01_standard_pfm_reference/` (Job `1398090.mmaster02`: $F_{\text{peak}} = 0.757778\,\mathrm{kN}, u_{\text{peak}} = 0.005857\,\mathrm{mm}$)  
+**Governing Supervisor Rule:** *"We need to have understood everything related to the first model before we increase complexity."*  
+**Gate 0 Status:** `CLOSED_PASSED — ChatGPT validated 2026-09-03`  
+**Gate 1 Status:** `OPEN_PENDING_CHATGPT_VALIDATION`
+
+---
+
+## 1. Executive Summary & Epistemic Grounding
+
+This audit provides a strictly read-only, evidence-grounded comparison between the primary literature for the Mode-I benchmark (**Pandey & Kumar, 2025**) and the local Abaqus finite element user-element implementations (historical baseline Job **`1398090.mmaster02`** and harmonized candidate Job **`1401091.mmaster02`**).
+
+### Governing Project Directives Preserved
+1. **Authoritative Project Fixed-Mesh Anchor:**
+   Job `1398090.mmaster02` ($F_{\text{peak}} = 0.757778\,\mathrm{kN}, u_{\text{peak}} = 0.005857\,\mathrm{mm}, K_0 = 138.0956\,\mathrm{kN/mm}$) remains the **governing project fixed-mesh anchor**. It is neither replaced nor discarded.
+2. **Preservation of Governing Literature Reference Target:**
+   The project record defines approximately **$0.758\,\mathrm{kN}$ at $0.005860\,\mathrm{mm}$** as the active literature check target. In accordance with supervisor instructions, these values are **not** arbitrarily retired or discarded based solely on an AI raster re-digitization. Instead, newly extracted values ($0.734831\,\mathrm{kN}$ and $0.720506\,\mathrm{kN}$) are formally recorded as **conflicting digitization findings requiring human/supervisor reconciliation**.
+3. **No Unwarranted Assumptions on Published Data:**
+   All unsupported specificity (e.g., claiming the paper used `CPS4`/`CPS3`, `CPE4`/`CPE3`, plane strain, duplicate-node seams, or explicit $d=0$ field initialization) has been purged. Explicit text statements are strictly distinguished from visual figure interpretations.
+4. **Energy Split Discrepancy Verified:**
+   Pandey & Kumar explicitly specify for this Mode-I example the *"anisotropic strain energy decomposition of Miehe et al. [32]"*. The local subroutine (`f42_mixed_uel.for`) implements Molnár's isotropic mechanical degradation and un-split deviatoric driving energy. This is formally classified as **`IMPLEMENTATION_DIFFERENCE_VERIFIED`**.
+5. **Separation of Discretizations:**
+   The published Standard PFM mesh (26,282 mixed quad/tri elements, global $0.02\,\mathrm{mm}$, local $0.003\,\mathrm{mm}$), the proposed adaptive mesh (13,941 mixed quad/tri elements, global $0.02\,\mathrm{mm}$, local $0.001\,\mathrm{mm}$), and the local structured mesh (15,192 pure quadrilateral elements) are treated as three distinct topological discretizations.
+
+---
+
+## 2. Primary Paper Mode-I Benchmark Specification (Text vs. Figure Evidence)
+
+Direct extraction from Pandey & Kumar (2025), CMES 144(3), pp. 3251–3276 (`Literature review/TSP_CMES_67858.pdf`), establishes the exact published evidence:
+
+| Modeling Dimension | Explicit Publication Text Evidence | Figure-Based Visual Interpretation | Primary Source Citation |
+| :--- | :--- | :--- | :--- |
+| **Geometry** | "A square plate with an edge crack of length 0.5 mm is considered for the simulations." | Square plate $1.0\,\mathrm{mm} \times 1.0\,\mathrm{mm}$, horizontal crack along $y = 0.5\,\mathrm{mm}$ ($0 \le x \le 0.5\,\mathrm{mm}$) | Section 4.1, p. 3264; Fig. 4(a) |
+| **Crack Representation** | Pre-existing edge crack of length $0.5\,\mathrm{mm}$. Text does not specify Abaqus seam, duplicate nodes, or notch. | Depicted as an infinitesimal line slit in schematic Fig. 4(a). | Section 4.1, p. 3264; Fig. 4(a) |
+| **Bottom Boundary Conditions** | Text states: "The bottom edge of the plate is fixed in the y-direction, while the bottom-left corner is fixed in both the x- and y-directions to prevent rigid body motion." | Fig. 4(a) shows roller symbols on bottom edge ($u_y = 0$) and pinned symbol at bottom-left corner $(0,0)$ ($u_x = u_y = 0$). | Section 4.1, p. 3263–3264; Fig. 4(a) |
+| **Top Boundary Conditions** | Text states: "A monotonically increasing displacement is applied to the top edge along the y-direction." Text does **not** mention or discuss lateral constraint ($u_x$). | Fig. 4(a) shows single upward arrow labeled "$u_y$" without horizontal rollers or constraint symbols. Free lateral contraction is an engineering inference from the figure. | Section 4.1, p. 3264; Fig. 4(a) |
+| **Prescribed Loading Schedule** | "The displacement is applied in two steps. In the first step, the displacement $u = 0.005\,\mathrm{mm}$ is specified for 2000 increments at increment size $\Delta u_1 = 10^{-4}$. In the second step, the displacement is ramped to $u = 0.01\,\mathrm{mm}$ at $\Delta u_2 = 10^{-5}$ for the remaining increments. It is achieved by defining the tabular amplitudes for each Abaqus step separately." | Load history curves in Fig. 7(a) extend up to $u \approx 0.0070\,\mathrm{mm}$. | Section 4.1, p. 3264 |
+| **Stress State (Plane Stress vs Strain)** | **NOT STATED.** The words "plane strain" and "plane stress" do **not appear anywhere** in the 26-page publication text. | Cannot be determined from figures. | Entire paper text audit (`scratch/paper_text.txt`) |
+| **Material Constants** | $E = 210\,\mathrm{GPa}$, $\nu = 0.3$. | Plotted response corresponds to these elastic constants. | Section 4.1, p. 3264 |
+| **Fracture Constants** | $G_c = 2.7\times 10^{-3}\,\mathrm{kN/mm}$ ($2.7\,\mathrm{N/mm}$), $l_0 = 0.0075\,\mathrm{mm}$ ($7.5\,\mu\mathrm{m}$). | Inset contour plots in Fig. 5 show localization band scaling with $l_0$. | Section 4.1, p. 3264 |
+| **Residual Stiffness $k$** | Section 2, Eq. (11) defines $g(d) = (1-d)^2 + k$ with $k \ll 1$ as an artificial parameter. **Numerical value not disclosed.** | -- | Section 2, Eq. (11), p. 3256 |
+| **Phase-Field Formulation** | Standard second-order AT2 phase-field formulation (Eqs. 1–10). | -- | Section 2, pp. 3254–3256 |
+| **Degradation Function** | Quadratic degradation: $g(d) = (1-d)^2 + k$. | -- | Section 2, Eq. (11), p. 3256 |
+| **Energy Split Formulation** | Text explicitly states: **"To simulate this problem, the anisotropic strain energy decomposition of Miehe et al. [32] with staggered implementation [72] in Abaqus is considered."** | -- | Section 4.1, p. 3264 |
+| **Crack Irreversibility** | Strain history field $\mathcal{H}(\mathbf{x}, t) = \max_{\tau \le t} \psi_0^+(\boldsymbol{\epsilon}(\mathbf{x}, \tau))$ enforcing $\dot{d} \ge 0$. | -- | Section 2, Eqs. (16)–(18), p. 3257 |
+| **Initial Field Initialization** | Pre-existing geometric crack. Text does **not** document explicit initial conditions for $d(\mathbf{x}, 0)$ or $\mathcal{H}(\mathbf{x}, 0)$. | Fig. 5 shows $d$ localizing naturally from the crack tip. | Section 4.1, p. 3264; Fig. 5 |
+| **Discretization: Standard PFM** | Discretized with **26,282 linear quadrilateral and linear triangular elements**, global size $0.02\,\mathrm{mm}$, local crack-corridor size $h = 0.003\,\mathrm{mm}$. | Fig. 5(a) & Fig. 6(a) show an unstructured/graded quad-dominated mixed mesh. | Section 4.1, p. 3264; Table 2, Fig. 6(a) |
+| **Discretization: Proposed Adaptive** | Initial coarse mesh global $0.02\,\mathrm{mm}$; adaptive remesh yields **13,941 linear quadrilateral and triangular elements**, locally refined to $h = 0.001\,\mathrm{mm}$. | Fig. 5(b) shows adaptive corridor refinement. | Section 4.1, p. 3265 |
+| **Solver Controls** | Staggered Abaqus implementation [72]. Residual tolerances, iteration cutbacks, and damping controls **not disclosed**. | -- | Section 3.2, p. 3261; Section 4.1, p. 3264 |
+
+---
+
+## 3. Exact Local Implementation Mapping (Jobs 1398090 & 1401091)
+
+Direct code audit of `models/pandey_kumar_mode1/01_standard_pfm_bvp_harmonized/PK_MODE1_STANDARD_PFM.inp` (SHA-256: `4C669DC0A1EC64AF0537B92490E88659E032F2935000852FA8BC96DB6497F397`), historical deck `PK_MODE1_STANDARD_PFM.inp` (SHA-256: `C1773707D2F12FB8BFE1324AC6BE47D28D1FD6B06C4C3780CD98E9527FA7EF82`), and user subroutine `f42_mixed_uel.for` (SHA-256: `ED1586D6427A4B1A01D99F7E219891EC7BE9FE911E066D9360724942E7D27720`):
+
+### 3.1 Multi-Layer User Element Formulation (`f42_mixed_uel.for`)
+- **Layer `U1` (Phase-Field):** 4-node user element solving the AT2 Helmholtz equation for $d$ (DOF 11) using $2 \times 2$ Gauss quadrature.
+- **Layer `U2` (Displacement):** 4-node user element solving mechanical equilibrium for $(u_x, u_y)$ (DOFs 1, 2) using $2 \times 2$ Gauss quadrature.
+- **Companion Layer `CPE4`:** 4-node standard plane-strain continuum elements with dummy zero-stiffness material for Abaqus visualization.
+- **Constitutive Elasticity:** Local code explicitly formulates 2D plane strain Hooke's law:
+  $$\lambda = \frac{E \nu}{(1+\nu)(1-2\nu)}, \quad \mu = \frac{E}{2(1+\nu)}$$
+  $$C_{11} = C_{22} = \lambda + 2\mu, \quad C_{12} = \lambda, \quad C_{33} = \mu$$
+- **Mechanical Degradation (Isotropic):**
+  The displacement stiffness matrix is degraded isotropically:
+  $$D_{\mathrm{ELAS}} = ((1-d)^2 + k) \mathbf{C}_0, \quad \boldsymbol{\sigma} = ((1-d)^2 + k) \mathbf{C}_0 : \boldsymbol{\epsilon}$$
+  where $k = 1.0\times 10^{-7}$ (`PROPS(5)`).
+- **Driving Energy Formulation:**
+  ```fortran
+  EPS_VOL_POS = MAX(0.0D0, TRACE_EPS)
+  EPS_INNER = EPS(1)**2.0D0 + EPS(2)**2.0D0 + 2.0D0*(EPS(3)**2.0D0)
+  POS_M = 0.5D0 * FLAMBDA * (EPS_VOL_POS**2.0D0) + FMU * EPS_INNER
+  ```
+  *Key Code Finding:* The code uses an isotropic/Molnár-type driving energy: the volumetric strain is split via $\langle \text{tr}(\boldsymbol{\epsilon}) \rangle_+$, but the deviatoric/shear component uses the un-split Frobenius inner product $\mu (\boldsymbol{\epsilon} : \boldsymbol{\epsilon})$ without spectral eigenvalue decomposition. In contrast, Miehe et al. (2010a) requires spectral projection of principal strains $\mu \sum_{i=1}^3 \langle \epsilon_i \rangle_+^2$ and anisotropic degradation of the stress tensor.
+- **History Field Update:** `H_NEW = MAX(H_OLD, POS_M)` stored in `SVARS(ISV)` at each Gauss point.
+
+### 3.2 Finite Element Discretization & Seam Implementation
+- **Topology:** Structured tensor-product grid of **15,192 pure quadrilateral elements** ($211 \times 72$ grid), with 15,521 grid nodes + 1 reference node (`999999`).
+- **Crack Corridor Discretization:** Regional refinement in $y \in [0.477, 0.523]\,\mathrm{mm}$ ($\Delta y \approx 0.00286\,\mathrm{mm}$) and $x \ge 0.447\,\mathrm{mm}$ ($\Delta x \approx 0.00294\text{--}0.00301\,\mathrm{mm}$), giving $h \approx 0.003\,\mathrm{mm}$ ($h/l_0 = 0.40$). Far-field seeded at $h \approx 0.020\,\mathrm{mm}$ with geometric bias transitions.
+- **Seam Construction:** 45 duplicate coincident node pairs (90 nodes) along $y = 0.5\,\mathrm{mm}, 0 \le x < 0.5\,\mathrm{mm}$, meeting at crack-tip node 7723. Zero geometric gap.
+
+### 3.3 Boundary Conditions & Loading Steps
+- **Historical Baseline Job 1398090:** Imposed `N_TOP, 1, 1, 0.0` (line 61838), clamping lateral displacement $u_x = 0$ on all 212 top nodes.
+- **Harmonized Candidate Job 1401091:** Line `N_TOP, 1, 1, 0.0` was removed. Top edge has 212 `*Equation` constraints tying $u_y$ to reference node `999999`. Lateral displacement $u_x$ is unconstrained on `N_TOP` and `N_RP`.
+- **Loading Schedule:**
+  - Step 1: `*Static`, total time = 1.0, fixed $\Delta t = 5.0\times 10^{-4}$ (2,000 increments, $\Delta u = 2.5\times 10^{-6}\,\mathrm{mm}$, target $u = 0.0050\,\mathrm{mm}$).
+  - Step 2: `*Static`, total time = 1.0, fixed $\Delta t = 2.0\times 10^{-4}$ (5,000 increments, $\Delta u = 1.0\times 10^{-6}\,\mathrm{mm}$, target $u = 0.0100\,\mathrm{mm}$).
+
+---
+
+## 4. Side-by-Side Equivalence Table
+
+Every item is classified strictly into one of the four mandated categories:
+- `EXACT_MATCH_VERIFIED`
+- `IMPLEMENTATION_DIFFERENCE_VERIFIED`
+- `PAPER_INFORMATION_MISSING`
+- `LOCAL_IMPLEMENTATION_UNCLEAR`
+
+| # | Benchmark Dimension | Primary Paper (Pandey & Kumar, 2025) | Local Implementation (Job 1401091) | Scientific Classification | Critical Audit Assessment |
+| :---: | :--- | :--- | :--- | :---: | :--- |
+| **1** | **Domain Geometry** | $\Omega = 1.0\,\mathrm{mm} \times 1.0\,\mathrm{mm}$ square plate | $\Omega = 1.0\,\mathrm{mm} \times 1.0\,\mathrm{mm}$ square plate | **`EXACT_MATCH_VERIFIED`** | Geometry identically matched. |
+| **2** | **Crack Representation** | Pre-existing horizontal edge crack $a_0 = 0.5\,\mathrm{mm}$ at $y=0.5\,\mathrm{mm}$ | Zero-gap seam via 45 coincident node pairs (90 nodes), tip node at $(0.5, 0.5)$ | **`IMPLEMENTATION_DIFFERENCE_VERIFIED`** / **`PAPER_INFORMATION_MISSING`** | Paper specifies geometry only; project implements mathematical slit via duplicate-node seam (avoiding notch distortion). |
+| **3** | **Bottom Boundary Conditions** | Bottom edge fixed in $y$; bottom-left corner $(0,0)$ fixed in $x, y$ | Bottom nodes: $u_y = 0$; Node 1 at $(0,0)$ pinned: $u_x = 0$ | **`EXACT_MATCH_VERIFIED`** | Kinematic constraints identically match text and Fig. 4(a). |
+| **4** | **Top Boundary Conditions** | Monotonically increasing $u_y$ applied to top edge. Top $u_x$ unconstrained in Fig. 4(a) (no horizontal restraint drawn) | Top $u_y$ tied to `N_RP` via 212 `*Equation` blocks; top $u_x$ completely unconstrained | **`EXACT_MATCH_VERIFIED`** *(Figure-based interpretation)* | Harmonized candidate matches unconstrained roller top inferred from Fig. 4(a). |
+| **5** | **Imposed Loading Schedule** | Step 1: $u = 0.005\,\mathrm{mm}$ (2000 incs, stated $\Delta u_1 = 10^{-4}$); Step 2 to $u = 0.01\,\mathrm{mm}$ (stated $\Delta u_2 = 10^{-5}$) | Step 1: 2000 incs at $\Delta t = 5\times 10^{-4}$ ($\Delta u = 2.5\times 10^{-6}\,\mathrm{mm}$); Step 2: $\Delta t = 2\times 10^{-4}$ ($\Delta u = 10^{-6}\,\mathrm{mm}$) | **`IMPLEMENTATION_DIFFERENCE_VERIFIED`** / **`PAPER_INFORMATION_MISSING`** | Stated $\Delta u_1 = 10^{-4}$ in 2000 incs is mathematically contradictory with $u = 0.005\,\mathrm{mm}$ ($2000 \times 10^{-4} = 0.2\,\mathrm{mm}$). Local deck uses consistent time-stepping. |
+| **6** | **Kinematic Stress State** | **Not stated in text.** "Plane strain" and "plane stress" do not appear anywhere in publication | Formulated as 2D plane strain ($\epsilon_{zz} = 0$) in UEL; companion `CPE4` | **`PAPER_INFORMATION_MISSING`** | Local model assumes plane strain; paper text omits explicit specification. |
+| **7a** | **Elastic Constants** | $E = 210\,\mathrm{GPa}$ ($210\,\mathrm{kN/mm^2}$), $\nu = 0.3$ | $E = 210\,\mathrm{kN/mm^2}$, $\nu = 0.3$ | **`EXACT_MATCH_VERIFIED`** | Material constants identically matched. |
+| **7b** | **Fracture Constants** | $G_c = 2.7\times 10^{-3}\,\mathrm{kN/mm}$, $l_0 = 0.0075\,\mathrm{mm}$ | $G_c = 0.0027\,\mathrm{kN/mm}$, $l_0 = 0.0075\,\mathrm{mm}$ | **`EXACT_MATCH_VERIFIED`** | Phase-field constants identically matched. |
+| **7c** | **Residual Stiffness $k$** | Defined as $k \ll 1$ in Eq. (11); numerical value omitted | $k = 1.0\times 10^{-7}$ (`PROPS(5)`) | **`PAPER_INFORMATION_MISSING`** | Paper omits exact numerical value; $10^{-7}$ is standard literature practice (Molnár 2017). |
+| **8** | **Phase-Field Formulation** | Standard second-order AT2 model ($\gamma = \frac{1}{2l_0}d^2 + \frac{l_0}{2}|\nabla d|^2$) | Standard AT2 variational equations in UEL Layer 1 ($d$) | **`EXACT_MATCH_VERIFIED`** | Governing variational equations are identical. |
+| **9** | **Degradation Function** | Quadratic degradation $g(d) = (1-d)^2 + k$ | $g(d) = (1-d)^2 + k$ with $g'(d) = -2(1-d)$ | **`EXACT_MATCH_VERIFIED`** | Quadratic form identically verified. |
+| **10** | **Energy Decomposition / Split** | **Explicitly states: "anisotropic strain energy decomposition of Miehe et al. [32]"** with staggered UEL [72] | Isotropic mechanical stiffness degradation; un-split deviatoric driving energy $\mu(\boldsymbol{\epsilon}:\boldsymbol{\epsilon})$ | **`IMPLEMENTATION_DIFFERENCE_VERIFIED`** | **Major Mismatch:** Local UEL does not compute spectral strain eigenvalues or anisotropic stress tensor of Miehe et al. (2010a). |
+| **11** | **Crack Irreversibility** | Miehe strain history $\mathcal{H}(\mathbf{x}, t) = \max_{\tau} \psi_0^+$ | Gauss-point state variable `H_NEW = MAX(H_OLD, POS_M)` | **`EXACT_MATCH_VERIFIED`** | Monotonic damage irreversibility strictly enforced. |
+| **12** | **Initial Field Initialization** | Pre-existing crack geometry; initial $d(\mathbf{x},0)$ and $\mathcal{H}_0$ not stated | Zero initial field; initial $d = 0$ everywhere | **`PAPER_INFORMATION_MISSING`** | Natural crack-tip localization without artificial pre-damage. |
+| **13** | **Element Formulation** | Standard PFM: "linear quadrilateral and linear triangular elements" | Co-located 4-node bilinear UELs (`U1`, `U2`) + companion `CPE4` | **`IMPLEMENTATION_DIFFERENCE_VERIFIED`** | Mixed quad/tri interpolation vs pure quadrilateral UEL. |
+| **14** | **Discretization Basis** | **26,282 finite elements**, 20,491 nodes (global $0.02\,\mathrm{mm}$, corridor $0.003\,\mathrm{mm}$) | **15,192 finite elements**, 15,521 nodes (structured $211 \times 72$ grid, corridor $0.003\,\mathrm{mm}$) | **`IMPLEMENTATION_DIFFERENCE_VERIFIED`** | Discretization topology is completely different ($42\%$ fewer elements locally), despite matching corridor $h = 0.003\,\mathrm{mm}$. |
+| **15** | **Nonlinear Solver Controls** | Staggered solver; tolerances/cutbacks omitted | Default Abaqus tolerances ($R_n = 0.005, c_n = 0.01$); fixed stepping | **`PAPER_INFORMATION_MISSING`** | Convergence tolerances not published. |
+
+---
+
+## 5. Fig. 7(a) Digitization Provenance Reconciliation
+
+To reconcile the conflicting literature coordinates without arbitrarily discarding any dataset, the table below documents all active and historical reference datasets:
+
+```text
+====================================================================================================================================================
+DATASET IDENTIFIER                EXTRACTION METHOD            LEGEND MAPPING         PEAK FORCE (F_peak)  PEAK DISP (u_peak)   SOURCE ARTIFACT & SHA-256 HASH                      STATUS
+====================================================================================================================================================
+Historical Literature Check Target Draft reports / project records Fixed baseline anchor  ~0.758 kN            ~0.005860 mm         INITIAL_PROMPT.txt / PENDING_CHATGPT_BRIDGE.md      GOVERNING_PROJECT_REFERENCE
+Job 1398090.mmaster02 (Abaqus)    Solver dat extraction (7000 inc) Top u_x = 0 (clamped)  0.757778 kN          0.005857 mm          PK_MODE1_STANDARD_PFM.dat (A95417A006FE142DE...)    AUTHORITATIVE_PROJECT_FIXED_MESH_ANCHOR
+Job 1401091.mmaster02 (Abaqus)    Solver dat extraction (6298 rows) Roller top (u_x free) 0.764998 kN          0.006072 mm          job_1401091_fu.csv (DD617ECA6A7AEDBF1926...)        HARMONIZED_CANDIDATE_EVALUATION
+New Digitization: Standard PFM    Uncompressed raster (xref 613) Blue dashed line (--)  0.734831 kN          0.005743 mm          pandey_kumar_2025_fig7a_fu_digitized.csv (5E18328E) NEW_CONFLICTING_DIGITIZATION
+New Digitization: Proposed PFM    Uncompressed raster (xref 613) Red solid line (—)     0.720506 kN          0.005628 mm          pandey_kumar_2025_fig7a_fu_digitized.csv (5E18328E) NEW_CONFLICTING_DIGITIZATION
+Miehe et al. (2010b) Benchmark    Uncompressed raster (xref 613) Black open markers (+)  ~0.734 - 0.744 kN    ~0.005514 mm         pandey_kumar_2025_fig7a_digitization_provenance.md   INDEPENDENT_LITERATURE_SERIES
+====================================================================================================================================================
+```
+
+### Reconciliation Findings & Governed Policy
+1. **Governing Reference Remains Active:**  
+   The project record continues to recognize $\sim 0.758\,\mathrm{kN}$ at $\sim 0.005860\,\mathrm{mm}$ as the **`GOVERNING_PROJECT_REFERENCE`**. In accordance with supervisor directives, this value is **not** overwritten or deleted autonomously.
+2. **Identification of Discrepancy Origin:**  
+   The numerical value $F_{\text{peak}} = 0.757778\,\mathrm{kN}$ at $u = 0.005857\,\mathrm{mm}$ is identical to the output of local clamped baseline Job `1398090.mmaster02`. It appears that earlier project notes adopted this numerical simulation output as the literature check value.
+3. **Conflict Status:**  
+   The newly re-digitized values from Fig. 7(a) (Standard PFM: $0.734831\,\mathrm{kN}$; Proposed PFM: $0.720506\,\mathrm{kN}$) are classified as **`NEW_CONFLICTING_DIGITIZATION`** and submitted for **human / ChatGPT supervision review**. Both datasets are preserved transparently in the repository.
+
+---
+
+## 6. Analysis of Implementation Differences vs. Peak Response Discrepancy
+
+### 6.1 Verified Implementation Differences
+1. **Energy Decomposition Mismatch:**  
+   Pandey & Kumar explicitly state that they use the **anisotropic strain energy decomposition of Miehe et al. [32]**. In contrast, local subroutine `f42_mixed_uel.for` implements Molnár & Gravouil (2017) isotropic degradation of the mechanical stiffness tensor and an un-split deviatoric driving energy. Under tensile Mode-I loading with plane-strain Poisson contraction, Miehe's spectral split degrades tensile principal directions while preserving compressive energy, whereas isotropic degradation degrades all stress components equally. This represents a confirmed theoretical and numerical divergence.
+2. **Discretization Topology & Transition Grading:**  
+   The primary paper's Standard PFM mesh contains **26,282 elements** (mixed quads and triangles), whereas the local structured grid contains **15,192 pure quadrilateral elements**. Although both share $h = 0.003\,\mathrm{mm}$ in the crack corridor, the transition zoning to the coarse outer boundary ($h = 0.02\,\mathrm{mm}$) is entirely different, altering far-field compliance and stress concentration at the seam tip.
+3. **Imposed Loading Rate & Increment Strategy:**  
+   The paper's reported text specifies $\Delta u_1 = 10^{-4}$ in 2000 increments to $u = 0.005\,\mathrm{mm}$ via tabular amplitudes, whereas the local deck specifies fixed step time $\Delta t = 5\times 10^{-4}$ ($\Delta u = 2.5\times 10^{-6}\,\mathrm{mm}$).
+
+### 6.2 Cause Attribution Assessment
+**Can any single verified implementation mismatch be proven to explain the peak load difference?**  
+**NO.** While the energy split and mesh topology differences are verified, their quantitative contributions to the peak load offset cannot be isolated without running controlled parameter variations (e.g., implementing Miehe's spectral projection in the UEL, or constructing the exact 26,282 mixed quad/tri mesh). In accordance with epistemic discipline, asserting that any single factor causes the offset is scientifically indefensible.  
+**Verdict:** The underlying cause remains **`UNRESOLVED`** (`UNRESOLVED_PUBLISHED_CURVE_OFFSET`).
+
+---
+
+## 7. Corrected Technical Classification of Job 1401091
+
+- **Scheduler Terminal State:** PBS Exit status 1 on `mnode097`.
+- **Governed Scientific Status:**  
+  **`TECHNICALLY_FAILED_AFTER_RELEVANT_COMPARISON_RANGE`**
+- **Justification:**  
+  1. All physical fracture phenomena—linear response, crack-tip localization, peak load ($F_{\max} = 0.764998\,\mathrm{kN}$ at $u = 0.006072\,\mathrm{mm}$), catastrophic load drop, and total separation ($99.9639\%$ drop to $0.000276\,\mathrm{kN}$)—were captured across 6,297 converged increments.
+  2. The published comparison domain in Fig. 7(a) extends only to $u \approx 0.0070\,\mathrm{mm}$. Job 1401091 converged smoothly past this range to $u = 0.00928346\,\mathrm{mm}$ ($>132\%$ of published range).
+  3. Solver termination occurred at $u = 0.00928346\,\mathrm{mm}$ due to numerical divergence caused by kinematic drift of the severed top block under unconstrained $u_x$.
+  4. All extracted data through the last converged increment are scientifically valid. The full prescribed $0.010\,\mathrm{mm}$ run did not exit 0, justifying the classification `TECHNICALLY_FAILED_AFTER_RELEVANT_COMPARISON_RANGE`.
+
+---
+
+## 8. Removal of Unsupported Causal Wording
+
+In accordance with strict claims discipline:
+- It is **not** stated as proven that removing top $u_x$ lateral constraint increased $u_{\text{peak}}$ because a larger elongation was required to reach $G_c$.
+- What is **numerically verified** is strictly the controlled physical response change:
+  - Initial structural stiffness $K_0$: $138.0956\,\mathrm{kN/mm} \to 134.4610\,\mathrm{kN/mm}$ ($-2.6320\%$)
+  - Peak reaction force $F_{\max}$: $0.757778\,\mathrm{kN} \to 0.764998\,\mathrm{kN}$ ($+0.9528\%$)
+  - Displacement at peak $u_{\text{peak}}$: $0.005857\,\mathrm{mm} \to 0.006072\,\mathrm{mm}$ ($+3.6708\%$)
+- Deeper fracture-mechanics explanations are treated as unverified hypotheses until separate evidence is established.
+
+---
+
+## 9. Stale Controller-Guard Lines & Proposed Replacement
+
+In `C:\Users\pruth\OpenClawPAD\Antigravity-Autonomous-Loop.ps1`, lines 265–268 currently read:
+```powershell
+  * Reconstructed fixed-mesh baseline (Job 1398090, 15,192 finite elements):
+      F_max = 0.757778 kN,  u(F_max) = 0.005857 mm,  K_0 = 138.088 kN/mm
+  * Digitized reference values (Pandey & Kumar, 2025, Fig. 7(a)):
+      F_max ~ 0.758 kN,     u(F_max) ~ 0.005860 mm
+```
+
+### Proposed Replacement Block (Reported for Human/Controller Review Only)
+```powershell
+  * Authoritative fixed-mesh anchor (Job 1398090, 15,192 finite elements, clamped top):
+      F_max = 0.757778 kN,  u(F_max) = 0.005857 mm,  K_0 = 138.096 kN/mm
+  * Harmonized candidate baseline (Job 1401091, 15,192 finite elements, roller top):
+      F_max = 0.764998 kN,  u(F_max) = 0.006072 mm,  K_0 = 134.461 kN/mm
+  * Governing digitized target (pending reconciliation):
+      F_max ~ 0.758 kN,     u(F_max) ~ 0.005860 mm
+  * Conflicting raster re-digitization (Fig. 7(a), xref 613):
+      Standard PFM (blue dashed): F_max ~ 0.7348 kN,  u(F_max) ~ 0.005743 mm
+      Proposed PFM (red solid):   F_max ~ 0.7205 kN,  u(F_max) ~ 0.005628 mm
+```
+*(In accordance with safety rules, the running controller file was **not modified** during this turn).*
+
+---
+
+## 10. Gate-1 Checklist and Status
+
+```text
+========================================================================================================================
+GATE-1 AUDIT / EXIT CRITERIA                                                     STATUS         EVIDENCE & VERIFICATION BASIS
+========================================================================================================================
+1. Authoritative project fixed anchor (Job 1398090) documented and preserved      SATISFIED      Job 1398090 preserved: F_peak=0.7578 kN, u=0.005857 mm
+2. Harmonized BVP candidate (Job 1401091) evaluated without solver bias           SATISFIED      Roller top verified; evaluated across 6,298 rows
+3. Job 1401091 technical status properly classified                              SATISFIED      TECHNICALLY_FAILED_AFTER_RELEVANT_COMPARISON_RANGE
+4. Complete F-u trajectory extracted through fracture                            SATISFIED      job_1401091_fu.csv (SHA-256: DD617ECA6A7AEDBF1926...)
+5. Canonical initial stiffness K_0 computed by frozen OLS definition             SATISFIED      Job 1398090: 138.0956 kN/mm; Job 1401091: 134.4610 kN/mm
+6. Multi-quantity post-peak load drop characterized                              SATISFIED      >99.96% load drop in both simulations
+7. Primary paper text vs figure evidence rigorously audited                       SATISFIED      15 benchmark dimensions audited with exact citations
+8. Unsupported claims purged (plane strain, seam type, element names)            SATISFIED      Paper-side omissions explicitly labeled
+9. Energy split discrepancy identified from primary paper text                   SATISFIED      Miehe anisotropic split vs local isotropic formulation
+10. Mesh topology differences clearly separated from corridor resolution          SATISFIED      26,282 mixed vs 13,941 mixed vs 15,192 quad elements
+11. Fig. 7(a) digitization reconciliation table established                      SATISFIED      Governing reference and conflicting data documented
+12. Unsupported causal mechanical hypotheses removed                             SATISFIED      Only verified numerical changes reported
+13. Resolution of conflicting literature digitization targets (0.758 vs 0.735)   UNRESOLVED     Requires human supervisor / ChatGPT determination
+14. Discrepancy causal attribution (mesh vs energy split vs solver tolerances)    UNRESOLVED     Classified as UNRESOLVED_PUBLISHED_CURVE_OFFSET
+========================================================================================================================
+```
+
+**Gate Status:**
+- **Gate 0:** `CLOSED_PASSED — ChatGPT validated 2026-09-03`
+- **Gate 1:** `OPEN_PENDING_CHATGPT_VALIDATION`  
+  *(Antigravity does not autonomously close Gate 1. All evidence is prepared for supervisor/ChatGPT review).*
+
+---
+
+## 11. Single Smallest Next Action
+
+Submit this corrected equivalence audit (`docs/supervisor_reports/GATE1_PANDEY_SOURCE_IMPLEMENTATION_EQUIVALENCE_AUDIT_2026-09-04.md`), updated evaluation report (`docs/supervisor_reports/GATE1_JOB1401091_COMPLETED_EVALUATION_2026-09-04.md`), and validation packet (`docs/supervisor_reports/GATE0_GATE1_VALIDATION_PACKET_2026-09-03.md`) to ChatGPT supervision for formal determination on:
+1. Reconciling the governing $0.758\,\mathrm{kN}$ project target with the $0.7348\,\mathrm{kN}$ raster digitization;
+2. Assessing whether the verified energy-split mismatch (Miehe anisotropic vs. Molnár isotropic) and mesh topology differences (26,282 mixed vs. 15,192 quad) qualify the baseline or require an isolated subroutine diagnostic.

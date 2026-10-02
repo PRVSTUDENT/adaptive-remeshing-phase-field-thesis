@@ -1,0 +1,59 @@
+\chapter{Multi-Resolution and Mode-II Validation Studies}
+\label{ch:multiresolution}
+
+\section{Purpose of secondary validation studies}
+To evaluate the transfer and refinement infrastructure under non-trivial mixed-mode deformation and curved crack trajectories, secondary validation studies were conducted on the Mode-II shear fracture benchmark. These studies provide supporting evidence on mesh convergence, crack-path sensitivity, and multi-resolution interpolation before focusing on the primary Mode-I benchmark in Chapter~\ref{chap:production_validation}.
+
+\section{Uniform Mode-II shear mesh-refinement study}
+The Mode-II pure shear benchmark consists of a square plate ($\Omega = [-0.5, 0.5] \times [-0.5, 0.5]\,\mathrm{mm}^2$) with an initial horizontal notch along $y = 0, x \le 0$, subjected to antisymmetric shear displacements. Three uniform discretizations were evaluated:
+\begin{itemize}
+  \item \textbf{H0 Discretization:} $3{,}930$ physical elements ($h = 0.015\,\mathrm{mm}$);
+  \item \textbf{H1 Discretization:} $12{,}064$ physical elements ($h = 0.0075\,\mathrm{mm}$);
+  \item \textbf{H2 Discretization:} $33{,}852$ physical elements ($h = 0.00375\,\mathrm{mm}$).
+\end{itemize}
+
+Figure~\ref{fig:mode2_damage_comparison} and Figure~\ref{fig:mode2_rf_u_comparison} display the extracted damage localization patterns and reaction force versus prescribed shear displacement curves across the three mesh densities.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{fig10_mode2_h0_h1_h2_damage.png}
+\caption{Extracted damage localization patterns for the Mode-II pure shear benchmark across the H0 ($3{,}930$), H1 ($12{,}064$), and H2 ($33{,}852$) uniform mesh series.}
+\label{fig:mode2_damage_comparison}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{fig11_mode2_h0_h1_h2_rf_u.png}
+\caption{Reaction force versus prescribed displacement comparison for the Mode-II shear benchmark across the H0, H1, and H2 uniform mesh discretizations.}
+\label{fig:mode2_rf_u_comparison}
+\end{figure}
+
+The comparison highlights two important methodological insights:
+\begin{enumerate}
+  \item In the pre-peak domain ($u_1 \le 0.008\,\mathrm{mm}$), the intermediate (H1) and fine (H2) meshes exhibit close agreement in structural shear stiffness and damage initiation threshold ($d \ge 0.5$ at $u_1 \approx 0.00775\,\mathrm{mm}$).
+  \item The fine uniform H2 baseline ($33{,}852$ physical elements) required substantial computational effort ($>4.7\,\mathrm{h}$ walltime on compute node \texttt{mnode097}) and was walltime-censored before reaching final prescribed displacement on standard queue limits. In contrast, error-guided local refinement placed fine resolution only in the crack corridor, reducing element counts and computational walltime while tracking the full trajectory. However, because uniform and adaptive cases utilized different incremental stepping limits, direct numerical speedup ratios must be interpreted cautiously and are evaluated under controlled sensitivity studies in Chapter~\ref{chap:production_validation}.
+\end{enumerate}
+
+Direct Abaqus CAE mesh exports from the archived H1 and H2 ODBs are shown in Figure~\ref{fig:mode2_meshes}.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}\centering
+\includegraphics[width=\linewidth]{fig10_modeii_h1_mesh_cae.png}\\[-0.3em]\small (a) H1 ($12{,}064$ physical elements)
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}\centering
+\includegraphics[width=\linewidth]{fig10_modeii_h2_mesh_cae.png}\\[-0.3em]\small (b) H2 ($33{,}852$ physical elements)
+\end{minipage}
+\caption{Direct Abaqus CAE viewport exports from the archived Mode-II H1 and H2 output databases.}
+\label{fig:mode2_meshes}
+\end{figure}
+
+\section{Multi-resolution transfer testing}
+Spatial transfer operators were additionally tested between nonmatching coarsened and refined meshes at fixed donor checkpoints. These tests confirmed that:
+\begin{itemize}
+  \item Boundedness of the phase field ($0 \le d \le 1$) and positivity of the history variable ($\mathcal{H} \ge 0$) are strictly preserved under isoparametric interpolation.
+  \item Spatial interpolation errors in pre-peak continuous fields remain below $0.5\%$ across element size ratios of up to $2:1$.
+\end{itemize}
+
+\section{Summary}
+The Mode-II studies demonstrate that error-guided local refinement is capable of capturing curved shear crack trajectories with high accuracy and computational efficiency, setting the stage for the formal Mode-I production validation in Chapter~\ref{chap:production_validation}.

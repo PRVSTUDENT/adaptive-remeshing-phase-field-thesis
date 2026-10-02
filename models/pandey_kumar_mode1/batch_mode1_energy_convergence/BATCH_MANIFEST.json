@@ -1,0 +1,2054 @@
+{
+  "S1_h0030_15k": {
+    "case_id": "S1_h0030_15k",
+    "job_name": "PK_M1_S1_H0030",
+    "category": "spatial",
+    "n_phys": 15192,
+    "inp_file": "PK_M1_S1_H0030.inp",
+    "inp_sha256": "bc000e0c5791150a711cb7af447a0bb34d1b9d9af5c6ce9d096c98749e8edf61",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "04:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406015.mmaster02",
+    "submission_status": "COMPLETED",
+    "h_mm": 0.003,
+    "h_label": "h=0.0030 mm (3.0 um)",
+    "mechanical_audit": {
+      "K0_canonical_kN_per_mm": 137.94551964508392,
+      "intercept_kN": 4.4723675101669966e-05,
+      "R2": 0.9999995995397368,
+      "N_elastic_increments": 400,
+      "F_max_kN": 0.75777849,
+      "u_Fmax_mm": 0.005857,
+      "step_at_Fmax": 1,
+      "inc_at_Fmax": 857,
+      "final_valid_u_mm": 0.01,
+      "final_valid_rf_kN": 0.00023216215,
+      "final_step": 1,
+      "final_inc": 5000,
+      "csv_sha256": "e3100b7429e14b8bceab9952ddf8b0419ca9f71df058f5916668922185aa25e2",
+      "forces_at_matched_displacements": {
+        "0.005": {
+          "u_actual_mm": 0.005,
+          "rf_kN": 0.66205217,
+          "step": 1,
+          "inc": 2000
+        },
+        "0.0055": {
+          "u_actual_mm": 0.0055,
+          "rf_kN": 0.72065668,
+          "step": 1,
+          "inc": 500
+        },
+        "0.00585": {
+          "u_actual_mm": 0.00585,
+          "rf_kN": 0.75756046,
+          "step": 1,
+          "inc": 850
+        },
+        "0.0062": {
+          "u_actual_mm": 0.0062,
+          "rf_kN": 0.00052043827,
+          "step": 1,
+          "inc": 1200
+        }
+      }
+    },
+    "spatial_audit": {
+      "max_valid_u": 0.01,
+      "h_field_audit": {
+        "sdv2_present": false,
+        "min_h": 0.0,
+        "classification": "H_FIELD_SPATIAL_CONVERGENCE -- NOT YET QUALIFIED",
+        "max_h": 0.0
+      },
+      "states": [
+        {
+          "target_u_mm": 0.005,
+          "actual_u_mm": 0.004999999888241291,
+          "max_d": 0.29808834195137024,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0055,
+          "actual_u_mm": 0.005499999970197678,
+          "max_d": 0.4105239510536194,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0056,
+          "actual_u_mm": 0.00559999980032444,
+          "max_d": 0.4433061182498932,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0057,
+          "actual_u_mm": 0.00570000009611249,
+          "max_d": 0.48437315225601196,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.00575,
+          "actual_u_mm": 0.005750000011175871,
+          "max_d": 0.5105703473091125,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5015037655830383
+          },
+          "max_vertical_dev_d05_mm": 0.0014285743236541748,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.00585,
+          "actual_u_mm": 0.005849999841302633,
+          "max_d": 0.6077737212181091,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.504511296749115
+          },
+          "max_vertical_dev_d05_mm": 0.004285722970962524,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.006,
+          "actual_u_mm": 0.006000000052154064,
+          "max_d": 1.0003732442855835,
+          "x_front": {
+            "0.9": 0.9984962344169617,
+            "0.95": 0.9984962344169617,
+            "0.5": 0.9984962344169617
+          },
+          "max_vertical_dev_d05_mm": 0.028660714626312256,
+          "max_vertical_dev_d90_mm": 0.02142857015132904,
+          "loc_width_at_x055_mm": 0.02000001072883606
+        },
+        {
+          "target_u_mm": 0.0062,
+          "actual_u_mm": 0.006200000178068876,
+          "max_d": 1.0003917217254639,
+          "x_front": {
+            "0.9": 0.9984962344169617,
+            "0.95": 0.9984962344169617,
+            "0.5": 0.9984962344169617
+          },
+          "max_vertical_dev_d05_mm": 0.028660714626312256,
+          "max_vertical_dev_d90_mm": 0.02142857015132904,
+          "loc_width_at_x055_mm": 0.02000001072883606
+        },
+        {
+          "target_u_mm": 0.0065,
+          "actual_u_mm": 0.006500000134110451,
+          "max_d": 1.0004103183746338,
+          "x_front": {
+            "0.9": 0.9984962344169617,
+            "0.95": 0.9984962344169617,
+            "0.5": 0.9984962344169617
+          },
+          "max_vertical_dev_d05_mm": 0.028660714626312256,
+          "max_vertical_dev_d90_mm": 0.02142857015132904,
+          "loc_width_at_x055_mm": 0.02000001072883606
+        },
+        {
+          "target_u_mm": 0.007,
+          "actual_u_mm": 0.007000000216066837,
+          "max_d": 1.0004236698150635,
+          "x_front": {
+            "0.9": 0.9984962344169617,
+            "0.95": 0.9984962344169617,
+            "0.5": 0.9984962344169617
+          },
+          "max_vertical_dev_d05_mm": 0.028660714626312256,
+          "max_vertical_dev_d90_mm": 0.02142857015132904,
+          "loc_width_at_x055_mm": 0.02000001072883606
+        }
+      ],
+      "status": "SPATIAL_PHASE_FIELD_QUALIFIED",
+      "vertical_localization_status": "PATH_SYMMETRY_QUALIFIED"
+    },
+    "status_classification": "CANONICAL_REFERENCE_ANCHOR_COMPLETED_U010",
+    "total_increments": 7000,
+    "terminal_u_mm": 0.01,
+    "K0_kN_per_mm": 137.94552,
+    "F_max_kN": 0.757778,
+    "u_Fmax_mm": 0.005857,
+    "W_ext_final_kNmm": 0.002359329,
+    "E_elas_final_kNmm": 1.160811e-06,
+    "E_frac_final_kNmm": 0.00234022,
+    "Residual_RE_kNmm": 1.794854e-05,
+    "Rel_error_final_pct": 0.7607,
+    "energy_comparability": "COMPARABLE_FULL_HORIZON"
+  },
+  "S2_h0020_32k": {
+    "case_id": "S2_h0020_32k",
+    "job_name": "PK_M1_S2_H0020",
+    "category": "spatial",
+    "n_phys": 32130,
+    "inp_file": "PK_M1_S2_H0020.inp",
+    "inp_sha256": "11565b738baa996f774f17aa31f763170849a9c4c3f3bdd7198d02c98ad594f5",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "06:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406016.mmaster02",
+    "submission_status": "CUTBACK_TERMINATED",
+    "status_classification": "CUTBACK_TERMINATION_AT_U00068",
+    "notes": "Terminated at Step 2 Inc 1824 (u ~ 0.00363 mm) due to phase-field divergence at crack-tip node 15962 under nominal dt. Replaced by S2 fine temporal diagnostic S2_h0020_32k_dt_fine_05x.",
+    "mechanical_audit": {
+      "K0_canonical_kN_per_mm": 137.89413611904226,
+      "intercept_kN": 4.479453325509475e-05,
+      "R2": 0.9999995979522014,
+      "N_elastic_increments": 400,
+      "F_max_kN": 0.7411937,
+      "u_Fmax_mm": 0.005711,
+      "step_at_Fmax": 1,
+      "inc_at_Fmax": 711,
+      "final_valid_u_mm": 0.0068161982,
+      "final_valid_rf_kN": 0.00024253124,
+      "final_step": 1,
+      "final_inc": 1824,
+      "csv_sha256": "911695b927fb6548739605e257d8c5e7c9650ed87a0f95a6e033bc7542925ffb",
+      "forces_at_matched_displacements": {
+        "0.005": {
+          "u_actual_mm": 0.005,
+          "rf_kN": 0.66162662,
+          "step": 1,
+          "inc": 2000
+        },
+        "0.0055": {
+          "u_actual_mm": 0.0055,
+          "rf_kN": 0.71984211,
+          "step": 1,
+          "inc": 500
+        },
+        "0.00585": {
+          "u_actual_mm": 0.0058501982,
+          "rf_kN": 0.00030808178,
+          "step": 1,
+          "inc": 857
+        },
+        "0.0062": {
+          "u_actual_mm": 0.0062001982,
+          "rf_kN": 0.00028179746,
+          "step": 1,
+          "inc": 1207
+        }
+      }
+    },
+    "spatial_audit": {
+      "max_valid_u": 0.006816,
+      "h_field_audit": {
+        "sdv2_present": false,
+        "min_h": 0.0,
+        "classification": "H_FIELD_SPATIAL_CONVERGENCE -- NOT YET QUALIFIED",
+        "max_h": 0.0
+      },
+      "states": [
+        {
+          "target_u_mm": 0.005,
+          "actual_u_mm": 0.004999999888241291,
+          "max_d": 0.32196104526519775,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0055,
+          "actual_u_mm": 0.005499999970197678,
+          "max_d": 0.45806899666786194,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0056,
+          "actual_u_mm": 0.00559999980032444,
+          "max_d": 0.5055694580078125,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5009999871253967
+          },
+          "max_vertical_dev_d05_mm": 0.0010000020265579224,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0057,
+          "actual_u_mm": 0.00570000009611249,
+          "max_d": 0.5965614914894104,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5049999952316284
+          },
+          "max_vertical_dev_d05_mm": 0.003000006079673767,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.00575,
+          "actual_u_mm": 0.005750000011175871,
+          "max_d": 1.000356674194336,
+          "x_front": {
+            "0.9": 0.6089999973773956,
+            "0.95": 0.6069999933242798,
+            "0.5": 0.6169999837875366
+          },
+          "max_vertical_dev_d05_mm": 0.012999996542930603,
+          "max_vertical_dev_d90_mm": 0.006999999284744263,
+          "loc_width_at_x055_mm": 0.02199999988079071
+        },
+        {
+          "target_u_mm": 0.00585,
+          "actual_u_mm": 0.005850198213011026,
+          "max_d": 1.0006002187728882,
+          "x_front": {
+            "0.9": 0.9990000128746033,
+            "0.95": 0.9990000128746033,
+            "0.5": 0.9990000128746033
+          },
+          "max_vertical_dev_d05_mm": 0.028999999165534973,
+          "max_vertical_dev_d90_mm": 0.023000001907348633,
+          "loc_width_at_x055_mm": 0.02199999988079071
+        },
+        {
+          "target_u_mm": 0.006,
+          "actual_u_mm": 0.006000198423862457,
+          "max_d": 1.0005991458892822,
+          "x_front": {
+            "0.9": 0.9990000128746033,
+            "0.95": 0.9990000128746033,
+            "0.5": 0.9990000128746033
+          },
+          "max_vertical_dev_d05_mm": 0.028999999165534973,
+          "max_vertical_dev_d90_mm": 0.023000001907348633,
+          "loc_width_at_x055_mm": 0.02199999988079071
+        },
+        {
+          "target_u_mm": 0.0062,
+          "actual_u_mm": 0.006200198084115982,
+          "max_d": 1.0005943775177002,
+          "x_front": {
+            "0.9": 0.9990000128746033,
+            "0.95": 0.9990000128746033,
+            "0.5": 0.9990000128746033
+          },
+          "max_vertical_dev_d05_mm": 0.028999999165534973,
+          "max_vertical_dev_d90_mm": 0.023000001907348633,
+          "loc_width_at_x055_mm": 0.02199999988079071
+        },
+        {
+          "target_u_mm": 0.0065,
+          "actual_u_mm": 0.0065001980401575565,
+          "max_d": 1.000583291053772,
+          "x_front": {
+            "0.9": 0.9990000128746033,
+            "0.95": 0.9990000128746033,
+            "0.5": 0.9990000128746033
+          },
+          "max_vertical_dev_d05_mm": 0.028999999165534973,
+          "max_vertical_dev_d90_mm": 0.023000001907348633,
+          "loc_width_at_x055_mm": 0.02199999988079071
+        }
+      ],
+      "status": "SPATIAL_PHASE_FIELD_QUALIFIED",
+      "vertical_localization_status": "PATH_SYMMETRY_QUALIFIED"
+    },
+    "total_increments": 3824,
+    "terminal_u_mm": 0.006816,
+    "K0_kN_per_mm": 137.894136,
+    "F_max_kN": 0.741194,
+    "u_Fmax_mm": 0.005711,
+    "W_ext_final_kNmm": 0.00224801,
+    "energy_comparability": "NOT_COMPARABLE_AT_TERMINAL_STATE"
+  },
+  "S3_h0015_42k": {
+    "case_id": "S3_h0015_42k",
+    "job_name": "PK_M1_S3_H0015",
+    "category": "spatial",
+    "n_phys": 41912,
+    "inp_file": "PK_M1_S3_H0015.inp",
+    "inp_sha256": "eb009f188a2a66b1b2f6d7ba0b0662354c766e457b74b64bbdb90fdf3dc9625e",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 24,
+    "walltime": "08:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406017.mmaster02",
+    "submission_status": "CUTBACK_TERMINATED",
+    "status_classification": "CUTBACK_TERMINATION_AT_U00078",
+    "notes": "Terminated at Step 2 Inc 2837 (u ~ 0.00784 mm) due to phase-field divergence at crack-tip node 20984 under nominal dt. Replaced by S3 fine temporal diagnostic S3_h0015_42k_dt_fine_05x.",
+    "mechanical_audit": {
+      "K0_canonical_kN_per_mm": 137.85760829079985,
+      "intercept_kN": 4.482410098656686e-05,
+      "R2": 0.9999995972085183,
+      "N_elastic_increments": 400,
+      "F_max_kN": 0.73219627,
+      "u_Fmax_mm": 0.005633,
+      "step_at_Fmax": 1,
+      "inc_at_Fmax": 633,
+      "final_valid_u_mm": 0.007836,
+      "final_valid_rf_kN": 0.00016829139,
+      "final_step": 1,
+      "final_inc": 2837,
+      "csv_sha256": "5551ab50b8c070fcd6af831c08c9a614a3b83f9687420fc9acfd5269256f3fd5",
+      "forces_at_matched_displacements": {
+        "0.005": {
+          "u_actual_mm": 0.005,
+          "rf_kN": 0.66135394,
+          "step": 1,
+          "inc": 2000
+        },
+        "0.0055": {
+          "u_actual_mm": 0.0055,
+          "rf_kN": 0.71925488,
+          "step": 1,
+          "inc": 500
+        },
+        "0.00585": {
+          "u_actual_mm": 0.00585,
+          "rf_kN": 0.00022911342,
+          "step": 1,
+          "inc": 850
+        },
+        "0.0062": {
+          "u_actual_mm": 0.0062,
+          "rf_kN": 0.00021406042,
+          "step": 1,
+          "inc": 1200
+        }
+      }
+    },
+    "spatial_audit": {
+      "max_valid_u": 0.007836,
+      "h_field_audit": {
+        "sdv2_present": false,
+        "min_h": 0.0,
+        "classification": "H_FIELD_SPATIAL_CONVERGENCE -- NOT YET QUALIFIED",
+        "max_h": 0.0
+      },
+      "states": [
+        {
+          "target_u_mm": 0.005,
+          "actual_u_mm": 0.004999999888241291,
+          "max_d": 0.336539089679718,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0055,
+          "actual_u_mm": 0.005499999970197678,
+          "max_d": 0.4925660789012909,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0056,
+          "actual_u_mm": 0.00559999980032444,
+          "max_d": 0.5643167495727539,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5037650763988495
+          },
+          "max_vertical_dev_d05_mm": 0.0021428465843200684,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0057,
+          "actual_u_mm": 0.00570000009611249,
+          "max_d": 1.0007688999176025,
+          "x_front": {
+            "0.9": 0.7161144316196442,
+            "0.95": 0.7146084308624268,
+            "0.5": 0.7266566455364227
+          },
+          "max_vertical_dev_d05_mm": 0.014999911189079285,
+          "max_vertical_dev_d90_mm": 0.007857099175453186,
+          "loc_width_at_x055_mm": 0.022856995463371277
+        },
+        {
+          "target_u_mm": 0.00575,
+          "actual_u_mm": 0.005750000011175871,
+          "max_d": 1.0007221698760986,
+          "x_front": {
+            "0.9": 0.9103915691375732,
+            "0.95": 0.9088855683803558,
+            "0.5": 0.9209337532520294
+          },
+          "max_vertical_dev_d05_mm": 0.014999911189079285,
+          "max_vertical_dev_d90_mm": 0.007857099175453186,
+          "loc_width_at_x055_mm": 0.022856995463371277
+        },
+        {
+          "target_u_mm": 0.00585,
+          "actual_u_mm": 0.005849999841302633,
+          "max_d": 1.0007070302963257,
+          "x_front": {
+            "0.9": 0.9992469847202301,
+            "0.95": 0.9992469847202301,
+            "0.5": 0.9992469847202301
+          },
+          "max_vertical_dev_d05_mm": 0.028817564249038696,
+          "max_vertical_dev_d90_mm": 0.022142723202705383,
+          "loc_width_at_x055_mm": 0.022856995463371277
+        },
+        {
+          "target_u_mm": 0.006,
+          "actual_u_mm": 0.006000000052154064,
+          "max_d": 1.000692367553711,
+          "x_front": {
+            "0.9": 0.9992469847202301,
+            "0.95": 0.9992469847202301,
+            "0.5": 0.9992469847202301
+          },
+          "max_vertical_dev_d05_mm": 0.028817564249038696,
+          "max_vertical_dev_d90_mm": 0.022142723202705383,
+          "loc_width_at_x055_mm": 0.022856995463371277
+        },
+        {
+          "target_u_mm": 0.0062,
+          "actual_u_mm": 0.006200000178068876,
+          "max_d": 1.000672459602356,
+          "x_front": {
+            "0.9": 0.9992469847202301,
+            "0.95": 0.9992469847202301,
+            "0.5": 0.9992469847202301
+          },
+          "max_vertical_dev_d05_mm": 0.028817564249038696,
+          "max_vertical_dev_d90_mm": 0.022142723202705383,
+          "loc_width_at_x055_mm": 0.022856995463371277
+        },
+        {
+          "target_u_mm": 0.0065,
+          "actual_u_mm": 0.006500000134110451,
+          "max_d": 1.0006426572799683,
+          "x_front": {
+            "0.9": 0.9992469847202301,
+            "0.95": 0.9992469847202301,
+            "0.5": 0.9992469847202301
+          },
+          "max_vertical_dev_d05_mm": 0.028817564249038696,
+          "max_vertical_dev_d90_mm": 0.022142723202705383,
+          "loc_width_at_x055_mm": 0.022856995463371277
+        },
+        {
+          "target_u_mm": 0.007,
+          "actual_u_mm": 0.007000000216066837,
+          "max_d": 1.0005940198898315,
+          "x_front": {
+            "0.9": 0.9992469847202301,
+            "0.95": 0.9992469847202301,
+            "0.5": 0.9992469847202301
+          },
+          "max_vertical_dev_d05_mm": 0.028817564249038696,
+          "max_vertical_dev_d90_mm": 0.022142723202705383,
+          "loc_width_at_x055_mm": 0.022856995463371277
+        }
+      ],
+      "status": "SPATIAL_PHASE_FIELD_QUALIFIED",
+      "vertical_localization_status": "PATH_SYMMETRY_QUALIFIED"
+    },
+    "total_increments": 4837,
+    "terminal_u_mm": 0.007836,
+    "K0_kN_per_mm": 137.857608,
+    "F_max_kN": 0.732196,
+    "u_Fmax_mm": 0.005633,
+    "W_ext_final_kNmm": 0.00219023,
+    "energy_comparability": "NOT_COMPARABLE_AT_TERMINAL_STATE"
+  },
+  "S4_h00125_51k": {
+    "case_id": "S4_h00125_51k",
+    "job_name": "PK_M1_S4_H00125",
+    "category": "spatial",
+    "n_phys": 51408,
+    "inp_file": "PK_M1_S4_H00125.inp",
+    "inp_sha256": "66f827ca7368cd4e8b0c2336b9bfcafb804189a451ac553ec1488a53e5f85b45",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 32,
+    "walltime": "12:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406018.mmaster02",
+    "submission_status": "CUTBACK_TERMINATED",
+    "mechanical_audit": {
+      "K0_canonical_kN_per_mm": 137.83681417195268,
+      "intercept_kN": 4.483141153372117e-05,
+      "R2": 0.9999995969524237,
+      "N_elastic_increments": 400,
+      "F_max_kN": 0.72904097,
+      "u_Fmax_mm": 0.005606,
+      "step_at_Fmax": 1,
+      "inc_at_Fmax": 606,
+      "final_valid_u_mm": 0.007208,
+      "final_valid_rf_kN": 0.0001628785,
+      "final_step": 1,
+      "final_inc": 2209,
+      "csv_sha256": "919e811ba7e75af8741e530bb52c127dbdcaf849688c95d808d9f18e9111699f",
+      "forces_at_matched_displacements": {
+        "0.005": {
+          "u_actual_mm": 0.005,
+          "rf_kN": 0.66121942,
+          "step": 1,
+          "inc": 2000
+        },
+        "0.0055": {
+          "u_actual_mm": 0.0055,
+          "rf_kN": 0.71897147,
+          "step": 1,
+          "inc": 500
+        },
+        "0.00585": {
+          "u_actual_mm": 0.00585,
+          "rf_kN": 0.00019562689,
+          "step": 1,
+          "inc": 850
+        },
+        "0.0062": {
+          "u_actual_mm": 0.0062,
+          "rf_kN": 0.00018481738,
+          "step": 1,
+          "inc": 1200
+        }
+      }
+    },
+    "status_classification": "CUTBACK_TERMINATION_AT_U00072",
+    "notes": "Full mechanical audit reveals S4 ran to u = 0.007208 mm (Step 2 Inc 2,208, total 4,209 incs). Peak F_max = 0.729041 kN at u = 0.005606 mm. Diverged on phase-field DOF 3 at node 25281 after 5 cutbacks reaching dt_min = 7.813e-7.",
+    "spatial_audit": {
+      "max_valid_u": 0.007208,
+      "h_field_audit": {
+        "sdv2_present": false,
+        "min_h": 0.0,
+        "classification": "H_FIELD_SPATIAL_CONVERGENCE -- NOT YET QUALIFIED",
+        "max_h": 0.0
+      },
+      "states": [
+        {
+          "target_u_mm": 0.005,
+          "actual_u_mm": 0.004999999888241291,
+          "max_d": 0.3420899212360382,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0055,
+          "actual_u_mm": 0.005499999970197678,
+          "max_d": 0.5072923898696899,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5006250143051147
+          },
+          "max_vertical_dev_d05_mm": 0.0006250143051147461,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0056,
+          "actual_u_mm": 0.00559999980032444,
+          "max_d": 0.609539806842804,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5043750107288361
+          },
+          "max_vertical_dev_d05_mm": 0.0031249970197677612,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0057,
+          "actual_u_mm": 0.00570000009611249,
+          "max_d": 1.000656247138977,
+          "x_front": {
+            "0.9": 0.8168750107288361,
+            "0.95": 0.8143750131130219,
+            "0.5": 0.8256250023841858
+          },
+          "max_vertical_dev_d05_mm": 0.014374986290931702,
+          "max_vertical_dev_d90_mm": 0.00812499225139618,
+          "loc_width_at_x055_mm": 0.022499993443489075
+        },
+        {
+          "target_u_mm": 0.00575,
+          "actual_u_mm": 0.005750000011175871,
+          "max_d": 1.000636339187622,
+          "x_front": {
+            "0.9": 0.9993749856948853,
+            "0.95": 0.9993749856948853,
+            "0.5": 0.9993749856948853
+          },
+          "max_vertical_dev_d05_mm": 0.02968508005142212,
+          "max_vertical_dev_d90_mm": 0.021968752145767212,
+          "loc_width_at_x055_mm": 0.022499993443489075
+        },
+        {
+          "target_u_mm": 0.00585,
+          "actual_u_mm": 0.005849999841302633,
+          "max_d": 1.0006293058395386,
+          "x_front": {
+            "0.9": 0.9993749856948853,
+            "0.95": 0.9993749856948853,
+            "0.5": 0.9993749856948853
+          },
+          "max_vertical_dev_d05_mm": 0.02968508005142212,
+          "max_vertical_dev_d90_mm": 0.021968752145767212,
+          "loc_width_at_x055_mm": 0.022499993443489075
+        },
+        {
+          "target_u_mm": 0.006,
+          "actual_u_mm": 0.006000000052154064,
+          "max_d": 1.000617504119873,
+          "x_front": {
+            "0.9": 0.9993749856948853,
+            "0.95": 0.9993749856948853,
+            "0.5": 0.9993749856948853
+          },
+          "max_vertical_dev_d05_mm": 0.02968508005142212,
+          "max_vertical_dev_d90_mm": 0.021968752145767212,
+          "loc_width_at_x055_mm": 0.022499993443489075
+        },
+        {
+          "target_u_mm": 0.0062,
+          "actual_u_mm": 0.006200000178068876,
+          "max_d": 1.0006012916564941,
+          "x_front": {
+            "0.9": 0.9993749856948853,
+            "0.95": 0.9993749856948853,
+            "0.5": 0.9993749856948853
+          },
+          "max_vertical_dev_d05_mm": 0.02968508005142212,
+          "max_vertical_dev_d90_mm": 0.021968752145767212,
+          "loc_width_at_x055_mm": 0.022499993443489075
+        },
+        {
+          "target_u_mm": 0.0065,
+          "actual_u_mm": 0.006500000134110451,
+          "max_d": 1.000576376914978,
+          "x_front": {
+            "0.9": 0.9993749856948853,
+            "0.95": 0.9993749856948853,
+            "0.5": 0.9993749856948853
+          },
+          "max_vertical_dev_d05_mm": 0.02968508005142212,
+          "max_vertical_dev_d90_mm": 0.021968752145767212,
+          "loc_width_at_x055_mm": 0.022499993443489075
+        },
+        {
+          "target_u_mm": 0.007,
+          "actual_u_mm": 0.007000000216066837,
+          "max_d": 1.0005348920822144,
+          "x_front": {
+            "0.9": 0.9993749856948853,
+            "0.95": 0.9993749856948853,
+            "0.5": 0.9993749856948853
+          },
+          "max_vertical_dev_d05_mm": 0.02968508005142212,
+          "max_vertical_dev_d90_mm": 0.021968752145767212,
+          "loc_width_at_x055_mm": 0.022499993443489075
+        }
+      ],
+      "status": "SPATIAL_PHASE_FIELD_QUALIFIED",
+      "vertical_localization_status": "PATH_SYMMETRY_QUALIFIED"
+    },
+    "total_increments": 4209,
+    "terminal_u_mm": 0.007208,
+    "K0_kN_per_mm": 137.836814,
+    "F_max_kN": 0.729041,
+    "u_Fmax_mm": 0.005606,
+    "W_ext_final_kNmm": 0.00217021,
+    "energy_comparability": "NOT_COMPARABLE_AT_TERMINAL_STATE"
+  },
+  "S5_h00100_69k": {
+    "case_id": "S5_h00100_69k",
+    "job_name": "PK_M1_S5_H00100",
+    "category": "spatial",
+    "n_phys": 69384,
+    "inp_file": "PK_M1_S5_H00100.inp",
+    "inp_sha256": "44b4424477144e34b82a9647596f6e880226538ef127ead48cafb06260b0256c",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 32,
+    "walltime": "16:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406019.mmaster02",
+    "submission_status": "CUTBACK_TERMINATED",
+    "status_classification": "CUTBACK_TERMINATION_AT_U00096",
+    "total_increments": 6581,
+    "terminal_u_mm": 0.00958,
+    "K0_kN_per_mm": 137.823301,
+    "F_max_kN": 0.725514,
+    "u_Fmax_mm": 0.005575,
+    "W_ext_final_kNmm": 0.00214792,
+    "energy_comparability": "NOT_COMPARABLE_AT_TERMINAL_STATE"
+  },
+  "T1_dt_coarse_2x": {
+    "case_id": "T1_dt_coarse_2x",
+    "job_name": "PK_M1_T1_DTCOARSE",
+    "category": "temporal",
+    "n_phys": 15192,
+    "inp_file": "PK_M1_T1_DTCOARSE.inp",
+    "inp_sha256": "83d34f312d9ffde32fd14aa8af1bdb2f6aa16b66a961b99f271faf120437ec1d",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "03:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406020.mmaster02",
+    "submission_status": "COMPLETED",
+    "mechanical_audit": {
+      "K0_canonical_kN_per_mm": 137.94468702857696,
+      "intercept_kN": 4.511444719009106e-05,
+      "R2": 0.9999995976232207,
+      "N_elastic_increments": 200,
+      "F_max_kN": 0.7581515,
+      "u_Fmax_mm": 0.005864,
+      "step_at_Fmax": 1,
+      "inc_at_Fmax": 432,
+      "final_valid_u_mm": 0.01,
+      "final_valid_rf_kN": 0.00020779599,
+      "final_step": 1,
+      "final_inc": 2500,
+      "csv_sha256": "87344491deb73991dee9b25ec5cfa8df2c6b9b21e4def08efdcec708cd0e35ca",
+      "forces_at_matched_displacements": {
+        "0.005": {
+          "u_actual_mm": 0.005,
+          "rf_kN": 0.66205223,
+          "step": 1,
+          "inc": 1000
+        },
+        "0.0055": {
+          "u_actual_mm": 0.0055,
+          "rf_kN": 0.72065667,
+          "step": 1,
+          "inc": 250
+        },
+        "0.00585": {
+          "u_actual_mm": 0.00585,
+          "rf_kN": 0.75764045,
+          "step": 1,
+          "inc": 425
+        },
+        "0.0062": {
+          "u_actual_mm": 0.0062,
+          "rf_kN": 0.00046342135,
+          "step": 1,
+          "inc": 600
+        }
+      }
+    },
+    "status_classification": "TEMPORAL_COARSE_COMPLETED_U010",
+    "total_increments": 3500,
+    "terminal_u_mm": 0.01,
+    "K0_kN_per_mm": 137.944687,
+    "F_max_kN": 0.758151,
+    "u_Fmax_mm": 0.005864,
+    "W_ext_final_kNmm": 0.00241011,
+    "E_elas_final_kNmm": 1.03898e-06,
+    "E_frac_final_kNmm": 0.00239995,
+    "Residual_RE_kNmm": 9.118263e-06,
+    "Rel_error_final_pct": 0.3783,
+    "energy_comparability": "COMPARABLE_FULL_HORIZON"
+  },
+  "T2_dt_nominal_1x": {
+    "case_id": "T2_dt_nominal_1x",
+    "job_name": "PK_M1_T2_DTNOMINAL",
+    "category": "temporal",
+    "n_phys": 15192,
+    "inp_file": "PK_M1_T2_DTNOMINAL.inp",
+    "inp_sha256": "bc000e0c5791150a711cb7af447a0bb34d1b9d9af5c6ce9d096c98749e8edf61",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "04:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406021.mmaster02",
+    "submission_status": "COMPLETED",
+    "mechanical_audit": {
+      "K0_canonical_kN_per_mm": 137.94551964508392,
+      "intercept_kN": 4.4723675101669966e-05,
+      "R2": 0.9999995995397368,
+      "N_elastic_increments": 400,
+      "F_max_kN": 0.75777849,
+      "u_Fmax_mm": 0.005857,
+      "step_at_Fmax": 1,
+      "inc_at_Fmax": 857,
+      "final_valid_u_mm": 0.01,
+      "final_valid_rf_kN": 0.00023216215,
+      "final_step": 1,
+      "final_inc": 5000,
+      "csv_sha256": "e3100b7429e14b8bceab9952ddf8b0419ca9f71df058f5916668922185aa25e2",
+      "forces_at_matched_displacements": {
+        "0.005": {
+          "u_actual_mm": 0.005,
+          "rf_kN": 0.66205217,
+          "step": 1,
+          "inc": 2000
+        },
+        "0.0055": {
+          "u_actual_mm": 0.0055,
+          "rf_kN": 0.72065668,
+          "step": 1,
+          "inc": 500
+        },
+        "0.00585": {
+          "u_actual_mm": 0.00585,
+          "rf_kN": 0.75756046,
+          "step": 1,
+          "inc": 850
+        },
+        "0.0062": {
+          "u_actual_mm": 0.0062,
+          "rf_kN": 0.00052043827,
+          "step": 1,
+          "inc": 1200
+        }
+      }
+    },
+    "status_classification": "TEMPORAL_NOMINAL_COMPLETED_U010_TWIN_S1",
+    "total_increments": 7000,
+    "terminal_u_mm": 0.01,
+    "K0_kN_per_mm": 137.94552,
+    "F_max_kN": 0.757778,
+    "u_Fmax_mm": 0.005857,
+    "W_ext_final_kNmm": 0.002359329,
+    "E_elas_final_kNmm": 1.160811e-06,
+    "E_frac_final_kNmm": 0.00234022,
+    "Residual_RE_kNmm": 1.794854e-05,
+    "Rel_error_final_pct": 0.7607,
+    "energy_comparability": "COMPARABLE_FULL_HORIZON"
+  },
+  "T3_dt_fine_05x": {
+    "case_id": "T3_dt_fine_05x",
+    "job_name": "PK_M1_T3_DTFINE",
+    "category": "temporal",
+    "n_phys": 15192,
+    "inp_file": "PK_M1_T3_DTFINE.inp",
+    "inp_sha256": "68befb3fbe33f1f4df7723594aa3991589f5e1464ea68f31943b6ff643b8134b",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "06:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406246.mmaster02",
+    "submission_status": "COMPLETED",
+    "status_classification": "TEMPORAL_PEAK_RESPONSE_STABLE; WALLTIME_EXCEEDED_AT_U0094",
+    "notes": "Historical run reaching u=0.009398 mm before 6-hour walltime limit.",
+    "mechanical_audit": {
+      "K0_canonical_kN_per_mm": 137.94593602413786,
+      "intercept_kN": 4.452892959101895e-05,
+      "R2": 0.9999996005036261,
+      "N_elastic_increments": 800,
+      "F_max_kN": 0.75762648,
+      "u_Fmax_mm": 0.0058545,
+      "step_at_Fmax": 1,
+      "inc_at_Fmax": 1709,
+      "final_valid_u_mm": 0.0093982522,
+      "final_valid_rf_kN": 0.00026525825,
+      "final_step": 1,
+      "final_inc": 8817,
+      "csv_sha256": "3885b2c779e90c969be49a9949449ca7506d6e3a43057dd6caf2ddb5880e7a33",
+      "forces_at_matched_displacements": {
+        "0.005": {
+          "u_actual_mm": 0.005,
+          "rf_kN": 0.66205215,
+          "step": 1,
+          "inc": 4000
+        },
+        "0.0055": {
+          "u_actual_mm": 0.0055,
+          "rf_kN": 0.72065671,
+          "step": 1,
+          "inc": 1000
+        },
+        "0.00585": {
+          "u_actual_mm": 0.00585,
+          "rf_kN": 0.75752253,
+          "step": 1,
+          "inc": 1700
+        },
+        "0.0062": {
+          "u_actual_mm": 0.0061997522,
+          "rf_kN": 0.00054139726,
+          "step": 1,
+          "inc": 2420
+        }
+      }
+    },
+    "status": "TERMINATED_WALLTIME",
+    "final_u_mm": 0.009398,
+    "final_step": 2,
+    "final_inc": 8817,
+    "K0_canonical_kN_per_mm": 137.945936,
+    "F_max_kN": 0.757626,
+    "u_Fmax_mm": 0.005855,
+    "final_rf_kN": 0.000265,
+    "W_ext_final_kNmm": 0.00233174,
+    "E_elas_final_kNmm": 1.2e-06,
+    "E_frac_final_kNmm": 0.002247965,
+    "E_int_final_kNmm": 0.002249165,
+    "Residual_RE_kNmm": 8.258e-05,
+    "Rel_error_final_pct": 3.5416,
+    "field_representation": "COMPANION_ELEMENT_AVERAGED_D"
+  },
+  "A1_adapt_1pct_71k": {
+    "case_id": "A1_adapt_1pct_71k",
+    "job_name": "PK_M1_A1_NOM1PCT",
+    "category": "adaptive",
+    "n_phys": 71320,
+    "inp_file": "PK_M1_A1_NOM1PCT.inp",
+    "inp_sha256": "a1239a6c335e1606e148547c5f43a71b6884aa294fc857ba50e10a09c9c7d5ec",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 32,
+    "walltime": "16:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406023.mmaster02",
+    "submission_status": "SUBMITTED",
+    "status_classification": "A1_1PCT \u2014 TECHNICALLY_COMPLETE_BUT_TRUNCATED_FOR_FULL_PROPAGATION_COMPARISON",
+    "notes": "Step 2 was historically defined with duration 0.24 and u_target = 0.0062 mm. Simulation completed all 1200 Step 2 increments without cutback. Full propagation continuation deployed as A1_adapt_1pct_71k_full_u010.",
+    "mechanical_audit": {
+      "K0_canonical_kN_per_mm": 137.82080332120444,
+      "intercept_kN": 4.470221644629291e-05,
+      "R2": 0.9999995991887716,
+      "N_elastic_increments": 400,
+      "F_max_kN": 0.74532474,
+      "u_Fmax_mm": 0.00575,
+      "step_at_Fmax": 1,
+      "inc_at_Fmax": 750,
+      "final_valid_u_mm": 0.0062,
+      "final_valid_rf_kN": 0.33577503,
+      "final_step": 1,
+      "final_inc": 1200,
+      "csv_sha256": "cc032b8b0ffa4c5d7345439882c9017e7c03256710edb2bb373430015402a8a8",
+      "forces_at_matched_displacements": {
+        "0.005": {
+          "u_actual_mm": 0.005,
+          "rf_kN": 0.661366,
+          "step": 1,
+          "inc": 2000
+        },
+        "0.0055": {
+          "u_actual_mm": 0.0055,
+          "rf_kN": 0.71969999,
+          "step": 1,
+          "inc": 500
+        },
+        "0.00585": {
+          "u_actual_mm": 0.00585,
+          "rf_kN": 0.3434429,
+          "step": 1,
+          "inc": 850
+        },
+        "0.0062": {
+          "u_actual_mm": 0.0062,
+          "rf_kN": 0.33577503,
+          "step": 1,
+          "inc": 1200
+        }
+      }
+    },
+    "spatial_audit": {
+      "max_valid_u": 0.0062,
+      "h_field_audit": {
+        "sdv2_present": false,
+        "min_h": 0.0,
+        "classification": "H_FIELD_SPATIAL_CONVERGENCE -- NOT YET QUALIFIED",
+        "max_h": 0.0
+      },
+      "states": [
+        {
+          "target_u_mm": 0.005,
+          "actual_u_mm": 0.004999999888241291,
+          "max_d": 0.3123930096626282,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0055,
+          "actual_u_mm": 0.005499999970197678,
+          "max_d": 0.439047634601593,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0056,
+          "actual_u_mm": 0.00559999980032444,
+          "max_d": 0.48018428683280945,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0057,
+          "actual_u_mm": 0.00570000009611249,
+          "max_d": 0.5417901277542114,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5032012581707463
+          },
+          "max_vertical_dev_d05_mm": 0.0012914091348648071,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.00575,
+          "actual_u_mm": 0.005750000011175871,
+          "max_d": 0.6200764179229736,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5053385412123744
+          },
+          "max_vertical_dev_d05_mm": 0.003698483109474182,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.00585,
+          "actual_u_mm": 0.005849999841302633,
+          "max_d": 1.0021860599517822,
+          "x_front": {
+            "0.9": 0.7954948303820781,
+            "0.95": 0.7859731180843399,
+            "0.5": 0.806419853653737
+          },
+          "max_vertical_dev_d05_mm": 0.013857729732990265,
+          "max_vertical_dev_d90_mm": 0.008157715201377869,
+          "loc_width_at_x055_mm": 0.022882722318172455
+        },
+        {
+          "target_u_mm": 0.006,
+          "actual_u_mm": 0.006000000052154064,
+          "max_d": 1.0022486448287964,
+          "x_front": {
+            "0.9": 0.7954958775763007,
+            "0.95": 0.7859809966693201,
+            "0.5": 0.8064424387369284
+          },
+          "max_vertical_dev_d05_mm": 0.013857729732990265,
+          "max_vertical_dev_d90_mm": 0.008157715201377869,
+          "loc_width_at_x055_mm": 0.022882722318172455
+        },
+        {
+          "target_u_mm": 0.0062,
+          "actual_u_mm": 0.006200000178068876,
+          "max_d": 1.002370834350586,
+          "x_front": {
+            "0.9": 0.8109634025249648,
+            "0.95": 0.804377133322621,
+            "0.5": 0.8232053118267132
+          },
+          "max_vertical_dev_d05_mm": 0.013857729732990265,
+          "max_vertical_dev_d90_mm": 0.008157715201377869,
+          "loc_width_at_x055_mm": 0.022882722318172455
+        }
+      ],
+      "status": "SPATIAL_PHASE_FIELD_QUALIFIED",
+      "vertical_localization_status": "PATH_SYMMETRY_QUALIFIED"
+    }
+  },
+  "A2_adapt_2pct_18k": {
+    "case_id": "A2_adapt_2pct_18k",
+    "job_name": "PK_M1_A2_ADAPT2PCT",
+    "category": "adaptive",
+    "n_phys": 17687,
+    "inp_file": "PK_M1_A2_ADAPT2PCT.inp",
+    "inp_sha256": "be3ccf8c0f25a87e03528f8f01490f45082f88c3c414526b272ebac6b1df4644",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "04:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406024.mmaster02",
+    "submission_status": "SUBMITTED",
+    "status_classification": "MECHANICS_VALID / ADAPTIVE_ENERGY_OUTPUT_INVALID_DUE_TO_VISUALIZER_INDEX_MAPPING",
+    "notes": "Mesh count is 15,396 elements; UMAT CONSTANTS=3 was 17687 causing visualizer array shift. Replaced by A2_adapt_2pct_15k_corrected."
+  },
+  "A3_adapt_3pct_8k": {
+    "case_id": "A3_adapt_3pct_8k",
+    "job_name": "PK_M1_A3_ADAPT3PCT",
+    "category": "adaptive_defective",
+    "n_phys": 8120,
+    "inp_file": "PK_M1_A3_ADAPT3PCT.inp",
+    "inp_sha256": "49936f3c434923173d01842504d12e742b64187808bec2a1e98407175e980125",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "03:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406025.mmaster02",
+    "submission_status": "SUBMITTED",
+    "notes": "DEFECTIVE_BC_SCHEDULE"
+  },
+  "A4_adapt_5pct_4k": {
+    "case_id": "A4_adapt_5pct_4k",
+    "job_name": "PK_M1_A4_ADAPT5PCT",
+    "category": "adaptive",
+    "n_phys": 4356,
+    "inp_file": "PK_M1_A4_ADAPT5PCT.inp",
+    "inp_sha256": "036a8a444b583a2ab11c837f76b8c324dbd41f65f98538296ee350d39899758c",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "02:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406026.mmaster02",
+    "submission_status": "SUBMITTED",
+    "status_classification": "MECHANICS_VALID / ADAPTIVE_ENERGY_OUTPUT_INVALID_DUE_TO_VISUALIZER_INDEX_MAPPING",
+    "notes": "Mesh count is 4,194 elements; UMAT CONSTANTS=3 was 4356 causing visualizer array shift. Replaced by A4_adapt_5pct_4k_corrected."
+  },
+  "A3_adapt_3pct_8k_corrected": {
+    "case_id": "A3_adapt_3pct_8k_corrected",
+    "job_name": "PK_M1_A3_ADAPT3PCT",
+    "category": "adaptive",
+    "n_phys": 7633,
+    "inp_file": "PK_M1_A3_ADAPT3PCT.inp",
+    "inp_sha256": "79be8e83eb080fb0322221851eaf16b718d0462ceac4f5e93542edcc094fcb57",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "04:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406273.mmaster02",
+    "submission_status": "SUBMITTED",
+    "mechanical_audit": {
+      "K0_canonical_kN_per_mm": 137.85407206587666,
+      "intercept_kN": 4.474914067930769e-05,
+      "R2": 0.9999995985382426,
+      "N_elastic_increments": 400,
+      "F_max_kN": 0.74347128,
+      "u_Fmax_mm": 0.005733,
+      "step_at_Fmax": 1,
+      "inc_at_Fmax": 733,
+      "final_valid_u_mm": 0.01,
+      "final_valid_rf_kN": 0.0093160632,
+      "final_step": 1,
+      "final_inc": 5028,
+      "csv_sha256": "43f74ba6102eccbc10e227f3c1404554cfe101b359e60266e4d730d8c084a124",
+      "forces_at_matched_displacements": {
+        "0.005": {
+          "u_actual_mm": 0.005,
+          "rf_kN": 0.66147788,
+          "step": 1,
+          "inc": 2000
+        },
+        "0.0055": {
+          "u_actual_mm": 0.0055,
+          "rf_kN": 0.71975563,
+          "step": 1,
+          "inc": 500
+        },
+        "0.00585": {
+          "u_actual_mm": 0.00585,
+          "rf_kN": 0.64066729,
+          "step": 1,
+          "inc": 850
+        },
+        "0.0062": {
+          "u_actual_mm": 0.0062,
+          "rf_kN": 0.65989819,
+          "step": 1,
+          "inc": 1200
+        }
+      }
+    },
+    "spatial_audit": {
+      "max_valid_u": 0.01,
+      "h_field_audit": {
+        "sdv2_present": false,
+        "min_h": 0.0,
+        "classification": "H_FIELD_SPATIAL_CONVERGENCE -- NOT YET QUALIFIED",
+        "max_h": 0.0
+      },
+      "states": [
+        {
+          "target_u_mm": 0.005,
+          "actual_u_mm": 0.004999999888241291,
+          "max_d": 0.3183335065841675,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0055,
+          "actual_u_mm": 0.005499999970197678,
+          "max_d": 0.45001405477523804,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0056,
+          "actual_u_mm": 0.00559999980032444,
+          "max_d": 0.49408721923828125,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0057,
+          "actual_u_mm": 0.00570000009611249,
+          "max_d": 0.5651897192001343,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5034833681177874
+          },
+          "max_vertical_dev_d05_mm": 0.001262657344341278,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.00575,
+          "actual_u_mm": 0.005750000011175871,
+          "max_d": 0.9993723630905151,
+          "x_front": {
+            "0.9": 0.5206978372848144,
+            "0.95": 0.5186039719302855,
+            "0.5": 0.5301160039390215
+          },
+          "max_vertical_dev_d05_mm": 0.010877765715122223,
+          "max_vertical_dev_d90_mm": 0.00559031218290329,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.00585,
+          "actual_u_mm": 0.005849999841302633,
+          "max_d": 1.0000832080841064,
+          "x_front": {
+            "0.9": 0.5701997813365528,
+            "0.95": 0.5635196894807986,
+            "0.5": 0.5841816497227484
+          },
+          "max_vertical_dev_d05_mm": 0.011561259627342224,
+          "max_vertical_dev_d90_mm": 0.00594087690114975,
+          "loc_width_at_x055_mm": 0.021246567368507385
+        },
+        {
+          "target_u_mm": 0.006,
+          "actual_u_mm": 0.006000000052154064,
+          "max_d": 1.0001429319381714,
+          "x_front": {
+            "0.9": 0.5701999628540253,
+            "0.95": 0.5635198157556556,
+            "0.5": 0.5842085628889798
+          },
+          "max_vertical_dev_d05_mm": 0.011561259627342224,
+          "max_vertical_dev_d90_mm": 0.00594087690114975,
+          "loc_width_at_x055_mm": 0.021246567368507385
+        },
+        {
+          "target_u_mm": 0.0062,
+          "actual_u_mm": 0.006200000178068876,
+          "max_d": 1.0002702474594116,
+          "x_front": {
+            "0.9": 0.5826041675220671,
+            "0.95": 0.576138236727908,
+            "0.5": 0.5993926094048834
+          },
+          "max_vertical_dev_d05_mm": 0.012529566884040833,
+          "max_vertical_dev_d90_mm": 0.00594087690114975,
+          "loc_width_at_x055_mm": 0.021246567368507385
+        },
+        {
+          "target_u_mm": 0.0065,
+          "actual_u_mm": 0.006500000134110451,
+          "max_d": 1.0003774166107178,
+          "x_front": {
+            "0.9": 0.5964031395917435,
+            "0.95": 0.5960481778528158,
+            "0.5": 0.6193258251205557
+          },
+          "max_vertical_dev_d05_mm": 0.012529566884040833,
+          "max_vertical_dev_d90_mm": 0.00594087690114975,
+          "loc_width_at_x055_mm": 0.021563947200775146
+        },
+        {
+          "target_u_mm": 0.007,
+          "actual_u_mm": 0.007000000216066837,
+          "max_d": 1.0004315376281738,
+          "x_front": {
+            "0.9": 0.6069653573939752,
+            "0.95": 0.5962013784212462,
+            "0.5": 0.6327559453817752
+          },
+          "max_vertical_dev_d05_mm": 0.014404043555259705,
+          "max_vertical_dev_d90_mm": 0.00594087690114975,
+          "loc_width_at_x055_mm": 0.021563947200775146
+        }
+      ],
+      "status": "SPATIAL_PHASE_FIELD_QUALIFIED",
+      "vertical_localization_status": "PATH_SYMMETRY_QUALIFIED"
+    }
+  },
+  "A2_adapt_2pct_15k_corrected": {
+    "case_id": "A2_adapt_2pct_15k_corrected",
+    "job_name": "PK_M1_A2_ADAPT2PCT",
+    "category": "adaptive",
+    "n_phys": 15396,
+    "inp_file": "PK_M1_A2_ADAPT2PCT.inp",
+    "inp_sha256": "3e5b9559db38b9868e7a72ca913b1227239de475ef36c0eb51ee88c60ba69a43",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "04:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406278.mmaster02",
+    "submission_status": "COMPLETED",
+    "status_classification": "TERMINAL_SUCCESS",
+    "notes": "Completed successfully to u = 0.0100 mm. K0 = 137.8453 kN/mm, F_max = 0.7482 kN at u = 0.005775 mm. W_ext = 0.003488 kN*mm, E_int = 0.003157 kN*mm, R_E = 0.000332 kN*mm (9.51% rel error).",
+    "mechanical_audit": {
+      "K0_canonical_kN_per_mm": 137.84365700791562,
+      "intercept_kN": 4.4715528357324175e-05,
+      "R2": 0.9999995990833729,
+      "N_elastic_increments": 400,
+      "F_max_kN": 0.74819672,
+      "u_Fmax_mm": 0.005775,
+      "step_at_Fmax": 1,
+      "inc_at_Fmax": 775,
+      "final_valid_u_mm": 0.01,
+      "final_valid_rf_kN": 0.012670855,
+      "final_step": 1,
+      "final_inc": 5028,
+      "csv_sha256": "7fe1d33f2e38cf7c9b695b6f33301ce3fde78fc15f69e2be1bf93543c24c2e36",
+      "forces_at_matched_displacements": {
+        "0.005": {
+          "u_actual_mm": 0.005,
+          "rf_kN": 0.66148579,
+          "step": 1,
+          "inc": 2000
+        },
+        "0.0055": {
+          "u_actual_mm": 0.0055,
+          "rf_kN": 0.71988457,
+          "step": 1,
+          "inc": 500
+        },
+        "0.00585": {
+          "u_actual_mm": 0.00585,
+          "rf_kN": 0.56901087,
+          "step": 1,
+          "inc": 850
+        },
+        "0.0062": {
+          "u_actual_mm": 0.0062,
+          "rf_kN": 0.59844631,
+          "step": 1,
+          "inc": 1200
+        }
+      }
+    },
+    "spatial_audit": {
+      "max_valid_u": 0.01,
+      "h_field_audit": {
+        "sdv2_present": false,
+        "min_h": 0.0,
+        "classification": "H_FIELD_SPATIAL_CONVERGENCE -- NOT YET QUALIFIED",
+        "max_h": 0.0
+      },
+      "states": [
+        {
+          "target_u_mm": 0.005,
+          "actual_u_mm": 0.004999999888241291,
+          "max_d": 0.31531232595443726,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0055,
+          "actual_u_mm": 0.005499999970197678,
+          "max_d": 0.4415673017501831,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0056,
+          "actual_u_mm": 0.00559999980032444,
+          "max_d": 0.4813694357872009,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0057,
+          "actual_u_mm": 0.00570000009611249,
+          "max_d": 0.5371173620223999,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5013657595098785
+          },
+          "max_vertical_dev_d05_mm": 0.00046553462743759155,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.00575,
+          "actual_u_mm": 0.005750000011175871,
+          "max_d": 0.5836531519889832,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5037346184194746
+          },
+          "max_vertical_dev_d05_mm": 0.002641633152961731,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.00585,
+          "actual_u_mm": 0.005849999841302633,
+          "max_d": 1.0006566047668457,
+          "x_front": {
+            "0.9": 0.6215775802288482,
+            "0.95": 0.6179643092460266,
+            "0.5": 0.6410014538102816
+          },
+          "max_vertical_dev_d05_mm": 0.012726180255413055,
+          "max_vertical_dev_d90_mm": 0.006448090076446533,
+          "loc_width_at_x055_mm": 0.022578082978725433
+        },
+        {
+          "target_u_mm": 0.006,
+          "actual_u_mm": 0.006000000052154064,
+          "max_d": 1.0006672143936157,
+          "x_front": {
+            "0.9": 0.6215778005540119,
+            "0.95": 0.6179643360255324,
+            "0.5": 0.64101480534786
+          },
+          "max_vertical_dev_d05_mm": 0.012726180255413055,
+          "max_vertical_dev_d90_mm": 0.006448090076446533,
+          "loc_width_at_x055_mm": 0.022578082978725433
+        },
+        {
+          "target_u_mm": 0.0062,
+          "actual_u_mm": 0.006200000178068876,
+          "max_d": 1.0006825923919678,
+          "x_front": {
+            "0.9": 0.6257008736481984,
+            "0.95": 0.6179654330070412,
+            "0.5": 0.641486915051328
+          },
+          "max_vertical_dev_d05_mm": 0.012726180255413055,
+          "max_vertical_dev_d90_mm": 0.006448090076446533,
+          "loc_width_at_x055_mm": 0.022578082978725433
+        },
+        {
+          "target_u_mm": 0.0065,
+          "actual_u_mm": 0.006500000134110451,
+          "max_d": 1.0007214546203613,
+          "x_front": {
+            "0.9": 0.6305273887319731,
+            "0.95": 0.6179698254913042,
+            "0.5": 0.6550333937712502
+          },
+          "max_vertical_dev_d05_mm": 0.012726180255413055,
+          "max_vertical_dev_d90_mm": 0.006448090076446533,
+          "loc_width_at_x055_mm": 0.022578082978725433
+        },
+        {
+          "target_u_mm": 0.007,
+          "actual_u_mm": 0.007000000216066837,
+          "max_d": 1.0008678436279297,
+          "x_front": {
+            "0.9": 0.7177609355807604,
+            "0.95": 0.7051856528254835,
+            "0.5": 0.7358939999558359
+          },
+          "max_vertical_dev_d05_mm": 0.01467151939868927,
+          "max_vertical_dev_d90_mm": 0.006448090076446533,
+          "loc_width_at_x055_mm": 0.022578082978725433
+        }
+      ],
+      "status": "SPATIAL_PHASE_FIELD_QUALIFIED",
+      "vertical_localization_status": "PATH_SYMMETRY_QUALIFIED"
+    }
+  },
+  "A4_adapt_5pct_4k_corrected": {
+    "case_id": "A4_adapt_5pct_4k_corrected",
+    "job_name": "PK_M1_A4_ADAPT5PCT",
+    "category": "adaptive",
+    "n_phys": 4194,
+    "inp_file": "PK_M1_A4_ADAPT5PCT.inp",
+    "inp_sha256": "82bcf2ff1c5fbda39208ff4d4df071ec5465a4092c6e33047091b7fc60fe8c96",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "03:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406279.mmaster02",
+    "submission_status": "COMPLETED",
+    "mechanical_audit": {
+      "K0_canonical_kN_per_mm": 137.96618337112517,
+      "intercept_kN": 4.4779318298493465e-05,
+      "R2": 0.9999995986559929,
+      "N_elastic_increments": 400,
+      "F_max_kN": 0.76496436,
+      "u_Fmax_mm": 0.00706,
+      "step_at_Fmax": 1,
+      "inc_at_Fmax": 2060,
+      "final_valid_u_mm": 0.01,
+      "final_valid_rf_kN": 0.032829575,
+      "final_step": 1,
+      "final_inc": 5000,
+      "csv_sha256": "3c5e048c35f9d267fa8af0c8932f474eebc2e62683ecb76aaba34c2e6226c68c",
+      "forces_at_matched_displacements": {
+        "0.005": {
+          "u_actual_mm": 0.005,
+          "rf_kN": 0.66210065,
+          "step": 1,
+          "inc": 2000
+        },
+        "0.0055": {
+          "u_actual_mm": 0.0055,
+          "rf_kN": 0.72070915,
+          "step": 1,
+          "inc": 500
+        },
+        "0.00585": {
+          "u_actual_mm": 0.00585,
+          "rf_kN": 0.75867182,
+          "step": 1,
+          "inc": 850
+        },
+        "0.0062": {
+          "u_actual_mm": 0.0062,
+          "rf_kN": 0.73232251,
+          "step": 1,
+          "inc": 1200
+        }
+      }
+    },
+    "spatial_audit": {
+      "max_valid_u": 0.01,
+      "h_field_audit": {
+        "sdv2_present": false,
+        "min_h": 0.0,
+        "classification": "H_FIELD_SPATIAL_CONVERGENCE -- NOT YET QUALIFIED",
+        "max_h": 0.0
+      },
+      "states": [
+        {
+          "target_u_mm": 0.005,
+          "actual_u_mm": 0.004999999888241291,
+          "max_d": 0.28801393508911133,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0055,
+          "actual_u_mm": 0.005499999970197678,
+          "max_d": 0.39127105474472046,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0056,
+          "actual_u_mm": 0.00559999980032444,
+          "max_d": 0.41995465755462646,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.0057,
+          "actual_u_mm": 0.00570000009611249,
+          "max_d": 0.4542725682258606,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.00575,
+          "actual_u_mm": 0.005750000011175871,
+          "max_d": 0.4747801423072815,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.5
+          },
+          "max_vertical_dev_d05_mm": 0.0,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.00585,
+          "actual_u_mm": 0.005849999841302633,
+          "max_d": 0.5297804474830627,
+          "x_front": {
+            "0.9": 0.5,
+            "0.95": 0.5,
+            "0.5": 0.503757409218606
+          },
+          "max_vertical_dev_d05_mm": 0.0023961663246154785,
+          "max_vertical_dev_d90_mm": 0.0,
+          "loc_width_at_x055_mm": 0.0
+        },
+        {
+          "target_u_mm": 0.006,
+          "actual_u_mm": 0.006000000052154064,
+          "max_d": 0.9944127202033997,
+          "x_front": {
+            "0.9": 0.5337409294746586,
+            "0.95": 0.5248146192245481,
+            "0.5": 0.5458753172998737
+          },
+          "max_vertical_dev_d05_mm": 0.010479733347892761,
+          "max_vertical_dev_d90_mm": 0.005275617043177305,
+          "loc_width_at_x055_mm": 0.007279686629772186
+        },
+        {
+          "target_u_mm": 0.0062,
+          "actual_u_mm": 0.006200000178068876,
+          "max_d": 0.9948899745941162,
+          "x_front": {
+            "0.9": 0.5337410117840664,
+            "0.95": 0.5248152289905502,
+            "0.5": 0.54589028094813
+          },
+          "max_vertical_dev_d05_mm": 0.010479733347892761,
+          "max_vertical_dev_d90_mm": 0.005275617043177305,
+          "loc_width_at_x055_mm": 0.007279686629772186
+        },
+        {
+          "target_u_mm": 0.0065,
+          "actual_u_mm": 0.006500000134110451,
+          "max_d": 0.9957194328308105,
+          "x_front": {
+            "0.9": 0.5337688423481367,
+            "0.95": 0.5248185277149425,
+            "0.5": 0.5462943701985769
+          },
+          "max_vertical_dev_d05_mm": 0.012594997882843018,
+          "max_vertical_dev_d90_mm": 0.005275617043177305,
+          "loc_width_at_x055_mm": 0.01557391881942749
+        },
+        {
+          "target_u_mm": 0.007,
+          "actual_u_mm": 0.007000000216066837,
+          "max_d": 0.9980475902557373,
+          "x_front": {
+            "0.9": 0.5541863158963368,
+            "0.95": 0.5534283934909009,
+            "0.5": 0.5819243374310474
+          },
+          "max_vertical_dev_d05_mm": 0.017185024917125702,
+          "max_vertical_dev_d90_mm": 0.005427350600560488,
+          "loc_width_at_x055_mm": 0.027379833161830902
+        }
+      ],
+      "status": "SPATIAL_PHASE_FIELD_QUALIFIED",
+      "vertical_localization_status": "PATH_SYMMETRY_QUALIFIED"
+    },
+    "status_classification": "TERMINAL_SUCCESS_FULL_HORIZON",
+    "total_increments": 7000,
+    "terminal_u_mm": 0.01,
+    "K0_kN_per_mm": 137.966183,
+    "F_max_kN": 0.764964,
+    "u_Fmax_mm": 0.00706,
+    "W_ext_final_kNmm": 0.00426461,
+    "E_elas_final_kNmm": 0.00016415,
+    "E_frac_final_kNmm": 0.00366763,
+    "Residual_RE_kNmm": 0.00043283,
+    "Rel_error_final_pct": 10.1495,
+    "energy_comparability": "COMPARABLE_FULL_HORIZON",
+    "notes": "Production 5% adaptive mesh (4,194 elements; sensitivity count was 4,356); completed full u=0.010 mm"
+  },
+  "S2_h0020_32k_dt_fine_05x": {
+    "case_id": "S2_h0020_32k_dt_fine_05x",
+    "job_name": "PK_M1_S2_H0020_DTFINE",
+    "category": "spatial_temporal_diagnostic",
+    "n_phys": 32130,
+    "h_mm": 0.002,
+    "dt_scale": 0.5,
+    "inp_file": "PK_M1_S2_H0020_DTFINE.inp",
+    "inp_sha256": "38d7d2881b9442a7d127b60e261f7914b396db92fb401a77f4fe92b4635aed2c",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "08:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406282.mmaster02",
+    "submission_status": "SUBMITTED",
+    "notes": "Controlled temporal resolution diagnostic (0.5x nominal schedule copied from T3) to resolve phase-field crack propagation.",
+    "status": "TERMINATED_CUTBACK",
+    "status_classification": "FINER_TIME_SCHEDULE_OVERCOMES_NOMINAL_CONVERGENCE_FAILURE_EXTENDING_TO_U0069",
+    "final_u_mm": 0.006917,
+    "final_step": 2,
+    "final_inc": 3835,
+    "field_representation": "COMPANION_ELEMENT_AVERAGED_D",
+    "K0_canonical_kN_per_mm": 137.894612,
+    "F_max_kN": 0.741019,
+    "u_Fmax_mm": 0.005709,
+    "final_rf_kN": 0.00024,
+    "W_ext_final_kNmm": 0.00221977,
+    "E_elas_final_kNmm": 7.9e-07,
+    "E_frac_final_kNmm": 0.0022981,
+    "E_int_final_kNmm": 0.00229889,
+    "Residual_RE_kNmm": -7.912e-05,
+    "Rel_error_final_pct": 3.4389
+  },
+  "A3_adapt_3pct_8k_corrected_dt_fine_05x": {
+    "case_id": "A3_adapt_3pct_8k_corrected_dt_fine_05x",
+    "job_name": "PK_M1_A3_DTFINE",
+    "category": "adaptive_temporal_diagnostic",
+    "n_phys": 7633,
+    "dt_scale": 0.5,
+    "inp_file": "PK_M1_A3_ADAPT3PCT_DTFINE.inp",
+    "inp_sha256": "63986c8769f1c70536b6ac5036d89a6e26620a4e6efc415268a31ca1b8c22806",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 16,
+    "walltime": "08:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406311.mmaster02",
+    "submission_status": "SUBMITTED",
+    "notes": "Parity with nominal A3: Delta Fmax=0.023%, Delta Wext=0.175%, residual diff=0.56%, confirming weak temporal sensitivity and unproven spatial causality.",
+    "status": "COMPLETED",
+    "status_classification": "TERMINAL_SUCCESS_TEMPORAL_TWIN",
+    "final_u_mm": 0.01,
+    "final_step": 2,
+    "final_inc": 10028,
+    "K0_canonical_kN_per_mm": 137.854488,
+    "F_max_kN": 0.743299,
+    "u_Fmax_mm": 0.00573,
+    "final_rf_kN": 0.009132,
+    "W_ext_final_kNmm": 0.00383921,
+    "E_elas_final_kNmm": 4.52e-05,
+    "E_frac_final_kNmm": 0.0033921,
+    "E_int_final_kNmm": 0.0034373,
+    "Residual_RE_kNmm": 0.00040191,
+    "Rel_error_final_pct": 10.4685,
+    "field_representation": "COMPANION_ELEMENT_AVERAGED_D"
+  },
+  "S3_h0015_42k_dt_fine_05x": {
+    "case_id": "S3_h0015_42k_dt_fine_05x",
+    "job_name": "PK_M1_S3_DTFINE",
+    "category": "spatial_temporal_diagnostic",
+    "n_phys": 41912,
+    "h_mm": 0.0015,
+    "dt_scale": 0.5,
+    "inp_file": "PK_M1_S3_H0015_DTFINE.inp",
+    "inp_sha256": "a331ab855e08a73b1af663daedea10ff2e041d7ddb82b59c1f66dbbd06311d8d",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 24,
+    "walltime": "12:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406312.mmaster02",
+    "submission_status": "SUBMITTED",
+    "notes": "Controlled temporal resolution diagnostic (0.5x nominal schedule copied from T3) to resolve phase-field crack propagation.",
+    "status": "TERMINATED_CUTBACK",
+    "status_classification": "FINE_TIME_POSTPEAK_CUTBACK_AT_U0059",
+    "final_u_mm": 0.005942,
+    "final_step": 2,
+    "final_inc": 1885,
+    "field_representation": "COMPANION_ELEMENT_AVERAGED_D",
+    "K0_canonical_kN_per_mm": 137.858021,
+    "F_max_kN": 0.732005,
+    "u_Fmax_mm": 0.00563,
+    "final_rf_kN": 0.000225,
+    "W_ext_final_kNmm": 0.00216099,
+    "E_elas_final_kNmm": 6.1e-07,
+    "E_frac_final_kNmm": 0.0023241,
+    "E_int_final_kNmm": 0.00232471,
+    "Residual_RE_kNmm": -0.0001637,
+    "Rel_error_final_pct": 7.0421
+  },
+  "A1_adapt_1pct_71k_full_u010": {
+    "case_id": "A1_adapt_1pct_71k_full_u010",
+    "job_name": "PK_M1_A1_FULLU010",
+    "category": "adaptive",
+    "n_phys": 71320,
+    "inp_file": "PK_M1_A1_NOM1PCT_FULLU010.inp",
+    "inp_sha256": "7c8a59e374751c6ba683748fc9819d474601b1b57f4cb3b5c5eb3340764338ca",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "n_cpus": 4,
+    "mem_gb": 32,
+    "walltime": "16:00:00",
+    "queue": "entry_imfdfkmq",
+    "pbs_job_id": "1406313.mmaster02",
+    "submission_status": "SUBMITTED",
+    "status_classification": "SCIENTIFICALLY_VALID_POSTPEAK_CUTBACK",
+    "notes": "Full horizon to u = 0.0100 mm (Step 2 duration 1.0, 5000 increments, nominal dt = 2.0e-4).",
+    "status": "TERMINATED_CUTBACK",
+    "final_u_mm": 0.006774,
+    "final_step": 1,
+    "final_inc": 1784,
+    "K0_canonical_kN_per_mm": 137.820803,
+    "F_max_kN": 0.745325,
+    "u_Fmax_mm": 0.00575,
+    "final_rf_kN": 0.02451,
+    "W_ext_final_kNmm": 0.0025726,
+    "E_elas_final_kNmm": 0.0001521,
+    "E_frac_final_kNmm": 0.0024101,
+    "E_int_final_kNmm": 0.0025622,
+    "Residual_RE_kNmm": 1.04e-05,
+    "Rel_error_final_pct": 0.4042,
+    "field_representation": "COMPANION_ELEMENT_AVERAGED_D"
+  },
+  "T3_dt_fine_05x_full_u010": {
+    "case_id": "T3_dt_fine_05x_full_u010",
+    "job_name": "PK_M1_T3_FULLU010",
+    "pbs_job_id": "1406317.mmaster02",
+    "category": "temporal",
+    "n_phys": 15192,
+    "h_mm": 0.003,
+    "dt_scale": 0.5,
+    "inp_file": "PK_M1_T3_DTFINE.inp",
+    "inp_sha256": "68befb3fbe33f1f4df7723594aa3991589f5e1464ea68f31943b6ff643b8134b",
+    "fortran_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "submission_status": "COMPLETED",
+    "status_classification": "TERMINAL_SUCCESS_FULL_HORIZON",
+    "total_increments": 14022,
+    "terminal_u_mm": 0.01,
+    "K0_kN_per_mm": 137.945936,
+    "F_max_kN": 0.757626,
+    "u_Fmax_mm": 0.005855,
+    "W_ext_final_kNmm": 0.00233189,
+    "E_elas_final_kNmm": 1.198e-06,
+    "E_frac_final_kNmm": 0.00224813,
+    "Residual_RE_kNmm": 8.256e-05,
+    "Rel_error_final_pct": 3.5408,
+    "energy_comparability": "COMPARABLE_FULL_HORIZON",
+    "notes": "Completed full horizon with 10,022 Step-2 increments under 16-hour walltime allocation (Job 1406317.mmaster02)"
+  }
+}

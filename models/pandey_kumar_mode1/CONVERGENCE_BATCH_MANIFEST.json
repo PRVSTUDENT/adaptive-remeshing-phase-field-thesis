@@ -1,0 +1,44 @@
+{
+  "11_fixed_convergence_h0030": {
+    "case_id": "11_fixed_convergence_h0030",
+    "job_name": "PK_M1_FIX_H0030_VIS",
+    "h_corridor_mm": 0.003,
+    "h_over_l0": 0.4,
+    "num_physical_nodes": 15521,
+    "num_physical_elements": 15192,
+    "total_layered_elements": 45576,
+    "inp_sha256": "35c478fbc50c0436def284b6c164d95997f6fe51a65963db501aaf12308d49e4",
+    "fortran_sha256": "c540b54a2a7ee96a51deee49bdab714ed0fb27344f703f11abf17f76e985b14b",
+    "notifications_sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "submit_datacheck_pbs_sha256": "bcce9592488d8e552ef0e6620f2efa67ec80136a9cc89987f55e276046832d7b",
+    "submit_solver_pbs_sha256": "59566ef23639e042e419eedab33cb1707702f8fb665d5f1ee5bb184a4263f163"
+  },
+  "12_fixed_convergence_h0020": {
+    "case_id": "12_fixed_convergence_h0020",
+    "job_name": "PK_M1_FIX_H0020_VIS",
+    "h_corridor_mm": 0.002,
+    "h_over_l0": 0.26666666666666666,
+    "num_physical_nodes": 32613,
+    "num_physical_elements": 32130,
+    "total_layered_elements": 96390,
+    "inp_sha256": "55d212a1528c55b023175d91107d4566947958c1378bca735741e716922e60ca",
+    "fortran_sha256": "c540b54a2a7ee96a51deee49bdab714ed0fb27344f703f11abf17f76e985b14b",
+    "notifications_sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "submit_datacheck_pbs_sha256": "db7e0b0ccff1074b6a433252900c51475f3b92f544368202f9753d867959840c",
+    "submit_solver_pbs_sha256": "6685710d3afea45dea1bce35680d78044ec7ca3536fd8a65fd06bd2329e36aef"
+  },
+  "13_fixed_convergence_h0015": {
+    "case_id": "13_fixed_convergence_h0015",
+    "job_name": "PK_M1_FIX_H0015_VIS",
+    "h_corridor_mm": 0.0015,
+    "h_over_l0": 0.2,
+    "num_physical_nodes": 42491,
+    "num_physical_elements": 41912,
+    "total_layered_elements": 125736,
+    "inp_sha256": "6d002957fe65317bbd88e63e2b45ce2a134099bc05a03c4387a1206dad2fba44",
+    "fortran_sha256": "c540b54a2a7ee96a51deee49bdab714ed0fb27344f703f11abf17f76e985b14b",
+    "notifications_sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "submit_datacheck_pbs_sha256": "470576919528d7946ee9b340b25d660b0e81ee05973d1bc36f2d8c6bbdb38af0",
+    "submit_solver_pbs_sha256": "3259c15a99151cfe0777999e89ea498179800843fc2792fb89965917d11e041e"
+  }
+}

@@ -1,0 +1,48 @@
+# Project Coordination State
+
+## Active Protocol
+- **Active Phase**: **`SUPERVISOR_ALIGNED_MODE_I_GATE_EXECUTION`**
+- **Governing Directive**: *"We need to have understood everything related to the first model before we increase complexity."*
+- **Active Task ID**: `TASK_MODE1_SUPERVISOR_MASTER_GATES`
+- **Gate Execution Status**:
+  - **Gate 0 (Source & Scope Freeze)**: **`CLOSED_PASSED`** (Literature, proposal, & Mode-I freeze validated)
+  - **Gate 1 (Conventional Mode-I Reference)**: **`QUALIFIED_BENCHMARK_ANCHOR`** (Harmonized Job 1398090 / 1401091 evaluated: $F_{\text{peak}} = 0.7578\,\text{kN}$, $u_{\text{peak}} = 0.005857\,\text{mm}$, $K_0 = 137.945520\,\text{kN/mm}$; established reference anchor preserved)
+  - **Gate 2 (Multi-Quantity Convergence Qualification)**: **`QUALIFIED_ON_ESTABLISHED_INTERVAL`** (Common interval qualified; spatial $d(x,y)$ profile symmetry confirmed)
+  - **Gate 3 (MISESERI Mechanism Verification)**: **`CLOSED_VERIFIED`** (Patch-recovery stress error tensor & UMAT facsimile evaluated deterministically)
+  - **Gate 4 (Native Python Refinement Implementation)**: **`CLOSED_VERIFIED`** (Headless CAE pipeline verified; hard-stop no-overwrite proof verified; deck hash lineage reconciled)
+  - **Gate 5 (Nominal 1% Discrepancy Audit)**: **`CLOSED_UNRESOLVED_DUE_TO_MISSING_PUBLISHED_OR_INTERNAL_SIZING_INFORMATION`** (Exact CPE4 control verified; CPS4 vs CPE4 mechanism diagnosed; corrected OFAT matrix evaluated; publication Listing 1 verbatim verified; Abaqus `errorTarget=1.0` float semantics confirmed; historical CPS4 vs corrected CPE4 provenance separated; formally closed)
+  - **Gate 6 (Reference Reproduction with Refinement)**: **`GATE6_REFERENCE_REPRODUCTION_PARTIALLY_QUALIFIED`** (Full fracture comparison complete: Nominal 1% 71k fails reference reproduction [$-36.89\%$ peak drop]; Empirical 2% 15.4k reproduces reference within $1.3\%$ peak force and $0.07\%$ stiffness as a sensitivity branch; full $2 \times 2$ factorial matrix closed with $\Delta K_{\text{int}} = -15.421423\,\text{kN/mm}$)
+  - **Gate 7 (ABAQUSER Integration)**: **`TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY`** (Companion bridge verified; external IMFD utility blocked on dependency)
+  - **Gate 8 (Higher-Complexity Benchmarks / Mode-II)**: **`ON_HOLD`** (Strictly paused per supervisor directive until Mode-I is fully closed)
+  - **Gate 9 (Parameter Recommendations)**: **`BLOCKED_BY_GATE_6_REPORT_SYNTHESIS`** (Sequential gate hold)
+  - **Gate 10 (Future-User Documentation)**: **`BLOCKED_BY_GATE_6_REPORT_SYNTHESIS`** (Sequential gate hold)
+  - **Gate 11 (Thesis Synthesis)**: **`BLOCKED_BY_GATE_6_REPORT_SYNTHESIS`** (Sequential gate hold)
+- **Scope Restrictions & Governance**:
+  - **Mode-II Work**: **`ON_HOLD`** (Paused pending complete scientific closure of Mode-I)
+  - **State Transfer / Topology Restart**: **`ON_HOLD`** (Preserved as enabling research; numerical diffusion acknowledged)
+  - **Task 6 (IMFD ABAQUSER Tool)**: **`TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY`** (Companion bridge verified)
+  - **HPC Cluster State**: 0 active PBS jobs (Queue IDLE). Storage footprint successfully reduced below $1.0\,\text{TB}$ via exact $1{,}664{,}172{,}974{,}560\,\text{bytes}$ offload remediation.
+- **Date**: 2026-09-10T07:00:00+02:00
+
+---
+
+## 1. Master Gate Execution Dashboard (Gates 0–11)
+
+```text
+=======================================================================================================================
+GATE      GATE DESCRIPTION                                 STATUS               EXIT EVIDENCE & GOVERNANCE BASIS
+=======================================================================================================================
+Gate 0    Source & Scope Freeze                            CLOSED_PASSED        Literature, proposal & Mode-I scope frozen
+Gate 1    Conventional Mode-I Reference                    QUALIFIED_ANCHOR     Job 1398090/1401091 evaluated (K0=137.95)
+Gate 2    Multi-Quantity Convergence Qualification         QUALIFIED_INTERVAL   Common interval qualified; profile symmetry confirmed
+Gate 3    MISESERI Mechanism Verification                  CLOSED_VERIFIED      Mathematical patch-recovery error verified
+Gate 4    Native Python Refinement Implementation          CLOSED_VERIFIED      Headless CAE pipeline & deck integrity verified
+Gate 5    Nominal 1% Discrepancy Audit                     CLOSED_UNRESOLVED    Defensible OFAT tested; missing info documented
+Gate 6    Reference Reproduction with Refinement           PARTIALLY_QUALIFIED  1% fails reproduction; 2% reproduces as sensitivity
+Gate 7    ABAQUSER Integration                            TASK6_EXT_BLOCKED    Companion bridge verified (0.000000% parity)
+Gate 8    Higher-Complexity Benchmarks (Mode-II)           ON_HOLD              Paused until Mode-I approved
+Gate 9    Parameter Recommendations                        BLOCKED_BY_GATE_6    Sequential gate hold
+Gate 10   Future-User Documentation                        BLOCKED_BY_GATE_6    Sequential gate hold
+Gate 11   Thesis Synthesis                                 BLOCKED_BY_GATE_6    Sequential gate hold
+=======================================================================================================================
+```

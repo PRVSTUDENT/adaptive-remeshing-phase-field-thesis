@@ -1,0 +1,59 @@
+\contentsline {chapter}{Abstract}{3}{chapter*.2}%
+\contentsline {chapter}{\numberline {1}Problem Statement, Theoretical Basis, and Reference Methods}{5}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Problem statement}{5}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Phase-field fracture formulation}{5}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Abaqus UEL/UMAT architecture}{6}{section.1.3}%
+\contentsline {paragraph}{Required visual evidence.}{6}{section*.3}%
+\contentsline {section}{\numberline {1.4}Reference mesh-refinement method}{6}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Objectives of the present work}{7}{section.1.5}%
+\contentsline {chapter}{\numberline {2}Verification of the Supplied Phase-Field Implementation}{8}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Purpose of the baseline}{8}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Moln\'ar one-element verification}{8}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Moln\'ar--Gravouil single-notch reproduction}{8}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Improved Moln\'ar Mode-I reference}{10}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Fixed-mesh Mode-I benchmark for the Pandey--Kumar comparison}{11}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Fixed-mesh quantitative reproduction}{11}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Geometry sanity check for later adaptive models}{13}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Baseline conclusion}{13}{section.2.8}%
+\contentsline {chapter}{\numberline {3}Abaqus-Native Error-Guided Mesh Refinement}{14}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Role of \texttt {MISESERI}}{14}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Reference-faithful two-job workflow}{15}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Mode-I reference settings}{16}{section.3.3}%
+\contentsline {paragraph}{Required visual evidence.}{16}{section*.4}%
+\contentsline {section}{\numberline {3.4}Observed mesh-density discrepancy}{16}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Interpretation}{17}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Nonmatching State Transfer and Restart}{18}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Why state transfer is required}{18}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Transferred quantities and mapping spaces}{18}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Runtime state ingestion}{18}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Restart sequence}{19}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Topology-changing restart results}{19}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Energy-accounting limitation}{21}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Current conclusion}{21}{section.4.7}%
+\contentsline {chapter}{\numberline {5}Multi-Resolution and Mode-II Validation Studies}{22}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Purpose of the secondary benchmarks}{22}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Uniform Mode-II mesh study}{22}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Multi-resolution transfer}{24}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Relation to the thesis objective}{24}{section.5.4}%
+\contentsline {chapter}{\numberline {6}HPC Execution and Parallelization Boundary}{25}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Production environment}{25}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Why the current production solver is serial}{25}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Computational-cost interpretation}{26}{section.6.3}%
+\contentsline {chapter}{\numberline {7}Current Pandey--Kumar Mode-I Production Validation}{27}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Scientific target}{27}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Geometry correction before production}{27}{section.7.2}%
+\contentsline {paragraph}{Required visual evidence.}{27}{section*.5}%
+\contentsline {section}{\numberline {7.3}First sharp-slit production attempt}{27}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Current authoritative calculation}{28}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Planned evaluation after completion}{28}{section.7.5}%
+\contentsline {paragraph}{Final visual package.}{29}{section*.6}%
+\contentsline {section}{\numberline {7.6}Status of the Mode-I refinement reproduction}{29}{section.7.6}%
+\contentsline {chapter}{\numberline {8}Conclusions and Remaining Work}{30}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Results established so far}{30}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Open questions}{30}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Next steps}{31}{section.8.3}%
+\contentsline {chapter}{\numberline {A}Reproducibility and Current Execution Record}{32}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Planned ODB-derived visual evidence}{32}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Key calculations}{32}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Current Task-5 scientific parameters}{32}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Reporting boundary}{32}{section.A.4}%

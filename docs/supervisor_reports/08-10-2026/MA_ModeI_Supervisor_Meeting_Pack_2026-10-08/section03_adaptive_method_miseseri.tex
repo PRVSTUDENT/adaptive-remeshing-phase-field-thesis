@@ -1,0 +1,76 @@
+\section{Pandey--Kumar Adaptive Refinement and MISESERI Mechanism}
+\label{sec:adaptive_method_miseseri}
+
+\subsection{Two-Job Adaptive Refinement Procedure}
+\citet{pandey2025} employ an automated two-job pre-refinement procedure:
+\begin{center}
+\setlength{\fboxsep}{4pt}
+\fbox{Coarse Job-1 (Layered UEL/UMAT)}
+$\rightarrow$ \fbox{Pre-Analysis Stage 1 (500 incs)}
+$\rightarrow$ \fbox{\texttt{MISESERI} Field Extraction}
+$\rightarrow$ \fbox{\texttt{RemeshingRule}}
+$\rightarrow$ \fbox{\texttt{adaptiveRemesh}}
+$\rightarrow$ \fbox{Job-2 Multi-Layer Generation}
+$\rightarrow$ \fbox{Nonlinear Fracture Solve}.
+\end{center}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{fig_refinement_workflow.pdf}
+  \caption{Pandey--Kumar two-job adaptive pre-refinement workflow: a coarse pre-analysis on the layered UEL/UMAT model evaluates stress recovery error on the co-located continuum layer, which drives native \texttt{adaptiveRemesh} before reconstructing the multi-layer UEL/UMAT phase-field model.}
+  \label{fig:refinement_workflow_pack}
+  \figureconclusion{The method is an error-driven \emph{pre-refinement} workflow, not remeshing during crack propagation: the mesh is generated before the nonlinear phase-field fracture solve begins.}
+\end{figure}
+
+The published Mode-I description outlines a 500-increment first loading stage followed by a 1000-increment second stage. However, the exact \texttt{stepName} and frame selection semantics used within the native \texttt{RemeshingRule} are not explicitly disclosed in the publication.
+
+\subsection{Physical Understanding and Provenance of MISESERI}
+\texttt{MISESERI} is the Abaqus stress discretization error indicator associated with the recovered von Mises stress field in linear continuum elasticity \citep{abaqus2023}. It is based on stress-recovery error estimation on the linear-elastic continuum stress field; it is \textbf{not} phase-field error, \textbf{not} damage error, and \textbf{not} fracture energy imbalance.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{fig_miseseri_concept.png}
+  \caption{Directional relationship of \texttt{MISESERI} under uniform-error sizing: elevated stress error near singularities dictates local refinement without representing a direct algebraic formula to element size.}
+  \label{fig:miseseri_concept_pack}
+  \figureconclusion{Higher recovered-stress discretization error promotes stronger local refinement, but \texttt{errorTarget} is a target tolerance rather than a direct \texttt{MISESERI} threshold or an explicit formula for element size.}
+\end{figure}
+
+The sizing parameter \texttt{errorTarget=1.0} in Listing~1 of \citet{pandey2025} denotes a $1.0\%$ target error tolerance under \texttt{UNIFORM\_ERROR} sizing. It does \textbf{not} mean $\mathtt{MISESERI} = 1.0$ or that $1\%$ of elements are refined. Similarly, \texttt{errorTarget=2.0} specifies a $2.0\%$ target tolerance, not $\mathtt{MISESERI} = 2.0$.
+
+\subsection{Canonical Mode-I Pre-Analysis and Spatial Association}
+The canonical Mode-I pre-analysis contains $2{,}906$ finite elements ($2{,}818$ CPE4 + $88$ CPE3), $2{,}988$ nodes, and exactly $2{,}906$ scalar \texttt{WHOLE\_ELEMENT} \texttt{MISESERI} indicator values (Fig.~\ref{fig:miseseri_error_map_pack}).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{figure_3_1_canonical_mode1_miseseri_error_map.png}
+  \caption{Canonical Mode-I \texttt{MISESERI} error indicator field evaluated on the 2,906-element coarse mesh, showing error concentration at the initial crack tip.}
+  \label{fig:miseseri_error_map_pack}
+  \figureconclusion{The coarse elastic mesh is most under-resolved around the initial crack tip, where the stress gradient is highest. \texttt{MISESERI} is a stress discretization-error indicator, not a phase-field or damage-error measure.}
+\end{figure}
+
+Applying \texttt{errorTarget=1.0\%} with \texttt{coarseningFactor=NOT\_ALLOWED} generates the 71,320-element mesh (Fig.~\ref{fig:coarse_vs_adapted_pack}). As shown in Fig.~\ref{fig:miseseri_association_pack}, adapted element sizes correlate closely with the coarse indicator field.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{fig03a_coarse_mesh_cae.png}
+    \caption*{(a) Coarse pre-analysis mesh ($2{,}906$ elements)}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{fig13_adaptive_71320_mesh_cae.png}
+    \caption*{(b) Adapted mesh ($71{,}320$ elements)}
+  \end{minipage}
+  \caption{Visual comparison of (a) initial coarse mesh ($2{,}906$ elements) and (b) native adapted mesh ($71{,}320$ elements).}
+  \label{fig:coarse_vs_adapted_pack}
+  \figureconclusion{Abaqus converts the nonuniform error field into the expected nonuniform mesh: element density is concentrated along the crack-tip corridor while regions farther away remain comparatively coarse.}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth]{fig_miseseri_spatial_association.png}
+  \caption{Empirical spatial association between coarse \texttt{MISESERI} and adapted element size $h$ for the Mode-I benchmark.}
+  \label{fig:miseseri_association_pack}
+  \figureconclusion{Large coarse-mesh \texttt{MISESERI} values are spatially associated with small adapted elements. This verifies error-guided refinement without claiming an exact proprietary \texttt{MISESERI}$\rightarrow h$ mapping law.}
+\end{figure}

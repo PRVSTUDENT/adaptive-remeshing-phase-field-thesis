@@ -1,0 +1,85 @@
+\section{The Reproduction Discrepancy: 71,320 vs \texorpdfstring{$\approx 13{,}941$}{approx. 13,941} (Priority Question B)}
+\label{sec:discrepancy_audit_71k_vs_14k}
+
+\subsection{Statement of the Reproduction Discrepancy}
+The central remaining scientific question in reproducing the Pandey \& Kumar \citep{Pandey2025} adaptive methodology is the element-count discrepancy:
+\begin{quote}
+\emph{``Why does the publication-literal native Abaqus remeshing reconstruction with $\texttt{errorTarget}=1.0$ yield $71{,}320$ finite elements, while Pandey \& Kumar report approximately $13{,}941$?''}
+\end{quote}
+A fundamental principle governing our investigation is that \textbf{we do not arbitrarily tune the error target to force a match}. In Abaqus, $\texttt{errorTarget}=1.0$ literally represents $1.0\%$ relative error. While an empirical setting of $2.0\%$ produces $15{,}396$ elements ($+10.4\%$ match), parameter tuning does not constitute scientific proof of the published settings.
+
+\subsection{Multi-Release Solver Invariance (Abaqus 2019--2023)}
+To test whether the discrepancy arose from solver kernel evolution between older and newer Abaqus releases, the canonical pre-analysis and \texttt{adaptiveRemesh} workflow was executed natively across four major Abaqus Linux releases.
+
+\begin{table}[htbp]
+  \centering
+  \footnotesize
+  \caption{Multi-release solver invariance across four major Abaqus Linux releases.}
+  \label{tab:release_invariance}
+  \begin{tabularx}{\textwidth}{L{38mm} C{22mm} C{22mm} C{22mm} C{28mm}}
+    \toprule
+    \textbf{Abaqus Release / Build} & \textbf{Total Elements} & \textbf{Quads (\texttt{CPE4})} & \textbf{Tris (\texttt{CPE3})} & \textbf{Nodes SHA-256 Hash} \\
+    \midrule
+    \textbf{2019 GA} (Build 157541) & \textbf{71,320} & $69{,}443$ & $1{,}877$ & \texttt{116f2e2042af...} (identical) \\
+    \textbf{2021.HF26} (\texttt{1404968}) & \textbf{71,320} & $69{,}443$ & $1{,}877$ & \texttt{116f2e2042af...} (identical) \\
+    \textbf{2022 GA} (\texttt{1404373}) & \textbf{71,320} & $69{,}443$ & $1{,}877$ & \texttt{116f2e2042af...} (identical) \\
+    \textbf{2023.HF4} (\texttt{1404373}) & \textbf{71,320} & $69{,}443$ & $1{,}877$ & \texttt{116f2e2042af...} (identical) \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+All $142{,}268$ substantive lines of the generated input decks are \textbf{$100.000\%$ bitwise identical} across all four releases. Version-dependent remesher shifts are definitively \textbf{ruled out}.
+
+\subsection{Exhaustive 15-Factor OFAT Diagnostic Matrix}
+A systematic One-Factor-At-A-Time (OFAT) audit investigated every accessible parameter across five rigorous epistemic groups:
+
+\begin{enumerate}[leftmargin=4mm,itemsep=1pt,topsep=1pt]
+  \item \textbf{Ruled Out (6 Factors):}
+  \begin{itemize}[itemsep=0.5pt]
+    \item \emph{Abaqus Linux Release:} Bitwise invariant across 2019, 2021, 2022, 2023 ($71{,}320$ elements).
+    \item \emph{Pre-Analysis Load Scale:} Scale-invariant over $0.2\times$ to $2.0\times$ loading ($71{,}070$ to $71{,}512$ elements).
+    \item \emph{Output Frequency Setting:} \texttt{ALL\_INCREMENTS} vs \texttt{LAST\_INCREMENT} gives identical $71{,}320$ elements.
+    \item \emph{Coarse Mesher Controls:} Quad-dominated advancing front vs medial axis invariant at $71{,}320$.
+    \item \emph{Coarse Seeding Factors:} Varying \texttt{minSizeFactor} and \texttt{deviationFactor} preserves $71{,}320$.
+    \item \emph{Multi-Pass Remeshing:} Mode-I is explicitly documented as a single-pass workflow in Section~3.3 of \citep{Pandey2025}.
+  \end{itemize}
+
+  \item \textbf{Tested / No Material Effect (5 Factors):}
+  \begin{itemize}[itemsep=0.5pt]
+    \item \emph{Reduced Integration (\texttt{CPE4R}):} Job \texttt{1405056} yielded $103{,}706$ elements ($+45.4\%$), driving the mesh further away from literature.
+    \item \emph{Top Lateral BC ($u_1 = \mathrm{Free}$):} Job \texttt{1405055} yielded $55{,}761$ elements ($-21.8\%$), remaining $>4.0\times$ above literature.
+    \item \emph{Coarse Global Seed $h_{\mathrm{cms}} = 0.030\,\mathrm{mm}$:} Yielded $48{,}919$ elements ($-31.4\%$), remaining $3.5\times$ above literature.
+    \item \emph{Sizing Bounds:} Removing \texttt{minElementSize} and \texttt{maxElementSize} preserved $71{,}320$ elements.
+    \item \emph{Coarsening Dynamics:} Enabling coarsening produced $71{,}037$ elements ($-0.4\%$).
+  \end{itemize}
+
+  \item \textbf{Confounded (2 Factors):}
+  \begin{itemize}[itemsep=0.5pt]
+    \item \emph{Platform Shift:} Windows 2024 generated $71{,}904$ elements ($+0.82\%$), an insignificant numerical drift.
+    \item \emph{Plane Stress (\texttt{CPS4}):} Yielded $58{,}679$ elements, but violates standard plane strain physics.
+  \end{itemize}
+
+  \item \textbf{Unresolved Implementation Hypotheses (2 Factors):}
+  \begin{itemize}[itemsep=0.5pt]
+    \item \emph{Region Definition Hypothesis:} An unstated geometric region definition would restrict refinement, but the paper states whole-domain \texttt{All\_elem}.
+    \item \emph{Call-Site Parameter Linkage Hypothesis:} Listing~1 specifies $\texttt{errorTarget}=1.0$, while Section~4.1 omits an explicit numerical target override. While numerical proximity occurs near $2.0\%$ ($15{,}396$ elements), parameter tuning does not constitute evidence of parameter identity.
+  \end{itemize}
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth]{fig2_gate5_mesh_discrepancy_and_regions.png}
+  \caption{Mandatory Figure 2: Gate-5 mesh discrepancy audit. (a) Regional partition of the specimen used to analyze element placement in our $71{,}320$-element reconstruction. (b) Regional element count breakdown of our $71{,}320$-element reconstruction: the crack-tip process zone (R1+R2+R3) contains $9{,}061$ elements ($12.7\%$), while Far Field R5 ($41{,}986$ elements) and Transition R4 ($20{,}273$ elements) account for $87.3\%$ ($62{,}259$ elements) of the total mesh. Published literature reports $\approx 13{,}941$ total elements without a regional breakdown.}
+  \label{fig:mesh_discrepancy}
+\end{figure}
+
+\subsection{Spatial Anatomy of the Discrepancy (Figure 2)}
+Figure~\ref{fig:mesh_discrepancy} provides the spatial distribution for our publication-literal reconstruction of $71{,}320$ elements:
+\begin{itemize}[leftmargin=4mm,itemsep=1pt,topsep=1pt]
+  \item \textbf{Process Zone (R1 + R2 + R3):} Exactly $347$ crack-tip elements (R1), $5{,}318$ ligament elements (R2), and $3{,}396$ flank elements (R3), totaling \textbf{$9{,}061$ finite elements} ($12.7\%$ of the adapted mesh). This localized resolution is physically necessary to resolve the diffuse crack corridor with $h \le \ell_0 / 5$.
+  \item \textbf{Far-Field and Transition (R4 + R5):} The transition zone (R4) contains $20{,}273$ elements ($28.4\%$) and the far field (R5) contains $41{,}986$ elements ($58.9\%$), totaling \textbf{$62{,}259$ finite elements ($87.3\%$) placed outside the crack corridor}.
+\end{itemize}
+
+\begin{quote}
+\textbf{Scientific Evaluation:} Under the literal whole-domain remeshing rule (\texttt{All\_elem}, $\texttt{errorTarget}=1.0$), Abaqus refines the elastic far-field to satisfy the $1.0\%$ relative stress error threshold. The accessible evidence does not identify which unpublished implementation detail accounts for the reported $\approx 13{,}941$-element mesh. Possible distinctions such as call-site parameter linkage or an unstated region definition remain hypotheses requiring author information; neither is established.
+\end{quote}

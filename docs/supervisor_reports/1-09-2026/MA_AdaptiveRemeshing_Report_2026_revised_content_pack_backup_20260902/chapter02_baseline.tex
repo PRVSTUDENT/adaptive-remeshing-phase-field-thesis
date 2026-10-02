@@ -1,0 +1,127 @@
+\chapter{Verification of the Supplied Phase-Field Implementation}
+\label{ch:baseline}
+
+\section{Purpose of the baseline}
+Before introducing mesh refinement, the phase-field implementation must reproduce a problem for which the expected response is known. This chapter therefore separates source-code verification from mesh-adaptation questions. The Moln\'ar--Gravouil implementation provides the staggered UEL/UMAT basis \citep{Molnar2017}, while the finite-size edge-crack Mode-I benchmark of Pandey and Kumar provides the principal quantitative comparison used in the current refinement study \citep{Pandey2025}.
+
+\section{Moln\'ar one-element verification}
+The unchanged one-element example supplied with the Moln\'ar--Gravouil implementation was compiled and executed before any fracture benchmark or remeshing modification. The archived ODB contains 1,001 frames in the step \texttt{Static} and the expected displacement, reaction-force and state-variable outputs, including \texttt{SDV15}. Figure~\ref{fig:molnar_one_element} is a direct Abaqus CAE export from that ODB. Its purpose is deliberately narrow: it establishes that the original user-element source executes and evolves its constitutive state before the code is exercised on a crack problem.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+  \centering\includegraphics[width=\linewidth]{fig02a_molnar_one_element_mesh.png}\\[-0.3em]
+  \small (a) Original one-element discretization
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}
+  \centering\includegraphics[width=\linewidth]{fig02a_molnar_one_element_sdv15.png}\\[-0.3em]
+  \small (b) Final \texttt{SDV15}, fixed range $0\le d\le1$
+\end{minipage}
+\caption{Direct Abaqus CAE evidence from the unchanged Moln\'ar one-element ODB. The image establishes source execution and state evolution; it is not presented as a fracture benchmark.}
+\label{fig:molnar_one_element}
+\end{figure}
+
+\section{Moln\'ar--Gravouil single-notch reproduction}
+The next verification level was the author-supplied single-edge-notched specimen. Figure~\ref{fig:molnar_single_notch_mesh} shows the actual mesh reconstructed from the unchanged input deck, including the refined crack corridor, initial notch and applied boundary conditions. This calculation provides the first direct crack-evolution test of the supplied staggered UEL/UMAT implementation.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.78\textwidth]{fig02b_molnar_single_notch_mesh_bc.png}
+\caption{Actual Moln\'ar author-supplied single-notch mesh and boundary conditions. The mesh was parsed from the unchanged input deck; no illustrative geometry was substituted.}
+\label{fig:molnar_single_notch_mesh}
+\end{figure}
+
+The phase-field history in Figure~\ref{fig:molnar_phase_evolution} uses four actual converged ODB states. The displayed quantity is \texttt{SDV15}, interpreted as $d=0$ intact and $d=1$ fully damaged. The common color scale and viewport make the progression from diffuse notch-tip damage to a connected crack directly visible.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.24\textwidth}\centering
+\includegraphics[width=\linewidth]{fig02c_cae_molnar_u0020.png}\\[-0.3em]\small (a) $U_2=0.0020$ mm
+\end{minipage}\hfill
+\begin{minipage}[t]{0.24\textwidth}\centering
+\includegraphics[width=\linewidth]{fig02c_cae_molnar_u0050.png}\\[-0.3em]\small (b) $U_2=0.0050$ mm
+\end{minipage}\hfill
+\begin{minipage}[t]{0.24\textwidth}\centering
+\includegraphics[width=\linewidth]{fig02c_cae_molnar_u0060.png}\\[-0.3em]\small (c) $U_2=0.0060$ mm
+\end{minipage}\hfill
+\begin{minipage}[t]{0.24\textwidth}\centering
+\includegraphics[width=\linewidth]{fig02c_cae_molnar_u0070.png}\\[-0.3em]\small (d) $U_2=0.0070$ mm
+\end{minipage}
+\caption{Direct Abaqus CAE exports of Moln\'ar single-notch \texttt{SDV15} at four converged displacement states. Every panel uses the fixed range $0\le d\le1$ and the same viewport.}
+\label{fig:molnar_phase_evolution}
+\end{figure}
+
+Execution of the original supplied model did not imply exact reproduction of the published curve. The simulation peak was $0.727608\,\mathrm{kN}$ at $U_2=0.006100\,\mathrm{mm}$, while the digitized Fig.~7 reference peak was $0.690591\,\mathrm{kN}$ near $0.005584\,\mathrm{mm}$. The corresponding peak-force and peak-displacement differences were approximately $5.36\%$ and $9.25\%$, respectively. Figure~\ref{fig:molnar_rf_u} therefore reports the mismatch explicitly.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.76\textwidth]{fig02d_molnar_single_notch_rf_u.png}
+\caption{Reaction-force--displacement comparison between the unchanged author-supplied Moln\'ar Abaqus model and the digitized $l_c=0.015\,\mathrm{mm}$ curve from Moln\'ar and Gravouil.}
+\label{fig:molnar_rf_u}
+\end{figure}
+
+\section{Improved Moln\'ar Mode-I reference}
+The initial discrepancy motivated a controlled mesh-resolution study rather than being hidden or treated as a remeshing effect. Figure~\ref{fig:molnar_h_convergence} summarizes the later H0/H1/H2 progression and shows how response convergence and computational cost were evaluated together. This study established the stronger fixed-mesh basis used by the subsequent refinement work.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.32\textwidth}\centering
+\includegraphics[width=\linewidth]{fig02f_molnar_mesh_h0.png}\\[-0.3em]\small (a) H0
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\textwidth}\centering
+\includegraphics[width=\linewidth]{fig02f_molnar_mesh_h1.png}\\[-0.3em]\small (b) H1
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\textwidth}\centering
+\includegraphics[width=\linewidth]{fig02f_molnar_mesh_h2.png}\\[-0.3em]\small (c) H2
+\end{minipage}
+\caption{Actual H0/H1/H2 Moln\'ar meshes generated by the project preprocessing chain. The panels expose the discretizations behind the convergence data in Figure~\ref{fig:molnar_h_convergence}.}
+\label{fig:molnar_h_meshes}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{fig02e_molnar_h_convergence.png}
+\caption{Moln\'ar Mode-I mesh-resolution study. Response agreement is assessed together with mesh density and computational cost rather than from a single peak value.}
+\label{fig:molnar_h_convergence}
+\end{figure}
+
+\section{Fixed-mesh Mode-I benchmark for the Pandey--Kumar comparison}
+The benchmark is a $1\times1\,\mathrm{mm}$ square plate with a $0.5\,\mathrm{mm}$ edge crack. The material parameters are $E=210\,\mathrm{GPa}$ and $\nu=0.3$. The fracture parameters are $l_0=0.0075\,\mathrm{mm}$ and $G_c=2.7\times10^{-3}\,\mathrm{kN/mm}$. Loading is displacement controlled. In the publication, the standard phase-field calculation uses a global mesh of $0.02\,\mathrm{mm}$ and a locally refined crack corridor with $h=0.003\,\mathrm{mm}$; the displacement is applied in two steps up to $0.005\,\mathrm{mm}$ and then $0.010\,\mathrm{mm}$ \citep{Pandey2025}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.62\textwidth]{fig_mode1_geometry.pdf}
+\caption{Schematic of the Mode-I single-edge-crack benchmark used for the fixed-mesh reproduction and the subsequent mesh-refinement study. The crack is represented as a zero-gap discontinuity; this geometric detail is important for the elastic compliance of the specimen.}
+\label{fig:mode1_geometry}
+\end{figure}
+
+\section{Fixed-mesh quantitative reproduction}
+The project fixed-mesh reference calculation reached
+\begin{equation}
+F_{\max}=0.757778\,\mathrm{kN},\qquad u(F_{\max})=0.005857\,\mathrm{mm}.
+\end{equation}
+The digitized/project reference values used for the comparison are approximately $0.758\,\mathrm{kN}$ and $0.005860\,\mathrm{mm}$. Table~\ref{tab:baseline_comparison} summarizes the scalar comparison.
+
+\begin{table}[htbp]
+\centering
+\caption{Fixed-mesh Mode-I reproduction compared with the project reference values extracted from the published benchmark.}
+\label{tab:baseline_comparison}
+\begin{tabular}{lccc}
+\toprule
+Quantity & Reference & Reproduction & Relative difference \\
+\midrule
+Peak force $F_{\max}$ & $0.758000\,\mathrm{kN}$ & $0.757778\,\mathrm{kN}$ & $-0.029\%$ \\
+Displacement at peak & $0.005860\,\mathrm{mm}$ & $0.005857\,\mathrm{mm}$ & $-0.051\%$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The complete force--displacement curve remains the preferred comparison quantity. The peak values are reported here because they provide a compact check that the reconstructed benchmark has the correct force scale and localization displacement before changing the mesh-generation procedure.
+
+The accepted standard ODB also contains the matched-state fields required for a final standard-versus-adaptive comparison. That combined figure is deferred until the adaptive calculation provides verified terminal states at matching displacements.
+
+\section{Geometry sanity check for later adaptive models}
+The baseline was also used as a model-level diagnostic. A later refinement attempt accidentally represented the pre-crack as a finite-width rectangular slot. Its initial stiffness was $75.47\,\mathrm{kN/mm}$, whereas the accepted fixed-mesh baseline was about $138.15\,\mathrm{kN/mm}$. Replacing the slot by a zero-gap seam restored the pre-analysis stiffness to $141.82\,\mathrm{kN/mm}$, a difference of about $+2.65\%$ from the baseline. This comparison identified a geometry error before interpreting the discrepancy as a phase-field or remeshing effect.
+
+\section{Baseline conclusion}
+The fixed-mesh Mode-I response is sufficiently well reproduced to serve as the current reference for the refined calculation. The later comparison therefore considers the complete force--displacement curve, peak force, displacement at peak, crack path and computational cost. Agreement of a single scalar quantity is not by itself considered sufficient validation.

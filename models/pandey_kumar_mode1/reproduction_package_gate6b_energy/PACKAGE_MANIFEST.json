@@ -1,0 +1,75 @@
+{
+    "package_name": "reproduction_package_gate6b_energy",
+    "description": "Lightweight Gate-6B Mode-I Energetic Convergence Reproduction Package",
+    "protocol_version": 2,
+    "active_phase": "MODE1_GATE6B_ENERGY_CONVERGENCE_AND_STEP2_RECONCILIATION_ACTIVE",
+    "author": "Gemini Antigravity",
+    "updated_at": "2026-10-02T09:00:00+02:00",
+    "semantics_audit": {
+        "physidx_formula": "PHYSIDX = NOEL - 2 * NPHYS_VAL (Layer 3 CPE4 companion mapping)",
+        "statev_17": "SV_E_FRAC (element-integrated fracture surface energy E_frac in kN*mm)",
+        "statev_18": "SV_E_ELAS (element-integrated elastic strain energy E_elas in kN*mm)",
+        "statev_19": "SV_PSI_F (local volumetric fracture surface energy density psi_f in kN/mm^2 == 1 GPa == 1000 MPa == 1 J/mm^3)",
+        "statev_20": "SV_PSI_E (local volumetric elastic strain energy density psi_e in kN/mm^2 == 1 GPa == 1000 MPa == 1 J/mm^3)",
+        "plane_strain_thickness": "t = 1.0 mm unit thickness; V_e = A_e * 1.0 mm (mm^3); volume integrals yield kN*mm == J == 1000 mJ",
+        "getoutdir": "CALL GETOUTDIR writing persistent working-dir uel_energy_balance.csv"
+    },
+    "files": {
+        "PK_MODE1_REF15K_ENERGY.inp": {
+            "size_bytes": 1941184,
+            "sha256": "EC560A4C265730647B43DAB125D166EBC57CAC285D574D38222A498A967535D9"
+        },
+        "PK_MODE1_FIX_H0020_ENERGY.inp": {
+            "size_bytes": 4256089,
+            "sha256": "9A5C3BD7EA9AF8CD38715FAC9FB062B1590766B7A7CF3A800D2F8C9E95C3767F"
+        },
+        "PK_MODE1_FIX_H0015_ENERGY.inp": {
+            "size_bytes": 5621225,
+            "sha256": "1500ECA5028660045789AF04AD3112E26CA76BBF7BFAC6437A42008A4307408F"
+        },
+        "f42_mixed_uel.for": {
+            "size_bytes": 29722,
+            "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+        },
+        "extract_authoritative_mode1_energy_complete.py": {
+            "size_bytes": 14703,
+            "sha256": "9270C0F2DC77F84799E2B6435E2D5BCB4FF693204A08EF76BD815D6414332E8A"
+        },
+        "handle_job_1409705_terminal_qualification.py": {
+            "size_bytes": 64885,
+            "sha256": "51C11848562D93C4D05FB1356CD5934282B46244A4495014EDE1A18946C04848"
+        },
+        "spatial_convergence_pipeline.py": {
+            "size_bytes": 17318,
+            "sha256": "CC413266FF7E97523756918C1933CF4F945E75CB7CABA082A2DDAF4CD0A18E2D"
+        },
+        "submit_s1_ref15k_energy.pbs": {
+            "size_bytes": 1202,
+            "sha256": "C26427E54FC1D91D53BE7C98FFBA0DCCDD2A241EC3C047860050C0A4DB676E1C"
+        },
+        "submit_s2_h0020_energy.pbs": {
+            "size_bytes": 1173,
+            "sha256": "207623D697D7F469BD27E7F75867B4C74CF27793A76F2B2DADE96801A366702E"
+        },
+        "submit_s3_h0015_energy.pbs": {
+            "size_bytes": 1173,
+            "sha256": "3595AAB6DF979B1AFEFB79A5217A81C3B1937A51877D65AEF0280C593CFD6CC6"
+        },
+        "commands.txt": {
+            "size_bytes": 5594,
+            "sha256": "60A7CD83CD46BE4181BBC3233A653A9F7ABA0A1ECDB8207ACAE8659C5B08E975"
+        },
+        "README.md": {
+            "size_bytes": 11371,
+            "sha256": "057A3EA6B9EF834D8BADFFBBB135246836DB2EFE7230B867FFA6F68EFC6EFDEC"
+        },
+        "verify_reproduction_package.py": {
+            "size_bytes": 7905,
+            "sha256": "B83BC9B3E4D5053A42C567A177C7DD28AA699FE80C0D9D9E1D1B48C68A0740CA"
+        },
+        "MODE1_ENERGY_EQUATION_CODE_OUTPUT_MAP.md": {
+            "size_bytes": 18824,
+            "sha256": "F9B09AD96C3E66CB6970C9E6FCF1C0142FD367F9D13CF875AD86306AFA7C1118"
+        }
+    }
+}

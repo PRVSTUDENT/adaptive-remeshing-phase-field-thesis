@@ -1,0 +1,35 @@
+#!/bin/bash
+#PBS -N PK_M1_S2_ENERGY
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=32gb
+#PBS -l walltime=48:00:00
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -o PK_M1_S2_ENERGY.out
+#PBS -e PK_M1_S2_ENERGY.err
+
+set -euo pipefail
+cd "$PBS_O_WORKDIR" || exit 1
+
+if [ ! -f "./job_notifications.sh" ]; then
+  echo "[LAUNCHER ERROR] job_notifications.sh missing" >&2
+  exit 10
+fi
+
+source ./job_notifications.sh
+notification_load_config || true
+notification_install_terminal_trap
+notify_start || true
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "=== STARTING PRODUCTION SOLVER PK_M1_S2_ENERGY (32,130 Finite Elements, 1-CPU Serial) ==="
+rm -f PK_M1_S2_ENERGY.lck PK_M1_S2_ENERGY.023
+abaqus job=PK_M1_S2_ENERGY user=f42_mixed_uel.for input=PK_MODE1_FIX_H0020_ENERGY.inp cpus=1 memory="32gb" double=both interactive
+ABAQUS_EXIT=$?
+echo "=== FINISHED PRODUCTION SOLVER PK_M1_S2_ENERGY (EXIT: $ABAQUS_EXIT) ==="
+exit "$ABAQUS_EXIT"

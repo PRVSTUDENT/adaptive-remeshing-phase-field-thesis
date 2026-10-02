@@ -1,0 +1,117 @@
+\section{Multifaceted Mode-I Convergence Evaluation}
+\label{sec:multifaceted_convergence}
+
+In accordance with supervisor directives, mesh adequacy and numerical convergence are evaluated across multiple complementary physical and energetic quantities rather than peak reaction force alone.
+
+\subsection{Spatial Mesh Resolution Series ($S_1$--$S_4$)}
+Four uniform meshes spanning element edge lengths from $h = 3.0\,\mu\mathrm{m}$ ($S_1$, $15{,}192$ elements) down to $h = 1.25\,\mu\mathrm{m}$ ($S_4$, $51{,}408$ elements) evaluate spatial discretization characteristics ($h/l_0 \in [0.167, 0.400]$ at fixed $l_0 = 7.5\,\mu\mathrm{m}$), alongside a separate historical fine-mesh result ($h = 1.0\,\mu\mathrm{m}$, $69{,}384$ elements, Job \texttt{1406019.mmaster02}):
+\begin{enumerate}
+  \item \textbf{Initial Structural Stiffness $K_0$ is Stable:} Varies between $137.945520\,\mathrm{kN/mm}$ ($S_1$) and $137.841200\,\mathrm{kN/mm}$ ($S_4$), extending to $137.823301\,\mathrm{kN/mm}$ on the historical fine mesh, spanning a relative variation of only \textbf{$0.0886\%$ ($< 0.09\%$, $R^2 > 0.999999$)}. Classified as \textbf{\texttt{CONVERGED / STABLE}}.
+  \item \textbf{Peak Force $F_{\max}$ and Displacement $u_{\mathrm{peak}}$ are Mesh-Sensitive:} Across the full tested range, peak force decreases monotonically from $0.7578\,\mathrm{kN}$ ($S_1$) to $0.7255\,\mathrm{kN}$ (historical fine mesh), a total reduction of $4.26\%$ (Fig.~\ref{fig:spatial_fu_pack} and \ref{fig:spatial_metrics_pack}). Peak displacement advances from $5.857\,\mu\mathrm{m}$ to $5.575\,\mu\mathrm{m}$ ($-4.81\%$). Classified as \textbf{\texttt{MESH-SENSITIVE}}.
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth]{fig_mode1_spatial_fu_convergence.pdf}
+  \caption{Mode-I tensile force-displacement response across uniform mesh resolutions ($S_1$--$S_4$ plus historical fine mesh), showing identical elastic stiffness and systematic peak load mesh sensitivity.}
+  \label{fig:spatial_fu_pack}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig_mode1_spatial_convergence_metrics.pdf}
+  \caption{Discretization ratio ($h/l_0$) scaling metrics: (a) exceptional invariance of initial stiffness $K_0$ ($\Delta < 0.09\%$); (b) monotonic mesh sensitivity of peak force $F_{\max}$ ($4.26\%$); (c) peak displacement shift $u_{\mathrm{peak}}$; (d) matched-displacement external work $W_{\mathrm{trap}}$.}
+  \label{fig:spatial_metrics_pack}
+\end{figure}
+
+\subsection{Temporal Time-Increment Scaling ($T_1$--$T_3$)}
+Time incrementation was tested across three schedules at fixed baseline resolution ($h = 3.0\,\mu\mathrm{m}$): Case $T_1$ (coarse $2\times$, $3{,}500$ incs), Case $T_2$ (nominal $1\times$, $7{,}000$ incs), and Case $T_3$ (fine $0.5\times$, Job \texttt{1406317.mmaster02}, completed all $10{,}022$ Step-2 incs to $u = 10.0\,\mu\mathrm{m}$).
+\begin{itemize}
+  \item \textbf{Peak Mechanical Invariance:} Initial stiffness $K_0$ varies by $<0.001\%$, and peak force varies by $<0.07\%$ ($0.75815 \to 0.75763\,\mathrm{kN}$), proving temporal stability of limit loads (\textbf{\texttt{CONVERGED / STABLE}}, Fig.~\ref{fig:temporal_pack}).
+  \item \textbf{Energetic Temporal Sensitivity:} Terminal trapezoidal boundary work $W_{\mathrm{trap}}$ varies by $3.24\%$ ($2.41011 \to 2.33189\,\mathrm{mJ}$), and the two-term bookkeeping difference $\Delta_{\mathrm{bookkeeping}} = W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$ shifts from $+0.378\%$ to $+3.541\%$ (\textbf{\texttt{TEMPORALLY SENSITIVE}}).
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.80\textwidth]{fig_mode1_temporal_convergence.pdf}
+  \caption{Mode-I temporal convergence across time increment scales ($T_1$: $2\times$, $T_2$: $1\times$, $T_3$: $0.5\times$, Job \texttt{1406317.mmaster02}), showing step-size invariance of the mechanical peak.}
+  \label{fig:temporal_pack}
+\end{figure}
+
+\subsection{Adaptive Remeshing Series ($A_1$--$A_4$)}
+Across adaptive cases $A_1$--$A_4$ (Fig.~\ref{fig:adaptive_pack}), all meshes reproduce reference elastic stiffness $K_0 \approx 137.85\,\mathrm{kN/mm}$ within $0.09\%$. In the post-peak softening regime, coarser background meshes ($A_2$--$A_4$) sustain elevated load capacity, classified as \textbf{\texttt{OBSERVED\_FORCE\_PLATEAU (CRACK-PINNING HYPOTHESIS / NOT YET INDEPENDENTLY PROVEN)}}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.80\textwidth]{fig_mode1_adaptive_convergence.pdf}
+  \caption{Force-displacement curves for native adaptive cases ($A_1$--$A_4$) alongside baseline $S_1$.}
+  \label{fig:adaptive_pack}
+\end{figure}
+
+\subsection{Three-Point Physical Length-Scale Study ($l_0$ on Fixed $S_3$ Mesh)}
+A controlled physical length-scale study was executed on the fixed $S_3$ mesh ($h = 1.5\,\mu\mathrm{m}$, $41{,}912$ finite elements, ensuring $h/l_0 \le 0.200$) across three regularization lengths $l_0 \in \{7.5, 11.25, 15.0\}\,\mu\mathrm{m}$ (Table~\ref{tab:l0_study_pack}, Fig.~\ref{fig:l0_metrics_pack}):
+\begin{itemize}
+  \item \textbf{Stiffness Invariance:} Initial structural stiffness $K_0$ varies from $137.857608$ to $137.676175\,\mathrm{kN/mm}$ ($\Delta = 0.13\%$), classified as \textbf{\texttt{INSENSITIVE / STABLE OVER TESTED RANGE}}.
+  \item \textbf{Peak Force and Displacement Sensitivity:} Peak reaction force drops from $0.732196\,\mathrm{kN}$ ($l_0 = 7.5\,\mu\mathrm{m}$) to $0.689540\,\mathrm{kN}$ ($l_0 = 15.0\,\mu\mathrm{m}$, a $5.83\%$ reduction), while displacement at peak shifts from $5.633\,\mu\mathrm{m}$ to $5.579\,\mu\mathrm{m}$, classified as \textbf{\texttt{LENGTH-SCALE SENSITIVE}}.
+  \item \textbf{Scope Limitation:} The $l_0 = 3.75\,\mu\mathrm{m}$ case ($h/l_0 = 0.400$) is excluded as under-resolved. Terminal energy comparison across the three cases is classified as \textbf{\texttt{NOT\_YET\_QUALIFIED\_UNEQUAL\_ENDPOINTS}}.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Three-point physical length-scale sensitivity metrics on fixed $S_3$ mesh ($h = 1.5\,\mu\mathrm{m}$).}
+\label{tab:l0_study_pack}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+$l_0$ [$\mu\mathrm{m}$] & Job ID & $h/l_0$ & Elements & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $u_{\mathrm{peak}}$ [$\mu\mathrm{m}$] \\
+\midrule
+$7.50$ & \texttt{1406017.mmaster02} & $0.200$ & $41{,}912$ & $137.857608$ & $0.732196$ & $5.633$ \\
+$11.25$ & \texttt{1406895.mmaster02} & $0.133$ & $41{,}912$ & $137.765563$ & $0.708402$ & $5.590$ \\
+$15.00$ & \texttt{1406896.mmaster02} & $0.100$ & $41{,}912$ & $137.676175$ & $0.689540$ & $5.579$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{fig_mode1_l0_fu_overlay.pdf}
+    \caption*{(a) $F$--$u$ response across $l_0$}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{fig_mode1_l0_metrics_vs_lengthscale.pdf}
+    \caption*{(b) Peak metrics vs.\ $l_0$}
+  \end{minipage}
+  \caption{Three-point physical length-scale study on fixed $S_3$ mesh ($h = 1.5\,\mu\mathrm{m}$): (a) global force-displacement overlay and (b) variation of $K_0$, $F_{\max}$, $u_{\mathrm{peak}}$, and matched $W_{\mathrm{trap}}$ at $u = 5.50\,\mu\mathrm{m}$ with $l_0$.}
+  \label{fig:l0_metrics_pack}
+\end{figure}
+
+\subsection{Phase-Field Contours, Crack Symmetry, and Localization Profiles}
+Figure~\ref{fig:matched_contours_pack} illustrates the full 2D damage field $d(\mathbf{x})$ at representative deformation states.
+\begin{itemize}
+  \item \textbf{Crack Centroid Path $y_c(x)$:} Damage-weighted centroid offset $|y_c - 0.5\,\mathrm{mm}| \le 3.10\,\mu\mathrm{m}$ across all fixed and adaptive meshes, confirming pure Mode-I symmetry within discrete element bounds (Fig.~\ref{fig:path_dev_pack}(a)).
+  \item \textbf{Diffusive Band Width:} The moderate damage band ($d \ge 0.50$) spans a transverse full-width of $20.0$--$30.0\,\mu\mathrm{m}$ ($20.0$--$22.9\,\mu\mathrm{m}$ at $x = 0.55\,\mathrm{mm}$), qualified as \textbf{\texttt{MESH-SENSITIVE / RESOLUTION-LIMITED}} (Fig.~\ref{fig:ligament_pack} and \ref{fig:path_dev_pack}(b)).
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{gate6_matched_phase_field_contours.png}
+  \caption{Matched-displacement phase-field damage contours: (top) initiation at $u=5.0\,\mu\mathrm{m}$; (middle) limit load state at $u=5.7\,\mu\mathrm{m}$; (bottom) post-peak propagated crack at $u=6.2\,\mu\mathrm{m}$.}
+  \label{fig:matched_contours_pack}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.80\textwidth]{fig1_fixed_mesh_ligament_profiles.png}
+  \caption{Ligament phase-field profiles $d(x, y=0.5\,\mathrm{mm})$ for fixed meshes at matched displacement increments.}
+  \label{fig:ligament_pack}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.80\textwidth]{fig4_vertical_path_localization_deviation.png}
+  \caption{Rigorous separation of (a) crack-centroid trajectory ($|y_c - 0.5| \le 3.1\,\mu\mathrm{m}$, symmetric) and (b) damage localization-band half-width ($10$--$15\,\mu\mathrm{m}$, resolution-limited).}
+  \label{fig:path_dev_pack}
+\end{figure}

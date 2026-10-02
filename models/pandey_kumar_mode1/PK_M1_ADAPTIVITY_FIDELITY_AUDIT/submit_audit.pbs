@@ -1,0 +1,43 @@
+#!/bin/bash
+#PBS -N PK_M1_FID_AUDIT
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -o PK_M1_FIDELITY_AUDIT.out
+#PBS -e PK_M1_FIDELITY_AUDIT.err
+
+set -euo pipefail
+cd "$PBS_O_WORKDIR" || exit 1
+
+if [ -f "./job_notifications.sh" ]; then
+  source ./job_notifications.sh
+  notification_load_config || true
+  notification_install_terminal_trap
+  notify_start || true
+fi
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "=== STARTING PK_M1_ADAPTIVITY_FIDELITY_AUDIT PREPROCESSING JOB ==="
+echo "Node: $(hostname)"
+echo "Date: $(date)"
+echo "PWD:  $(pwd)"
+
+# Execute Abaqus CAE non-interactive Python audit script
+abaqus cae noGUI=audit_pandey_kumar_fidelity.py -- /home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/PK_M1_ADAPTIVITY_FIDELITY_AUDIT /home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/02_proposed_adaptive_refined
+AUDIT_EXIT=$?
+
+echo "=== COMPLETED AUDIT SCRIPT WITH EXIT CODE: $AUDIT_EXIT ==="
+
+if [ -f "PK_M1_ADAPTIVITY_FIDELITY_REPORT.json" ]; then
+  echo "--- AUDIT REPORT SUMMARY ---"
+  cat PK_M1_ADAPTIVITY_FIDELITY_REPORT.json
+fi
+
+exit "$AUDIT_EXIT"

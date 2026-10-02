@@ -1,0 +1,1189 @@
+{
+  "audit_protocol_version": 2,
+  "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+  "scenarios_exercised_count": 9,
+  "status": "ALL_9_DRYRUN_SCENARIOS_QUALIFIED",
+  "scenarios": [
+    {
+      "scenario_id": 1,
+      "name": "clean_terminal_s1_qualification_release_both",
+      "description": "Clean terminal S1 qualification -> S2/S3 release intent generated but intercepted before real qsub",
+      "prerequisites": {
+        "terminal_scheduler_state": {
+          "status": "PASS",
+          "reason": "JOB_TERMINAL_AND_CLEARED_FROM_QUEUE"
+        },
+        "solver_exit_0": {
+          "status": "PASS",
+          "reason": "CLEAN_SOLVER_COMPLETION"
+        },
+        "expected_step_completed": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_TWO_STEP_SCHEDULE_COMPLETED (Step 1: 2000 incs / t=1.0s, Step 2: 5000 incs / t=1.0s, Total: 7000 incs)",
+          "details": {
+            "prescribed_step1_incs": 2000,
+            "prescribed_step2_incs": 5000,
+            "prescribed_total_incs": 7000,
+            "analysis_completed_banner": true,
+            "two_step_horizon_verified": true
+          }
+        },
+        "final_target_displacement_reached": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_DISPLACEMENT_ENDPOINT_VERIFIED_FROM_BC_MAPPING (Extracted: 0.010000 mm, Prescribed: 0.010000 mm, Diff: 0.000000e+00 mm)",
+          "details": {
+            "extracted_u_final_mm": 0.01,
+            "prescribed_endpoint_mm": 0.01,
+            "diff_from_endpoint_mm": 0.0,
+            "endpoint_verified": true,
+            "prescribed_bc_mapping": "RP displacement u_y = 0.005000 mm (Step 1) + 0.005000 mm (Step 2) = 0.010000 mm (Total)"
+          }
+        },
+        "no_fatal_solver_diagnostics": {
+          "status": "PASS",
+          "reason": "NO_FATAL_SOLVER_DIAGNOSTICS (Recorded nonfatal diagnostics: NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING)",
+          "diagnostics": {
+            "fatal_errors_count": 0,
+            "warnings_recorded": [
+              "NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING"
+            ],
+            "has_nonfatal_negative_eigenvalues": true,
+            "softening_diagnostics_interpretation": "NONFATAL_PHYSICAL_SOFTENING_INDICATOR",
+            "status": "NO_FATAL_SOLVER_DEFECTS"
+          }
+        },
+        "mechanically_valid_f_u": {
+          "status": "PASS",
+          "reason": "MECHANICALLY_VALID_FULL_F_U_TRAJECTORY (K0: 137.9455 kN/mm, Fmax: 0.7578 kN, upeak: 0.005857 mm, Ffinal: 0.000232 kN)",
+          "metrics": {
+            "K0_kN_per_mm": 137.94552,
+            "F_max_kN": 0.757778,
+            "u_at_F_max_mm": 0.005857,
+            "F_final_kN": 0.000232,
+            "u_final_mm": 0.01,
+            "softening_ratio_pct": 99.96938417320112,
+            "f_u_monotonic_and_complete": true
+          }
+        },
+        "mechanical_parity_extraction": {
+          "status": "PASS",
+          "reason": "MECHANICAL_PARITY_EXTRACTED (K0: 137.9455 [Delta: +0.0000%], Fmax: 0.7578 [Delta: +0.0000%], upeak: 0.005857 [Delta: +0.000000 mm])",
+          "differences": {
+            "k0_kN_per_mm": 137.94552,
+            "ref_k0_kN_per_mm": 137.94552,
+            "delta_k0_pct": 0.0,
+            "f_max_kN": 0.757778,
+            "ref_f_max_kN": 0.757778,
+            "delta_fmax_pct": 0.0,
+            "u_peak_mm": 0.005857,
+            "ref_u_peak_mm": 0.005857,
+            "delta_upeak_mm": 0.0,
+            "f_final_kN": 0.000232,
+            "ref_f_final_kN": 0.000232,
+            "delta_ffinal_kN": 0.0,
+            "w_ext_kNmm": 0.002359,
+            "ref_w_ext_kNmm": 0.002359329,
+            "delta_wext_pct": -0.013944642735280564,
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "presence_of_sdv17_20": {
+          "status": "PASS",
+          "reason": "SDV17_20_PRESENT"
+        },
+        "single_value_deduplication": {
+          "status": "PASS",
+          "reason": "DEDUPLICATED_EXACT_COUNT: 15,192 elements"
+        },
+        "units_and_sign_conventions": {
+          "status": "PASS",
+          "reason": "ENERGY_FIELDS_AND_UNITS_QUALIFIED (E_elas: 0.150000 mJ, E_frac: 2.100000 mJ, W_ext: 2.359000 mJ [1 kN*mm = 1000 mJ, t=1.0 mm certified consistent])",
+          "details": {
+            "e_elas_final_kNmm": 0.00015,
+            "e_elas_final_mJ": 0.15,
+            "e_frac_final_kNmm": 0.0021,
+            "e_frac_final_mJ": 2.1,
+            "e_model_final_kNmm": 0.00225,
+            "e_model_final_mJ": 2.25,
+            "w_ext_raw_kNmm": 0.002359,
+            "w_ext_normalized_kNmm": 0.002359,
+            "w_ext_normalized_mJ": 2.359,
+            "raw_work_sign_normalized": false,
+            "unique_elements_count": 15192,
+            "out_of_plane_thickness_mm": 1.0,
+            "internal_energy_units": "kN*mm == J == 1000 mJ",
+            "external_work_units": "kN*mm == J == 1000 mJ",
+            "energy_density_units": "kN/mm^2 == J/mm^3 == 1000 MPa == 1 GPa",
+            "dimensional_consistency_status": "CERTIFIED_PLANE_STRAIN_T1MM_CONSISTENT",
+            "unit_equivalence": "1 kN*mm = 1.0 J = 1000.0 mJ = 1.0e6 uJ"
+          }
+        },
+        "cross_channel_reconciliation": {
+          "status": "PASS",
+          "reason": "CROSS_CHANNEL_PARITY_QUALIFIED (Diff: 0.000000%, Delta: +0.0000e+00 kN*mm)",
+          "discrepancy": {
+            "e_odb_kNmm": 0.00015,
+            "e_csv_kNmm": 0.00015,
+            "signed_diff_kNmm": 0.0,
+            "diff_abs_kNmm": 0.0,
+            "diff_pct": 0.0,
+            "provenance": "ODB Layer 3 SDV18 unique sum vs UEXTERNALDB Unit 105 LOP=2 CSV",
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "no_extractor_provenance_defect": {
+          "status": "PASS",
+          "reason": "EXTRACTOR_EVALUATION_STRUCTURE_VALID"
+        }
+      },
+      "bookkeeping_residual": {
+        "e_model_kNmm": 0.00225,
+        "e_model_mJ": 2.25,
+        "w_ext_kNmm": 0.002359,
+        "w_ext_mJ": 2.359,
+        "delta_book_kNmm": -0.00010900000000000016,
+        "delta_book_mJ": -0.10900000000000015,
+        "signed_reldiff_pct": -4.620601949978812,
+        "eps_book_pct": 4.620601949978812,
+        "governance": "REPORTED_SCIENTIFIC_OUTPUT_NO_PASS_FAIL_GATE"
+      },
+      "submission_state_before": {
+        "s2_submitted": false,
+        "s2_job_id": null,
+        "s3_submitted": false,
+        "s3_job_id": null
+      },
+      "final_action": "RELEASE_BOTH",
+      "s2_job_id": null,
+      "s3_job_id": null
+    },
+    {
+      "scenario_id": 2,
+      "name": "incomplete_step_cutback_zero_release",
+      "description": "Cutback exhaustion in Step 2 -> zero release (BLOCK_RELEASE)",
+      "prerequisites": {
+        "terminal_scheduler_state": {
+          "status": "PASS",
+          "reason": "JOB_TERMINAL_AND_CLEARED_FROM_QUEUE"
+        },
+        "solver_exit_0": {
+          "status": "FAIL",
+          "reason": "STA_INDICATES_ANALYSIS_NOT_COMPLETED"
+        },
+        "expected_step_completed": {
+          "status": "FAIL",
+          "reason": "STA_INDICATES_ANALYSIS_NOT_COMPLETED",
+          "details": {}
+        },
+        "final_target_displacement_reached": {
+          "status": "FAIL",
+          "reason": "STEP_NOT_COMPLETED_PREVENTING_ENDPOINT_VERIFICATION",
+          "details": {
+            "extracted_u_final_mm": 0.01,
+            "prescribed_endpoint_mm": 0.01,
+            "diff_from_endpoint_mm": 0.0
+          }
+        },
+        "no_fatal_solver_diagnostics": {
+          "status": "PASS",
+          "reason": "NO_FATAL_SOLVER_DIAGNOSTICS (Recorded nonfatal diagnostics: NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING)",
+          "diagnostics": {
+            "fatal_errors_count": 0,
+            "warnings_recorded": [
+              "NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING"
+            ],
+            "has_nonfatal_negative_eigenvalues": true,
+            "softening_diagnostics_interpretation": "NONFATAL_PHYSICAL_SOFTENING_INDICATOR",
+            "status": "NO_FATAL_SOLVER_DEFECTS"
+          }
+        },
+        "mechanically_valid_f_u": {
+          "status": "PASS",
+          "reason": "MECHANICALLY_VALID_FULL_F_U_TRAJECTORY (K0: 137.9455 kN/mm, Fmax: 0.7578 kN, upeak: 0.005857 mm, Ffinal: 0.000232 kN)",
+          "metrics": {
+            "K0_kN_per_mm": 137.94552,
+            "F_max_kN": 0.757778,
+            "u_at_F_max_mm": 0.005857,
+            "F_final_kN": 0.000232,
+            "u_final_mm": 0.01,
+            "softening_ratio_pct": 99.96938417320112,
+            "f_u_monotonic_and_complete": true
+          }
+        },
+        "mechanical_parity_extraction": {
+          "status": "PASS",
+          "reason": "MECHANICAL_PARITY_EXTRACTED (K0: 137.9455 [Delta: +0.0000%], Fmax: 0.7578 [Delta: +0.0000%], upeak: 0.005857 [Delta: +0.000000 mm])",
+          "differences": {
+            "k0_kN_per_mm": 137.94552,
+            "ref_k0_kN_per_mm": 137.94552,
+            "delta_k0_pct": 0.0,
+            "f_max_kN": 0.757778,
+            "ref_f_max_kN": 0.757778,
+            "delta_fmax_pct": 0.0,
+            "u_peak_mm": 0.005857,
+            "ref_u_peak_mm": 0.005857,
+            "delta_upeak_mm": 0.0,
+            "f_final_kN": 0.000232,
+            "ref_f_final_kN": 0.000232,
+            "delta_ffinal_kN": 0.0,
+            "w_ext_kNmm": 0.002359,
+            "ref_w_ext_kNmm": 0.002359329,
+            "delta_wext_pct": -0.013944642735280564,
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "presence_of_sdv17_20": {
+          "status": "PASS",
+          "reason": "SDV17_20_PRESENT"
+        },
+        "single_value_deduplication": {
+          "status": "PASS",
+          "reason": "DEDUPLICATED_EXACT_COUNT: 15,192 elements"
+        },
+        "units_and_sign_conventions": {
+          "status": "PASS",
+          "reason": "ENERGY_FIELDS_AND_UNITS_QUALIFIED (E_elas: 0.150000 mJ, E_frac: 2.100000 mJ, W_ext: 2.359000 mJ [1 kN*mm = 1000 mJ, t=1.0 mm certified consistent])",
+          "details": {
+            "e_elas_final_kNmm": 0.00015,
+            "e_elas_final_mJ": 0.15,
+            "e_frac_final_kNmm": 0.0021,
+            "e_frac_final_mJ": 2.1,
+            "e_model_final_kNmm": 0.00225,
+            "e_model_final_mJ": 2.25,
+            "w_ext_raw_kNmm": 0.002359,
+            "w_ext_normalized_kNmm": 0.002359,
+            "w_ext_normalized_mJ": 2.359,
+            "raw_work_sign_normalized": false,
+            "unique_elements_count": 15192,
+            "out_of_plane_thickness_mm": 1.0,
+            "internal_energy_units": "kN*mm == J == 1000 mJ",
+            "external_work_units": "kN*mm == J == 1000 mJ",
+            "energy_density_units": "kN/mm^2 == J/mm^3 == 1000 MPa == 1 GPa",
+            "dimensional_consistency_status": "CERTIFIED_PLANE_STRAIN_T1MM_CONSISTENT",
+            "unit_equivalence": "1 kN*mm = 1.0 J = 1000.0 mJ = 1.0e6 uJ"
+          }
+        },
+        "cross_channel_reconciliation": {
+          "status": "PASS",
+          "reason": "CROSS_CHANNEL_PARITY_QUALIFIED (Diff: 0.000000%, Delta: +0.0000e+00 kN*mm)",
+          "discrepancy": {
+            "e_odb_kNmm": 0.00015,
+            "e_csv_kNmm": 0.00015,
+            "signed_diff_kNmm": 0.0,
+            "diff_abs_kNmm": 0.0,
+            "diff_pct": 0.0,
+            "provenance": "ODB Layer 3 SDV18 unique sum vs UEXTERNALDB Unit 105 LOP=2 CSV",
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "no_extractor_provenance_defect": {
+          "status": "PASS",
+          "reason": "EXTRACTOR_EVALUATION_STRUCTURE_VALID"
+        }
+      },
+      "bookkeeping_residual": {
+        "e_model_kNmm": 0.00225,
+        "e_model_mJ": 2.25,
+        "w_ext_kNmm": 0.002359,
+        "w_ext_mJ": 2.359,
+        "delta_book_kNmm": -0.00010900000000000016,
+        "delta_book_mJ": -0.10900000000000015,
+        "signed_reldiff_pct": -4.620601949978812,
+        "eps_book_pct": 4.620601949978812,
+        "governance": "REPORTED_SCIENTIFIC_OUTPUT_NO_PASS_FAIL_GATE"
+      },
+      "submission_state_before": {
+        "s2_submitted": false,
+        "s2_job_id": null,
+        "s3_submitted": false,
+        "s3_job_id": null
+      },
+      "final_action": "BLOCK_RELEASE",
+      "s2_job_id": null,
+      "s3_job_id": null
+    },
+    {
+      "scenario_id": 3,
+      "name": "missing_sdv17_20_zero_release",
+      "description": "Companion layer SDV17-20 absent -> zero release (BLOCK_RELEASE)",
+      "prerequisites": {
+        "terminal_scheduler_state": {
+          "status": "PASS",
+          "reason": "JOB_TERMINAL_AND_CLEARED_FROM_QUEUE"
+        },
+        "solver_exit_0": {
+          "status": "PASS",
+          "reason": "CLEAN_SOLVER_COMPLETION"
+        },
+        "expected_step_completed": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_TWO_STEP_SCHEDULE_COMPLETED (Step 1: 2000 incs / t=1.0s, Step 2: 5000 incs / t=1.0s, Total: 7000 incs)",
+          "details": {
+            "prescribed_step1_incs": 2000,
+            "prescribed_step2_incs": 5000,
+            "prescribed_total_incs": 7000,
+            "analysis_completed_banner": true,
+            "two_step_horizon_verified": true
+          }
+        },
+        "final_target_displacement_reached": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_DISPLACEMENT_ENDPOINT_VERIFIED_FROM_BC_MAPPING (Extracted: 0.010000 mm, Prescribed: 0.010000 mm, Diff: 0.000000e+00 mm)",
+          "details": {
+            "extracted_u_final_mm": 0.01,
+            "prescribed_endpoint_mm": 0.01,
+            "diff_from_endpoint_mm": 0.0,
+            "endpoint_verified": true,
+            "prescribed_bc_mapping": "RP displacement u_y = 0.005000 mm (Step 1) + 0.005000 mm (Step 2) = 0.010000 mm (Total)"
+          }
+        },
+        "no_fatal_solver_diagnostics": {
+          "status": "PASS",
+          "reason": "NO_FATAL_SOLVER_DIAGNOSTICS (Recorded nonfatal diagnostics: NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING)",
+          "diagnostics": {
+            "fatal_errors_count": 0,
+            "warnings_recorded": [
+              "NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING"
+            ],
+            "has_nonfatal_negative_eigenvalues": true,
+            "softening_diagnostics_interpretation": "NONFATAL_PHYSICAL_SOFTENING_INDICATOR",
+            "status": "NO_FATAL_SOLVER_DEFECTS"
+          }
+        },
+        "mechanically_valid_f_u": {
+          "status": "PASS",
+          "reason": "MECHANICALLY_VALID_FULL_F_U_TRAJECTORY (K0: 137.9455 kN/mm, Fmax: 0.7578 kN, upeak: 0.005857 mm, Ffinal: 0.000232 kN)",
+          "metrics": {
+            "K0_kN_per_mm": 137.94552,
+            "F_max_kN": 0.757778,
+            "u_at_F_max_mm": 0.005857,
+            "F_final_kN": 0.000232,
+            "u_final_mm": 0.01,
+            "softening_ratio_pct": 99.96938417320112,
+            "f_u_monotonic_and_complete": true
+          }
+        },
+        "mechanical_parity_extraction": {
+          "status": "PASS",
+          "reason": "MECHANICAL_PARITY_EXTRACTED (K0: 137.9455 [Delta: +0.0000%], Fmax: 0.7578 [Delta: +0.0000%], upeak: 0.005857 [Delta: +0.000000 mm])",
+          "differences": {
+            "k0_kN_per_mm": 137.94552,
+            "ref_k0_kN_per_mm": 137.94552,
+            "delta_k0_pct": 0.0,
+            "f_max_kN": 0.757778,
+            "ref_f_max_kN": 0.757778,
+            "delta_fmax_pct": 0.0,
+            "u_peak_mm": 0.005857,
+            "ref_u_peak_mm": 0.005857,
+            "delta_upeak_mm": 0.0,
+            "f_final_kN": 0.000232,
+            "ref_f_final_kN": 0.000232,
+            "delta_ffinal_kN": 0.0,
+            "w_ext_kNmm": 0.002359,
+            "ref_w_ext_kNmm": 0.002359329,
+            "delta_wext_pct": -0.013944642735280564,
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "presence_of_sdv17_20": {
+          "status": "FAIL",
+          "reason": "MISSING_SDV17_20_FIELD_OUTPUT"
+        },
+        "single_value_deduplication": {
+          "status": "PASS",
+          "reason": "DEDUPLICATED_EXACT_COUNT: 15,192 elements"
+        },
+        "units_and_sign_conventions": {
+          "status": "FAIL",
+          "reason": "MISSING_SDV17_20_FIELD_OUTPUT",
+          "details": {}
+        },
+        "cross_channel_reconciliation": {
+          "status": "PASS",
+          "reason": "CROSS_CHANNEL_PARITY_QUALIFIED (Diff: 0.000000%, Delta: +0.0000e+00 kN*mm)",
+          "discrepancy": {
+            "e_odb_kNmm": 0.00015,
+            "e_csv_kNmm": 0.00015,
+            "signed_diff_kNmm": 0.0,
+            "diff_abs_kNmm": 0.0,
+            "diff_pct": 0.0,
+            "provenance": "ODB Layer 3 SDV18 unique sum vs UEXTERNALDB Unit 105 LOP=2 CSV",
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "no_extractor_provenance_defect": {
+          "status": "PASS",
+          "reason": "EXTRACTOR_EVALUATION_STRUCTURE_VALID"
+        }
+      },
+      "bookkeeping_residual": {
+        "e_model_kNmm": 0.00225,
+        "e_model_mJ": 2.25,
+        "w_ext_kNmm": 0.002359,
+        "w_ext_mJ": 2.359,
+        "delta_book_kNmm": -0.00010900000000000016,
+        "delta_book_mJ": -0.10900000000000015,
+        "signed_reldiff_pct": -4.620601949978812,
+        "eps_book_pct": 4.620601949978812,
+        "governance": "REPORTED_SCIENTIFIC_OUTPUT_NO_PASS_FAIL_GATE"
+      },
+      "submission_state_before": {
+        "s2_submitted": false,
+        "s2_job_id": null,
+        "s3_submitted": false,
+        "s3_job_id": null
+      },
+      "final_action": "BLOCK_RELEASE",
+      "s2_job_id": null,
+      "s3_job_id": null
+    },
+    {
+      "scenario_id": 4,
+      "name": "odb_csv_frame_mismatch_zero_release",
+      "description": "Cross-channel frame index mismatch -> zero release (BLOCK_RELEASE)",
+      "prerequisites": {
+        "terminal_scheduler_state": {
+          "status": "PASS",
+          "reason": "JOB_TERMINAL_AND_CLEARED_FROM_QUEUE"
+        },
+        "solver_exit_0": {
+          "status": "PASS",
+          "reason": "CLEAN_SOLVER_COMPLETION"
+        },
+        "expected_step_completed": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_TWO_STEP_SCHEDULE_COMPLETED (Step 1: 2000 incs / t=1.0s, Step 2: 5000 incs / t=1.0s, Total: 7000 incs)",
+          "details": {
+            "prescribed_step1_incs": 2000,
+            "prescribed_step2_incs": 5000,
+            "prescribed_total_incs": 7000,
+            "analysis_completed_banner": true,
+            "two_step_horizon_verified": true
+          }
+        },
+        "final_target_displacement_reached": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_DISPLACEMENT_ENDPOINT_VERIFIED_FROM_BC_MAPPING (Extracted: 0.010000 mm, Prescribed: 0.010000 mm, Diff: 0.000000e+00 mm)",
+          "details": {
+            "extracted_u_final_mm": 0.01,
+            "prescribed_endpoint_mm": 0.01,
+            "diff_from_endpoint_mm": 0.0,
+            "endpoint_verified": true,
+            "prescribed_bc_mapping": "RP displacement u_y = 0.005000 mm (Step 1) + 0.005000 mm (Step 2) = 0.010000 mm (Total)"
+          }
+        },
+        "no_fatal_solver_diagnostics": {
+          "status": "PASS",
+          "reason": "NO_FATAL_SOLVER_DIAGNOSTICS (Recorded nonfatal diagnostics: NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING)",
+          "diagnostics": {
+            "fatal_errors_count": 0,
+            "warnings_recorded": [
+              "NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING"
+            ],
+            "has_nonfatal_negative_eigenvalues": true,
+            "softening_diagnostics_interpretation": "NONFATAL_PHYSICAL_SOFTENING_INDICATOR",
+            "status": "NO_FATAL_SOLVER_DEFECTS"
+          }
+        },
+        "mechanically_valid_f_u": {
+          "status": "PASS",
+          "reason": "MECHANICALLY_VALID_FULL_F_U_TRAJECTORY (K0: 137.9455 kN/mm, Fmax: 0.7578 kN, upeak: 0.005857 mm, Ffinal: 0.000232 kN)",
+          "metrics": {
+            "K0_kN_per_mm": 137.94552,
+            "F_max_kN": 0.757778,
+            "u_at_F_max_mm": 0.005857,
+            "F_final_kN": 0.000232,
+            "u_final_mm": 0.01,
+            "softening_ratio_pct": 99.96938417320112,
+            "f_u_monotonic_and_complete": true
+          }
+        },
+        "mechanical_parity_extraction": {
+          "status": "PASS",
+          "reason": "MECHANICAL_PARITY_EXTRACTED (K0: 137.9455 [Delta: +0.0000%], Fmax: 0.7578 [Delta: +0.0000%], upeak: 0.005857 [Delta: +0.000000 mm])",
+          "differences": {
+            "k0_kN_per_mm": 137.94552,
+            "ref_k0_kN_per_mm": 137.94552,
+            "delta_k0_pct": 0.0,
+            "f_max_kN": 0.757778,
+            "ref_f_max_kN": 0.757778,
+            "delta_fmax_pct": 0.0,
+            "u_peak_mm": 0.005857,
+            "ref_u_peak_mm": 0.005857,
+            "delta_upeak_mm": 0.0,
+            "f_final_kN": 0.000232,
+            "ref_f_final_kN": 0.000232,
+            "delta_ffinal_kN": 0.0,
+            "w_ext_kNmm": 0.002359,
+            "ref_w_ext_kNmm": 0.002359329,
+            "delta_wext_pct": -0.013944642735280564,
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "presence_of_sdv17_20": {
+          "status": "PASS",
+          "reason": "SDV17_20_PRESENT"
+        },
+        "single_value_deduplication": {
+          "status": "PASS",
+          "reason": "DEDUPLICATED_EXACT_COUNT: 15,192 elements"
+        },
+        "units_and_sign_conventions": {
+          "status": "PASS",
+          "reason": "ENERGY_FIELDS_AND_UNITS_QUALIFIED (E_elas: 0.150000 mJ, E_frac: 2.100000 mJ, W_ext: 2.359000 mJ [1 kN*mm = 1000 mJ, t=1.0 mm certified consistent])",
+          "details": {
+            "e_elas_final_kNmm": 0.00015,
+            "e_elas_final_mJ": 0.15,
+            "e_frac_final_kNmm": 0.0021,
+            "e_frac_final_mJ": 2.1,
+            "e_model_final_kNmm": 0.00225,
+            "e_model_final_mJ": 2.25,
+            "w_ext_raw_kNmm": 0.002359,
+            "w_ext_normalized_kNmm": 0.002359,
+            "w_ext_normalized_mJ": 2.359,
+            "raw_work_sign_normalized": false,
+            "unique_elements_count": 15192,
+            "out_of_plane_thickness_mm": 1.0,
+            "internal_energy_units": "kN*mm == J == 1000 mJ",
+            "external_work_units": "kN*mm == J == 1000 mJ",
+            "energy_density_units": "kN/mm^2 == J/mm^3 == 1000 MPa == 1 GPa",
+            "dimensional_consistency_status": "CERTIFIED_PLANE_STRAIN_T1MM_CONSISTENT",
+            "unit_equivalence": "1 kN*mm = 1.0 J = 1000.0 mJ = 1.0e6 uJ"
+          }
+        },
+        "cross_channel_reconciliation": {
+          "status": "FAIL",
+          "reason": "CROSS_CHANNEL_FRAME_INDEX_MISMATCH",
+          "discrepancy": {}
+        },
+        "no_extractor_provenance_defect": {
+          "status": "PASS",
+          "reason": "EXTRACTOR_EVALUATION_STRUCTURE_VALID"
+        }
+      },
+      "bookkeeping_residual": {
+        "e_model_kNmm": 0.00225,
+        "e_model_mJ": 2.25,
+        "w_ext_kNmm": 0.002359,
+        "w_ext_mJ": 2.359,
+        "delta_book_kNmm": -0.00010900000000000016,
+        "delta_book_mJ": -0.10900000000000015,
+        "signed_reldiff_pct": -4.620601949978812,
+        "eps_book_pct": 4.620601949978812,
+        "governance": "REPORTED_SCIENTIFIC_OUTPUT_NO_PASS_FAIL_GATE"
+      },
+      "submission_state_before": {
+        "s2_submitted": false,
+        "s2_job_id": null,
+        "s3_submitted": false,
+        "s3_job_id": null
+      },
+      "final_action": "BLOCK_RELEASE",
+      "s2_job_id": null,
+      "s3_job_id": null
+    },
+    {
+      "scenario_id": 5,
+      "name": "invalid_unit_sign_metadata_zero_release",
+      "description": "Negative strain energy violates thermodynamics -> zero release (BLOCK_RELEASE)",
+      "prerequisites": {
+        "terminal_scheduler_state": {
+          "status": "PASS",
+          "reason": "JOB_TERMINAL_AND_CLEARED_FROM_QUEUE"
+        },
+        "solver_exit_0": {
+          "status": "PASS",
+          "reason": "CLEAN_SOLVER_COMPLETION"
+        },
+        "expected_step_completed": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_TWO_STEP_SCHEDULE_COMPLETED (Step 1: 2000 incs / t=1.0s, Step 2: 5000 incs / t=1.0s, Total: 7000 incs)",
+          "details": {
+            "prescribed_step1_incs": 2000,
+            "prescribed_step2_incs": 5000,
+            "prescribed_total_incs": 7000,
+            "analysis_completed_banner": true,
+            "two_step_horizon_verified": true
+          }
+        },
+        "final_target_displacement_reached": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_DISPLACEMENT_ENDPOINT_VERIFIED_FROM_BC_MAPPING (Extracted: 0.010000 mm, Prescribed: 0.010000 mm, Diff: 0.000000e+00 mm)",
+          "details": {
+            "extracted_u_final_mm": 0.01,
+            "prescribed_endpoint_mm": 0.01,
+            "diff_from_endpoint_mm": 0.0,
+            "endpoint_verified": true,
+            "prescribed_bc_mapping": "RP displacement u_y = 0.005000 mm (Step 1) + 0.005000 mm (Step 2) = 0.010000 mm (Total)"
+          }
+        },
+        "no_fatal_solver_diagnostics": {
+          "status": "PASS",
+          "reason": "NO_FATAL_SOLVER_DIAGNOSTICS (Recorded nonfatal diagnostics: NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING)",
+          "diagnostics": {
+            "fatal_errors_count": 0,
+            "warnings_recorded": [
+              "NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING"
+            ],
+            "has_nonfatal_negative_eigenvalues": true,
+            "softening_diagnostics_interpretation": "NONFATAL_PHYSICAL_SOFTENING_INDICATOR",
+            "status": "NO_FATAL_SOLVER_DEFECTS"
+          }
+        },
+        "mechanically_valid_f_u": {
+          "status": "PASS",
+          "reason": "MECHANICALLY_VALID_FULL_F_U_TRAJECTORY (K0: 137.9455 kN/mm, Fmax: 0.7578 kN, upeak: 0.005857 mm, Ffinal: 0.000232 kN)",
+          "metrics": {
+            "K0_kN_per_mm": 137.94552,
+            "F_max_kN": 0.757778,
+            "u_at_F_max_mm": 0.005857,
+            "F_final_kN": 0.000232,
+            "u_final_mm": 0.01,
+            "softening_ratio_pct": 99.96938417320112,
+            "f_u_monotonic_and_complete": true
+          }
+        },
+        "mechanical_parity_extraction": {
+          "status": "PASS",
+          "reason": "MECHANICAL_PARITY_EXTRACTED (K0: 137.9455 [Delta: +0.0000%], Fmax: 0.7578 [Delta: +0.0000%], upeak: 0.005857 [Delta: +0.000000 mm])",
+          "differences": {
+            "k0_kN_per_mm": 137.94552,
+            "ref_k0_kN_per_mm": 137.94552,
+            "delta_k0_pct": 0.0,
+            "f_max_kN": 0.757778,
+            "ref_f_max_kN": 0.757778,
+            "delta_fmax_pct": 0.0,
+            "u_peak_mm": 0.005857,
+            "ref_u_peak_mm": 0.005857,
+            "delta_upeak_mm": 0.0,
+            "f_final_kN": 0.000232,
+            "ref_f_final_kN": 0.000232,
+            "delta_ffinal_kN": 0.0,
+            "w_ext_kNmm": 0.002359,
+            "ref_w_ext_kNmm": 0.002359329,
+            "delta_wext_pct": -0.013944642735280564,
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "presence_of_sdv17_20": {
+          "status": "PASS",
+          "reason": "SDV17_20_PRESENT"
+        },
+        "single_value_deduplication": {
+          "status": "PASS",
+          "reason": "DEDUPLICATED_EXACT_COUNT: 15,192 elements"
+        },
+        "units_and_sign_conventions": {
+          "status": "FAIL",
+          "reason": "NEGATIVE_ELASTIC_ENERGY_INTEGRAND: -5.000000e-02 kN*mm (Violates thermodynamic non-negativity)",
+          "details": {}
+        },
+        "cross_channel_reconciliation": {
+          "status": "PASS",
+          "reason": "CROSS_CHANNEL_PARITY_QUALIFIED (Diff: 100.300000%, Delta: -5.0150e-02 kN*mm)",
+          "discrepancy": {
+            "e_odb_kNmm": -0.05,
+            "e_csv_kNmm": 0.00015,
+            "signed_diff_kNmm": -0.05015,
+            "diff_abs_kNmm": 0.05015,
+            "diff_pct": 100.29999999999998,
+            "provenance": "ODB Layer 3 SDV18 unique sum vs UEXTERNALDB Unit 105 LOP=2 CSV",
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "no_extractor_provenance_defect": {
+          "status": "PASS",
+          "reason": "EXTRACTOR_EVALUATION_STRUCTURE_VALID"
+        }
+      },
+      "bookkeeping_residual": {
+        "e_model_kNmm": 0.00225,
+        "e_model_mJ": 2.25,
+        "w_ext_kNmm": 0.002359,
+        "w_ext_mJ": 2.359,
+        "delta_book_kNmm": -0.00010900000000000016,
+        "delta_book_mJ": -0.10900000000000015,
+        "signed_reldiff_pct": -4.620601949978812,
+        "eps_book_pct": 4.620601949978812,
+        "governance": "REPORTED_SCIENTIFIC_OUTPUT_NO_PASS_FAIL_GATE"
+      },
+      "submission_state_before": {
+        "s2_submitted": false,
+        "s2_job_id": null,
+        "s3_submitted": false,
+        "s3_job_id": null
+      },
+      "final_action": "BLOCK_RELEASE",
+      "s2_job_id": null,
+      "s3_job_id": null
+    },
+    {
+      "scenario_id": 6,
+      "name": "preexisting_s2_pbs_record_s3_absent",
+      "description": "Pre-existing S2 job preserved; dry run generates release intent for S3 only (no duplicate S2)",
+      "prerequisites": {
+        "terminal_scheduler_state": {
+          "status": "PASS",
+          "reason": "JOB_TERMINAL_AND_CLEARED_FROM_QUEUE"
+        },
+        "solver_exit_0": {
+          "status": "PASS",
+          "reason": "CLEAN_SOLVER_COMPLETION"
+        },
+        "expected_step_completed": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_TWO_STEP_SCHEDULE_COMPLETED (Step 1: 2000 incs / t=1.0s, Step 2: 5000 incs / t=1.0s, Total: 7000 incs)",
+          "details": {
+            "prescribed_step1_incs": 2000,
+            "prescribed_step2_incs": 5000,
+            "prescribed_total_incs": 7000,
+            "analysis_completed_banner": true,
+            "two_step_horizon_verified": true
+          }
+        },
+        "final_target_displacement_reached": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_DISPLACEMENT_ENDPOINT_VERIFIED_FROM_BC_MAPPING (Extracted: 0.010000 mm, Prescribed: 0.010000 mm, Diff: 0.000000e+00 mm)",
+          "details": {
+            "extracted_u_final_mm": 0.01,
+            "prescribed_endpoint_mm": 0.01,
+            "diff_from_endpoint_mm": 0.0,
+            "endpoint_verified": true,
+            "prescribed_bc_mapping": "RP displacement u_y = 0.005000 mm (Step 1) + 0.005000 mm (Step 2) = 0.010000 mm (Total)"
+          }
+        },
+        "no_fatal_solver_diagnostics": {
+          "status": "PASS",
+          "reason": "NO_FATAL_SOLVER_DIAGNOSTICS (Recorded nonfatal diagnostics: NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING)",
+          "diagnostics": {
+            "fatal_errors_count": 0,
+            "warnings_recorded": [
+              "NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING"
+            ],
+            "has_nonfatal_negative_eigenvalues": true,
+            "softening_diagnostics_interpretation": "NONFATAL_PHYSICAL_SOFTENING_INDICATOR",
+            "status": "NO_FATAL_SOLVER_DEFECTS"
+          }
+        },
+        "mechanically_valid_f_u": {
+          "status": "PASS",
+          "reason": "MECHANICALLY_VALID_FULL_F_U_TRAJECTORY (K0: 137.9455 kN/mm, Fmax: 0.7578 kN, upeak: 0.005857 mm, Ffinal: 0.000232 kN)",
+          "metrics": {
+            "K0_kN_per_mm": 137.94552,
+            "F_max_kN": 0.757778,
+            "u_at_F_max_mm": 0.005857,
+            "F_final_kN": 0.000232,
+            "u_final_mm": 0.01,
+            "softening_ratio_pct": 99.96938417320112,
+            "f_u_monotonic_and_complete": true
+          }
+        },
+        "mechanical_parity_extraction": {
+          "status": "PASS",
+          "reason": "MECHANICAL_PARITY_EXTRACTED (K0: 137.9455 [Delta: +0.0000%], Fmax: 0.7578 [Delta: +0.0000%], upeak: 0.005857 [Delta: +0.000000 mm])",
+          "differences": {
+            "k0_kN_per_mm": 137.94552,
+            "ref_k0_kN_per_mm": 137.94552,
+            "delta_k0_pct": 0.0,
+            "f_max_kN": 0.757778,
+            "ref_f_max_kN": 0.757778,
+            "delta_fmax_pct": 0.0,
+            "u_peak_mm": 0.005857,
+            "ref_u_peak_mm": 0.005857,
+            "delta_upeak_mm": 0.0,
+            "f_final_kN": 0.000232,
+            "ref_f_final_kN": 0.000232,
+            "delta_ffinal_kN": 0.0,
+            "w_ext_kNmm": 0.002359,
+            "ref_w_ext_kNmm": 0.002359329,
+            "delta_wext_pct": -0.013944642735280564,
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "presence_of_sdv17_20": {
+          "status": "PASS",
+          "reason": "SDV17_20_PRESENT"
+        },
+        "single_value_deduplication": {
+          "status": "PASS",
+          "reason": "DEDUPLICATED_EXACT_COUNT: 15,192 elements"
+        },
+        "units_and_sign_conventions": {
+          "status": "PASS",
+          "reason": "ENERGY_FIELDS_AND_UNITS_QUALIFIED (E_elas: 0.150000 mJ, E_frac: 2.100000 mJ, W_ext: 2.359000 mJ [1 kN*mm = 1000 mJ, t=1.0 mm certified consistent])",
+          "details": {
+            "e_elas_final_kNmm": 0.00015,
+            "e_elas_final_mJ": 0.15,
+            "e_frac_final_kNmm": 0.0021,
+            "e_frac_final_mJ": 2.1,
+            "e_model_final_kNmm": 0.00225,
+            "e_model_final_mJ": 2.25,
+            "w_ext_raw_kNmm": 0.002359,
+            "w_ext_normalized_kNmm": 0.002359,
+            "w_ext_normalized_mJ": 2.359,
+            "raw_work_sign_normalized": false,
+            "unique_elements_count": 15192,
+            "out_of_plane_thickness_mm": 1.0,
+            "internal_energy_units": "kN*mm == J == 1000 mJ",
+            "external_work_units": "kN*mm == J == 1000 mJ",
+            "energy_density_units": "kN/mm^2 == J/mm^3 == 1000 MPa == 1 GPa",
+            "dimensional_consistency_status": "CERTIFIED_PLANE_STRAIN_T1MM_CONSISTENT",
+            "unit_equivalence": "1 kN*mm = 1.0 J = 1000.0 mJ = 1.0e6 uJ"
+          }
+        },
+        "cross_channel_reconciliation": {
+          "status": "PASS",
+          "reason": "CROSS_CHANNEL_PARITY_QUALIFIED (Diff: 0.000000%, Delta: +0.0000e+00 kN*mm)",
+          "discrepancy": {
+            "e_odb_kNmm": 0.00015,
+            "e_csv_kNmm": 0.00015,
+            "signed_diff_kNmm": 0.0,
+            "diff_abs_kNmm": 0.0,
+            "diff_pct": 0.0,
+            "provenance": "ODB Layer 3 SDV18 unique sum vs UEXTERNALDB Unit 105 LOP=2 CSV",
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "no_extractor_provenance_defect": {
+          "status": "PASS",
+          "reason": "EXTRACTOR_EVALUATION_STRUCTURE_VALID"
+        }
+      },
+      "bookkeeping_residual": {
+        "e_model_kNmm": 0.00225,
+        "e_model_mJ": 2.25,
+        "w_ext_kNmm": 0.002359,
+        "w_ext_mJ": 2.359,
+        "delta_book_kNmm": -0.00010900000000000016,
+        "delta_book_mJ": -0.10900000000000015,
+        "signed_reldiff_pct": -4.620601949978812,
+        "eps_book_pct": 4.620601949978812,
+        "governance": "REPORTED_SCIENTIFIC_OUTPUT_NO_PASS_FAIL_GATE"
+      },
+      "submission_state_before": {
+        "s2_submitted": true,
+        "s2_job_id": "1409850.mmaster02",
+        "s3_submitted": false,
+        "s3_job_id": null
+      },
+      "final_action": "RELEASE_S3_ONLY",
+      "s2_job_id": "1409850.mmaster02",
+      "s3_job_id": null
+    },
+    {
+      "scenario_id": 7,
+      "name": "first_mocked_qsub_succeeds_second_fails",
+      "description": "S2 submission succeeds, S3 fails -> first exact PBS ID preserved, classified PARTIAL_SUBMISSION_REQUIRES_RECONCILIATION",
+      "prerequisites": {
+        "terminal_scheduler_state": {
+          "status": "PASS",
+          "reason": "JOB_TERMINAL_AND_CLEARED_FROM_QUEUE"
+        },
+        "solver_exit_0": {
+          "status": "PASS",
+          "reason": "CLEAN_SOLVER_COMPLETION"
+        },
+        "expected_step_completed": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_TWO_STEP_SCHEDULE_COMPLETED (Step 1: 2000 incs / t=1.0s, Step 2: 5000 incs / t=1.0s, Total: 7000 incs)",
+          "details": {
+            "prescribed_step1_incs": 2000,
+            "prescribed_step2_incs": 5000,
+            "prescribed_total_incs": 7000,
+            "analysis_completed_banner": true,
+            "two_step_horizon_verified": true
+          }
+        },
+        "final_target_displacement_reached": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_DISPLACEMENT_ENDPOINT_VERIFIED_FROM_BC_MAPPING (Extracted: 0.010000 mm, Prescribed: 0.010000 mm, Diff: 0.000000e+00 mm)",
+          "details": {
+            "extracted_u_final_mm": 0.01,
+            "prescribed_endpoint_mm": 0.01,
+            "diff_from_endpoint_mm": 0.0,
+            "endpoint_verified": true,
+            "prescribed_bc_mapping": "RP displacement u_y = 0.005000 mm (Step 1) + 0.005000 mm (Step 2) = 0.010000 mm (Total)"
+          }
+        },
+        "no_fatal_solver_diagnostics": {
+          "status": "PASS",
+          "reason": "NO_FATAL_SOLVER_DIAGNOSTICS (Recorded nonfatal diagnostics: NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING)",
+          "diagnostics": {
+            "fatal_errors_count": 0,
+            "warnings_recorded": [
+              "NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING"
+            ],
+            "has_nonfatal_negative_eigenvalues": true,
+            "softening_diagnostics_interpretation": "NONFATAL_PHYSICAL_SOFTENING_INDICATOR",
+            "status": "NO_FATAL_SOLVER_DEFECTS"
+          }
+        },
+        "mechanically_valid_f_u": {
+          "status": "PASS",
+          "reason": "MECHANICALLY_VALID_FULL_F_U_TRAJECTORY (K0: 137.9455 kN/mm, Fmax: 0.7578 kN, upeak: 0.005857 mm, Ffinal: 0.000232 kN)",
+          "metrics": {
+            "K0_kN_per_mm": 137.94552,
+            "F_max_kN": 0.757778,
+            "u_at_F_max_mm": 0.005857,
+            "F_final_kN": 0.000232,
+            "u_final_mm": 0.01,
+            "softening_ratio_pct": 99.96938417320112,
+            "f_u_monotonic_and_complete": true
+          }
+        },
+        "mechanical_parity_extraction": {
+          "status": "PASS",
+          "reason": "MECHANICAL_PARITY_EXTRACTED (K0: 137.9455 [Delta: +0.0000%], Fmax: 0.7578 [Delta: +0.0000%], upeak: 0.005857 [Delta: +0.000000 mm])",
+          "differences": {
+            "k0_kN_per_mm": 137.94552,
+            "ref_k0_kN_per_mm": 137.94552,
+            "delta_k0_pct": 0.0,
+            "f_max_kN": 0.757778,
+            "ref_f_max_kN": 0.757778,
+            "delta_fmax_pct": 0.0,
+            "u_peak_mm": 0.005857,
+            "ref_u_peak_mm": 0.005857,
+            "delta_upeak_mm": 0.0,
+            "f_final_kN": 0.000232,
+            "ref_f_final_kN": 0.000232,
+            "delta_ffinal_kN": 0.0,
+            "w_ext_kNmm": 0.002359,
+            "ref_w_ext_kNmm": 0.002359329,
+            "delta_wext_pct": -0.013944642735280564,
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "presence_of_sdv17_20": {
+          "status": "PASS",
+          "reason": "SDV17_20_PRESENT"
+        },
+        "single_value_deduplication": {
+          "status": "PASS",
+          "reason": "DEDUPLICATED_EXACT_COUNT: 15,192 elements"
+        },
+        "units_and_sign_conventions": {
+          "status": "PASS",
+          "reason": "ENERGY_FIELDS_AND_UNITS_QUALIFIED (E_elas: 0.150000 mJ, E_frac: 2.100000 mJ, W_ext: 2.359000 mJ [1 kN*mm = 1000 mJ, t=1.0 mm certified consistent])",
+          "details": {
+            "e_elas_final_kNmm": 0.00015,
+            "e_elas_final_mJ": 0.15,
+            "e_frac_final_kNmm": 0.0021,
+            "e_frac_final_mJ": 2.1,
+            "e_model_final_kNmm": 0.00225,
+            "e_model_final_mJ": 2.25,
+            "w_ext_raw_kNmm": 0.002359,
+            "w_ext_normalized_kNmm": 0.002359,
+            "w_ext_normalized_mJ": 2.359,
+            "raw_work_sign_normalized": false,
+            "unique_elements_count": 15192,
+            "out_of_plane_thickness_mm": 1.0,
+            "internal_energy_units": "kN*mm == J == 1000 mJ",
+            "external_work_units": "kN*mm == J == 1000 mJ",
+            "energy_density_units": "kN/mm^2 == J/mm^3 == 1000 MPa == 1 GPa",
+            "dimensional_consistency_status": "CERTIFIED_PLANE_STRAIN_T1MM_CONSISTENT",
+            "unit_equivalence": "1 kN*mm = 1.0 J = 1000.0 mJ = 1.0e6 uJ"
+          }
+        },
+        "cross_channel_reconciliation": {
+          "status": "PASS",
+          "reason": "CROSS_CHANNEL_PARITY_QUALIFIED (Diff: 0.000000%, Delta: +0.0000e+00 kN*mm)",
+          "discrepancy": {
+            "e_odb_kNmm": 0.00015,
+            "e_csv_kNmm": 0.00015,
+            "signed_diff_kNmm": 0.0,
+            "diff_abs_kNmm": 0.0,
+            "diff_pct": 0.0,
+            "provenance": "ODB Layer 3 SDV18 unique sum vs UEXTERNALDB Unit 105 LOP=2 CSV",
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "no_extractor_provenance_defect": {
+          "status": "PASS",
+          "reason": "EXTRACTOR_EVALUATION_STRUCTURE_VALID"
+        }
+      },
+      "bookkeeping_residual": {
+        "e_model_kNmm": 0.00225,
+        "e_model_mJ": 2.25,
+        "w_ext_kNmm": 0.002359,
+        "w_ext_mJ": 2.359,
+        "delta_book_kNmm": -0.00010900000000000016,
+        "delta_book_mJ": -0.10900000000000015,
+        "signed_reldiff_pct": -4.620601949978812,
+        "eps_book_pct": 4.620601949978812,
+        "governance": "REPORTED_SCIENTIFIC_OUTPUT_NO_PASS_FAIL_GATE"
+      },
+      "submission_state_before": {
+        "s2_submitted": false,
+        "s2_job_id": null,
+        "s3_submitted": false,
+        "s3_job_id": null
+      },
+      "final_action": "PARTIAL_SUBMISSION_REQUIRES_RECONCILIATION",
+      "s2_job_id": "1409905.mmaster02",
+      "s3_job_id": null
+    },
+    {
+      "scenario_id": 8,
+      "name": "both_already_submitted_repeated_invocation",
+      "description": "Repeated invocation after both jobs submitted -> zero additional submissions (ALREADY_RELEASED_NOOP)",
+      "prerequisites": {
+        "terminal_scheduler_state": {
+          "status": "PASS",
+          "reason": "JOB_TERMINAL_AND_CLEARED_FROM_QUEUE"
+        },
+        "solver_exit_0": {
+          "status": "PASS",
+          "reason": "CLEAN_SOLVER_COMPLETION"
+        },
+        "expected_step_completed": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_TWO_STEP_SCHEDULE_COMPLETED (Step 1: 2000 incs / t=1.0s, Step 2: 5000 incs / t=1.0s, Total: 7000 incs)",
+          "details": {
+            "prescribed_step1_incs": 2000,
+            "prescribed_step2_incs": 5000,
+            "prescribed_total_incs": 7000,
+            "analysis_completed_banner": true,
+            "two_step_horizon_verified": true
+          }
+        },
+        "final_target_displacement_reached": {
+          "status": "PASS",
+          "reason": "PRESCRIBED_DISPLACEMENT_ENDPOINT_VERIFIED_FROM_BC_MAPPING (Extracted: 0.010000 mm, Prescribed: 0.010000 mm, Diff: 0.000000e+00 mm)",
+          "details": {
+            "extracted_u_final_mm": 0.01,
+            "prescribed_endpoint_mm": 0.01,
+            "diff_from_endpoint_mm": 0.0,
+            "endpoint_verified": true,
+            "prescribed_bc_mapping": "RP displacement u_y = 0.005000 mm (Step 1) + 0.005000 mm (Step 2) = 0.010000 mm (Total)"
+          }
+        },
+        "no_fatal_solver_diagnostics": {
+          "status": "PASS",
+          "reason": "NO_FATAL_SOLVER_DIAGNOSTICS (Recorded nonfatal diagnostics: NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING)",
+          "diagnostics": {
+            "fatal_errors_count": 0,
+            "warnings_recorded": [
+              "NEGATIVE_EIGENVALUE_WARNINGS_RECORDED_NONFATAL_SOFTENING"
+            ],
+            "has_nonfatal_negative_eigenvalues": true,
+            "softening_diagnostics_interpretation": "NONFATAL_PHYSICAL_SOFTENING_INDICATOR",
+            "status": "NO_FATAL_SOLVER_DEFECTS"
+          }
+        },
+        "mechanically_valid_f_u": {
+          "status": "PASS",
+          "reason": "MECHANICALLY_VALID_FULL_F_U_TRAJECTORY (K0: 137.9455 kN/mm, Fmax: 0.7578 kN, upeak: 0.005857 mm, Ffinal: 0.000232 kN)",
+          "metrics": {
+            "K0_kN_per_mm": 137.94552,
+            "F_max_kN": 0.757778,
+            "u_at_F_max_mm": 0.005857,
+            "F_final_kN": 0.000232,
+            "u_final_mm": 0.01,
+            "softening_ratio_pct": 99.96938417320112,
+            "f_u_monotonic_and_complete": true
+          }
+        },
+        "mechanical_parity_extraction": {
+          "status": "PASS",
+          "reason": "MECHANICAL_PARITY_EXTRACTED (K0: 137.9455 [Delta: +0.0000%], Fmax: 0.7578 [Delta: +0.0000%], upeak: 0.005857 [Delta: +0.000000 mm])",
+          "differences": {
+            "k0_kN_per_mm": 137.94552,
+            "ref_k0_kN_per_mm": 137.94552,
+            "delta_k0_pct": 0.0,
+            "f_max_kN": 0.757778,
+            "ref_f_max_kN": 0.757778,
+            "delta_fmax_pct": 0.0,
+            "u_peak_mm": 0.005857,
+            "ref_u_peak_mm": 0.005857,
+            "delta_upeak_mm": 0.0,
+            "f_final_kN": 0.000232,
+            "ref_f_final_kN": 0.000232,
+            "delta_ffinal_kN": 0.0,
+            "w_ext_kNmm": 0.002359,
+            "ref_w_ext_kNmm": 0.002359329,
+            "delta_wext_pct": -0.013944642735280564,
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "presence_of_sdv17_20": {
+          "status": "PASS",
+          "reason": "SDV17_20_PRESENT"
+        },
+        "single_value_deduplication": {
+          "status": "PASS",
+          "reason": "DEDUPLICATED_EXACT_COUNT: 15,192 elements"
+        },
+        "units_and_sign_conventions": {
+          "status": "PASS",
+          "reason": "ENERGY_FIELDS_AND_UNITS_QUALIFIED (E_elas: 0.150000 mJ, E_frac: 2.100000 mJ, W_ext: 2.359000 mJ [1 kN*mm = 1000 mJ, t=1.0 mm certified consistent])",
+          "details": {
+            "e_elas_final_kNmm": 0.00015,
+            "e_elas_final_mJ": 0.15,
+            "e_frac_final_kNmm": 0.0021,
+            "e_frac_final_mJ": 2.1,
+            "e_model_final_kNmm": 0.00225,
+            "e_model_final_mJ": 2.25,
+            "w_ext_raw_kNmm": 0.002359,
+            "w_ext_normalized_kNmm": 0.002359,
+            "w_ext_normalized_mJ": 2.359,
+            "raw_work_sign_normalized": false,
+            "unique_elements_count": 15192,
+            "out_of_plane_thickness_mm": 1.0,
+            "internal_energy_units": "kN*mm == J == 1000 mJ",
+            "external_work_units": "kN*mm == J == 1000 mJ",
+            "energy_density_units": "kN/mm^2 == J/mm^3 == 1000 MPa == 1 GPa",
+            "dimensional_consistency_status": "CERTIFIED_PLANE_STRAIN_T1MM_CONSISTENT",
+            "unit_equivalence": "1 kN*mm = 1.0 J = 1000.0 mJ = 1.0e6 uJ"
+          }
+        },
+        "cross_channel_reconciliation": {
+          "status": "PASS",
+          "reason": "CROSS_CHANNEL_PARITY_QUALIFIED (Diff: 0.000000%, Delta: +0.0000e+00 kN*mm)",
+          "discrepancy": {
+            "e_odb_kNmm": 0.00015,
+            "e_csv_kNmm": 0.00015,
+            "signed_diff_kNmm": 0.0,
+            "diff_abs_kNmm": 0.0,
+            "diff_pct": 0.0,
+            "provenance": "ODB Layer 3 SDV18 unique sum vs UEXTERNALDB Unit 105 LOP=2 CSV",
+            "governance": "REPORTED_SCIENTIFIC_EVIDENCE_NO_HARD_PASS_FAIL_GATE"
+          }
+        },
+        "no_extractor_provenance_defect": {
+          "status": "PASS",
+          "reason": "EXTRACTOR_EVALUATION_STRUCTURE_VALID"
+        }
+      },
+      "bookkeeping_residual": {
+        "e_model_kNmm": 0.00225,
+        "e_model_mJ": 2.25,
+        "w_ext_kNmm": 0.002359,
+        "w_ext_mJ": 2.359,
+        "delta_book_kNmm": -0.00010900000000000016,
+        "delta_book_mJ": -0.10900000000000015,
+        "signed_reldiff_pct": -4.620601949978812,
+        "eps_book_pct": 4.620601949978812,
+        "governance": "REPORTED_SCIENTIFIC_OUTPUT_NO_PASS_FAIL_GATE"
+      },
+      "submission_state_before": {
+        "s2_submitted": true,
+        "s2_job_id": "1409850.mmaster02",
+        "s3_submitted": true,
+        "s3_job_id": "1409851.mmaster02"
+      },
+      "final_action": "ALREADY_RELEASED_NOOP",
+      "s2_job_id": "1409850.mmaster02",
+      "s3_job_id": "1409851.mmaster02"
+    },
+    {
+      "scenario_id": 9,
+      "name": "notification_failure_after_successful_mocked_qsub",
+      "description": "Telegram notification failure does not corrupt or erase successfully returned PBS Job ID",
+      "submission_success": true,
+      "returned_job_id": "1409906.mmaster02",
+      "message": "SUBMITTED_SUCCESSFULLY",
+      "final_action": "SUBMITTED_SUCCESSFULLY_ID_AUTHORITATIVE"
+    }
+  ]
+}

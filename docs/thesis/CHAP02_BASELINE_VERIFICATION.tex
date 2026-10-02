@@ -1,0 +1,104 @@
+\chapter{Mode-I Phase-Field Fracture Benchmark and Reference Baseline}
+\label{chap:baseline_verification}
+
+\section{Introduction and Objectives}
+\label{sec:baseline_intro}
+
+Prior to introducing error indicators, adaptive mesh refinement, or multi-field state transfer, a rigorous baseline implementation of the phase-field fracture formulation must be verified in the Abaqus finite element environment. The objective of this chapter is to:
+\begin{enumerate}
+    \item Define the canonical Mode-I tensile fracture benchmark problem and its governing boundary value problem.
+    \item Disambiguate material stiffness $E$ from structural stiffness $K_0$ and establish the geometric role of the zero-gap sharp crack seam versus finite-width notch approximations.
+    \item Document the three-layer co-located UEL/UMAT architecture implemented in Abaqus/Standard using user subroutine \nolinkurl{f42_mixed_uel.for}.
+    \item Establish the canonical $S_1$ baseline (Job \texttt{1406015.mmaster02}, $15{,}192$ finite elements) as the quantitative anchor for all subsequent adaptive refinement evaluations.
+\end{enumerate}
+
+\section{Mode-I Single-Edge-Notched Tension Benchmark}
+\label{sec:baseline_problem_definition}
+
+\subsection{Geometry and Boundary Conditions}
+The Mode-I benchmark is defined on a two-dimensional square domain $\Omega = [0, 1.0\,\text{mm}] \times [0, 1.0\,\text{mm}]$ under plane-strain conditions and unit thickness ($t = 1.0\,\text{mm}$). An initial sharp horizontal edge crack of length $a_0 = 0.50\,\text{mm}$ is positioned along the symmetry plane $y = 0.50\,\text{mm}$, extending from the left boundary ($x = 0$) to the specimen center ($x = 0.50\,\text{mm}$), as illustrated in Figure~\ref{fig:mode1_geometry_thesis}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.60\textwidth]{fig_mode1_geometry.png}
+\caption[Mode-I benchmark boundary value problem configuration.]{Mode-I benchmark boundary value problem: $1.0\,\text{mm} \times 1.0\,\text{mm}$ square domain with a sharp edge crack of length $a_0 = 0.5\,\text{mm}$ along $y = 0.5\,\text{mm}$. Boundary conditions enforce roller support ($u_y = 0$) on the bottom edge with a pinned point ($u_x = 0$) to eliminate rigid-body motion, and uniform tensile displacement $u_y = u$ on the top edge.}
+\label{fig:mode1_geometry_thesis}
+\end{figure}
+
+The boundary conditions are formulated as:
+\begin{itemize}
+    \item \textbf{Bottom Boundary ($y = 0\,\text{mm}$)}: Roller support enforcing vertical displacement $u_y = 0$ along the entire edge, with the bottom-left node pinned ($u_x = 0$) to eliminate rigid-body translation.
+    \item \textbf{Top Boundary ($y = 1.0\,\text{mm}$)}: Prescribed uniform vertical tensile displacement $u_y = u$, with unconstrained horizontal displacement ($t_x = 0$).
+    \item \textbf{Lateral Boundaries ($x = 0\,\text{mm}$ and $x = 1.0\,\text{mm}$)}: Traction-free ($\mathbf{t} = \mathbf{0}$).
+\end{itemize}
+
+\subsection{Material and Phase-Field Regularization Parameters}
+The isotropic elastic and fracture constitutive parameters follow Pandey and Kumar~\cite{pandey2025}:
+\begin{itemize}
+    \item Young's modulus: $E = 210.0\,\text{GPa} = 210.0\,\text{kN/mm}^2$;
+    \item Poisson's ratio: $\nu = 0.30$;
+    \item Critical fracture energy release rate: $G_c = 2.7 \times 10^{-3}\,\text{kN/mm} = 2.7\,\text{N/mm} = 2700\,\text{J/m}^2$;
+    \item Phase-field regularization length scale: $l_0 = 0.0075\,\text{mm} = 7.5\,\mu\text{m}$;
+    \item Residual stiffness parameter: $k_{\mathrm{res}} = 1.0 \times 10^{-7}$.
+\end{itemize}
+
+\section{Structural Stiffness: Notch vs.\ Sharp Seam Disambiguation}
+\label{sec:structural_stiffness_disambiguation}
+
+A fundamental mechanical distinction in computational fracture modeling is the difference between the intrinsic material elastic modulus $E$ and the global structural stiffness $K_0$:
+\begin{equation}
+\label{eq:structural_stiffness_def}
+K_0 = \left. \frac{\mathrm{d}F}{\mathrm{d}u} \right|_{\text{initial elastic range}} \approx \frac{\Delta F}{\Delta u}.
+\end{equation}
+While Young's modulus $E$ is a local constitutive tensor property ($210\,\text{kN/mm}^2$), $K_0$ represents the integrated load-deformation compliance of the entire boundary value problem, depending directly on specimen geometry, boundary constraints, and notch kinematics.
+
+Early geometry-sanity-check models (Figure~\ref{fig:notch_stiffness_thesis}) compared an uncracked solid ($K_0 \approx 138.15\,\text{kN/mm}$), a blunt notch ($K_0 \approx 75.47\,\text{kN/mm}$), and an early sharp seam diagnostic ($K_0 \approx 141.82\,\text{kN/mm}$), demonstrating that finite-width blunt notches introduce artificial compliance by removing elastic material. These values represent early sanity-check configurations under preliminary boundary approximations; the final governed canonical $S_1$ benchmark stiffness established below is $K_0 = 137.945520\,\text{kN/mm}$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.75\textwidth]{fig_notch_stiffness.pdf}
+\caption[Early geometry-sanity-check comparison of structural stiffness $K_0$.]{Early geometry-sanity-check comparison of structural stiffness $K_0$: uncracked solid ($\approx 138.15\,\text{kN/mm}$), blunt notch introducing artificial compliance ($\approx 75.47\,\text{kN/mm}$), and early sharp seam diagnostic ($\approx 141.82\,\text{kN/mm}$). The final governed canonical $S_1$ sharp-seam reference stiffness is $K_0 = 137.945520\,\text{kN/mm}$ (Section~\ref{sec:fixed_mesh_reference_anchor}).}
+\label{fig:notch_stiffness_thesis}
+\end{figure}
+
+In contrast to blunt notches, the zero-gap sharp seam models the crack as duplicate coincident node lines with identical initial spatial coordinates ($y = 0.5^+\,\text{mm}$ and $y = 0.5^-\,\text{mm}$ for $0 \le x \le 0.5\,\text{mm}$). This preserves the full continuous elastic volume while permitting discontinuous separation.
+
+\section{Multi-Layer UEL/UMAT Layered Architecture in Abaqus}
+\label{sec:uel_architecture_abaqus}
+
+To implement the staggered phase-field formulation in Abaqus/Standard, a three-layer co-located element architecture is constructed:
+\begin{itemize}
+    \item \textbf{Layer 1 (Phase-Field Damage Layer)}: Co-located 4-node user elements (\texttt{UEL}, user element type \texttt{U1}, \texttt{JTYPE = 1}) solving for the scalar damage degree of freedom $d \in [0, 1]$ mapped to Abaqus \texttt{DOF 3} (variable \texttt{U3}) governed by the regularized AT2 Helmholtz-type PDE.
+    \item \textbf{Layer 2 (Mechanical Displacement Layer)}: Co-located 4-node quadrilateral user elements (\texttt{UEL}, user element type \texttt{U2}, \texttt{JTYPE = 2}) solving for displacement degrees of freedom $(u_x, u_y)$ (\texttt{DOF 1} and \texttt{DOF 2}) using the degraded isotropic elastic tangent operator $g(\bar{d})\mathbb{C}_0$.
+    \item \textbf{Layer 3 (Companion Visualization UMAT Layer)}: Standard continuum plane-strain elements (\texttt{CPE4}) sharing identical connectivity and nodal coordinates, driven by a dummy user material (\texttt{UMAT}) that maps internal state variables (SDVs) into standard Abaqus field outputs (\texttt{SDV1} = Phase Field $d$, \texttt{SDV2} = History $\mathcal{H}$, \texttt{SDV15} = degraded stiffness factor $g(d)$, \texttt{SDV17} = whole-underlying-element fracture surface energy $E_{\mathrm{frac}}^{(e)}$ in native $\mathrm{kN\cdot mm} = \mathrm{J}$, \texttt{SDV18} = whole-underlying-element elastic strain energy $E_{\mathrm{elas}}^{(e)}$ in native $\mathrm{kN\cdot mm} = \mathrm{J}$, with reporting in $\mathrm{mJ}$ performed during post-processing via a single $1000\times$ multiplication factor; \texttt{SDV19}/\texttt{SDV20} = area-normalized source quotients $\bar{\psi}_f$ and $\bar{\psi}_e$ in $\mathrm{kN/mm} = \mathrm{J/mm^2}$, interpretable as volumetric energy densities only under the explicit $1\text{-}\mathrm{mm}$ implicit unit-thickness convention) for visualization in Abaqus/Viewer.
+\end{itemize}
+
+All three layers communicate state variables across solver iterations via global Fortran common blocks in user subroutine \nolinkurl{f42_mixed_uel.for} (\texttt{SHA256: 5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46}).
+
+
+\section{Canonical S1 Reference Baseline Provenance}
+\label{sec:fixed_mesh_reference_anchor}
+
+The governed canonical reference baseline for all subsequent evaluations is Job \texttt{1406015.mmaster02} ($S_1$, $15{,}192$ underlying finite elements, $15{,}522$ total \texttt{*NODE} entries ($15{,}521$ mesh nodes + RP 999999)), generated from the canonical input deck (\nolinkurl{SHA256: bc000e0c5791150a711cb7af447a0bb34d1b9d9af5c6ce9d096c98749e8edf61}).
+
+\begin{table}[htbp]
+\centering
+\caption{Quantitative response metrics of the Mode-I canonical S1 baseline.}
+\label{tab:reference_anchor_metrics}
+\small
+\begin{tabular}{lrr}
+\toprule
+\textbf{Metric / Parameter} & \textbf{Canonical S1 Baseline (Job 1406015.mmaster02)} & \textbf{Literature \citep{pandey2025}} \\
+\midrule
+Initial Structural Stiffness $K_0$ & $137.945520\,\text{kN/mm}$ & Project-derived baseline \\
+Linear Intercept $b$ ($u \le 1.0\,\mu\text{m}$) & $4.472368 \times 10^{-5}\,\text{kN}$ & --- \\
+Coefficient of Determination $R^2$ & $0.99999960$ & --- \\
+Peak Reaction Force $F_{\max}$ & $0.757778\,\text{kN}$ & $\approx 0.758\,\text{kN}$ \\
+Displacement at Peak $u(F_{\max})$ & $0.005857\,\text{mm}$ ($5.857\,\mu\text{m}$) & $\approx 0.005860\,\text{mm}$ \\
+Initial Crack Seam Length $a_0$ & $0.5000\,\text{mm}$ & $0.50\,\text{mm}$ \\
+Crack Extension Symmetry & $y = 0.5000\,\text{mm}$ ($\Delta y \le 0.0031\,\text{mm}$) & Pure Mode-I planar \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+As summarized in Table~\ref{tab:reference_anchor_metrics}, unconstrained ordinary least-squares regression on the audited data source \nolinkurl{S1_h0030_15k_MECHANICAL_FU_AUDITED.csv} (\nolinkurl{SHA256: E3100B7429E14B8BCEAB9952DDF8B0419CA9F71DF058F5916668922185AA25E2}) over the initial $N = 400$ active increments ($u \le 1.0\,\mu\text{m}$) yields $K_0 = 137.945520\,\text{kN/mm}$ with $R^2 = 0.99999960$. The peak reaction force $F_{\max} = 0.757778\,\text{kN}$ occurs at $u = 0.005857\,\text{mm}$, matching the digitized literature response of Pandey and Kumar~\cite{pandey2025} ($F_{\max} \approx 0.758\,\text{kN}, u \approx 0.005860\,\text{mm}$). Historical Job \texttt{1398090.mmaster02} is preserved as reconstructed baseline evidence.

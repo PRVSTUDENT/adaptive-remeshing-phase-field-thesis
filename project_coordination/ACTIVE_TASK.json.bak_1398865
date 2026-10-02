@@ -1,0 +1,50 @@
+{
+  "active_task_id": "TASK5_PANDEY_KUMAR_PROPOSED_ADAPTIVE_PFM_CORRECTED_SOLVER_SUBMITTED",
+  "workflow_phase": "TASK5_PRODUCTION_SOLVER_SUBMITTED_AND_TRACKING",
+  "thesis_milestone": "TASK_5_REPRODUCE_REFERENCE_RESULTS_WITH_MESH_REFINEMENT",
+  "tracked_production_job": {
+    "pbs_job_id": "1398865.mmaster02",
+    "job_name": "PK_MODE1_P_SOLVE",
+    "queue": "normal_imfdfkmq",
+    "job_state": "Q",
+    "model_directory": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/02_proposed_adaptive_refined",
+    "case_name": "PK_MODE1_PROPOSED_PFM",
+    "input_deck_sha256": "d7de92563d1a409e813ffe430c092bcb0b9a0b8b6dacaed3c2c6a8bc5aa03023",
+    "subroutine_sha256": "5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd",
+    "mesh_discretization": {
+      "physical_elements": 71320,
+      "quad_elements": 69443,
+      "tri_elements": 1877,
+      "physical_nodes": 70845,
+      "min_element_size_mm": 0.001,
+      "max_element_size_mm": 0.02
+    },
+    "sharp_slit_specification": {
+      "method": "assignSeam on partition edge (0,0.5)->(0.5,0.5)",
+      "slot_width_mm": 0.0,
+      "coincident_flank_pairs": 100,
+      "tip_node": [145]
+    },
+    "preanalysis_stiffness_qualification": {
+      "evaluated_K0_kN_per_mm": 141.82,
+      "task3_baseline_K0_kN_per_mm": 138.15,
+      "relative_difference_pct": 2.65,
+      "verdict": "PASSED_WITHIN_TOLERANCE"
+    },
+    "remeshing_rule_settings": {
+      "errorTarget": "1.0%",
+      "h_min": "0.001 mm",
+      "h_max": "0.02 mm",
+      "refinementFactor": 10,
+      "coarseningFactor": "NOT_ALLOWED",
+      "variable": "MISESERI"
+    }
+  },
+  "predecessor_record": {
+    "pbs_job_id": "1398807.mmaster02",
+    "classification": "TECHNICAL_PASS_SCIENTIFIC_FAIL_WRONG_BLUNT_NOTCH_GEOMETRY",
+    "archive_directory": "models/pandey_kumar_mode1/02_proposed_adaptive_refined/predecessor_1398807/"
+  },
+  "notification_status": "Telegram = VERIFIED WORKING (Sidecar Daemon PID 163440) / Email = DEFECT (exit 77)",
+  "timestamp": "2026-08-29T07:46:00+02:00"
+}

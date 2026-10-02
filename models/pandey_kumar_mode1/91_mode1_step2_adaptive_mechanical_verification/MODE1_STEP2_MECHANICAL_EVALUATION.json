@@ -1,0 +1,41 @@
+{
+  "job_name": "PK_M1_STEP2_ADAPTED_62K",
+  "mesh_element_count": 62057,
+  "telemetry": {
+    "num_increments": 213,
+    "total_cutbacks": 24,
+    "final_step": 2,
+    "final_step_time": 0.311,
+    "achieved_u_mm": 0.0065543689,
+    "final_rf_kN": 0.098570849,
+    "is_post_peak_reached": true
+  },
+  "mechanical_response": {
+    "K0_kN_per_mm": 137.79871854545456,
+    "K0_intercept_kN": 6.16281999999857e-05,
+    "K0_R2": 0.9999995389272932,
+    "K0_ref_kN_per_mm": 137.94552,
+    "delta_K0_pct": -0.10641987832981112,
+    "F_max_kN": 0.74116473,
+    "F_max_ref_kN": 0.757778,
+    "delta_F_max_pct": -2.1923663658749533,
+    "F_max_predeclared_band_kN": [
+      0.745,
+      0.758
+    ],
+    "in_predeclared_band": false,
+    "u_at_F_max_mm": 0.00573,
+    "u_at_F_max_ref_mm": 0.005857,
+    "delta_u_at_F_max_um": -0.1270000000000004,
+    "softening_slope_kN_per_mm": -779.4979662624337
+  },
+  "criteria_ledger": {
+    "CRIT_01_INITIAL_STIFFNESS": "PROVISIONAL_PASS",
+    "CRIT_02_PEAK_FORCE": "PROVISIONAL_OUTSIDE_PREDECLARED_BAND",
+    "CRIT_03_DISPLACEMENT_AT_PEAK": "PROVISIONAL_PENDING_FULL_TRAJECTORY",
+    "CRIT_04_SOLVER_CUTBACKS": "AUDIT_REQUIRED_CUTBACKS_DETECTED (24 cutbacks)",
+    "CRIT_05_ACHIEVED_DISPLACEMENT": "TERMINATED_PRE_ENDPOINT_AT_U_0.006554_MM",
+    "CRIT_06_POST_PEAK_SOFTENING": "PENDING_TERMINAL_QUALIFICATION",
+    "CRIT_07_CRACK_LOCALIZATION": "PENDING_TERMINAL_QUALIFICATION"
+  }
+}

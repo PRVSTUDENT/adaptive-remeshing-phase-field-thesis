@@ -1,0 +1,75 @@
+{
+  "package_name": "91_mode1_step2_adaptive_mechanical_verification",
+  "job_name": "PK_M1_STEP2_62K",
+  "model_type": "pandey_kumar_mode1_step2_adaptive_mechanical_verification",
+  "candidate_id": "PROJECT_CORRECTED_STEP_SELECTION_CANDIDATE",
+  "created_at": "2026-10-01T08:50:00+02:00",
+  "classification": "MODE1_STEP2_ADAPTIVE_MECHANICAL_VERIFICATION_PASS",
+  "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+  "purpose": "Authorized 1-CPU serial mechanical verification solve on Candidate Step-2 adapted mesh tracking crack propagation along horizontal ligament",
+  "execution_mode": "serial_1cpu",
+  "cpus": 1,
+  "queue": "normal_imfdfkmq",
+  "walltime": "08:00:00",
+  "memory": "16gb",
+  "geometry": {
+    "domain": "1.0 mm x 1.0 mm",
+    "crack_length_a0": "0.5 mm",
+    "crack_orientation": "horizontal along y = 0.5 mm, x in [0.0, 0.5] mm",
+    "ligament": "y = 0.5 mm, x in [0.5, 1.0] mm"
+  },
+  "parameters": {
+    "E": "210.0 kN/mm^2 (210 GPa)",
+    "nu": 0.3,
+    "l0": "0.0075 mm",
+    "Gc": "0.0027 kN/mm",
+    "eta": "1.0e-7",
+    "E_comp": "1.0e-11 kN/mm^2 (scaled near-zero companion stiffness)"
+  },
+  "mesh_counts": {
+    "num_mesh_nodes": 61646,
+    "num_mesh_quads": 60429,
+    "num_mesh_tris": 1628,
+    "num_finite_elements": 62057,
+    "num_total_layered_elements": 186171,
+    "num_total_variables": 184939,
+    "nodes_bottom": 119,
+    "nodes_top": 174,
+    "nodes_pin": 1,
+    "reference_point_id": 999999
+  },
+  "mesh_metrics": {
+    "min_edge_length_um": 0.638,
+    "median_edge_length_um": 2.551,
+    "max_edge_length_um": 22.552,
+    "pct_edges_in_1_to_20_um": 99.704,
+    "median_h_A_um": 2.520,
+    "ligament_elements": 293,
+    "ligament_median_edge_um": 1.688,
+    "cut_station_x_055_hA_um": 1.890,
+    "cut_station_x_065_hA_um": 1.196,
+    "cut_station_x_075_hA_um": 1.488,
+    "cut_station_x_090_hA_um": 3.864
+  },
+  "files": {
+    "raw_mesh": {
+      "filename": "PK_M1_STEP2_RAW_MESH.inp",
+      "sha256": "da50340f17a5bc359b592364e313ec20d612f9e5d980e54c5314759023bfc856"
+    },
+    "production_deck": {
+      "filename": "PK_M1_STEP2_ADAPTED_62K.inp",
+      "sha256": "83c31d0d5fb1c25dd38f381f4edb40970836f2b21d206ff26d9890cd78141abd"
+    },
+    "subroutine": {
+      "filename": "f42_mixed_uel.for",
+      "sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+      "line_count": 901
+    },
+    "pbs_script": {
+      "filename": "submit_solver.pbs"
+    },
+    "audit_metrics": {
+      "filename": "RIGOROUS_MESH_METRICS_AUDIT.json"
+    }
+  }
+}

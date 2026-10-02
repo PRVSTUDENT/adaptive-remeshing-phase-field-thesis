@@ -1,0 +1,97 @@
+{
+  "task_id": "F275AUDIT-M2-STAGE-D-FIELD-BY-FIELD-TRANSFER-SHOCK-ATTRIBUTION-AUDIT1",
+  "provenance": {
+    "h1_donor_run": "1389686.mmaster02 (Frame 14, Inc 14, U1 = 0.01014330 mm, RF1 = 0.122822 kN, d_max = 0.274148)",
+    "target_continuous_run": "1390447.mmaster02 (Frame 17, Inc 17, U1 = 0.01051289 mm, RF1 = 0.125916 kN, d_max = 0.304318)",
+    "failed_nonmatching_restart": "1390279.mmaster02 (Handoff at U1 = 0.01014330 mm, diverged at U1 = 0.011251 mm)",
+    "successful_identity_restart": "1390449.mmaster02 (Handoff at U1 = 0.01051289 mm, 100% complete to U1 = 0.050 mm)"
+  },
+  "mechanical_transfer_metrics": {
+    "max_err_u1_mm": 0.00012568774413403584,
+    "mean_err_u1_mm": 8.082483558407573e-06,
+    "max_err_u2_mm": 0.0002999013128896317,
+    "mean_err_u2_mm": 2.1182129815056502e-05,
+    "max_err_u1_pz_mm": 0.00012568774413403584,
+    "mean_err_u1_pz_mm": 1.0970942098041152e-05
+  },
+  "phase_transfer_metrics": {
+    "max_err_d": 0.08113345115889592,
+    "mean_err_d": 0.0010502115623097312,
+    "max_err_d_pz": 0.08113345115889592,
+    "mean_err_d_pz": 0.0029570860343267973,
+    "max_d_map": 0.284444257493,
+    "max_d_ref": 0.2783981655204675
+  },
+  "history_transfer_metrics": {
+    "max_h_map_mpa": 848.8700224491871,
+    "max_h_ref_mpa": 792.6512772188827,
+    "max_dh_mpa": 791.7158117277659,
+    "mean_dh_mpa": 0.4247505232499833,
+    "max_jump_map_mpa": 740.6835572601531,
+    "max_jump_ref_mpa": 691.2121129524277
+  },
+  "energy_residual_decomposition": {
+    "State 1: Full Mapped (u_map, d_map, H_map)": {
+      "psi_el_mJ": 25.2702852192192,
+      "psi_frac_mJ": 0.01756462020253714,
+      "psi_total_mJ": 25.28784983942174,
+      "rms_r_d": 2.7666021454552798e-08,
+      "max_r_d": 1.7929302221832557e-06,
+      "max_r_d_node": 4608,
+      "max_r_d_coord": [
+        0.0,
+        0.0
+      ]
+    },
+    "State 2: Mapped u with Consistent (d_ref, H_ref)": {
+      "psi_el_mJ": 25.273695367100665,
+      "psi_frac_mJ": 0.017205518235577963,
+      "psi_total_mJ": 25.290900885336242,
+      "rms_r_d": 3.852079552510292e-09,
+      "max_r_d": 1.1694870212489845e-07,
+      "max_r_d_node": 4514,
+      "max_r_d_coord": [
+        0.00263158,
+        0.0
+      ]
+    },
+    "State 3: Mapped d with Consistent (u_ref, H_ref)": {
+      "psi_el_mJ": 25.311284557492684,
+      "psi_frac_mJ": 0.01756462020253714,
+      "psi_total_mJ": 25.32884917769522,
+      "rms_r_d": 4.92477723714059e-08,
+      "max_r_d": 2.8250426348955873e-06,
+      "max_r_d_node": 4608,
+      "max_r_d_coord": [
+        0.0,
+        0.0
+      ]
+    },
+    "State 4: Mapped H with Consistent (u_ref, d_ref)": {
+      "psi_el_mJ": 25.314209132883324,
+      "psi_frac_mJ": 0.017205518235577963,
+      "psi_total_mJ": 25.3314146511189,
+      "rms_r_d": 3.917103175336588e-08,
+      "max_r_d": 1.612889082737627e-06,
+      "max_r_d_node": 4512,
+      "max_r_d_coord": [
+        -0.00263158,
+        0.0
+      ]
+    },
+    "State 5: Target-Consistent Reference (u_ref, d_ref, H_ref)": {
+      "psi_el_mJ": 25.314209132883324,
+      "psi_frac_mJ": 0.017205518235577963,
+      "psi_total_mJ": 25.3314146511189,
+      "rms_r_d": 3.852079552510292e-09,
+      "max_r_d": 1.1694870212489845e-07,
+      "max_r_d_node": 4514,
+      "max_r_d_coord": [
+        0.00263158,
+        0.0
+      ]
+    }
+  },
+  "classification": "DOMINANT_H_TRANSFER_DEFECT",
+  "next_falsifying_diagnostic": "A single solver diagnostic on the Stage-D mesh restarting from H1 handoff state with BILINEAR_ISOPARAMETRIC_RECONSTRUCTED_H vs NEAREST_GP_H while holding mapped (u, d) identical."
+}

@@ -1,0 +1,54 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{Abstract}{II}{chapter*.1}%
+\contentsline {chapter}{Declaration on the Use of AI Tools}{III}{chapter*.2}%
+\contentsline {chapter}{\numberline {1}Introduction and Phase-Field Foundations}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Motivation and present scope}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}AT2 regularized fracture formulation}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Irreversibility, history field, and staggered architecture}{2}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Rigorous Energy Formulation and Global Energy Balance}{2}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Energy components and mathematical definitions}{2}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Global energy balance and residual metric}{3}{subsection.1.4.2}%
+\contentsline {subsection}{\numberline {1.4.3}Implementation and Variable Mapping}{3}{subsection.1.4.3}%
+\contentsline {subsection}{\numberline {1.4.4}Numerical verification of the energy implementation}{3}{subsection.1.4.4}%
+\contentsline {chapter}{\numberline {2}Mode-I Benchmark and Fixed-Mesh Reference}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Benchmark Geometry and Sharp Seam Representation}{5}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Boundary-Condition Verification and Seam Compliance}{6}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}Boundary-Condition Specification and Reconstruction Provenance}{6}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Verified Fixed-Mesh Reference Anchor}{6}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Resolution of the Boundary-Set Formatting Defect}{7}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Pandey--Kumar Error-Guided Adaptive Pre-Refinement and Discretization}{9}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Published Two-Job Adaptive Refinement Workflow}{9}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Physical Meaning, Indicator Provenance, and Limits of \texttt {MISESERI}}{10}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Canonical Pre-Analysis Provenance and Spatial Association}{10}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Adaptive Remeshing Reproduction: 71,320 vs 13,941 Elements}{12}{section.3.4}%
+\contentsline {paragraph}{\nonumberline Supervisor Decision and Phase Closure.}{12}{paragraph*.18}%
+\contentsline {paragraph}{\nonumberline Preserved Sensitivity Trends.}{13}{paragraph*.20}%
+\contentsline {section}{\numberline {3.5}Theoretical Foundations for State-Transfer Energy Conservation}{13}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Current Status: Mode-I Verification, UEL Energy Audit, and Multifaceted Convergence}{14}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction and Milestone Governance}{14}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Governing Mathematical Energy Formulation and Bookkeeping Identity}{15}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Exact implemented discrete energy terms}{15}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Discrete non-existence proof and multi-term decomposition}{15}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Layer decoupling and Gauss-point deduplication}{16}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Audit of Runtime Diagnostic Job 1406839 and Persistence Integrity}{16}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Bit-for-bit mechanical parity verification}{16}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Historical baseline vs.\ energy-qualified production UEL parity}{19}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Unit 105/106 logging persistence reconciliation}{19}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Unit 107 sampled call-order qualification}{20}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}Spatial Mesh Convergence and Resolution Ratio Evaluation}{20}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Classification of stiffness vs.\ peak response}{20}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Comparability boundary: terminal vs.\ matched-displacement work}{20}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Physical length scale ($l_0$) sensitivity study}{21}{subsection.4.4.3}%
+\contentsline {section}{\numberline {4.5}Temporal Time-Increment Convergence}{24}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Native Adaptive Remeshing and Lineage Separation}{26}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Lineage reconciliation: sensitivity study vs.\ production batch}{26}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Corrected adaptive response and temporal twin}{26}{subsection.4.6.2}%
+\contentsline {section}{\numberline {4.7}Crack-Path Symmetry and Localization Profile Audit}{27}{section.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}Phase-field damage contours at matched displacements}{27}{subsection.4.7.1}%
+\contentsline {subsection}{\numberline {4.7.2}Ligament damage profiles and boundary propagation}{29}{subsection.4.7.2}%
+\contentsline {subsection}{\numberline {4.7.3}Rigorous distinction between crack-centroid trajectory and localization-band width}{29}{subsection.4.7.3}%
+\contentsline {section}{\numberline {4.8}Authoritative Master Production Matrix and Convergence Classifications}{33}{section.4.8}%
+\contentsline {subsection}{\numberline {4.8.1}Multi-quantity convergence classification matrix}{33}{subsection.4.8.1}%
+\contentsline {section}{\numberline {4.9}Summary of Active Scientific Findings}{35}{section.4.9}%
+\contentsline {section}{\numberline {4.10}Compact Supervisor-Facing Gate-6B Claim Ledger}{35}{section.4.10}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

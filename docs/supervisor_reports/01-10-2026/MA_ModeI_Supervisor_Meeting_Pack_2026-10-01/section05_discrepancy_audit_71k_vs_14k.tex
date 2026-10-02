@@ -1,0 +1,49 @@
+\section{Discrepancy Audit: 71,320 vs 13,941 Elements and Governing Decision}
+\label{sec:discrepancy_audit_71k_vs_14k}
+
+\subsection{Publication Discrepancy and Comprehensive Investigation}
+\citet{pandey2025} report an adapted Mode-I element count of $\approx 13{,}941$, while strictly applying the published Listing~1 settings to the full domain generates $71{,}320$ finite elements.
+
+An exhaustive numerical and software investigation established:
+\begin{enumerate}
+  \item \textbf{Abaqus Release Invariance:} Abaqus 2019 GA, 2021.HF26, 2022 GA, and 2023.HF4 all generate $100.000\%$ bitwise identical $71{,}320$-element meshes with matching SHA-256 hashes.
+  \item \textbf{Single-Factor Parameter Testing:} Testing load magnitude, output frequency, boundary conditions, and mesher controls ruled out trivial parameter differences.
+  \item \textbf{Regional Breakdown:} The crack process corridor ($|y| \le 0.05\,\mathrm{mm}$) contains $9{,}061$ elements ($12.7\%$), while far-field and transition regions contain $62{,}259$ elements ($87.3\%$) because coarsening was disabled (\texttt{coarseningFactor=NOT\_ALLOWED}).
+  \item \textbf{Pre-Analysis Loading and Step Lineage:} Evaluating native remeshing against the qualified two-step layered UEL/UMAT pre-analysis (Job \texttt{1409554.mmaster02}) deterministically yields $48{,}329$ finite elements ($48{,}093$ nodes) under $1.0\%$ error target ($100.000\%$ mesh identity across independent repeats). An interim provisional run (Job \texttt{1409546.mmaster02}) yielded $42{,}318$ elements.
+\end{enumerate}
+
+\subsection{Supervisor Decision and Definitive Closure}
+During the meeting on 17 September 2026, the supervisor formally closed this investigation under the following governing ruling:
+\begin{center}
+  \textbf{\texttt{SUPERVISOR\_ACCEPTED\_REPRODUCTION\_LIMITATION\_CLOSED}}
+\end{center}
+The supervisor confirmed that:
+\begin{itemize}
+  \item The complete author code, internal scripts, and exact frame selection routines are unavailable;
+  \item The publication does not disclose sufficient information to reproduce the specific $13{,}941$ element count;
+  \item The reproducible $48{,}329$-element mesh is classified as \textbf{\texttt{PROJECT\_REPRODUCIBLE\_STEP1\_1PCT\_RESULT}}, not an authoritative literature match;
+  \item The remaining difference between $48{,}329$ and $13{,}941$, along with the exact step/frame filtering semantics, is formally designated as \textbf{\texttt{UNRESOLVED\_PUBLICATION\_IMPLEMENTATION\_DETAIL}} and \textbf{\texttt{FRAME\_SELECTION\_SEMANTICS\_UNRESOLVED}};
+  \item Exact $13{,}941$ reproduction is \textbf{not an active blocker};
+  \item Reproduction of general error-guided adaptivity trends is fully sufficient;
+  \item Additional effort aimed solely at discovering an unpublished detail is not justified;
+  \item All tested sensitivity results shall be preserved in the thesis as documented evidence.
+\end{itemize}
+
+\subsection{Preserved Parametric Sensitivity Trends}
+Table~\ref{tab:error_target_sensitivity_pack} summarizes the preserved sensitivity results across four target error tolerances, demonstrating monotonic mesh reduction as tolerance relaxes.
+
+\begin{table}[htbp]
+\centering
+\caption{Parametric sensitivity of adapted finite element counts to the \texttt{errorTarget} tolerance.}
+\label{tab:error_target_sensitivity_pack}
+\begin{tabular}{lrrrl}
+\toprule
+Case & \texttt{errorTarget} & Coarse Baseline Count & Corrected Pre-Analysis Count & Classification \\
+\midrule
+$A_1$ & $1.0\%$ & $71{,}320$ & $48{,}329$ & Reproducible Step-1 1\% result \\
+$A_2$ & $2.0\%$ & $17{,}687$ & $11{,}737$ & $2.0\%$ error tolerance \\
+$A_3$ & $3.0\%$ & $8{,}120$ & $5{,}158$ & $3.0\%$ error tolerance \\
+$A_4$ & $5.0\%$ & $4{,}356$ & $3{,}763$ & $5.0\%$ error tolerance \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,94 @@
+\contentsline {chapter}{\numberline {1}Stage A Molnar Single-Notch Benchmark}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Objective and Decision Boundary}{2}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Benchmark Choice}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Formulation Convention}{3}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Staggered Phase/Displacement Method}{3}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Geometry, Material, and Loading}{3}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Paper-Matched Reconstruction}{3}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Technical Validation}{4}{section.1.7}%
+\contentsline {section}{\numberline {1.8}Numerical Results}{4}{section.1.8}%
+\contentsline {section}{\numberline {1.9}RF--U Interpretation}{7}{section.1.9}%
+\contentsline {section}{\numberline {1.10}Crack-Path Interpretation}{7}{section.1.10}%
+\contentsline {section}{\numberline {1.11}SDV15, SDV16, and Irreversibility}{7}{section.1.11}%
+\contentsline {section}{\numberline {1.12}Scientific Limitations}{7}{section.1.12}%
+\contentsline {section}{\numberline {1.13}Supplementary lc = 0.015 mm mesh h-convergence (RF--U)}{8}{section.1.13}%
+\contentsline {section}{\numberline {1.14}Gate A3 Boundary}{8}{section.1.14}%
+\contentsline {chapter}{\numberline {2}Offline MISESERI Pre-Refinement for Layered Phase-Field UEL Models}{9}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Objective}{9}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Method summary}{9}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Verification narrative}{9}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Results (C2F-v3)}{9}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Production policy}{10}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Controlled State Transfer for Phase-Field UEL Workflows}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Objective}{11}{section.3.1}%
+\contentsline {section}{\numberline {3.2}D1 analytical baseline}{11}{section.3.2}%
+\contentsline {section}{\numberline {3.3}D2A ingestion design}{11}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Current status}{11}{section.3.4}%
+\contentsline {section}{\numberline {3.5}D2B continuation attempt}{12}{section.3.5}%
+\contentsline {section}{\numberline {3.6}D2B accepted rerun}{12}{section.3.6}%
+\contentsline {section}{\numberline {3.7}D2C four-thread repeatability}{12}{section.3.7}%
+\contentsline {section}{\numberline {3.8}D2D0 ABAQUSER availability}{12}{section.3.8}%
+\contentsline {section}{\numberline {3.9}D3A existing H0 checkpoint audit}{13}{section.3.9}%
+\contentsline {section}{\numberline {3.10}D3A-E independent energy reconstruction}{13}{section.3.10}%
+\contentsline {section}{\numberline {3.11}D3A2 nonmatching package}{13}{section.3.11}%
+\contentsline {section}{\numberline {3.12}D3A3 ingestion hold attempt}{13}{section.3.12}%
+\contentsline {section}{\numberline {3.13}R3 to R4 compatibility closure}{16}{section.3.13}%
+\contentsline {chapter}{\numberline {4}State Transfer and Active-Set Evolution}{18}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Controlled Transfer and Abaqus Ingestion}{18}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Nonmatching Fracture Checkpoint}{18}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Active-Set Evolution}{18}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Mechanical-Restart Limitation}{19}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Claim Summary}{19}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Interrupted-Transfer Checkpoint Correction}{20}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Methodology}{20}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Offline Correction Result}{20}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Mechanical-Checkpoint Qualification}{20}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Limitations}{21}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Future Work}{21}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Parallel execution and shared user-subroutine state}{21}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Separated identifier-utility qualification}{22}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Final Stage-P evidence boundary}{23}{subsection.5.6.2}%
+\contentsline {chapter}{\numberline {6}Stage F: Mode-II Mixed-Mode Phase-Field Fracture Benchmark}{24}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Problem Definition and Model Description}{24}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Numerical Discretization and Solver Configuration}{24}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Execution and Computational Results}{24}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Baseline $H_0$ Solver Result}{24}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Reference $H_1$ Uniform Solver Result}{25}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}Reference $H_1$ Endpoint Sweep Batch Results and Reference Freeze}{25}{subsection.6.3.3}%
+\contentsline {subsection}{\numberline {6.3.4}Stage F3 $H_2$ Uniform Reference and MISESERI Pre-Analysis Results}{26}{subsection.6.3.4}%
+\contentsline {subsection}{\numberline {6.3.5}Stage F5 $H_2$ Compiler and Datacheck Qualification}{26}{subsection.6.3.5}%
+\contentsline {subsection}{\numberline {6.3.6}Stage F6 Full $H_2$ Post-Peak Result and Validation Boundary}{26}{subsection.6.3.6}%
+\contentsline {subsection}{\numberline {6.3.7}Stage F7 Fixed-Material-Point Irreversibility Audit}{27}{subsection.6.3.7}%
+\contentsline {subsection}{\numberline {6.3.8}Stage F7 Native MISESERI Remeshing API Boundary}{27}{subsection.6.3.8}%
+\contentsline {subsection}{\numberline {6.3.9}Stage F8 Qualification Preflight Boundary}{27}{subsection.6.3.9}%
+\contentsline {section}{\numberline {6.4}Stage F9 Diagnostic Boundary}{28}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Stage F13 Controlled-Rollback and Native-Remesh Execution}{28}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Reproducibility Paths}{28}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Stage F14 Runtime and Adaptive-Region Qualification}{28}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Stage F10 Corrected Minimal Qualification}{29}{section.6.8}%
+\contentsline {section}{\numberline {6.9}Stage F11 Instrumented Qualification}{29}{section.6.9}%
+\contentsline {section}{\numberline {6.10}Stage F12 Rollback and Native-Model Preparation}{29}{section.6.10}%
+\contentsline {subsection}{\numberline {6.10.1}F16 Wave B submission boundary}{30}{subsection.6.10.1}%
+\contentsline {subsection}{\numberline {6.10.2}F18 failure boundary and F19 repair preparation}{30}{subsection.6.10.2}%
+\contentsline {subsection}{\numberline {6.10.3}F19 terminal execution boundary}{31}{subsection.6.10.3}%
+\contentsline {subsection}{\numberline {6.10.4}F20 offline recovery and adaptive R7 preparation}{31}{subsection.6.10.4}%
+\contentsline {subsection}{\numberline {6.10.5}F31 M2RMBUILD6 CAE build runtime gate closeout}{31}{subsection.6.10.5}%
+\contentsline {chapter}{\numberline {7}Recommendations and Decision Tree}{32}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Mesh and Refinement Recommendations}{32}{section.7.1}%
+\contentsline {section}{\numberline {7.2}State-Transfer Recommendations}{32}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Execution and Reproducibility Risks}{32}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Mode-II Benchmark Recommendations}{33}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Practical Decision Tree}{33}{section.7.5}%
+\contentsline {section}{\numberline {7.6}Final Scope}{33}{section.7.6}%
+\contentsline {chapter}{\numberline {A}Stage A Reproducibility Appendix}{34}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Scope}{34}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Repository Revisions}{34}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Job Records}{34}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Software and Runtime Environment}{35}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Deck and Source Hashes}{35}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Static Validation and Diagnostic Targets}{36}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Trace Provenance}{36}{section.A.7}%
+\contentsline {section}{\numberline {A.8}Postprocessing Selection Rule and Tolerances}{36}{section.A.8}%
+\contentsline {section}{\numberline {A.9}Committed Evidence Paths}{36}{section.A.9}%
+\contentsline {section}{\numberline {A.10}Excluded Files}{37}{section.A.10}%
+\contentsline {section}{\numberline {A.11}Molnar lc = 0.015 mm h-convergence provenance}{37}{section.A.11}%

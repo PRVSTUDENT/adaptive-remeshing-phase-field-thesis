@@ -1,0 +1,180 @@
+# Mode-I Gate 5: Nominal 1% Discrepancy Closure Audit Report
+
+**Authoritative Gate Status**: `CLOSED_UNRESOLVED_DUE_TO_MISSING_PUBLISHED_OR_INTERNAL_SIZING_INFORMATION`  
+**Execution Timestamp**: 2026-09-07T22:00:00+02:00  
+**HPC Job Status**: 0 Active PBS Jobs (Queue IDLE)  
+**Investigation Target**: Mathematical, Algorithmic & Provenance Closure Audit of the 71,320 vs ~13,941 Element-Count Discrepancy at `errorTarget=1.0%`
+
+---
+
+## 1. Executive Summary & Control Identity Verification
+
+### 1.1 Corrected Control Definition & Baseline Establishment
+The Gate-5 baseline control (C0) is established strictly on the canonical Gate-4 Mode-I pre-analysis:
+- **Element Formulation**: Linear Plane Strain continuum elements (`CPE4` quads + `CPE3` triangles).
+- **Domain & Notch**: $1.0 \times 1.0\,\text{mm}$ square plate with zero-gap sharp slit seam ($a_0 = 0.5\,\text{mm}$ along $y = 0.5\,\text{mm}$, $0 \le x \le 0.5\,\text{mm}$).
+- **Coarse Mesh**: $h_{\mathrm{cms}} = 0.02\,\text{mm}$ ($2,906$ finite elements: $2,786$ `CPE4` + $120$ `CPE3`, $2,988$ nodes).
+- **Pre-Analysis Loading / BCs**: Bottom roller ($u_2=0$), pinned origin ($u_1=0, u_2=0$), top tension ($u_1=0, u_2=0.005\,\text{mm}$ across 10 static increments).
+- **Remeshing Rule**: `variables=('MISESERI',)`, `sizingMethod=UNIFORM_ERROR`, `errorTarget=1.0`, `refinementFactor=10`, `minElementSize=0.001`, `maxElementSize=0.020`, `coarseningFactor=NOT_ALLOWED`, `outputFrequency=ALL_INCREMENTS`.
+- **Control Identity Verdict**: **`TOPOLOGY_AND_CONNECTIVITY_IDENTITY_VERIFIED`**.
+  * Total element count: **`71,320` finite elements** ($69,443$ `CPE4` quads + $1,877$ `CPE3` triangles, $70,845$ nodes).
+  * Sorted element connectivity array SHA-256: `5e06d95627b3573733a9946764d07090689269498c7168adfc377b622ce6a184` ($100.000\%$ identical to canonical Gate 4).
+  * Nodal coordinates array SHA-256: `6c880864b1376c70a30f26eac10cb6dc151272e35c2deb48c70417e71f01ecce` ($100.000\%$ identical to canonical Gate 4).
+  * Whole-file SHA-256 hashes differ solely due to generated comments and deck header timestamps (`756e0c...` vs `36534c...`).
+
+### 1.2 Formulative Impact: `CPE4` vs `CPS4` Error Indicator Field
+- **Verified Mechanism**: `ELEMENT_FORMULATION_CHANGE_ALTERS_MISESERI_FIELD_AND_REFINED_MESH_COUNT`.
+- **Quantitative Field Comparison**:
+  * `CPE4` (Plane Strain): Mean $\text{MISESERI} = 0.011303\,\text{MPa}$, $\text{MISESAVG} = 0.036706\,\text{MPa}$, Mean Ratio $= 30.79\%$.
+  * `CPS4` (Plane Stress): Mean $\text{MISESERI} = 0.010097\,\text{MPa}$ ($-10.67\%$ lower), $\text{MISESAVG} = 0.036635\,\text{MPa}$, Mean Ratio $= 27.56\%$.
+- The absence of out-of-plane constraint $\sigma_{zz} = 0$ in Plane Stress reduces the superconvergent patch recovery stress error $\mathbf{e}_\sigma$, causing the sizing engine to generate fewer elements ($58,679$ in D0 vs $71,320$ in C0).
+
+---
+
+## 2. Primary-Publication Sufficiency Audit (Pandey & Kumar, 2025)
+
+Every input parameter and environmental factor capable of influencing the final adaptive mesh topology has been audited directly against the primary literature:
+
+| Parameter / Factor | Description in Pandey & Kumar (2025) | Project Reconstruction / Implementation | Sufficiency Classification | Audit Impact on Adaptive Mesh |
+| :--- | :--- | :--- | :--- | :--- |
+| **`errorTarget`** | `1.0` (Listing 1 API argument) / "1%" (Text) | `errorTarget=1.0` | `PUBLISHED_EXPLICIT` | Primary driver of target sizing field. |
+| **`variables`** | `('MISESERI',)` (Listing 1) | `('MISESERI',)` | `PUBLISHED_EXPLICIT` | Mises stress recovery error indicator. |
+| **`sizingMethod`** | `UNIFORM_ERROR` (Listing 1) | `UNIFORM_ERROR` | `PUBLISHED_EXPLICIT` | Distributes error uniformly across elements. |
+| **`refinementFactor`**| `10` (Listing 1) | `10` | `PUBLISHED_EXPLICIT` | Single-step reduction ratio limit. |
+| **`minElementSize`** | `0.001` (Listing 1) | `0.001` ($1.0\,\mu\text{m}$) | `PUBLISHED_EXPLICIT` | Enforces lower bound ($h \ll l_0 = 7.5\,\mu\text{m}$). |
+| **`maxElementSize`** | `0.020` (Listing 1) | `0.020` ($20.0\,\mu\text{m}$) | `PUBLISHED_EXPLICIT` | Sets background mesh upper ceiling. |
+| **`outputFrequency`** | `ALL_INCREMENTS` (Listing 1) | `ALL_INCREMENTS` | `PUBLISHED_EXPLICIT` | Evaluates error across pre-analysis increments. |
+| **Adaptive Passes** | 1 remeshing pass before fracture solve | 1 remeshing pass | `PUBLISHED_EXPLICIT` | Single-step mesh generation. |
+| **Geometry & Crack** | $1.0\times 1.0\,\text{mm}$ plate, $a_0 = 0.5\,\text{mm}$ slit | $1.0\times 1.0\,\text{mm}$, $a_0 = 0.5\,\text{mm}$ seam | `PUBLISHED_IMPLICIT_OR_DERIVABLE` | Defines domain boundaries and singularity. |
+| **Pre-Analysis BCs** | Mode-I tensile extension | $u_y=0$ bottom, $u_x=u_y=0$ origin, $u_y=0.005$ top | `PUBLISHED_IMPLICIT_OR_DERIVABLE` | Drives elastic stress concentration field. |
+| **Remeshing Region** | Whole Plate (Listing 1 uses `part.faces`) | Whole Plate (`inst.faces`) | `PUBLISHED_IMPLICIT_OR_DERIVABLE` | Domain-wide sizing application. |
+| **Pre-Analysis Formulation** | Not explicitly stated (PFM solve is Plane Strain) | Plane Strain `CPE4`/`CPE3` (C0) vs `CPS4`/`CPS3` (D0)| `NOT_PUBLISHED` | $\pm 10.7\%$ shift in recovery error indicator. |
+| **Coarse Seed Strategy** | Coarse mesh shown in Fig 4(a) (~2,906 elems) | $h_{\text{cms}} = 0.02\,\text{mm}$ (2,906 elements) | `NOT_PUBLISHED` | Minor topological variation at boundaries. |
+| **`coarseningFactor`**| Not mentioned in Listing 1 | `NOT_ALLOWED` (C0) vs `DEFAULT` (C2) | `NOT_PUBLISHED` | Evaluated in OFAT ($0.4\%$ effect; ruled out). |
+| **`elementCountLimit`**| Not mentioned in Listing 1 | `None` (unbounded) | `NOT_PUBLISHED` | Unbounded element generation. |
+| **Abaqus Release** | Not reported in paper | Abaqus 2023 HF4 | `NOT_PUBLISHED` | Kernel meshing algorithm version differences. |
+| **Internal Sizing Engine** | Proprietary Abaqus CAE meshing kernel | Native Abaqus `adaptiveRemesh()` | `ABAQUS_INTERNAL_NOT_DOCUMENTED` | Exact mapping $\xi(\eta) = h_{\text{new}}/h_{\text{old}}$ is closed-source. |
+
+---
+
+## 3. Provenance Reconciliation of Historical vs Corrected Sensitivity Branches
+
+The historical production runs (Jobs 1400395 and 1400396) and the corrected OFAT sensitivity runs (C7 and C8) are classified strictly as **`SEPARATE_PROVENANCE_BRANCHES`**:
+
+```text
++-------------------------------------------------------------------------------------------------------------------------------+
+|                                  PROVENANCE RECONCILIATION FOR 2% AND 5% SENSITIVITY RUNS                                     |
++-------------------------------------------------------------------------------------------------------------------------------+
+| Metric / Parameter          | Historical 2% (Job 1400395)       | Corrected OFAT C7 (2%)            | Historical 5% (Job 1400396)       | Corrected OFAT C8 (5%)            |
++-----------------------------+-----------------------------------+-----------------------------------+-----------------------------------+-----------------------------------+
+| Pre-Analysis Formulation    | CPS4 / CPS3 (Plane Stress)        | CPE4 / CPE3 (Plane Strain)        | CPS4 / CPS3 (Plane Stress)        | CPE4 / CPE3 (Plane Strain)        |
+| Coarse Element Count        | 2,908 (2,818 CPS4 + 90 CPS3)      | 2,906 (2,786 CPE4 + 120 CPE3)     | 2,908 (2,818 CPS4 + 90 CPS3)      | 2,906 (2,786 CPE4 + 120 CPE3)     |
+| Coarse Node Count           | 2,989 nodes                       | 2,988 nodes                       | 2,989 nodes                       | 2,988 nodes                       |
+| Refined Element Count       | 15,396 (14,963 quads + 433 tris)  | 17,687 (17,196 quads + 491 tris)  | 4,194 (4,053 quads + 141 tris)    | 4,356 (4,211 quads + 145 tris)    |
+| Refined Node Count          | 15,414 nodes                      | 17,688 nodes                      | 4,252 nodes                       | 4,435 nodes                       |
+| Refined INP SHA-256         | ad5e74a96ee2fc00c93a9789225ef0175 | 9ac6b84cfdda6995f0b1430f8c694a76f | c80c0dc7d7849e06630da07002b98df1f | 04bc2a80f54a6acbfb3346005668636c1 |
+| Remeshing Script SHA-256    | 2b05e9d7daa969b4183860ffe1cf4893e | (Standardized pipeline)           | 2b05e9d7daa969b4183860ffe1cf4893e | (Standardized pipeline)           |
+| RemeshingRule errorTarget   | 2.0                               | 2.0                               | 5.0                               | 5.0                               |
+| RemeshingRule refFactor     | 10                                | 10                                | 10                                | 10                                |
+| Sizing Limits (min / max)   | 0.001 mm / 0.020 mm               | 0.001 mm / 0.020 mm               | 0.001 mm / 0.020 mm               | 0.001 mm / 0.020 mm               |
+| Coarsening Policy           | NOT_ALLOWED                       | NOT_ALLOWED                       | NOT_ALLOWED                       | NOT_ALLOWED                       |
+| Output Frequency            | ALL_INCREMENTS                    | ALL_INCREMENTS                    | ALL_INCREMENTS                    | ALL_INCREMENTS                    |
+| Abaqus Release              | Abaqus 2023 HF4                   | Abaqus 2023 HF4                   | Abaqus 2023 HF4                   | Abaqus 2023 HF4                   |
+| Remeshing Region            | Whole Plate (`inst.faces`)        | Whole Plate (`inst.faces`)        | Whole Plate (`inst.faces`)        | Whole Plate (`inst.faces`)        |
+| Adaptive Pass Count         | 1 pass                            | 1 pass                            | 1 pass                            | 1 pass                            |
+| Provenance Classification   | HISTORICAL_CPS4_BRANCH            | CORRECTED_CPE4_BRANCH             | HISTORICAL_CPS4_BRANCH            | CORRECTED_CPE4_BRANCH             |
++-----------------------------+-----------------------------------+-----------------------------------+-----------------------------------+-----------------------------------+
+```
+
+- **Reconciliation Verdict**: The historical runs were executed under a `CPS4` (Plane Stress) pre-analysis script, which produced lower stress recovery error and consequently generated $15,396$ ($2\%$) and $4,194$ ($5\%$) elements. When executed under the canonical `CPE4` (Plane Strain) formulation, the higher error indicator field generates $17,687$ ($2\%$) and $4,356$ ($5\%$) elements. Unequal counts between these branches reflect the underlying formulation difference and must not be described as reproductions.
+
+---
+
+## 4. Corrected One-Factor-At-A-Time (OFAT) Diagnostic Matrix
+
+All candidates were executed in headless Abaqus 2023 from the verified `CPE4` baseline, altering **exactly one factor** at a time:
+
+```text
++-------------------------------------------------------------------------------------------------------------------------------+
+|                                 GATE-5 CORRECTED CPE4 OFAT REMESHING DIAGNOSTIC MATRIX RESULTS                                |
++-------------------------------------------------------------------------------------------------------------------------------+
+| ID | Description             | Single Changed Factor | Coarse N | Refined N | Quads | Tris | Diff vs 71,320 | Diff vs 13,941  |
++----+-------------------------+-----------------------+----------+-----------+-------+------+----------------+-----------------+
+| C0 | Canonical Control       | NONE (CPE4 Control)   | 2,906    | 71,320    | 69,443| 1,877|      0 ( 0.0%) | +57,379 (+412%) |
+| C1 | Default Refinement      | refFactor=DEFAULT(3)  | 2,906    | 47,428    | 46,234| 1,194| -23,892 (-33.5%)| +33,487 (+240%) |
+| C2 | Default Coarsening      | coarsening=DEFAULT(3) | 2,906    | 71,037    | 69,172| 1,865|   -283 (-0.4%) | +57,096 (+410%) |
+| C3 | Unconstrained Min Size  | specifyMinSize=False  | 2,906    | 71,320    | 69,443| 1,877|      0 ( 0.0%) | +57,379 (+412%) |
+| C4 | Unconstrained Max Size  | specifyMaxSize=False  | 2,906    | 70,736    | 68,862| 1,874|   -584 (-0.8%) | +56,795 (+407%) |
+| C5 | Output Freq (LAST)      | freq=LAST_INCREMENT   | 2,906    | 71,320    | 69,443| 1,877|      0 ( 0.0%) | +57,379 (+412%) |
+| C6 | Coarser Initial Mesh    | coarse_h = 0.03 mm    | 1,303    | 48,919    | 47,610| 1,309| -22,401 (-31.4%)| +34,978 (+251%) |
+| C7 | Error Target 2.0% (Sens)| errorTarget = 2.0     | 2,906    | 17,687    | 17,196|   491| -53,633 (-75.2%)|  +3,746 (+26.9%)|
+| C8 | Error Target 5.0% (Sens)| errorTarget = 5.0     | 2,906    |  4,356    |  4,211|   145| -66,964 (-93.9%)|  -9,585 (-68.8%)|
++----+-------------------------+-----------------------+----------+-----------+-------+------+----------------+-----------------+
+```
+
+### 4.1 Exact Physical Element Size Statistics ($h_e = \sqrt{A_e}$) Across Candidates
+Calculated via direct 2D polygon Shoelace formula on nodal coordinates parsed from the INP decks ($\sum A_e = 1.000000\,\text{mm}^2$):
+
+| Candidate ID | $h_{\min}$ ($\text{mm}$) | $h_{\text{median}}$ ($\text{mm}$) | $h_{\text{mean}}$ ($\text{mm}$) | $h_{\max}$ ($\text{mm}$) | $h_{\text{tip}}$ Median ($\text{mm}$) | $h_{\text{far}}$ Median ($\text{mm}$) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **C0 (Baseline Control)** | $0.000564$ | $0.002925$ | $0.003347$ | $0.016720$ | $0.001841$ | $0.002169$ |
+| **C1 (refFactor=3.0)** | $0.001096$ | $0.004001$ | $0.004368$ | $0.016941$ | $0.003800$ | $0.003898$ |
+| **C2 (coarsening=3.0)** | $0.000636$ | $0.002919$ | $0.003353$ | $0.016502$ | $0.001883$ | $0.002186$ |
+| **C3 (specifyMin=False)** | $0.000564$ | $0.002925$ | $0.003347$ | $0.016720$ | $0.001841$ | $0.002169$ |
+| **C4 (specifyMax=False)** | $0.000656$ | $0.002919$ | $0.003362$ | $0.016457$ | $0.001876$ | $0.002179$ |
+| **C5 (LAST_INCREMENT)** | $0.000564$ | $0.002925$ | $0.003347$ | $0.016720$ | $0.001841$ | $0.002169$ |
+| **C6 ($h_0 = 0.03\,\text{mm}$)** | $0.001006$ | $0.003560$ | $0.004125$ | $0.015227$ | $0.002578$ | $0.003085$ |
+| **C7 (Target 2.0% Sens)** | $0.000848$ | $0.005653$ | $0.006392$ | $0.024536$ | $0.002009$ | $0.004481$ |
+| **C8 (Target 5.0% Sens)** | $0.001557$ | $0.015635$ | $0.014425$ | $0.024100$ | $0.004380$ | $0.014956$ |
+| **Hist. 2% (Job 1400395)**| $0.000435$ | $0.005668$ | $0.006747$ | $0.023106$ | $0.001963$ | $0.005194$ |
+
+---
+
+## 5. Scientific Hypothesis Categorization & Gate 5 Closure Rationale
+
+All conclusions are classified strictly into the governed scientific categories:
+
+| Scientific Category | Parameter / Mechanism | Observed Finding | Scientific Conclusion |
+| :--- | :--- | :--- | :--- |
+| **VERIFIED** | `C0` (Canonical Baseline Control) | $71,320$ finite elements ($69,443\text{ quads} + 1,877\text{ tris}$) | `TOPOLOGY_AND_CONNECTIVITY_IDENTITY_VERIFIED` to Gate 4. |
+| **VERIFIED** | `CPS4` vs `CPE4` Formulation | $\text{MISESERI}$ mean error is $-10.67\%$ lower under Plane Stress | `ELEMENT_FORMULATION_CHANGE_ALTERS_MISESERI_FIELD_AND_REFINED_MESH_COUNT`. |
+| **VERIFIED** | Sensitivity Provenance | Hist. 2% ($15,396$) vs C7 ($17,687$), Hist. 5% ($4,194$) vs C8 ($4,356$) | Demonstrates clear sensitivity scaling with error target. |
+| **RULED_OUT** | `coarseningFactor` (DEFAULT vs NOT_ALLOWED) | $71,320 \to 71,037$ elements ($-0.4\%$ change) | Coarsening is inactive due to elevated stress recovery error across domain. |
+| **RULED_OUT** | `specifyMinSize` / `specifyMaxSize` | $71,320 \to 71,320$ ($0.0\%$) and $70,736$ ($-0.8\%$) | Explicit sizing limits do not govern the global element count. |
+| **RULED_OUT** | `outputFrequency` (LAST vs ALL) | $71,320 \to 71,320$ ($0.0\%$ change) | Output frequency yields identical sizing field. |
+| **SUPPORTED_NOT_CAUSAL**| `refinementFactor` (DEFAULT $\approx 3.0$ vs 10) | $71,320 \to 47,428$ elements ($-33.5\%$ change) | Reduces maximum single-step reduction, but still yields $47\text{k}$ elements. |
+| **SUPPORTED_NOT_CAUSAL**| Coarser Initial Mesh ($h_0 = 0.03\,\text{mm}$) | $71,320 \to 48,919$ elements ($-31.4\%$ change) | Reduces background element multiplier, but still yields $49\text{k}$ elements. |
+| **UNRESOLVED** | Nominal $1.0\%$ Publication Discrepancy | $71,320$ vs $\sim 13,941$ elements | Cannot be explained by any single standard setting at `errorTarget=1.0`. |
+
+### 5.1 Formal Gate 5 Closure Rationale
+1. **Mathematical Baseline Verified**: The baseline reproduction under Plane Strain `CPE4` produces a deterministic count of $71,320$ finite elements with verified topological identity.
+2. **Defensible Hypotheses Exhausted**: Every publication-supported single-factor variation (`refinementFactor`, `coarseningFactor`, `minElementSize`, `maxElementSize`, `outputFrequency`, initial mesh seeding) has been isolated and evaluated. None produces $\sim 13,941$ elements at $\text{errorTarget}=1.0\%$.
+3. **Epistemic Boundary Reached**: The Abaqus internal element sizing mapping function ($\xi(\eta) = h_{\text{new}}/h_{\text{old}}$) is closed-source (`INTERNAL_SIZING_MAPPING_NOT_DOCUMENTED`), and crucial parameters (pre-analysis continuum formulation, Abaqus release version, exact incrementation) were omitted from Pandey & Kumar (2025).
+4. **Governing Exit Verdict**: Gate 5 is formally **CLOSED** under the exit classification:
+   **`CLOSED_UNRESOLVED_DUE_TO_MISSING_PUBLISHED_OR_INTERNAL_SIZING_INFORMATION`**.
+
+---
+
+## 6. Epistemic Audit Register & Final Reconciled Record
+
+```text
+=======================================================================================================================
+EPISTEMIC AUDIT RECORD:
+=======================================================================================================================
+1. Superseded Record (Rev 1, 2026-09-07T21:28):
+   - Claimed D0 baseline of 58,679 elements.
+   - Finding: INVALID due to CPS4 (Plane Stress) formulation mismatch.
+2. Corrected Record (Rev 2, 2026-09-07T21:48):
+   - Verified C0 baseline of 71,320 elements (TOPOLOGY_AND_CONNECTIVITY_IDENTITY_VERIFIED to canonical Gate 4).
+   - Quantitative field proof: CPE4 mean MISESERI (0.011303 MPa) > CPS4 (0.010097 MPa) by +10.67%.
+   - Full 9-candidate OFAT matrix re-evaluated on verified CPE4 baseline.
+3. Data Integrity & Sizing Reconciliation (Rev 3, 2026-09-07T21:55):
+   - Exact physical element size h_e = sqrt(A_e) computed via 2D Shoelace polygon integration.
+   - Direct INP card parsing confirms exact 69,443 quads + 1,877 tris = 71,320 elements.
+   - Historical vs current sensitivity provenance fully mapped (15,396 vs 17,687 at 2%; 4,194 vs 4,356 at 5%).
+4. Final Closure Audit (Rev 4, 2026-09-07T22:00):
+   - Primary-publication sufficiency audit completed (8 published explicit, 3 derivable, 6 not published, 1 internal).
+   - Provenance branches strictly separated: HISTORICAL_CPS4_BRANCH vs CORRECTED_CPE4_BRANCH.
+   - Gate 5 formally closed as CLOSED_UNRESOLVED_DUE_TO_MISSING_PUBLISHED_OR_INTERNAL_SIZING_INFORMATION.
+=======================================================================================================================
+```

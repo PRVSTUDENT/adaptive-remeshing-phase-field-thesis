@@ -1,0 +1,58 @@
+\chapter{Problem Statement, Theoretical Basis, and Reference Methods}
+\label{ch:introduction}
+
+\section{Problem statement}
+Phase-field fracture regularizes a sharp crack over a finite length scale and thereby avoids explicit tracking of a discontinuity. The numerical advantage is accompanied by a spatial-resolution requirement: the diffuse crack zone must be resolved by the finite-element mesh. A uniformly fine mesh is therefore expensive when only a small part of the structure develops damage. The thesis addresses whether Abaqus built-in mesh-refinement capabilities can be combined with a phase-field UEL/UMAT formulation so that fine resolution is concentrated in mechanically relevant regions without changing the underlying fracture model.
+
+The work is organised around four interfaces that are kept explicit throughout the report:
+\begin{enumerate}
+  \item \textbf{Phase-field constitutive model:} equations and state variables implemented by the supplied user subroutines.
+  \item \textbf{Abaqus error estimation and mesh generation:} the standard-element/facsimile representation used to expose stresses and \texttt{MISESERI} to Abaqus.
+  \item \textbf{UEL reconstruction:} conversion of the refined physical mesh into the coincident user-element and visualization layers required by the phase-field implementation.
+  \item \textbf{State transfer and restart:} transfer of displacement, phase field and history variables when the discretization changes during a continued analysis.
+\end{enumerate}
+This separation is important because a correct result at one interface does not imply correctness of the complete workflow.
+
+\section{Phase-field fracture formulation}
+The implementation follows the standard AT2-type regularization used in the reference phase-field literature \citep{Msekh2015,Molnar2017,Pandey2025}. For displacement field $\mathbf{u}$ and phase field $d\in[0,1]$, with $d=0$ intact and $d=1$ fully broken, the total potential can be written in the generic form
+\begin{equation}
+\Pi(\mathbf{u},d)=\int_\Omega \left[g(d)\,\psi_0^+(\boldsymbol\varepsilon)+\psi_0^-(\boldsymbol\varepsilon)\right]\,\mathrm{d}\Omega
++\int_\Omega G_c\,\gamma(d,\nabla d)\,\mathrm{d}\Omega-W_{\mathrm{ext}},
+\end{equation}
+where $G_c$ is the fracture energy, $g(d)$ is the degradation function, and $\gamma$ is the regularized crack-density functional. For the AT2 choice used in the reference work,
+\begin{equation}
+\gamma(d,\nabla d)=\frac{1}{2}\left(\frac{d^2}{l_0}+l_0\lvert\nabla d\rvert^2\right),
+\end{equation}
+with regularization length $l_0$. A small residual stiffness is retained through a modified quadratic degradation function, typically $g(d)=(1-d)^2+k$ with $k\ll1$.
+
+Crack irreversibility is enforced through a history field
+\begin{equation}
+\mathcal{H}(\mathbf{x},t)=\max_{\tau\le t}\psi_0^+(\boldsymbol\varepsilon(\mathbf{x},\tau)),
+\end{equation}
+so that the crack-driving quantity is non-decreasing. In this thesis, monotonicity of the stored history variable and monotonicity of projected visualization variables are evaluated separately. A decrease in a projected state variable is not automatically interpreted as constitutive healing.
+
+\section{Abaqus UEL/UMAT architecture}
+The supplied implementation follows the staggered Abaqus strategy described by Moln\'ar and Gravouil \citep{Molnar2017}. The physical discretization is represented by coincident logical layers. User elements solve the phase-field and mechanical problems, while companion standard elements driven through a UMAT expose stresses and solution-dependent variables to the Abaqus output database. The mapping between these layers is part of the numerical method and is checked explicitly after every regenerated mesh.
+
+The main data path relevant to refinement is
+\begin{center}
+physical deformation $\rightarrow$ mechanical UEL $\rightarrow$ shared state $\rightarrow$ UMAT/facsimile layer $\rightarrow$ Abaqus stress recovery $\rightarrow$ \texttt{MISESERI}.
+\end{center}
+Thus \texttt{MISESERI} is a recovered-stress discretization indicator. It is not a phase-field error estimator and is used here only to identify where the coarse mechanical solution has strong unresolved gradients.
+
+The coincident-layer architecture is verified in the input-deck connectivity and element-type audits. A CAE layer excerpt is not inserted here because overlapping layers are not visually separable in the available viewport export; the report does not substitute an illustrative rendering for that model evidence.
+
+\section{Reference mesh-refinement method}
+Pandey and Kumar proposed a Python-controlled two-job procedure for phase-field calculations in Abaqus \citep{Pandey2025}. Their script defines a \texttt{RemeshingRule} on the facsimile set \texttt{All\_elem}, requests \texttt{MISESERI}, and subsequently calls \texttt{adaptiveRemesh(odb=...)} using the pre-analysis output database. For the Mode-I edge-crack example, they report a global coarse size of $0.02\,\mathrm{mm}$, local refined size $0.001\,\mathrm{mm}$, $l_0=0.0075\,\mathrm{mm}$, $G_c=2.7\times10^{-3}\,\mathrm{kN/mm}$, and $13{,}941$ elements for the proposed mesh. Their Listing~1 shows \texttt{errorTarget=1.0}, \texttt{refinementFactor=10}, and no coarsening.
+
+The method is therefore described in this report as \emph{Abaqus-native error-guided pre-refinement}. The final fracture calculation uses a fixed refined mesh. This is distinct from automated external-driver remeshing during crack propagation, and from true in-analysis remeshing.
+
+\section{Objectives of the present work}
+The work reported here addresses the following questions:
+\begin{enumerate}
+  \item Can the supplied phase-field implementation reproduce a reference fixed-mesh Mode-I response?
+  \item Can the Pandey--Kumar Abaqus-native refinement procedure be reproduced in a headless Python workflow and converted reliably to the layered UEL/UMAT formulation?
+  \item Does the refined model reproduce the published force-displacement response and mesh density?
+  \item What information must be transferred when the mesh changes during an ongoing phase-field calculation, and does the restarted model preserve mechanical continuity?
+  \item Which aspects of the current UEL/UEXTERNALDB architecture limit parallel execution and future ABAQUSER integration?
+\end{enumerate}

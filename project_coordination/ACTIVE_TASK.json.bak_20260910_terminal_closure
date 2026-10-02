@@ -1,0 +1,65 @@
+{
+  "active_task": {
+    "task_id": "task_mode1_supervisor_master_gates",
+    "task_name": "Supervisor-Aligned Mode-I Benchmark Master Gate Execution",
+    "status": "GATE_3_MISESERI_MECHANISM_VERIFIED",
+    "governing_rule": "We need to have understood everything related to the first model before we increase complexity.",
+    "start_time": "2026-09-03T11:58:00+02:00",
+    "phase": "GATE_3_MISESERI_MECHANISM_VERIFICATION_COMPLETE",
+    "active_gate": "Gate 3: MISESERI Mechanism Verification",
+    "gate_status": {
+      "Gate 0": "CLOSED_PASSED",
+      "Gate 1": "OPEN_PENDING_EVALUATION",
+      "Gate 2": "OPEN_HOLD_EVIDENCE_GAP",
+      "Gate 3": "CLOSED_PASSED",
+      "Gate 4": "HOLD_PENDING_GATE_4_ACTIVATION",
+      "Gate 5": "HOLD_PENDING_GATE_4_ACTIVATION",
+      "Gate 6": "THREAD_DETERMINISM_REPEAT_BATCH_RUNNING",
+      "Gate 7": "HOLD_PENDING_GATE_4_ACTIVATION",
+      "Gate 8": "ON_HOLD",
+      "Gate 9": "HOLD_PENDING_GATE_4_ACTIVATION",
+      "Gate 10": "HOLD_PENDING_GATE_4_ACTIVATION",
+      "Gate 11": "HOLD_PENDING_GATE_4_ACTIVATION"
+    },
+    "scope_restrictions": {
+      "mode_ii_status": "ON_HOLD",
+      "state_transfer_status": "ON_HOLD_ARCHIVED_ENABLING",
+      "task_6_status": "TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
+      "task_6_companion_bridge": "COMPANION_VISUALIZATION_BRIDGE_FULLY_VERIFIED",
+      "new_simulations_or_pbs_jobs": "GATE6_REPEATS_AUTHORIZED_AND_RUNNING"
+    },
+    "governing_rules": {
+      "cluster_execution_constraint": "SERIAL_FOR_PRODUCTION_MPI_QUAL_RESERVED",
+      "holiday_window_active_until": "2026-09-09",
+      "holiday_window_concurrency_policy": "DEMONSTRATED_MINIMUM_10_RUNNING_JOBS_EXPANDABLE_TO_15_20_USEFUL_MODE1",
+      "active_running_project_jobs": 7,
+      "active_running_cpus": 72,
+      "active_job_ids": [
+        "1403371.mmaster02",
+        "1403377.mmaster02",
+        "1403612.mmaster02",
+        "1403613.mmaster02",
+        "1403614.mmaster02",
+        "1403615.mmaster02",
+        "1403616.mmaster02"
+      ],
+      "queue_per_user_cpu_limit": 640,
+      "queue_per_user_mem_limit": "4TB",
+      "theoretical_cpu_headroom": 568,
+      "MAX_TOTAL_ACTIVE_PROJECT_JOBS_BASELINE": 4,
+      "MAX_ORDINARY_PRODUCTION_JOBS": 3,
+      "RESERVED_MPI_QUALIFICATION_SLOTS": 1,
+      "mpi_qualification_slot_status": "ACTIVE_ISOLATED_QUALIFICATION",
+      "notification_status": "DUAL_CHANNEL_ACTIVE"
+    }
+  },
+  "gate_3_evaluation": {
+    "verdict": "CLOSED_PASSED",
+    "miseseri_definition": "Recovered von Mises stress discretization error indicator via Zienkiewicz-Zhu Superconvergent Patch Recovery (SPR) on linear-elastic continuum stress field",
+    "miseseri_units": "Stress units (MPa or kN/mm^2); normalized by MISESAVG to obtain dimensionless relative error eta",
+    "hard_stop_rule_verified": "MISESERI is strictly NOT phase-field error and NOT damage error; evaluated on continuum pre-analysis before damage onset",
+    "spatial_provenance": "Figure 3.1 represents element-field centroid data from the 3,930-row extraction CSV (centroid_x, centroid_y, MISESERI, MISESAVG, von_mises)",
+    "singularity_causality": "1/sqrt(r) elastic crack tip singularity produces 144x peak-to-far-field error ratio, driving local sizing h -> h_min along the crack corridor",
+    "unit_tests_status": "11/11 PASSED (test_pandey_kumar_adaptive_refinement.py: 8/8, test_pandey_kumar_step_increment_consistency.py: 3/3)"
+  }
+}

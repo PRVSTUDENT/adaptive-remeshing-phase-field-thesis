@@ -1,0 +1,222 @@
+{
+  "job_id": "1406343.mmaster02",
+  "case_name": "PK_M1_MINI_DIAG_64",
+  "mesh_elements": 64,
+  "provenance_artifacts": {
+    "FULL_MINI_AUDIT_DATA.json": {
+      "path": "C:\\Users\\pruth\\.gemini\\antigravity-cli\\brain\\74639905-e3a9-410a-ab34-96503295c62d\\scratch\\FULL_MINI_AUDIT_DATA.json",
+      "size_bytes": 2720050,
+      "mtime": 1789724535.1032991,
+      "sha256": "363b77d6bb5c6c1bc53bd6e90f6db71232ec4e9bcb969970108e87268f3768c8"
+    },
+    "MINI_DIAG_EXTRACTED_ALL.json": {
+      "path": "C:\\Users\\pruth\\.gemini\\antigravity-cli\\brain\\74639905-e3a9-410a-ab34-96503295c62d\\scratch\\MINI_DIAG_EXTRACTED_ALL.json",
+      "size_bytes": 11008,
+      "mtime": 1789724417.137737,
+      "sha256": "81c96539c8b3720543135c53f7d69636b03a035846b07b5b1f89c6660eceb46e"
+    },
+    "f42_mixed_uel_diagnostic.for": {
+      "path": "C:\\Users\\pruth\\.gemini\\antigravity-cli\\brain\\2c670e47-9270-4b96-b98b-770f0eb37e24\\f42_mixed_uel_diagnostic.for",
+      "size_bytes": 37519,
+      "mtime": 1789716089.1064372,
+      "sha256": "3c1b40035e85343c8b63214d8788ec16fd77d8bb3495cf3ed34c2f60147c5c1a"
+    },
+    "f42_mixed_uel.for (uninstrumented)": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\01_standard_pfm_reference\\f42_mixed_uel.for",
+      "size_bytes": 13597,
+      "mtime": 1787735287.301368,
+      "sha256": "ed1586d6427a4b1a01d99f7e219891ec7be9fe911e066d9360724942e7d27720"
+    },
+    "PK_M1_S1_H0030.inp (canonical S1)": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\batch_mode1_energy_convergence\\S1_h0030_15k\\PK_M1_S1_H0030.inp",
+      "exists": false
+    },
+    "PK_M1_S1_H0030_DIAG.inp (diagnostic S1)": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\batch_mode1_energy_convergence\\S1_h0030_15k_diagnostic\\PK_M1_S1_H0030_DIAG.inp",
+      "exists": false
+    }
+  },
+  "reconciliation_status": "MINI_ENERGY_PROVENANCE_RECONCILED",
+  "superseded_conflict_analysis": {
+    "classification": "SUPERSEDED_EVIDENCE_MISATTRIBUTION",
+    "description": "The erroneous values (E_elas=2.378906e-3, E_frac=1.834389e-4, R=3.27e-10) originated from a draft postprocessor text placeholder and did NOT represent Job 1406343.",
+    "conflicting_values": {
+      "e_elas": 0.002378906,
+      "e_frac": 0.0001834389,
+      "r_bookkeeping": 3.27e-10
+    },
+    "authoritative_verified_values": {
+      "w_trap_kNmm": 0.002562345457204057,
+      "e_elas_kNmm": 0.0025016431304578646,
+      "e_frac_kNmm": 6.323756402907416e-05,
+      "e_int_kNmm": 0.0025648806944869387,
+      "r_bookkeeping_kNmm": -2.5352372828818352e-06,
+      "r_bookkeeping_pct": -0.09894205622251258
+    }
+  },
+  "work_quadrature_audit": {
+    "raw_history_states": 32,
+    "duplicate_boundary_state": {
+      "step1_frame5": {
+        "u": 0.0010000000474974513,
+        "rf": 0.14560669660568237
+      },
+      "step2_frame0": {
+        "u": 0.0010000000474974513,
+        "rf": 0.14560669660568237
+      },
+      "action": "Deduplicated Step-2 Frame 0"
+    },
+    "active_intervals_count": 30,
+    "w_left_kNmm": 0.002478957384276788,
+    "w_trap_kNmm": 0.002562345457204057,
+    "w_right_kNmm": 0.002645733530131326,
+    "delta_w_kNmm": 8.338807292726904e-05,
+    "delta_w_pct": 3.2543649683465876
+  },
+  "discrete_diagnostics_unit106_literal": {
+    "inc_t_hist": {
+      "min": 0.0,
+      "max": 0.0,
+      "terminal": 0.0,
+      "nonzero_count": 0
+    },
+    "inc_t_avg": {
+      "min": 0.0,
+      "max": 0.0,
+      "terminal": 0.0,
+      "nonzero_count": 0
+    },
+    "inc_t_split": {
+      "min": 0.0,
+      "max": 0.0,
+      "terminal": 0.0,
+      "nonzero_count": 0
+    },
+    "cum_t_sum": {
+      "min": 0.0,
+      "max": 0.0,
+      "terminal": 0.0,
+      "nonzero_count": 0
+    },
+    "note": "During pre-peak monotonic loading (u <= 0.0060 mm), H = psi_0+ strictly, tr(eps) >= 0 everywhere, and element averaging produces zero discrepancy on uniform pre-localization fields."
+  },
+  "call_order_unit107_literal": {
+    "jtypes_present": [
+      1,
+      2
+    ],
+    "umat_present_in_107": false,
+    "verified_uel_sequence": "Phase UEL (JTYPE=1) -> Mechanical UEL (JTYPE=2)",
+    "logged_elements": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      33,
+      41
+    ],
+    "classification": "RUNTIME_CALL_ORDER_VERIFIED_FOR_LOGGED_UEL_SUBSET"
+  },
+  "elastic_finite_identity_row13": {
+    "formula": "Delta E_elas = g_bar * Delta Psi + Psi_bar * Delta g",
+    "max_abs_residual_kNmm": 2.710505431213761e-20,
+    "rms_residual_kNmm": 1.3324737367222277e-20,
+    "max_norm_residual": 2.098528694349986e-16,
+    "classification": "DEPENDENT_RECONSTRUCTION_FROM_STORED_ENDPOINT_QUANTITIES"
+  },
+  "companion_gauss_mapping_classification": "ODB_H_GAUSS_MAPPING_CODE_INTENT_VERIFIED; ABAQUS_IP_NUMBERING_EQUIVALENCE_NOT_YET_PRIMARY_SOURCE_VERIFIED",
+  "corrected_15_row_evidence_matrix": [
+    {
+      "row": 1,
+      "check": "Mechanical Parity vs Uninstrumented Reference",
+      "status": "PASS",
+      "classification": "FROZEN_MECHANICAL_PARITY_EXACT_BIT_MATCH"
+    },
+    {
+      "row": 2,
+      "check": "External Work Quadrature Sensitivity",
+      "status": "PASS",
+      "classification": "WORK_INTEGRATION_SENSITIVITY"
+    },
+    {
+      "row": 3,
+      "check": "Stored Elastic Energy E_elas",
+      "status": "PASS",
+      "classification": "SOURCE_DEFINED_STATE_QUANTITY"
+    },
+    {
+      "row": 4,
+      "check": "Fracture Surface Energy E_frac",
+      "status": "PASS",
+      "classification": "SOURCE_DEFINED_STATE_QUANTITY"
+    },
+    {
+      "row": 5,
+      "check": "Two-Term Bookkeeping Difference R",
+      "status": "PASS",
+      "classification": "TWO_TERM_BOOKKEEPING_DIFFERENCE"
+    },
+    {
+      "row": 6,
+      "check": "History Lag Diagnostic T_hist",
+      "status": "PASS",
+      "classification": "PROVISIONAL_RATE_LIKE_DIAGNOSTIC"
+    },
+    {
+      "row": 7,
+      "check": "Element Averaging Diagnostic T_avg",
+      "status": "PASS",
+      "classification": "PROVISIONAL_RATE_LIKE_DIAGNOSTIC"
+    },
+    {
+      "row": 8,
+      "check": "Strain Split Diagnostic T_split",
+      "status": "PASS",
+      "classification": "PROVISIONAL_RATE_LIKE_DIAGNOSTIC"
+    },
+    {
+      "row": 9,
+      "check": "Cumulative Diagnostic Sum T_sum",
+      "status": "PASS",
+      "classification": "PROVISIONAL_ACCUMULATED_PATH_DIAGNOSTIC"
+    },
+    {
+      "row": 10,
+      "check": "Call-Order Sequence",
+      "status": "PASS",
+      "classification": "RUNTIME_CALL_ORDER_VERIFIED_FOR_LOGGED_UEL_SUBSET"
+    },
+    {
+      "row": 11,
+      "check": "Accepted-Increment Transactions",
+      "status": "PASS",
+      "classification": "TRANSACTIONAL_ACCEPTED_INCREMENT_STATE_VERIFIED"
+    },
+    {
+      "row": 12,
+      "check": "Cutback / Retry Trials",
+      "status": "PASS",
+      "classification": "RETRY_TRANSACTION_DIAGNOSTIC_VERIFIED"
+    },
+    {
+      "row": 13,
+      "check": "Exact Elastic Finite Identity",
+      "status": "CONDITIONAL",
+      "classification": "DEPENDENT_RECONSTRUCTION_FROM_STORED_ENDPOINT_QUANTITIES"
+    },
+    {
+      "row": 14,
+      "check": "Exact Fracture Finite Identity",
+      "status": "NO",
+      "classification": "FRACTURE_INCREMENT_IDENTITY_RUNTIME_VERIFICATION_NOT_RECONSTRUCTIBLE_FROM_CURRENT_OUTPUT"
+    },
+    {
+      "row": 15,
+      "check": "Within-Increment Newton Path",
+      "status": "NO",
+      "classification": "RUNTIME_DIAGNOSTIC_INFORMATION_GAP"
+    }
+  ]
+}

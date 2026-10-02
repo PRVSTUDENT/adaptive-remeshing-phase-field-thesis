@@ -1,0 +1,29 @@
+\chapter{Conclusions and Remaining Work}
+\label{ch:conclusions}
+
+\section{Results established so far}
+The work has established a reproducible fixed-mesh phase-field baseline and an operational Abaqus-native pre-refinement chain. The most important current findings are:
+\begin{enumerate}
+  \item The fixed-mesh Mode-I benchmark reproduces the project reference peak force and displacement closely ($0.757778\,\mathrm{kN}$ at $u=0.005857\,\mathrm{mm}$, error $<0.05\%$), providing a verified quantitative baseline.
+  \item Verified direct mesh and contour evidence has been incorporated across the baseline, native-refinement, production validation, and Mode-II studies.
+  \item The Pandey--Kumar two-job refinement procedure has been implemented in Python using the Abaqus \texttt{RemeshingRule} and \texttt{adaptiveRemesh} interfaces. Genuine mesh change and deterministic reconstruction of the layered UEL/UMAT model have been demonstrated.
+  \item Authoritative serial production solve \texttt{1399632.mmaster02} on the sharp-slit $71{,}320$-element adaptive mesh completed technically to $u=0.010\,\mathrm{mm}$ in $35\,\mathrm{h}\,08\,\mathrm{min}$, resolving a smooth post-peak crack propagation branch ($94.4\%$ load drop) and pure horizontal Mode-I crack path.
+  \item Quantitative reproduction of the reference peak force and displacement failed on this mesh ($F_{\text{peak}} = 0.4782\,\mathrm{kN}$ at $u=0.00415\,\mathrm{mm}$, representing $-36.89\%$ and $-29.14\%$ differences vs baseline).
+  \item A line-by-line discrepancy audit verified that the UEL formulation, boundary conditions, and seam topology are mathematically correct. The quantitative discrepancy reflects a structural compliance shift ($-11.3\%$ in linear $K_0$) and accelerated crack-tip damage localization on the over-refined $71{,}320$-element mesh.
+  \item The nominal $\text{errorTarget}=1.0\%$ produces $71{,}320$ elements on the sharp singular slit compared with $\approx 13{,}941$ elements in the publication. Sizing sensitivity scans confirm that $\text{errorTarget} \approx 2.0\%$ yields $\approx 15{,}396$ elements.
+  \item Nonmatching displacement, phase-field and history data can be mapped and ingested by the running UEL, but topology-changing restarts have not yet preserved the relaxed reaction force.
+  \item The current shared-state UEL architecture is serial-qualified only. Threaded and MPI production execution require a redesigned state-ownership model.
+\end{enumerate}
+
+\section{Open questions}
+The immediate scientific questions for Task 5 are:
+\begin{enumerate}
+  \item What specific adaptivity parameters (error target, pre-analysis state, remeshing region) reconcile the $71{,}320$ vs $13{,}941$ element count and align the adaptive force--displacement curve with the published benchmark?
+  \item Can the structural compliance shift and accelerated tip damage localization be fully separated and quantitatively predicted under varying crack-tip mesh densities?
+  \item Can a topology-changing restart be formulated so that the fully relaxed receiving state preserves both mechanical force continuity and an internal energy measure?
+  \item How should the current shared-state interface be refactored before attempting production multithreading or MPI?
+  \item Can the IMFD ABAQUSER visualization tool be integrated into the final workflow and verified against independent ODB field extraction?
+\end{enumerate}
+
+\section{Next steps}
+Because the quantitative benchmark reproduction gates failed on job \texttt{1399632}, \textbf{Mandatory Thesis Task 5 remains active}. The immediate next step is to conduct a controlled, read-only parametric evaluation of the adaptivity sizing parameters to isolate the root cause of the quantitative discrepancy before scheduling further production runs or transitioning to Task 6 (IMFD ABAQUSER visualization integration).

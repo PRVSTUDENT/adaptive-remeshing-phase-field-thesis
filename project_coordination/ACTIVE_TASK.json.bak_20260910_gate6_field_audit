@@ -1,0 +1,63 @@
+{
+  "active_task": {
+    "task_id": "task_mode1_supervisor_master_gates",
+    "task_name": "Supervisor-Aligned Mode-I Benchmark Master Gate Execution",
+    "status": "GATE_6_REFERENCE_REPRODUCTION_PARTIALLY_QUALIFIED",
+    "governing_rule": "We need to have understood everything related to the first model before we increase complexity.",
+    "start_time": "2026-09-03T11:58:00+02:00",
+    "phase": "GATE_6_MASTER_EVALUATION_COMPLETE",
+    "active_gate": "Gate 6: Reference Reproduction with Refinement",
+    "gate_status": {
+      "Gate 0": "CLOSED_PASSED",
+      "Gate 1": "QUALIFIED_BENCHMARK_ANCHOR",
+      "Gate 2": "QUALIFIED_ON_ESTABLISHED_INTERVAL",
+      "Gate 3": "CLOSED_PASSED",
+      "Gate 4": "CLOSED_VERIFIED",
+      "Gate 5": "CLOSED_UNRESOLVED_DUE_TO_MISSING_PUBLISHED_OR_INTERNAL_SIZING_INFORMATION",
+      "Gate 6": "PARTIALLY_QUALIFIED",
+      "Gate 7": "TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
+      "Gate 8": "ON_HOLD",
+      "Gate 9": "BLOCKED_BY_GATE_6_REPORT_SYNTHESIS",
+      "Gate 10": "BLOCKED_BY_GATE_6_REPORT_SYNTHESIS",
+      "Gate 11": "BLOCKED_BY_GATE_6_REPORT_SYNTHESIS"
+    },
+    "scope_restrictions": {
+      "mode_ii_status": "ON_HOLD",
+      "state_transfer_status": "ON_HOLD_ARCHIVED_ENABLING",
+      "task_6_status": "TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
+      "task_6_companion_bridge": "COMPANION_VISUALIZATION_BRIDGE_FULLY_VERIFIED",
+      "new_simulations_or_pbs_jobs": "STRICTLY_PAUSED_ALL_GATES_QUALIFIED"
+    },
+    "governing_rules": {
+      "cluster_execution_constraint": "SERIAL_FOR_PRODUCTION_MPI_QUAL_RESERVED",
+      "active_running_project_jobs": 0,
+      "active_running_cpus": 0,
+      "active_job_ids": [],
+      "queue_status": "IDLE",
+      "queue_per_user_cpu_limit": 640,
+      "queue_per_user_mem_limit": "4TB",
+      "notification_status": "DUAL_CHANNEL_ACTIVE"
+    }
+  },
+  "gate_6_evaluation": {
+    "verdict": "GATE6_REFERENCE_REPRODUCTION_PARTIALLY_QUALIFIED",
+    "reproduction_findings": {
+      "nominal_1pct_71320": "NOMINAL1PCT_71320_REFERENCE_REPRODUCTION_FAILED (Fmax=0.4782 kN [-36.89%], K0=122.38 kN/mm [-11.28%], L2_err=34.58%)",
+      "empirical_2pct_15396": "REPRODUCING_SENSITIVITY_BRANCH (Fmax=0.7482 kN [-1.26%], K0=137.84 kN/mm [-0.07%], upeak=0.005775 mm [-1.40%])",
+      "harmonized_15192": "QUALIFIED_ROLLER_REFERENCE (Fmax=0.7650 kN [+0.95%], K0=134.32 kN/mm [-2.63%])"
+    },
+    "factorial_cell_stiffnesses_kN_per_mm": {
+      "K00_Case69b": 138.021015,
+      "K10_Case70b": 138.021015,
+      "K01_Case71b": 138.021015,
+      "K11_Case61": 122.599592
+    },
+    "interaction_delta_k_kN_per_mm": -15.421423,
+    "interaction_delta_k_percent": -11.173243,
+    "case80_15k_adaptive_k0_kN_per_mm": 138.043928,
+    "case81_17k_adaptive_k0_kN_per_mm": 124.729718,
+    "tolerance_status": "GATE6_EQUIVALENCE_TOLERANCE_NOT_PREVIOUSLY_FORMALIZED",
+    "energy_status": "COMPLETE_UEL_ENERGY_BALANCE_NOT_AVAILABLE",
+    "crack_path_status": "CRACK_PATH_HORIZONTAL_SYMMETRY_VERIFIED"
+  }
+}

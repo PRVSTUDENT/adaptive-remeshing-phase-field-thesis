@@ -1,0 +1,53 @@
+\chapter{Current Mode-I Qualification Status and Next Steps}
+\label{ch:current_status}
+
+\section{Established and closed findings}
+
+Following the 17-September-2026 supervisor directive, the active Mode-I investigation has established the following rigorous findings:
+\begin{itemize}
+  \item \textbf{Benchmark geometry and fixed reference:} The sharp, zero-gap seam benchmark and fixed reference response ($15{,}192$ elements, $K_0=137.945520\,\mathrm{kN/mm}$, $F_{\max}=0.757778\,\mathrm{kN}$) are established as the quantitative anchor.
+  \item \textbf{\texttt{N\_BOTTOM} boundary defect resolved:} The stiffness anomaly in the initial 71,320-element mesh was proven to be caused by Abaqus card-length truncation of the \texttt{N\_BOTTOM} node set (omitting 134 of 150 nodes). Line-wrapping syntax restored full constraint and matched reference stiffness ($K_0=137.820804\,\mathrm{kN/mm}$).
+  \item \textbf{Publication reproduction limitation closed:} Exact matching of the published 13,941 element count is closed as a recognized publication limitation (undisclosed meshing/seeding parameters in the literature). Tested sensitivity trends ($1.0\,\% \rightarrow 71{,}320$, $2.0\,\% \rightarrow 17{,}687$, $3.0\,\% \rightarrow 8{,}120$, $5.0\,\% \rightarrow 4{,}356$) are preserved as sensitivity evidence.
+  \item \textbf{UEL energy formulation qualified (Priority 1 Closed):} The user element formulation in \texttt{f42\_mixed\_uel.for} has been instrumented to compute and expose stored elastic strain energy $\Psi_{\mathrm{elastic}}$, fracture surface energy $\Psi_{\mathrm{frac}}$, and total internal energy $\Psi_{\mathrm{total}}$. Verified on cracked benchmarks, the energy balance residual against external work satisfies $\eta_E < 0.10\,\%$ without altering mechanical parity.
+\end{itemize}
+
+\section{Active 12-Job Mode-I production matrix}
+
+With the UEL energy implementation qualified, a 12-job high-throughput production batch has been deployed on the HPC cluster using 4-thread shared-memory execution per job across available nodes:
+\begin{enumerate}
+  \item \textbf{Spatial Fixed-Mesh Convergence (5 Jobs):}
+  \begin{itemize}
+    \item $S_1$: $h=0.00300\,\mathrm{mm}$ ($15{,}192$ finite elements, Job \texttt{1406015})
+    \item $S_2$: $h=0.00200\,\mathrm{mm}$ ($32{,}130$ finite elements, Job \texttt{1406016})
+    \item $S_3$: $h=0.00150\,\mathrm{mm}$ ($41{,}912$ finite elements, Job \texttt{1406017})
+    \item $S_4$: $h=0.00125\,\mathrm{mm}$ ($51{,}408$ finite elements, Job \texttt{1406018})
+    \item $S_5$: $h=0.00100\,\mathrm{mm}$ ($69{,}384$ finite elements, Job \texttt{1406019})
+  \end{itemize}
+  \item \textbf{Temporal / Time-Increment Convergence (3 Jobs on $15{,}192$ mesh):}
+  \begin{itemize}
+    \item $T_1$: Coarse increment schedule ($2\times$ nominal $\Delta t$, Job \texttt{1406020})
+    \item $T_2$: Nominal increment schedule ($1\times$ nominal $\Delta t$, Job \texttt{1406021})
+    \item $T_3$: Fine increment schedule ($0.5\times$ nominal $\Delta t$, Job \texttt{1406022})
+  \end{itemize}
+  \item \textbf{Adaptive-Mesh Accuracy and Efficiency (4 Jobs):}
+  \begin{itemize}
+    \item $A_1$: $\mathrm{errorTarget}=1.0\,\%$ ($71{,}320$ finite elements, Job \texttt{1406023})
+    \item $A_2$: $\mathrm{errorTarget}=2.0\,\%$ ($17{,}687$ finite elements, Job \texttt{1406024})
+    \item $A_3$: $\mathrm{errorTarget}=3.0\,\%$ ($8{,}120$ finite elements, Job \texttt{1406025})
+    \item $A_4$: $\mathrm{errorTarget}=5.0\,\%$ ($4{,}356$ finite elements, Job \texttt{1406026})
+  \end{itemize}
+\end{enumerate}
+
+\section{Next technical sequence}
+
+Following solver completion of the 12 production cases:
+\begin{enumerate}
+  \item \textbf{Comprehensive convergence evaluation:} Extract complete $F$--$u$ trajectories, initial stiffness $K_0$, global energy components ($\Psi_{\mathrm{elastic}}$, $\Psi_{\mathrm{frac}}$, $W_{\mathrm{ext}}$), and energy residuals $R_E$.
+  \item \textbf{Spatial phase-field localization:} Extract matched-displacement damage contours and ligament profiles $d(x, y=0.5\,\mathrm{mm})$.
+  \item \textbf{Mode-I state-transfer energy preservation (Priority 3):} Evaluate whether mapping $d$ and $\mathcal{H}$ between non-matching meshes conserves total energetic state or introduces measurable numerical dissipation ($\Delta E_{\mathrm{map}}$).
+  \item \textbf{Pre-October supervisor synthesis:} Compile complete findings into publication-quality figures and the evolving thesis draft before the 01~October~2026 meeting.
+\end{enumerate}
+
+\section{Scope holds}
+
+Mode-II shear fracture, mixed-mode problems, multi-crack geometries, and visualization software coupling remain strictly on hold until Mode-I fundamentals and state-transfer energy conservation are fully qualified.

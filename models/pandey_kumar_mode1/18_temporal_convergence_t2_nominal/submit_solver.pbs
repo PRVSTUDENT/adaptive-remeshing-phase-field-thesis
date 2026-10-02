@@ -1,0 +1,39 @@
+#!/bin/bash
+#PBS -N PK_M1_T2_ENERGY
+#PBS -q normal_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=32gb
+#PBS -l walltime=48:00:00
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -o PK_M1_T2_ENERGY.out
+#PBS -e PK_M1_T2_ENERGY.err
+
+set -euo pipefail
+cd /home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/18_temporal_convergence_t2_nominal || exit 1
+
+if [ ! -f ./job_notifications.sh ]; then
+  echo "[LAUNCHER ERROR] job_notifications.sh missing" >&2
+  exit 10
+fi
+
+source ./job_notifications.sh
+notification_load_config || true
+notification_install_terminal_trap
+notify_start || true
+
+if [ -f /etc/profile.d/lmod.sh ]; then
+  source /etc/profile.d/lmod.sh
+fi
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "=== STARTING SOLVER PK_MODE1_T2_NOMINAL_ENERGY (1 CPU SERIAL) ==="
+rm -f PK_MODE1_T2_NOMINAL_ENERGY.lck PK_MODE1_T2_NOMINAL_ENERGY.023
+abaqus job=PK_MODE1_T2_NOMINAL_ENERGY user=f42_mixed_uel.for input=PK_MODE1_T2_NOMINAL_ENERGY.inp cpus=1 memory="32gb" double=both interactive
+ABAQUS_EXIT=$?
+echo "=== FINISHED SOLVER PK_MODE1_T2_NOMINAL_ENERGY (EXIT: $ABAQUS_EXIT) ==="
+exit "$ABAQUS_EXIT"

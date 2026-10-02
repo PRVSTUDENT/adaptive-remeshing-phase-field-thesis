@@ -1,0 +1,71 @@
+\appendix
+\chapter{Computational Provenance and Authoritative Execution Ledger}
+\label{app:repro}
+
+\section{Authoritative HPC execution ledger}
+Table~\ref{tab:app_job_ledger} provides the complete, authoritative ledger of primary high-performance computing calculations executed under this research program, cataloged with their exact PBS identifiers, physical mesh discretizations, verified walltimes, and formal scientific classifications.
+
+\begin{table}[htbp]
+\centering
+\caption{Authoritative execution ledger of primary HPC calculations through 02 September 2026.}
+\label{tab:app_job_ledger}
+\footnotesize
+\begin{tabularx}{\linewidth}{p{0.18\linewidth}p{0.16\linewidth}p{0.14\linewidth}p{0.14\linewidth}p{0.30\linewidth}}
+\toprule
+\textbf{PBS Job ID} & \textbf{Model / Case} & \textbf{Elements / Nodes} & \textbf{Walltime} & \textbf{Scientific Classification \& Role} \\
+\midrule
+\texttt{1398090.mmaster02} & Fixed-Mesh Ref. & $15{,}192$ / $15{,}305$ & $06\,\mathrm{h}\,31\,\mathrm{m}$ & \textbf{SCIENTIFICALLY\_ACCEPTED} (Task 3: $F_{\text{peak}} = 0.7578\,\mathrm{kN}$, error $-0.029\%$) \\
+\texttt{1379893.mmaster02} & Coarse Pre-Analysis & $2{,}906$ / $2{,}988$ & $00\,\mathrm{h}\,04\,\mathrm{m}$ & \textbf{QUALIFIED} (\texttt{MISESERI} extraction, 3,930 rows) \\
+\texttt{1398807.mmaster02} & Blunt Notch 1\% & $74{,}261$ / $73{,}806$ & $12\,\mathrm{h}\,15\,\mathrm{m}$ & \textbf{TECHNICAL\_PASS\_SCIENTIFIC\_FAIL} (Rejected: incorrect notch geometry) \\
+\texttt{1398865.mmaster02} & Sharp Seam 1\% & $71{,}320$ / $71{,}490$ & $10\,\mathrm{h}\,45\,\mathrm{m}$ & \textbf{TECHNICAL\_TERMINATION} (Aborted at $\Delta t_{\min} = 10^{-9}$ limit) \\
+\texttt{1399632.mmaster02} & Sharp Seam 1\% & $71{,}320$ / $71{,}490$ & $35\,\mathrm{h}\,08\,\mathrm{m}$ & \textbf{QUANTITATIVE\_REPRODUCTION\_FAILED} (Over-refinement compliance shift) \\
+\texttt{1400367.mmaster02} & Adaptive 2\% DC & $15{,}396$ / $15{,}414$ & $00\,\mathrm{h}\,01\,\mathrm{m}$ & \textbf{DATACHECK\_PASSED\_CLEAN} (\texttt{Exit status 0}) \\
+\texttt{1400368.mmaster02} & Adaptive 2\% Solve & $15{,}396$ / $15{,}414$ & $22\,\mathrm{h}\,10\,\mathrm{m}$ & \textbf{UNCORRECTED\_SUPERSEDED} (Viscous rate-dependent hardening artifact) \\
+\texttt{1400381.mmaster02} & Adaptive 5\% DC & $4{,}194$ / $4{,}274$ & $00\,\mathrm{h}\,01\,\mathrm{m}$ & \textbf{DATACHECK\_PASSED\_CLEAN} (\texttt{Exit status 0}) \\
+\texttt{1400382.mmaster02} & Adaptive 5\% Solve & $4{,}194$ / $4{,}274$ & $05\,\mathrm{h}\,42\,\mathrm{m}$ & \textbf{UNCORRECTED\_SUPERSEDED} (Viscous rate-dependent hardening artifact) \\
+\texttt{1400395.mmaster02} & Adaptive 2\% Final & $15{,}396$ / $15{,}414$ & $07\,\mathrm{h}\,06\,\mathrm{m}$ & \textbf{SCIENTIFICALLY\_ACCEPTED} (Task 5: $F_{\text{peak}} = 0.7482\,\mathrm{kN}$, error $-1.29\%$) \\
+\texttt{1400396.mmaster02} & Adaptive 5\% Final & $4{,}194$ / $4{,}274$ & $01\,\mathrm{h}\,55\,\mathrm{m}$ & \textbf{SCIENTIFICALLY\_EVALUATED} (Sensitivity point: $F_{\text{peak}} = 0.7650\,\mathrm{kN}$, $u_{\text{peak}}$ delay $+20.48\%$) \\
+\texttt{1400408.mmaster02} & Companion 2\% Vis & $15{,}396$ / $15{,}414$ & $07\,\mathrm{h}\,24\,\mathrm{m}$ & \textbf{COMPANION\_BRIDGE\_VERIFIED} (Task 6: $0.000000\%$ RF parity vs 1400395) \\
+\texttt{1379393.mmaster02} & Mode-II H0 & $3{,}930$ / $4{,}082$ & $00\,\mathrm{h}\,17\,\mathrm{m}$ & \textbf{BENCHMARK\_EVALUATED} (Mode-II shear baseline) \\
+\texttt{1379433.mmaster02} & Mode-II H1 & $12{,}064$ / $12{,}382$ & $00\,\mathrm{h}\,43\,\mathrm{m}$ & \textbf{BENCHMARK\_EVALUATED} (Mode-II intermediate mesh) \\
+\texttt{1379966.mmaster02} & Mode-II H2 & $33{,}852$ / $34{,}390$ & $04\,\mathrm{h}\,43\,\mathrm{m}$ & \textbf{WALLTIME\_CENSORED} (Killed at standard queue walltime limit) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Cryptographic checksums of primary production packages}
+To ensure strict scientific reproducibility, SHA-256 cryptographic hashes for the primary production packages are recorded below:
+
+\subsection{Accepted Task-5 adaptive production solve (Job \texttt{1400395.mmaster02})}
+\begin{itemize}
+  \item \textbf{Production Input Deck (\texttt{PK\_MODE1\_PROPOSED\_PFM.inp}):} \\
+  \texttt{c745a42f2c60a82ae5b8b2bff38887a38f6e3b1570a7b2673af4178cbf677b0c}
+  \item \textbf{User Subroutine (\texttt{f42\_mixed\_uel.for}):} \\
+  \texttt{5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd}
+  \item \textbf{PBS Launcher Script (\texttt{submit\_solver.pbs}):} \\
+  \texttt{7cb52ff6985a6a58bc2e22642142cbbeaf311c19b48cbe005b8da5aeb785a9bc}
+\end{itemize}
+
+\subsection{Verified Task-6 companion visualization solve (Job \texttt{1400408.mmaster02})}
+\begin{itemize}
+  \item \textbf{Production Visualization Deck (\texttt{PK\_MODE1\_PROPOSED\_PFM\_VIS.inp}):} \\
+  \texttt{e29694cf60f47b2dceb84d904999715c5857e36eecdcceb5dbcdf17c89dbd07b}
+  \item \textbf{User Subroutine (\texttt{f42\_mixed\_uel.for}):} \\
+  \texttt{9e6b5c97636c1c1b735a27507f372fbf36b70b8a8d49ad7903b3d237c8fee181}
+  \item \textbf{PBS Launcher Script (\texttt{submit\_solver.pbs}):} \\
+  \texttt{a4c51486d38e21a812dfceb65f3ad36398fe265fa1a07409f875bbef315df612}
+\end{itemize}
+
+\subsection{Authoritative Task-3 fixed-mesh reference (Job \texttt{1398090.mmaster02})}
+\begin{itemize}
+  \item \textbf{Standard Reference Input Deck (\texttt{PK\_MODE1\_STANDARD\_PFM.inp}):} \\
+  \texttt{ad7310574f26b527815cfc876b6b7115858fc85775f0f3532cf2b60ca7bb59bf}
+  \item \textbf{User Subroutine (\texttt{f42\_mixed\_uel.for}):} \\
+  \texttt{5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd}
+\end{itemize}
+
+\section{HPC notification status record}
+\begin{itemize}
+  \item \textbf{Telegram Webhook Trap:} Verified operational across all production jobs (\texttt{1400368}, \texttt{1400382}, \texttt{1400395}, \texttt{1400396}, \texttt{1400408}).
+  \item \textbf{PBS Email Delivery:} Direct cluster SMTP email notification failed to deliver due to local relay limitations and remains cataloged as an infrastructure defect.
+\end{itemize}

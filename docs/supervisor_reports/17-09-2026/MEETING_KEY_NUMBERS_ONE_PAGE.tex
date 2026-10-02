@@ -1,0 +1,133 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=11mm,top=9mm,bottom=10mm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\newcommand{\secbanner}[1]{%
+  \vspace{0.45em}%
+  \noindent\colorbox{gray!15}{\makebox[\dimexpr\linewidth-2\fboxsep\relax][l]{\bfseries\small\vphantom{y}#1}}%
+  \vspace{0.25em}%
+}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+\begin{document}
+
+% Compact Header
+\begin{center}
+  {\Large\textbf{Master Thesis Supervisor Meeting -- Authoritative Numbers Cheat Sheet}}\\[0.2em]
+  {\normalsize\textbf{Mode-I Phase-Field Benchmark Reproduction} \quad $\cdot$ \quad Date: 17 September 2026}\\[0.15em]
+  {\footnotesize Candidate: Pruthviraja Reddy Vandavagali (68865) \quad $\cdot$ \quad Chair of Applied Mechanics (IMFD), TU Bergakademie Freiberg}
+\end{center}
+\vspace{-0.3em}
+\hrule height 0.6pt
+
+% Section 1
+\secbanner{1. Authoritative Mechanical Benchmark Numbers}
+\begin{table}[h!]
+  \centering
+  \scriptsize
+  \renewcommand{\arraystretch}{1.08}
+  \begin{tabularx}{\textwidth}{L{36mm} C{16mm} C{21mm} C{19mm} C{17mm} X}
+    \toprule
+    \textbf{Simulation Model} & \textbf{Elements} & $K_0$ \textbf{[kN/mm]} & $F_{\max}$ \textbf{[kN]} & $u(F_{\max})$ \textbf{[mm]} & \textbf{Status \& Extraction Provenance} \\
+    \midrule
+    \textbf{Fixed Reference Anchor}\newline(\texttt{1398090.mmaster02}) & $15{,}192$\newline(\texttt{CPE4}) & $\mathbf{137.945520}$\newline(Ref Anchor) & $\mathbf{0.757778}$\newline(Ref Anchor) & $\mathbf{0.005857}$\newline(Ref Anchor) & Unconstrained OLS, $N=400$ ($u \le 1.0\,\mu\mathrm{m}$),\newline$R^2=0.99999960$, $b=4.472 \times 10^{-5}\,\mathrm{kN}$ \\
+    \midrule
+    \textbf{DEFECTIVE PREPROC.}\newline(\texttt{1399632.mmaster02})\newline\textit{(DIAGNOSTIC ONLY)} & $71{,}320$ & $122.379$\newline($-11.28\%$) & $0.478203$\newline($-36.89\%$) & $0.004150$\newline($-29.15\%$) & \textbf{DIAGNOSTIC ONLY:} 16/150 boundary nodes parsed (boundary set cardinality); bottom lift up to $48.34\%$ stroke \\
+    \midrule
+    \textbf{Corrected Frozen 71k}\newline(\texttt{1405044.mmaster02}) & $71{,}320$ & $\mathbf{138.021013}$\newline($+0.0547\%$) & --\newline(frozen elastic) & --\newline(frozen elastic) & Exact frozen requalification, $N=400$,\newline 150/150 nodes, $0.000\,\mathrm{nm}$ lift, 0 warnings \\
+    \midrule
+    \textbf{Corrected Nominal 1\%}\newline(\texttt{1404933.mmaster02}) & $71{,}320$\newline($69\mathrm{kQ}+1.8\mathrm{kT}$) & $\mathbf{137.820804}$\newline($-0.0904\%$) & $\mathbf{0.745325}$\newline($-1.64\%$) & $\mathbf{0.005750}$\newline($-1.83\%$) & Authoritative full-fracture solve: $K_0 \approx 137.821$,\newline$N=400$, $R^2=0.99999960$, $b=4.470 \times 10^{-5}\,\mathrm{kN}$ \\
+    \midrule
+    \textbf{Supporting 4T Twin}\newline(\texttt{1405003.mmaster02}) & $71{,}320$ & $137.820804$\newline($-0.0904\%$) & $0.745325$\newline($-1.64\%$) & $0.005750$\newline($-1.83\%$) & Shared-memory 4-thread parity twin (1 MPI $\times$ 4T);\newline tight numerical parity with 1-CPU anchor \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+% Section 2
+\secbanner{2. Canonical Pre-Analysis \& Gate-5 Discrepancy Decomposition}
+\begin{minipage}[t]{0.485\textwidth}
+  \textbf{\footnotesize A. Canonical Pre-Analysis Baseline (Job \texttt{PK\_M1\_PRE}):}
+  \begin{itemize}[noitemsep,topsep=1pt,leftmargin=4mm]
+    \scriptsize
+    \item Global coarse element seed: $h_{\mathrm{cms}} = 0.020\,\mathrm{mm}$.
+    \item Total finite elements: \textbf{$2{,}906$} ($2{,}818$ CPE4 + $88$ CPE3).
+    \item Total nodes: \textbf{$2{,}988$} (with duplicate crack seam nodes).
+    \item Extracted \texttt{MISESERI} field: \textbf{$2{,}906$ scalar values} at \texttt{WHOLE\_ELEMENT}.
+    \item Retirement: historical $3{,}930$-row set was Mode-II (\texttt{1379893}); retired.
+  \end{itemize}
+  \vspace{0.3em}
+  \textbf{\footnotesize B. Abaqus Multi-Release Invariance Audit:}
+  \begin{itemize}[noitemsep,topsep=1pt,leftmargin=4mm]
+    \scriptsize
+    \item Abaqus 2019 GA (Build 157541): \textbf{$71{,}320$ elements}
+    \item Abaqus 2021.HF26 (Job \texttt{1404968}): \textbf{$71{,}320$ elements}
+    \item Abaqus 2022 GA (Job \texttt{1404373}): \textbf{$71{,}320$ elements}
+    \item Abaqus 2023.HF4 (Job \texttt{1404373}): \textbf{$71{,}320$ elements}
+    \item All decks ($142{,}268$ lines) are \textbf{$100.000\%$ bitwise identical}.
+  \end{itemize}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\textwidth}
+  \textbf{\footnotesize C. Regional Element Distribution (71,320 Reconstruction):}
+  \begin{itemize}[noitemsep,topsep=1pt,leftmargin=4mm]
+    \scriptsize
+    \item \textbf{R1 Crack Tip ($r \le 0.02\,\mathrm{mm}$):} $347$ elements ($0.5\%$)
+    \item \textbf{R2 Ligament Corridor ($y \in [0.48, 0.52]$):} $5{,}318$ elements ($7.5\%$)
+    \item \textbf{R3 Slit Flank Corridor ($x \le 0.5$):} $3{,}396$ elements ($4.8\%$)
+    \item \textbf{Process Zone Total (R1+R2+R3):} \textbf{$9{,}061$ elements ($12.7\%$)}
+    \item \textbf{R4 Transition Zone ($y \in [0.4, 0.6]$):} $20{,}273$ elements ($28.4\%$)
+    \item \textbf{R5 Far Field ($y \notin [0.4, 0.6]$):} $41{,}986$ elements ($58.9\%$)
+    \item \textbf{Outside Corridor Total (R4+R5):} \textbf{$62{,}259$ elements ($87.3\%$)}
+  \end{itemize}
+  \vspace{0.3em}
+  \textbf{\footnotesize D. Literature Target vs Reconstruction:}
+  \begin{itemize}[noitemsep,topsep=1pt,leftmargin=4mm]
+    \scriptsize
+    \item Literature reported mesh: \textbf{$\approx 13{,}941$ elements}
+    \item Publication-literal 1\% reconstruction: \textbf{$71{,}320$ elements}
+    \item $2\%$ error target sensitivity: \textbf{$15{,}396$ elements} ($+10.4\%$)
+    \item $5\%$ error target sensitivity: \textbf{$4{,}194$ elements} ($-70.0\%$)
+  \end{itemize}
+\end{minipage}
+
+% Section 3
+\secbanner{3. Exhaustive 15-Factor OFAT Audit -- Key Numerical Counts}
+\begin{table}[h!]
+  \centering
+  \scriptsize
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabularx}{\textwidth}{L{44mm} C{22mm} C{20mm} X}
+    \toprule
+    \textbf{Investigated Factor} & \textbf{Resulting Elements} & \textbf{Shift vs 71,320} & \textbf{Scientific Qualification \& Epistemic Status} \\
+    \midrule
+    \textbf{Top Lateral BC Free ($u_1 = \mathrm{Free}$)} & $\mathbf{55{,}761}$ (Job \texttt{1405055}) & $-21.8\%$ & Reduces far-field stress triaxiality; remains $>4.0\times$ above literature. \\
+    \textbf{Coarse Seed ($h_{\mathrm{cms}} = 0.030\,\mathrm{mm}$)} & $\mathbf{48{,}919}$ & $-31.4\%$ & Coarser donor deck reduces total adapted nodes; remains $>3.5\times$ above lit. \\
+    \textbf{Plane Stress Formulation (\texttt{CPS4})} & $\mathbf{58{,}679}$ & $-17.7\%$ & Confounded: violates standard Mode-I plane strain constraint ($\nu=0.3$). \\
+    \textbf{Reduced Integration (\texttt{CPE4R})} & $\mathbf{103{,}706}$ (Job \texttt{1405056}) & $+45.4\%$ & Hourglass modes increase recovery error; drives count further from literature. \\
+    \textbf{Coarsening Dynamics Enabled} & $71{,}037$ & $-0.4\%$ & Published rule sets \texttt{coarseningFactor=NOT\_ALLOWED}; minimal effect. \\
+    \textbf{Sizing Bounds Removed} & $71{,}320$ & $0.0\%$ & Bound limits ($h_{\min}=0.001$, $h_{\max}=0.020$) do not truncate sizing. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\vfill
+\hrule height 0.4pt
+\vspace{0.2em}
+{\tiny\textbf{Authoritative Sources:} Job database extractions, \texttt{curve\_standard\_1398090.csv}, \texttt{curve\_1404933\_extracted.csv}, \texttt{gate6\_mode1\_authoritative\_requalification\_summary.json} $\cdot$ Cryptographically verified.}
+
+\end{document}

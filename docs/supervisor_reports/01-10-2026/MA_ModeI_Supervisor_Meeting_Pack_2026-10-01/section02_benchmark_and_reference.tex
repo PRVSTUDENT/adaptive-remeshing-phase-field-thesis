@@ -1,0 +1,34 @@
+\section{Mode-I Benchmark Definition and Canonical S1 Reference Baseline}
+\label{sec:benchmark_and_reference}
+
+\subsection{Benchmark Boundary Value Problem}
+The Mode-I benchmark is defined on a two-dimensional square domain $\Omega = [0, 1.0\,\mathrm{mm}] \times [0, 1.0\,\mathrm{mm}]$ containing an initial sharp horizontal edge crack of length $a_0 = 0.50\,\mathrm{mm}$ along the symmetry plane $y = 0.50\,\mathrm{mm}$ (Fig.~\ref{fig:mode1_geometry_pack}). The crack is discretized as a zero-gap seam with duplicate coincident nodal lines, preserving exact geometric compliance.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.48\textwidth]{fig_mode1_geometry.png}
+  \caption{Mode-I benchmark boundary value problem: $1.0\,\mathrm{mm} \times 1.0\,\mathrm{mm}$ square domain with a sharp edge crack of length $a_0 = 0.5\,\mathrm{mm}$ along $y = 0.5\,\mathrm{mm}$. Boundary conditions enforce roller support ($u_y = 0$) on the bottom edge with a pinned point ($u_x = 0$) to eliminate rigid-body motion, and uniform tensile displacement $u_y = u$ on the top edge.}
+  \label{fig:mode1_geometry_pack}
+  \figureconclusion{This figure fixes the governed physical boundary-value problem. All later fixed and adaptive simulations use the same geometry, supports, and loading, so their differences can be attributed to discretization, time stepping, or adaptivity rather than to a changed model definition.}
+\end{figure}
+
+The material and phase-field constitutive parameters follow \citet{pandey2025}:
+\begin{itemize}[noitemsep,topsep=1pt]
+  \item Young's modulus: $E = 210.0\,\mathrm{GPa} = 210.0\,\mathrm{kN/mm^2}$;
+  \item Poisson's ratio: $\nu = 0.30$;
+  \item Critical fracture energy release rate: $G_c = 2.7 \times 10^{-3}\,\mathrm{kN/mm}$ ($2.7\,\mathrm{N/mm}$);
+  \item Phase-field regularization length scale: $l_0 = 0.0075\,\mathrm{mm} = 7.5\,\mu\mathrm{m}$;
+  \item Residual stiffness parameter: $k_{\mathrm{res}} = 1.0 \times 10^{-7}$.
+\end{itemize}
+
+\subsection{Boundary-Condition Verification and Seam Compliance}
+A vital early physical distinction is that global initial structural stiffness $K_0 = \Delta F / \Delta u$ is a structural property, distinct from the material Young's modulus $E$. During initial model verification, representing the crack as a finite-width notch was found to introduce substantial artificial compliance ($K_0 \approx 75.47\,\mathrm{kN/mm}$). The geometry was therefore corrected to the required zero-gap sharp seam before the governed convergence and adaptive-remeshing studies were performed. All subsequent results use the corrected sharp-seam geometry.
+
+\subsection{Canonical S1 Baseline Provenance}
+\begingroup\small
+The governed canonical baseline for the Mode-I benchmark is Job \texttt{1406015.mmaster02} ($S_1$, $15{,}192$ underlying finite elements, $15{,}522$ total \texttt{*NODE} entries ($15{,}521$ mesh nodes + RP 999999)), generated from the canonical input deck (\texttt{SHA256: bc000e0c5791150a\allowbreak711cb7af447a0bb3\allowbreak4d1b9d9af5c6ce9d\allowbreak096c98749e8edf61}). Extracted from the audited source file \nolinkurl{S1_h0030_15k_MECHANICAL_FU_AUDITED.csv} (\texttt{SHA256: E3100B7429E14B8B\allowbreak CEAB9952DDF8B041\allowbreak 9CA9F71DF058F591\allowbreak 6668922185AA25E2}) over the initial $N = 400$ active increments ($u \le 1.0\,\mu\mathrm{m}$), unconstrained ordinary least squares yields:
+\begin{equation}
+  \boxed{K_0 = 137.945520\,\mathrm{kN/mm}}, \quad b = 4.472368 \times 10^{-5}\,\mathrm{kN}, \quad R^2 = 0.99999960.
+\end{equation}
+The peak reaction force is $F_{\max} = 0.757778\,\mathrm{kN}$ at displacement $u(F_{\max}) = 0.005857\,\mathrm{mm}$, matching digitized literature values from \citet{pandey2025} ($F_{\max} \approx 0.758\,\mathrm{kN}, u \approx 0.005860\,\mathrm{mm}$). Reconstructed Job \texttt{1398090.mmaster02} is preserved as historical baseline evidence. This canonical response provides the quantitative anchor against which all spatial, temporal, and adaptive remeshing results are judged.
+\par\endgroup

@@ -1,0 +1,114 @@
+{
+  "active_task": {
+    "task_id": "task_10_final_master_thesis_manuscript",
+    "task_name": "Task 10: Final Master Thesis Manuscript Preparation & Writing",
+    "status": "TASK10_SUPERVISOR_COMMUNICATION_READY",
+    "start_time": "2026-09-03T06:10:00+02:00",
+    "completion_time": "2026-09-03T06:38:00+02:00",
+    "phase": "SUPERVISOR_COMMUNICATION_AND_HANDOVER_COMPLETE",
+    "supervisor_cover_note": "docs/supervisor_reports/SUPERVISOR_SUBMISSION_COVER_NOTE_2026-09-03.md",
+    "final_archive_manifest": "docs/thesis/FINAL_THESIS_ARCHIVE_MANIFEST_AND_HANDOVER.md",
+    "final_supervisor_package": "docs/supervisor_reports/FINAL_SUPERVISOR_REVISION_PACKAGE_2026-09-03.md",
+    "master_pdf": "docs/thesis/PROPOSAL_ALIGNED_THESIS_MANUSCRIPT_DRAFT.pdf",
+    "build_report": "docs/thesis/TASK10_FINAL_THESIS_BUILD_REPORT.md",
+    "supervisor_review_package": "docs/supervisor_reports/SUPERVISOR_REVIEW_PACKAGE_2026-09-03.md",
+    "thesis_manuscript_draft": "docs/thesis/PROPOSAL_ALIGNED_THESIS_MANUSCRIPT_DRAFT.tex",
+    "thesis_refinement_roadmap": "docs/thesis/TASK10_THESIS_REFINEMENT_ROADMAP_AND_QC_CHECKLIST.md",
+    "thesis_evidence_map": "docs/thesis/TASK10_THESIS_WRITING_PACKAGE_AND_EVIDENCE_MAP.md",
+    "future_user_guide": "docs/guides/TASK9_FUTURE_USER_WORKFLOW_GUIDE.md",
+    "meshing_recommendations": "docs/guides/TASK8_MESHING_AND_INCREMENT_RECOMMENDATIONS.md",
+    "governing_rules": {
+      "task_6_status_preserved": "TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
+      "task_6_companion_status": "COMPANION_VISUALIZATION_BRIDGE_FULLY_VERIFIED",
+      "cluster_execution_constraint": "SERIAL_CPUS_1_ONLY",
+      "two_concurrent_job_limit": "2_ACTIVE_JOBS_MAX",
+      "notification_status": "TELEGRAM_ACTIVE_EMAIL_DEFECT_KNOWN"
+    }
+  },
+  "authoritative_supervisor_report": {
+    "report_pdf": "docs/supervisor_reports/SUPERVISOR_PROGRESS_REPORT_2026-09-02.pdf",
+    "pdf_sha256": "FD56980515B45C998B7F71A7D3CEF33B17F73CD71E9FEF41CB12EA212819E73B",
+    "report_source": "docs/supervisor_reports/1-09-2026/MA_AdaptiveRemeshing_Report_2026_revised_content_pack/draft_main.tex",
+    "compilation_status": "COMPLETED_45_PAGES_VERIFIED",
+    "compilation_timestamp": "2026-09-02T17:16:45+02:00"
+  },
+  "accepted_task_provenance": {
+    "task_3_fixed_mesh_reference": {
+      "task_id": "task_3_pandey_kumar_mode1_fixed_mesh_baseline",
+      "accepted_job_id": "1398090.mmaster02",
+      "num_elements": 15192,
+      "num_nodes": 15305,
+      "f_peak_kn": 0.757778,
+      "u_peak_mm": 0.005857,
+      "k0_kn_per_mm": 138.0877,
+      "f_error_pct": -0.029,
+      "u_error_pct": -0.051,
+      "walltime": "06:31:14",
+      "cput": "06:30:34",
+      "exit_code": 0,
+      "verdict": "SCIENTIFICALLY_ACCEPTED"
+    },
+    "task_4_native_python_refinement": {
+      "task_id": "task_4_abaqus_native_mesh_refinement_implementation",
+      "status": "COMPLETE_VERIFIED_END_TO_END"
+    },
+    "task_5_authoritative_reproduction": {
+      "task_id": "task_5_pandey_kumar_mode1_reproduction",
+      "accepted_job_id": "1400395.mmaster02",
+      "error_target": "2.0%",
+      "num_elements": 15396,
+      "num_nodes": 15414,
+      "f_peak_kn": 0.748197,
+      "u_peak_mm": 0.005775,
+      "k0_kn_per_mm": 137.9858,
+      "walltime": "07:06:46",
+      "cput": "06:52:21",
+      "exit_code": 0,
+      "verdict": "SCIENTIFICALLY_ACCEPTED"
+    },
+    "task_5_sensitivity_5pct": {
+      "task_id": "task_5_pandey_kumar_mode1_sensitivity_5pct",
+      "job_id": "1400396.mmaster02",
+      "error_target": "5.0%",
+      "num_elements": 4194,
+      "num_nodes": 4274,
+      "f_peak_kn": 0.764964,
+      "u_peak_mm": 0.007060,
+      "walltime": "01:55:29",
+      "cput": "01:50:39",
+      "exit_code": 0,
+      "verdict": "SCIENTIFICALLY_EVALUATED"
+    },
+    "task_6_imfd_abaquser_visualization": {
+      "task_id": "task_6_imfd_abaquser_visualization",
+      "accepted_job_id": "1400408.mmaster02",
+      "status": "TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
+      "substatus": "COMPANION_VISUALIZATION_BRIDGE_FULLY_VERIFIED"
+    },
+    "task_7_sensitivity_studies": {
+      "task_id": "task_7_fracture_benchmark_and_sensitivity_studies",
+      "inc2x_job_id": "1400738.mmaster02",
+      "mesh3p_job_id": "1400739.mmaster02",
+      "status": "TASK7_PRODUCTION_SENSITIVITY_EVALUATION_COMPLETED"
+    },
+    "task_8_meshing_recommendations": {
+      "task_id": "task_8_meshing_parameter_recommendations",
+      "status": "TASK8_RECOMMENDATIONS_FORMULATED",
+      "document": "docs/guides/TASK8_MESHING_AND_INCREMENT_RECOMMENDATIONS.md"
+    },
+    "task_9_future_user_documentation": {
+      "task_id": "task_9_future_user_documentation",
+      "status": "TASK9_USER_DOCUMENTATION_COMPLETE",
+      "document": "docs/guides/TASK9_FUTURE_USER_WORKFLOW_GUIDE.md"
+    },
+    "task_10_thesis_manuscript": {
+      "task_id": "task_10_final_master_thesis_manuscript",
+      "status": "TASK10_SUPERVISOR_COMMUNICATION_READY",
+      "cover_note": "docs/supervisor_reports/SUPERVISOR_SUBMISSION_COVER_NOTE_2026-09-03.md",
+      "final_manifest": "docs/thesis/FINAL_THESIS_ARCHIVE_MANIFEST_AND_HANDOVER.md",
+      "master_pdf": "docs/thesis/PROPOSAL_ALIGNED_THESIS_MANUSCRIPT_DRAFT.pdf",
+      "build_report": "docs/thesis/TASK10_FINAL_THESIS_BUILD_REPORT.md",
+      "final_supervisor_package": "docs/supervisor_reports/FINAL_SUPERVISOR_REVISION_PACKAGE_2026-09-03.md"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+# ==============================================================================
+# Pandey & Kumar (2025) Mode-II Standalone Reproduction Package Commands
+# ==============================================================================
+# Environment: Linux x86_64, Abaqus 2023, Intel Fortran 2021 / 2024, Python 3.9+
+# Pre-requisite modules: module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+# ------------------------------------------------------------------------------
+# 1. Triangular Element Runtime Patch Test Verification (Job 1408559)
+# ------------------------------------------------------------------------------
+# Solves UEL triangular patch test (JTYPE=3,4) and reference CPE3 patch test
+abaqus job=tri_patch_uel user=f42_mixed_uel.for input=M2_tri_patch_uel.inp double=both cpus=1 interactive
+abaqus job=tri_patch_ref input=M2_tri_patch_cpe3_ref.inp double=both cpus=1 interactive
+python compare_triangular_patch_results.py
+
+# ------------------------------------------------------------------------------
+# 2. Coarse Pre-Analysis & MISESERI Extraction (Job 1408551)
+# ------------------------------------------------------------------------------
+# 3,930 CPE4 elements linear elastic plane strain pre-analysis
+abaqus job=ModeII_MISESERI_preanalysis input=ModeII_MISESERI_preanalysis.inp double=both cpus=1 interactive
+# Extract WHOLE_ELEMENT MISESERI:
+# abaqus python extract_miseseri.py ...
+
+# ------------------------------------------------------------------------------
+# 3. Native RemeshingRule Mesh Generation & Deck Reconstruction
+# ------------------------------------------------------------------------------
+# Generates 7,865 finite-element native adaptive mesh (7,641 CPE4 + 224 CPE3)
+# using errorTarget=5.0%, refinementFactor=10, minElementSize=0.003 mm:
+python generate_mode2_native_adaptive_mesh.py
+
+# ------------------------------------------------------------------------------
+# 4. H1 Literature-Faithful Reference Execution (Job 1408543)
+# ------------------------------------------------------------------------------
+# 12,064 finite elements (36,192 element objects across 3 layers), u1=0.050 mm
+abaqus job=M2_H1_reference user=f42_mixed_uel.for input=M2_H1_reference.inp double=both cpus=1 interactive
+
+# ------------------------------------------------------------------------------
+# 5. Adaptive Mesh Production Execution (Job 1408555)
+# ------------------------------------------------------------------------------
+# 7,865 finite elements (23,595 element objects across 3 layers), u1=0.050 mm
+abaqus job=ModeII_adaptive_candidate user=f42_mixed_uel.for input=ModeII_adaptive_candidate.inp double=both cpus=1 interactive
+
+# ------------------------------------------------------------------------------
+# 6. Comprehensive Multi-Quantity Post-Processing & Validation
+# ------------------------------------------------------------------------------
+python postprocess_mode2_adaptive_full.py

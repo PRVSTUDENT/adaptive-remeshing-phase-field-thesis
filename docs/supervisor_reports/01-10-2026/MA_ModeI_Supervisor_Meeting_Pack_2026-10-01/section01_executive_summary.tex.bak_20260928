@@ -1,0 +1,31 @@
+\section{Executive Summary and Governance Framework}
+\label{sec:executive_summary}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!60!black,title=\textbf{Governing Supervisor Directive \& Active Phase},top=2pt,bottom=2pt,left=4pt,right=4pt]
+\small
+\emph{``We need to have understood everything related to the first model before we increase complexity.''}
+\begin{center}
+  \textbf{\texttt{MODE1\_ENERGY\_CONVERGENCE\_AND\_STATE\_TRANSFER\_FOUNDATIONS\_ACTIVE}}
+\end{center}
+\end{tcolorbox}
+
+Following the supervisor decisions of 17 September 2026, this report provides the comprehensive Mode-I convergence and energetic audit package for the 01 October 2026 supervisory review. The primary objective is to complete the physical, numerical, and energetic qualification of the Mode-I phase-field benchmark before advancing to state transfer, visualization integration, or multi-crack geometries.
+
+\subsection{Status of governing milestone gates}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=6mm,itemsep=2pt]
+  \item \textbf{Gate 6A -- Mechanical Implementation \& Defect Closure:} \textbf{\texttt{RESOLVED\_AND\_CLOSED}}. The 71,320-element initial stiffness defect was proven to arise from an Abaqus keyword preprocessing line limit ($\le 16$ nodes per line in \texttt{*NSET} without \texttt{GENERATE}), silently omitting 134 of 150 boundary nodes. Wrapping the data lines restored all constraints and achieved reference-consistent structural stiffness recovery (within 0.09\%, $K_0 = 137.820804\,\mathrm{kN/mm}$ in full fracture Job \texttt{1404933}, $-0.09\%$).
+  \item \textbf{Gate 5 -- Native Remeshing Reproduction (71,320 vs $\approx 13{,}941$):} \textbf{\texttt{SUPERVISOR\_ACCEPTED\_REPRODUCTION\_LIMITATION\_CLOSED}}. The supervisor accepted that publication details do not expose enough information to reproduce every reported element count exactly. Sensitivity trends are preserved ($1.0\% \to 71{,}320$; $2.0\% \to 17{,}687$; $3.0\% \to 8{,}120$; $5.0\% \to 4{,}356$ finite elements).
+  \item \textbf{Gate 6B -- Mode-I Energetic and Multifaceted Convergence:} \textbf{\texttt{ACTIVE -- HIGHEST PRIORITY}}. Decoupled evaluation across structural stiffness $K_0$, peak force $F_{\max}$, peak displacement $u_{\mathrm{peak}}$, trapezoidal boundary work $W_{\mathrm{trap}}$, UEL energy terms ($E_{\mathrm{elas}}, E_{\mathrm{frac}}$), crack-path symmetry, temporal discretization ($T_1$--$T_3$), spatial discretization ($S_1$--$S_4$), and length scale ($l_0$).
+  \item \textbf{Global Energy Identity:} \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}}. The staggered solution scheme evaluates history $\mathcal{H}_n$ at step $n$ and damage $d_{n+1}$ at step $n+1$, disproving the existence of a joint discrete scalar potential ($\partial^2 \Pi / \partial \mathbf{u} \partial d \ne \partial^2 \Pi / \partial d \partial \mathbf{u}$). Standard uninstrumented ODB files do not persist within-increment Newton paths.
+  \item \textbf{Active Scope Holds:} Mode-II, Gate~6C (State Transfer), Gate~7 (Visualization integration), and multi-rank MPI remain on \textbf{strict hold} pending supervisor acceptance of Gate~6B closure.
+\end{enumerate}
+
+\subsection{Key scientific findings presented in this package}
+\begin{itemize}[leftmargin=5mm,itemsep=2pt]
+  \item \textbf{Energy Source Mechanical Parity:} Formally qualified as \textbf{\texttt{ENERGY\_SOURCE\_MECHANICAL\_PARITY --- QUALIFIED (COMMON QUAD FORMULATION)}}. Global mechanical force trajectories were identical ($|\Delta F| = 0.0\,\mathrm{kN}$) against uninstrumented baselines across both elastic (30 incs, Jobs 1406904 vs 1406905) and post-peak softening regimes ($u = 0.035\,\mathrm{mm}$, 129 incs, Jobs 1406906 vs 1406907). Old-run $d/\mathcal{H}$ state-field parity was not observable in ODBs and triangle parity was not established.
+  \item \textbf{Single-IP Deduplication Rule:} Companion visualizer UMAT elements replicate scalar whole-element energies into all 4 Gauss integration points. Summing across all IPs creates an artificial $4\times$ overcounting error. Enforcing extraction at Integration Point 1 (\texttt{IP1}) recovers the once-per-underlying-finite-element global energy sum under the 2D implicit-unit-thickness convention.
+  \item \textbf{Structural Stiffness Invariance:} Initial stiffness $K_0$ is exceptionally stable across spatial meshes ($S_1$--$S_4$: $137.95$ to $137.84\,\mathrm{kN/mm}$, spread $<0.08\%$) and time steps ($<0.001\%$), confirming kinematic and elastic consistency.
+  \item \textbf{Peak Force Mesh Sensitivity:} Peak reaction force drops monotonically with spatial mesh refinement from $0.7578\,\mathrm{kN}$ ($S_1$, $h/l_0 = 0.400$) to $0.7312\,\mathrm{kN}$ ($S_4$, $h/l_0 = 0.167$), extending to $0.7255\,\mathrm{kN}$ on the historical fine mesh ($h = 1.0\,\mu\mathrm{m}$, $-4.26\%$ total variation), classified as \textbf{\texttt{MESH-SENSITIVE}}.
+  \item \textbf{Crack-Path Symmetry:} The damage-weighted crack-centroid trajectory deviates from the symmetry plane $y = 0.500\,\mathrm{mm}$ by $\le 3.10\,\mu\mathrm{m}$ across all fixed and adaptive meshes, confirming pure Mode-I symmetry within discrete element bounds.
+  \item \textbf{Completed 3-Point Length-Scale Study ($l_0$):} Evaluated across $l_0 \in \{7.5, 11.25, 15.0\}\,\mu\mathrm{m}$ on fixed $S_3$ mesh (Jobs \texttt{1406017.mmaster02}, \texttt{1406895.mmaster02}, \texttt{1406896.mmaster02}). $K_0$ is stable ($137.86 \to 137.68\,\mathrm{kN/mm}$, $0.13\%$ spread), while $F_{\max}$ ($0.7322 \to 0.6895\,\mathrm{kN}$) and $u_{\mathrm{peak}}$ ($5.633 \to 5.579\,\mu\mathrm{m}$) are length-scale sensitive. Terminal energy comparison across unequal endpoints is classified as \textbf{\texttt{NOT\_YET\_QUALIFIED\_UNEQUAL\_ENDPOINTS}}.
+\end{itemize}

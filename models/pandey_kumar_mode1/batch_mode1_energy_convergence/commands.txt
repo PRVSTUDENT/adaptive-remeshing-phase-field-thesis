@@ -1,0 +1,56 @@
+# ==============================================================================
+# AUTHORITATIVE REPRODUCTION COMMANDS: PANDEY & KUMAR (2025) MODE-I BENCHMARK
+# Target Environment: Abaqus 2024 / SMAPython (Windows PowerShell / Linux Bash)
+# Governance Status: Serial 1-CPU Execution is the SOLE Authoritative Workflow
+# Threaded / MPI Scaling: ON HOLD (Archival Only, Not Part of Qualified Reproduction)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# SECTION 1: AUTHORITATIVE SERIAL REFERENCE EXECUTION (1-CPU SERIAL ONLY)
+# ------------------------------------------------------------------------------
+# All authoritative scientific results, mesh-convergence series, and parity
+# checks MUST be executed using single-process serial execution (cpus=1).
+# Subroutine: f42_mixed_uel.for (SHA256: 5CD0D2C015C9EAD91C99D7A744156CC86F5B5EA26473BBED7D6E5515FE30FA46)
+
+# Step 1.1: Run Canonical Fixed Mesh Reference Anchor (S3_h0015_42k, 1 CPU Serial)
+# Working Directory: D:\Master thesis\Adaptive remeshing\models\pandey_kumar_mode1\batch_mode1_energy_convergence\S3_h0015_42k
+abaqus job=PK_M1_S3_H0015 input=PK_M1_S3_H0015.inp user=..\15_energy_qualification_small\f42_mixed_uel.for cpus=1 interactive
+
+# Step 1.2: Run Mini Parity Verification Job (64 Elements, 1 CPU Serial)
+# Working Directory: D:\Master thesis\Adaptive remeshing\models\pandey_kumar_mode1\15_energy_qualification_small
+abaqus job=PK_M1_MINI_ENERGY_64 input=PK_M1_MINI_ENERGY_64.inp user=f42_mixed_uel.for cpus=1 interactive
+
+# ------------------------------------------------------------------------------
+# SECTION 2: FAST OFFLINE POST-PROCESSING EXTRACTIONS (NO MULTI-GB ODB TRANSFERS)
+# ------------------------------------------------------------------------------
+# All extraction scripts run in headless mode without transferring or opening giant ODBs.
+# Working Directory: D:\Master thesis\Adaptive remeshing\models\pandey_kumar_mode1\batch_mode1_energy_convergence
+
+# Step 2.1: Execute Mechanical Parity & Newton-Raphson Solver Audit
+abaqus python reproduction_pkg_gate6b\postprocess_mechanical_parity.py
+
+# Step 2.2: Extract Reaction Force vs Displacement (F-u) & Boundary Work Curves
+abaqus python reproduction_pkg_gate6b\postprocess_external_work.py
+
+# Step 2.3: Ingest Length Scale Sensitivity Series (l0 = 7.50, 11.25, 15.00 um)
+abaqus python postprocess_l0_sensitivity_series_v6.py
+
+# Step 2.4: Generate Spatial, Transverse Localization & Energy Balance Plots
+abaqus python plot_l0_sensitivity_series.py
+
+# Step 2.5: Synthesize Gate 6B Evidence Matrix & Consistency Validation Gate
+abaqus python reproduction_pkg_gate6b\postprocess_evidence_matrix_synthesis.py
+
+# ------------------------------------------------------------------------------
+# SECTION 3: ARCHIVAL THREADED COMMANDS -- NOT PART OF QUALIFIED REPRODUCTION
+# ------------------------------------------------------------------------------
+# [WARNING]: Multi-threaded shared-memory scaling and distributed MPI execution
+# remain UNQUALIFIED and on ACTIVE GOVERNANCE HOLD. The commands below are preserved
+# strictly for historical archive and MUST NOT be used for scientific reproduction.
+#
+# (Archival Shared-Memory Threaded Execution - ON HOLD):
+# abaqus job=PK_M1_A2_ADAPT2PCT input=PK_M1_A2_ADAPT2PCT.inp user=..\15_energy_qualification_small\f42_mixed_uel.for cpus=4 standard_parallel=threads interactive
+#
+# ==============================================================================
+# END OF REPRODUCTION COMMANDS
+# ==============================================================================

@@ -1,0 +1,76 @@
+# Project Coordination State
+
+## Active Protocol
+- **Task ID**: `TASK7_FRACTURE_BENCHMARK_AND_SENSITIVITY_STUDIES`
+- **Workflow State**: **`TASK7_PRODUCTION_SENSITIVITY_BATCH_RUNNING`**
+- **Simulation Campaign Status**: **`TASK_7_BATCH_EXECUTING_ON_CLUSTER`**
+- **Authoritative Supervisor Report**: [`docs/supervisor_reports/SUPERVISOR_PROGRESS_REPORT_2026-09-02.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/SUPERVISOR_PROGRESS_REPORT_2026-09-02.pdf) (45 pages, SHA-256: `FD56980515B45C998B7F71A7D3CEF33B17F73CD71E9FEF41CB12EA212819E73B`)
+- **Report LaTeX Source**: `docs/supervisor_reports/1-09-2026/MA_AdaptiveRemeshing_Report_2026_revised_content_pack/draft_main.tex` (Synchronized with `MA_AdaptiveRemeshing_Report_2026/`)
+- **Date**: 2026-09-02T17:28:00+02:00
+
+---
+
+## 1. Master Thesis Work Package Status Matrix
+
+```text
+=======================================================================================================================================================
+TASK ID   WORK PACKAGE DESCRIPTION                                   GOVERNED STATUS                       AUTHORITATIVE EVIDENCE & KEY METRICS
+=======================================================================================================================================================
+Task 1    Phase-Field Fracture (PFF) Familiarization                 COMPLETE / DOCUMENTED                 Molnar one-element & single-notch verified
+Task 2    Literature Review & Reference Methodology                  COMPLETE / ACTIVE WRITING             Molnar (2017), Pandey (2025), Diddige (2025)
+Task 3    Reproduce Reference Simulations w/o Refinement             COMPLETE / SCIENTIFICALLY_ACCEPTED    Job 1398090 (F_peak=0.7578 kN, error -0.029%)
+Task 4    Implement Native Refinement in Python                      COMPLETE / VERIFIED_END_TO_END        MISESERI, RemeshingRule, adaptiveRemesh
+Task 5    Reproduce Reference Results WITH Refinement                QUANTITATIVE_REPRODUCTION_PASSED      Job 1400395 (F_peak=0.7482 kN, error -1.29%)
+          - Nominal-1% Preprocessing Discrepancy Audit               CLOSED (PROVENANCE_AUDITED)           DOCUMENTED_UNRESOLVABLE_FROM_PUBLISHED_INFO
+          - Empirical 2% Error Target Mesh Reconstruction            EMPIRICALLY_RECONCILED                15,396 elements (+10.4% match), 0 cutbacks
+          - Controlled 5% Error Target Sensitivity Evaluation        SCIENTIFICALLY_EVALUATED              Job 1400396 (4,194 elem, F_peak=0.7650 kN)
+Task 6    Integrate IMFD ABAQUSER Visualization Tool                 EXTERNALLY_BLOCKED / BRIDGE_VERIFIED  Job 1400408 (0.000000% RF parity, SDV15/16)
+          - Companion In-Solver UMAT Visualization Bridge            COMPANION_BRIDGE_FULLY_VERIFIED       Zero parasitic stiffness, max(d)=1.00518
+          - Authentic IMFD ABAQUSER Tool Integration                 TASK6_BLOCKED_EXTERNAL_DEPENDENCY     Awaiting supervisor / IMFD software artifact
+Task 7    Apply to Fracture Benchmarks & Sensitivity Studies         RUNNING PRODUCTION BATCH              Jobs 1400738 (INC2X) & 1400739 (MESH3P)
+Task 8    Formulate Meshing-Parameter Recommendations                NOT STARTED                           Scheduled following Task 7
+Task 9    Document Workflow for Future Users                         NOT STARTED                           Scheduled following Task 8
+Task 10   Final Master Thesis Manuscript                             IN PROGRESS / ACTIVE DRAFTING         Faculty build synchronized
+=======================================================================================================================================================
+```
+
+---
+
+## 2. Active Task-7 Production Batch Telemetry
+
+| Parameter | Case 1: Increment Sensitivity (`PK_M1_2P_INC2X`) | Case 2: Mesh Sizing Sensitivity (`PK_M1_3P_PFM`) |
+| :--- | :--- | :--- |
+| **PBS Job ID** | **`1400738.mmaster02`** | **`1400739.mmaster02`** |
+| **Execution Node** | `mnode097/0` | `mnode097/1` |
+| **Queue / Resource** | `normal_imfdfkmq` (1 CPU, 32 GB) | `normal_imfdfkmq` (1 CPU, 32 GB) |
+| **Status** | **RUNNING** | **RUNNING** |
+| **Model Directory** | `models/pandey_kumar_mode1/08_task7_inc_sens_2x/` | `models/pandey_kumar_mode1/09_task7_mesh_sens_3pct/` |
+| **Datacheck Job ID** | `1400732.mmaster02` (`Exit status 0`) | `1400737.mmaster02` (`Exit status 0`) |
+| **Input Deck SHA-256** | `79093a117a14b9bc94e0d814253b61f5a4655001214ea7931e12e68e99610e02` | `80e15fa8e4d02b61cf3dcffb46a6942d7d2896599df41b63094691dd4648cded` |
+| **Subroutine SHA-256** | `5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd` | `5abf77b570c67283f082e02d8ba2fd0111db843ad9c4cd3501eb9aaaf149dfdd` |
+| **Physical Mesh** | $15{,}396$ elements ($14{,}963$ Quad4, $433$ Tri3), $15{,}414$ nodes | $7{,}633$ elements ($7{,}400$ Quad4, $233$ Tri3), $7{,}694$ nodes |
+| **Factor Varied** | Time stepping doubled: $3{,}500$ incs ($1{,}000$ Step 1, $2{,}500$ Step 2) | errorTarget = $3.0\%$ (intermediate mesh density) |
+| **Factor Held Fixed** | Accepted $15{,}396$-element mesh, all geometry, physics, subroutine | Authoritative $7{,}000$-increment fixed schedule, physics, subroutine |
+| **Comparison Baseline** | Accepted solve `1400395.mmaster02` ($7{,}028$ incs, $F_{\text{peak}} = 0.7482\,\mathrm{kN}$) | 2% accepted (`1400395`) and 5% sensitivity (`1400396`) |
+
+---
+
+## 3. Authoritative Task-5 Production Baseline (Job `1400395.mmaster02`)
+
+- **Physical Discretization**: $15{,}396$ elements ($14{,}963$ Quad4, $433$ Tri3), $15{,}414$ nodes.
+- **Quantitative Response**:
+  - $K_0 = 137.8437\,\mathrm{kN/mm}$ ($-0.08\%$ error vs $137.95\,\mathrm{kN/mm}$ baseline);
+  - $F_{\text{peak}} = 0.748197\,\mathrm{kN}$ ($-1.29\%$ error vs $0.7580\,\mathrm{kN}$ published target);
+  - $u_{\text{peak}} = 0.005775\,\mathrm{mm}$ ($-1.45\%$ error vs $0.005860\,\mathrm{mm}$ published target);
+  - Final displacement $u = 0.0100\,\mathrm{mm}$, final $RF = 0.01267\,\mathrm{kN}$, post-peak load drop $98.31\%$;
+  - Solver Performance: $7{,}028$ increments, $0$ cutbacks, $0$ numerical warnings, \texttt{Exit status 0}, walltime $07\,\mathrm{h}\,06\,\mathrm{min}\,46\,\mathrm{s}$, CPUT $06\,\mathrm{h}\,52\,\mathrm{min}\,21\,\mathrm{s}$.
+- **Verdict**: **`SCIENTIFICALLY_ACCEPTED`** (Passes all 5 Task-5 acceptance gates).
+
+---
+
+## 4. Authoritative Task-6 Companion Bridge Baseline (Job `1400408.mmaster02`)
+
+- **Mechanical Parity**: Exact $\mathbf{0.000000\%}$ force difference vs Job `1400395` across all $7{,}028$ solver increments.
+- **Runtimes**: Walltime $07\,\mathrm{h}\,23\,\mathrm{min}\,57\,\mathrm{s}$, CPUT $07\,\mathrm{h}\,08\,\mathrm{min}\,31\,\mathrm{s}$.
+- **Phase Field Range**: $0.0 \le d \le 1.00518084$ (bounded $+0.52\%$ excess confirmed as `FORMULATION_LEVEL_NOT_VISUALIZATION_TRANSFER` / `POSSIBLE_FORMULATION_DISCRETIZATION_CAUSE`).
+- **External Dependency Status**: **`TASK6_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY`** (Task 6 is not complete; supervisor request package prepared).

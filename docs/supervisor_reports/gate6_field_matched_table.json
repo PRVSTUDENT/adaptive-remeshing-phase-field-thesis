@@ -1,0 +1,170 @@
+[
+  {
+    "checkpoint_label": "Elastic Checkpoint",
+    "u_target_mm": 0.001,
+    "u_ref_mm": 0.001,
+    "u_adapt_mm": 0.001,
+    "frame_ref": "Step-1, Frame 400",
+    "frame_adapt": "Step-1, Frame 400",
+    "rf_ref_kN": 0.137836,
+    "rf_adapt_kN": 0.137865,
+    "d_max_ref": 0.009891,
+    "d_max_adapt_1404454": "UNAVAILABLE_IN_1404454_ODB",
+    "d_max_adapt_hist_1399632": 0.010214,
+    "H_max_ref": "UNAVAILABLE_IN_ODB (UEL internal)",
+    "H_max_adapt": "UNAVAILABLE_IN_ODB (UEL internal)",
+    "crack_tip_coord_ref": [
+      0.5,
+      0.5
+    ],
+    "crack_tip_coord_adapt_hist": [
+      0.5,
+      0.5
+    ],
+    "path_deviation_ref_y_mm": 0.0,
+    "path_deviation_adapt_hist_y_mm": 0.0,
+    "profile_sampling_definition": "Horizontal ligament line y = 0.50 mm (x in [0.40, 1.00] mm); Transverse line x = 0.55 mm (y in [0.45, 0.55] mm)",
+    "profile_diff_L2_norm": "NOT_COMPUTABLE_DUE_TO_MISSING_1404454_SDV14",
+    "notes": "Linear elastic regime; zero crack growth; strictly horizontal symmetry"
+  },
+  {
+    "checkpoint_label": "Pre-Peak Checkpoint",
+    "u_target_mm": 0.004,
+    "u_ref_mm": 0.004,
+    "u_adapt_mm": 0.004,
+    "frame_ref": "Step-1, Frame 1600",
+    "frame_adapt": "Step-1, Frame 1600",
+    "rf_ref_kN": 0.537782,
+    "rf_adapt_kN": 0.537412,
+    "d_max_ref": 0.184101,
+    "d_max_adapt_1404454": "UNAVAILABLE_IN_1404454_ODB",
+    "d_max_adapt_hist_1399632": 0.18534,
+    "H_max_ref": "UNAVAILABLE_IN_ODB (UEL internal)",
+    "H_max_adapt": "UNAVAILABLE_IN_ODB (UEL internal)",
+    "crack_tip_coord_ref": [
+      0.5,
+      0.5
+    ],
+    "crack_tip_coord_adapt_hist": [
+      0.5,
+      0.5
+    ],
+    "path_deviation_ref_y_mm": 0.0,
+    "path_deviation_adapt_hist_y_mm": 0.0,
+    "profile_sampling_definition": "Horizontal ligament line y = 0.50 mm; Transverse line x = 0.55 mm",
+    "profile_diff_L2_norm": "NOT_COMPUTABLE_DUE_TO_MISSING_1404454_SDV14",
+    "notes": "Pre-peak diffuse damage accumulation around notch tip; no path bifurcation"
+  },
+  {
+    "checkpoint_label": "Damage Localization Initiation",
+    "u_target_mm": 0.005,
+    "u_ref_mm": 0.005,
+    "u_adapt_mm": 0.005,
+    "frame_ref": "Step-1, Frame 2000",
+    "frame_adapt": "Step-1, Frame 2000",
+    "rf_ref_kN": 0.661354,
+    "rf_adapt_kN": 0.655866,
+    "d_max_ref": 0.336539,
+    "d_max_adapt_1404454": "UNAVAILABLE_IN_1404454_ODB",
+    "d_max_adapt_hist_1399632": 0.341205,
+    "H_max_ref": "UNAVAILABLE_IN_ODB (UEL internal)",
+    "H_max_adapt": "UNAVAILABLE_IN_ODB (UEL internal)",
+    "crack_tip_coord_ref": [
+      0.5,
+      0.5
+    ],
+    "crack_tip_coord_adapt_hist": [
+      0.5,
+      0.5
+    ],
+    "path_deviation_ref_y_mm": 0.0007,
+    "path_deviation_adapt_hist_y_mm": 0.0,
+    "profile_sampling_definition": "Horizontal ligament line y = 0.50 mm; Transverse line x = 0.55 mm",
+    "profile_diff_L2_norm": "NOT_COMPUTABLE_DUE_TO_MISSING_1404454_SDV14",
+    "notes": "Initial localized damage ridge formation at notch tip"
+  },
+  {
+    "checkpoint_label": "Near-Peak Neighborhood",
+    "u_target_mm": 0.00575,
+    "u_ref_mm": 0.00575,
+    "u_adapt_mm": 0.00575,
+    "frame_ref": "Step-2, Frame 750",
+    "frame_adapt": "Step-2, Frame 300",
+    "rf_ref_kN": 0.75421,
+    "rf_adapt_kN": 0.745325,
+    "d_max_ref": 1.000722,
+    "d_max_adapt_1404454": "UNAVAILABLE_IN_1404454_ODB",
+    "d_max_adapt_hist_1399632": 0.98542,
+    "H_max_ref": "UNAVAILABLE_IN_ODB (UEL internal)",
+    "H_max_adapt": "UNAVAILABLE_IN_ODB (UEL internal)",
+    "crack_tip_coord_ref": [
+      0.535,
+      0.5
+    ],
+    "crack_tip_coord_adapt_hist": [
+      0.53,
+      0.5
+    ],
+    "path_deviation_ref_y_mm": 0.005,
+    "path_deviation_adapt_hist_y_mm": 0.0,
+    "profile_sampling_definition": "Horizontal ligament line y = 0.50 mm; Transverse line x = 0.55 mm",
+    "profile_diff_L2_norm": "NOT_COMPUTABLE_DUE_TO_MISSING_1404454_SDV14",
+    "notes": "Adaptive peak reached at u = 0.00575 mm (Fmax = 0.7453 kN); ref peak at u = 0.005857 mm (0.7578 kN)"
+  },
+  {
+    "checkpoint_label": "Post-Peak Drop State",
+    "u_target_mm": 0.006,
+    "u_ref_mm": 0.006,
+    "u_adapt_mm": 0.006,
+    "frame_ref": "Step-2, Frame 1000",
+    "frame_adapt": "Step-2, Frame 400",
+    "rf_ref_kN": 0.000222,
+    "rf_adapt_kN": 0.730335,
+    "d_max_ref": 1.000692,
+    "d_max_adapt_1404454": "UNAVAILABLE_IN_1404454_ODB",
+    "d_max_adapt_hist_1399632": 1.0,
+    "H_max_ref": "UNAVAILABLE_IN_ODB (UEL internal)",
+    "H_max_adapt": "UNAVAILABLE_IN_ODB (UEL internal)",
+    "crack_tip_coord_ref": [
+      1.0,
+      0.5
+    ],
+    "crack_tip_coord_adapt_hist": [
+      1.0,
+      0.5
+    ],
+    "path_deviation_ref_y_mm": 0.0093,
+    "path_deviation_adapt_hist_y_mm": 0.0,
+    "profile_sampling_definition": "Horizontal ligament line y = 0.50 mm; Transverse line x = 0.55 mm",
+    "profile_diff_L2_norm": "NOT_COMPUTABLE_DUE_TO_MISSING_1404454_SDV14",
+    "notes": "Post-peak softening discrepancy: ref underwent rapid load drop; adaptive exhibits delayed plateau"
+  },
+  {
+    "checkpoint_label": "Terminal Common Cutoff State",
+    "u_target_mm": 0.00677407,
+    "u_ref_mm": 0.00677407,
+    "u_adapt_mm": 0.00677407,
+    "frame_ref": "Step-2, Frame 1774 (interpolated)",
+    "frame_adapt": "Step-2, Frame 1784 (last converged)",
+    "rf_ref_kN": 0.000454,
+    "rf_adapt_kN": 0.184465,
+    "d_max_ref": 1.0006,
+    "d_max_adapt_1404454": "UNAVAILABLE_IN_1404454_ODB",
+    "d_max_adapt_hist_1399632": 1.0,
+    "H_max_ref": "UNAVAILABLE_IN_ODB (UEL internal)",
+    "H_max_adapt": "UNAVAILABLE_IN_ODB (UEL internal)",
+    "crack_tip_coord_ref": [
+      1.0,
+      0.5
+    ],
+    "crack_tip_coord_adapt_hist": [
+      1.0,
+      0.5
+    ],
+    "path_deviation_ref_y_mm": 0.0093,
+    "path_deviation_adapt_hist_y_mm": 0.0,
+    "profile_sampling_definition": "Horizontal ligament line y = 0.50 mm; Transverse line x = 0.55 mm",
+    "profile_diff_L2_norm": "NOT_COMPUTABLE_DUE_TO_MISSING_1404454_SDV14",
+    "notes": "Solver cutback limit reached in 1404454 (dt < 1e-14, Attempt 4); deep post-peak incomplete"
+  }
+]

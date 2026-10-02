@@ -1,0 +1,35 @@
+\begin{thebibliography}{4}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Das(2023)]{Abaqus2023}
+\emph{Abaqus 2023 Documentation: Analysis User's Guide}.
+\newblock Dassault Syst{\`e}mes Simulia Corp., Providence, RI, USA, 2023.
+
+\bibitem[Moln\'ar and Gravouil(2017)]{Molnar2017}
+G.~Moln\'ar and A.~Gravouil.
+\newblock 2d and 3d abaqus implementation of a robust staggered phase-field
+  solution for modeling brittle fracture.
+\newblock \emph{Finite Elements in Analysis and Design}, 130:\penalty0 27--38,
+  2017.
+\newblock \doi{10.1016/j.finel.2017.03.002}.
+
+\bibitem[Msekh et~al.(2015)Msekh, Sargado, Jamshidian, Areias, and
+  Rabczuk]{Msekh2015}
+M.~A. Msekh, J.~M. Sargado, M.~Jamshidian, P.~M. Areias, and T.~Rabczuk.
+\newblock Abaqus implementation of phase-field model for brittle fracture.
+\newblock \emph{Computational Materials Science}, 96:\penalty0 472--484, 2015.
+\newblock \doi{10.1016/j.commatsci.2014.05.071}.
+
+\bibitem[Pandey and Kumar(2025)]{Pandey2025}
+A.~Pandey and S.~Kumar.
+\newblock A simple and robust mesh refinement implementation in abaqus for
+  phase field modelling of brittle fracture.
+\newblock \emph{Computer Modeling in Engineering \& Sciences}, 144\penalty0
+  (3):\penalty0 3251--3286, 2025.
+\newblock \doi{10.32604/cmes.2025.067858}.
+
+\end{thebibliography}

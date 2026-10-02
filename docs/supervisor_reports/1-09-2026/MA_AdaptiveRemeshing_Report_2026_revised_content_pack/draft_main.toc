@@ -1,0 +1,64 @@
+\contentsline {chapter}{Abstract}{4}{chapter*.2}%
+\contentsline {chapter}{\numberline {1}Problem Statement, Theoretical Basis, and Reference Methods}{6}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Problem statement and thesis scope}{6}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Governing phase-field fracture formulation}{7}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Literature methodology and state of the art}{8}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Abaqus UEL/UMAT multi-layer architecture}{8}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Scope and structure of this report}{9}{section.1.5}%
+\contentsline {chapter}{\numberline {2}Task 3: Fixed-Mesh Baseline Verification and Reference Reproduction}{10}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Purpose of the baseline verification}{10}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Moln\'ar one-element constitutive verification}{10}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Moln\'ar--Gravouil single-edge-notched reproduction}{10}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Authoritative fixed-mesh Mode-I reproduction (Task 3)}{12}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Crack geometry verification: Sharp seam vs blunt notch}{15}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Task 4: Abaqus-Native Error-Guided Mesh Refinement Implementation}{16}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Methodological principle and role of \texttt {MISESERI}}{16}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Automated Python workflow architecture}{16}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Critical implementation finding: The \texttt {generateMesh()} overwrite defect}{18}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Discretization characteristics and mesh comparison}{18}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Task 4 verification conclusion}{19}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Nonmatching State Transfer and Restart Mechanics}{20}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Methodological context: Pre-refinement vs evolving remeshing}{20}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Transferred state fields and mapping operators}{20}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Runtime state ingestion via \texttt {UEXTERNALDB}}{21}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Four-stage restart sequence and mechanical continuity findings}{21}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Energy accounting and state-transfer synthesis}{23}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Multi-Resolution and Mode-II Validation Studies}{24}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Purpose of secondary validation studies}{24}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Uniform Mode-II shear mesh-refinement study}{24}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Multi-resolution transfer testing}{26}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Summary}{26}{section.5.4}%
+\contentsline {chapter}{\numberline {6}HPC Execution and Parallelization Boundary}{27}{chapter.6}%
+\contentsline {section}{\numberline {6.1}HPC cluster execution environment}{27}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Serial execution boundary and state synchronization}{27}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Notification path verification}{28}{section.6.3}%
+\contentsline {chapter}{\numberline {7}Production Validation: Task 5 Adaptive Reproduction and Task 6 Visualization Integration}{29}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Introduction and Objectives}{29}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Part I: Task 5 Predecessor Calculations and Diagnostic Attempts}{29}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Blunt-notch exploratory trial (Job \texttt {1398807.mmaster02}, Rejected)}{29}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Sharp-seam nominal-1\% execution (Jobs \texttt {1398865} and \texttt {1399632})}{29}{subsection.7.2.2}%
+\contentsline {section}{\numberline {7.3}Part II: Forensic Audit of the Nominal-1\% Mesh Discrepancy}{30}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Mathematical analysis of \texttt {MISESERI} and scale invariance}{30}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Systematic hypothesis testing matrix}{31}{subsection.7.3.2}%
+\contentsline {subsection}{\numberline {7.3.3}Authoritative scientific discrepancy classification}{31}{subsection.7.3.3}%
+\contentsline {section}{\numberline {7.4}Part III: Authoritative Task 5 Quantitative Reproduction (Job \texttt {1400395.mmaster02})}{32}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Production 2.0\% adaptive mesh properties}{32}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Quantitative benchmark reproduction results}{33}{subsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.4.3}Evaluation of Task-5 scientific acceptance gates}{33}{subsection.7.4.3}%
+\contentsline {section}{\numberline {7.5}Part IV: Task 6 Visualization Workflow and Companion UMAT Bridge}{35}{section.7.5}%
+\contentsline {subsection}{\numberline {7.5.1}Concept separation: Companion UMAT bridge vs authentic ABAQUSER}{35}{subsection.7.5.1}%
+\contentsline {subsection}{\numberline {7.5.2}Architecture and verification of the companion UMAT bridge (Job \texttt {1400408.mmaster02})}{35}{subsection.7.5.2}%
+\contentsline {subsection}{\numberline {7.5.3}Phase-field numerical overshoot investigation}{35}{subsection.7.5.3}%
+\contentsline {subsection}{\numberline {7.5.4}Status of authentic IMFD ABAQUSER dependency}{36}{subsection.7.5.4}%
+\contentsline {section}{\numberline {7.6}Chapter Summary}{36}{section.7.6}%
+\contentsline {chapter}{\numberline {8}Conclusions, Project Status, and Next Work}{38}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Summary of established scientific results}{38}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Authoritative thesis task status}{39}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Roadmap for immediate next work}{40}{section.8.3}%
+\contentsline {chapter}{\numberline {A}Computational Provenance and Authoritative Execution Ledger}{41}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Authoritative HPC execution ledger}{41}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Cryptographic checksums of primary production packages}{41}{section.A.2}%
+\contentsline {subsection}{\numberline {A.2.1}Accepted Task-5 adaptive production solve (Job \texttt {1400395.mmaster02})}{41}{subsection.A.2.1}%
+\contentsline {subsection}{\numberline {A.2.2}Verified Task-6 companion visualization solve (Job \texttt {1400408.mmaster02})}{41}{subsection.A.2.2}%
+\contentsline {subsection}{\numberline {A.2.3}Authoritative Task-3 fixed-mesh reference (Job \texttt {1398090.mmaster02})}{43}{subsection.A.2.3}%
+\contentsline {section}{\numberline {A.3}HPC notification status record}{43}{section.A.3}%

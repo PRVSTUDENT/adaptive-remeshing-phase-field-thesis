@@ -1,0 +1,71 @@
+{
+  "odb_provenance": "PK_M1_PRE_UEL_CORRECTED.odb (Job 1409554.mmaster02, 1507 increments)", 
+  "is_100pct_deterministic": false, 
+  "deterministic_repeats_1pct": [
+    {
+      "coarse_elements": 2963, 
+      "error_target": 1.0, 
+      "adapted_elements": 48329, 
+      "coarse_nodes": 3039, 
+      "adapted_nodes": 48093, 
+      "inp_hash": "f7a7886146a9cd255c05170bdaef22f113f9c8d40324fc0dc61383ff50a51dea", 
+      "model_name": "M1_1PCT_REP1"
+    }, 
+    {
+      "coarse_elements": 2963, 
+      "error_target": 1.0, 
+      "adapted_elements": 48329, 
+      "coarse_nodes": 3039, 
+      "adapted_nodes": 48093, 
+      "inp_hash": "997f520395afd637fe15dfb8c03c8c3075cfe82f15a632fc9bddd0c8a46992c3", 
+      "model_name": "M1_1PCT_REP2"
+    }, 
+    {
+      "coarse_elements": 2963, 
+      "error_target": 1.0, 
+      "adapted_elements": 48329, 
+      "coarse_nodes": 3039, 
+      "adapted_nodes": 48093, 
+      "inp_hash": "c9f82c460ddf6e208e50878ec9fe646820c92da094bddad53b2178aacb5a0c0a", 
+      "model_name": "M1_1PCT_REP3"
+    }
+  ], 
+  "sensitivity_sweep": {
+    "3pct": {
+      "coarse_elements": 2963, 
+      "error_target": 3.0, 
+      "adapted_elements": 5158, 
+      "coarse_nodes": 3039, 
+      "adapted_nodes": 5269, 
+      "inp_hash": "e1a2bec085975490393caf2163ec110800f64418cb9f53b21946eda8548083a0", 
+      "model_name": "M1_3PCT_FINAL"
+    }, 
+    "5pct": {
+      "coarse_elements": 2963, 
+      "error_target": 5.0, 
+      "adapted_elements": 3763, 
+      "coarse_nodes": 3039, 
+      "adapted_nodes": 3860, 
+      "inp_hash": "14f20fb34b59357ad3e8fb5c62c52993ab96a40153573c3832839d5d1db4182a", 
+      "model_name": "M1_5PCT_FINAL"
+    }, 
+    "2pct": {
+      "coarse_elements": 2963, 
+      "error_target": 2.0, 
+      "adapted_elements": 11737, 
+      "coarse_nodes": 3039, 
+      "adapted_nodes": 11791, 
+      "inp_hash": "62ad61e56a780e5bac9bfdb0a88ca1c1ccf50dfb5b5e8f5cf4deba59576ebf84", 
+      "model_name": "M1_2PCT_FINAL"
+    }, 
+    "1pct": {
+      "coarse_elements": 2963, 
+      "error_target": 1.0, 
+      "adapted_elements": 48329, 
+      "coarse_nodes": 3039, 
+      "adapted_nodes": 48093, 
+      "inp_hash": "f7a7886146a9cd255c05170bdaef22f113f9c8d40324fc0dc61383ff50a51dea", 
+      "model_name": "M1_1PCT_REP1"
+    }
+  }
+}

@@ -1,0 +1,200 @@
+\chapter{Error-Indicator-Guided Mesh Refinement and Reproduction Analysis}
+\label{chap:miseseri_refinement}
+
+\section{Introduction and Theoretical Motivation}
+\label{sec:miseseri_intro}
+
+As established in Chapter~\ref{chap:baseline_verification}, resolving the steep spatial gradients of the phase field across diffuse crack bands requires high spatial discretization ($h \ll l_0$). In uniform finite element grids, satisfying $h \le l_0/2 = 0.00375\,\text{mm}$ across the entire specimen domain leads to substantial computational overhead. Because phase-field damage $d(\mathbf{x}, t)$ localizes into narrow spatial corridors while the surrounding domain remains in the linear elastic regime ($d \approx 0$), uniform fine meshing represents an inefficient allocation of degrees of freedom.
+
+To overcome this limitation without implementing complex dynamic in-analysis remeshing kernels, this chapter investigates an \textbf{error-indicator-guided pre-refinement methodology} adapted from Pandey and Kumar~\cite{pandey2025}. The workflow leverages Abaqus' built-in recovery-based stress discretization error indicator (\texttt{MISESERI}) obtained from a rapid linear elastic pre-analysis to generate an optimized, graded mesh before executing the non-linear phase-field fracture simulation.
+
+\section{Pandey--Kumar Two-Job Adaptive Refinement Procedure}
+\label{sec:miseseri_workflow}
+
+The automated two-job pre-refinement procedure operates as a sequential pipeline:
+\begin{center}
+\setlength{\fboxsep}{4pt}
+\fbox{Coarse Job-1}
+$\rightarrow$ \fbox{Linear-Elastic Solve}
+$\rightarrow$ \fbox{\texttt{MISESERI} Field Extraction}
+$\rightarrow$ \fbox{\texttt{RemeshingRule}}
+$\rightarrow$ \fbox{\texttt{adaptiveRemesh}}
+$\rightarrow$ \fbox{Job-2 Multi-Layer Generation}
+$\rightarrow$ \fbox{Nonlinear Fracture Solve}.
+\end{center}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{fig_refinement_workflow.pdf}
+\caption[Pandey--Kumar two-job adaptive pre-refinement workflow.]{Pandey--Kumar two-job adaptive pre-refinement workflow: a linear-elastic pre-analysis on a coarse mesh evaluates stress recovery error, which drives native \texttt{adaptiveRemesh} before reconstructing the multi-layer UEL/UMAT phase-field model.}
+\label{fig:refinement_workflow_thesis}
+\end{figure}
+
+As illustrated in Figure~\ref{fig:refinement_workflow_thesis}, the procedure decouples error indicator evaluation from the non-linear phase-field solver:
+\begin{enumerate}
+    \item \textbf{Job 1 (Linear-Elastic Pre-Analysis)}: A linear elastic analysis is executed on a coarse mesh up to a small prescribed displacement ($u = 0.0010\,\text{mm}$), well below damage initiation. Stress components and element volumes are recorded to the output database (\texttt{.odb}).
+    \item \textbf{Error Extraction and Remeshing Rule}: The Abaqus \texttt{RemeshingRule} evaluates the stress recovery error indicator (\texttt{MISESERI}) and computes a spatially varying target element size field $h_{\mathrm{new}}(\mathbf{x})$.
+    \item \textbf{Native Mesh Regeneration (\texttt{adaptiveRemesh})}: The Abaqus/CAE meshing kernel regenerates a graded mesh satisfying the target sizing field with smooth aspect ratio transitions.
+    \item \textbf{Multi-Layer Model Reconstruction (Job 2)}: The three-layer UEL/UMAT architecture is automatically generated on the adapted mesh, and the full non-linear fracture simulation is solved.
+\end{enumerate}
+
+\section{Physical Understanding and Provenance of MISESERI}
+\label{sec:miseseri_formulation}
+
+\subsection{Stress Discretization Error Indicator}
+\texttt{MISESERI} is the Abaqus stress discretization error indicator associated with the recovered von Mises stress field in linear continuum elasticity \citep{abaqus2023}. In standard $C^0$-continuous Lagrangian finite elements, stress fields $\boldsymbol{\sigma}_h = \mathbb{C}_0 : \boldsymbol{\varepsilon}(\mathbf{u}_h)$ are piecewise continuous within elements but discontinuous across inter-element boundaries. The recovery-based error estimator constructs a continuous, higher-order recovered stress field $\boldsymbol{\sigma}^*$ by patch averaging:
+\begin{equation}
+\label{eq:miseseri_element_integral}
+\text{MISESERI}_e = \sqrt{\frac{1}{V_e} \int_{\Omega_e} \left[ q(\boldsymbol{\sigma}^*) - q(\boldsymbol{\sigma}_h) \right]^2 \mathrm{d}\Omega},
+\end{equation}
+where $q(\boldsymbol{\sigma}) = \sqrt{\frac{3}{2}\mathbf{S}:\mathbf{S}}$ is the von Mises equivalent stress and $V_e$ is the element volume.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{fig_miseseri_concept.png}
+\caption[Directional relationship of \texttt{MISESERI} under uniform-error sizing.]{Directional relationship of \texttt{MISESERI} under uniform-error sizing: elevated stress error near singularities dictates local refinement without representing a direct algebraic formula to element size.}
+\label{fig:miseseri_concept_thesis}
+\end{figure}
+
+Crucially, \texttt{MISESERI} is based strictly on stress-recovery error estimation on the linear-elastic continuum stress field:
+\begin{itemize}
+    \item It is \textbf{not} a phase-field error indicator;
+    \item It is \textbf{not} a damage error indicator;
+    \item It is \textbf{not} a fracture energy imbalance indicator.
+\end{itemize}
+It serves as a geometric proxy that identifies regions of high elastic stress gradients prior to crack initiation (Figure~\ref{fig:miseseri_concept_thesis}).
+
+\subsection{Sizing Rules and Target Error Interpretation}
+The sizing parameter \texttt{errorTarget=1.0} in Listing~1 of Pandey and Kumar~\cite{pandey2025} denotes a $1.0\%$ target error tolerance under \texttt{UNIFORM\_ERROR} sizing:
+\begin{equation}
+\label{eq:error_target_def}
+\eta_e = \frac{\text{MISESERI}_e}{\max_{\mathbf{x} \in \Omega} q(\boldsymbol{\sigma}^*)} \times 100\% \le \eta_{\mathrm{target}}.
+\end{equation}
+It does \textbf{not} mean $\mathtt{MISESERI} = 1.0$ or that $1\%$ of elements are refined. Similarly, \texttt{errorTarget=2.0} specifies a $2.0\%$ target tolerance, not $\mathtt{MISESERI} = 2.0$.
+
+\section{Canonical Mode-I Pre-Analysis and Adapted Mesh Topologies}
+\label{sec:canonical_mode1_preanalysis}
+
+The canonical Mode-I pre-analysis is conducted on a coarse finite element mesh containing $2{,}906$ finite elements ($2{,}818$ CPE4 + $88$ CPE3) and $2{,}988$ nodes, generating exactly $2{,}906$ scalar \texttt{WHOLE\_ELEMENT} \texttt{MISESERI} error values (Figure~\ref{fig:miseseri_error_map_thesis}).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figure_3_1_canonical_mode1_miseseri_error_map.png}
+\caption[Canonical Mode-I \texttt{MISESERI} error indicator field.]{Canonical Mode-I \texttt{MISESERI} error indicator field evaluated on the 2,906-element coarse mesh, showing error concentration localized at the initial crack tip.}
+\label{fig:miseseri_error_map_thesis}
+\end{figure}
+
+Applying \texttt{errorTarget=1.0\%} with \texttt{coarseningFactor=NOT\_ALLOWED} generates the adapted 71,320-element mesh (Figure~\ref{fig:coarse_vs_adapted_thesis}). The adapted element size $h$ correlates closely with the coarse indicator field, concentrating fine elements along the prospective fracture corridor (Figure~\ref{fig:miseseri_association_thesis}).
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{fig03a_coarse_mesh_cae.png}
+  \caption*{(a) Coarse pre-analysis mesh ($2{,}906$ elements)}
+\end{minipage}\hfill
+\begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{fig13_adaptive_71320_mesh_cae.png}
+  \caption*{(b) Adapted mesh ($71{,}320$ elements)}
+\end{minipage}
+\caption[Comparison of initial coarse and adapted finite element meshes.]{Visual comparison of (a) initial coarse mesh ($2{,}906$ elements) and (b) native adapted mesh ($71{,}320$ elements).}
+\label{fig:coarse_vs_adapted_thesis}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.80\textwidth]{fig_miseseri_spatial_association.png}
+\caption[Empirical spatial association between \texttt{MISESERI} and adapted element size.]{Empirical spatial association between coarse \texttt{MISESERI} and adapted element size $h$ for the Mode-I benchmark.}
+\label{fig:miseseri_association_thesis}
+\end{figure}
+
+\section{Resolution of the 71,320-Element Initial Stiffness Defect}
+\label{sec:stiffness_defect_resolution}
+
+\subsection{Root Cause Isolation: Keyword Preprocessing Card Limit}
+An early execution of the adapted 71,320-element full-fracture model (Job \texttt{1399632}) exhibited an unexpected structural stiffness deficit ($K_0 \approx 122.38\,\text{kN/mm}$ vs.\ reference $137.95\,\text{kN/mm}$, a $-11.28\%$ discrepancy).
+
+A comprehensive keyword-level diagnostic audit isolated the exact root cause:
+\begin{itemize}
+    \item The bottom boundary node set \texttt{N\_BOTTOM} contained 150 node identifiers written as a single comma-delimited line in the input deck without the \texttt{GENERATE} parameter.
+    \item The Abaqus free-format input deck preprocessor parses at most 16 node entries per data line; the remaining 134 intended nodes were silently omitted from the parsed node set without triggering an error.
+    \item Consequently, only 16 bottom nodes were constrained in $u_y$, allowing the 134 unconstrained bottom edge nodes to lift vertically by up to $48.34\%$ of the applied stroke during tensile loading (Figure~\ref{fig:nbottom_lift_thesis}).
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{fig_nbottom_lift.png}
+\caption[Bottom-edge kinematics illustrating unconstrained vertical lift and corrected planar support.]{Bottom-edge kinematics showing unconstrained vertical lift in the defective deck (left) and rigid planar support restored after multi-line card wrapping (right).}
+\label{fig:nbottom_lift_thesis}
+\end{figure}
+
+\subsection{Verified Mechanical Recovery and Gate Closure}
+Wrapping the \texttt{N\_BOTTOM} data across valid lines ($\le 16$ entries per line) restored all 150 boundary constraints. The correction was verified in:
+\begin{enumerate}
+    \item \textbf{Frozen Elastic Requalification (Job \texttt{1405044.mmaster02})}: Achieved $K_0 = 138.021013\,\text{kN/mm}$ ($+0.05\%$ vs reference anchor) with zero node lift and zero warnings.
+    \item \textbf{Authoritative Full Fracture (Job \texttt{1404933.mmaster02})}: Completed the entire fracture process, achieving $K_0 = 137.820804\,\text{kN/mm}$ ($-0.09\%$) and $F_{\max} = 0.745325\,\text{kN}$ (Table~\ref{tab:nbottom_summary_thesis} and Figure~\ref{fig:mode1_fu_recovery_thesis}).
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{Mechanical response recovery after resolving the \texttt{N\_BOTTOM} keyword line limit.}
+\label{tab:nbottom_summary_thesis}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Case Description} & \textbf{Job ID} & \textbf{Elements} & $K_0$ [kN/mm] & $F_{\max}$ [kN] \\
+\midrule
+Fixed Reference Anchor & \texttt{1398090} & $15{,}192$ & $137.945520$ & $0.757778$ \\
+Defective Preprocessing & \texttt{1399632} & $71{,}320$ & $122.379000$ & $0.478203$ \\
+Corrected Full Fracture & \texttt{1404933} & $71{,}320$ & $137.820804$ & $0.745325$ \\
+Frozen Requalification & \texttt{1405044} & $71{,}320$ & $138.021013$ & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.78\textwidth]{fig_mode1_fu_recovery.pdf}
+\caption[Force--displacement response demonstrating structural stiffness recovery.]{Force--displacement response demonstrating reference-consistent structural stiffness recovery (within 0.09\%) upon correcting the \texttt{N\_BOTTOM} card format.}
+\label{fig:mode1_fu_recovery_thesis}
+\end{figure}
+
+Gate 6A is formally classified as \textbf{\texttt{RESOLVED\_AND\_CLOSED}}.
+
+\section{Discrepancy Audit: 71,320 vs 13,941 Elements and Governing Supervisor Decision}
+\label{sec:discrepancy_audit_71k_vs_14k}
+
+\subsection{Publication Discrepancy Investigation}
+Pandey and Kumar~\cite{pandey2025} report an adapted Mode-I element count of $\approx 13{,}941$, whereas applying the published Listing~1 settings to the full domain generates $71{,}320$ finite elements.
+
+An exhaustive software and parameter audit established:
+\begin{enumerate}
+    \item \textbf{Abaqus Release Invariance}: Abaqus 2019 GA, 2021.HF26, 2022 GA, and 2023.HF4 all generate bitwise identical $71{,}320$-element meshes with matching cryptographic hashes.
+    \item \textbf{Regional Breakdown}: The crack process corridor ($|y| \le 0.05\,\text{mm}$) contains $9{,}061$ elements ($12.7\%$), while far-field and transition regions contain $62{,}259$ elements ($87.3\%$) because coarsening was disallowed (\texttt{coarseningFactor=NOT\_ALLOWED}).
+\end{enumerate}
+
+\subsection{Governing Supervisor Decision and Parametric Sensitivity Trends}
+On 17 September 2026, the supervisory committee formally closed this investigation under the classification:
+\begin{center}
+  \textbf{\texttt{SUPERVISOR\_ACCEPTED\_REPRODUCTION\_LIMITATION\_CLOSED}}
+\end{center}
+The supervisor confirmed that the complete author code is unavailable, the publication does not disclose sufficient information to reproduce the specific $13{,}941$ element count, and general trend reproduction is fully sufficient.
+
+\begin{table}[htbp]
+\centering
+\caption{Parametric sensitivity of adapted finite element counts to \texttt{errorTarget}.}
+\label{tab:error_target_sensitivity_thesis}
+\begin{tabular}{lrrrl}
+\toprule
+\textbf{Case} & \texttt{errorTarget} & \textbf{Sensitivity Count} & \textbf{Production Batch} & \textbf{Classification} \\
+\midrule
+$A_1$ & $1.0\%$ & $71{,}320$ & $71{,}320$ & Publication-literal 1\% target \\
+$A_2$ & $2.0\%$ & $17{,}687$ & $15{,}396$ & $2.0\%$ error tolerance \\
+$A_3$ & $3.0\%$ & $8{,}120$ & $7{,}633$ & $3.0\%$ error tolerance \\
+$A_4$ & $5.0\%$ & $4{,}356$ & $4{,}194$ & $5.0\%$ error tolerance \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:error_target_sensitivity_thesis} summarizes the preserved sensitivity results across four target error tolerances, demonstrating monotonic mesh reduction as tolerance relaxes.

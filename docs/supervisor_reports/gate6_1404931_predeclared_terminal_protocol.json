@@ -1,0 +1,108 @@
+{
+  "protocol_metadata": {
+    "title": "Pre-Declared Terminal Comparison Protocol: Job 1404931 vs Job 1404454",
+    "benchmark": "Pandey & Kumar (2025) Mode-I 2D Phase-Field Fracture",
+    "frozen_timestamp": "2026-09-12T14:18:00+02:00",
+    "governing_policy": "FROZEN_BEFORE_TERMINAL_RESULT_INSPECTION",
+    "target_job": "1404454.mmaster02 (Authoritative Requalification Baseline)",
+    "diagnostic_job": "1404931.mmaster02 (Companion SDV Instrumentation Diagnostic)",
+    "evaluation_domain": "Shared displacement interval 0 <= u <= min(u_terminal_1404931, 0.006200 mm) using actual RP displacement u2(N_RP)"
+  },
+  "predeclared_extraction_quantities": [
+    {
+      "metric_id": "M01",
+      "name": "Complete F-u Response Curve & Hashes",
+      "description": "Extract raw (u2, RF2) arrays for Job 1404931, compute SHA256 hash, and register array lengths."
+    },
+    {
+      "metric_id": "M02",
+      "name": "Canonical Initial Stiffness K0",
+      "interval": "0 < u <= 0.001000 mm (Step 1 elastic window)",
+      "method": "Ordinary Least Squares (OLS) linear regression F = K0 * u + b",
+      "comparison_targets": {
+        "job_1404454_K0_kN_per_mm": 137.820804,
+        "job_1398090_ref_K0_kN_per_mm": 137.94552,
+        "case_71b_companion_frozen_kN_per_mm": 138.021015
+      }
+    },
+    {
+      "metric_id": "M03",
+      "name": "Peak Reaction Force Fmax and Peak Displacement u(Fmax)",
+      "comparison_targets": {
+        "job_1404454_Fmax_kN": 0.745325,
+        "job_1404454_upeak_mm": 0.00575,
+        "job_1398090_ref_Fmax_kN": 0.757778,
+        "job_1398090_ref_upeak_mm": 0.005857
+      }
+    },
+    {
+      "metric_id": "M04",
+      "name": "First Divergence Threshold Crossings",
+      "thresholds_N": [
+        1.0,
+        5.0,
+        10.0
+      ],
+      "method": "Determine exact displacement u at which |F_1404931(u) - F_1404454(u)| >= threshold"
+    },
+    {
+      "metric_id": "M05",
+      "name": "Global Curve Differences over Common Interval",
+      "metrics": [
+        "Max absolute difference |Delta F|_max [N]",
+        "Pointwise mean absolute difference [N]",
+        "Discrete RMS error [N] and [% of peak load]",
+        "Continuous L2 norm [N] using trapezoidal quadrature"
+      ]
+    },
+    {
+      "metric_id": "M06",
+      "name": "External Work Integral Delta W_ext",
+      "definition": "W_ext = int F du evaluated via trapezoidal rule on identical common displacement interval [0, u_common]",
+      "comparison_target_1404454": "Evaluated over exact matching interval"
+    },
+    {
+      "metric_id": "M07",
+      "name": "Numerical Solver Telemetry & Convergence Progression",
+      "quantities": [
+        "Total increments completed",
+        "Total Newton iterations",
+        "Total cutbacks and cutback attempts",
+        "Minimum achieved time increment dt_min",
+        "Total walltime and CPU time"
+      ]
+    },
+    {
+      "metric_id": "M08",
+      "name": "Field State Damage (SDV14) Checkpoints",
+      "target_checkpoints_u_mm": [
+        0.005,
+        0.0055,
+        0.00575,
+        0.006,
+        "u_common_latest"
+      ],
+      "field_quantities": [
+        "Maximum scalar damage d_max across domain",
+        "Horizontal ligament profile d(x) along y = 0.50 mm (x in [0.40, 1.00] mm)",
+        "Transverse profile d(y) at x = 0.55 mm (y in [0.45, 0.55] mm)"
+      ]
+    },
+    {
+      "metric_id": "M09",
+      "name": "Crack Tip Position & Path Deviation",
+      "definition": "Crack tip defined at d = 0.90 contour along crack front; measure deviation |Delta y| from y = 0.50 mm"
+    },
+    {
+      "metric_id": "M10",
+      "name": "Companion Layer Mechanical Neutrality",
+      "definition": "Verify that companion elements (with DDSDDE = 1.D-11) produce zero spurious stress and negligible reaction force contribution (< 1.0e-8 kN)"
+    }
+  ],
+  "epistemic_reporting_rules": [
+    "1. Report raw numerical differences first, without applying post-hoc acceptance thresholds.",
+    "2. Any tolerance evaluation must reference prior demonstrated solver repeat precision (e.g. Job 1404454 vs 1404306: Delta K0 < 0.001%, Delta Fmax < 0.01%).",
+    "3. In the event of discrepancy in softening drop, evaluate whether it arises from the 4.167x larger displacement increment (Delta u = 4.167 um vs 1.0 um) rather than physical formulation differences.",
+    "4. Do NOT declare MODE1_RESOLUTION_EXTENSION_COMPLETE upon job completion."
+  ]
+}

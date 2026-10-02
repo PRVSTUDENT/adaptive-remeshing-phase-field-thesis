@@ -1,0 +1,71 @@
+{
+  "job_id": "1404931.mmaster02",
+  "job_name": "PK_M1_SDV_TRUNC",
+  "scheduler_terminal_state": {
+    "queue_state": "F",
+    "exit_status": 1,
+    "terminal_timestamp": "2026-09-13T03:02:11+02:00",
+    "solver_termination_reason": "Minimum time increment cutback reached (dt < 1.0e-14) at Step 2 time t2 = 0.0912 s during post-peak crack localization",
+    "solver_message": "THE ANALYSIS HAS NOT BEEN COMPLETED"
+  },
+  "scientific_classification": {
+    "label": "NOT_A_STRICT_DIAGNOSTIC_TWIN_DUE_TO_RAMP_SCALING",
+    "rationale": "Step-2 duration 0.24 s with end-displacement 0.0100 mm accelerated the nominal displacement rate to 0.020833 mm/s (~4.167x faster than the 0.0050 mm/s reference rate). Preserved strictly as descriptive field evidence.",
+    "post_peak_field_status": "Traversed pre-peak elastic loading, reached peak load (Fmax = 0.746712 kN at u = 0.005771 mm), and captured post-peak localization up to terminal cutback at u = 0.006900 mm before aborting due to dt_min.",
+    "companion_neutrality_role": "DESCRIPTIVE_ONLY_NON_STRICT"
+  },
+  "provenance_and_hashes": {
+    "inp_sha256": "cf8fc9893db48c4130db0af9d40e468ee151f52e5e5062b8e3a5260a05b1dc66",
+    "for_sha256": "1662b0c574465d91593bc5b76b28d2070fdf730e6741bdc085bb509766c1b2d0",
+    "fu_array_sha256": "b5432b54ac7d7c553fd22c849492f9e51a97f901feb89eeb76862c0b5efda365",
+    "n_bottom_nodes": 150,
+    "n_bottom_wrapped": true,
+    "n_top_nodes": 210,
+    "n_top_wrapped": true,
+    "sdv14_mapping_verified": true,
+    "sdv14_mapping_details": {
+      "n_capacity": 100000,
+      "nphys_val": 71320,
+      "physidx_formula": "NOEL - 2 * 71320",
+      "statev14_assignment": "STATEV(14) = SV_PHASE_TRIAL(PHYSIDX)",
+      "physical_meaning": "Element-average phase-field damage d mapped to companion visualization UMAT layer"
+    }
+  },
+  "mechanical_response_metrics": {
+    "canonical_initial_stiffness_k0_kn_per_mm": 137.82080332120447,
+    "k0_intercept_kn": 4.470221644625738e-05,
+    "k0_r2": 0.9999995991887694,
+    "k0_num_points": 400,
+    "k0_evaluation_window": "0 < u <= 0.001000 mm (Step 1 unconstrained OLS)",
+    "authoritative_reference_k0_kn_per_mm": 137.94552,
+    "delta_k0_vs_ref_pct": -0.0904100972583396,
+    "production_1404454_k0_kn_per_mm": 137.820804,
+    "delta_k0_vs_prod_pct": -4.925203775605544e-07,
+    "peak_reaction_force_fmax_kn": 0.74671179,
+    "displacement_at_fmax_u_peak_mm": 0.0057708333,
+    "delta_fmax_vs_ref_pct": -1.460349865000035,
+    "delta_upeak_vs_ref_pct": -1.4711746627966567,
+    "final_displacement_reached_mm": 0.0069002874,
+    "final_reaction_force_kn": 0.20755425,
+    "external_work_w_ext_mj": 2.65295828683357
+  },
+  "numerical_solver_telemetry": {
+    "total_increments_converged": 2466,
+    "step1_increments": 2000,
+    "step2_increments": 466,
+    "total_cutbacks": 30,
+    "total_equilibrium_iterations": 7667,
+    "min_dt_achieved": 1e-14,
+    "wallclock_time_sec": 46999,
+    "wallclock_time_hours": 13.055,
+    "total_cpu_time_sec": 45700.0,
+    "total_cpu_time_hours": 12.694
+  },
+  "field_evidence": {
+    "step1_end_u00050_dmax": 0.0465,
+    "terminal_u00069_dmax": 0.9998,
+    "damage_localization_confirmed": true,
+    "crack_tip_y_deviation_mm": 0.0,
+    "crack_path_symmetry_preserved": true
+  }
+}

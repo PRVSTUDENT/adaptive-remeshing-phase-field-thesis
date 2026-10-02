@@ -1,0 +1,75 @@
+# Gate 5 External Information Boundary & Priority-B Status Record
+
+**Document ID**: `GATE5_EXTERNAL_INFORMATION_BOUNDARY`  
+**Date**: 2026-09-10  
+**Current Gate Status**: `CLOSED_UNRESOLVED_DUE_TO_MISSING_PUBLISHED_OR_INTERNAL_SIZING_INFORMATION`  
+**Active Research Status**: `GATE5_REPRODUCTION_DISCREPANCY_RESOLUTION_ACTIVE`  
+**Active Controller Constraints**:  
+- `ELEMENT_COUNT_PROXIMITY_NOT_PARAMETER_IDENTITY`  
+- `LITERATURE_EFFECTIVE_ERROR_TARGET_NOT_ESTABLISHED`  
+
+---
+
+## 1. Verified Scientific & Numerical Facts (`VERIFIED`)
+
+1. **Topology & Connectivity Identity**:
+   - The literal reconstruction of Pandey & Kumar (2025) under canonical Plane Strain (`CPE4` + `CPE3`) with verbatim Listing 1 `RemeshingRule` deterministically generates **`71,320` finite elements** ($69,443$ quads + $1,877$ tris, $70,845$ mesh nodes).
+   - Bit-for-bit coordinate and connectivity SHA-256 parity is verified across Abaqus 2022 and Abaqus 2023 (`NO_RELEASE_EFFECT_DETECTED_FOR_THE_TESTED_CPE4_MODE1_CONFIGURATION`).
+2. **Canonical Coarse Mesh Topology**:
+   - The coarse pre-analysis mesh comprises exactly **`2,906` finite elements** ($2,818$ `CPE4` quads + $88$ `CPE3` triangles, $2,988$ mesh nodes, $1.000000\,\text{mm}^2$ total area).
+   - SHA-256 of `JOB1_LOAD_1p0X.inp`: `4cc11fbda9ec773c645f7ad6a0f37e6426c399158bd8f2d291678e5c1bcffa91`.
+   - Historical count (2,786 quads / 120 tris) is formally retired as `RETIRED_HISTORICAL_COARSE_MESH_ELEMENT_TYPE_BREAKDOWN_DUE_TO_IN_MEMORY_QUERY_ARTIFACT`.
+3. **Canonical MISESERI Field & Duplicate Structure**:
+   - Raw ODB field output contains **5,812** scalar records at `WHOLE_ELEMENT` position across 2,906 elements.
+   - **2,906 / 2,906 duplicate pairs are 100.0000000000% numerically identical** ($|v_1 - v_2| = 0.000000\times 10^0$).
+   - Duplicate collapse rule: transparent identical pair collapse, NOT averaging.
+   - Historical 3,930-row CSV retired as `SUPERSEDED_AUXILIARY_CONTINUUM_EXTRACTION_NOT_CANONICAL_MODE1`.
+4. **Spatial Association Robustness**:
+   - Strong monotonic targeting verified: Spearman rank correlation $\mathbf{\rho \in [-0.7391, -0.7364]}$ across all spatial mapping methods (Point-in-Polygon, Nearest Centroid, Bounding Radii $r \in [0.50, 1.25] h_e$).
+   - Crack tip zone contains **100.00%** elements finer than global median ($h_e = 0.001841\,\text{mm}$ vs global median $0.002925\,\text{mm}$).
+   - Classification: `CANONICAL_MISESERI_REFINEMENT_SPATIAL_ASSOCIATION_VERIFIED`.
+
+---
+
+## 2. Ruled-Out Hypotheses (`RULED_OUT`)
+
+1. **Plane Stress (`CPS4`) Formulation Mismatch**:
+   - Plane Stress produces $58,679$ elements (1% error target), which is still $4.2\times$ higher than the reported $\sim 13,941$.
+2. **Abaqus Release / Build Invariance (2022 vs 2023)**:
+   - Abaqus 2022 (Build `2021_09_15`) and Abaqus 2023 (Build `2022_09_28`) produce **100.000% identical 71,320-element meshes**.
+3. **Pre-Analysis Scalar Load Magnitude**:
+   - Tested over a 10-fold range ($0.2\times$ to $2.0\times$ displacement): element counts remain strictly invariant at $71,070 - 71,512$ ($\pm 0.3\%$).
+4. **Remeshing Rule Parameter Tuning**:
+   - `coarseningFactor` ($71,320 \to 71,037$, $-0.4\%$), `outputFrequency` ($71,320 \to 71,320$, $0.0\%$), and `specifyMinSize` / `specifyMaxSize` ($71,320 \to 71,320$, $0.0\%$) do not explain the 13,941 count.
+
+---
+
+## 3. Remaining Unknowns (`UNKNOWN / AUTHOR_INFORMATION_REQUIRED`)
+
+1. **Effective Error Target of Literature Baseline**:
+   - Primary text audit proves that `errorTarget=1.0` appears **only in generic method Listing 1** and is NOT explicitly stated in the narrative of Section 4.1 for the 13,941 mesh.
+   - Classification retained: **`LITERATURE_EFFECTIVE_ERROR_TARGET_NOT_ESTABLISHED`**.
+2. **Underlying Abaqus/CAE Mesh Generator Settings**:
+   - Mesh algorithm (`MEDIAL_AXIS` vs `ADVANCING_FRONT`), seed curvature controls (`deviationFactor`, `minSizeFactor`), and whether guide partitions were applied across the intact ligament ($y = 0.5\,\text{mm}, 0.5 \le x \le 1.0\,\text{mm}$) are omitted from the publication.
+3. **Proprietary Sizing Engine Heuristics**:
+   - Internal damping, element count bounding, or undocumented sizing smoothers in Dassault Systèmes' `adaptiveRemesh` engine are inaccessible without author input.
+
+---
+
+## 4. Minimal Author Information Inquiries (Unsent Pending Approval)
+
+The following four concise technical questions represent the complete information boundary required to reproduce the 13,941 mesh exactly:
+
+1. **Abaqus/CAE Coarse Mesh Generation**:
+   * Which meshing algorithm was selected for the $1.0 \times 1.0\,\text{mm}$ plate (Free `MEDIAL_AXIS` or `ADVANCING_FRONT`)?
+   * Was the plate partitioned across the entire width ($y = 0.5\,\text{mm}, 0 \le x \le 1.0\,\text{mm}$) or only along the crack seam ($0 \le x \le 0.5\,\text{mm}$)?
+2. **Seed & Curvature Controls**:
+   * Were default part seed curvature/deviation controls modified (`deviationFactor`, `minSizeFactor`)?
+3. **Exact Coarse Mesh Counts**:
+   * What were the exact initial element and node counts of the unrefined coarse mesh?
+4. **Remeshing Rule Arguments**:
+   * What exact numerical `errorTarget` (and any other arguments such as `elementCountLimit`) was passed to `RemeshingRule` for the 13,941-element simulation?
+
+> [!NOTE]
+> **Correspondence Status**:  
+> In accordance with persistent supervisor governance, this author inquiry is documented as an authoritative external information boundary and **remains unsent pending explicit human/supervisor authorization**.

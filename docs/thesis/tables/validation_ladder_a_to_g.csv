@@ -1,0 +1,8 @@
+Stage,Name,Scope,Governed Status,Role
+Stage A,Corrected Reference Baseline,"Unified Molnar shear baseline (Abaqus 2023, l0=0.015 mm)",VALIDATED,Foundational physics reference
+Stage B,Native Abaqus Restart,Native binary restart verification,VALIDATED,Solver consistency baseline
+Stage C,Same-Mesh Reconstructed Restart,State extraction and re-ingestion on identical mesh,VALIDATED,State-transfer formulation proof
+Stage D,Nonmatching State Transfer (Same Topology),Field transfer across nonmatching meshes under continuous topology,VALIDATED_WITH_CORRECTED_SLIT_BARRIER_AND_RECONCILED_RELEASE_GATES,Geometric interpolation validation
+Stage E,Refinement/Coarsening Transfer,Transfer to refined (R1) and coarsened (R2) meshes with runtime proof,VALIDATED_WITH_RECONCILED_DONOR_R2_AND_RUNTIME_PROOF,Multi-resolution state transfer
+Stage F,Synthetic Topology-Change Transfer Benchmark,One-facet artificial mesh split benchmark with postpeak continuation,VALIDATED_WITH_ONE_FACET_TOPOLOGY_AND_GOVERNED_POSTPEAK_CONTINUATION,Synthetic numerical transfer benchmark only
+Stage G,Production Adaptive Validation,Continuous phase-field adaptive production batch (MM & PK5 to U1=0.0100 mm),VALIDATED_PRODUCTION_ADAPTIVE_ACCURACY_AND_EFFICIENCY_VALIDATED,Production accuracy & efficiency proof (CONTINUOUS_PHASE_ONLY)

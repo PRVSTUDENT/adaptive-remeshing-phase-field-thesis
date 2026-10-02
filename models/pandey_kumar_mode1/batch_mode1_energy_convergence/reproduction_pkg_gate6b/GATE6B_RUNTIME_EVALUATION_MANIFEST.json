@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "manifest_name": "GATE6B_RUNTIME_EVALUATION_MANIFEST",
+  "generated_timestamp": "2026-09-18T21:18:00+02:00",
+  "active_scientific_phase": "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE",
+  "milestone_status": "GATE_6B — OPEN: DISCRETE_GLOBAL_ENERGY_IDENTITY_RUNTIME_VERIFICATION_REQUIRED",
+  "governing_rules": {
+    "potential_proof": "COMMON_DISCRETE_POTENTIAL_DISPROVEN_BY_CROSS_DERIVATIVE_INCOMPATIBILITY",
+    "decomposition_path_requirement": "DECOMPOSITION_REQUIRES_WITHIN_INCREMENT_PATH_INFORMATION",
+    "bookkeeping_definition": "TWO_TERM_BOOKKEEPING_DIFFERENCE",
+    "global_energy_identity_status": "GLOBAL_ENERGY_IDENTITY_NOT_YET_CLOSED",
+    "work_quadrature_definition": "WORK_INTEGRATION_SENSITIVITY",
+    "prohibition_energy_error_label": "DO_NOT_CALL_BOOKKEEPING_DIFFERENCE_DISSIPATION_OR_ENERGY_ERROR",
+    "energy_extraction_rule": "UNIQUE_VISUALIZATION_ELEMENT_IP1_RULE_15192_CELLS",
+    "superseded_4ip_rule": "FOUR_IP_AGGREGATE_SUPERSEDED_EXTRACTION_ERROR",
+    "state_matching_reconciliation": "RECONCILED_EXACT_MATCH_AT_MATCHED_FRAMES_DELTA_ZERO"
+  },
+  "canonical_s1_frame_and_increment_accounting": {
+    "n_frames_raw": 7002,
+    "step_1_frames_raw": 2001,
+    "step_2_frames_raw": 5001,
+    "n_active_increments": 7000,
+    "step_1_active_increments": 2000,
+    "step_2_active_increments": 5000,
+    "n_unique_states_after_step_boundary_dedup": 7001,
+    "step_boundary_continuity_definition": {
+      "step_1_terminal_state": "Frame 2000 at u = 0.005000 mm",
+      "step_2_initial_state": "Frame 0 at u = 0.005000 mm (identical physical state)",
+      "k0_window_clarification": "Step-1 Frame 400 marks the end of the initial elastic K0 fitting window near u = 0.0010 mm; it is NOT the step boundary"
+    }
+  },
+  "benchmark_jobs": {
+    "canonical_baseline": {
+      "job_id": "1406015.mmaster02",
+      "case_name": "PK_M1_H0030_S1",
+      "mesh_cells": 15192,
+      "mesh_element_objects_in_odb": 45576,
+      "mesh_nodes": 15522,
+      "input_file_sha256": "bc000e0c5791150a711cb7af447a0bb34d1b9d9af5c6ce9d096c98749e8edf61",
+      "fortran_source_sha256": "5cd0d2c0b0fb1616c6be4b460fae248b6c59b66cf8d75e4785ca5be2df027e13",
+      "canonical_anchors": {
+        "k0_initial_stiffness_kN_per_mm": 137.94552,
+        "k0_r2": 0.9999996,
+        "k0_intercept_kN": 4.472368e-05,
+        "k0_sample_points": 400,
+        "f_max_kN": 0.757778,
+        "u_peak_mm": 0.005857,
+        "external_work_trap_kN_mm": 0.002359329,
+        "bookkeeping_diff_kN_mm": 1.795e-05,
+        "bookkeeping_diff_relative_pct": 0.7607
+      }
+    },
+    "diagnostic_r1_evaluated": {
+      "job_id": "1406404.mmaster02",
+      "case_name": "PK_M1_S1_DIAG",
+      "cluster_node": "mnode097/2",
+      "execution_mode": "1_CPU_SERIAL",
+      "mesh_cells": 15192,
+      "mesh_element_objects_in_odb": 45576,
+      "input_file_sha256": "bc000e0c5791150a711cb7af447a0bb34d1b9d9af5c6ce9d096c98749e8edf61",
+      "diagnostic_fortran_sha256": "3c1b40035e85343c8b63214d8788ec16fd77d8bb3495cf3ed34c2f60147c5c1a",
+      "technical_completion_status": "TECHNICAL_COMPLETION_FAIL_WALLTIME",
+      "exit_status": 15,
+      "walltime_elapsed_s": 14495,
+      "walltime_limit_s": 14400,
+      "completed_active_increments": 3833,
+      "step_1_active_increments": 2000,
+      "step_2_active_increments": 1833,
+      "terminal_displacement_reached_mm": 0.006833,
+      "parity_status": "PARTIAL_HORIZON_MECHANICAL_PARITY_EXACT_BIT_MATCH",
+      "parity_metrics": {
+        "max_abs_delta_u_mm": 0.0,
+        "max_abs_delta_f_kN": 0.0,
+        "k0_fitted_kN_per_mm": 137.94552,
+        "f_max_kN": 0.75777849,
+        "u_peak_mm": 0.005857
+      },
+      "reconciled_exact_state_comparison": {
+        "step1_terminal_u0050": {
+          "u_mm": 0.005,
+          "w_left_kNmm": 0.001690759056,
+          "w_trap_kNmm": 0.00169158619,
+          "w_right_kNmm": 0.001692413323,
+          "delta_w_quadrature_pct": 0.0978,
+          "e_elas_ip1_kNmm": 0.001655130384,
+          "e_frac_ip1_kNmm": 3.6540845e-05,
+          "r_bookkeeping_kNmm": -8.503985e-08,
+          "r_bookkeeping_pct": -0.005027,
+          "delta_vs_ref_e_elas": 0.0,
+          "delta_vs_ref_e_frac": 0.0,
+          "delta_vs_ref_w_trap": 0.0,
+          "delta_vs_ref_r": 0.0
+        },
+        "step2_peak_u005857": {
+          "u_mm": 0.005857,
+          "w_left_kNmm": 0.002300792249,
+          "w_trap_kNmm": 0.002301667246,
+          "w_right_kNmm": 0.002302542243,
+          "delta_w_quadrature_pct": 0.076,
+          "e_elas_ip1_kNmm": 0.002219151016,
+          "e_frac_ip1_kNmm": 8.2689577e-05,
+          "r_bookkeeping_kNmm": -1.733465e-07,
+          "r_bookkeeping_pct": -0.007531,
+          "delta_vs_ref_e_elas": 0.0,
+          "delta_vs_ref_e_frac": 0.0,
+          "delta_vs_ref_w_trap": 0.0,
+          "delta_vs_ref_r": 0.0
+        },
+        "step2_partial_terminal_u006833": {
+          "u_mm": 0.006833,
+          "w_left_kNmm": 0.002357817889,
+          "w_trap_kNmm": 0.00235831422,
+          "w_right_kNmm": 0.002358810551,
+          "delta_w_quadrature_pct": 0.0421,
+          "e_elas_ip1_kNmm": 1.52952e-06,
+          "e_frac_ip1_kNmm": 0.002339125921,
+          "r_bookkeeping_kNmm": 1.7658779e-05,
+          "r_bookkeeping_pct": 0.748788,
+          "delta_vs_ref_e_elas": 0.0,
+          "delta_vs_ref_e_frac": 0.0,
+          "delta_vs_ref_w_trap": 0.0,
+          "delta_vs_ref_r": 0.0
+        }
+      },
+      "csv_diagnostics_status": "NOT_EVALUABLE_FROM_1406404_LOST_TMPDIR_OUTPUT"
+    },
+    "replacement_canonical_diagnostic_r2": {
+      "job_id": "1406839.mmaster02",
+      "case_name": "PK_M1_S1_DIAG_R2",
+      "cluster_node": "mnode097",
+      "queue": "normal_imfdfkmq",
+      "execution_mode": "1_CPU_SERIAL",
+      "requested_walltime": "10:00:00",
+      "requested_memory": "16GB",
+      "mesh_cells": 15192,
+      "mesh_element_objects_in_odb": 45576,
+      "input_file_sha256": "bc000e0c5791150a711cb7af447a0bb34d1b9d9af5c6ce9d096c98749e8edf61",
+      "diagnostic_fortran_sha256": "3c1b40035e85343c8b63214d8788ec16fd77d8bb3495cf3ed34c2f60147c5c1a",
+      "preflight_datacheck_exit": 0,
+      "wrapper_persistence": "BACKGROUND_PERIODIC_HARVESTER_AND_TRAP_HANDLER",
+      "live_harvester_status": "VERIFIED_ACTIVE_AND_HARVESTING_AT_30S_INTERVALS",
+      "runtime_status": "RUNNING"
+    }
+  },
+  "mini_benchmark_qualification": {
+    "job_id": "1406343.mmaster02",
+    "case_name": "PK_M1_MINI_ENERGY_64",
+    "mesh_cells": 64,
+    "n_frames_raw": 32,
+    "n_active_increments": 30,
+    "n_unique_states_after_dedup": 31,
+    "terminal_displacement_mm": 0.006,
+    "parity_classification": "FROZEN_MECHANICAL_PARITY_EXACT_BIT_MATCH",
+    "max_abs_delta_u_mm": 0.0,
+    "max_abs_delta_f_kN": 0.0,
+    "stiffness_resolution": {
+      "elastic_fitting_increments_count": 5,
+      "elastic_fitting_displacement_range_mm": "[0.0002, 0.0010]",
+      "unconstrained_ols_k0_kN_per_mm": 145.562903,
+      "unconstrained_ols_r2": 0.99999968,
+      "unconstrained_ols_intercept_kN": 7.3478e-05,
+      "forced_through_origin_k0_kN_per_mm": 145.663103,
+      "forced_through_origin_numerator_kN_mm": 0.0003204588276,
+      "forced_through_origin_denominator_mm2": 2.2e-06,
+      "endpoint_secant_inc5_k0_kN_per_mm": 145.606697,
+      "endpoint_secant_inc4_k0_kN_per_mm": 145.677015,
+      "method_resolution_status": "MINI_K0_METHOD_DIFFERENCE_RESOLVED"
+    },
+    "reconciled_energetics_kN_mm": {
+      "external_work_trap": 0.002562345457204,
+      "stored_elastic_energy": 0.002501643130458,
+      "stored_elastic_pct": 97.631,
+      "fracture_surface_energy": 6.323756402907e-05,
+      "fracture_surface_pct": 2.4679,
+      "bookkeeping_difference": -2.535237282882e-06,
+      "bookkeeping_difference_pct": -0.098942
+    },
+    "superseded_conflict_resolution": {
+      "superseded_elastic_energy_placeholder": 0.002378906,
+      "superseded_fracture_energy_placeholder": 0.0001834389,
+      "classification": "SUPERSEDED_EVIDENCE_MISATTRIBUTION"
+    },
+    "companion_gauss_mapping": {
+      "source_lines": "f42_mixed_uel_diagnostic.for lines 349-360, 495-506, 1081-1096",
+      "classification": "ODB_H_GAUSS_MAPPING_CODE_INTENT_VERIFIED; ABAQUS_IP_NUMBERING_EQUIVALENCE_NOT_YET_PRIMARY_SOURCE_VERIFIED"
+    }
+  },
+  "postprocessing_suite_inventory": {
+    "postprocess_technical_completion.py": {
+      "sha256": "182e94dfaaae3e4267cc70a1201c05941eb47126e4ada0499e30c9fab0daee8b",
+      "stage": "STAGE_1_TECHNICAL_COMPLETION"
+    },
+    "postprocess_mechanical_parity.py": {
+      "sha256": "58cce339b3a7472ac1d84a3fa296390e4ab9b468e0557b69f67aed0e45400396",
+      "stage": "STAGE_2_MECHANICAL_PARITY"
+    },
+    "postprocess_external_work.py": {
+      "sha256": "8bc239d3f20918ebeb8eae938d613aabef438a002f24ec8ed516f1c3d33d56ec",
+      "stage": "STAGE_3_ENERGY_RECONCILIATION"
+    },
+    "postprocess_reconciliation_unit105_106.py": {
+      "sha256": "a9d187b80d40da60c96fa3339ba6892440993f9631f8f11a61cd9dce94466377",
+      "stage": "STAGE_3_ENERGY_RECONCILIATION"
+    },
+    "postprocess_call_order_unit107.py": {
+      "sha256": "d885de6dc7ea2d8d72f2ba1b71d1b8413a9460da331dd834089fafd4c2b3b438",
+      "stage": "STAGE_4_CALL_ORDER_TRACE"
+    },
+    "postprocess_evidence_matrix_synthesis.py": {
+      "sha256": "789dbbcfe4865245eba300cb28a8e0f3f12a87ccf3f2edf98a35e19fad8db8f2",
+      "stage": "STAGE_5_EVIDENCE_SYNTHESIS"
+    },
+    "MINI_1406343_EVIDENCE_RECONCILIATION.json": {
+      "sha256": "6e579409028218bbe34465a13abd506a126892c0659f23c41e6c216e4d39f9cf",
+      "type": "RECONCILED_MINI_EVIDENCE_ANCHOR"
+    },
+    "commands.txt": {
+      "sha256": "9b412efe0f9a9744cf85816ea94198a27274746da5d481d19fc14073d767bb6f",
+      "type": "EXECUTION_PROTOCOL"
+    }
+  },
+  "frozen_parity_criteria": {
+    "k0_extraction_rule": "OLS with intercept, 0 < u <= 0.0010 mm, N=400",
+    "k0_relative_tolerance_pct": 0.05,
+    "f_max_relative_tolerance_pct": 0.05,
+    "u_peak_absolute_tolerance_mm": 0.0001,
+    "pre_peak_curve_residual_tolerance_pct": 0.05,
+    "full_common_horizon_curve_residual_tolerance_pct": 0.1,
+    "step_boundary_deduplication_rule": "Step 1 Frame 2000 and Step 2 Frame 0 represent the identical physical state at u = 0.005000 mm; duplicate state must be removed before monotone interpolation and work quadrature"
+  },
+  "information_gap_classifications": {
+    "row_14_exact_fracture_identity": {
+      "status": "FRACTURE_INCREMENT_IDENTITY_RUNTIME_VERIFICATION_NOT_RECONSTRUCTIBLE_FROM_CURRENT_OUTPUT",
+      "reason": "Nodal phase-field vector q_d is not persisted in current standard output channels",
+      "recommended_design": "Option 2: Internal Fortran scalar product at LOP=2 written to Unit 106 (<500 kB total)"
+    },
+    "row_15_within_increment_newton_path": {
+      "status": "RUNTIME_DIAGNOSTIC_INFORMATION_GAP",
+      "reason": "Newton subiteration trajectories are internal to Abaqus solver execution and not reconstructible from accepted increment endpoints"
+    }
+  },
+  "governing_execution_chain": {
+    "sequence": "1406839 terminal -> technical completion -> frozen mechanical parity -> runtime diagnostic evaluation -> update energy-status classification",
+    "scope_boundary": "Evaluation of Job 1406839.mmaster02 addresses the canonical S1 runtime-energy-diagnostic question; closing Gate 6B requires full multifaceted Mode-I convergence (complete F-u curve, spatial d-field, temporal dt, and length-scale qualification)."
+  }
+}

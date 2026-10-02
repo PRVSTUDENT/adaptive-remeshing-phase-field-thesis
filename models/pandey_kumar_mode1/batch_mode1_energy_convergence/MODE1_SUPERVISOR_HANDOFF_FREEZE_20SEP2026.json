@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "freeze_document_id": "MODE1_SUPERVISOR_HANDOFF_FREEZE_20SEP2026",
+  "freeze_timestamp": "2026-09-20T02:40:00+02:00",
+  "freeze_date": "20 September 2026",
+  "freeze_scope": "PANDEY_KUMAR_2025_MODE1_BENCHMARK_PRIORITY1_ENERGY_QUALIFICATION",
+  "freeze_status": "SUPERVISOR_READY / REPRODUCTION_PACKAGE_READY",
+  "governance_state": "GATE_6B_OPEN",
+  "global_energy_identity_status": "GLOBAL_ENERGY_IDENTITY \u2014 NOT_YET_CLOSED",
+  "remaining_gate6b_action": "Supervisor judgment on the already frozen decision question (Pathway 1 vs Pathway 2) at the 01 October 2026 meeting (10:00).",
+  "active_scope_holds": [
+    "Gate 6C (Mode-I State Transfer Energy Preservation)",
+    "Mode-II (Shear Loading & Mixed Mode)",
+    "Gate 7 (ABAQUSER Integration / Visualization)",
+    "Higher-Complexity Examples (Holes / Asymmetric)",
+    "True Distributed-Memory MPI Sweeps",
+    "Multi-Threaded Scaling Sweeps"
+  ],
+  "authoritative_subroutine": {
+    "relative_path": "15_energy_qualification_small/f42_mixed_uel.for",
+    "sha256": "5CD0D2C015C9EAD91C99D7A744156CC86F5B5EA26473BBED7D6E5515FE30FA46",
+    "formulation": "Dual-element coupled phase-field UEL (JTYPE=1 Phase, JTYPE=2 Mechanical, single-IP companion UMAT visualization)"
+  },
+  "content_validation_gate": {
+    "check_file": "MODE1_HANDOFF_CONTENT_VALIDATION_GATE.csv",
+    "sha256": "0080FDBFB2216FC73EEACE27CB00344BDC67F1860000DBAAE2982157D3CE21D5",
+    "checks_passed": "33/33",
+    "status": "100% PASS (33 / 33 CHECKS SATISFIED)"
+  },
+  "consistency_gate": {
+    "check_file": "GATE6B_FINAL_CONSISTENCY_GATE.csv",
+    "sha256": "361BF5510B72F15D7172173E1D110F10F1D4645D6D65CA93515BC737730891A9",
+    "checks_passed": "15/15",
+    "status": "100% PASS (15 / 15 CHECKS SATISFIED)"
+  },
+  "reproduction_manifest": {
+    "manifest_file": "MODE1_REPRODUCTION_MANIFEST.json",
+    "manifest_version": "4.1.0",
+    "sha256": "44067A57C29CB9F55D5C5DB1E0DA2F4046CB320D7749DA84B45F87BCEA783C92"
+  },
+  "reproduction_checklist": {
+    "checklist_file": "MODE1_SUPERVISOR_REPRODUCTION_PACKAGE_CHECKLIST.csv",
+    "sha256": "635DFDCF9425DA795B9B509C032C7D3CD3C5A2992363C4A552D68B0B366E70AF",
+    "total_deliverable_rows": 41
+  },
+  "deliverables_sha256_registry": {
+    "SUPERVISOR_MEETING_01OCT2026_MODE1_BRIEF.md": "59CEB40E79C911E6F864D08B3B59ECCA2AE88B487882FDE8B1E48796136240CF",
+    "commands.txt": "916BA429FBC611A8DA49AF69860FE886F1620EBA7F18CB492212A7C7B06675EC",
+    "MODE1_SUPERVISOR_TALKING_POINTS.md": "479932DCE579F8ABA726B471C4452A84261E3E23F1F14E7B16B609C7DE4B75B6",
+    "MODE1_HANDOFF_CONTENT_VALIDATION_GATE.csv": "0080FDBFB2216FC73EEACE27CB00344BDC67F1860000DBAAE2982157D3CE21D5",
+    "MODE1_SUPERVISOR_REPRODUCTION_PACKAGE_CHECKLIST.csv": "635DFDCF9425DA795B9B509C032C7D3CD3C5A2992363C4A552D68B0B366E70AF",
+    "MODE1_REPRODUCTION_MANIFEST.json": "44067A57C29CB9F55D5C5DB1E0DA2F4046CB320D7749DA84B45F87BCEA783C92",
+    "MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md": "E6B72E0CA85FCEEBB53F0E9771E5E14984234351AE8EC0F8C4C6A1CA3F13A640",
+    "ENERGY_DIMENSIONAL_UNITS_AUDIT.csv": "F480DA80EDD7BB6BBA4AEDF3E3B4B24B4912FC99676F2216825262AE2E3829D9",
+    "GATE6B_FINAL_CONSISTENCY_GATE.csv": "361BF5510B72F15D7172173E1D110F10F1D4645D6D65CA93515BC737730891A9",
+    "GATE6B_FINAL_EVIDENCE_MATRIX.csv": "400E888AB32A0DBF2E5856FEF11BA0758866BBDA96280B9DDC48243709046ADF",
+    "GATE6B_FINAL_QUALIFICATION_AND_SUPERVISOR_DECISION_PACKET.md": "78C98A6CEA7993A64D511A7344DE1CC8090AE88390B7C1DF70FAC8CBD7C7FC38",
+    "CLAIM_LEDGER_NUMERICAL_PROVENANCE.csv": "C274E64FA4D755427DEB2243500843BC52A0BF82BBC1438F1E59FFDFCA27F978"
+  },
+  "deliverables_metadata": {
+    "SUPERVISOR_MEETING_01OCT2026_MODE1_BRIEF.md": {
+      "sha256": "59CEB40E79C911E6F864D08B3B59ECCA2AE88B487882FDE8B1E48796136240CF",
+      "size_bytes": 13773,
+      "scratch_batch_match": true,
+      "scratch_root_match": true
+    },
+    "commands.txt": {
+      "sha256": "916BA429FBC611A8DA49AF69860FE886F1620EBA7F18CB492212A7C7B06675EC",
+      "size_bytes": 3721,
+      "scratch_batch_match": true,
+      "scratch_root_match": true
+    },
+    "MODE1_SUPERVISOR_TALKING_POINTS.md": {
+      "sha256": "479932DCE579F8ABA726B471C4452A84261E3E23F1F14E7B16B609C7DE4B75B6",
+      "size_bytes": 4123,
+      "scratch_batch_match": true,
+      "scratch_root_match": true
+    },
+    "MODE1_HANDOFF_CONTENT_VALIDATION_GATE.csv": {
+      "sha256": "0080FDBFB2216FC73EEACE27CB00344BDC67F1860000DBAAE2982157D3CE21D5",
+      "size_bytes": 6817,
+      "scratch_batch_match": true,
+      "scratch_root_match": true
+    },
+    "MODE1_SUPERVISOR_REPRODUCTION_PACKAGE_CHECKLIST.csv": {
+      "sha256": "635DFDCF9425DA795B9B509C032C7D3CD3C5A2992363C4A552D68B0B366E70AF",
+      "size_bytes": 7755,
+      "scratch_batch_match": true,
+      "scratch_root_match": true
+    },
+    "MODE1_REPRODUCTION_MANIFEST.json": {
+      "sha256": "44067A57C29CB9F55D5C5DB1E0DA2F4046CB320D7749DA84B45F87BCEA783C92",
+      "size_bytes": 53971,
+      "scratch_batch_match": true,
+      "scratch_root_match": true
+    },
+    "MODE1_CONVERGENCE_AND_ENERGY_AUDIT_REPORT.md": {
+      "sha256": "E6B72E0CA85FCEEBB53F0E9771E5E14984234351AE8EC0F8C4C6A1CA3F13A640",
+      "size_bytes": 151766,
+      "scratch_batch_match": true,
+      "scratch_root_match": true
+    },
+    "ENERGY_DIMENSIONAL_UNITS_AUDIT.csv": {
+      "sha256": "F480DA80EDD7BB6BBA4AEDF3E3B4B24B4912FC99676F2216825262AE2E3829D9",
+      "size_bytes": 5632,
+      "scratch_batch_match": true,
+      "scratch_root_match": true
+    },
+    "GATE6B_FINAL_CONSISTENCY_GATE.csv": {
+      "sha256": "361BF5510B72F15D7172173E1D110F10F1D4645D6D65CA93515BC737730891A9",
+      "size_bytes": 6305,
+      "scratch_batch_match": true,
+      "scratch_root_match": true
+    },
+    "GATE6B_FINAL_EVIDENCE_MATRIX.csv": {
+      "sha256": "400E888AB32A0DBF2E5856FEF11BA0758866BBDA96280B9DDC48243709046ADF",
+      "size_bytes": 25371,
+      "scratch_batch_match": true,
+      "scratch_root_match": true
+    },
+    "GATE6B_FINAL_QUALIFICATION_AND_SUPERVISOR_DECISION_PACKET.md": {
+      "sha256": "78C98A6CEA7993A64D511A7344DE1CC8090AE88390B7C1DF70FAC8CBD7C7FC38",
+      "size_bytes": 14657,
+      "scratch_batch_match": true,
+      "scratch_root_match": true
+    },
+    "CLAIM_LEDGER_NUMERICAL_PROVENANCE.csv": {
+      "sha256": "C274E64FA4D755427DEB2243500843BC52A0BF82BBC1438F1E59FFDFCA27F978",
+      "size_bytes": 41672,
+      "scratch_batch_match": true,
+      "scratch_root_match": true
+    }
+  },
+  "provenance_anchors": {
+    "S1_nominal_reference_anchor": {
+      "pbs_job_id": "1406015.mmaster02",
+      "diagnostic_twin_job_id": "1406839.mmaster02",
+      "mesh_element_count": 15192,
+      "nominal_element_size_mm": 0.003,
+      "peak_force_kN": 0.757778,
+      "u_peak_mm": 0.005857,
+      "initial_stiffness_kN_per_mm": 138.151,
+      "w05_localization_width_um": 22.812
+    },
+    "S3_fine_anchor": {
+      "pbs_job_id": "1406017.mmaster02",
+      "mesh_element_count": 41912,
+      "nominal_element_size_mm": 0.0015,
+      "peak_force_kN": 0.732196,
+      "u_peak_mm": 0.005633,
+      "initial_stiffness_kN_per_mm": 137.859,
+      "w05_localization_width_um": 23.016,
+      "native_fracture_energy_kN_mm": 0.00235718764301,
+      "reported_fracture_energy_mJ": 2.357188
+    },
+    "temporal_v4_series": {
+      "T1_coarse_dt": {
+        "pbs_job_id": "1406020.mmaster02",
+        "dt_scale": "2.0x",
+        "F_max_kN": 0.758153,
+        "u_peak_um": 5.864
+      },
+      "T2_nominal_dt": {
+        "pbs_job_id": "1406021.mmaster02",
+        "dt_scale": "1.0x",
+        "F_max_kN": 0.757778,
+        "u_peak_um": 5.857
+      },
+      "T3_fine_dt": {
+        "pbs_job_id": "1406317.mmaster02",
+        "dt_scale": "0.5x",
+        "F_max_kN": 0.75763,
+        "u_peak_um": 5.8545
+      },
+      "prepeak_two_term_bookkeeping_difference_values": {
+        "u_5000_um": "-0.000085 mJ (-0.0050% of W_trap)",
+        "u_5500_um": "-0.000135 mJ (-0.0066% of W_trap)",
+        "u_5700_um": "-0.000160 mJ (-0.0073% of W_trap)",
+        "u_5856_um": "-0.000174 mJ (-0.0075% of W_trap)"
+      },
+      "prepeak_bound": "|TWO_TERM_BOOKKEEPING_DIFFERENCE| / W_trap <= 0.008% on frozen S1 / temporal T1-T3 trajectories"
+    },
+    "l0_sensitivity_series_u550": {
+      "l0_750_um_nominal_S3": {
+        "F_max_kN": 0.732196,
+        "w05_um": 22.969,
+        "two_term_diff_u550": "+0.17%"
+      },
+      "l0_1125_um_cand1": {
+        "pbs_job_id": "1406895.mmaster02",
+        "F_max_kN": 0.643328,
+        "w05_um": 34.219,
+        "two_term_diff_u550": "-0.002%"
+      },
+      "l0_1500_um_cand2": {
+        "pbs_job_id": "1406896.mmaster02",
+        "F_max_kN": 0.584102,
+        "w05_um": 45.469,
+        "two_term_diff_u550": "-0.002%"
+      }
+    }
+  },
+  "immutability_declaration": "This baseline is frozen and immutable as of 20 September 2026. Any future modification before or after the 01 October 2026 supervisor meeting must be recorded as a new version rather than modifying this frozen baseline."
+}
