@@ -1,124 +1,65 @@
-# Mode-I Adaptive-Direction Evidence Package & Lineage Reconciliation Audit
+# Mode-I Adaptive Remeshing Evidence & Causal Review Package
 
-## 1. Executive Summary & Purpose
-
-This package provides the complete, self-contained evidence base for the **lineage reconciliation, spatial localization, corridor width, and computational efficiency audit** of the Mode-I adaptive remeshing workflow (Pandey & Kumar, 2025, *CMES* 144(3), 3251–3276).
-
-### Governed Direction Classifications
-
-| Candidate Mesh Key | Mesh Lineage & Target | Element Count | Nodes | Corridor Elements ($y \in [0.48, 0.52]$) | Far-Field Elements ($y < 0.4$ or $y > 0.6$) | Direction Classification | Key Forensic Finding |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **`PK_M1_STEP2_62K_JOB1409585`** | Step-2 Propagated Crack | $62,057$ | $62,608$ | $5,392$ (8.7%) | $38,827$ (62.6%) | **`AWAY_FROM_TARGET_LOCALIZATION`** | Refines a diffuse cloud over the entire ligament ($x \in [0.5, 1.0]$) driven by moving crack-tip stress states. **Frozen as diagnostic evidence; rejected as the production adaptive workflow.** |
-| **`Lineage_A_1pct_71k`** | Lineage A Pre-Analysis (1.0%) | $71,320$ | $71,833$ | $2,267$ (3.2%) | $56,961$ (79.9%) | **`NO_MEANINGFUL_IMPROVEMENT`** | High far-field burden ($79.9\%$) caused by lateral constraint parasitic stresses in coarse deck `PK_PREANALYSIS_COARSE.inp`. |
-| **`Lineage_A_2pct_15k`** | Lineage A Pre-Analysis (2.0%) | $15,396$ | $15,702$ | $935$ (6.1%) | $10,171$ (66.1%) | **`TOWARD_TARGET_LOCALIZATION`** | Preserves crack-tip resolution ($h_{\min}=0.43\,\mu\text{m}$, tip $0.89\,\mu\text{m}$) while reducing total elements by $78.4\%$ vs 1.0%. |
-| **`Lineage_B_1pct_42k`** | Lineage B Pre-Analysis (1.0%) | $42,318$ | $42,787$ | $2,022$ (4.8%) | $30,984$ (73.2%) | **`NO_MEANINGFUL_IMPROVEMENT`** | Structured quad base and RP coupling reduce far-field count vs Lineage A, but $73.2\%$ far-field elements remain under 1.0% error target. |
-| **`Lineage_B_2pct_10k`** | Lineage B Pre-Analysis (2.0%) | $10,253$ | $10,321$ | $702$ (6.8%) | $6,569$ (64.1%) | **`TOWARD_TARGET_LOCALIZATION`** | Best-balanced candidate: preserves $h_{\min}=0.69\,\mu\text{m}$ (tip $0.91\,\mu\text{m}$) and narrow corridor, reducing total elements to $10,253$, matching Pandey & Kumar ($\sim 14\text{k}$). |
-| **`CAE_2024_Reference_48k`** | CAE 2024 Reference (1.0%) | $48,329$ | $48,819$ | $2,313$ (4.8%) | $35,954$ (74.4%) | **`NO_MEANINGFUL_IMPROVEMENT`** | Intermediate 1.0% variant matching the 1.0% target localization profile. |
+**Document Identifier:** `models/pandey_kumar_mode1/adaptive_direction_evidence_package/README.md`  
+**Governing Context:** Mode-I Adaptive Direction Evidence, Boundary Condition Causal Isolation Audit, and Spatial Localization Review  
+**Primary Literature Reference:** Pandey, P., & Kumar, S. (2025). *Adaptive Finite Element Phase-Field Modeling of Brittle Fracture Using Error Indicator Approach*. CMES, Vol. 144, No. 3, pp. 3251–3276. DOI: `10.32604/cmes.2025.067858`  
+**Revision Date:** 2026-10-02  
+**Status:** `AUDITED_AND_VERIFIED`
 
 ---
 
-## 2. Lineage Provenance & Semantic Diff Analysis
+## 1. Executive Summary & Epistemic Grounding
 
-A rigorous semantic and causal diff was conducted between the two pre-analysis mesh lineages:
+This package consolidates the complete numerical and visual evidence evaluating the spatial correspondence and efficiency of native Abaqus/CAE adaptive remeshing on the Mode-I brittle fracture benchmark.
 
-### Causal Differences Between Lineages
-
-1. **Lineage A (Historical Baseline Lineage: 71,320 at 1.0%, 15,396 / 17,687 at 2.0%)**:
-   - **Originating Coarse Deck**: `PK_PREANALYSIS_COARSE.inp` (2,906 finite elements: 2,818 CPE4 + 88 CPE3, 2,989 nodes).
-   - **Boundary Conditions**: Direct nodal displacement boundary conditions (`Bottom` $u_2=0$, `Top` $u_2=0.005\,\text{mm}, u_1=0$). The rigid lateral constraint ($u_1=0$) across all top-edge nodes prevents natural Poisson contraction, inducing parasitic corner and edge shear stresses.
-   - **Remeshing Sizing Effect**: Under `UNIFORM_ERROR` relative sizing, elevated background error indicators force Abaqus to refine large portions of the uncracked far field down to $h \approx 2\text{--}4\,\mu\text{m}$ ($79.9\%$ far-field elements at 1.0%), producing 71,320 finite elements.
-
-2. **Lineage B (Job-1 Pre-Analysis Lineage: 42,318 at 1.0%, 10,253 at 2.0%)**:
-   - **Originating Coarse Deck**: `PK_M1_PRE_UEL_CORRECTED.inp` (2,700 structured quads + 4 companion quads, 2,835 nodes).
-   - **Boundary Conditions**: Kinematic coupling from reference point `N_RP` to `N_TOP` with wrapped `N_BOTTOM` cards. The structured coarse layout and RP coupling yield a smoother, unconstrained background stress field away from the crack tip.
-   - **Remeshing Sizing Effect**: Far-field over-refinement is significantly reduced ($73.2\%$ at 1.0%, $64.1\%$ at 2.0%), yielding 42,318 finite elements at 1.0% and 10,253 finite elements at 2.0%.
-
-3. **Core Equivalence Invariant**:
-   - Both lineages are authentic single-pass Job-1 pre-analysis adaptive remeshings using identical RemeshingRule sizing parameters ($h_{\min}=1.0\,\mu\text{m}$, $h_{\max}=20.0\,\mu\text{m}$, `refinementFactor=10`, `coarseningFactor=NOT_ALLOWED`).
-   - In both lineages, moving from `errorTarget=1.0%` to `2.0%` reduces total finite elements by $\approx 75\%$ while preserving the crack-tip resolution ($h_{\min} = 0.69\text{--}0.91\,\mu\text{m}$) and narrow horizontal propagation corridor along $y=0.5\,\text{mm}$.
+### Core Scientific Findings:
+1. **Numerically Verified Boundary-Condition Effect**: Holding the exact canonical 2,906-finite-element coarse mesh fixed ($2,818$ CPE4 quads $+ 88$ CPE3 triangles, $2,989$ nodes), removing the unintended top-edge lateral constraint ($u_1 = 0$) eliminates artificial corner shear stress concentrations. At the literature-literal $\text{errorTarget}=1.0\%$ setting, the adapted mesh drops from **$72,085$ to $56,302$ finite elements** (**$22.0\%$ reduction**).
+2. **Persistence of Literature-Literal Density Discrepancy**: Correcting the pre-analysis lateral boundary condition significantly reduces unnecessary adaptive refinement, but the literature-literal 1% Abaqus remesh still remains substantially denser ($56,302$ finite elements) than the published mesh ($\sim 13{,}941$ elements in Pandey & Kumar, 2025). Thus, BC correction alone does not explain the entire discrepancy.
+3. **Efficiency-Calibrated 2.0% Project Variant ($13,897$ Finite Elements)**: Applying $\text{errorTarget}=2.0\%$ on the 2,906-coarse / corrected-BC pre-analysis yields **$13,897$ finite elements** ($13,506$ quads, $391$ tris), producing an element-count difference of:
+   $$\frac{|13897 - 13941|}{13941} \times 100\% = 0.32\%$$
+   This case is evaluated strictly as an **efficiency-calibrated adaptive configuration**, not as the literal Pandey–Kumar 1% reproduction.
+4. **Spatial Correspondence to Physical Localization Corridor**: Both 1.0% ($56\text{k}$) and 2.0% ($13.9\text{k}$) meshes successfully refine along the expected horizontal ligament corridor ($y=0.5\,\text{mm}, x \in [0.5, 1.0]$) with fine crack-tip resolution ($h_{\text{tip}} = 0.79\text{--}0.81\,\mu\text{m} \ll l_0 = 7.5\,\mu\text{m}$), while 2.0% reduces the far-field element burden from $68.6\%$ to $55.3\%$.
 
 ---
 
-## 3. Epistemological and Error Indicator Definitions
+## 2. Parameter Distinction Table
 
-* **Physical Indicator**: $\mathrm{MISESERI}$ is the Abaqus Mises stress discretization/error indicator associated with the recovered stress solution:
-  $$\mathrm{MISESERI} = \sqrt{\frac{3}{2}\mathbf{s}_e : \mathbf{s}_e}$$
-* **Nature of Variable**: It is an element-field error indicator derived from stress recovery on the linear-elastic continuum stress field $\mathbf{\sigma}_h$. It is **NOT phase-field error, NOT damage error** ($d \equiv 0$ in the pre-analysis).
-* **Coarse Model Structure**: $1.0 \times 1.0\,\text{mm}$ square plate with a sharp zero-gap horizontal seam along $y=0.5\,\text{mm}$ ($0 \le x \le 0.5\,\text{mm}$).
-* **Spatial Singularity Marking**:
-  - Peak crack tip $\mathrm{MISESERI} = 1.0836\,\text{MPa}$ at $(x=0.5, y=0.5)$.
-  - Far-field mean $\mathrm{MISESERI} = 0.0075\,\text{MPa}$ ($>144\times$ singularity-to-farfield ratio).
-  - Data file: [`canonical_mode1_coarse_miseseri_2906.csv`](canonical_mode1_coarse_miseseri_2906.csv).
-
----
-
-## 4. Comprehensive Quantitative Spatial Metrics Table
-
-| Metric / Parameter | Lineage A (1.0%) | Lineage A (2.0%) | Lineage B (1.0%) | Lineage B (2.0%) | CAE 2024 (1.0%) | Step-2 62k (Diagnostic) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Total Finite Elements** | $71,320$ | $15,396$ | $42,318$ | $10,253$ | $48,329$ | $62,057$ |
-| **Total Nodes** | $71,833$ | $15,702$ | $42,787$ | $10,321$ | $48,819$ | $62,608$ |
-| **Narrow Corridor ($y \in [0.48, 0.52]$)** | $2,267$ (3.18%) | $935$ (6.07%) | $2,022$ (4.78%) | $702$ (6.85%) | $2,313$ (4.79%) | $5,392$ (8.69%) |
-| **Extended Corridor ($y \in [0.40, 0.60]$)** | $6,375$ (8.94%) | $2,185$ (14.19%) | $4,570$ (10.80%) | $1,349$ (13.16%) | $5,436$ (11.25%) | $12,711$ (20.48%) |
-| **Crack Wake ($x \le 0.5, y \in [0.4, 0.6]$)** | $7,984$ (11.19%) | $3,040$ (19.75%) | $6,764$ (15.98%) | $2,335$ (22.77%) | $6,939$ (14.36%) | $10,519$ (16.95%) |
-| **Far Field ($y < 0.4$ or $y > 0.6$)** | $56,961$ (79.87%) | $10,171$ (66.06%) | $30,984$ (73.22%) | $6,569$ (64.07%) | $35,954$ (74.39%) | $38,827$ (62.57%) |
-| **$h_{\min}$ ($\mu\text{m}$)** | $0.56$ | $0.43$ | $0.67$ | $0.69$ | $0.59$ | $0.45$ |
-| **$h_{\text{median}}$ ($\mu\text{m}$)** | $2.92$ | $5.67$ | $3.80$ | $7.42$ | $3.57$ | $2.52$ |
-| **$h_{\max}$ ($\mu\text{m}$)** | $19.99$ | $20.00$ | $20.00$ | $20.00$ | $20.00$ | $20.00$ |
-| **Crack-Tip $h_{\min}$ ($\mu\text{m}$)** | $0.91$ | $0.89$ | $0.75$ | $0.91$ | $0.59$ | $0.80$ |
-| **Direction Classification** | `NO_MEANINGFUL_IMPROVEMENT` | `TOWARD_TARGET_LOCALIZATION` | `NO_MEANINGFUL_IMPROVEMENT` | `TOWARD_TARGET_LOCALIZATION` | `NO_MEANINGFUL_IMPROVEMENT` | `AWAY_FROM_TARGET_LOCALIZATION` |
+| Parameter / Dimension | Pandey & Kumar (2025) Literature | Corrected-BC 1.0% Project Case | Corrected-BC 2.0% Project Variant | Scientific Role & Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **errorTarget Tolerance** | 1.0% (Literal) | 1.0% (Literature-Literal Setting) | 2.0% (Efficiency-Calibrated Setting) | Sizing parameter controlling error equilibration |
+| **Pre-Analysis Step** | $u_1=10^{-3}, u_2=5\times 10^{-4}$ | $u=0.005\,\text{mm}$ (Elastic Tensile) | $u=0.005\,\text{mm}$ (Elastic Tensile) | Linear-elastic pre-fracture state for $\mathrm{MISESERI}$ |
+| **Top Lateral Constraint** | Prescribed $u_y$, $u_x$ free | $u_x$ free (Poisson contraction allowed) | $u_x$ free (Poisson contraction allowed) | Eliminates artificial boundary shear stresses |
+| **Remeshing Sizing Method** | `UNIFORM_ERROR`, $h \in [1, 20]\,\mu\text{m}$ | `UNIFORM_ERROR`, $h \in [1, 20]\,\mu\text{m}$ | `UNIFORM_ERROR`, $h \in [1, 20]\,\mu\text{m}$ | Strictly identical native Abaqus rules |
+| **Finite Element Count** | $13,941$ (Reported) | $56,302$ (Excessive Far-Field) | $13,897$ ($\Delta = 0.32\%$, Corridor Focus) | Output finite elements generated by CAE |
+| **Crack-Tip Element Size $h_{\text{tip}}$** | $\sim 1.0\,\mu\text{m}$ ($h=0.001\,\text{mm}$) | $0.79\,\mu\text{m}$ | $0.81\,\mu\text{m}$ ($h/l_0 = 0.108$) | Sufficient resolution for phase-field gradient |
+| **Directional Classification** | Published Target Baseline | `LITERATURE_LITERAL_EXCESSIVE_DENSITY` | `TOWARD_TARGET_LOCALIZATION` | Evaluated against Mode-I research objectives |
 
 ---
 
-## 5. Comparison Against Pandey & Kumar (2025)
+## 3. Quantitative Spatial Metrics & Mesh Classifications
 
-1. **Singularity Spatial Structure (Fig. 6(a))**:
-   - The recovered error indicator from Job-1 pre-analysis matches Fig. 6(a) with a singular peak at the crack tip $(0.5, 0.5)$ and steep decay into the far field.
-2. **Corridor Localization (Fig. 5(b))**:
-   - Both 1.0% and 2.0% pre-analysis meshes form a narrow horizontal refined corridor along the expected fracture plane $y=0.5\,\text{mm}$.
-   - The Step-2 62k mesh deviates completely by refining a diffuse triangle across $x \in [0.5, 1.0]$, confirming it was produced from the wrong physical stage.
-3. **Element-Count Scale**:
-   - Pandey & Kumar report $\sim 13,941$ finite elements.
-   - The 2.0% pre-analysis candidate ($10,253$ finite elements) accurately reproduces this scale.
-   - The 1.0% pre-analysis meshes ($42,318\text{--}71,320$ finite elements) reflect the accepted publication information limitation regarding exact relative sizing calibration.
+| Mesh / Discretization | BC Setting | Error Target | Total Finite Elements | Far-Field Fraction | Corridor Fraction | Ligament $h_{\min}$ | Count Delta vs 13.9k | Independent Classification |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **2,906 Coarse Historical BC** | Top $u_1=0$ | 1.0% | $72,085$ | $72.12\%$ | $2.88\%$ | $0.53\,\mu\text{m}$ | $+417.1\%$ | `HISTORICAL_INFLATED_BASELINE` (Top $u_1=0$ shear defect) |
+| **2,906 Coarse Corrected BC** | Free Poisson | 1.0% | $56,302$ | $68.57\%$ | $3.14\%$ | $0.50\,\mu\text{m}$ | $+303.9\%$ | `LITERATURE_LITERAL_EXCESSIVE_DENSITY` (Verified BC effect: -22% elements, but still excessive) |
+| **2,906 Coarse Corrected BC** | Free Poisson | 2.0% | **$13,897$** | **$55.34\%$** | **$4.84\%$** | **$0.81\,\mu\text{m}$** | **$-0.32\%$** | **`TOWARD_TARGET_LOCALIZATION`** (Efficiency-Calibrated Variant, $0.32\%$ Count Delta, $h_{\text{tip}}=0.81\,\mu\text{m}$) |
+| **Step-2 Propagated Crack** | Deformed Crack | 1.0% | $62,057$ | $60.86\%$ | $8.49\%$ | $0.45\,\mu\text{m}$ | $+345.1\%$ | `AWAY_FROM_TARGET_LOCALIZATION` (Forensic Diagnostic of Late Propagated Crack) |
 
 ---
 
-## 6. Visual Evidence Figures
+## 4. Visual Evidence Artifacts Index
 
-1. **Whole-Domain 4-Panel Lineage Comparison**:  
-   [`fig_mode1_lineage_reconciliation_4panel.png`](fig_mode1_lineage_reconciliation_4panel.png)  
-   Shows 2D spatial element size fields for Lineage A (1.0% & 2.0%) and Lineage B (1.0% & 2.0%).
-
-2. **Ligament Profiles & Transverse Band Width Comparison**:  
-   [`fig_mode1_ligament_profiles_lineage_comparison.png`](fig_mode1_ligament_profiles_lineage_comparison.png)  
-   Compares element size $h(x)$ along the ligament $y=0.5\,\text{mm}$ and transverse corridor width $w(x)$ across all 6 candidate meshes.
-
-3. **2D MISESERI Spatial Distribution**:  
-   [`fig_mode1_miseseri_spatial_distribution.png`](fig_mode1_miseseri_spatial_distribution.png)  
-   Shows the pre-analysis recovered error indicator field marking the crack tip singularity.
-
-4. **1.0% vs 2.0% Mesh Comparison & Crack-Tip Zoom**:  
-   [`fig_mode1_mesh_comparison_1pct_vs_2pct.png`](fig_mode1_mesh_comparison_1pct_vs_2pct.png)  
-   Detailed side-by-side crack-tip refinement zoom.
-
----
-
-## 7. Artifact Manifest & Verification Hashes
-
-| File Name | Role | File Size | SHA-256 Hash |
-| :--- | :--- | :---: | :--- |
-| [`PK_M1_PRE_UEL_CORRECTED.inp`](PK_M1_PRE_UEL_CORRECTED.inp) | Exact Pre-Analysis Deck | 331,185 bytes | `D8B64ADAD5B761C1AEB59B8C1FE2E8A4959D74CB673061760C8C06680AFB6D32` |
-| [`execute_mode1_native_adaptive_remesh.py`](execute_mode1_native_adaptive_remesh.py) | Native Remeshing Driver | 5,691 bytes | `63C851923C136C421E6BE51307AAC2F659F4F86E1DC82E56FD152C8FE14C6B70` |
-| [`canonical_mode1_coarse_miseseri_2906.csv`](canonical_mode1_coarse_miseseri_2906.csv) | Centroid MISESERI Dataset | 240,154 bytes | `8DFEF5190913A95624BE7A93092234E0234957918A6BC6FC3E4662CF4220ADC8` |
-| [`fig_mode1_miseseri_spatial_distribution.png`](fig_mode1_miseseri_spatial_distribution.png) | 2D MISESERI Spatial Plot | 1,143,518 bytes | `7D7AC2619075EE43084E8BE0233085DC1E0DEA365EF9ED59285A19AA2F346562` |
-| [`PK_M1_JOB2_ADAPTED_1PCT.inp`](PK_M1_JOB2_ADAPTED_1PCT.inp) | 1.0% Adapted Input Deck | 5,517,143 bytes | `028A604FFECAF37454309D4A4C6A966A79BEED72B3BC76AC59413B4E467B74C6` |
-| [`PK_M1_JOB2_ADAPTED_2PCT.inp`](PK_M1_JOB2_ADAPTED_2PCT.inp) | 2.0% Adapted Input Deck | 1,218,784 bytes | `B3D3B99F43BD1E0CC9C40B8FF1179AC950B37DEDF963DD9092113753274BA685` |
-| [`fig_mode1_mesh_comparison_1pct_vs_2pct.png`](fig_mode1_mesh_comparison_1pct_vs_2pct.png) | 4-Panel Mesh & Zoom Figure | 4,557,627 bytes | `BC34AF85F1EE40F51D70308BC0A670004BD4EAE66EF1D3B8E1F40CAD71B22542` |
-| [`fig_mode1_lineage_reconciliation_4panel.png`](fig_mode1_lineage_reconciliation_4panel.png) | 4-Panel Lineage Comparison | 3,124,374 bytes | `2C2DC58B43CD965BAAE19A2DF55716E8E2792D41F5EF251B5A5CE1F694F9403B` |
-| [`fig_mode1_ligament_profiles_lineage_comparison.png`](fig_mode1_ligament_profiles_lineage_comparison.png) | Ligament Profiles & Corridor Width | 448,512 bytes | `27847E4CF3A633F245BFD9EB4CE5FBEA5FE9CD1F51C1EFEE9E4057A965DC9EAE` |
-| [`LINEAGE_COMPARISON_TABLE.csv`](LINEAGE_COMPARISON_TABLE.csv) | Quantitative Lineage Metrics Table | 1,182 bytes | `1EF032BC5BF0CA87635900C029462A1EDCEB44A759C999B23E280CBE78B58D50` |
-| [`LINEAGE_RECONCILIATION_METRICS.json`](LINEAGE_RECONCILIATION_METRICS.json) | Structured Lineage Metrics | 5,612 bytes | `F24D6955E93BA7F5F02D714C803FEE15FB1A7115E071A748EB2181C26830F25A` |
-| [`ADAPTIVE_ZONE_QUANTITATIVE_TABLE.csv`](ADAPTIVE_ZONE_QUANTITATIVE_TABLE.csv) | Quantitative Zone Statistics | 776 bytes | `3127CE508AD205758540DF228072DE2672FC9C99ADB8E29AD49DD1D3582DAA6D` |
-| [`ADAPTIVE_DIRECTION_EVIDENCE_SUMMARY.json`](ADAPTIVE_DIRECTION_EVIDENCE_SUMMARY.json) | Machine-Readable Audit Summary | 4,522 bytes | `877726600287E7BD4EDAF9C3A6DB8D24644F7CDDED68B443256B33840EE5B23F` |
-| [`README.md`](README.md) | Lineage & Audit Documentation | ~11 KB | Current |
+1. **Master Review Figure**: [`fig_mode1_adaptive_side_by_side_review.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode_i_adaptive/fig_mode1_adaptive_side_by_side_review.png)  
+   - 6-Panel master comparison: Published Pandey & Kumar (2025) Fig. 6(a) and Fig. 5(b) alongside reconstructed MISESERI, 1.0% (56k), 2.0% (13.9k), and ligament zoom.
+2. **Whole-Domain Meshes**:
+   - 1.0% Target ($56,302$ elements): [`fig_mode1_mesh_corr_1pct_wholedomain.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode_i_adaptive/fig_mode1_mesh_corr_1pct_wholedomain.png)
+   - 2.0% Target ($13,897$ elements): [`fig_mode1_mesh_corr_2pct_wholedomain.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode_i_adaptive/fig_mode1_mesh_corr_2pct_wholedomain.png)
+3. **Identical Ligament Zooms ($x \in [0.4, 0.7], y \in [0.4, 0.6]$)**:
+   - 1.0% Target ($56,302$ elements): [`fig_mode1_mesh_corr_1pct_zoom.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode_i_adaptive/fig_mode1_mesh_corr_1pct_zoom.png)
+   - 2.0% Target ($13,897$ elements): [`fig_mode1_mesh_corr_2pct_zoom.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode_i_adaptive/fig_mode1_mesh_corr_2pct_zoom.png)
+4. **Spatial Profile Analysis**: [`fig_mode1_causal_isolation_ligament_profiles.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode_i_adaptive/fig_mode1_causal_isolation_ligament_profiles.png)  
+   - Transverse corridor band width $w(x)$ ($h \le 5\,\mu\text{m}$) and ligament element size $h(x)$.
+5. **Data Files**:
+   - [`PARAMETER_DISTINCTION_TABLE.csv`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/adaptive_direction_evidence_package/PARAMETER_DISTINCTION_TABLE.csv)
+   - [`ADAPTIVE_MESH_CLASSIFICATION_TABLE.csv`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/adaptive_direction_evidence_package/ADAPTIVE_MESH_CLASSIFICATION_TABLE.csv)
+   - [`CAUSAL_ISOLATION_COMPARISON_TABLE.csv`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/adaptive_direction_evidence_package/CAUSAL_ISOLATION_COMPARISON_TABLE.csv)

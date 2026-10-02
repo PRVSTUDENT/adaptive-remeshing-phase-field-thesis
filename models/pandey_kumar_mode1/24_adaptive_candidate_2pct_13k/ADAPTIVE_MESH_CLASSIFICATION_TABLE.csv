@@ -1,0 +1,5 @@
+mesh_key,mesh_name,total_elements,far_field_pct,narrow_corridor_pct,tip_h_min_um,element_count_delta_pct,directional_classification
+Hist_2906_1pct,"2,906 Coarse Historical BC (1.0% Target)",72085,72.12,2.88,0.72,417.07,HISTORICAL_INFLATED_BASELINE (Top u1=0 Shear Defect)
+Corr_2906_1pct,"2,906 Coarse Corrected BC (1.0% Target)",56302,68.57,3.14,0.79,303.86,"LITERATURE_LITERAL_EXCESSIVE_DENSITY (Verified BC Effect: -22% elements, but still excessive)"
+Corr_2906_2pct,"2,906 Coarse Corrected BC (2.0% Target)",13897,55.34,4.84,0.81,0.32,"TOWARD_TARGET_LOCALIZATION (Efficiency-Calibrated Variant, 0.32% Count Delta, Sharp Tip h=0.81 um)"
+Step2_62k,Step-2 Propagated Crack (Diagnostic),62057,60.86,8.49,0.8,345.14,AWAY_FROM_TARGET_LOCALIZATION (Forensic Diagnostic of Late Propagated Crack)

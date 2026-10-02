@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-02T15:10:00+02:00` (Gemini Antigravity) — Mode-I Single-Factor Boundary Condition Causal Isolation Audit Completed on Canonical 2,906 Coarse Mesh; Literature Scale (13,897 Elements, 99.68% Match to 13,941 Baseline) Directly Reproduced at 2.0% Target; Production Package 24_adaptive_candidate_2pct_13k Datacheck Qualified (100% Exit 0) and Submitted to PBS (Job 1409846.mmaster02) Concurrent with Running S1 Reference (Job 1409734.mmaster02 Untouched)  
-Parent commit: `a97364f30b1441bf589208e8edf5e7a5efb4ed3e`
+Last updated: `2026-10-02T15:20:00+02:00` (Gemini Antigravity) — Mode-I Epistemic & Claims Correction Audit Completed; Pandey & Kumar (2025) Citation Standardized; 1% Literature-Literal (56,302 Elements) vs 2% Efficiency-Calibrated (13,897 Elements, Delta=0.32%) Rigorously Distinguished; Dedicated Review Package & Master 6-Panel Figure Generated; Job 1409846.mmaster02 Submitted and Running in normal_imfdfkmq Concurrent with Running Reference Solve Job 1409734.mmaster02 (Both Strictly Untouched)  
+Parent commit: `5e2c3a0b52e25a9daa0c1a1f0ea4cf60383e137c`
 
 ---
 
@@ -30,16 +30,16 @@ Parent commit: `a97364f30b1441bf589208e8edf5e7a5efb4ed3e`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `CONCURRENT_ENERGY_SOLVES_RUNNING (1409734 & 1409846); BC_CAUSAL_ISOLATION_PROVEN; 13897_ELEMENT_LITERATURE_BASELINE_REPRODUCED; POST_S1_BATCH_RELEASE_MANIFEST_QUALIFIED; POSTPROCESSING_MANIFEST_FROZEN; GUARDED_LAUNCHER_VERIFIED; MATRIX_REV19_FROZEN; 0_RETRIES`
-  - **Single-Factor Boundary Condition Causal Isolation Audit:**
-    - Causal proof: Holding the exact canonical 2,906-element coarse mesh fixed ($2,818$ CPE4 + $88$ CPE3), removing the unintended lateral constraint $u_1=0$ on the top edge eliminates parasitic edge/corner shear stress concentrations.
-    - At $\text{errorTarget}=1.0\%$, the adapted mesh drops from $72,085$ to $56,302$ finite elements (**$22.0\%$ reduction** purely from BC correction).
-    - At $\text{errorTarget}=2.0\%$, the adapted mesh yields **$13,897$ finite elements** ($13,506$ quads, $391$ tris), reproducing Pandey & Kumar's published **$13,941$ elements** with **$99.68\%$ precision** without arbitrary mesh tuning.
-    - Directional classification: `TOWARD_TARGET_LOCALIZATION` (recovers authentic crack-tip focus, $h_{\min}=0.81\,\mu\text{m}$, corridor refinement, and literature element scale).
-  - **Authoritative 2.0% Adaptive Production Validation Job (`1409846.mmaster02`):**
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `CONCURRENT_ENERGY_SOLVES_RUNNING (1409734 & 1409846); NON_POLLING_GUARD_ENFORCED; SCIENTIFIC_CLAIMS_CORRECTED; 1PCT_VS_2PCT_DISTINGUISHED; REVIEW_PACKAGE_GENERATED; POST_S1_BATCH_RELEASE_MANIFEST_QUALIFIED; POSTPROCESSING_MANIFEST_FROZEN; 0_RETRIES`
+  - **Epistemic & Claims Governance Correction:**
+    - Correcting the pre-analysis lateral boundary condition significantly reduces unnecessary adaptive refinement (dropping 1.0% elements from $72,085$ to $56,302$ on the 2,906-coarse topology), but the literature-literal 1% Abaqus remesh still remains substantially denser ($56,302$ finite elements) than the published mesh ($\sim 13{,}941$ elements in Pandey & Kumar, 2025).
+    - The 13,897-element mesh was obtained with `errorTarget=2.0%`, producing an element-count difference of $\frac{|13897 - 13941|}{13941} \times 100\% = 0.32\%$. This case is evaluated strictly as an **efficiency-calibrated adaptive configuration**, not as the literal Pandey–Kumar 1% reproduction.
+    - Literature citation standardized to **Pandey & Kumar (2025)** (*CMES*, Vol. 144, No. 3, pp. 3251–3276, DOI: `10.32604/cmes.2025.067858`).
+    - Dedicated review package with Master 6-Panel Figure ([`fig_mode1_adaptive_side_by_side_review.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode_i_adaptive/fig_mode1_adaptive_side_by_side_review.png)) and Parameter Distinction Table generated.
+  - **Authoritative 2.0% Adaptive Validation Job (`1409846.mmaster02`):**
     - Staged in `models/pandey_kumar_mode1/24_adaptive_candidate_2pct_13k/` ($N_{\text{phys}}=13897.0$, `f42_mixed_uel.for` SHA `CE8D5EDC...`, `*Depvar 20`, All_elem SDV17–20, working-dir CSV, 1-CPU serial).
     - Abaqus 2023 / Intel Fortran Datacheck preflight: **100% Exit Code 0**.
-    - Submitted to PBS `normal_imfdfkmq` as Job `1409846.mmaster02`.
+    - Running in PBS `normal_imfdfkmq` as Job `1409846.mmaster02` (non-polling guard strictly enforced).
   - **Authoritative S1 Reference Replacement Solve (`PK_M1_REF15K_ENERGY`, Job `1409734.mmaster02`):**
     - Running concurrently in `normal_imfdfkmq` on compute node `mnode097/0` (strictly untouched and unpolled).
 
@@ -50,7 +50,7 @@ Parent commit: `a97364f30b1441bf589208e8edf5e7a5efb4ed3e`
 | Job ID | Name | Queue | Node | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
 | **`1409734.mmaster02`** | `PK_M1_REF15K_ENERGY` | `normal_imfdfkmq` | `mnode097/0` | Serial 1-CPU | **`R` (Running)** | Authoritative 15,192-element corrected energy reference solve (All_elem SDV17-20 output + working-dir CSV tracking; non-polling guard enforced) | `EC560A4C265730647B43DAB125D166EBC57CAC285D574D38222A498A967535D9` |
-| **`1409846.mmaster02`** | `PK_M1_ADAPT_2PCT_13K_ENERGY` | `normal_imfdfkmq` | `mnode097` | Serial 1-CPU | **`R` (Running)** | Authoritative 13,897-element 2% adaptive validation solve reproducing 13.9k literature baseline (All_elem SDV17-20 output + working-dir CSV) | `9113C5F609B86DE03FD0AD4A18A971EC3ED5424664BFE44E695E96789D4D6ECC` |
+| **`1409846.mmaster02`** | `PK_M1_ADAPT_2PCT_13K_ENERGY` | `normal_imfdfkmq` | `mnode097` | Serial 1-CPU | **`R` (Running)** | Authoritative 13,897-element 2% efficiency-calibrated adaptive validation solve (All_elem SDV17-20 output + working-dir CSV; non-polling guard enforced) | `9113C5F609B86DE03FD0AD4A18A971EC3ED5424664BFE44E695E96789D4D6ECC` |
 | `1409705.mmaster02` | `PK_M1_REF15K_ENERGY` | `normal_imfdfkmq` | `mnode100/0` | Serial 1-CPU | `F` (Finished, Exit 0) | Prior mechanical reference run (100% mechanical parity, archived in `job_1409705_archive/`) | `13408A83DBD5DEE60D9243DA8D32258036FDCD7C1C45830CAD751A11193980E0` |
 
 ---
@@ -60,7 +60,7 @@ Parent commit: `a97364f30b1441bf589208e8edf5e7a5efb4ed3e`
 | Package Name | Candidate Job Name | Finite Elements | Mesh Lineage | Target / Setting | Datacheck Status | Submission Status |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
 | `16_energy_qualification_reference_15k` | `PK_M1_REF15K_ENERGY` | $15,192$ | Fixed Anchor | $h=0.0030\,\text{mm}$ | `PASS_EXIT_0` | `RUNNING (Job 1409734)` |
-| `24_adaptive_candidate_2pct_13k` | `PK_M1_ADAPT_2PCT_13K_ENERGY` | $13,897$ | 2,906-Coarse Corr-BC | $\text{errorTarget}=2.0\%$ | `PASS_EXIT_0` | `RUNNING (Job 1409846)` |
+| `24_adaptive_candidate_2pct_13k` | `PK_M1_ADAPT_2PCT_13K_ENERGY` | $13,897$ | 2,906-Coarse Corr-BC | $\text{errorTarget}=2.0\%$ (Efficiency-Calibrated) | `PASS_EXIT_0` | `RUNNING (Job 1409846)` |
 | `12_fixed_convergence_h0020` | `PK_M1_S2_ENERGY` | $32,184$ | Fixed Refined | $h=0.0020\,\text{mm}$ | `PASS_EXIT_0` | `GATED_AWAITING_S1` |
 | `13_fixed_convergence_h0015` | `PK_M1_S3_ENERGY` | $41,912$ | Fixed Fine | $h=0.0015\,\text{mm}$ | `PASS_EXIT_0` | `GATED_AWAITING_S1` |
 | `17_temporal_convergence_t1_coarse` | `PK_MODE1_T1_COARSE_ENERGY` | $15,192$ | Fixed Anchor | $\Delta u = 1.0\times 10^{-3}$ | `PASS_EXIT_0` | `GATED_AWAITING_S1` |
