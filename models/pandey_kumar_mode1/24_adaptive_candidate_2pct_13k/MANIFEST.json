@@ -1,0 +1,46 @@
+{
+  "package_name": "24_adaptive_candidate_2pct_13k",
+  "model_family": "pandey_kumar_mode1",
+  "scientific_target": "Mode-I 2.0% Adaptive Energy Simulation (13,897 Elements reproducing 13.9k Literature Baseline)",
+  "finite_element_count": 13897,
+  "node_count": 13884,
+  "quad_element_count": 13506,
+  "tri_element_count": 391,
+  "total_layered_elements": 41691,
+  "files": {
+    "PK_MODE1_ADAPT_2PCT_13K_ENERGY.inp": {
+      "sha256": "9113c5f609b86de03fd0ad4a18a971ec3ed5424664bfe44e695e96789d4d6ecc",
+      "description": "4-Layer Mode-I Adaptive Fracture Input Deck"
+    },
+    "f42_mixed_uel.for": {
+      "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+      "description": "Governed Mixed CPE4/CPE3 Phase-Field User Subroutine"
+    },
+    "submit_solver.pbs": {
+      "description": "PBS Execution Script (1-CPU Serial, 16GB, normal_imfdfkmq)"
+    },
+    "submit_datacheck.pbs": {
+      "description": "PBS Datacheck Script (1-CPU Serial, 8GB, normal_imfdfkmq)"
+    },
+    "submit_pk_mode1_adapt_2pct_13k_energy.sh": {
+      "description": "Guarded Preflight and Submission Wrapper"
+    },
+    "job_notifications.sh": {
+      "description": "Dual-Channel PBS Mail and Telegram Notification Traps"
+    }
+  },
+  "parameters": {
+    "E": 210.0,
+    "nu": 0.3,
+    "l0": 0.0075,
+    "Gc": 0.0027,
+    "eta": 1e-7,
+    "N_phys": 13897.0
+  },
+  "cluster": {
+    "queue": "normal_imfdfkmq",
+    "cpus": 1,
+    "memory": "16gb",
+    "walltime": "12:00:00"
+  }
+}

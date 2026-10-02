@@ -1,95 +1,34 @@
 {
-    "active_task": {
-        "task_id": "F1155-GATE6B-LINEAGE-RECONCILIATION-AND-2PCT-QUALIFICATION-20261002",
-        "task_name": "Reconcile Mode-I adaptive remeshing lineages, enforce terminology and non-speculative error descriptions, assemble and qualify 2% adaptive candidate package",
-        "status": "LINEAGE_RECONCILED_2PCT_CANDIDATE_QUALIFIED_DATACHECK_PASSED_SESSION_CLOSED",
-        "governing_rule": "We need to have understood everything related to the first model before we increase complexity.",
-        "start_time": "2026-09-03T11:58:00+02:00",
-        "last_updated": "2026-10-02T14:40:00+02:00",
-        "phase": "MODE1_GATE6B_ENERGY_CONVERGENCE_AND_STEP2_RECONCILIATION_ACTIVE",
-        "active_gate": "Gate 6B: Mode-I Energetic & Multi-Quantity Convergence and Step-2 Adaptive Qualification",
-        "next_supervisor_meeting": "Thursday, 08 October 2026, 10:00",
-        "gate_status": {
-            "Gate 0": "CLOSED_PASSED",
-            "Gate 1": "CLOSED_PASSED",
-            "Gate 2": "CLOSED_PASSED",
-            "Gate 3": "CLOSED_PASSED",
-            "Gate 4": "CLOSED_VERIFIED",
-            "Gate 5": "CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION",
-            "Gate 6A": "RESOLVED_AND_CLOSED",
-            "Gate 6B": "EQUATION_MAP_V2.3_FROZEN; REPRODUCTION_PACKAGE_18_CHECKS_PASS; S1_JOB_1409734_RUNNING; S2_S3_DATACHECK_PASSED; T1_T2_T3_DATACHECK_PASSED; T2_REUSED_AS_S1; L1_L2_L3_DATACHECK_PASSED; L1_REUSED_AS_S3; POST_S1_BATCH_RELEASE_MANIFEST_QUALIFIED; GUARDED_LAUNCHER_EXIT0; REVISION_19_FROZEN; FULL_REGRESSION_105_TESTS_PASS (100PCT EXIT 0); ADAPTIVE_DIRECTION_EVIDENCE_PACKAGE_ASSEMBLED; LINEAGE_RECONCILED; ADAPTIVE_2PCT_10K_DATACHECK_PASSED",
-            "Gate 6C": "NOT_YET_PERFORMED_PENDING_GATE_6B",
-            "Gate 7": "ON_HOLD_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
-            "Gate 8": "ON_HOLD",
-            "Gate 9": "ACTIVE_CONTINUOUSLY",
-            "Gate 10": "ACTIVE_CONTINUOUSLY",
-            "Gate 11": "ACTIVE_CONTINUOUSLY"
-        },
-        "scope_restrictions": {
-            "mode_ii_status": "ON_HOLD",
-            "mixed_mode_status": "ON_HOLD",
-            "higher_complexity_status": "ON_HOLD",
-            "state_transfer_status": "ON_HOLD_PENDING_GATE_6B",
-            "task_6_status": "ON_HOLD_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
-            "task_6_companion_bridge": "COMPANION_VISUALIZATION_BRIDGE_FULLY_VERIFIED",
-            "new_simulations_or_pbs_jobs": "S1_QUALIFICATION_ANALYSIS_DOCUMENTED; S2_S3_DATACHECK_PASSED; 2PCT_ADAPTIVE_DATACHECK_PASSED"
-        },
-        "governing_rules": {
-            "cluster_execution_constraint": "ZERO_ACTIVE_JOBS_AFTER_COMPLETION",
-            "active_running_project_jobs": 1,
-            "active_running_cpus": 1,
-            "active_job_ids": [
-                "1409734.mmaster02"
-            ],
-            "queue_status": "1_RUNNING_JOB_IN_NORMAL_IMFDFKMQ",
-            "queue_per_user_cpu_limit": 640,
-            "queue_per_user_mem_limit": "4TB",
-            "notification_status": "DUAL_CHANNEL_QUALIFIED",
-            "active_job_snapshot": {
-                "job_id": "1409734.mmaster02",
-                "job_name": "PK_M1_REF15K_ENERGY",
-                "queue": "normal_imfdfkmq",
-                "node": "mnode097/0",
-                "status": "R",
-                "time_use": "06:24:00",
-                "snapshot_time": "2026-10-02T14:15:00+02:00",
-                "non_polling_guard": "ENFORCED"
-            }
-        },
-        "adaptive_candidate_2pct_10k": {
-            "package_directory": "models/pandey_kumar_mode1/23_adaptive_candidate_2pct_10k/",
-            "input_deck": "PK_MODE1_ADAPT_2PCT_10K_ENERGY.inp",
-            "input_deck_sha256": "F9B9BB907DA83AFCADCF50D58528BDE8029D5C4277D5012967940A04C653EBA9",
-            "fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-            "finite_elements": 10253,
-            "nodes": 10321,
-            "nphys": 10253.0,
-            "datacheck_result": "PASS_EXIT_0 (Abaqus 2023 / ifort 2021.13.0 on cluster)",
-            "classification": "DATACHECK_PASSED_READY_AFTER_CORRECTED_S1_ENERGY_QUALIFICATION",
-            "authorized": false
-        },
-        "adaptive_direction_evidence_package": {
-            "directory": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/",
-            "manifest_json": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/ADAPTIVE_DIRECTION_EVIDENCE_SUMMARY.json",
-            "manifest_sha256": "877726600287E7BD4EDAF9C3A6DB8D24644F7CDDED68B443256B33840EE5B23F",
-            "zone_table_csv": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/ADAPTIVE_ZONE_QUANTITATIVE_TABLE.csv",
-            "zone_table_sha256": "3127CE508AD205758540DF228072DE2672FC9C99ADB8E29AD49DD1D3582DAA6D",
-            "pre_analysis_deck": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/PK_M1_PRE_UEL_CORRECTED.inp",
-            "pre_analysis_deck_sha256": "D8B64ADAD5B761C1AEB59B8C1FE2E8A4959D74CB673061760C8C06680AFB6D32",
-            "adapted_1pct_deck": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/PK_M1_JOB2_ADAPTED_1PCT.inp",
-            "adapted_1pct_deck_sha256": "028A604FFECAF37454309D4A4C6A966A79BEED72B3BC76AC59413B4E467B74C6",
-            "adapted_2pct_deck": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/PK_M1_JOB2_ADAPTED_2PCT.inp",
-            "adapted_2pct_deck_sha256": "B3D3B99F43BD1E0CC9C40B8FF1179AC950B37DEDF963DD9092113753274BA685",
-            "lineage_comparison_table_csv": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/LINEAGE_COMPARISON_TABLE.csv",
-            "lineage_comparison_table_sha256": "C5A3A6BFC48C5A3F45A5AD0B45900C958B99DFC31702516DE67AAD419D3A3483",
-            "lineage_metrics_json": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/LINEAGE_RECONCILIATION_METRICS.json",
-            "lineage_metrics_sha256": "5BD93B8B840D9A6E6FF821E3C3A706F4733CB0D888C5B874A4159FC40AC7522C",
-            "classifications": {
-                "step2_62k_mesh": "AWAY_FROM_TARGET_LOCALIZATION",
-                "adapted_1pct_mesh": "NO_MEANINGFUL_IMPROVEMENT",
-                "adapted_2pct_mesh": "TOWARD_TARGET_LOCALIZATION"
-            },
-            "status": "LINEAGE_RECONCILED_AND_EVIDENCE_PACKAGE_QUALIFIED"
-        }
+  "task_id": "F1157-GATE6B-MONITOR-CONCURRENT-ENERGY-SOLVES-20261002",
+  "phase": "Stage Mode-I",
+  "title": "Monitor Concurrent Mode-I Energy Benchmark Solves (1409734.mmaster02 and 1409846.mmaster02) to Completion",
+  "status": "ready",
+  "assigned_agent": "gemini-antigravity",
+  "workspace": "D:\\Master thesis\\Adaptive remeshing",
+  "write_scope": [
+    "models/pandey_kumar_mode1/**",
+    "results/**",
+    "docs/**",
+    "project_coordination/**"
+  ],
+  "hpc_jobs": [
+    "1409734.mmaster02",
+    "1409846.mmaster02"
+  ],
+  "context": {
+    "job_1409734": {
+      "name": "PK_M1_REF15K_ENERGY",
+      "model": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k",
+      "elements": 15192,
+      "status": "RUNNING",
+      "queue": "normal_imfdfkmq"
+    },
+    "job_1409846": {
+      "name": "PK_M1_ADAPT_2PCT_13K_ENERGY",
+      "model": "models/pandey_kumar_mode1/24_adaptive_candidate_2pct_13k",
+      "elements": 13897,
+      "status": "RUNNING",
+      "queue": "normal_imfdfkmq"
     }
+  }
 }
