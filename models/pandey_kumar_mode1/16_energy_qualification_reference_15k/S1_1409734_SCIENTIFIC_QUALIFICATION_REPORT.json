@@ -1,0 +1,52 @@
+{
+  "job_identity": {
+    "job_id": "1409734.mmaster02",
+    "job_name": "PK_M1_REF15K_ENERGY",
+    "model_path": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k",
+    "finite_elements": 15192,
+    "nodes": 15521,
+    "solver_exit_status": 0,
+    "walltime_str": "06:55:16",
+    "cput_str": "06:43:00",
+    "exec_node": "mnode097/0",
+    "queue": "normal_imfdfkmq",
+    "deck_sha256": "ec560a4c265730647b43dab125d166ebc57cac285d574d38222a498a967535d9",
+    "fortran_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+  },
+  "mechanical_parity": {
+    "K0_kN_per_mm": 137.94551964508435,
+    "K0_reference_kN_per_mm": 137.94552,
+    "delta_K0_pct": -2.5728682001765566e-07,
+    "K0_intercept_kN": 4.4723675101509674e-05,
+    "K0_R2": 0.9999995995397414,
+    "K0_fit_points_N": 400,
+    "F_max_kN": 0.75777849,
+    "F_max_reference_kN": 0.757778,
+    "delta_F_max_pct": 6.466273763815279e-05,
+    "u_at_F_max_mm": 0.005857,
+    "u_at_F_max_reference_mm": 0.005857,
+    "delta_u_peak_pct": 0.0,
+    "u_final_mm": 0.01,
+    "F_final_kN": 0.00023216215,
+    "load_drop_pct": 99.96936279492441,
+    "W_ext_final_kNmm": 0.0023593293596249807,
+    "W_ext_final_mJ": 2.3593293596249807,
+    "delta_W_ext_pct": 1.524268047552096e-05
+  },
+  "energy_balance": {
+    "has_energy_sdvs": true,
+    "e_elas_final_kNmm": 1.1608108e-06,
+    "e_elas_final_mJ": 0.0011608108,
+    "e_frac_final_kNmm": 0.00234022,
+    "e_frac_final_mJ": 2.34022,
+    "e_model_final_kNmm": 0.0023413808,
+    "e_model_final_mJ": 2.3413808,
+    "w_ext_final_kNmm": 0.0023593293596249807,
+    "w_ext_final_mJ": 2.3593293596249807,
+    "delta_book_final_kNmm": -1.794855962498074e-05,
+    "delta_book_final_mJ": -0.01794855962498074,
+    "signed_reldiff_final_pct": -0.7607483690972969,
+    "eps_book_final_pct": 0.7607483690972969
+  },
+  "scientific_qualification_status": "CORRECTED_S1_ENERGY_QUALIFIED"
+}

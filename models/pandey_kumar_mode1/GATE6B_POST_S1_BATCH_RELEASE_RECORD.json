@@ -1,0 +1,103 @@
+{
+  "manifest_id": "GATE6B-POST-S1-BATCH-RELEASE-MANIFEST-V1.0",
+  "phase": "MODE1_GATE6B_ENERGY_CONVERGENCE_AND_STEP2_RECONCILIATION_ACTIVE",
+  "s1_reference_qualification": {
+    "job_id": "1409734.mmaster02",
+    "qualification_status": "CORRECTED_S1_ENERGY_QUALIFIED",
+    "qualification_timestamp": "2026-10-02T15:52:40+02:00",
+    "finite_elements": 15192,
+    "K0_kN_per_mm": 137.945520,
+    "delta_K0_pct": -0.0000,
+    "F_max_kN": 0.757778,
+    "delta_F_max_pct": +0.0001,
+    "u_peak_mm": 0.005857,
+    "delta_u_peak_pct": +0.0000,
+    "W_ext_mJ": 2.359329,
+    "E_model_mJ": 2.341381,
+    "delta_book_mJ": -0.017949,
+    "eps_book_pct": 0.7607
+  },
+  "batch_submission_timestamp": "2026-10-02T15:56:19+02:00",
+  "submissions": {
+    "S2": {
+      "job_name": "PK_M1_S2_ENERGY",
+      "job_id": "1409866.mmaster02",
+      "finite_elements": 32184,
+      "nphys": 32130,
+      "package_directory": "models/pandey_kumar_mode1/12_fixed_convergence_h0020",
+      "queue": "entry_imfdfkmq -> normal_imfdfkmq",
+      "cpus": 1,
+      "mode": "1-CPU Serial",
+      "submitted_at": "2026-10-02T15:54:54+02:00"
+    },
+    "S3": {
+      "job_name": "PK_M1_S3_ENERGY",
+      "job_id": "1409867.mmaster02",
+      "finite_elements": 41912,
+      "nphys": 41912,
+      "package_directory": "models/pandey_kumar_mode1/13_fixed_convergence_h0015",
+      "queue": "entry_imfdfkmq -> normal_imfdfkmq",
+      "cpus": 1,
+      "mode": "1-CPU Serial",
+      "submitted_at": "2026-10-02T15:54:54+02:00"
+    },
+    "T1": {
+      "job_name": "PK_MODE1_T1_COARSE_ENERGY",
+      "job_id": "1409869.mmaster02",
+      "finite_elements": 15192,
+      "nphys": 15192,
+      "package_directory": "models/pandey_kumar_mode1/17_temporal_convergence_t1_coarse",
+      "queue": "entry_imfdfkmq -> normal_imfdfkmq",
+      "cpus": 1,
+      "mode": "1-CPU Serial",
+      "submitted_at": "2026-10-02T15:56:19+02:00"
+    },
+    "T3": {
+      "job_name": "PK_MODE1_T3_FINE_ENERGY",
+      "job_id": "1409870.mmaster02",
+      "finite_elements": 15192,
+      "nphys": 15192,
+      "package_directory": "models/pandey_kumar_mode1/19_temporal_convergence_t3_fine",
+      "queue": "entry_imfdfkmq -> normal_imfdfkmq",
+      "cpus": 1,
+      "mode": "1-CPU Serial",
+      "submitted_at": "2026-10-02T15:56:19+02:00"
+    },
+    "L2": {
+      "job_name": "PK_M1_L2_L01125_ENERGY",
+      "job_id": "1409871.mmaster02",
+      "finite_elements": 41912,
+      "nphys": 41912,
+      "package_directory": "models/pandey_kumar_mode1/21_length_scale_l2_intermediate",
+      "queue": "entry_imfdfkmq -> normal_imfdfkmq",
+      "cpus": 1,
+      "mode": "1-CPU Serial",
+      "submitted_at": "2026-10-02T15:56:19+02:00"
+    },
+    "L3": {
+      "job_name": "PK_M1_L3_L01500_ENERGY",
+      "job_id": "1409872.mmaster02",
+      "finite_elements": 41912,
+      "nphys": 41912,
+      "package_directory": "models/pandey_kumar_mode1/22_length_scale_l3_coarse",
+      "queue": "entry_imfdfkmq -> normal_imfdfkmq",
+      "cpus": 1,
+      "mode": "1-CPU Serial",
+      "submitted_at": "2026-10-02T15:56:19+02:00"
+    }
+  },
+  "reused_exclusions": {
+    "T2": {
+      "job_name": "PK_MODE1_T2_NOMINAL_ENERGY",
+      "reused_reference_job": "1409734.mmaster02",
+      "governing_rule": "T2_NOMINAL = REUSE_CORRECTED_S1_REFERENCE",
+      "submission_action": "OMIT_FROM_CLUSTER_SUBMISSIONS_REUSE_S1"
+    },
+    "L1": {
+      "job_name": "PK_MODE1_L1_BASELINE_ENERGY",
+      "reused_reference_job": "1409867.mmaster02",
+      "governing_rule": "L1_BASELINE = REUSE_S3_REFERENCE",
+      "submission_action": "OMIT_FROM_CLUSTER_SUBMISSIONS_REUSE_S3"
+    }
+  }
+}
