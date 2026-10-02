@@ -32,3 +32,25 @@ Correcting the pre-analysis lateral boundary condition (allowing natural Poisson
 - `f42_mixed_uel.for`: `ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6`
 - `PK_MODE1_ADAPT_2PCT_13K_ENERGY.inp`: `9113c5f609b86de03fd0ad4a18a971ec3ed5424664bfe44e695e96789d4d6ecc` ($N_{\text{phys}}=13897.0$, `*Depvar 20`, All_elem SDV17–20, `CALL GETOUTDIR` CSV)
 - **Execution Directives**: 1 CPU serial, 16 GB RAM, 12 h walltime, queue `normal_imfdfkmq` via `entry_imfdfkmq` (PBS Job ID: `1409846.mmaster02`).
+
+---
+
+## 4. Terminal Scientific-Qualification Pipeline
+
+Upon job completion in PBS (`1409846.mmaster02`), the post-processing pipeline executes the following stages:
+
+1. **Abaqus ODB Extractor (`extract_mode1_adaptive_13k_energy.py`)**:
+   - Opens `PK_MODE1_ADAPT_2PCT_13K_ENERGY.odb` with Abaqus Python (Python 2.7).
+   - Extracts complete $F-u$ reaction history using strict force sign convention $F = -RF2_{RP}$.
+   - Extracts SDV17 ($E_{\text{frac}}$) and SDV18 ($E_{\text{elas}}$) with single-value deduplication per physical element to prevent 4x Gauss point overcounting.
+   - Extracts ligament damage profile $d(x, y=0.5\,\text{mm})$.
+   - Generates persistent `uel_energy_balance.csv` and `MODE1_ADAPTIVE_13K_ENERGY_EVALUATION.json`.
+2. **Terminal Scientific Evaluator (`evaluate_mode1_adaptive_terminal_job.py`)**:
+   - Computes canonical initial stiffness $K_0$, intercept, and $R^2$ on $0 < u \le 0.0020\,\text{mm}$.
+   - Evaluates peak force $F_{\max}$, displacement at peak $u(F_{\max})$, softening branch, and work input $W_{\text{ext}}$.
+   - Computes model energy $E_{\text{model}} = E_{\text{elas}} + E_{\text{frac}}$ and descriptive bookkeeping diagnostic $\Delta_{\text{book}} = E_{\text{model}} - W_{\text{ext}}$.
+   - Evaluates computational cost reduction ($-8.52\%$ vs 15k reference, $-75.32\%$ vs 1% mesh).
+3. **Matched Reference-vs-Adaptive Comparison (`MODE1_REFERENCE_VS_ADAPTIVE_ENERGY_COMPARISON_TEMPLATE.md`)**:
+   - Populates side-by-side comparison between reference Job `1409734.mmaster02` (15,192 elements) and adaptive Job `1409846.mmaster02` (13,897 elements).
+4. **Decision Logic Schema (`TERMINAL_DECISION_LOGIC_SCHEMA.json`)**:
+   - Enforces automatic 3-branch routing depending on whether Reference or Adaptive finishes first.

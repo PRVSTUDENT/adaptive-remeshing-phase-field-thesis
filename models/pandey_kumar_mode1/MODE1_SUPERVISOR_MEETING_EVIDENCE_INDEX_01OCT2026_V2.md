@@ -1,5 +1,5 @@
 # Master Evidence Index: Mode-I Benchmark Qualification & Energy Audit (Revision V2)
-**Target Review Date:** 01 October 2026, 10:00  
+**Target Review Date:** 08 October 2026, 10:00  
 **Governing Phase:** `MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE`  
 **Governance State:** `GATE_6B_OPEN` | **Active Freeze Lineage:** `V4 (20-Sep-2026)`  
 **Governing Directive:** *"We need to have understood everything related to the first model before we increase complexity."*  

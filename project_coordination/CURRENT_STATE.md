@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-02T15:20:00+02:00` (Gemini Antigravity) — Mode-I Epistemic & Claims Correction Audit Completed; Pandey & Kumar (2025) Citation Standardized; 1% Literature-Literal (56,302 Elements) vs 2% Efficiency-Calibrated (13,897 Elements, Delta=0.32%) Rigorously Distinguished; Dedicated Review Package & Master 6-Panel Figure Generated; Job 1409846.mmaster02 Submitted and Running in normal_imfdfkmq Concurrent with Running Reference Solve Job 1409734.mmaster02 (Both Strictly Untouched)  
-Parent commit: `5e2c3a0b52e25a9daa0c1a1f0ea4cf60383e137c`
+Last updated: `2026-10-02T15:35:00+02:00` (Gemini Antigravity) — Terminal Scientific-Qualification Pipeline for Adaptive Solve (Job 1409846.mmaster02) and Matched Reference-vs-Adaptive Comparison Templates Fully Implemented and Validated (8 Unit Tests Passing 100%); Epistemic Standards, SDV Deduplication, Force Sign Convention (F = -RF2_RP), and Descriptive Bookkeeping Diagnostics Enforced; Solver Jobs 1409734.mmaster02 (15k Reference) and 1409846.mmaster02 (13.9k Adaptive) Running in normal_imfdfkmq with Non-Polling Guard Enforced (Strictly Untouched)  
+Parent commit: `b887240193f38c090fa95991fa6bc0317c3197b4`
 
 ---
 
@@ -30,18 +30,17 @@ Parent commit: `5e2c3a0b52e25a9daa0c1a1f0ea4cf60383e137c`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `CONCURRENT_ENERGY_SOLVES_RUNNING (1409734 & 1409846); NON_POLLING_GUARD_ENFORCED; SCIENTIFIC_CLAIMS_CORRECTED; 1PCT_VS_2PCT_DISTINGUISHED; REVIEW_PACKAGE_GENERATED; POST_S1_BATCH_RELEASE_MANIFEST_QUALIFIED; POSTPROCESSING_MANIFEST_FROZEN; 0_RETRIES`
-  - **Epistemic & Claims Governance Correction:**
-    - Correcting the pre-analysis lateral boundary condition significantly reduces unnecessary adaptive refinement (dropping 1.0% elements from $72,085$ to $56,302$ on the 2,906-coarse topology), but the literature-literal 1% Abaqus remesh still remains substantially denser ($56,302$ finite elements) than the published mesh ($\sim 13{,}941$ elements in Pandey & Kumar, 2025).
-    - The 13,897-element mesh was obtained with `errorTarget=2.0%`, producing an element-count difference of $\frac{|13897 - 13941|}{13941} \times 100\% = 0.32\%$. This case is evaluated strictly as an **efficiency-calibrated adaptive configuration**, not as the literal Pandey–Kumar 1% reproduction.
-    - Literature citation standardized to **Pandey & Kumar (2025)** (*CMES*, Vol. 144, No. 3, pp. 3251–3276, DOI: `10.32604/cmes.2025.067858`).
-    - Dedicated review package with Master 6-Panel Figure ([`fig_mode1_adaptive_side_by_side_review.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode_i_adaptive/fig_mode1_adaptive_side_by_side_review.png)) and Parameter Distinction Table generated.
-  - **Authoritative 2.0% Adaptive Validation Job (`1409846.mmaster02`):**
-    - Staged in `models/pandey_kumar_mode1/24_adaptive_candidate_2pct_13k/` ($N_{\text{phys}}=13897.0$, `f42_mixed_uel.for` SHA `CE8D5EDC...`, `*Depvar 20`, All_elem SDV17–20, working-dir CSV, 1-CPU serial).
-    - Abaqus 2023 / Intel Fortran Datacheck preflight: **100% Exit Code 0**.
-    - Running in PBS `normal_imfdfkmq` as Job `1409846.mmaster02` (non-polling guard strictly enforced).
-  - **Authoritative S1 Reference Replacement Solve (`PK_M1_REF15K_ENERGY`, Job `1409734.mmaster02`):**
-    - Running concurrently in `normal_imfdfkmq` on compute node `mnode097/0` (strictly untouched and unpolled).
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `CONCURRENT_ENERGY_SOLVES_RUNNING (1409734 & 1409846); TERMINAL_EVALUATION_PIPELINE_VALIDATED; MATCHED_COMPARISON_TEMPLATE_READY; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+  - **Terminal Qualification Pipeline Ready for Instant Execution Upon Solver Exit:**
+    - `evaluate_mode1_adaptive_terminal_job.py` and `extract_mode1_adaptive_13k_energy.py` deployed and validated.
+    - Strict physical & numerical rules enforced: $F = -RF2_{RP}$, single-value SDV17/18 element deduplication, linear elastic $K_0$ regression on $0 < u \le 0.0020\,\text{mm}$, monotonic trapezoidal work integration, descriptive bookkeeping diagnostics ($\Delta_{\text{book}} = E_{\text{model}} - W_{\text{ext}}$).
+    - Matched Reference vs Adaptive Comparison Report Template ([`MODE1_REFERENCE_VS_ADAPTIVE_ENERGY_COMPARISON_TEMPLATE.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/experiment_records/MODE1_REFERENCE_VS_ADAPTIVE_ENERGY_COMPARISON_TEMPLATE.md)) pre-populated and ready.
+    - 3-Branch Automatic Terminal Decision Tree ([`MODE1_CONCURRENT_SOLVES_TERMINAL_DECISION_TREE.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/decisions/MODE1_CONCURRENT_SOLVES_TERMINAL_DECISION_TREE.md)) established.
+    - 8 unit tests in [`test_mode1_adaptive_terminal_evaluator.py`](file:///D:/Master%20thesis/Adaptive%20remeshing/tests/mode1_adaptive/test_mode1_adaptive_terminal_evaluator.py) passing 100%.
+  - **Authoritative Concurrent Solver Solves:**
+    - Fixed Reference Job **`1409734.mmaster02`** (`PK_M1_REF15K_ENERGY`, 15,192 elements) running on `mnode097/0` in `normal_imfdfkmq`.
+    - Adaptive Candidate Job **`1409846.mmaster02`** (`PK_M1_ADAPT_2PCT_13K_ENERGY`, 13,897 elements) running in `normal_imfdfkmq`.
+    - Both jobs remain strictly untouched and unpolled.
 
 ---
 

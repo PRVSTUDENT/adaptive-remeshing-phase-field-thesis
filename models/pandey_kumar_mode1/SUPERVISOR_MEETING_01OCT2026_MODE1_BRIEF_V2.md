@@ -133,7 +133,7 @@ abaqus python postprocess_mode1_energy_audit.py --job PK_M1_S3_H0015
 
 ---
 
-## 7. Supervisor Decision Framework (01 October 2026 Meeting)
+## 7. Supervisor Decision Framework (08 October 2026 Meeting)
 
 ### 7.1 The Explicit Decision Question
 > **"Is the demonstrated endpoint energetic accounting — together with the analytically established limitation that no reconstructible common discrete potential/global algorithmic identity is available from the current staggered uninstrumented trajectory — sufficient for the thesis Mode-I energy qualification, provided this limitation is stated explicitly?"**

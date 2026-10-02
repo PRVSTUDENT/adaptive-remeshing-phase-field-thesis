@@ -2,7 +2,7 @@
 **Benchmark:** Mode-I Edge-Cracked Square Plate (Pandey & Kumar, 2025)  
 **Governance State:** `GATE_6B_OPEN_PENDING_SUPERVISOR_DECISION_01OCT2026` | **Readiness Status:** `SUPERVISOR_READY`  
 **Active Phase:** `MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE`  
-**Date:** 23 September 2026 | **Target Supervisor Meeting:** 01 October 2026, 10:00 | **Revision:** `V2 (Reconciled Governance & Evidence Bounds)`  
+**Date:** 23 September 2026 | **Target Supervisor Meeting:** 08 October 2026, 10:00 | **Revision:** `V2 (Reconciled Governance & Evidence Bounds)`  
 
 ---
 
@@ -131,7 +131,7 @@ $$\frac{\partial^2 \Pi}{\partial \mathbf{u} \partial d} = -2(1-d)\mathbb{C}_0 : 
 
 ---
 
-## 6. Supervisor Decision Framework (01 October 2026 Meeting)
+## 6. Supervisor Decision Framework (08 October 2026 Meeting)
 
 ### 6.1 The Explicit Decision Question
 The supervisor is presented with the following precise, scientifically bounded decision question:
@@ -169,7 +169,7 @@ The supervisor is presented with the following precise, scientifically bounded d
 
 ## 7. Active Governance Commitments & Holds
 
-1. **Gate 6B Status:** Strictly maintained as **`GATE_6B_OPEN_PENDING_SUPERVISOR_DECISION_01OCT2026`** pending supervisor decision at the 01 October 2026 meeting. All presently observable Gate-6B quantities are complete; no further independent pre-meeting simulation or derivation is scientifically justified.
+1. **Gate 6B Status:** Strictly maintained as **`GATE_6B_OPEN_PENDING_SUPERVISOR_DECISION_01OCT2026`** pending supervisor decision at the 08 October 2026 meeting. All presently observable Gate-6B quantities are complete; no further independent pre-meeting simulation or derivation is scientifically justified.
 2. **Package Readiness:** Authoritatively confirmed as **`SUPERVISOR_READY`** (all consistency checks passing).
 3. **Simulation Moratorium:** Strictly maintained (zero new solver jobs submitted; no new PBS runs authorized prior to supervisor review).
 4. **Scope Holds Active:**

@@ -1083,7 +1083,7 @@ The following 15-row claim ledger compiles all critical scientific claims, metri
 
 ## 17. Gate-6B Global Energy Identity Supervisor Decision Packet
 
-**Meeting Date Target:** 01 October 2026, 10:00  
+**Meeting Date Target:** 08 October 2026, 10:00  
 **Active Phase:** `MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE`  
 **Governance State:** `GATE_6B_OPEN` | `GLOBAL_ENERGY_IDENTITY â€” NOT_YET_CLOSED`  
 **Authoritative Subroutine:** `f42_mixed_uel.for` (`5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46`)  
@@ -1162,7 +1162,7 @@ A comprehensive project-wide provenance audit ([`S3_ANCHOR_PROVENANCE_STALE_REFE
 
 ### 17.7 Non-Prescriptive Future Pathways for Supervisor Decision
 
-Two structured pathways are submitted for supervisor consideration on 01 October 2026:
+Two structured pathways are submitted for supervisor consideration on 08 October 2026:
 
 ```
 +----------------------------------------------------------------------------------------------------+
@@ -1250,7 +1250,7 @@ $$\text{[Define Problem]} \longrightarrow \text{[Define Expected Solution]} \lon
 
 ### 18.2 Comprehensive Pre-01-October Supervisor Summary Table
 
-The table below provides the authoritative, high-level status of all Mode-I investigations for the upcoming 01 October 2026 supervisor meeting:
+The table below provides the authoritative, high-level status of all Mode-I investigations for the upcoming 08 October 2026 supervisor meeting:
 
 | Category | Item / Aspect | Verified Numerical Status | Thesis-Safe Governance Status |
 | :--- | :--- | :--- | :--- |
@@ -1297,7 +1297,7 @@ The supervisor is presented with the following explicit decision framework:
 
 ### 18.4 Final Governance State & Package Readiness
 
-1. **Gate 6B Status:** Strictly maintained as **`GATE_6B_OPEN`** pending formal review at the 01 October 2026 meeting.
+1. **Gate 6B Status:** Strictly maintained as **`GATE_6B_OPEN`** pending formal review at the 08 October 2026 meeting.
 2. **Consistency Gate Status:** **15 / 15 (`100%`) Checks Evaluated to `PASS`** in [`GATE6B_FINAL_CONSISTENCY_GATE.csv`](GATE6B_FINAL_CONSISTENCY_GATE.csv).
 3. **Package Readiness:** Confirmed **`SUPERVISOR_READY`**.
 4. **Active Scope Holds:** Gate 6C (State Transfer), Mode-II Shear, Mixed-Mode / Holes, and MPI sweeps remain on **HOLD**; Task 6 / Gate 7 (ABAQUSER Integration) is reopened and **`BLOCKED_ON_AUTHENTIC_IMFD_ABAQUSER_ACCESS`** / **`BLOCKED_ON_AUTHENTIC_INTERFACE_DELIVERY`** (no surrogate development).

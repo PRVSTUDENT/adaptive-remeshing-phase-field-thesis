@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Mode1ConcurrentSolvesTerminalDecisionSchema",
+  "type": "object",
+  "required": [
+    "evaluation_timestamp",
+    "solver_jobs",
+    "active_branch",
+    "epistemic_classification_contract",
+    "decision_outcome"
+  ],
+  "properties": {
+    "evaluation_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "solver_jobs": {
+      "type": "object",
+      "required": ["reference_job_1409734", "adaptive_job_1409846"],
+      "properties": {
+        "reference_job_1409734": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string"},
+            "elements": {"type": "integer"},
+            "status": {"type": "string", "enum": ["RUNNING", "TERMINAL_COMPLETE", "TERMINAL_FAILED"]},
+            "exit_status": {"type": ["integer", "null"]}
+          }
+        },
+        "adaptive_job_1409846": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string"},
+            "elements": {"type": "integer"},
+            "status": {"type": "string", "enum": ["RUNNING", "TERMINAL_COMPLETE", "TERMINAL_FAILED"]},
+            "exit_status": {"type": ["integer", "null"]}
+          }
+        }
+      }
+    },
+    "active_branch": {
+      "type": "string",
+      "enum": [
+        "BRANCH_A_REFERENCE_TERMINAL_FIRST",
+        "BRANCH_B_ADAPTIVE_TERMINAL_FIRST",
+        "BRANCH_C_BOTH_TERMINAL",
+        "BRANCH_WAITING_FOR_TERMINAL_EVENT"
+      ]
+    },
+    "epistemic_classification_contract": {
+      "type": "object",
+      "properties": {
+        "reference_role": {"type": "string", "const": "CANONICAL_FIXED_REFERENCE_ANCHOR"},
+        "adaptive_role": {"type": "string", "const": "EFFICIENCY_CALIBRATED_2PCT_PROJECT_VARIANT"},
+        "is_literal_pandey_kumar_1pct_reproduction": {"type": "boolean", "const": false},
+        "governing_scientific_question": {
+          "type": "string",
+          "const": "Does the 13,897-finite-element efficiency-calibrated adaptive discretization preserve the qualified Mode-I mechanical, phase-field, crack-path, and energetic response while materially reducing discretization cost?"
+        }
+      }
+    },
+    "decision_outcome": {
+      "type": "object",
+      "properties": {
+        "next_immediate_action": {"type": "string"},
+        "release_gate6b_convergence_batch": {"type": "boolean"},
+        "trigger_matched_comparison": {"type": "boolean"}
+      }
+    }
+  }
+}
