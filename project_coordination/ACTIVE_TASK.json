@@ -1,11 +1,11 @@
 {
     "active_task": {
-        "task_id": "F1151-GATE6B-JOB-1409734-SCHEDULER-SNAPSHOT-20261002",
-        "task_name": "Execute single guarded scheduler snapshot for active corrected S1 energy solve Job 1409734.mmaster02 (PK_M1_REF15K_ENERGY) in normal_imfdfkmq",
-        "status": "JOB_1409734_RUNNING_R_ELAPSED_0315_SOLVER_OUTPUT_UNTOUCHED_NON_POLLING_GUARD_ENFORCED",
+        "task_id": "F1154-GATE6B-ADAPTIVE-DIRECTION-EVIDENCE-PACKAGE-20261002",
+        "task_name": "Assemble self-contained Mode-I adaptive remeshing direction evidence package and assign directional classifications",
+        "status": "EVIDENCE_PACKAGE_ASSEMBLED_DIRECTION_CLASSIFICATIONS_ASSIGNED_SESSION_CLOSED",
         "governing_rule": "We need to have understood everything related to the first model before we increase complexity.",
         "start_time": "2026-09-03T11:58:00+02:00",
-        "last_updated": "2026-10-02T11:06:00+02:00",
+        "last_updated": "2026-10-02T14:25:00+02:00",
         "phase": "MODE1_GATE6B_ENERGY_CONVERGENCE_AND_STEP2_RECONCILIATION_ACTIVE",
         "active_gate": "Gate 6B: Mode-I Energetic & Multi-Quantity Convergence and Step-2 Adaptive Qualification",
         "next_supervisor_meeting": "Thursday, 08 October 2026, 10:00",
@@ -17,7 +17,7 @@
             "Gate 4": "CLOSED_VERIFIED",
             "Gate 5": "CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION",
             "Gate 6A": "RESOLVED_AND_CLOSED",
-            "Gate 6B": "EQUATION_MAP_V2.3_FROZEN; REPRODUCTION_PACKAGE_18_CHECKS_PASS; S1_JOB_1409734_RUNNING; S2_S3_DATACHECK_PASSED; T1_T2_T3_DATACHECK_PASSED; T2_REUSED_AS_S1; L1_L2_L3_DATACHECK_PASSED; L1_REUSED_AS_S3; POST_S1_BATCH_RELEASE_MANIFEST_QUALIFIED; GUARDED_LAUNCHER_EXIT0; REVISION_19_FROZEN; FULL_REGRESSION_105_TESTS_PASS (100PCT EXIT 0)",
+            "Gate 6B": "EQUATION_MAP_V2.3_FROZEN; REPRODUCTION_PACKAGE_18_CHECKS_PASS; S1_JOB_1409734_RUNNING; S2_S3_DATACHECK_PASSED; T1_T2_T3_DATACHECK_PASSED; T2_REUSED_AS_S1; L1_L2_L3_DATACHECK_PASSED; L1_REUSED_AS_S3; POST_S1_BATCH_RELEASE_MANIFEST_QUALIFIED; GUARDED_LAUNCHER_EXIT0; REVISION_19_FROZEN; FULL_REGRESSION_105_TESTS_PASS (100PCT EXIT 0); ADAPTIVE_DIRECTION_EVIDENCE_PACKAGE_ASSEMBLED",
             "Gate 6C": "NOT_YET_PERFORMED_PENDING_GATE_6B",
             "Gate 7": "ON_HOLD_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
             "Gate 8": "ON_HOLD",
@@ -51,10 +51,29 @@
                 "queue": "normal_imfdfkmq",
                 "node": "mnode097/0",
                 "status": "R",
-                "time_use": "03:15:00",
-                "snapshot_time": "2026-10-02T11:05:34+02:00",
+                "time_use": "06:24:00",
+                "snapshot_time": "2026-10-02T14:15:00+02:00",
                 "non_polling_guard": "ENFORCED"
             }
+        },
+        "adaptive_direction_evidence_package": {
+            "directory": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/",
+            "manifest_json": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/ADAPTIVE_DIRECTION_EVIDENCE_SUMMARY.json",
+            "manifest_sha256": "877726600287E7BD4EDAF9C3A6DB8D24644F7CDDED68B443256B33840EE5B23F",
+            "zone_table_csv": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/ADAPTIVE_ZONE_QUANTITATIVE_TABLE.csv",
+            "zone_table_sha256": "3127CE508AD205758540DF228072DE2672FC9C99ADB8E29AD49DD1D3582DAA6D",
+            "pre_analysis_deck": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/PK_M1_PRE_UEL_CORRECTED.inp",
+            "pre_analysis_deck_sha256": "D8B64ADAD5B761C1AEB59B8C1FE2E8A4959D74CB673061760C8C06680AFB6D32",
+            "adapted_1pct_deck": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/PK_M1_JOB2_ADAPTED_1PCT.inp",
+            "adapted_1pct_deck_sha256": "028A604FFECAF37454309D4A4C6A966A79BEED72B3BC76AC59413B4E467B74C6",
+            "adapted_2pct_deck": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/PK_M1_JOB2_ADAPTED_2PCT.inp",
+            "adapted_2pct_deck_sha256": "B3D3B99F43BD1E0CC9C40B8FF1179AC950B37DEDF963DD9092113753274BA685",
+            "classifications": {
+                "step2_62k_mesh": "AWAY_FROM_TARGET_LOCALIZATION",
+                "adapted_1pct_mesh": "NO_MEANINGFUL_IMPROVEMENT",
+                "adapted_2pct_mesh": "TOWARD_TARGET_LOCALIZATION"
+            },
+            "status": "EVIDENCE_PACKAGE_QUALIFIED"
         },
         "post_s1_batch_release": {
             "batch_manifest": "models/pandey_kumar_mode1/GATE6B_POST_S1_BATCH_RELEASE_MANIFEST.json",

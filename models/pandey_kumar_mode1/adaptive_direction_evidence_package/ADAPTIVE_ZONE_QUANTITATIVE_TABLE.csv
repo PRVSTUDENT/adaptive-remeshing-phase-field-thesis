@@ -1,0 +1,7 @@
+Zone_Name,Description,1pct_Element_Count,1pct_Pct_Total,1pct_Mean_h_um,1pct_Mean_Edge_um,2pct_Element_Count,2pct_Pct_Total,2pct_Mean_h_um,2pct_Mean_Edge_um
+Core_Corridor,"Ligament core (x in [0.5, 1.0], y in [0.45, 0.55])",4396,10.39%,2.70,2.74,1263,12.32%,4.78,4.88
+Extended_Corridor,"Ligament transition (x in [0.5, 1.0], y in [0.40, 0.60] excl core)",3753,8.87%,3.15,3.20,706,6.89%,6.88,7.03
+Slit_Wake,"Initial crack wake (x in [0.0, 0.5], y in [0.40, 0.60])",7079,16.73%,3.03,3.08,2813,27.44%,4.43,4.49
+Far_Field_Upper,Upper far-field (y > 0.60),16064,37.96%,4.59,4.67,3203,31.24%,10.23,10.43
+Far_Field_Lower,Lower far-field (y < 0.40),11026,26.06%,5.50,5.59,2268,22.12%,12.49,12.77
+Other,Remaining boundary / transition regions,0,0.00%,0.00,0.00,0,0.00%,0.00,0.00

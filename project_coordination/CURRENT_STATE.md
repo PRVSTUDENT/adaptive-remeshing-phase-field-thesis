@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-02T11:06:00+02:00` (Gemini Antigravity) — Guarded Scheduler Snapshot Captured: Job 1409734.mmaster02 Actively Running (R, Elapsed: 03:15:00) in normal_imfdfkmq, Solver Output Untouched, Non-Polling Guard Enforced, Matrix Rev 19  
-Parent commit: `42762382e8e0f4a8fc87b43eb0ddfba06028bcaf`
+Last updated: `2026-10-02T14:25:00+02:00` (Gemini Antigravity) — Mode-I Adaptive Remeshing Direction Audit Completed; Self-Contained Evidence Package Assembled; Direction Classifications Assigned; Job 1409734.mmaster02 Running Untouched in normal_imfdfkmq  
+Parent commit: `8e012a5f6319823e552763c340a271f0062ec3b9`
 
 ---
 
@@ -30,7 +30,13 @@ Parent commit: `42762382e8e0f4a8fc87b43eb0ddfba06028bcaf`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `JOB_1409734_RUNNING; NON_POLLING_GUARD_ENFORCED; POST_S1_BATCH_RELEASE_MANIFEST_QUALIFIED; POSTPROCESSING_MANIFEST_FROZEN; GUARDED_LAUNCHER_VERIFIED; MATRIX_REV19_FROZEN; L1_L2_L3_DATACHECK_PASSED; L1_REUSED_AS_S3; T1_T2_T3_DATACHECK_PASSED; T2_NOMINAL_EQUIVALENT_TO_S1_REUSED; S2_S3_DATACHECK_PASSED; FULL_REGRESSION_105_PASS; STEP2_62K_ROOT_CAUSE_NOT_YET_RECONCILED; 0_RETRIES`
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `JOB_1409734_RUNNING; NON_POLLING_GUARD_ENFORCED; ADAPTIVE_DIRECTION_EVIDENCE_PACKAGE_ASSEMBLED; DIRECTION_CLASSIFICATIONS_ASSIGNED; POST_S1_BATCH_RELEASE_MANIFEST_QUALIFIED; POSTPROCESSING_MANIFEST_FROZEN; GUARDED_LAUNCHER_VERIFIED; MATRIX_REV19_FROZEN; L1_L2_L3_DATACHECK_PASSED; L1_REUSED_AS_S3; T1_T2_T3_DATACHECK_PASSED; T2_NOMINAL_EQUIVALENT_TO_S1_REUSED; S2_S3_DATACHECK_PASSED; FULL_REGRESSION_105_PASS; STEP2_62K_ROOT_CAUSE_NOT_YET_RECONCILED; 0_RETRIES`
+  - **Mode-I Adaptive Remeshing Direction Audit & Evidence Package:**
+    - Assembled self-contained package at [`models/pandey_kumar_mode1/adaptive_direction_evidence_package/`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/adaptive_direction_evidence_package/) containing exact pre-analysis deck (`PK_M1_PRE_UEL_CORRECTED.inp`), native driver (`execute_mode1_native_adaptive_remesh.py`), MISESERI dataset (`canonical_mode1_coarse_miseseri_2906.csv`), spatial plots, 1.0% and 2.0% adapted input decks, and zone breakdown metrics.
+    - Direction Classifications:
+      * **Step-2 62k Mesh (`PK_M1_STEP2_62K_JOB1409585`) $\to$ `AWAY_FROM_TARGET_LOCALIZATION`**: Driven by propagated fracture state, spreading refinement over entire right ligament; frozen as diagnostic evidence only.
+      * **1.0% Pre-Analysis Mesh (`PK_M1_JOB2_ADAPTED_1PCT`) $\to$ `NO_MEANINGFUL_IMPROVEMENT` (Efficiency)**: Concentrates along $y=0.5\,\text{mm}$ ($h_{\min} = 0.73\,\mu\text{m}$), but $64.0\%$ ($27,090$ elements) are placed in far field due to `UNIFORM_ERROR` on tensile background with `coarseningFactor=NOT_ALLOWED`.
+      * **2.0% Pre-Analysis Mesh (`PK_M1_JOB2_ADAPTED_2PCT`) $\to$ `TOWARD_TARGET_LOCALIZATION`**: Preserves crack-tip resolution ($h_{\min} = 0.91\,\mu\text{m}$) and narrow corridor while suppressing far-field elements by $>75\%$ ($5,471$ vs $27,090$; total $10,253$ elements matching $\sim 14\text{k}$ scale).
   - **Single Post-S1 Batch Release Manifest & Post-Processing Manifest Freezing:**
     - Freezes exact specifications for all 6 genuinely distinct release candidates ($S_2, S_3, T_1, T_3, L_2, L_3$) and 2 reuse exclusions ($T_2, L_1$) in [`GATE6B_POST_S1_BATCH_RELEASE_MANIFEST.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/GATE6B_POST_S1_BATCH_RELEASE_MANIFEST.json) and [`GATE6B_POST_S1_POSTPROCESSING_MANIFEST.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/GATE6B_POST_S1_POSTPROCESSING_MANIFEST.json).
     - Guarantees complete architectural consistency: single production Fortran source `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`), mesh-specific $N_{\text{phys}}$, `*Depvar 20`, `All_elem` SDV17–20, `CALL GETOUTDIR` working-dir CSV, 1-CPU serial execution constraints, and dual-channel notification integration.
@@ -61,7 +67,7 @@ Parent commit: `42762382e8e0f4a8fc87b43eb0ddfba06028bcaf`
 
 | Job ID | Name | Queue | Node | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| **`1409734.mmaster02`** | `PK_M1_REF15K_ENERGY` | `normal_imfdfkmq` | `mnode097/0` | Serial 1-CPU | **`R` (Running, Time: 03:15:00)** | Authoritative 15,192-element corrected energy reference solve (All_elem SDV17-20 output + working-dir CSV tracking; non-polling guard enforced) | `EC560A4C265730647B43DAB125D166EBC57CAC285D574D38222A498A967535D9` |
+| **`1409734.mmaster02`** | `PK_M1_REF15K_ENERGY` | `normal_imfdfkmq` | `mnode097/0` | Serial 1-CPU | **`R` (Running, Time: 06:24:00)** | Authoritative 15,192-element corrected energy reference solve (All_elem SDV17-20 output + working-dir CSV tracking; non-polling guard enforced) | `EC560A4C265730647B43DAB125D166EBC57CAC285D574D38222A498A967535D9` |
 | `1409705.mmaster02` | `PK_M1_REF15K_ENERGY` | `normal_imfdfkmq` | `mnode100/0` | Serial 1-CPU | `F` (Finished, Exit 0) | Prior mechanical reference run (100% mechanical parity, archived in `job_1409705_archive/`) | `13408A83DBD5DEE60D9243DA8D32258036FDCD7C1C45830CAD751A11193980E0` |
 
 ---
@@ -131,6 +137,7 @@ Reconstruction of the final 30 converged/failed attempts from `.msg` and node co
 ## 6. Supervisor Meeting Pack Deliverables (Thursday, 08 October 2026, 10:00)
 
 * **Mode-I Convergence Execution Matrix:** [`docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MODE1_CONVERGENCE_EXECUTION_MATRIX.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MODE1_CONVERGENCE_EXECUTION_MATRIX.md) (Revision 19)
+* **Mode-I Adaptive Remeshing Direction Evidence Package:** [`models/pandey_kumar_mode1/adaptive_direction_evidence_package/`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/adaptive_direction_evidence_package/)
 * **Post-S1 Batch Release Manifest:** [`docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/GATE6B_POST_S1_BATCH_RELEASE_MANIFEST.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/GATE6B_POST_S1_BATCH_RELEASE_MANIFEST.json)
 * **Post-S1 Post-Processing Manifest:** [`docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/GATE6B_POST_S1_POSTPROCESSING_MANIFEST.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/GATE6B_POST_S1_POSTPROCESSING_MANIFEST.json)
 * **Equation-to-Code-to-Output Map:** [`docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MODE1_ENERGY_EQUATION_CODE_OUTPUT_MAP.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MODE1_ENERGY_EQUATION_CODE_OUTPUT_MAP.md) (v2.3)

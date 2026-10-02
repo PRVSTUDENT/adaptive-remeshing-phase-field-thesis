@@ -1,0 +1,135 @@
+{
+  "benchmark": "Pandey & Kumar (2025) Mode-I 1x1 mm Square Plate with a0=0.5 mm Seam",
+  "preanalysis_provenance": {
+    "deck": "PK_M1_PRE_UEL_CORRECTED.inp",
+    "coarse_elements": 2963,
+    "coarse_nodes": 3039,
+    "miseseri_csv": "canonical_mode1_coarse_miseseri_2906.csv",
+    "singularity_location": [
+      0.5,
+      0.5
+    ],
+    "peak_miseseri_mpa": 1.0836,
+    "farfield_mean_miseseri_mpa": 0.0075
+  },
+  "candidate_classifications": {
+    "PK_M1_STEP2_62K_JOB1409585": {
+      "origin_stage": "Step-2 Propagated Crack",
+      "element_count": 62057,
+      "direction_classification": "AWAY_FROM_TARGET_LOCALIZATION",
+      "rationale": "Refines broad cloud over entire right half-plate due to moving crack tip stress field; frozen as forensic diagnostic only."
+    },
+    "PK_M1_JOB2_ADAPTED_1PCT": {
+      "origin_stage": "Step-1 Pre-Analysis",
+      "element_count": 42318,
+      "direction_classification": "NO_MEANINGFUL_IMPROVEMENT_OVER_EFFICIENCY_GOAL",
+      "rationale": "Narrow horizontal corridor formed, but 80.6% of elements are in the uncracked far field due to UNIFORM_ERROR relative error equilibration across full domain."
+    },
+    "PK_M1_JOB2_ADAPTED_2PCT": {
+      "origin_stage": "Step-1 Pre-Analysis",
+      "element_count": 10253,
+      "direction_classification": "TOWARD_TARGET_LOCALIZATION",
+      "rationale": "Preserves narrow crack corridor (h ~ 1-2 um at tip) while suppressing far-field over-refinement by >75%, matching the ~14k element count scale of Pandey & Kumar."
+    }
+  },
+  "zone_summary_1pct": {
+    "Core_Corridor": {
+      "count": 4396,
+      "pct_of_total": 10.38801455645352,
+      "min_h_um": 0.6773751335557664,
+      "mean_h_um": 2.7014657927516605,
+      "max_h_um": 13.674505530297619,
+      "mean_edge_um": 2.7421663625325445
+    },
+    "Extended_Corridor": {
+      "count": 3753,
+      "pct_of_total": 8.868566567418119,
+      "min_h_um": 0.7841824646937195,
+      "mean_h_um": 3.149517057531741,
+      "max_h_um": 10.514426473448381,
+      "mean_edge_um": 3.2030015852401745
+    },
+    "Slit_Wake": {
+      "count": 7079,
+      "pct_of_total": 16.728106243206202,
+      "min_h_um": 0.6653233874825483,
+      "mean_h_um": 3.0310216778088312,
+      "max_h_um": 13.029004388020985,
+      "mean_edge_um": 3.07518151748665
+    },
+    "Far_Field_Upper": {
+      "count": 16064,
+      "pct_of_total": 37.96020605888747,
+      "min_h_um": 0.8599309410287294,
+      "mean_h_um": 4.592244831968359,
+      "max_h_um": 13.943149160018116,
+      "mean_edge_um": 4.669076118426636
+    },
+    "Far_Field_Lower": {
+      "count": 11026,
+      "pct_of_total": 26.055106574034692,
+      "min_h_um": 0.8756483443961774,
+      "mean_h_um": 5.497750821882654,
+      "max_h_um": 19.837827828621876,
+      "mean_edge_um": 5.594072092344895
+    },
+    "Other": {
+      "count": 0,
+      "pct_of_total": 0.0,
+      "min_h_um": 0.0,
+      "mean_h_um": 0.0,
+      "max_h_um": 0.0,
+      "mean_edge_um": 0.0
+    }
+  },
+  "zone_summary_2pct": {
+    "Core_Corridor": {
+      "count": 1263,
+      "pct_of_total": 12.318345849995122,
+      "min_h_um": 0.6925740979431476,
+      "mean_h_um": 4.782863423410423,
+      "max_h_um": 18.666658509325085,
+      "mean_edge_um": 4.8810750842073265
+    },
+    "Extended_Corridor": {
+      "count": 706,
+      "pct_of_total": 6.885789525017068,
+      "min_h_um": 0.9879732805178061,
+      "mean_h_um": 6.878544615538588,
+      "max_h_um": 23.26920656131115,
+      "mean_edge_um": 7.033972094260276
+    },
+    "Slit_Wake": {
+      "count": 2813,
+      "pct_of_total": 27.43587242758217,
+      "min_h_um": 0.710080685383806,
+      "mean_h_um": 4.4324111329434315,
+      "max_h_um": 19.993907821922882,
+      "mean_edge_um": 4.490782290054717
+    },
+    "Far_Field_Upper": {
+      "count": 3203,
+      "pct_of_total": 31.23963717936214,
+      "min_h_um": 1.178506089082387,
+      "mean_h_um": 10.231218291239962,
+      "max_h_um": 22.564600990820125,
+      "mean_edge_um": 10.428480653825535
+    },
+    "Far_Field_Lower": {
+      "count": 2268,
+      "pct_of_total": 22.1203550180435,
+      "min_h_um": 2.2285465532965536,
+      "mean_h_um": 12.488968167990215,
+      "max_h_um": 25.46728216676285,
+      "mean_edge_um": 12.770544339332913
+    },
+    "Other": {
+      "count": 0,
+      "pct_of_total": 0.0,
+      "min_h_um": 0.0,
+      "mean_h_um": 0.0,
+      "max_h_um": 0.0,
+      "mean_edge_um": 0.0
+    }
+  }
+}
