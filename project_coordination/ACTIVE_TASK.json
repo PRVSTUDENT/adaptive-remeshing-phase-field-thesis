@@ -1,7 +1,7 @@
 {
-  "task_id": "F1159-GATE6B-AWAIT-CONCURRENT-SOLVES-AND-QUALIFY-20261002",
+  "task_id": "F1160-GATE6B-AWAIT-CONCURRENT-SOLVES-AND-QUALIFY-20261002",
   "phase": "Stage Mode-I",
-  "title": "Await Concurrent Mode-I Benchmark Solves (1409734.mmaster02 and 1409846.mmaster02) and Execute Pre-Validated Terminal Pipelines",
+  "title": "Await Concurrent Mode-I Benchmark Solves (1409734.mmaster02 and 1409846.mmaster02) and Execute Governed Terminal Pipelines with Frozen Reference Extraction Rules",
   "status": "ready",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
@@ -35,6 +35,7 @@
       "evaluator": "models/pandey_kumar_mode1/24_adaptive_candidate_2pct_13k/evaluate_mode1_adaptive_terminal_job.py",
       "extractor": "models/pandey_kumar_mode1/24_adaptive_candidate_2pct_13k/extract_mode1_adaptive_13k_energy.py"
     },
-    "terminal_pipeline_status": "VALIDATED_AND_READY"
+    "reference_extraction_rules": "models/pandey_kumar_mode1/REFERENCE_EXTRACTION_RULES.json",
+    "terminal_pipeline_status": "AUDITED_QUALIFIED_AND_READY"
   }
 }

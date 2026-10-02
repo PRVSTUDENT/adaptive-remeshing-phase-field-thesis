@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-02T15:35:00+02:00` (Gemini Antigravity) — Terminal Scientific-Qualification Pipeline for Adaptive Solve (Job 1409846.mmaster02) and Matched Reference-vs-Adaptive Comparison Templates Fully Implemented and Validated (8 Unit Tests Passing 100%); Epistemic Standards, SDV Deduplication, Force Sign Convention (F = -RF2_RP), and Descriptive Bookkeeping Diagnostics Enforced; Solver Jobs 1409734.mmaster02 (15k Reference) and 1409846.mmaster02 (13.9k Adaptive) Running in normal_imfdfkmq with Non-Polling Guard Enforced (Strictly Untouched)  
-Parent commit: `b887240193f38c090fa95991fa6bc0317c3197b4`
+Last updated: `2026-10-02T15:55:00+02:00` (Gemini Antigravity) — Offline Qualification Audit of Terminal Evaluator Complete; Canonical K0 Extraction Rules (u <= 0.0010 mm, N=400, K0 = 137.945520 kN/mm, b = 4.472368e-5 kN, R2 = 0.99999960) Verified from curve_standard_1398090.csv and Frozen in REFERENCE_EXTRACTION_RULES.json; Full 93-Test Mode-I Regression Passing 100%; Active Solver Jobs 1409734.mmaster02 (15k Reference) and 1409846.mmaster02 (13.9k Adaptive) Running in normal_imfdfkmq with Non-Polling Guard Enforced (Strictly Untouched)  
+Parent commit: `fb5238400dc14d74910a4868e251c61ad488b193`
 
 ---
 
@@ -30,13 +30,15 @@ Parent commit: `b887240193f38c090fa95991fa6bc0317c3197b4`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `CONCURRENT_ENERGY_SOLVES_RUNNING (1409734 & 1409846); TERMINAL_EVALUATION_PIPELINE_VALIDATED; MATCHED_COMPARISON_TEMPLATE_READY; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
-  - **Terminal Qualification Pipeline Ready for Instant Execution Upon Solver Exit:**
-    - `evaluate_mode1_adaptive_terminal_job.py` and `extract_mode1_adaptive_13k_energy.py` deployed and validated.
-    - Strict physical & numerical rules enforced: $F = -RF2_{RP}$, single-value SDV17/18 element deduplication, linear elastic $K_0$ regression on $0 < u \le 0.0020\,\text{mm}$, monotonic trapezoidal work integration, descriptive bookkeeping diagnostics ($\Delta_{\text{book}} = E_{\text{model}} - W_{\text{ext}}$).
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `CONCURRENT_ENERGY_SOLVES_RUNNING (1409734 & 1409846); OFFLINE_EVALUATOR_AUDITED; REFERENCE_EXTRACTION_RULES_FROZEN; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+  - **Terminal Qualification Pipeline & Canonical Rules Audited & Frozen:**
+    - `REFERENCE_EXTRACTION_RULES.json` frozen across `models/pandey_kumar_mode1/` and `scripts/evaluation/`.
+    - `evaluate_mode1_adaptive_terminal_job.py` and `extract_mode1_adaptive_13k_energy.py` audited and verified.
+    - Exact numerical reproduction of $K_0 = 137.945520\,\text{kN/mm}$ ($N=400$, $b=4.472368 \times 10^{-5}\,\text{kN}$, $R^2=0.99999960$) confirmed from `curve_standard_1398090.csv`.
+    - Strict physical & numerical rules enforced: $F = -RF2_{RP}$, single-value SDV17/18 element deduplication, linear elastic $K_0$ regression on half-bin window $(0.5\Delta u, 0.0010 + 0.5\Delta u]\,\text{mm}$, monotonic trapezoidal work integration, descriptive bookkeeping diagnostics ($\Delta_{\text{book}} = E_{\text{model}} - W_{\text{ext}}$).
     - Matched Reference vs Adaptive Comparison Report Template ([`MODE1_REFERENCE_VS_ADAPTIVE_ENERGY_COMPARISON_TEMPLATE.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/experiment_records/MODE1_REFERENCE_VS_ADAPTIVE_ENERGY_COMPARISON_TEMPLATE.md)) pre-populated and ready.
     - 3-Branch Automatic Terminal Decision Tree ([`MODE1_CONCURRENT_SOLVES_TERMINAL_DECISION_TREE.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/decisions/MODE1_CONCURRENT_SOLVES_TERMINAL_DECISION_TREE.md)) established.
-    - 8 unit tests in [`test_mode1_adaptive_terminal_evaluator.py`](file:///D:/Master%20thesis/Adaptive%20remeshing/tests/mode1_adaptive/test_mode1_adaptive_terminal_evaluator.py) passing 100%.
+    - Full 93-test Mode-I regression suite passing 100% in 5.31s.
   - **Authoritative Concurrent Solver Solves:**
     - Fixed Reference Job **`1409734.mmaster02`** (`PK_M1_REF15K_ENERGY`, 15,192 elements) running on `mnode097/0` in `normal_imfdfkmq`.
     - Adaptive Candidate Job **`1409846.mmaster02`** (`PK_M1_ADAPT_2PCT_13K_ENERGY`, 13,897 elements) running in `normal_imfdfkmq`.

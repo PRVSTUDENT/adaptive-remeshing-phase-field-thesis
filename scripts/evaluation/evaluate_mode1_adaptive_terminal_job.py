@@ -4,10 +4,11 @@ Terminal Scientific Evaluator and Qualification Pipeline for Adaptive Mode-I Job
 Target Job: PK_M1_ADAPT_2PCT_13K_ENERGY (Job 1409846.mmaster02)
 Discretization: 13,897 Finite Elements (Efficiency-Calibrated 2% Variant)
 
-Key Epistemic & Numerical Standards:
-1. Force Sign Convention: F = -RF2_RP (tensile reaction force at loaded top boundary).
+Key Epistemic & Numerical Standards (Governed by REFERENCE_EXTRACTION_RULES.json):
+1. Force Sign Convention: F = -RF2_RP (tensile reaction force at loaded top boundary RP 999999).
 2. Reporting Convention: Reference thickness t_ref = 1.0 mm, Length in mm, Force in kN, Energy in kN*mm (= J) and mJ.
-3. Initial Stiffness K0: Linear regression on initial elastic increments (0 < u <= 0.0020 mm).
+3. Initial Stiffness K0: Linear regression on initial elastic increments using canonical half-bin window
+   rule: (u > 0.5 * delta_u) & (u <= 0.0010 + 0.5 * delta_u), yielding N=400 points and K0 = 137.945520 kN/mm.
 4. SDV Deduplication: Single-value aggregation per unique finite element (prevents 4x Gauss point overcounting).
 5. Energy Bookkeeping: E_frac = phase-field crack functional, E_model = E_elas + E_frac,
    Delta_book = E_model - W_ext. Descriptive diagnostic only; no arbitrary threshold rejection.
@@ -21,12 +22,17 @@ import math
 import json
 import csv
 
-# Canonical Reference Anchors (Job 1398090 / 1409577 / 1409734)
+# Canonical Reference Anchors (Job 1398090 / 1409577 / 1409705 / 1409734)
 CANONICAL_REFERENCE = {
     "elements": 15192,
     "K0_kN_per_mm": 137.945520,
+    "K0_exact_float": 137.945519645084,
     "K0_intercept_kN": 4.472368e-5,
+    "K0_intercept_exact_float": 4.472367510151e-05,
     "K0_R2": 0.99999960,
+    "K0_R2_exact_float": 0.999999599540,
+    "K0_fit_points_canonical": 400,
+    "K0_fit_max_u_mm": 0.0010,
     "F_max_kN": 0.757778,
     "u_at_F_max_mm": 0.005857,
     "t_ref_mm": 1.0,
@@ -96,11 +102,12 @@ def deduplicate_element_sdv_sum(element_sdv_pairs):
             e_elas_sum += float(sdv18)
     return e_frac_sum, e_elas_sum, len(seen)
 
-def evaluate_mechanical_response(u_vals, rf_vals, k0_fit_max_u=0.0020):
+def evaluate_mechanical_response(u_vals, rf_vals, k0_fit_max_u=0.0010, nominal_delta_u=2.5e-6):
     """
     Evaluates mechanical response from displacement and raw RF2 histories.
-    Applies exact force sign convention: F = -RF2.
-    Computes K0, F_max, u_peak, and work.
+    Applies exact force sign convention: F = -RF2 (rejects bare |RF2|).
+    Computes K0 using the canonical half-bin window rule on (0.5*delta_u, k0_fit_max_u + 0.5*delta_u],
+    F_max, u_peak, and work.
     """
     if len(u_vals) != len(rf_vals):
         raise ValueError("Displacement and RF arrays must have identical length.")
@@ -108,10 +115,17 @@ def evaluate_mechanical_response(u_vals, rf_vals, k0_fit_max_u=0.0020):
     # Exact force convention F = -RF2 (rejection of bare |RF2|)
     f_vals = [-rf for rf in rf_vals]
     
-    # Linear elastic range for K0
-    elastic_pairs = [(u, f) for u, f in zip(u_vals, f_vals) if 0.0 < u <= k0_fit_max_u]
+    # Determine increment spacing delta_u for half-bin tolerance
+    if len(u_vals) > 1 and u_vals[1] > u_vals[0]:
+        delta_u = u_vals[1] - u_vals[0]
+    else:
+        delta_u = nominal_delta_u
+    tol = 0.5 * delta_u
+    
+    # Canonical half-bin selection window for K0 linear regression
+    elastic_pairs = [(u, f) for u, f in zip(u_vals, f_vals) if (u > tol and u <= k0_fit_max_u + tol)]
     if not elastic_pairs:
-        # Fallback if first increment > 0.002
+        # Fallback if initial step is coarse
         elastic_pairs = list(zip(u_vals[:5], f_vals[:5]))
     
     el_u = [p[0] for p in elastic_pairs]
@@ -137,6 +151,7 @@ def evaluate_mechanical_response(u_vals, rf_vals, k0_fit_max_u=0.0020):
         "K0_intercept_kN": intercept,
         "K0_R2": r2,
         "K0_fit_points": len(elastic_pairs),
+        "K0_fit_max_u_mm": k0_fit_max_u,
         "delta_K0_pct": delta_k0_pct,
         "F_max_kN": f_max,
         "u_at_F_max_mm": u_peak,
@@ -250,6 +265,9 @@ def generate_qualification_report_dict(job_telemetry, extraction_data):
             "K0_kN_per_mm": mech["K0_kN_per_mm"],
             "K0_reference_kN_per_mm": CANONICAL_REFERENCE["K0_kN_per_mm"],
             "delta_K0_pct": mech["delta_K0_pct"],
+            "K0_fit_points": mech["K0_fit_points"],
+            "K0_fit_points_reference": CANONICAL_REFERENCE["K0_fit_points_canonical"],
+            "K0_fit_max_u_mm": mech["K0_fit_max_u_mm"],
             "F_max_kN": mech["F_max_kN"],
             "F_max_reference_kN": CANONICAL_REFERENCE["F_max_kN"],
             "delta_F_max_pct": mech["delta_F_max_pct"],

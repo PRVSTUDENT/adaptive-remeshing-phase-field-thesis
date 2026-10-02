@@ -2,18 +2,23 @@
 """
 Unit Tests for Mode-I Adaptive Terminal Qualification Pipeline and Anti-Deviation Guards
 Validates:
-1. SDV Deduplication (prevents 4x Gauss point overcounting).
-2. Strict Force Sign Convention (F = -RF2_RP; rejects |RF2| substitution).
-3. Monotonic Trapezoidal Work Integration (forbids out-of-bounds extrapolation).
-4. Descriptive Energy Bookkeeping (no arbitrary threshold rejection).
-5. Epistemic Classification Guard (forbids literal 1% reproduction claims).
-6. Terminal Decision Logic Branch Routing.
+1. Exact Canonical K0 Reproduction from Archived CSV (Job 1398090: K0 = 137.945520 kN/mm, N=400).
+2. Rejection of u <= 0.0020 mm Window (proves N=400 / u <= 0.0010 mm is the sole canonical standard).
+3. REFERENCE_EXTRACTION_RULES.json schema and constant integrity.
+4. SDV Deduplication (prevents 4x Gauss point overcounting).
+5. Strict Force Sign Convention (F = -RF2_RP; rejects |RF2| substitution).
+6. Monotonic Trapezoidal Work Integration (forbids out-of-bounds extrapolation).
+7. Descriptive Energy Bookkeeping (no arbitrary threshold rejection).
+8. Epistemic Classification Guard (forbids literal 1% reproduction claims for 13,897 elements).
+9. Terminal Decision Logic Branch Routing.
 """
 
 import sys
 import os
 import unittest
 import math
+import json
+import csv
 
 # Add repository root and scripts/evaluation to path
 test_dir = os.path.dirname(os.path.abspath(__file__))
@@ -28,6 +33,78 @@ for p in [eval_scripts_dir, candidate_dir, ws_root, test_dir]:
 import evaluate_mode1_adaptive_terminal_job as evaluator
 
 class TestMode1AdaptiveTerminalEvaluator(unittest.TestCase):
+
+    def setUp(self):
+        self.ws_root = ws_root
+        self.canonical_csv = os.path.join(
+            ws_root, "results", "pandey_kumar_mode1", "master_fracture_curves", "curve_standard_1398090.csv"
+        )
+        self.rules_json = os.path.join(ws_root, "models", "pandey_kumar_mode1", "REFERENCE_EXTRACTION_RULES.json")
+
+    def test_canonical_k0_exact_reproduction_from_archived_csv(self):
+        """
+        Verify that canonical structural stiffness K0 is reproduced to exact high precision
+        from the qualified baseline CSV curve_standard_1398090.csv using the canonical
+        half-bin window rule: (u > 0.5*delta_u) & (u <= 0.0010 + 0.5*delta_u).
+        Target: K0 = 137.945520 kN/mm, b = 4.472368e-5 kN, R^2 = 0.99999960, N = 400.
+        """
+        self.assertTrue(os.path.exists(self.canonical_csv), f"Canonical CSV missing: {self.canonical_csv}")
+        
+        u_vals = []
+        rf_vals = []
+        with open(self.canonical_csv, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                u = float(row["u2_mm"])
+                # In curve_standard_1398090.csv, rf2_kN is positive force magnitude.
+                # To test raw Abaqus RF2 convention (RF2 < 0), we supply rf_raw = -f
+                f_val = float(row["rf2_kN"])
+                u_vals.append(u)
+                rf_vals.append(-f_val)
+                
+        res = evaluator.evaluate_mechanical_response(u_vals, rf_vals, k0_fit_max_u=0.0010)
+        
+        self.assertEqual(res["K0_fit_points"], 400, "Canonical K0 window must select exactly N=400 points.")
+        self.assertAlmostEqual(res["K0_kN_per_mm"], 137.945520, places=5)
+        self.assertAlmostEqual(res["K0_intercept_kN"], 4.472368e-5, places=8)
+        self.assertAlmostEqual(res["K0_R2"], 0.99999960, places=7)
+        self.assertAlmostEqual(res["F_max_kN"], 0.757778, places=5)
+        self.assertAlmostEqual(res["u_at_F_max_mm"], 0.005857, places=5)
+
+    def test_rejection_of_u_0020_window_for_canonical_k0(self):
+        """
+        Verify that using an arbitrary u <= 0.0020 mm cutoff (N=800) includes non-linear
+        compliance and decreases stiffness to ~137.35 kN/mm, proving that u <= 0.0010 mm (N=400)
+        is the unique canonical standard across Gates 1, 2, 6A, 6B.
+        """
+        self.assertTrue(os.path.exists(self.canonical_csv))
+        u_vals = []
+        rf_vals = []
+        with open(self.canonical_csv, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                u_vals.append(float(row["u2_mm"]))
+                rf_vals.append(-float(row["rf2_kN"]))
+                
+        res_0020 = evaluator.evaluate_mechanical_response(u_vals, rf_vals, k0_fit_max_u=0.0020)
+        self.assertEqual(res_0020["K0_fit_points"], 800)
+        self.assertLess(res_0020["K0_kN_per_mm"], 137.5) # ~137.345 kN/mm
+        self.assertNotAlmostEqual(res_0020["K0_kN_per_mm"], 137.945520, places=1)
+
+    def test_reference_extraction_rules_json_integrity(self):
+        """
+        Verify that REFERENCE_EXTRACTION_RULES.json exists and contains authoritative definitions.
+        """
+        self.assertTrue(os.path.exists(self.rules_json), f"Rules JSON missing: {self.rules_json}")
+        with open(self.rules_json, "r", encoding="utf-8") as f:
+            rules = json.load(f)
+            
+        self.assertEqual(rules["initial_stiffness_K0"]["canonical_point_count_N"], 400)
+        self.assertEqual(rules["initial_stiffness_K0"]["canonical_reference_values"]["K0_kN_per_mm"], 137.945520)
+        self.assertEqual(rules["force_sign_convention"]["formula"], "F = -RF2_RP")
+        self.assertEqual(rules["work_integration"]["extrapolation_policy"], "FORBIDDEN")
+        self.assertEqual(rules["sdv_energy_aggregation"]["deduplication_rule"]["name"], "single_value_per_unique_elementLabel")
+        self.assertEqual(rules["epistemic_classification_rules"]["13897_element_adaptive_mesh"]["classification"], "EFFICIENCY_CALIBRATED_2PCT_VARIANT")
 
     def test_sdv_deduplication_prevents_gauss_point_overcounting(self):
         """
@@ -52,13 +129,13 @@ class TestMode1AdaptiveTerminalEvaluator(unittest.TestCase):
     def test_force_sign_convention_strict_rf2_negation(self):
         """
         Verify that tensile reaction force follows F = -RF2_RP.
-        Specifically tests that a raw compressive RF2 = -0.758 kN correctly maps to F = +0.758 kN,
-        and that arbitrary absolute-value substitution (|RF2|) is prevented.
+        Specifically tests that raw compressive RF2 = -0.758 kN correctly maps to F = +0.758 kN,
+        and that erroneous positive RF2 maps to negative force (never silenced by |RF2|).
         """
-        u_vals = [0.0, 0.001, 0.002, 0.005857, 0.008]
-        raw_rf2_vals = [0.0, -0.138, -0.276, -0.757778, -0.050]
+        u_vals = [0.0, 0.0005, 0.0010, 0.005857, 0.008]
+        raw_rf2_vals = [0.0, -0.069, -0.138, -0.757778, -0.050]
         
-        res = evaluator.evaluate_mechanical_response(u_vals, raw_rf2_vals)
+        res = evaluator.evaluate_mechanical_response(u_vals, raw_rf2_vals, k0_fit_max_u=0.0010)
         
         for f in res["F_vals_kN"][1:]:
             self.assertGreater(f, 0.0)
@@ -67,22 +144,10 @@ class TestMode1AdaptiveTerminalEvaluator(unittest.TestCase):
         self.assertAlmostEqual(res["u_at_F_max_mm"], 0.005857, places=6)
         self.assertAlmostEqual(res["K0_kN_per_mm"], 138.0, places=1)
         
-        erroneous_rf2 = [0.0, 0.138, 0.276]
+        # Test erroneous RF2 sign
+        erroneous_rf2 = [0.0, 0.069, 0.138]
         res_err = evaluator.evaluate_mechanical_response(u_vals[:3], erroneous_rf2)
-        self.assertLess(res_err["F_vals_kN"][1], 0.0)
-
-    def test_linear_regression_k0_range_and_fit(self):
-        """
-        Verify that canonical structural stiffness K0 is computed accurately on linear elastic increments.
-        """
-        k0_exact = 137.945520
-        u_vals = [0.0001 * i for i in range(1, 21)]
-        f_vals = [k0_exact * u + 1e-6 for u in u_vals]
-        
-        slope, intercept, r2 = evaluator.linear_regression(u_vals, f_vals)
-        self.assertAlmostEqual(slope, k0_exact, places=4)
-        self.assertAlmostEqual(intercept, 1e-6, places=6)
-        self.assertGreater(r2, 0.999999)
+        self.assertLess(res_err["F_vals_kN"][1], 0.0, "Positive RF2 must yield negative tensile force F = -RF2.")
 
     def test_trapezoidal_work_integration_no_extrapolation(self):
         """
@@ -174,7 +239,7 @@ class TestMode1AdaptiveTerminalEvaluator(unittest.TestCase):
             "cpu_sec": 3580,
             "mem_mb": 850
         }
-        u_vals = [0.0005 * i for i in range(17)]
+        u_vals = [0.00025 * i for i in range(35)] # Up to u = 0.0085 mm
         rf_vals = []
         for u in u_vals:
             if u <= 0.005857:
@@ -183,8 +248,8 @@ class TestMode1AdaptiveTerminalEvaluator(unittest.TestCase):
                 f = 0.757778 * math.exp(-600.0 * (u - 0.005857))
             rf_vals.append(-f)
             
-        e_elas_vals = [0.0002 * (i**1.5) for i in range(17)]
-        e_frac_vals = [0.0001 * (i**1.8) for i in range(17)]
+        e_elas_vals = [0.0002 * (i**1.5) for i in range(len(u_vals))]
+        e_frac_vals = [0.0001 * (i**1.8) for i in range(len(u_vals))]
         
         ext_data = {
             "u_vals": u_vals,
@@ -197,7 +262,7 @@ class TestMode1AdaptiveTerminalEvaluator(unittest.TestCase):
         rep = evaluator.generate_qualification_report_dict(job_tel, ext_data)
         self.assertEqual(rep["job_identity"]["job_id"], "1409846.mmaster02")
         self.assertEqual(rep["epistemic_classification"]["classification"], "EFFICIENCY_CALIBRATED_PROJECT_VARIANT")
-        self.assertAlmostEqual(rep["mechanical_parity"]["K0_kN_per_mm"], 137.945520, delta=5.0)
+        self.assertAlmostEqual(rep["mechanical_parity"]["K0_kN_per_mm"], 137.945520, delta=2.0)
         self.assertAlmostEqual(rep["computational_efficiency"]["element_reduction_vs_ref_pct"], 8.524, places=2)
         self.assertAlmostEqual(rep["computational_efficiency"]["element_reduction_vs_literal_1pct_mesh_pct"], 75.317, places=2)
 

@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Canonical Reference Extraction Rules for Mode-I Phase-Field Fracture",
+  "version": "1.0.0",
+  "provenance": {
+    "protocol_version": 2,
+    "primary_reference_job": "1398090.mmaster02",
+    "replication_jobs": ["1409577.mmaster02", "1409705.mmaster02", "1409734.mmaster02"],
+    "canonical_script_provenance": "docs/supervisor_reports/17-09-2026/reconcile_k0_1404933.py",
+    "primary_publication": "Pandey & Kumar (2025), CMES 144(3):3251-3276, DOI: 10.32604/cmes.2025.067858"
+  },
+  "initial_stiffness_K0": {
+    "method": "ordinary_least_squares_linear_regression",
+    "equation": "F = K0 * u + b",
+    "u_target_max_mm": 0.0010,
+    "nominal_increment_step_mm": 2.5e-06,
+    "tolerance_rule": "half_bin_tolerance (tol = 0.5 * delta_u = 1.25e-06 mm)",
+    "selection_condition": "(u > 0.5 * delta_u) and (u <= u_target_max + 0.5 * delta_u)",
+    "canonical_point_count_N": 400,
+    "rejection_of_u_0020": {
+      "rationale": "u <= 0.0020 mm (N=800) includes early pre-peak compliance and reduces tangent stiffness to ~137.35 kN/mm. The canonical reference stiffness K0 across Gates 1, 2, 6A, 6B is strictly defined on u <= 0.0010 mm (N=400)."
+    },
+    "canonical_reference_values": {
+      "K0_kN_per_mm": 137.945520,
+      "K0_exact_float": 137.945519645084,
+      "intercept_b_kN": 4.472368e-05,
+      "intercept_b_exact_float": 4.472367510151e-05,
+      "R2": 0.99999960,
+      "R2_exact_float": 0.999999599540
+    }
+  },
+  "force_sign_convention": {
+    "formula": "F = -RF2_RP",
+    "reference_node": 999999,
+    "reaction_force_variable": "RF2",
+    "physical_interpretation": "Tensile vertical displacement (uy > 0) applied at top reference point produces negative reaction force (RF2 < 0). Tensile force F is defined positive: F = -RF2.",
+    "strict_rule": "Absolute value substitution |RF2| is strictly forbidden to prevent concealing potential sign inversions or erroneous boundary condition reversals."
+  },
+  "peak_force_and_displacement": {
+    "canonical_reference": {
+      "F_max_kN": 0.757778,
+      "u_at_F_max_mm": 0.005857,
+      "increment_at_F_max": 2857
+    },
+    "published_literature_benchmark": {
+      "reported_F_max_kN": 0.758,
+      "reported_u_peak_mm": 0.005860,
+      "relative_delta_F_max_pct": -0.029,
+      "relative_delta_u_peak_pct": -0.051
+    }
+  },
+  "work_integration": {
+    "formula": "W_ext(u) = \\int_0^u F(u') du'",
+    "quadrature": "trapezoidal_rule",
+    "extrapolation_policy": "FORBIDDEN",
+    "extrapolation_description": "Trapezoidal work integration must strictly evaluate only within the available, evaluated displacement range [0, u_final] and must never extrapolate beyond solved frames.",
+    "units": {
+      "native": "kN*mm",
+      "SI_equivalent": "J",
+      "reporting_mJ": "mJ (1 kN*mm = 1.0 J = 1000.0 mJ)"
+    }
+  },
+  "sdv_energy_aggregation": {
+    "layer_mapping": {
+      "layer1_disp_uel": "Elements 1 .. Nphys (U1, U2 displacement degrees of freedom)",
+      "layer2_phase_uel": "Elements Nphys+1 .. 2*Nphys (Phase field U1 = d degree of freedom)",
+      "layer3_companion_umat": "Elements 2*Nphys+1 .. 3*Nphys (CPE4 companion elements for stress/energy output)"
+    },
+    "state_variable_mapping": {
+      "SDV17": "E_frac (element fracture surface energy in kN*mm == J)",
+      "SDV18": "E_elas (element elastic strain energy in kN*mm == J)",
+      "SDV19": "psi_f (fracture energy density)",
+      "SDV20": "psi_e (elastic energy density)"
+    },
+    "deduplication_rule": {
+      "name": "single_value_per_unique_elementLabel",
+      "mechanism": "track seen = set() over elementLabel in ODB output",
+      "rationale": "Companion CPE4 elements output 4 Gauss-point records per element sharing the same elementLabel. Aggregating all 4 points would inflate total energy by 4x. Single-value deduplication takes exactly one record per unique physical element."
+    }
+  },
+  "energy_bookkeeping_interpretation": {
+    "definitions": {
+      "E_model": "E_elas + E_frac",
+      "Delta_book": "E_model - W_ext",
+      "signed_reldiff_pct": "((E_model - W_ext) / W_ext) * 100",
+      "eps_book_abs_pct": "(|E_model - W_ext| / max(|W_ext|, |E_model|)) * 100"
+    },
+    "governance_policy": {
+      "classification": "DESCRIPTIVE_DIAGNOSTIC_ONLY",
+      "rejection_thresholds": "NONE",
+      "explanation": "Standard Abaqus / UEL energy outputs represent post-processed spatial quadrature. Residual differences Delta_book reflect algorithmic compliance, incrementation dynamics, and spatial integration rather than hard pass/fail criteria."
+    }
+  },
+  "epistemic_classification_rules": {
+    "13897_element_adaptive_mesh": {
+      "classification": "EFFICIENCY_CALIBRATED_2PCT_VARIANT",
+      "target_error": 0.02,
+      "element_count": 13897,
+      "published_element_count": 13941,
+      "element_count_delta_pct": 0.3156,
+      "literature_target_error": 0.01,
+      "literal_1pct_mesh_element_count": 56302,
+      "strict_rule": "The 13,897-element mesh is strictly an efficiency-calibrated 2% adaptive configuration. It must never be represented as the literal 1% Pandey & Kumar mesh or as having identical node-element connectivity."
+    }
+  }
+}
