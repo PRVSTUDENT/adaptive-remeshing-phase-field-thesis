@@ -1,7 +1,7 @@
 {
-  "task_id": "F1161-GATE6B-MONITOR-CONCURRENT-CONVERGENCE-BATCH-20261002",
+  "task_id": "F1162-GATE6B-AWAIT-CONCURRENT-CONVERGENCE-SOLVES-20261002",
   "phase": "Stage Mode-I",
-  "title": "Monitor Concurrent Mode-I Convergence Solves (Jobs 1409846, 1409866, 1409867, 1409869, 1409870, 1409871, 1409872) with Strict Non-Polling Guard",
+  "title": "Await Concurrent Mode-I Convergence Solves (Jobs 1409846, 1409866, 1409867, 1409869, 1409870, 1409871, 1409872) with Strict Non-Polling Guard",
   "status": "ready",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
@@ -33,6 +33,7 @@
       "l2_length_scale_01125": "1409871.mmaster02 (41,912 elements, Running)",
       "l3_length_scale_01500": "1409872.mmaster02 (41,912 elements, Running)"
     },
+    "batch_pipeline_status": "POST_S1_BATCH_EVALUATION_PIPELINE_AND_MULTI_FAMILY_COMPARISON_VALIDATED",
     "non_polling_guard": "ENFORCED"
   }
 }

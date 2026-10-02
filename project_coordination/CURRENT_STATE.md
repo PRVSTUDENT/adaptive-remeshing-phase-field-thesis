@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-02T16:05:00+02:00` (Gemini Antigravity) — S1 Reference Solve (Job 1409734.mmaster02) Scientifically Qualified as CORRECTED_S1_ENERGY_QUALIFIED (Exit 0, 7000 Incs, 100.0000% Mechanical Parity, K0=137.945520 kN/mm, Fmax=0.757778 kN, Delta_book=-0.0179 mJ / -0.76% Residual); Post-S1 Gate-6B Batch Released & Submitted (S2 Job 1409866, S3 Job 1409867, T1 Job 1409869, T3 Job 1409870, L2 Job 1409871, L3 Job 1409872); 7 Concurrent Production Solver Solves Active in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
-Parent commit: `2d398bc52428da499b955f3ee06b26d64aab3685`
+Last updated: `2026-10-02T16:25:00+02:00` (Gemini Antigravity) — Post-S1 Batch Terminal Evaluator & Multi-Family Comparison Pipeline Validated (evaluate_mode1_batch_candidate.py, compare_mode1_convergence_families.py, 102/102 Mode-I Tests Passing); Authoritative S1 Energy Qualification Record Integrated; 7 Concurrent Production Solves Active in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
+Parent commit: `608bba9d64d24446f50c300b065dd59c9a981d3c`
 
 ---
 
@@ -30,11 +30,11 @@ Parent commit: `2d398bc52428da499b955f3ee06b26d64aab3685`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `CORRECTED_S1_ENERGY_QUALIFIED; POST_S1_BATCH_RELEASED; 7_CONCURRENT_SOLVER_JOBS_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `CORRECTED_S1_ENERGY_QUALIFIED; POST_S1_BATCH_RELEASED; EVALUATION_PIPELINE_VALIDATED; 7_CONCURRENT_SOLVER_JOBS_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
   - **S1 Reference Solve Scientifically Qualified (`1409734.mmaster02`):**
     - Exit Status: `0` (Walltime `06:55:16`, CPUT `06:43:00`, 1-CPU Serial on `mnode097/0`).
     - Mechanical Parity: $K_0 = 137.945520\,\text{kN/mm}$ ($\Delta = -0.0000\%$, $N=400$, $b=4.472368 \times 10^{-5}\,\text{kN}$, $R^2=0.99999960$), $F_{\max} = 0.757778\,\text{kN}$ ($\Delta = +0.0001\%$), $u_{\text{peak}} = 0.005857\,\text{mm}$ ($\Delta = +0.0000\%$), $W_{\text{ext}} = 2.359329\,\text{mJ}$ ($\Delta = +0.0000\%$).
-    - Energetic Metrics: $E_{\text{elas}} = 0.001161\,\text{mJ}$, $E_{\text{frac}} = 2.340220\,\text{mJ}$, $E_{\text{model}} = 2.341381\,\text{mJ}$, $\Delta_{\text{book}} = -0.017949\,\text{mJ}$ ($-0.76\%$ residual difference).
+    - Energetic Metrics: $E_{\text{elas}} = 0.001161\,\text{mJ}$, $E_{\text{frac}} = 2.340220\,\text{mJ}$, $E_{\text{model}} = 2.341381\,\text{mJ}$, $\Delta_{\text{book}} = -0.017949\,\text{mJ}$ ($-0.76\%$ residual difference, $\varepsilon_{\text{book}} = 0.76\%$).
     - Qualification Status: **`CORRECTED_S1_ENERGY_QUALIFIED`**.
   - **Post-S1 Batch Released & Running (6 Independent Solves):**
     - Spatial: S2 (32k, Job `1409866.mmaster02`), S3 (42k, Job `1409867.mmaster02`).
@@ -42,6 +42,10 @@ Parent commit: `2d398bc52428da499b955f3ee06b26d64aab3685`
     - Length Scale: L2 ($l_0=0.01125$, Job `1409871.mmaster02`), L3 ($l_0=0.01500$, Job `1409872.mmaster02`) [L1 Reuses S3].
     - Adaptive: Candidate (13.9k, Job `1409846.mmaster02`).
     - All 7 jobs running in `normal_imfdfkmq` under strict non-polling guard.
+  - **Post-S1 Batch Terminal Evaluation & Comparison Architecture:**
+    - Evaluator: `scripts/evaluation/evaluate_mode1_batch_candidate.py`
+    - Comparison: `scripts/evaluation/compare_mode1_convergence_families.py`
+    - Regression Suite: `tests/mode1_adaptive/test_mode1_batch_candidate_evaluator.py` (12/12 passed, 102/102 Mode-I tests passing 100%).
 
 ---
 
