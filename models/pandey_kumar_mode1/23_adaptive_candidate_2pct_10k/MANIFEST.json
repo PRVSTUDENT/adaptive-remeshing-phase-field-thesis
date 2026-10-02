@@ -1,0 +1,59 @@
+{
+  "package_name": "23_adaptive_candidate_2pct_10k",
+  "candidate_job_name": "PK_M1_ADAPT_2PCT_10K_ENERGY",
+  "stage": "Gate-6B Mode-I Adaptive Candidate Qualification",
+  "classification": "DATACHECK_PASSED_READY_AFTER_CORRECTED_S1_ENERGY_QUALIFICATION",
+  "authorized_for_submission": false,
+  "created_timestamp": "2026-10-02T14:40:00+02:00",
+  "mesh_metrics": {
+    "total_finite_elements": 10253,
+    "quad_elements": 9952,
+    "tri_elements": 301,
+    "nodes": 10321,
+    "nphys": 10253.0,
+    "h_min_um": 0.69,
+    "h_median_um": 7.42,
+    "h_crack_tip_um": 0.91,
+    "corridor_elements_y_048_052": 702,
+    "corridor_fraction_pct": 6.85,
+    "far_field_elements": 6569,
+    "far_field_fraction_pct": 64.07
+  },
+  "solver_configuration": {
+    "abaqus_version": "2023",
+    "compiler": "intel/2024.2.0 (ifort)",
+    "cpus": 1,
+    "execution_mode": "serial shared-memory",
+    "memory": "16gb",
+    "queue": "entry_imfdfkmq / normal_imfdfkmq",
+    "walltime": "08:00:00",
+    "depvar": 20,
+    "energy_output_elset": "All_elem",
+    "energy_output_sdvs": ["SDV17", "SDV18", "SDV19", "SDV20"]
+  },
+  "governed_files": {
+    "input_deck": {
+      "path": "PK_MODE1_ADAPT_2PCT_10K_ENERGY.inp",
+      "sha256": "F9B9BB907DA83AFCADCF50D58528BDE8029D5C4277D5012967940A04C653EBA9"
+    },
+    "fortran_uel": {
+      "path": "f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "pbs_solver": {
+      "path": "submit_solver.pbs"
+    },
+    "pbs_datacheck": {
+      "path": "submit_datacheck.pbs"
+    },
+    "submission_wrapper": {
+      "path": "submit_pk_mode1_adapt_2pct_10k_energy.sh"
+    },
+    "notification_script": {
+      "path": "job_notifications.sh"
+    },
+    "extraction_script": {
+      "path": "extract_authoritative_mode1_energy_complete.py"
+    }
+  }
+}

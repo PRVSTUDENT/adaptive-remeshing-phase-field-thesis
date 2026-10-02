@@ -1,11 +1,11 @@
 {
     "active_task": {
-        "task_id": "F1154-GATE6B-ADAPTIVE-DIRECTION-EVIDENCE-PACKAGE-20261002",
-        "task_name": "Assemble self-contained Mode-I adaptive remeshing direction evidence package and assign directional classifications",
-        "status": "EVIDENCE_PACKAGE_ASSEMBLED_DIRECTION_CLASSIFICATIONS_ASSIGNED_SESSION_CLOSED",
+        "task_id": "F1155-GATE6B-LINEAGE-RECONCILIATION-AND-2PCT-QUALIFICATION-20261002",
+        "task_name": "Reconcile Mode-I adaptive remeshing lineages, enforce terminology and non-speculative error descriptions, assemble and qualify 2% adaptive candidate package",
+        "status": "LINEAGE_RECONCILED_2PCT_CANDIDATE_QUALIFIED_DATACHECK_PASSED_SESSION_CLOSED",
         "governing_rule": "We need to have understood everything related to the first model before we increase complexity.",
         "start_time": "2026-09-03T11:58:00+02:00",
-        "last_updated": "2026-10-02T14:25:00+02:00",
+        "last_updated": "2026-10-02T14:40:00+02:00",
         "phase": "MODE1_GATE6B_ENERGY_CONVERGENCE_AND_STEP2_RECONCILIATION_ACTIVE",
         "active_gate": "Gate 6B: Mode-I Energetic & Multi-Quantity Convergence and Step-2 Adaptive Qualification",
         "next_supervisor_meeting": "Thursday, 08 October 2026, 10:00",
@@ -17,7 +17,7 @@
             "Gate 4": "CLOSED_VERIFIED",
             "Gate 5": "CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION",
             "Gate 6A": "RESOLVED_AND_CLOSED",
-            "Gate 6B": "EQUATION_MAP_V2.3_FROZEN; REPRODUCTION_PACKAGE_18_CHECKS_PASS; S1_JOB_1409734_RUNNING; S2_S3_DATACHECK_PASSED; T1_T2_T3_DATACHECK_PASSED; T2_REUSED_AS_S1; L1_L2_L3_DATACHECK_PASSED; L1_REUSED_AS_S3; POST_S1_BATCH_RELEASE_MANIFEST_QUALIFIED; GUARDED_LAUNCHER_EXIT0; REVISION_19_FROZEN; FULL_REGRESSION_105_TESTS_PASS (100PCT EXIT 0); ADAPTIVE_DIRECTION_EVIDENCE_PACKAGE_ASSEMBLED",
+            "Gate 6B": "EQUATION_MAP_V2.3_FROZEN; REPRODUCTION_PACKAGE_18_CHECKS_PASS; S1_JOB_1409734_RUNNING; S2_S3_DATACHECK_PASSED; T1_T2_T3_DATACHECK_PASSED; T2_REUSED_AS_S1; L1_L2_L3_DATACHECK_PASSED; L1_REUSED_AS_S3; POST_S1_BATCH_RELEASE_MANIFEST_QUALIFIED; GUARDED_LAUNCHER_EXIT0; REVISION_19_FROZEN; FULL_REGRESSION_105_TESTS_PASS (100PCT EXIT 0); ADAPTIVE_DIRECTION_EVIDENCE_PACKAGE_ASSEMBLED; LINEAGE_RECONCILED; ADAPTIVE_2PCT_10K_DATACHECK_PASSED",
             "Gate 6C": "NOT_YET_PERFORMED_PENDING_GATE_6B",
             "Gate 7": "ON_HOLD_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
             "Gate 8": "ON_HOLD",
@@ -32,7 +32,7 @@
             "state_transfer_status": "ON_HOLD_PENDING_GATE_6B",
             "task_6_status": "ON_HOLD_BLOCKED_EXTERNAL_ABAQUSER_DEPENDENCY",
             "task_6_companion_bridge": "COMPANION_VISUALIZATION_BRIDGE_FULLY_VERIFIED",
-            "new_simulations_or_pbs_jobs": "S1_QUALIFICATION_ANALYSIS_DOCUMENTED; S2_S3_DATACHECK_PASSED"
+            "new_simulations_or_pbs_jobs": "S1_QUALIFICATION_ANALYSIS_DOCUMENTED; S2_S3_DATACHECK_PASSED; 2PCT_ADAPTIVE_DATACHECK_PASSED"
         },
         "governing_rules": {
             "cluster_execution_constraint": "ZERO_ACTIVE_JOBS_AFTER_COMPLETION",
@@ -56,6 +56,18 @@
                 "non_polling_guard": "ENFORCED"
             }
         },
+        "adaptive_candidate_2pct_10k": {
+            "package_directory": "models/pandey_kumar_mode1/23_adaptive_candidate_2pct_10k/",
+            "input_deck": "PK_MODE1_ADAPT_2PCT_10K_ENERGY.inp",
+            "input_deck_sha256": "F9B9BB907DA83AFCADCF50D58528BDE8029D5C4277D5012967940A04C653EBA9",
+            "fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+            "finite_elements": 10253,
+            "nodes": 10321,
+            "nphys": 10253.0,
+            "datacheck_result": "PASS_EXIT_0 (Abaqus 2023 / ifort 2021.13.0 on cluster)",
+            "classification": "DATACHECK_PASSED_READY_AFTER_CORRECTED_S1_ENERGY_QUALIFICATION",
+            "authorized": false
+        },
         "adaptive_direction_evidence_package": {
             "directory": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/",
             "manifest_json": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/ADAPTIVE_DIRECTION_EVIDENCE_SUMMARY.json",
@@ -68,214 +80,16 @@
             "adapted_1pct_deck_sha256": "028A604FFECAF37454309D4A4C6A966A79BEED72B3BC76AC59413B4E467B74C6",
             "adapted_2pct_deck": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/PK_M1_JOB2_ADAPTED_2PCT.inp",
             "adapted_2pct_deck_sha256": "B3D3B99F43BD1E0CC9C40B8FF1179AC950B37DEDF963DD9092113753274BA685",
+            "lineage_comparison_table_csv": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/LINEAGE_COMPARISON_TABLE.csv",
+            "lineage_comparison_table_sha256": "C5A3A6BFC48C5A3F45A5AD0B45900C958B99DFC31702516DE67AAD419D3A3483",
+            "lineage_metrics_json": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/LINEAGE_RECONCILIATION_METRICS.json",
+            "lineage_metrics_sha256": "5BD93B8B840D9A6E6FF821E3C3A706F4733CB0D888C5B874A4159FC40AC7522C",
             "classifications": {
                 "step2_62k_mesh": "AWAY_FROM_TARGET_LOCALIZATION",
                 "adapted_1pct_mesh": "NO_MEANINGFUL_IMPROVEMENT",
                 "adapted_2pct_mesh": "TOWARD_TARGET_LOCALIZATION"
             },
-            "status": "EVIDENCE_PACKAGE_QUALIFIED"
-        },
-        "post_s1_batch_release": {
-            "batch_manifest": "models/pandey_kumar_mode1/GATE6B_POST_S1_BATCH_RELEASE_MANIFEST.json",
-            "batch_manifest_sha256": "AD9CD54186A273C2FF72E3241C26B714BDB1C186BD64E2B28ECE0B0E3EE705C1",
-            "postprocessing_manifest": "models/pandey_kumar_mode1/GATE6B_POST_S1_POSTPROCESSING_MANIFEST.json",
-            "postprocessing_manifest_sha256": "64096F82CB68A41CA1917E6476C4C8E46A23704DA5968426BB56399ADDD4B5FE",
-            "launcher_script": "scripts/hpc/release_gate6b_post_s1_batch.py",
-            "launcher_sha256": "9D4E66077E3FDA1C6489B4AAC242B429F8A17A5BDBB8F0B3543D5BCDCC7411FF",
-            "unit_test_suite": "tests/unit/test_gate6b_post_s1_batch_release.py",
-            "unit_test_sha256": "2653072359CB641BE39FFA0C81B63F56EEE6C47740A23D8E2EB3CD72E6B91863",
-            "release_candidates_count": 6,
-            "release_candidates_list": [
-                "S2_32k",
-                "S3_42k",
-                "T1_coarse",
-                "T3_fine",
-                "L2_intermediate",
-                "L3_coarse"
-            ],
-            "reuse_exclusions_count": 2,
-            "reuse_exclusions_list": [
-                "T2_nominal (REUSE_CORRECTED_S1_REFERENCE)",
-                "L1_baseline (REUSE_S3_REFERENCE)"
-            ],
-            "production_fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-            "status": "POST_S1_BATCH_RELEASE_PACKAGE_QUALIFIED"
-        },
-        "equation_code_output_map": {
-            "map_document": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MODE1_ENERGY_EQUATION_CODE_OUTPUT_MAP.md",
-            "map_sha256": "F1CF6571AC3E21974491B13A99E0D7B402C6E6D92A2A452D2885926A9E3B6522",
-            "unit_test_suite": "tests/unit/test_mode1_energy_equation_code_map.py",
-            "unit_test_sha256": "B3CDEB2CAA607CE74AE3BF136E633ACE9DB1E31A7C25B9A42B2ABA2FE7AB1751",
-            "unit_test_result": "19 passed in 0.27s (100% Exit 0)",
-            "full_regression_result": "105 passed in 6.91s (100% Exit 0) across 10 suites",
-            "reproduction_selfcheck_result": "18 / 18 checks passed (100% Exit 0)",
-            "dimensional_units_certification": "Three-Way Framework Certified: Literature 2D Mode-I formulation (Pandey & Kumar 2025 Sec. 4.1) omits thickness prescription (unlike Sec. 4.4 L-panel); Tier 1 UEL native area quadrature (CJAC) yields force per unit thickness (kN/mm) and energy per unit thickness (J/mm == kN) with 0 Fortran thickness factors; Tier 2 project convention (t=1.0 mm) restores resultant force (kN) and scalar energy (kN*mm == J); *Solid Section ... 1.0 is secondary corroboration",
-            "status": "THREE_WAY_THICKNESS_FRAMEWORK_AND_EQUATION_MAP_QUALIFIED"
-        },
-        "spatial_convergence_pipeline": {
-            "pipeline_script": "scripts/validation/spatial_convergence_pipeline.py",
-            "pipeline_sha256": "CC413266FF7E97523756918C1933CF4F945E75CB7CABA082A2DDAF4CD0A18E2D",
-            "test_suite": "tests/unit/test_mode1_spatial_convergence_pipeline.py",
-            "test_sha256": "CEB729FEA095297FC175C5949BE68079ADFF750849842B36DD1A535BD7784F9E",
-            "test_result": "13 passed in 0.17s (Exit 0)",
-            "terminal_handler": "scripts/validation/handle_job_1409705_terminal_qualification.py",
-            "handler_sha256": "6F5FF44E218FEAF6F200827AF6E48C27AB77980E3CFD99C558521C45091326F7",
-            "handler_test_suite": "tests/unit/test_handle_job_1409705_terminal_qualification.py",
-            "handler_test_sha256": "25A5337A0A1E394C7BA2139DF94BB0BEB5BD9540BEAA4D16A97115FADEB2004B",
-            "handler_test_result": "25 passed in 1.80s (Exit 0)",
-            "dryrun_record_path": "models/pandey_kumar_mode1/GATE6B_DRYRUN_DECISION_RECORD.json",
-            "dryrun_record_sha256": "F93353A0B4B5A1C6592E1F8950C01121784A8A4FCA7ED2BD5B11E3091E5CC47F",
-            "dryrun_scenarios_count": 9,
-            "status": "TERMINAL_RELEASE_HANDLER_QUALIFIED"
-        },
-        "step2_forensic_reconciliation": {
-            "job_id": "1409585.mmaster02",
-            "mesh_size": 62057,
-            "termination_reason": "dtmin=1.0e-8 exhaustion at increment 165 attempt 2 (u=0.006554 mm)",
-            "output_provenance_audit": "Fixed reference ODB 1398090 requested only DISP_QUAD and N_RP; SDV and mesh U fields absent (classified NOT_AVAILABLE_FROM_THIS_ODB). Step-2 ODB 1409585 requested SDV on All_elem companion layer providing full field data.",
-            "phase_field_bounds_audit": "d_max = 1.0008 represents unclipped +8e-4 overshoot above unity (f42_mixed_uel.for has no projection operator, producing approximately bounded continuous solution)",
-            "boundary_flux_condition": "Natural Neumann zero-flux d/dn=0 implied by variational weak form without boundary terms; displacement-only Dirichlet BCs on top/bottom",
-            "right_boundary_status": "INSUFFICIENT_EVIDENCE (spatial correlation with advancing crack tip, unproven boundary causation)",
-            "mechanical_response_nature": "Smooth progressive softening (F: 0.741 -> 0.089 kN) with 94.0% ligament crack extension; zero local anomalies",
-            "solver_diagnostics_summary": "0 negative eigenvalues, 0 singularities, 0 zero pivots, 0 distorted elements, 0 warnings",
-            "master_classification": "ROOT_CAUSE_CANDIDATE_NOT_YET_RECONCILED",
-            "replacement_authorized": false
-        },
-        "convergence_execution_matrix": {
-            "matrix_artifact": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MODE1_CONVERGENCE_EXECUTION_MATRIX.md",
-            "matrix_revision": "Revision 19",
-            "matrix_sha256": "5C2F5B1EAF467CD64B74FCF8D87D92E53BCACDD7383DE0ADD0DBA304E5E0D78B",
-            "source_lineage_audit": "f42_mixed_uel.for CE8D5EDC established as single Gate-6B production source branch across all candidates; 0 RHS diffs; 0 AMATRX math diffs; UEXTERNALDB GETOUTDIR working-dir CSV path verified; 100.000% mechanical parity; classified CORRECTED_GETOUTDIR_PRODUCTION",
-            "criteria_provenance_audit": "POST_HOC numerical windows (K0 +-0.5%, Fmax, delta2, eps_book, E_frac +-3%) disqualified and revoked; TREND_ONLY outcome-independent successive-resolution error decay enforced; post-hoc numerical thresholds removed from release handler",
-            "datacheck_evidence": {
-                "S2_32k": "PK_M1_S2_DC Abaqus 2023 / Intel Fortran 2021.13.0 Datacheck PASSED with Exit 0 on cluster",
-                "S3_42k": "PK_M1_S3_DC Abaqus 2023 / Intel Fortran 2021.13.0 Datacheck PASSED with Exit 0 on cluster",
-                "T1_coarse": "PK_M1_T1_DC Abaqus 2023 / Intel Fortran 2021.13.0 Datacheck PASSED with Exit 0 on cluster",
-                "T2_nominal": "PK_M1_T2_DC Abaqus 2023 / Intel Fortran 2021.13.0 Datacheck PASSED with Exit 0 on cluster (REUSED S1)",
-                "T3_fine": "PK_M1_T3_DC Abaqus 2023 / Intel Fortran 2021.13.0 Datacheck PASSED with Exit 0 on cluster",
-                "L1_baseline": "PK_M1_L1_DC Abaqus 2023 / Intel Fortran 2021.13.0 Datacheck PASSED with Exit 0 on cluster (REUSED S3)",
-                "L2_intermediate": "PK_M1_L2_DC Abaqus 2023 / Intel Fortran 2021.13.0 Datacheck PASSED with Exit 0 on cluster",
-                "L3_coarse": "PK_M1_L3_DC Abaqus 2023 / Intel Fortran 2021.13.0 Datacheck PASSED with Exit 0 on cluster"
-            },
-            "conditional_submission_gate": "S2, S3, T1, T3, L2, L3 batch execution qualified via release_gate6b_post_s1_batch.py awaiting corrected S1 energy qualification",
-            "historical_inventory": "12 historical 1-CPU serial Mode-I jobs audited across 10 canonical quantities",
-            "spatial_candidates": {
-                "S2_32k": {
-                    "name": "PK_M1_S2_ENERGY",
-                    "directory": "models/pandey_kumar_mode1/12_fixed_convergence_h0020/",
-                    "deck": "PK_MODE1_FIX_H0020_ENERGY.inp",
-                    "deck_sha256": "9A5C3BD7EA9AF8CD38715FAC9FB062B1590766B7A7CF3A800D2F8C9E95C3767F",
-                    "fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-                    "datacheck_status": "PASS_EXIT_0_REFRESHED_PK_M1_S2_DC",
-                    "status": "DATACHECK_PASSED_READY_AFTER_CORRECTED_S1_ENERGY_QUALIFICATION",
-                    "authorized": false
-                },
-                "S3_42k": {
-                    "name": "PK_M1_S3_ENERGY",
-                    "directory": "models/pandey_kumar_mode1/13_fixed_convergence_h0015/",
-                    "deck": "PK_MODE1_FIX_H0015_ENERGY.inp",
-                    "deck_sha256": "1500ECA5028660045789AF04AD3112E26CA76BBF7BFAC6437A42008A4307408F",
-                    "fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-                    "datacheck_status": "PASS_EXIT_0_REFRESHED_PK_M1_S3_DC",
-                    "status": "DATACHECK_PASSED_READY_AFTER_CORRECTED_S1_ENERGY_QUALIFICATION",
-                    "authorized": false
-                },
-                "S1_15k": {
-                    "name": "PK_M1_REF15K_ENERGY",
-                    "job_id": "1409734.mmaster02",
-                    "directory": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/",
-                    "deck": "PK_MODE1_REF15K_ENERGY.inp",
-                    "deck_sha256": "EC560A4C265730647B43DAB125D166EBC57CAC285D574D38222A498A967535D9",
-                    "fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-                    "datacheck_status": "PASS_EXIT_0",
-                    "status": "RUNNING_IN_NORMAL_IMFDFKMQ",
-                    "authorized": true
-                }
-            },
-            "temporal_candidates": {
-                "T1_coarse": {
-                    "name": "PK_MODE1_T1_COARSE_ENERGY",
-                    "directory": "models/pandey_kumar_mode1/17_temporal_convergence_t1_coarse/",
-                    "deck": "PK_MODE1_T1_COARSE_ENERGY.inp",
-                    "deck_sha256": "33183ADA17DA6712F93DA5648D1D4C9B41C27398DA472EE6619E0839E96ACCFF",
-                    "fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-                    "dt_step1": 0.001,
-                    "dt_step2": 0.0004,
-                    "total_nominal_increments": 3500,
-                    "datacheck_status": "PASS_EXIT_0",
-                    "status": "DATACHECK_PASSED_READY_AFTER_CORRECTED_S1_ENERGY_QUALIFICATION",
-                    "authorized": false
-                },
-                "T2_nominal": {
-                    "name": "PK_MODE1_T2_NOMINAL_ENERGY",
-                    "directory": "models/pandey_kumar_mode1/18_temporal_convergence_t2_nominal/",
-                    "deck": "PK_MODE1_T2_NOMINAL_ENERGY.inp",
-                    "deck_sha256": "4A0302C60FB47D59FF024BCD40EBADC4B2F036FE155F1C632F6D8874665CD6F1",
-                    "fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-                    "dt_step1": 0.0005,
-                    "dt_step2": 0.0002,
-                    "total_nominal_increments": 7000,
-                    "datacheck_status": "PASS_EXIT_0",
-                    "status": "DATACHECK_PASSED_REUSED_AS_CORRECTED_S1_REFERENCE",
-                    "authorized": false,
-                    "submission_action": "OMIT_FROM_CLUSTER_SUBMISSIONS_REUSE_S1"
-                },
-                "T3_fine": {
-                    "name": "PK_MODE1_T3_FINE_ENERGY",
-                    "directory": "models/pandey_kumar_mode1/19_temporal_convergence_t3_fine/",
-                    "deck": "PK_MODE1_T3_FINE_ENERGY.inp",
-                    "deck_sha256": "72D6CC5176326BFAB60FB9B23AFBE4AD6882A0ABC030465BAF10A5DC2A19519C",
-                    "fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-                    "dt_step1": 0.00025,
-                    "dt_step2": 0.0001,
-                    "total_nominal_increments": 14000,
-                    "datacheck_status": "PASS_EXIT_0",
-                    "status": "DATACHECK_PASSED_READY_AFTER_CORRECTED_S1_ENERGY_QUALIFICATION",
-                    "authorized": false
-                }
-            },
-            "length_scale_candidates": {
-                "L1_baseline": {
-                    "name": "PK_MODE1_L1_BASELINE_ENERGY",
-                    "directory": "models/pandey_kumar_mode1/20_length_scale_l1_baseline/",
-                    "deck": "PK_MODE1_L1_BASELINE_ENERGY.inp",
-                    "deck_sha256": "1EDC670D587CBBCE2ACB98F215CFFF4AE9DA0C84633BD832A6241B530AB90AC4",
-                    "fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-                    "l0": 0.0075,
-                    "elements": 41912,
-                    "nodes": 42364,
-                    "datacheck_status": "PASS_EXIT_0",
-                    "status": "DATACHECK_PASSED_REUSED_AS_S3_REFERENCE",
-                    "authorized": false,
-                    "submission_action": "OMIT_FROM_CLUSTER_SUBMISSIONS_REUSE_S3"
-                },
-                "L2_intermediate": {
-                    "name": "PK_MODE1_L2_L01125_ENERGY",
-                    "directory": "models/pandey_kumar_mode1/21_length_scale_l2_intermediate/",
-                    "deck": "PK_MODE1_L2_L01125_ENERGY.inp",
-                    "deck_sha256": "4F60EFCC8BA6CE8CBB8FAB1D88FFB790E2F679DE740FBCF8C3B781A8DE976940",
-                    "fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-                    "l0": 0.01125,
-                    "elements": 41912,
-                    "nodes": 42364,
-                    "datacheck_status": "PASS_EXIT_0",
-                    "status": "DATACHECK_PASSED_READY_AFTER_CORRECTED_S1_ENERGY_QUALIFICATION",
-                    "authorized": false
-                },
-                "L3_coarse": {
-                    "name": "PK_MODE1_L3_L01500_ENERGY",
-                    "directory": "models/pandey_kumar_mode1/22_length_scale_l3_coarse/",
-                    "deck": "PK_MODE1_L3_L01500_ENERGY.inp",
-                    "deck_sha256": "0B3F453B875BD3C6A2CB0BCE5A918C5A92F4E73FDDD8F4E12705AA281691D451",
-                    "fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-                    "l0": 0.015,
-                    "elements": 41912,
-                    "nodes": 42364,
-                    "datacheck_status": "PASS_EXIT_0",
-                    "status": "DATACHECK_PASSED_READY_AFTER_CORRECTED_S1_ENERGY_QUALIFICATION",
-                    "authorized": false
-                }
-            }
+            "status": "LINEAGE_RECONCILED_AND_EVIDENCE_PACKAGE_QUALIFIED"
         }
     }
 }

@@ -1,0 +1,740 @@
+{
+  "LineageA_1pct_71k": {
+    "label": "Lineage A (Historical 1.0% Target, 71k)",
+    "deck_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\06_production_adaptive_2pct\\inputs\\PK_MODE1_PROPOSED_PFM_PHYS.inp",
+    "lineage": "Lineage A (Coarse Baseline 2,906 el, Direct Nodal BCs)",
+    "error_target_pct": 1.0,
+    "metrics": {
+      "total_finite_elements": 71320,
+      "h_min_um": 0.5638995090098899,
+      "h_median_um": 2.924536303860418,
+      "h_max_um": 16.720300273113146,
+      "narrow_ligament_corridor_elements": 2267,
+      "narrow_ligament_fraction": 0.03178631519910263,
+      "broad_corridor_elements": 14359,
+      "transition_wake_elements": 12092,
+      "far_field_elements": 56961,
+      "far_field_fraction": 0.7986679753224902,
+      "outside_narrow_fraction": 0.9682136848008973,
+      "crack_tip_elements": 854,
+      "crack_tip_h_min_um": 0.9112651335754012,
+      "ligament_h_profile": [
+        {
+          "x_mid": 0.525,
+          "x_min": 0.5,
+          "x_max": 0.55,
+          "h_min_um": 0.6845002551634137,
+          "h_med_um": 1.7960866276803085,
+          "h_max_um": 2.614629906497521,
+          "count": 1540,
+          "fine_band_width_mm": 0.9655945510208334
+        },
+        {
+          "x_mid": 0.575,
+          "x_min": 0.55,
+          "x_max": 0.6,
+          "h_min_um": 0.8137797504148101,
+          "h_med_um": 1.8183555055432565,
+          "h_max_um": 2.689318920903752,
+          "count": 1486,
+          "fine_band_width_mm": 0.9668810553075
+        },
+        {
+          "x_mid": 0.625,
+          "x_min": 0.6,
+          "x_max": 0.65,
+          "h_min_um": 0.6257064734203311,
+          "h_med_um": 2.47247676371006,
+          "h_max_um": 4.4362256256566885,
+          "count": 762,
+          "fine_band_width_mm": 0.9330458666
+        },
+        {
+          "x_mid": 0.675,
+          "x_min": 0.65,
+          "x_max": 0.7,
+          "h_min_um": 1.4722073744508022,
+          "h_med_um": 3.5070002735064083,
+          "h_max_um": 5.159935587093436,
+          "count": 391,
+          "fine_band_width_mm": 0.865137697925
+        },
+        {
+          "x_mid": 0.725,
+          "x_min": 0.7,
+          "x_max": 0.75,
+          "h_min_um": 1.511093043645444,
+          "h_med_um": 3.481803424530998,
+          "h_max_um": 4.9225941577217505,
+          "count": 404,
+          "fine_band_width_mm": 0.8787455010166667
+        },
+        {
+          "x_mid": 0.775,
+          "x_min": 0.75,
+          "x_max": 0.8,
+          "h_min_um": 1.9945979313696753,
+          "h_med_um": 4.317437349682395,
+          "h_max_um": 6.464104854648995,
+          "count": 271,
+          "fine_band_width_mm": 0.9197069033
+        },
+        {
+          "x_mid": 0.8250000000000001,
+          "x_min": 0.8,
+          "x_max": 0.8500000000000001,
+          "h_min_um": 2.0431500239284497,
+          "h_med_um": 5.0875292198980535,
+          "h_max_um": 8.087269164163173,
+          "count": 177,
+          "fine_band_width_mm": 0.71221213575
+        },
+        {
+          "x_mid": 0.875,
+          "x_min": 0.8500000000000001,
+          "x_max": 0.9,
+          "h_min_um": 3.6968933167978317,
+          "h_med_um": 5.771499804900982,
+          "h_max_um": 9.51973835994706,
+          "count": 133,
+          "fine_band_width_mm": 0.776195228
+        },
+        {
+          "x_mid": 0.925,
+          "x_min": 0.9,
+          "x_max": 0.95,
+          "h_min_um": 2.509772437847007,
+          "h_med_um": 5.1044565828352955,
+          "h_max_um": 7.7169773752482325,
+          "count": 186,
+          "fine_band_width_mm": 0.9484456691666667
+        },
+        {
+          "x_mid": 0.975,
+          "x_min": 0.95,
+          "x_max": 1.0,
+          "h_min_um": 3.8687177821580505,
+          "h_med_um": 5.895027624661966,
+          "h_max_um": 7.638400019414223,
+          "count": 139,
+          "fine_band_width_mm": 0.9268186913333333
+        }
+      ]
+    }
+  },
+  "LineageA_2pct_15k": {
+    "label": "Lineage A (Historical 2.0% Target, 15.4k/17.7k)",
+    "deck_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\06_production_adaptive_2pct\\inputs\\PK_MODE1_PROPOSED_PFM.inp",
+    "lineage": "Lineage A (Coarse Baseline 2,906 el, Direct Nodal BCs)",
+    "error_target_pct": 2.0,
+    "metrics": {
+      "total_finite_elements": 15396,
+      "h_min_um": 0.4348968756880317,
+      "h_median_um": 5.667691144111125,
+      "h_max_um": 23.106049035310043,
+      "narrow_ligament_corridor_elements": 935,
+      "narrow_ligament_fraction": 0.060730059755780726,
+      "broad_corridor_elements": 5225,
+      "transition_wake_elements": 4290,
+      "far_field_elements": 10171,
+      "far_field_fraction": 0.6606261366588725,
+      "outside_narrow_fraction": 0.9392699402442193,
+      "crack_tip_elements": 708,
+      "crack_tip_h_min_um": 0.8911485551718014,
+      "ligament_h_profile": [
+        {
+          "x_mid": 0.525,
+          "x_min": 0.5,
+          "x_max": 0.55,
+          "h_min_um": 0.4348968756880317,
+          "h_med_um": 1.9802826196150867,
+          "h_max_um": 3.2984794632216405,
+          "count": 1218,
+          "fine_band_width_mm": 0.6786986665166667
+        },
+        {
+          "x_mid": 0.575,
+          "x_min": 0.55,
+          "x_max": 0.6,
+          "h_min_um": 1.1463841054711694,
+          "h_med_um": 3.0697449574892413,
+          "h_max_um": 6.817246062148544,
+          "count": 439,
+          "fine_band_width_mm": 0.7474124103333334
+        },
+        {
+          "x_mid": 0.625,
+          "x_min": 0.6,
+          "x_max": 0.65,
+          "h_min_um": 2.6363614138201603,
+          "h_med_um": 6.18043752550122,
+          "h_max_um": 9.328264819295581,
+          "count": 119,
+          "fine_band_width_mm": 0.3818316359999999
+        },
+        {
+          "x_mid": 0.675,
+          "x_min": 0.65,
+          "x_max": 0.7,
+          "h_min_um": 4.334656559545962,
+          "h_med_um": 8.726210736448127,
+          "h_max_um": 11.478112284140877,
+          "count": 62,
+          "fine_band_width_mm": 0.5062470136666666
+        },
+        {
+          "x_mid": 0.725,
+          "x_min": 0.7,
+          "x_max": 0.75,
+          "h_min_um": 5.537839594074505,
+          "h_med_um": 11.13033988504919,
+          "h_max_um": 16.088013579878652,
+          "count": 44,
+          "fine_band_width_mm": 0.0
+        },
+        {
+          "x_mid": 0.775,
+          "x_min": 0.75,
+          "x_max": 0.8,
+          "h_min_um": 6.977817597524952,
+          "h_med_um": 13.125053517959534,
+          "h_max_um": 15.29542513916068,
+          "count": 28,
+          "fine_band_width_mm": 0.0
+        },
+        {
+          "x_mid": 0.8250000000000001,
+          "x_min": 0.8,
+          "x_max": 0.8500000000000001,
+          "h_min_um": 11.288862972518569,
+          "h_med_um": 14.51684107016974,
+          "h_max_um": 17.373928145658798,
+          "count": 26,
+          "fine_band_width_mm": 0.0
+        },
+        {
+          "x_mid": 0.875,
+          "x_min": 0.8500000000000001,
+          "x_max": 0.9,
+          "h_min_um": 11.447740477807162,
+          "h_med_um": 15.033393758493172,
+          "h_max_um": 16.74062834846812,
+          "count": 22,
+          "fine_band_width_mm": 0.0068560243333334325
+        },
+        {
+          "x_mid": 0.925,
+          "x_min": 0.9,
+          "x_max": 0.95,
+          "h_min_um": 8.252428831652383,
+          "h_med_um": 13.106047238403722,
+          "h_max_um": 18.34239208448951,
+          "count": 26,
+          "fine_band_width_mm": 0.14708973966666672
+        },
+        {
+          "x_mid": 0.975,
+          "x_min": 0.95,
+          "x_max": 1.0,
+          "h_min_um": 15.104405400815223,
+          "h_med_um": 18.435479919726646,
+          "h_max_um": 19.989885921375055,
+          "count": 16,
+          "fine_band_width_mm": 0.08792892124999985
+        }
+      ]
+    }
+  },
+  "LineageB_1pct_42k": {
+    "label": "Lineage B (Job-1 Pre-Analysis 1.0% Target, 42.3k)",
+    "deck_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\adaptive_direction_evidence_package\\PK_M1_JOB2_ADAPTED_1PCT.inp",
+    "lineage": "Lineage B (Corrected UEL Pre-Analysis 2,700 el, RP-Coupled BCs)",
+    "error_target_pct": 1.0,
+    "metrics": {
+      "total_finite_elements": 42318,
+      "h_min_um": 0.6653233874408309,
+      "h_median_um": 3.79964941903714,
+      "h_max_um": 19.837827828621787,
+      "narrow_ligament_corridor_elements": 2022,
+      "narrow_ligament_fraction": 0.04778108606266837,
+      "broad_corridor_elements": 11334,
+      "transition_wake_elements": 9312,
+      "far_field_elements": 30984,
+      "far_field_fraction": 0.7321707075003545,
+      "outside_narrow_fraction": 0.9522189139373316,
+      "crack_tip_elements": 1211,
+      "crack_tip_h_min_um": 0.7475399764965494,
+      "ligament_h_profile": [
+        {
+          "x_mid": 0.525,
+          "x_min": 0.5,
+          "x_max": 0.55,
+          "h_min_um": 0.6773751335557664,
+          "h_med_um": 1.5300974628517818,
+          "h_max_um": 2.3842410492593595,
+          "count": 2053,
+          "fine_band_width_mm": 0.8528584461833334
+        },
+        {
+          "x_mid": 0.575,
+          "x_min": 0.55,
+          "x_max": 0.6,
+          "h_min_um": 0.7463604193570306,
+          "h_med_um": 1.9573969181027524,
+          "h_max_um": 3.6675814891642164,
+          "count": 1139,
+          "fine_band_width_mm": 0.8404575835
+        },
+        {
+          "x_mid": 0.625,
+          "x_min": 0.6,
+          "x_max": 0.65,
+          "h_min_um": 1.0961313940346036,
+          "h_med_um": 3.2521602718838274,
+          "h_max_um": 5.333938952230758,
+          "count": 444,
+          "fine_band_width_mm": 0.9181049279
+        },
+        {
+          "x_mid": 0.675,
+          "x_min": 0.65,
+          "x_max": 0.7,
+          "h_min_um": 1.7725751162523333,
+          "h_med_um": 4.592402006612643,
+          "h_max_um": 5.540715930208186,
+          "count": 243,
+          "fine_band_width_mm": 0.8977765427666667
+        },
+        {
+          "x_mid": 0.725,
+          "x_min": 0.7,
+          "x_max": 0.75,
+          "h_min_um": 2.780612925215363,
+          "h_med_um": 5.573586955031951,
+          "h_max_um": 6.856695580096298,
+          "count": 162,
+          "fine_band_width_mm": 0.7255451731666668
+        },
+        {
+          "x_mid": 0.775,
+          "x_min": 0.75,
+          "x_max": 0.8,
+          "h_min_um": 3.7778767724545292,
+          "h_med_um": 6.49180770942247,
+          "h_max_um": 8.834824399411461,
+          "count": 117,
+          "fine_band_width_mm": 0.8033197375000001
+        },
+        {
+          "x_mid": 0.8250000000000001,
+          "x_min": 0.8,
+          "x_max": 0.8500000000000001,
+          "h_min_um": 3.560948690603453,
+          "h_med_um": 8.062800739051921,
+          "h_max_um": 11.392618180664156,
+          "count": 79,
+          "fine_band_width_mm": 0.7388086915833334
+        },
+        {
+          "x_mid": 0.875,
+          "x_min": 0.8500000000000001,
+          "x_max": 0.9,
+          "h_min_um": 5.049834222799796,
+          "h_med_um": 10.022575993586006,
+          "h_max_um": 12.759049836234336,
+          "count": 46,
+          "fine_band_width_mm": 0.7566710111666667
+        },
+        {
+          "x_mid": 0.925,
+          "x_min": 0.9,
+          "x_max": 0.95,
+          "h_min_um": 7.156545479002672,
+          "h_med_um": 9.505138014457392,
+          "h_max_um": 13.674505530299648,
+          "count": 55,
+          "fine_band_width_mm": 0.7970883150833333
+        },
+        {
+          "x_mid": 0.975,
+          "x_min": 0.95,
+          "x_max": 1.0,
+          "h_min_um": 8.443195415889686,
+          "h_med_um": 9.153647047743554,
+          "h_max_um": 10.764922541737596,
+          "count": 58,
+          "fine_band_width_mm": 0.700804457
+        }
+      ]
+    }
+  },
+  "LineageB_2pct_10k": {
+    "label": "Lineage B (Job-1 Pre-Analysis 2.0% Target, 10.3k)",
+    "deck_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\adaptive_direction_evidence_package\\PK_M1_JOB2_ADAPTED_2PCT.inp",
+    "lineage": "Lineage B (Corrected UEL Pre-Analysis 2,700 el, RP-Coupled BCs)",
+    "error_target_pct": 2.0,
+    "metrics": {
+      "total_finite_elements": 10253,
+      "h_min_um": 0.6925740979631856,
+      "h_median_um": 7.4218657479767325,
+      "h_max_um": 25.467282166762512,
+      "narrow_ligament_corridor_elements": 702,
+      "narrow_ligament_fraction": 0.0684677655320394,
+      "broad_corridor_elements": 3684,
+      "transition_wake_elements": 2982,
+      "far_field_elements": 6569,
+      "far_field_fraction": 0.6406905296010924,
+      "outside_narrow_fraction": 0.9315322344679606,
+      "crack_tip_elements": 671,
+      "crack_tip_h_min_um": 0.9100148764795113,
+      "ligament_h_profile": [
+        {
+          "x_mid": 0.525,
+          "x_min": 0.5,
+          "x_max": 0.55,
+          "h_min_um": 0.6925740979631856,
+          "h_med_um": 2.2572652033901175,
+          "h_max_um": 5.25843416688386,
+          "count": 808,
+          "fine_band_width_mm": 0.2678934336666667
+        },
+        {
+          "x_mid": 0.575,
+          "x_min": 0.55,
+          "x_max": 0.6,
+          "h_min_um": 2.0592966954140186,
+          "h_med_um": 5.064420117759833,
+          "h_max_um": 8.016803942448412,
+          "count": 187,
+          "fine_band_width_mm": 0.36438275366666667
+        },
+        {
+          "x_mid": 0.625,
+          "x_min": 0.6,
+          "x_max": 0.65,
+          "h_min_um": 3.8351159172520957,
+          "h_med_um": 8.45213768422529,
+          "h_max_um": 10.780216219951965,
+          "count": 70,
+          "fine_band_width_mm": 0.13349046266666664
+        },
+        {
+          "x_mid": 0.675,
+          "x_min": 0.65,
+          "x_max": 0.7,
+          "h_min_um": 4.6609387336570265,
+          "h_med_um": 11.080591422068892,
+          "h_max_um": 15.096906503856964,
+          "count": 39,
+          "fine_band_width_mm": 0.0
+        },
+        {
+          "x_mid": 0.725,
+          "x_min": 0.7,
+          "x_max": 0.75,
+          "h_min_um": 7.204997911454494,
+          "h_med_um": 13.164399741032476,
+          "h_max_um": 17.316128343826183,
+          "count": 28,
+          "fine_band_width_mm": 0.0
+        },
+        {
+          "x_mid": 0.775,
+          "x_min": 0.75,
+          "x_max": 0.8,
+          "h_min_um": 10.13609279768934,
+          "h_med_um": 12.702061631606037,
+          "h_max_um": 18.666658509325085,
+          "count": 27,
+          "fine_band_width_mm": 0.0
+        },
+        {
+          "x_mid": 0.8250000000000001,
+          "x_min": 0.8,
+          "x_max": 0.8500000000000001,
+          "h_min_um": 12.046559705872278,
+          "h_med_um": 13.881883461037667,
+          "h_max_um": 16.76682988352913,
+          "count": 28,
+          "fine_band_width_mm": 0.0
+        },
+        {
+          "x_mid": 0.875,
+          "x_min": 0.8500000000000001,
+          "x_max": 0.9,
+          "h_min_um": 6.2306166700233065,
+          "h_med_um": 12.61555586846165,
+          "h_max_um": 15.98386985055367,
+          "count": 30,
+          "fine_band_width_mm": 0.0
+        },
+        {
+          "x_mid": 0.925,
+          "x_min": 0.9,
+          "x_max": 0.95,
+          "h_min_um": 10.65719817858498,
+          "h_med_um": 13.880744976392947,
+          "h_max_um": 16.4144208478831,
+          "count": 27,
+          "fine_band_width_mm": 0.14489182333333328
+        },
+        {
+          "x_mid": 0.975,
+          "x_min": 0.95,
+          "x_max": 1.0,
+          "h_min_um": 15.091944276557719,
+          "h_med_um": 15.772270781211468,
+          "h_max_um": 17.142983441921107,
+          "count": 19,
+          "fine_band_width_mm": 0.06530240175000002
+        }
+      ]
+    }
+  },
+  "Export_48k": {
+    "label": "CAE 2024 Reference (1.0% Target, 48.3k)",
+    "deck_path": "D:\\Master thesis\\Adaptive remeshing\\exports\\Mode1_adaptive_mesh\\Mode1_adaptive_refined_mesh_only.inp",
+    "lineage": "CAE 2024 / Job 1409554",
+    "error_target_pct": 1.0,
+    "metrics": {
+      "total_finite_elements": 48329,
+      "h_min_um": 0.588434765302011,
+      "h_median_um": 3.567792520570139,
+      "h_max_um": 22.48347480811389,
+      "narrow_ligament_corridor_elements": 2313,
+      "narrow_ligament_fraction": 0.04785946326222351,
+      "broad_corridor_elements": 12375,
+      "transition_wake_elements": 10062,
+      "far_field_elements": 35954,
+      "far_field_fraction": 0.7439425603674812,
+      "outside_narrow_fraction": 0.9521405367377765,
+      "crack_tip_elements": 1333,
+      "crack_tip_h_min_um": 0.588434765302011,
+      "ligament_h_profile": [
+        {
+          "x_mid": 0.525,
+          "x_min": 0.5,
+          "x_max": 0.55,
+          "h_min_um": 0.588434765302011,
+          "h_med_um": 1.4701469606419408,
+          "h_max_um": 2.260586514760365,
+          "count": 2312,
+          "fine_band_width_mm": 0.9169845568083334
+        },
+        {
+          "x_mid": 0.575,
+          "x_min": 0.55,
+          "x_max": 0.6,
+          "h_min_um": 0.658881096555144,
+          "h_med_um": 1.7682726846840569,
+          "h_max_um": 3.156122739431929,
+          "count": 1457,
+          "fine_band_width_mm": 0.8493016066416668
+        },
+        {
+          "x_mid": 0.625,
+          "x_min": 0.6,
+          "x_max": 0.65,
+          "h_min_um": 1.3645366118191764,
+          "h_med_um": 2.93556036441234,
+          "h_max_um": 4.681599188740925,
+          "count": 536,
+          "fine_band_width_mm": 0.8629296068833332
+        },
+        {
+          "x_mid": 0.675,
+          "x_min": 0.65,
+          "x_max": 0.7,
+          "h_min_um": 1.917113723916184,
+          "h_med_um": 4.387470674179641,
+          "h_max_um": 5.609105947423339,
+          "count": 260,
+          "fine_band_width_mm": 0.8905770719000001
+        },
+        {
+          "x_mid": 0.725,
+          "x_min": 0.7,
+          "x_max": 0.75,
+          "h_min_um": 3.2175558585560684,
+          "h_med_um": 5.416339450623044,
+          "h_max_um": 7.0922899431641415,
+          "count": 166,
+          "fine_band_width_mm": 0.7784808673333333
+        },
+        {
+          "x_mid": 0.775,
+          "x_min": 0.75,
+          "x_max": 0.8,
+          "h_min_um": 2.478114920661435,
+          "h_med_um": 6.190058688132394,
+          "h_max_um": 7.869597467217885,
+          "count": 135,
+          "fine_band_width_mm": 0.80468562225
+        },
+        {
+          "x_mid": 0.8250000000000001,
+          "x_min": 0.8,
+          "x_max": 0.8500000000000001,
+          "h_min_um": 2.7555809734490873,
+          "h_med_um": 8.254258471618506,
+          "h_max_um": 10.656265078329376,
+          "count": 73,
+          "fine_band_width_mm": 0.63623316075
+        },
+        {
+          "x_mid": 0.875,
+          "x_min": 0.8500000000000001,
+          "x_max": 0.9,
+          "h_min_um": 7.226221328155604,
+          "h_med_um": 10.63243074231093,
+          "h_max_um": 14.533683163836729,
+          "count": 43,
+          "fine_band_width_mm": 0.7672764508333333
+        },
+        {
+          "x_mid": 0.925,
+          "x_min": 0.9,
+          "x_max": 0.95,
+          "h_min_um": 4.169665725702125,
+          "h_med_um": 8.99710674130862,
+          "h_max_um": 12.204583816781055,
+          "count": 60,
+          "fine_band_width_mm": 0.8346590796666666
+        },
+        {
+          "x_mid": 0.975,
+          "x_min": 0.95,
+          "x_max": 1.0,
+          "h_min_um": 6.047116501595918,
+          "h_med_um": 7.893180630715866,
+          "h_max_um": 9.332352734678999,
+          "count": 79,
+          "fine_band_width_mm": 0.9218368604666667
+        }
+      ]
+    }
+  },
+  "Step2_62k_Diagnostic": {
+    "label": "Step-2 Propagated Diagnostic (62.1k)",
+    "deck_path": "D:\\Master thesis\\Adaptive remeshing\\exports\\Mode1_step2_corrected_mesh\\Mode1_step2_adaptive_mesh_only.inp",
+    "lineage": "Step-2 Propagated State (Job 1409585)",
+    "error_target_pct": 1.0,
+    "metrics": {
+      "total_finite_elements": 62057,
+      "h_min_um": 0.4519170311488602,
+      "h_median_um": 2.5181373240178098,
+      "h_max_um": 19.339451670616405,
+      "narrow_ligament_corridor_elements": 5392,
+      "narrow_ligament_fraction": 0.08688786115990138,
+      "broad_corridor_elements": 23230,
+      "transition_wake_elements": 17838,
+      "far_field_elements": 38827,
+      "far_field_fraction": 0.6256667257521311,
+      "outside_narrow_fraction": 0.9131121388400986,
+      "crack_tip_elements": 718,
+      "crack_tip_h_min_um": 0.7975065563787213,
+      "ligament_h_profile": [
+        {
+          "x_mid": 0.525,
+          "x_min": 0.5,
+          "x_max": 0.55,
+          "h_min_um": 0.8914808023753663,
+          "h_med_um": 2.2288701915385767,
+          "h_max_um": 4.847331756617686,
+          "count": 877,
+          "fine_band_width_mm": 0.886412596
+        },
+        {
+          "x_mid": 0.575,
+          "x_min": 0.55,
+          "x_max": 0.6,
+          "h_min_um": 0.7501115436736087,
+          "h_med_um": 1.9030944381128578,
+          "h_max_um": 3.102978573641488,
+          "count": 1313,
+          "fine_band_width_mm": 0.867723743
+        },
+        {
+          "x_mid": 0.625,
+          "x_min": 0.6,
+          "x_max": 0.65,
+          "h_min_um": 0.6023834766333573,
+          "h_med_um": 1.5965282459144656,
+          "h_max_um": 2.296832351011038,
+          "count": 1945,
+          "fine_band_width_mm": 0.76689179225
+        },
+        {
+          "x_mid": 0.675,
+          "x_min": 0.65,
+          "x_max": 0.7,
+          "h_min_um": 0.4519170311488602,
+          "h_med_um": 1.4657754360210933,
+          "h_max_um": 2.2348809630076105,
+          "count": 2314,
+          "fine_band_width_mm": 0.82545882375
+        },
+        {
+          "x_mid": 0.725,
+          "x_min": 0.7,
+          "x_max": 0.75,
+          "h_min_um": 0.6088184827675063,
+          "h_med_um": 1.4631154828950086,
+          "h_max_um": 2.0906866835691837,
+          "count": 2341,
+          "fine_band_width_mm": 0.94582143175
+        },
+        {
+          "x_mid": 0.775,
+          "x_min": 0.75,
+          "x_max": 0.8,
+          "h_min_um": 0.6565922090885495,
+          "h_med_um": 1.6560806690962213,
+          "h_max_um": 2.477843952556144,
+          "count": 1770,
+          "fine_band_width_mm": 0.95273908475
+        },
+        {
+          "x_mid": 0.8250000000000001,
+          "x_min": 0.8,
+          "x_max": 0.8500000000000001,
+          "h_min_um": 0.8365118667122604,
+          "h_med_um": 2.2819475070629105,
+          "h_max_um": 3.2894782593600924,
+          "count": 939,
+          "fine_band_width_mm": 0.9959451357500001
+        },
+        {
+          "x_mid": 0.875,
+          "x_min": 0.8500000000000001,
+          "x_max": 0.9,
+          "h_min_um": 1.511987368846247,
+          "h_med_um": 3.305057474365176,
+          "h_max_um": 4.9726877464230705,
+          "count": 438,
+          "fine_band_width_mm": 0.9965967360000001
+        },
+        {
+          "x_mid": 0.925,
+          "x_min": 0.9,
+          "x_max": 0.95,
+          "h_min_um": 1.999236045994468,
+          "h_med_um": 4.241874855011073,
+          "h_max_um": 5.49086206820246,
+          "count": 286,
+          "fine_band_width_mm": 0.97132419825
+        },
+        {
+          "x_mid": 0.975,
+          "x_min": 0.95,
+          "x_max": 1.0,
+          "h_min_um": 3.1731338354275693,
+          "h_med_um": 4.277086127546085,
+          "h_max_um": 4.877050531063201,
+          "count": 279,
+          "fine_band_width_mm": 0.9523022044999999
+        }
+      ]
+    }
+  }
+}

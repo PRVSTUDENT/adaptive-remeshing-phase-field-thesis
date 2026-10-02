@@ -1,0 +1,7 @@
+Mesh_Key,Label,Lineage,Error_Target_Pct,Total_Finite_Elements,Narrow_Corridor_Elements,Narrow_Corridor_Pct,Transition_Wake_Elements,Far_Field_Elements,Far_Field_Pct,h_min_um,h_med_um,h_max_um,Crack_Tip_h_min_um,Direction_Classification
+LineageA_1pct_71k,"Lineage A (Historical 1.0% Target, 71k)","Lineage A (Coarse Baseline 2,906 el, Direct Nodal BCs)",1.0,71320,2267,3.18,12092,56961,79.87,0.56,2.92,16.72,0.91,NO_MEANINGFUL_IMPROVEMENT
+LineageA_2pct_15k,"Lineage A (Historical 2.0% Target, 15.4k/17.7k)","Lineage A (Coarse Baseline 2,906 el, Direct Nodal BCs)",2.0,15396,935,6.07,4290,10171,66.06,0.43,5.67,23.11,0.89,TOWARD_TARGET_LOCALIZATION
+LineageB_1pct_42k,"Lineage B (Job-1 Pre-Analysis 1.0% Target, 42.3k)","Lineage B (Corrected UEL Pre-Analysis 2,700 el, RP-Coupled BCs)",1.0,42318,2022,4.78,9312,30984,73.22,0.67,3.80,19.84,0.75,NO_MEANINGFUL_IMPROVEMENT
+LineageB_2pct_10k,"Lineage B (Job-1 Pre-Analysis 2.0% Target, 10.3k)","Lineage B (Corrected UEL Pre-Analysis 2,700 el, RP-Coupled BCs)",2.0,10253,702,6.85,2982,6569,64.07,0.69,7.42,25.47,0.91,TOWARD_TARGET_LOCALIZATION
+Export_48k,"CAE 2024 Reference (1.0% Target, 48.3k)","CAE 2024 / Job 1409554",1.0,48329,2313,4.79,10062,35954,74.39,0.59,3.57,22.48,0.59,NO_MEANINGFUL_IMPROVEMENT
+Step2_62k_Diagnostic,"Step-2 Propagated Diagnostic (62.1k)","Step-2 Propagated State (Job 1409585)",1.0,62057,5392,8.69,17838,38827,62.57,0.45,2.52,19.34,0.80,AWAY_FROM_TARGET_LOCALIZATION
