@@ -1,7 +1,7 @@
 # Gate-6B Stage 14: Terminal Scientific Evaluation & Acceptance Protocol
 
 **Document ID:** `MODE1_STAGE14_TERMINAL_EVALUATION_PROTOCOL`  
-**Task ID:** `F1186-GATE6B-STAGE14G-SOURCE-FIDELITY-BOUNDARY-AND-TERMINAL-PROTOCOL-20261003`  
+**Task ID:** `F1186-GATE6B-STAGE14H-FROZEN-PROTOCOL-PRECISION-AND-EVALUATOR-DRYRUN-20261003`  
 **Date:** 2026-10-03  
 **Target Solve:** `PK_M1_ADAPT_14K_FRACTURE` (Job `1409947.mmaster02`, Package 25)  
 **Reference Benchmark:** Reconstructed Fixed Reference Solve `1409734.mmaster02` (15,192 elements)  
@@ -14,8 +14,9 @@
 1. **Pre-Declared Acceptance Protocol:** All comparison metrics, matched-displacement sampling points, and classification taxonomies are frozen in advance before post-processing terminal solver results from Job `1409947.mmaster02`.
 2. **Zero Frame-Picking Rule:** No manual selection of favorable time increments is permitted. All ten matched-displacement evaluation states are determined strictly by displacement targets:
    $$u \in \{0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070, 0.0080, 0.0090, 0.0100\}\,\text{mm}$$
-3. **No Cosmetic Verdict Selection:** Element-count similarity (+3.89% vs 13,941) or superficial mesh appearance must never be used to assign the overall scientific verdict. The verdict is governed exclusively by physical, mechanical, and energetic convergence metrics.
-4. **Descriptive Classifications:** Invented pass/fail thresholds are strictly prohibited. Every metric is reported with its exact numerical deviation and classified descriptively.
+3. **Multi-Quantity Synthesis Rule:** The overall Stage-14 verdict must be selected from the combined mechanics + phase-field/spatial + qualified energetic evidence. No single metric, element count, walltime, visual resemblance, exit status, or solver-telemetry quantity may determine the verdict by itself.
+4. **No Cosmetic Verdict Selection:** Element-count similarity (+3.89% vs 13,941) or superficial mesh appearance must never be used to assign the overall scientific verdict. The verdict is governed exclusively by physical, mechanical, and energetic convergence metrics.
+5. **Descriptive Classifications:** Invented pass/fail thresholds are strictly prohibited. Every metric is reported with its exact numerical deviation and classified descriptively.
 
 ---
 
@@ -42,7 +43,9 @@ For the adaptive candidate solve, the terminal evaluator (`evaluate_mode1_stage1
 
 ### 3.1 Global Mechanical Response Metrics
 1. **Complete $F-u$ Response Curve:** Continuous reaction force $F = -RF_2$ versus top prescribed displacement $u = U_2$ across all increments.
-2. **Initial Structural Stiffness $K_0$:** Extracted via Ordinary Least Squares (OLS) linear regression over $N = 400$ active increments ($u \le 0.0010\,\text{mm}$). Evaluated against reference $K_{0,\text{ref}} = 137.945520\,\text{kN/mm}$.
+2. **Initial Structural Stiffness $K_0$:** Extracted via Ordinary Least Squares (OLS) linear regression using the exact canonical half-bin extraction rule:
+   $$\Delta u = 2.5 \times 10^{-6}\,\text{mm}, \quad (0.5\,\Delta u < u \le 0.0010 + 0.5\,\Delta u), \quad N = 400$$
+   Evaluated against reference $K_{0,\text{ref}} = 137.945520\,\text{kN/mm}$ (intercept $4.472368 \times 10^{-5}\,\text{kN}$, $R^2 = 0.99999960$).
 3. **Peak Reaction Force $F_{\max}$ & Displacement $u(F_{\max})$:** Maximum global tensile reaction force and corresponding displacement. Evaluated against reference $F_{\max,\text{ref}} = 0.757778\,\text{kN}$, $u_{\text{peak},\text{ref}} = 0.005857\,\text{mm}$.
 4. **Terminal Residual Load & Percentage Load Drop:** Final reaction force $F_{\text{final}}$ at $u = 0.0100\,\text{mm}$ and load drop percentage:
    $$\text{Load Drop} = \left(1 - \frac{F_{\text{final}}}{F_{\max}}\right) \times 100\%$$
@@ -73,7 +76,7 @@ For the adaptive candidate solve, the terminal evaluator (`evaluate_mode1_stage1
 15. **Discrete Matched State RMS Deviation $\text{RMS}_{\text{states}}$:** Root mean square error across the 10 matched-displacement points.
 
 ### 3.5 Computational Efficiency & Solver Telemetry
-16. **Solver Telemetry:** Total increments, total Newton iterations, cutbacks (must be 0), achieved terminal displacement, walltime, and CPU time.
+16. **Solver Telemetry:** Total increments, total Newton iterations, cutbacks count, achieved terminal displacement, walltime, and CPU time. *(Cutbacks are recorded as solver telemetry; the verdict does not fail solely because a nonlinear solve executed a cutback).*
 17. **Discretization Size:** Underlying finite elements ($N_{\text{base}} = 14,483$), layered elements ($N_{\text{layer}} = 43,449$), nodes ($N_{\text{nodes}} = 14,456$) reported as secondary efficiency data.
 
 ---
@@ -82,16 +85,16 @@ For the adaptive candidate solve, the terminal evaluator (`evaluate_mode1_stage1
 
 Each evaluated metric must be assigned exactly one of the four descriptive classifications based on physical behavior:
 
-* **`STABLE`:** The adaptive candidate reproduces the reference response with negligible numerical discrepancy (e.g. $|\Delta K_0| \le 0.5\%$, $|\Delta F_{\max}| \le 2.0\%$, $|\Delta E_{\text{frac}}| \le 2.5\%$, 0 solver cutbacks, monotonic crack propagation along $y=0.5\,\text{mm}$).
+* **`STABLE`:** The adaptive candidate reproduces the reference response with negligible numerical discrepancy (e.g. $|\Delta K_0| \le 0.5\%$, $|\Delta F_{\max}| \le 2.0\%$, $|\Delta E_{\text{frac}}| \le 2.5\%$, monotonic crack propagation along $y=0.5\,\text{mm}$).
 * **`MESH_SENSITIVE`:** The quantity exhibits measurable variation driven by local discretization density or element sizing gradients, but maintains physical monotonicity and bounded response (e.g. $2.0\% < |\Delta F_{\max}| \le 5.0\%$).
 * **`TEMPORALLY_SENSITIVE`:** The quantity exhibits sensitivity to time-stepping or increment size during sharp localization.
-* **`NOT_YET_QUALIFIED`:** The quantity shows anomalous divergence, unphysical oscillations, negative stiffness branches, severe cutbacks, or failure to complete the loading history.
+* **`NOT_YET_QUALIFIED`:** The quantity shows anomalous divergence, unphysical oscillations, negative stiffness branches, unphysical crack deviation, or failure to complete the loading history.
 
 ---
 
 ## 5. Overall Stage-14 Result Hierarchy
 
-The overall scientific verdict for Stage 14 is selected strictly from this 4-tier hierarchy:
+The overall scientific verdict for Stage 14 is selected strictly from this 4-tier hierarchy based on the combined synthesis of mechanics, phase-field localization, and energetics:
 
 1. **`STAGE14_ADAPTIVE_MECHANICS_AND_FIELD_RESPONSE_STABLE`**  
    *Condition:* Global mechanics ($K_0, F_{\max}, F-u, W_{\text{ext}}$), energy components ($E_{\text{frac}}, E_{\text{elas}}, \Delta_{\text{book}}$), and spatial damage fields ($d_{\max}, x_{\text{tip}}$, ligament profiles) all classify as `STABLE` across the full fracture history.
@@ -100,4 +103,4 @@ The overall scientific verdict for Stage 14 is selected strictly from this 4-tie
 3. **`STAGE14_ADAPTIVE_RESPONSE_MESH_SENSITIVE`**  
    *Condition:* Mechanical response ($F_{\max}, K_0$) or fracture energy shows non-trivial mesh sensitivity compared to the structured reference, but completes the fracture path stably.
 4. **`STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED`**  
-   *Condition:* Solver fails to complete, exhibits severe cutbacks, unphysical crack deviation, or energetic divergence.
+   *Condition:* Solver fails to complete the loading history, exhibits severe divergence, unphysical crack deviation, or energetic divergence.

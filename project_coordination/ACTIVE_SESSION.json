@@ -1,8 +1,15 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1186-GATE6B-STAGE14G-SOURCE-FIDELITY-BOUNDARY-AND-TERMINAL-PROTOCOL-20261003",
-  "starting_commit": "2141209990b1657c0097e71348e49c665b12fdcf",
-  "allowed_write_scope": [],
-  "released_at": "2026-10-03T21:45:00+02:00"
+  "task_id": "F1186-GATE6B-STAGE14H-FROZEN-PROTOCOL-PRECISION-AND-EVALUATOR-DRYRUN-20261003",
+  "starting_commit": "c79caa0d500fb15c2fb018c91ff498a802d0cc82",
+  "allowed_write_scope": [
+    "models/pandey_kumar_mode1/**",
+    "results/figures/mode1_gate6b/**",
+    "tests/unit/**",
+    "docs/**",
+    "project_coordination/**"
+  ],
+  "claimed_at": "2026-10-03T21:45:00+02:00",
+  "released_at": "2026-10-03T21:55:00+02:00"
 }

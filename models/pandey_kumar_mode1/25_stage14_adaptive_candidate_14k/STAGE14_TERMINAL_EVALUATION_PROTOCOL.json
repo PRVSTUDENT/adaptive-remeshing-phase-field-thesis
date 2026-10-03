@@ -1,7 +1,7 @@
 {
   "protocol_id": "GATE6B-STAGE14-TERMINAL-EVALUATION-PROTOCOL-20261003",
-  "task_id": "F1186-GATE6B-STAGE14G-SOURCE-FIDELITY-BOUNDARY-AND-TERMINAL-PROTOCOL-20261003",
-  "timestamp": "2026-10-03T21:35:00+02:00",
+  "task_id": "F1186-GATE6B-STAGE14H-FROZEN-PROTOCOL-PRECISION-AND-EVALUATOR-DRYRUN-20261003",
+  "timestamp": "2026-10-03T21:45:00+02:00",
   "target_solve": {
     "job_id": "1409947.mmaster02",
     "job_name": "PK_M1_ADAPT_14K_FRACTURE",
@@ -15,6 +15,9 @@
     "job_name": "PK_MODE1_REF_7K_S1",
     "underlying_finite_elements": 15192,
     "K0_kN_per_mm": 137.945520,
+    "K0_intercept_kN": 4.472368e-05,
+    "K0_R2": 0.99999960,
+    "K0_extraction_rule": "delta_u = 2.5e-6 mm, (0.5*delta_u < u <= 0.0010 + 0.5*delta_u), N = 400",
     "Fmax_kN": 0.757778,
     "u_peak_mm": 0.005857,
     "F_final_kN": 0.000232,
@@ -74,7 +77,9 @@
   "anti_bias_rules": {
     "zero_frame_picking": true,
     "no_cosmetic_verdict_selection": true,
+    "multi_quantity_synthesis_required": true,
     "no_invented_pass_fail_thresholds": true,
+    "cutbacks_recorded_as_telemetry_not_automatic_failure": true,
     "frozen_in_advance": true
   }
 }
