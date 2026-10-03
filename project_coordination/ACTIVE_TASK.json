@@ -1,41 +1,11 @@
 {
-  "task_id": "F1187-GATE6B-STAGE14J-DISPLACEMENT-SEMANTICS-AUDIT-20261003",
-  "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Stage 14J Step-2 Displacement-Semantics Audit and Evaluator State-Coordinate Verification",
-  "status": "complete",
-  "assigned_agent": "gemini-antigravity",
-  "workspace": "D:\\Master thesis\\Adaptive remeshing",
-  "write_scope": [
-    "models/pandey_kumar_mode1/**",
-    "results/figures/mode1_gate6b/**",
-    "tests/unit/**",
-    "docs/**",
-    "project_coordination/**"
-  ],
-  "hpc_jobs": [
-    {
-      "job_id": "1409947.mmaster02",
-      "job_name": "PK_M1_ADAPT_14K_FRACTURE",
-      "queue": "normal_imfdfkmq",
-      "status": "R",
-      "node": "mnode097",
-      "step": "Step 2",
-      "purpose": "Authoritative Stage-14 adaptive candidate full fracture solve (14,483 underlying finite elements, 43,449 layered elements)"
-    }
-  ],
-  "context": {
-    "gate6b_status": "ACTIVE_EVALUATION_AND_CONTINUATION",
-    "stage14j_status": "DISPLACEMENT_SEMANTICS_AUDIT_COMPLETED",
-    "scientific_question": "What is the exact mathematical and Abaqus boundary mapping from step time and frame index to physical reference point displacement u_RP across Step 1 and Step 2 in the Stage-14 fracture solve?",
-    "active_solver_job": {
-      "job_id": "1409947.mmaster02",
-      "status": "RUNNING",
-      "node": "mnode097",
-      "queue": "normal_imfdfkmq",
-      "step": "Step 2"
-    },
-    "displacement_semantics_verdict": "STAGE14J_DISPLACEMENT_SEMANTICS_VERIFIED_AND_EVALUATOR_CERTIFIED"
-  },
-  "created_at": "2026-10-03T22:01:00+02:00",
-  "updated_at": "2026-10-03T22:10:00+02:00"
+  "active_task_id": "F1188-GATE6B-STAGE14K-INTERIM-ADAPTIVE-CHECKPOINT-20261003",
+  "status": "COMPLETED",
+  "gate": "Gate-6B",
+  "stage": "Stage 14K (Interim Adaptive Checkpoint & Reached-States Audit)",
+  "description": "Non-invasive interim adaptive-response checkpoint and reached-states evaluation of PBS Job 1409947; property ABI card inversion discovered and documented; job running untouched to natural completion",
+  "active_job_id": "1409947.mmaster02",
+  "interim_verdict": "INTERIM_ONLY__FINAL_VERDICT_PENDING_TERMINAL_COMPLETION",
+  "next_task_id": "F1189-GATE6B-STAGE14L-TERMINAL-COMPLETION-AND-RESUBMISSION-20261003",
+  "updated_at": "2026-10-03T22:20:00+02:00"
 }

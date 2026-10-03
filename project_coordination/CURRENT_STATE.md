@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T22:10:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14J Step-2 Displacement-Semantics Audit and Evaluator State-Coordinate Verification Completed; Mathematical proof and Abaqus boundary verification confirm Step-2 displacement mapping is u(t_2) = 0.0050 mm + t_2 * 0.0050 mm under default RAMP amplitude (delta u = 1.0 nm / inc across 5000 increments in Step 2); Naive formula u = t_2 * 0.010 mm strictly rejected; Evaluator evaluate_mode1_stage14_adaptive_14k.py enhanced and verified with direct fieldOutputs['U'] extraction at N_RP and Euclidean distance minimization for 10 matched states; Regression unit test suite expanded with test_stage14j_displacement_semantics.py (4/4 tests pass, 26/26 Stage-14 total); Active full fracture solver job 1409947.mmaster02 running smoothly in Step 2 Inc >2680 on cluster node mnode097; Gate 6B Active.
-Parent commit: `2141209990b1657c0097e71348e49c665b12fdcf`
+Last updated: `2026-10-03T22:20:00+02:00` (Gemini Antigravity) â€” Gate-6B Mode-I Stage 14K Non-Invasive Interim Adaptive Checkpoint & Reached-States Audit Completed; Evaluated reached target displacement states u in {0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070} mm against fixed reference Job 1409734 while strictly omitting unreached states (0.0080, 0.0090, 0.0100 mm); Discovered f42 subroutine property ABI card order inversion in Package 25 solve deck (Molnar order E, nu, l0, Gc vs subroutine order l0, Gc, E, nu, k, N_phys) explaining 28,000x softer modulus, domain-wide diffuse l0, linear elastic response, and 0 cutbacks; 4 publication-quality watermarked figures generated (PNG/PDF); Formal interim classification assigned INTERIM_ONLY__FINAL_VERDICT_PENDING_TERMINAL_COMPLETION; Unit tests pass 100% (13/13 Stage-14 suite, 36/36 Mode-I unit tests total); Active solver job 1409947.mmaster02 continues running untouched in Step 2 Inc >3177 on cluster node mnode097 to natural terminal completion; Gate 6B Active.
+Parent commit: `93425e4a8b79b29e0a29482ca0670868a18357fc`
 
 ---
 
@@ -43,6 +43,13 @@ Parent commit: `2141209990b1657c0097e71348e49c665b12fdcf`
     - Frozen boundary document authored: `STAGE14_PUBLICATION_FIDELITY_BOUNDARY.md`.
     - Terminal evaluation protocol frozen: `STAGE14_TERMINAL_EVALUATION_PROTOCOL.md` and `.json`.
     - Unit tests pass 100% (20/20 Stage 14 tests, 97/97 Mode-I tests).
+  - **Stage 14K (Non-Invasive Interim Adaptive Checkpoint & Reached-States Audit) Completed (`MODE1_STAGE14K_INTERIM_ADAPTIVE_CHECKPOINT_REPORT.md`):**
+    - Evaluated reached displacement states ($u \in \{0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070\}\,\text{mm}$) against qualified fixed reference 1409734.
+    - Strictly excluded unreached states ($u \in \{0.0080, 0.0090, 0.0100\}\,\text{mm}$) from numerical comparison.
+    - Discovered and documented parameter ABI card ordering inversion in Job 1409947 solve deck ($E = 0.0075\,\text{kN/mm}^2$, $l_0 = 210.0\,\text{mm}$, $G_c = 0.30\,\text{kN/mm}$), explaining linear elastic response and zero cutbacks.
+    - Generated 4 publication-quality watermarked figures (`fig_mode1_stage14k_interim_*`).
+    - Assigned formal interim classification: `INTERIM_ONLY__FINAL_VERDICT_PENDING_TERMINAL_COMPLETION`.
+    - Active solver job `1409947.mmaster02` left running untouched on `mnode097` (Inc >3177) until natural terminal completion.
   - **Queue Status:** 1 active job running (`1409947.mmaster02`, `PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`, state `R`, in Step 2).
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 

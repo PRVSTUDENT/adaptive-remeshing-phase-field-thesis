@@ -1,0 +1,189 @@
+{
+  "audit_metadata": {
+    "task_id": "F1188-GATE6B-STAGE14K-INTERIM-ADAPTIVE-CHECKPOINT-20261003",
+    "timestamp_iso": "2026-10-03T22:15:00+02:00",
+    "gate": "Gate-6B",
+    "stage": "Stage 14K (Interim Adaptive Checkpoint & Reached-States Audit)",
+    "agent": "gemini-antigravity",
+    "interim_verdict": "INTERIM_ONLY__FINAL_VERDICT_PENDING_TERMINAL_COMPLETION",
+    "active_job_id": "1409947.mmaster02",
+    "active_job_name": "PK_M1_ADAPT_14K_FRACTURE",
+    "queue": "normal_imfdfkmq",
+    "execution_node": "mnode097",
+    "active_job_status_at_checkpoint": "RUNNING (Step 2, Inc 2937+, Time >01:42:00)",
+    "solver_runtime_state": "ACTIVE_UNTOUCHED_UNTIL_NATURAL_TERMINATION"
+  },
+  "mesh_and_discretization_summary": {
+    "model_name": "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE",
+    "node_count": 14456,
+    "underlying_finite_element_count": 14483,
+    "uel_element_count": 14483,
+    "dummy_element_count": 14483,
+    "total_solver_element_entries": 28966,
+    "crack_seam_node_pairs": 54,
+    "crack_tip_initial_x_mm": 0.500,
+    "crack_tip_initial_y_mm": 0.500
+  },
+  "reached_displacement_states_comparison": {
+    "description": "Evaluation strictly confined to reached displacement states; unreached states (0.0080, 0.0090, 0.0100 mm) are strictly omitted and not extrapolated.",
+    "reached_target_displacements_mm": [0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070],
+    "omitted_unreached_target_displacements_mm": [0.0080, 0.0090, 0.0100],
+    "records": [
+      {
+        "u_target_mm": 0.0010,
+        "u_actual_ref_mm": 0.0010000000149011613,
+        "u_actual_ad_mm": 0.0010,
+        "f_ref_kN": 0.1379241645336151,
+        "f_ad_inferred_kN": 4.37365e-06,
+        "e_elas_ref_mJ": 0.0689620813423702,
+        "e_elas_ad_mJ": 2.186825e-06,
+        "e_frac_ref_mJ": 5.553441672697765e-05,
+        "e_frac_ad_mJ": 2.2567799999999998e-26,
+        "d_max_ref": 0.009103342890739441,
+        "d_max_ad": 0.0,
+        "crack_tip_x_d90_ref_mm": 0.50,
+        "crack_tip_x_d90_ad_mm": 0.50
+      },
+      {
+        "u_target_mm": 0.0030,
+        "u_actual_ref_mm": 0.0030000001192092896,
+        "u_actual_ad_mm": 0.0030,
+        "f_ref_kN": 0.4084182679653168,
+        "f_ad_inferred_kN": 1.312095e-05,
+        "e_elas_ref_mJ": 0.6126274167130125,
+        "e_elas_ad_mJ": 1.9681425e-05,
+        "e_frac_ref_mJ": 0.004534294208447703,
+        "e_frac_ad_mJ": 1.8402396e-24,
+        "d_max_ref": 0.08745827525854111,
+        "d_max_ad": 0.0,
+        "crack_tip_x_d90_ref_mm": 0.50,
+        "crack_tip_x_d90_ad_mm": 0.50
+      },
+      {
+        "u_target_mm": 0.0050,
+        "u_actual_ref_mm": 0.0050,
+        "u_actual_ad_mm": 0.0050,
+        "f_ref_kN": 0.6620521545410156,
+        "f_ad_inferred_kN": 2.186825e-05,
+        "e_elas_ref_mJ": 1.6551303842406406,
+        "e_elas_ad_mJ": 5.4670624e-05,
+        "e_frac_ref_mJ": 0.03654084525894746,
+        "e_frac_ad_mJ": 1.4218338e-23,
+        "d_max_ref": 0.29808834195137024,
+        "d_max_ad": 0.0,
+        "crack_tip_x_d90_ref_mm": 0.50,
+        "crack_tip_x_d90_ad_mm": 0.50
+      },
+      {
+        "u_target_mm": 0.005857,
+        "u_actual_ref_mm": 0.0058569999784231185,
+        "u_actual_ad_mm": 0.005857,
+        "f_ref_kN": 0.7577784657478333,
+        "f_ad_inferred_kN": 2.561647e-05,
+        "e_elas_ref_mJ": 2.219151015647235,
+        "e_elas_ad_mJ": 7.5017826e-05,
+        "e_frac_ref_mJ": 0.08268957682140647,
+        "e_frac_ad_mJ": 2.680661e-23,
+        "d_max_ref": 0.6297361850738525,
+        "d_max_ad": 0.0,
+        "crack_tip_x_d90_ref_mm": 0.50,
+        "crack_tip_x_d90_ad_mm": 0.50
+      },
+      {
+        "u_target_mm": 0.0060,
+        "u_actual_ref_mm": 0.006000000014901161,
+        "u_actual_ad_mm": 0.0060,
+        "f_ref_kN": 0.0005463669658638537,
+        "f_ad_inferred_kN": 2.624190e-05,
+        "e_elas_ref_mJ": 0.00163910093156264,
+        "e_elas_ad_mJ": 7.8725699e-05,
+        "e_frac_ref_mJ": 2.338771907681545,
+        "e_frac_ad_mJ": 2.9522495e-23,
+        "d_max_ref": 1.0003732442855835,
+        "d_max_ad": 0.0,
+        "crack_tip_x_d90_ref_mm": 0.9984962344169617,
+        "crack_tip_x_d90_ad_mm": 0.50
+      },
+      {
+        "u_target_mm": 0.0065,
+        "u_actual_ref_mm": 0.006500000059604645,
+        "u_actual_ad_mm": 0.006500000000000001,
+        "f_ref_kN": 0.00048480115947313607,
+        "f_ad_inferred_kN": 2.842872e-05,
+        "e_elas_ref_mJ": 0.001575603757442257,
+        "e_elas_ad_mJ": 9.2393355e-05,
+        "e_frac_ref_mJ": 2.33897784857594,
+        "e_frac_ad_mJ": 4.066528e-23,
+        "d_max_ref": 1.0004103183746338,
+        "d_max_ad": 0.0,
+        "crack_tip_x_d90_ref_mm": 0.9984962344169617,
+        "crack_tip_x_d90_ad_mm": 0.50
+      },
+      {
+        "u_target_mm": 0.0070,
+        "u_actual_ref_mm": 0.007000000029802323,
+        "u_actual_ad_mm": 0.0070,
+        "f_ref_kN": 0.00042985635809600353,
+        "f_ad_inferred_kN": 3.061555e-05,
+        "e_elas_ref_mJ": 0.0015044972500804713,
+        "e_elas_ad_mJ": 0.00010715442,
+        "e_frac_ref_mJ": 2.339204163476758,
+        "e_frac_ad_mJ": 5.469928e-23,
+        "d_max_ref": 1.0004236698150635,
+        "d_max_ad": 0.0,
+        "crack_tip_x_d90_ref_mm": 0.9984962344169617,
+        "crack_tip_x_d90_ad_mm": 0.50
+      }
+    ]
+  },
+  "property_abi_alignment_audit": {
+    "subroutine_source": "f42_mixed_uel.for",
+    "subroutine_abi_order": ["E_L0", "E_GC", "E_MOD", "E_NU", "E_K", "N_PHYS"],
+    "reference_deck_job_1409734": {
+      "raw_card": "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 15192.0",
+      "decoded_parameters": {
+        "l0_mm": 0.0075,
+        "Gc_kN_per_mm": 0.0027,
+        "E_kN_per_mm2": 210.0,
+        "nu": 0.30,
+        "k_residual": 1.0e-7,
+        "n_phys": 15192.0
+      },
+      "status": "VALID_PHYSICAL_BENCHMARK"
+    },
+    "adaptive_deck_job_1409947": {
+      "raw_card": "210.0, 0.3, 0.0075, 0.0027, 1.0E-7, 1.0",
+      "decoded_parameters_by_f42": {
+        "l0_mm": 210.0,
+        "Gc_kN_per_mm": 0.30,
+        "E_kN_per_mm2": 0.0075,
+        "nu": 0.0027,
+        "k_residual": 1.0e-7,
+        "n_phys": 1.0
+      },
+      "status": "ABI_PARAMETER_INVERSION_DISCOVERED",
+      "ratio_E": 0.00003571428571428571,
+      "ratio_l0": 28000.0,
+      "ratio_Gc": 111.11111111111111
+    },
+    "physical_interpretation": "Due to Molnar-order card layout (E, nu, l0, Gc), f42 subroutine interpreted Young's modulus E as 0.0075 kN/mm2 (28,000x softer) and length scale l0 as 210 mm (domain-wide diffuse). This resulted in purely linear elastic deformation with no localized crack propagation, zero cutbacks, and rapid execution."
+  },
+  "governance_and_next_steps": {
+    "active_job_action": "ALLOW_JOB_1409947_TO_COMPLETE_NATURALLY",
+    "post_termination_action": "STAGE14L_RESUBMISSION_PREPARATION_WITH_PROPER_F42_CARD",
+    "gate6b_status": "GATE6B_IN_PROGRESS__AWAITING_STAGE14L_QUALIFIED_RUN"
+  },
+  "generated_artifacts": [
+    "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/STAGE14_INTERIM_ENERGY_EXTRACTED.json",
+    "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/MODE1_STAGE14K_INTERIM_ADAPTIVE_CHECKPOINT_REPORT.json",
+    "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/MODE1_STAGE14K_INTERIM_ADAPTIVE_CHECKPOINT_REPORT.md",
+    "results/figures/mode1_gate6b/fig_mode1_stage14k_interim_fu_comparison.png",
+    "results/figures/mode1_gate6b/fig_mode1_stage14k_interim_fu_comparison.pdf",
+    "results/figures/mode1_gate6b/fig_mode1_stage14k_interim_energy_evolution.png",
+    "results/figures/mode1_gate6b/fig_mode1_stage14k_interim_energy_evolution.pdf",
+    "results/figures/mode1_gate6b/fig_mode1_stage14k_interim_property_abi_audit.png",
+    "results/figures/mode1_gate6b/fig_mode1_stage14k_interim_property_abi_audit.pdf",
+    "results/figures/mode1_gate6b/fig_mode1_stage14k_interim_damage_localization.png",
+    "results/figures/mode1_gate6b/fig_mode1_stage14k_interim_damage_localization.pdf"
+  ]
+}
