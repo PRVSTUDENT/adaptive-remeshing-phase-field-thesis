@@ -45,7 +45,7 @@ class TestStage11SizingVsTransition(unittest.TestCase):
     def test_02_causal_verdict_and_diagnostic(self):
         self.assertIsNotNone(self.data)
         self.assertEqual(self.data['audit_id'], "GATE6B-STAGE11-SIZING-VS-TRANSITION-AUDIT-20261003")
-        self.assertEqual(self.data['causal_verdict'], "BROADNESS_PRIMARILY_PRESENT_IN_NATIVE_SIZING_DEMAND")
+        self.assertEqual(self.data['causal_verdict'], "BROADNESS_ORIGIN_UNRESOLVED_WITH_TRANSITION_OPTION_NOT_DOMINANT")
         self.assertEqual(self.data['diagnostic_classification'], "MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT")
 
     def test_03_lineage_reconciliation_integrity(self):
@@ -73,7 +73,6 @@ class TestStage11SizingVsTransition(unittest.TestCase):
     def test_05_figures_exist_and_non_empty(self):
         fig_dir = os.path.join(self.root_dir, "results", "figures", "mode1_gate6b")
         for i in range(1, 5):
-            png = os.path.join(fig_dir, f"mode1_stage11_fig{i}_*.png")
             import glob
             matches_png = glob.glob(os.path.join(fig_dir, f"mode1_stage11_fig{i}_*.png"))
             matches_pdf = glob.glob(os.path.join(fig_dir, f"mode1_stage11_fig{i}_*.pdf"))

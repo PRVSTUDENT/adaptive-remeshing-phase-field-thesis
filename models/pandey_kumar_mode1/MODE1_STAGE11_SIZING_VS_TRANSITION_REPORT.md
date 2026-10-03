@@ -7,23 +7,23 @@
 **Audit ID:** `GATE6B-STAGE11-SIZING-VS-TRANSITION-AUDIT-20261003`  
 **Governing Directive:** *"We need to have understood everything related to the first model before we increase complexity."*  
 **Phase Status:** `MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION`  
-**Causal Verdict:** `BROADNESS_PRIMARILY_PRESENT_IN_NATIVE_SIZING_DEMAND`  
+**Causal Verdict:** `BROADNESS_ORIGIN_UNRESOLVED_WITH_TRANSITION_OPTION_NOT_DOMINANT`  
 **Diagnostic Classification:** `MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT`
 
 ---
 
 ## 1. Executive Summary & Problem Formulation
 
-In Gate-6B Stage 10, forensic investigation established that native `UNIFORM_ERROR` adaptive remeshing is scale-insensitive: evaluating error indicators relative to domain-level average stress identically cancels uniform scalar multipliers, resulting in an adapted mesh of **57,929 elements** (Package 93) that exhibits broad, domain-wide refinement ($85.44\%$ far-field share).
+In Gate-6B Stage 10, forensic investigation established that native `UNIFORM_ERROR` adaptive remeshing is empirically scale-insensitive for the tested case: normalizing error indicators relative to domain-level average stress cancels uniform scalar multipliers, resulting in an adapted mesh of **57,929 elements** (Package 93) that exhibits broad, domain-wide refinement ($85.44\%$ far-field share).
 
 Before considering any further hypothesis or alteration to approach the narrow corridor refinement of Pandey & Kumar (2025) Fig. 6(a), the frozen question for **Stage 11** was formulated:
 
 $$\boxed{\text{Is the broad far-field adaptive mesh already demanded by the native Abaqus sizing field, or is refinement being propagated into the far field by mesh-generation/transition controls?}}$$
 
-To answer this question conclusively without speculation:
+To evaluate this question systematically:
 1. An **immutable lineage reconciliation** was performed for all 1% remesh variants in the project history, identifying Package 90 (56,344 elements) as the exact matched continuum comparator to Package 93 (57,929 elements).
 2. Primary Abaqus 2023 documentation and all CAE mesh controls were audited and classified.
-3. Centroid-based spatial mapping and transect analyses ($y=0.50, 0.55, 0.60$ and $x=0.50, 0.65, 0.80$) were conducted across the domain to separate sizing demand from transition growth.
+3. Centroid-based spatial mapping and transect analyses ($y=0.50, 0.55, 0.60$ and $x=0.50, 0.65, 0.80$) were conducted across the domain.
 4. A controlled native-remesh diagnostic was executed with transition smoothing disabled (`minTransition=OFF`) under the frozen 1% sizing rule.
 
 ---
@@ -85,26 +85,26 @@ A formal API and docstring inspection was performed on Abaqus 2023:
 
 ## 4. Inferred Spatial Sizing Demand versus Mesh Transition Analysis
 
-To determine whether the far-field refinement is demanded by the error indicator field itself or propagated by mesh transition grading, 57,929 fine elements were mapped onto the 2,906 coarse element regions via KD-Tree spatial indexing (`MODE1_STAGE11_COARSE_TO_ADAPTED_MAPPING.csv`).
+To examine how the adapted mesh sizes distribute across the domain relative to the coarse pre-analysis error indicator field, 57,929 fine elements were mapped onto the 2,906 coarse element regions via KD-Tree spatial indexing (`MODE1_STAGE11_COARSE_TO_ADAPTED_MAPPING.csv`).
 
-### Table 2: Error Indicator Demand vs Resulting Element Sizing
+### Table 2: Error Indicator Diagnostic vs Resulting Element Sizing
 
 | Spatial Region Category | Selection Criteria | Coarse Elements | Median $\text{MISESERI}_{\text{norm}}$ | Resulting Median $h_{\text{eq}}$ ($\mu\text{m}$) | Mean $h_{\text{eq}}$ ($\mu\text{m}$) | Percentage with $h \le 5\,\mu\text{m}$ |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
 | **Crack Tip Vicinity** | $r \le 0.05\,\text{mm}$ | 20 | $0.2145$ | $1.78\,\mu\text{m}$ | $1.82\,\mu\text{m}$ | $100.0\%$ |
-| **High-Error Zone** | $\eta_e \ge 5.0\%$ | 63 | $0.0984$ | $1.88\,\mu\text{m}$ | $1.93\,\mu\text{m}$ | $100.0\%$ |
+| **High-Error Zone** | Project $\eta_e \ge 5.0\%$ | 63 | $0.0984$ | $1.88\,\mu\text{m}$ | $1.93\,\mu\text{m}$ | $100.0\%$ |
 | **Crack Corridor** | $y \in [0.45, 0.55]\,\text{mm}$ | 312 | $0.0184$ | $2.05\,\mu\text{m}$ | $2.24\,\mu\text{m}$ | $98.4\%$ |
 | **Near-Corridor Transition** | $\|y - 0.5\| \in [0.05, 0.15]\,\text{mm}$ | 598 | $0.0125$ | $3.15\,\mu\text{m}$ | $3.48\,\mu\text{m}$ | $89.2\%$ |
 | **Far-Field Zone** | $\|y - 0.5\| > 0.20\,\text{mm}$ | 1,718 | $0.0109$ | $5.78\,\mu\text{m}$ | $6.22\,\mu\text{m}$ | $37.4\%$ |
 | **Specimen Top / Bottom** | $\|y - 0.5\| > 0.40\,\text{mm}$ | 450 | $0.0098$ | $7.42\,\mu\text{m}$ | $8.15\,\mu\text{m}$ | $14.2\%$ |
 
-### Key Analytical Insights:
-1. **Background Error Level Exceeds Tolerance:**  
-   In the linear-elastic Mode-I plate pre-analysis, the recovered discretization error $\eta_e$ in the far field ($|y - 0.5| > 0.20\,\text{mm}$) has a median value of **$1.09\%$**.
-2. **Direct Sizing Demand:**  
-   Because $\eta_{\text{far}} \approx 1.09\% > \text{errorTarget} = 1.0\%$, the native `UNIFORM_ERROR` algorithm determines that the coarse $h = 0.020\,\text{mm}$ mesh is under-resolved everywhere. The sizing engine directly prescribes $h \approx 3\text{--}6\,\mu\text{m}$ in the far field, generating $57,929$ elements.
-3. **Transition Distance:**  
-   Element sizing gradually increases from $h \approx 1.0\,\mu\text{m}$ at the tip to $h \approx 3.2\,\mu\text{m}$ at $|y-0.5| = 0.10\,\text{mm}$ and $h \approx 7.4\,\mu\text{m}$ at the boundaries, but **never returns to nominal $h = 20\,\mu\text{m}$** because the error indicator field itself demands refinement across the full domain.
+### Key Analytical Observations:
+1. **Elevated Background Error Metric:**  
+   In the linear-elastic Mode-I plate pre-analysis, the project-derived relative error metric $\eta_e = \text{MISESERI}/\text{MISESAVG}$ has a median value of $1.09\%$ in the far field ($|y - 0.5| > 0.20\,\text{mm}$).
+2. **Sizing Distribution Across Specimen:**  
+   The resulting adapted element size $h_{\text{eq}}$ ranges from $h \approx 1.8\,\mu\text{m}$ near the crack tip to $h \approx 5.8\text{--}7.4\,\mu\text{m}$ in the far field, with only $0.057\%$ of elements remaining near the nominal coarse size ($h \ge 15\,\mu\text{m}$).
+3. **Epistemological Discipline:**  
+   Because Abaqus CAE does not expose the raw mathematical relation connecting $\text{MISESERI}$ to target edge seeds inside `UNIFORM_ERROR`, we refrain from asserting that $\eta_e = 1.09\%$ directly commands $h \in [3, 6]\,\mu\text{m}$. We record the observed spatial distribution as empirical evidence while classifying the underlying causal origin as unresolved.
 
 ---
 
@@ -121,11 +121,9 @@ Transect datasets were extracted along 6 orthogonal lines across the specimen (`
 | **$y = 0.50\,\text{mm}$ (Crack Plane)** | $0.0025$ | $1.0836$ | $0.85\,\mu\text{m}$ | $4.82\,\mu\text{m}$ | Intense refinement across whole plane |
 | **$y = 0.55\,\text{mm}$ (Corridor Edge)** | $0.0058$ | $0.0482$ | $1.82\,\mu\text{m}$ | $5.91\,\mu\text{m}$ | Uniformly refined ($h \le 6\,\mu\text{m}$) |
 | **$y = 0.60\,\text{mm}$ (Far Field)** | $0.0082$ | $0.0215$ | $2.45\,\mu\text{m}$ | $7.15\,\mu\text{m}$ | Refined ($h \le 7\,\mu\text{m}$), well below $20\,\mu\text{m}$ |
-| **$x = 0.50\,\text{mm}$ (Tip Slice)** | $0.0075$ | $1.0836$ | $0.85\,\mu\text{m}$ | $6.84\,\mu\text{m}$ | $w(x) = 0.924\,\text{mm}$ across height |
-| **$x = 0.65\,\text{mm}$ (Mid-Ligament)** | $0.0081$ | $0.0425$ | $1.65\,\mu\text{m}$ | $7.45\,\mu\text{m}$ | $w(x) = 0.895\,\text{mm}$ across height |
-| **$x = 0.80\,\text{mm}$ (Far Ligament)** | $0.0078$ | $0.0162$ | $2.12\,\mu\text{m}$ | $8.20\,\mu\text{m}$ | $w(x) = 0.755\,\text{mm}$ across height |
-
-Transect inspection confirms that $\eta_e$ along $y = 0.60\,\text{mm}$ remains between $0.82\%$ and $2.15\%$ (exceeding $1.0\%$ across most of the slice), proving that far-field refinement is directly demanded by $\text{MISESERI}$.
+| **$x = 0.50\,\text{mm}$ (Tip Slice)** | $0.0075$ | $1.0836$ | $0.85\,\mu\text{m}$ | $6.84\,\mu\text{m}$ | Refined band spans $w(x) = 0.924\,\text{mm}$ across height |
+| **$x = 0.65\,\text{mm}$ (Mid-Ligament)** | $0.0081$ | $0.0425$ | $1.65\,\mu\text{m}$ | $7.45\,\mu\text{m}$ | Refined band spans $w(x) = 0.895\,\text{mm}$ across height |
+| **$x = 0.80\,\text{mm}$ (Far Ligament)** | $0.0078$ | $0.0162$ | $2.12\,\mu\text{m}$ | $8.20\,\mu\text{m}$ | Refined band spans $w(x) = 0.755\,\text{mm}$ across height |
 
 ---
 
@@ -144,8 +142,8 @@ To test whether transition smoothing was propagating refinement into the far fie
 * **Element-by-Element Parity:** **$100.000\%$ bit-for-bit identity** with baseline Stage 10 ($\Delta = 0$ elements).
 * **Formal Diagnostic Classification:** **`MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT`**
 
-### Physical Interpretation:
-In Abaqus native adaptive remeshing, edge seeds are governed directly by the error indicator sizing field. Because `UNIFORM_ERROR` at $1.0\%$ target tolerance demands $h \le 0.006\,\text{mm}$ across the entire specimen, transition smoothing is inactive in the far field—the mesher is simply satisfying the requested local sizing field everywhere.
+### Empirical Finding:
+Disabling the tested transition-control option (`minTransition=OFF`) produced no meaningful mesh change ($57,929 \to 57,929$ elements, $\Delta = 0$). This proves that transition-control settings are **not the dominant cause** of far-field refinement in this tested case.
 
 ---
 
@@ -157,7 +155,7 @@ In Abaqus native adaptive remeshing, edge seeds are governed directly by the err
 | :--- | :---: | :---: | :--- |
 | **Total Finite Elements** | $13,941$ (approximate) | **$57,929$** | $+315.5\%$ elements |
 | **Refined Corridor Bandwidth $w$** | $\approx 0.05\text{--}0.08\,\text{mm}$ | **$0.755\text{--}0.938\,\text{mm}$** | Spans nearly full specimen height ($0.94\,\text{mm}$) |
-| **Far-Field Refinement Share** | $< 10\%$ (estimated) | **$85.44\%$** ($49,494$ elements) | Extreme domain-wide refinement |
+| **Far-Field Refinement Share** | $< 10\%$ (estimated) | **$85.44\%$** ($49,494$ elements) | Broad domain-wide refinement |
 | **Transition Distance ($\Delta y$)** | Sharp ($\Delta y < 0.05\,\text{mm}$) | Broad / Diffuse | Sizing returns to $h \approx 7\,\mu\text{m}$, not $20\,\mu\text{m}$ |
 | **Elements Near Nominal Size ($h \ge 15\,\mu\text{m}$)** | $> 50\%$ | **$33$ ($0.057\%$)** | Nominal mesh almost completely erased |
 
@@ -175,13 +173,13 @@ Four publication-quality scientific figures have been generated in `results/figu
 
 ## 9. Formal Stage 11 Causal Conclusion & Supervisor Synthesis
 
-1. **Definitive Finding:**  
-   The broad far-field refinement of the native 1% adaptive mesh ($57,929$ elements, $85.44\%$ far field) is **directly demanded by the native Abaqus sizing field**, NOT an artifact of mesh transition propagation controls.
-2. **Causal Mechanism:**  
-   On the unrefined $h=0.02\,\text{mm}$ linear-elastic Mode-I plate, background stress recovery discretization error across the far field is $\approx 1.09\%$, exceeding `errorTarget = 1.0%`. Consequently, the uniform-error sizing formula commands refinement down to $h \approx 3\text{--}6\,\mu\text{m}$ across the entire specimen.
+1. **Empirical Finding:**  
+   Disabling mesh transition smoothing (`minTransition=OFF`) produced zero change in the adapted mesh ($57,929$ elements, $100.000\%$ bit-for-bit identity), establishing that mesher transition-control settings are not the dominant driver of broad far-field refinement in this tested case.
+2. **Epistemological Discipline & Sizing Field Boundary:**  
+   Because Abaqus CAE does not expose its native intermediate target-sizing field directly, the exact mathematical mechanism driving the broad refinement remains an active investigation topic.
 3. **Formal Causal Verdict:**  
-   $$\boxed{\textbf{BROADNESS\_PRIMARILY\_PRESENT\_IN\_NATIVE\_SIZING\_DEMAND}}$$
-4. **Diagnostic Verdict:**  
+   $$\boxed{\textbf{BROADNESS\_ORIGIN\_UNRESOLVED\_WITH\_TRANSITION\_OPTION\_NOT\_DOMINANT}}$$
+4. **Diagnostic Classification:**  
    `MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT` (disabling transition smoothing produces $0\%$ change in element count).
 5. **Supervisor Package Ready:**  
    All evidence, lineage matrices, transect datasets, and 4 publication figures are frozen and ready for the **08-October-2026** supervisor meeting. Gate 6B remains active.

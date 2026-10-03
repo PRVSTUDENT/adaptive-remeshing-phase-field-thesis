@@ -5,7 +5,7 @@
   "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
   "active_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
   "frozen_question": "Is the broad far-field adaptive mesh already demanded by the native Abaqus sizing field, or is refinement being propagated into the far field by mesh-generation/transition controls?",
-  "causal_verdict": "BROADNESS_PRIMARILY_PRESENT_IN_NATIVE_SIZING_DEMAND",
+  "causal_verdict": "BROADNESS_ORIGIN_UNRESOLVED_WITH_TRANSITION_OPTION_NOT_DOMINANT",
   "diagnostic_classification": "MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT",
   "lineage_reconciliation_summary": {
     "lineage_1_historical_71k": {
@@ -66,7 +66,8 @@
     "adapted_elements": 57929,
     "adapted_nodes": 57491,
     "element_difference_vs_stage10": 0,
-    "classification": "MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT"
+    "classification": "MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT",
+    "transition_finding": "Disabling the tested transition-control option (minTransition=OFF) produced no meaningful mesh change (57,929 elements vs 57,929 elements, Delta = 0), confirming that transition-control settings are not the dominant cause of far-field refinement in this tested case."
   },
   "published_morphology_comparison": {
     "published_elements": 13941,

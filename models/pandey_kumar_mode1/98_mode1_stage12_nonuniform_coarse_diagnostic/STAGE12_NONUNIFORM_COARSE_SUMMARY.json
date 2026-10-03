@@ -1,0 +1,209 @@
+{
+  "audit_id": "GATE6B-STAGE12-NONUNIFORM-COARSE-DIAGNOSTIC-20261003",
+  "preanalysis_odb": "PK_M1_JOB1_NONUNIFORM_CONT.odb",
+  "caller_frame": "Step-1 frame_last (u=0.005 mm)",
+  "coarse_mesh_diagnostic": {
+    "total_elements": 3019,
+    "total_quads": 2940,
+    "total_tris": 79,
+    "mean_h_eq_mm": 0.018030324934267827,
+    "miseseri_stats": {
+      "min": 0.24560247361660004,
+      "median": 6.037293434143066,
+      "mean": 11.745473740130672,
+      "max": 1169.96826171875,
+      "sum": 35459.5852214545
+    },
+    "footprints": {
+      "ge_50pct_count": 4,
+      "ge_50pct_fraction": 0.001324942033786022,
+      "ge_10pct_count": 24,
+      "ge_10pct_fraction": 0.007949652202716132,
+      "ge_05pct_count": 53,
+      "ge_05pct_fraction": 0.017555481947664788,
+      "ge_01pct_count": 632,
+      "ge_01pct_fraction": 0.20934084133819145,
+      "ge_001pct_count": 2970,
+      "ge_001pct_fraction": 0.9837694600861212
+    },
+    "regional_error_shares": {
+      "crack_tip_sum": 12007.811863899231,
+      "crack_tip_share": 0.3386337372224538,
+      "crack_wake_sum": 2680.4650433063507,
+      "crack_wake_share": 0.07559211498290622,
+      "ligament_sum": 3737.212137699127,
+      "ligament_share": 0.10539356606568429,
+      "far_field_sum": 17034.096176549792,
+      "far_field_share": 0.48038058172895565
+    },
+    "vertical_spread_fp01": {
+      "0.1": {
+        "count": 0,
+        "width_mm": 0.0
+      },
+      "0.2": {
+        "count": 2,
+        "y_min": 0.20900805294513702,
+        "y_max": 0.7128557413816452,
+        "width_mm": 0.5038476884365082
+      },
+      "0.3": {
+        "count": 60,
+        "y_min": 0.21389171481132507,
+        "y_max": 0.6902836561203003,
+        "width_mm": 0.4763919413089752
+      },
+      "0.4": {
+        "count": 112,
+        "y_min": 0.24327255288759866,
+        "y_max": 0.802997350692749,
+        "width_mm": 0.5597247978051504
+      },
+      "0.5": {
+        "count": 74,
+        "y_min": 0.28691431879997253,
+        "y_max": 0.7222528606653214,
+        "width_mm": 0.4353385418653488
+      },
+      "0.6": {
+        "count": 59,
+        "y_min": 0.3447382301092148,
+        "y_max": 0.719247430562973,
+        "width_mm": 0.37450920045375824
+      },
+      "0.7": {
+        "count": 89,
+        "y_min": 0.22597043216228485,
+        "y_max": 0.8333862870931625,
+        "width_mm": 0.6074158549308777
+      },
+      "0.8": {
+        "count": 83,
+        "y_min": 0.05384280998259783,
+        "y_max": 0.9102302193641663,
+        "width_mm": 0.8563874093815684
+      },
+      "0.9": {
+        "count": 33,
+        "y_min": 0.010761453304439783,
+        "y_max": 0.9916335493326187,
+        "width_mm": 0.9808720960281789
+      }
+    },
+    "raw_miseseri_verdict": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_MISESERI_IMPROVEMENT"
+  },
+  "sizing_contract": {
+    "error_target_pct": 1.0,
+    "sizing_method": "UNIFORM_ERROR",
+    "refinement_factor": 10,
+    "coarsening_factor": "NOT_ALLOWED",
+    "min_element_size_mm": 0.001,
+    "max_element_size_mm": 0.02,
+    "region": "ALL_ELEM"
+  },
+  "adapted_mesh": {
+    "total_elements": 139407,
+    "total_nodes": 137958,
+    "h_eq_stats": {
+      "min": 0.0003734230680029948,
+      "p10": 0.00149458576948296,
+      "p25": 0.0017341728808179155,
+      "median": 0.0021280047644066666,
+      "mean": 0.0024568313955728076,
+      "p75": 0.0029403132512744487,
+      "p90": 0.0038495577891612016,
+      "max": 0.011642440630957148
+    }
+  },
+  "spatial_morphology": {
+    "crack_corridor_count": 15796,
+    "crack_corridor_fraction": 0.11330851391967404,
+    "wake_count": 6176,
+    "ligament_count": 9620,
+    "upper_far_field_count": 61545,
+    "lower_far_field_count": 62066,
+    "far_field_total_count": 123611,
+    "far_field_fraction": 0.886691486080326,
+    "h_corridor_median_mm": 0.001916313524412355,
+    "h_corridor_min_mm": 0.0005242211675332257,
+    "h_far_median_mm": 0.00216202872384443,
+    "h_far_min_mm": 0.0003734230680029948,
+    "elements_near_nominal_h002_count": 0,
+    "refined_bbox_h003": {
+      "count": 106519,
+      "x_min": 0.035092433293660484,
+      "x_max": 0.9989548772573471,
+      "y_min": 0.0013224896974861622,
+      "y_max": 0.998632550239563
+    },
+    "refined_band_widths_by_x": {
+      "0.1": {
+        "count": 1478,
+        "y_min": 0.024284436833113432,
+        "y_max": 0.9721916019916534,
+        "width_mm": 0.94790716515854
+      },
+      "0.2": {
+        "count": 3346,
+        "y_min": 0.012424153974279761,
+        "y_max": 0.9975857585668564,
+        "width_mm": 0.9851616045925766
+      },
+      "0.3": {
+        "count": 6184,
+        "y_min": 0.0020774962613359094,
+        "y_max": 0.9979132860898972,
+        "width_mm": 0.9958357898285612
+      },
+      "0.4": {
+        "count": 15045,
+        "y_min": 0.001364026393275708,
+        "y_max": 0.9986029118299484,
+        "width_mm": 0.9972388854366727
+      },
+      "0.5": {
+        "count": 14815,
+        "y_min": 0.0014304769574664533,
+        "y_max": 0.9984656423330307,
+        "width_mm": 0.9970351653755642
+      },
+      "0.6": {
+        "count": 14283,
+        "y_min": 0.0014825761900283396,
+        "y_max": 0.9984479993581772,
+        "width_mm": 0.9969654231681488
+      },
+      "0.7": {
+        "count": 12088,
+        "y_min": 0.0013224896974861622,
+        "y_max": 0.998632550239563,
+        "width_mm": 0.9973100605420768
+      },
+      "0.8": {
+        "count": 7168,
+        "y_min": 0.0017707026563584805,
+        "y_max": 0.9982107430696487,
+        "width_mm": 0.9964400404132903
+      },
+      "0.9": {
+        "count": 5410,
+        "y_min": 0.0016417969018220901,
+        "y_max": 0.9982708543539047,
+        "width_mm": 0.9966290574520826
+      }
+    }
+  },
+  "comparison_vs_baselines": {
+    "package_90_elements": 56344,
+    "package_93_elements": 57929,
+    "stage_11_elements": 57929,
+    "stage_12_nonuniform_elements": 139407,
+    "target_published_elements": 13941,
+    "corridor_fraction_stage_12": 0.11330851391967404,
+    "far_field_fraction_stage_12": 0.886691486080326
+  },
+  "verdicts": {
+    "raw_miseseri_verdict": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_MISESERI_IMPROVEMENT",
+    "adaptive_morphology_verdict": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_IMPROVEMENT"
+  }
+}

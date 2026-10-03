@@ -1,0 +1,68 @@
+{
+  "audit_name": "Stage 12 Phase A: 2,906 Coarse Mesh Topology Audit",
+  "mesh_source": "PK_M1_JOB1_INF_COMPANION_2906.inp (Lineage 5)",
+  "total_elements": 2906,
+  "total_nodes": 2989,
+  "quad_elements": 2818,
+  "quad_fraction": 0.9697178251892636,
+  "tri_elements": 88,
+  "tri_fraction": 0.030282174810736407,
+  "edge_metrics": {
+    "unique_edges": 5893,
+    "mean_length_mm": 0.018754976008260506,
+    "std_length_mm": 0.002690444890411382,
+    "cov": 0.14345232375804656,
+    "min_length_mm": 0.008944894837071306,
+    "max_length_mm": 0.02920417579208899
+  },
+  "heq_metrics": {
+    "mean_heq_mm": 0.018381740753607507,
+    "std_heq_mm": 0.002495441787828805,
+    "cov": 0.1357565543589261,
+    "min_heq_mm": 0.006715560767251188,
+    "max_heq_mm": 0.02574826403297055
+  },
+  "spatial_tri_distribution": {
+    "triangles_total": 88,
+    "near_crack_line_count": 7,
+    "near_crack_line_share_pct": 7.954545454545454,
+    "near_crack_tip_count": 1,
+    "near_crack_tip_share_pct": 1.1363636363636365,
+    "far_field_count": 53,
+    "far_field_share_pct": 60.22727272727273
+  },
+  "node_valence_distribution": {
+    "2": 6,
+    "3": 405,
+    "4": 2327,
+    "5": 249,
+    "6": 1
+  },
+  "edge_orientation_distribution": {
+    "horizontal_fraction_pct": 15.325936199722607,
+    "vertical_fraction_pct": 14.268377253814146,
+    "diagonal_fraction_pct": 7.073509015256588,
+    "axial_fraction_pct": 29.594313453536753
+  },
+  "row_regularity": {
+    "estimated_horizontal_rows": 93,
+    "mean_elements_per_row": 31.247311827956988,
+    "regularity_assessment": "Quasi-regular advancing-front pattern with 96.97% quads and dominant Cartesian row alignment"
+  },
+  "crack_tip_local_topology": {
+    "tip_node_id": 97,
+    "tip_coordinates": [
+      0.5,
+      0.5
+    ],
+    "tip_node_valence": 5,
+    "adjacent_quads_count": 4,
+    "adjacent_tris_count": 0
+  },
+  "published_comparison_evidence": {
+    "published_statement": "In all the problems, the model is discretized using triangular and quadrilateral elements in a non-uniform pattern. (Section 4, CMES 2025)",
+    "published_mesh_appearance": "Free unstructured mixed tri/quad mesh across the entire domain (Figs. 5, 8-11)",
+    "current_mesh_appearance": "Advancing-front quad-dominated mesh with 96.97% quads, Cartesian row-aligned interior, and triangles confined largely to outer boundaries and corners (only 1 triangle at crack tip)",
+    "topology_mismatch_classification": "CURRENT_TOPOLOGY_PARTIALLY_CONSISTENT_WITH_PUBLISHED_NONUNIFORM_PATTERN"
+  }
+}

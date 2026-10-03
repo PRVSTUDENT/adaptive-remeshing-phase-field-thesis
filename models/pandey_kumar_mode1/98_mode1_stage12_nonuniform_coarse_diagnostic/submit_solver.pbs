@@ -1,0 +1,31 @@
+#!/bin/bash
+#PBS -N PK_M1_STAGE12_DIAG
+#PBS -l select=1:ncpus=1:mem=8gb:mpiprocs=1:ompthreads=1
+#PBS -l walltime=00:30:00
+#PBS -q normal_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+
+cd $PBS_O_WORKDIR
+
+# Source HPC environment and notification module
+module purge
+module load abaqus/2023
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+source job_notifications.sh || true
+notification_install_terminal_trap "PK_M1_STAGE12_DIAG"
+
+echo "=== STAGE 12 NON-UNIFORM COARSE PRE-ANALYSIS SOLVER START ==="
+date
+echo "Host: $(hostname)"
+echo "Workdir: $(pwd)"
+
+abaqus job=PK_M1_JOB1_NONUNIFORM_DIAG input=PK_M1_JOB1_NONUNIFORM_DIAG.inp user=f42_mixed_uel.for cpus=1 interactive
+
+EXIT_CODE=$?
+echo "Abaqus exit code: $EXIT_CODE"
+date
+exit $EXIT_CODE

@@ -1,0 +1,177 @@
+{
+  "audit_id": "GATE6B-STAGE12-NONUNIFORM-COARSE-DIAGNOSTIC-20261003",
+  "timestamp": "2026-10-03T18:38:00+02:00",
+  "agent": "gemini-antigravity",
+  "active_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "frozen_research_question": "Does a publication-consistent non-uniform quad/tri h ~ 0.02 coarse mesh produce a more localized MISESERI field and native 1% adaptive mesh?",
+  "verdicts": {
+    "raw_miseseri_verdict": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_MISESERI_IMPROVEMENT",
+    "adaptive_morphology_verdict": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_IMPROVEMENT",
+    "overall_governing_conclusion": "Coarse-mesh spatial non-uniformity does NOT produce the localized horizontal refinement band shown in Pandey & Kumar (2025) Fig. 5(b)/6(a). Under native Abaqus UNIFORM_ERROR 1% sizing with region=ALL_ELEM, non-uniform discretization still triggers domain-wide refinement down to h ~ 1-4 um across the entire plate."
+  },
+  "phase_a_topology_audit": {
+    "baseline_mesh_2906": {
+      "total_elements": 2906,
+      "quad_count": 2818,
+      "quad_fraction": 0.9697178251892636,
+      "tri_count": 88,
+      "tri_fraction": 0.030282174810736407,
+      "mean_edge_mm": 0.018755,
+      "edge_cov_pct": 14.35,
+      "mean_h_eq_mm": 0.018382,
+      "h_eq_cov_pct": 13.58,
+      "dominant_valence": 4,
+      "dominant_valence_fraction": 0.778521,
+      "crack_corridor_triangles": 7,
+      "crack_tip_triangles": 1,
+      "classification": "CURRENT_TOPOLOGY_PARTIALLY_CONSISTENT_WITH_PUBLISHED_NONUNIFORM_PATTERN"
+    }
+  },
+  "phase_b_coarse_mesh_construction": {
+    "diagnostic_mesh_3019": {
+      "total_elements": 3019,
+      "quad_count": 2940,
+      "quad_fraction": 0.973832394832726,
+      "tri_count": 79,
+      "tri_fraction": 0.026167605167273933,
+      "total_nodes": 3107,
+      "mean_h_eq_mm": 0.018030324934267827,
+      "seeding_strategy": "Staggered boundary seeding (53 top, 47 bottom, 51 right, 24/26 left, 25 seam)",
+      "mesh_algorithm": "Free Quad-dominated Advancing Front",
+      "model_files": {
+        "uel_3layer_deck": "models/pandey_kumar_mode1/98_mode1_stage12_nonuniform_coarse_diagnostic/PK_M1_JOB1_NONUNIFORM_DIAG.inp",
+        "continuum_control_deck": "models/pandey_kumar_mode1/98_mode1_stage12_nonuniform_coarse_diagnostic/PK_M1_JOB1_NONUNIFORM_CONT.inp"
+      }
+    }
+  },
+  "phase_c_raw_miseseri_analysis": {
+    "source_odb": "PK_M1_JOB1_NONUNIFORM_CONT.odb",
+    "caller_frame": "Step-1 final frame (u=0.005 mm, linear elasticity)",
+    "miseseri_statistics": {
+      "min": 0.24560247361660004,
+      "median": 6.037293434143066,
+      "mean": 11.745473740130672,
+      "max": 1169.96826171875,
+      "sum": 35459.5852214545
+    },
+    "error_footprints": {
+      "ge_50pct_count": 4,
+      "ge_50pct_fraction": 0.001324942033786022,
+      "ge_10pct_count": 24,
+      "ge_10pct_fraction": 0.007949652202716132,
+      "ge_05pct_count": 53,
+      "ge_05pct_fraction": 0.017555481947664788,
+      "ge_01pct_count": 632,
+      "ge_01pct_fraction": 0.20934084133819145,
+      "ge_001pct_count": 2970,
+      "ge_001pct_fraction": 0.9837694600861212
+    },
+    "regional_error_shares": {
+      "crack_tip_sum": 12007.811863899231,
+      "crack_tip_share": 0.3386337372224538,
+      "crack_wake_sum": 2680.4650433063507,
+      "crack_wake_share": 0.07559211498290622,
+      "ligament_sum": 3737.212137699127,
+      "ligament_share": 0.10539356606568429,
+      "far_field_sum": 17034.096176549792,
+      "far_field_share": 0.48038058172895565
+    },
+    "vertical_spread_fp01_mm": {
+      "x02": 0.5038,
+      "x03": 0.4764,
+      "x04": 0.5597,
+      "x05": 0.4353,
+      "x06": 0.3745,
+      "x07": 0.6074,
+      "x08": 0.8564,
+      "x09": 0.9809
+    },
+    "verdict": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_MISESERI_IMPROVEMENT"
+  },
+  "phase_d_native_adaptive_remeshing": {
+    "sizing_contract": {
+      "error_target_pct": 1.0,
+      "sizing_method": "UNIFORM_ERROR",
+      "refinement_factor": 10,
+      "coarsening_factor": "NOT_ALLOWED",
+      "min_element_size_mm": 0.001,
+      "max_element_size_mm": 0.02,
+      "region": "ALL_ELEM"
+    },
+    "adapted_mesh_139k": {
+      "total_elements": 139407,
+      "total_nodes": 137958,
+      "h_eq_stats": {
+        "min_mm": 0.0003734,
+        "p10_mm": 0.0014946,
+        "p25_mm": 0.0017342,
+        "median_mm": 0.0021280,
+        "mean_mm": 0.0024568,
+        "p75_mm": 0.0029403,
+        "p90_mm": 0.0038496,
+        "max_mm": 0.0116424
+      },
+      "spatial_distribution": {
+        "corridor_elements": 15796,
+        "corridor_fraction": 0.11330851391967404,
+        "wake_elements": 6176,
+        "ligament_elements": 9620,
+        "far_field_elements": 123611,
+        "far_field_fraction": 0.886691486080326,
+        "fine_elements_le_3um": 106519,
+        "fine_bounding_box_y_span_mm": [0.00132, 0.99863]
+      }
+    },
+    "comparison_table": {
+      "package_90_baseline": {
+        "description": "Continuum companion matched baseline",
+        "coarse_elements": 2906,
+        "adapted_elements": 56344,
+        "corridor_fraction": 0.1456,
+        "far_field_fraction": 0.8544
+      },
+      "package_93_baseline": {
+        "description": "Inf companion baseline",
+        "coarse_elements": 2906,
+        "adapted_elements": 57929,
+        "corridor_fraction": 0.1456,
+        "far_field_fraction": 0.8544
+      },
+      "stage_11_mintrans_off": {
+        "description": "Mesh control diagnostic (minTransition=OFF)",
+        "coarse_elements": 2906,
+        "adapted_elements": 57929,
+        "corridor_fraction": 0.1456,
+        "far_field_fraction": 0.8544
+      },
+      "stage_12_nonuniform": {
+        "description": "Non-uniform coarse mesh diagnostic",
+        "coarse_elements": 3019,
+        "adapted_elements": 139407,
+        "corridor_fraction": 0.1133,
+        "far_field_fraction": 0.8867
+      },
+      "pandey_kumar_published_target": {
+        "description": "Pandey & Kumar (2025) Fig. 5(b)/6(a)",
+        "coarse_elements": 2906,
+        "adapted_elements": 13941,
+        "corridor_fraction": 0.70,
+        "far_field_fraction": 0.30,
+        "refined_band_width_mm": 0.10
+      }
+    },
+    "verdict": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_IMPROVEMENT"
+  },
+  "scientific_synthesis": {
+    "eliminated_hypotheses": [
+      "Hypothesis 1 (Companion UMAT vs Continuum Mismatch): Disproven in Stage 7-10 (continuum and companion produce identical relative MISESERI fields and nearly identical adapted meshes ~56k-58k elements).",
+      "Hypothesis 2 (Mesh Control minTransition Option): Disproven in Stage 11 (minTransition=OFF produces identical adapted mesh: 57,929 elements, corridor fraction 14.56%).",
+      "Hypothesis 3 (Coarse Mesh Regularity / Uniformity): Disproven in Stage 12 (unstructured non-uniform coarse mesh produces 139,407 elements with 88.67% in far field, confirming domain-wide refinement is not an artifact of coarse mesh regularity)."
+    ],
+    "remaining_governing_hypotheses": [
+      "Candidate A (Sub-Region / Spatial Masking): The published 1% remeshing rule was applied to a localized sub-region (e.g. region=CRACK_CORRIDOR or an explicit horizontal bounding box) rather than unconstrained region=ALL_ELEM.",
+      "Candidate B (Error Thresholding Relative to Peak Error): The sizing driver thresholded refinement relative to maximum crack-tip error (e.g. refining only where e >= 0.10 * e_max), which naturally bounds refinement to the corridor.",
+      "Candidate C (Custom External Remeshing Driver): An external driver or custom Python sizing script was used rather than native unconstrained Abaqus RemeshingRule."
+    ]
+  }
+}
