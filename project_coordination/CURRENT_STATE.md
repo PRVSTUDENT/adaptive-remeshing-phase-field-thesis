@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T06:40:00+02:00` (Gemini Antigravity) — Gate-6B Adaptive-Response Spatial Causality Audit Completed (S1 1409734 vs ADAPT_13K 1409846); 2 Active Production Solves (1409867 S3, 1409870 T3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
-Parent commit: `5066ff8a931ef84ce4fd72aaa45dbd158891e3c6`
+Last updated: `2026-10-03T06:55:00+02:00` (Gemini Antigravity) — Gate-6B Temporal Convergence Family Fully Qualified (T1 1409869 vs T2/S1 1409734 vs T3 1409870); 1 Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
+Parent commit: `8763be3ef119111868419d485bbaa4b9b02c5505`
 
 ---
 
@@ -30,28 +30,35 @@ Parent commit: `5066ff8a931ef84ce4fd72aaa45dbd158891e3c6`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `SPATIAL_CAUSALITY_AUDIT_COMPLETED; 2_CONCURRENT_SOLVER_JOBS_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `TEMPORAL_FAMILY_QUALIFIED; SPATIAL_CAUSALITY_AUDITED; 1_SOLVER_JOB_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
   - **S1 Reference Solve Scientifically Qualified (`1409734.mmaster02`):**
     - Exit Status: `0` (Walltime `06:55:16`, CPUT `06:43:00`, 1-CPU Serial on `mnode097/0`).
     - Mechanical Parity: $K_0 = 137.945520\,\text{kN/mm}$ ($N=400$, $b=4.472368 \times 10^{-5}\,\text{kN}$, $R^2=0.99999960$), $F_{\max} = 0.757778\,\text{kN}$, $u_{\text{peak}} = 0.005857\,\text{mm}$, $W_{\text{ext}} = 2.359329\,\text{mJ}$.
     - Energetic Metrics: $E_{\text{elas}} = 0.001161\,\text{mJ}$, $E_{\text{frac}} = 2.340220\,\text{mJ}$, $E_{\text{model}} = 2.341381\,\text{mJ}$, $\Delta_{\text{book}} = -0.017949\,\text{mJ}$ ($\varepsilon_{\text{book}} = -0.76\%$).
     - Qualification Status: **`CORRECTED_S1_ENERGY_QUALIFIED`**.
+  - **Temporal Convergence Family Qualified (`T1` 1409869 vs `T2/S1` 1409734 vs `T3` 1409870):**
+    - $K_0$ variation across $4\times$ range: **$0.0009\%$** ($137.944687 \to 137.945520 \to 137.945936\,\text{kN/mm}$).
+    - $F_{\max}$ variation across $4\times$ range: **$0.0693\%$** ($0.758151 \to 0.757778 \to 0.757626\,\text{kN}$).
+    - $u(F_{\max})$ variation across $4\times$ range: **$0.1537\%$** ($5.864 \to 5.857 \to 5.855\,\mu\text{m}$).
+    - $W_{\text{ext}}$ monotonic asymptotic decrease: $2.410110 \to 2.359329 \to 2.331892\,\text{mJ}$ ($-2.11\% \to -1.16\%$).
+    - $E_{\text{frac}}$ diffuse surface functional: $2.399955 \to 2.340220 \to 2.248132\,\text{mJ}$ ($-3.93\%$ T3 vs T2).
+    - Status: **`QUALIFIED_TEMPORAL_CONVERGENCE_FAMILY`**.
   - **Adaptive Candidate 13.9k Spatial Causality Audit (`1409846.mmaster02`):**
     - Exit 0, 7,000 incs ($13,897$ el). Pre-peak: $K_0 = 137.889603\,\text{kN/mm}$ ($\Delta K_0 = -0.0405\%$), $F_{\max} = 0.742298\,\text{kN}$ ($\Delta F_{\max} = -2.04\%$), $\Delta W_{\text{ext}} = -0.06\%$ in Regime A.
     - Post-peak spatial causality audit across 7 matched displacements ($u=0.0055 \to 0.0100\,\text{mm}$) reveals crack extension retardation ($L_{\text{lig}} = 0.2965\,\text{mm}$ intact at $u=0.0070\,\text{mm}$ vs $0.000\,\text{mm}$ in S1).
     - Unbroken ligament transmits tensile load ($F = 0.528\,\text{kN}$ at $u=0.0070\,\text{mm}$), storing $>85\%$ of residual elastic energy ($E_{\text{elas}} = 0.145\,\text{mJ}$) in bulk top/bottom loading blocks.
     - Epistemic classification: **`EFFICIENCY_CALIBRATED_2PCT_PROJECT_VARIANT`**; spatial causality classification: **`SUPPORTED_BUT_NOT_PROVEN`**.
   - **Spatial Convergence S2 (`1409866.mmaster02`):** Exit 1 (cutback limit at $u=0.006816\,\text{mm}$ after $99.97\%$ post-peak load drop). Pre-peak: $K_0 = 137.894136\,\text{kN/mm}$ ($\Delta K_0 = -0.0372\%$), $F_{\max} = 0.741194\,\text{kN}$ ($\Delta F_{\max} = -2.19\%$). At matched common $u=0.006816\,\text{mm}$: $E_{\text{frac}} = 2.330348\,\text{mJ}$ vs S1 $2.339118\,\text{mJ}$ ($\Delta E_{\text{frac}} = -0.37\%$), $W_{\text{ext}} = 2.248008\,\text{mJ}$ vs S1 $2.358245\,\text{mJ}$ ($\Delta W_{\text{ext}} = -4.68\%$). Epistemic classification: **`POSTPEAK_TRUNCATED_USABLE_TO_U=0.006816_MM`**. Status: `PRELIMINARY_SPATIAL_EVIDENCE_NOT_YET_QUALIFIED` (pending S3).
-  - **Temporal Convergence T1 (`1409869.mmaster02`):** Exit 0, 3,500 incs ($\Delta u = 1.0\times 10^{-3}\,\text{mm}$). $K_0 = 137.944687\,\text{kN/mm}$ ($\Delta K_0 = -0.0006\%$), $F_{\max} = 0.758151\,\text{kN}$ ($\Delta F_{\max} = +0.0493\%$). Epistemic classification: **`PRELIMINARY_TEMPORAL_EVIDENCE_NOT_YET_QUALIFIED`** (pending T3).
   - **Length-Scale Sensitivity L2 (`1409871.mmaster02`, $l_0=0.01125\,\text{mm}$):** Exit 1 (cutback limit at $u=0.005839\,\text{mm}$). Pre-peak: $K_0 = 137.765563\,\text{kN/mm}$ ($\Delta K_0 = -0.1305\%$), $F_{\max} = 0.708402\,\text{kN}$ ($\Delta F_{\max} = -6.52\%$). Epistemic classification: **`POSTPEAK_TRUNCATED_USABLE_TO_U=0.005839_MM`**. Status: `QUALIFIED_LENGTH_SCALE_SENSITIVITY`.
   - **Length-Scale Sensitivity L3 (`1409872.mmaster02`, $l_0=0.01500\,\text{mm}$):** Exit 1 (cutback limit at $u=0.006473\,\text{mm}$). Pre-peak: $K_0 = 137.676174\,\text{kN/mm}$ ($\Delta K_0 = -0.1953\%$), $F_{\max} = 0.689540\,\text{kN}$ ($\Delta F_{\max} = -9.01\%$). At matched common $u=0.006473\,\text{mm}$: $E_{\text{frac}} = 2.330953\,\text{mJ}$ vs S1 $2.338967\,\text{mJ}$ ($\Delta E_{\text{frac}} = -0.34\%$). Epistemic classification: **`POSTPEAK_TRUNCATED_USABLE_TO_U=0.006473_MM`**. Status: `QUALIFIED_LENGTH_SCALE_SENSITIVITY`.
-  - **Active Running Solver Jobs (2 Independent Solves, Untouched):**
+  - **Active Running Solver Job (1 Independent Solve, Untouched):**
     - S3 Fine Spatial ($41,912$ el, Job `1409867.mmaster02`, `normal_imfdfkmq`, Non-polling guard enforced).
-    - T3 Fine Temporal ($15,192$ el, Job `1409870.mmaster02`, `normal_imfdfkmq`, Non-polling guard enforced).
-  - **Dedicated Spatial Audit Artifacts:**
-    - Package: `models/pandey_kumar_mode1/spatial_causality_audit/`
-    - Audit JSON: `models/pandey_kumar_mode1/gate6b_claims_and_matched_audit/GATE6B_ADAPTIVE_SPATIAL_CAUSALITY_AUDIT.json`
-    - Figures: `results/figures/mode_i_adaptive/fig_mode1_spatial_causality_field_contours.png`, `results/figures/mode_i_adaptive/fig_mode1_spatial_causality_profiles_and_ligament.png`.
+  - **Dedicated Convergence & Spatial Audit Artifacts:**
+    - Temporal Comparison: `models/pandey_kumar_mode1/GATE6B_TEMPORAL_CONVERGENCE_FAMILY_COMPARISON.json`.
+    - Temporal Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_temporal_convergence_family.png` (and `.pdf`).
+    - Spatial Causality Package: `models/pandey_kumar_mode1/spatial_causality_audit/`.
+    - Spatial Causality JSON: `models/pandey_kumar_mode1/gate6b_claims_and_matched_audit/GATE6B_ADAPTIVE_SPATIAL_CAUSALITY_AUDIT.json`.
+    - Spatial Master Figures: `results/figures/mode_i_adaptive/fig_mode1_spatial_causality_field_contours.png`, `fig_mode1_spatial_causality_profiles_and_ligament.png`.
     - Supervisor Briefing: `docs/supervisor_reports/SUPERVISOR_PROGRESS_UPDATE_2026-10-08_MODE1_GATE6B_CONVERGENCE_AND_CAUSALITY_AUDIT.md`.
 
 ---
@@ -61,7 +68,7 @@ Parent commit: `5066ff8a931ef84ce4fd72aaa45dbd158891e3c6`
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :---: | :---: | :---: | :--- | :--- |
 | **`1409867.mmaster02`** | `PK_M1_S3_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | **`R` (Running)** | 41,912-element ($h=0.0015\,\text{mm}$) spatial fine convergence solve | `1500ECA5028660045789AF04AD3112E26CA76BBF7BFAC6437A42008A4307408F` |
-| **`1409870.mmaster02`** | `PK_MODE1_T3_FINE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | **`R` (Running)** | 15,192-element temporal fine ($\Delta u = 2.5\times 10^{-4}$) convergence solve | `72D6CC5176326BFAB60FB9B23AFBE4AD6882A0ABC030465BAF10A5DC2A19519C` |
+| `1409870.mmaster02` | `PK_MODE1_T3_FINE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 15,192-element temporal fine ($\Delta u = 2.5\times 10^{-4}$) solve (**`TEMPORAL_FAMILY_QUALIFIED`**) | `72D6CC5176326BFAB60FB9B23AFBE4AD6882A0ABC030465BAF10A5DC2A19519C` |
 | `1409846.mmaster02` | `PK_M1_ADAPT_2PCT_13K_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 13,897-element 2% efficiency-calibrated adaptive validation solve (**`SPATIAL_CAUSALITY_AUDITED`**) | `9113C5F609B86DE03FD0AD4A18A971EC3ED5424664BFE44E695E96789D4D6ECC` |
 | `1409866.mmaster02` | `PK_M1_S2_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 32,184-element ($h=0.0020\,\text{mm}$) spatial convergence solve (**`MATCHED_AUDITED`**) | `9A5C3BD7EA9AF8CD38715FAC9FB062B1590766B7A7CF3A800D2F8C9E95C3767F` |
 | `1409869.mmaster02` | `PK_MODE1_T1_COARSE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 15,192-element temporal coarse ($\Delta u = 1.0\times 10^{-3}$) convergence solve (**`AUDITED`**) | `33183ADA17DA6712F93DA5648D1D4C9B41C27398DA472EE6619E0839E96ACCFF` |

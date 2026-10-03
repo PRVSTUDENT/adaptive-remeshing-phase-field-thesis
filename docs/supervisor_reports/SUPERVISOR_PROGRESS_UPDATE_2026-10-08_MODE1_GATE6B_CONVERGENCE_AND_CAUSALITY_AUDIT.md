@@ -10,7 +10,7 @@
 
 ## 1. Executive Summary & Epistemic Status
 
-This briefing reports the complete terminal evaluation, matched-displacement comparative re-audit, and 2D spatial causality investigation across the completed Mode-I benchmark solver series:
+This briefing reports the complete terminal evaluation, complete 3-case temporal discretization convergence qualification, matched-displacement comparative re-audit, and 2D spatial causality investigation across the completed Mode-I benchmark solver series:
 
 1. **S1 Conventional Reference Anchor (`1409734.mmaster02`, 15,192 finite elements, Exit 0):**
    - **`CORRECTED_S1_ENERGY_QUALIFIED`**: Verified 100.0000% mechanical parity against the published benchmark ($K_0 = 137.945520\,\text{kN/mm}$, $F_{\max} = 0.757778\,\text{kN}$ vs $0.758\,\text{kN}$ digitized). Energetic bookkeeping closure achieved within $\varepsilon_{\text{book}} = -0.76\%$ ($E_{\text{model}} = 2.341381\,\text{mJ}$ vs $W_{\text{ext}} = 2.359329\,\text{mJ}$).
@@ -21,16 +21,16 @@ This briefing reports the complete terminal evaluation, matched-displacement com
    - **Post-Peak Response (Regimes B & C):** Softening is substantially broader with delayed load drop ($F = 0.528\,\text{kN}$ at $u=0.0070\,\text{mm}$ vs $F \approx 0$ in S1) and retains non-zero residual tail force ($F_{\text{res}} = 0.029\,\text{kN}$ at $u=0.0100\,\text{mm}$), producing $+54.0\%$ higher total external work ($W_{\text{ext}} = 3.633\,\text{mJ}$) and residual elastic strain energy ($E_{\text{elas}} = 0.145\,\text{mJ}$ vs $0.00116\,\text{mJ}$).
    - **Spatial Causality Classification:** **`SUPPORTED_BUT_NOT_PROVEN`**. Matched field extraction proves that crack extension is retarded along the horizontal ligament ($L_{\text{lig}} = 0.2965\,\text{mm}$ remaining intact at $u=0.0070\,\text{mm}$ while S1 is $100\%$ severed). The unsevered ligament transmits tension, causing $>85\%$ of residual elastic energy to be stored in the bulk loading blocks ($y < 0.45$ and $y > 0.55\,\text{mm}$).
 
-3. **Spatial Convergence Series ($S1 \to S2$, $h=0.0030 \to 0.0020\,\text{mm}$):**
+3. **Temporal Convergence Family ($T1 \to T2 \to T3$, $\Delta u = 1.0\times 10^{-3} \to 5.0\times 10^{-4} \to 2.5\times 10^{-4}\,\text{mm}$):**
+   - **`QUALIFIED_TEMPORAL_CONVERGENCE_FAMILY`** (Jobs `1409869`, `1409734`, `1409870`, 100% Exit 0 across 3,500, 7,000, and 14,021 increments).
+   - High-order time-step invariance confirmed: $K_0$ variation across $4\times$ range is **$0.0009\%$** ($< 1\,\text{ppm}$), $F_{\max}$ variation is **$0.0693\%$** ($0.75815 \to 0.75778 \to 0.75763\,\text{kN}$), and $u(F_{\max})$ variation is **$0.1537\%$**.
+   - External work $W_{\text{ext}}$ displays smooth monotonic asymptotic decrease ($2.410\,\text{mJ} \to 2.359\,\text{mJ} \to 2.332\,\text{mJ}$); diffuse fracture energy $E_{\text{frac}}$ shows modest sensitivity ($2.400\,\text{mJ} \to 2.340\,\text{mJ} \to 2.248\,\text{mJ}$); global energy bookkeeping closure remains strictly within $|\varepsilon_{\text{book}}| < 3.6\%$.
+
+4. **Spatial Convergence Series ($S1 \to S2$, $h=0.0030 \to 0.0020\,\text{mm}$):**
    - **`POSTPEAK_TRUNCATED_USABLE_TO_U=0.006816_MM`** (Job `1409866.mmaster02`, $32,184$ elements, Exit 1 cutback-terminated at $99.97\%$ load drop).
    - Pre-peak stiffness $K_0 = 137.894136\,\text{kN/mm}$ ($\Delta K_0 = -0.0372\%$), peak load $F_{\max} = 0.741194\,\text{kN}$ ($\Delta F_{\max} = -2.19\%$).
    - At matched common displacement $u = 0.006816\,\text{mm}$: $E_{\text{frac}} = 2.330348\,\text{mJ}$ vs S1 $2.339118\,\text{mJ}$ ($\Delta E_{\text{frac}} = -0.37\%$), demonstrating spatial crack-surface functional invariance.
    - Status: `PRELIMINARY_SPATIAL_EVIDENCE_NOT_YET_QUALIFIED` (fine solve S3 Job `1409867` running in background).
-
-4. **Temporal Convergence Series ($T1 \to T2$, $\Delta u = 1.0\times 10^{-3} \to 5.0\times 10^{-4}\,\text{mm}$):**
-   - **`PRELIMINARY_TEMPORAL_EVIDENCE_NOT_YET_QUALIFIED`** (Job `1409869.mmaster02`, $15,192$ elements, Exit 0, 3,500 increments).
-   - Pre-peak stiffness $K_0 = 137.944687\,\text{kN/mm}$ ($\Delta K_0 = -0.0006\%$), peak load $F_{\max} = 0.758151\,\text{kN}$ ($\Delta F_{\max} = +0.0493\%$).
-   - Status: Fine temporal solve T3 (Job `1409870`, $\Delta u = 2.5\times 10^{-4}\,\text{mm}$) running in background.
 
 5. **Phase-Field Length-Scale Sensitivity Series ($L1 \to L2 \to L3$, $l_0 = 7.5 \to 11.25 \to 15.0\,\mu\text{m}$):**
    - **`QUALIFIED_LENGTH_SCALE_SENSITIVITY`** (Jobs `1409871.mmaster02` and `1409872.mmaster02`, $41,912$ elements each, Exit 1 cutback-terminated post-peak).
@@ -46,7 +46,7 @@ To establish why the fixed error-indicator pre-refined mesh (13.9k elements) exh
 ### Table 1: Matched-Displacement Spatial & Energetic Evolution
 
 | Analysis State | Prescribed $u$ (mm) | S1 Force $F$ (kN) | Adapt Force $F$ (kN) | S1 Crack Ext $\Delta a_{90}$ (mm) | Adapt Crack Ext $\Delta a_{90}$ (mm) | S1 Intact Lig $L_{\text{lig}}$ (mm) | Adapt Intact Lig $L_{\text{lig}}$ (mm) | S1 $E_{\text{elas}}$ (mJ) | Adapt $E_{\text{elas}}$ (mJ) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Pre-Peak** | $0.005500$ | $0.7207$ | $0.7199$ | $0.0000$ | $0.0000$ | $0.5000$ | $0.5000$ | $0.00198$ | $0.00198$ |
 | **S1 Peak** | $0.005857$ | $0.7578$ | $0.7423^*$ | $0.0000$ | $0.0000$ | $0.5000$ | $0.5000$ | $0.00222$ | $0.00212$ |
 | **Common Peak** | $0.005800$ | $0.7533$ | $0.5961$ | $0.0000$ | $0.1022$ | $0.5000$ | $0.3978$ | $0.00218$ | $0.00173$ |
@@ -67,18 +67,19 @@ To establish why the fixed error-indicator pre-refined mesh (13.9k elements) exh
 
 ## 3. Master Figures & Inspection Artifacts
 
-1. **2D Matched Field Evolution (`fig_mode1_spatial_causality_field_contours.png`):**
+1. **Temporal Discretization Family (`fig_mode1_gate6b_temporal_convergence_family.png`):**
+   - 6-panel publication figure demonstrating complete $F-u$ overlay, linear elastic stiffness regression window, peak load/displacement scaling vs $\Delta u$, energy partition evolution, terminal energy breakdown bar chart, and global bookkeeping residual trajectory across T1, T2, and T3.
+2. **2D Matched Field Evolution (`fig_mode1_spatial_causality_field_contours.png`):**
    - Displays 16 side-by-side whole-domain and crack-corridor contour maps of phase-field damage $d(x,y)$ and elastic energy density $\psi_e(x,y)$ across Pre-Peak, Peak, Softening ($u=0.0070\,\text{mm}$), and Residual Tail ($u=0.0100\,\text{mm}$) states.
-2. **Quantitative Spatial Profiles & Ligament Evolution (`fig_mode1_spatial_causality_profiles_and_ligament.png`):**
+3. **Quantitative Spatial Profiles & Ligament Evolution (`fig_mode1_spatial_causality_profiles_and_ligament.png`):**
    - 6-panel master figure showing midplane damage profiles $d(x, y=0.5)$, crack extension $\Delta a(u)$, intact ligament length $L_{\text{lig}}(u)$, force-ligament mechanics $F(L_{\text{lig}})$, regional elastic energy partition, and transverse localization profiles $d(y)$.
-3. **Audit Datasets & JSON Provenance:**
-   - Detailed per-element CSVs and summary metrics available under `models/pandey_kumar_mode1/spatial_causality_audit/` and `models/pandey_kumar_mode1/gate6b_claims_and_matched_audit/GATE6B_ADAPTIVE_SPATIAL_CAUSALITY_AUDIT.json`.
+4. **Audit Datasets & JSON Provenance:**
+   - Authoritative summary JSONs available under `models/pandey_kumar_mode1/GATE6B_TEMPORAL_CONVERGENCE_FAMILY_COMPARISON.json` and `models/pandey_kumar_mode1/gate6b_claims_and_matched_audit/GATE6B_ADAPTIVE_SPATIAL_CAUSALITY_AUDIT.json`.
 
 ---
 
 ## 4. Current Scheduler & Running Solves State
 
-- **Active Running Solver Jobs (Strict Non-Polling Guard Enforced):**
+- **Active Running Solver Job (Strict Non-Polling Guard Enforced):**
   - **`1409867.mmaster02` (S3 Fine Spatial):** $41,912$ finite elements ($h = 0.0015\,\text{mm}$), 1-CPU Serial in `normal_imfdfkmq`.
-  - **`1409870.mmaster02` (T3 Fine Temporal):** $15,192$ finite elements ($\Delta u = 2.5\times 10^{-4}\,\text{mm}$), 1-CPU Serial in `normal_imfdfkmq`.
 - **Zero New HPC Submissions:** No new cluster jobs were launched or modified in this turn.

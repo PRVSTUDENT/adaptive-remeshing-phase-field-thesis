@@ -1,7 +1,7 @@
 {
-  "task_id": "F1167-GATE6B-AWAIT-S3-T3-CONVERGENCE-SOLVES-20261003",
+  "task_id": "F1168-GATE6B-AWAIT-S3-SPATIAL-CONVERGENCE-SOLVE-20261003",
   "phase": "Stage Mode-I",
-  "title": "Await S3 (Job 1409867) and T3 (Job 1409870) Solves in normal_imfdfkmq with Strict Non-Polling Guard",
+  "title": "Await Spatial Fine Solve S3 (Job 1409867) in normal_imfdfkmq with Strict Non-Polling Guard",
   "status": "ready",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
@@ -14,17 +14,16 @@
     "project_coordination/**"
   ],
   "hpc_jobs": [
-    "1409867.mmaster02",
-    "1409870.mmaster02"
+    "1409867.mmaster02"
   ],
   "context": {
     "s1_reference_qualification": "CORRECTED_S1_ENERGY_QUALIFIED (Job 1409734.mmaster02)",
-    "adaptive_spatial_causality_audit": "COMPLETED_AND_FROZEN (Job 1409846.mmaster02, 13,897 elements, Exit 0, 7 Matched Displacements Audited)",
+    "temporal_convergence_qualification": "QUALIFIED_TEMPORAL_CONVERGENCE_FAMILY (T1 1409869, T2/S1 1409734, T3 1409870)",
+    "adaptive_spatial_causality_audit": "COMPLETED_AND_FROZEN (Job 1409846.mmaster02, 13,897 elements, Exit 0)",
     "active_running_jobs": {
-      "s3_spatial_42k": "1409867.mmaster02 (41,912 elements, Running, NON-POLLING GUARD ENFORCED)",
-      "t3_temporal_fine": "1409870.mmaster02 (15,192 elements, Running, NON-POLLING GUARD ENFORCED)"
+      "s3_spatial_42k": "1409867.mmaster02 (41,912 elements, Running, NON-POLLING GUARD ENFORCED)"
     },
-    "batch_pipeline_status": "SPATIAL_CAUSALITY_AUDIT_FROZEN",
+    "batch_pipeline_status": "TEMPORAL_FAMILY_QUALIFIED_SPATIAL_CAUSALITY_FROZEN",
     "non_polling_guard": "ENFORCED"
   }
 }

@@ -1,0 +1,59 @@
+{
+  "candidate_id": "T3",
+  "candidate_classification": {
+    "candidate_id": "T3",
+    "family": "TEMPORAL_CONVERGENCE",
+    "description": "Temporal Discretization Convergence Candidate (dt = 0.00025 mm, h = 0.0030 mm)",
+    "scientific_interpretation": "Temporal fine time-step solve (dt = 2.5e-4 mm, 15,192 elements, 14,021 increments, Exit 0). Confirms high-order temporal invariance of initial stiffness (Delta K0 = +0.0003%), peak reaction force (Delta F_max = -0.0201%), and peak displacement (Delta u_peak = -0.0341%) across 4x time-step ratio.",
+    "meta": {
+      "candidate_id": "T3",
+      "name": "PK_MODE1_T3_FINE_ENERGY",
+      "family": "TEMPORAL_CONVERGENCE",
+      "package_dir": "19_temporal_convergence_t3_fine",
+      "elements": 15192,
+      "mesh_size_h_mm": 0.003,
+      "l0_mm": 0.0075,
+      "dt_step1_mm": 0.00025,
+      "dt_step2_mm": 0.0001,
+      "role": "TEMPORAL_FINE"
+    }
+  },
+  "job_telemetry": {
+    "job_id": "1409870.mmaster02",
+    "job_name": "PK_MODE1_T3_FINE_ENERGY",
+    "finite_elements": 15192,
+    "layered_elements": 45576,
+    "solver_exit_status": 0,
+    "walltime_seconds": 51593,
+    "cpu_time_seconds": 50053,
+    "memory_peak_mb": 32768,
+    "exec_host": "mnode097/4",
+    "total_increments": 14021
+  },
+  "mechanical_response": {
+    "K0_kN_per_mm": 137.94593602413778,
+    "K0_intercept_kN": 4.452892959101895e-05,
+    "K0_R2": 0.9999996005036231,
+    "K0_fit_points": 800,
+    "delta_K0_vs_S1_ref_pct": 0.00030184311491083366,
+    "F_max_kN": 0.75762648,
+    "u_at_F_max_mm": 0.0058545,
+    "delta_F_max_vs_S1_ref_pct": -0.020059951820482556,
+    "delta_u_peak_vs_S1_ref_pct": -0.0426839679016544,
+    "u_final_mm": 0.01,
+    "F_final_kN": 0.00023955914,
+    "W_ext_final_mJ": 2.331891739705543
+  },
+  "energy_balance": {
+    "has_sdv_energies": true,
+    "final_e_elas_mJ": 0.0011977957,
+    "final_e_frac_mJ": 2.2481318,
+    "final_e_model_mJ": 2.2493295957,
+    "final_w_ext_mJ": 2.331891739705543,
+    "final_delta_book_mJ": -0.08256214400554329,
+    "final_signed_reldiff_pct": -3.5405650528171058,
+    "final_eps_book_abs_pct": 3.5405650528171058,
+    "peak_abs_delta_book_mJ": 0.11679869926847308
+  },
+  "convergence_status": "QUALIFIED_TEMPORAL_FINE_SOLVE"
+}
