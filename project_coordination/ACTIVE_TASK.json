@@ -1,7 +1,7 @@
 {
-  "task_id": "F1186-GATE6B-ADAPTIVE-LOCALIZATION-STAGE14B-STEP2-MISESERI-QUALIFICATION-20261003",
+  "task_id": "F1186-GATE6B-STAGE14-ADAPTIVE-SOLVER-SUBMISSION-AND-EVALUATION-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Adaptive-Localization Stage 14B: Step-2 MISESERI / Native-Remesh Qualification & Refined-Candidate Release",
+  "title": "Gate-6B Mode-I Stage 14 Adaptive Solver Submission & Terminal Evaluator Release",
   "status": "completed",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
@@ -15,40 +15,23 @@
   "hpc_jobs": [],
   "context": {
     "gate6b_status": "ACTIVE",
-    "stage14b_qualification": {
-      "governing_localization_verdict": "STAGE14_TARGET_LIKE_LOCALIZATION_QUALIFIED",
-      "diagnostic_status": "PROMISING_STAGE14_RESULT_PENDING_FINAL_QUALIFICATION",
-      "earliest_target_like_state": {
-        "state_id": "state_u00940_initiation",
-        "step": "Step-2",
-        "frame_idx": 880,
-        "u_mm": 0.0094,
-        "d_max": 0.9833,
-        "corridor_share_pct": 86.7,
-        "far_field_share_pct": 10.5,
-        "bbox_yspan_mm": 0.0884
-      },
-      "semantics_evaluation": "Abaqus ALL_INCREMENTS evaluates worst-case sizing envelope across increments; Step-2 envelope coincides with terminal Step-2 sizing due to monotonic error accumulation in crack path (100.000% bit-for-bit identical mesh topologies).",
-      "morphology_metrics": {
-        "total_elements": 14483,
-        "total_nodes": 14456,
-        "corridor_fraction_pct": 64.12,
-        "coarse_area_preserved_pct": 59.39,
-        "transect_w_notch_tip_x05_mm": 0.2261,
-        "transect_w_mid_ligament_x07_mm": 0.1423,
-        "transect_w_far_ligament_x09_mm": 0.0819,
-        "outer_flanks_w_x03_mm": 0.0
-      },
-      "candidate_release": {
-        "name": "PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE",
-        "directory": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k",
-        "deck_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
-        "layers_total_elements": 43449,
-        "nodes": 14456,
-        "queue": "normal_imfdfkmq"
-      }
-    }
+    "stage14_adaptive_candidate": {
+      "candidate_name": "PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE",
+      "deck_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+      "deck_sha256": "3efba9682c3eb31e99c233192007246e995bd8182411e51e6a6b74166873d7c1",
+      "elements": 14483,
+      "nodes": 14456,
+      "layers_total_elements": 43449,
+      "evaluator_script": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/evaluate_mode1_stage14_adaptive_14k.py",
+      "evaluator_sha256": "ff7750547820ac5b38a160d8ad9c0b0263c9f909b9532a1c23945f3dc335f45e"
+    },
+    "semantics_update": {
+      "classification": "NATIVE_REMESH_HISTORY_SEMANTICS_NOT_EXPLICITLY_DOCUMENTED",
+      "earliest_target_state": "u = 0.00940 mm (Frame 880, d_max=0.9833, project-observed pre-analysis state)"
+    },
+    "test_suite_status": "127/127 Mode-I tests passed 100%",
+    "submission_status": "INTERCEPTED_BY_SAFETY_GATE_AWAITING_PERMIT"
   },
-  "created_at": "2026-10-03T19:55:00+02:00",
-  "updated_at": "2026-10-03T20:05:00+02:00"
+  "created_at": "2026-10-03T20:10:00+02:00",
+  "updated_at": "2026-10-03T20:15:00+02:00"
 }

@@ -5,6 +5,7 @@
   "status": "PROMISING_STAGE14_RESULT_PENDING_FINAL_QUALIFICATION",
   "governing_localization_verdict": "STAGE14_TARGET_LIKE_LOCALIZATION_QUALIFIED",
   "governing_scientific_verdict": "PHASEFIELD_EVOLUTION_TOWARD_TARGET_MISESERI_LOCALIZATION",
+  "native_remesh_history_semantics_classification": "NATIVE_REMESH_HISTORY_SEMANTICS_NOT_EXPLICITLY_DOCUMENTED",
   "source_preanalysis_odb": {
     "odb_path": "PK_M1_JOB1_INF_COMPANION_2906.odb",
     "coarse_mesh_elements": 2906,
@@ -14,6 +15,7 @@
   },
   "earliest_target_like_state": {
     "state_id": "state_u00940_initiation",
+    "nature": "project_observed_preanalysis_state_not_author_declared",
     "step": "Step-2",
     "frame_idx": 880,
     "u_mm": 0.00940,
@@ -59,6 +61,7 @@
     "candidate_name": "PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE",
     "package_dir": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k",
     "deck_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+    "deck_sha256": "3efba9682c3eb31e99c233192007246e995bd8182411e51e6a6b74166873d7c1",
     "layers_total_elements": 43449,
     "nodes": 14456,
     "queue": "normal_imfdfkmq",

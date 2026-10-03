@@ -7,6 +7,7 @@
 **Status:** `PROMISING_STAGE14_RESULT_PENDING_FINAL_QUALIFICATION`  
 **Governing Localization Verdict:** `STAGE14_TARGET_LIKE_LOCALIZATION_QUALIFIED`  
 **Evolution Verdict:** `PHASEFIELD_EVOLUTION_TOWARD_TARGET_MISESERI_LOCALIZATION`  
+**Native Semantics Classification:** `NATIVE_REMESH_HISTORY_SEMANTICS_NOT_EXPLICITLY_DOCUMENTED`  
 
 ---
 
@@ -50,7 +51,7 @@ $$\boxed{\text{Does the coarse phase-field UEL solution develop crack/damage loc
 ## 3. Multi-State MISESERI and Phase-Field Evolution
 
 | State | Step & Frame | $u$ (mm) | $d_{\max}$ | Crack Tip ($d \ge 0.9$) | MISESERI Max | Corridor Share | Far-Field Share | Ligament Share | BBox $y$-span | $w(0.7)$ |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | 1 | Step-1, Fr 500 | 0.00500 | 0.1006 | 0.5000 mm | $4.50 \times 10^{-14}$ | 34.98% | 50.87% | 16.74% | 0.1873 mm | 0.0000 mm |
 | 2 | Step-2, Fr 100 | 0.00550 | 0.1238 | 0.5000 mm | $5.10 \times 10^{-14}$ | 35.15% | 50.73% | 16.90% | 0.1873 mm | 0.0000 mm |
 | 3 | Step-2, Fr 171 | 0.00586 | 0.1423 | 0.5000 mm | $5.56 \times 10^{-14}$ | 35.29% | 50.62% | 17.02% | 0.1873 mm | 0.0000 mm |
@@ -64,13 +65,13 @@ $$\boxed{\text{Does the coarse phase-field UEL solution develop crack/damage loc
 
 ## 4. Semantics & Provenance Qualification
 
-- **Native Remeshing Semantics:** In Abaqus, `outputFrequency=ALL_INCREMENTS` evaluates the worst-case sizing envelope across increments. In `Step-2`, because error along the ligament increases monotonically during crack extension, `ALL_INCREMENTS` and `LAST_INCREMENT` produce 100.000% bit-for-bit identical mesh topologies (14,456 nodes, 14,483 elements).
-- **Earliest Target-Like State:** Identified at Frame 880 ($u = 0.00940\,\text{mm}$), where crack localization ($d \approx 0.98$) and corridor error concentration (86.70%) are established without requiring complete rupture of the right ligament.
+- **Native Remeshing History Semantics:** In Abaqus, `outputFrequency=ALL_INCREMENTS` evaluates remeshing across multiple increments. Because the internal accumulation formula across increments is not explicitly documented in primary Abaqus reference manuals, this feature is classified as `NATIVE_REMESH_HISTORY_SEMANTICS_NOT_EXPLICITLY_DOCUMENTED`. In `Step-2`, because error along the ligament increases monotonically during crack extension, `ALL_INCREMENTS` and `LAST_INCREMENT` produce 100.000% bit-for-bit identical mesh topologies (14,456 nodes, 14,483 elements) for this tested configuration.
+- **Project-Observed Earliest Target State:** The initiation state identified at Frame 880 ($u = 0.00940\,\text{mm}$), where crack localization ($d \approx 0.9833$) and corridor error concentration (86.70%) are first established, is a **project-observed pre-analysis state**, not an author-declared displacement in the publication text.
 - **Provenance Hashes:**
   - ODB: `PK_M1_JOB1_INF_COMPANION_2906.odb` (SHA-256: `dbfad35fd3a2267e19e4c5975764ecac28aa0e0acdd59a2e97cd17aac1fc4a39`)
   - Subroutine: `models/pandey_kumar_mode1/f42_mixed_uel.for` (SHA-256: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`)
   - Adapted Deck: `PK_M1_STAGE14_STEP2_ALLINC.inp` (SHA-256: `13e0925df11b620d860ed28b55e49fb365957a5d49338d8d4f8ce6412d9e082d`)
-  - Candidate Fracture Deck: `PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp` (SHA-256 in MANIFEST.json)
+  - Candidate Fracture Deck: `PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp` (SHA-256: `3efba9682c3eb31e99c233192007246e995bd8182411e51e6a6b74166873d7c1`)
 
 ---
 
