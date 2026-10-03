@@ -1,13 +1,13 @@
 {
-  "task_id": "F1177-GATE6B-LOADING-HISTORY-AND-FRAME-FIDELITY-AUDIT-20261003",
+  "task_id": "F1178-GATE6B-ARCHITECTURE-ISOLATION-DECK-AUDIT-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Job-1_UEL Loading-History and Frame-Fidelity Audit",
+  "title": "Gate-6B Mode-I Architecture-Isolation Deck Difference Audit",
   "status": "completed",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
   "write_scope": [
     "models/pandey_kumar_mode1/**",
-    "scripts/evaluation/**",
+    "scripts/audit/**",
     "tests/unit/**",
     "docs/**",
     "project_coordination/**"
@@ -18,19 +18,23 @@
     "1409867.mmaster02"
   ],
   "context": {
-    "submitted_jobs": [
-      "1409912.mmaster02 (Package 89, PK_M1_JOB1_SOLVE, 8,718 elements, normal_imfdfkmq, 1-CPU Serial, DIAGNOSTIC_JOB1_LAYERED_VARIANT, NON-POLLING GUARD ENFORCED)",
-      "1409914.mmaster02 (Package 90, PK_M1_J1_CONT_SOLVE, 2,906 elements, normal_imfdfkmq, 1-CPU Serial, ARCHITECTURE_ISOLATION_CONTROL, NON-POLLING GUARD ENFORCED)"
-    ],
     "active_running_jobs": {
       "job1_continuum_control": "1409914.mmaster02 (Active in normal_imfdfkmq, ARCHITECTURE_ISOLATION_CONTROL, NON-POLLING GUARD ENFORCED)",
       "job1_layered_variant": "1409912.mmaster02 (Active in normal_imfdfkmq, DIAGNOSTIC_JOB1_LAYERED_VARIANT, NON-POLLING GUARD ENFORCED)",
       "s3_spatial_42k": "1409867.mmaster02 (41,912 elements, Running, NON-POLLING GUARD ENFORCED)"
     },
     "non_polling_guard": "ENFORCED",
-    "epistemic_term": "DIAGNOSTIC_JOB1_LAYERED_VARIANT",
-    "control_term": "ARCHITECTURE_ISOLATION_CONTROL",
-    "reference_loading_detail": "UNRESOLVED_REFERENCE_DETAIL",
-    "evaluator_status": "refactored with matched displacement enforcement and zero rescaling shortcut; 18/18 tests pass"
+    "deck_audit_target": "Package 89 (PK_M1_JOB1_UEL_2906.inp) vs Package 90 (PK_M1_JOB1_CONTINUUM_MATCHED_2906.inp)",
+    "predeclared_verdict": "ARCHITECTURE_ISOLATION_CONTROL_VALID",
+    "confounding_differences": 0,
+    "audit_dimensions_evaluated": 34,
+    "classification_counts": {
+      "IDENTICAL": 26,
+      "EQUIVALENT_BY_CONSTRUCTION": 5,
+      "EXPECTED_ARCHITECTURE_DIFFERENCE": 3,
+      "UNINTENDED_CONFOUNDING_DIFFERENCE": 0
+    },
+    "terminal_comparison_manifest": "models/pandey_kumar_mode1/TERMINAL_COMPARISON_MANIFEST_89_VS_90.json",
+    "unit_test_suite_status": "23/23 tests pass"
   }
 }

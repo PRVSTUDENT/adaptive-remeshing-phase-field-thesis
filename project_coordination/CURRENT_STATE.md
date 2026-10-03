@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T10:15:00+02:00` (Gemini Antigravity) — Gate-6B Source-Fidelity Record Corrections Complete; Package 90 Architecture-Isolation Control (1409914.mmaster02) Submitted to normal_imfdfkmq; Active Diagnostic Job 1409912.mmaster02 and Production Solve 1409867 (S3) Running Untouched Under Strict Non-Polling Guard; Terminal Evaluator Refactored Without Displacement Rescaling Shortcut (18/18 Tests Pass)  
+Last updated: `2026-10-03T10:25:00+02:00` (Gemini Antigravity) — Gate-6B Architecture-Isolation Deck Difference Audit Complete; Predeclared Verdict ARCHITECTURE_ISOLATION_CONTROL_VALID (0 Confounds Across 34 Audited Dimensions); Terminal Comparison Manifest Frozen; Active Diagnostic Job 1409912.mmaster02, Control 1409914.mmaster02, and Production Solve 1409867 (S3) Running Untouched Under Strict Non-Polling Guard; 23/23 Unit Tests Pass; Zero New PBS Submissions  
 Parent commit: `f1149b7bca2ce356508ef27dccb4db48605afe3e`
 
 ---
@@ -30,7 +30,7 @@ Parent commit: `f1149b7bca2ce356508ef27dccb4db48605afe3e`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `SOURCE_FIDELITY_CORRECTED; MATCHED_CONTROL_SUBMITTED_1409914; JOB1_UEL_DOWNGRADED_DIAGNOSTIC_1409912; EVALUATOR_REFACTORED_DIRECT_MATCH; PREANALYSIS_FIDELITY_RECONCILED; STAGE4_STRESS_TRANSFER_AUDITED; STAGE3_MAPPING_AUDITED; STAGE2_BC_AUDITED; STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_CAUSALITY_AUDITED; 3_ACTIVE_JOBS_IN_QUEUE; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `ARCHITECTURE_ISOLATION_CONTROL_VALID; DECK_AUDIT_ZERO_CONFOUNDS; TERMINAL_MANIFEST_FROZEN; SOURCE_FIDELITY_CORRECTED; MATCHED_CONTROL_SUBMITTED_1409914; JOB1_UEL_DOWNGRADED_DIAGNOSTIC_1409912; EVALUATOR_REFACTORED_DIRECT_MATCH; PREANALYSIS_FIDELITY_RECONCILED; STAGE4_STRESS_TRANSFER_AUDITED; STAGE3_MAPPING_AUDITED; STAGE2_BC_AUDITED; STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_CAUSALITY_AUDITED; 3_ACTIVE_JOBS_IN_QUEUE; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
   - **Source-Fidelity Record Corrections (`SOURCE_FIDELITY_CORRECTIONS`):**
     - Corrected coarse mesh sizing record: paper specifies nominal initial global size $h = 0.02\,\text{mm}$; 2,906 elements is a project realization conforming to this nominal size, not an explicitly published element count or topology (`PROJECT_IMPLEMENTATION`).
     - Facsimile mapping: exact structural and connectivity equivalence between `All_elem`, `umatelem`, and companion Layer 3 (`PROJECT_IMPLEMENTATION`).
@@ -38,6 +38,14 @@ Parent commit: `f1149b7bca2ce356508ef27dccb4db48605afe3e`
     - Publication loading schedule: Section 4.1 literal $\Delta u_1 = 10^{-3}$ for 500 increments implies unphysical $u = 0.5\,\text{mm}$ ($50\%$ strain on a brittle specimen where peak fracture displacement is $0.005857\,\text{mm}$). Classified as **`UNRESOLVED_REFERENCE_DETAIL`** without attributing author error or motive.
     - Sizing and error indicators: removed asserted proprietary relation between MISESERI and MISESAVG; removed unproven claim that complete Abaqus UNIFORM_ERROR sizing is mathematically displacement-invariant.
     - Standardized supervisor meeting date across all records: **Thursday, 08 October 2026, 10:00 CEST**.
+  - **Independent Architecture-Isolation Deck Difference Audit (`MODE1_ARCHITECTURE_ISOLATION_DECK_AUDIT.md`):**
+    - Completed machine-by-machine audit across 34 dimensions comparing Package 89 (`PK_M1_JOB1_UEL_2906.inp`) vs Package 90 (`PK_M1_JOB1_CONTINUUM_MATCHED_2906.inp`).
+    - Predeclared verdict: **`ARCHITECTURE_ISOLATION_CONTROL_VALID`** (0 unintended confounding differences: 26 `IDENTICAL`, 5 `EQUIVALENT_BY_CONSTRUCTION`, 3 `EXPECTED_ARCHITECTURE_DIFFERENCE`).
+    - Proved mathematical equivalence of top-edge lateral-free roller kinematics ($u_y$ tied to RP 999999, $u_x$ free) with single-node pin at $(0, 0)$.
+    - Confirmed stiffness distribution: Package 90 standard continuum elements carry ordinary elastic stiffness ($E=210\,\text{GPa}, \nu=0.3$); Package 89 mechanical UEL carries intended stiffness, while companion UMAT layer contributes only negligible diagonal tangent $10^{-11}\,\text{kN/mm}^2$ ($\sim 4.8\times 10^{-14}$ ratio), strictly avoiding duplicate stiffness.
+    - Frozen terminal comparison manifest in `TERMINAL_COMPARISON_MANIFEST_89_VS_90.json` (enforcing direct matched displacement evaluation with 0 rescaling shortcuts and 0 arbitrary percentage thresholds).
+    - Unit test suite: **23/23 tests pass** across repository (`test_audit_mode1_architecture_isolation.py` 5/5, `test_evaluate_mode1_job1_miseseri.py` 9/9, `test_mode1_adapted_decks_contract.py` 4/4, `test_mode1_pre_uel_corrected_static.py` 5/5).
+    - Zero new PBS submissions required; running jobs 1409912, 1409914, 1409867 preserved untouched under strict non-polling guard.
   - **Architecture-Isolation Matched Continuum Control (`90_mode1_preanalysis_continuum_matched_2906`, Job `1409914.mmaster02`):**
     - Built and verified package 90: identical 2,906-element mesh (2,818 CPE4, 88 CPE3, 2,988 nodes + 1 RP), identical two-step loading history (Step-1 $u=0.005\,\text{mm}$, 500 incs; Step-2 $u=0.010\,\text{mm}$, 1000 incs), identical lateral-free roller BCs, identical material ($E=210\,\text{GPa}, 
 u=0.3$).

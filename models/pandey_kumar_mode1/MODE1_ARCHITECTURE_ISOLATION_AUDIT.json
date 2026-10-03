@@ -1,0 +1,292 @@
+{
+  "verdict": "ARCHITECTURE_ISOLATION_CONTROL_VALID",
+  "deck_89_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\89_mode1_preanalysis_uel_canonical_2906\\PK_M1_JOB1_UEL_2906.inp",
+  "deck_89_sha256": "27aab773a116e3c8a832e4980d0e25f48a435f34dedece4abe78ffa232c0c1ff",
+  "deck_90_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\90_mode1_preanalysis_continuum_matched_2906\\PK_M1_JOB1_CONTINUUM_MATCHED_2906.inp",
+  "deck_90_sha256": "b60dd35d56ab2824902f2d90912e222cf9d335d7d9911cf8dd17a3dc2b52e5f9",
+  "subroutine_89_sha256": "91ad75b0ff65dbd25967feae42af531239a99b3f76d9ef49d7359a66403dea6b",
+  "pbs_89_sha256": "cc541dab3a78aa0c0b5f0dcb0c8f73b9345cb3e5f2001c9194e1e256e7d72759",
+  "pbs_90_sha256": "72df7210d00c3d4e6938399ffebaabf6a16e4e462afc813f689789f1877bc1ed",
+  "total_audit_items": 34,
+  "classification_counts": {
+    "IDENTICAL": 26,
+    "EQUIVALENT_BY_CONSTRUCTION": 5,
+    "EXPECTED_ARCHITECTURE_DIFFERENCE": 3,
+    "UNINTENDED_CONFOUNDING_DIFFERENCE": 0
+  },
+  "confounds": [],
+  "audit_items": [
+    {
+      "category": "GEOMETRY",
+      "item_name": "mesh_node_count",
+      "package_89_value": "2988",
+      "package_90_value": "2988",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both decks define exactly 2,988 physical domain mesh nodes."
+    },
+    {
+      "category": "GEOMETRY",
+      "item_name": "mesh_node_coordinates",
+      "package_89_value": "max_diff=0.0 (N=2988)",
+      "package_90_value": "max_diff=0.0 (N=2988)",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Coordinates of all 2,988 mesh nodes are bit-for-bit identical (max diff = 0.0000000000e+00)."
+    },
+    {
+      "category": "GEOMETRY",
+      "item_name": "rp_node_definition",
+      "package_89_value": "(0.5, 1.0, 0.0)",
+      "package_90_value": "(0.5, 1.0, 0.0)",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Reference Point node 999999 is located at (0.5, 1.0, 0.0) in both decks."
+    },
+    {
+      "category": "TOPOLOGY",
+      "item_name": "element_counts_and_layers",
+      "package_89_value": "8,718 (3 layers of 2906)",
+      "package_90_value": "2,906 (1 layer of 2906)",
+      "classification": "EQUIVALENT_BY_CONSTRUCTION",
+      "scientific_justification": "Package 89 has 3 co-located layers (PF, MECH, UMAT) while Package 90 has standard single layer. Underlying connectivity matches 2,906/2,906."
+    },
+    {
+      "category": "TOPOLOGY",
+      "item_name": "element_type_distribution",
+      "package_89_value": "2818 U1/U2/CPE4, 88 U3/U4/CPE3",
+      "package_90_value": "2818 CPE4, 88 CPE3",
+      "classification": "EQUIVALENT_BY_CONSTRUCTION",
+      "scientific_justification": "Both decks discretize the exact same 2,818 quads and 88 triangles with identical vertex node order."
+    },
+    {
+      "category": "TOPOLOGY",
+      "item_name": "crack_seam_duplicate_nodes",
+      "package_89_value": "25 pairs (50 nodes + 1 tip)",
+      "package_90_value": "25 pairs (50 nodes + 1 tip)",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both decks define the exact same 25 duplicate node pairs along the sharp crack seam y=0.5, 0<=x<=0.5."
+    },
+    {
+      "category": "SETS",
+      "item_name": "nset_N_RP",
+      "package_89_value": "count=1",
+      "package_90_value": "count=1",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Node set N_RP has bit-identical node ID membership."
+    },
+    {
+      "category": "SETS",
+      "item_name": "nset_N_PIN",
+      "package_89_value": "count=1",
+      "package_90_value": "count=1",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Node set N_PIN has bit-identical node ID membership."
+    },
+    {
+      "category": "SETS",
+      "item_name": "nset_N_BOTTOM",
+      "package_89_value": "count=51",
+      "package_90_value": "count=51",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Node set N_BOTTOM has bit-identical node ID membership."
+    },
+    {
+      "category": "SETS",
+      "item_name": "nset_N_TOP",
+      "package_89_value": "count=51",
+      "package_90_value": "count=51",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Node set N_TOP has bit-identical node ID membership."
+    },
+    {
+      "category": "SETS",
+      "item_name": "elset_All_elem",
+      "package_89_value": "count=0 (umatelem)",
+      "package_90_value": "count=0 (PLATE_TRIS+QUADS)",
+      "classification": "EQUIVALENT_BY_CONSTRUCTION",
+      "scientific_justification": "Both decks define All_elem spanning all 2,906 underlying elements of the domain for whole-element error evaluation."
+    },
+    {
+      "category": "SETS",
+      "item_name": "layer_specific_elsets",
+      "package_89_value": "PF_ELEM, MECH_ELEM, umatelem",
+      "package_90_value": "None (standard continuum)",
+      "classification": "EXPECTED_ARCHITECTURE_DIFFERENCE",
+      "scientific_justification": "Layer-specific sets are architectural necessities of the 3-layer dual UEL formulation."
+    },
+    {
+      "category": "BOUNDARIES",
+      "item_name": "bottom_roller_bc",
+      "package_89_value": "N_BOTTOM, 2, 2, 0.0 (U1 free)",
+      "package_90_value": "N_BOTTOM, 2, 2, 0.0 (U1 free)",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both decks enforce bottom roller boundary (u_y=0) while allowing lateral sliding (u_x unconstrained)."
+    },
+    {
+      "category": "BOUNDARIES",
+      "item_name": "rigid_body_pin_bc",
+      "package_89_value": "N_PIN (node 25), 1, 1, 0.0",
+      "package_90_value": "N_PIN (node 25), 1, 1, 0.0",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both decks pin node 25 at (0.0, 0.0) in DOF 1 to prevent rigid body translation in X."
+    },
+    {
+      "category": "BOUNDARIES",
+      "item_name": "top_prescribed_displacement",
+      "package_89_value": "Step-1: 0.0050, Step-2: 0.0100",
+      "package_90_value": "Step-1: 0.0050, Step-2: 0.0100",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both decks prescribe the identical two-step displacement history at Reference Point node 999999."
+    },
+    {
+      "category": "KINEMATICS",
+      "item_name": "rp_top_coupling_equations",
+      "package_89_value": "51 equations (51)",
+      "package_90_value": "51 equations (51)",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both decks use identical *EQUATION cards coupling DOF 2 of each top node to RP 999999 (u_y^top = u_y^RP). DOF 1 is free."
+    },
+    {
+      "category": "KINEMATICS",
+      "item_name": "lateral_freedom_top_edge",
+      "package_89_value": "DOF 1 unconstrained (lateral-free)",
+      "package_90_value": "DOF 1 unconstrained (lateral-free)",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Neither deck constrains DOF 1 (u_x) on top nodes or RP. Pure roller boundary kinematics are preserved."
+    },
+    {
+      "category": "STEPS",
+      "item_name": "step1_definition",
+      "package_89_value": "*STEP, NAME=Step-1, NLGEOM=NO, INC=1000",
+      "package_90_value": "*STEP, NAME=Step-1, NLGEOM=NO, INC=1000",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Step-1: NLGEOM=NO, INC=1000 in both decks."
+    },
+    {
+      "category": "STEPS",
+      "item_name": "step1_static_params",
+      "package_89_value": "0.002, 1.0, 1.0E-9, 0.002 (500 incs)",
+      "package_90_value": "0.002, 1.0, 1.0E-9, 0.002 (500 incs)",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Identical time period 1.0, initial/max increment 0.002 (yielding 500 increments to u=0.005 mm)."
+    },
+    {
+      "category": "STEPS",
+      "item_name": "step2_definition",
+      "package_89_value": "*STEP, NAME=Step-2, NLGEOM=NO, INC=2000",
+      "package_90_value": "*STEP, NAME=Step-2, NLGEOM=NO, INC=2000",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Step-2: NLGEOM=NO, INC=2000 in both decks."
+    },
+    {
+      "category": "STEPS",
+      "item_name": "step2_static_params",
+      "package_89_value": "0.001, 1.0, 1.0E-9, 0.001 (1000 incs)",
+      "package_90_value": "0.001, 1.0, 1.0E-9, 0.001 (1000 incs)",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Identical time period 1.0, initial/max increment 0.001 (yielding 1,000 increments to u=0.010 mm)."
+    },
+    {
+      "category": "LOADING",
+      "item_name": "displacement_schedule",
+      "package_89_value": "Step-1 u=0.005 mm, Step-2 u=0.010 mm",
+      "package_90_value": "Step-1 u=0.005 mm, Step-2 u=0.010 mm",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both decks enforce identical two-step physical displacement without variation."
+    },
+    {
+      "category": "SOLVER",
+      "item_name": "increment_controls",
+      "package_89_value": "Default automatic (no *CONTROLS override)",
+      "package_90_value": "Default automatic (no *CONTROLS override)",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Neither deck introduces artificial cutback or convergence parameter overrides."
+    },
+    {
+      "category": "PHYSICS",
+      "item_name": "geometric_nonlinearity",
+      "package_89_value": "NLGEOM=NO (linear kinematics)",
+      "package_90_value": "NLGEOM=NO (linear kinematics)",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both decks solve under geometrically linear plane-strain kinematics."
+    },
+    {
+      "category": "MATERIAL",
+      "item_name": "elastic_constants",
+      "package_89_value": "E=210.0 kN/mm^2, nu=0.3",
+      "package_90_value": "E=210.0 kN/mm^2, nu=0.3",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both decks define Young's modulus E=210.0 kN/mm^2 (210 GPa) and Poisson's ratio nu=0.3."
+    },
+    {
+      "category": "MATERIAL",
+      "item_name": "stiffness_allocation",
+      "package_89_value": "Mech UEL Layer 2 (E=210) + UMAT dummy 1e-11",
+      "package_90_value": "Standard continuum elasticity (E=210)",
+      "classification": "EQUIVALENT_BY_CONSTRUCTION",
+      "scientific_justification": "Package 90 standard elements carry ordinary elastic stiffness. Package 89 mechanical UEL carries intended stiffness; companion UMAT tangent is 1.0D-11 (negligible dummy stiffness 4.8e-14 ratio)."
+    },
+    {
+      "category": "OUTPUTS",
+      "item_name": "field_output_frequency",
+      "package_89_value": "FREQUENCY=1 (every increment)",
+      "package_90_value": "FREQUENCY=1 (every increment)",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both decks request field outputs at every increment."
+    },
+    {
+      "category": "OUTPUTS",
+      "item_name": "node_output_variables",
+      "package_89_value": "N_RP: U, RF",
+      "package_90_value": "N_RP: U, RF",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both decks record displacement and reaction force at RP 999999."
+    },
+    {
+      "category": "OUTPUTS",
+      "item_name": "element_output_variables",
+      "package_89_value": "All_elem: MISESERI, MISESAVG, S, E, EVOL",
+      "package_90_value": "All_elem: MISESERI, MISESAVG, S, E, EVOL",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both decks request the exact same element field variables for physical stress and error indicator recovery."
+    },
+    {
+      "category": "OUTPUTS",
+      "item_name": "companion_sdv_output",
+      "package_89_value": "umatelem: SDV",
+      "package_90_value": "None (no UMAT layer)",
+      "classification": "EXPECTED_ARCHITECTURE_DIFFERENCE",
+      "scientific_justification": "SDV output in Package 89 records phase-field and internal state variables from companion layer."
+    },
+    {
+      "category": "INDICATOR",
+      "item_name": "miseseri_element_set",
+      "package_89_value": "All_elem (2,906 elements)",
+      "package_90_value": "All_elem (2,906 elements)",
+      "classification": "EQUIVALENT_BY_CONSTRUCTION",
+      "scientific_justification": "MISESERI is evaluated at whole-element centroids on the 2,906 underlying elements spanning the domain."
+    },
+    {
+      "category": "SOLVER",
+      "item_name": "matrix_symmetry",
+      "package_89_value": "*USER ELEMENT, UNSYMM",
+      "package_90_value": "Standard symmetric linear solver",
+      "classification": "EXPECTED_ARCHITECTURE_DIFFERENCE",
+      "scientific_justification": "Package 89 uses UNSYMM due to coupled phase-displacement equations; Package 90 solves standard symmetric linear continuum."
+    },
+    {
+      "category": "ENVIRONMENT",
+      "item_name": "abaqus_version",
+      "package_89_value": "Abaqus 2023 (double=both)",
+      "package_90_value": "Abaqus 2023 (double=both)",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both packages execute Abaqus 2023 with double precision on the Freiberg HPC cluster."
+    },
+    {
+      "category": "ENVIRONMENT",
+      "item_name": "execution_mode",
+      "package_89_value": "1-CPU Serial, 16 GB, normal_imfdfkmq",
+      "package_90_value": "1-CPU Serial, 16 GB, normal_imfdfkmq",
+      "classification": "IDENTICAL",
+      "scientific_justification": "Both packages execute as 1-CPU serial batch jobs on normal_imfdfkmq."
+    }
+  ]
+}

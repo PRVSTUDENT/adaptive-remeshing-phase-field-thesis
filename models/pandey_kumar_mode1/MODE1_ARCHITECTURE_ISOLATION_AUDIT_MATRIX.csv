@@ -1,0 +1,35 @@
+category,item_name,package_89_value,package_90_value,classification,scientific_justification
+GEOMETRY,mesh_node_count,2988,2988,IDENTICAL,"Both decks define exactly 2,988 physical domain mesh nodes."
+GEOMETRY,mesh_node_coordinates,max_diff=0.0 (N=2988),max_diff=0.0 (N=2988),IDENTICAL,"Coordinates of all 2,988 mesh nodes are bit-for-bit identical (max diff = 0.0000000000e+00)."
+GEOMETRY,rp_node_definition,"(0.5, 1.0, 0.0)","(0.5, 1.0, 0.0)",IDENTICAL,"Reference Point node 999999 is located at (0.5, 1.0, 0.0) in both decks."
+TOPOLOGY,element_counts_and_layers,"8,718 (3 layers of 2906)","2,906 (1 layer of 2906)",EQUIVALENT_BY_CONSTRUCTION,"Package 89 has 3 co-located layers (PF, MECH, UMAT) while Package 90 has standard single layer. Underlying connectivity matches 2,906/2,906."
+TOPOLOGY,element_type_distribution,"2818 U1/U2/CPE4, 88 U3/U4/CPE3","2818 CPE4, 88 CPE3",EQUIVALENT_BY_CONSTRUCTION,"Both decks discretize the exact same 2,818 quads and 88 triangles with identical vertex node order."
+TOPOLOGY,crack_seam_duplicate_nodes,25 pairs (50 nodes + 1 tip),25 pairs (50 nodes + 1 tip),IDENTICAL,"Both decks define the exact same 25 duplicate node pairs along the sharp crack seam y=0.5, 0<=x<=0.5."
+SETS,nset_N_RP,count=1,count=1,IDENTICAL,Node set N_RP has bit-identical node ID membership.
+SETS,nset_N_PIN,count=1,count=1,IDENTICAL,Node set N_PIN has bit-identical node ID membership.
+SETS,nset_N_BOTTOM,count=51,count=51,IDENTICAL,Node set N_BOTTOM has bit-identical node ID membership.
+SETS,nset_N_TOP,count=51,count=51,IDENTICAL,Node set N_TOP has bit-identical node ID membership.
+SETS,elset_All_elem,count=0 (umatelem),count=0 (PLATE_TRIS+QUADS),EQUIVALENT_BY_CONSTRUCTION,"Both decks define All_elem spanning all 2,906 underlying elements of the domain for whole-element error evaluation."
+SETS,layer_specific_elsets,"PF_ELEM, MECH_ELEM, umatelem",None (standard continuum),EXPECTED_ARCHITECTURE_DIFFERENCE,Layer-specific sets are architectural necessities of the 3-layer dual UEL formulation.
+BOUNDARIES,bottom_roller_bc,"N_BOTTOM, 2, 2, 0.0 (U1 free)","N_BOTTOM, 2, 2, 0.0 (U1 free)",IDENTICAL,Both decks enforce bottom roller boundary (u_y=0) while allowing lateral sliding (u_x unconstrained).
+BOUNDARIES,rigid_body_pin_bc,"N_PIN (node 25), 1, 1, 0.0","N_PIN (node 25), 1, 1, 0.0",IDENTICAL,"Both decks pin node 25 at (0.0, 0.0) in DOF 1 to prevent rigid body translation in X."
+BOUNDARIES,top_prescribed_displacement,"Step-1: 0.0050, Step-2: 0.0100","Step-1: 0.0050, Step-2: 0.0100",IDENTICAL,Both decks prescribe the identical two-step displacement history at Reference Point node 999999.
+KINEMATICS,rp_top_coupling_equations,51 equations (51),51 equations (51),IDENTICAL,Both decks use identical *EQUATION cards coupling DOF 2 of each top node to RP 999999 (u_y^top = u_y^RP). DOF 1 is free.
+KINEMATICS,lateral_freedom_top_edge,DOF 1 unconstrained (lateral-free),DOF 1 unconstrained (lateral-free),IDENTICAL,Neither deck constrains DOF 1 (u_x) on top nodes or RP. Pure roller boundary kinematics are preserved.
+STEPS,step1_definition,"*STEP, NAME=Step-1, NLGEOM=NO, INC=1000","*STEP, NAME=Step-1, NLGEOM=NO, INC=1000",IDENTICAL,"Step-1: NLGEOM=NO, INC=1000 in both decks."
+STEPS,step1_static_params,"0.002, 1.0, 1.0E-9, 0.002 (500 incs)","0.002, 1.0, 1.0E-9, 0.002 (500 incs)",IDENTICAL,"Identical time period 1.0, initial/max increment 0.002 (yielding 500 increments to u=0.005 mm)."
+STEPS,step2_definition,"*STEP, NAME=Step-2, NLGEOM=NO, INC=2000","*STEP, NAME=Step-2, NLGEOM=NO, INC=2000",IDENTICAL,"Step-2: NLGEOM=NO, INC=2000 in both decks."
+STEPS,step2_static_params,"0.001, 1.0, 1.0E-9, 0.001 (1000 incs)","0.001, 1.0, 1.0E-9, 0.001 (1000 incs)",IDENTICAL,"Identical time period 1.0, initial/max increment 0.001 (yielding 1,000 increments to u=0.010 mm)."
+LOADING,displacement_schedule,"Step-1 u=0.005 mm, Step-2 u=0.010 mm","Step-1 u=0.005 mm, Step-2 u=0.010 mm",IDENTICAL,Both decks enforce identical two-step physical displacement without variation.
+SOLVER,increment_controls,Default automatic (no *CONTROLS override),Default automatic (no *CONTROLS override),IDENTICAL,Neither deck introduces artificial cutback or convergence parameter overrides.
+PHYSICS,geometric_nonlinearity,NLGEOM=NO (linear kinematics),NLGEOM=NO (linear kinematics),IDENTICAL,Both decks solve under geometrically linear plane-strain kinematics.
+MATERIAL,elastic_constants,"E=210.0 kN/mm^2, nu=0.3","E=210.0 kN/mm^2, nu=0.3",IDENTICAL,Both decks define Young's modulus E=210.0 kN/mm^2 (210 GPa) and Poisson's ratio nu=0.3.
+MATERIAL,stiffness_allocation,Mech UEL Layer 2 (E=210) + UMAT dummy 1e-11,Standard continuum elasticity (E=210),EQUIVALENT_BY_CONSTRUCTION,Package 90 standard elements carry ordinary elastic stiffness. Package 89 mechanical UEL carries intended stiffness; companion UMAT tangent is 1.0D-11 (negligible dummy stiffness 4.8e-14 ratio).
+OUTPUTS,field_output_frequency,FREQUENCY=1 (every increment),FREQUENCY=1 (every increment),IDENTICAL,Both decks request field outputs at every increment.
+OUTPUTS,node_output_variables,"N_RP: U, RF","N_RP: U, RF",IDENTICAL,Both decks record displacement and reaction force at RP 999999.
+OUTPUTS,element_output_variables,"All_elem: MISESERI, MISESAVG, S, E, EVOL","All_elem: MISESERI, MISESAVG, S, E, EVOL",IDENTICAL,Both decks request the exact same element field variables for physical stress and error indicator recovery.
+OUTPUTS,companion_sdv_output,umatelem: SDV,None (no UMAT layer),EXPECTED_ARCHITECTURE_DIFFERENCE,SDV output in Package 89 records phase-field and internal state variables from companion layer.
+INDICATOR,miseseri_element_set,"All_elem (2,906 elements)","All_elem (2,906 elements)",EQUIVALENT_BY_CONSTRUCTION,"MISESERI is evaluated at whole-element centroids on the 2,906 underlying elements spanning the domain."
+SOLVER,matrix_symmetry,"*USER ELEMENT, UNSYMM",Standard symmetric linear solver,EXPECTED_ARCHITECTURE_DIFFERENCE,Package 89 uses UNSYMM due to coupled phase-displacement equations; Package 90 solves standard symmetric linear continuum.
+ENVIRONMENT,abaqus_version,Abaqus 2023 (double=both),Abaqus 2023 (double=both),IDENTICAL,Both packages execute Abaqus 2023 with double precision on the Freiberg HPC cluster.
+ENVIRONMENT,execution_mode,"1-CPU Serial, 16 GB, normal_imfdfkmq","1-CPU Serial, 16 GB, normal_imfdfkmq",IDENTICAL,Both packages execute as 1-CPU serial batch jobs on normal_imfdfkmq.

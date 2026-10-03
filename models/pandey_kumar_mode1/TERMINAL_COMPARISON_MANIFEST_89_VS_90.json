@@ -1,0 +1,70 @@
+{
+  "manifest_type": "TERMINAL_COMPARISON_MANIFEST",
+  "manifest_version": "1.0",
+  "created_at": "2026-10-03T10:15:00+02:00",
+  "comparison_pair": {
+    "package_89_layered_variant": {
+      "package_path": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906",
+      "deck_name": "PK_M1_JOB1_UEL_2906.inp",
+      "deck_sha256": "27aab773a116e3c8a832e4980d0e25f48a435f34dedece4abe78ffa232c0c1ff",
+      "pbs_job_id": "1409912.mmaster02",
+      "epistemic_classification": "DIAGNOSTIC_JOB1_LAYERED_VARIANT",
+      "architecture": "3-layer UEL/UMAT/facsimile (8,718 elements)"
+    },
+    "package_90_continuum_control": {
+      "package_path": "models/pandey_kumar_mode1/90_mode1_preanalysis_continuum_matched_2906",
+      "deck_name": "PK_M1_JOB1_CONTINUUM_MATCHED_2906.inp",
+      "deck_sha256": "b60dd35d56ab2824902f2d90912e222cf9d335d7d9911cf8dd17a3dc2b52e5f9",
+      "pbs_job_id": "1409914.mmaster02",
+      "epistemic_classification": "ARCHITECTURE_ISOLATION_CONTROL",
+      "architecture": "single-layer standard CPE4/CPE3 continuum (2,906 elements)"
+    }
+  },
+  "isolation_verdict": "ARCHITECTURE_ISOLATION_CONTROL_VALID",
+  "primary_scientific_question": "Does the layered Job-1 architecture itself alter MISESERI localization?",
+  "physical_mesh_specification": {
+    "underlying_elements": 2906,
+    "quad_count_cpe4": 2818,
+    "tri_count_cpe3": 88,
+    "mesh_nodes": 2988,
+    "rp_node": 999999,
+    "domain_area_mm2": 1.0,
+    "crack_seam_duplicate_pairs": 25
+  },
+  "matched_evaluation_states": [
+    {
+      "state_id": "STATE_1_STEP1_END",
+      "step_name": "Step-1",
+      "frame_index": 500,
+      "target_displacement_mm": 0.005,
+      "displacement_tolerance_mm": 1e-07,
+      "purpose": "Evaluate initial elastic localization pattern prior to damage onset displacement"
+    },
+    {
+      "state_id": "STATE_2_STEP2_END",
+      "step_name": "Step-2",
+      "frame_index": 1000,
+      "target_displacement_mm": 0.01,
+      "displacement_tolerance_mm": 1e-07,
+      "purpose": "Evaluate post-peak displacement level localization pattern"
+    }
+  ],
+  "evaluator_governance_rules": {
+    "displacement_rescaling_allowed": false,
+    "displacement_rescaling_rule": "MUST compare at matched displacement states with zero scaling factor",
+    "arbitrary_localization_thresholds_allowed": false,
+    "forbidden_arbitrary_thresholds": [
+      0.2,
+      0.33,
+      0.6,
+      0.7
+    ],
+    "allowed_decision_classifications": [
+      "TOWARD_TARGET_LOCALIZATION",
+      "NO_MEANINGFUL_IMPROVEMENT",
+      "AWAY_FROM_TARGET_LOCALIZATION"
+    ],
+    "evaluation_metric_count": 12,
+    "claims_discipline": "One WHOLE_ELEMENT MISESERI value per underlying finite element"
+  }
+}
