@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T20:54:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14D Terminal Evaluator & Reference Energy Reconciliation Completed (`MODE1_STAGE14C_EVALUATOR_AND_ENERGY_AUDIT_REPORT.md`); Prohibited "Physical Elements" terminology eliminated; Reference energy baseline strictly reconciled against governed qualified Job `1409734.mmaster02` ($W_{\text{ext}}=2.359329\,\text{mJ}$, $E_{\text{frac}}=2.340220\,\text{mJ}$, $E_{\text{elas}}=0.001161\,\text{mJ}$, $\Delta_{\text{book}}=-0.017949\,\text{mJ}$, $\varepsilon_{\text{book}}=0.7607\%$); Invented thresholds removed and replaced with descriptive classifications; Layer declarations re-audited against submitted INP (Layer 1 `U1`/`U3`, Layer 2 `U2`/`U4`, Layer 3 `CPE4`/`CPE3` `UMATELEM`); Strict integration-point deduplication & equality verification implemented; Dedicated synthetic regression unit test suite `test_evaluate_mode1_stage14_synthetic_disambiguation.py` expanded and passed 100% (11/11 tests); Full Fracture Solver Job `1409947.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`) Active and Running on Cluster `mnode097`; Gate 6B Active.  
-Parent commit: `b8467dfda9bb60244009b442d5e353a862d9b117`
+Last updated: `2026-10-03T21:20:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14E Matched-Displacement Reference Bundle Construction & Evaluator Automation Completed; Authoritative 10-matched-displacement reference bundle extracted from qualified solve Job `1409734.mmaster02` ($W_{\text{ext}}=2.359329\,\text{mJ}$, $E_{\text{frac}}=2.340220\,\text{mJ}$, $E_{\text{elas}}=0.001161\,\text{mJ}$, $\Delta_{\text{book}}=-0.017949\,\text{mJ}$, $\varepsilon_{\text{book}}=0.7607\%$); Reference JSON, summary CSV, ligament profile CSV (8,440 data points), and full contour CSV (151,920 data points) verified; Governed energy nomenclature enforced: "implemented phase-field crack-surface/fracture functional E_frac" and descriptive $\Delta_{\text{book}}$; Terminal scientific evaluator `evaluate_mode1_stage14_adaptive_14k.py` upgraded with direct ODB extraction, continuous $L_2$ curve comparison, spatial ligament profile comparison, and markdown comparison report generation; Dedicated synthetic unit test suite `test_evaluate_mode1_stage14_synthetic_disambiguation.py` expanded to 14 tests and passing 100% locally and on cluster; Full Fracture Solver Job `1409947.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`) Active and Running in Step 2 on Cluster `mnode097`; Gate 6B Active.  
+Parent commit: `5677f137452558f657bfe8ce2f487fca8888b121`
 
 ---
 
@@ -32,8 +32,12 @@ Parent commit: `b8467dfda9bb60244009b442d5e353a862d9b117`
     - Invented numerical pass thresholds eliminated and replaced with descriptive classifications (`STABLE`, `MESH_SENSITIVE`, `TEMPORALLY_SENSITIVE`, `NOT_YET_QUALIFIED`).
     - Layer declarations confirmed: Layer 1 (`U1`/`U3`), Layer 2 (`U2`/`U4`), Layer 3 (`CPE4`/`CPE3` `UMATELEM`).
     - Strict integration-point extraction verified with within-element equality proof and loud `ValueError` on inconsistent IP copies.
-    - Dedicated synthetic regression unit test suite `test_evaluate_mode1_stage14_synthetic_disambiguation.py` passed 100% (11/11 tests, all 71 Mode-I tests pass 100%).
-  - **Queue Status:** 1 active job running (`1409947.mmaster02`, `PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`, state `R`).
+  - **Stage 14E (Matched-Displacement Reference Bundle Construction & Evaluator Automation) Completed:**
+    - Full 10-matched-displacement reference dataset extracted from Job `1409734.mmaster02` and verified locally and on cluster.
+    - Governed nomenclature enforced across all files: `implemented phase-field crack-surface/fracture functional E_frac`.
+    - `evaluate_mode1_stage14_adaptive_14k.py` upgraded with full comparison automation and markdown report generation.
+    - Dedicated synthetic regression unit test suite `test_evaluate_mode1_stage14_synthetic_disambiguation.py` expanded to 14 tests (14/14 pass 100% locally and on cluster).
+  - **Queue Status:** 1 active job running (`1409947.mmaster02`, `PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`, state `R`, in Step 2 past increment 400).
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
 ---
@@ -42,7 +46,7 @@ Parent commit: `b8467dfda9bb60244009b442d5e353a862d9b117`
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| `1409947.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` | Stage 14 Adaptive candidate full fracture solve (14,483 elements, 43,449 layered elements, solving Step 1/Step 2) | `3EFBA9682C3EB31E99C233192007246E995BD8182411E51E6A6B74166873D7C1` |
+| `1409947.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` | Stage 14 Adaptive candidate full fracture solve (14,483 elements, 43,449 layered elements, solving Step 2) | `3EFBA9682C3EB31E99C233192007246E995BD8182411E51E6A6B74166873D7C1` |
 | `INTERACTIVE_98` | `PK_M1_JOB1_NONUNIFORM_DIAG` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform 3-layer UEL infinitesimal companion solve (3,019 elements, audited) | `EA3505F6D573F361D4FEFB9C0211C1EC566EB80225EDBA30D6FBC618ACFB19F3` |
 | `INTERACTIVE_98_CONT` | `PK_M1_NONUNIFORM_CONT` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform coarse continuum control solve (3,019 elements, evaluated & audited) | `2F9998B48CCC964664490E61AAE6B51805C8D56A10C9705063189FA1882FD5CF` |
 | `INTERACTIVE_93` | `PK_M1_INF_COMPANION_SOLVE` | `interactive` | Serial 1-CPU | `F` (Exit 0) | Diagnostic Infinitesimal Companion pre-analysis solve (Package 93, evaluated & audited) | `D452369305FF67A2B0CFA4E5D07FAB810C9123ECF500A05BBA3E498437883613` |

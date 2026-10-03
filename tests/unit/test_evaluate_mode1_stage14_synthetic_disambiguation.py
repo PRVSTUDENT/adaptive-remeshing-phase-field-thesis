@@ -3,8 +3,8 @@
 """
 test_evaluate_mode1_stage14_synthetic_disambiguation.py
 -------------------------------------------------------
-Authoritative synthetic regression unit test suite for Stage-14 Mode-I terminal evaluator
-and energy-mapping qualification pipeline:
+Authoritative synthetic regression unit test suite for Stage-14 Mode-I terminal evaluator,
+matched-displacement reference bundle ingestion, and energy-mapping qualification pipeline:
 1. Multi-layer namespace disambiguation (Layer 1 Phase, Layer 2 Mech, Layer 3 Companion).
 2. Strict integration-point deduplication and within-element equality verification:
    - Evaluates CPE4 (4 IPs) and CPE3 (1 IP) companion elements.
@@ -17,12 +17,22 @@ and energy-mapping qualification pipeline:
 5. Canonical half-bin initial stiffness K0 linear regression (N=400 window).
 6. External work trapezoidal integration and monotonicity guard.
 7. Reconciled canonical reference values and proven provenance (Job 1409734 / Job 1398090).
-8. Comparative parity calculation vs canonical reference.
+8. Comparative parity calculation vs canonical reference:
+   - Discrete RMS and continuous L2 norm on common displacement domain.
+   - 10 matched displacement states parity comparison.
+   - Ligament profile comparison & spatial L2 norm.
+9. Governed energy definitions:
+   - "implemented phase-field crack-surface/fracture functional E_frac"
+   - "degraded stored elastic strain energy E_elas"
+   - "descriptive sum E_model = E_elas + E_frac"
+   - "descriptive bookkeeping difference Delta_book = E_model - W_ext"
+10. Automatic Markdown comparison report generation and template rendering.
 """
 
 import os
 import sys
 import math
+import json
 import unittest
 import importlib.util
 
@@ -35,13 +45,16 @@ _spec = importlib.util.spec_from_file_location("evaluate_mode1_stage14_adaptive_
 _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
 
+MATCHED_TARGET_DISPLACEMENTS = _mod.MATCHED_TARGET_DISPLACEMENTS
 CANONICAL_REFERENCE = _mod.CANONICAL_REFERENCE
 STAGE14_CANDIDATE_METADATA = _mod.STAGE14_CANDIDATE_METADATA
 linear_regression = _mod.linear_regression
 compute_trapezoidal_work = _mod.compute_trapezoidal_work
 evaluate_mechanical_metrics = _mod.evaluate_mechanical_metrics
 compare_against_reference = _mod.compare_against_reference
+compare_ligament_profiles = _mod.compare_ligament_profiles
 extract_element_energies_strict = _mod.extract_element_energies_strict
+generate_markdown_comparison_report = _mod.generate_markdown_comparison_report
 _is_float = _mod._is_float
 
 
@@ -221,8 +234,6 @@ class TestStage14EvaluatorAndDisambiguation(unittest.TestCase):
         Verify that grouping by (instanceName, elementLabel) correctly distinguishes
         identical local element IDs residing in different instances.
         """
-        # Instance A has element 100 with energy 0.10
-        # Instance B has element 100 with energy 0.20
         values_17 = [
             MockFieldValue(100, 0.10, integration_point=1, instance_name="INST_A"),
             MockFieldValue(100, 0.20, integration_point=1, instance_name="INST_B"),
@@ -244,11 +255,9 @@ class TestStage14EvaluatorAndDisambiguation(unittest.TestCase):
         Verify that providing region_set (e.g. UMATELEM) extracts only the companion layer
         and ignores co-located Layer 1 and Layer 2 entries.
         """
-        # Companion elements 28967..28970
         umatelem_elems = [MockElement(eid, 'CPE4') for eid in range(28967, 28971)]
         umatelem_set = MockElementSet("UMATELEM", umatelem_elems)
 
-        # Field output containing Layer 1 (1..4) with zero and Layer 3 (28967..28970) with real data
         all_vals_17 = []
         all_vals_18 = []
         for eid in range(1, 5):
@@ -296,7 +305,6 @@ class TestStage14EvaluatorAndDisambiguation(unittest.TestCase):
         f_vals = [100.0 * u for u in u_vals]
 
         w_ext = compute_trapezoidal_work(u_vals, f_vals)
-        # Analytical: W = 0.5 * 100 * (0.005)^2 = 0.00125 kN*mm = 1.25 mJ
         self.assertAlmostEqual(w_ext[-1], 0.00125, places=8)
 
         u_non_mono = [0.0, 0.001, 0.002, 0.0015, 0.003]
@@ -333,10 +341,87 @@ class TestStage14EvaluatorAndDisambiguation(unittest.TestCase):
                 f_interp = f_ref[idx] + t * (f_ref[idx+1] - f_ref[idx])
             f_cand.append(f_interp + 0.005)
 
-        comp = compare_against_reference(u_cand, f_cand, u_ref, f_ref)
-        self.assertAlmostEqual(comp["max_abs_diff_kN"], 0.005, places=5)
-        self.assertAlmostEqual(comp["discrete_rms_N"], 5.0, places=3)
-        self.assertAlmostEqual(comp["continuous_l2_N"], 5.0, places=3)
+        comp = compare_against_reference(u_cand, f_cand, u_ref, f_ref, scale_factor=1000.0)
+        self.assertAlmostEqual(comp["max_abs_diff"], 5.0, places=4)
+        self.assertAlmostEqual(comp["discrete_rms"], 5.0, places=3)
+        self.assertAlmostEqual(comp["continuous_l2"], 5.0, places=3)
+
+    def test_ligament_profile_comparison(self):
+        """Verify spatial ligament profile comparison between candidate and reference."""
+        xs = [0.50 + 0.01 * i for i in range(50)]
+        # Profile 1: linear decay starting at 0.80 so d+0.02 <= 1.0 everywhere
+        prof_ref = [(x, max(0.0, 0.80 - 1.5 * (x - 0.5))) for x in xs]
+        # Profile 2: exact shift of +0.02 in damage
+        prof_cand = [(x, d + 0.02) for x, d in prof_ref]
+
+        res = compare_ligament_profiles(prof_cand, prof_ref)
+        self.assertEqual(res["points_evaluated"], len(xs))
+        self.assertAlmostEqual(res["max_abs_d_diff"], 0.02, places=5)
+        self.assertAlmostEqual(res["rms_d_diff"], 0.02, places=4)
+        self.assertAlmostEqual(res["continuous_l2_d"], 0.02, places=4)
+
+    def test_matched_displacement_targets_completeness(self):
+        """Verify that all 10 canonical matched displacement targets are defined."""
+        self.assertEqual(len(MATCHED_TARGET_DISPLACEMENTS), 10)
+        expected = [0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070, 0.0080, 0.0090, 0.0100]
+        for t, e in zip(MATCHED_TARGET_DISPLACEMENTS, expected):
+            self.assertAlmostEqual(t, e, places=6)
+
+    def test_markdown_report_generation(self):
+        """Verify that generate_markdown_comparison_report creates a compliant markdown report."""
+        eval_record = {
+            "mechanical_metrics": {
+                "K0_kN_per_mm": 137.9000,
+                "delta_K0_pct": -0.0330,
+                "K0_R2": 0.9999995,
+                "K0_intercept_kN": 1.2e-5,
+                "F_max_kN": 0.757000,
+                "delta_F_max_pct": -0.1027,
+                "u_at_F_max_mm": 0.005857,
+                "delta_u_peak_pct": 0.0,
+                "F_final_kN": 0.000230,
+                "W_ext_final_mJ": 2.358000
+            },
+            "terminal_e_elas_mJ": 0.001160,
+            "terminal_e_frac_mJ": 2.339000,
+            "matched_states_comparison": [
+                {
+                    "u_target_mm": 0.0010,
+                    "f_ref_kN": 0.137924,
+                    "f_adapt_kN": 0.137910,
+                    "delta_f_pct": -0.01,
+                    "dmax_ref": 0.0091,
+                    "dmax_adapt": 0.0091,
+                    "xtip_ref_mm": 0.5000,
+                    "xtip_adapt_mm": 0.5000,
+                    "efrac_ref_mJ": 0.000056,
+                    "efrac_adapt_mJ": 0.000055,
+                    "eps_book_adapt_pct": 0.00015
+                }
+            ],
+            "comparison_vs_reference": {
+                "common_u_max_mm": 0.010,
+                "points_evaluated": 5000,
+                "max_abs_diff_kN": 0.0008,
+                "discrete_rms_N": 0.45,
+                "continuous_l2_N": 0.42
+            },
+            "solver_sta_telemetry": {
+                "total_increments": 7000,
+                "total_cutbacks": 0
+            }
+        }
+        test_md = os.path.join(_pkg_dir, "test_temp_comparison.md")
+        generate_markdown_comparison_report(eval_record, test_md)
+        self.assertTrue(os.path.exists(test_md))
+        with open(test_md, 'r') as f:
+            content = f.read()
+        self.assertIn("# Stage 14 Adaptive vs. Reconciled Fixed Reference Comparison Report", content)
+        self.assertIn("137.900000", content)
+        self.assertIn("Crack-Surface Functional", content)
+        self.assertIn("10 Matched Displacement States", content)
+        if os.path.exists(test_md):
+            os.remove(test_md)
 
     def test_float_helper(self):
         """Verify _is_float string parsing."""
