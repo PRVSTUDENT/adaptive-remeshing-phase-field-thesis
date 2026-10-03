@@ -1,0 +1,29 @@
+{
+  "package_name": "25_stage14_adaptive_candidate_14k",
+  "model_name": "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE",
+  "element_count": 14483,
+  "node_count": 14456,
+  "layers_total_elements": 43449,
+  "files": {
+    "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp": {
+      "sha256": "3efba9682c3eb31e99c233192007246e995bd8182411e51e6a6b74166873d7c1",
+      "size_bytes": 1869896
+    },
+    "f42_mixed_uel.for": {
+      "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+      "size_bytes": 29722
+    },
+    "submit_solver.pbs": {
+      "sha256": "35218d1558c820b0d537751b68ef0e1e00a39e93e066af4613768098ebeaa47a",
+      "size_bytes": 1142
+    },
+    "submit_datacheck.pbs": {
+      "sha256": "5d5ffdf4fabb83c88fc96f2509d3934dd6c2d519b27f1a8fe405da6535544697",
+      "size_bytes": 817
+    },
+    "job_notifications.sh": {
+      "sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+      "size_bytes": 10663
+    }
+  }
+}

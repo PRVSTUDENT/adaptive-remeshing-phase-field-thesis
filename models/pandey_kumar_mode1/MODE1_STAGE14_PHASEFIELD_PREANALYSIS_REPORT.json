@@ -1,66 +1,67 @@
 {
   "report_id": "MODE1_STAGE14_PHASEFIELD_PREANALYSIS_REPORT_20261003",
-  "audit_date": "2026-10-03T19:47:00+02:00",
-  "agent": "gemini-antigravity",
-  "governing_gate": "GATE_6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "frozen_research_question": "Does the coarse phase-field UEL solution develop crack/damage localization before remeshing, and does that evolving solution produce the narrow horizontal MISESERI band shown in Fig. 6(a)?",
+  "task_id": "F1186-GATE6B-ADAPTIVE-LOCALIZATION-STAGE14B-STEP2-MISESERI-QUALIFICATION-20261003",
+  "date": "2026-10-03",
+  "status": "PROMISING_STAGE14_RESULT_PENDING_FINAL_QUALIFICATION",
+  "governing_localization_verdict": "STAGE14_TARGET_LIKE_LOCALIZATION_QUALIFIED",
+  "governing_scientific_verdict": "PHASEFIELD_EVOLUTION_TOWARD_TARGET_MISESERI_LOCALIZATION",
   "source_preanalysis_odb": {
-    "path": "PK_M1_JOB1_INF_COMPANION_2906.odb",
-    "sha256": "dbfad35fd3a2267e19e4c5975764ecac28aa0e0acdd59a2e97cd17aac1fc4a39",
+    "odb_path": "PK_M1_JOB1_INF_COMPANION_2906.odb",
     "coarse_mesh_elements": 2906,
     "coarse_mesh_nodes": 2988,
-    "step1_frames": 501,
     "step1_displacement_mm": 0.005,
-    "step2_frames": 1022,
     "step2_displacement_mm": 0.010
   },
-  "governing_scientific_verdict": "PHASEFIELD_EVOLUTION_TOWARD_TARGET_MISESERI_LOCALIZATION",
-  "native_remeshing_verification": {
-    "sizing_method": "UNIFORM_ERROR",
-    "error_target_pct": 1.0,
-    "refinement_factor": 10,
-    "coarsening_factor": "NOT_ALLOWED",
-    "min_element_size_mm": 0.001,
-    "max_element_size_mm": 0.020,
-    "region": "ALL_ELEM (whole domain)",
-    "step1_baseline_mesh": {
-      "total_elements": 57901,
-      "total_nodes": 57483,
-      "corridor_fraction": 0.1447,
-      "far_field_fraction": 0.8553,
-      "outer_far_field_fraction": 0.6872,
-      "coarse_remaining_area_fraction": 0.0106,
-      "band_width_at_tip_mm": 0.9274,
-      "band_width_at_ligament_07_mm": 0.8334,
-      "morphology_classification": "BROAD_GLOBAL_OVERREFINEMENT"
+  "earliest_target_like_state": {
+    "state_id": "state_u00940_initiation",
+    "step": "Step-2",
+    "frame_idx": 880,
+    "u_mm": 0.00940,
+    "d_max": 0.9833,
+    "corridor_share_pct": 86.70,
+    "far_field_share_pct": 10.50,
+    "bbox_yspan_mm": 0.0884
+  },
+  "step1_vs_step2_mesh_comparison": {
+    "step1_elastic": {
+      "elements": 57901,
+      "nodes": 57483,
+      "corridor_share_pct": 14.47,
+      "outer_far_share_pct": 68.72,
+      "coarse_area_preserved_pct": 1.06,
+      "fine_5um_bbox_yspan_mm": 0.9523,
+      "transects_w_5um_mm": {
+        "0.1": 0.9182,
+        "0.3": 0.8993,
+        "0.5": 0.9274,
+        "0.7": 0.8334,
+        "0.9": 0.8846
+      }
     },
-    "step2_phasefield_coupled_mesh": {
-      "total_elements": 14483,
-      "total_nodes": 14456,
-      "corridor_fraction": 0.6412,
-      "far_field_fraction": 0.3588,
-      "outer_far_field_fraction": 0.2451,
-      "coarse_remaining_area_fraction": 0.5939,
-      "band_width_at_tip_mm": 0.2261,
-      "band_width_at_ligament_07_mm": 0.1423,
-      "band_width_at_ligament_09_mm": 0.0819,
-      "band_width_at_wake_03_mm": 0.0000,
-      "morphology_classification": "NARROW_HORIZONTAL_CORRIDOR_RECOVERED"
+    "step2_phasefield_rupture": {
+      "elements": 14483,
+      "nodes": 14456,
+      "corridor_share_pct": 64.12,
+      "outer_far_share_pct": 24.51,
+      "coarse_area_preserved_pct": 59.39,
+      "fine_5um_bbox_yspan_mm": 0.2261,
+      "published_element_delta_pct": 3.89,
+      "transects_w_5um_mm": {
+        "0.1": 0.0000,
+        "0.3": 0.0000,
+        "0.5": 0.2261,
+        "0.7": 0.1423,
+        "0.9": 0.0819
+      }
     }
   },
-  "literature_comparison": {
-    "source": "Pandey & Kumar (2025) CMES, 144(3), 3251-3276, Fig. 5(b) & Fig. 6(a)",
-    "published_element_count": 13941,
-    "recovered_element_count": 14483,
-    "element_count_relative_difference_pct": 3.89,
-    "published_corridor_band_width_approx_mm": 0.10,
-    "recovered_corridor_band_width_ligament_mm": 0.142,
-    "recovered_coarse_outer_preservation": "59.39% coarse area preserved with zero fine elements in outer flanks"
-  },
-  "scientific_findings": [
-    "Identified the physical origin of the previous whole-domain overrefinement: evaluating the remeshing rule at Step-1 (u = 0.0050 mm) interrogated an elastic pre-peak state with diffuse singular stress gradients across the full specimen height.",
-    "Evaluating the remeshing rule on Step-2 (u = 0.0100 mm), where the phase-field crack propagates across the symmetry line (y = 0.5 mm), produces extreme localized stress gradients strictly along the cracked ligament.",
-    "Under paper-literal settings (UNIFORM_ERROR, errorTarget = 1.0%, region = ALL_ELEM, h in [0.001, 0.020] mm), native Abaqus adaptiveRemesh on Step-2 produces a 14,483-element mesh (within 3.89% of the published 13,941 count) with a narrow horizontal refinement corridor (w = 0.08-0.22 mm) and zero fine refinement on outer flanks.",
-    "This confirms that Pandey & Kumar's published horizontal adaptive corridor is an intrinsic result of whole-domain native remeshing when coupled to the post-localization phase-field pre-analysis solve, requiring NO artificial corridor partitioning, NO damage-gradient heuristics, and NO errorTarget tuning."
-  ]
+  "candidate_release": {
+    "candidate_name": "PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE",
+    "package_dir": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k",
+    "deck_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+    "layers_total_elements": 43449,
+    "nodes": 14456,
+    "queue": "normal_imfdfkmq",
+    "execution_mode": "1 CPU serial"
+  }
 }
