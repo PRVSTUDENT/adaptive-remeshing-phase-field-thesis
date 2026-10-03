@@ -1,8 +1,8 @@
 {
-  "task_id": "F1186-GATE6B-STAGE14-ADAPTIVE-SOLVER-SUBMISSION-AND-EVALUATION-20261003",
+  "task_id": "F1186-GATE6B-STAGE14C-EVALUATOR-AND-ENERGY-QUALIFICATION-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Stage 14 Adaptive Solver Submission and Terminal Evaluator Release",
-  "status": "in_progress_running_on_hpc",
+  "title": "Gate-6B Mode-I Stage 14C Terminal Evaluator and Energy-Mapping Qualification Audit",
+  "status": "completed_audit_qualified_solver_running",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
   "write_scope": [
@@ -23,6 +23,7 @@
   ],
   "context": {
     "gate6b_status": "ACTIVE_EVALUATION_AND_CONTINUATION",
+    "stage14c_audit_status": "EVALUATOR_AND_ENERGY_QUALIFICATION_QUALIFIED",
     "stage14_adaptive_candidate": {
       "candidate_name": "PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE",
       "deck_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
@@ -33,14 +34,21 @@
       "evaluator_script": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/evaluate_mode1_stage14_adaptive_14k.py",
       "evaluator_sha256": "ff7750547820ac5b38a160d8ad9c0b0263c9f909b9532a1c23945f3dc335f45e"
     },
-    "semantics_update": {
-      "classification": "NATIVE_REMESH_HISTORY_SEMANTICS_NOT_EXPLICITLY_DOCUMENTED",
-      "earliest_target_state": "u = 0.00940 mm (Frame 880, d_max=0.9833, project-observed pre-analysis state)"
+    "audit_reports": {
+      "report_md": "models/pandey_kumar_mode1/MODE1_STAGE14C_EVALUATOR_AND_ENERGY_AUDIT_REPORT.md",
+      "report_json": "models/pandey_kumar_mode1/MODE1_STAGE14C_EVALUATOR_AND_ENERGY_AUDIT_REPORT.json"
     },
-    "test_suite_status": "127/127 Mode-I tests passed 100%",
-    "submission_status": "SUBMITTED_AND_RUNNING",
-    "active_job_id": "1409947.mmaster02"
+    "unit_tests_status": {
+      "stage14c_synthetic_tests": "8/8 passed 100%",
+      "full_mode1_test_suite": "127/127 Mode-I tests passed 100%"
+    },
+    "active_solver_job": {
+      "job_id": "1409947.mmaster02",
+      "status": "RUNNING",
+      "node": "mnode097",
+      "queue": "normal_imfdfkmq"
+    }
   },
-  "created_at": "2026-10-03T20:10:00+02:00",
-  "updated_at": "2026-10-03T20:30:00+02:00"
+  "created_at": "2026-10-03T20:30:00+02:00",
+  "updated_at": "2026-10-03T20:45:00+02:00"
 }

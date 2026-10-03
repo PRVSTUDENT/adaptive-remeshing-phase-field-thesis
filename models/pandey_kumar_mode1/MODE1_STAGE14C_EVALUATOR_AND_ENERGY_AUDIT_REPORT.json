@@ -1,0 +1,95 @@
+{
+  "protocol_version": 2,
+  "task_id": "F1186-GATE6B-STAGE14C-EVALUATOR-AND-ENERGY-QUALIFICATION-20261003",
+  "audit_date": "2026-10-03T20:30:00+02:00",
+  "author": "gemini-antigravity",
+  "qualification_status": "EVALUATOR_AND_ENERGY_QUALIFICATION_QUALIFIED",
+  "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+  "target_package": {
+    "package_dir": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k",
+    "deck_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+    "deck_sha256": "3efba9682c3eb31e99c233192007246e995bd8182411e51e6a6b74166873d7c1",
+    "subroutine_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/f42_mixed_uel.for",
+    "subroutine_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "evaluator_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/evaluate_mode1_stage14_adaptive_14k.py",
+    "evaluator_sha256": "ff7750547820ac5b38a160d8ad9c0b0263c9f909b9532a1c23945f3dc335f45e",
+    "physical_elements": 14483,
+    "physical_nodes": 14456,
+    "total_nodes_with_rp": 14457,
+    "layered_elements": 43449
+  },
+  "layer_architecture": {
+    "layer_1": {
+      "name": "Phase-Field UEL",
+      "element_type": "U1 (Quad), U3 (Tri)",
+      "element_range": [1, 14483],
+      "active_dof": [3],
+      "quantities_computed": ["d", "grad(d)", "E_frac", "psi_f"]
+    },
+    "layer_2": {
+      "name": "Displacement Mechanical UEL",
+      "element_type": "U2 (Quad), U4 (Tri)",
+      "element_range": [14484, 28966],
+      "active_dofs": [1, 2],
+      "quantities_computed": ["u_x", "u_y", "sigma", "epsilon", "H", "E_elas", "psi_e"]
+    },
+    "layer_3": {
+      "name": "Companion / Facsimile UMAT",
+      "element_type": "CPE4 (Quad), CPE3 (Tri)",
+      "element_range": [28967, 43449],
+      "element_set": "UMATELEM",
+      "passive_modulus_GPa": 1e-11,
+      "state_variables": {
+        "SDV1": "Phase-field d",
+        "SDV2": "History variable H",
+        "SDV14": "Phase-field d",
+        "SDV15": "Degradation factor g(d) = (1-d)^2 + k",
+        "SDV16": "History variable H",
+        "SDV17": "Element integrated fracture energy E_frac (kN*mm = J)",
+        "SDV18": "Element integrated elastic strain energy E_elas (kN*mm = J)",
+        "SDV19": "Fracture energy density psi_f (kN/mm = J/mm^2)",
+        "SDV20": "Elastic strain energy density psi_e (kN/mm = J/mm^2)"
+      }
+    }
+  },
+  "extraction_rules_and_guards": {
+    "reaction_force": {
+      "definition": "F = -RF2 (tensile reaction force at top RP node 999999)",
+      "bare_abs_rf_prohibited": true
+    },
+    "initial_stiffness_K0": {
+      "method": "Ordinary Least Squares (OLS) linear regression",
+      "selection_window": "0.5 * delta_u < u <= 0.0010 + 0.5 * delta_u",
+      "canonical_sample_count": 400,
+      "reference_anchor_K0_kN_per_mm": 137.945520,
+      "reference_anchor_R2": 0.99999960
+    },
+    "integration_point_rule": {
+      "rule": "Single-IP / unique element deduplication",
+      "reason": "UMAT writes element-integrated energy to all 4 Gauss points of CPE4; naive summation would cause 400% overcounting",
+      "status": "QUALIFIED_AND_VERIFIED"
+    },
+    "work_and_energy_balance": {
+      "external_work": "Trapezoidal integration W_ext = \\int F du",
+      "crack_surface_functional": "E_frac (SDV17)",
+      "elastic_strain_energy": "E_elas (SDV18)",
+      "bookkeeping_residual": "Delta_book = (E_elas + E_frac) - W_ext",
+      "normalized_error": "eps_book = |Delta_book| / max(W_ext, E_model) * 100%"
+    }
+  },
+  "unit_tests": {
+    "test_script": "tests/unit/test_evaluate_mode1_stage14_synthetic_disambiguation.py",
+    "tests_total": 8,
+    "tests_passed": 8,
+    "pass_rate_pct": 100.0
+  },
+  "cluster_job_tracking": {
+    "job_id": "1409947.mmaster02",
+    "job_name": "PK_M1_ADAPT_14K_FRACTURE",
+    "queue": "normal_imfdfkmq",
+    "entry_queue": "entry_imfdfkmq",
+    "node": "mnode097",
+    "status": "RUNNING",
+    "exit_code": null
+  }
+}

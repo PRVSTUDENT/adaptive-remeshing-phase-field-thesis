@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T20:30:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14 Adaptive Candidate Full Fracture Solver Job `1409947.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`, 14,483 elements, 43,449 layered elements, 1 CPU serial in `normal_imfdfkmq` via `entry_imfdfkmq`) Submitted and Running on Cluster `mnode097`; Terminal Evaluator `evaluate_mode1_stage14_adaptive_14k.py` Released and Synced; Report Semantics Updated with `NATIVE_REMESH_HISTORY_SEMANTICS_NOT_EXPLICITLY_DOCUMENTED` and $u=0.00940\,\text{mm}$ Pre-Analysis State; All Mode-I Unit Tests Pass 100% (127/127 passed); Gate 6B Active.  
-Parent commit: `2806c9bfd468d2b50857477b1ea2bd18f6a8a328`
+Last updated: `2026-10-03T20:45:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14C Terminal Evaluator & Energy-Mapping Qualification Audit Completed (`MODE1_STAGE14C_EVALUATOR_AND_ENERGY_AUDIT_REPORT.md`); 3-Layer Namespace Partitioning ($N_{\text{PHYS}}=14,483 \to 43,449$ elements) and Single-IP/Deduplication Proof Verified (eliminating $400\%$ overcounting artifact on CPE4 elements); Synthetic Regression Unit Test Suite `test_evaluate_mode1_stage14_synthetic_disambiguation.py` Passed 100% (8/8 tests, 127/127 Mode-I tests pass 100%); Full Fracture Solver Job `1409947.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`) Active and Running on Cluster `mnode097`; Gate 6B Active.  
+Parent commit: `13e7809446cc98bcf7b8b80b3203ff7e450c8ba6`
 
 ---
 
@@ -21,14 +21,17 @@ Parent commit: `2806c9bfd468d2b50857477b1ea2bd18f6a8a328`
 * **Gate 5 (Native-Remesh Reproduction & Boundary Audit):** `CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
 * **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `ACTIVE_EVALUATION_AND_CONTINUATION`
-  - **Stage 14B (Step-2 MISESERI / Native-Remesh Qualification & Refined-Candidate Release) Concluded (`MODE1_STAGE14_PHASEFIELD_PREANALYSIS_REPORT.md`):**
-    - **Governing Localization Verdict:** `STAGE14_TARGET_LIKE_LOCALIZATION_QUALIFIED`.
-    - **Diagnostic Status:** `PROMISING_STAGE14_RESULT_PENDING_FINAL_QUALIFICATION`.
-    - **Semantics Classification:** `NATIVE_REMESH_HISTORY_SEMANTICS_NOT_EXPLICITLY_DOCUMENTED` (all-increments worst-case sizing envelope vs terminal step-2 sizing coincide for this configuration due to monotonic ligament error growth).
-    - **Pre-Analysis State:** $u = 0.00940\,\text{mm}$ ($d_{\max} \approx 0.9833$, 86.70% corridor share) documented as a project-observed pre-analysis state.
-    - **Candidate Release:** `PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE` in `models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/` (14,483 elements, 14,456 nodes, 43,449 3-layer elements).
-    - **Terminal Evaluator:** `evaluate_mode1_stage14_adaptive_14k.py` released, tested, and synced to cluster.
-  - **Unit Test Suite:** **All Mode-I unit tests pass 100% (127/127 tests)**.
+  - **Stage 14B (Step-2 MISESERI / Native-Remesh Qualification & Refined-Candidate Release) Concluded:**
+    - Governing Localization Verdict: `STAGE14_TARGET_LIKE_LOCALIZATION_QUALIFIED`.
+    - Semantics Classification: `NATIVE_REMESH_HISTORY_SEMANTICS_NOT_EXPLICITLY_DOCUMENTED`.
+    - Pre-Analysis State: $u = 0.00940\,\text{mm}$ ($d_{\max} \approx 0.9833$, 86.70% corridor share).
+    - Candidate Release: `PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE` in package 25 (14,483 elements, 43,449 3-layer elements).
+  - **Stage 14C (Terminal Evaluator & Energy-Mapping Qualification Audit) Completed (`MODE1_STAGE14C_EVALUATOR_AND_ENERGY_AUDIT_REPORT.md`):**
+    - Formal proof of Single-IP / unique-element deduplication extraction preventing $4\times$ overcounting of element-integrated energies on CPE4 companion elements.
+    - 3-Layer namespace separation verified ($e_{\text{phys}} = e_{\text{UMAT}} - 28,966$).
+    - Tensile reaction force ($F = -RF_2$), initial stiffness $K_0$ OLS regression ($N=400$, half-bin window), and trapezoidal work ($W_{\text{ext}} = \int F du$) verified.
+    - Dedicated synthetic regression unit test suite `test_evaluate_mode1_stage14_synthetic_disambiguation.py` passed 100% (8/8 tests).
+  - **Unit Test Suite:** **All Mode-I unit tests pass 100% (127/127 tests via `uv run pytest`)**.
   - **Queue Status:** 1 active job running (`1409947.mmaster02`, `PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`, state `R`).
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
