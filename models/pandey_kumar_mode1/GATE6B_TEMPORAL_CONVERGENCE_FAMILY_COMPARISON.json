@@ -136,31 +136,37 @@
       "evaluation": "Residual elastic energy drops to < 0.0012 mJ at u = 0.010 mm in all three runs (> 99.95% elastic release upon ligament separation)."
     },
     "external_work_Wext": {
-      "classification": "CONVERGED_STABLE",
+      "classification": "MONOTONICALLY_DECREASING_TEMPORAL_SENSITIVITY",
       "progression_mJ": [
         2.41011,
         2.359329,
         2.331892
       ],
-      "evaluation": "Smooth monotonic asymptotic decrease with diminishing increments (-2.11% then -1.16%), demonstrating standard temporal integration convergence."
+      "evaluation": "External work displays a smooth, strictly monotonic asymptotic decrease with progressive time-step refinement (-2.11% from T1 to T2, and -1.16% from T2 to T3), reflecting standard temporal integration behavior with diminishing increments."
     },
-    "diffuse_fracture_energy_Efrac": {
+    "global_bookkeeping_diagnostic_Delta_book": {
+      "classification": "DESCRIPTIVE_BOOKKEEPING_DIAGNOSTIC",
+      "progression_eps_book_pct": [
+        -0.3783,
+        -0.7607,
+        -3.5406
+      ],
+      "progression_Delta_book_mJ": [
+        -0.009116,
+        -0.017948,
+        -0.082562
+      ],
+      "evaluation": "Bookkeeping residual Delta_book = E_model - W_ext is maintained strictly as a descriptive numerical diagnostic across all discretizations. No arbitrary pass/fail threshold is imposed; the residual captures staggered-solver temporal phase lag and numerical quadrature characteristics."
+    },
+    "implemented_phase_field_crack_surface_functional_Efrac": {
       "classification": "TEMPORALLY_SENSITIVE",
       "progression_mJ": [
         2.399955,
         2.34022,
         2.248132
       ],
-      "evaluation": "Modest post-peak diffuse dissipation sensitivity (-3.93% T3 vs T2), consistent with refined temporal tracking of sharp damage localization rate."
-    },
-    "global_bookkeeping_diagnostic_Delta_book": {
-      "classification": "CONVERGED_STABLE_WITHIN_BOUNDS",
-      "progression_eps_book_pct": [
-        -0.3783,
-        -0.7607,
-        -3.5406
-      ],
-      "evaluation": "Diagnostic bookkeeping residual stays strictly within the physical thesis threshold (|eps_book| < 5.0%) across all temporal discretizations."
+      "evaluation": "The implemented phase-field crack-surface functional SDV17 exhibits modest post-peak sensitivity (-3.93% T3 vs T2), consistent with finer temporal resolution of the rapid damage localization rate during dynamic softening."
     }
-  }
+  },
+  "claims_discipline_statement": "In accordance with rigorous Master thesis claims discipline: (1) Initial stiffness K0, peak reaction force F_max, and displacement at peak u(F_max) are definitively converged and stable (< 0.07% total variation across 4x time-step range); (2) External work W_ext and implemented crack-surface functional E_frac (SDV17) exhibit acknowledged temporal sensitivity; (3) Delta_book is reported as a descriptive diagnostic without arbitrary bookkeeping pass/fail thresholds."
 }

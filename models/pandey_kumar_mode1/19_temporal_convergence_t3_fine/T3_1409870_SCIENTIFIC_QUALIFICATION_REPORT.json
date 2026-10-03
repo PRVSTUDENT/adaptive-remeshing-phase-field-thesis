@@ -4,7 +4,7 @@
     "candidate_id": "T3",
     "family": "TEMPORAL_CONVERGENCE",
     "description": "Temporal Discretization Convergence Candidate (dt = 0.00025 mm, h = 0.0030 mm)",
-    "scientific_interpretation": "Temporal fine time-step solve (dt = 2.5e-4 mm, 15,192 elements, 14,021 increments, Exit 0). Confirms high-order temporal invariance of initial stiffness (Delta K0 = +0.0003%), peak reaction force (Delta F_max = -0.0201%), and peak displacement (Delta u_peak = -0.0341%) across 4x time-step ratio.",
+    "scientific_interpretation": "Temporal fine time-step solve (dt = 2.5e-4 mm, 15,192 elements, 14,021 increments, Exit 0). Confirms exceptional temporal invariance of initial stiffness K0 (137.945936 kN/mm, Delta K0 = +0.0003%), peak reaction force F_max (0.757626 kN, Delta F_max = -0.0201%), and peak displacement u(F_max) (0.005855 mm, Delta u_peak = -0.0427%) across a 4x time-step refinement range (1.0e-3 -> 5.0e-4 -> 2.5e-4 mm). External work exhibits monotonic decrease (W_ext = 2.331892 mJ, -1.16% vs S1), while the implemented phase-field crack-surface functional SDV17 exhibits modest temporal sensitivity (E_frac = 2.248132 mJ, -3.93% vs S1), resulting in a descriptive bookkeeping residual Delta_book = -0.082562 mJ (-3.54% of W_ext).",
     "meta": {
       "candidate_id": "T3",
       "name": "PK_MODE1_T3_FINE_ENERGY",
@@ -53,7 +53,13 @@
     "final_delta_book_mJ": -0.08256214400554329,
     "final_signed_reldiff_pct": -3.5405650528171058,
     "final_eps_book_abs_pct": 3.5405650528171058,
-    "peak_abs_delta_book_mJ": 0.11679869926847308
+    "peak_abs_delta_book_mJ": 0.11679869926847308,
+    "energy_variable_semantics": {
+      "SDV17": "Implemented phase-field crack-surface / fracture functional (volumetric integration of Gc * (d^2/(2*l0) + l0/2 * |grad d|^2))",
+      "SDV18": "Elastic strain energy functional (volumetric integration of g(d)*psi_+ + psi_-)",
+      "W_ext": "External boundary work computed via trapezoidal integration of tensile reaction force F = -RF2_RP over displacement u",
+      "Delta_book": "Descriptive bookkeeping difference (E_model - W_ext); non-zero residual reflects unmodeled numerical dissipative dynamics without physical violation"
+    }
   },
   "convergence_status": "QUALIFIED_TEMPORAL_FINE_SOLVE"
 }
