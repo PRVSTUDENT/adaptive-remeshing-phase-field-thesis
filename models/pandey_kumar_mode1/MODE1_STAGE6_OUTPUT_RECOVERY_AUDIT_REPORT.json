@@ -4,9 +4,10 @@
   "timestamp": "2026-10-03T11:45:00+02:00",
   "governing_gate": "Gate-6B",
   "investigation_stage": "Stage-6 (Element / Output-Position & Stress Recovery Averaging Semantics)",
-  "verdict": "STAGE6_COMPLETE_DISCREPANCY_RESOLVED",
-  "directional_classification": "ENERGY_NORM_LOCALIZATION_VS_SCALAR_SPREAD_PROVEN",
+  "verdict": "STAGE6_DIAGNOSTIC_EVALUATION_COMPLETED",
+  "directional_classification": "REGIONAL_ENERGY_NORM_DIAGNOSTIC_COMPLETED",
   "audit_source_odb": "PK_M1_JOB1_CONTINUUM_MATCHED_2906.odb",
+  "miseseri_definition": "MISESERI is the Abaqus Mises stress discretization/error indicator associated with the recovered stress solution.",
   "summary_metrics": {
     "total_elements": 2906,
     "cpe4_elements": 2818,
@@ -42,26 +43,26 @@
       "cpe3_miseseri_mean_mpa": 0.006765
     }
   },
-  "key_scientific_resolutions": [
+  "diagnostic_observations": [
     {
-      "hypothesis": "Visual Contour Perception vs Literal Sizing Math",
-      "status": "CONFIRMED_PRIMARY_EXPLANATION",
-      "evidence": "97.83% of specimen elements reside in the lowest 5% colormap bracket (solid dark blue), giving the visual illusion of a narrow horizontal band in linear contour plots despite far-field background recovery noise (0.0072 MPa, ~1.09% relative error) that triggers uniform mathematical refinement under eta_req=1.0%."
+      "observation": "Colormap Dynamic Range Suppression",
+      "status": "OBSERVED_IN_CONTINUUM_CONTROL",
+      "note": "97.832% of elements in the matched continuum control fall in the lowest 5% colormap bracket (<0.0475 MPa). Whether the published layered field exhibits a narrower error band is evaluated in Stage 7."
     },
     {
-      "hypothesis": "Energy-Norm Localization vs Scalar-Sum Spread",
-      "status": "CONFIRMED_GOVERNING_MATHEMATICAL_PRINCIPLE",
-      "evidence": "The crack corridor (0.895% of mesh) contains 88.32% of total L2 energy norm error, while the far field contains 65.57% of scalar error sum. Mesh sizing based on scalar relative error causes global over-refinement, whereas energy-norm weighting strictly localizes refinement to the crack corridor."
+      "observation": "Energy-Norm Regional Diagnostic Share",
+      "status": "DIAGNOSTIC_CALCULATION_ESTABLISHED",
+      "note": "Crack corridor accounts for 88.320% of the project-defined L2 energy norm diagnostic error sum, while far field carries 7.879% of energy share vs 65.566% of unweighted scalar error sum."
     },
     {
-      "hypothesis": "Output Positions and Superconvergent Patch Recovery (SPR)",
-      "status": "CONFIRMED_MECHANICAL_SOURCE",
-      "evidence": "MISESERI is evaluated at WHOLE_ELEMENT from integration point stresses (INTEGRATION_POINT). Intra-element Gauss point stress variance in CPE4 elements averages 0.0188 MPa globally but reaches >0.5 MPa in the corridor, confirming high-gradient stress jumps as the physical driver of SPR error."
+      "observation": "Output Positions and Superconvergent Patch Recovery (SPR)",
+      "status": "GOVERNED_DEFINITION_APPLIED",
+      "note": "MISESERI is the Abaqus Mises stress discretization/error indicator associated with the recovered stress solution at [WHOLE_ELEMENT]. Hookean stress is evaluated at [INTEGRATION_POINT]."
     },
     {
-      "hypothesis": "Boundary Patch Truncation Error",
-      "status": "RULED_OUT_AS_DOMINANT_FACTOR",
-      "evidence": "Exterior boundary elements carry only 0.058% of energy norm error with mean error of 0.0031 MPa (lower than interior far field 0.0072 MPa), demonstrating that boundary patch truncation is negligible."
+      "observation": "Boundary Patch Contribution",
+      "status": "NEGLIGIBLE_DIAGNOSTIC_SHARE",
+      "note": "Exterior boundary elements contribute only 0.058% of energy norm diagnostic share with mean error of 0.0031 MPa."
     }
   ],
   "figures_generated": [

@@ -1,0 +1,29 @@
+{
+  "package_name": "92_mode1_preanalysis_layered_companion_2906",
+  "task_id": "F1183-GATE6B-ADAPTIVE-LOCALIZATION-STAGE7-LAYERED-COMPANION-DIAGNOSTIC-20261003",
+  "created_at": "2026-10-03T11:50:00+02:00",
+  "job_name": "PK_M1_JOB1_LAYERED_COMPANION_2906",
+  "model_type": "3-Layer UEL/UMAT Layered Pre-Analysis (Phase-Field U1/U3 + Mech U2/U4 + Companion CPE4/CPE3)",
+  "deck_file": "PK_M1_JOB1_LAYERED_COMPANION_2906.inp",
+  "deck_sha256": "27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF",
+  "subroutine_file": "f42_mixed_uel.for",
+  "subroutine_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "mesh_properties": {
+    "physical_elements": 2906,
+    "physical_nodes": 2988,
+    "total_elements": 8718,
+    "cpe4_companion_elements": 2818,
+    "cpe3_companion_elements": 88
+  },
+  "execution_specs": {
+    "cpus": 1,
+    "memory": "16gb",
+    "walltime": "02:00:00",
+    "queue": "normal_imfdfkmq",
+    "mode": "Serial 1-CPU"
+  },
+  "acceptance_criteria": {
+    "expected_exit_code": 0,
+    "convergence_criterion": "Quadratic Newton convergence without stiffness double-counting divergence"
+  }
+}

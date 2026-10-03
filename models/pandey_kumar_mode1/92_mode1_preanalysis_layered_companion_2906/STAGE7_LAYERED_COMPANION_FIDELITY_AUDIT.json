@@ -1,0 +1,221 @@
+{
+  "classification": "LAYERED_COMPANION_INVALID_OR_UNRESOLVED", 
+  "audit_id": "GATE6B-STAGE7-LAYERED-COMPANION-FIDELITY-AUDIT-20261003", 
+  "explanation": "Because the authoritative companion UMAT sets STRESS = 0.D0 and DDSDDE = 1.D-11 to prevent double-counting mechanical stiffness with UEL Layer 2, the Cauchy stress on All_elem is identically zero. Consequently, Abaqus stress recovery evaluates MISESERI = 0.0 across all 2,906 elements. This confirms that the companion layer in the Molnar/Pandey-Kumar lineage is a visualization layer for SDVs and cannot produce a non-zero MISESERI error field without an independent continuum stress solution.", 
+  "regional_comparison": {
+    "crack_corridor": {
+      "count": 26, 
+      "ctrl_eri_sum": 6.9883343684487045, 
+      "lay_eri_sum": 0.0
+    }, 
+    "boundary": {
+      "count": 196, 
+      "ctrl_eri_sum": 0.5990212941542268, 
+      "lay_eri_sum": 0.0
+    }, 
+    "crack_wake": {
+      "count": 110, 
+      "ctrl_eri_sum": 1.8010057816281915, 
+      "lay_eri_sum": 0.0
+    }, 
+    "right_ligament": {
+      "count": 142, 
+      "ctrl_eri_sum": 1.0947155050816946, 
+      "lay_eri_sum": 0.0
+    }, 
+    "far_field": {
+      "count": 2628, 
+      "ctrl_eri_sum": 18.820544599671848, 
+      "lay_eri_sum": 0.0
+    }
+  }, 
+  "layered_metrics": {
+    "max_miseseri_mpa": 0.0, 
+    "rf2_at_step1_end_kn": 0.653089, 
+    "mean_miseseri_mpa": 0.0
+  }, 
+  "control_metrics": {
+    "max_miseseri_mpa": 0.950009, 
+    "rf2_at_step1_end_kn": 0.675452, 
+    "mean_miseseri_mpa": 0.009878
+  }, 
+  "odb_layered": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/92_mode1_preanalysis_layered_companion_2906/PK_M1_JOB1_LAYERED_COMPANION_2906.odb", 
+  "total_elements": 2906, 
+  "odb_control": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/90_mode1_preanalysis_continuum_matched_2906/PK_M1_JOB1_CONTINUUM_MATCHED_2906.odb", 
+  "verdict": "LAYERED_COMPANION_ZERO_STRESS_CONFIRMED", 
+  "step_name": "Step-1", 
+  "published_fig6a_evidence": {
+    "note": "Published contour legend shows values up to ~95.0 MPa at u=0.01 mm, representing a 50x-100x scaling relative to our u=0.005 mm pre-analysis (0.95 MPa) or a different displacement/load level.", 
+    "source": "Pandey & Kumar (2025) Figure 6(a) (CMES, vol. 142, no. 1, pp. 297-327)", 
+    "legend_range_reported_mpa": [
+      0.0, 
+      95.0
+    ], 
+    "legend_max_miseseri_reported": 95.0, 
+    "label": "Digitized visual/legend evidence from published contour plot"
+  }, 
+  "field_outputs_layered": {
+    "SDV20": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "E": {
+      "description": "Strain components", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV17": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "RF": {
+      "description": "Reaction force", 
+      "locations": [
+        "NODAL"
+      ]
+    }, 
+    "MISESAVG": {
+      "description": "Element average mises stress", 
+      "locations": [
+        "WHOLE_ELEMENT"
+      ]
+    }, 
+    "SDV13": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV12": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV11": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV10": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "EVOL": {
+      "description": "Element volume", 
+      "locations": [
+        "WHOLE_ELEMENT"
+      ]
+    }, 
+    "SDV16": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV15": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV14": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "MISESERI": {
+      "description": "Mises stress error indicator", 
+      "locations": [
+        "WHOLE_ELEMENT"
+      ]
+    }, 
+    "SDV19": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV18": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV7": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV6": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV5": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV4": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV3": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV2": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV1": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV9": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV8": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "S": {
+      "description": "Stress components", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "U": {
+      "description": "Spatial displacement", 
+      "locations": [
+        "NODAL"
+      ]
+    }
+  }
+}

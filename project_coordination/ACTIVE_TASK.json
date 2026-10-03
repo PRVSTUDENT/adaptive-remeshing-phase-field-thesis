@@ -1,7 +1,7 @@
 {
-  "task_id": "F1182-GATE6B-ADAPTIVE-LOCALIZATION-STAGE6-OUTPUT-POSITION-AND-RECOVERY-20261003",
+  "task_id": "F1183-GATE6B-ADAPTIVE-LOCALIZATION-STAGE7-LAYERED-COMPANION-DIAGNOSTIC-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Adaptive-Localization Stage 6: Element / Output-Position & Stress Recovery Averaging Semantics Audit",
+  "title": "Gate-6B Mode-I Adaptive-Localization Stage 7: Layered Companion-Element / All_elem Reference-Fidelity Test",
   "status": "completed",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
@@ -12,44 +12,21 @@
     "docs/**",
     "project_coordination/**"
   ],
-  "hpc_jobs": [
-    "1409914.mmaster02"
-  ],
+  "hpc_jobs": [],
   "context": {
-    "stage6_evaluation": {
-      "verdict": "STAGE6_COMPLETE_DISCREPANCY_RESOLVED",
-      "directional_classification": "ENERGY_NORM_LOCALIZATION_VS_SCALAR_SPREAD_PROVEN",
-      "odb_source": "PK_M1_JOB1_CONTINUUM_MATCHED_2906.odb",
-      "total_elements": 2906,
-      "cpe4_elements": 2818,
-      "cpe3_elements": 88,
-      "total_energy_error_norm": 0.04047,
-      "max_miseseri_mpa": 0.950009,
-      "mean_miseseri_mpa": 0.009878,
-      "peak_to_mean_ratio": 96.18,
-      "regional_energy_shares": {
-        "crack_corridor_pct": 88.32,
-        "crack_wake_pct": 3.124,
-        "right_ligament_pct": 0.766,
-        "far_field_pct": 7.879,
-        "boundary_pct": 0.058
-      },
-      "regional_scalar_shares": {
-        "crack_corridor_pct": 24.346,
-        "crack_wake_pct": 6.274,
-        "right_ligament_pct": 3.814,
-        "far_field_pct": 65.566,
-        "boundary_pct": 2.087
-      },
-      "colormap_distribution": {
-        "bottom_5pct_dark_blue_pct": 97.832,
-        "top_5pct_bracket_pct": 2.168,
-        "top_50pct_bracket_pct": 0.172
-      },
-      "scientific_outcome": "Visual illusion of narrow band in Pandey-Kumar Fig. 6(a) fully explained by 97.83% of mesh falling in lowest 5% linear colormap bracket. Mathematical L2 energy norm error localizes 88.32% in crack corridor, whereas unweighted scalar relative error causes global over-refinement.",
-      "transition_target": "F1183-GATE6C-ENERGY-NORM-BASED-REMESH-SIZING-FORMULATION-20261003"
+    "stage7_evaluation": {
+      "verdict": "LAYERED_COMPANION_ZERO_STRESS_CONFIRMED",
+      "directional_classification": "LAYERED_COMPANION_INVALID_OR_UNRESOLVED",
+      "subroutine_source": "f42_mixed_uel.for",
+      "companion_stress_behavior": "STRESS(I) = 0.D0 and DDSDDE(I,I) = 1.D-11 in companion UMAT prevent stiffness double-counting with Layer 2 UEL",
+      "miseseri_on_all_elem": 0.0,
+      "layer3_role": "Passive SDV post-processing visualizer for standard field output (SDV1..SDV20), cannot produce stress-recovery error indicator",
+      "continuum_control_miseseri_peak_mpa": 0.950009,
+      "published_fig6a_legend_max_mpa": 95.0,
+      "scientific_outcome": "Pre-analysis error indicator evaluation is mathematically invalid on the layered companion mesh because Cauchy stress is zeroed out by design. Adaptive remeshing pre-analysis must be executed as a standard continuum solve (Package 90). All 7 Gate-6B cause audits are now fully concluded.",
+      "transition_target": "F1184-GATE6C-MODE1-STATE-TRANSFER-AND-ENERGY-CONSERVATION-20261003"
     }
   },
-  "created_at": "2026-10-03T11:30:00+02:00",
-  "updated_at": "2026-10-03T11:45:00+02:00"
+  "created_at": "2026-10-03T11:50:00+02:00",
+  "updated_at": "2026-10-03T12:00:00+02:00"
 }

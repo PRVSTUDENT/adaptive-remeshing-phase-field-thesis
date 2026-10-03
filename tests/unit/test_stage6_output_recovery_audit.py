@@ -1,6 +1,6 @@
 """
 Unit tests for Gate-6B Stage 6 Output-Position and Stress Recovery Semantics Audit.
-Verifies ODB field positions, regional energy norm localization, colormap distribution,
+Verifies ODB field positions, regional energy norm diagnostic shares, colormap distribution,
 and element formulation behavior.
 """
 import os
@@ -73,7 +73,7 @@ def test_stage6_field_output_locations(stage6_audit_data):
 
 
 def test_stage6_regional_energy_shares(stage6_audit_data):
-    """Verify regional error localization: corridor carries > 85% energy norm error."""
+    """Verify regional error diagnostic localization: corridor carries > 85% energy norm diagnostic share."""
     reg = stage6_audit_data["regional_summary"]
     assert "crack_corridor" in reg
     assert "far_field" in reg
@@ -83,11 +83,11 @@ def test_stage6_regional_energy_shares(stage6_audit_data):
     farfield_energy_share = reg["far_field"]["energy_norm_error_share_pct"]
     boundary_energy_share = reg["boundary"]["energy_norm_error_share_pct"]
 
-    # Corridor (< 1% of elements) carries dominant energy norm error (> 85%)
+    # Corridor (< 1% of elements) carries dominant energy norm diagnostic share (> 85%)
     assert corridor_energy_share > 85.0
     assert reg["crack_corridor"]["element_count_pct"] < 1.5
 
-    # Far field (> 90% of elements) carries minor energy norm error (< 10%)
+    # Far field (> 90% of elements) carries minor energy norm diagnostic share (< 10%)
     assert farfield_energy_share < 10.0
     assert reg["far_field"]["element_count_pct"] > 88.0
 
@@ -123,8 +123,9 @@ def test_stage6_element_formulation_integrity(stage6_audit_data):
 def test_stage6_forensic_report_consistency(stage6_report_data):
     """Verify Stage 6 report metadata and consistency with audit findings."""
     assert stage6_report_data["report_id"] == "MODE1-STAGE6-OUTPUT-RECOVERY-AUDIT-REPORT-20261003"
-    assert stage6_report_data["verdict"] == "STAGE6_COMPLETE_DISCREPANCY_RESOLVED"
-    assert stage6_report_data["directional_classification"] == "ENERGY_NORM_LOCALIZATION_VS_SCALAR_SPREAD_PROVEN"
+    assert stage6_report_data["verdict"] == "STAGE6_DIAGNOSTIC_EVALUATION_COMPLETED"
+    assert stage6_report_data["directional_classification"] == "REGIONAL_ENERGY_NORM_DIAGNOSTIC_COMPLETED"
+    assert "MISESERI is the Abaqus Mises stress discretization/error indicator" in stage6_report_data["miseseri_definition"]
     assert os.path.isfile(REPORT_MD_PATH)
 
     for fig_rel in stage6_report_data["figures_generated"]:
