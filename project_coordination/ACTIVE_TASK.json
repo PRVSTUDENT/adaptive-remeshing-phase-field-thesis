@@ -1,7 +1,7 @@
 {
-  "task_id": "F1186-GATE6B-ADAPTIVE-LOCALIZATION-STAGE10-INF-COMPANION-NATIVE-REMESH-20261003",
+  "task_id": "F1186-GATE6B-ADAPTIVE-LOCALIZATION-STAGE11-SIZING-VS-TRANSITION-AUDIT-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Adaptive-Localization Stage 10: Native 1% Remesh of Package-93 Infinitesimal-Companion Pre-Analysis",
+  "title": "Gate-6B Mode-I Adaptive-Localization Stage 11: Native Sizing-Demand versus Mesh-Transition Propagation Audit & 1% Lineage Reconciliation",
   "status": "completed",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
@@ -15,34 +15,31 @@
   "hpc_jobs": [],
   "context": {
     "gate6b_status": "ACTIVE",
-    "stage10_evaluation": {
-      "verdict": "INF_COMPANION_NATIVE_REMESH_NO_MEANINGFUL_IMPROVEMENT",
-      "scientific_verdict": "INF_COMPANION_NATIVE_REMESH_SCALE_INVARIANCE_PROVEN",
-      "preanalysis_source": "Package 93 (PK_M1_JOB1_INF_COMPANION_2906.odb, Step-1 final frame u=0.005mm)",
-      "adapted_mesh": {
-        "total_elements": 57929,
-        "total_nodes": 57491,
-        "min_h_eq_mm": 0.000553,
-        "median_h_eq_mm": 0.003096,
-        "mean_h_eq_mm": 0.003657,
-        "max_h_eq_mm": 0.018343,
-        "elements_near_nominal_count": 33
+    "stage11_evaluation": {
+      "formal_causal_verdict": "BROADNESS_PRIMARILY_PRESENT_IN_NATIVE_SIZING_DEMAND",
+      "diagnostic_classification": "MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT",
+      "research_question_resolution": "The broad far-field adaptive refinement (57,929 elements, 85.44% in far field) is directly demanded by the native sizing field, where background far-field error indicator (median 1.09%) exceeds the 1.0% target tolerance, commanding h in [3, 6] um throughout the domain. Disabling transition controls (minTransition=OFF) yields 100.000% bit-for-bit identical 57,929 elements, proving transition propagation is inactive.",
+      "min_transition_off_test": {
+        "elements": 57929,
+        "nodes": 57491,
+        "identity_with_baseline_pct": 100.0
       },
-      "spatial_partitioning": {
-        "crack_corridor_count": 8435,
-        "crack_corridor_fraction": 0.145609,
-        "wake_count": 3583,
-        "ligament_count": 4852,
-        "upper_far_field_count": 24526,
-        "lower_far_field_count": 24968,
-        "far_field_total_count": 49494,
-        "far_field_fraction": 0.854391,
-        "refined_bbox_h003_count": 27890,
-        "refined_band_width_range_mm": [0.7549, 0.9381]
-      },
-      "mathematical_insight": "In Abaqus UNIFORM_ERROR sizing, normalizing MISESERI by domain-average MISESAVG identically cancels out the 10^-12 magnitude factor. Sizing is scale-invariant. The adapted mesh reproduces the same broad far-field refinement morphology (57,929 elements, 85.44% far field) as continuum control."
+      "lineage_reconciliation_summary": {
+        "lineage_1_historical_71k": 71320,
+        "lineage_2_historical_56k": 56302,
+        "lineage_3_package88_uel": 48329,
+        "lineage_4b_package90_control": 56344,
+        "lineage_5_package93_companion": 57929,
+        "matched_continuum_comparator": "Package 90 Control (56,344 elements) is the matched baseline for Package 93 Companion (57,929 elements, +2.8% diff)"
+      }
+    },
+    "stage10_corrections": {
+      "verdict": "INF_COMPANION_NATIVE_REMESH_EMPIRICALLY_SCALE_INSENSITIVE_FOR_TESTED_CASE",
+      "directional_classification": "INF_COMPANION_NATIVE_REMESH_NO_MEANINGFUL_IMPROVEMENT",
+      "proprietary_formulas_removed": true,
+      "scope_discipline_enforced": true
     }
   },
-  "created_at": "2026-10-03T12:52:00+02:00",
-  "updated_at": "2026-10-03T13:10:00+02:00"
+  "created_at": "2026-10-03T18:03:00+02:00",
+  "updated_at": "2026-10-03T18:20:00+02:00"
 }

@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T13:10:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Adaptive-Localization Stage 10 (Native 1% Remesh of Infinitesimal-Companion Pre-Analysis) Evaluated and Concluded; Formal Directional Classification `INF_COMPANION_NATIVE_REMESH_NO_MEANINGFUL_IMPROVEMENT` and Scientific Verdict `INF_COMPANION_NATIVE_REMESH_SCALE_INVARIANCE_PROVEN` Assigned; Mathematical and Numerical Proof Established that Uniform Error Sizing in Abaqus is Scale-Invariant ($\eta_e = \text{MISESERI}_e / \text{MISESAVG}$ Cancels Out the $10^{-12}$ Magnitude Factor Identically); Native 1% Remesh of Package-93 Infinitesimal Companion ODB Generates $57,929$ Elements ($57,491$ Nodes) with $85.44\%$ Far-Field Refinement Share ($49,494$ Elements in $y \notin [0.45, 0.55]$), Corridor Share $14.56\%$ ($8,435$ Elements), Refined Corridor Bandwidth $w(x) \in [0.755, 0.938]\,\text{mm}$, Bounding Box for $h \le 0.003\,\text{mm}$ Containing $27,890$ Elements Spanning Almost the Full Domain ($x \in [0.095, 0.969]\,\text{mm}$, $y \in [0.037, 0.960]\,\text{mm}$), and Only 33 Elements ($0.057\%$) Remaining Near Nominal Size ($h \ge 0.015\,\text{mm}$); Complete 10-Stage Gate-6B Localization Investigation Synthesized; Stage-9 Source-Discipline Corrections Applied; 3 Stage-10 Publication Figures Rendered in `results/figures/mode1_gate6b/`; Standalone Reports Archived; 119/119 Mode-I Unit Tests Pass (100%); 0 Active Jobs in Queue.  
-Parent commit: `13f5076c2e26aca62ec16a8681008d34a99478c8`
+Last updated: `2026-10-03T18:20:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Adaptive-Localization Stage 11 (Native Sizing-Demand versus Mesh-Transition Propagation Audit) Evaluated and Concluded; Formal Causal Verdict `BROADNESS_PRIMARILY_PRESENT_IN_NATIVE_SIZING_DEMAND` and Diagnostic Classification `MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT` Assigned; Proved that the Domain-Wide 1% Adapted Refinement ($57,929$ Elements, $85.44\%$ Far-Field Share) is Directly Prescribed by the Error Indicator Field (Where Far-Field $\eta_e \approx 1.09\% > \text{errorTarget} = 1.0\%$ Commands Refinement Down to $h \approx 3\text{--}6\,\mu\text{m}$) Rather than Artificially Propagated by Mesh Transition Controls (Disabling Transition Smoothing via $\text{minTransition}=\text{OFF}$ Yields $100.000\%$ Bit-for-Bit Identical $57,929$-Element Mesh); Immutable 1% Lineage Reconciliation Completed (Separating Historical $71,320$, Historical $56,302$, Package-88 $48,329$, Package-90 Control $56,344$, and Package-93 Companion $57,929$ by Exact Provenance, Establishing Package 90 as the Exact Matched Continuum Comparator); Stage-10 Assertions Formally Corrected to `INF_COMPANION_NATIVE_REMESH_EMPIRICALLY_SCALE_INSENSITIVE_FOR_TESTED_CASE` with Proprietary Formulas Removed; 4 Stage-11 Publication Figures Rendered in `results/figures/mode1_gate6b/`; Standalone Reports, JSON Artifacts, and Unit Test Suite Pass 100%; 0 Active Jobs in Queue.  
+Parent commit: `51c49264cecf91f4606ffd7e8396b0775473fec3`
 
 ---
 
@@ -25,37 +25,33 @@ Parent commit: `13f5076c2e26aca62ec16a8681008d34a99478c8`
   - Missing publication information boundary formally accepted by supervisor (17-Sep-2026).
   - General sensitivity trends preserved ($1.0\% \to 48{,}329$, $2.0\% \to 11{,}737$, $3.0\% \to 5{,}158$, $5.0\% \to 3{,}763$ elements on corrected pre-analysis; $71,320 \to 17,687 \to 8,120 \to 4,356$ on coarse baseline).
   - Deterministic repeatability audited across 3 independent runs ($100.000\%$ bit-for-bit mesh identity at $48{,}329$ elements, $48{,}093$ nodes).
-  - Element-edge length audit: bounded size compliance ($99.47\%$ within $[1.0, 20.0]\,\mu\text{mm}$).
+  - Element-edge length audit: bounded size compliance ($99.47\%$ within $[1.0, 20.0]\,\mu\text{m}$).
   - Authoritative mesh exported to `exports/Mode1_adaptive_mesh/`.
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
 * **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `ACTIVE_EVALUATION_AND_CONTINUATION`
+  - **Stage 11 (Native Sizing-Demand vs Mesh-Transition Propagation Audit) Concluded (`MODE1_STAGE11_SIZING_VS_TRANSITION_REPORT.md`):**
+    - **Formal Causal Verdict:** `BROADNESS_PRIMARILY_PRESENT_IN_NATIVE_SIZING_DEMAND` | **Diagnostic Classification:** `MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT`.
+    - **Frozen Question Resolved:** Broad far-field adaptive refinement ($57,929$ elements, $85.44\%$ far field) is **directly demanded by the native sizing field**, not caused by transition controls. Background far-field $\eta_e \approx 1.09\% > \text{errorTarget} = 1.0\%$ commands $h \approx 3\text{--}6\,\mu\text{m}$ domain-wide.
+    - **Controlled Diagnostic:** Testing $\text{minTransition}=\text{OFF}$ under frozen 1% sizing contract on Package 93 produced an identical $57,929$-element mesh ($100.000\%$ bit-for-bit identity, $\Delta = 0$ elements).
+    - **1% Lineage Reconciliation:** Reconciled all 5 historical and current 1% remesh variants (`MODE1_1PCT_LINEAGE_RECONCILIATION.json`). Established Package 90 ($56,344$ elements under Stage-10/11 CAD script) as the exact matched continuum comparator to Package 93 ($57,929$ elements, $\Delta = +2.8\%$).
+    - **Primary Documentation & CAE Controls Audit:** Classified all mesher controls (`QUAD_DOMINATED`, `FREE`, `ADVANCING_FRONT`, `minTransition=ON` as `ABAQUS_DEFAULT`; nominal $h=0.02\,\text{mm}$ and no bias as `PUBLISHED`; `ALL_ELEM` as `PROJECT_ASSUMPTION`).
+    - **Spatial Mapping & Transects:** Mapped 57,929 fine elements to 2,906 coarse elements (`MODE1_STAGE11_COARSE_TO_ADAPTED_MAPPING.csv`). Evaluated 6 transects along $y=0.50, 0.55, 0.60\,\text{mm}$ and $x=0.50, 0.65, 0.80\,\text{mm}$ (`MODE1_STAGE11_TRANSECT_DATA.csv`).
+    - 4 publication figures generated in `results/figures/mode1_gate6b/`.
   - **Stage 10 (Infinitesimal Companion Native 1% Remesh) Concluded (`MODE1_STAGE10_INF_COMPANION_REMESH_REPORT.md`):**
-    - **Directional Classification:** `INF_COMPANION_NATIVE_REMESH_NO_MEANINGFUL_IMPROVEMENT` | **Scientific Verdict:** `INF_COMPANION_NATIVE_REMESH_SCALE_INVARIANCE_PROVEN`.
-    - **Scale-Invariance Proof:** Normalizing $\text{MISESERI}_e$ by $\text{MISESAVG}$ makes $\eta_e$ independent of $E_{\text{dummy}}$, identically canceling the $10^{-12}$ factor. Sizing is strictly identical to continuum control.
-    - **Adapted Mesh Morphology ($57,929$ elements, $57,491$ nodes):** $85.44\%$ far field ($49,494$ elements in $y \notin [0.45, 0.55]$), $14.56\%$ corridor ($8,435$ elements), refined bandwidth $w(x) \in [0.755, 0.938]\,\text{mm}$ across slices $x \in [0.1, 0.9]$, $27,890$ elements with $h \le 0.003\,\text{mm}$ spanning $x \in [0.095, 0.969]\,\text{mm}$ and $y \in [0.037, 0.960]\,\text{mm}$.
-    - 3 publication figures generated in `results/figures/mode1_gate6b/`.
-  - **Stage 9 (Coarse Pre-Analysis Mesh Realization Sensitivity) Concluded (`MODE1_STAGE9_COARSE_MESH_SENSITIVITY_REPORT.md`):**
-    - **Phase A Verdict:** `CURRENT_MESH_CONSISTENT_WITH_PUBLISHED_H002_NOMINAL_SPECIFICATION` | **Phase B Directional Classification:** `COARSE_MESH_REALIZATION_NOT_SUPPORTED_AS_NEXT_CAUSE`.
-    - Canonical 2,906-element mesh audited in detail: exact 50 divisions of $\Delta = 0.020000\,\text{mm}$ on all 4 external boundaries, mean $h_{\text{eq}} = 0.018382\,\text{mm}$, median edge length $0.019008\,\text{mm}$, zero tip pre-refinement (20 quads in $r < 0.05\,\text{mm}$ have mean $h_{\text{eq}} = 0.019960\,\text{mm}$), 99% elements have aspect ratio $< 1.75$.
-    - Source-discipline corrections applied: restricted claims strictly to published specifications ($1 \times 1\,\text{mm}$, $a_0 = 0.5\,\text{mm}$, nominal $h = 0.02\,\text{mm}$, no tip pre-refinement).
-  - **Stage 8 (Infinitesimal-Stiffness Companion Reference-Fidelity Audit) Concluded (`MODE1_STAGE8_INF_COMPANION_AUDIT_REPORT.md`):**
-    - **Formal Verdict:** `INF_STIFFNESS_COMPANION_ORDER_1E12_VERIFIED` | **Directional Classification:** `INF_STIFFNESS_COMPANION_NO_MEANINGFUL_CHANGE`.
-    - **Epistemic Classification:** Molnár & Gravouil lineage marked `MOLNAR_GRAVOUIL_LINEAGE_SUPPORTED_PROJECT_DIAGNOSTIC`; exact companion-UMAT mechanism preserved as `UNRESOLVED_REFERENCE_DETAIL`.
-    - **Spatial Concordance:** High spatial correlation ($r = 0.989522$) vs continuum control (Package 90). Peak error $4.502\times 10^{-14}\,\text{kN/mm}^2 = 4.502\times 10^{-11}\,\text{MPa}$. Force perturbation $< 4.76\times 10^{-14}$. $\sim 66.6\times$ unit/load ambiguity noted.
-  - **Stage 7 (Layered Companion-Element Reference-Fidelity Test) Closed (`MODE1_STAGE7_LAYERED_COMPANION_FIDELITY_REPORT.md`):**
-    - **Formal Verdict:** `PROJECT_SOURCE_VERIFIED_ZERO_STRESS_LAYERED_COMPANION` | **Directional Classification:** `LAYERED_COMPANION_INVALID_OR_UNRESOLVED`.
-    - Companion UMAT mechanics: `STRESS = 0.D0` in Package 92 confirms passive SDV visualizer role (`MISESERI = 0.0`).
-  - **Stage 6 (Element Output-Position & Recovery Semantics) Closed (`MODE1_STAGE6_OUTPUT_RECOVERY_AUDIT_REPORT.md`):**
-    - Colormap visual illusion ($97.832\%$ in lowest $5\%$ bracket) and $L_2$ energy norm localization ($88.320\%$ in crack corridor) proven.
-  - **Stage 5 (Step/Frame Semantics) Closed (`MODE1_STAGE5_STEP_FRAME_SEMANTICS_REPORT.md`):**
-    - Linear scaling and exact error field invariance verified across all 1,502 increments.
-  - **Stages 1–4 (Topology, BC, Mapping, Stress Transfer) Closed:**
-    - All non-dominant causes systematically evaluated and documented.
+    - **Directional Classification:** `INF_COMPANION_NATIVE_REMESH_NO_MEANINGFUL_IMPROVEMENT` | **Scientific Verdict:** `INF_COMPANION_NATIVE_REMESH_EMPIRICALLY_SCALE_INSENSITIVE_FOR_TESTED_CASE`.
+    - Proprietary formula assertions removed; scale insensitivity stated empirically.
+    - $57,929$ elements ($57,491$ nodes), $85.44\%$ far-field share, refined bandwidth $w(x) \in [0.755, 0.938]\,\text{mm}$.
+    - Scope discipline: restricted strictly to published specifications ($1\times 1\,\text{mm}$, $a_0 = 0.5\,\text{mm}$, nominal $h=0.02\,\text{mm}$, no tip pre-refinement). Legend unit/load correspondence retained as unresolved reference detail.
+  - **Stage 9 (Coarse Pre-Analysis Mesh Realization Sensitivity) Concluded:** `CURRENT_MESH_CONSISTENT_WITH_PUBLISHED_H002_NOMINAL_SPECIFICATION`.
+  - **Stage 8 (Infinitesimal-Stiffness Companion Fidelity Audit) Concluded:** `INF_STIFFNESS_COMPANION_ORDER_1E12_VERIFIED`.
+  - **Stage 7 (Layered Companion-Element Reference-Fidelity Test) Closed:** `PROJECT_SOURCE_VERIFIED_ZERO_STRESS_LAYERED_COMPANION`.
+  - **Stage 6 (Output-Position & Recovery Semantics) Closed:** Colormap visual illusion and $L_2$ energy norm localization proven.
+  - **Stage 5 (Step/Frame Semantics) Closed:** Linear scaling and error field invariance verified.
   - **S1--S2--S3 Spatial Convergence Family Closed:** `MIXED_SPATIAL_CONVERGENCE` ($K_0$ spread $0.0637\%$, pre-peak work variation $0.075\%$).
   - **Temporal Convergence Family Closed:** `TEMPORAL_FAMILY_QUALIFIED` ($K_0$ invariance $+0.0003\%$, $F_{\max}$ invariance $-0.0201\%$).
-  - **Unit Test Suite:** **119/119 Mode-I unit tests pass 100%**.
+  - **Unit Test Suite:** **All Mode-I unit tests pass 100%**.
   - **Queue Status:** 0 active jobs running.
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 

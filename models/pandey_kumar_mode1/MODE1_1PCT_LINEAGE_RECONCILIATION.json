@@ -1,0 +1,80 @@
+[
+  {
+    "lineage_id": "LINEAGE_1_HISTORICAL_FIXED_71K",
+    "description": "Historical coarse pre-analysis with constrained top boundary condition (pre-N_BOTTOM fix)",
+    "coarse_deck": "models/pandey_kumar_mode1/06_production_adaptive_2pct/inputs/PK_MODE1_PROPOSED_PFM_PHYS.inp",
+    "remesh_deck": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/PK_M1_2906COARSE_HIST_1PCT.inp",
+    "element_count": 71320,
+    "node_count": 70891,
+    "bc": "Top ux = 0 (constrained), direct nodal BCs",
+    "preanalysis_odb": "PK_MODE1_AUX_CONTINUUM.odb (Job 1404968.mmaster02)",
+    "step_frame": "Step-1 (linear elastic single-step)",
+    "coarse_deck_sha256": "E463A0DD25ECB7C60742DEA7A85208613AA0CA49A3EC76815D4F203BFEA1FBD4",
+    "remesh_deck_sha256": "D615BC4DAC00E0EE284A2068E8817D44FAF7510B7593A039B2A5BAA48A6CE975"
+  },
+  {
+    "lineage_id": "LINEAGE_2_HISTORICAL_CORRECTED_56K",
+    "description": "Historical coarse pre-analysis with corrected roller top boundary condition",
+    "coarse_deck": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/PK_M1_2906COARSE_CORR_1PCT.inp",
+    "remesh_deck": "models/pandey_kumar_mode1/adaptive_direction_evidence_package/PK_M1_2906COARSE_CORR_1PCT.inp",
+    "element_count": 56302,
+    "node_count": 55876,
+    "bc": "Top ux free roller, bottom uy=0, ux(0,0)=0",
+    "preanalysis_odb": "Job 1398090 auxiliary pre-analysis",
+    "step_frame": "Step-1 (static linear elastic)",
+    "coarse_deck_sha256": "F600CAEC617881E65E5E9E68D00330F83936A7AB7EBA74EC471450619B67120B",
+    "remesh_deck_sha256": "F600CAEC617881E65E5E9E68D00330F83936A7AB7EBA74EC471450619B67120B"
+  },
+  {
+    "lineage_id": "LINEAGE_3_PACKAGE88_UEL_CORRECTED_48K",
+    "description": "Package 88 UEL pre-analysis with kinematic RP coupling (2-step, 1507 increments)",
+    "coarse_deck": "models/pandey_kumar_mode1/88_mode1_preanalysis_uel_corrected/PK_M1_PRE_UEL_CORRECTED.inp",
+    "remesh_deck": "models/pandey_kumar_mode1/88_mode1_preanalysis_uel_corrected/PK_M1_JOB2_ADAPTED_1PCT.inp",
+    "element_count": 48329,
+    "node_count": 48093,
+    "bc": "RP-coupled roller top ux free, wrapped N_BOTTOM cards",
+    "preanalysis_odb": "PK_M1_PRE_UEL_CORRECTED.odb (Job 1409554.mmaster02)",
+    "step_frame": "Step-1 Inc 1507 (u = 0.005 mm)",
+    "coarse_deck_sha256": "D8B64ADAD5B761C1AEB59B8C1FE2E8A4959D74CB673061760C8C06680AFB6D32",
+    "remesh_deck_sha256": "028A604FFECAF37454309D4A4C6A966A79BEED72B3BC76AC59413B4E467B74C6"
+  },
+  {
+    "lineage_id": "LINEAGE_4A_PACKAGE90_CONTINUUM_MATCHED_57K",
+    "description": "Package 90 standard continuum pre-analysis under Stage 5 CAE remeshing script",
+    "coarse_deck": "models/pandey_kumar_mode1/90_mode1_preanalysis_continuum_matched_2906/PK_M1_JOB1_CONTINUUM_MATCHED_2906.inp",
+    "remesh_deck": "models/pandey_kumar_mode1/90_mode1_preanalysis_continuum_matched_2906/stage5_native_remesh_tests/remesh_step1_target1pct.inp",
+    "element_count": 57544,
+    "node_count": 57047,
+    "bc": "RP-coupled roller top ux free, bottom uy=0, pinned point ux(0,0)=0",
+    "preanalysis_odb": "PK_M1_JOB1_CONTINUUM_MATCHED_2906.odb (Job 1409914.mmaster02)",
+    "step_frame": "Step-1 final frame (u = 0.005 mm, 500 increments)",
+    "coarse_deck_sha256": "B60DD35D56AB2824902F2D90912E222CF9D335D7D9911CF8DD17A3DC2B52E5F9",
+    "remesh_deck_sha256": "FILE_NOT_FOUND"
+  },
+  {
+    "lineage_id": "LINEAGE_4B_PACKAGE90_CONTINUUM_MATCHED_EXACT_56K",
+    "description": "Package 90 standard continuum pre-analysis under exact Stage 10 CAE remeshing script (MATCHED COMPARATOR)",
+    "coarse_deck": "models/pandey_kumar_mode1/90_mode1_preanalysis_continuum_matched_2906/PK_M1_JOB1_CONTINUUM_MATCHED_2906.inp",
+    "remesh_deck": "models/pandey_kumar_mode1/96_mode1_continuum_matched_native_remesh/PK_M1_STAGE10_INF_ADAPTED_RAW_1PCT.inp",
+    "element_count": 56344,
+    "node_count": 55943,
+    "bc": "RP-coupled roller top ux free, bottom uy=0, pinned point ux(0,0)=0",
+    "preanalysis_odb": "PK_M1_JOB1_CONTINUUM_MATCHED_2906.odb (Job 1409914.mmaster02)",
+    "step_frame": "Step-1 final frame (u = 0.005 mm, 500 increments)",
+    "coarse_deck_sha256": "B60DD35D56AB2824902F2D90912E222CF9D335D7D9911CF8DD17A3DC2B52E5F9",
+    "remesh_deck_sha256": "DB1967097BDD2252103B11051392376069314AD31BDD2EFCFF8B78E100B97B0F"
+  },
+  {
+    "lineage_id": "LINEAGE_5_PACKAGE93_INF_COMPANION_58K",
+    "description": "Package 93 infinitesimal companion pre-analysis under Stage 10 CAE remeshing script",
+    "coarse_deck": "models/pandey_kumar_mode1/93_mode1_preanalysis_inf_companion_2906/PK_M1_JOB1_INF_COMPANION_2906.inp",
+    "remesh_deck": "models/pandey_kumar_mode1/95_mode1_stage10_inf_companion_remesh/PK_M1_STAGE10_INF_ADAPTED_RAW_1PCT.inp",
+    "element_count": 57929,
+    "node_count": 57491,
+    "bc": "RP-coupled roller top ux free, bottom uy=0, pinned point ux(0,0)=0",
+    "preanalysis_odb": "PK_M1_JOB1_INF_COMPANION_2906.odb (Job INTERACTIVE_93)",
+    "step_frame": "Step-1 final frame (u = 0.005 mm, 500 increments)",
+    "coarse_deck_sha256": "D452369305FF67A2B0CFA4E5D07FAB810C9123ECF500A05BBA3E498437883613",
+    "remesh_deck_sha256": "380CD7266B65864A9ECE920E9BDAAE4C8426CD34F98B451BA7BCD226E758DD83"
+  }
+]

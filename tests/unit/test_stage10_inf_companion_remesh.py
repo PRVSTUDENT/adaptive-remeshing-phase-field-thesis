@@ -88,12 +88,10 @@ class TestStage10InfCompanionRemesh(unittest.TestCase):
 
     def test_05_directional_verdict(self):
         self.assertIsNotNone(self.report_json, "MODE1_STAGE10_INF_COMPANION_REMESH_REPORT.json must exist")
-        verdict = self.report_json['verdict']
-        valid_verdicts = [
-            'INF_COMPANION_NATIVE_REMESH_NO_MEANINGFUL_IMPROVEMENT',
-            'INF_COMPANION_NATIVE_REMESH_TOWARD_TARGET_LOCALIZATION'
-        ]
-        self.assertIn(verdict, valid_verdicts)
+        verdict = self.report_json['directional_classification']
+        self.assertEqual(verdict, 'INF_COMPANION_NATIVE_REMESH_NO_MEANINGFUL_IMPROVEMENT')
+        sci_verdict = self.report_json['scientific_verdict']
+        self.assertEqual(sci_verdict, 'INF_COMPANION_NATIVE_REMESH_EMPIRICALLY_SCALE_INSENSITIVE_FOR_TESTED_CASE')
 
 if __name__ == '__main__':
     unittest.main()

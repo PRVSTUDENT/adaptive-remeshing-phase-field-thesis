@@ -8,18 +8,18 @@
 **Governing Directive:** *"We need to have understood everything related to the first model before we increase complexity."*  
 **Phase Status:** `MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION`  
 **Directional Classification:** `INF_COMPANION_NATIVE_REMESH_NO_MEANINGFUL_IMPROVEMENT`  
-**Scientific Verdict:** `INF_COMPANION_NATIVE_REMESH_SCALE_INVARIANCE_PROVEN`
+**Scientific Verdict:** `INF_COMPANION_NATIVE_REMESH_EMPIRICALLY_SCALE_INSENSITIVE_FOR_TESTED_CASE`
 
 ---
 
 ## 1. Executive Summary & Purpose
 
-In Gate-6B Stage 8, forensic source investigation established that the companion-layer UMAT implementation (derived from the Molnár & Gravouil 2017 lineage) calculates stress via an infinitesimal dummy tangent ($E_{\text{dummy}} = 10^{-11}\,\text{kN/mm}^2$, $\nu = 0.3$), generating raw $\text{MISESERI}$ values on the order of $10^{-14}\,\text{kN/mm}^2 \approx 10^{-11}\,\text{MPa}$ (Package 93). This matches the digitized legend order-of-magnitude ($\sim 10^{-12}$) reported in Pandey & Kumar (2025) Fig. 6(a).
+In Gate-6B Stage 8, forensic source investigation established that the companion-layer UMAT implementation (derived from the Molnár & Gravouil 2017 lineage) calculates stress via an infinitesimal dummy tangent ($E_{\text{dummy}} = 10^{-11}\,\text{kN/mm}^2$, $\nu = 0.3$), generating raw $\text{MISESERI}$ values on the order of $10^{-14}\,\text{kN/mm}^2 \approx 10^{-11}\,\text{MPa}$ (Package 93). While this numerical order ($10^{-11}\text{--}10^{-14}$) is comparable to the legend scale ($\sim 10^{-12}$) reported in Pandey & Kumar (2025) Fig. 6(a), the exact unit/load correspondence remains unresolved.
 
 The core scientific question for **Stage 10** is:
 > *Does the infinitesimal-stiffness companion stress/error scale change the generated native Abaqus adaptive mesh, or does it produce the same broad morphology as continuum control?*
 
-To resolve this question deterministically, native Abaqus/CAE adaptive remeshing (`mdb.models[model].adaptiveRemesh(odb)`) was executed directly against the solved Package-93 ODB (`PK_M1_JOB1_INF_COMPANION_2906.odb`) under the strictly frozen, publication-faithful sizing contract:
+To resolve this question deterministically, native Abaqus/CAE adaptive remeshing (`mdb.models[model].adaptiveRemesh(odb)`) was executed directly against the solved Package-93 ODB (`PK_M1_JOB1_INF_COMPANION_2906.odb`) under the frozen sizing contract:
 * `sizingMethod = UNIFORM_ERROR`
 * `errorTarget = 1.0%`
 * `refinementFactor = 10`
@@ -86,36 +86,27 @@ The refined band ($h \le 0.005\,\text{mm}$) spans **$0.755\text{--}0.938\,\text{
 
 ---
 
-## 4. Mathematical Proof of Sizing Scale-Invariance
+## 4. Empirical Scale Insensitivity in Native Adaptive Remeshing
 
-The empirical findings confirm the fundamental mathematical property of Abaqus native adaptive remeshing:
+The numerical evidence demonstrates that Abaqus native adaptive remeshing is empirically scale-insensitive for the tested configuration:
 
-1. **Relative Error Definition:**  
-   In `sizingMethod=UNIFORM_ERROR`, Abaqus calculates relative element error $\eta_e$ by normalizing the recovered stress error indicator $\text{MISESERI}_e$ by the domain-average error indicator $\text{MISESAVG}$:
-   $$\eta_e = \frac{\text{MISESERI}_e}{\text{MISESAVG}} \times 100\%$$
-   where
-   $$\text{MISESAVG} = \frac{1}{V_{\text{domain}}} \sum_{e=1}^{N_{\text{elem}}} V_e \, \text{MISESERI}_e$$
+1. **Relative Sizing Behavior:**  
+   Under `sizingMethod=UNIFORM_ERROR`, Abaqus evaluates error indicators relative to domain-level stress/error measures rather than imposing an unnormalized dimensional threshold. 
 
-2. **Infinitesimal Scale Cancellation:**  
-   When Cauchy stress is computed using infinitesimal elasticity ($E_{\text{dummy}} = 10^{-11}\,\text{kN/mm}^2$), both $\text{MISESERI}_e$ and $\text{MISESAVG}$ scale by the identical linear factor $C_{\text{scale}} \approx 4.76 \times 10^{-14}$:
-   $$\eta_e^{\text{inf}} = \frac{C_{\text{scale}} \, \text{MISESERI}_e^{\text{continuum}}}{C_{\text{scale}} \, \text{MISESAVG}^{\text{continuum}}} \equiv \eta_e^{\text{continuum}}$$
+2. **Observed Scale Invariance:**  
+   Changing the underlying tangent stiffness scale by approximately 14 orders of magnitude ($E_{\text{dummy}} = 10^{-11}\,\text{kN/mm}^2$ vs $E = 210\,\text{kN/mm}^2$) and the resulting peak $\text{MISESERI}$ from $\sim 1.08\,\text{kN/mm}^2$ to $\sim 4.50 \times 10^{-14}\,\text{kN/mm}^2$ produces an adapted mesh ($57,929$ elements, $85.44\%$ far-field share) that remains structurally and spatially equivalent to the matched continuum control ($57,544$ elements).
 
-3. **Target Element Sizing:**  
-   The target element size $h_{\text{new}}(e)$ is calculated as:
-   $$h_{\text{new}}(e) = h_{\text{old}}(e) \left( \frac{\text{errorTarget}}{\eta_e} \right)^{1/p}$$
-   Because $\eta_e^{\text{inf}} \equiv \eta_e^{\text{continuum}}$ identically across all elements, the sizing calculation produces the **exact same relative sizing distribution** regardless of the stress scale ($10^{-14}\,\text{kN/mm}^2$ vs $1.0\,\text{MPa}$).
-
-4. **Background Discretization Error:**  
-   On any unrefined $h = 0.02\,\text{mm}$ mesh under linear elastic Mode-I tension, the background stress-recovery discretization error in the far field is approximately $1.09\%$ of $\text{MISESAVG}$. Because $\eta_{\text{far}} \approx 1.09\% > \text{errorTarget} = 1.0\%$, the native uniform-error algorithm instructs the mesher to refine the far field from $h = 0.020\,\text{mm}$ down to $h \approx 0.003\text{--}0.005\,\text{mm}$, generating $57,929$ elements.
+3. **Empirical Finding:**  
+   The absolute scale of the companion stress field does not explain the discrepancy between the project's broad 1% adapted mesh and the narrow corridor refinement depicted in Pandey & Kumar (2025) Fig. 6(a).
 
 ---
 
-## 5. Comparison across All Tested 1% Remeshing Configurations
+## 5. Comparison across Tested 1% Remeshing Configurations
 
 | Pre-Analysis Variant | Boundary Conditions | Pre-Analysis Elements | Adapted Mesh Elements | Far-Field Share | Refined Bandwidth $w$ | Classification |
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
 | **Historical Fixed Pre-Analysis** | Top $u_x = 0$ (constrained) | $2,906$ | $71,320$ | $88.2\%$ | $0.98\,\text{mm}$ | Global far-field overrefinement |
-| **Corrected Continuum Pre-Analysis** | Top $u_x$ free roller | $2,906$ | $48,329$ | $61.2\%$ | $0.85\,\text{mm}$ | Global far-field overrefinement |
+| **Matched Continuum Control (Pkg 90)** | Top $u_x$ free roller | $2,906$ | $57,544$ | $61.2\%\text{--}85.4\%$ | $0.85\text{--}0.92\,\text{mm}$ | Matched continuum comparator |
 | **Package-93 Infinitesimal Companion** | Top $u_x$ free roller | $2,906$ | $57,929$ | $85.4\%$ | $0.92\,\text{mm}$ | Global far-field overrefinement |
 | **Pandey & Kumar (2025) Fig. 6(a)** | Published target | Nominal $h=0.02$ | **$13,941$** | **$<10\%$** | **$\approx 0.05\,\text{mm}$** | Highly localized corridor band |
 
@@ -132,6 +123,7 @@ Three publication-quality scientific figures have been generated and archived in
 
 ## 7. Formal Gate-6B Stage 10 Decision & Synthesis
 
-1. **Definitive Finding:** Infinitesimal companion elasticity reproduces the exact $10^{-12}$ error scale of Fig. 6(a), but because Abaqus `UNIFORM_ERROR` sizing is scale-invariant, the resulting native 1% adapted mesh ($57,929$ elements, $85.44\%$ far field) exhibits the same broad morphology as continuum control.
+1. **Definitive Finding:** Infinitesimal companion elasticity generates $\text{MISESERI}$ values on the order of $10^{-11}\text{--}10^{-14}$. However, native `UNIFORM_ERROR` adaptive remeshing is empirically scale-insensitive, producing an adapted mesh ($57,929$ elements, $85.44\%$ far field) that closely mirrors the continuum control ($57,544$ elements).
 2. **Directional Verdict:** `INF_COMPANION_NATIVE_REMESH_NO_MEANINGFUL_IMPROVEMENT` (rules out companion stress magnitude as a cause of localized corridor refinement).
-3. **Supervisor Pack Prepared:** All evidence, analytical proofs, and figures are frozen and ready for the **08-October-2026** supervisor meeting.
+3. **Scientific Verdict:** `INF_COMPANION_NATIVE_REMESH_EMPIRICALLY_SCALE_INSENSITIVE_FOR_TESTED_CASE`.
+4. **Scope Discipline:** Only the explicitly published geometry ($1 \times 1\,\text{mm}$ plate), crack length ($a_0 = 0.5\,\text{mm}$), nominal global size ($h = 0.02\,\text{mm}$), and absence of deliberate local pre-refinement are supported as published baseline specifications. Unit/load correspondence for the $10^{-12}$-scale legend is retained as an unresolved reference detail.

@@ -1,13 +1,23 @@
 {
   "audit_id": "GATE6B-STAGE10-INF-COMPANION-NATIVE-REMESH-20261003",
-  "protocol_version": 2,
-  "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "audit_title": "Gate-6B Stage 10: Native 1% Adaptive Remeshing of Infinitesimal Companion Pre-Analysis",
-  "auditor": "gemini-antigravity",
-  "evaluation_date": "2026-10-03",
-  "next_supervisor_meeting": "Thursday, 08 October 2026, 10:00 CEST",
+  "audit_date": "2026-10-03",
+  "auditor": "Gemini Antigravity",
+  "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+  "active_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
   "verdict": "INF_COMPANION_NATIVE_REMESH_NO_MEANINGFUL_IMPROVEMENT",
-  "scientific_verdict": "INF_COMPANION_NATIVE_REMESH_SCALE_INVARIANCE_PROVEN",
+  "directional_classification": "INF_COMPANION_NATIVE_REMESH_NO_MEANINGFUL_IMPROVEMENT",
+  "scientific_verdict": "INF_COMPANION_NATIVE_REMESH_EMPIRICALLY_SCALE_INSENSITIVE_FOR_TESTED_CASE",
+  "companion_preanalysis_source": {
+    "package": "Package 93 (PK_M1_JOB1_INF_COMPANION_2906)",
+    "odb_file": "PK_M1_JOB1_INF_COMPANION_2906.odb",
+    "step": "Step-1",
+    "frame": "frame_last (u = 0.005 mm, PROJECT_CONTROLLED_FRAME)",
+    "element_count": 2963,
+    "node_count": 3039,
+    "miseseri_order_kn_mm2": 4.502e-14,
+    "miseseri_order_mpa": 4.502e-11,
+    "legend_scale_status": "UNRESOLVED_REFERENCE_DETAIL"
+  },
   "sizing_contract": {
     "sizing_method": "UNIFORM_ERROR",
     "error_target_pct": 1.0,
@@ -15,55 +25,71 @@
     "coarsening_factor": "NOT_ALLOWED",
     "min_element_size_mm": 0.001,
     "max_element_size_mm": 0.020,
-    "region": "ALL_ELEM (companion layer)",
-    "frame": "Step-1 frame_last (u=0.005 mm, PROJECT_CONTROLLED_FRAME)"
+    "region": "ALL_ELEM (companion layer)"
   },
-  "preanalysis_source": {
-    "package": "93_mode1_preanalysis_inf_companion_2906",
-    "odb": "PK_M1_JOB1_INF_COMPANION_2906.odb",
-    "peak_miseseri_kn_mm2": 4.502057364061396e-14,
-    "peak_miseseri_mpa": 4.502057364061396e-11
-  },
-  "adapted_mesh_results": {
+  "adapted_mesh_telemetry": {
     "total_elements": 57929,
     "total_nodes": 57491,
-    "min_h_eq_mm": 0.0005534655816269079,
-    "median_h_eq_mm": 0.0030961926239469677,
-    "mean_h_eq_mm": 0.00365698514173421,
-    "max_h_eq_mm": 0.018343460788109275,
-    "elements_near_nominal_count": 33
+    "min_h_eq_mm": 0.000553,
+    "p10_h_eq_mm": 0.001772,
+    "p25_h_eq_mm": 0.002104,
+    "median_h_eq_mm": 0.003096,
+    "mean_h_eq_mm": 0.003657,
+    "p75_h_eq_mm": 0.004713,
+    "p90_h_eq_mm": 0.006416,
+    "max_h_eq_mm": 0.018343,
+    "elements_near_nominal_h002_count": 33,
+    "elements_near_nominal_fraction": 0.000570
   },
   "spatial_partitioning": {
     "crack_corridor_count": 8435,
-    "crack_corridor_fraction": 0.14560928032591622,
+    "crack_corridor_fraction": 0.145609,
     "wake_count": 3583,
     "ligament_count": 4852,
     "upper_far_field_count": 24526,
     "lower_far_field_count": 24968,
     "far_field_total_count": 49494,
-    "far_field_fraction": 0.8543907196740838,
-    "refined_bbox_h003": {
-      "count": 27890,
-      "x_min": 0.09456941733757655,
-      "x_max": 0.9689418276151022,
-      "y_min": 0.037375607838233314,
-      "y_max": 0.9604991475741068
+    "far_field_fraction": 0.854391,
+    "refined_bbox_h003_count": 27890,
+    "refined_bbox_h003_bounds": {
+      "x_min": 0.095034,
+      "x_max": 0.969123,
+      "y_min": 0.037210,
+      "y_max": 0.960241
     },
-    "mean_bandwidth_mm": 0.8716538622176964
+    "refined_bandwidth_range_mm": [0.7549, 0.9381]
   },
-  "comparative_lineage": {
-    "continuum_coarse_preanalysis_1pct_fe": 71320,
-    "continuum_corrected_preanalysis_1pct_fe": 48329,
-    "inf_companion_preanalysis_1pct_fe": 57929,
-    "published_fig6a_fe": 13941
+  "comparative_matrix_1pct": {
+    "historical_coarse_preanalysis_71k": {
+      "elements": 71320,
+      "far_field_pct": 88.2,
+      "refined_width_mm": 0.98
+    },
+    "matched_continuum_control_56k": {
+      "elements": 56344,
+      "nodes": 55943,
+      "far_field_pct": 85.57,
+      "refined_width_mm": 0.941
+    },
+    "inf_companion_package93_58k": {
+      "elements": 57929,
+      "nodes": 57491,
+      "far_field_pct": 85.44,
+      "refined_width_mm": 0.938
+    },
+    "pandey_kumar_published_target": {
+      "elements": 13941,
+      "far_field_pct": "<10%",
+      "refined_width_mm": "~0.05"
+    }
   },
-  "figures_generated": [
-    "results/figures/mode1_gate6b/mode1_stage10_fig1_inf_companion_native_remesh_alignment.png",
-    "results/figures/mode1_gate6b/mode1_stage10_fig1_inf_companion_native_remesh_alignment.pdf",
-    "results/figures/mode1_gate6b/mode1_stage10_fig2_continuum_vs_inf_companion_remesh.png",
-    "results/figures/mode1_gate6b/mode1_stage10_fig2_continuum_vs_inf_companion_remesh.pdf",
-    "results/figures/mode1_gate6b/mode1_stage10_fig3_sizing_and_bandwidth_profile.png",
-    "results/figures/mode1_gate6b/mode1_stage10_fig3_sizing_and_bandwidth_profile.pdf"
-  ],
-  "scientific_conclusion": "Infinitesimal companion elasticity reproduces the exact 10^-12 error magnitude observed in Fig. 6(a), but because Abaqus UNIFORM_ERROR sizing is scale-invariant, the resulting native 1% adapted mesh (57,929 elements, 85.44% in far field, w approx 0.85-0.94 mm) exhibits the same broad domain-wide refinement morphology as continuum control."
+  "scientific_synthesis": {
+    "findings": [
+      "Infinitesimal companion elasticity generates MISESERI values on the order of 10^-11 to 10^-14.",
+      "Native UNIFORM_ERROR adaptive remeshing is empirically scale-insensitive for the tested configuration.",
+      "Package 93 adapted mesh (57,929 elements, 85.44% far field) closely mirrors matched continuum control (56,344 elements, 85.57% far field).",
+      "Companion stress scale does not explain the spatial localization discrepancy vs Pandey & Kumar Fig. 6(a).",
+      "Published baseline scope is restricted strictly to published geometry (1x1 mm), crack length (a0=0.5 mm), nominal size (h=0.02 mm), and absence of deliberate local pre-refinement."
+    ]
+  }
 }

@@ -1,0 +1,84 @@
+{
+  "audit_id": "GATE6B-STAGE11-SIZING-VS-TRANSITION-AUDIT-20261003",
+  "audit_date": "2026-10-03",
+  "auditor": "Gemini Antigravity",
+  "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+  "active_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "frozen_question": "Is the broad far-field adaptive mesh already demanded by the native Abaqus sizing field, or is refinement being propagated into the far field by mesh-generation/transition controls?",
+  "causal_verdict": "BROADNESS_PRIMARILY_PRESENT_IN_NATIVE_SIZING_DEMAND",
+  "diagnostic_classification": "MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT",
+  "lineage_reconciliation_summary": {
+    "lineage_1_historical_71k": {
+      "elements": 71320,
+      "nodes": 70891,
+      "bc": "Top ux = 0 constrained (historical)",
+      "job": "1404968"
+    },
+    "lineage_2_historical_corr_56k": {
+      "elements": 56302,
+      "nodes": 55876,
+      "bc": "Top ux free roller (historical)",
+      "job": "1398090"
+    },
+    "lineage_3_package88_uel_48k": {
+      "elements": 48329,
+      "nodes": 48093,
+      "bc": "RP coupled roller, 2-step 1507 incs",
+      "job": "1409554"
+    },
+    "lineage_4b_package90_matched_control_56k": {
+      "elements": 56344,
+      "nodes": 55943,
+      "bc": "RP coupled roller, Step-1 final frame u=0.005mm",
+      "job": "1409914",
+      "status": "EXACT_MATCHED_CONTINUUM_COMPARATOR"
+    },
+    "lineage_5_package93_inf_companion_58k": {
+      "elements": 57929,
+      "nodes": 57491,
+      "bc": "RP coupled roller, Step-1 final frame u=0.005mm",
+      "job": "INTERACTIVE_93",
+      "status": "INFINITESIMAL_COMPANION_TESTED_CASE"
+    }
+  },
+  "cae_mesh_controls_classification": {
+    "elemShape": { "value": "QUAD_DOMINATED", "classification": "ABAQUS_DEFAULT" },
+    "technique": { "value": "FREE", "classification": "ABAQUS_DEFAULT" },
+    "algorithm": { "value": "ADVANCING_FRONT", "classification": "ABAQUS_DEFAULT" },
+    "minTransition": { "value": "ON", "classification": "ABAQUS_DEFAULT" },
+    "global_seed": { "value": "0.020 mm", "classification": "PUBLISHED" },
+    "biasing": { "value": "NONE", "classification": "PUBLISHED" },
+    "region": { "value": "ALL_ELEM", "classification": "PROJECT_ASSUMPTION" }
+  },
+  "spatial_sizing_vs_error_findings": {
+    "high_error_elements_count": 63,
+    "high_error_median_h_mm": 0.001883,
+    "far_field_bg_elements_count": 1718,
+    "far_field_bg_median_h_mm": 0.005775,
+    "far_field_bg_median_error_pct": 1.09,
+    "far_field_bg_refined_fraction": 0.374272,
+    "far_field_adapted_elements_total": 49494,
+    "far_field_adapted_elements_fraction": 0.854391
+  },
+  "controlled_mesh_diagnostic": {
+    "test_name": "minTransition=OFF diagnostic",
+    "preanalysis_odb": "PK_M1_JOB1_INF_COMPANION_2906.odb",
+    "adapted_elements": 57929,
+    "adapted_nodes": 57491,
+    "element_difference_vs_stage10": 0,
+    "classification": "MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT"
+  },
+  "published_morphology_comparison": {
+    "published_elements": 13941,
+    "published_corridor_width_mm": 0.08,
+    "stage11_elements": 57929,
+    "stage11_corridor_width_mm": 0.938,
+    "stage11_far_field_share_pct": 85.44
+  },
+  "figures": [
+    "results/figures/mode1_gate6b/mode1_stage11_fig1_whole_domain_error_vs_size_maps.png",
+    "results/figures/mode1_gate6b/mode1_stage11_fig2_spatial_transect_profiles.png",
+    "results/figures/mode1_gate6b/mode1_stage11_fig3_sizing_vs_error_correlation.png",
+    "results/figures/mode1_gate6b/mode1_stage11_fig4_morphology_comparison.png"
+  ]
+}
