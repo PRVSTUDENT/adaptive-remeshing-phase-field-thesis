@@ -1,0 +1,72 @@
+{
+  "report_id": "MODE1-STAGE6-OUTPUT-RECOVERY-AUDIT-REPORT-20261003",
+  "task_id": "F1182-GATE6B-ADAPTIVE-LOCALIZATION-STAGE6-OUTPUT-POSITION-AND-RECOVERY-20261003",
+  "timestamp": "2026-10-03T11:45:00+02:00",
+  "governing_gate": "Gate-6B",
+  "investigation_stage": "Stage-6 (Element / Output-Position & Stress Recovery Averaging Semantics)",
+  "verdict": "STAGE6_COMPLETE_DISCREPANCY_RESOLVED",
+  "directional_classification": "ENERGY_NORM_LOCALIZATION_VS_SCALAR_SPREAD_PROVEN",
+  "audit_source_odb": "PK_M1_JOB1_CONTINUUM_MATCHED_2906.odb",
+  "summary_metrics": {
+    "total_elements": 2906,
+    "cpe4_elements": 2818,
+    "cpe3_elements": 88,
+    "total_energy_error_norm": 0.04047,
+    "max_miseseri_mpa": 0.950009,
+    "mean_miseseri_mpa": 0.009878,
+    "peak_to_mean_ratio": 96.18,
+    "regional_energy_norm_shares": {
+      "crack_corridor": 88.32,
+      "crack_wake": 3.124,
+      "right_ligament": 0.766,
+      "far_field": 7.879,
+      "boundary": 0.058
+    },
+    "regional_scalar_error_shares": {
+      "crack_corridor": 24.346,
+      "crack_wake": 6.274,
+      "right_ligament": 3.814,
+      "far_field": 65.566,
+      "boundary": 2.087
+    },
+    "colormap_distribution": {
+      "bottom_5pct_dark_blue_pct": 97.832,
+      "top_5pct_bracket_pct": 2.168,
+      "top_50pct_bracket_pct": 0.172
+    },
+    "element_formulation_means": {
+      "cpe4_miseseri_mean_mpa": 0.009975,
+      "cpe4_ip_spread_mean_mpa": 0.018825,
+      "cpe4_corridor_mean_mpa": 0.268782,
+      "cpe4_farfield_mean_mpa": 0.007166,
+      "cpe3_miseseri_mean_mpa": 0.006765
+    }
+  },
+  "key_scientific_resolutions": [
+    {
+      "hypothesis": "Visual Contour Perception vs Literal Sizing Math",
+      "status": "CONFIRMED_PRIMARY_EXPLANATION",
+      "evidence": "97.83% of specimen elements reside in the lowest 5% colormap bracket (solid dark blue), giving the visual illusion of a narrow horizontal band in linear contour plots despite far-field background recovery noise (0.0072 MPa, ~1.09% relative error) that triggers uniform mathematical refinement under eta_req=1.0%."
+    },
+    {
+      "hypothesis": "Energy-Norm Localization vs Scalar-Sum Spread",
+      "status": "CONFIRMED_GOVERNING_MATHEMATICAL_PRINCIPLE",
+      "evidence": "The crack corridor (0.895% of mesh) contains 88.32% of total L2 energy norm error, while the far field contains 65.57% of scalar error sum. Mesh sizing based on scalar relative error causes global over-refinement, whereas energy-norm weighting strictly localizes refinement to the crack corridor."
+    },
+    {
+      "hypothesis": "Output Positions and Superconvergent Patch Recovery (SPR)",
+      "status": "CONFIRMED_MECHANICAL_SOURCE",
+      "evidence": "MISESERI is evaluated at WHOLE_ELEMENT from integration point stresses (INTEGRATION_POINT). Intra-element Gauss point stress variance in CPE4 elements averages 0.0188 MPa globally but reaches >0.5 MPa in the corridor, confirming high-gradient stress jumps as the physical driver of SPR error."
+    },
+    {
+      "hypothesis": "Boundary Patch Truncation Error",
+      "status": "RULED_OUT_AS_DOMINANT_FACTOR",
+      "evidence": "Exterior boundary elements carry only 0.058% of energy norm error with mean error of 0.0031 MPa (lower than interior far field 0.0072 MPa), demonstrating that boundary patch truncation is negligible."
+    }
+  ],
+  "figures_generated": [
+    "results/figures/mode1_gate6b/mode1_stage6_fig1_colormap_vs_sizing.png",
+    "results/figures/mode1_gate6b/mode1_stage6_fig2_regional_error_partitioning.png",
+    "results/figures/mode1_gate6b/mode1_stage6_fig3_element_ip_spread_and_recovery.png"
+  ]
+}
