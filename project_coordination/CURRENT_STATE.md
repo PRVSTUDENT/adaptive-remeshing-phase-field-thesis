@@ -2,10 +2,11 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T19:00:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Adaptive-Localization Stage 12 (Publication-Supported Non-Uniform Coarse-Mesh Realization Diagnostic & Provenance Audit) Evaluated, Provenance Audited, and Concluded; Phase A Quantitative Topology Audit of Baseline 2,906 Mesh Completed (96.97% Quads, Dominant Node Valence 4 [77.85%], Edge Length CoV 14.35%, Only 1 Tip Triangle); Phase B Deterministic Non-Uniform 3,019-Element Mesh Constructed via Staggered Boundary Seeding (2,940 Quads [97.4%], 79 Tris [2.6%], Mean $h_{\text{eq}} = 0.0180\,\text{mm}$); Rigorous Provenance Audit Completed Reconciling Companion UMAT and Continuum Pre-Analysis Solves; 3-Layer Infinitesimal Companion ODB (`PK_M1_JOB1_NONUNIFORM_DIAG.odb`, $E_{\text{dummy}} = 10^{-11}\,\text{kN/mm}^2$) Solved Locally and Interrogated with Peak $e_{\max} = 4.639 \times 10^{-14}\,\text{kN/mm}^2$, $49.75\%$ Far-Field Share, and $95.03\%$ Footprint; Matched Continuum Control ODB (`PK_M1_JOB1_NONUNIFORM_CONT.odb`, $E = 210,000\,\text{MPa}$) Interrogated with Peak $e_{\max} = 1,169.97\,\text{MPa}$, $48.04\%$ Far-Field Share, and $98.38\%$ Footprint; Spatial Cross-Field Correlation Verified at $r = 0.9567$; Native 1% Adaptive Remeshing ($139,407$ Elements, $88.67\%$ Far-Field Share, $w \approx 0.997\,\text{mm}$) Formally Reclassified as `STAGE12_REMESH_WRONG_SOURCE_ODB` and Preserved as Exploratory Evidence without Justifying Further Topology Sweeps; Coarse-Mesh Spatial Non-Uniformity Governed Verdict Formally Assigned as `NOT_SUPPORTED_AS_DOMINANT_IN_TESTED_VARIANT`; Standalone Reports, Provenance Audit JSON, CSVs, and Complete Unit Test Suite Pass 100% (27/27 Mode-I tests); 0 Active Jobs in Queue.  
-Parent commit: `1a4a79f377836c4c8a9a836908fad645bca500e1`
+Last updated: `2026-10-03T19:30:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Adaptive-Localization Stage 13 (Literature-Supported errorTarget Morphology Sensitivity Diagnostic) Completed Across 1.0%, 2.0%, 3.0%, 5.0%; Paper-Literal 1.0% Baseline Produces 57,901 Elements (85.5% Far-Field Share, $w = 0.922\,	ext{mm}$); Literature-Matching 2.0% Yields 14,662 Elements (+5.2% vs 13,941 Published) but Preserves Diffuse Hourglass Morphology ($w = 0.763\,	ext{mm}$, 74.1% Far-Field Share); 3.0% Midpoint Demonstrates Directional Localization (6,835 Elements, 57.5% Coarse Area Preserved, Tip $w = 0.555\,	ext{mm}$) with Isolated Flanks; 5.0% Upper Bound Contracts to Tip (4,258 Elements, $w = 0.142\,	ext{mm}$) but Underrefines Ligament ($h_{	ext{med}} = 7.84\,\mu	ext{m}$); Governed Overall Conclusion Formally Assigned as `LITERATURE_SUPPORTED_ERRORTARGET_IMPROVES_BUT_DOES_NOT_RECOVER_TARGET_MORPHOLOGY`; All Standalone Reports, Summary JSON, CSVs, Publication Figures (PNG/PDF), and 98/98 Mode-I Unit Tests Pass 100%; 0 Active Jobs in Queue.  
+Parent commit: `a9f0c0b52548b5cf7ee294e7eee167515a22d900`
 
 ---
+
 
 ## 1. Executive Master Gate Status Dashboard
 
@@ -31,6 +32,13 @@ Parent commit: `1a4a79f377836c4c8a9a836908fad645bca500e1`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
 * **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `ACTIVE_EVALUATION_AND_CONTINUATION`
+  - **Stage 13 (Literature-Supported errorTarget Morphology Sensitivity Diagnostic) Concluded (`MODE1_STAGE13_ERRORTARGET_MORPHOLOGY_REPORT.md`):**
+    - **Governing Scientific Verdict:** `LITERATURE_SUPPORTED_ERRORTARGET_IMPROVES_BUT_DOES_NOT_RECOVER_TARGET_MORPHOLOGY`.
+    - **Research Question Answered:** Tuning `errorTarget` from 1.0% to 2.0%–3.0% substantially suppresses global overrefinement (reducing elements by 74.7% to 14,662 and 88.2% to 6,835).
+    - **Count vs Morphology Dissociation:** At `errorTarget = 2.0%`, element count (14,662) matches the published count (13,941) to within 5.2%, but spatial morphology remains a diffuse hourglass lobe ($w = 0.763\,	ext{mm}$ vs published $w pprox 0.10\,	ext{mm}$).
+    - **Tip Localization at 3.0%:** At 3.0%, the refined band width contracts to $w = 0.555\,	ext{mm}$ at $x=0.5$ and $w = 0.0\,	ext{mm}$ at outer flanks, preserving 57.46% coarse area, but does not extend along the full uncracked right ligament.
+    - **Tip Restriction at 5.0%:** At 5.0%, refinement is overly restricted to the singular crack tip ($w = 0.142\,	ext{mm}$), leaving the ligament at coarse nominal sizing ($h pprox 15-20\,\mu	ext{m}$).
+    - **Publication Figures:** 3 figures generated in `results/figures/mode1_gate6b/` (mesh comparison, crack-tip zoom, sizing transects).
   - **Stage 12 (Non-Uniform Coarse-Mesh Realization Diagnostic & Provenance Audit) Concluded (`MODE1_STAGE12_NONUNIFORM_COARSE_REPORT.md`):**
     - **Governing Causal Verdict:** `NOT_SUPPORTED_AS_DOMINANT_IN_TESTED_VARIANT` | **Raw MISESERI Verdict:** `NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_MISESERI_IMPROVEMENT`.
     - **Frozen Question Resolved:** Introducing publication-consistent non-uniform coarse discretization ($3,019$ elements, $2,940$ quads, $79$ tris) does **not** localize the raw error field or the native adaptive mesh.

@@ -1,0 +1,105 @@
+{
+  "report_id": "MODE1_STAGE13_ERRORTARGET_MORPHOLOGY_REPORT_20261003",
+  "audit_date": "2026-10-03T19:30:00+02:00",
+  "agent": "gemini-antigravity",
+  "governing_gate": "GATE_6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "research_question": "Can a literature-supported errorTarget within 1-5% reduce unwanted far-field refinement while retaining the horizontal crack-path refinement region?",
+  "source_companion_odb": {
+    "path": "PK_M1_JOB1_INF_COMPANION_2906.odb",
+    "sha256": "dbfad35fd3a2267e19e4c5975764ecac28aa0e0acdd59a2e97cd17aac1fc4a39",
+    "element_count": 2906,
+    "node_count": 2988,
+    "step": "Step-1",
+    "final_frame_disp_mm": 0.005,
+    "formulation": "f42_mixed_uel_inf_stress (Infinitesimal companion)"
+  },
+  "fixed_remeshing_parameters": {
+    "sizing_method": "UNIFORM_ERROR",
+    "error_indicator": "MISESERI",
+    "region": "ALL_ELEM (whole 2,906 specimen)",
+    "refinement_factor": 10,
+    "coarsening_factor": "NOT_ALLOWED",
+    "min_element_size_mm": 0.001,
+    "max_element_size_mm": 0.020,
+    "element_count_limit": null
+  },
+  "literature_target": {
+    "citation": "Pandey & Kumar (2025) CMES, 144(3), 3251-3276, Fig. 5(b) & Fig. 6(a)",
+    "published_element_count": 13941,
+    "published_corridor_band_width_mm": 0.10,
+    "published_corridor_share_approx": 0.70,
+    "published_far_field_share_approx": 0.30,
+    "digitization_metadata": "IMAGE_DERIVED_APPROXIMATION (Visual estimation from Fig. 5(b) and Fig. 6(a) colormaps with +/- 20% uncertainty)"
+  },
+  "summary_metrics": {
+    "et10": {
+      "error_target_pct": 1.0,
+      "role": "Paper-Literal Baseline",
+      "total_elements": 57901,
+      "total_nodes": 57483,
+      "quad_fraction": 0.9732,
+      "corridor_fraction": 0.1447,
+      "far_field_fraction": 0.8553,
+      "outer_far_field_fraction": 0.6872,
+      "coarse_remaining_area_fraction": 0.0106,
+      "band_width_at_tip_mm": 0.9217,
+      "tip_min_h_um": 0.704,
+      "corridor_median_h_um": 2.054,
+      "directional_verdict": "NO_MEANINGFUL_IMPROVEMENT"
+    },
+    "et20": {
+      "error_target_pct": 2.0,
+      "role": "Literature Intermediate",
+      "total_elements": 14662,
+      "total_nodes": 14642,
+      "quad_fraction": 0.9720,
+      "corridor_fraction": 0.2586,
+      "far_field_fraction": 0.7414,
+      "outer_far_field_fraction": 0.5498,
+      "coarse_remaining_area_fraction": 0.2753,
+      "band_width_at_tip_mm": 0.7629,
+      "tip_min_h_um": 0.836,
+      "corridor_median_h_um": 2.231,
+      "directional_verdict": "NO_MEANINGFUL_IMPROVEMENT"
+    },
+    "et30": {
+      "error_target_pct": 3.0,
+      "role": "Literature Midpoint",
+      "total_elements": 6835,
+      "total_nodes": 6907,
+      "quad_fraction": 0.9764,
+      "corridor_fraction": 0.2648,
+      "far_field_fraction": 0.7352,
+      "outer_far_field_fraction": 0.5769,
+      "coarse_remaining_area_fraction": 0.5746,
+      "band_width_at_tip_mm": 0.5554,
+      "tip_min_h_um": 0.995,
+      "corridor_median_h_um": 3.321,
+      "directional_verdict": "TOWARD_TARGET_LOCALIZATION"
+    },
+    "et50": {
+      "error_target_pct": 5.0,
+      "role": "Literature Upper Bound",
+      "total_elements": 4258,
+      "total_nodes": 4332,
+      "quad_fraction": 0.9669,
+      "corridor_fraction": 0.1794,
+      "far_field_fraction": 0.8206,
+      "outer_far_field_fraction": 0.7013,
+      "coarse_remaining_area_fraction": 0.7609,
+      "band_width_at_tip_mm": 0.1422,
+      "tip_min_h_um": 1.281,
+      "corridor_median_h_um": 7.835,
+      "directional_verdict": "AWAY_FROM_TARGET_LOCALIZATION"
+    }
+  },
+  "overall_conclusion": "LITERATURE_SUPPORTED_ERRORTARGET_IMPROVES_BUT_DOES_NOT_RECOVER_TARGET_MORPHOLOGY",
+  "scientific_findings": [
+    "Increasing errorTarget from 1.0% to 2.0-3.0% substantially suppresses global overrefinement, reducing total element counts by 74.7% (14,662) and 88.2% (6,835).",
+    "At errorTarget = 2.0%, the total mesh element count (14,662) matches the published count (13,941) within 5.2%, demonstrating that the published count is within the parametric sizing capacity of UNIFORM_ERROR remeshing.",
+    "However, the spatial morphology at errorTarget = 2.0% remains a diffuse hourglass / diamond-shaped refinement zone (band width w = 0.763 mm) rather than the published narrow rectangular horizontal crack-path corridor (w ~ 0.10 mm).",
+    "At errorTarget = 3.0%, the refined zone localizes closely around the initial crack tip (bbox y-span = 0.175 mm for h <= 3 um), but fails to pre-refine the right ligament ahead of the propagating crack.",
+    "At errorTarget = 5.0%, refinement is overly restricted to the singular crack tip (w = 0.142 mm at x=0.5, but w = 0 mm for x >= 0.6), leaving the crack path at coarse nominal sizing.",
+    "Therefore, literature-supported errorTarget adjustment improves overrefinement severity but does not independently resolve the horizontal crack-path corridor morphology under whole-domain UNIFORM_ERROR remeshing."
+  ]
+}

@@ -1,0 +1,548 @@
+{
+  "audit_id": "GATE6B-STAGE13-ERRORTARGET-MORPHOLOGY-SENSITIVITY-20261003",
+  "timestamp": "2026-10-03T19:30:00+02:00",
+  "agent": "gemini-antigravity",
+  "active_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "source_preanalysis_odb": "PK_M1_JOB1_INF_COMPANION_2906.odb",
+  "source_preanalysis_odb_sha256": "dbfad35fd3a2267e19e4c5975764ecac28aa0e0acdd59a2e97cd17aac1fc4a39",
+  "fixed_parameters": {
+    "coarse_mesh_elements": 2906,
+    "coarse_mesh_nodes": 2988,
+    "sizing_method": "UNIFORM_ERROR",
+    "region": "ALL_ELEM",
+    "refinement_factor": 10,
+    "coarsening_factor": "NOT_ALLOWED",
+    "min_element_size_mm": 0.001,
+    "max_element_size_mm": 0.02,
+    "element_count_limit": null
+  },
+  "literature_comparison_target": {
+    "source": "Pandey & Kumar (2025) CMES, 144(3), 3251-3276, Fig. 5(b) & Fig. 6(a)",
+    "published_element_count": 13941,
+    "published_coarse_nominal_size_mm": 0.02,
+    "published_refined_min_size_mm": 0.001,
+    "image_derived_approx_band_width_mm": 0.1,
+    "image_derived_approx_corridor_share": 0.7,
+    "image_derived_approx_far_field_share": 0.3,
+    "digitization_metadata": "IMAGE_DERIVED_APPROXIMATION (Visual estimation from Fig. 5(b) and Fig. 6(a) colormaps with +/- 20% uncertainty)"
+  },
+  "sensitivity_cases": {
+    "et10": {
+      "error_target_pct": 1.0,
+      "total_elements": 57901,
+      "total_nodes": 57483,
+      "quad_count": 56351,
+      "tri_count": 1550,
+      "quad_fraction": 0.9732301687362912,
+      "tri_fraction": 0.026769831263708743,
+      "corridor_count": 8376,
+      "corridor_fraction": 0.1446607139773061,
+      "wake_count": 3534,
+      "ligament_count": 4842,
+      "upper_far_count": 24377,
+      "lower_far_count": 25148,
+      "far_field_total_count": 49525,
+      "far_field_fraction": 0.8553392860226939,
+      "outer_far_count": 39791,
+      "outer_far_fraction": 0.687224745686603,
+      "area_corridor": 0.0999127368497322,
+      "area_far": 0.9000872631502681,
+      "area_refined_corridor": 0.04627069653194707,
+      "area_refined_far": 0.36662012813901557,
+      "coarse_remaining_count": 38,
+      "coarse_remaining_area": 0.010554204447339177,
+      "coarse_remaining_area_fraction": 0.010554204447339177,
+      "fine_3um_count": 27696,
+      "fine_5um_count": 45559,
+      "h_eq_stats_global": {
+        "min_um": 0.6101456545467954,
+        "p10_um": 1.7819572944602118,
+        "p25_um": 2.1044960598755367,
+        "median_um": 3.1136098345509176,
+        "mean_um": 3.663800195796418,
+        "p75_um": 4.702732684066628,
+        "p90_um": 6.423936078556612,
+        "max_um": 19.33802437802892
+      },
+      "h_eq_stats_corridor": {
+        "count": 8376,
+        "min_um": 0.7038954204330539,
+        "median_um": 2.053668924837561,
+        "mean_um": 2.9403292241125567,
+        "max_um": 12.068635298849621
+      },
+      "h_eq_stats_far": {
+        "count": 49525,
+        "min_um": 0.6101456545467954,
+        "median_um": 3.2989537742793975,
+        "mean_um": 3.7861584564491038,
+        "max_um": 19.33802437802892
+      },
+      "bbox_3um": {
+        "count": 27696,
+        "x_min": 0.0712343081831932,
+        "x_max": 0.9584571719169617,
+        "y_min": 0.04799811417857806,
+        "y_max": 0.9499175349871317,
+        "y_span_mm": 0.9019194208085537
+      },
+      "bbox_5um": {
+        "count": 45559,
+        "x_min": 0.0243466105312109,
+        "x_max": 0.9978152513504028,
+        "y_min": 0.026608731597661972,
+        "y_max": 0.9788767993450165,
+        "y_span_mm": 0.9522680677473545
+      },
+      "refined_band_widths": {
+        "0.1": {
+          "count": 57,
+          "y_min": 0.03387228647867838,
+          "y_max": 0.9520702362060547,
+          "width_mm": 0.9181979497273763
+        },
+        "0.2": {
+          "count": 234,
+          "y_min": 0.05634468141943216,
+          "y_max": 0.9233148694038391,
+          "width_mm": 0.866970187984407
+        },
+        "0.3": {
+          "count": 1765,
+          "y_min": 0.06030128709971905,
+          "y_max": 0.9595570415258408,
+          "width_mm": 0.8992557544261217
+        },
+        "0.4": {
+          "count": 4670,
+          "y_min": 0.05376182869076729,
+          "y_max": 0.9650862663984299,
+          "width_mm": 0.9113244377076626
+        },
+        "0.5": {
+          "count": 9327,
+          "y_min": 0.03267403692007065,
+          "y_max": 0.9543758779764175,
+          "width_mm": 0.9217018410563469
+        },
+        "0.6": {
+          "count": 7675,
+          "y_min": 0.03175504645332694,
+          "y_max": 0.9788767993450165,
+          "width_mm": 0.9471217528916895
+        },
+        "0.7": {
+          "count": 2456,
+          "y_min": 0.047908020205795765,
+          "y_max": 0.8761629164218903,
+          "width_mm": 0.8282548962160945
+        },
+        "0.8": {
+          "count": 303,
+          "y_min": 0.2059997320175171,
+          "y_max": 0.9317756593227386,
+          "width_mm": 0.7257759273052216
+        },
+        "0.9": {
+          "count": 182,
+          "y_min": 0.04786636866629124,
+          "y_max": 0.9307334224383036,
+          "width_mm": 0.8828670537720124
+        }
+      },
+      "directional_verdict": "NO_MEANINGFUL_IMPROVEMENT",
+      "deck_path": "models/pandey_kumar_mode1/99_mode1_stage13_errortarget_morphology_sensitivity\\PK_M1_STAGE13_ET10.inp",
+      "deck_sha256": "872b54a69a882d96cfdee40a69d12464472ad42143d2163ed0e9c900ba7d2f8a",
+      "csv_path": "models/pandey_kumar_mode1/99_mode1_stage13_errortarget_morphology_sensitivity\\stage13_et10_elements.csv",
+      "csv_sha256": "cefdde71d23c83da6c048d5a64523b33478f661561a04682b4758085aa3fd4e8"
+    },
+    "et20": {
+      "error_target_pct": 2.0,
+      "total_elements": 14662,
+      "total_nodes": 14642,
+      "quad_count": 14251,
+      "tri_count": 411,
+      "quad_fraction": 0.971968353567044,
+      "tri_fraction": 0.02803164643295594,
+      "corridor_count": 3792,
+      "corridor_fraction": 0.2586277451916519,
+      "wake_count": 1840,
+      "ligament_count": 1952,
+      "upper_far_count": 5402,
+      "lower_far_count": 5468,
+      "far_field_total_count": 10870,
+      "far_field_fraction": 0.7413722548083481,
+      "outer_far_count": 8061,
+      "outer_far_fraction": 0.549788569090165,
+      "area_corridor": 0.09839524815343306,
+      "area_far": 0.9016047518465671,
+      "area_refined_corridor": 0.018447249407313127,
+      "area_refined_far": 0.036091237872713566,
+      "coarse_remaining_count": 983,
+      "coarse_remaining_area": 0.27530027705323556,
+      "coarse_remaining_area_fraction": 0.27530027705323556,
+      "fine_3um_count": 3706,
+      "fine_5um_count": 5985,
+      "h_eq_stats_global": {
+        "min_um": 0.8364023089557437,
+        "p10_um": 2.0096051717391026,
+        "p25_um": 2.9627469906551607,
+        "median_um": 6.098778412959645,
+        "mean_um": 6.955382092215197,
+        "p75_um": 9.612461209872963,
+        "p90_um": 14.011705008341282,
+        "max_um": 25.02962537633445
+      },
+      "h_eq_stats_corridor": {
+        "count": 3792,
+        "min_um": 0.8364023089557437,
+        "median_um": 2.2308489250868284,
+        "mean_um": 3.73309311085762,
+        "max_um": 19.30935291572016
+      },
+      "h_eq_stats_far": {
+        "count": 10870,
+        "min_um": 0.9443882792742349,
+        "median_um": 7.360682803776057,
+        "mean_um": 8.079477751581175,
+        "max_um": 25.02962537633445
+      },
+      "bbox_3um": {
+        "count": 3706,
+        "x_min": 0.367805540561676,
+        "x_max": 0.633753756682078,
+        "y_min": 0.1800877501567205,
+        "y_max": 0.6604947646458944,
+        "y_span_mm": 0.4804070144891739
+      },
+      "bbox_5um": {
+        "count": 5985,
+        "x_min": 0.12235336502393086,
+        "x_max": 0.7048579454421997,
+        "y_min": 0.06483238066236179,
+        "y_max": 0.9240803917249044,
+        "y_span_mm": 0.8592480110625427
+      },
+      "refined_band_widths": {
+        "0.1": {
+          "count": 1,
+          "y_min": 0.10957152893145879,
+          "y_max": 0.10957152893145879,
+          "width_mm": 0.0
+        },
+        "0.2": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.3": {
+          "count": 10,
+          "y_min": 0.1995305766661962,
+          "y_max": 0.8965182900428772,
+          "width_mm": 0.696987713376681
+        },
+        "0.4": {
+          "count": 456,
+          "y_min": 0.08724344025055568,
+          "y_max": 0.9240803917249044,
+          "width_mm": 0.8368369514743488
+        },
+        "0.5": {
+          "count": 2840,
+          "y_min": 0.11711514989535014,
+          "y_max": 0.8799768090248108,
+          "width_mm": 0.7628616591294607
+        },
+        "0.6": {
+          "count": 374,
+          "y_min": 0.06483238066236179,
+          "y_max": 0.8503214319547018,
+          "width_mm": 0.78548905129234
+        },
+        "0.7": {
+          "count": 3,
+          "y_min": 0.4109833637873332,
+          "y_max": 0.6479332447052002,
+          "width_mm": 0.236949880917867
+        },
+        "0.8": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.9": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        }
+      },
+      "directional_verdict": "NO_MEANINGFUL_IMPROVEMENT",
+      "deck_path": "models/pandey_kumar_mode1/99_mode1_stage13_errortarget_morphology_sensitivity\\PK_M1_STAGE13_ET20.inp",
+      "deck_sha256": "4e0cff5cb246cb71c0fa3d3a34880a412f90b417218085f4e09ccfcd9582ce8a",
+      "csv_path": "models/pandey_kumar_mode1/99_mode1_stage13_errortarget_morphology_sensitivity\\stage13_et20_elements.csv",
+      "csv_sha256": "02f6403e0ecf24b108c5883e26e816b38642ed4d19058466d26beef5e125c386"
+    },
+    "et30": {
+      "error_target_pct": 3.0,
+      "total_elements": 6835,
+      "total_nodes": 6907,
+      "quad_count": 6674,
+      "tri_count": 161,
+      "quad_fraction": 0.976444769568398,
+      "tri_fraction": 0.02355523043160205,
+      "corridor_count": 1810,
+      "corridor_fraction": 0.2648134601316752,
+      "wake_count": 1051,
+      "ligament_count": 759,
+      "upper_far_count": 2472,
+      "lower_far_count": 2553,
+      "far_field_total_count": 5025,
+      "far_field_fraction": 0.7351865398683248,
+      "outer_far_count": 3943,
+      "outer_far_fraction": 0.5768836869056327,
+      "area_corridor": 0.09805700563609263,
+      "area_far": 0.9019429943639076,
+      "area_refined_corridor": 0.011638624469618275,
+      "area_refined_far": 0.005829121416106586,
+      "coarse_remaining_count": 1819,
+      "coarse_remaining_area": 0.5746127792269852,
+      "coarse_remaining_area_fraction": 0.5746127792269852,
+      "fine_3um_count": 818,
+      "fine_5um_count": 1619,
+      "h_eq_stats_global": {
+        "min_um": 0.9946556370307392,
+        "p10_um": 2.795314892394671,
+        "p25_um": 5.314839699394116,
+        "median_um": 11.141722390300064,
+        "mean_um": 10.706603017503026,
+        "p75_um": 15.228732788059062,
+        "p90_um": 18.311828921685365,
+        "max_um": 24.695294090342014
+      },
+      "h_eq_stats_corridor": {
+        "count": 1810,
+        "min_um": 0.9946556370307392,
+        "median_um": 3.320570949685525,
+        "mean_um": 5.536785831431557,
+        "max_um": 22.43508320867031
+      },
+      "h_eq_stats_far": {
+        "count": 5025,
+        "min_um": 1.4928266388500384,
+        "median_um": 12.94033010774831,
+        "mean_um": 12.568766023829308,
+        "max_um": 24.695294090342014
+      },
+      "bbox_3um": {
+        "count": 818,
+        "x_min": 0.42550315459569293,
+        "x_max": 0.5726856191953024,
+        "y_min": 0.40227940678596497,
+        "y_max": 0.5768816471099854,
+        "y_span_mm": 0.17460224032402039
+      },
+      "bbox_5um": {
+        "count": 1619,
+        "x_min": 0.3772324820359548,
+        "x_max": 0.585878312587738,
+        "y_min": 0.11218670010566711,
+        "y_max": 0.6990996599197388,
+        "y_span_mm": 0.5869129598140717
+      },
+      "refined_band_widths": {
+        "0.1": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.2": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.3": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.4": {
+          "count": 19,
+          "y_min": 0.2972504794597626,
+          "y_max": 0.6245713432629904,
+          "width_mm": 0.3273208638032278
+        },
+        "0.5": {
+          "count": 1097,
+          "y_min": 0.11218670010566711,
+          "y_max": 0.6676039298375448,
+          "width_mm": 0.5554172297318777
+        },
+        "0.6": {
+          "count": 6,
+          "y_min": 0.4704255163669586,
+          "y_max": 0.6477638085683187,
+          "width_mm": 0.1773382922013601
+        },
+        "0.7": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.8": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.9": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        }
+      },
+      "directional_verdict": "TOWARD_TARGET_LOCALIZATION",
+      "deck_path": "models/pandey_kumar_mode1/99_mode1_stage13_errortarget_morphology_sensitivity\\PK_M1_STAGE13_ET30.inp",
+      "deck_sha256": "9c1805897aa6c4e3fbd6c3f6f6605018c64649ee369e4e93dcb34e75146b3e67",
+      "csv_path": "models/pandey_kumar_mode1/99_mode1_stage13_errortarget_morphology_sensitivity\\stage13_et30_elements.csv",
+      "csv_sha256": "06d1e9095e21bd18459ebadf67f9a805e2cf33777c3e989d52ead82c13abb04f"
+    },
+    "et50": {
+      "error_target_pct": 5.0,
+      "total_elements": 4258,
+      "total_nodes": 4332,
+      "quad_count": 4117,
+      "tri_count": 141,
+      "quad_fraction": 0.9668858619069985,
+      "tri_fraction": 0.033114138093001406,
+      "corridor_count": 764,
+      "corridor_fraction": 0.17942696101456082,
+      "wake_count": 444,
+      "ligament_count": 320,
+      "upper_far_count": 1712,
+      "lower_far_count": 1782,
+      "far_field_total_count": 3494,
+      "far_field_fraction": 0.8205730389854392,
+      "outer_far_count": 2986,
+      "outer_far_fraction": 0.701268201033349,
+      "area_corridor": 0.09915198732906735,
+      "area_far": 0.900848012670933,
+      "area_refined_corridor": 0.003112448761779074,
+      "area_refined_far": 0.00010126443555380504,
+      "coarse_remaining_count": 2396,
+      "coarse_remaining_area": 0.7608536175461678,
+      "coarse_remaining_area_fraction": 0.7608536175461678,
+      "fine_3um_count": 64,
+      "fine_5um_count": 225,
+      "h_eq_stats_global": {
+        "min_um": 1.2806710967048105,
+        "p10_um": 7.275723604872799,
+        "p25_um": 12.816410439958322,
+        "median_um": 15.558058061166804,
+        "mean_um": 14.647582606013803,
+        "p75_um": 17.74513526826599,
+        "p90_um": 19.59625313414556,
+        "max_um": 23.33805888164337
+      },
+      "h_eq_stats_corridor": {
+        "count": 764,
+        "min_um": 1.2806710967048105,
+        "median_um": 7.83457064251393,
+        "mean_um": 9.790964222834228,
+        "max_um": 21.896582923631595
+      },
+      "h_eq_stats_far": {
+        "count": 3494,
+        "min_um": 3.4198420255877697,
+        "median_um": 16.022083267101305,
+        "mean_um": 15.709533506056486,
+        "max_um": 23.33805888164337
+      },
+      "bbox_3um": {
+        "count": 64,
+        "x_min": 0.4618152578671773,
+        "x_max": 0.5123569170633951,
+        "y_min": 0.4676731824874878,
+        "y_max": 0.5228541692097982,
+        "y_span_mm": 0.05518098672231042
+      },
+      "bbox_5um": {
+        "count": 225,
+        "x_min": 0.44966229796409607,
+        "x_max": 0.5252377589543661,
+        "y_min": 0.4307078719139099,
+        "y_max": 0.572883148988088,
+        "y_span_mm": 0.1421752770741781
+      },
+      "refined_band_widths": {
+        "0.1": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.2": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.3": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.4": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.5": {
+          "count": 189,
+          "y_min": 0.4307078719139099,
+          "y_max": 0.572883148988088,
+          "width_mm": 0.1421752770741781
+        },
+        "0.6": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.7": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.8": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.9": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        }
+      },
+      "directional_verdict": "AWAY_FROM_TARGET_LOCALIZATION",
+      "deck_path": "models/pandey_kumar_mode1/99_mode1_stage13_errortarget_morphology_sensitivity\\PK_M1_STAGE13_ET50.inp",
+      "deck_sha256": "4d24225ea2d9d8fd93d6607ef22af14bb2d6a6df39527c0059efb9baa62587aa",
+      "csv_path": "models/pandey_kumar_mode1/99_mode1_stage13_errortarget_morphology_sensitivity\\stage13_et50_elements.csv",
+      "csv_sha256": "6fbabe32dd7bfddf703d1b2ee7f11ef6a888f2793d7a2f19d4c3f5b5c0341660"
+    }
+  },
+  "overall_stage13_conclusion": "LITERATURE_SUPPORTED_ERRORTARGET_IMPROVES_BUT_DOES_NOT_RECOVER_TARGET_MORPHOLOGY"
+}
