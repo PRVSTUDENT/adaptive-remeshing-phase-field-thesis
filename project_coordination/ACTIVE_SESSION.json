@@ -1,10 +1,10 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1189-GATE6B-STAGE14L-CORRECTED-PROPERTY-ADAPTIVE-RERUN-20261003",
-  "claimed_at": "2026-10-03T22:22:00+02:00",
-  "released_at": "2026-10-03T22:30:00+02:00",
-  "starting_commit": "db5880490912fa9f5422b5f833358ce486893cb8",
+  "task_id": "F1190-GATE6B-STAGE14M-CORRECTED-ADAPTIVE-EARLY-CHECKPOINT-20261003",
+  "claimed_at": "2026-10-03T22:36:00+02:00",
+  "released_at": "2026-10-03T22:45:00+02:00",
+  "starting_commit": "f367244bcf558eaded1805a9b9f2c14d3644d3c4",
   "allowed_write_scope": [
     "models/pandey_kumar_mode1/**",
     "results/figures/mode1_gate6b/**",
@@ -12,6 +12,6 @@
     "docs/**",
     "project_coordination/**"
   ],
-  "session_report": "project_coordination/sessions/2026-10-03_2230_gemini-antigravity_F1189-GATE6B-STAGE14L-CORRECTED-PROPERTY-ADAPTIVE-RERUN-20261003.md",
-  "notes": "Stage 14L completed; UEL property ABI card corrected in Package 25; unit tests pass (17/17 Stage-14 suite); datacheck passed; invalid job 1409947 cancelled; corrected production solver job 1409953 submitted and actively running on mnode097"
+  "session_report": "project_coordination/sessions/2026-10-03_2245_gemini-antigravity_F1190-GATE6B-STAGE14M-CORRECTED-ADAPTIVE-EARLY-CHECKPOINT-20261003.md",
+  "notes": "Stage 14M completed; non-invasive early mechanical parity checkpoint of active Job 1409953 verified (mean pointwise force error -0.026% vs reference 1409734); K0 semantics corrected (K_energy vs canonical K0); canonical K0 classified as NOT_YET_QUALIFIED (135/400 incs); physical scale restored vs invalidated 1409947; figure generated; unit tests pass (23/23 Stage-14 suite); thesis section 4.6 updated (49 pages); Job 1409953 actively running on mnode097"
 }

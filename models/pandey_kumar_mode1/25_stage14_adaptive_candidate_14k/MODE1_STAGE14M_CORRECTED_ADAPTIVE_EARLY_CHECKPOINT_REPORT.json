@@ -1,0 +1,52 @@
+{
+  "task_id": "F1190-GATE6B-STAGE14M-CORRECTED-ADAPTIVE-EARLY-CHECKPOINT-20261003",
+  "evaluation_timestamp": "2026-10-03T22:40:00+02:00",
+  "gate": "Gate-6B",
+  "stage": "Stage 14M (Corrected-Job Early Mechanical Parity Checkpoint & K0 Semantics Correction)",
+  "overall_classification": "CORRECTED_JOB_EARLY_MECHANICAL_CHECKPOINT_ONLY",
+  "active_solver_job": {
+    "job_id": "1409953.mmaster02",
+    "job_name": "PK_M1_ADAPT_14K_FRACTURE",
+    "queue": "normal_imfdfkmq",
+    "node": "mnode097",
+    "execution_mode": "Serial 1-CPU (single-rank shared-memory threading)",
+    "input_deck": "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+    "input_deck_sha256": "A1288CE9D7EFD67F5C87C12C2B61884CE7CB94901B566E9FE0130ABE1875797D",
+    "status": "RUNNING_ACTIVE",
+    "current_step": 1,
+    "completed_increments": 136,
+    "latest_displacement_mm": 0.00034,
+    "latest_reaction_force_kN": 0.046948744,
+    "latest_elastic_energy_mJ": 0.008217711099999999,
+    "latest_fracture_energy_mJ": 7.8727546e-07
+  },
+  "canonical_k0_semantics_correction": {
+    "correction_explanation": "In Stage 14L, the value 138.11 kN/mm was quoted as K0. We clarify that 138.11 kN/mm was an early energy-derived elasticity diagnostic (K_energy = 2*E_elas/u^2), not the canonical structural stiffness K0. Canonical K0 requires linear regression of reaction force against displacement across the full frozen window of N=400 increments (u <= 0.0010 mm).",
+    "canonical_window_increments_required": 400,
+    "available_increments_evaluated": 136,
+    "canonical_k0_status": "NOT_YET_QUALIFIED (INTERIM_EVALUATION_WINDOW_INCOMPLETE: 136/400 increments completed)",
+    "interim_ols_stiffness_kN_per_mm": 138.0868240305329,
+    "interim_ols_intercept_kN": 1.7897122712462424e-06,
+    "interim_ols_r2": 0.9999999945992403,
+    "interim_energy_stiffness_kN_per_mm": 138.0837823986557
+  },
+  "reference_benchmark_comparison": {
+    "reference_job_id": "1409734.mmaster02",
+    "reference_k0_canonical_kN_per_mm": 137.94552,
+    "reference_k0_r2": 0.9999996,
+    "reference_F_at_latest_u_kN": 0.046960877,
+    "interim_stiffness_difference_vs_reference_k0_pct": 0.10243466444790804,
+    "mean_pointwise_force_difference_pct": -0.025814424919674922,
+    "max_abs_pointwise_force_difference_pct": 0.025837181409239178,
+    "mechanical_scale_status": "PHYSICAL_ELASTICITY_SCALE_RESTORED"
+  },
+  "invalidated_job_forensics": {
+    "invalidated_job_id": "1409947.mmaster02",
+    "classification": "INVALID_BENCHMARK__UEL_PROPERTY_ABI_MISMATCH",
+    "root_cause": "Parameter ABI card inversion in solve deck (E=0.0075 kN/mm^2, l0=210.0 mm, Gc=0.30 kN/mm instead of l0=0.0075, Gc=0.0027, E=210.0, nu=0.3)",
+    "invalid_reaction_force_at_u001_kN": 4.945037e-06,
+    "invalid_apparent_k0_kN_per_mm": 0.004945,
+    "compliance_ratio_vs_physical": 27896.0,
+    "archive_location": "archive_1409947_invalid_abi"
+  }
+}

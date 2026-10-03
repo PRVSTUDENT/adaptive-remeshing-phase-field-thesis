@@ -540,3 +540,44 @@ In accordance with strict scientific epistemology and project governance:
 \item A programmatic regression unit test (\texttt{test\_stage14l\_\allowbreak property\_abi\_alignment.py}) was added to the test suite to continuously verify bidirectional agreement between Fortran parsing indices and input-deck cards.
 \item The corrected production job (Job \texttt{1409953.mmaster02}) was qualified via Abaqus datacheck and submitted to the cluster in authoritative serial 1-CPU execution.
 \end{enumerate}
+
+\section{Stage 14M: Corrected Adaptive Early Mechanical Parity Checkpoint and Stiffness Semantics}
+\label{sec:stage14m_early_checkpoint}
+
+To verify the restoration of physical elasticity following the parameter ABI resolution in Stage~14L, a non-invasive early mechanical parity audit was performed on the active corrected solve (Job \texttt{1409953.mmaster02}, \texttt{PK\_M1\_ADAPT\_14K\_FRACTURE}, running on compute node \texttt{mnode097}).
+
+\subsection{Distinction Between Energy-Derived Elasticity and Canonical Structural Stiffness}
+\label{subsec:k0_semantics}
+
+In preliminary Stage~14L solver telemetry, an early elasticity metric $K_{\mathrm{energy}} = 138.11\,\mathrm{kN/mm}$ was reported. Under the project's frozen evaluation protocol (\texttt{STAGE14\_TERMINAL\_EVALUATION\_PROTOCOL.md}), a strict distinction must be maintained between energy-based diagnostics and the canonical structural stiffness $K_0$:
+\begin{enumerate}
+    \item \textbf{Energy-Derived Elasticity Diagnostic ($K_{\mathrm{energy}}$):} Computed from the internal elastic strain energy $E_{\mathrm{elas}}$ stored in the continuum mesh:
+    \begin{equation}
+    \label{eq:k_energy_def}
+    K_{\mathrm{energy}}(u) \equiv \frac{2 E_{\mathrm{elas}}(u)}{u^2}.
+    \end{equation}
+    This metric provides a continuous check of strain energy accumulation but reflects domain-integrated elasticity rather than direct boundary load-deflection slope.
+    \item \textbf{Canonical Specimen Structural Stiffness ($K_0$):} Defined strictly by ordinary least-squares (OLS) linear regression of the top Reference Point reaction force $F = -RF_2$ against displacement $u$ over the full frozen reference window ($N=400$ increments, $u \in (0.5\Delta u, \, 0.0010 + 0.5\Delta u]\,\mathrm{mm}$):
+    \begin{equation}
+    \label{eq:k0_canonical_def}
+    K_0 \equiv \left. \frac{\mathrm{d}F}{\mathrm{d}u} \right|_{\mathrm{elastic,\,window}}, \quad R^2 \ge 0.99999.
+    \end{equation}
+\end{enumerate}
+Because Job \texttt{1409953.mmaster02} is actively advancing through Step~1 and has completed an interim subset of increments ($u < 0.0010\,\mathrm{mm}$), the canonical structural stiffness is formally classified as \textbf{\texttt{NOT\_YET\_QUALIFIED (INTERIM\_WINDOW\_INCOMPLETE)}} until Step~1 reaches Increment~400 ($u = 0.0010\,\mathrm{mm}$).
+
+\subsection{Early Mechanical Response Parity}
+\label{subsec:stage14m_parity}
+
+The interim response extracted from Job \texttt{1409953} demonstrates complete restoration of physical structural stiffness. Across all available early increments:
+\begin{itemize}
+    \item The reaction force tracks the qualified 15,192-element fixed reference benchmark (Job \texttt{1409734.mmaster02}) with a mean pointwise discrepancy of only \textbf{$-0.026\%$}, confirming that specimen compliance is fully preserved across the 14,483-element adaptive discretization.
+    \item An interim OLS linear fit over the available initial window yields $K_{\mathrm{interim}} = 138.09\,\mathrm{kN/mm}$ ($R^2 = 1.00000000$, intercept $1.33\times 10^{-6}\,\mathrm{kN}$), which agrees with the canonical fixed reference baseline ($K_{0,\mathrm{ref}} = 137.945520\,\mathrm{kN/mm}$) within \textbf{$+0.105\%$}.
+    \item In contrast to the invalidated run (Job \texttt{1409947}, where $F \sim 10^{-6}\,\mathrm{kN}$ due to the inverted property card), the corrected solve operates entirely at the true physical force scale ($F \sim 10^{-2}\text{ to } 10^{-1}\,\mathrm{kN}$ in early Step~1).
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_mode1_stage14m_corrected_early_fu.pdf}
+\caption{Early mechanical response parity between the corrected Stage~14 adaptive candidate (Job \texttt{1409953}, 14,483 elements) and the qualified fixed reference benchmark (Job \texttt{1409734}, 15,192 elements). Left: Reaction force $F = -RF_2$ versus displacement $u$ along the initial elastic branch with solver running watermark. Right: Pointwise relative force discrepancy $\Delta F / F_{\mathrm{ref}}$ [\%] demonstrating $\le 0.03\%$ parity across all evaluated increments.}
+\label{fig:stage14m_corrected_early_fu}
+\end{figure}

@@ -1,14 +1,14 @@
 {
-  "active_task_id": "F1189-GATE6B-STAGE14L-CORRECTED-PROPERTY-ADAPTIVE-RERUN-20261003",
+  "active_task_id": "F1190-GATE6B-STAGE14M-CORRECTED-ADAPTIVE-EARLY-CHECKPOINT-20261003",
   "status": "COMPLETED",
   "gate": "Gate-6B",
-  "stage": "Stage 14L (Corrected-Property Adaptive Fracture Rerun)",
-  "description": "Corrected Package 25 UEL property ABI card, verified regression tests (17/17 pass), datacheck passed, cancelled invalid job 1409947, submitted corrected full fracture solver job 1409953.mmaster02 (running on mnode097), updated thesis section 4.5 and ledgers",
+  "stage": "Stage 14M (Corrected-Job Early Mechanical Parity Checkpoint & K0 Semantics Correction)",
+  "description": "Extracted live snapshot of running Job 1409953 on mnode097, corrected Stage-14L K0 semantics (K_energy vs canonical K0), verified canonical K0 status as NOT_YET_QUALIFIED (135/400 incs), verified physical elasticity restoration (F=0.0466 kN, mean pointwise force error -0.026% vs reference 1409734, interim OLS K=138.09 kN/mm), generated watermarked figure, unit tests (23/23 Stage-14 pass), and updated thesis section 4.6",
   "active_job_id": "1409953.mmaster02",
   "active_job_name": "PK_M1_ADAPT_14K_FRACTURE",
   "invalidated_job_id": "1409947.mmaster02",
   "invalidated_job_classification": "INVALID_BENCHMARK__UEL_PROPERTY_ABI_MISMATCH",
-  "classification": "STAGE14L_CORRECTED_PROPERTY_ADAPTIVE_RERUN_SUBMITTED_AND_RUNNING",
-  "next_task_id": "F1190-GATE6B-STAGE14M-CORRECTED-ADAPTIVE-TERMINAL-EVALUATION-20261003",
-  "updated_at": "2026-10-03T22:30:00+02:00"
+  "classification": "CORRECTED_JOB_EARLY_MECHANICAL_CHECKPOINT_ONLY",
+  "next_task_id": "F1191-GATE6B-STAGE14N-TERMINAL-ADAPTIVE-FRACTURE-EVALUATION-20261003",
+  "updated_at": "2026-10-03T22:45:00+02:00"
 }
