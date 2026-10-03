@@ -1,0 +1,69 @@
+{
+  "audit_id": "GATE6B-STAGE14I-NATIVE-RECONSTRUCTION-FIDELITY-20261003",
+  "task_id": "F1186-GATE6B-STAGE14I-NATIVE-RECONSTRUCTION-FIDELITY-AUDIT-20261003",
+  "timestamp": "2026-10-03T21:55:00+02:00",
+  "agent": "gemini-antigravity",
+  "scientific_question": "Is the underlying finite-element topology solved in 1409947 exactly the native Abaqus adaptive mesh produced in Stage 14?",
+  "reconstruction_verdict": "STAGE14_NATIVE_TO_LAYERED_RECONSTRUCTION_EQUIVALENT_WITH_LABEL_RENUMBERING",
+  "topology_coordinate_match": "EXACT_MATCH_100PCT",
+  "label_sensitive_match": "EQUIVALENT_WITH_KNOWN_OFFSET_AND_TYPE_GROUPING",
+  "deck_hashes": {
+    "native_adaptive_deck_sha256": "13e0925df11b620d860ed28b55e49fb365957a5d49338d8d4f8ce6412d9e082d",
+    "reconstructed_solve_deck_sha256": "3efba9682c3eb31e99c233192007246e995bd8182411e51e6a6b74166873d7c1"
+  },
+  "mesh_metrics": {
+    "underlying_finite_elements": 14483,
+    "quad_finite_elements": 14082,
+    "tri_finite_elements": 401,
+    "mesh_nodes": 14456,
+    "rp_node_included": 999999,
+    "layers_total_elements": 43449,
+    "domain_area_mm2": 0.999999999999996,
+    "max_node_coord_error_mm": 0.0,
+    "rms_node_coord_error_mm": 0.0,
+    "negative_area_elements": 0,
+    "missing_elements": 0,
+    "duplicated_elements": 0,
+    "multiply_mapped_elements": 0
+  },
+  "seam_integrity": {
+    "crack_length_a0_mm": 0.5,
+    "seam_plane_y_mm": 0.5,
+    "flank_duplicate_pairs": 54,
+    "unintended_merging": false,
+    "seam_gap_mm": 0.0
+  },
+  "layer_partitioning": {
+    "layer_1_phase": {
+      "range": [
+        1,
+        14483
+      ],
+      "quads": "U1 (1..14082)",
+      "tris": "U3 (14083..14483)"
+    },
+    "layer_2_mech": {
+      "range": [
+        14484,
+        28966
+      ],
+      "quads": "U2 (14484..28565)",
+      "tris": "U4 (28566..28966)"
+    },
+    "layer_3_umat": {
+      "range": [
+        28967,
+        43449
+      ],
+      "quads": "CPE4 (28967..43048)",
+      "tris": "CPE3 (43049..43449)",
+      "elset": "UMATELEM"
+    }
+  },
+  "sizing_statistics_mm": {
+    "min_h": 0.0007604625605097204,
+    "max_h": 0.023020451690519778,
+    "mean_h": 0.006024681010741229,
+    "h_min_over_l0": 0.10139500806796273
+  }
+}
