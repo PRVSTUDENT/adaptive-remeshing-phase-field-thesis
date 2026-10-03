@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T07:16:00+02:00` (Gemini Antigravity) — Gate-6B Cause Audit Stage 1 Complete (Topology Not Supported as Dominant Cause, Neutral Localization); Source-Fidelity Matrix Corrected; 1 Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
+Last updated: `2026-10-03T07:22:00+02:00` (Gemini Antigravity) — Gate-6B Cause Audit Stage 2 Complete (BC_PARTIAL_CONTRIBUTOR, TOWARD_TARGET_LOCALIZATION); 15.7k Parasitic Elements Eliminated (72k -> 56k FE); 1 Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
 Parent commit: `5fce76f06bfe753d4f7a1b476a16e833e7d4d9d0`
 
 ---
@@ -30,7 +30,7 @@ Parent commit: `5fce76f06bfe753d4f7a1b476a16e833e7d4d9d0`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,	ext{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_DISCREPANCY_AUDITED; SPATIAL_CAUSALITY_AUDITED; 1_SOLVER_JOB_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `STAGE2_BC_AUDITED; STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_DISCREPANCY_AUDITED; SPATIAL_CAUSALITY_AUDITED; 1_SOLVER_JOB_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
   - **Cause Audit Stage 1: Coarse-Mesh Topology & Layout (`STAGE1_TOPOLOGY_AUDIT`):**
     - Verdict: **`TOPOLOGY_NOT_SUPPORTED_AS_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
     - $88$ triangles ($3.03\%$ of mesh) carry only $2.92\%$ of error (mean $0.006765\,	ext{MPa}$ vs quads $0.009975\,	ext{MPa}$).
@@ -41,6 +41,16 @@ Parent commit: `5fce76f06bfe753d4f7a1b476a16e833e7d4d9d0`
   - **Source-Fidelity Matrix & Count Semantics Reconciliation:**
     - Source-fidelity matrix updated: items without explicit publication text classified as `PUBLISHED_DETAIL_NOT_SPECIFIED`.
     - Element count definitions reconciled: $56,302$ finite elements ($54,847$ CPE4 + $1,455$ CPE3) for literal 1.0% target on 2,906 coarse mesh; $13,897$ finite elements ($13,506$ CPE4 + $391$ CPE3) for calibrated 2.0% variant.
+  - **Cause Audit Stage 2: Boundary-Condition Implementation & Constraint Sensitivity (`STAGE2_BC_AUDIT`):**
+    - Verdict: **`BC_PARTIAL_CONTRIBUTOR`**; Localization: **`TOWARD_TARGET_LOCALIZATION`**.
+    - Top boundary lateral release ($u_x$ free roller) eliminates parasitic shear stress (mean $|s_{12}|$ drops by $9.3\times$ from $0.1261$ to $0.0136\,\text{MPa}$; max $|s_{12}|$ drops $10.3\times$ from $0.4880$ to $0.0475\,\text{MPa}$).
+    - Boundary Region error drops by $48.39\%$ ($4.7767 \to 2.4652\,\text{MPa}$); top-right corner error collapses by $94.45\%$ ($0.8896 \to 0.0494\,\text{MPa}$).
+    - Intermediate error footprint ($\eta \ge 10\%$) contracts from whole-domain span ($dx=0.98, dy=0.98$) to a compact crack-tip box ($[0.425, 0.547] \times [0.447, 0.540]$, $dx=0.122, dy=0.093$).
+    - Native $1.0\%$ remesh shrinks by **$15,783$ elements** ($-21.89\%$, from $72,085$ to $56,302$ finite elements).
+    - Residual: $56,302$ FE remains denser than $13,941$ baseline because Far Field error still accounts for $56.98\%$ of domain error ($16.3553\,\text{MPa}$), leading `UNIFORM_ERROR` sizing to refine broadly.
+    - Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage2_bc_audit.png` (and `.pdf`).
+    - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_STAGE2_BC_AUDIT_REPORT.md` and `GATE6B_STAGE2_BC_AUDIT.json`.
+    - Next Stage: Advance to Stage 3 (Abaqus RemeshingRule Formulation & Sizing Parameter Mapping).
   - **S1 Reference Solve Scientifically Qualified (`1409734.mmaster02`):**
     - Exit Status: `0` (Walltime `06:55:16`, CPUT `06:43:00`, 1-CPU Serial on `mnode097/0`).
     - Mechanical Parity: $K_0 = 137.945520\,	ext{kN/mm}$ ($N=400$, $b=4.472368 	imes 10^{-5}\,	ext{kN}$, $R^2=0.99999960$), $F_{\max} = 0.757778\,	ext{kN}$, $u_{	ext{peak}} = 0.005857\,	ext{mm}$, $W_{	ext{ext}} = 2.359329\,	ext{mJ}$.

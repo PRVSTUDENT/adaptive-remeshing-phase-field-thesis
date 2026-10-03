@@ -104,7 +104,30 @@ A rigorous offline audit was conducted comparing the project implementation agai
 
 ---
 
-## 4. Master Figures & Inspection Artifacts
+
+---
+
+## 4. Governed Cause Hierarchy: Stage 1 (Topology) & Stage 2 (Boundary Conditions) Audits
+
+To rigorously isolate why the literal $1.0\%$ errorTarget remeshed model produces broad far-field refinement ($56,302$ finite elements) compared to Pandey & Kumar (2025) Fig. 6(a) ($13,941$ elements), the project is executing an exhaustive sequential cause audit (`Topology -> BCs -> Mapping -> Stress Transfer -> Frame -> Element/Output`):
+
+### A. Stage 1: Coarse-Mesh Topology & Layout Audit
+- **Classification:** **`TOPOLOGY_NOT_SUPPORTED_AS_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
+- **Evidence:** The canonical $2,906$ coarse mesh contains $2,818$ quads ($96.97\%$) and only $88$ triangles ($3.03\%$). These $88$ triangles carry only $2.92\%$ of the total error, with mean error lower than quads ($0.006765$ vs $0.009975\,\text{MPa}$).
+- **Spatial Alignment:** Crack tip and slit flanks are $100\%$ quad; triangles reside exclusively in outer transition zones. Correlation of far-field error to aspect ratio ($r=0.074$) and skewness ($r=0.053$) is statistically indistinguishable from zero.
+- **Master Artifacts:** `fig_mode1_gate6b_stage1_topology_audit.png` / `.pdf`, `MODE1_STAGE1_TOPOLOGY_AUDIT_REPORT.md`, `GATE6B_STAGE1_TOPOLOGY_AUDIT.json`.
+
+### B. Stage 2: Boundary-Condition Implementation & Constraint Sensitivity Audit
+- **Classification:** **`BC_PARTIAL_CONTRIBUTOR`**; Localization: **`TOWARD_TARGET_LOCALIZATION`**.
+- **Evidence:** Restraining lateral displacement ($u_x = 0$) along the top boundary in the pre-analysis creates severe artificial shear stresses at top corners ($|s_{12}| = 0.4880\,\text{MPa}$). Releasing top lateral displacement to form a pure roller reduces top boundary mean shear stress by **$9.3\times$** (from $0.1261$ to $0.0136\,\text{MPa}$) and collapses top-right corner error by **$94.45\%$** ($0.8896 \to 0.0494\,\text{MPa}$).
+- **Regional Impact:** Total Boundary Regions error drops by **$48.39\%$** (from $4.7767$ to $2.4652\,\text{MPa}$). The normalized $\eta \ge 10\%$ error footprint contracts from a whole-domain box ($dx=0.98, dy=0.98$) to a compact crack-tip box ($[0.425, 0.547] \times [0.447, 0.540]$, $dx=0.122, dy=0.093$).
+- **Remeshing Impact:** Native Abaqus $1.0\%$ remeshing eliminates **$15,783$ parasitic elements** ($-21.89\%$, from $72,085$ down to $56,302$ finite elements).
+- **Residual Limitation:** The corrected $1.0\%$ remesh ($56,302$ FE) remains $4.04\times$ denser than the published $13,941$ baseline because Far Field error still accounts for $56.98\%$ of domain error ($16.3553\,\text{MPa}$), leading `UNIFORM_ERROR` sizing to refine broadly.
+- **Master Artifacts:** `fig_mode1_gate6b_stage2_bc_audit.png` / `.pdf`, `MODE1_STAGE2_BC_AUDIT_REPORT.md`, `GATE6B_STAGE2_BC_AUDIT.json`.
+
+---
+
+## 5. Master Figures & Inspection Artifacts
 
 1. **MISESERI Spatial Discrepancy & Mesh Geometry Audit (`fig_mode1_gate6b_miseseri_spatial_discrepancy_audit.png` / `.pdf`):**
    - 6-panel master figure showing coarse centroid MISESERI contour map, normalized error bounding boxes ($\eta \ge 1\% \dots 50\%$), transverse refined corridor width profiles $w(x)$, spatial element sizing maps $h(x,y)$ for 1.0% and 2.0% meshes, and cumulative element size distribution (CDF).
@@ -120,10 +143,19 @@ A rigorous offline audit was conducted comparing the project implementation agai
      - `models/pandey_kumar_mode1/GATE6B_TEMPORAL_CONVERGENCE_FAMILY_COMPARISON.json`
      - `models/pandey_kumar_mode1/gate6b_claims_and_matched_audit/GATE6B_ADAPTIVE_SPATIAL_CAUSALITY_AUDIT.json`
      - `models/pandey_kumar_mode1/MODE1_MISESERI_SPATIAL_DISCREPANCY_AUDIT_REPORT.md`
+6. **Stage 1 Topology Audit Artifacts:**
+   - Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage1_topology_audit.png` / `.pdf`
+   - Report: `models/pandey_kumar_mode1/MODE1_STAGE1_TOPOLOGY_AUDIT_REPORT.md`
+   - JSON: `models/pandey_kumar_mode1/GATE6B_STAGE1_TOPOLOGY_AUDIT.json`
+7. **Stage 2 Boundary Condition Audit Artifacts:**
+   - Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage2_bc_audit.png` / `.pdf`
+   - Report: `models/pandey_kumar_mode1/MODE1_STAGE2_BC_AUDIT_REPORT.md`
+   - JSON: `models/pandey_kumar_mode1/GATE6B_STAGE2_BC_AUDIT.json`
+
 
 ---
 
-## 5. Current Scheduler & Running Solves State
+## 6. Current Scheduler & Running Solves State
 
 - **Active Running Solver Job (Strict Non-Polling Guard Enforced):**
   - **`1409867.mmaster02` (S3 Fine Spatial):** $41,912$ finite elements ($h = 0.0015\,\mathrm{mm}$), 1-CPU Serial in `normal_imfdfkmq`.

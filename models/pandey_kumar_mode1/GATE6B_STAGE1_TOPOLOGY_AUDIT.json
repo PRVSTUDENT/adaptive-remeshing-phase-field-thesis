@@ -243,7 +243,7 @@
       "Triangles are located primarily along diagonal transition bands in the outer domain (x in [0.038, 0.963], y in [0.043, 0.957]) and do NOT cluster near the notch tip or along the horizontal ligament.",
       "Far-field MISESERI is NOT elevated at triangle locations; spatial correlation between MISESERI and skewness/aspect-ratio in the far field is near zero (r = 0.053 and r = 0.071).",
       "Topological asymmetry across y=0.5 mm is minimal: 98.6% of elements have a geometrically and topologically symmetric counterpart, and the mean error difference between symmetric pairs is only 0.00067 MPa.",
-      "The broad far-field refinement produced by the literal 1.0% errorTarget is caused by global error equilibration under UNIFORM_ERROR sizing acting on the global linear-elastic stress field, NOT by localized topological distortions, quad-triangle transitions, or mesh asymmetry."
+      "The underlying cause of the broad far-field refinement produced by the literal 1.0% errorTarget remains CAUSE_NOT_YET_ISOLATED; coarse-mesh topology, quad-triangle transitions, and mesh asymmetry are ruled out as dominant causes."
     ],
     "next_governed_action": "Advance cause audit to Stage 2 (Boundary Condition implementation) without mixing causes."
   }

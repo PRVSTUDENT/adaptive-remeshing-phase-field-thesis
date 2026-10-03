@@ -1,0 +1,503 @@
+{
+  "metadata": {
+    "audit_stage": "STAGE_2_BOUNDARY_CONDITION_IMPLEMENTATION_AUDIT",
+    "coarse_mesh_identifier": "PK_PREANALYSIS_COARSE_2906",
+    "total_elements": 2906,
+    "protocol_version": 2,
+    "governing_directive": "We need to have understood everything related to the first model before we increase complexity."
+  },
+  "global_statistics": {
+    "historical_top_ux_constrained": {
+      "total_error_sum_mpa": 32.8469254956,
+      "max_miseseri_mpa": 1.007057,
+      "mean_miseseri_mpa": 0.011303140225602202,
+      "median_miseseri_mpa": 0.005775084,
+      "std_miseseri_mpa": 0.03741881404494417
+    },
+    "corrected_top_ux_free_roller": {
+      "total_error_sum_mpa": 28.7046003315,
+      "max_miseseri_mpa": 0.9500091,
+      "mean_miseseri_mpa": 0.009877701421713696,
+      "median_miseseri_mpa": 0.004554395,
+      "std_miseseri_mpa": 0.035686989298869334
+    },
+    "delta": {
+      "total_error_diff_mpa": -4.142325164099997,
+      "total_error_change_pct": -12.610998142443746,
+      "mean_miseseri_diff_mpa": -0.0014254388038885055,
+      "max_miseseri_diff_mpa": -0.05704790000000004
+    }
+  },
+  "regional_statistics": {
+    "CRACK_TIP_CORRIDOR": {
+      "element_count": 49,
+      "fraction_of_mesh": 0.01686166551961459,
+      "historical": {
+        "error_sum_mpa": 7.878950881,
+        "error_share_pct": 23.986874759573535,
+        "mean_miseseri_mpa": 0.1607949159387755,
+        "median_miseseri_mpa": 0.06357829,
+        "std_miseseri_mpa": 0.22707409532723902,
+        "max_miseseri_mpa": 1.007057
+      },
+      "corrected": {
+        "error_sum_mpa": 7.663020831,
+        "error_share_pct": 26.696141881448582,
+        "mean_miseseri_mpa": 0.1563881802244898,
+        "median_miseseri_mpa": 0.06177564,
+        "std_miseseri_mpa": 0.21866099695201177,
+        "max_miseseri_mpa": 0.9500091
+      },
+      "delta": {
+        "error_sum_diff_mpa": -0.21593004999999987,
+        "error_sum_change_pct": -2.7405939351736883,
+        "mean_miseseri_diff_mpa": -0.004406735714285709,
+        "max_miseseri_diff_mpa": -0.05704790000000004
+      }
+    },
+    "CRACK_WAKE": {
+      "element_count": 110,
+      "fraction_of_mesh": 0.03785271851342051,
+      "historical": {
+        "error_sum_mpa": 1.8997701479999998,
+        "error_share_pct": 5.78370766619994,
+        "mean_miseseri_mpa": 0.017270637709090906,
+        "median_miseseri_mpa": 0.0053387815,
+        "std_miseseri_mpa": 0.03267312332982781,
+        "max_miseseri_mpa": 0.234773
+      },
+      "corrected": {
+        "error_sum_mpa": 1.8010057380000002,
+        "error_share_pct": 6.274275611577157,
+        "mean_miseseri_mpa": 0.016372779436363637,
+        "median_miseseri_mpa": 0.004976958,
+        "std_miseseri_mpa": 0.030641752210084548,
+        "max_miseseri_mpa": 0.205528
+      },
+      "delta": {
+        "error_sum_diff_mpa": -0.09876440999999958,
+        "error_sum_change_pct": -5.19875576021524,
+        "mean_miseseri_diff_mpa": -0.0008978582727272692,
+        "max_miseseri_diff_mpa": -0.02924500000000002
+      }
+    },
+    "RIGHT_LIGAMENT": {
+      "element_count": 119,
+      "fraction_of_mesh": 0.040949759119064004,
+      "historical": {
+        "error_sum_mpa": 0.48667251770000003,
+        "error_share_pct": 1.4816379626312124,
+        "mean_miseseri_mpa": 0.0040896850226890755,
+        "median_miseseri_mpa": 0.003554834,
+        "std_miseseri_mpa": 0.0023604733671099168,
+        "max_miseseri_mpa": 0.0130911
+      },
+      "corrected": {
+        "error_sum_mpa": 0.420029118,
+        "error_share_pct": 1.4632815407607898,
+        "mean_miseseri_mpa": 0.0035296564537815123,
+        "median_miseseri_mpa": 0.002792116,
+        "std_miseseri_mpa": 0.0023268527650203608,
+        "max_miseseri_mpa": 0.01239721
+      },
+      "delta": {
+        "error_sum_diff_mpa": -0.06664339970000005,
+        "error_sum_change_pct": -13.69368461875653,
+        "mean_miseseri_diff_mpa": -0.0005600285689075632,
+        "max_miseseri_diff_mpa": -0.0006938899999999991
+      }
+    },
+    "FAR_FIELD": {
+      "element_count": 2080,
+      "fraction_of_mesh": 0.7157604955264969,
+      "historical": {
+        "error_sum_mpa": 17.804815581299998,
+        "error_share_pct": 54.20542505168417,
+        "mean_miseseri_mpa": 0.008560007491009615,
+        "median_miseseri_mpa": 0.005662935500000001,
+        "std_miseseri_mpa": 0.010344027379984261,
+        "max_miseseri_mpa": 0.1405236
+      },
+      "corrected": {
+        "error_sum_mpa": 16.355328168699998,
+        "error_share_pct": 56.97807313050064,
+        "mean_miseseri_mpa": 0.00786313854264423,
+        "median_miseseri_mpa": 0.0047469965,
+        "std_miseseri_mpa": 0.010050724802121028,
+        "max_miseseri_mpa": 0.1384714
+      },
+      "delta": {
+        "error_sum_diff_mpa": -1.4494874126,
+        "error_sum_change_pct": -8.140985263123783,
+        "mean_miseseri_diff_mpa": -0.0006968689483653843,
+        "max_miseseri_diff_mpa": -0.002052200000000004
+      }
+    },
+    "BOUNDARY_REGIONS": {
+      "element_count": 548,
+      "fraction_of_mesh": 0.18857536132140398,
+      "historical": {
+        "error_sum_mpa": 4.776716367600001,
+        "error_share_pct": 14.54235455991114,
+        "mean_miseseri_mpa": 0.008716635707299272,
+        "median_miseseri_mpa": 0.0062890455,
+        "std_miseseri_mpa": 0.015329536670430344,
+        "max_miseseri_mpa": 0.2302516
+      },
+      "corrected": {
+        "error_sum_mpa": 2.4652164758,
+        "error_share_pct": 8.588227835712829,
+        "mean_miseseri_mpa": 0.004498570211313869,
+        "median_miseseri_mpa": 0.003820252,
+        "std_miseseri_mpa": 0.0033555506078316194,
+        "max_miseseri_mpa": 0.01628332
+      },
+      "delta": {
+        "error_sum_diff_mpa": -2.3114998918000005,
+        "error_sum_change_pct": -48.39098062172328,
+        "mean_miseseri_diff_mpa": -0.004218065495985403,
+        "max_miseseri_diff_mpa": -0.21396828
+      }
+    }
+  },
+  "boundary_stress_audit": {
+    "top_boundary_y_gt_090": {
+      "element_count": 271,
+      "hist_error_sum_mpa": 2.915657563,
+      "corr_error_sum_mpa": 1.2326151473,
+      "error_reduction_pct": -57.72428275041571,
+      "hist_mean_abs_s12_mpa": 0.1260659282693727,
+      "corr_mean_abs_s12_mpa": 0.013636356117343174,
+      "shear_stress_reduction_factor": 9.244839837310925,
+      "hist_max_abs_s12_mpa": 0.4879946,
+      "corr_max_abs_s12_mpa": 0.04751965
+    },
+    "bottom_boundary_y_lt_010": {
+      "element_count": 277,
+      "hist_error_sum_mpa": 1.8610588045999998,
+      "corr_error_sum_mpa": 1.2326013285000001,
+      "error_reduction_pct": -33.76881345966255,
+      "hist_mean_abs_s12_mpa": 0.020943886363176897,
+      "corr_mean_abs_s12_mpa": 0.0140842406910148,
+      "hist_max_abs_s12_mpa": 0.1428642,
+      "corr_max_abs_s12_mpa": 0.04598909
+    },
+    "top_right_corner_x_gt_090_y_gt_090": {
+      "element_count": 29,
+      "hist_error_sum_mpa": 0.889624704,
+      "corr_error_sum_mpa": 0.049410267,
+      "error_reduction_pct": -94.44594256681074,
+      "hist_max_miseseri_mpa": 0.1621244,
+      "corr_max_miseseri_mpa": 0.004257496
+    }
+  },
+  "threshold_footprints": [
+    {
+      "threshold_pct": 50.0,
+      "historical": {
+        "element_count": 5,
+        "fraction_of_mesh": 0.0017205781142463868,
+        "x_min": 0.467949,
+        "x_max": 0.505164,
+        "y_min": 0.490038,
+        "y_max": 0.51498,
+        "dx": 0.03721499999999994,
+        "dy": 0.02494200000000002
+      },
+      "corrected": {
+        "element_count": 5,
+        "fraction_of_mesh": 0.0017205781142463868,
+        "x_min": 0.467949,
+        "x_max": 0.505164,
+        "y_min": 0.490038,
+        "y_max": 0.51498,
+        "dx": 0.03721499999999994,
+        "dy": 0.02494200000000002
+      }
+    },
+    {
+      "threshold_pct": 20.0,
+      "historical": {
+        "element_count": 15,
+        "fraction_of_mesh": 0.00516173434273916,
+        "x_min": 0.010397,
+        "x_max": 0.547076,
+        "y_min": 0.030088,
+        "y_max": 0.53685,
+        "dx": 0.536679,
+        "dy": 0.506762
+      },
+      "corrected": {
+        "element_count": 13,
+        "fraction_of_mesh": 0.004473503097040606,
+        "x_min": 0.444564,
+        "x_max": 0.547076,
+        "y_min": 0.469427,
+        "y_max": 0.53685,
+        "dx": 0.10251199999999999,
+        "dy": 0.06742300000000007
+      }
+    },
+    {
+      "threshold_pct": 10.0,
+      "historical": {
+        "element_count": 28,
+        "fraction_of_mesh": 0.009635237439779766,
+        "x_min": 0.010113,
+        "x_max": 0.989976,
+        "y_min": 0.010023,
+        "y_max": 0.990061,
+        "dx": 0.9798629999999999,
+        "dy": 0.980038
+      },
+      "corrected": {
+        "element_count": 26,
+        "fraction_of_mesh": 0.008947006194081212,
+        "x_min": 0.425262,
+        "x_max": 0.547076,
+        "y_min": 0.447469,
+        "y_max": 0.540491,
+        "dx": 0.12181400000000003,
+        "dy": 0.09302200000000005
+      }
+    },
+    {
+      "threshold_pct": 5.0,
+      "historical": {
+        "element_count": 70,
+        "fraction_of_mesh": 0.024088093599449415,
+        "x_min": 0.010113,
+        "x_max": 0.989976,
+        "y_min": 0.009976,
+        "y_max": 0.990247,
+        "dx": 0.9798629999999999,
+        "dy": 0.980271
+      },
+      "corrected": {
+        "element_count": 63,
+        "fraction_of_mesh": 0.021679284239504472,
+        "x_min": 0.395231,
+        "x_max": 0.595369,
+        "y_min": 0.410145,
+        "y_max": 0.589981,
+        "dx": 0.20013800000000004,
+        "dy": 0.179836
+      }
+    },
+    {
+      "threshold_pct": 2.0,
+      "historical": {
+        "element_count": 208,
+        "fraction_of_mesh": 0.07157604955264969,
+        "x_min": 0.009759,
+        "x_max": 0.989976,
+        "y_min": 0.009791,
+        "y_max": 0.990811,
+        "dx": 0.980217,
+        "dy": 0.98102
+      },
+      "corrected": {
+        "element_count": 201,
+        "fraction_of_mesh": 0.06916724019270475,
+        "x_min": 0.325911,
+        "x_max": 0.621282,
+        "y_min": 0.217384,
+        "y_max": 0.753982,
+        "dx": 0.295371,
+        "dy": 0.536598
+      }
+    },
+    {
+      "threshold_pct": 1.0,
+      "historical": {
+        "element_count": 791,
+        "fraction_of_mesh": 0.2721954576737784,
+        "x_min": 0.009477,
+        "x_max": 0.989976,
+        "y_min": 0.009791,
+        "y_max": 0.990881,
+        "dx": 0.980499,
+        "dy": 0.98109
+      },
+      "corrected": {
+        "element_count": 720,
+        "fraction_of_mesh": 0.2477632484514797,
+        "x_min": 0.062162,
+        "x_max": 0.728876,
+        "y_min": 0.047462,
+        "y_max": 0.951674,
+        "dx": 0.6667139999999999,
+        "dy": 0.904212
+      }
+    },
+    {
+      "threshold_pct": 0.5,
+      "historical": {
+        "element_count": 1637,
+        "fraction_of_mesh": 0.5633172746042671,
+        "x_min": 0.00919,
+        "x_max": 0.990495,
+        "y_min": 0.009145,
+        "y_max": 0.991462,
+        "dx": 0.981305,
+        "dy": 0.982317
+      },
+      "corrected": {
+        "element_count": 1405,
+        "fraction_of_mesh": 0.4834824501032347,
+        "x_min": 0.010165,
+        "x_max": 0.949318,
+        "y_min": 0.009082,
+        "y_max": 0.991571,
+        "dx": 0.939153,
+        "dy": 0.982489
+      }
+    }
+  ],
+  "transverse_width_profiles": {
+    "x_bin_centers": [
+      0.025,
+      0.07500000000000001,
+      0.125,
+      0.17500000000000002,
+      0.225,
+      0.275,
+      0.32500000000000007,
+      0.375,
+      0.42500000000000004,
+      0.475,
+      0.525,
+      0.5750000000000001,
+      0.625,
+      0.675,
+      0.7250000000000001,
+      0.775,
+      0.8250000000000001,
+      0.875,
+      0.925,
+      0.9750000000000001
+    ],
+    "historical_width_eta_10pct": [
+      0.020065,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.08037500000000003,
+      0.08938100000000004,
+      0.06801800000000008,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.02
+    ],
+    "corrected_width_eta_10pct": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.08037500000000003,
+      0.08938100000000004,
+      0.06995200000000007,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "historical_width_eta_1pct": [
+      0.980001,
+      0.058149,
+      0.0,
+      0.0,
+      0.942679,
+      0.860103,
+      0.850336,
+      0.8447450000000001,
+      0.864913,
+      0.873732,
+      0.882275,
+      0.82836,
+      0.549971,
+      0.443444,
+      0.48797999999999997,
+      0.014089000000000018,
+      0.02,
+      0.08034200000000002,
+      0.087067,
+      0.10468199999999994
+    ],
+    "corrected_width_eta_1pct": [
+      0.0,
+      0.782983,
+      0.0,
+      0.0,
+      0.7603219999999999,
+      0.822669,
+      0.804934,
+      0.80717,
+      0.871298,
+      0.876918,
+      0.882275,
+      0.8320890000000001,
+      0.374401,
+      0.21464900000000003,
+      0.037356,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "remesh_impact": {
+    "historical_1pct_elements": 72085,
+    "corrected_1pct_elements": 56302,
+    "parasitic_elements_eliminated": 15783,
+    "reduction_percentage": 21.894985,
+    "corrected_2pct_calibrated_elements": 13897,
+    "literature_baseline_elements": 13941,
+    "calibrated_variant_error_vs_literature_pct": 0.315616
+  },
+  "primary_source_fidelity_audit": {
+    "literature_figure_4a": {
+      "status": "VISIBLY_SHOWN_AS_ROLLER",
+      "observation": "Fig. 4(a) shows roller symbols on the top edge with tensile displacement arrow Delta u, and roller along y=0 with pinned point at (0,0)."
+    },
+    "literature_text_sec_4_1": {
+      "status": "TEXT_AMBIGUOUS_ON_LATERAL_CONSTRAINT",
+      "observation": "Page 3264 states 'The bottom edge is fixed in both directions, while the top edge is subjected to a tensile displacement Delta u.' The lateral (u_x) restraint on the top edge is not explicitly specified in the text."
+    },
+    "cae_implementation_epistemic_status": "PUBLISHED_DETAIL_NOT_SPECIFIED"
+  },
+  "causal_classification": {
+    "stage_2_verdict": "BC_PARTIAL_CONTRIBUTOR",
+    "localization_direction": "TOWARD_TARGET_LOCALIZATION",
+    "findings": [
+      "Removing the artificial top u_x=0 lateral constraint eliminates severe corner shear stress concentrations (mean |s12| on top boundary drops by 9.3x from 0.1261 MPa to 0.0136 MPa, max |s12| drops from 0.4880 MPa to 0.0475 MPa).",
+      "Top boundary error drops by 57.72% (from 2.9157 MPa to 1.2326 MPa), with top-right corner error dropping by 94.45% (from 0.8896 MPa to 0.0494 MPa).",
+      "Total Boundary Regions error drops by 48.39% (from 4.7767 MPa to 2.4652 MPa), shrinking boundary error share from 14.54% to 8.59%.",
+      "The normalized error footprint for eta >= 10% contracts from a whole-domain span ([0.01, 0.99] x [0.01, 0.99], dx=0.98, dy=0.98) in Historical to a tightly localized crack-tip box ([0.425, 0.547] x [0.447, 0.540], dx=0.122, dy=0.093) in Corrected.",
+      "The native 1.0% errorTarget remesh shrinks by 15,783 elements (-21.89%, from 72,085 to 56,302 finite elements), confirming that top lateral constraint was a substantial parasitic contributor.",
+      "However, the corrected 1.0% remesh (56,302 FE) remains 4.04x denser than the published 13,941-element baseline because Far Field error still carries 56.98% of domain error (16.3553 MPa), leading UNIFORM_ERROR sizing to refine broadly.",
+      "Therefore, BC implementation is a BC_PARTIAL_CONTRIBUTOR (TOWARD_TARGET_LOCALIZATION), not the complete root-cause closure. The investigation advances to Stage 3 (Abaqus RemeshingRule & Sizing Parameter Mapping)."
+    ],
+    "next_governed_action": "Advance cause audit to Stage 3: Abaqus RemeshingRule Formulation & Sizing Parameter Mapping."
+  }
+}
