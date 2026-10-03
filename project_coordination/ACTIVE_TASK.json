@@ -1,7 +1,7 @@
 {
-  "task_id": "F1174-GATE6B-JOB1-UEL-PREANALYSIS-READINESS-AND-AUTH-GATED-20261003",
+  "task_id": "F1175-GATE6B-SUBMIT-JOB1-UEL-PREANALYSIS-AND-UPDATE-PROVENANCE-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Job-1_UEL Pre-Analysis Package Readiness & Submission Authorization Gating",
+  "title": "Gate-6B Grant Authorization and Submit Publication-Faithful 3-Layer Job-1_UEL Pre-Analysis Solve (PK_M1_JOB1_UEL_2906, Job 1409912.mmaster02)",
   "status": "completed",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
@@ -14,14 +14,13 @@
     "project_coordination/**"
   ],
   "hpc_jobs": [
+    "1409912.mmaster02",
     "1409867.mmaster02"
   ],
   "context": {
-    "package": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906",
-    "deck": "PK_M1_JOB1_UEL_2906.inp",
-    "mesh": "Canonical 2,906-element coarse mesh (2,818 CPE4 + 88 CPE3, 8,718 layered elements)",
-    "datacheck_status": "PASSED (Exit 0)",
+    "submitted_job": "1409912.mmaster02 (PK_M1_JOB1_SOLVE, 8,718 elements, normal_imfdfkmq, 1-CPU Serial)",
     "active_running_jobs": {
+      "job1_preanalysis": "1409912.mmaster02 (Active in normal_imfdfkmq)",
       "s3_spatial_42k": "1409867.mmaster02 (41,912 elements, Running, NON-POLLING GUARD ENFORCED)"
     },
     "non_polling_guard": "ENFORCED"

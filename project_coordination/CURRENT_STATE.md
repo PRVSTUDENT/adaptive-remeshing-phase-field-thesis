@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T08:05:00+02:00` (Gemini Antigravity) — Gate-6B Job-1_UEL Pre-Analysis Package (89_mode1_preanalysis_uel_canonical_2906) Datacheck-Passed (Exit 0) and Gated for Submission Authorization; 1 Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
-Parent commit: `4a6dc0d8d8a43a8679acf7fb47ced89f6fde9e7e`
+Last updated: `2026-10-03T08:12:00+02:00` (Gemini Antigravity) — Gate-6B Publication-Faithful 3-Layer Job-1_UEL Pre-Analysis (Job 1409912.mmaster02, PK_M1_JOB1_SOLVE, 89_mode1_preanalysis_uel_canonical_2906) Submitted to normal_imfdfkmq; Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
+Parent commit: `6b24242a2315ca98aa5085e5f1288781b53c5bb1`
 
 ---
 
@@ -30,14 +30,21 @@ Parent commit: `4a6dc0d8d8a43a8679acf7fb47ced89f6fde9e7e`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `JOB1_UEL_PACKAGE_DATACHECKED_EXIT0_SUBMISSION_AUTH_GATED; PREANALYSIS_FIDELITY_RECONCILED; STAGE4_STRESS_TRANSFER_AUDITED; STAGE3_MAPPING_AUDITED; STAGE2_BC_AUDITED; STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_DISCREPANCY_AUDITED; SPATIAL_CAUSALITY_AUDITED; 1_SOLVER_JOB_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `JOB1_UEL_CANONICAL_2906_SUBMITTED_1409912; PREANALYSIS_FIDELITY_RECONCILED; STAGE4_STRESS_TRANSFER_AUDITED; STAGE3_MAPPING_AUDITED; STAGE2_BC_AUDITED; STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_DISCREPANCY_AUDITED; SPATIAL_CAUSALITY_AUDITED; 2_ACTIVE_JOBS_IN_QUEUE; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+  - **Reference-Fidelity Checkpoint: Pre-Analysis Architecture Reconciliation (`PREANALYSIS_FIDELITY_RECONCILIATION`):**
+    - Audit Finding: The existing $56,302$-element $1.0\%$ remeshed model was driven by `PK_PREANALYSIS_COARSE.inp`, executing a single-layer standard continuum linear-elastic solve (`Plate-1`, CPE4/CPE3, $2,906$ elements, $2,988$ nodes).
+    - Reclassification: The single-layer continuum pre-analysis ($56,302$ FE) is formally reclassified as a **project diagnostic variant** (`STANDARD_CONTINUUM_PREANALYSIS_VARIANT`), preserving its utility for isolating continuum stress errors while establishing that it is not a faithful realization of Pandey & Kumar's 3-layer UEL workflow.
+    - Claims Reconciliation: Prior Stage-4 wording asserting that MISESERI is evaluated directly on standard continuum elements was corrected to reflect the authentic layered architecture where MISESERI is extracted from the companion facsimile layer (`All_elem` / `umatelem`).
+    - Candidate Package (`89_mode1_preanalysis_uel_canonical_2906`): Reconstructed publication-faithful 3-layer `PK_M1_JOB1_UEL_2906.inp` ($8,718$ layered elements on canonical 2,906 coarse mesh) with Hookean stress recovery in UMAT (`f42_mixed_uel.for`) and verified zero duplicate stiffness ($K_0 = 137.945520\,\text{kN/mm}$, $r=1.000000000$).
+    - Datacheck Preflight: Executed on cluster login node with **`Abaqus JOB PK_M1_JOB1_UEL_2906 COMPLETED (EXIT: 0)`**.
+    - Solver Submission: Authorized and submitted to PBS `normal_imfdfkmq` as **Job `1409912.mmaster02`** (1-CPU Serial, 16 GB, 2h walltime).
+    - Next Stage: Await Job `1409912.mmaster02` completion and evaluate raw MISESERI on `All_elem` vs standard-continuum pre-analysis variant before any remeshing.
   - **Cause Audit Stage 1: Coarse-Mesh Topology & Layout (`STAGE1_TOPOLOGY_AUDIT`):**
     - Verdict: **`TOPOLOGY_NOT_SUPPORTED_AS_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
     - $88$ triangles ($3.03\%$ of mesh) carry only $2.92\%$ of error (mean $0.006765\,\text{MPa}$ vs quads $0.009975\,\text{MPa}$).
     - Crack tip is $100\%$ quad; far-field correlation between MISESERI and aspect ratio/skewness is negligible ($r = 0.074, 0.053$).
     - Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage1_topology_audit.png` (and `.pdf`).
     - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_STAGE1_TOPOLOGY_AUDIT_REPORT.md` and `GATE6B_STAGE1_TOPOLOGY_AUDIT.json`.
-    - Next Stage: Advance to Stage 2 (Boundary Condition Implementation) without altering topology.
   - **Source-Fidelity Matrix & Count Semantics Reconciliation:**
     - Source-fidelity matrix updated: items without explicit publication text classified as `PUBLISHED_DETAIL_NOT_SPECIFIED`.
     - Element count definitions reconciled: $56,302$ finite elements ($54,847$ CPE4 + $1,455$ CPE3) for literal 1.0% target on 2,906 coarse mesh; $13,897$ finite elements ($13,506$ CPE4 + $391$ CPE3) for calibrated 2.0% variant.
@@ -47,56 +54,28 @@ Parent commit: `4a6dc0d8d8a43a8679acf7fb47ced89f6fde9e7e`
     - Boundary Region error drops by $48.39\%$ ($4.7767 \to 2.4652\,\text{MPa}$); top-right corner error collapses by $94.45\%$ ($0.8896 \to 0.0494\,\text{MPa}$).
     - Intermediate error footprint ($\eta \ge 10\%$) contracts from whole-domain span ($dx=0.98, dy=0.98$) to a compact crack-tip box ($[0.425, 0.547] \times [0.447, 0.540]$, $dx=0.122, dy=0.093$).
     - Native $1.0\%$ remesh shrinks by **$15,783$ elements** ($-21.89\%$, from $72,085$ to $56,302$ finite elements).
-    - Residual: $56,302$ FE remains denser than $13,941$ baseline because Far Field error still accounts for $56.98\%$ of domain error ($16.3553\,\text{MPa}$), leading `UNIFORM_ERROR` sizing to refine broadly.
-    - Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage2_bc_audit.png` (and `.pdf`).
-    - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_STAGE2_BC_AUDIT_REPORT.md` and `GATE6B_STAGE2_BC_AUDIT.json`.
-    - Next Stage: Advance to Stage 3 (Facsimile Mapping Integrity Audit).
   - **Cause Audit Stage 3: All_elem <-> umatelem Facsimile Mapping Integrity Audit (`STAGE3_MAPPING_AUDIT`):**
     - Verdict: **`MAPPING_VERIFIED_NOT_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
     - Audited 1:1 bijective isomorphism between underlying continuum mesh (`All_elem`, Part-level IDs `1..2906`), User Element layer (`JTYPE=2/4`, IDs `2907..5812`), and companion visualization layer (`umatelem`, IDs `5813..8718`).
-    - Verified sub-nanometer geometric and topological identity ($\max |\Delta x_c|, \max |\Delta y_c| < 5.0 \times 10^{-7}\,\text{mm}$ and identical connectivity indices); $100\%$ positive orientation parity; $0$ inverted elements; $0$ label permutations or coordinate transpositions.
-    - Set membership audit confirmed identical element sets across Part (`_PickedSet5`), Field Output (`_PickedSet3`), and Remeshing Rule (`_PickedSet7`).
-    - Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage3_mapping_audit.png` (and `.pdf`).
-    - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_STAGE3_MAPPING_AUDIT_REPORT.md` and `GATE6B_STAGE3_MAPPING_AUDIT.json`.
-    - Mapping Table CSV: `models/pandey_kumar_mode1/PK_M1_COARSE_2906_FACSIMILE_MAPPING.csv`.
-    - Next Stage: Advance to Stage 4 (Stress Transfer into Companion Facsimile Layer).
+    - Verified sub-nanometer geometric and topological identity ($\max |\Delta x_c|, \max |\Delta y_c| < 5.0 \times 10^{-7}\,\text{mm}$ and identical connectivity indices); $100\%$ positive orientation parity; $0$ inverted elements.
   - **Cause Audit Stage 4: Stress Transfer into Companion Facsimile Layer (`STAGE4_STRESS_TRANSFER_AUDIT`):**
     - Verdict: **`STRESS_TRANSFER_VERIFIED_NOT_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
-    - Source-level code trace of governed Fortran UEL/UMAT (`f42_mixed_uel.for`) confirms Mechanical User Element (`JTYPE=2/4`, lines 394–550 / 675–800) evaluates linear-elastic plane-strain constitutive stresses $\boldsymbol{\sigma}_0 = \mathbf{D}_0 \boldsymbol{\varepsilon}$ mathematically identical to Abaqus native continuum elasticity ($E=210\,\text{GPa}, \nu=0.3$).
-    - In the 3-layer solver deck, the companion UMAT intentionally sets $\mathbf{S}=\mathbf{0}$ and $\mathbf{D}_{\text{dummy}}=10^{-11}\mathbf{I}$ (lines 839–907) to prevent spurious structural stiffness double-counting. In the pre-analysis workflow (`PK_PREANALYSIS_COARSE.inp`), Abaqus executes a single-layer continuum solve where `MISESERI` is evaluated directly on physical continuum elements without intermediate transfer.
-    - Quantitative stress parity across all $2,906$ coarse elements confirms exact mathematical identity between UEL constitutive stresses and extracted continuum stresses ($r=1.000000000$, $\max |\Delta \sigma_{\text{vM}}| < 9.1 \times 10^{-7}\,\text{MPa}$, mean $< 1.6 \times 10^{-7}\,\text{MPa}$).
-    - Proves the broad far-field MISESERI error distribution ($32.98\%$ in Far Field, $31.67\%$ in Wake) is $100\%$ present in the source continuum mechanical stress field; it is not created or distorted by stress transfer.
-    - Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage4_stress_transfer_audit.png` (and `.pdf`).
-    - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_STAGE4_STRESS_TRANSFER_AUDIT_REPORT.md` and `GATE6B_STAGE4_STRESS_TRANSFER_AUDIT.json`.
-    - Stress Audit CSV: `models/pandey_kumar_mode1/PK_M1_COARSE_2906_STRESS_TRANSFER_AUDIT.csv`.
-    - Next Stage: Held for Pre-Analysis Architecture Reconciliation Checkpoint.
-  - **Reference-Fidelity Checkpoint: Pre-Analysis Architecture Reconciliation (`PREANALYSIS_FIDELITY_RECONCILIATION`):**
-    - Audit Finding: The existing $56,302$-element $1.0\%$ remeshed model was driven by `PK_PREANALYSIS_COARSE.inp`, executing a single-layer standard continuum linear-elastic solve (`Plate-1`, CPE4/CPE3, $2,906$ elements, $2,988$ nodes).
-    - Reclassification: The single-layer continuum pre-analysis ($56,302$ FE) is formally reclassified as a **project diagnostic variant** (`STANDARD_CONTINUUM_PREANALYSIS_VARIANT`), preserving its utility for isolating continuum stress errors while establishing that it is not a faithful realization of Pandey & Kumar's 3-layer UEL workflow.
-    - Claims Reconciliation: Prior Stage-4 wording asserting that MISESERI is evaluated directly on standard continuum elements was corrected to reflect the authentic layered architecture where MISESERI is extracted from the companion facsimile layer (`All_elem` / `umatelem`).
-    - Candidate Package (`89_mode1_preanalysis_uel_canonical_2906`): Reconstructed publication-faithful 3-layer `PK_M1_JOB1_UEL_2906.inp` ($8,718$ layered elements on canonical 2,906 coarse mesh) with Hookean stress recovery in UMAT (`f42_mixed_uel.for`) and verified zero duplicate stiffness ($K_0 = 137.945520\,\text{kN/mm}$, $r=1.000000000$).
-    - Datacheck Preflight: Executed on cluster login node with **`Abaqus JOB PK_M1_JOB1_UEL_2906 COMPLETED (EXIT: 0)`**.
-    - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_PREANALYSIS_FIDELITY_AUDIT_REPORT.md`, `GATE6B_PREANALYSIS_FIDELITY_RECONCILIATION.json`, and `PK_M1_PREANALYSIS_PROVENANCE_MATRIX.csv`.
-    - Next Stage: Submit authorized 1-CPU serial Job-1_UEL pre-analysis solve upon controller authorization.
+    - Source-level code trace of governed Fortran UEL/UMAT (`f42_mixed_uel.for`) confirms Mechanical User Element evaluates linear-elastic plane-strain constitutive stresses $\boldsymbol{\sigma}_0 = \mathbf{D}_0 \boldsymbol{\varepsilon}$ identically to Abaqus continuum elasticity.
+    - Stress parity across all $2,906$ coarse elements confirmed ($r=1.000000000$, $\max |\Delta \sigma_{\text{vM}}| < 9.1 \times 10^{-7}\,\text{MPa}$).
   - **S1 Reference Solve Scientifically Qualified (`1409734.mmaster02`):**
     - Exit Status: `0` (Walltime `06:55:16`, CPUT `06:43:00`, 1-CPU Serial on `mnode097/0`).
     - Mechanical Parity: $K_0 = 137.945520\,\text{kN/mm}$ ($N=400$, $b=4.472368 \times 10^{-5}\,\text{kN}$, $R^2=0.99999960$), $F_{\max} = 0.757778\,\text{kN}$, $u_{\text{peak}} = 0.005857\,\text{mm}$, $W_{\text{ext}} = 2.359329\,\text{mJ}$.
-    - Energetic Metrics: $E_{\text{elas}} = 0.001161\,\text{mJ}$, $E_{\text{frac}} = 2.340220\,\text{mJ}$, $E_{\text{model}} = 2.341381\,\text{mJ}$, $\Delta_{\text{book}} = -0.017949\,\text{mJ}$ ($\varepsilon_{\text{book}} = -0.76\%$).
     - Qualification Status: **`CORRECTED_S1_ENERGY_QUALIFIED`**.
   - **Temporal Convergence Family Qualified (`T1` 1409869 vs `T2/S1` 1409734 vs `T3` 1409870):**
     - $K_0$ variation across $4\times$ range: **$0.0009\%$** ($137.944687 \to 137.945520 \to 137.945936\,\text{kN/mm}$).
     - $F_{\max}$ variation across $4\times$ range: **$0.0693\%$** ($0.758151 \to 0.757778 \to 0.757626\,\text{kN}$).
-    - $u(F_{\max})$ variation across $4\times$ range: **$0.1537\%$** ($5.864 \to 5.857 \to 5.855\,\mu\text{m}$).
-    - $W_{\text{ext}}$ monotonic decreasing temporal sensitivity: $2.410110 \to 2.359329 \to 2.331892\,\text{mJ}$ ($-2.11\% \to -1.16\%$).
-    - $E_{\text{frac}}$ diffuse surface functional: $2.399955 \to 2.340220 \to 2.248132\,\text{mJ}$ ($-3.93\%$ T3 vs T2).
     - Status: **`QUALIFIED_TEMPORAL_CONVERGENCE_FAMILY`**.
   - **Adaptive Candidate 13.9k Spatial Causality Audit (`1409846.mmaster02`):**
     - Exit 0, 7,000 incs ($13,897$ el). Pre-peak: $K_0 = 137.889603\,\text{kN/mm}$ ($\Delta K_0 = -0.0405\%$), $F_{\max} = 0.742298\,\text{kN}$ ($\Delta F_{\max} = -2.04\%$), $\Delta W_{\text{ext}} = -0.06\%$ in Regime A.
-    - Post-peak spatial causality audit across 7 matched displacements ($u=0.0055 \to 0.0100\,\text{mm}$) reveals crack extension retardation ($L_{\text{lig}} = 0.2965\,\text{mm}$ intact at $u=0.0070\,\text{mm}$ vs $0.000\,\text{mm}$ in S1).
-    - Unbroken ligament transmits tensile load ($F = 0.528\,\text{kN}$ at $u=0.0070\,\text{mm}$), storing $>85\%$ of residual elastic energy ($E_{\text{elas}} = 0.145\,\text{mJ}$) in bulk top/bottom loading blocks.
     - Epistemic classification: **`EFFICIENCY_CALIBRATED_2PCT_PROJECT_VARIANT`**; spatial causality classification: **`SUPPORTED_BUT_NOT_PROVEN`**.
-  - **Active Running Solver Job (1 Independent Solve, Untouched):**
-    - S3 Fine Spatial ($41,912$ el, Job `1409867.mmaster02`, `normal_imfdfkmq`, Non-polling guard enforced).
+  - **Active Running Solver Jobs in Cluster Queue:**
+    1. **`1409912.mmaster02`**: `PK_M1_JOB1_SOLVE` (3-layer Job-1_UEL pre-analysis, 1-CPU Serial, Submitted / Active in queue `normal_imfdfkmq`).
+    2. **`1409867.mmaster02`**: `PK_M1_S3_ENERGY` (41,912-element fine spatial solve, 1-CPU Serial, Running in `normal_imfdfkmq`, non-polling guard enforced).
 
 ---
 
@@ -104,6 +83,7 @@ Parent commit: `4a6dc0d8d8a43a8679acf7fb47ced89f6fde9e7e`
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :---: | :---: | :---: | :--- | :--- |
+| **`1409912.mmaster02`** | `PK_M1_JOB1_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | **`Q`/`R` (Active)** | Canonical 2,906-element 3-layer Job-1_UEL pre-analysis solve | `27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF` |
 | **`1409867.mmaster02`** | `PK_M1_S3_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | **`R` (Running)** | 41,912-element ($h=0.0015\,\text{mm}$) spatial fine convergence solve | `1500ECA5028660045789AF04AD3112E26CA76BBF7BFAC6437A42008A4307408F` |
 | `1409870.mmaster02` | `PK_MODE1_T3_FINE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 15,192-element temporal fine ($\Delta u = 2.5\times 10^{-4}$) solve (**`TEMPORAL_FAMILY_QUALIFIED`**) | `72D6CC5176326BFAB60FB9B23AFBE4AD6882A0ABC030465BAF10A5DC2A19519C` |
 | `1409846.mmaster02` | `PK_M1_ADAPT_2PCT_13K_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 13,897-element 2% efficiency-calibrated adaptive validation solve (**`SPATIAL_CAUSALITY_AUDITED`**) | `9113C5F609B86DE03FD0AD4A18A971EC3ED5424664BFE44E695E96789D4D6ECC` |
