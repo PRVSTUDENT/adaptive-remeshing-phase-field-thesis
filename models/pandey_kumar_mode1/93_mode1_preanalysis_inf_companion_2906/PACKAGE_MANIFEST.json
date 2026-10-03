@@ -1,0 +1,36 @@
+{
+  "package_name": "93_mode1_preanalysis_inf_companion_2906",
+  "task_id": "F1184-GATE6B-ADAPTIVE-LOCALIZATION-STAGE8-INF-STIFFNESS-COMPANION-AUDIT-20261003",
+  "gate": "Gate-6B Stage 8",
+  "created_at": "2026-10-03T12:15:00+02:00",
+  "files": {
+    "deck": {
+      "filename": "PK_M1_JOB1_INF_COMPANION_2906.inp",
+      "sha256": "D452369305FF67A2B0CFA4E5D07FAB810C9123ECF500A05BBA3E498437883613",
+      "purpose": "3-layer UEL/UMAT pre-analysis deck with infinitesimal companion elasticity (E_dummy=1e-11, nu=0.3)"
+    },
+    "subroutine": {
+      "filename": "f42_mixed_uel_inf_stress.for",
+      "sha256": "472CA0C5CC8B762BF83DAEA961988502DBFAE36DB7A32565B8C13FA69D839084",
+      "purpose": "Mixed 4-node/3-node UEL + infinitesimal-stiffness companion UMAT with Molnar & Gravouil (2017) stress update"
+    },
+    "datacheck_pbs": {
+      "filename": "submit_datacheck.pbs"
+    },
+    "solver_pbs": {
+      "filename": "submit_solver.pbs"
+    },
+    "run_solver": {
+      "filename": "run_solver.sh"
+    },
+    "audit_script": {
+      "filename": "stage8_inf_companion_audit.py"
+    },
+    "run_audit": {
+      "filename": "run_stage8_audit.sh"
+    },
+    "isolation_card": {
+      "filename": "PRE_JOB_ISOLATION_CARD.md"
+    }
+  }
+}

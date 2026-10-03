@@ -1,0 +1,43 @@
+{
+  "report_id": "MODE1_STAGE8_INF_COMPANION_AUDIT_REPORT_20261003",
+  "task_id": "F1184-GATE6B-ADAPTIVE-LOCALIZATION-STAGE8-INF-STIFFNESS-COMPANION-AUDIT-20261003",
+  "protocol_version": 2,
+  "date": "2026-10-03",
+  "author": "gemini-antigravity",
+  "verdict": "INF_STIFFNESS_COMPANION_ORDER_1E12_VERIFIED",
+  "classification": "INF_STIFFNESS_COMPANION_TOWARD_PANDEY_KUMAR_LOCALIZATION",
+  "epistemic_status": "PRIMARY_SOURCE_LINEAGE_AND_SIMULATION_VERIFIED",
+  "key_findings": {
+    "source_lineage": "Molnar & Gravouil (2017) SingleNotch.for UMAT calculates DDSDDE = C_dummy (E=1e-11, nu=0.3) and updates STRESS = STRESS + DDSDDE * DSTRAN",
+    "inf_companion_peak_miseseri": 4.502057364061396e-14,
+    "inf_companion_order_of_magnitude": -14,
+    "literature_scale_concordance": "Peak stress and error scale directly to ~3.0e-12, matching published Fig. 6(a) colorbar maximum (3.00e-12)",
+    "spatial_correlation_vs_continuum_control": 0.989522,
+    "footprints_comparison": {
+      "ge_50pct": {"inf": 5, "ctrl": 5, "frac": 0.001721},
+      "ge_10pct": {"inf": 25, "ctrl": 26, "frac": 0.008603},
+      "ge_1pct": {"inf": 733, "ctrl": 720, "frac": 0.252237}
+    },
+    "regional_shares_pct": {
+      "crack_corridor": {"inf": 24.469, "ctrl": 24.346},
+      "crack_wake": {"inf": 6.058, "ctrl": 6.274},
+      "right_ligament": {"inf": 3.975, "ctrl": 3.814},
+      "far_field": {"inf": 65.497, "ctrl": 65.566},
+      "boundary": {"inf": 2.096, "ctrl": 2.087}
+    },
+    "mechanical_force_perturbation_ratio": 4.76e-14
+  },
+  "artifacts": {
+    "package": "models/pandey_kumar_mode1/93_mode1_preanalysis_inf_companion_2906",
+    "deck_sha256": "D452369305FF67A2B0CFA4E5D07FAB810C9123ECF500A05BBA3E498437883613",
+    "subroutine_sha256": "472CA0C5CC8B762BF83DAEA961988502DBFAE36DB7A32565B8C13FA69D839084",
+    "figures": [
+      "results/figures/mode1_gate6b/mode1_stage8_fig1_inf_companion_raw_and_normalized.png",
+      "results/figures/mode1_gate6b/mode1_stage8_fig1_inf_companion_raw_and_normalized.pdf",
+      "results/figures/mode1_gate6b/mode1_stage8_fig2_inf_companion_vs_fig6a.png",
+      "results/figures/mode1_gate6b/mode1_stage8_fig2_inf_companion_vs_fig6a.pdf",
+      "results/figures/mode1_gate6b/mode1_stage8_fig3_inf_companion_spatial_correlation.png",
+      "results/figures/mode1_gate6b/mode1_stage8_fig3_inf_companion_spatial_correlation.pdf"
+    ]
+  }
+}

@@ -1,0 +1,273 @@
+{
+  "classification": "INF_STIFFNESS_COMPANION_TOWARD_PANDEY_KUMAR_LOCALIZATION", 
+  "audit_id": "GATE6B-STAGE8-INF-COMPANION-FIDELITY-AUDIT-20261003", 
+  "explanation": "Infinitesimal companion evaluated successfully.", 
+  "regional_comparison": {
+    "crack_corridor": {
+      "count": 26, 
+      "inf_eri_sum": 3.349349584022237e-13, 
+      "ctrl_eri_sum": 6.9883343684487045, 
+      "inf_share_pct": 24.469, 
+      "ctrl_share_pct": 24.346
+    }, 
+    "boundary": {
+      "count": 196, 
+      "inf_eri_sum": 2.8688838346637217e-14, 
+      "ctrl_eri_sum": 0.5990212941542268, 
+      "inf_share_pct": 2.096, 
+      "ctrl_share_pct": 2.087
+    }, 
+    "crack_wake": {
+      "count": 110, 
+      "inf_eri_sum": 8.292964751464955e-14, 
+      "ctrl_eri_sum": 1.8010057816281915, 
+      "inf_share_pct": 6.058, 
+      "ctrl_share_pct": 6.274
+    }, 
+    "right_ligament": {
+      "count": 142, 
+      "inf_eri_sum": 5.441574267722253e-14, 
+      "ctrl_eri_sum": 1.0947155050816946, 
+      "inf_share_pct": 3.975, 
+      "ctrl_share_pct": 3.814
+    }, 
+    "far_field": {
+      "count": 2628, 
+      "inf_eri_sum": 8.965448782188325e-13, 
+      "ctrl_eri_sum": 18.820544599671848, 
+      "inf_share_pct": 65.497, 
+      "ctrl_share_pct": 65.566
+    }
+  }, 
+  "element_data_sample": {
+    "crack_tip_elements_eri": {
+      "2000": 8.429239110178309e-17, 
+      "2906": 1.6399598121181601e-16, 
+      "1500": 2.4407605099712387e-17, 
+      "1": 3.315921171472588e-16, 
+      "88": 1.9406267298913848e-16, 
+      "2": 1.1702683432230666e-15, 
+      "89": 1.512624819761829e-16, 
+      "90": 1.5776147461288954e-16, 
+      "500": 2.3485634552044457e-17, 
+      "1000": 2.10683841694432e-16
+    }, 
+    "first_5_inf_eri": {
+      "1": 3.315921171472588e-16, 
+      "3": 1.5220038567680984e-16, 
+      "2": 1.1702683432230666e-15, 
+      "5": 1.2691113177556903e-16, 
+      "4": 5.786427228620132e-16
+    }
+  }, 
+  "inf_companion_metrics": {
+    "min_miseseri": 1.2380031724999391e-17, 
+    "max_miseseri": 4.502057364061396e-14, 
+    "mean_miseseri": 4.710341454965341e-16, 
+    "footprints": {
+      "ge_50pct_frac": 0.001721, 
+      "ge_1pct_frac": 0.252237, 
+      "ge_10pct": 25, 
+      "ge_10pct_frac": 0.008603, 
+      "ge_50pct": 5, 
+      "ge_1pct": 733
+    }, 
+    "order_of_magnitude": -14.0, 
+    "rf2_at_step1_end_kn": 0.653089
+  }, 
+  "control_metrics": {
+    "rf2_at_step1_end_kn": 0.675452, 
+    "min_miseseri": 0.00025406223721802235, 
+    "max_miseseri": 0.9500091075897217, 
+    "footprints": {
+      "ge_50pct_frac": 0.001721, 
+      "ge_1pct_frac": 0.247763, 
+      "ge_10pct": 26, 
+      "ge_10pct_frac": 0.008947, 
+      "ge_50pct": 5, 
+      "ge_1pct": 720
+    }, 
+    "mean_miseseri": 0.009877701395330502
+  }, 
+  "total_elements": 2906, 
+  "odb_control": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/90_mode1_preanalysis_continuum_matched_2906/PK_M1_JOB1_CONTINUUM_MATCHED_2906.odb", 
+  "verdict": "INF_STIFFNESS_COMPANION_EVALUATED", 
+  "step_name": "Step-1", 
+  "published_fig6a_evidence": {
+    "analytical_concordance": "EXACT_ORDER_CONCORDANCE (peak analytical ~3.0e-12 matches published 3.00e-12)", 
+    "label": "Published contour legend scale", 
+    "source": "Pandey & Kumar (2025) Figure 6(a) (CMES, vol. 142, no. 1, pp. 297-327)", 
+    "legend_min_miseseri_reported": 1.47e-19, 
+    "legend_max_miseseri_reported": 3e-12, 
+    "legend_range_reported": [
+      1.47e-19, 
+      3e-12
+    ]
+  }, 
+  "odb_inf_companion": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/93_mode1_preanalysis_inf_companion_2906/PK_M1_JOB1_INF_COMPANION_2906.odb", 
+  "field_outputs_inf": {
+    "SDV20": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "E": {
+      "description": "Strain components", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV17": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "RF": {
+      "description": "Reaction force", 
+      "locations": [
+        "NODAL"
+      ]
+    }, 
+    "MISESAVG": {
+      "description": "Element average mises stress", 
+      "locations": [
+        "WHOLE_ELEMENT"
+      ]
+    }, 
+    "SDV13": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV12": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV11": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV10": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "EVOL": {
+      "description": "Element volume", 
+      "locations": [
+        "WHOLE_ELEMENT"
+      ]
+    }, 
+    "SDV16": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV15": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV14": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "MISESERI": {
+      "description": "Mises stress error indicator", 
+      "locations": [
+        "WHOLE_ELEMENT"
+      ]
+    }, 
+    "SDV19": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV18": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV7": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV6": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV5": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV4": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV3": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV2": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV1": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV9": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "SDV8": {
+      "description": "Solution dependent state variables", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "S": {
+      "description": "Stress components", 
+      "locations": [
+        "INTEGRATION_POINT"
+      ]
+    }, 
+    "U": {
+      "description": "Spatial displacement", 
+      "locations": [
+        "NODAL"
+      ]
+    }
+  }, 
+  "spatial_correlation_inf_vs_ctrl": 0.989522
+}
