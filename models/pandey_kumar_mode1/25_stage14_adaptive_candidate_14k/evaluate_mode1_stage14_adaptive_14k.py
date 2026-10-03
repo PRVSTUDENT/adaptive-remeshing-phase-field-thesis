@@ -577,11 +577,27 @@ def extract_matched_adaptive_bundle_from_odb(odb_path, out_dir):
         for frame_idx, frame in enumerate(step.frames):
             frame_val = float(frame.frameValue)
             if step_name == 'Step-1':
-                u_val = frame_val * 0.0050
+                u_fallback = frame_val * 0.0050
                 total_time = frame_val
             else:
-                u_val = 0.0050 + frame_val * 0.0050
+                u_fallback = 0.0050 + frame_val * 0.0050
                 total_time = 1.0 + frame_val
+                
+            u_val = None
+            if 'U' in frame.fieldOutputs:
+                u_field = frame.fieldOutputs['U']
+                if rp_set is not None:
+                    u_sub = u_field.getSubset(region=rp_set)
+                    for val in u_sub.values:
+                        u_val = abs(float(val.data[1]))
+                        break
+                else:
+                    for val in u_field.values:
+                        if val.nodeLabel == 999999 or val.nodeLabel == 1000000:
+                            u_val = abs(float(val.data[1]))
+                            break
+            if u_val is None:
+                u_val = u_fallback
                 
             rf_val = 0.0
             if 'RF' in frame.fieldOutputs:
