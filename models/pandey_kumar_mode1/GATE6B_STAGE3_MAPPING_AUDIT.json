@@ -86,7 +86,7 @@
   "verdict_and_next_action": {
     "stage3_verdict": "MAPPING_VERIFIED_NOT_DOMINANT_CAUSE",
     "localization_direction": "NEUTRAL_LOCALIZATION",
-    "justification": "Facsimile mapping layer exhibits bit-for-bit exact isomorphism across underlying, user element, and companion UMAT representations. Zero label permutation, zero connectivity mismatch, zero orientation defect, and zero coordinate transposition exist. Spatial error distribution is mathematically identical to raw continuum pre-analysis.",
+    "justification": "Facsimile mapping layer exhibits exact bijective isomorphism across underlying, user element, and companion UMAT representations. Zero label permutation, zero connectivity mismatch, zero orientation defect, and zero coordinate transposition exist. Spatial error distribution is mathematically identical to raw continuum pre-analysis.",
     "next_governed_stage": "Stage 4: Stress Transfer into Facsimile Layer (STAGE4_STRESS_TRANSFER_AUDIT)"
   }
 }

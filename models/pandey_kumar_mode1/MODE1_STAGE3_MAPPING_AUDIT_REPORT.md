@@ -25,7 +25,7 @@ The explicit mandate of Stage 3 is to determine whether the broad far-field MISE
 - **Next Governed Stage:** **`STAGE4_STRESS_TRANSFER_AUDIT`** (Stress Transfer into Facsimile Layer)
 
 ### 1.3 Key Mathematical & Structural Findings
-1. **Bit-for-Bit Isomorphism Across Layers:**  
+1. **Exact Bijective Isomorphism Across Layers:**  
    Every underlying finite element ($e = 1 \dots 2906$) maps bijectively and identically to its companion visualization and error-evaluation elements. In the single-layer pre-analysis deck (`PK_PREANALYSIS_COARSE.inp`), $f(e) = e$ (1:1 identity). In the 3-layer coupled solver decks, $f(e) = e + 5812$ with identical node connectivity $\text{nodes}(e + 5812) \equiv \text{nodes}(e)$, identical element centroids $\mathbf{x}_c$, and identical positive Jacobians $\det J > 0$.
 2. **Sub-Nanometer Centroid Parity & Zero Inversion:**  
    Comparison between the deck geometry and extracted MISESERI centroid database demonstrates maximum spatial discrepancy $\max |\Delta x_c|, \max |\Delta y_c| < 5.0 \times 10^{-7}\text{ mm}$ ($< 0.5\text{ nm}$), confirming exact single/double-precision floating point identity. Exactly 0 inverted, zero-area, or collapsed elements exist (100.0000% positive orientation parity).
@@ -109,11 +109,11 @@ All $2,906$ elements satisfy $A > 0$, proving that all element node connectivity
 
 ## 4. Spatial Error Reconstruction & Permutation Diagnostics
 
-### 4.1 Bit-for-Bit Spatial Field Reconstruction
+### 4.1 Spatial Field Reconstruction
 Mapping extracted MISESERI error values from `miseseri_corrected_2906.csv` back to underlying element centroids via the verified bijective mapping produces:
 - **Maximum Absolute Difference:** $\max |\eta_{\text{recon}} - \eta_{\text{raw}}| = 0.00000000\text{ MPa}$
 - **Root-Mean-Square (RMS) Difference:** $\text{RMS}(\Delta \eta) = 0.00000000\text{ MPa}$
-- **Parity Agreement:** $100.0000\%$ bit-for-bit identity across all $2,906$ elements.
+- **Parity Agreement:** $100.0000\%$ sub-nanometer geometric and topological identity (max |Delta x_c|, max |Delta y_c| < 5.0e-7 mm and identical connectivity indices) across all $2,906$ elements.
 
 ### 4.2 Neighbor Jump Continuity Diagnostics
 In a continuous finite element solution, the recovered stress error indicator $\eta(\mathbf{x})$ exhibits high spatial coherence, with small jumps across shared element boundaries. If an index permutation, label shift, or coordinate transposition occurred, this spatial coherence would be destroyed, resulting in large unphysical gradients across adjacent elements.
@@ -151,7 +151,7 @@ The regional breakdown reveals:
 2. **Broad Far-Field Aggregate:** Because the Wake and Far Field encompass $79.42\%$ of the mesh area and elements ($2,308$ elements), their moderate individual error ($0.0070 \dots 0.0096\text{ MPa}$) sums to $64.65\%$ of the total domain error ($18.5586\text{ MPa}$).
 3. **Implication for Remeshing:** In the Abaqus native `adaptiveRemesh` engine under `UNIFORM_ERROR` sizing, element target size is scaled according to:
 $$h_{\text{new}} = h_{\text{old}} \left( \frac{\eta_{\text{target}}}{\eta_{\text{elem}}} \right)^{1/p}$$
-When `errorTarget` is set to a literal $1.0\%$, the required error per element is extremely small, causing the sizing engine to request refinement across both the crack tip and the broad far-field domain, producing $56,302$ finite elements. This is an intrinsic mathematical characteristic of the sizing rule formulation, not an artifact of layer mapping.
+When `errorTarget` is set to a literal $1.0\%$, the required error per element is extremely small, causing the sizing engine to request refinement across both the crack tip and the broad far-field domain, producing $56,302$ finite elements. Mapping integrity is verified, but sizing, frame selection, and output-position semantics remain under investigation (CAUSE_NOT_YET_ISOLATED).
 
 ---
 

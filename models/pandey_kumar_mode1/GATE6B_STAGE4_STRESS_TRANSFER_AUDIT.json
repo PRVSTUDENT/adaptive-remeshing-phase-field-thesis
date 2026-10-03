@@ -1,0 +1,126 @@
+{
+  "audit_metadata": {
+    "stage": "Cause Audit Stage 4: Stress Transfer into Companion Facsimile/UMAT Layer Audit",
+    "gate": "Gate-6B",
+    "timestamp": "2026-10-03T07:42:00+02:00",
+    "agent": "gemini-antigravity",
+    "task_id": "F1172-GATE6B-STAGE4-STRESS-TRANSFER-AUDIT-20261003",
+    "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+    "stress_transfer_verdict": "STRESS_TRANSFER_VERIFIED_NOT_DOMINANT_CAUSE",
+    "localization_classification": "NEUTRAL_LOCALIZATION",
+    "next_governed_stage": "Cause Audit Stage 5: Step & Frame Semantics Audit (adaptiveRemesh field extraction)"
+  },
+  "source_level_audit": {
+    "mechanical_uel_file": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+    "quad_strain_evaluation_lines": "485-490",
+    "quad_stress_computation_lines": "492-497",
+    "tri_strain_evaluation_lines": "756-761",
+    "tri_stress_computation_lines": "763-768",
+    "constitutive_constants": {
+      "E_MOD_GPa": 210.0,
+      "E_NU": 0.3,
+      "C11_GPa": 282.6923076923077,
+      "C12_GPa": 121.15384615384615,
+      "C33_G_GPa": 80.76923076923076
+    },
+    "component_ordering": [
+      "1: S11 (sigma_xx)",
+      "2: S22 (sigma_yy)",
+      "3: S12 (tau_xy)",
+      "Out-of-plane plane-strain: S33 = nu * (S11 + S22)"
+    ],
+    "quad_gauss_quadrature": "2x2 Gauss integration (XG4, YG4 = +/- 0.577350269, W4 = 1.0)",
+    "tri_gauss_quadrature": "1-point centroidal integration (XG3, YG3 = 0.333333333, W3 = 0.5)",
+    "companion_umat_lines": "839-907",
+    "umat_stress_behavior": "STRESS(1..NTENS) = 0.D0 with DDSDDE = 1.D-11 I to prevent spurious stiffness/force double-counting during coupled solve",
+    "preanalysis_execution_pathway": "Pure single-layer continuum elasticity (CPE4/CPE3) in PK_PREANALYSIS_COARSE.inp; MISESERI directly evaluated by Abaqus SPR/ZZ error estimator without intermediate transfer"
+  },
+  "quantitative_stress_comparison": {
+    "elements_evaluated": 2906,
+    "max_abs_mises_diff_mpa": 9.054589267254443e-07,
+    "mean_abs_mises_diff_mpa": 1.5113083463382982e-07,
+    "mises_correlation_r": 0.9999999999998392,
+    "exact_matches_count": 2906,
+    "exact_matches_pct": 100.0,
+    "s11_correlation_r": 1.0,
+    "s22_correlation_r": 1.0,
+    "s12_correlation_r": 1.0
+  },
+  "five_region_stress_and_error_statistics": {
+    "crack_tip": {
+      "elements": 20,
+      "pct_elements": 0.6882,
+      "s11_mean_mpa": 0.4911,
+      "s22_mean_mpa": 1.6111,
+      "s22_max_mpa": 3.4094,
+      "s12_mean_mpa": -0.0684,
+      "mises_mean_mpa": 1.3728,
+      "error_sum_mpa": 6.612734,
+      "pct_error": 23.0372,
+      "mean_error_mpa": 0.330637,
+      "max_error_mpa": 0.950009
+    },
+    "slit_flank": {
+      "elements": 112,
+      "pct_elements": 3.8541,
+      "s11_mean_mpa": -0.1265,
+      "s22_mean_mpa": 0.0199,
+      "s22_max_mpa": 1.5022,
+      "s12_mean_mpa": 0.0083,
+      "mises_mean_mpa": 0.1577,
+      "error_sum_mpa": 2.066005,
+      "pct_error": 7.1975,
+      "mean_error_mpa": 0.018446,
+      "max_error_mpa": 0.227962
+    },
+    "wake": {
+      "elements": 950,
+      "pct_elements": 32.691,
+      "s11_mean_mpa": 0.0181,
+      "s22_mean_mpa": 0.1749,
+      "s22_max_mpa": 0.6974,
+      "s12_mean_mpa": -0.0013,
+      "mises_mean_mpa": 0.2117,
+      "error_sum_mpa": 9.090386,
+      "pct_error": 31.6687,
+      "mean_error_mpa": 0.009569,
+      "max_error_mpa": 0.101409
+    },
+    "far_field": {
+      "elements": 1358,
+      "pct_elements": 46.7309,
+      "s11_mean_mpa": -0.0015,
+      "s22_mean_mpa": 1.1162,
+      "s22_max_mpa": 1.8943,
+      "s12_mean_mpa": -0.0026,
+      "mises_mean_mpa": 1.0123,
+      "error_sum_mpa": 9.468161,
+      "pct_error": 32.9848,
+      "mean_error_mpa": 0.006972,
+      "max_error_mpa": 0.138471
+    },
+    "boundary": {
+      "elements": 466,
+      "pct_elements": 16.0358,
+      "s11_mean_mpa": -0.0209,
+      "s22_mean_mpa": 0.6198,
+      "s22_max_mpa": 1.3028,
+      "s12_mean_mpa": -0.0007,
+      "mises_mean_mpa": 0.6319,
+      "error_sum_mpa": 1.467315,
+      "pct_error": 5.1118,
+      "mean_error_mpa": 0.003149,
+      "max_error_mpa": 0.013564
+    },
+    "total_domain": {
+      "elements": 2906,
+      "error_sum_mpa": 28.704601,
+      "mean_error_mpa": 0.0098777
+    }
+  },
+  "causality_findings": {
+    "primary_finding": "The broad far-field MISESERI error distribution is 100% present in the source continuum mechanical stress field and native Abaqus error estimator; it is NOT introduced by any transfer defect, UMAT distortion, or layer mapping defect.",
+    "localization_effect": "Neutral. The error structure reflects the raw continuum linear elastic solution on the unrefined coarse discretization.",
+    "epistemic_status": "CAUSE_NOT_YET_ISOLATED (Stage 5 Step/Frame Semantics audit pending)"
+  }
+}

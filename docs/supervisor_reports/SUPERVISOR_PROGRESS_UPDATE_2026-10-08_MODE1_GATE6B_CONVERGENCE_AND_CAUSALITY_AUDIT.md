@@ -107,7 +107,7 @@ A rigorous offline audit was conducted comparing the project implementation agai
 
 ---
 
-## 4. Governed Cause Hierarchy: Stage 1 (Topology), Stage 2 (BCs), and Stage 3 (Facsimile Mapping) Audits
+## 4. Governed Cause Hierarchy: Stage 1 (Topology), Stage 2 (BCs), Stage 3 (Mapping), and Stage 4 (Stress Transfer) Audits
 
 To rigorously isolate why the literal $1.0\%$ errorTarget remeshed model produces broad far-field refinement ($56,302$ finite elements) compared to Pandey & Kumar (2025) Fig. 6(a) ($13,941$ elements), the project is executing an exhaustive sequential cause audit (`Topology -> BCs -> Mapping -> Stress Transfer -> Frame -> Element/Output`):
 

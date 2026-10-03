@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T07:22:00+02:00` (Gemini Antigravity) — Gate-6B Cause Audit Stage 2 Complete (BC_PARTIAL_CONTRIBUTOR, TOWARD_TARGET_LOCALIZATION); 15.7k Parasitic Elements Eliminated (72k -> 56k FE); 1 Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
+Last updated: `2026-10-03T07:45:00+02:00` (Gemini Antigravity) — Gate-6B Cause Audit Stage 4 Complete (STRESS_TRANSFER_VERIFIED_NOT_DOMINANT_CAUSE, NEUTRAL_LOCALIZATION); Mechanical UEL vs Continuum Stress Parity Verified (r=1.000 across 2,906 FE); Error Proven Native to Source Continuum Field; Next Governed Stage: Stage 5 Step & Frame Semantics; 1 Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced
 Parent commit: `5fce76f06bfe753d4f7a1b476a16e833e7d4d9d0`
 
 ---
@@ -30,7 +30,7 @@ Parent commit: `5fce76f06bfe753d4f7a1b476a16e833e7d4d9d0`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,	ext{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `STAGE2_BC_AUDITED; STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_DISCREPANCY_AUDITED; SPATIAL_CAUSALITY_AUDITED; 1_SOLVER_JOB_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `STAGE4_STRESS_TRANSFER_AUDITED; STAGE3_MAPPING_AUDITED; STAGE2_BC_AUDITED; STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_DISCREPANCY_AUDITED; SPATIAL_CAUSALITY_AUDITED; 1_SOLVER_JOB_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
   - **Cause Audit Stage 1: Coarse-Mesh Topology & Layout (`STAGE1_TOPOLOGY_AUDIT`):**
     - Verdict: **`TOPOLOGY_NOT_SUPPORTED_AS_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
     - $88$ triangles ($3.03\%$ of mesh) carry only $2.92\%$ of error (mean $0.006765\,	ext{MPa}$ vs quads $0.009975\,	ext{MPa}$).
@@ -51,10 +51,30 @@ Parent commit: `5fce76f06bfe753d4f7a1b476a16e833e7d4d9d0`
     - Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage2_bc_audit.png` (and `.pdf`).
     - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_STAGE2_BC_AUDIT_REPORT.md` and `GATE6B_STAGE2_BC_AUDIT.json`.
     - Next Stage: Advance to Stage 3 (Facsimile Mapping Integrity Audit).
+  - **Cause Audit Stage 3: All_elem <-> umatelem Facsimile Mapping Integrity Audit (`STAGE3_MAPPING_AUDIT`):**
+    - Verdict: **`MAPPING_VERIFIED_NOT_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
+    - Audited 1:1 bijective isomorphism between underlying continuum mesh (`All_elem`, Part-level IDs `1..2906`), User Element layer (`JTYPE=2/4`, IDs `2907..5812`), and companion visualization layer (`umatelem`, IDs `5813..8718`).
+    - Verified sub-nanometer geometric and topological identity ($\max |\Delta x_c|, \max |\Delta y_c| < 5.0 \times 10^{-7}\,\text{mm}$ and identical connectivity indices); $100\%$ positive orientation parity; $0$ inverted elements; $0$ label permutations or coordinate transpositions.
+    - Set membership audit confirmed identical element sets across Part (`_PickedSet5`), Field Output (`_PickedSet3`), and Remeshing Rule (`_PickedSet7`).
+    - Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage3_mapping_audit.png` (and `.pdf`).
+    - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_STAGE3_MAPPING_AUDIT_REPORT.md` and `GATE6B_STAGE3_MAPPING_AUDIT.json`.
+    - Mapping Table CSV: `models/pandey_kumar_mode1/PK_M1_COARSE_2906_FACSIMILE_MAPPING.csv`.
+    - Next Stage: Advance to Stage 4 (Stress Transfer into Companion Facsimile Layer).
+  - **Cause Audit Stage 4: Stress Transfer into Companion Facsimile Layer (`STAGE4_STRESS_TRANSFER_AUDIT`):**
+    - Verdict: **`STRESS_TRANSFER_VERIFIED_NOT_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
+    - Source-level code trace of governed Fortran UEL/UMAT (`f42_mixed_uel.for`) confirms Mechanical User Element (`JTYPE=2/4`, lines 394–550 / 675–800) evaluates linear-elastic plane-strain constitutive stresses $\boldsymbol{\sigma}_0 = \mathbf{D}_0 \boldsymbol{\varepsilon}$ mathematically identical to Abaqus native continuum elasticity ($E=210\,\text{GPa}, \nu=0.3$).
+    - In the 3-layer solver deck, the companion UMAT intentionally sets $\mathbf{S}=\mathbf{0}$ and $\mathbf{D}_{\text{dummy}}=10^{-11}\mathbf{I}$ (lines 839–907) to prevent spurious structural stiffness double-counting. In the pre-analysis workflow (`PK_PREANALYSIS_COARSE.inp`), Abaqus executes a single-layer continuum solve where `MISESERI` is evaluated directly on physical continuum elements without intermediate transfer.
+    - Quantitative stress parity across all $2,906$ coarse elements confirms exact mathematical identity between UEL constitutive stresses and extracted continuum stresses ($r=1.000000000$, $\max |\Delta \sigma_{\text{vM}}| < 9.1 \times 10^{-7}\,\text{MPa}$, mean $< 1.6 \times 10^{-7}\,\text{MPa}$).
+    - Proves the broad far-field MISESERI error distribution ($32.98\%$ in Far Field, $31.67\%$ in Wake) is $100\%$ present in the source continuum mechanical stress field; it is not created or distorted by stress transfer.
+    - Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage4_stress_transfer_audit.png` (and `.pdf`).
+    - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_STAGE4_STRESS_TRANSFER_AUDIT_REPORT.md` and `GATE6B_STAGE4_STRESS_TRANSFER_AUDIT.json`.
+    - Stress Audit CSV: `models/pandey_kumar_mode1/PK_M1_COARSE_2906_STRESS_TRANSFER_AUDIT.csv`.
+    - Next Stage: Advance to Stage 5 (Step & Frame Semantics in `adaptiveRemesh`).
   - **S1 Reference Solve Scientifically Qualified (`1409734.mmaster02`):**
     - Exit Status: `0` (Walltime `06:55:16`, CPUT `06:43:00`, 1-CPU Serial on `mnode097/0`).
     - Mechanical Parity: $K_0 = 137.945520\,	ext{kN/mm}$ ($N=400$, $b=4.472368 	imes 10^{-5}\,	ext{kN}$, $R^2=0.99999960$), $F_{\max} = 0.757778\,	ext{kN}$, $u_{	ext{peak}} = 0.005857\,	ext{mm}$, $W_{	ext{ext}} = 2.359329\,	ext{mJ}$.
-    - Energetic Metrics: $E_{	ext{elas}} = 0.001161\,	ext{mJ}$, $E_{	ext{frac}} = 2.340220\,	ext{mJ}$, $E_{	ext{model}} = 2.341381\,	ext{mJ}$, $\Delta_{	ext{book}} = -0.017949\,	ext{mJ}$ ($arepsilon_{	ext{book}} = -0.76\%$).
+    - Energetic Metrics: $E_{	ext{elas}} = 0.001161\,	ext{mJ}$, $E_{	ext{frac}} = 2.340220\,	ext{mJ}$, $E_{	ext{model}} = 2.341381\,	ext{mJ}$, $\Delta_{	ext{book}} = -0.017949\,	ext{mJ}$ ($
+arepsilon_{	ext{book}} = -0.76\%$).
     - Qualification Status: **`CORRECTED_S1_ENERGY_QUALIFIED`**.
   - **Temporal Convergence Family Qualified (`T1` 1409869 vs `T2/S1` 1409734 vs `T3` 1409870):**
     - $K_0$ variation across $4	imes$ range: **$0.0009\%$** ($137.944687 	o 137.945520 	o 137.945936\,	ext{kN/mm}$).
