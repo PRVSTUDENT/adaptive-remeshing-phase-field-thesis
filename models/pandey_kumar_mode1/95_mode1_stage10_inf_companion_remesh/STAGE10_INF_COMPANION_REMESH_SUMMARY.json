@@ -1,0 +1,116 @@
+{
+  "spatial_morphology": {
+    "crack_corridor_count": 8435, 
+    "upper_far_field_count": 24526, 
+    "h_far_min_mm": 0.0005534655816269079, 
+    "refined_band_widths_by_x": {
+      "0.9": {
+        "count": 196, 
+        "width_mm": 0.8628667580584686, 
+        "y_max": 0.9151582916577657, 
+        "y_min": 0.0522915335992972
+      }, 
+      "0.8": {
+        "count": 352, 
+        "width_mm": 0.7549073497454325, 
+        "y_max": 0.9239310026168823, 
+        "y_min": 0.1690236528714498
+      }, 
+      "0.1": {
+        "count": 79, 
+        "width_mm": 0.9207643270492554, 
+        "y_max": 0.963572084903717, 
+        "y_min": 0.04280775785446167
+      }, 
+      "0.3": {
+        "count": 1796, 
+        "width_mm": 0.8606683928519487, 
+        "y_max": 0.9534472227096558, 
+        "y_min": 0.09277882985770702
+      }, 
+      "0.2": {
+        "count": 242, 
+        "width_mm": 0.904024038463831, 
+        "y_max": 0.9434308807055155, 
+        "y_min": 0.03940684224168459
+      }, 
+      "0.5": {
+        "count": 9161, 
+        "width_mm": 0.9241580069065094, 
+        "y_max": 0.9622541964054108, 
+        "y_min": 0.03809618949890137
+      }, 
+      "0.4": {
+        "count": 4787, 
+        "width_mm": 0.9253195446605483, 
+        "y_max": 0.9635550181070963, 
+        "y_min": 0.038235473446547985
+      }, 
+      "0.7": {
+        "count": 2330, 
+        "width_mm": 0.846120672300458, 
+        "y_max": 0.8980162739753723, 
+        "y_min": 0.05189560167491436
+      }, 
+      "0.6": {
+        "count": 7919, 
+        "width_mm": 0.9380580745637417, 
+        "y_max": 0.9725582450628281, 
+        "y_min": 0.03450017049908638
+      }
+    }, 
+    "ligament_count": 4852, 
+    "wake_count": 3583, 
+    "elements_near_nominal_h002_count": 33, 
+    "h_corridor_min_mm": 0.0007214143353803064, 
+    "h_corridor_median_mm": 0.0020544163343836188, 
+    "lower_far_field_count": 24968, 
+    "crack_corridor_fraction": 0.14560928032591622, 
+    "refined_bbox_h003": {
+      "count": 27890, 
+      "x_min": 0.09456941733757655, 
+      "y_max": 0.9604991475741068, 
+      "y_min": 0.037375607838233314, 
+      "x_max": 0.9689418276151022
+    }, 
+    "h_far_median_mm": 0.0032901571439421053, 
+    "far_field_total_count": 49494, 
+    "far_field_fraction": 0.8543907196740838
+  }, 
+  "status": "STAGE10_INF_COMPANION_NATIVE_REMESH_COMPLETED", 
+  "coarse_mesh": {
+    "total_elements": 2963, 
+    "total_nodes": 3039
+  }, 
+  "comparison_vs_continuum_1pct": {
+    "stage10_inf_companion_elements": 57929, 
+    "continuum_1pct_elements_corrected_preanalysis": 48329, 
+    "continuum_1pct_elements_coarse_preanalysis": 71320
+  }, 
+  "sizing_contract": {
+    "sizing_method": "UNIFORM_ERROR", 
+    "error_target_pct": 1.0, 
+    "min_element_size_mm": 0.001, 
+    "max_element_size_mm": 0.02, 
+    "coarsening_factor": "NOT_ALLOWED", 
+    "region": "ALL_ELEM (companion layer)", 
+    "refinement_factor": 10
+  }, 
+  "audit_id": "GATE6B-STAGE10-INF-COMPANION-NATIVE-REMESH-20261003", 
+  "caller_frame": "Step-1 frame_last (u=0.005 mm, PROJECT_CONTROLLED_FRAME)", 
+  "adapted_mesh": {
+    "h_eq_stats": {
+      "p10": 0.0017720018347272234, 
+      "p25": 0.002103990821430754, 
+      "p75": 0.004713089197215348, 
+      "min": 0.0005534655816269079, 
+      "p90": 0.006416278053098785, 
+      "max": 0.018343460788109275, 
+      "median": 0.0030961926239469677, 
+      "mean": 0.00365698514173421
+    }, 
+    "total_elements": 57929, 
+    "total_nodes": 57491
+  }, 
+  "preanalysis_odb": "../93_mode1_preanalysis_inf_companion_2906/PK_M1_JOB1_INF_COMPANION_2906.odb"
+}

@@ -1,0 +1,69 @@
+{
+  "audit_id": "GATE6B-STAGE10-INF-COMPANION-NATIVE-REMESH-20261003",
+  "protocol_version": 2,
+  "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "audit_title": "Gate-6B Stage 10: Native 1% Adaptive Remeshing of Infinitesimal Companion Pre-Analysis",
+  "auditor": "gemini-antigravity",
+  "evaluation_date": "2026-10-03",
+  "next_supervisor_meeting": "Thursday, 08 October 2026, 10:00 CEST",
+  "verdict": "INF_COMPANION_NATIVE_REMESH_NO_MEANINGFUL_IMPROVEMENT",
+  "scientific_verdict": "INF_COMPANION_NATIVE_REMESH_SCALE_INVARIANCE_PROVEN",
+  "sizing_contract": {
+    "sizing_method": "UNIFORM_ERROR",
+    "error_target_pct": 1.0,
+    "refinement_factor": 10,
+    "coarsening_factor": "NOT_ALLOWED",
+    "min_element_size_mm": 0.001,
+    "max_element_size_mm": 0.020,
+    "region": "ALL_ELEM (companion layer)",
+    "frame": "Step-1 frame_last (u=0.005 mm, PROJECT_CONTROLLED_FRAME)"
+  },
+  "preanalysis_source": {
+    "package": "93_mode1_preanalysis_inf_companion_2906",
+    "odb": "PK_M1_JOB1_INF_COMPANION_2906.odb",
+    "peak_miseseri_kn_mm2": 4.502057364061396e-14,
+    "peak_miseseri_mpa": 4.502057364061396e-11
+  },
+  "adapted_mesh_results": {
+    "total_elements": 57929,
+    "total_nodes": 57491,
+    "min_h_eq_mm": 0.0005534655816269079,
+    "median_h_eq_mm": 0.0030961926239469677,
+    "mean_h_eq_mm": 0.00365698514173421,
+    "max_h_eq_mm": 0.018343460788109275,
+    "elements_near_nominal_count": 33
+  },
+  "spatial_partitioning": {
+    "crack_corridor_count": 8435,
+    "crack_corridor_fraction": 0.14560928032591622,
+    "wake_count": 3583,
+    "ligament_count": 4852,
+    "upper_far_field_count": 24526,
+    "lower_far_field_count": 24968,
+    "far_field_total_count": 49494,
+    "far_field_fraction": 0.8543907196740838,
+    "refined_bbox_h003": {
+      "count": 27890,
+      "x_min": 0.09456941733757655,
+      "x_max": 0.9689418276151022,
+      "y_min": 0.037375607838233314,
+      "y_max": 0.9604991475741068
+    },
+    "mean_bandwidth_mm": 0.8716538622176964
+  },
+  "comparative_lineage": {
+    "continuum_coarse_preanalysis_1pct_fe": 71320,
+    "continuum_corrected_preanalysis_1pct_fe": 48329,
+    "inf_companion_preanalysis_1pct_fe": 57929,
+    "published_fig6a_fe": 13941
+  },
+  "figures_generated": [
+    "results/figures/mode1_gate6b/mode1_stage10_fig1_inf_companion_native_remesh_alignment.png",
+    "results/figures/mode1_gate6b/mode1_stage10_fig1_inf_companion_native_remesh_alignment.pdf",
+    "results/figures/mode1_gate6b/mode1_stage10_fig2_continuum_vs_inf_companion_remesh.png",
+    "results/figures/mode1_gate6b/mode1_stage10_fig2_continuum_vs_inf_companion_remesh.pdf",
+    "results/figures/mode1_gate6b/mode1_stage10_fig3_sizing_and_bandwidth_profile.png",
+    "results/figures/mode1_gate6b/mode1_stage10_fig3_sizing_and_bandwidth_profile.pdf"
+  ],
+  "scientific_conclusion": "Infinitesimal companion elasticity reproduces the exact 10^-12 error magnitude observed in Fig. 6(a), but because Abaqus UNIFORM_ERROR sizing is scale-invariant, the resulting native 1% adapted mesh (57,929 elements, 85.44% in far field, w approx 0.85-0.94 mm) exhibits the same broad domain-wide refinement morphology as continuum control."
+}

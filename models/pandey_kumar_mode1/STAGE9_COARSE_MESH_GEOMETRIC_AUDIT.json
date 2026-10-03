@@ -421,18 +421,23 @@
     }
   ],
   "literature_comparison": {
-    "published_nominal_h": 0.02,
-    "specimen_size": [
-      1.0,
-      1.0
-    ],
-    "theoretical_structured_quads_at_h002": 2500,
-    "actual_coarse_mesh_elements": 2906,
-    "actual_mean_h_eq": 0.018381740753607507,
-    "actual_median_h_eq": 0.018809998286548762,
-    "actual_mean_edge": 0.01872799473243398,
-    "h_nominal_agreement_ratio": 0.9190870376803754,
-    "local_refinement_present": false,
-    "classification": "CURRENT_MESH_CONSISTENT_WITH_PUBLISHED_H002_NOMINAL_SPECIFICATION"
+    "published_known_constraints": {
+      "specimen_size_mm": [
+        1.0,
+        1.0
+      ],
+      "crack_length_mm": 0.5,
+      "nominal_global_h_mm": 0.02,
+      "local_prerefinement": false
+    },
+    "project_mesh_properties": {
+      "total_elements": 2906,
+      "actual_mean_h_eq": 0.018381740753607507,
+      "actual_median_h_eq": 0.018809998286548762,
+      "actual_mean_edge": 0.01872799473243398,
+      "h_nominal_agreement_ratio": 0.9190870376803754
+    },
+    "classification": "CURRENT_MESH_CONSISTENT_WITH_PUBLISHED_H002_NOMINAL_SPECIFICATION",
+    "notes": "Project mesh satisfies published known constraints (1x1 mm, a0=0.5 mm, nominal h=0.02 mm, no local pre-refinement). Exact node coordinates, element counts, and quad/tri ratios remain unpublished."
   }
 }
