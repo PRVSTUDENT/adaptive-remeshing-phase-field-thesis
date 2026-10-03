@@ -27,7 +27,7 @@ Key milestones achieved:
    - Proved coarse mesh topology (Stage 1), facsimile mapping (Stage 3), and mechanical stress transfer (Stage 4) are neutral.
    - Proved boundary condition lateral constraint (Stage 2) is a partial contributor (reduces parasitic remesh elements by 22%).
    - Reclassified single-layer $56\text{k}$ continuum pre-analysis as project diagnostic variant (`STANDARD_CONTINUUM_PREANALYSIS_VARIANT`).
-   - Reconstructed publication-faithful 3-layer Job-1_UEL package (`89_mode1_preanalysis_uel_canonical_2906`) with Hookean stress recovery in UMAT and verified zero duplicate stiffness ($K_0 = 137.945520\,\text{kN/mm}$).
+   - Reconstructed reference-fidelity candidate 3-layer Job-1_UEL package (`PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE`, `89_mode1_preanalysis_uel_canonical_2906`) with Hookean stress recovery in UMAT and verified zero duplicate stiffness ($K_0 = 137.945520\,\text{kN/mm}$).
    - Executed cluster datacheck (Exit 0) and submitted authorized 1-CPU serial solve (**Job `1409912.mmaster02`**).
 
 ---
@@ -95,7 +95,7 @@ Key milestones achieved:
 ### E. Reference-Fidelity Checkpoint: Pre-Analysis Architecture Reconciliation
 - **Audit Mandate & Finding:** Stage 4 revealed that the existing $56,302$-element refined mesh ($54,847$ CPE4 + $1,455$ CPE3) was generated from `PK_PREANALYSIS_COARSE.inp`, which executed a **single-layer standard continuum linear-elastic solve** (`Plate-1`, CPE4/CPE3, $2,906$ elements, $2,988$ nodes) with direct Abaqus SPR/ZZ error estimation, whereas the authentic Pandey & Kumar (2025) workflow executes a 3-layer UEL/UMAT pre-analysis (Job-1_UEL) extracting MISESERI on the companion `All_elem` layer.
 - **Reclassification:** The single-layer continuum pre-analysis ($56,302$ FE) is formally reclassified as a **project diagnostic variant** (`STANDARD_CONTINUUM_PREANALYSIS_VARIANT`).
-- **Candidate Assembly & Datacheck (`89_mode1_preanalysis_uel_canonical_2906`):** Reconstructed the publication-faithful 3-layer `PK_M1_JOB1_UEL_2906.inp` on the canonical 2,906-element coarse mesh ($8,718$ layered elements) with Hookean stress recovery in UMAT and verified zero duplicate stiffness ($K_0 = 137.945520\,\mathrm{kN/mm}$). Passed Abaqus 2023 datacheck preflight with Exit 0.
+- **Candidate Assembly & Datacheck (`89_mode1_preanalysis_uel_canonical_2906`):** Reconstructed the reference-fidelity candidate 3-layer `PK_M1_JOB1_UEL_2906.inp` (`PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE`) on the canonical 2,906-element coarse mesh ($8,718$ layered elements) with Hookean stress recovery in UMAT and verified zero duplicate stiffness ($K_0 = 137.945520\,\mathrm{kN/mm}$). Passed Abaqus 2023 datacheck preflight with Exit 0.
 - **Solver Execution:** Submitted to PBS `normal_imfdfkmq` as **Job `1409912.mmaster02`** (1-CPU Serial, 16 GB, 2h walltime).
 - **Master Deliverables:** `MODE1_PREANALYSIS_FIDELITY_AUDIT_REPORT.md`, `GATE6B_PREANALYSIS_FIDELITY_RECONCILIATION.json`, `PK_M1_PREANALYSIS_PROVENANCE_MATRIX.csv`.
 

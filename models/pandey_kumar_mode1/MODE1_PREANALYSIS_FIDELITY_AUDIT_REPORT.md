@@ -19,15 +19,15 @@ During Gate-6B Cause Audit Stage 4, an architectural discrepancy in the Mode-I a
 3. **Audit Decisions & Reclassifications:**  
    - **Reclassification:** The single-layer continuum pre-analysis ($56,302$ FE) is formally reclassified as a **project diagnostic variant** (`STANDARD_CONTINUUM_PREANALYSIS_VARIANT`), useful for isolating continuum stress errors, but NOT a faithful realization of the Pandey–Kumar layered Job-1 workflow.
    - **Stage 4 Claims Reconciliation:** Correct prior Stage-4 statements that asserted MISESERI is evaluated directly on standard continuum elements as though that were the Pandey–Kumar reference workflow. In the authentic workflow, MISESERI is extracted from the companion facsimile layer (`All_elem` / `umatelem`) of a 3-layer UEL/UMAT system.
-   - **Candidate Assembly:** Reconstructed the publication-faithful 3-layer `PK_M1_JOB1_UEL_2906.inp` on the canonical 2,906-element coarse mesh ($8,718$ layered elements) with Hookean stress recovery in UMAT and verified zero duplicate stiffness.
+   - **Candidate Assembly:** Reconstructed the reference-fidelity candidate 3-layer `PK_M1_JOB1_UEL_2906.inp` (`PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE`) on the canonical 2,906-element coarse mesh ($8,718$ layered elements) with Hookean stress recovery in UMAT and verified zero duplicate stiffness.
 
 ---
 
 ## 2. Side-by-Side Architectural Provenance Table
 
-| Feature / Attribute | Standard Continuum Pre-Analysis Variant | Pandey–Kumar Layered Job-1_UEL Candidate | Architectural Reconciliation Assessment |
+| Feature / Attribute | Standard Continuum Pre-Analysis Variant | PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE | Architectural Reconciliation Assessment |
 | :--- | :--- | :--- | :--- |
-| **Primary Role** | Isolated single-layer continuum benchmark | Full 3-layer UEL/UMAT pre-analysis pipeline | Reclassified as diagnostic variant vs publication-faithful baseline |
+| **Primary Role** | Isolated single-layer continuum benchmark | Full 3-layer UEL/UMAT pre-analysis pipeline | Reclassified as diagnostic variant vs PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE baseline |
 | **Geometry & Domain** | $1.0 \times 1.0\,\text{mm}$ square plate | $1.0 \times 1.0\,\text{mm}$ square plate | Exact geometric identity ($100.0\%$) |
 | **Crack Representation** | $a_0 = 0.5\,\text{mm}$ zero-gap sharp seam crack ($y=0.5$) | $a_0 = 0.5\,\text{mm}$ zero-gap sharp seam crack ($y=0.5$) | Exact topological identity ($100.0\%$) |
 | **Mesh Discretization** | $2,906$ elements ($2,818$ CPE4 quads, $88$ CPE3 tris) | $2,906$ underlying elements ($2,818$ quads, $88$ tris); $8,718$ layered | Identical coarse spatial discretization ($h_{\text{cms}} = 0.02\,\text{mm}$) |

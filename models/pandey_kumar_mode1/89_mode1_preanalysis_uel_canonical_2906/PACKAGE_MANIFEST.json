@@ -2,10 +2,10 @@
   "package_name": "89_mode1_preanalysis_uel_canonical_2906",
   "task": "GATE6B-PREANALYSIS-FIDELITY-RECONCILIATION",
   "phase": "PASS 1 PRE-ANALYSIS CANDIDATE QUALIFICATION",
-  "description": "Publication-faithful Mode-I layered pre-analysis (Job-1_UEL) on canonical 2,906 coarse mesh with Hookean stress recovery in companion UMAT for native Abaqus MISESERI calculation",
+  "description": "PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE: Mode-I layered pre-analysis (Job-1_UEL) on canonical 2,906 coarse mesh with Hookean stress recovery in companion UMAT for native Abaqus MISESERI calculation",
   "governing_mesh": {
     "source": "models/pandey_kumar_mode1/02_proposed_adaptive_refined/PK_PREANALYSIS_COARSE.inp",
-    "physical_elements": 2906,
+    "finite_elements": 2906,
     "quads": 2818,
     "tris": 88,
     "nodes": 2988,

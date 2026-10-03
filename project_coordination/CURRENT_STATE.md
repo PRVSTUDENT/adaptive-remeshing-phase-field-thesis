@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T08:12:00+02:00` (Gemini Antigravity) — Gate-6B Publication-Faithful 3-Layer Job-1_UEL Pre-Analysis (Job 1409912.mmaster02, PK_M1_JOB1_SOLVE, 89_mode1_preanalysis_uel_canonical_2906) Submitted to normal_imfdfkmq; Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
+Last updated: `2026-10-03T08:35:00+02:00` (Gemini Antigravity) — Gate-6B Reference-Fidelity Candidate 3-Layer Job-1_UEL Pre-Analysis (Job 1409912.mmaster02, PK_M1_JOB1_SOLVE, 89_mode1_preanalysis_uel_canonical_2906, PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE) Active in normal_imfdfkmq; Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
 Parent commit: `6b24242a2315ca98aa5085e5f1288781b53c5bb1`
 
 ---
@@ -35,7 +35,7 @@ Parent commit: `6b24242a2315ca98aa5085e5f1288781b53c5bb1`
     - Audit Finding: The existing $56,302$-element $1.0\%$ remeshed model was driven by `PK_PREANALYSIS_COARSE.inp`, executing a single-layer standard continuum linear-elastic solve (`Plate-1`, CPE4/CPE3, $2,906$ elements, $2,988$ nodes).
     - Reclassification: The single-layer continuum pre-analysis ($56,302$ FE) is formally reclassified as a **project diagnostic variant** (`STANDARD_CONTINUUM_PREANALYSIS_VARIANT`), preserving its utility for isolating continuum stress errors while establishing that it is not a faithful realization of Pandey & Kumar's 3-layer UEL workflow.
     - Claims Reconciliation: Prior Stage-4 wording asserting that MISESERI is evaluated directly on standard continuum elements was corrected to reflect the authentic layered architecture where MISESERI is extracted from the companion facsimile layer (`All_elem` / `umatelem`).
-    - Candidate Package (`89_mode1_preanalysis_uel_canonical_2906`): Reconstructed publication-faithful 3-layer `PK_M1_JOB1_UEL_2906.inp` ($8,718$ layered elements on canonical 2,906 coarse mesh) with Hookean stress recovery in UMAT (`f42_mixed_uel.for`) and verified zero duplicate stiffness ($K_0 = 137.945520\,\text{kN/mm}$, $r=1.000000000$).
+    - Candidate Package (`89_mode1_preanalysis_uel_canonical_2906`): Reconstructed reference-fidelity candidate 3-layer `PK_M1_JOB1_UEL_2906.inp` (`PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE`, $8,718$ layered elements on canonical 2,906 coarse mesh) with Hookean stress recovery in UMAT (`f42_mixed_uel.for`) and verified zero duplicate stiffness ($K_0 = 137.945520\,\text{kN/mm}$, $r=1.000000000$).
     - Datacheck Preflight: Executed on cluster login node with **`Abaqus JOB PK_M1_JOB1_UEL_2906 COMPLETED (EXIT: 0)`**.
     - Solver Submission: Authorized and submitted to PBS `normal_imfdfkmq` as **Job `1409912.mmaster02`** (1-CPU Serial, 16 GB, 2h walltime).
     - Next Stage: Await Job `1409912.mmaster02` completion and evaluate raw MISESERI on `All_elem` vs standard-continuum pre-analysis variant before any remeshing.
