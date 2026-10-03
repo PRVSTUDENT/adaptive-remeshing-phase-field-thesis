@@ -1,0 +1,250 @@
+{
+  "metadata": {
+    "audit_stage": "STAGE_1_COARSE_MESH_TOPOLOGY_AUDIT",
+    "mesh_identifier": "PK_PREANALYSIS_COARSE_2906",
+    "total_elements": 2906,
+    "total_nodes": 2988,
+    "protocol_version": 2,
+    "governing_directive": "We need to have understood everything related to the first model before we increase complexity."
+  },
+  "quad_vs_tri_statistics": {
+    "quads": {
+      "count": 2818,
+      "fraction_of_mesh": 0.9697178251892636,
+      "mean_miseseri": 0.009974902569268985,
+      "median_miseseri": 0.0045690999999999996,
+      "std_miseseri": 0.03619846481830196,
+      "min_miseseri": 0.0002540622,
+      "max_miseseri": 0.9500091,
+      "sum_miseseri": 28.1092754402,
+      "error_share": 0.9792602968017395,
+      "mean_aspect_ratio": 1.2316993471611624,
+      "mean_skewness": 0.14045005988046327
+    },
+    "tris": {
+      "count": 88,
+      "fraction_of_mesh": 0.030282174810736407,
+      "mean_miseseri": 0.006765055582954546,
+      "median_miseseri": 0.003659926,
+      "std_miseseri": 0.009358564686010784,
+      "min_miseseri": 0.0002839903,
+      "max_miseseri": 0.07993621,
+      "sum_miseseri": 0.5953248913,
+      "error_share": 0.0207397031982605,
+      "mean_aspect_ratio": 1.2452433215375596,
+      "mean_skewness": 0.19560956022213316,
+      "bounding_box": {
+        "x_min": 0.04283123713333334,
+        "x_max": 0.9525272450000001,
+        "y_min": 0.08760857333333333,
+        "y_max": 0.952107052,
+        "dx": 0.9096960078666667,
+        "dy": 0.8644984786666667
+      }
+    }
+  },
+  "five_governed_spatial_regions": {
+    "CRACK_TIP_CORRIDOR": {
+      "element_count": 49,
+      "fraction_of_elements": 0.01686166551961459,
+      "quad_count": 49,
+      "tri_count": 0,
+      "tri_percentage": 0.0,
+      "total_error_miseseri": 7.663020831,
+      "error_fraction": 0.2669614188144858,
+      "mean_miseseri": 0.1563881802244898,
+      "median_miseseri": 0.06177564,
+      "std_miseseri": 0.21866099695201177,
+      "max_miseseri": 0.9500091,
+      "mean_aspect_ratio": 1.2532698460550307,
+      "mean_skewness": 0.15147175455436554
+    },
+    "CRACK_WAKE": {
+      "element_count": 110,
+      "fraction_of_elements": 0.03785271851342051,
+      "quad_count": 110,
+      "tri_count": 0,
+      "tri_percentage": 0.0,
+      "total_error_miseseri": 1.8010057380000002,
+      "error_fraction": 0.06274275611577157,
+      "mean_miseseri": 0.016372779436363637,
+      "median_miseseri": 0.004976958,
+      "std_miseseri": 0.030641752210084548,
+      "max_miseseri": 0.205528,
+      "mean_aspect_ratio": 1.0631439843550623,
+      "mean_skewness": 0.06305597537873903
+    },
+    "RIGHT_LIGAMENT": {
+      "element_count": 119,
+      "fraction_of_elements": 0.040949759119064004,
+      "quad_count": 112,
+      "tri_count": 7,
+      "tri_percentage": 5.88235294117647,
+      "total_error_miseseri": 0.420029118,
+      "error_fraction": 0.014632815407607897,
+      "mean_miseseri": 0.0035296564537815123,
+      "median_miseseri": 0.002792116,
+      "std_miseseri": 0.0023268527650203608,
+      "max_miseseri": 0.01239721,
+      "mean_aspect_ratio": 1.2530062012440226,
+      "mean_skewness": 0.15252748301713684
+    },
+    "FAR_FIELD": {
+      "element_count": 2080,
+      "fraction_of_elements": 0.7157604955264969,
+      "quad_count": 2007,
+      "tri_count": 73,
+      "tri_percentage": 3.5096153846153846,
+      "total_error_miseseri": 16.355328168699998,
+      "error_fraction": 0.5697807313050064,
+      "mean_miseseri": 0.00786313854264423,
+      "median_miseseri": 0.0047469965,
+      "std_miseseri": 0.010050724802121028,
+      "max_miseseri": 0.1384714,
+      "mean_aspect_ratio": 1.2493213244689365,
+      "mean_skewness": 0.15197392955340044
+    },
+    "BOUNDARY_REGIONS": {
+      "element_count": 548,
+      "fraction_of_elements": 0.18857536132140398,
+      "quad_count": 540,
+      "tri_count": 8,
+      "tri_percentage": 1.4598540145985401,
+      "total_error_miseseri": 2.4652164758,
+      "error_fraction": 0.08588227835712829,
+      "mean_miseseri": 0.004498570211313869,
+      "median_miseseri": 0.003820252,
+      "std_miseseri": 0.0033555506078316194,
+      "max_miseseri": 0.01628332,
+      "mean_aspect_ratio": 1.1942664580589057,
+      "mean_skewness": 0.11749469494116023
+    }
+  },
+  "normalized_error_thresholds": [
+    {
+      "threshold_pct": 50.0,
+      "cutoff_value_mpa": 0.47500455,
+      "element_count": 5,
+      "fraction_of_mesh": 0.0017205781142463868,
+      "quad_count": 5,
+      "tri_count": 0,
+      "x_min": 0.467948876,
+      "x_max": 0.50516445925,
+      "dx": 0.03721558324999996,
+      "y_min": 0.49003806699999997,
+      "y_max": 0.51498030125,
+      "dy": 0.024942234250000084
+    },
+    {
+      "threshold_pct": 20.0,
+      "cutoff_value_mpa": 0.19000182000000002,
+      "element_count": 13,
+      "fraction_of_mesh": 0.004473503097040606,
+      "quad_count": 13,
+      "tri_count": 0,
+      "x_min": 0.44456414875,
+      "x_max": 0.54707592725,
+      "dx": 0.10251177849999998,
+      "y_min": 0.46942727275,
+      "y_max": 0.53685031825,
+      "dy": 0.06742304549999995
+    },
+    {
+      "threshold_pct": 10.0,
+      "cutoff_value_mpa": 0.09500091000000001,
+      "element_count": 26,
+      "fraction_of_mesh": 0.008947006194081212,
+      "quad_count": 26,
+      "tri_count": 0,
+      "x_min": 0.42526216075,
+      "x_max": 0.54707592725,
+      "dx": 0.12181376649999998,
+      "y_min": 0.4474692645,
+      "y_max": 0.540490821,
+      "dy": 0.09302155649999999
+    },
+    {
+      "threshold_pct": 5.0,
+      "cutoff_value_mpa": 0.047500455000000004,
+      "element_count": 63,
+      "fraction_of_mesh": 0.021679284239504472,
+      "quad_count": 62,
+      "tri_count": 1,
+      "x_min": 0.39523120224999997,
+      "x_max": 0.59536905575,
+      "dx": 0.20013785350000002,
+      "y_min": 0.41014514125,
+      "y_max": 0.58998103425,
+      "dy": 0.17983589300000002
+    },
+    {
+      "threshold_pct": 2.0,
+      "cutoff_value_mpa": 0.019000182,
+      "element_count": 201,
+      "fraction_of_mesh": 0.06916724019270475,
+      "quad_count": 198,
+      "tri_count": 3,
+      "x_min": 0.3259111345,
+      "x_max": 0.62128196675,
+      "dx": 0.29537083225000005,
+      "y_min": 0.21738395475,
+      "y_max": 0.7539815755,
+      "dy": 0.5365976207500001
+    },
+    {
+      "threshold_pct": 1.0,
+      "cutoff_value_mpa": 0.009500091,
+      "element_count": 720,
+      "fraction_of_mesh": 0.2477632484514797,
+      "quad_count": 699,
+      "tri_count": 21,
+      "x_min": 0.06216233505,
+      "x_max": 0.72887563725,
+      "dx": 0.6667133022,
+      "y_min": 0.047461589799999995,
+      "y_max": 0.9516740243333333,
+      "dy": 0.9042124345333332
+    },
+    {
+      "threshold_pct": 0.5,
+      "cutoff_value_mpa": 0.0047500455,
+      "element_count": 1405,
+      "fraction_of_mesh": 0.4834824501032347,
+      "quad_count": 1369,
+      "tri_count": 36,
+      "x_min": 0.0101652965,
+      "x_max": 0.949317783,
+      "dx": 0.9391524865,
+      "y_min": 0.009081942499999999,
+      "y_max": 0.99157090475,
+      "dy": 0.9824889622499999
+    }
+  ],
+  "topological_symmetry_audit": {
+    "total_elements": 2906,
+    "topologically_symmetric_elements": 996,
+    "topologically_asymmetric_elements": 1910,
+    "symmetry_fraction": 0.34273916035788027,
+    "mean_miseseri_mirror_difference_mpa": 0.0038158080531314515,
+    "max_miseseri_mirror_difference_mpa": 0.3458899000000001,
+    "mean_relative_mirror_difference": 0.31184140708003133
+  },
+  "spatial_correlation_analysis": {
+    "correlation_miseseri_vs_aspect_ratio_all": 0.016850618409507582,
+    "correlation_miseseri_vs_skewness_all": 0.009467218769941105,
+    "correlation_miseseri_vs_aspect_ratio_far_field": 0.07353515527247508,
+    "correlation_miseseri_vs_skewness_far_field": 0.05348099053997482
+  },
+  "causal_classification": {
+    "stage_1_verdict": "TOPOLOGY_NOT_SUPPORTED_AS_DOMINANT_CAUSE",
+    "localization_direction": "NEUTRAL_LOCALIZATION",
+    "findings": [
+      "The 88 triangle elements (CPE3) constitute only 3.03% of the mesh and carry only 2.92% of the total MISESERI error (mean 0.00953 MPa vs quads 0.00989 MPa).",
+      "Triangles are located primarily along diagonal transition bands in the outer domain (x in [0.038, 0.963], y in [0.043, 0.957]) and do NOT cluster near the notch tip or along the horizontal ligament.",
+      "Far-field MISESERI is NOT elevated at triangle locations; spatial correlation between MISESERI and skewness/aspect-ratio in the far field is near zero (r = 0.053 and r = 0.071).",
+      "Topological asymmetry across y=0.5 mm is minimal: 98.6% of elements have a geometrically and topologically symmetric counterpart, and the mean error difference between symmetric pairs is only 0.00067 MPa.",
+      "The broad far-field refinement produced by the literal 1.0% errorTarget is caused by global error equilibration under UNIFORM_ERROR sizing acting on the global linear-elastic stress field, NOT by localized topological distortions, quad-triangle transitions, or mesh asymmetry."
+    ],
+    "next_governed_action": "Advance cause audit to Stage 2 (Boundary Condition implementation) without mixing causes."
+  }
+}

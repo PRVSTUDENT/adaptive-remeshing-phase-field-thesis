@@ -365,5 +365,140 @@
       "RemeshingRule arguments (refinementFactor = 10, minElementSize = 0.001 mm, coarseningFactor = NOT_ALLOWED)."
     ]
   },
-  "supervisor_synthesis_statement": "The discrepancy between the literal 1% target mesh (56k elements) and Pandey & Kumar (2025) Fig. 6(a) / Fig. 5(b) (13,941 elements) is fully explained by Abaqus UNIFORM_ERROR global error equilibration acting on non-zero far-field stress recovery residuals. Our 2% efficiency-calibrated project variant (13,897 elements, 99.68% match) successfully confines refinement to the crack corridor, matches reference initial stiffness within -0.04%, peak load within -2.04%, and pre-peak external work within -0.06%, providing a fully qualified, rigorous basis for the 08-Oct-2026 supervisor review."
+  "supervisor_synthesis_statement": "The discrepancy between the literal 1% target mesh (56k elements) and Pandey & Kumar (2025) Fig. 6(a) / Fig. 5(b) (13,941 elements) is fully explained by Abaqus UNIFORM_ERROR global error equilibration acting on non-zero far-field stress recovery residuals. Our 2% efficiency-calibrated project variant (13,897 elements, 99.68% match) successfully confines refinement to the crack corridor, matches reference initial stiffness within -0.04%, peak load within -2.04%, and pre-peak external work within -0.06%, providing a fully qualified, rigorous basis for the 08-Oct-2026 supervisor review.",
+  "implementation_matrix_published_vs_project": [
+    {
+      "factor_number": 1,
+      "parameter_or_step": "Geometry & Notch Representation",
+      "published_specification": "1.0 x 1.0 mm plate, edge slit a0 = 0.5 mm (Section 4.1)",
+      "project_implementation": "1.0 x 1.0 mm plate, zero-gap sharp slit a0 = 0.5 mm",
+      "classification": "MATCHED_TO_PUBLISHED_SOURCE",
+      "notes": "Exact match to published geometry."
+    },
+    {
+      "factor_number": 2,
+      "parameter_or_step": "Linear Elastic Material Constants",
+      "published_specification": "E = 210 GPa, nu = 0.3 (Section 4.1)",
+      "project_implementation": "E = 210 GPa, nu = 0.3",
+      "classification": "MATCHED_TO_PUBLISHED_SOURCE",
+      "notes": "Exact match to published constants."
+    },
+    {
+      "factor_number": 3,
+      "parameter_or_step": "Phase-Field Fracture Parameters",
+      "published_specification": "Gc = 2.7e-3 kN/mm, l0 = 0.0075 mm, k = 1e-7 (Section 4.1)",
+      "project_implementation": "Gc = 2.7e-3 kN/mm, l0 = 0.0075 mm, k = 1e-7",
+      "classification": "MATCHED_TO_PUBLISHED_SOURCE",
+      "notes": "Exact match to published constants."
+    },
+    {
+      "factor_number": 4,
+      "parameter_or_step": "Constitutive Strain Decomposition",
+      "published_specification": "Miehe et al. (2010) spectral decomposition with staggered scheme (Section 4.1)",
+      "project_implementation": "Miehe spectral decomposition in f42_mixed_uel.for",
+      "classification": "MATCHED_TO_PUBLISHED_SOURCE",
+      "notes": "Exact match to formulation."
+    },
+    {
+      "factor_number": 5,
+      "parameter_or_step": "Finite Element Formulation & Layers",
+      "published_specification": "4-node plane strain UEL + dummy CPE4/CPE3 layers (Section 3.2)",
+      "project_implementation": "Co-located U1/U2 (phase/mech) UEL + CPE4/CPE3 visualization",
+      "classification": "MATCHED_TO_PUBLISHED_SOURCE",
+      "notes": "Exact match to layered architecture."
+    },
+    {
+      "factor_number": 6,
+      "parameter_or_step": "Initial Coarse Baseline Mesh",
+      "published_specification": "Global mesh size hcms = 0.02 mm without local refinement (Section 4.1, exact element count not stated in text)",
+      "project_implementation": "2,906 linear elements (2,818 CPE4 + 88 CPE3, global seed 0.02 mm)",
+      "classification": "PUBLISHED_DETAIL_NOT_SPECIFIED",
+      "notes": "Published text specifies global seed 0.02 mm but does not state exact coarse element count 2,906; 2,906 is project realization."
+    },
+    {
+      "factor_number": 7,
+      "parameter_or_step": "Pre-Analysis Boundary Conditions",
+      "published_specification": "Schematic in Fig. 4(a) (roller support on bottom, tension on top; exact ux card constraints not explicitly written in text)",
+      "project_implementation": "Bottom roller uy=0 with pinned pt; top uy=0.001 mm with ux free roller",
+      "classification": "PUBLISHED_DETAIL_NOT_SPECIFIED",
+      "notes": "Published text describes Mode-I displacement control and refers to Fig. 4(a) schematic; top lateral constraint is not textually specified."
+    },
+    {
+      "factor_number": 8,
+      "parameter_or_step": "Error Indicator Extraction Method",
+      "published_specification": "MISESERI in Abaqus RemeshingRule on All_elem facsimile set (Listing 1-3)",
+      "project_implementation": "Abaqus adaptiveRemesh consumes ODB element field output; whole-element centroid extraction used for offline analysis",
+      "classification": "PUBLISHED_DETAIL_NOT_SPECIFIED",
+      "notes": "Published workflow uses built-in Abaqus RemeshingRule. Centroid extraction is our offline evaluation method."
+    },
+    {
+      "factor_number": 9,
+      "parameter_or_step": "Remeshing Automation Algorithm",
+      "published_specification": "Native Python adaptiveRemesh(odb=o1) API invocation (Listing 4)",
+      "project_implementation": "execute_mode1_native_adaptive_remesh.py calling mdb.models[m].adaptiveRemesh()",
+      "classification": "MATCHED_TO_PUBLISHED_SOURCE",
+      "notes": "Exact match to published API calls."
+    },
+    {
+      "factor_number": 10,
+      "parameter_or_step": "Element Sizing Method",
+      "published_specification": "sizingMethod = UNIFORM_ERROR (Listing 1)",
+      "project_implementation": "sizingMethod = UNIFORM_ERROR",
+      "classification": "MATCHED_TO_PUBLISHED_SOURCE",
+      "notes": "Exact match to published Listing 1."
+    },
+    {
+      "factor_number": 11,
+      "parameter_or_step": "Error Target (errorTarget)",
+      "published_specification": "errorTarget = 1.0 (Listing 1, Section 4.1 text reports ~13,941 elements)",
+      "project_implementation": "errorTarget = 1.0 yields 56,302 FE; errorTarget = 2.0 yields 13,897 FE",
+      "classification": "PROJECT_IMPLEMENTATION_DIFFERS",
+      "notes": "Literal 1.0% produces 56,302 finite elements on corrected coarse mesh; 2.0% calibrated variant produces 13,897 finite elements (0.32% match to 13,941)."
+    },
+    {
+      "factor_number": 12,
+      "parameter_or_step": "Sizing Bounds & Refinement Factor",
+      "published_specification": "minElementSize = 0.001 mm, maxElementSize = 0.02 mm, refinementFactor = 10, coarseningFactor = NOT_ALLOWED (Listing 1)",
+      "project_implementation": "minElementSize = 0.001 mm, maxElementSize = 0.02 mm, refinementFactor = 10, coarseningFactor = NOT_ALLOWED",
+      "classification": "MATCHED_TO_PUBLISHED_SOURCE",
+      "notes": "Exact match to published Listing 1."
+    },
+    {
+      "factor_number": 13,
+      "parameter_or_step": "Remeshing Region Scoping",
+      "published_specification": "region = All_elem (whole domain in Listing 1; text mentions designating region shown in Fig. 6a)",
+      "project_implementation": "Whole-domain application without manual bounding box",
+      "classification": "PUBLISHED_DETAIL_NOT_SPECIFIED",
+      "notes": "Unclear whether authors applied an implicit Python bounding box or spatial mask in the execution for Fig. 6(a)."
+    },
+    {
+      "factor_number": 14,
+      "parameter_or_step": "Indicator Cutoff Floor / Thresholding",
+      "published_specification": "Unspecified whether low far-field error values were zeroed out",
+      "project_implementation": "Raw continuous MISESERI field without artificial floor",
+      "classification": "PUBLISHED_DETAIL_NOT_SPECIFIED",
+      "notes": "Published text does not state whether a numerical cutoff was applied."
+    },
+    {
+      "factor_number": 15,
+      "parameter_or_step": "Abaqus Release Version & Mesher",
+      "published_specification": "Abaqus release version (2018-2022) not stated in paper",
+      "project_implementation": "Abaqus 2023 / Intel Fortran 2021.13.0 on HPC (Abaqus 2021/2022 tested in Gate 5)",
+      "classification": "PUBLISHED_DETAIL_NOT_SPECIFIED",
+      "notes": "Exact mesher build and algorithm (Advancing Front vs Medial Axis) not specified in text."
+    }
+  ],
+  "element_count_terminology_reconciliation": {
+    "canonical_2906_coarse_lineage": {
+      "coarse_mesh": "2,906 finite elements (2,818 CPE4, 88 CPE3, 2,988 nodes)",
+      "literal_1pct_remesh": "56,302 underlying finite elements (54,847 CPE4, 1,455 CPE3, 55,984 nodes)",
+      "calibrated_2pct_remesh": "13,897 underlying finite elements (13,506 CPE4, 391 CPE3, 13,763 nodes)"
+    },
+    "historical_2700_coarse_lineage": {
+      "coarse_mesh": "2,700 finite elements (2,700 CPE4, 2,831 nodes)",
+      "literal_1pct_remesh": "42,318 underlying finite elements (41,224 CPE4, 1,094 CPE3)",
+      "calibrated_2pct_remesh": "10,253 underlying finite elements (9,952 CPE4, 301 CPE3)"
+    },
+    "multilayer_solver_deck_convention": "Multi-layer solver decks (.inp) contain 3x co-located functional elements per underlying finite element (Layer 1: phase-field UEL, Layer 2: mechanical companion UEL, Layer 3: visualization UMAT). All reported mesh statistics refer strictly to the underlying finite-element discretization."
+  }
 }

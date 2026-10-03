@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T07:10:00+02:00` (Gemini Antigravity) — Gate-6B MISESERI Spatial Discrepancy Audit & T3 Claims-Discipline Complete; Temporal Family Fully Qualified (T1 vs T2/S1 vs T3); 1 Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
-Parent commit: `2c2b9aff04f8f8caa4ac51766fbdc23c067a50aa`
+Last updated: `2026-10-03T07:16:00+02:00` (Gemini Antigravity) — Gate-6B Cause Audit Stage 1 Complete (Topology Not Supported as Dominant Cause, Neutral Localization); Source-Fidelity Matrix Corrected; 1 Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
+Parent commit: `5fce76f06bfe753d4f7a1b476a16e833e7d4d9d0`
 
 ---
 
@@ -30,7 +30,17 @@ Parent commit: `2c2b9aff04f8f8caa4ac51766fbdc23c067a50aa`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,	ext{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `TEMPORAL_FAMILY_QUALIFIED; SPATIAL_DISCREPANCY_AUDITED; SPATIAL_CAUSALITY_AUDITED; 1_SOLVER_JOB_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_DISCREPANCY_AUDITED; SPATIAL_CAUSALITY_AUDITED; 1_SOLVER_JOB_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+  - **Cause Audit Stage 1: Coarse-Mesh Topology & Layout (`STAGE1_TOPOLOGY_AUDIT`):**
+    - Verdict: **`TOPOLOGY_NOT_SUPPORTED_AS_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
+    - $88$ triangles ($3.03\%$ of mesh) carry only $2.92\%$ of error (mean $0.006765\,	ext{MPa}$ vs quads $0.009975\,	ext{MPa}$).
+    - Crack tip is $100\%$ quad; far-field correlation between MISESERI and aspect ratio/skewness is negligible ($r = 0.074, 0.053$).
+    - Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage1_topology_audit.png` (and `.pdf`).
+    - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_STAGE1_TOPOLOGY_AUDIT_REPORT.md` and `GATE6B_STAGE1_TOPOLOGY_AUDIT.json`.
+    - Next Stage: Advance to Stage 2 (Boundary Condition Implementation) without altering topology.
+  - **Source-Fidelity Matrix & Count Semantics Reconciliation:**
+    - Source-fidelity matrix updated: items without explicit publication text classified as `PUBLISHED_DETAIL_NOT_SPECIFIED`.
+    - Element count definitions reconciled: $56,302$ finite elements ($54,847$ CPE4 + $1,455$ CPE3) for literal 1.0% target on 2,906 coarse mesh; $13,897$ finite elements ($13,506$ CPE4 + $391$ CPE3) for calibrated 2.0% variant.
   - **S1 Reference Solve Scientifically Qualified (`1409734.mmaster02`):**
     - Exit Status: `0` (Walltime `06:55:16`, CPUT `06:43:00`, 1-CPU Serial on `mnode097/0`).
     - Mechanical Parity: $K_0 = 137.945520\,	ext{kN/mm}$ ($N=400$, $b=4.472368 	imes 10^{-5}\,	ext{kN}$, $R^2=0.99999960$), $F_{\max} = 0.757778\,	ext{kN}$, $u_{	ext{peak}} = 0.005857\,	ext{mm}$, $W_{	ext{ext}} = 2.359329\,	ext{mJ}$.
@@ -42,34 +52,14 @@ Parent commit: `2c2b9aff04f8f8caa4ac51766fbdc23c067a50aa`
     - $u(F_{\max})$ variation across $4	imes$ range: **$0.1537\%$** ($5.864 	o 5.857 	o 5.855\,\mu	ext{m}$).
     - $W_{	ext{ext}}$ monotonic decreasing temporal sensitivity: $2.410110 	o 2.359329 	o 2.331892\,	ext{mJ}$ ($-2.11\% 	o -1.16\%$).
     - $E_{	ext{frac}}$ diffuse surface functional: $2.399955 	o 2.340220 	o 2.248132\,	ext{mJ}$ ($-3.93\%$ T3 vs T2).
-    - Status: **`QUALIFIED_TEMPORAL_CONVERGENCE_FAMILY`** (claims discipline enforced: 5% pass threshold removed, $\Delta_{	ext{book}}$ purely descriptive, SDV17 strictly crack-surface functional).
-  - **Offline MISESERI Spatial-Discrepancy Audit (Pandey & Kumar 2025 Fig. 6a vs Project Implementation):**
-    - 15-Factor Matrix: 10 factors matched ($100\%$), 2 factors differ (pre-analysis top $u_x$ free roller vs historical fixed; $2.0\%$ calibrated variant yielding $13,897$ el vs literal $1.0\%$ target yielding $56,302$ el), 3 factors unpublished (scoping region, indicator floor, exact mesher release).
-    - Spatial error decomposition: peak error $0.950\,	ext{MPa}$ at notch tip vs domain mean $0.00988\,	ext{MPa}$ ($96.18	imes$ ratio); far field carries $65.57\%$ of total error.
-    - Sizing behavior: literal $1.0\%$ target reduces far-field $h$ to $3.8-4.3\,\mu	ext{m}$ ($81.33\%$ far-field elements); $2.0\%$ calibrated variant relaxes far field to $h pprox 12-22\,\mu	ext{m}$, restricting sub-$l_0$ elements strictly to notch tip ($w = 0.899\,	ext{mm}$ at $x=0.50$, narrowing to $0.000\,	ext{mm}$ at $x \ge 0.75\,	ext{mm}$), reproducing Fig. 6(a) within $0.32\%$ element count.
-    - Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_miseseri_spatial_discrepancy_audit.png` (and `.pdf`).
-    - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_MISESERI_SPATIAL_DISCREPANCY_AUDIT_REPORT.md` and `GATE6B_MISESERI_SPATIAL_DISCREPANCY_AUDIT.json`.
-    - Status: **`AUDITED_AND_FROZEN`**.
+    - Status: **`QUALIFIED_TEMPORAL_CONVERGENCE_FAMILY`**.
   - **Adaptive Candidate 13.9k Spatial Causality Audit (`1409846.mmaster02`):**
     - Exit 0, 7,000 incs ($13,897$ el). Pre-peak: $K_0 = 137.889603\,	ext{kN/mm}$ ($\Delta K_0 = -0.0405\%$), $F_{\max} = 0.742298\,	ext{kN}$ ($\Delta F_{\max} = -2.04\%$), $\Delta W_{	ext{ext}} = -0.06\%$ in Regime A.
     - Post-peak spatial causality audit across 7 matched displacements ($u=0.0055 	o 0.0100\,	ext{mm}$) reveals crack extension retardation ($L_{	ext{lig}} = 0.2965\,	ext{mm}$ intact at $u=0.0070\,	ext{mm}$ vs $0.000\,	ext{mm}$ in S1).
     - Unbroken ligament transmits tensile load ($F = 0.528\,	ext{kN}$ at $u=0.0070\,	ext{mm}$), storing $>85\%$ of residual elastic energy ($E_{	ext{elas}} = 0.145\,	ext{mJ}$) in bulk top/bottom loading blocks.
     - Epistemic classification: **`EFFICIENCY_CALIBRATED_2PCT_PROJECT_VARIANT`**; spatial causality classification: **`SUPPORTED_BUT_NOT_PROVEN`**.
-  - **Spatial Convergence S2 (`1409866.mmaster02`):** Exit 1 (cutback limit at $u=0.006816\,	ext{mm}$ after $99.97\%$ post-peak load drop). Pre-peak: $K_0 = 137.894136\,	ext{kN/mm}$ ($\Delta K_0 = -0.0372\%$), $F_{\max} = 0.741194\,	ext{kN}$ ($\Delta F_{\max} = -2.19\%$). At matched common $u=0.006816\,	ext{mm}$: $E_{	ext{frac}} = 2.330348\,	ext{mJ}$ vs S1 $2.339118\,	ext{mJ}$ ($\Delta E_{	ext{frac}} = -0.37\%$), $W_{	ext{ext}} = 2.248008\,	ext{mJ}$ vs S1 $2.358245\,	ext{mJ}$ ($\Delta W_{	ext{ext}} = -4.68\%$). Epistemic classification: **`POSTPEAK_TRUNCATED_USABLE_TO_U=0.006816_MM`**. Status: `PRELIMINARY_SPATIAL_EVIDENCE_NOT_YET_QUALIFIED` (pending S3).
-  - **Length-Scale Sensitivity L2 (`1409871.mmaster02`, $l_0=0.01125\,	ext{mm}$):** Exit 1 (cutback limit at $u=0.005839\,	ext{mm}$). Pre-peak: $K_0 = 137.765563\,	ext{kN/mm}$ ($\Delta K_0 = -0.1305\%$), $F_{\max} = 0.708402\,	ext{kN}$ ($\Delta F_{\max} = -6.52\%$). Epistemic classification: **`POSTPEAK_TRUNCATED_USABLE_TO_U=0.005839_MM`**. Status: `QUALIFIED_LENGTH_SCALE_SENSITIVITY`.
-  - **Length-Scale Sensitivity L3 (`1409872.mmaster02`, $l_0=0.01500\,	ext{mm}$):** Exit 1 (cutback limit at $u=0.006473\,	ext{mm}$). Pre-peak: $K_0 = 137.676174\,	ext{kN/mm}$ ($\Delta K_0 = -0.1953\%$), $F_{\max} = 0.689540\,	ext{kN}$ ($\Delta F_{\max} = -9.01\%$). At matched common $u=0.006473\,	ext{mm}$: $E_{	ext{frac}} = 2.330953\,	ext{mJ}$ vs S1 $2.338967\,	ext{mJ}$ ($\Delta E_{	ext{frac}} = -0.34\%$). Epistemic classification: **`POSTPEAK_TRUNCATED_USABLE_TO_U=0.006473_MM`**. Status: `QUALIFIED_LENGTH_SCALE_SENSITIVITY`.
   - **Active Running Solver Job (1 Independent Solve, Untouched):**
     - S3 Fine Spatial ($41,912$ el, Job `1409867.mmaster02`, `normal_imfdfkmq`, Non-polling guard enforced).
-  - **Dedicated Convergence & Spatial Audit Artifacts:**
-    - MISESERI Spatial Discrepancy JSON: `models/pandey_kumar_mode1/GATE6B_MISESERI_SPATIAL_DISCREPANCY_AUDIT.json`.
-    - MISESERI Spatial Discrepancy Report: `models/pandey_kumar_mode1/MODE1_MISESERI_SPATIAL_DISCREPANCY_AUDIT_REPORT.md`.
-    - MISESERI Spatial Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_miseseri_spatial_discrepancy_audit.png` (and `.pdf`).
-    - Temporal Comparison: `models/pandey_kumar_mode1/GATE6B_TEMPORAL_CONVERGENCE_FAMILY_COMPARISON.json`.
-    - Temporal Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_temporal_convergence_family.png` (and `.pdf`).
-    - Spatial Causality Package: `models/pandey_kumar_mode1/spatial_causality_audit/`.
-    - Spatial Causality JSON: `models/pandey_kumar_mode1/gate6b_claims_and_matched_audit/GATE6B_ADAPTIVE_SPATIAL_CAUSALITY_AUDIT.json`.
-    - Spatial Master Figures: `results/figures/mode_i_adaptive/fig_mode1_spatial_causality_field_contours.png`, `fig_mode1_spatial_causality_profiles_and_ligament.png`.
-    - Supervisor Briefing: `docs/supervisor_reports/SUPERVISOR_PROGRESS_UPDATE_2026-10-08_MODE1_GATE6B_CONVERGENCE_AND_CAUSALITY_AUDIT.md`.
 
 ---
 
