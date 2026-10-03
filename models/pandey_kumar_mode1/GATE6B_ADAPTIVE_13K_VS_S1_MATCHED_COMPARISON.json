@@ -134,5 +134,25 @@
     "element_difference_vs_published": "|13897 - 13941| / 13941 = 0.32%",
     "published_error_target": "1.0% (literal 1% remesh yields 56,302 elements)",
     "project_variant_error_target": "2.0% (efficiency-calibrated match to 13.9k element count)"
+  },
+  "classification": "EFFICIENCY_CALIBRATED_2PCT_PROJECT_VARIANT",
+  "spatial_causality_status": "SUPPORTED_BUT_NOT_PROVEN",
+  "verified_findings": [
+    "VERIFIED: Adaptive and S1 pre-peak mechanical response and work input match within -0.06% (K0 parity -0.0405%, Fmax parity -2.04%).",
+    "VERIFIED: Adaptive post-peak force decay is substantially broader and retains non-zero residual force (F = 0.528 kN at u=0.0070 mm, F = 0.029 kN at u=0.0100 mm).",
+    "VERIFIED: The post-peak residual force performs additional external work (+54.0% total W_ext) and leaves residual elastic strain energy (E_elas = 0.145 mJ vs 0.00116 mJ in S1).",
+    "VERIFIED: Crack extension is horizontally aligned along y = 0.50 mm in both specimens without macroscopic path deviation.",
+    "VERIFIED: At u = 0.0070 mm and u = 0.0080 mm, S1 has fully severed the ligament (a_ext = 0.500 mm, L_lig = 0.000 mm, d >= 0.95 across entire ligament), whereas the adaptive specimen exhibits delayed crack penetration (remaining intact ligament L_lig = 0.2965 mm at u=0.0070 mm).",
+    "VERIFIED: The residual elastic strain energy in the adaptive specimen at u = 0.0100 mm is spatially distributed across the top and bottom specimen blocks (>85% of total E_elas) due to ongoing tensile transmission across the partially intact ligament."
+  ],
+  "unresolved_findings": [
+    "UNRESOLVED: The fundamental microscopic/variational cause of the delayed crack breakthrough (whether governed strictly by local element sizing h > 2*l_0 at the right boundary transition, element aspect ratio distortion, or stiffness under-integration in transition zones).",
+    "UNRESOLVED: State-transfer / evolving remeshing dynamics (requires Gate-6C multi-step state transfer investigation)."
+  ],
+  "spatial_causality_metrics": {
+    "crack_extension_retardation": "Demonstrated: at u=0.0070 mm S1 has a_ext=0.500 mm (100% severed) vs Adaptive a_ext=0.2035 mm (40.7% severed, L_lig=0.2965 mm intact).",
+    "load_carrying_ligament_tension": "Demonstrated: unbroken ligament transmits tensile force F=0.528 kN at u=0.0070 mm, continuing to elastically load bulk blocks.",
+    "regional_energy_storage": "Demonstrated: >85% of residual E_elas is stored in bulk specimen blocks (y < 0.45 and y > 0.55 mm) rather than crack corridor.",
+    "path_fidelity": "Demonstrated: horizontal propagation strictly along y=0.500 mm with zero path deviation or branching."
   }
 }

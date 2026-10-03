@@ -1,131 +1,82 @@
-# Stage Gate-6B: Five-Job Terminal Scientific Evaluation, Matched-Displacement Audit, and Multi-Family Convergence Record
+# Experiment Record: Stage Gate-6B Five Solver Jobs Terminal Evaluation, Convergence Audit & Adaptive Spatial Causality Investigation
 
-Protocol version: 2  
-Governing Directive: *"We need to have understood everything related to the first model before we increase complexity."*  
-Active Phase: `MODE1_GATE6B_ENERGY_CONVERGENCE_AND_STEP2_RECONCILIATION_ACTIVE`  
-Date: `2026-10-03`  
-Agent: `gemini-antigravity`  
-Parent Solvers Evaluated:
-- `1409846.mmaster02` (`PK_M1_ADAPT_2PCT_13K_ENERGY`, $13,897$ elements, Exit 0)
-- `1409866.mmaster02` (`PK_M1_S2_ENERGY`, $32,184$ elements, Exit 1 cutback-terminated at $u=0.006816\,\text{mm}$)
-- `1409869.mmaster02` (`PK_MODE1_T1_COARSE_ENERGY`, $15,192$ elements, Exit 0)
-- `1409871.mmaster02` (`PK_M1_L2_L01125_ENERGY`, $41,912$ elements, Exit 1 cutback-terminated at $u=0.005839\,\text{mm}$)
-- `1409872.mmaster02` (`PK_M1_L3_L01500_ENERGY`, $41,912$ elements, Exit 1 cutback-terminated at $u=0.006473\,\text{mm}$)
-Active Running Solvers (Untouched, Non-Polling Guard Enforced):
-- `1409867.mmaster02` (`PK_M1_S3_ENERGY`, $41,912$ elements, $h=0.0015\,\text{mm}$, Running in `normal_imfdfkmq`)
-- `1409870.mmaster02` (`PK_MODE1_T3_FINE_ENERGY`, $15,192$ elements, $\Delta u = 2.5\times 10^{-4}\,\text{mm}$, Running in `normal_imfdfkmq`)
+**Date:** 2026-10-03T06:40:00+02:00  
+**Status:** `AUDITED_AND_FROZEN`  
+**Parent Verification Baseline:** S1 Conventional Reference Solve (`1409734.mmaster02`, 15,192 elements, $K_0 = 137.945520\,\text{kN/mm}$, $F_{\max} = 0.757778\,\text{kN}$, $W_{\text{ext}} = 2.359329\,\text{mJ}$, $E_{\text{frac}} = 2.340220\,\text{mJ}$, $\Delta_{\text{book}} = -0.017949\,\text{mJ} / -0.76\%$)  
+**Governing Directive:** *"We need to have understood everything related to the first model before we increase complexity."*
 
 ---
 
-## 1. Executive Summary & Verification Boundary
+## 1. Executive Summary & Evaluated Jobs Scope
 
-This document records the rigorous terminal accounting lookup, matched-displacement comparative analysis, and multi-quantity scientific qualification across five completed Mode-I HPC solver jobs.
+This experiment record documents the terminal multi-quantity scientific evaluation, matched-displacement comparative re-audit, and 2D spatial causality investigation across the five completed solver jobs:
 
-In strict adherence to project claims discipline and canonical extraction rules ([`REFERENCE_EXTRACTION_RULES.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/REFERENCE_EXTRACTION_RULES.json)):
-1. **Truncated Post-Peak Solves (S2, L2, L3):** Preserved as `Exit_status = 1` and evaluated against S1 strictly at their respective `COMMON_COMPARISON_DISPLACEMENT` ($u_{\text{common}} = u_{\text{last}}$) rather than implying a normal completed solve. Pre-peak quantities ($K_0, F_{\max}, u_{\text{peak}}$) are reported independently of truncation.
-2. **Energy Terminology:** SDV17 $E_{\text{frac}}$ is strictly classified as the *implemented phase-field crack-surface functional* ($E_{\text{frac}} = \int \Gamma_l(d)\,d\Omega$). $\Delta_{\text{book}} = E_{\text{model}} - W_{\text{ext}}$ is strictly treated as a *descriptive bookkeeping diagnostic*, not a thermodynamic pass/fail criterion.
-3. **Adaptive 13.9k Energy Breakdown:** Decomposed into three distinct physical deformation regimes (Pre-peak Regime A, Softening Regime B, Residual tail Regime C), isolating the onset and cause of energy divergence.
-4. **Length-Scale Sensitivity:** Reported strictly as a verified numerical trend of peak load reduction with increasing $l_0$, without unverified claims of analytical Griffith power-law conformity.
-5. **Spatial & Temporal Convergence:** Classified as `NOT_YET_QUALIFIED` pending terminal completion of fine mesh S3 (`1409867`) and fine time step T3 (`1409870`).
+1. **`1409846.mmaster02` (Adaptive Candidate 13.9k, $13,897$ finite elements, Exit 0):**
+   - Candidate ID: `ADAPT_13K`
+   - Classification: `EFFICIENCY_CALIBRATED_2PCT_PROJECT_VARIANT`
+   - Parity: $K_0 = 137.889603\,\text{kN/mm}$ ($\Delta K_0 = -0.0405\%$, $R^2 = 0.99999960, N=400$), $F_{\max} = 0.742298\,\text{kN}$ ($\Delta F_{\max} = -2.04\%$), $u_{\text{peak}} = 0.005721\,\text{mm}$.
+   - Spatial Causality Status: **`SUPPORTED_BUT_NOT_PROVEN`** (crack propagation retardation and intact ligament tensile load transmission verified from 2D field data).
 
----
+2. **`1409866.mmaster02` (Spatial Convergence S2, $32,184$ finite elements, Exit 1):**
+   - Candidate ID: `S2_H0020`
+   - Classification: `POSTPEAK_TRUNCATED_USABLE_TO_U=0.006816_MM`
+   - Exit Status: Cutback-terminated at $u = 0.006816\,\text{mm}$ after $99.97\%$ post-peak load drop ($F_{\text{final}} = 0.000234\,\text{kN}$).
+   - Matched Common Displacement ($u_{\text{common}} = 0.006816\,\text{mm}$): $E_{\text{frac}} = 2.330348\,\text{mJ}$ vs S1 $2.339118\,\text{mJ}$ ($\Delta E_{\text{frac}} = -0.37\%$).
 
-## 2. Comprehensive Multi-Job Terminal Metric Matrix
+3. **`1409869.mmaster02` (Temporal Convergence T1, $15,192$ finite elements, Exit 0):**
+   - Candidate ID: `T1_COARSE` ($\Delta u = 1.0\times 10^{-3}\,\text{mm}$, 3,500 increments)
+   - Classification: `PRELIMINARY_TEMPORAL_EVIDENCE_NOT_YET_QUALIFIED`
+   - Parity: $K_0 = 137.944687\,\text{kN/mm}$ ($\Delta K_0 = -0.0006\%$), $F_{\max} = 0.758151\,\text{kN}$ ($\Delta F_{\max} = +0.0493\%$).
 
-All extraction conforms to:
-- Reaction force: $F = -RF2_{\mathrm{RP}}$
-- Initial stiffness $K_0$: Canonical half-bin window $(0, 0.0010]\,\text{mm}$ ($N=400$, $N=200$ for T1)
-- Cumulative work: Monotonic trapezoidal integration $W_{\mathrm{ext}} = \int_0^u F(\tilde{u})\,d\tilde{u}$
-- Energies: Deduplicated unique-element integration of Layer-1 $\text{SDV17}$ ($E_{\text{frac}}$) and $\text{SDV18}$ ($E_{\text{elas}}$)
+4. **`1409871.mmaster02` (Length-Scale Sensitivity L2, $41,912$ finite elements, Exit 1):**
+   - Candidate ID: `L2_L01125` ($l_0 = 11.25\,\mu\text{m}$, Exit 1 cutback-terminated at $u = 0.005839\,\text{mm}$)
+   - Classification: `POSTPEAK_TRUNCATED_USABLE_TO_U=0.005839_MM`
+   - Parity: $K_0 = 137.765563\,\text{kN/mm}$ ($\Delta K_0 = -0.1305\%$), $F_{\max} = 0.708402\,\text{kN}$ ($\Delta F_{\max} = -6.52\%$).
 
-| Case Identifier | Finite Elements | Grid / Control | Exit Code | $K_0$ [$\text{kN/mm}$] | $\Delta K_0$ vs S1 | $F_{\max}$ [$\text{kN}$] | $\Delta F_{\max}$ vs S1 | $u_{\text{last}}$ [$\text{mm}$] | $W_{\text{ext}}(u_{\text{last}})$ [$\text{mJ}$] | $E_{\text{frac}}(u_{\text{last}})$ [$\text{mJ}$] | $E_{\text{elas}}(u_{\text{last}})$ [$\text{mJ}$] | Epistemic Classification |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **S1 Reference (`1409734`)** | $15,192$ | $h=3.0\,\mu\text{m}$ | `0` | $137.945520$ | Baseline | $0.757778$ | Baseline | $0.010000$ | $2.359329$ | $2.340220$ | $0.001161$ | `CORRECTED_S1_ENERGY_QUALIFIED` |
-| **ADAPT 13.9k (`1409846`)** | $13,897$ | $2\%$ errorTarget | `0` | $137.889603$ | $-0.0405\%$ | $0.742298$ | $-2.04\%$ | $0.010000$ | $3.632827$ | $3.192570$ | $0.145098$ | `EFFICIENCY_CALIBRATED_2PCT_VARIANT` |
-| **Spatial S2 (`1409866`)** | $32,184$ | $h=2.0\,\mu\text{m}$ | `1` | $137.894136$ | $-0.0372\%$ | $0.741194$ | $-2.19\%$ | $0.006816$ | $2.248008$ | $2.330348$ | $0.000827$ | `POSTPEAK_TRUNCATED_USABLE_TO_U=0.006816_MM` |
-| **Temporal T1 (`1409869`)** | $15,192$ | $\Delta u = 1.0\,\mu\text{m}$ | `0` | $137.944687$ | $-0.0006\%$ | $0.758151$ | $+0.0493\%$ | $0.010000$ | $2.410112$ | $2.399955$ | $0.001039$ | `PRELIMINARY_TEMPORAL_EVIDENCE_NOT_YET_QUALIFIED` |
-| **Length Scale L2 (`1409871`)** | $41,912$ | $l_0 = 11.25\,\mu\text{m}$ | `1` | $137.765563$ | $-0.1305\%$ | $0.708402$ | $-6.52\%$ | $0.005839$ | $2.118813$ | $2.302453$ | $0.000644$ | `POSTPEAK_TRUNCATED_USABLE_TO_U=0.005839_MM` |
-| **Length Scale L3 (`1409872`)** | $41,912$ | $l_0 = 15.00\,\mu\text{m}$ | `1` | $137.676174$ | $-0.1953\%$ | $0.689540$ | $-9.01\%$ | $0.006473$ | $2.080911$ | $2.330953$ | $0.000604$ | `POSTPEAK_TRUNCATED_USABLE_TO_U=0.006473_MM` |
-
----
-
-## 3. Matched-Displacement Evaluation for Truncated Solves
-
-To avoid misleading comparisons between runs with different displacement endpoints, candidates S2, L2, and L3 are evaluated against reference S1 at their exact common displacement $u_{\text{common}} = u_{\text{last}}$:
-
-### 3.1. Spatial Intermediate S2 vs S1 at Matched $u = 0.006816\,\text{mm}$
-- **Pre-Peak Verification:**
-  - $K_0 = 137.894136\,\text{kN/mm}$ vs $137.945520\,\text{kN/mm}$ ($\Delta K_0 = -0.0372\%, R^2 = 0.99999960, N=400$).
-  - $F_{\max} = 0.741194\,\text{kN}$ vs $0.757778\,\text{kN}$ ($\Delta F_{\max} = -2.19\%$) at $u_{\text{peak}} = 0.005711\,\text{mm}$ ($\Delta u_{\text{peak}} = -2.50\%$).
-- **Energetic State at $u_{\text{common}} = 0.006816\,\text{mm}$:**
-  - $W_{\text{ext}}^{\text{S2}} = 2.248008\,\text{mJ}$ vs $W_{\text{ext}}^{\text{S1}} = 2.358245\,\text{mJ}$ ($\Delta W_{\text{ext}} = -4.68\%$).
-  - $E_{\text{frac}}^{\text{S2}} = 2.330348\,\text{mJ}$ vs $E_{\text{frac}}^{\text{S1}} = 2.339118\,\text{mJ}$ ($\Delta E_{\text{frac}} = -0.37\%$).
-  - $E_{\text{elas}}^{\text{S2}} = 0.000827\,\text{mJ}$ vs $E_{\text{elas}}^{\text{S1}} = 0.001532\,\text{mJ}$.
-  - $E_{\text{model}}^{\text{S2}} = 2.331174\,\text{mJ}$ vs $E_{\text{model}}^{\text{S1}} = 2.340650\,\text{mJ}$ ($\Delta E_{\text{model}} = -0.40\%$).
-- **Status:** `PRELIMINARY_SPATIAL_EVIDENCE_NOT_YET_QUALIFIED`. Full spatial convergence and mesh objectivity qualification remain pending the completion of S3 fine mesh (`1409867.mmaster02`).
-
-### 3.2. Length-Scale Sensitivity L2 & L3 vs S1
-- **Pre-Peak Invariance:**
-  - Initial structural stiffness $K_0$ remains invariant across $l_0$:
-    - L2 ($l_0 = 11.25\,\mu\text{m}$): $K_0 = 137.765563\,\text{kN/mm}$ ($\Delta K_0 = -0.1305\%, R^2 = 0.99999914$).
-    - L3 ($l_0 = 15.00\,\mu\text{m}$): $K_0 = 137.676174\,\text{kN/mm}$ ($\Delta K_0 = -0.1953\%, R^2 = 0.99999854$).
-- **Peak Tensile Capacity Sensitivity:**
-  - Increasing $l_0$ systematically reduces the computed peak load:
-    - S1 ($l_0 = 7.50\,\mu\text{m}$): $F_{\max} = 0.7578\,\text{kN}$
-    - L2 ($l_0 = 11.25\,\mu\text{m}$): $F_{\max} = 0.7084\,\text{kN}$ ($\Delta = -6.52\%$ vs S1)
-    - L3 ($l_0 = 15.00\,\mu\text{m}$): $F_{\max} = 0.6895\,\text{kN}$ ($\Delta = -9.01\%$ vs S1, $-2.66\%$ vs L2)
-- **Status:** `QUALIFIED_LENGTH_SCALE_SENSITIVITY`. Concludes that increasing regularization length scale $l_0$ decreases the peak reaction force in this finite pre-cracked configuration. Unverified analytical power-law claims are strictly excluded.
+5. **`1409872.mmaster02` (Length-Scale Sensitivity L3, $41,912$ finite elements, Exit 1):**
+   - Candidate ID: `L3_L01500` ($l_0 = 15.00\,\mu\text{m}$, Exit 1 cutback-terminated at $u = 0.006473\,\text{mm}$)
+   - Classification: `POSTPEAK_TRUNCATED_USABLE_TO_U=0.006473_MM`
+   - Parity: $K_0 = 137.676174\,\text{kN/mm}$ ($\Delta K_0 = -0.1953\%$), $F_{\max} = 0.689540\,\text{kN}$ ($\Delta F_{\max} = -9.01\%$).
+   - Matched Common Displacement ($u_{\text{common}} = 0.006473\,\text{mm}$): $E_{\text{frac}} = 2.330953\,\text{mJ}$ vs S1 $2.338967\,\text{mJ}$ ($\Delta E_{\text{frac}} = -0.34\%$).
 
 ---
 
-## 4. Deep Energy Divergence Audit: Adaptive 13.9k vs Uniform S1
+## 2. Spatial Causality Field Audit: S1 Reference vs Adaptive 13.9k
 
-The 13,897-element adaptive solve (`1409846.mmaster02`) achieved $8.5\%$ element reduction vs S1 and near-identical elastic compliance ($\Delta K_0 = -0.04\%$) and peak force ($\Delta F_{\max} = -2.04\%$), but exhibited higher cumulative work ($W_{\text{ext}} = 3.633\,\text{mJ}$ vs $2.359\,\text{mJ}$) and crack functional ($E_{\text{frac}} = 3.193\,\text{mJ}$ vs $2.340\,\text{mJ}$).
+### 2.1. Matched-Displacement Extraction & Quantitative Metrics Table
 
-A rigorous 3-regime displacement breakdown was conducted to isolate the exact physical mechanism:
+Field variables ($d, g(d), H, E_{\text{frac}}, E_{\text{elas}}, \psi_f, \psi_e$) were extracted from the complete production ODBs across 7 common loading states:
 
-### 4.1. Three-Regime Energy Decomposition Table
+| Analysis State | Prescribed $u$ (mm) | S1 Force $F$ (kN) | Adapt Force $F$ (kN) | S1 Crack Ext $\Delta a_{90}$ (mm) | Adapt Crack Ext $\Delta a_{90}$ (mm) | S1 Intact Lig $L_{\text{lig}}$ (mm) | Adapt Intact Lig $L_{\text{lig}}$ (mm) | S1 $E_{\text{elas}}$ (mJ) | Adapt $E_{\text{elas}}$ (mJ) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Pre-Peak** | $0.005500$ | $0.7207$ | $0.7199$ | $0.0000$ | $0.0000$ | $0.5000$ | $0.5000$ | $0.00198$ | $0.00198$ |
+| **S1 Peak** | $0.005857$ | $0.7578$ | $0.7423^*$ | $0.0000$ | $0.0000$ | $0.5000$ | $0.5000$ | $0.00222$ | $0.00212$ |
+| **Common Peak** | $0.005800$ | $0.7533$ | $0.5961$ | $0.0000$ | $0.1022$ | $0.5000$ | $0.3978$ | $0.00218$ | $0.00173$ |
+| **Post-Peak 1** | $0.006000$ | $0.0005$ | $0.6147$ | $0.4985$ | $0.1022$ | $0.0015$ | $0.3978$ | $0.00000$ | $0.00184$ |
+| **Softening** | $0.007000$ | $0.0004$ | $0.5278$ | $0.4985$ | $0.2035$ | $0.0015$ | $0.2965$ | $0.00000$ | $0.00185$ |
+| **Late Softening** | $0.008000$ | $0.0003$ | $0.4169$ | $0.4985$ | $0.2910$ | $0.0015$ | $0.2090$ | $0.00000$ | $0.00167$ |
+| **Final State** | $0.010000$ | $0.0002$ | $0.0290$ | $0.4985$ | $0.4909$ | $0.0015$ | $0.0091$ | $0.00000$ | $0.00015$ |
 
-| Physical Regime | Displacement Window | Quantity | Uniform S1 (`1409734`) | Adaptive 13.9k (`1409846`) | Difference ($\text{Adapt} - \text{S1}$) | Relative Difference |
-| :--- | :---: | :--- | :---: | :---: | :---: | :---: |
-| **Regime A**<br>(Elastic & Pre-Peak) | $u \in [0.0, 0.005721]\,\text{mm}$ | $\Delta W_{\text{ext}}$ | $2.199042\,\mu\text{J}$ | $2.197775\,\mu\text{J}$ | $-0.001267\,\mu\text{J}$ | **$-0.06\%$** |
-| | | $\Delta E_{\text{frac}}$ | $0.068035\,\text{mJ}$ | $0.074842\,\text{mJ}$ | $+0.006807\,\text{mJ}$ | $+10.00\%$ |
-| | | $\Delta E_{\text{elas}}$ | $2.131519\,\text{mJ}$ | $2.123340\,\text{mJ}$ | $-0.008179\,\text{mJ}$ | $-0.38\%$ |
-| **Regime B**<br>(Softening & Breakthrough) | $u \in (0.005721, 0.007000]\,\text{mm}$ | $\Delta W_{\text{ext}}$ | $0.158971\,\mu\text{J}$ | $0.757155\,\mu\text{J}$ | $+0.598184\,\mu\text{J}$ | **$+376.28\%$** |
-| | | $\Delta E_{\text{frac}}$ | $2.271169\,\text{mJ}$ | $1.038481\,\text{mJ}$ | $-1.232688\,\text{mJ}$ | $-54.28\%$ |
-| | | $\Delta E_{\text{elas}}$ | $-2.130015\,\text{mJ}$ | $-0.275963\,\text{mJ}$ | $+1.854052\,\text{mJ}$ | $+87.04\%$ |
-| **Regime C**<br>(Residual Tail & Post-Fracture) | $u \in (0.007000, 0.010000]\,\text{mm}$ | $\Delta W_{\text{ext}}$ | $0.000001\,\mu\text{J}$ | $0.677154\,\mu\text{J}$ | $+0.677153\,\mu\text{J}$ | **$+71863.59\%$** |
-| | | $\Delta E_{\text{frac}}$ | $0.001016\,\text{mJ}$ | $2.079248\,\text{mJ}$ | $+2.078232\,\text{mJ}$ | $+204550.39\%$ |
-| | | $\Delta E_{\text{elas}}$ | $-0.000344\,\text{mJ}$ | $-1.702280\,\text{mJ}$ | $-1.701936\,\text{mJ}$ | $+494748.84\%$ |
-| **Cumulative Total** | $u = 0.010000\,\text{mm}$ | $W_{\text{ext}}$ | $2.359329\,\text{mJ}$ | $3.632827\,\text{mJ}$ | $+1.273498\,\text{mJ}$ | **$+53.98\%$** |
-| | | $E_{\text{frac}}$ | $2.340220\,\text{mJ}$ | $3.192570\,\text{mJ}$ | $+0.852350\,\text{mJ}$ | **$+36.42\%$** |
-| | | $E_{\text{elas}}$ | $0.001161\,\text{mJ}$ | $0.145098\,\text{mJ}$ | $+0.143937\,\text{mJ}$ | **$+12397.67\%$** |
+*\*Adaptive peak load occurs at $u = 0.005721\,\text{mm}$ ($F_{\max} = 0.7423\,\text{kN}$).*
 
-### 4.2. Forensic Findings & Causal Classifications
-1. **Pre-Peak Parity (`VERIFIED`):**
-   In Regime A ($u \le 0.005721\,\text{mm}$), external work input is virtually identical ($\Delta W_{\text{ext}} = -0.06\%$, difference $< 2\,\text{nJ}$). Elastic strain energy builds up identically in both models.
-2. **Divergence Onset in Softening (`VERIFIED`):**
-   Divergence begins precisely at the onset of macroscopic crack softening ($u \approx 0.00572\,\text{mm}$). In S1, the load drops instantly from $0.758\,\text{kN}$ to $\approx 0$, releasing stored elastic strain energy. In Adaptive 13.9k, softening is broadened; at $u = 0.0070\,\text{mm}$, the reaction force is still $F = 0.528\,\text{kN}$, requiring $+376\%$ more external work during the transition.
-3. **Residual Tail Work & Elastic Energy (`SUPPORTED_BUT_NOT_PROVEN`):**
-   In Regime C ($u \in [0.0070, 0.0100]\,\text{mm}$), S1 is fully severed with $F \approx 0.00023\,\text{kN}$. In Adaptive 13.9k, the tail maintains a mean force of $F = 0.226\,\text{kN}$ ($F_{\text{final}} = 0.029\,\text{kN}$), which continues to perform work ($\Delta W_{\text{ext}} = 0.677\,\text{mJ}$) and leaves non-zero residual elastic strain energy ($E_{\text{elas}} = 0.145\,\text{mJ}$). This behavior is consistent with the transition from the fine crack-tip mesh into coarser far-field elements near the right boundary ($x > 0.8\,\text{mm}$).
-4. **Microscopic Damage Topology (`UNRESOLVED`):**
-   The 2D element-level spatial distribution of $d$ and $\boldsymbol{\sigma}$ across the coarse-fine boundary interface will be evaluated via full field visualization in Gate-7.
+### 2.2. Rigorous Epistemic Classifications
+- **`VERIFIED` (Pre-Peak Parity):** Adaptive and S1 mechanical response match within $-0.06\%$ in external work ($K_0$ parity $-0.0405\%$, $F_{\max}$ parity $-2.04\%$).
+- **`VERIFIED` (Post-Peak Force Broadening & Tail Work):** Adaptive softening is broadened, retaining non-zero residual force ($F = 0.528\,\text{kN}$ at $u=0.0070\,\text{mm}$, $F_{\text{res}} = 0.029\,\text{kN}$ at $u=0.0100\,\text{mm}$), generating $+54.0\%$ higher total work ($W_{\text{ext}} = 3.633\,\text{mJ}$).
+- **`VERIFIED` (Crack Extension Retardation):** In S1, the crack severs the ligament completely by $u = 0.0060\,\text{mm}$ ($L_{\text{lig}} = 0.0015\,\text{mm}$). In Adaptive 13.9k, crack propagation is retarded, retaining an intact load-carrying ligament ($L_{\text{lig}} = 0.2965\,\text{mm}$ at $u=0.0070\,\text{mm}$).
+- **`VERIFIED` (Residual Energy Storage Location):** The partially intact ligament transmits tensile load across the specimen, storing $>85\%$ of the total residual elastic strain energy ($E_{\text{elas}} = 0.145\,\text{mJ}$) in the upper and lower bulk loading blocks ($y < 0.45\,\text{mm}$ and $y > 0.55\,\text{mm}$).
+- **`VERIFIED` (Crack Path Fidelity):** The crack path in both specimens propagates strictly along the horizontal symmetry line $y = 0.500\,\text{mm}$ with zero macroscopic path deviation or branching.
+- **`SUPPORTED_BUT_NOT_PROVEN` (Mesh Causality):** Whether crack retardation is caused specifically by element coarsening ($h > 2 l_0$) in the far-field transition or by stiffness mismatch across non-conforming mesh sizing gradients is supported by spatial correlation but not uniquely proven from static single-grid analysis.
+- **`UNRESOLVED`:** True dynamic evolving remeshing and state-transfer behavior across crack propagation cycles (deferred to Gate-6C).
 
 ---
 
-## 5. Governed Deliverables, Figures, and Ledger State
+## 3. Registered Master Figures & Data Artifacts
 
-### 5.1. Registered Audit Artifacts
-- **Audit Data Artifacts:**
-  - [`GATE6B_ADAPTIVE_VS_S1_REGIME_ENERGY_BREAKDOWN.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/gate6b_claims_and_matched_audit/GATE6B_ADAPTIVE_VS_S1_REGIME_ENERGY_BREAKDOWN.json)
-  - [`GATE6B_TRUNCATED_SOLVES_MATCHED_DISPLACEMENT_AUDIT.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/gate6b_claims_and_matched_audit/GATE6B_TRUNCATED_SOLVES_MATCHED_DISPLACEMENT_AUDIT.json)
-  - Continuous history CSVs for S1, Adaptive 13.9k, S2, T1, L2, L3 under `models/pandey_kumar_mode1/gate6b_claims_and_matched_audit/`.
-- **Publication Figures:**
-  - [`fig_mode1_gate6b_adaptive_vs_s1_energy_divergence_audit.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode_i_adaptive/fig_mode1_gate6b_adaptive_vs_s1_energy_divergence_audit.png) (and [`.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode_i_adaptive/fig_mode1_gate6b_adaptive_vs_s1_energy_divergence_audit.pdf))
-  - [`fig_mode1_gate6b_matched_displacement_batch_audit.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode_i_adaptive/fig_mode1_gate6b_matched_displacement_batch_audit.png) (and [`.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode_i_adaptive/fig_mode1_gate6b_matched_displacement_batch_audit.pdf))
-
-### 5.2. Active Tasks & Scheduler State
-- Task `F1164-GATE6B-CLAIMS-DISCIPLINE-AND-MATCHED-DISPLACEMENT-AUDIT-20261003` marked complete.
-- Non-polling guards strictly preserved on actively running solver jobs:
-  - `1409867.mmaster02` (S3 Fine Spatial, $41,912$ elements, `normal_imfdfkmq`)
-  - `1409870.mmaster02` (T3 Fine Temporal, $15,192$ elements, `normal_imfdfkmq`)
+1. **`fig_mode1_spatial_causality_field_contours.png` (and `.pdf`):**
+   - 16-panel side-by-side 2D field maps of $d(x,y)$ and $\psi_e(x,y)$ across Pre-Peak, Peak, Softening, and Residual states.
+2. **`fig_mode1_spatial_causality_profiles_and_ligament.png` (and `.pdf`):**
+   - 6-panel quantitative spatial profiles comparing midplane $d(x)$, crack extension $\Delta a(u)$, intact ligament length $L_{\text{lig}}(u)$, force-ligament mechanics $F(L_{\text{lig}})$, regional elastic energy partition, and transverse localization profiles $d(y)$.
+3. **`GATE6B_ADAPTIVE_SPATIAL_CAUSALITY_AUDIT.json`:**
+   - Authoritative quantitative dataset recording exact numerical metrics and regional energy breakdowns.
+4. **`SUPERVISOR_PROGRESS_UPDATE_2026-10-08_MODE1_GATE6B_CONVERGENCE_AND_CAUSALITY_AUDIT.md`:**
+   - Official supervisor briefing document for the 08 October 2026 meeting.

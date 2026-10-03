@@ -1,15 +1,16 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1164-GATE6B-CLAIMS-DISCIPLINE-AND-MATCHED-DISPLACEMENT-AUDIT-20261003",
-  "claimed_at": "2026-10-03T06:15:00+02:00",
-  "released_at": "2026-10-03T06:25:00+02:00",
-  "starting_commit": "e8a93e3",
+  "task_id": "F1166-GATE6B-ADAPTIVE-SPATIAL-CAUSALITY-FIELD-AUDIT-20261003",
+  "claimed_at": "2026-10-03T06:28:00+02:00",
+  "released_at": "2026-10-03T06:41:00+02:00",
+  "starting_commit": "5066ff8a931ef84ce4fd72aaa45dbd158891e3c6",
   "allowed_write_scope": [
-    "project_coordination/**",
-    "docs/experiment_records/**",
     "models/pandey_kumar_mode1/**",
-    "results/figures/mode_i_adaptive/**"
+    "results/**",
+    "docs/**",
+    "scripts/**",
+    "project_coordination/**"
   ],
-  "notes": "Session completed. Matched-displacement audit, 3-regime adaptive energy decomposition, master figures, qualification reports, ledgers, and coordination records finalized. Active task transitioned to F1165 awaiting S3/T3 completion."
+  "notes": "Session completed. Matched-displacement 2D field extraction, spatial causality audit, master publication figures, qualification JSON updates, supervisor briefing, ledgers, and coordination records finalized. Active task transitioned to F1167 awaiting S3/T3 completion."
 }

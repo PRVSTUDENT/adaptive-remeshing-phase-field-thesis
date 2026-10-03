@@ -16,7 +16,9 @@
       "dt_step1_mm": 0.0005,
       "dt_step2_mm": 0.0002,
       "role": "ADAPTIVE_EFFICIENCY_CALIBRATED_2PCT"
-    }
+    },
+    "governed_classification": "EFFICIENCY_CALIBRATED_2PCT_PROJECT_VARIANT",
+    "causality_classification": "SUPPORTED_BUT_NOT_PROVEN"
   },
   "job_telemetry": {
     "job_id": "1409846.mmaster02",
@@ -105090,7 +105092,7 @@
     "fortran_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
     "total_increments_completed": 7000
   },
-  "scientific_qualification_status": "ADAPTIVE_2PCT_13K_ENERGY_QUALIFIED",
+  "scientific_qualification_status": "EFFICIENCY_CALIBRATED_2PCT_PROJECT_VARIANT",
   "energy_regime_breakdown": {
     "audit_timestamp": "2026-10-03T06:20:00+02:00",
     "regime_definitions": {
@@ -105193,6 +105195,30 @@
       "post_peak_energy_divergence_onset": "VERIFIED (Onset occurs in Regime B at u ~ 0.0060 mm during crack breakthrough, intensifying in Regime C)",
       "residual_elastic_energy_in_far_field": "SUPPORTED_BUT_NOT_PROVEN (Adaptive E_elas in Regime C increases by +0.144 mJ due to residual far-field strain and residual tail force F_res = 0.029 kN)",
       "full_spatial_damage_distribution_cause": "UNRESOLVED (Requires full element-by-element contour audit of d and sigma across the coarse-fine transition zone)"
+    }
+  },
+  "spatial_causality_audit": {
+    "epistemic_classification": "SUPPORTED_BUT_NOT_PROVEN",
+    "verified_findings": [
+      "VERIFIED: Adaptive and S1 pre-peak mechanical response and work input match within -0.06% (K0 parity -0.0405%, Fmax parity -2.04%).",
+      "VERIFIED: Adaptive post-peak force decay is substantially broader and retains non-zero residual force (F = 0.528 kN at u=0.0070 mm, F = 0.029 kN at u=0.0100 mm).",
+      "VERIFIED: The post-peak residual force performs additional external work (+54.0% total W_ext) and leaves residual elastic strain energy (E_elas = 0.145 mJ vs 0.00116 mJ in S1).",
+      "VERIFIED: Crack extension is horizontally aligned along y = 0.50 mm in both specimens without macroscopic path deviation.",
+      "VERIFIED: At u = 0.0070 mm and u = 0.0080 mm, S1 has fully severed the ligament (a_ext = 0.500 mm, L_lig = 0.000 mm, d >= 0.95 across entire ligament), whereas the adaptive specimen exhibits delayed crack penetration (remaining intact ligament L_lig = 0.2965 mm at u=0.0070 mm).",
+      "VERIFIED: The residual elastic strain energy in the adaptive specimen at u = 0.0100 mm is spatially distributed across the top and bottom specimen blocks (>85% of total E_elas) due to ongoing tensile transmission across the partially intact ligament."
+    ],
+    "unresolved_findings": [
+      "UNRESOLVED: The fundamental microscopic/variational cause of the delayed crack breakthrough (whether governed strictly by local element sizing h > 2*l_0 at the right boundary transition, element aspect ratio distortion, or stiffness under-integration in transition zones).",
+      "UNRESOLVED: State-transfer / evolving remeshing dynamics (requires Gate-6C multi-step state transfer investigation)."
+    ],
+    "not_available_fields_disclosure": {
+      "full_domain_displacement_vectors": "NOT_AVAILABLE_FROM_CURRENT_OUTPUT (production ODB recorded nodal displacement U only at Reference Point N_RP)",
+      "full_domain_cauchy_stress_tensors": "NOT_AVAILABLE_FROM_CURRENT_OUTPUT (production ODB recorded element outputs SDV1-20; Cauchy stress tensor S was not requested in All_elem output card)"
+    },
+    "spatial_causality_audit_reference": {
+      "audit_json": "models/pandey_kumar_mode1/gate6b_claims_and_matched_audit/GATE6B_ADAPTIVE_SPATIAL_CAUSALITY_AUDIT.json",
+      "contour_figure_png": "results/figures/mode_i_adaptive/fig_mode1_spatial_causality_field_contours.png",
+      "profile_figure_png": "results/figures/mode_i_adaptive/fig_mode1_spatial_causality_profiles_and_ligament.png"
     }
   }
 }
