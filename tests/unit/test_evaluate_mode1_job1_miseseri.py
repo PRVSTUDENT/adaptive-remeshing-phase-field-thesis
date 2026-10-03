@@ -15,8 +15,8 @@ Validates:
 5. Normalized footprints and bounding box coordinates (dx, dy)
 6. Transverse corridor width profiles w(x) across 20 longitudinal bins
 7. High-error parasitic outside-corridor ratios
-8. Pairwise element-by-element comparisons (delta, RMS, correlation r)
-9. Predeclared 3-branch scientific decision logic:
+8. Pairwise element-by-element comparisons (delta, RMS, correlation r) and matched displacement scaling
+9. Predeclared 3-branch scientific decision logic without arbitrary 5%/2% thresholds:
    - LAYERED_JOB1_TOWARD_TARGET_LOCALIZATION
    - LAYERED_JOB1_NO_MEANINGFUL_IMPROVEMENT
    - LAYERED_JOB1_AWAY_FROM_TARGET_LOCALIZATION
@@ -84,6 +84,7 @@ def test_baseline_dataset_loading_and_validation():
     assert validation["missing_ids_count"] == 0
     assert validation["duplicate_entries_detected"] == 0
     assert len(elements) == 2906
+    assert "one WHOLE_ELEMENT MISESERI value per underlying finite element" in validation["element_representation"]
 
 
 def test_companion_layer3_id_mapping(tmp_path):
@@ -163,8 +164,33 @@ def test_normalized_footprints_and_corridor_widths():
     assert widths["width_eta_10pct"][-1] == 0.0
 
 
+def test_matched_displacement_state_scaling():
+    """Verify linear elastic displacement scaling for unmatched displacement states."""
+    if not os.path.isfile(CANONICAL_BASELINE_CSV):
+        pytest.skip("Canonical baseline CSV not found")
+
+    elements, _ = load_miseseri_dataset(CANONICAL_BASELINE_CSV)
+
+    # Simulate a run with 5x displacement (u = 0.0050 mm vs u = 0.0010 mm)
+    elements_5x = copy.deepcopy(elements)
+    for e in elements_5x.values():
+        e["miseseri"] *= 5.0
+
+    # Unscaled comparison gives 5x difference
+    pw_unscaled = compare_layered_vs_standard(elements_5x, elements, displacement_scale_factor=1.0)
+    assert pw_unscaled["matched_displacement_status"] == "MATCHED_DIRECTLY"
+    assert pw_unscaled["mean_diff_mpa"] > 0.03
+
+    # Scaled comparison (scale_factor = 5.0) recovers exact identity
+    pw_scaled = compare_layered_vs_standard(elements_5x, elements, displacement_scale_factor=5.0)
+    assert pw_scaled["matched_displacement_status"] == "SCALED_FOR_LINEAR_ELASTIC_PARITY"
+    assert abs(pw_scaled["mean_diff_mpa"]) < 1e-12
+    assert abs(pw_scaled["max_abs_diff_mpa"]) < 1e-12
+    assert abs(pw_scaled["correlation_r"] - 1.0) < 1e-12
+
+
 def test_predeclared_decision_logic_branches():
-    """Verify that all 3 scientific decision branches trigger under their defined conditions."""
+    """Verify that all 3 scientific decision branches trigger under objective pattern criteria."""
     if not os.path.isfile(CANONICAL_BASELINE_CSV):
         pytest.skip("Canonical baseline CSV not found")
 
@@ -211,17 +237,18 @@ def test_end_to_end_evaluation_and_report_generation(tmp_path):
     if not os.path.isfile(CANONICAL_BASELINE_CSV):
         pytest.skip("Canonical baseline CSV not found")
 
-    out_json = str(tmp_path / "test_eval_output.json")
-    out_md = str(tmp_path / "test_eval_report.md")
-
-    res = execute_mode1_job1_evaluation(CANONICAL_BASELINE_CSV, CANONICAL_BASELINE_CSV)
+    res = execute_mode1_job1_evaluation(CANONICAL_BASELINE_CSV, CANONICAL_BASELINE_CSV,
+                                        layered_disp_mm=0.0050, standard_disp_mm=0.0050)
 
     assert "metadata" in res
     assert "scientific_decision_verdict" in res
+    assert "item1b_matched_displacement_state" in res
     assert res["scientific_decision_verdict"]["verdict"] == "LAYERED_JOB1_NO_MEANINGFUL_IMPROVEMENT"
+    assert res["metadata"]["element_representation"] == "one WHOLE_ELEMENT MISESERI value per underlying finite element"
 
     report_text = format_markdown_report(res)
     assert "# Terminal Evaluation Report" in report_text
     assert "LAYERED_JOB1_NO_MEANINGFUL_IMPROVEMENT" in report_text
     assert "CRACK_TIP_CORRIDOR" in report_text
     assert "FAR_FIELD" in report_text
+    assert "Matched Displacement Provenance" in report_text

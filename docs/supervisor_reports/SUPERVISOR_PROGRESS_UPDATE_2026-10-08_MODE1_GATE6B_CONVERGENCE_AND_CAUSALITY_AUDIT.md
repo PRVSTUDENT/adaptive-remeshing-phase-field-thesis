@@ -27,8 +27,8 @@ Key milestones achieved:
    - Proved coarse mesh topology (Stage 1), facsimile mapping (Stage 3), and mechanical stress transfer (Stage 4) are neutral.
    - Proved boundary condition lateral constraint (Stage 2) is a partial contributor (reduces parasitic remesh elements by 22%).
    - Reclassified single-layer $56\text{k}$ continuum pre-analysis as project diagnostic variant (`STANDARD_CONTINUUM_PREANALYSIS_VARIANT`).
-   - Reconstructed reference-fidelity candidate 3-layer Job-1_UEL package (`PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE`, `89_mode1_preanalysis_uel_canonical_2906`) with Hookean stress recovery in UMAT and verified zero duplicate stiffness ($K_0 = 137.945520\,\text{kN/mm}$).
-   - Executed cluster datacheck (Exit 0) and submitted authorized 1-CPU serial solve (**Job `1409912.mmaster02`**).
+   - Audited 3-layer Job-1_UEL pre-analysis (`89_mode1_preanalysis_uel_canonical_2906`) with Hookean stress recovery in UMAT and verified zero duplicate stiffness ($K_0 = 137.945520\,\text{kN/mm}$).
+   - Loading-history audit against Pandey & Kumar (2025) Sec. 4.1 revealed that literal publication text $\Delta u_1 = 10^{-3}$ for 500 incs implies unphysical $u = 0.5\,\text{mm}$ (50% strain); active candidate Job `1409912.mmaster02` was downgraded to `DIAGNOSTIC_JOB1_LAYERED_VARIANT` and preserved running safely under non-polling guard with zero new PBS submissions.
 
 ---
 
@@ -44,7 +44,7 @@ Key milestones achieved:
 | **Length Scale (L2)** | `1409871.mmaster02` | $41,912$ ($l_0=0.01125$) | $K_0 = 137.9456\,\mathrm{kN/mm}$<br>$F_{\max} = 0.8872\,\mathrm{kN}$ | $F_{\max}$ scaling $+16.88\%$ | **`POSTPEAK_TRUNCATED_USABLE`** |
 | **Length Scale (L3)** | `1409872.mmaster02` | $41,912$ ($l_0=0.01500$) | $K_0 = 137.9456\,\mathrm{kN/mm}$<br>$F_{\max} = 0.9996\,\mathrm{kN}$ | $F_{\max}$ scaling $+31.66\%$ | **`POSTPEAK_TRUNCATED_USABLE`** |
 | **Spatial Fine (S3)** | `1409867.mmaster02` | $41,912$ ($h=0.0015$) | Active in queue (`R`) | Solver executing | **`RUNNING_UNTOUCHED`** |
-| **Layered Pre-Analysis**| `1409912.mmaster02` | $8,718$ ($2,906$ base) | Pre-analysis solve | MISESERI extraction | **`SUBMITTED_ACTIVE`** |
+| **Layered Pre-Analysis**| `1409912.mmaster02` | $8,718$ ($2,906$ base) | Pre-analysis solve | MISESERI extraction | **`DIAGNOSTIC_JOB1_RUNNING`** |
 
 ---
 
@@ -92,12 +92,13 @@ Key milestones achieved:
 - **Causal Isolation:** Proved the broad far-field MISESERI error distribution ($32.98\%$ in Far Field, $31.67\%$ in Wake) is $100\%$ native to the continuum mechanical stress field; it is not created or distorted by stress transfer.
 - **Master Artifacts:** `fig_mode1_gate6b_stage4_stress_transfer_audit.png` / `.pdf`, `MODE1_STAGE4_STRESS_TRANSFER_AUDIT_REPORT.md`, `GATE6B_STAGE4_STRESS_TRANSFER_AUDIT.json`, `PK_M1_COARSE_2906_STRESS_TRANSFER_AUDIT.csv`.
 
-### E. Reference-Fidelity Checkpoint: Pre-Analysis Architecture Reconciliation
+### E. Reference-Fidelity Checkpoint: Pre-Analysis Architecture & Loading-History Reconciliation
 - **Audit Mandate & Finding:** Stage 4 revealed that the existing $56,302$-element refined mesh ($54,847$ CPE4 + $1,455$ CPE3) was generated from `PK_PREANALYSIS_COARSE.inp`, which executed a **single-layer standard continuum linear-elastic solve** (`Plate-1`, CPE4/CPE3, $2,906$ elements, $2,988$ nodes) with direct Abaqus SPR/ZZ error estimation, whereas the authentic Pandey & Kumar (2025) workflow executes a 3-layer UEL/UMAT pre-analysis (Job-1_UEL) extracting MISESERI on the companion `All_elem` layer.
 - **Reclassification:** The single-layer continuum pre-analysis ($56,302$ FE) is formally reclassified as a **project diagnostic variant** (`STANDARD_CONTINUUM_PREANALYSIS_VARIANT`).
-- **Candidate Assembly & Datacheck (`89_mode1_preanalysis_uel_canonical_2906`):** Reconstructed the reference-fidelity candidate 3-layer `PK_M1_JOB1_UEL_2906.inp` (`PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE`) on the canonical 2,906-element coarse mesh ($8,718$ layered elements) with Hookean stress recovery in UMAT and verified zero duplicate stiffness ($K_0 = 137.945520\,\mathrm{kN/mm}$). Passed Abaqus 2023 datacheck preflight with Exit 0.
-- **Solver Execution:** Submitted to PBS `normal_imfdfkmq` as **Job `1409912.mmaster02`** (1-CPU Serial, 16 GB, 2h walltime).
-- **Master Deliverables:** `MODE1_PREANALYSIS_FIDELITY_AUDIT_REPORT.md`, `GATE6B_PREANALYSIS_FIDELITY_RECONCILIATION.json`, `PK_M1_PREANALYSIS_PROVENANCE_MATRIX.csv`.
+- **Layered Pre-Analysis Assembly (`89_mode1_preanalysis_uel_canonical_2906`):** Assembled 3-layer `PK_M1_JOB1_UEL_2906.inp` on the canonical 2,906-element coarse mesh ($8,718$ layered elements) with Hookean stress recovery in UMAT and verified zero duplicate stiffness ($K_0 = 137.945520\,\mathrm{kN/mm}$). Passed Abaqus 2023 datacheck preflight with Exit 0 and submitted to PBS `normal_imfdfkmq` as **Job `1409912.mmaster02`** (1-CPU Serial, 16 GB, 2h walltime).
+- **Loading-History Audit & 1409912 Downgrade:** Audit of Pandey & Kumar (2025) Section 4.1 revealed that literal publication text $\Delta u_1 = 10^{-3}$ for 500 increments implies unphysical $u = 0.5\,\mathrm{mm}$ ($50\%$ strain on a brittle specimen). Active candidate 1409912 executes Step-1 ($u=0.005\,\mathrm{mm}$, $\Delta u_1 = 10^{-5}$) and Step-2 ($u=0.010\,\mathrm{mm}$, $\Delta u_2 = 5\times 10^{-6}$), matching fracture endpoints. Because published loading is ambiguous and self-contradictory, Job `1409912.mmaster02` is formally downgraded to **`DIAGNOSTIC_JOB1_LAYERED_VARIANT`** (preserved running under non-polling guard), and loading status is recorded as **`UNRESOLVED_REFERENCE_DETAIL`** with zero new PBS submissions.
+- **Evaluator Refactoring (`evaluate_mode1_job1_miseseri.py`):** Removed arbitrary 5%/2% thresholds, replaced with objective spatial pattern classification (toward target vs away vs invariant), and enforced matched physical displacement state comparison via linear elastic homogeneous scaling $e(c \cdot u) = c \cdot e(u)$.
+- **Master Deliverables:** `MODE1_JOB1_PREANALYSIS_QUALIFICATION_AUDIT.md`, `GATE6B_JOB1_PREANALYSIS_QUALIFICATION_AUDIT.json`, `PK_M1_PREANALYSIS_PROVENANCE_MATRIX.csv`.
 
 ---
 
@@ -131,5 +132,5 @@ Key milestones achieved:
 ## 6. Current Scheduler & Running Solves State
 
 - **Active Running Solver Jobs in Cluster Queue:**
-  1. **`1409912.mmaster02` (Job-1_UEL Pre-Analysis):** $8,718$ layered elements on canonical $2,906$ mesh ($2,818$ CPE4 + $88$ CPE3), 1-CPU Serial in `normal_imfdfkmq` (Active / Solving).
+  1. **`1409912.mmaster02` (Job-1_UEL Pre-Analysis):** $8,718$ layered elements on canonical $2,906$ mesh ($2,818$ CPE4 + $88$ CPE3), 1-CPU Serial in `normal_imfdfkmq` (DIAGNOSTIC_JOB1_LAYERED_VARIANT, active in queue, non-polling guard enforced).
   2. **`1409867.mmaster02` (S3 Fine Spatial):** $41,912$ finite elements ($h = 0.0015\,\mathrm{mm}$), 1-CPU Serial in `normal_imfdfkmq` (Running untouched under non-polling guard).

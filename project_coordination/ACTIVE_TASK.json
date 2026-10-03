@@ -1,7 +1,7 @@
 {
-  "task_id": "F1176-GATE6B-MONITOR-JOB1-UEL-AND-PREPARE-OFFLINE-EVALUATION-20261003",
+  "task_id": "F1177-GATE6B-LOADING-HISTORY-AND-FRAME-FIDELITY-AUDIT-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Offline Pre-Terminal Qualification Audit and Evaluator Preparation for Layered Job-1_UEL Pre-Analysis Candidate",
+  "title": "Gate-6B Mode-I Job-1_UEL Loading-History and Frame-Fidelity Audit",
   "status": "completed",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
@@ -17,12 +17,13 @@
     "1409867.mmaster02"
   ],
   "context": {
-    "submitted_job": "1409912.mmaster02 (PK_M1_JOB1_SOLVE, 8,718 elements, normal_imfdfkmq, 1-CPU Serial, NON-POLLING GUARD ENFORCED)",
+    "submitted_job": "1409912.mmaster02 (PK_M1_JOB1_SOLVE, 8,718 elements, normal_imfdfkmq, 1-CPU Serial, DIAGNOSTIC_JOB1_LAYERED_VARIANT, NON-POLLING GUARD ENFORCED)",
     "active_running_jobs": {
-      "job1_preanalysis": "1409912.mmaster02 (Active in normal_imfdfkmq, NON-POLLING GUARD ENFORCED)",
+      "job1_preanalysis": "1409912.mmaster02 (Active in normal_imfdfkmq, DIAGNOSTIC_JOB1_LAYERED_VARIANT, NON-POLLING GUARD ENFORCED)",
       "s3_spatial_42k": "1409867.mmaster02 (41,912 elements, Running, NON-POLLING GUARD ENFORCED)"
     },
     "non_polling_guard": "ENFORCED",
-    "epistemic_term": "PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE"
+    "epistemic_term": "DIAGNOSTIC_JOB1_LAYERED_VARIANT",
+    "reference_loading_detail": "UNRESOLVED_REFERENCE_DETAIL"
   }
 }

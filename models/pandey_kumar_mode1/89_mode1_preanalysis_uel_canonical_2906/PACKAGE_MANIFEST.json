@@ -2,7 +2,9 @@
   "package_name": "89_mode1_preanalysis_uel_canonical_2906",
   "task": "GATE6B-PREANALYSIS-FIDELITY-RECONCILIATION",
   "phase": "PASS 1 PRE-ANALYSIS CANDIDATE QUALIFICATION",
-  "description": "PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE: Mode-I layered pre-analysis (Job-1_UEL) on canonical 2,906 coarse mesh with Hookean stress recovery in companion UMAT for native Abaqus MISESERI calculation",
+  "epistemic_classification": "DIAGNOSTIC_JOB1_LAYERED_VARIANT",
+  "prior_classification": "PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE",
+  "reclassification_rationale": "Loading-history audit against Pandey & Kumar (2025) Sec. 4.1 establishes that active candidate 1409912 executes Step-1 (u=0.005 mm, 500 incs, Delta u=1e-5 mm) and Step-2 (u=0.010 mm, 1000 incs, Delta u=5e-6 mm), whereas publication text literally prescribes Delta u1=10^-3 and Delta u2=5e-4 (self-contradictory if mm; implies 0.5 mm displacement). Candidate downgraded to DIAGNOSTIC_JOB1_LAYERED_VARIANT and preserved running without cancellation under non-polling guard.",
   "governing_mesh": {
     "source": "models/pandey_kumar_mode1/02_proposed_adaptive_refined/PK_PREANALYSIS_COARSE.inp",
     "finite_elements": 2906,
@@ -26,11 +28,12 @@
   },
   "execution": {
     "datacheck_status": "COMPLETED_EXIT_0",
-    "solver_status": "SUBMITTED",
+    "solver_status": "RUNNING_OR_QUEUED",
     "job_id": "1409912.mmaster02",
     "queue": "normal_imfdfkmq",
     "mode": "1-CPU Serial",
-    "submitted_at": "2026-10-03T08:10:05+02:00"
+    "submitted_at": "2026-10-03T08:10:05+02:00",
+    "non_polling_guard": "ENFORCED"
   },
   "artifacts": {
     "input_deck": {

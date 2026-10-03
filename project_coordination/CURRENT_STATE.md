@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T08:35:00+02:00` (Gemini Antigravity) — Gate-6B Reference-Fidelity Candidate 3-Layer Job-1_UEL Pre-Analysis (Job 1409912.mmaster02, PK_M1_JOB1_SOLVE, 89_mode1_preanalysis_uel_canonical_2906, PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE) Active in normal_imfdfkmq; Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
-Parent commit: `6b24242a2315ca98aa5085e5f1288781b53c5bb1`
+Last updated: `2026-10-03T09:15:00+02:00` (Gemini Antigravity) — Gate-6B Loading-History and Frame-Fidelity Audit: Job 1409912.mmaster02 Downgraded to DIAGNOSTIC_JOB1_LAYERED_VARIANT and Active in normal_imfdfkmq; Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced; Zero New PBS Submissions  
+Parent commit: `d940934b8e4bd41441774e588843c0e203f3d0c5`
 
 ---
 
@@ -30,7 +30,7 @@ Parent commit: `6b24242a2315ca98aa5085e5f1288781b53c5bb1`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `JOB1_UEL_CANONICAL_2906_SUBMITTED_1409912; PREANALYSIS_FIDELITY_RECONCILED; STAGE4_STRESS_TRANSFER_AUDITED; STAGE3_MAPPING_AUDITED; STAGE2_BC_AUDITED; STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_DISCREPANCY_AUDITED; SPATIAL_CAUSALITY_AUDITED; 2_ACTIVE_JOBS_IN_QUEUE; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `LOADING_HISTORY_AUDITED; JOB1_UEL_DOWNGRADED_DIAGNOSTIC_1409912; EVALUATOR_REFACTORED_MATCHED_DISPLACEMENT; PREANALYSIS_FIDELITY_RECONCILED; STAGE4_STRESS_TRANSFER_AUDITED; STAGE3_MAPPING_AUDITED; STAGE2_BC_AUDITED; STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_DISCREPANCY_AUDITED; SPATIAL_CAUSALITY_AUDITED; 2_ACTIVE_JOBS_IN_QUEUE; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
   - **Reference-Fidelity Checkpoint: Pre-Analysis Architecture Reconciliation (`PREANALYSIS_FIDELITY_RECONCILIATION`):**
     - Audit Finding: The existing $56,302$-element $1.0\%$ remeshed model was driven by `PK_PREANALYSIS_COARSE.inp`, executing a single-layer standard continuum linear-elastic solve (`Plate-1`, CPE4/CPE3, $2,906$ elements, $2,988$ nodes).
     - Reclassification: The single-layer continuum pre-analysis ($56,302$ FE) is formally reclassified as a **project diagnostic variant** (`STANDARD_CONTINUUM_PREANALYSIS_VARIANT`), preserving its utility for isolating continuum stress errors while establishing that it is not a faithful realization of Pandey & Kumar's 3-layer UEL workflow.
@@ -38,7 +38,9 @@ Parent commit: `6b24242a2315ca98aa5085e5f1288781b53c5bb1`
     - Candidate Package (`89_mode1_preanalysis_uel_canonical_2906`): Reconstructed reference-fidelity candidate 3-layer `PK_M1_JOB1_UEL_2906.inp` (`PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE`, $8,718$ layered elements on canonical 2,906 coarse mesh) with Hookean stress recovery in UMAT (`f42_mixed_uel.for`) and verified zero duplicate stiffness ($K_0 = 137.945520\,\text{kN/mm}$, $r=1.000000000$).
     - Datacheck Preflight: Executed on cluster login node with **`Abaqus JOB PK_M1_JOB1_UEL_2906 COMPLETED (EXIT: 0)`**.
     - Solver Submission: Authorized and submitted to PBS `normal_imfdfkmq` as **Job `1409912.mmaster02`** (1-CPU Serial, 16 GB, 2h walltime).
-    - Next Stage: Await Job `1409912.mmaster02` completion and evaluate raw MISESERI on `All_elem` vs standard-continuum pre-analysis variant before any remeshing.
+    - Loading-History and Frame-Fidelity Audit: Audit of Pandey & Kumar (2025) Sec. 4.1 revealed that literal publication text $\Delta u_1 = 10^{-3}$ for 500 increments implies unphysical $u = 0.5\,\mathrm{mm}$ (50% strain on a brittle specimen where peak fracture displacement is $0.005857\,\mathrm{mm}$). Active Job `1409912.mmaster02` executes Step-1 ($u=0.005\,\mathrm{mm}$, $\Delta u_1 = 10^{-5}$) and Step-2 ($u=0.010\,\mathrm{mm}$, $\Delta u_2 = 5\times 10^{-6}$) and is formally downgraded to **`DIAGNOSTIC_JOB1_LAYERED_VARIANT`**, preserved running untouched under non-polling guard. Publication loading is classified as **`UNRESOLVED_REFERENCE_DETAIL`** with zero new PBS submissions.
+    - Terminal Evaluator Refactoring: `evaluate_mode1_job1_miseseri.py` refactored with matched physical displacement scaling ($e(c \cdot u) = c \cdot e(u)$), directional localization decision logic, and strict claims discipline ("one WHOLE_ELEMENT MISESERI value per underlying finite element"). 9/9 unit tests pass; 20/20 Mode-I tests pass.
+    - Next Stage: Await Job `1409912.mmaster02` completion and evaluate raw MISESERI on `All_elem` vs standard-continuum pre-analysis variant at matched displacement states before any remeshing.
   - **Cause Audit Stage 1: Coarse-Mesh Topology & Layout (`STAGE1_TOPOLOGY_AUDIT`):**
     - Verdict: **`TOPOLOGY_NOT_SUPPORTED_AS_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
     - $88$ triangles ($3.03\%$ of mesh) carry only $2.92\%$ of error (mean $0.006765\,\text{MPa}$ vs quads $0.009975\,\text{MPa}$).
@@ -74,7 +76,7 @@ Parent commit: `6b24242a2315ca98aa5085e5f1288781b53c5bb1`
     - Exit 0, 7,000 incs ($13,897$ el). Pre-peak: $K_0 = 137.889603\,\text{kN/mm}$ ($\Delta K_0 = -0.0405\%$), $F_{\max} = 0.742298\,\text{kN}$ ($\Delta F_{\max} = -2.04\%$), $\Delta W_{\text{ext}} = -0.06\%$ in Regime A.
     - Epistemic classification: **`EFFICIENCY_CALIBRATED_2PCT_PROJECT_VARIANT`**; spatial causality classification: **`SUPPORTED_BUT_NOT_PROVEN`**.
   - **Active Running Solver Jobs in Cluster Queue:**
-    1. **`1409912.mmaster02`**: `PK_M1_JOB1_SOLVE` (3-layer Job-1_UEL pre-analysis, 1-CPU Serial, Submitted / Active in queue `normal_imfdfkmq`).
+    1. **`1409912.mmaster02`**: `PK_M1_JOB1_SOLVE` (3-layer Job-1_UEL pre-analysis solve, `DIAGNOSTIC_JOB1_LAYERED_VARIANT`, 1-CPU Serial, Active in `normal_imfdfkmq`, non-polling guard enforced).
     2. **`1409867.mmaster02`**: `PK_M1_S3_ENERGY` (41,912-element fine spatial solve, 1-CPU Serial, Running in `normal_imfdfkmq`, non-polling guard enforced).
 
 ---
@@ -83,7 +85,7 @@ Parent commit: `6b24242a2315ca98aa5085e5f1288781b53c5bb1`
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :---: | :---: | :---: | :--- | :--- |
-| **`1409912.mmaster02`** | `PK_M1_JOB1_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | **`Q`/`R` (Active)** | Canonical 2,906-element 3-layer Job-1_UEL pre-analysis solve | `27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF` |
+| **`1409912.mmaster02`** | `PK_M1_JOB1_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | **`Q`/`R` (Active)** | Canonical 2,906-element 3-layer Job-1_UEL pre-analysis solve (`DIAGNOSTIC_JOB1_LAYERED_VARIANT`) | `27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF` |
 | **`1409867.mmaster02`** | `PK_M1_S3_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | **`R` (Running)** | 41,912-element ($h=0.0015\,\text{mm}$) spatial fine convergence solve | `1500ECA5028660045789AF04AD3112E26CA76BBF7BFAC6437A42008A4307408F` |
 | `1409870.mmaster02` | `PK_MODE1_T3_FINE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 15,192-element temporal fine ($\Delta u = 2.5\times 10^{-4}$) solve (**`TEMPORAL_FAMILY_QUALIFIED`**) | `72D6CC5176326BFAB60FB9B23AFBE4AD6882A0ABC030465BAF10A5DC2A19519C` |
 | `1409846.mmaster02` | `PK_M1_ADAPT_2PCT_13K_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 13,897-element 2% efficiency-calibrated adaptive validation solve (**`SPATIAL_CAUSALITY_AUDITED`**) | `9113C5F609B86DE03FD0AD4A18A971EC3ED5424664BFE44E695E96789D4D6ECC` |

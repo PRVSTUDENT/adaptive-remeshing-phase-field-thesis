@@ -2,12 +2,69 @@
   "audit_metadata": {
     "audit_id": "GATE6B_JOB1_PREANALYSIS_QUALIFICATION_AUDIT",
     "protocol_version": 2,
-    "timestamp": "2026-10-03T08:45:00+02:00",
-    "task_id": "F1176-GATE6B-MONITOR-JOB1-UEL-AND-PREPARE-OFFLINE-EVALUATION-20261003",
+    "timestamp": "2026-10-03T09:05:00+02:00",
+    "task_id": "F1177-GATE6B-LOADING-HISTORY-AND-FRAME-FIDELITY-AUDIT-20261003",
     "auditing_agent": "gemini-antigravity",
     "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
-    "epistemic_classification": "PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE",
+    "epistemic_classification": "DIAGNOSTIC_JOB1_LAYERED_VARIANT",
+    "prior_classification": "PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE",
     "diagnostic_baseline": "STANDARD_CONTINUUM_PREANALYSIS_VARIANT"
+  },
+  "loading_history_and_frame_fidelity_audit": {
+    "primary_literature_source": "Pandey & Kumar (2025), CMES 144(3), 3251-3276, Sec. 4.1, Page 3265",
+    "verbatim_literature_loading_text": "To identify the MISESERI values, a displacement control scheme is applied with increment size Delta u1 = 10^-3 for 500 increments, followed by increment size Delta u2 = 5 x 10^-4 for the subsequent 1000 increments. Based on the MISESERI plot, the region shown in Fig. 6a has been designated as the one requiring mesh refinement.",
+    "mathematical_and_physical_audit": {
+      "literal_step1_displacement_mm": 0.5,
+      "literal_step2_displacement_mm": 0.5,
+      "literal_total_displacement_mm": 1.0,
+      "physical_plausibility": "UNPHYSICAL_IF_MILLIMETERS (u=0.5-1.0 mm corresponds to 50-100% nominal strain on a 1.0x1.0 mm brittle specimen; fracture peak occurs at u=0.005857 mm)",
+      "probable_author_intent": "Authors likely conflated dimensionless time increments dt with displacement increments du, or normalized step time T=0.5 with total displacement u=0.005 mm.",
+      "active_1409912_implementation": "Step-1 reaches u=0.0050 mm (500 incs, dt=0.002, du=1e-5 mm); Step-2 reaches u=0.0100 mm (1000 incs, dt=0.001, du=5e-6 mm)",
+      "standard_continuum_baseline_implementation": "Step-1 reaches u=0.0050 mm (10 incs, dt=0.1, du=5e-4 mm); baseline extracted at Inc 2 (u=0.0010 mm) or Inc 10 (u=0.0050 mm)",
+      "step_name_in_remeshing_rule": "PUBLISHED_DETAIL_NOT_SPECIFIED (Listing 1 takes step_name parameter; string omitted in script)",
+      "frame_selection_in_adaptive_remesh": "PUBLISHED_DETAIL_NOT_SPECIFIED (Listing 4 calls adaptiveRemesh(odb=o1) leaving frame selection implicit to CAE RemeshingRule)",
+      "overall_loading_verdict": "UNRESOLVED_REFERENCE_DETAIL"
+    }
+  },
+  "three_column_architecture_classification": {
+    "matched_to_published_source_items": [
+      "Specimen geometry: 1.0 mm x 1.0 mm square plate",
+      "Initial crack representation: a0 = 0.5 mm sharp seam at y=0.5 mm",
+      "Coarse mesh sizing: h_cms = 0.02 mm mixed quads and triangles",
+      "Layer discretization (Job 1409912): 3-layer UEL/UMAT architecture (8,718 elements)",
+      "Companion facsimile mapping (Job 1409912): All_elem == umatelem == Layer 3 CPE4/CPE3",
+      "Subroutine Hookean stress recovery (Job 1409912): Evaluated on All_elem with zero duplicate stiffness",
+      "Error variable request: MISESERI, MISESAVG, S, EVOL requested on All_elem",
+      "RemeshingRule specification: UNIFORM_ERROR, errorTarget=1.0, refinementFactor=10, coarseningFactor=NOT_ALLOWED, h_min=0.001, h_max=0.02"
+    ],
+    "project_implementation_differs_items": [
+      "Layer discretization (Diagnostic Variant): Single-layer continuum (2,906 elements)",
+      "Loading schedule (Job 1409912): Step-1 reaches u=0.005 mm in 500 incs (du=1e-5), Step-2 reaches u=0.010 mm in 1000 incs (du=5e-6) vs literal publication text du1=1e-3, du2=5e-4",
+      "Loading schedule (Diagnostic Variant): Step-1 10 incs, du=5e-4 mm, evaluated at u=0.001 mm or u=0.005 mm",
+      "Produced 1.0% mesh: 48k-56k FE vs published 13,941 FE (supervisor-accepted publication limitation)"
+    ],
+    "published_detail_not_specified_items": [
+      "Top edge lateral boundary condition: publication text omits horizontal constraint (Stage 2 proved lateral-free roller prevents spurious boundary shear)",
+      "Step name passed to create_remeshing_rule_assembly_instance: variable step_name omitted in text",
+      "Exact extraction frame for Fig. 6(a) contour: left implicit in adaptiveRemesh(odb=o1)",
+      "Total displacement magnitude in linear-elastic pre-analysis: omitted / conflated with fracture schedule"
+    ]
+  },
+  "job_1409912_fidelity_classification": {
+    "status": "DOWNGRADED_TO_DIAGNOSTIC_JOB1_LAYERED_VARIANT",
+    "prior_status": "PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE",
+    "job_id": "1409912.mmaster02",
+    "pbs_queue": "normal_imfdfkmq",
+    "cluster_action": "PRESERVE_RUNNING_WITHOUT_CANCELLATION",
+    "non_polling_guard": "ENFORCED",
+    "rationale": "Loading history uses Step-1 (u=0.005, 500 incs) and Step-2 (u=0.010, 1000 incs), which differs from literal publication text and standard baseline displacement. Job continues execution safely on cluster to serve as a valuable layered diagnostic variant."
+  },
+  "submission_decision_gate": {
+    "is_publication_loading_unambiguous": false,
+    "unresolved_detail_code": "UNRESOLVED_REFERENCE_DETAIL",
+    "action": "NO_NEW_HPC_SUBMISSIONS_AUTHORIZED",
+    "new_pbs_submissions": 0,
+    "rationale": "Because the published pre-analysis loading schedule contains self-contradictory displacement values (Delta u1=10^-3 for 500 increments implies u=0.5 mm) and omits exact step names and frame selection, no single unambiguous loading correction exists. Constructing and submitting a speculative variant is prohibited under project governance."
   },
   "cryptographic_provenance": {
     "candidate_input_deck": {
@@ -28,105 +85,36 @@
       "size_bytes": 30735
     }
   },
-  "source_modifications_classification": [
-    {
-      "location": "SUBROUTINE UEL (lines 1..833)",
-      "modification": "Zero lines modified (bit-for-bit identical)",
-      "classification": "REFERENCE_FIDELITY_REQUIRED",
-      "justification": "Ensures complete invariance of mechanical residual, tangent stiffness, phase field evolution, and common block state transfer."
-    },
-    {
-      "location": "SUBROUTINE UMAT (header)",
-      "modification": "Updated header comment for Hooke stress evaluation",
-      "classification": "DIAGNOSTIC_INSTRUMENTATION",
-      "justification": "Clear documentation of error feedback purpose."
-    },
-    {
-      "location": "SUBROUTINE UMAT (declarations)",
-      "modification": "Added local double precision variables for Hookean plane-strain elasticity",
-      "classification": "DIAGNOSTIC_INSTRUMENTATION",
-      "justification": "Local variables required for stress tensor evaluation."
-    },
-    {
-      "location": "SUBROUTINE UMAT (NPHYS fallback)",
-      "modification": "Changed default fallback integer from 71320 to 2906",
-      "classification": "PROJECT_ASSUMPTION",
-      "justification": "Fallback for coarse mesh size in absence of PROPS(3)."
-    },
-    {
-      "location": "SUBROUTINE UMAT (material properties)",
-      "modification": "Read E_MOD_U, E_NU_U from PROPS(1..2) with defaults 210.0, 0.3",
-      "classification": "REFERENCE_FIDELITY_REQUIRED",
-      "justification": "Ensures companion elements evaluate stresses with identical elasticity to mechanical UEL."
-    },
-    {
-      "location": "SUBROUTINE UMAT (stress calculation)",
-      "modification": "Evaluates isotropic plane-strain Hooke stress and populates STRESS(1..4)",
-      "classification": "REFERENCE_FIDELITY_REQUIRED",
-      "justification": "Exposes continuum stress tensor S on All_elem for Abaqus SPR/ZZ error estimator to calculate MISESERI."
-    },
-    {
-      "location": "SUBROUTINE UMAT (Jacobian)",
-      "modification": "Preserves DDSDDE(I,I) = 1.D-11 dummy stiffness",
-      "classification": "REFERENCE_FIDELITY_REQUIRED",
-      "justification": "Prevents double-counting structural stiffness with mechanical UEL Layer 2 (Delta K < 1e-9 kN/mm)."
-    }
-  ],
-  "architectural_comparison_summary": {
-    "mesh": "Canonical 2,906 elements (2,818 CPE4 + 88 CPE3, 2,988 nodes)",
-    "boundary_conditions": "Bottom roller uy=0, pin ux=0; Top lateral-free roller (tied to RP in DOF 2)",
-    "uel_layers": "Layer 1 Phase (U1/U3), Layer 2 Mech (U2/U4), Layer 3 Companion (CPE4/CPE3)",
-    "companion_standard_elements": "2,906 CPE4/CPE3 elements (IDs 5813..8718) mapped to All_elem",
-    "stress_source": "UMAT Hookean stress tensor sigma = D0 * epsilon populated on companion layer",
-    "all_elem_definition": "All_elem points to companion Layer 3 elements recognized by Abaqus SPR/ZZ",
-    "loading_schedule": "Published 2-step displacement schedule: Step-1 (0.005 mm), Step-2 (0.010 mm)",
-    "miseseri_output": "Whole-element centroid scalar discretization error indicator",
-    "stiffness_contribution": "Layer 2 carries 100% of physical stiffness (K0 = 137.945520 kN/mm); Layer 3 stiffness < 1e-11 kN/mm"
-  },
-  "evaluation_pipeline": {
+  "evaluator_refactoring_summary": {
     "evaluator_script": "scripts/evaluation/evaluate_mode1_job1_miseseri.py",
     "test_suite": "tests/unit/test_evaluate_mode1_job1_miseseri.py",
-    "unit_test_status": "8_OF_8_PASSED",
-    "full_mode1_suite_status": "30_OF_30_PASSED",
-    "twelve_metrics_implemented": [
-      "1. Exact step/frame/time provenance",
-      "2. All_elem element count and output-position provenance",
-      "3. One MISESERI value per underlying finite element (duplicate/missing checks)",
-      "4. Global statistics (sum, mean, median, std, max, peak-to-mean)",
-      "5. Normalized footprints (eta >= 50%, 20%, 10%, 5%, 2%, 1%)",
-      "6. Five-region statistics (Corridor, Wake, Right Ligament, Far Field, Boundary)",
-      "7. Far-field + wake share of total error",
-      "8. High-MISESERI parasitic / outside-corridor ratio",
-      "9. Transverse corridor width profile w(x) across 20 longitudinal bins",
-      "10. High-error bounding boxes (dx x dy spans)",
-      "11. Pairwise coincident discrepancy (delta, RMS, correlation r)",
-      "12. Qualitative comparison to Pandey & Kumar Fig. 6(a) spatial footprint"
+    "unit_test_status": "9_OF_9_PASSED",
+    "full_mode1_suite_status": "20_OF_20_PASSED",
+    "corrections_applied": [
+      "Removed arbitrary 5% far-field and 2% tip corridor thresholds in assign_scientific_decision_logic",
+      "Implemented objective directional pattern shift criteria: toward target vs away vs invariant",
+      "Enforced matched physical displacement state comparison via linear elastic homogeneous scaling e(c*u) = c*e(u)",
+      "Standardized element output representation to 'one WHOLE_ELEMENT MISESERI value per underlying finite element'",
+      "Removed over-strong claims asserting that identical error fields 'prove intrinsic continuum properties'",
+      "Added matched displacement scaling unit tests in test_evaluate_mode1_job1_miseseri.py"
     ]
   },
-  "predeclared_decision_logic": {
-    "branches": {
-      "LAYERED_JOB1_TOWARD_TARGET_LOCALIZATION": "Delta Share_far+wake <= -5.0% AND Delta Share_corridor >= +2.0%",
-      "LAYERED_JOB1_NO_MEANINGFUL_IMPROVEMENT": "|Delta Share_far+wake| < 5.0% AND correlation r > 0.999",
-      "LAYERED_JOB1_AWAY_FROM_TARGET_LOCALIZATION": "Delta Share_far+wake >= +5.0% OR corridor share drops"
-    },
-    "governing_rule": "Raw pre-remesh MISESERI comparison must be qualified first; do not use total remeshed element count as primary acceptance criterion and do not run adaptiveRemesh yet."
-  },
-  "protected_hpc_jobs": {
-    "candidate_job_1": {
+  "protected_active_cluster_jobs": {
+    "job_1409912": {
       "job_id": "1409912.mmaster02",
       "name": "PK_M1_JOB1_SOLVE",
-      "package": "89_mode1_preanalysis_uel_canonical_2906",
+      "classification": "DIAGNOSTIC_JOB1_LAYERED_VARIANT",
+      "status": "RUNNING_OR_QUEUED",
       "queue": "normal_imfdfkmq",
-      "mode": "1-CPU Serial",
-      "status": "ACTIVE_UNPOLLED"
+      "guard": "STRICT_NON_POLLING_GUARD_ENFORCED"
     },
-    "spatial_fine_solve": {
+    "job_1409867": {
       "job_id": "1409867.mmaster02",
       "name": "PK_M1_S3_ENERGY",
-      "package": "13_fixed_convergence_h0015",
+      "classification": "SPATIAL_FINE_S3_REFERENCE_SOLVE",
+      "status": "RUNNING",
       "queue": "normal_imfdfkmq",
-      "mode": "1-CPU Serial",
-      "status": "RUNNING_UNPOLLED"
+      "guard": "STRICT_NON_POLLING_GUARD_ENFORCED"
     }
   }
 }
