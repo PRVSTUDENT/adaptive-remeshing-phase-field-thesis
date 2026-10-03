@@ -1,9 +1,15 @@
 {
-  "task_id": "F1194-GATE6B-STAGE14Q-ROBUSTNESS-AND-U003-QUALIFICATION-20261003",
+  "task_id": "F1195-GATE6B-STAGE14R-MISESERI-LOCALIZATION-CAUSALITY-AND-PROVENANCE-AUDIT-20261003",
+  "task_name": "Gate-6B Mode-I Stage 14R: Source-Level MISESERI Localization Causality and Provenance Audit",
+  "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
   "status": "COMPLETED",
-  "description": "Gate-6B Mode-I Stage 14Q: Spatial-Profile Robustness Correction and u = 0.0030 mm Matched-State Qualification",
-  "assigned_agent": "gemini-antigravity",
-  "claimed_at": "2026-10-03T21:40:00Z",
-  "completed_at": "2026-10-03T21:50:00Z",
-  "notes": "Stage 14Q completed: Eliminated un-predeclared heuristic thresholds; verified grid-resolution invariance across N=501 (1.0 um), 1001 (0.5 um), 2001 (0.25 um); reclassified notch-root peak discrepancy as evidence-supported hypothesis consistent with discretization sizing and discrete IP sampling; evaluated u=0.0030 mm (Frame 1200) from running solve 1409953 showing +0.30% peak drift across 9.63x damage growth; assigned governed spatial classification STABLE; authored unit test suite (5/5 pass, 55/55 Stage-14 suite pass); updated Thesis Chapter 4 (Section 4.10) and compiled cleanly (56 pages, 0 errors); active solver Job 1409953 advancing past Inc 1385 on mnode097 with 0 cutbacks."
+  "agent": "gemini-antigravity",
+  "claimed_at": "2026-10-03T23:50:00+02:00",
+  "completed_at": "2026-10-04T00:05:00+02:00",
+  "starting_commit": "6215ff9218f502738a04708aebf7463d54c76981",
+  "governing_verdicts": [
+    "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE",
+    "STAGE14_LOCALIZATION_CAUSALITY_SOURCE_SUPPORTED"
+  ],
+  "next_task_id": "F1196-GATE6B-STAGE14S-TERMINAL-ADAPTIVE-FRACTURE-EVALUATION-20261003"
 }

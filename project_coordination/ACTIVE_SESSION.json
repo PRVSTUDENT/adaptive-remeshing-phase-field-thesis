@@ -1,10 +1,14 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "2026-10-03_2340_gemini-antigravity_F1194-GATE6B-STAGE14Q-ROBUSTNESS-AND-U003-QUALIFICATION-20261003",
-  "task_id": "F1194-GATE6B-STAGE14Q-ROBUSTNESS-AND-U003-QUALIFICATION-20261003",
-  "started_at": "2026-10-03T21:40:00Z",
-  "completed_at": "2026-10-03T21:50:00Z",
-  "start_commit": "231c0807b02e074bbee4ad96ccad15e5eb5a56e4",
-  "allowed_write_scope": "models/pandey_kumar_mode1/**; results/figures/mode1_gate6b/**; scripts/**; tests/unit/**; docs/**; MA_AdaptiveRemeshing_Report_2026_main/**; project_coordination/**"
+  "task_id": "F1195-GATE6B-STAGE14R-MISESERI-LOCALIZATION-CAUSALITY-AND-PROVENANCE-AUDIT-20261003",
+  "claimed_at": "2026-10-03T23:50:00+02:00",
+  "released_at": "2026-10-04T00:05:00+02:00",
+  "starting_commit": "6215ff9218f502738a04708aebf7463d54c76981",
+  "allowed_write_scope": [
+    "models/pandey_kumar_mode1/**",
+    "tests/unit/**",
+    "docs/**",
+    "project_coordination/**"
+  ]
 }

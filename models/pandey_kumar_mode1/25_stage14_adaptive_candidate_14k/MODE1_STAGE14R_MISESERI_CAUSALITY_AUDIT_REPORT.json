@@ -1,0 +1,139 @@
+{
+  "audit_id": "GATE6B-STAGE14R-MISESERI-CAUSALITY-AND-PROVENANCE-20261003",
+  "task_id": "F1195-GATE6B-STAGE14R-MISESERI-LOCALIZATION-CAUSALITY-AND-PROVENANCE-AUDIT-20261003",
+  "date": "2026-10-03",
+  "governing_gate": "Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification)",
+  "governed_verdict": "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE",
+  "executive_summary": {
+    "scientific_question": "Why did the Stage-14 pre-analysis produce the narrow horizontal MISESERI/refinement corridor, and can that change be explained from the actual project source/data path rather than inferred from visual correlation?",
+    "core_finding": "The narrow horizontal MISESERI corridor and the resulting native 14,483-element adaptive mesh are caused by kinematic strain redistribution during Step-2 phase-field damage localization in Layer 2 (Mechanical UEL), which transfers localized displacement gradients into the co-located Layer 3 companion UMAT. The companion UMAT constitutive update itself is purely linear-elastic without damage degradation (d or H does not enter STRESS or DDSDDE), but evaluates extreme localized stress gradients because of the localized kinematic strain field.",
+    "epistemological_status": "SOURCE_VERIFIED_AND_NUMERICALLY_PROVEN",
+    "safe_miseseri_definition": "MISESERI is the Abaqus Mises stress discretization/error indicator associated with the recovered stress solution."
+  },
+  "provenance_hashes": {
+    "f42_production_subroutine": {
+      "path": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+      "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+      "role": "Production 3-layer fracture solver subroutine; companion UMAT sets STRESS=0.D0 and outputs STATEV only"
+    },
+    "f42_inf_stress_subroutine": {
+      "path": "models/pandey_kumar_mode1/93_mode1_preanalysis_inf_companion_2906/f42_mixed_uel_inf_stress.for",
+      "sha256": "472ca0c5cc8b762bf83daea961988502dbfae36db7a32565b8c13fa69d839084",
+      "role": "Pre-analysis 3-layer subroutine; companion UMAT evaluates infinitesimal linear elastic stress update (EMOD=1.D-11, nu=0.3) for MISESERI"
+    },
+    "p90_continuum_control_inp": {
+      "path": "models/pandey_kumar_mode1/90_mode1_preanalysis_continuum_matched_2906/PK_M1_JOB1_CONTINUUM_MATCHED_2906.inp",
+      "sha256": "b60dd35d56ab2824902f2d90912e222cf9d335d7d9911cf8dd17a3dc2b52e5f9",
+      "role": "Single-layer pure linear-elastic continuum control solve; uncracked, scale-invariant relative error"
+    },
+    "p93_inf_companion_inp": {
+      "path": "models/pandey_kumar_mode1/93_mode1_preanalysis_inf_companion_2906/PK_M1_JOB1_INF_COMPANION_2906.inp",
+      "sha256": "d452369305ff67a2b0cfa4e5d07fab810c9123ecf500a05bba3e498437883613",
+      "role": "3-layer phase-field pre-analysis deck generating PK_M1_JOB1_INF_COMPANION_2906.odb"
+    },
+    "preanalysis_odb": {
+      "name": "PK_M1_JOB1_INF_COMPANION_2906.odb",
+      "sha256": "dbfad35fd3a2267e19e4c5975764ecac28aa0e0acdd59a2e97cd17aac1fc4a39",
+      "role": "Authoritative ODB sampled by Abaqus adaptiveRemesh"
+    },
+    "native_remesh_step2_deck": {
+      "path": "models/pandey_kumar_mode1/99_mode1_stage14_phasefield_preanalysis_fidelity/PK_M1_STAGE14_STEP2_ALLINC.inp",
+      "sha256": "13e0925df11b620d860ed28b55e49fb365957a5d49338d8d4f8ce6412d9e082d",
+      "role": "Native adaptiveRemesh output deck (14,483 finite elements, 14,456 nodes)"
+    },
+    "reconstructed_fracture_deck": {
+      "path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+      "sha256": "a1288ce9d7efd67f5c87c12c2b61884ce7cb94901b566e9fe0130abe1875797d",
+      "role": "3-layer reconstructed solve deck (43,449 elements, f42 ABI aligned)"
+    }
+  },
+  "dependency_chain": [
+    {
+      "step_idx": 1,
+      "source": "f42_mixed_uel_inf_stress.for (Subroutine UMAT, lines 840-938)",
+      "target": "Companion Element Integration Points (Layer 3 CPE4/CPE3)",
+      "mechanism": "Calculates STRESS = STRESS + DDSDDE * DSTRAN with EMOD=1.D-11, nu=0.3. Does not use d or H in stress update.",
+      "status": "SOURCE_VERIFIED"
+    },
+    {
+      "step_idx": 2,
+      "source": "Companion STRESS (Layer 3)",
+      "target": "PK_M1_JOB1_INF_COMPANION_2906.odb (Field Outputs: S, MISESERI, MISESAVG)",
+      "mechanism": "Abaqus writes integration-point stresses S and invokes Superconvergent Patch Recovery (SPR) to compute element error indicator MISESERI.",
+      "status": "SOURCE_VERIFIED"
+    },
+    {
+      "step_idx": 3,
+      "source": "Step-2 Displacement / Damage Localization (u -> 0.0094 - 0.0100 mm)",
+      "target": "Ligament Error Concentration (Corridor share 86.70% -> 95.40%)",
+      "mechanism": "Layer 2 mechanical softening creates severe localized nodal displacements along y=0.50 mm; companion strains and stresses develop extreme ligament gradients.",
+      "status": "NUMERICALLY_VERIFIED"
+    },
+    {
+      "step_idx": 4,
+      "source": "MISESERI field on ALL_ELEM at Step-2",
+      "target": "Abaqus RemeshingRule (UNIFORM_ERROR, errorTarget=1.0%, h in [0.001, 0.020] mm)",
+      "mechanism": "Calculates target element sizing h(x,y) inversely proportional to local normalized error density.",
+      "status": "SOURCE_VERIFIED"
+    },
+    {
+      "step_idx": 5,
+      "source": "RemeshingRule + adaptiveRemesh",
+      "target": "PK_M1_STAGE14_STEP2_ALLINC.inp (14,483 elements)",
+      "mechanism": "Generates 14,082 quads and 401 triangles with narrow corridor bandwidth w(0.5)=0.226 mm and 59.4% coarse far field.",
+      "status": "NUMERICALLY_VERIFIED"
+    },
+    {
+      "step_idx": 6,
+      "source": "PK_M1_STAGE14_STEP2_ALLINC.inp",
+      "target": "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp (Job 1409953)",
+      "mechanism": "Deterministic 3-layer reconstruction with 100% bit-for-bit node coordinate and element topology parity.",
+      "status": "NUMERICALLY_VERIFIED"
+    }
+  ],
+  "controlled_comparison_table": {
+    "columns": [
+      "Case / Package",
+      "Model Architecture",
+      "Base Solve Physics",
+      "Companion Law",
+      "Evaluated Step / State",
+      "MISESERI Spatial Character",
+      "Native Remesh Result"
+    ],
+    "rows": [
+      {
+        "case": "P90 (Package 90)",
+        "architecture": "Single-layer standard continuum (2,906 CPS4/CPE4)",
+        "physics": "Pure linear elasticity (no damage, d=0)",
+        "companion": "Standard *ELASTIC (E=210 GPa, nu=0.3)",
+        "evaluated_state": "Step-1 (u=0.0050 mm) & Step-2 (u=0.0100 mm)",
+        "miseseri_character": "Globally diffuse (corridor share ~24.3%); scale-invariant between Step 1 and 2",
+        "remesh_result": "~57,900 elements (broad specimen-wide refinement)"
+      },
+      {
+        "case": "P93 Step-1 (Package 93)",
+        "architecture": "3-layer co-located UEL/UMAT (8,718 elements)",
+        "physics": "Phase-field fracture (uncracked pre-peak, d < 0.10)",
+        "companion": "Infinitesimal elastic UMAT (E=1e-11 kN/mm2, nu=0.3, uncoupled)",
+        "evaluated_state": "Step-1 Frame 500 (u=0.0050 mm)",
+        "miseseri_character": "Globally diffuse (corridor share 34.98%, far-field share 50.87%)",
+        "remesh_result": "57,901 elements (broad specimen-wide refinement, far-field 85.5%)"
+      },
+      {
+        "case": "Stage 14 Step-2 (Package 99 / 25)",
+        "architecture": "3-layer co-located UEL/UMAT (8,718 elements)",
+        "physics": "Phase-field fracture (propagated crack, d -> 0.98 - 1.00)",
+        "companion": "Infinitesimal elastic UMAT (E=1e-11 kN/mm2, nu=0.3, uncoupled)",
+        "evaluated_state": "Step-2 Frame 880 (u=0.0094 mm) to 1021 (u=0.0100 mm)",
+        "miseseri_character": "Heavily localized in ligament (corridor share 86.70% -> 95.40%, far-field share 10.50% -> 0.07%)",
+        "remesh_result": "14,483 elements (narrow horizontal corridor w=0.08-0.23 mm, 59.4% coarse area)"
+      }
+    ]
+  },
+  "conclusions": {
+    "reconciliation_of_p90_invariance": "P90 was a pure linear-elastic continuum calculation where doubling displacement simply scaled all stresses linearly by 2.0 without altering the normalized error distribution. In Stage 14, mechanical fracture softening broke scale-invariance and localized displacement gradients into the ligament.",
+    "proof_of_uncoupling": "Source inspection of f42_mixed_uel_inf_stress.for confirms that phase field d is not multiplied into companion STRESS or DDSDDE. The localization is kinematic (strain-driven), not a direct constitutive coupling.",
+    "verdict_statement": "The Stage-14 localization transition is fully explained by physical differences between linear-elastic pre-peak loading (Step 1 / P90) and post-damage kinematic strain localization (Step 2 / Stage 14), with verified provenance from PK_M1_JOB1_INF_COMPANION_2906.odb."
+  }
+}
