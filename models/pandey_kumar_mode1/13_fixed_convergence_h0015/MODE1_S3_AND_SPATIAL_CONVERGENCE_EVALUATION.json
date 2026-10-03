@@ -145,10 +145,14 @@
     }
   },
   "scientific_conclusions": {
-    "elastic_stiffness_convergence": "EXCELLENT (K0 varies by only 0.0637% across 2.76x element refinement S1->S3)",
-    "peak_force_convergence": "EXCELLENT (F_max varies by 2.1886% S1->S2 and 1.2139% S2->S3, total 3.3759% S1->S3)",
-    "peak_displacement_convergence": "EXCELLENT (u(F_max) shifts by 2.4927% S1->S2 and 1.3658% S2->S3)",
-    "fracture_energy_convergence": "STABLE_CONVERGED (E_frac converges to 2.340 mJ -> 2.352 mJ -> 2.357 mJ, +0.73% total spread across 2.76x refinement)",
-    "post_peak_solver_termination": "Cutback termination at deep post-peak (>99% load drop at u = 0.00667 mm on S3, 0.00676 mm on S2) represents local finite element softening singularity rather than physical convergence failure."
+    "overall_classification": "MIXED_SPATIAL_CONVERGENCE",
+    "elastic_stiffness_convergence": "HIGHLY_STABLE (K0 varies by only 0.0637% across 2.76x element refinement S1->S3)",
+    "pre_peak_work_convergence": "HIGHLY_STABLE (W_ext at u=0.005 mm varies by only 0.075% across S1->S3)",
+    "peak_force_convergence": "MESH_SENSITIVE (F_max decreases by 2.19% S1->S2 and 1.21% S2->S3, total 3.38% S1->S3, with systematically diminishing successive changes)",
+    "peak_displacement_convergence": "MESH_SENSITIVE (u(F_max) shifts by 2.49% S1->S2 and 1.37% S2->S3, total 3.82% S1->S3)",
+    "fracture_energy_convergence": "NOT_DEMONSTRABLY_ASYMPTOTICALLY_CONVERGED (E_frac evolves non-monotonically: 2.340 mJ -> 2.330 mJ -> 2.357 mJ, spread 0.73%)",
+    "post_peak_domain_limitation": "Post-peak comparison is restricted by truncated S2 and S3 displacement domains relative to S1 full run.",
+    "energy_bookkeeping_status": "Delta_book = E_model - W_ext is preserved strictly as a descriptive bookkeeping diagnostic across increments, not as a thermodynamic balance residual/pass criterion.",
+    "post_peak_solver_termination": "Post-peak cutback termination occurred after the last converged state at u ≈ 0.00667 mm (S3) and u ≈ 0.00682 mm (S2) at >99% load drop."
   }
 }

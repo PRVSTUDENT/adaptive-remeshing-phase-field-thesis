@@ -12,7 +12,7 @@
 
 During Gate-6B Cause Audit Stage 4, an architectural discrepancy in the Mode-I adaptive remeshing lineage was isolated:
 1. **The Existing Pre-Analysis Baseline (`STANDARD_CONTINUUM_PREANALYSIS_VARIANT`):**  
-   The $56,302$-element refined mesh ($54,847$ CPE4 + $1,455$ CPE3) generated under literal $1.0\%$ `errorTarget` was driven by `PK_PREANALYSIS_COARSE.inp`, which executed a **single-layer standard continuum linear-elastic solve** (`Plate-1`, CPE4/CPE3, $2,906$ elements, $2,988$ nodes) with direct Abaqus SPR/ZZ error estimation.
+   The $56,302$-element refined mesh ($54,847$ CPE4 + $1,455$ CPE3) generated under literal $1.0\%$ `errorTarget` was driven by `PK_PREANALYSIS_COARSE.inp`, which executed a **single-layer standard continuum linear-elastic solve** (`Plate-1`, CPE4/CPE3, $2,906$ elements, $2,988$ nodes) with direct Abaqus Mises stress discretization/error indicator associated with the recovered stress solution.
 2. **The Reference Publication Architecture (`PANDEY_KUMAR_LAYERED_JOB1_UEL_CANDIDATE`):**  
    The primary paper (Pandey & Kumar, 2025, *Comput. Model. Eng. Sci.* 144(3), 3251–3276) defines a multi-pass adaptive workflow:
    $$\text{Coarse Job-1.inp} \longrightarrow \text{Layered Job-1\_UEL.inp} \longrightarrow \text{UEL/UMAT solve} \longrightarrow \text{MISESERI on } \texttt{All\_elem} \longrightarrow \texttt{adaptiveRemesh} \longrightarrow \text{Job-2\_UEL}$$
@@ -36,7 +36,7 @@ During Gate-6B Cause Audit Stage 4, an architectural discrepancy in the Mode-I a
 | **Stiffness Source** | Abaqus built-in `*ELASTIC` ($E=210\,\text{GPa}, \nu=0.3$) | Mechanical UEL (`JTYPE=2/4` in `f42_mixed_uel.for`) | $K_0 = 137.945520\,\text{kN/mm}$ in both ($r=1.000000000$) |
 | **UMAT Tangent Jacobian** | N/A (no UMAT) | $\mathbf{D}_{\text{dummy}} = 10^{-11}\mathbf{I}$ (`DDSDDE(I,I) = 1.D-11`) | Zero duplicate stiffness: Mech UEL carries $100\%$ of stiffness |
 | **Stress Evaluation** | Abaqus built-in continuum integration | UMAT evaluates isotropic plane-strain Hooke stress $\boldsymbol{\sigma} = \mathbf{D}_0 \boldsymbol{\varepsilon}$ | Stress tensor $\mathbf{S}$ populated on `All_elem` in both |
-| **Error Estimator Target** | `All_elem` = Part elements (IDs `1..2906`) | `All_elem` = `umatelem` = Layer 3 CPE4/CPE3 (IDs `5813..8718`) | Standard continuum elements recognized by Abaqus SPR/ZZ |
+| **Error Estimator Target** | `All_elem` = Part elements (IDs `1..2906`) | `All_elem` = `umatelem` = Layer 3 CPE4/CPE3 (IDs `5813..8718`) | Standard continuum elements evaluated by Abaqus Mises stress discretization/error indicator associated with the recovered stress solution |
 | **Boundary Conditions** | Bottom $u_y=0$, Pin $u_x=0$, Top roller ($u_y$, $u_x$ free) | Bottom $u_y=0$, Pin $u_x=0$, Top tied to RP in DOF 2 ($u_x$ free) | Corrected lateral-free roller boundary condition |
 | **Loading Schedule** | Single increment: $u_y = 0.0010\,\text{mm}$ | Published 2-step: Step-1 ($u=0.0050\,\text{mm}$), Step-2 ($u=0.0100\,\text{mm}$) | Published displacement increments ($\Delta u_1=10^{-3}, \Delta u_2=5\times 10^{-4}$) |
 | **Remeshing Settings** | `MISESERI`, `UNIFORM_ERROR`, `errorTarget=1.0%`, ref=10 | `MISESERI`, `UNIFORM_ERROR`, `errorTarget=1.0%`, ref=10 | Frozen `RemeshingRule` sizing contract |
@@ -53,7 +53,7 @@ During Gate-6B Cause Audit Stage 4, an architectural discrepancy in the Mode-I a
    - These stress components are populated into `STRESS(1..4)` at every integration point, ensuring that Abaqus records a valid, non-zero stress field $\mathbf{S}$ in `All_elem` in the output database (`.odb`).
 2. **Standard Continuum Element Recognition:**
    - Layer 3 consists of $2,818$ `CPE4` quads and $88$ `CPE3` triangles.
-   - Abaqus' native Superconvergent Patch Recovery (SPR/ZZ) error estimator natively processes these standard continuum element types.
+   - The Abaqus Mises stress discretization/error indicator associated with the recovered stress solution natively processes these standard continuum element types.
    - `All_elem` and `umatelem` point to Layer 3, satisfying Abaqus `RemeshingRule` requirements.
 3. **Zero Structural Stiffness Double-Counting:**
    - Layer 1 (Phase UEL) has only DOF 3, contributing $0$ mechanical stiffness.

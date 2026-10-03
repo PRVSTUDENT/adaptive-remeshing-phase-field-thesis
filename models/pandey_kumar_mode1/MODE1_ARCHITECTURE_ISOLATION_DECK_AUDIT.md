@@ -60,7 +60,7 @@ A critical concern in pre-analysis auditing is whether the Reference Point coupl
   - Poisson's ratio: $\nu = 0.3$.
 - **Package 89:**
   - Mechanical Layer 2 UEL integrates plane-strain elasticity with $E = 210.0\,\text{kN/mm}^2$ and $\nu = 0.3$.
-  - Companion Layer 3 UMAT: receives $E=210.0, \nu=0.3, n_{\text{phys}}=2906.0$ as constants; returns Cauchy stress $\boldsymbol{\sigma}$ for post-processing and SPR/ZZ error evaluation, and explicitly sets the tangent matrix in lines 913–918 of `f42_mixed_uel.for`:
+  - Companion Layer 3 UMAT: receives $E=210.0, \nu=0.3, n_{\text{phys}}=2906.0$ as constants; returns Cauchy stress $\boldsymbol{\sigma}$ for post-processing and Abaqus Mises stress discretization/error indicator associated with the recovered stress solution, and explicitly sets the tangent matrix in lines 913–918 of `f42_mixed_uel.for`:
     ```fortran
     C     Material Jacobian: negligible dummy stiffness (prevents double-counting with UEL Layer 2)
               DDSDDE(I,J) = ZERO
@@ -108,7 +108,7 @@ A critical concern in pre-analysis auditing is whether the Reference Point coupl
 | OUTPUTS | `node_output_variables` | N_RP: U, RF | N_RP: U, RF | **`IDENTICAL`** | Both decks record displacement and reaction force at RP 999999. |
 | OUTPUTS | `element_output_variables` | All_elem: MISESERI, MISESAVG, S, E, EVOL | All_elem: MISESERI, MISESAVG, S, E, EVOL | **`IDENTICAL`** | Both decks request the exact same element field variables for physical stress and error indicator recovery. |
 | OUTPUTS | `companion_sdv_output` | umatelem: SDV | None (no UMAT layer) | **`EXPECTED_ARCHITECTURE_DIFFERENCE`** | SDV output in Package 89 records phase-field and internal state variables from companion layer. |
-| INDICATOR | `miseseri_element_set` | All_elem (2,906 elements) | All_elem (2,906 elements) | **`EQUIVALENT_BY_CONSTRUCTION`** | MISESERI is evaluated at whole-element centroids on the 2,906 underlying elements spanning the domain. |
+| INDICATOR | `miseseri_element_set` | All_elem (2,906 elements) | All_elem (2,906 elements) | **`EQUIVALENT_BY_CONSTRUCTION`** | one WHOLE_ELEMENT MISESERI value per underlying finite element on the 2,906 underlying elements spanning the domain. |
 | SOLVER | `matrix_symmetry` | *USER ELEMENT, UNSYMM | Standard symmetric linear solver | **`EXPECTED_ARCHITECTURE_DIFFERENCE`** | Package 89 uses UNSYMM due to coupled phase-displacement equations; Package 90 solves standard symmetric linear continuum. |
 | ENVIRONMENT | `abaqus_version` | Abaqus 2023 (double=both) | Abaqus 2023 (double=both) | **`IDENTICAL`** | Both packages execute Abaqus 2023 with double precision on the Freiberg HPC cluster. |
 | ENVIRONMENT | `execution_mode` | 1-CPU Serial, 16 GB, normal_imfdfkmq | 1-CPU Serial, 16 GB, normal_imfdfkmq | **`IDENTICAL`** | Both packages execute as 1-CPU serial batch jobs on normal_imfdfkmq. |

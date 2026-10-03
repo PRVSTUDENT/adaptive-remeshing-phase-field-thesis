@@ -11,7 +11,7 @@
   },
   "provenance_audit": {
     "56k_lineage_deck": "models/pandey_kumar_mode1/02_proposed_adaptive_refined/PK_PREANALYSIS_COARSE.inp",
-    "56k_lineage_architecture": "Single-layer isotropic continuum elasticity (*ELASTIC, E=210 GPa, nu=0.3), direct SPR/ZZ on CPE4/CPE3",
+    "56k_lineage_architecture": "Single-layer isotropic continuum elasticity (*ELASTIC, E=210 GPa, nu=0.3), direct Abaqus Mises stress discretization/error indicator associated with the recovered stress solution on CPE4/CPE3",
     "56k_lineage_reclassification": "PROJECT_DIAGNOSTIC_VARIANT (Isolated continuum stress benchmark; not faithful to 3-layer UEL workflow)",
     "layered_job1_deck": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906/PK_M1_JOB1_UEL_2906.inp",
     "layered_job1_sha256": "27aab773a116e3c8a832e4980d0e25f48a435f34dedece4abe78ffa232c0c1ff",

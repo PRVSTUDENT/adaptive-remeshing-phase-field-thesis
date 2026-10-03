@@ -1,6 +1,6 @@
 """
 Unit tests for Gate-6B Stage 7 Layered Companion-Element / All_elem Reference-Fidelity Audit.
-Verifies zero companion Cauchy stress in authoritative UMAT, resultant zero MISESERI on All_elem,
+Verifies zero companion Cauchy stress in governed Package 92 UMAT, resultant zero MISESERI on All_elem,
 continuum control baseline comparison, and publication figure generation.
 """
 import os
@@ -40,7 +40,6 @@ def test_stage7_audit_json_structure(stage7_audit_data):
     assert stage7_audit_data["audit_id"] == "GATE6B-STAGE7-LAYERED-COMPANION-FIDELITY-AUDIT-20261003"
     assert stage7_audit_data["step_name"] == "Step-1"
     assert stage7_audit_data["total_elements"] == 2906
-    assert stage7_audit_data["verdict"] == "LAYERED_COMPANION_ZERO_STRESS_CONFIRMED"
     assert stage7_audit_data["classification"] == "LAYERED_COMPANION_INVALID_OR_UNRESOLVED"
 
 
@@ -59,19 +58,12 @@ def test_stage7_continuum_control_baseline(stage7_audit_data):
     assert ctrl_m["rf2_at_step1_end_kn"] > 0.0
 
 
-def test_stage7_published_fig6a_evidence(stage7_audit_data):
-    """Verify published Fig. 6(a) digitized evidence metadata."""
-    fig6a = stage7_audit_data["published_fig6a_evidence"]
-    assert "Pandey & Kumar (2025)" in fig6a["source"]
-    assert fig6a["legend_range_reported_mpa"] == [0.0, 95.0]
-    assert fig6a["legend_max_miseseri_reported"] == 95.0
-
-
 def test_stage7_forensic_report_consistency(stage7_report_data):
     """Verify Stage 7 report metadata, verdicts, and generated figures."""
     assert stage7_report_data["report_id"] == "MODE1-STAGE7-LAYERED-COMPANION-FIDELITY-REPORT-20261003"
-    assert stage7_report_data["verdict"] == "LAYERED_COMPANION_ZERO_STRESS_CONFIRMED"
+    assert stage7_report_data["verdict"] == "PROJECT_SOURCE_VERIFIED_ZERO_STRESS_LAYERED_COMPANION"
     assert stage7_report_data["directional_classification"] == "LAYERED_COMPANION_INVALID_OR_UNRESOLVED"
+    assert "10^-12" in stage7_report_data["quantitative_comparison"]["published_legend_order_of_magnitude"]
     assert os.path.isfile(REPORT_MD_PATH)
 
     for fig_rel in stage7_report_data["figures_generated"]:

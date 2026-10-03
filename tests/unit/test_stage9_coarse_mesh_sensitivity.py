@@ -56,7 +56,7 @@ def test_stage9_nominal_sizing_concordance(stage9_audit_data):
     assert 0.018 <= edge_stats["mean"] <= 0.020
     
     lit = stage9_audit_data["literature_comparison"]
-    assert lit["published_nominal_h"] == 0.020
+    assert lit["published_known_constraints"]["nominal_global_h_mm"] == 0.020
     assert lit["classification"] == "CURRENT_MESH_CONSISTENT_WITH_PUBLISHED_H002_NOMINAL_SPECIFICATION"
 
 

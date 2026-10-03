@@ -1,7 +1,7 @@
 {
-  "task_id": "F1186-GATE6B-ADAPTIVE-LOCALIZATION-STAGE13-ERRORTARGET-MORPHOLOGY-SENSITIVITY-20261003",
+  "task_id": "F1186-GATE6B-ADAPTIVE-LOCALIZATION-STAGE14-PHASEFIELD-PREANALYSIS-FIDELITY-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Adaptive-Localization Stage 13: Literature-Supported errorTarget Morphology Sensitivity Diagnostic",
+  "title": "Gate-6B Mode-I Adaptive-Localization Stage 14: Phase-Field-Coupled Pre-Analysis Fidelity Audit & Horizontal Corridor Morphology Recovery",
   "status": "completed",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
@@ -15,76 +15,66 @@
   "hpc_jobs": [],
   "context": {
     "gate6b_status": "ACTIVE",
-    "stage12_evaluation": {
-      "frozen_research_question": "Does a publication-consistent non-uniform quad/tri h ~ 0.02 coarse mesh produce a more localized MISESERI field and native 1% adaptive mesh?",
-      "raw_miseseri_verdict": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_MISESERI_IMPROVEMENT",
-      "adaptive_morphology_verdict": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_IMPROVEMENT",
-      "coarse_mesh_diagnostic": {
-        "total_elements": 3019,
-        "quad_elements": 2940,
-        "tri_elements": 79,
-        "mean_h_eq_mm": 0.01803,
-        "inf_companion_miseseri_peak_kN_mm2": 4.639182e-14,
-        "inf_companion_far_field_share": 0.4975,
-        "continuum_control_miseseri_peak_MPa": 1169.96826,
-        "continuum_control_far_field_share": 0.4804,
-        "cross_field_correlation_r": 0.9566822
-      },
-      "adapted_mesh_results": {
-        "total_elements": 139407,
-        "total_nodes": 137958,
-        "median_h_eq_um": 2.13,
-        "corridor_fraction": 0.1133,
-        "far_field_fraction": 0.8867,
-        "refined_band_width_mm": 0.997,
-        "classification": "STAGE12_REMESH_WRONG_SOURCE_ODB"
-      },
-      "final_governing_verdict": "NOT_SUPPORTED_AS_DOMINANT_IN_TESTED_VARIANT"
+    "stage13_corrections": {
+      "overall_conclusion": "LITERATURE_INFORMED_ERRORTARGET_DOES_NOT_RESOLVE_TARGET_LOCALIZATION",
+      "et30_verdict": "NO_MEANINGFUL_IMPROVEMENT",
+      "et20_description": "2.0% errorTarget sensitivity variant"
     },
-    "stage11_corrections": {
-      "causal_verdict": "BROADNESS_ORIGIN_UNRESOLVED_WITH_TRANSITION_OPTION_NOT_DOMINANT",
-      "transition_invariance_verified": true
-    },
-    "stage13_evaluation": {
-      "research_question": "Can a literature-supported errorTarget within 1-5% reduce unwanted far-field refinement while retaining the horizontal crack-path refinement region?",
-      "overall_conclusion": "LITERATURE_SUPPORTED_ERRORTARGET_IMPROVES_BUT_DOES_NOT_RECOVER_TARGET_MORPHOLOGY",
-      "cases_summary": {
-        "et10": {
-          "elements": 57901,
-          "nodes": 57483,
-          "corridor_pct": 14.5,
-          "far_pct": 85.5,
-          "coarse_area_pct": 1.06,
-          "verdict": "NO_MEANINGFUL_IMPROVEMENT"
+    "stage14_evaluation": {
+      "frozen_research_question": "Are we generating MISESERI from the wrong physical stage of Job-1_UEL? Does the coarse phase-field UEL solution develop crack/damage localization before remeshing, and does that evolving solution produce the narrow horizontal MISESERI band shown in Fig. 6(a)?",
+      "governing_verdict": "PHASEFIELD_EVOLUTION_TOWARD_TARGET_MISESERI_LOCALIZATION",
+      "evolution_audit": {
+        "state1_u0050": {
+          "corridor_share_pct": 34.98,
+          "far_field_share_pct": 65.02,
+          "bbox_y_span_mm": 0.999,
+          "w_at_x07_mm": 0.0
         },
-        "et20": {
-          "elements": 14662,
-          "nodes": 14642,
-          "corridor_pct": 25.9,
-          "far_pct": 74.1,
-          "coarse_area_pct": 27.53,
-          "verdict": "NO_MEANINGFUL_IMPROVEMENT"
+        "state5_u0066": {
+          "corridor_share_pct": 35.65,
+          "far_field_share_pct": 64.35,
+          "bbox_y_span_mm": 0.999,
+          "w_at_x07_mm": 0.0
         },
-        "et30": {
-          "elements": 6835,
-          "nodes": 6907,
-          "corridor_pct": 26.5,
-          "far_pct": 73.5,
-          "coarse_area_pct": 57.46,
-          "verdict": "TOWARD_TARGET_LOCALIZATION"
+        "state7_u0098": {
+          "corridor_share_pct": 90.12,
+          "far_field_share_pct": 9.88,
+          "bbox_y_span_mm": 0.354,
+          "w_at_x07_mm": 0.052
         },
-        "et50": {
-          "elements": 4258,
-          "nodes": 4332,
-          "corridor_pct": 17.9,
-          "far_pct": 82.1,
-          "coarse_area_pct": 76.09,
-          "verdict": "AWAY_FROM_TARGET_LOCALIZATION"
+        "state8_u0100": {
+          "corridor_share_pct": 95.4,
+          "far_field_share_pct": 4.6,
+          "bbox_y_span_mm": 0.1065,
+          "w_at_x07_mm": 0.0621
         }
       },
-      "key_takeaway": "Tuning errorTarget matches published element count at 2.0% (14,662 vs 13,941), but retains diffuse hourglass lobe (w = 0.763 mm vs 0.10 mm published). 3.0% localizes at notch tip (w = 0.555 mm, 57.5% coarse area preserved) but underresolves ligament."
+      "native_remesh_comparison": {
+        "step1_elastic": {
+          "elements": 57901,
+          "nodes": 57483,
+          "corridor_share_pct": 14.52,
+          "coarse_area_preserved_pct": 1.06,
+          "w_at_x05_mm": 0.927,
+          "w_at_x07_mm": 0.902,
+          "classification": "DIFFUSE_HOURGLASS_OVERREFINED"
+        },
+        "step2_phasefield_rupture": {
+          "elements": 14483,
+          "nodes": 14456,
+          "corridor_share_pct": 64.12,
+          "coarse_area_preserved_pct": 59.39,
+          "w_at_x05_mm": 0.226,
+          "w_at_x07_mm": 0.142,
+          "w_at_x09_mm": 0.082,
+          "w_at_x03_flank_mm": 0.0,
+          "published_element_delta_pct": 3.89,
+          "classification": "TARGET_CORRIDOR_RECOVERED"
+        }
+      },
+      "key_takeaway": "Evaluating native adaptiveRemesh on the post-localization phase-field Step-2 state recovers the 14k-element count and narrow horizontal corridor morphology under paper-literal UNIFORM_ERROR 1.0% on ALL_ELEM."
     }
   },
-  "created_at": "2026-10-03T18:25:00+02:00",
-  "updated_at": "2026-10-03T19:30:00+02:00"
+  "created_at": "2026-10-03T19:35:00+02:00",
+  "updated_at": "2026-10-03T19:50:00+02:00"
 }

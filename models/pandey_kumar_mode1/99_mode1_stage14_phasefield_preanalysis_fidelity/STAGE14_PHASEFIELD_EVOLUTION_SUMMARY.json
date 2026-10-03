@@ -1,0 +1,714 @@
+{
+  "audit_id": "GATE6B-STAGE14-PHASEFIELD-PREANALYSIS-FIDELITY-20261003",
+  "timestamp": "2026-10-03T19:40:00+02:00",
+  "agent": "gemini-antigravity",
+  "source_odb": "PK_M1_JOB1_INF_COMPANION_2906.odb",
+  "frozen_question": "Does the coarse phase-field UEL solution develop crack/damage localization before remeshing, and does that evolving solution produce the narrow horizontal MISESERI band shown in Fig. 6(a)?",
+  "states_evaluated": {
+    "u0050_baseline": {
+      "frame_label": "u0050_baseline",
+      "prescribed_u_mm": 0.005,
+      "d_max": 0.10056711733341217,
+      "H_max": 0.02990109473466873,
+      "miseseri_max": 4.502057364061396e-14,
+      "total_error": 1.3688252268129283e-12,
+      "corridor_err_share": 0.3450260408289804,
+      "far_err_share": 0.6549739591710196,
+      "outer_far_err_share": 0.5147518498303151,
+      "wake_err_share": 0.22625323172766443,
+      "ligament_err_share": 0.11877280910131599,
+      "significant_error_fraction": 0.0028676301904106446,
+      "bbox_significant_10pct": {
+        "count": 25,
+        "x_min": 0.4252621605992317,
+        "x_max": 0.5470759272575378,
+        "y_min": 0.4474692642688751,
+        "y_max": 0.5404908210039139,
+        "y_span_mm": 0.09302155673503876
+      },
+      "bbox_high_50pct": {
+        "count": 5,
+        "x_min": 0.46794887632131577,
+        "x_max": 0.5051644593477249,
+        "y_min": 0.49003806710243225,
+        "y_max": 0.5149803012609482,
+        "y_span_mm": 0.02494223415851593
+      },
+      "band_widths_10pct": {
+        "0.1": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.2": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.3": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.4": {
+          "count": 2,
+          "y_min": 0.47013991326093674,
+          "y_max": 0.5290354043245316,
+          "width_mm": 0.05889549106359482
+        },
+        "0.5": {
+          "count": 16,
+          "y_min": 0.4476310983300209,
+          "y_max": 0.5404908210039139,
+          "width_mm": 0.09285972267389297
+        },
+        "0.6": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.7": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.8": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.9": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        }
+      },
+      "correlation_d_miseseri": 0.3572608322340539,
+      "csv_path": "models/pandey_kumar_mode1/99_mode1_stage14_phasefield_preanalysis_fidelity\\stage14_state_u0050_baseline.csv"
+    },
+    "u0055_damage_onset": {
+      "frame_label": "u0055_damage_onset",
+      "prescribed_u_mm": 0.0055,
+      "d_max": 0.10056711733341217,
+      "H_max": 0.02990109473466873,
+      "miseseri_max": 4.502057364061396e-14,
+      "total_error": 1.3688252268129283e-12,
+      "corridor_err_share": 0.3450260408289804,
+      "far_err_share": 0.6549739591710196,
+      "outer_far_err_share": 0.5147518498303151,
+      "wake_err_share": 0.22625323172766443,
+      "ligament_err_share": 0.11877280910131599,
+      "significant_error_fraction": 0.0028676301904106446,
+      "bbox_significant_10pct": {
+        "count": 25,
+        "x_min": 0.4252621605992317,
+        "x_max": 0.5470759272575378,
+        "y_min": 0.4474692642688751,
+        "y_max": 0.5404908210039139,
+        "y_span_mm": 0.09302155673503876
+      },
+      "bbox_high_50pct": {
+        "count": 5,
+        "x_min": 0.46794887632131577,
+        "x_max": 0.5051644593477249,
+        "y_min": 0.49003806710243225,
+        "y_max": 0.5149803012609482,
+        "y_span_mm": 0.02494223415851593
+      },
+      "band_widths_10pct": {
+        "0.1": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.2": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.3": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.4": {
+          "count": 2,
+          "y_min": 0.47013991326093674,
+          "y_max": 0.5290354043245316,
+          "width_mm": 0.05889549106359482
+        },
+        "0.5": {
+          "count": 16,
+          "y_min": 0.4476310983300209,
+          "y_max": 0.5404908210039139,
+          "width_mm": 0.09285972267389297
+        },
+        "0.6": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.7": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.8": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.9": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        }
+      },
+      "correlation_d_miseseri": 0.3572608322340539,
+      "csv_path": "models/pandey_kumar_mode1/99_mode1_stage14_phasefield_preanalysis_fidelity\\stage14_state_u0055_damage_onset.csv"
+    },
+    "u0058_near_peak": {
+      "frame_label": "u0058_near_peak",
+      "prescribed_u_mm": 0.0058,
+      "d_max": 0.10056711733341217,
+      "H_max": 0.02990109473466873,
+      "miseseri_max": 4.502057364061396e-14,
+      "total_error": 1.3688252268129283e-12,
+      "corridor_err_share": 0.3450260408289804,
+      "far_err_share": 0.6549739591710196,
+      "outer_far_err_share": 0.5147518498303151,
+      "wake_err_share": 0.22625323172766443,
+      "ligament_err_share": 0.11877280910131599,
+      "significant_error_fraction": 0.0028676301904106446,
+      "bbox_significant_10pct": {
+        "count": 25,
+        "x_min": 0.4252621605992317,
+        "x_max": 0.5470759272575378,
+        "y_min": 0.4474692642688751,
+        "y_max": 0.5404908210039139,
+        "y_span_mm": 0.09302155673503876
+      },
+      "bbox_high_50pct": {
+        "count": 5,
+        "x_min": 0.46794887632131577,
+        "x_max": 0.5051644593477249,
+        "y_min": 0.49003806710243225,
+        "y_max": 0.5149803012609482,
+        "y_span_mm": 0.02494223415851593
+      },
+      "band_widths_10pct": {
+        "0.1": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.2": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.3": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.4": {
+          "count": 2,
+          "y_min": 0.47013991326093674,
+          "y_max": 0.5290354043245316,
+          "width_mm": 0.05889549106359482
+        },
+        "0.5": {
+          "count": 16,
+          "y_min": 0.4476310983300209,
+          "y_max": 0.5404908210039139,
+          "width_mm": 0.09285972267389297
+        },
+        "0.6": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.7": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.8": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.9": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        }
+      },
+      "correlation_d_miseseri": 0.3572608322340539,
+      "csv_path": "models/pandey_kumar_mode1/99_mode1_stage14_phasefield_preanalysis_fidelity\\stage14_state_u0058_near_peak.csv"
+    },
+    "u0061_early_softening": {
+      "frame_label": "u0061_early_softening",
+      "prescribed_u_mm": 0.0061,
+      "d_max": 0.10056711733341217,
+      "H_max": 0.02990109473466873,
+      "miseseri_max": 4.502057364061396e-14,
+      "total_error": 1.3688252268129283e-12,
+      "corridor_err_share": 0.3450260408289804,
+      "far_err_share": 0.6549739591710196,
+      "outer_far_err_share": 0.5147518498303151,
+      "wake_err_share": 0.22625323172766443,
+      "ligament_err_share": 0.11877280910131599,
+      "significant_error_fraction": 0.0028676301904106446,
+      "bbox_significant_10pct": {
+        "count": 25,
+        "x_min": 0.4252621605992317,
+        "x_max": 0.5470759272575378,
+        "y_min": 0.4474692642688751,
+        "y_max": 0.5404908210039139,
+        "y_span_mm": 0.09302155673503876
+      },
+      "bbox_high_50pct": {
+        "count": 5,
+        "x_min": 0.46794887632131577,
+        "x_max": 0.5051644593477249,
+        "y_min": 0.49003806710243225,
+        "y_max": 0.5149803012609482,
+        "y_span_mm": 0.02494223415851593
+      },
+      "band_widths_10pct": {
+        "0.1": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.2": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.3": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.4": {
+          "count": 2,
+          "y_min": 0.47013991326093674,
+          "y_max": 0.5290354043245316,
+          "width_mm": 0.05889549106359482
+        },
+        "0.5": {
+          "count": 16,
+          "y_min": 0.4476310983300209,
+          "y_max": 0.5404908210039139,
+          "width_mm": 0.09285972267389297
+        },
+        "0.6": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.7": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.8": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.9": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        }
+      },
+      "correlation_d_miseseri": 0.3572608322340539,
+      "csv_path": "models/pandey_kumar_mode1/99_mode1_stage14_phasefield_preanalysis_fidelity\\stage14_state_u0061_early_softening.csv"
+    },
+    "u0066_propagation": {
+      "frame_label": "u0066_propagation",
+      "prescribed_u_mm": 0.0066,
+      "d_max": 0.10056711733341217,
+      "H_max": 0.02990109473466873,
+      "miseseri_max": 4.502057364061396e-14,
+      "total_error": 1.3688252268129283e-12,
+      "corridor_err_share": 0.3450260408289804,
+      "far_err_share": 0.6549739591710196,
+      "outer_far_err_share": 0.5147518498303151,
+      "wake_err_share": 0.22625323172766443,
+      "ligament_err_share": 0.11877280910131599,
+      "significant_error_fraction": 0.0028676301904106446,
+      "bbox_significant_10pct": {
+        "count": 25,
+        "x_min": 0.4252621605992317,
+        "x_max": 0.5470759272575378,
+        "y_min": 0.4474692642688751,
+        "y_max": 0.5404908210039139,
+        "y_span_mm": 0.09302155673503876
+      },
+      "bbox_high_50pct": {
+        "count": 5,
+        "x_min": 0.46794887632131577,
+        "x_max": 0.5051644593477249,
+        "y_min": 0.49003806710243225,
+        "y_max": 0.5149803012609482,
+        "y_span_mm": 0.02494223415851593
+      },
+      "band_widths_10pct": {
+        "0.1": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.2": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.3": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.4": {
+          "count": 2,
+          "y_min": 0.47013991326093674,
+          "y_max": 0.5290354043245316,
+          "width_mm": 0.05889549106359482
+        },
+        "0.5": {
+          "count": 16,
+          "y_min": 0.4476310983300209,
+          "y_max": 0.5404908210039139,
+          "width_mm": 0.09285972267389297
+        },
+        "0.6": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.7": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.8": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.9": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        }
+      },
+      "correlation_d_miseseri": 0.3572608322340539,
+      "csv_path": "models/pandey_kumar_mode1/99_mode1_stage14_phasefield_preanalysis_fidelity\\stage14_state_u0066_propagation.csv"
+    },
+    "u0080_extended_crack": {
+      "frame_label": "u0080_extended_crack",
+      "prescribed_u_mm": 0.008,
+      "d_max": 0.10056711733341217,
+      "H_max": 0.02990109473466873,
+      "miseseri_max": 4.502057364061396e-14,
+      "total_error": 1.3688252268129283e-12,
+      "corridor_err_share": 0.3450260408289804,
+      "far_err_share": 0.6549739591710196,
+      "outer_far_err_share": 0.5147518498303151,
+      "wake_err_share": 0.22625323172766443,
+      "ligament_err_share": 0.11877280910131599,
+      "significant_error_fraction": 0.0028676301904106446,
+      "bbox_significant_10pct": {
+        "count": 25,
+        "x_min": 0.4252621605992317,
+        "x_max": 0.5470759272575378,
+        "y_min": 0.4474692642688751,
+        "y_max": 0.5404908210039139,
+        "y_span_mm": 0.09302155673503876
+      },
+      "bbox_high_50pct": {
+        "count": 5,
+        "x_min": 0.46794887632131577,
+        "x_max": 0.5051644593477249,
+        "y_min": 0.49003806710243225,
+        "y_max": 0.5149803012609482,
+        "y_span_mm": 0.02494223415851593
+      },
+      "band_widths_10pct": {
+        "0.1": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.2": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.3": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.4": {
+          "count": 2,
+          "y_min": 0.47013991326093674,
+          "y_max": 0.5290354043245316,
+          "width_mm": 0.05889549106359482
+        },
+        "0.5": {
+          "count": 16,
+          "y_min": 0.4476310983300209,
+          "y_max": 0.5404908210039139,
+          "width_mm": 0.09285972267389297
+        },
+        "0.6": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.7": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.8": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.9": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        }
+      },
+      "correlation_d_miseseri": 0.3572608322340539,
+      "csv_path": "models/pandey_kumar_mode1/99_mode1_stage14_phasefield_preanalysis_fidelity\\stage14_state_u0080_extended_crack.csv"
+    },
+    "u0098_late_propagation": {
+      "frame_label": "u0098_late_propagation",
+      "prescribed_u_mm": 0.0098,
+      "d_max": 0.10056711733341217,
+      "H_max": 0.02990109473466873,
+      "miseseri_max": 4.502057364061396e-14,
+      "total_error": 1.3688252268129283e-12,
+      "corridor_err_share": 0.3450260408289804,
+      "far_err_share": 0.6549739591710196,
+      "outer_far_err_share": 0.5147518498303151,
+      "wake_err_share": 0.22625323172766443,
+      "ligament_err_share": 0.11877280910131599,
+      "significant_error_fraction": 0.0028676301904106446,
+      "bbox_significant_10pct": {
+        "count": 25,
+        "x_min": 0.4252621605992317,
+        "x_max": 0.5470759272575378,
+        "y_min": 0.4474692642688751,
+        "y_max": 0.5404908210039139,
+        "y_span_mm": 0.09302155673503876
+      },
+      "bbox_high_50pct": {
+        "count": 5,
+        "x_min": 0.46794887632131577,
+        "x_max": 0.5051644593477249,
+        "y_min": 0.49003806710243225,
+        "y_max": 0.5149803012609482,
+        "y_span_mm": 0.02494223415851593
+      },
+      "band_widths_10pct": {
+        "0.1": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.2": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.3": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.4": {
+          "count": 2,
+          "y_min": 0.47013991326093674,
+          "y_max": 0.5290354043245316,
+          "width_mm": 0.05889549106359482
+        },
+        "0.5": {
+          "count": 16,
+          "y_min": 0.4476310983300209,
+          "y_max": 0.5404908210039139,
+          "width_mm": 0.09285972267389297
+        },
+        "0.6": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.7": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.8": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.9": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        }
+      },
+      "correlation_d_miseseri": 0.3572608322340539,
+      "csv_path": "models/pandey_kumar_mode1/99_mode1_stage14_phasefield_preanalysis_fidelity\\stage14_state_u0098_late_propagation.csv"
+    },
+    "u0100_final_state": {
+      "frame_label": "u0100_final_state",
+      "prescribed_u_mm": 0.01,
+      "d_max": 0.10056711733341217,
+      "H_max": 0.02990109473466873,
+      "miseseri_max": 4.502057364061396e-14,
+      "total_error": 1.3688252268129283e-12,
+      "corridor_err_share": 0.3450260408289804,
+      "far_err_share": 0.6549739591710196,
+      "outer_far_err_share": 0.5147518498303151,
+      "wake_err_share": 0.22625323172766443,
+      "ligament_err_share": 0.11877280910131599,
+      "significant_error_fraction": 0.0028676301904106446,
+      "bbox_significant_10pct": {
+        "count": 25,
+        "x_min": 0.4252621605992317,
+        "x_max": 0.5470759272575378,
+        "y_min": 0.4474692642688751,
+        "y_max": 0.5404908210039139,
+        "y_span_mm": 0.09302155673503876
+      },
+      "bbox_high_50pct": {
+        "count": 5,
+        "x_min": 0.46794887632131577,
+        "x_max": 0.5051644593477249,
+        "y_min": 0.49003806710243225,
+        "y_max": 0.5149803012609482,
+        "y_span_mm": 0.02494223415851593
+      },
+      "band_widths_10pct": {
+        "0.1": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.2": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.3": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.4": {
+          "count": 2,
+          "y_min": 0.47013991326093674,
+          "y_max": 0.5290354043245316,
+          "width_mm": 0.05889549106359482
+        },
+        "0.5": {
+          "count": 16,
+          "y_min": 0.4476310983300209,
+          "y_max": 0.5404908210039139,
+          "width_mm": 0.09285972267389297
+        },
+        "0.6": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.7": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.8": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        },
+        "0.9": {
+          "count": 0,
+          "y_min": 0.5,
+          "y_max": 0.5,
+          "width_mm": 0.0
+        }
+      },
+      "correlation_d_miseseri": 0.3572608322340539,
+      "csv_path": "models/pandey_kumar_mode1/99_mode1_stage14_phasefield_preanalysis_fidelity\\stage14_state_u0100_final_state.csv"
+    }
+  },
+  "governing_verdict": "PHASEFIELD_EVOLUTION_NO_MEANINGFUL_MISESERI_IMPROVEMENT"
+}

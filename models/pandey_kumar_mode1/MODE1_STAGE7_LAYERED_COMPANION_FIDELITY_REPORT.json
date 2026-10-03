@@ -2,28 +2,33 @@
   "report_id": "MODE1-STAGE7-LAYERED-COMPANION-FIDELITY-REPORT-20261003",
   "task_id": "F1183-GATE6B-ADAPTIVE-LOCALIZATION-STAGE7-LAYERED-COMPANION-DIAGNOSTIC-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Adaptive-Localization Stage 7: Layered Companion-Element / All_elem Reference-Fidelity Test",
+  "title": "Gate-6B Mode-I Adaptive-Localization Stage 7: Layered Companion-Element / All_elem Reference-Fidelity Test (Corrected)",
   "status": "completed",
-  "verdict": "LAYERED_COMPANION_ZERO_STRESS_CONFIRMED",
+  "verdict": "PROJECT_SOURCE_VERIFIED_ZERO_STRESS_LAYERED_COMPANION",
   "directional_classification": "LAYERED_COMPANION_INVALID_OR_UNRESOLVED",
-  "executive_summary": "In authoritative f42_mixed_uel.for, companion UMAT sets STRESS = 0.D0 and DDSDDE = 1.D-11 to prevent structural stiffness double-counting with UEL Layer 2. Consequently, Cauchy stress on All_elem is identically zero and Abaqus evaluates MISESERI = 0.0 everywhere. This proves that Layer 3 is exclusively an SDV visualizer and cannot generate pre-analysis error indicators.",
+  "epistemic_findings": {
+    "project_source_verified": "Our governed f42_mixed_uel.for in Package 92 sets STRESS = 0.D0 and DDSDDE = 1.D-11, resulting in MISESERI = 0.0 across all 2,906 elements on All_elem.",
+    "unresolved_reference_detail": "Pandey & Kumar (2025) submit Job-1_UEL.inp to obtain MISESERI on All_elem; their exact UMAT equations are not printed in text, but cited baseline Molnar & Gravouil (2017) implements an infinitesimal elastic constitutive update with E_dummy = 1e-11.",
+    "published_fig6a_scale_correction": "Contour legend in Fig. 6(a) reports values from 1.47e-19 to 3.00e-12 (order 10^-12), aligning with the infinitesimal companion elasticity scale."
+  },
   "subroutine_audit": {
     "source_file": "models/pandey_kumar_mode1/f42_mixed_uel.for",
     "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "layer1_phase_uel": "Solves phase-field Helmholtz equation, writes trial d to /CB_STATE_TRANS/",
     "layer2_mech_uel": "Solves degraded elasticity, supplies true AMATRX stiffness and RHS force, updates H",
-    "layer3_companion_umat": "Sets STRESS = 0.D0 and DDSDDE = 1.D-11, reads /CB_STATE_TRANS/, writes SDV1..SDV20"
+    "layer3_companion_umat": "Sets STRESS = 0.D0 and DDSDDE = 1.D-11 in Package 92, reads /CB_STATE_TRANS/, writes SDV1..SDV20"
   },
   "quantitative_comparison": {
     "layered_companion_package": "92_mode1_preanalysis_layered_companion_2906",
     "control_continuum_package": "90_mode1_preanalysis_continuum_matched_2906",
     "mesh_elements": 2906,
-    "layered_max_miseseri_mpa": 0.0,
-    "layered_mean_miseseri_mpa": 0.0,
-    "control_max_miseseri_mpa": 0.950009,
-    "control_mean_miseseri_mpa": 0.009878,
-    "published_fig6a_legend_max_mpa": 95.0,
-    "published_to_control_scaling_ratio": 100.0
+    "layered_max_miseseri": 0.0,
+    "layered_mean_miseseri": 0.0,
+    "control_max_miseseri": 0.950009,
+    "control_mean_miseseri": 0.009878,
+    "published_fig6a_legend_min": 1.47e-19,
+    "published_fig6a_legend_max": 3.00e-12,
+    "published_legend_order_of_magnitude": "10^-12"
   },
   "figures_generated": [
     "results/figures/mode1_gate6b/mode1_stage7_fig1_layered_vs_continuum_field.png",
@@ -33,6 +38,6 @@
     "results/figures/mode1_gate6b/mode1_stage7_fig3_companion_umat_mechanics.png",
     "results/figures/mode1_gate6b/mode1_stage7_fig3_companion_umat_mechanics.pdf"
   ],
-  "transition_target": "F1184-GATE6C-MODE1-STATE-TRANSFER-AND-ENERGY-CONSERVATION-20261003",
-  "created_at": "2026-10-03T12:00:00+02:00"
+  "transition_target": "F1184-GATE6B-ADAPTIVE-LOCALIZATION-STAGE8-INF-STIFFNESS-COMPANION-AUDIT-20261003",
+  "updated_at": "2026-10-03T12:14:00+02:00"
 }

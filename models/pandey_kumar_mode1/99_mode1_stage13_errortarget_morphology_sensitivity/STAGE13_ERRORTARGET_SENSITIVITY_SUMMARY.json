@@ -408,7 +408,7 @@
           "width_mm": 0.0
         }
       },
-      "directional_verdict": "TOWARD_TARGET_LOCALIZATION",
+      "directional_verdict": "NO_MEANINGFUL_IMPROVEMENT",
       "deck_path": "models/pandey_kumar_mode1/99_mode1_stage13_errortarget_morphology_sensitivity\\PK_M1_STAGE13_ET30.inp",
       "deck_sha256": "9c1805897aa6c4e3fbd6c3f6f6605018c64649ee369e4e93dcb34e75146b3e67",
       "csv_path": "models/pandey_kumar_mode1/99_mode1_stage13_errortarget_morphology_sensitivity\\stage13_et30_elements.csv",
@@ -544,5 +544,5 @@
       "csv_sha256": "6fbabe32dd7bfddf703d1b2ee7f11ef6a888f2793d7a2f19d4c3f5b5c0341660"
     }
   },
-  "overall_stage13_conclusion": "LITERATURE_SUPPORTED_ERRORTARGET_IMPROVES_BUT_DOES_NOT_RECOVER_TARGET_MORPHOLOGY"
+  "overall_stage13_conclusion": "LITERATURE_INFORMED_ERRORTARGET_DOES_NOT_RESOLVE_TARGET_LOCALIZATION"
 }

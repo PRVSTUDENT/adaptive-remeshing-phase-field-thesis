@@ -20,15 +20,15 @@
     "refinement_factor": 10,
     "coarsening_factor": "NOT_ALLOWED",
     "min_element_size_mm": 0.001,
-    "max_element_size_mm": 0.020,
+    "max_element_size_mm": 0.02,
     "element_count_limit": null
   },
   "literature_target": {
     "citation": "Pandey & Kumar (2025) CMES, 144(3), 3251-3276, Fig. 5(b) & Fig. 6(a)",
     "published_element_count": 13941,
-    "published_corridor_band_width_mm": 0.10,
-    "published_corridor_share_approx": 0.70,
-    "published_far_field_share_approx": 0.30,
+    "published_corridor_band_width_mm": 0.1,
+    "published_corridor_share_approx": 0.7,
+    "published_far_field_share_approx": 0.3,
     "digitization_metadata": "IMAGE_DERIVED_APPROXIMATION (Visual estimation from Fig. 5(b) and Fig. 6(a) colormaps with +/- 20% uncertainty)"
   },
   "summary_metrics": {
@@ -49,10 +49,10 @@
     },
     "et20": {
       "error_target_pct": 2.0,
-      "role": "Literature Intermediate",
+      "role": "Literature Sensitivity (2.0%)",
       "total_elements": 14662,
       "total_nodes": 14642,
-      "quad_fraction": 0.9720,
+      "quad_fraction": 0.972,
       "corridor_fraction": 0.2586,
       "far_field_fraction": 0.7414,
       "outer_far_field_fraction": 0.5498,
@@ -64,7 +64,7 @@
     },
     "et30": {
       "error_target_pct": 3.0,
-      "role": "Literature Midpoint",
+      "role": "Literature Sensitivity (3.0%)",
       "total_elements": 6835,
       "total_nodes": 6907,
       "quad_fraction": 0.9764,
@@ -75,11 +75,11 @@
       "band_width_at_tip_mm": 0.5554,
       "tip_min_h_um": 0.995,
       "corridor_median_h_um": 3.321,
-      "directional_verdict": "TOWARD_TARGET_LOCALIZATION"
+      "directional_verdict": "NO_MEANINGFUL_IMPROVEMENT"
     },
     "et50": {
       "error_target_pct": 5.0,
-      "role": "Literature Upper Bound",
+      "role": "Literature Sensitivity (5.0%)",
       "total_elements": 4258,
       "total_nodes": 4332,
       "quad_fraction": 0.9669,
@@ -93,13 +93,13 @@
       "directional_verdict": "AWAY_FROM_TARGET_LOCALIZATION"
     }
   },
-  "overall_conclusion": "LITERATURE_SUPPORTED_ERRORTARGET_IMPROVES_BUT_DOES_NOT_RECOVER_TARGET_MORPHOLOGY",
+  "overall_conclusion": "LITERATURE_INFORMED_ERRORTARGET_DOES_NOT_RESOLVE_TARGET_LOCALIZATION",
   "scientific_findings": [
     "Increasing errorTarget from 1.0% to 2.0-3.0% substantially suppresses global overrefinement, reducing total element counts by 74.7% (14,662) and 88.2% (6,835).",
-    "At errorTarget = 2.0%, the total mesh element count (14,662) matches the published count (13,941) within 5.2%, demonstrating that the published count is within the parametric sizing capacity of UNIFORM_ERROR remeshing.",
-    "However, the spatial morphology at errorTarget = 2.0% remains a diffuse hourglass / diamond-shaped refinement zone (band width w = 0.763 mm) rather than the published narrow rectangular horizontal crack-path corridor (w ~ 0.10 mm).",
-    "At errorTarget = 3.0%, the refined zone localizes closely around the initial crack tip (bbox y-span = 0.175 mm for h <= 3 um), but fails to pre-refine the right ligament ahead of the propagating crack.",
-    "At errorTarget = 5.0%, refinement is overly restricted to the singular crack tip (w = 0.142 mm at x=0.5, but w = 0 mm for x >= 0.6), leaving the crack path at coarse nominal sizing.",
-    "Therefore, literature-supported errorTarget adjustment improves overrefinement severity but does not independently resolve the horizontal crack-path corridor morphology under whole-domain UNIFORM_ERROR remeshing."
+    "At errorTarget = 2.0%, the mesh element count (14,662) is numerically close to the published count (13,941), but total count is secondary; the spatial morphology remains a diffuse diamond/hourglass-shaped refinement zone (band width w = 0.763 mm at x=0.5 mm) rather than the published narrow rectangular horizontal crack-path corridor (w ~ 0.10 mm).",
+    "At errorTarget = 3.0%, although refinement localizes strongly around the initial crack tip (bbox y-span = 0.175 mm for h <= 3 um), the ligament bandwidth at x = 0.7 mm is zero (w = 0.0 mm), failing to maintain horizontal right-ligament refinement ahead of the crack path.",
+    "At errorTarget = 5.0%, refinement is overly restricted to the singular crack tip (w = 0.142 mm at x=0.5 mm, w = 0 mm for x >= 0.6 mm), leaving the crack path at coarse nominal sizing.",
+    "The 2%, 3%, and 5% cases are sensitivity study settings rather than literal main-benchmark settings (the principal Pandey-Kumar benchmark specifies l0 = 0.0075 mm, nominal h = 0.02 mm, and Listing-1 errorTarget = 1.0; their sensitivity section changes surrounding parameters such as l0 = 0.01 mm and errorTarget = 5).",
+    "Preserved sensitivity finding: Increasing errorTarget systematically reduces broad refinement, but no tested errorTarget value simultaneously reproduces a narrow horizontal band and keeps the right ligament sufficiently refined under whole-domain UNIFORM_ERROR remeshing."
   ]
 }

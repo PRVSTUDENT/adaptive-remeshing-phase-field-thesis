@@ -28,11 +28,10 @@
   },
   "execution": {
     "datacheck_status": "COMPLETED_EXIT_0",
-    "solver_status": "RUNNING_OR_QUEUED",
-    "job_id": "1409912.mmaster02",
-    "queue": "normal_imfdfkmq",
+    "solver_status": "REPAIRED_WRAPPER_READY_FOR_SUBMISSION",
+    "prior_job_id": "1409912.mmaster02 (PBS_WRAPPER_LAUNCH_FAILURE)",
+    "queue": "entry_imfdfkmq",
     "mode": "1-CPU Serial",
-    "submitted_at": "2026-10-03T08:10:05+02:00",
     "non_polling_guard": "ENFORCED"
   },
   "artifacts": {
@@ -53,8 +52,8 @@
     },
     "solver_script": {
       "file": "submit_solver.pbs",
-      "sha256": "cc541dab3a78aa0c0b5f0dcb0c8f73b9345cb3e5f2001c9194e1e256e7d72759",
-      "size_bytes": 1071
+      "sha256": "42e0ed23e82c648b4c5f3460915bcb6c95f5c81e1c27ac0a803ca2f2beba799a",
+      "size_bytes": 1036
     }
   }
 }

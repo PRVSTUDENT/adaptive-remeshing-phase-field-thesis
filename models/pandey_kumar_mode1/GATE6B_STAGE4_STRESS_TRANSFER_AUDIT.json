@@ -33,7 +33,7 @@
     "tri_gauss_quadrature": "1-point centroidal integration (XG3, YG3 = 0.333333333, W3 = 0.5)",
     "companion_umat_lines": "839-907",
     "umat_stress_behavior": "STRESS(1..NTENS) = 0.D0 with DDSDDE = 1.D-11 I to prevent spurious stiffness/force double-counting during coupled solve",
-    "preanalysis_execution_pathway": "Pure single-layer continuum elasticity (CPE4/CPE3) in PK_PREANALYSIS_COARSE.inp; MISESERI directly evaluated by Abaqus SPR/ZZ error estimator without intermediate transfer"
+    "preanalysis_execution_pathway": "Pure single-layer continuum elasticity (CPE4/CPE3) in PK_PREANALYSIS_COARSE.inp; MISESERI directly evaluated by Abaqus Mises stress discretization/error indicator associated with the recovered stress solution without intermediate transfer"
   },
   "quantitative_stress_comparison": {
     "elements_evaluated": 2906,
