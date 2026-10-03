@@ -1,7 +1,7 @@
 {
-  "task_id": "F1173-GATE6B-PREANALYSIS-FIDELITY-RECONCILIATION-20261003",
+  "task_id": "F1174-GATE6B-JOB1-UEL-PREANALYSIS-READINESS-AND-AUTH-GATED-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Reference-Fidelity Checkpoint: Pre-Analysis Architecture Reconciliation (Single-Layer vs Layered Job-1_UEL)",
+  "title": "Gate-6B Job-1_UEL Pre-Analysis Package Readiness & Submission Authorization Gating",
   "status": "completed",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
@@ -17,16 +17,13 @@
     "1409867.mmaster02"
   ],
   "context": {
-    "reconciliation_verdict": "SINGLE_LAYER_CONTINUUM_RECLASSIFIED_AS_DIAGNOSTIC_VARIANT; LAYERED_JOB1_UEL_CANDIDATE_QUALIFIED_FOR_DATACHECK",
-    "candidate_package": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906",
-    "cause_audit_stage1_topology": "TOPOLOGY_NOT_SUPPORTED_AS_DOMINANT_CAUSE, NEUTRAL_LOCALIZATION",
-    "cause_audit_stage2_bc": "BC_PARTIAL_CONTRIBUTOR, TOWARD_TARGET_LOCALIZATION (-15.8k FE)",
-    "cause_audit_stage3_mapping": "MAPPING_VERIFIED_NOT_DOMINANT_CAUSE, NEUTRAL_LOCALIZATION",
-    "cause_audit_stage4_stress_transfer": "STRESS_TRANSFER_VERIFIED_NOT_DOMINANT_CAUSE, NEUTRAL_LOCALIZATION (Reclassified to diagnostic single-layer variant)",
+    "package": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906",
+    "deck": "PK_M1_JOB1_UEL_2906.inp",
+    "mesh": "Canonical 2,906-element coarse mesh (2,818 CPE4 + 88 CPE3, 8,718 layered elements)",
+    "datacheck_status": "PASSED (Exit 0)",
     "active_running_jobs": {
       "s3_spatial_42k": "1409867.mmaster02 (41,912 elements, Running, NON-POLLING GUARD ENFORCED)"
     },
-    "batch_pipeline_status": "PREANALYSIS_FIDELITY_RECONCILED",
     "non_polling_guard": "ENFORCED"
   }
 }
