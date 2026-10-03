@@ -1,0 +1,144 @@
+{
+  "audit_id": "GATE6B-STAGE12-PROVENANCE-AND-SOURCE-INTEGRITY-AUDIT-20261003",
+  "status": "PROVENANCE_AUDIT_COMPLETED",
+  "execution_provenance": {
+    "stage12_layered_job_name": "PK_M1_JOB1_NONUNIFORM_DIAG",
+    "stage12_layered_execution_mode": "INTERACTIVE_EXECUTION (Local 1-CPU Standard solve with Intel oneAPI 2026 ifx)",
+    "stage12_layered_inp_path": "models/pandey_kumar_mode1/98_mode1_stage12_nonuniform_coarse_diagnostic/PK_M1_JOB1_NONUNIFORM_DIAG.inp",
+    "stage12_layered_inp_sha256": "ea3505f6d573f361d4fefb9c0211c1ec566eb80225edba30d6fbc618acfb19f3",
+    "stage12_layered_for_path": "models/pandey_kumar_mode1/98_mode1_stage12_nonuniform_coarse_diagnostic/f42_mixed_uel_inf_stress.for",
+    "stage12_layered_for_sha256": "472ca0c5cc8b762bf83daea961988502dbfae36db7a32565b8c13fa69d839084",
+    "stage12_layered_odb_path": "PK_M1_JOB1_NONUNIFORM_DIAG.odb",
+    "stage12_layered_odb_sha256": "53234c63ab572933223d5366bdbef2d036d6e94f8c5cddb7ee6bff87b8dfad8c",
+    "stage12_continuum_job_name": "PK_M1_JOB1_NONUNIFORM_CONT",
+    "stage12_continuum_execution_mode": "INTERACTIVE_EXECUTION (Local 1-CPU Standard solve)",
+    "stage12_continuum_inp_path": "models/pandey_kumar_mode1/98_mode1_stage12_nonuniform_coarse_diagnostic/PK_M1_JOB1_NONUNIFORM_CONT.inp",
+    "stage12_continuum_inp_sha256": "2f9998b48ccc964664490e61aae6b51805c8d56a10c9705063189fa1882fd5cf",
+    "stage12_continuum_odb_path": "PK_M1_JOB1_NONUNIFORM_CONT.odb",
+    "stage12_continuum_odb_sha256": "9a6edeb757cfb4638dc0ba33a9f69d6bf45ffdfc691274f6381c955d28a7e6dd",
+    "native_remesh_cae_script_path": "models/pandey_kumar_mode1/98_mode1_stage12_nonuniform_coarse_diagnostic/execute_stage12_diagnostic.py",
+    "native_remesh_cae_script_sha256": "18b473989d27fa43271db30b70ccff1dc945073c8df5b9a5b57d83cfdcc7da19",
+    "odb_supplied_to_adaptiveRemesh": "PK_M1_JOB1_NONUNIFORM_CONT.odb (Continuum Control ODB)"
+  },
+  "element_numbering_and_layer_audit": {
+    "total_physical_elements": 3019,
+    "phase_field_uel_labels": "1 to 3019 (ELSET=PF_ELEM, PF_TRIS [1..79], PF_QUADS [80..3019])",
+    "mechanical_uel_labels": "3020 to 6038 (ELSET=MECH_ELEM, MECH_TRIS [3020..3098], MECH_QUADS [3099..6038])",
+    "companion_umat_labels": "6039 to 9057 (ELSET=All_elem / umatelem, UMAT_TRIS [6039..6117], UMAT_QUADS [6118..9057])",
+    "companion_mapping_formula": "PHYSIDX = NOEL - 2 * NPHYS_VAL = NOEL - 6038 in [1, 3019]",
+    "label_collision_detected": false,
+    "accidental_continuum_reference": false
+  },
+  "companion_umat_source_audit": {
+    "dummy_modulus_Edummy": "1.0E-11 kN/mm^2 (PROPS(1) = 1.0E-11)",
+    "poisson_ratio_nu": 0.3,
+    "nphys_val": 3019,
+    "update_law": "Incremental infinitesimal-stress update (Molnar & Gravouil 2017 lineage)",
+    "stiffness_tensor": "DDSDDE populated with ELAM, EG2, EG based on EMOD=1.0E-11",
+    "stress_scale_magnitude": "Peak S = 1.230422e-13 kN/mm^2 (Matches Package-93 ~ 10^-14 scale)"
+  },
+  "field_interrogation_statistics": {
+    "infinitesimal_companion": {
+      "miseseri_stats_kN_mm2": {
+        "count": 3019,
+        "min": 9.568477910156152e-18,
+        "median": 1.9995513709605183e-16,
+        "mean": 4.3796373779095817e-16,
+        "max": 4.6391818338265e-14,
+        "sum": 1.3222125243909028e-12
+      },
+      "smises_stats_kN_mm2": {
+        "count": 3019,
+        "min": 4.164306128894494e-17,
+        "median": 4.075109390558329e-14,
+        "mean": 3.105046618789319e-14,
+        "max": 1.2304224208514042e-13,
+        "sum": 9.374135742124954e-11
+      },
+      "misesavg_stats_kN_mm2": {
+        "count": 3019,
+        "min": 4.272356430973111e-17,
+        "median": 4.0832124465449426e-14,
+        "mean": 3.1094768407161194e-14,
+        "max": 1.3507901394649302e-13,
+        "sum": 9.387510582121964e-11
+      },
+      "regional_shares": {
+        "crack_tip_sum": 4.885044235487131e-13,
+        "crack_tip_share": 0.36945983685470696,
+        "crack_wake_sum": 1.10995697055072e-13,
+        "crack_wake_share": 0.0839469412121957,
+        "ligament_sum": 6.493822138154456e-14,
+        "ligament_share": 0.04911330076188723,
+        "far_field_sum": 6.577741824055731e-13,
+        "far_field_share": 0.49747992117121015
+      },
+      "footprints_count": {
+        "ge_50pct": 5,
+        "ge_10pct": 26,
+        "ge_05pct": 53,
+        "ge_01pct": 538,
+        "ge_001pct": 2869
+      }
+    },
+    "continuum_control": {
+      "miseseri_stats_MPa": {
+        "count": 3019,
+        "min": 0.24560247361660004,
+        "median": 6.037293434143066,
+        "mean": 11.745473740130672,
+        "max": 1169.96826171875,
+        "sum": 35459.5852214545
+      },
+      "smises_stats_MPa": {
+        "count": 3019,
+        "min": 0.493669718503952,
+        "median": 324.2998352050781,
+        "mean": 399.47306533131666,
+        "max": 3074.24267578125,
+        "sum": 1206009.184235245
+      },
+      "misesavg_stats_MPa": {
+        "count": 3019,
+        "min": 0.519630491733551,
+        "median": 323.39556884765625,
+        "mean": 400.99736859443846,
+        "max": 3132.71875,
+        "sum": 1210611.0557866096
+      },
+      "regional_shares": {
+        "crack_tip_sum": 12007.811863899231,
+        "crack_tip_share": 0.3386337372224538,
+        "crack_wake_sum": 2680.4650433063507,
+        "crack_wake_share": 0.07559211498290622,
+        "ligament_sum": 3737.212137699127,
+        "ligament_share": 0.10539356606568429,
+        "far_field_sum": 17034.096176549792,
+        "far_field_share": 0.48038058172895565
+      },
+      "footprints_count": {
+        "ge_50pct": 4,
+        "ge_10pct": 24,
+        "ge_05pct": 53,
+        "ge_01pct": 632,
+        "ge_001pct": 2970
+      }
+    },
+    "cross_field_correlation": 0.956682197413209,
+    "scale_ratio_continuum_to_inf": 2.52192801150399e+16
+  },
+  "provenance_verdict_and_reclassification": {
+    "reported_phase_c_source": "PK_M1_JOB1_NONUNIFORM_CONT.odb (Continuum Control ODB with E=210 GPa in MPa units)",
+    "explanation_of_1169_peak": "Peak MISESERI 1169.97 was extracted from the full-stiffness continuum control ODB (E=210,000 MPa, Peak S ~ 3700 MPa). The true companion ODB (E_dummy=10^-11 kN/mm^2) has peak MISESERI = 4.639e-14 kN/mm^2, which matches Package-93 to within non-uniform discretization variation.",
+    "remesh_139k_classification": "STAGE12_REMESH_WRONG_SOURCE_ODB",
+    "remesh_139k_detail": "Consumed PK_M1_JOB1_NONUNIFORM_CONT.odb rather than PK_M1_JOB1_NONUNIFORM_DIAG.odb",
+    "raw_miseseri_verdict_for_true_companion": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_MISESERI_IMPROVEMENT (Far-field error share is 49.75%, with 95.03% of elements exceeding 0.1% normalized error, identical to continuum control)",
+    "topology_branch_final_governing_verdict": "NOT_SUPPORTED_AS_DOMINANT_IN_TESTED_VARIANT"
+  },
+  "exported_datasets": {
+    "infinitesimal_companion_csv": "models/pandey_kumar_mode1/98_mode1_stage12_nonuniform_coarse_diagnostic\\stage12_layered_inf_companion_miseseri.csv",
+    "infinitesimal_companion_csv_sha256": "084fb7f1ccfca0d754eac9b6ca4fbdb7672b15931003dc5d931881a4b0562fa7",
+    "continuum_control_csv": "models/pandey_kumar_mode1/98_mode1_stage12_nonuniform_coarse_diagnostic\\stage12_continuum_control_miseseri.csv",
+    "continuum_control_csv_sha256": "e77f9e3bc898920c8de326b429795edf8df2ba76c5aba6fc5aa7675d2878d222"
+  }
+}

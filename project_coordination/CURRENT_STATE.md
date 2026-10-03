@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T18:45:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Adaptive-Localization Stage 12 (Publication-Supported Non-Uniform Coarse-Mesh Realization Diagnostic) Evaluated and Concluded; Phase A Quantitative Topology Audit of Baseline 2,906 Mesh Completed (96.97% Quads, Dominant Node Valence 4 [77.85%], Edge Length CoV 14.35%, Only 1 Tip Triangle); Phase B Deterministic Non-Uniform 3,019-Element Mesh Constructed via Staggered Boundary Seeding (2,940 Quads [97.4%], 79 Tris [2.6%], Mean $h_{\text{eq}} = 0.0180\,\text{mm}$); Phase C Raw MISESERI Error Field Extraction from Solved ODB (`PK_M1_JOB1_NONUNIFORM_CONT.odb`) Completed with Peak $e_{\max} = 1,169.97$ and $48.04\%$ of Total Error Distributed Across Far Field ($|y-0.5| > 0.1\,\text{mm}$), $98.38\%$ of Elements Exceeding $0.1\%$ Error Footprint (Phase C Verdict: `NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_MISESERI_IMPROVEMENT`); Phase D Native 1% Adaptive Remeshing (`region=ALL_ELEM`, UNIFORM_ERROR 1.0%, $h \in [0.001, 0.020]\,\text{mm}$) Executed, Generating $139,407$ Elements ($137,958$ Nodes, Median $h_{\text{eq}} = 2.13\,\mu\text{m}$) with $88.67\%$ Far-Field Share ($123,611$ Elements) and Pervasive Refinement Spanning $y \in [0.0013, 0.9986]\,\text{mm}$ Across Entire Domain (Phase D Verdict: `NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_IMPROVEMENT`); Proved that Coarse-Mesh Spatial Non-Uniformity is NOT the Governing Mechanism Explaining the Published 13,941-Element Narrow Refinement Band ($w \approx 0.1\,\text{mm}$); 3 Publication Figures Rendered in `results/figures/mode1_gate6b/`; Standalone Reports, JSON Artifacts, and Complete Unit Test Suite Pass 100% (10/10); 0 Active Jobs in Queue.  
-Parent commit: `51c49264cecf91f4606ffd7e8396b0775473fec3`
+Last updated: `2026-10-03T19:00:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Adaptive-Localization Stage 12 (Publication-Supported Non-Uniform Coarse-Mesh Realization Diagnostic & Provenance Audit) Evaluated, Provenance Audited, and Concluded; Phase A Quantitative Topology Audit of Baseline 2,906 Mesh Completed (96.97% Quads, Dominant Node Valence 4 [77.85%], Edge Length CoV 14.35%, Only 1 Tip Triangle); Phase B Deterministic Non-Uniform 3,019-Element Mesh Constructed via Staggered Boundary Seeding (2,940 Quads [97.4%], 79 Tris [2.6%], Mean $h_{\text{eq}} = 0.0180\,\text{mm}$); Rigorous Provenance Audit Completed Reconciling Companion UMAT and Continuum Pre-Analysis Solves; 3-Layer Infinitesimal Companion ODB (`PK_M1_JOB1_NONUNIFORM_DIAG.odb`, $E_{\text{dummy}} = 10^{-11}\,\text{kN/mm}^2$) Solved Locally and Interrogated with Peak $e_{\max} = 4.639 \times 10^{-14}\,\text{kN/mm}^2$, $49.75\%$ Far-Field Share, and $95.03\%$ Footprint; Matched Continuum Control ODB (`PK_M1_JOB1_NONUNIFORM_CONT.odb`, $E = 210,000\,\text{MPa}$) Interrogated with Peak $e_{\max} = 1,169.97\,\text{MPa}$, $48.04\%$ Far-Field Share, and $98.38\%$ Footprint; Spatial Cross-Field Correlation Verified at $r = 0.9567$; Native 1% Adaptive Remeshing ($139,407$ Elements, $88.67\%$ Far-Field Share, $w \approx 0.997\,\text{mm}$) Formally Reclassified as `STAGE12_REMESH_WRONG_SOURCE_ODB` and Preserved as Exploratory Evidence without Justifying Further Topology Sweeps; Coarse-Mesh Spatial Non-Uniformity Governed Verdict Formally Assigned as `NOT_SUPPORTED_AS_DOMINANT_IN_TESTED_VARIANT`; Standalone Reports, Provenance Audit JSON, CSVs, and Complete Unit Test Suite Pass 100% (27/27 Mode-I tests); 0 Active Jobs in Queue.  
+Parent commit: `1a4a79f377836c4c8a9a836908fad645bca500e1`
 
 ---
 
@@ -31,12 +31,12 @@ Parent commit: `51c49264cecf91f4606ffd7e8396b0775473fec3`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
 * **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `ACTIVE_EVALUATION_AND_CONTINUATION`
-  - **Stage 12 (Non-Uniform Coarse-Mesh Realization Diagnostic) Concluded (`MODE1_STAGE12_NONUNIFORM_COARSE_REPORT.md`):**
-    - **Governing Causal Verdict:** `NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_IMPROVEMENT` | **Raw MISESERI Verdict:** `NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_MISESERI_IMPROVEMENT`.
+  - **Stage 12 (Non-Uniform Coarse-Mesh Realization Diagnostic & Provenance Audit) Concluded (`MODE1_STAGE12_NONUNIFORM_COARSE_REPORT.md`):**
+    - **Governing Causal Verdict:** `NOT_SUPPORTED_AS_DOMINANT_IN_TESTED_VARIANT` | **Raw MISESERI Verdict:** `NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_MISESERI_IMPROVEMENT`.
     - **Frozen Question Resolved:** Introducing publication-consistent non-uniform coarse discretization ($3,019$ elements, $2,940$ quads, $79$ tris) does **not** localize the raw error field or the native adaptive mesh.
-    - **Phase C Error Distribution:** In `PK_M1_JOB1_NONUNIFORM_CONT.odb`, $48.04\%$ of total MISESERI error resides in the far field ($|y-0.5| > 0.1\,\text{mm}$), and $98.38\%$ of elements exceed $0.1\%$ normalized error.
-    - **Phase D Native Remeshing:** Native 1% adaptive remeshing commands pervasive domain-wide refinement yielding **$139,407$ elements** ($137,958$ nodes, median $h = 2.13\,\mu\text{m}$), with $88.67\%$ ($123,611$ elements) in the far field and a refined band width $w \approx 0.997\,\text{mm}$ spanning the full domain height.
-    - **Hypothesis Elimination:** Eliminates coarse-mesh uniformity as the source of discrepancy with Pandey & Kumar (2025) ($13,941$ elements, $w \approx 0.1\,\text{mm}$).
+    - **Phase C True Companion Error:** In `PK_M1_JOB1_NONUNIFORM_DIAG.odb`, peak $e_{\max} = 4.639 \times 10^{-14}\,\text{kN/mm}^2$, $49.75\%$ of total error resides in far field ($|y-0.5| > 0.1\,\text{mm}$), and $95.03\%$ of elements exceed $0.1\%$ normalized error ($r = 0.9567$ with continuum control).
+    - **Phase D Native Remeshing & Classification:** Native 1% adaptive remeshing executed on `PK_M1_JOB1_NONUNIFORM_CONT.odb` ($139,407$ elements, $88.67\%$ far field, $w \approx 0.997\,\text{mm}$) formally reclassified as `STAGE12_REMESH_WRONG_SOURCE_ODB`.
+    - **Hypothesis Elimination:** Eliminates coarse-mesh uniformity as the source of discrepancy with Pandey & Kumar (2025) ($13,941$ elements, $w \approx 0.1\,\text{mm}$). No further coarse topology sweeps are justified.
   - **Stage 11 (Native Sizing-Demand vs Mesh-Transition Propagation Audit) Concluded (`MODE1_STAGE11_SIZING_VS_TRANSITION_REPORT.md`):**
     - **Formal Causal Verdict:** `BROADNESS_ORIGIN_UNRESOLVED_WITH_TRANSITION_OPTION_NOT_DOMINANT` | **Diagnostic Classification:** `MESH_CONTROL_NO_MEANINGFUL_IMPROVEMENT`.
     - Disabling transition controls (`minTransition=OFF`) produced $100.000\%$ bit-for-bit identical $57,929$-element mesh, proving transition propagation is inactive.
@@ -50,7 +50,7 @@ Parent commit: `51c49264cecf91f4606ffd7e8396b0775473fec3`
   - **Stage 5 (Step/Frame Semantics) Closed:** Linear scaling and error field invariance verified.
   - **S1--S2--S3 Spatial Convergence Family Closed:** `MIXED_SPATIAL_CONVERGENCE` ($K_0$ spread $0.0637\%$, pre-peak work variation $0.075\%$).
   - **Temporal Convergence Family Closed:** `TEMPORAL_FAMILY_QUALIFIED` ($K_0$ invariance $+0.0003\%$, $F_{\max}$ invariance $-0.0201\%$).
-  - **Unit Test Suite:** **All Mode-I unit tests pass 100% (10/10 tests)**.
+  - **Unit Test Suite:** **All Mode-I unit tests pass 100% (27/27 tests)**.
   - **Queue Status:** 0 active jobs running.
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
@@ -60,7 +60,8 @@ Parent commit: `51c49264cecf91f4606ffd7e8396b0775473fec3`
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| `INTERACTIVE_98` | `PK_M1_NONUNIFORM_CONT` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform coarse mesh pre-analysis solve (3,019 elements, evaluated & audited) | `2F9998B48CCC964664490E61AAE6B51805C8D56A10C9705063189FA1882FD5CF` |
+| `INTERACTIVE_98` | `PK_M1_JOB1_NONUNIFORM_DIAG` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform 3-layer UEL infinitesimal companion solve (3,019 elements, audited) | `EA3505F6D573F361D4FEFB9C0211C1EC566EB80225EDBA30D6FBC618ACFB19F3` |
+| `INTERACTIVE_98_CONT` | `PK_M1_NONUNIFORM_CONT` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform coarse continuum control solve (3,019 elements, evaluated & audited) | `2F9998B48CCC964664490E61AAE6B51805C8D56A10C9705063189FA1882FD5CF` |
 | `INTERACTIVE_93` | `PK_M1_INF_COMPANION_SOLVE` | `interactive` | Serial 1-CPU | `F` (Exit 0) | Diagnostic Infinitesimal Companion pre-analysis solve (Package 93, evaluated & audited) | `D452369305FF67A2B0CFA4E5D07FAB810C9123ECF500A05BBA3E498437883613` |
 | `1409914.mmaster02` | `PK_M1_J1_CONT_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | Matched-history standard continuum control (`ARCHITECTURE_ISOLATION_CONTROL`, Package 90, datasets extracted & audited) | `B60DD35D56AB2824902F2D90912E222CF9D335D7D9911CF8DD17A3DC2B52E5F9` |
 | `1409915.mmaster02` | `PK_M1_JOB1_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | Diagnostic 3-layer Job-1_UEL pre-analysis solve (Package 89, cutback terminated Step 1 Inc 1 via eigenvalue -1 divergence) | `27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF` |

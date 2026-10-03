@@ -1,7 +1,7 @@
 {
   "task_id": "F1186-GATE6B-ADAPTIVE-LOCALIZATION-STAGE12-NONUNIFORM-COARSE-TOPOLOGY-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Adaptive-Localization Stage 12: Publication-Supported Non-Uniform Coarse-Mesh Realization Diagnostic",
+  "title": "Gate-6B Mode-I Adaptive-Localization Stage 12: Publication-Supported Non-Uniform Coarse-Mesh Realization Diagnostic & Provenance Audit",
   "status": "completed",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
@@ -24,8 +24,11 @@
         "quad_elements": 2940,
         "tri_elements": 79,
         "mean_h_eq_mm": 0.01803,
-        "far_field_error_share": 0.4804,
-        "crack_corridor_error_share": 0.5196
+        "inf_companion_miseseri_peak_kN_mm2": 4.639182e-14,
+        "inf_companion_far_field_share": 0.4975,
+        "continuum_control_miseseri_peak_MPa": 1169.96826,
+        "continuum_control_far_field_share": 0.4804,
+        "cross_field_correlation_r": 0.9566822
       },
       "adapted_mesh_results": {
         "total_elements": 139407,
@@ -33,8 +36,10 @@
         "median_h_eq_um": 2.13,
         "corridor_fraction": 0.1133,
         "far_field_fraction": 0.8867,
-        "refined_band_width_mm": 0.997
-      }
+        "refined_band_width_mm": 0.997,
+        "classification": "STAGE12_REMESH_WRONG_SOURCE_ODB"
+      },
+      "final_governing_verdict": "NOT_SUPPORTED_AS_DOMINANT_IN_TESTED_VARIANT"
     },
     "stage11_corrections": {
       "causal_verdict": "BROADNESS_ORIGIN_UNRESOLVED_WITH_TRANSITION_OPTION_NOT_DOMINANT",
@@ -42,5 +47,5 @@
     }
   },
   "created_at": "2026-10-03T18:25:00+02:00",
-  "updated_at": "2026-10-03T18:45:00+02:00"
+  "updated_at": "2026-10-03T19:00:00+02:00"
 }

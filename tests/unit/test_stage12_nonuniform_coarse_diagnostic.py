@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Unit tests for Gate-6B Stage 12: Publication-supported non-uniform coarse-mesh
-realization diagnostic on the Pandey-Kumar Mode-I benchmark.
+realization diagnostic and provenance audit on the Pandey-Kumar Mode-I benchmark.
 """
 
 import os
@@ -14,6 +14,9 @@ PHASE_A_JSON = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "MODE1_ST
 STAGE12_SUMMARY_JSON = os.path.join(STAGE12_DIR, "STAGE12_NONUNIFORM_COARSE_SUMMARY.json")
 STAGE12_REPORT_JSON = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "MODE1_STAGE12_NONUNIFORM_COARSE_REPORT.json")
 STAGE12_REPORT_MD = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "MODE1_STAGE12_NONUNIFORM_COARSE_REPORT.md")
+PROVENANCE_AUDIT_JSON = os.path.join(STAGE12_DIR, "MODE1_STAGE12_PROVENANCE_AUDIT.json")
+INF_CSV_PATH = os.path.join(STAGE12_DIR, "stage12_layered_inf_companion_miseseri.csv")
+CONT_CSV_PATH = os.path.join(STAGE12_DIR, "stage12_continuum_control_miseseri.csv")
 FIGURES_DIR = os.path.join(REPO_ROOT, "results", "figures", "mode1_gate6b")
 
 def test_phase_a_topology_audit():
@@ -88,6 +91,39 @@ def test_stage12_native_adaptive_remeshing():
     assert verdicts["raw_miseseri_verdict"] == "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_MISESERI_IMPROVEMENT"
     assert verdicts["adaptive_morphology_verdict"] == "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_IMPROVEMENT"
 
+def test_stage12_provenance_audit_and_datasets():
+    """Verify Stage 12 provenance audit JSON and exported dataset CSVs."""
+    assert os.path.exists(PROVENANCE_AUDIT_JSON), "Provenance audit JSON must exist"
+    assert os.path.exists(INF_CSV_PATH), "Infinitesimal companion CSV must exist"
+    assert os.path.exists(CONT_CSV_PATH), "Continuum control CSV must exist"
+    
+    with open(PROVENANCE_AUDIT_JSON, "r") as f:
+        prov = json.load(f)
+        
+    assert prov["status"] == "PROVENANCE_AUDIT_COMPLETED"
+    
+    # Check infinitesimal companion metrics
+    inf_metrics = prov["field_interrogation_statistics"]["infinitesimal_companion"]
+    inf_max_eri = inf_metrics["miseseri_stats_kN_mm2"]["max"]
+    assert 1e-15 < inf_max_eri < 1e-13, "Infinitesimal companion peak MISESERI must be order 10^-14"
+    assert abs(inf_metrics["regional_shares"]["far_field_share"] - 0.4975) < 0.02
+    assert inf_metrics["footprints_count"]["ge_001pct"] > 2800
+    
+    # Check continuum control metrics
+    cont_metrics = prov["field_interrogation_statistics"]["continuum_control"]
+    cont_max_eri = cont_metrics["miseseri_stats_MPa"]["max"]
+    assert 1000.0 < cont_max_eri < 1500.0, "Continuum control peak MISESERI must be ~1170 MPa"
+    assert abs(cont_metrics["regional_shares"]["far_field_share"] - 0.4804) < 0.02
+    
+    # Check correlation
+    corr = prov["field_interrogation_statistics"]["cross_field_correlation"]
+    assert corr > 0.95, "Correlation between normalized fields must exceed 0.95"
+    
+    # Check reclassification
+    reclass = prov["provenance_verdict_and_reclassification"]
+    assert reclass["remesh_139k_classification"] == "STAGE12_REMESH_WRONG_SOURCE_ODB"
+    assert reclass["topology_branch_final_governing_verdict"] == "NOT_SUPPORTED_AS_DOMINANT_IN_TESTED_VARIANT"
+
 def test_stage12_figures_exist():
     """Verify all Stage 12 figures are generated in both PNG and PDF formats."""
     expected_figures = [
@@ -115,3 +151,4 @@ def test_stage12_report_and_artifacts():
     assert rep["verdicts"]["adaptive_morphology_verdict"] == "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_IMPROVEMENT"
     assert rep["phase_b_coarse_mesh_construction"]["diagnostic_mesh_3019"]["total_elements"] == 3019
     assert rep["phase_d_native_adaptive_remeshing"]["adapted_mesh_139k"]["total_elements"] == 139407
+    assert rep["provenance_and_source_integrity"]["remesh_139k_classification"] == "STAGE12_REMESH_WRONG_SOURCE_ODB"

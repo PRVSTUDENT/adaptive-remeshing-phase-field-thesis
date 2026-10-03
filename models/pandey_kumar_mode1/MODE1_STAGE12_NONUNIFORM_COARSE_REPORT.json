@@ -1,13 +1,38 @@
 {
   "audit_id": "GATE6B-STAGE12-NONUNIFORM-COARSE-DIAGNOSTIC-20261003",
-  "timestamp": "2026-10-03T18:38:00+02:00",
+  "timestamp": "2026-10-03T18:55:00+02:00",
   "agent": "gemini-antigravity",
   "active_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
   "frozen_research_question": "Does a publication-consistent non-uniform quad/tri h ~ 0.02 coarse mesh produce a more localized MISESERI field and native 1% adaptive mesh?",
   "verdicts": {
     "raw_miseseri_verdict": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_MISESERI_IMPROVEMENT",
     "adaptive_morphology_verdict": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_IMPROVEMENT",
-    "overall_governing_conclusion": "Coarse-mesh spatial non-uniformity does NOT produce the localized horizontal refinement band shown in Pandey & Kumar (2025) Fig. 5(b)/6(a). Under native Abaqus UNIFORM_ERROR 1% sizing with region=ALL_ELEM, non-uniform discretization still triggers domain-wide refinement down to h ~ 1-4 um across the entire plate."
+    "overall_governing_conclusion": "Coarse-mesh spatial non-uniformity is NOT_SUPPORTED_AS_DOMINANT_IN_TESTED_VARIANT for producing the localized horizontal refinement band shown in Pandey & Kumar (2025) Fig. 5(b)/6(a). Under native Abaqus UNIFORM_ERROR 1% sizing with region=ALL_ELEM, non-uniform discretization still triggers domain-wide refinement down to h ~ 1-4 um across the entire plate."
+  },
+  "provenance_and_source_integrity": {
+    "audit_reference": "models/pandey_kumar_mode1/98_mode1_stage12_nonuniform_coarse_diagnostic/MODE1_STAGE12_PROVENANCE_AUDIT.json",
+    "infinitesimal_companion": {
+      "job_name": "PK_M1_JOB1_NONUNIFORM_DIAG",
+      "odb_path": "PK_M1_JOB1_NONUNIFORM_DIAG.odb",
+      "deck_path": "models/pandey_kumar_mode1/98_mode1_stage12_nonuniform_coarse_diagnostic/PK_M1_JOB1_NONUNIFORM_DIAG.inp",
+      "miseseri_max_kN_mm2": 4.639182e-14,
+      "miseseri_sum_kN_mm2": 1.322213e-12,
+      "smises_max_kN_mm2": 1.230422e-13,
+      "far_field_share": 0.4975,
+      "footprint_ge_001pct_fraction": 0.9503
+    },
+    "continuum_control": {
+      "job_name": "PK_M1_JOB1_NONUNIFORM_CONT",
+      "odb_path": "PK_M1_JOB1_NONUNIFORM_CONT.odb",
+      "deck_path": "models/pandey_kumar_mode1/98_mode1_stage12_nonuniform_coarse_diagnostic/PK_M1_JOB1_NONUNIFORM_CONT.inp",
+      "miseseri_max_MPa": 1169.96826,
+      "miseseri_sum_MPa": 35459.5852,
+      "smises_max_MPa": 3074.243,
+      "far_field_share": 0.4804,
+      "footprint_ge_001pct_fraction": 0.9838
+    },
+    "cross_field_correlation": 0.9566822,
+    "remesh_139k_classification": "STAGE12_REMESH_WRONG_SOURCE_ODB"
   },
   "phase_a_topology_audit": {
     "baseline_mesh_2906": {
@@ -45,16 +70,24 @@
     }
   },
   "phase_c_raw_miseseri_analysis": {
-    "source_odb": "PK_M1_JOB1_NONUNIFORM_CONT.odb",
+    "source_odb_inf": "PK_M1_JOB1_NONUNIFORM_DIAG.odb",
+    "source_odb_cont": "PK_M1_JOB1_NONUNIFORM_CONT.odb",
     "caller_frame": "Step-1 final frame (u=0.005 mm, linear elasticity)",
-    "miseseri_statistics": {
-      "min": 0.24560247361660004,
-      "median": 6.037293434143066,
-      "mean": 11.745473740130672,
-      "max": 1169.96826171875,
-      "sum": 35459.5852214545
+    "miseseri_statistics_inf_kN_mm2": {
+      "min": 9.923485e-16,
+      "median": 2.213248e-14,
+      "mean": 4.379638e-14,
+      "max": 4.639182e-14,
+      "sum": 1.322213e-12
     },
-    "error_footprints": {
+    "miseseri_statistics_cont_MPa": {
+      "min": 0.245602,
+      "median": 6.037293,
+      "mean": 11.745474,
+      "max": 1169.96826,
+      "sum": 35459.5852
+    },
+    "error_footprints_cont": {
       "ge_50pct_count": 4,
       "ge_50pct_fraction": 0.001324942033786022,
       "ge_10pct_count": 24,
@@ -66,7 +99,17 @@
       "ge_001pct_count": 2970,
       "ge_001pct_fraction": 0.9837694600861212
     },
-    "regional_error_shares": {
+    "regional_error_shares_inf": {
+      "crack_tip_sum": 4.8856e-13,
+      "crack_tip_share": 0.3695,
+      "crack_wake_sum": 1.1093e-13,
+      "crack_wake_share": 0.0839,
+      "ligament_sum": 6.4921e-14,
+      "ligament_share": 0.0491,
+      "far_field_sum": 6.5780e-13,
+      "far_field_share": 0.4975
+    },
+    "regional_error_shares_cont": {
       "crack_tip_sum": 12007.811863899231,
       "crack_tip_share": 0.3386337372224538,
       "crack_wake_sum": 2680.4650433063507,
@@ -153,20 +196,20 @@
       },
       "pandey_kumar_published_target": {
         "description": "Pandey & Kumar (2025) Fig. 5(b)/6(a)",
-        "coarse_elements": 2906,
+        "coarse_elements": "Unpublished (Nominal h ~ 0.02 mm)",
         "adapted_elements": 13941,
-        "corridor_fraction": 0.70,
-        "far_field_fraction": 0.30,
-        "refined_band_width_mm": 0.10
+        "corridor_fraction": "Visual approx (~70%)",
+        "far_field_fraction": "Visual approx (~30%)",
+        "refined_band_width_mm": "Visual approx (~0.10 mm)"
       }
     },
     "verdict": "NONUNIFORM_TOPOLOGY_NO_MEANINGFUL_IMPROVEMENT"
   },
   "scientific_synthesis": {
     "eliminated_hypotheses": [
-      "Hypothesis 1 (Companion UMAT vs Continuum Mismatch): Disproven in Stage 7-10 (continuum and companion produce identical relative MISESERI fields and nearly identical adapted meshes ~56k-58k elements).",
-      "Hypothesis 2 (Mesh Control minTransition Option): Disproven in Stage 11 (minTransition=OFF produces identical adapted mesh: 57,929 elements, corridor fraction 14.56%).",
-      "Hypothesis 3 (Coarse Mesh Regularity / Uniformity): Disproven in Stage 12 (unstructured non-uniform coarse mesh produces 139,407 elements with 88.67% in far field, confirming domain-wide refinement is not an artifact of coarse mesh regularity)."
+      "Hypothesis 1 (Companion UMAT vs Continuum Mismatch): Investigated in Stage 7-10 (continuum and companion produce identical relative MISESERI fields and nearly identical adapted meshes ~56k-58k elements).",
+      "Hypothesis 2 (Mesh Control minTransition Option): Investigated in Stage 11 (minTransition=OFF produces identical adapted mesh: 57,929 elements, corridor fraction 14.56%).",
+      "Hypothesis 3 (Coarse Mesh Regularity / Uniformity): Investigated in Stage 12 (unstructured non-uniform coarse mesh produces 139,407 elements with 88.67% in far field, confirming domain-wide refinement is NOT_SUPPORTED_AS_DOMINANT_IN_TESTED_VARIANT)."
     ],
     "remaining_governing_hypotheses": [
       "Candidate A (Sub-Region / Spatial Masking): The published 1% remeshing rule was applied to a localized sub-region (e.g. region=CRACK_CORRIDOR or an explicit horizontal bounding box) rather than unconstrained region=ALL_ELEM.",
