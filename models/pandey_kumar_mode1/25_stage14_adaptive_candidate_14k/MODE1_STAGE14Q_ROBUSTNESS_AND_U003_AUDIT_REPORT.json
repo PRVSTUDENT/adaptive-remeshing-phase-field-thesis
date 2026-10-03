@@ -1,0 +1,241 @@
+{
+  "task_id": "F1194-GATE6B-STAGE14Q-ROBUSTNESS-AND-U003-QUALIFICATION-20261003",
+  "governing_verdict": "STAGE14Q_ROBUSTNESS_AND_U003_QUALIFICATION_COMPLETED",
+  "spatial_profile_governed_classification": "STABLE",
+  "epistemological_framework": {
+    "causal_proof_withdrawn": true,
+    "hypothesis_classification": "EVIDENCE_SUPPORTED_DISCRETIZATION_SAMPLING_CONSISTENT",
+    "rationale": "Peak amplitude discrepancy at notch root is consistent with finer adaptive element sizing (h_min = 1.09 \u00b5m vs 1.97 \u00b5m) and closer integration-point sampling (x = 0.50108 mm vs 0.50150 mm) under 1/sqrt(r) stress singularity, but is reported strictly as an evidence-supported hypothesis rather than proven causal singularity mechanism."
+  },
+  "crack_tip_reporting_discipline": {
+    "governed_rule": "d >= 0.90",
+    "status_u001": "Threshold d >= 0.90 not reached / intact initial seam (x_seam = 0.5000 mm)",
+    "status_u003": "Threshold d >= 0.90 not reached / intact initial seam (x_seam = 0.5000 mm)"
+  },
+  "evaluated_states": {
+    "0.001": {
+      "target_u_mm": 0.001,
+      "actual_u_mm": 0.0010000000149011613,
+      "d_max_ref": 0.0091033428907394,
+      "x_d_max_ref_mm": 0.5015037655830383,
+      "d_max_adapt": 0.009531822986900806,
+      "x_d_max_adapt_mm": 0.5010757893323898,
+      "d_max_delta_percent": 4.706843423389985,
+      "crack_tip_status": {
+        "x_tip_mm": null,
+        "description": "Threshold d >= 0.90 not reached / intact initial seam (x_seam = 0.5000 mm)",
+        "crack_tip_detected": false
+      },
+      "grid_sensitivity": {
+        "Grid_501_1um": {
+          "N": 501,
+          "dx_um": 1.0,
+          "l2_ref": 0.0010190477228188407,
+          "l2_adapt": 0.0010049647360946357,
+          "l2_diff": 5.385987153056357e-05,
+          "rel_l2_percent": 5.285313957778051,
+          "l_inf": 0.0014229328371584329,
+          "x_max_diff_mm": 0.5,
+          "rel_l2_zoom_percent": 5.663669395371353,
+          "l_inf_zoom": 0.0014229328371584329,
+          "max_grad_ref": 0.6733446672722253,
+          "max_grad_adapt": 0.3672618032459844,
+          "x_max_grad_ref_mm": 0.502,
+          "x_max_grad_adapt_mm": 0.507
+        },
+        "Grid_1001_0.5um": {
+          "N": 1001,
+          "dx_um": 0.5,
+          "l2_ref": 0.0010208220855301335,
+          "l2_adapt": 0.0010106528465277083,
+          "l2_diff": 5.8110510848313234e-05,
+          "rel_l2_percent": 5.692520927203027,
+          "l_inf": 0.0014229328371584329,
+          "x_max_diff_mm": 0.5,
+          "rel_l2_zoom_percent": 6.098495390268209,
+          "l_inf_zoom": 0.0014229328371584329,
+          "max_grad_ref": 1.2385101774981093,
+          "max_grad_adapt": 1.274938939496692,
+          "x_max_grad_ref_mm": 0.502,
+          "x_max_grad_adapt_mm": 0.504
+        },
+        "Grid_2001_0.25um": {
+          "N": 2001,
+          "dx_um": 0.25,
+          "l2_ref": 0.0010199553658700958,
+          "l2_adapt": 0.0010143902070313753,
+          "l2_diff": 5.654001498508767e-05,
+          "rel_l2_percent": 5.543381296578105,
+          "l_inf": 0.0014229328371584329,
+          "x_max_diff_mm": 0.5,
+          "rel_l2_zoom_percent": 5.939416441559587,
+          "l_inf_zoom": 0.0014229328371584329,
+          "max_grad_ref": 2.260662040903287,
+          "max_grad_adapt": 2.9902336607347912,
+          "x_max_grad_ref_mm": 0.50175,
+          "x_max_grad_adapt_mm": 0.501
+        }
+      },
+      "grid_invariance_audit": {
+        "baseline_grid": "Grid_1001_0.5um",
+        "max_rel_l2_variation_percent": 0.40720696942497625,
+        "max_l_inf_variation": 0.0,
+        "grid_invariance_verified": false
+      },
+      "direct_sampling_hypothesis": {
+        "adaptive_first_node_x_mm": 0.5009957030415535,
+        "reference_first_node_x_mm": 0.5015037655830383,
+        "direct_max_diff": 0.0014229328371584329,
+        "direct_max_diff_x_mm": 0.5009957030415535,
+        "hypothesis_status": "EVIDENCE_SUPPORTED_DISCRETIZATION_SAMPLING_CONSISTENT"
+      },
+      "canonical_grid_metrics": {
+        "N": 1001,
+        "dx_um": 0.5,
+        "l2_ref": 0.0010208220855301335,
+        "l2_adapt": 0.0010106528465277083,
+        "l2_diff": 5.8110510848313234e-05,
+        "rel_l2_percent": 5.692520927203027,
+        "l_inf": 0.0014229328371584329,
+        "x_max_diff_mm": 0.5,
+        "rel_l2_zoom_percent": 6.098495390268209,
+        "l_inf_zoom": 0.0014229328371584329,
+        "max_grad_ref": 1.2385101774981093,
+        "max_grad_adapt": 1.274938939496692,
+        "x_max_grad_ref_mm": 0.502,
+        "x_max_grad_adapt_mm": 0.504
+      }
+    },
+    "0.003": {
+      "target_u_mm": 0.003,
+      "actual_u_mm": 0.0030000001192092896,
+      "d_max_ref": 0.0874582752585411,
+      "x_d_max_ref_mm": 0.5015037655830383,
+      "d_max_adapt": 0.09184321016073227,
+      "x_d_max_adapt_mm": 0.5010757893323898,
+      "d_max_delta_percent": 5.013744999233731,
+      "crack_tip_status": {
+        "x_tip_mm": null,
+        "description": "Threshold d >= 0.90 not reached / intact initial seam (x_seam = 0.5000 mm)",
+        "crack_tip_detected": false
+      },
+      "grid_sensitivity": {
+        "Grid_501_1um": {
+          "N": 501,
+          "dx_um": 1.0,
+          "l2_ref": 0.009656566198142534,
+          "l2_adapt": 0.00952640838049089,
+          "l2_diff": 0.0005333975720097416,
+          "rel_l2_percent": 5.523677475667718,
+          "l_inf": 0.01401752978563306,
+          "x_max_diff_mm": 0.5,
+          "rel_l2_zoom_percent": 5.872572064671826,
+          "l_inf_zoom": 0.01401752978563306,
+          "max_grad_ref": 6.535226916078726,
+          "max_grad_adapt": 3.5230817041668407,
+          "x_max_grad_ref_mm": 0.502,
+          "x_max_grad_adapt_mm": 0.507
+        },
+        "Grid_1001_0.5um": {
+          "N": 1001,
+          "dx_um": 0.5,
+          "l2_ref": 0.009674141703217959,
+          "l2_adapt": 0.009585598864473235,
+          "l2_diff": 0.0005781984333446702,
+          "rel_l2_percent": 5.976741411099459,
+          "l_inf": 0.01401752978563306,
+          "x_max_diff_mm": 0.5,
+          "rel_l2_zoom_percent": 6.352785752559872,
+          "l_inf_zoom": 0.01401752978563306,
+          "max_grad_ref": 12.061178791530828,
+          "max_grad_adapt": 12.72087008833847,
+          "x_max_grad_ref_mm": 0.502,
+          "x_max_grad_adapt_mm": 0.504
+        },
+        "Grid_2001_0.25um": {
+          "N": 2001,
+          "dx_um": 0.25,
+          "l2_ref": 0.009665560370776352,
+          "l2_adapt": 0.009623526886802233,
+          "l2_diff": 0.0005641288281316498,
+          "rel_l2_percent": 5.836483416287825,
+          "l_inf": 0.01401752978563306,
+          "x_max_diff_mm": 0.5,
+          "rel_l2_zoom_percent": 6.204373830114603,
+          "l_inf_zoom": 0.01401752978563306,
+          "max_grad_ref": 22.103807501805953,
+          "max_grad_adapt": 29.86538826244521,
+          "x_max_grad_ref_mm": 0.50175,
+          "x_max_grad_adapt_mm": 0.501
+        }
+      },
+      "grid_invariance_audit": {
+        "baseline_grid": "Grid_1001_0.5um",
+        "max_rel_l2_variation_percent": 0.45306393543174117,
+        "max_l_inf_variation": 0.0,
+        "grid_invariance_verified": false
+      },
+      "direct_sampling_hypothesis": {
+        "adaptive_first_node_x_mm": 0.5009957030415535,
+        "reference_first_node_x_mm": 0.5015037655830383,
+        "direct_max_diff": 0.01401752978563306,
+        "direct_max_diff_x_mm": 0.5009957030415535,
+        "hypothesis_status": "EVIDENCE_SUPPORTED_DISCRETIZATION_SAMPLING_CONSISTENT"
+      },
+      "canonical_grid_metrics": {
+        "N": 1001,
+        "dx_um": 0.5,
+        "l2_ref": 0.009674141703217959,
+        "l2_adapt": 0.009585598864473235,
+        "l2_diff": 0.0005781984333446702,
+        "rel_l2_percent": 5.976741411099459,
+        "l_inf": 0.01401752978563306,
+        "x_max_diff_mm": 0.5,
+        "rel_l2_zoom_percent": 6.352785752559872,
+        "l_inf_zoom": 0.01401752978563306,
+        "max_grad_ref": 12.061178791530828,
+        "max_grad_adapt": 12.72087008833847,
+        "x_max_grad_ref_mm": 0.502,
+        "x_max_grad_adapt_mm": 0.504
+      }
+    }
+  },
+  "multistate_evolution": {
+    "state_u001": {
+      "u_mm": 0.001,
+      "d_max_ref": 0.0091033428907394,
+      "d_max_adapt": 0.009531822986900806,
+      "d_max_delta_percent": 4.706843423389985,
+      "rel_l2_percent": 5.692520927203027,
+      "rel_l2_zoom_percent": 6.098495390268209,
+      "l_inf": 0.0014229328371584329,
+      "x_max_diff_mm": 0.5
+    },
+    "state_u003": {
+      "u_mm": 0.003,
+      "d_max_ref": 0.0874582752585411,
+      "d_max_adapt": 0.09184321016073227,
+      "d_max_delta_percent": 5.013744999233731,
+      "rel_l2_percent": 5.976741411099459,
+      "rel_l2_zoom_percent": 6.352785752559872,
+      "l_inf": 0.01401752978563306,
+      "x_max_diff_mm": 0.5
+    },
+    "evolution_trends": {
+      "d_max_growth_ratio": 9.63542968506115,
+      "l_inf_growth_ratio": 9.851153490579199,
+      "rel_l2_trend": "Evolved from 5.6925% to 5.9767%",
+      "localization_profile_preserved": true
+    }
+  },
+  "generated_figures": [
+    "results/figures/mode1_gate6b\\fig_mode1_stage14q_multistate_overlay.png",
+    "results/figures/mode1_gate6b\\fig_mode1_stage14q_multistate_overlay.pdf",
+    "results/figures/mode1_gate6b\\fig_mode1_stage14q_neartip_zoom.png",
+    "results/figures/mode1_gate6b\\fig_mode1_stage14q_neartip_zoom.pdf",
+    "results/figures/mode1_gate6b\\fig_mode1_stage14q_discrepancy_and_gradient.png",
+    "results/figures/mode1_gate6b\\fig_mode1_stage14q_discrepancy_and_gradient.pdf",
+    "results/figures/mode1_gate6b\\fig_mode1_stage14q_grid_invariance.png",
+    "results/figures/mode1_gate6b\\fig_mode1_stage14q_grid_invariance.pdf"
+  ]
+}
