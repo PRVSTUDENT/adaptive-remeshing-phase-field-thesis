@@ -1,0 +1,54 @@
+{
+  "family": "SPATIAL_CONVERGENCE",
+  "scientific_purpose": "Evaluates spatial mesh convergence under fixed l0 = 0.0075 mm across S1 (15k), S2 (32k), S3 (42k).",
+  "summary_table": [
+    {
+      "candidate_id": "S1",
+      "name": "PK_M1_REF15K_ENERGY",
+      "elements": 15192,
+      "mesh_size_h_mm": 0.003,
+      "l0_mm": 0.0075,
+      "K0_kN_per_mm": 137.9455196450844,
+      "K0_R2": 0.9999995995397414,
+      "delta_K0_pct": -2.5728677881050455e-07,
+      "F_max_kN": 0.75777849,
+      "delta_F_max_pct": 6.466273763815279e-05,
+      "u_at_F_max_mm": 0.005857,
+      "W_ext_final_mJ": 2.3593293596249807,
+      "E_frac_final_mJ": 2.34022,
+      "E_elas_final_mJ": 0.0011608108,
+      "E_model_final_mJ": 2.3413808108,
+      "Delta_book_final_mJ": -0.017948548824980523,
+      "eps_book_abs_pct": 0.7607479113400883
+    },
+    {
+      "candidate_id": "S2",
+      "name": "PK_M1_S2_ENERGY",
+      "elements": 32184,
+      "mesh_size_h_mm": 0.002,
+      "l0_mm": 0.0075,
+      "K0_kN_per_mm": 137.89413611904268,
+      "K0_R2": 0.9999995979522023,
+      "delta_K0_pct": -0.03724940176187169,
+      "F_max_kN": 0.7411937,
+      "delta_F_max_pct": -2.1885433464682262,
+      "u_at_F_max_mm": 0.005711,
+      "W_ext_final_mJ": 2.2480077979076656,
+      "E_frac_final_mJ": 2.3303475000000002,
+      "E_elas_final_mJ": 0.0008266110900000001,
+      "E_model_final_mJ": 2.33117411109,
+      "Delta_book_final_mJ": 0.08316631318233464,
+      "eps_book_abs_pct": 3.5675719280979874
+    }
+  ],
+  "successive_differences": {
+    "S1_to_S2": {
+      "elements_change_pct": 111.84834123222748,
+      "K0_diff_pct": -0.03724914457093,
+      "F_max_diff_pct": -2.1886065939929247,
+      "u_peak_diff_pct": -2.4927437254567235,
+      "W_ext_diff_pct": -4.718356140619971,
+      "E_frac_diff_pct": -0.42186204715794795
+    }
+  }
+}

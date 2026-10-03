@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-02T16:25:00+02:00` (Gemini Antigravity) — Post-S1 Batch Terminal Evaluator & Multi-Family Comparison Pipeline Validated (evaluate_mode1_batch_candidate.py, compare_mode1_convergence_families.py, 102/102 Mode-I Tests Passing); Authoritative S1 Energy Qualification Record Integrated; 7 Concurrent Production Solves Active in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
+Last updated: `2026-10-03T06:15:00+02:00` (Gemini Antigravity) — Gate-6B Terminal Accounting, Multi-Quantity Scientific Evaluation, and Multi-Family Convergence Completed across 5 Solver Jobs (1409846 ADAPT_13K, 1409866 S2, 1409869 T1, 1409871 L2, 1409872 L3); 2 Active Production Solves (1409867 S3, 1409870 T3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced  
 Parent commit: `608bba9d64d24446f50c300b065dd59c9a981d3c`
 
 ---
@@ -14,7 +14,7 @@ Parent commit: `608bba9d64d24446f50c300b065dd59c9a981d3c`
 * **Next Supervisor Meeting:** **Thursday, 08 October 2026, 10:00**
 * **Gate 0 (Source & Scope Freeze):** `CLOSED_PASSED`
 * **Gate 1 (Conventional Mode-I Reference):** `CLOSED_PASSED`
-  - Fixed-mesh reference anchor qualified ($K_0 = 137.945520\,\text{kN/mm}$, $F_{\max} = 0.757778\,\text{kN}$, $u_{\text{peak}} = 0.005857\,\text{mm}$, Job `1398090.mmaster02` and replicated 100.0000% by Job `1409577.mmaster02` and `1409705.mmaster02` and `1409734.mmaster02`).
+  - Fixed-mesh reference anchor qualified ($K_0 = 137.945520\,\text{kN/mm}$, $F_{\max} = 0.757778\,\text{kN}$, $u_{\text{peak}} = 0.005857\,\text{mm}$, Job `1398090.mmaster02` and replicated 100.0000% by Job `1409577.mmaster02`, `1409705.mmaster02`, and `1409734.mmaster02`).
 * **Gate 2 (Multi-Quantity Convergence Qualification):** `CLOSED_PASSED`
   - Baseline response history, stiffness, peak force, and energy bounds established across 7,000 increments.
 * **Gate 3 (MISESERI Mechanism Verification):** `CLOSED_PASSED`
@@ -30,22 +30,25 @@ Parent commit: `608bba9d64d24446f50c300b065dd59c9a981d3c`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `CORRECTED_S1_ENERGY_QUALIFIED; POST_S1_BATCH_RELEASED; EVALUATION_PIPELINE_VALIDATED; 7_CONCURRENT_SOLVER_JOBS_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `FIVE_JOBS_EVALUATED; MULTI_FAMILY_CONVERGENCE_RECORDED; 2_CONCURRENT_SOLVER_JOBS_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
   - **S1 Reference Solve Scientifically Qualified (`1409734.mmaster02`):**
     - Exit Status: `0` (Walltime `06:55:16`, CPUT `06:43:00`, 1-CPU Serial on `mnode097/0`).
     - Mechanical Parity: $K_0 = 137.945520\,\text{kN/mm}$ ($\Delta = -0.0000\%$, $N=400$, $b=4.472368 \times 10^{-5}\,\text{kN}$, $R^2=0.99999960$), $F_{\max} = 0.757778\,\text{kN}$ ($\Delta = +0.0001\%$), $u_{\text{peak}} = 0.005857\,\text{mm}$ ($\Delta = +0.0000\%$), $W_{\text{ext}} = 2.359329\,\text{mJ}$ ($\Delta = +0.0000\%$).
     - Energetic Metrics: $E_{\text{elas}} = 0.001161\,\text{mJ}$, $E_{\text{frac}} = 2.340220\,\text{mJ}$, $E_{\text{model}} = 2.341381\,\text{mJ}$, $\Delta_{\text{book}} = -0.017949\,\text{mJ}$ ($-0.76\%$ residual difference, $\varepsilon_{\text{book}} = 0.76\%$).
     - Qualification Status: **`CORRECTED_S1_ENERGY_QUALIFIED`**.
-  - **Post-S1 Batch Released & Running (6 Independent Solves):**
-    - Spatial: S2 (32k, Job `1409866.mmaster02`), S3 (42k, Job `1409867.mmaster02`).
-    - Temporal: T1 (Coarse, Job `1409869.mmaster02`), T3 (Fine, Job `1409870.mmaster02`) [T2 Reuses S1].
-    - Length Scale: L2 ($l_0=0.01125$, Job `1409871.mmaster02`), L3 ($l_0=0.01500$, Job `1409872.mmaster02`) [L1 Reuses S3].
-    - Adaptive: Candidate (13.9k, Job `1409846.mmaster02`).
-    - All 7 jobs running in `normal_imfdfkmq` under strict non-polling guard.
-  - **Post-S1 Batch Terminal Evaluation & Comparison Architecture:**
-    - Evaluator: `scripts/evaluation/evaluate_mode1_batch_candidate.py`
-    - Comparison: `scripts/evaluation/compare_mode1_convergence_families.py`
-    - Regression Suite: `tests/mode1_adaptive/test_mode1_batch_candidate_evaluator.py` (12/12 passed, 102/102 Mode-I tests passing 100%).
+  - **Terminal Scientific Evaluations for Completed Solves (5 Jobs Evaluated):**
+    - **Adaptive Candidate 13.9k (`1409846.mmaster02`):** Exit 0, 7,000 incs. $K_0 = 137.889603\,\text{kN/mm}$ ($\Delta K_0 = -0.0405\%, R^2 = 0.99999960, N=400$), $F_{\max} = 0.742298\,\text{kN}$ ($\Delta F_{\max} = -2.04\%$), $W_{\text{ext}} = 3.632827\,\text{mJ}$, $E_{\text{frac}} = 3.192570\,\text{mJ}$, $E_{\text{elas}} = 0.145098\,\text{mJ}$, $\Delta_{\text{book}} = -0.295159\,\text{mJ}$ ($-8.12\%$). Epistemic classification: **Efficiency-calibrated 2% project variant** ($0.32\%$ element difference vs literature baseline).
+    - **Spatial Convergence S2 (`1409866.mmaster02`):** Exit 1 (cutback limit at $u=0.006816\,\text{mm}$ after $99.97\%$ post-peak load drop). $K_0 = 137.894136\,\text{kN/mm}$ ($\Delta K_0 = -0.0372\%, R^2 = 0.99999960, N=400$), $F_{\max} = 0.741194\,\text{kN}$ ($\Delta F_{\max} = -2.19\%$), $W_{\text{ext}} = 2.248008\,\text{mJ}$, $E_{\text{frac}} = 2.330348\,\text{mJ}$ ($\Delta E_{\text{frac}} = -0.42\%$ vs S1), $E_{\text{elas}} = 0.000827\,\text{mJ}$, $\Delta_{\text{book}} = +0.083166\,\text{mJ}$ ($+3.70\%$).
+    - **Temporal Convergence T1 (`1409869.mmaster02`):** Exit 0, 3,500 incs ($\Delta u = 1.0\times 10^{-3}\,\text{mm}$). $K_0 = 137.944687\,\text{kN/mm}$ ($\Delta K_0 = -0.0006\%, R^2 = 0.99999960, N=200$), $F_{\max} = 0.758151\,\text{kN}$ ($\Delta F_{\max} = +0.0493\%$), $W_{\text{ext}} = 2.410112\,\text{mJ}$, $E_{\text{frac}} = 2.399955\,\text{mJ}$, $E_{\text{elas}} = 0.001039\,\text{mJ}$, $\Delta_{\text{book}} = -0.009118\,\text{mJ}$ ($-0.38\%$).
+    - **Length-Scale Sensitivity L2 (`1409871.mmaster02`, $l_0=0.01125\,\text{mm}$):** Exit 1 (cutback limit at $u=0.005839\,\text{mm}$ after $99.97\%$ load drop). $K_0 = 137.765563\,\text{kN/mm}$ ($\Delta K_0 = -0.1305\%, R^2 = 0.99999914, N=400$), $F_{\max} = 0.708402\,\text{kN}$ ($\Delta F_{\max} = -6.52\%$), $W_{\text{ext}} = 2.118813\,\text{mJ}$, $E_{\text{frac}} = 2.302453\,\text{mJ}$, $E_{\text{elas}} = 0.000644\,\text{mJ}$, $\Delta_{\text{book}} = +0.184284\,\text{mJ}$ ($+8.70\%$).
+    - **Length-Scale Sensitivity L3 (`1409872.mmaster02`, $l_0=0.01500\,\text{mm}$):** Exit 1 (cutback limit at $u=0.006473\,\text{mm}$ after $99.97\%$ load drop). $K_0 = 137.676174\,\text{kN/mm}$ ($\Delta K_0 = -0.1953\%, R^2 = 0.99999854, N=400$), $F_{\max} = 0.689540\,\text{kN}$ ($\Delta F_{\max} = -9.01\%$), $W_{\text{ext}} = 2.080911\,\text{mJ}$, $E_{\text{frac}} = 2.330953\,\text{mJ}$, $E_{\text{elas}} = 0.000604\,\text{mJ}$, $\Delta_{\text{book}} = +0.250646\,\text{mJ}$ ($+12.05\%$).
+  - **Active Running Solver Jobs (2 Independent Solves, Untouched):**
+    - S3 Fine Spatial ($41,912$ el, Job `1409867.mmaster02`, `normal_imfdfkmq`, Non-polling guard enforced).
+    - T3 Fine Temporal ($15,192$ el, Job `1409870.mmaster02`, `normal_imfdfkmq`, Non-polling guard enforced).
+  - **Governed Multi-Family Evidence Package:**
+    - Record: `docs/experiment_records/STAGE_GATE6B_FIVE_JOBS_TERMINAL_EVALUATION_AND_CONVERGENCE_RECORD.md`
+    - Comparison JSONs: `GATE6B_ADAPTIVE_13K_VS_S1_MATCHED_COMPARISON.json`, `GATE6B_SPATIAL_CONVERGENCE_PARTIAL_COMPARISON.json`, `GATE6B_TEMPORAL_CONVERGENCE_PARTIAL_COMPARISON.json`, `GATE6B_LENGTH_SCALE_PARTIAL_COMPARISON.json`.
+    - Figures: `results/figures/mode_i_adaptive/fig_mode1_gate6b_adaptive_13k_vs_s1_mechanical_and_energy.png`, `results/figures/mode_i_adaptive/fig_mode1_gate6b_batch_convergence_and_sensitivity.png`.
 
 ---
 
@@ -53,13 +56,13 @@ Parent commit: `608bba9d64d24446f50c300b065dd59c9a981d3c`
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :---: | :---: | :---: | :--- | :--- |
-| **`1409846.mmaster02`** | `PK_M1_ADAPT_2PCT_13K_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | **`R` (Running)** | 13,897-element 2% efficiency-calibrated adaptive validation solve (Non-polling guard enforced) | `9113C5F609B86DE03FD0AD4A18A971EC3ED5424664BFE44E695E96789D4D6ECC` |
-| **`1409866.mmaster02`** | `PK_M1_S2_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | **`R` (Running)** | 32,184-element ($h=0.0020\,\text{mm}$) spatial convergence solve (All_elem SDV17-20 output) | `9A5C3BD7EA9AF8CD38715FAC9FB062B1590766B7A7CF3A800D2F8C9E95C3767F` |
 | **`1409867.mmaster02`** | `PK_M1_S3_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | **`R` (Running)** | 41,912-element ($h=0.0015\,\text{mm}$) spatial fine convergence solve (All_elem SDV17-20 output) | `1500ECA5028660045789AF04AD3112E26CA76BBF7BFAC6437A42008A4307408F` |
-| **`1409869.mmaster02`** | `PK_MODE1_T1_COARSE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | **`R` (Running)** | 15,192-element temporal coarse ($\Delta u = 1.0\times 10^{-3}$) convergence solve | `33183ADA17DA6712F93DA5648D1D4C9B41C27398DA472EE6619E0839E96ACCFF` |
 | **`1409870.mmaster02`** | `PK_MODE1_T3_FINE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | **`R` (Running)** | 15,192-element temporal fine ($\Delta u = 2.5\times 10^{-4}$) convergence solve | `72D6CC5176326BFAB60FB9B23AFBE4AD6882A0ABC030465BAF10A5DC2A19519C` |
-| **`1409871.mmaster02`** | `PK_M1_L2_L01125_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | **`R` (Running)** | 41,912-element length-scale intermediate ($l_0 = 0.01125\,\text{mm}$) sensitivity solve | `4F60EFCC8BA6CE8CBB8FAB1D88FFB790E2F679DE740FBCF8C3B781A8DE976940` |
-| **`1409872.mmaster02`** | `PK_M1_L3_L01500_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | **`R` (Running)** | 41,912-element length-scale coarse ($l_0 = 0.01500\,\text{mm}$) sensitivity solve | `0B3F453B875BD3C6A2CB0BCE5A918C5A92F4E73FDDD8F4E12705AA281691D451` |
+| `1409846.mmaster02` | `PK_M1_ADAPT_2PCT_13K_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 13,897-element 2% efficiency-calibrated adaptive validation solve (**`EVALUATED`**) | `9113C5F609B86DE03FD0AD4A18A971EC3ED5424664BFE44E695E96789D4D6ECC` |
+| `1409866.mmaster02` | `PK_M1_S2_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 32,184-element ($h=0.0020\,\text{mm}$) spatial convergence solve (**`EVALUATED`**) | `9A5C3BD7EA9AF8CD38715FAC9FB062B1590766B7A7CF3A800D2F8C9E95C3767F` |
+| `1409869.mmaster02` | `PK_MODE1_T1_COARSE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 15,192-element temporal coarse ($\Delta u = 1.0\times 10^{-3}$) convergence solve (**`EVALUATED`**) | `33183ADA17DA6712F93DA5648D1D4C9B41C27398DA472EE6619E0839E96ACCFF` |
+| `1409871.mmaster02` | `PK_M1_L2_L01125_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 41,912-element length-scale intermediate ($l_0 = 0.01125\,\text{mm}$) sensitivity solve (**`EVALUATED`**) | `4F60EFCC8BA6CE8CBB8FAB1D88FFB790E2F679DE740FBCF8C3B781A8DE976940` |
+| `1409872.mmaster02` | `PK_M1_L3_L01500_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 41,912-element length-scale coarse ($l_0 = 0.01500\,\text{mm}$) sensitivity solve (**`EVALUATED`**) | `0B3F453B875BD3C6A2CB0BCE5A918C5A92F4E73FDDD8F4E12705AA281691D451` |
 | `1409734.mmaster02` | `PK_M1_REF15K_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | Authoritative 15,192-element corrected reference solve (**`CORRECTED_S1_ENERGY_QUALIFIED`**) | `EC560A4C265730647B43DAB125D166EBC57CAC285D574D38222A498A967535D9` |
 | `1409705.mmaster02` | `PK_M1_REF15K_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | Prior mechanical reference run (100% mechanical parity, archived in `job_1409705_archive/`) | `13408A83DBD5DEE60D9243DA8D32258036FDCD7C1C45830CAD751A11193980E0` |
 
@@ -67,18 +70,18 @@ Parent commit: `608bba9d64d24446f50c300b065dd59c9a981d3c`
 
 ## 3. Governed Candidate Packages Summary
 
-| Package Name | Candidate Job Name | Finite Elements | Mesh Lineage | Target / Setting | Submission Status |
+| Package Name | Candidate Job Name | Finite Elements | Mesh Lineage | Target / Setting | Evaluation Status |
 | :--- | :--- | :---: | :---: | :---: | :---: |
 | `16_energy_qualification_reference_15k` | `PK_M1_REF15K_ENERGY` | $15,192$ | Fixed Anchor | $h=0.0030\,\text{mm}$ | `QUALIFIED (Job 1409734)` |
-| `24_adaptive_candidate_2pct_13k` | `PK_M1_ADAPT_2PCT_13K_ENERGY` | $13,897$ | 2,906-Coarse Corr-BC | $\text{errorTarget}=2.0\%$ (Efficiency-Calibrated) | `RUNNING (Job 1409846)` |
-| `12_fixed_convergence_h0020` | `PK_M1_S2_ENERGY` | $32,184$ | Fixed Refined | $h=0.0020\,\text{mm}$ | `RUNNING (Job 1409866)` |
+| `24_adaptive_candidate_2pct_13k` | `PK_M1_ADAPT_2PCT_13K_ENERGY` | $13,897$ | 2,906-Coarse Corr-BC | $\text{errorTarget}=2.0\%$ (Efficiency-Calibrated) | `EVALUATED (Job 1409846)` |
+| `12_fixed_convergence_h0020` | `PK_M1_S2_ENERGY` | $32,184$ | Fixed Refined | $h=0.0020\,\text{mm}$ | `EVALUATED (Job 1409866)` |
 | `13_fixed_convergence_h0015` | `PK_M1_S3_ENERGY` | $41,912$ | Fixed Fine | $h=0.0015\,\text{mm}$ | `RUNNING (Job 1409867)` |
-| `17_temporal_convergence_t1_coarse` | `PK_MODE1_T1_COARSE_ENERGY` | $15,192$ | Fixed Anchor | $\Delta u = 1.0\times 10^{-3}$ | `RUNNING (Job 1409869)` |
+| `17_temporal_convergence_t1_coarse` | `PK_MODE1_T1_COARSE_ENERGY` | $15,192$ | Fixed Anchor | $\Delta u = 1.0\times 10^{-3}$ | `EVALUATED (Job 1409869)` |
 | `18_temporal_convergence_t2_nominal` | `PK_MODE1_T2_NOMINAL_ENERGY` | $15,192$ | Fixed Anchor | $\Delta u = 5.0\times 10^{-4}$ | `REUSED_AS_S1 (Job 1409734)` |
 | `19_temporal_convergence_t3_fine` | `PK_MODE1_T3_FINE_ENERGY` | $15,192$ | Fixed Anchor | $\Delta u = 2.5\times 10^{-4}$ | `RUNNING (Job 1409870)` |
 | `20_length_scale_l1_baseline` | `PK_MODE1_L1_BASELINE_ENERGY` | $41,912$ | Fixed Fine | $l_0 = 0.0075\,\text{mm}$ | `REUSED_AS_S3 (Job 1409867)` |
-| `21_length_scale_l2_intermediate` | `PK_MODE1_L2_L01125_ENERGY` | $41,912$ | Fixed Fine | $l_0 = 0.01125\,\text{mm}$ | `RUNNING (Job 1409871)` |
-| `22_length_scale_l3_coarse` | `PK_MODE1_L3_L01500_ENERGY` | $41,912$ | Fixed Fine | $l_0 = 0.01500\,\text{mm}$ | `RUNNING (Job 1409872)` |
+| `21_length_scale_l2_intermediate` | `PK_MODE1_L2_L01125_ENERGY` | $41,912$ | Fixed Fine | $l_0 = 0.01125\,\text{mm}$ | `EVALUATED (Job 1409871)` |
+| `22_length_scale_l3_coarse` | `PK_MODE1_L3_L01500_ENERGY` | $41,912$ | Fixed Fine | $l_0 = 0.01500\,\text{mm}$ | `EVALUATED (Job 1409872)` |
 | `23_adaptive_candidate_2pct_10k` | `PK_M1_ADAPT_2PCT_10K_ENERGY` | $10,253$ | Lineage B Remesh | $\text{errorTarget}=2.0\%$ | `STAGED_READY` |
 
 ---

@@ -1,0 +1,45 @@
+{
+  "family": "LENGTH_SCALE_CHARACTERIZATION",
+  "scientific_purpose": "Evaluates phase-field regularized length-scale sensitivity (l0 = 0.0075, 0.01125, 0.01500 mm). STRICTLY MATERIAL/REGULARIZATION SENSITIVITY, NOT MESH CONVERGENCE.",
+  "summary_table": [
+    {
+      "candidate_id": "L2",
+      "name": "PK_M1_L2_L01125_ENERGY",
+      "l0_mm": 0.01125,
+      "elements": 41912,
+      "mesh_size_h_mm": 0.0015,
+      "K0_kN_per_mm": 137.7655628516413,
+      "K0_R2": 0.9999991424177964,
+      "delta_K0_pct": -0.13045523215156368,
+      "F_max_kN": 0.70840223,
+      "delta_F_max_pct": -6.515862165436307,
+      "u_at_F_max_mm": 0.00559,
+      "W_ext_final_mJ": 2.118812642007546,
+      "E_frac_final_mJ": 2.302453,
+      "E_elas_final_mJ": 0.0006439096,
+      "E_model_final_mJ": 2.3030969096000002,
+      "Delta_book_final_mJ": 0.18428426759245412,
+      "eps_book_abs_pct": 8.001585466260751
+    },
+    {
+      "candidate_id": "L3",
+      "name": "PK_M1_L3_L01500_ENERGY",
+      "l0_mm": 0.015,
+      "elements": 41912,
+      "mesh_size_h_mm": 0.0015,
+      "K0_kN_per_mm": 137.67617420356478,
+      "K0_R2": 0.9999985376273974,
+      "delta_K0_pct": -0.19525519671476357,
+      "F_max_kN": 0.68953967,
+      "delta_F_max_pct": -9.005055570364922,
+      "u_at_F_max_mm": 0.005579,
+      "W_ext_final_mJ": 2.080911127019108,
+      "E_frac_final_mJ": 2.3309531999999997,
+      "E_elas_final_mJ": 0.0006042595000000001,
+      "E_model_final_mJ": 2.3315574595,
+      "Delta_book_final_mJ": 0.25064633248089196,
+      "eps_book_abs_pct": 10.750167509688687
+    }
+  ],
+  "scaling_trends": {}
+}

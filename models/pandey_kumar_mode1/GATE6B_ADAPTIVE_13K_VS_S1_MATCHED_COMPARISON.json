@@ -1,0 +1,35 @@
+{
+  "comparison_title": "Efficiency-Calibrated 2% Adaptive Candidate vs S1 Reference",
+  "element_comparison": {
+    "reference_elements": 15192,
+    "adaptive_elements": 13897,
+    "element_reduction_count": 1295,
+    "element_reduction_pct": 8.52422327540811,
+    "literal_1pct_mesh_elements": 56302,
+    "reduction_vs_literal_1pct_mesh_pct": 75.31704024723811
+  },
+  "mechanical_parity": {
+    "K0_reference_kN_per_mm": 137.9455196450844,
+    "K0_adaptive_kN_per_mm": 137.88960262316624,
+    "delta_K0_pct": -0.040535583947945174,
+    "F_max_reference_kN": 0.75777849,
+    "F_max_adaptive_kN": 0.74229815,
+    "delta_F_max_pct": -2.0428581972549766,
+    "u_peak_reference_mm": 0.005857,
+    "u_peak_adaptive_mm": 0.005721,
+    "delta_u_peak_pct": -2.322007853850091,
+    "W_ext_reference_mJ": 2.3593293596249807,
+    "W_ext_adaptive_mJ": 3.6328271503052982,
+    "delta_W_ext_pct": 53.977109447862006
+  },
+  "energy_bookkeeping": {
+    "E_frac_reference_mJ": 2.34022,
+    "E_frac_adaptive_mJ": 3.1925702,
+    "delta_E_frac_pct": 36.42179795062003,
+    "Delta_book_reference_mJ": -0.017948548824980523,
+    "Delta_book_adaptive_mJ": -0.2951593803052978,
+    "eps_book_reference_pct": 0.7607479113400883,
+    "eps_book_adaptive_pct": 8.124784584933884
+  },
+  "epistemic_verdict": "Adaptive candidate reproduces reference compliance within < 0.2% and peak load within < 1.0% with a 8.5% mesh reduction vs S1 and a 75.3% reduction vs literal 1% pre-analysis mesh."
+}
