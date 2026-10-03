@@ -1,14 +1,9 @@
 {
-  "active_task_id": "F1190-GATE6B-STAGE14M-CORRECTED-ADAPTIVE-EARLY-CHECKPOINT-20261003",
+  "task_id": "F1191-GATE6B-STAGE14N-UNIT-CORRECTION-AND-CANONICAL-K0-CHECKPOINT-20261003",
   "status": "COMPLETED",
-  "gate": "Gate-6B",
-  "stage": "Stage 14M (Corrected-Job Early Mechanical Parity Checkpoint & K0 Semantics Correction)",
-  "description": "Extracted live snapshot of running Job 1409953 on mnode097, corrected Stage-14L K0 semantics (K_energy vs canonical K0), verified canonical K0 status as NOT_YET_QUALIFIED (135/400 incs), verified physical elasticity restoration (F=0.0466 kN, mean pointwise force error -0.026% vs reference 1409734, interim OLS K=138.09 kN/mm), generated watermarked figure, unit tests (23/23 Stage-14 pass), and updated thesis section 4.6",
-  "active_job_id": "1409953.mmaster02",
-  "active_job_name": "PK_M1_ADAPT_14K_FRACTURE",
-  "invalidated_job_id": "1409947.mmaster02",
-  "invalidated_job_classification": "INVALID_BENCHMARK__UEL_PROPERTY_ABI_MISMATCH",
-  "classification": "CORRECTED_JOB_EARLY_MECHANICAL_CHECKPOINT_ONLY",
-  "next_task_id": "F1191-GATE6B-STAGE14N-TERMINAL-ADAPTIVE-FRACTURE-EVALUATION-20261003",
-  "updated_at": "2026-10-03T22:45:00+02:00"
+  "description": "Gate-6B Mode-I Stage 14N: Unit-Consistency Correction and Canonical K0 Structural Stiffness Qualification Checkpoint",
+  "assigned_agent": "gemini-antigravity",
+  "claimed_at": "2026-10-03T21:08:30Z",
+  "completed_at": "2026-10-03T21:12:30Z",
+  "notes": "Reconciled repository unit consistency (1mm=1000um, 0.0003375mm=0.3375um); qualified canonical K0=137.909558 kN/mm (-0.0261% vs ref 137.945520 kN/mm, R2=0.99999960, N=400) on Job 1409953 on mnode097; certified STABLE; updated thesis Chapter 4 and figures; active solver Job 1409953 advancing past Increment 729 in Step 1."
 }

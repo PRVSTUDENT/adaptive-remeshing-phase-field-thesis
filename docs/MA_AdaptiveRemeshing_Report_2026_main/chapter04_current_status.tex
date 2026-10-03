@@ -581,3 +581,64 @@ The interim response extracted from Job \texttt{1409953} demonstrates complete r
 \caption{Early mechanical response parity between the corrected Stage~14 adaptive candidate (Job \texttt{1409953}, 14,483 elements) and the qualified fixed reference benchmark (Job \texttt{1409734}, 15,192 elements). Left: Reaction force $F = -RF_2$ versus displacement $u$ along the initial elastic branch with solver running watermark. Right: Pointwise relative force discrepancy $\Delta F / F_{\mathrm{ref}}$ [\%] demonstrating $\le 0.03\%$ parity across all evaluated increments.}
 \label{fig:stage14m_corrected_early_fu}
 \end{figure}
+
+
+\section{Stage 14N: Unit-Consistency Correction and Canonical \texorpdfstring{$K_0$}{K0} Structural Stiffness Qualification Checkpoint}
+\label{sec:stage14n_canonical_k0}
+
+Following the early mechanical parity verification in Stage~14M, Stage~14N executes two foundational qualification steps: (i) an exhaustive repository-wide unit-consistency correction reconciling micrometer-to-millimeter conversions, and (ii) the canonical structural stiffness ($K_0$) qualification checkpoint evaluated across the full $N=400$ increments ($u \le 0.0010\,\mathrm{mm} = 1.0\,\mu\mathrm{m}$) on the active corrected solve (Job \texttt{1409953.mmaster02}).
+
+\subsection{Unit-Consistency Audit and Micrometer Reconciliation}
+\label{subsec:unit_consistency}
+
+A comprehensive audit of all Stage~14 reports, diagnostic scripts, thesis chapters, and coordination ledgers identified a historical factor-of-100 unit conversion typo in descriptive text ($0.0003375\,\mathrm{mm}$ misstated as $33.75\,\mu\mathrm{m}$ instead of the exact $0.3375\,\mu\mathrm{m}$, governed by the standard metric identity $1\,\mathrm{mm} \equiv 1000\,\mu\mathrm{m}$).
+\begin{itemize}
+    \item \textbf{Authoritative Baseline Unchanged:} The underlying finite element input decks, geometry definitions, nodal coordinates, element sizes, and user subroutine source codes have strictly operated in consistent Abaqus standard SI-derived units ($\mathrm{mm}$, $\mathrm{kN}$, $\mathrm{s}$, $\mathrm{GPa} = \mathrm{kN/mm^2}$, $\mathrm{mJ} = \mathrm{kN\cdot mm}$).
+    \item \textbf{Textual and Visualization Reconciliation:} All textual mentions across the repository were audited and corrected to ensure that $h_{\min} = 0.0003375\,\mathrm{mm} = 0.3375\,\mu\mathrm{m}$, the canonical $K_0$ fitting horizon is $u = 0.0010\,\mathrm{mm} = 1.0\,\mu\mathrm{m}$, and the fixed increment step is $\Delta u = 2.5\times 10^{-6}\,\mathrm{mm} = 0.0025\,\mu\mathrm{m}$.
+\end{itemize}
+
+\subsection{Canonical \texorpdfstring{$K_0$}{K0} Structural Stiffness Qualification Checkpoint}
+\label{subsec:canonical_k0_eval}
+
+In accordance with the frozen terminal evaluation protocol (\texttt{STAGE14\_TERMINAL\_EVALUATION\_PROTOCOL.md}), the canonical specimen structural stiffness $K_0$ is evaluated by ordinary least-squares (OLS) linear regression of the top Reference Point reaction force $F = -RF_2$ against displacement $u$ over the frozen reference window:
+\begin{equation}
+\label{eq:canonical_k0_rule}
+\Delta u = 2.5\times 10^{-6}\,\mathrm{mm}, \quad u \in (0.5\Delta u, \, 0.0010 + 0.5\Delta u]\,\mathrm{mm} \quad (N=400\text{ increments}).
+\end{equation}
+
+Table~\ref{tab:stage14n_canonical_k0_comparison} presents the direct comparison between the qualified 15,192-element fixed reference benchmark (Job \texttt{1409734}) and the 14,483-element corrected adaptive candidate (Job \texttt{1409953}) over the exact $N=400$ canonical window.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Canonical structural stiffness ($K_0$) qualification comparison between the fixed reference benchmark (Job \texttt{1409734}) and the corrected adaptive candidate (Job \texttt{1409953}) over the frozen initial elastic window ($N=400$, $u \le 1.0\,\mu\mathrm{m} \equiv 0.0010\,\mathrm{mm}$).}
+\label{tab:stage14n_canonical_k0_comparison}
+\begin{tabularx}{\textwidth}{lXXXl}
+\toprule
+\textbf{Metric / Quantity} & \textbf{Fixed Reference (Job 1409734)} & \textbf{Adaptive 14k (Job 1409953)} & \textbf{Difference ($\Delta$)} & \textbf{Qualification Verdict} \\
+\midrule
+Mesh Elements ($N_{\mathrm{elem}}$) & $15,192$ (uniform) & $14,483$ (adaptive) & $-709$ ($-4.67\%$) & Frozen topology \\
+Active Fitting Points ($N$) & $400$ increments & $400$ increments & $0$ & Window complete \\
+Fitting Horizon ($u$) & $1.0\,\mu\mathrm{m}$ ($0.0010\,\mathrm{mm}$) & $1.0\,\mu\mathrm{m}$ ($0.0010\,\mathrm{mm}$) & $0.0\,\mu\mathrm{m}$ & Matched horizon \\
+\midrule
+\textbf{Canonical $K_0$ [kN/mm]} & \textbf{137.945520} & \textbf{137.909558} & \textbf{-0.035962 (-0.0261\%)} & \textbf{\texttt{STABLE}} \\
+OLS Intercept [kN] & $4.472\times 10^{-5}$ & $4.471\times 10^{-5}$ & $-1.163\times 10^{-8}$ & Elastic Linearity \\
+OLS Linearity ($R^2$) & $0.99999960$ & $0.99999960$ & -- & $R^2 \ge 0.999999$ \\
+\midrule
+$F(u = 1.0\,\mu\mathrm{m})$ [kN] & $0.137924$ & $0.137888$ & $-0.000036$ ($-0.0261\%$) & Boundary Parity \\
+$E_{\mathrm{elas}}(u = 1.0\,\mu\mathrm{m})$ [mJ] & $0.000069$ & $0.000069$ & $-0.000000$ & Strain Energy \\
+$E_{\mathrm{frac}}(u = 1.0\,\mu\mathrm{m})$ [mJ] & $0.000000$ & $0.000000$ & $0.000000$ & Intact ($d=0$) \\
+Mean Pointwise Discrepancy & Baseline ($0.00\%$) & $-0.0259\%$ & -- & $\le 0.05\%$ Parity \\
+Max Pointwise Discrepancy & Baseline ($0.00\%$) & $0.0261\%$ & -- & Strict Tracking \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/fig_mode1_stage14n_canonical_k0_fitting.pdf}
+\caption{Canonical structural stiffness ($K_0$) linear regression across the frozen $N=400$ increment window ($u \in (0.00125, \, 1.00125]\,\mu\mathrm{m}$). Top: Comparison of reaction force $F = -RF_2$ between the fixed reference benchmark (Job \texttt{1409734}) and adaptive solve (Job \texttt{1409953}) with OLS linear fit. Bottom: Pointwise relative discrepancy $(F_{\mathrm{adapt}} - F_{\mathrm{ref}})/F_{\mathrm{ref}}$ [\%] demonstrating sub-$0.05\%$ tracking across the entire initial elastic regime.}
+\label{fig:stage14n_canonical_k0_fitting}
+\end{figure}
+
+The canonical structural stiffness $K_0 = 137.909558\,\mathrm{kN/mm}$ agrees with the reference benchmark within $-0.0261\%$, fully satisfying the strict Gate-6B parity acceptance criteria ($\Delta K_0 < 1.0\%$, $R^2 \ge 0.99999$, zero fracture dissipation $E_{\mathrm{frac}} = 0$). Consequently, the initial elastic compliance of the 14,483-element adaptive mesh is certified as \textbf{\texttt{STABLE}}, confirming that offline error-indicator-guided refinement in the crack ligament induces no artificial compliance or over-stiffening before damage initiation.

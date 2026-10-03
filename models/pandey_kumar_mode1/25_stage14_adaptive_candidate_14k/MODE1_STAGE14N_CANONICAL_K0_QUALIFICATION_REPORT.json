@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "title": "Mode-I Gate-6B Stage 14N: Canonical K0 Structural Stiffness Qualification and Unit-Consistency Audit",
+    "task_id": "F1191-GATE6B-STAGE14N-UNIT-CORRECTION-AND-CANONICAL-K0-CHECKPOINT-20261003",
+    "date": "2026-10-03",
+    "agent": "gemini-antigravity",
+    "verdict": "STABLE",
+    "formal_classification": "CORRECTED_ADAPTIVE_CANONICAL_K0_CHECKPOINT"
+  },
+  "unit_consistency_audit": {
+    "rule": "1 mm = 1000 \u00b5m",
+    "corrected_statement": "0.0003375 mm = 0.3375 \u00b5m (corrected from erroneous 33.75 \u00b5m factor-of-100 error)",
+    "fitting_horizon": "0.0010 mm = 1.0 \u00b5m",
+    "mesh_size_authoritative_units": "mm",
+    "audit_scope": "All Stage 14K/14L/14M documents, LaTeX chapters, JSON reports, and figures audited and aligned"
+  },
+  "canonical_window_definition": {
+    "delta_u_mm": 2.5e-06,
+    "delta_u_um": 0.0025,
+    "u_min_cut_mm": 1.25e-06,
+    "u_max_cut_mm": 0.00100125,
+    "nominal_horizon_mm": 0.001,
+    "nominal_horizon_um": 1.0,
+    "points_expected": 400,
+    "points_adaptive_evaluated": 400,
+    "points_reference_evaluated": 400,
+    "window_complete": true
+  },
+  "regression_results": {
+    "reference_job": {
+      "job_id": "1409734.mmaster02",
+      "mesh_elements": 15192,
+      "k0_canonical_kN_per_mm": 137.94551964508432,
+      "intercept_kN": 4.4723675101507376e-05,
+      "r2": 0.9999995995397414,
+      "F_at_u001_kN": 0.13792416,
+      "E_elas_at_u001_mJ": 6.8962081e-05,
+      "E_frac_at_u001_mJ": 5.5534417e-08
+    },
+    "adaptive_job": {
+      "job_id": "1409953.mmaster02",
+      "mesh_elements": 14483,
+      "k0_canonical_kN_per_mm": 137.9095578493481,
+      "intercept_kN": 4.479459686428139e-05,
+      "r2": 0.9999995980428739,
+      "F_at_u001_kN": 0.13788817,
+      "E_elas_at_u001_mJ": 6.8944083e-05,
+      "E_frac_at_u001_mJ": 5.5607595e-08,
+      "K_energy_at_u001_kN_per_mm": 137.888166
+    },
+    "comparison": {
+      "abs_diff_kN_per_mm": -0.035961795736227486,
+      "rel_diff_pct": -0.02606956415021848,
+      "mean_pointwise_diff_pct": -0.025901137908684008,
+      "max_pointwise_diff_pct": 0.026101090227493143,
+      "status": "PASS"
+    }
+  },
+  "stiffness_semantics_distinction": {
+    "canonical_k0": {
+      "symbol": "K_0",
+      "definition": "OLS linear slope of reaction force F = -RF2 vs u across canonical window N=400 (u <= 0.0010 mm = 1.0 \u00b5m)",
+      "authoritative_use": "Canonical structural stiffness qualification metric"
+    },
+    "interim_ols_slope": {
+      "symbol": "K_interim",
+      "definition": "Interim OLS slope computed over subset of increments before N=400 is reached",
+      "authoritative_use": "Diagnostic early progress check"
+    },
+    "energy_derived_stiffness": {
+      "symbol": "K_energy",
+      "definition": "2 * E_elas / u^2 from continuum element strain energy",
+      "authoritative_use": "Continuum energy balance and elasticity diagnostic"
+    }
+  }
+}
