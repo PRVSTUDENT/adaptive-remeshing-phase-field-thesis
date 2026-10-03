@@ -469,11 +469,11 @@
   "remesh_impact": {
     "historical_1pct_elements": 72085,
     "corrected_1pct_elements": 56302,
-    "parasitic_elements_eliminated": 15783,
     "reduction_percentage": 21.894985,
     "corrected_2pct_calibrated_elements": 13897,
     "literature_baseline_elements": 13941,
-    "calibrated_variant_error_vs_literature_pct": 0.315616
+    "calibrated_variant_error_vs_literature_pct": 0.315616,
+    "remesh_elements_reduced": 15783
   },
   "primary_source_fidelity_audit": {
     "literature_figure_4a": {
@@ -494,9 +494,9 @@
       "Top boundary error drops by 57.72% (from 2.9157 MPa to 1.2326 MPa), with top-right corner error dropping by 94.45% (from 0.8896 MPa to 0.0494 MPa).",
       "Total Boundary Regions error drops by 48.39% (from 4.7767 MPa to 2.4652 MPa), shrinking boundary error share from 14.54% to 8.59%.",
       "The normalized error footprint for eta >= 10% contracts from a whole-domain span ([0.01, 0.99] x [0.01, 0.99], dx=0.98, dy=0.98) in Historical to a tightly localized crack-tip box ([0.425, 0.547] x [0.447, 0.540], dx=0.122, dy=0.093) in Corrected.",
-      "The native 1.0% errorTarget remesh shrinks by 15,783 elements (-21.89%, from 72,085 to 56,302 finite elements), confirming that top lateral constraint was a substantial parasitic contributor.",
+      "The native 1.0% errorTarget remesh shrinks by 15,783 elements (-21.89%, from 72,085 to 56,302 finite elements), confirming that top lateral constraint was a substantial contributor to spurious boundary refinement.",
       "However, the corrected 1.0% remesh (56,302 FE) remains 4.04x denser than the published 13,941-element baseline because Far Field error still carries 56.98% of domain error (16.3553 MPa), leading UNIFORM_ERROR sizing to refine broadly.",
-      "Therefore, BC implementation is a BC_PARTIAL_CONTRIBUTOR (TOWARD_TARGET_LOCALIZATION), not the complete root-cause closure. The investigation advances to Stage 3 (Abaqus RemeshingRule & Sizing Parameter Mapping)."
+      "Therefore, BC implementation is a BC_PARTIAL_CONTRIBUTOR (TOWARD_TARGET_LOCALIZATION), not the complete root-cause closure. The investigation advances through the governed sequence (Stage 3 Facsimile Mapping, Stage 4 Stress Transfer, Stage 5 RemeshingRule Formulation & Sizing Parameter Mapping)."
     ],
     "next_governed_action": "Advance cause audit to Stage 3: Abaqus RemeshingRule Formulation & Sizing Parameter Mapping."
   }

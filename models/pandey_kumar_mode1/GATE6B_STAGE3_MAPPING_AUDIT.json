@@ -1,0 +1,92 @@
+{
+  "audit_metadata": {
+    "stage": "Cause Audit Stage 3: All_elem <-> umatelem Facsimile Mapping Integrity Audit",
+    "gate": "Gate-6B",
+    "timestamp": "2026-10-03T07:35:00+02:00",
+    "agent": "gemini-antigravity",
+    "task_id": "F1171-GATE6B-STAGE3-MAPPING-AUDIT-20261003",
+    "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+    "mapping_verdict": "MAPPING_VERIFIED_NOT_DOMINANT_CAUSE",
+    "localization_classification": "NEUTRAL_LOCALIZATION",
+    "next_governed_stage": "Cause Audit Stage 4: Stress Transfer into Facsimile Layer"
+  },
+  "mesh_inventory": {
+    "nodes": 2988,
+    "total_elements": 2906,
+    "cpe4_quads": 2818,
+    "cpe3_tris": 88,
+    "orientation_parity_positive_pct": 100.0,
+    "inverted_elements": 0,
+    "max_centroid_discrepancy_mm": 4.9975e-07,
+    "element_connectivity_mismatches": 0
+  },
+  "multi_layer_architecture": {
+    "preanalysis_representation": "Single-layer continuum CPE4/CPE3 mesh (IDs 1..2906), direct MISESERI evaluation on All_elem (_PickedSet3, _PickedSet7)",
+    "coupled_solver_representation": "3-layer coupled architecture: Layer 1 Phase UEL (U1/U3, IDs 1..2906), Layer 2 Mech UEL (U2/U4, IDs 2907..5812), Layer 3 Companion UMAT (CPE4/CPE3, IDs 5813..8718)",
+    "facsimile_bijective_mapping": "Exact 1:1 isomorphism f(i) = i (pre-analysis) and f(i) = i + 5812 (solver deck), preserving nodes, centroids, orientation, and Jacobians identically",
+    "set_membership_audit": "_PickedSet5 (Part level: 1..2906), _PickedSet3 (Field Output: 1..2906), _PickedSet7 (Remeshing Rule: 1..2906), umatelem = All_elem = Layer 3"
+  },
+  "spatial_reconstruction_and_continuity": {
+    "max_abs_error_difference_mpa": 0.0,
+    "rms_error_difference_mpa": 0.0,
+    "mean_neighbor_edge_jump_mpa": 0.00377583,
+    "median_neighbor_edge_jump_mpa": 0.00084481,
+    "permuted_mean_neighbor_jump_mpa": 0.01245467,
+    "permuted_mean_ratio": 3.2985,
+    "off_by_one_mean_jump_mpa": 0.0098705,
+    "off_by_one_mean_ratio": 2.6141
+  },
+  "five_region_error_partitioning": {
+    "crack_tip": {
+      "elements": 20,
+      "pct_elements": 0.6882,
+      "error_sum_mpa": 6.612734,
+      "pct_error": 23.0372,
+      "mean_error_mpa": 0.330637,
+      "max_error_mpa": 0.950009
+    },
+    "slit_flank": {
+      "elements": 112,
+      "pct_elements": 3.8541,
+      "error_sum_mpa": 2.066005,
+      "pct_error": 7.1975,
+      "mean_error_mpa": 0.018446,
+      "max_error_mpa": 0.227962
+    },
+    "wake": {
+      "elements": 950,
+      "pct_elements": 32.691,
+      "error_sum_mpa": 9.090386,
+      "pct_error": 31.6687,
+      "mean_error_mpa": 0.009569,
+      "max_error_mpa": 0.101409
+    },
+    "far_field": {
+      "elements": 1358,
+      "pct_elements": 46.7309,
+      "error_sum_mpa": 9.468161,
+      "pct_error": 32.9848,
+      "mean_error_mpa": 0.006972,
+      "max_error_mpa": 0.138471
+    },
+    "boundary": {
+      "elements": 466,
+      "pct_elements": 16.0358,
+      "error_sum_mpa": 1.467315,
+      "pct_error": 5.1118,
+      "mean_error_mpa": 0.003149,
+      "max_error_mpa": 0.013564
+    },
+    "total_domain": {
+      "elements": 2906,
+      "error_sum_mpa": 28.704601,
+      "mean_error_mpa": 0.0098777
+    }
+  },
+  "verdict_and_next_action": {
+    "stage3_verdict": "MAPPING_VERIFIED_NOT_DOMINANT_CAUSE",
+    "localization_direction": "NEUTRAL_LOCALIZATION",
+    "justification": "Facsimile mapping layer exhibits bit-for-bit exact isomorphism across underlying, user element, and companion UMAT representations. Zero label permutation, zero connectivity mismatch, zero orientation defect, and zero coordinate transposition exist. Spatial error distribution is mathematically identical to raw continuum pre-analysis.",
+    "next_governed_stage": "Stage 4: Stress Transfer into Facsimile Layer (STAGE4_STRESS_TRANSFER_AUDIT)"
+  }
+}

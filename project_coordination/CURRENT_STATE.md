@@ -50,7 +50,7 @@ Parent commit: `5fce76f06bfe753d4f7a1b476a16e833e7d4d9d0`
     - Residual: $56,302$ FE remains denser than $13,941$ baseline because Far Field error still accounts for $56.98\%$ of domain error ($16.3553\,\text{MPa}$), leading `UNIFORM_ERROR` sizing to refine broadly.
     - Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage2_bc_audit.png` (and `.pdf`).
     - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_STAGE2_BC_AUDIT_REPORT.md` and `GATE6B_STAGE2_BC_AUDIT.json`.
-    - Next Stage: Advance to Stage 3 (Abaqus RemeshingRule Formulation & Sizing Parameter Mapping).
+    - Next Stage: Advance to Stage 3 (Facsimile Mapping Integrity Audit).
   - **S1 Reference Solve Scientifically Qualified (`1409734.mmaster02`):**
     - Exit Status: `0` (Walltime `06:55:16`, CPUT `06:43:00`, 1-CPU Serial on `mnode097/0`).
     - Mechanical Parity: $K_0 = 137.945520\,	ext{kN/mm}$ ($N=400$, $b=4.472368 	imes 10^{-5}\,	ext{kN}$, $R^2=0.99999960$), $F_{\max} = 0.757778\,	ext{kN}$, $u_{	ext{peak}} = 0.005857\,	ext{mm}$, $W_{	ext{ext}} = 2.359329\,	ext{mJ}$.
