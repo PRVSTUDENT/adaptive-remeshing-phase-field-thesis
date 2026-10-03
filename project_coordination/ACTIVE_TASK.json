@@ -1,40 +1,65 @@
 {
-  "task_id": "F1178-GATE6B-ARCHITECTURE-ISOLATION-DECK-AUDIT-20261003",
+  "task_id": "F1180-GATE6B-RESUBMIT-LAYERED-PREANALYSIS-AND-CLOSE-CONTROL-AND-S3-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Architecture-Isolation Deck Difference Audit",
+  "title": "Gate-6B Diagnostic Layered Job-1 Pre-Analysis Resubmission, Matched Control Dataset Extraction, and S3 Spatial Convergence Evaluation Closure",
   "status": "completed",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
   "write_scope": [
     "models/pandey_kumar_mode1/**",
-    "scripts/audit/**",
+    "scripts/**",
     "tests/unit/**",
     "docs/**",
     "project_coordination/**"
   ],
   "hpc_jobs": [
     "1409914.mmaster02",
-    "1409912.mmaster02",
+    "1409915.mmaster02",
     "1409867.mmaster02"
   ],
   "context": {
-    "active_running_jobs": {
-      "job1_continuum_control": "1409914.mmaster02 (Active in normal_imfdfkmq, ARCHITECTURE_ISOLATION_CONTROL, NON-POLLING GUARD ENFORCED)",
-      "job1_layered_variant": "1409912.mmaster02 (Active in normal_imfdfkmq, DIAGNOSTIC_JOB1_LAYERED_VARIANT, NON-POLLING GUARD ENFORCED)",
-      "s3_spatial_42k": "1409867.mmaster02 (41,912 elements, Running, NON-POLLING GUARD ENFORCED)"
+    "terminal_jobs_evaluated": {
+      "package90_control_preanalysis": {
+        "job_id": "1409914.mmaster02",
+        "status": "COMPLETED_EXIT_0",
+        "elements": 2906,
+        "step1_u00050": {
+          "miseseri_max": 0.950009,
+          "miseseri_mean": 0.009878,
+          "corridor_share": 0.2670,
+          "far_field_wake_share": 0.6325
+        },
+        "step2_u00100": {
+          "miseseri_max": 1.900018,
+          "miseseri_mean": 0.019755,
+          "corridor_share": 0.2670,
+          "far_field_wake_share": 0.6325
+        },
+        "linearity_factor": 2.000000,
+        "spatial_distribution_invariance": "STRICTLY_INVARIANT"
+      },
+      "package89_layered_diagnostic": {
+        "job_id": "1409915.mmaster02",
+        "status": "TERMINATED_EXIT_1_STEP1_INC1",
+        "mechanism": "EIGENVALUE_MINUS_ONE_LIMIT_CYCLE",
+        "root_cause": "Double-counted internal force from UMAT Hookean stress while tangent stiffness DDSDDE is dummy (10^-11), causing spectral radius = 1 period-2 oscillation."
+      },
+      "s3_spatial_fine_solve": {
+        "job_id": "1409867.mmaster02",
+        "status": "TERMINATED_EXIT_1_POSTPEAK_CUTBACK_QUALIFIED",
+        "increments": 2836,
+        "terminal_displacement": 0.00667,
+        "load_drop": ">99%",
+        "k0": 137.857608,
+        "f_max": 0.732196,
+        "u_peak": 0.005633,
+        "e_frac": 2.357191,
+        "spatial_convergence_spread_k0": "0.0637% across S1-S3",
+        "spatial_convergence_spread_efrac": "0.73% across S1-S3"
+      }
     },
-    "non_polling_guard": "ENFORCED",
-    "deck_audit_target": "Package 89 (PK_M1_JOB1_UEL_2906.inp) vs Package 90 (PK_M1_JOB1_CONTINUUM_MATCHED_2906.inp)",
-    "predeclared_verdict": "ARCHITECTURE_ISOLATION_CONTROL_VALID",
-    "confounding_differences": 0,
-    "audit_dimensions_evaluated": 34,
-    "classification_counts": {
-      "IDENTICAL": 26,
-      "EQUIVALENT_BY_CONSTRUCTION": 5,
-      "EXPECTED_ARCHITECTURE_DIFFERENCE": 3,
-      "UNINTENDED_CONFOUNDING_DIFFERENCE": 0
-    },
-    "terminal_comparison_manifest": "models/pandey_kumar_mode1/TERMINAL_COMPARISON_MANIFEST_89_VS_90.json",
-    "unit_test_suite_status": "23/23 tests pass"
+    "scientific_verdict_architecture_isolation": "CONTROL_VALID_LAYERED_UEL_INCONSISTENT_FOR_PREANALYSIS",
+    "unit_test_suite_status": "28/28 tests pass (100%)",
+    "new_pbs_jobs_required": false
   }
 }

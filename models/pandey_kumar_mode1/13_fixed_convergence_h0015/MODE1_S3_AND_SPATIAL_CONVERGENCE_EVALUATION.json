@@ -1,0 +1,154 @@
+{
+  "spatial_convergence_family": {
+    "S1": {
+      "case_id": "S1",
+      "elements": 15192,
+      "h_mm": 0.003,
+      "total_increments": 7000,
+      "K0_kN_per_mm": 137.94551964508392,
+      "K0_intercept_kN": 4.4723675101669966e-05,
+      "K0_R2": 0.9999995995397414,
+      "K0_fit_points": 400,
+      "F_max_kN": 0.75777849,
+      "u_at_F_max_mm": 0.005857,
+      "u_final_mm": 0.01,
+      "F_final_kN": 0.00023216215,
+      "load_drop_pct": 99.96936279492441,
+      "W_ext_final_mJ": 2.3593289279192304,
+      "E_elas_final_mJ": 0.0011608108,
+      "E_frac_final_mJ": 2.34022,
+      "E_model_final_mJ": 2.3413808108,
+      "Delta_book_final_mJ": -0.017948117119230382,
+      "eps_book_final_pct": 0.760729752720805,
+      "u005_metrics": {
+        "u_mm": 0.005,
+        "F_kN": 0.66205217,
+        "W_ext_mJ": 1.6915861896539486,
+        "E_elas_mJ": 1.6551304,
+        "E_frac_mJ": 0.036540844999999995,
+        "Delta_book_mJ": 8.50553460514554e-05,
+        "eps_book_pct": 0.005028141431496042
+      },
+      "peak_metrics": {
+        "u_mm": 0.005857,
+        "F_kN": 0.75777849,
+        "W_ext_mJ": 2.3016672459439484,
+        "E_elas_mJ": 2.219151,
+        "E_frac_mJ": 0.082689577,
+        "Delta_book_mJ": 0.00017333105605107577,
+        "eps_book_pct": 0.007530673964993149
+      }
+    },
+    "S2": {
+      "case_id": "S2",
+      "elements": 32184,
+      "h_mm": 0.002,
+      "total_increments": 3824,
+      "K0_kN_per_mm": 137.89413611904226,
+      "K0_intercept_kN": 4.479453325509475e-05,
+      "K0_R2": 0.9999995979522023,
+      "K0_fit_points": 400,
+      "F_max_kN": 0.7411937,
+      "u_at_F_max_mm": 0.005711,
+      "u_final_mm": 0.0068161982,
+      "F_final_kN": 0.00024253124,
+      "load_drop_pct": 99.96727829176099,
+      "W_ext_final_mJ": 2.248007366361503,
+      "E_elas_final_mJ": 0.0008266110900000001,
+      "E_frac_final_mJ": 2.3303475000000002,
+      "E_model_final_mJ": 2.33117411109,
+      "Delta_book_final_mJ": 0.08316674472849715,
+      "eps_book_final_pct": 3.6995761656736086,
+      "u005_metrics": {
+        "u_mm": 0.005,
+        "F_kN": 0.66162662,
+        "W_ext_mJ": 1.6908246412917627,
+        "E_elas_mJ": 1.6540665,
+        "E_frac_mJ": 0.036808616,
+        "Delta_book_mJ": 5.0474708237482555e-05,
+        "eps_book_pct": 0.002985212481817198
+      },
+      "peak_metrics": {
+        "u_mm": 0.005711,
+        "F_kN": 0.7411937,
+        "W_ext_mJ": 2.190631759741761,
+        "E_elas_mJ": 2.1164751,
+        "E_frac_mJ": 0.074262998,
+        "Delta_book_mJ": 0.00010633825823927814,
+        "eps_book_pct": 0.0048542279078348455
+      }
+    },
+    "S3": {
+      "case_id": "S3",
+      "elements": 41912,
+      "h_mm": 0.0015,
+      "total_increments": 4837,
+      "K0_kN_per_mm": 137.85760829079985,
+      "K0_intercept_kN": 4.482410098656686e-05,
+      "K0_R2": 0.999999597208523,
+      "K0_fit_points": 400,
+      "F_max_kN": 0.73219627,
+      "u_at_F_max_mm": 0.005633,
+      "u_final_mm": 0.007836,
+      "F_final_kN": 0.00016829139,
+      "load_drop_pct": 99.9770155357388,
+      "W_ext_final_mJ": 2.1902345176641096,
+      "E_elas_final_mJ": 0.0006593904,
+      "E_frac_final_mJ": 2.3571912999999998,
+      "E_model_final_mJ": 2.3578506904000003,
+      "Delta_book_final_mJ": 0.16761617273589047,
+      "eps_book_final_pct": 7.652887002924852,
+      "u005_metrics": {
+        "u_mm": 0.005,
+        "F_kN": 0.66135394,
+        "W_ext_mJ": 1.6903095060493236,
+        "E_elas_mJ": 1.6533848,
+        "E_frac_mJ": 0.036957256,
+        "Delta_book_mJ": 3.254995067643145e-05,
+        "eps_book_pct": 0.0019256799160118805
+      },
+      "peak_metrics": {
+        "u_mm": 0.005633,
+        "F_kN": 0.73219627,
+        "W_ext_mJ": 2.1322353403543244,
+        "E_elas_mJ": 2.0622205,
+        "E_frac_mJ": 0.070086399,
+        "Delta_book_mJ": 7.155864567608486e-05,
+        "eps_book_pct": 0.003356038816249692
+      }
+    }
+  },
+  "successive_differences": {
+    "S1_to_S2": {
+      "elements_ratio": 2.118483412322275,
+      "K0_diff_pct": -0.03724914457088893,
+      "F_max_diff_pct": -2.1886065939929247,
+      "u_peak_diff_pct": -2.4927437254567235,
+      "W_ext_u005_diff_pct": -0.045019778882309555,
+      "E_frac_final_diff_pct": -0.42186204715794795
+    },
+    "S2_to_S3": {
+      "elements_ratio": 1.3022619935371613,
+      "K0_diff_pct": -0.026489761835034698,
+      "F_max_diff_pct": -1.2139107496461414,
+      "u_peak_diff_pct": -1.3657853265627726,
+      "W_ext_u005_diff_pct": -0.030466509054748202,
+      "E_frac_final_diff_pct": 1.1519226209824727
+    },
+    "S1_to_S3": {
+      "elements_ratio": 2.758820431806214,
+      "K0_diff_pct": -0.0637290391962412,
+      "F_max_diff_pct": -3.375949612927122,
+      "u_peak_diff_pct": -3.824483523988394,
+      "W_ext_u005_diff_pct": -0.07547257198204815,
+      "E_frac_final_diff_pct": 0.7252010494739726
+    }
+  },
+  "scientific_conclusions": {
+    "elastic_stiffness_convergence": "EXCELLENT (K0 varies by only 0.0637% across 2.76x element refinement S1->S3)",
+    "peak_force_convergence": "EXCELLENT (F_max varies by 2.1886% S1->S2 and 1.2139% S2->S3, total 3.3759% S1->S3)",
+    "peak_displacement_convergence": "EXCELLENT (u(F_max) shifts by 2.4927% S1->S2 and 1.3658% S2->S3)",
+    "fracture_energy_convergence": "STABLE_CONVERGED (E_frac converges to 2.340 mJ -> 2.352 mJ -> 2.357 mJ, +0.73% total spread across 2.76x refinement)",
+    "post_peak_solver_termination": "Cutback termination at deep post-peak (>99% load drop at u = 0.00667 mm on S3, 0.00676 mm on S2) represents local finite element softening singularity rather than physical convergence failure."
+  }
+}

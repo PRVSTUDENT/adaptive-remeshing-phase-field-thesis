@@ -1,0 +1,129 @@
+{
+  "states": {
+    "step1_end_u00050": {
+      "csv_file": "control_miseseri_step1_end_u00050.csv", 
+      "miseseri_sum": 28.70460025483044, 
+      "miseseri_mean": 0.009877701395330502, 
+      "output_position": "WHOLE_ELEMENT", 
+      "rp_displacement_u2_mm": 0.004999999888241291, 
+      "increment_number": 500, 
+      "crack_tip_corridor_share_pct": 26.696141648003795, 
+      "miseseri_max": 0.9500091075897217, 
+      "miseseri_std": 0.03568084840325074, 
+      "missing_elements": 0, 
+      "far_field_plus_wake_share_pct": 63.25234889791817, 
+      "frame_time": 1.0, 
+      "displacement_error_pct": 2.2351741811588166e-06, 
+      "frame_id": 500, 
+      "duplicate_elements": 0, 
+      "regional_statistics": {
+        "BOUNDARY_REGIONS": {
+          "count": 548, 
+          "max": 0.016283322125673294, 
+          "sum": 2.465216478361981, 
+          "share_pct": 8.58822786757719, 
+          "mean": 0.004498570215989016
+        }, 
+        "CRACK_WAKE": {
+          "count": 110, 
+          "max": 0.20552803575992584, 
+          "sum": 1.8010057816281915, 
+          "share_pct": 6.274275780325896, 
+          "mean": 0.016372779832983558
+        }, 
+        "CRACK_TIP_CORRIDOR": {
+          "count": 49, 
+          "max": 0.9500091075897217, 
+          "sum": 7.663020743522793, 
+          "share_pct": 26.696141648003795, 
+          "mean": 0.1563881784392407
+        }, 
+        "RIGHT_LIGAMENT": {
+          "count": 119, 
+          "max": 0.012397212907671928, 
+          "sum": 0.420029130007606, 
+          "share_pct": 1.4632815865008366, 
+          "mean": 0.0035296565546857647
+        }, 
+        "FAR_FIELD": {
+          "count": 2080, 
+          "max": 0.13847142457962036, 
+          "sum": 16.355328121309867, 
+          "share_pct": 56.978073117592274, 
+          "mean": 0.007863138519860513
+        }
+      }, 
+      "step_name": "Step-1", 
+      "miseseri_median": 0.004554939456284046, 
+      "miseseri_min": 0.00025406223721802235, 
+      "element_count": 2906, 
+      "target_displacement_mm": 0.005
+    }, 
+    "step2_end_u00100": {
+      "csv_file": "control_miseseri_step2_end_u00100.csv", 
+      "miseseri_sum": 57.40920050966088, 
+      "miseseri_mean": 0.019755402790661004, 
+      "output_position": "WHOLE_ELEMENT", 
+      "rp_displacement_u2_mm": 0.009999999776482582, 
+      "increment_number": 1000, 
+      "crack_tip_corridor_share_pct": 26.696141648003795, 
+      "miseseri_max": 1.9000182151794434, 
+      "miseseri_std": 0.07136169680650148, 
+      "missing_elements": 0, 
+      "far_field_plus_wake_share_pct": 63.25234889791817, 
+      "frame_time": 1.0, 
+      "displacement_error_pct": 2.2351741811588166e-06, 
+      "frame_id": 1000, 
+      "duplicate_elements": 0, 
+      "regional_statistics": {
+        "BOUNDARY_REGIONS": {
+          "count": 548, 
+          "max": 0.03256664425134659, 
+          "sum": 4.930432956723962, 
+          "share_pct": 8.58822786757719, 
+          "mean": 0.008997140431978032
+        }, 
+        "CRACK_WAKE": {
+          "count": 110, 
+          "max": 0.4110560715198517, 
+          "sum": 3.602011563256383, 
+          "share_pct": 6.274275780325896, 
+          "mean": 0.032745559665967115
+        }, 
+        "CRACK_TIP_CORRIDOR": {
+          "count": 49, 
+          "max": 1.9000182151794434, 
+          "sum": 15.326041487045586, 
+          "share_pct": 26.696141648003795, 
+          "mean": 0.3127763568784814
+        }, 
+        "RIGHT_LIGAMENT": {
+          "count": 119, 
+          "max": 0.024794425815343857, 
+          "sum": 0.840058260015212, 
+          "share_pct": 1.4632815865008366, 
+          "mean": 0.007059313109371529
+        }, 
+        "FAR_FIELD": {
+          "count": 2080, 
+          "max": 0.2769428491592407, 
+          "sum": 32.710656242619734, 
+          "share_pct": 56.978073117592274, 
+          "mean": 0.015726277039721025
+        }
+      }, 
+      "step_name": "Step-2", 
+      "miseseri_median": 0.009109878912568092, 
+      "miseseri_min": 0.0005081244744360447, 
+      "element_count": 2906, 
+      "target_displacement_mm": 0.01
+    }
+  }, 
+  "odb_path": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/90_mode1_preanalysis_continuum_matched_2906/PK_M1_JOB1_CONTINUUM_MATCHED_2906.odb", 
+  "odb_name": "PK_M1_JOB1_CONTINUUM_MATCHED_2906.odb", 
+  "total_nodes": 2989, 
+  "cpe3_elements": 88, 
+  "cpe4_elements": 2818, 
+  "total_elements": 2906, 
+  "architecture": "MATCHED_HISTORY_STANDARD_CONTINUUM_CONTROL"
+}

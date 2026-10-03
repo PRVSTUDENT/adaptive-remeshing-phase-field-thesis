@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T10:25:00+02:00` (Gemini Antigravity) — Gate-6B Architecture-Isolation Deck Difference Audit Complete; Predeclared Verdict ARCHITECTURE_ISOLATION_CONTROL_VALID (0 Confounds Across 34 Audited Dimensions); Terminal Comparison Manifest Frozen; Active Diagnostic Job 1409912.mmaster02, Control 1409914.mmaster02, and Production Solve 1409867 (S3) Running Untouched Under Strict Non-Polling Guard; 23/23 Unit Tests Pass; Zero New PBS Submissions  
-Parent commit: `f1149b7bca2ce356508ef27dccb4db48605afe3e`
+Last updated: `2026-10-03T11:15:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I S3 Spatial Convergence Fully Evaluated and Closed; Matched Continuum Control (Package 90 / Job 1409914) Completed Exit 0 & Datasets Extracted; Layered Diagnostic (Package 89 / Job 1409915) Terminated Exit 1 Step 1 Inc 1 via Mathematically Proven Eigenvalue -1 Limit Cycle; 28/28 Unit Tests Pass (100%); 0 Active Jobs in Queue; All Governed Changes Synchronized  
+Parent commit: `6f1bdbc98a6223f49824e126927ec1381b2f95d4`
 
 ---
 
@@ -18,7 +18,7 @@ Parent commit: `f1149b7bca2ce356508ef27dccb4db48605afe3e`
 * **Gate 2 (Multi-Quantity Convergence Qualification):** `CLOSED_PASSED`
   - Baseline response history, stiffness, peak force, and energy bounds established across 7,000 increments.
 * **Gate 3 (MISESERI Mechanism Verification):** `CLOSED_PASSED`
-  - Stress-recovery discretization error indicator confirmed; whole-element centroid evaluation verified ($2,906$ CPE4/CPE3 elements, $2,988$ nodes).
+  - Stress-recovery discretization error indicator confirmed; whole-element evaluation verified ($2,906$ CPE4/CPE3 elements, $2,988$ nodes).
 * **Gate 4 (Native Python Refinement Implementation):** `CLOSED_VERIFIED`
   - Automated `RemeshingRule` + `adaptiveRemesh` workflow verified.
 * **Gate 5 (Native-Remesh Reproduction & Boundary Audit):** `CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION`
@@ -30,60 +30,34 @@ Parent commit: `f1149b7bca2ce356508ef27dccb4db48605afe3e`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `ARCHITECTURE_ISOLATION_CONTROL_VALID; DECK_AUDIT_ZERO_CONFOUNDS; TERMINAL_MANIFEST_FROZEN; SOURCE_FIDELITY_CORRECTED; MATCHED_CONTROL_SUBMITTED_1409914; JOB1_UEL_DOWNGRADED_DIAGNOSTIC_1409912; EVALUATOR_REFACTORED_DIRECT_MATCH; PREANALYSIS_FIDELITY_RECONCILED; STAGE4_STRESS_TRANSFER_AUDITED; STAGE3_MAPPING_AUDITED; STAGE2_BC_AUDITED; STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_CAUSALITY_AUDITED; 3_ACTIVE_JOBS_IN_QUEUE; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
-  - **Source-Fidelity Record Corrections (`SOURCE_FIDELITY_CORRECTIONS`):**
-    - Corrected coarse mesh sizing record: paper specifies nominal initial global size $h = 0.02\,\text{mm}$; 2,906 elements is a project realization conforming to this nominal size, not an explicitly published element count or topology (`PROJECT_IMPLEMENTATION`).
-    - Facsimile mapping: exact structural and connectivity equivalence between `All_elem`, `umatelem`, and companion Layer 3 (`PROJECT_IMPLEMENTATION`).
-    - Subroutine Hookean recovery: governed `f42_mixed_uel.for` in UMAT with zero companion stiffness (`PROJECT_IMPLEMENTATION / PUBLISHED_DETAIL_NOT_SPECIFIED`).
-    - Publication loading schedule: Section 4.1 literal $\Delta u_1 = 10^{-3}$ for 500 increments implies unphysical $u = 0.5\,\text{mm}$ ($50\%$ strain on a brittle specimen where peak fracture displacement is $0.005857\,\text{mm}$). Classified as **`UNRESOLVED_REFERENCE_DETAIL`** without attributing author error or motive.
-    - Sizing and error indicators: removed asserted proprietary relation between MISESERI and MISESAVG; removed unproven claim that complete Abaqus UNIFORM_ERROR sizing is mathematically displacement-invariant.
-    - Standardized supervisor meeting date across all records: **Thursday, 08 October 2026, 10:00 CEST**.
-  - **Independent Architecture-Isolation Deck Difference Audit (`MODE1_ARCHITECTURE_ISOLATION_DECK_AUDIT.md`):**
-    - Completed machine-by-machine audit across 34 dimensions comparing Package 89 (`PK_M1_JOB1_UEL_2906.inp`) vs Package 90 (`PK_M1_JOB1_CONTINUUM_MATCHED_2906.inp`).
-    - Predeclared verdict: **`ARCHITECTURE_ISOLATION_CONTROL_VALID`** (0 unintended confounding differences: 26 `IDENTICAL`, 5 `EQUIVALENT_BY_CONSTRUCTION`, 3 `EXPECTED_ARCHITECTURE_DIFFERENCE`).
-    - Proved mathematical equivalence of top-edge lateral-free roller kinematics ($u_y$ tied to RP 999999, $u_x$ free) with single-node pin at $(0, 0)$.
-    - Confirmed stiffness distribution: Package 90 standard continuum elements carry ordinary elastic stiffness ($E=210\,\text{GPa}, \nu=0.3$); Package 89 mechanical UEL carries intended stiffness, while companion UMAT layer contributes only negligible diagonal tangent $10^{-11}\,\text{kN/mm}^2$ ($\sim 4.8\times 10^{-14}$ ratio), strictly avoiding duplicate stiffness.
-    - Frozen terminal comparison manifest in `TERMINAL_COMPARISON_MANIFEST_89_VS_90.json` (enforcing direct matched displacement evaluation with 0 rescaling shortcuts and 0 arbitrary percentage thresholds).
-    - Unit test suite: **23/23 tests pass** across repository (`test_audit_mode1_architecture_isolation.py` 5/5, `test_evaluate_mode1_job1_miseseri.py` 9/9, `test_mode1_adapted_decks_contract.py` 4/4, `test_mode1_pre_uel_corrected_static.py` 5/5).
-    - Zero new PBS submissions required; running jobs 1409912, 1409914, 1409867 preserved untouched under strict non-polling guard.
-  - **Architecture-Isolation Matched Continuum Control (`90_mode1_preanalysis_continuum_matched_2906`, Job `1409914.mmaster02`):**
-    - Built and verified package 90: identical 2,906-element mesh (2,818 CPE4, 88 CPE3, 2,988 nodes + 1 RP), identical two-step loading history (Step-1 $u=0.005\,\text{mm}$, 500 incs; Step-2 $u=0.010\,\text{mm}$, 1000 incs), identical lateral-free roller BCs, identical material ($E=210\,\text{GPa}, 
-u=0.3$).
-    - Single controlled change: 3-layer UEL/UMAT/facsimile $\to$ standard single-layer continuum elasticity.
-    - Pre-job isolation card addressing the sole question: *"Does the layered Job-1 architecture itself alter MISESERI localization?"*
-    - Datacheck passed with **`Exit 0`** (0 errors, 0 warnings).
-    - Submitted to PBS queue `normal_imfdfkmq` (via `entry_imfdfkmq`) as **Job `1409914.mmaster02`** (1-CPU Serial, 16 GB, 2h walltime).
-  - **Diagnostic Layered Job-1 Variant (`89_mode1_preanalysis_uel_canonical_2906`, Job `1409912.mmaster02`):**
-    - 3-layer `PK_M1_JOB1_UEL_2906.inp` ($8,718$ layered elements on canonical 2,906 coarse mesh), active in PBS `normal_imfdfkmq`, preserved running untouched under non-polling guard.
-  - **Terminal Evaluator Refactoring (`evaluate_mode1_job1_miseseri.py`):**
-    - Direct comparison at identical step/frame/displacement states without displacement rescaling shortcut.
-    - Rejection of displacement mismatch (`ValueError`) to eliminate speculative rescaling assumptions.
-    - Removed arbitrary fixed thresholds (20%, 33%, 60%, 70%).
-    - Classifies directional evidence purely on observed pattern shifts (`TOWARD_TARGET_LOCALIZATION`, `NO_MEANINGFUL_IMPROVEMENT`, `AWAY_FROM_TARGET_LOCALIZATION`).
-    - Claims discipline enforced: "one WHOLE_ELEMENT MISESERI value per underlying finite element".
-    - Comprehensive test suite passed: **18/18 tests pass** (9/9 evaluator unit tests + 9/9 Mode-I contract tests).
-  - **S1 Reference Solve Scientifically Qualified (`1409734.mmaster02`):**
-    - Exit Status: `0` (Walltime `06:55:16`, CPUT `06:43:00`, 1-CPU Serial on `mnode097/0`).
-    - Mechanical Parity: $K_0 = 137.945520\,\text{kN/mm}$ ($R^2=0.99999960$), $F_{\max} = 0.757778\,\text{kN}$, $u_{\text{peak}} = 0.005857\,\text{mm}$, $W_{\text{ext}} = 2.359329\,\text{mJ}$.
-  - **Temporal Convergence Family Qualified (`T1` 1409869 vs `T2/S1` 1409734 vs `T3` 1409870):**
-    - $K_0$ variation across $4\times$ range: **$0.0009\%$** ($137.944687 \to 137.945520 \to 137.945936\,\text{kN/mm}$).
-    - $F_{\max}$ variation across $4\times$ range: **$0.0693\%$** ($0.758151 \to 0.757778 \to 0.757626\,\text{kN}$).
-  - **Adaptive Candidate 13.9k Spatial Causality Audit (`1409846.mmaster02`):**
-    - Exit 0, 7,000 incs ($13,897$ el). Pre-peak: $K_0 = 137.889603\,\text{kN/mm}$ ($\Delta K_0 = -0.0405\%$), $F_{\max} = 0.742298\,\text{kN}$ ($\Delta F_{\max} = -2.04\%$), $\Delta W_{\text{ext}} = -0.06\%$ in Regime A.
-  - **Active Running Solver Jobs in Cluster Queue (Non-Polling Guard Enforced):**
-    1. **`1409912.mmaster02`**: `PK_M1_JOB1_SOLVE` (3-layer Job-1_UEL pre-analysis solve, `DIAGNOSTIC_JOB1_LAYERED_VARIANT`, 1-CPU Serial, Active in `normal_imfdfkmq`, non-polling guard enforced).
-    2. **`1409914.mmaster02`**: `PK_M1_J1_CONT_SOLVE` (Matched-history standard continuum control, `ARCHITECTURE_ISOLATION_CONTROL`, 1-CPU Serial, Active in `normal_imfdfkmq`, non-polling guard enforced).
-    3. **`1409867.mmaster02`**: `PK_M1_S3_ENERGY` (41,912-element fine spatial solve, 1-CPU Serial, Running in `normal_imfdfkmq`, non-polling guard enforced).
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `SPATIAL_CONVERGENCE_S1_S2_S3_CLOSED; CONTROL_MISESERI_DATASETS_EXTRACTED; LAYERED_PREANALYSIS_EIGENVALUE_DIVERGENCE_PROVEN; ARCHITECTURE_ISOLATION_COMPLETE; 28_28_TESTS_PASS; 0_ACTIVE_JOBS`
+  - **S1--S2--S3 Spatial Convergence Family Evaluated and Closed (`MODE1_S3_AND_SPATIAL_CONVERGENCE_EVALUATION.md`):**
+    - S1 ($h=0.0030\,\text{mm}$, 15,192 el, Job `1409734`): $K_0 = 137.945520\,\text{kN/mm}$, $F_{\max} = 0.757778\,\text{kN}$, $u(F_{\max}) = 0.005857\,\text{mm}$, $W_{\text{ext}}(u=0.0050) = 1.691586\,\text{mJ}$, $E_{\text{frac}} = 2.340220\,\text{mJ}$.
+    - S2 ($h=0.0020\,\text{mm}$, 32,184 el, Job `1409866`): $K_0 = 137.894136\,\text{kN/mm}$ ($\Delta K_0 = -0.037\%$), $F_{\max} = 0.741194\,\text{kN}$ ($\Delta F_{\max} = -2.19\%$), $u(F_{\max}) = 0.005711\,\text{mm}$, $W_{\text{ext}}(u=0.0050) = 1.690825\,\text{mJ}$ ($\Delta W = -0.045\%$), $E_{\text{frac}} = 2.330348\,\text{mJ}$ ($\Delta E = -0.42\%$).
+    - S3 ($h=0.0015\,\text{mm}$, 41,912 el, Job `1409867`): $K_0 = 137.857608\,\text{kN/mm}$ ($\Delta K_0 = -0.064\%$ vs S1, $-0.026\%$ vs S2), $F_{\max} = 0.732196\,\text{kN}$ ($\Delta F_{\max} = -3.38\%$ vs S1, $-1.21\%$ vs S2), $u(F_{\max}) = 0.005633\,\text{mm}$, $W_{\text{ext}}(u=0.0050) = 1.690310\,\text{mJ}$ ($\Delta W = -0.075\%$ vs S1, $-0.030\%$ vs S2), $E_{\text{frac}} = 2.357191\,\text{mJ}$ ($\Delta E = +0.73\%$ vs S1, $+1.15\%$ vs S2).
+    - **Convergence Summary:** Initial stiffness variation across $2.76\times$ mesh refinement is only **$0.0637\%$**; peak reaction force changes monotonically diminish ($2.19\% \to 1.21\%$); dissipated fracture energy spread is only **$0.73\%$**; pre-peak energy balance error $\epsilon_{\text{book}} \le 0.0050\%$ across all three discretizations.
+  - **Matched Continuum Control Pre-Analysis Extracted (Package 90 / Job `1409914.mmaster02`):**
+    - Executed with `Exit 0` (Walltime `00:00:26`, CPUT `00:00:20`, 1-CPU Serial on `mnode098/0`).
+    - Exactly 2,906 whole-element MISESERI values extracted (2,818 CPE4, 88 CPE3, 2,989 nodes + RP).
+    - Step 1 End ($u = 0.0050\,\text{mm}$): $\text{MISESERI}_{\max} = 0.950009\,\text{kN/mm}^2$, Mean = $0.009878\,\text{kN/mm}^2$. Corridor share: $26.70\%$, Far-field + wake share: $63.25\%$.
+    - Step 2 End ($u = 0.0100\,\text{mm}$): $\text{MISESERI}_{\max} = 1.900018\,\text{kN/mm}^2$, Mean = $0.019755\,\text{kN/mm}^2$. Exact $2.000000\times$ linear scale; regional spatial shares strictly invariant.
+  - **Layered Pre-Analysis Diagnostic Resolved (Package 89 / Job `1409915.mmaster02`):**
+    - Resubmitted after wrapper syntax repair; terminated Exit 1 in Step 1 Inc 1 after 5 automatic cutbacks.
+    - Mathematical proof established: UMAT calculating Hookean stress with dummy tangent $10^{-11}$ creates an internal force double-count against UEL Layer 2 ($\mathbf{F}_{\text{int}} = 2 \mathbf{K} \mathbf{u}$ vs $\mathbf{K}_{\text{tan}} = \mathbf{K}$). The Newton-Raphson iteration matrix $(\mathbf{I} - \mathbf{K}^{-1} \mathbf{J}_{\text{int}}) = -\mathbf{I}$ has eigenvalue $-1.000000$, creating an undamped period-2 limit cycle that cannot converge.
+    - **Scientific Conclusion:** The layered UEL architecture is an execution vehicle for coupled phase-field damage solving where companion UMAT is strictly a passive zero-stress output carrier (`STRESS = 0`). Standard continuum elasticity (Package 90) is the only mathematically consistent formulation for linear-elastic stress recovery pre-analysis.
+  - **Unit Test Suite:** **28/28 tests pass 100%** across repository.
+  - **Queue Status:** 0 active jobs running.
 
 ---
 
-## 2. Active Cluster Jobs & Queue Status
+## 2. Cluster Job Status Table
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :---: | :---: | :---: | :--- | :--- |
-| **`1409914.mmaster02`** | `PK_M1_J1_CONT_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | **`Q`/`R` (Active)** | Matched-history standard continuum control (`ARCHITECTURE_ISOLATION_CONTROL`, Package 90) | `B60DD35D56AB2824902F2D90912E222CF9D335D7D9911CF8DD17A3DC2B52E5F9` |
-| **`1409912.mmaster02`** | `PK_M1_JOB1_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | **`Q`/`R` (Active)** | Canonical 2,906-element 3-layer Job-1_UEL pre-analysis solve (`DIAGNOSTIC_JOB1_LAYERED_VARIANT`, Package 89) | `27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF` |
-| **`1409867.mmaster02`** | `PK_M1_S3_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | **`R` (Running)** | 41,912-element ($h=0.0015\,\text{mm}$) spatial fine convergence solve | `1500ECA5028660045789AF04AD3112E26CA76BBF7BFAC6437A42008A4307408F` |
+| `1409914.mmaster02` | `PK_M1_J1_CONT_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | Matched-history standard continuum control (`ARCHITECTURE_ISOLATION_CONTROL`, Package 90, datasets extracted) | `B60DD35D56AB2824902F2D90912E222CF9D335D7D9911CF8DD17A3DC2B52E5F9` |
+| `1409915.mmaster02` | `PK_M1_JOB1_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | Diagnostic 3-layer Job-1_UEL pre-analysis solve (Package 89, cutback terminated Step 1 Inc 1 via eigenvalue -1 divergence) | `27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF` |
+| `1409912.mmaster02` | `PK_M1_JOB1_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | Diagnostic 3-layer Job-1_UEL pre-analysis solve (Package 89, old PBS wrapper syntax failure) | `27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF` |
+| `1409867.mmaster02` | `PK_M1_S3_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 41,912-element ($h=0.0015\,\text{mm}$) spatial fine convergence solve (evaluated & closed) | `1500ECA5028660045789AF04AD3112E26CA76BBF7BFAC6437A42008A4307408F` |
 | `1409870.mmaster02` | `PK_MODE1_T3_FINE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 15,192-element temporal fine ($\Delta u = 2.5\times 10^{-4}$) solve (**`TEMPORAL_FAMILY_QUALIFIED`**) | `72D6CC5176326BFAB60FB9B23AFBE4AD6882A0ABC030465BAF10A5DC2A19519C` |
 | `1409846.mmaster02` | `PK_M1_ADAPT_2PCT_13K_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 13,897-element 2% efficiency-calibrated adaptive validation solve (**`SPATIAL_CAUSALITY_AUDITED`**) | `9113C5F609B86DE03FD0AD4A18A971EC3ED5424664BFE44E695E96789D4D6ECC` |
 | `1409866.mmaster02` | `PK_M1_S2_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 32,184-element ($h=0.0020\,\text{mm}$) spatial convergence solve (**`MATCHED_AUDITED`**) | `9A5C3BD7EA9AF8CD38715FAC9FB062B1590766B7A7CF3A800D2F8C9E95C3767F` |
