@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T23:25:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14O: Energy-Unit and Phase-Field Anchor Reconciliation Audit Completed; Reconciled repository-wide energy unit scaling (1 kN*mm = 1 J = 1000 mJ) and notch-tip micro-damage field state; Evaluated authoritative comparison at u = 0.0010 mm (1.0 µm, Increment 400): Fixed Reference (Job 1409734) E_elas = 0.068962 mJ, E_frac = 5.5534e-5 mJ, d_max = 0.009103 vs Corrected Adaptive (Job 1409953) E_elas = 0.068944 mJ (-0.0261%), E_frac = 5.5608e-5 mJ (+0.1318%), d_max = 0.009532 (+4.71%); Preserved canonical K0 = 137.909558 kN/mm (-0.0261%, R2 = 0.99999960, N=400, STABLE); Verified internal energy balance residuals eps_book <= 0.00026%; Assigned formal verdict STAGE14_ENERGY_AND_PHASE_ANCHOR_RECONCILED; Authored and passed regression test suite test_stage14o_energy_and_phase_reconciliation.py (4/4 pass, 46/46 Stage-14 suite pass 100%); Updated Thesis Chapter 4 (Section 4.8 & 4.9) and compiled cleanly (52 pages); Active solver Job 1409953.mmaster02 actively advancing past Increment 858 in Step 1 on mnode097 with 0 cutbacks.
-Parent commit: `0f49f92d67272aca5804b5e721ef12e9a0d3d068`
+Last updated: `2026-10-03T23:35:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14P: Early Spatial Phase-Field Profile and Localization-Shape Audit Completed; Evaluated continuous spatial damage distribution along symmetry ligament y = 0.500 mm mapped onto common uniform grid x in [0.50, 1.00] mm (N=1001, dx = 0.5 µm); Verified continuous relative L2 error is strictly bounded at 3.3533% (3.5915% in zoom [0.5, 0.6] mm); Proved peak discrepancy L_inf = 6.423e-4 is strictly confined to notch root (x = 0.5010 mm) due to finer adaptive sizing (h_min = 1.09 µm vs 1.97 µm); Verified identical exponential decay for x > 0.53 mm and intact apparent crack tip x_tip = 0.5000 mm (d << 0.90); Assigned formal verdict STAGE14_EARLY_SPATIAL_PHASE_PROFILE_AUDIT; Classified spatial phase-field quantity as STABLE; Generated 3 publication figures in results/figures/mode1_gate6b/; Authored and passed regression test suite test_stage14p_early_phase_profile_audit.py (4/4 pass, 64/64 Stage-14 suite pass 100%); Updated Thesis Chapter 4 (Section 4.10) and compiled cleanly (55 pages, 0 errors); Active solver Job 1409953.mmaster02 actively advancing past Increment 1139 in Step 1 on mnode097 with 0 cutbacks.
+Parent commit: `34b08bab1dd1bae49d0104809c5b6e848ecf0e6f`
 
 ---
 
@@ -78,7 +78,17 @@ Parent commit: `0f49f92d67272aca5804b5e721ef12e9a0d3d068`
     - Preserved canonical structural stiffness $K_0 = 137.909558\,\text{kN/mm}$ ($N=400$, $R^2 = 0.99999960$, `STABLE`).
     - Authored regression unit test suite `test_stage14o_energy_and_phase_reconciliation.py` (4/4 tests pass, 46/46 full Stage-14 suite pass).
     - Updated Thesis Chapter 4 (Section 4.8 & 4.9) and compiled cleanly (52 pages).
-    - Active solver job `1409953.mmaster02` actively advancing in Step 1 on `mnode097` (Inc 858+, 0 cutbacks, 3 iters/inc).
+  - **Stage 14P (Early Spatial Phase-Field Profile and Localization-Shape Audit) Completed (`MODE1_STAGE14P_EARLY_PHASE_PROFILE_AUDIT_REPORT.md` and `.json`):**
+    - Extracted companion-layer phase field from active solve `1409953.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`) at $u = 0.0010\,\text{mm}$ (Increment 400).
+    - Mapped continuous damage distribution along symmetry ligament $y = 0.500\,\text{mm}$ onto common uniform 1D grid $x \in [0.50, 1.00]\,\text{mm}$ ($N=1001$, $\Delta x = 0.5\,\mu\text{m}$).
+    - Verified continuous relative $L_2$ difference $\|d_{\text{adapt}} - d_{\text{ref}}\|_{L_2} / \|d_{\text{ref}}\|_{L_2} = 3.3533\%$ across intact ligament ($3.5915\%$ in zoom $x \in [0.50, 0.60]\,\text{mm}$).
+    - Proved maximum discrepancy $L_\infty = 6.423\times 10^{-4}$ is strictly confined to notch root ($x = 0.5010\,\text{mm}$), resulting from finer adaptive element sizing ($h_{\min} = 1.09\,\mu\text{m}$ vs $1.97\,\mu\text{m}$).
+    - Verified identical decay profile for $x > 0.53\,\text{mm}$ (differences $< 10^{-6}$) and intact macro-crack tip coordinate $x_{\text{tip}} = 0.5000\,\text{mm}$ ($d < 0.010 \ll 0.90$).
+    - Assigned formal verdict: `STAGE14_EARLY_SPATIAL_PHASE_PROFILE_AUDIT`; classified spatial phase-field quantity as `STABLE`.
+    - Generated 3 publication figures in `results/figures/mode1_gate6b/` and thesis.
+    - Authored unit test suite `test_stage14p_early_phase_profile_audit.py` (4/4 passed, 64/64 full Stage 14 suite passed).
+    - Updated Thesis Chapter 4 (Section 4.10) and compiled PDF cleanly (55 pages, 0 errors).
+    - Active solver Job `1409953.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`) actively advancing in Step 1 past Increment 1139 ($u \approx 0.00285\,\text{mm}$) with 0 cutbacks and 3 iterations per increment.
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
 ---

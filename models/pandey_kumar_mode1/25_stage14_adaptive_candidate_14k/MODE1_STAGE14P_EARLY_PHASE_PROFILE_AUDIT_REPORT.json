@@ -1,0 +1,60 @@
+{
+  "task_id": "F1193-GATE6B-STAGE14P-EARLY-PHASE-PROFILE-AUDIT-20261003",
+  "governing_verdict": "STAGE14_EARLY_SPATIAL_PHASE_PROFILE_AUDIT",
+  "spatial_phase_field_classification": "STABLE",
+  "scientific_interpretation": "The +4.7068% difference in global peak phase-field d_max at u = 0.0010 mm (0.009532 vs 0.009103) is confirmed to be a purely localized peak-amplitude sampling effect at the singular notch tip (x = 0.500 mm). The spatial phase-field profiles match across the intact ligament with continuous L2 relative error of 3.3533% and maximum absolute pointwise discrepancy L_inf = 6.423234e-04. Macro-crack tip remains unchanged at x_tip = 0.500 mm (d < 0.010).",
+  "audit_metrics_u_0_0010mm": {
+    "displacement_u_mm": 0.001,
+    "grid_sampling": {
+      "x_min_mm": 0.5,
+      "x_max_mm": 1.0,
+      "n_points": 1001,
+      "dx_mm": 0.0005
+    },
+    "reference_model": {
+      "job_id": "1409734.mmaster02",
+      "mesh": "fixed_reference_15k",
+      "global_d_max": 0.00910334,
+      "ligament_d_max": 0.008539079688489399,
+      "x_d_max_mm": 0.5015037655830383,
+      "l2_norm": 0.0010223254078270227,
+      "max_grad_abs_mm_inv": 0.39030399191150966,
+      "x_max_grad_mm": 0.5055,
+      "tip_position_d90_mm": 0.5,
+      "notch_tip_elem_h_mm": 0.001967
+    },
+    "adaptive_candidate": {
+      "job_id": "1409953.mmaster02",
+      "mesh": "adaptive_candidate_14k",
+      "global_d_max": 0.009531822986900806,
+      "ligament_d_max": 0.009531822986900806,
+      "x_d_max_mm": 0.5010757893323898,
+      "l2_norm": 0.0010109268110345014,
+      "max_grad_abs_mm_inv": 1.2749389394965078,
+      "x_max_grad_mm": 0.504,
+      "tip_position_d90_mm": 0.5,
+      "notch_tip_elem_h_min_mm": 0.0010899743927332301,
+      "notch_tip_elem_h_mean_mm": 0.0020043461575241076
+    },
+    "comparison_metrics": {
+      "delta_global_d_max": 0.00042848298690080673,
+      "rel_global_d_max_pct": 4.706876672746561,
+      "delta_ligament_d_max": 0.0009927432984114075,
+      "rel_ligament_d_max_pct": 11.625881647990898,
+      "continuous_l2_diff": 3.4281336519749044e-05,
+      "rel_continuous_l2_pct": 3.3532705200602275,
+      "l_inf_diff": 0.000642323412923535,
+      "x_l_inf_mm": 0.501,
+      "zoom_l2_diff_0_5_0_6mm": 3.427925181348298e-05,
+      "rel_zoom_l2_pct": 3.591490063626421
+    }
+  },
+  "generated_figures": [
+    "D:\\Master thesis\\Adaptive remeshing\\results\\figures\\mode1_gate6b\\fig_mode1_stage14p_ligament_profile_overlay.png",
+    "D:\\Master thesis\\Adaptive remeshing\\results\\figures\\mode1_gate6b\\fig_mode1_stage14p_ligament_profile_overlay.pdf",
+    "D:\\Master thesis\\Adaptive remeshing\\results\\figures\\mode1_gate6b\\fig_mode1_stage14p_crack_tip_zoom.png",
+    "D:\\Master thesis\\Adaptive remeshing\\results\\figures\\mode1_gate6b\\fig_mode1_stage14p_crack_tip_zoom.pdf",
+    "D:\\Master thesis\\Adaptive remeshing\\results\\figures\\mode1_gate6b\\fig_mode1_stage14p_profile_difference.png",
+    "D:\\Master thesis\\Adaptive remeshing\\results\\figures\\mode1_gate6b\\fig_mode1_stage14p_profile_difference.pdf"
+  ]
+}

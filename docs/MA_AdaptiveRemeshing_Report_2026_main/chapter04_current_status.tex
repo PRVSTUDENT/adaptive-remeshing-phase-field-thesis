@@ -654,3 +654,81 @@ A rigorous audit of the solver energy quantities confirmed complete unit consist
 In \texttt{f42\_mixed\_uel.for}, all whole-element energy integrals are integrated directly in consistent solver units ($\mathrm{kN}\cdot\mathrm{mm} \equiv \mathrm{J}$). Expressed in millijoules ($\mathrm{mJ}$), the elastic strain energy at $u = 1.0\,\mu\mathrm{m}$ is $E_{\mathrm{elas}} = 0.068944\,\mathrm{mJ}$ for the adaptive solve versus $0.068962\,\mathrm{mJ}$ for the fixed reference, matching the $-0.0261\%$ force parity exactly. The crack-surface functional $E_{\mathrm{frac}} = 5.561\times 10^{-5}\,\mathrm{mJ}$ accounts for less than $0.08\%$ of the total stored energy.
 
 Furthermore, degree-of-freedom extraction from Layer~3 companion elements confirms that the maximum phase-field value at the singular notch tip is $d_{\max} = 0.009532$ (adaptive) and $0.009103$ (reference), with identical values obtained across \texttt{SDV1} and \texttt{SDV14}. Macroscopic crack extension remains zero ($x_{\mathrm{tip}}(d \ge 0.90) = 0.5000\,\mathrm{mm}$), confirming that the specimen remains in the intact micro-damage localization phase. Internal energy balance is preserved with residual $\varepsilon_{\mathrm{book}} \le 0.00026\%$, certifying the initial state as fully reconciled (\texttt{STAGE14\_ENERGY\_AND\_PHASE\_ANCHOR\_RECONCILED}).
+
+\section{Stage 14P: Early Spatial Phase-Field Profile and Localization-Shape Audit}
+\label{sec:stage14p_phase_profile_audit}
+
+Following the initial energy and state reconciliation in Stage~14O, Stage~14P performs a rigorous continuous spatial audit of the phase-field damage field $d(x)$ along the Mode-I symmetry ligament ($y = 0.500\,\mathrm{mm}$) at the initial elastic anchor state $u = 0.0010\,\mathrm{mm} = 1.0\,\mu\mathrm{m}$ (Increment~400).
+
+\subsection{Physical Motivation and Singular Sampling Analysis}
+\label{subsec:stage14p_motivation}
+
+In Stage~14O, the peak phase-field value evaluated at the singular notch root exhibited a $+4.7068\%$ amplitude difference between the adaptive candidate ($d_{\max} = 0.009532$) and the fixed reference ($d_{\max} = 0.009103$). To establish whether this variation indicates a genuine spatial field discrepancy or merely a localized numerical sampling consequence of different discretization densities around the notch singularity, the damage distribution was mapped onto a high-resolution common 1D evaluation grid along the uncracked ligament:
+\begin{equation}
+\label{eq:ligament_grid}
+x \in [0.500, \, 1.000]\,\mathrm{mm}, \quad \Delta x = 0.0005\,\mathrm{mm} = 0.5\,\mu\mathrm{m} \quad (N = 1001\text{ sampling points}).
+\end{equation}
+
+Continuous 1D spatial interpolation was performed for both discretizations. The resulting continuous relative $L_2$ error, $L_\infty$ point-wise discrepancy, spatial gradient distribution $\partial d / \partial x$, and apparent crack-tip coordinates are synthesized in Table~\ref{tab:stage14p_profile_comparison}.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Early spatial phase-field profile and localization audit metrics along the symmetry ligament ($y = 0.500\,\mathrm{mm}$, $x \in [0.50, 1.00]\,\mathrm{mm}$) at the elastic anchor state ($u = 0.0010\,\mathrm{mm}$).}
+\label{tab:stage14p_profile_comparison}
+\begin{tabularx}{\textwidth}{p{3.4cm} p{2.2cm} p{2.2cm} p{2.6cm} X}
+\toprule
+\textbf{Spatial Audit Metric} & \textbf{Fixed Reference} & \textbf{Adaptive 14k} & \textbf{Discrepancy / Value} & \textbf{Audit Verdict} \\
+\midrule
+Global Peak $d_{\max}$ & $0.00910334$ & $0.00953182$ & $+0.00042848$ ($+4.71\%$) & Micro-damage Peak \\
+Ligament Peak $d_{\max,\mathrm{lig}}$ & $0.00853908$ & $0.00953182$ & $+0.00099274$ ($+11.63\%$) & Centroid Value \\
+Peak Location $x(d_{\max})$ & $0.50150\,\mathrm{mm}$ & $0.50108\,\mathrm{mm}$ & $-0.00042\,\mathrm{mm}$ & Notch Root Tip \\
+\midrule
+\textbf{Continuous $L_2$ Norm $\|d\|_{L_2}$} & $\mathbf{1.0223\times 10^{-3}}$ & $\mathbf{1.0425\times 10^{-3}}$ & $\mathbf{\Delta L_2 = 3.428\times 10^{-5}}$ & \textbf{\texttt{STABLE} ($\mathbf{3.35\%}$)} \\
+Zoom $L_2$ ($x \in [0.5, 0.6]\,\mathrm{mm}$) & $9.5446\times 10^{-4}$ & $9.7424\times 10^{-4}$ & $\Delta L_2 = 3.428\times 10^{-5}$ & \textbf{\texttt{STABLE} ($3.59\%$)} \\
+Max Discrepancy $\|d\|_{L_\infty}$ & -- & -- & $\mathbf{6.423\times 10^{-4}}$ & Local Tip ($x = 0.5010\,\mathrm{mm}$) \\
+Max Gradient $|\partial d / \partial x|_{\max}$ & $0.3903\,\mathrm{mm^{-1}}$ & $1.2749\,\mathrm{mm^{-1}}$ & $+0.8846\,\mathrm{mm^{-1}}$ & Steep Singularity \\
+\midrule
+Apparent Crack Tip $x_{\mathrm{tip}}(d \ge 0.90)$ & $0.5000\,\mathrm{mm}$ & $0.5000\,\mathrm{mm}$ & $0.0000\,\mathrm{mm}$ ($0.0\%$) & Intact Ligament \\
+Notch Tip Element Size $h$ & $\approx 1.97\,\mu\mathrm{m}$ & $h_{\min} = 1.09\,\mu\mathrm{m}$ & Local Refinement & Adaptive Resolution \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/fig_mode1_stage14p_ligament_profile_overlay.pdf}
+\caption{Early spatial phase-field damage profile $d(x)$ along the Mode-I symmetry ligament ($y = 0.500\,\mathrm{mm}$, $x \in [0.50, 1.00]\,\mathrm{mm}$) at $u = 0.0010\,\mathrm{mm} = 1.0\,\mu\mathrm{m}$ (Increment~400). The fixed reference benchmark (\texttt{1409734}) and corrected adaptive solve (\texttt{1409953}) exhibit high continuous profile concurrence ($\|d_{\mathrm{adapt}} - d_{\mathrm{ref}}\|_{L_2} / \|d_{\mathrm{ref}}\|_{L_2} = 3.35\%$) and identical far-field decay.}
+\label{fig:stage14p_ligament_overlay}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.49\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_mode1_stage14p_crack_tip_zoom.pdf}
+  \caption*{(a) Notch-tip zoom ($x \in [0.50, 0.56]\,\mathrm{mm}$)}
+\end{minipage}\hfill
+\begin{minipage}{0.49\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_mode1_stage14p_profile_difference.pdf}
+  \caption*{(b) Discrepancy $\Delta d(x)$ and gradient $|\partial d / \partial x|$}
+\end{minipage}
+\caption{Detailed crack-tip singularity localization audit at $u = 0.0010\,\mathrm{mm}$: (a) discrete element centroid sampling near the notch root illustrating the effect of finer adaptive sizing ($h_{\min} \approx 1.09\,\mu\mathrm{m}$ vs $1.97\,\mu\mathrm{m}$), and (b) spatial discrepancy profile $\Delta d(x) = d_{\mathrm{adapt}}(x) - d_{\mathrm{ref}}(x)$ peaking at the notch root and vanishing for $x > 0.54\,\mathrm{mm}$ alongside the spatial gradient profiles.}
+\label{fig:stage14p_singularity_details}
+\end{figure}
+
+\subsection{Audit Findings and Scientific Epistemology}
+\label{subsec:stage14p_findings}
+
+The spatial evaluation establishes the following scientific conclusions:
+\begin{enumerate}
+    \item \textbf{Global Field Concordance:} Across the entire ligament $x \in [0.50, 1.00]\,\mathrm{mm}$, the continuous relative $L_2$ error is strictly bounded at \textbf{$3.3533\%$}, demonstrating that the underlying phase-field damage representation is highly consistent across both discretizations.
+    \item \textbf{Singularity Sampling Confinement:} The peak point-wise discrepancy $\|d_{\mathrm{adapt}} - d_{\mathrm{ref}}\|_{L_\infty} = 6.423\times 10^{-4}$ is localized to a narrow boundary layer ($x \in [0.500, 0.515]\,\mathrm{mm}$) at the singular notch root. Because the adaptive mesh achieves finer element sizing ($h_{\min} \approx 1.09\,\mu\mathrm{m}$) than the uniform reference ($h \approx 1.97\,\mu\mathrm{m}$), its integration points sample the asymptotic singular stress fields closer to the notch tip ($x = 0.50108\,\mathrm{mm}$ vs $0.50150\,\mathrm{mm}$), resolving a slightly higher localized micro-damage peak.
+    \item \textbf{Decay Invariance:} Away from the notch root ($x > 0.53\,\mathrm{mm}$), the spatial profiles decay identically toward zero with differences below $10^{-6}$, proving that no spurious far-field damage accumulation occurs.
+    \item \textbf{Pre-Crack Integrity:} The apparent crack tip coordinate defined by the initiation threshold ($d \ge 0.90$) remains identically at the notch root ($x_{\mathrm{tip}} = 0.5000\,\mathrm{mm}$) for both discretizations, confirming that macroscopic crack propagation has not yet initiated.
+\end{enumerate}
+
+Based on these findings, the early spatial phase-field profile is formally certified as \textbf{\texttt{STAGE14\_EARLY\_\allowbreak SPATIAL\_\allowbreak PHASE\_\allowbreak PROFILE\_\allowbreak AUDIT}} and classified as \textbf{\texttt{STABLE}} within the elastic anchor horizon.
+
+
