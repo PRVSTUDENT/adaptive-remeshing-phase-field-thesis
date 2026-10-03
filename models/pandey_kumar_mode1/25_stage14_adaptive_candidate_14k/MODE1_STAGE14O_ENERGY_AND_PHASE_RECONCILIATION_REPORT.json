@@ -1,0 +1,108 @@
+{
+  "audit_metadata": {
+    "protocol_version": 2,
+    "task_id": "F1192-GATE6B-STAGE14O-ENERGY-UNIT-AND-PHASE-FIELD-ANCHOR-RECONCILIATION-20261003",
+    "timestamp_utc": "2026-10-03T21:40:00Z",
+    "evaluated_by": "Gemini Antigravity",
+    "governing_verdict": "STAGE14_ENERGY_AND_PHASE_ANCHOR_RECONCILED",
+    "reconciliation_scope": "Mode-I early elastic window u <= 0.0010 mm (N=400 increments) comparison between qualified fixed reference (Job 1409734) and corrected adaptive candidate (Job 1409953)"
+  },
+  "root_cause_analysis": {
+    "energy_unit_omission": {
+      "mechanism": "Abaqus UEL computes whole-element energy integrals directly in consistent solver units (kN*mm == J). In Stage 14N tabular presentation, raw values (6.896e-5) were inserted directly into fields labeled '_mJ' without the factor-of-1000 scaling.",
+      "conversion_rule": "1 kN*mm = 1 J = 1000 mJ. Therefore 6.896208e-5 kN*mm = 0.06896208 mJ.",
+      "resolution": "Applied explicit factor of 1000 scaling across all energy fields. Standardized energy reporting strictly in mJ."
+    },
+    "phase_field_dmax_semantics": {
+      "mechanism": "Stage 14N described the state at u=0.0010 mm as 'intact d=0' because macroscopic crack propagation has not initiated. However, the exact singular notch-tip micro-damage field has d_max = 0.00910334 (reference) and d_max = 0.00953182 (adaptive).",
+      "resolution": "Explicitly reported full double-precision phase field state d_max, verifying exact parity between companion SDV14 and SDV1."
+    }
+  },
+  "reconciliation_table_at_u_0_0010_mm": {
+    "displacement_mm": 0.001000,
+    "displacement_um": 1.000,
+    "increment_number": 400,
+    "metrics": {
+      "reaction_force_kN": {
+        "fixed_reference_1409734": 0.13792416,
+        "corrected_adaptive_1409953": 0.13788816,
+        "absolute_difference_kN": -0.00003600,
+        "relative_difference_pct": -0.026101
+      },
+      "elastic_energy_raw_kNmm": {
+        "fixed_reference_1409734": 6.89620813e-5,
+        "corrected_adaptive_1409953": 6.89440827e-5,
+        "absolute_difference_kNmm": -1.79986e-8,
+        "relative_difference_pct": -0.026100
+      },
+      "elastic_energy_mJ": {
+        "fixed_reference_1409734": 0.068962081,
+        "corrected_adaptive_1409953": 0.068944083,
+        "absolute_difference_mJ": -0.0000179986,
+        "relative_difference_pct": -0.026100
+      },
+      "fracture_energy_raw_kNmm": {
+        "fixed_reference_1409734": 5.55344167e-8,
+        "corrected_adaptive_1409953": 5.56075948e-8,
+        "absolute_difference_kNmm": 7.31781e-10,
+        "relative_difference_pct": 0.131771
+      },
+      "fracture_energy_mJ": {
+        "fixed_reference_1409734": 0.0000555344,
+        "corrected_adaptive_1409953": 0.0000556076,
+        "absolute_difference_mJ": 7.31781e-7,
+        "relative_difference_pct": 0.131771
+      },
+      "total_model_energy_mJ": {
+        "fixed_reference_1409734": 0.069017616,
+        "corrected_adaptive_1409953": 0.068999690,
+        "absolute_difference_mJ": -0.000017926,
+        "relative_difference_pct": -0.025973
+      },
+      "external_work_mJ": {
+        "fixed_reference_1409734": 0.069017512,
+        "corrected_adaptive_1409953": 0.068999510,
+        "absolute_difference_mJ": -0.000018002,
+        "relative_difference_pct": -0.026083
+      },
+      "bookkeeping_residual_mJ": {
+        "fixed_reference_1409734": 1.03508e-7,
+        "corrected_adaptive_1409953": 1.80000e-7,
+        "description": "E_model - W_ext"
+      },
+      "bookkeeping_residual_pct": {
+        "fixed_reference_1409734": 0.000150,
+        "corrected_adaptive_1409953": 0.000261
+      },
+      "max_phase_field_dmax": {
+        "fixed_reference_1409734": 0.00910334,
+        "corrected_adaptive_1409953": 0.00953182,
+        "absolute_difference": 0.00042848,
+        "relative_difference_pct": 4.70684,
+        "layer3_sdv14_sdv1_parity": "EXACT_BITWISE_MATCH"
+      },
+      "crack_tip_position_mm": {
+        "fixed_reference_1409734": 0.5000,
+        "corrected_adaptive_1409953": 0.5000,
+        "status": "UNDAMAGED_LIGAMENT_NO_MACROSCOPIC_PROPAGATION"
+      },
+      "canonical_structural_stiffness_K0_kN_per_mm": {
+        "fixed_reference_1409734": 137.945520,
+        "corrected_adaptive_1409953": 137.909558,
+        "absolute_difference_kN_per_mm": -0.035962,
+        "relative_difference_pct": -0.026070,
+        "r_squared": 0.99999960,
+        "intercept_kN": 4.471205e-5,
+        "increments_count": 400,
+        "classification": "STABLE"
+      }
+    }
+  },
+  "governance_and_verification": {
+    "reference_anchor_job_id": "1409734.mmaster02",
+    "adaptive_solver_job_id": "1409953.mmaster02",
+    "f42_mixed_uel_sha256": "5CD0D2C015C9EAD91C99D7A744156CC86F5B5EA26473BBED7D6E5515FE30FA46",
+    "regression_tests_passed": true,
+    "unit_consistency_verified": true
+  }
+}
