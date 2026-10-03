@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T07:45:00+02:00` (Gemini Antigravity) — Gate-6B Cause Audit Stage 4 Complete (STRESS_TRANSFER_VERIFIED_NOT_DOMINANT_CAUSE, NEUTRAL_LOCALIZATION); Mechanical UEL vs Continuum Stress Parity Verified (r=1.000 across 2,906 FE); Error Proven Native to Source Continuum Field; Next Governed Stage: Stage 5 Step & Frame Semantics; 1 Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced
+Last updated: `2026-10-03T07:56:00+02:00` (Gemini Antigravity) — Gate-6B Pre-Analysis Fidelity Reconciliation Checkpoint (Single-Layer 56k Reclassified as Diagnostic Variant; Layered 3-Layer Job-1_UEL Candidate 89 Built & Datacheck-Preflighted); 1 Active Production Solve (1409867 S3) Running in normal_imfdfkmq with Strict Non-Polling Guard Enforced
 Parent commit: `5fce76f06bfe753d4f7a1b476a16e833e7d4d9d0`
 
 ---
@@ -30,7 +30,7 @@ Parent commit: `5fce76f06bfe753d4f7a1b476a16e833e7d4d9d0`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,	ext{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `STAGE4_STRESS_TRANSFER_AUDITED; STAGE3_MAPPING_AUDITED; STAGE2_BC_AUDITED; STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_DISCREPANCY_AUDITED; SPATIAL_CAUSALITY_AUDITED; 1_SOLVER_JOB_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `PREANALYSIS_FIDELITY_RECONCILED; STAGE4_STRESS_TRANSFER_AUDITED; STAGE3_MAPPING_AUDITED; STAGE2_BC_AUDITED; STAGE1_TOPOLOGY_AUDITED; TEMPORAL_FAMILY_QUALIFIED; SPATIAL_DISCREPANCY_AUDITED; SPATIAL_CAUSALITY_AUDITED; 1_SOLVER_JOB_RUNNING; NON_POLLING_GUARD_ENFORCED; 0_RETRIES`
   - **Cause Audit Stage 1: Coarse-Mesh Topology & Layout (`STAGE1_TOPOLOGY_AUDIT`):**
     - Verdict: **`TOPOLOGY_NOT_SUPPORTED_AS_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
     - $88$ triangles ($3.03\%$ of mesh) carry only $2.92\%$ of error (mean $0.006765\,	ext{MPa}$ vs quads $0.009975\,	ext{MPa}$).
@@ -69,7 +69,14 @@ Parent commit: `5fce76f06bfe753d4f7a1b476a16e833e7d4d9d0`
     - Master Figure: `results/figures/mode_i_adaptive/fig_mode1_gate6b_stage4_stress_transfer_audit.png` (and `.pdf`).
     - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_STAGE4_STRESS_TRANSFER_AUDIT_REPORT.md` and `GATE6B_STAGE4_STRESS_TRANSFER_AUDIT.json`.
     - Stress Audit CSV: `models/pandey_kumar_mode1/PK_M1_COARSE_2906_STRESS_TRANSFER_AUDIT.csv`.
-    - Next Stage: Advance to Stage 5 (Step & Frame Semantics in `adaptiveRemesh`).
+    - Next Stage: Held for Pre-Analysis Architecture Reconciliation Checkpoint.
+  - **Reference-Fidelity Checkpoint: Pre-Analysis Architecture Reconciliation (`PREANALYSIS_FIDELITY_RECONCILIATION`):**
+    - Audit Finding: The existing $56,302$-element $1.0\%$ remeshed model was driven by `PK_PREANALYSIS_COARSE.inp`, executing a single-layer standard continuum linear-elastic solve (`Plate-1`, CPE4/CPE3, $2,906$ elements, $2,988$ nodes).
+    - Reclassification: The single-layer continuum pre-analysis ($56,302$ FE) is formally reclassified as a **project diagnostic variant** (`STANDARD_CONTINUUM_PREANALYSIS_VARIANT`), preserving its utility for isolating continuum stress errors while establishing that it is not a faithful realization of Pandey & Kumar's 3-layer UEL workflow.
+    - Claims Reconciliation: Prior Stage-4 wording asserting that MISESERI is evaluated directly on standard continuum elements was corrected to reflect the authentic layered architecture where MISESERI is extracted from the companion facsimile layer (`All_elem` / `umatelem`).
+    - Candidate Package (`89_mode1_preanalysis_uel_canonical_2906`): Reconstructed publication-faithful 3-layer `PK_M1_JOB1_UEL_2906.inp` ($8,718$ layered elements on canonical 2,906 coarse mesh) with Hookean stress recovery in UMAT (`f42_mixed_uel.for`) and verified zero duplicate stiffness ($K_0 = 137.945520\,\text{kN/mm}$, $r=1.000000000$).
+    - Dedicated Report & JSON: `models/pandey_kumar_mode1/MODE1_PREANALYSIS_FIDELITY_AUDIT_REPORT.md`, `GATE6B_PREANALYSIS_FIDELITY_RECONCILIATION.json`, and `PK_M1_PREANALYSIS_PROVENANCE_MATRIX.csv`.
+    - Next Stage: Execute cluster datacheck and submit authorized 1-CPU serial Job-1_UEL pre-analysis solve.
   - **S1 Reference Solve Scientifically Qualified (`1409734.mmaster02`):**
     - Exit Status: `0` (Walltime `06:55:16`, CPUT `06:43:00`, 1-CPU Serial on `mnode097/0`).
     - Mechanical Parity: $K_0 = 137.945520\,	ext{kN/mm}$ ($N=400$, $b=4.472368 	imes 10^{-5}\,	ext{kN}$, $R^2=0.99999960$), $F_{\max} = 0.757778\,	ext{kN}$, $u_{	ext{peak}} = 0.005857\,	ext{mm}$, $W_{	ext{ext}} = 2.359329\,	ext{mJ}$.

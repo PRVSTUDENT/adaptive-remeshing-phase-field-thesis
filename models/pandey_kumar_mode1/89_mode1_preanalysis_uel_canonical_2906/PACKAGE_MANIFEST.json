@@ -1,0 +1,49 @@
+{
+  "package_name": "89_mode1_preanalysis_uel_canonical_2906",
+  "task": "GATE6B-PREANALYSIS-FIDELITY-RECONCILIATION",
+  "phase": "PASS 1 PRE-ANALYSIS CANDIDATE QUALIFICATION",
+  "description": "Publication-faithful Mode-I layered pre-analysis (Job-1_UEL) on canonical 2,906 coarse mesh with Hookean stress recovery in companion UMAT for native Abaqus MISESERI calculation",
+  "governing_mesh": {
+    "source": "models/pandey_kumar_mode1/02_proposed_adaptive_refined/PK_PREANALYSIS_COARSE.inp",
+    "physical_elements": 2906,
+    "quads": 2818,
+    "tris": 88,
+    "nodes": 2988,
+    "layered_elements": 8718,
+    "h_cms_mm": 0.02
+  },
+  "boundary_conditions": {
+    "bottom": "u_y = 0 roller on y=0 (wrapped N_BOTTOM)",
+    "pin": "u_x = 0 pinned at (0,0) (N_PIN)",
+    "top": "u_y prescribed via N_RP (node 999999) tied in DOF 2; DOF 1 lateral-free roller"
+  },
+  "material_and_fracture_properties": {
+    "E_GPa": 210.0,
+    "nu": 0.3,
+    "Gc_kN_per_mm": 0.0027,
+    "l0_mm": 0.0075,
+    "k_residual": 1e-07
+  },
+  "artifacts": {
+    "input_deck": {
+      "file": "PK_M1_JOB1_UEL_2906.inp",
+      "sha256": "27aab773a116e3c8a832e4980d0e25f48a435f34dedece4abe78ffa232c0c1ff",
+      "size_bytes": 346245
+    },
+    "fortran_subroutine": {
+      "file": "f42_mixed_uel.for",
+      "sha256": "91ad75b0ff65dbd25967feae42af531239a99b3f76d9ef49d7359a66403dea6b",
+      "size_bytes": 32129
+    },
+    "datacheck_script": {
+      "file": "submit_datacheck.pbs",
+      "sha256": "ea74bbdedaae4cd7d7f0f3696f5f5f6c9fcb30e0c34b917e9e85baba436f20d4",
+      "size_bytes": 1077
+    },
+    "solver_script": {
+      "file": "submit_solver.pbs",
+      "sha256": "cc541dab3a78aa0c0b5f0dcb0c8f73b9345cb3e5f2001c9194e1e256e7d72759",
+      "size_bytes": 1071
+    }
+  }
+}

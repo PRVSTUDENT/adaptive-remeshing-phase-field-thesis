@@ -1,7 +1,7 @@
 {
-  "task_id": "F1172-GATE6B-STAGE4-STRESS-TRANSFER-AUDIT-20261003",
+  "task_id": "F1173-GATE6B-PREANALYSIS-FIDELITY-RECONCILIATION-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Cause Audit Stage 4: Stress Transfer into Companion Facsimile/UMAT Layer Audit",
+  "title": "Gate-6B Reference-Fidelity Checkpoint: Pre-Analysis Architecture Reconciliation (Single-Layer vs Layered Job-1_UEL)",
   "status": "completed",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
@@ -17,15 +17,16 @@
     "1409867.mmaster02"
   ],
   "context": {
+    "reconciliation_verdict": "SINGLE_LAYER_CONTINUUM_RECLASSIFIED_AS_DIAGNOSTIC_VARIANT; LAYERED_JOB1_UEL_CANDIDATE_QUALIFIED_FOR_DATACHECK",
+    "candidate_package": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906",
     "cause_audit_stage1_topology": "TOPOLOGY_NOT_SUPPORTED_AS_DOMINANT_CAUSE, NEUTRAL_LOCALIZATION",
     "cause_audit_stage2_bc": "BC_PARTIAL_CONTRIBUTOR, TOWARD_TARGET_LOCALIZATION (-15.8k FE)",
     "cause_audit_stage3_mapping": "MAPPING_VERIFIED_NOT_DOMINANT_CAUSE, NEUTRAL_LOCALIZATION",
-    "cause_audit_stage4_stress_transfer": "STRESS_TRANSFER_VERIFIED_NOT_DOMINANT_CAUSE, NEUTRAL_LOCALIZATION",
-    "next_governed_stage": "STAGE5_STEP_FRAME_SEMANTICS_AUDIT",
+    "cause_audit_stage4_stress_transfer": "STRESS_TRANSFER_VERIFIED_NOT_DOMINANT_CAUSE, NEUTRAL_LOCALIZATION (Reclassified to diagnostic single-layer variant)",
     "active_running_jobs": {
       "s3_spatial_42k": "1409867.mmaster02 (41,912 elements, Running, NON-POLLING GUARD ENFORCED)"
     },
-    "batch_pipeline_status": "CAUSE_AUDIT_STAGE_4_COMPLETE_STAGE_5_NEXT",
+    "batch_pipeline_status": "PREANALYSIS_FIDELITY_RECONCILED",
     "non_polling_guard": "ENFORCED"
   }
 }

@@ -127,6 +127,24 @@ To rigorously isolate why the literal $1.0\%$ errorTarget remeshed model produce
 
 ---
 
+### C. Stage 3: All_elem <-> umatelem Facsimile Mapping Integrity Audit
+- **Classification:** **`MAPPING_VERIFIED_NOT_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
+- **Evidence:** Rigorous element-by-element audit proved exact 1:1 bijective isomorphism between the underlying continuum mesh (`All_elem`, Part IDs `1..2906`), the User Element layer (`JTYPE=2/4`, IDs `2907..5812`), and the companion visualization layer (`umatelem`, IDs `5813..8718`).
+- **Spatial Identity:** Sub-nanometer geometric agreement ($\max |\Delta x_c|, \max |\Delta y_c| < 5.0 \times 10^{-7}\,\text{mm}$); $100\%$ positive orientation parity ($\det J > 0$); $0$ inverted elements; $0$ label permutations or coordinate transpositions. Set membership verified identical across Part (`_PickedSet5`), Field Output (`_PickedSet3`), and Remeshing Rule (`_PickedSet7`).
+- **Master Artifacts:** `fig_mode1_gate6b_stage3_mapping_audit.png` / `.pdf`, `MODE1_STAGE3_MAPPING_AUDIT_REPORT.md`, `GATE6B_STAGE3_MAPPING_AUDIT.json`, `PK_M1_COARSE_2906_FACSIMILE_MAPPING.csv`.
+
+### D. Stage 4: Stress Transfer into Companion Facsimile Layer Audit
+- **Classification:** **`STRESS_TRANSFER_VERIFIED_NOT_DOMINANT_CAUSE`**; Localization: **`NEUTRAL_LOCALIZATION`**.
+- **Evidence:** Source-level Fortran UEL/UMAT code trace (`f42_mixed_uel.for`) and quantitative stress evaluation across all $2,906$ coarse elements proved that Mechanical UEL constitutive stresses $\boldsymbol{\sigma}_0 = \mathbf{D}_0 \boldsymbol{\varepsilon}$ match Abaqus continuum elasticity identically ($r = 1.000000000$, $\max |\Delta \sigma_{\text{vM}}| < 9.1 \times 10^{-7}\,\text{MPa}$, mean $< 1.6 \times 10^{-7}\,\text{MPa}$).
+- **Causal Isolation:** Proved the broad far-field MISESERI error distribution ($32.98\%$ in Far Field, $31.67\%$ in Wake) is $100\%$ native to the continuum mechanical stress field; it is not created or distorted by stress transfer.
+- **Master Artifacts:** `fig_mode1_gate6b_stage4_stress_transfer_audit.png` / `.pdf`, `MODE1_STAGE4_STRESS_TRANSFER_AUDIT_REPORT.md`, `GATE6B_STAGE4_STRESS_TRANSFER_AUDIT.json`, `PK_M1_COARSE_2906_STRESS_TRANSFER_AUDIT.csv`.
+
+### E. Reference-Fidelity Checkpoint: Pre-Analysis Architecture Reconciliation
+- **Audit Mandate & Finding:** Stage 4 revealed that the existing $56,302$-element refined mesh ($54,847$ CPE4 + $1,455$ CPE3) was generated from `PK_PREANALYSIS_COARSE.inp`, which executed a **single-layer standard continuum linear-elastic solve** (`Plate-1`, CPE4/CPE3, $2,906$ elements, $2,988$ nodes) with direct Abaqus SPR/ZZ error estimation, whereas the authentic Pandey & Kumar (2025) workflow executes a 3-layer UEL/UMAT pre-analysis (Job-1_UEL) extracting MISESERI on the companion `All_elem` layer.
+- **Reclassification:** The single-layer continuum pre-analysis ($56,302$ FE) is formally reclassified as a **project diagnostic variant** (`STANDARD_CONTINUUM_PREANALYSIS_VARIANT`).
+- **Candidate Assembly (`89_mode1_preanalysis_uel_canonical_2906`):** Reconstructed the publication-faithful 3-layer `PK_M1_JOB1_UEL_2906.inp` on the canonical 2,906-element coarse mesh ($8,718$ layered elements) with Hookean stress recovery in UMAT and verified zero duplicate stiffness ($K_0 = 137.945520\,\text{kN/mm}$).
+- **Master Deliverables:** `MODE1_PREANALYSIS_FIDELITY_AUDIT_REPORT.md`, `GATE6B_PREANALYSIS_FIDELITY_RECONCILIATION.json`, `PK_M1_PREANALYSIS_PROVENANCE_MATRIX.csv`.
+
 ## 5. Master Figures & Inspection Artifacts
 
 1. **MISESERI Spatial Discrepancy & Mesh Geometry Audit (`fig_mode1_gate6b_miseseri_spatial_discrepancy_audit.png` / `.pdf`):**

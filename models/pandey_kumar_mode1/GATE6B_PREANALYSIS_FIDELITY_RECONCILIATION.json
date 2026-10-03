@@ -1,0 +1,46 @@
+{
+  "audit_metadata": {
+    "checkpoint": "Pre-Analysis Fidelity Reconciliation Checkpoint (Single-Layer vs Layered Job-1_UEL)",
+    "gate": "Gate-6B",
+    "timestamp": "2026-10-03T07:55:00+02:00",
+    "agent": "gemini-antigravity",
+    "task_id": "F1173-GATE6B-PREANALYSIS-FIDELITY-RECONCILIATION-20261003",
+    "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+    "reconciliation_verdict": "SINGLE_LAYER_CONTINUUM_RECLASSIFIED_AS_DIAGNOSTIC_VARIANT; LAYERED_JOB1_UEL_CANDIDATE_QUALIFIED_FOR_DATACHECK",
+    "next_action": "Submit 1-CPU serial coarse Job-1_UEL pre-analysis solve on cluster after datacheck pass"
+  },
+  "provenance_audit": {
+    "56k_lineage_deck": "models/pandey_kumar_mode1/02_proposed_adaptive_refined/PK_PREANALYSIS_COARSE.inp",
+    "56k_lineage_architecture": "Single-layer isotropic continuum elasticity (*ELASTIC, E=210 GPa, nu=0.3), direct SPR/ZZ on CPE4/CPE3",
+    "56k_lineage_reclassification": "PROJECT_DIAGNOSTIC_VARIANT (Isolated continuum stress benchmark; not faithful to 3-layer UEL workflow)",
+    "layered_job1_deck": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906/PK_M1_JOB1_UEL_2906.inp",
+    "layered_job1_sha256": "27aab773a116e3c8a832e4980d0e25f48a435f34dedece4abe78ffa232c0c1ff",
+    "fortran_subroutine": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906/f42_mixed_uel.for",
+    "fortran_sha256": "91ad75b0ff65dbd25967feae42af531239a99b3f76d9ef49d7359a66403dea6b"
+  },
+  "deck_and_source_audit": {
+    "umat_hooke_stress_evaluation": "VERIFIED_ACTIVE (UMAT evaluates isotropic plane-strain Hookean stress STRESS(1..4) from total strains)",
+    "all_elem_error_estimator_recognition": "VERIFIED_COMPLIANT (All_elem = umatelem consists of standard continuum CPE4/CPE3 elements)",
+    "structural_stiffness_isolation": "VERIFIED_NO_DOUBLE_COUNTING (Mechanical UEL carries 100% of stiffness K0=137.95 kN/mm; UMAT DDSDDE=1e-11)",
+    "stress_component_ordering": "VERIFIED_CORRECT (Abaqus 2D plane-strain NTENS=4: S11, S22, S33, S12)",
+    "boundary_conditions": "VERIFIED_CORRECTED (Bottom u_y=0, Pin u_x=0, Top tied to N_RP in DOF 2 with lateral-free roller)"
+  },
+  "coarse_mesh_summary": {
+    "underlying_elements": 2906,
+    "quads": 2818,
+    "tris": 88,
+    "nodes": 2988,
+    "layered_elements": 8718
+  },
+  "frozen_remeshing_settings": {
+    "variables": [
+      "MISESERI"
+    ],
+    "sizing_method": "UNIFORM_ERROR",
+    "error_target_pct": 1.0,
+    "refinement_factor": 10,
+    "coarsening_factor": "NOT_ALLOWED",
+    "min_element_size_mm": 0.001,
+    "max_element_size_mm": 0.02
+  }
+}

@@ -1,0 +1,16 @@
+Attribute,STANDARD_CONTINUUM_PREANALYSIS_VARIANT,PANDEY_KUMAR_LAYERED_JOB1_UEL_CANDIDATE,Fidelity & Causal Assessment
+Primary Role,Isolated single-layer continuum benchmark,Full 3-layer UEL/UMAT pre-analysis pipeline,Reclassified as diagnostic variant vs publication-faithful baseline
+Geometry & Specimen,1.0 mm x 1.0 mm square plate,1.0 mm x 1.0 mm square plate,Exact geometric identity (100.0%)
+Crack Seam,0.5 mm sharp zero-gap crack at y=0.5 mm,0.5 mm sharp zero-gap crack at y=0.5 mm,Exact topological identity (100.0%)
+Mesh Discretization,"2,906 finite elements (2,818 CPE4 + 88 CPE3)","2,906 underlying elements (2,818 quads + 88 tris); 8,718 layered",Exact spatial discretization match (h_cms = 0.02 mm)
+Node Count,"2,988 nodes + 0 RP","2,988 nodes + 1 RP (node 999999)",Exact nodal coordinate match
+Layer Discretization,Single continuum layer (IDs 1..2906),"3 layers: Layer 1 (U1/U3), Layer 2 (U2/U4), Layer 3 (CPE4/CPE3)",Layered UEL/UMAT architecture vs single-layer continuum
+Structural Stiffness Source,"Abaqus built-in *ELASTIC (E=210 GPa, nu=0.3)",Mechanical UEL (JTYPE=2/4 in f42_mixed_uel.for),K0 = 137.9455 kN/mm in both (r=1.000000000)
+UMAT Stiffness Tangent,N/A (no UMAT),"DDSDDE(I,I) = 1.0e-11 (negligible dummy stiffness)",Zero double-counting: Layer 2 carries 100% of stiffness
+Stress Evaluation,Abaqus built-in continuum integration,UMAT evaluates isotropic Hooke stress directly,Stress tensor S populated on All_elem in both
+Error Estimator Target,All_elem = Part elements (IDs 1..2906),All_elem = umatelem = Layer 3 CPE4/CPE3 (IDs 5813..8718),Standard continuum elements recognized by Abaqus SPR/ZZ
+Boundary Conditions,"Bottom roller (u_y=0), pin (u_x=0), top roller (u_y, u_x free)","Bottom roller (u_y=0), pin (u_x=0), top tied to RP in DOF 2 (u_x free)",Corrected lateral-free roller boundary condition
+Loading Schedule,PreAnalysisStep: u_y = 0.0010 mm,"Published 2-step schedule: Step-1 (u=0.005 mm), Step-2 (u=0.010 mm)","Published displacement increments (Delta u1=1e-3, Delta u2=5e-4)"
+Remeshing Settings,"MISESERI, UNIFORM_ERROR, errorTarget=1.0%, refFactor=10","MISESERI, UNIFORM_ERROR, errorTarget=1.0%, refFactor=10",Frozen RemeshingRule sizing contract
+Size Bounds,"h_min = 0.001 mm, h_max = 0.02 mm","h_min = 0.001 mm, h_max = 0.02 mm",Identical element size bounds
+Produced 1.0% Mesh Size,"56,302 finite elements (54,847 CPE4 + 1,455 CPE3)","48,329 FE (historical on 2,963) / pending evaluation on 2,906",56k lineage reclassified as project diagnostic variant
