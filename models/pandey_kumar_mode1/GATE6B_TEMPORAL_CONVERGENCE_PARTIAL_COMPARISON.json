@@ -1,53 +1,15 @@
 {
-  "family": "TEMPORAL_CONVERGENCE",
-  "scientific_purpose": "Evaluates time-step convergence on the 15k spatial baseline across T1 (coarse), T2 (nominal, reuses S1), T3 (fine).",
-  "summary_table": [
-    {
-      "candidate_id": "T1",
-      "name": "PK_MODE1_T1_COARSE_ENERGY",
-      "dt_step1_mm": 0.001,
-      "dt_step2_mm": 0.0004,
-      "elements": 15192,
-      "K0_kN_per_mm": 137.9446870285773,
-      "K0_R2": 0.9999995976232231,
-      "delta_K0_pct": -0.0006038408660765455,
-      "F_max_kN": 0.7581515,
-      "delta_F_max_pct": 0.04928884185078303,
-      "u_at_F_max_mm": 0.005864,
-      "W_ext_final_mJ": 2.410111991977195,
-      "E_frac_final_mJ": 2.3999548,
-      "E_elas_final_mJ": 0.0010389800000000001,
-      "E_model_final_mJ": 2.40099378,
-      "Delta_book_final_mJ": -0.009118211977195145,
-      "eps_book_abs_pct": 0.37833146374724247
-    },
-    {
-      "candidate_id": "T2",
-      "name": "PK_MODE1_T2_NOMINAL_ENERGY",
-      "dt_step1_mm": 0.0005,
-      "dt_step2_mm": 0.0002,
-      "elements": 15192,
-      "K0_kN_per_mm": 137.9455196450844,
-      "K0_R2": 0.9999995995397414,
-      "delta_K0_pct": -2.5728677881050455e-07,
-      "F_max_kN": 0.75777849,
-      "delta_F_max_pct": 6.466273763815279e-05,
-      "u_at_F_max_mm": 0.005857,
-      "W_ext_final_mJ": 2.3593293596249807,
-      "E_frac_final_mJ": 2.34022,
-      "E_elas_final_mJ": 0.0011608108,
-      "E_model_final_mJ": 2.3413808108,
-      "Delta_book_final_mJ": -0.017948548824980523,
-      "eps_book_abs_pct": 0.7607479113400883
-    }
-  ],
-  "successive_differences": {
-    "T1_to_T2": {
-      "K0_diff_pct": 0.0006035872240040559,
-      "F_max_diff_pct": -0.049199929037930676,
-      "u_peak_diff_pct": -0.11937244201910063,
-      "W_ext_diff_pct": -2.1070652534513004,
-      "E_frac_diff_pct": -2.4889968761078416
-    }
-  }
+  "comparison_id": "GATE6B_TEMPORAL_CONVERGENCE_PARTIAL_AUDIT",
+  "status": "PRELIMINARY_TEMPORAL_EVIDENCE_NOT_YET_QUALIFIED",
+  "notes": "T1 vs T2/S1 demonstrates time-step invariance (Delta F_max = +0.05%); fine step T3 (1409870) remains active.",
+  "t1_vs_s1_metrics": {
+    "delta_K0_pct": -0.0006,
+    "delta_F_max_pct": 0.0493,
+    "delta_u_peak_pct": 0.1195,
+    "delta_w_ext_final_pct": 2.1524,
+    "delta_e_frac_final_pct": 2.5525
+  },
+  "running_jobs": [
+    "1409870.mmaster02 (T3 Fine Time Step, 15,192 elements)"
+  ]
 }

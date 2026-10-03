@@ -4,7 +4,7 @@
     "candidate_id": "T1",
     "family": "TEMPORAL_CONVERGENCE",
     "description": "Temporal Discretization Convergence Candidate (dt = 0.001, h = 0.0030 mm)",
-    "scientific_interpretation": "Evaluates time-step convergence on the 15k spatial baseline.",
+    "scientific_interpretation": "Temporal coarse time-step solve (dt = 1.0e-3 mm, 15,192 elements, Exit 0). Demonstrates near-identical elastic compliance (Delta K0 = -0.0006%) and peak load (Delta F_max = +0.0493%) vs T2/S1 nominal. Final temporal convergence classification remains NOT_YET_QUALIFIED pending fine time-step T3 (1409870).",
     "meta": {
       "candidate_id": "T1",
       "name": "PK_MODE1_T1_COARSE_ENERGY",
@@ -52585,5 +52585,5 @@
     "fortran_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
     "total_increments_completed": 3500
   },
-  "scientific_qualification_status": "T1_TEMPORAL_COARSE_ENERGY_QUALIFIED"
+  "scientific_qualification_status": "PRELIMINARY_TEMPORAL_EVIDENCE_NOT_YET_QUALIFIED"
 }

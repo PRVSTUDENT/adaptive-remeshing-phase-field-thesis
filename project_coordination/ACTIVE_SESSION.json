@@ -1,9 +1,15 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1162-GATE6B-TERMINAL-ACCOUNTING-AND-BATCH-EVALUATION-20261003",
-  "starting_commit": "a81bb57c7bd9560d21b4c20f8d412cdce122732c",
-  "allowed_write_scope": "project_coordination/**; models/pandey_kumar_mode1/**; results/**; docs/**; scripts/**; tests/**",
-  "claimed_at": "2026-10-03T05:59:00+02:00",
-  "released_at": "2026-10-03T06:15:00+02:00"
+  "task_id": "F1164-GATE6B-CLAIMS-DISCIPLINE-AND-MATCHED-DISPLACEMENT-AUDIT-20261003",
+  "claimed_at": "2026-10-03T06:15:00+02:00",
+  "released_at": "2026-10-03T06:25:00+02:00",
+  "starting_commit": "e8a93e3",
+  "allowed_write_scope": [
+    "project_coordination/**",
+    "docs/experiment_records/**",
+    "models/pandey_kumar_mode1/**",
+    "results/figures/mode_i_adaptive/**"
+  ],
+  "notes": "Session completed. Matched-displacement audit, 3-regime adaptive energy decomposition, master figures, qualification reports, ledgers, and coordination records finalized. Active task transitioned to F1165 awaiting S3/T3 completion."
 }

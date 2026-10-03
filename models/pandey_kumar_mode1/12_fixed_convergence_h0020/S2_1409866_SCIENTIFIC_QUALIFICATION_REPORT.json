@@ -4,7 +4,7 @@
     "candidate_id": "S2",
     "family": "SPATIAL_CONVERGENCE",
     "description": "Spatial Discretization Convergence Candidate (h = 0.0020 mm, l0 = 0.0075 mm)",
-    "scientific_interpretation": "Evaluates spatial mesh convergence under fixed regularization length scale l0 = 0.0075 mm.",
+    "scientific_interpretation": "Spatial refinement intermediate mesh (h = 0.0020 mm, 32,184 elements). Post-peak cutback termination at u = 0.006816 mm (Exit 1) after resolving full peak and 99.97% load drop. Pre-peak elastic compliance (Delta K0 = -0.0372%) and peak force (Delta F_max = -2.19%) are fully validated. At common matched displacement u = 0.006816 mm, fracture functional E_frac matches S1 within -0.37% (2.3303 vs 2.3391 mJ). Global spatial convergence remains NOT_YET_QUALIFIED pending completion of fine mesh S3 (1409867).",
     "meta": {
       "candidate_id": "S2",
       "name": "PK_M1_S2_ENERGY",
@@ -57430,5 +57430,43 @@
     "fortran_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
     "total_increments_completed": 3823
   },
-  "scientific_qualification_status": "S2_SPATIAL_INTERMEDIATE_CUTBACK_TERMINATED_PREPEAK_QUALIFIED"
+  "scientific_qualification_status": "POSTPEAK_TRUNCATED_USABLE_TO_U=0.006816_MM",
+  "matched_displacement_evaluation": {
+    "job_id": "1409866.mmaster02",
+    "exit_code": 1,
+    "last_converged_displacement_mm": 0.0068161982,
+    "common_comparison_displacement_mm": 0.0068161982,
+    "classification": "POSTPEAK_TRUNCATED_USABLE_TO_U=0.006816_MM",
+    "pre_peak_quantities": {
+      "k0_kn_per_mm": 137.89413611904226,
+      "k0_s1_kn_per_mm": 137.94551964508392,
+      "delta_k0_pct": -0.03724914457088893,
+      "f_max_kn": 0.7411937,
+      "f_max_s1_kn": 0.75777849,
+      "delta_fmax_pct": -2.1886065939929247,
+      "u_peak_mm": 0.005711,
+      "u_peak_s1_mm": 0.005857,
+      "delta_upeak_pct": -2.4927437254567235,
+      "r_squared": 0.9999995979522023,
+      "n_points": 400
+    },
+    "matched_energies_at_u_common": {
+      "w_ext_cand_mJ": 0.002248007366361503,
+      "w_ext_s1_mJ": 0.002358306682707826,
+      "delta_w_ext_pct": -4.677055666893868,
+      "e_frac_cand_mJ": 2.3303475000000002,
+      "e_frac_s1_mJ": 2.3391179991,
+      "delta_e_frac_pct": -0.3749489809139282,
+      "e_elas_cand_mJ": 0.0008266110900000001,
+      "e_elas_s1_mJ": 0.00153205923216,
+      "delta_e_elas_pct": -46.04574858149654,
+      "e_model_cand_mJ": 2.3311741,
+      "e_model_s1_mJ": 2.34065005946,
+      "delta_e_model_pct": -0.4048430657843047,
+      "delta_book_cand_mJ": 2.3289260926336386,
+      "delta_book_s1_mJ": 2.338291752777292,
+      "eps_book_cand_pct": 103599.57567234783,
+      "eps_book_s1_pct": 99151.30080081218
+    }
+  }
 }

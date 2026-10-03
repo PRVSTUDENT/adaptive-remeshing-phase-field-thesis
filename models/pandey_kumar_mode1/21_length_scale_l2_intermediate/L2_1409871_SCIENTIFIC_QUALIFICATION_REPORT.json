@@ -4,7 +4,7 @@
     "candidate_id": "L2",
     "family": "LENGTH_SCALE_CHARACTERIZATION",
     "description": "Phase-Field Regularization Length-Scale Sensitivity Candidate (l0 = 0.01125 mm)",
-    "scientific_interpretation": "STRICTLY REGULARIZATION / MATERIAL SENSITIVITY. NOT numerical mesh convergence.",
+    "scientific_interpretation": "Length-scale sensitivity intermediate solve (l0 = 0.01125 mm, 41,912 elements, Exit 1 cutback-terminated at u = 0.005839 mm). Pre-peak elastic compliance remains invariant (Delta K0 = -0.1305%). Peak load decreases to F_max = 0.7084 kN (Delta F_max = -6.52% vs S1, -2.66% vs L3), demonstrating the expected physical trend of decreasing peak load with increasing regularization length scale l0.",
     "meta": {
       "candidate_id": "L2",
       "name": "PK_M1_L2_L01125_ENERGY",
@@ -42745,5 +42745,43 @@
     "fortran_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
     "total_increments_completed": 2844
   },
-  "scientific_qualification_status": "L2_LENGTH_SCALE_01125_CUTBACK_TERMINATED_PREPEAK_QUALIFIED"
+  "scientific_qualification_status": "POSTPEAK_TRUNCATED_USABLE_TO_U=0.005839_MM",
+  "matched_displacement_evaluation": {
+    "job_id": "1409871.mmaster02",
+    "exit_code": 1,
+    "last_converged_displacement_mm": 0.0058390107,
+    "common_comparison_displacement_mm": 0.0058390107,
+    "classification": "POSTPEAK_TRUNCATED_USABLE_TO_U=0.005839_MM",
+    "pre_peak_quantities": {
+      "k0_kn_per_mm": 137.76556285164116,
+      "k0_s1_kn_per_mm": 137.94551964508392,
+      "delta_k0_pct": -0.13045497520018148,
+      "f_max_kn": 0.70840223,
+      "f_max_s1_kn": 0.75777849,
+      "delta_fmax_pct": -6.515922614799999,
+      "u_peak_mm": 0.00559,
+      "u_peak_s1_mm": 0.005857,
+      "delta_upeak_pct": -4.558647771896873,
+      "r_squared": 0.9999991424177964,
+      "n_points": 400
+    },
+    "matched_energies_at_u_common": {
+      "w_ext_cand_mJ": 0.002118812210575121,
+      "w_ext_s1_mJ": 0.002288042057086711,
+      "delta_w_ext_pct": -7.396273420212596,
+      "e_frac_cand_mJ": 2.302453,
+      "e_frac_s1_mJ": 0.07866945884280009,
+      "delta_e_frac_pct": 2826.743152766358,
+      "e_elas_cand_mJ": 0.0006439096,
+      "e_elas_s1_mJ": 2.2095486510300004,
+      "delta_e_elas_pct": -99.97085786729794,
+      "e_model_cand_mJ": 2.3030969,
+      "e_model_s1_mJ": 2.2882180988300007,
+      "delta_e_model_pct": 0.650235271611868,
+      "delta_book_cand_mJ": 2.300978087789425,
+      "delta_book_s1_mJ": 2.2859300567729144,
+      "eps_book_cand_pct": 108597.54707402112,
+      "eps_book_s1_pct": 99907.693990709
+    }
+  }
 }

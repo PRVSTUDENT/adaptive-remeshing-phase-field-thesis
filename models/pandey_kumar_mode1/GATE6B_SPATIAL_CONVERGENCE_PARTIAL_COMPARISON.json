@@ -1,54 +1,46 @@
 {
-  "family": "SPATIAL_CONVERGENCE",
-  "scientific_purpose": "Evaluates spatial mesh convergence under fixed l0 = 0.0075 mm across S1 (15k), S2 (32k), S3 (42k).",
-  "summary_table": [
-    {
-      "candidate_id": "S1",
-      "name": "PK_M1_REF15K_ENERGY",
-      "elements": 15192,
-      "mesh_size_h_mm": 0.003,
-      "l0_mm": 0.0075,
-      "K0_kN_per_mm": 137.9455196450844,
-      "K0_R2": 0.9999995995397414,
-      "delta_K0_pct": -2.5728677881050455e-07,
-      "F_max_kN": 0.75777849,
-      "delta_F_max_pct": 6.466273763815279e-05,
-      "u_at_F_max_mm": 0.005857,
-      "W_ext_final_mJ": 2.3593293596249807,
-      "E_frac_final_mJ": 2.34022,
-      "E_elas_final_mJ": 0.0011608108,
-      "E_model_final_mJ": 2.3413808108,
-      "Delta_book_final_mJ": -0.017948548824980523,
-      "eps_book_abs_pct": 0.7607479113400883
+  "comparison_id": "GATE6B_SPATIAL_CONVERGENCE_MATCHED_AUDIT",
+  "status": "PRELIMINARY_SPATIAL_EVIDENCE_NOT_YET_QUALIFIED",
+  "notes": "S1 vs S2 compared at matched common displacement u = 0.006816 mm; fine mesh S3 (1409867) remains active.",
+  "matched_comparison_at_u_0006816mm": {
+    "job_id": "1409866.mmaster02",
+    "exit_code": 1,
+    "last_converged_displacement_mm": 0.0068161982,
+    "common_comparison_displacement_mm": 0.0068161982,
+    "classification": "POSTPEAK_TRUNCATED_USABLE_TO_U=0.006816_MM",
+    "pre_peak_quantities": {
+      "k0_kn_per_mm": 137.89413611904226,
+      "k0_s1_kn_per_mm": 137.94551964508392,
+      "delta_k0_pct": -0.03724914457088893,
+      "f_max_kn": 0.7411937,
+      "f_max_s1_kn": 0.75777849,
+      "delta_fmax_pct": -2.1886065939929247,
+      "u_peak_mm": 0.005711,
+      "u_peak_s1_mm": 0.005857,
+      "delta_upeak_pct": -2.4927437254567235,
+      "r_squared": 0.9999995979522023,
+      "n_points": 400
     },
-    {
-      "candidate_id": "S2",
-      "name": "PK_M1_S2_ENERGY",
-      "elements": 32184,
-      "mesh_size_h_mm": 0.002,
-      "l0_mm": 0.0075,
-      "K0_kN_per_mm": 137.89413611904268,
-      "K0_R2": 0.9999995979522023,
-      "delta_K0_pct": -0.03724940176187169,
-      "F_max_kN": 0.7411937,
-      "delta_F_max_pct": -2.1885433464682262,
-      "u_at_F_max_mm": 0.005711,
-      "W_ext_final_mJ": 2.2480077979076656,
-      "E_frac_final_mJ": 2.3303475000000002,
-      "E_elas_final_mJ": 0.0008266110900000001,
-      "E_model_final_mJ": 2.33117411109,
-      "Delta_book_final_mJ": 0.08316631318233464,
-      "eps_book_abs_pct": 3.5675719280979874
+    "matched_energies_at_u_common": {
+      "w_ext_cand_mJ": 0.002248007366361503,
+      "w_ext_s1_mJ": 0.002358306682707826,
+      "delta_w_ext_pct": -4.677055666893868,
+      "e_frac_cand_mJ": 2.3303475000000002,
+      "e_frac_s1_mJ": 2.3391179991,
+      "delta_e_frac_pct": -0.3749489809139282,
+      "e_elas_cand_mJ": 0.0008266110900000001,
+      "e_elas_s1_mJ": 0.00153205923216,
+      "delta_e_elas_pct": -46.04574858149654,
+      "e_model_cand_mJ": 2.3311741,
+      "e_model_s1_mJ": 2.34065005946,
+      "delta_e_model_pct": -0.4048430657843047,
+      "delta_book_cand_mJ": 2.3289260926336386,
+      "delta_book_s1_mJ": 2.338291752777292,
+      "eps_book_cand_pct": 103599.57567234783,
+      "eps_book_s1_pct": 99151.30080081218
     }
-  ],
-  "successive_differences": {
-    "S1_to_S2": {
-      "elements_change_pct": 111.84834123222748,
-      "K0_diff_pct": -0.03724914457093,
-      "F_max_diff_pct": -2.1886065939929247,
-      "u_peak_diff_pct": -2.4927437254567235,
-      "W_ext_diff_pct": -4.718356140619971,
-      "E_frac_diff_pct": -0.42186204715794795
-    }
-  }
+  },
+  "running_jobs": [
+    "1409867.mmaster02 (S3 Fine Mesh, 41,912 elements)"
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "task_id": "F1163-GATE6B-AWAIT-S3-T3-CONVERGENCE-SOLVES-20261003",
+  "task_id": "F1165-GATE6B-AWAIT-S3-T3-CONVERGENCE-SOLVES-20261003",
   "phase": "Stage Mode-I",
   "title": "Await S3 (Job 1409867) and T3 (Job 1409870) Solves in normal_imfdfkmq with Strict Non-Polling Guard",
   "status": "ready",
@@ -19,18 +19,18 @@
   ],
   "context": {
     "s1_reference_qualification": "CORRECTED_S1_ENERGY_QUALIFIED (Job 1409734.mmaster02)",
-    "completed_evaluated_jobs": {
-      "adaptive_2pct_13k": "1409846.mmaster02 (13,897 elements, Exit 0, EVALUATED)",
-      "s2_spatial_32k": "1409866.mmaster02 (32,184 elements, Exit 1 cutback-terminated, EVALUATED)",
-      "t1_temporal_coarse": "1409869.mmaster02 (15,192 elements, Exit 0, EVALUATED)",
-      "l2_length_scale_01125": "1409871.mmaster02 (41,912 elements, Exit 1 cutback-terminated, EVALUATED)",
-      "l3_length_scale_01500": "1409872.mmaster02 (41,912 elements, Exit 1 cutback-terminated, EVALUATED)"
+    "completed_audited_jobs": {
+      "adaptive_2pct_13k": "1409846.mmaster02 (13,897 elements, Exit 0, 3-Regime Energy Breakdown Audited)",
+      "s2_spatial_32k": "1409866.mmaster02 (32,184 elements, Exit 1 cutback-terminated, Matched at u=0.006816 mm)",
+      "t1_temporal_coarse": "1409869.mmaster02 (15,192 elements, Exit 0, Preliminary Temporal Evidence)",
+      "l2_length_scale_01125": "1409871.mmaster02 (41,912 elements, Exit 1 cutback-terminated, Matched at u=0.005839 mm)",
+      "l3_length_scale_01500": "1409872.mmaster02 (41,912 elements, Exit 1 cutback-terminated, Matched at u=0.006473 mm)"
     },
     "active_running_jobs": {
       "s3_spatial_42k": "1409867.mmaster02 (41,912 elements, Running)",
       "t3_temporal_fine": "1409870.mmaster02 (15,192 elements, Running)"
     },
-    "batch_pipeline_status": "FIVE_JOBS_EVALUATED_AND_MULTI_FAMILY_CONVERGENCE_RECORDED",
+    "batch_pipeline_status": "CLAIMS_DISCIPLINE_AND_MATCHED_DISPLACEMENT_AUDIT_FROZEN",
     "non_polling_guard": "ENFORCED"
   }
 }
