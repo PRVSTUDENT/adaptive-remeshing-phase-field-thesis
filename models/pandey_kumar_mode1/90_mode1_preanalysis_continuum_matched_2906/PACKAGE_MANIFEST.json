@@ -1,0 +1,69 @@
+{
+  "package_name": "90_mode1_preanalysis_continuum_matched_2906",
+  "scientific_role": "MATCHED_HISTORY_STANDARD_CONTINUUM_CONTROL",
+  "classification": "ARCHITECTURE_ISOLATION_CONTROL",
+  "target_model": "Mode-I Pre-Analysis (Pandey-Kumar Benchmark)",
+  "description": "Matched-history standard-continuum control on canonical project 2,906 mesh isolating 3-layer UEL/UMAT architecture effects",
+  "governing_question": "Does the layered Job-1 architecture itself alter MISESERI localization?",
+  "specimen": {
+    "dimensions": "1.0 mm x 1.0 mm",
+    "crack_type": "zero-gap sharp seam along y=0.5 mm, 0 <= x <= 0.5 mm",
+    "nodes": 2989,
+    "elements": 2906,
+    "quads": 2818,
+    "tris": 88
+  },
+  "architecture": {
+    "type": "STANDARD_CONTINUUM_SINGLE_LAYER",
+    "element_types": [
+      "CPE4",
+      "CPE3"
+    ],
+    "layers": 1,
+    "subroutine_required": false,
+    "material": "Steel isotropic elasticity (E=210 GPa, nu=0.3)"
+  },
+  "loading_history": {
+    "step_count": 2,
+    "step_1": {
+      "name": "Step-1",
+      "type": "*STATIC",
+      "initial_increment": 0.002,
+      "period": 1.0,
+      "increments": 500,
+      "prescribed_disp_mm": 0.005
+    },
+    "step_2": {
+      "name": "Step-2",
+      "type": "*STATIC",
+      "initial_increment": 0.001,
+      "period": 1.0,
+      "increments": 1000,
+      "prescribed_disp_mm": 0.01
+    }
+  },
+  "boundary_conditions": "Lateral-free Mode-I (bottom fixed in y with pinned origin in x, top RP tied in y with x free roller)",
+  "output_requests": [
+    "MISESERI",
+    "MISESAVG",
+    "S",
+    "E",
+    "EVOL",
+    "U",
+    "RF"
+  ],
+  "files": {
+    "PK_M1_JOB1_CONTINUUM_MATCHED_2906.inp": {
+      "sha256": "b60dd35d56ab2824902f2d90912e222cf9d335d7d9911cf8dd17a3dc2b52e5f9",
+      "size_bytes": 179994
+    },
+    "submit_datacheck.pbs": {
+      "sha256": "b09b2c2f21fda684a12ab3613d107b561df123ca23d7e056dcb8a323b211fd78",
+      "size_bytes": 1088
+    },
+    "submit_solver.pbs": {
+      "sha256": "72df7210d00c3d4e6938399ffebaabf6a16e4e462afc813f689789f1877bc1ed",
+      "size_bytes": 1082
+    }
+  }
+}

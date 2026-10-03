@@ -13,17 +13,24 @@
     "project_coordination/**"
   ],
   "hpc_jobs": [
+    "1409914.mmaster02",
     "1409912.mmaster02",
     "1409867.mmaster02"
   ],
   "context": {
-    "submitted_job": "1409912.mmaster02 (PK_M1_JOB1_SOLVE, 8,718 elements, normal_imfdfkmq, 1-CPU Serial, DIAGNOSTIC_JOB1_LAYERED_VARIANT, NON-POLLING GUARD ENFORCED)",
+    "submitted_jobs": [
+      "1409912.mmaster02 (Package 89, PK_M1_JOB1_SOLVE, 8,718 elements, normal_imfdfkmq, 1-CPU Serial, DIAGNOSTIC_JOB1_LAYERED_VARIANT, NON-POLLING GUARD ENFORCED)",
+      "1409914.mmaster02 (Package 90, PK_M1_J1_CONT_SOLVE, 2,906 elements, normal_imfdfkmq, 1-CPU Serial, ARCHITECTURE_ISOLATION_CONTROL, NON-POLLING GUARD ENFORCED)"
+    ],
     "active_running_jobs": {
-      "job1_preanalysis": "1409912.mmaster02 (Active in normal_imfdfkmq, DIAGNOSTIC_JOB1_LAYERED_VARIANT, NON-POLLING GUARD ENFORCED)",
+      "job1_continuum_control": "1409914.mmaster02 (Active in normal_imfdfkmq, ARCHITECTURE_ISOLATION_CONTROL, NON-POLLING GUARD ENFORCED)",
+      "job1_layered_variant": "1409912.mmaster02 (Active in normal_imfdfkmq, DIAGNOSTIC_JOB1_LAYERED_VARIANT, NON-POLLING GUARD ENFORCED)",
       "s3_spatial_42k": "1409867.mmaster02 (41,912 elements, Running, NON-POLLING GUARD ENFORCED)"
     },
     "non_polling_guard": "ENFORCED",
     "epistemic_term": "DIAGNOSTIC_JOB1_LAYERED_VARIANT",
-    "reference_loading_detail": "UNRESOLVED_REFERENCE_DETAIL"
+    "control_term": "ARCHITECTURE_ISOLATION_CONTROL",
+    "reference_loading_detail": "UNRESOLVED_REFERENCE_DETAIL",
+    "evaluator_status": "refactored with matched displacement enforcement and zero rescaling shortcut; 18/18 tests pass"
   }
 }

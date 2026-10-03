@@ -2,14 +2,15 @@
 """
 evaluate_mode1_job1_miseseri.py
 
-Evaluator for Mode-I Layered Job-1_UEL Pre-Analysis (Job 1409912.mmaster02 / Package 89).
+Evaluator for Mode-I Layered Job-1_UEL Pre-Analysis vs Matched-History Continuum Control.
 Protocol Version: 2
 Phase: MODE1_GATE6B_ENERGY_CONVERGENCE_AND_STEP2_RECONCILIATION_ACTIVE
 Governing Directive: "We need to have understood everything related to the first model before we increase complexity."
 
-Compares the layered Job-1 pre-analysis (DIAGNOSTIC_JOB1_LAYERED_VARIANT / PANDEY_KUMAR_REFERENCE_FIDELITY_CANDIDATE)
-against the standard-continuum pre-analysis diagnostic variant (STANDARD_CONTINUUM_PREANALYSIS_VARIANT)
-on the canonical 2,906-element coarse mesh (2,818 CPE4 quads, 88 CPE3 triangles, 2,988 nodes) at matched physical displacement states.
+Compares the layered Job-1 pre-analysis (DIAGNOSTIC_JOB1_LAYERED_VARIANT / Package 89)
+against the matched-history standard-continuum control (MATCHED_HISTORY_STANDARD_CONTINUUM_CONTROL / Package 90)
+on the canonical 2,906-element coarse mesh (2,818 CPE4 quads, 88 CPE3 triangles, 2,988 nodes)
+at identical step/frame/displacement states WITHOUT displacement rescaling shortcuts.
 
 Evaluates 12 Mandatory Pre-Terminal and Terminal Metrics:
 1. Exact step/frame/time/increment provenance and matched displacement state
@@ -22,16 +23,17 @@ Evaluates 12 Mandatory Pre-Terminal and Terminal Metrics:
 8. High-MISESERI parasitic / outside-corridor ratio
 9. Transverse corridor width profile w(x) as a function of longitudinal coordinate x
 10. High-error bounding boxes and spatial spans (dx x dy)
-11. Layered-vs-standard element-by-element MISESERI differences (max, mean, RMS, correlation r) at matched displacement
+11. Layered-vs-standard element-by-element MISESERI differences (max, mean, RMS, correlation r) at identical displacement
 12. Qualitative comparison to Pandey & Kumar (2025) Fig. 6(a) spatial footprint without inventing raw values
 
 Predeclared Scientific Decision Logic:
-Classified strictly on observed spatial pattern changes without arbitrary hardcoded percentage thresholds:
-- LAYERED_JOB1_TOWARD_TARGET_LOCALIZATION: Directional shift of error concentration toward crack-tip corridor
-  (corridor share increases, far-field+wake share decreases)
-- LAYERED_JOB1_NO_MEANINGFUL_IMPROVEMENT: Spatial error distribution remains invariant within discretization/numerical
+Classified strictly on observed relative directional evidence without arbitrary hardcoded percentage thresholds:
+- TOWARD_TARGET_LOCALIZATION: Directional shift of error concentration toward crack-tip corridor
+  (crack-tip corridor share increases, far-field+wake share decreases)
+- NO_MEANINGFUL_IMPROVEMENT: Spatial error distribution remains invariant within numerical/discretization
   variation (correlation r >= 0.9990 and regional share shifts are negligible)
-- LAYERED_JOB1_AWAY_FROM_TARGET_LOCALIZATION: Far-field footprint broadens or crack-tip corridor localization deteriorates
+- AWAY_FROM_TARGET_LOCALIZATION: Far-field footprint broadens or crack-tip corridor localization deteriorates
+  (far-field+wake share increases or crack-tip corridor share decreases)
 """
 
 from __future__ import print_function
@@ -43,7 +45,6 @@ import math
 import argparse
 
 # Canonical 5-Region Spatial Definitions on Omega = [0, 1] x [0, 1] mm
-# Governed by Stage-2 BC Audit and Stage-4 Stress Transfer Audit standards
 REGION_DEFINITIONS = {
     "CRACK_TIP_CORRIDOR": {
         "description": "Active crack-tip singular and initial extension zone",
@@ -120,82 +121,80 @@ def load_miseseri_dataset(csv_path, fallback_coords=None):
         raise IOError("MISESERI CSV file not found: %s" % csv_path)
 
     elements = {}
-    raw_rows = 0
-    duplicate_count = 0
+    raw_ids_seen = set()
+    duplicates_detected = 0
 
     with open(csv_path, "r") as f:
         reader = csv.DictReader(f)
-        for r in reader:
-            raw_rows += 1
-            raw_id = int(r["element_id"])
-            miseseri = float(r["miseseri"])
+        for row in reader:
+            raw_eid = int(row["element_id"])
+            miseseri = float(row["miseseri"])
 
-            # Map Layer 3 companion IDs (5813..8718) to underlying physical element IDs (1..2906)
-            if raw_id > 2 * CANONICAL_TOTAL_ELEMENTS:
-                phys_id = raw_id - 2 * CANONICAL_TOTAL_ELEMENTS
-            elif raw_id > CANONICAL_TOTAL_ELEMENTS:
-                phys_id = raw_id - CANONICAL_TOTAL_ELEMENTS
-            else:
-                phys_id = raw_id
-
-            if phys_id in elements:
-                duplicate_count += 1
+            if raw_eid in raw_ids_seen:
+                duplicates_detected += 1
                 continue
+            raw_ids_seen.add(raw_eid)
 
-            xc = None
-            yc = None
-            etype = "UNKNOWN"
-
-            if "xc" in r and "yc" in r and r["xc"] and r["yc"]:
-                xc = float(r["xc"])
-                yc = float(r["yc"])
-                etype = r.get("element_type", "UNKNOWN")
-            elif fallback_coords and phys_id in fallback_coords:
-                xc = fallback_coords[phys_id]["xc"]
-                yc = fallback_coords[phys_id]["yc"]
-                etype = fallback_coords[phys_id]["element_type"]
+            # Map companion Layer 3 IDs (5813..8718) to physical mesh IDs (1..2906)
+            if 5813 <= raw_eid <= 8718:
+                phys_eid = raw_eid - 5812
+            elif 1 <= raw_eid <= CANONICAL_TOTAL_ELEMENTS:
+                phys_eid = raw_eid
             else:
-                raise ValueError("Missing centroid coordinates for element %d" % phys_id)
+                raise ValueError("Unexpected element ID %d outside valid ranges (1..2906 or 5813..8718)" % raw_eid)
 
-            reg = classify_element_region(xc, yc)
+            if "xc" in row and "yc" in row and row["xc"] != "" and row["yc"] != "":
+                xc = float(row["xc"])
+                yc = float(row["yc"])
+                etype = row.get("element_type", "UNKNOWN")
+            elif fallback_coords and phys_eid in fallback_coords:
+                xc = fallback_coords[phys_eid]["xc"]
+                yc = fallback_coords[phys_eid]["yc"]
+                etype = fallback_coords[phys_eid]["element_type"]
+            else:
+                raise ValueError("Centroid coordinates missing for element %d and no fallback available" % phys_eid)
 
-            elements[phys_id] = {
-                "element_id": phys_id,
-                "raw_element_id": raw_id,
+            region = classify_element_region(xc, yc)
+
+            elements[phys_eid] = {
+                "element_id": phys_eid,
+                "raw_element_id": raw_eid,
                 "xc": xc,
                 "yc": yc,
                 "element_type": etype,
-                "region": reg,
+                "region": region,
                 "miseseri": miseseri
             }
 
-    # Completeness verification
-    missing_ids = [i for i in range(1, CANONICAL_TOTAL_ELEMENTS + 1) if i not in elements]
+    # Validation checks
+    loaded_count = len(elements)
+    expected_ids = set(range(1, CANONICAL_TOTAL_ELEMENTS + 1))
+    actual_ids = set(elements.keys())
+    missing_ids = expected_ids - actual_ids
 
     validation = {
-        "raw_rows_parsed": raw_rows,
-        "unique_elements_loaded": len(elements),
-        "expected_elements": CANONICAL_TOTAL_ELEMENTS,
-        "duplicate_entries_detected": duplicate_count,
+        "source_csv": csv_path,
+        "raw_rows_processed": len(raw_ids_seen) + duplicates_detected,
+        "unique_elements_loaded": loaded_count,
+        "duplicate_entries_detected": duplicates_detected,
         "missing_ids_count": len(missing_ids),
-        "missing_ids": missing_ids[:10],
-        "is_complete_and_unique": (len(elements) == CANONICAL_TOTAL_ELEMENTS and len(missing_ids) == 0),
+        "is_complete_and_unique": (loaded_count == CANONICAL_TOTAL_ELEMENTS and len(missing_ids) == 0 and duplicates_detected == 0),
         "element_representation": "one WHOLE_ELEMENT MISESERI value per underlying finite element"
     }
 
     if not validation["is_complete_and_unique"]:
-        raise ValueError("Dataset validation failed for %s: loaded %d unique elements, missing %d, duplicates %d" % (
-            csv_path, len(elements), len(missing_ids), duplicate_count
+        raise ValueError("Dataset validation failed for %s: loaded %d elements, missing %d, duplicates %d" % (
+            csv_path, loaded_count, len(missing_ids), duplicates_detected
         ))
 
     return elements, validation
 
 
 def compute_global_statistics(elements):
-    """Computes global descriptive statistics across all 2,906 elements."""
+    """Computes global MISESERI statistics across all 2,906 elements."""
     vals = [e["miseseri"] for e in elements.values()]
-    n = len(vals)
     vals_sorted = sorted(vals)
+    n = len(vals)
 
     err_sum = sum(vals)
     err_mean = err_sum / float(n)
@@ -304,61 +303,42 @@ def compute_normalized_footprints(elements, thresholds=None):
             x_min = x_max = y_min = y_max = dx = dy = 0.0
 
         footprints.append({
-            "threshold": th,
+            "threshold_fraction": th,
             "threshold_pct": th * 100.0,
-            "cutoff_miseseri_mpa": cutoff,
+            "cutoff_error_mpa": cutoff,
             "element_count": count,
             "fraction_of_mesh": fraction,
             "bounding_box": {
-                "x_min": x_min,
-                "x_max": x_max,
-                "y_min": y_min,
-                "y_max": y_max,
-                "dx": dx,
-                "dy": dy
+                "x_min": x_min, "x_max": x_max,
+                "y_min": y_min, "y_max": y_max,
+                "dx": dx, "dy": dy
             }
         })
 
     return footprints
 
 
-def compute_outside_corridor_ratio(elements, thresholds=None):
+def compute_outside_corridor_ratio(elements):
     """
-    Computes the high-error parasitic / outside-corridor ratio.
-    Evaluates what portion of high-error elements lie outside the crack-tip corridor:
-    Corridor definition: x in [0.45, 0.65], y in [0.45, 0.55].
+    Computes ratio of high-error elements located outside the Crack-Tip Corridor.
+    Returns count and percentage for eta >= 50%, eta >= 10%, eta >= 1%.
     """
-    if thresholds is None:
-        thresholds = [0.50, 0.10, 0.01]
-
     max_e = max(e["miseseri"] for e in elements.values())
     ratios = {}
 
-    for th in thresholds:
+    for th in [0.50, 0.10, 0.01]:
         cutoff = th * max_e
         active = [e for e in elements.values() if e["miseseri"] >= cutoff]
-        n_act = len(active)
-
-        if n_act == 0:
-            ratios["eta_ge_%dpct" % int(th * 100)] = {
-                "total_active_elements": 0,
-                "outside_corridor_elements": 0,
-                "outside_corridor_count_ratio_pct": 0.0,
-                "outside_corridor_error_share_pct": 0.0
-            }
-            continue
-
-        outside = [e for e in active if not (0.45 <= e["xc"] <= 0.65 and 0.45 <= e["yc"] <= 0.55)]
-        n_out = len(outside)
-
-        sum_act = sum(e["miseseri"] for e in active)
-        sum_out = sum(e["miseseri"] for e in outside)
+        total_active = len(active)
+        outside = [e for e in active if e["region"] != "CRACK_TIP_CORRIDOR"]
+        outside_count = len(outside)
+        outside_ratio = (100.0 * outside_count / total_active) if total_active > 0 else 0.0
 
         ratios["eta_ge_%dpct" % int(th * 100)] = {
-            "total_active_elements": n_act,
-            "outside_corridor_elements": n_out,
-            "outside_corridor_count_ratio_pct": (100.0 * n_out / float(n_act)),
-            "outside_corridor_error_share_pct": (100.0 * sum_out / sum_act) if sum_act > 0 else 0.0
+            "threshold": th,
+            "total_active_elements": total_active,
+            "outside_corridor_elements": outside_count,
+            "outside_corridor_count_ratio_pct": outside_ratio
         }
 
     return ratios
@@ -367,45 +347,43 @@ def compute_outside_corridor_ratio(elements, thresholds=None):
 def compute_transverse_corridor_widths(elements, bin_count=20, thresholds=None):
     """
     Computes transverse corridor width w(x) = y_max(x) - y_min(x) across 20 longitudinal x bins.
+    Used for assessing corridor narrowing towards the crack tip (x = 0.5 mm).
     """
     if thresholds is None:
-        thresholds = [0.10, 0.01]
+        thresholds = [0.10, 0.05, 0.01]
 
     max_e = max(e["miseseri"] for e in elements.values())
-    dx_bin = 1.0 / float(bin_count)
-    bin_centers = [dx_bin * (i + 0.5) for i in range(bin_count)]
+    bin_edges = [i / float(bin_count) for i in range(bin_count + 1)]
+    bin_centers = [0.5 * (bin_edges[i] + bin_edges[i + 1]) for i in range(bin_count)]
 
     profiles = {
         "bin_centers": bin_centers,
-        "bin_width": dx_bin
+        "bin_edges": bin_edges
     }
 
     for th in thresholds:
-        th_key = "width_eta_%dpct" % int(th * 100)
         cutoff = th * max_e
         widths = []
-
-        for bc in bin_centers:
-            x_min = bc - 0.5 * dx_bin
-            x_max = bc + 0.5 * dx_bin
-            in_bin_ys = [e["yc"] for e in elements.values() if (x_min <= e["xc"] < x_max) and e["miseseri"] >= cutoff]
-
-            if in_bin_ys:
-                w = max(in_bin_ys) - min(in_bin_ys)
+        for i in range(bin_count):
+            x_lo = bin_edges[i]
+            x_hi = bin_edges[i + 1]
+            bin_elems = [e for e in elements.values() if x_lo <= e["xc"] < x_hi and e["miseseri"] >= cutoff]
+            if len(bin_elems) > 0:
+                y_min = min(e["yc"] for e in bin_elems)
+                y_max = max(e["yc"] for e in bin_elems)
+                w = y_max - y_min
             else:
                 w = 0.0
             widths.append(w)
-
-        profiles[th_key] = widths
+        profiles["width_eta_%dpct" % int(th * 100)] = widths
 
     return profiles
 
 
-def compare_layered_vs_standard(layered_elements, standard_elements, displacement_scale_factor=1.0):
+def compare_layered_vs_standard(layered_elements, standard_elements):
     """
-    Performs element-by-element comparative audit across all 2,906 coarse elements.
-    If displacement_scale_factor != 1.0, scales standard elements by displacement_scale_factor
-    to match the physical displacement state of the layered analysis (NLGEOM=NO linear elastic scaling).
+    Performs element-by-element comparative audit across all 2,906 coarse elements
+    at identical step/frame/displacement states without displacement rescaling shortcuts.
     """
     common_ids = sorted(set(layered_elements.keys()) & set(standard_elements.keys()))
     if len(common_ids) != CANONICAL_TOTAL_ELEMENTS:
@@ -415,20 +393,19 @@ def compare_layered_vs_standard(layered_elements, standard_elements, displacemen
     abs_diffs = []
     rel_diffs = []
     vals_lay = []
-    vals_std_matched = []
+    vals_std = []
 
     for eid in common_ids:
         e_lay = layered_elements[eid]["miseseri"]
-        e_std_raw = standard_elements[eid]["miseseri"]
-        e_std_matched = e_std_raw * displacement_scale_factor
+        e_std = standard_elements[eid]["miseseri"]
 
-        d = e_lay - e_std_matched
+        d = e_lay - e_std
         diffs.append(d)
         abs_diffs.append(abs(d))
-        rel = (abs(d) / e_std_matched) if e_std_matched > 0 else 0.0
+        rel = (abs(d) / e_std) if e_std > 0 else 0.0
         rel_diffs.append(rel)
         vals_lay.append(e_lay)
-        vals_std_matched.append(e_std_matched)
+        vals_std.append(e_std)
 
     n = len(common_ids)
     mean_diff = sum(diffs) / float(n)
@@ -440,16 +417,15 @@ def compare_layered_vs_standard(layered_elements, standard_elements, displacemen
 
     # Pearson correlation coefficient r
     mean_lay = sum(vals_lay) / float(n)
-    mean_std = sum(vals_std_matched) / float(n)
-    num = sum((l - mean_lay) * (s - mean_std) for l, s in zip(vals_lay, vals_std_matched))
+    mean_std = sum(vals_std) / float(n)
+    num = sum((l - mean_lay) * (s - mean_std) for l, s in zip(vals_lay, vals_std))
     den_l = sum((l - mean_lay) ** 2 for l in vals_lay)
-    den_s = sum((s - mean_std) ** 2 for s in vals_std_matched)
+    den_s = sum((s - mean_std) ** 2 for s in vals_std)
     corr_r = (num / math.sqrt(den_l * den_s)) if (den_l > 0 and den_s > 0) else 1.0
 
     return {
         "coincident_elements": n,
-        "displacement_scale_factor": displacement_scale_factor,
-        "matched_displacement_status": "MATCHED_DIRECTLY" if abs(displacement_scale_factor - 1.0) < 1e-6 else "SCALED_FOR_LINEAR_ELASTIC_PARITY",
+        "comparison_mode": "IDENTICAL_STATE_DIRECT_COMPARISON_WITHOUT_RESCALING",
         "mean_diff_mpa": mean_diff,
         "mean_abs_diff_mpa": mean_abs_diff,
         "max_abs_diff_mpa": max_abs_diff,
@@ -495,17 +471,17 @@ def compare_spatial_footprint_to_publication(layered_footprints, standard_footpr
 def assign_scientific_decision_logic(pairwise_comp, regional_lay, regional_std, far_wake_lay, far_wake_std):
     """
     Applies the 3-branch scientific decision logic mandated by supervisor governance:
-    - LAYERED_JOB1_TOWARD_TARGET_LOCALIZATION
-    - LAYERED_JOB1_NO_MEANINGFUL_IMPROVEMENT
-    - LAYERED_JOB1_AWAY_FROM_TARGET_LOCALIZATION
+    - TOWARD_TARGET_LOCALIZATION
+    - NO_MEANINGFUL_IMPROVEMENT
+    - AWAY_FROM_TARGET_LOCALIZATION
 
-    Classifies strictly based on observed spatial pattern changes without arbitrary hardcoded percentage thresholds:
+    Classifies strictly based on observed relative directional evidence without arbitrary hardcoded percentage thresholds:
     - Directional improvement: crack-tip corridor error share increases (delta_tip > 0) AND
       far-field+wake error share decreases (delta_far_wake < 0).
     - Directional deterioration: far-field+wake error share increases (delta_far_wake > 0) OR
       crack-tip corridor error share decreases (delta_tip < 0).
     - No meaningful improvement: spatial distribution remains invariant within numerical/discretization
-      variation (correlation r >= 0.9990 and error share shifts are negligible |delta| < 0.5%).
+      variation (correlation r >= 0.9990 and regional error share shifts are negligible |delta| < 0.1%).
     """
     mean_rel_diff = pairwise_comp["mean_relative_diff"]
     corr_r = pairwise_comp["correlation_r"]
@@ -514,35 +490,36 @@ def assign_scientific_decision_logic(pairwise_comp, regional_lay, regional_std, 
     delta_tip_corridor_share = regional_lay["CRACK_TIP_CORRIDOR"]["error_share_pct"] - regional_std["CRACK_TIP_CORRIDOR"]["error_share_pct"]
 
     # Invariance check: high correlation and negligible regional shift
-    is_spatially_invariant = (corr_r >= 0.9990) and (abs(delta_far_wake_share) < 0.5) and (abs(delta_tip_corridor_share) < 0.5)
+    is_spatially_invariant = (corr_r >= 0.9990) and (abs(delta_far_wake_share) < 0.1) and (abs(delta_tip_corridor_share) < 0.1)
 
     if is_spatially_invariant:
-        verdict = "LAYERED_JOB1_NO_MEANINGFUL_IMPROVEMENT"
+        verdict = "NO_MEANINGFUL_IMPROVEMENT"
         rationale = (
-            "Within the tested configuration on the canonical 2,906-element mesh at matched physical displacement states, "
-            "the 3-layer UEL/UMAT architecture reproduces the continuum pre-analysis error distribution without "
-            "altering the spatial localization pattern (correlation r = %.9f, mean relative diff = %.4f%%, "
+            "Within the tested configuration on the canonical 2,906-element mesh at identical physical displacement states "
+            "without displacement rescaling, the 3-layer UEL/UMAT architecture reproduces the continuum pre-analysis "
+            "error distribution without altering the spatial localization pattern (correlation r = %.9f, mean relative diff = %.4f%%, "
             "crack-tip corridor Delta share = %+.3f%%, far-field+wake Delta share = %+.3f%%). "
             "The broad far-field footprint is observed in both single-layer continuum and 3-layer UEL/UMAT models, "
             "indicating that UEL/UMAT layer architecture does not explain the spatial localization difference."
             % (corr_r, 100.0 * mean_rel_diff, delta_tip_corridor_share, delta_far_wake_share)
         )
-    elif delta_far_wake_share < -0.5 and delta_tip_corridor_share > 0.5:
-        verdict = "LAYERED_JOB1_TOWARD_TARGET_LOCALIZATION"
+    elif delta_far_wake_share < 0.0 and delta_tip_corridor_share > 0.0:
+        verdict = "TOWARD_TARGET_LOCALIZATION"
         rationale = (
             "The 3-layer UEL/UMAT architecture shifts error concentration toward the physical crack-tip corridor "
-            "(corridor Delta share = %+.3f%%) while reducing far-field and wake error share (Delta share = %+.3f%%)."
+            "(corridor Delta share = %+.3f%%) while reducing far-field and wake error share (Delta share = %+.3f%%) "
+            "at identical physical displacement states."
             % (delta_tip_corridor_share, delta_far_wake_share)
         )
-    elif delta_far_wake_share > 0.5 or delta_tip_corridor_share < -0.5:
-        verdict = "LAYERED_JOB1_AWAY_FROM_TARGET_LOCALIZATION"
+    elif delta_far_wake_share > 0.0 or delta_tip_corridor_share < 0.0:
+        verdict = "AWAY_FROM_TARGET_LOCALIZATION"
         rationale = (
             "The 3-layer UEL/UMAT architecture broadens the far-field error footprint (Delta share = %+.3f%%) "
-            "or degrades crack-tip localization (corridor Delta share = %+.3f%%)."
+            "or degrades crack-tip localization (corridor Delta share = %+.3f%%) at identical physical displacement states."
             % (delta_far_wake_share, delta_tip_corridor_share)
         )
     else:
-        verdict = "LAYERED_JOB1_NO_MEANINGFUL_IMPROVEMENT"
+        verdict = "NO_MEANINGFUL_IMPROVEMENT"
         rationale = (
             "No systematic directional improvement toward target localization is observed "
             "(correlation r = %.9f, corridor Delta share = %+.3f%%, far-field+wake Delta share = %+.3f%%)."
@@ -562,8 +539,8 @@ def assign_scientific_decision_logic(pairwise_comp, regional_lay, regional_std, 
 def execute_mode1_job1_evaluation(layered_csv_path, standard_csv_path, provenance_info=None,
                                   layered_disp_mm=None, standard_disp_mm=None):
     """
-    Executes complete 12-item comparative evaluation between layered Job-1 and standard continuum pre-analysis.
-    Enforces matched physical displacement state comparison or scale-invariant relative indicators.
+    Executes complete 12-item comparative evaluation between layered Job-1 and standard continuum control pre-analysis
+    at identical step/frame/displacement states without displacement rescaling shortcut.
     """
     # Load fallback coordinates from standard pre-analysis
     standard_coords = load_canonical_coordinates(standard_csv_path)
@@ -575,7 +552,7 @@ def execute_mode1_job1_evaluation(layered_csv_path, standard_csv_path, provenanc
     # Provenance and displacement state
     prov = provenance_info or {
         "step_name": "Step-1",
-        "increment_number": 1,
+        "increment_number": 500,
         "step_time": 1.0,
         "prescribed_displacement_mm": layered_disp_mm if layered_disp_mm is not None else 0.0050,
         "standard_prescribed_displacement_mm": standard_disp_mm if standard_disp_mm is not None else 0.0050,
@@ -587,50 +564,51 @@ def execute_mode1_job1_evaluation(layered_csv_path, standard_csv_path, provenanc
     u_lay = layered_disp_mm if layered_disp_mm is not None else prov.get("prescribed_displacement_mm", 0.0050)
     u_std = standard_disp_mm if standard_disp_mm is not None else prov.get("standard_prescribed_displacement_mm", 0.0050)
 
-    # Linear elastic scaling factor: e(c*u) = c*e(u)
-    if u_std > 0 and u_lay > 0:
-        disp_scale_factor = float(u_lay) / float(u_std)
-    else:
-        disp_scale_factor = 1.0
+    # Strict check: reject displacement mismatch to prevent rescaling shortcuts
+    if u_lay is not None and u_std is not None and abs(float(u_lay) - float(u_std)) > 1e-6:
+        raise ValueError(
+            "Displacement mismatch: layered displacement (%.6f mm) does not match standard displacement (%.6f mm). "
+            "Evaluator requires identical step/frame/displacement states without displacement rescaling shortcut."
+            % (float(u_lay), float(u_std))
+        )
 
     matched_disp_info = {
-        "layered_prescribed_displacement_mm": u_lay,
-        "standard_prescribed_displacement_mm": u_std,
-        "displacement_ratio": disp_scale_factor,
-        "matching_method": "DIRECT_MATCH" if abs(disp_scale_factor - 1.0) < 1e-6 else "LINEAR_ELASTIC_HOMOGENEOUS_SCALING",
-        "linear_elastic_scaling_note": "In linear elasticity (NLGEOM=NO, d=0), MISESERI is strictly homogeneous of degree 1 with respect to applied displacement: e(c*u) = c*e(u)."
+        "prescribed_displacement_mm": float(u_lay) if u_lay is not None else None,
+        "comparison_protocol": "IDENTICAL_STEP_FRAME_DISPLACEMENT_WITHOUT_RESCALING_SHORTCUT",
+        "rescaling_applied": False,
+        "note": "Both models are evaluated at identical physical displacement states without displacement rescaling shortcut."
     }
 
     # 4. Global statistics
     global_lay = compute_global_statistics(layered_elements)
-    global_std_raw = compute_global_statistics(standard_elements)
+    global_std = compute_global_statistics(standard_elements)
 
-    # 5. Normalized footprints (scale-invariant)
+    # 5. Normalized footprints
     footprints_lay = compute_normalized_footprints(layered_elements)
     footprints_std = compute_normalized_footprints(standard_elements)
 
-    # 6. Five-region statistics (scale-invariant percentage shares)
+    # 6. Five-region statistics
     regional_lay = compute_five_region_statistics(layered_elements)
     regional_std = compute_five_region_statistics(standard_elements)
 
-    # 7. Far-field + wake share (scale-invariant)
+    # 7. Far-field + wake share
     far_wake_lay = compute_far_field_and_wake_share(regional_lay)
     far_wake_std = compute_far_field_and_wake_share(regional_std)
 
-    # 8. High-MISESERI parasitic / outside-corridor ratio (scale-invariant)
+    # 8. High-MISESERI outside-corridor ratio
     outside_lay = compute_outside_corridor_ratio(layered_elements)
     outside_std = compute_outside_corridor_ratio(standard_elements)
 
-    # 9. Transverse corridor width profiles w(x) (scale-invariant)
+    # 9. Transverse corridor width profiles w(x)
     widths_lay = compute_transverse_corridor_widths(layered_elements)
     widths_std = compute_transverse_corridor_widths(standard_elements)
 
-    # 10. High-error bounding boxes (extracted from footprints)
+    # 10. High-error bounding boxes
     bbox_lay = {fp["threshold_pct"]: fp["bounding_box"] for fp in footprints_lay}
     bbox_std = {fp["threshold_pct"]: fp["bounding_box"] for fp in footprints_std}
 
-    # 11. Pairwise comparison at matched physical displacement state
-    pairwise = compare_layered_vs_standard(layered_elements, standard_elements, displacement_scale_factor=disp_scale_factor)
+    # 11. Pairwise comparison at identical physical displacement state
+    pairwise = compare_layered_vs_standard(layered_elements, standard_elements)
 
     # 12. Qualitative comparison to Pandey & Kumar Fig. 6(a)
     pub_comp = compare_spatial_footprint_to_publication(footprints_lay, footprints_std)
@@ -644,7 +622,7 @@ def execute_mode1_job1_evaluation(layered_csv_path, standard_csv_path, provenanc
             "protocol_version": 2,
             "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
             "candidate_model": "DIAGNOSTIC_JOB1_LAYERED_VARIANT (89_mode1_preanalysis_uel_canonical_2906, Job 1409912.mmaster02)",
-            "diagnostic_variant": "STANDARD_CONTINUUM_PREANALYSIS_VARIANT (PK_PREANALYSIS_COARSE)",
+            "matched_control_model": "MATCHED_HISTORY_STANDARD_CONTINUUM_CONTROL (90_mode1_preanalysis_continuum_matched_2906, Job 1409914.mmaster02)",
             "coarse_elements": CANONICAL_TOTAL_ELEMENTS,
             "element_representation": "one WHOLE_ELEMENT MISESERI value per underlying finite element"
         },
@@ -665,20 +643,10 @@ def execute_mode1_job1_evaluation(layered_csv_path, standard_csv_path, provenanc
         },
         "item4_global_miseseri_statistics": {
             "layered_job1": global_lay,
-            "standard_continuum_raw": global_std_raw,
-            "standard_continuum_matched_displacement": {
-                "count": global_std_raw["count"],
-                "sum_mpa": global_std_raw["sum_mpa"] * disp_scale_factor,
-                "mean_mpa": global_std_raw["mean_mpa"] * disp_scale_factor,
-                "median_mpa": global_std_raw["median_mpa"] * disp_scale_factor,
-                "std_mpa": global_std_raw["std_mpa"] * disp_scale_factor,
-                "max_mpa": global_std_raw["max_mpa"] * disp_scale_factor,
-                "min_mpa": global_std_raw["min_mpa"] * disp_scale_factor,
-                "peak_to_mean_ratio": global_std_raw["peak_to_mean_ratio"]
-            },
-            "delta_sum_mpa_matched": global_lay["sum_mpa"] - (global_std_raw["sum_mpa"] * disp_scale_factor),
-            "delta_mean_mpa_matched": global_lay["mean_mpa"] - (global_std_raw["mean_mpa"] * disp_scale_factor),
-            "delta_max_mpa_matched": global_lay["max_mpa"] - (global_std_raw["max_mpa"] * disp_scale_factor)
+            "standard_continuum": global_std,
+            "delta_sum_mpa": global_lay["sum_mpa"] - global_std["sum_mpa"],
+            "delta_mean_mpa": global_lay["mean_mpa"] - global_std["mean_mpa"],
+            "delta_max_mpa": global_lay["max_mpa"] - global_std["max_mpa"]
         },
         "item5_normalized_footprints": {
             "layered_job1": footprints_lay,
@@ -719,7 +687,7 @@ def format_markdown_report(results):
     mdisp = results.get("item1b_matched_displacement_state", {})
     dec = results["scientific_decision_verdict"]
     g_lay = results["item4_global_miseseri_statistics"]["layered_job1"]
-    g_std_m = results["item4_global_miseseri_statistics"]["standard_continuum_matched_displacement"]
+    g_std = results["item4_global_miseseri_statistics"]["standard_continuum"]
     pw = results["item11_element_by_element_pairwise_comparison"]
     reg_lay = results["item6_five_region_statistics"]["layered_job1"]
     reg_std = results["item6_five_region_statistics"]["standard_continuum"]
@@ -727,11 +695,11 @@ def format_markdown_report(results):
     fw_std = results["item7_far_field_plus_wake_partition"]["standard_continuum"]
 
     md = []
-    md.append("# Terminal Evaluation Report: Mode-I Layered Job-1_UEL Pre-Analysis Variant")
+    md.append("# Terminal Evaluation Report: Mode-I Layered Job-1_UEL Pre-Analysis vs Matched Continuum Control")
     md.append("")
     md.append("**Evaluator:** `%s` | **Protocol Version:** %d" % (meta["evaluator_name"], meta["protocol_version"]))
     md.append("**Candidate:** `%s`" % meta["candidate_model"])
-    md.append("**Diagnostic Variant:** `%s`" % meta["diagnostic_variant"])
+    md.append("**Matched Control:** `%s`" % meta["matched_control_model"])
     md.append("**Governing Directive:** *%s*" % meta["governing_directive"])
     md.append("")
     md.append("---")
@@ -756,11 +724,8 @@ def format_markdown_report(results):
     md.append("| :--- | :--- | :--- |")
     md.append("| **Step Name** | `%s` | Validated |" % prov.get("step_name", "N/A"))
     md.append("| **Increment / Step Time** | `%s` / `%.4f` | Validated |" % (prov.get("increment_number", 1), prov.get("step_time", 1.0)))
-    md.append("| **Layered Prescribed Displacement** | `%.4f mm` | Evaluated |" % mdisp.get("layered_prescribed_displacement_mm", 0.0050))
-    md.append("| **Standard Prescribed Displacement** | `%.4f mm` | Evaluated |" % mdisp.get("standard_prescribed_displacement_mm", 0.0050))
-    md.append("| **Displacement Scaling Ratio** | `%.4fx` (`%s`) | Enforced for Parity |" % (
-        mdisp.get("displacement_ratio", 1.0), mdisp.get("matching_method", "DIRECT_MATCH")
-    ))
+    md.append("| **Prescribed Displacement** | `%.4f mm` | Validated (Identical Across Both Runs) |" % mdisp.get("prescribed_displacement_mm", 0.0050))
+    md.append("| **Comparison Protocol** | `IDENTICAL_STATE_DIRECT_COMPARISON` | No Rescaling Shortcut |")
     md.append("| **Output Set** | `All_elem` (Layer 3 companion elements) | Validated (IDs mapped to 1..2906) |")
     md.append("| **Element Count** | `%d` (%d CPE4 + %d CPE3) | 100%% complete (0 missing, 0 duplicates) |" % (
         results["item2_output_position_and_set"]["element_count"],
@@ -771,15 +736,15 @@ def format_markdown_report(results):
     md.append("")
     md.append("---")
     md.append("")
-    md.append("## 3. Global Statistics & Pairwise Discrepancy at Matched Displacement (Items 4 & 11)")
+    md.append("## 3. Global Statistics & Pairwise Discrepancy at Identical Displacement (Items 4 & 11)")
     md.append("")
-    md.append("| Metric | Layered Job-1 Variant | Standard Baseline (Matched Disp) | Delta |")
+    md.append("| Metric | Layered Job-1 Variant | Matched Continuum Control | Delta |")
     md.append("| :--- | :---: | :---: | :---: |")
-    md.append("| **Total Error Sum (MPa)** | `%.4f` | `%.4f` | `%+.4f` |" % (g_lay["sum_mpa"], g_std_m["sum_mpa"], g_lay["sum_mpa"] - g_std_m["sum_mpa"]))
-    md.append("| **Mean MISESERI (MPa)** | `%.6f` | `%.6f` | `%+.6f` |" % (g_lay["mean_mpa"], g_std_m["mean_mpa"], g_lay["mean_mpa"] - g_std_m["mean_mpa"]))
-    md.append("| **Median MISESERI (MPa)** | `%.6f` | `%.6f` | `%+.6f` |" % (g_lay["median_mpa"], g_std_m["median_mpa"], g_lay["median_mpa"] - g_std_m["median_mpa"]))
-    md.append("| **Std Deviation (MPa)** | `%.6f` | `%.6f` | `%+.6f` |" % (g_lay["std_mpa"], g_std_m["std_mpa"], g_lay["std_mpa"] - g_std_m["std_mpa"]))
-    md.append("| **Peak Error $e_{\\max}$ (MPa)** | `%.6f` | `%.6f` | `%+.6f` |" % (g_lay["max_mpa"], g_std_m["max_mpa"], g_lay["max_mpa"] - g_std_m["max_mpa"]))
+    md.append("| **Total Error Sum (MPa)** | `%.4f` | `%.4f` | `%+.4f` |" % (g_lay["sum_mpa"], g_std["sum_mpa"], g_lay["sum_mpa"] - g_std["sum_mpa"]))
+    md.append("| **Mean MISESERI (MPa)** | `%.6f` | `%.6f` | `%+.6f` |" % (g_lay["mean_mpa"], g_std["mean_mpa"], g_lay["mean_mpa"] - g_std["mean_mpa"]))
+    md.append("| **Median MISESERI (MPa)** | `%.6f` | `%.6f` | `%+.6f` |" % (g_lay["median_mpa"], g_std["median_mpa"], g_lay["median_mpa"] - g_std["median_mpa"]))
+    md.append("| **Std Deviation (MPa)** | `%.6f` | `%.6f` | `%+.6f` |" % (g_lay["std_mpa"], g_std["std_mpa"], g_lay["std_mpa"] - g_std["std_mpa"]))
+    md.append("| **Peak Error $e_{\\max}$ (MPa)** | `%.6f` | `%.6f` | `%+.6f` |" % (g_lay["max_mpa"], g_std["max_mpa"], g_lay["max_mpa"] - g_std["max_mpa"]))
     md.append("| **Max Absolute Diff (MPa)** | `%.6e` | --- | Evaluated |" % pw["max_abs_diff_mpa"])
     md.append("| **RMS Difference (MPa)** | `%.6e` | --- | Evaluated |" % pw["rms_diff_mpa"])
     md.append("| **Pearson Correlation ($r$)** | `%.9f` | --- | Evaluated |" % pw["correlation_r"])
@@ -848,11 +813,11 @@ def format_markdown_report(results):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Evaluate Mode-I Layered Job-1_UEL MISESERI vs Standard Continuum Baseline")
+    parser = argparse.ArgumentParser(description="Evaluate Mode-I Layered Job-1_UEL MISESERI vs Matched Continuum Control")
     parser.add_argument("--layered-csv", type=str, default=None, help="Path to layered Job-1 MISESERI CSV")
-    parser.add_argument("--standard-csv", type=str, default="models/pandey_kumar_mode1/adaptive_direction_evidence_package/miseseri_corrected_2906.csv", help="Path to standard continuum baseline CSV")
+    parser.add_argument("--standard-csv", type=str, default="models/pandey_kumar_mode1/adaptive_direction_evidence_package/miseseri_corrected_2906.csv", help="Path to matched standard continuum control CSV")
     parser.add_argument("--layered-disp", type=float, default=None, help="Prescribed displacement (mm) for layered analysis")
-    parser.add_argument("--standard-disp", type=float, default=None, help="Prescribed displacement (mm) for standard baseline")
+    parser.add_argument("--standard-disp", type=float, default=None, help="Prescribed displacement (mm) for standard control")
     parser.add_argument("--output-json", type=str, default=None, help="Output JSON path")
     parser.add_argument("--output-report", type=str, default=None, help="Output Markdown report path")
     parser.add_argument("--self-test", action="store_true", help="Run self-test comparing baseline to itself")
@@ -860,7 +825,7 @@ def main():
     args = parser.parse_args()
 
     if args.self_test:
-        print("[INFO] Running self-test: comparing standard baseline to itself...")
+        print("[INFO] Running self-test: comparing standard baseline to itself at identical state...")
         std_csv = args.standard_csv
         res = execute_mode1_job1_evaluation(std_csv, std_csv, layered_disp_mm=args.layered_disp, standard_disp_mm=args.standard_disp)
         print("[PASS] Self-test complete. Correlation: %.9f, Max Diff: %.6e" % (

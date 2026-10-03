@@ -15,12 +15,13 @@ Validates:
 5. Normalized footprints and bounding box coordinates (dx, dy)
 6. Transverse corridor width profiles w(x) across 20 longitudinal bins
 7. High-error parasitic outside-corridor ratios
-8. Pairwise element-by-element comparisons (delta, RMS, correlation r) and matched displacement scaling
-9. Predeclared 3-branch scientific decision logic without arbitrary 5%/2% thresholds:
-   - LAYERED_JOB1_TOWARD_TARGET_LOCALIZATION
-   - LAYERED_JOB1_NO_MEANINGFUL_IMPROVEMENT
-   - LAYERED_JOB1_AWAY_FROM_TARGET_LOCALIZATION
-10. End-to-end evaluation and report formatting on canonical coarse mesh baseline
+8. Pairwise element-by-element comparisons (delta, RMS, correlation r) at identical displacement
+9. Rejection of displacement mismatch to prevent rescaling shortcuts
+10. Predeclared 3-branch scientific decision logic without arbitrary percentage thresholds:
+   - TOWARD_TARGET_LOCALIZATION
+   - NO_MEANINGFUL_IMPROVEMENT
+   - AWAY_FROM_TARGET_LOCALIZATION
+11. End-to-end evaluation and report formatting on canonical coarse mesh baseline
 """
 
 import os
@@ -164,29 +165,24 @@ def test_normalized_footprints_and_corridor_widths():
     assert widths["width_eta_10pct"][-1] == 0.0
 
 
-def test_matched_displacement_state_scaling():
-    """Verify linear elastic displacement scaling for unmatched displacement states."""
+def test_matched_displacement_enforcement_and_mismatch_rejection():
+    """Verify that identical displacement states compare cleanly and mismatched displacements are rejected."""
     if not os.path.isfile(CANONICAL_BASELINE_CSV):
         pytest.skip("Canonical baseline CSV not found")
 
-    elements, _ = load_miseseri_dataset(CANONICAL_BASELINE_CSV)
+    # Direct identical comparison
+    res = execute_mode1_job1_evaluation(CANONICAL_BASELINE_CSV, CANONICAL_BASELINE_CSV,
+                                        layered_disp_mm=0.0050, standard_disp_mm=0.0050)
+    assert res["item1b_matched_displacement_state"]["rescaling_applied"] is False
+    assert abs(res["item11_element_by_element_pairwise_comparison"]["mean_diff_mpa"]) < 1e-12
+    assert abs(res["item11_element_by_element_pairwise_comparison"]["correlation_r"] - 1.0) < 1e-12
 
-    # Simulate a run with 5x displacement (u = 0.0050 mm vs u = 0.0010 mm)
-    elements_5x = copy.deepcopy(elements)
-    for e in elements_5x.values():
-        e["miseseri"] *= 5.0
-
-    # Unscaled comparison gives 5x difference
-    pw_unscaled = compare_layered_vs_standard(elements_5x, elements, displacement_scale_factor=1.0)
-    assert pw_unscaled["matched_displacement_status"] == "MATCHED_DIRECTLY"
-    assert pw_unscaled["mean_diff_mpa"] > 0.03
-
-    # Scaled comparison (scale_factor = 5.0) recovers exact identity
-    pw_scaled = compare_layered_vs_standard(elements_5x, elements, displacement_scale_factor=5.0)
-    assert pw_scaled["matched_displacement_status"] == "SCALED_FOR_LINEAR_ELASTIC_PARITY"
-    assert abs(pw_scaled["mean_diff_mpa"]) < 1e-12
-    assert abs(pw_scaled["max_abs_diff_mpa"]) < 1e-12
-    assert abs(pw_scaled["correlation_r"] - 1.0) < 1e-12
+    # Mismatched displacement must raise ValueError (no rescaling shortcut allowed)
+    with pytest.raises(ValueError) as excinfo:
+        execute_mode1_job1_evaluation(CANONICAL_BASELINE_CSV, CANONICAL_BASELINE_CSV,
+                                    layered_disp_mm=0.0050, standard_disp_mm=0.0010)
+    assert "Displacement mismatch" in str(excinfo.value)
+    assert "without displacement rescaling shortcut" in str(excinfo.value)
 
 
 def test_predeclared_decision_logic_branches():
@@ -201,7 +197,7 @@ def test_predeclared_decision_logic_branches():
     # Branch 2: Baseline vs Baseline -> NO_MEANINGFUL_IMPROVEMENT
     pw_identity = compare_layered_vs_standard(elements_base, elements_base)
     dec_id = assign_scientific_decision_logic(pw_identity, reg_base, reg_base, fw_base, fw_base)
-    assert dec_id["verdict"] == "LAYERED_JOB1_NO_MEANINGFUL_IMPROVEMENT"
+    assert dec_id["verdict"] == "NO_MEANINGFUL_IMPROVEMENT"
 
     # Branch 1: Synthetic candidate suppressing far field and enhancing crack tip -> TOWARD_TARGET_LOCALIZATION
     elements_improved = copy.deepcopy(elements_base)
@@ -215,7 +211,7 @@ def test_predeclared_decision_logic_branches():
     fw_imp = compute_far_field_and_wake_share(reg_imp)
     pw_imp = compare_layered_vs_standard(elements_improved, elements_base)
     dec_imp = assign_scientific_decision_logic(pw_imp, reg_imp, reg_base, fw_imp, fw_base)
-    assert dec_imp["verdict"] == "LAYERED_JOB1_TOWARD_TARGET_LOCALIZATION"
+    assert dec_imp["verdict"] == "TOWARD_TARGET_LOCALIZATION"
 
     # Branch 3: Synthetic candidate inflating far field -> AWAY_FROM_TARGET_LOCALIZATION
     elements_degraded = copy.deepcopy(elements_base)
@@ -229,7 +225,7 @@ def test_predeclared_decision_logic_branches():
     fw_deg = compute_far_field_and_wake_share(reg_deg)
     pw_deg = compare_layered_vs_standard(elements_degraded, elements_base)
     dec_deg = assign_scientific_decision_logic(pw_deg, reg_deg, reg_base, fw_deg, fw_base)
-    assert dec_deg["verdict"] == "LAYERED_JOB1_AWAY_FROM_TARGET_LOCALIZATION"
+    assert dec_deg["verdict"] == "AWAY_FROM_TARGET_LOCALIZATION"
 
 
 def test_end_to_end_evaluation_and_report_generation(tmp_path):
@@ -243,12 +239,12 @@ def test_end_to_end_evaluation_and_report_generation(tmp_path):
     assert "metadata" in res
     assert "scientific_decision_verdict" in res
     assert "item1b_matched_displacement_state" in res
-    assert res["scientific_decision_verdict"]["verdict"] == "LAYERED_JOB1_NO_MEANINGFUL_IMPROVEMENT"
+    assert res["scientific_decision_verdict"]["verdict"] == "NO_MEANINGFUL_IMPROVEMENT"
     assert res["metadata"]["element_representation"] == "one WHOLE_ELEMENT MISESERI value per underlying finite element"
 
     report_text = format_markdown_report(res)
     assert "# Terminal Evaluation Report" in report_text
-    assert "LAYERED_JOB1_NO_MEANINGFUL_IMPROVEMENT" in report_text
+    assert "NO_MEANINGFUL_IMPROVEMENT" in report_text
     assert "CRACK_TIP_CORRIDOR" in report_text
     assert "FAR_FIELD" in report_text
     assert "Matched Displacement Provenance" in report_text

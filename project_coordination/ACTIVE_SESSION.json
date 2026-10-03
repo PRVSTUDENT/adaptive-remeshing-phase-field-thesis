@@ -1,16 +1,10 @@
 {
   "active": false,
-  "agent": "gemini-antigravity",
-  "task_id": "F1177-GATE6B-LOADING-HISTORY-AND-FRAME-FIDELITY-AUDIT-20261003",
-  "claimed_at": "2026-10-03T08:55:00.000000",
-  "released_at": "2026-10-03T09:15:00.000000",
-  "starting_commit": "d940934b8e4bd41441774e588843c0e203f3d0c5",
-  "allowed_write_scope": [
-    "models/pandey_kumar_mode1/**",
-    "scripts/evaluation/**",
-    "tests/unit/**",
-    "docs/**",
-    "project_coordination/**"
-  ],
-  "notes": "Task F1177: Mode-I Job-1_UEL loading-history and frame-fidelity audit completed. Audited PK_M1_JOB1_UEL_2906.inp against Pandey & Kumar (2025) Sec. 4.1; discovered literal text delta u1 = 1e-3 implies unphysical u = 0.5 mm (50% strain) on brittle specimen; downgraded Job 1409912.mmaster02 to DIAGNOSTIC_JOB1_LAYERED_VARIANT and preserved running untouched under non-polling guard; recorded publication loading as UNRESOLVED_REFERENCE_DETAIL with zero new PBS submissions; updated 3-column provenance matrix; refactored terminal evaluator evaluate_mode1_job1_miseseri.py with matched physical displacement scaling and claims discipline; 9/9 unit tests pass, 20/20 Mode-I tests pass."
+  "agent": null,
+  "task_id": null,
+  "claimed_at": null,
+  "released_at": "2026-10-03T10:15:00.000000",
+  "starting_commit": "f1149b7bca2ce356508ef27dccb4db48605afe3e",
+  "allowed_write_scope": [],
+  "notes": "Task F1177 completed: Source-fidelity record corrections completed; matched-history standard-continuum architecture-isolation control solve (Package 90, Job 1409914.mmaster02) submitted under explicit human authorization; evaluator refactored with matched displacement enforcement and zero rescaling shortcut; all ledgers updated and verified."
 }
