@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N PK_M1_ADAPT_14K_FRACTURE
-#PBS -q normal_imfdfkmq
+#PBS -q entry_imfdfkmq
 #PBS -l nodes=1:ppn=1
 #PBS -l mem=16gb
 #PBS -l walltime=12:00:00
@@ -27,7 +27,7 @@ module load gcc/11.4.0
 module load intel/2024.2.0
 module load abaqus/2023
 
-echo "=== STARTING SOLVER PK_M1_ADAPT_14K_FRACTURE (1 CPU SERIAL, 14,483 FINITE ELEMENTS) ==="
+echo "=== STARTING SOLVER PK_M1_ADAPT_14K_FRACTURE ==="
 rm -f PK_M1_ADAPT_14K_FRACTURE.lck PK_M1_ADAPT_14K_FRACTURE.023
 abaqus job=PK_M1_ADAPT_14K_FRACTURE user=f42_mixed_uel.for input=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp cpus=1 memory="16gb" double=both interactive
 ABAQUS_EXIT=$?

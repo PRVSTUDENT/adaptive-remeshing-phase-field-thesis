@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T20:15:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14 Adaptive Solver Preparation & Evaluator Release Completed. Report Semantics Updated with `NATIVE_REMESH_HISTORY_SEMANTICS_NOT_EXPLICITLY_DOCUMENTED` and Clarified that $u = 0.00940\,	ext{mm}$ is a Project-Observed Pre-Analysis State; Terminal Evaluator Script `evaluate_mode1_stage14_adaptive_14k.py` Built, Tested, and Uploaded to Cluster Package `25_stage14_adaptive_candidate_14k`; All Mode-I Unit Tests Pass 100% (127/127 tests passed); Solver Job Submission Intercepted by Safety Gate Awaiting Human Submission Permit; Gate 6B Active.  
-Parent commit: `8c76a5ac6280bb6c9554a58f239770db7accb8fd`
+Last updated: `2026-10-03T20:30:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14 Adaptive Candidate Full Fracture Solver Job `1409947.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`, 14,483 elements, 43,449 layered elements, 1 CPU serial in `normal_imfdfkmq` via `entry_imfdfkmq`) Submitted and Running on Cluster `mnode097`; Terminal Evaluator `evaluate_mode1_stage14_adaptive_14k.py` Released and Synced; Report Semantics Updated with `NATIVE_REMESH_HISTORY_SEMANTICS_NOT_EXPLICITLY_DOCUMENTED` and $u=0.00940\,\text{mm}$ Pre-Analysis State; All Mode-I Unit Tests Pass 100% (127/127 passed); Gate 6B Active.  
+Parent commit: `2806c9bfd468d2b50857477b1ea2bd18f6a8a328`
 
 ---
 
@@ -14,7 +14,7 @@ Parent commit: `8c76a5ac6280bb6c9554a58f239770db7accb8fd`
 * **Next Supervisor Meeting:** **Thursday, 08 October 2026, 10:00 CEST**
 * **Gate 0 (Source & Scope Freeze):** `CLOSED_PASSED`
 * **Gate 1 (Conventional Mode-I Reference):** `CLOSED_PASSED`
-  - Fixed-mesh reference anchor qualified ($K_0 = 137.945520\,	ext{kN/mm}$, $F_{\max} = 0.757778\,	ext{kN}$, $u_{\text{peak}} = 0.005857\,	ext{mm}$, Job `1398090.mmaster02`).
+  - Fixed-mesh reference anchor qualified ($K_0 = 137.945520\,\text{kN/mm}$, $F_{\max} = 0.757778\,\text{kN}$, $u_{\text{peak}} = 0.005857\,\text{mm}$, Job `1398090.mmaster02`).
 * **Gate 2 (Multi-Quantity Convergence Qualification):** `CLOSED_PASSED`
 * **Gate 3 (MISESERI Mechanism Verification):** `CLOSED_PASSED`
 * **Gate 4 (Native Python Refinement Implementation):** `CLOSED_VERIFIED`
@@ -25,11 +25,11 @@ Parent commit: `8c76a5ac6280bb6c9554a58f239770db7accb8fd`
     - **Governing Localization Verdict:** `STAGE14_TARGET_LIKE_LOCALIZATION_QUALIFIED`.
     - **Diagnostic Status:** `PROMISING_STAGE14_RESULT_PENDING_FINAL_QUALIFICATION`.
     - **Semantics Classification:** `NATIVE_REMESH_HISTORY_SEMANTICS_NOT_EXPLICITLY_DOCUMENTED` (all-increments worst-case sizing envelope vs terminal step-2 sizing coincide for this configuration due to monotonic ligament error growth).
-    - **Pre-Analysis State:** $u = 0.00940\,	ext{mm}$ ($d_{\max} \approx 0.9833$, 86.70% corridor share) documented as a project-observed pre-analysis state.
+    - **Pre-Analysis State:** $u = 0.00940\,\text{mm}$ ($d_{\max} \approx 0.9833$, 86.70% corridor share) documented as a project-observed pre-analysis state.
     - **Candidate Release:** `PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE` in `models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/` (14,483 elements, 14,456 nodes, 43,449 3-layer elements).
     - **Terminal Evaluator:** `evaluate_mode1_stage14_adaptive_14k.py` released, tested, and synced to cluster.
   - **Unit Test Suite:** **All Mode-I unit tests pass 100% (127/127 tests)**.
-  - **Queue Status:** 0 active jobs running. Solver submission awaiting human submission permit.
+  - **Queue Status:** 1 active job running (`1409947.mmaster02`, `PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`, state `R`).
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
 ---
@@ -38,6 +38,7 @@ Parent commit: `8c76a5ac6280bb6c9554a58f239770db7accb8fd`
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
+| `1409947.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` | Stage 14 Adaptive candidate full fracture solve (14,483 elements, 43,449 layered elements, solving Step 1/Step 2) | `3EFBA9682C3EB31E99C233192007246E995BD8182411E51E6A6B74166873D7C1` |
 | `INTERACTIVE_98` | `PK_M1_JOB1_NONUNIFORM_DIAG` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform 3-layer UEL infinitesimal companion solve (3,019 elements, audited) | `EA3505F6D573F361D4FEFB9C0211C1EC566EB80225EDBA30D6FBC618ACFB19F3` |
 | `INTERACTIVE_98_CONT` | `PK_M1_NONUNIFORM_CONT` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform coarse continuum control solve (3,019 elements, evaluated & audited) | `2F9998B48CCC964664490E61AAE6B51805C8D56A10C9705063189FA1882FD5CF` |
 | `INTERACTIVE_93` | `PK_M1_INF_COMPANION_SOLVE` | `interactive` | Serial 1-CPU | `F` (Exit 0) | Diagnostic Infinitesimal Companion pre-analysis solve (Package 93, evaluated & audited) | `D452369305FF67A2B0CFA4E5D07FAB810C9123ECF500A05BBA3E498437883613` |

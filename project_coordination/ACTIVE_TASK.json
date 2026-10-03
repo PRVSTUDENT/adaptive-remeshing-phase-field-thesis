@@ -1,8 +1,8 @@
 {
   "task_id": "F1186-GATE6B-STAGE14-ADAPTIVE-SOLVER-SUBMISSION-AND-EVALUATION-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Stage 14 Adaptive Solver Submission & Terminal Evaluator Release",
-  "status": "completed",
+  "title": "Gate-6B Mode-I Stage 14 Adaptive Solver Submission and Terminal Evaluator Release",
+  "status": "in_progress_running_on_hpc",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
   "write_scope": [
@@ -12,9 +12,17 @@
     "docs/**",
     "project_coordination/**"
   ],
-  "hpc_jobs": [],
+  "hpc_jobs": [
+    {
+      "job_id": "1409947.mmaster02",
+      "job_name": "PK_M1_ADAPT_14K_FRACTURE",
+      "queue": "normal_imfdfkmq",
+      "status": "R",
+      "purpose": "Authoritative Stage-14 adaptive candidate full fracture solve (14,483 elements, 43,449 layered elements)"
+    }
+  ],
   "context": {
-    "gate6b_status": "ACTIVE",
+    "gate6b_status": "ACTIVE_EVALUATION_AND_CONTINUATION",
     "stage14_adaptive_candidate": {
       "candidate_name": "PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE",
       "deck_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
@@ -30,8 +38,9 @@
       "earliest_target_state": "u = 0.00940 mm (Frame 880, d_max=0.9833, project-observed pre-analysis state)"
     },
     "test_suite_status": "127/127 Mode-I tests passed 100%",
-    "submission_status": "INTERCEPTED_BY_SAFETY_GATE_AWAITING_PERMIT"
+    "submission_status": "SUBMITTED_AND_RUNNING",
+    "active_job_id": "1409947.mmaster02"
   },
   "created_at": "2026-10-03T20:10:00+02:00",
-  "updated_at": "2026-10-03T20:15:00+02:00"
+  "updated_at": "2026-10-03T20:30:00+02:00"
 }
