@@ -503,3 +503,40 @@ Metric / Aspect & \textbf{THEORY} (Continuum / Formulation) & \textbf{VERIFIED E
 \bottomrule
 \end{tabularx}
 \end{table}
+
+\section{Stage 14L: UEL Property ABI Verification and Corrected Adaptive Fracture Benchmark}
+\label{sec:stage14l_reproducibility}
+
+During the execution of Gate-6B Stage 14K (interim adaptive-response audit), a constitutive parameter card ABI mismatch was discovered in the initial 14,483-element adaptive solve deck (\texttt{PK\_MODE1\_STAGE14\_ADAPT\_14K\_FRACTURE.inp}, Job \texttt{1409947.mmaster02}). Specifically, the input deck property card followed the Molnar convention $(E, \nu, l_0, G_c, k, N_{\mathrm{phys}})$, whereas the authoritative Fortran user subroutine \texttt{f42\_mixed\_uel.for} parses parameter constants in the strict order:
+\begin{equation}
+\label{eq:f42_abi_order}
+\mathrm{PROPS} = \left( l_0, \, G_c, \, E, \, \nu, \, k, \, N_{\mathrm{base}} \right).
+\end{equation}
+As a consequence, the initial solver execution interpreted $E = 0.0075\,\mathrm{kN/mm^2}$ ($28,000\times$ softer than the physical Young's modulus $E=210.0\,\mathrm{kN/mm^2}$) and $l_0 = 210.0\,\mathrm{mm}$ (diffuse domain-wide regularizing length). This produced an initial structural stiffness $K_0 \approx 0.00437\,\mathrm{kN/mm}$ and an elastic strain energy $E_{\mathrm{elas}} \approx 10^{-4}\,\mathrm{mJ}$, which remained orders of magnitude below the critical threshold required for damage initiation ($d_{\max} \approx 0.0$).
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{UEL Property Card ABI Mapping Audit for the 14,483-Element Adaptive Model.}
+\label{tab:stage14l_abi_audit}
+\begin{tabularx}{\textwidth}{p{1.4cm} p{2.2cm} c c c X}
+\toprule
+\textbf{Index} & \textbf{Fortran Variable} & \textbf{Physical} & \textbf{Job 1409947} & \textbf{Job 1409953} & \textbf{Status} \\
+\midrule
+\texttt{PROPS(1)} & $l_0$ (Length scale) & $0.0075\,\mathrm{mm}$ & $210.0\,\mathrm{mm}$ & $0.0075\,\mathrm{mm}$ & Baseline restored \\
+\texttt{PROPS(2)} & $G_c$ (Fracture energy) & $0.0027\,\mathrm{kN/mm}$ & $0.30\,\mathrm{kN/mm}$ & $0.0027\,\mathrm{kN/mm}$ & Baseline restored \\
+\texttt{PROPS(3)} & $E$ (Young's modulus) & $210.0\,\mathrm{kN/mm^2}$ & $0.0075\,\mathrm{kN/mm^2}$ & $210.0\,\mathrm{kN/mm^2}$ & Baseline restored \\
+\texttt{PROPS(4)} & $\nu$ (Poisson's ratio) & $0.30$ & $0.0027$ & $0.30$ & Baseline restored \\
+\texttt{PROPS(5)} & $k$ (Residual stiffness) & $10^{-7}$ & $10^{-7}$ & $10^{-7}$ & Matched ($k=10^{-7}$) \\
+\texttt{PROPS(6)} & $N_{\mathrm{base}}$ (Elements) & $14,483$ & $1.0$ & $14,483.0$ & Element count bound \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+In accordance with strict scientific epistemology and project governance:
+\begin{enumerate}
+\item Job \texttt{1409947.mmaster02} was formally classified as \textbf{\texttt{INVALID\_BENCHMARK\_\allowbreak UEL\_PROPERTY\_\allowbreak ABI\_MISMATCH}}, cancelled, and its partial diagnostic evidence permanently preserved without contaminating the valid adaptive dataset.
+\item The 14,483-element adaptive mesh was kept strictly frozen (14,456 nodes, 14,483 underlying finite elements, 54 crack seam pairs, identical geometry, boundary conditions, and two-step loading).
+\item A programmatic regression unit test (\texttt{test\_stage14l\_\allowbreak property\_abi\_alignment.py}) was added to the test suite to continuously verify bidirectional agreement between Fortran parsing indices and input-deck cards.
+\item The corrected production job (Job \texttt{1409953.mmaster02}) was qualified via Abaqus datacheck and submitted to the cluster in authoritative serial 1-CPU execution.
+\end{enumerate}

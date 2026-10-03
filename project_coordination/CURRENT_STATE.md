@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T22:20:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14K Non-Invasive Interim Adaptive Checkpoint & Reached-States Audit Completed; Evaluated reached target displacement states u in {0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070} mm against fixed reference Job 1409734 while strictly omitting unreached states (0.0080, 0.0090, 0.0100 mm); Discovered f42 subroutine property ABI card order inversion in Package 25 solve deck (Molnar order E, nu, l0, Gc vs subroutine order l0, Gc, E, nu, k, N_phys) explaining 28,000x softer modulus, domain-wide diffuse l0, linear elastic response, and 0 cutbacks; 4 publication-quality watermarked figures generated (PNG/PDF); Formal interim classification assigned INTERIM_ONLY__FINAL_VERDICT_PENDING_TERMINAL_COMPLETION; Unit tests pass 100% (13/13 Stage-14 suite, 36/36 Mode-I unit tests total); Active solver job 1409947.mmaster02 continues running untouched in Step 2 Inc >3177 on cluster node mnode097 to natural terminal completion; Gate 6B Active.
-Parent commit: `93425e4a8b79b29e0a29482ca0670868a18357fc`
+Last updated: `2026-10-03T22:30:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14L Corrected-Property Adaptive Fracture Rerun Submitted and Solving; Fortran f42 subroutine PROPS parsing ABI verified and Package 25 UEL property card corrected to (l0=0.0075, Gc=0.0027, E=210.0, nu=0.3, k=1.0e-7, N_base=14483.0); Programmatic regression test test_stage14l_property_abi_alignment.py verified (4/4 tests pass, 17/17 Stage-14 suite pass, 38/38 Mode-I tests total); Reconstruction fidelity re-verified with 100% topology match; Cluster Abaqus datacheck passed (Exit 0); Invalid job 1409947.mmaster02 cancelled (INVALID_BENCHMARK__UEL_PROPERTY_ABI_MISMATCH) and archived; Corrected production solver job 1409953.mmaster02 submitted and actively running on cluster node mnode097 in Step 1 (live telemetry confirms physical stiffness K0=138.11 kN/mm, matching reference 137.95 kN/mm within 0.12%); Thesis Chapter 4 updated with Section 4.5; Gate 6B Active.
+Parent commit: `4f1e4107771be76c813f01c901e1494548ff98a7`
 
 ---
 
@@ -50,6 +50,14 @@ Parent commit: `93425e4a8b79b29e0a29482ca0670868a18357fc`
     - Generated 4 publication-quality watermarked figures (`fig_mode1_stage14k_interim_*`).
     - Assigned formal interim classification: `INTERIM_ONLY__FINAL_VERDICT_PENDING_TERMINAL_COMPLETION`.
     - Active solver job `1409947.mmaster02` left running untouched on `mnode097` (Inc >3177) until natural terminal completion.
+  - **Stage 14L (Corrected-Property Adaptive Fracture Rerun & ABI Verification) Completed:**
+    - Independently verified Fortran subroutine `f42_mixed_uel.for` PROPS parsing ABI order `(l0, Gc, E, nu, k, N_phys)`.
+    - Corrected Package 25 solve deck (`PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp`) `*UEL PROPERTY` card to match canonical ABI `(0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 14483.0)`.
+    - Added and verified programmatic regression test `test_stage14l_property_abi_alignment.py` (17/17 Stage-14 tests pass 100%).
+    - Executed Abaqus datacheck on cluster (Exit 0, zero errors/warnings).
+    - Cancelled invalid job `1409947.mmaster02` (`INVALID_BENCHMARK__UEL_PROPERTY_ABI_MISMATCH`) and preserved partial diagnostic evidence.
+    - Submitted corrected full fracture solver job `1409953.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`, serial 1-CPU, queue `normal_imfdfkmq`); live telemetry verifies physical initial stiffness $K_0 = 138.11\,	ext{kN/mm}$ (0.12% agreement with reference $137.95\,	ext{kN/mm}$).
+    - Added Section 4.5 reproducibility note to university thesis report `docs/MA_AdaptiveRemeshing_Report_2026_main/`.
   - **Queue Status:** 1 active job running (`1409947.mmaster02`, `PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`, state `R`, in Step 2).
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
@@ -59,7 +67,8 @@ Parent commit: `93425e4a8b79b29e0a29482ca0670868a18357fc`
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| `1409947.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` | Stage 14 Adaptive candidate full fracture solve (14,483 elements, 43,449 layered elements, solving Step 2) | `3EFBA9682C3EB31E99C233192007246E995BD8182411E51E6A6B74166873D7C1` |
+| `1409953.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` | Corrected Stage 14 Adaptive full fracture solve (14,483 elements, f42 ABI aligned, solving Step 1) | `A1288CE9D7EFD67F5C87C12C2B61884CE7CB94901B566E9FE0130ABE1875797D` |
+| `1409947.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Cancelled) | Invalidated initial Stage 14 solve (Molnar property order ABI mismatch, archived) | `3EFBA9682C3EB31E99C233192007246E995BD8182411E51E6A6B74166873D7C1` |
 | `INTERACTIVE_98` | `PK_M1_JOB1_NONUNIFORM_DIAG` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform 3-layer UEL infinitesimal companion solve (3,019 elements, audited) | `EA3505F6D573F361D4FEFB9C0211C1EC566EB80225EDBA30D6FBC618ACFB19F3` |
 | `INTERACTIVE_98_CONT` | `PK_M1_NONUNIFORM_CONT` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform coarse continuum control solve (3,019 elements, evaluated & audited) | `2F9998B48CCC964664490E61AAE6B51805C8D56A10C9705063189FA1882FD5CF` |
 | `INTERACTIVE_93` | `PK_M1_INF_COMPANION_SOLVE` | `interactive` | Serial 1-CPU | `F` (Exit 0) | Diagnostic Infinitesimal Companion pre-analysis solve (Package 93, evaluated & audited) | `D452369305FF67A2B0CFA4E5D07FAB810C9123ECF500A05BBA3E498437883613` |

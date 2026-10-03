@@ -1,10 +1,10 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1188-GATE6B-STAGE14K-INTERIM-ADAPTIVE-CHECKPOINT-20261003",
-  "claimed_at": "2026-10-03T22:12:00+02:00",
-  "released_at": "2026-10-03T22:20:00+02:00",
-  "starting_commit": "93425e4a8b79b29e0a29482ca0670868a18357fc",
+  "task_id": "F1189-GATE6B-STAGE14L-CORRECTED-PROPERTY-ADAPTIVE-RERUN-20261003",
+  "claimed_at": "2026-10-03T22:22:00+02:00",
+  "released_at": "2026-10-03T22:30:00+02:00",
+  "starting_commit": "db5880490912fa9f5422b5f833358ce486893cb8",
   "allowed_write_scope": [
     "models/pandey_kumar_mode1/**",
     "results/figures/mode1_gate6b/**",
@@ -12,6 +12,6 @@
     "docs/**",
     "project_coordination/**"
   ],
-  "session_report": "project_coordination/sessions/2026-10-03_2220_gemini-antigravity_F1188-GATE6B-STAGE14K-INTERIM-ADAPTIVE-CHECKPOINT-20261003.md",
-  "notes": "Stage 14K completed; non-invasive interim adaptive-response checkpoint audited; property ABI card inversion discovered and documented; job 1409947 running untouched to natural completion"
+  "session_report": "project_coordination/sessions/2026-10-03_2230_gemini-antigravity_F1189-GATE6B-STAGE14L-CORRECTED-PROPERTY-ADAPTIVE-RERUN-20261003.md",
+  "notes": "Stage 14L completed; UEL property ABI card corrected in Package 25; unit tests pass (17/17 Stage-14 suite); datacheck passed; invalid job 1409947 cancelled; corrected production solver job 1409953 submitted and actively running on mnode097"
 }

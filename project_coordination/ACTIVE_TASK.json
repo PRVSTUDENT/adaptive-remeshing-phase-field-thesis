@@ -1,11 +1,14 @@
 {
-  "active_task_id": "F1188-GATE6B-STAGE14K-INTERIM-ADAPTIVE-CHECKPOINT-20261003",
+  "active_task_id": "F1189-GATE6B-STAGE14L-CORRECTED-PROPERTY-ADAPTIVE-RERUN-20261003",
   "status": "COMPLETED",
   "gate": "Gate-6B",
-  "stage": "Stage 14K (Interim Adaptive Checkpoint & Reached-States Audit)",
-  "description": "Non-invasive interim adaptive-response checkpoint and reached-states evaluation of PBS Job 1409947; property ABI card inversion discovered and documented; job running untouched to natural completion",
-  "active_job_id": "1409947.mmaster02",
-  "interim_verdict": "INTERIM_ONLY__FINAL_VERDICT_PENDING_TERMINAL_COMPLETION",
-  "next_task_id": "F1189-GATE6B-STAGE14L-TERMINAL-COMPLETION-AND-RESUBMISSION-20261003",
-  "updated_at": "2026-10-03T22:20:00+02:00"
+  "stage": "Stage 14L (Corrected-Property Adaptive Fracture Rerun)",
+  "description": "Corrected Package 25 UEL property ABI card, verified regression tests (17/17 pass), datacheck passed, cancelled invalid job 1409947, submitted corrected full fracture solver job 1409953.mmaster02 (running on mnode097), updated thesis section 4.5 and ledgers",
+  "active_job_id": "1409953.mmaster02",
+  "active_job_name": "PK_M1_ADAPT_14K_FRACTURE",
+  "invalidated_job_id": "1409947.mmaster02",
+  "invalidated_job_classification": "INVALID_BENCHMARK__UEL_PROPERTY_ABI_MISMATCH",
+  "classification": "STAGE14L_CORRECTED_PROPERTY_ADAPTIVE_RERUN_SUBMITTED_AND_RUNNING",
+  "next_task_id": "F1190-GATE6B-STAGE14M-CORRECTED-ADAPTIVE-TERMINAL-EVALUATION-20261003",
+  "updated_at": "2026-10-03T22:30:00+02:00"
 }
