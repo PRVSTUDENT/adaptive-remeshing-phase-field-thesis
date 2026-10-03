@@ -1,8 +1,8 @@
 {
-  "task_id": "F1186-GATE6B-STAGE14E-MATCHED-REFERENCE-BUNDLE-20261003",
+  "task_id": "F1186-GATE6B-STAGE14F-JOB1-PREANALYSIS-METHOD-FIDELITY-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Stage 14E Matched-Displacement Reference Bundle Construction & Evaluator Automation",
-  "status": "completed_reference_bundle_extracted_evaluator_automated_solver_running",
+  "title": "Gate-6B Mode-I Stage 14F Pandey-Kumar Job-1 Pre-Analysis Loading & Methodological-Fidelity Audit",
+  "status": "completed_fidelity_audit_closed_solver_running",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
   "write_scope": [
@@ -25,38 +25,17 @@
   ],
   "context": {
     "gate6b_status": "ACTIVE_EVALUATION_AND_CONTINUATION",
-    "stage14e_status": "MATCHED_REFERENCE_BUNDLE_EXTRACTED_AND_EVALUATOR_AUTOMATED",
-    "reference_matched_bundle": {
-      "job_id": "1409734.mmaster02",
-      "bundle_json": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/MODE1_REFERENCE_MATCHED_DISPLACEMENT_BUNDLE.json",
-      "summary_csv": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/mode1_reference_matched_states_summary.csv",
-      "ligament_csv": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/mode1_reference_ligament_profiles.csv",
-      "contour_csv": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/mode1_reference_contour_matched_states.csv",
-      "matched_displacements_mm": [0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070, 0.0080, 0.0090, 0.0100],
-      "governed_energy_nomenclature": "implemented phase-field crack-surface/fracture functional E_frac"
-    },
-    "stage14_adaptive_candidate": {
-      "candidate_name": "PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE",
-      "deck_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
-      "deck_sha256": "3efba9682c3eb31e99c233192007246e995bd8182411e51e6a6b74166873d7c1",
-      "underlying_elements": 14483,
-      "nodes": 14456,
-      "layers_total_elements": 43449,
-      "evaluator_script": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/evaluate_mode1_stage14_adaptive_14k.py",
-      "evaluator_sha256": "e6eccb9dfa5f1803c60d800d2049ca2206b55cce125d19a3a1ccc9398607b42f"
-    },
-    "unit_tests_status": {
-      "stage14_synthetic_disambiguation_tests": "14/14 passed 100%",
-      "pure_mode1_unittest_suite": "30/30 passed 100%"
-    },
+    "stage14f_status": "CLOSED_STAGE14_PREANALYSIS_METHOD_FIDELITY_PARTIALLY_SUPPORTED",
+    "scientific_question": "Is our Stage-14 use of the strongly damaged late Job-1_UEL state methodologically consistent with what Pandey & Kumar actually describe for the MISESERI pre-analysis?",
+    "governing_verdict": "STAGE14_PREANALYSIS_METHOD_FIDELITY_PARTIALLY_SUPPORTED",
     "active_solver_job": {
       "job_id": "1409947.mmaster02",
       "status": "RUNNING",
       "node": "mnode097",
       "queue": "normal_imfdfkmq",
-      "step": "Step 2 (past increment 400)"
+      "step": "Step 2"
     }
   },
-  "created_at": "2026-10-03T20:58:30+02:00",
-  "updated_at": "2026-10-03T21:20:00+02:00"
+  "created_at": "2026-10-03T21:21:00+02:00",
+  "updated_at": "2026-10-03T21:35:00+02:00"
 }

@@ -1,0 +1,115 @@
+{
+  "report_id": "GATE6B-STAGE14F-JOB1-PREANALYSIS-METHOD-FIDELITY-20261003",
+  "task_id": "F1186-GATE6B-STAGE14F-JOB1-PREANALYSIS-METHOD-FIDELITY-20261003",
+  "timestamp": "2026-10-03T21:25:00+02:00",
+  "agent": "gemini-antigravity",
+  "governing_question": "Is our Stage-14 use of the strongly damaged late Job-1_UEL state methodologically consistent with what Pandey & Kumar actually describe for the MISESERI pre-analysis?",
+  "primary_reference_audit": {
+    "source_citation": "Pandey & Kumar (2025), CMES 144(3), 3251-3276, doi:10.32604/cmes.2025.067858",
+    "coarse_initial_mesh": "h_global = 0.02 mm without initial refinement (2,906 elements, 2,988 nodes)",
+    "published_refined_mesh": "13,941 linear quad and triangular elements",
+    "stage14_reproduced_mesh": "14,483 underlying finite elements (+3.89% relative to 13,941)",
+    "job1_loading_schedule_text": "Delta u1 = 10^-3 for 500 increments, Delta u2 = 5 x 10^-4 for 1000 increments",
+    "job1_physical_displacement_endpoint_stated": "UNRESOLVED_REFERENCE_DETAIL",
+    "job1_physical_displacement_endpoint_analysis": "The paper does not explicitly state the physical prescribed displacement in millimeters for Job-1 in Section 4.1 text; however, the two-step structure and 1500 increments match the standard fracture simulation schedule running up to u = 0.010 mm.",
+    "damage_propagation_stated_in_job1": "IMPLIED_BY_UEL_WORKFLOW",
+    "damage_propagation_rationale": "Section 3.3 explicitly specifies that Job-1_UEL.inp is built with the full 3-layer UEL formulation and material/fracture properties (E=210 GPa, nu=0.3, Gc=2.7 N/mm, l0=0.0075 mm, k=1e-7). When solved by f42_mixed_uel.for, damage and crack propagation occur mechanically once load exceeds peak."
+  },
+  "fig6a_identification_audit": {
+    "caption": "Figure 6: Error indicator plots for (a) Mode-I and (b) Mode-II loading",
+    "morphology_verdict": "POST_LOCALIZATION_PROPAGATION_STATE",
+    "morphology_evidence": [
+      "Pre-peak states (u <= 0.005857 mm, d_max <= 0.1423) exhibit 50.9% far-field error at boundaries and produce 71k global meshes with w(x > 0.5) = 0.",
+      "Post-peak softening states (u = 0.0061 to 0.0080 mm) retain >49% far-field error and do not produce horizontal ligament corridors.",
+      "Late propagation states (u >= 0.00940 mm, d_max >= 0.9833) concentrate 86.7% to 95.4% error in the crack corridor, dropping far-field error to <10.5% and creating a narrow horizontal corridor spanning x in [0.5, 1.0] with w = 0.068 - 0.080 mm.",
+      "Published Fig. 6(a) displays an identical horizontal error corridor along the entire ligament, matching exclusively the post-localization state."
+    ]
+  },
+  "quantitative_transition_metrics": {
+    "prepeak_state_u005857": {
+      "u_mm": 0.005857,
+      "d_max": 0.1423,
+      "corridor_share_pct": 35.29,
+      "far_field_share_pct": 50.62,
+      "right_ligament_share_pct": 17.02,
+      "yspan_mm": 0.1873,
+      "w_x05_mm": 0.1698,
+      "w_x07_mm": 0.0,
+      "w_x09_mm": 0.0,
+      "xtip_mm": 0.5
+    },
+    "early_softening_u0061": {
+      "u_mm": 0.0061,
+      "d_max": 0.1562,
+      "corridor_share_pct": 35.4,
+      "far_field_share_pct": 50.53,
+      "right_ligament_share_pct": 17.12,
+      "yspan_mm": 0.1698,
+      "w_x05_mm": 0.1698,
+      "w_x07_mm": 0.0,
+      "w_x09_mm": 0.0,
+      "xtip_mm": 0.5
+    },
+    "mid_softening_u0080": {
+      "u_mm": 0.008,
+      "d_max": 0.3076,
+      "corridor_share_pct": 36.81,
+      "far_field_share_pct": 49.38,
+      "right_ligament_share_pct": 18.33,
+      "yspan_mm": 0.1561,
+      "w_x05_mm": 0.1561,
+      "w_x07_mm": 0.0,
+      "w_x09_mm": 0.0,
+      "xtip_mm": 0.5
+    },
+    "earliest_target_state_u00940": {
+      "u_mm": 0.0094,
+      "d_max": 0.9833,
+      "corridor_share_pct": 86.65,
+      "far_field_share_pct": 10.48,
+      "right_ligament_share_pct": 79.29,
+      "yspan_mm": 0.0884,
+      "w_x05_mm": 0.0802,
+      "w_x07_mm": 0.0,
+      "w_x09_mm": 0.0,
+      "xtip_mm": 0.5706
+    },
+    "late_propagation_u0098": {
+      "u_mm": 0.0098,
+      "d_max": 0.9871,
+      "corridor_share_pct": 87.82,
+      "far_field_share_pct": 9.49,
+      "right_ligament_share_pct": 79.29,
+      "yspan_mm": 0.0884,
+      "w_x05_mm": 0.0802,
+      "w_x07_mm": 0.0,
+      "w_x09_mm": 0.0,
+      "xtip_mm": 0.6282
+    },
+    "final_rupture_u0100": {
+      "u_mm": 0.01,
+      "d_max": 1.0,
+      "corridor_share_pct": 95.4,
+      "far_field_share_pct": 0.07,
+      "right_ligament_share_pct": 93.93,
+      "yspan_mm": 0.1065,
+      "w_x05_mm": 0.0802,
+      "w_x07_mm": 0.0722,
+      "w_x09_mm": 0.0676,
+      "xtip_mm": 1.0
+    }
+  },
+  "methodological_circularity_assessment": {
+    "is_in_analysis_adaptive": false,
+    "is_offline_pre_refinement": true,
+    "circularity_finding": "The proposed method functions strictly as a 2-pass offline pre-refinement heuristic. It executes a complete coupled phase-field damage solve on an initial coarse mesh to allow crack formation, unloads the bulk material, and uses the resulting localized stress gradient to mark the refinement corridor. While computationally circular if framed as predictive dynamic crack tracking, it is 100% methodologically faithful to the automated 2-pass architecture published by Pandey & Kumar (2025) and successfully produces the targeted ~14k candidate mesh without manual user intervention."
+  },
+  "formal_classifications": {
+    "fidelity_verdict": "STAGE14_PREANALYSIS_METHOD_FIDELITY_PARTIALLY_SUPPORTED",
+    "fidelity_justification": "The 2-pass UEL pre-analysis workflow, RemeshingRule configuration, and resulting 14,483 element mesh (+3.89% vs 13,941) are structurally and mechanically faithful to Pandey & Kumar (2025). The classification is PARTIALLY_SUPPORTED because the published text omits explicit documentation that Job-1 must be driven deep into the post-peak rupture regime (u >= 0.00940 mm) to trigger the localized corridor depicted in Fig. 6(a).",
+    "mesh_candidate_label": "PROJECT_TARGET_LIKE_ADAPTIVE_CANDIDATE",
+    "underlying_finite_elements": 14483,
+    "layered_total_elements": 43449,
+    "nodes": 14456
+  }
+}

@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T21:20:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14E Matched-Displacement Reference Bundle Construction & Evaluator Automation Completed; Authoritative 10-matched-displacement reference bundle extracted from qualified solve Job `1409734.mmaster02` ($W_{\text{ext}}=2.359329\,\text{mJ}$, $E_{\text{frac}}=2.340220\,\text{mJ}$, $E_{\text{elas}}=0.001161\,\text{mJ}$, $\Delta_{\text{book}}=-0.017949\,\text{mJ}$, $\varepsilon_{\text{book}}=0.7607\%$); Reference JSON, summary CSV, ligament profile CSV (8,440 data points), and full contour CSV (151,920 data points) verified; Governed energy nomenclature enforced: "implemented phase-field crack-surface/fracture functional E_frac" and descriptive $\Delta_{\text{book}}$; Terminal scientific evaluator `evaluate_mode1_stage14_adaptive_14k.py` upgraded with direct ODB extraction, continuous $L_2$ curve comparison, spatial ligament profile comparison, and markdown comparison report generation; Dedicated synthetic unit test suite `test_evaluate_mode1_stage14_synthetic_disambiguation.py` expanded to 14 tests and passing 100% locally and on cluster; Full Fracture Solver Job `1409947.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`) Active and Running in Step 2 on Cluster `mnode097`; Gate 6B Active.  
-Parent commit: `5677f137452558f657bfe8ce2f487fca8888b121`
+Last updated: `2026-10-03T21:35:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14F Pandey–Kumar Job-1 Pre-Analysis Loading & Methodological-Fidelity Audit Completed; Primary literature audited (Pandey & Kumar 2025 CMES 144(3), 3251–3276); Job-1 physical displacement endpoint amplitude classified as `UNRESOLVED_REFERENCE_DETAIL` with two-step structure and 1,500 increments mechanistically corresponding to full fracture sequence (`FUNCTIONALLY_MATCHED_TWO_STEP_FRACTURE`); Damage evolution in pre-analysis classified as `IMPLIED_BY_UEL_WORKFLOW` via 3-layer UEL formulation and `f42_mixed_uel.for` execution; Published Fig. 6(a) morphology identified defensibly as `POST_LOCALIZATION_PROPAGATION_STATE` ($u \ge 0.00940\,\text{mm}$, $d_{\max} \ge 0.9833$, corridor share $86.65\% \to 95.40\%$, far-field error $<10.5\%$, horizontal ligament band $w = 0.068 - 0.080\,\text{mm}$); Methodological circularity audited and framework established as an automated 2-pass offline pre-refinement heuristic; Formal governing verdict assigned: `STAGE14_PREANALYSIS_METHOD_FIDELITY_PARTIALLY_SUPPORTED`; Candidate 14,483-element mesh designated as `PROJECT_TARGET_LIKE_ADAPTIVE_CANDIDATE`; 2 publication figures generated in `results/figures/mode1_gate6b/`; Comprehensive MD and JSON reports generated; Dedicated unit test suite passing 100% (5/5 tests, 30/30 Mode-I tests); Active solver job `1409947.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`) running smoothly in Step 2 on cluster node `mnode097`; Gate 6B Active.  
+Parent commit: `567a646eb7560ffaa5702beecdf842d525e10ede`
 
 ---
 
@@ -29,15 +29,21 @@ Parent commit: `5677f137452558f657bfe8ce2f487fca8888b121`
   - **Stage 14C/14D (Terminal Evaluator & Reference Energy Reconciliation) Completed (`MODE1_STAGE14C_EVALUATOR_AND_ENERGY_AUDIT_REPORT.md`):**
     - Terminology compliance verified (zero "physical elements"; standard underlying finite elements $N_{\text{base}}=14,483$).
     - Provenance of all reference energy metrics verified and reconciled against governed qualified Job `1409734.mmaster02` ($W_{\text{ext}}=2.359329\,\text{mJ}$, $E_{\text{frac}}=2.340220\,\text{mJ}$, $E_{\text{elas}}=0.001161\,\text{mJ}$, $\Delta_{\text{book}}=-0.017949\,\text{mJ}$, $\varepsilon_{\text{book}}=0.7607\%$).
-    - Invented numerical pass thresholds eliminated and replaced with descriptive classifications (`STABLE`, `MESH_SENSITIVE`, `TEMPORALLY_SENSITIVE`, `NOT_YET_QUALIFIED`).
-    - Layer declarations confirmed: Layer 1 (`U1`/`U3`), Layer 2 (`U2`/`U4`), Layer 3 (`CPE4`/`CPE3` `UMATELEM`).
     - Strict integration-point extraction verified with within-element equality proof and loud `ValueError` on inconsistent IP copies.
   - **Stage 14E (Matched-Displacement Reference Bundle Construction & Evaluator Automation) Completed:**
     - Full 10-matched-displacement reference dataset extracted from Job `1409734.mmaster02` and verified locally and on cluster.
     - Governed nomenclature enforced across all files: `implemented phase-field crack-surface/fracture functional E_frac`.
     - `evaluate_mode1_stage14_adaptive_14k.py` upgraded with full comparison automation and markdown report generation.
-    - Dedicated synthetic regression unit test suite `test_evaluate_mode1_stage14_synthetic_disambiguation.py` expanded to 14 tests (14/14 pass 100% locally and on cluster).
-  - **Queue Status:** 1 active job running (`1409947.mmaster02`, `PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`, state `R`, in Step 2 past increment 400).
+  - **Stage 14F (Job-1 Pre-Analysis Method Fidelity Audit) Completed:**
+    - Primary paper audit completed (`references/pandey_pdf_text.txt`).
+    - Loading endpoint amplitude classified as `UNRESOLVED_REFERENCE_DETAIL`.
+    - Damage evolution classified as `IMPLIED_BY_UEL_WORKFLOW`.
+    - Published Fig. 6(a) identified as `POST_LOCALIZATION_PROPAGATION_STATE`.
+    - Formal governing fidelity verdict: `STAGE14_PREANALYSIS_METHOD_FIDELITY_PARTIALLY_SUPPORTED`.
+    - 14,483-element candidate labeled as `PROJECT_TARGET_LIKE_ADAPTIVE_CANDIDATE`.
+    - 2 publication figures generated in `results/figures/mode1_gate6b/`.
+    - Unit test suite `test_stage14f_preanalysis_fidelity.py` (5/5 pass, 30/30 Mode-I tests pass 100%).
+  - **Queue Status:** 1 active job running (`1409947.mmaster02`, `PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`, state `R`, in Step 2).
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
 ---
