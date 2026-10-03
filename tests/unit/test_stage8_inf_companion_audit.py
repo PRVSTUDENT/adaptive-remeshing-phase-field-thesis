@@ -44,7 +44,7 @@ def test_stage8_audit_json_structure(stage8_audit_data):
     assert stage8_audit_data["audit_id"] == "GATE6B-STAGE8-INF-COMPANION-FIDELITY-AUDIT-20261003"
     assert stage8_audit_data["step_name"] == "Step-1"
     assert stage8_audit_data["total_elements"] == 2906
-    assert stage8_audit_data["classification"] == "INF_STIFFNESS_COMPANION_TOWARD_PANDEY_KUMAR_LOCALIZATION"
+    assert stage8_audit_data["classification"] == "INF_STIFFNESS_COMPANION_NO_MEANINGFUL_CHANGE"
 
 
 def test_stage8_inf_companion_miseseri_scale(stage8_audit_data):
@@ -81,7 +81,9 @@ def test_stage8_report_and_figures_consistency(stage8_report_data):
     """Verify Stage 8 report metadata, verdicts, documents, and generated figures."""
     assert stage8_report_data["report_id"] == "MODE1_STAGE8_INF_COMPANION_AUDIT_REPORT_20261003"
     assert stage8_report_data["verdict"] == "INF_STIFFNESS_COMPANION_ORDER_1E12_VERIFIED"
-    assert stage8_report_data["classification"] == "INF_STIFFNESS_COMPANION_TOWARD_PANDEY_KUMAR_LOCALIZATION"
+    assert stage8_report_data["classification"] == "INF_STIFFNESS_COMPANION_NO_MEANINGFUL_CHANGE"
+    assert stage8_report_data["epistemic_status"] == "MOLNAR_GRAVOUIL_LINEAGE_SUPPORTED_PROJECT_DIAGNOSTIC"
+    assert stage8_report_data["reference_fidelity"] == "UNRESOLVED_REFERENCE_DETAIL"
     assert os.path.isfile(REPORT_MD_PATH)
     assert os.path.isfile(SOURCE_AUDIT_MD_PATH)
 
