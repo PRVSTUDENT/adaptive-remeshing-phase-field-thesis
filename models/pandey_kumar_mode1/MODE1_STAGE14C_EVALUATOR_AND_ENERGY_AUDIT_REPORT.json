@@ -1,95 +1,103 @@
 {
-  "protocol_version": 2,
-  "task_id": "F1186-GATE6B-STAGE14C-EVALUATOR-AND-ENERGY-QUALIFICATION-20261003",
-  "audit_date": "2026-10-03T20:30:00+02:00",
-  "author": "gemini-antigravity",
-  "qualification_status": "EVALUATOR_AND_ENERGY_QUALIFICATION_QUALIFIED",
+  "task_id": "F1186-GATE6B-STAGE14D-EVALUATOR-REFERENCE-RECONCILIATION-20261003",
+  "audit_phase": "Stage Mode-I Gate-6B",
+  "audit_title": "Gate-6B Mode-I Stage 14C/14D Terminal Evaluator and Energy-Mapping Qualification Audit",
+  "timestamp": "2026-10-03T20:50:00+02:00",
   "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
-  "target_package": {
-    "package_dir": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k",
+  "evaluator_script": {
+    "path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/evaluate_mode1_stage14_adaptive_14k.py",
+    "sha256": "4afdfa92c3cdd618001754d6be9abe733fdf8f868751f3ec588745be3d4b60a8",
+    "governed_status": "EVALUATOR_AND_ENERGY_QUALIFICATION_RECONCILED_QUALIFIED"
+  },
+  "candidate_model_audit": {
+    "candidate_name": "PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE",
     "deck_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
     "deck_sha256": "3efba9682c3eb31e99c233192007246e995bd8182411e51e6a6b74166873d7c1",
-    "subroutine_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/f42_mixed_uel.for",
-    "subroutine_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
-    "evaluator_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/evaluate_mode1_stage14_adaptive_14k.py",
-    "evaluator_sha256": "ff7750547820ac5b38a160d8ad9c0b0263c9f909b9532a1c23945f3dc335f45e",
-    "physical_elements": 14483,
-    "physical_nodes": 14456,
-    "total_nodes_with_rp": 14457,
-    "layered_elements": 43449
-  },
-  "layer_architecture": {
-    "layer_1": {
-      "name": "Phase-Field UEL",
-      "element_type": "U1 (Quad), U3 (Tri)",
-      "element_range": [1, 14483],
-      "active_dof": [3],
-      "quantities_computed": ["d", "grad(d)", "E_frac", "psi_f"]
-    },
-    "layer_2": {
-      "name": "Displacement Mechanical UEL",
-      "element_type": "U2 (Quad), U4 (Tri)",
-      "element_range": [14484, 28966],
-      "active_dofs": [1, 2],
-      "quantities_computed": ["u_x", "u_y", "sigma", "epsilon", "H", "E_elas", "psi_e"]
-    },
-    "layer_3": {
-      "name": "Companion / Facsimile UMAT",
-      "element_type": "CPE4 (Quad), CPE3 (Tri)",
-      "element_range": [28967, 43449],
-      "element_set": "UMATELEM",
-      "passive_modulus_GPa": 1e-11,
-      "state_variables": {
-        "SDV1": "Phase-field d",
-        "SDV2": "History variable H",
-        "SDV14": "Phase-field d",
-        "SDV15": "Degradation factor g(d) = (1-d)^2 + k",
-        "SDV16": "History variable H",
-        "SDV17": "Element integrated fracture energy E_frac (kN*mm = J)",
-        "SDV18": "Element integrated elastic strain energy E_elas (kN*mm = J)",
-        "SDV19": "Fracture energy density psi_f (kN/mm = J/mm^2)",
-        "SDV20": "Elastic strain energy density psi_e (kN/mm = J/mm^2)"
+    "underlying_elements": 14483,
+    "layered_elements": 43449,
+    "mesh_nodes": 14456,
+    "quad_elements": 14082,
+    "tri_elements": 401,
+    "layer_partitioning": {
+      "layer_1_phase_uel": {
+        "element_range": [1, 14483],
+        "dofs": [3],
+        "quad_type": "U1 (elements 1..14082)",
+        "tri_type": "U3 (elements 14083..14483)",
+        "active_dof_description": "Phase-field d"
+      },
+      "layer_2_mech_uel": {
+        "element_range": [14484, 28966],
+        "dofs": [1, 2],
+        "quad_type": "U2 (elements 14484..28565)",
+        "tri_type": "U4 (elements 28566..28966)",
+        "active_dof_description": "Displacements u_x, u_y"
+      },
+      "layer_3_companion_umat": {
+        "element_range": [28967, 43449],
+        "elset": "UMATELEM",
+        "quad_type": "CPE4 (elements 28967..43048)",
+        "tri_type": "CPE3 (elements 43049..43449)",
+        "active_dof_description": "Companion/Facsimile UMAT visualization and diagnostic energy output (SDV1..SDV20)"
       }
     }
   },
-  "extraction_rules_and_guards": {
-    "reaction_force": {
-      "definition": "F = -RF2 (tensile reaction force at top RP node 999999)",
-      "bare_abs_rf_prohibited": true
-    },
-    "initial_stiffness_K0": {
-      "method": "Ordinary Least Squares (OLS) linear regression",
-      "selection_window": "0.5 * delta_u < u <= 0.0010 + 0.5 * delta_u",
-      "canonical_sample_count": 400,
-      "reference_anchor_K0_kN_per_mm": 137.945520,
-      "reference_anchor_R2": 0.99999960
-    },
-    "integration_point_rule": {
-      "rule": "Single-IP / unique element deduplication",
-      "reason": "UMAT writes element-integrated energy to all 4 Gauss points of CPE4; naive summation would cause 400% overcounting",
-      "status": "QUALIFIED_AND_VERIFIED"
-    },
-    "work_and_energy_balance": {
-      "external_work": "Trapezoidal integration W_ext = \\int F du",
-      "crack_surface_functional": "E_frac (SDV17)",
-      "elastic_strain_energy": "E_elas (SDV18)",
-      "bookkeeping_residual": "Delta_book = (E_elas + E_frac) - W_ext",
-      "normalized_error": "eps_book = |Delta_book| / max(W_ext, E_model) * 100%"
+  "reconciled_reference_baseline": {
+    "job_id": "1409734.mmaster02",
+    "name": "PK_MODE1_REF15K_ENERGY",
+    "mechanical_anchor_job": "1398090.mmaster02",
+    "underlying_elements": 15192,
+    "nodes": 15521,
+    "K0_kN_per_mm": 137.94552,
+    "K0_intercept_kN": 4.472368e-05,
+    "K0_R2": 0.9999996,
+    "K0_fit_points": 400,
+    "K0_fit_max_u_mm": 0.001,
+    "F_max_kN": 0.757778,
+    "u_at_F_max_mm": 0.005857,
+    "F_final_kN": 0.000232,
+    "u_final_mm": 0.01,
+    "W_ext_final_mJ": 2.359329,
+    "E_frac_final_mJ": 2.34022,
+    "E_elas_final_mJ": 0.001161,
+    "E_model_final_mJ": 2.341381,
+    "Delta_book_final_mJ": -0.017949,
+    "eps_book_final_pct": 0.7607,
+    "provenance": {
+      "reference_deck_sha256": "ec560a4c265730647b43dab125d166ebc57cac285d574d38222a498a967535d9",
+      "reference_fortran_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+      "energy_csv_path": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/uel_energy_balance.csv",
+      "energy_csv_sha256": "9991f7f1ec5645b7e422fc12e1b2e367dd840c3b24a49b22dcf782c0d13f3875",
+      "qualification_report_path": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/S1_1409734_SCIENTIFIC_QUALIFICATION_REPORT.json",
+      "qualification_report_sha256": "1aa535f8efa94598ebf79465459dfdc59ee81c6711fb0128abab69d30237af21",
+      "extraction_script_sha256": "9270c0f2dc77f84799e2b6435e2d5bcb4ff693204a08ef76bd815d6414332e8a",
+      "governed_status": "CORRECTED_S1_ENERGY_QUALIFIED"
     }
   },
-  "unit_tests": {
-    "test_script": "tests/unit/test_evaluate_mode1_stage14_synthetic_disambiguation.py",
-    "tests_total": 8,
-    "tests_passed": 8,
-    "pass_rate_pct": 100.0
+  "unit_tests_audit": {
+    "test_suite_path": "tests/unit/test_evaluate_mode1_stage14_synthetic_disambiguation.py",
+    "total_tests": 11,
+    "passed_tests": 11,
+    "pass_rate_pct": 100.0,
+    "tested_capabilities": [
+      "layer_namespace_boundaries_and_metadata",
+      "reconciled_canonical_reference_provenance",
+      "extract_element_energies_strict_mixed_quad_tri",
+      "strict_extraction_fails_loudly_on_inconsistent_ip_values",
+      "multi_instance_duplicate_label_disambiguation",
+      "layer_set_disambiguation_scoping",
+      "force_sign_and_initial_stiffness_regression",
+      "trapezoidal_work_and_monotonicity_guard",
+      "descriptive_energy_bookkeeping_residual",
+      "comparison_vs_reference_interpolation",
+      "float_helper"
+    ]
   },
-  "cluster_job_tracking": {
+  "active_solver_job": {
     "job_id": "1409947.mmaster02",
     "job_name": "PK_M1_ADAPT_14K_FRACTURE",
     "queue": "normal_imfdfkmq",
-    "entry_queue": "entry_imfdfkmq",
-    "node": "mnode097",
     "status": "RUNNING",
-    "exit_code": null
+    "exec_node": "mnode097"
   }
 }

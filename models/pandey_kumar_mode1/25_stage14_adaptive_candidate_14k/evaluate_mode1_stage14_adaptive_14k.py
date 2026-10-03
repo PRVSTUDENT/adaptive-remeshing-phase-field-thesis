@@ -5,27 +5,29 @@ evaluate_mode1_stage14_adaptive_14k.py
 --------------------------------------
 Authoritative Terminal Scientific Evaluator and Qualification Pipeline for Stage-14 Adaptive Candidate Solve:
 Job: PK_MODE1_STAGE14_ADAPT_14K_FRACTURE
-Discretization: 14,483 Finite Elements (43,449 3-Layer Elements, 14,456 Nodes)
+Discretization: 14,483 Underlying Finite Elements (43,449 3-Layer Finite Elements, 14,456 Nodes)
 Stage: Stage 14B Phase-Field-Coupled Pre-Analysis Adaptive Localization Candidate
 
 Evaluates:
-1. Reaction Force & Displacement (F-u):
-   - F = -RF2_RP (tensile reaction force at RP 999999).
+1. Reaction Force & Prescribed Displacement (F-u):
+   - F = -RF2_RP (tensile reaction force at RP 999999, upward displacement U2 > 0).
    - Monotonicity, maximum force F_max, peak displacement u_peak.
-2. Initial Global Stiffness K0:
+2. Initial Global Structural Stiffness K0:
    - Linear regression on initial elastic increments using canonical half-bin window rule:
-     (u > 0.5 * delta_u) & (u <= 0.0010 + 0.5 * delta_u).
-   - Evaluated against Fixed Reference Anchor (Job 1398090): K0 = 137.945520 kN/mm.
+     (u > 0.5 * delta_u) & (u <= 0.0010 + 0.5 * delta_u) across N=400 increments.
+   - Evaluated against Fixed Reference Anchor (Job 1398090 / Job 1409734): K0 = 137.945520 kN/mm.
 3. Energy Evolution & Bookkeeping:
    - External work W_ext = \\int F du (trapezoidal integration).
    - Elastic strain energy E_elas (SDV18), Phase-field crack energy E_frac (SDV17).
    - Bookkeeping delta: Delta_book = (E_elas + E_frac) - W_ext.
-4. Numerical & Computational Telemetry:
-   - Increments, iterations, cutbacks, minimum dt from .sta file.
-   - Solver exit status and walltime/CPU time.
-5. Comparative Parity vs Canonical Reference (Job 1398090):
-   - Delta K0 (%), Delta F_max (%), Delta u_peak (%).
+4. Strict Integration-Point Deduplication & Verification:
+   - Groups by (instanceName, elementLabel) and verifies within-element IP equality.
+   - Scopes to authoritative companion element set (UMATELEM).
+   - Rejects inconsistent IP records with loud ValueError.
+5. Comparative Parity vs Reconciled Canonical Reference (Job 1409734):
+   - Delta K0 (%), Delta F_max (%), Delta u_peak (%), Delta W_ext (%), Delta E_frac (%).
    - Discrete RMS difference and continuous L2 norm on common displacement overlap.
+   - Descriptive classification (STABLE, MESH_SENSITIVE, TEMPORALLY_SENSITIVE, NOT_YET_QUALIFIED).
 """
 
 import os
@@ -37,9 +39,9 @@ import hashlib
 import argparse
 
 CANONICAL_REFERENCE = {
-    "job_id": "1398090.mmaster02",
-    "name": "PK_MODE1_STANDARD_PFM",
-    "elements": 15192,
+    "job_id": "1409734.mmaster02",
+    "name": "PK_MODE1_REF15K_ENERGY",
+    "underlying_elements": 15192,
     "nodes": 15521,
     "K0_kN_per_mm": 137.945520,
     "K0_intercept_kN": 4.472368e-05,
@@ -48,7 +50,26 @@ CANONICAL_REFERENCE = {
     "K0_fit_max_u_mm": 0.0010,
     "F_max_kN": 0.757778,
     "u_at_F_max_mm": 0.005857,
+    "F_final_kN": 0.000232,
+    "u_final_mm": 0.010000,
+    "W_ext_final_mJ": 2.359329,
+    "E_frac_final_mJ": 2.340220,
+    "E_elas_final_mJ": 0.001161,
+    "E_model_final_mJ": 2.341381,
+    "Delta_book_final_mJ": -0.017949,
+    "eps_book_final_pct": 0.7607,
     "t_ref_mm": 1.0,
+    "provenance": {
+        "mechanical_reference_job": "1398090.mmaster02",
+        "energy_qualified_reference_job": "1409734.mmaster02",
+        "reference_deck_sha256": "ec560a4c265730647b43dab125d166ebc57cac285d574d38222a498a967535d9",
+        "reference_fortran_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "energy_csv_path": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/uel_energy_balance.csv",
+        "energy_csv_sha256": "9991f7f1ec5645b7e422fc12e1b2e367dd840c3b24a49b22dcf782c0d13f3875",
+        "qualification_report_path": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/S1_1409734_SCIENTIFIC_QUALIFICATION_REPORT.json",
+        "qualification_report_sha256": "1aa535f8efa94598ebf79465459dfdc59ee81c6711fb0128abab69d30237af21",
+        "governed_status": "CORRECTED_S1_ENERGY_QUALIFIED"
+    },
     "published_pandey_kumar_2025": {
         "citation": "Pandey & Kumar (2025), CMES 144(3):3251-3276, DOI: 10.32604/cmes.2025.067858",
         "reported_error_target": "1.0%",
@@ -65,6 +86,28 @@ STAGE14_CANDIDATE_METADATA = {
     "underlying_elements": 14483,
     "underlying_nodes": 14456,
     "layered_elements": 43449,
+    "quad_elements": 14082,
+    "tri_elements": 401,
+    "layer_partitioning": {
+        "layer_1_phase_uel": {
+            "element_range": [1, 14483],
+            "dofs": [3],
+            "quad_type": "U1 (elements 1..14082)",
+            "tri_type": "U3 (elements 14083..14483)"
+        },
+        "layer_2_mech_uel": {
+            "element_range": [14484, 28966],
+            "dofs": [1, 2],
+            "quad_type": "U2 (elements 14484..28565)",
+            "tri_type": "U4 (elements 28566..28966)"
+        },
+        "layer_3_companion_umat": {
+            "element_range": [28967, 43449],
+            "elset": "UMATELEM",
+            "quad_type": "CPE4 (elements 28967..43048)",
+            "tri_type": "CPE3 (elements 43049..43449)"
+        }
+    },
     "preanalysis_source_stage": "Step-2 phase-field localization (earliest target Frame 880, u=0.00940 mm, d_max=0.9833)",
     "refinement_rule": "UNIFORM_ERROR, errorTarget = 1.0%, refinementFactor = 10, region = ALL_ELEM",
     "corridor_fraction_pct": 64.12,
@@ -116,6 +159,119 @@ def compute_trapezoidal_work(u_vals, f_vals):
         w_vals.append(w_cum)
     return w_vals
 
+def extract_element_energies_strict(sdv17_field, sdv18_field, region_set=None, atol=1e-12, rtol=1e-7):
+    """
+    Extracts element energies with strict integration-point deduplication, equality verification,
+    and explicit region selection.
+    
+    Rules:
+    1. If region_set is provided, extracts field subset scoped to that region.
+    2. Explicitly groups FieldValue objects by (instanceName, elementLabel).
+    3. For each element, collects all integration-point values for SDV17 (E_frac) and SDV18 (E_elas).
+    4. Validates that all companion-IP copies of the whole-element energy are numerically identical
+       within tolerance max(atol, rtol * abs(val0)).
+       Fails loudly with ValueError if within-element copies disagree unexpectedly.
+    5. Handles quadrilateral (e.g. 4 IPs) and triangular (e.g. 1 IP) output records separately.
+    6. Sums exactly one representative value per unique element.
+    
+    Returns:
+        dict containing:
+        - total_e_frac (float): sum of element fracture functional values
+        - total_e_elas (float): sum of element elastic energy values
+        - total_e_model (float): total_e_frac + total_e_elas
+        - unique_element_count (int): number of unique finite elements processed
+        - quad_count (int): count of elements with >1 IP records (quadrilaterals)
+        - tri_count (int): count of elements with 1 IP record (triangles)
+        - per_element_records (dict): mapping from (instance, label) -> (e_frac, e_elas, ip_count)
+    """
+    v17_list = sdv17_field.getSubset(region=region_set).values if region_set else sdv17_field.values
+    v18_list = sdv18_field.getSubset(region=region_set).values if region_set else sdv18_field.values
+    
+    if len(v17_list) != len(v18_list):
+        raise ValueError("SDV17 and SDV18 value record count mismatch: %d vs %d" % (len(v17_list), len(v18_list)))
+        
+    elem_records_17 = {}
+    elem_records_18 = {}
+    
+    for val17, val18 in zip(v17_list, v18_list):
+        inst_name = val17.instance.name if (hasattr(val17, 'instance') and val17.instance) else ""
+        eid = val17.elementLabel
+        key = (inst_name, eid)
+        
+        # Verify alignment of record keys
+        inst18 = val18.instance.name if (hasattr(val18, 'instance') and val18.instance) else ""
+        if (inst18, val18.elementLabel) != key:
+            raise ValueError("Mismatched element record between SDV17 %s and SDV18 %s" % (
+                str(key), str((inst18, val18.elementLabel))
+            ))
+            
+        d17 = float(val17.data)
+        d18 = float(val18.data)
+        
+        if key not in elem_records_17:
+            elem_records_17[key] = []
+            elem_records_18[key] = []
+        elem_records_17[key].append(d17)
+        elem_records_18[key].append(d18)
+        
+    total_e_frac = 0.0
+    total_e_elas = 0.0
+    quad_count = 0
+    tri_count = 0
+    per_element_data = {}
+    
+    for key, vals17 in elem_records_17.items():
+        vals18 = elem_records_18[key]
+        ip_count = len(vals17)
+        
+        # Check IP count
+        if ip_count > 1:
+            quad_count += 1
+        else:
+            tri_count += 1
+            
+        # Verify within-element equality for SDV17
+        v17_0 = vals17[0]
+        tol17 = max(atol, rtol * abs(v17_0))
+        for idx, v in enumerate(vals17[1:], start=2):
+            if abs(v - v17_0) > tol17:
+                raise ValueError(
+                    "Inconsistent SDV17 (E_frac) energy across integration points for element %s: "
+                    "IP 1 = %.12e vs IP %d = %.12e (diff = %.12e > tol = %.12e)" % (
+                        str(key), v17_0, idx, v, abs(v - v17_0), tol17
+                    )
+                )
+                
+        # Verify within-element equality for SDV18
+        v18_0 = vals18[0]
+        tol18 = max(atol, rtol * abs(v18_0))
+        for idx, v in enumerate(vals18[1:], start=2):
+            if abs(v - v18_0) > tol18:
+                raise ValueError(
+                    "Inconsistent SDV18 (E_elas) energy across integration points for element %s: "
+                    "IP 1 = %.12e vs IP %d = %.12e (diff = %.12e > tol = %.12e)" % (
+                        str(key), v18_0, idx, v, abs(v - v18_0), tol18
+                    )
+                )
+                
+        total_e_frac += v17_0
+        total_e_elas += v18_0
+        per_element_data[key] = {
+            "e_frac": v17_0,
+            "e_elas": v18_0,
+            "ip_count": ip_count
+        }
+        
+    return {
+        "total_e_frac": float(total_e_frac),
+        "total_e_elas": float(total_e_elas),
+        "total_e_model": float(total_e_frac + total_e_elas),
+        "unique_element_count": len(elem_records_17),
+        "quad_count": quad_count,
+        "tri_count": tri_count,
+        "per_element_data": per_element_data
+    }
+
 def parse_sta_file(sta_path):
     if not sta_path or not os.path.exists(sta_path):
         return None
@@ -161,41 +317,6 @@ def parse_sta_file(sta_path):
         'last_step_time': increments[-1]['step_time'] if increments else 0.0,
         'last_total_time': increments[-1]['total_time'] if increments else 0.0
     }
-
-def parse_dat_history(dat_path, target_node=999999):
-    """
-    Parses displacement and reaction force history from an Abaqus .dat file for target_node.
-    """
-    if not dat_path or not os.path.exists(dat_path):
-        return [], []
-    u_vals = []
-    f_vals = []
-    # State flags
-    in_node_table = False
-    with open(dat_path, 'r') as f:
-        for line in f:
-            l = line.strip()
-            if 'THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET' in line or 'NODE OUTPUT' in line:
-                in_node_table = True
-                continue
-            if in_node_table:
-                if not l or l.startswith('---') or l.startswith('Abaqus') or l.startswith('MAXIMUM') or l.startswith('MINIMUM'):
-                    continue
-                parts = l.split()
-                if len(parts) >= 3 and parts[0].isdigit():
-                    node_id = int(parts[0])
-                    if node_id == target_node:
-                        try:
-                            # Typically: NODE U1 U2 RF1 RF2
-                            # Or table specific format
-                            # We search for float values
-                            floats = [float(p) for p in parts[1:] if _is_float(p)]
-                            if len(floats) >= 2:
-                                # First float is displacement, second is RF, or table format
-                                pass
-                        except ValueError:
-                            pass
-    return u_vals, f_vals
 
 def _is_float(val_str):
     try:
@@ -288,10 +409,8 @@ def compare_against_reference(u_cand, f_cand, u_ref, f_ref):
     u_common_max = min(u_cand[-1], u_ref[-1])
     u_c = [u for u in u_cand if u <= u_common_max]
     f_c = [f for u, f in zip(u_cand, f_cand) if u <= u_common_max]
-    # Linear interpolation of ref onto cand
     f_r_interp = []
     for u in u_c:
-        # binary search / bracket
         if u <= u_ref[0]:
             f_r_interp.append(f_ref[0])
         elif u >= u_ref[-1]:
@@ -331,11 +450,10 @@ def compare_against_reference(u_cand, f_cand, u_ref, f_ref):
 
 def run_evaluation(job_dir, ref_csv_path=None, out_json_path=None):
     print("================================================================================")
-    print("STAGE 14 ADAPTIVE SOLVE (14,483 EL) TERMINAL EVALUATION")
+    print("STAGE 14 ADAPTIVE SOLVE (14,483 UNDERLYING ELEMENTS) TERMINAL EVALUATION")
     print("================================================================================")
     print("Job Directory: %s" % job_dir)
     
-    # 1. Look for curve CSV or dat file
     csv_candidates = [
         os.path.join(job_dir, "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE_fu.csv"),
         os.path.join(job_dir, "curve_extracted.csv"),
@@ -348,7 +466,6 @@ def run_evaluation(job_dir, ref_csv_path=None, out_json_path=None):
             u_vals, f_vals = read_fu_csv(c)
             break
             
-    # 2. Check STA file for solver metrics
     sta_candidates = [
         os.path.join(job_dir, "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.sta"),
         os.path.join(job_dir, "Job.sta")
@@ -360,7 +477,6 @@ def run_evaluation(job_dir, ref_csv_path=None, out_json_path=None):
             sta_metrics = parse_sta_file(s)
             break
             
-    # 3. Evaluate mechanical metrics
     mech_metrics = evaluate_mechanical_metrics(u_vals, f_vals)
     print("\n--- MECHANICAL PARITY METRICS ---")
     if mech_metrics:
@@ -381,16 +497,14 @@ def run_evaluation(job_dir, ref_csv_path=None, out_json_path=None):
     else:
         print("  [WAITING] No completed F-u trajectory yet (simulation running or pending extraction).")
         
-    # 4. Compare vs Reference if available
     comp_ref = {}
     if ref_csv_path and os.path.exists(ref_csv_path) and u_vals:
-        print("\n--- COMPARISON AGAINST REFERENCE 1398090 ---")
+        print("\n--- COMPARISON AGAINST REFERENCE 1409734 / 1398090 ---")
         u_ref, f_ref = read_fu_csv(ref_csv_path)
         comp_ref = compare_against_reference(u_vals, f_vals, u_ref, f_ref)
         print("  Overlap u_max: %.6f mm (%d points)" % (comp_ref["common_u_max_mm"], comp_ref["points_evaluated"]))
         print("  Discrete RMS: %.4f N, Continuous L2: %.4f N" % (comp_ref["discrete_rms_N"], comp_ref["continuous_l2_N"]))
         
-    # 5. Assemble complete record
     eval_record = {
         "stage": "Stage 14B Phase-Field Adaptive Candidate Solve",
         "model_metadata": STAGE14_CANDIDATE_METADATA,
