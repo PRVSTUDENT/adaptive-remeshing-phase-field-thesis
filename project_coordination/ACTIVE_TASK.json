@@ -1,65 +1,66 @@
 {
-  "task_id": "F1180-GATE6B-RESUBMIT-LAYERED-PREANALYSIS-AND-CLOSE-CONTROL-AND-S3-20261003",
+  "task_id": "F1181-GATE6B-ADAPTIVE-LOCALIZATION-STAGE5-STEP-FRAME-SEMANTICS-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Diagnostic Layered Job-1 Pre-Analysis Resubmission, Matched Control Dataset Extraction, and S3 Spatial Convergence Evaluation Closure",
+  "title": "Gate-6B Mode-I Adaptive-Localization Stage 5: Step/Frame Semantics of adaptiveRemesh Forensic Evaluation & Native CAE Sensitivity Closure",
   "status": "completed",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
   "write_scope": [
     "models/pandey_kumar_mode1/**",
+    "results/figures/mode1_gate6b/**",
     "scripts/**",
     "tests/unit/**",
     "docs/**",
     "project_coordination/**"
   ],
   "hpc_jobs": [
-    "1409914.mmaster02",
-    "1409915.mmaster02",
-    "1409867.mmaster02"
+    "1409914.mmaster02"
   ],
   "context": {
-    "terminal_jobs_evaluated": {
-      "package90_control_preanalysis": {
-        "job_id": "1409914.mmaster02",
-        "status": "COMPLETED_EXIT_0",
-        "elements": 2906,
-        "step1_u00050": {
-          "miseseri_max": 0.950009,
-          "miseseri_mean": 0.009878,
-          "corridor_share": 0.2670,
-          "far_field_wake_share": 0.6325
-        },
-        "step2_u00100": {
-          "miseseri_max": 1.900018,
-          "miseseri_mean": 0.019755,
-          "corridor_share": 0.2670,
-          "far_field_wake_share": 0.6325
-        },
-        "linearity_factor": 2.000000,
-        "spatial_distribution_invariance": "STRICTLY_INVARIANT"
+    "stage5_evaluation": {
+      "verdict": "FRAME_SELECTION_VERIFIED_NOT_DOMINANT_CAUSE",
+      "directional_classification": "NO_MEANINGFUL_IMPROVEMENT",
+      "odb_source": "PK_M1_JOB1_CONTINUUM_MATCHED_2906.odb",
+      "total_frames": 1502,
+      "total_solve_increments": 1500,
+      "step_inventory": {
+        "step1_frames": 501,
+        "step1_displacement_mm": [0.0, 0.005],
+        "step2_frames": 1001,
+        "step2_displacement_mm": [0.005, 0.010]
       },
-      "package89_layered_diagnostic": {
-        "job_id": "1409915.mmaster02",
-        "status": "TERMINATED_EXIT_1_STEP1_INC1",
-        "mechanism": "EIGENVALUE_MINUS_ONE_LIMIT_CYCLE",
-        "root_cause": "Double-counted internal force from UMAT Hookean stress while tangent stiffness DDSDDE is dummy (10^-11), causing spectral radius = 1 period-2 oscillation."
+      "mathematical_scaling": {
+        "linear_correlation_r2": 1.0,
+        "max_pairwise_normalized_difference": 6.69e-08,
+        "invariant_corridor_share_pct": 26.697,
+        "invariant_far_field_share_pct": 56.983,
+        "invariant_ligament_share_pct": 10.046,
+        "invariant_wake_share_pct": 6.274,
+        "invariant_boundary_share_pct": 10.022
       },
-      "s3_spatial_fine_solve": {
-        "job_id": "1409867.mmaster02",
-        "status": "TERMINATED_EXIT_1_POSTPEAK_CUTBACK_QUALIFIED",
-        "increments": 2836,
-        "terminal_displacement": 0.00667,
-        "load_drop": ">99%",
-        "k0": 137.857608,
-        "f_max": 0.732196,
-        "u_peak": 0.005633,
-        "e_frac": 2.357191,
-        "spatial_convergence_spread_k0": "0.0637% across S1-S3",
-        "spatial_convergence_spread_efrac": "0.73% across S1-S3"
-      }
-    },
-    "scientific_verdict_architecture_isolation": "CONTROL_VALID_LAYERED_UEL_INCONSISTENT_FOR_PREANALYSIS",
-    "unit_test_suite_status": "28/28 tests pass (100%)",
-    "new_pbs_jobs_required": false
-  }
+      "native_remesh_sensitivity_parity": {
+        "target_1pct": {
+          "step1_elements": 57544,
+          "step2_elements": 57692,
+          "delta_pct": 0.257,
+          "far_field_share_pct": 61.22
+        },
+        "target_2pct": {
+          "step1_elements": 14411,
+          "step2_elements": 14383,
+          "delta_pct": -0.194,
+          "corridor_share_pct": 28.81
+        },
+        "target_5pct": {
+          "step1_elements": 4290,
+          "step2_elements": 4268,
+          "delta_pct": -0.513
+        }
+      },
+      "scientific_outcome": "Frame selection within pre-analysis definitively eliminated as root cause of far-field refinement. Sizing algorithms target invariant relative error.",
+      "transition_target": "Stage 6: Element / Output-Position Behavior & Stress Recovery Averaging Semantics"
+    }
+  },
+  "created_at": "2026-10-03T11:15:00+02:00",
+  "updated_at": "2026-10-03T11:30:00+02:00"
 }

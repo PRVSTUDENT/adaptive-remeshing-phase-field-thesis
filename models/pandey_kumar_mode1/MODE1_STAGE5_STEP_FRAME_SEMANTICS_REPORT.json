@@ -1,0 +1,149 @@
+{
+  "document_id": "MODE1-STAGE5-STEP-FRAME-SEMANTICS-20261003",
+  "task_id": "F1181-GATE6B-ADAPTIVE-LOCALIZATION-STAGE5-STEP-FRAME-SEMANTICS-20261003",
+  "governing_phase": "Gate 6B (Pre-Analysis & Remeshing Discrepancy Diagnostics)",
+  "protocol_version": 2,
+  "date": "2026-10-03",
+  "agent": "gemini-antigravity",
+  "stage5_verdict": "FRAME_SELECTION_VERIFIED_NOT_DOMINANT_CAUSE",
+  "directional_classification": "NO_MEANINGFUL_IMPROVEMENT",
+  "benchmark_configuration": {
+    "benchmark": "Pandey & Kumar (2025) Mode-I Plane Strain Tension",
+    "domain_dimensions_mm": [1.0, 1.0],
+    "initial_slit_length_mm": 0.5,
+    "material": {
+      "elastic_modulus_gpa": 210.0,
+      "poisson_ratio": 0.3,
+      "fracture_energy_kn_per_mm": 0.0027,
+      "length_scale_mm": 0.0075
+    },
+    "control_job_id": "1409914.mmaster02",
+    "control_package": "90_mode1_preanalysis_continuum_matched_2906",
+    "mesh": {
+      "elements": 2906,
+      "quad_elements_cpe4": 2818,
+      "tri_elements_cpe3": 88,
+      "mesh_nodes": 2988,
+      "rp_nodes": 1,
+      "total_nodes": 2989
+    }
+  },
+  "step_and_frame_inventory": {
+    "total_frames": 1502,
+    "total_solve_increments": 1500,
+    "step1": {
+      "frames": 501,
+      "increments": 500,
+      "time_period": 1.0,
+      "displacement_range_mm": [0.0, 0.005]
+    },
+    "step2": {
+      "frames": 1001,
+      "increments": 1000,
+      "time_period": 1.0,
+      "displacement_range_mm": [0.005, 0.010]
+    },
+    "variables": ["S", "U", "RF", "MISESERI", "MISESAVG", "EVOL"],
+    "output_position": "WHOLE_ELEMENT"
+  },
+  "mathematical_scaling_and_invariance": {
+    "linear_scaling_verified": true,
+    "r_squared": 1.0,
+    "max_pairwise_normalized_difference": 6.69e-08,
+    "regional_error_shares_pct": {
+      "crack_corridor": 26.697,
+      "far_field": 56.983,
+      "right_ligament": 10.046,
+      "crack_wake": 6.274,
+      "exterior_boundaries": 10.022
+    },
+    "normalized_error_footprints_pct": {
+      "ge_50pct": { "elements": 12, "share_pct": 0.413 },
+      "ge_10pct": { "elements": 399, "share_pct": 13.730 },
+      "ge_1pct": { "elements": 2872, "share_pct": 98.830 }
+    }
+  },
+  "native_remesh_sensitivity_matrix": {
+    "remesh_step1_target1pct": {
+      "step_target": "Step-1",
+      "displacement_mm": 0.005,
+      "error_target_pct": 1.0,
+      "remeshed_elements": 57544,
+      "remeshed_nodes": 57047,
+      "corridor_elements": 10396,
+      "corridor_share_pct": 18.066,
+      "far_field_elements": 35228,
+      "far_field_share_pct": 61.219
+    },
+    "remesh_step2_target1pct": {
+      "step_target": "Step-2",
+      "displacement_mm": 0.010,
+      "error_target_pct": 1.0,
+      "remeshed_elements": 57692,
+      "remeshed_nodes": 57245,
+      "corridor_elements": 10406,
+      "corridor_share_pct": 18.037,
+      "far_field_elements": 35537,
+      "far_field_share_pct": 61.598
+    },
+    "remesh_step1_target2pct": {
+      "step_target": "Step-1",
+      "displacement_mm": 0.005,
+      "error_target_pct": 2.0,
+      "remeshed_elements": 14411,
+      "remeshed_nodes": 14385,
+      "corridor_elements": 4152,
+      "corridor_share_pct": 28.811,
+      "far_field_elements": 7557,
+      "far_field_share_pct": 52.439
+    },
+    "remesh_step2_target2pct": {
+      "step_target": "Step-2",
+      "displacement_mm": 0.010,
+      "error_target_pct": 2.0,
+      "remeshed_elements": 14383,
+      "remeshed_nodes": 14344,
+      "corridor_elements": 4143,
+      "corridor_share_pct": 28.805,
+      "far_field_elements": 7646,
+      "far_field_share_pct": 53.160
+    },
+    "remesh_step1_target5pct": {
+      "step_target": "Step-1",
+      "displacement_mm": 0.005,
+      "error_target_pct": 5.0,
+      "remeshed_elements": 4290,
+      "remeshed_nodes": 4377,
+      "corridor_elements": 780,
+      "corridor_share_pct": 18.182,
+      "far_field_elements": 2758,
+      "far_field_share_pct": 64.289
+    },
+    "remesh_step2_target5pct": {
+      "step_target": "Step-2",
+      "displacement_mm": 0.010,
+      "error_target_pct": 5.0,
+      "remeshed_elements": 4268,
+      "remeshed_nodes": 4360,
+      "corridor_elements": 776,
+      "corridor_share_pct": 18.182,
+      "far_field_elements": 2747,
+      "far_field_share_pct": 64.363
+    }
+  },
+  "evidence_figures": [
+    "results/figures/mode1_gate6b/fig_stage5_miseseri_multiframe_spatial.pdf",
+    "results/figures/mode1_gate6b/fig_stage5_miseseri_multiframe_spatial.png",
+    "results/figures/mode1_gate6b/fig_stage5_normalized_footprint_invariance.pdf",
+    "results/figures/mode1_gate6b/fig_stage5_normalized_footprint_invariance.png",
+    "results/figures/mode1_gate6b/fig_stage5_regional_share_invariance.pdf",
+    "results/figures/mode1_gate6b/fig_stage5_regional_share_invariance.png",
+    "results/figures/mode1_gate6b/fig_stage5_native_remesh_comparison.pdf",
+    "results/figures/mode1_gate6b/fig_stage5_native_remesh_comparison.png"
+  ],
+  "next_governed_stage": {
+    "stage": "Stage 6",
+    "topic": "Element / Output-Position Behavior & Stress Recovery Averaging Semantics",
+    "scope": "Evaluate integration point vs nodal output positions, CPE4 vs CPE4R formulation sensitivity, and patch recovery boundary behavior."
+  }
+}

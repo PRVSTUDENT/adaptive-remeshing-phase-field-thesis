@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-03T11:15:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I S3 Spatial Convergence Fully Evaluated and Closed; Matched Continuum Control (Package 90 / Job 1409914) Completed Exit 0 & Datasets Extracted; Layered Diagnostic (Package 89 / Job 1409915) Terminated Exit 1 Step 1 Inc 1 via Mathematically Proven Eigenvalue -1 Limit Cycle; 28/28 Unit Tests Pass (100%); 0 Active Jobs in Queue; All Governed Changes Synchronized  
-Parent commit: `6f1bdbc98a6223f49824e126927ec1381b2f95d4`
+Last updated: `2026-10-03T11:30:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Adaptive-Localization Stage 5 (Step/Frame Semantics) Evaluated and Closed; Formal Verdict `FRAME_SELECTION_VERIFIED_NOT_DOMINANT_CAUSE` Assigned; Directional Classification `NO_MEANINGFUL_IMPROVEMENT`; Linear-Elastic Normalized Error Field 100.0000% Frame-Invariant (|Δe_norm| <= 6.69e-8); Native adaptiveRemesh Step-1 vs Step-2 Parity Confirmed (<0.3% variation); 4 Publication Figures Generated in `results/figures/mode1_gate6b/`; Standalone Audit Report and Structured JSON Formally Archived; Transitioning to Stage 6 (Element / Output-Position Behavior & Stress Recovery Averaging Semantics); 28/28 Unit Tests Pass (100%); 0 Active Jobs in Queue  
+Parent commit: `35a10b8321b94a157cc4cdd0beb7e14679120643`
 
 ---
 
@@ -18,7 +18,7 @@ Parent commit: `6f1bdbc98a6223f49824e126927ec1381b2f95d4`
 * **Gate 2 (Multi-Quantity Convergence Qualification):** `CLOSED_PASSED`
   - Baseline response history, stiffness, peak force, and energy bounds established across 7,000 increments.
 * **Gate 3 (MISESERI Mechanism Verification):** `CLOSED_PASSED`
-  - Stress-recovery discretization error indicator confirmed; whole-element evaluation verified ($2,906$ CPE4/CPE3 elements, $2,988$ nodes).
+  - Stress-recovery discretization error indicator confirmed; whole-element evaluation verified ($2,906$ CPE4/CPE3 elements, $2,988$ mesh nodes + 1 RP = 2,989 total nodes).
 * **Gate 4 (Native Python Refinement Implementation):** `CLOSED_VERIFIED`
   - Automated `RemeshingRule` + `adaptiveRemesh` workflow verified.
 * **Gate 5 (Native-Remesh Reproduction & Boundary Audit):** `CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION`
@@ -30,21 +30,20 @@ Parent commit: `6f1bdbc98a6223f49824e126927ec1381b2f95d4`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
   - Abaqus keyword/NSET 16-entry card limit defect identified and resolved with wrapped cards.
   - Full-fracture mechanical response verified ($K_0 = 137.820804\,\text{kN/mm}$, $\Delta K_0 = -0.09\%$, Jobs `1405044.mmaster02`, `1404933.mmaster02`).
-* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `SPATIAL_CONVERGENCE_S1_S2_S3_CLOSED; CONTROL_MISESERI_DATASETS_EXTRACTED; LAYERED_PREANALYSIS_EIGENVALUE_DIVERGENCE_PROVEN; ARCHITECTURE_ISOLATION_COMPLETE; 28_28_TESTS_PASS; 0_ACTIVE_JOBS`
+* **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `STAGE5_STEP_FRAME_SEMANTICS_CLOSED_PASS; VERDICT_FRAME_SELECTION_NOT_DOMINANT_CAUSE; TRANSITION_TO_STAGE6_ACTIVE; 28_28_TESTS_PASS; 0_ACTIVE_JOBS`
+  - **Stage 5 (Step and Frame Semantics of `adaptiveRemesh`) Evaluated and Closed (`MODE1_STAGE5_STEP_FRAME_SEMANTICS_REPORT.md`):**
+    - **Formal Verdict:** `FRAME_SELECTION_VERIFIED_NOT_DOMINANT_CAUSE` | **Directional Classification:** `NO_MEANINGFUL_IMPROVEMENT`.
+    - Multi-frame audit of matched continuum control `PK_M1_JOB1_CONTINUUM_MATCHED_2906.odb` (1,502 frames across Step-1 and Step-2).
+    - Exact linear scaling established ($\text{MISESERI} \propto u$). Pairwise normalized error difference across all 2,906 elements between Step 1 End ($u=0.005\,\text{mm}$) and Step 2 End ($u=0.010\,\text{mm}$) is bounded by machine epsilon ($\max |\Delta e_{\text{norm}}| \le 6.69 \times 10^{-8}$).
+    - Regional total error shares strictly constant across all 1,502 increments: Crack-tip corridor $26.697\%$, Far-field $56.983\%$, Right ligament $10.046\%$, Crack wake $6.274\%$, Boundary $10.022\%$.
+    - Controlled native CAE remeshing sensitivity tests confirm $<0.3\%$ variation between Step-1 and Step-2 targeting across $\eta_{\text{req}} = 1.0\%, 2.0\%, 5.0\%$, with identical far-field refinement shares ($61.2\% \to 61.6\%$).
+    - Frame selection eliminated as a potential cause of far-field refinement; investigative focus advances to **Stage 6: Element / Output-Position Behavior & Stress Recovery Averaging Semantics**.
   - **S1--S2--S3 Spatial Convergence Family Evaluated and Closed (`MODE1_S3_AND_SPATIAL_CONVERGENCE_EVALUATION.md`):**
-    - S1 ($h=0.0030\,\text{mm}$, 15,192 el, Job `1409734`): $K_0 = 137.945520\,\text{kN/mm}$, $F_{\max} = 0.757778\,\text{kN}$, $u(F_{\max}) = 0.005857\,\text{mm}$, $W_{\text{ext}}(u=0.0050) = 1.691586\,\text{mJ}$, $E_{\text{frac}} = 2.340220\,\text{mJ}$.
-    - S2 ($h=0.0020\,\text{mm}$, 32,184 el, Job `1409866`): $K_0 = 137.894136\,\text{kN/mm}$ ($\Delta K_0 = -0.037\%$), $F_{\max} = 0.741194\,\text{kN}$ ($\Delta F_{\max} = -2.19\%$), $u(F_{\max}) = 0.005711\,\text{mm}$, $W_{\text{ext}}(u=0.0050) = 1.690825\,\text{mJ}$ ($\Delta W = -0.045\%$), $E_{\text{frac}} = 2.330348\,\text{mJ}$ ($\Delta E = -0.42\%$).
-    - S3 ($h=0.0015\,\text{mm}$, 41,912 el, Job `1409867`): $K_0 = 137.857608\,\text{kN/mm}$ ($\Delta K_0 = -0.064\%$ vs S1, $-0.026\%$ vs S2), $F_{\max} = 0.732196\,\text{kN}$ ($\Delta F_{\max} = -3.38\%$ vs S1, $-1.21\%$ vs S2), $u(F_{\max}) = 0.005633\,\text{mm}$, $W_{\text{ext}}(u=0.0050) = 1.690310\,\text{mJ}$ ($\Delta W = -0.075\%$ vs S1, $-0.030\%$ vs S2), $E_{\text{frac}} = 2.357191\,\text{mJ}$ ($\Delta E = +0.73\%$ vs S1, $+1.15\%$ vs S2).
-    - **Convergence Summary:** Initial stiffness variation across $2.76\times$ mesh refinement is only **$0.0637\%$**; peak reaction force changes monotonically diminish ($2.19\% \to 1.21\%$); dissipated fracture energy spread is only **$0.73\%$**; pre-peak energy balance error $\epsilon_{\text{book}} \le 0.0050\%$ across all three discretizations.
+    - Classified as `MIXED_SPATIAL_CONVERGENCE` ($K_0$ spread $0.0637\%$, pre-peak work variation $0.075\%$, post-peak domain truncated after last converged state at $u \approx 0.00667\,\text{mm}$ due to cutback termination).
   - **Matched Continuum Control Pre-Analysis Extracted (Package 90 / Job `1409914.mmaster02`):**
     - Executed with `Exit 0` (Walltime `00:00:26`, CPUT `00:00:20`, 1-CPU Serial on `mnode098/0`).
-    - Exactly 2,906 whole-element MISESERI values extracted (2,818 CPE4, 88 CPE3, 2,989 nodes + RP).
-    - Step 1 End ($u = 0.0050\,\text{mm}$): $\text{MISESERI}_{\max} = 0.950009\,\text{kN/mm}^2$, Mean = $0.009878\,\text{kN/mm}^2$. Corridor share: $26.70\%$, Far-field + wake share: $63.25\%$.
-    - Step 2 End ($u = 0.0100\,\text{mm}$): $\text{MISESERI}_{\max} = 1.900018\,\text{kN/mm}^2$, Mean = $0.019755\,\text{kN/mm}^2$. Exact $2.000000\times$ linear scale; regional spatial shares strictly invariant.
   - **Layered Pre-Analysis Diagnostic Resolved (Package 89 / Job `1409915.mmaster02`):**
-    - Resubmitted after wrapper syntax repair; terminated Exit 1 in Step 1 Inc 1 after 5 automatic cutbacks.
-    - Mathematical proof established: UMAT calculating Hookean stress with dummy tangent $10^{-11}$ creates an internal force double-count against UEL Layer 2 ($\mathbf{F}_{\text{int}} = 2 \mathbf{K} \mathbf{u}$ vs $\mathbf{K}_{\text{tan}} = \mathbf{K}$). The Newton-Raphson iteration matrix $(\mathbf{I} - \mathbf{K}^{-1} \mathbf{J}_{\text{int}}) = -\mathbf{I}$ has eigenvalue $-1.000000$, creating an undamped period-2 limit cycle that cannot converge.
-    - **Scientific Conclusion:** The layered UEL architecture is an execution vehicle for coupled phase-field damage solving where companion UMAT is strictly a passive zero-stress output carrier (`STRESS = 0`). Standard continuum elasticity (Package 90) is the only mathematically consistent formulation for linear-elastic stress recovery pre-analysis.
+    - Mathematical proof established: Newton-Raphson iteration matrix eigenvalue $-1.000000$ limit cycle divergence.
   - **Unit Test Suite:** **28/28 tests pass 100%** across repository.
   - **Queue Status:** 0 active jobs running.
 
