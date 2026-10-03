@@ -1,8 +1,8 @@
 {
-  "task_id": "F1186-GATE6B-STAGE14F-JOB1-PREANALYSIS-METHOD-FIDELITY-20261003",
+  "task_id": "F1186-GATE6B-STAGE14G-SOURCE-FIDELITY-BOUNDARY-AND-TERMINAL-PROTOCOL-20261003",
   "phase": "Stage Mode-I",
-  "title": "Gate-6B Mode-I Stage 14F Pandey-Kumar Job-1 Pre-Analysis Loading & Methodological-Fidelity Audit",
-  "status": "completed_fidelity_audit_closed_solver_running",
+  "title": "Gate-6B Mode-I Stage 14G Stage-14F Claims Correction, Publication-Fidelity Boundary Freeze & Terminal-Comparison Protocol",
+  "status": "completed_claims_corrected_protocol_frozen_solver_running",
   "assigned_agent": "gemini-antigravity",
   "workspace": "D:\\Master thesis\\Adaptive remeshing",
   "write_scope": [
@@ -25,9 +25,11 @@
   ],
   "context": {
     "gate6b_status": "ACTIVE_EVALUATION_AND_CONTINUATION",
-    "stage14f_status": "CLOSED_STAGE14_PREANALYSIS_METHOD_FIDELITY_PARTIALLY_SUPPORTED",
-    "scientific_question": "Is our Stage-14 use of the strongly damaged late Job-1_UEL state methodologically consistent with what Pandey & Kumar actually describe for the MISESERI pre-analysis?",
+    "stage14g_status": "CLOSED_STAGE14G_CLAIMS_CORRECTED_AND_TERMINAL_PROTOCOL_FROZEN",
     "governing_verdict": "STAGE14_PREANALYSIS_METHOD_FIDELITY_PARTIALLY_SUPPORTED",
+    "fig6a_classification": "PUBLISHED_FIG6A_PREANALYSIS_STATE = UNRESOLVED_REFERENCE_DETAIL",
+    "job1_loading_classification": "TWO_STEP_JOB1_STRUCTURE_REPRODUCED__ABSOLUTE_LOADING_SEMANTICS_UNRESOLVED",
+    "candidate_mesh_label": "PROJECT_TARGET_LIKE_ADAPTIVE_CANDIDATE",
     "active_solver_job": {
       "job_id": "1409947.mmaster02",
       "status": "RUNNING",
@@ -36,6 +38,6 @@
       "step": "Step 2"
     }
   },
-  "created_at": "2026-10-03T21:21:00+02:00",
-  "updated_at": "2026-10-03T21:35:00+02:00"
+  "created_at": "2026-10-03T21:35:00+02:00",
+  "updated_at": "2026-10-03T21:45:00+02:00"
 }

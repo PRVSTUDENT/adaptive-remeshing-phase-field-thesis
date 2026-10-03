@@ -1,0 +1,80 @@
+{
+  "protocol_id": "GATE6B-STAGE14-TERMINAL-EVALUATION-PROTOCOL-20261003",
+  "task_id": "F1186-GATE6B-STAGE14G-SOURCE-FIDELITY-BOUNDARY-AND-TERMINAL-PROTOCOL-20261003",
+  "timestamp": "2026-10-03T21:35:00+02:00",
+  "target_solve": {
+    "job_id": "1409947.mmaster02",
+    "job_name": "PK_M1_ADAPT_14K_FRACTURE",
+    "model_dir": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k",
+    "underlying_finite_elements": 14483,
+    "layered_total_elements": 43449,
+    "nodes": 14456
+  },
+  "reference_benchmark": {
+    "job_id": "1409734.mmaster02",
+    "job_name": "PK_MODE1_REF_7K_S1",
+    "underlying_finite_elements": 15192,
+    "K0_kN_per_mm": 137.945520,
+    "Fmax_kN": 0.757778,
+    "u_peak_mm": 0.005857,
+    "F_final_kN": 0.000232,
+    "load_drop_pct": 99.969384,
+    "W_ext_mJ": 2.359329,
+    "E_frac_mJ": 2.340220,
+    "E_elas_mJ": 0.001161,
+    "Delta_book_mJ": -0.017949,
+    "eps_book_pct": 0.760749
+  },
+  "ten_matched_displacement_states_mm": [
+    0.001000,
+    0.003000,
+    0.005000,
+    0.005857,
+    0.006000,
+    0.006500,
+    0.007000,
+    0.008000,
+    0.009000,
+    0.010000
+  ],
+  "mandatory_evaluation_metrics": [
+    "complete_F_u_curve",
+    "initial_stiffness_K0",
+    "peak_reaction_force_Fmax",
+    "displacement_at_peak_u_peak",
+    "final_residual_force_F_final",
+    "percentage_load_drop",
+    "matched_d_max",
+    "matched_crack_tip_xtip",
+    "matched_spatial_ligament_profiles_d_x",
+    "matched_phase_field_contours",
+    "stored_elastic_energy_E_elas",
+    "implemented_crack_surface_functional_E_frac",
+    "total_model_energy_E_model",
+    "external_work_W_ext",
+    "bookkeeping_difference_Delta_book",
+    "bookkeeping_residual_pct_eps_book",
+    "continuous_L2_force_norm",
+    "discrete_states_RMS_error",
+    "solver_telemetry_increments_iterations_cutbacks_walltime",
+    "secondary_element_count_efficiency"
+  ],
+  "metric_classification_categories": [
+    "STABLE",
+    "MESH_SENSITIVE",
+    "TEMPORALLY_SENSITIVE",
+    "NOT_YET_QUALIFIED"
+  ],
+  "overall_verdict_hierarchy": [
+    "STAGE14_ADAPTIVE_MECHANICS_AND_FIELD_RESPONSE_STABLE",
+    "STAGE14_ADAPTIVE_MECHANICS_STABLE_FIELD_SENSITIVE",
+    "STAGE14_ADAPTIVE_RESPONSE_MESH_SENSITIVE",
+    "STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED"
+  ],
+  "anti_bias_rules": {
+    "zero_frame_picking": true,
+    "no_cosmetic_verdict_selection": true,
+    "no_invented_pass_fail_thresholds": true,
+    "frozen_in_advance": true
+  }
+}

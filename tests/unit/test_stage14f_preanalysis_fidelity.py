@@ -1,5 +1,5 @@
 """
-Unit tests for Gate-6B Stage 14F: Pandey-Kumar Job-1 Pre-Analysis Loading & Methodological-Fidelity Audit.
+Unit tests for Gate-6B Stage 14F/14G: Pandey-Kumar Job-1 Pre-Analysis Loading, Methodological-Fidelity Audit, Publication Boundary & Terminal Protocol.
 """
 
 import os
@@ -9,6 +9,9 @@ import pytest
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 FIDELITY_REPORT_JSON = os.path.join(ROOT_DIR, "models", "pandey_kumar_mode1", "MODE1_STAGE14F_JOB1_PREANALYSIS_METHOD_FIDELITY_REPORT.json")
 FIDELITY_REPORT_MD = os.path.join(ROOT_DIR, "models", "pandey_kumar_mode1", "MODE1_STAGE14F_JOB1_PREANALYSIS_METHOD_FIDELITY_REPORT.md")
+BOUNDARY_MD = os.path.join(ROOT_DIR, "models", "pandey_kumar_mode1", "STAGE14_PUBLICATION_FIDELITY_BOUNDARY.md")
+PROTOCOL_MD = os.path.join(ROOT_DIR, "models", "pandey_kumar_mode1", "25_stage14_adaptive_candidate_14k", "STAGE14_TERMINAL_EVALUATION_PROTOCOL.md")
+PROTOCOL_JSON = os.path.join(ROOT_DIR, "models", "pandey_kumar_mode1", "25_stage14_adaptive_candidate_14k", "STAGE14_TERMINAL_EVALUATION_PROTOCOL.json")
 FIGURES_DIR = os.path.join(ROOT_DIR, "results", "figures", "mode1_gate6b")
 
 FIG1_PNG = os.path.join(FIGURES_DIR, "fig_mode1_stage14f_evolution_transition.png")
@@ -17,11 +20,17 @@ FIG2_PNG = os.path.join(FIGURES_DIR, "fig_mode1_stage14f_morphology_comparison.p
 FIG2_PDF = os.path.join(FIGURES_DIR, "fig_mode1_stage14f_morphology_comparison.pdf")
 
 
-def test_stage14f_reports_exist():
+def test_stage14f_reports_and_boundary_exist():
     assert os.path.isfile(FIDELITY_REPORT_JSON), f"Missing {FIDELITY_REPORT_JSON}"
     assert os.path.isfile(FIDELITY_REPORT_MD), f"Missing {FIDELITY_REPORT_MD}"
+    assert os.path.isfile(BOUNDARY_MD), f"Missing {BOUNDARY_MD}"
+    assert os.path.isfile(PROTOCOL_MD), f"Missing {PROTOCOL_MD}"
+    assert os.path.isfile(PROTOCOL_JSON), f"Missing {PROTOCOL_JSON}"
     assert os.path.getsize(FIDELITY_REPORT_JSON) > 1000
     assert os.path.getsize(FIDELITY_REPORT_MD) > 2000
+    assert os.path.getsize(BOUNDARY_MD) > 1000
+    assert os.path.getsize(PROTOCOL_MD) > 1500
+    assert os.path.getsize(PROTOCOL_JSON) > 500
 
 
 def test_stage14f_figures_exist():
@@ -44,12 +53,20 @@ def test_stage14f_governed_classifications():
     assert classifications["layered_total_elements"] == 43449
     assert classifications["nodes"] == 14456
     
-    primary = data["primary_reference_audit"]
-    assert primary["job1_physical_displacement_endpoint_stated"] == "UNRESOLVED_REFERENCE_DETAIL"
-    assert primary["damage_propagation_stated_in_job1"] == "IMPLIED_BY_UEL_WORKFLOW"
+    # 3-category epistemology assertions
+    assert "three_category_epistemology" in data
+    epistemology = data["three_category_epistemology"]
+    assert len(epistemology["published_facts"]) >= 3
+    assert len(epistemology["project_numerical_evidence"]) >= 3
+    assert len(epistemology["unresolved_literature_details"]) >= 2
     
+    # Corrected Fig. 6(a) and Loading classification
     fig6a = data["fig6a_identification_audit"]
-    assert fig6a["morphology_verdict"] == "POST_LOCALIZATION_PROPAGATION_STATE"
+    assert fig6a["morphology_verdict"] == "PUBLISHED_FIG6A_PREANALYSIS_STATE = UNRESOLVED_REFERENCE_DETAIL"
+    
+    loading = data["job1_loading_schedule_audit"]
+    assert loading["loading_structure_verdict"] == "TWO_STEP_JOB1_STRUCTURE_REPRODUCED__ABSOLUTE_LOADING_SEMANTICS_UNRESOLVED"
+    assert loading["physical_amplitude_status"] == "UNRESOLVED_REFERENCE_DETAIL"
 
 
 def test_stage14f_quantitative_transition_metrics():
@@ -91,3 +108,26 @@ def test_stage14f_methodological_circularity_verdict():
     assert circ["is_in_analysis_adaptive"] is False
     assert circ["is_offline_pre_refinement"] is True
     assert "2-pass offline pre-refinement" in circ["circularity_finding"]
+
+
+def test_stage14_terminal_evaluation_protocol_integrity():
+    with open(PROTOCOL_JSON, "r", encoding="utf-8") as f:
+        proto = json.load(f)
+        
+    assert proto["protocol_id"] == "GATE6B-STAGE14-TERMINAL-EVALUATION-PROTOCOL-20261003"
+    assert len(proto["ten_matched_displacement_states_mm"]) == 10
+    assert proto["ten_matched_displacement_states_mm"][0] == 0.0010
+    assert proto["ten_matched_displacement_states_mm"][3] == 0.005857
+    assert proto["ten_matched_displacement_states_mm"][-1] == 0.0100
+    
+    # Hierarchy
+    hierarchy = proto["overall_verdict_hierarchy"]
+    assert hierarchy[0] == "STAGE14_ADAPTIVE_MECHANICS_AND_FIELD_RESPONSE_STABLE"
+    assert hierarchy[1] == "STAGE14_ADAPTIVE_MECHANICS_STABLE_FIELD_SENSITIVE"
+    assert hierarchy[2] == "STAGE14_ADAPTIVE_RESPONSE_MESH_SENSITIVE"
+    assert hierarchy[3] == "STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED"
+    
+    # Anti-bias rules
+    assert proto["anti_bias_rules"]["zero_frame_picking"] is True
+    assert proto["anti_bias_rules"]["no_cosmetic_verdict_selection"] is True
+    assert proto["anti_bias_rules"]["frozen_in_advance"] is True

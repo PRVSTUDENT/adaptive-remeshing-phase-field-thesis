@@ -10,55 +10,50 @@
 
 ## 1. Executive Summary & Master Audit Classifications
 
-1. **Pre-Analysis Loading Endpoint:** `UNRESOLVED_REFERENCE_DETAIL`
-   - Pandey & Kumar (2025) specify the increment count and size ($\Delta u_1 = 10^{-3}$ for 500 increments, $\Delta u_2 = 5 \times 10^{-4}$ for 1000 increments) in Section 4.1, but omit explicit physical displacement endpoint amplitudes in millimeters for `Job-1_UEL.inp`.
-   - The two-step structure and 1,500 increments mechanically correspond to a full fracture solve running through rupture up to $u = 0.0100\,\text{mm}$.
+1. **Pre-Analysis Loading Schedule Structure:** `TWO_STEP_JOB1_STRUCTURE_REPRODUCED__ABSOLUTE_LOADING_SEMANTICS_UNRESOLVED`
+   - Pandey & Kumar (2025) specify the increment count and size ($\Delta u_1 = 10^{-3}$ for 500 increments, $\Delta u_2 = 5 \times 10^{-4}$ for 1000 increments) in Section 4.1, but omit explicit physical displacement endpoint amplitudes in millimeters for `Job-1_UEL.inp` (`UNRESOLVED_REFERENCE_DETAIL`).
+   - The two-step structure and 1,500 increments reproduce the published schedule layout without making ungrounded assumptions about the author's physical terminal displacement.
 2. **Damage Propagation in Pre-Analysis:** `IMPLIED_BY_UEL_WORKFLOW`
    - Section 3.3 explicitly specifies that `Job-1_UEL.inp` contains the full 3-layer user element system (Layer 1 Phase $U_1/U_3$, Layer 2 Mech $U_2/U_4$, Layer 3 Facsimile/UMAT `umatelem`/`All_elem`) with fracture properties ($G_c, l_0, k$).
    - When executed by `f42_mixed_uel.for`, damage evolves naturally and crack propagation occurs mechanically beyond peak load.
-3. **Published Figure 6(a) Identification:** `POST_LOCALIZATION_PROPAGATION_STATE`
-   - Pre-peak and early post-peak states ($u \le 0.0080\,\text{mm}$, $d_{\max} \le 0.308$) exhibit $>49\%$ far-field error at top/bottom boundaries and produce over-refined global meshes (57k–71k elements) with zero horizontal ligament bandwidth ($w(x > 0.5) = 0$).
-   - Only when the simulation reaches late propagation ($u \ge 0.00940\,\text{mm}$, $d_{\max} \ge 0.9833$) does the corridor share surge to $86.7\% \to 95.4\%$, collapsing far-field error to $<10.5\%$ and creating a narrow horizontal corridor spanning $x \in [0.5, 1.0]\,\text{mm}$ ($w = 0.068 - 0.080\,\text{mm}$).
-   - Published Fig. 6(a) matches exclusively this post-localization state.
+3. **Published Figure 6(a) Identification:** `PUBLISHED_FIG6A_PREANALYSIS_STATE = UNRESOLVED_REFERENCE_DETAIL`
+   - **Published Fact:** Fig. 6(a) displays the authors' MISESERI error indicator distribution used to designate the region requiring mesh refinement.
+   - **Project Numerical Evidence:** In our numerical model, pre-peak and early post-peak states ($u \le 0.0080\,\text{mm}$, $d_{\max} \le 0.308$) exhibit $>49\%$ far-field error at boundaries and yield over-refined global meshes (57k–71k elements) with zero horizontal ligament bandwidth ($w(x > 0.5) = 0$). Only when our model reaches late propagation ($u \ge 0.00940\,\text{mm}$, $d_{\max} \ge 0.9833$) does the corridor share surge to $86.7\% \to 95.4\%$, collapsing far-field error to $<10.5\%$ and creating the narrow horizontal corridor ($w = 0.068 - 0.080\,\text{mm}$) across the ligament. The closest project-observed morphological correspondence occurs after strong localization in our model.
+   - **Unresolved:** The exact author displacement, frame, and damage state that generated Fig. 6(a) remain unexposed in the literature.
 4. **Governing Method Fidelity Verdict:** `STAGE14_PREANALYSIS_METHOD_FIDELITY_PARTIALLY_SUPPORTED`
-   - Structurally and algorithmically, the 2-pass workflow (`Job-1_UEL.inp` $\to$ solve $\to$ MISESERI $\to$ `adaptiveRemesh` $\to$ `Job-2_UEL.inp`) is 100% faithful to the published architecture.
-   - It is classified as `PARTIALLY_SUPPORTED` because the published text omits explicit narrative documentation that `Job-1` must be driven into the late post-peak fracture regime to generate the localized corridor.
+   - Structurally and algorithmically, the 2-pass workflow (`Job-1_UEL.inp` $\to$ solve $\to$ MISESERI $\to$ `adaptiveRemesh` $\to$ `Job-2_UEL.inp`) is faithful to the published architecture.
+   - It is classified as `PARTIALLY_SUPPORTED` because the published text omits explicit narrative documentation of the exact Job-1 frame/displacement endpoint/damage state used to trigger the localized corridor depicted in Fig. 6(a).
 5. **Adaptive Mesh Candidate Designation:** `PROJECT_TARGET_LIKE_ADAPTIVE_CANDIDATE`
-   - The resulting mesh possesses **14,483 underlying finite elements** (43,449 layered finite elements, 14,456 nodes), matching the published target of 13,941 elements within $+3.89\%$.
+   - The resulting mesh possesses **14,483 underlying finite elements** (43,449 layered finite elements, 14,456 nodes), matching the published target of 13,941 elements within $+3.89\%$. It is designated as a target-like candidate, not an exact reproduction.
 
 ---
 
-## 2. Primary Literature Audit & Loading Schedule Analysis
+## 2. Three-Category Epistemological Separation
 
-### 2.1 Published Pre-Analysis Specifications in Pandey & Kumar (2025)
+To maintain rigorous scientific epistemology, all aspects of the pre-analysis investigation are explicitly categorized:
 
-| Specification Parameter | Published Paper Statement (Sec. 3.3 & 4.1) | Mathematical / Operational Interpretation | Project Audit Finding |
-| :--- | :--- | :--- | :--- |
-| **Initial Mesh** | Global size $h_{\text{global}} = 0.02\,\text{mm}$ without local refinement | 2,906 underlying CPE4/CPE3 elements, 2,988 nodes | Byte-accurate reconstruction verified |
-| **Model Deck Architecture** | `Job-1_UEL.inp` generated by Python script with user elements and facsimile set `All_elem` | 3-layer UEL formulation (`U1`/`U3`, `U2`/`U4`, `umatelem`) with `*UEL PROPERTY` | Full phase-field fracture physics active in Job-1 |
-| **Subroutine Execution** | `Job-1_UEL.inp` submitted with Fortran UEL subroutine | `f42_mixed_uel.for` solves coupled Phase + Disp equations | Damage $d$ evolves dynamically during Job-1 |
-| **Loading Schedule** | $\Delta u_1 = 10^{-3}$ (500 incs), $\Delta u_2 = 5 \times 10^{-4}$ (1000 incs) | 2 Abaqus steps: Step 1 (500 incs), Step 2 (1000 incs) | Physical displacement amplitude omitted in text |
-| **Error Indicator Request** | `MISESERI, MISESAVG, S, EVOL` on `All_elem` | Recovery-based stress discretization error indicator | Requested on facsimile continuum layer |
-| **Remeshing Rule** | `sizingMethod=UNIFORM_ERROR`, `errorTarget=1.0`, `refinementFactor=10`, `minElementSize=0.001`, `maxElementSize=0.02` | Automated Abaqus `RemeshingRule` applied on `All_elem` | Sizing demand computed from `MISESERI` / `MISESAVG` |
-| **Published Adapted Mesh** | 13,941 linear quadratic and triangular elements | Refined horizontal corridor with $h_{\min} = 0.001\,\text{mm}$ | Stage 14 reproduces 14,483 elements ($+3.89\%$) |
+### 2.1 Category 1: Published Facts
+* **Initial Mesh:** Global size $h_{\text{global}} = 0.02\,\text{mm}$ without local refinement (2,906 elements, 2,988 nodes).
+* **Model Deck Architecture:** `Job-1_UEL.inp` generated by Python script with user elements and facsimile set `All_elem` (3-layer UEL formulation with `*UEL PROPERTY`).
+* **Subroutine Execution:** `Job-1_UEL.inp` submitted with Fortran UEL subroutine `f42_mixed_uel.for` solving coupled phase and displacement equations with full fracture properties ($E=210\,\text{GPa}$, $\nu=0.3$, $G_c=2.7\times 10^{-3}\,\text{kN/mm}$, $l_0=0.0075\,\text{mm}$, $k=10^{-7}$).
+* **Loading Schedule:** $\Delta u_1 = 10^{-3}$ (500 incs), $\Delta u_2 = 5 \times 10^{-4}$ (1000 incs).
+* **Error Indicator Request:** `MISESERI, MISESAVG, S, EVOL` on `All_elem`.
+* **Remeshing Rule:** `sizingMethod=UNIFORM_ERROR`, `errorTarget=1.0`, `refinementFactor=10`, `minElementSize=0.001`, `maxElementSize=0.02`.
+* **Published Adapted Mesh:** 13,941 linear quadratic and triangular elements.
 
-### 2.2 Prescribed-Displacement Endpoint Ambiguity Analysis
+### 2.2 Category 2: Project Numerical Evidence
+* In our model, linear-elastic continuum pre-analysis ($d \equiv 0$) produces peak $\text{MISESERI} \approx 1.08\,\text{kN/mm}^2$ strictly at the crack tip $(0.5, 0.5)$, but radiates broad $50.9\%$ far-field error into the specimen boundaries, driving `RemeshingRule` to generate 71,320 elements with zero refinement along the right ligament ($w(x > 0.5) = 0$).
+* In our model, early post-peak softening ($u = 0.0061 - 0.0080\,\text{mm}$, $d_{\max} \le 0.308$) retains $>49\%$ far-field error.
+* In our model, only when phase-field damage localizes and forms a macroscopic crack ($u \ge 0.00940\,\text{mm}$, $d_{\max} \ge 0.9833$) does bulk stress relief suppress far-field error ($<10.5\%$), concentrating $86.7\% \to 95.4\%$ of the error integral into a narrow horizontal band ($w = 0.068 - 0.080\,\text{mm}$) across $x \in [0.5, 1.0]\,\text{mm}$.
+* Applying the published `RemeshingRule` to our $u = 0.00940\,\text{mm}$ state yields **14,483 underlying finite elements** (43,449 layered finite elements, 14,456 nodes, $+3.89\%$ vs 13,941).
 
-In Section 4.1, the authors write:
-> *"To identify the MISESERI values, a displacement control scheme is applied with increment size $\Delta u_1 = 10^{-3}$ for 500 increments, followed by increment size $\Delta u_2 = 5 \times 10^{-4}$ for the subsequent 1000 increments. Based on the MISESERI plot, the region shown in Fig. 6a has been designated as the one requiring mesh refinement."*
-
-- **Literal Text Ambiguity:** The text states $\Delta u_1 = 10^{-3}$ and $\Delta u_2 = 5 \times 10^{-4}$ without specifying the physical displacement units (e.g. mm) or the step time duration.
-- **Physical Interpretation:** In Abaqus displacement boundary conditions with tabular or ramped amplitudes, $\Delta u$ is specified as a step time fraction. 500 increments at $\Delta t = 10^{-3}$ corresponds to a normalized step time of $0.50$ (or $1.0$ if 1000 increments).
-- **Physical Schedule Parity:** Comparing this with the Standard PFM loading schedule in Section 4.1 ($u = 0.005\,\text{mm}$ in Step 1, ramped to $u = 0.010\,\text{mm}$ in Step 2), Job-1 executes the exact 2-step fracture sequence.
-- **Classification:** **`UNRESOLVED_REFERENCE_DETAIL`** for literal textual amplitude notation; **`FUNCTIONALLY_MATCHED_TWO_STEP_FRACTURE`** for computational execution.
+### 2.3 Category 3: Unresolved Literature Details
+* **Physical Displacement Endpoint:** The paper text does not explicitly define the physical displacement amplitude in millimeters for `Job-1_UEL.inp`.
+* **Exact Pre-Analysis Frame:** The exact author displacement, time frame, damage level $d_{\max}$, and crack-tip position corresponding to Fig. 6(a) are omitted in the publication.
 
 ---
 
-## 3. Quantitative Transition & Field Evolution Analysis
-
-To isolate exactly when and why the stress error indicator transitions from broad far-field marking to a localized crack corridor, we tracked the multi-field state across the entire loading history ($u \in [0.0050, 0.0100]\,\text{mm}$):
-
-### 3.1 Multi-State Quantitative Sizing & Error Ledger
+## 3. Quantitative Transition & Field Evolution Ledger
 
 | State Tag | Step & Frame | Disp. $u$ [mm] | Max Damage $d_{\max}$ | Max MISESERI [kN/mm$^2$] | Corridor Share [%] | Far-Field Share [%] | Ligament Share [%] | High-Error $y$-Span [mm] | Crack Tip $x_{\text{tip}}$ [mm] | Sizing Status |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
@@ -70,9 +65,9 @@ To isolate exactly when and why the stress error indicator transitions from broa
 | **State 6** | Step-2 F600 | 0.00800 | 0.3076 | $9.597 \times 10^{-14}$ | 36.81% | 49.38% | 18.33% | 0.1561 | 0.500 | Broad 71k Mesh |
 | *Scan 800* | Step-2 F800 | 0.00900 | 0.4642 | $1.458 \times 10^{-13}$ | 39.07% | 47.56% | 25.40% | 0.1350 | 0.510 | Broad Transition |
 | *Scan 860* | Step-2 F860 | 0.00930 | 0.6825 | $2.959 \times 10^{-13}$ | 48.02% | 40.73% | 38.60% | 0.1120 | 0.540 | Rapid Localization |
-| **Target** | Step-2 F880 | **0.00940** | **0.9833** | **$1.052 \times 10^{-12}$** | **86.65%** | **10.48%** | **79.29%** | **0.0884** | **0.571** | **Target 14,483 Mesh** |
-| **State 7** | Step-2 F960 | 0.00980 | 0.9871 | $1.161 \times 10^{-12}$ | 87.82% | 9.49% | 79.29% | 0.0884 | 0.628 | Target 14,483 Mesh |
-| **State 8** | Step-2 F1021| 0.01000 | 1.0000 | $3.494 \times 10^{-12}$ | 95.40% | 0.07% | 93.93% | 0.1065 | 1.000 | Target 14,483 Mesh (Fig. 6a) |
+| **Target** | Step-2 F880 | **0.00940** | **0.9833** | **$1.052 \times 10^{-12}$** | **86.65%** | **10.48%** | **79.29%** | **0.0884** | **0.571** | **Target 14,483 Candidate** |
+| **State 7** | Step-2 F960 | 0.00980 | 0.9871 | $1.161 \times 10^{-12}$ | 87.82% | 9.49% | 79.29% | 0.0884 | 0.628 | Target 14,483 Candidate |
+| **State 8** | Step-2 F1021| 0.01000 | 1.0000 | $3.494 \times 10^{-12}$ | 95.40% | 0.07% | 93.93% | 0.1065 | 1.000 | Target 14,483 Candidate |
 
 ```
 Key Sizing Corridor Transects:
@@ -90,7 +85,7 @@ Key Sizing Corridor Transects:
 ![Figure 1: Evolution Transition Dynamics](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/mode1_gate6b/fig_mode1_stage14f_evolution_transition.png)
 
 - **Panel (a) Damage & Error Scaling:** Shows that prior to $u = 0.0090\,\text{mm}$, damage remains diffuse ($d \le 0.46$) and peak $\text{MISESERI}$ remains $<1.5 \times 10^{-13}\,\text{kN/mm}^2$. Between $u = 0.0090\,\text{mm}$ and $u = 0.0094\,\text{mm}$, damage localization triggers a sharp surge in $\text{MISESERI}_{\max}$ ($>20\times$ increase to $3.49 \times 10^{-12}\,\text{kN/mm}^2$).
-- **Panel (b) Regional Error Partitioning:** Illustrates the dramatic phase transition at $u = 0.00940\,\text{mm}$. Pre-peak, the far-field carries $50.9\%$ of the error integral. Post-peak localization drives corridor share from $35.3\%$ to $86.7\% \to 95.4\%$, while far-field error drops to $0.07\%$.
+- **Panel (b) Regional Error Partitioning:** Illustrates the dramatic transition in our numerical model at $u = 0.00940\,\text{mm}$. Pre-peak, the far-field carries $50.9\%$ of the error integral. Post-peak localization drives corridor share from $35.3\%$ to $86.7\% \to 95.4\%$, while far-field error drops to $0.07\%$.
 - **Panel (c) Corridor Geometry & Crack Tip Propagation:** Tracks the formation of the horizontal refinement band ($w \approx 0.07 - 0.08\,\text{mm}$) propagating from $x = 0.50\,\text{mm}$ to $x = 1.00\,\text{mm}$.
 
 ### 4.2 Morphology Comparison vs. Published Figure 6(a)
@@ -100,7 +95,7 @@ Key Sizing Corridor Transects:
 - **States 1–4 (Pre-Peak / Early Softening):** Error is concentrated exclusively around the initial notch tip $(0.5, 0.5)$ while radiating broadly into top and bottom boundaries. No horizontal ligament corridor exists ($w(x > 0.5) = 0$).
 - **States 5–6 (Mid Softening):** Error remains dominated by far-field bending gradients.
 - **States 7–8 (Late Propagation & Final Rupture):** The fully broken crack unloads the bulk plate, suppressing far-field stresses and concentrating the error indicator entirely into a crisp horizontal band across the ligament ($x \in [0.5, 1.0]\,\text{mm}$).
-- **Comparison to Published Fig. 6(a):** State 8 ($u = 0.0100\,\text{mm}$) is visually and spatially identical to Figure 6(a) of Pandey & Kumar (2025).
+- **Comparison to Published Fig. 6(a):** State 8 ($u = 0.0100\,\text{mm}$) represents the closest project-observed morphological correspondence to Figure 6(a) of Pandey & Kumar (2025).
 
 ---
 
@@ -113,7 +108,7 @@ Key Sizing Corridor Transects:
   1. **Two-Pass Offline Pre-Refinement:** The framework published by Pandey & Kumar is fundamentally an **automated 2-pass offline pre-refinement heuristic**, NOT an in-analysis adaptive remeshing scheme.
   2. **Why it Succeeds in Mode-I:** Because Mode-I failure follows straight self-similar crack propagation dictated by symmetry, even an extremely coarse mesh ($h = 0.02\,\text{mm}$) captures the horizontal failure line. The complete coarse rupture allows stress to unload everywhere except along the fracture surface, creating an optimal error indicator field for the second pass.
   3. **Methodological Consistency:** Our Stage 14 implementation follows the exact 2-pass flowchart (Figs. 2 & 3), script architecture (Listings 1 & 4), and input deck generation described in the literature.
-  4. **Supervisory & Thesis Implication:** The thesis must clearly distinguish this **offline error-guided pre-refinement** from true online adaptive remeshing, noting that the 14k mesh reproduction is achieved by faithfully executing this 2-pass coupled pre-analysis.
+  4. **Supervisory & Thesis Implication:** The thesis must clearly distinguish this **offline error-guided pre-refinement** from true online adaptive remeshing, noting that the 14k candidate mesh is obtained by executing this 2-pass coupled pre-analysis.
 
 ---
 
