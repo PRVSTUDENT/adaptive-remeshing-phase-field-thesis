@@ -1658,35 +1658,47 @@ Based on this evidence, the governing classifications are formally assigned:
   \item \textbf{Overall Spatial Convergence Status:} \texttt{SPATIAL\_CONVERGENCE\_EVIDENCE\_ALREADY\_SUFFICIENT}
 \end{itemize}
 
-\section{Phase-Field Regularization Length-Scale Sensitivity and Claim-Discipline Audit (Stage 14U-Z)}
-\label{sec:stage14uz_length_scale_sensitivity}
+\section{Phase-Field Regularization Length-Scale Sensitivity, Matched-State Boundary Audit, and Resolution-Adequacy Qualification (Stage 14U-AA)}
+\label{sec:stage14uaa_length_scale_sensitivity}
 
-\subsection{Physical Nature of the Regularization Length Scale $l_0$}
-\label{subsec:stage14uz_l0_nature}
+\subsection{Continuum Nature of $l_0$, 1D Scaling Background, and Resolution Discipline}
+\label{subsec:stage14uaa_l0_nature}
 
-In regularized variational phase-field fracture mechanics, the length-scale parameter $l_0$ is a \textbf{fundamental physical regularization parameter} of the continuum model, \textbf{not a numerical discretization parameter}. It dictates the spatial diffusion width of the crack-surface topology and defines the regularized crack-surface functional:
+In regularized variational phase-field fracture mechanics, the length-scale parameter $l_0$ is designated strictly as the \textbf{phase-field regularization/internal length parameter of the continuum model}, and \textbf{not a numerical discretization parameter}. It governs the spatial regularization of the crack-surface topology and defines the implemented regularized crack-surface functional in the AT2 formulation:
 \begin{equation}
   \Gamma_{l_0}(d) = \int_\Omega \left( \frac{1}{2 l_0} d^2 + \frac{l_0}{2} |\nabla d|^2 \right) \mathrm{d}\Omega
   \label{eq:bourdin_gamma_functional_l0}
 \end{equation}
-In contrast to finite-element mesh refinement ($h \to 0$ with $l_0$ held constant), varying $l_0$ alters the underlying physical boundary value problem. To isolate physical regularization sensitivity from numerical discretization under-resolution, the local element size along the crack corridor must strictly satisfy the phase-field resolution condition:
-\begin{equation}
-  \frac{h_{\min}}{l_0} \le 0.20 \ll 0.50
-  \label{eq:phase_field_mesh_resolution_criterion}
-\end{equation}
+In contrast to finite-element mesh refinement ($h \to 0$ with $l_0$ held constant), altering $l_0$ modifies the underlying continuum governing equations and physical process-zone width. Therefore, length-scale variations test \textbf{model-parameter sensitivity}, whereas mesh-refinement studies assess \textbf{numerical discretization convergence}.
 
-This section conducts an exhaustive 17-field provenance audit and matched-state quantitative comparison across the Mode-I length-scale family ($l_0 = 0.00750\,\mathrm{mm}$, $0.01125\,\mathrm{mm}$, and $0.01500\,\mathrm{mm}$ on identical 41,912-element fine structured meshes, alongside the 15,192-element $S_1$ reference anchor).
+\paragraph{Idealized 1D AT2 Theoretical Scaling Background.}
+In a one-dimensional homogeneous bar under monotonic tension, the analytical critical stress for damage initiation in the AT2 phase-field formulation is:
+\begin{equation}
+  \sigma_c = \sqrt{\frac{9 E G_c}{16 l_0}}
+  \label{eq:at2_1d_critical_stress}
+\end{equation}
+This relation serves strictly as \textbf{idealized 1D theoretical background} for the inverse square-root scaling $\sigma_c \propto 1/\sqrt{l_0}$. In two-dimensional notched configurations with severe non-uniform stress concentration at the notch root, Equation~\eqref{eq:at2_1d_critical_stress} provides qualitative scaling context rather than proof of numerical finite-element solution correctness.
+
+\paragraph{Descriptive Mesh Resolution Reporting.}
+Published literature commonly recommends mesh resolution ratios $h_{\min}/l_0 \le 0.20\text{--}0.50$ (e.g., Miehe et al., Borden et al., Molnar et al.) to ensure that the regularized phase-field profile is adequately captured on the spatial grid. In the present investigation, measured resolution ratios on the structured 41,912-element mesh are reported descriptively:
+\begin{itemize}
+  \item $L_1$ Baseline ($l_0 = 0.00750\,\mathrm{mm}$): $h_{\min}/l_0 = 0.00150 / 0.00750 = 0.2000$ ($h_{\min} = l_0/5$);
+  \item $L_2$ Intermediate ($l_0 = 0.01125\,\mathrm{mm}$): $h_{\min}/l_0 = 0.00150 / 0.01125 = 0.1333$ ($h_{\min} = l_0/7.5$);
+  \item $L_3$ Coarse ($l_0 = 0.01500\,\mathrm{mm}$): $h_{\min}/l_0 = 0.00150 / 0.01500 = 0.1000$ ($h_{\min} = l_0/10$);
+  \item $S_1$ Reference Anchor ($l_0 = 0.00750\,\mathrm{mm}$, $15{,}192$ elements): $h_{\min}/l_0 = 0.00300 / 0.00750 = 0.4000$ ($h_{\min} = l_0/2.5$).
+\end{itemize}
+These ratios are recorded descriptively as contextual guidelines. Because multi-grid spatial $h$-refinement was not independently executed for each distinct $l_0$, resolution adequacy is classified within its exact empirical boundary: \texttt{DESCRIPTIVELY\_REPORTED\_\_RESOLUTION\_ADEQUACY\_NOT\_INDEPENDENTLY\_QUALIFIED}.
 
 \subsection{17-Field Lineage and Provenance Across Length-Scale Models}
-\label{subsec:stage14uz_provenance_table}
+\label{subsec:stage14uaa_provenance_table}
 
-Table~\ref{tab:stage14uz_provenance_audit} establishes the 17-field provenance across all four primary Mode-I length-scale simulations. All models share bitwise identical Fortran user subroutine binaries (SHA-256 \texttt{CE8D5EDC...}), identical zero-gap sharp slit geometries ($a_0 = 0.5\,\mathrm{mm}$ along $y = 0.5\,\mathrm{mm}$), identical material constants ($E = 210\,\mathrm{GPa}, \nu = 0.3, G_c = 0.0027\,\mathrm{kN/mm}, k = 10^{-7}$), and consistent six-slot \texttt{*UEL PROPERTY} ABI cards.
+Table~\ref{tab:stage14uaa_provenance_audit} establishes the 17-field provenance across all four primary Mode-I length-scale simulations. All models share bitwise identical Fortran user subroutine binaries (SHA-256 \texttt{CE8D5EDC...}), identical zero-gap sharp slit geometries ($a_0 = 0.5\,\mathrm{mm}$ along $y = 0.5\,\mathrm{mm}$), identical material constants ($E = 210\,\mathrm{GPa}, \nu = 0.3, G_c = 0.0027\,\mathrm{kN/mm}, k = 10^{-7}$), and consistent six-slot \texttt{*UEL PROPERTY} ABI cards.
 
 \begin{table}[htbp]
   \centering
   \small
   \caption{17-Field Provenance and Lineage Audit for Mode-I Regularization Length-Scale Sensitivity Family.}
-  \label{tab:stage14uz_provenance_audit}
+  \label{tab:stage14uaa_provenance_audit}
   \begin{tabular}{lcccc}
     \hline
     \textbf{Provenance Field} & \textbf{$S_1$ Reference} & \textbf{$L_1$ Baseline ($S_3$)} & \textbf{$L_2$ Intermediate} & \textbf{$L_3$ Coarse} \\
@@ -1701,7 +1713,7 @@ Table~\ref{tab:stage14uz_provenance_audit} establishes the 17-field provenance a
     Corridor $h_{\min}$ & $3.00\,\mu\mathrm{m}$ & $1.50\,\mu\mathrm{m}$ & $1.50\,\mu\mathrm{m}$ & $1.50\,\mu\mathrm{m}$ \\
     Resolution $h_{\min}/l_0$ & $0.4000$ & $0.2000$ & $0.1333$ & $0.1000$ \\
     Step 2 Time Increment & $\Delta t = 1.0\times 10^{-4}$ & $\Delta t = 2.0\times 10^{-4}$ & $\Delta t = 2.0\times 10^{-4}$ & $\Delta t = 2.0\times 10^{-4}$ \\
-    Terminal Disp.\ $u_{\text{term}}$ & $0.01000\,\mathrm{mm}$ & $0.00784\,\mathrm{mm}$ & $0.00584\,\mathrm{mm}$ & $0.00647\,\mathrm{mm}$ \\
+    Terminal Disp.\ $u_{\text{term}}$ & $0.01000\,\mathrm{mm}$ & $0.00784\,\mathrm{mm}$ & $0.005839\,\mathrm{mm}$ & $0.00647\,\mathrm{mm}$ \\
     Peak Force $F_{\max}$ & $0.7578\,\mathrm{kN}$ & $0.7255\,\mathrm{kN}$ & $0.7084\,\mathrm{kN}$ & $0.6895\,\mathrm{kN}$ \\
     Peak Disp.\ $u_{\text{peak}}$ & $5.857\,\mu\mathrm{m}$ & $5.579\,\mu\mathrm{m}$ & $5.590\,\mu\mathrm{m}$ & $5.579\,\mu\mathrm{m}$ \\
     Elastic Stiffness $K_0$ & $137.946\,\mathrm{kN/mm}$ & $137.824\,\mathrm{kN/mm}$ & $137.766\,\mathrm{kN/mm}$ & $137.676\,\mathrm{kN/mm}$ \\
@@ -1711,48 +1723,48 @@ Table~\ref{tab:stage14uz_provenance_audit} establishes the 17-field provenance a
   \end{tabular}
 \end{table}
 
-\subsection{Mechanical Response Scaling and Analytical Interpretation}
-\label{subsec:stage14uz_mechanical_scaling}
+\subsection{Mechanical Response Scaling and Energy Evolution}
+\label{subsec:stage14uaa_mechanical_scaling}
 
-As illustrated in Figure~\ref{fig:stage14uz_fu_overlay} and Figure~\ref{fig:stage14uz_scaling}, the mechanical response demonstrates clear physical scaling laws:
+As illustrated in Figure~\ref{fig:stage14uaa_fu_overlay} and Figure~\ref{fig:stage14uaa_scaling}, the mechanical response demonstrates clear physical scaling laws:
 \begin{enumerate}
-  \item \textbf{Initial Structural Stiffness Invariance (\texttt{STABLE}):} Across the $2.0\times$ variation in $l_0$ on the 42k-element mesh, $K_0$ decreases by only $0.107\%$ ($137.824 \to 137.676\,\mathrm{kN/mm}$). In the linear elastic regime ($u \le 1.0\,\mu\mathrm{m}$), phase damage is negligible ($d < 10^{-4}$), meaning the structural compliance is dominated entirely by elastic continuum deformation.
-  \item \textbf{Monotonic Peak Load Degradation (\texttt{LENGTH\_SCALE\_SENSITIVE}):} Peak reaction force decreases monotonically from $F_{\max} = 0.7255\,\mathrm{kN}$ ($l_0 = 7.5\,\mu\mathrm{m}$) to $0.7084\,\mathrm{kN}$ ($-2.36\%$, $l_0 = 11.25\,\mu\mathrm{m}$) and $0.6895\,\mathrm{kN}$ ($-4.96\%$, $l_0 = 15.0\,\mu\mathrm{m}$). In 1D AT2 phase-field theory, the critical initiation stress scales as $\sigma_c = \sqrt{9 E G_c / (16 l_0)} \propto 1/\sqrt{l_0}$. In the notched square domain, the pre-existing stress singularity ($a_0 = 0.5\,\mathrm{mm}$) moderates this sensitivity, but the qualitative scaling is strictly preserved.
-  \item \textbf{Pre-Peak Micro-Damage Dissipation:} Figure~\ref{fig:stage14uz_energy_comparison}(b) shows that broader regularization kernels ($l_0 = 15.0\,\mu\mathrm{m}$) accumulate larger pre-peak crack-surface energy ($E_{\mathrm{frac}} = 0.0685\,\mathrm{mJ}$ at $u = 5.0\,\mu\mathrm{m}$, an $+87.2\%$ increase over $l_0 = 7.5\,\mu\mathrm{m}$) because diffuse damage initiates over a larger volume around the notch tip.
-  \item \textbf{Broken-State Fracture Energy Invariance (\texttt{STABLE}):} Upon complete macroscopic fracture traversal, the total crack-surface functional converges to $E_{\mathrm{frac}} \in [2.302, 2.357]\,\mathrm{mJ}$ (spread $< 2.33\%$ across all tested length scales), confirming physical fracture energy dissipation balance.
+  \item \textbf{Initial Structural Stiffness Invariance (\texttt{STABLE}):} Across the $2.0\times$ variation in $l_0$ on the 42k-element mesh, $K_0$ decreases by only $0.107\%$ ($137.824 \to 137.676\,\mathrm{kN/mm}$). In the linear elastic regime ($u \le 1.0\,\mu\mathrm{m}$), phase damage is negligible ($d < 10^{-4}$), meaning the structural compliance is governed entirely by intact elastic continuum deformation.
+  \item \textbf{Monotonic Peak Load Reduction (\texttt{LENGTH\_SCALE\_SENSITIVE}):} Peak reaction force decreases monotonically from $F_{\max} = 0.7255\,\mathrm{kN}$ ($l_0 = 7.5\,\mu\mathrm{m}$) to $0.7084\,\mathrm{kN}$ ($-2.36\%$, $l_0 = 11.25\,\mu\mathrm{m}$) and $0.6895\,\mathrm{kN}$ ($-4.96\%$, $l_0 = 15.0\,\mu\mathrm{m}$). In 1D AT2 phase-field theory, the critical initiation stress scales as $\sigma_c = \sqrt{9 E G_c / (16 l_0)} \propto 1/\sqrt{l_0}$. In the 2D notched square domain, the pre-existing notch stress concentration ($a_0 = 0.5\,\mathrm{mm}$) moderates the sensitivity, while preserving the monotonic load reduction.
+  \item \textbf{Pre-Peak Crack-Surface Functional Evolution (\texttt{LENGTH\_SCALE\_SENSITIVE}):} Figure~\ref{fig:stage14uaa_energy_comparison}(b) demonstrates that broader regularization kernels ($l_0 = 15.0\,\mu\mathrm{m}$) accumulate larger pre-peak crack-surface energy ($E_{\mathrm{frac}} = 0.0685\,\mathrm{mJ}$ at $u = 5.0\,\mu\mathrm{m}$, an $+87.2\%$ increase over $l_0 = 7.5\,\mu\mathrm{m}$) because diffuse damage initiates over a larger volume around the notch root.
+  \item \textbf{Post-Fracture Crack-Surface Functional Stability (\texttt{POST\_FRACTURE\_EFRAC\_STABLE\_OVER\_TESTED\_LENGTH\_SCALE\_RANGE}):} Upon complete macroscopic fracture traversal, the implemented crack-surface functional evaluates to $E_{\mathrm{frac}} \in [2.302, 2.357]\,\mathrm{mJ}$ (spread $< 2.31\%$ across all tested length scales), confirming physical crack-surface functional stability across the tested parameter window.
 \end{enumerate}
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.88\textwidth]{fig_mode1_stage14uz_lengthscale_fu_overlay.pdf}
   \caption{Mode-I Reaction Force vs.\ Prescribed Displacement ($F-u$) response comparison across phase-field regularization length scales ($l_0 = 7.50, 11.25, 15.00\,\mu\mathrm{m}$ on identical 42k-element meshes alongside the $S_1$ reference anchor). Initial elastic stiffness is invariant, while peak reaction force decreases monotonically with increasing $l_0$.}
-  \label{fig:stage14uz_fu_overlay}
+  \label{fig:stage14uaa_fu_overlay}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.95\textwidth]{fig_mode1_stage14uz_lengthscale_energy_comparison.pdf}
-  \caption{Energy evolution and partitioning dynamics across phase-field length scales: (a) Elastic strain energy storage $E_{\mathrm{elas}}(u)$; (b) Crack-surface functional $E_{\mathrm{frac}}(u)$. Pre-peak damage energy increases with $l_0$ due to broader regularization zones, while broken-state functional dissipation converges to $\sim 2.30\text{--}2.36\,\mathrm{mJ}$.}
-  \label{fig:stage14uz_energy_comparison}
+  \caption{Energy evolution and partitioning dynamics across phase-field length scales: (a) Elastic strain energy storage $E_{\mathrm{elas}}(u)$; (b) Phase-field crack-surface functional $E_{\mathrm{frac}}(u)$. Pre-peak functional growth increases with $l_0$ due to broader regularization zones, while broken-state functional evaluates to $\sim 2.30\text{--}2.36\,\mathrm{mJ}$.}
+  \label{fig:stage14uaa_energy_comparison}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.72\textwidth]{fig_mode1_stage14uz_lengthscale_scaling.pdf}
   \caption{Peak reaction force $F_{\max}$ as a function of regularization length scale $l_0$ on the 42k structured mesh. Peak force decreases monotonically from $0.7255\,\mathrm{kN}$ to $0.6895\,\mathrm{kN}$ ($-4.96\%$), reflecting regularized diffuse fracture mechanics scaling.}
-  \label{fig:stage14uz_scaling}
+  \label{fig:stage14uaa_scaling}
 \end{figure}
 
 \subsection{Matched-State Trajectory Accounting and Governance Verdict}
-\label{subsec:stage14uz_matched_accounting}
+\label{subsec:stage14uaa_matched_accounting}
 
-Table~\ref{tab:stage14uz_matched_states} details the matched-displacement energy and reaction force values across deformation regimes.
+Table~\ref{tab:stage14uaa_matched_states} details the matched-displacement energy and reaction force values across deformation regimes. Job~\texttt{1409871.mmaster02} ($L_2$) reached an exact terminal displacement of $u_{\text{term}} = 0.0058390107\,\mathrm{mm}$, which is strictly less than the nominal target state $u = 0.005840\,\mathrm{mm}$. Consequently, the state $u = 0.005840\,\mathrm{mm}$ is designated strictly as \texttt{NOT\_REACHED} for $L_2$, and the highest predeclared common matched comparison state across all four models is established as $u = 0.005579\,\mathrm{mm}$.
 
 \begin{table}[htbp]
   \centering
   \small
   \caption{Matched-Displacement State Energy Accounting across Phase-Field Regularization Length Scales.}
-  \label{tab:stage14uz_matched_states}
+  \label{tab:stage14uaa_matched_states}
   \begin{tabular}{lccccc}
     \hline
     \textbf{Displacement} & \textbf{Deformation Regime} & \textbf{$S_1$ Ref ($l_0=7.5\,\mu\mathrm{m}$)} & \textbf{$L_1$ ($l_0=7.5\,\mu\mathrm{m}$)} & \textbf{$L_2$ ($l_0=11.25\,\mu\mathrm{m}$)} & \textbf{$L_3$ ($l_0=15.0\,\mu\mathrm{m}$)} \\
@@ -1761,18 +1773,26 @@ Table~\ref{tab:stage14uz_matched_states} details the matched-displacement energy
     $1.0$ & Linear Elastic & $0.1379$ / $0.000056$ & $0.1378$ / $0.000060$ & $0.1377$ / $0.000081$ & $0.1376$ / $0.000106$ \\
     $3.0$ & Elastic / Notch Conc. & $0.4074$ / $0.004389$ & $0.4070$ / $0.004486$ & $0.4054$ / $0.006592$ & $0.4028$ / $0.008558$ \\
     $5.0$ & Pre-Peak Transition & $0.6621$ / $0.036541$ & $0.6583$ / $0.036573$ & $0.6485$ / $0.053216$ & $0.6363$ / $0.068469$ \\
-    $5.58$ & Peak Load Domain & $0.7299$ / $0.052829$ & $0.7255$ / $0.053344$ & $0.7080$ / $0.092998$ & $0.6895$ / $0.120712$ \\
-    $5.84$ & Broken Ligament State & $0.7568$ / $0.079986$ & $0.00024$ / $2.356910$ & $0.00022$ / $2.302435$ & $0.00021$ / $2.330885$ \\
+    $5.58$ & Highest Common Anchor & $0.7299$ / $0.052829$ & $0.7255$ / $0.053344$ & $0.7080$ / $0.092998$ & $0.6895$ / $0.120712$ \\
+    $5.84$ & Post-Peak State & $0.7568$ / $0.079986$ & $0.00024$ / $2.356910$ & \textbf{NOT\_REACHED} & $0.00021$ / $2.330885$ \\
     \hline
   \end{tabular}
 \end{table}
+
+\paragraph{Individual Terminal Reached States.}
+Evaluating each simulation at its exact final converged displacement demonstrates consistent mechanical unloading ($F_{\text{final}} \le 0.000242\,\mathrm{kN}$, $>99.96\%$ load drop) and crack-surface functional stability:
+\begin{itemize}
+  \item $S_1$ Reference Anchor ($u_{\text{term}} = 0.010000\,\mathrm{mm}$): $F = 0.000232\,\mathrm{kN}$, $E_{\mathrm{frac}} = 2.340220\,\mathrm{mJ}$, $\varepsilon_{\text{book}} = 0.7607\%$;
+  \item $L_1$ Baseline ($u_{\text{term}} = 0.007836\,\mathrm{mm}$): $F = 0.000242\,\mathrm{kN}$, $E_{\mathrm{frac}} = 2.356910\,\mathrm{mJ}$, $\varepsilon_{\text{book}} = 7.6649\%$;
+  \item $L_2$ Intermediate ($u_{\text{term}} = 0.0058390107\,\mathrm{mm}$): $F = 0.000221\,\mathrm{kN}$, $E_{\mathrm{frac}} = 2.302453\,\mathrm{mJ}$, $\varepsilon_{\text{book}} = 8.6975\%$;
+  \item $L_3$ Coarse ($u_{\text{term}} = 0.006473\,\mathrm{mm}$): $F = 0.000187\,\mathrm{kN}$, $E_{\mathrm{frac}} = 2.330953\,\mathrm{mJ}$, $\varepsilon_{\text{book}} = 12.0450\%$.
+\end{itemize}
 
 Based on this complete numerical and theoretical characterization, the physical quantities and governance verdict are formally classified:
 \begin{itemize}
   \item \textbf{Initial Structural Stiffness $K_0$:} \texttt{STABLE\_OVER\_TESTED\_LENGTH\_SCALE\_RANGE} (variation $\le 0.107\%$)
   \item \textbf{Peak Reaction Force $F_{\max}$:} \texttt{LENGTH\_SCALE\_SENSITIVE} (monotonic $-4.96\%$ variation across $2\times l_0$)
   \item \textbf{Peak Displacement $u_{\text{peak}}$:} \texttt{LENGTH\_SCALE\_SENSITIVE} (tightly bounded within $[5.579, 5.590]\,\mu\mathrm{m}$)
-  \item \textbf{Broken-State Fracture Functional $E_{\mathrm{frac}}$:} \texttt{STABLE\_OVER\_TESTED\_LENGTH\_SCALE\_RANGE} (spread $< 2.33\%$)
-  \item \textbf{Overall Regularization Status:} \texttt{LENGTH\_SCALE\_SENSITIVITY\_SUFFICIENTLY\_CHARACTERIZED}
+  \item \textbf{Post-Fracture Crack-Surface Functional $E_{\mathrm{frac}}$:} \texttt{POST\_FRACTURE\_EFRAC\_STABLE\_OVER\_TESTED\_LENGTH\_SCALE\_RANGE} (spread $< 2.31\%$)
+  \item \textbf{Overall Regularization Status:} \texttt{LENGTH\_SCALE\_SENSITIVITY\_CHARACTERIZED\_\_RESOLUTION\_ADEQUACY\_NOT\_INDEPENDENTLY\_QUALIFIED}
 \end{itemize}
-
