@@ -2481,7 +2481,7 @@ As illustrated in Figure~\ref{fig:stage14uah_convergence_reconstruction}, the re
 \subsection{Epistemic Hypothesis Classification}
 \label{subsec:stage14uah_epistemic_classification}
 
-Table~\ref{tab:stage14uah_epistemic_classification} records the formal epistemic classification of the four core hypotheses governing solver termination in Gate-6B.
+Table~\ref{tab:stage14uah_epistemic_classification} records the formal epistemic classification of the hypotheses governing solver termination in Gate-6B, with rigorous distinction between demonstrated numerical facts and unproven mathematical generalizations.
 
 \begin{table}[htbp]
 \centering
@@ -2496,9 +2496,11 @@ Table~\ref{tab:stage14uah_epistemic_classification} records the formal epistemic
 \midrule
 \textbf{H2: Solver Rejection Driven Exclusively by Correction Check} & \texttt{SOURCE\_AND\_NUMERICALLY\_VERIFIED} & Residual equilibrium passes in every iteration; non-convergence is triggered exclusively by $c_{\max} > C_n \Delta u_{\max}$ at DOF~3. \\
 \midrule
-\textbf{H3: History-Field Non-Smoothness Ruled Out in Wake} & \texttt{SOURCE\_AND\_NUMERICALLY\_VERIFIED} & Wake node Node~13628 has stationary history ($\dot{\mathcal{H}} = 0$) and $d = 0.9987$; crack tip has fully traversed. \\
+\textbf{H3: History-Field Non-Smoothness Excluded at Wake Node} & \texttt{SOURCE\_AND\_NUMERICALLY\_VERIFIED} & Controlling wake node Node~13628 has stationary history ($\dot{\mathcal{H}} = 0$) and $d = 0.9987$; crack tip has traversed. This supports exclusion at this node without proving global irrelevance for all elements. \\
 \midrule
-\textbf{H4: Post-Fracture Ill-Conditioning Under Unloading} & \texttt{SOURCE\_AND\_NUMERICALLY\_VERIFIED} & Unloaded specimen produces $\Delta u_{\max} \propto \Delta t \to 0$, causing correction excess ratio to diverge as $\mathcal{O}(1/\Delta t)$. \\
+\textbf{H4: Post-Fracture Convergence Normalization Sensitivity} & \texttt{POST\_FRACTURE\_CONVERGENCE\_NORMALIZATION\_SENSITIVITY\_VERIFIED} & Unloaded specimen produces $\Delta u_{\max} \propto \Delta t \to 0$, causing correction excess ratio to diverge as $\mathcal{O}(1/\Delta t)$. \\
+\midrule
+\textbf{H4b: Matrix Ill-Conditioning} & \texttt{NOT\_ESTABLISHED} & Direct conditioning metrics (Jacobian condition estimate, eigenvalue spectrum) have not been computed; normalization sensitivity alone does not prove matrix ill-conditioning. \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -2506,31 +2508,64 @@ Table~\ref{tab:stage14uah_epistemic_classification} records the formal epistemic
 \subsection{Phase-Field Boundlessness Audit in User Subroutine}
 \label{subsec:stage14uah_fortran_audit}
 
-A comprehensive source code audit of \texttt{f42\_mixed\_uel.for} confirmed that no artificial projection or numerical clipping operators (such as \texttt{min(max(d, 0.0), 1.0)}) exist in the phase-field UEL formulation. Instead, the phase-field variable $d$ is determined strictly from the variational balance equation:
-\begin{equation}
-  d = \frac{2\mathcal{H}}{\frac{G_c}{l_0} + 2\mathcal{H}}
-  \label{eq:phase_field_variational_solution}
-\end{equation}
-For any non-negative, finite strain energy history $\mathcal{H} \ge 0$, Equation~\eqref{eq:phase_field_variational_solution} guarantees analytically that $0 \le d < 1.0$ without artificial numerical clamping. At the controlling wake node (Node~13628), the computed damage is $d = 0.9987$, confirming that the physical solution remains strictly within the open unit interval.
+A source code audit of \texttt{f42\_mixed\_uel.for} confirmed that no artificial projection or numerical clipping operators (such as \texttt{min(max(d, 0.0), 1.0)}) exist in the phase-field UEL formulation. 
+
+It is important to distinguish local algebraic solutions from the global finite-element system. The algebraic relation $d = \frac{2\mathcal{H}}{G_c/l_0 + 2\mathcal{H}}$ represents the local, homogeneous minimizer in the absence of spatial gradients. Because the implemented AT2 formulation incorporates the spatial gradient regularization $\frac{1}{2} G_c l_0 |\nabla d|^2$, the local formula cannot by itself prove a global nodal bound for the actual discretized boundary-value problem. The verified fact is that the Fortran source applies no artificial numerical clipping, and at the controlling wake node (Node~13628), the physical damage evaluates naturally to $d = 0.9987 \in [0, 1)$.
 
 \subsection{Package 28 Specification and Cluster Datacheck Qualification}
 \label{subsec:stage14uah_package28_qualification}
 
-To test the physical hypothesis that relaxing the non-physical displacement correction tolerance on the severed crack wake will resolve post-fracture Newton stagnation without altering material physics, candidate \textbf{Package~28} (\texttt{models/pandey\_kumar\_mode1/28\_stage14\_convergence\_control\_candidate}) was constructed with the following specifications:
+To test whether relaxing the non-physical displacement correction tolerance on the severed crack wake relieves post-fracture Newton stagnation, candidate \textbf{Package~28} (\texttt{models/pandey\_kumar\_mode1/28\_stage14\_convergence\_control\_candidate}) was constructed:
 \begin{itemize}
-  \item \textbf{Single Non-Invasive Modification:} In Step~2, the displacement field controls are appended:
+  \item \textbf{Single Non-Invasive Modification:} In Step~2, displacement field controls are appended:
   \begin{verbatim}
 *CONTROLS, PARAMETERS=FIELD, FIELD=DISPLACEMENT
 0.005, 0.50
   \end{verbatim}
   specifying $R_n = 0.005$ (standard $0.5\%$ equilibrium tolerance) and $C_n = 0.50$ ($50\%$ correction tolerance).
+  \item \textbf{Derivation of $50\times$ Relaxation:} In Attempt~1 of Increment~2890, the observed solution correction was $c_{\max} = 2.611\times 10^{-6}$ against $\Delta u_{\max} = 1.175\times 10^{-5}\,\mathrm{mm}$ (ratio $c_{\max}/\Delta u_{\max} = 0.222$). Under default $C_n = 0.01$, tolerance is $1.175\times 10^{-7}\,\mathrm{mm}$ ($22.2\times$ excess). Relaxing $C_n$ to $0.50$ ($50\times$ default) scales the tolerance to $5.875\times 10^{-6}\,\mathrm{mm}$, yielding $c_{\max}/\text{Tol} = 0.444 < 1.0$. This parameter is an empirical diagnostic candidate and is not designated as a validated production standard.
   \item \textbf{Strict Physical Invariance:} All mesh nodes (14,456), base elements (14,483), layered elements (43,449), material properties ($E=210\,\mathrm{GPa}$, $\nu=0.3$, $G_c=0.0027\,\mathrm{kN/mm}$, $l_0=0.0075\,\mathrm{mm}$, $k=10^{-7}$), and Fortran source (\texttt{f42\_mixed\_uel.for}) remain completely unchanged.
-  \item \textbf{Cluster Datacheck Execution:} Executed directly on the HPC cluster (\texttt{run\_datacheck\_direct.sh}) using Abaqus 2023 with Intel Fortran 2021.13.0, achieving \textbf{Exit Code 0} with 0 errors and 0 warnings.
+  \item \textbf{Cluster Datacheck Execution:} Executed directly on the HPC cluster (\texttt{run\_datacheck\_direct.sh}) achieving \textbf{Exit Code 0} with 0 errors and 0 warnings.
   \item \textbf{Submission Gate Status:} Formally designated as:
   \begin{equation}
     \text{Status: } \mathbf{CONVERGENCE\_CRITERION\_CANDIDATE\_VALIDATED\_\_TEMPORAL\_DIAGNOSTIC\_PENDING}
   \end{equation}
   Package~28 remains strictly on hold and un-submitted while active diagnostic Job \texttt{1410027.mmaster02} is executing.
+\end{itemize}
+
+\section{Stage 14U-AI: Epistemic Claim Corrections, 4-Thread Near-Failure Parity Audit, and Governed Determinism Policy}
+\label{sec:stage14uai_claim_corrections_and_parity}
+
+In Stage 14U-AI, the scientific record and coordination governance were audited to enforce strict epistemic precision, while tracking the active 4-thread Stage-A solve (Job \texttt{1410006.mmaster02}) and $2\times$ temporal diagnostic solve (Job \texttt{1410027.mmaster02}).
+
+\subsection{Epistemic Claim Corrections and Governance Rules}
+\label{subsec:stage14uai_epistemic_corrections}
+
+To ensure complete defensibility without unsupported extrapolations:
+\begin{enumerate}
+  \item \textbf{Phase-Field Nodal Bounds:} The local no-gradient algebraic expression $d(\mathcal{H})$ was decoupled from global finite-element bound claims. Global bounds in the presence of $\frac{1}{2} G_c l_0 |\nabla d|^2$ require weak-form maximum principle analysis; the source audit confirms strictly the absence of explicit clipping in Fortran.
+  \item \textbf{Matrix Conditioning vs Normalization Sensitivity:} The classification of solver failure was downgraded from \texttt{POST\_FRACTURE\_ILL\_CONDITIONING} to \texttt{NOT\_ESTABLISHED}, and replaced with the verified mechanism \texttt{POST\_FRACTURE\_CONVERGENCE\_NORMALIZATION\_SENSITIVITY\_VERIFIED}.
+  \item \textbf{History-Field Non-Smoothness Scope:} The exclusion of history discontinuities was explicitly scoped to the controlling wake node (Node~13628, $\dot{\mathcal{H}} = 0$) rather than asserted globally.
+  \item \textbf{Package 28 $C_n = 0.50$ Scope:} The $50\times$ tolerance relaxation was mathematically derived from Attempt~1 telemetry and classified strictly as an un-submitted candidate.
+\end{enumerate}
+
+\subsection{4-Thread Stage-A Near-Failure Parity and Status}
+\label{subsec:stage14uai_4thread_parity_audit}
+
+During Stage~14U-AI, active 4-thread Job \texttt{1410006.mmaster02} on compute node \texttt{mnode097} advanced through Step~2 Increment~2819 ($t_2 = 0.564$, $u = 0.007819\,\mathrm{mm}$) with 0 cutbacks and 3 iterations per increment constantly. 
+
+Comparing the 4-thread solve against serial reference Job \texttt{1409982.mmaster02} across all reached increments ($0 \le u \le 0.007819\,\mathrm{mm}$):
+\begin{itemize}
+  \item \textbf{Pointwise Force and Energy Discrepancies:} $|\Delta F| = 0.000\,\mathrm{kN}$, $|\Delta E_{\mathrm{elas}}| = 0.000\,\mathrm{mJ}$, $|\Delta E_{\mathrm{frac}}| = 0.000\,\mathrm{mJ}$;
+  \item \textbf{Incrementation Sequence:} Identical 3 iterations per increment across all 4,819 completed increments;
+  \item \textbf{Governing Classification:} Formally designated as:
+  \begin{equation}
+    \text{Interim Status: } \mathbf{THREAD\_PARITY\_PASS\_OVER\_REACHED\_RANGE}
+  \end{equation}
+  \begin{equation}
+    \text{Terminal Classification: } \mathbf{THREAD\_TERMINAL\_PARITY\_NOT\_YET\_QUALIFIED}
+  \end{equation}
+  Because Job \texttt{1410006.mmaster02} is actively solving at $u = 0.007819\,\mathrm{mm}$ (71 increments before the serial failure point $u = 0.007889\,\mathrm{mm}$), Package~27 Stage-B determinism repeat remains held until Stage~A reaches a terminal state.
 \end{itemize}
 
 

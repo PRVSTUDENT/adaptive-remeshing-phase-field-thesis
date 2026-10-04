@@ -1,4 +1,4 @@
-# Gate-6B Stage 14U-AH: Abaqus Nonlinear Convergence Criteria Reconstruction, Epistemic Audit, and Minimal-Control Preflight Report
+# Gate-6B Stage 14U-AH: Abaqus Nonlinear Convergence Criteria Reconstruction, Epistemic Audit, and Minimal-Control Preflight Report (Corrected)
 
 **Document ID**: `MODE1_STAGE14UAH_CONVERGENCE_RECONSTRUCTION_REPORT`  
 **Task ID**: `F1217-GATE6B-STAGE14UAH-CONVERGENCE-CRITERIA-RECONSTRUCTION-AND-MINIMAL-CONTROL-PREFLIGHT-20261004`  
@@ -13,11 +13,11 @@
 
 During Gate-6B Stage 14U-AF, completion run Job `1409982.mmaster02` reached total displacement $u = 0.007888\,\text{mm}$ ($99.76\%$ post-peak load drop) before terminating at Step 2 Increment 2890 after 10 time cutbacks ($\Delta t = 2.0\times 10^{-4}\,\text{s} \to 1.0\times 10^{-9}\,\text{s}$).
 
-This report presents the complete Stage 14U-AH investigation:
+This report presents the complete Stage 14U-AH investigation with rigorous epistemic scoping:
 1. **Primary Documentation Audit**: Authoritative Abaqus 2023 nonlinear convergence criteria equations, time-average flux normalizer $\tilde{q}$, and handling of UEL DOFs 1, 2, 3 under `FIELD=DISPLACEMENT`.
 2. **Full 10-Attempt Reconstruction**: Iteration-by-iteration extraction and analysis of all 10 cutback attempts of Increment 2890.
 3. **Four Hypotheses Epistemic Classification**: Formal classification under `SOURCE_AND_NUMERICALLY_VERIFIED`, `SUPPORTED_BUT_NOT_FULLY_PROVEN`, and `NOT_ESTABLISHED`.
-4. **Fortran Boundlessness Verification**: Mathematical and source verification that `f42_mixed_uel.for` contains zero artificial damage clipping (`min(max(d, 0.0), 1.0)` is absent).
+4. **Fortran Boundlessness Verification**: Verification that `f42_mixed_uel.for` contains zero artificial damage clipping (`min(max(d, 0.0), 1.0)` is absent), clarifying that local algebraic relations do not by themselves constitute global FE bound proofs in the presence of gradient regularization.
 5. **Package 28 Preflight Qualification**: Implementation and cluster Datacheck verification (Exit 0) of minimal non-invasive solver control candidate `28_stage14_convergence_control_candidate` (`*CONTROLS, PARAMETERS=FIELD, FIELD=DISPLACEMENT` with $R_n=0.005, C_n=0.50$).
 
 ---
@@ -42,7 +42,7 @@ When a crack completely severs the specimen:
 2. In the fully damaged wake ($d \approx 0.999$, degraded stiffness $(1-d)^2 + k \approx 10^{-7}$), tiny numerical noise or residual variational shifts cause microscopic phase updates $\Delta d \approx 2.6\times 10^{-6}$.
 3. Because UEL DOFs 1, 2, 3 share the displacement field check, Abaqus compares $c_{\max} = \Delta d \approx 2.61\times 10^{-6}$ against $0.01 \Delta u_{\max}$.
 4. As $\Delta t$ cuts back ($2\times 10^{-4} \to 10^{-9}$), $\Delta u_{\max}$ shrinks proportionally from $1.17\times 10^{-5}\,\text{mm}$ to $5.87\times 10^{-10}\,\text{mm}$, while $\Delta d$ remains constant.
-5. Consequently, the rejection ratio $\frac{c_{\max}}{C_n \Delta u_{\max}}$ explodes from $22.2\times$ to $520,000\times$, rendering time cutbacks mathematically incapable of achieving convergence despite residual equilibrium passing by over $1000\times$.
+5. Consequently, the rejection ratio $\frac{c_{\max}}{C_n \Delta u_{\max}}$ explodes from $22.2\times$ to $5,200,000\times$, rendering time cutbacks mathematically incapable of achieving convergence despite residual equilibrium passing by over $1000\times$.
 
 ---
 
@@ -73,8 +73,8 @@ Table 1 summarizes the final iteration metrics across all 10 cutback attempts of
 | :--- | :---: | :--- |
 | **H1**: Residual force equilibrium converges by $>1000\times$ margin | `SOURCE_AND_NUMERICALLY_VERIFIED` | Reconstructed from `.msg` file across all 10 attempts: $R_{\max} = 1.942\times 10^{-9}\,\text{kN}$ vs $R_n \tilde{q} = 2.090\times 10^{-6}\,\text{kN}$ (margin $1076.2\times$). |
 | **H2**: Solver rejection is caused exclusively by solution correction test | `SOURCE_AND_NUMERICALLY_VERIFIED` | In every iteration of all 10 attempts, $R_{\max} \le R_n \tilde{q}$ is satisfied; non-convergence flag is triggered purely by $c_{\max} > C_n \Delta u_{\max}$ at DOF 3. |
-| **H3**: History-field non-smoothness is ruled out at controlling nodes | `SOURCE_AND_NUMERICALLY_VERIFIED` | Wake node Node 13628 has $d = 0.9987$ and $\dot{\mathcal{H}} = 0$; the crack has passed and history driving force is stationary. |
-| **H4**: Post-fracture ill-conditioning in severed wake controls stagnation | `SOURCE_AND_NUMERICALLY_VERIFIED` | Severed elastic body produces $\Delta u_{\max} \propto \Delta t \to 0$, while wake phase noise $\Delta d \approx 2.6\times 10^{-6}$ remains constant, causing $c_{\max} / (C_n \Delta u_{\max})$ to diverge as $\mathcal{O}(1/\Delta t)$. |
+| **H3**: History-field non-smoothness is excluded at controlling wake node | `SOURCE_AND_NUMERICALLY_VERIFIED` | Wake node Node 13628 has $d = 0.9987$ and $\dot{\mathcal{H}} = 0$; the crack tip has traversed. This supports exclusion of history discontinuities at this specific wake node, without constituting a global proof for all elements. |
+| **H4**: Post-fracture convergence normalization sensitivity under unloading | `POST_FRACTURE_CONVERGENCE_NORMALIZATION_SENSITIVITY_VERIFIED` | Unloaded specimen produces $\Delta u_{\max} \propto \Delta t \to 0$, while wake phase noise $\Delta d \approx 2.6\times 10^{-6}$ remains constant, causing $c_{\max} / (C_n \Delta u_{\max})$ to diverge as $\mathcal{O}(1/\Delta t)$. Matrix ill-conditioning remains `NOT_ESTABLISHED` pending direct conditioning metrics. |
 
 ---
 
@@ -82,10 +82,9 @@ Table 1 summarizes the final iteration metrics across all 10 cutback attempts of
 
 Inspection of authoritative Fortran subroutine `f42_mixed_uel.for` confirms:
 1. **Zero Artificial Clipping**: No explicit bounding statements (e.g. `min(max(d, 0.0), 1.0)`) exist in the source code.
-2. **Variational Form**: $d$ is computed directly from the weak form:
-   $$d = \frac{2\mathcal{H}}{G_c/l_0 + 2\mathcal{H}}$$
-   For finite strain-energy history $\mathcal{H}$, $d$ is strictly bounded within $[0, 1)$ analytically.
-3. **Controlling Node Values**: At Node 13628 ($x=0.005\,\text{mm}, y=0.000\,\text{mm}$), $d = 0.9987$, confirming that the solution is physically intact and unclipped.
+2. **Local Algebraic vs Global PDE Solution**:
+   The algebraic relation $d = \frac{2\mathcal{H}}{G_c/l_0 + 2\mathcal{H}}$ is the local homogeneous solution obtained when spatial gradient terms are neglected. In the complete boundary-value problem, the governing weak form contains spatial gradient regularization ($\frac{1}{2} G_c l_0 |\nabla d|^2$). Therefore, the local algebraic formula cannot by itself serve as a proof of global nodal bounds for the discretized FE system.
+3. **Controlling Node Values**: At Node 13628 ($x=0.005\,\text{mm}, y=0.000\,\text{mm}$), the computed damage is $d = 0.9987$, confirming that the physical solution at this controlling wake node remains within $[0, 1)$.
 
 ---
 
@@ -93,7 +92,10 @@ Inspection of authoritative Fortran subroutine `f42_mixed_uel.for` confirms:
 
 - **Package Directory**: `models/pandey_kumar_mode1/28_stage14_convergence_control_candidate`
 - **Solution Deck**: `PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL.inp`
-- **Single Modification**: Adding `*CONTROLS, PARAMETERS=FIELD, FIELD=DISPLACEMENT` with `0.005, 0.50` ($R_n=0.005, C_n=0.50$) to Step 2.
+- **Parameter Modification & 50x Relaxation Derivation**:
+  Adding `*CONTROLS, PARAMETERS=FIELD, FIELD=DISPLACEMENT` with `0.005, 0.50` ($R_n=0.005, C_n=0.50$) to Step 2 represents a **$50\times$ relaxation** of the correction criterion from default $C_n = 0.01$.
+  - **Derivation**: In Attempt 1 of Increment 2890, $c_{\max} = 2.611\times 10^{-6}$ against $\Delta u_{\max} = 1.175\times 10^{-5}\,\text{mm}$ (ratio $c_{\max}/\Delta u_{\max} = 0.222$). Under default $C_n = 0.01$, tolerance is $1.175\times 10^{-7}\,\text{mm}$ ($22.2\times$ excess). Setting $C_n = 0.50$ provides tolerance $5.875\times 10^{-6}\,\text{mm}$, giving $c_{\max}/\text{Tol} = 0.444 < 1.0$.
+  - **Status**: Diagnostic candidate only; not described as a general physical or production standard.
 - **Cluster Datacheck Execution**: Direct execution on cluster login node via `run_datacheck_direct.sh`.
   * Status: **COMPLETED with Exit Code 0**.
   * License Checkout: 5 Abaqus/Standard tokens verified.

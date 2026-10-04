@@ -41,13 +41,11 @@ class TestStage14UAHConvergenceReconstruction(unittest.TestCase):
             data = json.load(f)
             
         attempts = data['increment_2890_attempts']
-        # Check that controlling node is 13628 DOF 3 across all attempts
         for att in attempts:
             self.assertEqual(att['controlling_node'], 13628)
             self.assertEqual(att['controlling_dof'], 3)
             self.assertEqual(att['outcome'], 'REJECTED_SOLUTION_CORRECTION_ONLY')
             
-        # Check that correction ratio increases monotonically
         ratios = [att['c_ratio'] for att in attempts]
         self.assertTrue(all(x < y for x, y in zip(ratios, ratios[1:])), "Rejection ratios must increase monotonically with dt cutbacks")
         self.assertAlmostEqual(ratios[0], 22.22, places=1)
@@ -60,10 +58,11 @@ class TestStage14UAHConvergenceReconstruction(unittest.TestCase):
         ep = data['executive_summary']['epistemic_classifications']
         self.assertEqual(ep['H1_residual_margin_gt_1000x'], 'SOURCE_AND_NUMERICALLY_VERIFIED')
         self.assertEqual(ep['H2_correction_criterion_only'], 'SOURCE_AND_NUMERICALLY_VERIFIED')
-        self.assertEqual(ep['H3_history_nonsmoothness_ruled_out'], 'SOURCE_AND_NUMERICALLY_VERIFIED')
-        self.assertEqual(ep['H4_post_fracture_ill_conditioning'], 'SOURCE_AND_NUMERICALLY_VERIFIED')
+        self.assertEqual(ep['H3_history_nonsmoothness_wake_node'], 'SOURCE_AND_NUMERICALLY_VERIFIED')
+        self.assertEqual(ep['H4_post_fracture_normalization_sensitivity'], 'POST_FRACTURE_CONVERGENCE_NORMALIZATION_SENSITIVITY_VERIFIED')
+        self.assertEqual(ep['H4b_matrix_ill_conditioning'], 'NOT_ESTABLISHED')
 
-    def test_fortran_boundlessness(self):
+    def test_fortran_boundlessness_and_gradient_distinction(self):
         self.assertTrue(os.path.exists(self.fortran_src), f"Missing Fortran source: {self.fortran_src}")
         with open(self.fortran_src, 'r') as f:
             content = f.read()
@@ -74,10 +73,10 @@ class TestStage14UAHConvergenceReconstruction(unittest.TestCase):
         self.assertNotIn('if (d .gt. 1.0', content.lower())
         self.assertNotIn('if (d > 1.0', content.lower())
         
-        # Verify weak form evaluation presence
-        self.assertTrue('two*hist' in content.lower().replace(' ', ''))
+        # Verify weak form contains spatial gradient regularization term
+        self.assertTrue('e_gc*e_l0' in content.lower().replace(' ', '') or '(e_gc*e_l0)*bdb' in content.lower().replace(' ', ''))
 
-    def test_package28_controls_syntax(self):
+    def test_package28_controls_syntax_and_derivation(self):
         self.assertTrue(os.path.exists(self.inp_deck), f"Missing input deck: {self.inp_deck}")
         with open(self.inp_deck, 'r') as f:
             lines = f.readlines()

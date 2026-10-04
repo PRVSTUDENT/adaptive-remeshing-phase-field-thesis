@@ -11,10 +11,12 @@
     "epistemic_classifications": {
       "H1_residual_margin_gt_1000x": "SOURCE_AND_NUMERICALLY_VERIFIED",
       "H2_correction_criterion_only": "SOURCE_AND_NUMERICALLY_VERIFIED",
-      "H3_history_nonsmoothness_ruled_out": "SOURCE_AND_NUMERICALLY_VERIFIED",
-      "H4_post_fracture_ill_conditioning": "SOURCE_AND_NUMERICALLY_VERIFIED"
+      "H3_history_nonsmoothness_wake_node": "SOURCE_AND_NUMERICALLY_VERIFIED",
+      "H4_post_fracture_normalization_sensitivity": "POST_FRACTURE_CONVERGENCE_NORMALIZATION_SENSITIVITY_VERIFIED",
+      "H4b_matrix_ill_conditioning": "NOT_ESTABLISHED"
     },
     "fortran_damage_clipping_present": false,
+    "local_algebraic_bound_proves_global_fe": false,
     "package_28_datacheck_exit_code": 0
   },
   "abaqus_solution_controls_audit": {
@@ -174,6 +176,7 @@
       "*CONTROLS, PARAMETERS=FIELD, FIELD=DISPLACEMENT",
       "0.005, 0.50"
     ],
+    "relaxation_factor": "50x (Cn relaxed from 0.01 to 0.50 based on Attempt-1 c_max / Delta_u_max = 0.222)",
     "invariances_preserved": {
       "mesh_nodes": 14456,
       "mesh_elements": 14483,
