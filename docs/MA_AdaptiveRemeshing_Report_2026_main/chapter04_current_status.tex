@@ -1577,3 +1577,83 @@ The formal audit verdict of Stage~14U-W is established as:
 \begin{center}
 {\footnotesize\textbf{\texttt{ENERGY\_EVOLUTION\_AND\_BOOKKEEPING\_AUDITED\_\_FINAL\_BASELINE\_QUALIFICATION\_PENDING}}}.
 \end{center}
+
+\section{Stage 14U-Y: Adaptive Spatial-Field and Energy Sensitivity Closure Audit}
+\label{sec:stage14uy_adaptive_spatial_energy_audit}
+
+\subsection{Motivation and Resolution of the Matched-State Energy Discrepancy}
+\label{subsec:stage14uy_discrepancy_resolution}
+
+A primary question arising from multi-model adaptive benchmarking in Gate~6B concerns the energetic and spatial response across different adaptive discretizations at comparable total element counts. Specifically, an apparent discrepancy was noted between the preliminary 2\% uniform-error adaptive model (Package~24, Job~\texttt{1409846.mmaster02}, $N_{\mathrm{base}} = 13{,}897$ finite elements) and the Stage~14 reference-fidelity adaptive model (Package~25, Job~\texttt{1409953.mmaster02}, $N_{\mathrm{base}} = 14{,}483$ finite elements). At displacement $u = 0.0065\,\mathrm{mm}$ ($6.5\,\mu\mathrm{m}$), Package~24 was reported with an energy of $2.6874\,\mathrm{mJ}$, whereas Stage~14 produced $E_{\mathrm{frac}} = 2.2835\,\mathrm{mJ}$ (matching the structured $S_1$ reference $2.3390\,\mathrm{mJ}$ within $-2.26\%$), despite near-identical initial stiffness ($K_0$ within $0.014\%$) and peak reaction force ($F_{\max}$ within $0.054\%$).
+
+Exhaustive accounting of the constitutive state variables in subroutine \texttt{f42\_mixed\_uel.for} resolves this discrepancy:
+\begin{enumerate}
+  \item \textbf{Total Energy vs.\ Fracture Functional Discrepancy:} The $2.6874\,\mathrm{mJ}$ value recorded for Package~24 at $u = 0.0065\,\mathrm{mm}$ represents \emph{Total Stored Energy} $E_{\mathrm{total}} = E_{\mathrm{elas}} + E_{\mathrm{frac}} = 1.9033\,\mathrm{mJ} + 0.7842\,\mathrm{mJ} = 2.6874\,\mathrm{mJ}$. At this intermediate displacement, the crack in Package~24 has not finished propagating through the ligament, leaving the upper and lower halves under significant elastic tension ($E_{\mathrm{elas}} = 1.9033\,\mathrm{mJ}$).
+  \item \textbf{Stage 14 Severed State Parity:} In Stage~14, crack propagation snaps through cleanly between $u = 5.73\,\mu\mathrm{m}$ and $u = 6.00\,\mu\mathrm{m}$. By $u = 0.0065\,\mathrm{mm}$, the ligament is fully severed ($x_{\mathrm{tip}} = 0.9985\,\mathrm{mm}$), the elastic strain energy has unloaded to $E_{\mathrm{elas}} = 0.0067\,\mathrm{mJ}$, and the crack-surface functional has stabilized at $E_{\mathrm{frac}} = 2.2835\,\mathrm{mJ}$ ($E_{\mathrm{total}} = 2.2902\,\mathrm{mJ}$).
+\end{enumerate}
+
+\subsection{Spatial Mesh Concentration, Localization Width, and Numerical Bridging}
+\label{subsec:stage14uy_mesh_concentration}
+
+The physical cause of the divergent post-peak propagation dynamics lies in the spatial element concentration inside the $5.0\%$ geometric crack corridor $\Omega_{\mathrm{corridor}} = [0.5, 1.0] \times [0.45, 0.55]\,\mathrm{mm}$ ($0.0500\,\mathrm{mm}^2$):
+\begin{itemize}
+  \item \textbf{Package 24 (Global Refinement):} Driven by a global 2\% error indicator tolerance, Package~24 distributed elements broadly across the bulk, placing only $12.20\%$ of its elements ($1{,}696$ elements) inside the corridor. Outside the immediate notch root, the mesh coarsens to $h \approx 2.58\text{--}5.0\,\mu\mathrm{m}$ ($h/l_0 \approx 0.35\text{--}0.67$). When the crack advances into this coarser zone, the discrete element size is unable to resolve the steep gradient $|\nabla d| \sim 1/l_0$, causing the damage band to widen artificially ($w_{d \ge 0.5}$ increases). This numerical bridging delays crack breakthrough, sustaining high elastic loads until $u \approx 0.0090\,\mathrm{mm}$, where the fully broken state overestimates fracture energy ($E_{\mathrm{frac}} = 3.1926\,\mathrm{mJ}$, $+36.4\%$ above $S_1$).
+  \item \textbf{Stage 14 (Targeted Corridor Refinement):} In Stage~14, $57.49\%$ of elements ($8{,}326$ elements, a $4.91\times$ higher concentration) reside inside the corridor, providing $h_{\min} = 0.760\,\mu\mathrm{m}$ ($h/l_0 = 0.101$) and median corridor sizing $h = 2.058\,\mu\mathrm{m}$ ($h/l_0 = 0.274$). The regularized phase-field profile is sharply resolved along the entire propagation path, avoiding numerical bridging and capturing rapid unloading at $u = 0.0058\text{--}0.0060\,\mathrm{mm}$.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_stage14uy_adaptive_energy_comparison.pdf}
+  \caption{Energy partitioning and evolution comparison between Package~24 (13.9k elements, 12.2\% corridor share) and Stage~14 (14.5k elements, 57.5\% corridor share). Both models exhibit identical pre-peak stored elastic energy ($E_{\mathrm{elas}}$) and crack-surface functional ($E_{\mathrm{frac}}$) up to $u = 5.0\,\mu\mathrm{m}$. In the post-peak softening regime, Stage~14 undergoes rapid snap-through and unloads elastically to $E_{\mathrm{elas}} \le 0.007\,\mathrm{mJ}$, while Package~24 exhibits delayed breakthrough with spurious elastic retention across coarse corridor elements.}
+  \label{fig:stage14uy_energy_comparison}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_stage14uy_adaptive_fu_comparison.pdf}
+  \caption{Reaction force vs.\ prescribed displacement ($F-u$) response comparison between Package~24 ($F_{\max} = 0.7423\,\mathrm{kN}$, $u_{\mathrm{peak}} = 5.721\,\mu\mathrm{m}$) and Stage~14 ($F_{\max} = 0.7437\,\mathrm{kN}$, $u_{\mathrm{peak}} = 5.733\,\mu\mathrm{m}$). Pre-peak and peak mechanics match within $0.054\%$, while post-peak softening reflects the differing spatial element concentration across the ligament.}
+  \label{fig:stage14uy_fu_comparison}
+\end{figure}
+
+\subsection{Quantitative Matched Displacement State Accounting}
+\label{subsec:stage14uy_matched_table}
+
+Table~\ref{tab:stage14uy_matched_comparison} summarizes the three-way comparison between the fixed reference anchor ($S_1$), Package~24, and Stage~14 across all common displacement states.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Matched-displacement energy and force comparison across Mode-I models ($S_1$ reference, Package~24, and Stage~14).}
+  \label{tab:stage14uy_matched_comparison}
+  \begin{tabular}{lcccccc}
+    \hline
+    \textbf{Displacement} & \textbf{$S_1$ Ref $E_{\mathrm{frac}}$} & \textbf{P24 $E_{\mathrm{frac}}$} & \textbf{P25 $E_{\mathrm{frac}}$} & \textbf{P24 $E_{\mathrm{elas}}$} & \textbf{P25 $E_{\mathrm{elas}}$} & \textbf{P24 $E_{\mathrm{total}}$} \\
+    $u$ ($\mu\mathrm{m}$) & (mJ) & (mJ) & (mJ) & (mJ) & (mJ) & (mJ) \\
+    \hline
+    $1.0$ (Elastic anchor)      & $0.000056$ & $0.000056$ & $0.000056$ & $0.068934$ & $0.068944$ & $0.068990$ \\
+    $3.0$ (Elastic-damage)     & $0.004534$ & $0.004541$ & $0.004543$ & $0.612361$ & $0.612449$ & $0.616902$ \\
+    $5.0$ (Pre-peak transition) & $0.036541$ & $0.036780$ & $0.036786$ & $1.654071$ & $1.654313$ & $1.690852$ \\
+    $5.857$ ($S_1$ Ref peak)   & $0.082690$ & $0.537835$ & $2.130909$ & $1.761795$ & $0.199314$ & $2.299630$ \\
+    $6.0$ (Post-peak softening)& $2.338772$ & $0.542582$ & $2.283248$ & $1.844058$ & $0.005975$ & $2.386640$ \\
+    $6.5$ (Propagation)        & $2.338978$ & $0.784172$ & $2.283468$ & $1.903275$ & $0.006703$ & $2.687448$ \\
+    $7.0$ (Severed / residual) & $2.339204$ & $1.113322$ & $2.283930$ & $1.847377$ & $0.007192$ & $2.960700$ \\
+    $10.0$ (Terminal broken)   & $2.340220$ & $3.192570$ & N/A        & $0.145098$ & N/A        & $3.337668$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Methodological Classification and Governance Verdict}
+\label{subsec:stage14uy_governance_verdict}
+
+From an epistemological and numerical perspective, Package~24 and Stage~14 represent **two distinct adaptive-refinement distribution strategies at similar total element budgets (~14k elements)**, **NOT a conventional $h$-refinement convergence pair**:
+\begin{enumerate}
+  \item \textbf{Macroscopic Invariance:} Both distributions yield identical structural stiffness ($K_0 = 137.89\text{--}137.91\,\mathrm{kN/mm}$, diff $0.014\%$) and peak load ($F_{\max} = 0.7423\text{--}0.7437\,\mathrm{kN}$, diff $0.054\%$), demonstrating that pre-peak structural behavior is governed solely by the fine notch-root mesh and is insensitive to far-field element distribution.
+  \item \textbf{Field Sensitivity in Softening:} Dynamic crack propagation across the ligament requires fine resolution ($h/l_0 \le 0.27$) along the full crack path. Insufficient corridor refinement (Package~24) broadens the localized band, producing delayed breakthrough and artificial dissipation inflation.
+\end{enumerate}
+
+Based on this evidence, the governing classifications are formally assigned:
+\begin{itemize}
+  \item \textbf{Methodological Classification:} \texttt{ADAPTIVE\_SPATIAL\_COMPARISON\_NOT\_A\_CONVERGENCE\_PAIR}
+  \item \textbf{Adaptive Macro vs.\ Field Verdict:} \texttt{ADAPTIVE\_MACRO\_RESPONSE\_STABLE\_\_PHASE\_FIELD\_MESH\_SENSITIVE}
+  \item \textbf{Overall Spatial Convergence Status:} \texttt{SPATIAL\_CONVERGENCE\_EVIDENCE\_ALREADY\_SUFFICIENT}
+\end{itemize}

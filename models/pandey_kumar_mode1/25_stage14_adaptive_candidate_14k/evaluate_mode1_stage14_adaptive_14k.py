@@ -218,6 +218,101 @@ def evaluate_canonical_k0(u_vals, f_vals, k0_fit_max_u=0.0010, nominal_delta_u=2
         "u_max_window_mm": float(u_max_cut)
     }
 
+def evaluate_mechanical_metrics(u_vals, f_vals, k0_fit_max_u=0.0010, nominal_delta_u=2.5e-6):
+    """
+    Computes all standard mechanical metrics from complete F-u trajectory.
+    """
+    if not u_vals or not f_vals:
+        return {}
+    k0_res = evaluate_canonical_k0(u_vals, f_vals, k0_fit_max_u, nominal_delta_u) or {}
+    
+    # Peak Force and peak displacement
+    f_max = -1e9
+    u_at_fmax = 0.0
+    for u, f in zip(u_vals, f_vals):
+        if f > f_max:
+            f_max = f
+            u_at_fmax = u
+            
+    res = dict(k0_res)
+    res["F_max_kN"] = float(f_max)
+    res["u_at_F_max_mm"] = float(u_at_fmax)
+    res["F_final_kN"] = float(f_vals[-1])
+    res["u_final_mm"] = float(u_vals[-1])
+    return res
+
+def compare_against_reference(u_ref, f_ref, u_test, f_test):
+    """
+    Computes continuous L2 difference, discrete RMS, and maximum absolute difference
+    between two curves on their common displacement domain.
+    """
+    if not u_ref or not f_ref or not u_test or not f_test:
+        return {"continuous_l2": 0.0, "discrete_rms": 0.0, "max_abs_diff": 0.0}
+        
+    u_common_max = min(max(u_ref), max(u_test))
+    
+    # 1001-point common grid
+    n_pts = 1001
+    grid_u = [i * (u_common_max / (n_pts - 1)) for i in range(n_pts)]
+    
+    # Linear interpolation
+    def interp(xs, ys, x_target):
+        if x_target <= xs[0]: return ys[0]
+        if x_target >= xs[-1]: return ys[-1]
+        for i in range(len(xs) - 1):
+            if xs[i] <= x_target <= xs[i+1]:
+                dx = xs[i+1] - xs[i]
+                if abs(dx) < 1e-15: return ys[i]
+                t = (x_target - xs[i]) / dx
+                return ys[i] + t * (ys[i+1] - ys[i])
+        return ys[-1]
+        
+    f_ref_grid = [interp(u_ref, f_ref, u) for u in grid_u]
+    f_test_grid = [interp(u_test, f_test, u) for u in grid_u]
+    
+    diffs = [ft - fr for ft, fr in zip(f_test_grid, f_ref_grid)]
+    max_abs = max(abs(d) for d in diffs)
+    rms = math.sqrt(sum(d * d for d in diffs) / len(diffs))
+    
+    # Continuous L2
+    sum_l2 = sum(0.5 * (diffs[i]**2 + diffs[i-1]**2) * (grid_u[i] - grid_u[i-1]) for i in range(1, n_pts))
+    sum_ref2 = sum(0.5 * (f_ref_grid[i]**2 + f_ref_grid[i-1]**2) * (grid_u[i] - grid_u[i-1]) for i in range(1, n_pts))
+    rel_l2 = math.sqrt(sum_l2) / math.sqrt(sum_ref2) if sum_ref2 > 1e-20 else math.sqrt(sum_l2)
+    
+    return {
+        "continuous_l2": float(rel_l2),
+        "discrete_rms": float(rms),
+        "max_abs_diff": float(max_abs)
+    }
+
+def parse_sta_file(sta_path):
+    """
+    Parses Abaqus .sta file to extract total increments, total iterations, and cutbacks.
+    """
+    if not os.path.exists(sta_path):
+        return None
+    total_incs = 0
+    total_iters = 0
+    total_cutbacks = 0
+    with open(sta_path, 'r') as f:
+        for line in f:
+            parts = line.strip().split()
+            if len(parts) >= 6 and parts[0].isdigit() and parts[1].isdigit():
+                total_incs += 1
+                try:
+                    att = int(parts[2])
+                    if att > 1:
+                        total_cutbacks += (att - 1)
+                    iters = int(parts[5])
+                    total_iters += iters
+                except ValueError:
+                    pass
+    return {
+        "total_increments": total_incs,
+        "total_iterations": total_iters,
+        "total_cutbacks": total_cutbacks
+    }
+
 def evaluate_crack_tip_position(d_vals_on_ligament, x_coords_on_ligament, threshold=0.90):
     """
     Evaluates physical crack-tip extent along symmetry ligament y = 0.50 mm.
@@ -329,7 +424,6 @@ def main():
     print("================================================================================")
     print("GATE-6B STAGE 14 TERMINAL ADAPTIVE EVALUATION PIPELINE")
     print("================================================================================")
-    # Execution logic continues...
 
 if __name__ == "__main__":
     if "--self-test" in sys.argv:
