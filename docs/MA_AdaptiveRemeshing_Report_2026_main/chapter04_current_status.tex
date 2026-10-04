@@ -1203,14 +1203,14 @@ Both test suites execute with $100\%$ success ($16/16$ tests passed) on both the
 \section{Stage 14U-R: Temporal-Convergence Discretization Protocol and Refined Candidate Preflight}
 \label{sec:stage14ur_temporal_convergence_protocol}
 
-\subsection{Motivation and Scientific Boundary}
+\subsection{Motivation, Governance, and Scientific Boundary}
 \label{subsec:stage14ur_motivation}
 
 While the authoritative baseline completion solve (Job~\texttt{1409982.mmaster02}, Package~25) advances smoothly toward terminal displacement $u = 0.0100\,\mathrm{mm}$ with enhanced cutback controls, the subsequent mandatory investigation in the Mode-I qualification sequence requires examining the sensitivity of the phase-field response to time/displacement incrementation:
 \begin{quote}
 \textit{Does refinement of the prescribed displacement/time-increment discretization materially alter the mechanical, spatial, or energetic response of the qualified 14,483-element adaptive mesh?}
 \end{quote}
-To answer this question deterministically without perturbing the active completion job, Stage~14U-R establishes a formal protocol freeze and preflight qualification for a \textbf{$2\times$ temporally refined candidate} (Package~26: \texttt{models/pandey\_kumar\_mode1/26\_stage14\_temporal\_refined\_candidate\_2x/}). Execution of the solver job on the HPC cluster is strictly withheld pending the terminal qualification of Job~\texttt{1409982.mmaster02}.
+To answer this question deterministically without perturbing the active completion job, Stage~14U-R establishes a formal protocol freeze, source-identity audit, and preflight qualification for a \textbf{$2\times$ temporally refined candidate} (Package~26: \texttt{models/pandey\_kumar\_mode1/26\_stage14\_temporal\_refined\_candidate\_2x/}). Execution of the solver job on the HPC cluster is strictly withheld pending the terminal qualification of Job~\texttt{1409982.mmaster02}.
 
 \subsection{Temporal Discretization Parameterization}
 \label{subsec:stage14ur_parameterization}
@@ -1255,18 +1255,35 @@ Total Nominal Analysis Incs & $7{,}000$ & $14{,}000$ & $2.0\times$ \\
 \end{tabular}
 \end{table}
 
-\subsection{Pre-Declared Multi-Quantity Comparison Protocol}
+\subsection{Production-Source Identity and Cryptographic Invariance Audit}
+\label{subsec:stage14ur_source_audit}
+
+A comprehensive multi-package source audit resolved the cryptographic provenance of the Fortran user subroutine \texttt{f42\_mixed\_uel.for}:
+\begin{enumerate}
+    \item \textbf{Bitwise Identity across Packages:} Package~25 (Job~\texttt{1409982}) and Package~26 contain bitwise and hash-identical copies of \texttt{f42\_mixed\_uel.for}:
+    \begin{equation}
+    \mathrm{SHA\text{-}256} = \texttt{CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6},
+    \end{equation}
+    comprising $29{,}722$ bytes and $908$ lines with standard LF line endings on both local and cluster storage.
+    \item \textbf{Lineage Clarification:} The earlier Gate-6B hash (\texttt{5CD0D2C0...}, $29{,}401$ bytes, $902$ lines) wrote \texttt{uel\_energy\_balance.csv} to relative working paths. In Stage~14, this was upgraded with \texttt{CALL GETOUTDIR(OUTDIR\_STR, L\_OUTDIR)} and dynamic string trimming to guarantee safe telemetry file routing when executed inside HPC scratch directories. Package~26 strictly adopts the governed Stage-14 production source.
+    \item \textbf{Physical and Mesh Invariance:} Complete topological and material invariance is preserved across all $14{,}456$ nodes, $14{,}483$ underlying finite elements ($43{,}449$ layered elements), material constants ($E = 210.0\,\mathrm{kN/mm}^2, \nu = 0.3, G_c = 0.0027\,\mathrm{kN/mm}, l_0 = 0.0075\,\mathrm{mm}, k = 10^{-7}$), and the verified ABI parameter order \texttt{(0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 14483.0)}.
+\end{enumerate}
+
+\subsection{Pre-Declared Multi-Quantity Comparison Protocol and Canonical \texorpdfstring{$K_0$}{K0} Rule}
 \label{subsec:stage14ur_comparison_protocol}
 
-To ensure unbiased evaluation, the comparison protocol is frozen before execution:
+To maintain rigorous scientific discipline and eliminate post-hoc evaluation bias, the multi-quantity comparison protocol is pre-declared:
 \begin{itemize}
-    \item \textbf{Global Initial Stiffness ($K_0$):} Evaluated across $N = 800$ regression points over $u \le 0.0010\,\mathrm{mm}$; classified \texttt{STABLE} if $|\Delta K_0| \le 1.0\%$.
-    \item \textbf{Peak Force ($F_{\max}$) and Peak Displacement ($u_{\mathrm{peak}}$):} Classified \texttt{STABLE} if $|\Delta F_{\max}| \le 3.0\%$ and $|\Delta u_{\mathrm{peak}}| \le 3.0\%$.
-    \item \textbf{10 Matched Displacement States:} Reaction force, spatial damage, and energies compared at $u \in \{0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070, 0.0080, 0.0090, 0.0100\}\,\mathrm{mm}$.
-    \item \textbf{Continuous Spatial Ligament Damage ($d(x, y=0.5\,\mathrm{mm})$):} Evaluated on a $1001$-point uniform grid ($x \in [0.50, 1.00]\,\mathrm{mm}$); classified \texttt{STABLE} if relative $L_2$ difference is strictly bounded ($\le 5.0\%$) and peak discrepancy is confined to the notch root.
+    \item \textbf{Canonical Initial Stiffness ($K_0$) Rule:} To ensure consistent statistical degrees of freedom and eliminate sampling density artifacts, the $2\times$ refined response is \textbf{sampled / interpolated onto the canonical 400-point displacement grid} ($Delta u = 2.50\times 10^{-6}\,\mathrm{mm}, 0.5\Delta u < u \le 0.0010 + 0.5\Delta u, N = 400$) using the certified OLS implementation, reproducing the reference baseline anchor:
+    \begin{equation}
+    K_{0,\mathrm{ref}} = 137.945520\,\mathrm{kN/mm} \quad (\text{intercept } 4.472368\times 10^{-5}\,\mathrm{kN}, \; R^2 = 0.99999960).
+    \end{equation}
+    \item \textbf{Peak Force ($F_{\max}$) and Peak Displacement ($u_{\mathrm{peak}}$):} Maximum reaction force and corresponding prescribed displacement evaluated across the full deformation history.
+    \item \textbf{10 Matched Displacement States:} Reaction force, spatial damage, and energies evaluated at $u \in \{0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070, 0.0080, 0.0090, 0.0100\}\,\mathrm{mm}$.
+    \item \textbf{Continuous Spatial Ligament Damage ($d(x, y=0.5\,\mathrm{mm})$):} Evaluated on a $1001$-point uniform grid ($x \in [0.50, 1.00]\,\mathrm{mm}, \Delta x = 0.5\,\mu\mathrm{m}$), computing continuous relative $L_2$ error and localized peak discrepancy $L_\infty$.
     \item \textbf{Macro-Crack Tip Position ($x_{\mathrm{tip}}$):} Identified via governed threshold $d \ge 0.90$.
-    \item \textbf{Energy Balance Integrals:} $W_{\mathrm{ext}}, E_{\mathrm{elas}}, E_{\mathrm{frac}}, \Delta_{\mathrm{book}}$, and relative residual $\varepsilon_{\mathrm{book}}$.
-    \item \textbf{Solver Telemetry:} Total increments, iterations, cutbacks, and CPU time recorded to determine computational cost scaling.
+    \item \textbf{Energy Balance Integrals:} External work $W_{\mathrm{ext}}$, elastic strain energy $E_{\mathrm{elas}}$, crack-surface functional $E_{\mathrm{frac}}$, residual $\Delta_{\mathrm{book}}$, and relative residual $\varepsilon_{\mathrm{book}}$.
+    \item \textbf{Descriptive Classification Discipline:} Newly invented arbitrary percentage thresholds are rejected in favor of descriptive physical classifications: \texttt{STABLE} (variations within discretization truncation and roundoff limits), \texttt{TEMPORALLY\_SENSITIVE} (meaningful physical sensitivity to incrementation), or \texttt{NOT\_YET\_QUALIFIED} (pending completion).
 \end{itemize}
 
 \subsection{Preflight Verification and Qualification Summary}
@@ -1274,12 +1291,12 @@ To ensure unbiased evaluation, the comparison protocol is frozen before executio
 
 The Package~26 candidate has been verified through a multi-tier preflight process:
 \begin{enumerate}
-    \item \textbf{Deck-Diff Containment Proof:} Programmatic comparison between \texttt{PK\_MODE1\_STAGE14\_ADAPT\_14K\_FRACTURE.inp} (Pkg~25) and \texttt{PK\_MODE1\_STAGE14\_ADAPT\_14K\_TEMPORAL\_2X.inp} (Pkg~26) confirms exact bitwise invariance across all $14{,}456$ nodes, $14{,}483$ underlying finite elements ($43{,}449$ layered elements), UEL property ABI order \texttt{(0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 14483.0)}, boundary conditions, and output requests, with strictly $4$ lines modified for time incrementation.
-    \item \textbf{Automated Unit Test Suite (\texttt{test\_stage14ur\_temporal\_convergence\_preflight.py}):} $7/7$ unit tests pass with $100\%$ success locally and on the cluster, with the entire Stage-14 test suite ($23/23$ tests) passing cleanly.
-    \item \textbf{Cluster Abaqus Datacheck (\texttt{PK\_M1\_14K\_TEMPORAL\_2X\_DATACHECK.inp}):} Intel Fortran 2021.13.0 compilation and GNU linking of \texttt{f42\_mixed\_uel.for} with Abaqus~2023 completed with Exit Code~0, confirming zero input syntax or subroutine linking errors.
+    \item \textbf{Deck-Diff Containment Proof:} Programmatic comparison between \texttt{PK\_MODE1\_STAGE14\_ADAPT\_14K\_FRACTURE.inp} (Pkg~25) and \texttt{PK\_MODE1\_STAGE14\_ADAPT\_14K\_TEMPORAL\_2X.inp} (Pkg~26) confirms exact bitwise invariance across all nodes, elements, boundary conditions, and output requests, with strictly $4$ lines modified for time incrementation.
+    \item \textbf{Automated Unit Test Suite (\texttt{test\_stage14ur\_temporal\_convergence\_preflight.py}):} $8/8$ unit tests pass with $100\%$ success locally and on the cluster, with the entire Stage-14 test suite ($24/24$ tests) passing cleanly.
+    \item \textbf{Cluster Abaqus Datacheck (\texttt{PK\_M1\_14K\_TEMPORAL\_2X\_DATACHECK.inp}):} Intel Fortran 2021.13.0 compilation and GNU linking of \texttt{f42\_mixed\_uel.for} with Abaqus~2023 completed with Exit Code~0 (0 errors, 16 standard informational warnings, CPU time $0.84\,\mathrm{s}$).
 \end{enumerate}
 
 The formal status of the temporal convergence candidate is recorded as:
 \begin{center}
-{\footnotesize\textbf{\texttt{TEMPORAL\_CONVERGENCE\_CANDIDATE\_VALIDATED\_\_BASELINE\_TERMINAL\_QUALIFICATION\_PENDING}}}.
+{\footnotesize\textbf{\texttt{TEMPORAL\_CONVERGENCE\_CANDIDATE\_VALIDATED\_\_SOURCE\_AND\_PROTOCOL\_CORRECTED\_\_BASELINE\_TERMINAL\_PENDING}}}.
 \end{center}

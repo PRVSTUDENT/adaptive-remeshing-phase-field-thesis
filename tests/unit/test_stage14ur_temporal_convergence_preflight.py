@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Unit test suite for Gate-6B Mode-I Stage 14U-R:
-Temporal-Convergence Protocol Freeze and Refined Candidate Preflight.
+Unit test suite for Gate-6B Mode-I Stage 14U-R/S:
+Temporal-Convergence Protocol Freeze, Source-Identity Audit, and Refined Candidate Preflight.
 
 Verifies:
 1. Exact line-by-line mesh, node, element, and equation invariance between Package 25 and Package 26.
@@ -11,7 +11,8 @@ Verifies:
 5. Exact deck-diff containment proof (strictly 4 modified lines between Package 25 and 26 solve decks).
 6. Datacheck deck structure (INC=1 for rapid cluster verification).
 7. Package manifest integrity, file hash validity, and execution-guard boundary.
-8. Bit-identical UEL Fortran subroutine and notification helper presence.
+8. Bit-identical UEL Fortran subroutine (SHA-256 CE8D5EDC...) and notification helper presence.
+9. Canonical N=400 K0 grid sampling rule and descriptive classification scheme in protocol reports.
 """
 
 import os
@@ -39,6 +40,7 @@ class TestStage14URTemporalConvergencePreflight(unittest.TestCase):
         self.pkg26_manifest = os.path.join(PKG26_DIR, "PACKAGE_MANIFEST.json")
         self.pkg26_uel = os.path.join(PKG26_DIR, "f42_mixed_uel.for")
         self.pkg26_notify = os.path.join(PKG26_DIR, "job_notifications.sh")
+        self.pkg26_report_json = os.path.join(PKG26_DIR, "MODE1_STAGE14UR_TEMPORAL_CONVERGENCE_PROTOCOL_REPORT.json")
 
         self.assertTrue(os.path.isfile(self.pkg25_deck), f"Missing {self.pkg25_deck}")
         self.assertTrue(os.path.isfile(self.pkg26_deck), f"Missing {self.pkg26_deck}")
@@ -46,6 +48,7 @@ class TestStage14URTemporalConvergencePreflight(unittest.TestCase):
         self.assertTrue(os.path.isfile(self.pkg26_manifest), f"Missing {self.pkg26_manifest}")
         self.assertTrue(os.path.isfile(self.pkg26_uel), f"Missing {self.pkg26_uel}")
         self.assertTrue(os.path.isfile(self.pkg26_notify), f"Missing {self.pkg26_notify}")
+        self.assertTrue(os.path.isfile(self.pkg26_report_json), f"Missing {self.pkg26_report_json}")
 
     def test_01_deck_diff_line_by_line_invariance(self):
         """Verify that ONLY the temporal discretization lines differ between Package 25 and 26."""
@@ -186,10 +189,47 @@ class TestStage14URTemporalConvergencePreflight(unittest.TestCase):
             self.assertEqual(actual_sha, info["sha256"], f"SHA256 mismatch for {filename}: {actual_sha} vs {info['sha256']}")
 
     def test_07_fortran_subroutine_identity(self):
-        """Verify UEL Fortran subroutine is bit-identical between Package 25 and Package 26."""
+        """Verify UEL Fortran subroutine is bit-identical between Package 25 and Package 26 (SHA-256 CE8D5EDC...)."""
+        expected_sha = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
         sha25 = get_sha256(os.path.join(PKG25_DIR, "f42_mixed_uel.for"))
         sha26 = get_sha256(self.pkg26_uel)
+        self.assertEqual(sha25, expected_sha, f"Package 25 subroutine hash mismatch: {sha25}")
+        self.assertEqual(sha26, expected_sha, f"Package 26 subroutine hash mismatch: {sha26}")
         self.assertEqual(sha25, sha26, "Subroutine f42_mixed_uel.for must be bit-identical across packages")
+
+    def test_08_canonical_k0_sampling_and_classification_scheme(self):
+        """Verify protocol report specifies canonical N=400 K0 sampling and descriptive classifications."""
+        with open(self.pkg26_report_json, "r", encoding="utf-8") as f:
+            rep = json.load(f)
+
+        metrics = {m["name"]: m for m in rep["predeclared_comparison_protocol"]["comparison_metrics"]}
+        self.assertIn("Global Structural Stiffness K0", metrics)
+        k0_metric = metrics["Global Structural Stiffness K0"]
+
+        # Ensure canonical N=400 sampling rule
+        self.assertIn("N=400", k0_metric["evaluation_rule"])
+        self.assertNotIn("N=800", k0_metric["evaluation_rule"])
+        self.assertIn("400-point grid", k0_metric["evaluation_rule"])
+
+        # Ensure descriptive classification scheme without newly invented percentage thresholds
+        physical_metrics = [
+            "Global Structural Stiffness K0",
+            "Peak Reaction Force F_max",
+            "Displacement at Peak Load u_peak",
+            "Pointwise Force at 10 Matched States",
+            "Continuous Spatial Ligament Damage Profile d(x, y=0.5 mm)",
+            "Crack Tip Position x_tip",
+            "Energy Balance Integrals"
+        ]
+        for m_name in physical_metrics:
+            self.assertIn(m_name, metrics, f"Missing metric {m_name}")
+            m_data = metrics[m_name]
+            self.assertIn("classification_scheme", m_data, f"Metric {m_name} missing classification_scheme")
+            self.assertNotIn("<= 1.0%", m_data["classification_scheme"])
+            self.assertNotIn("<= 3.0%", m_data["classification_scheme"])
+            self.assertIn("STABLE", m_data["classification_scheme"])
+            self.assertIn("TEMPORALLY_SENSITIVE", m_data["classification_scheme"])
+            self.assertIn("NOT_YET_QUALIFIED", m_data["classification_scheme"])
 
 if __name__ == "__main__":
     unittest.main()

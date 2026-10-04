@@ -1,9 +1,9 @@
 {
-  "task_id": "F1201-GATE6B-STAGE14UR-TEMPORAL-CONVERGENCE-PROTOCOL-AND-PREFLIGHT-20261004",
+  "task_id": "F1202-GATE6B-STAGE14US-TEMPORAL-PROTOCOL-CORRECTION-AND-SOURCE-IDENTITY-AUDIT-20261004",
   "report_name": "MODE1_STAGE14UR_TEMPORAL_CONVERGENCE_PROTOCOL_REPORT",
-  "generated_at": "2026-10-04T13:00:00+02:00",
+  "generated_at": "2026-10-04T13:15:00+02:00",
   "agent": "gemini-antigravity",
-  "governing_verdict": "TEMPORAL_CONVERGENCE_CANDIDATE_VALIDATED__BASELINE_TERMINAL_QUALIFICATION_PENDING",
+  "governing_verdict": "TEMPORAL_CONVERGENCE_CANDIDATE_VALIDATED__SOURCE_AND_PROTOCOL_CORRECTED__BASELINE_TERMINAL_PENDING",
   "supporting_verdicts": [
     "STAGE14V_EVALUATOR_CERTIFIED__COMPLETION_RUN_PENDING",
     "COMPLETION_CONTROL_PARITY_CONFIRMED_OVER_REACHED_RANGE",
@@ -11,7 +11,7 @@
     "STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED",
     "TOWARD_TARGET_LOCALIZATION"
   ],
-  "scientific_objective": "Establish a rigorous, frozen, pre-declared protocol and preflight-validated execution package for 2x temporal refinement (Step 1: dt=2.5e-4, du=1.25 nm; Step 2: dt=1.0e-4, du=0.50 nm) on the qualified 14,483-element adaptive mesh, while leaving running baseline solver Job 1409982 untouched.",
+  "scientific_objective": "Establish a rigorous, frozen, pre-declared protocol and preflight-validated execution package for 2x temporal refinement (Step 1: dt=2.5e-4, du=1.25 nm; Step 2: dt=1.0e-4, du=0.50 nm) on the qualified 14,483-element adaptive mesh, with canonical N=400 K0 grid sampling, descriptive physical classifications, and bitwise source identity with authoritative Stage-14 production subroutine, while leaving running baseline solver Job 1409982 untouched.",
   "active_solver_baseline": {
     "job_id": "1409982.mmaster02",
     "job_name": "PK_M1_ADAPT_14K_FRACTURE",
@@ -68,6 +68,19 @@
       "time_incrementation_controls": "4, 10, 9, 20, 10, 4, 0, 10"
     }
   },
+  "subroutine_source_audit": {
+    "source_file": "f42_mixed_uel.for",
+    "authoritative_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "byte_count": 29722,
+    "line_count": 908,
+    "line_ending": "LF",
+    "package25_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "package26_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "cluster_package25_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "cluster_package26_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "historical_alias_5cd_origin": "Older Gate-6B pre-Stage-14 version (29,401 bytes, 902 lines) lacking GETOUTDIR path-resolution integration; superseded in Stage 14 by CE8D5EDC... with CALL GETOUTDIR(OUTDIR_STR, L_OUTDIR) for safe cluster-side uel_energy_balance.csv routing.",
+    "identity_verdict": "SOURCE_BITWISE_IDENTICAL_TO_GOVERNED_STAGE14_PRODUCTION"
+  },
   "controlled_invariances": {
     "mesh_node_count": 14456,
     "underlying_finite_elements": 14483,
@@ -100,54 +113,54 @@
     "comparison_metrics": [
       {
         "name": "Global Structural Stiffness K0",
-        "evaluation_rule": "OLS linear regression over initial elastic window u <= 0.0010 mm (N=800 points)",
+        "evaluation_rule": "OLS linear regression over canonical displacement window sampled onto standard 400-point grid (Delta u = 2.50e-6 mm, 0.5*Delta u < u <= 0.0010 + 0.5*Delta u, N=400)",
         "unit": "kN/mm",
         "reference_anchor": 137.945520,
-        "classification_rule": "STABLE if |Delta K0| <= 1.0%, else TEMPORALLY_SENSITIVE"
+        "classification_scheme": "Classified from complete physical evidence as STABLE, TEMPORALLY_SENSITIVE, or NOT_YET_QUALIFIED"
       },
       {
         "name": "Peak Reaction Force F_max",
         "evaluation_rule": "Maximum reaction force over full analysis",
         "unit": "kN",
         "reference_anchor": 0.757778,
-        "classification_rule": "STABLE if |Delta F_max| <= 3.0%, else TEMPORALLY_SENSITIVE"
+        "classification_scheme": "Classified from complete physical evidence as STABLE, TEMPORALLY_SENSITIVE, or NOT_YET_QUALIFIED"
       },
       {
         "name": "Displacement at Peak Load u_peak",
         "evaluation_rule": "Prescribed displacement at maximum reaction force",
         "unit": "mm",
         "reference_anchor": 0.005857,
-        "classification_rule": "STABLE if |Delta u_peak| <= 3.0%, else TEMPORALLY_SENSITIVE"
+        "classification_scheme": "Classified from complete physical evidence as STABLE, TEMPORALLY_SENSITIVE, or NOT_YET_QUALIFIED"
       },
       {
         "name": "Pointwise Force at 10 Matched States",
         "evaluation_rule": "Pointwise force evaluated at u in [0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070, 0.0080, 0.0090, 0.0100] mm",
         "unit": "kN",
-        "classification_rule": "STABLE if pre-peak discrepancies <= 1.0%, softening <= 5.0%"
+        "classification_scheme": "Classified from complete physical evidence as STABLE, TEMPORALLY_SENSITIVE, or NOT_YET_QUALIFIED"
       },
       {
         "name": "Continuous Spatial Ligament Damage Profile d(x, y=0.5 mm)",
         "evaluation_rule": "1001-point uniform spatial grid interpolation x in [0.50, 1.00] mm at matched states",
         "unit": "dimensionless",
-        "classification_rule": "STABLE if continuous relative L2 norm <= 5.0% and max L_inf confined to notch root"
+        "classification_scheme": "Classified from complete physical evidence as STABLE, TEMPORALLY_SENSITIVE, or NOT_YET_QUALIFIED"
       },
       {
         "name": "Crack Tip Position x_tip",
         "evaluation_rule": "Maximum x coordinate along ligament with d >= 0.90",
         "unit": "mm",
-        "classification_rule": "STABLE if broken-state traversal reaches ligament end (x_tip >= 0.998 mm)"
+        "classification_scheme": "Classified from complete physical evidence as STABLE, TEMPORALLY_SENSITIVE, or NOT_YET_QUALIFIED"
       },
       {
         "name": "Energy Balance Integrals",
         "evaluation_rule": "External work W_ext, elastic strain energy E_elas, fracture functional E_frac, residual Delta_book, relative error eps_book",
         "unit": "mJ",
-        "classification_rule": "STABLE if pre-peak eps_book <= 0.01% and broken-state eps_book <= 2.0%"
+        "classification_scheme": "Classified from complete physical evidence as STABLE, TEMPORALLY_SENSITIVE, or NOT_YET_QUALIFIED"
       },
       {
         "name": "Solver Telemetry & Cost",
         "evaluation_rule": "Total increments, total iterations, cutback attempts, CPUT, and walltime",
         "unit": "increments / seconds",
-        "classification_rule": "Documented as computational cost scaling factor"
+        "classification_scheme": "Documented as computational cost scaling factor"
       }
     ]
   },
@@ -158,7 +171,7 @@
     "underlying_elements_verified": 14483,
     "layered_elements_verified": 43449,
     "property_abi_verified": "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 14483.0",
-    "subroutine_sha256": "5CD0D2C015C9EAD91C99D7A744156CC86F5B5EA26473BBED7D6E5515FE30FA46",
+    "subroutine_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "unit_tests_passed": "7/7 passed (100%), 23/23 Stage-14 suite passed (100%)",
     "cluster_abaqus_datacheck": {
       "status": "PASS",
