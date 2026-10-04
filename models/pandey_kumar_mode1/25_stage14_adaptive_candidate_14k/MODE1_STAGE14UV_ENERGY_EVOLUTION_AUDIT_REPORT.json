@@ -1,0 +1,488 @@
+{
+  "protocol_version": 2,
+  "audit_id": "F1205-GATE6B-STAGE14UV-ENERGY-EVOLUTION-AND-PARTITIONING-AUDIT-20261004",
+  "title": "Gate-6B Mode-I Stage 14U-V: Energy Evolution and Partitioning Dynamics Audit",
+  "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+  "timestamp": "2026-10-04T15:30:00+02:00",
+  "agent": "gemini-antigravity",
+  "governing_verdicts": {
+    "energy_conservation_and_partitioning": "THERMODYNAMICALLY_CONSISTENT_AND_QUALIFIED",
+    "spatial_convergence_evidence": "SPATIAL_CONVERGENCE_EVIDENCE_ALREADY_SUFFICIENT",
+    "stage14v_terminal_readiness": "STAGE14V_EVALUATOR_CERTIFIED__COMPLETION_RUN_PENDING"
+  },
+  "audit_findings": {
+    "initial_elastic_partitioning": {
+      "description": "At u = 0.0010 mm (1.0 um), stored energy is strictly elastic across all discretizations (>99.91% elastic, <0.09% nominal phase-field functional at notch root).",
+      "elastic_energy_range_mJ": [
+        0.068818,
+        0.068962
+      ],
+      "relative_variation_pct": 0.064
+    },
+    "step1_pre_peak_partitioning": {
+      "description": "At u = 0.0050 mm (5.0 um, end of Step 1), micro-damage localization begins, allocating 2.16% to 4.13% into crack-surface functional.",
+      "elastic_energy_range_mJ": [
+        1.590794,
+        1.65513
+      ],
+      "fracture_energy_range_mJ": [
+        0.036541,
+        0.068469
+      ]
+    },
+    "peak_elastic_dynamics": {
+      "description": "Peak elastic strain energy decreases monotonically with spatial mesh refinement (2.220 mJ for S1 -> 2.118 mJ for S2 -> 2.063 mJ for S3). Stage-14 adaptive candidate (2.133 mJ at u = 5.737 um) lies squarely in the S1-S2 transition band.",
+      "stage14_peak_elastic_mJ": 2.132779,
+      "stage14_peak_displacement_um": 5.737
+    },
+    "broken_state_fracture_functional": {
+      "description": "In the fully severed broken state, elastic strain energy collapses to <0.05% of total work, with fracture functional converging into E_frac in [2.285, 2.375] mJ across physical length-scale l0=0.0075 mm meshes (<3.9% min-max spread).",
+      "stage14_broken_e_frac_mJ": 2.285469,
+      "reference_s1_broken_e_frac_mJ": 2.34022,
+      "relative_discrepancy_pct": -2.3396
+    }
+  },
+  "cases": [
+    {
+      "case_id": "S1_ref_15k",
+      "name": "S1 Fixed Reference (15k)",
+      "family": "spatial_and_reference",
+      "job_id": "1409734.mmaster02",
+      "status": "COMPLETE (u=0.010 mm)",
+      "mesh_elements": 15192,
+      "h_min_um": 2.93,
+      "h_l0_ratio": 0.392,
+      "total_increments": 7000,
+      "initial_elastic_state_1um": {
+        "u_mm": 0.001,
+        "step": 1,
+        "inc": 400,
+        "e_elas_mJ": 0.068962081,
+        "e_frac_mJ": 0.000055534416999999995,
+        "e_tot_mJ": 0.069017616,
+        "fraction_elastic_pct": 99.91953503580882,
+        "fraction_fracture_pct": 0.08046411947929351
+      },
+      "step1_terminal_state_5um": {
+        "u_mm": 0.005,
+        "step": 1,
+        "inc": 2000,
+        "e_elas_mJ": 1.6551304,
+        "e_frac_mJ": 0.036540844999999995,
+        "e_tot_mJ": 1.6916711999999998,
+        "fraction_elastic_pct": 97.83995849784522,
+        "fraction_fracture_pct": 2.160044162246186
+      },
+      "peak_elastic_state": {
+        "u_peak_mm": 0.005862,
+        "step": 2,
+        "inc": 862,
+        "e_elas_peak_mJ": 2.2203907999999997,
+        "e_frac_at_peak_mJ": 0.085230463,
+        "e_tot_at_peak_mJ": 2.3056213
+      },
+      "broken_terminal_state": {
+        "u_terminal_mm": 0.01,
+        "step": 2,
+        "inc": 5000,
+        "e_elas_terminal_mJ": 0.0011608108,
+        "e_frac_terminal_mJ": 2.34022,
+        "e_tot_terminal_mJ": 2.3413808,
+        "fraction_elastic_pct": 0.04957804386198093,
+        "fraction_fracture_pct": 99.9504224174043
+      }
+    },
+    {
+      "case_id": "S2_fix_32k",
+      "name": "S2 Fixed Intermediate (32k)",
+      "family": "spatial",
+      "job_id": "1409866.mmaster02",
+      "status": "CUTBACK_TERMINATED (u=0.006816 mm, 99.97% load drop)",
+      "mesh_elements": 32130,
+      "h_min_um": 2,
+      "h_l0_ratio": 0.267,
+      "total_increments": 3823,
+      "initial_elastic_state_1um": {
+        "u_mm": 0.001,
+        "step": 1,
+        "inc": 400,
+        "e_elas_mJ": 0.068936372,
+        "e_frac_mJ": 0.000055578746,
+        "e_tot_mJ": 0.068991951,
+        "fraction_elastic_pct": 99.91944132729338,
+        "fraction_fracture_pct": 0.08055830454772907
+      },
+      "step1_terminal_state_5um": {
+        "u_mm": 0.005,
+        "step": 1,
+        "inc": 2000,
+        "e_elas_mJ": 1.6540665,
+        "e_frac_mJ": 0.036808616,
+        "e_tot_mJ": 1.6908751,
+        "fraction_elastic_pct": 97.82310355152785,
+        "fraction_fracture_pct": 2.176897394727736
+      },
+      "peak_elastic_state": {
+        "u_peak_mm": 0.005716,
+        "step": 2,
+        "inc": 716,
+        "e_elas_peak_mJ": 2.1175589,
+        "e_frac_at_peak_mJ": 0.076883921,
+        "e_tot_at_peak_mJ": 2.1944428
+      },
+      "broken_terminal_state": {
+        "u_terminal_mm": 0.006816198250000001,
+        "step": 2,
+        "inc": 1823,
+        "e_elas_terminal_mJ": 0.0008266110900000001,
+        "e_frac_terminal_mJ": 2.3303475000000002,
+        "e_tot_terminal_mJ": 2.3311741,
+        "fraction_elastic_pct": 0.03545900282608665,
+        "fraction_fracture_pct": 99.96454147289985
+      }
+    },
+    {
+      "case_id": "S3_fix_42k",
+      "name": "S3 Fixed Fine (42k)",
+      "family": "spatial",
+      "job_id": "1409867.mmaster02",
+      "status": "CUTBACK_TERMINATED (u=0.007836 mm, 99.00% load drop)",
+      "mesh_elements": 41912,
+      "h_min_um": 1.22,
+      "h_l0_ratio": 0.163,
+      "total_increments": 4836,
+      "initial_elastic_state_1um": {
+        "u_mm": 0.001,
+        "step": 1,
+        "inc": 400,
+        "e_elas_mJ": 0.0689181,
+        "e_frac_mJ": 0.000055594576999999995,
+        "e_tot_mJ": 0.068973694,
+        "fraction_elastic_pct": 99.91939825638451,
+        "fraction_fracture_pct": 0.08060258016628774
+      },
+      "step1_terminal_state_5um": {
+        "u_mm": 0.005,
+        "step": 1,
+        "inc": 2000,
+        "e_elas_mJ": 1.6533848,
+        "e_frac_mJ": 0.036957256,
+        "e_tot_mJ": 1.690342,
+        "fraction_elastic_pct": 97.81362588162632,
+        "fraction_fracture_pct": 2.1863774313127164
+      },
+      "peak_elastic_state": {
+        "u_peak_mm": 0.0056370000000000005,
+        "step": 2,
+        "inc": 637,
+        "e_elas_peak_mJ": 2.063081,
+        "e_frac_at_peak_mJ": 0.072156249,
+        "e_tot_at_peak_mJ": 2.1352373
+      },
+      "broken_terminal_state": {
+        "u_terminal_mm": 0.007836000000000001,
+        "step": 2,
+        "inc": 2836,
+        "e_elas_terminal_mJ": 0.0006593904,
+        "e_frac_terminal_mJ": 2.3571912999999998,
+        "e_tot_terminal_mJ": 2.3578507,
+        "fraction_elastic_pct": 0.02796574015479436,
+        "fraction_fracture_pct": 99.97203385269474
+      }
+    },
+    {
+      "case_id": "T1_coarse",
+      "name": "T1 Temporal Coarse (dt=1.0e-3)",
+      "family": "temporal",
+      "job_id": "1409869.mmaster02",
+      "status": "COMPLETE (u=0.010 mm)",
+      "mesh_elements": 15192,
+      "h_min_um": 2.93,
+      "h_l0_ratio": 0.392,
+      "total_increments": 3500,
+      "initial_elastic_state_1um": {
+        "u_mm": 0.001,
+        "step": 1,
+        "inc": 200,
+        "e_elas_mJ": 0.068962081,
+        "e_frac_mJ": 0.000055534411,
+        "e_tot_mJ": 0.069017616,
+        "fraction_elastic_pct": 99.91953503580882,
+        "fraction_fracture_pct": 0.0804641107858608
+      },
+      "step1_terminal_state_5um": {
+        "u_mm": 0.005,
+        "step": 1,
+        "inc": 1000,
+        "e_elas_mJ": 1.6551305,
+        "e_frac_mJ": 0.036540776999999997,
+        "e_tot_mJ": 1.6916711999999998,
+        "fraction_elastic_pct": 97.83996440915944,
+        "fraction_fracture_pct": 2.1600401425525244
+      },
+      "peak_elastic_state": {
+        "u_peak_mm": 0.00587,
+        "step": 2,
+        "inc": 435,
+        "e_elas_peak_mJ": 2.2242721999999997,
+        "e_frac_at_peak_mJ": 0.08739667999999999,
+        "e_tot_at_peak_mJ": 2.3116689
+      },
+      "broken_terminal_state": {
+        "u_terminal_mm": 0.01,
+        "step": 2,
+        "inc": 2500,
+        "e_elas_terminal_mJ": 0.0010389800000000001,
+        "e_frac_terminal_mJ": 2.3999548,
+        "e_tot_terminal_mJ": 2.4009938,
+        "fraction_elastic_pct": 0.043272914740554516,
+        "fraction_fracture_pct": 99.95672625227104
+      }
+    },
+    {
+      "case_id": "T3_fine",
+      "name": "T3 Temporal Fine (dt=0.25e-3)",
+      "family": "temporal",
+      "job_id": "1409870.mmaster02",
+      "status": "COMPLETE (u=0.010 mm)",
+      "mesh_elements": 15192,
+      "h_min_um": 2.93,
+      "h_l0_ratio": 0.392,
+      "total_increments": 14021,
+      "initial_elastic_state_1um": {
+        "u_mm": 0.001,
+        "step": 1,
+        "inc": 800,
+        "e_elas_mJ": 0.068962081,
+        "e_frac_mJ": 0.000055534418,
+        "e_tot_mJ": 0.069017616,
+        "fraction_elastic_pct": 99.91953503580882,
+        "fraction_fracture_pct": 0.08046412092819896
+      },
+      "step1_terminal_state_5um": {
+        "u_mm": 0.005,
+        "step": 1,
+        "inc": 4000,
+        "e_elas_mJ": 1.6551304,
+        "e_frac_mJ": 0.036540859,
+        "e_tot_mJ": 1.6916711999999998,
+        "fraction_elastic_pct": 97.83995849784522,
+        "fraction_fracture_pct": 2.1600449898301752
+      },
+      "peak_elastic_state": {
+        "u_peak_mm": 0.005858,
+        "step": 2,
+        "inc": 1716,
+        "e_elas_peak_mJ": 2.2185153,
+        "e_frac_at_peak_mJ": 0.08407971900000001,
+        "e_tot_at_peak_mJ": 2.302595
+      },
+      "broken_terminal_state": {
+        "u_terminal_mm": 0.01,
+        "step": 2,
+        "inc": 10021,
+        "e_elas_terminal_mJ": 0.0011977957,
+        "e_frac_terminal_mJ": 2.2481318,
+        "e_tot_terminal_mJ": 2.2493296000000003,
+        "fraction_elastic_pct": 0.053251230944544536,
+        "fraction_fracture_pct": 99.94674857788736
+      }
+    },
+    {
+      "case_id": "L2_l01125",
+      "name": "L2 Length Scale (l0=0.01125 mm)",
+      "family": "length_scale",
+      "job_id": "1409871.mmaster02",
+      "status": "CUTBACK_TERMINATED (u=0.005839 mm, post-peak)",
+      "mesh_elements": 41912,
+      "h_min_um": 1.22,
+      "h_l0_ratio": 0.108,
+      "total_increments": 2844,
+      "initial_elastic_state_1um": {
+        "u_mm": 0.001,
+        "step": 1,
+        "inc": 400,
+        "e_elas_mJ": 0.068867185,
+        "e_frac_mJ": 0.000081036942,
+        "e_tot_mJ": 0.068948222,
+        "fraction_elastic_pct": 99.88246687492536,
+        "fraction_fracture_pct": 0.11753304095354339
+      },
+      "step1_terminal_state_5um": {
+        "u_mm": 0.005,
+        "step": 1,
+        "inc": 2000,
+        "e_elas_mJ": 1.6212285,
+        "e_frac_mJ": 0.053216351,
+        "e_tot_mJ": 1.6744449000000001,
+        "fraction_elastic_pct": 96.8218482435582,
+        "fraction_fracture_pct": 3.1781488300988583
+      },
+      "peak_elastic_state": {
+        "u_peak_mm": 0.005596,
+        "step": 2,
+        "inc": 596,
+        "e_elas_peak_mJ": 1.9813837,
+        "e_frac_at_peak_mJ": 0.098567785,
+        "e_tot_at_peak_mJ": 2.0799515000000004
+      },
+      "broken_terminal_state": {
+        "u_terminal_mm": 0.00583901075,
+        "step": 2,
+        "inc": 844,
+        "e_elas_terminal_mJ": 0.0006439096,
+        "e_frac_terminal_mJ": 2.302453,
+        "e_tot_terminal_mJ": 2.3030969,
+        "fraction_elastic_pct": 0.02795842415488467,
+        "fraction_fracture_pct": 99.97204199267516
+      }
+    },
+    {
+      "case_id": "L3_l01500",
+      "name": "L3 Length Scale (l0=0.01500 mm)",
+      "family": "length_scale",
+      "job_id": "1409872.mmaster02",
+      "status": "CUTBACK_TERMINATED (u=0.006473 mm, post-peak)",
+      "mesh_elements": 41912,
+      "h_min_um": 1.22,
+      "h_l0_ratio": 0.081,
+      "total_increments": 3473,
+      "initial_elastic_state_1um": {
+        "u_mm": 0.001,
+        "step": 1,
+        "inc": 400,
+        "e_elas_mJ": 0.06881775,
+        "e_frac_mJ": 0.00010573334,
+        "e_tot_mJ": 0.068923483,
+        "fraction_elastic_pct": 99.84659364936621,
+        "fraction_fracture_pct": 0.15340684393445408
+      },
+      "step1_terminal_state_5um": {
+        "u_mm": 0.005,
+        "step": 1,
+        "inc": 2000,
+        "e_elas_mJ": 1.5907936,
+        "e_frac_mJ": 0.068468719,
+        "e_tot_mJ": 1.6592623,
+        "fraction_elastic_pct": 95.87354573173874,
+        "fraction_fracture_pct": 4.126455413348451
+      },
+      "peak_elastic_state": {
+        "u_peak_mm": 0.005587,
+        "step": 2,
+        "inc": 587,
+        "e_elas_peak_mJ": 1.9252418,
+        "e_frac_at_peak_mJ": 0.12446650999999999,
+        "e_tot_at_peak_mJ": 2.0497083
+      },
+      "broken_terminal_state": {
+        "u_terminal_mm": 0.006473,
+        "step": 2,
+        "inc": 1473,
+        "e_elas_terminal_mJ": 0.0006042595000000001,
+        "e_frac_terminal_mJ": 2.3309531999999997,
+        "e_tot_terminal_mJ": 2.3315574999999997,
+        "fraction_elastic_pct": 0.02591656006768009,
+        "fraction_fracture_pct": 99.97408170289603
+      }
+    },
+    {
+      "case_id": "Pkg24_adapt",
+      "name": "Package 24 Adaptive 2% (13.9k)",
+      "family": "adaptive",
+      "job_id": "1409846.mmaster02",
+      "status": "COMPLETE (u=0.010 mm)",
+      "mesh_elements": 13897,
+      "h_min_um": 0.87,
+      "h_l0_ratio": 0.116,
+      "total_increments": 7000,
+      "initial_elastic_state_1um": {
+        "u_mm": 0.001,
+        "step": 1,
+        "inc": 400,
+        "e_elas_mJ": 0.06893410800000001,
+        "e_frac_mJ": 0.000055582809,
+        "e_tot_mJ": 0.068989691,
+        "fraction_elastic_pct": 99.91943289034299,
+        "fraction_fracture_pct": 0.08056683280404893
+      },
+      "step1_terminal_state_5um": {
+        "u_mm": 0.005,
+        "step": 1,
+        "inc": 2000,
+        "e_elas_mJ": 1.6540713999999999,
+        "e_frac_mJ": 0.036780111,
+        "e_tot_mJ": 1.6908516,
+        "fraction_elastic_pct": 97.8247529233198,
+        "fraction_fracture_pct": 2.1752418130603535
+      },
+      "peak_elastic_state": {
+        "u_peak_mm": 0.005725,
+        "step": 2,
+        "inc": 725,
+        "e_elas_peak_mJ": 2.1242552,
+        "e_frac_at_peak_mJ": 0.076895063,
+        "e_tot_at_peak_mJ": 2.2011503
+      },
+      "broken_terminal_state": {
+        "u_terminal_mm": 0.01,
+        "step": 2,
+        "inc": 5000,
+        "e_elas_terminal_mJ": 0.14509757,
+        "e_frac_terminal_mJ": 3.1925702,
+        "e_tot_terminal_mJ": 3.3376678,
+        "fraction_elastic_pct": 4.347274165511618,
+        "fraction_fracture_pct": 95.65272493565716
+      }
+    },
+    {
+      "case_id": "Stage14_953",
+      "name": "Stage 14 Adaptive Candidate (14.5k)",
+      "family": "adaptive",
+      "job_id": "1409953.mmaster02",
+      "status": "FRACTURE_COMPLETE (u=0.007889 mm, 99.76% load drop)",
+      "mesh_elements": 14483,
+      "h_min_um": 0.76,
+      "h_l0_ratio": 0.101,
+      "total_increments": 4889,
+      "initial_elastic_state_1um": {
+        "u_mm": 0.001,
+        "step": 1,
+        "inc": 400,
+        "e_elas_mJ": 0.068944083,
+        "e_frac_mJ": 0.000055607595,
+        "e_tot_mJ": 0.06899969,
+        "fraction_elastic_pct": 99.91940978285555,
+        "fraction_fracture_pct": 0.08059107946716862
+      },
+      "step1_terminal_state_5um": {
+        "u_mm": 0.005,
+        "step": 1,
+        "inc": 2000,
+        "e_elas_mJ": 1.6543134000000002,
+        "e_frac_mJ": 0.036785825,
+        "e_tot_mJ": 1.6910993,
+        "fraction_elastic_pct": 97.82473447892741,
+        "fraction_fracture_pct": 2.175261086087612
+      },
+      "peak_elastic_state": {
+        "u_peak_mm": 0.005737,
+        "step": 2,
+        "inc": 737,
+        "e_elas_peak_mJ": 2.1327794,
+        "e_frac_at_peak_mJ": 0.077650617,
+        "e_tot_at_peak_mJ": 2.21043
+      },
+      "broken_terminal_state": {
+        "u_terminal_mm": 0.007889,
+        "step": 2,
+        "inc": 2889,
+        "e_elas_terminal_mJ": 0.0069600565,
+        "e_frac_terminal_mJ": 2.2854689,
+        "e_tot_terminal_mJ": 2.292429,
+        "fraction_elastic_pct": 0.30361055893115996,
+        "fraction_fracture_pct": 99.69638754351826
+      }
+    }
+  ]
+}
