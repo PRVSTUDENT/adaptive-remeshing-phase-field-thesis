@@ -1,0 +1,60 @@
+{
+  "task_id": "F1213-GATE6B-STAGE14UAD-4THREAD-PARITY-AND-TELEMETRY-CORRECTION-20261004",
+  "audit_timestamp": "2026-10-04T13:32:00.000Z",
+  "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "governing_gate": "Gate 6B (Stage 14U-AD)",
+  "verdict": "THREAD_PARITY_PASS_OVER_REACHED_RANGE",
+  "telemetry_correction": {
+    "step1_loading_schedule": "u(t) = 0.0050 * t_step for t_step in [0.0, 1.0]",
+    "step2_loading_schedule": "u(t) = 0.0050 + (0.0100 - 0.0050) * t_step = 0.0050 + 0.0050 * t_step for t_step in [0.0, 1.0]",
+    "verified_step2_t0394_displacement_mm": 0.006970,
+    "verified_step2_t0394_displacement_um": 6.970,
+    "purged_erroneous_value_mm": 0.004540,
+    "status": "CORRECTED_AND_RECONCILED_DOMAIN_WIDE"
+  },
+  "qualification_package": {
+    "package_name": "26_stage14_adaptive_candidate_14k_4thread",
+    "job_name": "PK_M1_14K_4T",
+    "pbs_job_id": "1410006.mmaster02",
+    "queue": "normal_imfdfkmq (routed from entry_imfdfkmq)",
+    "exec_host": "mnode097/1*4",
+    "allocated_cpus": 4,
+    "allocated_memory": "16GB",
+    "solver_invocation": "abaqus job=PK_M1_14K_4T_STAGE_A user=f42_mixed_uel.for input=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp cpus=4 mp_mode=threads memory=16gb double=both interactive",
+    "execution_architecture": "1 MPI rank x 4 shared-memory threads (THREADS mode confirmed in .com, 0 distributed MPI processes)",
+    "input_deck_sha256": "26d873fb2e68055c80550d1dd981766bcaf46e13d3d0a7ba6411b63d9c382d35",
+    "fortran_subroutine_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "subroutine_thread_safety_status": "THREAD_SAFETY_UNVERIFIED",
+    "qualification_stage": "Stage A (Serial-vs-Threaded Parity)",
+    "subsequent_requirement": "Stage B (Independent Repeated 4-Thread Determinism Pass required before THREAD_PARALLELIZATION_QUALIFIED)"
+  },
+  "parity_audit_summary": {
+    "reference_serial_job_id": "1409982.mmaster02",
+    "common_increments_evaluated": 246,
+    "max_abs_reaction_force_discrepancy_kn": 0.0,
+    "max_rel_reaction_force_discrepancy_pct": 0.0,
+    "max_abs_elastic_energy_discrepancy_mj": 0.0,
+    "max_abs_fracture_energy_discrepancy_mj": 0.0,
+    "cutback_count_serial": 0,
+    "cutback_count_4thread": 0,
+    "newton_iterations_per_increment": 3
+  },
+  "epistemic_classification": {
+    "SOURCE_VERIFIED": [
+      "Exact 14,483 base element mesh topology and 43,449 3-layer UEL/UMAT element reconstruction",
+      "Exact Step 1 and Step 2 loading schedule formulas in PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+      "PBS execution environment and 4-core node allocation on mnode097",
+      "Abaqus THREADS mp_mode execution telemetry from PK_M1_14K_4T_STAGE_A.com"
+    ],
+    "NUMERICALLY_VERIFIED": [
+      "Bitwise identical reaction force RF2 values across all common reached increments",
+      "Bitwise identical elastic strain energy E_elas values across all common reached increments",
+      "Bitwise identical crack-surface functional E_frac values across all common reached increments",
+      "Identical 3 Newton-Raphson iterations per increment with zero cutbacks",
+      "Displacement correction u(t_step=0.394) = 6.970 um confirmed directly from Node 999999 U2 output"
+    ],
+    "UNRESOLVED_INTERNAL_ABAQUS_DETAIL": [
+      "Subroutine thread-safety across post-peak softening regime (pending full Stage-A completion and Stage-B repeat)"
+    ]
+  }
+}

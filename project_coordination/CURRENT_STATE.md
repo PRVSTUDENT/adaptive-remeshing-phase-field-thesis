@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-04T19:45:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14U-AC: Native Remesh Provenance Closure, ODB Field Equivalence Audit, and Causal Discipline completed; Active solver Job 1409982.mmaster02 (PK_M1_ADAPT_14K_FRACTURE) left running untouched on compute node mnode097 (Time Use: 03:40:23, state R); Stage-14 native-remesh provenance chain fully closed from pre-analysis source PK_M1_JOB1_INF_COMPANION_2906.inp (INTERACTIVE_93) and companion UMAT f42_mixed_uel_inf_stress.for (472CA0C5...) to native deck PK_M1_STAGE14_STEP2_ALLINC.inp (13E0925D...) and 3-layer reconstructed deck PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp (26D873FB...); 32-byte ODB container difference (local dbfad35f... vs cluster c35987f3...) resolved by content-level field equivalence (nodes, elements, steps, frames, and element MISESERI identical within machine precision <= 3.31e-24, governing verdict: STAGE14_NATIVE_REMESH_PROVENANCE_CLOSED_BY_FIELD_EQUIVALENCE); Native mesh topology verified (14,456 nodes, 14,483 elements, 0 inverted, 54 seam duplicate pairs, 1 crack tip singleton) and 100% bijective 1-to-1 mapping across 3 layers (43,449 elements) verified; Causal attribution for peak offset vs solver controls corrected; Epistemic classification established (SOURCE_VERIFIED, NUMERICALLY_VERIFIED, UNRESOLVED_INTERNAL_ABAQUS_DETAIL); Unit tests pass 100% (8/8 Stage 14U-AC, 15/15 combined); Thesis Chapter 4 updated with Section 4.24, Table 4.18, and Table 4.19; main.pdf compiled cleanly (100 pages, 0 errors, 0 undefined citations, SHA-256 8C5930DA...).
-Parent commit: `ad9b45025b59b7f14151fabc9f33d390ba553993`
+Last updated: `2026-10-04T20:45:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14U-AD: 4-Thread Shared-Memory Stage-A Parity Qualification and Displacement Ramp Schedule Verification concluded; Active serial solver Job 1409982.mmaster02 (PK_M1_ADAPT_14K_FRACTURE) left running untouched on compute node mnode097 (Time Use: 04:05:54, state R, Step 2 Inc 2288+, u = 0.007288 mm); 4-thread candidate Job 1410006.mmaster02 (PK_M1_14K_4T) submitted and verified on mnode097 (exec_host = mnode097/1*4, cpus=4, mp_mode=threads, 0 MPI ranks, Time Use: 00:23:29, state R, Step 1 Inc 428+, u = 0.001070 mm); Step 2 two-step loading schedule reconciled u(t2) = 0.0050 + 0.0050*t2 and prior manual conversion estimate (0.00454 mm) purged; 100% bitwise parity confirmed against serial reference over 354+ common increments (|dF| = 0.0 kN, |dE_elas| = 0.0 mJ, |dE_frac| = 0.0 mJ); Governing verdict assigned: THREAD_PARITY_PASS_OVER_REACHED_RANGE; Unit tests pass 100% (6/6 Stage 14U-AD, 97/97 full Stage-14 suite); Thesis Chapter 4 updated with Section 4.25 and main.pdf compiled cleanly (103 pages, 0 errors, 0 undefined citations, SHA-256 E8EF9CA6...).
+Parent commit: `14ff8b5267787b7c24da24d9dab34d58d18a5d08`
 
 ---
 
@@ -181,6 +181,25 @@ Parent commit: `ad9b45025b59b7f14151fabc9f33d390ba553993`
     - Authored unit test suite `test_stage14uac_native_remesh_provenance.py` (8/8 pass, 15/15 combined Stage 14U-AB and 14U-AC pass 100%).
     - Updated Thesis Chapter 4 with Section 4.24, Table 4.18, and Table 4.19; compiled `main.pdf` cleanly (100 pages, 0 errors, 0 undefined citations, SHA-256 `8C5930DA6572B148BCA920709EBFFFFD72606D83ED39C2DB58E585C2CB76540D`).
     - Verified active solver Job `1409982.mmaster02` running untouched on `mnode097` (Time Use: 03:40:23).
+  - **Stage 14U-AD (4-Thread Shared-Memory Stage-A Parity Qualification & Displacement Ramp Schedule Verification) Completed (`MODE1_STAGE14UAD_4THREAD_PARITY_REPORT.md` and `.json`):**
+    - Identified and documented the exact two-step displacement ramp in `PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp`:
+      * Step 1: $u(t_1) = 0.0050 \times t_1$ for $t_1 \in [0.0, 1.0]$ (2,000 increments, $\Delta t_1 = 0.0005$);
+      * Step 2: $u(t_2) = 0.0050 + 0.0050 \times t_2$ for $t_2 \in [0.0, 1.0]$ (5,000 increments, $\Delta t_2 = 0.0002$).
+    - Verified that at Step 2 $t_2 = 0.3940$, true displacement is $u = 0.006970\,\text{mm} = 6.970\,\mu\text{m}$ (purged erroneous manual estimate $0.00454\,\text{mm}$).
+    - Packaged `26_stage14_adaptive_candidate_14k_4thread` with exact byte-identical copies of input deck (SHA-256 `26D873FB...`) and Fortran subroutine (SHA-256 `CE8D5EDC...`).
+    - Abaqus Datacheck executed on cluster with 4 threads (Exit 0, 0 errors).
+    - Submitted 4-thread qualification job `PK_M1_14K_4T` (PBS Job ID `1410006.mmaster02`, node `mnode097/1*4`).
+    - Verified execution telemetry: single-node shared-memory threading (`cpus=4`, `mp_mode=threads`, 0 MPI ranks).
+    - Evaluated Stage-A parity against serial reference `1409982.mmaster02` over 354+ common increments:
+      * Reaction force discrepancy: $|\Delta F|_{\max} = 0.00000000\,\text{kN}$ (100% bitwise parity);
+      * Elastic energy discrepancy: $|\Delta E_{\text{elas}}|_{\max} = 0.000000\,\text{mJ}$;
+      * Fracture functional discrepancy: $|\Delta E_{\text{frac}}|_{\max} = 0.000000\,\text{mJ}$;
+      * 3 iterations/increment, 0 cutbacks across all reached states.
+    - Assigned governing verdict: `THREAD_PARITY_PASS_OVER_REACHED_RANGE`.
+    - Preserved serial reference `1409982.mmaster02` running untouched on compute node `mnode097` (solving Step 2 Inc 2288+, $u = 0.007288\,\text{mm}$).
+    - Authored unit test suite `test_stage14uad_4thread_parity.py` (6/6 pass 100%, 97/97 full Stage-14 suite pass).
+    - Generated publication figures `fig_mode1_stage14uad_4thread_parity.pdf` and `.png`.
+    - Updated Thesis Chapter 4 with Section 4.25 and compiled `main.pdf` cleanly (103 pages, 0 errors, 0 undefined citations, SHA-256 `E8EF9CA6348219455453DB703C2E2F5759BDF901C9C3E87C014CA3F5A3A706B2`).
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
 ---
@@ -189,7 +208,8 @@ Parent commit: `ad9b45025b59b7f14151fabc9f33d390ba553993`
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| `1409982.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` (Solving) | Stage 14U completion full fracture solve with Step 2 solver controls (14,483 elements, I_A=10, I_C=20, actively solving on mnode097, Inc 1198+, u=0.0062 mm, 0 cutbacks, peak parity confirmed) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
+| `1409982.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` (Solving) | Stage 14U completion full fracture solve with Step 2 solver controls (14,483 elements, I_A=10, I_C=20, actively solving on mnode097, Step 2 Inc 2288+, u=0.00729 mm, 0 cutbacks, peak parity confirmed) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
+| `1410006.mmaster02` | `PK_M1_14K_4T` | `normal_imfdfkmq` | 4-Thread Shared-Memory | `R` (Solving) | Stage 14U-AD 4-thread parity qualification Stage-A solve (14,483 elements, cpus=4 mp_mode=threads, 0 MPI ranks, actively solving on mnode097, Step 1 Inc 428+, u=0.00107 mm, 0 cutbacks, bitwise parity confirmed) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
 | `1409953.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | Corrected Stage 14 Adaptive full fracture solve (14,483 elements, f42 ABI aligned, terminal u=0.007889 mm, 4,890 incs, 99.76% load drop, xtip=0.9985 mm, K0, Fmax, Efrac qualified STABLE) | `A1288CE9D7EFD67F5C87C12C2B61884CE7CB94901B566E9FE0130ABE1875797D` |
 | `1409947.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Cancelled) | Invalidated initial Stage 14 solve (Molnar property order ABI mismatch, archived) | `3EFBA9682C3EB31E99C233192007246E995BD8182411E51E6A6B74166873D7C1` |
 | `INTERACTIVE_98` | `PK_M1_JOB1_NONUNIFORM_DIAG` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform 3-layer UEL infinitesimal companion solve (3,019 elements, audited) | `EA3505F6D573F361D4FEFB9C0211C1EC566EB80225EDBA30D6FBC618ACFB19F3` |

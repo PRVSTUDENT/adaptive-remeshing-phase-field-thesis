@@ -2054,3 +2054,72 @@ In earlier analyses, the peak reaction force offset between the adaptive candida
 This rigorous boundary respects the exact empirical evidence and prevents unverified causal overreach in thesis conclusions.
 
 
+
+
+\section{Stage 14U-AD: 4-Thread Shared-Memory Parity Qualification and Displacement Schedule Verification}
+\label{sec:stage14uad_4thread_parity}
+
+To establish a verified baseline for accelerating future multi-mesh and parameter-scaling simulations on high-performance computing resources, Stage~14U-AD addresses two core objectives:
+\begin{enumerate}
+  \item \textbf{Displacement Schedule and Live Telemetry Verification:} Resolving an inconsistency in earlier manual displacement estimations by documenting the exact two-step loading schedule and validating against direct node output telemetry;
+  \item \textbf{4-Thread Shared-Memory Stage-A Parity Qualification:} Systematically qualifying a 4-thread shared-memory execution candidate (\texttt{PK\_M1\_14K\_4T}, Job ID \texttt{1410006.mmaster02}) against the authoritative serial 1-CPU reference (\texttt{PK\_M1\_ADAPT\_14K\_FRACTURE}, Job ID \texttt{1409982.mmaster02}).
+\end{enumerate}
+
+\subsection{Governed Loading Schedule and Telemetry Reconciliation}
+\label{subsec:stage14uad_loading_schedule}
+
+The authoritative solve deck \texttt{PK\_MODE1\_STAGE14\_ADAPT\_14K\_FRACTURE.inp} applies monotonic Mode-I tensile loading via a Reference Point (\texttt{N\_RP}, node 999999) coupled to the top boundary (\texttt{N\_TOP}) across two distinct analysis steps:
+\begin{enumerate}
+  \item \textbf{Step 1 (Pre-Peak Elastic Loading):} Prescribes $u_y = 0.0050\,\mathrm{mm}$ ($5.0\,\mu\mathrm{m}$) over step pseudo-time $t_1 = 1.0$ using 2,000 fixed increments ($\Delta t_1 = 0.0005$):
+  \begin{equation}
+    u(t_1) = 0.0050 \times t_1 \quad (\text{for } 0 \le t_1 \le 1.0)
+    \label{eq:stage14uad_step1_ramp}
+  \end{equation}
+  \item \textbf{Step 2 (Fracture Propagation and Softening):} Prescribes $u_y = 0.0100\,\mathrm{mm}$ ($10.0\,\mu\mathrm{m}$) over step pseudo-time $t_2 = 1.0$ using 5,000 initial increments ($\Delta t_2 = 0.0002$):
+  \begin{equation}
+    u(t_2) = 0.0050 + (0.0100 - 0.0050) \times t_2 = 0.0050 + 0.0050 \times t_2 \quad (\text{for } 0 \le t_2 \le 1.0)
+    \label{eq:stage14uad_step2_ramp}
+  \end{equation}
+\end{enumerate}
+
+\paragraph{Reconciliation of Earlier Manual Estimate.}
+In prior live monitoring checkpoints, a manual estimation formula erroneously assumed Step~1 terminated at $u = 0.0010\,\mathrm{mm}$, resulting in an erroneous displacement value of $u \approx 0.00454\,\mathrm{mm}$ at Step~2 $t_2 = 0.3940$. Under the verified governed schedule in Eq.~\eqref{eq:stage14uad_step2_ramp}, the true physical displacement at $t_2 = 0.3940$ is:
+\begin{equation}
+  u = 0.0050 + 0.0050 \times 0.3940 = 0.006970\,\mathrm{mm} = 6.970\,\mu\mathrm{m}
+\end{equation}
+Direct inspection of Abaqus \texttt{.dat} file tables for Node 999999 confirms exact agreement with Eq.~\eqref{eq:stage14uad_step2_ramp}: at $t_2 = 0.4048$ (Increment 2,024), $U_2 = 7.0240 \times 10^{-3}\,\mathrm{mm} = 7.024\,\mu\mathrm{m}$ and reaction force $RF_2 = 2.0521 \times 10^{-3}\,\mathrm{kN}$ in the deep post-peak softening tail (Figure~\ref{fig:stage14uad_4thread_parity}(a)).
+
+\subsection{Execution Architecture and Subroutine Thread-Safety Protocol}
+\label{subsec:stage14uad_architecture}
+
+Because the phase-field UEL formulation in \texttt{f42\_mixed\_uel.for} relies on mutable shared common blocks (\texttt{COMMON /CB\_STATE\_TRANS/}) to exchange trial states between co-located displacement and phase elements, distributed-memory multi-rank MPI execution is strictly unqualified. However, shared-memory multi-threading within a single process is permitted subject to a rigorous two-stage qualification protocol:
+\begin{itemize}
+  \item \textbf{Stage A (Serial-vs-Threaded Parity):} Execution of an exact 4-thread twin ($1\text{ MPI rank} \times 4\text{ threads}$) against the certified 1-CPU serial reference over identical physical states;
+  \item \textbf{Stage B (Independent Determinism Repeat):} Execution of an independent repeat of the 4-thread run to prove deterministic numerical convergence.
+\end{itemize}
+
+The 4-thread candidate was deployed in package \texttt{26\_stage14\_adaptive\_candidate\_14k\_4thread} with execution command:
+\begin{quote}
+  \texttt{abaqus job=PK\_M1\_14K\_4T\_STAGE\_A user=f42\_mixed\_uel.for input=PK\_MODE1\_STAGE14\_ADAPT\_14K\_FRACTURE.inp cpus=4 mp\_mode=threads memory="16gb" double=both interactive}
+\end{quote}
+Startup telemetry inspection of the solver \texttt{.com} driver file confirmed \texttt{'cpus': 4}, \texttt{'mp\_mode': THREADS}, and single-node allocation on \texttt{mnode097/1*4}, proving zero distributed MPI rank proliferation.
+
+\begin{figure}[t!]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig_mode1_stage14uad_4thread_parity.pdf}
+  \caption[Stage 14U-AD 4-thread shared-memory parity and displacement schedule validation]{Stage 14U-AD validation: (a) Prescribed displacement schedule $u(t)$ across Step 1 and Step 2 demonstrating the true $u(t_2=0.394) = 6.97\,\mu\mathrm{m}$ trajectory and correcting the prior erroneous $4.54\,\mu\mathrm{m}$ estimate; (b) Reaction force parity between serial 1-CPU reference (Job 1409982) and 4-thread candidate (Job 1410006) across the common reached elastic loading regime.}
+  \label{fig:stage14uad_4thread_parity}
+\end{figure}
+
+\subsection{Stage-A Numerical Parity Results}
+\label{subsec:stage14uad_parity_results}
+
+A pointwise audit comparing 4-thread Job \texttt{1410006.mmaster02} and serial Job \texttt{1409982.mmaster02} across all common reached increments established:
+\begin{enumerate}
+  \item \textbf{Reaction Force Parity:} Maximum absolute discrepancy $|\Delta F|_{\max} = 0.00000000\,\mathrm{kN}$ (bitwise identical);
+  \item \textbf{Elastic Strain Energy Parity:} Maximum absolute discrepancy $|\Delta E_{\text{elas}}|_{\max} = 0.000000\,\mathrm{mJ}$ (bitwise identical);
+  \item \textbf{Fracture Functional Parity:} Maximum absolute discrepancy $|\Delta E_{\text{frac}}|_{\max} = 0.000000\,\mathrm{mJ}$ (bitwise identical);
+  \item \textbf{Solver Convergence Health:} Exactly 3 Newton--Raphson equilibrium iterations per increment with zero cutbacks.
+\end{enumerate}
+
+Based on these verified metrics, the 4-thread execution candidate is assigned the formal status \texttt{THREAD\_PARITY\_PASS\_OVER\_REACHED\_RANGE}. The serial run \texttt{1409982.mmaster02} continues solving undisturbed as the authoritative 1-CPU completion reference.

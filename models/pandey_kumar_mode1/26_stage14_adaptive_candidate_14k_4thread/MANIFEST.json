@@ -1,0 +1,30 @@
+{
+  "package_name": "26_stage14_adaptive_candidate_14k_4thread",
+  "task_id": "F1213-GATE6B-STAGE14UAD-4THREAD-PARITY-AND-TELEMETRY-CORRECTION-20261004",
+  "created_at": "2026-10-04T13:22:00.000Z",
+  "governing_gate": "Gate 6B (Stage 14U-AD)",
+  "purpose": "Stage-A 4-thread shared-memory parity qualification for Stage-14 Adaptive 14k Fracture Benchmark",
+  "execution_architecture": "1 MPI rank x 4 shared-memory OpenMP/Pthreads threads (cpus=4 mp_mode=threads)",
+  "subroutine_status": "THREAD_SAFETY_UNVERIFIED",
+  "files": {
+    "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp": "26d873fb2e68055c80550d1dd981766bcaf46e13d3d0a7ba6411b63d9c382d35",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_datacheck.pbs": "submit_datacheck.pbs",
+    "submit_solver.pbs": "submit_solver.pbs",
+    "submit_stage14u_4thread_solver.sh": "submit_stage14u_4thread_solver.sh",
+    "PRE_JOB_ANTI_DEVIATION_CARD.md": "PRE_JOB_ANTI_DEVIATION_CARD.md"
+  },
+  "invariances": {
+    "nodes": 14456,
+    "base_elements": 14483,
+    "layered_elements": 43449,
+    "youngs_modulus_gpa": 210.0,
+    "poissons_ratio": 0.3,
+    "fracture_energy_gc_kn_per_mm": 0.0027,
+    "length_scale_l0_mm": 0.0075,
+    "residual_stiffness_k": 1e-7,
+    "step1_loading_schedule": "u=0.0050 mm over 2000 incs (dt=0.0005)",
+    "step2_loading_schedule": "u=0.0100 mm over 5000 incs (dt=0.0002)",
+    "step2_controls": "(I_0=4, I_R=10, I_P=9, I_C=20, I_L=10, I_G=4, I_S=0, I_A=10), dt_min=1e-9"
+  }
+}

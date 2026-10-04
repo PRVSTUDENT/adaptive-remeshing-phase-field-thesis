@@ -1,0 +1,23 @@
+# Pre-Job Anti-Deviation Card: Stage-14U-AD 4-Thread Shared-Memory Qualification
+
+- [x] **Original Proposal Task**: Task 3 / Task 4 (Mode-I Numerical Verification & Execution Performance Qualification)
+- [x] **Active Gate**: Gate 6B (Mode-I Energetic & Multi-Quantity Convergence & Execution Qualification)
+- [x] **Scientific Question**: Can the exact governed Stage-14U completion problem reproduce the authoritative serial response when executed as one shared-memory process with four threads (`1 MPI rank x 4 threads`)?
+- [x] **Single Intended Change**: Execution architecture change ONLY: 1 CPU serial -> 1 MPI process x 4 shared-memory threads (`cpus=4 mp_mode=threads`).
+- [x] **Frozen Elements**:
+  - Mesh: 14,483 finite elements (43,449 3-layer elements), 14,456 nodes
+  - Zero-gap seam with 54 duplicated node pairs
+  - Boundary conditions: roller on bottom, pinned point, RP coupling on top
+  - Material constants: E = 210 GPa, nu = 0.3, Gc = 0.0027 kN/mm, l0 = 0.0075 mm, k = 1e-7
+  - User subroutine: f42_mixed_uel.for (SHA-256 `CE8D5EDC...`, 6-slot ABI)
+  - Solver controls: Step 2 *CONTROLS with I_A=10, I_C=20, dt_min=1e-9
+  - Loading schedule: Step 1 to u=0.0050 mm (2000 incs), Step 2 to u=0.0100 mm (5000 incs)
+- [x] **Primary Outputs & Pre-Declared Acceptance Criteria**:
+  - Verification of 1 MPI process x 4 shared-memory threads in execution telemetry (reject multi-rank MPI)
+  - Complete F-u parity over reached range vs authoritative serial 1409982
+  - Initial structural stiffness K0 parity (N=400)
+  - Peak reaction force F_max and peak displacement u(F_max) parity
+  - Energy quantities (E_elas, E_frac, W_ext) parity
+  - Iteration count and increment history comparison
+- [x] **Subroutine Status**: `THREAD_SAFETY_UNVERIFIED` (Treated strictly as a qualification experiment due to mutable `COMMON /CB_STATE_TRANS/`)
+- [x] **Deterministic Progression**: Stage A (4-thread vs serial twin parity) -> Stage B (repeated 4-thread determinism).
