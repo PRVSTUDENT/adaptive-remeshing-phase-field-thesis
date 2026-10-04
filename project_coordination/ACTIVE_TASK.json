@@ -1,17 +1,17 @@
 {
-  "task_id": "F1198-GATE6B-STAGE14U-COMPLETION-JOB-EXECUTION-AND-QUALIFICATION-20261004",
-  "task_name": "Gate-6B Mode-I Stage 14U: Validated Completion-Run Preparation, Solver-Control Correction, and Immediate Submission",
+  "task_id": "F1199-GATE6B-STAGE14UP-CONTROL-PARITY-AND-FAILURE-CROSSING-AUDIT-20261004",
+  "task_name": "Gate-6B Mode-I Stage 14U-P: Completion-Run Control-Parity and Prior-Failure-Crossing Audit",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "claimed_at": "2026-10-04T11:15:00+02:00",
-  "completed_at": "2026-10-04T11:45:00+02:00",
-  "starting_commit": "c7bf9db146d06739f61fc65fcf88e441d789fa3f",
-  "next_task_id": "F1199-GATE6B-STAGE14V-COMPLETION-JOB-TERMINAL-EVALUATION-20261004",
+  "claimed_at": "2026-10-04T11:30:00+02:00",
+  "completed_at": "2026-10-04T12:00:00+02:00",
+  "starting_commit": "6458456aea85a4b21c5d76e1e171b86bd82bfb53",
   "governing_verdicts": [
+    "DETERMINISTIC_CONTROL_PARITY_VERIFIED",
+    "PRE_FAILURE_CONTROL_PARITY_EVALUATED__FAILURE_CROSSING_PENDING",
     "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE",
     "STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED",
-    "TOWARD_TARGET_LOCALIZATION",
-    "STAGE14U_COMPLETION_JOB_SUBMITTED_AND_SOLVING"
+    "TOWARD_TARGET_LOCALIZATION"
   ]
 }

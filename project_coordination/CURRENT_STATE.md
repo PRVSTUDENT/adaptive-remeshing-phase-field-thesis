@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-04T11:45:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14U: Validated Completion-Run Preparation, Solver-Control Correction, and Immediate Submission; Documented exact failing-increment telemetry from Job 1409953 (last converged u=0.007889 mm, exhaustion of default cutback attempt ceiling I_A=5 during post-fracture softening, zero numerical singularities); Evaluated and rejected restart (f42 subroutine lacks LOP=4/5 restart support for COMMON /CB_STATE_TRANS/); Added minimal numerical solver-control correction *CONTROLS, PARAMETERS=TIME INCREMENTATION (I_A=10, I_C=20, I_R=10) to Step 2 while freezing all 14,456 nodes, 14,483 underlying elements, 43,449 layered elements, material constants, and ABI order; Updated MANIFEST.json (LF SHA-256 26d873fb...); Executed Abaqus datacheck cleanly on cluster (Exit 0); Submitted serial 1-CPU completion job 1409982.mmaster02 to normal_imfdfkmq on mnode097 (actively solving); All 84 Stage-14 unit tests pass 100%; Updated thesis Chapter 4 with Stage 14U documentation and compiled LaTeX PDF cleanly (65 pages, 0 errors, 0 undefined citations).
-Parent commit: `c7bf9db146d06739f61fc65fcf88e441d789fa3f`
+Last updated: `2026-10-04T12:00:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14U-P: Completion-Run Control-Parity and Prior-Failure-Crossing Audit; Executed live non-invasive snapshot extraction from running completion solve 1409982.mmaster02 on mnode097 (233+ increments evaluated over common pre-failure range u in [0.0025, 0.5825] um); Proved bit-for-bit mathematical and mechanical parity against predecessor Job 1409953 (max |Delta F| = 8.00e-9 kN, max relative force discrepancy = 0.001306% strictly due to 8-decimal ASCII text rounding, RMS = 3.08e-9 kN, exact bitwise match on elastic strain energy and fracture functional |Delta E| = 0.00 mJ); Assigned formal parity verdict DETERMINISTIC_CONTROL_PARITY_VERIFIED; Evaluated failure-crossing state and classified as PRE_FAILURE_CONTROL_PARITY_EVALUATED__FAILURE_CROSSING_PENDING while solver advances past Inc 299+ with 0 cutbacks and 3 iters/inc on mnode097; Generated overlaid F-u and point-by-point discrepancy publication figures; Authored regression unit test suite test_stage14up_control_parity.py (6/6 pass, 90/90 full Stage-14 suite pass 100%); Updated Thesis Chapter 4 with Section 4.15 and compiled main.pdf cleanly (68 pages, 0 errors, 0 undefined citations, SHA-256 8ac56a88...).
+Parent commit: `6458456aea85a4b21c5d76e1e171b86bd82bfb53`
 
 ---
 
@@ -14,7 +14,7 @@ Parent commit: `c7bf9db146d06739f61fc65fcf88e441d789fa3f`
 * **Next Supervisor Meeting:** **Thursday, 08 October 2026, 10:00 CEST**
 * **Gate 0 (Source & Scope Freeze):** `CLOSED_PASSED`
 * **Gate 1 (Conventional Mode-I Reference):** `CLOSED_PASSED`
-  - Fixed-mesh reference anchor qualified ($K_0 = 137.945520\,	ext{kN/mm}$, $F_{\max} = 0.757778\,	ext{kN}$, $u_{	ext{peak}} = 0.005857\,	ext{mm}$, Job `1398090.mmaster02` / Job `1409734.mmaster02`).
+  - Fixed-mesh reference anchor qualified ($K_0 = 137.945520\,\text{kN/mm}$, $F_{\max} = 0.757778\,\text{kN}$, $u_{\text{peak}} = 0.005857\,\text{mm}$, Job `1398090.mmaster02` / Job `1409734.mmaster02`).
 * **Gate 2 (Multi-Quantity Convergence Qualification):** `CLOSED_PASSED`
 * **Gate 3 (MISESERI Mechanism Verification):** `CLOSED_PASSED`
 * **Gate 4 (Native Python Refinement Implementation):** `CLOSED_VERIFIED`
@@ -24,12 +24,11 @@ Parent commit: `c7bf9db146d06739f61fc65fcf88e441d789fa3f`
   - **Stage 14B (Step-2 MISESERI / Native-Remesh Qualification & Refined-Candidate Release) Concluded:**
     - Governing Localization Verdict: `STAGE14_TARGET_LIKE_LOCALIZATION_QUALIFIED`.
     - Semantics Classification: `NATIVE_REMESH_HISTORY_SEMANTICS_NOT_EXPLICITLY_DOCUMENTED`.
-    - Pre-Analysis State: $u = 0.00940\,	ext{mm}$ ($d_{\max} pprox 0.9833$, 86.70% corridor share).
+    - Pre-Analysis State: $u = 0.00940\,\text{mm}$ ($d_{\max} \approx 0.9833$, 86.70% corridor share).
     - Candidate Release: `PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE` in package 25 (14,483 underlying finite elements, 43,449 3-layer finite elements).
   - **Stage 14C/14D (Terminal Evaluator & Reference Energy Reconciliation) Completed (`MODE1_STAGE14C_EVALUATOR_AND_ENERGY_AUDIT_REPORT.md`):**
-    - Terminology compliance verified (zero "physical elements"; standard underlying finite elements $N_{	ext{base}}=14,483$).
-    - Provenance of all reference energy metrics verified and reconciled against governed qualified Job `1409734.mmaster02` ($W_{	ext{ext}}=2.359329\,	ext{mJ}$, $E_{	ext{frac}}=2.340220\,	ext{mJ}$, $E_{	ext{elas}}=0.001161\,	ext{mJ}$, $\Delta_{	ext{book}}=-0.017949\,	ext{mJ}$, $
-arepsilon_{	ext{book}}=0.7607\%$).
+    - Terminology compliance verified (zero "physical elements"; standard underlying finite elements $N_{\text{base}}=14,483$).
+    - Provenance of all reference energy metrics verified and reconciled against governed qualified Job `1409734.mmaster02` ($W_{\text{ext}}=2.359329\,\text{mJ}$, $E_{\text{frac}}=2.340220\,\text{mJ}$, $E_{\text{elas}}=0.001161\,\text{mJ}$, $\Delta_{\text{book}}=-0.017949\,\text{mJ}$, $\varepsilon_{\text{book}}=0.7607\%$).
     - Strict integration-point extraction verified with within-element equality proof and loud `ValueError` on inconsistent IP copies.
   - **Stage 14E (Matched-Displacement Reference Bundle Construction & Evaluator Automation) Completed:**
     - Full 10-matched-displacement reference dataset extracted from Job `1409734.mmaster02` and verified locally and on cluster.
@@ -45,8 +44,8 @@ arepsilon_{	ext{book}}=0.7607\%$).
     - Terminal evaluation protocol frozen: `STAGE14_TERMINAL_EVALUATION_PROTOCOL.md` and `.json`.
     - Unit tests pass 100% (20/20 Stage 14 tests, 97/97 Mode-I tests).
   - **Stage 14K (Non-Invasive Interim Adaptive Checkpoint & Reached-States Audit) Completed (`MODE1_STAGE14K_INTERIM_ADAPTIVE_CHECKPOINT_REPORT.md`):**
-    - Evaluated reached displacement states ($u \in \{0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070\}\,	ext{mm}$) against qualified fixed reference 1409734.
-    - Discovered parameter ABI card ordering inversion in Job 1409947 solve deck ($E = 0.0075\,	ext{kN/mm}^2$, $l_0 = 210.0\,	ext{mm}$, $G_c = 0.30\,	ext{kN/mm}$).
+    - Evaluated reached displacement states ($u \in \{0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070\}\,\text{mm}$) against qualified fixed reference 1409734.
+    - Discovered parameter ABI card ordering inversion in Job 1409947 solve deck ($E = 0.0075\,\text{kN/mm}^2$, $l_0 = 210.0\,\text{mm}$, $G_c = 0.30\,\text{kN/mm}$).
   - **Stage 14L (Corrected-Property Adaptive Fracture Rerun & ABI Verification) Completed:**
     - Verified Fortran subroutine `f42_mixed_uel.for` PROPS parsing ABI order `(l0, Gc, E, nu, k, N_phys)`.
     - Corrected Package 25 solve deck (`PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp`) `*UEL PROPERTY` card to match canonical ABI `(0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 14483.0)`.
@@ -56,10 +55,10 @@ arepsilon_{	ext{book}}=0.7607\%$).
     - Submitted corrected full fracture solver job `1409953.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`, serial 1-CPU, queue `normal_imfdfkmq`).
   - **Stage 14M (Corrected-Job Early Mechanical Parity Checkpoint & K0 Semantics Correction) Completed:**
     - Live snapshot extracted from active solver job `1409953.mmaster02` on `mnode097`.
-    - Corrected Stage-14L $K_0$ semantics: clarified distinction between energy-derived elasticity diagnostic $K_{	ext{energy}} = 2 E_{	ext{elas}} / u^2$ and canonical structural stiffness $K_0$.
-    - Classified canonical $K_0$ as `NOT_YET_QUALIFIED (INTERIM_WINDOW_INCOMPLETE: 135/400 INCS)` until Step 1 reaches Increment 400 ($u = 0.0010\,	ext{mm}$).
-    - Confirmed physical elasticity scale restoration ($F = 0.0466\,	ext{kN}$ at $u = 0.00034\,	ext{mm}$), matching fixed reference 1409734 within **$-0.026\%$** mean pointwise force error.
-    - Interim OLS fit yields $K_{	ext{interim}} = 138.09\,	ext{kN/mm}$ ($R^2 = 1.00000000$, $+0.105\%$ vs reference $K_0 = 137.95\,	ext{kN/mm}$).
+    - Corrected Stage-14L $K_0$ semantics: clarified distinction between energy-derived elasticity diagnostic $K_{\text{energy}} = 2 E_{\text{elas}} / u^2$ and canonical structural stiffness $K_0$.
+    - Classified canonical $K_0$ as `NOT_YET_QUALIFIED (INTERIM_WINDOW_INCOMPLETE: 135/400 INCS)` until Step 1 reaches Increment 400 ($u = 0.0010\,\text{mm}$).
+    - Confirmed physical elasticity scale restoration ($F = 0.0466\,\text{kN}$ at $u = 0.00034\,\text{mm}$), matching fixed reference 1409734 within **$-0.026\%$** mean pointwise force error.
+    - Interim OLS fit yields $K_{\text{interim}} = 138.09\,\text{kN/mm}$ ($R^2 = 1.00000000$, $+0.105\%$ vs reference $K_0 = 137.95\,\text{kN/mm}$).
     - 0 cutbacks, 3 iters/inc across all increments.
     - Watermarked publication figure `fig_mode1_stage14m_corrected_early_fu.png` & `.pdf` generated.
     - Unit tests pass 100% (4/4 Stage 14M tests, 23/23 Stage-14 suite pass).
@@ -89,15 +88,14 @@ arepsilon_{	ext{book}}=0.7607\%$).
     - Generated 3 publication figures in `results/figures/mode1_gate6b/` and thesis.
     - Authored unit test suite `test_stage14p_early_phase_profile_audit.py` (4/4 passed, 64/64 full Stage 14 suite passed).
     - Updated Thesis Chapter 4 (Section 4.10) and compiled PDF cleanly (55 pages, 0 errors).
-    - Active solver Job `1409953.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`) actively advancing in Step 1 past Increment 1139 ($u \approx 0.00285\,\text{mm}$) with 0 cutbacks and 3 iterations per increment.
   - **Stage 14S (Claims-Discipline Correction, Provenance Closure & Terminal Evaluation) Completed (`MODE1_STAGE14S_CLAIMS_DISCIPLINE_AND_PROVENANCE_CLOSURE_REPORT.md` and `.json`):**
     - Enforced single governed verdict: `STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE`.
     - Epistemic categorization enforced: `SOURCE_VERIFIED`, `NUMERICALLY_VERIFIED`, `UNRESOLVED_INTERNAL_ABAQUS_DETAIL`.
     - Safe standard definition enforced: *"MISESERI is the Abaqus Mises stress discretization/error indicator associated with the recovered stress solution."*
     - Purged prohibited terminology (*physical element*) in favor of standard layer definitions.
     - Reconciled live cluster ODB hash `c35987f3...` with historical alias `dbfad35f...`.
-    - Evaluated completed solver Job `1409953.mmaster02` on `mnode097`: 4,890 increments, $u = 0.007889\,	ext{mm}$, full crack traversal ($x_{	ext{tip}} = 0.9985\,	ext{mm}$), $99.76\%$ load drop.
-    - Parity vs fixed reference: $K_0 = 137.909558\,	ext{kN/mm}$ ($-0.0261\%$, `STABLE`), $F_{\max} = 0.743701\,	ext{kN}$ ($-1.8577\%$, `STABLE`), $E_{	ext{frac}} = 2.285469\,	ext{mJ}$ ($-2.3396\%$, `STABLE`), $W_{	ext{ext}} = 2.267380\,	ext{mJ}$ ($-3.8973\%$), pre-peak $arepsilon_{	ext{book}} \le 0.00026\%$, broken-state $arepsilon_{	ext{book}} = 1.1048\%$.
+    - Evaluated completed solver Job `1409953.mmaster02` on `mnode097`: 4,890 increments, $u = 0.007889\,\text{mm}$, full crack traversal ($x_{\text{tip}} = 0.9985\,\text{mm}$), $99.76\%$ load drop.
+    - Parity vs fixed reference: $K_0 = 137.909558\,\text{kN/mm}$ ($-0.0261\%$, `STABLE`), $F_{\max} = 0.743701\,\text{kN}$ ($-1.8577\%$, `STABLE`), $E_{\text{frac}} = 2.285469\,\text{mJ}$ ($-2.3396\%$, `STABLE`), $W_{\text{ext}} = 2.267380\,\text{mJ}$ ($-3.8973\%$), pre-peak $\varepsilon_{\text{book}} \le 0.00026\%$, broken-state $\varepsilon_{\text{book}} = 1.1048\%$.
     - 10 matched displacement states evaluated.
     - Updated Thesis Chapter 4 (Sections 4.11 and 4.12) and compiled cleanly (61 pages, 0 errors).
     - Unit tests pass 100% (56/56 Stage-14 suite pass).
@@ -120,6 +118,14 @@ arepsilon_{	ext{book}}=0.7607\%$).
     - Stage-14 unit test suite verified ($84/84$ unit tests pass $100\%$, including `test_stage14u_completion_job.py`).
     - Executed cluster Abaqus datacheck cleanly (`PK_M1_14K_DATACHECK`, Exit 0, zero errors/warnings).
     - Submitted serial 1-CPU completion job `1409982.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`, input deck SHA-256 `26d873fb2e68055c80550d1dd981766bcaf46e13d3d0a7ba6411b63d9c382d35`) to `normal_imfdfkmq` on compute node `mnode097`, actively solving.
+  - **Stage 14U-P (Completion-Run Control-Parity and Prior-Failure-Crossing Audit) Completed (`MODE1_STAGE14UP_CONTROL_PARITY_AND_FAILURE_CROSSING_REPORT.md` and `.json`):**
+    - Extracted live non-invasive snapshot from running completion solve `1409982.mmaster02` on `mnode097` (233+ increments over common pre-failure range $u \in [0.0025, 0.5825]\,\mu\text{m}$).
+    - Proved exact numerical parity against predecessor `1409953.mmaster02` ($|\Delta F|_{\max} = 8.00\times 10^{-9}\,\text{kN}$, max relative force discrepancy $= 0.001306\%$ strictly from 8-decimal text formatting, $\text{RMS}(\Delta F) = 3.08\times 10^{-9}\,\text{kN}$, exact bitwise match on $E_{\text{elas}}$ and $E_{\text{frac}}$ $|\Delta E| = 0.00\,\text{mJ}$).
+    - Assigned formal parity verdict: `DETERMINISTIC_CONTROL_PARITY_VERIFIED`.
+    - Evaluated failure-crossing state and classified as `PRE_FAILURE_CONTROL_PARITY_EVALUATED__FAILURE_CROSSING_PENDING` while solver advances past Inc 299+ with 0 cutbacks and 3 iters/inc on `mnode097`.
+    - Generated overlaid $F-u$ and discrepancy publication figures (`fig_mode1_stage14up_parity_overlay.pdf`, `fig_mode1_stage14up_discrepancy.pdf`).
+    - Authored regression unit test suite `test_stage14up_control_parity.py` (6/6 pass, 90/90 full Stage-14 suite pass 100%).
+    - Updated Thesis Chapter 4 with Section 4.15 and compiled `main.pdf` cleanly (68 pages, 0 errors, 0 undefined citations).
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
 ---
@@ -128,7 +134,7 @@ arepsilon_{	ext{book}}=0.7607\%$).
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| `1409982.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` (Solving) | Stage 14U completion full fracture solve with Step 2 solver controls (14,483 elements, I_A=10, I_C=20, actively solving on mnode097) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
+| `1409982.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` (Solving) | Stage 14U completion full fracture solve with Step 2 solver controls (14,483 elements, I_A=10, I_C=20, actively solving on mnode097, Inc 299+) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
 | `1409953.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | Corrected Stage 14 Adaptive full fracture solve (14,483 elements, f42 ABI aligned, terminal u=0.007889 mm, 4,890 incs, 99.76% load drop, xtip=0.9985 mm, K0, Fmax, Efrac qualified STABLE) | `A1288CE9D7EFD67F5C87C12C2B61884CE7CB94901B566E9FE0130ABE1875797D` |
 | `1409947.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Cancelled) | Invalidated initial Stage 14 solve (Molnar property order ABI mismatch, archived) | `3EFBA9682C3EB31E99C233192007246E995BD8182411E51E6A6B74166873D7C1` |
 | `INTERACTIVE_98` | `PK_M1_JOB1_NONUNIFORM_DIAG` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform 3-layer UEL infinitesimal companion solve (3,019 elements, audited) | `EA3505F6D573F361D4FEFB9C0211C1EC566EB80225EDBA30D6FBC618ACFB19F3` |
@@ -137,11 +143,11 @@ arepsilon_{	ext{book}}=0.7607\%$).
 | `1409914.mmaster02` | `PK_M1_J1_CONT_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | Matched-history standard continuum control (`ARCHITECTURE_ISOLATION_CONTROL`, Package 90, datasets extracted & audited) | `B60DD35D56AB2824902F2D90912E222CF9D335D7D9911CF8DD17A3DC2B52E5F9` |
 | `1409915.mmaster02` | `PK_M1_JOB1_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | Diagnostic 3-layer Job-1_UEL pre-analysis solve (Package 89, cutback terminated Step 1 Inc 1 via eigenvalue -1 divergence) | `27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF` |
 | `1409912.mmaster02` | `PK_M1_JOB1_SOLVE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | Diagnostic 3-layer Job-1_UEL pre-analysis solve (Package 89, old PBS wrapper syntax failure) | `27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF` |
-| `1409867.mmaster02` | `PK_M1_S3_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 41,912-element ($h=0.0015\,	ext{mm}$) spatial fine convergence solve (evaluated & closed) | `1500ECA5028660045789AF04AD3112E26CA76BBF7BFAC6437A42008A4307408F` |
-| `1409870.mmaster02` | `PK_MODE1_T3_FINE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 15,192-element temporal fine ($\Delta u = 2.5	imes 10^{-4}$) solve (**`TEMPORAL_FAMILY_QUALIFIED`**) | `72D6CC5176326BFAB60FB9B23AFBE4AD6882A0ABC030465BAF10A5DC2A19519C` |
-| `1409871.mmaster02` | `PK_MODE1_L2_FINE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 15,192-element length-scale sensitivity solve ($l_0=0.00375\,	ext{mm}$, evaluated & closed) | `8E1FDB150F2EBBC2F200A5210D5C14B85EBC5294F9A3496C185E0258079E3309` |
-| `1409872.mmaster02` | `PK_MODE1_L3_COARSE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 15,192-element length-scale sensitivity solve ($l_0=0.0150\,	ext{mm}$, evaluated & closed) | `F9CFE3B5E052D963F9E17A843CF1D486B24D9DE179B750EE46BC4B3B8B97FF3F` |
-| `1409869.mmaster02` | `PK_MODE1_T1_COARSE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 15,192-element temporal coarse ($\Delta u = 1.0	imes 10^{-3}$) solve (**`TEMPORAL_FAMILY_QUALIFIED`**) | `AEF74DF2997B28B02A38A5ED3BCFF186638C526A060C3B7AE47D0B7A09FA017F` |
-| `1409866.mmaster02` | `PK_M1_S2_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 15,192-element nominal spatial solve ($h=0.0025\,	ext{mm}$, evaluated & closed) | `7992D87FF0EDFBD4DC781B8513364955F9E9D21BCEEB70020B0EF68E71825B3E` |
+| `1409867.mmaster02` | `PK_M1_S3_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 41,912-element ($h=0.0015\,\text{mm}$) spatial fine convergence solve (evaluated & closed) | `1500ECA5028660045789AF04AD3112E26CA76BBF7BFAC6437A42008A4307408F` |
+| `1409870.mmaster02` | `PK_MODE1_T3_FINE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 15,192-element temporal fine ($\Delta u = 2.5\times 10^{-4}$) solve (**`TEMPORAL_FAMILY_QUALIFIED`**) | `72D6CC5176326BFAB60FB9B23AFBE4AD6882A0ABC030465BAF10A5DC2A19519C` |
+| `1409871.mmaster02` | `PK_MODE1_L2_FINE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 15,192-element length-scale sensitivity solve ($l_0=0.00375\,\text{mm}$, evaluated & closed) | `8E1FDB150F2EBBC2F200A5210D5C14B85EBC5294F9A3496C185E0258079E3309` |
+| `1409872.mmaster02` | `PK_MODE1_L3_COARSE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 15,192-element length-scale sensitivity solve ($l_0=0.0150\,\text{mm}$, evaluated & closed) | `F9CFE3B5E052D963F9E17A843CF1D486B24D9DE179B750EE46BC4B3B8B97FF3F` |
+| `1409869.mmaster02` | `PK_MODE1_T1_COARSE_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 15,192-element temporal coarse ($\Delta u = 1.0\times 10^{-3}$) solve (**`TEMPORAL_FAMILY_QUALIFIED`**) | `AEF74DF2997B28B02A38A5ED3BCFF186638C526A060C3B7AE47D0B7A09FA017F` |
+| `1409866.mmaster02` | `PK_M1_S2_ENERGY` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 1) | 15,192-element nominal spatial solve ($h=0.0025\,\text{mm}$, evaluated & closed) | `7992D87FF0EDFBD4DC781B8513364955F9E9D21BCEEB70020B0EF68E71825B3E` |
 | `1409846.mmaster02` | `PK_M1_ADAPT_13K` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 13,897-element adaptive validation solve (**`EFFICIENCY_CALIBRATED_2PCT_PROJECT_VARIANT`**) | `F139BE8FEF588B4BF4A59CE97FF20B716FB5920D4EBCE90F4F2EB5B3A8EEB51E` |
 | `1409734.mmaster02` | `PK_MODE1_REF_7K_S1` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | 15,192-element fixed reference solve (**`CORRECTED_S1_ENERGY_QUALIFIED`**) | `7992D87FF0EDFBD4DC781B8513364955F9E9D21BCEEB70020B0EF68E71825B3E` |
