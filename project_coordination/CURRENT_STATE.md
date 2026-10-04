@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-04T10:30:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14S: Stage-14R Claims-Discipline Correction, Provenance Closure, and Terminal Adaptive Fracture Evaluation Completed; Enforced single governed verdict STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE; Established epistemic breakdown (SOURCE_VERIFIED, NUMERICALLY_VERIFIED, UNRESOLVED_INTERNAL_ABAQUS_DETAIL); Enforced safe MISESERI definition; Purged prohibited phrase 'physical element'; Reconciled live cluster ODB hash (c35987f3...) with alias (dbfad35f...); Executed full terminal evaluation of solver Job 1409953.mmaster02 on node mnode097 (N_base=14,483 underlying finite elements, 4,890 increments, u=0.007889 mm, 99.76% load drop, complete crack traversal xtip=0.9985 mm); Verified mechanical and energetic parity against qualified fixed reference 1409734 (K0=137.909558 kN/mm [-0.0261%], Fmax=0.743701 kN [-1.8577%], broken-state Efrac=2.285469 mJ [-2.3396%], Wext=2.267380 mJ [-3.8973%], pre-peak eps_book<=0.00026%); Updated Thesis Chapter 4 (Sections 4.11-4.12) and compiled cleanly (61 pages, 0 errors); All 56 Stage-14 unit tests pass 100%.
-Parent commit: `231c0807b02e074bbee4ad96ccad15e5eb5a56e4`
+Last updated: `2026-10-04T11:15:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14T: Terminal-Integrity Correction, Premature-Termination Root-Cause Diagnosis, and Completion-Job Preparation Completed; Proved solver termination of Job 1409953.mmaster02 caused by Newton-Raphson cutback exhaustion (I_A=5) at u=0.007889 mm under severe post-fracture softening (99.76% load drop, xtip=0.9985 mm, residual stiffness k=10^-7); Enforced reporting integrity (zero forward-filling, unreached states u=0.0080..0.0100 mm marked NOT_REACHED, terminal state evaluated against interpolated reference); Reclassified peak displacement shift as MESH_SENSITIVE; Noted published K0 absence (Pandey & Kumar do not report K0; K0_ref=137.945520 kN/mm is project-derived); Assigned terminal verdict STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED for incomplete solve while preserving TOWARD_TARGET_LOCALIZATION; Authored unit test suite test_stage14t_terminal_integrity.py (5/5 pass 100%, 79/79 Stage-14 suite pass 100%, 168/168 Mode-I suite pass 100%); Updated Thesis Chapter 4 (Sections 4.12-4.13) and compiled cleanly (64 pages, 0 errors, 0 undefined citations).
+Parent commit: `7841f2d66973679068b576669764682097fad406`
 
 ---
 
@@ -101,6 +101,16 @@ arepsilon_{	ext{book}}=0.7607\%$).
     - 10 matched displacement states evaluated.
     - Updated Thesis Chapter 4 (Sections 4.11 and 4.12) and compiled cleanly (61 pages, 0 errors).
     - Unit tests pass 100% (56/56 Stage-14 suite pass).
+  - **Stage 14T (Terminal-Integrity Correction, Premature-Termination Root-Cause Diagnosis & Completion Preparation) Completed (`MODE1_STAGE14T_TERMINAL_INTEGRITY_REPORT.md` and `.json`):**
+    - Proved root cause of Job `1409953.mmaster02` termination at Step 2 Increment 2890 ($u = 0.007889\,\text{mm}$): Newton-Raphson cutback attempt limit exhaustion ($I_A = 5$) under severe geometric/material softening ($99.76\%$ load drop, $F = 0.001764\,\text{kN}$ vs $F_{\max} = 0.743701\,\text{kN}$, $k = 10^{-7}$) rather than increment cap (`INC=6000` specified).
+    - Proved physical fracture completeness: complete ligament traversal ($x_{\text{tip}}^{0.90} = 0.9985\,\text{mm}$), broken-state $E_{\text{frac}} = 2.285469\,\text{mJ}$ ($-2.31\%$ vs reference $2.339582\,\text{mJ}$), $W_{\text{ext}} = 2.267380\,\text{mJ}$ ($-3.87\%$ vs reference $2.358727\,\text{mJ}$), and $\varepsilon_{\text{book}} = 1.1049\%$.
+    - Enforced reporting integrity: purged all forward-filling into unreached displacement states ($u \in \{0.0080, 0.0090, 0.0100\}\,\text{mm}$ marked strictly `NOT_REACHED`).
+    - Evaluated actual terminal reached state ($u = 0.007889\,\text{mm}$) directly against interpolated reference baseline ($F_{\text{ref}} = 0.000349\,\text{kN}$, $E_{\text{frac},\text{ref}} = 2.339582\,\text{mJ}$).
+    - Reclassified peak displacement shift ($-2.12\%$) as `MESH_SENSITIVE`.
+    - Documented absence of published $K_0$ in primary literature (Pandey & Kumar do not report $K_0$; $K_{0,\text{ref}} = 137.945520\,\text{kN/mm}$ is project-derived).
+    - Assigned formal terminal status verdict: `STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED` (preserving mesh refinement verdict `TOWARD_TARGET_LOCALIZATION` and causality verdict `STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE`).
+    - Authored and verified regression test suite `test_stage14t_terminal_integrity.py` (5/5 pass, 79/79 Stage-14 suite pass, 168/168 Mode-I suite pass).
+    - Updated Thesis Chapter 4 (Sections 4.12 & 4.13) and compiled cleanly (64 pages, 0 errors, 0 undefined citations).
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
 ---

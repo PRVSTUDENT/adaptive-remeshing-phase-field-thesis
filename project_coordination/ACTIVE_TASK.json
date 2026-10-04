@@ -1,14 +1,14 @@
 {
-  "task_id": "F1196-GATE6B-STAGE14S-CLAIMS-DISCIPLINE-AND-PROVENANCE-CLOSURE-20261004",
-  "task_name": "Gate-6B Mode-I Stage 14S: Stage-14R Claims-Discipline Correction, Provenance Closure, and Terminal Evaluation",
+  "task_id": "F1197-GATE6B-STAGE14T-TERMINAL-INTEGRITY-AND-COMPLETION-JOB-20261004",
+  "task_name": "Gate-6B Mode-I Stage 14T: Terminal-Integrity Correction, Premature-Termination Root-Cause Diagnosis, and Completion-Job Preparation",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "claimed_at": "2026-10-04T00:06:00+02:00",
-  "completed_at": "2026-10-04T10:30:00+02:00",
-  "starting_commit": "f836b7245c5decb61efa88d9dfcfc61350dcf019",
+  "claimed_at": "2026-10-04T10:45:00+02:00",
+  "starting_commit": "7841f2d66973679068b576669764682097fad406",
   "governing_verdicts": [
-    "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE"
-  ],
-  "next_task_id": "F1197-GATE6B-STAGE14T-TERMINAL-ADAPTIVE-FRACTURE-EVALUATION-20261004"
+    "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE",
+    "STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED",
+    "TOWARD_TARGET_LOCALIZATION"
+  ]
 }
