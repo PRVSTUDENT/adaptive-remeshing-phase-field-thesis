@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N PK_M1_14K_CC_DC
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=16gb
+#PBS -l walltime=00:30:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+cd /home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/28_stage14_convergence_control_candidate
+source /etc/profile.d/modules.sh 2>/dev/null || true
+module purge || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 || true
+
+rm -f PK_M1_14K_CONV_CTRL_DATACHECK.lck PK_M1_14K_CONV_CTRL_DATACHECK.023
+/cluster/application/abaqus/2023/Commands/abaqus datacheck job=PK_M1_14K_CONV_CTRL_DATACHECK input=PK_M1_14K_CONV_CTRL_DATACHECK.inp user=f42_mixed_uel.for memory="16gb" double=both interactive

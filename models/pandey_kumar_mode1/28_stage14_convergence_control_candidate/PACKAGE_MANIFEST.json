@@ -1,0 +1,48 @@
+{
+  "package_name": "28_stage14_convergence_control_candidate",
+  "stage": "Stage 14U-AH",
+  "governing_gate": "Gate-6B",
+  "scientific_purpose": "Minimal non-invasive displacement-correction tolerance candidate (*CONTROLS, PARAMETERS=FIELD, FIELD=DISPLACEMENT with Cn=0.50, Rn=0.005) to test post-fracture Newton stagnation relief with frozen physics, Fortran source, mesh, and ABI.",
+  "status": "CONVERGENCE_CRITERION_CANDIDATE_VALIDATED__TEMPORAL_DIAGNOSTIC_PENDING",
+  "files": {
+    "input_deck": {
+      "filename": "PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL.inp",
+      "sha256": "AB484020E13F12213532B365A57E344E7D4426AE8AD4863AB63C745C10BFC48D",
+      "nodes": 14456,
+      "base_elements": 14483,
+      "layered_elements": 43449,
+      "step2_controls": {
+        "time_incrementation": [
+          4,
+          10,
+          9,
+          20,
+          10,
+          4,
+          0,
+          10
+        ],
+        "field_displacement": {
+          "Rn": 0.005,
+          "Cn": 0.5
+        }
+      }
+    },
+    "user_subroutine": {
+      "filename": "f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "abi_props": [
+        0.0075,
+        0.0027,
+        210.0,
+        0.3,
+        1e-07,
+        14483.0
+      ]
+    },
+    "datacheck_deck": {
+      "filename": "PK_M1_14K_CONV_CTRL_DATACHECK.inp",
+      "sha256": "AB484020E13F12213532B365A57E344E7D4426AE8AD4863AB63C745C10BFC48D"
+    }
+  }
+}

@@ -1,11 +1,11 @@
 {
   "active": false,
-  "agent": null,
-  "session_id": null,
-  "task_id": null,
-  "claimed_at": null,
-  "released_at": "2026-10-04T15:15:00.000Z",
-  "starting_commit": "84b5384808094fbbd6ebbb8c8b2f9e03c7c1624d",
+  "agent": "gemini-antigravity",
+  "session_id": "SESSION-20261004-2220-STAGE14UAH-CONVERGENCE-CRITERIA-RECONSTRUCTION",
+  "task_id": "F1217-GATE6B-STAGE14UAH-CONVERGENCE-CRITERIA-RECONSTRUCTION-AND-MINIMAL-CONTROL-PREFLIGHT-20261004",
+  "claimed_at": "2026-10-04T15:20:00.000Z",
+  "released_at": "2026-10-04T17:24:00.000Z",
+  "starting_commit": "7b8229d72fa7d02c3584ef7452eb8083e8cae971",
   "allowed_write_scope": [
     "models/pandey_kumar_mode1/*",
     "tests/unit/*",

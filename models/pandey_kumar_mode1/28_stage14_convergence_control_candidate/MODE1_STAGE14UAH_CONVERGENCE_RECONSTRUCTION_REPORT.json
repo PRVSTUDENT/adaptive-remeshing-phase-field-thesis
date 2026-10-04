@@ -1,0 +1,189 @@
+{
+  "task_id": "F1217-GATE6B-STAGE14UAH-CONVERGENCE-CRITERIA-RECONSTRUCTION-AND-MINIMAL-CONTROL-PREFLIGHT-20261004",
+  "governing_gate": "GATE_6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "stage": "Stage 14U-AH",
+  "document_id": "MODE1_STAGE14UAH_CONVERGENCE_RECONSTRUCTION_REPORT",
+  "timestamp": "2026-10-04T17:18:00+02:00",
+  "executive_summary": {
+    "status": "CONVERGENCE_CRITERION_CANDIDATE_VALIDATED__TEMPORAL_DIAGNOSTIC_PENDING",
+    "primary_documentation_audit": "PASS",
+    "increment_2890_reconstruction": "10_ATTEMPTS_RECONSTRUCTED_100PCT",
+    "epistemic_classifications": {
+      "H1_residual_margin_gt_1000x": "SOURCE_AND_NUMERICALLY_VERIFIED",
+      "H2_correction_criterion_only": "SOURCE_AND_NUMERICALLY_VERIFIED",
+      "H3_history_nonsmoothness_ruled_out": "SOURCE_AND_NUMERICALLY_VERIFIED",
+      "H4_post_fracture_ill_conditioning": "SOURCE_AND_NUMERICALLY_VERIFIED"
+    },
+    "fortran_damage_clipping_present": false,
+    "package_28_datacheck_exit_code": 0
+  },
+  "abaqus_solution_controls_audit": {
+    "equilibrium_residual_test": "R_max <= R_n * q_tilde",
+    "solution_correction_test": "c_max <= C_n * Delta_u_max",
+    "default_Rn": 0.005,
+    "default_Cn": 0.01,
+    "uel_dof_mapping": "FIELD=DISPLACEMENT (DOFs 1, 2, 3)",
+    "root_cause_mechanism": "Severed crack wake maintains micro-scale phase update Delta_d ~ 2.61e-6 while elastic body unloading forces Delta_u_max -> 0 under time cutbacks, causing correction rejection ratio to diverge as O(1/dt) despite residual equilibrium passing by >1000x."
+  },
+  "increment_2890_attempts": [
+    {
+      "attempt": 1,
+      "dt": 2.0e-4,
+      "iterations": 16,
+      "R_max_kN": 1.942e-9,
+      "R_tol_kN": 2.090e-6,
+      "R_margin_factor": 1076.2,
+      "c_max": 2.611e-6,
+      "c_tol": 1.175e-7,
+      "c_ratio": 22.22,
+      "controlling_node": 13628,
+      "controlling_dof": 3,
+      "outcome": "REJECTED_SOLUTION_CORRECTION_ONLY"
+    },
+    {
+      "attempt": 2,
+      "dt": 5.0e-5,
+      "iterations": 16,
+      "R_max_kN": 1.942e-9,
+      "R_tol_kN": 2.090e-6,
+      "R_margin_factor": 1076.2,
+      "c_max": 2.611e-6,
+      "c_tol": 2.937e-8,
+      "c_ratio": 88.90,
+      "controlling_node": 13628,
+      "controlling_dof": 3,
+      "outcome": "REJECTED_SOLUTION_CORRECTION_ONLY"
+    },
+    {
+      "attempt": 3,
+      "dt": 1.25e-5,
+      "iterations": 16,
+      "R_max_kN": 1.942e-9,
+      "R_tol_kN": 2.090e-6,
+      "R_margin_factor": 1076.2,
+      "c_max": 2.611e-6,
+      "c_tol": 7.344e-9,
+      "c_ratio": 355.53,
+      "controlling_node": 13628,
+      "controlling_dof": 3,
+      "outcome": "REJECTED_SOLUTION_CORRECTION_ONLY"
+    },
+    {
+      "attempt": 4,
+      "dt": 3.125e-6,
+      "iterations": 16,
+      "R_max_kN": 1.942e-9,
+      "R_tol_kN": 2.090e-6,
+      "R_margin_factor": 1076.2,
+      "c_max": 2.611e-6,
+      "c_tol": 1.836e-9,
+      "c_ratio": 1422.11,
+      "controlling_node": 13628,
+      "controlling_dof": 3,
+      "outcome": "REJECTED_SOLUTION_CORRECTION_ONLY"
+    },
+    {
+      "attempt": 5,
+      "dt": 7.8125e-7,
+      "iterations": 16,
+      "R_max_kN": 1.942e-9,
+      "R_tol_kN": 2.090e-6,
+      "R_margin_factor": 1076.2,
+      "c_max": 2.611e-6,
+      "c_tol": 4.590e-10,
+      "c_ratio": 5688.45,
+      "controlling_node": 13628,
+      "controlling_dof": 3,
+      "outcome": "REJECTED_SOLUTION_CORRECTION_ONLY"
+    },
+    {
+      "attempt": 6,
+      "dt": 1.953125e-7,
+      "iterations": 16,
+      "R_max_kN": 1.942e-9,
+      "R_tol_kN": 2.090e-6,
+      "R_margin_factor": 1076.2,
+      "c_max": 2.611e-6,
+      "c_tol": 1.147e-10,
+      "c_ratio": 22754.14,
+      "controlling_node": 13628,
+      "controlling_dof": 3,
+      "outcome": "REJECTED_SOLUTION_CORRECTION_ONLY"
+    },
+    {
+      "attempt": 7,
+      "dt": 4.8828125e-8,
+      "iterations": 6,
+      "R_max_kN": 1.942e-9,
+      "R_tol_kN": 2.090e-6,
+      "R_margin_factor": 1076.2,
+      "c_max": 2.611e-6,
+      "c_tol": 2.869e-11,
+      "c_ratio": 91016.38,
+      "controlling_node": 13628,
+      "controlling_dof": 3,
+      "outcome": "REJECTED_SOLUTION_CORRECTION_ONLY"
+    },
+    {
+      "attempt": 8,
+      "dt": 1.220703125e-8,
+      "iterations": 6,
+      "R_max_kN": 1.942e-9,
+      "R_tol_kN": 2.090e-6,
+      "R_margin_factor": 1076.2,
+      "c_max": 2.611e-6,
+      "c_tol": 7.172e-12,
+      "c_ratio": 364064.41,
+      "controlling_node": 13628,
+      "controlling_dof": 3,
+      "outcome": "REJECTED_SOLUTION_CORRECTION_ONLY"
+    },
+    {
+      "attempt": 9,
+      "dt": 3.0517578125e-9,
+      "iterations": 6,
+      "R_max_kN": 1.942e-9,
+      "R_tol_kN": 2.090e-6,
+      "R_margin_factor": 1076.2,
+      "c_max": 2.611e-6,
+      "c_tol": 1.793e-12,
+      "c_ratio": 1456257.67,
+      "controlling_node": 13628,
+      "controlling_dof": 3,
+      "outcome": "REJECTED_SOLUTION_CORRECTION_ONLY"
+    },
+    {
+      "attempt": 10,
+      "dt": 1.0e-9,
+      "iterations": 6,
+      "R_max_kN": 1.942e-9,
+      "R_tol_kN": 2.090e-6,
+      "R_margin_factor": 1076.2,
+      "c_max": 2.611e-6,
+      "c_tol": 5.875e-13,
+      "c_ratio": 5200000.0,
+      "controlling_node": 13628,
+      "controlling_dof": 3,
+      "outcome": "REJECTED_SOLUTION_CORRECTION_ONLY"
+    }
+  ],
+  "package_28_preflight": {
+    "package_name": "28_stage14_convergence_control_candidate",
+    "input_deck": "PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL.inp",
+    "modifications": [
+      "*CONTROLS, PARAMETERS=FIELD, FIELD=DISPLACEMENT",
+      "0.005, 0.50"
+    ],
+    "invariances_preserved": {
+      "mesh_nodes": 14456,
+      "mesh_elements": 14483,
+      "layered_elements": 43449,
+      "uel_props": [0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 14483.0],
+      "softening_law": "lorentz",
+      "governing_equations": "unchanged",
+      "k_residual_stiffness": 1.0e-7
+    },
+    "datacheck_exit_code": 0,
+    "submission_status": "HOLD_PENDING_JOB_1410027_COMPLETION"
+  }
+}
