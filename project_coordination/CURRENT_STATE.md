@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-04T18:15:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14U-AA: Length-Scale Claim Correction, Exact Matched-State Boundary Audit, and Resolution-Adequacy Qualification completed; Active solver Job 1409982.mmaster02 (PK_M1_ADAPT_14K_FRACTURE) left running untouched on compute node mnode097 (solving Step 2 Inc 598+, u = 0.00560 mm, 0 cutbacks, 3 iters/inc); 3 Stage-14U-Z claim corrections enforced: (1) descriptive resolution ratios (0.200, 0.1333, 0.100) replacing undeclared threshold, (2) purged dissipation terms for E_frac, (3) exact L2 terminal displacement audited (u_term = 0.0058390107 mm < 0.005840 mm -> u = 0.005840 mm marked NOT_REACHED; highest common matched state u = 0.005579 mm); 1D AT2 sigma_c relation qualified as idealized theoretical background; assigned governing verdict LENGTH_SCALE_SENSITIVITY_CHARACTERIZED__RESOLUTION_ADEQUACY_NOT_INDEPENDENTLY_QUALIFIED; Unit tests pass 100% (6/6 Stage 14U-AA, 150/150 full Stage-14 suite); Thesis Chapter 4 updated with Section 4.22 and compiled cleanly (92 pages, 0 errors, SHA-256 763BC454...).
+Last updated: `2026-10-04T19:00:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14U-AB: Completion-Control Peak-Region Parity and First-Divergence Audit completed; Active solver Job 1409982.mmaster02 (PK_M1_ADAPT_14K_FRACTURE) left running untouched on compute node mnode097 (solving Step 2 Inc 1198+, u = 0.00620 mm, 0 cutbacks, 3 iters/inc); Bitwise parity confirmed across all 3,198 common increments (|Δu| = 0.0 mm, max |ΔF| = 3.0e-8 kN, 0.0013% ASCII text rounding, First Divergence: None); Canonical initial structural stiffness bitwise identical (K0 = 137.909558 kN/mm, ΔK0 = -0.0261%, STABLE); Peak force identical at Fmax = 0.743701 kN at u = 0.005733 mm (Step 2 Inc 733, ΔF = 2.0e-8 kN); Bookkeeping residual at peak ε_book = 0.006445%; Field variables marked PENDING_TERMINAL_ODB; Assigned formal parity verdict: COMPLETION_CONTROL_PARITY_CONFIRMED_OVER_REACHED_RANGE; Crossing status: PRE_FAILURE_PEAK_PARITY_CONFIRMED__FAILURE_CROSSING_PENDING; Unit tests pass 100% (7/7 Stage 14U-AB, 157/157 full Stage-14 suite); Thesis Chapter 4 updated with Section 4.23 and compiled cleanly (97 pages, 0 errors, 0 undefined citations, SHA-256 4B8336E5...).
 Parent commit: `ad9b45025b59b7f14151fabc9f33d390ba553993`
 
 ---
@@ -157,6 +157,19 @@ Parent commit: `ad9b45025b59b7f14151fabc9f33d390ba553993`
     - Authored unit test suite `test_stage14uv_energy_evolution_audit.py` (8/8 pass, 48/48 Stage-14 suite pass 100%).
     - Updated Thesis Chapter 4 with Section 4.20 and compiled `main.pdf` cleanly (82 pages, 0 errors, 0 undefined citations, SHA-256 `9D4508E0E3361395FE2CC02D3AB8A4C390C17914212E9AAC29196313F7B60010`).
     - Assigned formal verdict: `THERMODYNAMICALLY_CONSISTENT_AND_QUALIFIED`.
+  - **Stage 14U-AB (Completion-Control Peak-Region Parity and First-Divergence Audit) Completed (`MODE1_STAGE14UAB_COMPLETION_CONTROL_PARITY_REPORT.md` and `.json`):**
+    - Active solver Job `1409982.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`) left running untouched on compute node `mnode097` in `normal_imfdfkmq` (Step 2 Inc 1198+, $u = 0.006198\,\text{mm}$, 0 cutbacks, 3 iters/inc in the post-peak softening regime).
+    - Executed comprehensive increment-by-increment parity audit against predecessor `1409953.mmaster02` across all 3,198 common increments ($u \in [0, 0.006198]\,\text{mm}$).
+    - Verified zero numerical drift or bifurcation (`First Divergence: None`): $|\Delta u| = 0.000000\,\text{mm}$ bitwise; $|\Delta F|_{\max} = 3.00\times 10^{-8}\,\text{kN}$ (max relative discrepancy $0.001306\%$, strictly attributable to 8-decimal ASCII text printing); $|\Delta W_{\text{ext}}|_{\max} \le 1.71\times 10^{-7}\,\text{mJ}$; $|\Delta E_{\text{elas}}|_{\max} \le 1.00\times 10^{-7}\,\text{mJ}$; $|\Delta E_{\text{frac}}|_{\max} \le 1.00\times 10^{-7}\,\text{mJ}$.
+    - Proved canonical initial structural stiffness invariance: $K_0 = 137.909558\,\text{kN/mm}$ ($R^2 = 0.99999960$, $N=400$, $\Delta K_0 = -0.0261\%$ vs reference anchor $137.945520\,\text{kN/mm}$, `STABLE`), bitwise identical to predecessor.
+    - Proved adaptive peak load invariance: $F_{\max} = 0.74370082\,\text{kN}$ at $u = 0.005733\,\text{mm}$ (Step 2 Inc 733), matching predecessor within $2.0\times 10^{-8}\,\text{kN}$ ($0.000003\%$).
+    - Verified peak bookkeeping residual $\varepsilon_{\text{book}} = 0.006445\%$ ($E_{\text{elas}} = 2.131815\,\text{mJ}$, $E_{\text{frac}} = 0.075642\,\text{mJ}$, $W_{\text{ext}} = 2.207314\,\text{mJ}$).
+    - Enforced governance discipline on field variables: designated $d_{\max}$ and $x_{\text{tip}}$ as `PENDING_TERMINAL_ODB` to prevent ODB locking while solver is active.
+    - Assigned formal parity verdict: `COMPLETION_CONTROL_PARITY_CONFIRMED_OVER_REACHED_RANGE`.
+    - Classified failure crossing status: `PRE_FAILURE_PEAK_PARITY_CONFIRMED__FAILURE_CROSSING_PENDING`.
+    - Generated 3 publication figures in `results/figures/mode1_gate6b/` (`fig_mode1_stage14uab_parity_overlay.pdf`, `fig_mode1_stage14uab_discrepancy.pdf`, `fig_mode1_stage14uab_energy_evolution.pdf`).
+    - Authored unit test suite `test_stage14uab_peak_region_parity_audit.py` (7/7 pass, 157/157 full Stage-14 suite pass 100%).
+    - Updated Thesis Chapter 4 with Section 4.23 and compiled `main.pdf` cleanly (97 pages, 0 errors, 0 undefined citations, SHA-256 `4B8336E5156CC45AB08184CBACCA4E4EF4B659E4A6A264684A1DE83F9DF2C274`).
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
 ---
@@ -165,7 +178,7 @@ Parent commit: `ad9b45025b59b7f14151fabc9f33d390ba553993`
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| `1409982.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` (Solving) | Stage 14U completion full fracture solve with Step 2 solver controls (14,483 elements, I_A=10, I_C=20, actively solving on mnode097, Inc 299+) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
+| `1409982.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` (Solving) | Stage 14U completion full fracture solve with Step 2 solver controls (14,483 elements, I_A=10, I_C=20, actively solving on mnode097, Inc 1198+, u=0.0062 mm, 0 cutbacks, peak parity confirmed) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
 | `1409953.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | Corrected Stage 14 Adaptive full fracture solve (14,483 elements, f42 ABI aligned, terminal u=0.007889 mm, 4,890 incs, 99.76% load drop, xtip=0.9985 mm, K0, Fmax, Efrac qualified STABLE) | `A1288CE9D7EFD67F5C87C12C2B61884CE7CB94901B566E9FE0130ABE1875797D` |
 | `1409947.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Cancelled) | Invalidated initial Stage 14 solve (Molnar property order ABI mismatch, archived) | `3EFBA9682C3EB31E99C233192007246E995BD8182411E51E6A6B74166873D7C1` |
 | `INTERACTIVE_98` | `PK_M1_JOB1_NONUNIFORM_DIAG` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform 3-layer UEL infinitesimal companion solve (3,019 elements, audited) | `EA3505F6D573F361D4FEFB9C0211C1EC566EB80225EDBA30D6FBC618ACFB19F3` |

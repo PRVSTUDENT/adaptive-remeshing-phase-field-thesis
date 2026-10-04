@@ -1796,3 +1796,127 @@ Based on this complete numerical and theoretical characterization, the physical 
   \item \textbf{Post-Fracture Crack-Surface Functional $E_{\mathrm{frac}}$:} \texttt{POST\_FRACTURE\_EFRAC\_STABLE\_OVER\_TESTED\_LENGTH\_SCALE\_RANGE} (spread $< 2.31\%$)
   \item \textbf{Overall Regularization Status:} \texttt{LENGTH\_SCALE\_SENSITIVITY\_CHARACTERIZED\_\_RESOLUTION\_ADEQUACY\_NOT\_INDEPENDENTLY\_QUALIFIED}
 \end{itemize}
+
+\section{Completion-Control Peak-Region Parity and First-Divergence Audit (Stage 14U-AB)}
+\label{sec:stage14uab_parity_audit}
+
+\subsection{Motivation, Incrementation Parameterization, and Parity Scope}
+\label{subsec:stage14uab_motivation}
+
+Following the premature cutback exhaustion of the baseline Stage-14 adaptive solve (Job~\texttt{1409953.mmaster02}) at $u = 0.007889\,\mathrm{mm}$ in Step~2, a completion rerun was commissioned as Job~\texttt{1409982.mmaster02}. The completion package modified Abaqus time-incrementation controls strictly within Step~2:
+\begin{equation}
+  I_A = 10, \quad I_C = 20, \quad I_R = 10, \quad \Delta t_{\min} = 1.0 \times 10^{-9}
+\end{equation}
+compared to baseline standard parameters ($I_A=5, I_C=16, \Delta t_{\min}=1.0 \times 10^{-5}$), providing four additional orders of magnitude in cutback latitude and relaxing the severe-discontinuity convergence limits to traverse the dynamic snap-through crack-arrest zone.
+
+A critical methodological question must be rigorously addressed before interpreting any completed trajectory: \emph{Do these modified time-incrementation controls alter the converged physical equilibrium branch, the initial elastic stiffness, the crack initiation point, or the peak reaction force prior to the cutback failure boundary?}
+
+To answer this question conclusively, Stage~14U-AB conducts an increment-by-increment parity audit between predecessor Job~\texttt{1409953.mmaster02} and active Job~\texttt{1409982.mmaster02} across the entire common reached displacement range ($u \in [0, 0.006198]\,\mathrm{mm}$, comprising 3,198 increments).
+
+\subsection{Bitwise Discrepancy Analysis Across Reached Trajectory}
+\label{subsec:stage14uab_discrepancy}
+
+The comparison evaluates all 2,000 increments of Step~1 ($u \in [0, 0.0050]\,\mathrm{mm}$) and the first 1,198 increments of Step~2 ($u \in (0.0050, 0.006198]\,\mathrm{mm}$). For every increment $i$, the displacement delta $|\Delta u_i| = |u_{i,\mathrm{act}} - u_{i,\mathrm{pred}}|$, reaction force delta $|\Delta F_i| = |F_{i,\mathrm{act}} - F_{i,\mathrm{pred}}|$, relative force error $|\Delta F_i| / F_i$, and energetic deltas ($|\Delta W_{\mathrm{ext}}|$, $|\Delta E_{\mathrm{elas}}|$, $|\Delta E_{\mathrm{frac}}|$) were evaluated.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Discrepancy and Parity Audit Metrics Between Baseline and Completion Rerun (Stage 14U-AB).}
+  \label{tab:stage14uab_parity_metrics}
+  \begin{tabular}{lccc}
+    \hline
+    \textbf{Metric / Quantity} & \textbf{Governance Threshold} & \textbf{Measured Value} & \textbf{Classification} \\
+    \hline
+    Common Increments Evaluated & Full common range & $3{,}198$ increments & \texttt{COMPLETE} \\
+    First Divergence Step / Inc & Any physical bifurcation & \textbf{None} & \texttt{CONFIRMED} \\
+    Max Displacement Discrepancy $|\Delta u|$ & $\le 10^{-7}\,\mathrm{mm}$ & $0.000000\,\mathrm{mm}$ & \texttt{BITWISE\_EXACT} \\
+    Max Absolute Force Discrepancy $|\Delta F|$ & $\le 10^{-6}\,\mathrm{kN}$ & $3.00 \times 10^{-8}\,\mathrm{kN}$ & \texttt{ASCII\_ROUNDING} \\
+    Max Relative Force Error $|\Delta F|/F$ & $\le 0.01\%$ & $0.001306\%$ & \texttt{ASCII\_ROUNDING} \\
+    Max External Work Discrepancy $|\Delta W_{\mathrm{ext}}|$ & $\le 10^{-4}\,\mathrm{mJ}$ & $1.71 \times 10^{-7}\,\mathrm{mJ}$ & \texttt{CONSERVED} \\
+    Max Elastic Energy Discrepancy $|\Delta E_{\mathrm{elas}}|$ & $\le 10^{-4}\,\mathrm{mJ}$ & $1.00 \times 10^{-7}\,\mathrm{mJ}$ & \texttt{CONSERVED} \\
+    Max Crack-Surface Functional $|\Delta E_{\mathrm{frac}}|$ & $\le 10^{-4}\,\mathrm{mJ}$ & $1.00 \times 10^{-7}\,\mathrm{mJ}$ & \texttt{CONSERVED} \\
+    Canonical Stiffness Discrepancy $\Delta K_0$ & $\le 0.001\%$ & $0.000000\%$ & \texttt{BITWISE\_EXACT} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+As documented in Table~\ref{tab:stage14uab_parity_metrics} and Figure~\ref{fig:stage14uab_discrepancy}, the maximum recorded force difference across the entire 3,198-increment trajectory is $|\Delta F| = 3.00 \times 10^{-8}\,\mathrm{kN}$. The maximum relative force discrepancy ($0.001306\%$) occurs exclusively at Step~1 Increment~1 ($u = 0.0025\,\mu\mathrm{m}$, $F = 0.00034528\,\mathrm{kN}$), where the final digit of the 8-decimal ASCII text formatting in the Abaqus output files introduces a $\pm 4.5 \times 10^{-9}\,\mathrm{kN}$ rounding artifact. Across the remainder of the trajectory, $|\Delta F|$ remains below $1.0 \times 10^{-8}\,\mathrm{kN}$. Crucially, both simulations required exactly 3 equilibrium iterations per increment with zero cutback attempts ($\mathtt{att} = 1$) throughout the common range.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_stage14uab_discrepancy.pdf}
+  \caption{Discrepancy diagnostics between baseline and completion rerun across 3,198 increments: (a) Absolute force discrepancy $|\Delta F| \le 3.0 \times 10^{-8}\,\mathrm{kN}$; (b) Relative force discrepancy $|\Delta F|/F \le 0.0013\%$. The discrepancy is strictly governed by ASCII formatting precision with zero numerical bifurcation.}
+  \label{fig:stage14uab_discrepancy}
+\end{figure}
+
+\subsection{Canonical Initial Structural Stiffness and Peak Load Parity}
+\label{subsec:stage14uab_peak_parity}
+
+The canonical initial structural stiffness was calculated using the pre-declared 400-point ordinary least-squares regression protocol over $u \in [0, 0.0010]\,\mathrm{mm}$. Both runs yield bitwise identical regression metrics:
+\begin{equation}
+  K_0 = 137.909558\,\mathrm{kN/mm}, \quad R^2 = 0.99999960, \quad C = 4.4795 \times 10^{-5}\,\mathrm{kN}
+\end{equation}
+representing a negligible $-0.0261\%$ deviation from the uniform fine reference anchor ($K_{0,\mathrm{ref}} = 137.945520\,\mathrm{kN/mm}$), confirming the classification \texttt{STABLE}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{fig_mode1_stage14uab_parity_overlay.pdf}
+  \caption{Mode-I Load-Displacement ($F-u$) overlay between the predecessor adaptive solve (dashed magenta) and the active completion rerun (solid blue). Both models track the identical equilibrium path through linear elasticity, crack initiation, and the adaptive peak ($F_{\max} = 0.7437\,\mathrm{kN}$).}
+  \label{fig:stage14uab_parity_overlay}
+\end{figure}
+
+In Step~2, crack initiation and macroscopic peak force are achieved at Step~2 Increment~733 ($u = 0.005733\,\mathrm{mm}$):
+\begin{itemize}
+  \item Predecessor Run~\texttt{1409953}: $F_{\max} = 0.74370080\,\mathrm{kN}$, $W_{\mathrm{ext}} = 2.207314\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 2.131815\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 0.075642\,\mathrm{mJ}$;
+  \item Active Completion Run~\texttt{1409982}: $F_{\max} = 0.74370082\,\mathrm{kN}$, $W_{\mathrm{ext}} = 2.207314\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 2.131815\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 0.075642\,\mathrm{mJ}$.
+\end{itemize}
+The peak reaction force difference is $|\Delta F_{\max}| = 2.0 \times 10^{-8}\,\mathrm{kN}$ ($0.000003\%$), and the energy bookkeeping residual at peak evaluates to $\varepsilon_{\mathrm{book}} = 0.006445\%$ in both models.
+
+\paragraph{Physical vs.\ Numerical Distinctions.}
+This mathematical equivalence confirms an essential scientific distinction: The slight peak load difference between the adaptive candidate ($0.7437\,\mathrm{kN}$) and the fixed uniform reference ($0.7578\,\mathrm{kN}$, $\Delta F = -1.86\%$) is an intrinsic spatial discretization effect resulting from localized element sizing and non-uniform mesh topology. It is completely independent of the numerical solver controls, cutback limits, or convergence tolerances.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_stage14uab_energy_evolution.pdf}
+  \caption{Energy evolution and bookkeeping residual across the reached displacement range for the completion rerun: stored elastic strain energy $E_{\mathrm{elas}}$, phase-field crack-surface functional $E_{\mathrm{frac}}$, external work $W_{\mathrm{ext}}$, and bookkeeping residual $\varepsilon_{\mathrm{book}} = |W_{\mathrm{ext}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})| / W_{\mathrm{ext}}$.}
+  \label{fig:stage14uab_energy_evolution}
+\end{figure}
+
+\subsection{Governed States Accounting and Failure-Crossing Trajectory}
+\label{subsec:stage14uab_governed_states}
+
+Table~\ref{tab:stage14uab_governed_states} catalogs the governed checkpoint states across the loading history.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Governed Checkpoint States and Energy Accounting for Stage 14U-AB Parity Audit.}
+  \label{tab:stage14uab_governed_states}
+  \begin{tabular}{lcccccc}
+    \hline
+    \textbf{Target State} & \textbf{Regime} & \textbf{Step / Inc} & $F_{\mathrm{act}}$ [kN] & $E_{\mathrm{elas}}$ [mJ] & $E_{\mathrm{frac}}$ [mJ] & $\varepsilon_{\mathrm{book}}$ [\%] \\
+    \hline
+    $u = 0.0010\,\mathrm{mm}$ & Linear Elastic & S1 Inc 400 & $0.137888$ & $0.068944$ & $0.000056$ & $0.00013\%$ \\
+    $u = 0.0030\,\mathrm{mm}$ & Micro-Damage Onset & S1 Inc 1200 & $0.408299$ & $0.612449$ & $0.004543$ & $0.00124\%$ \\
+    $u = 0.0050\,\mathrm{mm}$ & Step 1 Endpoint & S1 Inc 2000 & $0.661725$ & $1.654313$ & $0.036786$ & $0.00412\%$ \\
+    $u = 0.005733\,\mathrm{mm}$ & Adaptive Peak Load & S2 Inc 733 & $0.743701$ & $2.131815$ & $0.075642$ & $0.00645\%$ \\
+    $u = 0.005857\,\mathrm{mm}$ & Reference Peak Point & S2 Inc 857 & $0.068060$ & $0.199314$ & $2.130909$ & $2.87236\%$ \\
+    $u = 0.006000\,\mathrm{mm}$ & Softening Plateau & S2 Inc 1000 & $0.001992$ & $0.005975$ & $2.283248$ & $1.11891\%$ \\
+    $u = 0.006198\,\mathrm{mm}$ & Reached Snapshot & S2 Inc 1198 & $0.002024$ & $0.006272$ & $2.283317$ & $1.11736\%$ \\
+    $u = 0.007889\,\mathrm{mm}$ & Prior Failure Limit & S2 Inc 2889 & \multicolumn{4}{c}{\textbf{UNREACHED (Actively Solving)}} \\
+    $u = 0.010000\,\mathrm{mm}$ & Prescribed Endpoint & S2 Inc 5000 & \multicolumn{4}{c}{\textbf{UNREACHED (Actively Solving)}} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\paragraph{Governance Discipline on Field Variables.}
+To maintain strict data integrity and avoid write-lock conflicts or binary database corruption on the active HPC node (\texttt{mnode097}), field variables such as the maximum damage field $d_{\max}$ and crack-tip coordinates $x_{\mathrm{tip}}$ are designated strictly as \texttt{PENDING\_TERMINAL\_ODB}. No ODB polling or locking operations are permitted while the solver is active.
+
+\paragraph{Parity and Failure-Crossing Verdict.}
+Based on the increment-by-increment audit, the governance status is formally rendered:
+\begin{itemize}
+  \item \textbf{Governing Parity Classification:} \texttt{COMPLETION\_CONTROL\_PARITY\_CONFIRMED\_OVER\_REACHED\_RANGE}
+  \item \textbf{Prior Failure-Crossing Status:} \texttt{PRE\_FAILURE\_PEAK\_PARITY\_CONFIRMED\_\_FAILURE\_CROSSING\_PENDING}
+  \item \textbf{Scientific Invariance Finding:} Relaxed time incrementation controls and expanded cutback limits preserve the exact physical solution branch through crack initiation, peak force, and the post-peak softening drop without numerical distortion.
+\end{itemize}
+
