@@ -1,0 +1,33 @@
+{
+  "package_id": "PACKAGE_29_STAGE14_ADAPTIVE_14K_8THREAD_STAGE_A_TWIN",
+  "task_id": "F1221-GATE6B-STAGE14UAL-EVALUATOR-FREEZE-AND-DECISION-PROTOCOLS-20261004",
+  "package_role": "STAGEA_8THREAD_SHARED_MEMORY_TWIN_TEMPLATE",
+  "status": "8THREAD_STAGEA_TWIN_TEMPLATE_PREPARED__SUBMISSION_AND_DATACHECK_HELD_PENDING_STAGEB_DETERMINISM",
+  "governed_files": {
+    "input_deck": {
+      "filename": "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+      "sha256": "26d873fb2e68055c80550d1dd981766bcaf46e13d3d0a7ba6411b63d9c382d35",
+      "nodes_count": 14456,
+      "elements_count": 43449,
+      "base_elements_count": 14483
+    },
+    "user_subroutine": {
+      "filename": "f42_mixed_uel.for",
+      "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+      "lines_count": 908
+    },
+    "pbs_script": {
+      "filename": "submit_solver.pbs",
+      "cpus": 8,
+      "mp_mode": "threads",
+      "walltime": "12:00:00",
+      "memory": "16gb",
+      "queue": "normal_imfdfkmq"
+    }
+  },
+  "gating_rules": {
+    "datacheck_authorized": false,
+    "submission_authorized": false,
+    "prerequisite": "STAGE_B_4THREAD_DETERMINISM_FULL_PASS_AT_U007889"
+  }
+}

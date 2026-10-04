@@ -1,0 +1,51 @@
+{
+  "protocol_name": "GATE6B_STAGE14UAL_FULL_RANGE_4THREAD_DETERMINISM_PROTOCOL",
+  "protocol_version": 2,
+  "task_id": "F1221-GATE6B-STAGE14UAL-EVALUATOR-FREEZE-AND-DECISION-PROTOCOLS-20261004",
+  "target_package": "models/pandey_kumar_mode1/27_stage14_adaptive_candidate_14k_4thread_stage_b",
+  "evaluated_jobs": {
+    "stage_b_repeat": "1410029.mmaster02",
+    "stage_a_benchmark": "1410006.mmaster02",
+    "serial_reference": "1409982.mmaster02"
+  },
+  "epistemic_and_causal_boundaries": {
+    "determinism_scope": "STRICTLY_BETWEEN_STAGE_A_AND_STAGE_B_REPEATS_ACROSS_DISTINCT_ALLOCATIONS",
+    "compliance_scope": "COMPARISON_AGAINST_FIXED_REFERENCE_MEASURES_REPRESENTATION_FIDELITY",
+    "conflation_prohibited": true
+  },
+  "predeclared_matched_displacements_mm": [
+    0.001000,
+    0.003000,
+    0.005000,
+    0.005733,
+    0.005857,
+    0.006000,
+    0.006500,
+    0.007000,
+    0.007889
+  ],
+  "extrapolation_policy": "STRICT_ZERO_EXTRAPOLATION__UNREACHED_STATES_REPORT_NOT_REACHED",
+  "verdict_hierarchy": {
+    "pass_verdict": "THREAD_PARITY_PASS + THREAD_DETERMINISM_PASS + THREAD_PARALLELIZATION_QUALIFIED_4T",
+    "interim_verdict": "STAGE_B_DETERMINISM_PARITY_PASS_OVER_REACHED_RANGE",
+    "difference_verdict": "THREAD_DETERMINISM_DIFFERENCE_DETECTED",
+    "unqualified_verdict": "THREAD_DETERMINISM_NOT_YET_QUALIFIED"
+  },
+  "terminal_attempt_sequence_schema": {
+    "target_displacement_mm": 0.007889,
+    "failing_increment": "Step 2 Inc 2890",
+    "tracked_quantities": [
+      "c_max",
+      "R_max",
+      "controlling_node",
+      "controlling_dof",
+      "dt_attempt",
+      "equil_iters",
+      "severe_discon_iters",
+      "cutbacks_count"
+    ]
+  },
+  "downstream_gating": {
+    "package_29_8thread_twin": "SUBMISSION_AND_DATACHECK_HELD_PENDING_STAGE_B_TERMINAL_PASS"
+  }
+}

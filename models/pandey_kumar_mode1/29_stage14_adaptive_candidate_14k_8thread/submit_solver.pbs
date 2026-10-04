@@ -1,0 +1,48 @@
+#!/bin/bash
+#PBS -N PK_M1_14K_8T
+#PBS -l select=1:ncpus=8:mpiprocs=1:ompthreads=8:mem=16gb
+#PBS -l walltime=12:00:00
+#PBS -q normal_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+
+# ==============================================================================
+# Gate-6B Stage 14U-AL Package 29: 8-Thread Shared-Memory Adaptive 14K Solve
+# Single-rank shared-memory threading (1 rank x 8 threads, cpus=8, mp_mode=threads)
+# Status: SUBMISSION AND DATACHECK STRICTLY HELD PENDING STAGE-B DETERMINISM PASS
+# ==============================================================================
+
+set -eo pipefail
+
+cd "${PBS_O_WORKDIR}"
+
+# Source dual-channel notifications library
+if [ -f "./job_notifications.sh" ]; then
+    source "./job_notifications.sh"
+    notification_install_terminal_trap "PK_M1_14K_8T"
+    notify_start "PK_M1_14K_8T"
+fi
+
+# Load required HPC modules
+module purge
+module load intel/2024.2.0
+module load abaqus/2023
+
+# Set OpenMP threading environment
+export OMP_NUM_THREADS=8
+export MKL_NUM_THREADS=8
+
+echo "=== STARTING 8-THREAD SHARED-MEMORY ABAQUS SOLVER RUN ==="
+date
+echo "Node: $(hostname)"
+echo "CPUs allocated: 8 (1 rank x 8 threads)"
+echo "Input deck: PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp"
+echo "Subroutine: f42_mixed_uel.for"
+
+abaqus job=PK_M1_14K_8T input=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE user=f42_mixed_uel.for cpus=8 mp_mode=threads double standard interactive > pbs_execution.log 2>&1
+EXIT_CODE=$?
+
+echo "Abaqus solver finished with exit code ${EXIT_CODE}"
+date
+exit ${EXIT_CODE}

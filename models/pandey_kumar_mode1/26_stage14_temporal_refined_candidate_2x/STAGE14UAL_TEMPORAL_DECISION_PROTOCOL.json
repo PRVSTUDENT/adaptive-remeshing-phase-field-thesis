@@ -1,0 +1,54 @@
+{
+  "protocol_name": "GATE6B_STAGE14UAL_TEMPORAL_REFINEMENT_DECISION_PROTOCOL",
+  "protocol_version": 2,
+  "task_id": "F1221-GATE6B-STAGE14UAL-EVALUATOR-FREEZE-AND-DECISION-PROTOCOLS-20261004",
+  "target_package": "models/pandey_kumar_mode1/26_stage14_temporal_refined_candidate_2x",
+  "evaluated_job": "1410027.mmaster02",
+  "baseline_reference_job": "1409982.mmaster02",
+  "epistemic_and_causal_governance": {
+    "convergence_mechanism": "POST_FRACTURE_CONVERGENCE_NORMALIZATION_SENSITIVITY_VERIFIED",
+    "ill_conditioning_status": "NOT_ESTABLISHED",
+    "crack_functional_terminology": "IMPLEMENTED_PHASE_FIELD_CRACK_SURFACE_FRACTURE_FUNCTIONAL_E_FRAC"
+  },
+  "temporal_discretization_comparison": {
+    "baseline": {
+      "step1_dt": 0.0005,
+      "step1_du_nm": 2.50,
+      "step1_incs": 2000,
+      "step2_dt": 0.0002,
+      "step2_du_nm": 1.00,
+      "step2_incs": 5000
+    },
+    "temporal_2x": {
+      "step1_dt": 0.00025,
+      "step1_du_nm": 1.25,
+      "step1_incs": 4000,
+      "step2_dt": 0.0001,
+      "step2_du_nm": 0.50,
+      "step2_incs": 10000
+    }
+  },
+  "predeclared_decision_branches_at_u007889": {
+    "branch_1": {
+      "condition": "TEMPORAL_REFINEMENT_CROSSES_BASELINE_FAILURE",
+      "criteria": "Solver converges past u = 0.007889 mm without Newton stagnation",
+      "action": "HOLD_PACKAGE_28__EVALUATE_CROSSED_DYNAMICS",
+      "scientific_inference": "Time step truncation error was the primary obstacle to post-fracture equilibrium"
+    },
+    "branch_2": {
+      "condition": "TEMPORAL_REFINEMENT_REFAILS_SAME_MECHANISM",
+      "criteria": "Solver terminates at u = 0.007889 mm with identical DOF-3 stagnation plateau at wake nodes",
+      "action": "RECONFIRM_PACKAGE_28_CN050_AND_SUBMIT_IMMEDIATELY",
+      "scientific_inference": "Time step refinement alone does not resolve displacement-correction normalization stagnation under residual stiffness; Cn relaxation is necessary"
+    },
+    "branch_3": {
+      "condition": "TEMPORAL_REFINEMENT_CHANGES_FAILURE_PATH",
+      "criteria": "Solver diverges or terminates at earlier displacement u < 0.007889 mm or along different path",
+      "action": "HOLD_PACKAGE_28__PERFORM_SPATIAL_PATH_AUDIT",
+      "scientific_inference": "Temporal refinement introduced unexpected numerical sensitivity or path bifurcation"
+    }
+  },
+  "package_28_gating": {
+    "submission_status": "STRICTLY_HELD_PENDING_TEMPORAL_DECISION_BRANCH_EVALUATION"
+  }
+}

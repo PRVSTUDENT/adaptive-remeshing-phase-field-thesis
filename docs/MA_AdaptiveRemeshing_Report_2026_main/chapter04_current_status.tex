@@ -2738,6 +2738,103 @@ Simultaneously, serial diagnostic Job \texttt{1410027.mmaster02} (\texttt{PK\_M1
   \item \textbf{Gating Constraint:} Package~28 ($C_n = 0.50$ candidate) submission remains strictly \textbf{HELD} until Job~\texttt{1410027.mmaster02} either crosses the historical failure point ($u = 0.007889\,\mathrm{mm}$) or terminates deterministically.
 \end{itemize}
 
+\section{Stage 14U-AL: Automated Evaluator Freeze, Decision Protocols, and 8-Thread Scaling Roadmap}
+\label{sec:stage14ual_evaluators_and_decision_protocols}
+
+Building upon the Stage-B determinism repeat initialization and temporal checkpoint in Stage~14U-AK, Stage~14U-AL locks and validates the complete, turnkey automated evaluation infrastructure, establishes formal pre-declared decision protocols and schemas, prepares the Package~29 8-thread Stage-A twin template, and audits live dual-solver telemetry on compute node \texttt{mnode097}.
+
+\subsection{Automated Evaluator Architecture and Mathematical Rigor}
+\label{subsec:stage14ual_evaluator_architecture}
+
+Two specialized, turnkey post-processing evaluators have been authored and verified within the active package structures:
+\begin{enumerate}
+  \item \textbf{Evaluator A (\texttt{evaluate\_stage14ual\_4thread\_determinism.py}):} Deployed in Package~27 (\texttt{models/pandey\_kumar\_mode1/27\_stage14\_adaptive\_candidate\_14k\_4thread\_stage\_b/}), this tool executes automated, multi-tier comparison between 4-Thread Stage-B (Job~\texttt{1410029.mmaster02}), 4-Thread Stage-A (Job~\texttt{1410006.mmaster02}), and Serial Reference (Job~\texttt{1409982.mmaster02}). The evaluator tracks:
+  \begin{itemize}
+    \item Pointwise increment-by-increment reaction force, strain energy, fracture functional, and external work parity;
+    \item Canonical linear-elastic structural stiffness $K_0$ ($N=400$ increments, $u \le 0.0010\,\mathrm{mm}$) via ordinary least squares;
+    \item Ten pre-declared matched actual reference-point displacement states:
+    \begin{equation}
+      u \in \{0.0010, 0.0030, 0.0050, 0.005733, 0.005857, 0.0060, 0.0065, 0.0070, 0.007889\}\,\mathrm{mm}
+    \end{equation}
+    plus any subsequent post-fracture states reached by the solver;
+    \item Peak capacity ($F_{\max}, u_{\mathrm{peak}}$) and terminal softening characteristics;
+    \item Increment~2890 cutback attempt sequence ($c_{\max}, R_{\max}$, controlling wake node/DOF, $\Delta t$, iterations, cutbacks).
+  \end{itemize}
+  \item \textbf{Evaluator B (\texttt{evaluate\_stage14ual\_temporal\_refinement.py}):} Deployed in Package~26 (\texttt{models/pandey\_kumar\_mode1/26\_stage14\_temporal\_refined\_candidate\_2x/}), this tool automates the comparison between the $2\times$ temporal refinement diagnostic (Job~\texttt{1410027.mmaster02}) and the baseline solve (Job~\texttt{1409982.mmaster02}). The tool evaluates energy partitioning dynamics ($E_{\mathrm{elas}}/W_{\mathrm{ext}}, E_{\mathrm{frac}}/W_{\mathrm{ext}}$), canonical stiffness $K_0$ ($N=800$ temporal increments or $N=400$ interpolated baseline grid), peak load evolution, and automatically classifies the terminal run into one of three pre-declared decision branches at $u = 0.007889\,\mathrm{mm}$.
+\end{enumerate}
+
+\subsection{Epistemic Separation and Governance Discipline}
+\label{subsec:stage14ual_epistemic_governance}
+
+Strict epistemic governance is enforced across all evaluation documents:
+\begin{itemize}
+  \item \textbf{Decoupling of Determinism vs.\ Representation Accuracy:} The evaluation between Stage-A and Stage-B repeats assesses \textbf{parallel numerical determinism across independent scheduler allocations}. In contrast, comparison against the fixed uniform reference ($15,192$ elements) assesses \textbf{structural compliance restoration and mesh representation fidelity}. These two scientific evaluations must never be conflated.
+  \item \textbf{Governed Nomenclature:} The phase-field regularized fracture energy $E_{\mathrm{frac}}$ is strictly designated as the \textbf{"implemented phase-field crack-surface/fracture functional"}.
+  \item \textbf{Failure Mechanism Formulation:} Post-fracture termination under residual softening is classified as \textbf{\texttt{POST\_FRACTURE\_CONVERGENCE\_NORMALIZATION\_SENSITIVITY\_VERIFIED}}, while matrix ill-conditioning remains classified as \textbf{\texttt{NOT\_ESTABLISHED}} pending formal condition number estimation.
+\end{itemize}
+
+\subsection{Predeclared Decision Branches at Historical Failure Point}
+\label{subsec:stage14ual_decision_branches}
+
+To eliminate post-hoc evaluation bias, three mutually exclusive decision branches are formally pre-declared for the $2\times$ temporal diagnostic at $u = 0.007889\,\mathrm{mm}$ (Table~\ref{tab:stage14ual_decision_branches}):
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Stage 14U-AL Pre-declared Scientific Decision Branches for $2\times$ Temporal Refinement Diagnostic.}
+\label{tab:stage14ual_decision_branches}
+\begin{tabularx}{\textwidth}{l p{4.2cm} p{3.8cm} X}
+\toprule
+\textbf{Branch} & \textbf{Observed Numerical Criterion} & \textbf{Scientific Inference} & \textbf{Governed Action Directive} \\
+\midrule
+\textbf{Branch 1} & \texttt{TEMPORAL\_REFINEMENT\_\allowbreak CROSSES\_BASELINE\_FAILURE}: Converges past $u = 0.007889\,\mathrm{mm}$ without cutback exhaustion. & Time-step truncation error was the primary obstacle to post-fracture equilibrium. & \textbf{\texttt{HOLD\_PACKAGE\_28}}\newline Evaluate crossed post-fracture dynamics. \\
+\midrule
+\textbf{Branch 2} & \texttt{TEMPORAL\_REFINEMENT\_\allowbreak REFAILS\_SAME\_MECHANISM}: Terminates at $u = 0.007889\,\mathrm{mm}$ with identical DOF-3 stagnation at wake nodes. & Time refinement alone cannot overcome correction normalization mismatch under residual stiffness. & \textbf{\texttt{RECONFIRM\_PKG\_28}}\newline Re-verify $C_n = 0.50$ hashes and submit immediately as next diagnostic. \\
+\midrule
+\textbf{Branch 3} & \texttt{TEMPORAL\_REFINEMENT\_\allowbreak CHANGES\_FAILURE\_PATH}: Diverges or bifurcates at earlier displacement $u < 0.007889\,\mathrm{mm}$. & Temporal refinement exposed unexpected numerical sensitivity or path instability. & \textbf{\texttt{HOLD\_PACKAGE\_28}}\newline Execute spatial phase and trajectory audit. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Package 29 Preparation and 8-Thread Scaling Gating}
+\label{subsec:stage14ual_package29_preparation}
+
+In preparation for higher-throughput HPC scaling following the completion of the 4-thread qualification suite, \textbf{Package~29} (\texttt{models/pandey\_kumar\_mode1/29\_stage14\_adaptive\_candidate\_14k\_8thread/}) was constructed offline:
+\begin{itemize}
+  \item \textbf{Deck and Subroutine Hash Invariance:} Exact cryptographic identity is preserved for the input deck (\texttt{PK\_MODE1\_STAGE14\_ADAPT\_14K\_FRACTURE.inp}, SHA-256 \texttt{26D873FB...}) and user subroutine (\texttt{f42\_mixed\_uel.for}, SHA-256 \texttt{CE8D5EDC...}).
+  \item \textbf{Threading Configuration:} The PBS execution wrapper specifies single-node shared-memory threading with 8 threads:
+  \begin{equation}
+    \texttt{\#PBS -l select=1:ncpus=8:mpiprocs=1:ompthreads=8:mem=16gb}
+  \end{equation}
+  with solver invocation \texttt{cpus=8 mp\_mode=threads}.
+  \item \textbf{Strict Gating Rule:} In accordance with Stage-B gating policy, datacheck and submission for Package~29 remain strictly \textbf{HELD} (\texttt{8THREAD\_STAGEA\_TWIN\_TEMPLATE\_PREPARED\_\allowbreak SUBMISSION\_AND\_DATACHECK\_HELD\_PENDING\_STAGEB\_DETERMINISM}) until Job~\texttt{1410029.mmaster02} achieves a full terminal determinism pass.
+\end{itemize}
+
+\subsection{Dual Solver Telemetry and Progress Checkpoint}
+\label{subsec:stage14ual_telemetry_checkpoint}
+
+A non-interactive scheduler query confirmed that both active solver jobs are executing cleanly on compute node \texttt{mnode097} in queue \texttt{normal\_imfdfkmq} (Table~\ref{tab:stage14ual_solver_telemetry}):
+\begin{enumerate}
+  \item \textbf{Job \texttt{1410029.mmaster02} (\texttt{PK\_M1\_14K\_4T\_STAGE\_B}):} Has completed Increment~820 ($t_1 = 0.410$, $u = 0.002050\,\mathrm{mm}$) with 0 cutbacks and 3 iterations per increment constantly, maintaining $100\%$ bitwise determinism against Stage-A across all reached increments (\texttt{STAGE\_B\_DETERMINISM\_PARITY\_PASS\_OVER\_REACHED\_RANGE}).
+  \item \textbf{Job \texttt{1410027.mmaster02} (\texttt{PK\_M1\_ADAPT\_14K\_T2X}):} Has completed Increment~1211 ($t_1 = 0.30275$, $u = 0.001514\,\mathrm{mm}$) with 0 cutbacks and 3 iterations per increment in linear elasticity, actively progressing toward Step~1 completion ($u = 0.0050\,\mathrm{mm}$, Inc 4000).
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Stage 14U-AL Dual HPC Solver Execution Telemetry on Compute Node \texttt{mnode097}.}
+\label{tab:stage14ual_solver_telemetry}
+\begin{tabularx}{\textwidth}{l c c c c c X}
+\toprule
+\textbf{Job ID} & \textbf{Job Name} & \textbf{Mode} & \textbf{Active Step / Inc} & $u$ ($\mu\mathrm{m}$) & \textbf{Cutbacks} & \textbf{Current Status} \\
+\midrule
+\texttt{1410029.mmaster02} & \texttt{PK\_M1\_14K\_4T\_STAGE\_B} & 4T Shared & Step 1 Inc 820 & $2.050$ & 0 & Bitwise Determinism Pass (Interim) \\
+\texttt{1410027.mmaster02} & \texttt{PK\_M1\_ADAPT\_14K\_T2X} & Serial 1-CPU & Step 1 Inc 1211 & $1.514$ & 0 & $2\times$ Temporal Diagnostic Solving \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
 
 
 
