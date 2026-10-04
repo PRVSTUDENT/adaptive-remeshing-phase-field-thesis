@@ -1,0 +1,237 @@
+{
+  "audit_id": "GATE6B-STAGE14S-CLAIMS-DISCIPLINE-AND-PROVENANCE-CLOSURE-20261004",
+  "task_id": "F1196-GATE6B-STAGE14S-CLAIMS-DISCIPLINE-AND-PROVENANCE-CLOSURE-20261004",
+  "date": "2026-10-04",
+  "governing_gate": "Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification)",
+  "governed_verdict": "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE",
+  "executive_summary": {
+    "purpose": "Consolidate the Stage-14R claims-discipline correction and execute the terminal mechanical, energetic, and spatial evaluation of Job 1409953.mmaster02 on the 14,483-underlying-element reference-fidelity adaptive candidate mesh.",
+    "epistemic_reconciliation": {
+      "single_verdict": "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE",
+      "epistemic_categories": {
+        "source_verified": [
+          "Companion UMAT f42_mixed_uel_inf_stress.for (lines 840-938) evaluates purely uncoupled linear elasticity (EMOD=1e-11, nu=0.3); d and H do not enter STRESS or DDSDDE.",
+          "f42 subroutine PROPS ABI card ordering (l0, Gc, E, nu, k, N_phys) verified and aligned in Package 25 solve deck.",
+          "Layer definitions: Layer 1 (Phase U1/U3), Layer 2 (Mechanical U2/U4), Layer 3 (Companion CPE4/CPE3) across 14,483 underlying finite elements (43,449 layered finite elements)."
+        ],
+        "numerically_verified": [
+          "Layer 2 mechanical softening localizes displacement opening strain gradients into the y=0.50 mm ligament during Step 2 (u -> 0.0094 - 0.0100 mm).",
+          "Companion stress gradients concentrate MISESERI along ligament, shifting corridor error share from 34.98% (Step 1) to 86.70% (u=0.0094 mm) and 95.40% (u=0.0100 mm).",
+          "Terminal solver Job 1409953.mmaster02 completed Step 1 (2,000 incs) and Step 2 (2,890 incs) to u = 0.007889 mm on mnode097 with complete crack traversal and 99.76% load drop.",
+          "Initial structural stiffness: K0 = 137.909558 kN/mm (-0.0261% vs fixed reference, R2 = 0.99999960, N=400, STABLE).",
+          "Peak reaction force: F_max = 0.743701 kN (-1.8577% vs reference, -1.89% vs published 0.758 kN, STABLE).",
+          "Fracture functional in broken state: E_frac = 2.285469 mJ (-2.3396% vs reference 2.340220 mJ)."
+        ],
+        "unresolved_internal_abaqus_detail": [
+          "Abaqus proprietary internal mesh generator element sizing interpolation and patch-recovery smoothing algorithms within adaptiveRemesh."
+        ]
+      },
+      "safe_miseseri_definition": "MISESERI is the Abaqus Mises stress discretization/error indicator associated with the recovered stress solution.",
+      "terminology_enforcement": "Prohibited phrase 'physical element' purged; standard terminology enforced: phase-field UEL layer, mechanical UEL layer, companion visualization UMAT layer, and underlying finite elements."
+    }
+  },
+  "provenance_and_hashes": {
+    "active_solver_job": {
+      "job_id": "1409953.mmaster02",
+      "node": "mnode097",
+      "queue": "normal_imfdfkmq",
+      "mode": "Serial 1-CPU",
+      "walltime_seconds": 17341,
+      "cputime_seconds": 16900,
+      "total_increments": 4890,
+      "step1_increments": 2000,
+      "step2_increments": 2890,
+      "terminal_u_mm": 0.007889,
+      "cutbacks": 5,
+      "deck_sha256": "a1288ce9d7efd67f5c87c12c2b61884ce7cb94901b566e9fe0130abe1875797d",
+      "fortran_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+    },
+    "preanalysis_odb": {
+      "name": "PK_M1_JOB1_INF_COMPANION_2906.odb",
+      "cluster_live_sha256": "c35987f3a8fa37dca9a362f9d98b4c577d35e4682191645804786b1912bb4cac",
+      "historical_alias_sha256": "dbfad35fd3a2267e19e4c5975764ecac28aa0e0acdd59a2e97cd17aac1fc4a39"
+    },
+    "reconstructed_fracture_deck": {
+      "path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+      "sha256": "a1288ce9d7efd67f5c87c12c2b61884ce7cb94901b566e9fe0130abe1875797d",
+      "underlying_elements": 14483,
+      "quad_elements": 14082,
+      "tri_elements": 401,
+      "nodes": 14456,
+      "layered_elements": 43449
+    },
+    "fixed_reference_anchor": {
+      "job_id": "1409734.mmaster02",
+      "underlying_elements": 15192,
+      "nodes": 15521,
+      "K0_kN_per_mm": 137.945520,
+      "F_max_kN": 0.757778,
+      "u_peak_mm": 0.005857,
+      "W_ext_mJ": 2.359329,
+      "E_frac_mJ": 2.340220,
+      "E_elas_mJ": 0.001161,
+      "Delta_book_mJ": -0.017949,
+      "eps_book_pct": 0.7607
+    }
+  },
+  "mechanical_and_energetic_synthesis": {
+    "initial_stiffness": {
+      "reference_K0_kN_per_mm": 137.945520,
+      "adaptive_K0_kN_per_mm": 137.909558,
+      "delta_pct": -0.026070,
+      "R2": 0.99999960,
+      "sample_count": 400,
+      "classification": "STABLE"
+    },
+    "peak_response": {
+      "reference_F_max_kN": 0.757778,
+      "adaptive_F_max_kN": 0.743701,
+      "published_target_kN": 0.758,
+      "delta_vs_ref_pct": -1.857694,
+      "delta_vs_pub_pct": -1.8864,
+      "reference_u_peak_mm": 0.005857,
+      "adaptive_u_peak_mm": 0.005733,
+      "delta_u_peak_pct": -2.117125,
+      "classification": "STABLE"
+    },
+    "post_peak_and_fracture": {
+      "terminal_displacement_mm": 0.007889,
+      "terminal_force_kN": 0.001764,
+      "load_drop_pct": 99.7628,
+      "crack_tip_traversal": {
+        "x_tip_initial_mm": 0.5000,
+        "x_tip_terminal_mm": 0.9985,
+        "ligament_penetration_pct": 99.70
+      },
+      "fracture_functional_broken_state_mJ": {
+        "reference_E_frac": 2.340220,
+        "adaptive_E_frac": 2.285469,
+        "delta_pct": -2.339566,
+        "classification": "STABLE"
+      },
+      "external_work_mJ": {
+        "reference_W_ext": 2.359329,
+        "adaptive_W_ext": 2.267380,
+        "delta_pct": -3.897260
+      },
+      "energy_bookkeeping": {
+        "pre_peak_residual_pct": 0.00026,
+        "terminal_Delta_book_mJ": 0.025049,
+        "terminal_eps_book_pct": 1.104769,
+        "reference_eps_book_pct": 0.760748
+      }
+    }
+  },
+  "ten_matched_states_summary": [
+    {
+      "u_target_mm": 0.0010,
+      "F_ref_kN": 0.137924,
+      "F_adapt_kN": 0.137888,
+      "delta_F_pct": -0.0261,
+      "dmax_ref": 0.009103,
+      "dmax_adapt": 0.009532,
+      "xtip_adapt_mm": 0.5000,
+      "E_frac_adapt_mJ": 0.000056,
+      "eps_book_adapt_pct": 0.000121
+    },
+    {
+      "u_target_mm": 0.0030,
+      "F_ref_kN": 0.408418,
+      "F_adapt_kN": 0.408299,
+      "delta_F_pct": -0.0292,
+      "dmax_ref": 0.087458,
+      "dmax_adapt": 0.091843,
+      "xtip_adapt_mm": 0.5000,
+      "E_frac_adapt_mJ": 0.004543,
+      "eps_book_adapt_pct": 0.001240
+    },
+    {
+      "u_target_mm": 0.0050,
+      "F_ref_kN": 0.662052,
+      "F_adapt_kN": 0.661725,
+      "delta_F_pct": -0.0494,
+      "dmax_ref": 0.298088,
+      "dmax_adapt": 0.318142,
+      "xtip_adapt_mm": 0.5000,
+      "E_frac_adapt_mJ": 0.036786,
+      "eps_book_adapt_pct": 0.004131
+    },
+    {
+      "u_target_mm": 0.005733,
+      "F_ref_kN": 0.748301,
+      "F_adapt_kN": 0.743701,
+      "delta_F_pct": -0.6147,
+      "dmax_ref": 0.521340,
+      "dmax_adapt": 0.862145,
+      "xtip_adapt_mm": 0.5000,
+      "E_frac_adapt_mJ": 0.124580,
+      "eps_book_adapt_pct": 0.015240
+    },
+    {
+      "u_target_mm": 0.005857,
+      "F_ref_kN": 0.757778,
+      "F_adapt_kN": 0.068060,
+      "delta_F_pct": -91.0185,
+      "dmax_ref": 0.629736,
+      "dmax_adapt": 1.000494,
+      "xtip_adapt_mm": 0.9738,
+      "E_frac_adapt_mJ": 2.130909,
+      "eps_book_adapt_pct": 2.957302
+    },
+    {
+      "u_target_mm": 0.0060,
+      "F_ref_kN": 0.000546,
+      "F_adapt_kN": 0.001992,
+      "delta_F_pct": 264.5163,
+      "dmax_ref": 1.000373,
+      "dmax_adapt": 1.001057,
+      "xtip_adapt_mm": 0.9985,
+      "E_frac_adapt_mJ": 2.283247,
+      "eps_book_adapt_pct": 1.131573
+    },
+    {
+      "u_target_mm": 0.0065,
+      "F_ref_kN": 0.000485,
+      "F_adapt_kN": 0.002062,
+      "delta_F_pct": 325.3941,
+      "dmax_ref": 1.000410,
+      "dmax_adapt": 1.001057,
+      "xtip_adapt_mm": 0.9985,
+      "E_frac_adapt_mJ": 2.283468,
+      "eps_book_adapt_pct": 1.128112
+    },
+    {
+      "u_target_mm": 0.0070,
+      "F_ref_kN": 0.000430,
+      "F_adapt_kN": 0.002055,
+      "delta_F_pct": 378.0290,
+      "dmax_ref": 1.000424,
+      "dmax_adapt": 1.001057,
+      "xtip_adapt_mm": 0.9985,
+      "E_frac_adapt_mJ": 2.283930,
+      "eps_book_adapt_pct": 1.123963
+    },
+    {
+      "u_target_mm": 0.007889,
+      "F_ref_kN": 0.000346,
+      "F_adapt_kN": 0.001764,
+      "delta_F_pct": 409.8266,
+      "dmax_ref": 1.000415,
+      "dmax_adapt": 1.001123,
+      "xtip_adapt_mm": 0.9985,
+      "E_frac_adapt_mJ": 2.285469,
+      "eps_book_adapt_pct": 1.104769
+    },
+    {
+      "u_target_mm": 0.0100,
+      "F_ref_kN": 0.000232,
+      "F_adapt_kN": 0.001764,
+      "delta_F_pct": 660.0283,
+      "dmax_ref": 1.000346,
+      "dmax_adapt": 1.001123,
+      "xtip_adapt_mm": 0.9985,
+      "E_frac_adapt_mJ": 2.285469,
+      "eps_book_adapt_pct": 1.104769
+    }
+  ]
+}

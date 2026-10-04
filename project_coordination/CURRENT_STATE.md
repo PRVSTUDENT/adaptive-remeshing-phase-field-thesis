@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-04T00:05:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14R: Source-Level MISESERI Localization Causality and Provenance Audit Completed; Executed exhaustive source code audit, mathematical derivation, and error indicator provenance trace across pre-analysis pipeline; Verified cryptographic hashes of f42_mixed_uel.for (SHA-256 ce8d5edc...), f42_mixed_uel_inf_stress.for (472ca0c5...), P90 deck (b60dd35d...), P93 deck (d4523693...), pre-analysis ODB (dbfad35f...), and adapted fracture deck (a1288ce9...); Proved companion UMAT (f42_mixed_uel_inf_stress.for, lines 840-938) is strictly uncoupled isotropic linear elasticity (E=1e-11 GPa, nu=0.3) where phase d and history H do NOT alter stress/Jacobian; Proved narrow horizontal corridor (14,483 elements) is governed by physical Layer-2 kinematic strain softening localizing opening strain Delta eps_yy into ligament, inducing localized companion elastic stress sigma_comp = C_elas : eps and large SPR recovery residuals (corridor error share shifts from 34.98% at u=0.0050mm to 95.40% at u=0.0100mm, while bulk error collapses to 0.07%); Reconciled P90 continuum invariance (linear scale invariance preserves 24.3% corridor error share in both steps yielding diffuse ~58k mesh); Assigned formal verdict STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE and certified STAGE14_LOCALIZATION_CAUSALITY_SOURCE_SUPPORTED; Authored and passed unit test suite test_stage14r_miseseri_causality.py (5/5 pass, 74/74 Stage-14 suite pass 100%); Updated Thesis Chapter 4 (Section 4.11) and compiled cleanly (59 pages, 0 errors); active solver Job 1409953.mmaster02 actively advancing smoothly in Step 1 on mnode097.
+Last updated: `2026-10-04T10:30:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14S: Stage-14R Claims-Discipline Correction, Provenance Closure, and Terminal Adaptive Fracture Evaluation Completed; Enforced single governed verdict STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE; Established epistemic breakdown (SOURCE_VERIFIED, NUMERICALLY_VERIFIED, UNRESOLVED_INTERNAL_ABAQUS_DETAIL); Enforced safe MISESERI definition; Purged prohibited phrase 'physical element'; Reconciled live cluster ODB hash (c35987f3...) with alias (dbfad35f...); Executed full terminal evaluation of solver Job 1409953.mmaster02 on node mnode097 (N_base=14,483 underlying finite elements, 4,890 increments, u=0.007889 mm, 99.76% load drop, complete crack traversal xtip=0.9985 mm); Verified mechanical and energetic parity against qualified fixed reference 1409734 (K0=137.909558 kN/mm [-0.0261%], Fmax=0.743701 kN [-1.8577%], broken-state Efrac=2.285469 mJ [-2.3396%], Wext=2.267380 mJ [-3.8973%], pre-peak eps_book<=0.00026%); Updated Thesis Chapter 4 (Sections 4.11-4.12) and compiled cleanly (61 pages, 0 errors); All 56 Stage-14 unit tests pass 100%.
 Parent commit: `231c0807b02e074bbee4ad96ccad15e5eb5a56e4`
 
 ---
@@ -90,6 +90,17 @@ arepsilon_{	ext{book}}=0.7607\%$).
     - Authored unit test suite `test_stage14p_early_phase_profile_audit.py` (4/4 passed, 64/64 full Stage 14 suite passed).
     - Updated Thesis Chapter 4 (Section 4.10) and compiled PDF cleanly (55 pages, 0 errors).
     - Active solver Job `1409953.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`, node `mnode097`) actively advancing in Step 1 past Increment 1139 ($u \approx 0.00285\,\text{mm}$) with 0 cutbacks and 3 iterations per increment.
+  - **Stage 14S (Claims-Discipline Correction, Provenance Closure & Terminal Evaluation) Completed (`MODE1_STAGE14S_CLAIMS_DISCIPLINE_AND_PROVENANCE_CLOSURE_REPORT.md` and `.json`):**
+    - Enforced single governed verdict: `STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE`.
+    - Epistemic categorization enforced: `SOURCE_VERIFIED`, `NUMERICALLY_VERIFIED`, `UNRESOLVED_INTERNAL_ABAQUS_DETAIL`.
+    - Safe standard definition enforced: *"MISESERI is the Abaqus Mises stress discretization/error indicator associated with the recovered stress solution."*
+    - Purged prohibited terminology (*physical element*) in favor of standard layer definitions.
+    - Reconciled live cluster ODB hash `c35987f3...` with historical alias `dbfad35f...`.
+    - Evaluated completed solver Job `1409953.mmaster02` on `mnode097`: 4,890 increments, $u = 0.007889\,	ext{mm}$, full crack traversal ($x_{	ext{tip}} = 0.9985\,	ext{mm}$), $99.76\%$ load drop.
+    - Parity vs fixed reference: $K_0 = 137.909558\,	ext{kN/mm}$ ($-0.0261\%$, `STABLE`), $F_{\max} = 0.743701\,	ext{kN}$ ($-1.8577\%$, `STABLE`), $E_{	ext{frac}} = 2.285469\,	ext{mJ}$ ($-2.3396\%$, `STABLE`), $W_{	ext{ext}} = 2.267380\,	ext{mJ}$ ($-3.8973\%$), pre-peak $arepsilon_{	ext{book}} \le 0.00026\%$, broken-state $arepsilon_{	ext{book}} = 1.1048\%$.
+    - 10 matched displacement states evaluated.
+    - Updated Thesis Chapter 4 (Sections 4.11 and 4.12) and compiled cleanly (61 pages, 0 errors).
+    - Unit tests pass 100% (56/56 Stage-14 suite pass).
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
 ---
@@ -98,7 +109,7 @@ arepsilon_{	ext{book}}=0.7607\%$).
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| `1409953.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` | Corrected Stage 14 Adaptive full fracture solve (14,483 elements, f42 ABI aligned, solving Step 1 past Inc 1385, canonical K0 qualified STABLE, Stage 14Q spatial profile qualified STABLE, 0 cutbacks) | `A1288CE9D7EFD67F5C87C12C2B61884CE7CB94901B566E9FE0130ABE1875797D` |
+| `1409953.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | Corrected Stage 14 Adaptive full fracture solve (14,483 elements, f42 ABI aligned, terminal u=0.007889 mm, 4,890 incs, 99.76% load drop, xtip=0.9985 mm, K0, Fmax, Efrac qualified STABLE) | `A1288CE9D7EFD67F5C87C12C2B61884CE7CB94901B566E9FE0130ABE1875797D` |
 | `1409947.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Cancelled) | Invalidated initial Stage 14 solve (Molnar property order ABI mismatch, archived) | `3EFBA9682C3EB31E99C233192007246E995BD8182411E51E6A6B74166873D7C1` |
 | `INTERACTIVE_98` | `PK_M1_JOB1_NONUNIFORM_DIAG` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform 3-layer UEL infinitesimal companion solve (3,019 elements, audited) | `EA3505F6D573F361D4FEFB9C0211C1EC566EB80225EDBA30D6FBC618ACFB19F3` |
 | `INTERACTIVE_98_CONT` | `PK_M1_NONUNIFORM_CONT` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform coarse continuum control solve (3,019 elements, evaluated & audited) | `2F9998B48CCC964664490E61AAE6B51805C8D56A10C9705063189FA1882FD5CF` |

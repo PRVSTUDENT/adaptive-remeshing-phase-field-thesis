@@ -1,14 +1,15 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1195-GATE6B-STAGE14R-MISESERI-LOCALIZATION-CAUSALITY-AND-PROVENANCE-AUDIT-20261003",
-  "claimed_at": "2026-10-03T23:50:00+02:00",
-  "released_at": "2026-10-04T00:05:00+02:00",
-  "starting_commit": "6215ff9218f502738a04708aebf7463d54c76981",
+  "task_id": "F1196-GATE6B-STAGE14S-CLAIMS-DISCIPLINE-AND-PROVENANCE-CLOSURE-20261004",
+  "claimed_at": "2026-10-04T00:06:00+02:00",
+  "released_at": "2026-10-04T10:30:00+02:00",
+  "starting_commit": "f836b7245c5decb61efa88d9dfcfc61350dcf019",
   "allowed_write_scope": [
     "models/pandey_kumar_mode1/**",
     "tests/unit/**",
     "docs/**",
-    "project_coordination/**"
+    "project_coordination/**",
+    "scripts/**"
   ]
 }
