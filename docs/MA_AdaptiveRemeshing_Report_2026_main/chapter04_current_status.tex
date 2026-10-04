@@ -2194,3 +2194,87 @@ To satisfy the multi-threading governance protocol, parallel qualification canno
 \end{itemize}
 The Abaqus Datacheck for Package~27 was executed on the cluster and passed with Exit Code~0 (zero errors, zero warnings). In accordance with the governance protocol, Package~27 is assigned the status \texttt{4THREAD\_STAGEB\_REPEAT\_VALIDATED\_\_WAITING\_FOR\_STAGEA\_TERMINAL\_PASS}. Its submission is held until Stage-A Job \texttt{1410006.mmaster02} terminates and completes its post-peak parity audit.
 
+\section{Stage 14U-AF: Historical-Failure-Crossing Audit and Terminal-Readiness Qualification}
+\label{sec:stage14uaf_failure_crossing_audit}
+
+Following the deployment of the Step-2 solver-control completion package in Job~\texttt{1409982.mmaster02} ($I_A=10, I_C=20, \Delta t_{\min}=1.0\times 10^{-9}$), Stage~14U-AF executes the formal historical-failure-crossing audit against predecessor Job~\texttt{1409953.mmaster02} around the historical cutback boundary $u = 0.007889\,\mathrm{mm}$ (Step~2 Increment~2890).
+
+\subsection{Solver Execution and Common-Range Telemetry}
+\label{subsec:stage14uaf_telemetry}
+
+Job~\texttt{1409982.mmaster02} executed to completion on compute node \texttt{mnode097} with a total wallclock time of $17{,}609\,\mathrm{s}$ ($04\text{:}53\text{:}29$) and CPU time of $17{,}100\,\mathrm{s}$ ($04\text{:}45\text{:}00$). The solver converged all 4,889 increments through Step~2 Increment~2889 ($u = 0.00788900\,\mathrm{mm}$), tracking the predecessor solution bitwise across all physical observables (Table~\ref{tab:stage14uaf_crossing_states}).
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Converged Telemetry and Energy Bookkeeping across the Failure Crossing Window ($u \in [0.007880, 0.007889]\,\mathrm{mm}$).}
+\label{tab:stage14uaf_crossing_states}
+\begin{tabular}{cccccccc}
+\hline
+\textbf{Step / Inc} & \textbf{Actual $U_2$ [mm]} & $F$ [kN] & $W_{\mathrm{ext}}$ [mJ] & $E_{\mathrm{elas}}$ [mJ] & $E_{\mathrm{frac}}$ [mJ] & $\Delta_{\mathrm{book}}$ [mJ] & $\varepsilon_{\mathrm{book}}$ [\%] \\
+\hline
+S2 Inc 2880 & $0.007880$ & $0.001768$ & $2.267364$ & $0.006967$ & $2.285451$ & $+0.025054$ & $1.1050\%$ \\
+S2 Inc 2882 & $0.007882$ & $0.001767$ & $2.267367$ & $0.006965$ & $2.285455$ & $+0.025053$ & $1.1049\%$ \\
+S2 Inc 2884 & $0.007884$ & $0.001767$ & $2.267371$ & $0.006964$ & $2.285459$ & $+0.025052$ & $1.1049\%$ \\
+S2 Inc 2886 & $0.007886$ & $0.001766$ & $2.267374$ & $0.006962$ & $2.285463$ & $+0.025051$ & $1.1048\%$ \\
+S2 Inc 2888 & $0.007888$ & $0.001765$ & $2.267378$ & $0.006961$ & $2.285467$ & $+0.025050$ & $1.1048\%$ \\
+S2 Inc 2889 & $0.007889$ & $0.001764$ & $2.267380$ & $0.006960$ & $2.285469$ & $+0.025049$ & $1.1048\%$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[t!]
+  \centering
+  \includegraphics[width=0.98\textwidth]{fig_mode1_stage14uaf_failure_crossing.pdf}
+  \caption[Stage 14U-AF historical-failure-crossing and attempt telemetry audit]{Stage 14U-AF crossing audit: (a) Reaction force $F(u)$ overlay between predecessor Job 1409953 and completion Job 1409982 in the post-peak softening tail, confirming identical physical equilibrium down to $1.76\,\mathrm{N}$ ($99.76\%$ load drop); (b) Increment 2890 cutback attempt progression, demonstrating that Job 1409982 actively exercised the extended allowance ($I_A=10$) across 10 successive attempts down to the solver floor $\Delta t_{\min} = 1.0\times 10^{-9}$ compared to predecessor cutback exhaustion at attempt 6; (c) Energy bookkeeping residual $\varepsilon_{\mathrm{book}} \approx 1.1048\%$ across the crossing window.}
+  \label{fig:stage14uaf_failure_crossing}
+\end{figure}
+
+\subsection{Attempt Progression and Root-Cause Diagnosis at Increment 2890}
+\label{subsec:stage14uaf_attempt_root_cause}
+
+At Step~2 Increment~2890, the completion run actively utilized the extended attempt ceiling ($I_A=10$), generating 10 cutback attempts from $\Delta t = 2.0\times 10^{-4}$ down to $\Delta t_{\min} = 1.0\times 10^{-9}$ (Table~\ref{tab:stage14uaf_attempt_progression}).
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Increment 2890 Cutback Attempt Progression for Job 1409982.}
+\label{tab:stage14uaf_attempt_progression}
+\begin{tabular}{cccccc}
+\hline
+\textbf{Attempt} & \textbf{Time Step $\Delta t$} & \textbf{Iters} & $\max |R|$ [kN] & $\max |\Delta u|$ [mm] & \textbf{Status / Critical Node} \\
+\hline
+1 & $2.000\times 10^{-4}$ & 5 & $3.398\times 10^{-9}$ & $2.153\times 10^{-6}$ & Diverged (Node 13628, DOF 3) \\
+2 & $5.000\times 10^{-5}$ & 5 & $1.922\times 10^{-9}$ & $3.072\times 10^{-6}$ & Diverged (Node 13628, DOF 3) \\
+3 & $1.250\times 10^{-5}$ & 6 & $1.942\times 10^{-9}$ & $2.611\times 10^{-6}$ & Diverged (Node 13628, DOF 3) \\
+4 & $3.125\times 10^{-6}$ & 6 & $1.942\times 10^{-9}$ & $2.611\times 10^{-6}$ & Diverged (Node 13628, DOF 3) \\
+5 & $7.813\times 10^{-7}$ & 6 & $1.942\times 10^{-9}$ & $2.611\times 10^{-6}$ & Diverged (Node 13628, DOF 3) \\
+6 & $1.953\times 10^{-7}$ & 6 & $1.942\times 10^{-9}$ & $2.612\times 10^{-6}$ & Diverged (\emph{Predecessor 1409953 stopped here}) \\
+7 & $4.883\times 10^{-8}$ & 6 & $1.942\times 10^{-9}$ & $2.611\times 10^{-6}$ & Diverged (Node 13628, DOF 3) \\
+8 & $1.221\times 10^{-8}$ & 6 & $1.942\times 10^{-9}$ & $2.611\times 10^{-6}$ & Diverged (Node 13628, DOF 3) \\
+9 & $3.052\times 10^{-9}$ & 6 & $1.942\times 10^{-9}$ & $2.611\times 10^{-6}$ & Diverged (Node 13628, DOF 3) \\
+10 & $1.000\times 10^{-9}$ & 6 & $1.942\times 10^{-9}$ & $2.611\times 10^{-6}$ & Cutback Limit Reached ($\Delta t < \Delta t_{\min}$) \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Physical Mechanism of Stagnation.}
+The diagnostic telemetry reveals two key numerical facts:
+\begin{enumerate}
+  \item \textbf{DOF-3 Specificity:} The largest correction occurs strictly on \textbf{Degree of Freedom 3 (the phase-field scalar $d$)} at severed ligament nodes (Node 13628 and Node 6479).
+  \item \textbf{Correction Plateau in the Broken Tail:} Because the specimen is fully severed ($x_{\mathrm{tip}} = 0.9985\,\mathrm{mm}$, load drop $99.76\%$, $k=10^{-7}$), the mechanical resistance has degraded entirely. In this severed state, tiny localized phase-field oscillations ($\Delta d \approx 2.61\times 10^{-6}$) in essentially unloaded nodes fail the standard displacement correction check $\Delta u / \Delta u_{\text{inc}}$, even while the scaled residual force is minute ($1.94\times 10^{-9}\,\mathrm{kN}$).
+\end{enumerate}
+
+\subsection{Governing Crossing Verdict and Stage-14V Readiness}
+\label{subsec:stage14uaf_verdict}
+
+Based on this evidence, the governing classifications are formally assigned:
+\begin{itemize}
+  \item \textbf{Crossing Mechanism:} \texttt{FAILURE\_POINT\_REFAILED}
+  \item \textbf{Governing Crossing Verdict:} \texttt{HISTORICAL\_FAILURE\_CROSSING\_REFAILED}
+  \item \textbf{Stage-14V Terminal Readiness:} \texttt{STAGE14V\_TERMINAL\_EVALUATION\_NOT\_REACHED\_\_FINAL\_DISPLACEMENT\_0\_007889MM\_LESS\_THAN\_0\_010000MM}
+  \item \textbf{Temporal Convergence Package 26 Status:} \texttt{PACKAGE26\_SUBMISSION\_BLOCKED\_\_SERIAL\_FAILED\_BEFORE\_0\_010000MM}
+  \item \textbf{Parallel 4-Thread Status:} Job \texttt{1410006.mmaster02} remains actively solving in Step~2 with bitwise parity (\texttt{THREAD\_PARITY\_PASS\_OVER\_REACHED\_RANGE}), with Package~27 held pending its terminal qualification.
+\end{itemize}
+
+

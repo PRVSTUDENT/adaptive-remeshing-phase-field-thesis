@@ -395,7 +395,7 @@ def run_self_test():
             matched_test.append({"u_target_mm": u_t, "status": "REACHED", "f_adapt_kN": 0.5})
             
     unreached = [r for r in matched_test if r["status"] == "NOT_REACHED"]
-    assert len(unreached) == 3, f"Expected 3 unreached states (0.008, 0.009, 0.010), got {len(unreached)}"
+    assert len(unreached) == 3, "Expected 3 unreached states (0.008, 0.009, 0.010), got {}".format(len(unreached))
     assert [r["u_target_mm"] for r in unreached] == [0.0080, 0.0090, 0.0100]
     print("  -> Unreached states discipline verified.")
     
