@@ -1,15 +1,15 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1205-GATE6B-STAGE14UV-ENERGY-EVOLUTION-AND-PARTITIONING-AUDIT-20261004",
-  "released_at": "2026-10-04T15:30:00+02:00",
-  "starting_commit": "43e3ca910c5b03c0f39f1ecba014d39f2b09a251",
+  "session_id": "SESSION-20261004-1600-STAGE14UW-CLOSEOUT",
+  "task_id": "F1206-GATE6B-STAGE14UW-ENERGY-CLAIMS-DISCIPLINE-AND-THERMODYNAMIC-AUDIT-20261004",
+  "claimed_at": "2026-10-04T15:35:00+02:00",
+  "released_at": "2026-10-04T16:00:00+02:00",
+  "starting_commit": "f272fee6e60922656c8796d19004a023519f10aa",
   "allowed_write_scope": [
-    "models/pandey_kumar_mode1/**",
-    "results/figures/mode1_gate6b/**",
-    "scripts/**",
-    "tests/unit/**",
-    "docs/**",
-    "project_coordination/**"
+    "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/*",
+    "tests/unit/*",
+    "docs/MA_AdaptiveRemeshing_Report_2026_main/*",
+    "project_coordination/*"
   ]
 }

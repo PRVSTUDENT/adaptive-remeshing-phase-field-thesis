@@ -1,0 +1,993 @@
+{
+  "meta": {
+    "task_id": "F1206-GATE6B-STAGE14UW-ENERGY-CLAIMS-DISCIPLINE-AND-THERMODYNAMIC-AUDIT-20261004",
+    "stage": "14U-W",
+    "title": "Gate-6B Mode-I Stage 14U-W: Energy-Claims Discipline, Matched-State Consistency, and Thermodynamic-Interpretation Correction Audit",
+    "protocol_version": 2,
+    "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+    "fortran_subroutine_hash": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "epistemic_verdict": "ENERGY_EVOLUTION_AND_BOOKKEEPING_AUDITED__FINAL_BASELINE_QUALIFICATION_PENDING",
+    "withdrawn_verdicts": [
+      "THERMODYNAMICALLY_CONSISTENT_AND_QUALIFIED"
+    ],
+    "withdrawn_terminology": [
+      "dissipated fracture energy",
+      "fracture dissipation",
+      "thermodynamic consistency proven"
+    ],
+    "governed_terminology": [
+      "implemented phase-field crack-surface/fracture functional E_frac",
+      "Bourdin regularized surface functional Gamma_l(d)",
+      "numerical bookkeeping balance and residual Delta_book"
+    ]
+  },
+  "mathematical_energy_identities": {
+    "elastic_strain_energy": {
+      "symbol": "E_elas",
+      "fortran_array": "ENERGY(2)",
+      "source_file": "f42_mixed_uel.for",
+      "lines": "534-537, 548, 808, 815",
+      "definition_latex": "E_{\\text{elas}}(u, d) = \\int_\\Omega \\left[ ((1-d)^2 + k)\\psi_0^+(\\boldsymbol{\\varepsilon}) + \\psi_0^-(\\boldsymbol{\\varepsilon}) \\right] \\mathrm{d}\\Omega",
+      "description": "Instantaneous elastic strain energy stored in degraded continuum"
+    },
+    "fracture_functional_energy": {
+      "symbol": "E_frac",
+      "fortran_array": "ENERGY(7)",
+      "source_file": "f42_mixed_uel.for",
+      "lines": "357-359, 372, 655, 658",
+      "definition_latex": "E_{\\text{frac}}(d) = \\int_\\Omega G_c \\left[ \\frac{d^2}{2l_0} + \\frac{l_0}{2} |\\nabla d|^2 \\right] \\mathrm{d}\\Omega",
+      "description": "Bourdin-Francfort-Marigo regularized crack surface energy state functional Gamma_l(d); conservative spatial state functional, NOT cumulative thermodynamic dissipation"
+    },
+    "total_model_energy": {
+      "symbol": "E_model",
+      "fortran_variable": "TOT_E_INT",
+      "source_file": "f42_mixed_uel.for",
+      "lines": "137",
+      "definition_latex": "E_{\\text{model}} = E_{\\text{elas}} + E_{\\text{frac}}",
+      "description": "Total internal model energy computed by user element subroutine (TOT_E_INT = TOT_E_ELAS + TOT_E_FRAC)"
+    },
+    "external_work": {
+      "symbol": "W_ext",
+      "definition_latex": "W_{\\text{ext}} = \\int_0^u F(u') \\,\\mathrm{d}u'",
+      "numerical_implementation": "Trapezoidal integration over displacement-reaction history"
+    },
+    "bookkeeping_residual": {
+      "symbol": "Delta_book",
+      "definition_latex": "\\Delta_{\\text{book}} = W_{\\text{ext}} - E_{\\text{model}}",
+      "description": "Numerical bookkeeping residual arising from discretization, penalty residual k, and discrete incremental integration"
+    },
+    "normalized_bookkeeping_residual": {
+      "symbol": "eps_book",
+      "definition_latex": "\\varepsilon_{\\text{book}} = \\frac{\\Delta_{\\text{book}}}{W_{\\text{ext}}} \\times 100\\%",
+      "description": "Normalized bookkeeping error percentage"
+    }
+  },
+  "endpoint_and_censoring_discipline": {
+    "rule": "Simulations terminate at distinct physical or numerical endpoints and must not be aggregated into an undifferentiated broken-state spread without stating terminal displacement.",
+    "cases_audited": [
+      {
+        "case_id": "S1_ref_15k",
+        "name": "S1 Reference (15,192 el, h=3.0 um, dt=0.5e-3)",
+        "job_id": "1409734.mmaster02",
+        "mesh_elements": 15192,
+        "termination_reason": "COMPLETE",
+        "actual_terminal_u_mm": 0.01,
+        "terminal_w_ext_mJ": 2.3593293596250042,
+        "terminal_e_elas_mJ": 0.0011608108,
+        "terminal_e_frac_mJ": 2.34022,
+        "terminal_e_model_mJ": 2.3413808,
+        "terminal_delta_book_mJ": 0.01794855962500419,
+        "terminal_eps_book_pct": 0.7607483690982833
+      },
+      {
+        "case_id": "S2_fix_32k",
+        "name": "S2 Fixed Intermediate (32,130 el, h=2.0 um)",
+        "job_id": "1409866.mmaster02",
+        "mesh_elements": 32130,
+        "termination_reason": "CUTBACK_TERMINATED",
+        "actual_terminal_u_mm": 0.006816198250000001,
+        "terminal_w_ext_mJ": 2.2480077979230098,
+        "terminal_e_elas_mJ": 0.0008266110900000001,
+        "terminal_e_frac_mJ": 2.3303475000000002,
+        "terminal_e_model_mJ": 2.3311741,
+        "terminal_delta_book_mJ": -0.08316630207699038,
+        "terminal_eps_book_pct": -3.6995557646121067
+      },
+      {
+        "case_id": "S3_fix_42k",
+        "name": "S3 Fixed Fine (41,912 el, h=1.5 um)",
+        "job_id": "1409867.mmaster02",
+        "mesh_elements": 41912,
+        "termination_reason": "CUTBACK_TERMINATED",
+        "actual_terminal_u_mm": 0.007836000000000001,
+        "terminal_w_ext_mJ": 2.19023494909653,
+        "terminal_e_elas_mJ": 0.0006593904,
+        "terminal_e_frac_mJ": 2.3571912999999998,
+        "terminal_e_model_mJ": 2.3578507,
+        "terminal_delta_book_mJ": -0.16761575090347014,
+        "terminal_eps_book_pct": -7.652866235771258
+      },
+      {
+        "case_id": "T1_coarse",
+        "name": "T1 Temporal Coarse (dt=1.0e-3, 15,192 el)",
+        "job_id": "1409869.mmaster02",
+        "mesh_elements": 15192,
+        "termination_reason": "COMPLETE",
+        "actual_terminal_u_mm": 0.01,
+        "terminal_w_ext_mJ": 2.410111991977202,
+        "terminal_e_elas_mJ": 0.0010389800000000001,
+        "terminal_e_frac_mJ": 2.3999548,
+        "terminal_e_model_mJ": 2.4009938,
+        "terminal_delta_book_mJ": 0.00911819197720165,
+        "terminal_eps_book_pct": 0.37833063391055494
+      },
+      {
+        "case_id": "T3_fine",
+        "name": "T3 Temporal Fine (dt=0.25e-3, 15,192 el)",
+        "job_id": "1409870.mmaster02",
+        "mesh_elements": 15192,
+        "termination_reason": "COMPLETE",
+        "actual_terminal_u_mm": 0.01,
+        "terminal_w_ext_mJ": 2.331891844495981,
+        "terminal_e_elas_mJ": 0.0011977957,
+        "terminal_e_frac_mJ": 2.2481318,
+        "terminal_e_model_mJ": 2.2493296000000003,
+        "terminal_delta_book_mJ": 0.0825622444959806,
+        "terminal_eps_book_pct": 3.5405692031066622
+      },
+      {
+        "case_id": "L2_l01125",
+        "name": "L2 Length Scale l0=0.01125 mm (41,912 el)",
+        "job_id": "1409871.mmaster02",
+        "mesh_elements": 41912,
+        "termination_reason": "CUTBACK_TERMINATED",
+        "actual_terminal_u_mm": 0.00583901075,
+        "terminal_w_ext_mJ": 2.118812641544398,
+        "terminal_e_elas_mJ": 0.0006439096,
+        "terminal_e_frac_mJ": 2.302453,
+        "terminal_e_model_mJ": 2.3030969,
+        "terminal_delta_book_mJ": -0.1842842584556017,
+        "terminal_eps_book_pct": -8.697524964797136
+      },
+      {
+        "case_id": "L3_l01500",
+        "name": "L3 Length Scale l0=0.01500 mm (41,912 el)",
+        "job_id": "1409872.mmaster02",
+        "mesh_elements": 41912,
+        "termination_reason": "CUTBACK_TERMINATED",
+        "actual_terminal_u_mm": 0.006473,
+        "terminal_w_ext_mJ": 2.0809111270191,
+        "terminal_e_elas_mJ": 0.0006042595000000001,
+        "terminal_e_frac_mJ": 2.3309531999999997,
+        "terminal_e_model_mJ": 2.3315574999999997,
+        "terminal_delta_book_mJ": -0.25064637298089965,
+        "terminal_eps_book_pct": -12.045030166182539
+      },
+      {
+        "case_id": "Pkg24_adapt",
+        "name": "Package 24 Adaptive 2% (13,897 el)",
+        "job_id": "1409846.mmaster02",
+        "mesh_elements": 13897,
+        "termination_reason": "COMPLETE",
+        "actual_terminal_u_mm": 0.01,
+        "terminal_w_ext_mJ": 3.6328271503052973,
+        "terminal_e_elas_mJ": 0.14509757,
+        "terminal_e_frac_mJ": 3.1925702,
+        "terminal_e_model_mJ": 3.3376678,
+        "terminal_delta_book_mJ": 0.29515935030529716,
+        "terminal_eps_book_pct": 8.124783759130748
+      },
+      {
+        "case_id": "Stage14_953",
+        "name": "Stage 14 Adaptive Candidate (14,483 el)",
+        "job_id": "1409953.mmaster02",
+        "mesh_elements": 14483,
+        "termination_reason": "FRACTURE_COMPLETE",
+        "actual_terminal_u_mm": 0.007889,
+        "terminal_w_ext_mJ": 2.267045486272506,
+        "terminal_e_elas_mJ": 0.0069600565,
+        "terminal_e_frac_mJ": 2.2854689,
+        "terminal_e_model_mJ": 2.292429,
+        "terminal_delta_book_mJ": -0.025383513727494034,
+        "terminal_eps_book_pct": -1.1196737728112287
+      }
+    ]
+  },
+  "matched_state_comparisons": {
+    "target_displacements_mm": [
+      0.001,
+      0.003,
+      0.005,
+      0.005857,
+      0.006,
+      0.0065,
+      0.007
+    ],
+    "evaluations": [
+      {
+        "target_displacement_mm": 0.001,
+        "cases": {
+          "S1_ref_15k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.001,
+            "inc": 400,
+            "step": 1,
+            "rf_kN": 0.13792416,
+            "e_elas_mJ": 0.068962081,
+            "e_frac_mJ": 0.000055534416999999995,
+            "e_model_mJ": 0.069017616,
+            "w_ext_mJ": 0.06901751019720002,
+            "delta_book_mJ": -1.0580279997951525e-7,
+            "eps_book_pct": -0.00015329848856791644
+          },
+          "S2_fix_32k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.001,
+            "inc": 400,
+            "step": 1,
+            "rf_kN": 0.13787274,
+            "e_elas_mJ": 0.068936372,
+            "e_frac_mJ": 0.000055578746,
+            "e_model_mJ": 0.068991951,
+            "w_ext_mJ": 0.06899188933792501,
+            "delta_book_mJ": -6.16620749877006e-8,
+            "eps_book_pct": -0.00008937583182521254
+          },
+          "S3_fix_42k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.001,
+            "inc": 400,
+            "step": 1,
+            "rf_kN": 0.1378362,
+            "e_elas_mJ": 0.0689181,
+            "e_frac_mJ": 0.000055594576999999995,
+            "e_model_mJ": 0.068973694,
+            "w_ext_mJ": 0.06897365500674994,
+            "delta_book_mJ": -3.8993250059404794e-8,
+            "eps_book_pct": -0.000056533541764009484
+          },
+          "T1_coarse": {
+            "status": "REACHED",
+            "u_actual_mm": 0.001,
+            "inc": 200,
+            "step": 1,
+            "rf_kN": 0.13792416,
+            "e_elas_mJ": 0.068962081,
+            "e_frac_mJ": 0.000055534411,
+            "e_model_mJ": 0.069017616,
+            "w_ext_mJ": 0.06901750927905001,
+            "delta_book_mJ": -1.0672094999386594e-7,
+            "eps_book_pct": -0.00015462880522444563
+          },
+          "T3_fine": {
+            "status": "REACHED",
+            "u_actual_mm": 0.001,
+            "inc": 800,
+            "step": 1,
+            "rf_kN": 0.13792416,
+            "e_elas_mJ": 0.068962081,
+            "e_frac_mJ": 0.000055534418,
+            "e_model_mJ": 0.069017616,
+            "w_ext_mJ": 0.06901751055167499,
+            "delta_book_mJ": -1.0544832501624413e-7,
+            "eps_book_pct": -0.00015278488628953454
+          },
+          "L2_l01125": {
+            "status": "REACHED",
+            "u_actual_mm": 0.001,
+            "inc": 400,
+            "step": 1,
+            "rf_kN": 0.13773437,
+            "e_elas_mJ": 0.068867185,
+            "e_frac_mJ": 0.000081036942,
+            "e_model_mJ": 0.068948222,
+            "w_ext_mJ": 0.06894818988847504,
+            "delta_book_mJ": -3.21115249668491e-8,
+            "eps_book_pct": -0.0000465734126142979
+          },
+          "L3_l01500": {
+            "status": "REACHED",
+            "u_actual_mm": 0.001,
+            "inc": 400,
+            "step": 1,
+            "rf_kN": 0.1376355,
+            "e_elas_mJ": 0.06881775,
+            "e_frac_mJ": 0.00010573334,
+            "e_model_mJ": 0.068923483,
+            "w_ext_mJ": 0.06892345649020006,
+            "delta_book_mJ": -2.6509799938567724e-8,
+            "eps_book_pct": -0.00003846266755692533
+          },
+          "Pkg24_adapt": {
+            "status": "REACHED",
+            "u_actual_mm": 0.001,
+            "inc": 400,
+            "step": 1,
+            "rf_kN": 0.13786822,
+            "e_elas_mJ": 0.06893410800000001,
+            "e_frac_mJ": 0.000055582809,
+            "e_model_mJ": 0.068989691,
+            "w_ext_mJ": 0.06898960877280001,
+            "delta_book_mJ": -8.2227199993401e-8,
+            "eps_book_pct": -0.00011918780444776209
+          },
+          "Stage14_953": {
+            "status": "REACHED",
+            "u_actual_mm": 0.001,
+            "inc": 400,
+            "step": 1,
+            "rf_kN": 0.13754456,
+            "e_elas_mJ": 0.068944083,
+            "e_frac_mJ": 0.000055607595,
+            "e_model_mJ": 0.06899969,
+            "w_ext_mJ": 0.06865530927499994,
+            "delta_book_mJ": -0.0003443807250000652,
+            "eps_book_pct": -0.5016082931338096
+          }
+        }
+      },
+      {
+        "target_displacement_mm": 0.003,
+        "cases": {
+          "S1_ref_15k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.003,
+            "inc": 1200,
+            "step": 1,
+            "rf_kN": 0.40841828,
+            "e_elas_mJ": 0.6126274199999999,
+            "e_frac_mJ": 0.0045342942,
+            "e_model_mJ": 0.61716171,
+            "w_ext_mJ": 0.6171525969471995,
+            "delta_book_mJ": -0.00000911305280049124,
+            "eps_book_pct": -0.001476628769864985
+          },
+          "S2_fix_32k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.003,
+            "inc": 1200,
+            "step": 1,
+            "rf_kN": 0.40825216,
+            "e_elas_mJ": 0.6123782400000001,
+            "e_frac_mJ": 0.004541222399999999,
+            "e_model_mJ": 0.61691946,
+            "w_ext_mJ": 0.6169141870629254,
+            "delta_book_mJ": -0.000005272937074529693,
+            "eps_book_pct": -0.0008547278025220471
+          },
+          "S3_fix_42k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.003,
+            "inc": 1200,
+            "step": 1,
+            "rf_kN": 0.40813723,
+            "e_elas_mJ": 0.6122058499999999,
+            "e_frac_mJ": 0.004544189200000001,
+            "e_model_mJ": 0.61675003,
+            "w_ext_mJ": 0.6167466509192506,
+            "delta_book_mJ": -0.0000033790807493216946,
+            "eps_book_pct": -0.0005478879770624179
+          },
+          "T1_coarse": {
+            "status": "REACHED",
+            "u_actual_mm": 0.003,
+            "inc": 600,
+            "step": 1,
+            "rf_kN": 0.40841828,
+            "e_elas_mJ": 0.6126274199999999,
+            "e_frac_mJ": 0.0045342933,
+            "e_model_mJ": 0.61716171,
+            "w_ext_mJ": 0.6171525883290495,
+            "delta_book_mJ": -0.00000912167095046268,
+            "eps_book_pct": -0.0014780252279520936
+          },
+          "T3_fine": {
+            "status": "REACHED",
+            "u_actual_mm": 0.003,
+            "inc": 2400,
+            "step": 1,
+            "rf_kN": 0.40841828,
+            "e_elas_mJ": 0.6126274199999999,
+            "e_frac_mJ": 0.0045342944,
+            "e_model_mJ": 0.61716171,
+            "w_ext_mJ": 0.617152598951675,
+            "delta_book_mJ": -0.000009111048325016746,
+            "eps_book_pct": -0.0014763039709292662
+          },
+          "L2_l01125": {
+            "status": "REACHED",
+            "u_actual_mm": 0.003,
+            "inc": 1200,
+            "step": 1,
+            "rf_kN": 0.40540163,
+            "e_elas_mJ": 0.60810245,
+            "e_frac_mJ": 0.0065920252,
+            "e_model_mJ": 0.61469447,
+            "w_ext_mJ": 0.6146917853634749,
+            "delta_book_mJ": -0.0000026846365250854376,
+            "eps_book_pct": -0.0004367451443161842
+          },
+          "L3_l01500": {
+            "status": "REACHED",
+            "u_actual_mm": 0.003,
+            "inc": 1200,
+            "step": 1,
+            "rf_kN": 0.40276754,
+            "e_elas_mJ": 0.60415131,
+            "e_frac_mJ": 0.008557884299999999,
+            "e_model_mJ": 0.6127092,
+            "w_ext_mJ": 0.6127069924652003,
+            "delta_book_mJ": -0.0000022075347996253214,
+            "eps_book_pct": -0.00036029208524998216
+          },
+          "Pkg24_adapt": {
+            "status": "REACHED",
+            "u_actual_mm": 0.003,
+            "inc": 1200,
+            "step": 1,
+            "rf_kN": 0.40824075,
+            "e_elas_mJ": 0.61236112,
+            "e_frac_mJ": 0.004541013700000001,
+            "e_model_mJ": 0.61690213,
+            "w_ext_mJ": 0.6168951246102998,
+            "delta_book_mJ": -0.00000700538970022091,
+            "eps_book_pct": -0.0011355884364698619
+          },
+          "Stage14_953": {
+            "status": "REACHED",
+            "u_actual_mm": 0.003,
+            "inc": 1200,
+            "step": 1,
+            "rf_kN": 0.40796888,
+            "e_elas_mJ": 0.61244851,
+            "e_frac_mJ": 0.004542988800000001,
+            "e_model_mJ": 0.6169914999999999,
+            "w_ext_mJ": 0.6159635021750001,
+            "delta_book_mJ": -0.001027997824999849,
+            "eps_book_pct": -0.16689265214090343
+          }
+        }
+      },
+      {
+        "target_displacement_mm": 0.005,
+        "cases": {
+          "S1_ref_15k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005,
+            "inc": 2000,
+            "step": 1,
+            "rf_kN": 0.66205217,
+            "e_elas_mJ": 1.6551304,
+            "e_frac_mJ": 0.036540844999999995,
+            "e_model_mJ": 1.6916711999999998,
+            "w_ext_mJ": 1.6915866213597004,
+            "delta_book_mJ": -0.00008457864029942641,
+            "eps_book_pct": -0.004999959164458391
+          },
+          "S2_fix_32k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005,
+            "inc": 2000,
+            "step": 1,
+            "rf_kN": 0.66162662,
+            "e_elas_mJ": 1.6540665,
+            "e_frac_mJ": 0.036808616,
+            "e_model_mJ": 1.6908751,
+            "w_ext_mJ": 1.6908250728379248,
+            "delta_book_mJ": -0.00005002716207513913,
+            "eps_book_pct": -0.00295874262091301
+          },
+          "S3_fix_42k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005,
+            "inc": 2000,
+            "step": 1,
+            "rf_kN": 0.66135394,
+            "e_elas_mJ": 1.6533848,
+            "e_frac_mJ": 0.036957256,
+            "e_model_mJ": 1.690342,
+            "w_ext_mJ": 1.690309937481749,
+            "delta_book_mJ": -0.00003206251825105255,
+            "eps_book_pct": -0.0018968425576921005
+          },
+          "T1_coarse": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005,
+            "inc": 1000,
+            "step": 1,
+            "rf_kN": 0.66205223,
+            "e_elas_mJ": 1.6551305,
+            "e_frac_mJ": 0.036540776999999997,
+            "e_model_mJ": 1.6916711999999998,
+            "w_ext_mJ": 1.6915866230040495,
+            "delta_book_mJ": -0.00008457699595032508,
+            "eps_book_pct": -0.0049998619520960005
+          },
+          "T3_fine": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005,
+            "inc": 4000,
+            "step": 1,
+            "rf_kN": 0.66205215,
+            "e_elas_mJ": 1.6551304,
+            "e_frac_mJ": 0.036540859,
+            "e_model_mJ": 1.6916711999999998,
+            "w_ext_mJ": 1.6915866207954249,
+            "delta_book_mJ": -0.00008457920457494161,
+            "eps_book_pct": -0.004999992523892772
+          },
+          "L2_l01125": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005,
+            "inc": 2000,
+            "step": 1,
+            "rf_kN": 0.64849143,
+            "e_elas_mJ": 1.6212285,
+            "e_frac_mJ": 0.053216351,
+            "e_model_mJ": 1.6744449000000001,
+            "w_ext_mJ": 1.6744202928134702,
+            "delta_book_mJ": -0.00002460718652996796,
+            "eps_book_pct": -0.0014695943805495431
+          },
+          "L3_l01500": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005,
+            "inc": 2000,
+            "step": 1,
+            "rf_kN": 0.63631747,
+            "e_elas_mJ": 1.5907936,
+            "e_frac_mJ": 0.068468719,
+            "e_model_mJ": 1.6592623,
+            "w_ext_mJ": 1.6592432636027035,
+            "delta_book_mJ": -0.000019036397296501306,
+            "eps_book_pct": -0.0011472939329684368
+          },
+          "Pkg24_adapt": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005,
+            "inc": 2000,
+            "step": 1,
+            "rf_kN": 0.66162859,
+            "e_elas_mJ": 1.6540713999999999,
+            "e_frac_mJ": 0.036780111,
+            "e_model_mJ": 1.6908516,
+            "w_ext_mJ": 1.6907877427853002,
+            "delta_book_mJ": -0.00006385721469981398,
+            "eps_book_pct": -0.003776772984799352
+          },
+          "Stage14_953": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005,
+            "inc": 2000,
+            "step": 1,
+            "rf_kN": 0.66142613,
+            "e_elas_mJ": 1.6543134000000002,
+            "e_frac_mJ": 0.036785825,
+            "e_model_mJ": 1.6910993,
+            "w_ext_mJ": 1.6893755541374997,
+            "delta_book_mJ": -0.0017237458625003477,
+            "eps_book_pct": -0.10203449779290759
+          }
+        }
+      },
+      {
+        "target_displacement_mm": 0.005857,
+        "cases": {
+          "S1_ref_15k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005857,
+            "inc": 857,
+            "step": 2,
+            "rf_kN": 0.75777849,
+            "e_elas_mJ": 2.219151,
+            "e_frac_mJ": 0.082689577,
+            "e_model_mJ": 2.3018406000000002,
+            "w_ext_mJ": 2.301667677649702,
+            "delta_book_mJ": -0.00017292235029842118,
+            "eps_book_pct": -0.00751291561234405
+          },
+          "S2_fix_32k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.00585719825,
+            "inc": 864,
+            "step": 2,
+            "rf_kN": 0.0003077464,
+            "e_elas_mJ": 0.00090126583,
+            "e_frac_mJ": 2.3301536,
+            "e_model_mJ": 2.3310549,
+            "w_ext_mJ": 2.247745725490911,
+            "delta_book_mJ": -0.08330917450908881,
+            "eps_book_pct": -3.7063433627882425
+          },
+          "S3_fix_42k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005857,
+            "inc": 857,
+            "step": 2,
+            "rf_kN": 0.00022880221,
+            "e_elas_mJ": 0.0006700472599999999,
+            "e_frac_mJ": 2.3569620999999996,
+            "e_model_mJ": 2.3576322000000003,
+            "w_ext_mJ": 2.1898511545700208,
+            "delta_book_mJ": -0.16778104542997951,
+            "eps_book_pct": -7.66175568964291
+          },
+          "T1_coarse": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005856,
+            "inc": 428,
+            "step": 2,
+            "rf_kN": 0.75796084,
+            "e_elas_mJ": 2.2193041,
+            "e_frac_mJ": 0.081780377,
+            "e_model_mJ": 2.3010845,
+            "w_ext_mJ": 2.30091168497405,
+            "delta_book_mJ": -0.00017281502594990172,
+            "eps_book_pct": -0.007510719645541317
+          },
+          "T3_fine": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005857,
+            "inc": 1714,
+            "step": 2,
+            "rf_kN": 0.75753431,
+            "e_elas_mJ": 2.2184369,
+            "e_frac_mJ": 0.08340213299999999,
+            "e_model_mJ": 2.3018391,
+            "w_ext_mJ": 2.3016665488804344,
+            "delta_book_mJ": -0.00017255111956560043,
+            "eps_book_pct": -0.007496790516833636
+          },
+          "L2_l01125": {
+            "status": "NOT_REACHED"
+          },
+          "L3_l01500": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005857,
+            "inc": 857,
+            "step": 2,
+            "rf_kN": 0.00020805982,
+            "e_elas_mJ": 0.00060930317,
+            "e_frac_mJ": 2.3308849,
+            "e_model_mJ": 2.3314942,
+            "w_ext_mJ": 2.0807898359610504,
+            "delta_book_mJ": -0.25070436403894947,
+            "eps_book_pct": -12.0485192548606
+          },
+          "Pkg24_adapt": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005857,
+            "inc": 857,
+            "step": 2,
+            "rf_kN": 0.60160323,
+            "e_elas_mJ": 1.7617951,
+            "e_frac_mJ": 0.53783518,
+            "e_model_mJ": 2.2996302,
+            "w_ext_mJ": 2.2826062953652984,
+            "delta_book_mJ": -0.017023904634701825,
+            "eps_book_pct": -0.7458099396846443
+          },
+          "Stage14_953": {
+            "status": "REACHED",
+            "u_actual_mm": 0.005857,
+            "inc": 857,
+            "step": 2,
+            "rf_kN": 0.1086056,
+            "e_elas_mJ": 0.19931399,
+            "e_frac_mJ": 2.1309093,
+            "e_model_mJ": 2.3302232999999997,
+            "w_ext_mJ": 2.262779126592499,
+            "delta_book_mJ": -0.06744417340750086,
+            "eps_book_pct": -2.9805902226552936
+          }
+        }
+      },
+      {
+        "target_displacement_mm": 0.006,
+        "cases": {
+          "S1_ref_15k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.006,
+            "inc": 1000,
+            "step": 2,
+            "rf_kN": 0.00054636699,
+            "e_elas_mJ": 0.001639101,
+            "e_frac_mJ": 2.3387719000000002,
+            "e_model_mJ": 2.340411,
+            "w_ext_mJ": 2.357902037484078,
+            "delta_book_mJ": 0.017491037484077765,
+            "eps_book_pct": 0.7418050964806411
+          },
+          "S2_fix_32k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.00600019825,
+            "inc": 1007,
+            "step": 2,
+            "rf_kN": 0.00029671643,
+            "e_elas_mJ": 0.00089017871,
+            "e_frac_mJ": 2.3301825999999997,
+            "e_model_mJ": 2.3310727,
+            "w_ext_mJ": 2.247788942520127,
+            "delta_book_mJ": -0.08328375747987282,
+            "eps_book_pct": -3.705141345988585
+          },
+          "S3_fix_42k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.006,
+            "inc": 1000,
+            "step": 2,
+            "rf_kN": 0.00022246011,
+            "e_elas_mJ": 0.00066738033,
+            "e_frac_mJ": 2.3569812,
+            "e_model_mJ": 2.3576486,
+            "w_ext_mJ": 2.1898834175802935,
+            "delta_book_mJ": -0.16776518241970662,
+            "eps_book_pct": -7.660918433962953
+          },
+          "T1_coarse": {
+            "status": "REACHED",
+            "u_actual_mm": 0.006,
+            "inc": 500,
+            "step": 2,
+            "rf_kN": 0.38854675,
+            "e_elas_mJ": 1.1656402,
+            "e_frac_mJ": 1.245753,
+            "e_model_mJ": 2.4113932,
+            "w_ext_mJ": 2.3878431222840493,
+            "delta_book_mJ": -0.023550077715950746,
+            "eps_book_pct": -0.986248949781271
+          },
+          "T3_fine": {
+            "status": "REACHED",
+            "u_actual_mm": 0.0059997522,
+            "inc": 2020,
+            "step": 2,
+            "rf_kN": 0.00056660397,
+            "e_elas_mJ": 0.0016997417,
+            "e_frac_mJ": 2.2464766000000003,
+            "e_model_mJ": 2.2481763,
+            "w_ext_mJ": 2.3304188196558933,
+            "delta_book_mJ": 0.08224251965589335,
+            "eps_book_pct": 3.529087516896949
+          },
+          "L2_l01125": {
+            "status": "NOT_REACHED"
+          },
+          "L3_l01500": {
+            "status": "REACHED",
+            "u_actual_mm": 0.006,
+            "inc": 1000,
+            "step": 2,
+            "rf_kN": 0.00020256928,
+            "e_elas_mJ": 0.0006077078200000001,
+            "e_frac_mJ": 2.3309014,
+            "e_model_mJ": 2.3315091,
+            "w_ext_mJ": 2.0808191917003103,
+            "delta_book_mJ": -0.2506899082996896,
+            "eps_book_pct": -12.047654563145494
+          },
+          "Pkg24_adapt": {
+            "status": "REACHED",
+            "u_actual_mm": 0.006,
+            "inc": 1000,
+            "step": 2,
+            "rf_kN": 0.61468613,
+            "e_elas_mJ": 1.8440583000000002,
+            "e_frac_mJ": 0.5425815900000001,
+            "e_model_mJ": 2.3866399,
+            "w_ext_mJ": 2.369585063675296,
+            "delta_book_mJ": -0.01705483632470406,
+            "eps_book_pct": -0.7197393580060598
+          },
+          "Stage14_953": {
+            "status": "REACHED",
+            "u_actual_mm": 0.006,
+            "inc": 1000,
+            "step": 2,
+            "rf_kN": 0.00199125,
+            "e_elas_mJ": 0.0059747904,
+            "e_frac_mJ": 2.2832475000000003,
+            "e_model_mJ": 2.2892223,
+            "w_ext_mJ": 2.2632732725874987,
+            "delta_book_mJ": -0.02594902741250138,
+            "eps_book_pct": -1.1465264812160763
+          }
+        }
+      },
+      {
+        "target_displacement_mm": 0.0065,
+        "cases": {
+          "S1_ref_15k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.006500000000000001,
+            "inc": 1500,
+            "step": 2,
+            "rf_kN": 0.00048480116,
+            "e_elas_mJ": 0.0015756038,
+            "e_frac_mJ": 2.3389778000000003,
+            "e_model_mJ": 2.3405535,
+            "w_ext_mJ": 2.3581593862595915,
+            "delta_book_mJ": 0.017605886259591585,
+            "eps_book_pct": 0.7465944143630285
+          },
+          "S2_fix_32k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.00650019825,
+            "inc": 1507,
+            "step": 2,
+            "rf_kN": 0.00026153041,
+            "e_elas_mJ": 0.00084999976,
+            "e_frac_mJ": 2.3302859,
+            "e_model_mJ": 2.3311359,
+            "w_ext_mJ": 2.247928215350105,
+            "delta_book_mJ": -0.08320768464989525,
+            "eps_book_pct": -3.701527659188887
+          },
+          "S3_fix_42k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.006500000000000001,
+            "inc": 1500,
+            "step": 2,
+            "rf_kN": 0.00020276919,
+            "e_elas_mJ": 0.0006589998700000001,
+            "e_frac_mJ": 2.3570463999999998,
+            "e_model_mJ": 2.3577054,
+            "w_ext_mJ": 2.1899895434406145,
+            "delta_book_mJ": -0.16771585655938548,
+            "eps_book_pct": -7.658294856325801
+          },
+          "T1_coarse": {
+            "status": "REACHED",
+            "u_actual_mm": 0.006500000000000001,
+            "inc": 750,
+            "step": 2,
+            "rf_kN": 0.00042707861,
+            "e_elas_mJ": 0.0013880054999999998,
+            "e_frac_mJ": 2.3990713,
+            "e_model_mJ": 2.4004593,
+            "w_ext_mJ": 2.409078815223202,
+            "delta_book_mJ": 0.008619515223201812,
+            "eps_book_pct": 0.35779299409941523
+          },
+          "T3_fine": {
+            "status": "REACHED",
+            "u_actual_mm": 0.0064997522,
+            "inc": 3020,
+            "step": 2,
+            "rf_kN": 0.00050252897,
+            "e_elas_mJ": 0.0016331569,
+            "e_frac_mJ": 2.2467207,
+            "e_model_mJ": 2.2483538000000003,
+            "w_ext_mJ": 2.330686295963432,
+            "delta_book_mJ": 0.08233249596343173,
+            "eps_book_pct": 3.53254301559267
+          },
+          "L2_l01125": {
+            "status": "NOT_REACHED"
+          },
+          "L3_l01500": {
+            "status": "NOT_REACHED"
+          },
+          "Pkg24_adapt": {
+            "status": "REACHED",
+            "u_actual_mm": 0.006500000000000001,
+            "inc": 1500,
+            "step": 2,
+            "rf_kN": 0.5856231,
+            "e_elas_mJ": 1.9032751,
+            "e_frac_mJ": 0.78417239,
+            "e_model_mJ": 2.6874475,
+            "w_ext_mJ": 2.6738352688802958,
+            "delta_book_mJ": -0.013612231119704443,
+            "eps_book_pct": -0.5090901177844342
+          },
+          "Stage14_953": {
+            "status": "REACHED",
+            "u_actual_mm": 0.006500000000000001,
+            "inc": 1500,
+            "step": 2,
+            "rf_kN": 0.00206209,
+            "e_elas_mJ": 0.006702526,
+            "e_frac_mJ": 2.2834676000000003,
+            "e_model_mJ": 2.2901700999999997,
+            "w_ext_mJ": 2.2642878895574987,
+            "delta_book_mJ": -0.02588221044250094,
+            "eps_book_pct": -1.1430618236252195
+          }
+        }
+      },
+      {
+        "target_displacement_mm": 0.007,
+        "cases": {
+          "S1_ref_15k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.007,
+            "inc": 2000,
+            "step": 2,
+            "rf_kN": 0.00042985635,
+            "e_elas_mJ": 0.0015044971999999999,
+            "e_frac_mJ": 2.3392042,
+            "e_model_mJ": 2.3407087,
+            "w_ext_mJ": 2.3583879119915108,
+            "delta_book_mJ": 0.01767921199151079,
+            "eps_book_pct": 0.7496312163753335
+          },
+          "S2_fix_32k": {
+            "status": "NOT_REACHED"
+          },
+          "S3_fix_42k": {
+            "status": "REACHED",
+            "u_actual_mm": 0.007,
+            "inc": 2000,
+            "step": 2,
+            "rf_kN": 0.00018721233,
+            "e_elas_mJ": 0.00065524314,
+            "e_frac_mJ": 2.3571054,
+            "e_model_mJ": 2.3577606,
+            "w_ext_mJ": 2.1900868915576632,
+            "delta_book_mJ": -0.16767370844233698,
+            "eps_book_pct": -7.656029954276463
+          },
+          "T1_coarse": {
+            "status": "REACHED",
+            "u_actual_mm": 0.007,
+            "inc": 1000,
+            "step": 2,
+            "rf_kN": 0.00037584787,
+            "e_elas_mJ": 0.0013154675,
+            "e_frac_mJ": 2.3992403,
+            "e_model_mJ": 2.4005558,
+            "w_ext_mJ": 2.409279102173202,
+            "delta_book_mJ": 0.008723302173202274,
+            "eps_book_pct": 0.3620710512673164
+          },
+          "T3_fine": {
+            "status": "REACHED",
+            "u_actual_mm": 0.006999752200000001,
+            "inc": 4020,
+            "step": 2,
+            "rf_kN": 0.00044172878,
+            "e_elas_mJ": 0.001545996,
+            "e_frac_mJ": 2.2470026,
+            "e_model_mJ": 2.2485486000000003,
+            "w_ext_mJ": 2.3309218797853735,
+            "delta_book_mJ": 0.08237327978537312,
+            "eps_book_pct": 3.533935671536014
+          },
+          "L2_l01125": {
+            "status": "NOT_REACHED"
+          },
+          "L3_l01500": {
+            "status": "NOT_REACHED"
+          },
+          "Pkg24_adapt": {
+            "status": "REACHED",
+            "u_actual_mm": 0.007,
+            "inc": 2000,
+            "step": 2,
+            "rf_kN": 0.52782209,
+            "e_elas_mJ": 1.8473773,
+            "e_frac_mJ": 1.1133225,
+            "e_model_mJ": 2.9606998,
+            "w_ext_mJ": 2.955327675875297,
+            "delta_book_mJ": -0.005372124124702893,
+            "eps_book_pct": -0.18177761364860492
+          },
+          "Stage14_953": {
+            "status": "REACHED",
+            "u_actual_mm": 0.007,
+            "inc": 2000,
+            "step": 2,
+            "rf_kN": 0.00205507,
+            "e_elas_mJ": 0.0071919331,
+            "e_frac_mJ": 2.2839298,
+            "e_model_mJ": 2.2911218,
+            "w_ext_mJ": 2.2653218928175045,
+            "delta_book_mJ": -0.025799907182495474,
+            "eps_book_pct": -1.138906892848094
+          }
+        }
+      }
+    ]
+  }
+}

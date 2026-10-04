@@ -1,20 +1,17 @@
 {
-  "task_id": "F1205-GATE6B-STAGE14UV-ENERGY-EVOLUTION-AND-PARTITIONING-AUDIT-20261004",
-  "task_name": "Gate-6B Mode-I Stage 14U-V: Energy Evolution and Partitioning Dynamics Audit across Discretization and Temporal Sequences",
-  "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "task_id": "F1206-GATE6B-STAGE14UW-ENERGY-CLAIMS-DISCIPLINE-AND-THERMODYNAMIC-AUDIT-20261004",
   "status": "COMPLETED",
-  "agent": "gemini-antigravity",
-  "claimed_at": "2026-10-04T15:15:00+02:00",
-  "completed_at": "2026-10-04T15:30:00+02:00",
-  "starting_commit": "43e3ca910c5b03c0f39f1ecba014d39f2b09a251",
-  "governing_verdicts": [
-    "THERMODYNAMICALLY_CONSISTENT_AND_QUALIFIED",
-    "SPATIAL_CONVERGENCE_EVIDENCE_ALREADY_SUFFICIENT",
-    "TEMPORAL_CONVERGENCE_CANDIDATE_VALIDATED__SOURCE_AND_PROTOCOL_CORRECTED__BASELINE_TERMINAL_PENDING",
-    "STAGE14V_EVALUATOR_CERTIFIED__COMPLETION_RUN_PENDING",
-    "COMPLETION_CONTROL_PARITY_CONFIRMED_OVER_REACHED_RANGE",
-    "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE",
-    "STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED",
-    "TOWARD_TARGET_LOCALIZATION"
+  "task_title": "Gate-6B Mode-I Stage 14U-W: Energy-Claims Discipline, Matched-State Consistency, and Thermodynamic-Interpretation Correction Audit",
+  "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "claimed_by": "gemini-antigravity",
+  "claimed_at": "2026-10-04T15:35:00+02:00",
+  "completed_at": "2026-10-04T16:00:00+02:00",
+  "last_updated": "2026-10-04T16:00:00+02:00",
+  "context": "Stage 14U-W completed: mathematical energy identity source proof from f42_mixed_uel.for (CE8D5EDC...); proved E_frac is Bourdin crack surface state functional Gamma_l(d) NOT cumulative dissipation; replaced THERMODYNAMICALLY_CONSISTENT_AND_QUALIFIED with ENERGY_EVOLUTION_AND_BOOKKEEPING_AUDITED__FINAL_BASELINE_QUALIFICATION_PENDING; separated distinct endpoints across 9 cases and evaluated matched-state energy consistency across deformation regimes (Stage 14 matches S1 reference within -2.26% E_frac at u=6.5 um); unit tests passed 100% (6/6); Thesis Chapter 4 Section 4.20/4.21 updated and main.pdf compiled cleanly (83 pages SHA-256 8A13C5C3...); Job 1409982 left running untouched on mnode097.",
+  "allowed_write_scope": [
+    "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/*",
+    "tests/unit/*",
+    "docs/MA_AdaptiveRemeshing_Report_2026_main/*",
+    "project_coordination/*"
   ]
 }
