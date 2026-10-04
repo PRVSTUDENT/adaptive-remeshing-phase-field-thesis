@@ -1,0 +1,634 @@
+[
+  {
+    "attempt": 1,
+    "dt": 0.0002,
+    "step_time_target": 0.578,
+    "total_time_target": 1.5779999999999998,
+    "u_target_mm": 0.00789,
+    "iterations": [
+      {
+        "iteration": 1,
+        "largest_res": -9.393e-08,
+        "res_node": 2748,
+        "res_dof": 2,
+        "largest_corr": -4.12e-05,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 2,
+        "largest_res": 9.377e-08,
+        "res_node": 2748,
+        "res_dof": 2,
+        "largest_corr": 4.372e-05,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 3,
+        "largest_res": -2.363e-09,
+        "res_node": 6479,
+        "res_dof": 2,
+        "largest_corr": 4.33e-05,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 4,
+        "largest_res": -2.243e-09,
+        "res_node": 2664,
+        "res_dof": 2,
+        "largest_corr": 5.562e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 5,
+        "largest_res": 3.398e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.153e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      }
+    ],
+    "rejection_reason": "Divergence/Cutback",
+    "last_iteration_data": {}
+  },
+  {
+    "attempt": 2,
+    "dt": 5e-05,
+    "step_time_target": 0.57785,
+    "total_time_target": 1.57785,
+    "u_target_mm": 0.00788925,
+    "iterations": [
+      {
+        "iteration": 1,
+        "largest_res": -2.475e-08,
+        "res_node": 2748,
+        "res_dof": 2,
+        "largest_corr": -7.977e-06,
+        "corr_node": 6479,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 2,
+        "largest_res": 2.463e-08,
+        "res_node": 2748,
+        "res_dof": 2,
+        "largest_corr": 1.097e-05,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 3,
+        "largest_res": -1.358e-09,
+        "res_node": 6479,
+        "res_dof": 2,
+        "largest_corr": 1.079e-05,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 4,
+        "largest_res": 1.741e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.133e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 5,
+        "largest_res": 1.922e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.072e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      }
+    ],
+    "rejection_reason": "Divergence/Cutback",
+    "last_iteration_data": {}
+  },
+  {
+    "attempt": 3,
+    "dt": 1.25e-05,
+    "step_time_target": 0.5778125,
+    "total_time_target": 1.5778124999999998,
+    "u_target_mm": 0.0078890625,
+    "iterations": [
+      {
+        "iteration": 1,
+        "largest_res": -2.266e-09,
+        "res_node": 2664,
+        "res_dof": 2,
+        "largest_corr": 3.298e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 2,
+        "largest_res": 1.505e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.064e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 3,
+        "largest_res": 5.899e-09,
+        "res_node": 2748,
+        "res_dof": 2,
+        "largest_corr": 2.601e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 4,
+        "largest_res": -1.379e-09,
+        "res_node": 6479,
+        "res_dof": 2,
+        "largest_corr": 3.276e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 5,
+        "largest_res": 1.549e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.161e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 6,
+        "largest_res": 1.942e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.646e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      }
+    ],
+    "rejection_reason": "Divergence/Cutback",
+    "last_iteration_data": {}
+  },
+  {
+    "attempt": 4,
+    "dt": 3.125e-06,
+    "step_time_target": 0.577803125,
+    "total_time_target": 1.577803125,
+    "u_target_mm": 0.007889015625,
+    "iterations": [
+      {
+        "iteration": 1,
+        "largest_res": -2.266e-09,
+        "res_node": 2664,
+        "res_dof": 2,
+        "largest_corr": 3.298e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 2,
+        "largest_res": 1.493e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.064e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 3,
+        "largest_res": 1.883e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.571e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 4,
+        "largest_res": -1.379e-09,
+        "res_node": 6479,
+        "res_dof": 2,
+        "largest_corr": 3.276e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 5,
+        "largest_res": 1.535e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.161e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 6,
+        "largest_res": 1.942e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.62e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      }
+    ],
+    "rejection_reason": "Divergence/Cutback",
+    "last_iteration_data": {}
+  },
+  {
+    "attempt": 5,
+    "dt": 7.813e-07,
+    "step_time_target": 0.5778007813,
+    "total_time_target": 1.5778007813000001,
+    "u_target_mm": 0.0078890039065,
+    "iterations": [
+      {
+        "iteration": 1,
+        "largest_res": -2.266e-09,
+        "res_node": 2664,
+        "res_dof": 2,
+        "largest_corr": 3.298e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 2,
+        "largest_res": 1.49e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.064e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 3,
+        "largest_res": 1.883e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.563e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 4,
+        "largest_res": -1.379e-09,
+        "res_node": 6479,
+        "res_dof": 2,
+        "largest_corr": 3.276e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 5,
+        "largest_res": 1.532e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.161e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 6,
+        "largest_res": 1.942e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.613e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      }
+    ],
+    "rejection_reason": "Divergence/Cutback",
+    "last_iteration_data": {}
+  },
+  {
+    "attempt": 6,
+    "dt": 1.953e-07,
+    "step_time_target": 0.5778001952999999,
+    "total_time_target": 1.5778001953,
+    "u_target_mm": 0.007889000976499999,
+    "iterations": [
+      {
+        "iteration": 1,
+        "largest_res": -2.266e-09,
+        "res_node": 2664,
+        "res_dof": 2,
+        "largest_corr": 3.298e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 2,
+        "largest_res": 1.489e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.064e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 3,
+        "largest_res": 1.883e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.561e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 4,
+        "largest_res": -1.379e-09,
+        "res_node": 6479,
+        "res_dof": 2,
+        "largest_corr": 3.276e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 5,
+        "largest_res": 1.531e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.161e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 6,
+        "largest_res": 1.942e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.612e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      }
+    ],
+    "rejection_reason": "Divergence/Cutback",
+    "last_iteration_data": {}
+  },
+  {
+    "attempt": 7,
+    "dt": 4.883e-08,
+    "step_time_target": 0.57780004883,
+    "total_time_target": 1.57780004883,
+    "u_target_mm": 0.00788900024415,
+    "iterations": [
+      {
+        "iteration": 1,
+        "largest_res": -2.266e-09,
+        "res_node": 2664,
+        "res_dof": 2,
+        "largest_corr": 3.298e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 2,
+        "largest_res": 1.489e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.064e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 3,
+        "largest_res": 1.883e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.561e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 4,
+        "largest_res": -1.379e-09,
+        "res_node": 6479,
+        "res_dof": 2,
+        "largest_corr": 3.276e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 5,
+        "largest_res": 1.531e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.161e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 6,
+        "largest_res": 1.942e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.611e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      }
+    ],
+    "rejection_reason": "Divergence/Cutback",
+    "last_iteration_data": {}
+  },
+  {
+    "attempt": 8,
+    "dt": 1.221e-08,
+    "step_time_target": 0.57780001221,
+    "total_time_target": 1.57780001221,
+    "u_target_mm": 0.00788900006105,
+    "iterations": [
+      {
+        "iteration": 1,
+        "largest_res": -2.266e-09,
+        "res_node": 2664,
+        "res_dof": 2,
+        "largest_corr": 3.298e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 2,
+        "largest_res": 1.489e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.064e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 3,
+        "largest_res": 1.883e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.561e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 4,
+        "largest_res": -1.379e-09,
+        "res_node": 6479,
+        "res_dof": 2,
+        "largest_corr": 3.276e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 5,
+        "largest_res": 1.531e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.161e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 6,
+        "largest_res": 1.942e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.611e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      }
+    ],
+    "rejection_reason": "Divergence/Cutback",
+    "last_iteration_data": {}
+  },
+  {
+    "attempt": 9,
+    "dt": 3.052e-09,
+    "step_time_target": 0.577800003052,
+    "total_time_target": 1.5778000030519999,
+    "u_target_mm": 0.00788900001526,
+    "iterations": [
+      {
+        "iteration": 1,
+        "largest_res": -2.266e-09,
+        "res_node": 2664,
+        "res_dof": 2,
+        "largest_corr": 3.298e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 2,
+        "largest_res": 1.489e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.064e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 3,
+        "largest_res": 1.883e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.561e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 4,
+        "largest_res": -1.379e-09,
+        "res_node": 6479,
+        "res_dof": 2,
+        "largest_corr": 3.276e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 5,
+        "largest_res": 1.531e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.161e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 6,
+        "largest_res": 1.942e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.611e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      }
+    ],
+    "rejection_reason": "Divergence/Cutback",
+    "last_iteration_data": {}
+  },
+  {
+    "attempt": 10,
+    "dt": 1e-09,
+    "step_time_target": 0.577800001,
+    "total_time_target": 1.577800001,
+    "u_target_mm": 0.007889000005,
+    "iterations": [
+      {
+        "iteration": 1,
+        "largest_res": -2.266e-09,
+        "res_node": 2664,
+        "res_dof": 2,
+        "largest_corr": 3.298e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 2,
+        "largest_res": 1.489e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.064e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 3,
+        "largest_res": 1.883e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.561e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 4,
+        "largest_res": -1.379e-09,
+        "res_node": 6479,
+        "res_dof": 2,
+        "largest_corr": 3.276e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      },
+      {
+        "iteration": 5,
+        "largest_res": 1.531e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 3.161e-06,
+        "corr_node": 6514,
+        "corr_dof": 2
+      },
+      {
+        "iteration": 6,
+        "largest_res": 1.942e-09,
+        "res_node": 6479,
+        "res_dof": 3,
+        "largest_corr": 2.611e-06,
+        "corr_node": 13628,
+        "corr_dof": 3
+      }
+    ],
+    "rejection_reason": "Divergence/Cutback",
+    "last_iteration_data": {}
+  }
+]
