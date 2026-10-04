@@ -1,15 +1,15 @@
 {
-  "task_id": "F1206-GATE6B-STAGE14UW-ENERGY-CLAIMS-DISCIPLINE-AND-THERMODYNAMIC-AUDIT-20261004",
+  "task_id": "F1207-GATE6B-STAGE14UX-SPATIAL-PROVENANCE-AND-CONVERGENCE-QUALIFICATION-20261004",
   "status": "COMPLETED",
-  "task_title": "Gate-6B Mode-I Stage 14U-W: Energy-Claims Discipline, Matched-State Consistency, and Thermodynamic-Interpretation Correction Audit",
+  "task_title": "Gate-6B Mode-I Stage 14U-X: Overdue Spatial-Provenance Closure and Convergence-Claim Qualification Audit",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
   "claimed_by": "gemini-antigravity",
-  "claimed_at": "2026-10-04T15:35:00+02:00",
-  "completed_at": "2026-10-04T16:00:00+02:00",
-  "last_updated": "2026-10-04T16:00:00+02:00",
-  "context": "Stage 14U-W completed: mathematical energy identity source proof from f42_mixed_uel.for (CE8D5EDC...); proved E_frac is Bourdin crack surface state functional Gamma_l(d) NOT cumulative dissipation; replaced THERMODYNAMICALLY_CONSISTENT_AND_QUALIFIED with ENERGY_EVOLUTION_AND_BOOKKEEPING_AUDITED__FINAL_BASELINE_QUALIFICATION_PENDING; separated distinct endpoints across 9 cases and evaluated matched-state energy consistency across deformation regimes (Stage 14 matches S1 reference within -2.26% E_frac at u=6.5 um); unit tests passed 100% (6/6); Thesis Chapter 4 Section 4.20/4.21 updated and main.pdf compiled cleanly (83 pages SHA-256 8A13C5C3...); Job 1409982 left running untouched on mnode097.",
+  "claimed_at": "2026-10-04T16:15:00+02:00",
+  "completed_at": "2026-10-04T16:30:00+02:00",
+  "last_updated": "2026-10-04T16:30:00+02:00",
+  "context": "Stage 14U-X completed: 17-field provenance reconstructed for all 7 cases; recomputed exact mesh metrics on 5.000% corridor (Stage 14 has 57.49% corridor share h_min=0.760 um); separated 3 independent conclusions (REFERENCE_ADAPTIVE_AGREEMENT, FIXED_MESH_SPATIAL_SENSITIVITY, ADAPTIVE_SPATIAL_SENSITIVITY); confirmed final spatial verdict SPATIAL_CONVERGENCE_EVIDENCE_ALREADY_SUFFICIENT; unit tests passed 100% (7/7); Thesis Section 4.19 refined and main.pdf compiled cleanly (83 pages SHA-256 95004C8A...); Job 1409982 left running untouched on mnode097 solving Step 2 Inc 7+.",
   "allowed_write_scope": [
-    "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/*",
+    "models/pandey_kumar_mode1/*",
     "tests/unit/*",
     "docs/MA_AdaptiveRemeshing_Report_2026_main/*",
     "project_coordination/*"

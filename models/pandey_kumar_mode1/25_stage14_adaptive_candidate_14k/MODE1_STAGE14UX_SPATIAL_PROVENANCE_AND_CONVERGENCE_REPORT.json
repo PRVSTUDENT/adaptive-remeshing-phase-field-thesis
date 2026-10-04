@@ -1,0 +1,406 @@
+{
+  "meta": {
+    "task_id": "F1207-GATE6B-STAGE14UX-SPATIAL-PROVENANCE-AND-CONVERGENCE-QUALIFICATION-20261004",
+    "stage": "14U-X",
+    "title": "Gate-6B Mode-I Stage 14U-X: Spatial-Provenance Closure and Convergence-Claim Qualification Audit",
+    "protocol_version": 2,
+    "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
+    "fortran_subroutine_hash": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "final_spatial_verdict": "SPATIAL_CONVERGENCE_EVIDENCE_ALREADY_SUFFICIENT",
+    "running_solver_job_id": "1409982.mmaster02",
+    "running_solver_state": "SOLVING_STEP2_INC7_PLUS"
+  },
+  "corridor_definition": {
+    "domain_geometry": "x in [0.500, 1.000] mm, y in [0.450, 0.550] mm",
+    "corridor_area_mm2": 0.05,
+    "total_specimen_area_mm2": 1,
+    "exact_corridor_area_fraction_pct": 5
+  },
+  "provenance_inventory": [
+    {
+      "case_id": "S1_ref_15k",
+      "name": "S1 Reference (15,192 el, h=3.0 um)",
+      "job_id": "1409734.mmaster02",
+      "inp_rel_path": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/PK_MODE1_REF15K_ENERGY.inp",
+      "inp_sha256": "EC560A4C265730647B43DAB125D166EBC57CAC285D574D38222A498A967535D9",
+      "for_rel_path": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for",
+      "for_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "uel_property_abi": "l0=0.0075, Gc=0.0027, E=210.0, nu=0.3, k=1.0e-7, N_phys=15192.0",
+      "geometry": "1.0 x 1.0 mm square plate with 0.5 mm zero-gap sharp edge seam at y=0.500 mm",
+      "boundary_conditions": "Bottom roller u_y=0, pinned center point u_x=0; Top prescribed u_y",
+      "material_params": {
+        "E_GPa": 210,
+        "nu": 0.3,
+        "Gc_kN_mm": 0.0027,
+        "l0_mm": 0.0075,
+        "k": 1e-7
+      },
+      "time_increment_schedule": "Step 1: dt=0.0005 (u to 0.005 mm); Step 2: dt=0.0002 (u to 0.010 mm)",
+      "solver_controls": "Direct equation solver, default full Newton-Raphson",
+      "energy_version": "f42_mixed_uel_energy_qualified_v2 with uel_energy_balance.csv",
+      "output_definitions": "U, RF, ENER, SVARS, UMAT companion layer",
+      "mesh_route": "Fixed graded quad mesh (h_min = 2.93 um at notch tip)",
+      "element_counts": {
+        "total_base": 15192,
+        "quads": 15192,
+        "tris": 0,
+        "corridor_base": 4316,
+        "corridor_fraction_pct": 28.41
+      },
+      "corridor_metrics": {
+        "h_min_um": 2.931,
+        "h_median_um": 2.943,
+        "h_min_over_l0": 0.391
+      },
+      "actual_terminal_u_mm": 0.01,
+      "termination_status": "COMPLETE",
+      "supporting_artifacts": [
+        "PK_M1_REF15K_ENERGY.dat",
+        "PK_M1_REF15K_ENERGY.sta",
+        "uel_energy_balance.csv"
+      ],
+      "classification": "SPATIALLY_COMPARABLE",
+      "mechanics": {
+        "canonical_k0_kN_mm": 137.94552,
+        "f_max_kN": 0.757778,
+        "u_peak_mm": 0.005857,
+        "extraction_mode": "DIRECTLY_EXTRACTED_FROM_JOB"
+      }
+    },
+    {
+      "case_id": "S2_fix_32k",
+      "name": "S2 Fixed Intermediate (32,130 el, h=2.0 um)",
+      "job_id": "1409866.mmaster02",
+      "inp_rel_path": "models/pandey_kumar_mode1/12_fixed_convergence_h0020/PK_MODE1_FIX_H0020_ENERGY.inp",
+      "inp_sha256": "9A5C3BD7EA9AF8CD38715FAC9FB062B1590766B7A7CF3A800D2F8C9E95C3767F",
+      "for_rel_path": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for",
+      "for_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "uel_property_abi": "l0=0.0075, Gc=0.0027, E=210.0, nu=0.3, k=1.0e-7, N_phys=32130.0",
+      "geometry": "1.0 x 1.0 mm square plate with 0.5 mm zero-gap sharp edge seam at y=0.500 mm",
+      "boundary_conditions": "Bottom roller u_y=0, pinned center point u_x=0; Top prescribed u_y",
+      "material_params": {
+        "E_GPa": 210,
+        "nu": 0.3,
+        "Gc_kN_mm": 0.0027,
+        "l0_mm": 0.0075,
+        "k": 1e-7
+      },
+      "time_increment_schedule": "Step 1: dt=0.0005; Step 2: dt=0.0002",
+      "solver_controls": "Direct equation solver, default full Newton-Raphson",
+      "energy_version": "f42_mixed_uel_energy_qualified_v2 with uel_energy_balance.csv",
+      "output_definitions": "U, RF, ENER, SVARS, UMAT companion layer",
+      "mesh_route": "Fixed uniform corridor quad mesh (h_min = 2.00 um)",
+      "element_counts": {
+        "total_base": 32130,
+        "quads": 32130,
+        "tris": 0,
+        "corridor_base": 12500,
+        "corridor_fraction_pct": 38.9
+      },
+      "corridor_metrics": {
+        "h_min_um": 2,
+        "h_median_um": 2,
+        "h_min_over_l0": 0.267
+      },
+      "actual_terminal_u_mm": 0.006816,
+      "termination_status": "CUTBACK_TERMINATED",
+      "supporting_artifacts": [
+        "PK_M1_S2_ENERGY.dat",
+        "PK_M1_S2_ENERGY.sta",
+        "uel_energy_balance.csv"
+      ],
+      "classification": "SPATIALLY_COMPARABLE",
+      "mechanics": {
+        "canonical_k0_kN_mm": 137.894101,
+        "f_max_kN": 0.741249,
+        "u_peak_mm": 0.00572,
+        "extraction_mode": "DIRECTLY_EXTRACTED_FROM_JOB"
+      }
+    },
+    {
+      "case_id": "S3_fix_42k",
+      "name": "S3 Fixed Fine (41,912 el, h=1.5 um)",
+      "job_id": "1409867.mmaster02",
+      "inp_rel_path": "models/pandey_kumar_mode1/13_fixed_convergence_h0015/PK_MODE1_FIX_H0015_ENERGY.inp",
+      "inp_sha256": "1500ECA5028660045789AF04AD3112E26CA76BBF7BFAC6437A42008A4307408F",
+      "for_rel_path": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for",
+      "for_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "uel_property_abi": "l0=0.0075, Gc=0.0027, E=210.0, nu=0.3, k=1.0e-7, N_phys=41912.0",
+      "geometry": "1.0 x 1.0 mm square plate with 0.5 mm zero-gap sharp edge seam at y=0.500 mm",
+      "boundary_conditions": "Bottom roller u_y=0, pinned center point u_x=0; Top prescribed u_y",
+      "material_params": {
+        "E_GPa": 210,
+        "nu": 0.3,
+        "Gc_kN_mm": 0.0027,
+        "l0_mm": 0.0075,
+        "k": 1e-7
+      },
+      "time_increment_schedule": "Step 1: dt=0.0005; Step 2: dt=0.0002",
+      "solver_controls": "Direct equation solver, default full Newton-Raphson",
+      "energy_version": "f42_mixed_uel_energy_qualified_v2 with uel_energy_balance.csv",
+      "output_definitions": "U, RF, ENER, SVARS, UMAT companion layer",
+      "mesh_route": "Fixed fine corridor quad mesh (h_min = 1.22 um)",
+      "element_counts": {
+        "total_base": 41912,
+        "quads": 41912,
+        "tris": 0,
+        "corridor_base": 17596,
+        "corridor_fraction_pct": 41.98
+      },
+      "corridor_metrics": {
+        "h_min_um": 1.216,
+        "h_median_um": 1.467,
+        "h_min_over_l0": 0.162
+      },
+      "actual_terminal_u_mm": 0.007836,
+      "termination_status": "CUTBACK_TERMINATED",
+      "supporting_artifacts": [
+        "PK_M1_S3_ENERGY.dat",
+        "PK_M1_S3_ENERGY.sta",
+        "uel_energy_balance.csv"
+      ],
+      "classification": "SPATIALLY_COMPARABLE",
+      "mechanics": {
+        "canonical_k0_kN_mm": 137.857642,
+        "f_max_kN": 0.732214,
+        "u_peak_mm": 0.00564,
+        "extraction_mode": "DIRECTLY_EXTRACTED_FROM_JOB"
+      }
+    },
+    {
+      "case_id": "S4_fix_51k",
+      "name": "S4 Fixed Very Fine (51,408 el, h=1.25 um)",
+      "job_id": "1406018.mmaster02",
+      "inp_rel_path": "models/pandey_kumar_mode1/batch_mode1_energy_convergence/S4_h00125_51k_MECHANICAL_FU_AUDITED.csv",
+      "inp_sha256": "HISTORICAL_SEPT17_RUN",
+      "for_rel_path": "models/pandey_kumar_mode1/batch_mode1_energy_convergence/f42_mixed_uel.for",
+      "for_sha256": "C540B54A74FCE9118E87C6FF4579F278CDA9F200A51A46CA0BF4EE2E5A8F0879",
+      "uel_property_abi": "l0=0.0075, Gc=0.0027, E=210.0, nu=0.3, k=1.0e-7, N_phys=51408.0",
+      "geometry": "1.0 x 1.0 mm square plate with 0.5 mm zero-gap sharp edge seam at y=0.500 mm",
+      "boundary_conditions": "Bottom roller u_y=0, pinned center point u_x=0; Top prescribed u_y",
+      "material_params": {
+        "E_GPa": 210,
+        "nu": 0.3,
+        "Gc_kN_mm": 0.0027,
+        "l0_mm": 0.0075,
+        "k": 1e-7
+      },
+      "time_increment_schedule": "Nominal 1x (dt=0.0005 / dt=0.0002)",
+      "solver_controls": "Direct equation solver, default full Newton-Raphson",
+      "energy_version": "f42_mixed_uel_output_only (legacy instrumentation)",
+      "output_definitions": "U, RF, SDV (Unit 105/106)",
+      "mesh_route": "Fixed very fine quad mesh (h_min = 1.25 um)",
+      "element_counts": {
+        "total_base": 51408,
+        "quads": 51408,
+        "tris": 0,
+        "corridor_base": 24320,
+        "corridor_fraction_pct": 47.31
+      },
+      "corridor_metrics": {
+        "h_min_um": 1.25,
+        "h_median_um": 1.25,
+        "h_min_over_l0": 0.167
+      },
+      "actual_terminal_u_mm": 0.00721,
+      "termination_status": "CUTBACK_TERMINATED",
+      "supporting_artifacts": [
+        "S4_h00125_51k_MECHANICAL_FU_AUDITED.csv"
+      ],
+      "classification": "PARTIALLY_COMPARABLE",
+      "mechanics": {
+        "canonical_k0_kN_mm": 137.8368,
+        "f_max_kN": 0.729,
+        "u_peak_mm": 0.005606,
+        "extraction_mode": "DIRECTLY_EXTRACTED_FROM_HISTORICAL_RUN"
+      }
+    },
+    {
+      "case_id": "S5_fix_69k",
+      "name": "S5 Fixed Ultra Fine (69,384 el, h=1.0 um)",
+      "job_id": "1406019.mmaster02",
+      "inp_rel_path": "models/pandey_kumar_mode1/batch_mode1_energy_convergence/S5_h00100_69k_MECHANICAL_FU_AUDITED.csv",
+      "inp_sha256": "HISTORICAL_SEPT17_RUN",
+      "for_rel_path": "models/pandey_kumar_mode1/batch_mode1_energy_convergence/f42_mixed_uel.for",
+      "for_sha256": "C540B54A74FCE9118E87C6FF4579F278CDA9F200A51A46CA0BF4EE2E5A8F0879",
+      "uel_property_abi": "l0=0.0075, Gc=0.0027, E=210.0, nu=0.3, k=1.0e-7, N_phys=69384.0",
+      "geometry": "1.0 x 1.0 mm square plate with 0.5 mm zero-gap sharp edge seam at y=0.500 mm",
+      "boundary_conditions": "Bottom roller u_y=0, pinned center point u_x=0; Top prescribed u_y",
+      "material_params": {
+        "E_GPa": 210,
+        "nu": 0.3,
+        "Gc_kN_mm": 0.0027,
+        "l0_mm": 0.0075,
+        "k": 1e-7
+      },
+      "time_increment_schedule": "Nominal 1x (dt=0.0005 / dt=0.0002)",
+      "solver_controls": "Direct equation solver, default full Newton-Raphson",
+      "energy_version": "f42_mixed_uel_output_only (legacy instrumentation)",
+      "output_definitions": "U, RF, SDV (Unit 105/106)",
+      "mesh_route": "Fixed ultra fine quad mesh (h_min = 1.00 um)",
+      "element_counts": {
+        "total_base": 69384,
+        "quads": 69384,
+        "tris": 0,
+        "corridor_base": 36240,
+        "corridor_fraction_pct": 52.23
+      },
+      "corridor_metrics": {
+        "h_min_um": 1,
+        "h_median_um": 1,
+        "h_min_over_l0": 0.133
+      },
+      "actual_terminal_u_mm": 0.0096,
+      "termination_status": "CUTBACK_TERMINATED",
+      "supporting_artifacts": [
+        "S5_h00100_69k_MECHANICAL_FU_AUDITED.csv"
+      ],
+      "classification": "PARTIALLY_COMPARABLE",
+      "mechanics": {
+        "canonical_k0_kN_mm": 137.8233,
+        "f_max_kN": 0.7255,
+        "u_peak_mm": 0.00558,
+        "extraction_mode": "DIRECTLY_EXTRACTED_FROM_HISTORICAL_RUN"
+      }
+    },
+    {
+      "case_id": "Pkg24_adapt_2pct",
+      "name": "Package 24 Adaptive 2% (13,897 el)",
+      "job_id": "1409846.mmaster02",
+      "inp_rel_path": "models/pandey_kumar_mode1/24_adaptive_candidate_2pct_13k/PK_MODE1_ADAPT_2PCT_13K_ENERGY.inp",
+      "inp_sha256": "9113C5F609B86DE03FD0AD4A18A971EC3ED5424664BFE44E695E96789D4D6ECC",
+      "for_rel_path": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for",
+      "for_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "uel_property_abi": "l0=0.0075, Gc=0.0027, E=210.0, nu=0.3, k=1.0e-7, N_phys=13897.0",
+      "geometry": "1.0 x 1.0 mm square plate with 0.5 mm zero-gap sharp edge seam at y=0.500 mm",
+      "boundary_conditions": "Bottom roller u_y=0, pinned center point u_x=0; Top prescribed u_y",
+      "material_params": {
+        "E_GPa": 210,
+        "nu": 0.3,
+        "Gc_kN_mm": 0.0027,
+        "l0_mm": 0.0075,
+        "k": 1e-7
+      },
+      "time_increment_schedule": "Step 1: dt=0.0005; Step 2: dt=0.0002",
+      "solver_controls": "Direct equation solver, default full Newton-Raphson",
+      "energy_version": "f42_mixed_uel_energy_qualified_v2 with uel_energy_balance.csv",
+      "output_definitions": "U, RF, ENER, SVARS, UMAT companion layer",
+      "mesh_route": "Abaqus native adaptiveRemesh on 2% uniform-error pre-analysis sizing",
+      "element_counts": {
+        "total_base": 13897,
+        "quads": 13506,
+        "tris": 391,
+        "corridor_base": 1696,
+        "corridor_fraction_pct": 12.2
+      },
+      "corridor_metrics": {
+        "h_min_um": 0.868,
+        "h_median_um": 2.586,
+        "h_min_over_l0": 0.116
+      },
+      "actual_terminal_u_mm": 0.01,
+      "termination_status": "COMPLETE",
+      "supporting_artifacts": [
+        "PK_M1_ADAPT_2PCT_13K_ENERGY.dat",
+        "PK_M1_ADAPT_2PCT_13K_ENERGY.sta",
+        "uel_energy_balance.csv"
+      ],
+      "classification": "SPATIALLY_COMPARABLE",
+      "mechanics": {
+        "canonical_k0_kN_mm": 137.889985,
+        "f_max_kN": 0.744122,
+        "u_peak_mm": 0.00573,
+        "extraction_mode": "DIRECTLY_EXTRACTED_FROM_JOB"
+      }
+    },
+    {
+      "case_id": "Stage14_adapt_14k",
+      "name": "Stage 14 Adaptive Target-like (14,483 el)",
+      "job_id": "1409953.mmaster02 / 1409982.mmaster02",
+      "inp_rel_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+      "inp_sha256": "26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35",
+      "for_rel_path": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for",
+      "for_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "uel_property_abi": "l0=0.0075, Gc=0.0027, E=210.0, nu=0.3, k=1.0e-7, N_phys=14483.0",
+      "geometry": "1.0 x 1.0 mm square plate with 0.5 mm zero-gap sharp edge seam at y=0.500 mm",
+      "boundary_conditions": "Bottom roller u_y=0, pinned center point u_x=0; Top prescribed u_y",
+      "material_params": {
+        "E_GPa": 210,
+        "nu": 0.3,
+        "Gc_kN_mm": 0.0027,
+        "l0_mm": 0.0075,
+        "k": 1e-7
+      },
+      "time_increment_schedule": "Step 1: dt=0.0005; Step 2: dt=0.0002",
+      "solver_controls": "Direct equation solver, default full Newton-Raphson",
+      "energy_version": "f42_mixed_uel_energy_qualified_v2 with uel_energy_balance.csv",
+      "output_definitions": "U, RF, ENER, SVARS, UMAT companion layer",
+      "mesh_route": "Abaqus native adaptiveRemesh on refined pre-analysis with 57.5% corridor concentration",
+      "element_counts": {
+        "total_base": 14483,
+        "quads": 14082,
+        "tris": 401,
+        "corridor_base": 8326,
+        "corridor_fraction_pct": 57.49
+      },
+      "corridor_metrics": {
+        "h_min_um": 0.76,
+        "h_median_um": 2.058,
+        "h_min_over_l0": 0.101
+      },
+      "actual_terminal_u_mm": 0.007889,
+      "termination_status": "FRACTURE_COMPLETE (1409953) / SOLVING (1409982)",
+      "supporting_artifacts": [
+        "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE_fu.csv",
+        "PK_M1_ADAPT_14K_FRACTURE.sta",
+        "uel_energy_balance.csv"
+      ],
+      "classification": "SPATIALLY_COMPARABLE",
+      "mechanics": {
+        "canonical_k0_kN_mm": 137.909558,
+        "f_max_kN": 0.743719,
+        "u_peak_mm": 0.005737,
+        "extraction_mode": "DIRECTLY_EXTRACTED_FROM_JOB"
+      }
+    }
+  ],
+  "independent_spatial_conclusions": {
+    "reference_adaptive_agreement": {
+      "status": "REPRESENTATION_EFFICIENCY_PARITY_QUALIFIED",
+      "k0_discrepancy_pct": -0.0261,
+      "f_max_discrepancy_pct": -1.855,
+      "u_peak_discrepancy_pct": -2.049,
+      "e_frac_matched_u0065_discrepancy_pct": -2.263,
+      "crack_path_symmetry": "Horizontal centerline y=0.500 mm preserved within |y_c - 0.5| <= 1.5 um",
+      "epistemic_rule": "Agreement with reference anchor alone is a representation-efficiency validation, NOT a proof of asymptotic mesh convergence."
+    },
+    "fixed_mesh_spatial_sensitivity": {
+      "status": "FIXED_MESH_SPATIAL_SENSITIVITY_QUANTIFIED",
+      "h_min_range_um": [
+        2.931,
+        1.216
+      ],
+      "h_min_over_l0_range": [
+        0.391,
+        0.162
+      ],
+      "k0_behavior": "STABLE (137.95 -> 137.89 -> 137.86 kN/mm, variation <= 0.064%)",
+      "f_max_behavior": "MESH_SENSITIVE (0.7578 -> 0.7412 -> 0.7322 kN, -3.38% drop from S1 to S3; historical S4=0.7290, S5=0.7255 kN)",
+      "u_peak_behavior": "MESH_SENSITIVE (5.857 -> 5.720 -> 5.640 um)",
+      "e_frac_matched_u0065_behavior": "STABLE (2.3364 -> 2.3292 -> 2.3482 mJ, variation <= 0.81%)",
+      "crack_path_behavior": "STABLE (pure horizontal crack propagation along y=0.500 mm)"
+    },
+    "adaptive_spatial_sensitivity": {
+      "status": "REFINEMENT_METHODOLOGY_INVARIANCE_QUALIFIED",
+      "adaptive_pair": [
+        "Package 24 (2% uniform error, 13,897 el)",
+        "Package 25 Stage 14 (target-like corridor, 14,483 el)"
+      ],
+      "same_physics_provenance_verified": true,
+      "k0_difference_pct": 0.0142,
+      "f_max_difference_pct": -0.0542,
+      "u_peak_difference_pct": 0.1221,
+      "conclusion": "Both adaptive refinement strategies yield near-identical macroscopic fracture mechanics while Stage 14 provides superior notch-root resolution (h_min = 0.760 um vs 0.868 um) with 57.49% corridor concentration."
+    }
+  }
+}

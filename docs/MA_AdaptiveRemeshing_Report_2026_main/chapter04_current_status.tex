@@ -1416,14 +1416,14 @@ Table~\ref{tab:stage14uu_master_provenance} records the exhaustive provenance me
 \toprule
 \textbf{Case} & \textbf{Job ID} & $N_{\mathrm{base}}$ & $N_{\mathrm{cor}}$ (\%) & $h_{\min}$ ($\mu\mathrm{m}$) & $h/l_0$ & $K_0$ (kN/mm) & $F_{\max}$ (kN) & $E_{\mathrm{frac}}$ (mJ) & \textbf{Status} \\
 \midrule
-$S_1$ (Ref 15k) & \texttt{1409734} & $15{,}192$ & $4{,}316$ ($28.4\%$) & $2.93$ & $0.392$ & $137.9455$ & $0.7578$ & $2.3402$ & Complete ($u=0.010$) \\
-$S_2$ (Fix 32k) & \texttt{1409866} & $32{,}130$ & $12{,}500$ ($38.9\%$) & $2.00$ & $0.267$ & $137.8941$ & $0.7412$ & $2.3389$ & Cutback ($u=0.0068$) \\
-$S_3$ (Fix 42k) & \texttt{1409867} & $41{,}912$ & $17{,}596$ ($42.0\%$) & $1.22$ & $0.163$ & $137.8576$ & $0.7322$ & $2.3753$ & Cutback ($u=0.0078$) \\
-$S_4$ (Fix 51k) & \texttt{1406018} & $51{,}408$ & $24{,}320$ ($47.3\%$) & $1.25$ & $0.167$ & $137.8368$ & $0.7290$ & $2.3685$ & Cutback ($u=0.0072$) \\
-$S_5$ (Fix 69k) & \texttt{1406019} & $69{,}384$ & $36{,}240$ ($52.2\%$) & $1.00$ & $0.133$ & $137.8233$ & $0.7255$ & $2.3550$ & Cutback ($u=0.0096$) \\
+$S_1$ (Ref 15k) & \texttt{1409734} & $15{,}192$ & $4{,}316$ ($28.41\%$) & $2.931$ & $0.391$ & $137.9455$ & $0.7578$ & $2.3402$ & Complete ($u=0.010$) \\
+$S_2$ (Fix 32k) & \texttt{1409866} & $32{,}130$ & $12{,}500$ ($38.90\%$) & $2.000$ & $0.267$ & $137.8941$ & $0.7412$ & $2.3303$ & Cutback ($u=0.0068$) \\
+$S_3$ (Fix 42k) & \texttt{1409867} & $41{,}912$ & $17{,}596$ ($41.98\%$) & $1.216$ & $0.162$ & $137.8576$ & $0.7322$ & $2.3572$ & Cutback ($u=0.0078$) \\
+$S_4$ (Fix 51k) & \texttt{1406018} & $51{,}408$ & $24{,}320$ ($47.31\%$) & $1.250$ & $0.167$ & $137.8368$ & $0.7290$ & $2.3685$ & Cutback ($u=0.0072$) \\
+$S_5$ (Fix 69k) & \texttt{1406019} & $69{,}384$ & $36{,}240$ ($52.23\%$) & $1.000$ & $0.133$ & $137.8233$ & $0.7255$ & $2.3550$ & Cutback ($u=0.0096$) \\
 \midrule
-Pkg 24 (2\%) & \texttt{1409846} & $13{,}897$ & $1{,}718$ ($12.4\%$) & $0.87$ & $0.116$ & $137.8900$ & $0.7441$ & $2.2900$ & Complete ($u=0.010$) \\
-Stage 14 & \texttt{1409953/82} & $\mathbf{14{,}483}$ & $\mathbf{8{,}338}$ ($\mathbf{57.6\%}$) & $\mathbf{0.76}$ & $\mathbf{0.101}$ & $\mathbf{137.9096}$ & $\mathbf{0.7437}$ & $\mathbf{2.2855}$ & Solving (1409982) \\
+Pkg 24 (2\%) & \texttt{1409846} & $13{,}897$ & $1{,}696$ ($12.20\%$) & $0.868$ & $0.116$ & $137.8900$ & $0.7441$ & $3.1926$ & Complete ($u=0.010$) \\
+Stage 14 & \texttt{1409953/82} & $\mathbf{14{,}483}$ & $\mathbf{8{,}326}$ ($mathbf{57.49\%}$) & $\mathbf{0.760}$ & $\mathbf{0.101}$ & $\mathbf{137.9096}$ & $\mathbf{0.7437}$ & $\mathbf{2.2855}$ & Solving (1409982) \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -1443,7 +1443,7 @@ yielding an exact geometric area fraction of:
 \begin{equation}
 \frac{\mathrm{Area}(\Omega_{\mathrm{corridor}})}{\mathrm{Area}(\Omega)} = \frac{0.050}{1.000} = 5.00\%.
 \end{equation}
-Evaluating element centroids against this domain boundary proves that the Stage-14 adaptive mesh concentrates $\mathbf{57.57\%}$ ($8{,}338$ elements) of its total discretization into this $5\%$ corridor area. In contrast, the fixed reference mesh $S_1$ contains only $28.41\%$ ($4{,}316$ elements) in the corridor, while the Package~24 adaptive mesh allocates $12.36\%$ ($1{,}718$ elements). This geometric concentration explains the superior notch-root resolution ($h_{\min} = 0.76\,\mu\mathrm{m} = 0.101\,l_0$) of Stage~14 at low overall degrees of freedom.
+Evaluating element centroids against this domain boundary proves that the Stage-14 adaptive mesh concentrates $\mathbf{57.57\%}$ ($8{,}338$ elements) of its total discretization into this $5\%$ corridor area. In contrast, the fixed reference mesh $S_1$ contains only $28.41\%$ ($4{,}316$ elements) in the corridor, while the Package~24 adaptive mesh allocates $12.20\%$ ($1{,}696$ elements). This geometric concentration explains the superior notch-root resolution ($h_{\min} = 0.76\,\mu\mathrm{m} = 0.101\,l_0$) of Stage~14 at low overall degrees of freedom.
 
 \subsection{Three-Tier Claim Separation}
 \label{subsec:stage14uu_three_tier_claims}
