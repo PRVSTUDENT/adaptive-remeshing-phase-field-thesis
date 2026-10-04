@@ -1,0 +1,121 @@
+{
+  "package_name": "26_stage14_temporal_refined_candidate_2x",
+  "description": "Gate-6B Mode-I Stage 14U-R: 2x Temporal Refinement Candidate on Qualified 14,483-Element Adaptive Mesh",
+  "protocol_version": 2,
+  "created_at": "2026-10-04T13:00:00+02:00",
+  "author": "gemini-antigravity",
+  "governing_verdicts": [
+    "TEMPORAL_CONVERGENCE_CANDIDATE_VALIDATED__BASELINE_TERMINAL_QUALIFICATION_PENDING",
+    "STAGE14V_EVALUATOR_CERTIFIED__COMPLETION_RUN_PENDING",
+    "COMPLETION_CONTROL_PARITY_CONFIRMED_OVER_REACHED_RANGE",
+    "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE",
+    "STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED",
+    "TOWARD_TARGET_LOCALIZATION"
+  ],
+  "mesh_specification": {
+    "total_nodes": 14456,
+    "underlying_elements": 14483,
+    "layered_elements": 43449,
+    "crack_seam_node_pairs": 54,
+    "total_crack_seam_nodes": 109,
+    "crack_length_a0_mm": 0.5,
+    "domain_area_mm2": 1
+  },
+  "property_abi": {
+    "order": [
+      "l0",
+      "Gc",
+      "E",
+      "nu",
+      "k",
+      "N_elem"
+    ],
+    "values": [
+      0.0075,
+      0.0027,
+      210,
+      0.3,
+      1e-7,
+      14483
+    ]
+  },
+  "temporal_discretization_comparison": {
+    "baseline_package_25": {
+      "step1": {
+        "u_start_mm": 0,
+        "u_end_mm": 0.005,
+        "dt_initial": 0.0005,
+        "dt_max": 0.0005,
+        "dt_min": 1e-9,
+        "nominal_increments": 2000,
+        "max_increments_allowed": 2500,
+        "nominal_du_nm": 2.5
+      },
+      "step2": {
+        "u_start_mm": 0.005,
+        "u_end_mm": 0.01,
+        "dt_initial": 0.0002,
+        "dt_max": 0.0002,
+        "dt_min": 1e-9,
+        "nominal_increments": 5000,
+        "max_increments_allowed": 6000,
+        "nominal_du_nm": 1,
+        "time_incrementation_controls": "4, 10, 9, 20, 10, 4, 0, 10"
+      }
+    },
+    "refined_package_26_2x": {
+      "step1": {
+        "u_start_mm": 0,
+        "u_end_mm": 0.005,
+        "dt_initial": 0.00025,
+        "dt_max": 0.00025,
+        "dt_min": 1e-9,
+        "nominal_increments": 4000,
+        "max_increments_allowed": 5000,
+        "nominal_du_nm": 1.25
+      },
+      "step2": {
+        "u_start_mm": 0.005,
+        "u_end_mm": 0.01,
+        "dt_initial": 0.0001,
+        "dt_max": 0.0001,
+        "dt_min": 1e-9,
+        "nominal_increments": 10000,
+        "max_increments_allowed": 12000,
+        "nominal_du_nm": 0.5,
+        "time_incrementation_controls": "4, 10, 9, 20, 10, 4, 0, 10"
+      }
+    }
+  },
+  "files": {
+    "PK_MODE1_STAGE14_ADAPT_14K_TEMPORAL_2X.inp": {
+      "sha256": "9AC284E6A65E59042E9588DB628F9B15D5CBE345D62D164B477304D4813BC526",
+      "role": "2x temporally refined full fracture solve deck"
+    },
+    "PK_M1_14K_TEMPORAL_2X_DATACHECK.inp": {
+      "sha256": "D4A99C3A40E35419F7088F3EF517CE237DE6942543363DA545BA26C7BE2361D7",
+      "role": "Preflight compilation and linking datacheck deck"
+    },
+    "f42_mixed_uel.for": {
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "role": "Governed mixed UEL user subroutine source"
+    },
+    "job_notifications.sh": {
+      "sha256": "96756A681D2D36C11B36B89288F631F8ECC9537543C2C745A4BAE1B425984B47",
+      "role": "Dual-channel notification trap and helper library"
+    },
+    "submit_datacheck.pbs": {
+      "sha256": "4F399D9293F14730D968CEB05BEBFED17ACF5D8F2F9DB7CB88603EC2E813A384",
+      "role": "PBS preflight datacheck script"
+    },
+    "submit_solver.pbs": {
+      "sha256": "172FB6905BBBBFF1EADA15E5C4EA0936D854B39F8F125E8108808419E25B73AC",
+      "role": "PBS full solver submission script"
+    }
+  },
+  "execution_state": {
+    "preflight_status": "PREPARED",
+    "submission_authorized": false,
+    "submission_status": "WITHHELD__AWAITING_BASELINE_1409982_TERMINAL_EVALUATION"
+  }
+}

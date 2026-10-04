@@ -1,13 +1,14 @@
 {
-  "task_id": "F1200-GATE6B-STAGE14UQ-EVALUATOR-CERTIFICATION-AND-PREFLIGHT-20261004",
-  "task_name": "Gate-6B Mode-I Stage 14U-Q: Frozen Stage-14V Evaluator Certification and Terminal-Package Preflight while Completion Rerun Advances",
+  "task_id": "F1201-GATE6B-STAGE14UR-TEMPORAL-CONVERGENCE-PROTOCOL-AND-PREFLIGHT-20261004",
+  "task_name": "Gate-6B Mode-I Stage 14U-R: Temporal-Convergence Protocol Freeze and Candidate Preflight while Completion Rerun Advances",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
   "claimed_at": "2026-10-04T12:05:00+02:00",
-  "completed_at": "2026-10-04T12:30:00+02:00",
-  "starting_commit": "7164022a28cceb8a56b9052687942385434585dd",
+  "completed_at": "2026-10-04T13:00:00+02:00",
+  "starting_commit": "4e1e1bb5236d16286f1202f4e8ad7833550b47c6",
   "governing_verdicts": [
+    "TEMPORAL_CONVERGENCE_CANDIDATE_VALIDATED__BASELINE_TERMINAL_QUALIFICATION_PENDING",
     "STAGE14V_EVALUATOR_CERTIFIED__COMPLETION_RUN_PENDING",
     "COMPLETION_CONTROL_PARITY_CONFIRMED_OVER_REACHED_RANGE",
     "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE",

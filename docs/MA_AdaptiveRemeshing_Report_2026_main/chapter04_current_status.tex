@@ -1200,3 +1200,86 @@ Both test suites execute with $100\%$ success ($16/16$ tests passed) on both the
 \begin{center}
 {\footnotesize\textbf{\texttt{STAGE14V\_EVALUATOR\_CERTIFIED\_\_COMPLETION\_RUN\_PENDING}}}.
 \end{center}
+\section{Stage 14U-R: Temporal-Convergence Discretization Protocol and Refined Candidate Preflight}
+\label{sec:stage14ur_temporal_convergence_protocol}
+
+\subsection{Motivation and Scientific Boundary}
+\label{subsec:stage14ur_motivation}
+
+While the authoritative baseline completion solve (Job~\texttt{1409982.mmaster02}, Package~25) advances smoothly toward terminal displacement $u = 0.0100\,\mathrm{mm}$ with enhanced cutback controls, the subsequent mandatory investigation in the Mode-I qualification sequence requires examining the sensitivity of the phase-field response to time/displacement incrementation:
+\begin{quote}
+\textit{Does refinement of the prescribed displacement/time-increment discretization materially alter the mechanical, spatial, or energetic response of the qualified 14,483-element adaptive mesh?}
+\end{quote}
+To answer this question deterministically without perturbing the active completion job, Stage~14U-R establishes a formal protocol freeze and preflight qualification for a \textbf{$2\times$ temporally refined candidate} (Package~26: \texttt{models/pandey\_kumar\_mode1/26\_stage14\_temporal\_refined\_candidate\_2x/}). Execution of the solver job on the HPC cluster is strictly withheld pending the terminal qualification of Job~\texttt{1409982.mmaster02}.
+
+\subsection{Temporal Discretization Parameterization}
+\label{subsec:stage14ur_parameterization}
+
+The temporal refinement halves the initial and maximum time increment across both loading steps, corresponding to an exact factor-of-two reduction in nominal displacement increments:
+\begin{enumerate}
+    \item \textbf{Step 1 ($0.0 \to 0.0050\,\mathrm{mm}$):} The initial and maximum time increment is halved from $\Delta t_1 = 5.0\times 10^{-4}$ ($\Delta u_1 = 2.50\,\mathrm{nm}$, $2{,}000$ nominal increments) to:
+    \begin{equation}
+    \Delta t_{1,\mathrm{refined}} = 2.5\times 10^{-4} \implies \Delta u_{1,\mathrm{refined}} = 1.25\times 10^{-6}\,\mathrm{mm} = 1.25\,\mathrm{nm},
+    \end{equation}
+    with the increment ceiling increased from $\mathrm{INC}=2{,}500$ to $\mathrm{INC}=5{,}000$ ($4{,}000$ nominal increments).
+    \item \textbf{Step 2 ($0.0050 \to 0.0100\,\mathrm{mm}$):} The initial and maximum time increment is halved from $\Delta t_2 = 2.0\times 10^{-4}$ ($\Delta u_2 = 1.00\,\mathrm{nm}$, $5{,}000$ nominal increments) to:
+    \begin{equation}
+    \Delta t_{2,\mathrm{refined}} = 1.0\times 10^{-4} \implies \Delta u_{2,\mathrm{refined}} = 0.50\times 10^{-6}\,\mathrm{mm} = 0.50\,\mathrm{nm},
+    \end{equation}
+    with the increment ceiling increased from $\mathrm{INC}=6{,}000$ to $\mathrm{INC}=12{,}000$ ($10{,}000$ nominal increments). The validated Stage~14U time incrementation controls:
+    \begin{equation}
+    \texttt{*CONTROLS, PARAMETERS=TIME INCREMENTATION: 4, 10, 9, 20, 10, 4, 0, 10}
+    \end{equation}
+    are strictly preserved to guarantee Newton cutback latitude down to $\Delta t_{\min} = 1.0\times 10^{-9}$.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{Comparison of baseline and $2\times$ temporally refined discretization parameters on the 14,483-element adaptive mesh.}
+\label{tab:stage14ur_temporal_parameters}
+\begin{tabular}{lccc}
+\hline
+\textbf{Discretization Parameter} & \textbf{Baseline (Pkg 25)} & \textbf{Refined $2\times$ (Pkg 26)} & \textbf{Refinement Ratio} \\
+\hline
+Step 1 Displacement Window & $0 \to 0.0050\,\mathrm{mm}$ & $0 \to 0.0050\,\mathrm{mm}$ & $1.0\times$ (Frozen) \\
+Step 1 Max Time Increment $\Delta t_1$ & $5.0 \times 10^{-4}$ & $2.5 \times 10^{-4}$ & $2.0\times$ Finer \\
+Step 1 Nominal $\Delta u_1$ & $2.50\,\mathrm{nm}$ & $1.25\,\mathrm{nm}$ & $2.0\times$ Finer \\
+Step 1 Nominal Incs ($\mathrm{INC}_{\max}$) & $2{,}000$ ($2{,}500$) & $4{,}000$ ($5{,}000$) & $2.0\times$ \\
+Step 2 Displacement Window & $0.0050 \to 0.0100\,\mathrm{mm}$ & $0.0050 \to 0.0100\,\mathrm{mm}$ & $1.0\times$ (Frozen) \\
+Step 2 Max Time Increment $\Delta t_2$ & $2.0 \times 10^{-4}$ & $1.0 \times 10^{-4}$ & $2.0\times$ Finer \\
+Step 2 Nominal $\Delta u_2$ & $1.00\,\mathrm{nm}$ & $0.50\,\mathrm{nm}$ & $2.0\times$ Finer \\
+Step 2 Nominal Incs ($\mathrm{INC}_{\max}$) & $5{,}000$ ($6{,}000$) & $10{,}000$ ($12{,}000$) & $2.0\times$ \\
+Step 2 Solver Controls & $(4, 10, 9, 20, 10, 4, 0, 10)$ & $(4, 10, 9, 20, 10, 4, 0, 10)$ & $1.0\times$ (Frozen) \\
+Total Nominal Analysis Incs & $7{,}000$ & $14{,}000$ & $2.0\times$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Pre-Declared Multi-Quantity Comparison Protocol}
+\label{subsec:stage14ur_comparison_protocol}
+
+To ensure unbiased evaluation, the comparison protocol is frozen before execution:
+\begin{itemize}
+    \item \textbf{Global Initial Stiffness ($K_0$):} Evaluated across $N = 800$ regression points over $u \le 0.0010\,\mathrm{mm}$; classified \texttt{STABLE} if $|\Delta K_0| \le 1.0\%$.
+    \item \textbf{Peak Force ($F_{\max}$) and Peak Displacement ($u_{\mathrm{peak}}$):} Classified \texttt{STABLE} if $|\Delta F_{\max}| \le 3.0\%$ and $|\Delta u_{\mathrm{peak}}| \le 3.0\%$.
+    \item \textbf{10 Matched Displacement States:} Reaction force, spatial damage, and energies compared at $u \in \{0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070, 0.0080, 0.0090, 0.0100\}\,\mathrm{mm}$.
+    \item \textbf{Continuous Spatial Ligament Damage ($d(x, y=0.5\,\mathrm{mm})$):} Evaluated on a $1001$-point uniform grid ($x \in [0.50, 1.00]\,\mathrm{mm}$); classified \texttt{STABLE} if relative $L_2$ difference is strictly bounded ($\le 5.0\%$) and peak discrepancy is confined to the notch root.
+    \item \textbf{Macro-Crack Tip Position ($x_{\mathrm{tip}}$):} Identified via governed threshold $d \ge 0.90$.
+    \item \textbf{Energy Balance Integrals:} $W_{\mathrm{ext}}, E_{\mathrm{elas}}, E_{\mathrm{frac}}, \Delta_{\mathrm{book}}$, and relative residual $\varepsilon_{\mathrm{book}}$.
+    \item \textbf{Solver Telemetry:} Total increments, iterations, cutbacks, and CPU time recorded to determine computational cost scaling.
+\end{itemize}
+
+\subsection{Preflight Verification and Qualification Summary}
+\label{subsec:stage14ur_preflight_results}
+
+The Package~26 candidate has been verified through a multi-tier preflight process:
+\begin{enumerate}
+    \item \textbf{Deck-Diff Containment Proof:} Programmatic comparison between \texttt{PK\_MODE1\_STAGE14\_ADAPT\_14K\_FRACTURE.inp} (Pkg~25) and \texttt{PK\_MODE1\_STAGE14\_ADAPT\_14K\_TEMPORAL\_2X.inp} (Pkg~26) confirms exact bitwise invariance across all $14{,}456$ nodes, $14{,}483$ underlying finite elements ($43{,}449$ layered elements), UEL property ABI order \texttt{(0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 14483.0)}, boundary conditions, and output requests, with strictly $4$ lines modified for time incrementation.
+    \item \textbf{Automated Unit Test Suite (\texttt{test\_stage14ur\_temporal\_convergence\_preflight.py}):} $7/7$ unit tests pass with $100\%$ success locally and on the cluster, with the entire Stage-14 test suite ($23/23$ tests) passing cleanly.
+    \item \textbf{Cluster Abaqus Datacheck (\texttt{PK\_M1\_14K\_TEMPORAL\_2X\_DATACHECK.inp}):} Intel Fortran 2021.13.0 compilation and GNU linking of \texttt{f42\_mixed\_uel.for} with Abaqus~2023 completed with Exit Code~0, confirming zero input syntax or subroutine linking errors.
+\end{enumerate}
+
+The formal status of the temporal convergence candidate is recorded as:
+\begin{center}
+{\footnotesize\textbf{\texttt{TEMPORAL\_CONVERGENCE\_CANDIDATE\_VALIDATED\_\_BASELINE\_TERMINAL\_QUALIFICATION\_PENDING}}}.
+\end{center}

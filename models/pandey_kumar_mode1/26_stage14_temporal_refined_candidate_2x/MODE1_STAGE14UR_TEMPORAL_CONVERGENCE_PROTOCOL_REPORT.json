@@ -1,0 +1,179 @@
+{
+  "task_id": "F1201-GATE6B-STAGE14UR-TEMPORAL-CONVERGENCE-PROTOCOL-AND-PREFLIGHT-20261004",
+  "report_name": "MODE1_STAGE14UR_TEMPORAL_CONVERGENCE_PROTOCOL_REPORT",
+  "generated_at": "2026-10-04T13:00:00+02:00",
+  "agent": "gemini-antigravity",
+  "governing_verdict": "TEMPORAL_CONVERGENCE_CANDIDATE_VALIDATED__BASELINE_TERMINAL_QUALIFICATION_PENDING",
+  "supporting_verdicts": [
+    "STAGE14V_EVALUATOR_CERTIFIED__COMPLETION_RUN_PENDING",
+    "COMPLETION_CONTROL_PARITY_CONFIRMED_OVER_REACHED_RANGE",
+    "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE",
+    "STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED",
+    "TOWARD_TARGET_LOCALIZATION"
+  ],
+  "scientific_objective": "Establish a rigorous, frozen, pre-declared protocol and preflight-validated execution package for 2x temporal refinement (Step 1: dt=2.5e-4, du=1.25 nm; Step 2: dt=1.0e-4, du=0.50 nm) on the qualified 14,483-element adaptive mesh, while leaving running baseline solver Job 1409982 untouched.",
+  "active_solver_baseline": {
+    "job_id": "1409982.mmaster02",
+    "job_name": "PK_M1_ADAPT_14K_FRACTURE",
+    "package_dir": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k",
+    "input_deck": "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+    "input_deck_sha256": "26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35",
+    "step1": {
+      "u_start_mm": 0.0,
+      "u_end_mm": 0.0050,
+      "dt_initial": 5.0e-4,
+      "dt_max": 5.0e-4,
+      "dt_min": 1.0e-9,
+      "nominal_increments": 2000,
+      "max_increments_allowed": 2500,
+      "nominal_du_nm": 2.50
+    },
+    "step2": {
+      "u_start_mm": 0.0050,
+      "u_end_mm": 0.0100,
+      "dt_initial": 2.0e-4,
+      "dt_max": 2.0e-4,
+      "dt_min": 1.0e-9,
+      "nominal_increments": 5000,
+      "max_increments_allowed": 6000,
+      "nominal_du_nm": 1.00,
+      "time_incrementation_controls": "4, 10, 9, 20, 10, 4, 0, 10"
+    }
+  },
+  "temporal_refined_candidate_2x": {
+    "package_dir": "models/pandey_kumar_mode1/26_stage14_temporal_refined_candidate_2x",
+    "input_deck": "PK_MODE1_STAGE14_ADAPT_14K_TEMPORAL_2X.inp",
+    "input_deck_sha256": "9AC284E6A65E59042E9588DB628F9B15D5CBE345D62D164B477304D4813BC526",
+    "datacheck_deck": "PK_M1_14K_TEMPORAL_2X_DATACHECK.inp",
+    "datacheck_deck_sha256": "D4A99C3A40E35419F7088F3EF517CE237DE6942543363DA545BA26C7BE2361D7",
+    "step1": {
+      "u_start_mm": 0.0,
+      "u_end_mm": 0.0050,
+      "dt_initial": 2.5e-4,
+      "dt_max": 2.5e-4,
+      "dt_min": 1.0e-9,
+      "nominal_increments": 4000,
+      "max_increments_allowed": 5000,
+      "nominal_du_nm": 1.25
+    },
+    "step2": {
+      "u_start_mm": 0.0050,
+      "u_end_mm": 0.0100,
+      "dt_initial": 1.0e-4,
+      "dt_max": 1.0e-4,
+      "dt_min": 1.0e-9,
+      "nominal_increments": 10000,
+      "max_increments_allowed": 12000,
+      "nominal_du_nm": 0.50,
+      "time_incrementation_controls": "4, 10, 9, 20, 10, 4, 0, 10"
+    }
+  },
+  "controlled_invariances": {
+    "mesh_node_count": 14456,
+    "underlying_finite_elements": 14483,
+    "layered_elements": 43449,
+    "quad_elements": 14082,
+    "triangle_elements": 401,
+    "crack_seam_node_pairs": 54,
+    "total_crack_seam_nodes": 109,
+    "crack_length_a0_mm": 0.50,
+    "domain_area_mm2": 1.00000000,
+    "material_parameters": {
+      "E_kN_per_mm2": 210.0,
+      "nu": 0.3,
+      "Gc_kN_per_mm": 0.0027,
+      "l0_mm": 0.0075,
+      "k_residual": 1.0e-7
+    },
+    "uel_property_abi_order": ["l0", "Gc", "E", "nu", "k", "N_elem"],
+    "uel_property_abi_values": [0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 14483.0],
+    "boundary_conditions": {
+      "step1_endpoint_u_mm": 0.0050,
+      "step2_endpoint_u_mm": 0.0100,
+      "bottom_roller": "N_BOTTOM, U2 = 0",
+      "pin_point": "N_PIN, U1 = 0",
+      "top_roller": "N_TOP, U1 = 0",
+      "rp_load": "N_RP, U2 displacement control"
+    }
+  },
+  "predeclared_comparison_protocol": {
+    "comparison_metrics": [
+      {
+        "name": "Global Structural Stiffness K0",
+        "evaluation_rule": "OLS linear regression over initial elastic window u <= 0.0010 mm (N=800 points)",
+        "unit": "kN/mm",
+        "reference_anchor": 137.945520,
+        "classification_rule": "STABLE if |Delta K0| <= 1.0%, else TEMPORALLY_SENSITIVE"
+      },
+      {
+        "name": "Peak Reaction Force F_max",
+        "evaluation_rule": "Maximum reaction force over full analysis",
+        "unit": "kN",
+        "reference_anchor": 0.757778,
+        "classification_rule": "STABLE if |Delta F_max| <= 3.0%, else TEMPORALLY_SENSITIVE"
+      },
+      {
+        "name": "Displacement at Peak Load u_peak",
+        "evaluation_rule": "Prescribed displacement at maximum reaction force",
+        "unit": "mm",
+        "reference_anchor": 0.005857,
+        "classification_rule": "STABLE if |Delta u_peak| <= 3.0%, else TEMPORALLY_SENSITIVE"
+      },
+      {
+        "name": "Pointwise Force at 10 Matched States",
+        "evaluation_rule": "Pointwise force evaluated at u in [0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070, 0.0080, 0.0090, 0.0100] mm",
+        "unit": "kN",
+        "classification_rule": "STABLE if pre-peak discrepancies <= 1.0%, softening <= 5.0%"
+      },
+      {
+        "name": "Continuous Spatial Ligament Damage Profile d(x, y=0.5 mm)",
+        "evaluation_rule": "1001-point uniform spatial grid interpolation x in [0.50, 1.00] mm at matched states",
+        "unit": "dimensionless",
+        "classification_rule": "STABLE if continuous relative L2 norm <= 5.0% and max L_inf confined to notch root"
+      },
+      {
+        "name": "Crack Tip Position x_tip",
+        "evaluation_rule": "Maximum x coordinate along ligament with d >= 0.90",
+        "unit": "mm",
+        "classification_rule": "STABLE if broken-state traversal reaches ligament end (x_tip >= 0.998 mm)"
+      },
+      {
+        "name": "Energy Balance Integrals",
+        "evaluation_rule": "External work W_ext, elastic strain energy E_elas, fracture functional E_frac, residual Delta_book, relative error eps_book",
+        "unit": "mJ",
+        "classification_rule": "STABLE if pre-peak eps_book <= 0.01% and broken-state eps_book <= 2.0%"
+      },
+      {
+        "name": "Solver Telemetry & Cost",
+        "evaluation_rule": "Total increments, total iterations, cutback attempts, CPUT, and walltime",
+        "unit": "increments / seconds",
+        "classification_rule": "Documented as computational cost scaling factor"
+      }
+    ]
+  },
+  "preflight_verification_results": {
+    "deck_diff_containment": "PASS",
+    "differing_line_count": 4,
+    "mesh_node_count_verified": 14456,
+    "underlying_elements_verified": 14483,
+    "layered_elements_verified": 43449,
+    "property_abi_verified": "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 14483.0",
+    "subroutine_sha256": "5CD0D2C015C9EAD91C99D7A744156CC86F5B5EA26473BBED7D6E5515FE30FA46",
+    "unit_tests_passed": "7/7 passed (100%), 23/23 Stage-14 suite passed (100%)",
+    "cluster_abaqus_datacheck": {
+      "status": "PASS",
+      "exit_code": 0,
+      "cputime_sec": 0.84,
+      "walltime_sec": 1.0,
+      "warnings": 16,
+      "errors": 0
+    }
+  },
+  "governance_and_execution_state": {
+    "running_solver_action": "LEAVE_RUNNING_SOLVER_UNTOUCHED",
+    "running_job_id": "1409982.mmaster02",
+    "refined_candidate_submission_authorized": false,
+    "refined_candidate_submission_status": "WITHHELD__AWAITING_BASELINE_1409982_TERMINAL_EVALUATION",
+    "prerequisite_for_submission": "Terminal qualification and full scientific evaluation of baseline Job 1409982"
+  }
+}
