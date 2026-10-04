@@ -108,7 +108,7 @@ The adaptive mesh fracture initiation and peak load occur during Step 2:
 
 ### Scientific Significance:
 1. **Control Non-Invasiveness:** The relaxation of cutback limits ($I_A=10, I_C=20, \Delta t_{\min}=10^{-9}$) does not alter the peak load by even a single part per million ($+0.000003\%$).
-2. **Physical Independence:** The slight offset between the adaptive peak ($0.7437$ kN) and the uniform reference peak ($0.7578$ kN, $\Delta F_{\rm peak} = -1.86\%$) is an intrinsic discretization effect (spatial mesh sizing and phase-field regularization width interaction), strictly independent of solver controls.
+2. **Causal Attribution Boundary:** The adaptive-vs-fixed peak offset is not caused by the Stage-14U solver-control modification over the verified common solution range. Its remaining origin is associated with differences between the adaptive and fixed discretizations/formulations and must not be attributed more narrowly without direct evidence.
 
 ---
 

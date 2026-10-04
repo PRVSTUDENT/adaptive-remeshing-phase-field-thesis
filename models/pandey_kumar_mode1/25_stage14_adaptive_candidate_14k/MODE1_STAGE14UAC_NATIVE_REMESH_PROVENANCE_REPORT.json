@@ -1,0 +1,150 @@
+{
+  "task_id": "F1212-GATE6B-STAGE14UAC-NATIVE-REMESH-PROVENANCE-CLOSURE-AND-CAUSAL-AUDIT-20261004",
+  "stage": "Stage 14U-AC",
+  "title": "Gate-6B Mode-I Stage 14U-AC: Native Remesh Provenance Closure, ODB Field Equivalence Audit, and Causal Discipline",
+  "agent": "gemini-antigravity",
+  "timestamp": "2026-10-04T19:30:00+02:00",
+  "governing_verdict": "STAGE14_NATIVE_REMESH_PROVENANCE_CLOSED_BY_FIELD_EQUIVALENCE",
+  "pre_analysis_source": {
+    "job_id": "INTERACTIVE_93",
+    "execution_mode": "Interactive serial 1-CPU on mnode097",
+    "input_deck_path": "models/pandey_kumar_mode1/93_mode1_preanalysis_inf_companion_2906/PK_M1_JOB1_INF_COMPANION_2906.inp",
+    "input_deck_sha256": "d452369305ff67a2b0cfa4e5d07fab810c9123ecf500a05bba3e498437883613",
+    "user_subroutine_path": "f42_mixed_uel_inf_stress.for",
+    "user_subroutine_sha256": "472ca0c5cc8b762bf83daea961988502dbfae36db7a32565b8c13fa69d839084",
+    "element_set": "ELSET=All_elem",
+    "finite_element_count": 2906,
+    "element_type_breakdown": {
+      "CPE4": 2818,
+      "CPE3": 88
+    },
+    "output_requests": {
+      "variables": ["MISESERI", "MISESAVG", "S", "E", "EVOL"],
+      "position": "WHOLE_ELEMENT",
+      "frequency": 1
+    }
+  },
+  "odb_provenance_audit": {
+    "local_odb": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\PK_M1_JOB1_INF_COMPANION_2906.odb",
+      "sha256": "dbfad35fd3a2267e19e4c5975764ecac28aa0e0acdd59a2e97cd17aac1fc4a39",
+      "size_bytes": 2037266256
+    },
+    "cluster_odb": {
+      "path": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/93_mode1_preanalysis_inf_companion_2906/PK_M1_JOB1_INF_COMPANION_2906.odb",
+      "sha256": "c35987f3a8fa37dca9a362f9d98b4c577d35e4682191645804786b1912bb4cac",
+      "size_bytes": 2037266224
+    },
+    "byte_difference": 32,
+    "file_identity_verdict": "DIFFERING_RAW_SHA256_CONTAINERS",
+    "content_level_equivalence": {
+      "nodes": {
+        "count": 2989,
+        "coords_hash": "088e5076d5bfdb5ae14118e4eb635ee703d0d0a6aa8aac88108e9d44ac312dff",
+        "match": true
+      },
+      "elements": {
+        "total_elements": 8718,
+        "base_finite_elements": 2906,
+        "conn_hash": "fa47e80b8aa23210b76a2b164cd2809b1e6b0a36f9377c83de270337281dbbee",
+        "match": true
+      },
+      "steps": {
+        "Step-1": {"num_frames": 501, "match": true},
+        "Step-2": {"num_frames": 1022, "match": true}
+      },
+      "miseseri_field_comparison": {
+        "step1_last_frame": {
+          "elements_compared": 2906,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "elements_with_diff_gt_1e18": 0
+        },
+        "step2_frame880": {
+          "elements_compared": 2906,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "elements_with_diff_gt_1e18": 0
+        },
+        "step2_last_frame": {
+          "elements_compared": 2906,
+          "max_abs_diff": 3.3087e-24,
+          "max_rel_diff": 1.0296e-07,
+          "elements_with_diff_gt_1e18": 0
+        }
+      },
+      "verdict": "STAGE14_NATIVE_REMESH_PROVENANCE_CLOSED_BY_FIELD_EQUIVALENCE"
+    }
+  },
+  "native_remeshing_rule": {
+    "orchestration_scripts": [
+      "scripts/remeshing/run_pandey_kumar_native_orchestration.py",
+      "models/pandey_kumar_mode1/95_mode1_stage10_inf_companion_remesh/execute_stage10_inf_companion_native_remesh.py"
+    ],
+    "cae_api_call": "m.adaptiveRemesh(odb=o)",
+    "rule_parameters": {
+      "stepName": "Step-2",
+      "outputFrequency": "ALL_INCREMENTS",
+      "variables": ["MISESERI"],
+      "sizingMethod": "UNIFORM_ERROR",
+      "errorTarget": 1.0,
+      "minElementSize_mm": 0.001,
+      "maxElementSize_mm": 0.020,
+      "refinementFactor": 10,
+      "coarseningFactor": "NOT_ALLOWED",
+      "region": "ALL_ELEM"
+    },
+    "generated_native_deck": {
+      "path": "models/pandey_kumar_mode1/99_mode1_stage14_phasefield_preanalysis_fidelity/PK_M1_STAGE14_STEP2_ALLINC.inp",
+      "sha256": "13e0925df11b620d860ed28b55e49fb365957a5d49338d8d4f8ce6412d9e082d",
+      "nodes": 14456,
+      "elements": 14483,
+      "quads": 14082,
+      "tris": 401,
+      "inverted_elements": 0,
+      "seam_duplicate_pairs": 54,
+      "seam_crack_tip_singletons": 1,
+      "total_area_mm2": 1.00000000,
+      "h_min_um": 0.7605,
+      "h_max_um": 23.0205
+    }
+  },
+  "reconstructed_deck_mapping": {
+    "reconstructed_deck_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+    "reconstructed_deck_sha256": "26d873fb2e68055c80550d1dd981766bcaf46e13d3d0a7ba6411b63d9c382d35",
+    "part_nodes": 14456,
+    "max_node_coordinate_discrepancy_mm": 0.0,
+    "total_layered_elements": 43449,
+    "layer_structure": {
+      "layer1_phase_uel": {"range": "1..14483", "count": 14483},
+      "layer2_mechanical_uel": {"range": "14484..28966", "count": 14483},
+      "layer3_companion_umat": {"range": "28967..43449", "count": 14483}
+    },
+    "layer_connectivity_identity": true,
+    "canonical_bijection_to_native": true,
+    "mapping_status": "EXACT_100PCT_TOPOLOGY_BIJECTION_VERIFIED"
+  },
+  "epistemic_classification": {
+    "source_verified": [
+      "PK_M1_JOB1_INF_COMPANION_2906.inp (pre-analysis deck)",
+      "f42_mixed_uel_inf_stress.for (companion UMAT subroutine)",
+      "Adaptive remesh rule parameters (stepName, variables, errorTarget, sizingMethod, min/max element size)",
+      "PK_M1_STAGE14_STEP2_ALLINC.inp (native remesh deck)",
+      "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp (3-layer reconstructed deck)"
+    ],
+    "numerically_verified": [
+      "ODB content equivalence: nodes, elements, steps, frames bitwise or <= 3.31e-24 diff",
+      "Native mesh topology: 14456 nodes, 14483 elements, 0 inverted elements, 54 seam duplicate pairs",
+      "Reconstructed deck node coordinates: 0.00 mm discrepancy vs native",
+      "Reconstructed deck connectivity: 100% bijective 1-to-1 mapping across 3 layers"
+    ],
+    "unresolved_internal_abaqus_detail": [
+      "Abaqus proprietary internal adaptive remeshing sizing formulas mapping recovered stress error indicator (MISESERI) to local target mesh size",
+      "Exact heuristic used by Abaqus CAE mesher when balancing refinement factor and grading"
+    ]
+  },
+  "causal_attribution_discipline": {
+    "statement": "The adaptive-vs-fixed peak offset (0.7437 kN vs 0.7578 kN) is not caused by the Stage-14U solver-control modification over the verified common solution range. Its remaining origin is associated with differences between the adaptive and fixed discretizations/formulations and must not be attributed more narrowly without direct evidence.",
+    "status": "DISCIPLINE_ENFORCED_IN_REPORTS_AND_THESIS"
+  }
+}

@@ -1,16 +1,16 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "SESSION-20261004-1830-STAGE14UAB-PEAK-PARITY-AUDIT",
-  "task_id": "F1211-GATE6B-STAGE14UAB-COMPLETION-CONTROL-PEAK-PARITY-AUDIT-20261004",
-  "claimed_at": "2026-10-04T12:02:53.160Z",
-  "released_at": "2026-10-04T19:00:00+02:00",
-  "starting_commit": "b390ded00e1e3b00dc329ee102daa092f4143cba",
+  "session_id": "SESSION-20261004-1915-STAGE14UAC-PROVENANCE-AND-CAUSAL-AUDIT",
+  "task_id": "F1212-GATE6B-STAGE14UAC-NATIVE-REMESH-PROVENANCE-CLOSURE-AND-CAUSAL-AUDIT-20261004",
+  "claimed_at": "2026-10-04T12:47:00.000Z",
+  "released_at": "2026-10-04T19:45:00.000Z",
+  "starting_commit": "a86cf3d6cad64734680636d7a583874ab938e97f",
   "allowed_write_scope": [
     "models/pandey_kumar_mode1/*",
     "tests/unit/*",
     "docs/MA_AdaptiveRemeshing_Report_2026_main/*",
     "project_coordination/*",
-    "results/figures/mode1_gate6b/*"
+    "results/*"
   ]
 }
