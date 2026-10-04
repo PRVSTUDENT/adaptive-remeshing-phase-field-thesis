@@ -998,17 +998,55 @@ $\mathbf{0.007889\,\mathrm{mm}}$ & \texttt{TERMINAL} & $\mathbf{0.000349}$ & $\m
 \end{tabularx}
 \end{table}
 
-\subsection{Completion Solve Preparation}
-\label{subsec:stage14t_completion_prep}
+\section{Stage 14U: Validated Solver-Control Correction and Completion Rerun Submission}
+\label{sec:stage14u_completion_solve}
 
-To advance the solve past the post-fracture severance point to full endpoint $u = 0.0100\,\mathrm{mm}$, a dedicated completion solver deck (\texttt{PK\_MODE1\_STAGE14\_ADAPT\_14K\_COMPLETION.inp}) is staged with:
-\begin{enumerate}
-    \item Relaxed time-incrementation controls:
-    \begin{verbatim}
+Following the root-cause diagnosis of the premature termination of Job \texttt{1409953.mmaster02} at $u = 0.007889\,\mathrm{mm}$, Stage~14U implements the validated completion workflow to solve the complete fracture trajectory through the final displacement endpoint $u = 0.0100\,\mathrm{mm}$.
+
+\subsection{Failing-Increment Evidence and Telemetry}
+\label{subsec:stage14u_telemetry}
+
+Detailed analysis of the solver diagnostics (\texttt{.sta}, \texttt{.msg}, \texttt{.dat}) from Job \texttt{1409953.mmaster02} establishes the exact numerical behavior:
+\begin{itemize}
+    \item \textbf{Pre-Peak and Peak Convergence:} Step~1 ($2{,}000$ increments, $u \le 0.0050\,\mathrm{mm}$) and Step~2 through Increment $2{,}889$ ($u = 0.007889\,\mathrm{mm}$) converged with zero cutbacks and an average of $3.0$ iterations per increment.
+    \item \textbf{Cutback Sequence at Increment 2890:} The attempted increment sequence followed $2.0\times 10^{-4} \to 5.0\times 10^{-5} \to 1.25\times 10^{-5} \to 3.125\times 10^{-6} \to 7.8125\times 10^{-7} \to 7.8125\times 10^{-7}$, exhausting the default cutback attempt limit ($I_A = 5$) at attempt 6.
+    \item \textbf{Absence of Numerical Singularities:} The message file records zero negative eigenvalue warnings, zero zero-pivots, and zero numerical singularity messages.
+    \item \textbf{Constitutive Softening Mechanism:} Because geometric nonlinearity was disabled (\texttt{NLGEOM=NO}), termination was driven purely by material constitutive softening in the fully severed ligament ($99.76\%$ load drop, residual stiffness factor $k = 10^{-7}$), where localized displacement corrections at crack-mouth nodes ($\Delta u \approx 2.6\times 10^{-6}\,\mathrm{mm}$ at Node 13628 DOF 3) marginally exceeded the default convergence envelope under strict attempt limits.
+\end{itemize}
+
+\subsection{Restart Feasibility Evaluation}
+\label{subsec:stage14u_restart_eval}
+
+Restart execution from $u = 0.007889\,\mathrm{mm}$ was systematically investigated. An audit of the Fortran user subroutine \texttt{f42\_mixed\_uel.for} reveals that while \texttt{UEXTERNALDB} correctly handles \texttt{LOP=0} (initialization) and \texttt{LOP=1} (increment commit), it contains no handlers for \texttt{LOP=4} (restart read) or \texttt{LOP=5} (restart write) for the internal common block \texttt{COMMON /CB\_STATE\_TRANS/}. Furthermore, the initial input deck specified \texttt{*RESTART, WRITE, FREQUENCY=0}. To prevent un-reconstructed internal state variables or history drift, restart was rejected and a full deterministic rerun from $u = 0$ was selected.
+
+\subsection{Minimum Numerical Solver-Control Parameterization}
+\label{subsec:stage14u_controls}
+
+To provide the necessary numerical latitude for stepping through the post-fracture residual softening tail without altering the underlying continuum physics, minimal time-incrementation controls were added to Step~2 of the input deck (\texttt{PK\_MODE1\_STAGE14\_ADAPT\_14K\_FRACTURE.inp}):
+\begin{verbatim}
+*STEP, NAME=Step-2, NLGEOM=NO, INC=6000
+*STATIC
+ 2.0E-4, 1.0, 1.0E-9, 2.0E-4
 *CONTROLS, PARAMETERS=TIME INCREMENTATION
- 8, 10, 12, 16, 10, 4, 12, , , , 
-    \end{verbatim}
-    \item Reduced minimum time increment $\Delta t_{\min} = 1.0\times 10^{-12}$ on the \texttt{*STATIC} step card.
-    \item Periodic restart writes (\texttt{*RESTART, WRITE, FREQUENCY=500}) for fail-safe checkpointing.
+ 4, 10, 9, 20, 10, 4, 0, 10
+*BOUNDARY
+ N_RP, 2, 2, 0.0100
+\end{verbatim}
+The parameter vector $(I_0=4, I_R=10, I_P=9, I_C=20, I_L=10, I_G=4, I_S=0, I_A=10)$ modifies only the iteration and attempt ceilings:
+\begin{itemize}
+    \item $I_A = 10$: Increases the maximum allowable cutback attempts from $5$ to $10$, allowing time increment reduction down to $\Delta t_{\min} = 1.0\times 10^{-9}$.
+    \item $I_C = 20$: Increases the maximum equilibrium iterations per attempt from $16$ to $20$ before triggering a cutback.
+    \item $I_R = 10$: Sets the consecutive iteration limit before residual checks to $10$.
+\end{itemize}
+All other model features remain strictly frozen: all $14{,}456$ nodes, all $14{,}483$ underlying finite elements ($43{,}449$ layered elements), material constants ($E = 210.0\,\mathrm{kN/mm}^2$, $\nu = 0.3$, $G_c = 0.0027\,\mathrm{kN/mm}$, $l_0 = 0.0075\,\mathrm{mm}$, $k = 10^{-7}$), and the verified subroutine ABI order.
+
+\subsection{Pre-Submission Qualification and Solver Submission}
+\label{subsec:stage14u_submission}
+
+The completion package was qualified through the standard multi-agent preflight pipeline:
+\begin{enumerate}
+    \item \textbf{Unit Testing:} The full Stage-14 test suite passed with $100\%$ success ($84/84$ unit tests, including dedicated solver-control and invariant tests in \texttt{test\_stage14u\_completion\_job.py}).
+    \item \textbf{Cluster Datacheck:} Full compilation, linking, and model generation were verified on the cluster (\texttt{PK\_M1\_14K\_DATACHECK}), completing with Exit~0 and zero errors/warnings.
+    \item \textbf{Guarded HPC Submission:} The full completion solver job was submitted to the \texttt{normal\_imfdfkmq} queue on cluster node \texttt{mnode097} as Job \texttt{1409982.mmaster02} (single-rank shared-memory threading, 16~GB RAM, 12:00:00 walltime).
 \end{enumerate}
-This staged configuration provides a qualified path for full-horizon closeout while maintaining complete physical and energetic equivalence at all intermediate states.
+The completion job is actively advancing on the cluster to compute the full load-displacement and crack-propagation trajectory through $u = 0.0100\,\mathrm{mm}$.

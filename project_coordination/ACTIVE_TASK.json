@@ -1,14 +1,17 @@
 {
-  "task_id": "F1197-GATE6B-STAGE14T-TERMINAL-INTEGRITY-AND-COMPLETION-JOB-20261004",
-  "task_name": "Gate-6B Mode-I Stage 14T: Terminal-Integrity Correction, Premature-Termination Root-Cause Diagnosis, and Completion-Job Preparation",
+  "task_id": "F1198-GATE6B-STAGE14U-COMPLETION-JOB-EXECUTION-AND-QUALIFICATION-20261004",
+  "task_name": "Gate-6B Mode-I Stage 14U: Validated Completion-Run Preparation, Solver-Control Correction, and Immediate Submission",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "claimed_at": "2026-10-04T10:45:00+02:00",
-  "starting_commit": "7841f2d66973679068b576669764682097fad406",
+  "claimed_at": "2026-10-04T11:15:00+02:00",
+  "completed_at": "2026-10-04T11:45:00+02:00",
+  "starting_commit": "c7bf9db146d06739f61fc65fcf88e441d789fa3f",
+  "next_task_id": "F1199-GATE6B-STAGE14V-COMPLETION-JOB-TERMINAL-EVALUATION-20261004",
   "governing_verdicts": [
     "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE",
     "STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED",
-    "TOWARD_TARGET_LOCALIZATION"
+    "TOWARD_TARGET_LOCALIZATION",
+    "STAGE14U_COMPLETION_JOB_SUBMITTED_AND_SOLVING"
   ]
 }

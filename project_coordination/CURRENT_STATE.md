@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-04T11:15:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14T: Terminal-Integrity Correction, Premature-Termination Root-Cause Diagnosis, and Completion-Job Preparation Completed; Proved solver termination of Job 1409953.mmaster02 caused by Newton-Raphson cutback exhaustion (I_A=5) at u=0.007889 mm under severe post-fracture softening (99.76% load drop, xtip=0.9985 mm, residual stiffness k=10^-7); Enforced reporting integrity (zero forward-filling, unreached states u=0.0080..0.0100 mm marked NOT_REACHED, terminal state evaluated against interpolated reference); Reclassified peak displacement shift as MESH_SENSITIVE; Noted published K0 absence (Pandey & Kumar do not report K0; K0_ref=137.945520 kN/mm is project-derived); Assigned terminal verdict STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED for incomplete solve while preserving TOWARD_TARGET_LOCALIZATION; Authored unit test suite test_stage14t_terminal_integrity.py (5/5 pass 100%, 79/79 Stage-14 suite pass 100%, 168/168 Mode-I suite pass 100%); Updated Thesis Chapter 4 (Sections 4.12-4.13) and compiled cleanly (64 pages, 0 errors, 0 undefined citations).
-Parent commit: `7841f2d66973679068b576669764682097fad406`
+Last updated: `2026-10-04T11:45:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14U: Validated Completion-Run Preparation, Solver-Control Correction, and Immediate Submission; Documented exact failing-increment telemetry from Job 1409953 (last converged u=0.007889 mm, exhaustion of default cutback attempt ceiling I_A=5 during post-fracture softening, zero numerical singularities); Evaluated and rejected restart (f42 subroutine lacks LOP=4/5 restart support for COMMON /CB_STATE_TRANS/); Added minimal numerical solver-control correction *CONTROLS, PARAMETERS=TIME INCREMENTATION (I_A=10, I_C=20, I_R=10) to Step 2 while freezing all 14,456 nodes, 14,483 underlying elements, 43,449 layered elements, material constants, and ABI order; Updated MANIFEST.json (LF SHA-256 26d873fb...); Executed Abaqus datacheck cleanly on cluster (Exit 0); Submitted serial 1-CPU completion job 1409982.mmaster02 to normal_imfdfkmq on mnode097 (actively solving); All 84 Stage-14 unit tests pass 100%; Updated thesis Chapter 4 with Stage 14U documentation and compiled LaTeX PDF cleanly (65 pages, 0 errors, 0 undefined citations).
+Parent commit: `c7bf9db146d06739f61fc65fcf88e441d789fa3f`
 
 ---
 
@@ -111,6 +111,15 @@ arepsilon_{	ext{book}}=0.7607\%$).
     - Assigned formal terminal status verdict: `STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED` (preserving mesh refinement verdict `TOWARD_TARGET_LOCALIZATION` and causality verdict `STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE`).
     - Authored and verified regression test suite `test_stage14t_terminal_integrity.py` (5/5 pass, 79/79 Stage-14 suite pass, 168/168 Mode-I suite pass).
     - Updated Thesis Chapter 4 (Sections 4.12 & 4.13) and compiled cleanly (64 pages, 0 errors, 0 undefined citations).
+  - **Stage 14U (Validated Solver-Control Correction & Completion Job Submission) Completed:**
+    - Documented exact failing-increment telemetry from Job `1409953.mmaster02` (`.sta`, `.msg`, `.dat`): Step 1 and Step 2 through Inc 2889 ($u = 0.007889\,\text{mm}$) converged with zero cutbacks; Inc 2890 attempt sequence exhausted default cutback ceiling $I_A = 5$ at attempt 6; zero negative eigenvalue warnings, zero zero-pivots, zero numerical singularity messages.
+    - Softening confirmed as pure material constitutive/residual softening ($99.76\%$ load drop, $k = 10^{-7}$, `NLGEOM=NO`) in fully severed ligament ($x_{\text{tip}} = 0.9985\,\text{mm}$) where localized displacement corrections ($\Delta u \approx 2.6\times 10^{-6}\,\text{mm}$) slightly exceeded default convergence tolerances.
+    - Restart systematically evaluated and rejected: `f42_mixed_uel.for` (`UEXTERNALDB`) lacks `LOP=4/5` restart read/write handlers for `COMMON /CB_STATE_TRANS/`, requiring full deterministic rerun from $u=0$.
+    - Added minimal numerical controls to Step 2: `*CONTROLS, PARAMETERS=TIME INCREMENTATION` with $(I_0=4, I_R=10, I_P=9, I_C=20, I_L=10, I_G=4, I_S=0, I_A=10)$ allowing cutback latitude down to $\Delta t_{\min} = 1.0\times 10^{-9}$.
+    - Completely froze all physical and numerical invariances: 14,456 nodes, 14,483 underlying elements (43,449 layered elements), zero-gap seam, material constants ($E=210\,\text{kN/mm}^2$, $\nu=0.3$, $G_c=0.0027\,\text{kN/mm}$, $l_0=0.0075\,\text{mm}$, $k=10^{-7}$), and PROPS ABI order `(0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 14483.0)`.
+    - Stage-14 unit test suite verified ($84/84$ unit tests pass $100\%$, including `test_stage14u_completion_job.py`).
+    - Executed cluster Abaqus datacheck cleanly (`PK_M1_14K_DATACHECK`, Exit 0, zero errors/warnings).
+    - Submitted serial 1-CPU completion job `1409982.mmaster02` (`PK_M1_ADAPT_14K_FRACTURE`, input deck SHA-256 `26d873fb2e68055c80550d1dd981766bcaf46e13d3d0a7ba6411b63d9c382d35`) to `normal_imfdfkmq` on compute node `mnode097`, actively solving.
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
 ---
@@ -119,6 +128,7 @@ arepsilon_{	ext{book}}=0.7607\%$).
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
+| `1409982.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` (Solving) | Stage 14U completion full fracture solve with Step 2 solver controls (14,483 elements, I_A=10, I_C=20, actively solving on mnode097) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
 | `1409953.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | Corrected Stage 14 Adaptive full fracture solve (14,483 elements, f42 ABI aligned, terminal u=0.007889 mm, 4,890 incs, 99.76% load drop, xtip=0.9985 mm, K0, Fmax, Efrac qualified STABLE) | `A1288CE9D7EFD67F5C87C12C2B61884CE7CB94901B566E9FE0130ABE1875797D` |
 | `1409947.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Cancelled) | Invalidated initial Stage 14 solve (Molnar property order ABI mismatch, archived) | `3EFBA9682C3EB31E99C233192007246E995BD8182411E51E6A6B74166873D7C1` |
 | `INTERACTIVE_98` | `PK_M1_JOB1_NONUNIFORM_DIAG` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform 3-layer UEL infinitesimal companion solve (3,019 elements, audited) | `EA3505F6D573F361D4FEFB9C0211C1EC566EB80225EDBA30D6FBC618ACFB19F3` |
