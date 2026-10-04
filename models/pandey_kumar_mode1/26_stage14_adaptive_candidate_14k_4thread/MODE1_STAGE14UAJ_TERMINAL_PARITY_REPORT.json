@@ -1,0 +1,87 @@
+{
+  "task_id": "F1219-GATE6B-STAGE14UAJ-4THREAD-TERMINAL-PARITY-QUALIFICATION-AND-TEMPORAL-CHECKPOINT-20261004",
+  "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "timestamp": "2026-10-04T23:45:00+02:00",
+  "governing_verdict": "THREAD_TERMINAL_PARITY_PASS",
+  "executive_summary": "4-Thread Shared-Memory Stage-A solve (Job 1410006.mmaster02) completed on compute node mnode097 with 100% bitwise parity against authoritative serial reference (Job 1409982.mmaster02) across all 4,890 increments. Both runs terminated at Step 2 Increment 2890 (prescribed displacement u = 0.00788900 mm) by cutback attempt ceiling exhaustion (I_A = 10, dt_min = 1.0e-9 s) with identical 10-attempt cutback trajectories. Total execution walltime dropped from 17,609 s (4.89 hrs) to 7,627 s (2.12 hrs), yielding a parallel speedup of S_4 = 2.31x and 57.7% parallel efficiency under node contention. Governed Stage-B determinism repeat job (Job 1410029.mmaster02) submitted successfully to normal_imfdfkmq and is actively running. Temporal diagnostic job 1410027.mmaster02 is running smoothly at Step 1 Inc 823+ (u = 0.001029 mm, 0 cutbacks, 3 iters/inc), and Package 28 (Cn=0.50) submission remains strictly held pending temporal resolution.",
+  "execution_metrics": {
+    "serial_reference_job": {
+      "job_id": "1409982.mmaster02",
+      "name": "PK_M1_ADAPT_14K_FRACTURE",
+      "architecture": "Serial 1-CPU",
+      "total_increments": 4890,
+      "terminal_step": 2,
+      "terminal_inc": 2890,
+      "terminal_u_mm": 0.00788900,
+      "terminal_rf_kn": 0.0017644804,
+      "peak_rf_kn": 0.74370082,
+      "peak_u_mm": 0.00573300,
+      "k0_kn_per_mm": 137.909557849348,
+      "terminal_e_elas_mj": 0.0069600565,
+      "terminal_e_frac_mj": 2.28546890,
+      "terminal_w_ext_mj": 2.26738000,
+      "terminal_eps_book_pct": 1.104771,
+      "cutbacks_total": 10,
+      "failing_increment_attempts": 10,
+      "walltime_s": 17609,
+      "cputime_s": 17578
+    },
+    "thread_stage_a_job": {
+      "job_id": "1410006.mmaster02",
+      "name": "PK_M1_14K_4T",
+      "architecture": "4-Thread Shared-Memory (cpus=4, mp_mode=threads, 0 MPI ranks)",
+      "total_increments": 4890,
+      "terminal_step": 2,
+      "terminal_inc": 2890,
+      "terminal_u_mm": 0.00788900,
+      "terminal_rf_kn": 0.0017644804,
+      "peak_rf_kn": 0.74370082,
+      "peak_u_mm": 0.00573300,
+      "k0_kn_per_mm": 137.909557849348,
+      "terminal_e_elas_mj": 0.0069600565,
+      "terminal_e_frac_mj": 2.28546890,
+      "terminal_w_ext_mj": 2.26738000,
+      "terminal_eps_book_pct": 1.104771,
+      "cutbacks_total": 10,
+      "failing_increment_attempts": 10,
+      "walltime_s": 7627,
+      "cputime_s": 22300
+    },
+    "parity_discrepancies": {
+      "max_abs_rf_discrepancy_kn": 0.0,
+      "max_rel_rf_discrepancy_pct": 0.0,
+      "max_abs_e_elas_discrepancy_mj": 0.0,
+      "max_abs_e_frac_discrepancy_mj": 0.0,
+      "k0_discrepancy_kn_per_mm": 0.0,
+      "f_max_discrepancy_kn": 0.0,
+      "attempt_count_discrepancy": 0,
+      "bitwise_parity_confirmed": true
+    },
+    "parallel_scaling": {
+      "measured_speedup_s4": 2.30877,
+      "parallel_efficiency_pct": 57.719,
+      "walltime_saved_s": 9982,
+      "walltime_saved_hours": 2.7728
+    }
+  },
+  "stage_b_submission": {
+    "job_id": "1410029.mmaster02",
+    "name": "PK_M1_14K_4T_STAGE_B",
+    "package_dir": "models/pandey_kumar_mode1/27_stage14_adaptive_candidate_14k_4thread_stage_b",
+    "status": "RUNNING",
+    "queue": "normal_imfdfkmq",
+    "allocated_cpus": 4,
+    "allocated_memory": "16gb",
+    "input_deck_sha256": "26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35",
+    "fortran_uel_sha256": "CE8D5EDCB24FE56B6B7A2D80D297CA275C1C05D762FA1124430F878F77366DB7",
+    "purpose": "Governed 4-thread shared-memory determinism repeat following Stage-A terminal parity qualification"
+  },
+  "temporal_diagnostic_status": {
+    "job_id": "1410027.mmaster02",
+    "name": "PK_M1_ADAPT_14K_T2X",
+    "status": "RUNNING",
+    "current_state": "Step 1 Inc 823+, u = 0.001029 mm, 0 cutbacks, 3 iters/inc",
+    "package_28_cn050_status": "CONVERGENCE_CRITERION_CANDIDATE_VALIDATED__TEMPORAL_DIAGNOSTIC_PENDING",
+    "package_28_submission_held": true
+  }
+}

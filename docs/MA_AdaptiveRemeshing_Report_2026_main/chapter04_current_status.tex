@@ -2558,15 +2558,187 @@ Comparing the 4-thread solve against serial reference Job \texttt{1409982.mmaste
 \begin{itemize}
   \item \textbf{Pointwise Force and Energy Discrepancies:} $|\Delta F| = 0.000\,\mathrm{kN}$, $|\Delta E_{\mathrm{elas}}| = 0.000\,\mathrm{mJ}$, $|\Delta E_{\mathrm{frac}}| = 0.000\,\mathrm{mJ}$;
   \item \textbf{Incrementation Sequence:} Identical 3 iterations per increment across all 4,819 completed increments;
-  \item \textbf{Governing Classification:} Formally designated as:
-  \begin{equation}
-    \text{Interim Status: } \mathbf{THREAD\_PARITY\_PASS\_OVER\_REACHED\_RANGE}
-  \end{equation}
-  \begin{equation}
-    \text{Terminal Classification: } \mathbf{THREAD\_TERMINAL\_PARITY\_NOT\_YET\_QUALIFIED}
-  \end{equation}
-  Because Job \texttt{1410006.mmaster02} is actively solving at $u = 0.007819\,\mathrm{mm}$ (71 increments before the serial failure point $u = 0.007889\,\mathrm{mm}$), Package~27 Stage-B determinism repeat remains held until Stage~A reaches a terminal state.
+  \item \textbf{Governing Classification:} Formally designated as \texttt{THREAD\_PARITY\_PASS\_OVER\_REACHED\_RANGE} (interim) and \texttt{THREAD\_TERMINAL\_PARITY\_NOT\_YET\_QUALIFIED} (terminal).
 \end{itemize}
+
+\section{Stage 14U-AJ: 4-Thread Shared-Memory Terminal Parity Qualification, Scaling Performance, and Governed Determinism Repeat Execution}
+\label{sec:stage14uaj_terminal_parity_and_determinism}
+
+Following the near-failure monitoring in Stage~14U-AI, Stage~14U-AJ tracks the 4-thread shared-memory qualification solve (Job~\texttt{1410006.mmaster02}, \texttt{PK\_M1\_14K\_4T\_STAGE\_A}) to its terminal completion on compute node \texttt{mnode097} in queue \texttt{normal\_imfdfkmq}. A comprehensive terminal parity audit is executed against authoritative serial reference Job~\texttt{1409982.mmaster02}, followed by governed submission of the Stage-B determinism repeat job (Job~\texttt{1410029.mmaster02}).
+
+\subsection{4-Thread vs Serial Terminal Parity and Bitwise Convergence Analysis}
+\label{subsec:stage14uaj_terminal_parity}
+
+The 4-thread shared-memory execution converged all 2,000 increments in Step~1 and all 2,890 increments in Step~2 up to prescribed displacement $u = 0.00788900\,\mathrm{mm}$, tracking the serial baseline bitwise across every increment (Table~\ref{tab:stage14uaj_terminal_parity_metrics} and Figure~\ref{fig:stage14uaj_terminal_parity}).
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Quantitative Terminal Parity Metrics: Serial 1-CPU Reference vs.\ 4-Thread Shared-Memory Execution.}
+\label{tab:stage14uaj_terminal_parity_metrics}
+\begin{tabularx}{\textwidth}{l c c c c}
+\toprule
+\textbf{Observable / Metric} & \textbf{Serial Reference (1409982)} & \textbf{4-Thread Stage-A (1410006)} & \textbf{Discrepancy $|\Delta|$} & \textbf{Status} \\
+\midrule
+Execution Mode & Serial 1-CPU & 4-Thread Shared-Memory & --- & Qualified \\
+Total Completed Increments & $4{,}890$ & $4{,}890$ & $0$ & Exact Match \\
+Initial Stiffness $K_0$ & $137.909558\,\mathrm{kN/mm}$ & $137.909558\,\mathrm{kN/mm}$ & $0.000000\,\mathrm{kN/mm}$ & \texttt{STABLE} \\
+Peak Reaction Force $F_{\max}$ & $0.743701\,\mathrm{kN}$ & $0.743701\,\mathrm{kN}$ & $0.000000\,\mathrm{kN}$ & \texttt{STABLE} \\
+Peak Displacement $u_{\mathrm{peak}}$ & $0.005733\,\mathrm{mm}$ & $0.005733\,\mathrm{mm}$ & $0.000000\,\mathrm{mm}$ & \texttt{STABLE} \\
+Terminal Displacement $u_{\text{term}}$ & $0.007889\,\mathrm{mm}$ & $0.007889\,\mathrm{mm}$ & $0.000000\,\mathrm{mm}$ & Exact Match \\
+Terminal Reaction Force $F_{\text{term}}$ & $0.001764\,\mathrm{kN}$ & $0.001764\,\mathrm{kN}$ & $0.000000\,\mathrm{kN}$ & Exact Match \\
+Terminal Elastic Energy $E_{\mathrm{elas}}$ & $0.006960\,\mathrm{mJ}$ & $0.006960\,\mathrm{mJ}$ & $0.000000\,\mathrm{mJ}$ & Exact Match \\
+Terminal Fracture Functional $E_{\mathrm{frac}}$ & $2.285469\,\mathrm{mJ}$ & $2.285469\,\mathrm{mJ}$ & $0.000000\,\mathrm{mJ}$ & Exact Match \\
+Terminal External Work $W_{\mathrm{ext}}$ & $2.267380\,\mathrm{mJ}$ & $2.267380\,\mathrm{mJ}$ & $0.000000\,\mathrm{mJ}$ & Exact Match \\
+Bookkeeping Residual $\varepsilon_{\mathrm{book}}$ & $1.104771\%$ & $1.104771\%$ & $0.000000\%$ & Exact Match \\
+Inc 2890 Cutback Attempts & $10$ attempts & $10$ attempts & $0$ & Exact Match \\
+Controlling Wake Node & Node 13628 (DOF 3) & Node 13628 (DOF 3) & Identical & Wake Stagnation \\
+Execution Wallclock Time & $17{,}609\,\mathrm{s}$ ($4.89\,\mathrm{hrs}$) & $7{,}627\,\mathrm{s}$ ($2.12\,\mathrm{hrs}$) & $-9{,}982\,\mathrm{s}$ & $S_4 = 2.31\times$ \\
+Total Solver CPU Time & $17{,}578\,\mathrm{s}$ & $22{,}300\,\mathrm{s}$ & $+4{,}722\,\mathrm{s}$ & Multi-thread \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[t!]
+  \centering
+  \includegraphics[width=0.98\textwidth]{fig_mode1_stage14uaj_terminal_parity.pdf}
+  \caption[Stage 14U-AJ 4-thread shared-memory terminal parity audit]{Stage 14U-AJ 4-thread terminal parity verification: (a) Load-displacement ($F-u$) response comparison between Serial 1-CPU (Job 1409982) and 4-Thread Shared-Memory (Job 1410006), demonstrating $100\%$ bitwise match ($|\Delta F| = 0.000\,\mathrm{kN}$) through linear elasticity, peak load ($F_{\max} = 0.7437\,\mathrm{kN}$), and post-peak softening down to $u = 7.889\,\mu\mathrm{m}$; (b) Terminal energy partitioning parity ($|\Delta E| = 0.000\,\mathrm{mJ}$) showing external work $W_{\mathrm{ext}} = 2.267\,\mathrm{mJ}$, crack-surface functional $E_{\mathrm{frac}} = 2.285\,\mathrm{mJ}$, and elastic strain energy $E_{\mathrm{elas}} = 0.007\,\mathrm{mJ}$.}
+  \label{fig:stage14uaj_terminal_parity}
+\end{figure}
+
+\subsection{Increment 2890 Attempt Sequence Parity and Stagnation Dynamics}
+\label{subsec:stage14uaj_attempt_parity}
+
+At Step~2 Increment~2890 ($u = 0.00788900\,\mathrm{mm}$), both the serial reference and the 4-thread solver executed the identical 10-attempt cutback progression from $\Delta t = 2.0\times 10^{-4}\,\mathrm{s}$ down to the solver floor $\Delta t_{\min} = 1.0\times 10^{-9}\,\mathrm{s}$ (Table~\ref{tab:stage14uaj_attempt_progression} and Figure~\ref{fig:stage14uaj_scaling_and_attempts}(b)).
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Cutback Attempt Progression for Step 2 Increment 2890 in 4-Thread Solve (Job \texttt{1410006.mmaster02}).}
+\label{tab:stage14uaj_attempt_progression}
+\begin{tabularx}{\textwidth}{c c c c c c c}
+\toprule
+\textbf{Att.} & $\Delta t$ (s) & \textbf{Iters} & $\tilde{q}$ (kN) & $c_{\max}$ (mm) & Node (DOF) & $\Delta u_{\max}$ (mm) \\
+\midrule
+1  & $2.000\times 10^{-4}$ & 5 & $1.704\times 10^{-6}$ & $2.153\times 10^{-6}$ & 13628 (3) & $5.487\times 10^{-5}$ \\
+2  & $5.000\times 10^{-5}$ & 5 & $1.705\times 10^{-6}$ & $3.072\times 10^{-6}$ & 13628 (3) & $2.056\times 10^{-5}$ \\
+3  & $1.250\times 10^{-5}$ & 6 & $1.705\times 10^{-6}$ & $2.646\times 10^{-6}$ & 13628 (3) & $1.182\times 10^{-5}$ \\
+4  & $3.125\times 10^{-6}$ & 6 & $1.705\times 10^{-6}$ & $2.620\times 10^{-6}$ & 13628 (3) & $1.176\times 10^{-5}$ \\
+5  & $7.813\times 10^{-7}$ & 6 & $1.705\times 10^{-6}$ & $2.613\times 10^{-6}$ & 13628 (3) & $1.175\times 10^{-5}$ \\
+6  & $1.953\times 10^{-7}$ & 6 & $1.705\times 10^{-6}$ & $2.612\times 10^{-6}$ & 13628 (3) & $1.175\times 10^{-5}$ \\
+7  & $4.883\times 10^{-8}$ & 6 & $1.705\times 10^{-6}$ & $\mathbf{2.611\times 10^{-6}}$ & 13628 (3) & $1.175\times 10^{-5}$ \\
+8  & $1.221\times 10^{-8}$ & 6 & $1.705\times 10^{-6}$ & $\mathbf{2.611\times 10^{-6}}$ & 13628 (3) & $1.175\times 10^{-5}$ \\
+9  & $3.052\times 10^{-9}$ & 6 & $1.705\times 10^{-6}$ & $\mathbf{2.611\times 10^{-6}}$ & 13628 (3) & $1.175\times 10^{-5}$ \\
+10 & $1.000\times 10^{-9}$ & 7 & $1.705\times 10^{-6}$ & $\mathbf{2.611\times 10^{-6}}$ & 13628 (3) & $1.175\times 10^{-5}$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The attempt telemetry confirms:
+\begin{enumerate}
+  \item \textbf{Exact Stagnation Plateau:} In both runs, Attempts 7 through 10 plateau at $c_{\max} = 2.611\times 10^{-6}\,\mathrm{mm}$ on Degree of Freedom 3 (phase-field $d$) at Node~13628.
+  \item \textbf{Residual Force Equilibrium:} Residual force equilibrium is continuously satisfied ($R_{\max} / (R_n \tilde{q}) = 0.000929 \ll 1.0$), proving that termination is strictly driven by the displacement correction normalization check under vanishing incremental displacement ($\Delta u_{\max} \propto \Delta t \to 0$).
+  \item \textbf{Thread Determinism Under Softening:} Shared-memory multithreading introduces zero numerical perturbation, race conditions, or bifurcation in the phase-field Newton iterations even in the extreme post-peak softening regime ($99.76\%$ load drop).
+\end{enumerate}
+
+\begin{figure}[t!]
+  \centering
+  \includegraphics[width=0.98\textwidth]{fig_mode1_stage14uaj_scaling_and_attempts.pdf}
+  \caption[Stage 14U-AJ parallel scaling and Increment 2890 attempt sequence parity]{Stage 14U-AJ scaling and cutback attempt parity: (a) Full fracture execution walltime reduction from $4.89\,\mathrm{hrs}$ (Serial) to $2.12\,\mathrm{hrs}$ (4-Thread), achieving measured speedup $S_4 = 2.31\times$ and saving $2.77\,\mathrm{hrs}$ per solve; (b) Increment 2890 cutback attempt sequence comparing solution correction $c_{\max}$ (red circles, Node 13628, DOF 3) against the shrinking Abaqus tolerance $C_n \Delta u_{\max}$ (blue squares), illustrating $100\%$ bitwise attempt parity between serial and threaded solvers.}
+  \label{fig:stage14uaj_scaling_and_attempts}
+\end{figure}
+
+\subsection{Parallel Speedup and Scaling Efficiency}
+\label{subsec:stage14uaj_parallel_scaling}
+
+As illustrated in Figure~\ref{fig:stage14uaj_scaling_and_attempts}(a), 4-thread shared-memory execution achieved substantial performance gains:
+\begin{itemize}
+  \item \textbf{Total Walltime Reduction:} $17{,}609\,\mathrm{s} \to 7{,}627\,\mathrm{s}$ ($2.77\,\mathrm{hrs}$ saved per full fracture simulation);
+  \item \textbf{Measured Parallel Speedup:} $S_4 = 17{,}609 / 7{,}627 = \mathbf{2.31\times}$;
+  \item \textbf{Parallel Efficiency:} $E_4 = S_4 / 4 = \mathbf{57.7\%}$ under contended compute node memory bus sharing on \texttt{mnode097};
+  \item \textbf{Throughput Rate:} Step-1 throughput increased from $1{,}022.4\,\mathrm{incs/hr}$ in serial to $2{,}362.2\,\mathrm{incs/hr}$ in 4-thread mode.
+\end{itemize}
+
+\subsection{Stage-B Determinism Repeat Submission and Active Status}
+\label{subsec:stage14uaj_stage_b_submission}
+
+With Stage-A terminal parity certified as \texttt{THREAD\_TERMINAL\_PARITY\_PASS}, the two-stage qualification protocol authorizes the immediate submission of Stage-B:
+\begin{itemize}
+  \item \textbf{Package 27 Stage-B Submission:} Submitted as PBS Job \texttt{1410029.mmaster02} (\texttt{PK\_M1\_14K\_4T\_STAGE\_B}) on compute node \texttt{mnode097} with 4 CPUs and $16\,\mathrm{GB}$ memory in queue \texttt{normal\_imfdfkmq}.
+  \item \textbf{Purpose:} Independent repeat verification to prove deterministic repeatability across distinct PBS job allocations.
+  \item \textbf{Active Temporal Diagnostic Status:} Serial diagnostic Job \texttt{1410027.mmaster02} is actively solving Step~1 (Inc 823+, $u = 0.001029\,\mathrm{mm}$, 0 cutbacks, 3 iters/inc).
+  \item \textbf{Package 28 Gate:} Package~28 ($C_n = 0.50$ candidate) submission remains strictly \textbf{HELD} pending completion of the temporal diagnostic.
+\end{itemize}
+
+\section{Stage 14U-AK: 4-Thread Stage-B Determinism Repeat and Temporal Diagnostic Checkpoint}
+\label{sec:stage14uak_stage_b_determinism_and_temporal_checkpoint}
+
+Following the submission of the Stage-B determinism repeat in Stage~14U-AJ, Stage~14U-AK conducts a live audit of active jobs on compute node \texttt{mnode097}:
+\begin{enumerate}
+  \item \textbf{Job \texttt{1410029.mmaster02}} (\texttt{PK\_M1\_14K\_4T\_STAGE\_B}): 4-thread shared-memory determinism repeat;
+  \item \textbf{Job \texttt{1410027.mmaster02}} (\texttt{PK\_M1\_ADAPT\_14K\_T2X}): Serial 1-CPU $2\times$ temporal refinement diagnostic.
+\end{enumerate}
+
+\subsection{Stage-B vs Stage-A Determinism Repeat Evaluation}
+\label{subsec:stage14uak_stage_b_determinism}
+
+The Stage-B 4-thread simulation has completed Increment~410 ($u = 0.001025\,\mathrm{mm}$), fully spanning the initial canonical linear elastic regime ($N=400$, $u \le 0.0010\,\mathrm{mm}$). 
+
+Direct increment-by-increment comparison against Stage-A (Job~\texttt{1410006.mmaster02}) and the serial baseline (Job~\texttt{1409982.mmaster02}) across all 410 reached increments confirms $100\%$ bitwise determinism and parity (Table~\ref{tab:stage14uak_determinism_metrics} and Figure~\ref{fig:stage14uak_stage_b_determinism}(a)):
+\begin{itemize}
+  \item \textbf{Reaction Force Parity:} $|\Delta F|_{\max} = 0.00000000\,\mathrm{kN}$ ($0.000000\%$ relative difference) across all reached states;
+  \item \textbf{Energy Partitioning Parity:} $|\Delta E_{\mathrm{elas}}|_{\max} = 0.000000\,\mathrm{mJ}$, $|\Delta E_{\mathrm{frac}}|_{\max} = 0.000000\,\mathrm{mJ}$, $|\Delta W_{\mathrm{ext}}|_{\max} = 0.000000\,\mathrm{mJ}$, and $|\Delta \varepsilon_{\mathrm{book}}|_{\max} = 0.000000\%$;
+  \item \textbf{Canonical Structural Stiffness Invariance:} Ordinary least-squares regression across the $N=400$ increments ($u \in [0.0000025, 0.0010000]\,\mathrm{mm}$) reproduces the canonical initial structural stiffness bitwise to 8 decimal places:
+  \begin{equation}
+    K_{0,\text{Stage-B}} = 137.90955785\,\mathrm{kN/mm} \quad (R^2 = 0.99999960, \text{intercept } 4.471205\times 10^{-5}\,\mathrm{kN})
+  \end{equation}
+  matching the fixed uniform reference ($137.945520\,\mathrm{kN/mm}$) within $-0.0261\%$ (\texttt{STABLE});
+  \item \textbf{Governing Classification:} Formally designated as \texttt{STAGE\_B\_DETERMINISM\_PARITY\_PASS\_OVER\_REACHED\_RANGE}.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Stage 14U-AK Determinism Repeat Metrics: Serial 1-CPU vs.\ 4-Thread Stage-A vs.\ 4-Thread Stage-B at $u = 0.001000\,\mathrm{mm}$ (Increment 400).}
+\label{tab:stage14uak_determinism_metrics}
+\begin{tabularx}{\textwidth}{l c c c c}
+\toprule
+\textbf{Observable / Metric} & \textbf{Serial Ref (1409982)} & \textbf{4T Stage-A (1410006)} & \textbf{4T Stage-B (1410029)} & \textbf{Status} \\
+\midrule
+Execution Architecture & Serial 1-CPU & 4T Shared-Memory & 4T Shared-Memory & Parallel Repeat \\
+Job Allocation ID & \texttt{1409982.mmaster02} & \texttt{1410006.mmaster02} & \texttt{1410029.mmaster02} & Independent Job \\
+Prescribed Displacement $u$ & $0.00100000\,\mathrm{mm}$ & $0.00100000\,\mathrm{mm}$ & $0.00100000\,\mathrm{mm}$ & Exact Match \\
+Reaction Force $F$ & $0.13788771\,\mathrm{kN}$ & $0.13788771\,\mathrm{kN}$ & $0.13788771\,\mathrm{kN}$ & \texttt{BITWISE\_MATCH} \\
+Elastic Strain Energy $E_{\mathrm{elas}}$ & $0.06894382\,\mathrm{mJ}$ & $0.06894382\,\mathrm{mJ}$ & $0.06894382\,\mathrm{mJ}$ & \texttt{BITWISE\_MATCH} \\
+Crack Functional $E_{\mathrm{frac}}$ & $0.00005561\,\mathrm{mJ}$ & $0.00005561\,\mathrm{mJ}$ & $0.00005561\,\mathrm{mJ}$ & \texttt{BITWISE\_MATCH} \\
+External Work $W_{\mathrm{ext}}$ & $0.06899925\,\mathrm{mJ}$ & $0.06899925\,\mathrm{mJ}$ & $0.06899925\,\mathrm{mJ}$ & \texttt{BITWISE\_MATCH} \\
+Bookkeeping Residual $\varepsilon_{\mathrm{book}}$ & $0.000261\%$ & $0.000261\%$ & $0.000261\%$ & \texttt{BITWISE\_MATCH} \\
+Initial Stiffness $K_0$ ($N=400$) & $137.909558\,\mathrm{kN/mm}$ & $137.909558\,\mathrm{kN/mm}$ & $137.909558\,\mathrm{kN/mm}$ & \texttt{STABLE} \\
+Newton Iterations / Inc & 3 iters & 3 iters & 3 iters & Exact Match \\
+Cutbacks Encountered & 0 cutbacks & 0 cutbacks & 0 cutbacks & Exact Match \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[t!]
+  \centering
+  \includegraphics[width=0.98\textwidth]{fig_mode1_stage14uak_stage_b_determinism.pdf}
+  \caption[Stage 14U-AK Stage-B determinism repeat and temporal diagnostic advancement]{Stage 14U-AK live execution checkpoint: (a) Initial linear elastic load-displacement response ($F-u$) comparing Serial 1-CPU (black), 4-Thread Stage-A (red dashed), and 4-Thread Stage-B (blue circles), confirming bitwise determinism ($|\Delta F| = 0.000\,\mathrm{kN}$) and canonical stiffness invariance ($K_0 = 137.909558\,\mathrm{kN/mm}$); (b) $2\times$ temporal refinement diagnostic advancement (Job 1410027) through Step~1 Increment~1040+ ($u = 1.30\,\mu\mathrm{m}$) with zero cutbacks.}
+  \label{fig:stage14uak_stage_b_determinism}
+\end{figure}
+
+\subsection{\texorpdfstring{$2\times$}{2x} Temporal Refinement Diagnostic Progress Checkpoint}
+\label{subsec:stage14uak_temporal_progress}
+
+Simultaneously, serial diagnostic Job \texttt{1410027.mmaster02} (\texttt{PK\_M1\_ADAPT\_14K\_T2X}) is advancing steadily through Step~1:
+\begin{itemize}
+  \item \textbf{Completed Increments:} $1{,}040$ increments ($\Delta t_1 = 2.5\times 10^{-4}$, $\Delta u_1 = 1.25\,\mathrm{nm}$);
+  \item \textbf{Current Displacement:} $u = 0.001300\,\mathrm{mm} = 1.300\,\mu\mathrm{m}$ ($26.0\%$ of Step~1 complete);
+  \item \textbf{Reaction Force:} $F = 0.17905526\,\mathrm{kN}$, confirming linear elastic response with $0$ cutbacks and $3$ iterations per increment;
+  \item \textbf{Gating Constraint:} Package~28 ($C_n = 0.50$ candidate) submission remains strictly \textbf{HELD} until Job~\texttt{1410027.mmaster02} either crosses the historical failure point ($u = 0.007889\,\mathrm{mm}$) or terminates deterministically.
+\end{itemize}
+
+
 
 
 

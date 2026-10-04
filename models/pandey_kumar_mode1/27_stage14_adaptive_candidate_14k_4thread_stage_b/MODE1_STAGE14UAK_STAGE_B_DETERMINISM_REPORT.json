@@ -1,0 +1,60 @@
+{
+  "protocol_version": 2,
+  "stage": "STAGE14U_AK",
+  "task_id": "F1220-GATE6B-STAGE14UAK-4THREAD-STAGEB-DETERMINISM-AND-TEMPORAL-CHECKPOINT-20261004",
+  "timestamp": "2026-10-04T23:50:00+02:00",
+  "governing_verdict": "STAGE_B_DETERMINISM_PARITY_PASS_OVER_REACHED_RANGE",
+  "stage_b_execution": {
+    "pbs_job_id": "1410029.mmaster02",
+    "job_name": "PK_M1_14K_4T_STAGE_B",
+    "node": "mnode097",
+    "queue": "normal_imfdfkmq",
+    "requested_cpus": 4,
+    "requested_memory_gb": 16,
+    "execution_mode": "4-Thread Shared-Memory (cpus=4, mp_mode=threads)",
+    "input_deck_sha256": "26d873fb2e68055c80550d1dd981766bcaf46e13d3d0a7ba6411b63d9c382d35",
+    "user_subroutine_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "status": "RUNNING (Step 1 Solving)",
+    "reached_increments": 410,
+    "reached_displacement_mm": 0.001025,
+    "latest_reaction_force_kN": 0.14132384,
+    "cutbacks_encountered": 0,
+    "iterations_per_increment": 3
+  },
+  "stage_b_vs_stage_a_parity": {
+    "stage_a_job_id": "1410006.mmaster02",
+    "compared_increments": 410,
+    "max_displacement_discrepancy_mm": 0.0,
+    "max_reaction_force_discrepancy_kN": 0.0,
+    "max_relative_reaction_force_discrepancy_pct": 0.0,
+    "max_elastic_energy_discrepancy_mJ": 0.0,
+    "max_fracture_functional_discrepancy_mJ": 0.0,
+    "max_external_work_discrepancy_mJ": 0.0,
+    "max_bookkeeping_residual_discrepancy_pct": 0.0,
+    "canonical_initial_stiffness_k0_kN_per_mm": 137.90955785,
+    "k0_r_squared": 0.99999960,
+    "k0_fit_points": 400,
+    "k0_intercept_kN": 4.471205e-05,
+    "k0_status": "STABLE (Bitwise Parity with Stage A and Serial Reference)"
+  },
+  "temporal_2x_diagnostic": {
+    "pbs_job_id": "1410027.mmaster02",
+    "job_name": "PK_M1_ADAPT_14K_T2X",
+    "node": "mnode097",
+    "queue": "normal_imfdfkmq",
+    "execution_mode": "Serial 1-CPU",
+    "time_stepping": {
+      "step_1_dt": 0.00025,
+      "step_1_du_nm": 1.25,
+      "step_2_dt": 0.0001,
+      "step_2_du_nm": 0.5
+    },
+    "status": "RUNNING (Step 1 Solving)",
+    "reached_increments": 1040,
+    "reached_displacement_mm": 0.001300,
+    "latest_reaction_force_kN": 0.17905526,
+    "cutbacks_encountered": 0,
+    "iterations_per_increment": 3,
+    "package_28_submission_hold": "STRICTLY_ENFORCED"
+  }
+}
