@@ -7,10 +7,13 @@ import os
 import json
 import unittest
 
-PACKAGE_DIR = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-    "models", "pandey_kumar_mode1", "25_stage14_adaptive_candidate_14k"
-)
+# Robust PACKAGE_DIR resolution whether run from tests/unit/ or directly inside package 25
+cur_dir = os.path.dirname(os.path.abspath(__file__))
+if os.path.exists(os.path.join(cur_dir, "MODE1_STAGE14UU_SPATIAL_PROVENANCE_TABLE.json")):
+    PACKAGE_DIR = cur_dir
+else:
+    repo_root = os.path.dirname(os.path.dirname(cur_dir))
+    PACKAGE_DIR = os.path.join(repo_root, "models", "pandey_kumar_mode1", "25_stage14_adaptive_candidate_14k")
 
 PROVENANCE_TABLE_PATH = os.path.join(PACKAGE_DIR, "MODE1_STAGE14UU_SPATIAL_PROVENANCE_TABLE.json")
 AUDIT_REPORT_PATH = os.path.join(PACKAGE_DIR, "MODE1_STAGE14UU_SPATIAL_PROVENANCE_AUDIT_REPORT.json")
@@ -19,8 +22,8 @@ AUDIT_REPORT_PATH = os.path.join(PACKAGE_DIR, "MODE1_STAGE14UU_SPATIAL_PROVENANC
 class TestStage14UUSpatialConvergenceProvenance(unittest.TestCase):
 
     def setUp(self):
-        self.assertTrue(os.path.exists(PROVENANCE_TABLE_PATH), "Provenance table JSON must exist")
-        self.assertTrue(os.path.exists(AUDIT_REPORT_PATH), "Audit report JSON must exist")
+        self.assertTrue(os.path.exists(PROVENANCE_TABLE_PATH), f"Provenance table JSON must exist at {PROVENANCE_TABLE_PATH}")
+        self.assertTrue(os.path.exists(AUDIT_REPORT_PATH), f"Audit report JSON must exist at {AUDIT_REPORT_PATH}")
         with open(PROVENANCE_TABLE_PATH, "r") as f:
             self.provenance = json.load(f)
         with open(AUDIT_REPORT_PATH, "r") as f:
