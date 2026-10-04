@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-04T12:00:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14U-P: Completion-Run Control-Parity and Prior-Failure-Crossing Audit; Executed live non-invasive snapshot extraction from running completion solve 1409982.mmaster02 on mnode097 (233+ increments evaluated over common pre-failure range u in [0.0025, 0.5825] um); Proved bit-for-bit mathematical and mechanical parity against predecessor Job 1409953 (max |Delta F| = 8.00e-9 kN, max relative force discrepancy = 0.001306% strictly due to 8-decimal ASCII text rounding, RMS = 3.08e-9 kN, exact bitwise match on elastic strain energy and fracture functional |Delta E| = 0.00 mJ); Assigned formal parity verdict DETERMINISTIC_CONTROL_PARITY_VERIFIED; Evaluated failure-crossing state and classified as PRE_FAILURE_CONTROL_PARITY_EVALUATED__FAILURE_CROSSING_PENDING while solver advances past Inc 299+ with 0 cutbacks and 3 iters/inc on mnode097; Generated overlaid F-u and point-by-point discrepancy publication figures; Authored regression unit test suite test_stage14up_control_parity.py (6/6 pass, 90/90 full Stage-14 suite pass 100%); Updated Thesis Chapter 4 with Section 4.15 and compiled main.pdf cleanly (68 pages, 0 errors, 0 undefined citations, SHA-256 8ac56a88...).
-Parent commit: `6458456aea85a4b21c5d76e1e171b86bd82bfb53`
+Last updated: `2026-10-04T12:30:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14U-Q: Frozen Stage-14V Evaluator Certification and Terminal-Package Preflight while Completion Rerun Advances; Left active solver Job 1409982.mmaster02 (PK_M1_ADAPT_14K_FRACTURE) running untouched on mnode097; Locked and certified evaluate_mode1_stage14_adaptive_14k.py with self-test anchor reproduction (K0=137.945520 kN/mm, Fmax=0.757778 kN at u=0.005857 mm, Wext=2.359329 mJ, Efrac=2.340220 mJ, Eelas=0.001161 mJ, R2=0.99999960, N=400), strict unreached-state discipline (zero forward-filling, u=0.0080..0.0100 mm marked NOT_REACHED), standardized energy scaling (1 kN*mm = 1 J = 1000 mJ), locked crack-tip threshold (d >= 0.90, pre-fracture reports THRESHOLD_NOT_REACHED with xtip=None), and continuous physical coordinate ligament profiles; Pre-built STAGE14V_TERMINAL_REPORT_SCHEMA.json and .md with explicit PENDING placeholders; Corrected Stage 14U-P wording to COMPLETION_CONTROL_PARITY_CONFIRMED_OVER_REACHED_RANGE; Authored unit test suite test_stage14uq_evaluator_certification.py (10/10 pass, 16/16 Stage 14U-P/Q pass 100% on cluster); Updated Thesis Chapter 4 with Section 4.16 and compiled main.pdf cleanly (71 pages, 0 errors, 0 undefined citations, SHA-256 62AAED89...); Assigned formal verdict STAGE14V_EVALUATOR_CERTIFIED__COMPLETION_RUN_PENDING.
+Parent commit: `7164022a28cceb8a56b9052687942385434585dd`
 
 ---
 
@@ -121,11 +121,22 @@ Parent commit: `6458456aea85a4b21c5d76e1e171b86bd82bfb53`
   - **Stage 14U-P (Completion-Run Control-Parity and Prior-Failure-Crossing Audit) Completed (`MODE1_STAGE14UP_CONTROL_PARITY_AND_FAILURE_CROSSING_REPORT.md` and `.json`):**
     - Extracted live non-invasive snapshot from running completion solve `1409982.mmaster02` on `mnode097` (233+ increments over common pre-failure range $u \in [0.0025, 0.5825]\,\mu\text{m}$).
     - Proved exact numerical parity against predecessor `1409953.mmaster02` ($|\Delta F|_{\max} = 8.00\times 10^{-9}\,\text{kN}$, max relative force discrepancy $= 0.001306\%$ strictly from 8-decimal text formatting, $\text{RMS}(\Delta F) = 3.08\times 10^{-9}\,\text{kN}$, exact bitwise match on $E_{\text{elas}}$ and $E_{\text{frac}}$ $|\Delta E| = 0.00\,\text{mJ}$).
-    - Assigned formal parity verdict: `DETERMINISTIC_CONTROL_PARITY_VERIFIED`.
+    - Assigned formal parity verdict: `COMPLETION_CONTROL_PARITY_CONFIRMED_OVER_REACHED_RANGE`.
     - Evaluated failure-crossing state and classified as `PRE_FAILURE_CONTROL_PARITY_EVALUATED__FAILURE_CROSSING_PENDING` while solver advances past Inc 299+ with 0 cutbacks and 3 iters/inc on `mnode097`.
     - Generated overlaid $F-u$ and discrepancy publication figures (`fig_mode1_stage14up_parity_overlay.pdf`, `fig_mode1_stage14up_discrepancy.pdf`).
     - Authored regression unit test suite `test_stage14up_control_parity.py` (6/6 pass, 90/90 full Stage-14 suite pass 100%).
     - Updated Thesis Chapter 4 with Section 4.15 and compiled `main.pdf` cleanly (68 pages, 0 errors, 0 undefined citations).
+  - **Stage 14U-Q (Frozen Stage-14V Evaluator Certification & Terminal-Package Preflight) Completed (`MODE1_STAGE14UQ_EVALUATOR_CERTIFICATION_REPORT.md` and `.json`):**
+    - Left active completion solver Job `1409982.mmaster02` running untouched on compute node `mnode097` in `normal_imfdfkmq`.
+    - Locked and certified turnkey automated post-processing evaluator `evaluate_mode1_stage14_adaptive_14k.py` with embedded self-test anchor reproduction: $K_0 = 137.945520\,\text{kN/mm}$ (intercept $4.472368\times 10^{-5}\,\text{kN}$, $R^2 = 0.99999960$, $N=400$), $F_{\max} = 0.757778\,\text{kN}$ at $u_{\text{peak}} = 0.005857\,\text{mm}$, $W_{\text{ext}} = 2.359329\,\text{mJ}$, $E_{\text{frac}} = 2.340220\,\text{mJ}$, $E_{\text{elas}} = 0.001161\,\text{mJ}$, and $\varepsilon_{\text{book}} = 0.7607\%$.
+    - Enforced strict unreached-state discipline (zero forward-filling/extrapolation; unreached states $u \in \{0.0080, 0.0090, 0.0100\}\,\text{mm}$ marked `NOT_REACHED` with `None`/`null`).
+    - Standardized repository-wide energy unit scaling ($1\,\text{kN}\cdot\text{mm} = 1\,\text{J} = 1000\,\text{mJ}$).
+    - Locked crack-tip detection threshold ($d \ge 0.90$; pre-fracture states report `THRESHOLD_NOT_REACHED` with `xtip_mm = None`).
+    - Standardized 1001-point continuous spatial ligament profiles ($x \in [0.50, 1.00]\,\text{mm}$) for $L_2$ and $L_\infty$ norms across dissimilar meshes.
+    - Pre-built turnkey Stage-14V terminal qualification schema (`STAGE14V_TERMINAL_REPORT_SCHEMA.json` and `.md`) with explicit `PENDING` placeholders.
+    - Authored unit test suite `test_stage14uq_evaluator_certification.py` (10/10 pass, 16/16 Stage 14U-P/Q pass 100% on cluster).
+    - Updated Thesis Chapter 4 with Section 4.16 and compiled `main.pdf` cleanly (71 pages, 0 errors, 0 undefined citations, SHA-256 `62AAED89...`).
+    - Assigned formal verdict: `STAGE14V_EVALUATOR_CERTIFIED__COMPLETION_RUN_PENDING`.
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
 ---

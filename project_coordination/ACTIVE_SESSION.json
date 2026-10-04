@@ -1,16 +1,15 @@
-﻿{
-    "agent":  "gemini-antigravity",
-    "allowed_write_scope":  [
-                                "models/pandey_kumar_mode1/**",
-                                "results/figures/mode1_gate6b/**",
-                                "scripts/**",
-                                "tests/unit/**",
-                                "docs/**",
-                                "project_coordination/**"
-                            ],
-    "active":  false,
-    "claimed_at":  "2026-10-04T11:30:00+02:00",
-    "task_id":  "F1199-GATE6B-STAGE14UP-CONTROL-PARITY-AND-FAILURE-CROSSING-AUDIT-20261004",
-    "released_at":  "2026-10-04T12:00:00+02:00",
-    "starting_commit":  "6458456aea85a4b21c5d76e1e171b86bd82bfb53"
+{
+  "active": false,
+  "agent": "gemini-antigravity",
+  "task_id": "F1200-GATE6B-STAGE14UQ-EVALUATOR-CERTIFICATION-AND-PREFLIGHT-20261004",
+  "claimed_at": "2026-10-04T12:05:00+02:00",
+  "starting_commit": "7164022a28cceb8a56b9052687942385434585dd",
+  "allowed_write_scope": [
+    "models/pandey_kumar_mode1/**",
+    "results/figures/mode1_gate6b/**",
+    "scripts/**",
+    "tests/unit/**",
+    "docs/**",
+    "project_coordination/**"
+  ]
 }

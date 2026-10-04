@@ -1,4 +1,4 @@
-\chapter{Current Status: Mode-I Verification, UEL Energy Audit, and Multifaceted Convergence}
+﻿\chapter{Current Status: Mode-I Verification, UEL Energy Audit, and Multifaceted Convergence}
 \label{cha:current_status}
 \label{ch:current_status}
 
@@ -1066,7 +1066,7 @@ As documented in Table~\ref{tab:stage14up_parity_metrics} and Figs.~\ref{fig:sta
 \begin{itemize}
     \item \textbf{Reaction Force Parity:} Across all evaluated common increments ($u \in [0.0025, \, 0.5825]\,\mu\mathrm{m}$), the maximum absolute force difference is bounded by $|\Delta F|_{\max} = 8.00\times 10^{-9}\,\mathrm{kN}$ ($8.0\,\mu\mathrm{N}$), corresponding to a maximum relative discrepancy $(\Delta F / F)_{\max} = 0.001306\%$ ($13$~parts per million). The root-mean-square force residual is $\mathrm{RMS}(\Delta F) = 3.08\times 10^{-9}\,\mathrm{kN}$, demonstrating that the tiny residual is strictly an artifact of 8-decimal ASCII text formatting in exported data files.
     \item \textbf{Energy Functional Invariance:} The degraded elastic strain energy $E_{\mathrm{elas}}$ and the phase-field fracture functional $E_{\mathrm{frac}}$ exhibit exact bitwise agreement ($|\Delta E_{\mathrm{elas}}| = 0.00\,\mathrm{mJ}$, $|\Delta E_{\mathrm{frac}}| = 0.00\,\mathrm{mJ}$) across all shared increments.
-    \item \textbf{Governing Parity Verdict:} The mechanical response is certified as \textbf{\texttt{DETERMINISTIC\_CONTROL\_PARITY\_VERIFIED}}, proving that solver-control tuning does not perturb the physical equilibrium path.
+    \item \textbf{Governing Parity Verdict:} The mechanical response is certified as \textbf{\texttt{COMPLETION\_CONTROL\_PARITY\_CONFIRMED\_OVER\_REACHED\_RANGE}}, proving that solver-control tuning does not perturb the physical equilibrium path.
 \end{itemize}
 
 \begin{table}[htbp]
@@ -1087,7 +1087,7 @@ RMS Force Residual & --- & $\mathrm{RMS} = 3.08\times 10^{-9}\,\mathrm{kN}$ & St
 Elastic Energy Diff & --- & $|\Delta E_{\mathrm{elas}}| = 0.00\,\mathrm{mJ}$ & Exact Match \\
 Fracture Energy Diff & --- & $|\Delta E_{\mathrm{frac}}| = 0.00\,\mathrm{mJ}$ & Exact Match \\
 \midrule
-\textbf{Parity Classification} & Baseline & \textbf{\texttt{DETERMINISTIC\_PARITY}} & \textbf{\texttt{STABLE}} \\
+\textbf{Parity Classification} & Baseline & \textbf{\texttt{CONTROL\_PARITY\_CONFIRMED}} & \textbf{\texttt{STABLE}} \\
 \textbf{Crossing Classification} & Terminated ($0.007889\,\mathrm{mm}$) & \textbf{\texttt{PRE\_FAILURE\_PENDING}} & Solving on \texttt{mnode097} \\
 \bottomrule
 \end{tabularx}
@@ -1119,3 +1119,84 @@ Active completion solve Job \texttt{1409982.mmaster02} is actively advancing in 
     \item Upon crossing the prior failure state ($u > 0.007889\,\mathrm{mm}$), the increment attempt sequence and transition mechanics will be captured and verified for continuous energy and force evolution.
     \item Once the final displacement endpoint $u = 0.0100\,\mathrm{mm}$ is reached, the certified evaluator (\texttt{evaluate\_mode1\_stage14\_adaptive\_14k.py}) will execute the full Stage-14V 10-matched-displacement qualification.
 \end{enumerate}
+
+
+\section{Stage 14U-Q: Frozen Stage-14V Evaluator Certification and Terminal-Package Preflight}
+\label{sec:stage14uq_evaluator_certification}
+
+While the completion rerun solver (\texttt{PK\_M1\_ADAPT\_14K\_FRACTURE}, Job~\texttt{1409982.mmaster02}) advances toward the full displacement endpoint $u = 0.0100\,\mathrm{mm}$, Stage~14U-Q locks and certifies the complete, automated post-processing evaluator (\texttt{evaluate\_mode1\_stage14\_adaptive\_14k.py}) and pre-builds the Stage-14V terminal qualification report schema. This establishes a fully qualified, turnkey analysis pipeline that will execute immediately upon solver completion with zero post-hoc parameter adjustments.
+
+\subsection{Certified Evaluator Architecture and Matched-States Framework}
+\label{subsec:stage14uq_evaluator_architecture}
+
+The certified evaluator incorporates the governed $10$-matched-displacement evaluation framework spanning the entire Mode-I deformation history:
+\begin{equation}
+u \in \{0.0010, \, 0.0030, \, 0.0050, \, 0.005857, \, 0.0060, \, 0.0065, \, 0.0070, \, 0.0080, \, 0.0090, \, 0.0100\}\,\mathrm{mm}.
+\end{equation}
+The post-processing engine strictly enforces:
+\begin{enumerate}
+    \item \textbf{True Prescribed Displacement Extraction:} Evaluation frames are matched against actual reference-point displacement ($u = U_2$ at node $999999$), rejecting nominal or step time which can decouple from physical displacement in multi-step procedures.
+    \item \textbf{Layer 3 Companion Phase Extraction:} Phase-field damage fields $d(x,y)$ and peak values $d_{\max}$ are extracted directly from Layer~3 companion UMAT elements (\texttt{SDV14}/\texttt{SDV1} on elements $28967\dots43449$), preserving full field fidelity without interpolation smearing.
+    \item \textbf{Strict Unreached-State Discipline:} In the event of an incomplete or prematurely terminated run, unreached target states ($u > u_{\mathrm{final}}$) are strictly assigned the status \texttt{NOT\_REACHED} and empty values (\texttt{null}), completely eliminating unphysical forward-filling or boundary extrapolation.
+    \item \textbf{Supplemental Adaptive Peak Tracking:} The adaptive candidate's peak load state ($u = 0.005733\,\mathrm{mm}$) is tracked as a supplemental diagnostic without replacing the governed reference comparison state at $u = 0.005857\,\mathrm{mm}$.
+\end{enumerate}
+
+\subsection{Fixed-Reference Anchor Self-Test Reproduction}
+\label{subsec:stage14uq_selftest_reproduction}
+
+To ensure complete backward reproducibility, the certified evaluator embeds an autonomous self-test suite (\texttt{--self-test}) that validates all canonical reference baseline quantities derived from the qualified fixed reference anchor (Job~\texttt{1409734.mmaster02}):
+\begin{itemize}
+    \item \textbf{Initial Linear Elastic Stiffness $K_0$:}
+    \begin{equation}
+    K_{0,\mathrm{ref}} = 137.945520\,\mathrm{kN/mm} \quad (\text{intercept } 4.472368\times 10^{-5}\,\mathrm{kN}, \; R^2 = 0.99999960, \; N = 400),
+    \end{equation}
+    evaluated over the canonical window $0.5\Delta u < u \le 0.0010 + 0.5\Delta u$ with nominal increment $\Delta u = 2.50\times 10^{-6}\,\mathrm{mm}$.
+    \item \textbf{Peak Load and Displacement:}
+    \begin{equation}
+    F_{\max,\mathrm{ref}} = 0.757778\,\mathrm{kN} \quad \text{at} \quad u_{\mathrm{peak},\mathrm{ref}} = 0.005857\,\mathrm{mm}.
+    \end{equation}
+    \item \textbf{Terminal Energy Balance at $u = 0.0100\,\mathrm{mm}$:}
+    \begin{equation}
+    W_{\mathrm{ext},\mathrm{ref}} = 2.359329\,\mathrm{mJ}, \quad E_{\mathrm{frac},\mathrm{ref}} = 2.340220\,\mathrm{mJ}, \quad E_{\mathrm{elas},\mathrm{ref}} = 0.001161\,\mathrm{mJ},
+    \end{equation}
+    yielding total stored/dissipated energy $E_{\mathrm{model}} = 2.341381\,\mathrm{mJ}$, external work deficit $\Delta_{\mathrm{book}} = -0.017948\,\mathrm{mJ}$, and relative residual $\varepsilon_{\mathrm{book}} = 0.7607\%$.
+\end{itemize}
+
+\subsection{Standardized Energy Scaling and Crack-Tip Reporting Rules}
+\label{subsec:stage14uq_energy_and_cracktip}
+
+The evaluator locks two vital scientific conventions across the entire analysis suite:
+\begin{enumerate}
+    \item \textbf{Consistent Energy Unit Scaling:} Solver-native quantities in $\mathrm{kN}\cdot\mathrm{mm}$ ($1\,\mathrm{kN}\cdot\mathrm{mm} = 1\,\mathrm{J}$) are converted to standard millijoules ($1\,\mathrm{J} = 1000\,\mathrm{mJ}$) via an exact scale factor of $1000.0$:
+    \begin{equation}
+    E\,[\mathrm{mJ}] = 1000 \times E\,[\mathrm{kN}\cdot\mathrm{mm}].
+    \end{equation}
+    Unscaled inputs are flagged and rejected by automated type and magnitude assertions.
+    \item \textbf{Physical Crack-Tip Detection Threshold:} Macroscopic crack extension is evaluated under the governed threshold $d \ge 0.90$. For pre-fracture states ($d_{\max} < 0.90$), the status is explicitly reported as \texttt{THRESHOLD\_NOT\_REACHED} with $x_{\mathrm{tip}} = \text{None}$, preventing misleading assignment of the initial notch seam ($x = 0.5000\,\mathrm{mm}$) as a propagated tip.
+    \item \textbf{Continuous Spatial Ligament Norms:} Spatial damage profiles $d(x)$ along the symmetry ligament ($y = 0.500\,\mathrm{mm}$) are mapped to a standardized $1001$-point physical grid ($x \in [0.50, 1.00]\,\mathrm{mm}, \Delta x = 0.50\,\mu\mathrm{m}$), enabling continuous $L_2$ error norms, $L_\infty$ peak discrepancies, and spatial gradients $|\nabla d(x)|$ to be computed directly across dissimilar discretizations.
+\end{enumerate}
+
+\subsection{Stage-14V Terminal Report Preflight Schema}
+\label{subsec:stage14uq_terminal_schema}
+
+To guarantee seamless synthesis upon completion of Job~\texttt{1409982.mmaster02}, a structured preflight schema (\texttt{STAGE14V\_TERMINAL\_REPORT\_SCHEMA.json} and \texttt{.md}) has been established. The schema defines explicit placeholders (\texttt{PENDING}) across all $10$ target states and terminal metrics, specifying exact numerical acceptance criteria:
+\begin{itemize}
+    \item Full trajectory completion through $u = 0.0100\,\mathrm{mm}$ ($10/10$ states reached);
+    \item Linear-elastic stiffness match $|K_{0,\mathrm{adapt}} - K_{0,\mathrm{ref}}| / K_{0,\mathrm{ref}} \le 0.10\%$;
+    \item Peak load match $|F_{\max,\mathrm{adapt}} - F_{\max,\mathrm{ref}}| / F_{\max,\mathrm{ref}} \le 2.50\%$;
+    \item Fully severed terminal load drop $(F_{\max} - F_{\mathrm{final}}) / F_{\max} \ge 99.50\%$;
+    \item Broken-state fracture energy functional match $|E_{\mathrm{frac},\mathrm{adapt}} - E_{\mathrm{frac},\mathrm{ref}}| / E_{\mathrm{frac},\mathrm{ref}} \le 3.00\%$.
+\end{itemize}
+
+\subsection{Unit Test Suite and Certification Verdict}
+\label{subsec:stage14uq_test_suite}
+
+The complete Stage 14U-Q framework is verified by a dedicated multi-tier automated test suite:
+\begin{itemize}
+    \item \textbf{Evaluator Certification Suite (\texttt{test\_stage14uq\_evaluator\_certification.py}):} 10 comprehensive unit tests verifying anchor reproduction, regression bounds, unreached-state rejection, energy scaling, crack-tip thresholds, schema placeholders, and report integrity.
+    \item \textbf{Control Parity Suite (\texttt{test\_stage14up\_control\_parity.py}):} 6 regression unit tests confirming force/energy control parity and failure crossing classifications.
+\end{itemize}
+Both test suites execute with $100\%$ success ($16/16$ tests passed) on both the local environment and the remote cluster. The certified status of the evaluation infrastructure is formally recorded as:
+\begin{center}
+{\footnotesize\textbf{\texttt{STAGE14V\_EVALUATOR\_CERTIFIED\_\_COMPLETION\_RUN\_PENDING}}}.
+\end{center}

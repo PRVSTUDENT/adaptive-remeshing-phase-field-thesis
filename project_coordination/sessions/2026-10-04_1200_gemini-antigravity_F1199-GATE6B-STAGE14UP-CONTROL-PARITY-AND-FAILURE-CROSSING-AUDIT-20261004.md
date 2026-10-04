@@ -1,11 +1,11 @@
-# Session Report: Gate-6B Mode-I Stage 14U-P Completion-Run Control-Parity and Prior-Failure-Crossing Audit
+﻿# Session Report: Gate-6B Mode-I Stage 14U-P Completion-Run Control-Parity and Prior-Failure-Crossing Audit
 
 - **Date / Time:** `2026-10-04T12:00:00+02:00`
 - **Agent:** Gemini Antigravity
 - **Task ID:** `F1199-GATE6B-STAGE14UP-CONTROL-PARITY-AND-FAILURE-CROSSING-AUDIT-20261004`
 - **Phase:** `MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION`
 - **Parent Commit:** `6458456aea85a4b21c5d76e1e171b86bd82bfb53`
-- **Governing Parity Verdict:** `DETERMINISTIC_CONTROL_PARITY_VERIFIED`
+- **Governing Parity Verdict:** `COMPLETION_CONTROL_PARITY_CONFIRMED_OVER_REACHED_RANGE`
 - **Failure Crossing Status:** `PRE_FAILURE_CONTROL_PARITY_EVALUATED__FAILURE_CROSSING_PENDING`
 
 ---
@@ -28,7 +28,7 @@ A non-invasive live snapshot was extracted from `PK_M1_ADAPT_14K_FRACTURE.dat` a
 - **RMS Force Residual:** $\text{RMS}(\Delta F) = 3.08\times 10^{-9}\,\text{kN}$.
 - **Elastic Strain Energy Discrepancy:** $|\Delta E_{\text{elas}}|_{\max} = 0.0000\,\text{mJ}$ (exact bitwise agreement).
 - **Fracture Functional Discrepancy:** $|\Delta E_{\text{frac}}|_{\max} = 0.0000\,\text{mJ}$ (exact bitwise agreement).
-- **Formal Parity Verdict:** `DETERMINISTIC_CONTROL_PARITY_VERIFIED`.
+- **Formal Parity Verdict:** `COMPLETION_CONTROL_PARITY_CONFIRMED_OVER_REACHED_RANGE`.
 
 ---
 

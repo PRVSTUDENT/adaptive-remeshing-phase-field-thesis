@@ -1,15 +1,15 @@
 {
-  "task_id": "F1199-GATE6B-STAGE14UP-CONTROL-PARITY-AND-FAILURE-CROSSING-AUDIT-20261004",
-  "task_name": "Gate-6B Mode-I Stage 14U-P: Completion-Run Control-Parity and Prior-Failure-Crossing Audit",
+  "task_id": "F1200-GATE6B-STAGE14UQ-EVALUATOR-CERTIFICATION-AND-PREFLIGHT-20261004",
+  "task_name": "Gate-6B Mode-I Stage 14U-Q: Frozen Stage-14V Evaluator Certification and Terminal-Package Preflight while Completion Rerun Advances",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "claimed_at": "2026-10-04T11:30:00+02:00",
-  "completed_at": "2026-10-04T12:00:00+02:00",
-  "starting_commit": "6458456aea85a4b21c5d76e1e171b86bd82bfb53",
+  "claimed_at": "2026-10-04T12:05:00+02:00",
+  "completed_at": "2026-10-04T12:30:00+02:00",
+  "starting_commit": "7164022a28cceb8a56b9052687942385434585dd",
   "governing_verdicts": [
-    "DETERMINISTIC_CONTROL_PARITY_VERIFIED",
-    "PRE_FAILURE_CONTROL_PARITY_EVALUATED__FAILURE_CROSSING_PENDING",
+    "STAGE14V_EVALUATOR_CERTIFIED__COMPLETION_RUN_PENDING",
+    "COMPLETION_CONTROL_PARITY_CONFIRMED_OVER_REACHED_RANGE",
     "STAGE14_LOCALIZATION_CHANGE_EXPLAINED_BY_IDENTIFIED_PROJECT_DIFFERENCE",
     "STAGE14_ADAPTIVE_RESULT_NOT_YET_QUALIFIED",
     "TOWARD_TARGET_LOCALIZATION"
