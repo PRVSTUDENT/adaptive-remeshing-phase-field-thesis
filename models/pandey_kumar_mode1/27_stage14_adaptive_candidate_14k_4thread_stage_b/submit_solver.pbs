@@ -1,0 +1,33 @@
+#!/bin/bash
+#PBS -N PK_M1_14K_4T_STAGE_B
+#PBS -l select=1:ncpus=4:mem=16GB
+#PBS -l walltime=12:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+
+# Source notifications
+if [ -f "./job_notifications.sh" ]; then
+    source ./job_notifications.sh
+    notification_load_config || true
+    notification_install_terminal_trap
+    notify_start
+fi
+
+module load abaqus/2023 || true
+
+echo "=== Environment Info ==="
+echo "Node: $(hostname)"
+echo "Date: $(date)"
+echo "CPUs allocated: 4"
+echo "Job ID: $PBS_JOBID"
+
+echo "=== Starting Abaqus 4-Thread Shared-Memory Stage-B Determinism Solver ==="
+abaqus job=PK_M1_14K_4T_STAGE_B user=f42_mixed_uel.for input=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp cpus=4 mp_mode=threads memory="16gb" double=both interactive
+
+EXIT_CODE=$?
+echo "=== Solver completed with exit code ${EXIT_CODE} ==="
+exit ${EXIT_CODE}

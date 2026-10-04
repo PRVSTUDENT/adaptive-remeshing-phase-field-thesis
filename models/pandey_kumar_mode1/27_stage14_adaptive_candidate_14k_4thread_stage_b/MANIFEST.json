@@ -1,0 +1,30 @@
+{
+  "package_name": "27_stage14_adaptive_candidate_14k_4thread_stage_b",
+  "stage": "GATE6B_STAGE14UAE",
+  "purpose": "Stage-B 4-Thread Shared-Memory Determinism Repeat of Mode-I Adaptive Fracture Solve",
+  "created_at": "2026-10-04T15:45:00+02:00",
+  "qualification_status": "4THREAD_STAGEB_REPEAT_VALIDATED__WAITING_FOR_STAGEA_TERMINAL_PASS",
+  "intended_execution_mode": "SHARED_MEMORY_THREADS",
+  "num_cpus": 4,
+  "num_mpi_ranks": 1,
+  "memory": "16gb",
+  "queue": "entry_imfdfkmq",
+  "mesh": {
+    "num_nodes": 14456,
+    "num_base_elements": 14483,
+    "num_total_layered_elements": 43449,
+    "seam_type": "ZERO_GAP_SHARP_CRACK_SEAM"
+  },
+  "material_parameters": {
+    "E_kN_mm2": 210.0,
+    "nu": 0.3,
+    "Gc_kN_mm": 0.0027,
+    "l0_mm": 0.0075,
+    "k_residual": 1e-7,
+    "props_abi_order": "(l0, Gc, E, nu, k, N_phys)"
+  },
+  "invariances": {
+    "input_deck_sha256": "26d873fb2e68055c80550d1dd981766bcaf46e13d3d0a7ba6411b63d9c382d35",
+    "fortran_subroutine_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+  }
+}

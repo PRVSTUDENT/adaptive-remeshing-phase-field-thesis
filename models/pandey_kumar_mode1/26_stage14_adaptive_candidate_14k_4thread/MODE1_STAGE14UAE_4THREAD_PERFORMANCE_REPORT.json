@@ -1,0 +1,58 @@
+{
+  "timestamp": "2026-10-04T15:46:26.206707",
+  "governing_performance_verdict": "PERFORMANCE_COMPARISON_CONTENDED__DESCRIPTIVE_ONLY",
+  "numerical_parity_verdict": "THREAD_PARITY_PASS_OVER_REACHED_RANGE",
+  "node_placement": {
+    "serial_exec_host": "mnode097/0",
+    "thread4_exec_host": "mnode097/1*4",
+    "co_located_on_mnode097": true,
+    "contention_assessment": "Both jobs actively running on compute node mnode097, sharing L3 cache and memory bus bandwidth. Speedup is descriptive and reflects contended multi-threading throughput."
+  },
+  "serial_1cpu_reference": {
+    "job_id": "1409982.mmaster02",
+    "job_name": "PK_M1_ADAPT_14K_FRACTURE",
+    "status": "R",
+    "resources_used_walltime": "04:25:16",
+    "resources_used_cput": "04:17:41",
+    "step1_start_time": "2026-10-04T11:20:50",
+    "step2_start_time": "2026-10-04T13:18:12",
+    "step1_duration_sec": 7042.0,
+    "step1_duration_hr": 1.9561111111111111,
+    "step1_increments": 2000,
+    "step1_sec_per_inc": 3.521,
+    "step1_incs_per_hour": 1022.4368077250781,
+    "current_step": 2,
+    "current_inc": 2451,
+    "current_u_mm": 0.00745,
+    "failure_crossing_reached": false,
+    "failure_crossing_status": "PRE_FAILURE_CROSSING_PENDING"
+  },
+  "thread4_candidate": {
+    "job_id": "1410006.mmaster02",
+    "job_name": "PK_M1_14K_4T",
+    "status": "R",
+    "resources_used_walltime": "00:20:23",
+    "resources_used_cput": "00:59:11",
+    "step1_start_time": "2026-10-04T15:25:41",
+    "current_snapshot_time": "2026-10-04T15:46:26.106836",
+    "step1_elapsed_sec": 1245.106836,
+    "step1_elapsed_min": 20.7517806,
+    "step1_completed_incs": 817,
+    "step1_sec_per_inc": 1.5239985752753977,
+    "step1_incs_per_hour": 2362.2069327390636,
+    "current_step": 1,
+    "current_inc": 817,
+    "current_u_mm": 0.002045
+  },
+  "speedup_metrics": {
+    "regime": "Step 1 Linear-Elastic Ramp (u in [0, 0.0050] mm, 2000 target increments)",
+    "serial_sec_per_inc": 3.521,
+    "thread4_sec_per_inc": 1.5239985752753977,
+    "speedup_S4": 2.3103696139372896,
+    "parallel_efficiency_E4": 0.5775924034843224,
+    "percentage_efficiency": 57.759240348432236,
+    "projected_step1_total_walltime_min": 50.799952509179924,
+    "serial_step1_total_walltime_min": 117.36666666666666,
+    "time_saved_step1_min": 66.56671415748674
+  }
+}

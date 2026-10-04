@@ -2,8 +2,8 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-04T20:45:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14U-AD: 4-Thread Shared-Memory Stage-A Parity Qualification and Displacement Ramp Schedule Verification concluded; Active serial solver Job 1409982.mmaster02 (PK_M1_ADAPT_14K_FRACTURE) left running untouched on compute node mnode097 (Time Use: 04:05:54, state R, Step 2 Inc 2288+, u = 0.007288 mm); 4-thread candidate Job 1410006.mmaster02 (PK_M1_14K_4T) submitted and verified on mnode097 (exec_host = mnode097/1*4, cpus=4, mp_mode=threads, 0 MPI ranks, Time Use: 00:23:29, state R, Step 1 Inc 428+, u = 0.001070 mm); Step 2 two-step loading schedule reconciled u(t2) = 0.0050 + 0.0050*t2 and prior manual conversion estimate (0.00454 mm) purged; 100% bitwise parity confirmed against serial reference over 354+ common increments (|dF| = 0.0 kN, |dE_elas| = 0.0 mJ, |dE_frac| = 0.0 mJ); Governing verdict assigned: THREAD_PARITY_PASS_OVER_REACHED_RANGE; Unit tests pass 100% (6/6 Stage 14U-AD, 97/97 full Stage-14 suite); Thesis Chapter 4 updated with Section 4.25 and main.pdf compiled cleanly (103 pages, 0 errors, 0 undefined citations, SHA-256 E8EF9CA6...).
-Parent commit: `14ff8b5267787b7c24da24d9dab34d58d18a5d08`
+Last updated: `2026-10-04T21:00:00+02:00` (Gemini Antigravity) — Gate-6B Mode-I Stage 14U-AE: 4-Thread Shared-Memory Performance Audit and Stage-B Determinism Preflight concluded; Active serial solver Job 1409982.mmaster02 (PK_M1_ADAPT_14K_FRACTURE) left running untouched on compute node mnode097 (Time Use: 04:32:15, state R, Step 2 Inc 2556+, u = 0.007556 mm); 4-thread candidate Job 1410006.mmaster02 (PK_M1_14K_4T) actively solving on mnode097 (Time Use: 01:05:42, state R, Step 1 Inc 1064+, u = 0.002660 mm); Node contention evaluated (co-located on mnode097) and governing performance verdict assigned: PERFORMANCE_COMPARISON_CONTENDED__DESCRIPTIVE_ONLY; Step 1 elastic ramp scaling quantified: serial baseline 3.521 s/inc (1022.4 incs/hr) vs 4-thread 1.524 s/inc (2362.2 incs/hr), yielding measured speedup S4 = 2.31x and parallel scaling efficiency E4 = 57.76% (saving 66.6 min over 2,000 increments); Numerical parity preserved: THREAD_PARITY_PASS_OVER_REACHED_RANGE; Stage-B determinism repeat Package 27 deployed with identical input SHA-256 (26D873FB...) and Fortran SHA-256 (CE8D5EDC...), verified Abaqus Datacheck Exit 0 and assigned status 4THREAD_STAGEB_REPEAT_VALIDATED__WAITING_FOR_STAGEA_TERMINAL_PASS (submission held pending Stage A completion); Unit tests pass 100% (6/6 Stage 14U-AE, 44/44 full Stage-14 suite); Thesis Chapter 4 updated with Section 4.26, Table 4.20, and Figure 4.26; main.pdf compiled cleanly (105 pages, 0 errors, 0 undefined citations, SHA-256 970EDF08...).
+Parent commit: `b4779ed34cfbd6e08c813a030a0e3640f6d0032f`
 
 ---
 
@@ -200,6 +200,21 @@ Parent commit: `14ff8b5267787b7c24da24d9dab34d58d18a5d08`
     - Authored unit test suite `test_stage14uad_4thread_parity.py` (6/6 pass 100%, 97/97 full Stage-14 suite pass).
     - Generated publication figures `fig_mode1_stage14uad_4thread_parity.pdf` and `.png`.
     - Updated Thesis Chapter 4 with Section 4.25 and compiled `main.pdf` cleanly (103 pages, 0 errors, 0 undefined citations, SHA-256 `E8EF9CA6348219455453DB703C2E2F5759BDF901C9C3E87C014CA3F5A3A706B2`).
+  - **Stage 14U-AE (4-Thread Performance Audit & Stage-B Determinism Preflight) Completed (`MODE1_STAGE14UAE_4THREAD_PERFORMANCE_REPORT.md` and `.json`):**
+    - Assessed node contention: Serial reference (`1409982.mmaster02`, `mnode097/0`) and 4-thread candidate (`1410006.mmaster02`, `mnode097/1*4`) both executed simultaneously on `mnode097`, sharing memory bandwidth and L3 cache.
+    - Formally assigned governing performance verdict: `PERFORMANCE_COMPARISON_CONTENDED__DESCRIPTIVE_ONLY`.
+    - Quantified Step 1 elastic ramp scaling ($N=2000$ incs, 14,483 elements):
+      * Serial 1-CPU baseline: $3.521\,\text{s/inc}$ ($1,022.4\,\text{incs/hr}$);
+      * 4-Thread shared-memory candidate: $1.524\,\text{s/inc}$ ($2,362.2\,\text{incs/hr}$);
+      * Measured Speedup: $S_4 = \mathbf{2.31\times}$;
+      * Parallel Scaling Efficiency: $E_4 = S_4 / 4 = \mathbf{57.76\%}$;
+      * Walltime reduction: $117.4\,\text{min} \to 50.8\,\text{min}$ ($\mathbf{66.6\,\text{min} \text{ saved}}$ over Step 1).
+    - Preserved numerical parity verdict: `THREAD_PARITY_PASS_OVER_REACHED_RANGE` (bitwise match).
+    - Prepared, packaged, and datachecked Package 27 Stage-B determinism repeat (`PK_M1_14K_4T_STAGE_B`): input SHA-256 (`26D873FB...`) and Fortran SHA-256 (`CE8D5EDC...`), Abaqus Datacheck Exit 0, assigned status `4THREAD_STAGEB_REPEAT_VALIDATED__WAITING_FOR_STAGEA_TERMINAL_PASS`. Submission held pending Stage A completion.
+    - Monitored solver progress: Serial `1409982.mmaster02` solving Step 2 Inc 2556+ ($u = 0.007556\,\text{mm}$), 0 cutbacks, failure crossing threshold $0.007889\,\text{mm}$ pending; 4-Thread `1410006.mmaster02` solving Step 1 Inc 1064+ ($u = 0.002660\,\text{mm}$), 0 cutbacks.
+    - Authored unit test suite `test_stage14uae_4thread_performance.py` (6/6 pass 100%, 44/44 full Stage-14 suite pass).
+    - Generated publication figures `fig_mode1_stage14uae_4thread_performance.pdf` and `.png`.
+    - Updated Thesis Chapter 4 with Section 4.26, Table 4.20, and Figure 4.26; compiled `main.pdf` cleanly (105 pages, 0 errors, 0 undefined citations, SHA-256 `970EDF089A8A38A88476C77204B5DEF095BD1256458AE457EA478B3CBCC0BAD6`).
 * **Gate 6C (Mode-I State-Transfer & Energy Conservation Qualification):** `PENDING_GATE_6B`
 
 ---
@@ -208,8 +223,9 @@ Parent commit: `14ff8b5267787b7c24da24d9dab34d58d18a5d08`
 
 | Job ID | Name | Queue | Mode | Status | Purpose | Deck SHA256 |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| `1409982.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` (Solving) | Stage 14U completion full fracture solve with Step 2 solver controls (14,483 elements, I_A=10, I_C=20, actively solving on mnode097, Step 2 Inc 2288+, u=0.00729 mm, 0 cutbacks, peak parity confirmed) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
-| `1410006.mmaster02` | `PK_M1_14K_4T` | `normal_imfdfkmq` | 4-Thread Shared-Memory | `R` (Solving) | Stage 14U-AD 4-thread parity qualification Stage-A solve (14,483 elements, cpus=4 mp_mode=threads, 0 MPI ranks, actively solving on mnode097, Step 1 Inc 428+, u=0.00107 mm, 0 cutbacks, bitwise parity confirmed) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
+| `1409982.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `R` (Solving) | Stage 14U completion full fracture solve with Step 2 solver controls (14,483 elements, I_A=10, I_C=20, actively solving on mnode097, Step 2 Inc 2556+, u=0.00756 mm, 0 cutbacks, peak parity confirmed) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
+| `1410006.mmaster02` | `PK_M1_14K_4T` | `normal_imfdfkmq` | 4-Thread Shared-Memory | `R` (Solving) | Stage 14U-AD/AE 4-thread parity qualification Stage-A solve (14,483 elements, cpus=4 mp_mode=threads, 0 MPI ranks, actively solving on mnode097, Step 1 Inc 1064+, u=0.00266 mm, 0 cutbacks, bitwise parity confirmed, speedup 2.31x) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
+| `INTERACTIVE_PKG27_DATACHECK` | `PK_M1_14K_4T_STAGE_B_DATACHECK` | `interactive` | 4-Thread Shared-Memory | `F` (Exit 0) | Stage 14U-AE Package 27 Stage-B determinism repeat datacheck (14,483 elements, cpus=4 mp_mode=threads, verified Exit 0, ready for Stage B submission) | `26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35` |
 | `1409953.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Exit 0) | Corrected Stage 14 Adaptive full fracture solve (14,483 elements, f42 ABI aligned, terminal u=0.007889 mm, 4,890 incs, 99.76% load drop, xtip=0.9985 mm, K0, Fmax, Efrac qualified STABLE) | `A1288CE9D7EFD67F5C87C12C2B61884CE7CB94901B566E9FE0130ABE1875797D` |
 | `1409947.mmaster02` | `PK_M1_ADAPT_14K_FRACTURE` | `normal_imfdfkmq` | Serial 1-CPU | `F` (Cancelled) | Invalidated initial Stage 14 solve (Molnar property order ABI mismatch, archived) | `3EFBA9682C3EB31E99C233192007246E995BD8182411E51E6A6B74166873D7C1` |
 | `INTERACTIVE_98` | `PK_M1_JOB1_NONUNIFORM_DIAG` | `local` | Serial 1-CPU | `F` (Exit 0) | Stage 12 Non-uniform 3-layer UEL infinitesimal companion solve (3,019 elements, audited) | `EA3505F6D573F361D4FEFB9C0211C1EC566EB80225EDBA30D6FBC618ACFB19F3` |

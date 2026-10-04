@@ -1,0 +1,23 @@
+# PRE-JOB ANTI-DEVIATION CARD: GATE-6B STAGE 14U-AE (STAGE-B 4-THREAD DETERMINISM REPEAT)
+
+- **Job Name:** `PK_M1_14K_4T_STAGE_B`
+- **Scientific Purpose:** Independent Stage-B determinism repeat of the 4-thread shared-memory Mode-I adaptive fracture simulation on the 14,483-element mesh to evaluate numerical repeatability across identical multi-threaded execution environments.
+- **Formulation:** 3-layer co-located UEL formulation with companion visualization UMAT (`f42_mixed_uel.for`).
+- **Parallel Mode:** Shared-Memory Multi-Threading strictly inside 1 MPI rank / process (`cpus=4`, `mp_mode=threads`).
+- **Target Architecture:** Single compute node (`select=1:ncpus=4:mem=16GB`).
+- **Material & Phase-Field Parameters:**
+  - Young's modulus: $E = 210.0\,\text{kN/mm}^2$
+  - Poisson's ratio: $\nu = 0.3$
+  - Fracture energy release rate: $G_c = 0.0027\,\text{kN/mm}$
+  - Regularization length: $l_0 = 0.0075\,\text{mm}$
+  - Residual stiffness: $k = 1.0\times 10^{-7}$
+  - PROPS ABI: `(0.0075, 0.0027, 210.0, 0.3, 1.0e-7, 14483.0)`
+- **Invariance Requirements:**
+  - Input deck SHA-256 strictly identical to serial completion reference `1409982.mmaster02` (`26D873FB...`).
+  - Fortran source SHA-256 strictly identical (`CE8D5EDC...`).
+  - Zero changes to mesh, boundary conditions, or time stepping.
+- **Pre-Declared Acceptance Criteria:**
+  - Exit code 0 on Abaqus Datacheck.
+  - Telemetry confirmation: 1 MPI process $\times$ 4 shared-memory threads (`mp_mode=threads`).
+  - Strict bitwise/tight numerical parity against Stage-A run (`1410006.mmaster02`): $|\Delta F| \le 1.0\times 10^{-6}\,\text{kN}$, $|\Delta E_{\text{elas}}| \le 1.0\times 10^{-5}\,\text{mJ}$, $|\Delta E_{\text{frac}}| \le 1.0\times 10^{-5}\,\text{mJ}$.
+  - Governing progression verdict: `THREAD_DETERMINISM_PASS` and `THREAD_PARALLELIZATION_QUALIFIED` upon passing both Stage A and Stage B.

@@ -2123,3 +2123,74 @@ A pointwise audit comparing 4-thread Job \texttt{1410006.mmaster02} and serial J
 \end{enumerate}
 
 Based on these verified metrics, the 4-thread execution candidate is assigned the formal status \texttt{THREAD\_PARITY\_PASS\_OVER\_REACHED\_RANGE}. The serial run \texttt{1409982.mmaster02} continues solving undisturbed as the authoritative 1-CPU completion reference.
+
+
+\section{Stage 14U-AE: 4-Thread Shared-Memory Performance Audit and Stage-B Determinism Preflight}
+\label{sec:stage14uae_4thread_performance}
+
+Following the initial numerical parity verification in Stage~14U-AD, Stage~14U-AE establishes a quantitative performance benchmark for 4-thread shared-memory execution on the 14,483-element adaptive mesh and prepares the preflight qualification for the independent Stage-B determinism repeat.
+
+\subsection{Node Allocation and Contention Discipline}
+\label{subsec:stage14uae_contention}
+
+A rigorous assessment of high-performance computing performance requires distinguishing unconstrained hardware potential from shared-resource multi-job execution. During the active evaluation window:
+\begin{itemize}
+  \item Serial reference Job \texttt{1409982.mmaster02} was allocated to compute node \texttt{mnode097/0} (1 core, 16\,GB memory);
+  \item 4-thread candidate Job \texttt{1410006.mmaster02} was allocated to the same compute node \texttt{mnode097/1*4} (4 cores, 16\,GB memory).
+\end{itemize}
+Because both jobs executed concurrently on the same physical host, they shared the underlying memory bus bandwidth, L3 cache hierarchy, and node I/O channels. Consequently, the performance metrics reported herein are formally categorized under the epistemic classification:
+\begin{quote}
+  \textbf{Governing Performance Verdict:} \texttt{PERFORMANCE\_COMPARISON\_CONTENDED\_\_DESCRIPTIVE\_ONLY}
+\end{quote}
+This classification explicitly acknowledges that the measured speedup reflects real-world cluster operating throughput under concurrent multi-job conditions rather than idealized, uncontended single-user performance.
+
+\begin{figure}[t!]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig_mode1_stage14uae_4thread_performance.pdf}
+  \caption[Stage 14U-AE 4-thread shared-memory performance and scaling audit]{Stage 14U-AE performance audit: (a) Solver throughput and walltime per increment comparing serial 1-CPU reference ($3.521\,\mathrm{s/inc}$, $1,022.4\,\mathrm{incs/hr}$) and 4-thread shared-memory candidate ($1.524\,\mathrm{s/inc}$, $2,362.2\,\mathrm{incs/hr}$), demonstrating a measured speedup of $S_4 = 2.31\times$ ($E_4 = 57.76\%$); (b) Cumulative elapsed walltime progression across the 2,000 increments of Step 1, showing a reduction from $117.4\,\mathrm{min}$ to $50.8\,\mathrm{min}$ ($66.6\,\mathrm{min}$ saved).}
+  \label{fig:stage14uae_4thread_performance}
+\end{figure}
+
+\subsection{Quantitative Throughput and Scaling Analysis}
+\label{subsec:stage14uae_throughput}
+
+Performance metrics were evaluated over the pre-peak Step~1 linear-elastic loading ramp ($u \in [0, 0.0050]\,\mathrm{mm}$, 2,000 target increments) on the 14,483-element adaptive mesh (Table~\ref{tab:stage14uae_performance_summary}):
+\begin{enumerate}
+  \item \textbf{Walltime per Increment:} The serial 1-CPU solver required an average of $3.521\,\mathrm{s/inc}$ ($7,042\,\mathrm{s}$ for 2,000 increments), corresponding to a throughput of $1,022.4\,\mathrm{incs/hr}$. In comparison, the 4-thread shared-memory solver achieved $1.524\,\mathrm{s/inc}$ ($2,362.2\,\mathrm{incs/hr}$).
+  \item \textbf{Measured Speedup and Efficiency:} The 4-thread configuration yielded a measured speedup:
+  \begin{equation}
+    S_4 = \frac{T_{\text{serial}}}{T_{\text{4-thread}}} = \frac{3.521\,\mathrm{s}}{1.524\,\mathrm{s}} = 2.310\times
+  \end{equation}
+  with a parallel scaling efficiency:
+  \begin{equation}
+    E_4 = \frac{S_4}{4} = \frac{2.310}{4} = 57.76\%
+  \end{equation}
+  \item \textbf{Walltime Savings:} Over the complete 2,000-increment elastic ramp of Step~1, 4-thread execution reduces walltime from $117.4\,\mathrm{min}$ ($1.96\,\mathrm{hr}$) to $50.8\,\mathrm{min}$ ($0.85\,\mathrm{hr}$), achieving an absolute walltime reduction of $66.6\,\mathrm{min}$ ($56.7\%$).
+\end{enumerate}
+
+\begin{table}[t!]
+\centering
+\caption{Stage 14U-AE performance and scaling comparison for Step 1 linear elastic ramp ($N=2000$ increments, 14,483 finite elements).}
+\label{tab:stage14uae_performance_summary}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Execution Mode} & \textbf{Walltime / Inc.} & \textbf{Throughput} & \textbf{Speedup $S_4$} & \textbf{Efficiency $E_4$} \\
+\hline
+Serial 1-CPU (Job 1409982) & $3.521\,\mathrm{s}$ & $1,022.4\,\mathrm{incs/hr}$ & $1.00\times$ (baseline) & $100.0\%$ \\
+4-Thread Shared-Memory (Job 1410006) & $1.524\,\mathrm{s}$ & $2,362.2\,\mathrm{incs/hr}$ & $\mathbf{2.31\times}$ & $\mathbf{57.76\%}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Stage-B Determinism Repeat Preflight}
+\label{subsec:stage14uae_stage_b_preflight}
+
+To satisfy the multi-threading governance protocol, parallel qualification cannot rely on a single Stage-A run. Package \texttt{27\_stage14\_adaptive\_candidate\_14k\_4thread\_stage\_b} was prepared to execute an independent determinism repeat under identical conditions:
+\begin{itemize}
+  \item Identical input deck SHA-256 (\texttt{26D873FB...});
+  \item Identical Fortran source SHA-256 (\texttt{CE8D5EDC...});
+  \item Identical runtime configuration ($1\text{ process} \times 4\text{ threads}$, \texttt{mp\_mode=threads}, $16\,\text{GB}$ memory);
+  \item Distinct job name \texttt{PK\_M1\_14K\_4T\_STAGE\_B} to prevent file collisions.
+\end{itemize}
+The Abaqus Datacheck for Package~27 was executed on the cluster and passed with Exit Code~0 (zero errors, zero warnings). In accordance with the governance protocol, Package~27 is assigned the status \texttt{4THREAD\_STAGEB\_REPEAT\_VALIDATED\_\_WAITING\_FOR\_STAGEA\_TERMINAL\_PASS}. Its submission is held until Stage-A Job \texttt{1410006.mmaster02} terminates and completes its post-peak parity audit.
+
