@@ -1,0 +1,157 @@
+{
+  "results_by_error_target": {
+    "5.0": {
+      "wake_elements": 464, 
+      "corridor_fraction": 0.18376975701816467, 
+      "deck_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_50PCT.inp", 
+      "fine_elements_l0_count": 446, 
+      "csv_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/elements_err_50pct.csv", 
+      "error_target_pct": 5.0, 
+      "corridor_h_stats": {
+        "mean_mm": 0.009758425481349474, 
+        "median_mm": 0.007622243946462773, 
+        "min_mm": 0.0013509423030432833
+      }, 
+      "total_elements": 4239, 
+      "h_eq_stats": {
+        "max_mm": 0.02358567408633307, 
+        "p90_mm": 0.019337323804640504, 
+        "p25_mm": 0.0127574060653908, 
+        "p10_mm": 0.007185283393026327, 
+        "min_mm": 0.0013509423030432833, 
+        "p75_mm": 0.01772726293942774, 
+        "median_mm": 0.01582738949290576, 
+        "mean_mm": 0.014687367481671602
+      }, 
+      "ligament_elements": 315, 
+      "corridor_elements": 779, 
+      "far_field_elements": 3460, 
+      "total_nodes": 4313, 
+      "fine_centroid_y": 0.5020423878279413, 
+      "fine_centroid_x": 0.48494247128833395, 
+      "far_h_stats": {
+        "mean_mm": 0.015797091706599594, 
+        "median_mm": 0.016294892084473944, 
+        "min_mm": 0.003702286203845082
+      }, 
+      "far_field_fraction": 0.8162302429818353
+    }, 
+    "2.0": {
+      "wake_elements": 1827, 
+      "corridor_fraction": 0.25577434080534167, 
+      "deck_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_20PCT.inp", 
+      "fine_elements_l0_count": 8993, 
+      "csv_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/elements_err_20pct.csv", 
+      "error_target_pct": 2.0, 
+      "corridor_h_stats": {
+        "mean_mm": 0.003789169377720367, 
+        "median_mm": 0.002235542662367301, 
+        "min_mm": 0.0007671013247976999
+      }, 
+      "total_elements": 14677, 
+      "h_eq_stats": {
+        "max_mm": 0.02236956122813342, 
+        "p90_mm": 0.013962727735177373, 
+        "p25_mm": 0.0029130132152284634, 
+        "p10_mm": 0.0020096510274633305, 
+        "min_mm": 0.0007671013247976999, 
+        "p75_mm": 0.009634359222011026, 
+        "median_mm": 0.0060706683779944955, 
+        "mean_mm": 0.006945598342352034
+      }, 
+      "ligament_elements": 1927, 
+      "corridor_elements": 3754, 
+      "far_field_elements": 10923, 
+      "total_nodes": 14646, 
+      "fine_centroid_y": 0.49729488564686875, 
+      "fine_centroid_x": 0.4959388312261378, 
+      "far_h_stats": {
+        "mean_mm": 0.00803039504044113, 
+        "median_mm": 0.0072706954887245085, 
+        "min_mm": 0.0009724334049921359
+      }, 
+      "far_field_fraction": 0.7442256591946583
+    }, 
+    "1.0": {
+      "wake_elements": 3583, 
+      "corridor_fraction": 0.14560928032591622, 
+      "deck_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_10PCT.inp", 
+      "fine_elements_l0_count": 55072, 
+      "csv_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/elements_err_10pct.csv", 
+      "error_target_pct": 1.0, 
+      "corridor_h_stats": {
+        "mean_mm": 0.0029136804131736794, 
+        "median_mm": 0.0020544163343836188, 
+        "min_mm": 0.0007214143353803064
+      }, 
+      "total_elements": 57929, 
+      "h_eq_stats": {
+        "max_mm": 0.018343460788109275, 
+        "p90_mm": 0.006416278053098785, 
+        "p25_mm": 0.002103990821430754, 
+        "p10_mm": 0.0017720018347272234, 
+        "min_mm": 0.0005534655816269079, 
+        "p75_mm": 0.004713089197215348, 
+        "median_mm": 0.0030961926239469677, 
+        "mean_mm": 0.00365698514173421
+      }, 
+      "ligament_elements": 4852, 
+      "corridor_elements": 8435, 
+      "far_field_elements": 49494, 
+      "total_nodes": 57491, 
+      "fine_centroid_y": 0.4975834745746178, 
+      "fine_centroid_x": 0.5276359767168705, 
+      "far_h_stats": {
+        "mean_mm": 0.003783662625578891, 
+        "median_mm": 0.0032901571439421053, 
+        "min_mm": 0.0005534655816269079
+      }, 
+      "far_field_fraction": 0.8543907196740838
+    }, 
+    "3.0": {
+      "wake_elements": 1059, 
+      "corridor_fraction": 0.26465416178194606, 
+      "deck_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_30PCT.inp", 
+      "fine_elements_l0_count": 2296, 
+      "csv_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/elements_err_30pct.csv", 
+      "error_target_pct": 3.0, 
+      "corridor_h_stats": {
+        "mean_mm": 0.005521961236658083, 
+        "median_mm": 0.0032376190476753513, 
+        "min_mm": 0.0004203879087687939
+      }, 
+      "total_elements": 6824, 
+      "h_eq_stats": {
+        "max_mm": 0.02342916167952836, 
+        "p90_mm": 0.01821452982030972, 
+        "p25_mm": 0.005449894075872179, 
+        "p10_mm": 0.0027701257123557217, 
+        "min_mm": 0.0004203879087687939, 
+        "p75_mm": 0.015425755512917253, 
+        "median_mm": 0.011185810337683304, 
+        "mean_mm": 0.010702190334665853
+      }, 
+      "ligament_elements": 747, 
+      "corridor_elements": 1806, 
+      "far_field_elements": 5018, 
+      "total_nodes": 6871, 
+      "fine_centroid_y": 0.495185568333797, 
+      "fine_centroid_x": 0.49131111099312247, 
+      "far_h_stats": {
+        "mean_mm": 0.012566577291820482, 
+        "median_mm": 0.012874099395320438, 
+        "min_mm": 0.0014379824812332735
+      }, 
+      "far_field_fraction": 0.7353458382180539
+    }
+  }, 
+  "status": "STAGE14UAP_ERRORTARGET_SENSITIVITY_COMPLETED", 
+  "error_targets_tested": [
+    1.0, 
+    2.0, 
+    3.0, 
+    5.0
+  ], 
+  "preanalysis_odb": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/93_mode1_preanalysis_inf_companion_2906/PK_M1_JOB1_INF_COMPANION_2906.odb", 
+  "audit_id": "GATE6B-STAGE14UAP-ERRORTARGET-SENSITIVITY-20261005"
+}

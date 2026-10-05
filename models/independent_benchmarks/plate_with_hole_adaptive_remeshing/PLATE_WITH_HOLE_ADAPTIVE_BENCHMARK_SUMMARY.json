@@ -1,0 +1,119 @@
+{
+  "domain": "1.0 mm x 1.0 mm square plate with central R=0.1 mm circular hole", 
+  "benchmark_id": "INDEPENDENT_BENCHMARK_PLATE_WITH_HOLE_MISESERI_ADAPTIVE_REMESHING", 
+  "theoretical_stress_concentration": "Kt ~ 3.0 at lateral hole flanks (x=0.4 and x=0.6, y=0.5)", 
+  "material": "Linear Elastic (E = 210 GPa, nu = 0.3)", 
+  "results_by_error_target": {
+    "5.0": {
+      "total_pole_elements": 234, 
+      "symmetry_pass": true, 
+      "stress_concentration_localization_pass": false, 
+      "total_flank_elements": 241, 
+      "bot_pole_elements": 108, 
+      "error_target_pct": 5.0, 
+      "h_flanks_mean_mm": 0.01725902371110732, 
+      "total_elements": 1043, 
+      "top_pole_elements": 126, 
+      "flank_symmetry_ratio": 0.9435483870967742, 
+      "far_field_elements": 568, 
+      "total_nodes": 1106, 
+      "flank_to_pole_ratio": 1.0299145299145298, 
+      "h_far_mean_mm": 0.03620081540567883, 
+      "left_flank_elements": 124, 
+      "h_eq_stats": {
+        "max_mm": 0.04496110141459144, 
+        "mean_mm": 0.028946908825552276, 
+        "median_mm": 0.03182024406278984, 
+        "p10_mm": 0.014668250341294502, 
+        "min_mm": 0.009062137073476946
+      }, 
+      "h_poles_mean_mm": 0.023376658291660725, 
+      "right_flank_elements": 117
+    }, 
+    "2.0": {
+      "total_pole_elements": 1750, 
+      "symmetry_pass": true, 
+      "stress_concentration_localization_pass": false, 
+      "total_flank_elements": 1917, 
+      "bot_pole_elements": 886, 
+      "error_target_pct": 2.0, 
+      "h_flanks_mean_mm": 0.005735378731453519, 
+      "total_elements": 4645, 
+      "top_pole_elements": 864, 
+      "flank_symmetry_ratio": 0.9305135951661632, 
+      "far_field_elements": 978, 
+      "total_nodes": 4699, 
+      "flank_to_pole_ratio": 1.0954285714285714, 
+      "h_far_mean_mm": 0.0262481194900302, 
+      "left_flank_elements": 993, 
+      "h_eq_stats": {
+        "max_mm": 0.04268312445252501, 
+        "mean_mm": 0.011009748590474914, 
+        "median_mm": 0.007030947339408139, 
+        "p10_mm": 0.004114352316947655, 
+        "min_mm": 0.0021993023798435336
+      }, 
+      "h_poles_mean_mm": 0.00827137160760577, 
+      "right_flank_elements": 924
+    }, 
+    "1.0": {
+      "total_pole_elements": 6989, 
+      "symmetry_pass": true, 
+      "stress_concentration_localization_pass": false, 
+      "total_flank_elements": 3939, 
+      "bot_pole_elements": 3549, 
+      "error_target_pct": 1.0, 
+      "h_flanks_mean_mm": 0.00424359403303192, 
+      "total_elements": 15481, 
+      "top_pole_elements": 3440, 
+      "flank_symmetry_ratio": 0.9803921568627451, 
+      "far_field_elements": 4553, 
+      "total_nodes": 15466, 
+      "flank_to_pole_ratio": 0.5635999427672056, 
+      "h_far_mean_mm": 0.011930499787631985, 
+      "left_flank_elements": 1950, 
+      "h_eq_stats": {
+        "max_mm": 0.029506829855678134, 
+        "mean_mm": 0.006499640707805523, 
+        "median_mm": 0.0044986863459735675, 
+        "p10_mm": 0.003111841232143367, 
+        "min_mm": 0.0006317232392262572
+      }, 
+      "h_poles_mean_mm": 0.004233202942958373, 
+      "right_flank_elements": 1989
+    }, 
+    "3.0": {
+      "total_pole_elements": 677, 
+      "symmetry_pass": true, 
+      "stress_concentration_localization_pass": true, 
+      "total_flank_elements": 962, 
+      "bot_pole_elements": 342, 
+      "error_target_pct": 3.0, 
+      "h_flanks_mean_mm": 0.00790192059518937, 
+      "total_elements": 2267, 
+      "top_pole_elements": 335, 
+      "flank_symmetry_ratio": 0.9201596806387226, 
+      "far_field_elements": 628, 
+      "total_nodes": 2339, 
+      "flank_to_pole_ratio": 1.4209748892171343, 
+      "h_far_mean_mm": 0.03425171044125442, 
+      "left_flank_elements": 501, 
+      "h_eq_stats": {
+        "max_mm": 0.04404802444101363, 
+        "mean_mm": 0.01683619402190811, 
+        "median_mm": 0.011450607421022845, 
+        "p10_mm": 0.005281201599800883, 
+        "min_mm": 0.0026932416901900803
+      }, 
+      "h_poles_mean_mm": 0.013376558460835639, 
+      "right_flank_elements": 461
+    }
+  }, 
+  "coarse_mesh": {
+    "max_miseseri": 45.68538284301758, 
+    "nodes": 773, 
+    "elements": 728, 
+    "max_mises_stress_mpa": 434.50970458984375
+  }, 
+  "governing_verdict": "INDEPENDENT_REMESHER_QUALIFIED_ON_ANALYTICAL_STRESS_CONCENTRATION"
+}
