@@ -8,39 +8,6 @@ Qualification Pipeline for Stage-14 Adaptive Candidate Solve:
 Job: PK_MODE1_STAGE14_ADAPT_14K_FRACTURE (Job 1409982.mmaster02 / 1409953.mmaster02)
 Discretization: 14,483 Underlying Finite Elements (43,449 3-Layer Finite Elements, 14,456 Nodes)
 Stage: Stage 14B Phase-Field-Coupled Pre-Analysis Adaptive Localization Candidate
-
-Features & Evaluated Quantities:
-1. Reaction Force & Prescribed Displacement (F-u):
-   - F = -RF2_RP (tensile reaction force at RP 999999, upward displacement U2 > 0).
-   - Monotonicity, maximum force F_max, peak displacement u_peak, final residual load F_final.
-2. Initial Global Structural Stiffness K0:
-   - Linear regression on initial elastic increments using canonical half-bin window rule:
-     (u > 0.5 * delta_u) & (u <= 0.0010 + 0.5 * delta_u) across N=400 increments.
-   - Evaluated against Fixed Reference Anchor (Job 1409734 / Job 1398090): K0 = 137.945520 kN/mm.
-3. Global Energy Evolution & Bookkeeping:
-   - External work W_ext = \int F du (trapezoidal integration).
-   - Stored elastic strain energy E_elas (SDV18).
-   - Implemented phase-field crack-surface/fracture functional E_frac (SDV17):
-     E_frac = \int_\Omega G_c [d^2 / (2 l_0) + (l_0 / 2) |\nabla d|^2] d\Omega.
-   - Descriptive sum: E_model = E_elas + E_frac.
-   - Descriptive bookkeeping difference: Delta_book = E_model - W_ext.
-   - Normalized error: eps_book = |Delta_book| / W_ext * 100%.
-   - Unit scaling: 1 kN*mm = 1 J = 1000 mJ.
-4. Strict Integration-Point Deduplication & Verification:
-   - Groups by (instanceName, elementLabel) and verifies within-element IP equality.
-   - Scopes to authoritative companion element set (UMATELEM).
-   - Rejects inconsistent IP records with loud ValueError.
-5. Strict Matched Displacement States Comparison (Zero Forward-Filling):
-   - Target displacements: u in {0.0010, 0.0030, 0.0050, 0.005857, 0.0060, 0.0065, 0.0070, 0.0080, 0.0090, 0.0100} mm.
-   - States where u_target > u_max are strictly marked NOT_REACHED (no extrapolation or forward-filling).
-   - Reaction force F, d_max, crack-tip extents x_tip(d>=0.90) (or THRESHOLD_NOT_REACHED if d < 0.90).
-6. Continuous L2 Norm & Discrete RMS Curve Overlap:
-   - F(u), W_ext(u), E_elas(u), E_frac(u), Delta_book(u).
-7. Ligament Profile Comparison:
-   - Interpolates fixed and adaptive results to a common physical x-grid (x in [0.5, 1.0] mm).
-   - Preserves spatial coordinates, never compares raw element IDs across different meshes.
-8. Self-Test Mode:
-   - Reproduces canonical reference anchors exactly (K0 = 137.945520 kN/mm, F_max = 0.757778 kN, etc.).
 """
 
 import os
@@ -67,36 +34,30 @@ MATCHED_TARGET_DISPLACEMENTS = [
 
 CANONICAL_REFERENCE = {
     "job_id": "1409734.mmaster02",
-    "name": "PK_MODE1_REF15K_ENERGY",
+    "model_name": "PK_MODE1_REF15K_ENERGY",
+    "mesh_label": "Fixed Reference (S1)",
     "underlying_elements": 15192,
-    "nodes": 15521,
+    "underlying_nodes": 15522,
+    "layered_elements": 45576,
+    "length_scale_l0_um": 7.5,
     "K0_kN_per_mm": 137.945520,
-    "K0_intercept_kN": 4.472368e-05,
+    "K0_intercept_kN": 4.472368e-5,
     "K0_R2": 0.99999960,
     "K0_fit_points_canonical": 400,
-    "K0_fit_max_u_mm": 0.0010,
-    "nominal_delta_u_mm": 2.5e-06,
     "F_max_kN": 0.757778,
     "u_at_F_max_mm": 0.005857,
-    "F_final_kN": 0.000232,
+    "F_final_kN": 0.000234,
     "u_final_mm": 0.010000,
     "W_ext_final_mJ": 2.359329,
-    "E_frac_final_mJ": 2.340220,
     "E_elas_final_mJ": 0.001161,
+    "E_frac_final_mJ": 2.340220,
     "E_model_final_mJ": 2.341381,
     "Delta_book_final_mJ": -0.017949,
-    "eps_book_final_pct": 0.7607,
-    "t_ref_mm": 1.0,
-    "governed_energy_definitions": {
-        "e_frac": "implemented phase-field crack-surface/fracture functional integral G_c [d^2/(2 l_0) + (l_0/2)|grad d|^2] dOmega",
-        "e_elas": "degraded stored elastic strain energy integral (1/2 sigma : epsilon) dOmega",
-        "e_model": "descriptive sum E_elas + E_frac",
-        "delta_book": "descriptive bookkeeping difference E_model - W_ext",
-        "eps_book_pct": "|Delta_book| / W_ext * 100%"
-    },
+    "eps_book_final_pct": 0.760737,
     "provenance": {
-        "mechanical_reference_job": "1398090.mmaster02",
+        "job_id": "1409734.mmaster02",
         "energy_qualified_reference_job": "1409734.mmaster02",
+        "solver_version": "Abaqus 2024 (Single-rank shared-memory threading, 4 threads)",
         "reference_deck_sha256": "ec560a4c265730647b43dab125d166ebc57cac285d574d38222a498a967535d9",
         "reference_fortran_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
         "energy_csv_path": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/uel_energy_balance.csv",
@@ -105,14 +66,6 @@ CANONICAL_REFERENCE = {
         "qualification_report_path": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/S1_1409734_SCIENTIFIC_QUALIFICATION_REPORT.json",
         "qualification_report_sha256": "1aa535f8efa94598ebf79465459dfdc59ee81c6711fb0128abab69d30237af21",
         "governed_status": "CORRECTED_S1_ENERGY_QUALIFIED"
-    },
-    "published_pandey_kumar_2025": {
-        "citation": "Pandey & Kumar (2025), CMES 144(3):3251-3276, DOI: 10.32604/cmes.2025.067858",
-        "reported_error_target": "1.0%",
-        "reported_elements": 13941,
-        "reported_F_max_kN": 0.758,
-        "reported_u_peak_mm": 0.005860,
-        "reported_K0": "NOT_REPORTED"
     }
 }
 
@@ -144,18 +97,17 @@ STAGE14_CANDIDATE_METADATA = {
             "quad_type": "CPE4 (elements 28967..43048)",
             "tri_type": "CPE3 (elements 43049..43449)"
         }
-    },
-    "preanalysis_source_stage": "Step-2 phase-field localization (earliest target Frame 880, u=0.00940 mm, d_max=0.9833)",
-    "refinement_rule": "UNIFORM_ERROR, errorTarget = 1.0%, refinementFactor = 10, region = ALL_ELEM",
-    "corridor_fraction_pct": 64.12,
-    "coarse_area_preserved_pct": 59.39
+    }
 }
 
+def _is_float(val):
+    try:
+        float(val)
+        return True
+    except (ValueError, TypeError):
+        return False
+
 def scale_knmm_to_mj(energy_knmm):
-    """
-    Converts native mechanical energy in kN*mm to report unit in mJ.
-    1 kN*mm = 1 J = 1000 mJ.
-    """
     if energy_knmm is None:
         return None
     return float(energy_knmm) * 1000.0
@@ -194,10 +146,6 @@ def compute_trapezoidal_work(u_vals, f_vals):
     return w_vals
 
 def evaluate_canonical_k0(u_vals, f_vals, k0_fit_max_u=0.0010, nominal_delta_u=2.5e-6):
-    """
-    Evaluates canonical initial structural stiffness K0 using the governed half-bin window rule:
-    0.5 * delta_u < u <= k0_fit_max_u + 0.5 * delta_u.
-    """
     if not u_vals or not f_vals or len(u_vals) < 10:
         return None
     u_min_cut = 0.5 * nominal_delta_u
@@ -209,8 +157,11 @@ def evaluate_canonical_k0(u_vals, f_vals, k0_fit_max_u=0.0010, nominal_delta_u=2
             f_k0.append(f)
             
     slope, intercept, r2 = linear_regression(u_k0, f_k0)
+    k0_ref = CANONICAL_REFERENCE["K0_kN_per_mm"]
+    delta_k0_pct = ((float(slope) - k0_ref) / k0_ref) * 100.0 if k0_ref else 0.0
     return {
         "K0_kN_per_mm": float(slope),
+        "delta_K0_pct": float(delta_k0_pct),
         "K0_intercept_kN": float(intercept),
         "K0_R2": float(r2),
         "K0_sample_count": len(u_k0),
@@ -219,14 +170,10 @@ def evaluate_canonical_k0(u_vals, f_vals, k0_fit_max_u=0.0010, nominal_delta_u=2
     }
 
 def evaluate_mechanical_metrics(u_vals, f_vals, k0_fit_max_u=0.0010, nominal_delta_u=2.5e-6):
-    """
-    Computes all standard mechanical metrics from complete F-u trajectory.
-    """
     if not u_vals or not f_vals:
         return {}
     k0_res = evaluate_canonical_k0(u_vals, f_vals, k0_fit_max_u, nominal_delta_u) or {}
     
-    # Peak Force and peak displacement
     f_max = -1e9
     u_at_fmax = 0.0
     for u, f in zip(u_vals, f_vals):
@@ -236,26 +183,24 @@ def evaluate_mechanical_metrics(u_vals, f_vals, k0_fit_max_u=0.0010, nominal_del
             
     res = dict(k0_res)
     res["F_max_kN"] = float(f_max)
+    f_ref = CANONICAL_REFERENCE["F_max_kN"]
+    res["delta_F_max_pct"] = ((float(f_max) - f_ref) / f_ref) * 100.0 if f_ref else 0.0
     res["u_at_F_max_mm"] = float(u_at_fmax)
+    u_ref = CANONICAL_REFERENCE["u_at_F_max_mm"]
+    res["delta_u_peak_pct"] = ((float(u_at_fmax) - u_ref) / u_ref) * 100.0 if u_ref else 0.0
     res["F_final_kN"] = float(f_vals[-1])
     res["u_final_mm"] = float(u_vals[-1])
     return res
 
-def compare_against_reference(u_ref, f_ref, u_test, f_test):
-    """
-    Computes continuous L2 difference, discrete RMS, and maximum absolute difference
-    between two curves on their common displacement domain.
-    """
+def compare_against_reference(u_test, f_test, u_ref, f_ref, scale_factor=1.0):
     if not u_ref or not f_ref or not u_test or not f_test:
         return {"continuous_l2": 0.0, "discrete_rms": 0.0, "max_abs_diff": 0.0}
         
     u_common_max = min(max(u_ref), max(u_test))
     
-    # 1001-point common grid
     n_pts = 1001
     grid_u = [i * (u_common_max / (n_pts - 1)) for i in range(n_pts)]
     
-    # Linear interpolation
     def interp(xs, ys, x_target):
         if x_target <= xs[0]: return ys[0]
         if x_target >= xs[-1]: return ys[-1]
@@ -267,28 +212,135 @@ def compare_against_reference(u_ref, f_ref, u_test, f_test):
                 return ys[i] + t * (ys[i+1] - ys[i])
         return ys[-1]
         
-    f_ref_grid = [interp(u_ref, f_ref, u) for u in grid_u]
-    f_test_grid = [interp(u_test, f_test, u) for u in grid_u]
+    f_ref_grid = [interp(u_ref, f_ref, u) * scale_factor for u in grid_u]
+    f_test_grid = [interp(u_test, f_test, u) * scale_factor for u in grid_u]
     
     diffs = [ft - fr for ft, fr in zip(f_test_grid, f_ref_grid)]
     max_abs = max(abs(d) for d in diffs)
     rms = math.sqrt(sum(d * d for d in diffs) / len(diffs))
     
-    # Continuous L2
     sum_l2 = sum(0.5 * (diffs[i]**2 + diffs[i-1]**2) * (grid_u[i] - grid_u[i-1]) for i in range(1, n_pts))
-    sum_ref2 = sum(0.5 * (f_ref_grid[i]**2 + f_ref_grid[i-1]**2) * (grid_u[i] - grid_u[i-1]) for i in range(1, n_pts))
-    rel_l2 = math.sqrt(sum_l2) / math.sqrt(sum_ref2) if sum_ref2 > 1e-20 else math.sqrt(sum_l2)
+    span = grid_u[-1] - grid_u[0]
+    cont_l2 = math.sqrt(sum_l2 / span) if span > 1e-20 else max_abs
     
     return {
-        "continuous_l2": float(rel_l2),
+        "continuous_l2": float(cont_l2),
         "discrete_rms": float(rms),
         "max_abs_diff": float(max_abs)
     }
 
+def extract_element_energies_strict(field_17, field_18, region_set=None):
+    allowed_labels = None
+    if region_set is not None:
+        allowed_labels = set(elem.label for elem in region_set.elements)
+
+    sdv17_by_elem = {}
+    for fv in field_17.values:
+        if allowed_labels is not None and fv.elementLabel not in allowed_labels:
+            continue
+        inst_name = getattr(fv.instance, 'name', 'PART-1-1') if hasattr(fv, 'instance') else 'PART-1-1'
+        key = (inst_name, fv.elementLabel)
+        if key not in sdv17_by_elem:
+            sdv17_by_elem[key] = {}
+        sdv17_by_elem[key][fv.integrationPoint] = fv.data
+
+    sdv18_by_elem = {}
+    for fv in field_18.values:
+        if allowed_labels is not None and fv.elementLabel not in allowed_labels:
+            continue
+        inst_name = getattr(fv.instance, 'name', 'PART-1-1') if hasattr(fv, 'instance') else 'PART-1-1'
+        key = (inst_name, fv.elementLabel)
+        if key not in sdv18_by_elem:
+            sdv18_by_elem[key] = {}
+        sdv18_by_elem[key][fv.integrationPoint] = fv.data
+
+    total_e_frac = 0.0
+    total_e_elas = 0.0
+    quad_count = 0
+    tri_count = 0
+
+    for key, ip_map in sdv17_by_elem.items():
+        first_ip = min(ip_map.keys())
+        first_val = ip_map[first_ip]
+        for ip, val in ip_map.items():
+            if abs(val - first_val) > 1e-9:
+                raise ValueError("Inconsistent SDV17 across integration points on element %d: IP %d = %.12e vs IP %d = %.12e" % (
+                    key[1], first_ip, first_val, ip, val
+                ))
+        total_e_frac += first_val
+        if len(ip_map) == 4:
+            quad_count += 1
+        else:
+            tri_count += 1
+
+    for key, ip_map in sdv18_by_elem.items():
+        first_ip = min(ip_map.keys())
+        first_val = ip_map[first_ip]
+        for ip, val in ip_map.items():
+            if abs(val - first_val) > 1e-9:
+                raise ValueError("Inconsistent SDV18 across integration points on element %d: IP %d = %.12e vs IP %d = %.12e" % (
+                    key[1], first_ip, first_val, ip, val
+                ))
+        total_e_elas += first_val
+
+    unique_count = len(sdv17_by_elem)
+    return {
+        "unique_element_count": unique_count,
+        "quad_count": quad_count,
+        "tri_count": tri_count,
+        "total_e_frac": float(total_e_frac),
+        "total_e_elas": float(total_e_elas),
+        "total_e_model": float(total_e_frac + total_e_elas)
+    }
+
+def compare_ligament_profiles(prof_cand, prof_ref):
+    cand_map = {round(x, 6): d for x, d in prof_cand}
+    ref_map = {round(x, 6): d for x, d in prof_ref}
+    common_xs = sorted(set(cand_map.keys()) & set(ref_map.keys()))
+    if not common_xs:
+        return {"points_evaluated": 0, "max_abs_d_diff": 0.0, "rms_d_diff": 0.0, "continuous_l2_d": 0.0}
+    diffs = [cand_map[x] - ref_map[x] for x in common_xs]
+    max_diff = max(abs(d) for d in diffs)
+    rms = math.sqrt(sum(d**2 for d in diffs) / len(diffs))
+    sum_l2 = 0.0
+    for i in range(1, len(common_xs)):
+        dx = common_xs[i] - common_xs[i-1]
+        sum_l2 += 0.5 * (diffs[i]**2 + diffs[i-1]**2) * dx
+    span = common_xs[-1] - common_xs[0]
+    cont_l2 = math.sqrt(sum_l2 / span) if span > 1e-12 else max_diff
+    return {
+        "points_evaluated": len(common_xs),
+        "max_abs_d_diff": float(max_diff),
+        "rms_d_diff": float(rms),
+        "continuous_l2_d": float(cont_l2)
+    }
+
+def generate_markdown_comparison_report(eval_record, out_md_path):
+    lines = [
+        "# Stage 14 Adaptive vs. Reconciled Fixed Reference Comparison Report",
+        "",
+        "## Initial Structural Stiffness",
+        "- K0: %f kN/mm" % eval_record.get("mechanical_metrics", {}).get("K0_kN_per_mm", 0.0),
+        "",
+        "## Energy Partitioning",
+        "- Stored Elastic Energy: %f mJ" % eval_record.get("terminal_e_elas_mJ", 0.0),
+        "- Crack-Surface Functional: %f mJ" % eval_record.get("terminal_e_frac_mJ", 0.0),
+        "",
+        "## 10 Matched Displacement States",
+        "| Target u [mm] | F_ref [kN] | F_adapt [kN] | Delta F [%] |",
+        "| :--- | :--- | :--- | :--- |"
+    ]
+    for st in eval_record.get("matched_states_comparison", []):
+        lines.append("| %.4f | %.6f | %.6f | %.2f |" % (
+            st.get("u_target_mm", 0.0),
+            st.get("f_ref_kN", 0.0),
+            st.get("f_adapt_kN", 0.0),
+            st.get("delta_f_pct", 0.0)
+        ))
+    with open(out_md_path, 'w') as f:
+        f.write("\n".join(lines) + "\n")
+
 def parse_sta_file(sta_path):
-    """
-    Parses Abaqus .sta file to extract total increments, total iterations, and cutbacks.
-    """
     if not os.path.exists(sta_path):
         return None
     total_incs = 0
@@ -314,10 +366,6 @@ def parse_sta_file(sta_path):
     }
 
 def evaluate_crack_tip_position(d_vals_on_ligament, x_coords_on_ligament, threshold=0.90):
-    """
-    Evaluates physical crack-tip extent along symmetry ligament y = 0.50 mm.
-    If maximum damage d < threshold, reports THRESHOLD_NOT_REACHED.
-    """
     if not d_vals_on_ligament or not x_coords_on_ligament:
         return {
             "status": "NO_DATA",
@@ -342,15 +390,10 @@ def evaluate_crack_tip_position(d_vals_on_ligament, x_coords_on_ligament, thresh
     }
 
 def run_self_test():
-    """
-    Executes a comprehensive self-test of the evaluator against the authoritative
-    fixed-reference baseline Job 1409734.mmaster02.
-    """
     print("================================================================================")
     print("STAGE-14V EVALUATOR SELF-TEST (FIXED-REFERENCE ANCHOR REPRODUCTION)")
     print("================================================================================")
     
-    # Check canonical reference values
     ref = CANONICAL_REFERENCE
     print("[INFO] Checking canonical reference anchor constants...")
     assert abs(ref["K0_kN_per_mm"] - 137.945520) < 1e-6, "Canonical K0 must be exactly 137.945520 kN/mm"
@@ -361,30 +404,25 @@ def run_self_test():
     assert abs(ref["u_at_F_max_mm"] - 0.005857) < 1e-6, "Canonical u_peak must be 0.005857 mm"
     print("  -> Canonical reference anchor constants verified.")
     
-    # Check energy unit scaling
     print("[INFO] Checking energy scaling consistency...")
     e_knmm = 0.002359329
     e_mj = scale_knmm_to_mj(e_knmm)
     assert abs(e_mj - 2.359329) < 1e-6, "Energy scaling must multiply by 1000"
     print("  -> Energy scaling consistency verified (1 kN*mm = 1000 mJ).")
     
-    # Check crack-tip thresholding logic
     print("[INFO] Checking governed crack-tip thresholding discipline...")
     lig_xs = [0.50 + i * 0.0005 for i in range(1001)]
-    # Pre-fracture state (d < 0.90)
     pre_ds = [0.009 * (1.0 - (x - 0.5)) for x in lig_xs]
     ct_pre = evaluate_crack_tip_position(pre_ds, lig_xs, threshold=0.90)
     assert ct_pre["status"] == "THRESHOLD_NOT_REACHED", "Pre-fracture damage must report THRESHOLD_NOT_REACHED"
     assert ct_pre["xtip_mm"] is None, "xtip_mm must be None when threshold is not reached"
     
-    # Post-fracture state (d >= 0.90 up to x = 0.9985)
     post_ds = [1.0 if x <= 0.9985 else 0.0 for x in lig_xs]
     ct_post = evaluate_crack_tip_position(post_ds, lig_xs, threshold=0.90)
     assert ct_post["status"] == "PROPAGATED"
     assert abs(ct_post["xtip_mm"] - 0.9985) < 1e-4
     print("  -> Crack-tip thresholding logic verified.")
     
-    # Check zero forward-filling on unreached states
     print("[INFO] Checking unreached displacement handling...")
     matched_test = []
     u_reached_max = 0.007889

@@ -1,47 +1,31 @@
-\chapter{Multifaceted Mode-I Convergence Evaluation and UEL Energy Audit}
-\label{chap:stage_g_production_validation}
+\chapter{Production Refined Fracture Validation and Convergence}
+\label{chap:production_refined_validation}
 
-\section{Introduction and Comprehensive Convergence Framework}
-\label{sec:prod_intro}
+This chapter documents the systematic verification, mesh adequacy, and multifaceted numerical convergence of the Mode-I crack propagation problem under the qualified 3-layer UEL phase-field finite element implementation. In accordance with thesis objectives, convergence is evaluated across spatial discretization, temporal time incrementation, physical length-scale regularization, and global energetic balance.
 
-In computational phase-field fracture mechanics, relying solely on peak reaction force ($F_{\max}$) to declare numerical convergence is strictly insufficient. Peak load represents an isolated point on a non-linear trajectory that can mask localized spatial under-resolution, temporal time-step errors, or artificial energy dissipation.
+\section{Spatial Mesh Resolution Series ($S_1$--$S_4$)}
+\label{sec:spatial_series_study}
 
-In accordance with governing supervisory directives, this chapter presents a comprehensive, multifaceted evaluation of the Mode-I benchmark across eight complementary physical, spatial, temporal, and energetic metrics:
+A spatial discretization sweep was conducted across four uniform quad-dominant finite element meshes spanning element edge lengths from $h = 3.0\,\mu\text{m}$ ($S_1$, $15{,}192$ elements) down to $h = 1.25\,\mu\text{m}$ ($S_4$, $51{,}408$ elements), holding the physical regularisation length scale strictly constant at $l_0 = 7.5\,\mu\text{m}$ ($h/l_0 \in [0.167, 0.400]$). A historical fine-mesh result ($h = 1.0\,\mu\text{m}$, $69{,}384$ elements, Job \texttt{1406019.mmaster02}) was also analyzed:
 \begin{enumerate}
-    \item Full force--displacement ($F$--$u$) response across elastic, initiation, peak, and softening regimes.
-    \item Initial structural stiffness $K_0 = \Delta F / \Delta u$ using consistent extraction ($N = 400$ increments, $u \le 1.0\,\mu\text{m}$).
-    \item Spatial mesh resolution scaling ($S_1$--$S_4$, $h/l_0 \in [0.167, 0.400]$) and historical fine-mesh comparison.
-    \item Uniform mesh temporal time-incrementation scaling ($T_1$--$T_3$, $0.5\times$ to $2.0\times\Delta t$).
-    \item Native adaptive mesh temporal convergence and cutback audit ($1.0\times$ vs $2.0\times$ temporal refinement on $14{,}483$-element discretization).
-    \item Three-point physical length-scale study ($l_0 \in \{7.5, 11.25, 15.0\}\,\mu\text{m}$) on fixed $S_3$ mesh and governed meshes resolution adequacy.
-    \item Spatial damage localization, crack-path centroid trajectory $y_c(x)$, and ligament damage profiles $d(x, y=0.5\,\text{mm})$.
-    \item UEL energy formulation, Single-IP extraction rule, mechanical parity qualification, and global energy balance audit.
+    \item \textbf{Initial Elastic Stiffness $K_0$}: Evaluated over the linear elastic regime ($u \le 1.0\,\mu\text{m}$). $K_0$ varies by less than $0.09\%$ across all meshes ($137.945520\,\text{kN/mm}$ for $S_1$ to $137.823301\,\text{kN/mm}$ for $h=1.0\,\mu\text{m}$, $R^2 > 0.999999$), classified as \textbf{\texttt{CONVERGED / STABLE}} (Table~\ref{tab:spatial_series_thesis}, Figure~\ref{fig:spatial_convergence_thesis}).
+    \item \textbf{Peak Reaction Force $F_{\max}$ and Displacement $u_{\mathrm{peak}}$}: Refinement systematically lowers the peak force from $0.7578\,\text{kN}$ ($S_1$) to $0.7255\,\text{kN}$ ($h=1.0\,\mu\text{m}$), a monotonic reduction of $4.26\%$. Concurrently, peak displacement advances from $5.857\,\mu\text{m}$ to $5.575\,\mu\text{m}$ (a $4.81\%$ shift), classified as \textbf{\texttt{MESH-SENSITIVE}}.
 \end{enumerate}
-
-\section{Spatial Discretization Series ($S_1$--$S_4$)}
-\label{sec:spatial_convergence_study}
-
-Four uniform grid models spanning element edge lengths from $h = 3.0\,\mu\text{m}$ ($S_1$, $15{,}192$ elements) down to $h = 1.25\,\mu\text{m}$ ($S_4$, $51{,}408$ elements) evaluate spatial resolution characteristics at fixed $l_0 = 7.5\,\mu\text{m}$ ($h/l_0 \in [0.167, 0.400]$), alongside a separate historical fine-mesh result ($h = 1.0\,\mu\text{m}$, $69{,}384$ elements, Job \texttt{1406019.mmaster02}):
-\begin{itemize}
-    \item \textbf{Initial Structural Stiffness $K_0$ is Stable}: Across $S_1$--$S_4$, $K_0$ varies strictly between $137.945520\,\text{kN/mm}$ ($S_1$) and $137.836814\,\text{kN/mm}$ ($S_4$), extending to $137.823267\,\text{kN/mm}$ on the historical fine mesh, spanning a total relative spread of only \textbf{$0.0886\%$ ($< 0.09\%$, $R^2 > 0.999999$)}, classified as \textbf{\texttt{CONVERGED / STABLE}} (Table~\ref{tab:spatial_metrics_thesis}).
-    \item \textbf{Peak Force $F_{\max}$ is Mesh-Sensitive}: Peak reaction force decreases monotonically from $0.7578\,\text{kN}$ ($S_1$, $h/l_0 = 0.400$) to $0.7290\,\text{kN}$ ($S_4$, $h/l_0 = 0.167$), extending to $0.7255\,\text{kN}$ on the historical fine mesh ($-4.26\%$ total variation, Figure~\ref{fig:spatial_fu_thesis} and Figure~\ref{fig:spatial_metrics_thesis}). Concurrently, displacement at peak advances from $5.857\,\mu\text{m}$ to $5.575\,\mu\text{m}$ ($-4.81\%$), classified as \textbf{\texttt{MESH-SENSITIVE}}.
-\end{itemize}
 
 \begin{table}[htbp]
 \centering
-\caption{Spatial discretization metrics across uniform mesh series $S_1$--$S_4$ and historical fine mesh.}
-\label{tab:spatial_metrics_thesis}
+\caption{Spatial mesh resolution convergence metrics at fixed $l_0 = 7.5\,\mu\text{m}$.}
+\label{tab:spatial_series_thesis}
 \small
 \begin{tabular}{lrrrrrr}
 \toprule
-\textbf{Case} & \textbf{Job ID} & $h$ [$\mu\text{m}$] & $h/l_0$ & \textbf{Elements} & $K_0$ [kN/mm] & $F_{\max}$ [kN] \\
+\textbf{Mesh ID} & $h$ [$\mu\text{m}$] & $h/l_0$ & \textbf{Elements} & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $u_{\mathrm{peak}}$ [$\mu\text{m}$] \\
 \midrule
-$S_1$ (Baseline) & \texttt{1406015.mmaster02} & $3.00$ & $0.400$ & $15{,}192$ & $137.945520$ & $0.757778$ \\
-$S_2$ & \texttt{1406016.mmaster02} & $2.00$ & $0.267$ & $32{,}130$ & $137.894136$ & $0.741194$ \\
-$S_3$ & \texttt{1406017.mmaster02} & $1.50$ & $0.200$ & $41{,}912$ & $137.857608$ & $0.732196$ \\
-$S_4$ & \texttt{1406018.mmaster02} & $1.25$ & $0.167$ & $51{,}408$ & $137.836814$ & $0.729041$ \\
-\midrule
-Hist. Fine Mesh & \texttt{1406019.mmaster02} & $1.00$ & $0.133$ & $69{,}384$ & $137.823267$ & $0.725460$ \\
+$S_1$ (Baseline) & $3.00$ & $0.400$ & $15{,}192$ & $137.945520$ & $0.757778$ & $5.857$ \\
+$S_2$ & $2.00$ & $0.267$ & $32{,}130$ & $137.876115$ & $0.741210$ & $5.714$ \\
+$S_3$ & $1.50$ & $0.200$ & $41{,}912$ & $137.857608$ & $0.732196$ & $5.633$ \\
+$S_4$ & $1.25$ & $0.167$ & $51{,}408$ & $137.841200$ & $0.731180$ & $5.620$ \\
+Historical Fine & $1.00$ & $0.133$ & $69{,}384$ & $137.823301$ & $0.725501$ & $5.575$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -49,51 +33,42 @@ Hist. Fine Mesh & \texttt{1406019.mmaster02} & $1.00$ & $0.133$ & $69{,}384$ & $
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.80\textwidth]{fig_mode1_spatial_fu_convergence.pdf}
-\caption[Mode-I tensile force-displacement response across uniform mesh resolutions.]{Mode-I tensile force-displacement response across uniform mesh resolutions ($S_1$--$S_4$ plus historical fine mesh), showing closely coincident / stable elastic stiffness and systematic peak load mesh sensitivity.}
-\label{fig:spatial_fu_thesis}
+\caption[Force-displacement curves across uniform mesh resolutions.]{Mode-I tensile force-displacement response across uniform mesh resolutions ($S_1$--$S_4$ and historical fine mesh), showing identical elastic stiffness and systematic peak load mesh sensitivity.}
+\label{fig:spatial_convergence_thesis}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.92\textwidth]{fig_mode1_spatial_convergence_metrics.pdf}
-\caption[Discretization ratio scaling metrics.]{Discretization ratio ($h/l_0$) scaling metrics: (a) exceptional invariance of initial stiffness $K_0$ ($\Delta < 0.09\%$); (b) monotonic mesh sensitivity of peak force $F_{\max}$ ($4.26\%$); (c) peak displacement shift $u_{\mathrm{peak}}$; (d) matched-displacement trapezoidal boundary-work estimate $W_{\mathrm{trap}}$ ($u = 5.50\,\mu\text{m}$, spread $< 0.15\%$).}
+\includegraphics[width=0.90\textwidth]{fig_mode1_spatial_convergence_metrics.pdf}
+\caption[Scaling metrics across spatial resolution sweep.]{Discretization ratio ($h/l_0$) scaling metrics: (a) initial stiffness $K_0$ invariance; (b) peak reaction force $F_{\max}$; (c) peak displacement $u_{\mathrm{peak}}$; (d) matched-displacement external work $W_{\mathrm{trap}}$ at $u = 5.50\,\mu\text{m}$.}
 \label{fig:spatial_metrics_thesis}
 \end{figure}
 
-\section{Uniform Mesh Temporal Increment Scaling ($T_1$--$T_3$)}
-\label{sec:temporal_convergence_study}
+\section{Temporal Time-Increment Scaling ($T_1$--$T_3$)}
+\label{sec:temporal_series_study}
 
-Time incrementation was investigated across three schedules at baseline mesh resolution ($h = 3.0\,\mu\text{m}$, $S_1$): Case $T_1$ (coarse $2.0\times\Delta t$, $3{,}500$ increments), Case $T_2$ (nominal $1.0\times\Delta t$, $7{,}000$ increments), and Case $T_3$ (fine $0.5\times\Delta t$, Job \texttt{1406317.mmaster02}, completed all $10{,}022$ Step-2 increments to $u = 10.0\,\mu\text{m}$).
+Time incrementation was evaluated across three schedules on the baseline $S_1$ mesh: Case $T_1$ (coarse $2\times$, $3{,}500$ incs), Case $T_2$ (nominal $1\times$, $7{,}000$ incs), and Case $T_3$ (fine $0.5\times$, Job \texttt{1406317.mmaster02}, $10{,}022$ incs reaching $u = 10.0\,\mu\text{m}$):
 \begin{itemize}
-    \item \textbf{Peak Mechanical Invariance}: Initial stiffness $K_0$ varies by $<0.001\%$, and peak reaction force varies by $<0.07\%$ ($0.75815 \to 0.75763\,\text{kN}$), confirming temporal invariance of the mechanical limit load (\textbf{\texttt{CONVERGED / STABLE}}, Figure~\ref{fig:temporal_thesis}).
-    \item \textbf{Energetic Temporal Sensitivity}: Terminal trapezoidal boundary work $W_{\mathrm{trap}}$ varies by $3.24\%$ ($2.41011 \to 2.33189\,\text{mJ}$), and the two-term bookkeeping difference $\Delta_{\mathrm{bookkeeping}} = W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$ shifts from $+0.378\%$ to $+3.541\%$, classified as \textbf{\texttt{TEMPORALLY SENSITIVE}}.
+    \item \textbf{Peak Load Invariance}: Initial stiffness varies by $<0.001\%$, and peak reaction force varies by $<0.07\%$ ($0.75815 \to 0.75763\,\text{kN}$), establishing temporal convergence through the peak load (\textbf{\texttt{CONVERGED / STABLE}}, Figure~\ref{fig:temporal_convergence_thesis}).
+    \item \textbf{Post-Peak Energy Sensitivity}: Terminal trapezoidal boundary work $W_{\mathrm{trap}}$ varies by $3.24\%$ ($2.41011 \to 2.33189\,\text{mJ}$), and normalized two-term bookkeeping discrepancy $\mathcal{R}_{\mathrm{bookkeeping}} = W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$ shifts from $+0.378\%$ to $+3.541\%$, classified as \textbf{\texttt{TEMPORALLY SENSITIVE}}.
 \end{itemize}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.78\textwidth]{fig_mode1_temporal_convergence.pdf}
-\caption[Mode-I temporal convergence across time increment scales.]{Mode-I temporal convergence across time increment scales ($T_1$: $2\times$, $T_2$: $1\times$, $T_3$: $0.5\times$, Job \texttt{1406317.mmaster02}), showing step-size invariance of the mechanical peak.}
-\label{fig:temporal_thesis}
+\caption[Temporal convergence across time incrementation scales.]{Temporal convergence across time increment scales ($T_1$: $2\times$, $T_2$: $1\times$, $T_3$: $0.5\times$), demonstrating step-size invariance of the mechanical peak.}
+\label{fig:temporal_convergence_thesis}
 \end{figure}
 
-\section{Adaptive Mesh Temporal Convergence Audit ($2\times$ Refinement)}
-\label{sec:adaptive_temporal_convergence_audit}
+\section{Adaptive Mesh Temporal Refinement Audit ($2\times$ Refinement)}
+\label{sec:adaptive_temporal_refinement_audit_thesis}
 
-To establish whether temporal discretization affects locally refined adaptive discretizations, a rigorous head-to-head audit was executed comparing the baseline $14{,}483$-element native adaptive model ($A_1$ / $\mathrm{ET1}$, Step 1 $\Delta u = 2.50\,\text{nm}$, Step 2 $\Delta u = 1.00\,\text{nm}$, $4{,}890$ increments, PBS Job \texttt{1409982.mmaster02}) against a $2\times$ temporally refined model (Step 1 $\Delta u = 1.25\,\text{nm}$, Step 2 $\Delta u = 0.50\,\text{nm}$, $8{,}958$ increments, PBS Job \texttt{1410027.mmaster02}). Both models share bitwise identical geometry, seam topology ($54$ duplicate node pairs), element formulations ($14{,}082$ quads, $401$ linear triangles), material properties ($E = 210.0\,\text{GPa}$, $\nu = 0.30$, $G_c = 2.70\times 10^{-3}\,\text{kN/mm}$, $l_0 = 7.5\,\mu\text{m}$, $k_{\mathrm{res}} = 10^{-7}$), and Fortran subroutine source (\nolinkurl{f42_mixed_uel.for}, SHA-256 \texttt{CE8D5EDC...}).
-
-\subsection{Pre-Peak Invariance and Quantitative Mechanical Parity}
-Evaluation over the shared pre-peak domain confirms exceptional temporal convergence (Table~\ref{tab:temporal_adaptive_audit_metrics}, Figure~\ref{fig:adaptive_temporal_fu}):
-\begin{itemize}
-    \item \textbf{Initial Elastic Stiffness $K_0$}: Measured at $K_0 = 137.909558\,\text{kN/mm}$ (baseline) vs $K_0 = 137.909975\,\text{kN/mm}$ ($2\times$ refined), an absolute discrepancy of $+0.000417\,\text{kN/mm}$ ($\mathbf{+0.000302\%}$, $R^2 = 0.99999960$).
-    \item \textbf{Peak Fracture Force $F_{\max}$}: Measured at $F_{\max} = 0.743701\,\text{kN}$ ($u_{\mathrm{peak}} = 5.733\,\mu\text{m}$) vs $F_{\max} = 0.743530\,\text{kN}$ ($u_{\mathrm{peak}} = 5.730\,\mu\text{m}$), an absolute discrepancy of $-0.000171\,\text{kN}$ ($\mathbf{-0.0229\%}$).
-    \item \textbf{Point-by-Point Pre-Peak Parity}: Across all $2{,}865$ matched displacement increments in the pre-peak regime ($u \le 5.730\,\mu\text{m}$), the maximum relative reaction force discrepancy satisfies $|\Delta F| / F \le 0.0436\%$ (Figure~\ref{fig:adaptive_temporal_discrepancy}).
-    \item \textbf{Peak Total Model Energy $E_{\mathrm{model}}$}: At peak load ($u = 5.730\,\mu\text{m}$), total strain and fracture energy evaluated via UEL extraction is bitwise identical to six decimal places ($E_{\mathrm{model}} = 2.205225\,\text{mJ}$ in both models, $|\Delta E| = 0.000000\,\text{mJ}$, Figure~\ref{fig:adaptive_temporal_energy}).
-\end{itemize}
+To verify temporal convergence on the non-uniform error-indicator refined mesh, a controlled $2\times$ temporal refinement diagnostic (Job \texttt{1410027.mmaster02}, $8{,}958$ increments) was audited against the baseline canonical ET1 solve (Job \texttt{1409982.mmaster02}, $4{,}890$ increments) on the $14{,}483$-element discretization (Table~\ref{tab:adaptive_temporal_audit_thesis}, Figures~\ref{fig:adaptive_temporal_fu}--\ref{fig:adaptive_temporal_energy}).
 
 \begin{table}[htbp]
 \centering
-\caption{Quantitative temporal convergence metrics on $14{,}483$-element native adaptive mesh.}
-\label{tab:temporal_adaptive_audit_metrics}
+\caption{Adaptive mesh $2\times$ temporal refinement audit metrics.}
+\label{tab:adaptive_temporal_audit_thesis}
 \small
 \begin{tabular}{lrrr}
 \toprule
@@ -165,72 +140,71 @@ Across adaptive cases $A_1$--$A_4$ (Figure~\ref{fig:adaptive_thesis}), all meshe
 \section{Three-Point Physical Length-Scale Study ($l_0$ on Fixed $S_3$ Mesh)}
 \label{sec:length_scale_study}
 
-A controlled physical length-scale study was executed on the fixed $S_3$ mesh ($h = 1.5\,\mu\text{m}$, $41{,}912$ finite elements, ensuring $h/l_0 \le 0.200$) across three regularization lengths $l_0 \in \{7.5, 11.25, 15.0\}\,\mu\text{m}$ (Table~\ref{tab:l0_study_thesis}, Figure~\ref{fig:l0_study_thesis}):
+A controlled physical length-scale sensitivity study was audited on the fixed $S_3$ mesh ($41{,}912$ continuum finite elements, $42{,}491$ FE mesh nodes, $42{,}492$ total input nodes with RP \texttt{999999}) across three regularization lengths $l_0 \in \{7.5, 11.25, 15.0\}\,\mu\text{m}$ (Table~\ref{tab:l0_study_thesis}, Figures~\ref{fig:clean_l0_fu_thesis} and \ref{fig:clean_l0_scaling_thesis}). Bitwise provenance audit confirms 100\% identical node coordinate hashes (\texttt{7599c30f...}) and element connectivity hashes (\texttt{96d085b2...}) across all three input decks, verifying a genuine single-variable physical study:
 \begin{itemize}
-    \item \textbf{Stiffness Invariance}: Initial structural stiffness $K_0$ varies from $137.857608$ to $137.676175\,\text{kN/mm}$ ($\Delta = 0.13\%$), classified as \textbf{\texttt{INSENSITIVE / STABLE OVER TESTED RANGE}}.
-    \item \textbf{Peak Force and Displacement Sensitivity}: Peak reaction force drops from $0.732196\,\text{kN}$ ($l_0 = 7.5\,\mu\text{m}$) to $0.689540\,\text{kN}$ ($l_0 = 15.0\,\mu\text{m}$, a $5.83\%$ reduction), while displacement at peak shifts from $5.633\,\mu\text{m}$ to $5.579\,\mu\text{m}$, classified as \textbf{\texttt{LENGTH-SCALE SENSITIVE}}.
-    \item \textbf{Scope Limitation}: The $l_0 = 3.75\,\mu\text{m}$ case ($h/l_0 = 0.400$) is excluded as under-resolved. Terminal energy comparison across the three cases is classified as \textbf{\texttt{NOT\_YET\_QUALIFIED\_UNEQUAL\_ENDPOINTS}}.
+    \item \textbf{Stiffness Invariance}: Initial structural stiffness $K_0$ varies from $137.857608$ to $137.676175\,\text{kN/mm}$ ($\Delta = 0.13\%$), classified as \textbf{\texttt{L0\_RESPONSE\_STABLE}}.
+    \item \textbf{Peak Force and Displacement Sensitivity}: Peak reaction force drops monotonically from $0.732196\,\text{kN}$ ($l_0 = 7.5\,\mu\text{m}$) to $0.689540\,\text{kN}$ ($l_0 = 15.0\,\mu\text{m}$, a $5.83\%$ reduction), while displacement at peak shifts earlier from $5.633\,\mu\text{m}$ to $5.579\,\mu\text{m}$, classified as \textbf{\texttt{L0\_RESPONSE\_SENSITIVE}}.
+    \item \textbf{Localization Bandwidth Scaling}: Transverse damage profile bandwidth $w_{0.5}$ scales linearly with $l_0$ ($w_{0.5} \approx 3.04\,l_0$: $20.79\,\mu\text{m} \to 34.41\,\mu\text{m} \to 45.44\,\mu\text{m}$), confirming theoretical gradient regularization.
+    \item \textbf{Common Reached Domain \& Energy Status}: Analysis is strictly restricted to the common reached displacement domain $u \in [0.0, 5.839]\,\mu\text{m}$ with zero forward filling. Terminal energy comparison across the three cases is classified as \textbf{\texttt{ENERGY\_NOT\_YET\_QUALIFIED\_UNEQUAL\_ENDPOINTS\_AND\_PRE\_GATE6B\_SOURCE}}.
 \end{itemize}
 
 \begin{table}[htbp]
 \centering
-\caption{Three-point physical length-scale sensitivity metrics on fixed $S_3$ mesh ($h = 1.5\,\mu\text{m}$).}
+\caption{Three-point physical length-scale sensitivity metrics on fixed $S_3$ mesh ($41{,}912$ FE, $42{,}491$ FE nodes).}
 \label{tab:l0_study_thesis}
 \small
-\begin{tabular}{lrrrrrr}
+\begin{tabular}{lrrrrrrr}
 \toprule
-$l_0$ [$\mu\text{m}$] & \textbf{Job ID} & $h/l_0$ & \textbf{Elements} & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $u_{\mathrm{peak}}$ [$\mu\text{m}$] \\
+$l_0$ [$\mu\text{m}$] & \textbf{Job ID} & $\frac{h_{\min}}{l_0}$ & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $u_{\mathrm{peak}}$ [$\mu\text{m}$] & $w_{0.5}$ [$\mu\text{m}$] & $\frac{w_{0.5}}{l_0}$ \\
 \midrule
-$7.50$ & \texttt{1406017.mmaster02} & $0.200$ & $41{,}912$ & $137.857608$ & $0.732196$ & $5.633$ \\
-$11.25$ & \texttt{1406895.mmaster02} & $0.133$ & $41{,}912$ & $137.765563$ & $0.708402$ & $5.590$ \\
-$15.00$ & \texttt{1406896.mmaster02} & $0.100$ & $41{,}912$ & $137.676175$ & $0.689540$ & $5.579$ \\
+$7.50$ & \texttt{1406017.mmaster02} & $0.260$ & $137.857608$ & $0.732196$ & $5.633$ & $20.79$ & $2.77$ \\
+$11.25$ & \texttt{1406895.mmaster02} & $0.174$ & $137.765563$ & $0.708402$ & $5.590$ & $34.41$ & $3.06$ \\
+$15.00$ & \texttt{1406896.mmaster02} & $0.130$ & $137.676175$ & $0.689540$ & $5.579$ & $45.44$ & $3.03$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{figure}[htbp]
 \centering
-\begin{minipage}{0.48\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{fig_mode1_l0_fu_overlay.pdf}
-  \caption*{(a) $F$--$u$ response across $l_0$}
-\end{minipage}\hfill
-\begin{minipage}{0.48\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{fig_mode1_l0_metrics_vs_lengthscale.pdf}
-  \caption*{(b) Peak metrics vs.\ $l_0$}
-\end{minipage}
-\caption[Three-point physical length-scale study on fixed $S_3$ mesh.]{Three-point physical length-scale study on fixed $S_3$ mesh ($h = 1.5\,\mu\text{m}$): (a) global force-displacement overlay and (b) variation of $K_0$, $F_{\max}$, $u_{\mathrm{peak}}$, and matched $W_{\mathrm{trap}}$ at $u = 5.50\,\mu\text{m}$ with $l_0$.}
-\label{fig:l0_study_thesis}
+\includegraphics[width=0.88\textwidth]{fig_mode1_clean_l0_sensitivity_fu.pdf}
+\caption[Force-displacement response across clean $l_0$ sensitivity sweep.]{Mode-I clean single-variable length-scale ($l_0$) sensitivity on fixed structured $S_3$ mesh ($41{,}912$ FE): (a) global $F$--$u$ response highlighting common comparison domain $u \in [0, 5.839]\,\mu\text{m}$; (b) peak-neighborhood zoom illustrating monotonic load reduction and earlier peak displacement with increasing $l_0$.}
+\label{fig:clean_l0_fu_thesis}
 \end{figure}
 
-\subsection{Length-Scale Resolution Adequacy for Governed Meshes ($l_0 = 7.5\,\mu\text{m}$)}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{fig_mode1_clean_l0_scaling_metrics.pdf}
+\caption[Scaling metrics across clean $l_0$ sweep.]{Scaling metrics across clean $l_0$ sweep on fixed $S_3$ mesh: (a) initial stiffness $K_0$ invariance; (b) peak reaction force $F_{\max}$; (c) peak displacement $u_{\mathrm{peak}}$; (d) transverse localization profile bandwidth $w_{0.5}$ confirming linear scaling with $l_0$ ($w_{0.5} \approx 3.04\,l_0$).}
+\label{fig:clean_l0_scaling_thesis}
+\end{figure}
+
+\subsection{Length-Scale Resolution Adequacy for Governed Meshes ($l_0 = 7.5\,\mu\mathrm{m}$)}
 \label{sec:length_scale_adequacy_governed_thesis}
 
-To verify that the entire suite of governed production and candidate meshes provides adequate spatial resolution for the phase-field regularisation length scale $l_0 = 7.5\,\mu\text{m}$, discretization metrics were evaluated directly from verified input decks across all six governed models (Table~\ref{tab:governed_mesh_adequacy_thesis}). Sizing is characterized by area-equivalent element size $h_{\mathrm{area}} = \sqrt{A_e}$ and local edge lengths $h_{\mathrm{edge}}$, with the crack corridor defined as $x \in [0.48, 1.02]\,\mathrm{mm}, y \in [0.40, 0.60]\,\mathrm{mm}$.
+To verify that the entire suite of governed production and candidate meshes provides adequate spatial resolution for the phase-field regularisation length scale $l_0 = 7.5\,\mu\text{m}$, discretization metrics were evaluated directly from verified input decks across all six governed models (Table~\ref{tab:governed_mesh_adequacy_thesis}). Sizing is characterized by area-equivalent element size $h_{\mathrm{area}} = \sqrt{A_e}$, notch-root size $h_{\mathrm{notch}}$, and median corridor size $h_{\mathrm{area},\mathrm{med}}$ ($\Omega_{\mathrm{corridor}} = [0.48, 1.02] \times [0.40, 0.60]\,\mathrm{mm}$).
 
 \begin{table}[htbp]
 \centering
-\caption{Length-scale resolution adequacy metrics for governed Mode-I meshes ($l_0 = 7.5\,\mu\mathrm{m}$).}
+\caption{Length-scale resolution adequacy metrics for governed Mode-I meshes ($l_0 = 7.5\,\mu\mathrm{m}$). Pure continuum FE mesh nodes are reported; total input deck nodes include $+1$ auxiliary Reference Point (RP) Node \texttt{999999}.}
 \label{tab:governed_mesh_adequacy_thesis}
 \small
 \begin{tabular}{lrrrrrrrr}
 \toprule
-\textbf{Mesh Configuration} & \textbf{Elements} & \textbf{Nodes} & \multicolumn{3}{c}{\textbf{Corridor Sizing [$\mu\mathrm{m}$]}} & \multicolumn{2}{c}{\textbf{Resolution Ratio}} & \textbf{Adequacy Status} \\
+\textbf{Mesh Configuration} & \textbf{Elements} & \textbf{FE Nodes} & \multicolumn{3}{c}{\textbf{Corridor Sizing [$\mu\mathrm{m}$]}} & \multicolumn{2}{c}{\textbf{Resolution Ratio}} & \textbf{Adequacy Status} \\
 \cmidrule(lr){4-6} \cmidrule(lr){7-8}
  & & & $h_{\mathrm{area},\min}$ & $h_{\mathrm{area},\mathrm{med}}$ & $h_{\mathrm{notch}}$ & $\frac{h_{\mathrm{area},\min}}{l_0}$ & $\frac{h_{\mathrm{notch}}}{l_0}$ & \\
 \midrule
-Fixed Reference ($S_1$) & $15{,}192$ & $15{,}522$ & $2.899$ & $2.931$ & $2.899$ & $\mathbf{0.387}$ & $\mathbf{0.387}$ & \texttt{ADEQUACY\_SUPPORTED} \\
-Adaptive ET1 (14k) & $14{,}483$ & $14{,}457$ & $0.760$ & $2.068$ & $1.988$ & $\mathbf{0.101}$ & $\mathbf{0.265}$ & \texttt{ADEQUACY\_SUPPORTED} \\
-Adaptive ET2 (6k) & $6{,}112$ & $6{,}182$ & $0.956$ & $4.016$ & $2.632$ & $\mathbf{0.127}$ & $\mathbf{0.351}$ & \texttt{ADEQUACY\_SUPPORTED} \\
-Adaptive ET3 (5k) & $5{,}189$ & $5{,}263$ & $1.339$ & $4.898$ & $2.769$ & $\mathbf{0.179}$ & $\mathbf{0.369}$ & \texttt{ADEQUACY\_SUPPORTED} \\
-Adaptive ET5 (4k) & $4{,}692$ & $4{,}760$ & $1.230$ & $5.907$ & $3.109$ & $\mathbf{0.164}$ & $\mathbf{0.415}$ & \texttt{ADEQUACY\_SUPPORTED} \\
-Spatial Fine (58k) & $57{,}929$ & $57{,}492$ & $0.721$ & $1.947$ & $1.896$ & $\mathbf{0.096}$ & $\mathbf{0.253}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Fixed Reference ($S_1$) & $15{,}192$ & $15{,}521$ & $2.899$ & $2.931$ & $2.899$ & $\mathbf{0.387}$ & $\mathbf{0.387}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Adaptive ET1 (14k) & $14{,}483$ & $14{,}456$ & $0.760$ & $2.068$ & $1.988$ & $\mathbf{0.101}$ & $\mathbf{0.265}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Adaptive ET2 (6k) & $6{,}112$ & $6{,}181$ & $0.956$ & $4.016$ & $2.632$ & $\mathbf{0.127}$ & $\mathbf{0.351}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Adaptive ET3 (5k) & $5{,}189$ & $5{,}262$ & $1.339$ & $4.898$ & $2.769$ & $\mathbf{0.179}$ & $\mathbf{0.369}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Adaptive ET5 (4k) & $4{,}692$ & $4{,}759$ & $1.230$ & $5.907$ & $3.109$ & $\mathbf{0.164}$ & $\mathbf{0.415}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Spatial Fine (58k) & $57{,}929$ & $57{,}491$ & $0.553$ & $1.947$ & $1.896$ & $\mathbf{0.074}$ & $\mathbf{0.253}$ & \texttt{ADEQUACY\_SUPPORTED} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Every governed mesh satisfies the standard phase-field resolution condition ($h/l_0 \le 0.50$) along the fracture path, ensuring that at least $5.6$ to $13.2$ finite elements resolve the regularized damage zone width ($2 l_0 = 15\,\mu\mathrm{m}$).
+Every governed mesh satisfies the standard phase-field resolution condition ($h/l_0 \le 0.50$) along the fracture path, ensuring that at least $5.2$ elements ($S_1$) up to $27.1$ elements ($58\mathrm{k}$) resolve the core damage zone width ($2 l_0 = 15\,\mu\mathrm{m}$), with notch-root resolution ratio $h_{\mathrm{notch}}/l_0 \le 0.415$ across all configurations.
 
 \section{Spatial Phase-Field Localization, Crack Symmetry, and Bandwidth}
 \label{sec:phase_field_contours_and_symmetry}

@@ -1,0 +1,250 @@
+{
+  "task_id": "F1249-MODE1-CLEAN-L0-SENSITIVITY-AND-ADEQUACY-CONSISTENCY-CORRECTION",
+  "timestamp_utc": "2026-10-05T15:45:00Z",
+  "study_summary": {
+    "title": "Mode-I Clean Single-Variable Length-Scale (l0) Sensitivity and Mesh Adequacy Audit",
+    "mesh_type": "Structured S3 (41,912 continuum FE, 125,736 3-layer elements)",
+    "mesh_identity_status": "BITWISE_IDENTICAL_COORDINATES_AND_TOPOLOGY",
+    "overall_classification": "L0_SENSITIVITY_QUALIFIED_ON_FIXED_S3_MESH",
+    "common_reached_displacement_domain_um": [
+      0.0,
+      5.839
+    ],
+    "common_reached_displacement_domain_mm": [
+      0.0,
+      0.005839
+    ],
+    "energy_qualification_status": "ENERGY_NOT_YET_QUALIFIED_UNEQUAL_ENDPOINTS_AND_PRE_GATE6B_SOURCE"
+  },
+  "mesh_provenance_and_twin_verification": {
+    "mesh_node_coordinates_sha256": "7599c30f9bb6c4d605ec1cb570b9ce90268b69c07b01257c9cba84cd06345531",
+    "element_connectivity_sha256": "96d085b28ca825296cfa636e4a9c2ea50dd1aff91eef0dd236ebeca315185903",
+    "fe_mesh_nodes": 42491,
+    "rp_reference_nodes": 1,
+    "total_input_deck_nodes": 42492,
+    "base_elements": 41912,
+    "total_elements_3_layers": 125736,
+    "n_bottom_nodes": 404,
+    "n_top_nodes": 404,
+    "node_count_convention_resolution": "The +1 node count difference (42,492 vs 42,491; 15,522 vs 15,521; 14,457 vs 14,456) is rigorously reconciled as the auxiliary Reference Point (RP) Node 999999 defined in Abaqus input decks for kinematic MPC coupling, distinct from the pure continuum FE discretization nodes."
+  },
+  "governing_model_constants": {
+    "E_GPa": 210.0,
+    "nu": 0.3,
+    "Gc_kN_per_mm": 0.0027,
+    "Gc_N_per_mm": 2.7,
+    "k_res": 1e-07,
+    "Nbase": 41912.0,
+    "loading_horizon_mm": 0.01,
+    "step_definitions": [
+      {
+        "step": 1,
+        "description": "Elastic Preloading",
+        "target_disp_mm": 0.005,
+        "max_increments": 2500,
+        "initial_dt": 0.01,
+        "min_dt": 1e-12,
+        "max_dt": 0.05
+      },
+      {
+        "step": 2,
+        "description": "Fracture Propagation",
+        "target_disp_mm": 0.01,
+        "max_increments": 6000,
+        "initial_dt": 0.0002,
+        "min_dt": 1e-14,
+        "max_dt": 0.005
+      }
+    ]
+  },
+  "clean_twin_job_records": [
+    {
+      "job_id": "1406017.mmaster02",
+      "job_name": "PK_M1_42K_L0_7p5_SOLVE",
+      "input_deck_path": "models/pandey_kumar_mode1/04_sharp_slit_test/input_decks/Job-PK_M1_42K_L0_7p5_SOLVE.inp",
+      "input_deck_sha256": "43922d4a1320ef4bbafec74bb9fec7d4022db141bcda09117fe452ff37cff9d7",
+      "uel_fortran_sha256": "5cd0d2c0b053258c89b8ee2081f2142e0717208d1f855d4aa09c9162c93fa5c9",
+      "l0_mm": 0.0075,
+      "l0_um": 7.5,
+      "K0_kN_per_mm": 137.857608,
+      "F_max_kN": 0.732196,
+      "u_peak_mm": 0.005633,
+      "u_peak_um": 5.633,
+      "u_term_mm": 0.007836,
+      "u_term_um": 7.836,
+      "d_max_terminal": 1.0,
+      "H_max_terminal_MPa": 395.7335,
+      "w_0p5_um": 20.79,
+      "w_0p5_over_l0": 2.77,
+      "y_centroid_mm": 0.5,
+      "symmetry_offset_um": 0.0,
+      "total_increments": 4125,
+      "total_iterations": 13917,
+      "total_cutbacks": 184
+    },
+    {
+      "job_id": "1406895.mmaster02",
+      "job_name": "PK_M1_42K_L0_11p25_SOLVE",
+      "input_deck_path": "models/pandey_kumar_mode1/04_sharp_slit_test/input_decks/Job-PK_M1_42K_L0_11p25_SOLVE.inp",
+      "input_deck_sha256": "82798eebae456e7fa40e4e5e408ec22e0e0ee0c25a0750537033c43493864455",
+      "uel_fortran_sha256": "5cd0d2c0b053258c89b8ee2081f2142e0717208d1f855d4aa09c9162c93fa5c9",
+      "l0_mm": 0.01125,
+      "l0_um": 11.25,
+      "K0_kN_per_mm": 137.765563,
+      "F_max_kN": 0.708402,
+      "u_peak_mm": 0.00559,
+      "u_peak_um": 5.59,
+      "u_term_mm": 0.005839,
+      "u_term_um": 5.839,
+      "d_max_terminal": 0.999651,
+      "H_max_terminal_MPa": 159.2736,
+      "w_0p5_um": 34.41,
+      "w_0p5_over_l0": 3.06,
+      "y_centroid_mm": 0.50212,
+      "symmetry_offset_um": 2.12,
+      "total_increments": 2814,
+      "total_iterations": 9621,
+      "total_cutbacks": 118
+    },
+    {
+      "job_id": "1406896.mmaster02",
+      "job_name": "PK_M1_42K_L0_15_SOLVE",
+      "input_deck_path": "models/pandey_kumar_mode1/04_sharp_slit_test/input_decks/Job-PK_M1_42K_L0_15_SOLVE.inp",
+      "input_deck_sha256": "a3f5f3e7b16aa68832a86cfecb7b4a2879590fa4a9b626d1d4d12eb37f26c7ef",
+      "uel_fortran_sha256": "5cd0d2c0b053258c89b8ee2081f2142e0717208d1f855d4aa09c9162c93fa5c9",
+      "l0_mm": 0.015,
+      "l0_um": 15.0,
+      "K0_kN_per_mm": 137.676175,
+      "F_max_kN": 0.68954,
+      "u_peak_mm": 0.005579,
+      "u_peak_um": 5.579,
+      "u_term_mm": 0.006473,
+      "u_term_um": 6.473,
+      "d_max_terminal": 0.999712,
+      "H_max_terminal_MPa": 112.5447,
+      "w_0p5_um": 45.44,
+      "w_0p5_over_l0": 3.03,
+      "y_centroid_mm": 0.50082,
+      "symmetry_offset_um": 0.82,
+      "total_increments": 3217,
+      "total_iterations": 10842,
+      "total_cutbacks": 132
+    }
+  ],
+  "quantity_sensitivity_classification": {
+    "initial_elastic_stiffness_K0": {
+      "values_kN_per_mm": [
+        137.857608,
+        137.765563,
+        137.676175
+      ],
+      "max_relative_variation_pct": 0.13,
+      "classification": "L0_RESPONSE_STABLE",
+      "scientific_rationale": "In the linear elastic regime (d \u2248 0), the degradation function g(d) \u2248 1, so the structural stiffness is purely dominated by E and nu of the intact domain. The variation across a factor of 2 in l0 is less than 0.15%."
+    },
+    "peak_reaction_force_Fmax": {
+      "values_kN": [
+        0.732196,
+        0.708402,
+        0.68954
+      ],
+      "max_relative_variation_pct": -5.83,
+      "classification": "L0_RESPONSE_SENSITIVE",
+      "scientific_rationale": "Peak load decreases monotonically with increasing length scale (-5.83% from 7.5 um to 15.0 um) as a wider localization band redistributes fracture dissipation over a larger volume, lowering effective critical stress."
+    },
+    "peak_displacement_u_peak": {
+      "values_um": [
+        5.633,
+        5.59,
+        5.579
+      ],
+      "max_relative_variation_pct": -0.96,
+      "classification": "L0_RESPONSE_SENSITIVE",
+      "scientific_rationale": "Damage initiation and critical localization occur slightly earlier in displacement space for larger regularizing lengths."
+    },
+    "localization_bandwidth_w0p5": {
+      "values_um": [
+        20.79,
+        34.41,
+        45.44
+      ],
+      "ratio_to_l0": [
+        2.77,
+        3.06,
+        3.03
+      ],
+      "mean_ratio_to_l0": 2.95,
+      "classification": "L0_RESPONSE_SENSITIVE",
+      "scientific_rationale": "Damage profile bandwidth w0.5 scales in direct linear proportion to l0 (w0.5 \u2248 3.0 * l0), confirming consistent gradient regularization behavior."
+    }
+  },
+  "mesh_adequacy_separation": {
+    "description": "Corrected resolution metrics separating local minimum, notch root, and median crack corridor elements per regularizing length.",
+    "metrics_table": [
+      {
+        "mesh_candidate": "MM Coarse (PK5)",
+        "fe_elements": 1400,
+        "fe_nodes": 1475,
+        "h_area_min_um": 5.8,
+        "h_notch_um": 5.8,
+        "h_area_median_um": 11.82,
+        "ratio_h_min_over_l0_at_7p5": 0.773,
+        "ratio_h_min_over_l0_at_11p25": 0.516,
+        "ratio_h_min_over_l0_at_15p0": 0.387,
+        "elements_across_2l0_at_7p5": 2.6,
+        "elements_across_2l0_at_11p25": 3.9,
+        "elements_across_2l0_at_15p0": 5.2,
+        "adequacy_classification_at_7p5": "MARGINAL_LOCAL_UNDER_RESOLVED",
+        "adequacy_classification_at_15p0": "ADEQUATE"
+      },
+      {
+        "mesh_candidate": "Uniform S1 (15k)",
+        "fe_elements": 15200,
+        "fe_nodes": 15521,
+        "h_area_min_um": 3.125,
+        "h_notch_um": 3.125,
+        "h_area_median_um": 3.125,
+        "ratio_h_min_over_l0_at_7p5": 0.417,
+        "ratio_h_min_over_l0_at_11p25": 0.278,
+        "ratio_h_min_over_l0_at_15p0": 0.208,
+        "elements_across_2l0_at_7p5": 4.8,
+        "elements_across_2l0_at_11p25": 7.2,
+        "elements_across_2l0_at_15p0": 9.6,
+        "adequacy_classification_at_7p5": "ADEQUATE",
+        "adequacy_classification_at_15p0": "FULLY_RESOLVED"
+      },
+      {
+        "mesh_candidate": "Uniform S3 (42k)",
+        "fe_elements": 41912,
+        "fe_nodes": 42491,
+        "h_area_min_um": 1.953,
+        "h_notch_um": 1.953,
+        "h_area_median_um": 1.953,
+        "ratio_h_min_over_l0_at_7p5": 0.26,
+        "ratio_h_min_over_l0_at_11p25": 0.174,
+        "ratio_h_min_over_l0_at_15p0": 0.13,
+        "elements_across_2l0_at_7p5": 7.7,
+        "elements_across_2l0_at_11p25": 11.5,
+        "elements_across_2l0_at_15p0": 15.4,
+        "adequacy_classification_at_7p5": "FULLY_RESOLVED",
+        "adequacy_classification_at_15p0": "HIGHLY_RESOLVED"
+      },
+      {
+        "mesh_candidate": "Adaptive 58k (PK_M1_14AM)",
+        "fe_elements": 56708,
+        "fe_nodes": 57491,
+        "h_area_min_um": 0.556,
+        "h_notch_um": 1.9,
+        "h_area_median_um": 1.953,
+        "ratio_h_min_over_l0_at_7p5": 0.074,
+        "ratio_h_min_over_l0_at_11p25": 0.049,
+        "ratio_h_min_over_l0_at_15p0": 0.037,
+        "elements_across_2l0_at_7p5": 27.0,
+        "elements_across_2l0_at_11p25": 40.5,
+        "elements_across_2l0_at_15p0": 54.0,
+        "adequacy_classification_at_7p5": "OVER_RESOLVED_CORE",
+        "adequacy_classification_at_15p0": "OVER_RESOLVED_CORE"
+      }
+    ]
+  }
+}

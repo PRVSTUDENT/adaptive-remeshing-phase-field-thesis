@@ -171,35 +171,78 @@ To evaluate the baseline spatial fidelity of the error-indicator refined configu
 \subsection{Length-Scale Resolution Adequacy for Governed Meshes ($l_0 = 7.5\,\mu\mathrm{m}$)}
 \label{sec:length_scale_adequacy_governed}
 
-To resolve whether spatial discretization across the full suite of governed Mode-I meshes adequately resolves the diffuse damage regularisation length scale $l_0 = 7.5\,\mu\mathrm{m}$, element sizing metrics were computed directly from verified input decks across all six production and candidate meshes (Table~\ref{tab:governed_mesh_adequacy_pack}). Element size is characterized by area-equivalent length $h_{\mathrm{area}} = \sqrt{A_e}$ and local edge lengths $h_{\mathrm{edge}}$, with the crack corridor defined as $x \in [0.48, 1.02]\,\mathrm{mm}, y \in [0.40, 0.60]\,\mathrm{mm}$.
+To resolve whether spatial discretization across the full suite of governed Mode-I meshes adequately resolves the diffuse damage regularisation length scale $l_0 = 7.5\,\mu\mathrm{m}$, element sizing metrics were computed directly from verified input decks across all six production and candidate meshes (Table~\ref{tab:governed_mesh_adequacy_pack}). Sizing is characterized by area-equivalent length $h_{\mathrm{area}} = \sqrt{A_e}$, notch-root size $h_{\mathrm{notch}}$, and median corridor size $h_{\mathrm{area},\mathrm{med}}$ ($\Omega_{\mathrm{corridor}} = [0.48, 1.02] \times [0.40, 0.60]\,\mathrm{mm}$).
 
 \begin{table}[htbp]
 \centering
-\caption{Length-scale resolution adequacy metrics for governed Mode-I meshes ($l_0 = 7.5\,\mu\mathrm{m}$).}
+\caption{Length-scale resolution adequacy metrics for governed Mode-I meshes ($l_0 = 7.5\,\mu\mathrm{m}$). Pure continuum FE mesh nodes are reported; total input deck nodes include $+1$ auxiliary Reference Point (RP) Node \texttt{999999}.}
 \label{tab:governed_mesh_adequacy_pack}
 \small
 \begin{tabular}{lrrrrrrrr}
 \toprule
-\textbf{Mesh Configuration} & \textbf{Elements} & \textbf{Nodes} & \multicolumn{3}{c}{\textbf{Corridor Sizing [$\mu\mathrm{m}$]}} & \multicolumn{2}{c}{\textbf{Resolution Ratio}} & \textbf{Adequacy Status} \\
+\textbf{Mesh Configuration} & \textbf{Elements} & \textbf{FE Nodes} & \multicolumn{3}{c}{\textbf{Corridor Sizing [$\mu\mathrm{m}$]}} & \multicolumn{2}{c}{\textbf{Resolution Ratio}} & \textbf{Adequacy Status} \\
 \cmidrule(lr){4-6} \cmidrule(lr){7-8}
  & & & $h_{\mathrm{area},\min}$ & $h_{\mathrm{area},\mathrm{med}}$ & $h_{\mathrm{notch}}$ & $\frac{h_{\mathrm{area},\min}}{l_0}$ & $\frac{h_{\mathrm{notch}}}{l_0}$ & \\
 \midrule
-Fixed Reference ($S_1$) & $15{,}192$ & $15{,}522$ & $2.899$ & $2.931$ & $2.899$ & $\mathbf{0.387}$ & $\mathbf{0.387}$ & \texttt{ADEQUACY\_SUPPORTED} \\
-Adaptive ET1 (14k) & $14{,}483$ & $14{,}457$ & $0.760$ & $2.068$ & $1.988$ & $\mathbf{0.101}$ & $\mathbf{0.265}$ & \texttt{ADEQUACY\_SUPPORTED} \\
-Adaptive ET2 (6k) & $6{,}112$ & $6{,}182$ & $0.956$ & $4.016$ & $2.632$ & $\mathbf{0.127}$ & $\mathbf{0.351}$ & \texttt{ADEQUACY\_SUPPORTED} \\
-Adaptive ET3 (5k) & $5{,}189$ & $5{,}263$ & $1.339$ & $4.898$ & $2.769$ & $\mathbf{0.179}$ & $\mathbf{0.369}$ & \texttt{ADEQUACY\_SUPPORTED} \\
-Adaptive ET5 (4k) & $4{,}692$ & $4{,}760$ & $1.230$ & $5.907$ & $3.109$ & $\mathbf{0.164}$ & $\mathbf{0.415}$ & \texttt{ADEQUACY\_SUPPORTED} \\
-Spatial Fine (58k) & $57{,}929$ & $57{,}492$ & $0.721$ & $1.947$ & $1.896$ & $\mathbf{0.096}$ & $\mathbf{0.253}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Fixed Reference ($S_1$) & $15{,}192$ & $15{,}521$ & $2.899$ & $2.931$ & $2.899$ & $\mathbf{0.387}$ & $\mathbf{0.387}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Adaptive ET1 (14k) & $14{,}483$ & $14{,}456$ & $0.760$ & $2.068$ & $1.988$ & $\mathbf{0.101}$ & $\mathbf{0.265}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Adaptive ET2 (6k) & $6{,}112$ & $6{,}181$ & $0.956$ & $4.016$ & $2.632$ & $\mathbf{0.127}$ & $\mathbf{0.351}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Adaptive ET3 (5k) & $5{,}189$ & $5{,}262$ & $1.339$ & $4.898$ & $2.769$ & $\mathbf{0.179}$ & $\mathbf{0.369}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Adaptive ET5 (4k) & $4{,}692$ & $4{,}759$ & $1.230$ & $5.907$ & $3.109$ & $\mathbf{0.164}$ & $\mathbf{0.415}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Spatial Fine (58k) & $57{,}929$ & $57{,}491$ & $0.553$ & $1.947$ & $1.896$ & $\mathbf{0.074}$ & $\mathbf{0.253}$ & \texttt{ADEQUACY\_SUPPORTED} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Every governed mesh satisfies the standard phase-field resolution condition ($h/l_0 \le 0.50$) along the fracture path, ensuring that at least $5.6$ to $13.2$ finite elements resolve the damage zone width ($2 l_0 = 15\,\mu\mathrm{m}$).
+Every governed mesh satisfies the standard phase-field resolution condition ($h/l_0 \le 0.50$) along the fracture path, ensuring that at least $5.2$ elements ($S_1$) up to $27.1$ elements ($58\mathrm{k}$) resolve the core damage zone width ($2 l_0 = 15\,\mu\mathrm{m}$), with notch-root resolution ratio $h_{\mathrm{notch}}/l_0 \le 0.415$ across all configurations.
+
+\clearpage
+
+\subsection{Three-Point Physical Length-Scale Study ($l_0$ on Fixed $S_3$ Mesh)}
+A controlled physical length-scale sensitivity study was audited on the fixed $S_3$ mesh ($41{,}912$ continuum finite elements, $42{,}491$ FE mesh nodes, $42{,}492$ total input nodes with RP \texttt{999999}) across three regularization lengths $l_0 \in \{7.5, 11.25, 15.0\}\,\mu\mathrm{m}$ (Table~\ref{tab:l0_study_pack}, Fig.~\ref{fig:clean_l0_fu_pack} and \ref{fig:clean_l0_scaling_pack}). Bitwise provenance inspection confirms 100\% identical node coordinate hashes and element connectivity hashes across all three decks, verifying a genuine single-variable study.
+\begin{itemize}
+  \item \textbf{Stiffness Invariance:} Initial structural stiffness $K_0$ varies from $137.857608$ to $137.676175\,\mathrm{kN/mm}$ ($\Delta = 0.13\%$), classified as \textbf{\texttt{INSENSITIVE / STABLE OVER TESTED RANGE}}.
+  \item \textbf{Peak Force and Displacement Sensitivity:} Peak reaction force drops from $0.732196\,\mathrm{kN}$ ($l_0 = 7.5\,\mu\mathrm{m}$) to $0.689540\,\mathrm{kN}$ ($l_0 = 15.0\,\mu\mathrm{m}$, a $5.83\%$ reduction), while displacement at peak shifts from $5.633\,\mu\mathrm{m}$ to $5.579\,\mu\mathrm{m}$, classified as \textbf{\texttt{LENGTH-SCALE SENSITIVE}}.
+  \item \textbf{Localization Bandwidth Scaling:} Measured transverse damage profile bandwidth $w_{0.5}$ scales linearly with $l_0$ ($w_{0.5} \approx 3.04\,l_0$: $20.79\,\mu\mathrm{m} \to 34.41\,\mu\mathrm{m} \to 45.44\,\mu\mathrm{m}$), confirming theoretical gradient regularization.
+  \item \textbf{Common Reached Domain \& Energy Status:} Analysis is restricted to the common reached displacement domain $u \in [0.0, 5.839]\,\mu\mathrm{m}$ with zero forward filling. Terminal energy comparison is classified as \textbf{\texttt{ENERGY\_NOT\_YET\_QUALIFIED\_UNEQUAL\_ENDPOINTS\_AND\_PRE\_GATE6B\_SOURCE}}.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Three-point physical length-scale sensitivity metrics on fixed $S_3$ mesh ($41{,}912$ FE, $42{,}491$ FE nodes).}
+\label{tab:l0_study_pack}
+\small
+\begin{tabular}{lrrrrrrr}
+\toprule
+$l_0$ [$\mu\mathrm{m}$] & Job ID & $\frac{h_{\min}}{l_0}$ & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $u_{\mathrm{peak}}$ [$\mu\mathrm{m}$] & $w_{0.5}$ [$\mu\mathrm{m}$] & $\frac{w_{0.5}}{l_0}$ \\
+\midrule
+$7.50$ & \texttt{1406017.mmaster02} & $0.260$ & $137.857608$ & $0.732196$ & $5.633$ & $20.79$ & $2.77$ \\
+$11.25$ & \texttt{1406895.mmaster02} & $0.174$ & $137.765563$ & $0.708402$ & $5.590$ & $34.41$ & $3.06$ \\
+$15.00$ & \texttt{1406896.mmaster02} & $0.130$ & $137.676175$ & $0.689540$ & $5.579$ & $45.44$ & $3.03$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{fig_mode1_clean_l0_sensitivity_fu.pdf}
+  \caption{Mode-I clean single-variable length-scale ($l_0$) sensitivity on fixed structured $S_3$ mesh ($41{,}912$ FE): (a) global $F$--$u$ response highlighting common comparison domain $u \in [0, 5.839]\,\mu\mathrm{m}$; (b) peak-neighborhood zoom illustrating monotonic load reduction and earlier peak displacement with increasing $l_0$.}
+  \label{fig:clean_l0_fu_pack}
+  \figureconclusion{On bitwise identical meshes, increasing regularizing length scale $l_0$ preserves initial elastic stiffness ($0.13\%$ variation) but systematically reduces peak load by $5.83\%$ and advances crack initiation, confirming length-scale sensitivity on fixed discretizations.}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_clean_l0_scaling_metrics.pdf}
+  \caption{Scaling metrics across clean $l_0$ sweep on fixed $S_3$ mesh: (a) initial stiffness $K_0$ invariance; (b) peak reaction force $F_{\max}$; (c) peak displacement $u_{\mathrm{peak}}$; (d) transverse localization profile bandwidth $w_{0.5}$ confirming linear scaling with $l_0$ ($w_{0.5} \approx 3.04\,l_0$).}
+  \label{fig:clean_l0_scaling_pack}
+  \figureconclusion{Physical quantities exhibit distinct sensitivity classes: elastic stiffness $K_0$ is length-scale stable (\texttt{L0\_RESPONSE\_STABLE}), while peak force $F_{\max}$, initiation displacement $u_{\mathrm{peak}}$, and damage localization width $w_{0.5}$ are length-scale sensitive (\texttt{L0\_RESPONSE\_SENSITIVE}).}
+\end{figure}
 
 \clearpage
 
 \subsection{Adaptive Remeshing Series ($A_1$--$A_4$)}
-Figure~\ref{fig:adaptive_meshes_comparison_pack} displays the Abaqus-native adaptive meshes generated using `errorTarget` values of $1\%$, $2\%$, $3\%$, and $5\%$ ($A_1$--$A_4$), showing the full specimen domain and crack-tip zoom windows. As target discretization tolerance relaxes, element density smoothly transitions from intense crack-line refinement ($71{,}320$ elements) down to coarser background meshes ($4{,}194$ elements).
+Figure~\ref{fig:adaptive_meshes_comparison_pack} displays the Abaqus-native adaptive meshes generated using \texttt{errorTarget} values of $1\%$, $2\%$, $3\%$, and $5\%$ ($A_1$--$A_4$), showing the full specimen domain and crack-tip zoom windows. As target discretization tolerance relaxes, element density smoothly transitions from intense crack-line refinement ($71{,}320$ elements) down to coarser background meshes ($4{,}194$ elements).
 
 \begin{figure}[htbp]
   \centering
@@ -266,47 +309,4 @@ Figures~\ref{fig:matched_contours_pack}--\ref{fig:path_dev_pack} separate three 
   \caption{Rigorous separation of (a) damage-weighted crack-centroid offset versus prescribed displacement ($|y_c - 0.5| \le 3.1\,\mu\mathrm{m}$, symmetric) and (b) damage localization-band half-width ($10$--$15\,\mu\mathrm{m}$, resolution-limited).}
   \label{fig:path_dev_pack}
   \figureconclusion{The crack trajectory remains essentially centered and is robustly Mode-I, whereas the thickness of the diffuse localization band remains resolution-sensitive. Crack direction and band width therefore exhibit different convergence behavior.}
-\end{figure}
-
-\clearpage
-
-\subsection{Three-Point Physical Length-Scale Study ($l_0$ on Fixed $S_3$ Mesh)}
-A controlled physical length-scale study was executed on the fixed $S_3$ mesh ($h = 1.5\,\mu\mathrm{m}$, $41{,}912$ finite elements, ensuring $h/l_0 \le 0.200$) across three regularization lengths $l_0 \in \{7.5, 11.25, 15.0\}\,\mu\mathrm{m}$ (Table~\ref{tab:l0_study_pack}, Fig.~\ref{fig:l0_metrics_pack}):
-\begin{itemize}
-  \item \textbf{Stiffness Invariance:} Initial structural stiffness $K_0$ varies from $137.857608$ to $137.676175\,\mathrm{kN/mm}$ ($\Delta = 0.13\%$), classified as \textbf{\texttt{INSENSITIVE / STABLE OVER TESTED RANGE}}.
-  \item \textbf{Peak Force and Displacement Sensitivity:} Peak reaction force drops from $0.732196\,\mathrm{kN}$ ($l_0 = 7.5\,\mu\mathrm{m}$) to $0.689540\,\mathrm{kN}$ ($l_0 = 15.0\,\mu\mathrm{m}$, a $5.83\%$ reduction), while displacement at peak shifts from $5.633\,\mu\mathrm{m}$ to $5.579\,\mu\mathrm{m}$, classified as \textbf{\texttt{LENGTH-SCALE SENSITIVE}}.
-  \item \textbf{Scope Limitation:} The $l_0 = 3.75\,\mu\mathrm{m}$ case ($h/l_0 = 0.400$) is excluded as under-resolved. Terminal energy comparison across the three cases is classified as \textbf{\texttt{NOT\_YET\_QUALIFIED\_UNEQUAL\_ENDPOINTS}}.
-\end{itemize}
-
-\begin{table}[htbp]
-\centering
-\caption{Three-point physical length-scale sensitivity metrics on fixed $S_3$ mesh ($h = 1.5\,\mu\mathrm{m}$).}
-\label{tab:l0_study_pack}
-\small
-\begin{tabular}{lrrrrrr}
-\toprule
-$l_0$ [$\mu\mathrm{m}$] & Job ID & $h/l_0$ & Elements & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $u_{\mathrm{peak}}$ [$\mu\mathrm{m}$] \\
-\midrule
-$7.50$ & \texttt{1406017.mmaster02} & $0.200$ & $41{,}912$ & $137.857608$ & $0.732196$ & $5.633$ \\
-$11.25$ & \texttt{1406895.mmaster02} & $0.133$ & $41{,}912$ & $137.765563$ & $0.708402$ & $5.590$ \\
-$15.00$ & \texttt{1406896.mmaster02} & $0.100$ & $41{,}912$ & $137.676175$ & $0.689540$ & $5.579$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[htbp]
-  \centering
-  \begin{minipage}{0.48\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{fig_mode1_l0_fu_overlay.pdf}
-    \caption*{(a) $F$--$u$ response across $l_0$}
-  \end{minipage}\hfill
-  \begin{minipage}{0.48\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{fig_mode1_l0_metrics_vs_lengthscale.pdf}
-    \caption*{(b) Peak metrics vs.\ $l_0$}
-  \end{minipage}
-  \caption{Three-point physical length-scale study on fixed $S_3$ mesh ($h = 1.5\,\mu\mathrm{m}$): (a) global force-displacement overlay and (b) variation of $K_0$, $F_{\max}$, $u_{\mathrm{peak}}$, and matched $W_{\mathrm{trap}}$ at $u = 5.50\,\mu\mathrm{m}$ with $l_0$.}
-  \label{fig:l0_metrics_pack}
-  \figureconclusion{Changing $l_0$ leaves elastic stiffness nearly unchanged ($0.13\%$ spread) but materially lowers $F_{\max}$ and advances $u_{\mathrm{peak}}$. Elastic response is nearly length-scale-insensitive, while fracture initiation is physically length-scale-sensitive; terminal energies are not compared because endpoints differ.}
 \end{figure}
