@@ -1,0 +1,72 @@
+{
+  "package_id": "PKG-30-STAGE14-ADAPTIVE-SPATIAL-FINE-FRACTURE",
+  "task_id": "F1222-GATE6B-STAGE14UAM-CONTROLLED-SPATIAL-CONVERGENCE-20261004",
+  "created_at": "2026-10-04T18:20:00+02:00",
+  "package_directory": "models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine",
+  "scientific_objective": "Controlled spatial-resolution convergence study with minElementSize=0.0005 mm (0.5 um resolution floor) under frozen errorTarget=1.0%, refinementFactor=10, and maxElementSize=0.020 mm",
+  "mesh_topology": {
+    "total_base_elements": 57929,
+    "quad_elements": 56339,
+    "tri_elements": 1590,
+    "total_base_nodes": 57491,
+    "total_3layer_elements": 173787,
+    "h_min_mm": 0.0005534655816269079,
+    "h_median_mm": 0.0030961926239469677,
+    "h_min_over_l0": 0.07379541088358772,
+    "seam_duplicate_pairs": 97,
+    "seam_singletons": 1,
+    "crack_corridor_elements": 8435,
+    "crack_corridor_fraction": 0.14560928032591622,
+    "localization_classification": "DIFFUSE_REFINEMENT"
+  },
+  "physical_constants": {
+    "E_GPa": 210.0,
+    "nu": 0.3,
+    "Gc_kN_per_mm": 0.0027,
+    "l0_mm": 0.0075,
+    "eta": 1.0e-7
+  },
+  "solver_controls": {
+    "step1_inc": 2500,
+    "step1_dt_init": 0.0005,
+    "step1_dt_min": 1.0e-9,
+    "step1_u_target": 0.0050,
+    "step2_inc": 6000,
+    "step2_dt_init": 0.0002,
+    "step2_dt_min": 1.0e-9,
+    "step2_u_target": 0.0100,
+    "step2_controls": "4,10,9,20,10,4,0,10"
+  },
+  "subroutine_hash": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+  "input_deck_hash": "537c8c6617945afd66e135c1df4e2c34211f47fbeeec44e4c145a8551cc1eefd",
+  "files": {
+    "PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_FRACTURE.inp": {
+      "sha256": "537c8c6617945afd66e135c1df4e2c34211f47fbeeec44e4c145a8551cc1eefd",
+      "size_bytes": 9271970
+    },
+    "PK_M1_14AM_DATACHECK.inp": {
+      "sha256": "537c8c6617945afd66e135c1df4e2c34211f47fbeeec44e4c145a8551cc1eefd",
+      "size_bytes": 9271970
+    },
+    "PK_M1_STAGE14AM_RAW.inp": {
+      "sha256": "f30fb003e735d4ddd83cac7ba2a9d7389d81f99a8ccc3924d26a631f520a9c6f",
+      "size_bytes": 4028129
+    },
+    "f42_mixed_uel.for": {
+      "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+      "size_bytes": 29722
+    },
+    "job_notifications.sh": {
+      "sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+      "size_bytes": 10663
+    },
+    "submit_solver.pbs": {
+      "sha256": "4ae540da07581d22dfebd5c4369be243e3c3e1479a645a8fe4eef23d9fd50bda",
+      "size_bytes": 991
+    },
+    "submit_datacheck.pbs": {
+      "sha256": "16bc129c17430079e33309d12d64e768a14023ded67105c050bd07891838d077",
+      "size_bytes": 675
+    }
+  }
+}

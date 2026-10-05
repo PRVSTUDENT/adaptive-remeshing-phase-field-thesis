@@ -1,0 +1,362 @@
+{
+  "task_id": "F1221-GATE6B-STAGE14UAL-EVALUATOR-FREEZE-AND-DECISION-PROTOCOLS-20261004",
+  "evaluator": "evaluate_stage14ual_4thread_determinism.py",
+  "verdict": "THREAD_PARITY_PASS + THREAD_DETERMINISM_PASS + THREAD_PARALLELIZATION_QUALIFIED_4T",
+  "status_category": "FULLY_QUALIFIED",
+  "epistemic_boundary": {
+    "stage_a_vs_stage_b_purpose": "THREAD_DETERMINISM_ACROSS_DISTINCT_ALLOCATIONS",
+    "adaptive_vs_fixed_ref_purpose": "STRUCTURAL_COMPLIANCE_AND_MESH_REPRESENTATION",
+    "conflation_prevented": true
+  },
+  "comparison_summary": {
+    "common_increments_evaluated_nodes": 4890,
+    "common_increments_evaluated_energy": 4889,
+    "stage_b_terminal_displacement_mm": 0.007889,
+    "stage_a_terminal_displacement_mm": 0.007889,
+    "stage_b_vs_stage_a_max_abs_rf_kn": 0.0,
+    "stage_b_vs_stage_a_max_rel_rf_pct": 0.0,
+    "stage_b_vs_stage_a_max_abs_e_elas_mj": 0.0,
+    "stage_b_vs_stage_a_max_abs_e_frac_mj": 0.0,
+    "stage_b_vs_serial_max_abs_rf_kn": 0.0
+  },
+  "canonical_stiffness_k0": {
+    "stage_b": {
+      "k0_kn_per_mm": 137.9095578493475,
+      "intercept_kn": 4.479459686459464e-05,
+      "r2": 0.9999995980428739,
+      "n_points": 400
+    },
+    "stage_a": {
+      "k0_kn_per_mm": 137.9095578493475,
+      "intercept_kn": 4.479459686459464e-05,
+      "r2": 0.9999995980428739,
+      "n_points": 400
+    },
+    "serial_ref": {
+      "k0_kn_per_mm": 137.9095578493475,
+      "intercept_kn": 4.479459686459464e-05,
+      "r2": 0.9999995980428739,
+      "n_points": 400
+    },
+    "stage_b_vs_stage_a_k0_diff_pct": 0.0,
+    "stage_b_vs_serial_ref_k0_diff_pct": 0.0
+  },
+  "peak_characteristics": {
+    "stage_b": {
+      "f_max_kn": 0.74370082,
+      "u_peak_mm": 0.005733
+    },
+    "stage_a": {
+      "f_max_kn": 0.74370082,
+      "u_peak_mm": 0.005733
+    }
+  },
+  "predeclared_matched_states": [
+    {
+      "target_u_mm": 0.001,
+      "stage_b": {
+        "target_u_mm": 0.001,
+        "actual_u_mm": 0.001,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.13788817,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "stage_a": {
+        "target_u_mm": 0.001,
+        "actual_u_mm": 0.001,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.13788817,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "serial_ref": {
+        "target_u_mm": 0.001,
+        "actual_u_mm": 0.001,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.13788817,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "parity_status": "BITWISE_MATCH"
+    },
+    {
+      "target_u_mm": 0.003,
+      "stage_b": {
+        "target_u_mm": 0.003,
+        "actual_u_mm": 0.003,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.40829901,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "stage_a": {
+        "target_u_mm": 0.003,
+        "actual_u_mm": 0.003,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.40829901,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "serial_ref": {
+        "target_u_mm": 0.003,
+        "actual_u_mm": 0.003,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.40829901,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "parity_status": "BITWISE_MATCH"
+    },
+    {
+      "target_u_mm": 0.005,
+      "stage_b": {
+        "target_u_mm": 0.005,
+        "actual_u_mm": 0.005,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.66172539,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "stage_a": {
+        "target_u_mm": 0.005,
+        "actual_u_mm": 0.005,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.66172539,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "serial_ref": {
+        "target_u_mm": 0.005,
+        "actual_u_mm": 0.005,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.66172539,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "parity_status": "BITWISE_MATCH"
+    },
+    {
+      "target_u_mm": 0.005733,
+      "stage_b": {
+        "target_u_mm": 0.005733,
+        "actual_u_mm": 0.005733,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.74370082,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "stage_a": {
+        "target_u_mm": 0.005733,
+        "actual_u_mm": 0.005733,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.74370082,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "serial_ref": {
+        "target_u_mm": 0.005733,
+        "actual_u_mm": 0.005733,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.74370082,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "parity_status": "BITWISE_MATCH"
+    },
+    {
+      "target_u_mm": 0.005857,
+      "stage_b": {
+        "target_u_mm": 0.005857,
+        "actual_u_mm": 0.005857,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.068060095,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "stage_a": {
+        "target_u_mm": 0.005857,
+        "actual_u_mm": 0.005857,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.068060095,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "serial_ref": {
+        "target_u_mm": 0.005857,
+        "actual_u_mm": 0.005857,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.068060095,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "parity_status": "BITWISE_MATCH"
+    },
+    {
+      "target_u_mm": 0.006,
+      "stage_b": {
+        "target_u_mm": 0.006,
+        "actual_u_mm": 0.006,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.0019915968,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "stage_a": {
+        "target_u_mm": 0.006,
+        "actual_u_mm": 0.006,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.0019915968,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "serial_ref": {
+        "target_u_mm": 0.006,
+        "actual_u_mm": 0.006,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.0019915968,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "parity_status": "BITWISE_MATCH"
+    },
+    {
+      "target_u_mm": 0.0065,
+      "stage_b": {
+        "target_u_mm": 0.0065,
+        "actual_u_mm": 0.0065,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.0020623157,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "stage_a": {
+        "target_u_mm": 0.0065,
+        "actual_u_mm": 0.0065,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.0020623157,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "serial_ref": {
+        "target_u_mm": 0.0065,
+        "actual_u_mm": 0.0065,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.0020623157,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "parity_status": "BITWISE_MATCH"
+    },
+    {
+      "target_u_mm": 0.007,
+      "stage_b": {
+        "target_u_mm": 0.007,
+        "actual_u_mm": 0.007,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.002054838,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "stage_a": {
+        "target_u_mm": 0.007,
+        "actual_u_mm": 0.007,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.002054838,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "serial_ref": {
+        "target_u_mm": 0.007,
+        "actual_u_mm": 0.007,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.002054838,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "parity_status": "BITWISE_MATCH"
+    },
+    {
+      "target_u_mm": 0.007889,
+      "stage_b": {
+        "target_u_mm": 0.007889,
+        "actual_u_mm": 0.007889,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.0017644982,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "stage_a": {
+        "target_u_mm": 0.007889,
+        "actual_u_mm": 0.007889,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.0017644982,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "serial_ref": {
+        "target_u_mm": 0.007889,
+        "actual_u_mm": 0.007889,
+        "step": 1,
+        "inc": 0,
+        "rf_kn": 0.0017644982,
+        "e_elas_mj": null,
+        "e_frac_mj": null,
+        "status": "REACHED"
+      },
+      "parity_status": "BITWISE_MATCH"
+    }
+  ]
+}

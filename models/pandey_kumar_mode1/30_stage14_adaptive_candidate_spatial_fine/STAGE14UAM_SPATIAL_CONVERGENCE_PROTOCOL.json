@@ -1,0 +1,100 @@
+{
+  "protocol_id": "GATE6B-STAGE14UAM-SPATIAL-CONVERGENCE-PROTOCOL-20261004",
+  "task_id": "F1222-GATE6B-STAGE14UAM-CONTROLLED-SPATIAL-CONVERGENCE-20261004",
+  "created_at": "2026-10-04T18:22:00+02:00",
+  "isolated_spatial_parameter": {
+    "parameter_name": "minElementSize",
+    "baseline_stage14_value_mm": 0.001,
+    "spatial_fine_candidate_value_mm": 0.0005,
+    "refinement_ratio": 2.0,
+    "baseline_h_min_mm": 0.00076,
+    "spatial_fine_h_min_mm": 0.0005534655816269079,
+    "baseline_h_min_over_l0": 0.1013,
+    "spatial_fine_h_min_over_l0": 0.0738
+  },
+  "frozen_invariants": {
+    "error_target_pct": 1.0,
+    "sizing_method": "UNIFORM_ERROR",
+    "refinement_factor": 10,
+    "coarsening_factor": "NOT_ALLOWED",
+    "max_element_size_mm": 0.020,
+    "region": "ALL_ELEM",
+    "preanalysis_odb": "PK_M1_JOB1_INF_COMPANION_2906.odb",
+    "subroutine_hash": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "solver_controls": "4,10,9,20,10,4,0,10"
+  },
+  "matched_rp_evaluation_states_mm": [
+    0.0050,
+    0.0055,
+    0.0060,
+    0.0065,
+    0.0070,
+    0.0075,
+    0.0080,
+    0.0085,
+    0.0090,
+    0.0100
+  ],
+  "evaluated_quantities": {
+    "initial_elastic_stiffness_K0": {
+      "definition": "Least-squares linear slope of F vs u over N=400 points in u in [0.0, 0.0020] mm",
+      "tolerance_pct": 0.50,
+      "pre_classification": "SPATIALLY_STABLE"
+    },
+    "peak_reaction_force_Fmax": {
+      "definition": "Maximum global reaction force RF2 on reference point RP",
+      "tolerance_pct": 3.0,
+      "pre_classification": "SPATIALLY_SENSITIVE"
+    },
+    "displacement_at_peak_u_peak": {
+      "definition": "Displacement u2 at peak reaction force",
+      "tolerance_pct": 2.0,
+      "pre_classification": "SPATIALLY_SENSITIVE"
+    },
+    "peak_phase_damage_dmax": {
+      "definition": "Maximum nodal/integration-point damage field value (SDV15 / SDV14)",
+      "tolerance_abs": 0.01,
+      "pre_classification": "SPATIALLY_STABLE"
+    },
+    "peak_history_variable_Hmax": {
+      "definition": "Maximum strain-history variable value (SDV16)",
+      "tolerance_pct": 5.0,
+      "pre_classification": "SPATIALLY_SENSITIVE"
+    },
+    "crack_tip_position_xtip": {
+      "definition": "X-coordinate where d = 0.95 along crack plane y = 0.5 mm",
+      "tolerance_abs_mm": 0.010,
+      "pre_classification": "SPATIALLY_SENSITIVE"
+    },
+    "ligament_damage_profile": {
+      "definition": "Damage distribution d(x) along uncracked ligament x in [0.5, 1.0] mm at y = 0.5 mm",
+      "pre_classification": "SPATIALLY_SENSITIVE"
+    },
+    "elastic_strain_energy_E_elas": {
+      "definition": "Volume integral of elastic strain energy density",
+      "tolerance_pct": 2.0,
+      "pre_classification": "SPATIALLY_STABLE"
+    },
+    "fracture_dissipation_energy_E_frac": {
+      "definition": "Volume integral of phase-field fracture surface energy density",
+      "tolerance_pct": 3.0,
+      "pre_classification": "SPATIALLY_SENSITIVE"
+    },
+    "external_work_W_ext": {
+      "definition": "Time integral of reaction force over displacement integral(F du)",
+      "tolerance_pct": 1.0,
+      "pre_classification": "SPATIALLY_STABLE"
+    },
+    "energy_bookkeeping_discrepancy_eps_book": {
+      "definition": "|W_ext - (E_elas + E_frac)| / max(W_ext, 1e-6)",
+      "target_threshold_pct": 2.0,
+      "pre_classification": "NOT_YET_QUALIFIED"
+    }
+  },
+  "acceptance_criteria": {
+    "K0_relative_difference_pct_max": 1.0,
+    "pre_peak_force_relative_difference_pct_max": 2.0,
+    "energy_bookkeeping_discrepancy_pct_max": 5.0,
+    "damage_monotonicity_enforced": true
+  }
+}

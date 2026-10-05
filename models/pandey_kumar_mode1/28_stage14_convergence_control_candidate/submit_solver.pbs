@@ -1,24 +1,35 @@
 #!/bin/bash
-#PBS -N PK_M1_14K_CC_SOLVE
-#PBS -l select=1:ncpus=1:mpiprocs=1:mem=16gb
+#PBS -N PK_M1_14K_CONV_CTRL
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
 #PBS -l walltime=24:00:00
-#PBS -q normal_imfdfkmq
-#PBS -j oe
-#PBS -m abe
 #PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -o PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL.out
+#PBS -e PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL.err
 
-cd /home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/28_stage14_convergence_control_candidate
-source /etc/profile.d/modules.sh 2>/dev/null || true
-module purge || true
-module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 || true
+set -euo pipefail
+cd /home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/28_stage14_convergence_control_candidate || exit 1
 
-# Notification setup
-export SCRIPT_DIR=$(pwd)
+if [ ! -f ./job_notifications.sh ]; then
+  echo "[LAUNCHER ERROR] job_notifications.sh missing" >&2
+  exit 10
+fi
+
 source ./job_notifications.sh
-export NOTIFICATION_CONFIG=~/.config/adaptive-remeshing/notifications.env
-notify_start
+notification_load_config || true
+notification_install_terminal_trap
+notify_start || true
 
-notification_install_terminal_trap "PK_M1_14K_CONV_CTRL_SOLVE"
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
 
+echo "=== STARTING SOLVER PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL ==="
 rm -f PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL.lck PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL.023
-/cluster/application/abaqus/2023/Commands/abaqus job=PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL input=PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL.inp user=f42_mixed_uel.for cpus=1 memory="16gb" double=both interactive
+abaqus job=PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL user=f42_mixed_uel.for input=PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL.inp cpus=1 memory="16gb" double=both interactive
+ABAQUS_EXIT=$?
+echo "=== FINISHED SOLVER PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL (EXIT: $ABAQUS_EXIT) ==="
+exit "$ABAQUS_EXIT"

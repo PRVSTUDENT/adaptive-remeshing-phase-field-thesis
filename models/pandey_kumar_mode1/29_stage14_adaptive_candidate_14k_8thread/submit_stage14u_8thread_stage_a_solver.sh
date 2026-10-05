@@ -9,10 +9,10 @@ if [ -f "./job_notifications.sh" ]; then
     notification_load_config || true
 fi
 
-echo "Submitting Package 28 Cn=0.50 Post-Fracture Convergence Control Diagnostic to PBS..."
+echo "Submitting 8-Thread Shared-Memory Stage-A Solver Job to PBS..."
 JOB_ID=$(qsub submit_solver.pbs)
 echo "Submitted PBS Job ID: $JOB_ID"
 
 if type notify_submitted >/dev/null 2>&1; then
-    notify_submitted "$JOB_ID" "PK_M1_14K_CONV_CTRL" "Package 28 Cn=0.50 Post-Fracture Convergence Control Diagnostic"
+    notify_submitted "$JOB_ID" "PK_M1_14K_8T" "8-Thread Shared-Memory Stage-A Adaptive Candidate"
 fi

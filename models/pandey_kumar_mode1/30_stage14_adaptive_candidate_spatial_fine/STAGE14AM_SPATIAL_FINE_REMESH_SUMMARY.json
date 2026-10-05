@@ -1,0 +1,68 @@
+{
+  "baseline_comparison": {
+    "baseline_stage14_elements": 14483, 
+    "stage14am_h_min_mm": 0.0005534655816269079, 
+    "baseline_stage14_h_min_mm": 0.00076, 
+    "stage14am_elements": 57929, 
+    "baseline_stage14_corridor_fraction": 0.5757, 
+    "stage14am_corridor_fraction": 0.14560928032591622
+  }, 
+  "status": "STAGE14UAM_SPATIAL_FINE_REMESH_COMPLETED", 
+  "audit_id": "GATE6B-STAGE14UAM-CONTROLLED-SPATIAL-CONVERGENCE-20261004", 
+  "localization_classification": "DIFFUSE_REFINEMENT", 
+  "caller_frame": "Step-1 frame_last (u=0.005 mm, PROJECT_CONTROLLED_FRAME)", 
+  "preanalysis_odb": "../93_mode1_preanalysis_inf_companion_2906/PK_M1_JOB1_INF_COMPANION_2906.odb", 
+  "coarse_mesh": {
+    "total_elements": 2963, 
+    "total_nodes": 3039
+  }, 
+  "spatial_morphology": {
+    "crack_corridor_count": 8435, 
+    "upper_far_field_count": 24526, 
+    "h_far_min_mm": 0.0005534655816269079, 
+    "ligament_count": 4852, 
+    "wake_count": 3583, 
+    "h_corridor_min_mm": 0.0007214143353803064, 
+    "h_corridor_median_mm": 0.0020544163343836188, 
+    "lower_far_field_count": 24968, 
+    "crack_corridor_fraction": 0.14560928032591622, 
+    "h_far_median_mm": 0.0032901571439421053, 
+    "far_field_total_count": 49494, 
+    "far_field_fraction": 0.8543907196740838
+  }, 
+  "seam_verification": {
+    "seam_duplicate_pairs": 97, 
+    "seam_singletons": 1, 
+    "tip_singleton_found": true
+  }, 
+  "sizing_contract": {
+    "sizing_method": "UNIFORM_ERROR", 
+    "error_target_pct": 1.0, 
+    "min_element_size_mm": 0.0005, 
+    "max_element_size_mm": 0.02, 
+    "coarsening_factor": "NOT_ALLOWED", 
+    "region": "ALL_ELEM (companion layer)", 
+    "refinement_factor": 10
+  }, 
+  "adapted_mesh": {
+    "h_over_l0_ratios": {
+      "min_h_over_l0": 0.07379541088358772, 
+      "median_h_over_l0": 0.41282568319292906, 
+      "mean_h_over_l0": 0.48759801889789467
+    }, 
+    "total_elements": 57929, 
+    "quad_elements": 56339, 
+    "h_eq_stats": {
+      "max_mm": 0.018343460788109275, 
+      "p90_mm": 0.006416278053098785, 
+      "p25_mm": 0.002103990821430754, 
+      "p10_mm": 0.0017720018347272234, 
+      "min_mm": 0.0005534655816269079, 
+      "p75_mm": 0.004713089197215348, 
+      "median_mm": 0.0030961926239469677, 
+      "mean_mm": 0.00365698514173421
+    }, 
+    "tri_elements": 1590, 
+    "total_nodes": 57491
+  }
+}

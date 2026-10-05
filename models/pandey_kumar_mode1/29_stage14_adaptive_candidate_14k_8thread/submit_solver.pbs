@@ -1,48 +1,35 @@
 #!/bin/bash
 #PBS -N PK_M1_14K_8T
-#PBS -l select=1:ncpus=8:mpiprocs=1:ompthreads=8:mem=16gb
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=8
+#PBS -l mem=16gb
 #PBS -l walltime=12:00:00
-#PBS -q normal_imfdfkmq
-#PBS -m abe
 #PBS -M pr21vyci@mailserver.tu-freiberg.de
-#PBS -j oe
+#PBS -m abe
+#PBS -o PK_M1_14K_8T.out
+#PBS -e PK_M1_14K_8T.err
 
-# ==============================================================================
-# Gate-6B Stage 14U-AL Package 29: 8-Thread Shared-Memory Adaptive 14K Solve
-# Single-rank shared-memory threading (1 rank x 8 threads, cpus=8, mp_mode=threads)
-# Status: SUBMISSION AND DATACHECK STRICTLY HELD PENDING STAGE-B DETERMINISM PASS
-# ==============================================================================
+set -euo pipefail
+cd /home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/29_stage14_adaptive_candidate_14k_8thread || exit 1
 
-set -eo pipefail
-
-cd "${PBS_O_WORKDIR}"
-
-# Source dual-channel notifications library
-if [ -f "./job_notifications.sh" ]; then
-    source "./job_notifications.sh"
-    notification_install_terminal_trap "PK_M1_14K_8T"
-    notify_start "PK_M1_14K_8T"
+if [ ! -f ./job_notifications.sh ]; then
+  echo "[LAUNCHER ERROR] job_notifications.sh missing" >&2
+  exit 10
 fi
 
-# Load required HPC modules
+source ./job_notifications.sh
+notification_load_config || true
+notification_install_terminal_trap
+notify_start || true
+
 module purge
+module load gcc/11.4.0
 module load intel/2024.2.0
 module load abaqus/2023
 
-# Set OpenMP threading environment
-export OMP_NUM_THREADS=8
-export MKL_NUM_THREADS=8
-
-echo "=== STARTING 8-THREAD SHARED-MEMORY ABAQUS SOLVER RUN ==="
-date
-echo "Node: $(hostname)"
-echo "CPUs allocated: 8 (1 rank x 8 threads)"
-echo "Input deck: PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp"
-echo "Subroutine: f42_mixed_uel.for"
-
-abaqus job=PK_M1_14K_8T input=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE user=f42_mixed_uel.for cpus=8 mp_mode=threads double standard interactive > pbs_execution.log 2>&1
-EXIT_CODE=$?
-
-echo "Abaqus solver finished with exit code ${EXIT_CODE}"
-date
-exit ${EXIT_CODE}
+echo "=== STARTING 8-THREAD SOLVER PK_M1_14K_8T (CPUs: 8, mp_mode=threads, Mem: 16GB) ==="
+rm -f PK_M1_14K_8T.lck PK_M1_14K_8T.023 uel_energy_balance.csv
+abaqus job=PK_M1_14K_8T user=f42_mixed_uel.for input=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp cpus=8 mp_mode=threads memory="16gb" double=both interactive
+ABAQUS_EXIT=$?
+echo "=== FINISHED 8-THREAD SOLVER PK_M1_14K_8T (EXIT: $ABAQUS_EXIT) ==="
+exit "$ABAQUS_EXIT"
