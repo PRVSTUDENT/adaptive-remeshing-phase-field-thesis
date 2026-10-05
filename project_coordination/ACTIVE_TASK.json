@@ -1,64 +1,56 @@
 {
-  "task_id": "F1235-HPC-STORAGE-MIGRATION-AUDIT-AND-GOVERNANCE-RECONCILIATION",
+  "task_id": "F1236-MODE1-ADAPTIVE-MESH-FIGURES-AND-HPC-STORAGE-AUDIT",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "stage": "HPC_STORAGE_MIGRATION_AUDIT_AND_GOVERNANCE_RECONCILIATION",
+  "stage": "MODE1_ADAPTIVE_MESH_FIGURES_AND_HPC_STORAGE_AUDIT",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "started_at": "2026-10-05T14:25:00+02:00",
-  "completed_at": "2026-10-05T14:35:00+02:00",
-  "description": "HPC storage migration queue completion and governance reconciliation: (1) Parallel migrator daemon PID 217191 completed with Exit 0 at 13:56:33, successfully migrating 1,025/1,025 candidate binary files (2,514,846,562,087 bytes = 2.29 TB) with 0 errors; (2) Verified /home/pr21vyci/projects/adaptive-remeshing contains exactly 0 unintended heavy binary solver outputs (34.57 GB total text/metadata remaining); (3) /home available space increased to 6.7 TB (67% used, down from 84%), /scratch9 21 TB free (39% used); (4) Job 1410178.mmaster02 completed Step 2 Frame 5021 (u_x = 0.01500 mm) on scratch9, executed frozen Stage 15C post-processing pipeline generating production Job-2_UEL.inp (21,496 base elements) with Abaqus datacheck Exit 0; (5) Jobs 1410179 and 1410180 running steadily in Step 1 with 0 cutbacks.",
-  "governing_verdict": "HPC_HOME_STORAGE_COMPLIANCE_CLOSED__SCRATCH_EXECUTION_AND_TWINS_VERIFIED",
-  "active_hpc_jobs": [
-    {
-      "job_id": "1410178.mmaster02",
-      "name": "M2_J1_UEL_PRE",
-      "cpus": 1,
-      "state": "Completed (Exit 0)",
-      "step_increment": "Step 2 Frame 5021 (u_x = 0.01500 mm, completed)",
-      "cutbacks": 0,
-      "iters_per_inc": 3,
-      "scratch_dir": "/scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis",
-      "scientific_verdict": "MODE2_STAGE15C_PREANALYSIS_COMPLETED_AND_ADAPTED_JOB2_DATACHECK_QUALIFIED_EXIT_0"
+  "started_at": "2026-10-05T14:45:00+02:00",
+  "completed_at": "2026-10-05T15:00:00+02:00",
+  "description": "Mode-I adaptive-remeshing errorTarget sensitivity (ET=2%, 3%, 5%) provenance verification, authentic finite-element mesh figure generation, native .inp deck export, and fresh HPC storage snapshot: (1) Verified 14,677 / 6,824 / 4,239 meshes belong to VERIFIED_CORRECTED_LINEAGE (PK_M1_JOB1_INF_COMPANION_2906.odb with N_BOTTOM fix); (2) Generated publication-quality wireframe mesh figures (Mode1_corrected_adaptive_mesh_ET2, ET3, ET5, and 3-case comparison PNG/PDF); (3) Exported native remeshed .inp decks to models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/; (4) Fresh HPC storage snapshot confirms /home available space 6.7 TB (67% used), /home/pr21vyci 117 GB with 0 heavy solver binaries in project tree, /scratch9 21 TB free (39% used); (5) Storage compliance remains CLOSED.",
+  "governing_verdict": "MODE1_CORRECTED_ADAPTIVE_MESH_FIGURES_AND_STORAGE_SNAPSHOT_VERIFIED",
+  "adaptive_mesh_summary": {
+    "ET2": {
+      "error_target_pct": 2.0,
+      "finite_elements": 14677,
+      "nodes": 14646,
+      "h_min_um": 0.767,
+      "h_median_um": 6.071,
+      "lineage": "VERIFIED_CORRECTED_LINEAGE",
+      "deck_file": "models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_20PCT.inp",
+      "png_figure": "results/figures/mode1_gate6b/Mode1_corrected_adaptive_mesh_ET2.png"
     },
-    {
-      "job_id": "1410179.mmaster02",
-      "name": "PK_M1_14AM_SOLVE",
-      "cpus": 1,
-      "state": "Running",
-      "step_increment": "Step 1 Inc 530+ (u_y = 0.001325 mm / 0.0050 mm)",
-      "cutbacks": 0,
-      "iters_per_inc": 3,
-      "scratch_dir": "/scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine",
-      "scientific_verdict": "EXACT_SCIENTIFIC_TWIN_SOLVING_STEADILY"
+    "ET3": {
+      "error_target_pct": 3.0,
+      "finite_elements": 6824,
+      "nodes": 6871,
+      "h_min_um": 0.420,
+      "h_median_um": 11.186,
+      "lineage": "VERIFIED_CORRECTED_LINEAGE",
+      "deck_file": "models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_30PCT.inp",
+      "png_figure": "results/figures/mode1_gate6b/Mode1_corrected_adaptive_mesh_ET3.png"
     },
-    {
-      "job_id": "1410180.mmaster02",
-      "name": "PK_M1_14K_CONV_CTRL",
-      "cpus": 1,
-      "state": "Running",
-      "step_increment": "Step 1 Inc 1116+ (u_y = 0.002790 mm / 0.0050 mm)",
-      "cutbacks": 0,
-      "iters_per_inc": 3,
-      "scratch_dir": "/scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/28_stage14_convergence_control_candidate",
-      "scientific_verdict": "EXACT_SCIENTIFIC_TWIN_SOLVING_STEADILY"
-    }
-  ],
-  "storage_migration_status": {
-    "daemon_pid": 217191,
-    "state": "COMPLETED_NATURALLY",
-    "exit_status": 0,
-    "volume_transferred_gb": "2514.85 GB (2.29 TB, 100% of candidate volume)",
-    "total_candidates": 1025,
-    "completed_files": 1025,
-    "failed_files": 0,
-    "remaining_queue": 0,
-    "unintended_binaries_in_home": 0,
-    "home_free_space_tb": "6.7 TB (67% used, down from 84%)",
-    "scratch9_free_space_tb": "21 TB (39% used)"
+    "ET5": {
+      "error_target_pct": 5.0,
+      "finite_elements": 4239,
+      "nodes": 4313,
+      "h_min_um": 1.351,
+      "h_median_um": 15.827,
+      "lineage": "VERIFIED_CORRECTED_LINEAGE",
+      "deck_file": "models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_50PCT.inp",
+      "png_figure": "results/figures/mode1_gate6b/Mode1_corrected_adaptive_mesh_ET5.png"
+    },
+    "comparison_figure": "results/figures/mode1_gate6b/Mode1_corrected_adaptive_mesh_ET2_ET3_ET5_comparison.png"
   },
-  "thesis_build_status": {
-    "pages": 150,
-    "size_bytes": 32765849,
-    "pdf_compilation": "CLEAN_PASS"
+  "hpc_storage_snapshot": {
+    "timestamp": "2026-10-05T12:53:14Z",
+    "home_used_pct": "67%",
+    "home_free_tb": "6.7 TB",
+    "home_user_usage": "117 GB",
+    "scratch_user_usage": "48 KB",
+    "scratch9_user_usage": "7.8 TB",
+    "scratch9_free_tb": "21 TB (39% used)",
+    "scratch_free_tb": "32 TB (69% used)",
+    "unintended_heavy_binaries_in_home": 0,
+    "status": "HPC_HOME_STORAGE_COMPLIANCE_CLOSED__SCRATCH_EXECUTION_AND_TWINS_VERIFIED"
   }
 }
