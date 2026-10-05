@@ -1,17 +1,15 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1243-MODE1-UEL-ENERGY-MECHANICAL-PARITY-QUALIFICATION",
-  "started_at": "2026-10-05T16:15:00+02:00",
-  "released_at": "2026-10-05T16:25:00+02:00",
-  "base_commit": "1de44c27",
-  "allowed_write_scope": [
-    "docs/methods/UEL_ENERGY_FORMULATION_AND_BALANCE_AUDIT.md",
-    "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/**",
-    "docs/thesis/**",
-    "tests/unit/**",
+  "task_id": "F1244-MODE1-ACTIVE-SOLVER-TERMINAL-CHECKPOINT-AND-EVALUATION",
+  "start_commit": "4821f4d42aa1e4278b514d31b736a70e50a3c6a1",
+  "write_scope": [
     "project_coordination/**",
-    "results/**"
+    "docs/**",
+    "models/**",
+    "scripts/**",
+    "tests/**"
   ],
-  "reason": "Completed full 7,000-increment mechanical parity and source diff audit, proved non-invasiveness of energy instrumentation, promoted UEL energy status to UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE, added regression guard in test suite (9/9 pass 100%), updated supervisor report and thesis, and finalized ledgers."
+  "started_at": "2026-10-05T16:25:00+02:00",
+  "completed_at": "2026-10-05T16:35:00+02:00"
 }
