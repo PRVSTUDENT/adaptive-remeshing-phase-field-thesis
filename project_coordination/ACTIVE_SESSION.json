@@ -1,17 +1,18 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1257-MODE1-PARALLEL-QUALIFICATION-EVIDENTIARY-RIGOR-CORRECTION",
-  "claimed_at": "2026-10-05T19:00:00+02:00",
-  "starting_commit": "9492a2cf6232bfb0c5287eab4fdf9b49af4aa194",
+  "task_id": "F1258-MODE1-ACTIVE-SOLVER-TERMINAL-CHECKPOINT-AND-EVALUATION",
+  "claimed_at": "2026-10-05T19:08:00+02:00",
+  "starting_commit": "ba72389fb32d160b61a91b4702dbbfa8ebc516bd",
   "allowed_write_scope": [
     "project_coordination/**",
     "docs/methods/**",
-    "scripts/hpc/templates/**",
-    "models/pandey_kumar_mode1/commands.txt",
-    "tests/unit/**",
+    "docs/supervisor_reports/**",
     "docs/MA_AdaptiveRemeshing_Report_2026_main/**",
-    "docs/supervisor_reports/**"
+    "models/pandey_kumar_mode1/**",
+    "scripts/**",
+    "tests/unit/**",
+    "results/**"
   ],
-  "session_report": "project_coordination/sessions/2026-10-05_2200_gemini-antigravity_F1257-MODE1-PARALLEL-QUALIFICATION-EVIDENTIARY-RIGOR-CORRECTION.md"
+  "session_report": "project_coordination/sessions/2026-10-05_2230_gemini-antigravity_F1258-MODE1-ACTIVE-SOLVER-TERMINAL-CHECKPOINT-AND-EVALUATION.md"
 }

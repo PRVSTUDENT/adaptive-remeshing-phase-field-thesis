@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-05T22:00:00+02:00` (Gemini Antigravity) — Task F1257 Mode-I parallel qualification evidentiary rigor and race overclaim correction completed: (1) corrected statement that bitwise parity proves zero data races, replacing with standard formulation: No observable thread race/order sensitivity was detected for the tested Mode-I formulation and controls; serial/8-thread bitwise parity and independent 8-thread repeat determinism were achieved; (2) preserved exact scoped qualification: `8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS`; (3) preserved distributed-memory MPI status: `TRUE_MULTIRANK_MPI_NOT_QUALIFIED` (isolated address spaces, rank-local unsynchronized `COMMON` state, not an ordinary shared-memory race); (4) audited all files modified in F1255/F1256 including methods audit, commands.txt, PBS templates, chapter04 LaTeX, and unit tests; (5) preserved 6-point provenance invalidation condition; (6) preserved exact numerical evidence ($T_1=17{,}609\,\text{s}$, $T_8=4{,}862\,\text{s}$, $S_8=3.62\times$, $\eta_8=45.3\%$, $4{,}890$ increments bitwise parity); (7) added `test_guard_against_bitwise_parity_as_proof_of_zero_races` with 14/14 tests passing; (8) 5 active Gate-6B production jobs (1410179, 1410180, 1410357, 1410358, 1410359) continue solving undisturbed on `mnode097`.
+Last updated: `2026-10-05T22:30:00+02:00` (Gemini Antigravity) — Task F1258 Mode-I active solver terminal checkpoint & evaluator readiness completed: (1) single non-invasive cluster query snapshot across 5 active Gate-6B production jobs (1410179 58k spatial fine, 1410180 Cn=0.50 diagnostic, 1410357 ET2 6,112 FE, 1410358 ET3 5,189 FE, 1410359 ET5 4,692 FE); (2) all 5 jobs actively solving in R state on mnode097 with zero cutbacks and 3 Newton iters/inc; (3) recorded exact solver step, increment, time, and reconstructed RP displacement under F1251 contract (1410179 Step 1 Inc 1441 uy=3.6025um; 1410180 Step 2 Inc 2110 uy=7.1100um; 1410357 Step 2 Inc 2817 uy=7.8170um; 1410358 Step 2 Inc 3361 uy=8.3610um; 1410359 Step 2 Inc 3568 uy=8.5680um); (4) verified zero terminal states reached, all jobs undisturbed without resubmission or 8-thread replacement; (5) verified frozen terminal evaluators and multi-quantity synthesis schema standing by; (6) 8-thread SMP empirical qualification and MPI disqualification preserved.
 
 ---
 
@@ -64,12 +64,11 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
 
 | PBS Job ID | Target Discretization / Purpose | Status | Step / Inc | Prescribed $u_y$ | Newton Iters / Cutbacks | Nodes / Queue | Elapsed Walltime |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| `1410179.mmaster02` | `PK_M1_14AM_SOLVE` (Spatial Fine 58k, $57{,}929$ FE) | `RUNNING` | Step 1 Inc 1334 | $u_y = 3.3350\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $07:27$ |
-| `1410180.mmaster02` | `PK_M1_14K_CONV_CTRL` (Adaptive ET1 $14\text{k}$, $C_n = 0.50$) | `RUNNING` | Step 2 Inc 1779 | $u_y = 6.7650\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $07:27$ |
-| `1410357.mmaster02` | `PK_M1_14ET2_SOLVE` (Adaptive ET2, $6{,}112$ FE) | `RUNNING` | Step 2 Inc 1962 | $u_y = 6.9500\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $02:57$ |
-| `1410358.mmaster02` | `PK_M1_14ET3_SOLVE` (Adaptive ET3, $5{,}189$ FE) | `RUNNING` | Step 2 Inc 2499 | $u_y = 7.4800\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $02:57$ |
-| `1410359.mmaster02` | `PK_M1_14ET5_SOLVE` (Adaptive ET5, $4{,}692$ FE) | `RUNNING` | Step 2 Inc 2736 | $u_y = 7.7350\,\mu\text{m}$ | $4$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $02:57$ |
-
+| `1410179.mmaster02` | `PK_M1_14AM_SOLVE` (Spatial Fine 58k, $57{,}929$ FE) | `RUNNING` | Step 1 Inc 1441 | $u_y = 3.6025\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $08:02$ |
+| `1410180.mmaster02` | `PK_M1_14K_CONV_CTRL` (Adaptive ET1 $14\text{k}$, $C_n = 0.50$) | `RUNNING` | Step 2 Inc 2110 | $u_y = 7.1100\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $08:02$ |
+| `1410357.mmaster02` | `PK_M1_14ET2_SOLVE` (Adaptive ET2, $6{,}112$ FE) | `RUNNING` | Step 2 Inc 2817 | $u_y = 7.8170\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $03:31$ |
+| `1410358.mmaster02` | `PK_M1_14ET3_SOLVE` (Adaptive ET3, $5{,}189$ FE) | `RUNNING` | Step 2 Inc 3361 | $u_y = 8.3610\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $03:31$ |
+| `1410359.mmaster02` | `PK_M1_14ET5_SOLVE` (Adaptive ET5, $4{,}692$ FE) | `RUNNING` | Step 2 Inc 3568 | $u_y = 8.5680\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $03:31$ |
 ---
 
 ## 3. Scope Holds & Governance Matrix
