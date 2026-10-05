@@ -1,0 +1,656 @@
+{
+  "0.001000": {
+    "label": "Linear Elastic (u=1.0 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.137924,
+        "w_ext_mJ": 0.069017,
+        "e_elas_mJ": 0.068962,
+        "e_frac_mJ": 5.6e-05,
+        "e_model_mJ": 0.069018,
+        "delta_book_mJ": -1e-06,
+        "eps_book_pct": 0.0008
+      },
+      "ET1_14k": {
+        "status": "REACHED",
+        "rf_kN": 0.137888,
+        "w_ext_mJ": 0.069,
+        "e_elas_mJ": 0.068944,
+        "e_frac_mJ": 5.6e-05,
+        "e_model_mJ": 0.069,
+        "delta_book_mJ": -0.0,
+        "eps_book_pct": 0.0001
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.137956,
+        "w_ext_mJ": 0.069034,
+        "e_elas_mJ": 0.068978,
+        "e_frac_mJ": 5.6e-05,
+        "e_model_mJ": 0.069034,
+        "delta_book_mJ": -0.0,
+        "eps_book_pct": 0.0002
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.137988,
+        "w_ext_mJ": 0.069049,
+        "e_elas_mJ": 0.068994,
+        "e_frac_mJ": 5.6e-05,
+        "e_model_mJ": 0.06905,
+        "delta_book_mJ": -0.0,
+        "eps_book_pct": 0.0002
+      }
+    }
+  },
+  "0.003000": {
+    "label": "Linear Elastic (u=3.0 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.408418,
+        "w_ext_mJ": 0.617152,
+        "e_elas_mJ": 0.612627,
+        "e_frac_mJ": 0.004534,
+        "e_model_mJ": 0.617162,
+        "delta_book_mJ": -1e-05,
+        "eps_book_pct": 0.0015
+      },
+      "ET1_14k": {
+        "status": "REACHED",
+        "rf_kN": 0.408299,
+        "w_ext_mJ": 0.616984,
+        "e_elas_mJ": 0.612449,
+        "e_frac_mJ": 0.004543,
+        "e_model_mJ": 0.616991,
+        "delta_book_mJ": -8e-06,
+        "eps_book_pct": 0.0012
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.408502,
+        "w_ext_mJ": 0.617289,
+        "e_elas_mJ": 0.612754,
+        "e_frac_mJ": 0.004547,
+        "e_model_mJ": 0.6173,
+        "delta_book_mJ": -1.1e-05,
+        "eps_book_pct": 0.0018
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.408598,
+        "w_ext_mJ": 0.617432,
+        "e_elas_mJ": 0.612897,
+        "e_frac_mJ": 0.004547,
+        "e_model_mJ": 0.617444,
+        "delta_book_mJ": -1.3e-05,
+        "eps_book_pct": 0.002
+      }
+    }
+  },
+  "0.005000": {
+    "label": "Pre-Peak Limit (u=5.0 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.662052,
+        "w_ext_mJ": 1.691586,
+        "e_elas_mJ": 1.65513,
+        "e_frac_mJ": 0.036541,
+        "e_model_mJ": 1.691671,
+        "delta_book_mJ": -8.5e-05,
+        "eps_book_pct": 0.005
+      },
+      "ET1_14k": {
+        "status": "REACHED",
+        "rf_kN": 0.661725,
+        "w_ext_mJ": 1.691029,
+        "e_elas_mJ": 1.654313,
+        "e_frac_mJ": 0.036786,
+        "e_model_mJ": 1.691099,
+        "delta_book_mJ": -7e-05,
+        "eps_book_pct": 0.0041
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.662121,
+        "w_ext_mJ": 1.691899,
+        "e_elas_mJ": 1.655302,
+        "e_frac_mJ": 0.036696,
+        "e_model_mJ": 1.691999,
+        "delta_book_mJ": -9.9e-05,
+        "eps_book_pct": 0.0059
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.662314,
+        "w_ext_mJ": 1.692313,
+        "e_elas_mJ": 1.655786,
+        "e_frac_mJ": 0.03664,
+        "e_model_mJ": 1.692426,
+        "delta_book_mJ": -0.000112,
+        "eps_book_pct": 0.0066
+      }
+    }
+  },
+  "0.005500": {
+    "label": "Damage Onset (u=5.5 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.720657,
+        "w_ext_mJ": 2.037391,
+        "e_elas_mJ": 1.981806,
+        "e_frac_mJ": 0.05572,
+        "e_model_mJ": 2.037526,
+        "delta_book_mJ": -0.000135,
+        "eps_book_pct": 0.0066
+      },
+      "ET1_14k": {
+        "status": "REACHED",
+        "rf_kN": 0.720015,
+        "w_ext_mJ": 2.036614,
+        "e_elas_mJ": 1.980041,
+        "e_frac_mJ": 0.056685,
+        "e_model_mJ": 2.036725,
+        "delta_book_mJ": -0.000112,
+        "eps_book_pct": 0.0055
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.720676,
+        "w_ext_mJ": 2.037728,
+        "e_elas_mJ": 1.981858,
+        "e_frac_mJ": 0.056022,
+        "e_model_mJ": 2.037879,
+        "delta_book_mJ": -0.000151,
+        "eps_book_pct": 0.0074
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.720977,
+        "w_ext_mJ": 2.038259,
+        "e_elas_mJ": 1.982688,
+        "e_frac_mJ": 0.055745,
+        "e_model_mJ": 2.038433,
+        "delta_book_mJ": -0.000174,
+        "eps_book_pct": 0.0085
+      }
+    }
+  },
+  "0.005733": {
+    "label": "ET1 Peak (u=5.733 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.746431,
+        "w_ext_mJ": 2.20834,
+        "e_elas_mJ": 2.139644,
+        "e_frac_mJ": 0.068861,
+        "e_model_mJ": 2.208505,
+        "delta_book_mJ": -0.000165,
+        "eps_book_pct": 0.0075
+      },
+      "ET1_14k": {
+        "status": "REACHED",
+        "rf_kN": 0.743701,
+        "w_ext_mJ": 2.207314,
+        "e_elas_mJ": 2.131815,
+        "e_frac_mJ": 0.075642,
+        "e_model_mJ": 2.207456,
+        "delta_book_mJ": -0.000142,
+        "eps_book_pct": 0.0064
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.746417,
+        "w_ext_mJ": 2.208678,
+        "e_elas_mJ": 2.139605,
+        "e_frac_mJ": 0.069249,
+        "e_model_mJ": 2.208854,
+        "delta_book_mJ": -0.000176,
+        "eps_book_pct": 0.008
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.746954,
+        "w_ext_mJ": 2.209299,
+        "e_elas_mJ": 2.141143,
+        "e_frac_mJ": 0.068362,
+        "e_model_mJ": 2.209505,
+        "delta_book_mJ": -0.000206,
+        "eps_book_pct": 0.0093
+      }
+    }
+  },
+  "0.005857": {
+    "label": "Ref Peak (u=5.857 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.757778,
+        "w_ext_mJ": 2.301667,
+        "e_elas_mJ": 2.219151,
+        "e_frac_mJ": 0.08269,
+        "e_model_mJ": 2.301841,
+        "delta_book_mJ": -0.000173,
+        "eps_book_pct": 0.0075
+      },
+      "ET1_14k": {
+        "status": "REACHED",
+        "rf_kN": 0.06806,
+        "w_ext_mJ": 2.263291,
+        "e_elas_mJ": 0.199314,
+        "e_frac_mJ": 2.130909,
+        "e_model_mJ": 2.330223,
+        "delta_book_mJ": -0.066932,
+        "eps_book_pct": 2.8724
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.75848,
+        "w_ext_mJ": 2.302013,
+        "e_elas_mJ": 2.221201,
+        "e_frac_mJ": 0.080983,
+        "e_model_mJ": 2.302185,
+        "delta_book_mJ": -0.000172,
+        "eps_book_pct": 0.0075
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.75988,
+        "w_ext_mJ": 2.302735,
+        "e_elas_mJ": 2.225307,
+        "e_frac_mJ": 0.077642,
+        "e_model_mJ": 2.302949,
+        "delta_book_mJ": -0.000214,
+        "eps_book_pct": 0.0093
+      }
+    }
+  },
+  "0.005876": {
+    "label": "ET3 Peak (u=5.876 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.718006,
+        "w_ext_mJ": 2.315922,
+        "e_elas_mJ": 2.109501,
+        "e_frac_mJ": 0.198943,
+        "e_model_mJ": 2.308445,
+        "delta_book_mJ": 0.007477,
+        "eps_book_pct": 0.3229
+      },
+      "ET1_14k": {
+        "status": "REACHED",
+        "rf_kN": 0.001965,
+        "w_ext_mJ": 2.263362,
+        "e_elas_mJ": 0.005772,
+        "e_frac_mJ": 2.28322,
+        "e_model_mJ": 2.288992,
+        "delta_book_mJ": -0.025629,
+        "eps_book_pct": 1.1197
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.759407,
+        "w_ext_mJ": 2.316435,
+        "e_elas_mJ": 2.231134,
+        "e_frac_mJ": 0.085456,
+        "e_model_mJ": 2.316591,
+        "delta_book_mJ": -0.000155,
+        "eps_book_pct": 0.0067
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.761708,
+        "w_ext_mJ": 2.31719,
+        "e_elas_mJ": 2.237896,
+        "e_frac_mJ": 0.079506,
+        "e_model_mJ": 2.317402,
+        "delta_book_mJ": -0.000212,
+        "eps_book_pct": 0.0092
+      }
+    }
+  },
+  "0.005926": {
+    "label": "ET5 Peak (u=5.926 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.420179,
+        "w_ext_mJ": 2.344328,
+        "e_elas_mJ": 1.24499,
+        "e_frac_mJ": 1.122448,
+        "e_model_mJ": 2.367438,
+        "delta_book_mJ": -0.023109,
+        "eps_book_pct": 0.9761
+      },
+      "ET1_14k": {
+        "status": "REACHED",
+        "rf_kN": 0.001979,
+        "w_ext_mJ": 2.263461,
+        "e_elas_mJ": 0.005863,
+        "e_frac_mJ": 2.283226,
+        "e_model_mJ": 2.289089,
+        "delta_book_mJ": -0.025628,
+        "eps_book_pct": 1.1196
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.602178,
+        "w_ext_mJ": 2.350868,
+        "e_elas_mJ": 1.784255,
+        "e_frac_mJ": 0.565138,
+        "e_model_mJ": 2.349393,
+        "delta_book_mJ": 0.001475,
+        "eps_book_pct": 0.0627
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.7654,
+        "w_ext_mJ": 2.355382,
+        "e_elas_mJ": 2.267876,
+        "e_frac_mJ": 0.087686,
+        "e_model_mJ": 2.355562,
+        "delta_book_mJ": -0.000181,
+        "eps_book_pct": 0.0077
+      }
+    }
+  },
+  "0.006000": {
+    "label": "Post-Peak Softening (u=6.0 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.000546,
+        "w_ext_mJ": 2.357902,
+        "e_elas_mJ": 0.001639,
+        "e_frac_mJ": 2.338772,
+        "e_model_mJ": 2.340411,
+        "delta_book_mJ": 0.017491,
+        "eps_book_pct": 0.7418
+      },
+      "ET1_14k": {
+        "status": "REACHED",
+        "rf_kN": 0.001992,
+        "w_ext_mJ": 2.263608,
+        "e_elas_mJ": 0.005975,
+        "e_frac_mJ": 2.283248,
+        "e_model_mJ": 2.289222,
+        "delta_book_mJ": -0.025614,
+        "eps_book_pct": 1.1189
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.60923,
+        "w_ext_mJ": 2.395692,
+        "e_elas_mJ": 1.827691,
+        "e_frac_mJ": 0.566513,
+        "e_model_mJ": 2.394204,
+        "delta_book_mJ": 0.001488,
+        "eps_book_pct": 0.0621
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.685384,
+        "w_ext_mJ": 2.407475,
+        "e_elas_mJ": 2.056153,
+        "e_frac_mJ": 0.3499,
+        "e_model_mJ": 2.406054,
+        "delta_book_mJ": 0.001421,
+        "eps_book_pct": 0.059
+      }
+    }
+  },
+  "0.006500": {
+    "label": "Crack Propagation (u=6.5 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.000485,
+        "w_ext_mJ": 2.358159,
+        "e_elas_mJ": 0.001576,
+        "e_frac_mJ": 2.338978,
+        "e_model_mJ": 2.340553,
+        "delta_book_mJ": 0.017606,
+        "eps_book_pct": 0.7466
+      },
+      "ET1_14k": {
+        "status": "REACHED",
+        "rf_kN": 0.002062,
+        "w_ext_mJ": 2.264623,
+        "e_elas_mJ": 0.006703,
+        "e_frac_mJ": 2.283468,
+        "e_model_mJ": 2.29017,
+        "delta_book_mJ": -0.025547,
+        "eps_book_pct": 1.1155
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.516577,
+        "w_ext_mJ": 2.684224,
+        "e_elas_mJ": 1.678876,
+        "e_frac_mJ": 1.000084,
+        "e_model_mJ": 2.67896,
+        "delta_book_mJ": 0.005264,
+        "eps_book_pct": 0.1961
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.68933,
+        "w_ext_mJ": 2.756235,
+        "e_elas_mJ": 2.240318,
+        "e_frac_mJ": 0.508098,
+        "e_model_mJ": 2.748416,
+        "delta_book_mJ": 0.007819,
+        "eps_book_pct": 0.2837
+      }
+    }
+  },
+  "0.007000": {
+    "label": "Dynamic Fracture (u=7.0 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.00043,
+        "w_ext_mJ": 2.358387,
+        "e_elas_mJ": 0.001504,
+        "e_frac_mJ": 2.339204,
+        "e_model_mJ": 2.340709,
+        "delta_book_mJ": 0.017679,
+        "eps_book_pct": 0.7496
+      },
+      "ET1_14k": {
+        "status": "REACHED",
+        "rf_kN": 0.002055,
+        "w_ext_mJ": 2.265657,
+        "e_elas_mJ": 0.007192,
+        "e_frac_mJ": 2.28393,
+        "e_model_mJ": 2.291122,
+        "delta_book_mJ": -0.025465,
+        "eps_book_pct": 1.1115
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.528774,
+        "w_ext_mJ": 2.94719,
+        "e_elas_mJ": 1.850701,
+        "e_frac_mJ": 1.088529,
+        "e_model_mJ": 2.93923,
+        "delta_book_mJ": 0.00796,
+        "eps_book_pct": 0.2701
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.601931,
+        "w_ext_mJ": 3.070715,
+        "e_elas_mJ": 2.106758,
+        "e_frac_mJ": 0.942048,
+        "e_model_mJ": 3.048806,
+        "delta_book_mJ": 0.021909,
+        "eps_book_pct": 0.7135
+      }
+    }
+  },
+  "0.007889": {
+    "label": "ET1 Terminal (u=7.889 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.000348,
+        "w_ext_mJ": 2.358732,
+        "e_elas_mJ": 0.001373,
+        "e_frac_mJ": 2.339587,
+        "e_model_mJ": 2.340959,
+        "delta_book_mJ": 0.017772,
+        "eps_book_pct": 0.7535
+      },
+      "ET1_14k": {
+        "status": "REACHED",
+        "rf_kN": 0.001765,
+        "w_ext_mJ": 2.26738,
+        "e_elas_mJ": 0.00696,
+        "e_frac_mJ": 2.285469,
+        "e_model_mJ": 2.292429,
+        "delta_book_mJ": -0.025049,
+        "eps_book_pct": 1.0927
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.018469,
+        "w_ext_mJ": 3.125983,
+        "e_elas_mJ": 0.072852,
+        "e_frac_mJ": 2.72091,
+        "e_model_mJ": 2.793762,
+        "delta_book_mJ": 0.332221,
+        "eps_book_pct": 10.6277
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.027795,
+        "w_ext_mJ": 3.529871,
+        "e_elas_mJ": 0.109638,
+        "e_frac_mJ": 3.012792,
+        "e_model_mJ": 3.12243,
+        "delta_book_mJ": 0.407441,
+        "eps_book_pct": 11.5426
+      }
+    }
+  },
+  "0.008000": {
+    "label": "Post-Fracture (u=8.0 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.000339,
+        "w_ext_mJ": 2.35877,
+        "e_elas_mJ": 0.001358,
+        "e_frac_mJ": 2.339629,
+        "e_model_mJ": 2.340987,
+        "delta_book_mJ": 0.017783,
+        "eps_book_pct": 0.7539
+      },
+      "ET1_14k": {
+        "status": "NOT_REACHED"
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.018119,
+        "w_ext_mJ": 3.128014,
+        "e_elas_mJ": 0.072476,
+        "e_frac_mJ": 2.722432,
+        "e_model_mJ": 2.794908,
+        "delta_book_mJ": 0.333106,
+        "eps_book_pct": 10.6491
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.027671,
+        "w_ext_mJ": 3.532952,
+        "e_elas_mJ": 0.110685,
+        "e_frac_mJ": 3.014076,
+        "e_model_mJ": 3.124761,
+        "delta_book_mJ": 0.408191,
+        "eps_book_pct": 11.5538
+      }
+    }
+  },
+  "0.009000": {
+    "label": "Tail Unloading (u=9.0 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.000276,
+        "w_ext_mJ": 2.359076,
+        "e_elas_mJ": 0.001244,
+        "e_frac_mJ": 2.339959,
+        "e_model_mJ": 2.341203,
+        "delta_book_mJ": 0.017872,
+        "eps_book_pct": 0.7576
+      },
+      "ET1_14k": {
+        "status": "NOT_REACHED"
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.014976,
+        "w_ext_mJ": 3.14452,
+        "e_elas_mJ": 0.067392,
+        "e_frac_mJ": 2.736181,
+        "e_model_mJ": 2.803573,
+        "delta_book_mJ": 0.340947,
+        "eps_book_pct": 10.8426
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.022648,
+        "w_ext_mJ": 3.558149,
+        "e_elas_mJ": 0.101917,
+        "e_frac_mJ": 3.035118,
+        "e_model_mJ": 3.137035,
+        "delta_book_mJ": 0.421114,
+        "eps_book_pct": 11.8352
+      }
+    }
+  },
+  "0.010000": {
+    "label": "Full Cleavage (u=10.0 um)",
+    "states": {
+      "Ref_15k": {
+        "status": "REACHED",
+        "rf_kN": 0.000232,
+        "w_ext_mJ": 2.359329,
+        "e_elas_mJ": 0.001161,
+        "e_frac_mJ": 2.34022,
+        "e_model_mJ": 2.341381,
+        "delta_book_mJ": 0.017948,
+        "eps_book_pct": 0.7607
+      },
+      "ET1_14k": {
+        "status": "NOT_REACHED"
+      },
+      "ET3_5k": {
+        "status": "REACHED",
+        "rf_kN": 0.012021,
+        "w_ext_mJ": 3.158006,
+        "e_elas_mJ": 0.060103,
+        "e_frac_mJ": 2.74934,
+        "e_model_mJ": 2.809443,
+        "delta_book_mJ": 0.348563,
+        "eps_book_pct": 11.0374
+      },
+      "ET5_4k": {
+        "status": "REACHED",
+        "rf_kN": 0.0181,
+        "w_ext_mJ": 3.578445,
+        "e_elas_mJ": 0.0905,
+        "e_frac_mJ": 3.054797,
+        "e_model_mJ": 3.145297,
+        "delta_book_mJ": 0.433148,
+        "eps_book_pct": 12.1044
+      }
+    }
+  }
+}

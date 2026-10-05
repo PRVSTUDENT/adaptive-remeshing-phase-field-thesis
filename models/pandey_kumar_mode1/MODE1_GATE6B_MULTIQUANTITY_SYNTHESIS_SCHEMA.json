@@ -168,7 +168,11 @@
       "crack_path_y_mean_dev_um": 0.5507,
       "crack_profile_width_w05_um": 52.6167,
       "fracture_classification": "ERRORTARGET_RESPONSE_STABLE",
-      "localization_verdict": "AWAY_FROM_TARGET_LOCALIZATION"
+      "localization_verdict": "AWAY_FROM_TARGET_LOCALIZATION",
+      "prepeak_epsilon_book_rel": 0.000059,
+      "peak_epsilon_book_rel": 0.000085,
+      "energy_forensic_classification": "ERRORTARGET_POSTPEAK_ENERGY_RESOLUTION_SENSITIVE",
+      "energy_reconciliation_verdict": "Pre-peak and peak energy balance conserved (<0.01%); post-peak discrepancy (11.04%) reconciled as physical/numerical consequence of coarse regularization length resolution (h_median/l0 >= 0.41), resulting in diffuse damage broadening (w05 = 52.6 um) and prolonged softening dissipation."
     },
     "1410359": {
       "model_name": "PK_M1_14ET5_SOLVE",
@@ -205,7 +209,11 @@
       "crack_path_y_mean_dev_um": 0.0000,
       "crack_profile_width_w05_um": 52.6167,
       "fracture_classification": "ERRORTARGET_RESPONSE_STABLE",
-      "localization_verdict": "AWAY_FROM_TARGET_LOCALIZATION"
+      "localization_verdict": "AWAY_FROM_TARGET_LOCALIZATION",
+      "prepeak_epsilon_book_rel": 0.000066,
+      "peak_epsilon_book_rel": 0.000092,
+      "energy_forensic_classification": "ERRORTARGET_POSTPEAK_ENERGY_RESOLUTION_SENSITIVE",
+      "energy_reconciliation_verdict": "Pre-peak and peak energy balance conserved (<0.01%); post-peak discrepancy (12.10%) reconciled as physical/numerical consequence of coarse regularization length resolution (h_median/l0 >= 0.41), resulting in diffuse damage broadening (w05 = 52.6 um) and prolonged softening dissipation."
     },
     "1406017": {
       "model_name": "PK_M1_42K_L0_7p5_SOLVE",

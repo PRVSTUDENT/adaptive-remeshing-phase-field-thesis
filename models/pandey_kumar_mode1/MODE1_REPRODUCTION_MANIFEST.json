@@ -254,8 +254,8 @@
       "category_type": "evaluator",
       "required_environment": "Python 3.8+ (Pure Python standard library / math / json / argparse)",
       "expected_outputs": "JSON evaluation reports, summary metrics, and figure manifests",
-      "sha256": "D02C53011053125F09C2F2A9FE06B2DB82BC143A683497D29C0D0C99D613CC59",
-      "size_bytes": 13567
+      "sha256": "63C3AF8EF9CEF6674A20C52DB7763EAF0DF6C7176BA5E0FD69020BBD75B2E2A5",
+      "size_bytes": 15986
     },
     {
       "relative_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/evaluate_mode1_stage14_adaptive_14k.py",
@@ -339,13 +339,13 @@
     },
     {
       "relative_path": "models/pandey_kumar_mode1/MODE1_GATE6B_MULTIQUANTITY_SYNTHESIS_SCHEMA.json",
-      "scientific_role": "Authoritative multi-quantity synthesis JSON schema v2.1.0 defining governed fields for Gate-6B closure",
-      "originating_task_job": "Gate 6B / Task F1253 / Task F1254",
+      "scientific_role": "Authoritative multi-quantity synthesis JSON schema v2.2.0 defining governed fields for Gate-6B closure",
+      "originating_task_job": "Gate 6B / Task F1253 / Task F1254 / Task F1261",
       "category_type": "governance_schema",
       "required_environment": "JSON Schema validator / Python standard json module",
       "expected_outputs": "Ingestion target for final multi-quantity synthesis",
-      "sha256": "415627F143178B44599C5FC106F7A0D4C30F513C2C22BF482553790E4450BF26",
-      "size_bytes": 7235
+      "sha256": "B83A0261336271BA189116FC91937C1D7FA2F79AFAF6BCBCE37C06463A1C519A",
+      "size_bytes": 9791
     },
     {
       "relative_path": "docs/methods/MODE1_GATE6B_CLOSURE_DECISION_MATRIX_AND_CONSISTENCY_AUDIT.md",
