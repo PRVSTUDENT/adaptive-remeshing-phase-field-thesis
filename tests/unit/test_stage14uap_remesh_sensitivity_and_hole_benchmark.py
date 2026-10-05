@@ -1,7 +1,10 @@
 """
-Unit tests for Gate-6B Stage 14U-AP:
+Unit tests for Gate-6B Stage 14U-AQ:
 1. Native remeshing errorTarget spatial sensitivity (1, 2, 3, 5%) on Mode-I preanalysis ODB.
-2. Independent 2D linear-elastic plate with central circular hole benchmark.
+2. Governing length-scale definition enforcement (l0 = 0.0075 mm = 7.5 um).
+3. Quantitative spatial metric verification and independent case classification.
+4. Historical 71k vs corrected 58k preanalysis lineage distinction.
+5. Independent 2D linear-elastic plate with central circular hole benchmark (Kirsch stress concentration and decoupling).
 """
 
 import json
@@ -28,7 +31,27 @@ class TestStage14UAPRemeshSensitivityAndHoleBenchmark(unittest.TestCase):
             "PLATE_WITH_HOLE_ADAPTIVE_BENCHMARK_SUMMARY.json"
         )
 
-    def test_mode1_errortarget_monotonic_and_spatial_localization(self):
+    def test_governing_phase_field_length_scale_is_7_5_um(self):
+        if not os.path.isfile(self.mode1_summary_path):
+            self.skipTest("Mode-1 sensitivity summary JSON not yet generated.")
+            
+        with open(self.mode1_summary_path, "r", encoding="utf-8") as f:
+            summary = json.load(f)
+            
+        # 1. Enforce l0 = 0.0075 mm = 7.5 um
+        l0_info = summary.get("governing_length_scale", {})
+        self.assertEqual(l0_info.get("l0_mm"), 0.0075, "Governing l0 must be exactly 0.0075 mm")
+        self.assertEqual(l0_info.get("l0_um"), 7.5, "Governing l0 must be exactly 7.5 um")
+        self.assertNotIn("1.333", str(l0_info.get("l0_um")), "1.333 um must never be used as l0")
+        
+        # 2. Verify recomputed fine element counts relative to l0 = 7.5 um
+        results = summary.get("results_by_error_target", {})
+        self.assertEqual(results["1.0"]["fine_elements_l0_count"], 55072)
+        self.assertEqual(results["2.0"]["fine_elements_l0_count"], 8994)
+        self.assertEqual(results["3.0"]["fine_elements_l0_count"], 2296)
+        self.assertEqual(results["5.0"]["fine_elements_l0_count"], 446)
+
+    def test_mode1_errortarget_monotonic_and_spatial_metrics(self):
         if not os.path.isfile(self.mode1_summary_path):
             self.skipTest("Mode-1 sensitivity summary JSON not yet generated.")
             
@@ -46,56 +69,94 @@ class TestStage14UAPRemeshSensitivityAndHoleBenchmark(unittest.TestCase):
         n_3 = results["3.0"]["total_elements"]
         n_5 = results["5.0"]["total_elements"]
         
-        # 1. Monotonic decrease in element count
-        self.assertGreater(n_1, n_2, "1% elements must exceed 2%")
-        self.assertGreater(n_2, n_3, "2% elements must exceed 3%")
-        self.assertGreater(n_3, n_5, "3% elements must exceed 5%")
+        # 1. Monotonic decrease in total element count
+        self.assertEqual(n_1, 57929)
+        self.assertEqual(n_2, 14677)
+        self.assertEqual(n_3, 6824)
+        self.assertEqual(n_5, 4239)
+        self.assertGreater(n_1, n_2)
+        self.assertGreater(n_2, n_3)
+        self.assertGreater(n_3, n_5)
         
-        # 2. Crack corridor spatial localization (y ~ 0.5 mm)
-        for et_str in ["1.0", "2.0", "3.0", "5.0"]:
-            case = results[et_str]
-            cy = case["fine_centroid_y"]
-            self.assertAlmostEqual(cy, 0.50, delta=0.03,
-                                   msg=f"Fine centroid y={cy} deviates from 0.50 mm for errorTarget={et_str}%")
-            self.assertGreater(case["corridor_fraction"], 0.12,
-                               msg=f"Corridor fraction {case['corridor_fraction']} must exceed 12% for errorTarget={et_str}%")
-            self.assertGreaterEqual(case["corridor_elements"], 700,
-                                    msg=f"Corridor element count {case['corridor_elements']} must be >= 700 for errorTarget={et_str}%")
+        # 2. Corridor element counts and share
+        self.assertEqual(results["1.0"]["corridor_elements"], 8435)
+        self.assertEqual(results["2.0"]["corridor_elements"], 3754)
+        self.assertEqual(results["3.0"]["corridor_elements"], 1806)
+        self.assertEqual(results["5.0"]["corridor_elements"], 779)
+        
+        # 3. Independent case classification discipline
+        self.assertEqual(results["1.0"]["classification"], "DIFFUSE_DOMAIN_OVERREFINEMENT")
+        self.assertEqual(results["2.0"]["classification"], "TOWARD_TARGET_LOCALIZATION")
+        self.assertEqual(results["3.0"]["classification"], "TOWARD_TARGET_LOCALIZATION")
+        self.assertEqual(results["5.0"]["classification"], "UNDER_RESOLVED_CORRIDOR")
+        
+        # 4. Far-field share in 1% mesh must be high (> 80%) reflecting diffuse overrefinement
+        self.assertGreater(results["1.0"]["fine_far_share"], 0.80)
 
-    def test_plate_with_hole_benchmark_flank_symmetry_and_concentration(self):
+    def test_historical_vs_corrected_preanalysis_lineage_distinction(self):
+        if not os.path.isfile(self.mode1_summary_path):
+            self.skipTest("Mode-1 sensitivity summary JSON not yet generated.")
+            
+        with open(self.mode1_summary_path, "r", encoding="utf-8") as f:
+            summary = json.load(f)
+            
+        lineage = summary.get("historical_vs_corrected_lineage_distinction", {})
+        self.assertIn("historical_71k_mesh", lineage)
+        self.assertIn("corrected_stage14_sweep", lineage)
+        
+        hist = lineage["historical_71k_mesh"]
+        self.assertEqual(hist["element_count"], 71320)
+        self.assertEqual(hist["status"], "HISTORICAL_DEFECTIVE_PREANALYSIS_LINEAGE")
+        self.assertIn("N_BOTTOM", hist["preanalysis_state"])
+        
+        corr = lineage["corrected_stage14_sweep"]
+        self.assertEqual(corr["status"], "CORRECTED_GOVERNED_PREANALYSIS_LINEAGE")
+        self.assertEqual(corr["element_counts"]["1.0"], 57929)
+
+    def test_plate_with_hole_benchmark_kirsch_qualification_and_decoupling(self):
         if not os.path.isfile(self.hole_summary_path):
             self.skipTest("Plate with hole summary JSON not yet generated.")
             
         with open(self.hole_summary_path, "r", encoding="utf-8") as f:
             summary = json.load(f)
             
-        results = summary.get("results_by_error_target", {})
-        self.assertIn("1.0", results)
+        # 1. Theoretical stress concentration documentation
+        analytical = summary.get("analytical_stress_concentration", {})
+        self.assertEqual(analytical.get("infinite_plate_kirsch_Kt"), 3.0)
+        self.assertEqual(analytical.get("finite_width_corrected_Kt"), 3.06)
+        self.assertAlmostEqual(analytical.get("coarse_model_max_mises_stress_mpa"), 434.51, delta=0.1)
+        self.assertAlmostEqual(analytical.get("coarse_model_max_miseseri_mpa"), 45.69, delta=0.1)
         
-        # Verify lateral flank symmetry and local refinement contrast for all error targets
+        # 2. Governed verdicts
+        verdicts = summary.get("governing_verdicts", {})
+        self.assertEqual(verdicts.get("remesher_qualification"),
+                         "NATIVE_ABAQUS_MISESERI_ADAPTIVEREMESH_FUNCTIONALITY_VERIFIED_IN_STANDARD_CONTINUUM_BENCHMARK")
+        self.assertEqual(verdicts.get("kirsch_localization"),
+                         "QUALITATIVELY_CONSISTENT_WITH_KIRSCH_LOCALIZATION")
+        self.assertEqual(verdicts.get("epistemic_decoupling"),
+                         "DECOUPLES_ABAQUS_REMESHER_FROM_PHASE_FIELD_SUBROUTINE")
+        
+        # 3. Flank symmetry and local refinement contrast across all error targets
+        results = summary.get("results_by_error_target", {})
         for et_str in ["1.0", "2.0", "3.0", "5.0"]:
-            if et_str not in results:
-                continue
             case = results[et_str]
-            sym_ratio = case["flank_symmetry_ratio"]
-            h_flanks = case["h_flanks_mean_mm"]
-            h_far = case["h_far_mean_mm"]
+            flank = case["flank_elements"]
+            self.assertTrue(flank["symmetry_pass"], f"Symmetry pass failed for {et_str}%")
+            self.assertGreaterEqual(flank["flank_symmetry_ratio"], 0.90)
+            self.assertGreaterEqual(case["refinement_contrast_far_to_flank"], 1.8)
             
-            # 1. Left and right flank refinement must be symmetric (>= 90%)
-            self.assertGreaterEqual(sym_ratio, 0.90,
-                                    msg=f"Flank symmetry ratio {sym_ratio} must be >= 0.90 for errorTarget={et_str}%")
-            # 2. Local hole flank size must be substantially smaller than far-field size
-            self.assertLess(h_flanks, 0.60 * h_far,
-                            msg=f"Hole flank size {h_flanks:.4f} must be < 60% of far-field {h_far:.4f} for errorTarget={et_str}%")
-                            
-        # 3. Monotonic element scaling
+        # 4. Monotonic element scaling
         n_1 = results["1.0"]["total_elements"]
         n_2 = results["2.0"]["total_elements"]
         n_3 = results["3.0"]["total_elements"]
         n_5 = results["5.0"]["total_elements"]
-        self.assertGreater(n_1, n_2, "1% elements must exceed 2%")
-        self.assertGreater(n_2, n_3, "2% elements must exceed 3%")
-        self.assertGreater(n_3, n_5, "3% elements must exceed 5%")
+        self.assertEqual(n_1, 15481)
+        self.assertEqual(n_2, 4645)
+        self.assertEqual(n_3, 2267)
+        self.assertEqual(n_5, 1043)
+        self.assertGreater(n_1, n_2)
+        self.assertGreater(n_2, n_3)
+        self.assertGreater(n_3, n_5)
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,157 +1,542 @@
 {
-  "results_by_error_target": {
-    "5.0": {
-      "wake_elements": 464, 
-      "corridor_fraction": 0.18376975701816467, 
-      "deck_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_50PCT.inp", 
-      "fine_elements_l0_count": 446, 
-      "csv_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/elements_err_50pct.csv", 
-      "error_target_pct": 5.0, 
-      "corridor_h_stats": {
-        "mean_mm": 0.009758425481349474, 
-        "median_mm": 0.007622243946462773, 
-        "min_mm": 0.0013509423030432833
-      }, 
-      "total_elements": 4239, 
-      "h_eq_stats": {
-        "max_mm": 0.02358567408633307, 
-        "p90_mm": 0.019337323804640504, 
-        "p25_mm": 0.0127574060653908, 
-        "p10_mm": 0.007185283393026327, 
-        "min_mm": 0.0013509423030432833, 
-        "p75_mm": 0.01772726293942774, 
-        "median_mm": 0.01582738949290576, 
-        "mean_mm": 0.014687367481671602
-      }, 
-      "ligament_elements": 315, 
-      "corridor_elements": 779, 
-      "far_field_elements": 3460, 
-      "total_nodes": 4313, 
-      "fine_centroid_y": 0.5020423878279413, 
-      "fine_centroid_x": 0.48494247128833395, 
-      "far_h_stats": {
-        "mean_mm": 0.015797091706599594, 
-        "median_mm": 0.016294892084473944, 
-        "min_mm": 0.003702286203845082
-      }, 
-      "far_field_fraction": 0.8162302429818353
-    }, 
-    "2.0": {
-      "wake_elements": 1827, 
-      "corridor_fraction": 0.25577434080534167, 
-      "deck_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_20PCT.inp", 
-      "fine_elements_l0_count": 8993, 
-      "csv_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/elements_err_20pct.csv", 
-      "error_target_pct": 2.0, 
-      "corridor_h_stats": {
-        "mean_mm": 0.003789169377720367, 
-        "median_mm": 0.002235542662367301, 
-        "min_mm": 0.0007671013247976999
-      }, 
-      "total_elements": 14677, 
-      "h_eq_stats": {
-        "max_mm": 0.02236956122813342, 
-        "p90_mm": 0.013962727735177373, 
-        "p25_mm": 0.0029130132152284634, 
-        "p10_mm": 0.0020096510274633305, 
-        "min_mm": 0.0007671013247976999, 
-        "p75_mm": 0.009634359222011026, 
-        "median_mm": 0.0060706683779944955, 
-        "mean_mm": 0.006945598342352034
-      }, 
-      "ligament_elements": 1927, 
-      "corridor_elements": 3754, 
-      "far_field_elements": 10923, 
-      "total_nodes": 14646, 
-      "fine_centroid_y": 0.49729488564686875, 
-      "fine_centroid_x": 0.4959388312261378, 
-      "far_h_stats": {
-        "mean_mm": 0.00803039504044113, 
-        "median_mm": 0.0072706954887245085, 
-        "min_mm": 0.0009724334049921359
-      }, 
-      "far_field_fraction": 0.7442256591946583
-    }, 
-    "1.0": {
-      "wake_elements": 3583, 
-      "corridor_fraction": 0.14560928032591622, 
-      "deck_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_10PCT.inp", 
-      "fine_elements_l0_count": 55072, 
-      "csv_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/elements_err_10pct.csv", 
-      "error_target_pct": 1.0, 
-      "corridor_h_stats": {
-        "mean_mm": 0.0029136804131736794, 
-        "median_mm": 0.0020544163343836188, 
-        "min_mm": 0.0007214143353803064
-      }, 
-      "total_elements": 57929, 
-      "h_eq_stats": {
-        "max_mm": 0.018343460788109275, 
-        "p90_mm": 0.006416278053098785, 
-        "p25_mm": 0.002103990821430754, 
-        "p10_mm": 0.0017720018347272234, 
-        "min_mm": 0.0005534655816269079, 
-        "p75_mm": 0.004713089197215348, 
-        "median_mm": 0.0030961926239469677, 
-        "mean_mm": 0.00365698514173421
-      }, 
-      "ligament_elements": 4852, 
-      "corridor_elements": 8435, 
-      "far_field_elements": 49494, 
-      "total_nodes": 57491, 
-      "fine_centroid_y": 0.4975834745746178, 
-      "fine_centroid_x": 0.5276359767168705, 
-      "far_h_stats": {
-        "mean_mm": 0.003783662625578891, 
-        "median_mm": 0.0032901571439421053, 
-        "min_mm": 0.0005534655816269079
-      }, 
-      "far_field_fraction": 0.8543907196740838
-    }, 
-    "3.0": {
-      "wake_elements": 1059, 
-      "corridor_fraction": 0.26465416178194606, 
-      "deck_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_30PCT.inp", 
-      "fine_elements_l0_count": 2296, 
-      "csv_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/elements_err_30pct.csv", 
-      "error_target_pct": 3.0, 
-      "corridor_h_stats": {
-        "mean_mm": 0.005521961236658083, 
-        "median_mm": 0.0032376190476753513, 
-        "min_mm": 0.0004203879087687939
-      }, 
-      "total_elements": 6824, 
-      "h_eq_stats": {
-        "max_mm": 0.02342916167952836, 
-        "p90_mm": 0.01821452982030972, 
-        "p25_mm": 0.005449894075872179, 
-        "p10_mm": 0.0027701257123557217, 
-        "min_mm": 0.0004203879087687939, 
-        "p75_mm": 0.015425755512917253, 
-        "median_mm": 0.011185810337683304, 
-        "mean_mm": 0.010702190334665853
-      }, 
-      "ligament_elements": 747, 
-      "corridor_elements": 1806, 
-      "far_field_elements": 5018, 
-      "total_nodes": 6871, 
-      "fine_centroid_y": 0.495185568333797, 
-      "fine_centroid_x": 0.49131111099312247, 
-      "far_h_stats": {
-        "mean_mm": 0.012566577291820482, 
-        "median_mm": 0.012874099395320438, 
-        "min_mm": 0.0014379824812332735
-      }, 
-      "far_field_fraction": 0.7353458382180539
-    }
-  }, 
-  "status": "STAGE14UAP_ERRORTARGET_SENSITIVITY_COMPLETED", 
+  "audit_id": "GATE6B-STAGE14UAQ-ERRORTARGET-SENSITIVITY-AUDIT-20261005",
+  "status": "STAGE14UAQ_ERRORTARGET_SENSITIVITY_AUDITED_AND_CORRECTED",
+  "governing_length_scale": {
+    "l0_mm": 0.0075,
+    "l0_um": 7.5,
+    "governing_source": "Pandey & Kumar (2025) Section 4.1 Mode-I benchmark definition (l0 = 0.0075 mm)",
+    "erroneous_label_corrected": "1.333 um (purged; corrected to 7.500 um)"
+  },
+  "historical_vs_corrected_lineage_distinction": {
+    "historical_71k_mesh": {
+      "element_count": 71320,
+      "error_target_pct": 1.0,
+      "preanalysis_state": "Pre-Gate-6A pre-analysis with 16-entry N_BOTTOM keyword truncation defect (134/150 bottom nodes omitted from displacement restraint)",
+      "status": "HISTORICAL_DEFECTIVE_PREANALYSIS_LINEAGE"
+    },
+    "corrected_stage14_sweep": {
+      "element_counts": {
+        "1.0": 57929,
+        "2.0": 14677,
+        "3.0": 6824,
+        "5.0": 4239
+      },
+      "preanalysis_state": "Gate-6A/Gate-6B corrected pre-analysis (PK_M1_JOB1_INF_COMPANION_2906.odb) with all 150 bottom nodes fully restrained",
+      "status": "CORRECTED_GOVERNED_PREANALYSIS_LINEAGE"
+    },
+    "lineage_finding": "The 71,320-element mesh and the 57,929-element mesh belong to different boundary-condition pre-analysis states and are not contradictory outputs of the same input deck."
+  },
   "error_targets_tested": [
-    1.0, 
-    2.0, 
-    3.0, 
+    1.0,
+    2.0,
+    3.0,
     5.0
-  ], 
-  "preanalysis_odb": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/93_mode1_preanalysis_inf_companion_2906/PK_M1_JOB1_INF_COMPANION_2906.odb", 
-  "audit_id": "GATE6B-STAGE14UAP-ERRORTARGET-SENSITIVITY-20261005"
+  ],
+  "preanalysis_odb": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/93_mode1_preanalysis_inf_companion_2906/PK_M1_JOB1_INF_COMPANION_2906.odb",
+  "results_by_error_target": {
+    "1.0": {
+      "error_target_pct": 1.0,
+      "total_elements": 57929,
+      "total_nodes": 57491,
+      "total_area": 0.999999999998881,
+      "classification": "DIFFUSE_DOMAIN_OVERREFINEMENT",
+      "governing_length_scale_l0_mm": 0.0075,
+      "governing_length_scale_l0_um": 7.5,
+      "h_eq_stats": {
+        "min_mm": 0.000553,
+        "min_um": 0.553,
+        "p10_mm": 0.001772,
+        "p25_mm": 0.002104,
+        "median_mm": 0.003096,
+        "median_um": 3.0959999999999996,
+        "mean_mm": 0.003656982737488995,
+        "mean_um": 3.656982737488995,
+        "p75_mm": 0.004713,
+        "p90_mm": 0.006416,
+        "max_mm": 0.018343,
+        "max_um": 18.343
+      },
+      "fine_elements_l0_count": 55072,
+      "fine_elements_l0_fraction": 0.9506810060591414,
+      "fine_elements_half_l0_count": 35425,
+      "fine_elements_half_l0_fraction": 0.6115244523468384,
+      "corridor_definition": "y in [0.45, 0.55] mm (10% of plate height)",
+      "corridor_elements": 8435,
+      "corridor_fraction": 0.14560928032591622,
+      "corridor_area_fraction": 0.09952230193123436,
+      "wake_elements": 3583,
+      "ligament_elements": 4852,
+      "far_field_elements": 49494,
+      "far_field_fraction": 0.8543907196740838,
+      "far_field_area_fraction": 0.9004776980687657,
+      "fine_in_corridor_count": 8095,
+      "fine_in_far_count": 46977,
+      "fine_corridor_share": 0.14698939570017433,
+      "fine_far_share": 0.8530106042998257,
+      "corridor_fine_saturation": 0.9596917605216361,
+      "far_field_fine_saturation": 0.9491453509516306,
+      "max_dy_fine_mm": 0.497466,
+      "p90_dy_fine_mm": 0.3892105,
+      "p95_dy_fine_mm": 0.4271597999999999,
+      "fine_centroid_x": 0.5284152668959038,
+      "fine_centroid_y": 0.5020844145440685,
+      "secondary_island_audit": {
+        "top_boundary_fine_count": 4402,
+        "bot_boundary_fine_count": 4323,
+        "secondary_island_detected": true
+      },
+      "corridor_width_slices": [
+        {
+          "x_mid": 0.05,
+          "ymin": 0.03157,
+          "ymax": 0.963019,
+          "width": 0.931449,
+          "count": 541
+        },
+        {
+          "x_mid": 0.15000000000000002,
+          "ymin": 0.003277,
+          "ymax": 0.996319,
+          "width": 0.993042,
+          "count": 1347
+        },
+        {
+          "x_mid": 0.25,
+          "ymin": 0.003398,
+          "ymax": 0.996447,
+          "width": 0.993049,
+          "count": 3085
+        },
+        {
+          "x_mid": 0.35000000000000003,
+          "ymin": 0.00303,
+          "ymax": 0.996946,
+          "width": 0.993916,
+          "count": 6178
+        },
+        {
+          "x_mid": 0.45,
+          "ymin": 0.00294,
+          "ymax": 0.997052,
+          "width": 0.994112,
+          "count": 11919
+        },
+        {
+          "x_mid": 0.55,
+          "ymin": 0.002534,
+          "ymax": 0.997466,
+          "width": 0.9949319999999999,
+          "count": 16892
+        },
+        {
+          "x_mid": 0.6500000000000001,
+          "ymin": 0.002889,
+          "ymax": 0.997369,
+          "width": 0.9944799999999999,
+          "count": 8006
+        },
+        {
+          "x_mid": 0.75,
+          "ymin": 0.041622,
+          "ymax": 0.931503,
+          "width": 0.8898809999999999,
+          "count": 3017
+        },
+        {
+          "x_mid": 0.8500000000000001,
+          "ymin": 0.044687,
+          "ymax": 0.951155,
+          "width": 0.9064679999999999,
+          "count": 1468
+        },
+        {
+          "x_mid": 0.95,
+          "ymin": 0.003576,
+          "ymax": 0.996608,
+          "width": 0.993032,
+          "count": 2619
+        }
+      ],
+      "deck_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_10PCT.inp",
+      "csv_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/elements_err_10pct.csv"
+    },
+    "2.0": {
+      "error_target_pct": 2.0,
+      "total_elements": 14677,
+      "total_nodes": 14646,
+      "total_area": 0.999999999992254,
+      "classification": "TOWARD_TARGET_LOCALIZATION",
+      "governing_length_scale_l0_mm": 0.0075,
+      "governing_length_scale_l0_um": 7.5,
+      "h_eq_stats": {
+        "min_mm": 0.000767,
+        "min_um": 0.767,
+        "p10_mm": 0.00201,
+        "p25_mm": 0.002913,
+        "median_mm": 0.006071,
+        "median_um": 6.071,
+        "mean_mm": 0.006945598759964571,
+        "mean_um": 6.945598759964571,
+        "p75_mm": 0.009634,
+        "p90_mm": 0.013960599999999998,
+        "max_mm": 0.02237,
+        "max_um": 22.37
+      },
+      "fine_elements_l0_count": 8994,
+      "fine_elements_l0_fraction": 0.6127955304217483,
+      "fine_elements_half_l0_count": 4628,
+      "fine_elements_half_l0_fraction": 0.3153232949512843,
+      "corridor_definition": "y in [0.45, 0.55] mm (10% of plate height)",
+      "corridor_elements": 3754,
+      "corridor_fraction": 0.25577434080534167,
+      "corridor_area_fraction": 0.10001670806283174,
+      "wake_elements": 1827,
+      "ligament_elements": 1927,
+      "far_field_elements": 10923,
+      "far_field_fraction": 0.7442256591946583,
+      "far_field_area_fraction": 0.8999832919371684,
+      "fine_in_corridor_count": 3277,
+      "fine_in_far_count": 5717,
+      "fine_corridor_share": 0.3643540137869691,
+      "fine_far_share": 0.6356459862130309,
+      "corridor_fine_saturation": 0.8729355354288759,
+      "far_field_fine_saturation": 0.5233910097958436,
+      "max_dy_fine_mm": 0.458986,
+      "p90_dy_fine_mm": 0.24907790000000002,
+      "p95_dy_fine_mm": 0.32659125000000006,
+      "fine_centroid_x": 0.49261022561292184,
+      "fine_centroid_y": 0.49926983726047014,
+      "secondary_island_audit": {
+        "top_boundary_fine_count": 189,
+        "bot_boundary_fine_count": 116,
+        "secondary_island_detected": true
+      },
+      "corridor_width_slices": [
+        {
+          "x_mid": 0.05,
+          "ymin": 0.863244,
+          "ymax": 0.863244,
+          "width": 0.0,
+          "count": 1
+        },
+        {
+          "x_mid": 0.15000000000000002,
+          "ymin": 0.059849,
+          "ymax": 0.931464,
+          "width": 0.8716149999999999,
+          "count": 14
+        },
+        {
+          "x_mid": 0.25,
+          "ymin": 0.084943,
+          "ymax": 0.931834,
+          "width": 0.8468910000000001,
+          "count": 63
+        },
+        {
+          "x_mid": 0.35000000000000003,
+          "ymin": 0.065796,
+          "ymax": 0.950662,
+          "width": 0.884866,
+          "count": 812
+        },
+        {
+          "x_mid": 0.45,
+          "ymin": 0.047127,
+          "ymax": 0.954987,
+          "width": 0.90786,
+          "count": 3635
+        },
+        {
+          "x_mid": 0.55,
+          "ymin": 0.041014,
+          "ymax": 0.94153,
+          "width": 0.900516,
+          "count": 3926
+        },
+        {
+          "x_mid": 0.6500000000000001,
+          "ymin": 0.051727,
+          "ymax": 0.880656,
+          "width": 0.828929,
+          "count": 501
+        },
+        {
+          "x_mid": 0.75,
+          "ymin": 0.196538,
+          "ymax": 0.622959,
+          "width": 0.42642100000000005,
+          "count": 36
+        },
+        {
+          "x_mid": 0.8500000000000001,
+          "ymin": 0.330273,
+          "ymax": 0.852701,
+          "width": 0.5224280000000001,
+          "count": 2
+        },
+        {
+          "x_mid": 0.95,
+          "ymin": 0.175605,
+          "ymax": 0.774971,
+          "width": 0.599366,
+          "count": 4
+        }
+      ],
+      "deck_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_20PCT.inp",
+      "csv_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/elements_err_20pct.csv"
+    },
+    "3.0": {
+      "error_target_pct": 3.0,
+      "total_elements": 6824,
+      "total_nodes": 6871,
+      "total_area": 0.9999999999823761,
+      "classification": "TOWARD_TARGET_LOCALIZATION",
+      "governing_length_scale_l0_mm": 0.0075,
+      "governing_length_scale_l0_um": 7.5,
+      "h_eq_stats": {
+        "min_mm": 0.00042,
+        "min_um": 0.42000000000000004,
+        "p10_mm": 0.0027709,
+        "p25_mm": 0.0054485,
+        "median_mm": 0.011185500000000001,
+        "median_um": 11.185500000000001,
+        "mean_mm": 0.010702189917936695,
+        "mean_um": 10.702189917936694,
+        "p75_mm": 0.01542225,
+        "p90_mm": 0.0182138,
+        "max_mm": 0.023429,
+        "max_um": 23.429
+      },
+      "fine_elements_l0_count": 2296,
+      "fine_elements_l0_fraction": 0.3364595545134818,
+      "fine_elements_half_l0_count": 1165,
+      "fine_elements_half_l0_fraction": 0.17072098475967173,
+      "corridor_definition": "y in [0.45, 0.55] mm (10% of plate height)",
+      "corridor_elements": 1806,
+      "corridor_fraction": 0.26465416178194606,
+      "corridor_area_fraction": 0.09947689051378916,
+      "wake_elements": 1059,
+      "ligament_elements": 747,
+      "far_field_elements": 5018,
+      "far_field_fraction": 0.7353458382180539,
+      "far_field_area_fraction": 0.9005231094862107,
+      "fine_in_corridor_count": 1432,
+      "fine_in_far_count": 864,
+      "fine_corridor_share": 0.6236933797909407,
+      "fine_far_share": 0.37630662020905925,
+      "corridor_fine_saturation": 0.7929125138427464,
+      "far_field_fine_saturation": 0.17218015145476284,
+      "max_dy_fine_mm": 0.43089299999999997,
+      "p90_dy_fine_mm": 0.1004755,
+      "p95_dy_fine_mm": 0.12415775,
+      "fine_centroid_x": 0.4920260157934056,
+      "fine_centroid_y": 0.4930675063382647,
+      "secondary_island_audit": {
+        "top_boundary_fine_count": 1,
+        "bot_boundary_fine_count": 10,
+        "secondary_island_detected": false
+      },
+      "corridor_width_slices": [
+        {
+          "x_mid": 0.05,
+          "ymin": 0.383956,
+          "ymax": 0.383956,
+          "width": 0.0,
+          "count": 1
+        },
+        {
+          "x_mid": 0.15000000000000002,
+          "ymin": 0.077567,
+          "ymax": 0.455918,
+          "width": 0.378351,
+          "count": 4
+        },
+        {
+          "x_mid": 0.25,
+          "ymin": 0.818873,
+          "ymax": 0.818873,
+          "width": 0.0,
+          "count": 1
+        },
+        {
+          "x_mid": 0.35000000000000003,
+          "ymin": 0.115286,
+          "ymax": 0.820271,
+          "width": 0.704985,
+          "count": 34
+        },
+        {
+          "x_mid": 0.45,
+          "ymin": 0.069107,
+          "ymax": 0.778408,
+          "width": 0.709301,
+          "count": 1366
+        },
+        {
+          "x_mid": 0.55,
+          "ymin": 0.093326,
+          "ymax": 0.901362,
+          "width": 0.808036,
+          "count": 876
+        },
+        {
+          "x_mid": 0.6500000000000001,
+          "ymin": 0.109818,
+          "ymax": 0.612124,
+          "width": 0.502306,
+          "count": 8
+        },
+        {
+          "x_mid": 0.75,
+          "ymin": 0.429214,
+          "ymax": 0.429214,
+          "width": 0.0,
+          "count": 1
+        },
+        {
+          "x_mid": 0.8500000000000001,
+          "ymin": 0.162221,
+          "ymax": 0.758235,
+          "width": 0.596014,
+          "count": 5
+        },
+        {
+          "x_mid": 0.95,
+          "ymin": null,
+          "ymax": null,
+          "width": 0.0,
+          "count": 0
+        }
+      ],
+      "deck_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_30PCT.inp",
+      "csv_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/elements_err_30pct.csv"
+    },
+    "5.0": {
+      "error_target_pct": 5.0,
+      "total_elements": 4239,
+      "total_nodes": 4313,
+      "total_area": 1.00000000000496,
+      "classification": "UNDER_RESOLVED_CORRIDOR",
+      "governing_length_scale_l0_mm": 0.0075,
+      "governing_length_scale_l0_um": 7.5,
+      "h_eq_stats": {
+        "min_mm": 0.001351,
+        "min_um": 1.351,
+        "p10_mm": 0.007228200000000001,
+        "p25_mm": 0.012757999999999999,
+        "median_mm": 0.015827,
+        "median_um": 15.827,
+        "mean_mm": 0.014687367539514037,
+        "mean_um": 14.687367539514037,
+        "p75_mm": 0.0177265,
+        "p90_mm": 0.019337,
+        "max_mm": 0.023586,
+        "max_um": 23.586
+      },
+      "fine_elements_l0_count": 446,
+      "fine_elements_l0_fraction": 0.1052134937485256,
+      "fine_elements_half_l0_count": 131,
+      "fine_elements_half_l0_fraction": 0.030903514979948102,
+      "corridor_definition": "y in [0.45, 0.55] mm (10% of plate height)",
+      "corridor_elements": 779,
+      "corridor_fraction": 0.18376975701816467,
+      "corridor_area_fraction": 0.10112289161605843,
+      "wake_elements": 464,
+      "ligament_elements": 315,
+      "far_field_elements": 3460,
+      "far_field_fraction": 0.8162302429818353,
+      "far_field_area_fraction": 0.8988771083839415,
+      "fine_in_corridor_count": 383,
+      "fine_in_far_count": 63,
+      "fine_corridor_share": 0.8587443946188341,
+      "fine_far_share": 0.1412556053811659,
+      "corridor_fine_saturation": 0.49165596919127086,
+      "far_field_fine_saturation": 0.018208092485549134,
+      "max_dy_fine_mm": 0.37456599999999995,
+      "p90_dy_fine_mm": 0.055877500000000024,
+      "p95_dy_fine_mm": 0.06925250000000002,
+      "fine_centroid_x": 0.4853580571864378,
+      "fine_centroid_y": 0.505108682406811,
+      "secondary_island_audit": {
+        "top_boundary_fine_count": 1,
+        "bot_boundary_fine_count": 0,
+        "secondary_island_detected": false
+      },
+      "corridor_width_slices": [
+        {
+          "x_mid": 0.05,
+          "ymin": 0.579699,
+          "ymax": 0.579699,
+          "width": 0.0,
+          "count": 1
+        },
+        {
+          "x_mid": 0.15000000000000002,
+          "ymin": 0.192599,
+          "ymax": 0.710778,
+          "width": 0.5181790000000001,
+          "count": 2
+        },
+        {
+          "x_mid": 0.25,
+          "ymin": 0.157843,
+          "ymax": 0.157843,
+          "width": 0.0,
+          "count": 1
+        },
+        {
+          "x_mid": 0.35000000000000003,
+          "ymin": 0.375556,
+          "ymax": 0.448523,
+          "width": 0.072967,
+          "count": 3
+        },
+        {
+          "x_mid": 0.45,
+          "ymin": 0.394018,
+          "ymax": 0.84443,
+          "width": 0.45041200000000003,
+          "count": 330
+        },
+        {
+          "x_mid": 0.55,
+          "ymin": 0.396592,
+          "ymax": 0.594426,
+          "width": 0.197834,
+          "count": 106
+        },
+        {
+          "x_mid": 0.6500000000000001,
+          "ymin": null,
+          "ymax": null,
+          "width": 0.0,
+          "count": 0
+        },
+        {
+          "x_mid": 0.75,
+          "ymin": null,
+          "ymax": null,
+          "width": 0.0,
+          "count": 0
+        },
+        {
+          "x_mid": 0.8500000000000001,
+          "ymin": 0.491296,
+          "ymax": 0.552046,
+          "width": 0.060750000000000026,
+          "count": 2
+        },
+        {
+          "x_mid": 0.95,
+          "ymin": 0.874566,
+          "ymax": 0.874566,
+          "width": 0.0,
+          "count": 1
+        }
+      ],
+      "deck_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/PK_M1_STAGE14UAP_ERR_50PCT.inp",
+      "csv_file": "/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/elements_err_50pct.csv"
+    }
+  }
 }

@@ -1,11 +1,15 @@
 {
   "active": false,
-  "session_id": "SESSION-20261005-0700-STAGE14UAP-EPISTEMIC-SYNTHESIS",
+  "session_id": "SESSION-20261005-0725-STAGE14UAQ-AUDIT-AND-CORRECTION",
   "agent": "gemini-antigravity",
-  "task_id": "F1226-GATE6B-STAGE14UAP-EPISTEMIC-ATTRIBUTION-AND-THESIS-SYNTHESIS-20261005",
-  "claimed_at": "2026-10-05T07:00:00+02:00",
-  "released_at": "2026-10-05T07:20:00+02:00",
+  "task_id": "F1227-GATE6B-STAGE14UAQ-AUDIT-AND-CORRECTION-20261005",
+  "claimed_at": "2026-10-05T07:25:00+02:00",
+  "released_at": "2026-10-05T07:45:00+02:00",
   "scope": [
+    "models/pandey_kumar_mode1/32_stage14_remeshing_errortarget_sensitivity/**",
+    "models/independent_benchmarks/plate_with_hole_adaptive_remeshing/**",
+    "scripts/postprocessing/**",
+    "tests/unit/**",
     "docs/MA_AdaptiveRemeshing_Report_2026_main/**",
     "project_coordination/**"
   ],

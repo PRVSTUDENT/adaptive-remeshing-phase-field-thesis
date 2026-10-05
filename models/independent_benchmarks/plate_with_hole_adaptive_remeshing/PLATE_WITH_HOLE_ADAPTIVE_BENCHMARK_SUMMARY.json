@@ -1,119 +1,187 @@
 {
-  "domain": "1.0 mm x 1.0 mm square plate with central R=0.1 mm circular hole", 
-  "benchmark_id": "INDEPENDENT_BENCHMARK_PLATE_WITH_HOLE_MISESERI_ADAPTIVE_REMESHING", 
-  "theoretical_stress_concentration": "Kt ~ 3.0 at lateral hole flanks (x=0.4 and x=0.6, y=0.5)", 
-  "material": "Linear Elastic (E = 210 GPa, nu = 0.3)", 
+  "benchmark_id": "INDEPENDENT_BENCHMARK_PLATE_WITH_HOLE_MISESERI_ADAPTIVE_REMESHING",
+  "domain": "1.0 mm x 1.0 mm square plate with central circular hole of radius R = 0.1 mm (diameter 2R = 0.2 mm, 2R/W = 0.2)",
+  "physics": {
+    "material": "Linear Elastic (E = 210 GPa = 210,000 MPa, nu = 0.3)",
+    "formulation": "Plane Strain (CPE4 continuum elements)",
+    "loading": "Uniaxial tensile displacement u_y = 0.001 mm on top edge (y = 1.0 mm), roller BCs on bottom edge (y = 0.0 mm)"
+  },
+  "analytical_stress_concentration": {
+    "infinite_plate_kirsch_Kt": 3.0,
+    "finite_width_ratio_2R_over_W": 0.2,
+    "finite_width_corrected_Kt": 3.06,
+    "theoretical_flank_stress_state": "High tensile hoop stress sigma_yy at lateral flanks (theta = 0, pi)",
+    "theoretical_pole_stress_state": "Slight compressive hoop stress sigma_xx at top/bottom poles (theta = pi/2, 3pi/2)",
+    "coarse_model_max_mises_stress_mpa": 434.50970458984375,
+    "coarse_model_max_miseseri_mpa": 45.68538284301758,
+    "coarse_model_elements": 728,
+    "coarse_model_nodes": 773
+  },
+  "governing_verdicts": {
+    "remesher_qualification": "NATIVE_ABAQUS_MISESERI_ADAPTIVEREMESH_FUNCTIONALITY_VERIFIED_IN_STANDARD_CONTINUUM_BENCHMARK",
+    "kirsch_localization": "QUALITATIVELY_CONSISTENT_WITH_KIRSCH_LOCALIZATION",
+    "epistemic_decoupling": "DECOUPLES_ABAQUS_REMESHER_FROM_PHASE_FIELD_SUBROUTINE"
+  },
   "results_by_error_target": {
-    "5.0": {
-      "total_pole_elements": 234, 
-      "symmetry_pass": true, 
-      "stress_concentration_localization_pass": false, 
-      "total_flank_elements": 241, 
-      "bot_pole_elements": 108, 
-      "error_target_pct": 5.0, 
-      "h_flanks_mean_mm": 0.01725902371110732, 
-      "total_elements": 1043, 
-      "top_pole_elements": 126, 
-      "flank_symmetry_ratio": 0.9435483870967742, 
-      "far_field_elements": 568, 
-      "total_nodes": 1106, 
-      "flank_to_pole_ratio": 1.0299145299145298, 
-      "h_far_mean_mm": 0.03620081540567883, 
-      "left_flank_elements": 124, 
-      "h_eq_stats": {
-        "max_mm": 0.04496110141459144, 
-        "mean_mm": 0.028946908825552276, 
-        "median_mm": 0.03182024406278984, 
-        "p10_mm": 0.014668250341294502, 
-        "min_mm": 0.009062137073476946
-      }, 
-      "h_poles_mean_mm": 0.023376658291660725, 
-      "right_flank_elements": 117
-    }, 
-    "2.0": {
-      "total_pole_elements": 1750, 
-      "symmetry_pass": true, 
-      "stress_concentration_localization_pass": false, 
-      "total_flank_elements": 1917, 
-      "bot_pole_elements": 886, 
-      "error_target_pct": 2.0, 
-      "h_flanks_mean_mm": 0.005735378731453519, 
-      "total_elements": 4645, 
-      "top_pole_elements": 864, 
-      "flank_symmetry_ratio": 0.9305135951661632, 
-      "far_field_elements": 978, 
-      "total_nodes": 4699, 
-      "flank_to_pole_ratio": 1.0954285714285714, 
-      "h_far_mean_mm": 0.0262481194900302, 
-      "left_flank_elements": 993, 
-      "h_eq_stats": {
-        "max_mm": 0.04268312445252501, 
-        "mean_mm": 0.011009748590474914, 
-        "median_mm": 0.007030947339408139, 
-        "p10_mm": 0.004114352316947655, 
-        "min_mm": 0.0021993023798435336
-      }, 
-      "h_poles_mean_mm": 0.00827137160760577, 
-      "right_flank_elements": 924
-    }, 
     "1.0": {
-      "total_pole_elements": 6989, 
-      "symmetry_pass": true, 
-      "stress_concentration_localization_pass": false, 
-      "total_flank_elements": 3939, 
-      "bot_pole_elements": 3549, 
-      "error_target_pct": 1.0, 
-      "h_flanks_mean_mm": 0.00424359403303192, 
-      "total_elements": 15481, 
-      "top_pole_elements": 3440, 
-      "flank_symmetry_ratio": 0.9803921568627451, 
-      "far_field_elements": 4553, 
-      "total_nodes": 15466, 
-      "flank_to_pole_ratio": 0.5635999427672056, 
-      "h_far_mean_mm": 0.011930499787631985, 
-      "left_flank_elements": 1950, 
+      "error_target_pct": 1.0,
+      "total_elements": 15481,
+      "total_nodes": 15466,
       "h_eq_stats": {
-        "max_mm": 0.029506829855678134, 
-        "mean_mm": 0.006499640707805523, 
-        "median_mm": 0.0044986863459735675, 
-        "p10_mm": 0.003111841232143367, 
-        "min_mm": 0.0006317232392262572
-      }, 
-      "h_poles_mean_mm": 0.004233202942958373, 
-      "right_flank_elements": 1989
-    }, 
+        "min_mm": 0.000632,
+        "min_um": 0.632,
+        "p10_mm": 0.003112,
+        "median_mm": 0.004499,
+        "median_um": 4.4990000000000006,
+        "mean_mm": 0.0064996420127898715,
+        "mean_um": 6.499642012789871,
+        "max_mm": 0.029507,
+        "max_um": 29.506999999999998
+      },
+      "flank_elements": {
+        "left_flank_elements": 1089,
+        "right_flank_elements": 1135,
+        "total_flank_elements": 2224,
+        "flank_symmetry_ratio": 0.9594713656387666,
+        "symmetry_pass": true,
+        "h_flank_mean_mm": 0.003909379946043166,
+        "h_flank_mean_um": 3.909379946043166
+      },
+      "pole_elements": {
+        "top_pole_elements": 886,
+        "bot_pole_elements": 963,
+        "total_pole_elements": 1849,
+        "h_pole_mean_mm": 0.004312232558139535,
+        "h_pole_mean_um": 4.312232558139534
+      },
+      "far_field_elements": {
+        "total_far_elements": 11408,
+        "h_far_mean_mm": 0.007359149631837308,
+        "h_far_mean_um": 7.359149631837308
+      },
+      "flank_to_pole_element_ratio": 1.202812330989724,
+      "refinement_contrast_far_to_flank": 1.882433975056783,
+      "localization_classification": "QUALITATIVELY_CONSISTENT_WITH_KIRSCH_LOCALIZATION"
+    },
+    "2.0": {
+      "error_target_pct": 2.0,
+      "total_elements": 4645,
+      "total_nodes": 4699,
+      "h_eq_stats": {
+        "min_mm": 0.002199,
+        "min_um": 2.199,
+        "p10_mm": 0.0041144,
+        "median_mm": 0.007031,
+        "median_um": 7.031,
+        "mean_mm": 0.011009749407965555,
+        "mean_um": 11.009749407965554,
+        "max_mm": 0.042683,
+        "max_um": 42.683
+      },
+      "flank_elements": {
+        "left_flank_elements": 672,
+        "right_flank_elements": 617,
+        "total_flank_elements": 1289,
+        "flank_symmetry_ratio": 0.9181547619047619,
+        "symmetry_pass": true,
+        "h_flank_mean_mm": 0.004985508145849496,
+        "h_flank_mean_um": 4.985508145849496
+      },
+      "pole_elements": {
+        "top_pole_elements": 279,
+        "bot_pole_elements": 291,
+        "total_pole_elements": 570,
+        "h_pole_mean_mm": 0.0076699543859649125,
+        "h_pole_mean_um": 7.669954385964912
+      },
+      "far_field_elements": {
+        "total_far_elements": 2786,
+        "h_far_mean_mm": 0.014480291457286432,
+        "h_far_mean_um": 14.480291457286432
+      },
+      "flank_to_pole_element_ratio": 2.26140350877193,
+      "refinement_contrast_far_to_flank": 2.9044765415420035,
+      "localization_classification": "QUALITATIVELY_CONSISTENT_WITH_KIRSCH_LOCALIZATION"
+    },
     "3.0": {
-      "total_pole_elements": 677, 
-      "symmetry_pass": true, 
-      "stress_concentration_localization_pass": true, 
-      "total_flank_elements": 962, 
-      "bot_pole_elements": 342, 
-      "error_target_pct": 3.0, 
-      "h_flanks_mean_mm": 0.00790192059518937, 
-      "total_elements": 2267, 
-      "top_pole_elements": 335, 
-      "flank_symmetry_ratio": 0.9201596806387226, 
-      "far_field_elements": 628, 
-      "total_nodes": 2339, 
-      "flank_to_pole_ratio": 1.4209748892171343, 
-      "h_far_mean_mm": 0.03425171044125442, 
-      "left_flank_elements": 501, 
+      "error_target_pct": 3.0,
+      "total_elements": 2267,
+      "total_nodes": 2339,
       "h_eq_stats": {
-        "max_mm": 0.04404802444101363, 
-        "mean_mm": 0.01683619402190811, 
-        "median_mm": 0.011450607421022845, 
-        "p10_mm": 0.005281201599800883, 
-        "min_mm": 0.0026932416901900803
-      }, 
-      "h_poles_mean_mm": 0.013376558460835639, 
-      "right_flank_elements": 461
+        "min_mm": 0.002693,
+        "min_um": 2.693,
+        "p10_mm": 0.0052828,
+        "median_mm": 0.011451,
+        "median_um": 11.450999999999999,
+        "mean_mm": 0.01683618835465373,
+        "mean_um": 16.83618835465373,
+        "max_mm": 0.044048,
+        "max_um": 44.047999999999995
+      },
+      "flank_elements": {
+        "left_flank_elements": 371,
+        "right_flank_elements": 340,
+        "total_flank_elements": 711,
+        "flank_symmetry_ratio": 0.9164420485175202,
+        "symmetry_pass": true,
+        "h_flank_mean_mm": 0.006639002812939522,
+        "h_flank_mean_um": 6.6390028129395215
+      },
+      "pole_elements": {
+        "top_pole_elements": 111,
+        "bot_pole_elements": 129,
+        "total_pole_elements": 240,
+        "h_pole_mean_mm": 0.011921254166666666,
+        "h_pole_mean_um": 11.921254166666666
+      },
+      "far_field_elements": {
+        "total_far_elements": 1316,
+        "h_far_mean_mm": 0.023241798632218848,
+        "h_far_mean_um": 23.24179863221885
+      },
+      "flank_to_pole_element_ratio": 2.9625,
+      "refinement_contrast_far_to_flank": 3.500796623691771,
+      "localization_classification": "QUALITATIVELY_CONSISTENT_WITH_KIRSCH_LOCALIZATION"
+    },
+    "5.0": {
+      "error_target_pct": 5.0,
+      "total_elements": 1043,
+      "total_nodes": 1106,
+      "h_eq_stats": {
+        "min_mm": 0.009062,
+        "min_um": 9.062000000000001,
+        "p10_mm": 0.0146734,
+        "median_mm": 0.03182,
+        "median_um": 31.82,
+        "mean_mm": 0.02894690220517737,
+        "mean_um": 28.946902205177373,
+        "max_mm": 0.044961,
+        "max_um": 44.961
+      },
+      "flank_elements": {
+        "left_flank_elements": 76,
+        "right_flank_elements": 72,
+        "total_flank_elements": 148,
+        "flank_symmetry_ratio": 0.9473684210526315,
+        "symmetry_pass": true,
+        "h_flank_mean_mm": 0.015211601351351352,
+        "h_flank_mean_um": 15.211601351351353
+      },
+      "pole_elements": {
+        "top_pole_elements": 40,
+        "bot_pole_elements": 41,
+        "total_pole_elements": 81,
+        "h_pole_mean_mm": 0.020948629629629633,
+        "h_pole_mean_um": 20.948629629629632
+      },
+      "far_field_elements": {
+        "total_far_elements": 814,
+        "h_far_mean_mm": 0.03224012653562654,
+        "h_far_mean_um": 32.24012653562654
+      },
+      "flank_to_pole_element_ratio": 1.8271604938271604,
+      "refinement_contrast_far_to_flank": 2.1194432979774627,
+      "localization_classification": "QUALITATIVELY_CONSISTENT_WITH_KIRSCH_LOCALIZATION"
     }
-  }, 
-  "coarse_mesh": {
-    "max_miseseri": 45.68538284301758, 
-    "nodes": 773, 
-    "elements": 728, 
-    "max_mises_stress_mpa": 434.50970458984375
-  }, 
-  "governing_verdict": "INDEPENDENT_REMESHER_QUALIFIED_ON_ANALYTICAL_STRESS_CONCENTRATION"
+  }
 }

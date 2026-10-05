@@ -3179,100 +3179,103 @@ Table~\ref{tab:stage14uao_job_summary} summarizes the current status of all gove
 \end{tabularx}
 \end{table}
 
-\section{Gate-6B Stage 14U-AP: Spatial Sensitivity of Native Error-Guided Remeshing and Independent 2D Stress Concentration Benchmark}
+\section{Gate-6B Stage 14U-AP/AQ: Spatial Sensitivity of Native Error-Guided Remeshing and Independent Continuum Benchmark}
 \label{sec:stage14uap_spatial_sensitivity_and_hole_benchmark}
 
-To rigorously decouple the finite element spatial discretization engine from the governing phase-field fracture kinematics, Stage~14U-AP executes two complementary verification suites:
+To evaluate the Abaqus native error-guided remeshing engine and decouple its spatial sizing mechanics from the coupled phase-field fracture formulation, Stage~14U-AP and Stage~14U-AQ execute two complementary verification suites:
 \begin{enumerate}
-  \item \textbf{Mode-I ErrorTarget Spatial Sensitivity:} Systematic evaluation of Abaqus native \texttt{adaptiveRemesh} sizing behavior across a parametric error tolerance sweep ($\eta_{\mathrm{target}} \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$) on the Stage-14 pre-analysis companion state (\texttt{PK\_M1\_JOB1\_INF\_COMPANION\_2906.odb}).
-  \item \textbf{Independent Continuum Stress Concentration Benchmark:} Construction, linear-elastic solution, and adaptive remeshing of a 2D square plate containing a central circular hole ($R = 0.1\,\mathrm{mm}$) under remote uniaxial tension to verify symmetric multi-lobe mesh refinement on an analytical Kirsch stress concentration ($K_t \approx 3.0$) independently of crack-tip singular elements.
+  \item \textbf{Mode-I ErrorTarget Spatial Sensitivity:} A systematic evaluation of Abaqus native \texttt{adaptiveRemesh} sizing behavior across a parametric error tolerance sweep ($\eta_{\mathrm{target}} \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$) on the Stage-14 pre-analysis companion state (\texttt{PK\_M1\_JOB1\_INF\_COMPANION\_2906.odb}).
+  \item \textbf{Independent Continuum Stress Concentration Benchmark:} Construction, linear-elastic solution, and adaptive remeshing of a 2D square plate containing a central circular hole ($R = 0.1\,\mathrm{mm}$) under remote uniaxial tension to verify symmetric multi-lobe mesh refinement on an analytical Kirsch stress concentration ($K_t \approx 3.06$) independently of phase-field user subroutines or crack-tip singular elements.
 \end{enumerate}
 
-\subsection{Mode-I Native Remeshing ErrorTarget Spatial Sensitivity}
+\subsection{Mode-I Native Remeshing ErrorTarget Spatial Sensitivity and Metric Audit}
 \label{subsec:stage14uap_mode1_sensitivity}
 
-The standard Abaqus error-guided remeshing algorithm determines local target element sizing $h_{\mathrm{new}}(\mathbf{x})$ using the recovery-based stress discretization error indicator $\eta_{\mathrm{rel}} = \| \mathbf{S}^* - \mathbf{S} \| / \| \mathbf{S}^* \|_{\mathrm{global}}$ with a prescribed global relative target $\eta_{\mathrm{target}}$ \citep{zienkiewicz1987simple}. In the Mode-I single-edge notched tension specimen, the pre-analysis companion model generates strong $\mathrm{MISESERI}$ error gradients localized along the horizontal notch ligament ($y = 0.50\,\mathrm{mm}, x \ge 0.50\,\mathrm{mm}$) and slit flank boundaries.
+The standard Abaqus error-guided remeshing algorithm determines local target element sizing $h_{\mathrm{new}}(\mathbf{x})$ using the recovery-based stress discretization error indicator $\eta_{\mathrm{rel}} = \| \mathbf{S}^* - \mathbf{S} \| / \| \mathbf{S}^* \|_{\mathrm{global}}$ with a prescribed global relative target $\eta_{\mathrm{target}}$ \citep{zienkiewicz1987}. In the Mode-I single-edge notched tension specimen, the pre-analysis companion model generates strong $\mathrm{MISESERI}$ error gradients localized along the horizontal notch ligament ($y = 0.50\,\mathrm{mm}, x \ge 0.50\,\mathrm{mm}$) and slit flank boundaries.
 
-Four distinct discretizations were synthesized with sizing parameters bounded by $h_{\min} = 0.001\,\mathrm{mm}$ ($0.75\,\ell_0$) and $h_{\max} = 0.020\,\mathrm{mm}$ ($15.0\,\ell_0$) under uniform error distribution (\texttt{UNIFORM\_ERROR}) and prohibited coarsening (\texttt{NOT\_ALLOWED}):
+The governing phase-field length scale for the Mode-I benchmark is $\ell_0 = 0.0075\,\mathrm{mm} = 7.5\,\mu\mathrm{m}$ \citep{pandey2025}. Four distinct discretizations were synthesized with sizing parameters bounded by $h_{\min} = 0.001\,\mathrm{mm}$ ($0.133\,\ell_0$) and $h_{\max} = 0.020\,\mathrm{mm}$ ($2.67\,\ell_0$) under uniform error distribution (\texttt{UNIFORM\_ERROR}) and prohibited coarsening (\texttt{NOT\_ALLOWED}):
 \begin{itemize}
-  \item $\mathbf{\eta_{\mathrm{target}} = 1.0\%}$: $N = 57{,}929$ elements, $57{,}491$ nodes. Achieved sizing: $h_{\min} = 0.553\,\mu\mathrm{m}$, median $h = 3.10\,\mu\mathrm{m}$, mean $h = 3.66\,\mu\mathrm{m}$. Refinement centroid: $(\bar{x} = 0.5276\,\mathrm{mm}, \bar{y} = 0.4976\,\mathrm{mm})$. Total fine elements ($h \le \ell_0 = 1.333\,\mu\mathrm{m}$): $55{,}072$.
-  \item $\mathbf{\eta_{\mathrm{target}} = 2.0\%}$: $N = 14{,}677$ elements, $14{,}646$ nodes. Achieved sizing: $h_{\min} = 0.767\,\mu\mathrm{m}$, median $h = 6.07\,\mu\mathrm{m}$, mean $h = 6.95\,\mu\mathrm{m}$. Refinement centroid: $(\bar{x} = 0.4959\,\mathrm{mm}, \bar{y} = 0.4973\,\mathrm{mm})$. Total fine elements ($h \le \ell_0$): $8{,}993$.
-  \item $\mathbf{\eta_{\mathrm{target}} = 3.0\%}$: $N = 6{,}824$ elements, $6{,}871$ nodes. Achieved sizing: $h_{\min} = 0.420\,\mu\mathrm{m}$, median $h = 11.19\,\mu\mathrm{m}$, mean $h = 10.70\,\mu\mathrm{m}$. Refinement centroid: $(\bar{x} = 0.4913\,\mathrm{mm}, \bar{y} = 0.4952\,\mathrm{mm})$. Total fine elements ($h \le \ell_0$): $2{,}296$.
-  \item $\mathbf{\eta_{\mathrm{target}} = 5.0\%}$: $N = 4{,}239$ elements, $4{,}313$ nodes. Achieved sizing: $h_{\min} = 1.351\,\mu\mathrm{m}$, median $h = 15.83\,\mu\mathrm{m}$, mean $h = 14.69\,\mu\mathrm{m}$. Refinement centroid: $(\bar{x} = 0.4849\,\mathrm{mm}, \bar{y} = 0.5020\,\mathrm{mm})$. Total fine elements ($h \le \ell_0$): $446$.
+  \item $\mathbf{\eta_{\mathrm{target}} = 1.0\%}$ ($N = 57{,}929$ elements, $57{,}491$ nodes): Sizing metrics range from $h_{\min} = 0.553\,\mu\mathrm{m}$ to $h_{\max} = 18.34\,\mu\mathrm{m}$, with median $h = 3.10\,\mu\mathrm{m}$ and mean $h = 3.66\,\mu\mathrm{m}$. Elements with $h \le \ell_0 = 7.5\,\mu\mathrm{m}$ total $55{,}072$ ($95.07\%$ of the mesh), with $35{,}425$ elements ($61.15\%$) satisfying $h \le \ell_0/2 = 3.75\,\mu\mathrm{m}$. Spatial audit shows that $85.30\%$ of these fine elements ($46{,}977$) reside in the far-field region ($|y - 0.50| > 0.05\,\mathrm{mm}$), reflecting diffuse domain-wide over-refinement rather than localized corridor refinement (\textit{Classification:} \texttt{DIFFUSE\_DOMAIN\_OVERREFINEMENT}).
+  \item $\mathbf{\eta_{\mathrm{target}} = 2.0\%}$ ($N = 14{,}677$ elements, $14{,}646$ nodes): Sizing metrics span $h_{\min} = 0.767\,\mu\mathrm{m}$ to $h_{\max} = 22.37\,\mu\mathrm{m}$, with median $h = 6.07\,\mu\mathrm{m}$ and mean $h = 6.95\,\mu\mathrm{m}$. Elements with $h \le \ell_0$ total $8{,}994$ ($61.28\%$). Within the $10\%$ height crack corridor ($y \in [0.45, 0.55]\,\mathrm{mm}$), $3{,}277$ fine elements concentrate ($36.44\%$ corridor share), with $87.29\%$ of all corridor elements resolved below $\ell_0$ (\textit{Classification:} \texttt{TOWARD\_TARGET\_LOCALIZATION}).
+  \item $\mathbf{\eta_{\mathrm{target}} = 3.0\%}$ ($N = 6{,}824$ elements, $6{,}871$ nodes): Sizing metrics span $h_{\min} = 0.420\,\mu\mathrm{m}$ to $h_{\max} = 23.43\,\mu\mathrm{m}$, with median $h = 11.19\,\mu\mathrm{m}$ and mean $h = 10.70\,\mu\mathrm{m}$. Elements with $h \le \ell_0$ total $2{,}296$ ($33.65\%$). The crack corridor contains $1{,}432$ fine elements, achieving the sharpest relative concentration with a $62.37\%$ corridor share of fine elements and a coarsened far-field ($h_{\mathrm{far,median}} = 12.87\,\mu\mathrm{m}$) (\textit{Classification:} \texttt{TOWARD\_TARGET\_LOCALIZATION}).
+  \item $\mathbf{\eta_{\mathrm{target}} = 5.0\%}$ ($N = 4{,}239$ elements, $4{,}313$ nodes): Sizing metrics span $h_{\min} = 1.351\,\mu\mathrm{m}$ to $h_{\max} = 23.59\,\mu\mathrm{m}$, with median $h = 15.83\,\mu\mathrm{m}$ and mean $h = 14.69\,\mu\mathrm{m}$. Fine elements ($h \le \ell_0$) total $446$ ($10.52\%$). Although $85.87\%$ of fine elements reside in the corridor, the corridor itself is under-resolved, with a median size $h \approx 2.1\,\ell_0$ and only $49.17\%$ of corridor elements satisfying $h \le \ell_0$ (\textit{Classification:} \texttt{UNDER\_RESOLVED\_CORRIDOR}).
 \end{itemize}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.96\textwidth]{fig_mode1_stage14uap_errortarget_spatial_sensitivity.pdf}
-\caption{Gate-6B Stage 14U-AP Mode-I Native Remeshing Spatial Sensitivity: Equivalent element size distribution $h_{\mathrm{eq}}(\mathbf{x})$ across $\eta_{\mathrm{target}} \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$ showing consistent spatial confinement of fine discretizations along the horizontal crack propagation line ($y = 0.50\,\mathrm{mm}$).}
+\caption{Gate-6B Stage 14U-AP/AQ Mode-I Native Remeshing Spatial Sensitivity: Equivalent element size distribution $h_{\mathrm{eq}}(\mathbf{x})$ across $\eta_{\mathrm{target}} \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$ showing highlighted crack corridor boundaries ($y \in [0.45, 0.55]\,\mathrm{mm}$, shaded gray), initial notch ($a_0 = 0.50\,\mathrm{mm}$, solid red line), and uniform colorbar scaling with reference threshold $\ell_0 = 7.5\,\mu\mathrm{m}$.}
 \label{fig:stage14uap_mode1_spatial_sensitivity}
 \end{figure}
 
-As illustrated in Figure~\ref{fig:stage14uap_mode1_spatial_sensitivity}, the spatial envelope of refined elements remains invariant to the chosen error target: the centroid of the refined zone is anchored at $y \approx 0.500\,\mathrm{mm} \pm 0.005\,\mathrm{mm}$ across all four cases. Decreasing $\eta_{\mathrm{target}}$ smoothly deepens the mesh resolution within the physical corridor, scaling total elements from $4{,}239$ up to $57{,}929$ without introducing spurious off-axis refinement branches.
+As shown in Figure~\ref{fig:stage14uap_mode1_spatial_sensitivity}, the spatial envelope of the fine discretization varies systematically with error tolerance. At $\eta = 1.0\%$, the stringent error threshold forces refinement across the entire domain ($85.3\%$ in far field). Relaxing $\eta$ to $2.0\%$ and $3.0\%$ progressively suppresses far-field refinement while maintaining high resolution along the physical crack corridor ($y \approx 0.500\,\mathrm{mm} \pm 0.005\,\mathrm{mm}$). At $\eta = 5.0\%$, the mesh coarsens past the threshold required to resolve the phase-field diffuse interface.
 
 \subsection{Independent 2D Plate with Central Hole Benchmark}
 \label{subsec:stage14uap_hole_benchmark}
 
-To confirm that the spatial localization observed in Section~\ref{subsec:stage14uap_mode1_sensitivity} is a general property of the recovery-based remesher rather than an artifact of the Mode-I slit topology, a 2D linear-elastic benchmark was formulated on a unit square domain $[0, 1] \times [0, 1]\,\mathrm{mm}$ containing a central circular cutout of radius $R = 0.1\,\mathrm{mm}$ centered at $(0.5, 0.5)\,\mathrm{mm}$. Material parameters were set to standard structural steel ($E = 210\,\mathrm{GPa}, \nu = 0.3$), subjected to remote uniaxial tensile displacement $u_y = 0.001\,\mathrm{mm}$ along the top boundary ($y = 1.0\,\mathrm{mm}$) with bottom symmetry roller support ($u_y = 0$ at $y = 0.0\,\mathrm{mm}$) and an in-plane rigid body pin ($u_x = 0$ at $(0, 0)\,\mathrm{mm}$).
+To evaluate the adaptive remesher independently of crack singularities and user subroutines, a 2D linear-elastic benchmark was formulated on a unit square domain $[0, 1] \times [0, 1]\,\mathrm{mm}$ containing a central circular cutout of radius $R = 0.1\,\mathrm{mm}$ ($2R/W = 0.2$) centered at $(0.5, 0.5)\,\mathrm{mm}$. Material parameters were set to standard structural steel ($E = 210\,\mathrm{GPa}, \nu = 0.3$) under plane strain (CPE4 elements), subjected to remote uniaxial tensile displacement $u_y = 0.001\,\mathrm{mm}$ along the top boundary ($y = 1.0\,\mathrm{mm}$) with bottom symmetry roller support ($u_y = 0$ at $y = 0.0\,\mathrm{mm}$) and in-plane rigid body pin ($u_x = 0$ at $(0, 0)\,\mathrm{mm}$).
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.96\textwidth]{fig_plate_with_hole_adaptive_remeshing.pdf}
-\caption{Independent 2D Plate with Central Circular Hole Benchmark: Abaqus native \texttt{adaptiveRemesh} mesh progression across $\eta_{\mathrm{target}} \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$. The remesher accurately resolves the two symmetric high-stress lobes ($K_t \approx 3.0$) at lateral flanks $(0.4, 0.5)\,\mathrm{mm}$ and $(0.6, 0.5)\,\mathrm{mm}$ with $>92.0\%$ bilateral symmetry.}
+\caption{Independent 2D Plate with Central Circular Hole Benchmark ($R=0.1\,\mathrm{mm}$): Abaqus native \texttt{adaptiveRemesh} mesh progression across $\eta_{\mathrm{target}} \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$. The remesher accurately captures the bilateral stress concentration lobes ($K_t \approx 3.06$) at lateral flanks $(0.4, 0.5)\,\mathrm{mm}$ and $(0.6, 0.5)\,\mathrm{mm}$ with $>91.6\%\text{--}96.0\%$ bilateral symmetry and $2.1\times\text{--}3.5\times$ local-to-far refinement contrast.}
 \label{fig:stage14uap_plate_with_hole_remeshing}
 \end{figure}
 
-The baseline coarse mesh ($N = 728$ elements, $773$ nodes, initial $h \approx 40\,\mu\mathrm{m}$) resolved a peak Mises stress of $\sigma_{\mathrm{vM}}^{\max} = 434.51\,\mathrm{MPa}$ at the lateral hole flanks ($x = 0.40\,\mathrm{mm}$ and $x = 0.60\,\mathrm{mm}, y = 0.50\,\mathrm{mm}$), in close agreement with the theoretical Kirsch stress concentration factor ($K_t \approx 3.0$). The corresponding error indicator peaked at $\mathrm{MISESERI}^{\max} = 45.69\,\mathrm{MPa}$ at both lateral flanks, while dropping to near zero at the top and bottom hole poles ($x = 0.50\,\mathrm{mm}, y = 0.40/0.60\,\mathrm{mm}$).
+In an infinite plate under remote uniaxial tension, the classical Kirsch solution gives a theoretical stress concentration factor of $K_t = 3.0$ at the lateral hole flanks ($\theta = 0, \pi$) and $K_t = -1.0$ at the top/bottom poles ($\theta = \pi/2, 3\pi/2$). For the finite-width ratio $2R/W = 0.2$, the standard finite-width correction factor yields $K_{t,\mathrm{finite}} \approx 3.06$. The baseline coarse mesh ($N = 728$ elements, $773$ nodes, initial $h \approx 40\,\mu\mathrm{m}$) resolved a peak Mises stress of $\sigma_{\mathrm{vM}}^{\max} = 434.51\,\mathrm{MPa}$ at the lateral flanks ($x = 0.40\,\mathrm{mm}$ and $x = 0.60\,\mathrm{mm}, y = 0.50\,\mathrm{mm}$). The corresponding error indicator peaked at $\mathrm{MISESERI}^{\max} = 45.69\,\mathrm{MPa}$ at both lateral flanks, while dropping to near zero at the top and bottom poles.
 
 Adaptive remeshing was executed across $\eta_{\mathrm{target}} \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$ with bounds $h_{\min} = 0.001\,\mathrm{mm}$ and $h_{\max} = 0.050\,\mathrm{mm}$:
 \begin{itemize}
-  \item $\mathbf{\eta_{\mathrm{target}} = 1.0\%}$: $N = 15{,}481$ elements, $15{,}466$ nodes. Flank elements: $3{,}939$ (Left: $1{,}950$, Right: $1{,}989$). Flank symmetry ratio: $\mathbf{0.9804}$ ($98.0\%$). Mean element sizes: $h_{\text{flanks}} = 4.24\,\mu\mathrm{m}$, $h_{\text{far}} = 11.93\,\mu\mathrm{m}$.
-  \item $\mathbf{\eta_{\mathrm{target}} = 2.0\%}$: $N = 4{,}645$ elements, $4{,}699$ nodes. Flank elements: $1{,}917$ (Left: $993$, Right: $924$). Flank symmetry ratio: $\mathbf{0.9305}$ ($93.1\%$). Mean element sizes: $h_{\text{flanks}} = 5.74\,\mu\mathrm{m}$, $h_{\text{far}} = 26.25\,\mu\mathrm{m}$.
-  \item $\mathbf{\eta_{\mathrm{target}} = 3.0\%}$: $N = 2{,}267$ elements, $2{,}339$ nodes. Flank elements: $962$ (Left: $501$, Right: $461$). Flank symmetry ratio: $\mathbf{0.9202}$ ($92.0\%$). Flank-to-pole concentration ratio: $1.42\times$. Mean element sizes: $h_{\text{flanks}} = 7.90\,\mu\mathrm{m}$, $h_{\text{far}} = 34.25\,\mu\mathrm{m}$.
-  \item $\mathbf{\eta_{\mathrm{target}} = 5.0\%}$: $N = 1{,}043$ elements, $1{,}106$ nodes. Flank elements: $241$ (Left: $124$, Right: $117$). Flank symmetry ratio: $\mathbf{0.9435}$ ($94.4\%$). Mean element sizes: $h_{\text{flanks}} = 17.26\,\mu\mathrm{m}$, $h_{\text{far}} = 36.20\,\mu\mathrm{m}$.
+  \item $\mathbf{\eta_{\mathrm{target}} = 1.0\%}$: $N = 15{,}481$ elements, $15{,}466$ nodes. Flank elements: $2{,}224$ (Left: $1{,}089$, Right: $1{,}135$, Symmetry ratio: $\mathbf{0.9595}$). Mean sizes: $h_{\text{flanks}} = 3.91\,\mu\mathrm{m}$, $h_{\text{far}} = 7.36\,\mu\mathrm{m}$ ($1.9\times$ contrast).
+  \item $\mathbf{\eta_{\mathrm{target}} = 2.0\%}$: $N = 4{,}645$ elements, $4{,}699$ nodes. Flank elements: $1{,}289$ (Left: $672$, Right: $617$, Symmetry ratio: $\mathbf{0.9182}$). Mean sizes: $h_{\text{flanks}} = 4.99\,\mu\mathrm{m}$, $h_{\text{far}} = 14.48\,\mu\mathrm{m}$ ($2.9\times$ contrast).
+  \item $\mathbf{\eta_{\mathrm{target}} = 3.0\%}$: $N = 2{,}267$ elements, $2{,}339$ nodes. Flank elements: $711$ (Left: $371$, Right: $340$, Symmetry ratio: $\mathbf{0.9164}$). Flank-to-pole element ratio: $2.96\times$. Mean sizes: $h_{\text{flanks}} = 6.64\,\mu\mathrm{m}$, $h_{\text{far}} = 23.24\,\mu\mathrm{m}$ ($3.5\times$ contrast).
+  \item $\mathbf{\eta_{\mathrm{target}} = 5.0\%}$: $N = 1{,}043$ elements, $1{,}106$ nodes. Flank elements: $148$ (Left: $76$, Right: $72$, Symmetry ratio: $\mathbf{0.9474}$). Mean sizes: $h_{\text{flanks}} = 15.21\,\mu\mathrm{m}$, $h_{\text{far}} = 32.24\,\mu\mathrm{m}$ ($2.1\times$ contrast).
 \end{itemize}
 
-Figure~\ref{fig:stage14uap_plate_with_hole_remeshing} demonstrates that the native remesher automatically identifies both lateral stress concentration lobes and refines them symmetrically without manual partitioning, submodeling, or prior user biasing.
+Figure~\ref{fig:stage14uap_plate_with_hole_remeshing} confirms that the native remesher automatically detects the dual lateral stress concentration lobes and refines them symmetrically without manual partitioning or user intervention (\textit{Verdict:} \texttt{QUALITATIVELY\_CONSISTENT\_WITH\_KIRSCH\_LOCALIZATION}).
 
-\subsection{Quantitative Synthesis and Summary}
+\subsection{Quantitative Synthesis and Summary Table}
 \label{subsec:stage14uap_synthesis_table}
 
-Table~\ref{tab:stage14uap_synthesis_summary} summarizes the key metrics from both parametric error sweeps.
+Table~\ref{tab:stage14uap_synthesis_summary} provides the audited, reconciled metrics from both parametric sweeps.
 
 \begin{table}[htbp]
 \centering
-\small
-\caption{Gate-6B Stage 14U-AP Quantitative Remeshing Metrics across Error Targets.}
+\scriptsize
+\caption{Gate-6B Stage 14U-AP/AQ Quantitative Remeshing Metrics across Error Targets ($\ell_0 = 7.5\,\mu\mathrm{m}$).}
 \label{tab:stage14uap_synthesis_summary}
-\begin{tabularx}{\textwidth}{l c c c c c X}
+\begin{tabularx}{\textwidth}{l c c c c c c >{\raggedright\arraybackslash}X}
 \toprule
-\textbf{Benchmark / Sweep} & $\mathbf{\eta_{\mathrm{target}}}$ & $\mathbf{N_{\mathrm{elem}}}$ & $\mathbf{h_{\min}}$ [$\mu\mathrm{m}$] & $\mathbf{\bar{h}_{\mathrm{refined}}}$ [$\mu\mathrm{m}$] & $\mathbf{\bar{h}_{\mathrm{far}}}$ [$\mu\mathrm{m}$] & \textbf{Spatial Verification Criterion} \\
+\textbf{Benchmark / Sweep} & $\mathbf{\eta}$ & $\mathbf{N_{\mathrm{elem}}}$ & $\mathbf{h_{\min}}$ [$\mu\mathrm{m}$] & $\mathbf{h_{\mathrm{med}}}$ [$\mu\mathrm{m}$] & $\mathbf{N(h \le \ell_0)}$ & \textbf{Corr. Share} & \textbf{Spatial Classification} \\
 \midrule
-Mode-I Notch ($\eta = 1.0\%$) & $1.0\%$ & $57{,}929$ & $0.553$ & $2.91$ & $3.78$ & Crack line centroid $\bar{y} = 0.4976\,\mathrm{mm}$; $55\mathrm{k}$ fine elements. \\
-Mode-I Notch ($\eta = 2.0\%$) & $2.0\%$ & $14{,}677$ & $0.767$ & $3.79$ & $8.03$ & Crack line centroid $\bar{y} = 0.4973\,\mathrm{mm}$; $8.9\mathrm{k}$ fine elements. \\
-Mode-I Notch ($\eta = 3.0\%$) & $3.0\%$ & $6{,}824$  & $0.420$ & $5.52$ & $12.57$ & Crack line centroid $\bar{y} = 0.4952\,\mathrm{mm}$; $2.3\mathrm{k}$ fine elements. \\
-Mode-I Notch ($\eta = 5.0\%$) & $5.0\%$ & $4{,}239$  & $1.351$ & $9.76$ & $15.80$ & Crack line centroid $\bar{y} = 0.5020\,\mathrm{mm}$; $0.4\mathrm{k}$ fine elements. \\
+Mode-I ($\eta = 1.0\%$) & $1.0\%$ & $57{,}929$ & $0.553$ & $3.10$ & $55{,}072$ & $14.7\%$ & Diffuse domain over-refinement \\
+Mode-I ($\eta = 2.0\%$) & $2.0\%$ & $14{,}677$ & $0.767$ & $6.07$ & $8{,}994$  & $36.4\%$ & Toward target localization \\
+Mode-I ($\eta = 3.0\%$) & $3.0\%$ & $6{,}824$  & $0.420$ & $11.19$ & $2{,}296$ & $62.4\%$ & Toward target localization \\
+Mode-I ($\eta = 5.0\%$) & $5.0\%$ & $4{,}239$  & $1.351$ & $15.83$ & $446$     & $85.9\%$ & Under-resolved corridor \\
 \midrule
-Plate with Hole ($\eta = 1.0\%$) & $1.0\%$ & $15{,}481$ & $0.632$ & $4.24$ & $11.93$ & Flank symmetry $98.0\%$; bilateral stress lobe capture. \\
-Plate with Hole ($\eta = 2.0\%$) & $2.0\%$ & $4{,}645$  & $2.199$ & $5.74$ & $26.25$ & Flank symmetry $93.1\%$; $4.6\times$ local-to-far contrast. \\
-Plate with Hole ($\eta = 3.0\%$) & $3.0\%$ & $2{,}267$  & $2.693$ & $7.90$ & $34.25$ & Flank symmetry $92.0\%$; $4.3\times$ local-to-far contrast. \\
-Plate with Hole ($\eta = 5.0\%$) & $5.0\%$ & $1{,}043$  & $9.062$ & $17.26$ & $36.20$ & Flank symmetry $94.4\%$; $2.1\times$ local-to-far contrast. \\
+Plate with Hole ($1.0\%$) & $1.0\%$ & $15{,}481$ & $0.632$ & $4.50$ & --- & Sym: $96.0\%$ & $1.9\times$ local-to-far contrast \\
+Plate with Hole ($2.0\%$) & $2.0\%$ & $4{,}645$  & $2.199$ & $7.03$ & --- & Sym: $91.8\%$ & $2.9\times$ local-to-far contrast \\
+Plate with Hole ($3.0\%$) & $3.0\%$ & $2{,}267$  & $2.693$ & $11.45$ & --- & Sym: $91.6\%$ & $3.5\times$ local-to-far contrast \\
+Plate with Hole ($5.0\%$) & $5.0\%$ & $1{,}043$  & $9.062$ & $31.82$ & --- & Sym: $94.7\%$ & $2.1\times$ local-to-far contrast \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\subsection{Epistemic Attribution: Native Sizing Mechanics vs. Phase-Field Preanalysis Coupling}
+\subsection{Epistemic Attribution and Lineage Distinction}
 \label{subsec:stage14uap_epistemic_attribution}
 
-A critical scientific distinction must be drawn between the mathematical sizing mechanics of the Abaqus native adaptive remesher and the constitutive information fed into it from the phase-field fracture problem:
+A critical scientific distinction must be maintained between the sizing mechanics of the Abaqus native adaptive remesher, the coupled phase-field pre-analysis workflow, and the historical pre-analysis defect lineage:
 \begin{enumerate}
-  \item \textbf{Decoupled Remesher Verification:} The independent linear-elastic plate-with-hole benchmark contains no user subroutines (\texttt{UEL}), no damage variable ($d$), no history fields ($\mathcal{H}$), and no crack kinematics. The stress concentration is governed purely by the classical Kirsch solution. The observation that $\mathrm{MISESERI}$ peaks symmetrically at the lateral hole flanks and drives strictly bilateral mesh refinement ($>92.0-98.0\%$ symmetry ratio) proves conclusively that the native Abaqus remeshing algorithm is functioning correctly as a standalone error-guided sizing tool.
-  \item \textbf{Coupled Workflow Verification:} When coupled to the corrected Mode-I phase-field workflow, the pre-analysis companion state generates an error indicator field that correctly reflects the crack-tip stress singularity and ligament degradation. Consequently, the remesher concentrates fine discretizations exclusively along the horizontal crack propagation plane ($y = 0.500\,\mathrm{mm} \pm 0.005\,\mathrm{mm}$) across all error targets ($\eta \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$), demonstrating the causal chain:
-  \begin{equation}
-    \text{PFF State} \;\longrightarrow\; \text{Companion Stress Field} \;\longrightarrow\; \text{MISESERI} \;\longrightarrow\; \text{Corridor Refinement}
-  \end{equation}
-  \item \textbf{Scientific Attribution of Historical Meshes:} The historical generation of overly dense or diffuse meshes (such as the $71{,}320$-element mesh under $\eta_{\mathrm{target}} = 1.0\%$) was therefore not caused by a failure of the Abaqus adaptive remeshing algorithm itself. Rather, it stemmed directly from the pre-analysis input state: the uncorrected boundary-condition history ($N_{\mathrm{BOTTOM}}$ node truncation) and the pre-analysis companion stress representation. The element count of $71{,}320$ was a rigorous $\eta_{\mathrm{target}} = 1.0\%$ sensitivity result under an uncorrected stress field, rather than proof of an algorithmic breakdown in the remesher.
+  \item \textbf{Decoupled Remesher Verification:} The independent linear-elastic plate-with-hole benchmark contains no user subroutines (\texttt{UEL}), no damage field ($d$), no history variables ($\mathcal{H}$), and no fracture kinematics. The stress concentration is governed purely by the classical Kirsch continuum solution. The observation that $\mathrm{MISESERI}$ peaks symmetrically at the lateral hole flanks and drives strictly bilateral mesh refinement ($>91.6\%\text{--}96.0\%$ symmetry ratio, $2.1\times\text{--}3.5\times$ local-to-far refinement contrast) verifies that the native Abaqus remeshing algorithm functions correctly as a standalone continuum sizing tool (\textit{Verdict:} \texttt{NATIVE\_ABAQUS\_MISESERI\_ADAPTIVEREMESH\_FUNCTIONALITY\_VERIFIED}).
+  \item \textbf{Coupled Workflow Verification:} When coupled to the Mode-I pre-analysis companion state, the companion stress field generates $\mathrm{MISESERI}$ error gradients that reflect the crack-tip stress singularity. The remesher translates these gradients into refined element corridors aligned with the crack propagation plane ($y = 0.500\,\mathrm{mm} \pm 0.005\,\mathrm{mm}$).
+  \item \textbf{Historical vs. Corrected Pre-Analysis Lineage:} The historical generation of the $71{,}320$-element mesh ($\eta = 1.0\%$) and the corrected Stage-14 sweep ($57{,}929$, $14{,}677$, $6{,}824$, $4{,}239$) belong to fundamentally different pre-analysis states:
+  \begin{itemize}
+    \item \textit{Historical $71{,}320$-Element Lineage:} Generated on a pre-analysis model suffering from the 16-entry Abaqus card limit defect in the \texttt{N\_BOTTOM} boundary set, which silently omitted $134$ of the $150$ bottom restraint nodes, introducing artificial parasitic bending and compliance distortion into the companion stress field.
+    \item \textit{Corrected Stage-14 Lineage:} Generated on the Gate-6A/6B corrected pre-analysis model (\texttt{PK\_M1\_JOB1\_INF\_COMPANION\_2906.odb}) with all $150$ bottom nodes fully restrained by wrapped keyword cards.
+  \end{itemize}
+  The $71{,}320$-element and $57{,}929$-element meshes are therefore not contradictory outputs from an identical input deck, but rather consistent outputs from two distinct boundary-condition pre-analysis configurations.
 \end{enumerate}
 
 \paragraph{Defensible Scientific Conclusion for Thesis \& Supervisor Review:}
-\textit{An independent linear-elastic benchmark confirms that the Abaqus $\mathrm{MISESERI}$-driven native remeshing procedure correctly localizes refinement in regions of known stress-error concentration without involvement of the phase-field UEL. The corrected Mode-I benchmark further demonstrates that, when coupled to the present phase-field workflow, the same remeshing procedure localizes refinement along the expected crack-propagation region. Therefore, the earlier diffuse/over-refined meshes are attributed to the preceding Mode-I preanalysis/coupling configuration rather than to a failure of the Abaqus adaptive-remeshing algorithm itself.}
+\textit{An independent linear-elastic benchmark confirms that the Abaqus $\mathrm{MISESERI}$-driven native remeshing procedure correctly localizes refinement in regions of known continuum stress-error concentration without involvement of phase-field user subroutines. The corrected Mode-I benchmark further demonstrates that, when coupled to the present pre-analysis companion state, the remeshing procedure concentrates refinement along the crack-propagation corridor in a manner governed by the chosen error tolerance $\eta$. Finally, historical differences in element count (such as the earlier $71{,}320$-element mesh) are rigorously attributed to pre-analysis boundary-condition defects ($N_{\mathrm{BOTTOM}}$ node truncation) rather than algorithmic remesher instability.}
+
