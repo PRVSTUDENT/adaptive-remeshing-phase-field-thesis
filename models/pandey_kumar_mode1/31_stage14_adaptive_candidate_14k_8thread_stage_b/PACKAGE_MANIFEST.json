@@ -1,0 +1,37 @@
+{
+  "package_id": "PACKAGE_31_STAGE14_ADAPTIVE_14K_8THREAD_STAGE_B_REPEAT",
+  "task_id": "F1224-GATE6B-STAGE14UAO-8THREAD-PREFLIGHT-AND-TERMINAL-EVALUATORS-20261005",
+  "package_name": "31_stage14_adaptive_candidate_14k_8thread_stage_b",
+  "package_role": "STAGEB_8THREAD_SHARED_MEMORY_DETERMINISM_REPEAT",
+  "status": "8THREAD_STAGEB_REPEAT_VALIDATED__WAITING_FOR_STAGEA_TERMINAL_PASS",
+  "governed_files": {
+    "input_deck": {
+      "filename": "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+      "sha256": "26d873fb2e68055c80550d1dd981766bcaf46e13d3d0a7ba6411b63d9c382d35",
+      "nodes_count": 14456,
+      "elements_count": 43449,
+      "base_elements_count": 14483
+    },
+    "user_subroutine": {
+      "filename": "f42_mixed_uel.for",
+      "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+      "lines_count": 908
+    },
+    "pbs_script": {
+      "filename": "submit_solver.pbs",
+      "job_name": "PK_M1_14K_8T_B",
+      "solver_job": "PK_M1_14K_8T_STAGE_B",
+      "cpus": 8,
+      "mp_mode": "threads",
+      "walltime": "12:00:00",
+      "memory": "16gb",
+      "queue": "entry_imfdfkmq",
+      "target_queue": "normal_imfdfkmq"
+    }
+  },
+  "gating_rules": {
+    "datacheck_authorized": true,
+    "submission_authorized": false,
+    "prerequisite": "STAGE_A_8THREAD_PARITY_FULL_PASS_AT_U007889"
+  }
+}

@@ -1,0 +1,35 @@
+#!/bin/bash
+#PBS -N PK_M1_14K_8T_B
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=8
+#PBS -l mem=16gb
+#PBS -l walltime=12:00:00
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -o PK_M1_14K_8T_STAGE_B.out
+#PBS -e PK_M1_14K_8T_STAGE_B.err
+
+set -euo pipefail
+cd /home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/31_stage14_adaptive_candidate_14k_8thread_stage_b || exit 1
+
+if [ ! -f ./job_notifications.sh ]; then
+  echo "[LAUNCHER ERROR] job_notifications.sh missing" >&2
+  exit 10
+fi
+
+source ./job_notifications.sh
+notification_load_config || true
+notification_install_terminal_trap
+notify_start || true
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "=== STARTING 8-THREAD SOLVER PK_M1_14K_8T_STAGE_B (CPUs: 8, mp_mode=threads, Mem: 16GB) ==="
+rm -f PK_M1_14K_8T_STAGE_B.lck PK_M1_14K_8T_STAGE_B.023 uel_energy_balance.csv
+abaqus job=PK_M1_14K_8T_STAGE_B user=f42_mixed_uel.for input=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp cpus=8 mp_mode=threads memory="16gb" double=both interactive
+ABAQUS_EXIT=$?
+echo "=== FINISHED 8-THREAD SOLVER PK_M1_14K_8T_STAGE_B (EXIT: $ABAQUS_EXIT) ==="
+exit "$ABAQUS_EXIT"

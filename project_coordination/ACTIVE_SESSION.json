@@ -1,16 +1,17 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "SESSION-20261005-0601-STAGE14UAN-TERMINAL-EVALUATION-AND-QUALIFICATION",
-  "task_id": "F1223-GATE6B-STAGE14UAN-TERMINAL-EVALUATION-AND-QUALIFICATION-20261005",
-  "claimed_at": "2026-10-05T06:01:00.000Z",
-  "released_at": "2026-10-05T06:30:00.000Z",
-  "starting_commit": "4c6d51494b3efd6bba9365087449a3548b35a1b7",
+  "session_id": "SESSION-20261005-0622-STAGE14UAO-8THREAD-PREFLIGHT-AND-TERMINAL-EVALUATORS",
+  "task_id": "F1224-GATE6B-STAGE14UAO-8THREAD-PREFLIGHT-AND-TERMINAL-EVALUATORS-20261005",
+  "claimed_at": "2026-10-05T06:22:00.000Z",
+  "released_at": "2026-10-05T04:30:41.438344+00:00",
+  "starting_commit": "9c681d7db60cf5207d4dd3ca8b476a706c54f805",
   "allowed_write_scope": [
     "models/pandey_kumar_mode1/*",
     "tests/unit/*",
     "docs/MA_AdaptiveRemeshing_Report_2026_main/*",
     "project_coordination/*",
-    "results/*"
+    "results/*",
+    "scripts/*"
   ]
 }
