@@ -1,12 +1,12 @@
 {
-  "task_id": "F1246-MODE1-BASELINE-SPATIAL-PHASE-FIELD-AND-CRACK-PATH-CONVERGENCE",
+  "task_id": "F1247-MODE1-SPATIAL-BASELINE-PROVENANCE-RECONCILIATION-AND-CORRECTION",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "stage": "MODE1_STAGE14_BASELINE_SPATIAL_PHASE_FIELD_AND_CRACK_PATH_CONVERGENCE_COMPLETE",
+  "stage": "MODE1_STAGE14_BASELINE_SPATIAL_PROVENANCE_RECONCILIATION_COMPLETE",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "started_at": "2026-10-05T17:00:00+02:00",
-  "completed_at": "2026-10-05T17:15:00+02:00",
-  "description": "Executed Mode-I baseline spatial phase-field and crack-path convergence foundation audit comparing fixed reference (15,192 FE, Job 1409734) and ET1 adaptive baseline (14,483 FE, Job 1409982). Defined multi-threshold crack-tip kinematics (d>=0.50, 0.70, 0.90), transverse localization bandwidth (w_0.5 approx 20.8 um approx 2.77 l_0), centroid off-axis deviation (|y_c - 0.5| < 0.5 um), and 9 matched-displacement milestones. Generated 5 publication figures in results/figures/mode1_gate6b/, authored test suite with 8 tests (100% pass), updated supervisor pack and thesis Chapter 7, leaving 5 active solver jobs running untouched on scratch9.",
+  "started_at": "2026-10-05T17:15:00+02:00",
+  "completed_at": "2026-10-05T17:45:00+02:00",
+  "description": "Reconciled and corrected Mode-I baseline spatial phase-field and crack-path convergence audit comparing fixed reference (15,192 FE, Job 1409734) and ET1 adaptive baseline (14,483 FE, Job 1409982). Replaced synthetic linear formula with authentic non-linear reaction force history (F_ref=0.662 kN at u=0.005 mm, F_ref=0.7578 kN at peak u=0.005857 mm); replaced quadratic fit with authentic integration point d_max field data (d_max=0.298 at u=0.005 mm, d_max=0.630 at peak); reconciled minimum element size definitions (h_area=sqrt(A_min)=0.7605 um for smallest element vs h_edge approx 1.09 um nominal notch-root edge length); downgraded causal assertions to correlation wording; regenerated 5 spatial figures in results/figures/mode1_gate6b/; passed 11 regression tests (100%), leaving 5 active solver jobs running undisturbed on scratch9.",
   "governing_verdict": "SPATIAL_FIELD_BASELINE_AGREEMENT_PREPEAK_AND_POSTPEAK__PEAK_LOCALIZATION_DIFFERENCE_IDENTIFIED",
   "promoted_status": "BASELINE_SPATIAL_COMPARISON_QUALIFIED__FINAL_SPATIAL_RESOLUTION_CONVERGENCE_GATED_ON_58K_CANDIDATE",
   "active_jobs": {

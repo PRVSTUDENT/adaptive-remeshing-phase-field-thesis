@@ -105,7 +105,7 @@ To evaluate time-step convergence on the production $14{,}483$-element adaptive 
 \subsection{Baseline Spatial Phase-Field and Crack-Path Comparison: Fixed Reference versus ET1 Adaptive Mesh}
 \label{sec:baseline_spatial_ref_vs_et1}
 
-To rigorously evaluate the baseline spatial fidelity of the error-indicator refined configuration, a comprehensive field-level comparison was executed between the qualified fixed-mesh reference ($15{,}192$ finite elements, Job \texttt{1409734.mmaster02}) and the canonical corrected ET1 adaptive baseline ($14{,}483$ finite elements, Package~25, Job \texttt{1409982.mmaster02}). The comparison strictly enforces the matched prescribed displacement protocol ($u \in \{1.0, 3.0, 5.0, 5.733, 5.857, 6.0, 6.5, 7.0, 7.889\}\,\mu\mathrm{m}$) with zero forward-filling beyond the actual solver terminal state ($u_{\mathrm{term}} = 7.889\,\mu\mathrm{m}$).
+To rigorously evaluate the baseline spatial fidelity of the error-indicator refined configuration, a comprehensive field-level comparison was executed between the qualified fixed-mesh reference ($15{,}192$ finite elements, Job \texttt{1409734.mmaster02}) and the canonical corrected ET1 adaptive baseline ($14{,}483$ finite elements, Package~25, Job \texttt{1409982.mmaster02}). The minimum element size in the adaptive mesh is explicitly disambiguated: $h_{\mathrm{area}} = \sqrt{A_{\min}} = 0.7605\,\mu\mathrm{m}$ represents the area-equivalent length of the smallest triangular element, whereas $h_{\mathrm{edge}} \approx 1.09\,\mu\mathrm{m}$ is the nominal notch-root element edge length. The comparison strictly enforces the matched prescribed displacement protocol ($u \in \{1.0, 3.0, 5.0, 5.733, 5.857, 6.0, 6.5, 7.0, 7.889\}\,\mu\mathrm{m}$) with zero forward-filling beyond the actual solver terminal state ($u_{\mathrm{term}} = 7.889\,\mu\mathrm{m}$).
 
 \begin{enumerate}
   \item \textbf{Pre-Peak Damage Localization \& Elastic Parity ($u \le 5.0\,\mu\mathrm{m}$):}
@@ -120,7 +120,7 @@ To rigorously evaluate the baseline spatial fidelity of the error-indicator refi
   \begin{itemize}
     \item \textbf{Snap-Through Shift:} The adaptive mesh reaches peak load slightly earlier at $u = 5.733\,\mu\mathrm{m}$ ($F_{\max} = 0.743701\,\mathrm{kN}$) compared to the reference mesh at $u = 5.857\,\mu\mathrm{m}$ ($F_{\max} = 0.757778\,\mathrm{kN}$, a $-1.8576\%$ load difference).
     \item \textbf{Damage State at $u=5.857\,\mu\mathrm{m}$:} The fixed reference is at peak load with diffuse damage ($d_{\max} = 0.629736, x_{\mathrm{tip}}^{0.90} = 0.500000\,\mathrm{mm}$), whereas the adaptive mesh has already undergone catastrophic snap-through ($d_{\max} = 1.000494, x_{\mathrm{tip}}^{0.90} = 0.976737\,\mathrm{mm}$).
-    \item \textbf{Classification:} Classified as \textbf{\texttt{SPATIAL\_FIELD\_BASELINE\_DIFFERENCE}}. This shift correlates directly with localized compliance gradations and mesh refinement at the notch root.
+    \item \textbf{Classification:} Classified as \textbf{\texttt{SPATIAL\_FIELD\_BASELINE\_DIFFERENCE}}. The earlier adaptive localization and peak shift correlate with differences in local mesh resolution and phase-field evolution; causation is not isolated by the present comparison.
   \end{itemize}
 
   \item \textbf{Post-Peak Crack Traversal \& Symmetry ($u \ge 6.0\,\mu\mathrm{m}$):}

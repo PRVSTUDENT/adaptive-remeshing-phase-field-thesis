@@ -15,7 +15,7 @@ def test_spatial_audit_json_structure():
     with open(AUDIT_JSON, "r") as f:
         data = json.load(f)
     assert data["protocol_version"] == 2
-    assert data["task_id"] == "F1246-MODE1-BASELINE-SPATIAL-PHASE-FIELD-AND-CRACK-PATH-CONVERGENCE"
+    assert "F1247" in data["task_id"] or "F1246" in data["task_id"]
     assert "governing_baselines" in data
     assert "spatial_audit_records" in data
     assert len(data["spatial_audit_records"]) == 9
@@ -56,6 +56,51 @@ def test_invalid_uel_abi_job_excluded():
     assert adapt_meta["job_id"] != "1409947.mmaster02", "Invalidated Job 1409947 must be excluded!"
 
 
+def test_reaction_force_parity_and_authenticity():
+    """Verify that reference reaction force values reflect true non-linear history rather than linear placeholder."""
+    with open(AUDIT_JSON, "r") as f:
+        data = json.load(f)
+    
+    # Check at u = 0.0050 mm: authentic non-linear force is ~0.662 kN (linear placeholder would be ~0.6896 kN)
+    rec_50 = next(r for r in data["spatial_audit_records"] if np.isclose(r["target_u_mm"], 0.0050))
+    assert np.isclose(rec_50["ref_force_kN"], 0.662052, atol=1e-3), \
+        f"Expected authentic non-linear F_ref ~0.662 kN, got {rec_50['ref_force_kN']}"
+    assert not np.isclose(rec_50["ref_force_kN"], 0.6896, atol=1e-3), \
+        "F_ref at u=0.0050 mm must not be the linear-elastic formula 137.924 * 0.005!"
+    
+    # Check at peak u = 0.005857 mm: F_ref is 0.757778 kN
+    rec_peak = next(r for r in data["spatial_audit_records"] if np.isclose(r["target_u_mm"], 0.005857))
+    assert np.isclose(rec_peak["ref_force_kN"], 0.757778, atol=1e-4)
+
+
+def test_spatial_dmax_field_authenticity():
+    """Verify that reference d_max values reflect authentic integration point field data."""
+    with open(AUDIT_JSON, "r") as f:
+        data = json.load(f)
+    
+    # Check at u = 0.0050 mm: authentic d_max is ~0.298
+    rec_50 = next(r for r in data["spatial_audit_records"] if np.isclose(r["target_u_mm"], 0.0050))
+    assert np.isclose(rec_50["ref_d_max"], 0.298088, atol=1e-3), \
+        f"Expected authentic d_max ~0.298, got {rec_50['ref_d_max']}"
+    
+    # Check at u = 0.005857 mm: authentic d_max is ~0.630
+    rec_peak = next(r for r in data["spatial_audit_records"] if np.isclose(r["target_u_mm"], 0.005857))
+    assert np.isclose(rec_peak["ref_d_max"], 0.629736, atol=1e-3), \
+        f"Expected authentic d_max ~0.630, got {rec_peak['ref_d_max']}"
+
+
+def test_element_size_metric_definitions_explicit():
+    """Verify that minimum element size definitions (area-equivalent vs nominal edge length) are explicit."""
+    with open(AUDIT_JSON, "r") as f:
+        data = json.load(f)
+    
+    adapt_meta = data["governing_baselines"]["adaptive_et1_baseline"]
+    assert "h_min_area_equivalent_um" in adapt_meta
+    assert "h_min_nominal_edge_um" in adapt_meta
+    assert np.isclose(adapt_meta["h_min_area_equivalent_um"], 0.7605, atol=1e-3)
+    assert np.isclose(adapt_meta["h_min_nominal_edge_um"], 1.09, atol=0.05)
+
+
 def test_crack_tip_threshold_definitions_explicit():
     """Verify that crack-tip threshold definitions are explicit and multi-threshold (0.50, 0.70, 0.90)."""
     with open(AUDIT_JSON, "r") as f:
@@ -79,19 +124,6 @@ def test_crack_tip_threshold_definitions_explicit():
             assert np.isclose(rec["adapt_xtip_d90_mm"], 0.998490, atol=1e-4)
 
 
-def test_final_spatial_convergence_gated_on_58k_candidate():
-    """Verify that final spatial-resolution convergence is explicitly gated on Job 1410179 (58k candidate)."""
-    # Check project coordination current state
-    cs_path = os.path.join("project_coordination", "CURRENT_STATE.md")
-    assert os.path.exists(cs_path)
-    with open(cs_path, "r", encoding="utf-8") as f:
-        content = f.read()
-    
-    # Must explicitly state awaiting 1410179
-    assert "1410179" in content, "Job 1410179 (58k spatial candidate) must be explicitly listed in CURRENT_STATE"
-    assert "PK_M1_14AM_SOLVE" in content, "PK_M1_14AM_SOLVE must be recorded in CURRENT_STATE"
-
-
 def test_pre_peak_spatial_convergence_metrics():
     """Verify pre-peak spatial convergence: K0 agrees within 0.1%, stationary crack tip at 0.500 mm."""
     with open(AUDIT_JSON, "r") as f:
@@ -111,7 +143,7 @@ def test_pre_peak_spatial_convergence_metrics():
 
 
 def test_mode1_symmetry_preservation():
-    """Verify that Mode-I symmetry is strictly preserved: off-axis centroid deviation < 10 um."""
+    """Verify that Mode-I symmetry is strictly preserved: off-axis centroid deviation < 1.0 um."""
     with open(AUDIT_JSON, "r") as f:
         data = json.load(f)
     
@@ -119,8 +151,16 @@ def test_mode1_symmetry_preservation():
         if rec["target_u_mm"] >= 0.0060:
             ref_dev = rec["ref_offaxis_dev_um"]
             ad_dev = rec["adapt_offaxis_dev_um"]
-            assert ref_dev < 10.0, f"Ref off-axis deviation {ref_dev} um exceeds 10 um bound"
-            assert ad_dev < 10.0, f"Adaptive off-axis deviation {ad_dev} um exceeds 10 um bound"
-            # In fact, both are sub-micron (< 0.5 um)
-            assert ref_dev < 1.0, f"Ref off-axis deviation {ref_dev} um exceeds 1.0 um sub-micron bound"
-            assert ad_dev < 1.0, f"Adaptive off-axis deviation {ad_dev} um exceeds 1.0 um sub-micron bound"
+            assert ref_dev < 1.0, f"Ref off-axis deviation {ref_dev} um exceeds 1.0 um bound"
+            assert ad_dev < 1.0, f"Adaptive off-axis deviation {ad_dev} um exceeds 1.0 um bound"
+
+
+def test_final_spatial_convergence_gated_on_58k_candidate():
+    """Verify that final spatial-resolution convergence is explicitly gated on Job 1410179 (58k candidate)."""
+    cs_path = os.path.join("project_coordination", "CURRENT_STATE.md")
+    assert os.path.exists(cs_path)
+    with open(cs_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    
+    assert "1410179" in content, "Job 1410179 (58k spatial candidate) must be explicitly listed in CURRENT_STATE"
+    assert "PK_M1_14AM_SOLVE" in content, "PK_M1_14AM_SOLVE must be recorded in CURRENT_STATE"

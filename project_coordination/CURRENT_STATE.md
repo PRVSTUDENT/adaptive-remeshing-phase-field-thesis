@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-05T17:15:00+02:00` (Gemini Antigravity) — Task F1246 Mode-I baseline spatial phase-field and crack-path convergence foundation audit completed: evaluated fixed reference (15,192 FE, Job 1409734) vs ET1 adaptive baseline (14,483 FE, Job 1409982). Pre-peak and post-peak classified as SPATIAL_FIELD_BASELINE_AGREEMENT; peak-load neighborhood classified as SPATIAL_FIELD_BASELINE_DIFFERENCE due to 2x finer notch-root discretization (h_min=1.09 um vs 1.97 um). Defined multi-threshold kinematics (d>=0.50, 0.70, 0.90), localization bandwidth (w_0.5 approx 20.8 um approx 2.77 l_0), off-axis deviation (|y_c - 0.5| < 0.5 um), generated 5 publication figures in results/figures/mode1_gate6b/, passed 8 unit tests (100%), updated supervisor pack (36 pages) and thesis Chapter 7 (73 pages); all 5 active solver jobs on scratch9 remain running undisturbed.
+Last updated: `2026-10-05T17:45:00+02:00` (Gemini Antigravity) — Task F1247 Mode-I spatial baseline provenance reconciliation and correction completed: (1) resolved fixed-reference reaction force discrepancy by replacing synthetic linear placeholder with authentic non-linear reaction force history from history_S1_1409734.mmaster02.csv (F_ref=0.662kN at u=0.005mm, F_ref=0.7578kN at peak u=0.005857mm); (2) resolved fixed-reference d_max discrepancy with authentic integration point field data (d_max=0.298 at u=0.005mm, d_max=0.630 at peak); (3) reconciled minimum element size definitions (h_area=sqrt(A_min)=0.7605 um for smallest element vs h_edge approx 1.09 um nominal notch-root edge length); (4) downgraded causal assertions to correlation wording; (5) regenerated 5 spatial figures in results/figures/mode1_gate6b/; (6) updated MODE1_BASELINE_SPATIAL_PHASE_FIELD_AND_CRACK_PATH_AUDIT.json and methods markdown; (7) passed 11 regression tests in test_stage14_spatial_convergence_audit.py (100%) and 28/28 core Stage 14 audit tests; (8) updated supervisor pack (36 pages) and thesis Chapter 7 (73 pages); all 5 active solver jobs on scratch9 remain running undisturbed.
 
 ---
 
@@ -263,12 +263,14 @@ Last updated: `2026-10-05T17:15:00+02:00` (Gemini Antigravity) — Task F1246 Mo
     - Verified Job `1410032.mmaster02` (`PK_M1_14AM_SOLVE`, 1 CPU, 57,929 base elements) left running completely untouched on compute node `mnode097`.
     - Authored unit test suite `test_stage14uan_determinism_and_temporal_qualification.py` (6/6 tests pass 100%).
     - Updated Thesis Chapter 4 with Section 4.34, Table 4.31, Table 4.32, Table 4.33, Figure 4.33, and Figure 4.34; compiled `main.pdf` cleanly (135 pages, 0 errors, SHA-256 `61FEE043...`).
-  - **Stage 14 Baseline Spatial Phase-Field and Crack-Path Convergence Foundation Completed (`docs/methods/MODE1_BASELINE_SPATIAL_PHASE_FIELD_AND_CRACK_PATH_AUDIT.md`):**
+  - **Stage 14 Baseline Spatial Phase-Field and Crack-Path Convergence Foundation & Provenance Reconciliation Completed (`docs/methods/MODE1_BASELINE_SPATIAL_PHASE_FIELD_AND_CRACK_PATH_AUDIT.md`):**
     - Directly compared governed fixed reference ($15{,}192$ FE, Job `1409734.mmaster02`) and ET1 adaptive baseline ($14{,}483$ FE, Job `1409982.mmaster02`).
+    - Reconciled fixed-reference reaction forces using authentic non-linear history (`history_S1_1409734.mmaster02.csv`) and authentic integration point $d_{\max}$ field values (`mode1_reference_ligament_profiles.csv`).
+    - Disambiguated minimum element size metrics: area-equivalent length $h_{\text{area}} = \sqrt{A_{\min}} = 0.7605\,\mu\text{m}$ (smallest triangle Element 14333) vs nominal notch-root element edge length $h_{\text{edge}} \approx 1.09\,\mu\text{m}$.
     - Established multi-threshold crack-tip kinematics ($d \ge 0.50, 0.70, 0.90$), transverse localization bandwidth ($w_{0.5} \approx 20.8\,\mu\text{m} \approx 2.77\,l_0$), and symmetry preservation ($|y_c - 0.5| < 0.5\,\mu\text{m}$).
-    - Pre-peak ($u \le 0.0050\,\text{mm}$) and post-peak ($u \ge 0.0060\,\text{mm}$) classified as `SPATIAL_FIELD_BASELINE_AGREEMENT`; peak neighborhood ($u \in [0.005733, 0.005857]\,\text{mm}$) classified as `SPATIAL_FIELD_BASELINE_DIFFERENCE` due to $2\times$ finer local notch discretization ($h_{\min} = 1.09\,\mu\text{m}$ vs $1.97\,\mu\text{m}$).
+    - Pre-peak ($u \le 0.0050\,\text{mm}$) and post-peak ($u \ge 0.0060\,\text{mm}$) classified as `SPATIAL_FIELD_BASELINE_AGREEMENT`; peak neighborhood ($u \in [0.005733, 0.005857]\,\text{mm}$) classified as `SPATIAL_FIELD_BASELINE_DIFFERENCE`. Downgraded causal assertions to correlation wording.
     - Generated 5 publication figures in `results/figures/mode1_gate6b/`.
-    - Authored unit test suite `tests/unit/test_stage14_spatial_convergence_audit.py` (8/8 tests pass 100%).
+    - Authored and verified unit test suite `tests/unit/test_stage14_spatial_convergence_audit.py` (11/11 tests pass 100%, 28/28 core tests pass).
     - Updated supervisor pack (`report_main.pdf`, 36 pages) and thesis Chapter 7 (`THESIS_FACULTY_BUILD.pdf`, 73 pages).
     - Final spatial-resolution convergence verdict remains gated on completed 58k candidate solve (Job `1410179.mmaster02`).
 * **Stage 15 (Mode-II Cheap Remeshing-Only Verification & Four-Way Quantitative Audit) Completed (`2026-10-05_0750_gemini-antigravity_STAGE15_MODE2_REMESH_VERIFICATION.md`):**

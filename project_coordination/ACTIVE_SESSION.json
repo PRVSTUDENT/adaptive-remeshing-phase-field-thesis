@@ -1,9 +1,17 @@
 {
   "active": false,
-  "agent": null,
-  "task_id": null,
-  "start_commit": "d992e0dfa17360126269ba3721a13810eefc9bc3",
-  "write_scope": [],
-  "started_at": null,
-  "completed_at": "2026-10-05T17:15:00+02:00"
+  "agent": "gemini-antigravity",
+  "task_id": "F1247-MODE1-SPATIAL-BASELINE-PROVENANCE-RECONCILIATION-AND-CORRECTION",
+  "claimed_at": "2026-10-05T17:15:00+02:00",
+  "released_at": "2026-10-05T17:45:00+02:00",
+  "starting_commit": "5246c0df006d15a51cf6c381e4ae3ba1609139ff",
+  "allowed_write_scope": [
+    "docs/methods/MODE1_BASELINE_SPATIAL_PHASE_FIELD_AND_CRACK_PATH_AUDIT.md",
+    "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/MODE1_BASELINE_SPATIAL_PHASE_FIELD_AND_CRACK_PATH_AUDIT.json",
+    "results/figures/mode1_gate6b/",
+    "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/",
+    "docs/thesis/",
+    "tests/unit/test_stage14_spatial_convergence_audit.py",
+    "project_coordination/"
+  ]
 }
