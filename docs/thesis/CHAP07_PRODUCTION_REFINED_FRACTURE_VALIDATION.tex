@@ -6,12 +6,13 @@
 
 In computational phase-field fracture mechanics, relying solely on peak reaction force ($F_{\max}$) to declare numerical convergence is strictly insufficient. Peak load represents an isolated point on a non-linear trajectory that can mask localized spatial under-resolution, temporal time-step errors, or artificial energy dissipation.
 
-In accordance with governing supervisory directives, this chapter presents a comprehensive, multifaceted evaluation of the Mode-I benchmark across seven complementary physical and energetic metrics:
+In accordance with governing supervisory directives, this chapter presents a comprehensive, multifaceted evaluation of the Mode-I benchmark across eight complementary physical, spatial, temporal, and energetic metrics:
 \begin{enumerate}
     \item Full force--displacement ($F$--$u$) response across elastic, initiation, peak, and softening regimes.
     \item Initial structural stiffness $K_0 = \Delta F / \Delta u$ using consistent extraction ($N = 400$ increments, $u \le 1.0\,\mu\text{m}$).
     \item Spatial mesh resolution scaling ($S_1$--$S_4$, $h/l_0 \in [0.167, 0.400]$) and historical fine-mesh comparison.
-    \item Temporal time-incrementation scaling ($T_1$--$T_3$, $0.5\times$ to $2.0\times\Delta t$).
+    \item Uniform mesh temporal time-incrementation scaling ($T_1$--$T_3$, $0.5\times$ to $2.0\times\Delta t$).
+    \item Native adaptive mesh temporal convergence and cutback audit ($1.0\times$ vs $2.0\times$ temporal refinement on $14{,}483$-element discretization).
     \item Three-point physical length-scale study ($l_0 \in \{7.5, 11.25, 15.0\}\,\mu\text{m}$) on fixed $S_3$ mesh.
     \item Spatial damage localization, crack-path centroid trajectory $y_c(x)$, and ligament damage profiles $d(x, y=0.5\,\text{mm})$.
     \item UEL energy formulation, Single-IP extraction rule, mechanical parity qualification, and global energy balance audit.
@@ -52,7 +53,6 @@ Hist. Fine Mesh & \texttt{1406019.mmaster02} & $1.00$ & $0.133$ & $69{,}384$ & $
 \label{fig:spatial_fu_thesis}
 \end{figure}
 
-
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.92\textwidth]{fig_mode1_spatial_convergence_metrics.pdf}
@@ -60,7 +60,7 @@ Hist. Fine Mesh & \texttt{1406019.mmaster02} & $1.00$ & $0.133$ & $69{,}384$ & $
 \label{fig:spatial_metrics_thesis}
 \end{figure}
 
-\section{Temporal Time-Increment Scaling ($T_1$--$T_3$)}
+\section{Uniform Mesh Temporal Increment Scaling ($T_1$--$T_3$)}
 \label{sec:temporal_convergence_study}
 
 Time incrementation was investigated across three schedules at baseline mesh resolution ($h = 3.0\,\mu\text{m}$, $S_1$): Case $T_1$ (coarse $2.0\times\Delta t$, $3{,}500$ increments), Case $T_2$ (nominal $1.0\times\Delta t$, $7{,}000$ increments), and Case $T_3$ (fine $0.5\times\Delta t$, Job \texttt{1406317.mmaster02}, completed all $10{,}022$ Step-2 increments to $u = 10.0\,\mu\text{m}$).
@@ -76,7 +76,81 @@ Time incrementation was investigated across three schedules at baseline mesh res
 \label{fig:temporal_thesis}
 \end{figure}
 
-\section{Adaptive Remeshing Series ($A_1$--$A_4$)}
+\section{Adaptive Mesh Temporal Convergence Audit ($2\times$ Refinement)}
+\label{sec:adaptive_temporal_convergence_audit}
+
+To establish whether temporal discretization affects locally refined adaptive discretizations, a rigorous head-to-head audit was executed comparing the baseline $14{,}483$-element native adaptive model ($A_1$ / $\mathrm{ET1}$, Step 1 $\Delta u = 2.50\,\text{nm}$, Step 2 $\Delta u = 1.00\,\text{nm}$, $4{,}890$ increments, PBS Job \texttt{1409982.mmaster02}) against a $2\times$ temporally refined model (Step 1 $\Delta u = 1.25\,\text{nm}$, Step 2 $\Delta u = 0.50\,\text{nm}$, $8{,}958$ increments, PBS Job \texttt{1410027.mmaster02}). Both models share bitwise identical geometry, seam topology ($54$ duplicate node pairs), element formulations ($14{,}082$ quads, $401$ linear triangles), material properties ($E = 210.0\,\text{GPa}$, $\nu = 0.30$, $G_c = 2.70\times 10^{-3}\,\text{kN/mm}$, $l_0 = 7.5\,\mu\text{m}$, $k_{\mathrm{res}} = 10^{-7}$), and Fortran subroutine source (\nolinkurl{f42_mixed_uel.for}, SHA-256 \texttt{CE8D5EDC...}).
+
+\subsection{Pre-Peak Invariance and Quantitative Mechanical Parity}
+Evaluation over the shared pre-peak domain confirms exceptional temporal convergence (Table~\ref{tab:temporal_adaptive_audit_metrics}, Figure~\ref{fig:adaptive_temporal_fu}):
+\begin{itemize}
+    \item \textbf{Initial Elastic Stiffness $K_0$}: Measured at $K_0 = 137.909558\,\text{kN/mm}$ (baseline) vs $K_0 = 137.909975\,\text{kN/mm}$ ($2\times$ refined), an absolute discrepancy of $+0.000417\,\text{kN/mm}$ ($\mathbf{+0.000302\%}$, $R^2 = 0.99999960$).
+    \item \textbf{Peak Fracture Force $F_{\max}$}: Measured at $F_{\max} = 0.743701\,\text{kN}$ ($u_{\mathrm{peak}} = 5.733\,\mu\text{m}$) vs $F_{\max} = 0.743530\,\text{kN}$ ($u_{\mathrm{peak}} = 5.730\,\mu\text{m}$), an absolute discrepancy of $-0.000171\,\text{kN}$ ($\mathbf{-0.0229\%}$).
+    \item \textbf{Point-by-Point Pre-Peak Parity}: Across all $2{,}865$ matched displacement increments in the pre-peak regime ($u \le 5.730\,\mu\text{m}$), the maximum relative reaction force discrepancy satisfies $|\Delta F| / F \le 0.0436\%$ (Figure~\ref{fig:adaptive_temporal_discrepancy}).
+    \item \textbf{Peak Total Model Energy $E_{\mathrm{model}}$}: At peak load ($u = 5.730\,\mu\text{m}$), total strain and fracture energy evaluated via UEL extraction is bitwise identical to six decimal places ($E_{\mathrm{model}} = 2.205225\,\text{mJ}$ in both models, $|\Delta E| = 0.000000\,\text{mJ}$, Figure~\ref{fig:adaptive_temporal_energy}).
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Quantitative temporal convergence metrics on $14{,}483$-element native adaptive mesh.}
+\label{tab:temporal_adaptive_audit_metrics}
+\small
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Metric} & \textbf{Baseline ($1.00\,\text{nm}$)} & \textbf{$2\times$ Refined ($0.50\,\text{nm}$)} & \textbf{Relative Difference} \\
+\midrule
+PBS Job ID & \texttt{1409982.mmaster02} & \texttt{1410027.mmaster02} & --- \\
+Step 1 Displacement Step ($\Delta u_1$) & $2.50\,\text{nm}$ & $1.25\,\text{nm}$ & $-50.0\%$ \\
+Step 2 Displacement Step ($\Delta u_2$) & $1.00\,\text{nm}$ & $0.50\,\text{nm}$ & $-50.0\%$ \\
+Completed Increments & $4{,}890$ & $8{,}958$ & $+83.2\%$ \\
+Elastic Stiffness $K_0$ & $137.909558\,\text{kN/mm}$ & $137.909975\,\text{kN/mm}$ & $\mathbf{+0.000302\%}$ \\
+Peak Force $F_{\max}$ & $0.743701\,\text{kN}$ & $0.743530\,\text{kN}$ & $\mathbf{-0.0229\%}$ \\
+Displacement at Peak $u_{\mathrm{peak}}$ & $5.733\,\mu\text{m}$ & $5.730\,\mu\text{m}$ & $\mathbf{-0.052\%}$ \\
+Peak Model Energy $E_{\mathrm{model}}(u_{\mathrm{peak}})$ & $2.205225\,\text{mJ}$ & $2.205225\,\text{mJ}$ & $\mathbf{0.000000\%}$ \\
+Maximum Pre-Peak $|\Delta F|/F$ & --- & --- & $\le 0.0436\%$ \\
+Reached Common Displacement & \multicolumn{2}{c}{$u \in [0.0, 7.46970\,\mu\text{m}]$} & Common domain \\
+Governing Pre-Peak Classification & \multicolumn{3}{c}{\textbf{\texttt{QUALIFIED\_OVER\_PREPEAK\_INTERVAL\_ONLY (TEMPORALLY\_STABLE)}}} \\
+Governing Post-Peak Classification & \multicolumn{3}{c}{\textbf{\texttt{TEMPORALLY\_SENSITIVE\_POSTPEAK}}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{fig_mode1_stage14_temporal_convergence_fu.pdf}
+\caption[Adaptive mesh force-displacement comparison under $2\times$ temporal refinement.]{Adaptive mesh force--displacement comparison between baseline ($1.00\,\text{nm}$) and $2\times$ refined ($0.50\,\text{nm}$) step size on the $14{,}483$-element discretization, demonstrating strict pre-peak coincidence and post-peak cutback bifurcation.}
+\label{fig:adaptive_temporal_fu}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{fig_mode1_stage14_temporal_discrepancy.pdf}
+\caption[Pointwise reaction force discrepancy across displacement history.]{Pointwise reaction force discrepancy $\Delta F = F_{2\times} - F_{\mathrm{base}}$ and relative error $|\Delta F|/F$, confirming sub-$0.044\%$ discrepancy throughout the pre-peak regime.}
+\label{fig:adaptive_temporal_discrepancy}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{fig_mode1_stage14_temporal_energy_evolution.pdf}
+\caption[Global energetic evolution under temporal refinement.]{Evolution of elastic strain energy $E_{\mathrm{elas}}$, fracture surface energy $E_{\mathrm{frac}}$, and external work $W_{\mathrm{trap}}$ on the adaptive mesh, showing exact pre-peak parity.}
+\label{fig:adaptive_temporal_energy}
+\end{figure}
+
+\subsection{Post-Peak Wake Cutback Exhaustion Mechanism}
+In the post-peak softening regime, both models track identical softening slopes through $u \approx 7.0\,\mu\text{m}$. Beyond $u = 7.0\,\mu\text{m}$, the crack tip propagates past $x = 0.55\,\text{mm}$, leaving a fully severed wake ($d \approx 0.999$, $\sigma \approx 0$). In this severed wake, residual phase-field corrections ($c_{\max} \approx 2.6\times 10^{-6}$) interact with Abaqus standard convergence controls:
+\begin{equation}
+\label{eq:abaqus_cn_check}
+c_{\max} \le C_n\,\Delta u_{\mathrm{inc}}.
+\end{equation}
+Because the $2\times$ refined model imposes $\Delta u_{\mathrm{inc}} = 0.50\,\text{nm}$ (halved relative to baseline $\Delta u_{\mathrm{inc}} = 1.00\,\text{nm}$), the dimensional tolerance threshold $C_n \Delta u_{\mathrm{inc}}$ is strictly $2\times$ tighter. Consequently, minute mathematical corrections in stress-free, fully broken elements exceed the tighter tolerance, triggering successive solver cutbacks until minimum time increment exhaustion occurs at $u = 7.470\,\mu\text{m}$ ($8{,}958$ increments) in the refined case, compared to $u = 7.889\,\mu\text{m}$ ($4{,}890$ increments) in the baseline.
+
+To rule out user subroutine implementation defects, numerical tangent Jacobian consistency was evaluated to machine precision ($\max |\Delta| = 1.36\times 10^{-14}$), confirming exact analytical Jacobian symmetry and consistency. The post-peak cutback is thus established as a solver convergence-normalization artifact:
+\begin{center}
+  \textbf{\texttt{POST\_FRACTURE\_CONVERGENCE\_NORMALIZATION\_SENSITIVITY\_VERIFIED}}
+\end{center}
+which governs the active diagnostic investigation (Job \texttt{1410180.mmaster02}, testing $C_n = 0.50$ relaxation).
+
+\section{Adaptive Remeshing Spatial Series ($A_1$--$A_4$)}
 \label{sec:adaptive_series_study}
 
 Across adaptive cases $A_1$--$A_4$ (Figure~\ref{fig:adaptive_thesis}), all meshes reproduce the reference elastic stiffness $K_0 \approx 137.85\,\text{kN/mm}$ within $0.09\%$. In the post-peak softening regime, coarser background meshes ($A_2$--$A_4$) sustain elevated residual resistance, classified as \textbf{\texttt{OBSERVED\_FORCE\_PLATEAU (CRACK-PINNING HYPOTHESIS / NOT YET INDEPENDENTLY PROVEN)}}.

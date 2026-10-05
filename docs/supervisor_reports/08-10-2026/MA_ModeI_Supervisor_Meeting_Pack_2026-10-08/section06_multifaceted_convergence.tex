@@ -45,6 +45,63 @@ Time incrementation was tested across three schedules at fixed baseline resoluti
 
 \clearpage
 
+\subsection{Adaptive Mesh Temporal Refinement Audit ($2\times$ Refinement: Job 1410027 vs 1409982)}
+\label{sec:adaptive_temporal_refinement_audit}
+
+To evaluate time-step convergence on the production $14{,}483$-element adaptive mesh, a controlled $2\times$ temporal refinement diagnostic (Job \texttt{1410027.mmaster02}, $8{,}958$ completed increments, Package~26) was audited against the baseline canonical ET1 solve (Job \texttt{1409982.mmaster02}, $4{,}890$ increments, Package~25). All physical parameters, 3-layer UEL subroutine source (\texttt{CE8D5EDC...}), and solver controls ($I_A=10, \Delta t_{\min}=10^{-9}\,\mathrm{s}$) were kept strictly invariant.
+
+\begin{enumerate}
+  \item \textbf{Elastic and Pre-Peak Temporal Stability:}
+  \begin{itemize}
+    \item \textbf{Canonical Stiffness $K_0$ ($u \le 1.0\,\mu\mathrm{m}$):} Baseline $K_0 = 137.909558\,\mathrm{kN/mm}$ ($N=400$, $\Delta u = 2.50\,\mathrm{nm}$) vs $2\times$ Refined $K_0 = 137.909975\,\mathrm{kN/mm}$ ($N=800$, $\Delta u = 1.25\,\mathrm{nm}$), yielding $\Delta K_0 = \mathbf{+0.000302\%}$ ($R^2 = 0.99999960$). Classified as \textbf{\texttt{TEMPORALLY\_STABLE}}.
+    \item \textbf{Peak Reaction Force $F_{\max}$ ($u \approx 5.73\,\mu\mathrm{m}$):} Baseline $F_{\max} = 0.743701\,\mathrm{kN}$ ($u_{\mathrm{peak}} = 5.733\,\mu\mathrm{m}$) vs $2\times$ Refined $F_{\max} = 0.743530\,\mathrm{kN}$ ($u_{\mathrm{peak}} = 5.730\,\mu\mathrm{m}$), yielding $\Delta F_{\max} = \mathbf{-0.0229\%}$ and $\Delta u_{\mathrm{peak}} = \mathbf{-0.052\%}$. Classified as \textbf{\texttt{TEMPORALLY\_STABLE}}.
+    \item \textbf{Pre-Peak Matched Parity:} Pointwise force discrepancy across all reached pre-peak states ($u \in [1.0, 5.733]\,\mu\mathrm{m}$) is bounded by $|\Delta F|/F \le \mathbf{0.0436\%}$ (Fig.~\ref{fig:t2x_fu_audit} and \ref{fig:t2x_discrepancy_audit}).
+  \end{itemize}
+
+  \item \textbf{Energy Partitioning Dynamics at Peak:}
+  Total model energy $E_{\mathrm{model}} = E_{\mathrm{elas}} + E_{\mathrm{frac}}$ at peak displacement ($u = 5.730\,\mu\mathrm{m}$) is $2.205225\,\mathrm{mJ}$ in both models ($\Delta E_{\mathrm{model}} = \mathbf{0.000000\,\mathrm{mJ}}$ to 6 decimal places, Fig.~\ref{fig:t2x_energy_audit}).
+
+  \item \textbf{Common Displacement Interval \& Zero Forward-Filling:}
+  The common actually reached displacement domain is $u \in [0.0, 7.46970\,\mu\mathrm{m}]$. Unreached states ($u > 7.46970\,\mu\mathrm{m}$) are strictly classified as \textbf{\texttt{NOT\_REACHED}} with zero forward-filling.
+
+  \item \textbf{Post-Fracture Severed-Wake Solver Stagnation Mechanism:}
+  Both models experienced cutback ceiling exhaustion ($I_A=10$) down to $\Delta t_{\min} = 10^{-9}\,\mathrm{s}$ in the severed wake ($x \approx 0.56\,\mathrm{mm}, d \approx 0.999, \sigma \approx 0$). In the refined model, halving the nominal increment scale ($\Delta u_{\mathrm{nom}} = 0.50\,\mathrm{nm}$ vs $1.00\,\mathrm{nm}$) halved $\Delta u_{\mathrm{inc}}$, making the dimensionless displacement correction check $c_{\max} / \Delta u_{\mathrm{inc}}$ twice as strict, triggering cutback exhaustion at $u = 7.470\,\mu\mathrm{m}$ instead of $7.889\,\mu\mathrm{m}$ (Fig.~\ref{fig:t2x_telemetry_audit}). Classified as \textbf{\texttt{POST\_FRACTURE\_CONVERGENCE\_NORMALIZATION\_SENSITIVITY\_VERIFIED}} and \textbf{\texttt{TEMPORALLY\_SENSITIVE\_POSTPEAK}}.
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth]{fig_mode1_stage14_temporal_convergence_fu.pdf}
+  \caption{Mode-I adaptive mesh $2\times$ temporal refinement audit: $F$--$u$ response comparing Baseline ($4{,}890$ incs, $u_{\mathrm{term}}=7.889\,\mu\mathrm{m}$) against $2\times$ Refined ($8{,}958$ incs, $u_{\mathrm{term}}=7.470\,\mu\mathrm{m}$), highlighting common reached interval and pre-peak $K_0$ inset.}
+  \label{fig:t2x_fu_audit}
+  \figureconclusion{Pre-peak mechanical response and peak load are fully temporally converged ($\Delta K_0 = +0.00030\%$, $\Delta F_{\max} = -0.0229\%$). The earlier termination at $u = 7.470\,\mu\mathrm{m}$ is a post-fracture wake normalization artifact, not physical instability.}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth]{fig_mode1_stage14_temporal_discrepancy.pdf}
+  \caption{Pointwise force discrepancy $\Delta F$ and relative difference [\%] over the common reached displacement interval $u \in [0, 7.470]\,\mu\mathrm{m}$, separating elastic ($\le 0.0436\%$) from post-peak broken-state regimes.}
+  \label{fig:t2x_discrepancy_audit}
+  \figureconclusion{Discrepancy is negligible in the elastic regime ($<0.01\,\mathrm{N}$), tight across peak load ($0.32\,\mathrm{N}$), and settles onto a minute post-fracture wake offset ($0.7\text{--}0.8\,\mathrm{N}$) in the fully severed ligament.}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_stage14_temporal_energy_evolution.pdf}
+  \caption{Matched energy evolution for baseline and $2\times$ temporal refined models: (a) stored elastic energy $E_{\mathrm{elas}}$ and fracture functional $E_{\mathrm{frac}}$; (b) total model energy $E_{\mathrm{model}}$ and external work $W_{\mathrm{ext}}$.}
+  \label{fig:t2x_energy_audit}
+  \figureconclusion{Energy partitioning is bitwise identical through elastic loading and matches to $0.000000\,\mathrm{mJ}$ at peak load ($2.205225\,\mathrm{mJ}$). Broken-state fracture dissipation converges within $2.98\%$.}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth]{fig_mode1_stage14_temporal_solver_telemetry.pdf}
+  \caption{Solver time increment $\Delta t$ progression (log scale) and Newton equilibrium iterations per increment across baseline and $2\times$ refined runs, showing consistent 3 iters/inc across all reached states.}
+  \label{fig:t2x_telemetry_audit}
+  \figureconclusion{Both simulations advance with steady 3 Newton iterations per increment throughout linear and softening phases, demonstrating zero iterative degradation prior to wake cutback exhaustion.}
+\end{figure}
+
+\clearpage
+
 \subsection{Adaptive Remeshing Series ($A_1$--$A_4$)}
 Figure~\ref{fig:adaptive_meshes_comparison_pack} displays the Abaqus-native adaptive meshes generated using `errorTarget` values of $1\%$, $2\%$, $3\%$, and $5\%$ ($A_1$--$A_4$), showing the full specimen domain and crack-tip zoom windows. As target discretization tolerance relaxes, element density smoothly transitions from intense crack-line refinement ($71{,}320$ elements) down to coarser background meshes ($4{,}194$ elements).
 

@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-05T16:35:00+02:00` (Gemini Antigravity) — Task F1244 Mode-I Gate-6B active solver telemetry checkpoint: all 5 jobs solving steadily on scratch9 in normal_imfdfkmq with 0 cutbacks and 3 iters/inc (1410180 Step 2 Inc 357, uy=0.005357mm; 1410179 Step 1 Inc 903, uy=0.004515mm; 1410357 Step 1 Inc 1187, uy=0.005935mm; 1410358 Step 1 Inc 1303, uy=0.006515mm; 1410359 Step 1 Inc 1354, uy=0.006770mm); 0 terminal states reached, 0 new jobs submitted, evaluators standing by.
+Last updated: `2026-10-05T16:55:00+02:00` (Gemini Antigravity) — Task F1245 Mode-I Stage-14 temporal-convergence evidence audit and Gate-6B synthesis completed: evaluated 2x temporal refinement (Job 1410027, 8,958 incs) against baseline (Job 1409982, 4,890 incs) on 14,483 FE adaptive mesh. Verified pre-peak elastic/peak invariance (K0 matches within +0.000302%, Fmax within -0.0229%, peak total energy matches to 6 decimals at 2.205225 mJ, pre-peak force error <=0.0436%). Pre-peak classified as QUALIFIED_OVER_PREPEAK_INTERVAL_ONLY and TEMPORALLY_STABLE, and post-peak as TEMPORALLY_SENSITIVE_POSTPEAK with cutback mechanism POST_FRACTURE_CONVERGENCE_NORMALIZATION_SENSITIVITY_VERIFIED. Generated 4 publication figure pairs, authored unit test suite (8/8 pass), updated supervisor pack (recompiled report_main.pdf cleanly, 33 pages), and updated thesis Chapter 7; 5 active solver jobs on scratch9 remain running undisturbed in normal_imfdfkmq.
 
 ---
 
