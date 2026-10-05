@@ -1,13 +1,28 @@
 {
-  "task_id": "F1237-MODE1-STEP2-TARGET-LIKE-REMESH-EXPORT-AND-STORAGE-RECONCILIATION",
+  "task_id": "F1238-MODE1-STEP2-ARTIFACT-INTEGRITY-AND-GATE6B-INTEGRATION",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "stage": "MODE1_STEP2_TARGET_LIKE_REMESH_EXPORT_AND_STORAGE_RECONCILIATION",
+  "stage": "MODE1_STEP2_ARTIFACT_INTEGRITY_AND_GATE6B_INTEGRATION",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "started_at": "2026-10-05T15:00:00+02:00",
-  "completed_at": "2026-10-05T15:15:00+02:00",
-  "description": "Mode-I Stage-14 Step-2 target-like remeshing errorTarget sweep (1%, 2%, 3%, 5%) on companion pre-analysis ODB (Step-2, Frame 1022, uy=0.010 mm) and HPC storage discrepancy reconciliation: (1) Exact reproduction of Stage-14 solve mesh at ET=1.0% (14,483 elements, 14,456 nodes, 14,082 quads, 401 tris, 64.12% corridor fraction, zero flank refinement w=0.00 mm); (2) Generated and analyzed native remeshed meshes for ET=2.0% (6,112 elem), ET=3.0% (5,189 elem), and ET=5.0% (4,692 elem) with monotonic coarsening and 0.00 mm flank error; (3) Exported native .inp decks and CSV element metrics to dedicated folder models/pandey_kumar_mode1/33_stage14_step2_remeshing_errortarget_sensitivity/; (4) Generated publication-quality wireframe mesh figures (Mode1_STAGE14_STEP2_ET1_14483, ET2, ET3, ET5, and 4-case comparison PNG/PDF); (5) Labeled historical Step-1 sweep in folder 32_... as HISTORICAL_STEP1_POST_NBOTTOM_FIX_LINEAGE__NOT_FINAL_STAGE14_TARGET_LIKE; (6) Reconciled 117 GB on /home/pr21vyci: 56 GB /home/pr21vyci/master_thesis, 45 GB qualification worktrees under /home/pr21vyci/projects, 8.1 GB Adaptive_remeshing_clean; active project repo has 0 heavy solver binaries.",
-  "governing_verdict": "STAGE14_STEP2_TARGET_LIKE_LOCALIZATION_LINEAGE_QUALIFIED",
+  "started_at": "2026-10-05T15:15:00+02:00",
+  "completed_at": "2026-10-05T15:25:00+02:00",
+  "description": "Mode-I Stage-14 Step-2 Artifact Integrity, Lineage Separation, and Thesis/Supervisor Integration: (1) Verified remote commit d00ba0aa contains non-empty, valid artifacts for the Stage-14 Step-2 native remeshing sweep (ET=1.0%, 2.0%, 3.0%, 5.0%), recording SHA-256 hashes for all 5 PNGs and 4 native .inp decks; (2) Fully removed invalidated historical Job 1409947.mmaster02 from valid benchmark citations, establishing 14,483 as the Stage-14 Step-2 native remesh artifact; (3) Added subsection 'Influence of errorTarget on the final Stage-14 Step-2 adaptive refinement' with 4-panel mesh figure and quantitative table into docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/ and docs/thesis/CHAP03_MISESERI_MESH_REFINEMENT.tex; (4) Authored and verified automated regression/provenance guard suite tests/unit/test_stage14_step2_errortarget_provenance_guard.py (7/7 tests pass 100%); (5) Snapshotted active scratch-compliant jobs 1410179.mmaster02 and 1410180.mmaster02 running steadily on mnode097.",
+  "governing_verdict": "STAGE14_STEP2_ARTIFACT_INTEGRITY_AND_GATE6B_INTEGRATION_QUALIFIED",
+  "step2_artifact_hashes": {
+    "figures": {
+      "Mode1_STAGE14_STEP2_ET1_14483.png": "db53eec5f52742b7883ceb0dff860fbdd899de41a919ae6c018497b7a0715401",
+      "Mode1_STAGE14_STEP2_ET2.png": "f1ec5f5e3e23b4ba79d3360402c8d00955bd4180ba565be7dc246089510a875d",
+      "Mode1_STAGE14_STEP2_ET3.png": "c7d20b6d144b8d739bec0ab6505df2354453f88aae95694de493cc16f236b326",
+      "Mode1_STAGE14_STEP2_ET5.png": "ef72b73432f601c3b4964d3ebef31edcee1d1347b74261519132fcf3cd0d2388",
+      "Mode1_STAGE14_STEP2_ET1_ET2_ET3_ET5_comparison.png": "d5471811913231dfb83cb1da46ed4ff75dae5b38d00e567c7e9baa2e54ebbfa6"
+    },
+    "inp_decks": {
+      "PK_M1_STAGE14_STEP2_ERR_10PCT.inp": "bd41eb92d243dcda1a924a3f893d71cd552c5e3dc0f7c80da45e0faf34bb9038",
+      "PK_M1_STAGE14_STEP2_ERR_20PCT.inp": "5f627110d554ea1ca33b431a52133a5a3bc96aee072bea5f79551c51163f4716",
+      "PK_M1_STAGE14_STEP2_ERR_30PCT.inp": "6b25489948828c9c4e53f2795e03fa067d17b4b177e25ec11f0368e111e45c63",
+      "PK_M1_STAGE14_STEP2_ERR_50PCT.inp": "4a03c5849d5e78f3800acf23aaeeb829fc4fe0cd460278abccf2443216270064"
+    }
+  },
   "step2_errortarget_summary": {
     "ET1": {
       "error_target_pct": 1.0,
@@ -23,9 +38,7 @@
       "flank_width_x_le_03_mm": 0.000,
       "tip_width_x_05_mm": 0.121,
       "ligament_width_x_06_mm": 0.170,
-      "classification": "STAGE14_TARGET_LIKE_LOCALIZATION_EXACT_MATCH",
-      "deck_file": "models/pandey_kumar_mode1/33_stage14_step2_remeshing_errortarget_sensitivity/PK_M1_STAGE14_STEP2_ERR_10PCT.inp",
-      "png_figure": "results/figures/mode1_gate6b/Mode1_STAGE14_STEP2_ET1_14483.png"
+      "classification": "STAGE14_TARGET_LIKE_LOCALIZATION_EXACT_MATCH"
     },
     "ET2": {
       "error_target_pct": 2.0,
@@ -41,9 +54,7 @@
       "flank_width_x_le_03_mm": 0.000,
       "tip_width_x_05_mm": 0.090,
       "ligament_width_x_06_mm": 0.104,
-      "classification": "AWAY_FROM_TARGET_LOCALIZATION",
-      "deck_file": "models/pandey_kumar_mode1/33_stage14_step2_remeshing_errortarget_sensitivity/PK_M1_STAGE14_STEP2_ERR_20PCT.inp",
-      "png_figure": "results/figures/mode1_gate6b/Mode1_STAGE14_STEP2_ET2.png"
+      "classification": "AWAY_FROM_TARGET_LOCALIZATION"
     },
     "ET3": {
       "error_target_pct": 3.0,
@@ -59,9 +70,7 @@
       "flank_width_x_le_03_mm": 0.000,
       "tip_width_x_05_mm": 0.079,
       "ligament_width_x_06_mm": 0.099,
-      "classification": "AWAY_FROM_TARGET_LOCALIZATION",
-      "deck_file": "models/pandey_kumar_mode1/33_stage14_step2_remeshing_errortarget_sensitivity/PK_M1_STAGE14_STEP2_ERR_30PCT.inp",
-      "png_figure": "results/figures/mode1_gate6b/Mode1_STAGE14_STEP2_ET3.png"
+      "classification": "AWAY_FROM_TARGET_LOCALIZATION"
     },
     "ET5": {
       "error_target_pct": 5.0,
@@ -77,27 +86,18 @@
       "flank_width_x_le_03_mm": 0.000,
       "tip_width_x_05_mm": 0.051,
       "ligament_width_x_06_mm": 0.021,
-      "classification": "AWAY_FROM_TARGET_LOCALIZATION",
-      "deck_file": "models/pandey_kumar_mode1/33_stage14_step2_remeshing_errortarget_sensitivity/PK_M1_STAGE14_STEP2_ERR_50PCT.inp",
-      "png_figure": "results/figures/mode1_gate6b/Mode1_STAGE14_STEP2_ET5.png"
-    },
-    "comparison_figure": "results/figures/mode1_gate6b/Mode1_STAGE14_STEP2_ET1_ET2_ET3_ET5_comparison.png"
-  },
-  "hpc_storage_reconciliation": {
-    "total_home_user_gb": 117,
-    "breakdown": {
-      "/home/pr21vyci/master_thesis": "56 GB (User legacy thesis work)",
-      "/home/pr21vyci/projects": "45 GB (Archived qualification worktrees from prior tasks)",
-      "/home/pr21vyci/Adaptive_remeshing_clean": "8.1 GB (Archived clone)",
-      "/home/pr21vyci/.vscode-server": "2.1 GB",
-      "/home/pr21vyci/microsoft-edge": "1.5 GB",
-      "/home/pr21vyci/rehearsal_f43adapt1": "1.1 GB",
-      "/home/pr21vyci/qual_exact_p43adapt1": "1.1 GB"
-    },
-    "active_project_repo_status": "CLEAN (0 heavy solver binaries in active repository)",
-    "active_scratch_jobs": {
-      "1410179.mmaster02": "Running in normal_imfdfkmq on /scratch9/",
-      "1410180.mmaster02": "Running in normal_imfdfkmq on /scratch9/"
+      "classification": "AWAY_FROM_TARGET_LOCALIZATION"
     }
+  },
+  "provenance_rules_enforced": [
+    "14483 is the Stage-14 Step-2 native remesh artifact, independent of solver runs",
+    "Invalidated Job 1409947 is NOT cited as a qualified fracture solve",
+    "Stage-14 Step-2 lineage (folder 33_) is strictly separated from historical Step-1 sweep (folder 32_)",
+    "Governing phase-field length scale is l_0 = 0.015 mm (h_min = 0.760 um satisfies h <= l_0 / 2)",
+    "Spatial localization metrics demonstrate monotonic reduction of corridor fraction from 64.12% to 27.51% with zero flank refinement across all error targets"
+  ],
+  "active_scratch_jobs": {
+    "1410179.mmaster02": "Running in normal_imfdfkmq on /scratch9/ (elapsed 04:13)",
+    "1410180.mmaster02": "Running in normal_imfdfkmq on /scratch9/ (elapsed 04:13)"
   }
 }

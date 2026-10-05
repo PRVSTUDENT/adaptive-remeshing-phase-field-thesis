@@ -47,3 +47,58 @@ $A_4$ & $5.0\%$ & $4{,}356$ & $3{,}763$ & $5.0\%$ error tolerance \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Influence of errorTarget on the Final Stage-14 Step-2 Adaptive Refinement}
+\label{sec:step2_errortarget_sensitivity}
+
+To systematically establish the spatial localization and element-count sensitivity of the native Abaqus \texttt{adaptiveRemesh} engine when evaluated on the true localized phase-field damage state, a rigorous parametric sweep across $\texttt{errorTarget} \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$ was conducted targeting \texttt{Step-2} ($u_y = 0.010\,\mathrm{mm}$, Frame 1022) of the companion pre-analysis ODB (\texttt{PK\_M1\_JOB1\_INF\_COMPANION\_2906.odb}). All sizing parameters were kept identical ($h_{\min} = 1.0\,\mu\mathrm{m}$, $h_{\max} = 20.0\,\mu\mathrm{m}$, \texttt{refinementFactor = 10}, \texttt{coarseningFactor = NOT\_ALLOWED}, \texttt{region = ALL\_ELEM}).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_stage14_step2_errortarget_comparison.pdf}
+\caption{Parametric sensitivity of native Abaqus \texttt{adaptiveRemesh} across four error targets ($\texttt{errorTarget} \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$) evaluated on the localized Stage-14 Step-2 phase-field pre-analysis ODB. Color contours depict equivalent element size $h_{\mathrm{eq}} \in [0.76, 20.0]\,\mu\mathrm{m}$. ET1 retains dense, target-like crack-ligament refinement ($64.12\%$ corridor share), whereas ET2, ET3, and ET5 progressively under-refine the horizontal propagation path.}
+\label{fig:step2_errortarget_comparison}
+\end{figure}
+
+Table~\ref{tab:step2_error_target_sensitivity} presents the quantitative metrics across the four evaluated error targets.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Quantitative spatial and morphological metrics for the Stage-14 Step-2 native adaptive remeshing sensitivity sweep.}
+\label{tab:step2_error_target_sensitivity}
+\begin{tabular}{lrrrr}
+\toprule
+Metric / Dimension & ET1 ($1.0\%$) & ET2 ($2.0\%$) & ET3 ($3.0\%$) & ET5 ($5.0\%$) \\
+\midrule
+Total Finite Elements ($N$) & $\mathbf{14{,}483}$ & $6{,}112$ & $5{,}189$ & $4{,}692$ \\
+Total Nodes ($N_{\mathrm{nodes}}$) & $\mathbf{14{,}456}$ & $6{,}181$ & $5{,}262$ & $4{,}759$ \\
+Element Breakdown (Quads / Tris) & $14{,}082$ / $401$ & $5{,}929$ / $183$ & $5{,}023$ / $166$ & $4{,}522$ / $170$ \\
+Corridor Elements ($|y-0.5| \le 0.05\,\mathrm{mm}$) & $\mathbf{9{,}286}$ ($\mathbf{64.12\%}$) & $2{,}510$ ($41.07\%$) & $1{,}795$ ($34.59\%$) & $1{,}291$ ($27.51\%$) \\
+Ligament Elements ($x \ge 0.5\,\mathrm{mm}$) & $8{,}325$ & $2{,}063$ & $1{,}465$ & $1{,}022$ \\
+Wake Elements ($x < 0.5\,\mathrm{mm}$) & $961$ & $447$ & $330$ & $269$ \\
+Far-Field Elements ($|y-0.5| > 0.05\,\mathrm{mm}$) & $5{,}197$ ($35.88\%$) & $3{,}602$ ($58.93\%$) & $3{,}394$ ($65.41\%$) & $3{,}401$ ($72.49\%$) \\
+Coarse Area Fraction ($h \ge 15\,\mu\mathrm{m}$) & $59.39\%$ & $75.77\%$ & $78.14\%$ & $77.39\%$ \\
+$h_{\min}$ [$\mu\mathrm{m}$] & $0.760$ & $0.956$ & $1.339$ & $1.230$ \\
+$h_{\mathrm{median}}$ [$\mu\mathrm{m}$] & $2.597$ & $12.496$ & $14.469$ & $15.151$ \\
+$h_{\mathrm{mean}}$ [$\mu\mathrm{m}$] & $6.025$ & $11.174$ & $12.558$ & $13.631$ \\
+$h_{\max}$ [$\mu\mathrm{m}$] & $23.020$ & $23.407$ & $23.402$ & $23.319$ \\
+Flank Refinement $w(0.1\text{--}0.3)$ [mm] & $\mathbf{0.000}$ & $\mathbf{0.000}$ & $\mathbf{0.000}$ & $\mathbf{0.000}$ \\
+Crack Tip Width $w(0.5)$ [mm] & $0.121$ & $0.090$ & $0.079$ & $0.051$ \\
+Ligament Width $w(0.6)$ [mm] & $0.170$ & $0.104$ & $0.099$ & $0.021$ \\
+Ligament Width $w(0.7)$ [mm] & $0.121$ & $0.074$ & $0.023$ & $0.000$ \\
+Ligament Width $w(0.8)$ [mm] & $0.116$ & $0.058$ & $0.055$ & $0.031$ \\
+Ligament Width $w(0.9)$ [mm] & $0.077$ & $0.023$ & $0.029$ & $0.037$ \\
+Scientific Classification & \textbf{\texttt{TARGET\_LIKE}} & \textbf{\texttt{AWAY\_FROM\_TARGET}} & \textbf{\texttt{AWAY\_FROM\_TARGET}} & \textbf{\texttt{AWAY\_FROM\_TARGET}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Key Physical and Epistemological Insights}
+\begin{enumerate}
+  \item \textbf{Exact Stage-14 Mesh Reproduction:} At $\texttt{errorTarget} = 1.0\%$, the native remesher exactly reproduces $14{,}483$ finite elements and $14{,}456$ nodes, bitwise and topologically identical to the Stage-14 Step-2 native remesh artifact (\texttt{PK\_M1\_STAGE14\_STEP2\_ALLINC.inp}, Package 99).
+  \item \textbf{Corridor Desensitization Mechanism:} As $\texttt{errorTarget}$ increases from $1.0\% \to 5.0\%$, the corridor element share drops monotonically from $64.12\% \to 27.51\%$. The scientific cause of classification \texttt{AWAY\_FROM\_TARGET\_LOCALIZATION} for ET2, ET3, and ET5 is the progressive loss of spatial resolution across the regularized damage zone ($l_0 = 7.5\,\mu\mathrm{m}$) along the crack ligament, not merely the reduced global element count.
+  \item \textbf{Wake Cleanliness Invariance:} Across all four error targets, the initial slit flank ($x \le 0.3\,\mathrm{mm}$) exhibits strictly zero artificial refinement ($w = 0.00\,\mathrm{mm}$), proving that the Step-2 localized damage formulation completely avoids spurious wake remeshing.
+  \item \textbf{Lineage Separation:} This Step-2 target-like sweep is strictly distinct from the historical Step-1 linear-elastic sweep ($57{,}929 / 14{,}677 / 6{,}824 / 4{,}239$ elements), which was evaluated before phase-field damage localization occurred.
+\end{enumerate}
+

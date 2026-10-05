@@ -14,7 +14,7 @@ This report documents the rigorous execution, quantitative characterization, wir
 
 ### Key Findings & Milestones:
 1. **Exact Reproduction of Stage-14 Target-Like Mesh:**
-   - At $\text{errorTarget} = 1.0\%$, the native remesher generated **$14,483$ elements** ($14,082$ CPE4 quads, $401$ CPE3 tris) and **$14,456$ nodes**, reproducing with $100\%$ precision the mesh used in the authoritative Stage-14 adaptive solve (`PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp`, Job `1409947.mmaster02`).
+   - At $\text{errorTarget} = 1.0\%$, the native remesher generated **$14,483$ elements** ($14,082$ CPE4 quads, $401$ CPE3 tris) and **$14,456$ nodes**, reproducing with $100\%$ precision the Stage-14 Step-2 native-remesh artifact (`PK_M1_STAGE14_STEP2_ALLINC.inp`, Package 99), independent of any subsequently evaluated fracture solve.
 2. **Spatial Localization vs Error Target:**
    - As $\text{errorTarget}$ increases from $1.0\% \to 2.0\% \to 3.0\% \to 5.0\%$, the element count decreases monotonically: **$14,483 \to 6,112 \to 5,189 \to 4,692$**.
    - The refinement corridor fraction decreases from **$64.12\% \to 41.07\% \to 34.59\% \to 27.51\%$**, demonstrating how higher error tolerances progressively restrict fine-element allocation to the highest stress gradients while coarsening the far field.
