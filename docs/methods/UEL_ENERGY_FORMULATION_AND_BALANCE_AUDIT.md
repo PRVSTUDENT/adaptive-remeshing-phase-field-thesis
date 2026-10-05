@@ -1,57 +1,54 @@
-# UEL Energy Formulation, Source Audit, and Global Energy Balance Qualification
+# Mode-I Stage-14 UEL Energy Formulation, Source Audit & Energy Balance Qualification
 
-**Classification:** `SOURCE_VERIFIED` & `NUMERICALLY_VERIFIED`  
-**Governing Phase:** `MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION`  
-**Authoritative Fortran Source:** `f42_mixed_uel.for`  
-**Cryptographic SHA-256:** `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`  
-
----
-
-## 1. Executive Summary & Epistemic Boundaries
-
-This document provides the authoritative mathematical derivation and code audit of the energy quantities implemented in the staggered transactional phase-field fracture user subroutine `f42_mixed_uel.for` used in all Mode-I fracture simulations across the thesis.
-
-### Epistemic Categorization Discipline:
-- **`SOURCE_VERIFIED`**: Exact mathematical expressions, shape function derivatives, numerical quadrature weighting, state-variable storage slots, common block arrays, and subroutine lines verified directly in `f42_mixed_uel.for`.
-- **`NUMERICALLY_VERIFIED`**: Global energy integrals, trapezoidal external work, bookkeeping residuals $\Delta_{\text{book}}$, and relative errors $\varepsilon_{\text{book}}$ verified against Abaqus `.dat` and `uel_energy_balance.csv` output from qualified simulations (`1409734.mmaster02`, `1409953.mmaster02`, `1409982.mmaster02`, `1410006.mmaster02`, `1410095.mmaster02`).
-- **`UNRESOLVED_INTERNAL_ABAQUS_DETAIL`**: Proprietary solver internals (e.g. Abaqus internal energy bookkeeping `ALLKE`, `ALLVD` for UEL elements when uninstrumented).
+**Classification:** `SOURCE_AND_NUMERICAL_VERIFICATION`  
+**Protocol Version:** 2  
+**Authoritative Fortran Source:** `models/pandey_kumar_mode1/f42_mixed_uel.for`  
+**Cryptographic Hash (SHA-256):** `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`  
+**Governing Verdict:** `STAGE14_UEL_ENERGY_FORMULATION_AND_SOURCE_AUDIT_QUALIFIED`  
 
 ---
 
-## 2. Term-by-Term Mathematical Derivation from Implemented Weak Form
+## 1. Executive Summary & Epistemic Scope
+
+This document provides the definitive term-by-term derivation, source code audit, dimensional validation, and zero double-counting proof for the energy quantities computed in the 3-layer staggered phase-field fracture implementation in Abaqus/Standard.
+
+### Epistemic Classification:
+- **`SOURCE_VERIFIED`**: Exact mathematical equations and Gauss-point quadrature loops implemented in `f42_mixed_uel.for` for stored elastic energy $E_{\text{elas}}$, regularized crack-surface functional $E_{\text{frac}}$, undegraded driving energy $H$, auxiliary state variable slots, zero energy outputs in companion UMAT (`SSE = SPD = SCD = 0`), and non-invasive `UEXTERNALDB` logging.
+- **`NUMERICALLY_VERIFIED`**: Global external boundary work $W_{\text{ext}} = \int F\,\mathrm{d}u$, initial stiffness $K_0$, peak load $F_{\max}$, displacement at peak $u_{\text{peak}}$, and global bookkeeping residual $\Delta_{\text{book}} = W_{\text{ext}} - E_{\text{model}}$ across fixed ($S_1$--$S_4$) and adaptive (ET1--ET5) meshes.
+- **`UNRESOLVED_INTERNAL_ABAQUS_DETAIL`**: Native Abaqus whole-model internal energy arrays (e.g. `ALLWK`, `ALLIE` when UEL elements are active) versus independent UEL/RP integration.
+
+---
+
+## 2. Term-by-Term Mathematical Derivations & Implemented Formulations
 
 ### 2.1 Implemented Phase-Field Crack-Surface Functional ($E_{\text{frac}}$)
 
 #### Mathematical Equation:
-$$\psi_f(\mathbf{x}) = G_c \left[ \frac{1}{2 l_0} d(\mathbf{x})^2 + \frac{l_0}{2} |\nabla d(\mathbf{x})|^2 \right]$$
-$$E_{\text{frac}} = \int_{\Omega} \psi_f(\mathbf{x}) \,\mathrm{d}\Omega = \sum_{e=1}^{N_{\text{phys}}} \sum_{k=1}^{N_{\text{int}}} w_k \det(\mathbf{J}_k) \psi_f(\mathbf{x}_k)$$
+$$\psi_f(\mathbf{x}) = G_c \left[ \frac{d(\mathbf{x})^2}{2 l_0} + \frac{l_0}{2} |\nabla d(\mathbf{x})|^2 \right]$$
+$$E_{\text{frac}} = \int_{\Omega} \psi_f(\mathbf{x}) \,\mathrm{d}\Omega = \sum_{e=1}^{N_{\text{mesh}}} \sum_{k=1}^{N_{\text{int}}} w_k \det(\mathbf{J}_k) \cdot B \cdot G_c \left[ \frac{\bar{d}_e^2}{2 l_0} + \frac{l_0}{2} |\nabla d(\boldsymbol{\xi}_k)|^2 \right]$$
+where $B = 1.0\,\mathrm{mm}$ is the implicit Abaqus 2D plane-strain unit thickness, and $\bar{d}_e = \frac{1}{N_{\text{nodes}}} \sum_{a=1}^{N_{\text{nodes}}} d_a$ is the element-averaged phase field.
 
-#### Code Implementation in `f42_mixed_uel.for`:
+#### Implementation in `f42_mixed_uel.for`:
 - **4-Node Quadrilateral Phase Element (`JTYPE = 1`)**:
-  - Quadrature: $2\times 2$ Gauss-Legendre quadrature ($N_{\text{int}} = 4$, $w_k = 1.0$, $\xi_k, \eta_k = \pm 1/\sqrt{3}$).
-  - Lines 356–360:
+  - Quadrature: $2\times 2$ Gauss-Legendre quadrature ($N_{\text{int}} = 4$).
+  - Lines 354–360:
     ```fortran
-    GRAD_D_SQ = GRAD_D(1)**2 + GRAD_D(2)**2
-    PSI_F_PT  = E_GC * (HALF * (D_PT**2) / E_L0 + HALF * E_L0 * GRAD_D_SQ)
+    DGRAD_SQ = DGRAD(1)**2 + DGRAD(2)**2
+    PSI_F_PT = E_GC * (HALF * (D_AVG**2) / E_L0 + HALF * E_L0 * DGRAD_SQ)
     E_FRAC_ELEM = E_FRAC_ELEM + CJAC * PSI_F_PT
     ```
 - **3-Node Triangular Phase Element (`JTYPE = 3`)**:
-  - Quadrature: 1-point centroid quadrature ($N_{\text{int}} = 1$, $w_1 = 0.5$, $\xi_1 = \eta_1 = 1/3$).
-  - Lines 652–656:
+  - Quadrature: 1-point centroid quadrature ($N_{\text{int}} = 1$).
+  - Lines 650–656:
     ```fortran
-    GRAD_D_SQ = GRAD_D(1)**2 + GRAD_D(2)**2
-    PSI_F_PT  = E_GC * (HALF * (D_PT**2) / E_L0 + HALF * E_L0 * GRAD_D_SQ)
+    DGRAD_SQ = DGRAD(1)**2 + DGRAD(2)**2
+    PSI_F_PT = E_GC * (HALF * (D_AVG**2) / E_L0 + HALF * E_L0 * DGRAD_SQ)
     E_FRAC_ELEM = CJAC * PSI_F_PT
     ```
-- **Global Summation & Storage**:
-  - Storage in `COMMON /CB_STATE_TRANS/`: `SV_E_FRAC(PHYSIDX)` (line 373, 659).
-  - Storage in UEL `SVARS(17)` and `ENERGY(7)`.
-  - Global integral in `UEXTERNALDB(LOP=2)`: `TOT_E_FRAC = sum(SV_E_FRAC)` (lines 133–136).
-
-#### Properties & Discipline:
-- **Units**: $\mathrm{kN/mm} \times \mathrm{mm} \times \mathrm{mm}^{-2} \times \mathrm{mm}^2 = \mathrm{kN}\cdot\mathrm{mm} = \mathrm{J} = 1000\,\mathrm{mJ}$.
-- **Sign**: Strictly positive semi-definite ($E_{\text{frac}} \ge 0$).
-- **Thermodynamic Interpretation**: $E_{\text{frac}}$ is the **instantaneous phase-field crack-surface functional** representing the regularized surface energy of the fracture zone. It is **NOT** automatically a time-integrated cumulative thermodynamic dissipation functional $\int_0^t \mathcal{D}\,\mathrm{d}t$. Under fully severed crack states, it converges asymptotically to the total fracture surface energy $\Gamma = G_c A_{\text{crack}} + E_{\text{init}}$.
+- **Global Storage & Output**:
+  - Assigned to `ENERGY(7) = E_FRAC_ELEM` in UEL.
+  - Stored in `SVARS(17) = E_FRAC_ELEM` and common block `SV_E_FRAC(PHYSIDX)`.
+  - Aggregated across all elements in `UEXTERNALDB(LOP=2)` as `TOT_E_FRAC = sum(SV_E_FRAC)`.
 
 ---
 
@@ -59,33 +56,26 @@ $$E_{\text{frac}} = \int_{\Omega} \psi_f(\mathbf{x}) \,\mathrm{d}\Omega = \sum_{
 
 #### Mathematical Equation:
 $$\psi_e(\mathbf{x}) = \frac{1}{2} \boldsymbol{\sigma}(\mathbf{x}) : \boldsymbol{\varepsilon}(\mathbf{x}) = \frac{1}{2} g(d) \boldsymbol{\varepsilon}(\mathbf{x}) : \mathbb{C}_0 : \boldsymbol{\varepsilon}(\mathbf{x})$$
-$$E_{\text{elas}} = \int_{\Omega} \psi_e(\mathbf{x}) \,\mathrm{d}\Omega = \sum_{e=1}^{N_{\text{phys}}} \sum_{k=1}^{N_{\text{int}}} w_k \det(\mathbf{J}_k) \left( \frac{1}{2} \boldsymbol{\sigma}_k : \boldsymbol{\varepsilon}_k \right)$$
-where $g(d) = (1-d)^2 + k$ is the quadratic degradation function with residual parameter $k = 10^{-7}$.
+$$E_{\text{elas}} = \int_{\Omega} \psi_e(\mathbf{x}) \,\mathrm{d}\Omega = \sum_{e=1}^{N_{\text{mesh}}} \sum_{k=1}^{N_{\text{int}}} w_k \det(\mathbf{J}_k) \cdot B \cdot \left[ \frac{1}{2} \boldsymbol{\sigma}_k : \boldsymbol{\varepsilon}_k \right]$$
+where $g(d) = (1-d)^2 + k_{\text{res}}$ with residual stiffness parameter $k_{\text{res}} = 10^{-7}$.
 
-#### Code Implementation in `f42_mixed_uel.for`:
+#### Implementation in `f42_mixed_uel.for`:
 - **4-Node Quadrilateral Mechanical Element (`JTYPE = 2`)**:
-  - Quadrature: $2\times 2$ Gauss-Legendre quadrature ($N_{\text{int}} = 4$).
   - Lines 534–538:
     ```fortran
     PSI_E_PT = HALF * (STRESS(1)*STRAIN(1) + STRESS(2)*STRAIN(2) + STRESS(3)*STRAIN(3))
     E_ELAS_ELEM = E_ELAS_ELEM + CJAC * PSI_E_PT
     ```
 - **3-Node Triangular Mechanical Element (`JTYPE = 4`)**:
-  - Quadrature: 1-point centroid quadrature ($N_{\text{int}} = 1$).
   - Lines 805–809:
     ```fortran
     PSI_E_PT = HALF * (STRESS(1)*STRAIN(1) + STRESS(2)*STRAIN(2) + STRESS(3)*STRAIN(3))
     E_ELAS_ELEM = CJAC * PSI_E_PT
     ```
-- **Global Summation & Storage**:
-  - Storage in `COMMON /CB_STATE_TRANS/`: `SV_E_ELAS(PHYSIDX)` (line 549, 816).
-  - Storage in UEL `SVARS(17)` and `ENERGY(2)` (`ALLSE`).
-  - Global integral in `UEXTERNALDB(LOP=2)`: `TOT_E_ELAS = sum(SV_E_ELAS)` (lines 133–136).
-
-#### Properties & Discipline:
-- **Units**: $\mathrm{kN/mm^2} \times [-] \times \mathrm{mm}^2 = \mathrm{kN}\cdot\mathrm{mm} = \mathrm{J} = 1000\,\mathrm{mJ}$.
-- **Sign**: Strictly positive ($E_{\text{elas}} > 0$).
-- **Thermodynamic Interpretation**: Instantaneous recoverable elastic strain energy in the degraded solid.
+- **Global Storage & Output**:
+  - Assigned to `ENERGY(2) = E_ELAS_ELEM` in UEL (summed natively by Abaqus into whole-model `ALLSE`).
+  - Stored in `SVARS(17) = E_ELAS_ELEM` and common block `SV_E_ELAS(PHYSIDX)`.
+  - Aggregated in `UEXTERNALDB(LOP=2)` as `TOT_E_ELAS = sum(SV_E_ELAS)`.
 
 ---
 
@@ -95,77 +85,112 @@ where $g(d) = (1-d)^2 + k$ is the quadratic degradation function with residual p
 $$\psi_0^+(\boldsymbol{\varepsilon}) = \frac{1}{2} C_{12}^0 \langle \mathrm{tr}(\boldsymbol{\varepsilon}) \rangle_+^2 + C_{33}^0 \left( \varepsilon_{11}^2 + \varepsilon_{22}^2 + 2 \varepsilon_{12}^2 \right)$$
 $$H(\mathbf{x}, t) = \max_{\tau \in [0, t]} \psi_0^+(\boldsymbol{\varepsilon}(\mathbf{x}, \tau))$$
 
-#### Code Implementation in `f42_mixed_uel.for`:
-- Lines 524–531 (Quads) and 795–802 (Triangles):
-  ```fortran
-  POS_M = HALF*C12_0*(E_POS**2) + C33_0*(E11**2 + E22**2 + TWO*(E12**2))
-  HIST = SV_H_TRIAL(PHYSIDX, KPT)
-  IF (POS_M .GT. HIST) THEN
-    HIST = POS_M
-    SV_H_TRIAL(PHYSIDX, KPT) = POS_M
-  ENDIF
-  ```
-- **Coupling**: Evaluated in Mechanical UEL (Layer 2) and passed via `COMMON /CB_STATE_TRANS/` to Phase UEL (Layer 1) to drive the Euler-Lagrange damage balance:
+#### Implementation in `f42_mixed_uel.for`:
+- Evaluated in Mechanical UEL (Layer 2, lines 524–531) and passed via `COMMON /CB_STATE_TRANS/` (`SV_H_TRIAL`) to Phase UEL (Layer 1) to drive the Euler-Lagrange damage balance:
   $$\left( \frac{G_c}{l_0} + 2 H \right) d - G_c l_0 \nabla^2 d = 2 H$$
 
 ---
 
-### 2.4 External Work ($W_{\text{ext}}$)
+### 2.4 External Boundary Work ($W_{\text{ext}}$)
 
 #### Mathematical Equation:
 $$W_{\text{ext}}(u) = \int_0^u F(\tilde{u}) \,\mathrm{d}\tilde{u}$$
 
 #### Discrete Trapezoidal Rule:
 $$W_{\text{ext}}(u_n) = \sum_{i=1}^n \frac{F_i + F_{i-1}}{2} (u_i - u_{i-1}) \times 1000\,\mathrm{mJ/J}$$
-- **Units**: $\mathrm{kN} \times \mathrm{mm} \times 1000\,\mathrm{mJ/J} = \mathrm{mJ}$.
-- **Discipline**: $W_{\text{ext}}$ is external mechanical work applied to the boundary (RP 999999). It is **NEVER** internal strain energy or fracture energy.
+- **Discipline**: $W_{\text{ext}}$ is external mechanical boundary work from RP reaction force integration $\int F\,\mathrm{d}u$, and must **never** be labeled internal strain energy or fracture energy.
 
 ---
 
-### 2.5 Model Total Internal Energy ($E_{\text{model}}$) & Global Bookkeeping Residual ($\Delta_{\text{book}}$)
+### 2.5 Model Total Internal Energy ($E_{\text{model}}$) & Bookkeeping Residual ($\Delta_{\text{book}}$)
 
-#### Mathematical Definition:
-$$E_{\text{model}} = E_{\text{elas}} + E_{\text{frac}}$$
-$$\Delta_{\text{book}} = W_{\text{ext}} - E_{\text{model}} = W_{\text{ext}} - (E_{\text{elas}} + E_{\text{frac}})$$
-$$\varepsilon_{\text{book}} = \frac{|\Delta_{\text{book}}|}{W_{\text{ext}}} \times 100\% = \frac{|W_{\text{ext}} - (E_{\text{elas}} + E_{\text{frac}})|}{W_{\text{ext}}} \times 100\%$$
+#### Frozen Mathematical Definitions:
+$$E_{\text{model}}(u) = E_{\text{elas}}(u) + E_{\text{frac}}(u)$$
+$$\Delta_{\text{book}}(u) = W_{\text{ext}}(u) - E_{\text{model}}(u) = W_{\text{ext}}(u) - \left[ E_{\text{elas}}(u) + E_{\text{frac}}(u) \right]$$
+$$\varepsilon_{\text{book}}(u) = \frac{|\Delta_{\text{book}}(u)|}{|W_{\text{ext}}(u)|} \times 100\%$$
+
+#### Sign Interpretation:
+- $\Delta_{\text{book}} > 0 \implies W_{\text{ext}} > E_{\text{model}}$ (external work exceeds internal model energy).
+- $\Delta_{\text{book}} < 0 \implies W_{\text{ext}} < E_{\text{model}}$ (internal model energy exceeds external work).
 
 ---
 
-## 3. Co-Located 3-Layer Architecture & Proof of Zero Double Counting
+## 3. Co-Located 3-Layer Architecture & Deduplication Analysis
 
 The benchmark discretization employs 3 co-located element layers sharing identical nodal coordinates:
 
 | Layer | Type | Element IDs | Active DOFs | Role in Formulation | Energy Contribution |
 | :--- | :--- | :---: | :---: | :--- | :--- |
-| **Layer 1** | Phase UEL (`JTYPE 1, 3`) | $1 \dots N_{\text{phys}}$ | DOF 3 ($d$) | Solves phase-field Euler-Lagrange PDE | $E_{\text{frac}}$ (stored in `ENERGY(7)`) |
-| **Layer 2** | Mech UEL (`JTYPE 2, 4`) | $N_{\text{phys}}+1 \dots 2N_{\text{phys}}$ | DOFs 1, 2 ($u_x, u_y$) | Solves degraded mechanical equilibrium | $E_{\text{elas}}$ (stored in `ENERGY(2)`) |
-| **Layer 3** | Visualizer UMAT (`CPE4/CPE3`) | $2N_{\text{phys}}+1 \dots 3N_{\text{phys}}$ | DOFs 1, 2 | Dummy visualization overlay for Abaqus/CAE | **EXACTLY ZERO** ($\mathbf{C} = 10^{-11}\mathbf{I}$, $\boldsymbol{\sigma}=\mathbf{0}$) |
+| **Layer 1** | Phase UEL (`JTYPE 1, 3`) | $1 \dots N_{\text{mesh}}$ | DOF 3 ($d$) | Solves phase-field Euler-Lagrange PDE | $E_{\text{frac}}$ (stored in `ENERGY(7)`) |
+| **Layer 2** | Mech UEL (`JTYPE 2, 4`) | $N_{\text{mesh}}+1 \dots 2N_{\text{mesh}}$ | DOFs 1, 2 ($u_x, u_y$) | Solves degraded mechanical equilibrium | $E_{\text{elas}}$ (stored in `ENERGY(2)`) |
+| **Layer 3** | Visualizer UMAT (`CPE4/CPE3`) | $2N_{\text{mesh}}+1 \dots 3N_{\text{mesh}}$ | DOFs 1, 2 | Dummy visualization overlay for Abaqus/CAE | **Numerically Negligible** ($\mathbf{D} = 10^{-11}\mathbf{I}$, $\boldsymbol{\sigma} \approx \mathbf{0}$) |
 
-### Mathematical Proof of Zero Double Counting:
-1. In `UMAT` (lines 876–886):
-   - Stiffness: $\mathbf{D} = 10^{-11} \mathbf{I} \approx \mathbf{0}$.
-   - Stress: $\boldsymbol{\sigma} = \mathbf{0}$.
-   - Energies: `SSE = 0.D0`, `SPD = 0.D0`, `SCD = 0.D0`.
-2. In `UEXTERNALDB` (lines 130–137):
-   - The global energy loop runs over $I = 1 \dots N_{\text{capacity}}$, summing `SV_E_ELAS(I)` (written solely by Layer 2) and `SV_E_FRAC(I)` (written solely by Layer 1).
+### Deduplication Proof & Companion UMAT Behavior:
+1. **In `UMAT` (lines 876–886)**:
+   - Dummy Stiffness: $\mathbf{D}_{\text{comp}} = 10^{-11} \mathbf{I}\,\text{GPa}$.
+   - Stress: $\boldsymbol{\sigma}_{\text{comp}} = \mathbf{0}$.
+   - Energy variables explicitly set to zero: `SSE = 0.D0`, `SPD = 0.D0`, `SCD = 0.D0`.
+   - Strain energy generated by Layer 3 is on the order of $\sim 10^{-11}\,\mathrm{J}$, which is numerically negligible compared to physical energies ($\sim 2.3\,\mathrm{mJ}$).
+2. **In `UEXTERNALDB` (lines 130–137)**:
+   - The global energy loop runs over $I = 1 \dots N_{\text{mesh}}$, summing `SV_E_ELAS(I)` (written exclusively by Layer 2) and `SV_E_FRAC(I)` (written exclusively by Layer 1).
    - Layer 3 does not write to `SV_E_ELAS` or `SV_E_FRAC`.
-3. **Verdict**: The 3-layer architecture guarantees **zero double counting** of strain energy, fracture energy, or external work.
+3. **Postprocessor Extraction Rule**:
+   - Extractors sample state variables at **Integration Point 1 (`IP1`) only** (verified with within-element equality assertions), preventing $4\times$ overcounting across Gauss points.
+4. **Verdict**: The implementation guarantees **no counted physical-energy duplication** and a **numerically negligible companion contribution**.
 
 ---
 
 ## 4. Mechanical Non-Invasiveness of Energy Instrumentation
 
 1. **RHS Residual Vector**:
-   - `RHS` calculation in Layer 1 (lines 346, 368) and Layer 2 (line 545) is mathematically uncoupled from `ENERGY(2)` and `ENERGY(7)`.
+   - `RHS` calculation in Layer 1 (lines 346, 368) and Layer 2 (lines 545, 814) is mathematically uncoupled from `ENERGY(2)` and `ENERGY(7)`.
 2. **AMATRX Tangent Stiffness Matrix**:
    - Analytical consistent tangent expressions in Layer 1 (lines 341–344) and Layer 2 (lines 506–508) remain 100% untouched.
 3. **STATEV and Transactional Logic**:
    - Energy scalars `SV_E_FRAC`, `SV_E_ELAS`, `SV_PSI_F`, `SV_PSI_E` occupy auxiliary state slots `SVARS(17..18)` and `STATEV(17..20)`. Existing baseline state variables `SVARS(1..16)` and `STATEV(1..16)` are bitwise invariant.
-4. **Verdict**: `ENERGY_INSTRUMENTATION_MECHANICALLY_NON_INVASIVE_QUALIFIED`.
+4. **HPC Parity Qualification**:
+   - Elastic Parity (Job 1406904 vs 1406905, 30 incs): $|\Delta F| = 0.00000000\,\mathrm{kN}$.
+   - Softening Parity (Job 1406906 vs 1406907, 129 incs): $|\Delta F| = 0.0\,\mathrm{kN}$ through complete failure to $u = 0.035\,\text{mm}$.
+5. **Verdict**: `ENERGY_INSTRUMENTATION_MECHANICALLY_NON_INVASIVE_QUALIFIED`.
 
 ---
 
-## 5. Summary Energy Metrics Table
+## 5. Reconciled Reference & Adaptive Energy Metrics
+
+### 5.1 Fixed Reference Baseline ($S_1$, 15,192 FE, Job 1409734.mmaster02)
+- **At Terminal State ($u = 0.010000\,\text{mm}$)**:
+  - $W_{\text{ext}} = 2.359329\,\text{mJ}$
+  - $E_{\text{frac}} = 2.340220\,\text{mJ}$
+  - $E_{\text{elas}} = 0.001161\,\text{mJ}$
+  - $E_{\text{model}} = 2.341381\,\text{mJ}$
+  - $\Delta_{\text{book}} = W_{\text{ext}} - E_{\text{model}} = \mathbf{+0.017948\,\text{mJ}}$
+  - $\varepsilon_{\text{book}} = \frac{+0.017948}{2.359329} \times 100\% = \mathbf{0.7607\%}$
+
+- **At Matched Displacement ($u = 0.007889\,\text{mm}$)**:
+  - $W_{\text{ext}} = 2.358728\,\text{mJ}$
+  - $E_{\text{frac}} = 2.339582\,\text{mJ}$
+  - $E_{\text{elas}} = 0.001374\,\text{mJ}$
+  - $E_{\text{model}} = 2.340956\,\text{mJ}$
+  - $\Delta_{\text{book}} = W_{\text{ext}} - E_{\text{model}} = \mathbf{+0.017772\,\text{mJ}}$
+  - $\varepsilon_{\text{book}} = \mathbf{0.7535\%}$
+
+### 5.2 Step-2 ET1 Adaptive Baseline (14,483 FE, Stage 14 Solve)
+- **At Actual Terminal State ($u = 0.007889\,\text{mm}$, Step 2 Inc 2889)**:
+  - $W_{\text{ext}} = 2.267380\,\text{mJ}$
+  - $E_{\text{frac}} = 2.285469\,\text{mJ}$
+  - $E_{\text{elas}} = 0.006960\,\text{mJ}$
+  - $E_{\text{model}} = 2.292429\,\text{mJ}$
+  - $\Delta_{\text{book}} = W_{\text{ext}} - E_{\text{model}} = \mathbf{-0.025049\,\text{mJ}}$
+  - $\varepsilon_{\text{book}} = \frac{|-0.025049|}{2.267380} \times 100\% = \mathbf{1.104771\%}$
+
+### 5.3 Root Cause of the $1.104771\%$ vs $0.8275\%$ Discrepancy:
+- The value **$1.104771\%$** is the authentic, raw-extracted value at terminal increment Step 2 Inc 2889 ($u = 0.007889\,\text{mm}$) where the actual remaining elastic energy is $E_{\text{elas}} = 0.006960\,\text{mJ}$ ($F = 0.001764\,\text{kN}$).
+- The value **$0.8275\%$** arose from plugging an assumed post-fracture residual elastic energy of $E_{\text{elas}} = 0.000674\,\text{mJ}$ into the terminal $W_{\text{ext}}$ and $E_{\text{frac}}$ values ($\Delta_{\text{book}} = -0.018763\,\text{mJ}$).
+- **Resolution**: $1.104771\%$ with $E_{\text{elas}} = 0.006960\,\text{mJ}$ is the exact, canonical value for ET1 at its actual terminal state ($u = 0.007889\,\text{mm}$).
+
+---
+
+## 6. Summary Energy Metrics Table
 
 | Metric / Dimension | Equation | Code Location | Units | Sign | Nature |
 | :--- | :--- | :--- | :---: | :---: | :--- |

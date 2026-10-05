@@ -6,11 +6,11 @@ Classification: NUMERICAL_AND_SOURCE_VERIFICATION
 
 Tests:
 1. Exact SHA-256 hash of authoritative production source f42_mixed_uel.for
-2. Layer 3 Companion Visualizer UMAT zero-double-counting invariants (DDSDDE=1.D-11*I, SSE=0, SPD=0, SCD=0, STRESS=0)
+2. Layer 3 Companion Visualizer UMAT zero-energy outputs and dummy stiffness (DDSDDE=1.D-11*I, SSE=0, SPD=0, SCD=0, STRESS=0)
 3. Layer 1 (Phase UEL) and Layer 2 (Mechanical UEL) energy routing and variable slots
 4. Unit system consistency (mm, kN, tonne, s -> 1 kN*mm = 1 J = 1000 mJ)
 5. Mechanical non-invasiveness invariants (RHS/AMATRX decoupling, SVARS 17-18 dedicated slots)
-6. Global energy balance formulas and reference reconciliation numbers
+6. Global energy balance formulas, reconciled signs, and exact reference/adaptive metrics
 7. Epistemic status classification invariants in documentation
 """
 
@@ -102,30 +102,42 @@ class TestStage14UelEnergyFormulationAudit(unittest.TestCase):
         self.assertIn("TOT_E_ELAS", text)
 
     def test_06_energy_balance_definitions_and_reference_reconciliation(self):
-        """Verify energy balance definitions and exact reference metrics."""
-        # Fixed Reference metrics (Job 1409734.mmaster02) at u = 0.010 mm
-        W_ext_ref = 2.359329  # mJ
-        E_frac_ref = 2.340220  # mJ
-        E_elas_ref = 0.001161  # mJ
-        E_model_ref = E_elas_ref + E_frac_ref
-        Delta_book_ref = W_ext_ref - E_model_ref
-        eps_book_ref = abs(Delta_book_ref) / W_ext_ref * 100.0
+        """Verify frozen energy balance definition Delta_book = W_ext - (E_elas + E_frac) and exact values."""
+        # 1. Fixed Reference at terminal state u = 0.010 mm
+        W_ext_ref_10 = 2.359329  # mJ
+        E_frac_ref_10 = 2.340220  # mJ
+        E_elas_ref_10 = 0.001161  # mJ
+        E_model_ref_10 = E_elas_ref_10 + E_frac_ref_10
+        Delta_book_ref_10 = W_ext_ref_10 - E_model_ref_10
+        eps_book_ref_10 = abs(Delta_book_ref_10) / W_ext_ref_10 * 100.0
         
-        self.assertAlmostEqual(E_model_ref, 2.341381, places=5)
-        self.assertAlmostEqual(Delta_book_ref, 0.017948, places=5)
-        self.assertAlmostEqual(eps_book_ref, 0.7607, places=3)
+        self.assertAlmostEqual(E_model_ref_10, 2.341381, places=5)
+        self.assertAlmostEqual(Delta_book_ref_10, 0.017948, places=5)  # Strictly positive
+        self.assertAlmostEqual(eps_book_ref_10, 0.7607, places=3)
         
-        # ET1 Adaptive Baseline metrics at u = 0.010 mm
-        W_ext_et1 = 2.267380  # mJ
-        E_frac_et1 = 2.285469  # mJ
-        E_elas_et1 = 0.000674  # mJ
-        E_model_et1 = E_elas_et1 + E_frac_et1
-        Delta_book_et1 = W_ext_et1 - E_model_et1
-        eps_book_et1 = abs(Delta_book_et1) / W_ext_et1 * 100.0
+        # 2. ET1 Adaptive Baseline at actual terminal state u = 0.007889 mm
+        W_ext_et1_term = 2.267380  # mJ
+        E_frac_et1_term = 2.285469  # mJ
+        E_elas_et1_term = 0.006960  # mJ (exact raw remaining elastic energy at Step 2 Inc 2889)
+        E_model_et1_term = E_elas_et1_term + E_frac_et1_term
+        Delta_book_et1_term = W_ext_et1_term - E_model_et1_term
+        eps_book_et1_term = abs(Delta_book_et1_term) / W_ext_et1_term * 100.0
         
-        self.assertAlmostEqual(E_model_et1, 2.286143, places=5)
-        self.assertAlmostEqual(Delta_book_et1, -0.018763, places=5)
-        self.assertAlmostEqual(eps_book_et1, 0.8275, places=3)
+        self.assertAlmostEqual(E_model_et1_term, 2.292429, places=5)
+        self.assertAlmostEqual(Delta_book_et1_term, -0.025049, places=5)  # Strictly negative
+        self.assertAlmostEqual(eps_book_et1_term, 1.1048, places=3)  # Canonical 1.104771% / 1.1048%
+        
+        # 3. Fixed Reference at matched displacement u = 0.007889 mm
+        W_ext_ref_matched = 2.358728  # mJ
+        E_frac_ref_matched = 2.339582  # mJ
+        E_elas_ref_matched = 0.001374  # mJ
+        E_model_ref_matched = E_elas_ref_matched + E_frac_ref_matched
+        Delta_book_ref_matched = W_ext_ref_matched - E_model_ref_matched
+        eps_book_ref_matched = abs(Delta_book_ref_matched) / W_ext_ref_matched * 100.0
+        
+        self.assertAlmostEqual(E_model_ref_matched, 2.340956, places=5)
+        self.assertAlmostEqual(Delta_book_ref_matched, 0.017772, places=5)  # Strictly positive
+        self.assertAlmostEqual(eps_book_ref_matched, 0.7535, places=3)
 
     def test_07_methods_documentation_and_epistemic_categories(self):
         """Verify methods documentation exists and records rigorous epistemic categories."""
@@ -136,7 +148,7 @@ class TestStage14UelEnergyFormulationAudit(unittest.TestCase):
             "SOURCE_VERIFIED",
             "NUMERICALLY_VERIFIED",
             "UNRESOLVED_INTERNAL_ABAQUS_DETAIL",
-            "Zero Double Counting",
+            "no counted physical-energy duplication",
             "Mechanical Non-Invasiveness",
             "Bookkeeping Residual",
             "f42_mixed_uel.for",

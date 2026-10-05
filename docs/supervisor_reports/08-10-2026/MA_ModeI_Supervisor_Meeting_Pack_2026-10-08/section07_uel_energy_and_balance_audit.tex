@@ -25,14 +25,14 @@ In the consistent structural unit system ($\text{mm}$, $\text{kN}$, $\text{tonne
   \item In 2D plane strain, the element domain differential is $\mathrm{d}\Omega = \mathrm{d}A \times B$, where $B = 1.0\,\mathrm{mm}$ is the implicit Abaqus default unit thickness. The Gauss integration weight $\mathrm{CJAC} = \det(\mathbf{J})\cdot W$ integrates over area $\mathrm{d}A$ in $\mathrm{mm^2}$. Multiplying $\psi \in [\mathrm{kN/mm^2}]$ by $\mathrm{CJAC} \in [\mathrm{mm^2}]$ and unit thickness $B = 1.0\,\mathrm{mm}$ directly yields physical energy in $\mathrm{kN\cdot mm} \equiv \mathrm{J}$.
 \end{itemize}
 
-\subsection{Three-Layer Co-Located Architecture and Zero Double-Counting Proof}
+\subsection{Three-Layer Co-Located Architecture and Energy Deduplication Analysis}
 To implement the staggered phase-field model in Abaqus/Standard, each underlying finite element domain $\Omega_e$ is discretized into three coincident layers:
 \begin{itemize}
   \item \textbf{Layer 1 (Phase UEL, JTYPE=1)}: Computes regularized crack-surface functional $E_{\mathrm{frac}}^{(e)}$ via $2\times 2$ Gauss quadrature, storing the scalar sum in \texttt{ENERGY(7)} and \texttt{SVARS(17)} (\texttt{SV\_E\_FRAC}). Layer~1 contains zero mechanical displacement DOFs and zero elastic stress ($\boldsymbol{\sigma} = \mathbf{0}, E_{\mathrm{elas}} = 0$).
-  \item \textbf{Layer 2 (Mechanical UEL, JTYPE=2)}: Computes degraded elastic strain energy $E_{\mathrm{elas}}^{(e)}$ via $2\times 2$ Gauss quadrature, storing the scalar sum in \texttt{ENERGY(2)} (summed natively by Abaqus into \texttt{ALLSE}) and \texttt{SVARS(18)} (\texttt{SV\_E\_ELAS}). Layer~2 contains zero phase-field degrees of freedom and zero fracture energy calculation.
+  \item \textbf{Layer 2 (Mechanical UEL, JTYPE=2)}: Computes degraded elastic strain energy $E_{\mathrm{elas}}^{(e)}$ via $2\times 2$ Gauss quadrature, storing the scalar sum in \texttt{ENERGY(2)} (summed natively by Abaqus into \texttt{ALLSE}) and \texttt{SVARS(17)} (\texttt{SV\_E\_ELAS}). Layer~2 contains zero phase-field degrees of freedom and zero fracture energy calculation.
   \item \textbf{Layer 3 (Companion Visualizer UMAT, CPE4)}: Configured with dummy infinitesimal isotropic stiffness matrix $\mathbf{D}_{\mathrm{comp}} = 10^{-11} \mathbf{I}$, producing identically zero physical stress ($\boldsymbol{\sigma}_{\mathrm{comp}} \approx \mathbf{0}$) and zero internal energy contributions ($\text{SSE} = \text{SPD} = \text{SCD} = 0$). Layer~3 merely mirrors UEL state variables to standard field outputs (\texttt{SDV17} = $E_{\mathrm{frac}}^{(e)}$, \texttt{SDV18} = $E_{\mathrm{elas}}^{(e)}$).
 \end{itemize}
-Because Layer~1 only evaluates $E_{\mathrm{frac}}$, Layer~2 only evaluates $E_{\mathrm{elas}}$, and Layer~3 contributes strictly $\sim 10^{-11}\,\mathrm{J} \approx 0$, the mathematical intersection of energy domains across layers is empty, providing a rigorous analytical and numerical \textbf{Zero Double-Counting Proof}.
+Because Layer~1 only evaluates $E_{\mathrm{frac}}$, Layer~2 only evaluates $E_{\mathrm{elas}}$, and Layer~3 contributes strictly $\sim 10^{-11}\,\mathrm{J}$ (which is numerically negligible compared to physical energies of $\sim 2.3\,\mathrm{mJ}$), the formulation guarantees \textbf{no counted physical-energy duplication}.
 
 \subsection{Single-IP Deduplication Rule and Companion Layer 3 Neutrality}
 In the 3-layer architecture, companion visualizer elements (Layer~3, CPE4) receive whole-element scalar energies into state variables $\mathrm{STATEV}(17) = E_{\mathrm{frac}}^{(e)}$ and $\mathrm{STATEV}(18) = E_{\mathrm{elas}}^{(e)}$ copied across all 4 integration points for field plotting. Summing across all Gauss points would create an unphysical $4\times$ overcounting artifact. Post-processing extractors strictly enforce extraction at \textbf{Integration Point 1 (\texttt{IP1}) only} (verified with within-element equality checks), recovering the exact once-per-underlying-finite-element global energy sum. 
@@ -48,19 +48,20 @@ Controlled HPC benchmarks confirmed strict non-invasiveness across:
   \item \textbf{Full Softening Parity (Job 1406906 vs 1406907, 129 incs):} Exact force trajectory agreement through complete failure to $u = 0.035\,\mathrm{mm}$ ($|\Delta F| = 0.0\,\mathrm{kN}$, $d_{\max} = 0.977$, $74.2\%$ softening drop).
 \end{itemize}
 
-\subsection{History-Field Non-Potentiality and Observed Bookkeeping Residual}
+\subsection{History-Field Non-Potentiality and Reconciled Bookkeeping Residual}
 Because the phase-field evolution replaces the instantaneous elastic energy density $\psi_0(\boldsymbol{\varepsilon}(t))$ with the historical driving variable $\mathcal{H}(\mathbf{x}, t) = \max_{\tau \le t} \psi_0^+(\boldsymbol{\varepsilon}(\tau))$ to enforce irreversibility ($\dot{d} \ge 0$), the coupled system does not represent the Euler-Lagrange equations of any single instantaneous potential $\Pi(\mathbf{u}(t), d(t))$. 
 
-The discrete two-term bookkeeping difference is defined as:
+The discrete two-term bookkeeping difference is frozen with the consistent sign convention:
 \begin{equation}
-  \Delta_{\mathrm{book}}(u) = W_{\mathrm{trap}}(u) - \left[ E_{\mathrm{elas}}(u) + E_{\mathrm{frac}}(u) \right], \quad \varepsilon_{\mathrm{book}} = \frac{|\Delta_{\mathrm{book}}(u)|}{W_{\mathrm{trap}}(u)}.
+  \Delta_{\mathrm{book}}(u) = W_{\mathrm{trap}}(u) - \left[ E_{\mathrm{elas}}(u) + E_{\mathrm{frac}}(u) \right], \quad \varepsilon_{\mathrm{book}} = \frac{|\Delta_{\mathrm{book}}(u)|}{W_{\mathrm{trap}}(u)} \times 100\%.
 \end{equation}
 
 Figure~\ref{fig:energy_balance_pack} illustrates the global energy evolution for the canonical $S_1$/$T_2$ reference baseline ($15{,}192$ elements, Job \texttt{1409734.mmaster02}):
 \begin{itemize}
   \item \textbf{Pre-Peak Linear Regime ($u \le 5.50\,\mu\mathrm{m}$)}: $W_{\mathrm{trap}} = 2.03739\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 1.98181\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 0.05572\,\mathrm{mJ}$, $\Delta_{\mathrm{book}} = -0.00014\,\mathrm{mJ}$ ($|\varepsilon_{\mathrm{book}}| < 0.007\%$).
-  \item \textbf{Post-Peak Fully Separated State ($u = 0.010\,\text{mm}$)}: $W_{\mathrm{trap}} = 2.359329\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 2.340220\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.001161\,\mathrm{mJ}$, $\Delta_{\mathrm{book}} = -0.017949\,\mathrm{mJ}$ ($\varepsilon_{\mathrm{book}} = 0.7607\%$).
-  \item \textbf{Step-2 ET1 Adaptive Baseline (14,483 FE, Stage 14 Solve)}: $W_{\mathrm{trap}} = 2.267380\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 2.285469\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.000674\,\mathrm{mJ}$, $\Delta_{\mathrm{book}} = +0.018763\,\mathrm{mJ}$ ($\varepsilon_{\mathrm{book}} = 0.8275\%$).
+  \item \textbf{Post-Peak Fully Separated State ($u = 0.010\,\text{mm}$)}: $W_{\mathrm{trap}} = 2.359329\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 2.340220\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.001161\,\mathrm{mJ}$, $E_{\mathrm{model}} = 2.341381\,\mathrm{mJ}$, $\Delta_{\mathrm{book}} = \mathbf{+0.017948\,\mathrm{mJ}}$ ($\varepsilon_{\mathrm{book}} = \mathbf{0.7607\%}$).
+  \item \textbf{Step-2 ET1 Adaptive Baseline (14,483 FE, Actual Terminal State $u = 0.007889\,\text{mm}$)}: $W_{\mathrm{trap}} = 2.267380\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 2.285469\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.006960\,\mathrm{mJ}$, $E_{\mathrm{model}} = 2.292429\,\mathrm{mJ}$, $\Delta_{\mathrm{book}} = \mathbf{-0.025049\,\text{mJ}}$ ($\varepsilon_{\mathrm{book}} = \mathbf{1.104771\%}$).
+  \item \textbf{Matched-Displacement Comparison ($u = 0.007889\,\text{mm}$)}: Fixed Reference at the same displacement gives $W_{\mathrm{trap}} = 2.358728\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 2.339582\,\text{mJ}$, $E_{\mathrm{elas}} = 0.001374\,\mathrm{mJ}$, $E_{\mathrm{model}} = 2.340956\,\mathrm{mJ}$, $\Delta_{\mathrm{book}} = \mathbf{+0.017772\,\text{mJ}}$ ($\varepsilon_{\mathrm{book}} = \mathbf{0.7535\%}$).
 \end{itemize}
 
 \begin{figure}[htbp]
@@ -99,7 +100,7 @@ Energetic Quantity & Case $T_1$ (Coarse $\Delta t$) & Case $T_2$ (Nominal $\Delt
 Boundary Work $W_{\mathrm{trap}}$ [$\mathrm{mJ}$] & $2.41011$ & $2.35933$ & $2.33189$ & $2.35933$ \\
 Elastic Energy $E_{\mathrm{elas}}$ [$\mathrm{mJ}$] & $0.00104$ & $0.00116$ & $0.00120$ & $0.00116$ \\
 Fracture Energy $E_{\mathrm{frac}}$ [$\mathrm{mJ}$] & $2.39995$ & $2.34022$ & $2.24813$ & $2.34022$ \\
-Bookkeeping Diff [$\mathrm{mJ}$] & $0.00912$ & $0.01795$ & $0.08256$ & $0.01795$ \\
+Bookkeeping Diff [$\mathrm{mJ}$] & $+0.00912$ & $+0.01795$ & $+0.08256$ & $+0.01795$ \\
 Bookkeeping Diff [\%] & $+0.3783\%$ & $+0.7607\%$ & $+3.5407\%$ & $+0.7607\%$ \\
 \midrule
 Status & \texttt{TEMPORALLY SENSITIVE} & Baseline Anchor & \texttt{TEMPORALLY SENSITIVE} & Baseline Anchor \\
@@ -190,7 +191,7 @@ $E_{\mathrm{elas}}$ & $\int_{\Omega} \psi_e\,\mathrm{d}\Omega \to \texttt{ENERGY
 $\psi_f$ & $G_c [ d^2/(2l_0) + (l_0/2)|\nabla d|^2 ]$ & $\mathrm{kN/mm^2} = \mathrm{J/mm^3}$ & \textbf{\texttt{VERIFIED\_FROM\_SOURCE}} \\
 $E_{\mathrm{frac}}$ & $\int_{\Omega} \psi_f\,\mathrm{d}\Omega \to \mathrm{STATEV}(17), \texttt{CSV}$ & $\mathrm{kN\cdot mm} \equiv \mathrm{J}$ & \textbf{\texttt{VERIFIED\_FROM\_SOURCE}} \\
 Pre-peak $\Delta_{\mathrm{book}}$ & $|\Delta_{\mathrm{book}}| / W_{\mathrm{trap}} < 0.007\%$ & Dimensionless & \textbf{\texttt{NUMERICALLY\_VERIFIED}} \\
-Post-peak $\Delta_{\mathrm{book}}$ & $W_{\mathrm{trap}} - (E_{\mathrm{elas}}+E_{\mathrm{frac}})$ residual ($-9.49\%$) & $\mathrm{kN\cdot mm} \equiv \mathrm{J}$ & \textbf{\texttt{NUMERICALLY\_VERIFIED (OBSERVED)}} \\
+Post-peak $\Delta_{\mathrm{book}}$ & $W_{\mathrm{trap}} - (E_{\mathrm{elas}}+E_{\mathrm{frac}})$ residual ($+0.7607\%$ to $-9.49\%$) & $\mathrm{kN\cdot mm} \equiv \mathrm{J}$ & \textbf{\texttt{NUMERICALLY\_VERIFIED (OBSERVED)}} \\
 $\mathcal{D}_{\mathrm{frac}}$ & $\int_0^t \int_{\Omega} 2(1-d)\mathcal{H}\dot{d}\,\mathrm{d}\Omega\,\mathrm{d}\tau$ & $\mathrm{kN\cdot mm} \equiv \mathrm{J}$ & \textbf{\texttt{NOT\_YET\_QUALIFIED}} \\
 $\mathcal{D}_{\mathrm{frac}} = \dot{E}_{\mathrm{frac}}$ & Rate equality under active damage & $\mathrm{W}$ & \textbf{\texttt{NOT\_YET\_QUALIFIED}} \\
 \bottomrule

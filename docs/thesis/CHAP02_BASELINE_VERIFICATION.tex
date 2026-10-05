@@ -72,9 +72,9 @@ To implement the staggered phase-field formulation in Abaqus/Standard, a three-l
     \item \textbf{Layer 3 (Companion Visualization UMAT Layer)}: Standard continuum plane-strain elements (\texttt{CPE4}) sharing identical connectivity and nodal coordinates, driven by a dummy user material (\texttt{UMAT}) that maps internal state variables (SDVs) into standard Abaqus field outputs (\texttt{SDV1} = Phase Field $d$, \texttt{SDV2} = History $\mathcal{H}$, \texttt{SDV15} = degraded stiffness factor $g(d)$, \texttt{SDV17} = whole-underlying-element fracture surface energy $E_{\mathrm{frac}}^{(e)}$ in native $\mathrm{kN\cdot mm} = \mathrm{J}$, \texttt{SDV18} = whole-underlying-element elastic strain energy $E_{\mathrm{elas}}^{(e)}$ in native $\mathrm{kN\cdot mm} = \mathrm{J}$, with reporting in $\mathrm{mJ}$ performed during post-processing via a single $1000\times$ multiplication factor; \texttt{SDV19}/\texttt{SDV20} = area-normalized source quotients $\bar{\psi}_f$ and $\bar{\psi}_e$ in $\mathrm{kN/mm} = \mathrm{J/mm^2}$, interpretable as volumetric energy densities only under the explicit $1\text{-}\mathrm{mm}$ implicit unit-thickness convention) for visualization in Abaqus/Viewer.
 \end{itemize}
 
-All three layers communicate state variables across solver iterations via global Fortran common blocks in user subroutine \nolinkurl{f42_mixed_uel.for} (\texttt{SHA256: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6}).
+All three layers communicate state variables across solver iterations via global Fortran common blocks in user subroutine \nolinkurl{f42_mixed_uel.for} (\nolinkurl{SHA256: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6}).
 
-\subsection{Discrete Weak-Form Energy Derivation and Zero-Double-Counting Proof}
+\subsection{Discrete Weak-Form Energy Derivation and Deduplication Proof}
 \label{sec:uel_energy_derivation}
 
 In user subroutine \nolinkurl{f42_mixed_uel.for}, stored elastic strain energy $E_{\mathrm{elas}}$ and regularized fracture surface energy $E_{\mathrm{frac}}$ are evaluated over the $N_{\mathrm{mesh}}$ underlying finite elements via standard $2\times 2$ Gauss quadrature:
@@ -89,17 +89,17 @@ External mechanical boundary work $W_{\mathrm{trap}}$ is evaluated from the reac
   W_{\mathrm{trap},n} = \sum_{i=1}^{n} \frac{F_i + F_{i-1}}{2}(u_i - u_{i-1}), \quad \text{with } u_0 = 0, F_0 = 0.
 \end{equation}
 
-\paragraph{Analytical and Numerical Zero-Double-Counting Proof:}
-A potential concern in co-located multi-layer element architectures is the inadvertent double accumulation of internal energies. In the present formulation:
+\paragraph{Analytical Deduplication and Companion Neutrality:}
+A critical consideration in co-located multi-layer element architectures is the prevention of artificial double accumulation of internal energies. In the present formulation:
 \begin{enumerate}
     \item \textbf{Layer 1 (Phase UEL)}: Evaluates only $E_{\mathrm{frac}}^{(e)}$ and assigns \texttt{ENERGY(7) = E\_FRAC\_ELEM}. It possesses zero mechanical displacement DOFs, zero stress ($\boldsymbol{\sigma} = \mathbf{0}$), and computes zero elastic strain energy ($E_{\mathrm{elas}} = 0$).
     \item \textbf{Layer 2 (Mechanical UEL)}: Evaluates only $E_{\mathrm{elas}}^{(e)}$ and assigns \texttt{ENERGY(2) = E\_ELAS\_ELEM}, which Abaqus sums natively into \texttt{ALLSE}. It contains zero damage DOFs and performs zero fracture functional computation.
     \item \textbf{Layer 3 (Companion UMAT)}: Is assigned an infinitesimal dummy elasticity tensor $\mathbf{D}_{\mathrm{comp}} = 10^{-11}\,\mathbf{I}\,\mathrm{GPa}$, producing identically vanishing physical stresses ($\boldsymbol{\sigma}_{\mathrm{comp}} \approx \mathbf{0}$) and zero internal energy contributions ($\text{SSE} = \text{SPD} = \text{SCD} = 0$, contributing $\sim 10^{-11}\,\mathrm{J} \approx 0$).
 \end{enumerate}
-Consequently, each energetic physical domain is evaluated on exactly one layer, establishing a rigorous zero double-counting guarantee.
+Consequently, each energetic physical domain is evaluated on exactly one layer, guaranteeing no counted physical-energy duplication.
 
 \paragraph{History-Field Non-Potentiality and Bookkeeping Residual:}
-Because damage irreversibility is enforced through the non-decreasing historical maximum $\mathcal{H}(\mathbf{x}, t) = \max_{\tau \le t} \psi_0^+(\boldsymbol{\varepsilon}(\tau))$, the governing system does not represent the stationary point of any single instantaneous potential $\Pi(\mathbf{u}, d)$. The discrete bookkeeping residual $\Delta_{\mathrm{book}} = W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$ is monitored throughout deformation. For the canonical $S_1$ reference baseline (Job \texttt{1409734.mmaster02}), $\Delta_{\mathrm{book}} = -0.017949\,\mathrm{mJ}$ ($\varepsilon_{\mathrm{book}} = 0.7607\%$) at complete separation ($u = 0.010\,\text{mm}$), demonstrating near-complete energy conservation within the unclosed rate-dissipation boundary.
+Because damage irreversibility is enforced through the non-decreasing historical maximum $\mathcal{H}(\mathbf{x}, t) = \max_{\tau \le t} \psi_0^+(\boldsymbol{\varepsilon}(\tau))$, the governing system does not represent the stationary point of any single instantaneous potential $\Pi(\mathbf{u}, d)$. The discrete bookkeeping residual $\Delta_{\mathrm{book}} = W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$ is monitored throughout deformation. For the canonical $S_1$ reference baseline (Job \texttt{1409734.mmaster02}), $\Delta_{\mathrm{book}} = \mathbf{+0.017948\,\mathrm{mJ}}$ ($\varepsilon_{\mathrm{book}} = \mathbf{0.7607\%}$) at complete separation ($u = 0.010\,\text{mm}$), demonstrating near-complete energy conservation within the unclosed rate-dissipation boundary.
 
 
 \section{Canonical S1 Reference Baseline Provenance}
