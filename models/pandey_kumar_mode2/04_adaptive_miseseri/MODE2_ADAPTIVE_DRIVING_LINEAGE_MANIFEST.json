@@ -1,0 +1,93 @@
+{
+  "manifest_name": "MODE2_ADAPTIVE_DRIVING_LINEAGE_MANIFEST",
+  "generated_at": "2026-09-24T09:42:00+02:00",
+  "provenance_status": "VERIFIED_CPE4_PLANE_STRAIN",
+  "governing_scientific_phase": "MODE2_NATIVE_ADAPTIVE_WORKFLOW_VALIDATED \u2014 POSTPEAK_SPATIAL_SENSITIVITY_REMAINS",
+  "preanalysis": {
+    "job_id": "1408551.mmaster02",
+    "deck_path": "models/pandey_kumar_mode2/00_aux_continuum_preanalysis/ModeII_MISESERI_preanalysis.inp",
+    "deck_sha256": "96af41fd4ffe09a046815e754f0b382c171e4c84f752c172be5eb2abf5e601fd",
+    "deck_size_bytes": 350689,
+    "element_type": "CPE4",
+    "constitutive_formulation": "Linear Elastic Plane Strain (E=210.0 kN/mm^2, nu=0.30, thickness=1.0 mm)",
+    "underlying_element_count": 3930,
+    "node_count": 4096,
+    "boundary_conditions": "Clamped bottom (y=-0.5 mm), top uy free, top ux coupled to RP Node 3999 (ux=0.001 mm)",
+    "initial_stiffness_k0_kN_mm": 12.876131,
+    "odb_remote_path": "/scratch/pr21vyci/runs_mode2/00_miseseri_preanalysis/ModeII_MISESERI_preanalysis.odb",
+    "odb_element_types_verified": [
+      "CPE4"
+    ],
+    "miseseri_extraction": {
+      "step_name": "Step-1",
+      "frame_index": 10,
+      "frame_time": 1.0,
+      "output_position": "WHOLE_ELEMENT",
+      "scalar_values_count": 3930,
+      "min_value": 2.37858749e-05,
+      "max_value": 0.181819081,
+      "mean_value": 0.00129295644,
+      "csv_path": "models/pandey_kumar_mode2/00_aux_continuum_preanalysis/ModeII_MISESERI_coarse_3930.csv",
+      "csv_sha256": "02d165fdd13b766f0682e7575ace4da153c30b02823d06b2e5880a49b9d15a74",
+      "csv_size_bytes": 150677,
+      "created_timestamp": "2026-09-24 09:18:41 CEST"
+    }
+  },
+  "remeshing_rule": {
+    "sizing_method": "UNIFORM_ERROR",
+    "variable": "MISESERI",
+    "errorTarget": 5.0,
+    "errorTarget_epistemology": "PUBLISHED_ADOPTED_FOR_SUBSEQUENT_SIMULATIONS (Pandey & Kumar 2025, Section 4)",
+    "refinementFactor": 10,
+    "refinementFactor_epistemology": "PUBLISHED (Pandey & Kumar 2025, Section 4 parameter study)",
+    "minElementSize_mm": 0.003,
+    "minElementSize_epistemology": "UNRESOLVED_FROM_PUBLICATION / PROJECT_IMPLEMENTATION",
+    "maxElementSize_mm": 0.02,
+    "coarseningFactor": "NOT_ALLOWED",
+    "remeshing_script": "scripts/remeshing/generate_mode2_native_adaptive_mesh.py",
+    "remeshing_script_sha256": "d9dfca1153406f5aa8e3c1550c822fcddaa00faae21262d96c99c565c82ff2f6"
+  },
+  "generated_adaptive_mesh": {
+    "underlying_finite_elements": 7865,
+    "quad_elements_cpe4": 7641,
+    "tri_elements_cpe3": 224,
+    "nodes_count": 7919,
+    "crack_zone_elements": 3502,
+    "crack_zone_h_mean_mm": 0.005873,
+    "crack_zone_hl0_mean": 0.3915,
+    "global_h_mean_mm": 0.009778,
+    "global_hl0_mean": 0.6519,
+    "reconstruction_script": "scripts/remeshing/audit_and_reconstruct_adaptive_deck.py",
+    "reconstruction_script_sha256": "6fe0199920b72ea9e1a12e2c56a84c8a81699f4d1c15f532a26b6f7ff007fc9c"
+  },
+  "adaptive_candidate_deck": {
+    "deck_path": "models/pandey_kumar_mode2/04_adaptive_miseseri/ModeII_adaptive_candidate.inp",
+    "deck_sha256": "d864d604292e5a7202d70a6bff82afda8cb65d71fe865454f06c08c2d4dbeabf",
+    "deck_size_bytes": 1526716,
+    "total_abaqus_element_objects": 23595,
+    "layer_composition": "Layer 1: Phase UEL (7641 U1 + 224 U3) | Layer 2: Mech UEL (7641 U2 + 224 U4) | Layer 3: Companion Visualizer (7641 CPE4 + 224 CPE3)",
+    "abi_property_card": "0.015, 0.0027, 210.0, 0.3, 1.0e-7, 7865.0",
+    "user_subroutine_sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+    "datacheck_job_id": "1408554.mmaster02",
+    "datacheck_exit_code": 0,
+    "production_job_id": "1408555.mmaster02"
+  },
+  "adaptive_production_telemetry": {
+    "job_id": "1408555.mmaster02",
+    "exit_code": 0,
+    "accepted_increments": 358,
+    "total_attempts": 396,
+    "cutbacks": 73,
+    "equilibrium_iterations": 1713,
+    "cput_s": 1002,
+    "walltime_s": 1197,
+    "peak_memory_kb": 1752668,
+    "computational_cost_classification": "HIGHER_SOLVER_BURDEN (Lower element count does not confer computational efficiency)",
+    "post_peak_sensitivity": {
+      "force_delta_at_u04258_pct": -44.31,
+      "wtrap_delta_at_u04258_pct": -24.74,
+      "delta_initial_kink_angle_deg": 7.5057,
+      "scientific_classification": "MESH-SENSITIVE"
+    }
+  }
+}

@@ -1,6 +1,13 @@
 #!/bin/bash
 # Submit exactly one D3A-E energy-reconstruction job. ODB post-processing only.
 set -euo pipefail
+
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
 PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
 QUEUE="${QUEUE:-entry_imfdfkmq}"
 MAIL="${MAIL:-Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de}"

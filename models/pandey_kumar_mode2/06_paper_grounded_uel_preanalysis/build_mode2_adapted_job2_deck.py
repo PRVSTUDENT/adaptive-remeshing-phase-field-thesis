@@ -7,6 +7,7 @@ Convert raw adapted mesh to production 3-layer Mode-II Job-2_UEL.inp deck:
 - Rigid top horizontal shear pull tied to RP (999999) via *EQUATION
 - Wrapped NSET cards (max 16 entries per line)
 - Mode-II fracture properties: l0=0.015 mm, Gc=0.0027 kN/mm, E=210 GPa, nu=0.3
+- Companion UMAT material constant: E_inf = 1.0e-11, nu = 0.3, N_phys
 - Step 1: u1 -> 0.0100 mm (1000 incs)
 - Step 2: u1 -> 0.0600 mm (6000 incs)
 """
@@ -177,7 +178,7 @@ def convert_raw_to_mode2_job2_deck(src_raw_inp, dst_uel_inp, job_name="Job-2_UEL
 
         # Companion section
         f.write("*SOLID SECTION, ELSET=All_elem, MATERIAL=UMAT_MAT\n1.0,\n")
-        f.write("*MATERIAL, NAME=UMAT_MAT\n*USER MATERIAL, CONSTANTS=3\n210.0, 0.3, %d.\n" % num_phys_elems)
+        f.write("*MATERIAL, NAME=UMAT_MAT\n*USER MATERIAL, CONSTANTS=3\n1.0e-11, 0.3, %d.\n" % num_phys_elems)
         f.write("*DEPVAR\n20,\n")
 
         # Coupling Equations for Mode-II Shear Pull

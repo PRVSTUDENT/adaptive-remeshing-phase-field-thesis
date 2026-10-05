@@ -1,6 +1,13 @@
 #!/bin/bash
 # Submit Stage C closeout campaign T1–T5 (afterany + markers).
 set -euo pipefail
+
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
 EMAIL="${EMAIL:-Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de}"
 QUEUE="${QUEUE:-entry_imfdfkmq}"

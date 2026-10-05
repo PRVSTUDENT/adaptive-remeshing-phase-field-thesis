@@ -3,6 +3,13 @@
 # For apples-to-apples walltime vs C2F-v3 (also 4 threads).
 set -euo pipefail
 
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
 EMAIL="${EMAIL:-Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de}"
 QUEUE="${QUEUE:-entry_imfdfkmq}"

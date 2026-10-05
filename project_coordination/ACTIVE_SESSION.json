@@ -1,20 +1,17 @@
 {
   "active": false,
-  "session_id": "SESSION-20261005-1010-STAGE15C-MODE2-CORRECTED-PREANALYSIS-AND-JOB2",
+  "session_id": "SESSION-20261005-1038-HPC-HOME-STORAGE-COMPLIANCE-AND-SCRATCH-MIGRATION",
   "agent": "gemini-antigravity",
-  "task_id": "F1230-STAGE15C-MODE2-CORRECTED-UEL-EVAL-AND-JOB2",
-  "claimed_at": "2026-10-05T10:10:00+02:00",
-  "released_at": "2026-10-05T10:45:00+02:00",
-  "base_commit": "c0f2a3ee1dc1c73e74568524b3837783a018a250",
+  "task_id": "F1231-HPC-HOME-STORAGE-COMPLIANCE-AND-SCRATCH-MIGRATION",
+  "claimed_at": "2026-10-05T10:38:00+02:00",
+  "released_at": "2026-10-05T11:10:00+02:00",
+  "base_commit": "97394682ed63640237d6e644a956fc222409f874",
   "scope": [
-    "models/pandey_kumar_mode2/**",
-    "models/generated/mode_ii/**",
-    "scripts/remeshing/**",
-    "scripts/postprocessing/**",
-    "scripts/validation/**",
-    "tests/unit/**",
-    "docs/MA_AdaptiveRemeshing_Report_2026_main/**",
+    "models/**",
+    "scripts/**",
+    "tests/**",
+    "docs/**",
     "project_coordination/**"
   ],
-  "status": "STANDBY"
+  "status": "RELEASED"
 }

@@ -1,7 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
-PACKAGE_DIR="/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine"
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
+PACKAGE_DIR="/scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine"
 cd "${PACKAGE_DIR}" || exit 1
 
 if [ ! -f ./job_notifications.sh ]; then

@@ -1,0 +1,105 @@
+#!/bin/bash
+#PBS -N M2_H2_CORR_PROD
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb:mpiprocs=1
+#PBS -l walltime=04:00:00
+#PBS -o /scratch/pr21vyci/runs_mode2/03_h2_reference/M2_H2_reference.out
+#PBS -e /scratch/pr21vyci/runs_mode2/03_h2_reference/M2_H2_reference.err
+#PBS -M pruthviraj.chavan@student.tu-freiberg.de
+#PBS -m bea
+
+set -euo pipefail
+
+# Storage-compliance guard: reject execution directly under /home
+CURRENT_DIR="$(pwd -P)"
+if [[ "$CURRENT_DIR" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Execution directly inside /home is prohibited." >&2
+  echo "Heavy simulation outputs (*.odb, *.sim, *.res) must be written to /scratch/." >&2
+  echo "Please execute from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
+RUN_DIR="/scratch/pr21vyci/runs_mode2/03_h2_reference"
+cd "$RUN_DIR"
+
+echo "=== M2_H2_CORR_PROD STARTED AT $(date) ON $(hostname) ==="
+echo "Working directory: $RUN_DIR"
+
+source /etc/profile.d/modules.sh 2>/dev/null || true
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+echo "=== ENVIRONMENT ==="
+which abaqus
+ifort --version | head -n 1
+gcc --version | head -n 1
+
+echo "=== PRE-RUN INTEGRITY CHECK ==="
+sha256sum M2_H2_reference.inp f42_mixed_uel.for > PRE_RUN_SHA256SUMS
+cat PRE_RUN_SHA256SUMS
+
+# Telegram BEGIN notification
+if [ -f "$RUN_DIR/telegram_notify.py" ]; then
+    python3 "$RUN_DIR/telegram_notify.py" --event BEGIN --job-id "${PBS_JOBID:-unknown}" --job-name "M2_H2_CORR_PROD" --message "Mode-II_Gen3_H2_Ultrafine_Production_Started_on_$(hostname)" || true
+fi
+
+# Status tracker
+STATUS_FILE="$RUN_DIR/STATUS.json"
+cat << EOF > "$STATUS_FILE"
+{
+  "job_name": "M2_H2_CORR_PROD",
+  "pbs_job_id": "${PBS_JOBID:-unknown}",
+  "node": "$(hostname)",
+  "state": "RUNNING",
+  "start_time": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+}
+EOF
+
+echo "=== EXECUTING ABAQUS / STANDARD ==="
+set +e
+abaqus job=M2_H2_reference user=f42_mixed_uel.for input=M2_H2_reference.inp double=both cpus=1 interactive
+EXIT_CODE=$?
+set -e
+
+echo "=== ABAQUS RUN FINISHED WITH EXIT CODE $EXIT_CODE AT $(date) ==="
+
+# Check msg, dat, sta
+MSG_ERRORS=0
+if [ -f "M2_H2_reference.msg" ]; then
+    MSG_ERRORS=$(grep -c "ERROR" M2_H2_reference.msg || true)
+fi
+
+DAT_ERRORS=0
+if [ -f "M2_H2_reference.dat" ]; then
+    DAT_ERRORS=$(grep -c "ERROR" M2_H2_reference.dat || true)
+fi
+
+cat << EOF > "$STATUS_FILE"
+{
+  "job_name": "M2_H2_CORR_PROD",
+  "pbs_job_id": "${PBS_JOBID:-unknown}",
+  "node": "$(hostname)",
+  "state": "COMPLETED",
+  "exit_code": $EXIT_CODE,
+  "msg_errors": $MSG_ERRORS,
+  "dat_errors": $DAT_ERRORS,
+  "end_time": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+}
+EOF
+
+echo "=== POST-RUN ARTIFACT INVENTORY ==="
+ls -la
+
+# Telegram completion notification
+if [ "$EXIT_CODE" -eq 0 ] && [ "$MSG_ERRORS" -eq 0 ] && [ "$DAT_ERRORS" -eq 0 ]; then
+    if [ -f "$RUN_DIR/telegram_notify.py" ]; then
+        python3 "$RUN_DIR/telegram_notify.py" --event PASS --job-id "${PBS_JOBID:-unknown}" --job-name "M2_H2_CORR_PROD" --message "Mode-II_Gen3_H2_Ultrafine_Production_PASSED_cleanly" || true
+    fi
+else
+    if [ -f "$RUN_DIR/telegram_notify.py" ]; then
+        python3 "$RUN_DIR/telegram_notify.py" --event FAIL --job-id "${PBS_JOBID:-unknown}" --job-name "M2_H2_CORR_PROD" --message "Mode-II_Gen3_H2_Ultrafine_Production_FAILED_exit_${EXIT_CODE}" || true
+    fi
+fi
+
+echo "=== M2_H2_CORR_PROD TERMINAL EXIT: $EXIT_CODE ==="
+exit $EXIT_CODE

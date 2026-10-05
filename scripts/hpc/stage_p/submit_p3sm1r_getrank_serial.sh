@@ -2,6 +2,13 @@
 # Guarded login-side staging and one-shot P3-SM1R submission.
 set -euo pipefail
 
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
 PROJECT_HOME="${PROJECT_HOME:-/home/pr21vyci/projects/adaptive-remeshing}"
 QUEUE="${QUEUE:-entry_imfdfkmq}"
 P3SM1R_MAIL="${P3SM1R_MAIL:-pr21vyci@mailserver.tu-freiberg.de}"

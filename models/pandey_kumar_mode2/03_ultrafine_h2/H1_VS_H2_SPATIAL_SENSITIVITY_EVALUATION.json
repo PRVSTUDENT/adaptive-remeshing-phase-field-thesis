@@ -1,0 +1,112 @@
+{
+  "comparison_title": "Mode-II Literature-Faithful Free-uy H1 vs H2 Spatial Refinement Comparison",
+  "spatial_sensitivity_classification": "MESH-SENSITIVE",
+  "governing_mesh_parameters": {
+    "phase_field_length_scale_l0_mm": 0.015,
+    "h1_reference": {
+      "underlying_elements": 24128,
+      "crack_zone_h_min_mm": 0.002499999999999862,
+      "crack_zone_h_max_mm": 0.00790569415042139,
+      "crack_zone_h_mean_mm": 0.005234528717947317,
+      "crack_zone_mean_h_over_l0": 0.34896858119648777
+    },
+    "h2_ultrafine": {
+      "underlying_elements": 67704,
+      "crack_zone_h_min_mm": 0.0009999999999997411,
+      "crack_zone_h_max_mm": 0.005000000000000765,
+      "crack_zone_h_mean_mm": 0.0025287159254875863,
+      "crack_zone_mean_h_over_l0": 0.16858106169917242
+    },
+    "refinement_ratio_in_crack_zone": 2.0700343068144345
+  },
+  "mechanical_response_comparison": {
+    "h1_reference": {
+      "k0_secant_inc1_kN_mm": 12.834574,
+      "k0_linear_fit_kN_mm": 12.734790590444728,
+      "k0_linear_fit_intercept_kN": 4.4970637099534666e-05,
+      "k0_linear_fit_r_squared": 0.9999867027963264,
+      "f_max_kN": 0.14368619,
+      "u_fmax_mm": 0.01253002,
+      "peak_increment": 38,
+      "terminal_u_mm": 0.05,
+      "terminal_rf_kN": 0.0086397957,
+      "w_trap_kN_mm": 0.0027328505605179365,
+      "w_trap_J": 0.0027328505605179365,
+      "w_trap_mJ": 2.7328505605179365,
+      "num_increments": 144
+    },
+    "h2_ultrafine": {
+      "k0_secant_inc1_kN_mm": 12.816396,
+      "k0_linear_fit_kN_mm": 12.716469407191324,
+      "k0_linear_fit_intercept_kN": 4.5041322528045075e-05,
+      "k0_linear_fit_r_squared": 0.9999866222928133,
+      "f_max_kN": 0.14141475,
+      "u_fmax_mm": 0.012213613,
+      "peak_increment": 37,
+      "terminal_u_mm": 0.042579167,
+      "terminal_rf_kN": 0.014403987,
+      "w_trap_kN_mm": 0.0026339620523217477,
+      "w_trap_J": 0.0026339620523217477,
+      "w_trap_mJ": 2.6339620523217477,
+      "num_increments": 105
+    },
+    "deltas_h2_minus_h1": {
+      "k0_secant_inc1_diff_kN_mm": -0.018178000000000694,
+      "k0_secant_inc1_diff_pct": -0.14163306082461866,
+      "k0_linear_fit_diff_kN_mm": -0.018321183253403817,
+      "k0_linear_fit_diff_pct": -0.14386717334127752,
+      "f_max_diff_kN": -0.0022714399999999857,
+      "f_max_diff_pct": -1.580833899207701,
+      "u_fmax_diff_mm": -0.00031640699999999945,
+      "u_fmax_diff_pct": -2.5251915000933716,
+      "terminal_rf_diff_kN": 0.005764191300000001,
+      "terminal_rf_diff_pct": 66.7167546565945,
+      "w_trap_diff_kN_mm": -9.888850819618879e-05,
+      "w_trap_diff_pct": -3.6185113677583307
+    }
+  },
+  "curve_field_discrepancy": {
+    "uniform_grid_evaluation_points": 500,
+    "max_absolute_delta_f_kN": 0.0066980776033722655,
+    "u_at_max_absolute_delta_f_mm": 0.012714019805611224,
+    "rms_delta_f_kN": 0.0022679663389634746
+  },
+  "crack_kinematics_comparison": {
+    "h1_reference": {
+      "x_origin_mm": -0.02,
+      "y_origin_mm": -0.005605359813753495,
+      "x_tip_mm": 0.42,
+      "y_tip_mm": -0.14343060729999998,
+      "delta_x_mm": 0.44,
+      "delta_y_mm": -0.1378252474862465,
+      "chord_length_mm": 0.4610811195924694,
+      "arc_length_mm": 0.48194301636868114,
+      "initial_kink_angle_deg": -29.39271407093224,
+      "overall_chord_angle_deg": -17.392601427211858
+    },
+    "h2_ultrafine": {
+      "x_origin_mm": -0.02,
+      "y_origin_mm": -0.004131844076483384,
+      "x_tip_mm": 0.38,
+      "y_tip_mm": -0.17126293325204234,
+      "delta_x_mm": 0.4,
+      "delta_y_mm": -0.16713108917555897,
+      "chord_length_mm": 0.43351216934361675,
+      "arc_length_mm": 0.4503573274988948,
+      "initial_kink_angle_deg": -28.605015834590976,
+      "overall_chord_angle_deg": -22.676524425367344
+    },
+    "delta_initial_kink_angle_deg": 0.7876982363412637,
+    "delta_overall_chord_angle_deg": -5.283922998155486
+  },
+  "energy_governance": {
+    "energy_identity_status": "GLOBAL_ENERGY_IDENTITY \u2014 NOT_YET_CLOSED",
+    "observational_terms": [
+      "E_elas (ENERGY(2) / SDV18: Stored elastic strain energy)",
+      "E_frac (ENERGY(7) / SDV17: Regularized fracture surface energy)",
+      "W_trap (External work from global reaction force integral)",
+      "TWO_TERM_BOOKKEEPING_DIFFERENCE (Delta_2term = W_trap - (E_elas + E_frac))"
+    ],
+    "rule": "Energy bookkeeping magnitude is strictly observational and not a pass/fail criterion."
+  }
+}

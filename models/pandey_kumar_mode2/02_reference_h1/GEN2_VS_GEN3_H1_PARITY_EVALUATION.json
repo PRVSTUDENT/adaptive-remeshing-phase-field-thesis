@@ -1,0 +1,83 @@
+{
+  "evaluation_title": "Mode-II Gen-2 vs Gen-3 Literature-Faithful Free-uy H1 Parity Evaluation",
+  "parity_classification": "NUMERICAL_MECHANICAL_PARITY_CONFIRMED AT EXTRACTED OUTPUT PRECISION",
+  "scientific_qualification_status": "H1_GEN3_MECHANICAL_PARITY_QUALIFIED \u2014 MODE2_FIXED_REFERENCE_SCIENTIFIC_QUALIFICATION_ACTIVE",
+  "parity_flags": {
+    "k0_parity": true,
+    "fmax_parity": true,
+    "wtrap_parity": true,
+    "increments_identical": true
+  },
+  "baseline_gen2": {
+    "metrics": {
+      "k0_secant_inc1_kN_mm": 12.834574,
+      "k0_linear_fit_kN_mm": 12.734790590444728,
+      "k0_intercept_kN": 4.4970637099534666e-05,
+      "k0_r_squared": 0.9999867027963264,
+      "f_max_kN": 0.14368619,
+      "u_fmax_mm": 0.01253002,
+      "peak_increment": 38,
+      "terminal_u_mm": 0.05,
+      "terminal_rf_kN": 0.0086397957,
+      "w_trap_external_work_kN_mm": 0.0027328505605179365,
+      "w_trap_external_work_J": 0.0027328505605179365,
+      "w_trap_external_work_mJ": 2.7328505605179365,
+      "num_increments": 144
+    },
+    "telemetry": {
+      "total_increments": 144,
+      "total_attempts": 151,
+      "total_equilibrium_iterations": 604,
+      "severe_discontinuities": 0
+    }
+  },
+  "candidate_gen3": {
+    "metrics": {
+      "k0_secant_inc1_kN_mm": 12.834574,
+      "k0_linear_fit_kN_mm": 12.734790590444728,
+      "k0_intercept_kN": 4.4970637099534666e-05,
+      "k0_r_squared": 0.9999867027963264,
+      "f_max_kN": 0.14368619,
+      "u_fmax_mm": 0.01253002,
+      "peak_increment": 38,
+      "terminal_u_mm": 0.05,
+      "terminal_rf_kN": 0.0086397957,
+      "w_trap_external_work_kN_mm": 0.0027328505605179365,
+      "w_trap_external_work_J": 0.0027328505605179365,
+      "w_trap_external_work_mJ": 2.7328505605179365,
+      "num_increments": 144
+    },
+    "telemetry": {
+      "total_increments": 144,
+      "total_attempts": 151,
+      "total_equilibrium_iterations": 604,
+      "severe_discontinuities": 0
+    }
+  },
+  "exact_comparisons": {
+    "k0_secant_inc1_diff_kN_mm": 0.0,
+    "k0_secant_inc1_diff_pct": 0.0,
+    "k0_linear_fit_diff_kN_mm": 0.0,
+    "k0_linear_fit_diff_pct": 0.0,
+    "f_max_diff_kN": 0.0,
+    "f_max_diff_pct": 0.0,
+    "u_fmax_diff_mm": 0.0,
+    "u_fmax_diff_pct": 0.0,
+    "terminal_rf_diff_kN": 0.0,
+    "terminal_rf_diff_pct": 0.0,
+    "external_work_w_trap_diff_kN_mm": 0.0,
+    "external_work_w_trap_diff_pct": 0.0,
+    "max_pointwise_u_diff_mm": 0.0,
+    "max_pointwise_rf_diff_kN": 0.0
+  },
+  "energy_governance": {
+    "energy_identity_status": "GLOBAL_ENERGY_IDENTITY \u2014 NOT_YET_CLOSED",
+    "observational_terms": [
+      "E_elas (ENERGY(2) / SDV18: Stored elastic strain energy)",
+      "E_frac (ENERGY(7) / SDV17: Regularized fracture surface energy)",
+      "W_trap (External work from global reaction force integral)",
+      "TWO_TERM_BOOKKEEPING_DIFFERENCE (Delta_2term = W_trap - (E_elas + E_frac))"
+    ],
+    "rule": "Energy bookkeeping magnitude is strictly observational and not a pass/fail criterion."
+  }
+}

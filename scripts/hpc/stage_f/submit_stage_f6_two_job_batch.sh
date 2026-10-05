@@ -2,6 +2,13 @@
 # Guarded Stage F6 two-job orchestrator. This is the only qsub call site.
 set -euo pipefail
 
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${PROJECT_ROOT_OVERRIDE:-$(cd "${SCRIPT_DIR}/../../.." && pwd)}"
 AUTH_FILE="${AUTH_FILE_OVERRIDE:-${REPO_ROOT}/runs/hpc/stage_f/f6_h2_full_and_miseseri_remesh_api_batch/BATCH_AUTHORIZATION.json}"

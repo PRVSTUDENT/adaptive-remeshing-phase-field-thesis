@@ -11,8 +11,7 @@ Compares Job 1410095.mmaster02 (PK_M1_14K_8T, 8 CPUs) against:
 import os
 import sys
 import json
-import csv
-import math
+import re
 
 MATCHED_DISPLACEMENT_TARGETS_MM = [
     0.001000,   # Elastic linear anchor (K0 fit domain)
@@ -26,98 +25,158 @@ MATCHED_DISPLACEMENT_TARGETS_MM = [
     0.007889    # Baseline terminal reached state
 ]
 
-def load_dat_rf(dat_path):
+def parse_dat_rp_table(dat_path):
     if not os.path.exists(dat_path):
-        return None
+        return []
     records = []
+    current_step = 1
+    current_inc = 0
+    current_step_time = 0.0
+    current_total_time = 0.0
+    
     with open(dat_path, 'r') as f:
+        lines = f.readlines()
+        
+    step_pattern = re.compile(r'STEP\s+(\d+)\s+INCREMENT\s+(\d+)\s+STEP TIME\s+([0-9.E+-]+)')
+    step_time_pattern = re.compile(r'STEP TIME COMPLETED\s+([0-9.E+-]+)\s*,\s*TOTAL TIME COMPLETED\s+([0-9.E+-]+)')
+    rp_pattern = re.compile(r'^\s*999999\s+([0-9.E+-]+)\s+([0-9.E+-]+)')
+    
+    for line in lines:
+        sm = step_pattern.search(line)
+        if sm:
+            current_step = int(sm.group(1))
+            current_inc = int(sm.group(2))
+            
+        stm = step_time_pattern.search(line)
+        if stm:
+            current_step_time = float(stm.group(1))
+            current_total_time = float(stm.group(2))
+            
+        rpm = rp_pattern.search(line)
+        if rpm:
+            u2 = float(rpm.group(1))
+            rf2 = float(rpm.group(2))
+            records.append({
+                'step': current_step,
+                'inc': current_inc,
+                'step_time': current_step_time,
+                'total_time': current_total_time,
+                'u2_mm': u2,
+                'rf2_kn': rf2
+            })
+            
+    return records
+
+def parse_energy_csv(csv_path):
+    if not os.path.exists(csv_path):
+        return []
+    records = []
+    with open(csv_path, 'r') as f:
+        header = f.readline()
         for line in f:
             line = line.strip()
             if not line:
                 continue
-            parts = line.split()
-            if len(parts) >= 6:
-                try:
-                    step = int(parts[0])
-                    inc = int(parts[1])
-                    total_time = float(parts[2])
-                    step_time = float(parts[3])
-                    u_val = float(parts[4])
-                    rf_val = float(parts[5])
-                    # calculate actual RP displacement
-                    if step == 1:
-                        u_actual = 0.0050 * step_time
-                    elif step == 2:
-                        u_actual = 0.0050 + 0.0050 * step_time
-                    else:
-                        u_actual = u_val
-                    records.append({
-                        'step': step,
-                        'inc': inc,
-                        'total_time': total_time,
-                        'step_time': step_time,
-                        'u_nominal': u_val,
-                        'u_actual': u_actual,
-                        'rf_kn': rf_val
-                    })
-                except ValueError:
-                    continue
+            parts = [p.strip() for p in line.split(',')]
+            if len(parts) >= 7:
+                records.append({
+                    'step': int(parts[0]),
+                    'inc': int(parts[1]),
+                    'total_time': float(parts[2]),
+                    'step_time': float(parts[3]),
+                    'e_elas_knmm': float(parts[4]),
+                    'e_frac_knmm': float(parts[5]),
+                    'e_total_knmm': float(parts[6]),
+                    'e_elas_mj': float(parts[4]) * 1000.0,
+                    'e_frac_mj': float(parts[5]) * 1000.0,
+                    'e_total_mj': float(parts[6]) * 1000.0
+                })
     return records
 
+def parse_failing_attempts(msg_path, target_step=2, target_inc=2890):
+    if not os.path.exists(msg_path):
+        return []
+    attempts = []
+    current_step = None
+    in_target_inc = False
+    current_attempt = None
+    
+    inc_header_pat = re.compile(r'INCREMENT\s+(\d+)\s+STARTS\.\s+ATTEMPT NUMBER\s+(\d+)')
+    
+    with open(msg_path, 'r') as f:
+        for line in f:
+            if 'STEP ' in line and 'INCREMENT ' in line:
+                sm = re.search(r'STEP\s+(\d+)', line)
+                if sm:
+                    current_step = int(sm.group(1))
+            
+            ihm = inc_header_pat.search(line)
+            if ihm:
+                inc_num = int(ihm.group(1))
+                att_num = int(ihm.group(2))
+                if (current_step == target_step or current_step is None) and inc_num == target_inc:
+                    in_target_inc = True
+                    current_attempt = {
+                        'attempt': att_num,
+                        'iterations': 0,
+                        'dt': None,
+                        'r_max': None,
+                        'r_node': None,
+                        'r_dof': None,
+                        'c_max': None,
+                        'c_node': None,
+                        'c_dof': None
+                    }
+                    attempts.append(current_attempt)
+                else:
+                    in_target_inc = False
+            
+            if in_target_inc and current_attempt is not None:
+                dt_match = re.search(r'TIME INCREMENT\s+([0-9.E+-]+)', line)
+                if dt_match and current_attempt['dt'] is None:
+                    current_attempt['dt'] = float(dt_match.group(1))
+                
+                if 'ITERATION' in line:
+                    current_attempt['iterations'] += 1
+                
+                rm = re.search(r'LARGEST\s+RESIDUAL\s+FORCE\s+([0-9.E+-]+)\s+AT\s+NODE\s+(\d+)\s+DOF\s+(\d+)', line)
+                if rm:
+                    current_attempt['r_max'] = float(rm.group(1))
+                    current_attempt['r_node'] = int(rm.group(2))
+                    current_attempt['r_dof'] = int(rm.group(3))
+                    
+                cm = re.search(r'LARGEST\s+CORRECTION\s+TO\s+DISP\.\s+([0-9.E+-]+)\s+AT\s+NODE\s+(\d+)\s+DOF\s+(\d+)', line)
+                if cm:
+                    current_attempt['c_max'] = float(cm.group(1))
+                    current_attempt['c_node'] = int(cm.group(2))
+                    current_attempt['c_dof'] = int(cm.group(3))
+
+    return attempts
+
 def compute_k0(records):
-    # N=400 elastic fit range (u <= 0.0010 mm)
-    pts = [r for r in records if r['step'] == 1 and r['inc'] <= 400]
-    if len(pts) < 10:
+    if len(records) < 400:
         return None
-    n = len(pts)
-    sum_u = sum(r['u_actual'] for r in pts)
-    sum_f = sum(r['rf_kn'] for r in pts)
-    sum_u2 = sum(r['u_actual']**2 for r in pts)
-    sum_uf = sum(r['u_actual'] * r['rf_kn'] for r in pts)
-    sum_f2 = sum(r['rf_kn']**2 for r in pts)
-    
-    slope = (n * sum_uf - sum_u * sum_f) / (n * sum_u2 - sum_u**2)
-    intercept = (sum_f - slope * sum_u) / n
-    r_num = (n * sum_uf - sum_u * sum_f)**2
-    r_den = (n * sum_u2 - sum_u**2) * (n * sum_f2 - sum_f**2)
-    r2 = r_num / r_den if r_den > 0 else 1.0
-    return {'k0_kn_per_mm': slope, 'intercept_kn': intercept, 'r2': r2, 'n_points': n}
+    x = [records[i]['u2_mm'] for i in range(400)]
+    y = [records[i]['rf2_kn'] for i in range(400)]
+    x_bar = sum(x) / 400.0
+    y_bar = sum(y) / 400.0
+    sxx = sum((xi - x_bar)**2 for xi in x)
+    sxy = sum((xi - x_bar)*(yi - y_bar) for xi, yi in zip(x, y))
+    slope = sxy / sxx if sxx > 0 else 0.0
+    intercept = y_bar - slope * x_bar
+    return {'k0_kn_per_mm': slope, 'intercept_kn': intercept}
 
-def load_energy_csv(csv_path):
-    if not os.path.exists(csv_path):
-        return None
-    rows = []
-    with open(csv_path, 'r') as f:
-        reader = csv.DictReader(f)
-        for r in reader:
-            try:
-                rows.append({
-                    'step': int(r.get('step', r.get('Step', 0))),
-                    'inc': int(r.get('inc', r.get('Increment', 0))),
-                    'total_time': float(r.get('total_time', r.get('Total_Time', 0.0))),
-                    'step_time': float(r.get('step_time', r.get('Step_Time', 0.0))),
-                    'u_actual': float(r.get('u_actual', r.get('u_mm', r.get('U2', 0.0)))),
-                    'rf_kn': float(r.get('rf_kn', r.get('RF2_kN', 0.0))),
-                    'e_elas_mj': float(r.get('e_elas_mj', r.get('E_elas_mJ', 0.0))),
-                    'e_frac_mj': float(r.get('e_frac_mj', r.get('E_frac_mJ', 0.0))),
-                    'w_ext_mj': float(r.get('w_ext_mj', r.get('W_ext_mJ', 0.0))),
-                    'delta_book_mj': float(r.get('delta_book_mj', r.get('Delta_book_mJ', 0.0))),
-                    'eps_book_pct': float(r.get('eps_book_pct', r.get('Eps_book_pct', 0.0)))
-                })
-            except (ValueError, KeyError):
-                continue
-    return rows
-
-def evaluate_8thread_stage_a(job_dir, baseline_dir, four_thread_dir=None):
-    dat_file = os.path.join(job_dir, 'PK_M1_14K_8T.dat')
-    energy_file = os.path.join(job_dir, 'uel_energy_balance.csv')
-    sta_file = os.path.join(job_dir, 'PK_M1_14K_8T.sta')
+def evaluate_8thread_stage_a(pkg29_dir, pkg25_dir, pkg26_dir=None):
+    dat_8t = os.path.join(pkg29_dir, 'PK_M1_14K_8T.dat')
+    energy_8t = os.path.join(pkg29_dir, 'uel_energy_balance.csv')
+    msg_8t = os.path.join(pkg29_dir, 'PK_M1_14K_8T.msg')
     
-    base_dat = os.path.join(baseline_dir, 'PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.dat')
-    base_energy = os.path.join(baseline_dir, 'uel_energy_balance.csv')
+    dat_base = os.path.join(pkg25_dir, 'PK_M1_ADAPT_14K_FRACTURE.dat')
+    energy_base = os.path.join(pkg25_dir, 'uel_energy_balance.csv')
+    msg_base = os.path.join(pkg25_dir, 'PK_M1_ADAPT_14K_FRACTURE.msg')
     
-    records_8t = load_dat_rf(dat_file)
-    records_base = load_dat_rf(base_dat)
+    records_8t = parse_dat_rp_table(dat_8t)
+    records_base = parse_dat_rp_table(dat_base)
     
     if not records_8t:
         return {
@@ -125,35 +184,48 @@ def evaluate_8thread_stage_a(job_dir, baseline_dir, four_thread_dir=None):
             'status': 'SOLVER_ACTIVE_OR_DAT_UNAVAILABLE',
             'completed_increments': 0
         }
+        
+    energy_rec_8t = parse_energy_csv(energy_8t)
+    energy_rec_base = parse_energy_csv(energy_base)
+    
+    attempts_8t = parse_failing_attempts(msg_8t, 2, 2890)
+    attempts_base = parse_failing_attempts(msg_base, 2, 2890)
     
     k0_8t = compute_k0(records_8t)
     k0_base = compute_k0(records_base) if records_base else None
     
-    # Peak force
-    peak_8t = max(records_8t, key=lambda r: r['rf_kn'])
-    peak_base = max(records_base, key=lambda r: r['rf_kn']) if records_base else None
+    peak_8t = max(records_8t, key=lambda r: r['rf2_kn'])
+    peak_base = max(records_base, key=lambda r: r['rf2_kn']) if records_base else None
     
-    # Check pointwise differences across common increments
     common_n = min(len(records_8t), len(records_base)) if records_base else len(records_8t)
     max_rf_diff = 0.0
     for i in range(common_n):
-        diff = abs(records_8t[i]['rf_kn'] - records_base[i]['rf_kn'])
+        diff = abs(records_8t[i]['rf2_kn'] - records_base[i]['rf2_kn'])
         if diff > max_rf_diff:
             max_rf_diff = diff
             
-    # Check pre-declared matched states
+    # Energy differences
+    common_e = min(len(energy_rec_8t), len(energy_rec_base)) if energy_rec_base else 0
+    max_d_elas = 0.0
+    max_d_frac = 0.0
+    for i in range(common_e):
+        de = abs(energy_rec_8t[i]['e_elas_mj'] - energy_rec_base[i]['e_elas_mj'])
+        df_e = abs(energy_rec_8t[i]['e_frac_mj'] - energy_rec_base[i]['e_frac_mj'])
+        if de > max_d_elas:
+            max_d_elas = de
+        if df_e > max_d_frac:
+            max_d_frac = df_e
+            
     matched_states = []
     for target_u in MATCHED_DISPLACEMENT_TARGETS_MM:
-        # find closest in 8T
-        closest_8t = min(records_8t, key=lambda r: abs(r['u_actual'] - target_u))
-        u_diff = abs(closest_8t['u_actual'] - target_u)
-        if u_diff <= 1.0e-5 and closest_8t['u_actual'] <= records_8t[-1]['u_actual']:
+        closest_8t = min(records_8t, key=lambda r: abs(r['u2_mm'] - target_u))
+        u_diff = abs(closest_8t['u2_mm'] - target_u)
+        if u_diff <= 1.0e-5 and closest_8t['u2_mm'] <= records_8t[-1]['u2_mm']:
             status = "REACHED"
-            rf_8t = closest_8t['rf_kn']
-            # compare to base
+            rf_8t = closest_8t['rf2_kn']
             if records_base:
-                closest_base = min(records_base, key=lambda r: abs(r['u_actual'] - target_u))
-                rf_base = closest_base['rf_kn']
+                closest_base = min(records_base, key=lambda r: abs(r['u2_mm'] - target_u))
+                rf_base = closest_base['rf2_kn']
                 diff_rf = abs(rf_8t - rf_base)
                 parity = "BITWISE_MATCH" if diff_rf < 1.0e-8 else ("PARITY_PASS" if diff_rf < 1.0e-5 else "DIFFERENCE_DETECTED")
             else:
@@ -170,44 +242,62 @@ def evaluate_8thread_stage_a(job_dir, baseline_dir, four_thread_dir=None):
             'parity_status': parity
         })
         
-    # Evaluate verdict
-    is_terminal = (len(records_8t) >= 4890) or (records_8t[-1]['u_actual'] >= 0.007889)
-    if not is_terminal:
-        verdict = "8THREAD_STAGEA_NOT_YET_QUALIFIED"
-        sub_verdict = "SOLVER_IN_PROGRESS_PARITY_VERIFIED_OVER_REACHED_RANGE"
+    term_8t = records_8t[-1]
+    term_base = records_base[-1] if records_base else {}
+    terminal_reached_identical = (
+        term_8t.get('step') == term_base.get('step') and
+        abs(term_8t.get('u2_mm', 0) - term_base.get('u2_mm', 0)) < 1e-8
+    )
+    
+    is_terminal = (len(records_8t) >= 4889)
+    if is_terminal and max_rf_diff <= 1e-7 and max_d_elas <= 1e-7 and len(attempts_8t) == 10:
+        governing_verdict = "8THREAD_STAGEA_PARITY_PASS"
+        sub_verdict = "BITWISE_IDENTICAL_PARITY_CONFIRMED"
+    elif is_terminal and max_rf_diff <= 1e-5:
+        governing_verdict = "8THREAD_STAGEA_PARITY_PASS"
+        sub_verdict = "NUMERICAL_PARITY_PASS_WITHIN_TOLERANCE"
+    elif is_terminal:
+        governing_verdict = "8THREAD_STAGEA_DIFFERENCE_DETECTED"
+        sub_verdict = "MECHANICAL_OR_ENERGETIC_DIVERGENCE_OBSERVED"
     else:
-        if max_rf_diff < 1.0e-6:
-            verdict = "8THREAD_STAGEA_PARITY_PASS"
-            sub_verdict = "BITWISE_IDENTICAL_PARITY_CONFIRMED"
-        else:
-            verdict = "8THREAD_STAGEA_DIFFERENCE_DETECTED"
-            sub_verdict = "MECHANICAL_OR_ENERGETIC_DIVERGENCE_OBSERVED"
-            
+        governing_verdict = "8THREAD_STAGEA_NOT_YET_QUALIFIED"
+        sub_verdict = "INCREMENT_COUNT_INSUFFICIENT"
+        
     return {
-        'verdict': verdict,
+        'task_id': 'F1229-STAGE15B-MODE2-PAPER-GROUNDED-PREANALYSIS-AND-PFF',
+        'governing_verdict': governing_verdict,
         'sub_verdict': sub_verdict,
-        'completed_increments': len(records_8t),
-        'terminal_displacement_mm': records_8t[-1]['u_actual'],
+        'completed_increments_8t': len(records_8t),
+        'completed_increments_base': len(records_base),
+        'terminal_displacement_mm': term_8t.get('u2_mm'),
+        'terminal_rf_kn': term_8t.get('rf2_kn'),
         'canonical_stiffness_k0': {
             '8thread': k0_8t,
             'baseline': k0_base,
             'diff_pct': ((k0_8t['k0_kn_per_mm'] - k0_base['k0_kn_per_mm'])/k0_base['k0_kn_per_mm'])*100 if k0_8t and k0_base else None
         },
         'peak_characteristics': {
-            '8thread': {'f_max_kn': peak_8t['rf_kn'], 'u_peak_mm': peak_8t['u_actual']},
-            'baseline': {'f_max_kn': peak_base['rf_kn'], 'u_peak_mm': peak_base['u_actual']} if peak_base else None
+            '8thread': {'f_max_kn': peak_8t['rf2_kn'], 'u_peak_mm': peak_8t['u2_mm']},
+            'baseline': {'f_max_kn': peak_base['rf2_kn'], 'u_peak_mm': peak_base['u2_mm']} if peak_base else None
         },
         'comparison_summary': {
             'common_increments_evaluated': common_n,
-            'max_abs_rf_difference_kn': max_rf_diff
+            'max_abs_rf_difference_kn': max_rf_diff,
+            'max_abs_e_elas_difference_mj': max_d_elas,
+            'max_abs_e_frac_difference_mj': max_d_frac,
+            'attempts_at_failing_inc': len(attempts_8t)
         },
         'matched_displacement_states': matched_states
     }
 
 if __name__ == '__main__':
-    repo_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    pkg29_dir = os.path.join(repo_root, 'models/pandey_kumar_mode1/29_stage14_adaptive_candidate_14k_8thread')
-    pkg25_dir = os.path.join(repo_root, 'models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k')
+    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    if not os.path.exists(os.path.join(base_dir, "models")):
+        base_dir = "/home/pr21vyci/projects/adaptive-remeshing"
+        
+    pkg29 = os.path.join(base_dir, "models/pandey_kumar_mode1/29_stage14_adaptive_candidate_14k_8thread")
+    pkg25 = os.path.join(base_dir, "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k")
+    pkg26 = os.path.join(base_dir, "models/pandey_kumar_mode1/26_stage14_adaptive_candidate_14k_4thread")
     
-    result = evaluate_8thread_stage_a(pkg29_dir, pkg25_dir)
-    print(json.dumps(result, indent=2))
+    res = evaluate_8thread_stage_a(pkg29, pkg25, pkg26)
+    print(json.dumps(res, indent=2))

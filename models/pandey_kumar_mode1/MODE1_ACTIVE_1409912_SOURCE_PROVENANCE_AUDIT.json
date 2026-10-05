@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "audit_title": "Mode-I Active Job 1409912 Source Provenance Integrity Audit",
+  "protocol_version": 2,
+  "audit_timestamp": "2026-10-03T10:35:00+02:00",
+  "investigating_agent": "gemini-antigravity",
+  "governing_task": "F1179-GATE6B-SOURCE-PROVENANCE-INTEGRITY-AUDIT-20261003",
+  "target_job": {
+    "pbs_job_id": "1409912.mmaster02",
+    "job_name": "PK_M1_JOB1_SOLVE",
+    "package": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906",
+    "package_number": 89,
+    "source_file": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906/f42_mixed_uel.for",
+    "status_in_ledger": "ACTIVE_UNTOUCHED_NON_POLLING_GUARD"
+  },
+  "cryptographic_provenance": {
+    "authoritative_source_sha256": "91ad75b0ff65dbd25967feae42af531239a99b3f76d9ef49d7359a66403dea6b",
+    "file_size_bytes": 32129,
+    "line_count": 927,
+    "git_blob_sha1": "9c44b528d30ab71ceb210bdeb3065ce306c15138",
+    "first_committed_at": "4a6dc0d8d8a43a8679acf7fb47ced89f6fde9e7e",
+    "submission_commit": "6b24242a2315ca98aa5085e5f1288781b53c5bb1",
+    "head_commit": "6f1bdbc98a6223f49824e126927ec1381b2f95d4"
+  },
+  "repository_records_cross_check": {
+    "package_manifest": {
+      "path": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906/PACKAGE_MANIFEST.json",
+      "recorded_sha256": "91ad75b0ff65dbd25967feae42af531239a99b3f76d9ef49d7359a66403dea6b",
+      "status": "BIT_IDENTICAL_MATCH"
+    },
+    "artifact_registry": {
+      "path": "project_coordination/ARTIFACT_REGISTRY.csv",
+      "row_index": 1191,
+      "recorded_sha256": "91ad75b0ff65dbd25967feae42af531239a99b3f76d9ef49d7359a66403dea6b",
+      "recorded_size": 32129,
+      "status": "BIT_IDENTICAL_MATCH"
+    },
+    "deck_audit_markdown": {
+      "path": "models/pandey_kumar_mode1/MODE1_ARCHITECTURE_ISOLATION_DECK_AUDIT.md",
+      "line": 40,
+      "recorded_sha256": "91ad75b0ff65dbd25967feae42af531239a99b3f76d9ef49d7359a66403dea6b",
+      "status": "BIT_IDENTICAL_MATCH"
+    },
+    "architecture_audit_json": {
+      "path": "models/pandey_kumar_mode1/MODE1_ARCHITECTURE_ISOLATION_AUDIT.json",
+      "field": "subroutine_89_sha256",
+      "recorded_sha256": "91ad75b0ff65dbd25967feae42af531239a99b3f76d9ef49d7359a66403dea6b",
+      "status": "BIT_IDENTICAL_MATCH"
+    },
+    "submission_session_report": {
+      "path": "project_coordination/sessions/2026-10-03_0810_gemini-antigravity_F1175.md",
+      "line": 28,
+      "recorded_sha256": "91ad75b0ff65dbd25967feae42af531239a99b3f76d9ef49d7359a66403dea6b",
+      "status": "BIT_IDENTICAL_MATCH"
+    }
+  },
+  "discrepancy_investigation": {
+    "reported_inquiry_sha256": "91ad75b06d48b1968fa3d9daee630248f760ca51d9d701041914ebc2901a1db1",
+    "git_blob_search_results": {
+      "total_git_objects_scanned": 19310,
+      "blobs_matching_prefix_91ad75b0": [
+        {
+          "git_sha1": "9c44b528d30ab71ceb210bdeb3065ce306c15138",
+          "path": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906/f42_mixed_uel.for",
+          "length_bytes": 32129,
+          "full_sha256": "91ad75b0ff65dbd25967feae42af531239a99b3f76d9ef49d7359a66403dea6b"
+        }
+      ],
+      "blobs_matching_inquiry_hash": 0
+    },
+    "file_system_search_results": {
+      "files_matching_inquiry_hash": 0
+    },
+    "transcript_provenance_trace": {
+      "origin_step": 1335,
+      "origin_type": "PLANNER_RESPONSE",
+      "origin_context": "Task F1178 closing markdown summary table",
+      "verbatim_text": "| **Subroutine SHA-256** | `91ad75b06d48b1968fa3d9daee630248f760ca51d9d701041914ebc2901a1db1` | *None* (pure built-in Abaqus continuum elasticity) | Verified |",
+      "cause": "Typographical / generation error during assistant response text assembly. The first 8 hexadecimal characters (91ad75b0) were preserved, but subsequent characters were corrupted in the markdown chat output. No physical file, Git blob, or committed repository record ever contained 91ad75b06d48b1968fa3d9daee630248f760ca51d9d701041914ebc2901a1db1."
+    }
+  },
+  "diff_analysis": {
+    "candidate_sources_compared": [
+      {
+        "source": "Submission commit 6b24242 / Package 89 f42_mixed_uel.for",
+        "sha256": "91ad75b0ff65dbd25967feae42af531239a99b3f76d9ef49d7359a66403dea6b",
+        "size_bytes": 32129
+      },
+      {
+        "source": "Disk HEAD f42_mixed_uel.for",
+        "sha256": "91ad75b0ff65dbd25967feae42af531239a99b3f76d9ef49d7359a66403dea6b",
+        "size_bytes": 32129
+      }
+    ],
+    "diff_lines_count": 0,
+    "diff_status": "BIT_FOR_BIT_IDENTICAL",
+    "executable_changes": false,
+    "nonexecutable_changes": false
+  },
+  "categorization": "REPORTING_TYPING_ERROR",
+  "formal_verdict": "ACTIVE_1409912_SOURCE_PROVENANCE_VERIFIED",
+  "consequences": {
+    "isolation_experiment_status": "ARCHITECTURE_ISOLATION_CONTROL_VALID",
+    "new_pbs_job_required": false,
+    "active_running_jobs_preserved_untouched": [
+      "1409914.mmaster02",
+      "1409912.mmaster02",
+      "1409867.mmaster02"
+    ],
+    "non_polling_guard": "ENFORCED"
+  }
+}

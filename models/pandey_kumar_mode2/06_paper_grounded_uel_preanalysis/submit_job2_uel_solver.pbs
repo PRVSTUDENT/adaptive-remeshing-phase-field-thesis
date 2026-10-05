@@ -1,0 +1,44 @@
+#!/bin/bash
+#PBS -N M2_J2_UEL_ADAPT
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -o M2_J2_UEL_ADAPT.out
+#PBS -e M2_J2_UEL_ADAPT.err
+
+set -euo pipefail
+cd /scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis || exit 1
+
+# Storage-compliance guard: reject execution directly under /home
+CURRENT_DIR="$(pwd -P)"
+if [[ "$CURRENT_DIR" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Execution directly inside /home is prohibited." >&2
+  echo "Heavy simulation outputs (*.odb, *.sim, *.res) must be written to /scratch/." >&2
+  echo "Please execute from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
+if [ ! -f ./job_notifications.sh ]; then
+  echo "[LAUNCHER ERROR] job_notifications.sh missing" >&2
+  exit 10
+fi
+
+source ./job_notifications.sh
+notification_load_config || true
+notification_install_terminal_trap
+notify_start || true
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "=== STARTING MODE-II JOB-2_UEL ADAPTED FRACTURE SOLVER (1 CPU, Mem: 16GB) ==="
+rm -f Job-2_UEL.lck Job-2_UEL.023 uel_energy_balance.csv
+abaqus job=Job-2_UEL user=f42_mixed_uel.for input=Job-2_UEL.inp cpus=1 double=both interactive
+ABAQUS_EXIT=$?
+echo "=== FINISHED MODE-II JOB-2_UEL ADAPTED FRACTURE SOLVER (EXIT: $ABAQUS_EXIT) ==="
+exit "$ABAQUS_EXIT"

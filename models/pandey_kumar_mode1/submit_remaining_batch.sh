@@ -1,7 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
-BASE_DIR="/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1"
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
+BASE_DIR="/scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1"
 
 echo "================================================================================"
 echo "DISPATCHING REMAINING GATE-6B BATCH SUBMISSIONS (T1, T3, L2, L3)"

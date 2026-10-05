@@ -58,7 +58,7 @@ def analyze_adapted_mesh_geometry(p):
         elements_data.append({'eid': elem.label, 'xc': xc, 'yc': yc, 'h': h_approx})
 
     n_total = len(elements_data)
-    h_min = min(e['h'] for e in elements_data)
+    h_min = min(e['h'] for e in elements_data) if elements_data else 0.0
     fine_elems = [e for e in elements_data if e['h'] <= 0.008]
     fine_count = len(fine_elems)
     fine_fraction = fine_count / float(n_total) if n_total > 0 else 0.0
@@ -119,9 +119,14 @@ def run_mode2_remesh_sweep(odb_path, out_dir="."):
     print("="*70)
 
     o = odbAccess.openOdb(odb_path, readOnly=True)
-    step_name = o.steps.keys()[-1]
+    step_names = o.steps.keys()
+    if 'Step-1' in step_names:
+        step_name = 'Step-1'
+    else:
+        step_name = step_names[0]
+        
     last_frame = o.steps[step_name].frames[-1]
-    print("Opened ODB: Step '%s', Frame %d, Time = %.5f" % 
+    print("Opened ODB: Selected Step '%s', Frame %d, Time = %.5f" % 
           (step_name, last_frame.frameId, last_frame.frameValue))
 
     results = {}

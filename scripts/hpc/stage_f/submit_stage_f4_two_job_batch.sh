@@ -4,6 +4,13 @@
 
 set -euo pipefail
 
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${PROJECT_ROOT_OVERRIDE:-$(cd "${SCRIPT_DIR}/../../.." && pwd)}"
 AUTH_FILE="${AUTH_FILE_OVERRIDE:-${REPO_ROOT}/runs/hpc/stage_f/MODE_II_STAGE_F4_REPLACEMENT_AUTHORIZATION.json}"

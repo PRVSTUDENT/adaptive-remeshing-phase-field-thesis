@@ -1,34 +1,37 @@
 {
-  "task_id": "F1230-STAGE15C-MODE2-CORRECTED-UEL-EVAL-AND-JOB2",
+  "task_id": "F1231-HPC-HOME-STORAGE-COMPLIANCE-AND-SCRATCH-MIGRATION",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "stage": "STAGE15C_MODE2_CORRECTED_PREANALYSIS_AND_JOB2",
-  "status": "IN_PROGRESS",
+  "stage": "HPC_STORAGE_COMPLIANCE_AND_SCRATCH_MIGRATION",
+  "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "started_at": "2026-10-05T10:10:00+02:00",
-  "completed_at": null,
-  "description": "Stage 15C: Corrected Mode-II paper-grounded UEL pre-analysis monitoring (1410125.mmaster02, Step 2 Inc 1213+), raw MISESERI localization pipeline preparation, native adaptiveRemesh sweep across errorTarget in {1.0%, 2.0%, 3.0%, 5.0%}, candidate selection hierarchy, deterministic 3-layer Job-2_UEL.inp construction, unit test verification, and thesis Chapter 4 Section 4.39 documentation.",
-  "governing_verdict": "MODE2_CORRECTED_UEL_PREANALYSIS_RUNNING__LOCALIZATION_NOT_YET_QUALIFIED",
+  "started_at": "2026-10-05T10:38:00+02:00",
+  "completed_at": "2026-10-05T11:10:00+02:00",
+  "description": "Emergency HPC /home storage compliance audit, parallel multi-TB solver artifact migration to /scratch/pr21vyci, PBS execution script and submission wrapper hardening with hard guards against /home execution, regression test verification, and resubmission of the 3 active jobs from /scratch (1410178.mmaster02, 1410179.mmaster02, 1410180.mmaster02).",
+  "governing_verdict": "HPC_HOME_STORAGE_COMPLIANCE_ENFORCED__SCRATCH_EXECUTION_OPERATIONAL",
   "active_hpc_jobs": [
     {
-      "job_id": "1410032.mmaster02",
-      "name": "PK_M1_14AM_SOLVE",
-      "cpus": 1,
-      "state": "Running",
-      "description": "Spatial Fine Candidate (58k elements, Step 2 Inc 1483+, post-fracture tail, load dropped >98.5%)"
-    },
-    {
-      "job_id": "1410096.mmaster02",
-      "name": "PK_M1_14K_CONV_CTRL",
-      "cpus": 1,
-      "state": "Running",
-      "description": "Cn=0.50 Displacement Correction Diagnostic Solve (Step 2 Inc 2307+, post-fracture tail, load dropped >99.7%)"
-    },
-    {
-      "job_id": "1410125.mmaster02",
+      "job_id": "1410178.mmaster02",
       "name": "M2_J1_UEL_PRE",
       "cpus": 1,
       "state": "Running",
-      "description": "Mode-II Paper-Grounded Coarse Pre-Analysis Solve (Step 2 Inc 1213+, post-fracture tail, load dropped >98.5%)"
+      "scratch_dir": "/scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis",
+      "description": "Mode-II Paper-Grounded Coarse Pre-Analysis Solve (Step 2 Inc 1213+ replay, scratch-compliant)"
+    },
+    {
+      "job_id": "1410179.mmaster02",
+      "name": "PK_M1_14AM_SOLVE",
+      "cpus": 1,
+      "state": "Running",
+      "scratch_dir": "/scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine",
+      "description": "Mode-I Spatial Fine Candidate (58k elements, scratch-compliant)"
+    },
+    {
+      "job_id": "1410180.mmaster02",
+      "name": "PK_M1_14K_CONV_CTRL",
+      "cpus": 1,
+      "state": "Running",
+      "scratch_dir": "/scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/28_stage14_convergence_control_candidate",
+      "description": "Mode-I Cn=0.50 Displacement Correction Diagnostic Solve (scratch-compliant)"
     }
   ],
   "evaluated_completed_jobs": [
@@ -47,13 +50,21 @@
       "description": "8-Thread Stage-B Determinism Repeat (4,890 incs, 100% bitwise parity)"
     }
   ],
-  "gated_standby_packages": [
+  "administratively_stopped_jobs": [
     {
-      "package": "Mode-II Stage 2",
-      "name": "M2_STAGE2_PFF_FRACTURE",
-      "cpus": 1,
-      "state": "Gated Standby",
-      "description": "Phase-field fracture solve on verified adaptive mesh candidate (Authorized pending qualified candidate and datacheck)"
+      "job_id": "1410125.mmaster02",
+      "name": "M2_J1_UEL_PRE",
+      "reason": "ADMINISTRATIVELY_STOPPED_FOR_HOME_STORAGE_COMPLIANCE (resubmitted as 1410178.mmaster02 from /scratch)"
+    },
+    {
+      "job_id": "1410032.mmaster02",
+      "name": "PK_M1_14AM_SOLVE",
+      "reason": "ADMINISTRATIVELY_STOPPED_FOR_HOME_STORAGE_COMPLIANCE (resubmitted as 1410179.mmaster02 from /scratch)"
+    },
+    {
+      "job_id": "1410096.mmaster02",
+      "name": "PK_M1_14K_CONV_CTRL",
+      "reason": "ADMINISTRATIVELY_STOPPED_FOR_HOME_STORAGE_COMPLIANCE (resubmitted as 1410180.mmaster02 from /scratch)"
     }
   ]
 }

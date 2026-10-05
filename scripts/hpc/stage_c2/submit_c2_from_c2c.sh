@@ -3,6 +3,13 @@
 # Uses afterany + explicit success markers (C2C.ok ... C2F.ok).
 set -euo pipefail
 
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
 PROJECT_HOME="/home/pr21vyci/projects/adaptive-remeshing"
 PRESTAGE_ROOT="/scratch/pr21vyci/adaptive-remeshing/prestage"
 PBS_OUTPUT_ROOT="/scratch/pr21vyci/adaptive-remeshing/pbs_output"

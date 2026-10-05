@@ -1,0 +1,100 @@
+{
+  "manifest_schema_version": "1.0.0",
+  "study_title": "Mode-II Literature-Faithful Free-uy Spatial Refinement Sensitivity (H1 vs H2)",
+  "physical_model": {
+    "boundary_value_problem": "Mode-II Pure Shear Test (Pandey & Kumar / Ambrosio-Tortorelli AT2)",
+    "domain_dimensions_mm": "1.0 x 1.0 (Centered: [-0.5, 0.5] x [-0.5, 0.5] mm)",
+    "initial_notch_mm": "(-0.5, 0.0) -> (0.0, 0.0)",
+    "material_parameters": {
+      "youngs_modulus_E_kN_mm2": 210.0,
+      "poissons_ratio_nu": 0.3,
+      "fracture_energy_Gc_kN_mm": 0.0027,
+      "length_scale_l0_mm": 0.015,
+      "residual_stiffness_k": 1e-07
+    },
+    "boundary_conditions": {
+      "bottom_edge": "Clamped (u1 = 0, u2 = 0)",
+      "top_edge": "Coupled horizontal shear via RP (u1 = 0.050 mm), unconstrained vertical displacement (free-uy)",
+      "left_right_edges": "Free"
+    },
+    "subroutine": {
+      "source_file": "models/pandey_kumar_mode2/f42_mixed_uel.for",
+      "sha256": "5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46",
+      "generation": "Gen-3 (Energy-Instrumented Stored Elastic ENERGY(2) / SDV18 & Surface ENERGY(7) / SDV17)"
+    }
+  },
+  "mesh_configurations": {
+    "H1_reference": {
+      "mesh_level": "H1",
+      "underlying_elements": 12064,
+      "total_abaqus_elements": 36192,
+      "total_nodes": 12383,
+      "rp_node_label": 12383,
+      "crack_zone_bounding_box_mm": {
+        "x_min": 0.0,
+        "x_max": 0.5,
+        "y_min": -0.25,
+        "y_max": 0.05
+      },
+      "crack_zone_elements": 4800,
+      "crack_zone_h_min_mm": 0.00250,
+      "crack_zone_h_max_mm": 0.00791,
+      "crack_zone_h_mean_mm": 0.00524,
+      "crack_zone_mean_h_over_l0": 0.3490,
+      "global_h_min_mm": 0.00250,
+      "global_h_max_mm": 0.02500,
+      "global_h_mean_mm": 0.00784,
+      "global_mean_h_over_l0": 0.5229,
+      "input_deck": "models/pandey_kumar_mode2/02_reference_h1/M2_H1_reference.inp",
+      "input_deck_sha256": "f8a0fcff05ec92683ba8b788090f70a1a0b322ee9b67df996bf414cbe841029c",
+      "production_job_id": "1408543.mmaster02",
+      "execution_status": "COMPLETED_EXIT_0"
+    },
+    "H2_ultrafine": {
+      "mesh_level": "H2",
+      "underlying_elements": 33852,
+      "total_abaqus_elements": 101556,
+      "total_nodes": 34509,
+      "rp_node_label": 34509,
+      "crack_zone_bounding_box_mm": {
+        "x_min": 0.0,
+        "x_max": 0.5,
+        "y_min": -0.25,
+        "y_max": 0.05
+      },
+      "crack_zone_elements": 17000,
+      "crack_zone_h_min_mm": 0.00100,
+      "crack_zone_h_max_mm": 0.00500,
+      "crack_zone_h_mean_mm": 0.00253,
+      "crack_zone_mean_h_over_l0": 0.1686,
+      "global_h_min_mm": 0.00100,
+      "global_h_max_mm": 0.02500,
+      "global_h_mean_mm": 0.00417,
+      "global_mean_h_over_l0": 0.2778,
+      "input_deck": "models/pandey_kumar_mode2/03_ultrafine_h2/M2_H2_reference.inp",
+      "input_deck_sha256": "c314a293980913183a4229d15d73f299316cc501b7e2f204a58d4bccdc25523a",
+      "production_job_id": "1408550.mmaster02",
+      "execution_status": "RUNNING_ON_CLUSTER"
+    }
+  },
+  "refinement_factors": {
+    "crack_zone_element_count_ratio": 3.5417,
+    "crack_zone_spatial_refinement_ratio": 2.0711,
+    "global_element_count_ratio": 2.8060
+  },
+  "energy_governance": {
+    "energy_identity_status": "GLOBAL_ENERGY_IDENTITY — NOT_YET_CLOSED",
+    "observational_terms": [
+      "E_elas (ENERGY(2) / SDV18: Stored elastic strain energy)",
+      "E_frac (ENERGY(7) / SDV17: Regularized fracture surface energy)",
+      "W_trap (External work from global reaction force integral)",
+      "TWO_TERM_BOOKKEEPING_DIFFERENCE (Delta_2term = W_trap - (E_elas + E_frac))"
+    ],
+    "rule": "Energy bookkeeping magnitude is strictly observational and not a pass/fail criterion."
+  },
+  "comparison_engine": {
+    "script_path": "scripts/postprocessing/compare_mode2_h1_vs_h2_spatial_sensitivity.py",
+    "sha256": "b3d02c597d03b8d99154eb2aeb0b54c6ab6ae831dcc05ea5987eafaf3c1e5ba8",
+    "evaluation_json_destination": "models/pandey_kumar_mode2/03_ultrafine_h2/H1_VS_H2_SPATIAL_SENSITIVITY_EVALUATION.json"
+  }
+}

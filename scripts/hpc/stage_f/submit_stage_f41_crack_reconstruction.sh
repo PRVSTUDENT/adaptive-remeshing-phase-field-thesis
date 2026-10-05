@@ -1,6 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
 PACKAGE_DIR="models/generated/mode_ii/f41_crack_geometry_reconstruction"
 PBS_DECK="${PACKAGE_DIR}/M2RMSTITCH1.pbs"
 TASK_JSON="project_coordination/ACTIVE_TASK.json"

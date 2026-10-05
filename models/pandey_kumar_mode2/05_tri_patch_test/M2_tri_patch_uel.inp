@@ -1,0 +1,79 @@
+*Heading
+Abaqus Runtime Patch Test: 3-Node Triangular UEL (JTYPE 3 & 4)
+** N_PHYS = 1, Nodes = 3, Total Elements = 3 (U3 + U4 + CPE3)
+*Preprint, echo=NO, model=NO, history=NO, contact=NO
+*USER ELEMENT, NODES=3, TYPE=U3, PROPERTIES=6, COORDINATES=2, VARIABLES=18
+3
+*USER ELEMENT, NODES=3, TYPE=U4, PROPERTIES=6, COORDINATES=2, VARIABLES=18
+1, 2
+*Node
+  1,  0.01000000,  0.00000000
+  2,  0.00000000,  0.01000000
+  3,  0.00000000,  0.00000000
+*Element, type=U3, elset=PHASE_TRI
+  1, 1, 2, 3
+*Element, type=U4, elset=DISP_TRI
+  2, 1, 2, 3
+*Element, type=CPE3, elset=UMAT_TRI
+  3, 1, 2, 3
+*Elset, elset=All_elem
+UMAT_TRI
+*Elset, elset=All_phase
+PHASE_TRI
+*Elset, elset=All_disp
+DISP_TRI
+*UEL Property, elset=PHASE_TRI
+ 1.500000e-02, 2.700000e-03, 2.100000e+02, 3.000000e-01, 1.000000e-07, 1.0
+*UEL Property, elset=DISP_TRI
+ 1.500000e-02, 2.700000e-03, 2.100000e+02, 3.000000e-01, 1.000000e-07, 1.0
+*Solid Section, elset=All_elem, material=DUMMY_VIS
+1.0
+*Material, name=DUMMY_VIS
+*User Material, constants=3
+ 210.0, 0.3, 1.0
+*Depvar
+20
+*Step, name=Step-1, nlgeom=NO
+Step 1: Constant Strain Undegraded Mechanical Test
+*Static
+1.0, 1.0, 1e-05, 1.0
+*Boundary
+  3, 1, 2, 0.0
+  1, 1, 1, 0.0001
+  1, 2, 2, 0.0
+  2, 1, 2, 0.0001
+  1, 3, 3, 0.0
+  2, 3, 3, 0.0
+  3, 3, 3, 0.0
+*Output, field, frequency=1
+*Node Output
+U, RF
+*Element Output, elset=All_elem
+S, E, SDV
+*Node Print, summary=NO
+U, RF
+*El Print, elset=All_elem, summary=NO
+S, E
+*El Print, elset=All_elem, summary=NO
+SDV1, SDV14, SDV15, SDV17, SDV18
+*End Step
+*Step, name=Step-2, nlgeom=NO
+Step 2: Prescribed Uniform Phase-Field Test (d = 0.5)
+*Static
+1.0, 1.0, 1e-05, 1.0
+*Boundary, op=MOD
+  1, 3, 3, 0.5
+  2, 3, 3, 0.5
+  3, 3, 3, 0.5
+*Output, field, frequency=1
+*Node Output
+U, RF
+*Element Output, elset=All_elem
+S, E, SDV
+*Node Print, summary=NO
+U, RF
+*El Print, elset=All_elem, summary=NO
+S, E
+*El Print, elset=All_elem, summary=NO
+SDV1, SDV14, SDV15, SDV17, SDV18
+*End Step

@@ -268,6 +268,15 @@ abaqus python \
 POST_RC=0
 (
   set -euo pipefail
+
+# Storage-compliance guard: reject execution directly under /home
+CURRENT_DIR="$(pwd -P)"
+if [[ "$CURRENT_DIR" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Execution directly inside /home is prohibited." >&2
+  echo "Heavy simulation outputs (*.odb, *.sim, *.res) must be written to /scratch/." >&2
+  echo "Please execute from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
   module load python/gcc/11.4.0/3.11.7
 
   python3 \
