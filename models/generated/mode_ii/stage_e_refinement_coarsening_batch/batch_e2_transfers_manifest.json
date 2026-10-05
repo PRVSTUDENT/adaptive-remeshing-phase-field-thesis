@@ -1,0 +1,39 @@
+{
+  "campaign": "Stage E Controlled Refinement and Coarsening Transfer Validation (Batch E2 Non-Submitting)",
+  "source_donor_job": "1390447.mmaster02 Frame 17 (U1 = 0.01051289 mm)",
+  "transfer_operators": {
+    "u_interpolation": "Bilinear host shape function with slit segregation",
+    "d_interpolation": "Bilinear host shape function with [0, 1] bounds protection",
+    "H_interpolation": "HOST_ISOPARAMETRIC_BILINEAR_WITH_LOCAL_GP_BOUNDS_CLAMP"
+  },
+  "packages": {
+    "refined_transfer": {
+      "package_name": "M2CORR_STAGE_E_REFINED_TARGET_TRANSFER_VAL",
+      "package_dir": "models/generated/mode_ii/stage_e_refinement_coarsening_batch\\M2CORR_STAGE_E_REFINED_TARGET_TRANSFER_VAL",
+      "inp_sha256": "cbfc0949396be84551567589869fe97f4124d5ad0e524edd1d4691aa4e7037ae",
+      "bin_sha256": "61b4a973c30936adf3b6350f65d3d1766186317c79cc7b7229271fd1df51e60d",
+      "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+      "pbs_sha256": "e46ccf0e2956be37349a776e6be927051810a82dc58ff6e88b6b7a93aa2c2262",
+      "total_nodes": 34027,
+      "total_elements": 33600,
+      "max_d_transferred": 0.3001473155397379,
+      "min_d_transferred": 1.0217529444673822e-07,
+      "max_H_transferred": 0.7956909397355768,
+      "min_H_transferred": 1.099169535024651e-11
+    },
+    "coarsened_transfer": {
+      "package_name": "M2CORR_STAGE_E_COARSENED_TARGET_TRANSFER_VAL",
+      "package_dir": "models/generated/mode_ii/stage_e_refinement_coarsening_batch\\M2CORR_STAGE_E_COARSENED_TARGET_TRANSFER_VAL",
+      "inp_sha256": "04b02d66d983cb50a9a2d36e5aa80136068c143b86ad1a490f9e984cf600b776",
+      "bin_sha256": "3fa2392bcfc228257433c46ef443fa6a355b1032f9c8f29d1400a263dd20cd7b",
+      "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+      "pbs_sha256": "d4e267186458344693899dbbb6e6a7be9adfaf38633ffa9c15ffda1a1f67e521",
+      "total_nodes": 8416,
+      "total_elements": 8200,
+      "max_d_transferred": 0.28395984424767107,
+      "min_d_transferred": 1.0217529444673822e-07,
+      "max_H_transferred": 0.4775748746090184,
+      "min_H_transferred": 9.349148943644623e-12
+    }
+  }
+}

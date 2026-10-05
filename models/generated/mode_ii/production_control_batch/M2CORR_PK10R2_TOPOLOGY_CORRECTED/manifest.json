@@ -1,0 +1,52 @@
+{
+  "job_name": "M2CORR_PK10R2_TOPOLOGY_CORRECTED",
+  "scientific_purpose": "Continuous Mode-II shear benchmark with corrected uniform notch-tip mesh topology, sharp physical slit, individual rigid top equation ties, and fail-closed notification wiring",
+  "package_revision": "R2",
+  "physical_mesh": {
+    "physical_node_count": 6249,
+    "auxiliary_node_count": 1,
+    "total_node_count": 6250,
+    "physical_quad_count": 6048,
+    "layered_element_count": 18144,
+    "triangle_count": 0,
+    "h_local_min_edge_mm": 0.005,
+    "h_global_max_edge_mm": 0.025,
+    "global_hmax_over_hmin_ratio": 5.0,
+    "maximum_adjacent_element_size_ratio": 1.224745,
+    "maximum_element_aspect_ratio": 5.0,
+    "slit_split_station_count": 26,
+    "duplicate_slit_node_count": 52
+  },
+  "benchmark_reference": {
+    "accepted_h1_job": "1389686.mmaster02",
+    "h1_peak_rf1_kn": 0.29957,
+    "h1_peak_u1_mm": 0.000627,
+    "accepted_h2_job": "1389687.mmaster02",
+    "h2_peak_rf1_kn": 0.29483,
+    "h2_peak_u1_mm": 0.000616
+  },
+  "execution_resources": {
+    "requested_queue": "entry_imfdfkmq",
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime": "24:00:00",
+    "abaqus_version": "2023",
+    "compiler_module": "intel/2024.2.0",
+    "environment_prerequisite": "gcc/11.4.0",
+    "maximum_permitted_submissions": 1,
+    "automatic_retry": false
+  },
+  "notification_configuration": {
+    "pbs_email_events": "abe",
+    "pbs_email_recipients": "Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de",
+    "telegram_gate_enabled": true,
+    "fail_closed_hooks_enabled": true
+  },
+  "file_hashes_sha256": {
+    "inp": "25cb7673a8e6914956821d9716f10393089409e4ac7fad41a24b744e5f3edbce",
+    "uel": "e0865b5eba43c14d21a733e72717e157d65c778319e6556e5eca8ab222364e58",
+    "launcher": "1481b0ad2e8ee89bfa31c6569106e436fc79db5ba5e481383e56c1a72eef407d",
+    "notifications_lib": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "preflight_checker": "c336b87bcca24c33f1867d1cd470c0a7d061cb87d5c1ccbb80d3d7928642814b"
+  }
+}

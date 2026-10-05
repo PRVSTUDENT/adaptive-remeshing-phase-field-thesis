@@ -1,0 +1,23 @@
+{
+  "job_id": "1389686.mmaster02",
+  "job_name": "M2CORR_H1_FREEU2_FULL_U050",
+  "mesh_type": "Stage-D Graded Refined Mesh (12,064 physical elements, 12,382 nodes)",
+  "analysis_completed_successfully": true,
+  "total_frames": 145,
+  "terminal_u1_mm": 0.05000000074505806,
+  "terminal_rf1_kN": 0.008639795705676079,
+  "peak_rf1_kN": 0.1436861902475357,
+  "peak_u1_mm": 0.012530019506812096,
+  "peak_frame": 38,
+  "handoff_frame": 30,
+  "handoff_u1_mm": 0.010643300600349903,
+  "handoff_rf1_kN": 0.12845681607723236,
+  "handoff_d_max": 0.3277899920940399,
+  "hard_invariants": {
+    "phase_bounds_0_to_1": false,
+    "d_min_overall": 0.0,
+    "d_max_overall": 1.0279450416564941,
+    "pointwise_damage_monotonicity": false,
+    "min_delta_d_max": -0.007769584655761719
+  }
+}

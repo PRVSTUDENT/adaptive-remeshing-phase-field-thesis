@@ -1,0 +1,192 @@
+{
+  "created_at": "2026-08-24T09:18:38Z",
+  "cryptographic_hashes": {
+    "committed_binary": "c6d955f3b6edfce02840dc545bf0cd2796e70ea24c45cbb76b5226817e38c212",
+    "pbs_script": "76e198b5e90f916dd8671787969f8e496a6e64aeecbfdf3d9f8e705f16dc0a23",
+    "primary_state_csv": "e90abef301c8353bb3e67cbb2c689b1c2f6aca9614207cd56ca00f47f139822b",
+    "restart_inp": "ce9aea63ab53fb067e8d81aa08cfa0a44feba049994d6b864701082bfc02b9b8",
+    "state_install_inp": "76482ae274e2e43ebc3f3c37d3f603c2507f774924f877f9b6be129ba11fd95c",
+    "submit_wrapper": "56ceb90b066b64a83aabd67315535204a113cf678d15362671bf52768690eebc",
+    "u3_only_inp": "0706d2a48b00e111ce91ed03c4f19b8d35288cdbc8de6d9e09e5988925f88153",
+    "uel_source": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "solver_odb": "2162f990b3c39d6ac461db0ed7bdeb5fe2c13774efa4dea596d0fc81c9c15bde"
+  },
+  "cycle_id": "REAL_PILOT_CYCLE_003",
+  "donor_state": {
+    "attained_rf1_kN": 0.08225303143262863,
+    "attained_u1_mm": 0.015512891113758087,
+    "cycle_id": "REAL_PILOT_CYCLE_002",
+    "donor_d_max": 0.2995086350969,
+    "donor_d_min": 0.0,
+    "donor_h_max": 562.234575,
+    "donor_h_min": 0.0,
+    "healing_count": 0,
+    "job_id": "1396539.mmaster02",
+    "peak_h_location": "Element 612, GP 3"
+  },
+  "execution_plan": {
+    "datacheck_mode": false,
+    "dry_run": false,
+    "pbs_command": "qsub M2ADAPT_REAL_PILOT_CYCLE_003_RESTART.pbs",
+    "qsub_authorized": true,
+    "solver_command": "abaqus job=M2ADAPT_REAL_PILOT_CYCLE_003_RESTART input=M2ADAPT_REAL_PILOT_CYCLE_003_RESTART.inp user=f44_mixed_uel_restart_stateinit.for cpus=1 interactive"
+  },
+  "invariant_audit": {
+    "passed": true,
+    "violations": []
+  },
+  "material_parameters": {
+    "E_kN_mm2": 210.0,
+    "Gc_kN_mm": 0.0027,
+    "k_res": 1e-07,
+    "l0_mm": 0.015,
+    "nu": 0.3,
+    "thickness_mm": 1.0
+  },
+  "mesh_statistics": {
+    "num_layered_elements": 15336,
+    "num_nodes": 5287,
+    "num_physical_elements": 5112,
+    "strategy": "SAME_MESH_IDENTITY_CONTINUATION"
+  },
+  "predecessor_cycle": null,
+  "segment": {
+    "delta_u1_mm": 0.0025,
+    "handoff_u1_mm": 0.015512891113758087,
+    "target_u1_mm": 0.018012891113758086
+  },
+  "segment_interval": {},
+  "status": "CYCLE_SOLVER_EXECUTION_PASS",
+  "target_state": {
+    "job_id": "1396571.mmaster02",
+    "attained_u1_mm": 0.018012890592,
+    "attained_rf1_kN": 0.07521298,
+    "peak_rf1_kN": 0.07859892,
+    "target_d_min": 0.0,
+    "target_d_max": 0.29950864,
+    "peak_d_location": "Node 2657 (0.01, 0.00279287)",
+    "target_h_min": 1.55314071e-13,
+    "target_h_max": 1902.811633,
+    "peak_h_location": "Element 2446, GP 1",
+    "healing_count": 0,
+    "reaction_force_jump_pct": 0.0,
+    "authoritative_donor_eligible": true,
+    "step_increments": {
+      "step_1": 1,
+      "step_2": 1,
+      "step_3": 76,
+      "step_4": 57
+    },
+    "step_cutbacks": {
+      "step_1": 0,
+      "step_2": 0,
+      "step_3": 11,
+      "step_4": 0
+    }
+  },
+  "transfer_audit": {
+    "generated_artifacts": {
+      "committed_binary_state": {
+        "filename": "TARGET_REAL_PILOT_CYCLE_003_SOURCE_STATE.bin",
+        "sha256": "89b64edb8d6882de4cd755d9a29603cc2f6fdbd0c10a45e423a458ca65a3b21c"
+      },
+      "primary_state_csv": {
+        "filename": "TARGET_REAL_PILOT_CYCLE_003_PRIMARY_STATE.csv",
+        "sha256": "e90abef301c8353bb3e67cbb2c689b1c2f6aca9614207cd56ca00f47f139822b"
+      },
+      "standard_committed_binary": {
+        "filename": "STAGE_D_COMMITTED_STATE.bin",
+        "sha256": "89b64edb8d6882de4cd755d9a29603cc2f6fdbd0c10a45e423a458ca65a3b21c"
+      },
+      "state_install_boundary_inp": {
+        "filename": "TARGET_REAL_PILOT_CYCLE_003_STATE_INSTALL_BOUNDARY.inp",
+        "sha256": "76482ae274e2e43ebc3f3c37d3f603c2507f774924f877f9b6be129ba11fd95c"
+      },
+      "u3_only_boundary_inp": {
+        "filename": "TARGET_REAL_PILOT_CYCLE_003_U3_ONLY_BOUNDARY.inp",
+        "sha256": "0706d2a48b00e111ce91ed03c4f19b8d35288cdbc8de6d9e09e5988925f88153"
+      }
+    },
+    "manifest_sha256": "0b77dd4270de7806676518d662b33a7bd8c0701e74a8cc13f0cddd29ced875c1",
+    "mapping_summary": {
+      "history_fields": {
+        "same_mesh_identity_transfer": true,
+        "unmapped_gps": 0
+      },
+      "primary_fields": {
+        "max_mapping_residual": 0.0,
+        "same_mesh_identity_transfer": true,
+        "unmapped_physical_nodes": 0
+      }
+    },
+    "source_provenance": {
+      "cycle_id": "REAL_PILOT_CYCLE_002",
+      "job_id": "1396539.mmaster02"
+    },
+    "target_mesh_name": "TARGET_REAL_PILOT_CYCLE_003",
+    "transfer_algorithm": {
+      "history_fields_interpolation": "Gauss-point normalized isoparametric interpolation",
+      "inside_tolerance": 1e-06,
+      "primary_fields_interpolation": "C0 continuous bilinear quad shape functions (physical nodes only)",
+      "rp_boundary_separation": "RP node prescribed U1 only; DOF 2 and DOF 3 excluded",
+      "spatial_search": "SpatialGridIndex with Newton-Raphson inverse isoparametric mapping"
+    },
+    "transfer_validation": {
+      "donor_max_H": 562.2345745113645,
+      "donor_max_d": 0.2995086350969,
+      "max_mapping_residual": 0.0,
+      "passed": true,
+      "same_mesh_identity_transfer": true,
+      "target_max_H": 562.2345745113645,
+      "target_max_d": 0.2995086350969,
+      "target_min_H": 0.0,
+      "target_min_d": 0.0,
+      "unmapped_gps": 0,
+      "unmapped_nodes": 0,
+      "unmapped_physical_nodes": 0,
+      "unmapped_target_gps": 0,
+      "violation_count": 0,
+      "violations": []
+    }
+  },
+  "transfer_statistics": {},
+  "trigger_evaluation": {
+    "classifications": {
+      "characteristic_size_metric": "CONSERVATIVE_H_MAX_AND_H_AREA",
+      "h_res_limit_rule": "ADOPTED_PHASE_FIELD_RESOLUTION_SIZING_RULE",
+      "tr01_classification": "PROVISIONAL_AUTOMATION_TRIGGER_REQUIRING_CALIBRATION",
+      "tr02_classification": "PROVISIONAL_AUTOMATION_TRIGGER_REQUIRING_CALIBRATION",
+      "tr03_classification": "RECONCILED_PANDEY_KUMAR_2025_RECOVERY_INDICATOR",
+      "tr04_classification": "DIMENSIONLESS_LOCAL_PHASE_GRADIENT_INDICATOR_DISABLED"
+    },
+    "fired_triggers": [],
+    "metrics": {
+      "buffer_threshold_mm": 0.03,
+      "coarse_element_count": 3816,
+      "core_node_count_gt_dcore": 0,
+      "current_u1_mm": 0.015512891113758087,
+      "d_crack_core_threshold": 0.3,
+      "d_invade_threshold": 0.05,
+      "damaged_node_count_gt_002": 131,
+      "final_u1_mm": 0.05,
+      "max_d_in_coarse_elements": 1.980554373853e-13,
+      "max_grad_d_norm": 0.0,
+      "max_miseseri": 0.0,
+      "min_buffer_distance_mm": -1.0,
+      "miseseri_marked_count": 0,
+      "tr04_enabled": false,
+      "violating_coarse_element_count": 0
+    },
+    "rationale": "No remeshing required. Phase field is contained within fine elements (h_max <= 0.0075 mm). Max d in coarse elements = 0.0000 < 0.0500.",
+    "refined_zone": {
+      "area": 0.024676400991999997,
+      "target_h": 0.005,
+      "x_max": 0.11,
+      "x_min": -0.05,
+      "y_max": 0.0823769123,
+      "y_min": -0.0718505939
+    },
+    "remesh_required": false
+  },
+  "updated_at": "2026-08-24T12:39:00Z"
+}

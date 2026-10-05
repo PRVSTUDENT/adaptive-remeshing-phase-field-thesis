@@ -1,0 +1,100 @@
+{
+  "batch_name": "M2_DUAL_VALIDATION_BATCH_R6_PK10R2",
+  "created_at": "2026-08-16T16:34:00+02:00",
+  "scientific_independence": true,
+  "batch_submission_scientifically_permissible": true,
+  "maximum_total_submissions": 2,
+  "maximum_simultaneous_running_jobs": 2,
+  "automatic_retry": false,
+  "qdel_allowed": false,
+  "qmove_allowed": false,
+  "jobs": [
+    {
+      "job_index": 1,
+      "candidate_name": "M2CORR_PK10R1_SAMEMESH_RESTART_VALIDATION_R6",
+      "package_path": "models/generated/mode_ii/production_control_batch/M2CORR_PK10R1_SAMEMESH_RESTART_VALIDATION_R6",
+      "scientific_purpose": "Validate 4-step same-mesh restart state initialization mechanics from Increment 29 (u1=0.010143mm) to u1=0.050000mm on PK10R1 mesh",
+      "mesh": "PK10R1 (Uncracked continuous grid)",
+      "resources": {
+        "cpus": 1,
+        "memory": "16 GB",
+        "walltime": "24:00:00",
+        "queue": "entry_imfdfkmq"
+      },
+      "compiler_module": "intel/2024.2.0",
+      "abaqus_module": "abaqus/2023",
+      "frozen_hashes": {
+        "inp_sha256": "d20edf3a13f024b4ccb981dd86ec82fd7e91ba611451694b9cf313d0affcf750",
+        "uel_sha256": "5e26c6ecaf1f6b0df53944a6f7964bc442cbd6b4d05d2b9648f482a05fcd31eb",
+        "full_state_include_sha256": "9bd16f9a27cf7c7aa398af31f7e3c754bfab5e9ecf2825fd835dbd1340bd51e5",
+        "u3_only_include_sha256": "f54e4fefb92308ec302322cf4183cfa62ae5f89eeb37f1d8727034ea1ce167b8",
+        "canonical_csv_sha256": "5a2313e1ed15834d933e7cd12808681bd554394ad64d58419ad85f6f2bf6cf69",
+        "committed_bin_sha256": "28e0fc1c6b02a4e6013cea23f38dacfea0e2afaf52d92239d9d694bb2e55e66e",
+        "repaired_pbs_sha256": "594e5b7aa1d2ad33cdb502af24f31120a6ca01dc9eee194a3cce5b4cfa7d7751",
+        "manifest_sha256": "85d7ed5a7755ab369eb0bbdeee6636bbf9fd2e0c96043691af08ded9fae23b8f"
+      },
+      "handoff_rp_u1_mm": 0.010143300518393517,
+      "datacheck_result": "PASS",
+      "acceptance_criteria": {
+        "step1_rf1_equilibrium": "1.0% vs continuous reference 1389684 Inc 29 (0.305426 kN)",
+        "clamp_release_rf1_jump": "1.0%",
+        "phase_irreversibility": "max negative delta d <= 1.0e-6",
+        "continuation_terminal_rf1": "2.0% vs continuous reference 1389684 (0.003639 kN)"
+      },
+      "maximum_permitted_submissions": 1,
+      "automatic_retry": false,
+      "ready_for_human_authorization": true
+    },
+    {
+      "job_index": 2,
+      "candidate_name": "M2CORR_PK10R2_TOPOLOGY_CORRECTED",
+      "package_path": "models/generated/mode_ii/production_control_batch/M2CORR_PK10R2_TOPOLOGY_CORRECTED",
+      "scientific_purpose": "Virgin monotonic continuous solve to u1=0.050000mm to validate whether restoring physical 0.5mm open crack slit eliminates the +20.94% initial stiffness and +29.99% peak force error vs accepted H1/H2 references",
+      "mesh": "PK10R2 (Restored 0.5mm open notch slit, 26 split flank pairs, 6048 quads, 6249 nodes)",
+      "resources": {
+        "cpus": 1,
+        "memory": "16 GB",
+        "walltime": "24:00:00",
+        "queue": "entry_imfdfkmq"
+      },
+      "compiler_module": "intel/2024.2.0",
+      "abaqus_module": "abaqus/2023",
+      "frozen_hashes": {
+        "inp_sha256": "667897fc42ee134be434cb5bc543796ce47ffd2024ec4d6c01d20e0abbd987be",
+        "uel_sha256": "e0865b5eba43c14d21a733e72717e157d65c778319e6556e5eca8ab222364e58",
+        "pbs_sha256": "05ff024535824e85b3c0f4a603c2bd8bab547d917d0519af0f9da1793e1574c8",
+        "manifest_sha256": "b3adedccf603471ee6e5e2165434148bbdb1822d175351ef0df97e095c221ec6"
+      },
+      "accepted_reference_jobs": [
+        {
+          "job_id": "1389686.mmaster02",
+          "job_name": "M2CORR_H1_FREEU2_FULL_U050",
+          "stiffness_kN_mm": 529.67,
+          "peak_rf1_kN": 0.29957,
+          "peak_u1_mm": 0.000627,
+          "status": "ACCEPTED"
+        },
+        {
+          "job_id": "1389687.mmaster02",
+          "job_name": "M2CORR_H2_FREEU2_FULL_U050",
+          "stiffness_kN_mm": 529.01,
+          "peak_rf1_kN": 0.29483,
+          "peak_u1_mm": 0.000616,
+          "status": "ACCEPTED"
+        }
+      ],
+      "datacheck_result": "PASS",
+      "acceptance_criteria": {
+        "initial_stiffness": "QUALITATIVE/NO_FROZEN_NUMERIC_THRESHOLD",
+        "peak_rf1": "QUALITATIVE/NO_FROZEN_NUMERIC_THRESHOLD",
+        "peak_u1": "QUALITATIVE/NO_FROZEN_NUMERIC_THRESHOLD",
+        "rf_u_trajectory": "QUALITATIVE/NO_FROZEN_NUMERIC_THRESHOLD",
+        "crack_path_mode_ii": "QUALITATIVE/NO_FROZEN_NUMERIC_THRESHOLD",
+        "solver_completion": "QUALITATIVE/NO_FROZEN_NUMERIC_THRESHOLD"
+      },
+      "maximum_permitted_submissions": 1,
+      "automatic_retry": false,
+      "ready_for_human_authorization": true
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "package_name": "M2CORR_STAGE_E_DONOR_LINESEARCH_VAL",
+  "base_job": "1391319.mmaster02",
+  "base_package": "M2CORR_STAGE_E_DONOR_MINIMAL_COMBINED_VAL",
+  "intended_controls": {
+    "I_A": 13,
+    "dt_min": "5.0e-12",
+    "I_0": 4,
+    "I_R": 8,
+    "I_P": 9,
+    "I_C": 16,
+    "I_L": 10,
+    "I_G": 4,
+    "I_S": 50,
+    "line_search": {
+      "active": true,
+      "N": 4,
+      "s_max": 1.0,
+      "s_min": 0.0001,
+      "f_s": 0.25,
+      "eta": 0.5
+    }
+  },
+  "hashes": {
+    "inp_sha256": "9f77ec39f80272a063f8d738c5ac88eb4670cf2366cee07bc6f2da810a08944a",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "pbs_sha256": "2d7b40db966dac1da22762f4e1938b85dce97ced8879164b5f2cae4c79ef1651"
+  },
+  "unified_diff": [
+    "--- 1391319_donor_combined.inp",
+    "+++ M2CORR_STAGE_E_DONOR_LINESEARCH_VAL.inp",
+    "@@ -27079,6 +27079,8 @@",
+    " 0.001, 1.0, 5.0e-12, 0.02",
+    " *CONTROLS, PARAMETERS=TIME INCREMENTATION",
+    " 4, 8, 9, 16, 10, 4, 50, 13",
+    "+*CONTROLS, PARAMETERS=LINE SEARCH",
+    "+4, 1.0, 0.0001, 0.25, 0.50",
+    " *BOUNDARY, OP=NEW",
+    " N_BOTTOM, 1, 2, 0.0",
+    " N_RP, 1, 1, 0.050000"
+  ]
+}

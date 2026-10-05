@@ -1,0 +1,540 @@
+{
+  "audit_timestamp_utc": "2026-08-09T06:20:00Z",
+  "task_id": "F43REM4-GATEC1-R4",
+  "protocol_version": 1,
+  "scientific_classification": {
+    "Gate_C1_localization": "PASS",
+    "best_adaptive_candidate": "F43REM4_MM",
+    "Gate_C1_phase_field_resolution": "HOLD",
+    "final_production_mesh_selected": false,
+    "final_selected_candidate": "none",
+    "scientific_rationale": "Candidate MM demonstrates the highest adaptive localization efficiency (5.07x top-1% enrichment, 2.79x top-5% enrichment with 2,206 elements) and contains local minimum element size h_min = 0.3004 l0. However, along the connected top-5% and top-10% fracture process zone, MM's median element size is 0.817 l0 and p95 size is 1.36 l0, with a fraction of h <= l0/2 of ~22.6% in top 5% (and 42.3% in top 1%). Because typical elements in the process corridor exceed l0/2 and the far-field is coarsened to 1.46 l0, phase-field resolution coverage is placed on HOLD pending supervisor/human determination between MM (maximum localization efficiency) and PK5 (denser corridor coverage, 41.6% h <= l0/2 in top 5%)."
+  },
+  "extracted_summary_metrics": {
+    "MM_top1_fraction_h_le_l0_over_2": 0.0462,
+    "MM_top5_fraction_h_le_l0_over_2": 0.0301,
+    "MM_top10_fraction_h_le_l0_over_2": 0.0211,
+    "PK5_top1_fraction_h_le_l0_over_2": 0.1263,
+    "PK5_top5_fraction_h_le_l0_over_2": 0.1064,
+    "PK5_top10_fraction_h_le_l0_over_2": 0.0846,
+    "PK1_top1_fraction_h_le_l0_over_2": 0.8247,
+    "PK1_top5_fraction_h_le_l0_over_2": 0.8493,
+    "PK1_top10_fraction_h_le_l0_over_2": 0.8692,
+    "MM_top5_p95_h_over_l0": 1.3595,
+    "PK5_top5_p95_h_over_l0": 0.9389,
+    "PK1_top5_p95_h_over_l0": 0.5279,
+    "MM_connected_fine_corridor": false,
+    "PK5_connected_fine_corridor": false,
+    "PK1_connected_fine_corridor": true,
+    "MM_connected_fine_corridor_075": true,
+    "PK5_connected_fine_corridor_075": true,
+    "PK1_connected_fine_corridor_075": true,
+    "best_adaptive_candidate": "MM",
+    "final_selected_candidate": "none",
+    "Gate_C1": "HOLD",
+    "next_stage": "human_decision_on_crack_corridor_coverage_tradeoff"
+  },
+  "candidate_audits": {
+    "F43REM4_PK1": {
+      "job_id": "1385573.mmaster02",
+      "deck_path": "/mnt/d/Master thesis/Adaptive remeshing/models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/runtime_pk1/F43REM4_PK1.inp",
+      "sha256": "c21198b1e3f3f858b92bce74aff509c2b4dd59af794e2f5dfdfcdd0ce21ae35b",
+      "percentile_resolution_fractions": {
+        "top_1pct": {
+          "refined_elements_count": 251,
+          "fractions_h_area": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.8247,
+            "le_one_third": 0.004
+          },
+          "fractions_min_edge": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.9841,
+            "le_one_third": 0.0478
+          },
+          "fractions_max_edge": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.6056,
+            "le_one_third": 0.0
+          },
+          "distribution_h_area_over_l0": {
+            "median": 0.482,
+            "p75": 0.4925,
+            "p90": 0.5098,
+            "p95": 0.5315,
+            "max": 0.5803
+          }
+        },
+        "top_5pct": {
+          "refined_elements_count": 1234,
+          "fractions_h_area": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.8493,
+            "le_one_third": 0.0284
+          },
+          "fractions_min_edge": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.9814,
+            "le_one_third": 0.0737
+          },
+          "fractions_max_edge": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.5948,
+            "le_one_third": 0.0016
+          },
+          "distribution_h_area_over_l0": {
+            "median": 0.4686,
+            "p75": 0.4894,
+            "p90": 0.5097,
+            "p95": 0.5279,
+            "max": 0.6091
+          }
+        },
+        "top_10pct": {
+          "refined_elements_count": 2484,
+          "fractions_h_area": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.8692,
+            "le_one_third": 0.035
+          },
+          "fractions_min_edge": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.9843,
+            "le_one_third": 0.1135
+          },
+          "fractions_max_edge": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.5998,
+            "le_one_third": 0.0024
+          },
+          "distribution_h_area_over_l0": {
+            "median": 0.4637,
+            "p75": 0.4858,
+            "p90": 0.5068,
+            "p95": 0.5247,
+            "max": 0.6091
+          }
+        },
+        "top_20pct": {
+          "refined_elements_count": 4959,
+          "fractions_h_area": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.8806,
+            "le_one_third": 0.0379
+          },
+          "fractions_min_edge": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.9855,
+            "le_one_third": 0.1283
+          },
+          "fractions_max_edge": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.6146,
+            "le_one_third": 0.0026
+          },
+          "distribution_h_area_over_l0": {
+            "median": 0.4573,
+            "p75": 0.4817,
+            "p90": 0.5044,
+            "p95": 0.5227,
+            "max": 0.6352
+          }
+        }
+      },
+      "connected_corridors": {
+        "top_1pct_connected": {
+          "pre3_elements": 26,
+          "refined_coverage": {
+            "corridor_refined_elements_count": 174,
+            "corridor_total_area_mm2": 0.00886019,
+            "fraction_area_le_l0_over_2": 0.7108,
+            "fraction_area_le_l0_over_3": 0.002,
+            "median_h_area_over_l0": 0.4733,
+            "p90_h_area_over_l0": 0.521,
+            "p95_h_area_over_l0": 0.5428,
+            "largest_under_resolved_area_mm2": 0.00227508,
+            "largest_under_resolved_distance_from_notch_mm": 0.017641
+          }
+        },
+        "top_5pct_connected": {
+          "pre3_elements": 114,
+          "refined_coverage": {
+            "corridor_refined_elements_count": 764,
+            "corridor_total_area_mm2": 0.0359336,
+            "fraction_area_le_l0_over_2": 0.8111,
+            "fraction_area_le_l0_over_3": 0.0094,
+            "median_h_area_over_l0": 0.4613,
+            "p90_h_area_over_l0": 0.5096,
+            "p95_h_area_over_l0": 0.528,
+            "largest_under_resolved_area_mm2": 0.00246741,
+            "largest_under_resolved_distance_from_notch_mm": 0.015583
+          }
+        },
+        "top_10pct_connected": {
+          "pre3_elements": 191,
+          "refined_coverage": {
+            "corridor_refined_elements_count": 1259,
+            "corridor_total_area_mm2": 0.05803919,
+            "fraction_area_le_l0_over_2": 0.8186,
+            "fraction_area_le_l0_over_3": 0.0111,
+            "median_h_area_over_l0": 0.457,
+            "p90_h_area_over_l0": 0.5077,
+            "p95_h_area_over_l0": 0.5293,
+            "largest_under_resolved_area_mm2": 0.00246741,
+            "largest_under_resolved_distance_from_notch_mm": 0.015583
+          }
+        }
+      },
+      "connected_fine_mesh_path": {
+        "threshold_0_50_l0": {
+          "path_connected_across_corridor": true,
+          "max_reach_distance_mm": 0.701912,
+          "connected_elements_count": 17524
+        },
+        "threshold_0_75_l0": {
+          "path_connected_across_corridor": true,
+          "max_reach_distance_mm": 0.701912,
+          "connected_elements_count": 21357
+        }
+      },
+      "svg_visualization": "/mnt/d/Master thesis/Adaptive remeshing/models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/figures/f43rem4_pk1_crack_corridor_audit.svg"
+    },
+    "F43REM4_PK5": {
+      "job_id": "1385574.mmaster02",
+      "deck_path": "/mnt/d/Master thesis/Adaptive remeshing/models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/runtime_pk5/F43REM4_PK5.inp",
+      "sha256": "87ab62c411f8d14ef9eca2857036e88fb2cbd9ccdf0171a80c5e97e7edc7ffa9",
+      "percentile_resolution_fractions": {
+        "top_1pct": {
+          "refined_elements_count": 190,
+          "fractions_h_area": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.1263,
+            "le_one_third": 0.0105
+          },
+          "fractions_min_edge": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.4158,
+            "le_one_third": 0.0
+          },
+          "fractions_max_edge": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.0158,
+            "le_one_third": 0.0
+          },
+          "distribution_h_area_over_l0": {
+            "median": 0.5356,
+            "p75": 0.5641,
+            "p90": 0.5966,
+            "p95": 0.6497,
+            "max": 0.7527
+          }
+        },
+        "top_5pct": {
+          "refined_elements_count": 611,
+          "fractions_h_area": {
+            "le_1_0": 0.9787,
+            "le_0_5": 0.1064,
+            "le_one_third": 0.0033
+          },
+          "fractions_min_edge": {
+            "le_1_0": 0.9902,
+            "le_0_5": 0.2668,
+            "le_one_third": 0.0033
+          },
+          "fractions_max_edge": {
+            "le_1_0": 0.9231,
+            "le_0_5": 0.0115,
+            "le_one_third": 0.0
+          },
+          "distribution_h_area_over_l0": {
+            "median": 0.6033,
+            "p75": 0.7294,
+            "p90": 0.8723,
+            "p95": 0.9389,
+            "max": 1.3257
+          }
+        },
+        "top_10pct": {
+          "refined_elements_count": 898,
+          "fractions_h_area": {
+            "le_1_0": 0.8831,
+            "le_0_5": 0.0846,
+            "le_one_third": 0.0056
+          },
+          "fractions_min_edge": {
+            "le_1_0": 0.931,
+            "le_0_5": 0.196,
+            "le_one_third": 0.0089
+          },
+          "fractions_max_edge": {
+            "le_1_0": 0.7528,
+            "le_0_5": 0.0111,
+            "le_one_third": 0.0022
+          },
+          "distribution_h_area_over_l0": {
+            "median": 0.6906,
+            "p75": 0.8897,
+            "p90": 1.0188,
+            "p95": 1.1124,
+            "max": 1.3458
+          }
+        },
+        "top_20pct": {
+          "refined_elements_count": 1380,
+          "fractions_h_area": {
+            "le_1_0": 0.742,
+            "le_0_5": 0.0572,
+            "le_one_third": 0.0036
+          },
+          "fractions_min_edge": {
+            "le_1_0": 0.8536,
+            "le_0_5": 0.1297,
+            "le_one_third": 0.0058
+          },
+          "fractions_max_edge": {
+            "le_1_0": 0.5594,
+            "le_0_5": 0.0072,
+            "le_one_third": 0.0014
+          },
+          "distribution_h_area_over_l0": {
+            "median": 0.842,
+            "p75": 1.0051,
+            "p90": 1.1254,
+            "p95": 1.1739,
+            "max": 1.4752
+          }
+        }
+      },
+      "connected_corridors": {
+        "top_1pct_connected": {
+          "pre3_elements": 26,
+          "refined_coverage": {
+            "corridor_refined_elements_count": 135,
+            "corridor_total_area_mm2": 0.00891381,
+            "fraction_area_le_l0_over_2": 0.1363,
+            "fraction_area_le_l0_over_3": 0.005,
+            "median_h_area_over_l0": 0.5313,
+            "p90_h_area_over_l0": 0.5939,
+            "p95_h_area_over_l0": 0.6539,
+            "largest_under_resolved_area_mm2": 0.00740595,
+            "largest_under_resolved_distance_from_notch_mm": 0.003625
+          }
+        },
+        "top_5pct_connected": {
+          "pre3_elements": 114,
+          "refined_coverage": {
+            "corridor_refined_elements_count": 402,
+            "corridor_total_area_mm2": 0.03598182,
+            "fraction_area_le_l0_over_2": 0.0735,
+            "fraction_area_le_l0_over_3": 0.0013,
+            "median_h_area_over_l0": 0.5926,
+            "p90_h_area_over_l0": 0.7841,
+            "p95_h_area_over_l0": 0.8518,
+            "largest_under_resolved_area_mm2": 0.02725533,
+            "largest_under_resolved_distance_from_notch_mm": 0.009658
+          }
+        },
+        "top_10pct_connected": {
+          "pre3_elements": 191,
+          "refined_coverage": {
+            "corridor_refined_elements_count": 529,
+            "corridor_total_area_mm2": 0.05841225,
+            "fraction_area_le_l0_over_2": 0.0505,
+            "fraction_area_le_l0_over_3": 0.0011,
+            "median_h_area_over_l0": 0.639,
+            "p90_h_area_over_l0": 0.944,
+            "p95_h_area_over_l0": 1.049,
+            "largest_under_resolved_area_mm2": 0.04167543,
+            "largest_under_resolved_distance_from_notch_mm": 0.002536
+          }
+        }
+      },
+      "connected_fine_mesh_path": {
+        "threshold_0_50_l0": {
+          "path_connected_across_corridor": false,
+          "max_reach_distance_mm": 0.026344,
+          "connected_elements_count": 4
+        },
+        "threshold_0_75_l0": {
+          "path_connected_across_corridor": true,
+          "max_reach_distance_mm": 0.15412,
+          "connected_elements_count": 392
+        }
+      },
+      "svg_visualization": "/mnt/d/Master thesis/Adaptive remeshing/models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/figures/f43rem4_pk5_crack_corridor_audit.svg"
+    },
+    "F43REM4_MM": {
+      "job_id": "1385575.mmaster02",
+      "deck_path": "/mnt/d/Master thesis/Adaptive remeshing/models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/runtime_mm/F43REM4_MM.inp",
+      "sha256": "d404356d5ce9a47461dae0f82e3fe9eee2929ccfa73a30b436af72ab56c43374",
+      "percentile_resolution_fractions": {
+        "top_1pct": {
+          "refined_elements_count": 130,
+          "fractions_h_area": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.0462,
+            "le_one_third": 0.0154
+          },
+          "fractions_min_edge": {
+            "le_1_0": 1.0,
+            "le_0_5": 0.1923,
+            "le_one_third": 0.0
+          },
+          "fractions_max_edge": {
+            "le_1_0": 0.8846,
+            "le_0_5": 0.0077,
+            "le_one_third": 0.0
+          },
+          "distribution_h_area_over_l0": {
+            "median": 0.665,
+            "p75": 0.7276,
+            "p90": 0.8223,
+            "p95": 0.893,
+            "max": 0.9604
+          }
+        },
+        "top_5pct": {
+          "refined_elements_count": 332,
+          "fractions_h_area": {
+            "le_1_0": 0.6867,
+            "le_0_5": 0.0301,
+            "le_one_third": 0.006
+          },
+          "fractions_min_edge": {
+            "le_1_0": 0.7952,
+            "le_0_5": 0.0843,
+            "le_one_third": 0.0
+          },
+          "fractions_max_edge": {
+            "le_1_0": 0.506,
+            "le_0_5": 0.003,
+            "le_one_third": 0.0
+          },
+          "distribution_h_area_over_l0": {
+            "median": 0.817,
+            "p75": 1.079,
+            "p90": 1.2623,
+            "p95": 1.3595,
+            "max": 1.5834
+          }
+        },
+        "top_10pct": {
+          "refined_elements_count": 473,
+          "fractions_h_area": {
+            "le_1_0": 0.5137,
+            "le_0_5": 0.0211,
+            "le_one_third": 0.0042
+          },
+          "fractions_min_edge": {
+            "le_1_0": 0.6279,
+            "le_0_5": 0.0592,
+            "le_one_third": 0.0
+          },
+          "fractions_max_edge": {
+            "le_1_0": 0.3636,
+            "le_0_5": 0.0021,
+            "le_one_third": 0.0
+          },
+          "distribution_h_area_over_l0": {
+            "median": 0.9718,
+            "p75": 1.2623,
+            "p90": 1.4585,
+            "p95": 1.5884,
+            "max": 2.0015
+          }
+        },
+        "top_20pct": {
+          "refined_elements_count": 684,
+          "fractions_h_area": {
+            "le_1_0": 0.3684,
+            "le_0_5": 0.0146,
+            "le_one_third": 0.0029
+          },
+          "fractions_min_edge": {
+            "le_1_0": 0.4737,
+            "le_0_5": 0.0409,
+            "le_one_third": 0.0
+          },
+          "fractions_max_edge": {
+            "le_1_0": 0.2529,
+            "le_0_5": 0.0015,
+            "le_one_third": 0.0
+          },
+          "distribution_h_area_over_l0": {
+            "median": 1.1658,
+            "p75": 1.4452,
+            "p90": 1.6318,
+            "p95": 1.7642,
+            "max": 2.2444
+          }
+        }
+      },
+      "connected_corridors": {
+        "top_1pct_connected": {
+          "pre3_elements": 26,
+          "refined_coverage": {
+            "corridor_refined_elements_count": 80,
+            "corridor_total_area_mm2": 0.00903389,
+            "fraction_area_le_l0_over_2": 0.0044,
+            "fraction_area_le_l0_over_3": 0.0,
+            "median_h_area_over_l0": 0.6813,
+            "p90_h_area_over_l0": 0.8395,
+            "p95_h_area_over_l0": 0.9171,
+            "largest_under_resolved_area_mm2": 0.0089939,
+            "largest_under_resolved_distance_from_notch_mm": 0.003643
+          }
+        },
+        "top_5pct_connected": {
+          "pre3_elements": 114,
+          "refined_coverage": {
+            "corridor_refined_elements_count": 208,
+            "corridor_total_area_mm2": 0.03705821,
+            "fraction_area_le_l0_over_2": 0.0041,
+            "fraction_area_le_l0_over_3": 0.0,
+            "median_h_area_over_l0": 0.8053,
+            "p90_h_area_over_l0": 1.1873,
+            "p95_h_area_over_l0": 1.3209,
+            "largest_under_resolved_area_mm2": 0.03636239,
+            "largest_under_resolved_distance_from_notch_mm": 0.006834
+          }
+        },
+        "top_10pct_connected": {
+          "pre3_elements": 191,
+          "refined_coverage": {
+            "corridor_refined_elements_count": 268,
+            "corridor_total_area_mm2": 0.05892616,
+            "fraction_area_le_l0_over_2": 0.0026,
+            "fraction_area_le_l0_over_3": 0.0,
+            "median_h_area_over_l0": 0.9031,
+            "p90_h_area_over_l0": 1.3779,
+            "p95_h_area_over_l0": 1.4263,
+            "largest_under_resolved_area_mm2": 0.05847817,
+            "largest_under_resolved_distance_from_notch_mm": 0.029572
+          }
+        }
+      },
+      "connected_fine_mesh_path": {
+        "threshold_0_50_l0": {
+          "path_connected_across_corridor": false,
+          "max_reach_distance_mm": 0.0,
+          "connected_elements_count": 0
+        },
+        "threshold_0_75_l0": {
+          "path_connected_across_corridor": true,
+          "max_reach_distance_mm": 0.081729,
+          "connected_elements_count": 84
+        }
+      },
+      "svg_visualization": "/mnt/d/Master thesis/Adaptive remeshing/models/generated/mode_ii/f43_stage_c_bridge/remesh_sensitivity_batch/figures/f43rem4_mm_crack_corridor_audit.svg"
+    }
+  },
+  "authority_and_governance": {
+    "execution_authorized": false,
+    "submission_approved": false,
+    "replacement_authorized": false,
+    "maximum_jobs_now": 0,
+    "automatic_retry": false,
+    "new_qsub_called": false,
+    "new_HPC_submissions": 0
+  }
+}

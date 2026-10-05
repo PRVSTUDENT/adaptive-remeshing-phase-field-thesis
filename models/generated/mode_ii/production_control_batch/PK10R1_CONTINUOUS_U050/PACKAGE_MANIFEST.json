@@ -1,0 +1,21 @@
+{
+  "candidate": "PK10R1_CONTINUOUS_U050",
+  "mesh": "PK10R1",
+  "nphys_elements": 9612,
+  "is_continuous": true,
+  "resource_contract": {
+    "cpus": 1,
+    "memory": "16 GB",
+    "walltime": "24:00:00",
+    "queue": "entry_imfdfkmq"
+  },
+  "file_hashes": {
+    "PK10R1_CONTINUOUS_U050.inp": "edb9b46655f29a8f668f7e64ca2c18b89f955a30014ab14b74d7daa5265afdde",
+    "PK10R1_CONTINUOUS_U050.pbs": "4d434adb9d0dbdbb122067afa644e17763a4a0622ee97ebc3a6e50cd568a822c",
+    "f42_mixed_uel.for": "c6f3c8eb816b8d9cc04e864a0de8e24565931d04fd6b260a93bfe7761c16f205",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "submit_pk10r1_continuous_u050.sh": "224808ff658067fddb6a586a506cda366b1eba5b8f64ac0cd93581cfc3dbefd6",
+    "validate_package_manifest.py": "87d4243a6b19e267e7a5d3992aac091ff7d5bbfb41ac7b6fe7a5ddf44faf5637"
+  },
+  "manifest_sha256": "a043aab9d000c272bafaac6faa59648fb3ee6f88402b854194865d090075c17c"
+}

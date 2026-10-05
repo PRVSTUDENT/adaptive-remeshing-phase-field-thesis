@@ -1,0 +1,68 @@
+{
+  "refined_job_1391277": {
+    "summary": {
+      "job_id": "1391277.mmaster02",
+      "job_name": "M2CORR_STAGE_E_REFINED_TARGET_MINIMAL_DTMIN_CONTINUATION_VAL",
+      "mesh_type": "Refined Target 33,600 quads (h_min=0.002000 mm)",
+      "total_frames": 29,
+      "terminal_u1_mm": 0.012583927251398563,
+      "terminal_rf1_kN": 0.13080795109272003,
+      "peak_rf1_kN": 0.14167986810207367,
+      "peak_u1_mm": 0.012331250123679638,
+      "peak_frame": 22,
+      "handoff_frame": 17,
+      "handoff_u1_mm": 0.010512890294194221,
+      "handoff_rf1_kN": 0.12605319917201996,
+      "handoff_d_max": 0.3099477291107178,
+      "hard_invariants": {
+        "phase_bounds_0_to_1": true,
+        "d_min_overall": 0.0,
+        "d_max_overall": 1.0,
+        "pointwise_damage_monotonicity": true,
+        "min_delta_d_max": 0.0
+      }
+    },
+    "sta_audit": {
+      "max_attempt_exercised": 13,
+      "total_cutbacks": 19,
+      "min_attempted_dt": 4.475e-11,
+      "min_accepted_dt": 8.343e-05
+    },
+    "parity_vs_1390834": {
+      "frames_compared": 29,
+      "max_u1_diff_mm": 0.0,
+      "max_rf1_diff_kN": 0.001313374000000006,
+      "max_dmax_diff": 0.0
+    }
+  },
+  "coarsened_job_1391279": {
+    "summary": {
+      "job_id": "1391279.mmaster02",
+      "job_name": "M2CORR_STAGE_E_COARSENED_TARGET_MINIMAL_DTMIN_CONTINUATION_VAL",
+      "mesh_type": "Coarsened Target 8,200 quads (h_min=0.004000 mm)",
+      "total_frames": 476,
+      "terminal_u1_mm": 0.013116316869854927,
+      "terminal_rf1_kN": 0.08819066733121872,
+      "peak_rf1_kN": 0.1433015614748001,
+      "peak_u1_mm": 0.012700391001999378,
+      "peak_frame": 23,
+      "handoff_frame": 17,
+      "handoff_u1_mm": 0.010512890294194221,
+      "handoff_rf1_kN": 0.1252136081457138,
+      "handoff_d_max": 0.28607264161109924,
+      "hard_invariants": {
+        "phase_bounds_0_to_1": true,
+        "d_min_overall": 0.0,
+        "d_max_overall": 1.0,
+        "pointwise_damage_monotonicity": true,
+        "min_delta_d_max": 0.0
+      }
+    },
+    "sta_audit": {
+      "max_attempt_exercised": 8,
+      "total_cutbacks": 105,
+      "min_attempted_dt": 1e-11,
+      "min_accepted_dt": 1.541e-10
+    }
+  }
+}

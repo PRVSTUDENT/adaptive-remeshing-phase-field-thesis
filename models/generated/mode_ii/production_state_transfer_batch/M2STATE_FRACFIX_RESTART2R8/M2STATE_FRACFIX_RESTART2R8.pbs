@@ -1,0 +1,46 @@
+#!/bin/bash
+#PBS -N M2STATE_FRACFIX_RESTART2R8
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+
+# Storage-compliance guard: reject execution directly under /home
+CURRENT_DIR="$(pwd -P)"
+if [[ "$CURRENT_DIR" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Execution directly inside /home is prohibited." >&2
+  echo "Heavy simulation outputs (*.odb, *.sim, *.res) must be written to /scratch/." >&2
+  echo "Please execute from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
+CANDIDATE_DIR="D:/Master thesis/Adaptive remeshing/models/generated/mode_ii/production_state_transfer_batch/M2STATE_FRACFIX_RESTART2R8"
+cd "$PBS_O_WORKDIR"
+
+# Source notification helper
+if [ -f "$CANDIDATE_DIR/job_notifications.sh" ]; then
+    source "$CANDIDATE_DIR/job_notifications.sh"
+    load_notification_config
+    notify_start "$PBS_JOBID" "M2STATE_FRACFIX_RESTART2R8" "mnode" "entry_imfdfkmq" "24:00:00"
+    notification_install_terminal_trap "$PBS_JOBID" "M2STATE_FRACFIX_RESTART2R8"
+fi
+
+# Load modules
+source /etc/profile.d/modules.sh 2>/dev/null || source /etc/profile 2>/dev/null || true
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+echo "[PBS_JOB] Job ID: $PBS_JOBID"
+echo "[PBS_JOB] Host: $(hostname)"
+echo "[PBS_JOB] Start: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+# Run Abaqus Standard solver
+abaqus job=M2STATE_FRACFIX_RESTART2R8 user=f42_mixed_uel.for input=M2STATE_FRACFIX_RESTART2R8.inp interactive double=both cpus=1 memory="14000 mb" standard_memory="14000 mb"
+
+RC=$?
+echo "[PBS_JOB] Solver Exit Code: $RC"
+echo "[PBS_JOB] End: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+exit $RC

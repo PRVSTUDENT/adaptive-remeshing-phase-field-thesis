@@ -1,0 +1,63 @@
+{
+  "package_name": "M2CORR_STAGE_E_DONOR_I08_ISOLATION_VAL",
+  "base_job": "1391319.mmaster02",
+  "base_package": "M2CORR_STAGE_E_DONOR_MINIMAL_COMBINED_VAL",
+  "canonical_job": "1390876.mmaster02",
+  "change_description": "Single-parameter isolation: I_0 modified from 4 to 8 (divergence check threshold). Preserves I_A=13, dt_min=5.0e-12, and all other parameters unchanged.",
+  "controls_diff": {
+    "I_0": [
+      4,
+      8
+    ],
+    "I_R": [
+      8,
+      8
+    ],
+    "I_P": [
+      9,
+      9
+    ],
+    "I_C": [
+      16,
+      16
+    ],
+    "I_L": [
+      10,
+      10
+    ],
+    "I_G": [
+      4,
+      4
+    ],
+    "I_S": [
+      50,
+      50
+    ],
+    "I_A": [
+      13,
+      13
+    ],
+    "dt_min": [
+      "5.0e-12",
+      "5.0e-12"
+    ]
+  },
+  "hashes": {
+    "inp_sha256": "8e250c93fb1be1c25c4048043eec3867ae1759573adb67b13d4a514c832b2eef",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "pbs_sha256": "68fb9bd39d4bae900777607428168db0e5f8f785f4d029f5ae768ea83227e164"
+  },
+  "unified_diff": [
+    "--- 1391319_combined.inp\n",
+    "+++ M2CORR_STAGE_E_DONOR_I08_ISOLATION_VAL.inp\n",
+    "@@ -27078,7 +27078,7 @@\n",
+    " *STATIC\n",
+    " 0.001, 1.0, 5.0e-12, 0.02\n",
+    " *CONTROLS, PARAMETERS=TIME INCREMENTATION\n",
+    "-4, 8, 9, 16, 10, 4, 50, 13\n",
+    "+8, 8, 9, 16, 10, 4, 50, 13\n",
+    " *BOUNDARY, OP=NEW\n",
+    " N_BOTTOM, 1, 2, 0.0\n",
+    " N_RP, 1, 1, 0.050000\n"
+  ]
+}

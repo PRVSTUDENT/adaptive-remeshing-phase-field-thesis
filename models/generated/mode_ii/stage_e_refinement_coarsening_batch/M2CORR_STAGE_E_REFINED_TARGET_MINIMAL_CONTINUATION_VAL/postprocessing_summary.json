@@ -1,0 +1,37 @@
+{
+  "job_id": "1390834.mmaster02",
+  "job_name": "M2CORR_STAGE_E_REFINED_TARGET_MINIMAL_CONTINUATION_VAL",
+  "mesh_type": "Refined Target 33,600 quads / 34,027 nodes (h_min = 0.002000 mm)",
+  "analysis_completed_successfully": false,
+  "termination_reason": "TIME INCREMENT REQUIRED IS LESS THAN THE MINIMUM SPECIFIED (dt_min = 1.0e-9 s)",
+  "total_frames": 29,
+  "terminal_u1_mm": 0.012583927251398563,
+  "terminal_rf1_kN": 0.13212132453918457,
+  "peak_rf1_kN": 0.14167986810207367,
+  "peak_u1_mm": 0.012331250123679638,
+  "peak_frame": 22,
+  "handoff_frame": 17,
+  "handoff_u1_mm": 0.010512890294194221,
+  "handoff_rf1_kN": 0.12605319917201996,
+  "handoff_d_max": 0.3099477291107178,
+  "attempts_6_to_12_exercised": true,
+  "exercised_attempts": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "hard_invariants": {
+    "phase_bounds_0_to_1": true,
+    "d_min_overall": 0.0,
+    "d_max_overall": 1.0,
+    "pointwise_damage_monotonicity": true,
+    "min_delta_d_max": 0.0
+  }
+}

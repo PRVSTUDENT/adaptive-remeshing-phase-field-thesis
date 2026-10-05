@@ -2,6 +2,13 @@
 # Guarded submit wrapper for M2STATE_FRACFIX_RESTART2
 set -euo pipefail
 
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
 EXPECTED_INP_SHA="15deda2fe6aac8c153f5df043ca509ced4d9437e977353f194354e553043f22c"
 EXPECTED_UEL_SHA="0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8"
 EXPECTED_PBS_SHA="50288c53cb47ef3e5cfff7f06deaa4c9dc232434e333800cd091819b8d685ed1"

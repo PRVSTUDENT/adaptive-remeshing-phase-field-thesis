@@ -1,0 +1,28 @@
+{
+  "refined_replacement": {
+    "job_name": "M2CORR_STAGE_E_REFINED_TARGET_MINIMAL_CONTINUATION_VAL",
+    "inp_path": "models/generated/mode_ii/stage_e_refinement_coarsening_batch/M2CORR_STAGE_E_REFINED_TARGET_MINIMAL_CONTINUATION_VAL\\M2CORR_STAGE_E_REFINED_TARGET_MINIMAL_CONTINUATION_VAL.inp",
+    "inp_sha256": "d1731bebabf80560ae6150c3a7288bb186975d36fcb738ae1b42ec86a50f6028",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "pbs_path": "models/generated/mode_ii/stage_e_refinement_coarsening_batch/M2CORR_STAGE_E_REFINED_TARGET_MINIMAL_CONTINUATION_VAL\\submit_job.pbs"
+  },
+  "coarsened_replacement": {
+    "job_name": "M2CORR_STAGE_E_COARSENED_TARGET_MINIMAL_CONTINUATION_VAL",
+    "inp_path": "models/generated/mode_ii/stage_e_refinement_coarsening_batch/M2CORR_STAGE_E_COARSENED_TARGET_MINIMAL_CONTINUATION_VAL\\M2CORR_STAGE_E_COARSENED_TARGET_MINIMAL_CONTINUATION_VAL.inp",
+    "inp_sha256": "08e7df2b573d0d1f165f507df75260e73449111548c024dee77ca8427078df6a",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "pbs_path": "models/generated/mode_ii/stage_e_refinement_coarsening_batch/M2CORR_STAGE_E_COARSENED_TARGET_MINIMAL_CONTINUATION_VAL\\submit_job.pbs"
+  },
+  "governing_controls": {
+    "I_0": 4,
+    "I_R": 8,
+    "I_P": 9,
+    "I_C": 16,
+    "I_L": 10,
+    "I_G": 4,
+    "I_S": 50,
+    "I_A": 12,
+    "dt_min": 1e-09,
+    "line_2_overrides": "omitted (defaults preserved)"
+  }
+}

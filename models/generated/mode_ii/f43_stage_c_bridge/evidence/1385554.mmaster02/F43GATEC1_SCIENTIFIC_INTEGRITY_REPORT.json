@@ -1,0 +1,57 @@
+{
+  "task_id": "F43GATEC1-R3",
+  "job_id": "1385554.mmaster02",
+  "PRE3_EVOL_sum": 1.0000000004729372,
+  "source_parser_area_original": 1.0182286981,
+  "source_corrected_area": 1.0,
+  "refined_corrected_area": 1.0000000000000115,
+  "corrected_area_relative_difference": 1.1546319456101628e-14,
+  "reported_negative_area_count": 2,
+  "true_invalid_element_count": 0,
+  "negative_element_classification": "evaluator_assembly_node_rebinding_parser_artifact",
+  "h_metric_original": "sqrt(area)_with_assembly_node_distortion",
+  "refined_sqrt_area_min": 0.0007390992574099921,
+  "refined_sqrt_area_median": 0.0029259981998951707,
+  "refined_sqrt_area_max": 0.005658777330890747,
+  "refined_min_edge_min": 0.0009073075590779608,
+  "refined_min_edge_median": 0.0026350620752362435,
+  "Abaqus_minElementSize_semantics": "Constrains sizing function scale during remeshing; not an absolute generated-edge limit",
+  "Abaqus_maxElementSize_semantics": "Constrains sizing function scale during remeshing; not an absolute generated-edge limit",
+  "abaqus_2023_errorTarget_units": "Percentage target used by Abaqus sizing algorithm (e.g., 1.0 = 1%, 5.0 = 5%, 0.05 = 0.05%)",
+  "gui_5_percent_python_value": 5.0,
+  "current_errorTarget": 0.05,
+  "errorTarget_interpretation_corrected": true,
+  "MISESERI_raw_threshold_comparison_retired": true,
+  "current_successful_rule": {
+    "name": "MISESERI_Adaptive_Rule",
+    "stepName": "Step-1",
+    "variables": [
+      "MISESERI"
+    ],
+    "region": "MODEL",
+    "sizingMethod": "UNIFORM_ERROR",
+    "errorTarget": 0.05,
+    "specifyMinSize": true,
+    "minElementSize": 0.0075,
+    "specifyMaxSize": true,
+    "maxElementSize": 0.03,
+    "coarseningFactor": "DISALLOW_COARSENING",
+    "refinementFactor": "DEFAULT_LIMIT"
+  },
+  "Pandey_listing_rule": {
+    "sizingMethod": "UNIFORM_ERROR",
+    "errorTarget": 1.0,
+    "coarseningFactor": "NOT_ALLOWED",
+    "refinementFactor": 10,
+    "variables": [
+      "MISESERI"
+    ]
+  },
+  "PRE3_MISESERI_vs_refinement_Spearman": 0.013934,
+  "corrected_refinement_classification": "near_global_refinement",
+  "Gate_C1": "HOLD",
+  "root_cause": "overly_strict_error_target_and_uniform_error_sizing",
+  "recommended_next_action": "prepare_controlled_remesh_sensitivity_batch",
+  "qsub_called": false,
+  "HPC_submissions": 0
+}

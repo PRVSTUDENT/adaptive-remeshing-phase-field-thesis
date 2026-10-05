@@ -1,0 +1,18 @@
+{
+  "cycle_id": "REAL_PILOT_CYCLE_016",
+  "donor_job_id": "1397988.mmaster02",
+  "handoff_u1_mm": 0.04801289111375808,
+  "target_u1_mm": 0.05051289111375808,
+  "delta_u1_mm": 0.0024999999999999953,
+  "max_rf_jump_percent": 2.0,
+  "allow_damage_healing": false,
+  "max_allowed_damage": 1.0,
+  "min_allowed_damage": 0.0,
+  "min_allowed_history": 0.0,
+  "required_steps": [
+    "STATE_INSTALL",
+    "MECH_EQUILIBRATION",
+    "PHASE_RELEASE",
+    "CONTINUATION"
+  ]
+}

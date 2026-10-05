@@ -1,6 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
 # Guarded submission wrapper for F43REM1-R1 Current Predecessor
 if ! command -v qsub >/dev/null 2>&1; then
     echo "ERROR: qsub command not found. Must be executed on TU Freiberg HPC cluster environment." >&2
@@ -16,7 +23,7 @@ SOURCE_ODB="${PBS_O_WORKDIR:-.}/evidence/1384674.mmaster02/F43PRE1.odb"
 EXPECTED_SHA256="3a201a6d405b92f4588e3d7e68177797706fd80ca9fa541e36ed0b10fdfb0534"
 
 if [ ! -f "${SOURCE_ODB}" ]; then
-    SOURCE_ODB="/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/evidence/1384674.mmaster02/F43PRE1.odb"
+    SOURCE_ODB="/scratch/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/f43_stage_c_bridge/evidence/1384674.mmaster02/F43PRE1.odb"
 fi
 
 if [ ! -f "${SOURCE_ODB}" ]; then

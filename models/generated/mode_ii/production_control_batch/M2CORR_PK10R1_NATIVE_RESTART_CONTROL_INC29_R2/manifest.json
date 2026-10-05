@@ -1,0 +1,29 @@
+{
+  "package_name": "M2CORR_PK10R1_NATIVE_RESTART_CONTROL_INC29_R2",
+  "job_name": "M2CORR_PK10R1_NATIVE_RESTART_CONTROL_INC29_R2",
+  "scientific_purpose": "Isolate whether exact Abaqus-native same-mesh restart from Increment 29 reproduces the uninterrupted continuous trajectory",
+  "dependency": "1389707.mmaster02",
+  "artifacts": {
+    "inp": "M2CORR_PK10R1_NATIVE_RESTART_CONTROL_INC29_R2.inp",
+    "inp_sha256": "c31bc43c14617f76c3ae1b6acd97545b1e4ff0ac13ed3e28932fc35e530f58d5",
+    "uel": "f42_mixed_uel_transactional.for",
+    "uel_sha256": "e3b373253069f9b36085ee426568ce002a7f195a4d5356c6c6a5549c97767138",
+    "pbs": "run_native_restart_control.pbs",
+    "pbs_sha256": "b35e7573210e61476a2693d58b330609715694f943bcdddf2f14fb8207ceee42"
+  },
+  "resources": {
+    "cpus": 1,
+    "memory": "16GB",
+    "walltime": "24:00:00",
+    "queue": "entry_imfdfkmq"
+  },
+  "acceptance_criteria": {
+    "handoff_RF": "0.305426 kN (+/- 0.01%)",
+    "continuation_L2_error": "< 1.0%",
+    "peak_force_error": "< 1.0%",
+    "peak_displacement_error": "< 1.0%",
+    "damage_healing": "false",
+    "phase_irreversibility": "PASS",
+    "solver_exit": 0
+  }
+}

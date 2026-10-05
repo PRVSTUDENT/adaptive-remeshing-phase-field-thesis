@@ -1,0 +1,129 @@
+{
+  "job_id": "1391614.mmaster02",
+  "package_name": "M2CORR_STAGE_E_DONOR_I08_ISOLATION_VAL",
+  "classification": "I0_8_DONOR_ALTERS_EQUILIBRIUM_PATH",
+  "hashes": {
+    "cand_inp_sha256": "8e250c93fb1be1c25c4048043eec3867ae1759573adb67b13d4a514c832b2eef",
+    "comb_inp_sha256": "29e9eccf5cabde73d9b9d573d84dad3e678ad75a58a699958b0618c92296d001",
+    "base_inp_sha256": "105d2cc04de25f68c0a1fbeaab8b66d355881993cf6292e8201ad210137d3db8",
+    "cand_uel_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "comb_uel_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "base_uel_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab"
+  },
+  "inp_analysis": {
+    "diff_cand_vs_comb": [
+      "--- 1391319_comb.inp",
+      "+++ 1391614_cand.inp",
+      "@@ -27078,7 +27078,7 @@",
+      " *STATIC",
+      " 0.001, 1.0, 5.0e-12, 0.02",
+      " *CONTROLS, PARAMETERS=TIME INCREMENTATION",
+      "-4, 8, 9, 16, 10, 4, 50, 13",
+      "+8, 8, 9, 16, 10, 4, 50, 13",
+      " *BOUNDARY, OP=NEW",
+      " N_BOTTOM, 1, 2, 0.0",
+      " N_RP, 1, 1, 0.050000"
+    ],
+    "diff_cand_vs_base": [
+      "--- 1390876_base.inp",
+      "+++ 1391614_cand.inp",
+      "@@ -27076,9 +27076,9 @@",
+      " ** ==========================================================",
+      " *STEP, NAME=ShearStep, NLGEOM=NO, INC=10000",
+      " *STATIC",
+      "-0.001, 1.0, 1.0e-11, 0.02",
+      "+0.001, 1.0, 5.0e-12, 0.02",
+      " *CONTROLS, PARAMETERS=TIME INCREMENTATION",
+      "-4, 8, 9, 16, 10, 4, 50, 12",
+      "+8, 8, 9, 16, 10, 4, 50, 13",
+      " *BOUNDARY, OP=NEW",
+      " N_BOTTOM, 1, 2, 0.0",
+      " N_RP, 1, 1, 0.050000"
+    ],
+    "has_linesearch": false
+  },
+  "accepted_trajectory": {
+    "num_frames": 135,
+    "num_increments": 134,
+    "handoff": {
+      "frame": 17,
+      "u1_mm": 0.010512890294194221,
+      "rf1_kN": 0.12591584026813507,
+      "d_max": 0.3043181896209717
+    },
+    "peak": {
+      "frame": 20,
+      "u1_mm": 0.013512890785932541,
+      "rf1_kN": 0.1493823528289795
+    },
+    "terminal": {
+      "frame": 134,
+      "u1_mm": 0.05000000074505806,
+      "rf1_kN": 0.008938726037740707,
+      "d_max": 1.000000238418579
+    }
+  },
+  "parity_vs_1391319_comb": {
+    "max_delta_rf1_kN": 0.0482054278254509,
+    "max_delta_u1_mm": 0.029222771525382996,
+    "max_delta_max_d": 0.235171377658844,
+    "max_nodal_d_diff_whole_mesh": 0.9882494220510125,
+    "first_differing_state": 20,
+    "max_energy_diff": 0.0
+  },
+  "parity_vs_1390876_base": {
+    "max_delta_rf1_kN": 0.0482054278254509,
+    "max_delta_u1_mm": 0.029222771525382996,
+    "max_delta_max_d": 0.235171377658844,
+    "max_nodal_d_diff_whole_mesh": 0.9882494220510125,
+    "first_differing_state": 20
+  },
+  "phase_field_validation": {
+    "global_min_d": 0.0,
+    "global_max_d": 1.000000238418579,
+    "min_delta_d_temporal": -5.960464477539063e-08,
+    "healing_violations_count": 0,
+    "bounds_satisfied": true,
+    "irreversibility_satisfied": true
+  },
+  "solver_trajectory": {
+    "candidate": {
+      "total_newton_iters_msg": 0,
+      "total_newton_iters_sta": 0,
+      "accepted_increments": 0,
+      "total_attempts": 0,
+      "cutback_count": 0,
+      "min_dt": 1000000000.0,
+      "max_iter_overall": 0,
+      "iters_above_4_count": 0,
+      "iters_above_4_details": []
+    },
+    "combined_1391319": {
+      "total_newton_iters_msg": 0,
+      "total_newton_iters_sta": 0,
+      "accepted_increments": 0,
+      "total_attempts": 0,
+      "cutback_count": 0,
+      "min_dt": 1000000000.0,
+      "max_iter_overall": 0,
+      "iters_above_4_count": 0
+    },
+    "base_1390876": {
+      "total_newton_iters_msg": 0,
+      "total_newton_iters_sta": 0,
+      "accepted_increments": 0,
+      "total_attempts": 0,
+      "cutback_count": 0,
+      "min_dt": 1000000000.0,
+      "max_iter_overall": 0,
+      "iters_above_4_count": 0
+    }
+  },
+  "i08_exercised_analysis": {
+    "i08_configured": true,
+    "i08_exercised": false,
+    "max_iteration_reached": 0,
+    "attempts_exceeding_iter_4": [],
+    "explanation": "Whether solver attempts reached iteration > 4 without triggering early divergence cutback."
+  }
+}

@@ -1,0 +1,74 @@
+#!/bin/bash
+#PBS -N M2STATE_INGEST_SMOKE1R3
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:15:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -o M2STATE_INGEST_SMOKE1R3.o$PBS_JOBID
+#PBS -e M2STATE_INGEST_SMOKE1R3.e$PBS_JOBID
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+ || exit 1
+
+echo "=================================================================="
+echo "Starting job: M2STATE_INGEST_SMOKE1R3 on $(hostname)"
+echo "Date: $(date)"
+echo "Directory: $(pwd)"
+echo "=================================================================="
+
+echo "=== ENVIRONMENT PREFLIGHT ==="
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+echo "Loaded Modules:"
+module list 2>&1
+echo ""
+
+ABAQUS_BIN=$(command -v abaqus)
+IFORT_BIN=$(command -v ifort)
+
+if [ -z "$ABAQUS_BIN" ]; then
+    echo "ERROR: abaqus executable not found in PATH after module load!"
+    exit 1
+fi
+
+if [ -z "$IFORT_BIN" ]; then
+    echo "ERROR: ifort compiler executable not found in PATH after module load!"
+    exit 1
+fi
+
+echo "Abaqus Executable: $ABAQUS_BIN"
+abaqus information=release 2>&1
+echo "Fortran Compiler Executable: $IFORT_BIN"
+ifort --version 2>&1 | head -n 2
+
+echo "=== HASH PREFLIGHT ==="
+sha256sum M2STATE_INGEST_SMOKE1R3.inp f42_mixed_uel.for STATE_TRANSFER_ARTIFACT.json TRANSFER_MANIFEST.json ACCEPTANCE_CONTRACT.json verify_smoke_trace.py PACKAGE_MANIFEST.json
+
+echo "=== ABAQUS EXECUTION ==="
+abaqus job=M2STATE_INGEST_SMOKE1R3 input=M2STATE_INGEST_SMOKE1R3.inp user=f42_mixed_uel.for interactive
+ABAQUS_RC=$?
+
+echo "=== TRACE CHECKER EVALUATION ==="
+python3 verify_smoke_trace.py M2STATE_INGEST_SMOKE1R3.log STATE_TRANSFER_ARTIFACT.json
+CHECKER_RC=$?
+
+echo "Abaqus exit code: $ABAQUS_RC"
+echo "Trace checker exit code: $CHECKER_RC"
+
+if [ $ABAQUS_RC -ne 0 ] || [ $CHECKER_RC -ne 0 ]; then
+    echo "ERROR: Abaqus or Trace Checker failed!"
+    exit 1
+fi
+
+echo "=== M2STATE_INGEST_SMOKE1R3 COMPLETED SUCCESSFULLY ==="
+exit 0

@@ -1,0 +1,22 @@
+{
+  "refined_mesh": {
+    "name": "M2CORR_STAGE_E_REFINED_TARGET_CONTINUOUS_VAL",
+    "nodes": 34027,
+    "elements": 33600,
+    "h_min_mm": 0.001999999999999988,
+    "h_max_mm": 0.020000000000000018,
+    "h_min_over_l0": 0.13333333333333253,
+    "aspect_ratio_max": 10.00000000000007,
+    "num_split_nodes": 56
+  },
+  "coarsened_mesh": {
+    "name": "M2CORR_STAGE_E_COARSENED_TARGET_CONTINUOUS_VAL",
+    "nodes": 8416,
+    "elements": 8200,
+    "h_min_mm": 0.0049999999999999906,
+    "h_max_mm": 0.030000000000000027,
+    "h_min_over_l0": 0.3333333333333327,
+    "aspect_ratio_max": 6.000000000000017,
+    "num_split_nodes": 33
+  }
+}

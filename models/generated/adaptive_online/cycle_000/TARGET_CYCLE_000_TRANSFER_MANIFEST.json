@@ -1,0 +1,98 @@
+{
+  "target_mesh_name": "TARGET_CYCLE_000",
+  "source_provenance": {
+    "donor_cycle": "cycle_000",
+    "donor_u1_mm": 0.0075,
+    "donor_dmax": 0.85
+  },
+  "mapping_summary": {
+    "primary_fields": {
+      "target_physical_nodes": 4999,
+      "target_auxiliary_nodes": 1,
+      "physical_nodes_mapped": 4999,
+      "auxiliary_nodes_FE_interpolated": 0,
+      "unmapped_physical_nodes": 0,
+      "fallback_physical_nodes": 0,
+      "boundary_physical_nodes": 1461,
+      "max_mapping_residual": 1.5700924586837752e-16,
+      "mean_mapping_residual": 1.867498746244936e-17,
+      "field_statistics": {
+        "U1_min": 0.0,
+        "U1_max": 0.007500000000000001,
+        "U1_mean": 0.003778625724507701,
+        "U2_min": 0.0,
+        "U2_max": 0.0,
+        "U2_mean": 0.0,
+        "U3_min": 0.0,
+        "U3_max": 0.85,
+        "U3_mean": 0.008705187920056121
+      },
+      "all_physical_nodes_mapped": true,
+      "same_mesh_identity_transfer": false
+    },
+    "history_fields": {
+      "total_target_elements": 4828,
+      "total_gauss_points": 19312,
+      "unmapped_gauss_points": 0,
+      "history_statistics": {
+        "H_min": 3.032982589013482e-248,
+        "H_max": 0.00047297973445338277,
+        "H_mean": 1.1473402403752235e-05
+      },
+      "phase_damage_statistics": {
+        "d_avg_min": 0.0,
+        "d_avg_max": 0.758589690901244,
+        "d_avg_mean": 0.008953691070973116
+      },
+      "irreversibility_preserved": true,
+      "same_mesh_identity_transfer": false
+    }
+  },
+  "generated_artifacts": {
+    "primary_state_csv": {
+      "filename": "TARGET_CYCLE_000_PRIMARY_STATE.csv",
+      "sha256": "00f84244d25098dc2794cd50ac509e309b5689a4a68d8d7641975c41bc1136a5"
+    },
+    "state_install_boundary_inp": {
+      "filename": "TARGET_CYCLE_000_STATE_INSTALL_BOUNDARY.inp",
+      "sha256": "7e36b615f20cd4052077af3202f08cb7eedaa683fade93b57c80dbe00f55fdb1"
+    },
+    "u3_only_boundary_inp": {
+      "filename": "TARGET_CYCLE_000_U3_ONLY_BOUNDARY.inp",
+      "sha256": "ce8f2d7952737d42934654ef8f5b3819890e77640c481f4b120ca1ea577fd4d8"
+    },
+    "committed_binary_state": {
+      "filename": "TARGET_CYCLE_000_SOURCE_STATE.bin",
+      "sha256": "fca897f986ea59c7b9645713f4bfc71aa01eead896c81ef0cb7f6dc842dd9535"
+    },
+    "standard_committed_binary": {
+      "filename": "STAGE_D_COMMITTED_STATE.bin",
+      "sha256": "fca897f986ea59c7b9645713f4bfc71aa01eead896c81ef0cb7f6dc842dd9535"
+    }
+  },
+  "transfer_algorithm": {
+    "spatial_search": "SpatialGridIndex with Newton-Raphson inverse isoparametric mapping",
+    "primary_fields_interpolation": "C0 continuous bilinear quad shape functions (physical nodes only)",
+    "rp_boundary_separation": "RP node prescribed U1 only; DOF 2 and DOF 3 excluded",
+    "history_fields_interpolation": "Gauss-point normalized isoparametric interpolation",
+    "inside_tolerance": 1e-06
+  },
+  "manifest_sha256": "a3c4e1eb547dccbbbcc86e24666c99fc8797e6ae95d9a01715820e721bba6147",
+  "transfer_validation": {
+    "passed": true,
+    "target_min_d": 0.0,
+    "target_max_d": 0.85,
+    "donor_max_d": 0.85,
+    "target_min_H": 3.032982589013482e-248,
+    "target_max_H": 0.00047297973445338277,
+    "donor_max_H": 0.0004729797344533827,
+    "unmapped_physical_nodes": 0,
+    "unmapped_nodes": 0,
+    "unmapped_target_gps": 0,
+    "unmapped_gps": 0,
+    "max_mapping_residual": 1.5700924586837752e-16,
+    "same_mesh_identity_transfer": false,
+    "violation_count": 0,
+    "violations": []
+  }
+}

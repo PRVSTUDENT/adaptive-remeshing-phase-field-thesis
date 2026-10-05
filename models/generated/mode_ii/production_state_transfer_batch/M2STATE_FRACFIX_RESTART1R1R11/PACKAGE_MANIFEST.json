@@ -1,0 +1,52 @@
+{
+  "candidate": "M2STATE_FRACFIX_RESTART1R1R11",
+  "protocol_version": 1,
+  "task_id": "F95STATE-M2-INSTRUMENTED-RESTART1-R1R11-PREP-AND-QUALIFICATION1",
+  "files": [
+    {
+      "filename": "M2STATE_FRACFIX_RESTART1R1R11.inp",
+      "sha256": "721e7c66f27a0a7caffd79481b0df1b4d6937fed10886cd99a00228274e70c28",
+      "size_bytes": 3419325
+    },
+    {
+      "filename": "M2STATE_FRACFIX_RESTART1R1R11.pbs",
+      "sha256": "77022f041bbb41b7b05ce8521fab9505b3d6b12340cff62208db5ac99ffda5f6",
+      "size_bytes": 2080
+    },
+    {
+      "filename": "RESTART_ACCEPTANCE_CONTRACT.json",
+      "sha256": "fd6c62fa5e91482d32234f2dc1f1af0155b28a0128789a1452ce03191f48f023",
+      "size_bytes": 218
+    },
+    {
+      "filename": "STATE_TRANSFER_ARTIFACT.json",
+      "sha256": "001a14ec7b8696f1300ac6c495e122c47a6aee012dd402e850c79eaf36faab15",
+      "size_bytes": 587
+    },
+    {
+      "filename": "TRANSFER_MANIFEST.json",
+      "sha256": "4740ceceb6198900d1dd2ada325e01480e8a5c034d06da0fe20f18226d1cd384",
+      "size_bytes": 298
+    },
+    {
+      "filename": "f42_mixed_uel.for",
+      "sha256": "a2b6622cbe9f98dae7769a85dfa16cbeebd8b3b4775e88a79164bcb11edc9d11",
+      "size_bytes": 17982
+    },
+    {
+      "filename": "job_notifications.sh",
+      "sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+      "size_bytes": 10663
+    },
+    {
+      "filename": "submit_m2state_fracfix_restart1r1r11.sh",
+      "sha256": "2faba22571388cc309bb8409c644de1f053303127b1265b66a47a9c1c6233174",
+      "size_bytes": 1093
+    },
+    {
+      "filename": "validate_package_manifest.py",
+      "sha256": "9bf8ec8a670d0f9f3c14345360eef9509fc253f040ba969bc3f211cf7858c394",
+      "size_bytes": 1091
+    }
+  ]
+}

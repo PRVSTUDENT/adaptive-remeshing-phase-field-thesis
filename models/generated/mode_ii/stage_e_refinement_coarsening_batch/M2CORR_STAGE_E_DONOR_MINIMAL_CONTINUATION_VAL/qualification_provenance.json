@@ -1,0 +1,32 @@
+{
+  "manifest": {
+    "for_source_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "hist_for_source_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "for_identical": true,
+    "inp_sha256": "88c4bc247dfe01c71d08109bf82d9cbeca36317f112049620a94b397762ed7af",
+    "hist_inp_sha256": "d4412b3abece283d514e2612d6b17e76dc92a8d4bcaa10694315dbba49291b2c",
+    "differences": [
+      "Heading comment updated to M2CORR_STAGE_E_DONOR_MINIMAL_CONTINUATION_VAL",
+      "Inserted *CONTROLS, PARAMETERS=TIME INCREMENTATION with Line 1: 4, 8, 9, 16, 10, 4, 50, 12 (I_A=12 only changed)",
+      "Preserved *STATIC dt_min=1.0e-9 and default Line 2 parameters"
+    ]
+  },
+  "compilation": {
+    "returncode": 0,
+    "success": false,
+    "output_snippet": "Abaqus JOB test_uel\r\nAbaqus Error: User postprocessing program should be defined as \"SUBROUTINE ABQMAIN\"\r\nThe Abaqus Make execution procedure exited with errors\r\n\n"
+  },
+  "datacheck": {
+    "returncode": 0,
+    "dat_check_passed": false,
+    "output_snippet": "Analysis initiated from SIMULIA established products\r\nAbaqus JOB M2CORR_STAGE_E_DONOR_MINIMAL_CONTINUATION_VAL\r\nAbaqus 2024\r\nBegin Compiling Abaqus/Standard User Subroutines\r\n8/18/2026 12:11:04 PM\r\nAbaqus Error: Problem during compilation - f44_mixed_uel_restart_stateinit.for\r\nAbaqus/Analysis exited with errors\r\n\nAbaqus License Manager checked out the following licenses:\r\nAbaqus/Standard checked out 5 tokens from Flexnet server localhost.\r\n<9994 out of 9999 licenses remain available>.\r\n'ifx' is "
+  },
+  "launcher_validation": {
+    "pbs_script_verified": true
+  },
+  "canonical_rp_check": {
+    "rp_99999_present": true,
+    "n_bottom_present": true
+  },
+  "qualification_gate_passed": false
+}

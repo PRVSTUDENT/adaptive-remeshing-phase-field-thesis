@@ -1,7 +1,7 @@
 {
   "package_name": "M2STATE_INGEST_SMOKE1",
   "purpose": "Minimal solver-consumed state ingestion qualification fixture",
-  "created_at": "2026-08-11T13:34:37Z",
+  "created_at": "2026-08-11T14:01:58Z",
   "cpus": 1,
   "memory": "8gb",
   "walltime": "00:15:00",
@@ -9,12 +9,13 @@
   "max_submissions": 1,
   "automatic_retry": false,
   "file_hashes": {
-    "ACCEPTANCE_CONTRACT.json": "74a91b97493b42a98cdf3439560fa02955e19bc69e92b1c4d51c24bfe1cc5371",
-    "f42_mixed_uel.for": "914e65557d57c913c871b78da518bece78667ed88ea59358d498fc61e9e004f8",
-    "M2STATE_INGEST_SMOKE1.inp": "2c7acffb588629a081ca25e0b458baf61f37bddd6e65b22a9e48b92ded053837",
+    "ACCEPTANCE_CONTRACT.json": "93b121a56ec63704a43e55db8ac9849de59ae7bd3724745d038382494856c43f",
+    "f42_mixed_uel.for": "96a6b0addf92719716d3f4dae6f1762ea1aec5e32cc526296380546c49dc33e5",
+    "M2STATE_INGEST_SMOKE1.inp": "b11e236629c18ed0b7e7551866213e814de461c2e616dd472d7ad731982cbf9e",
     "M2STATE_INGEST_SMOKE1.pbs": "15f5f3980a39fbba34daa3bb769fd6a4788cd95be7562d21ed21f94b941a2327",
     "STATE_TRANSFER_ARTIFACT.json": "567b71515afb278849fbcecc263f1df8b871e4ea18d6c5fae669694a7a199ba0",
-    "submit_m2state_ingest_smoke1.sh": "93a8624cf8a657c130a29929f98b0e18e3af80e3cc0a205154f0d4140abc67e0",
-    "TRANSFER_MANIFEST.json": "aacba15dfdf1096e334913376edb4766f955a3c82806e1f517dcfd768b1ba40f"
+    "submit_m2state_ingest_smoke1.sh": "111e27a56cd5684923c913daed7597a7367af3fd5b8cd859a791041ed3ba0aab",
+    "TRANSFER_MANIFEST.json": "fac7c0ebbbd9bafe4ca8b5940b11f647c60ddf02786918a11f3db55d15b5d173",
+    "verify_smoke_trace.py": "6f8d5228f69f8b781bef12fd320a7df72b5f3d6c689893ba906a66f0bafcadfe"
   }
 }

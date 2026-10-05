@@ -1,0 +1,34 @@
+#PBS -N M2STATE_FRACFIX_RESTART2R2
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+source $HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh 2>/dev/null || true
+notification_install_terminal_trap 2>/dev/null || true
+notify_start 2>/dev/null || true
+
+source /etc/profile 2>/dev/null
+module load abaqus/2023 2>/dev/null
+
+abaqus job=M2STATE_FRACFIX_RESTART2R2 user=f42_mixed_uel.for interactive
+RC=$?
+
+python3 verify_restart2r2_science.py
+VERIFY_RC=$?
+
+if [ $RC -eq 0 ] && [ $VERIFY_RC -eq 0 ]; then
+    exit 0
+else
+    exit 1
+fi

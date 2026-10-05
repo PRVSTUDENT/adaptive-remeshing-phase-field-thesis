@@ -1,0 +1,34 @@
+#!/bin/bash
+#PBS -N PK_M1_2P_VIS
+#PBS -l nodes=1:ppn=1
+#PBS -l pmem=32gb
+#PBS -l walltime=24:00:00
+#PBS -q normal_imfdfkmq
+#PBS -o PK_M1_2P_VIS.out
+#PBS -e PK_M1_2P_VIS.err
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+module purge
+module load abaqus/2023 intel/2024.2.0
+
+echo "=== PBS Production Solve Started: $(date) ==="
+echo "Host: $(hostname)"
+echo "Directory: $(pwd)"
+echo "Subroutine SHA-256: $(sha256sum f42_mixed_uel.for | awk '{print $1}')"
+echo "Deck SHA-256: $(sha256sum PK_MODE1_PROPOSED_PFM_VIS.inp | awk '{print $1}')"
+
+abaqus job=PK_MODE1_PROPOSED_PFM_VIS user=f42_mixed_uel.for input=PK_MODE1_PROPOSED_PFM_VIS.inp interactive
+
+EXIT_CODE=$?
+echo "Solver Exit Code: $EXIT_CODE"
+echo "=== PBS Production Solve Finished: $(date) ==="
+exit $EXIT_CODE

@@ -1,0 +1,17 @@
+{
+  "cycle_id": "REAL_PILOT_CYCLE_006",
+  "target_job_name": "M2ADAPT_REAL_PILOT_CYCLE_006_RESTART",
+  "source_job_id": "1396594.mmaster02",
+  "datacheck_only": false,
+  "solver_completion_required": true,
+  "target_u1_mm": 0.025512891113758086,
+  "handoff_u1_mm": 0.023012891113758087,
+  "delta_u1_mm": 0.0025,
+  "max_rf_jump_pct": 2.0,
+  "damage_bounds": [
+    0.0,
+    1.0
+  ],
+  "history_non_negative": true,
+  "step3_controls_expected": "10, 8, 16, 16, 10, 4, 50, 13"
+}

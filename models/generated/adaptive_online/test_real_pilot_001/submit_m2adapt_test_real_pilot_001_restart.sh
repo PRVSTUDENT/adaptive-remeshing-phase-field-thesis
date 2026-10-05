@@ -1,0 +1,41 @@
+#!/bin/bash
+# Guarded submit wrapper for M2ADAPT_TEST_REAL_PILOT_001_RESTART
+set -euo pipefail
+
+# Storage-compliance guard: reject launching from /home/
+if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
+  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
+EXPECTED_INP_SHA="97acfc37e9b9615a3a58c7d3e54ad1c070419dad7921ac9f63e83fa33bbeaf33"
+EXPECTED_UEL_SHA="62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab"
+EXPECTED_PBS_SHA="e59ce8d0d3bbbf0d933dc0aae20ac9c0ea7026f65db8ba9a2a80b8499a85931e"
+
+ACTUAL_INP_SHA=$(sha256sum M2ADAPT_TEST_REAL_PILOT_001_RESTART.inp | awk '{print $1}')
+ACTUAL_UEL_SHA=$(sha256sum f44_mixed_uel_restart_stateinit.for | awk '{print $1}')
+ACTUAL_PBS_SHA=$(sha256sum M2ADAPT_TEST_REAL_PILOT_001_RESTART.pbs | awk '{print $1}')
+
+if [ "$ACTUAL_INP_SHA" != "$EXPECTED_INP_SHA" ]; then echo "ERROR: INP SHA mismatch!"; exit 1; fi
+if [ "$ACTUAL_UEL_SHA" != "$EXPECTED_UEL_SHA" ]; then echo "ERROR: UEL SHA mismatch!"; exit 1; fi
+if [ "$ACTUAL_PBS_SHA" != "$EXPECTED_PBS_SHA" ]; then echo "ERROR: PBS SHA mismatch!"; exit 1; fi
+
+echo "Preflight check PASS. Submitting M2ADAPT_TEST_REAL_PILOT_001_RESTART to PBS..."
+JOB_ID=$(qsub M2ADAPT_TEST_REAL_PILOT_001_RESTART.pbs)
+echo "Submitted Job ID: $JOB_ID"
+NOTIF_SCRIPT=""
+for cand in \
+  "scripts/hpc/notifications/job_notifications.sh" \
+  "../../../../scripts/hpc/notifications/job_notifications.sh" \
+  "/scratch/pr21vyci/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" \
+  "${HOME}/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"; do
+  if [ -f "$cand" ]; then
+    NOTIF_SCRIPT="$cand"
+    break
+  fi
+done
+if [ -n "$NOTIF_SCRIPT" ]; then
+  source "$NOTIF_SCRIPT"
+  notify_submitted "$JOB_ID" "M2ADAPT_TEST_REAL_PILOT_001_RESTART" "Submitted to queue entry_imfdfkmq" || true
+fi

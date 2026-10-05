@@ -7,7 +7,15 @@
 #PBS -m abe
 
 set -u
-cd "${PBS_O_WORKDIR}" || exit 21
+cd "${PBS_O_WORKDIR}"
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+ || exit 21
 export F7_SOURCE_ODB=/scratch/pr21vyci/adaptive-remeshing/runs/stage_f4/F4R1_20260730_065138_86ec6c79/miseseri_corrected/M2MISER1.odb
 export F7_EXPECTED_ODB_SHA256=bfcdbec08669774a9f80939d67c9c86ffe7df707e760450b08b1f6073fc588ac
 export F7_EXPECTED_DECK_SHA256=a927b8317ff9e20bfa84dd669a2577b095e69d1bf1c343b81b158a83fd075ea2

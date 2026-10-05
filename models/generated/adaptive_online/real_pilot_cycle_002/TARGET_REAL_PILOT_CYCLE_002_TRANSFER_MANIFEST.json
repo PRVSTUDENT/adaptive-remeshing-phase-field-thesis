@@ -1,0 +1,72 @@
+{
+  "target_mesh_name": "TARGET_REAL_PILOT_CYCLE_002",
+  "source_provenance": {
+    "job_id": "1396527.mmaster02",
+    "donor_cycle": "REAL_PILOT_CYCLE_001",
+    "actual_u1_mm": 0.013012890703976154,
+    "rf1_kN": 0.09306375682353973,
+    "d_max": 0.2995086350969,
+    "num_physical_nodes": 5287,
+    "num_physical_elements": 5112,
+    "synthetic": false,
+    "real_primary_evidence_donor": true
+  },
+  "mapping_summary": {
+    "primary_fields": {
+      "unmapped_physical_nodes": 0,
+      "max_mapping_residual": 0.0,
+      "same_mesh_identity_transfer": true
+    },
+    "history_fields": {
+      "unmapped_gps": 0,
+      "same_mesh_identity_transfer": true
+    }
+  },
+  "generated_artifacts": {
+    "primary_state_csv": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_002_PRIMARY_STATE.csv",
+      "sha256": "b4b55cc35f3c439a62897310088838c28bcdf54f8c6190028af53771fe3fb79c"
+    },
+    "state_install_boundary_inp": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_002_STATE_INSTALL_BOUNDARY.inp",
+      "sha256": "1406d4fa4ae1dc697488e1ce4f30190e5cca41b0edb92a32bd05c37369a22a2d"
+    },
+    "u3_only_boundary_inp": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_002_U3_ONLY_BOUNDARY.inp",
+      "sha256": "0706d2a48b00e111ce91ed03c4f19b8d35288cdbc8de6d9e09e5988925f88153"
+    },
+    "committed_binary_state": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_002_SOURCE_STATE.bin",
+      "sha256": "c6d955f3b6edfce02840dc545bf0cd2796e70ea24c45cbb76b5226817e38c212"
+    },
+    "standard_committed_binary": {
+      "filename": "STAGE_D_COMMITTED_STATE.bin",
+      "sha256": "c6d955f3b6edfce02840dc545bf0cd2796e70ea24c45cbb76b5226817e38c212"
+    }
+  },
+  "transfer_algorithm": {
+    "spatial_search": "SpatialGridIndex with Newton-Raphson inverse isoparametric mapping",
+    "primary_fields_interpolation": "C0 continuous bilinear quad shape functions (physical nodes only)",
+    "rp_boundary_separation": "RP node prescribed U1 only; DOF 2 and DOF 3 excluded",
+    "history_fields_interpolation": "Gauss-point normalized isoparametric interpolation",
+    "inside_tolerance": 1e-06
+  },
+  "manifest_sha256": "7f4770b4c04bd029f183c4b6005a00d886a0b3df180ab244781f0ed4f6acbb54",
+  "transfer_validation": {
+    "passed": true,
+    "target_min_d": 0.0,
+    "target_max_d": 0.2995086350969,
+    "donor_max_d": 0.2995086350969,
+    "target_min_H": 4.856230657218401e-13,
+    "target_max_H": 562.3559528528793,
+    "donor_max_H": 562.3559528528793,
+    "unmapped_physical_nodes": 0,
+    "unmapped_nodes": 0,
+    "unmapped_target_gps": 0,
+    "unmapped_gps": 0,
+    "max_mapping_residual": 0.0,
+    "same_mesh_identity_transfer": true,
+    "violation_count": 0,
+    "violations": []
+  }
+}

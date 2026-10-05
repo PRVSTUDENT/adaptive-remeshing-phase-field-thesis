@@ -1,0 +1,22 @@
+*HEADING
+Mode-II PK10R1 Native Restart Control Inc29 R2
+*RESTART, READ, STEP=1, INC=29
+** ----------------------------------------------------------------
+** STEP 2: CONTINUATION TO U1 = 0.0500mm
+** ----------------------------------------------------------------
+*STEP, NAME=CONTINUATION, INC=200
+*STATIC
+0.0002, 0.03985669948160648, 1e-08, 0.002
+*BOUNDARY, OP=MOD
+99999, 1, 1, 0.050000000000000000
+** ----------------------------------------------------------------
+** OUTPUT REQUESTS
+** ----------------------------------------------------------------
+*RESTART, WRITE, FREQ=1
+*OUTPUT, FIELD, FREQ=1
+*NODE OUTPUT, NSET=N_ALL_PHYSICAL_UEL
+U, RF
+*OUTPUT, HISTORY, FREQ=1
+*NODE OUTPUT, NSET=N_RP
+U, RF
+*END STEP

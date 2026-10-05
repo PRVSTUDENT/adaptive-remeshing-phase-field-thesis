@@ -1,0 +1,48 @@
+{
+  "cycle_id": "REAL_PILOT_CYCLE_018",
+  "job_name": "M2ADAPT_REAL_PILOT_CYCLE_018_RESTART",
+  "source_donor": {
+    "job_id": "1397996.mmaster02",
+    "cycle_id": "REAL_PILOT_CYCLE_017",
+    "handoff_u1_mm": 0.0530128912627697,
+    "donor_rf1_kN": 0.002985628554597497,
+    "donor_dmax": 0.0
+  },
+  "target_segment": {
+    "handoff_u1_mm": 0.0530128912627697,
+    "target_u1_mm": 0.0555128912627697,
+    "delta_u1_mm": 0.0025
+  },
+  "mesh_stats": {
+    "num_physical_elements": 5112,
+    "num_physical_nodes": 5287,
+    "num_layered_elements": 15336
+  },
+  "controls": {
+    "step_3": {
+      "Rn": 0.01,
+      "Cn_u": 10.0,
+      "time_incrementation": "25, 25, 25, 25, 25, 4, 50, 25",
+      "dt_min": 1e-14
+    },
+    "step_4": {
+      "Rn": 0.05,
+      "Cn_u": 10.0,
+      "time_incrementation": "25, 25, 25, 25, 25, 4, 50, 25",
+      "dt_min": 1e-14
+    }
+  },
+  "hashes": {
+    "input_deck_sha256": "ed633832a74ee42bdb8ad79e5be63cb4cac979e901867969514dd1a5bce42926",
+    "uel_sha256": "942003c5882b5598e81b471d87840e0dce2a639179cc24c87662dcf53eaef946",
+    "datacheck_pbs_sha256": "45f781ff026a9a24d5d755326cd7503f528c31262fdfc3da0fcb30a4ce8a9612",
+    "production_pbs_sha256": "fc21cb04e57cae98eee9c59fa9c223767903a2a35a9ec317caa82a5b00b23f5d",
+    "datacheck_wrapper_sha256": "36c387286bce0262a24242082930847b77751b8666451e37ff669267fb474414",
+    "production_wrapper_sha256": "e5dc03288768d3fb3a7da7e29fd1090aaf38b58ef96e8a40d60fd85e72d57b98",
+    "primary_state_csv_sha256": "f2d783b46e64d1163eeb7cc4e0f407398f13779dfdb64089786ac57e1fe3efc6",
+    "state_install_boundary_sha256": "ba6a2461931899f323d9438c9346294b6f409071622c2416565cf611707cd43d",
+    "u3_only_boundary_sha256": "e96d36a0b38a650308e0e237c372291ca1c2cffd63101ff031e1838c588d76d2",
+    "committed_state_bin_sha256": "6a1e3657a43b73ca00be2a245441a36bde8458a16ae58209c16aa171d7a9eaff",
+    "source_state_bin_sha256": "6a1e3657a43b73ca00be2a245441a36bde8458a16ae58209c16aa171d7a9eaff"
+  }
+}

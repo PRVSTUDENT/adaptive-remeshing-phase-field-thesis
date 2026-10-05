@@ -1,0 +1,47 @@
+{
+  "package_name": "M2CORR_STAGE_F_CYCLE2_MULTISTEP_TRANSFER",
+  "pbs_job_name": "M2STAGE_F_C2_SOLVE",
+  "donor_source": "1398582.mmaster02 (ShearStep Frame 43, U1=0.01407055 mm, RF1_net=0.122438 kN)",
+  "target_mesh_stats": {
+    "nodes": 34512,
+    "physical_uel_elements_u1": 33852,
+    "secondary_uel_elements_u2": 33852,
+    "companion_cpe4_elements": 33852,
+    "total_elements": 101556,
+    "h_tip": 0.002,
+    "h_far": 0.02,
+    "slit_delta_a_mm": 0.00100,
+    "duplicated_pairs": 2,
+    "duplicated_node_ids": [[17050, 34510], [16457, 34511]]
+  },
+  "acceptance_criteria": {
+    "max_force_jump_pct": 5.0,
+    "max_energy_jump_pct": 5.0,
+    "max_displacement_jump_mm": 1e-06,
+    "phase_field_bounds": [0.0, 1.05],
+    "irreversibility_healing_tol": 0.0
+  },
+  "frame_43_preflight_qualification": {
+    "donor_frame": 43,
+    "u1_target_mm": 0.014070547,
+    "node_17050_d": 0.999139,
+    "node_16457_d": 1.000198,
+    "facet_avg_shear_stress_MPa": 0.045,
+    "predicted_force_jump_pct": 0.037,
+    "is_facet_fully_degraded_d0999": true,
+    "step3_controls": "25, 25, 25, 25, 25, 4, 50, 25 (I0=25, IA=25, Rn=0.01, Cn=10.0)",
+    "dt_min": 1e-14,
+    "target_continuation_u1_mm": 0.050000
+  },
+  "artifact_hashes": {
+    "M2CORR_STAGE_F_CYCLE2_MULTISTEP_TRANSFER.inp": "932e578f604170ffe6304f9b17124e60c65238366ee754c5ad9247b2ecdf687f",
+    "STAGE_D_COMMITTED_STATE.bin": "275a60344da5144f00806963d81ba3da2f5557b5300e31f56c32df0cdd440aa1",
+    "STAGE_F_PRIMARY_STATE_BOUNDARY.inp": "1e043e4e5b8f0b1beb9bf51c539c5a4facfde6d13b3b8c97bf05f46368480611",
+    "STAGE_F_U3_ONLY_BOUNDARY.inp": "2ea490034e07e47fd61ba9ccb53b83c71b4040cb41caead844052190236ec5ca",
+    "f44_mixed_uel_restart_stateinit.for": "942003c5882b5598e81b471d87840e0dce2a639179cc24c87662dcf53eaef946",
+    "MODE_STAGED.flag": "6c53e70e92808616c25d485e7a1c450f16c4f4a23aeee1f6e945e86e88550559",
+    "abaqus_v6.env": "54862d1a20594f3e3a93cdfda0d901303cc6be635b26489c9af503b8bd7cdf72",
+    "submit_datacheck.pbs": "44449033a848b25d80a972b59e5b279c9e1a40fbc3801f343ae9ed172566b9d4",
+    "submit_solver.pbs": "272d43601bf6e9246833fb8873c95cf52410a6492cce0151361aaa72e4e939bb"
+  }
+}

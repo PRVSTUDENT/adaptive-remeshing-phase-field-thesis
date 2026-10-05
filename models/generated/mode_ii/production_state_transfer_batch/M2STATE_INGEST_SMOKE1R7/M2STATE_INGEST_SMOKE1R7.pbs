@@ -1,0 +1,98 @@
+#!/bin/bash
+#PBS -N M2STATE_INGEST_SMOKE1R7
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:15:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -o M2STATE_INGEST_SMOKE1R7.o$PBS_JOBID
+#PBS -e M2STATE_INGEST_SMOKE1R7.e$PBS_JOBID
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+ || exit 1
+
+echo "=================================================================="
+echo "Starting job: M2STATE_INGEST_SMOKE1R7 on $(hostname)"
+echo "Date: $(date)"
+echo "Directory: $(pwd)"
+echo "=================================================================="
+
+echo "=== ENVIRONMENT PREFLIGHT ==="
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+echo "Loaded Modules:"
+module list 2>&1
+echo ""
+
+ABAQUS_BIN=$(command -v abaqus)
+IFORT_BIN=$(command -v ifort)
+
+if [ -z "$ABAQUS_BIN" ]; then
+    echo "ERROR: abaqus executable not found in PATH after module load!"
+    exit 1
+fi
+
+if [ -z "$IFORT_BIN" ]; then
+    echo "ERROR: ifort compiler executable not found in PATH after module load!"
+    exit 1
+fi
+
+echo "Abaqus Executable: $ABAQUS_BIN"
+abaqus information=release 2>&1
+echo "Fortran Compiler Executable: $IFORT_BIN"
+ifort --version 2>&1 | head -n 2
+
+echo "=== HASH PREFLIGHT ==="
+sha256sum M2STATE_INGEST_SMOKE1R7.inp f42_mixed_uel.for STATE_TRANSFER_ARTIFACT.json TRANSFER_MANIFEST.json ACCEPTANCE_CONTRACT.json verify_smoke_trace.py PACKAGE_MANIFEST.json
+
+echo "=== STAGE 1: ABAQUS MODEL DATACHECK ==="
+abaqus job=M2STATE_INGEST_SMOKE1R7 input=M2STATE_INGEST_SMOKE1R7.inp user=f42_mixed_uel.for datacheck interactive
+DATACHECK_RC=$?
+
+echo "Abaqus datacheck exit code: $DATACHECK_RC"
+
+if [ $DATACHECK_RC -ne 0 ]; then
+    echo "ERROR: Abaqus datacheck failed! Terminating before scientific analysis."
+    exit 1
+fi
+
+echo "=== STAGE 2: ABAQUS CONTINUE SCIENTIFIC ANALYSIS ==="
+abaqus job=M2STATE_INGEST_SMOKE1R7 continue interactive
+CONTINUE_RC=$?
+
+echo "Abaqus continue exit code: $CONTINUE_RC"
+
+if [ $CONTINUE_RC -ne 0 ]; then
+    echo "ERROR: Abaqus continue execution failed! Terminating before trace checker."
+    exit 1
+fi
+
+echo "=== STAGE 3: MULTI-SINK TRACE CONCATENATION & CHECKER EVALUATION ==="
+cat M2STATE_INGEST_SMOKE1R7.dat M2STATE_INGEST_SMOKE1R7.log M2STATE_INGEST_SMOKE1R7.msg M2STATE_INGEST_SMOKE1R7.o* > M2STATE_INGEST_SMOKE1R7.trace 2>/dev/null || true
+
+if [ ! -s M2STATE_INGEST_SMOKE1R7.trace ]; then
+    echo "ERROR: Combined trace file M2STATE_INGEST_SMOKE1R7.trace is empty or missing!"
+    exit 1
+fi
+
+python3 verify_smoke_trace.py M2STATE_INGEST_SMOKE1R7.trace STATE_TRANSFER_ARTIFACT.json
+CHECKER_RC=$?
+
+echo "Trace checker exit code: $CHECKER_RC"
+
+if [ $CHECKER_RC -ne 0 ]; then
+    echo "ERROR: Trace Checker failed!"
+    exit 1
+fi
+
+echo "=== M2STATE_INGEST_SMOKE1R7 COMPLETED SUCCESSFULLY ==="
+exit 0

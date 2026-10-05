@@ -1,0 +1,118 @@
+{
+  "created_at": "2026-08-23T04:24:52Z",
+  "cryptographic_hashes": {
+    "committed_binary": "49f952d49e4f2a1c2b3993ef3f9732ccc2758580f613eb56a076e4e567cfe12c",
+    "pbs_script": "ec265ed6061457e77f18b9055d8deb9217616a9d4ae1ffc46c7672a66e460de3",
+    "primary_state_csv": "ec24b6fcd9911694c4af7894353e4ce84af9fe1be8828173a866eda08d9be982",
+    "restart_inp": "86a8a26dee79c3b02f0cd8475c50f144409286888bf408487d56a4db582f2df1",
+    "state_install_inp": "2743ad157a20243e9b454cffd838af8ec115bbc841b9cb75b09c1efa0c63e2a1",
+    "submit_wrapper": "171ddc3d23223a07de26c2fbc64d1657ef72cf1895549b485be3e0481ca0aacd",
+    "u3_only_inp": "6a862c3fc5f20107bb3fc3e07d028818f367fc76909170065e6b0317c784cdd9",
+    "uel_source": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab"
+  },
+  "cycle_id": "REAL_PILOT_CYCLE_001",
+  "donor_state": {
+    "donor_dmax": 0.30431819,
+    "donor_frame": 17,
+    "donor_inp_sha256": "88c4bc247dfe01c71d08109bf82d9cbeca36317f112049620a94b397762ed7af",
+    "donor_job": "1390447.mmaster02",
+    "donor_u1_mm": 0.0105128903,
+    "provenance": {
+      "actual_u1_mm": 0.0105128903,
+      "d_max": 0.30431819,
+      "donor_inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\generated\\mode_ii\\stage_e_refinement_coarsening_batch\\M2CORR_STAGE_E_DONOR_MINIMAL_CONTINUATION_VAL\\M2CORR_STAGE_E_DONOR_MINIMAL_CONTINUATION_VAL.inp",
+      "donor_inp_sha256": "88c4bc247dfe01c71d08109bf82d9cbeca36317f112049620a94b397762ed7af",
+      "frame": 17,
+      "job_id": "1390447.mmaster02",
+      "num_physical_elements": 8836,
+      "num_physical_nodes": 9073,
+      "real_primary_evidence_donor": true,
+      "rf1_kN": 0.12591584,
+      "synthetic": false
+    },
+    "synthetic": false
+  },
+  "execution_plan": {
+    "datacheck_mode": true,
+    "dry_run": false,
+    "pbs_command": "qsub M2ADAPT_REAL_PILOT_CYCLE_001_RESTART.pbs",
+    "qsub_authorized": false,
+    "solver_command": "abaqus datacheck job=M2ADAPT_REAL_PILOT_CYCLE_001_RESTART input=M2ADAPT_REAL_PILOT_CYCLE_001_RESTART.inp user=f44_mixed_uel_restart_stateinit.for cpus=1 interactive"
+  },
+  "invariant_audit": {
+    "passed": true,
+    "violations": []
+  },
+  "material_parameters": {
+    "E_kN_mm2": 210.0,
+    "Gc_kN_mm": 0.0027,
+    "k_res": 1e-07,
+    "l0_mm": 0.015,
+    "nu": 0.3,
+    "thickness_mm": 1.0
+  },
+  "mesh_statistics": {
+    "h_max_mm": 0.025,
+    "h_min_mm": 0.005,
+    "num_layered_elements": 15336,
+    "num_physical_elements": 5112,
+    "num_physical_nodes": 5287,
+    "strategy": "STRUCTURED_CORRIDOR_EXPERIMENTAL",
+    "total_domain_area_mm2": 0.9999999999999829
+  },
+  "predecessor_cycle": null,
+  "segment_interval": {
+    "delta_u1_mm": 0.0025000000000000005,
+    "u1_end_mm": 0.0130128903,
+    "u1_start_mm": 0.0105128903
+  },
+  "status": "DATACHECK_PACKAGE_READY",
+  "target_state": {},
+  "transfer_statistics": {
+    "donor_max_H": 0.004463342522417432,
+    "donor_max_d": 0.30405486644024593,
+    "max_mapping_residual": 1.5700924586837752e-16,
+    "passed": true,
+    "target_max_H": 0.004463342522417432,
+    "target_max_d": 0.2995086350968859,
+    "target_min_H": 0.0044633425224157655,
+    "target_min_d": 0.0,
+    "unmapped_gps": 0,
+    "unmapped_nodes": 0,
+    "unmapped_physical_nodes": 0,
+    "unmapped_target_gps": 0,
+    "violation_count": 0,
+    "violations": []
+  },
+  "trigger_evaluation": {
+    "classifications": {
+      "characteristic_size_metric": "CONSERVATIVE_H_MAX_AND_H_AREA",
+      "h_res_limit_rule": "ADOPTED_PHASE_FIELD_RESOLUTION_SIZING_RULE",
+      "tr01_classification": "PROVISIONAL_AUTOMATION_TRIGGER_REQUIRING_CALIBRATION",
+      "tr02_classification": "PROVISIONAL_AUTOMATION_TRIGGER_REQUIRING_CALIBRATION",
+      "tr03_classification": "RECONCILED_PANDEY_KUMAR_2025_RECOVERY_INDICATOR",
+      "tr04_classification": "DIMENSIONLESS_LOCAL_PHASE_GRADIENT_INDICATOR_DISABLED"
+    },
+    "fired_triggers": [],
+    "metrics": {
+      "buffer_threshold_mm": 0.03,
+      "coarse_element_count": 5920,
+      "core_node_count_gt_dcore": 2,
+      "current_u1_mm": 0.0105128903,
+      "d_crack_core_threshold": 0.3,
+      "d_invade_threshold": 0.05,
+      "damaged_node_count_gt_002": 425,
+      "final_u1_mm": 0.05,
+      "max_d_in_coarse_elements": 4.1607355374159277e-07,
+      "max_grad_d_norm": 0.0,
+      "max_miseseri": 0.0,
+      "min_buffer_distance_mm": 0.07296530999999999,
+      "miseseri_marked_count": 0,
+      "tr04_enabled": false,
+      "violating_coarse_element_count": 0
+    },
+    "rationale": "No remeshing required. Phase field is contained within fine elements (h_max <= 0.0075 mm). Max d in coarse elements = 0.0000 < 0.0500.",
+    "remesh_required": false
+  },
+  "updated_at": "2026-08-23T04:24:54Z"
+}

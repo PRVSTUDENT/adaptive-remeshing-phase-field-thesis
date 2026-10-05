@@ -1,0 +1,23 @@
+{
+  "job_id": "1390876.mmaster02",
+  "job_name": "M2CORR_STAGE_E_DONOR_MINIMAL_DTMIN_CONTINUATION_VAL",
+  "mesh_type": "Donor Mesh 18,400 quads / 18,707 nodes (h_min = 0.003000 mm)",
+  "analysis_completed_successfully": true,
+  "total_frames": 440,
+  "terminal_u1_mm": 0.05000000074505806,
+  "terminal_rf1_kN": 0.006771646440029144,
+  "peak_rf1_kN": 0.14473675191402435,
+  "peak_u1_mm": 0.012575390748679638,
+  "peak_frame": 20,
+  "handoff_frame": 17,
+  "handoff_u1_mm": 0.010512890294194221,
+  "handoff_rf1_kN": 0.12591584026813507,
+  "handoff_d_max": 0.3043181896209717,
+  "hard_invariants": {
+    "phase_bounds_0_to_1": true,
+    "d_min_overall": 0.0,
+    "d_max_overall": 1.000000238418579,
+    "pointwise_damage_monotonicity": true,
+    "min_delta_d_max": 0.0
+  }
+}

@@ -1,0 +1,43 @@
+#PBS -N M2REF_H1_FULL_U050
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=12:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o M2REF_H1_FULL_U050.pbs.log
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+# Source dual-channel notifications
+if [ -f "./job_notifications.sh" ]; then
+    source ./job_notifications.sh
+    notification_load_config
+    notify_start "M2REF_H1_FULL_U050" "M2REF_H1_FULL_U050" "$PBS_JOBID"
+    notification_install_terminal_trap "M2REF_H1_FULL_U050" "$PBS_JOBID"
+fi
+
+echo "=== PACKAGE INTEGRITY CHECK ==="
+python3 validate_package_manifest.py
+if [ $? -ne 0 ]; then
+    echo "ERROR: Package manifest validation failed!"
+    exit 1
+fi
+
+echo "=== ABAQUS SOLVER EXECUTION ==="
+module load intel/2024.2.0 gcc/11.4.0 abaqus/2023 || true
+unset SLURM_GTIDS
+export OMP_NUM_THREADS=1
+
+abaqus job=M2REF_H1_FULL_U050 input=M2REF_H1_FULL_U050.inp user=f42_mixed_uel.for cpus=1 interactive
+SOLVER_EXIT=$?
+echo "Abaqus solver finished with exit code: $SOLVER_EXIT"
+exit $SOLVER_EXIT

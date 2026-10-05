@@ -1,0 +1,87 @@
+{
+  "attempts": [],
+  "state_comparison": {
+    "1391300_frames": [
+      {
+        "step_name": "STATE_INSTALL",
+        "frame_idx": 0,
+        "frame_value": 0.0,
+        "rp_u1_mm": 0.0,
+        "rp_rf1_kN": -0.0,
+        "min_d": 0.0,
+        "max_d": -1.0,
+        "max_d_node": null
+      },
+      {
+        "step_name": "STATE_INSTALL",
+        "frame_idx": 1,
+        "frame_value": 1.0,
+        "rp_u1_mm": 0.010512890294194221,
+        "rp_rf1_kN": 0.12720830738544464,
+        "min_d": 0.0,
+        "max_d": -1.0,
+        "max_d_node": null
+      },
+      {
+        "step_name": "MECH_EQUILIBRATION",
+        "frame_idx": 0,
+        "frame_value": 0.0,
+        "rp_u1_mm": 0.010512890294194221,
+        "rp_rf1_kN": 0.12720830738544464,
+        "min_d": 0.0,
+        "max_d": -1.0,
+        "max_d_node": null
+      },
+      {
+        "step_name": "MECH_EQUILIBRATION",
+        "frame_idx": 1,
+        "frame_value": 1.0,
+        "rp_u1_mm": 0.010512890294194221,
+        "rp_rf1_kN": 0.1261025220155716,
+        "min_d": 0.0,
+        "max_d": -1.0,
+        "max_d_node": null
+      },
+      {
+        "step_name": "PHASE_RELEASE",
+        "frame_idx": 0,
+        "frame_value": 0.0,
+        "rp_u1_mm": 0.010512890294194221,
+        "rp_rf1_kN": 0.1261025220155716,
+        "min_d": 0.0,
+        "max_d": -1.0,
+        "max_d_node": null
+      },
+      {
+        "step_name": "PHASE_RELEASE",
+        "frame_idx": 1,
+        "frame_value": 0.0010000000474974513,
+        "rp_u1_mm": 0.010512890294194221,
+        "rp_rf1_kN": 0.11864049732685089,
+        "min_d": 0.0,
+        "max_d": -1.0,
+        "max_d_node": null
+      },
+      {
+        "step_name": "PHASE_RELEASE",
+        "frame_idx": 2,
+        "frame_value": 0.0010625000577419996,
+        "rp_u1_mm": 0.010512890294194221,
+        "rp_rf1_kN": 0.11684654653072357,
+        "min_d": 0.0,
+        "max_d": -1.0,
+        "max_d_node": null
+      },
+      {
+        "step_name": "PHASE_RELEASE",
+        "frame_idx": 3,
+        "frame_value": 0.0010625000577419996,
+        "rp_u1_mm": 0.010512890294194221,
+        "rp_rf1_kN": 0.11563390493392944,
+        "min_d": 0.0,
+        "max_d": -1.0,
+        "max_d_node": null
+      }
+    ]
+  }
+}

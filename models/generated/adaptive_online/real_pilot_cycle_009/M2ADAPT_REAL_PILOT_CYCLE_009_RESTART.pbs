@@ -1,0 +1,67 @@
+#!/bin/bash
+#PBS -N M2ADAPT_REAL_PIL
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o pbs_execution_M2ADAPT_REAL_PILOT_CYCLE_009_RESTART.log
+
+set -euo pipefail
+
+# Storage-compliance guard: reject execution directly under /home
+CURRENT_DIR="$(pwd -P)"
+if [[ "$CURRENT_DIR" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Execution directly inside /home is prohibited." >&2
+  echo "Heavy simulation outputs (*.odb, *.sim, *.res) must be written to /scratch/." >&2
+  echo "Please execute from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+cd "${PBS_O_WORKDIR:-.}"
+
+exec 2>&1
+exec >> pbs_execution.log
+
+echo "=== PBS PRODUCTION SOLVER START $(date -u +%Y-%m-%dT%H:%M:%SZ) on $(hostname) ==="
+echo "PBS_JOBID: ${PBS_JOBID:-LOCAL}"
+echo "PWD: $(pwd)"
+
+# Non-interactive module purge and load sequence
+module purge 2>&1 >> pbs_execution.log || true
+module load gcc/11.4.0 2>&1 >> pbs_execution.log || true
+module load intel/2024.2.0 2>&1 >> pbs_execution.log || true
+module load abaqus/2023 2>&1 >> pbs_execution.log || true
+
+# Notification helper resolution
+NOTIF_SCRIPT=""
+for cand in \
+  "scripts/hpc/notifications/job_notifications.sh" \
+  "../../../../scripts/hpc/notifications/job_notifications.sh" \
+  "/home/pr21vyci/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" \
+  "${HOME}/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"; do
+  if [ -f "$cand" ]; then
+    NOTIF_SCRIPT="$cand"
+    break
+  fi
+done
+
+if [ -n "$NOTIF_SCRIPT" ]; then
+  source "$NOTIF_SCRIPT"
+  notify_start "${PBS_JOBID:-LOCAL}" "M2ADAPT_REAL_PILOT_CYCLE_009_RESTART" "Host: $(hostname)" || true
+fi
+
+echo "=== RUNNING ABAQUS PRODUCTION SOLVER ==="
+abaqus job=M2ADAPT_REAL_PILOT_CYCLE_009_RESTART input=M2ADAPT_REAL_PILOT_CYCLE_009_RESTART.inp user=f44_mixed_uel_restart_stateinit.for double=both interactive 2>&1 | tee -a pbs_execution.log
+ABQ_STATUS=${PIPESTATUS[0]}
+echo "=== ABAQUS PRODUCTION SOLVER COMPLETED WITH STATUS: $ABQ_STATUS ==="
+
+if [ -n "$NOTIF_SCRIPT" ]; then
+  if [ "$ABQ_STATUS" -eq 0 ]; then
+    notify_completed "${PBS_JOBID:-LOCAL}" "M2ADAPT_REAL_PILOT_CYCLE_009_RESTART" "Solver SUCCESS (Status: $ABQ_STATUS)" || true
+  else
+    notify_failed "${PBS_JOBID:-LOCAL}" "M2ADAPT_REAL_PILOT_CYCLE_009_RESTART" "Solver FAILED (Status: $ABQ_STATUS)" || true
+  fi
+fi
+
+exit $ABQ_STATUS

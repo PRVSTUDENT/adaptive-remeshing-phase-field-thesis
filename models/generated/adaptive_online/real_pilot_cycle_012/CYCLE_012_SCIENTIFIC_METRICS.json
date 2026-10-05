@@ -1,0 +1,46 @@
+{
+  "classification": "SCIENTIFIC_SOLVER_PASS", 
+  "final_rf1_kN": 0.014613612554967403, 
+  "steps_summary": {
+    "CONTINUATION": {
+      "total_time": 1.0, 
+      "num_frames": 58, 
+      "rp_rf1_end": 0.014613612554967403, 
+      "rp_u1_end": 0.04051288962364197, 
+      "rp_u1_start": 0.03801289200782776, 
+      "rp_rf1_start": 0.013722540810704231
+    }, 
+    "STATE_INSTALL": {
+      "total_time": 1.0, 
+      "num_frames": 2, 
+      "rp_rf1_end": 0.01921890862286091, 
+      "rp_u1_end": 0.03801289200782776, 
+      "rp_u1_start": 0.0, 
+      "rp_rf1_start": -0.0
+    }, 
+    "MECH_EQUILIBRATION": {
+      "total_time": 1.0, 
+      "num_frames": 2, 
+      "rp_rf1_end": 0.48855412006378174, 
+      "rp_u1_end": 0.03801289200782776, 
+      "rp_u1_start": 0.03801289200782776, 
+      "rp_rf1_start": 0.01921890862286091
+    }, 
+    "PHASE_RELEASE": {
+      "total_time": 1.0, 
+      "num_frames": 110, 
+      "rp_rf1_end": 0.013722540810704231, 
+      "rp_u1_end": 0.03801289200782776, 
+      "rp_u1_start": 0.03801289200782776, 
+      "rp_rf1_start": 0.48855412006378174
+    }
+  }, 
+  "num_physical_nodes": 5287, 
+  "final_u1_mm": 0.04051288962364197, 
+  "target_u1_mm": 0.04051289111375808, 
+  "solver_exit_status": 0, 
+  "final_max_d": 0.0, 
+  "handoff_u1_mm": 0.038012891113758086, 
+  "cycle_id": "REAL_PILOT_CYCLE_012", 
+  "job_id": "1397835.mmaster02"
+}

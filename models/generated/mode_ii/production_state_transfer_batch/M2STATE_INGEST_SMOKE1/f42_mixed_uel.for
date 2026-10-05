@@ -1,9 +1,9 @@
 C ======================================================================
 C User Subroutine UEL and UMAT for Abaqus: Mixed 3-Node / 4-Node Scheme
-C JTYPE = 1: 4-Node Quad Phase-Field UEL (U1)
-C JTYPE = 2: 4-Node Quad Displacement UEL (U2)
-C JTYPE = 3: 3-Node Triangle Phase-Field UEL (U3)
-C JTYPE = 4: 3-Node Triangle Displacement UEL (U4)
+C JTYPE = 1: 4-Node Quad Phase-Field UEL (U1, Global DOF 3)
+C JTYPE = 2: 4-Node Quad Displacement UEL (U2, Global DOFs 1, 2)
+C JTYPE = 3: 3-Node Triangle Phase-Field UEL (U3, Global DOF 3)
+C JTYPE = 4: 3-Node Triangle Displacement UEL (U4, Global DOFs 1, 2)
 C ======================================================================
       SUBROUTINE UEL(RHS,AMATRX,SVARS,ENERGY,NDOFEL,NRHS,NSVARS,
      1     PROPS,NPROPS,COORDS,MCRD,NNODE,U,DU,V,A,JTYPE,TIME,DTIME,
@@ -30,7 +30,7 @@ C     ==================================================================
      3 BB_Q(3,8),BB_T(3,6),CMAT(3,3),EPS(3),STRESS(3),
      4 XII_T(3,2),W_T(3)
        REAL*8 DTM,THCK,HIST,CLPAR,GCPAR,EMOD,ENU,PARK,ENG,PHASE
-       REAL*8 EG,EG2,ELAM,DEG,WT_FAC
+       REAL*8 EG,EG2,ELAM,DEG,WT_FAC,SDV14_VAL,SDV15_VAL,SDV16_VAL
 
        COMMON/KUSER/USRVAR(N_CAPACITY,NSTV,4)
 
@@ -47,7 +47,7 @@ C     ==================================================================
        END DO
 
 C     ==================================================================
-C     TYPE 1: 4-Node Quad Phase-Field UEL (U1)
+C     TYPE 1: 4-Node Quad Phase-Field UEL (U1, Global DOF 3)
 C     ==================================================================
        IF (JTYPE.EQ.1) THEN
         CLPAR=PROPS(1)
@@ -123,17 +123,21 @@ C     ==================================================================
          USRVAR(PHYSIDX,1,INPT)=PHASE
          USRVAR(PHYSIDX,2,INPT)=HIST
          USRVAR(PHYSIDX,15,INPT)=PHASE
-         IF (JELEM.LE.4 .AND. KSTEP.EQ.1 .AND. KINC.LE.1) THEN
-          WRITE(6,1001) JELEM,JTYPE,INPT,U(1),SVARS(INPT),HIST,PHASE
- 1001     FORMAT('[INGEST_TRACE] ELEM=',I5,' JTYPE=',I1,' IP=',I1,
-     1    ' U1=',F8.5,' SV_H=',E11.4,' HIST=',E11.4,' PH=',F8.5)
+         SDV15_VAL=PHASE
+         IF (JELEM.LE.4 .AND. KSTEP.LE.2 .AND. KINC.LE.1) THEN
+          WRITE(6,1001) JELEM,JTYPE,KSTEP,KINC,INPT,
+     1    U(1),U(2),U(3),U(4),SVARS(INPT),HIST,PHASE,SDV15_VAL
+ 1001     FORMAT('[INGEST_TRACE] ELEM=',I5,' JTYPE=',I1,' KSTEP=',I1,
+     1    ' KINC=',I2,' IP=',I1,' U_NODES=',F8.5,',',F8.5,',',F8.5,
+     2    ',',F8.5,' SV_H=',E11.4,' HIST=',E11.4,' PH=',F8.5,
+     3    ' SDV15=',F8.5)
          END IF
         END DO
         RETURN
        ENDIF
 
 C     ==================================================================
-C     TYPE 2: 4-Node Quad Displacement UEL (U2)
+C     TYPE 2: 4-Node Quad Displacement UEL (U2, Global DOFs 1, 2)
 C     ==================================================================
        IF (JTYPE.EQ.2) THEN
         EMOD=PROPS(1)
@@ -233,6 +237,8 @@ C     ==================================================================
          SVARS(INPT)=USRVAR(PHYSIDX,13,INPT)
          SVARS(13)=PHASE
          SVARS(16)=SVARS(INPT)
+         SDV14_VAL=PHASE
+         SDV16_VAL=SVARS(INPT)
          DO I=1,8
           DO J=1,3
            RHS(I,1)=RHS(I,1)-THCK*DTM*BB_Q(J,I)*STRESS(J)
@@ -250,17 +256,19 @@ C     ==================================================================
          END DO
          USRVAR(PHYSIDX,14,INPT)=PHASE
          USRVAR(PHYSIDX,16,INPT)=USRVAR(PHYSIDX,13,INPT)
-         IF (JELEM.LE.4+NPHYS_VAL .AND. KSTEP.EQ.1 .AND. KINC.LE.1) THEN
-          WRITE(6,1002) JELEM,JTYPE,INPT,SVARS(INPT),PHASE,ENG
- 1002     FORMAT('[INGEST_TRACE] ELEM=',I5,' JTYPE=',I1,' IP=',I1,
-     1    ' SV_H=',E11.4,' PH=',F8.5,' ENG=',E11.4)
+         IF (PHYSIDX.LE.4 .AND. KSTEP.LE.2 .AND. KINC.LE.1) THEN
+          WRITE(6,1002) JELEM,JTYPE,KSTEP,KINC,INPT,
+     1    SVARS(INPT),PHASE,ENG,SDV14_VAL,SDV16_VAL
+ 1002     FORMAT('[INGEST_TRACE] ELEM=',I5,' JTYPE=',I1,' KSTEP=',I1,
+     1    ' KINC=',I2,' IP=',I1,' SV_H=',E11.4,' PH=',F8.5,
+     2    ' ENG=',E11.4,' SDV14=',F8.5,' SDV16=',E11.4)
          END IF
         END DO
         RETURN
        ENDIF
 
 C     ==================================================================
-C     TYPE 3: 3-Node Triangle Phase-Field UEL (U3) - 3-Point Quadrature
+C     TYPE 3: 3-Node Triangle Phase-Field UEL (U3, Global DOF 3)
 C     ==================================================================
        IF (JTYPE.EQ.3) THEN
         CLPAR=PROPS(1)
@@ -338,12 +346,21 @@ C     ==================================================================
          USRVAR(PHYSIDX,1,INPT)=PHASE
          USRVAR(PHYSIDX,2,INPT)=HIST
          USRVAR(PHYSIDX,15,INPT)=PHASE
+         SDV15_VAL=PHASE
+         IF (JELEM.LE.4 .AND. KSTEP.LE.2 .AND. KINC.LE.1) THEN
+          WRITE(6,1003) JELEM,JTYPE,KSTEP,KINC,INPT,
+     1    U(1),U(2),U(3),SVARS(INPT),HIST,PHASE,SDV15_VAL
+ 1003     FORMAT('[INGEST_TRACE] ELEM=',I5,' JTYPE=',I1,' KSTEP=',I1,
+     1    ' KINC=',I2,' IP=',I1,' U_NODES=',F8.5,',',F8.5,',',F8.5,
+     2    ' SV_H=',E11.4,' HIST=',E11.4,' PH=',F8.5,
+     3    ' SDV15=',F8.5)
+         END IF
         END DO
         RETURN
        ENDIF
 
 C     ==================================================================
-C     TYPE 4: 3-Node Triangle Displacement UEL (U4) - 3-Point Quadrature
+C     TYPE 4: 3-Node Triangle Displacement UEL (U4, Global DOFs 1, 2)
 C     ==================================================================
        IF (JTYPE.EQ.4) THEN
         EMOD=PROPS(1)
@@ -444,6 +461,8 @@ C     ==================================================================
          SVARS(INPT)=USRVAR(PHYSIDX,13,INPT)
          SVARS(13)=PHASE
          SVARS(16)=SVARS(INPT)
+         SDV14_VAL=PHASE
+         SDV16_VAL=SVARS(INPT)
          WT_FAC=THCK*DTM*W_T(INPT)
          DO I=1,6
           DO J=1,3
@@ -462,6 +481,13 @@ C     ==================================================================
          END DO
          USRVAR(PHYSIDX,14,INPT)=PHASE
          USRVAR(PHYSIDX,16,INPT)=USRVAR(PHYSIDX,13,INPT)
+         IF (PHYSIDX.LE.4 .AND. KSTEP.LE.2 .AND. KINC.LE.1) THEN
+          WRITE(6,1004) JELEM,JTYPE,KSTEP,KINC,INPT,
+     1    SVARS(INPT),PHASE,ENG,SDV14_VAL,SDV16_VAL
+ 1004     FORMAT('[INGEST_TRACE] ELEM=',I5,' JTYPE=',I1,' KSTEP=',I1,
+     1    ' KINC=',I2,' IP=',I1,' SV_H=',E11.4,' PH=',F8.5,
+     2    ' ENG=',E11.4,' SDV14=',F8.5,' SDV16=',E11.4)
+         END IF
         END DO
         RETURN
        ENDIF

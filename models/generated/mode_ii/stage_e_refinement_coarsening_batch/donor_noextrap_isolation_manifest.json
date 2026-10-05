@@ -1,0 +1,39 @@
+{
+  "package_name": "M2CORR_STAGE_E_DONOR_NOEXTRAP_ISOLATION_VAL",
+  "base_job": "1391319.mmaster02",
+  "base_package": "M2CORR_STAGE_E_DONOR_MINIMAL_COMBINED_VAL",
+  "canonical_job": "1390876.mmaster02",
+  "change_description": "Single-parameter isolation: EXTRAPOLATION=NO added to single monotonic shear *STEP card. Preserves I_0=4, I_A=13, dt_min=5.0e-12, and all other parameters unchanged.",
+  "controls": {
+    "extrapolation": "NO",
+    "I_0": 4,
+    "I_R": 8,
+    "I_P": 9,
+    "I_C": 16,
+    "I_L": 10,
+    "I_G": 4,
+    "I_S": 50,
+    "I_A": 13,
+    "dt_min": "5.0e-12",
+    "line_search": "ABSENT",
+    "stabilization": "ABSENT"
+  },
+  "hashes": {
+    "inp_sha256": "55031d1043814da5ed23f54e8dc815e85bd930084e407172115716a951fee6e8",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "pbs_sha256": "ef78f2261036e94a8d115044a0cc9f8dd15512d4ed42906dd368a2c614891319"
+  },
+  "unified_diff": [
+    "--- 1391319_combined.inp",
+    "+++ M2CORR_STAGE_E_DONOR_NOEXTRAP_ISOLATION_VAL.inp",
+    "@@ -27074,7 +27074,7 @@",
+    " ** ==========================================================",
+    " ** STEP 1: Continuous Monotonic Shear to U1 = 0.050 mm",
+    " ** ==========================================================",
+    "-*STEP, NAME=ShearStep, NLGEOM=NO, INC=10000",
+    "+*STEP, NAME=ShearStep, NLGEOM=NO, INC=10000, EXTRAPOLATION=NO",
+    " *STATIC",
+    " 0.001, 1.0, 5.0e-12, 0.02",
+    " *CONTROLS, PARAMETERS=TIME INCREMENTATION"
+  ]
+}

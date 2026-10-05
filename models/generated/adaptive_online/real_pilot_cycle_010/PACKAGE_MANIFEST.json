@@ -1,0 +1,52 @@
+﻿{
+    "cycle_id":  "REAL_PILOT_CYCLE_010",
+    "generation_timestamp_utc":  "2026-08-25T13:25:00Z",
+    "closeout_timestamp_utc":  "2026-08-25T13:38:00Z",
+    "donor_provenance":  {
+                             "donor_cycle":  "REAL_PILOT_CYCLE_009",
+                             "donor_job":  "1397444.mmaster02",
+                             "donor_frame":  171,
+                             "handoff_u1_mm":  0.033012891113758082,
+                             "target_u1_mm":  0.035512891113758084
+                         },
+    "production_execution":  {
+                                 "job_id":  "1397653.mmaster02",
+                                 "execution_host":  "mnode097/0",
+                                 "solver_exit_status":  0,
+                                 "classification":  "SCIENTIFIC_SOLVER_PASS",
+                                 "walltime_sec":  387,
+                                 "cput_sec":  379,
+                                 "peak_mem_kb":  543996,
+                                 "handoff_u1_mm":  0.033012891113758082,
+                                 "final_u1_mm":  0.035512890666723251,
+                                 "final_rf1_kN":  0.020626923069357872,
+                                 "num_physical_nodes":  5288,
+                                 "num_physical_elements":  5112,
+                                 "acceptance_criteria_passed":  true,
+                                 "step3_controls":  "inc=500, time_incrementation 25,25,25,25,25,4,50,25, field=displacement 10.0, field=temperature 10.0",
+                                 "step4_controls":  "inc=10000, dt_min=1e-14, time_incrementation 25,25,25,25,25,4,50,25, field=displacement 10.0, field=temperature 10.0"
+                             },
+    "artifacts":  {
+                      "f44_mixed_uel_restart_stateinit.for":  "942003c5882b5598e81b471d87840e0dce2a639179cc24c87662dcf53eaef946",
+                      "M2ADAPT_REAL_PILOT_CYCLE_010_RESTART.inp":  "e7223f942d1ab72f020e6f0cf77ac5c8848fe13955b1f1a64536cc82a5c4c027",
+                      "M2ADAPT_REAL_PILOT_CYCLE_010_RESTART.pbs":  "6ac8cbb84e1d026e75ff3baf03ea0c2872f7a5fc7780d237beb1c62be5a0bd4a",
+                      "M2ADAPT_REAL_PILOT_CYCLE_010_RESTART.odb":  "b7525fcd83058059ad4c8f2714680bb1f6839287e9afbd55f77bab441e1eb39f",
+                      "M2ADAPT_REAL_PILOT_CYCLE_010_RESTART.sta":  "28637080391329dd8253177ed630408358e389791d133def3b1a77a9fc926755",
+                      "M2ADAPT_REAL_PILOT_CYCLE_010_RESTART.msg":  "d14f215268c1003ec525f279bb02bbe655b83a714e88dc93a31bacbd794e06db",
+                      "M2ADAPT_REAL_PILOT_CYCLE_010_RESTART.dat":  "ebdb1b5b9cfb71b38b0046e7cd0f57bb0102a0851b38ec319f73a1a0721e599b",
+                      "MODE_STAGED.flag":  "5a7173f8c169c3cbf43033b1ceeec5e7c3289581e229b7b973e72822a4223ff5",
+                      "RESTART_ACCEPTANCE_CONTRACT.json":  "4454571cfde99e7d0abe04398463c917e5668dc5cbb632b92cc916b9d0147390",
+                      "STAGE_D_COMMITTED_STATE.bin":  "a75fa84839fc23969dbaac9c3d19496ad2e47e7a0022020c9b8d4bc7edda2ad6",
+                      "submit_m2adapt_real_pilot_cycle_010_restart.sh":  "2cfe098c1fed17244355025f67f6f9cc3933d9ac194b7d6b885e159a1a94a456",
+                      "submit_m2adapt_real_pilot_cycle_010_datacheck.sh":  "883d1b26db1d23786e5b03625ee790016feeab32d8923d2c44a461968fba9351",
+                      "TARGET_REAL_PILOT_CYCLE_010_PRIMARY_STATE.csv":  "5bf10b45aea3b77a5aaa18e2b13e32651b950ea2840fd38ad55093dce4303548",
+                      "TARGET_REAL_PILOT_CYCLE_010_SOURCE_STATE.bin":  "8a99cfbb945f0208e6709bb22b9cd49fe7a90d652fe4ed79e4dacc20ee6e6de0",
+                      "TARGET_REAL_PILOT_CYCLE_010_STATE_INSTALL_BOUNDARY.inp":  "62ef424a4839f0a357b2a3c83e9488c3bf8925de7c05ec5e6887a53267b604f0",
+                      "TARGET_REAL_PILOT_CYCLE_010_TRANSFER_MANIFEST.json":  "07b95b096200f69f11e86d7ff52478b5e2b756d4a3e78fd46d98da465cbd8654",
+                      "TARGET_REAL_PILOT_CYCLE_010_U3_ONLY_BOUNDARY.inp":  "0706d2a48b00e111ce91ed03c4f19b8d35288cdbc8de6d9e09e5988925f88153",
+                      "CYCLE_010_FINAL_NODAL_DISPLACEMENTS.json":  "6261e61ff531713a4c539b5beebe84cb3b3202da8da675a740fdf001063767fc",
+                      "CYCLE_010_SCIENTIFIC_METRICS.json":  "44db3461cdd96a4c84408db9cbcda071d15a85c8f3b94b328136b798a8e78655",
+                      "CYCLE_010_ACCEPTED_DONOR_METRICS.json":  "44db3461cdd96a4c84408db9cbcda071d15a85c8f3b94b328136b798a8e78655",
+                      "pbs_execution.log":  "51d64a67720865f62de32fe93622fd3e14996c3dbac77ad237a9d5850a8a554c"
+                  }
+}

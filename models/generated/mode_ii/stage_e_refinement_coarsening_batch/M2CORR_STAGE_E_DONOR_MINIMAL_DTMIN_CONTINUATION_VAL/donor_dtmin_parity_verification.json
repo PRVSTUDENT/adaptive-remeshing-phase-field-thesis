@@ -1,0 +1,60 @@
+{
+  "isolation_test_classification": "DTMIN_PATH_NEUTRAL_VALIDATED",
+  "job_pair": {
+    "dtmin_isolation_job": "1390876.mmaster02",
+    "validated_baseline_job": "1390552.mmaster02"
+  },
+  "frame_counts": {
+    "job_1390552": 440,
+    "job_1390876": 440,
+    "identical": true
+  },
+  "maximum_pointwise_differences": {
+    "max_u1_diff_mm": 0.0,
+    "max_rf1_diff_kN": 0.0,
+    "max_dmax_diff": 0.0
+  },
+  "peak_force_comparison": {
+    "job_1390552": {
+      "rf1_kN": 0.144736752,
+      "u1_mm": 0.0125753907
+    },
+    "job_1390876": {
+      "rf1_kN": 0.144736752,
+      "u1_mm": 0.0125753907
+    },
+    "relative_diff_pct": 0.0
+  },
+  "handoff_state_comparison_frame_212": {
+    "job_1390552": {
+      "u1_mm": 0.0275098775,
+      "rf1_kN": 0.0346671715,
+      "d_max": 1.00000024
+    },
+    "job_1390876": {
+      "u1_mm": 0.0275098775,
+      "rf1_kN": 0.0346671715,
+      "d_max": 1.00000024
+    },
+    "rf1_diff_pct": 0.0
+  },
+  "terminal_state_comparison": {
+    "job_1390552": {
+      "u1_mm": 0.0500000007,
+      "rf1_kN": 0.00677164644
+    },
+    "job_1390876": {
+      "u1_mm": 0.0500000007,
+      "rf1_kN": 0.00677164644
+    },
+    "rf1_diff_pct": 0.0
+  },
+  "incrementation_audit": {
+    "total_cutbacks": 77,
+    "min_attempted_dt_s": 7.332e-07,
+    "min_accepted_dt_s": 7.332e-07,
+    "lowered_dtmin_exercised": false,
+    "exercise_explanation": "On the donor mesh, convergence was achieved across all increments without cutbacks dropping below 1.0e-9 s (min attempted dt was 7.332e-07 s)."
+  },
+  "scientific_conclusion": "Lowering dt_min from 1.0e-9 to 1.0e-11 s is 100.0000% path-neutral to numerical precision on the donor mesh."
+}

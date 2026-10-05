@@ -1,0 +1,135 @@
+{
+  "cycle_id": "REAL_PILOT_CYCLE_004",
+  "status": "SINGLE_CHANGE_PRODUCTION_SOLVER_PACKAGE_READY",
+  "predecessor_cycle": "REAL_PILOT_CYCLE_003",
+  "created_at": "2026-08-24T12:43:00Z",
+  "updated_at": "2026-08-24T12:43:00Z",
+  "donor_state": {
+    "cycle_id": "REAL_PILOT_CYCLE_003",
+    "job_id": "1396571.mmaster02",
+    "attained_u1_mm": 0.018012891113758086,
+    "attained_rf1_kN": 0.07521298,
+    "peak_rf1_kN": 0.07859892,
+    "donor_d_min": 0.0,
+    "donor_d_max": 0.2995086350969,
+    "donor_h_min": 1.5531407102877793e-13,
+    "donor_h_max": 1902.8116331571946,
+    "peak_h_location": "Element 2446, GP 1",
+    "healing_count": 0
+  },
+  "segment": {
+    "handoff_u1_mm": 0.018012891113758086,
+    "target_u1_mm": 0.020512891113758088,
+    "delta_u1_mm": 0.0025000000000000022
+  },
+  "mesh_statistics": {
+    "strategy": "SAME_MESH_IDENTITY_CONTINUATION",
+    "num_physical_elements": 5112,
+    "num_layered_elements": 15336,
+    "num_nodes": 5287
+  },
+  "material_parameters": {
+    "E_kN_mm2": 210.0,
+    "nu": 0.3,
+    "Gc_kN_mm": 0.0027,
+    "l0_mm": 0.015,
+    "k_res": 1e-07,
+    "thickness_mm": 1.0
+  },
+  "trigger_evaluation": {
+    "remesh_required": false,
+    "fired_triggers": [],
+    "rationale": "No remeshing required. Phase field is contained within fine elements (h_max <= 0.0075 mm). Max d in coarse elements = 0.0000 < 0.0500.",
+    "metrics": {
+      "current_u1_mm": 0.018012891113758086,
+      "final_u1_mm": 0.05,
+      "d_invade_threshold": 0.05,
+      "d_crack_core_threshold": 0.3,
+      "buffer_threshold_mm": 0.03,
+      "coarse_element_count": 3816,
+      "max_d_in_coarse_elements": 1.980554373853e-13,
+      "damaged_node_count_gt_002": 131,
+      "core_node_count_gt_dcore": 0,
+      "min_buffer_distance_mm": -1.0,
+      "violating_coarse_element_count": 0,
+      "miseseri_marked_count": 0,
+      "max_miseseri": 0.0,
+      "max_grad_d_norm": 0.0,
+      "tr04_enabled": false
+    },
+    "classifications": {
+      "tr01_classification": "PROVISIONAL_AUTOMATION_TRIGGER_REQUIRING_CALIBRATION",
+      "tr02_classification": "PROVISIONAL_AUTOMATION_TRIGGER_REQUIRING_CALIBRATION",
+      "tr03_classification": "RECONCILED_PANDEY_KUMAR_2025_RECOVERY_INDICATOR",
+      "tr04_classification": "DIMENSIONLESS_LOCAL_PHASE_GRADIENT_INDICATOR_DISABLED",
+      "h_res_limit_rule": "ADOPTED_PHASE_FIELD_RESOLUTION_SIZING_RULE",
+      "characteristic_size_metric": "CONSERVATIVE_H_MAX_AND_H_AREA"
+    }
+  },
+  "transfer_audit": {
+    "source_provenance": {
+      "cycle_id": "REAL_PILOT_CYCLE_003",
+      "job_id": "1396571.mmaster02",
+      "donor_u1_mm": 0.018012891113758086,
+      "donor_rf1_kN": 0.07521298,
+      "donor_d_max": 0.2995086350969,
+      "donor_h_max": 1902.8116331571946
+    },
+    "target_mesh_name": "TARGET_REAL_PILOT_CYCLE_004",
+    "mapping_summary": {
+      "primary_fields": {
+        "same_mesh_identity_transfer": true,
+        "unmapped_physical_nodes": 0,
+        "max_mapping_residual": 0.0
+      },
+      "history_fields": {
+        "same_mesh_identity_transfer": true,
+        "unmapped_gps": 0
+      }
+    },
+    "transfer_validation": {
+      "passed": true,
+      "donor_max_d": 0.2995086350969,
+      "target_max_d": 0.2995086350969,
+      "target_min_d": 0.0,
+      "donor_max_H": 1902.8116331571946,
+      "target_max_H": 1902.8116331571946,
+      "target_min_H": 1.5531407102877793e-13,
+      "unmapped_nodes": 0,
+      "unmapped_physical_nodes": 0,
+      "unmapped_gps": 0,
+      "unmapped_target_gps": 0,
+      "max_mapping_residual": 0.0,
+      "same_mesh_identity_transfer": true,
+      "violation_count": 0,
+      "violations": []
+    }
+  },
+  "execution_plan": {
+    "datacheck_mode": false,
+    "dry_run": false,
+    "qsub_authorized": true,
+    "pbs_command": "qsub M2ADAPT_REAL_PILOT_CYCLE_004_RESTART.pbs",
+    "solver_command": "abaqus job=M2ADAPT_REAL_PILOT_CYCLE_004_RESTART input=M2ADAPT_REAL_PILOT_CYCLE_004_RESTART.inp user=f44_mixed_uel_restart_stateinit.for cpus=1 interactive",
+    "numerical_remedy": {
+      "step3_time_controls": "4, 8, 9, 20, 10, 4, 50, 13 / ,, 10 (I_C=20, IA=13, I_D=10)",
+      "step3_field_control": "*Controls, parameters=field, field=displacement / , 1.0 (Cn^u=1.0)",
+      "baseline_dt_min": "5.0e-12 preserved"
+    },
+    "single_change_remedy": {
+      "step3_time_controls": "4, 8, 9, 16, 10, 4, 50, 13 / ,, 10 (I_C=16 preserved, IA=13, I_D=10 single change)",
+      "step3_field_control": "*Controls, parameters=field, field=displacement / , 1.0 (Cn^u=1.0 qualified)",
+      "baseline_dt_min": "5.0e-12 preserved"
+    }
+  },
+  "cryptographic_hashes": {
+    "restart_inp": "653ddb90ae4bb31d8c27a1ee876ce54da5236d1cd3eb0116948cd361dd8cca86",
+    "pbs_script": "a1ad4078bf2cb423e056a589c2dd86203cc6ccabeb2fb2a80950b96430823e07",
+    "submit_wrapper": "ea75b55e72dbfdae442dd5ac8c1c4fe08e81d0351b436b49094a22774162867e",
+    "uel_source": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "primary_state_csv": "99c98eafef75c36ca09697ecd0f541e354336432889fedf8d6ff4581f3efb29a",
+    "state_install_boundary_inp": "05cfd85ce51a1c7d762f1fe691625813f8284effd13c4f223e95d0f315c4d1ce",
+    "u3_only_boundary_inp": "e67c96e52a73b62284b034ba0863b8c98420e055299f232b4c3ccf4863b353c2",
+    "committed_binary": "9e6d2f15f5fd56b2784b7c274201d13914a2d71b7b509367facb3b1c9f0c63e6"
+  }
+}

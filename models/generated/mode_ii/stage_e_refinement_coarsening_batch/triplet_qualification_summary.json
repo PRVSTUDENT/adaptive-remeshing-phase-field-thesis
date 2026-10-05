@@ -1,0 +1,50 @@
+{
+  "M2CORR_STAGE_E_DONOR_CONTROL_VAL": {
+    "has_u1_phase_header": true,
+    "has_u2_mech_header": true,
+    "has_phase_elset": true,
+    "has_mech_elset": true,
+    "props_phase_valid": true,
+    "props_mech_valid": true,
+    "props_exact": "0.015, 0.0027, 210.0, 0.3, 1e-07, 8836.0, 0.0",
+    "shear_dof1_only": true,
+    "static_step_valid": true,
+    "continuation_controls_line1": true,
+    "continuation_controls_line2": true,
+    "pbs_exit_propagation": true,
+    "pbs_entry_queue": true,
+    "overall_status": "QUALIFIED"
+  },
+  "M2CORR_STAGE_E_REFINED_TARGET_CONTINUOUS_VAL": {
+    "has_u1_phase_header": true,
+    "has_u2_mech_header": true,
+    "has_phase_elset": true,
+    "has_mech_elset": true,
+    "props_phase_valid": true,
+    "props_mech_valid": true,
+    "props_exact": "0.015, 0.0027, 210.0, 0.3, 1e-07, 33600.0, 0.0",
+    "shear_dof1_only": true,
+    "static_step_valid": true,
+    "continuation_controls_line1": true,
+    "continuation_controls_line2": true,
+    "pbs_exit_propagation": true,
+    "pbs_entry_queue": true,
+    "overall_status": "QUALIFIED"
+  },
+  "M2CORR_STAGE_E_COARSENED_TARGET_CONTINUOUS_VAL": {
+    "has_u1_phase_header": true,
+    "has_u2_mech_header": true,
+    "has_phase_elset": true,
+    "has_mech_elset": true,
+    "props_phase_valid": true,
+    "props_mech_valid": true,
+    "props_exact": "0.015, 0.0027, 210.0, 0.3, 1e-07, 8200.0, 0.0",
+    "shear_dof1_only": true,
+    "static_step_valid": true,
+    "continuation_controls_line1": true,
+    "continuation_controls_line2": true,
+    "pbs_exit_propagation": true,
+    "pbs_entry_queue": true,
+    "overall_status": "QUALIFIED"
+  }
+}

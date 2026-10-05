@@ -1,0 +1,110 @@
+{
+  "created_at": "2026-10-05T04:27:15Z",
+  "cryptographic_hashes": {
+    "committed_binary": "fca897f986ea59c7b9645713f4bfc71aa01eead896c81ef0cb7f6dc842dd9535",
+    "pbs_script": "1b6d47bda29354df13cecf0300957aa73ea9c14b340bd652cc8c4685ffb51ef3",
+    "primary_state_csv": "00f84244d25098dc2794cd50ac509e309b5689a4a68d8d7641975c41bc1136a5",
+    "restart_inp": "e473a48c4c9da5c92b053e4d7faa156e6df263903e8308a156360d67f87fdeec",
+    "state_install_inp": "7e36b615f20cd4052077af3202f08cb7eedaa683fade93b57c80dbe00f55fdb1",
+    "submit_wrapper": "bed04e09291cdbe8db3b734091bce1c8e95269d0ce7f30f8f666d051d6082b81",
+    "u3_only_inp": "ce8f2d7952737d42934654ef8f5b3819890e77640c481f4b120ca1ea577fd4d8",
+    "uel_source": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab"
+  },
+  "cycle_id": "cycle_000",
+  "donor_state": {
+    "donor_dmax": 0.85,
+    "donor_frame": 10,
+    "donor_inp_sha256": "5c7301abeee4a0cee62584345ff2caf88e7eb9e54637e91ba684bff8c6d5254f",
+    "donor_job": "CYCLE_000_DONOR",
+    "donor_u1_mm": 0.0075,
+    "provenance": {},
+    "synthetic": true
+  },
+  "execution_plan": {
+    "datacheck_mode": false,
+    "dry_run": true,
+    "pbs_command": "qsub M2ADAPT_CYCLE_000_RESTART.pbs",
+    "qsub_authorized": false,
+    "solver_command": "abaqus job=M2ADAPT_CYCLE_000_RESTART input=M2ADAPT_CYCLE_000_RESTART.inp user=f44_mixed_uel_restart_stateinit.for cpus=1 interactive"
+  },
+  "invariant_audit": {
+    "passed": true,
+    "violations": []
+  },
+  "material_parameters": {
+    "E_kN_mm2": 210.0,
+    "Gc_kN_mm": 0.0027,
+    "k_res": 1e-07,
+    "l0_mm": 0.015,
+    "nu": 0.3,
+    "thickness_mm": 1.0
+  },
+  "mesh_statistics": {
+    "h_max_mm": 0.025,
+    "h_min_mm": 0.005,
+    "num_layered_elements": 14484,
+    "num_physical_elements": 4828,
+    "num_physical_nodes": 4999,
+    "strategy": "STRUCTURED_CORRIDOR_EXPERIMENTAL",
+    "total_domain_area_mm2": 1.0000000000000406
+  },
+  "predecessor_cycle": null,
+  "segment_interval": {
+    "delta_u1_mm": 0.0025000000000000005,
+    "u1_end_mm": 0.01,
+    "u1_start_mm": 0.0075
+  },
+  "status": "DRY_RUN_PILOT_ACCEPTED",
+  "target_state": {},
+  "transfer_statistics": {
+    "donor_max_H": 0.0004729797344533827,
+    "donor_max_d": 0.85,
+    "max_mapping_residual": 1.5700924586837752e-16,
+    "passed": true,
+    "same_mesh_identity_transfer": false,
+    "target_max_H": 0.00047297973445338277,
+    "target_max_d": 0.85,
+    "target_min_H": 3.032982589013482e-248,
+    "target_min_d": 0.0,
+    "unmapped_gps": 0,
+    "unmapped_nodes": 0,
+    "unmapped_physical_nodes": 0,
+    "unmapped_target_gps": 0,
+    "violation_count": 0,
+    "violations": []
+  },
+  "trigger_evaluation": {
+    "classifications": {
+      "characteristic_size_metric": "CONSERVATIVE_H_MAX_AND_H_AREA",
+      "h_res_limit_rule": "ADOPTED_PHASE_FIELD_RESOLUTION_SIZING_RULE",
+      "tr01_classification": "PROVISIONAL_AUTOMATION_TRIGGER_REQUIRING_CALIBRATION",
+      "tr02_classification": "PROVISIONAL_AUTOMATION_TRIGGER_REQUIRING_CALIBRATION",
+      "tr03_classification": "RECONCILED_PANDEY_KUMAR_2025_RECOVERY_INDICATOR",
+      "tr04_classification": "DIMENSIONLESS_LOCAL_PHASE_GRADIENT_INDICATOR_DISABLED"
+    },
+    "fired_triggers": [
+      "TR-01_COARSE_DAMAGE_INVASION",
+      "TR-02_BUFFER_ZONE_BREACH"
+    ],
+    "metrics": {
+      "buffer_threshold_mm": 0.03,
+      "coarse_element_count": 2116,
+      "core_node_count_gt_dcore": 12,
+      "current_u1_mm": 0.0075,
+      "d_crack_core_threshold": 0.3,
+      "d_invade_threshold": 0.05,
+      "damaged_node_count_gt_002": 35,
+      "final_u1_mm": 0.05,
+      "max_d_in_coarse_elements": 0.85,
+      "max_grad_d_norm": 0.0,
+      "max_miseseri": 0.0,
+      "min_buffer_distance_mm": 0.0,
+      "miseseri_marked_count": 0,
+      "tr04_enabled": false,
+      "violating_coarse_element_count": 44
+    },
+    "rationale": "Remeshing triggered by ['TR-01_COARSE_DAMAGE_INVASION', 'TR-02_BUFFER_ZONE_BREACH']. Max d in coarse grid (h_max > 0.0075 mm) = 0.8500 (provisional threshold = 0.0500), buffer distance to coarse elements = 0.0000 mm (provisional limit = 0.0300 mm).",
+    "remesh_required": true
+  },
+  "updated_at": "2026-10-05T04:27:16Z"
+}

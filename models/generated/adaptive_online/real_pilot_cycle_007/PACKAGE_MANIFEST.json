@@ -1,0 +1,46 @@
+{
+  "cycle_id": "REAL_PILOT_CYCLE_007",
+  "generation_timestamp_utc": "2026-08-25T06:45:00Z",
+  "donor_provenance": {
+    "donor_cycle": "REAL_PILOT_CYCLE_006",
+    "donor_job": "1397305.mmaster02",
+    "donor_frame": 57,
+    "handoff_u1_mm": 0.025512891113758086,
+    "target_u1_mm": 0.028012891113758084
+  },
+  "artifacts": {
+    "f44_mixed_uel_restart_stateinit.for": "942003c5882b5598e81b471d87840e0dce2a639179cc24c87662dcf53eaef946",
+    "M2ADAPT_REAL_PILOT_CYCLE_007_RESTART.inp": "658e5133b800331542923ea3fea3dc22ee5e6c6da1df33b7113a725bd6ade4fc",
+    "M2ADAPT_REAL_PILOT_CYCLE_007_RESTART.pbs": "a9a7dd86f68b55c3e86e47eb490eb2c179616e3e4f5968dcef588ad4985b1fb0",
+    "MODE_STAGED.flag": "5a7173f8c169c3cbf43033b1ceeec5e7c3289581e229b7b973e72822a4223ff5",
+    "RESTART_ACCEPTANCE_CONTRACT.json": "c6bc6390f8cbd75cadad407a00e915b8d44a179fccd0e4f1237542bff8948496",
+    "STAGE_D_COMMITTED_STATE.bin": "9703b43ddfc59eb3de38433c133d6d84f152d35c7c6d886a6f1c4a630d2f83f5",
+    "submit_m2adapt_real_pilot_cycle_007_restart.sh": "b208e893b776fc41e0f743d7b8bc05c6acf7cec1ab3b7024ba0bef669aa2134b",
+    "TARGET_REAL_PILOT_CYCLE_007_PRIMARY_STATE.csv": "8fa0ca827a3664ef1842331c1881a5759705a2df64e5fe256e418bf95e4e9e15",
+    "TARGET_REAL_PILOT_CYCLE_007_STATE_INSTALL_BOUNDARY.inp": "6075d37c8ff3ae3c4ff21e3f15c607ad6bbcae5e825ee065aac1a03958b68b36",
+    "TARGET_REAL_PILOT_CYCLE_007_TRANSFER_MANIFEST.json": "7a3e430751fa66817cf23229e46f56e8a1c561788d9d175353052f54d7c1f7cf",
+    "TARGET_REAL_PILOT_CYCLE_007_U3_ONLY_BOUNDARY.inp": "327f0bc03294018910b153d97ee7eddfeaf82862a9b840d459f47fc35e74e084"
+  },
+  "terminal_production_job": {
+    "job_id": "1397400.mmaster02",
+    "exit_status": 0,
+    "classification": "SCIENTIFIC_SOLVER_PASS",
+    "remediation_history": [
+      {
+        "job_id": "1397394.mmaster02",
+        "status": "FAILED_STATE_MISMATCH_RESOLVED"
+      },
+      {
+        "job_id": "1397397.mmaster02",
+        "status": "FAILED_STEP3_CONVERGENCE_RATE_ABORT"
+      },
+      {
+        "job_id": "1397400.mmaster02",
+        "status": "SUCCESS_COMPLETED"
+      }
+    ],
+    "target_u1_mm": 0.028012891113758084,
+    "attained_u1_mm": 0.028012890368700027,
+    "final_rf1_kN": 0.032638873904943466
+  }
+}

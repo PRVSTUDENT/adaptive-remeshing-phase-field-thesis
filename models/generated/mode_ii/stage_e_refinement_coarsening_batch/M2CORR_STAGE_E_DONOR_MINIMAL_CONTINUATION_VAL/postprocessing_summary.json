@@ -1,0 +1,30 @@
+{
+  "job_id": "1390552.mmaster02",
+  "job_name": "M2CORR_STAGE_E_DONOR_MINIMAL_CONTINUATION_VAL",
+  "mesh_type": "Donor Control 8836 quads / 9074 nodes (h_tip = 0.003750 mm)",
+  "analysis_completed_successfully": true,
+  "total_frames": 440,
+  "terminal_u1_mm": 0.05000000074505806,
+  "terminal_rf1_kN": 0.006771646440029144,
+  "peak_rf1_kN": 0.14473675191402435,
+  "peak_u1_mm": 0.012575390748679638,
+  "peak_frame": 20,
+  "handoff_frame": 17,
+  "handoff_u1_mm": 0.010512890294194221,
+  "handoff_rf1_kN": 0.12591584026813507,
+  "handoff_d_max": 0.3043181896209717,
+  "historical_comparison": {
+    "historical_1390447_peak_rf1_kN": 0.144737,
+    "historical_1390447_peak_u1_mm": 0.012575,
+    "peak_rf1_diff_pct": -0.00017140466891777016,
+    "historical_1390447_terminal_rf1_kN": 0.006772,
+    "terminal_rf1_diff_kN": -3.535599708559545e-07
+  },
+  "hard_invariants": {
+    "phase_bounds_0_to_1": true,
+    "d_min_overall": 0.0,
+    "d_max_overall": 1.000000238418579,
+    "pointwise_damage_monotonicity": true,
+    "min_delta_d_max": 0.0
+  }
+}

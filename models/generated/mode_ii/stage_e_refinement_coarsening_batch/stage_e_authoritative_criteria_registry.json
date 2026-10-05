@@ -1,0 +1,139 @@
+{
+  "governing_document": "F283SYNC_M2_STAGE_E_BATCH_E1_RETRIEVAL_AND_CRITERIA_CORRECTION_RECORD.md",
+  "audit_task": "F310AUDIT-M2-STAGE-E-REGISTRY-RECONCILIATION-AND-E2-PREPARATION1",
+  "date": "2026-08-19",
+  "criteria": [
+    {
+      "criterion_id": "CRIT_E_PRIMARY_PHASE_BOUNDS",
+      "metric": "d_bounds",
+      "operator": "in",
+      "threshold": [0.0, 1.0],
+      "units": "dimensionless",
+      "first_introduced": "F281PLAN_M2_STAGE_E_REFINEMENT_COARSENING_TRANSFER_PLAN.md",
+      "scientific_justification_at_intro": "Fundamental phase-field physical requirement: damage cannot be negative or exceed 1.0.",
+      "later_modifications": "Retained as HARD_INVARIANT in F283.",
+      "currently_governing_status": "REQUIRED_HARD_GATE"
+    },
+    {
+      "criterion_id": "CRIT_E_POINTWISE_PHASE_IRREVERSIBILITY",
+      "metric": "min_delta_d",
+      "operator": ">=",
+      "threshold": -1.0e-6,
+      "units": "dimensionless",
+      "first_introduced": "F281PLAN_M2_STAGE_E_REFINEMENT_COARSENING_TRANSFER_PLAN.md",
+      "scientific_justification_at_intro": "Thermodynamic irreversibility of crack growth: crack healing is forbidden (allowable machine eps tolerance 1e-6).",
+      "later_modifications": "Retained as HARD_INVARIANT in F283.",
+      "currently_governing_status": "REQUIRED_HARD_GATE"
+    },
+    {
+      "criterion_id": "CRIT_E_HISTORY_NONNEGATIVITY",
+      "metric": "min_H",
+      "operator": ">=",
+      "threshold": 0.0,
+      "units": "kN/mm^2",
+      "first_introduced": "F281PLAN_M2_STAGE_E_REFINEMENT_COARSENING_TRANSFER_PLAN.md",
+      "scientific_justification_at_intro": "Strain energy history field H represents maximum positive elastic energy history and cannot be negative.",
+      "later_modifications": "Retained as HARD_INVARIANT in F283.",
+      "currently_governing_status": "REQUIRED_HARD_GATE"
+    },
+    {
+      "criterion_id": "CRIT_E_TEMPORAL_HISTORY_MONOTONICITY",
+      "metric": "H_{n+1} - H_n",
+      "operator": ">=",
+      "threshold": 0.0,
+      "units": "kN/mm^2",
+      "first_introduced": "F281PLAN_M2_STAGE_E_REFINEMENT_COARSENING_TRANSFER_PLAN.md",
+      "scientific_justification_at_intro": "Committed strain energy history must be monotonically non-decreasing over simulation time at all GPs.",
+      "later_modifications": "Retained as HARD_INVARIANT in F283.",
+      "currently_governing_status": "REQUIRED_HARD_GATE"
+    },
+    {
+      "criterion_id": "CRIT_E_SLIT_BARRIER_ISOLATION",
+      "metric": "cross_slit_leak",
+      "operator": "==",
+      "threshold": 0,
+      "units": "count",
+      "first_introduced": "F281PLAN_M2_STAGE_E_REFINEMENT_COARSENING_TRANSFER_PLAN.md",
+      "scientific_justification_at_intro": "Discontinuous crack slit (y=0, x<=0) must strictly prevent non-physical state interpolation across the crack faces.",
+      "later_modifications": "Retained as HARD_INVARIANT in F283.",
+      "currently_governing_status": "REQUIRED_HARD_GATE"
+    },
+    {
+      "criterion_id": "CRIT_E_MECH_EQUILIBRATION_U3_DRIFT",
+      "metric": "max_abs_u3_change",
+      "operator": "<=",
+      "threshold": 1.0e-6,
+      "units": "dimensionless",
+      "first_introduced": "F281PLAN_M2_STAGE_E_REFINEMENT_COARSENING_TRANSFER_PLAN.md",
+      "scientific_justification_at_intro": "Software verification that Phase DOF 3 is strictly fixed during Step 2 mechanical stress equilibration.",
+      "later_modifications": "Retained as SOFTWARE_TOLERANCE in F283.",
+      "currently_governing_status": "REQUIRED_SOFTWARE_GATE"
+    },
+    {
+      "criterion_id": "CRIT_E_HANDOFF_RF1_TOLERANCE",
+      "metric": "step1_diff_pct",
+      "operator": "N/A",
+      "threshold": null,
+      "units": "%",
+      "first_introduced": "F281PLAN_M2_STAGE_E_REFINEMENT_COARSENING_TRANSFER_PLAN.md (original threshold <= 2.0%)",
+      "scientific_justification_at_intro": "Heuristic check of force change upon state installation; lacked rigorous basis due to mesh discretization differences.",
+      "later_modifications": "Explicitly corrected in F283 to DIAGNOSTIC_ONLY without arbitrary percentage threshold.",
+      "currently_governing_status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "criterion_id": "CRIT_E_MECH_EQUILIBRATION_RF1_JUMP",
+      "metric": "s2_jump_pct",
+      "operator": "N/A",
+      "threshold": null,
+      "units": "%",
+      "first_introduced": "F281PLAN_M2_STAGE_E_REFINEMENT_COARSENING_TRANSFER_PLAN.md (original threshold <= 2.0%)",
+      "scientific_justification_at_intro": "Heuristic check of reaction force jump during phase release; lacked rigorous threshold basis.",
+      "later_modifications": "Explicitly corrected in F283 to DIAGNOSTIC_ONLY without arbitrary percentage threshold.",
+      "currently_governing_status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "criterion_id": "CRIT_E_MATCHED_BASELINE_PEAK_PARITY",
+      "metric": "peak_rf1_diff_pct",
+      "operator": "N/A",
+      "threshold": null,
+      "units": "%",
+      "first_introduced": "F281PLAN_M2_STAGE_E_REFINEMENT_COARSENING_TRANSFER_PLAN.md (original threshold <= 5.0%)",
+      "scientific_justification_at_intro": "Diagnostic comparison of transferred peak force vs matching continuous baseline.",
+      "later_modifications": "Explicitly designated DIAGNOSTIC_ONLY in F281 Section 5 and F283 Section 3.",
+      "currently_governing_status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "criterion_id": "CRIT_E_MATCHED_BASELINE_TERMINAL_PARITY",
+      "metric": "term_rf1_diff_pct",
+      "operator": "N/A",
+      "threshold": null,
+      "units": "%",
+      "first_introduced": "F281PLAN_M2_STAGE_E_REFINEMENT_COARSENING_TRANSFER_PLAN.md (original threshold <= 5.0%)",
+      "scientific_justification_at_intro": "Diagnostic comparison of transferred terminal force vs matching continuous baseline.",
+      "later_modifications": "Explicitly designated DIAGNOSTIC_ONLY in F281 Section 5 and F283 Section 3.",
+      "currently_governing_status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "criterion_id": "CRIT_E_CONTINUOUS_BASELINE_COMPLETION_TO_050",
+      "metric": "full_domain_u1",
+      "operator": "N/A",
+      "threshold": null,
+      "units": "mm",
+      "first_introduced": "Never introduced as a mandatory validation gate.",
+      "scientific_justification_at_intro": "Applied boundary condition was U1=0.050 mm, but no predeclared gate required completion to 0.050 mm for state transfer validity.",
+      "later_modifications": "None.",
+      "currently_governing_status": "NOT_PREDECLARED"
+    },
+    {
+      "criterion_id": "CRIT_E_RESTART_COMPLETION_TO_050",
+      "metric": "full_restart_u1",
+      "operator": "N/A",
+      "threshold": null,
+      "units": "mm",
+      "first_introduced": "Never introduced as a mandatory validation gate.",
+      "scientific_justification_at_intro": "State transfer validity depends on local handoff fidelity and stable continuation through the available comparison window.",
+      "later_modifications": "None.",
+      "currently_governing_status": "NOT_PREDECLARED"
+    }
+  ]
+}

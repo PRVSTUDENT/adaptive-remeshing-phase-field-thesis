@@ -1,0 +1,38 @@
+#PBS -N PK10R1_CORRECTED_IDENTITY_RESTART_U050
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -o PK10R1_CORRECTED_IDENTITY_RESTART_U050.pbs.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/tmp}
+source /etc/profile.d/lmod.sh 2>/dev/null || source /etc/profile.d/modules.sh 2>/dev/null || source /etc/profile 2>/dev/null || true
+module purge 2>/dev/null || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+set -euo pipefail
+
+# Storage-compliance guard: reject execution directly under /home
+CURRENT_DIR="$(pwd -P)"
+if [[ "$CURRENT_DIR" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Execution directly inside /home is prohibited." >&2
+  echo "Heavy simulation outputs (*.odb, *.sim, *.res) must be written to /scratch/." >&2
+  echo "Please execute from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
+cd $PBS_O_WORKDIR
+
+# Source notification system
+source ./job_notifications.sh
+notification_load_config 2>/dev/null || true
+notify_start "PK10R1_CORRECTED_IDENTITY_RESTART_U050" "$PBS_JOBID" "entry_imfdfkmq" "1" "16gb" "24:00:00"
+notification_install_terminal_trap "PK10R1_CORRECTED_IDENTITY_RESTART_U050" "$PBS_JOBID"
+
+echo "=== PACKAGE INTEGRITY CHECK ==="
+python3 validate_package_manifest.py
+
+echo "=== ABAQUS SOLVER EXECUTION ==="
+rm -f PK10R1_CORRECTED_IDENTITY_RESTART_U050.lck || true
+abaqus job=PK10R1_CORRECTED_IDENTITY_RESTART_U050 user=f42_mixed_uel.for input=PK10R1_CORRECTED_IDENTITY_RESTART_U050.inp double=both interactive cpus=1 memory="16000 mb"

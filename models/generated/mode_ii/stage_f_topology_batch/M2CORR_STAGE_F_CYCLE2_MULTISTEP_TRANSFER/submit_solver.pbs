@@ -1,0 +1,40 @@
+#!/bin/bash
+#PBS -N M2STAGE_F_C2_SOLVE
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -o pbs_execution_solve.log
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+ || exit 1
+mkdir -p evidence
+
+export NOTIF_SCRIPT='/home/pr21vyci/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh'
+if [ -f "$NOTIF_SCRIPT" ]; then
+  source "$NOTIF_SCRIPT"
+  notify_job_start "M2STAGE_F_C2_SOLVE" "$PBS_JOBID" "production_solve"
+fi
+
+source /etc/profile
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 2>/dev/null
+
+rm -f M2CORR_STAGE_F_CYCLE2_MULTISTEP_TRANSFER.lck
+
+abaqus job=M2CORR_STAGE_F_CYCLE2_MULTISTEP_TRANSFER user=f44_mixed_uel_restart_stateinit.for standard_memory=16gb interactive
+RC=$?
+
+if [ -f "$NOTIF_SCRIPT" ]; then
+  notify_job_end "M2STAGE_F_C2_SOLVE" "$PBS_JOBID" "$RC"
+fi
+exit $RC

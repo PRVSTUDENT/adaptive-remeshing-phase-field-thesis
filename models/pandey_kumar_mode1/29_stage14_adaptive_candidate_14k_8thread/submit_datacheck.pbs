@@ -16,6 +16,14 @@ set -eo pipefail
 
 cd "${PBS_O_WORKDIR}"
 
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
 module purge
 module load intel/2024.2.0
 module load abaqus/2023

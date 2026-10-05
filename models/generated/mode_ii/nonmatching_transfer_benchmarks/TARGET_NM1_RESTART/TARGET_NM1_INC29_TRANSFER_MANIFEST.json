@@ -1,0 +1,77 @@
+{
+  "target_mesh_name": "TARGET_NM1_INC29",
+  "source_provenance": {
+    "source_mesh": "PK10R1 (Uncracked continuous grid)",
+    "source_replay_job_id": "1389707.mmaster02",
+    "canonical_primary_csv_sha256": "5a2313e1ed15834d933e7cd12808681bd554394ad64d58419ad85f6f2bf6cf69",
+    "committed_binary_state_sha256": "28e0fc1c6b02a4e6013cea23f38dacfea0e2afaf52d92239d9d694bb2e55e66e",
+    "handoff_rp_u1_mm": 0.010143300518393517,
+    "accepted_handoff_rf1_kN": 0.30542629957199097
+  },
+  "mapping_summary": {
+    "primary_fields": {
+      "target_physical_nodes": 6561,
+      "target_auxiliary_nodes": 1,
+      "physical_nodes_mapped": 6561,
+      "auxiliary_nodes_FE_interpolated": 0,
+      "unmapped_physical_nodes": 0,
+      "fallback_physical_nodes": 0,
+      "boundary_physical_nodes": 4001,
+      "max_mapping_residual": 1.6653345369377348e-16,
+      "mean_mapping_residual": 1.506634338151172e-17,
+      "field_statistics": {
+        "U1_min": 0.0,
+        "U1_max": 0.010143300518393517,
+        "U1_mean": 0.004403648044929044,
+        "U2_min": -0.004448686726391315,
+        "U2_max": 0.0044741760939359665,
+        "U2_mean": 1.1263130326143209e-05,
+        "U3_min": 0.0,
+        "U3_max": 0.24865224957466125,
+        "U3_mean": 0.0170082398889385
+      },
+      "all_physical_nodes_mapped": true
+    },
+    "history_fields": {
+      "total_target_elements": 6400,
+      "total_gauss_points": 25600,
+      "unmapped_gauss_points": 0,
+      "history_statistics": {
+        "H_min": 0.0,
+        "H_max": 0.0,
+        "H_mean": 0.0
+      },
+      "phase_damage_statistics": {
+        "d_avg_min": 0.00014266446001881056,
+        "d_avg_max": 0.21778529602761565,
+        "d_avg_mean": 0.016777787903505897
+      },
+      "irreversibility_preserved": true
+    }
+  },
+  "generated_artifacts": {
+    "primary_state_csv": {
+      "filename": "TARGET_NM1_INC29_PRIMARY_STATE.csv",
+      "sha256": "f48d15d4d466aa2c5f3e492be32f18d099a21e5bb697bf994b92a6923ee9a89d"
+    },
+    "state_install_boundary_inp": {
+      "filename": "TARGET_NM1_INC29_STATE_INSTALL_BOUNDARY.inp",
+      "sha256": "61220882b6eb9cb6b4942d99cf03cbcdc2327af41ce3fc8dd7110a1c6565bc77"
+    },
+    "u3_only_boundary_inp": {
+      "filename": "TARGET_NM1_INC29_U3_ONLY_BOUNDARY.inp",
+      "sha256": "9f2350539807c86f31e727f6e95cbdfdc5aa608f9f8e03d0489c53174221fe8b"
+    },
+    "committed_binary_state": {
+      "filename": "TARGET_NM1_INC29_SOURCE_STATE.bin",
+      "sha256": "a85e32a9c571c4eb8e80233e0dcb3c6eb5d3a00fa55b4f5c9622da54c8925ce8"
+    }
+  },
+  "transfer_algorithm": {
+    "spatial_search": "SpatialGridIndex with Newton-Raphson inverse isoparametric mapping",
+    "primary_fields_interpolation": "C0 continuous bilinear quad shape functions (physical nodes only)",
+    "rp_boundary_separation": "RP node prescribed U1 only; DOF 2 and DOF 3 excluded",
+    "history_fields_interpolation": "Gauss-point normalized isoparametric interpolation",
+    "inside_tolerance": 1e-06
+  }
+}

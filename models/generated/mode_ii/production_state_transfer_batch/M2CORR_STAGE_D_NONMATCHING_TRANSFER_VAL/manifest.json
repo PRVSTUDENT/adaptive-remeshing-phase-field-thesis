@@ -1,0 +1,57 @@
+{
+  "package_name": "M2CORR_STAGE_D_NONMATCHING_TRANSFER_VAL",
+  "task_id": "F248REPAIR-M2-STAGE-D-GLOBAL-NODE-INDEXING-AND-DIMENSIONAL-AUDIT1",
+  "date_frozen": "2026-08-17T15:38:00+02:00",
+  "status": "READY_FOR_FRESH_AUTHORIZATION",
+  "source_provenance": {
+    "source_model": "M2CORR_H1_FREEU2_FULL_U050",
+    "source_job_id": "1389686.mmaster02",
+    "step_name": "ShearStep",
+    "frame_index": 29,
+    "increment_index": 29,
+    "physical_u1_mm": 0.010143300518393517,
+    "source_mesh_hierarchy": {
+      "physical_nodes": 12383,
+      "reference_point_nodes": 1,
+      "total_inp_nodes": 12384,
+      "phase_uel_layer1_elements": 12064,
+      "mech_uel_layer2_elements": 12064,
+      "total_inp_uel_elements": 24128,
+      "visualization_overlay_elements": 12064,
+      "total_odb_elements": 36192
+    }
+  },
+  "target_mesh": {
+    "mesh_type": "sliver_free_graded_nonmatching",
+    "grid_structure": "94x94_graded_quartic",
+    "inner_domain_elements": 1444,
+    "inner_element_size_mm": 0.002631578947368421,
+    "inner_element_size_std_dev_mm": 8.71e-19,
+    "min_element_size_mm": 0.002631578947368421,
+    "physical_quads": 8836,
+    "physical_nodes": 9072,
+    "total_inp_nodes": 9073,
+    "phase_uel_layer1_elements": 8836,
+    "mech_uel_layer2_elements": 8836,
+    "total_inp_uel_elements": 17672
+  },
+  "transfer_operators": {
+    "primary_state_u_d": "SOURCE_ELEMENT_SHAPE_FUNCTION_INTERPOLATION_WITH_BOUND_CLAMPING",
+    "committed_history_H": "HOST_NEAREST_GP_WITH_NONNEGATIVE_IRREVERSIBILITY",
+    "phase_irreversibility_enforcement": "NODE_INDEXED_AREA_SCALED_ACTIVE_SET_PENALTY_WITH_ROLLBACK_SAFE_COMMIT"
+  },
+  "frozen_sha256": {
+    "inp": "390767239ca9384ca9d3dce9deb39a2290f8348d70be74ddc130c71fe23da0a8",
+    "uel": "1ee04518d1b6abce2e259bb735445a35c1c35561b9fd5e66399131fc9b91d91d",
+    "primary_state_bc_include": "bcc1ccecc85c9691a7dffdb087ff79a977034fe1d844e0677bf97e032297b622",
+    "u3_only_bc_include": "023ff2a97bddf1471267e71a6b326965ec62e5023fde8708b468cb372d938e18",
+    "committed_state_bin": "b8e927cf3ecf976eabc71c1de488879d67152b14c4848c1a5841ce10a22ca819",
+    "launcher": "c6b7c7e23dbe913a9a44d3190ae6865a9ca53c57479386d55012722404acd4bb"
+  },
+  "qualification": {
+    "abaqus_datacheck": "PASSED (Exit 0)",
+    "2d_assembled_finite_element_tests": "PASSED (4/4 patch tests, 100%)",
+    "compilation_and_link": "PASSED (ifort + GNU ld, Exit 0)",
+    "state_import_log": "SUCCESS: Imported restart state from Stage-D state file"
+  }
+}

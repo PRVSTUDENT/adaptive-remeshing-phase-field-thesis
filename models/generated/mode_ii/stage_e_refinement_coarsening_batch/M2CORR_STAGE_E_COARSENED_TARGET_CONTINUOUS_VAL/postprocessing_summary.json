@@ -1,0 +1,23 @@
+{
+  "job_id": "1390535.mmaster02",
+  "job_name": "M2CORR_STAGE_E_COARSENED_TARGET_CONTINUOUS_VAL",
+  "mesh_type": "Graded Coarsened 8200 quads (Nx=90, Ny=90)",
+  "analysis_completed_successfully": true,
+  "total_frames": 130,
+  "terminal_u1_mm": 0.05000000074505806,
+  "terminal_rf1_kN": 0.0061014979146420956,
+  "peak_rf1_kN": 0.14887619018554688,
+  "peak_u1_mm": 0.013512890785932541,
+  "peak_frame": 20,
+  "handoff_frame": 17,
+  "handoff_u1_mm": 0.010512890294194221,
+  "handoff_rf1_kN": 0.1252136081457138,
+  "handoff_d_max": 0.28607264161109924,
+  "hard_invariants": {
+    "phase_bounds_0_to_1": true,
+    "d_min_overall": 0.0,
+    "d_max_overall": 1.0000001192092896,
+    "pointwise_damage_monotonicity": true,
+    "min_delta_d_max": 0.0
+  }
+}

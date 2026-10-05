@@ -1,0 +1,120 @@
+{
+  "evaluation_summary": {
+    "candidate_job": "1391319.mmaster02",
+    "candidate_package": "M2CORR_STAGE_E_DONOR_MINIMAL_COMBINED_VAL",
+    "canonical_donor_control_job": "1390876.mmaster02",
+    "canonical_donor_control_package": "M2CORR_STAGE_E_DONOR_MINIMAL_DTMIN_CONTINUATION_VAL",
+    "classification": "COMBINED_PATH_NEUTRAL_VALIDATED",
+    "accepted_increments": 439,
+    "total_frames": 440,
+    "frame_match": true,
+    "first_differing_state": null
+  },
+  "authoritative_14_criteria_evaluation": {
+    "1_accepted_u1_sequence": {
+      "status": "PASSED",
+      "max_abs_delta_u1_rp_mm": 0.0,
+      "max_abs_delta_u1_whole_mesh_mm": 0.0,
+      "description": "Bit-for-bit identical RP U1 and whole-model nodal displacement across all 440 frames."
+    },
+    "2_canonical_rp_rf1": {
+      "status": "PASSED",
+      "peak_rf1_kN": 0.14473675191402435,
+      "peak_rf1_frame": 20,
+      "peak_u1_mm": 0.012575390748679638,
+      "handoff_rf1_frame_17_kN": 0.12591584026813507,
+      "handoff_u1_mm": 0.010512890294194221,
+      "terminal_rf1_frame_439_kN": 0.006771646440029144,
+      "terminal_u1_mm": 0.05000000074505806,
+      "max_abs_delta_rf1_rp_kN": 0.0,
+      "max_abs_delta_bottom_sum_rf1_kN": 0.0
+    },
+    "3_nodal_phase_field_d": {
+      "status": "PASSED",
+      "max_abs_delta_d_all_18707_nodes_all_440_frames": 0.0,
+      "peak_frame_d_max_diff": 0.0,
+      "terminal_frame_d_max_diff": 0.0
+    },
+    "4_committed_four_gp_h": {
+      "status": "PASSED",
+      "parsed_increments": 439,
+      "max_abs_delta_peak_h_all_increments": 0.0,
+      "final_increment_peak_h_1391319": 0.00078593,
+      "final_increment_peak_h_1390876": 0.00078593,
+      "final_peak_element_id": 89
+    },
+    "5_phase_bounds_0_le_d_le_1": {
+      "status": "PASSED",
+      "global_d_min": 0.0,
+      "global_d_max": 1.000000238418579,
+      "tolerance": 1e-06,
+      "satisfied": true
+    },
+    "6_irreversibility_no_healing": {
+      "status": "PASSED",
+      "min_delta_d_temporal": -5.9604644775e-08,
+      "criterion_ge": -1e-06,
+      "healing_violations_count": 0,
+      "satisfied": true
+    },
+    "7_h_ge_0_and_committed_temporal_h_monotonicity": {
+      "status": "PASSED",
+      "min_h": 0.0,
+      "h_monotonicity_verified": true,
+      "description": "Positive definite strain driving energy POS_M >= 0, transactional commitment strictly enforces H_{n+1} >= H_n."
+    },
+    "8_relevant_energies": {
+      "status": "PASSED",
+      "strain_energy_allse_parity": true,
+      "external_work_allwk_parity": true,
+      "internal_energy_allie_parity": true,
+      "max_delta_energy": 0.0
+    },
+    "9_crack_localization_path": {
+      "status": "PASSED",
+      "initiation_frame": 24,
+      "initiation_step_time": 0.258832,
+      "initiation_u1_mm": 0.012942,
+      "terminal_crack_frame": 439,
+      "terminal_u1_mm": 0.05,
+      "spatial_discrepancy_all_elements": 0.0
+    },
+    "10_newton_iteration_history": {
+      "status": "PASSED",
+      "total_newton_iterations_1391319": 2193,
+      "total_newton_iterations_1390876": 2193,
+      "identical_per_increment": true
+    },
+    "11_attempted_and_accepted_increments": {
+      "status": "PASSED",
+      "total_attempts_1391319": 516,
+      "total_attempts_1390876": 516,
+      "accepted_increments_1391319": 439,
+      "accepted_increments_1390876": 439,
+      "identical": true
+    },
+    "12_cutback_sequence": {
+      "status": "PASSED",
+      "cutback_count_1391319": 77,
+      "cutback_count_1390876": 77,
+      "max_cutback_depth_reached": 3,
+      "identical_cutback_sequence": true
+    },
+    "13_first_differing_accepted_state": {
+      "status": "PASSED",
+      "first_differing_frame": null,
+      "divergence_detected": false,
+      "description": "Exact point-by-point parity across all 440 frames (439 increments)."
+    },
+    "14_controls_exercised": {
+      "status": "PASSED",
+      "ia13_configured": true,
+      "ia13_exercised": false,
+      "dtmin5e12_configured": true,
+      "dtmin5e12_exercised": false,
+      "min_dt_attempted_s": 7.332e-07,
+      "max_attempt_reached": 3,
+      "explanation": "Because the donor model converged smoothly without needing cutback depth > 3 or dt < 1.0e-11 s, the qualified combined controls remained available as an inactive broader envelope."
+    }
+  }
+}

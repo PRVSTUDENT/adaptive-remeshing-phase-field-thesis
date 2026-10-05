@@ -1,0 +1,65 @@
+{
+  "manifest": {
+    "inp1_path": "models/generated/mode_ii/production_state_transfer_batch/M2CORR_STAGE_D_CONTINUOUS_TARGET_CONTROL_VAL\\M2CORR_STAGE_D_CONTINUOUS_TARGET_CONTROL_VAL.inp",
+    "inp1_sha256": "d4412b3abece283d514e2612d6b17e76dc92a8d4bcaa10694315dbba49291b2c",
+    "inp2_path": "models/generated/mode_ii/stage_e_refinement_coarsening_batch/M2CORR_STAGE_E_DONOR_CONTROL_VAL\\M2CORR_STAGE_E_DONOR_CONTROL_VAL.inp",
+    "inp2_sha256": "c20772164cbd04527e2964f04f71f854ff7dbebc463fd5678caf0bb85f24a853",
+    "for1_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "for2_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "for_identical": true,
+    "unified_diff": [
+      "--- 1390447.inp",
+      "+++ 1390533.inp",
+      "@@ -1,5 +1,5 @@",
+      " *HEADING\n",
+      "-M2CORR_STAGE_D_CONTINUOUS_TARGET_CONTROL_VAL - Continuous Virgin Control on Stage-D Mesh\n",
+      "+M2CORR_STAGE_E_DONOR_CONTROL_VAL - Continuous Virgin Control on Stage-D Mesh\n",
+      " ** Target Mesh: Exact Stage-D Sliver-Free Graded Nonmatching 8836 quads (Nx=94, Ny=94)\n",
+      " ** Continuous Monotonic Shear from U1 = 0.0 to 0.050 mm (No Transfer, Virgin d=0, H=0)\n",
+      " **\n",
+      "@@ -27076,7 +27076,10 @@",
+      " ** ==========================================================\n",
+      " *STEP, NAME=ShearStep, NLGEOM=NO, INC=10000\n",
+      " *STATIC\n",
+      "-0.001, 1.0, 1.0e-9, 0.02\n",
+      "+0.001, 1.0, 1.0e-10, 0.02\n",
+      "+*CONTROLS, PARAMETERS=TIME INCREMENTATION\n",
+      "+8, 10, 9, 20, 10, 4, 50, 12\n",
+      "+0.25, 0.50, 0.75, 0.25, 0.25, 1.5, 1.5, 1.25\n",
+      " *BOUNDARY, OP=NEW\n",
+      " N_BOTTOM, 1, 2, 0.0\n",
+      " N_RP, 1, 1, 0.050000\n"
+    ]
+  },
+  "historical_donor": {
+    "total_frames": 440,
+    "peak_frame": 20,
+    "peak_u1_mm": 0.012575390748679638,
+    "peak_rf1_kN": 0.14473675191402435,
+    "terminal_frame": 439,
+    "terminal_u1_mm": 0.05000000074505806,
+    "terminal_rf1_kN": 0.006771646440029144,
+    "handoff_frame": 17,
+    "handoff_u1_mm": 0.010512890294194221,
+    "handoff_rf1_kN": 0.12591584026813507,
+    "handoff_d_max": 0.3043181896209717
+  },
+  "revised_donor": {
+    "total_frames": 135,
+    "peak_frame": 20,
+    "peak_u1_mm": 0.013512890785932541,
+    "peak_rf1_kN": 0.1493823528289795,
+    "terminal_frame": 134,
+    "terminal_u1_mm": 0.05000000074505806,
+    "terminal_rf1_kN": 0.008938726037740707,
+    "handoff_frame": 17,
+    "handoff_u1_mm": 0.010512890294194221,
+    "handoff_rf1_kN": 0.12591584026813507,
+    "handoff_d_max": 0.3043181896209717
+  },
+  "divergence_analysis": {
+    "first_divergence_frame": 20,
+    "divergence_mechanism": "Frame 0 to 19 (U1 = 0.0 to 0.0125 mm) match to 0.0000% error. Divergence begins at Frame 20 when default controls triggered cutback while revised controls iterated to convergence at Time 0.270.",
+    "classification": "SOLVER_CONTROL_ALTERS_EQUILIBRIUM_PATH"
+  }
+}

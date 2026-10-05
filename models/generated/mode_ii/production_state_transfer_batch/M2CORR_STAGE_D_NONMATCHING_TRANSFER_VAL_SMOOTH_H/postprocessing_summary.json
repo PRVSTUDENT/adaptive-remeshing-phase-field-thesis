@@ -1,0 +1,74 @@
+{
+  "job_id": "1390454.mmaster02",
+  "model_name": "M2CORR_STAGE_D_NONMATCHING_TRANSFER_VAL_SMOOTH_H",
+  "history_operator": "HOST_ISOPARAMETRIC_BILINEAR_CLAMPED",
+  "status": "COMPLETED_SUCCESSFULLY_100_PERCENT",
+  "total_frames_extracted": 459,
+  "steps": {
+    "STATE_INSTALL": {
+      "frame_count": 2,
+      "start_rf1_kN": -0.0,
+      "end_rf1_kN": 0.12317241728305817,
+      "start_d_max": 0.0,
+      "end_d_max": 0.28444424271583557,
+      "start_u1_mm": 0.01014330051839,
+      "end_u1_mm": 0.01014330051839
+    },
+    "MECH_EQUILIBRATION": {
+      "frame_count": 2,
+      "start_rf1_kN": 0.12317241728305817,
+      "end_rf1_kN": 0.12203918397426605,
+      "start_d_max": 0.28444424271583557,
+      "end_d_max": 0.28444424271583557,
+      "start_u1_mm": 0.01014330051839,
+      "end_u1_mm": 0.01014330051839
+    },
+    "PHASE_RELEASE": {
+      "frame_count": 2,
+      "start_rf1_kN": 0.12203918397426605,
+      "end_rf1_kN": 0.12125241756439209,
+      "start_d_max": 0.28444424271583557,
+      "end_d_max": 0.39281782507896423,
+      "start_u1_mm": 0.01014330051839,
+      "end_u1_mm": 0.01014330051839
+    },
+    "CONTINUATION": {
+      "frame_count": 453,
+      "start_rf1_kN": 0.12125241756439209,
+      "end_rf1_kN": 0.006947325076907873,
+      "start_d_max": 0.39281782507896423,
+      "end_d_max": 1.000000238418579,
+      "start_u1_mm": 0.01014330051839,
+      "end_u1_mm": 0.05
+    }
+  },
+  "irreversibility_check": {
+    "min_delta_d": -5.960464477539063e-08,
+    "irreversibility_satisfied": true
+  },
+  "continuation_metrics": {
+    "peak_reaction_force_kN": 0.14374344050884247,
+    "peak_displacement_u1_mm": 0.013364657121058282,
+    "peak_d_max": 0.9506985545158386,
+    "peak_increment": 51,
+    "historical_failure_point_status": {
+      "u1_mm": 0.011236593978424447,
+      "rf1_kN": 0.13215512037277222,
+      "d_max": 0.48198363184928894,
+      "cutback_failure_occurred": false,
+      "passed_critical_neighborhood": true
+    },
+    "terminal_reaction_force_kN": 0.006947325076907873,
+    "terminal_displacement_u1_mm": 0.05,
+    "terminal_d_max": 1.000000238418579,
+    "terminal_increment": 452
+  },
+  "continuous_reference_comparison_1390447": {
+    "reference_peak_reaction_force_kN": 0.14473675191402435,
+    "reference_peak_displacement_u1_mm": 0.012575390748679638,
+    "reference_terminal_reaction_force_kN": 0.006771646440029144,
+    "peak_force_parity_error_pct": 0.6862883075971786,
+    "peak_displacement_parity_error_pct": 6.276277120546042
+  },
+  "scientific_classification": "SMOOTH_H_OPERATOR_SUPPORTED"
+}

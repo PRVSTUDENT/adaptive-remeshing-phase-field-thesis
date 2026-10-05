@@ -1,0 +1,26 @@
+[
+  {
+    "timestamp_utc": "2026-08-19T13:49:07.519242+00:00",
+    "event_type": "submission",
+    "channel": "email",
+    "recipient_redacted": "p******i@mailserver.tu-freiberg.de",
+    "return_code": 0,
+    "message": "Email sent successfully via mailx"
+  },
+  {
+    "timestamp_utc": "2026-08-19T13:49:12.553074+00:00",
+    "event_type": "submission",
+    "channel": "email",
+    "recipient_redacted": "P***************************i@student.tu-freiberg.de",
+    "return_code": 0,
+    "message": "Email sent successfully via mailx"
+  },
+  {
+    "timestamp_utc": "2026-08-19T13:49:12.828066+00:00",
+    "event_type": "submission",
+    "channel": "telegram",
+    "recipient_redacted": "54****89",
+    "return_code": 0,
+    "message": "Telegram message sent successfully"
+  }
+]

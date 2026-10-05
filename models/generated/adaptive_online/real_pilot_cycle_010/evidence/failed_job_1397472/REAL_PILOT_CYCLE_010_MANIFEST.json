@@ -1,0 +1,36 @@
+{
+  "cycle_id": "REAL_PILOT_CYCLE_010",
+  "generation_timestamp_utc": "2026-08-25T08:10:00Z",
+  "donor_provenance": {
+    "donor_cycle": "REAL_PILOT_CYCLE_009",
+    "donor_job": "1397444.mmaster02",
+    "donor_frame": 171,
+    "handoff_u1_mm": 0.03301289111375808,
+    "target_u1_mm": 0.035512891113758084
+  },
+  "artifacts": {
+    "f44_mixed_uel_restart_stateinit.for": "942003c5882b5598e81b471d87840e0dce2a639179cc24c87662dcf53eaef946",
+    "M2ADAPT_REAL_PILOT_CYCLE_010_RESTART.inp": "747d10da311beaecf3804e3bff0d099dd8c3b260897af0fda4f02e7c2f731071",
+    "M2ADAPT_REAL_PILOT_CYCLE_010_RESTART.pbs": "6ac8cbb84e1d026e75ff3baf03ea0c2872f7a5fc7780d237beb1c62be5a0bd4a",
+    "MODE_STAGED.flag": "5a7173f8c169c3cbf43033b1ceeec5e7c3289581e229b7b973e72822a4223ff5",
+    "RESTART_ACCEPTANCE_CONTRACT.json": "4454571cfde99e7d0abe04398463c917e5668dc5cbb632b92cc916b9d0147390",
+    "STAGE_D_COMMITTED_STATE.bin": "a75fa84839fc23969dbaac9c3d19496ad2e47e7a0022020c9b8d4bc7edda2ad6",
+    "submit_m2adapt_real_pilot_cycle_010_restart.sh": "ad52abd12e61ba3ad7f0bb37a4d35c8c2dd3f57526c7c245ad9d4da89ffad475",
+    "TARGET_REAL_PILOT_CYCLE_010_PRIMARY_STATE.csv": "5bf10b45aea3b77a5aaa18e2b13e32651b950ea2840fd38ad55093dce4303548",
+    "TARGET_REAL_PILOT_CYCLE_010_STATE_INSTALL_BOUNDARY.inp": "62ef424a4839f0a357b2a3c83e9488c3bf8925de7c05ec5e6887a53267b604f0",
+    "TARGET_REAL_PILOT_CYCLE_010_TRANSFER_MANIFEST.json": "07b95b096200f69f11e86d7ff52478b5e2b756d4a3e78fd46d98da465cbd8654",
+    "TARGET_REAL_PILOT_CYCLE_010_U3_ONLY_BOUNDARY.inp": "0706d2a48b00e111ce91ed03c4f19b8d35288cdbc8de6d9e09e5988925f88153"
+  },
+  "candidate_status": {
+    "readiness": "READY_FOR_PREFLIGHT_DATACHECK",
+    "donor_job_id": "1397444.mmaster02",
+    "execution_branch": "SAME_MESH_IDENTITY_RESTART",
+    "handoff_u1_mm": 0.03301289111375808,
+    "target_u1_mm": 0.035512891113758084,
+    "delta_u1_mm": 0.0025,
+    "num_physical_nodes": 5288,
+    "num_physical_elements": 5112,
+    "transfer_invariants_passed": true,
+    "step3_controls": "inc=500, time_incrementation 25,25,25,25,25,4,50,25, field=displacement 1.0, field=temperature 1.0"
+  }
+}

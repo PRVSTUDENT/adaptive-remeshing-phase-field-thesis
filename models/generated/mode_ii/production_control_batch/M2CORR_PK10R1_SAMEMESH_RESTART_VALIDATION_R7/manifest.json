@@ -1,0 +1,42 @@
+{
+  "job_name": "M2CORR_PK10R1_SAMEMESH_RESTART_VALIDATION_R7",
+  "scientific_purpose": "Same-mesh restart validation under 4-stage state initialization with reconstructed committed history and phase state",
+  "package_revision": "R7",
+  "physical_mesh": {
+    "node_count": 9849,
+    "element_count": 9612,
+    "quad_count": 9588,
+    "triangle_count": 24
+  },
+  "handoff_state": {
+    "increment": 29,
+    "source_replay_job": "1389707.mmaster02",
+    "baseline_comparison_job": "1389684.mmaster02",
+    "rp_u1_mm": 0.010143300518393517,
+    "reference_rf1_kn": 0.305468
+  },
+  "execution_resources": {
+    "requested_queue": "entry_imfdfkmq",
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime": "24:00:00",
+    "abaqus_version": "2023",
+    "compiler_module": "intel/2024.2.0",
+    "maximum_permitted_submissions": 1,
+    "automatic_retry": false
+  },
+  "notification_configuration": {
+    "pbs_email_events": "abe",
+    "pbs_email_recipients": "Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de",
+    "telegram_gate_enabled": true
+  },
+  "file_hashes_sha256": {
+    "inp": "d20edf3a13f024b4ccb981dd86ec82fd7e91ba611451694b9cf313d0affcf750",
+    "uel": "de8326dfd28e66a82ba38496ee63869b86b5959e2cc35b010ebb28ae1dec6438",
+    "full_state_include": "9bd16f9a27cf7c7aa398af31f7e3c754bfab5e9ecf2825fd835dbd1340bd51e5",
+    "u3_only_include": "f54e4fefb92308ec302322cf4183cfa62ae5f89eeb37f1d8727034ea1ce167b8",
+    "canonical_primary_state_csv": "5a2313e1ed15834d933e7cd12808681bd554394ad64d58419ad85f6f2bf6cf69",
+    "reconstructed_committed_state_bin": "9ad133d73332fa24e4c35eab9d49505d30232d30ff5b9f49372d361f833cccea",
+    "launcher": "36e5f0080dc8b947f384bb793f2a2251fb102c1b53cabf2cc22cb4601f89b827"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "experiment_comparison": "Same-Target-Mesh Identity Restart vs. Nonmatching Transfer Restart (1390279.mmaster02)",
+  "mesh_discretization_status": "FALSIFIED_AS_DEFECT_CAUSE_BY_F272 (Target mesh solved continuous 1390447 with 0.738% peak load match)",
+  "comparison_basis": {
+    "mesh_quads": 8836,
+    "mesh_nodes": 9074,
+    "mesh_type": "Exact Stage-D Sliver-Free Graded Quad Mesh",
+    "material_properties": "E=210.0 kN/mm2, nu=0.3, l0=0.015 mm, Gc=0.0027 N/mm, k=1e-7",
+    "staged_sequence": "STATE_LOAD -> MECH_EQUILIBRATION -> PHASE_RELEASE -> CONTINUATION",
+    "continuation_loading": "U1_handoff -> 0.050 mm monotonic shear",
+    "execution_mode": "Explicit Mode 1 (Staged Restart)"
+  },
+  "isolated_single_difference": {
+    "parameter": "PROVENANCE_AND_OPERATOR_OF_INSTALLED_STATE",
+    "1390279_nonmatching_transfer": "Transferred via nonmatching spatial interpolation from H1 donor mesh (nearest-GP operator)",
+    "this_diagnostic_identity_restart": "Transferred via exact identity mapping (1-to-1) from accepted Frame 17 of 1390447.mmaster02 on exact same mesh"
+  },
+  "predeclared_scientific_interpretations": {
+    "case_A_continuation_succeeds": "If identity staged restart reproduces uninterrupted continuous 1390447 without dt_min divergence, the nonmatching transfer/interpolation operator is isolated as the defect cause.",
+    "case_B_continuation_diverges": "If identity staged restart diverges similarly at post-release, the defect resides in the staged restart / displacement boundary / active-set implementation."
+  }
+}

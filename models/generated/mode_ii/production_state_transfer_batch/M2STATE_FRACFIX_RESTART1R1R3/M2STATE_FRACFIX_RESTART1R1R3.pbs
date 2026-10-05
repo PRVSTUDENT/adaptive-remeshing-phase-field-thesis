@@ -1,0 +1,75 @@
+#!/bin/bash
+#PBS -N M2STATE_FRACFIX_RESTART1R1R3
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=8gb
+#PBS -l walltime=04:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -o M2STATE_FRACFIX_RESTART1R1R3.pbs.log
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+echo "[PBS_PREFLIGHT] Starting M2STATE_FRACFIX_RESTART1R1R3 Production Restart Job..."
+date
+
+# Step 0: Package Hash Preflight Verification
+python3 -c "
+import json, hashlib, sys
+from pathlib import Path
+
+m = json.loads(Path('PACKAGE_MANIFEST.json').read_text())
+for f, expected_hash in m['file_hashes'].items():
+    p = Path(f)
+    if not p.exists():
+        print(f'[PBS_PREFLIGHT] ERROR: Missing file {f}')
+        sys.exit(1)
+    actual = hashlib.sha256(p.read_bytes()).hexdigest()
+    if actual != expected_hash:
+        print(f'[PBS_PREFLIGHT] ERROR: Hash mismatch for {f}: expected {expected_hash}, got {actual}')
+        sys.exit(1)
+print('[PBS_PREFLIGHT] PACKAGE HASHES VERIFIED 100% MATCH.')
+"
+if [ $? -ne 0 ]; then
+  echo "[PBS_PREFLIGHT] ERROR: Package manifest verification failed."
+  exit 1
+fi
+
+# Step 1: Purge and Load Qualified Modules
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+echo "[PBS_PREFLIGHT] Abaqus environment loaded."
+abaqus information=release
+
+# Step 2: Run Abaqus Execution Step
+abaqus job=M2STATE_FRACFIX_RESTART1R1R3 user=f42_mixed_uel.for input=M2STATE_FRACFIX_RESTART1R1R3.inp interactive
+
+ABAQUS_RC=$?
+echo "[PBS_PREFLIGHT] Abaqus execution finished with exit code $ABAQUS_RC"
+
+if [ $ABAQUS_RC -ne 0 ]; then
+  echo "[PBS_PREFLIGHT] ERROR: Abaqus execution failed with exit code $ABAQUS_RC"
+  exit $ABAQUS_RC
+fi
+
+echo "[PBS_PREFLIGHT] Abaqus continuation step completed successfully."
+
+# Step 3: Concatenate trace sinks and run checker
+cat M2STATE_FRACFIX_RESTART1R1R3.dat M2STATE_FRACFIX_RESTART1R1R3.msg M2STATE_FRACFIX_RESTART1R1R3.log > M2STATE_FRACFIX_RESTART1R1R3.trace 2>/dev/null
+
+python3 verify_restart_trace.py M2STATE_FRACFIX_RESTART1R1R3.trace
+CHECKER_RC=$?
+
+if [ $CHECKER_RC -ne 0 ]; then
+  echo "[PBS_PREFLIGHT] ERROR: Production restart trace checker failed with exit code $CHECKER_RC"
+  exit $CHECKER_RC
+fi
+
+echo "[PBS_PREFLIGHT] ALL PRODUCTION RESTART CONTRACTS QUALIFIED SUCCESSFULLY."

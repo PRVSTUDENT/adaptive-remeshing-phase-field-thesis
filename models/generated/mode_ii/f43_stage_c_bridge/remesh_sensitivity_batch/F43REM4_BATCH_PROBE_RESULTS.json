@@ -1,0 +1,62 @@
+{
+  "F43REM4_PK1": {
+    "probe_status": "PASS",
+    "readback_attributes": {
+      "name": "MISESERI_Adaptive_Rule_PK1",
+      "stepName": "Step-1",
+      "variables": [
+        "MISESERI"
+      ],
+      "region": "MODEL",
+      "sizingMethod": "UNIFORM_ERROR",
+      "specifyMinSize": true,
+      "minElementSize": 0.0075,
+      "specifyMaxSize": true,
+      "maxElementSize": 0.03,
+      "errorTarget": 1.0,
+      "coarseningFactor": "NOT_ALLOWED",
+      "refinementFactor": 10
+    },
+    "adaptiveRemesh_called": false
+  },
+  "F43REM4_PK5": {
+    "probe_status": "PASS",
+    "readback_attributes": {
+      "name": "MISESERI_Adaptive_Rule_PK5",
+      "stepName": "Step-1",
+      "variables": [
+        "MISESERI"
+      ],
+      "region": "MODEL",
+      "sizingMethod": "UNIFORM_ERROR",
+      "specifyMinSize": true,
+      "minElementSize": 0.0075,
+      "specifyMaxSize": true,
+      "maxElementSize": 0.03,
+      "errorTarget": 5.0,
+      "coarseningFactor": "NOT_ALLOWED",
+      "refinementFactor": 10
+    },
+    "adaptiveRemesh_called": false
+  },
+  "F43REM4_MM": {
+    "probe_status": "PASS",
+    "readback_attributes": {
+      "name": "MISESERI_Adaptive_Rule_MM",
+      "stepName": "Step-1",
+      "variables": [
+        "MISESERI"
+      ],
+      "region": "MODEL",
+      "sizingMethod": "MINIMUM_MAXIMUM",
+      "specifyMinSize": true,
+      "minElementSize": 0.0075,
+      "specifyMaxSize": true,
+      "maxElementSize": 0.03,
+      "maxSolutionErrorTarget": 5.0,
+      "minSolutionErrorTarget": 1.0,
+      "meshBias": 0
+    },
+    "adaptiveRemesh_called": false
+  }
+}

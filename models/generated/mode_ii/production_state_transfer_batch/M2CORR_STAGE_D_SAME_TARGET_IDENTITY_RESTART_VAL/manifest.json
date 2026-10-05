@@ -1,0 +1,34 @@
+{
+  "package_name": "M2CORR_STAGE_D_SAME_TARGET_IDENTITY_RESTART_VAL",
+  "description": "Same-target-mesh identity staged restart diagnostic sourced from Frame 17 of 1390447.mmaster02",
+  "source_run": "1390447.mmaster02",
+  "source_frame": 17,
+  "source_increment": 17,
+  "source_step_time": 0.2102578,
+  "source_physical_u1_mm": 0.01051289,
+  "target_mesh_quads": 8836,
+  "target_mesh_nodes": 9074,
+  "execution_mode": "MODE 1: STAGED_TRANSFER_RESTART (Explicit PROPS(7)=1.0)",
+  "files": {
+    "M2CORR_STAGE_D_SAME_TARGET_IDENTITY_RESTART_VAL.inp": {
+      "sha256": "5c4fcdf3dd80b1ca83ef9d051c5ce8f371c63abfccea9175c2682e338c76b8e0",
+      "size_bytes": 871154
+    },
+    "f44_mixed_uel_restart_stateinit.for": {
+      "sha256": "863090488269b5cf14b244ec405727b47aee9329b91146e72f67499443d08062",
+      "size_bytes": 17402
+    },
+    "submit_job.pbs": {
+      "sha256": "1ed19c98ddd941329b49d0e6f817775e9523271154206da335c3b768b60f4f3a",
+      "size_bytes": 611
+    },
+    "STAGE_D_COMMITTED_STATE.bin": {
+      "sha256": "d571ed56fc8998483b8939fcb4ecab6856ef6a2ce8706ae2cec68fddf9e63436",
+      "size_bytes": 6400016
+    },
+    "MODE_STAGED.flag": {
+      "sha256": "25988d119761e7a124aad8bb7ba19350ccd9bf0b8de9070b56adb57f62b2981b",
+      "size_bytes": 45
+    }
+  }
+}

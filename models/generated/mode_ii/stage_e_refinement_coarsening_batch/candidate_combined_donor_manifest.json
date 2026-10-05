@@ -1,0 +1,37 @@
+{
+  "package_name": "M2CORR_STAGE_E_DONOR_MINIMAL_COMBINED_VAL",
+  "base_job": "1390876.mmaster02",
+  "base_package": "M2CORR_STAGE_E_DONOR_MINIMAL_DTMIN_CONTINUATION_VAL",
+  "intended_controls": {
+    "I_A": 13,
+    "dt_min": "5.0e-12",
+    "I_0": 4,
+    "I_R": 8,
+    "I_P": 9,
+    "I_C": 16,
+    "I_L": 10,
+    "I_G": 4,
+    "I_S": 50
+  },
+  "hashes": {
+    "inp_sha256": "29e9eccf5cabde73d9b9d573d84dad3e678ad75a58a699958b0618c92296d001",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab"
+  },
+  "unified_diff": [
+    "--- 1390876_donor",
+    "+++ M2CORR_STAGE_E_DONOR_MINIMAL_COMBINED_VAL",
+    "@@ -27076,9 +27076,9 @@",
+    " ** ==========================================================",
+    " *STEP, NAME=ShearStep, NLGEOM=NO, INC=10000",
+    " *STATIC",
+    "-0.001, 1.0, 1.0e-11, 0.02",
+    "+0.001, 1.0, 5.0e-12, 0.02",
+    " *CONTROLS, PARAMETERS=TIME INCREMENTATION",
+    "-4, 8, 9, 16, 10, 4, 50, 12",
+    "+4, 8, 9, 16, 10, 4, 50, 13",
+    " *BOUNDARY, OP=NEW",
+    " N_BOTTOM, 1, 2, 0.0",
+    " N_RP, 1, 1, 0.050000"
+  ],
+  "submission_authorized": false
+}

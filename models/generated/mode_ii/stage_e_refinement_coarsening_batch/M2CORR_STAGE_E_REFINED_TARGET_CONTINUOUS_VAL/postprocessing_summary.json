@@ -1,0 +1,22 @@
+{
+  "job_id": "1390534.mmaster02",
+  "job_name": "M2CORR_STAGE_E_REFINED_TARGET_CONTINUOUS_VAL",
+  "mesh_type": "Graded Refined 33600 quads (Nx=182, Ny=182)",
+  "total_frames": 219,
+  "terminal_u1_mm": 0.05000000074505806,
+  "terminal_rf1_kN": 0.005815223325043917,
+  "peak_rf1_kN": 0.14739876985549927,
+  "peak_u1_mm": 0.013512890785932541,
+  "peak_frame": 20,
+  "handoff_frame": 17,
+  "handoff_u1_mm": 0.010512890294194221,
+  "handoff_rf1_kN": 0.12605319917201996,
+  "handoff_d_max": 0.3099477291107178,
+  "hard_invariants": {
+    "phase_bounds_0_to_1": true,
+    "d_min_overall": 0.0,
+    "d_max_overall": 1.0000003576278687,
+    "pointwise_damage_monotonicity": true,
+    "min_delta_d_max": 0.0
+  }
+}

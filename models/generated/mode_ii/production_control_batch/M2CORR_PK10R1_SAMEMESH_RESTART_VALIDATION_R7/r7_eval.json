@@ -1,0 +1,88 @@
+{
+  "job_identity": "M2CORR_PK10R1_SAMEMESH_RESTART_VALIDATION_R7",
+  "job_package_revision": "R7",
+  "predecessor_status": "R6_SUPERSEDED_BY_R7",
+  "reconstructed_committed_state": {
+    "provenance": "SCIENTIFICALLY_EQUIVALENT_REPLAY_RECONSTRUCTION",
+    "binary_sha256": "9ad133d73332fa24e4c35eab9d49505d30232d30ff5b9f49372d361f833cccea",
+    "expected_hmax_kN_mm2": 98.221423
+  },
+  "references": {
+    "active_reference_handoff_rf1_kN": 0.305426,
+    "replay_reference_handoff_rf1_kN": 0.305426,
+    "original_baseline_handoff_rf1_kN": 0.305468,
+    "continuation_terminal_rf1_kN": 0.003639
+  },
+  "solver_completion": true,
+  "total_increments": 92,
+  "cutbacks": 11,
+  "stage_extractions": {
+    "STATE_INSTALL": {
+      "frame_count": 2,
+      "first_frame_time": 0.0,
+      "last_frame_time": 1.0,
+      "rp_u1_first_mm": 0.0,
+      "rp_u1_last_mm": 0.010063235,
+      "rp_rf1_first_kN": 0.0,
+      "rp_rf1_last_kN": 0.0
+    },
+    "MECH_EQUILIBRATION": {
+      "frame_count": 2,
+      "first_frame_time": 0.0,
+      "last_frame_time": 1.0,
+      "rp_u1_first_mm": 0.010063235,
+      "rp_u1_last_mm": 0.0101433005,
+      "rp_rf1_first_kN": -1.4606372e-15,
+      "rp_rf1_last_kN": 0.30544266
+    },
+    "PHASE_RELEASE": {
+      "frame_count": 2,
+      "first_frame_time": 0.0,
+      "last_frame_time": 1.0,
+      "rp_u1_first_mm": 0.0101433005,
+      "rp_u1_last_mm": 0.0101433005,
+      "rp_rf1_first_kN": 0.30544266,
+      "rp_rf1_last_kN": 0.30545995
+    },
+    "CONTINUATION": {
+      "frame_count": 90,
+      "first_frame_time": 0.0,
+      "last_frame_time": 1.0,
+      "rp_u1_first_mm": 0.0101433005,
+      "rp_u1_last_mm": 0.05,
+      "rp_rf1_first_kN": 0.30545995,
+      "rp_rf1_last_kN": 0.003586889
+    }
+  },
+  "step1_handoff_evaluation": {
+    "active_reference_rf1_kN": 0.305426,
+    "actual_rf1_kN": 0.0,
+    "difference_pct": 100.0,
+    "frozen_threshold_pct": 1.0,
+    "criterion_type": "FROZEN_SCIENTIFIC",
+    "status": "FAIL"
+  },
+  "step2_mech_equilibration_evaluation": {
+    "rf1_jump_pct": 0.0,
+    "frozen_threshold_pct": 1.0,
+    "criterion_type": "FROZEN_SCIENTIFIC",
+    "max_u3_drift_software_tolerance": 1e-06,
+    "status": "PASS"
+  },
+  "step3_phase_release_evaluation": {
+    "rf1_jump_pct": 0.0056606369260938,
+    "criterion_type": "QUALITATIVE",
+    "phase_healing_threshold_min_delta_d": -1e-06,
+    "phase_healing_criterion_type": "FROZEN_SCIENTIFIC",
+    "status": "QUALITATIVE_EVIDENCE"
+  },
+  "step4_continuation_evaluation": {
+    "reference_terminal_rf1_kN": 0.003639,
+    "actual_terminal_rf1_kN": 0.003586889,
+    "terminal_difference_pct": 1.4320142896400134,
+    "frozen_threshold_pct": 2.0,
+    "criterion_type": "FROZEN_SCIENTIFIC",
+    "status": "PASS"
+  },
+  "overall_status": "UNRESOLVED"
+}

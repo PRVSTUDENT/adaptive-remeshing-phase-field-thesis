@@ -1,0 +1,29 @@
+{
+  "job_name": "M2ADAPT_REAL_PILOT_CYCLE_006_RESTART",
+  "cycle_id": "REAL_PILOT_CYCLE_006",
+  "source_job_id": "1396594.mmaster02",
+  "datacheck_mode": false,
+  "candidate": "Candidate A (Step 3 dt_min=1.0e-14)",
+  "target_mesh": {
+    "num_physical_elements": 5112,
+    "num_layered_elements": 15336,
+    "num_nodes": 5287
+  },
+  "segment_interval": {
+    "handoff_u1_mm": 0.023012891113758087,
+    "target_u1_mm": 0.025512891113758086,
+    "delta_u1_mm": 0.0024999999999999988
+  },
+  "hashes": {
+    "input_deck_sha256": "79bc49da8093e2fe42cb502ca569aa453b8549343570c973a42c4fbb3db7123e",
+    "uel_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "pbs_script_sha256": "b584edfc337433f961a4e0d7e910300b8e9ea4f1c9b57a44bae07ae4cff6047a",
+    "wrapper_sha256": "92093ac00dce47916b554baa18cbae96088a3a2bdcf497fae2b54dd3ae228ccd"
+  },
+  "resources": {
+    "cpus": 1,
+    "memory": "16gb",
+    "walltime": "01:00:00",
+    "queue": "entry_imfdfkmq"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "cycle_id": "REAL_PILOT_CYCLE_019",
+  "job_name": "M2ADAPT_REAL_PILOT_CYCLE_019_RESTART",
+  "source_donor": {
+    "job_id": "1398012.mmaster02",
+    "cycle_id": "REAL_PILOT_CYCLE_018",
+    "handoff_u1_mm": 0.0555128912627697,
+    "donor_rf1_kN": 0.001394837279804051,
+    "donor_dmax": 0.0
+  },
+  "target_segment": {
+    "handoff_u1_mm": 0.0555128912627697,
+    "target_u1_mm": 0.0580128912627697,
+    "delta_u1_mm": 0.0025
+  },
+  "mesh_stats": {
+    "num_physical_elements": 5112,
+    "num_physical_nodes": 5287,
+    "num_layered_elements": 15336
+  },
+  "controls": {
+    "step_3": {
+      "Rn": 0.01,
+      "Cn_u": 10.0,
+      "time_incrementation": "25, 25, 25, 25, 25, 4, 50, 25",
+      "dt_min": 1e-14
+    },
+    "step_4": {
+      "Rn": 0.05,
+      "Cn_u": 10.0,
+      "time_incrementation": "25, 25, 25, 25, 25, 4, 50, 25",
+      "dt_min": 1e-14
+    }
+  },
+  "hashes": {
+    "input_deck_sha256": "c073252d1371ca230262cf2a33e6ab4a43dc1176ae3b6bc24726ae0842a7213b",
+    "uel_sha256": "942003c5882b5598e81b471d87840e0dce2a639179cc24c87662dcf53eaef946",
+    "datacheck_pbs_sha256": "8bf081bcc84619a4d0c975d1f15f05ed7123f4f4db4377cb6533a540848154dc",
+    "production_pbs_sha256": "5054cd78200fe333b5ad914503f88f3be869700db06139ecd2e9976d21ca5710",
+    "datacheck_wrapper_sha256": "b8c3bd1014bb3e033fc0c91c2f59ad951c7e9fd35eefeef11c5df46128064767",
+    "production_wrapper_sha256": "e557c29a3e1e7409636beb076a07d25da72139a4e8a06e8005909be13088412a",
+    "primary_state_csv_sha256": "1de31b6b90af68f7f73529ebaba0c103f32bec6ac266e573e52d509c5dee76e9",
+    "state_install_boundary_sha256": "ed7a27eba27cca8f4b1838b085a7326036e544113a945545b5fee1a6cc22355a",
+    "u3_only_boundary_sha256": "e96d36a0b38a650308e0e237c372291ca1c2cffd63101ff031e1838c588d76d2",
+    "committed_state_bin_sha256": "6a1e3657a43b73ca00be2a245441a36bde8458a16ae58209c16aa171d7a9eaff",
+    "source_state_bin_sha256": "6a1e3657a43b73ca00be2a245441a36bde8458a16ae58209c16aa171d7a9eaff"
+  }
+}

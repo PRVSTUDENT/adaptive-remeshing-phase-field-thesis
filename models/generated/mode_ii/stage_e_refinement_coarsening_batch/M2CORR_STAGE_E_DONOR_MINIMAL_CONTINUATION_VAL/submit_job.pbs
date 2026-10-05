@@ -1,0 +1,36 @@
+#!/bin/bash
+#PBS -N M2CORR_STAGE_E_
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -o pbs.out
+#PBS -e pbs.err
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+# Clean old lock files
+rm -f *.lck
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "Job started on $(hostname) at $(date)"
+
+abaqus job=M2CORR_STAGE_E_DONOR_MINIMAL_CONTINUATION_VAL input=M2CORR_STAGE_E_DONOR_MINIMAL_CONTINUATION_VAL.inp user=f44_mixed_uel_restart_stateinit.for cpus=1 interactive
+ABAQUS_RC=$?
+
+echo "Abaqus finished with return code ${ABAQUS_RC} at $(date)"
+
+exit ${ABAQUS_RC}

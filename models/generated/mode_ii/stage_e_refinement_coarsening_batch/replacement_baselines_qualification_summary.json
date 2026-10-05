@@ -1,0 +1,31 @@
+{
+  "refined_package": {
+    "job_name": "M2CORR_STAGE_E_REFINED_TARGET_MINIMAL_CONTINUATION_VAL",
+    "inp_sha256": "d1731bebabf80560ae6150c3a7288bb186975d36fcb738ae1b42ec86a50f6028",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "for_hash_valid": true,
+    "controls_valid": true,
+    "controls_line": "4, 8, 9, 16, 10, 4, 50, 12",
+    "static_valid": true,
+    "static_line": "0.001, 1.0, 1.0e-9, 0.02",
+    "rp_and_bc_valid": true,
+    "props_valid": true,
+    "pbs_valid": true,
+    "qualification_passed": true
+  },
+  "coarsened_package": {
+    "job_name": "M2CORR_STAGE_E_COARSENED_TARGET_MINIMAL_CONTINUATION_VAL",
+    "inp_sha256": "08e7df2b573d0d1f165f507df75260e73449111548c024dee77ca8427078df6a",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "for_hash_valid": true,
+    "controls_valid": true,
+    "controls_line": "4, 8, 9, 16, 10, 4, 50, 12",
+    "static_valid": true,
+    "static_line": "0.001, 1.0, 1.0e-9, 0.02",
+    "rp_and_bc_valid": true,
+    "props_valid": true,
+    "pbs_valid": true,
+    "qualification_passed": true
+  },
+  "all_qualification_gates_passed": true
+}

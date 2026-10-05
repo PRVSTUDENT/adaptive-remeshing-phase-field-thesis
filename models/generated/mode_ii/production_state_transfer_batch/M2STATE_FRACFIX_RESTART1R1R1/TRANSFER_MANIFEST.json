@@ -1,0 +1,41 @@
+{
+  "protocol_version": 1,
+  "package_name": "M2STATE_FRACFIX_RESTART1R1R1",
+  "source_candidate": "MM",
+  "target_candidate": "PK5",
+  "source_nphys": 2206,
+  "target_nphys": 4894,
+  "checkpoint_u1_mm": 0.005,
+  "history_state_initialization_provenance": "TYPE_SOLUTION_18SDV_STEP2_RELEASE_PROVEN",
+  "nphys_slot5_property_contract": "PASS",
+  "all_target_phase_initialization_exact": true,
+  "all_restart_step_phase_DOF3_released": true,
+  "historical_invalid_runtime_path_reused": false,
+  "production_trace_representative_set_defined": true,
+  "production_trace_representatives": {
+    "quad_high_damage": {
+      "phase_elem": 2420,
+      "mech_elem": 7186,
+      "mapped_d": 0.1235,
+      "mapped_H": 0.000345
+    },
+    "quad_low_damage": {
+      "phase_elem": 100,
+      "mech_elem": 4866,
+      "mapped_d": 0.0,
+      "mapped_H": 0.0
+    },
+    "quad_transition": {
+      "phase_elem": 1500,
+      "mech_elem": 6266,
+      "mapped_d": 0.0012,
+      "mapped_H": 3e-06
+    },
+    "tri_pair": {
+      "phase_elem": 9536,
+      "mech_elem": 9664,
+      "mapped_d": 0.0085,
+      "mapped_H": 2.2e-05
+    }
+  }
+}

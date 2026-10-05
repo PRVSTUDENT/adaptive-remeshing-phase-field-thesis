@@ -1,0 +1,73 @@
+#!/bin/bash
+#PBS -N M2STATE_INGEST_SMOKE1R1
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:15:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@tu-freiberg.de
+
+set -e
+cd "$PBS_O_WORKDIR"
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+echo "=================================================================="
+echo "Starting job: M2STATE_INGEST_SMOKE1R1 on $(hostname)"
+echo "Date: $(date)"
+echo "Directory: $(pwd)"
+echo "=================================================================="
+
+# Load required module toolchain for Abaqus 2023 + Intel Fortran Compiler
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7 || true
+
+echo "=== ENVIRONMENT PREFLIGHT ==="
+echo "Loaded Modules:"
+module list 2>&1 || true
+
+echo "Abaqus Executable: $(which abaqus 2>&1 || echo 'NOT_FOUND')"
+abaqus information=release 2>&1 || true
+
+echo "Fortran Compiler Executable: $(which ifort 2>&1 || echo 'NOT_FOUND')"
+ifort -v 2>&1 || true
+
+# Fail-closed environment assertion before Abaqus invocation
+if ! command -v abaqus >/dev/null 2>&1; then
+    echo "ERROR: Abaqus command not found in environment." >&2
+    exit 1
+fi
+
+if ! command -v ifort >/dev/null 2>&1; then
+    echo "ERROR: Fortran compiler (ifort) not found in environment." >&2
+    exit 1
+fi
+
+echo "=== HASH PREFLIGHT ==="
+sha256sum M2STATE_INGEST_SMOKE1R1.inp f42_mixed_uel.for STATE_TRANSFER_ARTIFACT.json TRANSFER_MANIFEST.json ACCEPTANCE_CONTRACT.json verify_smoke_trace.py PACKAGE_MANIFEST.json
+
+echo "=== ABAQUS EXECUTION ==="
+abaqus job=M2STATE_INGEST_SMOKE1R1 input=M2STATE_INGEST_SMOKE1R1.inp user=f42_mixed_uel.for interactive
+
+echo "=================================================================="
+echo "Abaqus completed with status $?"
+echo "=================================================================="
+
+echo "=== TRACE VERIFICATION ==="
+if [ -f M2STATE_INGEST_SMOKE1R1.log ]; then
+    python verify_smoke_trace.py M2STATE_INGEST_SMOKE1R1.log STATE_TRANSFER_ARTIFACT.json
+elif [ -f M2STATE_INGEST_SMOKE1R1.dat ]; then
+    python verify_smoke_trace.py M2STATE_INGEST_SMOKE1R1.dat STATE_TRANSFER_ARTIFACT.json
+else
+    echo "ERROR: Neither log nor dat trace file found." >&2
+    exit 1
+fi
+
+echo "=================================================================="
+echo "M2STATE_INGEST_SMOKE1R1 execution and trace qualification complete."
+echo "=================================================================="

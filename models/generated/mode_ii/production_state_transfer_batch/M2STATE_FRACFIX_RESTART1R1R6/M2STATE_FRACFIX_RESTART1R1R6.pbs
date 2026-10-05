@@ -1,0 +1,142 @@
+#!/bin/bash
+#PBS -N M2STATE_FRACFIX_RESTART1R1R6
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=8gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o M2STATE_FRACFIX_RESTART1R1R6.pbs.log
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-$HOME/.config/adaptive-remeshing/notifications.env}"
+NOTIFICATION_SCRIPT="${NOTIFICATION_SCRIPT:-$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh}"
+
+if [ -f "$NOTIFICATION_SCRIPT" ]; then
+  source "$NOTIFICATION_SCRIPT" 2>/dev/null || true
+  notification_load_config 2>/dev/null || true
+  notification_install_terminal_trap 2>/dev/null || true
+  notify_start 2>/dev/null || true
+fi
+
+echo "[PBS_PREFLIGHT] Starting M2STATE_FRACFIX_RESTART1R1R6 Production Restart Job..."
+date
+
+python3 -c "
+import json, hashlib, sys, re
+from pathlib import Path
+
+manifest_path = Path('PACKAGE_MANIFEST.json')
+if not manifest_path.exists():
+    print('[PBS_PREFLIGHT] ERROR: PACKAGE_MANIFEST.json does not exist')
+    sys.exit(1)
+
+try:
+    m = json.loads(manifest_path.read_text())
+except Exception as e:
+    print(f'[PBS_PREFLIGHT] ERROR: Failed to parse PACKAGE_MANIFEST.json: {e}')
+    sys.exit(1)
+
+if not isinstance(m, dict):
+    print('[PBS_PREFLIGHT] ERROR: Manifest root is not a dictionary')
+    sys.exit(1)
+
+has_files = 'files' in m
+has_file_hashes = 'file_hashes' in m
+
+if not has_files and not has_file_hashes:
+    print('[PBS_PREFLIGHT] ERROR: Manifest contains neither "files" nor "file_hashes" key')
+    sys.exit(1)
+
+if has_files and has_file_hashes and m['files'] != m['file_hashes']:
+    print('[PBS_PREFLIGHT] ERROR: Manifest contains conflicting "files" and "file_hashes" mappings')
+    sys.exit(1)
+
+files_dict = m.get('files', m.get('file_hashes'))
+
+if not isinstance(files_dict, dict):
+    print('[PBS_PREFLIGHT] ERROR: Manifest file mapping is not a dictionary')
+    sys.exit(1)
+
+if len(files_dict) == 0:
+    print('[PBS_PREFLIGHT] ERROR: Manifest file mapping is empty')
+    sys.exit(1)
+
+required_files = [
+    "M2STATE_FRACFIX_RESTART1R1R6.inp",
+    "f42_mixed_uel.for",
+    "STATE_TRANSFER_ARTIFACT.json",
+    "TRANSFER_MANIFEST.json",
+    "RESTART_ACCEPTANCE_CONTRACT.json",
+    "verify_restart_trace.py",
+    "extract_restart1r1r6_odb.py",
+    "verify_restart1r1r6_science.py",
+    "M2STATE_FRACFIX_RESTART1R1R6.pbs",
+    "submit_m2state_fracfix_restart1r1r6.sh"
+]
+
+for rf in required_files:
+    if rf not in files_dict:
+        print(f'[PBS_PREFLIGHT] ERROR: Required execution file {rf} missing from manifest')
+        sys.exit(1)
+
+hex_re = re.compile(r'^[0-9a-fA-F]{64}$')
+
+for f, expected_hash in files_dict.items():
+    if not isinstance(expected_hash, str) or not hex_re.match(expected_hash):
+        print(f'[PBS_PREFLIGHT] ERROR: Invalid hash format for {f}: {expected_hash}')
+        sys.exit(1)
+    p = Path(f)
+    if not p.exists():
+        print(f'[PBS_PREFLIGHT] ERROR: Missing required package file {f}')
+        sys.exit(1)
+    actual = hashlib.sha256(p.read_bytes()).hexdigest()
+    if actual.lower() != expected_hash.lower():
+        print(f'[PBS_PREFLIGHT] ERROR: Hash mismatch for {f}: expected {expected_hash}, got {actual}')
+        sys.exit(1)
+
+print('[PBS_PREFLIGHT] PACKAGE HASHES VERIFIED 100% MATCH.')
+"
+if [ $? -ne 0 ]; then
+  echo "[PBS_PREFLIGHT] ERROR: Package manifest verification failed."
+  exit 1
+fi
+
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+echo "[PBS_PREFLIGHT] Abaqus environment loaded."
+abaqus information=release
+
+abaqus job=M2STATE_FRACFIX_RESTART1R1R6 user=f42_mixed_uel.for input=M2STATE_FRACFIX_RESTART1R1R6.inp interactive
+
+ABAQUS_RC=$?
+echo "[PBS_PREFLIGHT] Abaqus execution finished with exit code $ABAQUS_RC"
+
+if [ $ABAQUS_RC -ne 0 ]; then
+  echo "[PBS_PREFLIGHT] ERROR: Abaqus execution failed with exit code $ABAQUS_RC"
+  exit $ABAQUS_RC
+fi
+
+echo "[PBS_PREFLIGHT] Abaqus continuation step completed successfully."
+
+cat M2STATE_FRACFIX_RESTART1R1R6.dat M2STATE_FRACFIX_RESTART1R1R6.msg M2STATE_FRACFIX_RESTART1R1R6.log > M2STATE_FRACFIX_RESTART1R1R6.trace 2>/dev/null
+
+python3 verify_restart_trace.py M2STATE_FRACFIX_RESTART1R1R6.trace
+CHECKER_RC=$?
+
+if [ $CHECKER_RC -ne 0 ]; then
+  echo "[PBS_PREFLIGHT] ERROR: Production restart trace checker failed with exit code $CHECKER_RC"
+  exit $CHECKER_RC
+fi
+
+echo "[PBS_PREFLIGHT] ALL PRODUCTION RESTART CONTRACTS QUALIFIED SUCCESSFULLY."

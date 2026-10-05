@@ -1,0 +1,78 @@
+{
+  "package_name": "M2STATE_FRACFIX_RESTART1R1R2",
+  "metrics": {
+    "mapped_startup_phase_continuity": {
+      "formula": "max_n |d_target(n) - d_source(n)| / dmax_source * 100%",
+      "threshold_pct": 1.0,
+      "reference_quantity": 0.1245,
+      "units": "percent",
+      "classification": "PROVISIONAL_WORKING_GATE",
+      "rationale": "Internal working gate for nodal phase transfer accuracy"
+    },
+    "mapped_startup_history_continuity": {
+      "formula": "max_e_ip |H_target(e,ip) - H_source(e,ip)| / Hmax_source * 100%",
+      "threshold_pct": 1.0,
+      "reference_quantity": 0.00035,
+      "units": "percent",
+      "classification": "PROVISIONAL_WORKING_GATE",
+      "rationale": "Internal working gate for quadrature history transfer accuracy"
+    },
+    "reaction_force_continuity": {
+      "formula": "|RF1_target(0.005) - RF1_source(0.005)| / |RF1_source(0.005)| * 100%",
+      "threshold_pct": 2.0,
+      "reference_quantity_kN": 1.624785,
+      "units": "percent",
+      "classification": "PROVISIONAL_WORKING_GATE",
+      "rationale": "Primary reaction force continuity working gate at transfer checkpoint"
+    },
+    "initial_reequilibration_rf_jump": {
+      "formula": "|RF1_step2_inc1 - RF1_step1_final| / |RF1_step1_final| * 100%",
+      "threshold_pct": 2.0,
+      "reference_quantity_kN": 1.624785,
+      "units": "percent",
+      "classification": "PROVISIONAL_WORKING_GATE",
+      "rationale": "Working gate for force jump upon phase release in Step 2"
+    },
+    "phasefield_energy_transfer_discrepancy": {
+      "formula": "|Ed_target - Ed_source| / Ed_source * 100%",
+      "threshold_pct": 1.0,
+      "reference_quantity_kN_mm": 0.00041215,
+      "units": "percent",
+      "classification": "PROVISIONAL_WORKING_GATE",
+      "rationale": "Working gate for total integrated phase-field energy discrepancy"
+    },
+    "post_equilibration_energy_jump": {
+      "formula": "|Etot_step2_inc1 - Etot_step1_final| / Etot_step1_final * 100%",
+      "threshold_pct": 1.0,
+      "reference_quantity_kN_mm": 0.00384962,
+      "units": "percent",
+      "classification": "PROVISIONAL_WORKING_GATE",
+      "rationale": "Working gate for total system energy jump upon phase release"
+    },
+    "phase_decrease_healing_count": {
+      "formula": "sum I(d_dot < 0)",
+      "threshold": 0,
+      "units": "count",
+      "classification": "FROZEN_EXISTING_GATE",
+      "rationale": "Physical irreversibility constraint for phase field"
+    },
+    "history_decrease_count": {
+      "formula": "sum I(H_dot < 0)",
+      "threshold": 0,
+      "units": "count",
+      "classification": "FROZEN_EXISTING_GATE",
+      "rationale": "Thermodynamic irreversibility constraint for crack driving history"
+    },
+    "state_consumption_trace_pass": {
+      "formula": "verify_restart_trace.py return code",
+      "threshold": 0,
+      "units": "exit_code",
+      "classification": "FROZEN_EXISTING_GATE",
+      "rationale": "Exact verification of 2-channel state consumption by UEL"
+    }
+  },
+  "re_equilibration_acceptance_contract_defined": true,
+  "force_continuity_acceptance_defined": true,
+  "energy_continuity_acceptance_defined": true,
+  "target_job": "M2STATE_FRACFIX_RESTART1R1R5"
+}

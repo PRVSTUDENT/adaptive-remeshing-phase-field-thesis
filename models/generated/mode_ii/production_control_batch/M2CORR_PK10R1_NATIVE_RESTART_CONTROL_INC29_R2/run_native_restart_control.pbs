@@ -1,0 +1,49 @@
+#!/bin/bash
+#PBS -N M2NAT_INC29
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -e
+
+# Source notification framework
+if [ -f "$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" ]; then
+    source "$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"
+    notification_install_terminal_trap
+fi
+
+notify_start
+
+source /etc/profile.d/lmod.sh
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+# Copy native restart binary database files from source replay job 1389707
+SOURCE_DIR="$HOME/projects/adaptive-remeshing/models/generated/mode_ii/production_control_batch/M2CORR_PK10R1_CONTINUOUS_U050_STATECAPTURE_R1"
+SOURCE_JOB="M2CORR_PK10R1_CONTINUOUS_U050_STATECAPTURE_R1"
+TARGET_JOB="M2CORR_PK10R1_NATIVE_RESTART_CONTROL_INC29_R2"
+
+cp -f "$SOURCE_DIR/$SOURCE_JOB.res" "$SOURCE_JOB.res"
+cp -f "$SOURCE_DIR/$SOURCE_JOB.stt" "$SOURCE_JOB.stt"
+cp -f "$SOURCE_DIR/$SOURCE_JOB.mdl" "$SOURCE_JOB.mdl"
+cp -f "$SOURCE_DIR/$SOURCE_JOB.prt" "$SOURCE_JOB.prt"
+cp -f "$SOURCE_DIR/$SOURCE_JOB.odb" "$SOURCE_JOB.odb"
+
+cp -f "$SOURCE_DIR/$SOURCE_JOB.res" "$TARGET_JOB.res"
+cp -f "$SOURCE_DIR/$SOURCE_JOB.stt" "$TARGET_JOB.stt"
+cp -f "$SOURCE_DIR/$SOURCE_JOB.mdl" "$TARGET_JOB.mdl"
+cp -f "$SOURCE_DIR/$SOURCE_JOB.prt" "$TARGET_JOB.prt"
+cp -f "$SOURCE_DIR/$SOURCE_JOB.odb" "$TARGET_JOB.odb"
+
+abaqus job=$TARGET_JOB user=f42_mixed_uel_transactional.for oldjob=$SOURCE_JOB interactive

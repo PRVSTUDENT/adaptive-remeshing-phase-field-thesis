@@ -1,0 +1,37 @@
+{
+  "cycle_id": "REAL_PILOT_CYCLE_005",
+  "job_name": "M2ADAPT_REAL_PILOT_CYCLE_005_RESTART",
+  "source_job_id": "1396583.mmaster02",
+  "authoritative_donor_frame": 57,
+  "status": "DATACHECK_PACKAGE_READY",
+  "execution_plan": {
+    "datacheck_mode": true,
+    "qsub_authorized": false,
+    "solver_command": "abaqus datacheck job=M2ADAPT_REAL_PILOT_CYCLE_005_RESTART input=M2ADAPT_REAL_PILOT_CYCLE_005_RESTART.inp user=f44_mixed_uel_restart_stateinit.for cpus=1 interactive",
+    "single_change_remedy": {
+      "step3_time_controls": "Data Line 1: 10, 8, 9, 16, 10, 4, 50, 13 (I_0=10 consecutive divergence check on position 1, I_C=16 on position 4, IA=13 on position 8); default cutback/increase factors preserved",
+      "step3_field_control": "*Controls, parameters=field, field=displacement / , 1.0 (Cn^u=1.0 qualified)",
+      "baseline_dt_min": "5.0e-12 preserved"
+    }
+  },
+  "target_mesh": {
+    "num_physical_elements": 5112,
+    "num_layered_elements": 15336,
+    "num_nodes": 5287
+  },
+  "segment_interval": {
+    "handoff_u1_mm": 0.020512891113758088,
+    "target_u1_mm": 0.023012891113758087,
+    "delta_u1_mm": 0.0024999999999999988
+  },
+  "cryptographic_hashes": {
+    "restart_inp": "86aed92e2f2843c7f9aaaaff573d178e8ea8deb3e5eae639f35fe9b26a86b8f0",
+    "pbs_script": "5536cddb83812b1ff35c24191a4988f4c55aa4dbf2b0a49c307d0834823ca0ce",
+    "submit_wrapper": "7be847e0dbeff7fdcdc0e4d34ccf4fb7c0bdf5b3730f4c25dcc5ac5a48c869a8",
+    "uel_source": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "primary_state_csv": "34b3a02eb72c2e14bde7c9c29859dafad452e6f1049a626074fe61f9b614832b",
+    "state_install_boundary_inp": "8c97088095282510128dec49b2bc54ab97582cebed3f7f74bdca61bf2aefc946",
+    "u3_only_boundary_inp": "7e6c1652bda316542866632435c2df8ee55debdb4466cda113922cf2f75261fb",
+    "committed_binary": "0f337fc8b26a10f0439a3e7dc32f7827123d99cbe1efad5e3f514b5bbbeb6224"
+  }
+}

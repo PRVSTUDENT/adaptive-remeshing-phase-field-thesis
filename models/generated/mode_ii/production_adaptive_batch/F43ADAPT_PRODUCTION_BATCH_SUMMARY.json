@@ -4,7 +4,7 @@
   "uel_source_sha256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
   "packages": {
     "M2ADAPT_MM_FRACFIX_PROD": {
-      "dir": "/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/production_adaptive_batch/M2ADAPT_MM_FRACFIX_PROD",
+      "dir": "D:\\Master thesis\\Adaptive remeshing\\models\\generated\\mode_ii\\production_adaptive_batch\\M2ADAPT_MM_FRACFIX_PROD",
       "manifest": {
         "case_name": "M2ADAPT_MM_FRACFIX_PROD",
         "candidate_key": "MM",
@@ -14,26 +14,26 @@
         "physical_quads": 2137,
         "physical_tris": 69,
         "layered_element_count": 6618,
-        "inp_sha256": "774c1385c111649b66dcc18e3990cef3b14c76acc64fc6809c586de3f1cfffb7",
+        "inp_sha256": "5b8cb39b08d594953d884212167b8a9578349cc397352e52f253dedd819d326d",
         "uel_sha256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
-        "pbs_sha256": "6409ff55a3af0b9bfbc8520aacc5b8d492d7f78c5768e308954392f2548e8010",
+        "pbs_sha256": "678fcae0c7ae48b120d61bbd255ead5538388aed39526e3f0c34aa45c29a07db",
         "submit_sh_sha256": "3f3711663a97e5a2fc1cf0054464bddeead8213ab130513bf4a30760bef6eb8d",
-        "memory": "8gb",
-        "walltime": "02:00:00",
+        "memory": "16gb",
+        "walltime": "24:00:00",
         "queue": "entry_imfdfkmq",
         "cpus": 1
       },
-      "manifest_sha256": "eb44f05282a3c06edc2f0456027ba0ca583ac6e5b451cb0bf7edc0a752e1435d",
+      "manifest_sha256": "d9ae32c3cba00e8673475f1b4e9da56bcfcf2fa890243ad649d584422eb02381",
       "raw_hashes": {
-        "input": "774c1385c111649b66dcc18e3990cef3b14c76acc64fc6809c586de3f1cfffb7",
+        "input": "5b8cb39b08d594953d884212167b8a9578349cc397352e52f253dedd819d326d",
         "uel": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
-        "pbs": "6409ff55a3af0b9bfbc8520aacc5b8d492d7f78c5768e308954392f2548e8010",
+        "pbs": "678fcae0c7ae48b120d61bbd255ead5538388aed39526e3f0c34aa45c29a07db",
         "wrapper": "3f3711663a97e5a2fc1cf0054464bddeead8213ab130513bf4a30760bef6eb8d",
-        "manifest": "eb44f05282a3c06edc2f0456027ba0ca583ac6e5b451cb0bf7edc0a752e1435d"
+        "manifest": "d9ae32c3cba00e8673475f1b4e9da56bcfcf2fa890243ad649d584422eb02381"
       }
     },
     "M2ADAPT_PK5_FRACFIX_PROD": {
-      "dir": "/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/production_adaptive_batch/M2ADAPT_PK5_FRACFIX_PROD",
+      "dir": "D:\\Master thesis\\Adaptive remeshing\\models\\generated\\mode_ii\\production_adaptive_batch\\M2ADAPT_PK5_FRACFIX_PROD",
       "manifest": {
         "case_name": "M2ADAPT_PK5_FRACFIX_PROD",
         "candidate_key": "PK5",
@@ -43,22 +43,22 @@
         "physical_quads": 4766,
         "physical_tris": 128,
         "layered_element_count": 14682,
-        "inp_sha256": "32e67a70cce767c6d2f914f1f121bbfac421a9807a21256a645bf2406a339356",
+        "inp_sha256": "402f6b61f59a31bd1ebee77019e47a3a7da0557296660c20ddc8aaab30b847f4",
         "uel_sha256": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
-        "pbs_sha256": "316140e61e90f45e506b4eec7d19f921886213da803306acbaadd4b03f8311cb",
+        "pbs_sha256": "7ad83eff8ba7b46e69e924ad5218e81d187e9d0193521cff9f446ab662a176f9",
         "submit_sh_sha256": "76fdd18e9809f8a7ca8ef34297b7ad4ba5d0039784364ebe6fd7f237f65084db",
-        "memory": "8gb",
-        "walltime": "04:00:00",
+        "memory": "16gb",
+        "walltime": "24:00:00",
         "queue": "entry_imfdfkmq",
         "cpus": 1
       },
-      "manifest_sha256": "f03a73511fd7683a42a9177e82cb277ed26456de5ea80b41028ce0eba0608b70",
+      "manifest_sha256": "b069232b2db66dacf537329ec3be9a0a1a39d6b5bfff6f6a18e1097da2706c52",
       "raw_hashes": {
-        "input": "32e67a70cce767c6d2f914f1f121bbfac421a9807a21256a645bf2406a339356",
+        "input": "402f6b61f59a31bd1ebee77019e47a3a7da0557296660c20ddc8aaab30b847f4",
         "uel": "0bc4378179a35acd9954d20d3e07517f8e1c356ae07a23c40e7715cd7b56dce8",
-        "pbs": "316140e61e90f45e506b4eec7d19f921886213da803306acbaadd4b03f8311cb",
+        "pbs": "7ad83eff8ba7b46e69e924ad5218e81d187e9d0193521cff9f446ab662a176f9",
         "wrapper": "76fdd18e9809f8a7ca8ef34297b7ad4ba5d0039784364ebe6fd7f237f65084db",
-        "manifest": "f03a73511fd7683a42a9177e82cb277ed26456de5ea80b41028ce0eba0608b70"
+        "manifest": "b069232b2db66dacf537329ec3be9a0a1a39d6b5bfff6f6a18e1097da2706c52"
       }
     }
   }

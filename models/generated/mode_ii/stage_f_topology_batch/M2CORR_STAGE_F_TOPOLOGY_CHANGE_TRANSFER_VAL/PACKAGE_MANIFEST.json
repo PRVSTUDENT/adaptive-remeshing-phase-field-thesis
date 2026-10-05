@@ -1,0 +1,30 @@
+{
+  "package_name": "M2CORR_STAGE_F_TOPOLOGY_CHANGE_TRANSFER_VAL",
+  "pbs_job_name": "M2STAGE_F_VAL",
+  "donor_source": "1390447.mmaster02 (Frame 17, U1=0.01051289 mm)",
+  "topology_operation": "Physical crack slit extension delta_a_slit = 0.002 mm along y=0.0 (1 duplicated node pair: 16962 / 34028)",
+  "target_mesh_stats": {
+    "nodes": 34029,
+    "physical_nodes": 34028,
+    "physical_quad_elements": 33600,
+    "u1_phase_elements": 33600,
+    "u2_mech_elements": 33600,
+    "visualizer_cpe4_elements": 0,
+    "total_abaqus_elements": 67200,
+    "target_gps": 134400,
+    "original_slit_pairs": 56,
+    "newly_split_nodes": 1,
+    "h_tip": 0.002,
+    "h_far": 0.02
+  },
+  "artifact_hashes": {
+    "M2CORR_STAGE_F_TOPOLOGY_CHANGE_TRANSFER_VAL.inp": "168f4fd6777c3e7c110747b800c0565fa93f16fec32e655adf67f2cb3ef470aa",
+    "MODE_STAGED.flag": "44aecc3345af89ebdf6c6f22abcab9a76149a562dfc8d6b1ce50968c9318f9a4",
+    "STAGE_D_COMMITTED_STATE.bin": "c63681b1c0b029f7b3bf5a1ee986e3fabfbbd240cf0bc89a030a811b82a84722",
+    "STAGE_F_PRIMARY_STATE_BOUNDARY.inp": "710702897c6b82f11bb38dd6c3a40f7f7b44236935c563b0cf077d94d5f6cdf1",
+    "STAGE_F_U3_ONLY_BOUNDARY.inp": "8a619e254ecd379462c6c52461d6caf818f0a16242ba6c881785f37e2417bbd5",
+    "abaqus_v6.env": "5508d0ea56a78675b0ad0b01b256ae34f4d73d3878f0ec397ca8b1e1017ee98e",
+    "f44_mixed_uel_restart_stateinit.for": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "submit_job.pbs": "393b247498e998c280c19410ff0f77779332b30d71bdf32d88a43e5a19c72000"
+  }
+}

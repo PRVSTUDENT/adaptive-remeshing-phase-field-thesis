@@ -1,0 +1,80 @@
+#!/bin/bash
+#PBS -N M2STATE_FRACFIX_RESTART1R1R6R1
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=8gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o M2STATE_FRACFIX_RESTART1R1R6R1.pbs.log
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+# 1. Establish timing variables
+JOB_START_EPOCH=$(date +%s)
+echo "[PBS_PREFLIGHT] Starting M2STATE_FRACFIX_RESTART1R1R6R1 Production Restart Job..."
+date
+
+# 2. Source package-local notification helper and install terminal trap BEFORE manifest preflight
+NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-$HOME/.config/adaptive-remeshing/notifications.env}"
+NOTIFICATION_SCRIPT="${NOTIFICATION_SCRIPT:-${PBS_O_WORKDIR}/job_notifications.sh}"
+if [ ! -f "$NOTIFICATION_SCRIPT" ]; then
+  NOTIFICATION_SCRIPT="$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"
+fi
+
+if [ -f "$NOTIFICATION_SCRIPT" ]; then
+  source "$NOTIFICATION_SCRIPT" 2>/dev/null || true
+  notification_load_config 2>/dev/null || true
+  notification_install_terminal_trap 2>/dev/null || true
+  notify_start 2>/dev/null || true
+fi
+
+# 3. Standalone manifest preflight (zero inline Python, verifies all 12 package files)
+python3 validate_package_manifest.py PACKAGE_MANIFEST.json
+PREFLIGHT_RC=$?
+
+if [ $PREFLIGHT_RC -ne 0 ]; then
+  echo "[PBS_PREFLIGHT] ERROR: Package manifest verification failed with exit code $PREFLIGHT_RC"
+  exit $PREFLIGHT_RC
+fi
+
+# 4. Load Abaqus environment
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+echo "[PBS_PREFLIGHT] Abaqus environment loaded."
+abaqus information=release
+
+# 5. Run solver
+abaqus job=M2STATE_FRACFIX_RESTART1R1R6R1 user=f42_mixed_uel.for input=M2STATE_FRACFIX_RESTART1R1R6R1.inp interactive
+
+ABAQUS_RC=$?
+echo "[PBS_PREFLIGHT] Abaqus execution finished with exit code $ABAQUS_RC"
+
+if [ $ABAQUS_RC -ne 0 ]; then
+  echo "[PBS_PREFLIGHT] ERROR: Abaqus execution failed with exit code $ABAQUS_RC"
+  exit $ABAQUS_RC
+fi
+
+echo "[PBS_PREFLIGHT] Abaqus continuation step completed successfully."
+
+# 6. Postprocessing / trace checks
+cat M2STATE_FRACFIX_RESTART1R1R6R1.dat M2STATE_FRACFIX_RESTART1R1R6R1.msg M2STATE_FRACFIX_RESTART1R1R6R1.log > M2STATE_FRACFIX_RESTART1R1R6R1.trace 2>/dev/null
+
+python3 verify_restart_trace.py M2STATE_FRACFIX_RESTART1R1R6R1.trace
+CHECKER_RC=$?
+
+if [ $CHECKER_RC -ne 0 ]; then
+  echo "[PBS_PREFLIGHT] ERROR: Production restart trace checker failed with exit code $CHECKER_RC"
+  exit $CHECKER_RC
+fi
+
+echo "[PBS_PREFLIGHT] ALL PRODUCTION RESTART CONTRACTS QUALIFIED SUCCESSFULLY."

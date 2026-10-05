@@ -1,0 +1,42 @@
+Starting Abaqus execution for M2CORR_H1_FREEU2_FULL_U050...
+Analysis initiated from SIMULIA established products
+Abaqus JOB M2CORR_H1_FREEU2_FULL_U050
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 5 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<241 out of 300 licenses remain available>.
+Begin Compiling Abaqus/Standard User Subroutines
+Sat 15 Aug 2026 08:05:37 AM CEST
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+ Intel(R) Fortran 2021.13.0-1693
+f42_mixed_uel_transactional.for(60): remark #15009: uel_ has been targeted for automatic cpu dispatch
+End Compiling Abaqus/Standard User Subroutines
+Begin Linking Abaqus/Standard User Subroutines
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+GNU ld version 2.30-128.el8_10
+End Linking Abaqus/Standard User Subroutines
+Sat 15 Aug 2026 08:05:43 AM CEST
+Begin Analysis Input File Processor
+Sat 15 Aug 2026 08:05:43 AM CEST
+Run pre
+Sat 15 Aug 2026 08:05:45 AM CEST
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+Sat 15 Aug 2026 08:05:45 AM CEST
+Run standard
+Sat 15 Aug 2026 08:14:57 AM CEST
+End Abaqus/Standard Analysis
+Begin SIM Wrap-up
+Sat 15 Aug 2026 08:14:57 AM CEST
+Run SMASimUtility
+Sat 15 Aug 2026 08:14:57 AM CEST
+End SIM Wrap-up
+Abaqus JOB M2CORR_H1_FREEU2_FULL_U050 COMPLETED
+Abaqus exited with code 0

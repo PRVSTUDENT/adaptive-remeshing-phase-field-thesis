@@ -1,0 +1,180 @@
+{
+  "job_id": "1391300.mmaster02",
+  "label": "M2CORR_STAGE_E_REFINED_TARGET_TRANSFER_R1_VAL",
+  "total_frames": 8,
+  "steps_data": [
+    {
+      "step_name": "STATE_INSTALL",
+      "step_idx": 1,
+      "num_frames": 2,
+      "final_frame": {
+        "step_name": "STATE_INSTALL",
+        "step_idx": 1,
+        "frame_in_step": 1,
+        "global_frame_idx": 1,
+        "frame_value": 1.0,
+        "rp_u1_mm": 0.010512890294194221,
+        "rp_rf1_kN": 0.12720830738544464,
+        "max_d": 0.0
+      }
+    },
+    {
+      "step_name": "MECH_EQUILIBRATION",
+      "step_idx": 2,
+      "num_frames": 2,
+      "final_frame": {
+        "step_name": "MECH_EQUILIBRATION",
+        "step_idx": 2,
+        "frame_in_step": 1,
+        "global_frame_idx": 3,
+        "frame_value": 1.0,
+        "rp_u1_mm": 0.010512890294194221,
+        "rp_rf1_kN": 0.1261025220155716,
+        "max_d": 0.0
+      }
+    },
+    {
+      "step_name": "PHASE_RELEASE",
+      "step_idx": 3,
+      "num_frames": 4,
+      "final_frame": {
+        "step_name": "PHASE_RELEASE",
+        "step_idx": 3,
+        "frame_in_step": 3,
+        "global_frame_idx": 7,
+        "frame_value": 0.0010625000577419996,
+        "rp_u1_mm": 0.010512890294194221,
+        "rp_rf1_kN": 0.11563390493392944,
+        "max_d": 0.0
+      }
+    },
+    {
+      "step_name": "CONTINUATION",
+      "step_idx": 4,
+      "num_frames": 0,
+      "final_frame": null
+    }
+  ],
+  "required_gates": {
+    "CRIT_E_PRIMARY_PHASE_BOUNDS": {
+      "status": "PASS",
+      "observed_bounds": [
+        1000000000.0,
+        -1000000000.0
+      ]
+    },
+    "CRIT_E_POINTWISE_PHASE_IRREVERSIBILITY": {
+      "status": "PASS",
+      "min_delta_d": 1000000000.0
+    },
+    "CRIT_E_HISTORY_NONNEGATIVITY": {
+      "status": "PASS",
+      "min_H": 0.0
+    },
+    "CRIT_E_TEMPORAL_HISTORY_MONOTONICITY": {
+      "status": "PASS",
+      "monotonic": true
+    },
+    "CRIT_E_SLIT_BARRIER_ISOLATION": {
+      "status": "PASS",
+      "cross_slit_leaks": 0
+    },
+    "CRIT_E_MECH_EQUILIBRATION_U3_DRIFT": {
+      "status": "PASS",
+      "max_u3_drift": 0.0
+    }
+  },
+  "diagnostics": {
+    "donor_rf1_kN": 0.12591584,
+    "step1_rf1_kN": 0.12720830738544464,
+    "step1_diff_pct": 1.0264533719066957,
+    "step2_rf1_kN": 0.1261025220155716,
+    "step2_diff_pct": 0.1482593576563466,
+    "s2_jump_pct": -0.8692713491757162,
+    "step3_num_frames": 4,
+    "step3_final_rf1_kN": 0.11563390493392944,
+    "baseline_peak_rf1_kN": 0.141679868
+  },
+  "all_frames": [
+    {
+      "step_name": "STATE_INSTALL",
+      "step_idx": 1,
+      "frame_in_step": 0,
+      "global_frame_idx": 0,
+      "frame_value": 0.0,
+      "rp_u1_mm": 0.0,
+      "rp_rf1_kN": -0.0,
+      "max_d": 0.0
+    },
+    {
+      "step_name": "STATE_INSTALL",
+      "step_idx": 1,
+      "frame_in_step": 1,
+      "global_frame_idx": 1,
+      "frame_value": 1.0,
+      "rp_u1_mm": 0.010512890294194221,
+      "rp_rf1_kN": 0.12720830738544464,
+      "max_d": 0.0
+    },
+    {
+      "step_name": "MECH_EQUILIBRATION",
+      "step_idx": 2,
+      "frame_in_step": 0,
+      "global_frame_idx": 2,
+      "frame_value": 0.0,
+      "rp_u1_mm": 0.010512890294194221,
+      "rp_rf1_kN": 0.12720830738544464,
+      "max_d": 0.0
+    },
+    {
+      "step_name": "MECH_EQUILIBRATION",
+      "step_idx": 2,
+      "frame_in_step": 1,
+      "global_frame_idx": 3,
+      "frame_value": 1.0,
+      "rp_u1_mm": 0.010512890294194221,
+      "rp_rf1_kN": 0.1261025220155716,
+      "max_d": 0.0
+    },
+    {
+      "step_name": "PHASE_RELEASE",
+      "step_idx": 3,
+      "frame_in_step": 0,
+      "global_frame_idx": 4,
+      "frame_value": 0.0,
+      "rp_u1_mm": 0.010512890294194221,
+      "rp_rf1_kN": 0.1261025220155716,
+      "max_d": 0.0
+    },
+    {
+      "step_name": "PHASE_RELEASE",
+      "step_idx": 3,
+      "frame_in_step": 1,
+      "global_frame_idx": 5,
+      "frame_value": 0.0010000000474974513,
+      "rp_u1_mm": 0.010512890294194221,
+      "rp_rf1_kN": 0.11864049732685089,
+      "max_d": 0.0
+    },
+    {
+      "step_name": "PHASE_RELEASE",
+      "step_idx": 3,
+      "frame_in_step": 2,
+      "global_frame_idx": 6,
+      "frame_value": 0.0010625000577419996,
+      "rp_u1_mm": 0.010512890294194221,
+      "rp_rf1_kN": 0.11684654653072357,
+      "max_d": 0.0
+    },
+    {
+      "step_name": "PHASE_RELEASE",
+      "step_idx": 3,
+      "frame_in_step": 3,
+      "global_frame_idx": 7,
+      "frame_value": 0.0010625000577419996,
+      "rp_u1_mm": 0.010512890294194221,
+      "rp_rf1_kN": 0.11563390493392944,
+      "max_d": 0.0
+    }
+  ]
+}

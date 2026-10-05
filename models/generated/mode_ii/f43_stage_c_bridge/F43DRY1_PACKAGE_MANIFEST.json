@@ -1,0 +1,28 @@
+{
+  "protocol_version": 1,
+  "task_id": "F43DRY1_DRAFT_PREPARATION",
+  "status": "draft_prepared_gate_c1_hold",
+  "predecessor_refined_inp_sha256": "7f3305e3af082612c9a76b93bed1237597a8912e59b0d5a0d115b21990951c67",
+  "physical_element_count_NPHYS": 113936,
+  "node_count": 112848,
+  "element_breakdown": {
+    "physical_CPE4": 110359,
+    "physical_CPE3": 3577
+  },
+  "prospective_layered_mapping": {
+    "NPHYS": 113936,
+    "phase_elements_range": [1, 113936],
+    "displacement_elements_range": [113937, 227872],
+    "facsimile_elements_range": [227873, 341808],
+    "total_layered_elements": 341808,
+    "family_mapping": {
+      "CPE4_physical": "U1 phase -> U2 displacement -> CPE4 passive facsimile",
+      "CPE3_physical": "U3 phase -> U4 displacement -> CPE3 passive facsimile"
+    }
+  },
+  "scientific_gate_status": "GATE_C1_HOLD",
+  "execution_authorized": false,
+  "submission_approved": false,
+  "qsub_called": false,
+  "HPC_submissions": 0
+}

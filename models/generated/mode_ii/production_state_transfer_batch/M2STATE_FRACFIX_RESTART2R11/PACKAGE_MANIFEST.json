@@ -1,0 +1,56 @@
+{
+  "candidate": "M2STATE_FRACFIX_RESTART2R11",
+  "task_id": "F98STATE-M2-CORRECTED-RESTART2-R2R11-PREP-AND-QUALIFICATION1",
+  "predecessor_job": "1389278.mmaster02",
+  "source_candidate": "M2STATE_FRACFIX_RESTART1R1R11",
+  "files": [
+    {
+      "filename": "M2STATE_FRACFIX_RESTART2R11.inp",
+      "sha256": "be3c3c6581ff9456d152ef643b5671037b276533cde7c2dc54c6b848f1239e94"
+    },
+    {
+      "filename": "f42_mixed_uel.for",
+      "sha256": "a722bb0a9f7958e79cefc1e18f233f19dd818edab50e733836985ec1db72c6d3"
+    },
+    {
+      "filename": "STATE_TRANSFER_ARTIFACT.json",
+      "sha256": "a5fb05802988c557a84f7646aec1b083c85b53ee04018a987dd5e9a7cf6ffdb7"
+    },
+    {
+      "filename": "TRANSFER_MANIFEST.json",
+      "sha256": "7560e5c34945a5a0ea9fb9dc31fbdc56066288ef9b60405f7170f1a179f71015"
+    },
+    {
+      "filename": "RESTART_ACCEPTANCE_CONTRACT.json",
+      "sha256": "bed1fe39c08e689f71a1654acc0190b3065c52ac47697425482436e01133bcc3"
+    },
+    {
+      "filename": "job_notifications.sh",
+      "sha256": "f700ae1691f792204fb36ce828def12ae6013877005f56aefe332e96d95adf1c"
+    },
+    {
+      "filename": "validate_package_manifest.py",
+      "sha256": "ef915d0f8fc00c9ed4852fa78b1cb898b8bcf1e1759be489a92840fe120d7af9"
+    },
+    {
+      "filename": "M2STATE_FRACFIX_RESTART2R11.pbs",
+      "sha256": "c96cd99c22c434bcc764da80f9be005ae23a908fcb7e94c1f3a3b0a50a92d4f4"
+    },
+    {
+      "filename": "submit_m2state_fracfix_restart2r11.sh",
+      "sha256": "befa57c90af3dc07575466b5d46385eaae2545ce23aacf8c130e45db82e3ea7c"
+    }
+  ],
+  "file_hashes": {
+    "M2STATE_FRACFIX_RESTART2R11.inp": "be3c3c6581ff9456d152ef643b5671037b276533cde7c2dc54c6b848f1239e94",
+    "f42_mixed_uel.for": "a722bb0a9f7958e79cefc1e18f233f19dd818edab50e733836985ec1db72c6d3",
+    "STATE_TRANSFER_ARTIFACT.json": "a5fb05802988c557a84f7646aec1b083c85b53ee04018a987dd5e9a7cf6ffdb7",
+    "TRANSFER_MANIFEST.json": "7560e5c34945a5a0ea9fb9dc31fbdc56066288ef9b60405f7170f1a179f71015",
+    "RESTART_ACCEPTANCE_CONTRACT.json": "bed1fe39c08e689f71a1654acc0190b3065c52ac47697425482436e01133bcc3",
+    "job_notifications.sh": "f700ae1691f792204fb36ce828def12ae6013877005f56aefe332e96d95adf1c",
+    "validate_package_manifest.py": "ef915d0f8fc00c9ed4852fa78b1cb898b8bcf1e1759be489a92840fe120d7af9",
+    "M2STATE_FRACFIX_RESTART2R11.pbs": "c96cd99c22c434bcc764da80f9be005ae23a908fcb7e94c1f3a3b0a50a92d4f4",
+    "submit_m2state_fracfix_restart2r11.sh": "befa57c90af3dc07575466b5d46385eaae2545ce23aacf8c130e45db82e3ea7c"
+  },
+  "sealed_manifest_sha256": "ad3b3185e1b13053a7a75778ebf9415b6686c9598be218c73f08225c5f3a9fc0"
+}

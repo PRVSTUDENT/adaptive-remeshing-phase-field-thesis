@@ -1,0 +1,28 @@
+{
+  "job_name": "M2ADAPT_REAL_PILOT_CYCLE_003_RESTART",
+  "cycle_id": "real_pilot_cycle_003",
+  "source_job_id": "1396539.mmaster02",
+  "datacheck_mode": false,
+  "target_mesh": {
+    "num_physical_elements": 5112,
+    "num_layered_elements": 15336,
+    "num_nodes": 5287
+  },
+  "segment_interval": {
+    "handoff_u1_mm": 0.015512891113758087,
+    "target_u1_mm": 0.018012891113758086,
+    "delta_u1_mm": 0.0024999999999999988
+  },
+  "hashes": {
+    "input_deck_sha256": "f4998562eefae4b6bedf2761ef8b27ad97a618d98e7cffd8a8f63c040462fd71",
+    "uel_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "pbs_script_sha256": "76e198b5e90f916dd8671787969f8e496a6e64aeecbfdf3d9f8e705f16dc0a23",
+    "wrapper_sha256": "9da7a07f4b6b7a237b3e360d32b8ad6cb89505f99a4a94c8a116aa84883dd328"
+  },
+  "resources": {
+    "cpus": 1,
+    "memory": "16gb",
+    "walltime": "01:00:00",
+    "queue": "entry_imfdfkmq"
+  }
+}

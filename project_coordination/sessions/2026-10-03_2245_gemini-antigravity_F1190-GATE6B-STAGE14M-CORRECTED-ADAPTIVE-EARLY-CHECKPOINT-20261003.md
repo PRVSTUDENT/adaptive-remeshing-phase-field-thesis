@@ -26,7 +26,7 @@
 | :--- | :---: | :---: | :---: | :---: |
 | **Solver Status** | **RUNNING (`mnode097`)** | Complete (Exit 0) | Cancelled (ABI Mismatch) | Active solving |
 | **Completed Incs** | **135 / 2000 (Step 1)** | 7000 / 7000 | 4937 (Step 2) | Advancing steadily |
-| **Latest Reached $u$** | **0.0003375 mm (33.75 µm)** | 0.010000 mm | 0.007937 mm | Early elastic branch |
+| **Latest Reached $u$** | **0.0003375 mm (0.3375 µm)** | 0.010000 mm | 0.007937 mm | Early elastic branch |
 | **Latest Reached Force $F$**| **0.046599 kN (46.60 N)** | 0.046611 kN | $4.95\times 10^{-6}$ kN | **MATCH PASS (-0.026%)** |
 | **Mean Pointwise Discrepancy**| **$-0.026\%$** | Baseline ($0.0\%$) | $-99.996\%$ | **PERFECT PARITY** |
 | **Interim OLS Slope** | **138.091054 kN/mm** | 137.945520 kN/mm | 0.004945 kN/mm | **+0.105% vs Reference** |

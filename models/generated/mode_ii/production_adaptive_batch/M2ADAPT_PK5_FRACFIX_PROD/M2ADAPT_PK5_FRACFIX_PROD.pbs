@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -N M2ADAPT_PK5_FRACFIX_PROD
-#PBS -l select=1:ncpus=1:mem=8gb
-#PBS -l walltime=04:00:00
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=24:00:00
 #PBS -q entry_imfdfkmq
 #PBS -m abe
 #PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
@@ -9,6 +9,15 @@
 #PBS -o evidence/$PBS_JOBID/execution.log
 
 set -euo pipefail
+
+# Storage-compliance guard: reject execution directly under /home
+CURRENT_DIR="$(pwd -P)"
+if [[ "$CURRENT_DIR" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Execution directly inside /home is prohibited." >&2
+  echo "Heavy simulation outputs (*.odb, *.sim, *.res) must be written to /scratch/." >&2
+  echo "Please execute from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
 
 cd "$PBS_O_WORKDIR"
 mkdir -p evidence/"$PBS_JOBID"
@@ -18,6 +27,7 @@ hostname
 date
 module list || true
 
+module purge
 module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
 
 echo "=== Running Abaqus Job M2ADAPT_PK5_FRACFIX_PROD ==="

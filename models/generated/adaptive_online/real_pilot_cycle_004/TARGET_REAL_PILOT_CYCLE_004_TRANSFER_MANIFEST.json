@@ -1,0 +1,47 @@
+{
+  "target_mesh_name": "TARGET_REAL_PILOT_CYCLE_004",
+  "source_provenance": {
+    "cycle_id": "REAL_PILOT_CYCLE_003",
+    "job_id": "1396571.mmaster02",
+    "donor_u1_mm": 0.018012891113758086,
+    "donor_rf1_kN": 0.07521298,
+    "donor_d_max": 0.2995086350969,
+    "donor_h_max": 1902.8116331571946
+  },
+  "mapping_summary": {
+    "primary_fields": {
+      "same_mesh_identity_transfer": true,
+      "unmapped_physical_nodes": 0,
+      "max_mapping_residual": 0.0
+    },
+    "history_fields": {
+      "same_mesh_identity_transfer": true,
+      "unmapped_gps": 0
+    }
+  },
+  "generated_artifacts": {
+    "primary_state_csv": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_004_PRIMARY_STATE.csv",
+      "sha256": "99c98eafef75c36ca09697ecd0f541e354336432889fedf8d6ff4581f3efb29a"
+    },
+    "state_install_boundary_inp": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_004_STATE_INSTALL_BOUNDARY.inp",
+      "sha256": "05cfd85ce51a1c7d762f1fe691625813f8284effd13c4f223e95d0f315c4d1ce"
+    },
+    "u3_only_boundary_inp": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_004_U3_ONLY_BOUNDARY.inp",
+      "sha256": "e67c96e52a73b62284b034ba0863b8c98420e055299f232b4c3ccf4863b353c2"
+    },
+    "committed_binary_state": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_004_SOURCE_STATE.bin",
+      "sha256": "9e6d2f15f5fd56b2784b7c274201d13914a2d71b7b509367facb3b1c9f0c63e6"
+    }
+  },
+  "transfer_algorithm": {
+    "spatial_search": "SpatialGridIndex with Newton-Raphson inverse isoparametric mapping",
+    "primary_fields_interpolation": "C0 continuous bilinear quad shape functions (physical nodes only)",
+    "rp_boundary_separation": "RP node prescribed U1 only; DOF 2 and DOF 3 excluded",
+    "history_fields_interpolation": "Gauss-point normalized isoparametric interpolation",
+    "inside_tolerance": 1e-06
+  }
+}

@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-05T11:25:00+02:00` (Gemini Antigravity) — HPC /home storage compliance closure, multi-TB scratch migration, script invariance audit, and scientific twin verification completed: (1) >1.01 TB migrated, /home free space increased to 4.0 TB (81% used); (2) 169 modified PBS scripts audited against pre-storage commit 97394682 with 100% classified as PATH_ONLY_STORAGE_CHANGE and zero scientific modifications; (3) Exact bitwise scientific twin equivalence verified for all 3 resubmitted jobs (1410178, 1410179, 1410180) solving cleanly from u=0 without history splicing; (4) Runtime solver output paths confirmed resolving strictly under /scratch9/pr21vyci/projects/adaptive-remeshing/ with hard Exit 88 guards in place.
+Last updated: `2026-10-05T11:30:00+02:00` (Gemini Antigravity) — HPC /home storage compliance final closure, daemon migration verification (>1.9 TB transferred, /home free space increased to 4.6 TB [78% used], /scratch9 21 TB free), 100% pass on 7-test automated compliance test suite (test_hpc_storage_compliance.py), non-binary asset breakdown, and live scheduler checkpoint for the 3 active scratch-compliant jobs (1410178, 1410179, 1410180).
 
 ---
 

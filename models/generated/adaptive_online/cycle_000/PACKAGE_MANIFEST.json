@@ -1,0 +1,28 @@
+{
+  "job_name": "M2ADAPT_CYCLE_000_RESTART",
+  "cycle_id": "cycle_000",
+  "source_job_id": "CYCLE_000_DONOR",
+  "datacheck_mode": false,
+  "target_mesh": {
+    "num_physical_elements": 4828,
+    "num_layered_elements": 14484,
+    "num_nodes": 4999
+  },
+  "segment_interval": {
+    "handoff_u1_mm": 0.0075,
+    "target_u1_mm": 0.01,
+    "delta_u1_mm": 0.0025000000000000005
+  },
+  "hashes": {
+    "input_deck_sha256": "e473a48c4c9da5c92b053e4d7faa156e6df263903e8308a156360d67f87fdeec",
+    "uel_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "pbs_script_sha256": "1b6d47bda29354df13cecf0300957aa73ea9c14b340bd652cc8c4685ffb51ef3",
+    "wrapper_sha256": "bed04e09291cdbe8db3b734091bce1c8e95269d0ce7f30f8f666d051d6082b81"
+  },
+  "resources": {
+    "cpus": 1,
+    "memory": "16gb",
+    "walltime": "00:30:00",
+    "queue": "entry_imfdfkmq"
+  }
+}

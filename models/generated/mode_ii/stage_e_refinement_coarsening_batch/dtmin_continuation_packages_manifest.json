@@ -1,0 +1,24 @@
+{
+  "candidate_dt_min": "1.0e-11",
+  "rationale": "Derived from geometric progression with D_A=0.25 from Attempt 9 (2.864e-9 s), allowing full 12 attempts down to 4.475e-11 s without floor clamping.",
+  "donor_package": {
+    "name": "M2CORR_STAGE_E_DONOR_MINIMAL_DTMIN_CONTINUATION_VAL",
+    "dir": "models/generated/mode_ii/stage_e_refinement_coarsening_batch\\M2CORR_STAGE_E_DONOR_MINIMAL_DTMIN_CONTINUATION_VAL",
+    "provenance": {
+      "src_inp_sha256": "88c4bc247dfe01c71d08109bf82d9cbeca36317f112049620a94b397762ed7af",
+      "dst_inp_sha256": "105d2cc04de25f68c0a1fbeaab8b66d355881993cf6292e8201ad210137d3db8",
+      "dst_for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+      "dst_pbs_sha256": "7600479de1132b6572fdfded37cd5a0c4feb8154594eb616418e1c3708da8ebf"
+    }
+  },
+  "refined_package": {
+    "name": "M2CORR_STAGE_E_REFINED_TARGET_MINIMAL_DTMIN_CONTINUATION_VAL",
+    "dir": "models/generated/mode_ii/stage_e_refinement_coarsening_batch\\M2CORR_STAGE_E_REFINED_TARGET_MINIMAL_DTMIN_CONTINUATION_VAL",
+    "provenance": {
+      "src_inp_sha256": "d1731bebabf80560ae6150c3a7288bb186975d36fcb738ae1b42ec86a50f6028",
+      "dst_inp_sha256": "5f4444c4aca0261533343e153a1ce88450cf3723849c810d5f0432bed8cfae6c",
+      "dst_for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+      "dst_pbs_sha256": "7600479de1132b6572fdfded37cd5a0c4feb8154594eb616418e1c3708da8ebf"
+    }
+  }
+}

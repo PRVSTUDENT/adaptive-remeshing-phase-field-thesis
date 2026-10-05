@@ -1,0 +1,50 @@
+{
+  "cycle_id": "REAL_PILOT_CYCLE_012",
+  "generation_timestamp_utc": "2026-08-25T15:23:00Z",
+  "closeout_timestamp_utc": "2026-08-25T15:33:00Z",
+  "donor_provenance": {
+    "donor_cycle": "REAL_PILOT_CYCLE_011",
+    "donor_job": "1397830.mmaster02",
+    "donor_frame": 58,
+    "handoff_u1_mm": 0.038012891113758084,
+    "target_u1_mm": 0.04051289111375808
+  },
+  "production_execution": {
+    "job_id": "1397835.mmaster02",
+    "execution_host": "mnode097/0",
+    "solver_exit_status": 0,
+    "classification": "SCIENTIFIC_SOLVER_PASS",
+    "handoff_u1_mm": 0.038012891113758084,
+    "final_u1_mm": 0.04051288962364197,
+    "final_rf1_kN": 0.014613612554967403,
+    "num_physical_nodes": 5288,
+    "num_physical_elements": 5112,
+    "acceptance_criteria_passed": true,
+    "step3_controls": "inc=500, time_incrementation 25,25,25,25,25,4,50,25, field=displacement 0.01, 10.0, field=temperature 0.01, 10.0",
+    "step4_controls": "inc=10000, dt_min=1e-14, time_incrementation 25,25,25,25,25,4,50,25, field=displacement 0.05, 10.0, field=temperature 0.05, 10.0"
+  },
+  "artifacts": {
+    "f44_mixed_uel_restart_stateinit.for": "942003c5882b5598e81b471d87840e0dce2a639179cc24c87662dcf53eaef946",
+    "M2ADAPT_REAL_PILOT_CYCLE_012_DATACHECK.pbs": "10adc3b7f4dab0aedb734a7296b5252077a7d56dfbd064e9e10e8f092f9f36c1",
+    "M2ADAPT_REAL_PILOT_CYCLE_012_RESTART.inp": "1ae69339d82cbf44166fea9693622e97159c725991ef8c7e0eb9d20c94b43e57",
+    "M2ADAPT_REAL_PILOT_CYCLE_012_RESTART.pbs": "1eeea270b9f6fa8d9a39fde83c87e93896aadecd4d53ae675bc807fc9ac09cc3",
+    "M2ADAPT_REAL_PILOT_CYCLE_012_RESTART.odb": "acca5da4947c7738777860295f91c67dcba4f15cfc14ce3738bb34092afebd57",
+    "M2ADAPT_REAL_PILOT_CYCLE_012_RESTART.sta": "1d2a08c45c635e7f77d6062667ebd2399516b277902c904572936fef8e76454d",
+    "M2ADAPT_REAL_PILOT_CYCLE_012_RESTART.msg": "d818a0b5aacd14c17037aac9493718d106920030e9e18fe8a287fdf5bffbe1a3",
+    "M2ADAPT_REAL_PILOT_CYCLE_012_RESTART.dat": "9931478f2a1624481539e311f2008fa10d6a00b6e9c0d838e825ac571e26e4e5",
+    "MODE_STAGED.flag": "5a7173f8c169c3cbf43033b1ceeec5e7c3289581e229b7b973e72822a4223ff5",
+    "RESTART_ACCEPTANCE_CONTRACT.json": "5cb7225279750484fccfa6c415711a5651679395614b43e8dd6de97a28146c96",
+    "STAGE_D_COMMITTED_STATE.bin": "4a775815b6fb3e9fa7d78333a7ffe572e5d4984eae97df536826f15df2d8dba9",
+    "submit_m2adapt_real_pilot_cycle_012_datacheck.sh": "631b72e42e5a0f65fcc249b768fb3a7955e1456290ca5400bf5053b14b9a8c64",
+    "submit_m2adapt_real_pilot_cycle_012_restart.sh": "e7a14a97207ba04c9c0c6a757f054a17715c276bcf9be9d0bd826b396e7cfe58",
+    "TARGET_REAL_PILOT_CYCLE_012_PRIMARY_STATE.csv": "8c2c63233a03bdbb741d78901956cdb4731efbf3f3c9bde6a9b6c837f1ea0774",
+    "TARGET_REAL_PILOT_CYCLE_012_SOURCE_STATE.bin": "4a775815b6fb3e9fa7d78333a7ffe572e5d4984eae97df536826f15df2d8dba9",
+    "TARGET_REAL_PILOT_CYCLE_012_STATE_INSTALL_BOUNDARY.inp": "1dec0f64d3d7dbd90e959c40d1b723fd6dea825a5ce21c78d33c706aa4b64ab9",
+    "TARGET_REAL_PILOT_CYCLE_012_TRANSFER_MANIFEST.json": "5c39d332642c66298501f6f825d2b0c994095bbc213cf87a7f831257ff397a8d",
+    "TARGET_REAL_PILOT_CYCLE_012_U3_ONLY_BOUNDARY.inp": "41ec21bd31faaaf3b615aa0ed855cb407e46e2c10de40ded721daa90891f93d9",
+    "CYCLE_012_FINAL_NODAL_DISPLACEMENTS.json": "d15fb8a02b74b70fc227d8ad73063b0079a0a7a1b5e627b546fade1809c6c6ad",
+    "CYCLE_012_SCIENTIFIC_METRICS.json": "314997d65ee17ad9dc7e4321f252acf0dcf1c2ad2cdecd1ff9f3bd2ac1021e76",
+    "CYCLE_012_ACCEPTED_DONOR_METRICS.json": "314997d65ee17ad9dc7e4321f252acf0dcf1c2ad2cdecd1ff9f3bd2ac1021e76",
+    "pbs_execution.log": "d048d123750d1b12d0935d16cc82c0bc781509ae4f37495f614b32fe45137466"
+  }
+}

@@ -1,0 +1,24 @@
+#!/bin/bash
+#PBS -N M2CORR_STAGE_E_REFINED_PROJECTED_TRANSFER_VAL
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -o pbs.out
+#PBS -e pbs.err
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+abaqus job=M2CORR_STAGE_E_REFINED_PROJECTED_TRANSFER_VAL user=f44_mixed_uel_restart_stateinit.for interactive

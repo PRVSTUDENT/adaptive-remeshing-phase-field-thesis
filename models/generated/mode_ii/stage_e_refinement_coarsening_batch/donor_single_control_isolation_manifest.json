@@ -1,0 +1,74 @@
+{
+  "isolation_packages": {
+    "M2CORR_STAGE_E_DONOR_IA13_ISOLATION_VAL": {
+      "package_name": "M2CORR_STAGE_E_DONOR_IA13_ISOLATION_VAL",
+      "package_dir": "models/generated/mode_ii/stage_e_refinement_coarsening_batch\\M2CORR_STAGE_E_DONOR_IA13_ISOLATION_VAL",
+      "base_job": "1390876.mmaster02",
+      "base_package": "M2CORR_STAGE_E_DONOR_MINIMAL_DTMIN_CONTINUATION_VAL",
+      "change_description": "I_A: 12 -> 13 with dt_min = 1.0e-11 unchanged",
+      "parameter_diff": {
+        "I_A": [
+          12,
+          13
+        ],
+        "dt_min": [
+          "1.0e-11",
+          "1.0e-11"
+        ]
+      },
+      "hashes": {
+        "inp_sha256": "593cfc59ed9f2b76d8186bdf5c144be902ff53155baf5c930a7e7eb3b6a3d834",
+        "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+        "pbs_sha256": "9c93e5a2f816062bc7b4655f2977d57f4a2340bf330fc8ed6435f2abe5aaedea"
+      },
+      "unified_diff": [
+        "--- 1390876_donor",
+        "+++ M2CORR_STAGE_E_DONOR_IA13_ISOLATION_VAL",
+        "@@ -27078,7 +27078,7 @@",
+        " *STATIC",
+        " 0.001, 1.0, 1.0e-11, 0.02",
+        " *CONTROLS, PARAMETERS=TIME INCREMENTATION",
+        "-4, 8, 9, 16, 10, 4, 50, 12",
+        "+4, 8, 9, 16, 10, 4, 50, 13",
+        " *BOUNDARY, OP=NEW",
+        " N_BOTTOM, 1, 2, 0.0",
+        " N_RP, 1, 1, 0.050000"
+      ]
+    },
+    "M2CORR_STAGE_E_DONOR_DTMIN5E12_ISOLATION_VAL": {
+      "package_name": "M2CORR_STAGE_E_DONOR_DTMIN5E12_ISOLATION_VAL",
+      "package_dir": "models/generated/mode_ii/stage_e_refinement_coarsening_batch\\M2CORR_STAGE_E_DONOR_DTMIN5E12_ISOLATION_VAL",
+      "base_job": "1390876.mmaster02",
+      "base_package": "M2CORR_STAGE_E_DONOR_MINIMAL_DTMIN_CONTINUATION_VAL",
+      "change_description": "dt_min: 1.0e-11 -> 5.0e-12 with I_A = 12 unchanged",
+      "parameter_diff": {
+        "I_A": [
+          12,
+          12
+        ],
+        "dt_min": [
+          "1.0e-11",
+          "5.0e-12"
+        ]
+      },
+      "hashes": {
+        "inp_sha256": "346543717faf73e85fabffb008bcda8e52b19a9a9a081c7e197c943d65fa1fc5",
+        "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+        "pbs_sha256": "4ef0ec7c40d4e8cf22a9e84e28a17dcd6dc150c12b7429793d6d3c0876350d04"
+      },
+      "unified_diff": [
+        "--- 1390876_donor",
+        "+++ M2CORR_STAGE_E_DONOR_DTMIN5E12_ISOLATION_VAL",
+        "@@ -27076,7 +27076,7 @@",
+        " ** ==========================================================",
+        " *STEP, NAME=ShearStep, NLGEOM=NO, INC=10000",
+        " *STATIC",
+        "-0.001, 1.0, 1.0e-11, 0.02",
+        "+0.001, 1.0, 5.0e-12, 0.02",
+        " *CONTROLS, PARAMETERS=TIME INCREMENTATION",
+        " 4, 8, 9, 16, 10, 4, 50, 12",
+        " *BOUNDARY, OP=NEW"
+      ]
+    }
+  }
+}

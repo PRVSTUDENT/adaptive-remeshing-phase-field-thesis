@@ -1,0 +1,54 @@
+#!/bin/bash
+#PBS -N M2STATE_FRACFIX_RESTART1R1R2
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=8gb
+#PBS -l walltime=04:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+echo "[PBS_PREFLIGHT] Starting M2STATE_FRACFIX_RESTART1R1R2 execution..."
+
+# Step 1: Datacheck
+abaqus job=M2STATE_FRACFIX_RESTART1R1R2 input=M2STATE_FRACFIX_RESTART1R1R2.inp user=f42_mixed_uel.for datacheck interactive
+DATACHECK_RC=$?
+
+if [ $DATACHECK_RC -ne 0 ]; then
+  echo "[PBS_PREFLIGHT] ERROR: Abaqus datacheck failed with exit code $DATACHECK_RC"
+  exit $DATACHECK_RC
+fi
+echo "[PBS_PREFLIGHT] Abaqus datacheck passed cleanly."
+
+# Step 2: Continuation
+abaqus job=M2STATE_FRACFIX_RESTART1R1R2 user=f42_mixed_uel.for continue interactive
+CONTINUE_RC=$?
+
+if [ $CONTINUE_RC -ne 0 ]; then
+  echo "[PBS_PREFLIGHT] ERROR: Abaqus continuation step failed with exit code $CONTINUE_RC"
+  exit $CONTINUE_RC
+fi
+echo "[PBS_PREFLIGHT] Abaqus continuation step completed successfully."
+
+# Step 3: Concatenate trace sinks and run checker
+cat M2STATE_FRACFIX_RESTART1R1R2.dat M2STATE_FRACFIX_RESTART1R1R2.msg M2STATE_FRACFIX_RESTART1R1R2.log > M2STATE_FRACFIX_RESTART1R1R2.trace 2>/dev/null
+
+python3 verify_restart_trace.py M2STATE_FRACFIX_RESTART1R1R2.trace
+CHECKER_RC=$?
+
+if [ $CHECKER_RC -ne 0 ]; then
+  echo "[PBS_PREFLIGHT] ERROR: Production restart trace checker failed with exit code $CHECKER_RC"
+  exit $CHECKER_RC
+fi
+
+echo "[PBS_PREFLIGHT] ALL PRODUCTION RESTART CONTRACTS QUALIFIED SUCCESSFULLY."

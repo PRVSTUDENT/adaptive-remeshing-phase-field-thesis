@@ -1,0 +1,36 @@
+{
+  "package_name": "M2CORR_STAGE_D_CONTINUOUS_TARGET_CONTROL_VAL",
+  "task_id": "F265PREP-M2-STAGE-D-CONTINUOUS-TARGET-CONTROL-DIAGNOSTIC-PACKAGE1",
+  "date_prepared": "2026-08-18T06:22:00+02:00",
+  "status": "QUALIFIED_READY_FOR_AUTHORIZATION",
+  "scientific_purpose": "Continuous virgin baseline (U1 = 0 to 0.050 mm) on exact Stage-D target mesh to isolate static mesh discretization effects from state-transfer/restart staging effects",
+  "physical_mesh_hierarchy": {
+    "physical_nodes": 9072,
+    "reference_point_nodes": 1,
+    "total_inp_nodes": 9073,
+    "physical_quads": 8836,
+    "phase_uel_layer1_elements": 8836,
+    "mech_uel_layer2_elements": 8836,
+    "total_inp_uel_elements": 17672,
+    "visualization_overlay_elements": 0,
+    "total_odb_elements": 17672
+  },
+  "material_properties": {
+    "E_L0_mm": 0.015,
+    "E_GC_N_per_mm": 0.0027,
+    "E_MOD_kN_per_mm2": 210.0,
+    "E_NU": 0.3,
+    "E_K": 1e-07,
+    "N_PHYS": 8836
+  },
+  "frozen_sha256": {
+    "inp": "d4412b3abece283d514e2612d6b17e76dc92a8d4bcaa10694315dbba49291b2c",
+    "uel": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "launcher": "62d868b900bcfb143fcf4f686e514cb34c0d145784413ca7b69942d143b1c1ec"
+  },
+  "qualification": {
+    "abaqus_datacheck": "PASSED (Exit 0 on cluster with ifort 2021.13.0 + Abaqus 2023)",
+    "compilation_and_link": "PASSED (Exit 0)",
+    "input_file_processor": "PASSED (Exit 0)"
+  }
+}

@@ -1,0 +1,45 @@
+#PBS -N M2STATE_FRACFIX_RESTART2R3
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+source $HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh 2>/dev/null || true
+notification_install_terminal_trap 2>/dev/null || true
+notify_start 2>/dev/null || true
+
+source /etc/profile.d/modules.sh 2>/dev/null || source /etc/profile 2>/dev/null || true
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+module load python/gcc/11.4.0/3.11.7
+
+command -v ifort >/dev/null 2>&1 || { echo "ERROR: ifort not found in PATH after module load"; exit 1; }
+ifort --version >/dev/null 2>&1 || { echo "ERROR: ifort failed execution"; exit 1; }
+command -v abaqus >/dev/null 2>&1 || { echo "ERROR: abaqus not found in PATH after module load"; exit 1; }
+abaqus information=release >/dev/null 2>&1 || { echo "ERROR: abaqus information query failed"; exit 1; }
+
+python3 validate_package_manifest.py || { echo "ERROR: PACKAGE_MANIFEST verification failed"; exit 1; }
+
+abaqus job=M2STATE_FRACFIX_RESTART2R3 user=f42_mixed_uel.for interactive
+RC=$?
+
+python3 verify_restart2r3_science.py
+VERIFY_RC=$?
+
+if [ $RC -eq 0 ] && [ $VERIFY_RC -eq 0 ]; then
+    exit 0
+else
+    exit 1
+fi

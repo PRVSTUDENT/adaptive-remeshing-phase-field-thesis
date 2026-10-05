@@ -1,0 +1,43 @@
+{
+  "replacement_package": "M2CORR_STAGE_E_REFINED_TARGET_TRANSFER_R1_VAL",
+  "base_package": "M2CORR_STAGE_E_REFINED_TARGET_TRANSFER_VAL",
+  "base_job_id": "1391281.mmaster02",
+  "provenance": {
+    "source_donor_job": "1390447.mmaster02",
+    "source_donor_frame": 17,
+    "source_donor_u1_mm": 0.01051289,
+    "target_mesh": "Refined (33,600 quads, 34,027 nodes, h_tip=0.002 mm)",
+    "history_operator": "HOST_ISOPARAMETRIC_BILINEAR_WITH_LOCAL_GP_BOUNDS_CLAMP"
+  },
+  "hashes": {
+    "inp_sha256": "3f253e7f9a4e6210d3cda3bf4533c7ffa1b2811da265a36c32872f86d1170c02",
+    "bin_sha256": "61b4a973c30936adf3b6350f65d3d1766186317c79cc7b7229271fd1df51e60d",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "pbs_sha256": "8ccd2b7c24c1157670bcdf35aa717048268ee90d9e712109aa03dbd7e8434706"
+  },
+  "one_difference_audit": {
+    "mesh_changed": false,
+    "state_binary_changed": false,
+    "uel_subroutine_changed": false,
+    "material_props_changed": false,
+    "step_semantics_changed": false,
+    "step1_state_install_changed": false,
+    "step2_mech_equilibration_changed": false,
+    "step3_phase_release_controls_modified": true,
+    "step3_changes": {
+      "before": {
+        "static_card": "1.0, 1.0, 1.0e-5, 1.0",
+        "controls_card": null,
+        "I_A": 5,
+        "dt_min": 1e-05
+      },
+      "after": {
+        "static_card": "0.001, 1.0, 1.0e-11, 1.0",
+        "controls_card": "4, 8, 9, 16, 10, 4, 50, 12",
+        "I_A": 12,
+        "dt_min": 1e-11
+      }
+    },
+    "step4_continuation_changed": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "candidate": "M2STATE_FRACFIX_RESTART2R13",
+  "source_job_id": "1389278.mmaster02",
+  "source_checkpoint_step": 2,
+  "source_checkpoint_u1_mm": 0.01,
+  "source_checkpoint_rf1_kN": 0.12322307,
+  "source_transfer_artifact_sha256": "fcb78b392cb9590fedbeee65074db485a40ee18e7d0fa114ac69fafa80ff94f1",
+  "target_mesh": "PK10R1",
+  "target_nodes": 9849,
+  "target_elements": 9612,
+  "target_phase_d_max": 0.1515,
+  "target_history_h_max_kN_mm2": 0.09254704445673569,
+  "coupling_architecture": "STAGGERED_SHARED_MEMORY_SV_PHASE",
+  "residual_vector_status": "CORRECTED_OUTSIDE_GAUSS_LOOP"
+}

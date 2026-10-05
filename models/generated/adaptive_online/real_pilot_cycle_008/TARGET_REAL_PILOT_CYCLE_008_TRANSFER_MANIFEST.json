@@ -1,0 +1,68 @@
+{
+  "target_mesh_name": "TARGET_REAL_PILOT_CYCLE_008",
+  "source_provenance": {
+    "donor_cycle": "REAL_PILOT_CYCLE_007",
+    "donor_job": "1397400.mmaster02",
+    "donor_frame": 57,
+    "handoff_u1_mm": 0.028012891113758084,
+    "target_u1_mm": 0.030512891113758083
+  },
+  "mapping_summary": {
+    "primary_fields": {
+      "unmapped_physical_nodes": 0,
+      "max_mapping_residual": 0.0,
+      "same_mesh_identity_transfer": true
+    },
+    "history_fields": {
+      "unmapped_gps": 0,
+      "same_mesh_identity_transfer": true
+    }
+  },
+  "generated_artifacts": {
+    "primary_state_csv": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_008_PRIMARY_STATE.csv",
+      "sha256": "6f8de0ba13364f4851d45aceac5b6770a6f18f4f20b1bac151aa54c7820865e4"
+    },
+    "state_install_boundary_inp": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_008_STATE_INSTALL_BOUNDARY.inp",
+      "sha256": "5ec3733fb4031bfd1c6211c36b41441a4a94f566b51dc6ba1c728773b90b1da0"
+    },
+    "u3_only_boundary_inp": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_008_U3_ONLY_BOUNDARY.inp",
+      "sha256": "0706d2a48b00e111ce91ed03c4f19b8d35288cdbc8de6d9e09e5988925f88153"
+    },
+    "committed_binary_state": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_008_SOURCE_STATE.bin",
+      "sha256": "be49feecb20a8d0799ecd53ab1ede1e0ab6f597df1c7becf5c310c16b89d76e9"
+    },
+    "standard_committed_binary": {
+      "filename": "STAGE_D_COMMITTED_STATE.bin",
+      "sha256": "be49feecb20a8d0799ecd53ab1ede1e0ab6f597df1c7becf5c310c16b89d76e9"
+    }
+  },
+  "transfer_algorithm": {
+    "spatial_search": "SpatialGridIndex with Newton-Raphson inverse isoparametric mapping",
+    "primary_fields_interpolation": "C0 continuous bilinear quad shape functions (physical nodes only)",
+    "rp_boundary_separation": "RP node prescribed U1 only; DOF 2 and DOF 3 excluded",
+    "history_fields_interpolation": "Gauss-point normalized isoparametric interpolation",
+    "inside_tolerance": 1e-06
+  },
+  "manifest_sha256": "67beec0d0a95ccd13156ff5a0827572469c5da7ce3837ef4b6ae31ed4df21ca0",
+  "transfer_validation": {
+    "passed": true,
+    "target_min_d": 0.0,
+    "target_max_d": 0.2995086350969,
+    "donor_max_d": 0.2995086350969,
+    "target_min_H": 1.901584745447024e-14,
+    "target_max_H": 6486.156244332042,
+    "donor_max_H": 6486.156244332042,
+    "unmapped_physical_nodes": 0,
+    "unmapped_nodes": 0,
+    "unmapped_target_gps": 0,
+    "unmapped_gps": 0,
+    "max_mapping_residual": 0.0,
+    "same_mesh_identity_transfer": true,
+    "violation_count": 0,
+    "violations": []
+  }
+}

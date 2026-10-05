@@ -1,0 +1,103 @@
+{
+  "target_mesh_name": "TARGET_REAL_PILOT_CYCLE_001",
+  "source_provenance": {
+    "job_id": "1390447.mmaster02",
+    "donor_inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\generated\\mode_ii\\stage_e_refinement_coarsening_batch\\M2CORR_STAGE_E_DONOR_MINIMAL_CONTINUATION_VAL\\M2CORR_STAGE_E_DONOR_MINIMAL_CONTINUATION_VAL.inp",
+    "donor_inp_sha256": "88c4bc247dfe01c71d08109bf82d9cbeca36317f112049620a94b397762ed7af",
+    "frame": 17,
+    "actual_u1_mm": 0.0105128903,
+    "rf1_kN": 0.12591584,
+    "d_max": 0.30431819,
+    "num_physical_nodes": 9073,
+    "num_physical_elements": 8836,
+    "synthetic": false,
+    "real_primary_evidence_donor": true
+  },
+  "mapping_summary": {
+    "primary_fields": {
+      "target_physical_nodes": 5287,
+      "target_auxiliary_nodes": 1,
+      "physical_nodes_mapped": 5287,
+      "auxiliary_nodes_FE_interpolated": 0,
+      "unmapped_physical_nodes": 0,
+      "fallback_physical_nodes": 0,
+      "boundary_physical_nodes": 597,
+      "max_mapping_residual": 1.5700924586837752e-16,
+      "mean_mapping_residual": 1.7827041119262585e-17,
+      "field_statistics": {
+        "U1_min": 2.9047460748564324e-19,
+        "U1_max": 0.010512890300000001,
+        "U1_mean": 0.005298641981949059,
+        "U2_min": 0.0,
+        "U2_max": 0.0,
+        "U2_mean": 0.0,
+        "U3_min": 0.0,
+        "U3_max": 0.2995086350968859,
+        "U3_mean": 0.00303419197519664
+      },
+      "all_physical_nodes_mapped": true
+    },
+    "history_fields": {
+      "total_target_elements": 5112,
+      "total_gauss_points": 20448,
+      "unmapped_gauss_points": 0,
+      "history_statistics": {
+        "H_min": 0.0044633425224157655,
+        "H_max": 0.004463342522417432,
+        "H_mean": 0.004463342522416377
+      },
+      "phase_damage_statistics": {
+        "d_avg_min": 0.0,
+        "d_avg_max": 0.2897035835756222,
+        "d_avg_mean": 0.0031011738837690606
+      },
+      "irreversibility_preserved": true
+    }
+  },
+  "generated_artifacts": {
+    "primary_state_csv": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_001_PRIMARY_STATE.csv",
+      "sha256": "ec24b6fcd9911694c4af7894353e4ce84af9fe1be8828173a866eda08d9be982"
+    },
+    "state_install_boundary_inp": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_001_STATE_INSTALL_BOUNDARY.inp",
+      "sha256": "ca7535b435c605659b2f96c1e6d06e4bc6e28372fe4c2f69fc4fe0f28519f22c"
+    },
+    "u3_only_boundary_inp": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_001_U3_ONLY_BOUNDARY.inp",
+      "sha256": "e67c96e52a73b62284b034ba0863b8c98420e055299f232b4c3ccf4863b353c2"
+    },
+    "committed_binary_state": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_001_SOURCE_STATE.bin",
+      "sha256": "49f952d49e4f2a1c2b3993ef3f9732ccc2758580f613eb56a076e4e567cfe12c"
+    },
+    "standard_committed_binary": {
+      "filename": "STAGE_D_COMMITTED_STATE.bin",
+      "sha256": "49f952d49e4f2a1c2b3993ef3f9732ccc2758580f613eb56a076e4e567cfe12c"
+    }
+  },
+  "transfer_algorithm": {
+    "spatial_search": "SpatialGridIndex with Newton-Raphson inverse isoparametric mapping",
+    "primary_fields_interpolation": "C0 continuous bilinear quad shape functions (physical nodes only)",
+    "rp_boundary_separation": "RP node prescribed U1 only; DOF 2 and DOF 3 excluded",
+    "history_fields_interpolation": "Gauss-point normalized isoparametric interpolation",
+    "inside_tolerance": 1e-06
+  },
+  "manifest_sha256": "ec1378aa420503aa91721a3f8d4f5ec7df3b39c186359a74dca51983192e7179",
+  "transfer_validation": {
+    "passed": true,
+    "target_min_d": 0.0,
+    "target_max_d": 0.2995086350968859,
+    "donor_max_d": 0.30405486644024593,
+    "target_min_H": 0.0044633425224157655,
+    "target_max_H": 0.004463342522417432,
+    "donor_max_H": 0.004463342522417432,
+    "unmapped_physical_nodes": 0,
+    "unmapped_nodes": 0,
+    "unmapped_target_gps": 0,
+    "unmapped_gps": 0,
+    "max_mapping_residual": 1.5700924586837752e-16,
+    "violation_count": 0,
+    "violations": []
+  }
+}

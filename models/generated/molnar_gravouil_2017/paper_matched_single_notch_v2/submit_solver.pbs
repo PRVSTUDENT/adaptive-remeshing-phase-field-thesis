@@ -1,0 +1,41 @@
+#!/bin/bash
+#PBS -N MOLNAR_M1_PM2
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+#PBS -o MOLNAR_M1_PM2.out
+#PBS -e MOLNAR_M1_PM2.err
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+# Clean old locks
+rm -f *.lck
+
+# Fail-closed Dual-Channel Notifications
+if [ -f "$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" ]; then
+    source "$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"
+    notification_install_terminal_trap
+    notify_start "MOLNAR_M1_PM2"
+fi
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "=== STARTING PRODUCTION SOLVER MOLNAR_M1_PM2 ==="
+abaqus job=paper_matched_single_notch_v2 input=paper_matched_single_notch_v2.inp user=SingleNotch_v2.for cpus=1 interactive
+ABAQUS_RC=$?
+
+echo "=== FINISHED PRODUCTION SOLVER MOLNAR_M1_PM2 (EXIT: ${ABAQUS_RC}) ==="
+exit ${ABAQUS_RC}

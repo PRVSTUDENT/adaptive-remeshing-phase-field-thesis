@@ -1,0 +1,41 @@
+{
+  "cycle_id": "REAL_PILOT_CYCLE_007",
+  "evaluated_for_cycle": "REAL_PILOT_CYCLE_008",
+  "remesh_required": false,
+  "fired_triggers": [],
+  "rationale": "No remeshing required. Phase field is contained within fine elements (h_max <= 0.0075 mm). Max d in coarse elements = 0.0000 < 0.0500.",
+  "metrics": {
+    "max_d_in_coarse_elements": 1.9805543738529999e-13,
+    "d_invade_threshold": 0.05,
+    "d_crack_core_threshold": 0.3,
+    "coarse_element_count": 3816,
+    "violating_coarse_element_count": 0,
+    "min_buffer_distance_mm": -1.0,
+    "buffer_threshold_mm": 0.03,
+    "max_miseseri": 0.0,
+    "miseseri_marked_count": 0,
+    "current_u1_mm": 0.028012891113758084,
+    "final_u1_mm": 0.05,
+    "damaged_node_count_gt_002": 131,
+    "core_node_count_gt_dcore": 0,
+    "tr04_enabled": false,
+    "max_grad_d_norm": 0.0
+  },
+  "refined_zone": {
+    "x_min": -0.05,
+    "x_max": 0.11,
+    "y_min": -0.0718505939,
+    "y_max": 0.0823769123,
+    "area": 0.024676400991999997,
+    "target_h": 0.005
+  },
+  "classifications": {
+    "h_res_limit_rule": "ADOPTED_PHASE_FIELD_RESOLUTION_SIZING_RULE",
+    "tr01_classification": "PROVISIONAL_AUTOMATION_TRIGGER_REQUIRING_CALIBRATION",
+    "tr02_classification": "PROVISIONAL_AUTOMATION_TRIGGER_REQUIRING_CALIBRATION",
+    "tr03_classification": "RECONCILED_PANDEY_KUMAR_2025_RECOVERY_INDICATOR",
+    "tr04_classification": "DIMENSIONLESS_LOCAL_PHASE_GRADIENT_INDICATOR_DISABLED",
+    "characteristic_size_metric": "CONSERVATIVE_H_MAX_AND_H_AREA"
+  },
+  "execution_branch": "SAME_MESH_IDENTITY_RESTART"
+}

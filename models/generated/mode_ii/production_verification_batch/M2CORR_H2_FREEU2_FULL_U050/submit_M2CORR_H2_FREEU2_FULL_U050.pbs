@@ -1,0 +1,36 @@
+#!/bin/bash
+#PBS -N M2CORR_H2_FREEU2_FULL_U050
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+# Load notifications
+if [ -f "$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" ]; then
+    source "$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"
+    notification_install_terminal_trap
+    notify_start "M2CORR_H2_FREEU2_FULL_U050"
+fi
+
+export PATH=/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin:/cluster/application/abaqus/2023/Commands:$PATH
+source /etc/profile.d/lmod.sh 2>/dev/null || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+echo "Starting Abaqus execution for M2CORR_H2_FREEU2_FULL_U050..."
+/cluster/application/abaqus/2023/Commands/abaqus job=M2CORR_H2_FREEU2_FULL_U050 input=M2CORR_H2_FREEU2_FULL_U050.inp user=f42_mixed_uel_transactional.for interactive 2>&1
+EXIT_CODE=$?
+
+echo "Abaqus exited with code $EXIT_CODE"
+exit $EXIT_CODE

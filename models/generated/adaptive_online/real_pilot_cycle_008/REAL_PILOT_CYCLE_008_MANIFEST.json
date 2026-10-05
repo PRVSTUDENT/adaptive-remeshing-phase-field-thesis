@@ -1,0 +1,45 @@
+{
+  "cycle_id": "REAL_PILOT_CYCLE_008",
+  "generation_timestamp_utc": "2026-08-25T07:20:00Z",
+  "donor_provenance": {
+    "donor_cycle": "REAL_PILOT_CYCLE_007",
+    "donor_job": "1397400.mmaster02",
+    "donor_frame": 57,
+    "handoff_u1_mm": 0.028012891113758084,
+    "target_u1_mm": 0.030512891113758083
+  },
+  "artifacts": {
+    "f44_mixed_uel_restart_stateinit.for": "942003c5882b5598e81b471d87840e0dce2a639179cc24c87662dcf53eaef946",
+    "M2ADAPT_REAL_PILOT_CYCLE_008_RESTART.inp": "c36555a24fb821721b7ccbd1f6d1595346e00405f7cd07cf3960844f51ce583e",
+    "M2ADAPT_REAL_PILOT_CYCLE_008_RESTART.pbs": "f2b8d27c043be194bfc570e8de0cf553a428a7a6ae7f53fed3e9dcbddfe860d4",
+    "MODE_STAGED.flag": "5a7173f8c169c3cbf43033b1ceeec5e7c3289581e229b7b973e72822a4223ff5",
+    "RESTART_ACCEPTANCE_CONTRACT.json": "2a60720d30d078d3414b3b890daa06bf56472e01cec56df3ae84163b24d8ec04",
+    "STAGE_D_COMMITTED_STATE.bin": "ca2bf394142444138b22e75a91148faca8fac6f285a8dbcd052ec2eae1b2ffa7",
+    "submit_m2adapt_real_pilot_cycle_008_restart.sh": "1e9e126f93851b82f480e682e7f942cba7d524b69c2f122e97e8aae723d891ec",
+    "TARGET_REAL_PILOT_CYCLE_008_PRIMARY_STATE.csv": "295fcb799765e9609e51215950a6a2a3ff05726d744d069183601d3c555923e9",
+    "TARGET_REAL_PILOT_CYCLE_008_STATE_INSTALL_BOUNDARY.inp": "4ea46bbe7a9ea69d1736007a00c4d8fc9543698a4bef1f8bbad9060d3b39333c",
+    "TARGET_REAL_PILOT_CYCLE_008_TRANSFER_MANIFEST.json": "5fbbdb8d1151eb5fe35eda3274b0ad32bbf03f136540d5b83803918685848052",
+    "TARGET_REAL_PILOT_CYCLE_008_U3_ONLY_BOUNDARY.inp": "a0a7a4fb8ed122745f5b819747134881ecdee0d7a5d17373172eb59f25011db7"
+  },
+  "terminal_production_job": {
+    "job_id": "1397411.mmaster02",
+    "exit_status": 0,
+    "classification": "SCIENTIFIC_SOLVER_PASS",
+    "datacheck_job_id": "1397410.mmaster02",
+    "remediation_history": [
+      {
+        "job_id": "1397410.mmaster02",
+        "type": "DATACHECK",
+        "status": "SUCCESS_COMPLETED"
+      },
+      {
+        "job_id": "1397411.mmaster02",
+        "type": "PRODUCTION_RESTART",
+        "status": "SUCCESS_COMPLETED"
+      }
+    ],
+    "target_u1_mm": 0.030512891113758083,
+    "attained_u1_mm": 0.030512891709804535,
+    "final_rf1_kN": 0.03028702922165394
+  }
+}

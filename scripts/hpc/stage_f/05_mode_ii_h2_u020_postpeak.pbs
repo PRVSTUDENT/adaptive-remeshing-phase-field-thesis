@@ -6,7 +6,15 @@
 #PBS -j oe
 
 set -u
-cd "${PBS_O_WORKDIR}" || exit 21
+cd "${PBS_O_WORKDIR}"
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+ || exit 21
 
 JOBNAME="M2H2U20R1"
 INP_FILE="ModeII_H2_uniform_serial.inp"

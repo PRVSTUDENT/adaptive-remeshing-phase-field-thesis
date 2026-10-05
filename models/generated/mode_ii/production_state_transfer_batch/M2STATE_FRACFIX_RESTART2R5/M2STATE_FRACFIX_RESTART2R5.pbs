@@ -1,0 +1,55 @@
+#!/bin/bash
+#PBS -N M2STATE_FRACFIX_RESTART2R5
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=16gb:ompthreads=1
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o M2STATE_FRACFIX_RESTART2R5.o$PBS_JOBID
+
+set -eo pipefail
+
+echo "=== [PBS START] JOB $PBS_JOBID on $(hostname) at $(date -u +'%Y-%m-%dT%H:%M:%SZ') ==="
+cd "$PBS_O_WORKDIR"
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+source /etc/profile.d/modules.sh 2>/dev/null || source /etc/profile 2>/dev/null || true
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+echo "Loaded modules: $(module list 2>&1 | tr '\n' ' ')"
+which ifort
+which abaqus
+
+source ./job_notifications.sh
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-$HOME/.config/adaptive-remeshing/notifications.env}"
+if [ -f "$NOTIFICATION_CONFIG" ]; then
+    source "$NOTIFICATION_CONFIG"
+fi
+
+notification_install_terminal_trap
+notify_start "M2STATE_FRACFIX_RESTART2R5" "$PBS_JOBID" "Job started on $(hostname)"
+
+# Manifest integrity check
+python3 validate_package_manifest.py
+
+# Run Abaqus Standard solver
+echo "Executing Abaqus Standard..."
+abaqus job=M2STATE_FRACFIX_RESTART2R5 user=f42_mixed_uel.for interactive double=both cpus=1 memory=16gb scratch=.
+
+ABAQUS_EC=$?
+echo "Abaqus completed with exit code: $ABAQUS_EC"
+
+# Run Scientific Postprocessing Verification
+echo "Running Scientific Verification..."
+python3 verify_restart2r5_science.py
+
+echo "=== [PBS COMPLETED] at $(date -u +'%Y-%m-%dT%H:%M:%SZ') ==="

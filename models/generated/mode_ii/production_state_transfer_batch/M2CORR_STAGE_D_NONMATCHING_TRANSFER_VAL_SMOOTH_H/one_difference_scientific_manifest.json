@@ -1,0 +1,10 @@
+{
+  "benchmark_control_job": "1390279.mmaster02",
+  "diagnostic_candidate_job": "M2CORR_STAGE_D_NONMATCHING_TRANSFER_VAL_SMOOTH_H",
+  "mesh_geometry": "IDENTICAL (Stage-D 8,836 quads, 9,073 nodes)",
+  "mapped_mechanical_displacement": "IDENTICAL (Installed from STAGE_D_PRIMARY_STATE_BOUNDARY.inp)",
+  "mapped_nodal_phase_field": "IDENTICAL (Installed from STAGE_D_PRIMARY_STATE_BOUNDARY.inp)",
+  "uel_formulation": "IDENTICAL (Explicit Mode 1 Staged UEL, PROPERTIES=7, PROPS(7)=1.0)",
+  "staging_sequence": "IDENTICAL (STATE_INSTALL -> MECH_EQUILIBRATION -> PHASE_RELEASE -> CONTINUATION)",
+  "single_scientific_difference": "History Transfer Operator in STAGE_D_COMMITTED_STATE.bin changed from HOST_NEAREST_GP to HOST_ISOPARAMETRIC_BILINEAR_CLAMPED"
+}

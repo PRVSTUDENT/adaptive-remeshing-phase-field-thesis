@@ -320,7 +320,7 @@ def perform_architecture_isolation_audit(deck89_path, deck90_path, sub89_path=No
 
     # 13. MISESERI Request & Element Set
     record_item("INDICATOR", "miseseri_element_set", "All_elem (2,906 elements)", "All_elem (2,906 elements)", "EQUIVALENT_BY_CONSTRUCTION",
-                "MISESERI is evaluated at whole-element centroids on the 2,906 underlying elements spanning the domain.")
+                "one WHOLE_ELEMENT MISESERI value per underlying finite element on the 2,906 underlying elements spanning the domain.")
 
     # 14. Solver Controls
     record_item("SOLVER", "matrix_symmetry", "*USER ELEMENT, UNSYMM", "Standard symmetric linear solver", "EXPECTED_ARCHITECTURE_DIFFERENCE",
@@ -521,7 +521,7 @@ def export_audit_artifacts(audit_summary, output_dir):
         "  - Poisson's ratio: $\\nu = 0.3$.",
         "- **Package 89:**",
         "  - Mechanical Layer 2 UEL integrates plane-strain elasticity with $E = 210.0\\,\\text{kN/mm}^2$ and $\\nu = 0.3$.",
-        "  - Companion Layer 3 UMAT: receives $E=210.0, \\nu=0.3, n_{\\text{phys}}=2906.0$ as constants; returns Cauchy stress $\\boldsymbol{\\sigma}$ for post-processing and SPR/ZZ error evaluation, and explicitly sets the tangent matrix in lines 913–918 of `f42_mixed_uel.for`:",
+        "  - Companion Layer 3 UMAT: receives $E=210.0, \\nu=0.3, n_{\\text{phys}}=2906.0$ as constants; returns Cauchy stress $\\boldsymbol{\\sigma}$ for post-processing and Abaqus Mises stress discretization/error indicator associated with the recovered stress solution, and explicitly sets the tangent matrix in lines 913–918 of `f42_mixed_uel.for`:",
         "    ```fortran",
         "    C     Material Jacobian: negligible dummy stiffness (prevents double-counting with UEL Layer 2)",
         "              DDSDDE(I,J) = ZERO",

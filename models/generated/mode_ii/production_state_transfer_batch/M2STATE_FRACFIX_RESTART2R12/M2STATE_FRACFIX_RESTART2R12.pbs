@@ -1,0 +1,43 @@
+#!/bin/bash
+#PBS -N M2STATE_FRACFIX_RESTART2R12
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=8000mb
+#PBS -l walltime=02:00:00
+#PBS -q normal_imfdfkmq
+#PBS -o M2STATE_FRACFIX_RESTART2R12.o$PBS_JOBID
+#PBS -e M2STATE_FRACFIX_RESTART2R12.e$PBS_JOBID
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/tmp}
+source /etc/profile.d/modules.sh 2>/dev/null || source /etc/profile 2>/dev/null || true
+module purge 2>/dev/null || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
+source job_notifications.sh
+notification_install_terminal_trap
+
+notify_start "M2STATE_FRACFIX_RESTART2R12" "$PBS_JOBID" "normal_imfdfkmq"
+
+rm -f M2STATE_FRACFIX_RESTART2R12.lck M2STATE_FRACFIX_RESTART2R12.dat M2STATE_FRACFIX_RESTART2R12.msg M2STATE_FRACFIX_RESTART2R12.sta || true
+
+abaqus job=M2STATE_FRACFIX_RESTART2R12 user=f42_mixed_uel.for input=M2STATE_FRACFIX_RESTART2R12.inp interactive double=both cpus=1 memory="8000 mb"
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -eq 0 ]; then
+    notify_completed "M2STATE_FRACFIX_RESTART2R12" "$PBS_JOBID" "Analysis completed successfully."
+else
+    notify_failed "M2STATE_FRACFIX_RESTART2R12" "$PBS_JOBID" $EXIT_CODE "Abaqus exited with error code $EXIT_CODE."
+fi
+
+exit $EXIT_CODE

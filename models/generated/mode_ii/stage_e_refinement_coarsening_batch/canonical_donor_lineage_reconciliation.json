@@ -1,0 +1,197 @@
+{
+  "1390447.mmaster02": {
+    "job_id": "1390447.mmaster02",
+    "label": "M2CORR_STAGE_E_DONOR_MINIMAL_CONTINUATION_VAL (1390447)",
+    "odb_data": {
+      "step_name": "ShearStep",
+      "num_frames_including_0": 440,
+      "num_increments": 439,
+      "rp_node": 99999,
+      "rp_set": "N_RP",
+      "rf_component": "RF1 (Positive in +X direction)",
+      "terminal_u1_mm": 0.05000000074505806,
+      "terminal_rf1_kN": 0.006771646440029144,
+      "terminal_d_max": 1.000000238418579,
+      "peak_rf1_kN": 0.14473675191402435,
+      "peak_frame": 20,
+      "peak_u1_mm": 0.012575390748679638,
+      "handoff_frame": 17,
+      "handoff_u1_mm": 0.010512890294194221,
+      "handoff_rf1_kN": 0.12591584026813507,
+      "handoff_d_max": 0.3043181896209717
+    },
+    "inp_data": {
+      "physical_nodes_excl_rp": 9073,
+      "physical_quads": 8836,
+      "phase_uels": 8836,
+      "props": [
+        "0.015, 0.0027, 210.0, 0.3, 1e-07, 8836.0, 0.0",
+        "0.015, 0.0027, 210.0, 0.3, 1e-07, 8836.0, 0.0"
+      ],
+      "static_cards": [
+        "0.001, 1.0, 1.0e-9, 0.02"
+      ],
+      "controls_cards": [
+        "4, 8, 9, 16, 10, 4, 50, 12"
+      ]
+    },
+    "inp_sha256": "88c4bc247dfe01c71d08109bf82d9cbeca36317f112049620a94b397762ed7af",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab"
+  },
+  "1390552.mmaster02": {
+    "job_id": "1390552.mmaster02",
+    "label": "M2CORR_STAGE_E_DONOR_CONTROL_VAL (1390552)",
+    "odb_data": {
+      "step_name": "ShearStep",
+      "num_frames_including_0": 135,
+      "num_increments": 134,
+      "rp_node": 99999,
+      "rp_set": "N_RP",
+      "rf_component": "RF1 (Positive in +X direction)",
+      "terminal_u1_mm": 0.05000000074505806,
+      "terminal_rf1_kN": 0.008938726037740707,
+      "terminal_d_max": 1.000000238418579,
+      "peak_rf1_kN": 0.1493823528289795,
+      "peak_frame": 20,
+      "peak_u1_mm": 0.013512890785932541,
+      "handoff_frame": 17,
+      "handoff_u1_mm": 0.010512890294194221,
+      "handoff_rf1_kN": 0.12591584026813507,
+      "handoff_d_max": 0.3043181896209717
+    },
+    "inp_data": {
+      "physical_nodes_excl_rp": 9073,
+      "physical_quads": 8836,
+      "phase_uels": 8836,
+      "props": [
+        "0.015, 0.0027, 210.0, 0.3, 1e-07, 8836.0, 0.0",
+        "0.015, 0.0027, 210.0, 0.3, 1e-07, 8836.0, 0.0"
+      ],
+      "static_cards": [
+        "0.001, 1.0, 1.0e-10, 0.02"
+      ],
+      "controls_cards": [
+        "8, 10, 9, 20, 10, 4, 50, 12"
+      ]
+    },
+    "inp_sha256": "c20772164cbd04527e2964f04f71f854ff7dbebc463fd5678caf0bb85f24a853",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab"
+  },
+  "1390876.mmaster02": {
+    "job_id": "1390876.mmaster02",
+    "label": "M2CORR_STAGE_E_DONOR_MINIMAL_DTMIN_CONTINUATION_VAL (1390876)",
+    "odb_data": {
+      "step_name": "ShearStep",
+      "num_frames_including_0": 440,
+      "num_increments": 439,
+      "rp_node": 99999,
+      "rp_set": "N_RP",
+      "rf_component": "RF1 (Positive in +X direction)",
+      "terminal_u1_mm": 0.05000000074505806,
+      "terminal_rf1_kN": 0.006771646440029144,
+      "terminal_d_max": 1.000000238418579,
+      "peak_rf1_kN": 0.14473675191402435,
+      "peak_frame": 20,
+      "peak_u1_mm": 0.012575390748679638,
+      "handoff_frame": 17,
+      "handoff_u1_mm": 0.010512890294194221,
+      "handoff_rf1_kN": 0.12591584026813507,
+      "handoff_d_max": 0.3043181896209717
+    },
+    "inp_data": {
+      "physical_nodes_excl_rp": 9073,
+      "physical_quads": 8836,
+      "phase_uels": 8836,
+      "props": [
+        "0.015, 0.0027, 210.0, 0.3, 1e-07, 8836.0, 0.0",
+        "0.015, 0.0027, 210.0, 0.3, 1e-07, 8836.0, 0.0"
+      ],
+      "static_cards": [
+        "0.001, 1.0, 1.0e-11, 0.02"
+      ],
+      "controls_cards": [
+        "4, 8, 9, 16, 10, 4, 50, 12"
+      ]
+    },
+    "inp_sha256": "105d2cc04de25f68c0a1fbeaab8b66d355881993cf6292e8201ad210137d3db8",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab"
+  },
+  "1391301.mmaster02": {
+    "job_id": "1391301.mmaster02",
+    "label": "M2CORR_STAGE_E_DONOR_IA13_ISOLATION_VAL (1391301)",
+    "odb_data": {
+      "step_name": "ShearStep",
+      "num_frames_including_0": 440,
+      "num_increments": 439,
+      "rp_node": 99999,
+      "rp_set": "N_RP",
+      "rf_component": "RF1 (Positive in +X direction)",
+      "terminal_u1_mm": 0.05000000074505806,
+      "terminal_rf1_kN": 0.006771646440029144,
+      "terminal_d_max": 1.000000238418579,
+      "peak_rf1_kN": 0.14473675191402435,
+      "peak_frame": 20,
+      "peak_u1_mm": 0.012575390748679638,
+      "handoff_frame": 17,
+      "handoff_u1_mm": 0.010512890294194221,
+      "handoff_rf1_kN": 0.12591584026813507,
+      "handoff_d_max": 0.3043181896209717
+    },
+    "inp_data": {
+      "physical_nodes_excl_rp": 9073,
+      "physical_quads": 8836,
+      "phase_uels": 8836,
+      "props": [
+        "0.015, 0.0027, 210.0, 0.3, 1e-07, 8836.0, 0.0",
+        "0.015, 0.0027, 210.0, 0.3, 1e-07, 8836.0, 0.0"
+      ],
+      "static_cards": [
+        "0.001, 1.0, 1.0e-11, 0.02"
+      ],
+      "controls_cards": [
+        "4, 8, 9, 16, 10, 4, 50, 13"
+      ]
+    },
+    "inp_sha256": "593cfc59ed9f2b76d8186bdf5c144be902ff53155baf5c930a7e7eb3b6a3d834",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab"
+  },
+  "1391302.mmaster02": {
+    "job_id": "1391302.mmaster02",
+    "label": "M2CORR_STAGE_E_DONOR_DTMIN5E12_ISOLATION_VAL (1391302)",
+    "odb_data": {
+      "step_name": "ShearStep",
+      "num_frames_including_0": 440,
+      "num_increments": 439,
+      "rp_node": 99999,
+      "rp_set": "N_RP",
+      "rf_component": "RF1 (Positive in +X direction)",
+      "terminal_u1_mm": 0.05000000074505806,
+      "terminal_rf1_kN": 0.006771646440029144,
+      "terminal_d_max": 1.000000238418579,
+      "peak_rf1_kN": 0.14473675191402435,
+      "peak_frame": 20,
+      "peak_u1_mm": 0.012575390748679638,
+      "handoff_frame": 17,
+      "handoff_u1_mm": 0.010512890294194221,
+      "handoff_rf1_kN": 0.12591584026813507,
+      "handoff_d_max": 0.3043181896209717
+    },
+    "inp_data": {
+      "physical_nodes_excl_rp": 9073,
+      "physical_quads": 8836,
+      "phase_uels": 8836,
+      "props": [
+        "0.015, 0.0027, 210.0, 0.3, 1e-07, 8836.0, 0.0",
+        "0.015, 0.0027, 210.0, 0.3, 1e-07, 8836.0, 0.0"
+      ],
+      "static_cards": [
+        "0.001, 1.0, 5.0e-12, 0.02"
+      ],
+      "controls_cards": [
+        "4, 8, 9, 16, 10, 4, 50, 12"
+      ]
+    },
+    "inp_sha256": "346543717faf73e85fabffb008bcda8e52b19a9a9a081c7e197c943d65fa1fc5",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "candidate": "M2STATE_FRACFIX_RESTART1R1R7",
+  "task_id": "F82STATE-M2-CORRECTED-RESTART1-REBUILD-QUALIFICATION1",
+  "predecessor_job": "1386469.mmaster02",
+  "predecessor_candidate": "M2ADAPT_MM_FRACFIX_PROD",
+  "source_u1_mm": 0.005,
+  "target_u1_final_mm": 0.01,
+  "property_ABI": "6_SLOT_REAL_PROPERTIES_PROPS1_TO_5_MATERIAL_AND_K_PROPS6_NPHYS",
+  "material_parameters": {
+    "l0_mm": 0.015,
+    "Gc_kN_per_mm": 0.0027,
+    "E_kN_per_mm2": 210.0,
+    "nu": 0.3,
+    "k_residual": 1e-07,
+    "Nphys": 4894.0
+  },
+  "acceptance_gates": {
+    "step1_phase_init_solve": "MANDATORY",
+    "step2_continuation_solve": "MANDATORY",
+    "step2_cutbacks_max": 0,
+    "step2_nans_max": 0,
+    "target_displacement_mm": 0.01,
+    "phase_field_transfer_L2_max_pct": 1.0,
+    "history_field_transfer_L2_max_pct": 1.0,
+    "phase_irreversibility": "MANDATORY",
+    "history_irreversibility": "MANDATORY",
+    "crack_tip_localization_coverage": "MANDATORY",
+    "element_detJ_positive": "MANDATORY",
+    "element_max_span_mm": 0.015,
+    "force_continuity_tolerance_pct": 2.0,
+    "constitutive_stiffness_consistency": "MANDATORY",
+    "material_parameter_invariance": "MANDATORY",
+    "overall_scientific_acceptance": "MANDATORY"
+  },
+  "energy_gate_mandatory": false,
+  "energy_output_available": false,
+  "resource_contract": {
+    "queue": "entry_imfdfkmq",
+    "ncpus": 1,
+    "mpiprocs": 1,
+    "memory": "16gb",
+    "walltime": "24:00:00",
+    "execution_mode": "serial",
+    "automatic_retry": false
+  }
+}

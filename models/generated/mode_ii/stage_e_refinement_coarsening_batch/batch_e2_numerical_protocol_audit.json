@@ -1,0 +1,120 @@
+{
+  "refined_1391281": [
+    {
+      "line_start": 101770,
+      "raw_step_header": "*STEP, NAME=STATE_INSTALL, NLGEOM=NO, INC=10",
+      "step_name": "STATE_INSTALL",
+      "static_params": [
+        "1.0",
+        "1.0",
+        "1.0e-5",
+        "1.0"
+      ],
+      "controls_params": null
+    },
+    {
+      "line_start": 101783,
+      "raw_step_header": "*STEP, NAME=MECH_EQUILIBRATION, NLGEOM=NO, INC=100",
+      "step_name": "MECH_EQUILIBRATION",
+      "static_params": [
+        "1.0",
+        "1.0",
+        "1.0e-5",
+        "1.0"
+      ],
+      "controls_params": null
+    },
+    {
+      "line_start": 101799,
+      "raw_step_header": "*STEP, NAME=PHASE_RELEASE, NLGEOM=NO, INC=100",
+      "step_name": "PHASE_RELEASE",
+      "static_params": [
+        "1.0",
+        "1.0",
+        "1.0e-5",
+        "1.0"
+      ],
+      "controls_params": null
+    },
+    {
+      "line_start": 101814,
+      "raw_step_header": "*STEP, NAME=CONTINUATION, NLGEOM=NO, INC=10000",
+      "step_name": "CONTINUATION",
+      "static_params": [
+        "0.001",
+        "1.0",
+        "1.0e-11",
+        "0.02"
+      ],
+      "controls_params": [
+        "4",
+        "8",
+        "9",
+        "16",
+        "10",
+        "4",
+        "50",
+        "12"
+      ]
+    }
+  ],
+  "coarsened_1391282": [
+    {
+      "line_start": 25109,
+      "raw_step_header": "*STEP, NAME=STATE_INSTALL, NLGEOM=NO, INC=10",
+      "step_name": "STATE_INSTALL",
+      "static_params": [
+        "1.0",
+        "1.0",
+        "1.0e-5",
+        "1.0"
+      ],
+      "controls_params": null
+    },
+    {
+      "line_start": 25122,
+      "raw_step_header": "*STEP, NAME=MECH_EQUILIBRATION, NLGEOM=NO, INC=100",
+      "step_name": "MECH_EQUILIBRATION",
+      "static_params": [
+        "1.0",
+        "1.0",
+        "1.0e-5",
+        "1.0"
+      ],
+      "controls_params": null
+    },
+    {
+      "line_start": 25138,
+      "raw_step_header": "*STEP, NAME=PHASE_RELEASE, NLGEOM=NO, INC=100",
+      "step_name": "PHASE_RELEASE",
+      "static_params": [
+        "1.0",
+        "1.0",
+        "1.0e-5",
+        "1.0"
+      ],
+      "controls_params": null
+    },
+    {
+      "line_start": 25153,
+      "raw_step_header": "*STEP, NAME=CONTINUATION, NLGEOM=NO, INC=10000",
+      "step_name": "CONTINUATION",
+      "static_params": [
+        "0.001",
+        "1.0",
+        "1.0e-11",
+        "0.02"
+      ],
+      "controls_params": [
+        "4",
+        "8",
+        "9",
+        "16",
+        "10",
+        "4",
+        "50",
+        "12"
+      ]
+    }
+  ]
+}

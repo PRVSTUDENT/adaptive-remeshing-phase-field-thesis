@@ -1,0 +1,54 @@
+#!/bin/bash
+#PBS -N M2_STAGE_D_CONT_CTRL
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -o pbs.out
+#PBS -e pbs.err
+
+# ==============================================================================
+# PBS JOB LAUNCHER: M2CORR_STAGE_D_CONTINUOUS_TARGET_CONTROL_VAL
+# ==============================================================================
+
+set -eo pipefail
+
+JOB_NAME="M2CORR_STAGE_D_CONTINUOUS_TARGET_CONTROL_VAL"
+JOB_DIR="/home/pr21vyci/projects/adaptive-remeshing/models/generated/mode_ii/production_state_transfer_batch/M2CORR_STAGE_D_CONTINUOUS_TARGET_CONTROL_VAL"
+cd "$JOB_DIR"
+
+# Dual-Channel Notification Helper
+NOTIFY_SCRIPT="/home/pr21vyci/projects/adaptive-remeshing/scripts/infrastructure/notify.sh"
+notify() {
+    local event="$1"
+    local msg="$2"
+    if [ -f "$NOTIFY_SCRIPT" ]; then
+        bash "$NOTIFY_SCRIPT" "$JOB_NAME" "$PBS_JOBID" "$event" "$msg" || true
+    fi
+}
+
+trap 'notify "FAILED" "Job terminated unexpectedly with exit status $?"' ERR
+
+notify "STARTED" "Job execution started on $(hostname)"
+
+# Environment Modules
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+# Execute Abaqus
+echo "Starting Abaqus execution at $(date)"
+abaqus job="$JOB_NAME" user=f44_mixed_uel_restart_stateinit.for input="$JOB_NAME.inp" interactive cpus=1
+
+EXIT_CODE=$?
+echo "Abaqus completed at $(date) with exit code $EXIT_CODE"
+
+if [ $EXIT_CODE -eq 0 ]; then
+    notify "COMPLETED" "Abaqus job completed successfully"
+else
+    notify "FAILED" "Abaqus job completed with solver failure code $EXIT_CODE"
+fi
+
+exit $EXIT_CODE

@@ -1,0 +1,55 @@
+#!/bin/bash
+#PBS -N M2ADAPT_REAL_PIL
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -o pbs_execution_M2ADAPT_REAL_PILOT_CYCLE_001_RESTART.log
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+ || exit 1
+mkdir -p evidence
+
+# Source authoritative fail-closed dual-channel notification system
+NOTIF_SCRIPT=""
+for cand in \
+  "scripts/hpc/notifications/job_notifications.sh" \
+  "../../../../scripts/hpc/notifications/job_notifications.sh" \
+  "/home/pr21vyci/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" \
+  "${HOME}/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"; do
+  if [ -f "$cand" ]; then
+    NOTIF_SCRIPT="$cand"
+    break
+  fi
+done
+
+if [ -n "$NOTIF_SCRIPT" ]; then
+  source "$NOTIF_SCRIPT"
+  notification_install_terminal_trap
+  notify_start
+fi
+
+echo '=== Environment ===' > pbs_execution.log
+hostname >> pbs_execution.log
+date >> pbs_execution.log
+
+module purge 2>&1 >> pbs_execution.log || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 2>&1 >> pbs_execution.log || true
+
+echo '=== Running Abaqus (abaqus) M2ADAPT_REAL_PILOT_CYCLE_001_RESTART ===' >> pbs_execution.log
+abaqus job=M2ADAPT_REAL_PILOT_CYCLE_001_RESTART input=M2ADAPT_REAL_PILOT_CYCLE_001_RESTART.inp user=f44_mixed_uel_restart_stateinit.for cpus=1 interactive >> pbs_execution.log 2>&1
+RC=$?
+
+echo '=== Completed with Return Code: ' $RC ' ===' >> pbs_execution.log
+date >> pbs_execution.log
+
+exit $RC

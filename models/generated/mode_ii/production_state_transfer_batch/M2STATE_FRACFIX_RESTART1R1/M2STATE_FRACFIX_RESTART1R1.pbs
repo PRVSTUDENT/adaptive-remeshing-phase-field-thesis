@@ -1,0 +1,35 @@
+#!/bin/bash
+#PBS -N M2STATE_FRACFIX_RESTART1R1
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=08:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -o M2STATE_FRACFIX_RESTART1R1.o$PBS_JOBID
+#PBS -e M2STATE_FRACFIX_RESTART1R1.e$PBS_JOBID
+#PBS -m abe
+#PBS -M Pruthviraja.Reddy-Vandavagali@student.tu-freiberg.de,pr21vyci@mailserver.tu-freiberg.de
+
+cd $PBS_O_WORKDIR
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+ || exit 1
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+echo '=== STAGE 1: ABAQUS DATACHECK ==='
+abaqus job=M2STATE_FRACFIX_RESTART1R1 input=M2STATE_FRACFIX_RESTART1R1.inp user=f42_mixed_uel.for datacheck interactive
+DATACHECK_RC=$?
+if [ $DATACHECK_RC -ne 0 ]; then exit 1; fi
+
+echo '=== STAGE 2: ABAQUS CONTINUE SCIENTIFIC ANALYSIS ==='
+abaqus job=M2STATE_FRACFIX_RESTART1R1 user=f42_mixed_uel.for continue interactive
+CONTINUE_RC=$?
+if [ $CONTINUE_RC -ne 0 ]; then exit 1; fi
+
+python3 verify_restart_trace.py
+exit $?

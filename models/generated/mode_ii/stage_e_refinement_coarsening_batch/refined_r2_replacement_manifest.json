@@ -1,0 +1,106 @@
+{
+  "package_name": "M2CORR_STAGE_E_REFINED_TARGET_TRANSFER_R2_VAL",
+  "base_job": "1391300.mmaster02",
+  "base_package": "M2CORR_STAGE_E_REFINED_TARGET_TRANSFER_R1_VAL",
+  "provenance": {
+    "source_donor_job": "1390447.mmaster02",
+    "source_donor_frame": 17,
+    "source_donor_u1_mm": 0.01051289,
+    "donor_qualification_job": "1391319.mmaster02",
+    "donor_qualification_status": "COMBINED_PATH_NEUTRAL_VALIDATED",
+    "target_mesh": "Refined (33,600 quads, 34,027 nodes, h_tip=0.002 mm)",
+    "history_operator": "HOST_ISOPARAMETRIC_BILINEAR_WITH_LOCAL_GP_BOUNDS_CLAMP"
+  },
+  "mesh_verification": {
+    "physical_quads": 33600,
+    "physical_nodes_excl_rp": 34027,
+    "total_uel_count": 67200,
+    "mech_uels": 33600,
+    "phase_uels": 33600,
+    "h_min_mm": 0.002,
+    "props": [
+      0.00375,
+      0.0027,
+      210.0,
+      0.3,
+      1e-07,
+      33600.0,
+      1.0
+    ]
+  },
+  "step_controls": {
+    "Step_1_STATE_INSTALL": {
+      "STATIC": "1.0, 1.0, 1.0e-5, 1.0",
+      "CONTROLS": "Default"
+    },
+    "Step_2_MECH_EQUILIBRATION": {
+      "STATIC": "1.0, 1.0, 1.0e-5, 1.0",
+      "CONTROLS": "Default"
+    },
+    "Step_3_PHASE_RELEASE": {
+      "STATIC": "0.001, 1.0, 5.0e-12, 1.0",
+      "CONTROLS": "4, 8, 9, 16, 10, 4, 50, 13"
+    },
+    "Step_4_CONTINUATION": {
+      "STATIC": "0.001, 1.0, 1.0e-11, 0.02",
+      "CONTROLS": "4, 8, 9, 16, 10, 4, 50, 12"
+    }
+  },
+  "hashes": {
+    "inp_sha256": "4ddb890c8568284f87f4545981f8442e162b974a64984f57c63354be5b14f0c7",
+    "for_sha256": "62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab",
+    "bin_sha256": "61b4a973c30936adf3b6350f65d3d1766186317c79cc7b7229271fd1df51e60d",
+    "pbs_sha256": "22f3fe08307478dfc49505c0b79e250c1f515cd9b98d54fd67bc4136a7e2a09e",
+    "primary_bcs_sha256": "e5050c8c39664bee3b06a6ee4f8ecb702eccf79ab72beac990ed87781eb28ede",
+    "u3_bcs_sha256": "445b2c27e1475541cdf7a1beabceba349933d1ac381fc0f3c7236e7f3ca041cb",
+    "flag_sha256": "49ef7f8ad3d947a2db9d5e25875a02416d5657c7b81a6f36e5f720130164527c"
+  },
+  "one_difference_audit": {
+    "mesh_changed": false,
+    "state_binary_changed": false,
+    "uel_subroutine_changed": false,
+    "material_props_changed": false,
+    "step_semantics_changed": false,
+    "step1_state_install_changed": false,
+    "step2_mech_equilibration_changed": false,
+    "step3_phase_release_controls_modified": true,
+    "step3_changes": {
+      "before_r1": {
+        "static_card": "0.001, 1.0, 1.0e-11, 1.0",
+        "controls_card": "4, 8, 9, 16, 10, 4, 50, 12",
+        "I_A": 12,
+        "dt_min": "1.0e-11"
+      },
+      "after_r2": {
+        "static_card": "0.001, 1.0, 5.0e-12, 1.0",
+        "controls_card": "4, 8, 9, 16, 10, 4, 50, 13",
+        "I_A": 13,
+        "dt_min": "5.0e-12"
+      }
+    },
+    "step4_continuation_controls_modified": false,
+    "step4_controls": {
+      "static_card": "0.001, 1.0, 1.0e-11, 0.02",
+      "controls_card": "4, 8, 9, 16, 10, 4, 50, 12",
+      "I_A": 12,
+      "dt_min": "1.0e-11"
+    }
+  },
+  "unified_diff": [
+    "--- 1391300_R1",
+    "+++ M2CORR_STAGE_E_REFINED_TARGET_TRANSFER_R2_VAL",
+    "@@ -101798,9 +101798,9 @@",
+    " ** ==========================================================",
+    " *STEP, NAME=PHASE_RELEASE, NLGEOM=NO, INC=200",
+    " *STATIC",
+    "-0.001, 1.0, 1.0e-11, 1.0",
+    "+0.001, 1.0, 5.0e-12, 1.0",
+    " *CONTROLS, PARAMETERS=TIME INCREMENTATION",
+    "-4, 8, 9, 16, 10, 4, 50, 12",
+    "+4, 8, 9, 16, 10, 4, 50, 13",
+    " *BOUNDARY, OP=NEW",
+    " N_BOTTOM, 1, 2, 0.0",
+    " N_RP, 1, 1, 1.051289000000e-02"
+  ],
+  "submission_authorized": false
+}

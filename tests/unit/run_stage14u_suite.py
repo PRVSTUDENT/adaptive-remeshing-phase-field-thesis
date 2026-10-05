@@ -37,7 +37,8 @@ def run_suite():
         "test_stage14uai_claim_correction_and_parity.py",
         "test_stage14uaj_crossing_and_terminal_parity.py",
         "test_stage14uak_stage_b_determinism.py",
-        "test_stage14ual_evaluators_and_protocols.py"
+        "test_stage14ual_evaluators_and_protocols.py",
+        "test_stage14uam_spatial_candidate.py"
     ]
     
     for fname in stage14u_test_files:

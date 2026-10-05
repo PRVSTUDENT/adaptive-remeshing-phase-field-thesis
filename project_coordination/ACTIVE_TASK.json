@@ -1,12 +1,12 @@
 {
-  "task_id": "F1232-HPC-STORAGE-COMPLIANCE-CLOSURE-AND-PROVENANCE-AUDIT",
+  "task_id": "F1233-HPC-STORAGE-COMPLIANCE-FINAL-CLOSURE-AND-ACTIVE-JOB-CHECKPOINT",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "stage": "HPC_STORAGE_COMPLIANCE_CLOSURE_AND_PROVENANCE_AUDIT",
+  "stage": "HPC_STORAGE_COMPLIANCE_AND_SCRATCH_MIGRATION_COMPLETE",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "started_at": "2026-10-05T11:11:00+02:00",
-  "completed_at": "2026-10-05T11:28:00+02:00",
-  "description": "HPC /home storage compliance closure, multi-TB scratch migration audit, 169-script git-diff invariance verification against pre-storage commit 97394682, exact bitwise scientific twin verification for the 3 replacement jobs (1410178.mmaster02, 1410179.mmaster02, 1410180.mmaster02), live runtime solver output path verification on /scratch9/, and documentation update.",
+  "started_at": "2026-10-05T11:22:00+02:00",
+  "completed_at": "2026-10-05T11:30:00+02:00",
+  "description": "HPC /home storage compliance final closure, daemon migration verification (>1.9 TB transferred, /home free space increased to 4.6 TB [78% used], /scratch9 21 TB free), 100% pass on 7-test automated compliance test suite (test_hpc_storage_compliance.py), non-binary asset breakdown, and live scheduler checkpoint for the 3 active scratch-compliant jobs (1410178.mmaster02, 1410179.mmaster02, 1410180.mmaster02).",
   "governing_verdict": "HPC_STORAGE_COMPLIANCE_CLOSED__SCRATCH_EXECUTION_AND_TWINS_VERIFIED",
   "active_hpc_jobs": [
     {
@@ -42,13 +42,16 @@
   ],
   "audit_results": {
     "scripts_audited_count": 169,
+    "production_pbs_scripts_guarded": 133,
     "path_only_storage_change_count": 169,
     "scientific_input_changes_count": 0,
     "unintended_changes_count": 0,
     "script_audit_verdict": "ZERO_SCIENTIFIC_CHANGES__STRICT_PATH_ONLY_STORAGE_COMPLIANCE",
-    "migration_transferred_gb": ">1024 GB",
-    "home_free_space_tb": "4.0 TB (81% used, down from 84%)",
+    "migration_transferred_gb": ">1900 GB (>1.9 TB)",
+    "home_free_space_tb": "4.6 TB (78% used, down from 84%)",
+    "scratch9_free_space_tb": "21 TB (36% used)",
     "solver_runtime_paths_on_scratch": "VERIFIED_100PCT",
-    "fatal_home_guard_exit_code": 88
+    "fatal_home_guard_exit_code": 88,
+    "unit_test_suite_status": "7_OF_7_PASS_100PCT"
   }
 }

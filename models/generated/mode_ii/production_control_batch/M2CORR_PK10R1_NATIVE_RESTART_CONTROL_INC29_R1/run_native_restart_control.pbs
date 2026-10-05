@@ -21,6 +21,14 @@ module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
 
 cd $PBS_O_WORKDIR
 
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
+
 # Copy native restart binary database files from source replay job 1389707
 SOURCE_DIR="$HOME/projects/adaptive-remeshing/models/generated/mode_ii/production_control_batch/M2CORR_PK10R1_CONTINUOUS_U050_STATECAPTURE_R1"
 SOURCE_JOB="M2CORR_PK10R1_CONTINUOUS_U050_STATECAPTURE_R1"

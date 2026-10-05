@@ -1,0 +1,39 @@
+{
+  "cycle_id": "REAL_PILOT_CYCLE_015",
+  "generation_timestamp_utc": "2026-08-26T05:55:00Z",
+  "donor_provenance": {
+    "donor_cycle": "REAL_PILOT_CYCLE_014",
+    "donor_job": "1397840.mmaster02",
+    "donor_frame": 58,
+    "handoff_u1_mm": 0.04551289111375808,
+    "target_u1_mm": 0.04801289111375808
+  },
+  "production_execution": {
+    "job_id": "PENDING_SUBMISSION",
+    "execution_host": "PENDING",
+    "solver_exit_status": "PENDING",
+    "classification": "PENDING",
+    "handoff_u1_mm": 0.04551289111375808,
+    "target_u1_mm": 0.04801289111375808,
+    "num_physical_nodes": 5287,
+    "num_physical_elements": 5112,
+    "step3_controls": "inc=500, time_incrementation 25,25,25,25,25,4,50,25, field=displacement 0.01, 10.0, field=temperature 0.01, 10.0",
+    "step4_controls": "inc=10000, dt_min=1e-14, time_incrementation 25,25,25,25,25,4,50,25, field=displacement 0.05, 10.0, field=temperature 0.05, 10.0"
+  },
+  "artifacts": {
+    "f44_mixed_uel_restart_stateinit.for": "942003c5882b5598e81b471d87840e0dce2a639179cc24c87662dcf53eaef946",
+    "M2ADAPT_REAL_PILOT_CYCLE_015_DATACHECK.pbs": "6855b8d27d27f70d3bc7763dc0847b902e4c1573b90490ed7a98c633f158f483",
+    "M2ADAPT_REAL_PILOT_CYCLE_015_RESTART.inp": "6edc9dc2f652e158a878359710004e3aa6a1b9df0b77e459527f03f404133677",
+    "M2ADAPT_REAL_PILOT_CYCLE_015_RESTART.pbs": "b829f6c449da94f6db140aa5a1a094b324b7ba4dc42cf94e857fbc0502aeb34f",
+    "MODE_STAGED.flag": "5a7173f8c169c3cbf43033b1ceeec5e7c3289581e229b7b973e72822a4223ff5",
+    "RESTART_ACCEPTANCE_CONTRACT.json": "76b8838b6baf71ac0e6f74e6d627bda87c3c6bbe847ac0c13d694580abe14a25",
+    "STAGE_D_COMMITTED_STATE.bin": "37b1d504962c9d32bd30bc362b0c288978cdacfdf0d33d64f9083ab44c32abd9",
+    "submit_m2adapt_real_pilot_cycle_015_datacheck.sh": "ca13e86407241d727321d7b447bd00c6ca44bd1d1bb30bffe7356da5c5a7b967",
+    "submit_m2adapt_real_pilot_cycle_015_restart.sh": "c271ad12341506a6e97785a0d08a0e37a33f09f5d38f96fe1b95ec8dd81a232c",
+    "TARGET_REAL_PILOT_CYCLE_015_PRIMARY_STATE.csv": "9a7aa0b2567ea6e95f9c058c70efcfc62d1a9a8269a6e0ed054337eeeb5f0196",
+    "TARGET_REAL_PILOT_CYCLE_015_SOURCE_STATE.bin": "37b1d504962c9d32bd30bc362b0c288978cdacfdf0d33d64f9083ab44c32abd9",
+    "TARGET_REAL_PILOT_CYCLE_015_STATE_INSTALL_BOUNDARY.inp": "2ac7baad76f25320df7b8479c8ee1b75a96abb689e47642b552e4b50ab08a1ab",
+    "TARGET_REAL_PILOT_CYCLE_015_TRANSFER_MANIFEST.json": "c0e4f97437c35bcc832999cbc2d56389804981e26aba5eb9a7683a1d3b453a3a",
+    "TARGET_REAL_PILOT_CYCLE_015_U3_ONLY_BOUNDARY.inp": "862231a8723e7b6d5854b65df7a6595716a208e2730622b1cac110f1a257b5c6"
+  }
+}

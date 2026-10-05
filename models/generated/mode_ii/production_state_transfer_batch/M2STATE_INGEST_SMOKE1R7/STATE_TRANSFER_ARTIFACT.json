@@ -1,0 +1,22 @@
+{
+  "package_name": "M2STATE_INGEST_SMOKE1",
+  "purpose": "Minimal solver-consumed state ingestion qualification fixture",
+  "checkpoint_nphys": 4,
+  "sentinel_phase_nodal": {
+    "1": 0.110000,
+    "2": 0.230000,
+    "3": 0.370000,
+    "4": 0.610000,
+    "5": 0.250000,
+    "6": 0.450000,
+    "7": 0.150000,
+    "8": 0.050000
+  },
+  "sentinel_history_ip": {
+    "1": [0.000110, 0.000120, 0.000130, 0.000140],
+    "2": [0.000210, 0.000220, 0.000230, 0.000240],
+    "3": [0.000310, 0.000320, 0.000330],
+    "4": [0.000410, 0.000420, 0.000430]
+  },
+  "expected_sdv14_15_16_contract": "PASS"
+}

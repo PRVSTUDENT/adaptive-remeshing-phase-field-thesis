@@ -1,0 +1,11 @@
+{
+  "protocol_version": 1,
+  "package_name": "M2STATE_INGEST_SMOKE1R10",
+  "acceptance_rules": {
+    "kstep": 2,
+    "kinc": 1,
+    "required_sdvs": ["SDV14", "SDV15", "SDV16"],
+    "required_elements": [1, 2, 5, 6, 9, 10, 13, 14],
+    "step2_phase_dof3_released": true
+  }
+}

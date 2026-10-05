@@ -1,0 +1,66 @@
+{
+  "job_id": "1390449.mmaster02",
+  "model_name": "M2CORR_STAGE_D_SAME_TARGET_IDENTITY_RESTART_VAL",
+  "status": "COMPLETED_SUCCESSFULLY",
+  "total_frames_extracted": 451,
+  "steps": {
+    "STATE_INSTALL": {
+      "frame_count": 2,
+      "start_rf1_kn": -0.0,
+      "end_rf1_kn": 0.1259111762046814,
+      "start_d_max": 0.0,
+      "end_d_max": 0.3043181896209717,
+      "start_u1_mm": 0.01051288863659,
+      "end_u1_mm": 0.01051288863659
+    },
+    "MECH_EQUILIBRATION": {
+      "frame_count": 2,
+      "start_rf1_kn": 0.1259111762046814,
+      "end_rf1_kn": 0.12591512501239777,
+      "start_d_max": 0.3043181896209717,
+      "end_d_max": 0.3043181896209717,
+      "start_u1_mm": 0.01051288863659,
+      "end_u1_mm": 0.01051288863659
+    },
+    "PHASE_RELEASE": {
+      "frame_count": 42,
+      "start_rf1_kn": 0.12591512501239777,
+      "end_rf1_kn": 0.10434535890817642,
+      "start_d_max": 0.3043181896209717,
+      "end_d_max": 1.0,
+      "start_u1_mm": 0.01051288863659,
+      "end_u1_mm": 0.01051288863659
+    },
+    "CONTINUATION": {
+      "frame_count": 405,
+      "start_rf1_kn": 0.10434535890817642,
+      "end_rf1_kn": 0.007084030192345381,
+      "start_d_max": 1.0,
+      "end_d_max": 1.000000238418579,
+      "start_u1_mm": 0.01051288863659,
+      "end_u1_mm": 0.05
+    }
+  },
+  "continuation_metrics": {
+    "peak_reaction_force_kn": 0.11391295492649078,
+    "peak_displacement_u1_mm": 0.011665794708374002,
+    "peak_d_max": 1.0,
+    "peak_increment": 13,
+    "terminal_reaction_force_kn": 0.007084030192345381,
+    "terminal_displacement_u1_mm": 0.05,
+    "terminal_d_max": 1.000000238418579,
+    "terminal_increment": 404
+  },
+  "continuous_reference_comparison_1390447": {
+    "reference_peak_reaction_force_kn": 0.14473675191402435,
+    "reference_peak_displacement_u1_mm": 0.012575390748679638,
+    "reference_terminal_reaction_force_kn": 0.006771646440029144,
+    "peak_force_parity_error_pct": 21.296454825684727,
+    "peak_displacement_parity_error_pct": 7.233143355017732
+  },
+  "scientific_falsification_conclusion": {
+    "staged_restart_divergence_status": "FALSIFIED (Identity staged restart completed 100% with 0 dt_min cutback failure)",
+    "isolated_defect_cause": "NONMATCHING_STATE_TRANSFER_INTERPOLATION_ERROR in 1390279",
+    "same_target_mesh_staged_fidelity": "CONFIRMED_PARITY_WITH_CONTINUOUS_RUN"
+  }
+}

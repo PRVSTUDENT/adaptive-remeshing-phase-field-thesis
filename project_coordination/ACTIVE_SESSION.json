@@ -1,11 +1,17 @@
 {
   "active": false,
-  "session_id": null,
-  "agent": null,
-  "task_id": null,
-  "claimed_at": null,
+  "session_id": "SESSION-20261005-1122-HPC-STORAGE-COMPLIANCE-FINAL-CLOSURE-AND-ACTIVE-JOB-CHECKPOINT",
+  "agent": "gemini-antigravity",
+  "task_id": "F1233-HPC-STORAGE-COMPLIANCE-FINAL-CLOSURE-AND-ACTIVE-JOB-CHECKPOINT",
+  "claimed_at": "2026-10-05T11:22:00+02:00",
   "released_at": "2026-10-05T11:30:00+02:00",
-  "base_commit": "43a40a362c55200bb81627aa62c2052e4b2a8571",
-  "scope": [],
-  "status": "RELEASED"
+  "base_commit": "8fbdd44269be0bf4a69fbe96d5b354cb9e208ef2",
+  "scope": [
+    "models/**",
+    "scripts/**",
+    "tests/**",
+    "docs/**",
+    "project_coordination/**"
+  ],
+  "status": "IDLE"
 }

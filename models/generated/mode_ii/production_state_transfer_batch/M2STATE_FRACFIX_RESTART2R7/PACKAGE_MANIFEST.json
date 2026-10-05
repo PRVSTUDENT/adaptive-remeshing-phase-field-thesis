@@ -1,0 +1,21 @@
+{
+  "protocol_version": 1,
+  "candidate": "M2STATE_FRACFIX_RESTART2R7",
+  "created_by": "gemini-antigravity",
+  "task_id": "F76STATE-M2-RESTART2R7-PHASE-RESIDUAL-REPAIR-QUALIFICATION1",
+  "manifest_file_count": 12,
+  "file_hashes": {
+    "M2STATE_FRACFIX_RESTART2R7.inp": "d58f2a8294cc4bb675d81d7c8d1285256a674d9f5f6038fbf0f0425fe5ab6862",
+    "f42_mixed_uel.for": "d57da0d7d31dda5de770ae4f4ac9ef4c128533518691a082e000b13cb2e26594",
+    "M2STATE_FRACFIX_RESTART2R7.pbs": "9e40976beedf4a6395b8f6a78783c67d69f3d80dbb30da672e9fe6fb190ed537",
+    "submit_m2state_fracfix_restart2r7.sh": "b92d1d52f50dfdcff69bea62f9aed799e3c77765668934fc04155fe642906c80",
+    "STATE_TRANSFER_ARTIFACT.json": "268993383e6e3053d0edf66a309c330714edaedc678c6a33b96537aca822b500",
+    "TRANSFER_MANIFEST.json": "4ef06954261c320c9828cfa4e66e340166e6a9bfb5ded4453609e4c1aa369b7b",
+    "RESTART_ACCEPTANCE_CONTRACT.json": "f59acc9346f936b8011c4d69d99e440c1748d8e9ed4a46c22ae71dc0ff76cb10",
+    "validate_package_manifest.py": "97d0619002433fbace57ff9773e9ff91e82477965c3eb52f7c7b626fba2a7dff",
+    "extract_restart2r7_odb.py": "8f094dad8d199f55933432a81bcd7d54afbd5c07cd14998e89d834ee14d2e80d",
+    "verify_restart2r7_science.py": "830859973dea0f3308b4064cf771958eb162f7962f1d16f16ec0673ff33b2f78",
+    "compare_restart1_restart2_matched_state.py": "a620dfc11dcc5802490837347940f6924ef19bcc34e6759784a18aed373bbaf2",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  }
+}

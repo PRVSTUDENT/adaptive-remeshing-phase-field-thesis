@@ -1,0 +1,73 @@
+{
+  "job_identity": "M2CORR_PK10R2_TOPOLOGY_CORRECTED",
+  "solver_completion": true,
+  "total_increments": 110,
+  "nan_inf_check_passed": true,
+  "mesh_metadata": {
+    "physical_nodes": 6249,
+    "physical_quads": 6048,
+    "layered_elements": 18144,
+    "h_local_mm": 0.005,
+    "h_global_mm": 0.025,
+    "global_grading_ratio": 5.0,
+    "max_adjacent_neighbor_ratio": 1.224745,
+    "slit_split_stations": 26,
+    "duplicate_slit_nodes": 52
+  },
+  "stiffness_metrics": {
+    "k0_kN_mm": 12.86364,
+    "method": "Initial increment linear elastic secant (F135 standard)",
+    "fit_details": {
+      "k0_kN_mm": 12.86364,
+      "sample_u1_mm": 1e-05,
+      "sample_rf1_kN": 0.0001286364
+    },
+    "criterion_type": "QUALITATIVE"
+  },
+  "peak_metrics": {
+    "peak_rf1_kN": 0.35152245,
+    "peak_u1_mm": 0.05,
+    "criterion_type": "QUALITATIVE"
+  },
+  "terminal_metrics": {
+    "terminal_rf1_kN": 0.35152245,
+    "terminal_u1_mm": 0.05,
+    "criterion_type": "QUALITATIVE"
+  },
+  "H1_comparison": {
+    "reference_job_id": "1389686.mmaster02",
+    "reference_k0_kN_mm": 529.67,
+    "reference_peak_rf1_kN": 0.29957,
+    "stiffness_difference_pct": -97.57138595729415,
+    "peak_force_difference_pct": 17.34234068831992,
+    "peak_displacement_difference_pct": 7874.481658692186
+  },
+  "H2_comparison": {
+    "reference_job_id": "1389687.mmaster02",
+    "reference_k0_kN_mm": 529.01,
+    "reference_peak_rf1_kN": 0.29483,
+    "stiffness_difference_pct": -97.56835598570916,
+    "peak_force_difference_pct": 19.22886069938609,
+    "peak_displacement_difference_pct": 8016.8831168831175
+  },
+  "diagnostic_error_reduction": {
+    "baseline_defective_pk10r1_k0_error_kN_mm": 110.78999999999996,
+    "pk10r2_k0_error_kN_mm": 516.14636,
+    "k0_error_reduction_fraction": -3.6587811174293723,
+    "baseline_defective_pk10r1_peak_rf_error_kN": 0.08841000000000004,
+    "pk10r2_peak_rf_error_kN": 0.056692450000000005,
+    "peak_rf_error_reduction_fraction": 0.3587552313086757,
+    "peak_u_error_reduction_fraction": -770.6249999999997,
+    "criterion_type": "QUALITATIVE"
+  },
+  "acceptance_criteria": {
+    "initial_stiffness": "QUALITATIVE/NO_FROZEN_NUMERIC_THRESHOLD",
+    "peak_rf1": "QUALITATIVE/NO_FROZEN_NUMERIC_THRESHOLD",
+    "peak_u1": "QUALITATIVE/NO_FROZEN_NUMERIC_THRESHOLD",
+    "rf_u_trajectory": "QUALITATIVE/NO_FROZEN_NUMERIC_THRESHOLD",
+    "crack_path_mode_ii": "QUALITATIVE/NO_FROZEN_NUMERIC_THRESHOLD",
+    "solver_completion": "QUALITATIVE/NO_FROZEN_NUMERIC_THRESHOLD"
+  },
+  "topology_classification": "TOPOLOGY_RESULT_AMBIGUOUS",
+  "overall_status": "QUALIFIED_FOR_SCIENTIFIC_REVIEW"
+}

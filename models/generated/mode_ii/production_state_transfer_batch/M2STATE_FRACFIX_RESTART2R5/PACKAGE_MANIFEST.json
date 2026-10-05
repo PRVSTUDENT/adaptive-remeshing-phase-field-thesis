@@ -1,0 +1,21 @@
+{
+  "protocol_version": 1,
+  "candidate": "M2STATE_FRACFIX_RESTART2R5",
+  "created_by": "gemini-antigravity",
+  "task_id": "F69STATE-M2-RESTART2R5-TRANSFER-EQUILIBRIUM-BOUNDARY-REPAIR1",
+  "manifest_file_count": 12,
+  "file_hashes": {
+    "M2STATE_FRACFIX_RESTART2R5.inp": "0bb4704aa5b896af5c1022a44c37b0ae0f18cd33153515fb1110da7fa3dc9f6a",
+    "f42_mixed_uel.for": "35b6731bb39309f1c5cfd1723d05e401ce73c9666efd78aeee2b0722d8d39a07",
+    "M2STATE_FRACFIX_RESTART2R5.pbs": "72b536feb1481906ca1358e4f5650d8eb9997a0121d9e31e3e4d4881b8a89d36",
+    "submit_m2state_fracfix_restart2r5.sh": "5d7d9bfb5a10f64fb82e9f55a580e39b20e612671168be99706baa146e8bdc4d",
+    "STATE_TRANSFER_ARTIFACT.json": "a58b9778b308ba2a3684cf95698414118489db64e1b370b8fc7231744bb34ef3",
+    "TRANSFER_MANIFEST.json": "e55ad9ec39f5f9fc1d2283bf3252efe15258ed7e21471161679fbb9a7d246ad3",
+    "RESTART_ACCEPTANCE_CONTRACT.json": "c0e0881673e799f0b42c9f0017671981afeab972ffd46bfb6eb92027dcc9e05b",
+    "validate_package_manifest.py": "97d0619002433fbace57ff9773e9ff91e82477965c3eb52f7c7b626fba2a7dff",
+    "extract_restart2r5_odb.py": "49841769cfcfe142115a1e0aacf7a9cf8bf65fa769a7aa83a21b330e787ceb14",
+    "verify_restart2r5_science.py": "7a23b281e105a05a8bb699ed6c9603c37dad0a8ed211024ed434ee814f457a5d",
+    "compare_restart1_restart2_matched_state.py": "a620dfc11dcc5802490837347940f6924ef19bcc34e6759784a18aed373bbaf2",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  }
+}

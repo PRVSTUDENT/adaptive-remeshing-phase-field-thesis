@@ -1,0 +1,21 @@
+{
+  "protocol_version": 1,
+  "candidate": "M2STATE_FRACFIX_RESTART2R6",
+  "created_by": "gemini-antigravity",
+  "task_id": "F73STATE-M2-RESTART2R6-MESH-TOPOLOGY-REPAIR-QUALIFICATION1",
+  "manifest_file_count": 12,
+  "file_hashes": {
+    "M2STATE_FRACFIX_RESTART2R6.inp": "a48d0d198b5480e96e8a73a5acc354df7038d21e6b9b4ec30dab2d18abdc21f3",
+    "f42_mixed_uel.for": "5cdd0cbdb1b7b34aa4eb561e32cdd814c97142b06a6626acf6c30e04b6889671",
+    "M2STATE_FRACFIX_RESTART2R6.pbs": "69790fe07a49dab283b3b1780de18c1c11d7670f8b064c207fd692bbc478025f",
+    "submit_m2state_fracfix_restart2r6.sh": "1fbe29697eac9816aa3c4e51fc1d4dcd1e7d740cdc8ce3afa31f88e440c924fd",
+    "STATE_TRANSFER_ARTIFACT.json": "172efb868b3be029af54e1f8f47438cee17e7c2cdf499f79907448613c8317ce",
+    "TRANSFER_MANIFEST.json": "8fb60a24c7bca4d8913349a48708d903f7588bbdf5e4dd86f64c150f385a36a6",
+    "RESTART_ACCEPTANCE_CONTRACT.json": "0a42b06a15fa58fb3231d8050537295e7a76408db69dfa886d285442382f6834",
+    "validate_package_manifest.py": "97d0619002433fbace57ff9773e9ff91e82477965c3eb52f7c7b626fba2a7dff",
+    "extract_restart2r6_odb.py": "449daa16742dc3f76d5d12990b1e4e4e821339a0dd79894c2e974c30b52e4ea3",
+    "verify_restart2r6_science.py": "a0885a6dd4605c976573cccb15e914a272f11a46c1cd463a7b208e9059aa1606",
+    "compare_restart1_restart2_matched_state.py": "a620dfc11dcc5802490837347940f6924ef19bcc34e6759784a18aed373bbaf2",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  }
+}

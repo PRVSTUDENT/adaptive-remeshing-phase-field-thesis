@@ -1,0 +1,21 @@
+{
+  "candidate": "PK10R1_IDENTITY_RESTART_U050",
+  "mesh": "PK10R1",
+  "nphys_elements": 9612,
+  "is_continuous": false,
+  "resource_contract": {
+    "cpus": 1,
+    "memory": "16 GB",
+    "walltime": "24:00:00",
+    "queue": "entry_imfdfkmq"
+  },
+  "file_hashes": {
+    "PK10R1_IDENTITY_RESTART_U050.inp": "fed5bde2e938ff2091c36ea4124691e7745f0c6fe7c580d19e1e3fbc6be6283a",
+    "PK10R1_IDENTITY_RESTART_U050.pbs": "d3e82328d5ae522c60fd7c30ebc0f622c3ac35762963ce843411dead4f927ebe",
+    "f42_mixed_uel.for": "c6f3c8eb816b8d9cc04e864a0de8e24565931d04fd6b260a93bfe7761c16f205",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "submit_pk10r1_identity_restart_u050.sh": "bfc2544c19e4c759c1d4ac82a0fb2f2cdc5c7bccc7c64a7e7ba31937f956cdcf",
+    "validate_package_manifest.py": "87d4243a6b19e267e7a5d3992aac091ff7d5bbfb41ac7b6fe7a5ddf44faf5637"
+  },
+  "manifest_sha256": "840d90f2e1db318537a3f15def3ec52966253190648310b40417dbb1467e74cc"
+}

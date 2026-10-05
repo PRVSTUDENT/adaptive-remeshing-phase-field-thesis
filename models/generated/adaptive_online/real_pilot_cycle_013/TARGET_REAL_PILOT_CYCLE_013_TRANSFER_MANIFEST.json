@@ -1,0 +1,36 @@
+{
+  "target_mesh_name": "TARGET_REAL_PILOT_CYCLE_013",
+  "source_provenance": {
+    "source_cycle": "REAL_PILOT_CYCLE_012",
+    "source_job_id": "1397835.mmaster02",
+    "handoff_u1_mm": 0.04051289111375808,
+    "target_u1_mm": 0.04301289111375808
+  },
+  "mapping_summary": {
+    "total_target_nodes": 5287,
+    "mapped_nodes": 5287,
+    "unmapped_nodes": 0,
+    "max_residual": 0.0
+  },
+  "generated_artifacts": {
+    "primary_state_csv": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_013_PRIMARY_STATE.csv",
+      "sha256": "7e5038f1d7bac1f61b2c4fc8a4cbcf4a3e3ca8af7aa8366bce6f8e440cec466a"
+    },
+    "state_install_boundary_inp": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_013_STATE_INSTALL_BOUNDARY.inp",
+      "sha256": "4cd7fbdb66b39f736025de991b6cd72958d37d2cfe1d2d30ab3fcbf62cc90b02"
+    },
+    "u3_only_boundary_inp": {
+      "filename": "TARGET_REAL_PILOT_CYCLE_013_U3_ONLY_BOUNDARY.inp",
+      "sha256": "41ec21bd31faaaf3b615aa0ed855cb407e46e2c10de40ded721daa90891f93d9"
+    }
+  },
+  "transfer_algorithm": {
+    "spatial_search": "SpatialGridIndex with Newton-Raphson inverse isoparametric mapping",
+    "primary_fields_interpolation": "C0 continuous bilinear quad shape functions (physical nodes only)",
+    "rp_boundary_separation": "RP node prescribed U1 only; DOF 2 and DOF 3 excluded",
+    "history_fields_interpolation": "Gauss-point normalized isoparametric interpolation",
+    "inside_tolerance": 1e-06
+  }
+}

@@ -6,6 +6,14 @@
 #PBS -m abe
 set -u
 cd "$PBS_O_WORKDIR" || exit 2
+
+# STORAGE COMPLIANCE GUARD: Reject execution under /home
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "[STORAGE COMPLIANCE ERROR] Direct execution in /home filesystem is rejected by storage policy." >&2
+    echo "Please execute solver jobs strictly from /scratch/pr21vyci/projects/adaptive-remeshing/ or /scratch9/." >&2
+    exit 88
+fi
+
 sha256sum -c SHA256SUMS || exit 3
 module purge
 module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
