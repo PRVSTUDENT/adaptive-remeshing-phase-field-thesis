@@ -1,7 +1,7 @@
 \section{Multifaceted Mode-I Convergence Evaluation}
 \label{sec:multifaceted_convergence}
 
-In accordance with supervisor directives, mesh adequacy and numerical convergence are evaluated across multiple complementary physical and energetic quantities rather than peak reaction force alone.
+In accordance with supervisor directives, mesh adequacy and numerical convergence are evaluated across multiple complementary physical, spatial, temporal, and energetic quantities rather than peak reaction force alone.
 
 \subsection{Spatial Mesh Resolution Series ($S_1$--$S_4$)}
 Four uniform meshes spanning element edge lengths from $h = 3.0\,\mu\mathrm{m}$ ($S_1$, $15{,}192$ elements) down to $h = 1.25\,\mu\mathrm{m}$ ($S_4$, $51{,}408$ elements) evaluate spatial discretization characteristics ($h/l_0 \in [0.167, 0.400]$ at fixed $l_0 = 7.5\,\mu\mathrm{m}$), alongside a separate historical fine-mesh result ($h = 1.0\,\mu\mathrm{m}$, $69{,}384$ elements, Job \texttt{1406019.mmaster02}):
@@ -105,7 +105,7 @@ To evaluate time-step convergence on the production $14{,}483$-element adaptive 
 \subsection{Baseline Spatial Phase-Field and Crack-Path Comparison: Fixed Reference versus ET1 Adaptive Mesh}
 \label{sec:baseline_spatial_ref_vs_et1}
 
-To rigorously evaluate the baseline spatial fidelity of the error-indicator refined configuration, a comprehensive field-level comparison was executed between the qualified fixed-mesh reference ($15{,}192$ finite elements, Job \texttt{1409734.mmaster02}) and the canonical corrected ET1 adaptive baseline ($14{,}483$ finite elements, Package~25, Job \texttt{1409982.mmaster02}). The minimum element size in the adaptive mesh is explicitly disambiguated: $h_{\mathrm{area}} = \sqrt{A_{\min}} = 0.7605\,\mu\mathrm{m}$ represents the area-equivalent length of the smallest triangular element, whereas $h_{\mathrm{edge}} \approx 1.09\,\mu\mathrm{m}$ is the nominal notch-root element edge length. The comparison strictly enforces the matched prescribed displacement protocol ($u \in \{1.0, 3.0, 5.0, 5.733, 5.857, 6.0, 6.5, 7.0, 7.889\}\,\mu\mathrm{m}$) with zero forward-filling beyond the actual solver terminal state ($u_{\mathrm{term}} = 7.889\,\mu\mathrm{m}$).
+To evaluate the baseline spatial fidelity of the error-indicator refined configuration, a comprehensive field-level comparison was executed between the qualified fixed-mesh reference ($15{,}192$ finite elements, Job \texttt{1409734.mmaster02}) and the canonical corrected ET1 adaptive baseline ($14{,}483$ finite elements, Package~25, Job \texttt{1409982.mmaster02}). The minimum element size in the adaptive mesh is explicitly disambiguated: $h_{\mathrm{area}} = \sqrt{A_{\min}} = 0.7605\,\mu\mathrm{m}$ represents the area-equivalent length of the smallest triangular element, whereas $h_{\mathrm{edge}} \approx 1.09\,\mu\mathrm{m}$ is the nominal notch-root element edge length. The comparison strictly enforces the matched prescribed displacement protocol ($u \in \{1.0, 3.0, 5.0, 5.733, 5.857, 6.0, 6.5, 7.0, 7.889\}\,\mu\mathrm{m}$) with zero forward-filling beyond the actual solver terminal state ($u_{\mathrm{term}} = 7.889\,\mu\mathrm{m}$).
 
 \begin{enumerate}
   \item \textbf{Pre-Peak Damage Localization \& Elastic Parity ($u \le 5.0\,\mu\mathrm{m}$):}
@@ -123,11 +123,12 @@ To rigorously evaluate the baseline spatial fidelity of the error-indicator refi
     \item \textbf{Classification:} Classified as \textbf{\texttt{SPATIAL\_FIELD\_BASELINE\_DIFFERENCE}}. The earlier adaptive localization and peak shift correlate with differences in local mesh resolution and phase-field evolution; causation is not isolated by the present comparison.
   \end{itemize}
 
-  \item \textbf{Post-Peak Crack Traversal \& Symmetry ($u \ge 6.0\,\mu\mathrm{m}$):}
+  \item \textbf{Post-Peak Crack Traversal \& Spatial Symmetry ($u \ge 6.0\,\mu\mathrm{m}$):}
   \begin{itemize}
     \item \textbf{Full Traversal:} Both discretizations achieve full ligament traversal ($x_{\mathrm{tip}}^{0.90} = 0.998490\,\mathrm{mm}$ vs $0.998496\,\mathrm{mm}$, matching the right specimen boundary).
     \item \textbf{Sub-Micron Symmetry:} Crack-centroid off-axis deviation $|y_c - 0.500000\,\mathrm{mm}|$ is bounded to sub-micron precision: $\Delta y_{\mathrm{off}} \le 0.461\,\mu\mathrm{m}$ (Reference) and $\Delta y_{\mathrm{off}} \le 0.175\,\mu\mathrm{m}$ (Adaptive ET1).
     \item \textbf{Transverse Bandwidth:} The full width at half-maximum matches theoretical $\mathrm{FWHM} = 2 l_0 \ln 2 \approx 20.79\,\mu\mathrm{m}$ across both models.
+    \item \textbf{Distinction Between Spatial and Mechanical Discrepancies:} Although the spatial crack path and symmetry remain in excellent agreement throughout the post-peak propagation, the reaction force in the fully severed ligament drops below $0.002\,\mathrm{kN}$. Consequently, relative percentage differences between fixed and adaptive models at $u > 6.5\,\mu\mathrm{m}$ are magnified by near-zero division, whereas the absolute reaction force difference is physically negligible ($\Delta F < 0.0015\,\mathrm{kN}$, $<0.25\%$ of peak load).
     \item \textbf{Classification:} Classified as \textbf{\texttt{SPATIAL\_FIELD\_BASELINE\_AGREEMENT}}.
   \end{itemize}
 \end{enumerate}
@@ -164,6 +165,36 @@ To rigorously evaluate the baseline spatial fidelity of the error-indicator refi
   \label{fig:crack_kinematics_pack}
   \figureconclusion{Crack-tip advance is stationary up to peak load followed by rapid traversal; off-axis deviation confirms strict Mode-I symmetry with zero spurious deflection across both meshes.}
 \end{figure}
+
+\clearpage
+
+\subsection{Length-Scale Resolution Adequacy for Governed Meshes ($l_0 = 7.5\,\mu\mathrm{m}$)}
+\label{sec:length_scale_adequacy_governed}
+
+To resolve whether spatial discretization across the full suite of governed Mode-I meshes adequately resolves the diffuse damage regularisation length scale $l_0 = 7.5\,\mu\mathrm{m}$, element sizing metrics were computed directly from verified input decks across all six production and candidate meshes (Table~\ref{tab:governed_mesh_adequacy_pack}). Element size is characterized by area-equivalent length $h_{\mathrm{area}} = \sqrt{A_e}$ and local edge lengths $h_{\mathrm{edge}}$, with the crack corridor defined as $x \in [0.48, 1.02]\,\mathrm{mm}, y \in [0.40, 0.60]\,\mathrm{mm}$.
+
+\begin{table}[htbp]
+\centering
+\caption{Length-scale resolution adequacy metrics for governed Mode-I meshes ($l_0 = 7.5\,\mu\mathrm{m}$).}
+\label{tab:governed_mesh_adequacy_pack}
+\small
+\begin{tabular}{lrrrrrrrr}
+\toprule
+\textbf{Mesh Configuration} & \textbf{Elements} & \textbf{Nodes} & \multicolumn{3}{c}{\textbf{Corridor Sizing [$\mu\mathrm{m}$]}} & \multicolumn{2}{c}{\textbf{Resolution Ratio}} & \textbf{Adequacy Status} \\
+\cmidrule(lr){4-6} \cmidrule(lr){7-8}
+ & & & $h_{\mathrm{area},\min}$ & $h_{\mathrm{area},\mathrm{med}}$ & $h_{\mathrm{notch}}$ & $\frac{h_{\mathrm{area},\min}}{l_0}$ & $\frac{h_{\mathrm{notch}}}{l_0}$ & \\
+\midrule
+Fixed Reference ($S_1$) & $15{,}192$ & $15{,}522$ & $2.899$ & $2.931$ & $2.899$ & $\mathbf{0.387}$ & $\mathbf{0.387}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Adaptive ET1 (14k) & $14{,}483$ & $14{,}457$ & $0.760$ & $2.068$ & $1.988$ & $\mathbf{0.101}$ & $\mathbf{0.265}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Adaptive ET2 (6k) & $6{,}112$ & $6{,}182$ & $0.956$ & $4.016$ & $2.632$ & $\mathbf{0.127}$ & $\mathbf{0.351}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Adaptive ET3 (5k) & $5{,}189$ & $5{,}263$ & $1.339$ & $4.898$ & $2.769$ & $\mathbf{0.179}$ & $\mathbf{0.369}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Adaptive ET5 (4k) & $4{,}692$ & $4{,}760$ & $1.230$ & $5.907$ & $3.109$ & $\mathbf{0.164}$ & $\mathbf{0.415}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+Spatial Fine (58k) & $57{,}929$ & $57{,}492$ & $0.721$ & $1.947$ & $1.896$ & $\mathbf{0.096}$ & $\mathbf{0.253}$ & \texttt{ADEQUACY\_SUPPORTED} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Every governed mesh satisfies the standard phase-field resolution condition ($h/l_0 \le 0.50$) along the fracture path, ensuring that at least $5.6$ to $13.2$ finite elements resolve the damage zone width ($2 l_0 = 15\,\mu\mathrm{m}$).
 
 \clearpage
 

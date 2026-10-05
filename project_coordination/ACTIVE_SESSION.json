@@ -1,17 +1,17 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1247-MODE1-SPATIAL-BASELINE-PROVENANCE-RECONCILIATION-AND-CORRECTION",
-  "claimed_at": "2026-10-05T17:15:00+02:00",
-  "released_at": "2026-10-05T17:45:00+02:00",
-  "starting_commit": "5246c0df006d15a51cf6c381e4ae3ba1609139ff",
+  "task_id": "F1248-MODE1-LENGTH-SCALE-ADEQUACY-AUDIT-AND-SYNTHESIS-SCHEMA-FREEZE",
+  "claimed_at": "2026-10-05T17:26:00+02:00",
+  "released_at": "2026-10-05T18:00:00+02:00",
+  "starting_commit": "a765e04055964cb3050622afc02a0caed84ee933",
   "allowed_write_scope": [
-    "docs/methods/MODE1_BASELINE_SPATIAL_PHASE_FIELD_AND_CRACK_PATH_AUDIT.md",
-    "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/MODE1_BASELINE_SPATIAL_PHASE_FIELD_AND_CRACK_PATH_AUDIT.json",
-    "results/figures/mode1_gate6b/",
+    "docs/methods/",
+    "models/pandey_kumar_mode1/",
     "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/",
     "docs/thesis/",
-    "tests/unit/test_stage14_spatial_convergence_audit.py",
+    "tests/unit/",
+    "results/figures/mode1_gate6b/",
     "project_coordination/"
   ]
 }

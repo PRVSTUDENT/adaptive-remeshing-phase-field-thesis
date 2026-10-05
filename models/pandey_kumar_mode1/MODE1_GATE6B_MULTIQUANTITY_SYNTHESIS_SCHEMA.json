@@ -1,0 +1,123 @@
+{
+  "schema_version": "2.0.0",
+  "schema_name": "MODE1_GATE6B_MULTIQUANTITY_SYNTHESIS_SCHEMA",
+  "schema_frozen_at": "2026-10-05T17:30:00+02:00",
+  "governing_task": "F1248-MODE1-LENGTH-SCALE-ADEQUACY-AUDIT-AND-SYNTHESIS-SCHEMA-FREEZE",
+  "description": "Unified multi-quantity synthesis schema for Mode-I Gate-6B production and reference simulations.",
+  "required_jobs": {
+    "fixed_reference_15k": "1408892",
+    "stage14_adaptive_14k_baseline": "1409947",
+    "stage14_spatial_fine_58k": "1410179",
+    "stage14_conv_ctrl_14k": "1410180",
+    "stage14_step2_et2_6k": "1410357",
+    "stage14_step2_et3_5k": "1410358",
+    "stage14_step2_et5_4k": "1410359"
+  },
+  "evaluation_metrics": [
+    "peak_force_kN",
+    "u_at_peak_mm",
+    "delta_peak_force_pct",
+    "u_crack_init_mm",
+    "u_final_mm",
+    "terminal_force_kN",
+    "strain_energy_mJ",
+    "dissipated_energy_mJ",
+    "external_work_mJ",
+    "energy_balance_rel_err",
+    "total_increments",
+    "total_cutbacks",
+    "total_iterations",
+    "walltime_seconds",
+    "cpu_time_seconds",
+    "crack_path_y_mean_dev_um",
+    "crack_profile_width_w05_um",
+    "length_scale_adequacy_h_min_over_l0",
+    "length_scale_adequacy_notch_edge_over_l0"
+  ],
+  "allowed_statuses": [
+    "COMPLETED_VALIDATED",
+    "IN_PROGRESS",
+    "QUEUED",
+    "CENSORED",
+    "FAILED"
+  ],
+  "records_template": {
+    "1408892": {
+      "model_name": "PK_MODE1_REF15K_ENERGY",
+      "mesh_label": "Fixed Reference (S1)",
+      "base_elements": 15192,
+      "base_nodes": 15522,
+      "length_scale_l0_um": 7.5,
+      "h_area_min_um": 2.899,
+      "h_notch_edge_um": 2.899,
+      "h_min_over_l0": 0.387,
+      "status": "COMPLETED_VALIDATED"
+    },
+    "1409947": {
+      "model_name": "PK_M1_14A_PROD",
+      "mesh_label": "Adaptive ET1 (14k)",
+      "base_elements": 14483,
+      "base_nodes": 14457,
+      "length_scale_l0_um": 7.5,
+      "h_area_min_um": 0.760,
+      "h_notch_edge_um": 1.988,
+      "h_min_over_l0": 0.101,
+      "status": "COMPLETED_VALIDATED"
+    },
+    "1410179": {
+      "model_name": "PK_M1_14AM_SOLVE",
+      "mesh_label": "Spatial Fine (58k)",
+      "base_elements": 57929,
+      "base_nodes": 57492,
+      "length_scale_l0_um": 7.5,
+      "h_area_min_um": 0.553,
+      "h_notch_edge_um": 1.896,
+      "h_min_over_l0": 0.074,
+      "status": "IN_PROGRESS"
+    },
+    "1410180": {
+      "model_name": "PK_M1_14K_CONV_CTRL",
+      "mesh_label": "Adaptive ET1 (14k, Cn=0.50)",
+      "base_elements": 14483,
+      "base_nodes": 14457,
+      "length_scale_l0_um": 7.5,
+      "h_area_min_um": 0.760,
+      "h_notch_edge_um": 1.988,
+      "h_min_over_l0": 0.101,
+      "status": "IN_PROGRESS"
+    },
+    "1410357": {
+      "model_name": "PK_M1_14ET2_SOLVE",
+      "mesh_label": "Adaptive ET2 (6k)",
+      "base_elements": 6112,
+      "base_nodes": 6182,
+      "length_scale_l0_um": 7.5,
+      "h_area_min_um": 0.956,
+      "h_notch_edge_um": 2.632,
+      "h_min_over_l0": 0.127,
+      "status": "IN_PROGRESS"
+    },
+    "1410358": {
+      "model_name": "PK_M1_14ET3_SOLVE",
+      "mesh_label": "Adaptive ET3 (5k)",
+      "base_elements": 5189,
+      "base_nodes": 5263,
+      "length_scale_l0_um": 7.5,
+      "h_area_min_um": 1.339,
+      "h_notch_edge_um": 2.769,
+      "h_min_over_l0": 0.179,
+      "status": "IN_PROGRESS"
+    },
+    "1410359": {
+      "model_name": "PK_M1_14ET5_SOLVE",
+      "mesh_label": "Adaptive ET5 (4k)",
+      "base_elements": 4692,
+      "base_nodes": 4760,
+      "length_scale_l0_um": 7.5,
+      "h_area_min_um": 1.230,
+      "h_notch_edge_um": 3.109,
+      "h_min_over_l0": 0.164,
+      "status": "IN_PROGRESS"
+    }
+  }
+}
