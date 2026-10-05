@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-DIR="/home/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis"
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$DIR"
 
 module load abaqus/2023 gcc/11.4.0 intel/2024.2.0

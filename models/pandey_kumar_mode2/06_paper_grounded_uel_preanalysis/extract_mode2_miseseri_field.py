@@ -25,11 +25,13 @@ def extract_mode2_miseseri(odb_path="Job-1_UEL.odb", out_dir="."):
     step_name = o.steps.keys()[-1] # use latest available step
     step = o.steps[step_name]
     f_last = step.frames[-1]
+    f_id = int(f_last.frameId)
+    f_val = float(f_last.frameValue)
 
     print("=" * 70)
     print("MODE-II RAW MISESERI EXTRACTION & LOCALIZATION AUDIT")
     print("ODB: %s" % odb_path)
-    print("Step: '%s', Frame: %d, Time: %.5f" % (step_name, f_last.frameId, f_last.frameValue))
+    print("Step: '%s', Frame: %d, Time: %.5f" % (step_name, f_id, f_val))
     print("=" * 70)
 
     # Get instance
@@ -132,8 +134,8 @@ def extract_mode2_miseseri(odb_path="Job-1_UEL.odb", out_dir="."):
     summary = {
         'odb_path': odb_path,
         'step_name': step_name,
-        'frame_id': f_last.frameId,
-        'frame_value': f_last.frameValue,
+        'frame_id': f_id,
+        'frame_value': f_val,
         'total_elements': len(records),
         'max_miseseri': max_miseseri,
         'mean_miseseri': mean_miseseri,

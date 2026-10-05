@@ -38,8 +38,8 @@ def analyze_adapted_mesh_geometry(p):
     for elem in p.elements:
         conn = elem.connectivity
         pts = [p.nodes[n_idx].coordinates for n_idx in conn]
-        xc = sum(pt[0] for pt in pts) / float(len(pts))
-        yc = sum(pt[1] for pt in pts) / float(len(pts))
+        xc = sum([pt[0] for pt in pts]) / float(len(pts))
+        yc = sum([pt[1] for pt in pts]) / float(len(pts))
         
         # Approximate element size h = sqrt(Area)
         if len(pts) == 4:
@@ -58,7 +58,7 @@ def analyze_adapted_mesh_geometry(p):
         elements_data.append({'eid': elem.label, 'xc': xc, 'yc': yc, 'h': h_approx})
 
     n_total = len(elements_data)
-    h_min = min(e['h'] for e in elements_data) if elements_data else 0.0
+    h_min = min([e['h'] for e in elements_data]) if elements_data else 0.0
     fine_elems = [e for e in elements_data if e['h'] <= 0.008]
     fine_count = len(fine_elems)
     fine_fraction = fine_count / float(n_total) if n_total > 0 else 0.0
@@ -69,7 +69,7 @@ def analyze_adapted_mesh_geometry(p):
     for y_val in y_bins:
         band = [e for e in fine_elems if abs(e['yc'] - y_val) <= 0.035 and e['xc'] >= 0.45]
         if band:
-            mean_x = sum(e['xc'] for e in band) / float(len(band))
+            mean_x = sum([e['xc'] for e in band]) / float(len(band))
             centerline_pts.append((mean_x, y_val))
 
     # Compute chord angle from start (near 0.5, 0.5) to end (near y=0)
