@@ -1,56 +1,79 @@
 # ==============================================================================
-# AUTHORITATIVE REPRODUCTION COMMANDS: PANDEY & KUMAR (2025) MODE-I BENCHMARK
-# Target Environment: Abaqus 2024 / SMAPython (Windows PowerShell / Linux Bash)
-# Governance Status: Serial 1-CPU Execution is the SOLE Authoritative Workflow
-# Threaded / MPI Scaling: ON HOLD (Archival Only, Not Part of Qualified Reproduction)
+# AUTHORITATIVE EXECUTION & REPRODUCTION COMMANDS: PANDEY & KUMAR (2025) MODE-I
+# Target Environment: Abaqus 2023/2024 (TU Bergakademie Freiberg HPC Cluster / PBS Pro)
+# Governing Architecture: Single-Node Execution (Serial 1-CPU Baseline or 8-Thread SMP)
+# Parallelism Policy: Shared-Memory Threading QUALIFIED | Multi-Rank MPI PROHIBITED
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
-# SECTION 1: AUTHORITATIVE SERIAL REFERENCE EXECUTION (1-CPU SERIAL ONLY)
+# SECTION 1: CANONICAL SERIAL REFERENCE BASELINE EXECUTION (1-CPU SERIAL)
 # ------------------------------------------------------------------------------
-# All authoritative scientific results, mesh-convergence series, and parity
-# checks MUST be executed using single-process serial execution (cpus=1).
-# Subroutine: f42_mixed_uel.for (SHA256: 5CD0D2C015C9EAD91C99D7A744156CC86F5B5EA26473BBED7D6E5515FE30FA46)
+# The canonical serial execution path provides bitwise baseline reference purity.
+# Current active Gate-6B production jobs (1410179, 1410180, 1410357, 1410358, 1410359)
+# execute in this mode to preserve exact baseline provenance without mid-run allocation changes.
+# Subroutine: f42_mixed_uel.for (SHA256: CE8D5EDC0BF67A263BE4426FEF44F75475E8DEEFADDC401C007EAA937B316F77)
 
-# Step 1.1: Run Canonical Fixed Mesh Reference Anchor (S3_h0015_42k, 1 CPU Serial)
-# Working Directory: D:\Master thesis\Adaptive remeshing\models\pandey_kumar_mode1\batch_mode1_energy_convergence\S3_h0015_42k
-abaqus job=PK_M1_S3_H0015 input=PK_M1_S3_H0015.inp user=..\15_energy_qualification_small\f42_mixed_uel.for cpus=1 interactive
+# Step 1.1: Run Canonical Fixed Mesh Reference Anchor (S1 15k, 1 CPU Serial)
+# Directory: /scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/16_energy_qualification_reference_15k
+abaqus job=PK_M1_REF15K_ENERGY input=PK_MODE1_REF15K_ENERGY.inp user=f42_mixed_uel.for cpus=1 memory="16gb" double=both interactive
 
-# Step 1.2: Run Mini Parity Verification Job (64 Elements, 1 CPU Serial)
-# Working Directory: D:\Master thesis\Adaptive remeshing\models\pandey_kumar_mode1\15_energy_qualification_small
-abaqus job=PK_M1_MINI_ENERGY_64 input=PK_M1_MINI_ENERGY_64.inp user=f42_mixed_uel.for cpus=1 interactive
+# Step 1.2: Run Stage-14 Adaptive Baseline (ET1 14k, 1 CPU Serial)
+# Directory: /scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k
+abaqus job=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE input=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp user=f42_mixed_uel.for cpus=1 memory="16gb" double=both interactive
 
-# ------------------------------------------------------------------------------
-# SECTION 2: FAST OFFLINE POST-PROCESSING EXTRACTIONS (NO MULTI-GB ODB TRANSFERS)
-# ------------------------------------------------------------------------------
-# All extraction scripts run in headless mode without transferring or opening giant ODBs.
-# Working Directory: D:\Master thesis\Adaptive remeshing\models\pandey_kumar_mode1\batch_mode1_energy_convergence
+# Step 1.3: Run Mini Parity Verification Job (64 Elements, 1 CPU Serial)
+# Directory: /scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/15_energy_qualification_small
+abaqus job=PK_M1_MINI_ENERGY_64 input=PK_M1_MINI_ENERGY_64.inp user=f42_mixed_uel.for cpus=1 memory="4gb" double=both interactive
 
-# Step 2.1: Execute Mechanical Parity & Newton-Raphson Solver Audit
-abaqus python reproduction_pkg_gate6b\postprocess_mechanical_parity.py
-
-# Step 2.2: Extract Reaction Force vs Displacement (F-u) & Boundary Work Curves
-abaqus python reproduction_pkg_gate6b\postprocess_external_work.py
-
-# Step 2.3: Ingest Length Scale Sensitivity Series (l0 = 7.50, 11.25, 15.00 um)
-abaqus python postprocess_l0_sensitivity_series_v6.py
-
-# Step 2.4: Generate Spatial, Transverse Localization & Energy Balance Plots
-abaqus python plot_l0_sensitivity_series.py
-
-# Step 2.5: Synthesize Gate 6B Evidence Matrix & Consistency Validation Gate
-abaqus python reproduction_pkg_gate6b\postprocess_evidence_matrix_synthesis.py
 
 # ------------------------------------------------------------------------------
-# SECTION 3: ARCHIVAL THREADED COMMANDS -- NOT PART OF QUALIFIED REPRODUCTION
+# SECTION 2: QUALIFIED 8-THREAD SHARED-MEMORY ACCELERATION MODE (8-CPU SMP)
 # ------------------------------------------------------------------------------
-# [WARNING]: Multi-threaded shared-memory scaling and distributed MPI execution
-# remain UNQUALIFIED and on ACTIVE GOVERNANCE HOLD. The commands below are preserved
-# strictly for historical archive and MUST NOT be used for scientific reproduction.
+# Qualified under Gate-6B Stage 14U-AR (Jobs 1410095.mmaster02 & 1410100.mmaster02).
+# Demonstrates 100% bitwise parity against 1-CPU serial across all 4,890 increments:
+#   * Walltime: 4,862 s (1.35 hr) vs 17,609 s (4.89 hr) -> Measured Speedup S_8 = 3.62x (eta_8 = 45.3%)
+#   * Stiffness Invariance: K0 = 137.909558 kN/mm (0.00% discrepancy)
+#   * Peak Force Invariance: F_max = 0.74370082 kN (0.00% discrepancy)
+#   * Determinism: 100% bitwise repeatability across independent PBS allocations.
 #
-# (Archival Shared-Memory Threaded Execution - ON HOLD):
-# abaqus job=PK_M1_A2_ADAPT2PCT input=PK_M1_A2_ADAPT2PCT.inp user=..\15_energy_qualification_small\f42_mixed_uel.for cpus=4 standard_parallel=threads interactive
-#
-# ==============================================================================
-# END OF REPRODUCTION COMMANDS
+# PBS Directive: #PBS -l nodes=1:ppn=8 (or #PBS -l select=1:ncpus=8:mem=16gb)
+# Working Directory: MUST BE UNDER /scratch9/pr21vyci/
+
+# Step 2.1: Run 8-Thread Shared-Memory Adaptive Production Solve
+# Directory: /scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/29_stage14_adaptive_candidate_14k_8thread
+abaqus job=PK_M1_14K_8T input=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp user=f42_mixed_uel.for cpus=8 mp_mode=threads memory="16gb" double=both interactive
+
+# Step 2.2: Run 8-Thread Shared-Memory Determinism Repeat Solve
+# Directory: /scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/31_stage14_adaptive_candidate_14k_8thread_stage_b
+abaqus job=PK_M1_14K_8T_B input=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp user=f42_mixed_uel.for cpus=8 mp_mode=threads memory="16gb" double=both interactive
+
+
+# ------------------------------------------------------------------------------
+# SECTION 3: FAST HEADLESS POST-PROCESSING & MULTI-QUANTITY SYNTHESIS
+# ------------------------------------------------------------------------------
+# All extraction and synthesis scripts execute headlessly without opening GUI or transferring ODBs.
+
+# Step 3.1: Execute 8-Thread Stage-A Parity Evaluator
+abaqus python models/pandey_kumar_mode1/29_stage14_adaptive_candidate_14k_8thread/evaluate_stage14uao_8thread_stage_a.py
+
+# Step 3.2: Execute 4-Thread & 8-Thread Stage-B Full-Range Determinism Evaluator
+abaqus python models/pandey_kumar_mode1/27_stage14_adaptive_candidate_14k_4thread_stage_b/evaluate_stage14ual_4thread_determinism.py
+
+# Step 3.3: Ingest Multi-Quantity Synthesis Schema across All Governed Decks
+python models/pandey_kumar_mode1/reproduction_package_gate6b_energy/extract_authoritative_mode1_energy_complete.py
+
+
+# ------------------------------------------------------------------------------
+# SECTION 4: MULTI-RANK MPI DISQUALIFICATION & THREAD-SAFETY BOUNDARY
+# ------------------------------------------------------------------------------
+# [CRITICAL PARALLEL ARCHITECTURE GOVERNANCE]:
+# 1. Distributed-memory multi-rank MPI (e.g. mp_mode=mpi, nodes > 1, or mpirun -np > 1)
+#    is STRICTLY DISQUALIFIED.
+#    Root cause: f42_mixed_uel.for utilizes shared COMMON /CB_STATE_TRANS/ blocks
+#    for history variable synchronization without MPI inter-rank message passing.
+#    Multi-rank execution causes rank race conditions and corrupted damage fields (Job 1401531).
+# 2. Single-node shared-memory threading (mp_mode=threads, 1 node, 4 or 8 threads)
+#    executes within a single process address space and is PROVEN 100% thread-safe.
+# 3. High HPC throughput is achieved via scheduler concurrency (running >= 10 independent
+#    single-node 8-thread jobs concurrently on normal_imfdfkmq), NOT multi-node MPI.
 # ==============================================================================

@@ -1,0 +1,110 @@
+#!/bin/bash
+# ==============================================================================
+# PBS PRODUCTION TEMPLATE: MODE-I 8-THREAD SHARED-MEMORY (SMP) EXECUTION
+# Platform: TU Bergakademie Freiberg HPC Cluster (tu_freiberg / PBS Professional)
+# Target Queue: normal_imfdfkmq (Production Queue)
+# Execution Architecture: Single-Node Shared-Memory SMP Multi-Threading ONLY
+# Multi-Rank MPI Policy: STRICTLY PROHIBITED (f42_mixed_uel.for is SMP-only)
+# Storage Policy: Heavy simulation outputs MUST execute strictly under /scratch9/
+# ==============================================================================
+#PBS -N PK_M1_PROD_8T
+#PBS -q normal_imfdfkmq
+#PBS -l nodes=1:ppn=8
+#PBS -l mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -o pbs_execution.log
+#PBS -e pbs_execution.err
+
+set -euo pipefail
+
+# ------------------------------------------------------------------------------
+# 1. HARD STORAGE-COMPLIANCE GUARD (EXIT 88)
+# ------------------------------------------------------------------------------
+CURRENT_DIR="$(pwd -P)"
+if [[ "$CURRENT_DIR" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Execution directly inside /home is prohibited." >&2
+  echo "Heavy simulation outputs (*.odb, *.sim, *.res, *.pac) must execute in /scratch9/." >&2
+  echo "Current directory: $CURRENT_DIR" >&2
+  exit 88
+fi
+
+# ------------------------------------------------------------------------------
+# 2. HARD PARALLEL ARCHITECTURE & MPI REJECTION GUARDS (EXIT 89)
+# ------------------------------------------------------------------------------
+# Reject multi-node allocations
+if [ -n "${PBS_NODEFILE:-}" ]; then
+  NUM_NODES=$(sort -u "$PBS_NODEFILE" | wc -l)
+  if [ "$NUM_NODES" -gt 1 ]; then
+    echo "[PARALLEL GOVERNANCE ERROR] Multi-node allocation detected (nodes=$NUM_NODES)." >&2
+    echo "f42_mixed_uel.for contains COMMON blocks and is NOT thread-safe across multi-node MPI." >&2
+    echo "Only single-node shared-memory threading (nodes=1:ppn=8) is qualified." >&2
+    exit 89
+  fi
+fi
+
+# ------------------------------------------------------------------------------
+# 3. DUAL-CHANNEL NOTIFICATION INTEGRATION
+# ------------------------------------------------------------------------------
+if [ ! -f ./job_notifications.sh ]; then
+  echo "[NOTIFICATION ERROR] job_notifications.sh not found in execution directory." >&2
+  exit 10
+fi
+
+source ./job_notifications.sh
+notification_load_config || true
+notification_install_terminal_trap
+notify_start || true
+
+# ------------------------------------------------------------------------------
+# 4. COMPILER & SOLVER ENVIRONMENT MODULES
+# ------------------------------------------------------------------------------
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+# ------------------------------------------------------------------------------
+# 5. EXECUTION PARAMETERS & CLEANUP
+# ------------------------------------------------------------------------------
+JOB_NAME="${PBS_JOBNAME:-PK_M1_PROD_8T}"
+INPUT_DECK="${INPUT_DECK:-PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp}"
+USER_SUBROUTINE="${USER_SUBROUTINE:-f42_mixed_uel.for}"
+NUM_CPUS=8
+MP_MODE="threads"
+MEM_ALLOC="16gb"
+
+# Clean stale lock and marker files
+rm -f "${JOB_NAME}.lck" "${JOB_NAME}.023" uel_energy_balance.csv
+
+echo "=============================================================================="
+echo "STARTING 8-THREAD SHARED-MEMORY SOLVER EXECUTION"
+echo "Job Name:           $JOB_NAME"
+echo "Input Deck:         $INPUT_DECK"
+echo "User Subroutine:    $USER_SUBROUTINE"
+echo "CPUs / Threads:     $NUM_CPUS"
+echo "Parallel Mode:      $MP_MODE (Shared-Memory SMP Multi-Threading)"
+echo "Memory:             $MEM_ALLOC"
+echo "Working Directory:  $CURRENT_DIR"
+echo "=============================================================================="
+
+# ------------------------------------------------------------------------------
+# 6. ABAQUS SOLVER LAUNCH (SINGLE PROCESS, 8 SMP THREADS)
+# ------------------------------------------------------------------------------
+abaqus job="$JOB_NAME" \
+  input="$INPUT_DECK" \
+  user="$USER_SUBROUTINE" \
+  cpus="$NUM_CPUS" \
+  mp_mode="$MP_MODE" \
+  memory="$MEM_ALLOC" \
+  double=both \
+  interactive
+
+ABAQUS_EXIT=$?
+
+echo "=============================================================================="
+echo "FINISHED 8-THREAD SOLVER EXECUTION: EXIT $ABAQUS_EXIT"
+echo "=============================================================================="
+
+exit "$ABAQUS_EXIT"
