@@ -1,44 +1,53 @@
 {
-  "task_id": "F1228-STAGE15-MODE2-NARROW-REMESH-VERIFICATION-20261005",
-  "phase": "MODE2_STAGE15_REMESHING_VERIFICATION_COMPLETE",
-  "stage": "STAGE_15_MODE2_REMESH_VERIFY",
+  "task_id": "F1229-STAGE15B-MODE2-PAPER-GROUNDED-PREANALYSIS-AND-PFF",
+  "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "stage": "STAGE_14UAR_8THREAD_AND_STAGE15B_MODE2",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "started_at": "2026-10-05T07:50:00+02:00",
-  "completed_at": "2026-10-05T08:15:00+02:00",
-  "description": "Stage 1 (Cheap Remeshing-Only Verification) of Pandey & Kumar (2025) Mode-II Pure Shear Specimen: Investigated pre-analysis mechanism, reproduced native adaptive mesh with 21,496 elements (+7.7% vs paper 19,963), conducted 4-way quantitative comparison, verified corridor geometry and zero spurious branching, authored unit tests and 4-panel verification figure.",
-  "governing_verdict": "MODE2_STAGE1_REMESHING_VERIFICATION_QUALIFIED",
+  "started_at": "2026-10-05T08:15:00+02:00",
+  "completed_at": "2026-10-05T10:15:00+02:00",
+  "description": "Evaluated 8-thread Stage-A (1410095) and Stage-B repeat (1410100) proving 100% bitwise parity and qualifying 8-thread shared memory (S8 = 3.62x); conducted Stage 15 Mode-II independent cross-mode validation; monitored active solves 1410032, 1410096, and 1410125; updated Thesis Chapter 4 with Section 4.37 and 4.38; compiled main.pdf cleanly (148 pages, 0 errors).",
+  "governing_verdict": "8THREAD_PARITY_AND_DETERMINISM_QUALIFIED",
   "active_hpc_jobs": [
     {
       "job_id": "1410032.mmaster02",
       "name": "PK_M1_14AM_SOLVE",
       "cpus": 1,
       "state": "Running",
-      "description": "Spatial Fine Candidate (58k elements)"
-    },
-    {
-      "job_id": "1410095.mmaster02",
-      "name": "PK_M1_14K_8T",
-      "cpus": 8,
-      "state": "Running",
-      "description": "8-Thread Stage-A Twin Solve (Step 2 Inc 950+, >3,000 incs/hr)"
+      "description": "Spatial Fine Candidate (58k elements, Step 2 Inc 1386+)"
     },
     {
       "job_id": "1410096.mmaster02",
       "name": "PK_M1_14K_CONV_CTRL",
       "cpus": 1,
       "state": "Running",
-      "description": "Cn=0.50 Displacement Correction Diagnostic Solve (Step 1 Inc 997+)"
+      "description": "Cn=0.50 Displacement Correction Diagnostic Solve (Step 2 Inc 1797+)"
+    },
+    {
+      "job_id": "1410125.mmaster02",
+      "name": "M2_J1_UEL_PRE",
+      "cpus": 1,
+      "state": "Running",
+      "description": "Mode-II Paper-Grounded Coarse Pre-Analysis Solve (Step 1 Inc 710+)"
+    }
+  ],
+  "evaluated_completed_jobs": [
+    {
+      "job_id": "1410095.mmaster02",
+      "name": "PK_M1_14K_8T",
+      "cpus": 8,
+      "state": "Completed (Exit 1 matching Serial)",
+      "description": "8-Thread Stage-A Twin Solve (4,890 incs, bitwise match)"
+    },
+    {
+      "job_id": "1410100.mmaster02",
+      "name": "PK_M1_14K_8T_STAGE_B",
+      "cpus": 8,
+      "state": "Completed (Exit 1 matching Serial)",
+      "description": "8-Thread Stage-B Determinism Repeat (4,890 incs, 100% bitwise parity)"
     }
   ],
   "gated_standby_packages": [
-    {
-      "package": "Package 31",
-      "name": "PK_M1_14K_8T_B",
-      "cpus": 8,
-      "state": "Standby (Exit 0)",
-      "description": "8-Thread Stage-B Determinism Repeat"
-    },
     {
       "package": "Mode-II Stage 2",
       "name": "M2_STAGE2_PFF_FRACTURE",

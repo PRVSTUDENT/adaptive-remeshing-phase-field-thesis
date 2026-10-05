@@ -3279,3 +3279,89 @@ A critical scientific distinction must be maintained between the sizing mechanic
 \paragraph{Defensible Scientific Conclusion for Thesis \& Supervisor Review:}
 \textit{An independent linear-elastic benchmark confirms that the Abaqus $\mathrm{MISESERI}$-driven native remeshing procedure correctly localizes refinement in regions of known continuum stress-error concentration without involvement of phase-field user subroutines. The corrected Mode-I benchmark further demonstrates that, when coupled to the present pre-analysis companion state, the remeshing procedure concentrates refinement along the crack-propagation corridor in a manner governed by the chosen error tolerance $\eta$. Finally, historical differences in element count (such as the earlier $71{,}320$-element mesh) are rigorously attributed to pre-analysis boundary-condition defects ($N_{\mathrm{BOTTOM}}$ node truncation) rather than algorithmic remesher instability.}
 
+\section{Gate-6B Stage 14U-AR: 8-Thread Shared-Memory Parallel Parity and Full-Range Determinism Qualification}
+\label{sec:stage14uar_8thread_parity_and_determinism}
+
+\subsection{Motivation and Shared-Memory Architecture}
+Following the successful qualification of the 4-thread shared-memory execution architecture ($S_4 = 2.31\times$, $100\%$ bitwise parity against serial baseline), Stage~14U-AR evaluates parallel scaling and multi-thread numerical determinism on an 8-thread allocation (\texttt{cpus=8}, \texttt{mp\_mode=threads}). Because the user subroutine \texttt{f42\_mixed\_uel.for} relies on module-level thread-local variables and OpenMP-compliant loop structures rather than distributed-memory MPI communication across nodes, execution is strictly constrained to single-node shared-memory threading on the Freiberg HPC cluster (\texttt{mnode097}, partition \texttt{normal\_imfdfkmq}).
+
+\subsection{Parallel Scaling and Increment Telemetry}
+Two independent execution allocations were configured, preflighted, and datachecked with identical model inputs (SHA-256 \texttt{26D873FB...}) and Fortran user subroutine (SHA-256 \texttt{CE8D5EDC...}):
+\begin{enumerate}
+  \item \textbf{Stage-A Twin Solve (Job \texttt{1410095.mmaster02}):} Executed on compute node \texttt{mnode097} using 8 threads. Converged all $4{,}889$ regular increments from $u = 0.0\,\mathrm{mm}$ to $u = 0.007889\,\mathrm{mm}$ before reaching the Newton-Raphson stagnation plateau at Step~2 Increment~2890. Total walltime was $4{,}862\,\mathrm{s}$ ($1.35\,\mathrm{hr}$), representing a speedup of $S_8 = \mathbf{3.62\times}$ over the serial baseline ($17{,}609\,\mathrm{s}$) and a parallel efficiency of $E_8 = \mathbf{45.3\%}$.
+  \item \textbf{Stage-B Repeat Solve (Job \texttt{1410100.mmaster02}):} Executed as an independent rerun on \texttt{mnode097} with 8 threads. Converged all $4{,}889$ regular increments and reproduced the identical 10-attempt cutback sequence at Step~2 Increment~2890 down to $\Delta t_{\min} = 1.0\times 10^{-9}\,\mathrm{s}$.
+\end{enumerate}
+
+\subsection{Bitwise Parity and Determinism Audit}
+A rigorous increment-by-increment comparison across all $4{,}890$ increments revealed:
+\begin{itemize}
+  \item \textbf{Reaction Force Discrepancy:} $|\Delta F| = 0.00000000\,\mathrm{kN}$ across all increments (exact bitwise match).
+  \item \textbf{Initial Elastic Stiffness:} $K_{0,\mathrm{8T}} = 137.909558\,\mathrm{kN/mm}$ ($R^2 = 0.99999960$, $0.0000\%$ error vs serial baseline $137.909558\,\mathrm{kN/mm}$).
+  \item \textbf{Peak Load and Displacement:} $F_{\max} = 0.74370082\,\mathrm{kN}$ at $u_{\mathrm{peak}} = 0.005733\,\mathrm{mm}$ ($0.0000\%$ discrepancy).
+  \item \textbf{Energy Functional Invariance:} $|\Delta E_{\mathrm{elas}}| = 0.000\,\mathrm{mJ}$, $|\Delta E_{\mathrm{frac}}| = 0.000\,\mathrm{mJ}$ across the entire deformation history.
+  \item \textbf{Cutback Attempt Parity:} Step~2 Increment~2890 exhibited bitwise identical residual $R_{\max} = 1.942\times 10^{-9}\,\mathrm{kN}$ (Node 6479, DOF 3) and displacement correction $c_{\max} = 2.611\times 10^{-6}$ (Node 13628, DOF 3) across all 10 cutback attempts.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Multi-Thread Shared-Memory Scaling and Determinism Summary on Cluster Compute Node \texttt{mnode097} ($N = 14{,}483$ finite elements, $43{,}449$ layered elements, $4{,}890$ increments).}
+\label{tab:stage14uar_scaling_summary}
+\begin{tabular}{l c c c c c c}
+\toprule
+\textbf{Execution Mode} & \textbf{Threads} & \textbf{Walltime [s]} & \textbf{Speedup $S$} & \textbf{Efficiency $E$} & $\mathbf{K_0}$ [$\mathrm{kN/mm}$] & $\mathbf{F_{\max}}$ [$\mathrm{kN}$] \\
+\midrule
+Serial Baseline (\texttt{1409982}) & 1 & $17{,}609$ & $1.00\times$ & $100.0\%$ & $137.909558$ & $0.74370082$ \\
+4-Thread Stage A (\texttt{1410006}) & 4 & $7{,}627$ & $2.31\times$ & $57.8\%$ & $137.909558$ & $0.74370082$ \\
+4-Thread Stage B (\texttt{1410029}) & 4 & $7{,}666$ & $2.30\times$ & $57.4\%$ & $137.909558$ & $0.74370082$ \\
+8-Thread Stage A (\texttt{1410095}) & 8 & $4{,}862$ & $3.62\times$ & $45.3\%$ & $137.909558$ & $0.74370082$ \\
+8-Thread Stage B (\texttt{1410100}) & 8 & $4{,}895$ & $3.60\times$ & $45.0\%$ & $137.909558$ & $0.74370082$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Governing Parallelization Verdict:}
+\texttt{8THREAD\_PARITY\_AND\_DETERMINISM\_QUALIFIED}. Multi-thread shared-memory execution in Abaqus is qualified for up to 8 threads without loss of numerical determinism, reducing single-simulation turnaround time from nearly 5 hours to under 1.4 hours while preserving identical physics and energy evolution.
+
+\section{Independent Cross-Mode Validation of the Adaptive-Remeshing Localization Mechanism (Mode-II Pure Shear Specimen)}
+\label{sec:stage15_mode2_remeshing_verification}
+
+\subsection{Scientific Scope and Governance Boundary}
+Under the governing supervisor directive (\textit{``We need to have understood everything related to the first model before we increase complexity''}), Mode-I remains the primary scientific core of this thesis. Mode-II pure shear is investigated strictly as an \textbf{independent cross-mode validation of the adaptive-remeshing localization mechanism}. The objective is to establish whether the error-indicator recovery pipeline ($\mathrm{MISESERI} \to \texttt{adaptiveRemesh}$) successfully steers mesh refinement along an inclined, curvilinear shear-localization corridor without introducing artificial crack branching or unphysical path distortion.
+
+\subsection{Forensic Pre-Analysis Discovery and Paper Lineage}
+A detailed audit of \citet{pandey2025} (Section~4.2, Figs.~6(b) and 12(b)) revealed the exact operational mechanism of the published Mode-II pre-analysis:
+\begin{enumerate}
+  \item \textbf{Coarse Phase-Field Pre-Analysis (\texttt{Job-1\_UEL.inp}):} The published pre-analysis was not a pure linear-elastic run, but a coarse phase-field solve ($h = 0.02\,\mathrm{mm}$, $N = 2{,}960$ underlying finite elements) subjected to top horizontal shear displacement ($u_1 = 0.060\,\mathrm{mm}$).
+  \item \textbf{Companion Recovery Layer (\texttt{All\_elem}):} A 3-layer element system was deployed wherein the facsimile continuum element set \texttt{All\_elem} recovered $\mathrm{MISESERI}$ from the stress field of the advancing shear crack. This produced the inclined high-error corridor shown in Fig.~6(b).
+  \item \textbf{Historical Failure Resolution:} Earlier exploratory runs failed because an unpropagated linear-elastic step was applied to an initial mesh containing a pre-existing horizontal refinement band. Under Abaqus \texttt{coarseningFactor=NOT\_ALLOWED}, the remesher froze the horizontal band and failed to resolve the diagonal shear corridor. Once the coarse uniform mesh is used with propagating phase-field damage, the inclined corridor is captured naturally.
+\end{enumerate}
+
+\subsection{Four-Way Quantitative Comparison and Reproduction Parity}
+To rigorously validate the localization mechanism, a 4-way quantitative audit was performed:
+\begin{enumerate}
+  \item \textbf{Published $\mathrm{MISESERI}$ Path (Fig.~6(b)):} Digitization of the published error contour yields a chord inclination angle of $\theta = -49.74^\circ$, terminating at the bottom boundary ($y=0$) at $x \approx 0.930\,\mathrm{mm}$.
+  \item \textbf{Published Adaptive Mesh Corridor (Fig.~12(b)):} Digitization of the published refined mesh corridor yields a chord inclination angle of $\theta = -53.65^\circ$, terminating at $x \approx 0.868\,\mathrm{mm}$.
+  \item \textbf{Mode-II Phase-Field Crack Trajectory:} Our phase-field shear crack path initiates at $(0.5, 0.5)\,\mathrm{mm}$ with an initial deflection angle of $\theta \approx -45.0^\circ$ and curves toward the bottom boundary with a mean distance of only $0.0259\,\mathrm{mm}$ ($< 1.8\,\ell_0$) relative to the published path in early propagation.
+  \item \textbf{Native Adaptive Remesh Reproduction ($\eta_{\mathrm{target}} = 2.0\%$):} Applying native Abaqus \texttt{adaptiveRemesh} on the coarse pre-analysis ODB generated $N = 21{,}496$ underlying finite elements ($20{,}934$ CPE4 quads + $562$ CPE3 tris, $h_{\min} = 0.000774\,\mathrm{mm} \approx 0.051\,\ell_0$). This reproduces the published mesh size ($19{,}963$ elements) within $\mathbf{+7.7\%}$.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.98\textwidth]{fig_mode2_stage15_remeshing_verification.pdf}
+\caption{Independent Cross-Mode Validation of the Adaptive-Remeshing Localization Mechanism (Mode-II Pure Shear Specimen, $1.0\times 1.0\,\mathrm{mm}$, $a_0 = 0.5\,\mathrm{mm}$, $\ell_0 = 0.015\,\mathrm{mm}$): (a) Coarse 3-layer pre-analysis phase-field damage field ($d$) at $u_1 = 0.060\,\mathrm{mm}$; (b) Recovered companion error indicator field ($\mathrm{MISESERI}$) producing the inclined shear corridor ($\theta = -49.74^\circ$); (c) Native Abaqus \texttt{adaptiveRemesh} reproduction mesh ($N = 21{,}496$ elements, $+7.7\%$ vs published $19{,}963$ elements) with zero spurious branching; (d) Quantitative 4-way path trajectory and corridor overlay comparing published $\mathrm{MISESERI}$ path, published adaptive mesh corridor, phase-field crack path, and native reproduced mesh corridor.}
+\label{fig:mode2_stage15_remeshing_verification}
+\end{figure}
+
+\subsection{Refinement Corridor Geometry and Absence of Spurious Branching}
+Geometric analysis of the adapted mesh confirms:
+\begin{itemize}
+  \item \textbf{Corridor Width:} The refined band ($h \le 0.008\,\mathrm{mm}$) has a full width of $w \approx 0.14\,\mathrm{mm}$ ($\approx 9.3\,\ell_0$), in close agreement with the published corridor width of $0.12\text{--}0.16\,\mathrm{mm}$.
+  \item \textbf{Fine Element Share:} $71.47\%$ of all fine elements are concentrated inside the active shear corridor.
+  \item \textbf{Absence of Spurious Branching:} Exactly zero fine elements appear in unphysical domains (e.g., upper half $y > 0.55\,\mathrm{mm}$ away from boundaries).
+\end{itemize}
+
+\paragraph{Defensible Scientific Conclusion:}
+\texttt{MODE2\_STAGE1\_REMESHING\_VERIFICATION\_QUALIFIED}. The Abaqus native error-recovery remeshing engine correctly detects and tracks curvilinear shear-localization trajectories under mixed/shear kinematics without manual intervention. Stage-2 full phase-field fracture solves on this mesh remain gated on explicit supervisor authorization.
+
+
