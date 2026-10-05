@@ -1,8 +1,128 @@
 # ==============================================================================
-# AUTHORITATIVE EXECUTION & REPRODUCTION COMMANDS: PANDEY & KUMAR (2025) MODE-I
+# AUTHORITATIVE MASTER REPRODUCTION & EXECUTION COMMANDS: PANDEY & KUMAR (2025) MODE-I
 # Target Environment: Abaqus 2023/2024 (TU Bergakademie Freiberg HPC Cluster / PBS Pro)
+# Target Supervisor Meeting: Thursday, 08 October 2026, 10:00 CEST
+# Protocol Version: 2 | Active Phase: MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION
+# Fortran Subroutine SHA-256: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6
 # Governing Architecture: Single-Node Execution (Serial 1-CPU Reference or 8-Thread SMP)
 # Parallelism Policy: 8-Thread SMP EMPIRICALLY QUALIFIED | Distributed MPI UNQUALIFIED
+# ==============================================================================
+
+# ==============================================================================
+# PART I: COMPLETE 11-STEP END-TO-END REPRODUCTION WORKFLOW
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# STEP 1: CONVENTIONAL FIXED-MESH REFERENCE SOLVE (S1 15k Baseline Anchor)
+# ------------------------------------------------------------------------------
+# Working directory: /scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/16_energy_qualification_reference_15k
+# Fixed structured reference mesh: 15,192 finite elements, 15,521 mesh nodes (15,522 with RP 999999).
+# Serial reference execution (1 CPU):
+abaqus job=PK_M1_REF15K_ENERGY input=PK_MODE1_REF15K_ENERGY.inp user=f42_mixed_uel.for cpus=1 memory="16gb" double=both interactive
+
+# Target Reference Metrics:
+#   K0 = 137.945520 kN/mm (N=400 OLS, R^2 = 0.99999960)
+#   F_max = 0.757778 kN, u(F_max) = 0.005857 mm
+
+
+# ------------------------------------------------------------------------------
+# STEP 2: LINEAR-ELASTIC MISESERI COARSE PRE-ANALYSIS (Step 1 Loading)
+# ------------------------------------------------------------------------------
+# Working directory: models/pandey_kumar_mode1/88_mode1_preanalysis_uel_corrected
+# Mesh: 2,906 finite elements (2,818 CPE4 + 88 CPE3), 2,988 nodes.
+# Evaluates stress discretization error indicator on linear elastic continuum stress field.
+abaqus job=PK_M1_PRE_COARSE_UEL input=PK_M1_PRE_COARSE_UEL.inp user=f42_mixed_uel.for cpus=1 memory="8gb" double=both interactive
+
+
+# ------------------------------------------------------------------------------
+# STEP 3: NATIVE ABAQUS ADAPTIVE REMESHING EXECUTION
+# ------------------------------------------------------------------------------
+# Invokes authentic Abaqus CAE RemeshingRule + adaptiveRemesh sizing from Job-1 MISESERI field.
+abaqus cae noGUI=models/pandey_kumar_mode1/88_mode1_preanalysis_uel_corrected/execute_mode1_native_adaptive_remesh.py
+
+# Produces adapted raw Abaqus mesh (e.g. PK_M1_STAGE14_ADAPT_14K_RAW.inp, 14,483 base elements for errorTarget=1.0)
+
+
+# ------------------------------------------------------------------------------
+# STEP 4: 3-LAYER UEL/UMAT CO-LOCATED MESH RECONSTRUCTION
+# ------------------------------------------------------------------------------
+# Converts raw 2D mesh into 3-layer co-located finite element structure:
+#   Layer 1 (1..NPHYS): Phase-field UEL (DOF 11 = d)
+#   Layer 2 (NPHYS+1..2*NPHYS): Displacement UEL (DOF 1,2 = u_x, u_y)
+#   Layer 3 (2*NPHYS+1..3*NPHYS): Companion Visualization UMAT (SDV1..20, dummy E = 1.D-11, zero double-counting)
+# Subroutine indexing: PHYSIDX = NOEL - 2*NPHYS
+python scripts/remeshing/convert_abaqus_inp_to_layered_uel.py --input-raw PK_M1_STAGE14_ADAPT_14K_RAW.inp --output-layered PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp --nphys 14483
+
+
+# ------------------------------------------------------------------------------
+# STEP 5: SERIAL ADAPTIVE FRACTURE SOLVE (ET1 14k Baseline)
+# ------------------------------------------------------------------------------
+# Working directory: /scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k
+# Serial reference execution (1 CPU):
+abaqus job=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE input=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp user=f42_mixed_uel.for cpus=1 memory="16gb" double=both interactive
+
+# Optional: Accelerated 8-thread SMP execution (empirically qualified twin, mp_mode=threads):
+# abaqus job=PK_M1_14K_8T input=PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp user=f42_mixed_uel.for cpus=8 mp_mode=threads memory="16gb" double=both interactive
+
+
+# ------------------------------------------------------------------------------
+# STEP 6: UEL ENERGY EXTRACTION & GLOBAL ENERGY BALANCE
+# ------------------------------------------------------------------------------
+# Extracts 6 governed energy fields: E_elas, E_frac, E_model, W_ext, Delta_book, eps_book.
+python models/pandey_kumar_mode1/reproduction_package_gate6b_energy/extract_authoritative_mode1_energy_complete.py
+
+# Verified identities:
+#   Delta_book = W_ext - (E_elas + E_frac)
+#   eps_book = |Delta_book| / max(W_ext, E_model) * 100% <= 1.5%
+
+
+# ------------------------------------------------------------------------------
+# STEP 7: TEMPORAL CONVERGENCE EVALUATION (1x vs 2x Refinement)
+# ------------------------------------------------------------------------------
+# Evaluates temporal convergence across nominal dt (2.5 nm / 1.0 nm) and 2x refined dt (1.25 nm / 0.50 nm).
+python models/pandey_kumar_mode1/26_stage14_temporal_refined_candidate_2x/evaluate_stage14ual_temporal_refinement.py
+
+# Verifies Delta K0 < 0.001%, Delta F_max < 0.05%, and post-peak solver normalization path sensitivity.
+
+
+# ------------------------------------------------------------------------------
+# STEP 8: SPATIAL CONVERGENCE EVALUATION (S1 Reference vs ET1 vs Spatial Fine 58k)
+# ------------------------------------------------------------------------------
+# Evaluates spatial convergence across fixed S1 (15k), Stage-14 ET1 (14k), and Spatial Fine (58k).
+python models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine/evaluate_stage14uao_spatial_fine_candidate.py
+
+
+# ------------------------------------------------------------------------------
+# STEP 9: ERRORTARGET ET2/ET3/ET5 TERMINAL BATCH EVALUATION
+# ------------------------------------------------------------------------------
+# Unified terminal evaluator across ET1 (1.0%), ET2 (2.0%), ET3 (3.0%), ET5 (5.0%) fracture series:
+python scripts/evaluation/evaluate_stage14_step2_errortarget_fracture_batch.py
+
+# Enforces:
+#   - Zero forward-filling beyond reached displacement
+#   - Explicit NOT_REACHED classification
+#   - Crack-tip thresholds d in {0.5, 0.7, 0.9}
+#   - Decoupled native mesh localization quality vs fracture response sensitivity
+
+
+# ------------------------------------------------------------------------------
+# STEP 10: MULTI-QUANTITY SYNTHESIS (GATE-6B SCHEMA INGESTION)
+# ------------------------------------------------------------------------------
+# Ingests all mechanical, energetic, and crack-path metrics into the authoritative Gate-6B synthesis schema.
+python models/pandey_kumar_mode1/reproduction_package_gate6b_energy/verify_reproduction_package.py
+
+
+# ------------------------------------------------------------------------------
+# STEP 11: PUBLICATION-QUALITY FIGURE REGENERATION
+# ------------------------------------------------------------------------------
+# Regenerates all publication figures into results/figures/mode1_gate6b/
+python scripts/evaluation/evaluate_stage14_step2_errortarget_fracture_batch.py --export-figures
+
+# Output: results/figures/mode1_gate6b/stage14_step2_figure_manifest.json
+
+
+# ==============================================================================
+# PART II: EXECUTION MODE GOVERNANCE & ARCHITECTURAL BOUNDARIES
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
@@ -11,7 +131,7 @@
 # The canonical serial execution path (cpus=1) is the MANDATORY authoritative reference.
 # Current active Gate-6B production jobs (1410179, 1410180, 1410357, 1410358, 1410359)
 # execute in this mode to preserve exact baseline provenance without mid-run allocation changes.
-# Subroutine: f42_mixed_uel.for (SHA256: CE8D5EDC0BF67A263BE4426FEF44F75475E8DEEFADDC401C007EAA937B316F77)
+# Subroutine: f42_mixed_uel.for (SHA256: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6)
 
 # Step 1.1: Run Canonical Fixed Mesh Reference Anchor (S1 15k, 1 CPU Serial)
 # Directory: /scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/16_energy_qualification_reference_15k
@@ -72,7 +192,7 @@ python models/pandey_kumar_mode1/reproduction_package_gate6b_energy/extract_auth
 # ------------------------------------------------------------------------------
 # [PARALLEL ARCHITECTURE GOVERNANCE & MECHANISM BOUNDARIES]:
 # 1. Distributed-memory multi-rank MPI (e.g. mp_mode=mpi, nodes > 1, or mpirun -np > 1)
-#    is STRICTLY UNQUALIFIED (TRUE_MULTIRANK_MPI_NOT_QUALIFIED).
+#    is STRICTLY DISQUALIFIED (TRUE_MULTIRANK_MPI_NOT_QUALIFIED).
 #    Mechanism: Independent MPI ranks possess isolated process address spaces; Fortran
 #    COMMON /CB_STATE_TRANS/ storage is replicated as rank-local memory without inter-rank
 #    MPI message passing. This creates rank-local desynchronization and inconsistent state exchange

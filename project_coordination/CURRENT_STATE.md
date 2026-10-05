@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-05T22:30:00+02:00` (Gemini Antigravity) — Task F1258 Mode-I active solver terminal checkpoint & evaluator readiness completed: (1) single non-invasive cluster query snapshot across 5 active Gate-6B production jobs (1410179 58k spatial fine, 1410180 Cn=0.50 diagnostic, 1410357 ET2 6,112 FE, 1410358 ET3 5,189 FE, 1410359 ET5 4,692 FE); (2) all 5 jobs actively solving in R state on mnode097 with zero cutbacks and 3 Newton iters/inc; (3) recorded exact solver step, increment, time, and reconstructed RP displacement under F1251 contract (1410179 Step 1 Inc 1441 uy=3.6025um; 1410180 Step 2 Inc 2110 uy=7.1100um; 1410357 Step 2 Inc 2817 uy=7.8170um; 1410358 Step 2 Inc 3361 uy=8.3610um; 1410359 Step 2 Inc 3568 uy=8.5680um); (4) verified zero terminal states reached, all jobs undisturbed without resubmission or 8-thread replacement; (5) verified frozen terminal evaluators and multi-quantity synthesis schema standing by; (6) 8-thread SMP empirical qualification and MPI disqualification preserved.
+Last updated: `2026-10-05T23:00:00+02:00` (Gemini Antigravity) — Task F1259 Mode-I lightweight reproduction package & terminal ingestion audit completed: (1) froze machine-readable reproduction manifest MODE1_REPRODUCTION_MANIFEST.json indexing 35 governed artifacts with relative paths, scientific roles, cryptographic SHA-256 hashes, runtime environments, and expected deliverables; (2) verified authoritative Fortran source hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6; (3) updated master reproduction commands.txt documenting complete 11-step end-to-end workflow and explicit execution-mode separation (1-CPU serial authoritative reference standard, 8-thread SMP qualified, multi-rank MPI disqualified); (4) verified evaluator pipeline dry-run across completed archived datasets with zero local ODB requirement; (5) authored TERMINAL_INGESTION_CHECKLIST.md pre-mapping ingestion actions for active solver runs (1410179, 1410180, 1410357-1410359); (6) authored automated unit test suite test_mode1_reproduction_package_and_manifest.py (9/9 pass 100%) and confirmed 142/142 Mode-I unit tests pass; (7) 5 active Gate-6B solver jobs continue solving undisturbed on mnode097.
 
 ---
 
@@ -55,6 +55,12 @@ Last updated: `2026-10-05T22:30:00+02:00` (Gemini Antigravity) — Task F1258 Mo
     - Separated local minimum $h_{\text{area},\min}/l_0 \in [0.074, 0.387]$, notch root $h_{\text{notch}}/l_0 \in [0.253, 0.415]$, and median corridor $h_{\text{area},\text{median}}/l_0 \in [0.260, 0.788]$.
   - **Multi-Quantity Synthesis Schema Frozen (`MODE1_GATE6B_MULTIQUANTITY_SYNTHESIS_SCHEMA.json` v2.1.0):**
     - Governed energy fields: $\mathcal{E}_{\text{elas}}$, $\mathcal{E}_{\text{frac}}$, $\mathcal{E}_{\text{model}}$, $\mathcal{W}_{\text{ext}}$, $\Delta_{\text{book}}$, $\varepsilon_{\text{book}}$.
+  - **Lightweight Reproduction Package & Terminal Ingestion Audit Completed (Task F1259):**
+    - Machine-readable manifest `MODE1_REPRODUCTION_MANIFEST.json` v1.0.0 frozen indexing 35 artifacts with cryptographic hashes and execution environments (zero ODB dependency).
+    - Authoritative energy-instrumented Fortran source hash verified: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
+    - Master execution guide `models/pandey_kumar_mode1/commands.txt` synchronized with 11-step end-to-end workflow and explicit execution-mode governance.
+    - Terminal ingestion protocol `docs/methods/TERMINAL_INGESTION_CHECKLIST.md` authored pre-mapping actions for active jobs `1410179`, `1410180`, `1410357`–`1410359`.
+    - Unit regression test suite `tests/unit/test_mode1_reproduction_package_and_manifest.py` authored with 9 guards; 142/142 Mode-I unit tests pass 100%.
 
 ---
 
