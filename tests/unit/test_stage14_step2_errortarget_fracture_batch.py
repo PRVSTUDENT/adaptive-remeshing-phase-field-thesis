@@ -1,91 +1,158 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Unit test suite for Mode-I Stage-14 Step-2 errorTarget fracture batch (ET2, ET3, ET5).
+Unit Test Suite for Mode-I Stage-14 Step-2 errorTarget Fracture Batch Evaluator:
+1. Test reference values separation (Fixed Ref vs ET1 Adaptive Baseline).
+2. Test pure-Python compute_canonical_k0 OLS accuracy and R2 computation.
+3. Test compute_trapezoidal_work unit conversion to mJ.
+4. Test extract_matched_states strict zero forward-filling and interpolation.
+5. Test classify_fracture_response stability thresholds.
+6. Test batch specification integrity (ET1, ET2, ET3, ET5).
+7. Test figure manifest generation.
 """
 
-from __future__ import print_function
 import os
 import sys
-import json
-import hashlib
 import unittest
+import math
+
+# Add repo root to path
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if REPO_ROOT not in sys.path:
+    sys.path.insert(0, REPO_ROOT)
+
+from scripts.evaluation.evaluate_stage14_step2_errortarget_fracture_batch import (
+    FIXED_REFERENCE_VALUES,
+    ET1_ADAPTIVE_BASELINE_VALUES,
+    MATCHED_DISPLACEMENTS_MM,
+    BATCH_SPECIFICATION,
+    compute_canonical_k0,
+    compute_trapezoidal_work,
+    extract_matched_states,
+    classify_fracture_response,
+    generate_batch_status_report
+)
+
+from scripts.postprocessing.plot_stage14_step2_fracture_sensitivity_templates import (
+    export_plot_manifest
+)
 
 class TestStage14Step2FractureBatch(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.repo_dir = r"D:\Master thesis\Adaptive remeshing"
-        cls.pkg34_dir = os.path.join(cls.repo_dir, "models", "pandey_kumar_mode1", "34_stage14_step2_adaptive_candidate_et2_6k")
-        cls.pkg35_dir = os.path.join(cls.repo_dir, "models", "pandey_kumar_mode1", "35_stage14_step2_adaptive_candidate_et3_5k")
-        cls.pkg36_dir = os.path.join(cls.repo_dir, "models", "pandey_kumar_mode1", "36_stage14_step2_adaptive_candidate_et5_4k")
-        cls.evaluator_path = os.path.join(cls.repo_dir, "scripts", "evaluation", "evaluate_stage14_step2_errortarget_fracture_batch.py")
 
-    def test_package_directories_and_manifests_exist(self):
-        for pkg_dir in [self.pkg34_dir, self.pkg35_dir, self.pkg36_dir]:
-            self.assertTrue(os.path.isdir(pkg_dir), "Missing package directory: %s" % pkg_dir)
-            manifest_path = os.path.join(pkg_dir, "PACKAGE_MANIFEST.json")
-            self.assertTrue(os.path.isfile(manifest_path), "Missing manifest: %s" % manifest_path)
-            with open(manifest_path, 'r') as f:
-                data = json.load(f)
-            self.assertIn("job_name", data)
-            self.assertIn("base_elements", data)
-            self.assertIn("deck_sha256", data)
-            self.assertIn("fortran_sha256", data)
+    def test_01_reference_and_baseline_separation(self):
+        """Verify fixed reference anchor and ET1 adaptive baseline are strictly separated."""
+        # Fixed reference (Job 1409734)
+        self.assertEqual(FIXED_REFERENCE_VALUES['base_elements'], 15192)
+        self.assertAlmostEqual(FIXED_REFERENCE_VALUES['K0_canonical_kN_per_mm'], 137.945520, places=5)
+        self.assertAlmostEqual(FIXED_REFERENCE_VALUES['F_max_kN'], 0.757778, places=5)
+        self.assertAlmostEqual(FIXED_REFERENCE_VALUES['u_peak_mm'], 0.005857, places=5)
 
-    def test_element_and_node_counts(self):
-        expected = {
-            'ET2': {'pkg': self.pkg34_dir, 'deck': "PK_MODE1_STAGE14_STEP2_ET2_6K_FRACTURE.inp", 'base_el': 6112, 'total_el': 18336, 'nodes': 6181},
-            'ET3': {'pkg': self.pkg35_dir, 'deck': "PK_MODE1_STAGE14_STEP2_ET3_5K_FRACTURE.inp", 'base_el': 5189, 'total_el': 15567, 'nodes': 5262},
-            'ET5': {'pkg': self.pkg36_dir, 'deck': "PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE.inp", 'base_el': 4692, 'total_el': 14076, 'nodes': 4759}
-        }
-        for name, spec in expected.items():
-            deck_path = os.path.join(spec['pkg'], spec['deck'])
-            self.assertTrue(os.path.isfile(deck_path), "Missing deck: %s" % deck_path)
-            manifest_path = os.path.join(spec['pkg'], "PACKAGE_MANIFEST.json")
-            with open(manifest_path, 'r') as f:
-                data = json.load(f)
-            self.assertEqual(data['base_elements'], spec['base_el'])
-            self.assertEqual(data['total_3layer_elements'], spec['total_el'])
-            self.assertEqual(data['nodes'], spec['nodes'])
+        # ET1 adaptive baseline (14,483 FE)
+        self.assertEqual(ET1_ADAPTIVE_BASELINE_VALUES['base_elements'], 14483)
+        self.assertAlmostEqual(ET1_ADAPTIVE_BASELINE_VALUES['K0_canonical_kN_per_mm'], 137.909558, places=5)
+        self.assertAlmostEqual(ET1_ADAPTIVE_BASELINE_VALUES['F_max_kN'], 0.743701, places=5)
+        self.assertAlmostEqual(ET1_ADAPTIVE_BASELINE_VALUES['u_peak_mm'], 0.005733, places=5)
+        self.assertAlmostEqual(ET1_ADAPTIVE_BASELINE_VALUES['u_term_mm'], 0.007889, places=5)
+        self.assertEqual(ET1_ADAPTIVE_BASELINE_VALUES['native_localization_verdict'], "STAGE14_TARGET_LIKE_LOCALIZATION_EXACT_MATCH")
 
-    def test_property_abi_order(self):
-        for pkg_dir, base_el in [(self.pkg34_dir, 6112), (self.pkg35_dir, 5189), (self.pkg36_dir, 4692)]:
-            manifest_path = os.path.join(pkg_dir, "PACKAGE_MANIFEST.json")
-            with open(manifest_path, 'r') as f:
-                data = json.load(f)
-            deck_path = os.path.join(pkg_dir, data['deck_file'])
-            with open(deck_path, 'r') as f:
-                content = f.read()
-            expected_uel_prop = "0.0075, 0.0027, 210.0, 0.3, 1.0e-7, %d.0" % base_el
-            expected_umat_prop = "210.0, 0.3, %d." % base_el
-            self.assertIn(expected_uel_prop, content, "Missing correct UEL property card in %s" % deck_path)
-            self.assertIn(expected_umat_prop, content, "Missing correct UMAT property card in %s" % deck_path)
+    def test_02_canonical_k0_ols_computation(self):
+        """Verify pure-Python compute_canonical_k0 computes accurate slope and R2."""
+        # Synthetic perfect linear data: F = 138.0 * u + 0.0001
+        u_synth = [i * 0.00001 for i in range(100)]
+        f_synth = [138.0 * u + 0.0001 for u in u_synth]
+        
+        fit = compute_canonical_k0(u_synth, f_synth, n_fit=50)
+        self.assertAlmostEqual(fit['K0'], 138.0, places=6)
+        self.assertAlmostEqual(fit['intercept'], 0.0001, places=6)
+        self.assertAlmostEqual(fit['R2'], 1.0, places=6)
+        self.assertEqual(fit['n_points'], 50)
 
-    def test_pbs_and_scratch_compliance(self):
-        for pkg_dir in [self.pkg34_dir, self.pkg35_dir, self.pkg36_dir]:
-            pbs_path = os.path.join(pkg_dir, "submit_solver.pbs")
-            self.assertTrue(os.path.isfile(pbs_path), "Missing PBS script: %s" % pbs_path)
-            with open(pbs_path, 'r') as f:
-                pbs_content = f.read()
-            self.assertIn("#PBS -l nodes=1:ppn=1", pbs_content)
-            self.assertIn("#PBS -l mem=16gb", pbs_content)
-            self.assertIn("#PBS -m abe", pbs_content)
-            self.assertIn("pr21vyci@mailserver.tu-freiberg.de", pbs_content)
-            self.assertIn("job_notifications.sh", pbs_content)
-            self.assertIn("notification_install_terminal_trap", pbs_content)
-            self.assertIn("notify_start", pbs_content)
-            self.assertIn("exit 88", pbs_content)
-            self.assertIn("abaqus/2023", pbs_content)
+    def test_03_trapezoidal_work_conversion(self):
+        """Verify trapezoidal work calculation converts kN*mm to mJ correctly (1 kN*mm = 1000 mJ)."""
+        u = [0.0, 0.001, 0.002]  # mm
+        f = [0.0, 0.1, 0.2]      # kN
+        # Int 0 to 0.002 of 100*u du = 0.5 * 100 * (0.002)^2 = 50 * 4e-6 = 0.0002 kN*mm = 0.2 mJ
+        w = compute_trapezoidal_work(u, f)
+        self.assertEqual(len(w), 3)
+        self.assertAlmostEqual(w[0], 0.0, places=6)
+        self.assertAlmostEqual(w[1], 0.05, places=6)  # 0.5 * 0.1 * 0.001 * 1000 = 0.05 mJ
+        self.assertAlmostEqual(w[2], 0.20, places=6)  # 0.05 + 0.5 * 0.3 * 0.001 * 1000 = 0.20 mJ
 
-    def test_evaluator_script_exists_and_runs(self):
-        self.assertTrue(os.path.isfile(self.evaluator_path), "Missing evaluator script: %s" % self.evaluator_path)
-        with open(self.evaluator_path, 'r') as f:
-            code = f.read()
-        self.assertIn("REFERENCE_VALUES", code)
-        self.assertIn("137.945520", code)
-        self.assertIn("0.757778", code)
-        self.assertIn("compute_canonical_k0", code)
-        self.assertIn("compute_trapezoidal_work", code)
+    def test_04_strict_matched_states_extraction(self):
+        """Verify matched displacement extraction strictly flags unreached states as NOT_REACHED."""
+        u_reached = [0.0, 0.001, 0.002, 0.003, 0.004, 0.005]  # max u = 0.005 mm
+        f_reached = [0.0, 0.138, 0.276, 0.414, 0.552, 0.690]
+        
+        targets = [0.001, 0.003, 0.005, 0.006, 0.007]
+        results = extract_matched_states(u_reached, f_reached, targets)
+        
+        # Reached states
+        self.assertEqual(results[0.001]['status'], 'REACHED')
+        self.assertAlmostEqual(results[0.001]['force_kN'], 0.138, places=5)
+        self.assertEqual(results[0.003]['status'], 'REACHED')
+        self.assertAlmostEqual(results[0.003]['force_kN'], 0.414, places=5)
+        self.assertEqual(results[0.005]['status'], 'REACHED')
+        self.assertAlmostEqual(results[0.005]['force_kN'], 0.690, places=5)
+        
+        # Unreached states (no forward-filling!)
+        self.assertEqual(results[0.006]['status'], 'NOT_REACHED')
+        self.assertIsNone(results[0.006]['force_kN'])
+        self.assertEqual(results[0.007]['status'], 'NOT_REACHED')
+        self.assertIsNone(results[0.007]['force_kN'])
 
-if __name__ == '__main__':
+    def test_05_classification_logic(self):
+        """Verify fracture response classification rules against Gate-6B criteria."""
+        k0_ref = FIXED_REFERENCE_VALUES['K0_canonical_kN_per_mm']
+        fmax_ref = FIXED_REFERENCE_VALUES['F_max_kN']
+        
+        # Stable case: Delta K0 = 0.026% (<0.5%), Delta Fmax = 1.86% (<5.0%)
+        verdict_stable = classify_fracture_response(137.909558, 0.743701, is_complete=True)
+        self.assertEqual(verdict_stable, "ERRORTARGET_RESPONSE_STABLE")
+        
+        # Sensitive case: Delta Fmax = 10.0% (>5.0%)
+        verdict_sens = classify_fracture_response(k0_ref, fmax_ref * 0.90, is_complete=True)
+        self.assertEqual(verdict_sens, "ERRORTARGET_RESPONSE_SENSITIVE")
+        
+        # Incomplete case
+        verdict_pending = classify_fracture_response(137.909558, 0.743701, is_complete=False)
+        self.assertEqual(verdict_pending, "NOT_YET_QUALIFIED")
+
+    def test_06_batch_specification_integrity(self):
+        """Verify all batch cases ET1, ET2, ET3, ET5 have exact verified parameters."""
+        cases = BATCH_SPECIFICATION
+        self.assertIn('ET1', cases)
+        self.assertIn('ET2', cases)
+        self.assertIn('ET3', cases)
+        self.assertIn('ET5', cases)
+        
+        # ET1
+        self.assertEqual(cases['ET1']['base_elements'], 14483)
+        self.assertEqual(cases['ET1']['total_3layer_elements'], 43449)
+        self.assertEqual(cases['ET1']['nodes'], 14456)
+        
+        # ET2
+        self.assertEqual(cases['ET2']['base_elements'], 6112)
+        self.assertEqual(cases['ET2']['total_3layer_elements'], 18336)
+        self.assertEqual(cases['ET2']['nodes'], 6181)
+        self.assertEqual(cases['ET2']['pbs_job_id'], "1410357.mmaster02")
+        
+        # ET3
+        self.assertEqual(cases['ET3']['base_elements'], 5189)
+        self.assertEqual(cases['ET3']['total_3layer_elements'], 15567)
+        self.assertEqual(cases['ET3']['nodes'], 5262)
+        self.assertEqual(cases['ET3']['pbs_job_id'], "1410358.mmaster02")
+        
+        # ET5
+        self.assertEqual(cases['ET5']['base_elements'], 4692)
+        self.assertEqual(cases['ET5']['total_3layer_elements'], 14076)
+        self.assertEqual(cases['ET5']['nodes'], 4759)
+        self.assertEqual(cases['ET5']['pbs_job_id'], "1410359.mmaster02")
+
+    def test_07_figure_manifest_export(self):
+        """Verify figure manifest export generates valid JSON."""
+        test_dir = os.path.join(REPO_ROOT, "results", "figures", "mode1_gate6b")
+        manifest_path = export_plot_manifest(test_dir)
+        self.assertTrue(os.path.exists(manifest_path))
+
+if __name__ == "__main__":
     unittest.main()

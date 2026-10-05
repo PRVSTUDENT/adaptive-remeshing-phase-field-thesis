@@ -254,3 +254,46 @@ Scientific Classification & \textbf{\texttt{TARGET\_LIKE}} & \textbf{\texttt{AWA
   \item \textbf{3-Layer UEL Fracture Batch Execution (Jobs 1410357, 1410358, 1410359):} To determine whether the relaxed corridor refinement in ET2 ($6{,}112$ FE), ET3 ($5{,}189$ FE), and ET5 ($4{,}692$ FE) produces a converged mechanical and energetic fracture solution, deterministic 3-layer UEL/UMAT input decks were reconstructed using the verified property cards ($l_0=0.0075\,\mathrm{mm}, G_c=0.0027\,\mathrm{kN/mm}, E=210\,\mathrm{GPa}, \nu=0.3, k=10^{-7}, N_{\mathrm{base}}$), qualified via preflight Abaqus datachecks (Exit 0), and submitted to PBS on \texttt{/scratch9/} under serial 1-CPU execution (Jobs \texttt{1410357.mmaster02}, \texttt{1410358.mmaster02}, \texttt{1410359.mmaster02}).
 \end{enumerate}
 
+
+
+\subsubsection{Predeclared Fracture Evaluation Matrix and Active Batch Status}
+
+To independently evaluate whether the relaxed corridor refinement in the coarse candidates produces an acceptable mechanical fracture response, the four cases are evaluated against the qualified fixed-mesh reference and the ET1 production baseline according to the predeclared Gate-6B criteria:
+\begin{itemize}
+  \item \textbf{Initial Elastic Stiffness ($K_0$):} Canonical OLS fit over $N=400$ increments ($u \le 0.0010\,\mathrm{mm}$). Classification is \texttt{STABLE} if $|\Delta K_0| \le 0.50\%$.
+  \item \textbf{Peak Reaction Force ($F_{\max}$):} Pointwise force peak and corresponding displacement $u(F_{\max})$. Classification is \texttt{STABLE} if $|\Delta F_{\max}| \le 5.0\%$.
+  \item \textbf{Matched-Displacement Sampling:} Pointwise force and energetic extraction at $u \in \{0.0010, 0.0030, 0.0050, 0.005733, 0.005857, 0.0060, 0.0065, 0.0070\}\,\mathrm{mm}$ with strict zero forward-filling.
+  \item \textbf{Fracture Functional ($E_{\mathrm{frac}}$):} Total phase-field crack-surface energy at terminal broken state.
+  \item \textbf{Bookkeeping Residual ($\varepsilon_{\mathrm{book}}$):} Energy identity residual $|W_{\mathrm{ext}} - E_{\mathrm{elas}} - E_{\mathrm{frac}}| / W_{\mathrm{ext}}$.
+\end{itemize}
+
+Table~\ref{tab:step2_fracture_batch_status} summarizes the active batch execution and evaluation status across the four error targets.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Stage-14 Step-2 errorTarget fracture batch execution status and predeclared comparison matrix.}
+\label{tab:step2_fracture_batch_status}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Case Identifier} & \textbf{ET1 ($1.0\%$)} & \textbf{ET2 ($2.0\%$)} & \textbf{ET3 ($3.0\%$)} & \textbf{ET5 ($5.0\%$)} \\
+\midrule
+Base Elements ($N_{\mathrm{base}}$) & $14{,}483$ & $6{,}112$ & $5{,}189$ & $4{,}692$ \\
+Total 3-Layer Elements ($N_{\mathrm{tot}}$) & $43{,}449$ & $18{,}336$ & $15{,}567$ & $14{,}076$ \\
+Total Nodes ($N_{\mathrm{nodes}}$) & $14{,}456$ & $6{,}181$ & $5{,}262$ & $4{,}759$ \\
+PBS Job ID & \texttt{1409982.mmaster02} & \texttt{1410357.mmaster02} & \texttt{1410358.mmaster02} & \texttt{1410359.mmaster02} \\
+Execution Mode & Serial 1-CPU & Serial 1-CPU & Serial 1-CPU & Serial 1-CPU \\
+Scratch Path & \texttt{/scratch9/...} & \texttt{/scratch9/...} & \texttt{/scratch9/...} & \texttt{/scratch9/...} \\
+Datacheck Result & Exit 0 (Passed) & Exit 0 (Passed) & Exit 0 (Passed) & Exit 0 (Passed) \\
+Native Mesh Verdict & \texttt{TARGET\_LIKE} & \texttt{AWAY\_FROM\_TARGET} & \texttt{AWAY\_FROM\_TARGET} & \texttt{AWAY\_FROM\_TARGET} \\
+Corridor Share ($|y-0.5| \le 0.05\,\mathrm{mm}$) & $64.12\%$ & $41.07\%$ & $34.59\%$ & $27.51\%$ \\
+Initial Stiffness $K_0$ [kN/mm] & $137.909558$ ($-0.026\%$) & \textit{Evaluating...} & \textit{Evaluating...} & \textit{Evaluating...} \\
+Peak Reaction Force $F_{\max}$ [kN] & $0.743701$ ($-1.858\%$) & \textit{Evaluating...} & \textit{Evaluating...} & \textit{Evaluating...} \\
+Peak Displacement $u(F_{\max})$ [mm] & $0.005733$ & \textit{Evaluating...} & \textit{Evaluating...} & \textit{Evaluating...} \\
+Terminal Displacement $u_{\mathrm{term}}$ [mm] & $0.007889$ & \textit{Evaluating...} & \textit{Evaluating...} & \textit{Evaluating...} \\
+Fracture Functional $E_{\mathrm{frac}}$ [mJ] & $2.285469$ & \textit{Evaluating...} & \textit{Evaluating...} & \textit{Evaluating...} \\
+Bookkeeping Residual $\varepsilon_{\mathrm{book}}$ & $1.1048\%$ & \textit{Evaluating...} & \textit{Evaluating...} & \textit{Evaluating...} \\
+Fracture Response Status & \textbf{\texttt{RESPONSE\_STABLE}} & \textbf{\texttt{RUNNING / PENDING}} & \textbf{\texttt{RUNNING / PENDING}} & \textbf{\texttt{RUNNING / PENDING}} \\
+\bottomrule
+\end{tabular}
+\end{table}

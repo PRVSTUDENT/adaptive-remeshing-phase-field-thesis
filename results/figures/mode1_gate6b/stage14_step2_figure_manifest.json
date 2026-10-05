@@ -1,0 +1,51 @@
+{
+  "figures": [
+    {
+      "id": "fig_mode1_stage14_step2_fu_comparison",
+      "title": "Mode-I Reaction Force vs Displacement: errorTarget Sensitivity (ET=1%, 2%, 3%, 5%)",
+      "x_axis": "Displacement $u$ [mm]",
+      "y_axis": "Reaction Force $F$ [kN]",
+      "series": [
+        "Fixed Reference S1 (15,192 FE)",
+        "ET=1.0% Adaptive (14,483 FE, Target-Like)",
+        "ET=2.0% Adaptive (6,112 FE)",
+        "ET=3.0% Adaptive (5,189 FE)",
+        "ET=5.0% Adaptive (4,692 FE)"
+      ]
+    },
+    {
+      "id": "fig_mode1_stage14_step2_metrics_summary",
+      "title": "Mode-I Multi-Quantity Mechanical Metrics vs errorTarget Refinement",
+      "subpanels": [
+        "Initial Structural Stiffness $K_0$ [kN/mm]",
+        "Peak Reaction Force $F_{\\max}$ [kN]",
+        "Peak Displacement $u(F_{\\max})$ [mm]",
+        "Broken-State Functional $E_{\\mathrm{frac}}$ [mJ]"
+      ]
+    },
+    {
+      "id": "fig_mode1_stage14_step2_matched_phase_profiles",
+      "title": "Ligament Phase-Field Profiles $d(x, y=0.5\\,\\mathrm{mm})$ at Matched Displacements",
+      "matched_displacements_mm": [
+        0.001,
+        0.003,
+        0.005,
+        0.005733,
+        0.005857,
+        0.006,
+        0.0065,
+        0.007
+      ]
+    },
+    {
+      "id": "fig_mode1_stage14_step2_energy_partitioning",
+      "title": "Energy Components and Bookkeeping Residual Evolution",
+      "components": [
+        "External Work $W_{\\mathrm{ext}}$",
+        "Fracture Functional $E_{\\mathrm{frac}}$",
+        "Elastic Energy $E_{\\mathrm{elas}}$",
+        "Bookkeeping Residual $\\varepsilon_{\\mathrm{book}}$ [\\%]"
+      ]
+    }
+  ]
+}
