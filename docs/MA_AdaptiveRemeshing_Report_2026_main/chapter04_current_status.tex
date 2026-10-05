@@ -3234,7 +3234,7 @@ Adaptive remeshing was executed across $\eta_{\mathrm{target}} \in \{1.0\%, 2.0\
 
 Figure~\ref{fig:stage14uap_plate_with_hole_remeshing} demonstrates that the native remesher automatically identifies both lateral stress concentration lobes and refines them symmetrically without manual partitioning, submodeling, or prior user biasing.
 
-\subsection{Quantitative Synthesis and Verification Verdict}
+\subsection{Quantitative Synthesis and Summary}
 \label{subsec:stage14uap_synthesis_table}
 
 Table~\ref{tab:stage14uap_synthesis_summary} summarizes the key metrics from both parametric error sweeps.
@@ -3261,4 +3261,18 @@ Plate with Hole ($\eta = 5.0\%$) & $5.0\%$ & $1{,}043$  & $9.062$ & $17.26$ & $3
 \end{tabularx}
 \end{table}
 
-\textbf{Stage 14U-AP Verdict:} The Abaqus native error-guided remeshing engine is fully qualified and verified both on the singular crack-ligament pre-analysis field and on classical non-singular continuum stress concentrations. Refinement patterns are strictly deterministic, geometrically symmetric, and accurately localized to physical stress gradient zones across all tested error tolerances.
+\subsection{Epistemic Attribution: Native Sizing Mechanics vs. Phase-Field Preanalysis Coupling}
+\label{subsec:stage14uap_epistemic_attribution}
+
+A critical scientific distinction must be drawn between the mathematical sizing mechanics of the Abaqus native adaptive remesher and the constitutive information fed into it from the phase-field fracture problem:
+\begin{enumerate}
+  \item \textbf{Decoupled Remesher Verification:} The independent linear-elastic plate-with-hole benchmark contains no user subroutines (\texttt{UEL}), no damage variable ($d$), no history fields ($\mathcal{H}$), and no crack kinematics. The stress concentration is governed purely by the classical Kirsch solution. The observation that $\mathrm{MISESERI}$ peaks symmetrically at the lateral hole flanks and drives strictly bilateral mesh refinement ($>92.0-98.0\%$ symmetry ratio) proves conclusively that the native Abaqus remeshing algorithm is functioning correctly as a standalone error-guided sizing tool.
+  \item \textbf{Coupled Workflow Verification:} When coupled to the corrected Mode-I phase-field workflow, the pre-analysis companion state generates an error indicator field that correctly reflects the crack-tip stress singularity and ligament degradation. Consequently, the remesher concentrates fine discretizations exclusively along the horizontal crack propagation plane ($y = 0.500\,\mathrm{mm} \pm 0.005\,\mathrm{mm}$) across all error targets ($\eta \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$), demonstrating the causal chain:
+  \begin{equation}
+    \text{PFF State} \;\longrightarrow\; \text{Companion Stress Field} \;\longrightarrow\; \text{MISESERI} \;\longrightarrow\; \text{Corridor Refinement}
+  \end{equation}
+  \item \textbf{Scientific Attribution of Historical Meshes:} The historical generation of overly dense or diffuse meshes (such as the $71{,}320$-element mesh under $\eta_{\mathrm{target}} = 1.0\%$) was therefore not caused by a failure of the Abaqus adaptive remeshing algorithm itself. Rather, it stemmed directly from the pre-analysis input state: the uncorrected boundary-condition history ($N_{\mathrm{BOTTOM}}$ node truncation) and the pre-analysis companion stress representation. The element count of $71{,}320$ was a rigorous $\eta_{\mathrm{target}} = 1.0\%$ sensitivity result under an uncorrected stress field, rather than proof of an algorithmic breakdown in the remesher.
+\end{enumerate}
+
+\paragraph{Defensible Scientific Conclusion for Thesis \& Supervisor Review:}
+\textit{An independent linear-elastic benchmark confirms that the Abaqus $\mathrm{MISESERI}$-driven native remeshing procedure correctly localizes refinement in regions of known stress-error concentration without involvement of the phase-field UEL. The corrected Mode-I benchmark further demonstrates that, when coupled to the present phase-field workflow, the same remeshing procedure localizes refinement along the expected crack-propagation region. Therefore, the earlier diffuse/over-refined meshes are attributed to the preceding Mode-I preanalysis/coupling configuration rather than to a failure of the Abaqus adaptive-remeshing algorithm itself.}
