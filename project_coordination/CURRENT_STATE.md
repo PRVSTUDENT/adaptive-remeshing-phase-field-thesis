@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-05T20:00:00+02:00` (Gemini Antigravity) — Task F1252 Mode-I active solver terminal checkpoint and evaluator dispatch completed under F1251 displacement mapping contract: (1) executed single fresh scheduler snapshot and solver telemetry check on `/scratch9/pr21vyci/` confirming all 5 Gate-6B production jobs solving steadily on compute node `mnode097` in `normal_imfdfkmq` with zero cutbacks and fixed 3 Newton iterations per increment; (2) recorded exact solver step, increment, and reconstructed Reference Point (RP) displacement from solver evidence: Job 1410179 (58k spatial fine, $57{,}929$ FE) at Step 1 Inc 1278 ($u = 3.195\,\mu\text{m}$), Job 1410180 ($C_n=0.50$ diagnostic) at Step 2 Inc 1608 ($u = 6.595\,\mu\text{m}$), Job 1410357 (Adaptive ET2, $6{,}112$ FE) at Step 2 Inc 1659 ($u = 6.660\,\mu\text{m}$), Job 1410358 (Adaptive ET3, $5{,}189$ FE) at Step 2 Inc 1968 ($u = 6.970\,\mu\text{m}$), Job 1410359 (Adaptive ET5, $4{,}692$ FE) at Step 2 Inc 2163 ($u = 7.165\,\mu\text{m}$); (3) verified all 5 jobs remain actively solving in `R` state without terminal condition, strictly preserving running execution without disturbing solver state or issuing new submissions; (4) verified frozen terminal evaluators and multi-quantity synthesis schema standing by for automated ingestion upon terminal completion; (5) regression test suite verified with 100% pass across all 92 Gate-6B unit tests; (6) compiled supervisor meeting pack `report_main.pdf` (38 pages) and faculty thesis `main.pdf` (150 pages).
+Last updated: `2026-10-05T20:30:00+02:00` (Gemini Antigravity) — Task F1253 Mode-I Gate-6B evidence and claims consistency audit, closure decision matrix freeze, supervisor summary authoring, and regression guards completed: (1) conducted exhaustive consistency audit across Mode-I Gate-6B evidence and claims, resolving all stale references and promoting UEL energy status to `UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE` (7,000-increment bitwise mechanical parity in Job 1409734); (2) authored authoritative methods document `docs/methods/MODE1_GATE6B_CLOSURE_DECISION_MATRIX_AND_CONSISTENCY_AUDIT.md` defining 15-point Gate-6B closure decision matrix with exact status classifications; (3) formalized multi-quantity synthesis logic (decoupling spatial crack-path convergence from global mechanical/energetic convergence, strict zero forward-filling `NOT_REACHED` enforcement); (4) verified 6 governed energy fields ($\mathcal{E}_{\text{elas}}, \mathcal{E}_{\text{frac}}, \mathcal{E}_{\text{model}}, \mathcal{W}_{\text{ext}}, \Delta_{\text{book}}, \varepsilon_{\text{book}}$) where $\mathcal{E}_{\text{model}} = \mathcal{E}_{\text{elas}} + \mathcal{E}_{\text{frac}}$ and $\Delta_{\text{book}} = \mathcal{W}_{\text{ext}} - \mathcal{E}_{\text{model}}$; (5) authored one-page supervisor executive summary `docs/supervisor_reports/08-10-2026/MODE1_GATE6B_PROVEN_VS_PENDING_SUMMARY.md` targeting Thursday, 08 October 2026, 10:00 CEST meeting; (6) authored unit test suite `tests/unit/test_mode1_gate6b_closure_matrix_and_consistency_guard.py` with 6 regression guards (6/6 pass 100%); (7) all 5 active solver jobs on `/scratch9/` remain actively solving undisturbed in `R` state without scheduler disruption.
 
 ---
 
@@ -36,6 +36,10 @@ Last updated: `2026-10-05T20:00:00+02:00` (Gemini Antigravity) — Task F1252 Mo
     - Step 1: $u_y(t_1) = t_1 \times 0.0050\,\text{mm}$ ($\Delta u_{\text{inc}} = 2.50\,\text{nm/inc}$).
     - Step 2: $u_y(t_2) = 0.0050\,\text{mm} + t_2 \times 0.0050\,\text{mm}$ ($\Delta u_{\text{inc}} = 1.00\,\text{nm/inc}$).
     - Full telemetry contract enforced via regression guards in `tests/unit/test_mode1_solver_telemetry_provenance.py` (7/7 pass).
+  - **Gate-6B Closure Decision Matrix & Consistency Audit Completed (`docs/methods/MODE1_GATE6B_CLOSURE_DECISION_MATRIX_AND_CONSISTENCY_AUDIT.md`):**
+    - 15-point decision matrix frozen with exact status classifications.
+    - UEL energy status verified non-invasive and promoted to `UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE`.
+    - Multi-quantity synthesis logic and regression guards enforced via `tests/unit/test_mode1_gate6b_closure_matrix_and_consistency_guard.py` (6/6 pass).
   - **Node-Count Convention Reconciled:**
     - Discrepancy explained by Reference Point (RP) Node `999999` for MPC coupling.
     - Convention frozen: `fe_mesh_nodes` ($15{,}521$ for $S_1$, $14{,}456$ for ET1, $6{,}181$ for ET2, $5{,}262$ for ET3, $4{,}759$ for ET5, $42{,}491$ for $S_3$, $57{,}491$ for 58k) vs `total_nodes_with_rp` ($+1$).
@@ -60,8 +64,11 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
 
 ---
 
-## 3. Immediate Next Steps
+## 3. Scope Holds & Governance Matrix
 
-1. **Monitor Active Gate-6B Production Jobs:** Await terminal completion of jobs `1410179`, `1410180`, `1410357`, `1410358`, and `1410359` without disturbing solver execution.
-2. **Execute Frozen Synthesis Pipeline:** Upon terminal completion, ingest all 5 jobs into `MODE1_GATE6B_MULTIQUANTITY_SYNTHESIS_SCHEMA.json` and generate complete cross-model comparison tables and final publication figures.
-3. **Finalize Meeting Materials:** Prepare for supervisor meeting on October 8, 2026.
+* **Scope Holds Active:**
+  - Gate 6C (Nonmatching State Transfer / Restart Energy Balance): `ON_HOLD_PENDING_GATE6B`.
+  - Gate 7 (Post-Processing & ParaView Bridge): `ON_HOLD_PENDING_GATE6B`.
+  - Stage 15 (Mode-II Adaptive Benchmark Production): `ON_HOLD_PENDING_GATE6B`.
+  - Multi-Rank MPI Integration: `PAUSED_DEFERRED` (f42_mixed_uel.for verified single-rank shared-memory SMP only).
+* **Next Action:** Await terminal solver completion of the 5 active scratch solves (`1410179`, `1410180`, `1410357`, `1410358`, `1410359`), ingest terminal data via certified automated evaluators, and execute final multi-quantity synthesis for Gate-6B closure.

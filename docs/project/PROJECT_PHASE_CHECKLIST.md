@@ -1,4 +1,4 @@
-﻿# Master Thesis Project Phase Checklist
+# Master Thesis Project Phase Checklist
 
 ## SUPERVISOR-ALIGNED MASTER GATE DASHBOARD (MODE-I BENCHMARK ROADMAP)
 
@@ -23,7 +23,7 @@
 | **Gate 4** | Native Python Refinement Implementation | **CLOSED_VERIFIED** | Automated `RemeshingRule` and `adaptiveRemesh` workflow verified. |
 | **Gate 5** | Native-Remesh Reproduction (71k vs 14k) | **SUPERVISOR_ACCEPTED_LIMITATION_CLOSED** | Supervisor accepted missing publication information boundary; sensitivity trends documented. |
 | **Gate 6A** | Mechanical Mode-I Implementation | **RESOLVED_AND_CLOSED** | N_BOTTOM 16-entry card limit defect identified and resolved with wrapped cards (Jobs 1405044, 1404933). |
-| **Gate 6B** | Mode-I Energetic & Convergence Qualification | **ACTIVE_EVALUATION_AND_CONTINUATION** | UEL energy audit complete; governed source SHA-256 `5CD0D2C0...`; $S_1 \to S_4$ spatial convergence qualified ($+1.56\%$); `GLOBAL_ENERGY_IDENTITY — NOT_YET_CLOSED`; Job 1409577 running in background; candidate Step-2 verification Job 1409585 running. |
+| **Gate 6B** | Mode-I Energetic & Convergence Qualification | **ACTIVE_EVALUATION_AND_CONTINUATION** | UEL energy formulation & mechanical parity qualified (source `CE8D5EDC...`, Job 1409734); temporal pre-peak stable, post-peak sensitive (Jobs 1409982 vs 1410027); baseline spatial comparison qualified (F1247); clean single-variable $l_0$ sensitivity qualified on $S_3$ (F1249); active scratch solves running (Jobs 1410179, 1410180, 1410357-1410359). |
 | **Gate 6C** | Mode-I State-Transfer Energy Preservation | **NOT_YET_PERFORMED_PENDING_GATE_6B** | Blocked until supervisor review and decision on Gate 6B. |
 | **Gate 7** | ABAQUSER Integration / Visualization | **ON_HOLD** | Blocked on external ABAQUSER dependency until Mode-I fundamentals qualified. |
 | **Gate 8** | Higher-Complexity Benchmarks | **ON_HOLD** | Mode-II, mixed mode, and complex geometries held until Mode-I qualified. |
