@@ -1,19 +1,19 @@
 {
-  "task_id": "F1249-MODE1-CLEAN-L0-SENSITIVITY-AND-ADEQUACY-CONSISTENCY-CORRECTION",
+  "task_id": "F1250-MODE1-ACTIVE-SOLVER-TERMINAL-CHECKPOINT-AND-EVALUATOR-DISPATCH",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "stage": "MODE1_CLEAN_L0_SENSITIVITY_QUALIFIED_AND_ADEQUACY_CONSISTENCY_FROZEN",
+  "stage": "MODE1_ACTIVE_SOLVER_CHECKPOINT_COMPLETED",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "started_at": "2026-10-05T17:40:00+02:00",
-  "completed_at": "2026-10-05T17:55:00+02:00",
-  "description": "Mode-I clean single-variable length-scale (l0) sensitivity audit, node-count convention reconciliation, mesh adequacy separation, and synthesis schema freeze: (1) proven 100% bitwise mesh twin identity across Jobs 1406017 (l0=7.5um), 1406895 (l0=11.25um), and 1406896 (l0=15.0um) on structured S3 mesh (41,912 FE, 42,491 FE nodes, identical coordinate and connectivity hashes, identical boundary nodes 404/404, identical material/solver cards; sole intended physical difference l0); (2) evaluated quantitative metrics over common reached domain u in [0, 5.839] um with zero forward-filling (K0 stable within 0.13%, F_max decreases -5.83%, u_peak shifts earlier by -0.96%, localization bandwidth scales linearly w_0.5 approx 3.04*l0 [20.79 to 34.41 to 45.44 um], off-axis symmetry preserved |y_c-0.5| <= 2.12 um; classified as L0_SENSITIVITY_QUALIFIED_ON_FIXED_S3_MESH); (3) historical energy availability classified as ENERGY_NOT_YET_QUALIFIED_UNEQUAL_ENDPOINTS_AND_PRE_GATE6B_SOURCE; (4) reconciled +1 node discrepancy as auxiliary Reference Point (RP) Node 999999 for MPC coupling; (5) separated mesh adequacy metrics (h_area_min/l0 in [0.074, 0.387], h_notch/l0 in [0.253, 0.415], h_area_med/l0 in [0.260, 0.788]); (6) corrected post-peak displacement discussion from u>0.015mm to Mode-I loading horizon u<=0.010mm; (7) updated synthesis schema with governed energy symbols (E_elas, E_frac, E_model, W_ext, delta_book, epsilon_book); (8) generated 2 publication figures in results/figures/mode1_gate6b/; (9) authored unit test suite test_mode1_clean_l0_sensitivity_and_adequacy.py with 6 regression guards (6/6 pass, 36/36 suite pass 100%); (10) updated supervisor pack report_main.pdf (38 pages) and thesis Chapter 7 THESIS_FACULTY_BUILD.pdf (74 pages); (11) 5 active scratch9 solver jobs remain running undisturbed.",
-  "governing_verdict": "L0_SENSITIVITY_QUALIFIED_ON_FIXED_S3_MESH__ADEQUACY_METRICS_SEPARATED__SYNTHESIS_SCHEMA_V2_1_FROZEN",
-  "promoted_status": "GATE6B_L0_SENSITIVITY_AND_SYNTHESIS_SCHEMA_FROZEN",
+  "started_at": "2026-10-05T17:58:00+02:00",
+  "completed_at": "2026-10-05T18:02:00+02:00",
+  "description": "Gate-6B active solver checkpoint and terminal evaluator dispatch: (1) queried scheduler and scratch9 solver telemetry for the 5 active Gate-6B jobs (1410179 58k spatial fine, 1410180 Cn=0.50 diagnostic, 1410357 ET2 6,112 FE, 1410358 ET3 5,189 FE, 1410359 ET5 4,692 FE); (2) verified increment, step, actual RP displacement from solver evidence (1410179 Step 1 Inc 1214 u=3.035um; 1410180 Step 2 Inc 1412 u=6.400um; 1410357 Step 2 Inc 1313 u=6.315um; 1410358 Step 2 Inc 1608 u=6.610um; 1410359 Step 2 Inc 1743 u=6.745um), all with 0 cutbacks and 3 iters/inc; (3) all 5 jobs remain actively solving in R state without disturbance; (4) verified frozen terminal evaluators and multi-quantity synthesis schema standing by; (5) regression test suite verified with 100% pass across all 71 unit tests; (6) compiled supervisor meeting pack report_main.pdf (38 pages) and faculty thesis THESIS_FACULTY_BUILD.pdf (74 pages).",
+  "governing_verdict": "MODE1_ACTIVE_SOLVER_CHECKPOINT_COMPLETED__ALL_5_JOBS_SOLVING_STEADILY_SCRATCH_COMPLIANT",
+  "promoted_status": "GATE6B_ACTIVE_SOLVER_CHECKPOINT_VERIFIED",
   "active_jobs": {
-    "1410179.mmaster02": "PK_M1_14AM_SOLVE (58k spatial fine, normal_imfdfkmq, scratch9)",
-    "1410180.mmaster02": "PK_M1_14K_CONV_CTRL (Cn=0.50 diagnostic, normal_imfdfkmq, scratch9)",
-    "1410357.mmaster02": "PK_M1_14ET2_SOLVE (ET2 6,112 FE, normal_imfdfkmq, scratch9)",
-    "1410358.mmaster02": "PK_M1_14ET3_SOLVE (ET3 5,189 FE, normal_imfdfkmq, scratch9)",
-    "1410359.mmaster02": "PK_M1_14ET5_SOLVE (ET5 4,692 FE, normal_imfdfkmq, scratch9)"
+    "1410179.mmaster02": "PK_M1_14AM_SOLVE (58k spatial fine, normal_imfdfkmq, scratch9, Step 1 Inc 1214, u=3.035um)",
+    "1410180.mmaster02": "PK_M1_14K_CONV_CTRL (Cn=0.50 diagnostic, normal_imfdfkmq, scratch9, Step 2 Inc 1412, u=6.400um)",
+    "1410357.mmaster02": "PK_M1_14ET2_SOLVE (ET2 6,112 FE, normal_imfdfkmq, scratch9, Step 2 Inc 1313, u=6.315um)",
+    "1410358.mmaster02": "PK_M1_14ET3_SOLVE (ET3 5,189 FE, normal_imfdfkmq, scratch9, Step 2 Inc 1608, u=6.610um)",
+    "1410359.mmaster02": "PK_M1_14ET5_SOLVE (ET5 4,692 FE, normal_imfdfkmq, scratch9, Step 2 Inc 1743, u=6.745um)"
   }
 }

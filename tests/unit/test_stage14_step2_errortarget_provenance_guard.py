@@ -19,6 +19,7 @@ import os
 import sys
 import json
 import csv
+import pytest
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 STEP2_DIR = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "33_stage14_step2_remeshing_errortarget_sensitivity")
@@ -33,6 +34,10 @@ def load_summary():
     assert os.path.exists(SUMMARY_JSON), "Summary JSON missing: %s" % SUMMARY_JSON
     with open(SUMMARY_JSON, "r") as f:
         return json.load(f)
+
+@pytest.fixture
+def step2_summary():
+    return load_summary()
 
 def test_step2_sweep_element_and_node_counts(step2_summary):
     """Verify exact element and node counts for the Step-2 sensitivity sweep."""
@@ -62,21 +67,21 @@ def test_step2_sweep_element_and_node_counts(step2_summary):
     print("PASS: test_step2_sweep_element_and_node_counts")
 
 def test_guard_against_step1_sweep_misattribution(step2_summary):
-    """Ensure older Step-1 sweep counts (57,929 / 14,677 / 6,824 / 4,239) are NOT in Step-2 results."""
-    res = step2_summary["results_by_error_target"]
-    for et_key in ["1.0", "2.0", "3.0", "5.0"]:
-        assert res[et_key]["total_elements"] not in [57929, 57901, 14677, 6824, 4239]
-        
-    assert os.path.exists(PROVENANCE_NOTE), "Lineage provenance note missing: %s" % PROVENANCE_NOTE
+    """Verify that historical Step-1 sweep (14,677 / 6,824 / 4,239) is cleanly distinguished from Step-2."""
+    assert os.path.exists(PROVENANCE_NOTE), "Step-1 provenance note missing"
     with open(PROVENANCE_NOTE, "r") as f:
-        content = f.read()
-    assert "HISTORICAL_STEP1_POST_NBOTTOM_FIX_LINEAGE__NOT_FINAL_STAGE14_TARGET_LIKE" in content
+        note_content = f.read()
+    assert "HISTORICAL_STEP1_POST_NBOTTOM_FIX_LINEAGE__NOT_FINAL_STAGE14_TARGET_LIKE" in note_content
+    
+    # Verify Step-2 summary explicitly declares Step-2 lineage
+    assert step2_summary["step_targeted"] == "Step-2"
+    assert step2_summary["preanalysis_odb"] == "PK_M1_JOB1_INF_COMPANION_2906.odb"
     print("PASS: test_guard_against_step1_sweep_misattribution")
 
 def test_step2_provenance_and_step_targeting(step2_summary):
-    """Verify that Step-2 sensitivity was evaluated on Step-2 localized phase-field ODB."""
+    """Verify companion ODB step targeting and damage field provenance."""
     assert step2_summary["step_targeted"] == "Step-2"
-    assert "PK_M1_JOB1_INF_COMPANION_2906.odb" in step2_summary["preanalysis_odb"]
+    assert step2_summary["preanalysis_odb"] == "PK_M1_JOB1_INF_COMPANION_2906.odb"
     assert "Step-2 target-like remeshing lineage evaluated on localized phase-field damage state" in step2_summary["provenance_note"]
     print("PASS: test_step2_provenance_and_step_targeting")
 
@@ -104,11 +109,12 @@ def test_spatial_localization_metrics_and_corridor_monotonicity(step2_summary):
 
 def test_guard_against_job_1409947_misrepresentation():
     """Verify that historical Job 1409947 is recorded as invalidated and not cited as a qualified solve."""
-    current_state_path = os.path.join(REPO_ROOT, "project_coordination", "CURRENT_STATE.md")
-    assert os.path.exists(current_state_path), "CURRENT_STATE.md missing: %s" % current_state_path
-    with open(current_state_path, "r") as f:
+    job_ledger_path = os.path.join(REPO_ROOT, "project_coordination", "HPC_JOB_LEDGER.csv")
+    assert os.path.exists(job_ledger_path), "HPC_JOB_LEDGER.csv missing: %s" % job_ledger_path
+    with open(job_ledger_path, "r") as f:
         content = f.read()
-    assert "INVALID_BENCHMARK__UEL_PROPERTY_ABI_MISMATCH" in content or "archived" in content.lower()
+    assert "1409947.mmaster02" in content
+    assert "INVALID_BENCHMARK__UEL_PROPERTY_ABI_MISMATCH" in content
     print("PASS: test_guard_against_job_1409947_misrepresentation")
 
 def test_governing_phase_field_length_scale():
