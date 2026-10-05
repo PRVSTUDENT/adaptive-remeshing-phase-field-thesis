@@ -39,14 +39,41 @@ In the 3-layer architecture, companion visualizer elements (Layer~3, CPE4) recei
 
 Global sums are additionally accumulated independently at increment convergence in \texttt{UEXTERNALDB} (\texttt{LOP=2}) and logged directly to \nolinkurl{uel_energy_balance.csv}, matching the \texttt{IP1} post-processed extraction bitwise.
 
-\subsection{Non-Invasiveness and Mechanical Parity Verification}
+\subsection{Mechanical Non-Invasiveness \& Full-History Parity Qualification}
 Energy logging logic in \nolinkurl{f42_mixed_uel.for} is mathematically decoupled from the element residual vector (\texttt{RHS}) and analytical Jacobian stiffness matrix (\texttt{AMATRX}). Dedicated state variables $\mathrm{SVARS}(17..18)$ and $\mathrm{STATEV}(17..20)$ reside in previously unused auxiliary slots, preserving baseline state variables $\mathrm{SVARS}(1..16)$ and $\mathrm{STATEV}(1..16)$ bitwise.
 
-Controlled HPC benchmarks confirmed strict non-invasiveness across:
+To establish defensible mechanical non-invasiveness beyond small diagnostic runs, a full 7,000-increment point-by-point audit was performed between the un-instrumented baseline fixed reference solve (\nolinkurl{01_standard_pfm_reference}, Fortran SHA-256 \nolinkurl{ED1586D6...}) and the energy-instrumented fixed reference solve (\nolinkurl{16_energy_qualification_reference_15k}, Job \texttt{1409734.mmaster02}, Fortran SHA-256 \nolinkurl{CE8D5EDC...}):
 \begin{itemize}
-  \item \textbf{Elastic Parity (Job 1406904 vs 1406905, 30 incs):} Exact force trajectory agreement ($|\Delta F| = 0.00000000\,\mathrm{kN}$).
-  \item \textbf{Full Softening Parity (Job 1406906 vs 1406907, 129 incs):} Exact force trajectory agreement through complete failure to $u = 0.035\,\mathrm{mm}$ ($|\Delta F| = 0.0\,\mathrm{kN}$, $d_{\max} = 0.977$, $74.2\%$ softening drop).
+  \item \textbf{Initial Elastic Stiffness $K_0$}: $137.945519645\,\mathrm{kN/mm}$ for both models ($\Delta K_0 = 0.000000\,\mathrm{kN/mm}$, $0.000000\%$ difference, bitwise match to 12 decimal places).
+  \item \textbf{Peak Load $F_{\max}$ and $u(F_{\max})$}: $F_{\max} = 0.75777849\,\mathrm{kN}$ at $u = 0.005857\,\mathrm{mm}$ for both models ($\Delta F_{\max} = 0.000000\,\mathrm{kN}$, $\Delta u_{\mathrm{peak}} = 0.000000\,\mathrm{mm}$).
+  \item \textbf{Complete 7,000-Increment History}: Increments ($7{,}000/7{,}000$), Newton equilibrium iterations ($21{,}120/21{,}120$), cutbacks ($0/0$), and severe discontinuities ($0/0$) are 100\% identical.
+  \item \textbf{External Boundary Work $W_{\mathrm{trap}}$}: $2.359328928\,\mathrm{mJ}$ vs $2.359328928\,\mathrm{mJ}$ ($\Delta W = 7.12\times 10^{-11}\,\mathrm{mJ}$, $3.02\times 10^{-9}\%$ difference, representing pure floating-point roundoff).
+  \item \textbf{Pointwise Reaction Force Parity}: Table~\ref{tab:matched_parity_pack} confirms that across all 10 matched physical displacement checkpoints from $u = 0.001\,\mathrm{mm}$ to $u = 0.010\,\mathrm{mm}$, reaction forces are bitwise identical pre-peak and match within $2\times 10^{-11}\,\mathrm{kN}$ ($\le 8.6\times 10^{-6}\%$) in the post-fracture tail.
 \end{itemize}
+Governing status is formally promoted to: \textbf{\texttt{UEL\_ENERGY\_OUTPUT\_QUALIFIED\_MECHANICALLY\_NONINVASIVE}}.
+
+\begin{table}[htbp]
+\centering
+\caption{Full-history 10-state mechanical parity audit between pre-instrumentation baseline (\nolinkurl{ED1586D6}) and energy-instrumented solve (\texttt{1409734}, \nolinkurl{CE8D5EDC}) on $15{,}192$-element fixed mesh.}
+\label{tab:matched_parity_pack}
+\fontsize{7.5}{9.0}\selectfont
+\begin{tabularx}{\textwidth}{lcrrrrrl}
+\toprule
+\textbf{State Label} & \textbf{Step, Inc} & \textbf{$u$ [mm]} & \textbf{Pre $RF_2$ [kN]} & \textbf{Post $RF_2$ [kN]} & \textbf{$\Delta RF_2$ [kN]} & \textbf{Rel Diff [\%]} & \textbf{Status} \\
+\midrule
+$u = 0.001000\,\mathrm{mm}$ & $(1, 400)$ & $0.001000$ & $0.13792416$ & $0.13792416$ & $0.0000\times 10^{0}$ & $0.000000\%$ & \texttt{BITWISE MATCH} \\
+$u = 0.003000\,\mathrm{mm}$ & $(1, 1200)$ & $0.003000$ & $0.40841828$ & $0.40841828$ & $0.0000\times 10^{0}$ & $0.000000\%$ & \texttt{BITWISE MATCH} \\
+$u = 0.005000\,\mathrm{mm}$ & $(1, 2000)$ & $0.005000$ & $0.66205217$ & $0.66205217$ & $0.0000\times 10^{0}$ & $0.000000\%$ & \texttt{BITWISE MATCH} \\
+$u = 0.005857\,\mathrm{mm}$ (Peak) & $(2, 857)$ & $0.005857$ & $0.75777849$ & $0.75777849$ & $0.0000\times 10^{0}$ & $0.000000\%$ & \texttt{BITWISE MATCH} \\
+$u = 0.006000\,\mathrm{mm}$ & $(2, 1000)$ & $0.006000$ & $0.00054637$ & $0.00054637$ & $1.0000\times 10^{-11}$ & $0.000002\%$ & \texttt{ROUNDOFF MATCH} \\
+$u = 0.006500\,\mathrm{mm}$ & $(2, 1500)$ & $0.006500$ & $0.00048480$ & $0.00048480$ & $1.0000\times 10^{-11}$ & $0.000002\%$ & \texttt{ROUNDOFF MATCH} \\
+$u = 0.007000\,\mathrm{mm}$ & $(2, 2000)$ & $0.007000$ & $0.00042986$ & $0.00042986$ & $1.0000\times 10^{-11}$ & $0.000002\%$ & \texttt{ROUNDOFF MATCH} \\
+$u = 0.008000\,\mathrm{mm}$ & $(2, 3000)$ & $0.008000$ & $0.00033946$ & $0.00033946$ & $1.0000\times 10^{-11}$ & $0.000003\%$ & \texttt{ROUNDOFF MATCH} \\
+$u = 0.009000\,\mathrm{mm}$ & $(2, 4000)$ & $0.009000$ & $0.00027648$ & $0.00027648$ & $2.0000\times 10^{-11}$ & $0.000007\%$ & \texttt{ROUNDOFF MATCH} \\
+$u = 0.010000\,\mathrm{mm}$ (Final) & $(2, 5000)$ & $0.010000$ & $0.00023216$ & $0.00023216$ & $2.0000\times 10^{-11}$ & $0.000009\%$ & \texttt{ROUNDOFF MATCH} \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \subsection{History-Field Non-Potentiality and Reconciled Bookkeeping Residual}
 Because the phase-field evolution replaces the instantaneous elastic energy density $\psi_0(\boldsymbol{\varepsilon}(t))$ with the historical driving variable $\mathcal{H}(\mathbf{x}, t) = \max_{\tau \le t} \psi_0^+(\boldsymbol{\varepsilon}(\tau))$ to enforce irreversibility ($\dot{d} \ge 0$), the coupled system does not represent the Euler-Lagrange equations of any single instantaneous potential $\Pi(\mathbf{u}(t), d(t))$. 
@@ -61,7 +88,7 @@ Figure~\ref{fig:energy_balance_pack} illustrates the global energy evolution for
   \item \textbf{Pre-Peak Linear Regime ($u \le 5.50\,\mu\mathrm{m}$)}: $W_{\mathrm{trap}} = 2.03739\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 1.98181\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 0.05572\,\mathrm{mJ}$, $\Delta_{\mathrm{book}} = -0.00014\,\mathrm{mJ}$ ($|\varepsilon_{\mathrm{book}}| < 0.007\%$).
   \item \textbf{Post-Peak Fully Separated State ($u = 0.010\,\text{mm}$)}: $W_{\mathrm{trap}} = 2.359329\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 2.340220\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.001161\,\mathrm{mJ}$, $E_{\mathrm{model}} = 2.341381\,\mathrm{mJ}$, $\Delta_{\mathrm{book}} = \mathbf{+0.017948\,\mathrm{mJ}}$ ($\varepsilon_{\mathrm{book}} = \mathbf{0.7607\%}$).
   \item \textbf{Step-2 ET1 Adaptive Baseline (14,483 FE, Actual Terminal State $u = 0.007889\,\text{mm}$)}: $W_{\mathrm{trap}} = 2.267380\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 2.285469\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.006960\,\mathrm{mJ}$, $E_{\mathrm{model}} = 2.292429\,\mathrm{mJ}$, $\Delta_{\mathrm{book}} = \mathbf{-0.025049\,\text{mJ}}$ ($\varepsilon_{\mathrm{book}} = \mathbf{1.104771\%}$).
-  \item \textbf{Matched-Displacement Comparison ($u = 0.007889\,\text{mm}$)}: Fixed Reference at the same displacement gives $W_{\mathrm{trap}} = 2.358728\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 2.339582\,\text{mJ}$, $E_{\mathrm{elas}} = 0.001374\,\mathrm{mJ}$, $E_{\mathrm{model}} = 2.340956\,\mathrm{mJ}$, $\Delta_{\mathrm{book}} = \mathbf{+0.017772\,\text{mJ}}$ ($\varepsilon_{\mathrm{book}} = \mathbf{0.7535\%}$).
+  \item \textbf{Matched-Displacement Comparison ($u = 0.007889\,\text{mm}$)}: Fixed Reference at the same displacement gives $W_{\mathrm{trap}} = 2.358728\,\mathrm{mJ}$, $E_{\mathrm{frac}} = 2.339582\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.001374\,\mathrm{mJ}$, $E_{\mathrm{model}} = 2.340956\,\mathrm{mJ}$, $\Delta_{\mathrm{book}} = \mathbf{+0.017772\,\text{mJ}}$ ($\varepsilon_{\mathrm{book}} = \mathbf{0.7535\%}$).
 \end{itemize}
 
 \begin{figure}[htbp]
@@ -192,6 +219,7 @@ $\psi_f$ & $G_c [ d^2/(2l_0) + (l_0/2)|\nabla d|^2 ]$ & $\mathrm{kN/mm^2} = \mat
 $E_{\mathrm{frac}}$ & $\int_{\Omega} \psi_f\,\mathrm{d}\Omega \to \mathrm{STATEV}(17), \texttt{CSV}$ & $\mathrm{kN\cdot mm} \equiv \mathrm{J}$ & \textbf{\texttt{VERIFIED\_FROM\_SOURCE}} \\
 Pre-peak $\Delta_{\mathrm{book}}$ & $|\Delta_{\mathrm{book}}| / W_{\mathrm{trap}} < 0.007\%$ & Dimensionless & \textbf{\texttt{NUMERICALLY\_VERIFIED}} \\
 Post-peak $\Delta_{\mathrm{book}}$ & $W_{\mathrm{trap}} - (E_{\mathrm{elas}}+E_{\mathrm{frac}})$ residual ($+0.7607\%$ to $-9.49\%$) & $\mathrm{kN\cdot mm} \equiv \mathrm{J}$ & \textbf{\texttt{NUMERICALLY\_VERIFIED (OBSERVED)}} \\
+Mechanical Non-Invasiveness & Pointwise $F-u$ parity across 7,000 increments ($\Delta K_0=0.0\%$, $\Delta F_{\max}=0.0\%$) & — & \textbf{\texttt{QUALIFIED\_MECHANICALLY\_NONINVASIVE}} \\
 $\mathcal{D}_{\mathrm{frac}}$ & $\int_0^t \int_{\Omega} 2(1-d)\mathcal{H}\dot{d}\,\mathrm{d}\Omega\,\mathrm{d}\tau$ & $\mathrm{kN\cdot mm} \equiv \mathrm{J}$ & \textbf{\texttt{NOT\_YET\_QUALIFIED}} \\
 $\mathcal{D}_{\mathrm{frac}} = \dot{E}_{\mathrm{frac}}$ & Rate equality under active damage & $\mathrm{W}$ & \textbf{\texttt{NOT\_YET\_QUALIFIED}} \\
 \bottomrule

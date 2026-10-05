@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-05T16:15:00+02:00` (Gemini Antigravity) — Mode-I Stage-14 UEL energy formulation audit reconciled (Delta_book = W_ext - E_model sign conventions, 1.104771% raw ET1 residual root cause isolated, matched displacement discipline at u=0.007889mm verified, companion UMAT deduplication clarified, Job 1410180 loading telemetry clarified, unit tests 7/7 pass 100%, and non-invasive scheduler checkpoint executed across 5 active jobs on /scratch9/: 1410180 Step 2 Inc 202; 1410179 Step 1 Inc 862; 1410357 Step 1 Inc 907; 1410358 Step 1 Inc 996; 1410359 Step 1 Inc 1042).
+Last updated: `2026-10-05T16:25:00+02:00` (Gemini Antigravity) — Mode-I Stage-14 UEL energy output formally promoted to `UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE` via full-history 7,000-increment point-by-point mechanical parity and source diff audit (ED1586D6... -> CE8D5EDC..., Delta K0 = 0.000000%, Delta F_max = 0.000000%, 7000/7000 incs, 21120/21120 Newton iters, 0 cutbacks, Delta W_ext = 3.02e-9%), supervisor report and thesis updated, test suite 9/9 pass 100%, and active scratch9 solves left running undisturbed.
 
 ---
 
@@ -33,7 +33,7 @@ Last updated: `2026-10-05T16:15:00+02:00` (Gemini Antigravity) — Mode-I Stage-
     - Full 10-matched-displacement reference dataset extracted from Job `1409734.mmaster02` and verified locally and on cluster.
     - Governed nomenclature enforced across all files: `implemented phase-field crack-surface/fracture functional E_frac`.
     - `evaluate_mode1_stage14_adaptive_14k.py` upgraded with full comparison automation and markdown report generation.
-  - **Stage 14 UEL Energy Formulation & Authoritative Source Audit Completed (`docs/methods/UEL_ENERGY_FORMULATION_AND_BALANCE_AUDIT.md`):**
+  - **Stage 14 UEL Energy Formulation, Source Audit & Mechanical Parity Qualification Completed (`docs/methods/UEL_ENERGY_FORMULATION_AND_BALANCE_AUDIT.md`):**
     - Authoritative production Fortran source audited: `models/pandey_kumar_mode1/f42_mixed_uel.for` (`SHA256: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`).
     - Term-by-term weak form energy derivation established for stored elastic strain energy $E_{\text{elas}}$, regularized fracture functional $E_{\text{frac}}$, undegraded driving energy $H$, external mechanical work $W_{\text{ext}}$, and bookkeeping residual $\Delta_{\text{book}}$.
     - Analytical and numerical **Zero Double-Counting Proof** established across 3-layer co-located architecture (Layer 1 Phase UEL $E_{\text{frac}}$, Layer 2 Mech UEL $E_{\text{elas}}$, Layer 3 Companion UMAT $\mathbf{D}=10^{-11}\mathbf{I}$, $\text{SSE}=\text{SPD}=\text{SCD}=0$).

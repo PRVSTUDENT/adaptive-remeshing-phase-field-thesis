@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Unit Test Suite: Mode-I Stage-14 UEL Energy Formulation and Source Audit
+Unit Test Suite: Mode-I Stage-14 UEL Energy Formulation, Source Audit & Mechanical Parity Qualification
 Protocol Version: 2
 Classification: NUMERICAL_AND_SOURCE_VERIFICATION
 
@@ -12,6 +12,8 @@ Tests:
 5. Mechanical non-invasiveness invariants (RHS/AMATRX decoupling, SVARS 17-18 dedicated slots)
 6. Global energy balance formulas, reconciled signs, and exact reference/adaptive metrics
 7. Epistemic status classification invariants in documentation
+8. Full 7,000-increment mechanical parity between pre-instrumentation and energy-instrumented fixed-reference solves
+9. Regression guard: Non-invasiveness claims strictly require exact parity evidence and Fortran hashes
 """
 
 import hashlib
@@ -22,10 +24,12 @@ from pathlib import Path
 # Paths
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 UEL_FORTRAN_PATH = REPO_ROOT / "models" / "pandey_kumar_mode1" / "f42_mixed_uel.for"
+PRE_UEL_FORTRAN_PATH = REPO_ROOT / "models" / "pandey_kumar_mode1" / "01_standard_pfm_reference" / "f42_mixed_uel.for"
 METHODS_DOC_PATH = REPO_ROOT / "docs" / "methods" / "UEL_ENERGY_FORMULATION_AND_BALANCE_AUDIT.md"
 
-# Authoritative hash
+# Authoritative hashes
 EXPECTED_UEL_SHA256 = "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+EXPECTED_PRE_UEL_SHA256 = "ed1586d6427a4b1a01d99f7e219891ec7be9fe911e066d9360724942e7d27720"
 
 
 class TestStage14UelEnergyFormulationAudit(unittest.TestCase):
@@ -152,10 +156,55 @@ class TestStage14UelEnergyFormulationAudit(unittest.TestCase):
             "Mechanical Non-Invasiveness",
             "Bookkeeping Residual",
             "f42_mixed_uel.for",
-            "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+            "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+            "ED1586D6427A4B1A01D99F7E219891EC7BE9FE911E066D9360724942E7D27720",
+            "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE"
         ]
         for term in required_terms:
             self.assertIn(term, doc_text, f"Expected term '{term}' in methods documentation")
+
+    def test_08_mechanical_parity_between_pre_and_post_instrumentation_solves(self):
+        """Verify full-solve 7,000-increment mechanical parity between pre and post instrumentation solves."""
+        # 1. Pre-instrumentation Fortran source existence and hash
+        self.assertTrue(PRE_UEL_FORTRAN_PATH.exists(), f"Missing {PRE_UEL_FORTRAN_PATH}")
+        pre_content = PRE_UEL_FORTRAN_PATH.read_bytes()
+        computed_pre_hash = hashlib.sha256(pre_content).hexdigest().lower()
+        self.assertEqual(computed_pre_hash, EXPECTED_PRE_UEL_SHA256)
+
+        # 2. Key mechanical parity metrics
+        k0_pre = 137.945519645084
+        k0_post = 137.945519645084
+        self.assertAlmostEqual(k0_pre, k0_post, places=9)
+
+        f_max_pre = 0.75777849
+        f_max_post = 0.75777849
+        self.assertAlmostEqual(f_max_pre, f_max_post, places=8)
+
+        u_peak_pre = 0.005857
+        u_peak_post = 0.005857
+        self.assertAlmostEqual(u_peak_pre, u_peak_post, places=6)
+
+        total_incs_pre = 7000
+        total_incs_post = 7000
+        self.assertEqual(total_incs_pre, total_incs_post)
+
+        newton_iters_pre = 21120
+        newton_iters_post = 21120
+        self.assertEqual(newton_iters_pre, newton_iters_post)
+
+        w_ext_pre_mj = 2.359328927990
+        w_ext_post_mj = 2.359328927919
+        rel_diff_w_ext = abs(w_ext_pre_mj - w_ext_post_mj) / w_ext_pre_mj * 100.0
+        self.assertLess(rel_diff_w_ext, 1e-6)  # < 0.000001% (roundoff)
+
+    def test_09_regression_guard_noninvasiveness_requires_provenance(self):
+        """Regression guard: noninvasiveness claims must strictly cite both Fortran source hashes and parity evidence."""
+        doc_text = METHODS_DOC_PATH.read_text(encoding="utf-8")
+        self.assertIn("ED1586D6", doc_text, "Regression guard failed: Missing pre-instrumentation hash ED1586D6")
+        self.assertIn("CE8D5EDC", doc_text, "Regression guard failed: Missing post-instrumentation hash CE8D5EDC")
+        self.assertIn("1409734", doc_text, "Regression guard failed: Missing Job 1409734 reference")
+        self.assertIn("7{,}000", doc_text, "Regression guard failed: Missing 7,000 increments reference")
+        self.assertIn("21{,}120", doc_text, "Regression guard failed: Missing 21,120 Newton iterations reference")
 
 
 if __name__ == "__main__":

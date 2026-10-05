@@ -1,52 +1,34 @@
-\chapter{Phase-Field Fracture Formulation and Mode-I Baseline Verification}
-\label{chap:baseline_verification}
+\section{Problem Formulation and Boundary Conditions}
+\label{sec:problem_formulation_mode1}
 
-\section{Introduction and Objectives}
-\label{sec:baseline_intro}
+The baseline verification problem represents a square specimen of dimensions $L \times W = 1.0\,\text{mm} \times 1.0\,\text{mm}$ subject to tensile Mode-I loading, adopting the benchmark geometry of Pandey and Kumar~\citep{pandey2025}. An initial horizontal sharp crack of length $a_0 = 0.5\,\text{mm}$ is embedded along the centerline ($y = 0.5\,\text{mm}$, $0 \le x \le 0.5\,\text{mm}$).
 
-The objective of this chapter is threefold:
-\begin{enumerate}
-    \item Establish the continuum variational and staggered finite-element formulations for quasi-static brittle fracture based on the Bourdin--Francfort--Marigo energy minimization framework and the AT2 phase-field regularized damage representation.
-    \item Document the three-layer co-located UEL/UMAT architecture implemented in Abaqus/Standard using user subroutine \nolinkurl{f42_mixed_uel.for}.
-    \item Establish the canonical, mathematically qualified Mode-I single-edge-notched tension reference baseline against which all subsequent adaptive remeshing and state transfer schemes are rigorously evaluated.
-\end{enumerate}
-
-\section{Mode-I Single-Edge-Notched Tension Benchmark}
-\label{sec:baseline_problem_definition}
-
-\subsection{Geometry and Boundary Conditions}
-The Mode-I benchmark is defined on a two-dimensional square domain $\Omega = [0, 1.0\,\text{mm}] \times [0, 1.0\,\text{mm}]$ under plane-strain conditions and unit thickness ($t = 1.0\,\text{mm}$). An initial sharp horizontal edge crack of length $a_0 = 0.50\,\text{mm}$ is positioned along the symmetry plane $y = 0.50\,\text{mm}$, extending from the left boundary ($x = 0$) to the specimen center ($x = 0.50\,\text{mm}$), as illustrated in Figure~\ref{fig:mode1_geometry_thesis}.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.65\textwidth]{fig_mode1_geometry_thesis.pdf}
-\caption[Geometry and boundary conditions for the Mode-I benchmark.]{Geometry and boundary conditions for the Mode-I single-edge-notched tension specimen ($1.0\,\text{mm} \times 1.0\,\text{mm}$, initial crack length $a_0 = 0.50\,\text{mm}$).}
-\label{fig:mode1_geometry_thesis}
-\end{figure}
-
-The boundary conditions are formulated as:
+\paragraph{Kinematic Boundary Conditions:}
 \begin{itemize}
-    \item \textbf{Bottom Boundary ($y = 0\,\text{mm}$)}: Roller support enforcing vertical displacement $u_y = 0$ along the entire edge, with the bottom-left node pinned ($u_x = 0$) to eliminate rigid-body translation.
-    \item \textbf{Top Boundary ($y = 1.0\,\text{mm}$)}: Prescribed uniform vertical tensile displacement $u_y = u$, with unconstrained horizontal displacement ($t_x = 0$).
-    \item \textbf{Lateral Boundaries ($x = 0\,\text{mm}$ and $x = 1.0\,\text{mm}$)}: Traction-free ($\mathbf{t} = \mathbf{0}$).
+    \item \textbf{Bottom Boundary ($y = 0\,\text{mm}$)}: Roller constraint preventing vertical displacement, $u_y(x, 0) = 0$.
+    \item \textbf{Bottom-Left Corner Pin ($(x, y) = (0, 0)$)}: Rigid-body horizontal constraint, $u_x(0, 0) = 0$.
+    \item \textbf{Top Boundary ($y = 1.0\,\text{mm}$)}: Homogeneous vertical tensile displacement $u_y(x, 1) = u(t)$ prescribed via a reference point (RP) kinematically coupled to the top edge nodes, with free lateral contraction ($u_x$ unconstrained).
+    \item \textbf{Lateral Boundaries ($x = 0\,\text{mm}, x = 1.0\,\text{mm}$)}: Traction-free boundaries, $\boldsymbol{\sigma} \cdot \mathbf{n} = \mathbf{0}$.
 \end{itemize}
 
-\subsection{Material and Phase-Field Regularization Parameters}
-The isotropic elastic and fracture constitutive parameters follow Pandey and Kumar~\cite{pandey2025}:
+\paragraph{Constitutive Material and Phase-Field Properties:}
+The material is modeled under plane-strain linear elasticity with AT2 phase-field regularized fracture:
 \begin{itemize}
-    \item Young's modulus: $E = 210.0\,\text{GPa} = 210.0\,\text{kN/mm}^2$;
-    \item Poisson's ratio: $\nu = 0.30$;
-    \item Critical fracture energy release rate: $G_c = 2.7 \times 10^{-3}\,\text{kN/mm} = 2.7\,\text{N/mm} = 2700\,\text{J/m}^2$;
-    \item Phase-field regularization length scale: $l_0 = 0.0075\,\text{mm} = 7.5\,\mu\text{m}$;
-    \item Residual stiffness parameter: $k_{\mathrm{res}} = 1.0 \times 10^{-7}$.
+    \item Young's Modulus: $E = 210\,\text{GPa} \equiv 210.0\,\text{kN/mm}^2$
+    \item Poisson's Ratio: $\nu = 0.3$
+    \item Critical Fracture Energy Release Rate: $G_c = 2.7\times 10^{-3}\,\text{kN/mm} \equiv 2.7\,\text{N/mm} = 2700\,\text{J/m}^2$
+    \item Phase-Field Regularization Length Scale: $l_0 = 0.0075\,\text{mm} \equiv 7.5\,\mu\text{m}$
+    \item Residual Degradation Parameter: $k_{\text{res}} = 1.0 \times 10^{-7}$
 \end{itemize}
 
-\section{Structural Stiffness: Notch vs.\ Sharp Seam Disambiguation}
-\label{sec:structural_stiffness_disambiguation}
+\section{Crack Geometry Representation: Sharp Seam vs. Blunt Notch}
+\label{sec:seam_vs_notch_mechanics}
 
-A fundamental mechanical distinction in computational fracture modeling is the difference between the intrinsic material elastic modulus $E$ and the global structural stiffness $K_0$:
+A fundamental mechanical distinction in fracture benchmarks is the representation of initial crack geometry. While literature implementations frequently approximate cracks as finite-width blunt notches ($r_0 > 0$) to avoid singular meshing, the benchmark formulation requires an ideal sharp crack ($a_0 = 0.5\,\text{mm}$) modeled as a zero-gap duplicate-node seam.
+
+\paragraph{Global Structural Stiffness Definition:}
+The initial structural stiffness $K_0$ is defined as the slope of the linear-elastic reaction force ($F$) versus prescribed top-edge displacement ($u$) curve before damage initiation:
 \begin{equation}
-\label{eq:structural_stiffness_def}
 K_0 = \left. \frac{\mathrm{d}F}{\mathrm{d}u} \right|_{\text{initial elastic range}} \approx \frac{\Delta F}{\Delta u}.
 \end{equation}
 While Young's modulus $E$ is a local constitutive tensor property ($210\,\text{kN/mm}^2$), $K_0$ represents the integrated load-deformation compliance of the entire boundary value problem, depending directly on specimen geometry, boundary constraints, and notch kinematics.
@@ -101,6 +83,17 @@ Consequently, each energetic physical domain is evaluated on exactly one layer, 
 \paragraph{History-Field Non-Potentiality and Bookkeeping Residual:}
 Because damage irreversibility is enforced through the non-decreasing historical maximum $\mathcal{H}(\mathbf{x}, t) = \max_{\tau \le t} \psi_0^+(\boldsymbol{\varepsilon}(\tau))$, the governing system does not represent the stationary point of any single instantaneous potential $\Pi(\mathbf{u}, d)$. The discrete bookkeeping residual $\Delta_{\mathrm{book}} = W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$ is monitored throughout deformation. For the canonical $S_1$ reference baseline (Job \texttt{1409734.mmaster02}), $\Delta_{\mathrm{book}} = \mathbf{+0.017948\,\mathrm{mJ}}$ ($\varepsilon_{\mathrm{book}} = \mathbf{0.7607\%}$) at complete separation ($u = 0.010\,\text{mm}$), demonstrating near-complete energy conservation within the unclosed rate-dissipation boundary.
 
+\subsection{Mechanical Non-Invasiveness \& Full-History Parity Qualification}
+\label{sec:mechanical_parity_qualification}
+
+To prove that energy instrumentation in user subroutine \nolinkurl{f42_mixed_uel.for} does not alter the underlying mechanics, a full-history point-by-point parity comparison was conducted between the pre-instrumentation fixed reference solve (\nolinkurl{01_standard_pfm_reference}, Fortran SHA-256 \nolinkurl{ED1586D6427A4B1A01D99F7E219891EC7BE9FE911E066D9360724942E7D27720}) and the energy-instrumented fixed reference solve (\nolinkurl{16_energy_qualification_reference_15k}, Job \texttt{1409734.mmaster02}, Fortran SHA-256 \nolinkurl{CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6}) across all $7{,}000$ increments:
+\begin{itemize}
+    \item \textbf{Initial Stiffness}: $K_0 = 137.945519645\,\text{kN/mm}$ for both models ($\Delta K_0 = 0.000000\,\text{kN/mm}$, $0.000000\%$ difference, bitwise match to 12 decimal places).
+    \item \textbf{Peak Load}: $F_{\max} = 0.75777849\,\text{kN}$ at $u = 0.005857\,\text{mm}$ ($\Delta F_{\max} = 0.000000\,\text{kN}$, $\Delta u = 0.000000\,\text{mm}$).
+    \item \textbf{Solver Convergence}: Completed increments ($7{,}000/7{,}000$), Newton equilibrium iterations ($21{,}120/21{,}120$), cutbacks ($0/0$), and severe discontinuities ($0/0$) are 100\% identical.
+    \item \textbf{External Boundary Work}: $W_{\mathrm{trap}} = 2.359328928\,\text{mJ}$ vs $2.359328928\,\text{mJ}$ ($\Delta W = 7.12\times 10^{-11}\,\text{mJ}$, $3.02\times 10^{-9}\%$ difference, representing pure numerical roundoff).
+\end{itemize}
+This establishes the formal promoted status: \textbf{\texttt{UEL\_ENERGY\_OUTPUT\_QUALIFIED\_MECHANICALLY\_NONINVASIVE}}.
 
 \section{Canonical S1 Reference Baseline Provenance}
 \label{sec:fixed_mesh_reference_anchor}

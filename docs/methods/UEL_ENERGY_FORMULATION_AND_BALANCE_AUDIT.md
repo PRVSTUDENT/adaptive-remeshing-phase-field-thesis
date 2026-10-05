@@ -1,20 +1,22 @@
-# Mode-I Stage-14 UEL Energy Formulation, Source Audit & Energy Balance Qualification
+# Mode-I Stage-14 UEL Energy Formulation, Source Audit & Mechanical Parity Qualification
 
 **Classification:** `SOURCE_AND_NUMERICAL_VERIFICATION`  
 **Protocol Version:** 2  
 **Authoritative Fortran Source:** `models/pandey_kumar_mode1/f42_mixed_uel.for`  
 **Cryptographic Hash (SHA-256):** `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`  
-**Governing Verdict:** `STAGE14_UEL_ENERGY_FORMULATION_AND_SOURCE_AUDIT_QUALIFIED`  
+**Pre-Instrumentation Source (SHA-256):** `ED1586D6427A4B1A01D99F7E219891EC7BE9FE911E066D9360724942E7D27720`  
+**Governing Energy Status:** `UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE`  
+**Governing Gate Verdict:** `STAGE14_UEL_ENERGY_FORMULATION_AND_MECHANICAL_PARITY_QUALIFIED`  
 
 ---
 
 ## 1. Executive Summary & Epistemic Scope
 
-This document provides the definitive term-by-term derivation, source code audit, dimensional validation, and zero double-counting proof for the energy quantities computed in the 3-layer staggered phase-field fracture implementation in Abaqus/Standard.
+This document provides the definitive term-by-term derivation, source code diff audit, dimensional validation, zero double-counting proof, and complete full-history mechanical parity verification for the energy quantities computed in the 3-layer staggered phase-field fracture implementation in Abaqus/Standard.
 
 ### Epistemic Classification:
 - **`SOURCE_VERIFIED`**: Exact mathematical equations and Gauss-point quadrature loops implemented in `f42_mixed_uel.for` for stored elastic energy $E_{\text{elas}}$, regularized crack-surface functional $E_{\text{frac}}$, undegraded driving energy $H$, auxiliary state variable slots, zero energy outputs in companion UMAT (`SSE = SPD = SCD = 0`), and non-invasive `UEXTERNALDB` logging.
-- **`NUMERICALLY_VERIFIED`**: Global external boundary work $W_{\text{ext}} = \int F\,\mathrm{d}u$, initial stiffness $K_0$, peak load $F_{\max}$, displacement at peak $u_{\text{peak}}$, and global bookkeeping residual $\Delta_{\text{book}} = W_{\text{ext}} - E_{\text{model}}$ across fixed ($S_1$--$S_4$) and adaptive (ET1--ET5) meshes.
+- **`NUMERICALLY_VERIFIED`**: Complete 7,000-increment full-history mechanical parity between pre-instrumentation fixed reference (`01_standard_pfm_reference`) and energy-instrumented fixed reference (`16_energy_qualification_reference_15k`, Job `1409734.mmaster02`), yielding exact bitwise parity in $K_0$ ($0.000000\%$), $F_{\max}$ ($0.000000\%$), increment count ($7{,}000/7{,}000$), Newton iterations ($21{,}120/21{,}120$), cutbacks ($0/0$), and external work ($3.02\times 10^{-9}\%$ difference).
 - **`UNRESOLVED_INTERNAL_ABAQUS_DETAIL`**: Native Abaqus whole-model internal energy arrays (e.g. `ALLWK`, `ALLIE` when UEL elements are active) versus independent UEL/RP integration.
 
 ---
@@ -140,18 +142,51 @@ The benchmark discretization employs 3 co-located element layers sharing identic
 
 ---
 
-## 4. Mechanical Non-Invasiveness of Energy Instrumentation
+## 4. Mechanical Non-Invasiveness & Full-History Parity Qualification
 
-1. **RHS Residual Vector**:
-   - `RHS` calculation in Layer 1 (lines 346, 368) and Layer 2 (lines 545, 814) is mathematically uncoupled from `ENERGY(2)` and `ENERGY(7)`.
-2. **AMATRX Tangent Stiffness Matrix**:
-   - Analytical consistent tangent expressions in Layer 1 (lines 341–344) and Layer 2 (lines 506–508) remain 100% untouched.
-3. **STATEV and Transactional Logic**:
-   - Energy scalars `SV_E_FRAC`, `SV_E_ELAS`, `SV_PSI_F`, `SV_PSI_E` occupy auxiliary state slots `SVARS(17..18)` and `STATEV(17..20)`. Existing baseline state variables `SVARS(1..16)` and `STATEV(1..16)` are bitwise invariant.
-4. **HPC Parity Qualification**:
-   - Elastic Parity (Job 1406904 vs 1406905, 30 incs): $|\Delta F| = 0.00000000\,\mathrm{kN}$.
-   - Softening Parity (Job 1406906 vs 1406907, 129 incs): $|\Delta F| = 0.0\,\mathrm{kN}$ through complete failure to $u = 0.035\,\text{mm}$.
-5. **Verdict**: `ENERGY_INSTRUMENTATION_MECHANICALLY_NON_INVASIVE_QUALIFIED`.
+### 4.1 Source Invariance Audit
+The Fortran source diff between the un-instrumented baseline (`ED1586D6427A4B1A01D99F7E219891EC7BE9FE911E066D9360724942E7D27720`) and the instrumented production code (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) was audited line-by-line:
+1. **RHS Residual Vectors**: Zero mathematical modifications for 4-node quad elements; `RHS` remains strictly dependent only on internal mechanical forces and phase-field balance.
+2. **AMATRX Tangent Stiffness Matrices**: Zero mathematical modifications for 4-node quad elements; consistent analytical tangents are identical.
+3. **Constitutive Degradation & History Evolution**: Function $g(d) = (1-d)^2 + k_{\text{res}}$ and $H(\mathbf{x}, t) = \max \psi_0^+$ are 100% bitwise invariant.
+4. **State Variable Slots**: Auxiliary energy logging is mapped strictly to dedicated slots `SVARS(17..18)` and `STATEV(17..20)`. Baseline slots `SVARS(1..16)` and `STATEV(1..16)` remain completely unaltered.
+
+### 4.2 Comprehensive 7,000-Increment Mechanical Parity Results
+A point-by-point comparison was conducted between the pre-instrumentation fixed-reference solve (`01_standard_pfm_reference`, 15,192 FE) and the energy-instrumented fixed-reference solve (`16_energy_qualification_reference_15k`, Job `1409734.mmaster02`, 15,192 FE):
+
+| Quantity / Metric | Pre-Instrumentation (`ED1586D6`) | Post-Instrumentation (`CE8D5EDC`) | Absolute Difference | Relative Difference | Verdict |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Initial Stiffness $K_0$** | $137.945519645\,\text{kN/mm}$ | $137.945519645\,\text{kN/mm}$ | $0.000000\,\text{kN/mm}$ | **$0.000000\%$** | **BITWISE MATCH** |
+| **$K_0$ Linear Fit $R^2$** | $0.99999960$ | $0.99999960$ | $0.000000$ | $0.000000\%$ | **BITWISE MATCH** |
+| **Peak Force $F_{\max}$** | $0.75777849\,\text{kN}$ | $0.75777849\,\text{kN}$ | $0.000000\,\text{kN}$ | **$0.000000\%$** | **BITWISE MATCH** |
+| **Displacement at Peak $u(F_{\max})$** | $0.005857\,\text{mm}$ | $0.005857\,\text{mm}$ | $0.000000\,\text{mm}$ | **$0.000000\%$** | **BITWISE MATCH** |
+| **Final Force $F(u=0.010\,\text{mm})$** | $2.32162170\times 10^{-4}\,\text{kN}$ | $2.32162150\times 10^{-4}\,\text{kN}$ | $2.0\times 10^{-11}\,\text{kN}$ | $8.61\times 10^{-6}\%$ | **ROUNDOFF PARITY** |
+| **External Work $W_{\text{ext}}$** | $2.359328927990\,\text{mJ}$ | $2.359328927919\,\text{mJ}$ | $7.12\times 10^{-11}\,\text{mJ}$ | **$3.02\times 10^{-9}\%$** | **ROUNDOFF PARITY** |
+| **Pointwise Max $|\Delta u|$** | — | — | $0.000000\,\text{mm}$ | $0.000000\%$ | **BITWISE MATCH** |
+| **Pointwise Max $|\Delta F|$** | — | — | $1.0\times 10^{-9}\,\text{kN}$ | $1.29\times 10^{-5}\%$ | **ROUNDOFF PARITY** |
+| **Total Completed Increments** | $7{,}000$ | $7{,}000$ | $0$ | $0.0\%$ | **EXACT MATCH** |
+| **Total Newton Iterations** | $21{,}120$ | $21{,}120$ | $0$ | $0.0\%$ | **EXACT MATCH** |
+| **Cutbacks / Severe Discon.** | $0 / 0$ | $0 / 0$ | $0 / 0$ | $0.0\%$ | **EXACT MATCH** |
+
+### 4.3 10-State Matched Displacement Parity Table
+
+| Matched State | Step, Inc | Prescribed $u$ (mm) | Pre RF (kN) | Post RF (kN) | $\Delta \text{RF}$ (kN) | Relative Difference | Status |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **$u = 0.001000\,\text{mm}$** | $(1, 400)$ | $0.001000$ | $0.13792416$ | $0.13792416$ | $0.0000\,\text{e+}00$ | $0.000000\%$ | BITWISE MATCH |
+| **$u = 0.003000\,\text{mm}$** | $(1, 1200)$ | $0.003000$ | $0.40841828$ | $0.40841828$ | $0.0000\,\text{e+}00$ | $0.000000\%$ | BITWISE MATCH |
+| **$u = 0.005000\,\text{mm}$** | $(1, 2000)$ | $0.005000$ | $0.66205217$ | $0.66205217$ | $0.0000\,\text{e+}00$ | $0.000000\%$ | BITWISE MATCH |
+| **$u = 0.005857\,\text{mm}$ (Peak)** | $(2, 857)$ | $0.005857$ | $0.75777849$ | $0.75777849$ | $0.0000\,\text{e+}00$ | $0.000000\%$ | BITWISE MATCH |
+| **$u = 0.006000\,\text{mm}$** | $(2, 1000)$ | $0.006000$ | $0.00054637$ | $0.00054637$ | $1.0000\,\text{e-}11$ | $0.000002\%$ | ROUNDOFF MATCH |
+| **$u = 0.006500\,\text{mm}$** | $(2, 1500)$ | $0.006500$ | $0.00048480$ | $0.00048480$ | $1.0000\,\text{e-}11$ | $0.000002\%$ | ROUNDOFF MATCH |
+| **$u = 0.007000\,\text{mm}$** | $(2, 2000)$ | $0.007000$ | $0.00042986$ | $0.00042986$ | $1.0000\,\text{e-}11$ | $0.000002\%$ | ROUNDOFF MATCH |
+| **$u = 0.008000\,\text{mm}$** | $(2, 3000)$ | $0.008000$ | $0.00033946$ | $0.00033946$ | $1.0000\,\text{e-}11$ | $0.000003\%$ | ROUNDOFF MATCH |
+| **$u = 0.009000\,\text{mm}$** | $(2, 4000)$ | $0.009000$ | $0.00027648$ | $0.00027648$ | $2.0000\,\text{e-}11$ | $0.000007\%$ | ROUNDOFF MATCH |
+| **$u = 0.010000\,\text{mm}$ (Final)** | $(2, 5000)$ | $0.010000$ | $0.00023216$ | $0.00023216$ | $2.0000\,\text{e-}11$ | $0.000009\%$ | ROUNDOFF MATCH |
+
+### 4.4 Formal Energy-Output Status Promotion
+- **Prior Status**: `UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED`
+- **New Governed Status**: `UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE`
+- **Closure Evidence**: Provenance-linked full-solve comparison between `01_standard_pfm_reference` (`ED1586D6...`) and `16_energy_qualification_reference_15k` (Job `1409734.mmaster02`, `CE8D5EDC...`), demonstrating zero alteration to mechanics across all 7,000 increments.
 
 ---
 
