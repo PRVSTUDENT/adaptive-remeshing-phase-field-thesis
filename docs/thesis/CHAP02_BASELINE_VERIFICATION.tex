@@ -1,15 +1,14 @@
-\chapter{Mode-I Phase-Field Fracture Benchmark and Reference Baseline}
+\chapter{Phase-Field Fracture Formulation and Mode-I Baseline Verification}
 \label{chap:baseline_verification}
 
 \section{Introduction and Objectives}
 \label{sec:baseline_intro}
 
-Prior to introducing error indicators, adaptive mesh refinement, or multi-field state transfer, a rigorous baseline implementation of the phase-field fracture formulation must be verified in the Abaqus finite element environment. The objective of this chapter is to:
+The objective of this chapter is threefold:
 \begin{enumerate}
-    \item Define the canonical Mode-I tensile fracture benchmark problem and its governing boundary value problem.
-    \item Disambiguate material stiffness $E$ from structural stiffness $K_0$ and establish the geometric role of the zero-gap sharp crack seam versus finite-width notch approximations.
+    \item Establish the continuum variational and staggered finite-element formulations for quasi-static brittle fracture based on the Bourdin--Francfort--Marigo energy minimization framework and the AT2 phase-field regularized damage representation.
     \item Document the three-layer co-located UEL/UMAT architecture implemented in Abaqus/Standard using user subroutine \nolinkurl{f42_mixed_uel.for}.
-    \item Establish the canonical $S_1$ baseline (Job \texttt{1406015.mmaster02}, $15{,}192$ finite elements) as the quantitative anchor for all subsequent adaptive refinement evaluations.
+    \item Establish the canonical, mathematically qualified Mode-I single-edge-notched tension reference baseline against which all subsequent adaptive remeshing and state transfer schemes are rigorously evaluated.
 \end{enumerate}
 
 \section{Mode-I Single-Edge-Notched Tension Benchmark}
@@ -20,8 +19,8 @@ The Mode-I benchmark is defined on a two-dimensional square domain $\Omega = [0,
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.60\textwidth]{fig_mode1_geometry.png}
-\caption[Mode-I benchmark boundary value problem configuration.]{Mode-I benchmark boundary value problem: $1.0\,\text{mm} \times 1.0\,\text{mm}$ square domain with a sharp edge crack of length $a_0 = 0.5\,\text{mm}$ along $y = 0.5\,\text{mm}$. Boundary conditions enforce roller support ($u_y = 0$) on the bottom edge with a pinned point ($u_x = 0$) to eliminate rigid-body motion, and uniform tensile displacement $u_y = u$ on the top edge.}
+\includegraphics[width=0.65\textwidth]{fig_mode1_geometry_thesis.pdf}
+\caption[Geometry and boundary conditions for the Mode-I benchmark.]{Geometry and boundary conditions for the Mode-I single-edge-notched tension specimen ($1.0\,\text{mm} \times 1.0\,\text{mm}$, initial crack length $a_0 = 0.50\,\text{mm}$).}
 \label{fig:mode1_geometry_thesis}
 \end{figure}
 
@@ -73,13 +72,40 @@ To implement the staggered phase-field formulation in Abaqus/Standard, a three-l
     \item \textbf{Layer 3 (Companion Visualization UMAT Layer)}: Standard continuum plane-strain elements (\texttt{CPE4}) sharing identical connectivity and nodal coordinates, driven by a dummy user material (\texttt{UMAT}) that maps internal state variables (SDVs) into standard Abaqus field outputs (\texttt{SDV1} = Phase Field $d$, \texttt{SDV2} = History $\mathcal{H}$, \texttt{SDV15} = degraded stiffness factor $g(d)$, \texttt{SDV17} = whole-underlying-element fracture surface energy $E_{\mathrm{frac}}^{(e)}$ in native $\mathrm{kN\cdot mm} = \mathrm{J}$, \texttt{SDV18} = whole-underlying-element elastic strain energy $E_{\mathrm{elas}}^{(e)}$ in native $\mathrm{kN\cdot mm} = \mathrm{J}$, with reporting in $\mathrm{mJ}$ performed during post-processing via a single $1000\times$ multiplication factor; \texttt{SDV19}/\texttt{SDV20} = area-normalized source quotients $\bar{\psi}_f$ and $\bar{\psi}_e$ in $\mathrm{kN/mm} = \mathrm{J/mm^2}$, interpretable as volumetric energy densities only under the explicit $1\text{-}\mathrm{mm}$ implicit unit-thickness convention) for visualization in Abaqus/Viewer.
 \end{itemize}
 
-All three layers communicate state variables across solver iterations via global Fortran common blocks in user subroutine \nolinkurl{f42_mixed_uel.for} (\texttt{SHA256: 5cd0d2c015c9ead91c99d7a744156cc86f5b5ea26473bbed7d6e5515fe30fa46}).
+All three layers communicate state variables across solver iterations via global Fortran common blocks in user subroutine \nolinkurl{f42_mixed_uel.for} (\texttt{SHA256: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6}).
+
+\subsection{Discrete Weak-Form Energy Derivation and Zero-Double-Counting Proof}
+\label{sec:uel_energy_derivation}
+
+In user subroutine \nolinkurl{f42_mixed_uel.for}, stored elastic strain energy $E_{\mathrm{elas}}$ and regularized fracture surface energy $E_{\mathrm{frac}}$ are evaluated over the $N_{\mathrm{mesh}}$ underlying finite elements via standard $2\times 2$ Gauss quadrature:
+\begin{align}
+  E_{\mathrm{elas}} &= \sum_{e=1}^{N_{\mathrm{mesh}}} \int_{\Omega_e} \frac{1}{2} g(\bar{d}_e)\,\boldsymbol{\varepsilon} : \mathbb{C}_0 : \boldsymbol{\varepsilon} \,\mathrm{d}\Omega = \sum_{e=1}^{N_{\mathrm{mesh}}} \sum_{k=1}^{4} \frac{1}{2} g(\bar{d}_e)\,\boldsymbol{\varepsilon}(\boldsymbol{\xi}_k) : \mathbb{C}_0 : \boldsymbol{\varepsilon}(\boldsymbol{\xi}_k) \, \det(\mathbf{J}_k) W_k \, B, \label{eq:elas_weak_energy} \\
+  E_{\mathrm{frac}} &= \sum_{e=1}^{N_{\mathrm{mesh}}} \int_{\Omega_e} G_c \left[ \frac{\bar{d}_e^2}{2 l_0} + \frac{l_0}{2} |\nabla d|^2 \right] \mathrm{d}\Omega = \sum_{e=1}^{N_{\mathrm{mesh}}} \sum_{k=1}^{4} G_c \left[ \frac{\bar{d}_e^2}{2 l_0} + \frac{l_0}{2} |\nabla d(\boldsymbol{\xi}_k)|^2 \right] \det(\mathbf{J}_k) W_k \, B, \label{eq:frac_weak_energy}
+\end{align}
+where $\bar{d}_e = \frac{1}{4}\sum_{a=1}^4 d_a$ is the element-averaged damage, $g(\bar{d}_e) = (1-\bar{d}_e)^2 + k_{\mathrm{res}}$, and $B = 1.0\,\mathrm{mm}$ is the unit plane-strain thickness.
+
+External mechanical boundary work $W_{\mathrm{trap}}$ is evaluated from the reaction force $F = RF_2$ at the reference point:
+\begin{equation}
+  W_{\mathrm{trap},n} = \sum_{i=1}^{n} \frac{F_i + F_{i-1}}{2}(u_i - u_{i-1}), \quad \text{with } u_0 = 0, F_0 = 0.
+\end{equation}
+
+\paragraph{Analytical and Numerical Zero-Double-Counting Proof:}
+A potential concern in co-located multi-layer element architectures is the inadvertent double accumulation of internal energies. In the present formulation:
+\begin{enumerate}
+    \item \textbf{Layer 1 (Phase UEL)}: Evaluates only $E_{\mathrm{frac}}^{(e)}$ and assigns \texttt{ENERGY(7) = E\_FRAC\_ELEM}. It possesses zero mechanical displacement DOFs, zero stress ($\boldsymbol{\sigma} = \mathbf{0}$), and computes zero elastic strain energy ($E_{\mathrm{elas}} = 0$).
+    \item \textbf{Layer 2 (Mechanical UEL)}: Evaluates only $E_{\mathrm{elas}}^{(e)}$ and assigns \texttt{ENERGY(2) = E\_ELAS\_ELEM}, which Abaqus sums natively into \texttt{ALLSE}. It contains zero damage DOFs and performs zero fracture functional computation.
+    \item \textbf{Layer 3 (Companion UMAT)}: Is assigned an infinitesimal dummy elasticity tensor $\mathbf{D}_{\mathrm{comp}} = 10^{-11}\,\mathbf{I}\,\mathrm{GPa}$, producing identically vanishing physical stresses ($\boldsymbol{\sigma}_{\mathrm{comp}} \approx \mathbf{0}$) and zero internal energy contributions ($\text{SSE} = \text{SPD} = \text{SCD} = 0$, contributing $\sim 10^{-11}\,\mathrm{J} \approx 0$).
+\end{enumerate}
+Consequently, each energetic physical domain is evaluated on exactly one layer, establishing a rigorous zero double-counting guarantee.
+
+\paragraph{History-Field Non-Potentiality and Bookkeeping Residual:}
+Because damage irreversibility is enforced through the non-decreasing historical maximum $\mathcal{H}(\mathbf{x}, t) = \max_{\tau \le t} \psi_0^+(\boldsymbol{\varepsilon}(\tau))$, the governing system does not represent the stationary point of any single instantaneous potential $\Pi(\mathbf{u}, d)$. The discrete bookkeeping residual $\Delta_{\mathrm{book}} = W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$ is monitored throughout deformation. For the canonical $S_1$ reference baseline (Job \texttt{1409734.mmaster02}), $\Delta_{\mathrm{book}} = -0.017949\,\mathrm{mJ}$ ($\varepsilon_{\mathrm{book}} = 0.7607\%$) at complete separation ($u = 0.010\,\text{mm}$), demonstrating near-complete energy conservation within the unclosed rate-dissipation boundary.
 
 
 \section{Canonical S1 Reference Baseline Provenance}
 \label{sec:fixed_mesh_reference_anchor}
 
-The governed canonical reference baseline for all subsequent evaluations is Job \texttt{1406015.mmaster02} ($S_1$, $15{,}192$ underlying finite elements, $15{,}522$ total \texttt{*NODE} entries ($15{,}521$ mesh nodes + RP 999999)), generated from the canonical input deck (\nolinkurl{SHA256: bc000e0c5791150a711cb7af447a0bb34d1b9d9af5c6ce9d096c98749e8edf61}).
+The governed canonical reference baseline for all subsequent evaluations is Job \texttt{1406015.mmaster02} / Job \texttt{1409734.mmaster02} ($S_1$, $15{,}192$ underlying finite elements, $15{,}522$ total \texttt{*NODE} entries ($15{,}521$ mesh nodes + RP 999999)), generated from the canonical input deck (\nolinkurl{SHA256: bc000e0c5791150a711cb7af447a0bb34d1b9d9af5c6ce9d096c98749e8edf61}).
 
 \begin{table}[htbp]
 \centering
