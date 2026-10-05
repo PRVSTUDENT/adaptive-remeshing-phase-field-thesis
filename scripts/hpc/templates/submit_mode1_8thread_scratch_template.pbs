@@ -5,7 +5,8 @@
 # Target Queue: normal_imfdfkmq (Production Queue)
 # Execution Architecture: Single-Node Shared-Memory SMP (1 Process x 8 Threads)
 # Multi-Rank MPI Policy: STRICTLY UNQUALIFIED (TRUE_MULTIRANK_MPI_NOT_QUALIFIED)
-# Scope: Empirically qualified for tested Mode-I formulation and controls ONLY
+# Scope: 8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS
+# Note: No observable thread race/order sensitivity detected for tested formulation and controls; serial/8-thread bitwise parity and repeat determinism achieved (does not prove generic thread safety)
 # Storage Policy: Heavy simulation outputs MUST execute strictly under /scratch9/
 # ==============================================================================
 #PBS -N PK_M1_PROD_8T

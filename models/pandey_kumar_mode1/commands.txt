@@ -31,13 +31,15 @@ abaqus job=PK_M1_MINI_ENERGY_64 input=PK_M1_MINI_ENERGY_64.inp user=f42_mixed_ue
 # ------------------------------------------------------------------------------
 # Qualified under Gate-6B Stage 14U-AR (Jobs 1410095.mmaster02 & 1410100.mmaster02).
 # Architecture: 1 Node, 1 Abaqus Process / MPI Rank, 8 Shared-Memory Threads (mp_mode=threads).
-# Demonstrates 100% bitwise parity against 1-CPU serial across all 4,890 increments:
+# Demonstrates serial/8-thread bitwise parity and independent repeat determinism across all 4,890 increments:
 #   * Walltime: 4,862 s (1.35 hr) vs 17,609 s (4.89 hr) -> Measured Speedup S_8 = 3.62x (eta_8 = 45.3%)
 #   * Stiffness Invariance: K0 = 137.909558 kN/mm (0.00% discrepancy)
 #   * Peak Force Invariance: F_max = 0.74370082 kN (0.00% discrepancy)
 #   * Determinism: 100% bitwise repeatability across independent PBS allocations.
 #
-# Scope: Empirically qualified for tested Mode-I formulation/controls only; does NOT imply generic thread safety.
+# Scope: 8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS.
+# No observable thread race/order sensitivity was detected for the tested Mode-I formulation and controls;
+# serial/8-thread bitwise parity and independent 8-thread repeat determinism were achieved (does NOT prove generic thread safety).
 # PBS Directive: #PBS -l nodes=1:ppn=8 (or #PBS -l select=1:ncpus=8:mem=16gb)
 # Working Directory: MUST BE UNDER /scratch9/pr21vyci/
 
@@ -76,10 +78,11 @@ python models/pandey_kumar_mode1/reproduction_package_gate6b_energy/extract_auth
 #    MPI message passing. This creates rank-local desynchronization and inconsistent state exchange
 #    (Job 1401531), NOT an ordinary shared-memory race condition.
 # 2. Single-node shared-memory threading (mp_mode=threads, 1 node, 1 process, 8 threads)
-#    executes within a single process address space and is EMPIRICALLY QUALIFIED for the tested
-#    Mode-I benchmark (no observable write collisions or race sensitivities).
+#    executes within a single process address space. No observable thread race/order sensitivity
+#    was detected for the tested Mode-I formulation and controls; serial/8-thread bitwise parity
+#    and independent 8-thread repeat determinism were achieved (8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS).
 # 3. Code Modification Warning: Any change to f42_mixed_uel.for, COMMON blocks, call ordering,
-#    compiler, or thread count invalidates automatic qualification transfer until Stage-A
+#    compiler, thread count, or execution topology invalidates automatic qualification transfer until Stage-A
 #    parity and Stage-B repeat determinism are re-checked.
 # 4. High HPC throughput is achieved via scheduler concurrency (running >= 10 independent
 #    single-node 8-thread jobs concurrently on normal_imfdfkmq), NOT multi-node MPI.

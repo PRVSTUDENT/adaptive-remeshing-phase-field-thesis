@@ -12,12 +12,13 @@ Unit regression test suite enforcing:
 6. Mathematical and empirical consistency of speedup S_8 and parallel efficiency eta_8.
 7. Active Gate-6B 5-job serial provenance justification.
 8. REGRESSION GUARDS:
-   a. Guard against MPI race-condition misnomer (must identify separate address space / unsynchronized state).
-   b. Guard against generic/unqualified thread-safety claims (must require empirical scope constraint).
-   c. Guard against treating 16-thread execution as qualified without Stage-A/B proof.
-   d. Guard against treating Exit status alone as parallel qualification.
-   e. Guard against removal of serial authoritative reference requirement.
-   f. Guard enforcing explicit 6-point provenance warning for future modifications.
+   a. Guard against treating bitwise parity as proof of zero data races (must state no observable race/order sensitivity).
+   b. Guard against MPI race-condition misnomer (must identify separate address space / unsynchronized state).
+   c. Guard against generic/unqualified thread-safety claims (must require empirical scope constraint).
+   d. Guard against treating 16-thread execution as qualified without Stage-A/B proof.
+   e. Guard against treating Exit status alone as parallel qualification.
+   f. Guard against removal of serial authoritative reference requirement.
+   g. Guard enforcing explicit 6-point provenance warning for future modifications.
 """
 
 import os
@@ -152,6 +153,24 @@ def test_governed_speedup_math_invariants():
     assert round(eta8_b, 1) == 45.0
 
 
+def test_guard_against_bitwise_parity_as_proof_of_zero_races():
+    """Regression Guard: Ensure bitwise parity is not claimed as mathematical proof of zero data races."""
+    with open(AUDIT_DOC_PATH, "r", encoding="utf-8") as f:
+        audit_content = f.read()
+    with open(COMMANDS_TXT_PATH, "r", encoding="utf-8") as f:
+        commands_content = f.read()
+
+    for text in [audit_content, commands_content]:
+        assert not re.search(r"proven\s+by\s+100%\s+bitwise\s+parity,\s*zero\s+data\s+races", text, re.IGNORECASE), \
+            "Must not claim bitwise parity proves absence of all latent data races"
+        assert not re.search(r"zero\s+data\s+races\s+proven", text, re.IGNORECASE), \
+            "Must not claim zero data races are proven"
+
+    # Require accurate observational wording
+    assert "No observable thread race/order sensitivity was detected" in audit_content
+    assert "No observable thread race/order sensitivity was detected" in commands_content
+
+
 def test_guard_against_mpi_race_condition_misnomer():
     """Regression Guard: Ensure MPI failure is not called a 'race condition across MPI ranks'."""
     with open(AUDIT_DOC_PATH, "r", encoding="utf-8") as f:
@@ -222,3 +241,4 @@ def test_guard_provenance_invalidation_warning():
     assert "call ordering" in audit_content
     assert "compiler" in audit_content.lower()
     assert "thread count" in audit_content.lower()
+    assert "topology" in audit_content.lower()

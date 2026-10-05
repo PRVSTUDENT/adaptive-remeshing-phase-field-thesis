@@ -22,14 +22,14 @@ This document establishes the official parallelization architecture, empirical s
    - Classification: `8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS`.
    - Single-node shared-memory threading ($1\text{ Abaqus process / MPI rank} \times 8\text{ threads}$) achieves a measured walltime reduction from $17{,}609\,\text{s}$ ($4.89\,\text{hr}$) to $4{,}862\,\text{s}$ ($1.35\,\text{hr}$), delivering a **Speedup $S_8 = 3.62\times$** with **Parallel Efficiency $\eta_8 = 45.3\%$** on cluster node `mnode097` (`normal_imfdfkmq`).
    - **Empirical Boundary:** This qualification is strictly empirical for the tested Mode-I formulation (`f42_mixed_uel.for`), mesh topology, loading schedule, and solver controls. It does **NOT** prove generic or universal thread safety for arbitrary models, different element formulations, future code modifications, higher thread counts (e.g. 16 threads), or unverified compiler/hardware environments.
-2. **100% Bitwise Parity & Repeat Determinism Proven:**
+2. **100% Bitwise Parity & Repeat Determinism Achieved (No Observable Race/Order Sensitivity):**
    - Evaluated across all $4{,}890$ increments up to the terminal failure state ($u = 0.007889\,\text{mm}$), the 8-thread solve reproduces the 1-CPU serial baseline to machine precision:
      * $|\Delta u| = 0.00\,\text{mm}$
      * $|\Delta F| = 0.00000000\,\text{kN}$
      * Initial structural stiffness $K_0 = 137.909558\,\text{kN/mm}$ ($0.00\%$ error, $R^2 = 0.99999960$)
      * Peak load $F_{\max} = 0.74370082\,\text{kN}$ ($0.00\%$ discrepancy)
      * Identical 10-attempt cutback sequence at Step 2 Inc 2890 down to $\Delta t_{\min} = 1.0\times 10^{-9}\,\text{s}$.
-     * Zero observable race conditions or call-order sensitivities for the tested execution.
+     * **No observable thread race/order sensitivity was detected for the tested Mode-I formulation and controls; serial/8-thread bitwise parity and independent 8-thread repeat determinism were achieved.** (Bitwise parity and repeat determinism do not mathematically prove absence of a latent data race; they prove that no race/order sensitivity was observable in the tested execution and outputs).
 3. **Multi-Rank Distributed-Memory MPI Strictly Unqualified:**
    - Classification: `TRUE_MULTIRANK_MPI_NOT_QUALIFIED`.
    - Multi-rank MPI ($N_{\text{rank}} > 1$, `mp_mode=mpi`) remains **strictly unqualified** for `f42_mixed_uel.for`.
@@ -136,8 +136,8 @@ In `f42_mixed_uel.for`, the 3-layer architecture couples Layer 1 (phase-field UE
 1. **Shared-Memory SMP Threading ($1\text{ Rank} \times N\text{ Threads}$):**
    - In shared-memory mode (`cpus=8 mp_mode=threads`), Abaqus executes as a **single operating system process** with multiple POSIX/OpenMP threads sharing a common virtual memory address space.
    - All threads access the same `COMMON /CB_STATE_TRANS/` array in heap memory.
-   - **Thread Safety Hazard:** Shared-memory threads can, in principle, race on mutable global state if multiple threads attempt simultaneous unsynchronized writes.
-   - **Empirical Finding:** For the tested Mode-I mesh and element ordering, element calculations are partitioned cleanly without observable write collision or race sensitivity, enabling bitwise parity and determinism.
+   - **Thread Safety & Race Condition Boundary:** Shared-memory threads can, in principle, race on mutable global state if multiple threads attempt simultaneous unsynchronized writes. Bitwise parity and repeat determinism do not mathematically prove absence of all latent data races; rather, they prove that **no thread race/order sensitivity was observable** in the tested execution and outputs under the governed element partitioning.
+   - **Empirical Finding:** For the tested Mode-I formulation and controls, single-node 8-thread execution achieved 100% bitwise serial/thread parity and independent repeat determinism without observable race/order sensitivity.
 2. **Distributed-Memory Multi-Rank MPI ($N_{\text{rank}} > 1$ Process Address Spaces):**
    - In MPI mode (`mp_mode=mpi` or multi-node execution), Abaqus spawns $N_{\text{rank}}$ distinct processes, each with its own isolated virtual memory space.
    - Fortran `COMMON` blocks are instantiated independently in each process memory space as **rank-local storage**.
@@ -156,11 +156,11 @@ In `f42_mixed_uel.for`, the 3-layer architecture couples Layer 1 (phase-field UE
 >
 > Any future modification to:
 > 1. Fortran user subroutine source code (`f42_mixed_uel.for`);
-> 2. `COMMON /CB_STATE_TRANS/` data structures or array indexing;
+> 2. `COMMON /CB_STATE_TRANS/` data structures or state-exchange semantics;
 > 3. Co-located UEL element numbering, layer pairing, or phase-field call ordering;
-> 4. State variable trial/committed exchange mechanisms;
-> 5. Abaqus version, Intel Fortran compiler version, or optimization flags;
-> 6. Parallel thread count (e.g. scaling to 16 threads);
+> 4. Abaqus version, Intel Fortran compiler version, or optimization flags;
+> 5. Parallel thread count (e.g. scaling to 16 threads without explicit Stage-A + Stage-B verification);
+> 6. Execution topology or multi-process distribution;
 >
 > **IMMEDIATELY INVALIDATES** automatic transfer of this 8-thread qualification. Before any new or modified package may be deployed in multi-threaded production, it must re-execute and pass both **Stage-A Parity** and **Stage-B Determinism** checks.
 

@@ -2638,7 +2638,7 @@ The attempt telemetry confirms:
 \begin{enumerate}
   \item \textbf{Exact Stagnation Plateau:} In both runs, Attempts 7 through 10 plateau at $c_{\max} = 2.611\times 10^{-6}\,\mathrm{mm}$ on Degree of Freedom 3 (phase-field $d$) at Node~13628.
   \item \textbf{Residual Force Equilibrium:} Residual force equilibrium is continuously satisfied ($R_{\max} / (R_n \tilde{q}) = 0.000929 \ll 1.0$), proving that termination is strictly driven by the displacement correction normalization check under vanishing incremental displacement ($\Delta u_{\max} \propto \Delta t \to 0$).
-  \item \textbf{Thread Determinism Under Softening:} Shared-memory multithreading introduces zero numerical perturbation, race conditions, or bifurcation in the phase-field Newton iterations even in the extreme post-peak softening regime ($99.76\%$ load drop).
+  \item \textbf{Thread Determinism Under Softening:} Shared-memory multithreading exhibits no observable race conditions, order sensitivity, or bifurcation in the phase-field Newton iterations even in the extreme post-peak softening regime ($99.76\%$ load drop).
 \end{enumerate}
 
 \begin{figure}[t!]
@@ -3122,7 +3122,7 @@ Stage~14U-AO establishes the complete qualification infrastructure for high-thro
 
 To leverage the high concurrency capacity of the cluster while respecting the user-subroutine safety boundary of \texttt{f42\_mixed\_uel.for}, 8-thread execution is structured strictly as single-rank POSIX/OpenMP-style shared-memory multithreading (\texttt{cpus=8, mp\_mode=threads}):
 \begin{itemize}
-  \item \textbf{Single-Rank Threading Model:} Eliminates inter-process MPI communication overhead and prevents race conditions in global element common blocks, preserving identical tangent stiffness assembly.
+  \item \textbf{Single-Rank Threading Model:} Eliminates inter-process MPI communication overhead and unsynchronized rank-local state defects in global element common blocks, preserving identical tangent stiffness assembly.
   \item \textbf{Live Solver Telemetry (Job \texttt{1410095.mmaster02}):} Solving in queue \texttt{normal\_imfdfkmq}, the 8-thread solver demonstrated exceptional numerical throughput:
   \begin{equation}
     \text{Throughput} > 3{,}200\,\text{increments/hour}, \quad \text{with } 0 \text{ cutbacks and exactly } 3 \text{ Newton iterations/increment},
@@ -3321,7 +3321,7 @@ Serial Baseline (\texttt{1409982}) & 1 & $17{,}609$ & $1.00\times$ & $100.0\%$ &
 \end{table}
 
 \paragraph{Governing Parallelization Verdict:}
-\texttt{8THREAD\_PARITY\_AND\_DETERMINISM\_QUALIFIED}. Multi-thread shared-memory execution in Abaqus is qualified for up to 8 threads without loss of numerical determinism, reducing single-simulation turnaround time from nearly 5 hours to under 1.4 hours while preserving identical physics and energy evolution.
+\texttt{8THREAD\_SHARED\_MEMORY\_EXECUTION\_EMPIRICALLY\_QUALIFIED\_FOR\_THE\_TESTED\_MODE1\_FORMULATION\_AND\_CONTROLS}. No observable thread race/order sensitivity was detected for the tested Mode-I formulation and controls; serial/8-thread bitwise parity and independent 8-thread repeat determinism were achieved, reducing single-simulation turnaround time from nearly 5 hours to under 1.4 hours ($S_8 = 3.62\times$, $\eta_8 = 45.3\%$) while preserving identical physics and energy evolution.
 
 \section{Independent Cross-Mode Validation of the Adaptive-Remeshing Localization Mechanism (Mode-II Pure Shear Specimen)}
 \label{sec:stage15_mode2_remeshing_verification}
