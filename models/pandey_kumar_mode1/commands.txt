@@ -1,14 +1,14 @@
 # ==============================================================================
 # AUTHORITATIVE EXECUTION & REPRODUCTION COMMANDS: PANDEY & KUMAR (2025) MODE-I
 # Target Environment: Abaqus 2023/2024 (TU Bergakademie Freiberg HPC Cluster / PBS Pro)
-# Governing Architecture: Single-Node Execution (Serial 1-CPU Baseline or 8-Thread SMP)
-# Parallelism Policy: Shared-Memory Threading QUALIFIED | Multi-Rank MPI PROHIBITED
+# Governing Architecture: Single-Node Execution (Serial 1-CPU Reference or 8-Thread SMP)
+# Parallelism Policy: 8-Thread SMP EMPIRICALLY QUALIFIED | Distributed MPI UNQUALIFIED
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
 # SECTION 1: CANONICAL SERIAL REFERENCE BASELINE EXECUTION (1-CPU SERIAL)
 # ------------------------------------------------------------------------------
-# The canonical serial execution path provides bitwise baseline reference purity.
+# The canonical serial execution path (cpus=1) is the MANDATORY authoritative reference.
 # Current active Gate-6B production jobs (1410179, 1410180, 1410357, 1410358, 1410359)
 # execute in this mode to preserve exact baseline provenance without mid-run allocation changes.
 # Subroutine: f42_mixed_uel.for (SHA256: CE8D5EDC0BF67A263BE4426FEF44F75475E8DEEFADDC401C007EAA937B316F77)
@@ -27,15 +27,17 @@ abaqus job=PK_M1_MINI_ENERGY_64 input=PK_M1_MINI_ENERGY_64.inp user=f42_mixed_ue
 
 
 # ------------------------------------------------------------------------------
-# SECTION 2: QUALIFIED 8-THREAD SHARED-MEMORY ACCELERATION MODE (8-CPU SMP)
+# SECTION 2: EMPIRICALLY QUALIFIED 8-THREAD SHARED-MEMORY ACCELERATION (8-CPU SMP)
 # ------------------------------------------------------------------------------
 # Qualified under Gate-6B Stage 14U-AR (Jobs 1410095.mmaster02 & 1410100.mmaster02).
+# Architecture: 1 Node, 1 Abaqus Process / MPI Rank, 8 Shared-Memory Threads (mp_mode=threads).
 # Demonstrates 100% bitwise parity against 1-CPU serial across all 4,890 increments:
 #   * Walltime: 4,862 s (1.35 hr) vs 17,609 s (4.89 hr) -> Measured Speedup S_8 = 3.62x (eta_8 = 45.3%)
 #   * Stiffness Invariance: K0 = 137.909558 kN/mm (0.00% discrepancy)
 #   * Peak Force Invariance: F_max = 0.74370082 kN (0.00% discrepancy)
 #   * Determinism: 100% bitwise repeatability across independent PBS allocations.
 #
+# Scope: Empirically qualified for tested Mode-I formulation/controls only; does NOT imply generic thread safety.
 # PBS Directive: #PBS -l nodes=1:ppn=8 (or #PBS -l select=1:ncpus=8:mem=16gb)
 # Working Directory: MUST BE UNDER /scratch9/pr21vyci/
 
@@ -64,16 +66,21 @@ python models/pandey_kumar_mode1/reproduction_package_gate6b_energy/extract_auth
 
 
 # ------------------------------------------------------------------------------
-# SECTION 4: MULTI-RANK MPI DISQUALIFICATION & THREAD-SAFETY BOUNDARY
+# SECTION 4: MULTI-RANK MPI DISQUALIFICATION & EMPIRICAL QUALIFICATION BOUNDARY
 # ------------------------------------------------------------------------------
-# [CRITICAL PARALLEL ARCHITECTURE GOVERNANCE]:
+# [PARALLEL ARCHITECTURE GOVERNANCE & MECHANISM BOUNDARIES]:
 # 1. Distributed-memory multi-rank MPI (e.g. mp_mode=mpi, nodes > 1, or mpirun -np > 1)
-#    is STRICTLY DISQUALIFIED.
-#    Root cause: f42_mixed_uel.for utilizes shared COMMON /CB_STATE_TRANS/ blocks
-#    for history variable synchronization without MPI inter-rank message passing.
-#    Multi-rank execution causes rank race conditions and corrupted damage fields (Job 1401531).
-# 2. Single-node shared-memory threading (mp_mode=threads, 1 node, 4 or 8 threads)
-#    executes within a single process address space and is PROVEN 100% thread-safe.
-# 3. High HPC throughput is achieved via scheduler concurrency (running >= 10 independent
+#    is STRICTLY UNQUALIFIED (TRUE_MULTIRANK_MPI_NOT_QUALIFIED).
+#    Mechanism: Independent MPI ranks possess isolated process address spaces; Fortran
+#    COMMON /CB_STATE_TRANS/ storage is replicated as rank-local memory without inter-rank
+#    MPI message passing. This creates rank-local desynchronization and inconsistent state exchange
+#    (Job 1401531), NOT an ordinary shared-memory race condition.
+# 2. Single-node shared-memory threading (mp_mode=threads, 1 node, 1 process, 8 threads)
+#    executes within a single process address space and is EMPIRICALLY QUALIFIED for the tested
+#    Mode-I benchmark (no observable write collisions or race sensitivities).
+# 3. Code Modification Warning: Any change to f42_mixed_uel.for, COMMON blocks, call ordering,
+#    compiler, or thread count invalidates automatic qualification transfer until Stage-A
+#    parity and Stage-B repeat determinism are re-checked.
+# 4. High HPC throughput is achieved via scheduler concurrency (running >= 10 independent
 #    single-node 8-thread jobs concurrently on normal_imfdfkmq), NOT multi-node MPI.
 # ==============================================================================

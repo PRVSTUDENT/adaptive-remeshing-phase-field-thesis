@@ -1,6 +1,9 @@
 #!/bin/bash
 # ==============================================================================
 # GUARDED PBS SUBMISSION WRAPPER: MODE-I 8-THREAD SHARED-MEMORY (SMP)
+# Architecture: 1 Node, 1 Abaqus Process / MPI Rank, 8 Shared-Memory Threads
+# Authoritative Reference: 1-CPU Serial Reference (cpus=1)
+# Multi-Rank MPI Policy: STRICTLY UNQUALIFIED (TRUE_MULTIRANK_MPI_NOT_QUALIFIED)
 # Target: PBS Professional on TU Bergakademie Freiberg HPC Cluster
 # Working Directory: MUST BE UNDER /scratch9/pr21vyci/
 # ==============================================================================

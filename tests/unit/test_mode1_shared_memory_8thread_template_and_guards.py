@@ -11,6 +11,13 @@ Unit regression test suite enforcing:
 5. commands.txt synchronization documenting serial reference and 8-thread modes.
 6. Mathematical and empirical consistency of speedup S_8 and parallel efficiency eta_8.
 7. Active Gate-6B 5-job serial provenance justification.
+8. REGRESSION GUARDS:
+   a. Guard against MPI race-condition misnomer (must identify separate address space / unsynchronized state).
+   b. Guard against generic/unqualified thread-safety claims (must require empirical scope constraint).
+   c. Guard against treating 16-thread execution as qualified without Stage-A/B proof.
+   d. Guard against treating Exit status alone as parallel qualification.
+   e. Guard against removal of serial authoritative reference requirement.
+   f. Guard enforcing explicit 6-point provenance warning for future modifications.
 """
 
 import os
@@ -90,7 +97,7 @@ def test_commands_txt_documentation():
         content = f.read()
 
     assert "SECTION 1: CANONICAL SERIAL REFERENCE BASELINE" in content
-    assert "SECTION 2: QUALIFIED 8-THREAD SHARED-MEMORY ACCELERATION" in content
+    assert "SECTION 2: EMPIRICALLY QUALIFIED 8-THREAD SHARED-MEMORY" in content
     assert "SECTION 3: FAST HEADLESS POST-PROCESSING" in content
     assert "SECTION 4: MULTI-RANK MPI DISQUALIFICATION" in content
     assert "cpus=8 mp_mode=threads" in content
@@ -143,3 +150,75 @@ def test_governed_speedup_math_invariants():
 
     assert round(s8_b, 2) == 3.60
     assert round(eta8_b, 1) == 45.0
+
+
+def test_guard_against_mpi_race_condition_misnomer():
+    """Regression Guard: Ensure MPI failure is not called a 'race condition across MPI ranks'."""
+    with open(AUDIT_DOC_PATH, "r", encoding="utf-8") as f:
+        audit_content = f.read()
+    with open(COMMANDS_TXT_PATH, "r", encoding="utf-8") as f:
+        commands_content = f.read()
+
+    # Disallow "race conditions across ranks" or "race condition across MPI ranks"
+    for text in [audit_content, commands_content]:
+        assert not re.search(r"race\s+conditions?\s+across\s+(?:MPI\s+)?ranks", text, re.IGNORECASE), \
+            "Must not describe MPI rank-local state desynchronization as a shared-memory race condition"
+
+    # Require accurate mechanism description
+    assert "isolated process address spaces" in audit_content or "separate address spaces" in audit_content or "rank-local" in audit_content
+    assert "TRUE_MULTIRANK_MPI_NOT_QUALIFIED" in audit_content
+
+
+def test_guard_against_generic_thread_safety_claim():
+    """Regression Guard: Ensure documentation scopes thread safety to the tested Mode-I configuration."""
+    with open(AUDIT_DOC_PATH, "r", encoding="utf-8") as f:
+        audit_content = f.read()
+
+    # Disallow positive generic global thread-safety assertions
+    assert not re.search(r"is\s+(?:generically|universally)\s+thread-safe", audit_content, re.IGNORECASE), \
+        "Must not claim the UEL is generically or universally thread-safe"
+    assert "PROVEN 100% thread-safe" not in audit_content, "Must not claim unqualified 100% thread safety"
+    assert "8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS" in audit_content
+
+
+def test_guard_against_unqualified_16thread_claim():
+    """Regression Guard: Ensure 16 threads are treated as unqualified until Stage-A and Stage-B pass."""
+    with open(AUDIT_DOC_PATH, "r", encoding="utf-8") as f:
+        audit_content = f.read()
+
+    assert re.search(r"16[- ]threads?\s+execution\s+remains\s+(?:\*\*|`|)unqualified", audit_content, re.IGNORECASE) or \
+           re.search(r"16[- ]threads?.*?unqualified", audit_content, re.IGNORECASE), \
+           "Must explicitly state that 16 threads remain unqualified without Stage-A/B proof"
+
+
+def test_guard_against_exit_status_alone_as_qualification():
+    """Regression Guard: Ensure Exit status 0 alone is rejected as parallel qualification."""
+    with open(AUDIT_DOC_PATH, "r", encoding="utf-8") as f:
+        audit_content = f.read()
+
+    assert "Exit_status=0" in audit_content or "Exit status 0" in audit_content or "Exit 0" in audit_content
+    assert "insufficient" in audit_content.lower()
+
+
+def test_guard_against_removal_of_serial_authoritative_reference():
+    """Regression Guard: Ensure 1-CPU serial reference standard is mandatory."""
+    with open(AUDIT_DOC_PATH, "r", encoding="utf-8") as f:
+        audit_content = f.read()
+    with open(COMMANDS_TXT_PATH, "r", encoding="utf-8") as f:
+        commands_content = f.read()
+
+    assert "authoritative reference standard" in audit_content.lower() or "authoritative reference" in audit_content.lower()
+    assert "MANDATORY authoritative reference" in commands_content or "authoritative reference" in commands_content.lower()
+
+
+def test_guard_provenance_invalidation_warning():
+    """Regression Guard: Ensure the 6-point provenance invalidation warning is preserved."""
+    with open(AUDIT_DOC_PATH, "r", encoding="utf-8") as f:
+        audit_content = f.read()
+
+    assert "Provenance Invalidation Boundary" in audit_content or "Provenance & Code-Modification Warning" in audit_content
+    assert "f42_mixed_uel.for" in audit_content
+    assert "COMMON /CB_STATE_TRANS/" in audit_content
+    assert "call ordering" in audit_content
+    assert "compiler" in audit_content.lower()
+    assert "thread count" in audit_content.lower()

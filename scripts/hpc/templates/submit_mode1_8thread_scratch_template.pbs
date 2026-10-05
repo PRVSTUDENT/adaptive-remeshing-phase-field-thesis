@@ -3,8 +3,9 @@
 # PBS PRODUCTION TEMPLATE: MODE-I 8-THREAD SHARED-MEMORY (SMP) EXECUTION
 # Platform: TU Bergakademie Freiberg HPC Cluster (tu_freiberg / PBS Professional)
 # Target Queue: normal_imfdfkmq (Production Queue)
-# Execution Architecture: Single-Node Shared-Memory SMP Multi-Threading ONLY
-# Multi-Rank MPI Policy: STRICTLY PROHIBITED (f42_mixed_uel.for is SMP-only)
+# Execution Architecture: Single-Node Shared-Memory SMP (1 Process x 8 Threads)
+# Multi-Rank MPI Policy: STRICTLY UNQUALIFIED (TRUE_MULTIRANK_MPI_NOT_QUALIFIED)
+# Scope: Empirically qualified for tested Mode-I formulation and controls ONLY
 # Storage Policy: Heavy simulation outputs MUST execute strictly under /scratch9/
 # ==============================================================================
 #PBS -N PK_M1_PROD_8T
@@ -38,8 +39,9 @@ if [ -n "${PBS_NODEFILE:-}" ]; then
   NUM_NODES=$(sort -u "$PBS_NODEFILE" | wc -l)
   if [ "$NUM_NODES" -gt 1 ]; then
     echo "[PARALLEL GOVERNANCE ERROR] Multi-node allocation detected (nodes=$NUM_NODES)." >&2
-    echo "f42_mixed_uel.for contains COMMON blocks and is NOT thread-safe across multi-node MPI." >&2
-    echo "Only single-node shared-memory threading (nodes=1:ppn=8) is qualified." >&2
+    echo "f42_mixed_uel.for contains COMMON blocks and is NOT qualified for distributed-memory multi-rank MPI." >&2
+    echo "Independent MPI ranks possess isolated address spaces and lack inter-rank state communication." >&2
+    echo "Only single-node shared-memory threading (nodes=1:ppn=8) is empirically qualified." >&2
     exit 89
   fi
 fi
@@ -84,7 +86,7 @@ echo "Job Name:           $JOB_NAME"
 echo "Input Deck:         $INPUT_DECK"
 echo "User Subroutine:    $USER_SUBROUTINE"
 echo "CPUs / Threads:     $NUM_CPUS"
-echo "Parallel Mode:      $MP_MODE (Shared-Memory SMP Multi-Threading)"
+echo "Parallel Mode:      $MP_MODE (Shared-Memory SMP Multi-Threading, 1 Process)"
 echo "Memory:             $MEM_ALLOC"
 echo "Working Directory:  $CURRENT_DIR"
 echo "=============================================================================="
