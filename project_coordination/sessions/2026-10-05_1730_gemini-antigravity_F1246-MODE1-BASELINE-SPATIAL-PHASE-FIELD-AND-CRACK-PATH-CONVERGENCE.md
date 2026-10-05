@@ -75,8 +75,8 @@ The audit directly compares:
 ## 5. Active Jobs Telemetry Checkpoint
 
 All 5 Gate-6B solver jobs continue running steadily on `/scratch9/pr21vyci` in queue `normal_imfdfkmq`:
-- `1410179.mmaster02` (`PK_M1_14AM_SOLVE`, 58k spatial fine): Step 1 Inc 903+ ($u = 0.004515\,\text{mm}$)
+- `1410179.mmaster02` (`PK_M1_14AM_SOLVE`, 58k spatial fine): Step 1 Inc 903+ ($u = 0.002258\,\text{mm}$, corrected per Task F1251 audit)
 - `1410180.mmaster02` (`PK_M1_14K_CONV_CTRL`, $C_n=0.50$ diagnostic): Step 2 Inc 357+ ($u = 0.005357\,\text{mm}$)
-- `1410357.mmaster02` (`PK_M1_14ET2_SOLVE`, ET2 6,112 FE): Step 1 Inc 1187+ ($u = 0.005935\,\text{mm}$)
-- `1410358.mmaster02` (`PK_M1_14ET3_SOLVE`, ET3 5,189 FE): Step 1 Inc 1303+ ($u = 0.006515\,\text{mm}$)
-- `1410359.mmaster02` (`PK_M1_14ET5_SOLVE`, ET5 4,692 FE): Step 1 Inc 1354+ ($u = 0.006770\,\text{mm}$)
+- `1410357.mmaster02` (`PK_M1_14ET2_SOLVE`, ET2 6,112 FE): Step 1 Inc 1187+ ($u = 0.002968\,\text{mm}$, corrected per Task F1251 audit)
+- `1410358.mmaster02` (`PK_M1_14ET3_SOLVE`, ET3 5,189 FE): Step 1 Inc 1303+ ($u = 0.003258\,\text{mm}$, corrected per Task F1251 audit)
+- `1410359.mmaster02` (`PK_M1_14ET5_SOLVE`, ET5 4,692 FE): Step 1 Inc 1354+ ($u = 0.003385\,\text{mm}$, corrected per Task F1251 audit)

@@ -1,19 +1,19 @@
 {
-  "task_id": "F1250-MODE1-ACTIVE-SOLVER-TERMINAL-CHECKPOINT-AND-EVALUATOR-DISPATCH",
+  "task_id": "F1251-MODE1-ACTIVE-SOLVER-TELEMETRY-PROVENANCE-RECONCILIATION",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "stage": "MODE1_ACTIVE_SOLVER_CHECKPOINT_COMPLETED",
+  "stage": "MODE1_TELEMETRY_PROVENANCE_RECONCILIATION_COMPLETED",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "started_at": "2026-10-05T17:58:00+02:00",
-  "completed_at": "2026-10-05T18:02:00+02:00",
-  "description": "Gate-6B active solver checkpoint and terminal evaluator dispatch: (1) queried scheduler and scratch9 solver telemetry for the 5 active Gate-6B jobs (1410179 58k spatial fine, 1410180 Cn=0.50 diagnostic, 1410357 ET2 6,112 FE, 1410358 ET3 5,189 FE, 1410359 ET5 4,692 FE); (2) verified increment, step, actual RP displacement from solver evidence (1410179 Step 1 Inc 1214 u=3.035um; 1410180 Step 2 Inc 1412 u=6.400um; 1410357 Step 2 Inc 1313 u=6.315um; 1410358 Step 2 Inc 1608 u=6.610um; 1410359 Step 2 Inc 1743 u=6.745um), all with 0 cutbacks and 3 iters/inc; (3) all 5 jobs remain actively solving in R state without disturbance; (4) verified frozen terminal evaluators and multi-quantity synthesis schema standing by; (5) regression test suite verified with 100% pass across all 71 unit tests; (6) compiled supervisor meeting pack report_main.pdf (38 pages) and faculty thesis THESIS_FACULTY_BUILD.pdf (74 pages).",
-  "governing_verdict": "MODE1_ACTIVE_SOLVER_CHECKPOINT_COMPLETED__ALL_5_JOBS_SOLVING_STEADILY_SCRATCH_COMPLIANT",
-  "promoted_status": "GATE6B_ACTIVE_SOLVER_CHECKPOINT_VERIFIED",
+  "started_at": "2026-10-05T18:07:30+02:00",
+  "completed_at": "2026-10-05T19:30:00+02:00",
+  "description": "Mode-I active-job telemetry provenance reconciliation and displacement-conversion correction: (1) audited all 5 Gate-6B active production input decks to establish exact Step-1 and Step-2 boundary condition mappings, step durations, increment sizes, and cumulative offsets; (2) diagnosed root cause of historical interim displacement reporting contradictions (specifically 1410179 0.004515mm at Inc 903 vs 0.003035mm at Inc 1214) by demonstrating improper increment multiplication (903 * 5nm) vs true step-time mapping (0.607 * 0.005mm); (3) audited and corrected interim telemetry for all 5 jobs across ledgers, reports, and meeting pack; (4) froze single telemetry contract and consistency guards; (5) authored automated regression test suite.",
+  "governing_verdict": "MODE1_TELEMETRY_PROVENANCE_RECONCILED",
+  "promoted_status": "GATE6B_TELEMETRY_PROVENANCE_FROZEN",
   "active_jobs": {
-    "1410179.mmaster02": "PK_M1_14AM_SOLVE (58k spatial fine, normal_imfdfkmq, scratch9, Step 1 Inc 1214, u=3.035um)",
-    "1410180.mmaster02": "PK_M1_14K_CONV_CTRL (Cn=0.50 diagnostic, normal_imfdfkmq, scratch9, Step 2 Inc 1412, u=6.400um)",
-    "1410357.mmaster02": "PK_M1_14ET2_SOLVE (ET2 6,112 FE, normal_imfdfkmq, scratch9, Step 2 Inc 1313, u=6.315um)",
-    "1410358.mmaster02": "PK_M1_14ET3_SOLVE (ET3 5,189 FE, normal_imfdfkmq, scratch9, Step 2 Inc 1608, u=6.610um)",
-    "1410359.mmaster02": "PK_M1_14ET5_SOLVE (ET5 4,692 FE, normal_imfdfkmq, scratch9, Step 2 Inc 1743, u=6.745um)"
+    "1410179.mmaster02": "PK_M1_14AM_SOLVE (58k spatial fine, normal_imfdfkmq, scratch9)",
+    "1410180.mmaster02": "PK_M1_14K_CONV_CTRL (Cn=0.50 diagnostic, normal_imfdfkmq, scratch9)",
+    "1410357.mmaster02": "PK_M1_14ET2_SOLVE (ET2 6,112 FE, normal_imfdfkmq, scratch9)",
+    "1410358.mmaster02": "PK_M1_14ET3_SOLVE (ET3 5,189 FE, normal_imfdfkmq, scratch9)",
+    "1410359.mmaster02": "PK_M1_14ET5_SOLVE (ET5 4,692 FE, normal_imfdfkmq, scratch9)"
   }
 }

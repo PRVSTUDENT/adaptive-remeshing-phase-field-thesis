@@ -15,15 +15,17 @@ A single, non-invasive scheduler and solver telemetry checkpoint was executed ac
 
 ---
 
-## 2. Live Scheduler and Solver Telemetry Snapshot
+## 2. Live Scheduler and Solver Telemetry Snapshot (Reconciled & Corrected)
+
+*(Note: Reconciled in Task F1251. True Step-1 displacement scales at $2.5\,\text{nm/inc}$ based on $u_{y,1,\text{end}} = 0.0050\,\text{mm}$ and $\Delta t_1 = 5.0\times 10^{-4}$, rather than unmapped $5.0\,\text{nm/inc}$ factor).*
 
 | PBS Job ID | Job Name | Model Package | Mesh / Purpose | Current Status | Achieved $u_y$ | Cutbacks | Newton Iters/Inc |
 | :--- | :--- | :--- | :--- | :---: | :---: | :---: | :---: |
-| `1410180.mmaster02` | `PK_M1_14K_CONV_CTRL` | Package 28 | 14,483 FE ($C_n=0.50$ diagnostic) | `R` (Step 2 Inc 357) | $0.005357\,\text{mm}$ | 0 | 3 |
-| `1410179.mmaster02` | `PK_M1_14AM_SOLVE` | Package 30 | 57,929 FE (Spatial fine) | `R` (Step 1 Inc 903) | $0.004515\,\text{mm}$ | 0 | 3 |
-| `1410357.mmaster02` | `PK_M1_14ET2_SOLVE` | Package 34 | 6,112 FE ($\text{ET}=2.0\%$) | `R` (Step 1 Inc 1187) | $0.005935\,\text{mm}$ | 0 | 3 |
-| `1410358.mmaster02` | `PK_M1_14ET3_SOLVE` | Package 35 | 5,189 FE ($\text{ET}=3.0\%$) | `R` (Step 1 Inc 1303) | $0.006515\,\text{mm}$ | 0 | 3 |
-| `1410359.mmaster02` | `PK_M1_14ET5_SOLVE` | Package 36 | 4,692 FE ($\text{ET}=5.0\%$) | `R` (Step 1 Inc 1354) | $0.006770\,\text{mm}$ | 0 | 3 |
+| `1410180.mmaster02` | `PK_M1_14K_CONV_CTRL` | Package 28 | 14,483 FE ($C_n=0.50$ diagnostic) | `R` (Step 2 Inc 357) | $0.005357\,\text{mm}$ ($5.357\,\mu\text{m}$) | 0 | 3 |
+| `1410179.mmaster02` | `PK_M1_14AM_SOLVE` | Package 30 | 57,929 FE (Spatial fine) | `R` (Step 1 Inc 903) | $0.002258\,\text{mm}$ ($2.258\,\mu\text{m}$) | 0 | 3 |
+| `1410357.mmaster02` | `PK_M1_14ET2_SOLVE` | Package 34 | 6,112 FE ($\text{ET}=2.0\%$) | `R` (Step 1 Inc 1187) | $0.002968\,\text{mm}$ ($2.968\,\mu\text{m}$) | 0 | 3 |
+| `1410358.mmaster02` | `PK_M1_14ET3_SOLVE` | Package 35 | 5,189 FE ($\text{ET}=3.0\%$) | `R` (Step 1 Inc 1303) | $0.003258\,\text{mm}$ ($3.258\,\mu\text{m}$) | 0 | 3 |
+| `1410359.mmaster02` | `PK_M1_14ET5_SOLVE` | Package 36 | 4,692 FE ($\text{ET}=5.0\%$) | `R` (Step 1 Inc 1354) | $0.003385\,\text{mm}$ ($3.385\,\mu\text{m}$) | 0 | 3 |
 
 ---
 
