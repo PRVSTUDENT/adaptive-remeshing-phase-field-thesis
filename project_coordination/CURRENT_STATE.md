@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-05T11:10:00+02:00` (Gemini Antigravity) — HPC /home storage compliance audit completed and >2.3 TB solver artifacts migrated to /scratch/pr21vyci; All PBS execution scripts and submission wrappers hardened with hard /home rejection guards; 3 active jobs resubmitted from qualified /scratch directories: 1410178.mmaster02 (Mode-II UEL preanalysis), 1410179.mmaster02 (Mode-I 58k spatial fine candidate), and 1410180.mmaster02 (Mode-I Cn=0.50 diagnostic) solving steadily on `mnode097` in `normal_imfdfkmq`.
+Last updated: `2026-10-05T11:25:00+02:00` (Gemini Antigravity) — HPC /home storage compliance closure, multi-TB scratch migration, script invariance audit, and scientific twin verification completed: (1) >1.01 TB migrated, /home free space increased to 4.0 TB (81% used); (2) 169 modified PBS scripts audited against pre-storage commit 97394682 with 100% classified as PATH_ONLY_STORAGE_CHANGE and zero scientific modifications; (3) Exact bitwise scientific twin equivalence verified for all 3 resubmitted jobs (1410178, 1410179, 1410180) solving cleanly from u=0 without history splicing; (4) Runtime solver output paths confirmed resolving strictly under /scratch9/pr21vyci/projects/adaptive-remeshing/ with hard Exit 88 guards in place.
 
 ---
 

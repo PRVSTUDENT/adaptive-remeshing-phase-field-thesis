@@ -1,70 +1,54 @@
 {
-  "task_id": "F1231-HPC-HOME-STORAGE-COMPLIANCE-AND-SCRATCH-MIGRATION",
+  "task_id": "F1232-HPC-STORAGE-COMPLIANCE-CLOSURE-AND-PROVENANCE-AUDIT",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "stage": "HPC_STORAGE_COMPLIANCE_AND_SCRATCH_MIGRATION",
+  "stage": "HPC_STORAGE_COMPLIANCE_CLOSURE_AND_PROVENANCE_AUDIT",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "started_at": "2026-10-05T10:38:00+02:00",
-  "completed_at": "2026-10-05T11:10:00+02:00",
-  "description": "Emergency HPC /home storage compliance audit, parallel multi-TB solver artifact migration to /scratch/pr21vyci, PBS execution script and submission wrapper hardening with hard guards against /home execution, regression test verification, and resubmission of the 3 active jobs from /scratch (1410178.mmaster02, 1410179.mmaster02, 1410180.mmaster02).",
-  "governing_verdict": "HPC_HOME_STORAGE_COMPLIANCE_ENFORCED__SCRATCH_EXECUTION_OPERATIONAL",
+  "started_at": "2026-10-05T11:11:00+02:00",
+  "completed_at": "2026-10-05T11:28:00+02:00",
+  "description": "HPC /home storage compliance closure, multi-TB scratch migration audit, 169-script git-diff invariance verification against pre-storage commit 97394682, exact bitwise scientific twin verification for the 3 replacement jobs (1410178.mmaster02, 1410179.mmaster02, 1410180.mmaster02), live runtime solver output path verification on /scratch9/, and documentation update.",
+  "governing_verdict": "HPC_STORAGE_COMPLIANCE_CLOSED__SCRATCH_EXECUTION_AND_TWINS_VERIFIED",
   "active_hpc_jobs": [
     {
       "job_id": "1410178.mmaster02",
       "name": "M2_J1_UEL_PRE",
       "cpus": 1,
       "state": "Running",
-      "scratch_dir": "/scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis",
-      "description": "Mode-II Paper-Grounded Coarse Pre-Analysis Solve (Step 2 Inc 1213+ replay, scratch-compliant)"
+      "scratch_dir": "/scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis",
+      "deck_sha256": "869a2dbd015573fc15470834dab1a6051a5ae530000ab44f9184777605541791",
+      "for_sha256": "fa48cb4d38bac9d772ff5ed1465175cef363b1ab6fabe2cffebbdf11d3e2a854",
+      "scientific_verdict": "EXACT_SCIENTIFIC_TWIN_VERIFIED"
     },
     {
       "job_id": "1410179.mmaster02",
       "name": "PK_M1_14AM_SOLVE",
       "cpus": 1,
       "state": "Running",
-      "scratch_dir": "/scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine",
-      "description": "Mode-I Spatial Fine Candidate (58k elements, scratch-compliant)"
+      "scratch_dir": "/scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine",
+      "deck_sha256": "537c8c6617945afd66e135c1df4e2c34211f47fbeeec44e4c145a8551cc1eefd",
+      "for_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+      "scientific_verdict": "EXACT_SCIENTIFIC_TWIN_VERIFIED"
     },
     {
       "job_id": "1410180.mmaster02",
       "name": "PK_M1_14K_CONV_CTRL",
       "cpus": 1,
       "state": "Running",
-      "scratch_dir": "/scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/28_stage14_convergence_control_candidate",
-      "description": "Mode-I Cn=0.50 Displacement Correction Diagnostic Solve (scratch-compliant)"
+      "scratch_dir": "/scratch9/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/28_stage14_convergence_control_candidate",
+      "deck_sha256": "ab484020e13f12213532b365a57e344e7d4426ae8ad4863ab63c745c10bfc48d",
+      "for_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+      "scientific_verdict": "EXACT_SCIENTIFIC_TWIN_VERIFIED"
     }
   ],
-  "evaluated_completed_jobs": [
-    {
-      "job_id": "1410095.mmaster02",
-      "name": "PK_M1_14K_8T",
-      "cpus": 8,
-      "state": "Completed (Exit 1 matching Serial)",
-      "description": "8-Thread Stage-A Twin Solve (4,890 incs, bitwise match)"
-    },
-    {
-      "job_id": "1410100.mmaster02",
-      "name": "PK_M1_14K_8T_STAGE_B",
-      "cpus": 8,
-      "state": "Completed (Exit 1 matching Serial)",
-      "description": "8-Thread Stage-B Determinism Repeat (4,890 incs, 100% bitwise parity)"
-    }
-  ],
-  "administratively_stopped_jobs": [
-    {
-      "job_id": "1410125.mmaster02",
-      "name": "M2_J1_UEL_PRE",
-      "reason": "ADMINISTRATIVELY_STOPPED_FOR_HOME_STORAGE_COMPLIANCE (resubmitted as 1410178.mmaster02 from /scratch)"
-    },
-    {
-      "job_id": "1410032.mmaster02",
-      "name": "PK_M1_14AM_SOLVE",
-      "reason": "ADMINISTRATIVELY_STOPPED_FOR_HOME_STORAGE_COMPLIANCE (resubmitted as 1410179.mmaster02 from /scratch)"
-    },
-    {
-      "job_id": "1410096.mmaster02",
-      "name": "PK_M1_14K_CONV_CTRL",
-      "reason": "ADMINISTRATIVELY_STOPPED_FOR_HOME_STORAGE_COMPLIANCE (resubmitted as 1410180.mmaster02 from /scratch)"
-    }
-  ]
+  "audit_results": {
+    "scripts_audited_count": 169,
+    "path_only_storage_change_count": 169,
+    "scientific_input_changes_count": 0,
+    "unintended_changes_count": 0,
+    "script_audit_verdict": "ZERO_SCIENTIFIC_CHANGES__STRICT_PATH_ONLY_STORAGE_COMPLIANCE",
+    "migration_transferred_gb": ">1024 GB",
+    "home_free_space_tb": "4.0 TB (81% used, down from 84%)",
+    "solver_runtime_paths_on_scratch": "VERIFIED_100PCT",
+    "fatal_home_guard_exit_code": 88
+  }
 }
