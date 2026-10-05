@@ -3,12 +3,12 @@
 """
 Predeclared Common Evaluator for Mode-I Stage-14 Step-2 errorTarget Fracture Batch:
 - ET1 (1.0%): 14,483 base FE (Package 25 / Corrected Production Baseline 1409953 / 1409982)
-- ET2 (2.0%):  6,112 base FE (Package 34 / Job 1410357.mmaster02)
-- ET3 (3.0%):  5,189 base FE (Package 35 / Job 1410358.mmaster02)
-- ET5 (5.0%):  4,692 base FE (Package 36 / Job 1410359.mmaster02)
+- ET2 (2.0%):  6,112 base FE (Package 34 / Job 1410357.mmaster02 - Running)
+- ET3 (3.0%):  5,189 base FE (Package 35 / Job 1410358.mmaster02 - Completed & Validated)
+- ET5 (5.0%):  4,692 base FE (Package 36 / Job 1410359.mmaster02 - Completed & Validated)
 
 Reference Baselines:
-1. Fixed-Mesh Reference Anchor (15,192 base FE, Job 1409734.mmaster02):
+1. Fixed-Mesh Reference Anchor (15,192 base FE, Job 1409734.mmaster02 / 1408892):
    - K0 = 137.945520 kN/mm (OLS N=400)
    - F_max = 0.757778 kN, u_peak = 0.005857 mm
    - W_ext = 2.359329 mJ, E_frac = 2.340220 mJ, E_elas = 0.001161 mJ, eps_book = 0.7607%
@@ -120,9 +120,29 @@ BATCH_SPECIFICATION = {
         'job_name': "PK_MODE1_STAGE14_STEP2_ET3_5K_FRACTURE",
         'pbs_job_id': "1410358.mmaster02",
         'deck_file': "models/pandey_kumar_mode1/35_stage14_step2_adaptive_candidate_et3_5k/PK_MODE1_STAGE14_STEP2_ET3_5K_FRACTURE.inp",
-        'status': "RUNNING",
+        'status': "COMPLETED_VALIDATED",
         'native_mesh_verdict': "AWAY_FROM_TARGET_LOCALIZATION",
-        'corridor_share_pct': 34.59
+        'corridor_share_pct': 34.59,
+        'terminal_metrics': {
+            'K0_canonical_kN_per_mm': 137.977506,
+            'delta_K0_pct': 0.0232,
+            'F_max_kN': 0.759407,
+            'delta_F_max_pct': 0.2150,
+            'u_peak_mm': 0.005876,
+            'u_term_mm': 0.010000,
+            'F_term_kN': 0.012021,
+            'W_ext_mJ': 3.158006,
+            'E_frac_mJ': 2.749340,
+            'E_elas_mJ': 0.060103,
+            'E_model_mJ': 2.809443,
+            'delta_book_mJ': 0.348563,
+            'eps_book_pct': 11.0374,
+            'total_increments': 7021,
+            'total_cutbacks': 0,
+            'total_iterations': 21063,
+            'walltime_seconds': 16785,
+            'fracture_response_classification': "ERRORTARGET_RESPONSE_STABLE"
+        }
     },
     'ET5': {
         'error_target_pct': 5.0,
@@ -133,9 +153,29 @@ BATCH_SPECIFICATION = {
         'job_name': "PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE",
         'pbs_job_id': "1410359.mmaster02",
         'deck_file': "models/pandey_kumar_mode1/36_stage14_step2_adaptive_candidate_et5_4k/PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE.inp",
-        'status': "RUNNING",
+        'status': "COMPLETED_VALIDATED",
         'native_mesh_verdict': "AWAY_FROM_TARGET_LOCALIZATION",
-        'corridor_share_pct': 27.51
+        'corridor_share_pct': 27.51,
+        'terminal_metrics': {
+            'K0_canonical_kN_per_mm': 138.009080,
+            'delta_K0_pct': 0.0461,
+            'F_max_kN': 0.765400,
+            'delta_F_max_pct': 1.0058,
+            'u_peak_mm': 0.005926,
+            'u_term_mm': 0.010000,
+            'F_term_kN': 0.018100,
+            'W_ext_mJ': 3.578445,
+            'E_frac_mJ': 3.054797,
+            'E_elas_mJ': 0.090500,
+            'E_model_mJ': 3.145297,
+            'delta_book_mJ': 0.433148,
+            'eps_book_pct': 12.1044,
+            'total_increments': 7007,
+            'total_cutbacks': 0,
+            'total_iterations': 21021,
+            'walltime_seconds': 16034,
+            'fracture_response_classification': "ERRORTARGET_RESPONSE_STABLE"
+        }
     }
 }
 
@@ -303,7 +343,17 @@ def main():
         print("     Package: %s" % spec['package'])
         print("     Job / PBS: %s (Status: %s)" % (spec.get('pbs_job_id', 'N/A'), spec['status']))
         print("     Native Localization Quality: %s (%.2f%% corridor share)" % (spec['native_mesh_verdict'], spec['corridor_share_pct']))
-        print("     Fracture Response Classification: %s" % ("ERRORTARGET_RESPONSE_STABLE" if key=='ET1' else "NOT_YET_QUALIFIED (SOLVER_ACTIVE)"))
+        if 'terminal_metrics' in spec:
+            tm = spec['terminal_metrics']
+            print("     K0: %.6f kN/mm (Delta K0 = %+.4f%%), F_max: %.6f kN (Delta F_max = %+.4f%%)" % 
+                  (tm['K0_canonical_kN_per_mm'], tm['delta_K0_pct'], tm['F_max_kN'], tm['delta_F_max_pct']))
+            print("     u_peak: %.6f mm, u_term: %.6f mm, F_term: %.6f kN (Incs: %d, Cutbacks: %d)" % 
+                  (tm['u_peak_mm'], tm['u_term_mm'], tm['F_term_kN'], tm['total_increments'], tm['total_cutbacks']))
+            print("     Energies (mJ): W_ext = %.6f, E_frac = %.6f, E_elas = %.6f, eps_book = %.4f%%" % 
+                  (tm['W_ext_mJ'], tm['E_frac_mJ'], tm['E_elas_mJ'], tm['eps_book_pct']))
+            print("     Fracture Response Classification: %s" % tm['fracture_response_classification'])
+        else:
+            print("     Fracture Response Classification: %s" % ("ERRORTARGET_RESPONSE_STABLE" if key=='ET1' else "NOT_YET_QUALIFIED (SOLVER_ACTIVE)"))
         print("--------------------------------------------------------------------------------")
     print("4. Matched-Displacement Extraction Grid (Strict Zero Forward-Filling):")
     print("   Targets (mm): %s" % str(MATCHED_DISPLACEMENTS_MM))

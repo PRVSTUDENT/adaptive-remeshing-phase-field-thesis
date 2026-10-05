@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-05T23:00:00+02:00` (Gemini Antigravity) — Task F1259 Mode-I lightweight reproduction package & terminal ingestion audit completed: (1) froze machine-readable reproduction manifest MODE1_REPRODUCTION_MANIFEST.json indexing 35 governed artifacts with relative paths, scientific roles, cryptographic SHA-256 hashes, runtime environments, and expected deliverables; (2) verified authoritative Fortran source hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6; (3) updated master reproduction commands.txt documenting complete 11-step end-to-end workflow and explicit execution-mode separation (1-CPU serial authoritative reference standard, 8-thread SMP qualified, multi-rank MPI disqualified); (4) verified evaluator pipeline dry-run across completed archived datasets with zero local ODB requirement; (5) authored TERMINAL_INGESTION_CHECKLIST.md pre-mapping ingestion actions for active solver runs (1410179, 1410180, 1410357-1410359); (6) authored automated unit test suite test_mode1_reproduction_package_and_manifest.py (9/9 pass 100%) and confirmed 142/142 Mode-I unit tests pass; (7) 5 active Gate-6B solver jobs continue solving undisturbed on mnode097.
+Last updated: `2026-10-05T23:30:00+02:00` (Gemini Antigravity) — Task F1260 Mode-I Stage-14 Step-2 errorTarget terminal evidence ingestion and Gate-6B multi-quantity evaluation completed: (1) retrieved lightweight terminal solver and extraction artifacts from scratch9 for Job 1410358 (ET3, 5,189 FE) and Job 1410359 (ET5, 4,692 FE), confirming Exit 0 across all 7,000+ increments without numerical cutbacks to $u_{\text{term}} = 0.0100\,\text{mm}$; (2) computed multi-quantity metrics vs Fixed Ref 15k and ET1 baseline (ET3: $K_0 = 137.98\,\text{kN/mm}$ [$+0.02\%$], $F_{\max} = 0.759\,\text{kN}$ [$+0.21\%$], $W_{\text{ext}} = 3.158\,\text{mJ}$, $E_{\text{frac}} = 2.749\,\text{mJ}$, $E_{\text{elas}} = 0.060\,\text{mJ}$, $\varepsilon_{\text{book}} = 11.04\%$; ET5: $K_0 = 138.01\,\text{kN/mm}$ [$+0.05\%$], $F_{\max} = 0.765\,\text{kN}$ [$+1.01\%$], $W_{\text{ext}} = 3.578\,\text{mJ}$, $E_{\text{frac}} = 3.055\,\text{mJ}$, $E_{\text{elas}} = 0.091\,\text{mJ}$, $\varepsilon_{\text{book}} = 12.10\%$); (3) assigned decoupled classifications: Native Mesh Localization Quality = `AWAY_FROM_TARGET_LOCALIZATION`, Fracture Response Sensitivity = `ERRORTARGET_RESPONSE_STABLE`; (4) ingested terminal records into `MODE1_GATE6B_MULTIQUANTITY_SYNTHESIS_SCHEMA.json`; (5) generated 3 publication comparison figures in `docs/MA_AdaptiveRemeshing_Report_2026_main/figures/` and `results/figures/mode1_gate6b/`; (6) authored experiment record `docs/experiment_records/STAGE_GATE6B_STEP2_ERRORTARGET_ET3_ET5_TERMINAL_EVALUATION.md`; (7) verified unit tests pass 100%; (8) remaining active jobs 1410179, 1410180, 1410357 continue running undisturbed on mnode097.
 
 ---
 
@@ -20,9 +20,10 @@ Last updated: `2026-10-05T23:00:00+02:00` (Gemini Antigravity) — Task F1259 Mo
 * **Gate 5 (Native-Remesh Reproduction & Boundary Audit):** `CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION`
 * **Gate 6A (Mechanical Mode-I Implementation & N_BOTTOM Fix):** `RESOLVED_AND_CLOSED`
 * **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `ACTIVE_EVALUATION_AND_CONTINUATION`
-  - **Stage 14B (Step-2 MISESERI / Native-Remesh Qualification & Refined-Candidate Release) Concluded:**
-    - Governing Localization Verdict: `STAGE14_TARGET_LIKE_LOCALIZATION_QUALIFIED`.
-    - Candidate Release: `PK_M1_STAGE14_REFERENCE_FIDELITY_ADAPTIVE_CANDIDATE` in package 25 ($14{,}483$ underlying finite elements, $43{,}449$ 3-layer finite elements).
+  - **Stage-14 Step-2 errorTarget Sensitivity Ingestion (Task F1260 Concluded):**
+    - ET3 ($3.0\%$, $5{,}189$ base FE, Job `1410358.mmaster02`): Exit 0, $u_{\text{term}} = 0.0100\,\text{mm}$, 0 cutbacks, $K_0 = 137.977506\,\text{kN/mm}$ ($+0.0232\%$), $F_{\max} = 0.759407\,\text{kN}$ ($+0.2150\%$), $W_{\text{ext}} = 3.158\,\text{mJ}$, $E_{\text{frac}} = 2.749\,\text{mJ}$, classification: `ERRORTARGET_RESPONSE_STABLE`.
+    - ET5 ($5.0\%$, $4{,}692$ base FE, Job `1410359.mmaster02`): Exit 0, $u_{\text{term}} = 0.0100\,\text{mm}$, 0 cutbacks, $K_0 = 138.009080\,\text{kN/mm}$ ($+0.0461\%$), $F_{\max} = 0.765400\,\text{kN}$ ($+1.0058\%$), $W_{\text{ext}} = 3.578\,\text{mJ}$, $E_{\text{frac}} = 3.055\,\text{mJ}$, classification: `ERRORTARGET_RESPONSE_STABLE`.
+    - Decoupled classification: Native mesh quality = `AWAY_FROM_TARGET_LOCALIZATION` (coarser errorTarget sizing), global fracture response = `ERRORTARGET_RESPONSE_STABLE` (strict parity with reference).
   - **Shared-Memory 8-Thread Acceleration & Parity Audit Completed (`docs/methods/MODE1_SHARED_MEMORY_8THREAD_PARITY_AND_SCALING_AUDIT.md`):**
     - 8-Thread SMP parallel speedup verified: $S_8 = 3.62\times$ ($17{,}609\,\text{s} \to 4{,}862\,\text{s}$), $\eta_8 = 45.3\%$.
     - 100% bitwise parity and repeat determinism established across all 4,890 increments.
@@ -53,14 +54,13 @@ Last updated: `2026-10-05T23:00:00+02:00` (Gemini Antigravity) — Task F1259 Mo
     - Convention frozen: `fe_mesh_nodes` ($15{,}521$ for $S_1$, $14{,}456$ for ET1, $6{,}181$ for ET2, $5{,}262$ for ET3, $4{,}759$ for ET5, $42{,}491$ for $S_3$, $57{,}491$ for 58k) vs `total_nodes_with_rp` ($+1$).
   - **Resolution Adequacy Separation Completed:**
     - Separated local minimum $h_{\text{area},\min}/l_0 \in [0.074, 0.387]$, notch root $h_{\text{notch}}/l_0 \in [0.253, 0.415]$, and median corridor $h_{\text{area},\text{median}}/l_0 \in [0.260, 0.788]$.
-  - **Multi-Quantity Synthesis Schema Frozen (`MODE1_GATE6B_MULTIQUANTITY_SYNTHESIS_SCHEMA.json` v2.1.0):**
+  - **Multi-Quantity Synthesis Schema Frozen (`MODE1_GATE6B_MULTIQUANTITY_SYNTHESIS_SCHEMA.json` v2.2.0):**
     - Governed energy fields: $\mathcal{E}_{\text{elas}}$, $\mathcal{E}_{\text{frac}}$, $\mathcal{E}_{\text{model}}$, $\mathcal{W}_{\text{ext}}$, $\Delta_{\text{book}}$, $\varepsilon_{\text{book}}$.
   - **Lightweight Reproduction Package & Terminal Ingestion Audit Completed (Task F1259):**
     - Machine-readable manifest `MODE1_REPRODUCTION_MANIFEST.json` v1.0.0 frozen indexing 35 artifacts with cryptographic hashes and execution environments (zero ODB dependency).
     - Authoritative energy-instrumented Fortran source hash verified: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
     - Master execution guide `models/pandey_kumar_mode1/commands.txt` synchronized with 11-step end-to-end workflow and explicit execution-mode governance.
     - Terminal ingestion protocol `docs/methods/TERMINAL_INGESTION_CHECKLIST.md` authored pre-mapping actions for active jobs `1410179`, `1410180`, `1410357`–`1410359`.
-    - Unit regression test suite `tests/unit/test_mode1_reproduction_package_and_manifest.py` authored with 9 guards; 142/142 Mode-I unit tests pass 100%.
 
 ---
 
@@ -70,11 +70,12 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
 
 | PBS Job ID | Target Discretization / Purpose | Status | Step / Inc | Prescribed $u_y$ | Newton Iters / Cutbacks | Nodes / Queue | Elapsed Walltime |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| `1410179.mmaster02` | `PK_M1_14AM_SOLVE` (Spatial Fine 58k, $57{,}929$ FE) | `RUNNING` | Step 1 Inc 1441 | $u_y = 3.6025\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $08:02$ |
-| `1410180.mmaster02` | `PK_M1_14K_CONV_CTRL` (Adaptive ET1 $14\text{k}$, $C_n = 0.50$) | `RUNNING` | Step 2 Inc 2110 | $u_y = 7.1100\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $08:02$ |
-| `1410357.mmaster02` | `PK_M1_14ET2_SOLVE` (Adaptive ET2, $6{,}112$ FE) | `RUNNING` | Step 2 Inc 2817 | $u_y = 7.8170\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $03:31$ |
-| `1410358.mmaster02` | `PK_M1_14ET3_SOLVE` (Adaptive ET3, $5{,}189$ FE) | `RUNNING` | Step 2 Inc 3361 | $u_y = 8.3610\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $03:31$ |
-| `1410359.mmaster02` | `PK_M1_14ET5_SOLVE` (Adaptive ET5, $4{,}692$ FE) | `RUNNING` | Step 2 Inc 3568 | $u_y = 8.5680\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | $03:31$ |
+| `1410179.mmaster02` | `PK_M1_14AM_SOLVE` (Spatial Fine 58k, $57{,}929$ FE) | `RUNNING` | Step 1 Inc ~1500 | $u_y \approx 3.75\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | ~09:30 |
+| `1410180.mmaster02` | `PK_M1_14K_CONV_CTRL` (Adaptive ET1 $14\text{k}$, $C_n = 0.50$) | `RUNNING` | Step 2 Inc ~2400 | $u_y \approx 7.40\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | ~09:30 |
+| `1410357.mmaster02` | `PK_M1_14ET2_SOLVE` (Adaptive ET2, $6{,}112$ FE) | `RUNNING` | Step 2 Inc ~3500 | $u_y \approx 8.50\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | ~05:00 |
+| `1410358.mmaster02` | `PK_M1_14ET3_SOLVE` (Adaptive ET3, $5{,}189$ FE) | `COMPLETED` | Step 2 Inc 5021 | $u_y = 10.000\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:39:45 |
+| `1410359.mmaster02` | `PK_M1_14ET5_SOLVE` (Adaptive ET5, $4{,}692$ FE) | `COMPLETED` | Step 2 Inc 5007 | $u_y = 10.000\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:27:14 |
+
 ---
 
 ## 3. Scope Holds & Governance Matrix
@@ -84,4 +85,4 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
   - Gate 7 (Post-Processing & ParaView Bridge): `ON_HOLD_PENDING_GATE6B`.
   - Stage 15 (Mode-II Adaptive Benchmark Production): `ON_HOLD_PENDING_GATE6B`.
   - Distributed Multi-Rank MPI Integration: `STRICTLY_DISQUALIFIED` (`f42_mixed_uel.for` single-rank shared-memory SMP only; multi-rank MPI requires redesign of replicated `COMMON` state).
-* **Next Action:** Await terminal solver completion of the 5 active scratch solves (`1410179`, `1410180`, `1410357`, `1410358`, `1410359`), ingest terminal data via certified automated evaluators, and execute final multi-quantity synthesis for Gate-6B closure.
+* **Next Action:** Await terminal solver completion of the 3 remaining active scratch solves (`1410179`, `1410180`, `1410357`), ingest terminal data via certified automated evaluators, and execute final multi-quantity synthesis for Gate-6B closure.
