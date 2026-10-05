@@ -102,6 +102,71 @@ To evaluate time-step convergence on the production $14{,}483$-element adaptive 
 
 \clearpage
 
+\subsection{Baseline Spatial Phase-Field and Crack-Path Comparison: Fixed Reference versus ET1 Adaptive Mesh}
+\label{sec:baseline_spatial_ref_vs_et1}
+
+To rigorously evaluate the baseline spatial fidelity of the error-indicator refined configuration, a comprehensive field-level comparison was executed between the qualified fixed-mesh reference ($15{,}192$ finite elements, Job \texttt{1409734.mmaster02}) and the canonical corrected ET1 adaptive baseline ($14{,}483$ finite elements, Package~25, Job \texttt{1409982.mmaster02}). The comparison strictly enforces the matched prescribed displacement protocol ($u \in \{1.0, 3.0, 5.0, 5.733, 5.857, 6.0, 6.5, 7.0, 7.889\}\,\mu\mathrm{m}$) with zero forward-filling beyond the actual solver terminal state ($u_{\mathrm{term}} = 7.889\,\mu\mathrm{m}$).
+
+\begin{enumerate}
+  \item \textbf{Pre-Peak Damage Localization \& Elastic Parity ($u \le 5.0\,\mu\mathrm{m}$):}
+  \begin{itemize}
+    \item \textbf{Stiffness Match:} Initial structural stiffness $K_0$ matches within $\mathbf{-0.0261\%}$ ($137.909558$ vs $137.945520\,\mathrm{kN/mm}$, $R^2 = 0.99999960$).
+    \item \textbf{Damage Magnitude:} Maximum phase-field damage $d_{\max}$ matches closely: at $u=1.0\,\mu\mathrm{m}$, $d_{\max} = 0.0095$ vs $0.0091$; at $u=3.0\,\mu\mathrm{m}$, $d_{\max} = 0.0918$ vs $0.0875$; at $u=5.0\,\mu\mathrm{m}$, $d_{\max} = 0.3181$ vs $0.2981$.
+    \item \textbf{Stationary Crack Tip:} For all thresholds $\theta \in \{0.50, 0.70, 0.90\}$, the crack-tip position is invariant and stationary at the initial notch root ($x_{\mathrm{tip}} = 0.500000\,\mathrm{mm}$).
+    \item \textbf{Classification:} Classified as \textbf{\texttt{SPATIAL\_FIELD\_BASELINE\_AGREEMENT}}.
+  \end{itemize}
+
+  \item \textbf{Peak-Neighborhood Offset \& Localization Dynamics ($u \in [5.733, 5.857]\,\mu\mathrm{m}$):}
+  \begin{itemize}
+    \item \textbf{Snap-Through Shift:} The adaptive mesh reaches peak load slightly earlier at $u = 5.733\,\mu\mathrm{m}$ ($F_{\max} = 0.743701\,\mathrm{kN}$) compared to the reference mesh at $u = 5.857\,\mu\mathrm{m}$ ($F_{\max} = 0.757778\,\mathrm{kN}$, a $-1.8576\%$ load difference).
+    \item \textbf{Damage State at $u=5.857\,\mu\mathrm{m}$:} The fixed reference is at peak load with diffuse damage ($d_{\max} = 0.629736, x_{\mathrm{tip}}^{0.90} = 0.500000\,\mathrm{mm}$), whereas the adaptive mesh has already undergone catastrophic snap-through ($d_{\max} = 1.000494, x_{\mathrm{tip}}^{0.90} = 0.976737\,\mathrm{mm}$).
+    \item \textbf{Classification:} Classified as \textbf{\texttt{SPATIAL\_FIELD\_BASELINE\_DIFFERENCE}}. This shift correlates directly with localized compliance gradations and mesh refinement at the notch root.
+  \end{itemize}
+
+  \item \textbf{Post-Peak Crack Traversal \& Symmetry ($u \ge 6.0\,\mu\mathrm{m}$):}
+  \begin{itemize}
+    \item \textbf{Full Traversal:} Both discretizations achieve full ligament traversal ($x_{\mathrm{tip}}^{0.90} = 0.998490\,\mathrm{mm}$ vs $0.998496\,\mathrm{mm}$, matching the right specimen boundary).
+    \item \textbf{Sub-Micron Symmetry:} Crack-centroid off-axis deviation $|y_c - 0.500000\,\mathrm{mm}|$ is bounded to sub-micron precision: $\Delta y_{\mathrm{off}} \le 0.461\,\mu\mathrm{m}$ (Reference) and $\Delta y_{\mathrm{off}} \le 0.175\,\mu\mathrm{m}$ (Adaptive ET1).
+    \item \textbf{Transverse Bandwidth:} The full width at half-maximum matches theoretical $\mathrm{FWHM} = 2 l_0 \ln 2 \approx 20.79\,\mu\mathrm{m}$ across both models.
+    \item \textbf{Classification:} Classified as \textbf{\texttt{SPATIAL\_FIELD\_BASELINE\_AGREEMENT}}.
+  \end{itemize}
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_spatial_ligament_profiles_matched.pdf}
+  \caption{Matched-displacement phase-field ligament profiles $d(x, y=0.5\,\mathrm{mm})$ comparing Fixed Reference ($15{,}192$ FE) and Adaptive ET1 ($14{,}483$ FE) across (a) pre-peak elastic, (b) peak-neighborhood, (c) post-fracture, and (d) terminal states.}
+  \label{fig:matched_ligament_profiles_pack}
+  \figureconclusion{Pre-peak profiles agree closely; the peak-load transition exhibits an earlier snap-through in the adaptive mesh; post-fracture profiles confirm complete horizontal ligament severance across both discretizations.}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_spatial_phase_field_contours_matched.pdf}
+  \caption{Two-dimensional phase-field damage contour comparison $d(x, y)$ between Fixed Reference ($15{,}192$ FE) and Adaptive ET1 ($14{,}483$ FE) at matched deformation states: $u = 5.0\,\mu\mathrm{m}$, $u = 5.857\,\mu\mathrm{m}$, and $u = 7.0\,\mu\mathrm{m}$.}
+  \label{fig:matched_phase_contours_pack}
+  \figureconclusion{Two-dimensional contours demonstrate exact horizontal crack alignment along $y = 0.500\,\mathrm{mm}$ with tight damage confinement within the refined adaptive corridor.}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{fig_mode1_spatial_crack_tip_evolution.pdf}
+    \caption*{(a) Crack-tip progression $x_{\mathrm{tip}}^{(\theta)}(u)$}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{fig_mode1_spatial_off_axis_deviation.pdf}
+    \caption*{(b) Symmetry off-axis deviation $|y_c - 0.5|$}
+  \end{minipage}
+  \caption{Crack propagation kinematics: (a) crack-tip coordinate $x_{\mathrm{tip}}^{(\theta)}$ for thresholds $\theta \in \{0.50, 0.70, 0.90\}$; (b) damage centroid off-axis deviation showing sub-micron symmetry preservation ($< 0.5\,\mu\mathrm{m}$).}
+  \label{fig:crack_kinematics_pack}
+  \figureconclusion{Crack-tip advance is stationary up to peak load followed by rapid traversal; off-axis deviation confirms strict Mode-I symmetry with zero spurious deflection across both meshes.}
+\end{figure}
+
+\clearpage
+
 \subsection{Adaptive Remeshing Series ($A_1$--$A_4$)}
 Figure~\ref{fig:adaptive_meshes_comparison_pack} displays the Abaqus-native adaptive meshes generated using `errorTarget` values of $1\%$, $2\%$, $3\%$, and $5\%$ ($A_1$--$A_4$), showing the full specimen domain and crack-tip zoom windows. As target discretization tolerance relaxes, element density smoothly transitions from intense crack-line refinement ($71{,}320$ elements) down to coarser background meshes ($4{,}194$ elements).
 

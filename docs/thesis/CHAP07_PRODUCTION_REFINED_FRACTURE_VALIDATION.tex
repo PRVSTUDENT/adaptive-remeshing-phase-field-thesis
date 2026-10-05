@@ -213,6 +213,36 @@ Figure~\ref{fig:matched_contours_thesis} depicts the full two-dimensional damage
     \item \textbf{Diffusive Localization Band Width}: The moderate damage band ($d \ge 0.50$) spans a transverse full-width of $20.0$--$30.0\,\mu\text{m}$ across the ligament ($20.0$--$22.9\,\mu\text{m}$ at $x = 0.55\,\text{mm}$), classified as \textbf{\texttt{MESH-SENSITIVE / RESOLUTION-LIMITED}} (Figure~\ref{fig:ligament_thesis} and Figure~\ref{fig:path_dev_thesis}(b)).
 \end{itemize}
 
+\subsection{Baseline Spatial Phase-Field and Crack-Path Comparison: Fixed Reference versus ET1 Adaptive Mesh}
+\label{sec:baseline_spatial_ref_vs_et1_thesis}
+
+To establish the baseline spatial convergence foundation of the error-indicator refined configuration, a point-by-point spatial comparison was executed between the qualified fixed-mesh reference ($15{,}192$ finite elements, Job \texttt{1409734.mmaster02}) and the canonical corrected ET1 adaptive baseline ($14{,}483$ finite elements, Package~25, Job \texttt{1409982.mmaster02}). The comparison strictly enforces the matched prescribed displacement protocol ($u \in \{1.0, 3.0, 5.0, 5.733, 5.857, 6.0, 6.5, 7.0, 7.889\}\,\mu\mathrm{m}$) with zero forward-filling beyond the actual solver terminal state ($u_{\mathrm{term}} = 7.889\,\mu\mathrm{m}$).
+
+\begin{enumerate}
+    \item \textbf{Pre-Peak Damage Localization \& Elastic Parity ($u \le 5.0\,\mu\mathrm{m}$):}
+    \begin{itemize}
+        \item Initial structural stiffness $K_0$ matches within $\mathbf{-0.0261\%}$ ($137.909558$ vs $137.945520\,\mathrm{kN/mm}$, $R^2 = 0.99999960$).
+        \item Maximum phase-field damage $d_{\max}$ matches closely: $d_{\max} = 0.0095$ vs $0.0091$ at $u=1.0\,\mu\mathrm{m}$; $0.0918$ vs $0.0875$ at $u=3.0\,\mu\mathrm{m}$; $0.3181$ vs $0.2981$ at $u=5.0\,\mu\mathrm{m}$.
+        \item For all thresholds $\theta \in \{0.50, 0.70, 0.90\}$, crack-tip position remains stationary at the initial notch root ($x_{\mathrm{tip}} = 0.500000\,\mathrm{mm}$).
+        \item Classified as \textbf{\texttt{SPATIAL\_FIELD\_BASELINE\_AGREEMENT}}.
+    \end{itemize}
+
+    \item \textbf{Peak-Neighborhood Offset \& Localization Dynamics ($u \in [5.733, 5.857]\,\mu\mathrm{m}$):}
+    \begin{itemize}
+        \item The adaptive mesh reaches peak load slightly earlier at $u = 5.733\,\mu\mathrm{m}$ ($F_{\max} = 0.743701\,\mathrm{kN}$) compared to the reference mesh at $u = 5.857\,\mu\mathrm{m}$ ($F_{\max} = 0.757778\,\mathrm{kN}$, a $-1.8576\%$ load difference).
+        \item At $u=5.857\,\mu\mathrm{m}$, the fixed reference is at peak load with diffuse damage ($d_{\max} = 0.629736, x_{\mathrm{tip}}^{0.90} = 0.500000\,\mathrm{mm}$), whereas the adaptive mesh has already undergone catastrophic snap-through ($d_{\max} = 1.000494, x_{\mathrm{tip}}^{0.90} = 0.976737\,\mathrm{mm}$).
+        \item Classified as \textbf{\texttt{SPATIAL\_FIELD\_BASELINE\_DIFFERENCE}}, correlating directly with localized compliance gradations and fine mesh sizing at the notch root.
+    \end{itemize}
+
+    \item \textbf{Post-Peak Crack Traversal \& Symmetry ($u \ge 6.0\,\mu\mathrm{m}$):}
+    \begin{itemize}
+        \item Both discretizations achieve full ligament traversal ($x_{\mathrm{tip}}^{0.90} = 0.998490\,\mathrm{mm}$ vs $0.998496\,\mathrm{mm}$, matching the right boundary).
+        \item Crack-centroid off-axis deviation $|y_c - 0.500000\,\mathrm{mm}|$ is bounded to sub-micron precision: $\Delta y_{\mathrm{off}} \le 0.461\,\mu\mathrm{m}$ (Reference) and $\Delta y_{\mathrm{off}} \le 0.175\,\mu\mathrm{m}$ (Adaptive ET1).
+        \item Transverse localization width matches theoretical $\mathrm{FWHM} = 2 l_0 \ln 2 \approx 20.79\,\mu\mathrm{m}$ across both models.
+        \item Classified as \textbf{\texttt{SPATIAL\_FIELD\_BASELINE\_AGREEMENT}}.
+    \end{itemize}
+\end{enumerate}
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{gate6_matched_phase_field_contours.png}
