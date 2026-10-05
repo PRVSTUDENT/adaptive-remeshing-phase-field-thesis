@@ -1,0 +1,44 @@
+#!/bin/bash
+#PBS -N PK_M1_14ET5_SOLVE
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -o PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE.out
+#PBS -e PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE.err
+
+set -euo pipefail
+cd /scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/36_stage14_step2_adaptive_candidate_et5_4k || exit 1
+
+# Storage-compliance guard: reject execution directly under /home
+CURRENT_DIR="$(pwd -P)"
+if [[ "$CURRENT_DIR" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Execution directly inside /home is prohibited." >&2
+  echo "Heavy simulation outputs (*.odb, *.sim, *.res) must be written to /scratch/." >&2
+  echo "Please execute from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
+if [ ! -f ./job_notifications.sh ]; then
+  echo "[LAUNCHER ERROR] job_notifications.sh missing" >&2
+  exit 10
+fi
+
+source ./job_notifications.sh
+notification_load_config || true
+notification_install_terminal_trap
+notify_start || true
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "=== STARTING SOLVER PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE ==="
+rm -f PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE.lck PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE.023
+abaqus job=PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE user=f42_mixed_uel.for input=PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE.inp cpus=1 memory="16gb" double=both interactive
+ABAQUS_EXIT=$?
+echo "=== FINISHED SOLVER PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE (EXIT: $ABAQUS_EXIT) ==="
+exit "$ABAQUS_EXIT"

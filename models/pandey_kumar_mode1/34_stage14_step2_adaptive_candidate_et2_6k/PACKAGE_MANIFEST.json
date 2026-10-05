@@ -1,0 +1,18 @@
+{
+  "package_name": "34_stage14_step2_adaptive_candidate_et2_6k",
+  "job_name": "PK_M1_14ET2_SOLVE",
+  "job_base": "PK_MODE1_STAGE14_STEP2_ET2_6K_FRACTURE",
+  "error_target_pct": 2.0,
+  "base_elements": 6112,
+  "total_3layer_elements": 18336,
+  "nodes": 6181,
+  "deck_file": "PK_MODE1_STAGE14_STEP2_ET2_6K_FRACTURE.inp",
+  "deck_sha256": "b5135af51026fe2abc4d3a0471567e7f6d55299a53a2d3501bce61c3146fe36d",
+  "fortran_file": "f42_mixed_uel.for",
+  "fortran_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+  "pbs_script": "submit_solver.pbs",
+  "notification_script": "job_notifications.sh",
+  "execution_mode": "1-CPU serial shared memory on /scratch9/",
+  "governing_gate": "GATE6B_MODE1_ERRORTARGET_FRACTURE_SENSITIVITY",
+  "remote_scratch_path": "/scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/34_stage14_step2_adaptive_candidate_et2_6k"
+}

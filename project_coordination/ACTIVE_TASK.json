@@ -1,103 +1,53 @@
 {
-  "task_id": "F1238-MODE1-STEP2-ARTIFACT-INTEGRITY-AND-GATE6B-INTEGRATION",
+  "task_id": "F1239-MODE1-STEP2-ERRORTARGET-3LAYER-FRACTURE-BATCH-SUBMISSION",
   "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "stage": "MODE1_STEP2_ARTIFACT_INTEGRITY_AND_GATE6B_INTEGRATION",
+  "stage": "MODE1_STEP2_ERRORTARGET_3LAYER_FRACTURE_BATCH_SUBMISSION",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "started_at": "2026-10-05T15:15:00+02:00",
-  "completed_at": "2026-10-05T15:25:00+02:00",
-  "description": "Mode-I Stage-14 Step-2 Artifact Integrity, Lineage Separation, and Thesis/Supervisor Integration: (1) Verified remote commit d00ba0aa contains non-empty, valid artifacts for the Stage-14 Step-2 native remeshing sweep (ET=1.0%, 2.0%, 3.0%, 5.0%), recording SHA-256 hashes for all 5 PNGs and 4 native .inp decks; (2) Fully removed invalidated historical Job 1409947.mmaster02 from valid benchmark citations, establishing 14,483 as the Stage-14 Step-2 native remesh artifact; (3) Added subsection 'Influence of errorTarget on the final Stage-14 Step-2 adaptive refinement' with 4-panel mesh figure and quantitative table into docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/ and docs/thesis/CHAP03_MISESERI_MESH_REFINEMENT.tex; (4) Authored and verified automated regression/provenance guard suite tests/unit/test_stage14_step2_errortarget_provenance_guard.py (7/7 tests pass 100%); (5) Snapshotted active scratch-compliant jobs 1410179.mmaster02 and 1410180.mmaster02 running steadily on mnode097.",
-  "governing_verdict": "STAGE14_STEP2_ARTIFACT_INTEGRITY_AND_GATE6B_INTEGRATION_QUALIFIED",
-  "step2_artifact_hashes": {
-    "figures": {
-      "Mode1_STAGE14_STEP2_ET1_14483.png": "db53eec5f52742b7883ceb0dff860fbdd899de41a919ae6c018497b7a0715401",
-      "Mode1_STAGE14_STEP2_ET2.png": "f1ec5f5e3e23b4ba79d3360402c8d00955bd4180ba565be7dc246089510a875d",
-      "Mode1_STAGE14_STEP2_ET3.png": "c7d20b6d144b8d739bec0ab6505df2354453f88aae95694de493cc16f236b326",
-      "Mode1_STAGE14_STEP2_ET5.png": "ef72b73432f601c3b4964d3ebef31edcee1d1347b74261519132fcf3cd0d2388",
-      "Mode1_STAGE14_STEP2_ET1_ET2_ET3_ET5_comparison.png": "d5471811913231dfb83cb1da46ed4ff75dae5b38d00e567c7e9baa2e54ebbfa6"
-    },
-    "inp_decks": {
-      "PK_M1_STAGE14_STEP2_ERR_10PCT.inp": "bd41eb92d243dcda1a924a3f893d71cd552c5e3dc0f7c80da45e0faf34bb9038",
-      "PK_M1_STAGE14_STEP2_ERR_20PCT.inp": "5f627110d554ea1ca33b431a52133a5a3bc96aee072bea5f79551c51163f4716",
-      "PK_M1_STAGE14_STEP2_ERR_30PCT.inp": "6b25489948828c9c4e53f2795e03fa067d17b4b177e25ec11f0368e111e45c63",
-      "PK_M1_STAGE14_STEP2_ERR_50PCT.inp": "4a03c5849d5e78f3800acf23aaeeb829fc4fe0cd460278abccf2443216270064"
-    }
-  },
-  "step2_errortarget_summary": {
-    "ET1": {
-      "error_target_pct": 1.0,
-      "total_elements": 14483,
-      "total_nodes": 14456,
-      "quad_elements": 14082,
-      "tri_elements": 401,
-      "corridor_fraction": 0.6412,
-      "far_field_fraction": 0.3588,
-      "coarse_remaining_area_fraction": 0.5939,
-      "h_min_um": 0.760,
-      "h_median_um": 2.597,
-      "flank_width_x_le_03_mm": 0.000,
-      "tip_width_x_05_mm": 0.121,
-      "ligament_width_x_06_mm": 0.170,
-      "classification": "STAGE14_TARGET_LIKE_LOCALIZATION_EXACT_MATCH"
-    },
+  "started_at": "2026-10-05T15:28:00+02:00",
+  "completed_at": "2026-10-05T15:40:00+02:00",
+  "description": "Reconstructed deterministic 3-layer UEL/UMAT phase-field fracture decks for ET2 (6,112 FE), ET3 (5,189 FE), and ET5 (4,692 FE), verified topology and properties, executed cluster preflight datachecks (100% Exit 0), submitted serial scratch-compliant batch to normal_imfdfkmq, and authored predeclared multi-quantity evaluator.",
+  "governing_verdict": "STAGE14_STEP2_ERRORTARGET_3LAYER_FRACTURE_BATCH_SUBMITTED",
+  "submitted_batch": {
     "ET2": {
       "error_target_pct": 2.0,
-      "total_elements": 6112,
-      "total_nodes": 6181,
-      "quad_elements": 5929,
-      "tri_elements": 183,
-      "corridor_fraction": 0.4107,
-      "far_field_fraction": 0.5893,
-      "coarse_remaining_area_fraction": 0.7577,
-      "h_min_um": 0.956,
-      "h_median_um": 12.496,
-      "flank_width_x_le_03_mm": 0.000,
-      "tip_width_x_05_mm": 0.090,
-      "ligament_width_x_06_mm": 0.104,
-      "classification": "AWAY_FROM_TARGET_LOCALIZATION"
+      "base_elements": 6112,
+      "total_3layer_elements": 18336,
+      "nodes": 6181,
+      "package": "models/pandey_kumar_mode1/34_stage14_step2_adaptive_candidate_et2_6k",
+      "deck_file": "PK_MODE1_STAGE14_STEP2_ET2_6K_FRACTURE.inp",
+      "deck_sha256": "b5135af51026fe2abc4d3a0471567e7f6d55299a53a2d3501bce61c3146fe36d",
+      "pbs_job_id": "1410357.mmaster02",
+      "pbs_state": "RUNNING",
+      "datacheck_result": "EXIT_0_PASSED"
     },
     "ET3": {
       "error_target_pct": 3.0,
-      "total_elements": 5189,
-      "total_nodes": 5262,
-      "quad_elements": 5023,
-      "tri_elements": 166,
-      "corridor_fraction": 0.3459,
-      "far_field_fraction": 0.6541,
-      "coarse_remaining_area_fraction": 0.7814,
-      "h_min_um": 1.339,
-      "h_median_um": 14.469,
-      "flank_width_x_le_03_mm": 0.000,
-      "tip_width_x_05_mm": 0.079,
-      "ligament_width_x_06_mm": 0.099,
-      "classification": "AWAY_FROM_TARGET_LOCALIZATION"
+      "base_elements": 5189,
+      "total_3layer_elements": 15567,
+      "nodes": 5262,
+      "package": "models/pandey_kumar_mode1/35_stage14_step2_adaptive_candidate_et3_5k",
+      "deck_file": "PK_MODE1_STAGE14_STEP2_ET3_5K_FRACTURE.inp",
+      "deck_sha256": "bb5741337498ad87b3f80841c17ab5cb60a65e81279e1dd4ea7f3d196118cfe4",
+      "pbs_job_id": "1410358.mmaster02",
+      "pbs_state": "RUNNING",
+      "datacheck_result": "EXIT_0_PASSED"
     },
     "ET5": {
       "error_target_pct": 5.0,
-      "total_elements": 4692,
-      "total_nodes": 4759,
-      "quad_elements": 4522,
-      "tri_elements": 170,
-      "corridor_fraction": 0.2751,
-      "far_field_fraction": 0.7249,
-      "coarse_remaining_area_fraction": 0.7739,
-      "h_min_um": 1.230,
-      "h_median_um": 15.151,
-      "flank_width_x_le_03_mm": 0.000,
-      "tip_width_x_05_mm": 0.051,
-      "ligament_width_x_06_mm": 0.021,
-      "classification": "AWAY_FROM_TARGET_LOCALIZATION"
+      "base_elements": 4692,
+      "total_3layer_elements": 14076,
+      "nodes": 4759,
+      "package": "models/pandey_kumar_mode1/36_stage14_step2_adaptive_candidate_et5_4k",
+      "deck_file": "PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE.inp",
+      "deck_sha256": "5fe45eb19e9a2f840b6e4ba45e04e9d009b8dbe6e553b6cd34654f2945699d74",
+      "pbs_job_id": "1410359.mmaster02",
+      "pbs_state": "RUNNING",
+      "datacheck_result": "EXIT_0_PASSED"
     }
   },
-  "provenance_rules_enforced": [
-    "14483 is the Stage-14 Step-2 native remesh artifact, independent of solver runs",
-    "Invalidated Job 1409947 is NOT cited as a qualified fracture solve",
-    "Stage-14 Step-2 lineage (folder 33_) is strictly separated from historical Step-1 sweep (folder 32_)",
-    "Governing phase-field length scale is l_0 = 0.015 mm (h_min = 0.760 um satisfies h <= l_0 / 2)",
-    "Spatial localization metrics demonstrate monotonic reduction of corridor fraction from 64.12% to 27.51% with zero flank refinement across all error targets"
-  ],
-  "active_scratch_jobs": {
-    "1410179.mmaster02": "Running in normal_imfdfkmq on /scratch9/ (elapsed 04:13)",
-    "1410180.mmaster02": "Running in normal_imfdfkmq on /scratch9/ (elapsed 04:13)"
+  "preexisting_running_jobs": {
+    "1410179.mmaster02": "PK_M1_14AM_SOLVE (58k spatial fine candidate, scratch9, mnode097)",
+    "1410180.mmaster02": "PK_M1_14K_CONV_CTRL (Cn=0.50 diagnostic, scratch9, mnode097)"
   }
 }
