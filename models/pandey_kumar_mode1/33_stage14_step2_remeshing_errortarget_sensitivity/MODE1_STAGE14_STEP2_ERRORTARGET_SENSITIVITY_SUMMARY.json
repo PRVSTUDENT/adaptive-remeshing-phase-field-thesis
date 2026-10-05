@@ -1,0 +1,339 @@
+{
+  "audit_id": "GATE6B-STAGE14-STEP2-ERRORTARGET-SENSITIVITY-20261005",
+  "preanalysis_odb": "PK_M1_JOB1_INF_COMPANION_2906.odb",
+  "step_targeted": "Step-2",
+  "error_targets_tested": [
+    1.0,
+    2.0,
+    3.0,
+    5.0
+  ],
+  "results_by_error_target": {
+    "1.0": {
+      "error_target_pct": 1.0,
+      "deck_file": "models\\pandey_kumar_mode1\\33_stage14_step2_remeshing_errortarget_sensitivity\\PK_M1_STAGE14_STEP2_ERR_10PCT.inp",
+      "csv_file": "models\\pandey_kumar_mode1\\33_stage14_step2_remeshing_errortarget_sensitivity\\elements_step2_err_10pct.csv",
+      "total_elements": 14483,
+      "total_nodes": 14456,
+      "quad_elements": 14082,
+      "tri_elements": 401,
+      "corridor_elements": 9286,
+      "corridor_fraction": 0.6411655043844507,
+      "ligament_elements": 8325,
+      "wake_elements": 961,
+      "far_field_elements": 5197,
+      "far_field_fraction": 0.35883449561554925,
+      "outer_far_elements": 2901,
+      "outer_far_fraction": 0.20030380446040186,
+      "coarse_remaining_area_fraction": 0.59392067789561,
+      "total_area_mm2": 0.9999999999999998,
+      "fine_elements_l0_count": 10240,
+      "fine_centroid_x": 0.694281722761419,
+      "fine_centroid_y": 0.5117562549739281,
+      "band_widths_5um": {
+        "0.1": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.2": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.3": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.4": {
+          "width_mm": 0.09125918646653491,
+          "count": 4
+        },
+        "0.5": {
+          "width_mm": 0.12119100242853165,
+          "count": 885
+        },
+        "0.6": {
+          "width_mm": 0.16998500625292462,
+          "count": 1139
+        },
+        "0.7": {
+          "width_mm": 0.1205434799194336,
+          "count": 1028
+        },
+        "0.8": {
+          "width_mm": 0.11640819410483044,
+          "count": 829
+        },
+        "0.9": {
+          "width_mm": 0.07743210345506668,
+          "count": 622
+        }
+      },
+      "classification": "STAGE14_TARGET_LIKE_LOCALIZATION_EXACT_MATCH",
+      "h_eq_stats": {
+        "min_mm": 0.0007604627834229341,
+        "p10_mm": 0.001730568871206591,
+        "p25_mm": 0.001979278903140554,
+        "median_mm": 0.002597147238364556,
+        "mean_mm": 0.00602468101082953,
+        "p75_mm": 0.010191426652995321,
+        "p90_mm": 0.015986394642485458,
+        "max_mm": 0.023020451722205366
+      },
+      "corridor_h_stats": {
+        "min_mm": 0.0007604627834229341,
+        "median_mm": 0.002086953694760477,
+        "mean_mm": 0.002566696147623843
+      },
+      "far_h_stats": {
+        "min_mm": 0.0012031137514944973,
+        "median_mm": 0.013466350622305497,
+        "mean_mm": 0.012203408630557834
+      }
+    },
+    "2.0": {
+      "error_target_pct": 2.0,
+      "deck_file": "models\\pandey_kumar_mode1\\33_stage14_step2_remeshing_errortarget_sensitivity\\PK_M1_STAGE14_STEP2_ERR_20PCT.inp",
+      "csv_file": "models\\pandey_kumar_mode1\\33_stage14_step2_remeshing_errortarget_sensitivity\\elements_step2_err_20pct.csv",
+      "total_elements": 6112,
+      "total_nodes": 6181,
+      "quad_elements": 5929,
+      "tri_elements": 183,
+      "corridor_elements": 2510,
+      "corridor_fraction": 0.4106675392670157,
+      "ligament_elements": 2063,
+      "wake_elements": 447,
+      "far_field_elements": 3602,
+      "far_field_fraction": 0.5893324607329843,
+      "outer_far_elements": 2502,
+      "outer_far_fraction": 0.4093586387434555,
+      "coarse_remaining_area_fraction": 0.7577485575190029,
+      "total_area_mm2": 1.0,
+      "fine_elements_l0_count": 2390,
+      "fine_centroid_x": 0.6658993195082519,
+      "fine_centroid_y": 0.5119503708418609,
+      "band_widths_5um": {
+        "0.1": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.2": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.3": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.4": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.5": {
+          "width_mm": 0.09042100608348846,
+          "count": 333
+        },
+        "0.6": {
+          "width_mm": 0.10409069806337357,
+          "count": 296
+        },
+        "0.7": {
+          "width_mm": 0.07420261949300766,
+          "count": 95
+        },
+        "0.8": {
+          "width_mm": 0.05812791983286547,
+          "count": 72
+        },
+        "0.9": {
+          "width_mm": 0.02309134602546692,
+          "count": 55
+        }
+      },
+      "classification": "AWAY_FROM_TARGET_LOCALIZATION",
+      "h_eq_stats": {
+        "min_mm": 0.0009560439892479498,
+        "p10_mm": 0.0032822343908791075,
+        "p25_mm": 0.0045965054335982206,
+        "median_mm": 0.012496108795736647,
+        "mean_mm": 0.011174333094139783,
+        "p75_mm": 0.01685807085781042,
+        "p90_mm": 0.01896538117478979,
+        "max_mm": 0.023407383049746787
+      },
+      "corridor_h_stats": {
+        "min_mm": 0.0009560439892479498,
+        "median_mm": 0.004167380916971837,
+        "mean_mm": 0.005203945877967666
+      },
+      "far_h_stats": {
+        "min_mm": 0.0024541000440942793,
+        "median_mm": 0.01608479676783526,
+        "mean_mm": 0.015334708416902659
+      }
+    },
+    "3.0": {
+      "error_target_pct": 3.0,
+      "deck_file": "models\\pandey_kumar_mode1\\33_stage14_step2_remeshing_errortarget_sensitivity\\PK_M1_STAGE14_STEP2_ERR_30PCT.inp",
+      "csv_file": "models\\pandey_kumar_mode1\\33_stage14_step2_remeshing_errortarget_sensitivity\\elements_step2_err_30pct.csv",
+      "total_elements": 5189,
+      "total_nodes": 5262,
+      "quad_elements": 5023,
+      "tri_elements": 166,
+      "corridor_elements": 1795,
+      "corridor_fraction": 0.3459240701483908,
+      "ligament_elements": 1465,
+      "wake_elements": 330,
+      "far_field_elements": 3394,
+      "far_field_fraction": 0.6540759298516092,
+      "outer_far_elements": 2447,
+      "outer_far_fraction": 0.4715744844864136,
+      "coarse_remaining_area_fraction": 0.7813723620874062,
+      "total_area_mm2": 1.0000000000000009,
+      "fine_elements_l0_count": 1558,
+      "fine_centroid_x": 0.6946318954560917,
+      "fine_centroid_y": 0.5167713177158861,
+      "band_widths_5um": {
+        "0.1": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.2": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.3": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.4": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.5": {
+          "width_mm": 0.07907442500193917,
+          "count": 208
+        },
+        "0.6": {
+          "width_mm": 0.09899934132893878,
+          "count": 115
+        },
+        "0.7": {
+          "width_mm": 0.023361682891845703,
+          "count": 6
+        },
+        "0.8": {
+          "width_mm": 0.055431028207143185,
+          "count": 57
+        },
+        "0.9": {
+          "width_mm": 0.028730884194374084,
+          "count": 61
+        }
+      },
+      "classification": "AWAY_FROM_TARGET_LOCALIZATION",
+      "h_eq_stats": {
+        "min_mm": 0.001339018439068548,
+        "p10_mm": 0.004140064768475828,
+        "p25_mm": 0.006273138127050644,
+        "median_mm": 0.014468878066314228,
+        "mean_mm": 0.012557508377094294,
+        "p75_mm": 0.01764846349653656,
+        "p90_mm": 0.01948364013931025,
+        "max_mm": 0.02340243323478582
+      },
+      "corridor_h_stats": {
+        "min_mm": 0.001339018439068548,
+        "median_mm": 0.00508401861436556,
+        "mean_mm": 0.006247973340333542
+      },
+      "far_h_stats": {
+        "min_mm": 0.003028866341711122,
+        "median_mm": 0.01648597326359566,
+        "mean_mm": 0.015894460466365206
+      }
+    },
+    "5.0": {
+      "error_target_pct": 5.0,
+      "deck_file": "models\\pandey_kumar_mode1\\33_stage14_step2_remeshing_errortarget_sensitivity\\PK_M1_STAGE14_STEP2_ERR_50PCT.inp",
+      "csv_file": "models\\pandey_kumar_mode1\\33_stage14_step2_remeshing_errortarget_sensitivity\\elements_step2_err_50pct.csv",
+      "total_elements": 4692,
+      "total_nodes": 4759,
+      "quad_elements": 4522,
+      "tri_elements": 170,
+      "corridor_elements": 1291,
+      "corridor_fraction": 0.27514919011082695,
+      "ligament_elements": 1022,
+      "wake_elements": 269,
+      "far_field_elements": 3401,
+      "far_field_fraction": 0.724850809889173,
+      "outer_far_elements": 2522,
+      "outer_far_fraction": 0.5375106564364877,
+      "coarse_remaining_area_fraction": 0.7738513521237312,
+      "total_area_mm2": 1.0,
+      "fine_elements_l0_count": 921,
+      "fine_centroid_x": 0.7263614847565792,
+      "fine_centroid_y": 0.5215366059321663,
+      "band_widths_5um": {
+        "0.1": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.2": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.3": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.4": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.5": {
+          "width_mm": 0.05063397437334061,
+          "count": 130
+        },
+        "0.6": {
+          "width_mm": 0.020645856857299805,
+          "count": 4
+        },
+        "0.7": {
+          "width_mm": 0.0,
+          "count": 0
+        },
+        "0.8": {
+          "width_mm": 0.03125832974910736,
+          "count": 30
+        },
+        "0.9": {
+          "width_mm": 0.037263646721839905,
+          "count": 58
+        }
+      },
+      "classification": "AWAY_FROM_TARGET_LOCALIZATION",
+      "h_eq_stats": {
+        "min_mm": 0.0012295975254000085,
+        "p10_mm": 0.005386651290748702,
+        "p25_mm": 0.009318852837101632,
+        "median_mm": 0.015150852954072232,
+        "mean_mm": 0.013631341235825984,
+        "p75_mm": 0.017782092489609283,
+        "p90_mm": 0.01946026793351343,
+        "max_mm": 0.02331897298896276
+      },
+      "corridor_h_stats": {
+        "min_mm": 0.0012295975254000085,
+        "median_mm": 0.0062256439480117874,
+        "mean_mm": 0.007501590077128029
+      },
+      "far_h_stats": {
+        "min_mm": 0.0037449998647021455,
+        "median_mm": 0.016330582425867685,
+        "mean_mm": 0.015958159449845116
+      }
+    }
+  },
+  "provenance_note": "Step-2 target-like remeshing lineage evaluated on localized phase-field damage state",
+  "status": "STAGE14_STEP2_ERRORTARGET_SENSITIVITY_COMPLETED"
+}
