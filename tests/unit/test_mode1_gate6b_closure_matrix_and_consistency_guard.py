@@ -1,8 +1,8 @@
 """
 test_mode1_gate6b_closure_matrix_and_consistency_guard.py
 
-Regression and consistency unit tests for Task F1253:
-Mode-I Gate-6B Evidence & Claims Consistency Audit and Closure Freeze.
+Regression and consistency unit tests for Mode-I Gate-6B:
+Mode-I Gate-6B Evidence, Single-Job Provenance Synthesis, & Invariant Guards.
 
 Guards enforced:
 1. Guard 1: Stale String & Energy Classification Integrity (no active UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED).
@@ -11,11 +11,18 @@ Guards enforced:
 4. Guard 4: Governed Energy Balance Formulation Contract (E_elas, E_frac, E_model, W_ext, Delta_book, eps_book).
 5. Guard 5: Telemetry Displacement Mapping Contract (F1251 Two-Step Loading).
 6. Guard 6: Supervisor Report Structure & Frozen 08-Oct-2026 Date.
+7. Guard 7: Governance Reconciliation Invariants (Meeting date, UEL energy qualified, 8T SMP qualified / 16T unqualified, Gate 6C held).
+8. Guard 8: Bridge Rules & Alignment Guard Invariants (DryRun support, zero superseded strings).
+9. Guard 9: Gate-6B Single-Job Provenance Synthesis Table & Spatial Convergence Figure Guards.
+10. Guard 10: Machine-Readable Single-Job Provenance JSON & Algorithmic Extraction (zero hard-coding).
+11. Guard 11: Provenance Schema Disambiguation & Terminology Guards (explicit row_index_zero_based, csv_line_number, abaqus_step, abaqus_increment, global_completed_increments; zero 0.005840 stale values for 1410180; zero 'Inc 2732' conflation).
 """
 
 from __future__ import annotations
 
+import os
 import re
+import json
 import subprocess
 from pathlib import Path
 import pytest
@@ -183,6 +190,7 @@ def test_guard7_governance_reconciliation_invariants():
         assert "Thursday, 08 October 2026, 10:00 CEST" in ctrl_text
         assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in ctrl_text
 
+
 def test_guard8_bridge_rules_and_handoff_invariants():
     """Guard 8: Enforce bridge rules, alignment guard, and bridge launcher invariants:
     - bridge_rules.txt must contain 08-Oct meeting date, qualified UEL energy, Gate 6B active,
@@ -283,6 +291,7 @@ def test_guard9_gate6b_single_job_provenance_and_figure_guards():
     assert "fig_mode1_gate6b_spatial_convergence_synthesis.png" in er_text
     assert "fig_mode1_gate6b_spatial_convergence_synthesis.pdf" in er_text
 
+
 def test_guard10_single_job_provenance_json_and_algorithmic_derivation():
     """Guard 10: Enforce machine-readable single-job provenance dataset, algorithmic peak derivation, and zero hard-coding:
     - MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json exists, contains 9 distinct jobs, with zero cross-contamination.
@@ -295,8 +304,6 @@ def test_guard10_single_job_provenance_json_and_algorithmic_derivation():
     - scripts/postprocessing/extract_gate6b_single_job_provenance.py exists and operates algorithmically without hard-coded numbers.
     - Outer bridge handoff prompt is clean of STEP2_ACTIVE and accurately describes 1410179 as partial evidence and 1410504 as active candidate.
     """
-    import json
-
     json_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json"
     csv_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.csv"
     assert json_path.exists(), f"Missing synthesis JSON: {json_path}"
@@ -431,3 +438,104 @@ def test_guard10_single_job_provenance_json_and_algorithmic_derivation():
     assert "MODE1_GATE6B_STEP2" not in res.stdout
     assert "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION" in res.stdout
     assert "1410179.mmaster02" in res.stdout and "1410504.mmaster02" in res.stdout
+
+
+def test_guard11_provenance_schema_and_disambiguation_guards():
+    """Guard 11: Enforce explicit separated provenance schema, distinct solver datasets, and zero terminology conflation:
+    1. MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json explicitly defines separated fields:
+       - row_index_zero_based
+       - csv_line_number
+       - abaqus_step
+       - abaqus_increment
+       - global_completed_increments
+    2. Format contract:
+       - .dat jobs (1398090, 1409734, 1410179): csv_line_number == 'NOT_AVAILABLE_FROM_PRESERVED_EVIDENCE'.
+       - CSV jobs (1409982, 1410180, 1410357, 1410358, 1410359): csv_line_number is integer == row_index_zero_based + 2.
+    3. Distinct solver dataset proof:
+       - 1409982 and 1410180 both report u_peak = 0.005733 mm at Step 2 Inc 733.
+       - 1409982 has F_max = 0.74370080 kN, SHA256 71ba958e...
+       - 1410180 has F_max = 0.74371148 kN, SHA256 44d0b66f...
+       - Proves zero data copying or cross-conflation between baseline and diagnostic.
+    4. Terminology and active document scan:
+       - Zero active document in docs/ or CURRENT_STATE.md reports 0.005840 for 1410180.
+       - Zero active document conflates CSV row index 2732 with Abaqus increment (e.g. 'Inc 2732').
+    """
+    json_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json"
+    assert json_path.exists()
+
+    with open(json_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    jobs = {j["job_id"]: j for j in data["jobs"]}
+
+    # Schema completeness across all 9 jobs
+    required_fields = [
+        "row_index_zero_based",
+        "csv_line_number",
+        "abaqus_step",
+        "abaqus_increment",
+        "global_completed_increments"
+    ]
+    for jid, jdata in jobs.items():
+        for field in required_fields:
+            assert field in jdata, f"Job {jid} missing required provenance field '{field}'"
+
+    # Dat files format contract
+    dat_jobs = ["1398090.mmaster02", "1409734.mmaster02", "1410179.mmaster02"]
+    for dj in dat_jobs:
+        assert jobs[dj]["csv_line_number"] == "NOT_AVAILABLE_FROM_PRESERVED_EVIDENCE", (
+            f"Job {dj} is a .dat source and must have csv_line_number = 'NOT_AVAILABLE_FROM_PRESERVED_EVIDENCE'"
+        )
+
+    # CSV files format contract
+    csv_jobs = ["1409982.mmaster02", "1410180.mmaster02", "1410357.mmaster02", "1410358.mmaster02", "1410359.mmaster02"]
+    for cj in csv_jobs:
+        row_idx = jobs[cj]["row_index_zero_based"]
+        line_num = jobs[cj]["csv_line_number"]
+        assert isinstance(line_num, int), f"Job {cj} csv_line_number must be int, got {type(line_num)}"
+        assert line_num == row_idx + 2, f"Job {cj} line_num ({line_num}) != row_idx + 2 ({row_idx + 2})"
+
+    # Global increments
+    assert jobs["1398090.mmaster02"]["global_completed_increments"] == 2857
+    assert jobs["1409734.mmaster02"]["global_completed_increments"] == 2857
+    assert jobs["1409982.mmaster02"]["global_completed_increments"] == 2733
+    assert jobs["1410180.mmaster02"]["global_completed_increments"] == 2733
+    assert jobs["1410357.mmaster02"]["global_completed_increments"] == 2841
+    assert jobs["1410358.mmaster02"]["global_completed_increments"] == 2876
+    assert jobs["1410359.mmaster02"]["global_completed_increments"] == 2926
+    assert jobs["1410179.mmaster02"]["global_completed_increments"] == 2717
+
+    # Distinct datasets check between 1409982 and 1410180
+    j25 = jobs["1409982.mmaster02"]
+    j28 = jobs["1410180.mmaster02"]
+    assert j25["u_peak_mm"] == j28["u_peak_mm"] == 0.005733
+    assert j25["abaqus_step"] == j28["abaqus_step"] == 2
+    assert j25["abaqus_increment"] == j28["abaqus_increment"] == 733
+    assert j25["raw_source_sha256"] != j28["raw_source_sha256"]
+    assert j25["f_max_kn"] != j28["f_max_kn"]
+    assert abs(j25["f_max_kn"] - 0.74370080) < 1e-6
+    assert abs(j28["f_max_kn"] - 0.74371148) < 1e-6
+    assert j25["row_index_zero_based"] == 2734
+    assert j28["row_index_zero_based"] == 2732
+
+    # Active documents scan against stale 0.005840 for 1410180 or conflation 'Inc 2732'
+    scan_dirs = [REPO_ROOT / "docs", REPO_ROOT / "models" / "pandey_kumar_mode1"]
+    for sdir in scan_dirs:
+        for root, dirs, files in os.walk(sdir):
+            if 'sessions' in dirs:
+                dirs.remove('sessions')
+            for f in files:
+                if f.endswith(('.md', '.json', '.csv', '.tex')):
+                    fpath = Path(root) / f
+                    text = fpath.read_text(encoding='utf-8', errors='ignore')
+                    # Assert no conflation like 'Inc 2732' or 'Increment 2732'
+                    assert not re.search(r'Inc(?:rement)?\s*2732', text, re.IGNORECASE), (
+                        f"Found conflation of CSV row index with Abaqus increment ('Inc 2732') in {fpath.relative_to(REPO_ROOT)}"
+                    )
+                    # Assert no stale 0.005840 associated with 1410180
+                    if '1410180' in text:
+                        for line in text.splitlines():
+                            if '1410180' in line:
+                                assert '0.005840' not in line and '5.840' not in line, (
+                                    f"Found stale peak displacement 0.005840 for Job 1410180 in {fpath.relative_to(REPO_ROOT)}: {line}"
+                                )

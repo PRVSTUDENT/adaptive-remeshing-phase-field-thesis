@@ -50,7 +50,7 @@ def parse_dat_detailed(dat_path):
     current_step = 1
     current_inc = 1
     with open(dat_path, 'r', encoding='utf-8', errors='ignore') as f:
-        for line in f:
+        for line_idx, line in enumerate(f):
             if 'S T E P       1' in line or 'STEP    1' in line:
                 current_step = 1
             elif 'S T E P       2' in line or 'STEP    2' in line:
@@ -70,9 +70,12 @@ def parse_dat_detailed(dat_path):
                 try:
                     u2 = float(parts[1])
                     rf2 = float(parts[2])
+                    global_inc = (2000 + current_inc) if current_step == 2 else current_inc
                     rows.append({
                         'step': current_step,
                         'inc': current_inc,
+                        'global_inc': global_inc,
+                        'dat_line': line_idx + 1,
                         'u_mm': u2,
                         'rf_kN': rf2
                     })
@@ -109,11 +112,13 @@ def parse_uel_energy(csv_path):
     return recs
 
 def parse_csv_detailed(csv_path):
-    """Parses fu/energy CSV file supporting various header conventions and preserving step/inc."""
+    """Parses fu/energy CSV file supporting various header conventions and preserving step/inc and csv line number."""
     rows = []
     with open(csv_path, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
-        for r in reader:
+        for line_offset, r in enumerate(reader):
+            # reader line offset 0 corresponds to file line 2 (header is line 1)
+            csv_line = line_offset + 2
             u = r.get('u_mm') or r.get('displacement_mm') or r.get('Displacement_mm')
             rf = r.get('f_tensile_kN') or r.get('reaction_force_kN') or r.get('ReactionForce_kN')
             step_raw = r.get('Step') or r.get('step') or r.get('step_name')
@@ -145,10 +150,22 @@ def parse_csv_detailed(csv_path):
                     inc = None
 
             if u is not None and rf is not None:
+                u_val = float(u)
+                if step is None:
+                    # Infer step from displacement: Step 1 is u <= 0.0050 mm, Step 2 is u > 0.0050 mm
+                    step = 1 if u_val <= 0.00500001 else 2
+                
+                if inc is not None:
+                    global_inc = (2000 + inc) if step == 2 else inc
+                else:
+                    global_inc = None
+
                 rows.append({
                     'step': step,
                     'inc': inc,
-                    'u_mm': float(u),
+                    'global_inc': global_inc,
+                    'csv_line': csv_line,
+                    'u_mm': u_val,
                     'rf_kN': float(rf),
                     'w_ext_mJ': float(w_raw) if w_raw is not None and w_raw != '' else None,
                     'e_frac_mJ': float(ef_raw) if ef_raw is not None and ef_raw != '' else None,
@@ -194,6 +211,11 @@ def extract_all_single_job_provenance(base_dir):
         "total_nodes_with_rp": 15522,
         "status": "CENSORED_AT_PEAK",
         "governed_classification": "MECHANICAL_ANCHOR_QUALIFIED",
+        "row_index_zero_based": idx_peak_01,
+        "csv_line_number": "NOT_AVAILABLE_FROM_PRESERVED_EVIDENCE",
+        "abaqus_step": pk_01['step'],
+        "abaqus_increment": pk_01['inc'],
+        "global_completed_increments": pk_01['global_inc'],
         "peak_row_index": idx_peak_01,
         "peak_step": pk_01['step'],
         "peak_increment": pk_01['inc'],
@@ -246,6 +268,11 @@ def extract_all_single_job_provenance(base_dir):
         "total_nodes_with_rp": 15522,
         "status": "COMPLETED_FULL_HORIZON",
         "governed_classification": "ENERGY_AND_MECHANICAL_REFERENCE_QUALIFIED",
+        "row_index_zero_based": idx_peak_16,
+        "csv_line_number": "NOT_AVAILABLE_FROM_PRESERVED_EVIDENCE",
+        "abaqus_step": pk_16['step'],
+        "abaqus_increment": pk_16['inc'],
+        "global_completed_increments": pk_16['global_inc'],
         "peak_row_index": idx_peak_16,
         "peak_step": pk_16['step'],
         "peak_increment": pk_16['inc'],
@@ -293,6 +320,11 @@ def extract_all_single_job_provenance(base_dir):
         "total_nodes_with_rp": 14457,
         "status": "TERMINATED_POSTPEAK_LOAD_DROP_98_5PCT",
         "governed_classification": "CANONICAL_ET1_BASELINE_QUALIFIED",
+        "row_index_zero_based": idx_peak_25,
+        "csv_line_number": pk_25['csv_line'],
+        "abaqus_step": pk_25['step'],
+        "abaqus_increment": pk_25['inc'],
+        "global_completed_increments": pk_25['global_inc'],
         "peak_row_index": idx_peak_25,
         "peak_step": pk_25['step'],
         "peak_increment": pk_25['inc'],
@@ -337,6 +369,11 @@ def extract_all_single_job_provenance(base_dir):
         "total_nodes_with_rp": 14457,
         "status": "COMPLETED_FULL_HORIZON_DIAGNOSTIC",
         "governed_classification": "CONVERGENCE_CONTROL_DIAGNOSTIC_QUALIFIED",
+        "row_index_zero_based": idx_peak_28,
+        "csv_line_number": pk_28['csv_line'],
+        "abaqus_step": pk_28['step'],
+        "abaqus_increment": pk_28['inc'],
+        "global_completed_increments": pk_28['global_inc'],
         "peak_row_index": idx_peak_28,
         "peak_step": pk_28['step'],
         "peak_increment": pk_28['inc'],
@@ -381,6 +418,11 @@ def extract_all_single_job_provenance(base_dir):
         "total_nodes_with_rp": 6182,
         "status": "COMPLETED_FULL_HORIZON",
         "governed_classification": "ERRORTARGET_SWEEP_ET2_QUALIFIED",
+        "row_index_zero_based": idx_peak_34,
+        "csv_line_number": pk_34['csv_line'],
+        "abaqus_step": pk_34['step'],
+        "abaqus_increment": pk_34['inc'],
+        "global_completed_increments": pk_34['global_inc'],
         "peak_row_index": idx_peak_34,
         "peak_step": pk_34['step'],
         "peak_increment": pk_34['inc'],
@@ -425,6 +467,11 @@ def extract_all_single_job_provenance(base_dir):
         "total_nodes_with_rp": 5263,
         "status": "COMPLETED_FULL_HORIZON",
         "governed_classification": "ERRORTARGET_SWEEP_ET3_QUALIFIED",
+        "row_index_zero_based": idx_peak_35,
+        "csv_line_number": pk_35['csv_line'],
+        "abaqus_step": pk_35['step'],
+        "abaqus_increment": pk_35['inc'],
+        "global_completed_increments": pk_35['global_inc'],
         "peak_row_index": idx_peak_35,
         "peak_step": pk_35['step'],
         "peak_increment": pk_35['inc'],
@@ -469,6 +516,11 @@ def extract_all_single_job_provenance(base_dir):
         "total_nodes_with_rp": 4760,
         "status": "COMPLETED_FULL_HORIZON",
         "governed_classification": "ERRORTARGET_SWEEP_ET5_QUALIFIED",
+        "row_index_zero_based": idx_peak_36,
+        "csv_line_number": pk_36['csv_line'],
+        "abaqus_step": pk_36['step'],
+        "abaqus_increment": pk_36['inc'],
+        "global_completed_increments": pk_36['global_inc'],
         "peak_row_index": idx_peak_36,
         "peak_step": pk_36['step'],
         "peak_increment": pk_36['inc'],
@@ -521,6 +573,11 @@ def extract_all_single_job_provenance(base_dir):
         "total_nodes_with_rp": 57492,
         "status": "PARTIAL_57929_FE_POSTPEAK_DIAGNOSTIC_EVIDENCE",
         "governed_classification": "PARTIAL_POSTPEAK_DIAGNOSTIC_QUALIFIED",
+        "row_index_zero_based": idx_peak_30,
+        "csv_line_number": "NOT_AVAILABLE_FROM_PRESERVED_EVIDENCE",
+        "abaqus_step": pk_30['step'],
+        "abaqus_increment": pk_30['inc'],
+        "global_completed_increments": pk_30['global_inc'],
         "peak_row_index": idx_peak_30,
         "peak_step": pk_30['step'],
         "peak_increment": pk_30['inc'],
@@ -549,6 +606,11 @@ def extract_all_single_job_provenance(base_dir):
         "total_nodes_with_rp": 57492,
         "status": "RUNNING_ACTIVE_CANDIDATE",
         "governed_classification": "ACTIVE_SOLVER_CANDIDATE",
+        "row_index_zero_based": None,
+        "csv_line_number": None,
+        "abaqus_step": None,
+        "abaqus_increment": None,
+        "global_completed_increments": None,
         "peak_row_index": None,
         "peak_step": None,
         "peak_increment": None,
@@ -585,6 +647,11 @@ def export_dataset(dataset, json_path, csv_path):
         "total_nodes_with_rp",
         "status",
         "governed_classification",
+        "row_index_zero_based",
+        "csv_line_number",
+        "abaqus_step",
+        "abaqus_increment",
+        "global_completed_increments",
         "peak_row_index",
         "peak_step",
         "peak_increment",

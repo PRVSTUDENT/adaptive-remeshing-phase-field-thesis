@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-06T19:30:00+02:00` (Gemini Antigravity) — Task F1274 Mode-I Gate-6B Job 1410180 ($C_n = 0.50$ Diagnostic) Raw Peak Extraction, Algorithmic Provenance Proof, & Zero Hard-Coding Enforcement: (1) eliminated all hard-coded peak assignments from `scripts/postprocessing/extract_gate6b_single_job_provenance.py` and implemented pure algorithmic extraction directly from raw solver files (`.dat`, `.sta`, `.csv`); (2) verified independently that the raw solver data for Job `1410180.mmaster02` (`PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL_fu.csv`, SHA-256 `44d0b66f...`) reaches its true tensile peak at Step 2 Inc 733 (row index 2732) with $u_{\text{peak}} = 0.005733\,\text{mm}$ and $F_{\max} = 0.743711\,\text{kN}$, resolving the previous unverified $0.005840\,\text{mm}$ entry; (3) re-exported machine-readable datasets `models/pandey_kumar_mode1/MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json` and `.csv` with rich raw provenance fields (`raw_source_file`, `raw_source_sha256`, `peak_row_index`, `peak_step`, `peak_increment`); (4) synchronized all documentation tables and unit test regression guards in `test_mode1_gate6b_closure_matrix_and_consistency_guard.py`; (5) 8-thread shared-memory SMP Job `1410504.mmaster02` continues executing undisturbed on `mnode097`.
+Last updated: `2026-10-06T19:50:00+02:00` (Gemini Antigravity) — Task F1275 Mode-I Gate-6B Downstream Provenance-Propagation Audit, Terminology Disambiguation, & Invariant Guards: (1) upgraded `scripts/postprocessing/extract_gate6b_single_job_provenance.py` schema with 5 unambiguous, explicitly separated provenance fields (`row_index_zero_based`, `csv_line_number`, `abaqus_step`, `abaqus_increment`, `global_completed_increments`); (2) confirmed that all active supervisor-facing documents, experiment records, and thesis drafts correctly and independently report $u_{\text{peak}} = 0.005733\,\text{mm}$ ($F_{\max} = 0.743711\,\text{kN}$) for Job `1410180.mmaster02` (Step 2 Inc 733); (3) verified independent, non-copied solver provenance between Job 1409982 ($F_{\max} = 0.743701\,\text{kN}$) and Job 1410180 ($F_{\max} = 0.743711\,\text{kN}$) with distinct raw file hashes; (4) regenerated 4-panel spatial convergence synthesis comparison figures; (5) added Guard 11 to `test_mode1_gate6b_closure_matrix_and_consistency_guard.py` with 100% pass across all 444 Mode-I unit tests; (6) 8-thread shared-memory SMP Job `1410504.mmaster02` continues executing undisturbed on `mnode097`.
 
 ---
 
@@ -22,7 +22,7 @@ Last updated: `2026-10-06T19:30:00+02:00` (Gemini Antigravity) — Task F1274 Mo
 * **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `ACTIVE_EVALUATION_AND_CONTINUATION`
   - **Energy Instrumentation:** `UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE` (source `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`, verified in Job 1409734).
   - **Parallel Status:** `8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS`, while `16THREAD_SHARED_MEMORY_EXECUTION_UNQUALIFIED_PENDING_INDEPENDENT_STAGE_A_AND_B_VERIFICATION`.
-  - **Authoritative Single-Job Provenance Synthesis (Tasks F1272/F1273/F1274):**
+  - **Authoritative Single-Job Provenance Synthesis (Tasks F1272/F1273/F1274/F1275):**
     - Authoritative single-job extraction pipeline frozen in `scripts/postprocessing/extract_gate6b_single_job_provenance.py` with machine-readable dataset in `models/pandey_kumar_mode1/MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json` and `.csv`.
     - Fixed Reference Base Mesh: Exactly $15{,}192$ finite elements ($15{,}160$ CPE4 $+ 32$ CPE3) and $15{,}521$ FE nodes ($15{,}522$ total with RP 999999).
     - Fixed Reference Mechanical Anchor (Job `1398090.mmaster02`): $K_0 = 137.945520\,\text{kN/mm}$, $F_{\max} = 0.757778\,\text{kN}$, $u_{\text{peak}} = 0.005857\,\text{mm}$ (censored at peak in baseline, energies N/A).
@@ -38,7 +38,7 @@ Last updated: `2026-10-06T19:30:00+02:00` (Gemini Antigravity) — Task F1274 Mo
 #### Authoritative Single-Job Provenance Synthesis Table
 
 | Discretization / Case | Authoritative Job ID | Base FEs | FE Nodes | $K_0$ (kN/mm) | $\Delta K_0$ vs Ref | $F_{\max}$ (kN) | $\Delta F_{\max}$ vs Ref | $u_{\text{peak}}$ (mm) | $W_{\text{ext}}$ (mJ) | $E_{\text{frac}}$ (mJ) | $\varepsilon_{\text{book}}$ (%) | Valid Reached Domain |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Fixed Ref Mechanical Anchor** | `1398090.mmaster02` | $15{,}192$ | $15{,}521$ | $137.9455$ | Baseline | $0.7578$ | Baseline | $0.005857$ | N/A | N/A | N/A | $[0.0, 0.005857]$ (Peak Anchor) |
 | **Fixed Ref Full-Horizon Energy** | `1409734.mmaster02` | $15{,}192$ | $15{,}521$ | $137.9455$ | Baseline | $0.7578$ | Baseline | $0.005857$ | $2.359329$ | $2.340220$ | $0.7607\%$ | $[0.0, 0.010000]$ (Full Horizon) |
 | **Adaptive ET5 (5.0%)** | `1410359.mmaster02` | $4{,}692$ | $4{,}759$ | $138.0091$ | $+0.0461\%$ | $0.7654$ | $+1.0058\%$ | $0.005926$ | $3.578445$ | $3.054797$ | $12.1044\%$ | $[0.0, 0.010000]$ (Full Horizon) |

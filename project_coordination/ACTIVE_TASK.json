@@ -1,10 +1,10 @@
 {
-  "task_id": "F1274-MODE1-GATE6B-JOB-1410180-RAW-PEAK-EXTRACTION-AND-PROVENANCE-PROOF",
-  "task_name": "Mode-I Gate-6B Job 1410180 Raw Peak Extraction, Algorithmic Provenance Proof, and Zero Hard-Coding Enforcement",
+  "task_id": "F1275-MODE1-GATE6B-PEAK-PROVENANCE-PROPAGATION-AUDIT-AND-TERMINOLOGY-CLARIFICATION",
+  "task_name": "Mode-I Gate-6B Downstream Provenance-Propagation Audit, Terminology Disambiguation, and Invariant Guards",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-06T19:05:00+02:00",
-  "end_time": "2026-10-06T19:30:00+02:00",
+  "start_time": "2026-10-06T19:35:00+02:00",
+  "end_time": "2026-10-06T19:50:00+02:00",
   "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "description": "Perform rigorous algorithmic extraction of Job 1410180.mmaster02 peak mechanics directly from preserved raw solver outputs (.dat/.sta/fu.csv); eliminate all hard-coded peak assignments; record exact source files, SHA256 hashes, row index, step, and increment; verify independently whether raw result is F_max = 0.743711 kN at u_peak = 0.005733 mm or other; re-export datasets and update tests."
+  "description": "Perform downstream provenance-propagation audit for Task F1274; search active supervisor artifacts, CURRENT_STATE.md, experiment records, report/thesis text, and tables for stale 1410180 values and correct them to machine-derived result (u_peak = 0.005733 mm at Step 2 Inc 733); eliminate ambiguous phrasing conflating CSV row index with Abaqus increment; update extract_gate6b_single_job_provenance.py schema with explicit separated fields (row_index_zero_based, csv_line_number, abaqus_step, abaqus_increment, global_completed_increments); regenerate figures/tables; update regression guards; preserve Job 1410504 undisturbed and park."
 }
