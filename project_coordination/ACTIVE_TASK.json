@@ -1,10 +1,10 @@
 {
-  "task_id": "F1264-MODE1-SPATIAL-FINE-WALLTIME-DIAGNOSTIC-AND-CONTINGENCY",
-  "task_name": "Mode-I Spatial Fine 58k Solver Telemetry, Walltime Extension Diagnostic, and Contingency Planning",
+  "task_id": "F1265-MODE1-UNIT-TEST-REGRESSION-RECORD-AND-PARK",
+  "task_name": "Mode-I Unit Test Regression Verification, Telemetry Checkpoint, and Park",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-06T08:08:00+02:00",
-  "end_time": "2026-10-06T08:20:00+02:00",
+  "start_time": "2026-10-06T08:26:00+02:00",
+  "end_time": "2026-10-06T08:30:00+02:00",
   "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "description": "Inspect running scratch solve Job 1410179 (PK_M1_14AM_SOLVE 58k FE) telemetry via .sta, evaluate remaining walltime against convergence rate, query PBS queue maximum walltime on normal_imfdfkmq, attempt in-place walltime extension via qalter, rule out restart, leave 1410179 running untouched, and prepare/launch qualified 8-thread replacement Job 1410504.mmaster02 with 48h walltime."
+  "description": "Record the completed pytest tests/unit/ regression results (1,988 passed, 113 failed in historical Mode-II legacy, 153/153 Mode-I passed 100%), document the running telemetry of Job 1410179 (serial spatial fine) and Job 1410504 (8-thread spatial fine), update ledgers and session reports, and park cleanly without launching further jobs."
 }
