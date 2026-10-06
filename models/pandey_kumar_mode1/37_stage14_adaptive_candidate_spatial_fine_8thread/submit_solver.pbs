@@ -1,0 +1,44 @@
+#!/bin/bash
+#PBS -N PK_M1_14AM_8T
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=8
+#PBS -l mem=16gb
+#PBS -l walltime=48:00:00
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -o PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_8T.out
+#PBS -e PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_8T.err
+
+set -euo pipefail
+cd /scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode1/37_stage14_adaptive_candidate_spatial_fine_8thread || exit 1
+
+# Storage-compliance guard: reject execution directly under /home
+CURRENT_DIR="$(pwd -P)"
+if [[ "$CURRENT_DIR" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Execution directly inside /home is prohibited." >&2
+  echo "Heavy simulation outputs (*.odb, *.sim, *.res) must be written to /scratch/." >&2
+  echo "Please execute from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
+  exit 88
+fi
+
+if [ ! -f ./job_notifications.sh ]; then
+  echo "[LAUNCHER ERROR] job_notifications.sh missing" >&2
+  exit 10
+fi
+
+source ./job_notifications.sh
+notification_load_config || true
+notification_install_terminal_trap
+notify_start || true
+
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+
+echo "=== STARTING 8-THREAD SOLVER PK_M1_14AM_8T (CPUs: 8, mp_mode=threads, Mem: 16GB, Walltime: 48h) ==="
+rm -f PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_8T.lck PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_8T.023 uel_energy_balance.csv
+abaqus job=PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_8T user=f42_mixed_uel.for input=PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_FRACTURE.inp cpus=8 mp_mode=threads memory="16gb" double=both interactive
+ABAQUS_EXIT=$?
+echo "=== FINISHED 8-THREAD SOLVER PK_M1_14AM_8T (EXIT: $ABAQUS_EXIT) ==="
+exit "$ABAQUS_EXIT"

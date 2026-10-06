@@ -1,10 +1,10 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1263-MODE1-GATE6B-CLAIMS-DISCIPLINE-FINALIZATION",
-  "session_start": "2026-10-06T06:33:00+02:00",
-  "session_end": "2026-10-06T06:40:00+02:00",
-  "starting_commit": "d9565f8904cc20b00605526180588702a6a33579",
+  "task_id": "F1264-MODE1-SPATIAL-FINE-WALLTIME-DIAGNOSTIC-AND-CONTINGENCY",
+  "session_start": "2026-10-06T08:08:00+02:00",
+  "session_end": "2026-10-06T08:20:00+02:00",
+  "starting_commit": "1b18851f01ddcebc872fefb68f165951e04b0fed",
   "allowed_write_scope": [
     "models/pandey_kumar_mode1/**",
     "docs/experiment_records/**",
@@ -12,8 +12,7 @@
     "docs/supervisor_reports/**",
     "docs/MA_AdaptiveRemeshing_Report_2026_main/**",
     "results/figures/mode1_gate6b/**",
-    "scripts/postprocessing/**",
-    "scripts/evaluation/**",
+    "scripts/**",
     "tests/unit/**",
     "project_coordination/**"
   ]

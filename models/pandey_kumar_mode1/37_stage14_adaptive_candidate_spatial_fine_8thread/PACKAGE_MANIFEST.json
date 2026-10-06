@@ -1,0 +1,23 @@
+{
+  "package_name": "37_stage14_adaptive_candidate_spatial_fine_8thread",
+  "task_id": "F1264-MODE1-SPATIAL-FINE-WALLTIME-DIAGNOSTIC-AND-CONTINGENCY",
+  "phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "gate": "GATE_6B_MODE1_ENERGETIC_AND_CONVERGENCE_QUALIFICATION",
+  "created_at": "2026-10-06T08:10:00+02:00",
+  "job_name": "PK_M1_14AM_8T",
+  "element_count": 57929,
+  "node_count": 57491,
+  "execution_mode": "SHARED_MEMORY_SMP_8THREAD",
+  "cpus": 8,
+  "threads": 8,
+  "walltime_requested": "48:00:00",
+  "memory_requested": "16gb",
+  "files": {
+    "input_deck": "PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_FRACTURE.inp",
+    "input_deck_sha256": "537C8C6617945AFD66E135C1DF4E2C34211F47FBEEEC44E4C145A8551CC1EEFD",
+    "user_subroutine": "f42_mixed_uel.for",
+    "user_subroutine_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs_script": "submit_solver.pbs",
+    "launcher_script": "submit_stage14u_spatial_fine_8thread_solver.sh"
+  }
+}
