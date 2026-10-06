@@ -1,16 +1,15 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1268-MODE1-GOVERNANCE-CONSISTENCY-AUDIT-AND-RECONCILIATION",
-  "session_start": "2026-10-06T09:10:00+02:00",
-  "session_end": "2026-10-06T09:30:00+02:00",
-  "starting_commit": "1c6e4a64a382a600471145d3eae08a48e6462555",
+  "task_id": "F1269-MODE1-BRIDGE-HANDOFF-SOURCE-RECONCILIATION-AND-PARK",
+  "session_start": "2026-10-06T09:28:00+02:00",
+  "session_end": "2026-10-06T09:45:00+02:00",
+  "starting_commit": "44cfc64578c190ecdf97a778cf5a8f4cc87c58f1",
   "allowed_write_scope": [
     "project_coordination/**",
-    "docs/project/**",
-    "docs/supervisor_reports/**",
-    "docs/methods/**",
-    "models/pandey_kumar_mode1/**",
-    "tests/unit/**"
+    "docs/**",
+    "tests/**",
+    "models/**",
+    ".agents/**"
   ]
 }

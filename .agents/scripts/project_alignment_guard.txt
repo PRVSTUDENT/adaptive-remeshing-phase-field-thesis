@@ -1,0 +1,794 @@
+PROJECT / THESIS ALIGNMENT GUARD -- SUPERVISOR-ALIGNED DIRECTIVE:
+
+================================================================================
+SUPERVISOR GOVERNING DIRECTIVE & ACTIVE SCIENTIFIC PHASE
+================================================================================
+"We need to have understood everything related to the first model before we increase complexity."
+
+ACTIVE SCIENTIFIC PHASE:
+  MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE
+
+NEW SCIENTIFIC ROADMAP:
+  Qualified Mode-I benchmark
+    -> corrected mechanical implementation
+    -> qualified MISESERI/adaptive-remeshing workflow
+    -> UEL ENERGY FORMULATION / OUTPUT AUDIT
+    -> GLOBAL ENERGY BALANCE
+    -> SPATIAL + TEMPORAL MODE-I CONVERGENCE
+    -> PHASE-FIELD / CRACK-PATH CONVERGENCE
+    -> MODE-I STATE-TRANSFER ENERGY PRESERVATION
+    -> complete Mode-I report
+    -> supervisor review
+    -> only then visualization integration / higher-complexity example
+
+NEXT SUPERVISOR MEETING:
+  Thursday, 08 October 2026, 10:00 CEST
+  All Mode-I work completed before that meeting must be incorporated directly into
+  the growing report, including theory, methods, results, unresolved issues, and figures.
+
+================================================================================
+SUPERSEDING SUPERVISOR DECISIONS (17 SEPTEMBER 2026)
+================================================================================
+
+A. 71,320-MESH STIFFNESS DEFECT:
+   Status: RESOLVED_AND_CLOSED
+   Verified cause: Abaqus keyword/NSET formatting allowed only 16 entries on the
+   malformed data line; the remaining 134 of 150 intended N_BOTTOM nodes were not
+   included in the parsed set.
+   Verified correction: wrap the N_BOTTOM node IDs across valid data lines.
+   Authoritative corrected evidence: 1405044.mmaster02, 1404933.mmaster02.
+   Rule: Do NOT reopen this diagnostic unless genuinely contradictory new evidence appears.
+
+B. 13,941-vs-71,320 PANDEY-KUMAR ELEMENT-COUNT REPRODUCTION:
+   New status: SUPERVISOR_ACCEPTED_REPRODUCTION_LIMITATION_CLOSED
+   The supervisor explicitly accepted that:
+   - the complete authors' implementation/code is not available;
+   - the publication does not expose enough information to reproduce every reported
+     element count exactly;
+   - the project has tested the justified accessible variables;
+   - reproduction of general trends is sufficient;
+   - additional effort trying to discover an unpublished detail is NOT justified.
+   Therefore:
+   - STOP treating 13,941 vs 71,320 as the active scientific blocker.
+   - STOP new Abaqus-version tests for this purpose.
+   - STOP errorTarget tuning for the purpose of forcing 13,941.
+   - STOP further arbitrary remeshing-factor sweeps aimed only at matching an element count.
+   - Do NOT send the prepared author inquiry unless the human/supervisor explicitly reopens it.
+   - Retain all existing reproduction results in the thesis/report as documented evidence.
+
+Preserved project sensitivity results:
+   errorTarget=1.0 -> 71,320 finite elements
+   errorTarget=2.0 -> 17,687 finite elements
+   errorTarget=3.0 ->  8,120 finite elements
+   errorTarget=5.0 ->  4,356 finite elements
+   Interpret them strictly as sensitivity/trend evidence.
+
+Explicitly preserve:
+   errorTarget=1.0 means a 1% target error tolerance under UNIFORM_ERROR sizing.
+   It does NOT mean MISESERI=1.
+   errorTarget=2.0 does NOT mean MISESERI=2.
+   errorTarget is not a direct MISESERI threshold.
+
+The old A/B reproduction-resolution phase is closed, but MODE-I FUNDAMENTALS ARE NOT COMPLETE.
+
+================================================================================
+NEW ACTIVE TECHNICAL PRIORITIES & GOVERNANCE STATE
+================================================================================
+
+PRIORITY 1 -- UEL ENERGY FORMULATION AND OUTPUT (CLOSED_PASSED):
+Status: UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE
+The UEL energy formulation is verified non-invasive with mechanical bitwise parity established across
+all 7,000 increments (source hash: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6).
+SDV17 (E_frac), SDV18 (E_elas), SDV19 (psi_bar_frac), and SDV20 (psi_bar_elas) are evaluated with
+single-IP extraction, producing the verified runtime energy trace uel_energy_balance.csv.
+
+MANDATORY ORDER:
+1. Inspect the authoritative UEL equations/source before editing anything.
+2. Derive the energy expressions actually consistent with the implemented weak form.
+3. Identify, with units and sign conventions, at minimum where applicable:
+   - stored elastic/strain energy;
+   - phase-field/fracture surface energy;
+   - dissipated/fracture contribution;
+   - external work: W_ext(u) = integral_0^u F(u_tilde) du_tilde;
+   - any other term required by the exact implemented formulation.
+4. Establish the correct global energy-balance identity for THIS implementation.
+   Do NOT label integral(F du) as internal energy or fracture energy.
+5. Determine how these terms should be exposed through Abaqus UEL ENERGY and/or
+   rigorously defined state/output variables without double-counting co-located UEL/UMAT layers.
+6. Do not invent energy terms simply to produce plots.
+7. Preserve the original authoritative Fortran source and hash before instrumentation.
+8. Any energy-output modification must be mechanically non-invasive:
+   RHS, AMATRX, constitutive evolution, and existing STATEV semantics must remain unchanged.
+9. Prove before/after mechanical parity after adding energy instrumentation.
+10. Before expensive Mode-I reruns:
+    source audit -> derivation -> code review -> compile -> datacheck ->
+    smallest meaningful verification -> authoritative Mode-I verification.
+
+Only after the energy implementation is physically and numerically qualified may the
+controller launch the full convergence batch.
+
+PRIORITY 2 -- MULTIFACETED MODE-I CONVERGENCE:
+Peak F_max alone is explicitly insufficient.
+Computational cost is NOT a required convergence criterion for the present supervisor task.
+Required convergence evidence:
+1. Complete force-displacement response: elastic branch, crack initiation, F_max, u(F_max), post-peak.
+2. Initial structural stiffness K0 using one consistent extraction rule:
+   Canonical reference stiffness K_0 = 137.945520 kN/mm (intercept 4.472368e-5 kN, R^2 = 0.99999960, N = 400 active increments).
+   Do NOT imply Pandey & Kumar Fig. 7 reports K0. K0 is project-derived.
+3. Global energy evolution and energy-balance quantities (residuals, normalized error).
+4. Spatial phase-field distribution d(x).
+5. Matched-displacement phase-field contours.
+6. Quantitative ligament/localization profiles, e.g. d(x, y=0.5 mm).
+7. Crack-path/localization convergence.
+8. Spatial-resolution convergence.
+9. Temporal/time-increment convergence.
+10. Phase-field length-scale sensitivity/convergence where required.
+Report exactly whether each quantity is: CONVERGED / STABLE, MESH-SENSITIVE, TEMPORALLY SENSITIVE,
+or NOT YET QUALIFIED. Use global integral measures.
+
+PRIORITY 3 -- MODE-I STATE-TRANSFER CONSERVATION (GATE 6C):
+Status: PAUSED_PENDING_GATE_6B_CLOSURE.
+Gate 6C / state transfer remains strictly paused on hold until Gate 6B is actually closed
+and formally reviewed by the supervisor; it must NOT auto-promote merely because the
+energy baseline is qualified.
+Assess transfer between nonmatching meshes using the SAME simple Mode-I benchmark:
+compare before/after mapping: d-field; history/state variables; spatial localization;
+||d_mapped - d_donor||; ||grad(d_mapped) - grad(d_donor)||; every qualified global energy
+component; total energy/balance; energy difference introduced by mapping.
+Primary question: Does mesh-to-mesh state transfer preserve the physically relevant energetic
+state, or does it introduce measurable energy gain/loss?
+Do NOT return to Mode-II for this investigation.
+
+ACTIVE SCOPE HOLDS:
+- MODE-II: HOLD.
+- Mixed mode: HOLD.
+- Multiple-crack / holes / higher-complexity reproduction: HOLD.
+- Gate 7 visualization / ABAQUSER integration: HOLD UNTIL MODE-I FUNDAMENTALS ARE QUALIFIED.
+- After Mode-I fundamentals are qualified, ONE representative more-complex model may
+  eventually be used to demonstrate that the framework generalizes.
+  Do NOT plan to reproduce all complex Pandey-Kumar examples.
+
+GOVERNING PRESENTATION & RESEARCH LOGIC:
+  [Define problem] -> [Define expected solution] -> [Establish reference]
+  -> [Apply adaptive method] -> [Compare] -> [Explain discrepancies]
+
+PROHIBITED REPORTING STRUCTURE:
+  DO NOT present work as:
+  [Simulation history] -> [All things attempted] -> [Current result].
+
+================================================================================
+1. PROBLEM DEFINITION & FIXED-MESH REFERENCE ANCHOR
+================================================================================
+BENCHMARK BOUNDARY VALUE PROBLEM:
+- Domain: Omega = 1 mm x 1 mm square plate.
+- Crack: a_0 = 0.5 mm sharp edge crack (zero-gap seam along y = 0.5 mm, 0 <= x <= 0.5 mm).
+  (Note: The finite-width notch was an erroneous implementation that radically altered structural
+   compliance; the zero-gap sharp seam is the mandatory correct benchmark representation).
+- Boundary conditions:
+  * Bottom edge (y = 0): u_y = 0 (roller support) with pinned point (u_x = 0) to prevent rigid body motion.
+  * Top edge (y = 1): Mode-I displacement-controlled tensile loading (u_y prescribed).
+- Material & phase-field parameters:
+  * Young's modulus: E = 210 GPa (210 kN/mm^2)
+  * Poisson's ratio: nu = 0.3
+  * Critical fracture energy release rate: G_c = 2.7e-3 kN/mm (2.7 N/mm)
+  * Phase-field length scale: l_0 = 0.0075 mm (7.5 um)
+
+EXPECTED PHYSICAL RESPONSE:
+- Initial linear-elastic response.
+- Crack-tip phase-field damage localization (0 <= d <= 1).
+- Peak reaction force followed by sharp post-peak load drop.
+- Pure horizontal crack extension along the symmetry line (y = 0.5 mm).
+
+FIXED-MESH REFERENCE AS THE QUANTITATIVE ANCHOR:
+- The fixed-mesh reference solution is the quantitative baseline against which all
+  adaptive results must be judged:
+  * Reconstructed fixed-mesh baseline (Job 1398090, 15,192 finite elements):
+      F_max = 0.757778 kN,  u(F_max) = 0.005857 mm,
+      Canonical reference stiffness K_0 = 137.945520 kN/mm (intercept 4.472368e-5 kN, R^2 = 0.99999960, N = 400 active increments).
+      (Note: K_0 is project-derived from the elastic response; Pandey & Kumar Fig. 7 reports F-u response and does NOT report K_0).
+  * Digitized reference values (Pandey & Kumar, 2025, Fig. 7(a)):
+      F_max ~ 0.758 kN,     u(F_max) ~ 0.005860 mm
+- Mandatory anchor statement:
+  "This is the reference response that my adaptive solution must reproduce to an acceptable accuracy."
+  Everything after that must be measured against it.
+
+================================================================================
+2. COMPREHENSIVE CONVERGENCE EVALUATION (PEAK FORCE ALONE IS NOT ENOUGH)
+================================================================================
+- Peak reaction force (F_max) alone is strictly INSUFFICIENT to establish mesh adequacy or convergence.
+- Convergence must be evaluated through multiple complementary quantities:
+  1. Complete force-displacement (F-u) response curve across the full range (elastic, peak, softening).
+  2. Peak reaction force (F_max).
+  3. Displacement at peak force (u(F_max)).
+  4. Global energy evolution and energy-balance quantities:
+     * Priority 1 Task: Audit the authoritative Fortran weak form in f42_mixed_uel.for and expose UEL energy terms.
+     * The existing statement that Abaqus UEL ENERGY is unavailable must NOT be treated as a permanent limitation.
+     * Identify stored elastic energy, phase-field surface energy, dissipated fracture contribution, external work W_ext = integral F du, and any other required terms.
+     * Produce global energy balance, residuals, and normalized error.
+  5. Phase-field / damage distribution (d-field contour and tip localization).
+  6. Crack-path and localization-profile convergence.
+  7. Computational cost: Computational cost is NOT a required convergence criterion for the present supervisor task.
+- Mandatory formulation for report and narrative:
+  "Mesh adequacy is evaluated using global force-displacement response, qualified UEL energetic measures and global balance, damage-field evolution, and localization profiles."
+
+================================================================================
+3. 13,941-VS-71,320 ELEMENT-COUNT REPRODUCTION LIMITATION (CLOSED)
+================================================================================
+- Literature reported mesh: Pandey & Kumar report an element count of ~13,941 for their Mode-I adaptive mesh.
+- Status: SUPERVISOR_ACCEPTED_REPRODUCTION_LIMITATION_CLOSED.
+- The supervisor explicitly accepted that:
+  * The complete authors' implementation/code is not available;
+  * The publication does not expose enough information to reproduce every reported element count exactly;
+  * The project has tested the justified accessible variables;
+  * Reproduction of general trends is sufficient;
+  * Additional effort trying to discover an unpublished detail is NOT justified.
+- Governed rules:
+  * STOP treating 13,941 vs 71,320 as the active scientific blocker.
+  * STOP new Abaqus-version tests for this purpose.
+  * STOP errorTarget tuning for the purpose of forcing 13,941.
+  * STOP further arbitrary remeshing-factor sweeps aimed only at matching an element count.
+  * Do NOT send the prepared author inquiry unless the human/supervisor explicitly reopens it.
+  * Retain all existing reproduction results in the thesis/report as documented evidence.
+- Preserved project sensitivity results:
+  * errorTarget=1.0 -> 71,320 finite elements
+  * errorTarget=2.0 -> 17,687 finite elements (canonical errorTarget=2.0 sensitivity)
+  * errorTarget=3.0 ->  8,120 finite elements (canonical errorTarget=3.0 sensitivity)
+  * errorTarget=5.0 ->  4,356 finite elements (canonical errorTarget=5.0 sensitivity)
+  Interpret them strictly as sensitivity/trend evidence.
+- Explicitly preserve:
+  * errorTarget=1.0 means a 1% target error tolerance under UNIFORM_ERROR sizing. It does NOT mean MISESERI=1.
+  * errorTarget=2.0 does NOT mean MISESERI=2.
+  * errorTarget is not a direct MISESERI threshold.
+
+================================================================================
+4. PHYSICAL UNDERSTANDING OF MISESERI
+================================================================================
+- Safe wording:
+  "MISESERI is the Abaqus Mises stress discretization/error indicator associated with the recovered stress solution."
+  Do NOT assert an exact proprietary SPR/ZZ/internal Abaqus sizing formula unless a primary source proves it.
+  * It is based on stress-recovery error estimation on the linear-elastic continuum stress field.
+  * It is NOT phase-field error.
+  * It is NOT damage error.
+- Canonical Mode-I MISESERI provenance:
+  * Coarse mesh = 2,906 finite elements (2,818 CPE4 + 88 CPE3) and 2,988 nodes.
+  * 2,906 WHOLE_ELEMENT MISESERI scalar values, exactly one value per underlying finite element.
+  * The old 3,930-row dataset belonged to Mode-II and is purged from the active Mode-I narrative.
+- Representation:
+  * Plotted points in Mode-I represent element-field error indicator data from the 2,906-element pre-analysis, not simple nodes.
+- Conceptual causal chain:
+  [Coarse FE stress field]
+         |
+         v
+  [Stress recovery / error estimation]
+         |
+         v
+  [MISESERI error indicator field]
+         |
+         v
+  [Abaqus RemeshingRule identifies under-resolved regions]
+         |
+         v
+  [Local element sizing calculation]
+         |
+         v
+  [adaptiveRemesh generates new mesh]
+- Verification question:
+  "Does the generated mesh spatially correspond to the regions where refinement was expected based on the stress error field?"
+
+================================================================================
+5. ACTIVE PROJECT SCOPE RESTRICTIONS
+================================================================================
+- MODE-II WORK IS PAUSED:
+  * Mode-II introduces shear loading, crack angle/direction, sliding/friction-like effects,
+    and complex crack path interpretations.
+  * Rule: DO NOT continue Mode-II while MODE1_RESOLUTION_EXTENSION_ACTIVE is true.
+  * Completion of a supervisor handoff package does NOT release this hold. Release
+    requires verified closure of the active Mode-I resolution questions or explicit
+    human/supervisor authorization.
+  * Even if the rest of the thesis period were spent understanding the Mode-I problem properly,
+    that is acceptable.
+  * Chapter 5 material remains archived and preserved, but MUST NOT drive active research, tasks, or controller turns.
+- STATE TRANSFER IS SECONDARY:
+  * State transfer between nonmatching meshes is an enabling restart technology, not the main branch now.
+  * Numerical Diffusion Warning: When mapping phase-field d between meshes (d_h^(A) -> d_h^(B)),
+    interpolation/extrapolation inevitably diffuses gradients (|grad d| decreases), even between nominally equivalent meshes.
+    Because the phase field represents the crack strictly through steep spatial gradients of d,
+    repeated mapping causes numerical diffusion.
+  * Future evaluation will compare ||d_mapped - d_donor|| and ||grad d_mapped - grad d_donor||.
+  * Mode-I must be understood before returning to multi-step state transfer.
+
+================================================================================
+6. TERMINOLOGY DISCIPLINE: ELIMINATE "PHYSICAL ELEMENT"
+================================================================================
+- REMOVE the phrase "physical element" entirely when describing the finite element mesh.
+- Always use standard finite-element terminology:
+  * "number of finite elements" or "element count"
+  * Example: "an element count of 17,687" or "17,687 finite elements" (NEVER "17,687 physical elements").
+- When describing the multi-layer UEL/UMAT formulation:
+  * Refer to "co-located UEL user elements" and "companion visualization UMAT elements" precisely,
+    not as "physical" vs "non-physical".
+
+================================================================================
+7. STRUCTURAL STIFFNESS EXPLANATION (FIGURE 7.1)
+================================================================================
+- Figure 7.1 compares initial stiffness values: K_0 ~ 138.15 kN/mm vs 75.47 kN/mm vs 141.82 kN/mm.
+- Rigorous definition: Initial stiffness K_0 is the slope of the initial linear-elastic range
+  of the global reaction force versus prescribed displacement curve:
+    K_0 = dF/du |_{initial elastic range} ~ Delta F / Delta u
+- Physical meaning:
+  * K_0 is a GLOBAL STRUCTURAL STIFFNESS, NOT the material Young's modulus E.
+  * The finite-width notch radically increased structural compliance (reducing K_0 to 75.47 kN/mm).
+  * Replacing the notch with the zero-gap sharp seam restored the specimen's structural stiffness
+    to ~138 kN/mm, matching the reference behavior.
+
+================================================================================
+8. STRUCTURE OF THE GROWING MODE-I REPORT (PRE-OCTOBER-2026)
+================================================================================
+Everything verified in Mode-I must be incorporated into the report continuously
+before the Thursday 08 October 2026 meeting (10:00 CEST).
+The report should strictly distinguish:
+  * THEORY / EXPECTATION
+  * VERIFIED NUMERICAL EVIDENCE
+  * UNRESOLVED / NOT YET QUALIFIED
+Specifically include:
+  - MISESERI theory and role;
+  - Published vs project implementation distinctions;
+  - N_BOTTOM defect / root cause / fix;
+  - Remeshing reproduction trends and supervisor-accepted publication limitation;
+  - Complete F-u convergence;
+  - Global energy formulation and balance;
+  - Phase-field spatial profiles;
+  - Temporal convergence;
+  - State-transfer energy preservation once available.
+Do NOT organize the thesis/report as simulation chronology.
+
+================================================================================
+9. SCIENTIFIC EPISTEMOLOGY & CLAIMS DISCIPLINE
+================================================================================
+Do not present AI-derived claims that cannot be defended. Strictly categorize every statement:
+1. "I know this" -- analytical definitions, physical constants, boundary conditions.
+2. "I verified this numerically" -- exact solver jobs, extracted F-u data, convergence metrics, hashes.
+3. "I do not yet understand this" -- genuine scientific open questions (e.g. nominal 1% element count discrepancy).
+Stating "I do not yet understand this" is scientifically superior to giving an unsupported explanation.
+
+================================================================================
+10. REQUIRED SUPERVISOR DELIVERABLES SPECIFICATION
+================================================================================
+The supervisor does NOT want tens of gigabytes of large ODB files.
+Deliver a clean, lightweight local reproduction package:
+- Complete input decks (.inp);
+- User subroutine Fortran source files (.for);
+- Python remeshing and post-processing scripts (.py);
+- commands.txt: exact, step-by-step shell/Abaqus execution instructions matching the real cluster/local environment.
+
+================================================================================
+11. SUPERVISOR-ALIGNED MASTER GATE DASHBOARD & HARD STOP RULES
+================================================================================
+The thesis execution is strictly governed by 12 sequential gates (Gates 0-11).
+No new branch may bypass the active gate. A gate is closed only when its exit
+evidence is complete and can be defended without AI-generated speculation:
+
+- Gate 0 -- Source & Scope Freeze (Proposal Tasks 1-2):
+  Exit evidence: Primary papers, formal proposal, meeting notes, and benchmark
+  parameters indexed. Active scientific question stated in one sentence.
+  HARD STOP RULE: Do not run simulations until the exact Mode-I problem and
+  expected response are written down.
+
+- Gate 1 -- Conventional Mode-I Reference (Proposal Task 3):
+  Exit evidence: Fixed-mesh model reproduces the paper/reference response and its
+  mesh/convergence basis is documented.
+  HARD STOP RULE: No adaptive interpretation before the reference solution is qualified.
+
+- Gate 2 -- Multi-Quantity Convergence Qualification (Task 3 Prerequisite):
+  Exit evidence: F-u curve, F_max, u_peak, K_0, d-field/profile, crack path,
+  energy/work status (with UEL limitation acknowledged), and computational cost addressed.
+  HARD STOP RULE: Peak force alone CANNOT close this gate.
+
+- Gate 3 -- MISESERI Mechanism Verification (Task 4 Prerequisite):
+  Exit evidence: Source of MISESERI, field meaning, element set, step, output position,
+  and spatial distribution understood and reproducible.
+  HARD STOP RULE: Do not treat MISESERI as phase-field error or damage error.
+
+- Gate 4 -- Native Python Refinement Implementation (Proposal Task 4):
+  Exit evidence: RemeshingRule + adaptiveRemesh generate a genuine topology/size change;
+  UEL/UMAT layers reconstructed deterministically.
+  HARD STOP RULE: No custom remesher may substitute for the built-in reference method.
+
+- Gate 5 -- Native-Remesh Reproduction (71,320 vs 13,941):
+  Status: CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION
+  Exit evidence: The supervisor explicitly accepted that the publication does not expose
+  enough information to reproduce every reported element count exactly; reproduction of
+  general trends is sufficient; additional effort trying to discover an unpublished detail
+  is not justified.
+  Exact 13,941 reproduction is NO LONGER an exit requirement or active blocker.
+  Preserve tested errorTarget sensitivity trends (1.0 -> 71,320; 2.0 -> 17,687; 3.0 -> 8,120; 5.0 -> 4,356)
+  and missing-information boundary.
+
+- Gate 6A -- Mechanical Mode-I Implementation:
+  Status: RESOLVED_AND_CLOSED
+  Exit evidence: N_BOTTOM defect identified (Abaqus keyword/NSET 16-entry card limit silently
+  omitted 134/150 bottom nodes) and corrected (card wrapping across lines). Corrected full-fracture
+  response verified (1405044.mmaster02, 1404933.mmaster02).
+  Do NOT reopen this diagnostic unless contradictory new evidence appears.
+
+- Gate 6B -- Mode-I Energetic / Convergence Qualification:
+  Status: ACTIVE_EVALUATION_AND_CONTINUATION
+  Exit evidence: Physically derived UEL energy quantities qualified (UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE);
+  verified energy output; global energy balance; full F-u comparison; spatial phase-field convergence;
+  temporal convergence; relevant length-scale convergence. Active pending terminal completion and multi-quantity
+  evaluation of the 57,929-FE spatial-fine candidate (serial Job 1410179 diagnostic and 8T SMP Job 1410504 candidate).
+
+- Gate 6C -- Mode-I State-Transfer Conservation:
+  Status: NOT_YET_PERFORMED_PENDING_GATE_6B
+  Gate 6C / state transfer remains strictly paused on hold until Gate 6B is formally evaluated and closed;
+  it must NOT auto-promote merely because the energy baseline is qualified.
+
+- Gate 7 -- ABAQUSER Integration / Visualization (Proposal Task 6):
+  Status: HOLD (until Mode-I fundamentals are qualified).
+  Exit evidence: Authentic IMFD ABAQUSER path integrated and verified.
+
+- Gate 8 -- Higher-Complexity Benchmarks (Proposal Task 7):
+  Status: HOLD (until Mode-I fundamentals are qualified).
+  After Mode-I fundamentals are qualified, ONE representative more-complex model may demonstrate generalization.
+
+- Gate 9 -- Parameter Recommendations (Proposal Task 8):
+  Exit evidence: Recommendations based on verified sensitivity trends, not a single outcome.
+  HARD STOP RULE: State applicability range and numerical limitations explicitly.
+
+- Gate 10 -- Future-User Documentation (Proposal Task 9):
+  Status: ACTIVE CONTINUOUSLY.
+  Exit evidence: Reproduction package contains .inp, .for, .py, commands.txt, and provenance.
+  HARD STOP RULE: Do not require multi-GB ODB transfers for basic reproduction.
+
+- Gate 11 -- Thesis Synthesis (Proposal Task 10):
+  Status: ACTIVE CONTINUOUSLY but cannot close until Mode-I fundamentals are qualified.
+  Exit evidence: Final thesis organized by scientific logic, not historical chronology;
+  verified and unresolved findings strictly separated.
+  HARD STOP RULE: No unresolved question may be written as a proven physical mechanism.
+
+================================================================================
+12. PRE-JOB ANTI-DEVIATION CARD & GATE-MAPPING CONTRACT
+================================================================================
+Every simulation, script change, or solver job MUST complete this mental card:
+[ ] Which original proposal task does this job advance? (Tasks 1-10)
+[ ] Which active gate does it close? (Gates 0-11, currently Gate 6B)
+[ ] What is the scientific question / hypothesis?
+[ ] What is the single intended change from the previous qualified case?
+    (Change one numerical/physical factor at a time for diagnosis; do not vary
+     geometry, mesh rules, time-stepping, and solver controls simultaneously).
+[ ] What must remain frozen?
+[ ] What are the primary outputs and pre-declared acceptance criteria?
+[ ] If the result is unexpected, the next action MUST be the smallest isolated
+    evidence-supported diagnostic -- NOT a new research branch.
+[ ] Queue availability or spare HPC capacity is NEVER a reason to launch a job.
+[ ] A job that exits 0 is technically complete, NOT automatically scientifically accepted.
+
+ENERGY-JOB ANTI-DEVIATION CARD:
+For every UEL energy code change or solver run require:
+[ ] Which Mode-I fundamentals question does this close?
+[ ] What energy term is being evaluated?
+[ ] What exact equation defines it?
+[ ] Where in the UEL is it computed?
+[ ] What units/sign convention are used?
+[ ] What is the single intended source/input change?
+[ ] What RHS/AMATRX/STATEV behavior must remain unchanged?
+[ ] What is the before/after mechanical-parity criterion?
+[ ] What is the global energy-balance quantity?
+[ ] What output will be added to the report?
+[ ] What result would falsify the implementation?
+A successful Abaqus exit is NOT energy qualification.
+
+================================================================================
+REVISED HPC CONCURRENCY POLICY â€” MODE-I SHARED-MEMORY MULTI-THREADING & BATCH CAPACITY
+================================================================================
+
+PROJECT ACTIVE-JOB CAPACITY & QUEUE LIMITS:
+
+    Demonstrated Minimum Concurrency: 10 SIMULTANEOUS ACTIVE JOBS (97 CPUs in R state)
+    Queue: normal_imfdfkmq
+    - No explicit per-user max_run job-count limit.
+    - Per-user running CPU limit: 640 CPUs.
+    - Per-user running memory limit: 4 TB.
+    - Theoretical CPU headroom: ~543 additional CPUs with 97 CPUs allocated
+      (node availability and placement permitting).
+
+    POLICY PRINCIPLE:
+    10 is a demonstrated minimum capability floor, not a ceiling.
+    During the September-9 window, Antigravity can cautiously expand to
+    15â€“20 useful Mode-I jobs where scientifically justified.
+
+    GOVERNING CONSTRAINT:
+    Scientific usefulness, not an arbitrary job-count cap.
+    Strictly NO redundant or dummy jobs just to test capacity or consume resources.
+
+    PARALLEL EXECUTION ARCHITECTURE:
+    f42_mixed_uel.for remains unqualified for true multi-rank MPI.
+    Individual Abaqus jobs must continue using verified single-rank
+    shared-memory threading (1, 4, 8, or 16 threads), while high throughput
+    is achieved primarily by running many independent scientific jobs concurrently.
+
+Q and R both count as active.
+
+================================================================================
+SERIAL AUTHORITATIVE JOBS
+================================================================================
+
+The authoritative Mode-I formulation remains:
+
+    f42_mixed_uel.for
+
+Serial reference execution:
+
+    exactly 1 CPU
+
+These jobs provide the authoritative scientific convergence/reference sequence.
+
+Do not alter:
+- formulation;
+- geometry;
+- mesh;
+- boundary conditions;
+- material parameters;
+- phase-field parameters;
+- increment controls;
+- solver controls
+
+merely to enable parallel execution.
+
+================================================================================
+SHARED-MEMORY MULTI-THREADING QUALIFICATION & SCALING (4, 8, 16 THREADS)
+================================================================================
+
+The shared-memory parallelization question is:
+
+"Can the exact original authoritative dual-element formulation
+f42_mixed_uel.for reproduce the serial solution when Abaqus uses shared-memory
+threads (4, 8, or 16 threads) inside ONE shared-memory process?"
+
+Therefore the intended configuration is:
+
+    1 MPI PROCESS / RANK
+    4, 8, or 16 SHARED-MEMORY THREADS
+
+This is NOT a true multi-rank MPI qualification.
+
+Do NOT configure the original f42_mixed_uel.for as multi-rank MPI (e.g. 4x1, 8x1),
+because previous evidence established that the mutable
+COMMON /CB_STATE_TRANS/ architecture is not qualified for distributed-memory
+MPI.
+
+Job 1401531.mmaster02 remains evidence that true multi-rank MPI of the original
+dual formulation is unqualified.
+
+================================================================================
+REQUIRED ABAQUS TELEMETRY
+================================================================================
+
+For a shared-memory multi-threaded job, acceptable telemetry must demonstrate
+an equivalent of:
+
+    1 MPI rank x N threads (N in {4, 8, 16})
+
+or:
+
+    1 domain/process using N threads
+
+The exact supported Abaqus 2023 cluster launch syntax must be verified from the
+actual environment rather than guessed.
+
+Do NOT classify multi-rank MPI as the desired execution mode for the original UEL.
+
+If the solver launches distributed MPI processes, terminate the qualification
+classification as:
+
+    WRONG_PARALLEL_MODE / TRUE_MPI_NOT_ALLOWED_FOR_ORIGINAL_DUAL_UEL
+
+Do not use that result as serial/thread parity evidence.
+
+================================================================================
+THREAD-SAFETY STATUS
+================================================================================
+
+Shared address space does NOT automatically mean the original UEL is thread-safe.
+
+The original formulation contains mutable shared COMMON state.
+
+Therefore its starting classification is:
+
+    THREAD_SAFETY_UNVERIFIED
+
+Multi-threaded jobs must be evaluated strictly with parity checks.
+
+Potential hazards include:
+- simultaneous COMMON writes;
+- changed UEL call ordering;
+- race conditions;
+- phase/mechanical co-located element ordering differences;
+- nondeterministic d/H trial-state exchange.
+
+Do not claim parallelization success from Exit_status=0 alone.
+
+================================================================================
+THREAD-PARITY QUALIFICATION
+================================================================================
+
+A multi-thread candidate must be compared against a corresponding 1-CPU run.
+
+ONLY intended change:
+
+    CPU execution:
+        1 CPU serial
+            ->
+        N CPU shared-memory threads (N = 4, 8, 16)
+
+Freeze everything else.
+
+Compare:
+- complete F-u response;
+- K0 using identical extraction;
+- Fmax;
+- u(Fmax);
+- final RF;
+- dmax;
+- Hmax;
+- selected d/H spatial values;
+- crack localization/path;
+- increment history;
+- Newton iteration counts;
+- cutbacks;
+- achieved displacement;
+- external work integral F du;
+- warnings/singularities;
+- walltime;
+- CPU time;
+- memory.
+
+Any meaningful scientific-response difference must be classified as thread
+sensitivity or race/order sensitivity, NOT as physical mesh behavior.
+
+================================================================================
+DETERMINISM REQUIREMENT
+================================================================================
+
+One serial/thread parity pass is insufficient to declare thread safety.
+
+Required qualification progression:
+
+Stage A:
+    one N-thread run versus its exact 1-CPU twin.
+
+If Stage A passes:
+
+Stage B:
+    repeat the SAME N-thread case independently.
+
+Compare the two N-thread runs for deterministic identity/tight numerical parity.
+
+Only after both stages pass may classification progress to:
+
+    THREAD_PARITY_PASS
+    THREAD_DETERMINISM_PASS
+    THREAD_PARALLELIZATION_QUALIFIED
+
+The tested 8-thread shared-memory path is qualified for the current Mode-I formulation/controls
+(8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS),
+while 16-thread execution remains unqualified pending independent Stage-A and Stage-B verification.
+Distributed multi-rank MPI remains strictly disqualified for f42_mixed_uel.for due to unsynchronized
+mutable COMMON state.
+
+================================================================================
+TRUE MPI BRANCH
+================================================================================
+
+Preserve the separate MPI research finding:
+
+Original f42_mixed_uel.for:
+    serial = authoritative
+    true multi-rank MPI = NOT QUALIFIED
+
+Unified/compatibility UEL:
+    true MPI self-parity demonstrated
+    exact dual-equivalence NOT established
+
+Do not mix unified MPI results into the authoritative Mode-I mesh-convergence
+sequence.
+
+The unified branch remains a separate development branch and must not replace
+the original formulation without explicit scientific approval.
+
+================================================================================
+ACTIVE SLOT MANAGEMENT
+================================================================================
+
+Before each qsub query exact current project jobs.
+
+Count:
+
+    SERIAL_ACTIVE
+    PARALLEL_THREAD_ACTIVE
+    TOTAL_ACTIVE
+
+Rules:
+
+1. TOTAL_ACTIVE is governed by scientific usefulness and queue limits:
+   10 simultaneous active jobs is a demonstrated minimum floor.
+   Controlled expansion up to 15â€“20 active Mode-I jobs is permitted during
+   the September-9 window for validated, scientifically justified cases.
+
+2. Existing valid jobs are grandfathered until terminal.
+   Do NOT cancel them.
+
+3. Jobs may utilize verified single-rank shared-memory threading
+   (1 CPU serial, 4-thread, 8-thread, or 16-thread) as scientifically required.
+
+4. High throughput is driven by concurrent independent jobs across available nodes.
+
+5. Strictly NO redundant or dummy jobs just to consume resources or test capacity.
+
+6. Do not launch work merely because a slot is free; every job must have an
+   explicit scientific question, gate alignment, and pre-declared acceptance criteria.
+
+7. Every parallel/threaded run must correspond to an explicit serial parity reference
+   or scaling benchmark.
+
+================================================================================
+HISTORICAL CONCURRENCY DEMONSTRATION -- NOT CURRENT SCHEDULER STATE
+================================================================================
+
+The jobs below historically demonstrated at least 10 simultaneous Mode-I jobs and
+97 CPUs in R state. They MUST NOT be described as currently active unless a fresh
+`qstat -u pr21vyci` snapshot independently shows them in Q/R:
+- 1403368.mmaster02: PK_M1_C7_2PCT (1 CPU serial)
+- 1403369.mmaster02: PK_M1_FIX_H0015 (8 threads)
+- 1403370.mmaster02: PK_M1_NOM_1PCT_71K (8 threads)
+- 1403371.mmaster02: PK_M1_NOM_1PCT_71K (16 threads)
+- 1403372.mmaster02: PK_M1_C7_2PCT (8 threads)
+- 1403373.mmaster02: PK_M1_C7_2PCT (16 threads)
+- 1403374.mmaster02: PK_M1_H0030 (8 threads)
+- 1403375.mmaster02: PK_M1_H0020 (8 threads)
+- 1403376.mmaster02: PK_M1_H0015 (8 threads)
+- 1403377.mmaster02: PK_M1_H0015 (16 threads)
+
+Preserve these jobs as historical evidence. Never cancel/modify/restart an existing
+valid job. Current scheduler truth always comes from the fresh scheduler query.
+
+================================================================================
+EXPANSION AND QUALIFICATION SUBMISSION CRITERIA
+================================================================================
+
+Additional submissions within the 15â€“20 job guideline must satisfy:
+- Explicit scientific purpose (e.g. 8/16-thread scaling/parity on large meshes,
+  deterministic repeats, or PBS post-processing/extractions);
+- Pre-declared acceptance criteria;
+- Exact .inp and f42_mixed_uel.for hashes verified;
+- Input syntax / datacheck preflight verified;
+- Single-rank shared-memory threading confirmed (1 MPI rank x N threads);
+- Dual-channel notification integration verified;
+- Human authorization recorded for the batch.
+
+================================================================================
+BRIDGE RESPONSE RULE
+================================================================================
+
+MODE-I FUNDAMENTALS GOVERNANCE (POST-17-SEPTEMBER-2026 SUPERVISOR MEETING):
+- Active scientific phase: MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION.
+- 71,320-mesh stiffness defect is RESOLVED_AND_CLOSED.
+- 13,941 vs 71,320 element-count reproduction is CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION.
+- UEL Energy formulation & output status: UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE.
+- Active Gate: Gate 6B remains active pending terminal completion and multi-quantity evaluation of the
+  57,929-FE spatial-fine candidate (serial Job 1410179 diagnostic and 8T SMP Job 1410504 candidate).
+- Gate 6C / State Transfer: Strictly on hold until Gate 6B is formally closed; no auto-promotion.
+- Parallel execution: 8-thread shared-memory SMP qualified; 16-thread shared-memory unqualified;
+  multi-rank MPI strictly disqualified.
+- Next supervisor meeting: Thursday, 08 October 2026, 10:00 CEST.
+- STOP / RESUME RULES:
+  * Do NOT assume zero Q/R jobs means stop or park. If Mode-I fundamentals tasks (energy audit, derivation, offline analysis, report updates) are actionable, CONTINUE that work!
+  * With Q/R jobs running: leave them untouched. If independent offline analysis, derivations, or report work remain, continue that work!
+  * Reply "stop" ONLY when all currently justified independent work is already executing or complete AND further progress genuinely depends on a running job or external result.
+  * When a job becomes terminal: retrieve actual scheduler/solver evidence; evaluate scientifically against predeclared criteria; update report/provenance; do NOT return stop just because Exit_status=0.
+  * Do NOT reopen 13,941 target matching, author inquiries, Mode-II, or visualization integration (Gate 7).
+
+Do not choose the scheduler polling interval.
+
+================================================================================
+"@

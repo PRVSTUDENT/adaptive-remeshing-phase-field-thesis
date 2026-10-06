@@ -181,3 +181,55 @@ def test_guard7_governance_reconciliation_invariants():
         assert "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED" not in ctrl_text
         assert "Thursday, 08 October 2026, 10:00 CEST" in ctrl_text
         assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in ctrl_text
+
+def test_guard8_bridge_rules_and_handoff_invariants():
+    """Guard 8: Enforce bridge rules, alignment guard, and bridge launcher invariants:
+    - bridge_rules.txt must contain 08-Oct meeting date, qualified UEL energy, Gate 6B active,
+      Gate 6C hold without auto-promotion, 8T SMP qualified, 16T SMP unqualified, MPI disqualified.
+    - Zero superseded strings (01 October 2026, 01-Oct, UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED).
+    - project_alignment_guard.txt clean of superseded strings and containing authoritative definitions.
+    - Invoke-ChatGPTBridge.ps1 supporting DryRun and prompt reconciliation.
+    """
+    repo_rules = REPO_ROOT / ".agents" / "scripts" / "bridge_rules.txt"
+    assert repo_rules.exists()
+    rr_text = repo_rules.read_text(encoding="utf-8")
+
+    assert "01 October 2026" not in rr_text
+    assert "01-Oct" not in rr_text
+    assert "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED" not in rr_text
+    assert "Thursday, 08 October 2026, 10:00 CEST" in rr_text
+    assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in rr_text
+    assert "GATE_6B_ACTIVE_EVALUATION_AND_CONTINUATION" in rr_text
+    assert "ON_HOLD_PENDING_GATE6B_CLOSURE" in rr_text
+    assert "8-thread shared-memory SMP execution is empirically qualified" in rr_text
+    assert "16-thread shared-memory execution is UNQUALIFIED" in rr_text
+    assert "Distributed multi-rank MPI execution is STRICTLY DISQUALIFIED" in rr_text
+
+    repo_guard = REPO_ROOT / ".agents" / "scripts" / "project_alignment_guard.txt"
+    assert repo_guard.exists()
+    rg_text = repo_guard.read_text(encoding="utf-8")
+
+    assert "01 October 2026" not in rg_text
+    assert "01-Oct-2026" not in rg_text
+    assert "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED" not in rg_text
+    assert "Thursday, 08 October 2026, 10:00 CEST" in rg_text
+    assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in rg_text
+
+    repo_bridge = REPO_ROOT / ".agents" / "scripts" / "Invoke-ChatGPTBridge.ps1"
+    assert repo_bridge.exists()
+    rb_text = repo_bridge.read_text(encoding="utf-8")
+
+    assert "DryRun" in rb_text
+    assert "project_alignment_guard.txt" in rb_text
+    assert "bridge_rules.txt" in rb_text
+
+    # Also check external OpenClawPAD files if present
+    pad_rules = Path(r"C:\Users\pruth\OpenClawPAD\ChatGPTBridge\bridge_rules.txt")
+    if pad_rules.exists():
+        pr_text = pad_rules.read_text(encoding="utf-8", errors="ignore")
+        assert "01 October 2026" not in pr_text
+        assert "01-Oct" not in pr_text
+        assert "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED" not in pr_text
+        assert "Thursday, 08 October 2026, 10:00 CEST" in pr_text
+        assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in pr_text
+
