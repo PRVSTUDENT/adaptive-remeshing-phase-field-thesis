@@ -283,16 +283,16 @@ def test_guard9_gate6b_single_job_provenance_and_figure_guards():
     assert "fig_mode1_gate6b_spatial_convergence_synthesis.png" in er_text
     assert "fig_mode1_gate6b_spatial_convergence_synthesis.pdf" in er_text
 
-def test_guard10_single_job_provenance_json_and_terminology_guards():
-    """Guard 10: Enforce machine-readable single-job provenance dataset, terminology discipline, and bridge assembled invariants:
+def test_guard10_single_job_provenance_json_and_algorithmic_derivation():
+    """Guard 10: Enforce machine-readable single-job provenance dataset, algorithmic peak derivation, and zero hard-coding:
     - MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json exists, contains 9 distinct jobs, with zero cross-contamination.
-    - Full-horizon Reference Job 1409734 has W_ext=2.359329 mJ, E_frac=2.340220 mJ, E_elas=0.001161 mJ, eps_book=0.7607%.
-    - Canonical ET1 Baseline Job 1409982 has K0=137.909558, F_max=0.743701, u_peak=0.005733, u_term=0.007889, W_ext=2.267380, E_frac=2.285469, E_elas=0.006960, eps_book=1.1048%.
-    - Diagnostic Job 1410180 has F_max=0.743711, u_peak=0.005840, u_term=0.010000, W_ext=2.270745, E_frac=2.246309, E_elas=0.005801, eps_book=0.8207%.
-    - Strict invariant: Job 1410180 (0.005840 mm) and Job 1409982 (0.005733 mm) peak displacements remain distinct and job-specific.
-    - Spatial fine 58k Job 1410179 has K0=137.840989, F_max=0.741633, u_peak=0.005717, u_term=0.007429, W_ext=2.501136, E_frac=2.359641, E_elas=0.040984, eps_book=4.0186%.
+    - Full-horizon Reference Job 1409734 has raw source PK_M1_REF15K_ENERGY.dat, peak idx 2856 (Step 2 Inc 857), W_ext=2.359329 mJ, E_frac=2.340220 mJ, E_elas=0.001161 mJ, eps_book=0.7607%.
+    - Canonical ET1 Baseline Job 1409982 has raw source PK_MODE1_STAGE14_ADAPT_14K_FRACTURE_fu.csv (SHA256: 71ba958e...), peak idx 2734 (Step 2 Inc 733), K0=137.909558, F_max=0.743701, u_peak=0.005733, u_term=0.007889, W_ext=2.267380, E_frac=2.285469, E_elas=0.006960, eps_book=1.1048%.
+    - Diagnostic Job 1410180 has raw source PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL_fu.csv (SHA256: 44d0b66f...), peak idx 2732 (Step 2 Inc 733), F_max=0.743711, u_peak=0.005733, u_term=0.010000, W_ext=2.270745, E_frac=2.246309, E_elas=0.005801, eps_book=0.8207%.
+    - Step-2 errorTarget sweep jobs (1410357, 1410358, 1410359) have their respective raw source CSVs and SHA256 hashes populated.
+    - Spatial fine 58k Job 1410179 has raw source PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_FRACTURE.dat (SHA256: 36908c50...), peak idx 2716 (Step 2 Inc 717), K0=137.840989, F_max=0.741633, u_peak=0.005717, u_term=0.007429, W_ext=2.501136, E_frac=2.359641, E_elas=0.040984, eps_book=4.0186%.
     - Zero occurrence of 'fracture dissipation' in plot_gate6b_spatial_convergence_synthesis.py.
-    - scripts/postprocessing/extract_gate6b_single_job_provenance.py exists and is executable.
+    - scripts/postprocessing/extract_gate6b_single_job_provenance.py exists and operates algorithmically without hard-coded numbers.
     - Outer bridge handoff prompt is clean of STEP2_ACTIVE and accurately describes 1410179 as partial evidence and 1410504 as active candidate.
     """
     import json
@@ -312,6 +312,10 @@ def test_guard10_single_job_provenance_json_and_terminology_guards():
     j_1398090 = jobs_by_id["1398090.mmaster02"]
     assert j_1398090["fe_elements"] == 15192
     assert j_1398090["fe_nodes"] == 15521
+    assert j_1398090["raw_source_file"] == "models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.dat"
+    assert j_1398090["peak_row_index"] == 2856
+    assert j_1398090["peak_step"] == 2
+    assert j_1398090["peak_increment"] == 857
     assert abs(j_1398090["k0_kn_per_mm"] - 137.945520) < 1e-4
     assert abs(j_1398090["f_max_kn"] - 0.757778) < 1e-4
     assert abs(j_1398090["u_peak_mm"] - 0.005857) < 1e-5
@@ -320,6 +324,10 @@ def test_guard10_single_job_provenance_json_and_terminology_guards():
     j_1409734 = jobs_by_id["1409734.mmaster02"]
     assert j_1409734["fe_elements"] == 15192
     assert j_1409734["fe_nodes"] == 15521
+    assert j_1409734["raw_source_file"] == "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/PK_M1_REF15K_ENERGY.dat"
+    assert j_1409734["peak_row_index"] == 2856
+    assert j_1409734["peak_step"] == 2
+    assert j_1409734["peak_increment"] == 857
     assert abs(j_1409734["w_ext_mJ"] - 2.359329) < 1e-4
     assert abs(j_1409734["e_frac_mJ"] - 2.340220) < 1e-4
     assert abs(j_1409734["e_elas_mJ"] - 0.001161) < 1e-4
@@ -329,6 +337,11 @@ def test_guard10_single_job_provenance_json_and_terminology_guards():
     j_1409982 = jobs_by_id["1409982.mmaster02"]
     assert j_1409982["fe_elements"] == 14483
     assert j_1409982["fe_nodes"] == 14456
+    assert j_1409982["raw_source_file"] == "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE_fu.csv"
+    assert j_1409982["raw_source_sha256"] == "71ba958e1dcd2b2a67892407b982e907dca1a7672620cca2a52cc3835adf5b8c"
+    assert j_1409982["peak_row_index"] == 2734
+    assert j_1409982["peak_step"] == 2
+    assert j_1409982["peak_increment"] == 733
     assert abs(j_1409982["k0_kn_per_mm"] - 137.909558) < 1e-4
     assert abs(j_1409982["f_max_kn"] - 0.743701) < 1e-4
     assert abs(j_1409982["u_peak_mm"] - 0.005733) < 1e-5
@@ -341,25 +354,49 @@ def test_guard10_single_job_provenance_json_and_terminology_guards():
     # Job 1410180 (ET1 Cn=0.50 Diagnostic)
     j_1410180 = jobs_by_id["1410180.mmaster02"]
     assert j_1410180["fe_elements"] == 14483
+    assert j_1410180["raw_source_file"] == "models/pandey_kumar_mode1/28_stage14_convergence_control_candidate/PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL_fu.csv"
+    assert j_1410180["raw_source_sha256"] == "44d0b66f5348baeef0c82f9034d8676e81188308c3531be2ff2f52c443ad1771"
+    assert j_1410180["peak_row_index"] == 2732
+    assert j_1410180["peak_step"] == 2
+    assert j_1410180["peak_increment"] == 733
     assert abs(j_1410180["f_max_kn"] - 0.743711) < 1e-4
-    assert abs(j_1410180["u_peak_mm"] - 0.005840) < 1e-5
+    assert abs(j_1410180["u_peak_mm"] - 0.005733) < 1e-5
     assert abs(j_1410180["u_term_mm"] - 0.010000) < 1e-5
     assert abs(j_1410180["w_ext_mJ"] - 2.270745) < 1e-4
     assert abs(j_1410180["e_frac_mJ"] - 2.246309) < 1e-4
     assert abs(j_1410180["e_elas_mJ"] - 0.005801) < 1e-4
     assert abs(j_1410180["eps_book_pct"] - 0.8207) < 1e-2
 
-    # Invariant: canonical ET1 (1409982) and Cn=0.50 diagnostic (1410180) peak displacements must remain distinct and job-specific
-    assert abs(j_1409982["u_peak_mm"] - 0.005733) < 1e-5
-    assert abs(j_1410180["u_peak_mm"] - 0.005840) < 1e-5
-    assert j_1410180["u_peak_mm"] != j_1409982["u_peak_mm"], (
-        "Job 1410180 (0.005840 mm) and Job 1409982 (0.005733 mm) must maintain distinct, job-specific peak displacements."
-    )
+    # ET2 / ET3 / ET5 provenance assertions
+    j_1410357 = jobs_by_id["1410357.mmaster02"]
+    assert j_1410357["raw_source_sha256"] == "03cf30208c8c994591fe8df204662c5e03a0e3d0b6cc63a6dec58553529a358c"
+    assert j_1410357["peak_row_index"] == 2840
+    assert j_1410357["peak_step"] == 2
+    assert j_1410357["peak_increment"] == 841
+    assert abs(j_1410357["u_peak_mm"] - 0.005841) < 1e-5
+
+    j_1410358 = jobs_by_id["1410358.mmaster02"]
+    assert j_1410358["raw_source_sha256"] == "3649191908f4f0ca2a44544b992d374f516235394bbe8ca83d7c7d77cd968153"
+    assert j_1410358["peak_row_index"] == 2875
+    assert j_1410358["peak_step"] == 2
+    assert j_1410358["peak_increment"] == 876
+    assert abs(j_1410358["u_peak_mm"] - 0.005876) < 1e-5
+
+    j_1410359 = jobs_by_id["1410359.mmaster02"]
+    assert j_1410359["raw_source_sha256"] == "226cf873ab938c94c2ffddc300ec22df895671647b0cc7aa6ab7d04855733bde"
+    assert j_1410359["peak_row_index"] == 2925
+    assert j_1410359["peak_step"] == 2
+    assert j_1410359["peak_increment"] == 926
+    assert abs(j_1410359["u_peak_mm"] - 0.005926) < 1e-5
 
     # Job 1410179 (Spatial Fine 58k Serial Partial Diagnostic)
     j_1410179 = jobs_by_id["1410179.mmaster02"]
     assert j_1410179["fe_elements"] == 57929
     assert j_1410179["fe_nodes"] == 57491
+    assert j_1410179["raw_source_sha256"] == "36908c50cb79e685e6d2f5072b00c323c82af4b00a51b7dffc3cfebf07f91a83"
+    assert j_1410179["peak_row_index"] == 2716
+    assert j_1410179["peak_step"] == 2
+    assert j_1410179["peak_increment"] == 717
     assert abs(j_1410179["k0_kn_per_mm"] - 137.840989) < 1e-4
     assert abs(j_1410179["f_max_kn"] - 0.741633) < 1e-4
     assert abs(j_1410179["u_peak_mm"] - 0.005717) < 1e-5

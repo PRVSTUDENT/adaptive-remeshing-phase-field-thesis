@@ -1,10 +1,10 @@
 {
-  "task_id": "F1273-MODE1-GATE6B-JOB-1410180-PEAK-PROVENANCE-RECONCILIATION",
-  "task_name": "Mode-I Gate-6B Job 1410180 (Cn=0.50 Diagnostic) Peak Displacement Provenance Reconciliation and Consistency Guard",
+  "task_id": "F1274-MODE1-GATE6B-JOB-1410180-RAW-PEAK-EXTRACTION-AND-PROVENANCE-PROOF",
+  "task_name": "Mode-I Gate-6B Job 1410180 Raw Peak Extraction, Algorithmic Provenance Proof, and Zero Hard-Coding Enforcement",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-06T18:50:00+02:00",
-  "end_time": "2026-10-06T19:00:00+02:00",
+  "start_time": "2026-10-06T19:05:00+02:00",
+  "end_time": "2026-10-06T19:30:00+02:00",
   "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "description": "Reconciled single-job provenance for Job 1410180.mmaster02 (Cn=0.50 diagnostic, 14,483 FE) to enforce its exact solver peak displacement u_peak = 0.005840 mm (F_max = 0.743711 kN), distinct from canonical ET1 Job 1409982 (u_peak = 0.005733 mm, F_max = 0.743701 kN); updated extractor, datasets, experiment records, and dashboards; added unit test regression invariant enforcing distinct peak displacements."
+  "description": "Perform rigorous algorithmic extraction of Job 1410180.mmaster02 peak mechanics directly from preserved raw solver outputs (.dat/.sta/fu.csv); eliminate all hard-coded peak assignments; record exact source files, SHA256 hashes, row index, step, and increment; verify independently whether raw result is F_max = 0.743711 kN at u_peak = 0.005733 mm or other; re-export datasets and update tests."
 }
