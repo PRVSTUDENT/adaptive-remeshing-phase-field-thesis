@@ -1,10 +1,10 @@
 {
-  "task_id": "F1265-MODE1-UNIT-TEST-REGRESSION-RECORD-AND-PARK",
-  "task_name": "Mode-I Unit Test Regression Verification, Telemetry Checkpoint, and Park",
+  "task_id": "F1266-MODE1-STEP1-DISPLACEMENT-TELEMETRY-CORRECTION",
+  "task_name": "Mode-I Step-1 Prescribed Displacement Telemetry Audit and Correction",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-06T08:26:00+02:00",
-  "end_time": "2026-10-06T08:30:00+02:00",
+  "start_time": "2026-10-06T08:35:00+02:00",
+  "end_time": "2026-10-06T08:42:00+02:00",
   "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "description": "Record the completed pytest tests/unit/ regression results (1,988 passed, 113 failed in historical Mode-II legacy, 153/153 Mode-I passed 100%), document the running telemetry of Job 1410179 (serial spatial fine) and Job 1410504 (8-thread spatial fine), update ledgers and session reports, and park cleanly without launching further jobs."
+  "description": "Audited and corrected Step-1 prescribed displacement mapping error across project telemetry and documentation for Job 1410504.mmaster02 (8-thread spatial-fine 58k FE solve), updated ledgers and session records, added unit regression test test_08_early_step1_telemetry_provenance_and_unit_guards (8/8 pass, 154/154 Mode-I pass 100%), and parked cleanly without launching or modifying any solver jobs."
 }

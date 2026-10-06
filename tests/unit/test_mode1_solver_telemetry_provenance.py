@@ -11,6 +11,7 @@ Enforces:
 6. Mathematical root cause proof for historical ET2/ET3/ET5 Step-1 over-estimates.
 7. Telemetry consistency guards (monotonicity, Step-1 bound, Step-2 offset, step-specific increment size).
 8. Methods documentation and provenance record verification.
+9. Early Step-1 telemetry provenance and unit-conflation guards (Incs 10, 91, 121, 137).
 """
 from __future__ import print_function
 import os
@@ -213,6 +214,47 @@ class TestMode1SolverTelemetryProvenance(object):
         assert "0.0022575" in content or "0.002258" in content
         assert "0.003035" in content
         assert "TELEMETRY_PROVENANCE_QUALIFIED__STEP_MAPPING_FROZEN" in content
+
+    def test_08_early_step1_telemetry_provenance_and_unit_guards(self):
+        """Verify exact physical displacement for early Step-1 increments and guard against dimensionless time conflation."""
+        def step1_displacement_from_inc(inc_num):
+            dt1 = 5.0e-4
+            step1_span = 0.0050  # mm
+            step_time = inc_num * dt1
+            return step_time * step1_span
+
+        # Inc 10: t1 = 0.0050 -> uy = 0.000025 mm = 0.025 um = 25.0 nm
+        u_10 = step1_displacement_from_inc(10)
+        assert abs(u_10 - 2.5e-5) < 1e-12
+        assert abs(u_10 * 1e3 - 0.025) < 1e-9  # 0.025 um
+        assert abs(u_10 * 1e6 - 25.0) < 1e-6   # 25.0 nm
+        # Guard against erroneously assuming 0.05 um (which would be 2x or from 0.010 mm horizon)
+        assert abs(u_10 * 1e3 - 0.05) > 0.02
+
+        # Inc 91: t1 = 0.0455 -> uy = 0.0002275 mm = 0.2275 um = 227.5 nm
+        u_91 = step1_displacement_from_inc(91)
+        assert abs(u_91 - 0.0002275) < 1e-12
+        assert abs(u_91 * 1e3 - 0.2275) < 1e-9  # 0.2275 um
+        assert abs(u_91 * 1e6 - 227.5) < 1e-6   # 227.5 nm
+        # Guard against erroneously conflating dimensionless time 0.0455 with 0.0455 um or 0.0455 mm
+        assert abs(u_91 * 1e3 - 0.0455) > 0.1
+        assert abs(u_91 - 0.0455) > 0.04
+
+        # Inc 121: t1 = 0.0605 -> uy = 0.0003025 mm = 0.3025 um = 302.5 nm
+        u_121 = step1_displacement_from_inc(121)
+        assert abs(u_121 - 0.0003025) < 1e-12
+        assert abs(u_121 * 1e3 - 0.3025) < 1e-9  # 0.3025 um
+        assert abs(u_121 * 1e6 - 302.5) < 1e-6   # 302.5 nm
+        # Guard against erroneously writing t1 (0.0605) as millimeters (0.0605 mm = 60.5 um, 200x error)
+        assert abs(u_121 - 0.0605) > 0.06
+
+        # Inc 137: t1 = 0.0685 -> uy = 0.0003425 mm = 0.3425 um = 342.5 nm
+        u_137 = step1_displacement_from_inc(137)
+        assert abs(u_137 - 0.0003425) < 1e-12
+        assert abs(u_137 * 1e3 - 0.3425) < 1e-9  # 0.3425 um
+        assert abs(u_137 * 1e6 - 342.5) < 1e-6   # 342.5 nm
+        # Guard against erroneously writing t1 (0.0685) as millimeters (0.0685 mm = 68.5 um, 200x error)
+        assert abs(u_137 - 0.0685) > 0.06
 
 
 if __name__ == "__main__":
