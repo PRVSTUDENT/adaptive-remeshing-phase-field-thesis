@@ -282,4 +282,108 @@ def test_guard9_gate6b_single_job_provenance_and_figure_guards():
     assert "fig_mode1_gate6b_spatial_convergence_synthesis.png" in er_text
     assert "fig_mode1_gate6b_spatial_convergence_synthesis.pdf" in er_text
 
+def test_guard10_single_job_provenance_json_and_terminology_guards():
+    """Guard 10: Enforce machine-readable single-job provenance dataset, terminology discipline, and bridge assembled invariants:
+    - MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json exists, contains 9 distinct jobs, with zero cross-contamination.
+    - Full-horizon Reference Job 1409734 has W_ext=2.359329 mJ, E_frac=2.340220 mJ, E_elas=0.001161 mJ, eps_book=0.7607%.
+    - Canonical ET1 Baseline Job 1409982 has K0=137.909558, F_max=0.743701, u_peak=0.005733, u_term=0.007889, W_ext=2.267380, E_frac=2.285469, E_elas=0.006960, eps_book=1.1048%.
+    - Diagnostic Job 1410180 has F_max=0.743711, u_peak=0.005733, u_term=0.010000, W_ext=2.270745, E_frac=2.246309, E_elas=0.005801, eps_book=0.8207%.
+    - Spatial fine 58k Job 1410179 has K0=137.840989, F_max=0.741633, u_peak=0.005717, u_term=0.007429, W_ext=2.501136, E_frac=2.359641, E_elas=0.040984, eps_book=4.0186%.
+    - Zero occurrence of 'fracture dissipation' in plot_gate6b_spatial_convergence_synthesis.py.
+    - scripts/postprocessing/extract_gate6b_single_job_provenance.py exists and is executable.
+    - Outer bridge handoff prompt is clean of STEP2_ACTIVE and accurately describes 1410179 as partial evidence and 1410504 as active candidate.
+    """
+    import json
+    import subprocess
+
+    json_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json"
+    csv_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.csv"
+    assert json_path.exists(), f"Missing synthesis JSON: {json_path}"
+    assert csv_path.exists(), f"Missing synthesis CSV: {csv_path}"
+
+    with open(json_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    assert "jobs" in data and len(data["jobs"]) == 9
+    jobs_by_id = {j["job_id"]: j for j in data["jobs"]}
+
+    # Job 1398090
+    j_1398090 = jobs_by_id["1398090.mmaster02"]
+    assert j_1398090["fe_elements"] == 15192
+    assert j_1398090["fe_nodes"] == 15521
+    assert abs(j_1398090["k0_kn_per_mm"] - 137.945520) < 1e-4
+    assert abs(j_1398090["f_max_kn"] - 0.757778) < 1e-4
+    assert abs(j_1398090["u_peak_mm"] - 0.005857) < 1e-5
+
+    # Job 1409734 (Full Horizon Energetic Standard)
+    j_1409734 = jobs_by_id["1409734.mmaster02"]
+    assert j_1409734["fe_elements"] == 15192
+    assert j_1409734["fe_nodes"] == 15521
+    assert abs(j_1409734["w_ext_mJ"] - 2.359329) < 1e-4
+    assert abs(j_1409734["e_frac_mJ"] - 2.340220) < 1e-4
+    assert abs(j_1409734["e_elas_mJ"] - 0.001161) < 1e-4
+    assert abs(j_1409734["eps_book_pct"] - 0.7607) < 1e-2
+
+    # Job 1409982 (Canonical ET1 Baseline)
+    j_1409982 = jobs_by_id["1409982.mmaster02"]
+    assert j_1409982["fe_elements"] == 14483
+    assert j_1409982["fe_nodes"] == 14456
+    assert abs(j_1409982["k0_kn_per_mm"] - 137.909558) < 1e-4
+    assert abs(j_1409982["f_max_kn"] - 0.743701) < 1e-4
+    assert abs(j_1409982["u_peak_mm"] - 0.005733) < 1e-5
+    assert abs(j_1409982["u_term_mm"] - 0.007889) < 1e-5
+    assert abs(j_1409982["w_ext_mJ"] - 2.267380) < 1e-4
+    assert abs(j_1409982["e_frac_mJ"] - 2.285469) < 1e-4
+    assert abs(j_1409982["e_elas_mJ"] - 0.006960) < 1e-4
+    assert abs(j_1409982["eps_book_pct"] - 1.1048) < 1e-2
+
+    # Job 1410180 (ET1 Cn=0.50 Diagnostic)
+    j_1410180 = jobs_by_id["1410180.mmaster02"]
+    assert j_1410180["fe_elements"] == 14483
+    assert abs(j_1410180["f_max_kn"] - 0.743711) < 1e-4
+    assert abs(j_1410180["u_peak_mm"] - 0.005733) < 1e-5
+    assert abs(j_1410180["u_term_mm"] - 0.010000) < 1e-5
+    assert abs(j_1410180["w_ext_mJ"] - 2.270745) < 1e-4
+    assert abs(j_1410180["e_frac_mJ"] - 2.246309) < 1e-4
+    assert abs(j_1410180["e_elas_mJ"] - 0.005801) < 1e-4
+    assert abs(j_1410180["eps_book_pct"] - 0.8207) < 1e-2
+
+    # Job 1410179 (Spatial Fine 58k Serial Partial Diagnostic)
+    j_1410179 = jobs_by_id["1410179.mmaster02"]
+    assert j_1410179["fe_elements"] == 57929
+    assert j_1410179["fe_nodes"] == 57491
+    assert abs(j_1410179["k0_kn_per_mm"] - 137.840989) < 1e-4
+    assert abs(j_1410179["f_max_kn"] - 0.741633) < 1e-4
+    assert abs(j_1410179["u_peak_mm"] - 0.005717) < 1e-5
+    assert abs(j_1410179["u_term_mm"] - 0.007429) < 1e-4
+    assert abs(j_1410179["w_ext_mJ"] - 2.501136) < 1e-4
+    assert abs(j_1410179["e_frac_mJ"] - 2.359641) < 1e-4
+    assert abs(j_1410179["e_elas_mJ"] - 0.040984) < 1e-4
+    assert abs(j_1410179["eps_book_pct"] - 4.0186) < 1e-2
+
+    # Terminology guard: check plot script
+    plot_script = REPO_ROOT / "scripts" / "postprocessing" / "plot_gate6b_spatial_convergence_synthesis.py"
+    ps_text = plot_script.read_text(encoding="utf-8")
+    assert "fracture dissipation" not in ps_text.lower()
+    assert "Phase-Field Fracture Energy Functional" in ps_text
+
+    # Extractor script existence
+    extractor_script = REPO_ROOT / "scripts" / "postprocessing" / "extract_gate6b_single_job_provenance.py"
+    assert extractor_script.exists() and extractor_script.stat().st_size > 1000
+
+    # Bridge dry-run validation
+    bridge_script = REPO_ROOT / ".agents" / "scripts" / "Invoke-ChatGPTBridge.ps1"
+    cmd = [
+        "powershell",
+        "-NoProfile",
+        "-NonInteractive",
+        "-Command",
+        f". '{bridge_script}'; Invoke-ChatGPTBridge -PromptText 'Test verification prompt' -DryRun"
+    ]
+    res = subprocess.run(cmd, capture_output=True, text=True)
+    assert res.returncode == 0
+    assert "STEP2_ACTIVE" not in res.stdout
+    assert "MODE1_GATE6B_STEP2" not in res.stdout
+    assert "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION" in res.stdout
+    assert "1410179.mmaster02" in res.stdout and "1410504.mmaster02" in res.stdout
 

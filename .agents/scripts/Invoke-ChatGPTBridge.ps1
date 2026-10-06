@@ -180,7 +180,9 @@ Determine the next instruction to send to Antigravity.
         "01-Oct-2026",
         "01-Oct",
         "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED",
-        "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE"
+        "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE",
+        "MODE1_GATE6B_STEP2_ACTIVE_EVALUATION_AND_CONTINUATION",
+        "STEP2_ACTIVE_EVALUATION_AND_CONTINUATION"
     )
     foreach ($sp in $stalePatterns) {
         if ($assembledPrompt.Contains($sp)) {
@@ -191,7 +193,7 @@ Determine the next instruction to send to Antigravity.
             if ($sp -eq "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED") {
                 $assembledPrompt = $assembledPrompt -replace [regex]::Escape($sp), "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE"
             }
-            if ($sp -eq "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE") {
+            if ($sp -eq "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE" -or $sp -eq "MODE1_GATE6B_STEP2_ACTIVE_EVALUATION_AND_CONTINUATION" -or $sp -eq "STEP2_ACTIVE_EVALUATION_AND_CONTINUATION") {
                 $assembledPrompt = $assembledPrompt -replace [regex]::Escape($sp), "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION"
             }
         }
@@ -201,6 +203,19 @@ Determine the next instruction to send to Antigravity.
     $staleAuditPhrase = "Priority 1 is UEL Energy Formulation and Output Audit (offline derivation, source audit, energy balance formulation, non-invasive code design, report updates)."
     if ($assembledPrompt.Contains($staleAuditPhrase)) {
         $assembledPrompt = $assembledPrompt.Replace($staleAuditPhrase, "Priority 1 is UEL Energy Formulation and Output: Status is UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE.")
+    }
+
+    
+    # Clean any outdated candidate phrasing for Job 1410179
+    $staleCandidatePhrases = @(
+        "serial Job 1410179 diagnostic and 8T SMP Job 1410504 candidate",
+        "serial Job 1410179.mmaster02 and 8-thread SMP Job 1410504.mmaster02",
+        "serial Job 1410179.mmaster02 partial diagnostic and 8-thread SMP Job 1410504.mmaster02 candidate"
+    )
+    foreach ($scp in $staleCandidatePhrases) {
+        if ($assembledPrompt.Contains($scp)) {
+            $assembledPrompt = $assembledPrompt.Replace($scp, "serial Job 1410179.mmaster02 terminal partial diagnostic evidence and 8-thread SMP Job 1410504.mmaster02 active full-horizon candidate")
+        }
     }
 
     # --- 2d. DryRun Mode ---

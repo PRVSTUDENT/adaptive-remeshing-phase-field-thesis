@@ -5,14 +5,14 @@ Mode-I Gate-6B Multi-Quantity Spatial Convergence Synthesis Plotter
 
 Generates publication-quality 4-panel multi-quantity comparison figures
 for the Mode-I benchmark across spatial discretizations:
-  - Fixed Reference (15,192 FE, Job 1409734)
-  - Adaptive ET1 Baseline (14,483 FE, Job 1409982)
+  - Fixed Reference 15k (15,192 FE, Job 1409734)
+  - Adaptive ET1 Baseline 14k (14,483 FE, Job 1409982)
   - ET1 Cn=0.50 Diagnostic (14,483 FE, Job 1410180)
   - Spatial Fine 58k (57,929 FE, Job 1410179 - partial post-peak walltime limit marked)
 
 Quantities plotted:
   (a) Structural Reaction Force F(u_y) vs prescribed displacement u_y in [0, 10] um
-  (b) External Work W_ext(u_y) and Fracture Energy E_frac(u_y) evolution
+  (b) External Work W_ext(u_y) and Phase-Field Fracture Energy Functional E_frac(u_y) evolution
   (c) Stored Elastic Strain Energy E_elas(u_y) evolution
   (d) Energy Bookkeeping Discrepancy Delta_book(u_y) evolution
 
@@ -174,28 +174,30 @@ def generate_plot(base_dir=None, output_dir=None):
     ax.grid(True, linestyle=':', alpha=0.6)
     ax.legend(loc='upper right', fontsize=8.0, framealpha=0.9)
 
-    # Panel (b): External Work and Fracture Energy
+    # Panel (b): External Work and Phase-Field Fracture Energy Functional
     ax = axes[0, 1]
     ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ Ref 15k', color=c_ref, lw=1.8)
     ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ ET1 14k', color=c_et1, lw=1.8)
+    ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ $C_n=0.50$', color=c_cn, lw=1.4, ls=':')
     ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ Fine 58k', color=c_58k, lw=2.0)
 
     ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ Ref 15k', color=c_ref, lw=1.8, ls='--')
     ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ ET1 14k', color=c_et1, lw=1.8, ls='--')
+    ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ $C_n=0.50$', color=c_cn, lw=1.4, ls='-.')
     ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ Fine 58k', color=c_58k, lw=2.0, ls='--')
 
     ax.plot(u_58k_term, df_58k_merged['w_ext_mJ'].iloc[-1], marker='*', markersize=10, color=c_58k, markeredgecolor='black', zorder=10)
     ax.plot(u_58k_term, df_58k_merged['e_frac_mJ'].iloc[-1], marker='*', markersize=10, color=c_58k, markeredgecolor='black', zorder=10)
 
-    ax.set_title('(b) External Work $W_{\\mathrm{ext}}$ & Fracture Energy $\\mathcal{E}_{\\mathrm{frac}}$', fontsize=11, fontweight='bold')
+    ax.set_title('(b) External Work $W_{\\mathrm{ext}}$ & Phase-Field Fracture Energy Functional $\\mathcal{E}_{\\mathrm{frac}}$', fontsize=11, fontweight='bold')
     ax.set_xlabel('Prescribed Displacement $u_y$ [$\\mu\\mathrm{m}$]', fontsize=10)
     ax.set_ylabel('Energy [$\\mathrm{mJ}$]', fontsize=10)
     ax.set_xlim(0, 10.2)
     ax.set_ylim(-0.1, 2.7)
     ax.grid(True, linestyle=':', alpha=0.6)
-    ax.legend(loc='lower right', fontsize=7.8, ncol=2, framealpha=0.9)
+    ax.legend(loc='lower right', fontsize=7.4, ncol=2, framealpha=0.9)
 
-    # Panel (c): Stored Elastic Energy
+    # Panel (c): Stored Elastic Strain Energy
     ax = axes[1, 0]
     ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['e_elas_mJ'], label='Fixed Reference 15k (Job 1409734)', color=c_ref, lw=1.8)
     ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['e_elas_mJ'], label='Adaptive ET1 Baseline 14k (Job 1409982)', color=c_et1, lw=1.8)
@@ -212,7 +214,7 @@ def generate_plot(base_dir=None, output_dir=None):
     ax.grid(True, linestyle=':', alpha=0.6)
     ax.legend(loc='upper right', fontsize=8.0, framealpha=0.9)
 
-    # Panel (d): Bookkeeping Discrepancy Evolution
+    # Panel (d): Energy Bookkeeping Discrepancy Evolution
     ax = axes[1, 1]
     ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['delta_book_mJ'] * 1000.0, label='Fixed Ref 15k ($\\Delta_{\\mathrm{book}}$)', color=c_ref, lw=1.8)
     ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['delta_book_mJ'] * 1000.0, label='ET1 Baseline 14k ($\\Delta_{\\mathrm{book}}$)', color=c_et1, lw=1.8)
