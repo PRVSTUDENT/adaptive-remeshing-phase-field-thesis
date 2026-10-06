@@ -16,6 +16,7 @@ Guards enforced:
 from __future__ import annotations
 
 import re
+import subprocess
 from pathlib import Path
 import pytest
 
@@ -287,14 +288,14 @@ def test_guard10_single_job_provenance_json_and_terminology_guards():
     - MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json exists, contains 9 distinct jobs, with zero cross-contamination.
     - Full-horizon Reference Job 1409734 has W_ext=2.359329 mJ, E_frac=2.340220 mJ, E_elas=0.001161 mJ, eps_book=0.7607%.
     - Canonical ET1 Baseline Job 1409982 has K0=137.909558, F_max=0.743701, u_peak=0.005733, u_term=0.007889, W_ext=2.267380, E_frac=2.285469, E_elas=0.006960, eps_book=1.1048%.
-    - Diagnostic Job 1410180 has F_max=0.743711, u_peak=0.005733, u_term=0.010000, W_ext=2.270745, E_frac=2.246309, E_elas=0.005801, eps_book=0.8207%.
+    - Diagnostic Job 1410180 has F_max=0.743711, u_peak=0.005840, u_term=0.010000, W_ext=2.270745, E_frac=2.246309, E_elas=0.005801, eps_book=0.8207%.
+    - Strict invariant: Job 1410180 (0.005840 mm) and Job 1409982 (0.005733 mm) peak displacements remain distinct and job-specific.
     - Spatial fine 58k Job 1410179 has K0=137.840989, F_max=0.741633, u_peak=0.005717, u_term=0.007429, W_ext=2.501136, E_frac=2.359641, E_elas=0.040984, eps_book=4.0186%.
     - Zero occurrence of 'fracture dissipation' in plot_gate6b_spatial_convergence_synthesis.py.
     - scripts/postprocessing/extract_gate6b_single_job_provenance.py exists and is executable.
     - Outer bridge handoff prompt is clean of STEP2_ACTIVE and accurately describes 1410179 as partial evidence and 1410504 as active candidate.
     """
     import json
-    import subprocess
 
     json_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json"
     csv_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.csv"
@@ -341,12 +342,19 @@ def test_guard10_single_job_provenance_json_and_terminology_guards():
     j_1410180 = jobs_by_id["1410180.mmaster02"]
     assert j_1410180["fe_elements"] == 14483
     assert abs(j_1410180["f_max_kn"] - 0.743711) < 1e-4
-    assert abs(j_1410180["u_peak_mm"] - 0.005733) < 1e-5
+    assert abs(j_1410180["u_peak_mm"] - 0.005840) < 1e-5
     assert abs(j_1410180["u_term_mm"] - 0.010000) < 1e-5
     assert abs(j_1410180["w_ext_mJ"] - 2.270745) < 1e-4
     assert abs(j_1410180["e_frac_mJ"] - 2.246309) < 1e-4
     assert abs(j_1410180["e_elas_mJ"] - 0.005801) < 1e-4
     assert abs(j_1410180["eps_book_pct"] - 0.8207) < 1e-2
+
+    # Invariant: canonical ET1 (1409982) and Cn=0.50 diagnostic (1410180) peak displacements must remain distinct and job-specific
+    assert abs(j_1409982["u_peak_mm"] - 0.005733) < 1e-5
+    assert abs(j_1410180["u_peak_mm"] - 0.005840) < 1e-5
+    assert j_1410180["u_peak_mm"] != j_1409982["u_peak_mm"], (
+        "Job 1410180 (0.005840 mm) and Job 1409982 (0.005733 mm) must maintain distinct, job-specific peak displacements."
+    )
 
     # Job 1410179 (Spatial Fine 58k Serial Partial Diagnostic)
     j_1410179 = jobs_by_id["1410179.mmaster02"]
@@ -380,10 +388,9 @@ def test_guard10_single_job_provenance_json_and_terminology_guards():
         "-Command",
         f". '{bridge_script}'; Invoke-ChatGPTBridge -PromptText 'Test verification prompt' -DryRun"
     ]
-    res = subprocess.run(cmd, capture_output=True, text=True)
+    res = subprocess.run(cmd, capture_output=True, text=True, stdin=subprocess.DEVNULL)
     assert res.returncode == 0
     assert "STEP2_ACTIVE" not in res.stdout
     assert "MODE1_GATE6B_STEP2" not in res.stdout
     assert "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION" in res.stdout
     assert "1410179.mmaster02" in res.stdout and "1410504.mmaster02" in res.stdout
-

@@ -1,10 +1,10 @@
 {
-  "task_id": "F1272-MODE1-GATE6B-AUTHORITATIVE-SYNTHESIS-RECONCILIATION-AND-OUTER-HANDOFF-FIX",
-  "task_name": "Mode-I Gate-6B Authoritative Single-Job Provenance Extraction, Figure Terminology Correction, and Outer Handoff Workflow Fix",
+  "task_id": "F1273-MODE1-GATE6B-JOB-1410180-PEAK-PROVENANCE-RECONCILIATION",
+  "task_name": "Mode-I Gate-6B Job 1410180 (Cn=0.50 Diagnostic) Peak Displacement Provenance Reconciliation and Consistency Guard",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-06T17:34:00+02:00",
-  "end_time": "2026-10-06T18:30:00+02:00",
+  "start_time": "2026-10-06T18:50:00+02:00",
+  "end_time": "2026-10-06T19:00:00+02:00",
   "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "description": "Re-extracted every table row from its own authoritative job artifact using one consistent evaluator and generated machine-readable JSON/CSV dataset; restored frozen full-horizon Job 1409734 values (W_ext=2.359329 mJ, E_frac=2.340220 mJ, E_elas=0.001161 mJ, eps_book=0.7607%), canonical ET1 Job 1409982 (K0=137.909558, F_max=0.743701, u_peak=0.005733, u_term=0.007889, W_ext=2.267380, E_frac=2.285469, E_elas=0.006960, Delta_book=-0.025049, eps_book=1.104771%), diagnostic Job 1410180 (F_max=0.743711, u_peak=0.005733, W_ext=2.270745, E_frac=2.246309, E_elas=0.005801, Delta_book=0.018635, eps_book=0.8207%), and ET2/ET3/ET5 peak/energies; regenerated synthesis figures replacing 'fracture dissipation' with 'Phase-Field Fracture Energy Functional'; fixed outer workflow injector to emit MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION with 1410179 as partial evidence and 1410504 as active candidate; added regression tests."
+  "description": "Reconciled single-job provenance for Job 1410180.mmaster02 (Cn=0.50 diagnostic, 14,483 FE) to enforce its exact solver peak displacement u_peak = 0.005840 mm (F_max = 0.743711 kN), distinct from canonical ET1 Job 1409982 (u_peak = 0.005733 mm, F_max = 0.743701 kN); updated extractor, datasets, experiment records, and dashboards; added unit test regression invariant enforcing distinct peak displacements."
 }

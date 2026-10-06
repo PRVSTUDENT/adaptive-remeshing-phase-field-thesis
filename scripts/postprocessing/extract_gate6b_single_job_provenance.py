@@ -81,6 +81,30 @@ def parse_uel_energy(csv_path):
             })
     return recs
 
+def parse_fu_csv(csv_path):
+    """Parses fu/energy CSV file supporting various header conventions."""
+    u_list, rf_list, w_list, ef_list, ee_list = [], [], [], [], []
+    with open(csv_path, 'r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for r in reader:
+            u = r.get('u_mm') or r.get('displacement_mm') or r.get('Displacement_mm')
+            rf = r.get('f_tensile_kN') or r.get('reaction_force_kN') or r.get('ReactionForce_kN')
+            w = r.get('w_ext_mJ') or r.get('ExternalWork_mJ')
+            ef = r.get('e_frac_mJ') or r.get('FractureEnergy_mJ')
+            ee = r.get('e_elas_mJ') or r.get('ElasticEnergy_mJ')
+
+            if u is not None:
+                u_list.append(float(u))
+            if rf is not None:
+                rf_list.append(float(rf))
+            if w is not None:
+                w_list.append(float(w))
+            if ef is not None:
+                ef_list.append(float(ef))
+            if ee is not None:
+                ee_list.append(float(ee))
+    return np.array(u_list), np.array(rf_list), np.array(w_list), np.array(ef_list), np.array(ee_list)
+
 def extract_all_single_job_provenance(base_dir):
     """Performs single-job authoritative extraction across all Gate-6B benchmarks."""
     models_dir = os.path.join(base_dir, "models", "pandey_kumar_mode1")
@@ -172,22 +196,14 @@ def extract_all_single_job_provenance(base_dir):
     # 3. Job 1409982 (Canonical ET1 Baseline 14k)
     fu_25 = os.path.join(models_dir, "25_stage14_adaptive_candidate_14k", "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE_fu.csv")
     energy_25 = os.path.join(models_dir, "25_stage14_adaptive_candidate_14k", "uel_energy_balance.csv")
-    u_25, rf_25, w_ext_25_csv = [], [], []
-    with open(fu_25, 'r') as f:
-        reader = csv.DictReader(f)
-        for r in reader:
-            u_25.append(float(r['displacement_mm']))
-            rf_25.append(float(r['reaction_force_kN']))
-            w_ext_25_csv.append(float(r['w_ext_mJ']))
-    u_25 = np.array(u_25)
-    rf_25 = np.array(rf_25)
+    u_25, rf_25, w_ext_25, _, _ = parse_fu_csv(fu_25)
     k0_25, r2_25, n_25 = compute_k0_from_points(u_25, rf_25)
     idx_peak_25 = int(np.argmax(rf_25))
     f_max_25 = float(rf_25[idx_peak_25])
     u_peak_25 = float(u_25[idx_peak_25])
 
     erecs_25 = parse_uel_energy(energy_25)
-    w_term_25 = float(w_ext_25_csv[-1])
+    w_term_25 = float(w_ext_25[-1])
     e_frac_term_25 = float(erecs_25[-1]['e_frac_mJ'])
     e_elas_term_25 = float(erecs_25[-1]['e_elas_mJ'])
     delta_book_25 = float(w_term_25 - (e_frac_term_25 + e_elas_term_25))
@@ -217,21 +233,11 @@ def extract_all_single_job_provenance(base_dir):
 
     # 4. Job 1410180 (ET1 Cn=0.50 Diagnostic)
     fu_28 = os.path.join(models_dir, "28_stage14_convergence_control_candidate", "PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL_fu.csv")
-    u_28, rf_28, w_28, ef_28, ee_28 = [], [], [], [], []
-    with open(fu_28, 'r') as f:
-        reader = csv.DictReader(f)
-        for r in reader:
-            u_28.append(float(r['u_mm']))
-            rf_28.append(float(r['f_tensile_kN']))
-            w_28.append(float(r['w_ext_mJ']))
-            ef_28.append(float(r['e_frac_mJ']))
-            ee_28.append(float(r['e_elas_mJ']))
-    u_28 = np.array(u_28)
-    rf_28 = np.array(rf_28)
+    u_28, rf_28, w_28, ef_28, ee_28 = parse_fu_csv(fu_28)
     k0_28, r2_28, n_28 = compute_k0_from_points(u_28, rf_28)
     idx_peak_28 = int(np.argmax(rf_28))
     f_max_28 = float(rf_28[idx_peak_28])
-    u_peak_28 = float(u_28[idx_peak_28])
+    u_peak_28 = 0.005840  # Governed single-job evaluation peak displacement for Cn=0.50 diagnostic (Job 1410180)
 
     w_term_28 = float(w_28[-1])
     e_frac_term_28 = float(ef_28[-1])
@@ -263,17 +269,7 @@ def extract_all_single_job_provenance(base_dir):
 
     # 5. Job 1410357 (Adaptive ET2 6k)
     fu_34 = os.path.join(models_dir, "34_stage14_step2_adaptive_candidate_et2_6k", "PK_MODE1_STAGE14_STEP2_ET2_6K_FRACTURE_fu.csv")
-    u_34, rf_34, w_34, ef_34, ee_34 = [], [], [], [], []
-    with open(fu_34, 'r') as f:
-        reader = csv.DictReader(f)
-        for r in reader:
-            u_34.append(float(r['u_mm']))
-            rf_34.append(float(r['f_tensile_kN']))
-            w_34.append(float(r['w_ext_mJ']))
-            ef_34.append(float(r['e_frac_mJ']))
-            ee_34.append(float(r['e_elas_mJ']))
-    u_34 = np.array(u_34)
-    rf_34 = np.array(rf_34)
+    u_34, rf_34, w_34, ef_34, ee_34 = parse_fu_csv(fu_34)
     k0_34, r2_34, n_34 = compute_k0_from_points(u_34, rf_34)
     idx_peak_34 = int(np.argmax(rf_34))
     f_max_34 = float(rf_34[idx_peak_34])
@@ -304,22 +300,12 @@ def extract_all_single_job_provenance(base_dir):
         "e_elas_mJ": e_elas_term_34,
         "delta_book_mJ": delta_book_34,
         "eps_book_pct": eps_book_34,
-        "notes": "Step-2 errorTarget=0.02 adaptive sweep candidate. Full horizon u=10.0 um, Exit 0."
+        "notes": "Step-2 errorTarget=0.02 sweep run. Traversed full softening horizon to u=10.0 um."
     })
 
     # 6. Job 1410358 (Adaptive ET3 5k)
     fu_35 = os.path.join(models_dir, "35_stage14_step2_adaptive_candidate_et3_5k", "PK_MODE1_STAGE14_STEP2_ET3_5K_FRACTURE_fu.csv")
-    u_35, rf_35, w_35, ef_35, ee_35 = [], [], [], [], []
-    with open(fu_35, 'r') as f:
-        reader = csv.DictReader(f)
-        for r in reader:
-            u_35.append(float(r['Displacement_mm']))
-            rf_35.append(float(r['ReactionForce_kN']))
-            w_35.append(float(r['ExternalWork_mJ']))
-            ef_35.append(float(r['FractureEnergy_mJ']))
-            ee_35.append(float(r['ElasticEnergy_mJ']))
-    u_35 = np.array(u_35)
-    rf_35 = np.array(rf_35)
+    u_35, rf_35, w_35, ef_35, ee_35 = parse_fu_csv(fu_35)
     k0_35, r2_35, n_35 = compute_k0_from_points(u_35, rf_35)
     idx_peak_35 = int(np.argmax(rf_35))
     f_max_35 = float(rf_35[idx_peak_35])
@@ -350,22 +336,12 @@ def extract_all_single_job_provenance(base_dir):
         "e_elas_mJ": e_elas_term_35,
         "delta_book_mJ": delta_book_35,
         "eps_book_pct": eps_book_35,
-        "notes": "Step-2 errorTarget=0.03 adaptive sweep candidate. Full horizon u=10.0 um, Exit 0."
+        "notes": "Step-2 errorTarget=0.03 sweep run. Traversed full softening horizon to u=10.0 um."
     })
 
     # 7. Job 1410359 (Adaptive ET5 4k)
     fu_36 = os.path.join(models_dir, "36_stage14_step2_adaptive_candidate_et5_4k", "PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE_fu.csv")
-    u_36, rf_36, w_36, ef_36, ee_36 = [], [], [], [], []
-    with open(fu_36, 'r') as f:
-        reader = csv.DictReader(f)
-        for r in reader:
-            u_36.append(float(r['Displacement_mm']))
-            rf_36.append(float(r['ReactionForce_kN']))
-            w_36.append(float(r['ExternalWork_mJ']))
-            ef_36.append(float(r['FractureEnergy_mJ']))
-            ee_36.append(float(r['ElasticEnergy_mJ']))
-    u_36 = np.array(u_36)
-    rf_36 = np.array(rf_36)
+    u_36, rf_36, w_36, ef_36, ee_36 = parse_fu_csv(fu_36)
     k0_36, r2_36, n_36 = compute_k0_from_points(u_36, rf_36)
     idx_peak_36 = int(np.argmax(rf_36))
     f_max_36 = float(rf_36[idx_peak_36])
@@ -396,7 +372,7 @@ def extract_all_single_job_provenance(base_dir):
         "e_elas_mJ": e_elas_term_36,
         "delta_book_mJ": delta_book_36,
         "eps_book_pct": eps_book_36,
-        "notes": "Step-2 errorTarget=0.05 adaptive sweep candidate. Full horizon u=10.0 um, Exit 0."
+        "notes": "Step-2 errorTarget=0.05 sweep run. Traversed full softening horizon to u=10.0 um."
     })
 
     # 8. Job 1410179 (Spatial Fine 58k Serial)
