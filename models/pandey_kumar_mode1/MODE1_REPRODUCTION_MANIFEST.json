@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "manifest_title": "Mode-I Adaptive Remeshing & Energetic Convergence Reproduction Package Manifest",
-  "manifest_version": "2.2.0",
-  "generated_timestamp": "2026-10-05T23:00:00+02:00",
+  "manifest_version": "2.3.0",
+  "generated_timestamp": "2026-10-06T06:35:00+02:00",
   "active_scientific_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
   "next_supervisor_meeting": "Thursday, 08 October 2026, 10:00 CEST",
   "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
@@ -344,8 +344,8 @@
       "category_type": "governance_schema",
       "required_environment": "JSON Schema validator / Python standard json module",
       "expected_outputs": "Ingestion target for final multi-quantity synthesis",
-      "sha256": "055092459A754E155BADC1707CC5F62481DAF34B444DF2D8EC58BEF95EAE6045",
-      "size_bytes": 12393
+      "sha256": "3BE41B57C0A9CAAA5283EE080ACD0EAA265BBBC99EFAB2D2DBB504FEFDEEDE1E",
+      "size_bytes": 12679
     },
     {
       "relative_path": "docs/methods/MODE1_GATE6B_CLOSURE_DECISION_MATRIX_AND_CONSISTENCY_AUDIT.md",
@@ -384,8 +384,8 @@
       "category_type": "governance_schema",
       "required_environment": "Markdown viewer / PDF compilation engine",
       "expected_outputs": "Executive briefing document",
-      "sha256": "1B67F2AB1C5B99E8DED8B2927785A02E64F62813C2C5EE250B5A2B30173ACF05",
-      "size_bytes": 5499
+      "sha256": "768AB9F381971DFDD62B203613E9E5FF6B96457284733CE30C9BE8417DB6353F",
+      "size_bytes": 6156
     }
   ]
 }
