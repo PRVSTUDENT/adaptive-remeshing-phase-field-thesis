@@ -87,10 +87,13 @@ Workflow requirements:
 - CURRENT MODE-I FUNDAMENTALS GOVERNANCE (POST-17-SEPTEMBER-2026 MEETING):
   ModeIReproductionStatus is CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION.
   Mechanical N_BOTTOM defect is RESOLVED_AND_CLOSED.
-  Active phase: MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE.
-  Priority 1 is UEL Energy Formulation and Output Audit (offline derivation, source audit, energy balance formulation, non-invasive code design, report updates).
+  Active phase: MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION.
+  UEL Energy Output status is UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE.
+  Gate 6C is ON_HOLD_PENDING_GATE6B_CLOSURE without auto-promotion.
+  Shared-Memory 8T SMP is EMPIRICALLY_QUALIFIED; 16T SMP is UNQUALIFIED; Multi-Rank MPI is DISQUALIFIED.
+  Next supervisor meeting: Thursday, 08 October 2026, 10:00 CEST.
   ModeIFundamentalsActionable is TRUE.
-  With zero Q/R jobs, independent fundamentals work (energy audit, weak form derivations, report updating) is ACTIONABLE. Do NOT reply "stop" merely because zero jobs are in the queue.
+  With zero Q/R jobs, independent fundamentals work (evaluation, synthesis, report updating) is ACTIONABLE. Do NOT reply "stop" merely because zero jobs are in the queue.
 - The exact meaning of "stop":
   "stop" means: leave the currently running PBS jobs untouched; no further independent action is possible right now.
   It does NOT mean: "stop using the cluster" or "halt research while independent work or free HPC capacity remains."

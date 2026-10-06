@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-06T09:45:00+02:00` (Gemini Antigravity) — Task F1269 Mode-I bridge handoff active source/template reconciliation and invariant verification: (1) traced root cause of stale handoff emissions to in-memory persistence of `$ProjectAlignmentGuard` in the pre-existing running PowerShell loop process (PID 19816) and un-synchronized external bridge rules file (`C:\Users\pruth\OpenClawPAD\ChatGPTBridge\bridge_rules.txt` from 19-Sep); (2) authored and deployed authoritative `bridge_rules.txt` and `project_alignment_guard.txt` to both repo (`.agents/scripts/`) and OpenClawPAD controller trees; (3) upgraded `Invoke-ChatGPTBridge.ps1` (dot-sourced on every bridge call) with dynamic alignment guard reconciliation, authoritative rules loading, runtime sanitization against superseded strings, and `-DryRun` mode; (4) upgraded `Antigravity-Autonomous-Loop.ps1` with dynamic `Get-ProjectAlignmentGuard` and reconciled prompt assemblies; (5) executed comprehensive dry-run verification proving 100% elimination of superseded strings from both repo and OpenClawPAD bridge launchers; (6) added `test_guard8_bridge_rules_and_handoff_invariants` to `test_mode1_gate6b_closure_matrix_and_consistency_guard.py` (8/8 pass, 110/110 Mode-I suite pass 100%); (7) active cluster solver jobs (`1410179` and `1410504`) remain running untouched on `mnode097`.
+Last updated: `2026-10-06T17:30:00+02:00` (Gemini Antigravity) — Task F1270 Mode-I spatial-fine Job 1410179 terminal ingestion and bridge workflow requirements invariant reconciliation: (1) retrieved and ingested lightweight terminal evidence (.sta, .out, .err, .dat, and uel_energy_balance.csv) from `/scratch9/pr21vyci/` for 57,929-FE serial Job 1410179.mmaster02; (2) evaluated full mechanical and energetic metrics (4,443 completed incs, 0 cutbacks, 3 iters/inc, K0 = 137.840989 kN/mm [-0.0758% vs Ref, SPATIALLY_STABLE], F_max = 0.741633 kN [-2.131% vs Ref, -0.279% vs ET1], u_peak = 0.005717 mm [-2.390% vs Ref, -0.279% vs ET1], 98.51% post-peak load drop down to u_term = 7.429 um, eps_book <= 0.0048% pre-peak and 4.0186% at termination, Exit -29 SIGTERM at 24:00:49 walltime); (3) classified strictly as `PARTIAL_57929_FE_POSTPEAK_DIAGNOSTIC_EVIDENCE` over reached domain u in [0.0, 0.007429] mm with zero forward-filling; (4) authored experiment record `docs/experiment_records/STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md`; (5) reconciled outer workflow requirements and prompt templates across bridge infrastructure, enforcing authoritative Gate-6B governance; (6) 8-thread shared-memory SMP Job 1410504.mmaster02 continues executing undisturbed on mnode097.
 
 ---
 
@@ -60,11 +60,16 @@ Last updated: `2026-10-06T09:45:00+02:00` (Gemini Antigravity) — Task F1269 Mo
     - Separated local minimum $h_{\text{area},\min}/l_0 \in [0.074, 0.387]$, notch root $h_{\text{notch}}/l_0 \in [0.253, 0.415]$, and median corridor $h_{\text{area},\text{median}}/l_0 \in [0.260, 0.788]$.
   - **Multi-Quantity Synthesis Schema Frozen (`MODE1_GATE6B_MULTIQUANTITY_SYNTHESIS_SCHEMA.json` v2.3.0):**
     - Governed energy fields: $\mathcal{E}_{\text{elas}}$, $\mathcal{E}_{\text{frac}}$, $\mathcal{E}_{\text{model}}$, $\mathcal{W}_{\text{ext}}$, $\Delta_{\text{book}}$, $\varepsilon_{\text{book}}$.
-  - **Lightweight Reproduction Package & Terminal Ingestion Audit Completed (Task F1259):**
+  - **Spatial Fine 58k Serial Diagnostic Terminal Ingestion Completed (Task F1270, `docs/experiment_records/STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md`):**
+    - Job `1410179.mmaster02` ($57{,}929$ FE, serial) reached 24h walltime at 4,443 completed increments ($u_y = 0.007429\,\text{mm} = 7.429\,\mu\text{m}$, Exit -29 SIGTERM, 0 cutbacks, 3 iters/inc, MaxMem 14.22 GB).
+    - Initial stiffness: $K_0 = 137.840989\,\text{kN/mm}$ ($-0.0758\%$ vs Fixed Ref, classified `SPATIALLY_STABLE`), $F_{\max} = 0.741633\,\text{kN}$ ($-2.131\%$ vs Ref, $-0.279\%$ vs ET1), $u_{\text{peak}} = 0.005717\,\text{mm}$ ($5.717\,\mu\text{m}$, Step 2 Inc 717, $-2.390\%$ vs Ref, $-0.279\%$ vs ET1).
+    - Softening & Energies: Solved through $98.51\%$ post-peak load drop down to $F_{\text{term}} = 0.011033\,\text{kN}$. Pre-peak bookkeeping error $\varepsilon_{\text{book}} \le 0.0048\%$; terminal state at $u=7.429\,\mu\text{m}$: $W_{\text{ext}} = 2.501136\,\text{mJ}$, $E_{\text{frac}} = 2.359641\,\text{mJ}$, $E_{\text{elas}} = 0.040984\,\text{mJ}$, $\Delta_{\text{book}} = +0.100511\,\text{mJ}$, $\varepsilon_{\text{book}} = 4.0186\%$.
+    - Classification: `PARTIAL_57929_FE_POSTPEAK_DIAGNOSTIC_EVIDENCE` ($u \in [0.0, 0.007429]\,\text{mm}$; zero forward filling; does NOT close full-horizon spatial convergence by itself).
+    - Full-horizon ($u=10\,\mu\text{m}$) closure actively executing in 8T SMP Job `1410504.mmaster02` (48h walltime, solving at ~558 incs/hr).
+  - **Lightweight Reproduction Package & Terminal Ingestion Protocol Frozen (Task F1259):**
     - Machine-readable manifest `MODE1_REPRODUCTION_MANIFEST.json` v1.0.0 frozen indexing 35 artifacts with cryptographic hashes and execution environments (zero ODB dependency).
     - Authoritative energy-instrumented Fortran source hash verified: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
     - Master execution guide `models/pandey_kumar_mode1/commands.txt` synchronized with 11-step end-to-end workflow and explicit execution-mode governance.
-    - Terminal ingestion protocol `docs/methods/TERMINAL_INGESTION_CHECKLIST.md` authored pre-mapping actions for active jobs `1410179`, `1410180`, `1410357`–`1410359`.
 
 ---
 
@@ -74,8 +79,8 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
 
 | PBS Job ID | Target Discretization / Purpose | Status | Step / Inc | Prescribed $u_y$ | Newton Iters / Cutbacks | Nodes / Queue | Elapsed Walltime |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| `1410179.mmaster02` | `PK_M1_14AM_SOLVE` (Spatial Fine 58k, $57{,}929$ FE, serial) | `RUNNING` | Step 2 Inc >1840 | $u_y > 6.84\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | ~21:10 (Req: 24h, 1 CPU, 16GB; walltime starvation ~2h 50m left; left untouched) |
-| `1410504.mmaster02` | `PK_M1_14AM_8T` (Spatial Fine 58k, $57{,}929$ FE, 8T SMP) | `RUNNING` | Step 1 Inc >10 | $u_y > 0.025\,\mu\text{m}$ ($25.0\,\text{nm}$) | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 00:05:00 (Req: 48h, 8 CPUs, 16GB, expected finish ~11h) |
+| `1410179.mmaster02` | `PK_M1_14AM_SOLVE` (Spatial Fine 58k, $57{,}929$ FE, serial) | `COMPLETED` | Step 2 Inc 2443 | $u_y = 7.429\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 24:00:49 (Req: 24h, 1 CPU, 16GB; Exit -29 SIGTERM, partial post-peak evaluated) |
+| `1410504.mmaster02` | `PK_M1_14AM_8T` (Spatial Fine 58k, $57{,}929$ FE, 8T SMP) | `RUNNING` | Step 1 Inc >120 | $u_y > 0.300\,\mu\text{m}$ ($300\,\text{nm}$) | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | ~00:25:00 (Req: 48h, 8 CPUs, 16GB, expected finish ~11h) |
 | `1410180.mmaster02` | `PK_M1_14K_CONV_CTRL` (Adaptive ET1 $14\text{k}$, $C_n = 0.50$) | `COMPLETED` | Step 2 Inc 5014 | $u_y = 10.000\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:36:12 |
 | `1410357.mmaster02` | `PK_M1_14ET2_SOLVE` (Adaptive ET2, $6{,}112$ FE) | `COMPLETED` | Step 2 Inc 5014 | $u_y = 10.000\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:34:50 |
 | `1410358.mmaster02` | `PK_M1_14ET3_SOLVE` (Adaptive ET3, $5{,}189$ FE) | `COMPLETED` | Step 2 Inc 5021 | $u_y = 10.000\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:39:45 |
@@ -90,4 +95,4 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
   - Gate 7 (Post-Processing & ParaView Bridge): `ON_HOLD_PENDING_GATE6B`.
   - Stage 15 (Mode-II Adaptive Benchmark Production): `ON_HOLD_PENDING_GATE6B`.
   - Distributed Multi-Rank MPI Integration: `STRICTLY_DISQUALIFIED` (`f42_mixed_uel.for` single-rank shared-memory SMP only; multi-rank MPI requires redesign of replicated `COMMON` state).
-* **Next Action:** Monitor parallel progress of the 8-thread spatial fine candidate (`1410504.mmaster02`) and terminal completion of serial `1410179.mmaster02`, ingest terminal data upon completion, and perform final Gate-6B multi-quantity spatial convergence synthesis.
+* **Next Action:** Monitor parallel progress of the 8-thread spatial fine candidate (`1410504.mmaster02`), ingest terminal uncensored $u=10\,\mu\text{m}$ data upon completion, and perform final Gate-6B multi-quantity spatial convergence synthesis.

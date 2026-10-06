@@ -197,6 +197,7 @@ def test_guard8_bridge_rules_and_handoff_invariants():
     assert "01 October 2026" not in rr_text
     assert "01-Oct" not in rr_text
     assert "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED" not in rr_text
+    assert "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE" not in rr_text
     assert "Thursday, 08 October 2026, 10:00 CEST" in rr_text
     assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in rr_text
     assert "GATE_6B_ACTIVE_EVALUATION_AND_CONTINUATION" in rr_text
@@ -212,6 +213,8 @@ def test_guard8_bridge_rules_and_handoff_invariants():
     assert "01 October 2026" not in rg_text
     assert "01-Oct-2026" not in rg_text
     assert "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED" not in rg_text
+    assert "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE" not in rg_text
+    assert "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION" in rg_text
     assert "Thursday, 08 October 2026, 10:00 CEST" in rg_text
     assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in rg_text
 
@@ -223,6 +226,12 @@ def test_guard8_bridge_rules_and_handoff_invariants():
     assert "project_alignment_guard.txt" in rb_text
     assert "bridge_rules.txt" in rb_text
 
+    rescue_script = REPO_ROOT / "scripts" / "validation" / "rescue_bridge_request.py"
+    assert rescue_script.exists()
+    rs_text = rescue_script.read_text(encoding="utf-8")
+    assert "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE" not in rs_text
+    assert "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION" in rs_text
+
     # Also check external OpenClawPAD files if present
     pad_rules = Path(r"C:\Users\pruth\OpenClawPAD\ChatGPTBridge\bridge_rules.txt")
     if pad_rules.exists():
@@ -230,6 +239,7 @@ def test_guard8_bridge_rules_and_handoff_invariants():
         assert "01 October 2026" not in pr_text
         assert "01-Oct" not in pr_text
         assert "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED" not in pr_text
+        assert "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE" not in pr_text
         assert "Thursday, 08 October 2026, 10:00 CEST" in pr_text
         assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in pr_text
 

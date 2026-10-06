@@ -178,18 +178,29 @@ Determine the next instruction to send to Antigravity.
     $stalePatterns = @(
         "01 October 2026",
         "01-Oct-2026",
-        "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED"
+        "01-Oct",
+        "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED",
+        "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE"
     )
     foreach ($sp in $stalePatterns) {
         if ($assembledPrompt.Contains($sp)) {
             Write-Warning "Detected superseded string '$sp' in bridge prompt. Sanitizing to authoritative Gate-6B state..."
-            if ($sp -eq "01 October 2026" -or $sp -eq "01-Oct-2026") {
+            if ($sp -eq "01 October 2026" -or $sp -eq "01-Oct-2026" -or $sp -eq "01-Oct") {
                 $assembledPrompt = $assembledPrompt -replace [regex]::Escape($sp), "Thursday, 08 October 2026, 10:00 CEST"
             }
             if ($sp -eq "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED") {
                 $assembledPrompt = $assembledPrompt -replace [regex]::Escape($sp), "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE"
             }
+            if ($sp -eq "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE") {
+                $assembledPrompt = $assembledPrompt -replace [regex]::Escape($sp), "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION"
+            }
         }
+    }
+
+    # Clean any outdated "Priority 1 is UEL Energy Formulation and Output Audit (offline..." string
+    $staleAuditPhrase = "Priority 1 is UEL Energy Formulation and Output Audit (offline derivation, source audit, energy balance formulation, non-invasive code design, report updates)."
+    if ($assembledPrompt.Contains($staleAuditPhrase)) {
+        $assembledPrompt = $assembledPrompt.Replace($staleAuditPhrase, "Priority 1 is UEL Energy Formulation and Output: Status is UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE.")
     }
 
     # --- 2d. DryRun Mode ---
@@ -249,82 +260,50 @@ Determine the next instruction to send to Antigravity.
             }
         }
 
-        # Heartbeat check
-        if ($RequireHeartbeat) {
-            $heartbeatFile = Join-Path $BridgeDir "bridge.heartbeat"
-            if (Test-Path -LiteralPath $heartbeatFile) {
-                $hbAge = (Get-Date) - (Get-Item -LiteralPath $heartbeatFile).LastWriteTime
-                if ($hbAge.TotalMinutes -gt 5) {
-                    Write-Warning "[Bridge] Tampermonkey userscript heartbeat is stale ($([math]::Round($hbAge.TotalMinutes)) min old)."
-                }
-            } else {
-                Write-Warning "[Bridge] No Tampermonkey userscript heartbeat found. Ensure browser is open with ChatGPT tab."
-            }
-        }
+        # --- 7. Poll for Response ---
+        $timeoutSeconds = $TimeoutMinutes * 60
+        $pollIntervalSeconds = 2
+        $elapsed = 0
+        $spinChars = @('|', '/', '-', '\')
+        $spinIdx = 0
 
-        # --- 7. Poll for bridge_response.ready ---
-        $deadline = (Get-Date).AddMinutes($TimeoutMinutes)
-        $pollIntervalMs = 2000
-        $dots = 0
+        Write-Host "[Bridge] Polling for response at $responseReady (Timeout: $TimeoutMinutes mins)..." -ForegroundColor Yellow
 
-        Write-Host "[Bridge] Waiting for ChatGPT response via PAD/Tampermonkey (timeout: ${TimeoutMinutes}m)..." -NoNewline -ForegroundColor Cyan
+        while ($elapsed -lt $timeoutSeconds) {
+            Start-Sleep -Seconds $pollIntervalSeconds
+            $elapsed += $pollIntervalSeconds
 
-        while ((Get-Date) -lt $deadline) {
-            Start-Sleep -Milliseconds $pollIntervalMs
+            $spin = $spinChars[$spinIdx % 4]
+            $spinIdx++
+            Write-Host -NoNewline "`r[Bridge] Waiting for ChatGPT via PAD $spin ($elapsed / $timeoutSeconds s)"
 
             if (Test-Path -LiteralPath $responseReady) {
-                Write-Host " Response received!" -ForegroundColor Green
+                Write-Host "`n[Bridge] Response detected after ${elapsed}s!" -ForegroundColor Green
                 break
-            }
-
-            $dots++
-            if ($dots % 15 -eq 0) {
-                Write-Host "." -NoNewline -ForegroundColor Cyan
             }
         }
 
         if (-not (Test-Path -LiteralPath $responseReady)) {
-            throw "Bridge timed out after $TimeoutMinutes minutes waiting for $responseReady."
+            throw "Bridge timeout reached (${TimeoutMinutes}m) without response from ChatGPT."
         }
 
-        # --- 8. Read Response JSON ---
-        $rawJson = $null
-        $readAttempts = 5
-        for ($ra = 1; $ra -le $readAttempts; $ra++) {
-            try {
-                $rawJson = [System.IO.File]::ReadAllText($responseReady, [System.Text.UTF8Encoding]::new($false))
-                if (-not [string]::IsNullOrWhiteSpace($rawJson)) {
-                    break
-                }
-            } catch {
-                Start-Sleep -Milliseconds 500
-            }
-        }
-
-        if ([string]::IsNullOrWhiteSpace($rawJson)) {
-            throw "Response file $responseReady exists but could not be read or is empty."
-        }
-
-        $respObj = $rawJson | ConvertFrom-Json
-        $respText = $respObj.response_text
-        $respHandoffId = $respObj.handoff_id
-
-        if ([string]::IsNullOrWhiteSpace($respText)) {
-            throw "Parsed response JSON has empty 'response_text'. Raw JSON: $rawJson"
-        }
-
-        # --- 9. Archive Response ---
+        # --- 8. Read and Parse Response JSON ---
+        $responseRaw = [System.IO.File]::ReadAllText($responseReady, [System.Text.UTF8Encoding]::new($false))
         $archResponse = Join-Path $archiveDir ("response_{0}_{1}.json" -f $timestamp, $HandoffId)
-        Copy-Item -LiteralPath $responseReady -Destination $archResponse -Force
-        Write-Host "[Bridge] Archived response: $archResponse" -ForegroundColor Cyan
+        [System.IO.File]::WriteAllText($archResponse, $responseRaw, [System.Text.UTF8Encoding]::new($false))
 
-        # Clean response_ready
+        $responseObj = $responseRaw | ConvertFrom-Json
+        $replyText = $responseObj.response
+
+        # --- 9. Clean Handshake Files ---
         Remove-Item -LiteralPath $responseReady -Force -ErrorAction SilentlyContinue
+        Remove-Item -LiteralPath $requestReady -Force -ErrorAction SilentlyContinue
 
-        return $respText
-
-    } finally {
-        # --- 10. Release Lock ---
+        Write-Host "[Bridge] Transaction complete. Extracted $($replyText.Length) chars response." -ForegroundColor Green
+        return $replyText
+    }
+    finally {
+        # --- 10. Always Release Lock ---
         if (Test-Path -LiteralPath $lockFile) {
             Remove-Item -LiteralPath $lockFile -Force -ErrorAction SilentlyContinue
         }

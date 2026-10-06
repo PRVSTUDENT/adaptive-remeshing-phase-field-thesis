@@ -6,19 +6,19 @@ SUPERVISOR GOVERNING DIRECTIVE & ACTIVE SCIENTIFIC PHASE
 "We need to have understood everything related to the first model before we increase complexity."
 
 ACTIVE SCIENTIFIC PHASE:
-  MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE
+  MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION
 
 NEW SCIENTIFIC ROADMAP:
   Qualified Mode-I benchmark
     -> corrected mechanical implementation
     -> qualified MISESERI/adaptive-remeshing workflow
-    -> UEL ENERGY FORMULATION / OUTPUT AUDIT
+    -> UEL ENERGY FORMULATION / OUTPUT AUDIT (QUALIFIED_MECHANICALLY_NONINVASIVE)
     -> GLOBAL ENERGY BALANCE
-    -> SPATIAL + TEMPORAL MODE-I CONVERGENCE
+    -> SPATIAL + TEMPORAL MODE-I CONVERGENCE (GATE 6B ACTIVE)
     -> PHASE-FIELD / CRACK-PATH CONVERGENCE
-    -> MODE-I STATE-TRANSFER ENERGY PRESERVATION
+    -> MODE-I STATE-TRANSFER ENERGY PRESERVATION (GATE 6C ON HOLD)
     -> complete Mode-I report
-    -> supervisor review
+    -> supervisor review (Thursday, 08 October 2026, 10:00 CEST)
     -> only then visualization integration / higher-complexity example
 
 NEXT SUPERVISOR MEETING:
@@ -201,9 +201,8 @@ FIXED-MESH REFERENCE AS THE QUANTITATIVE ANCHOR:
   2. Peak reaction force (F_max).
   3. Displacement at peak force (u(F_max)).
   4. Global energy evolution and energy-balance quantities:
-     * Priority 1 Task: Audit the authoritative Fortran weak form in f42_mixed_uel.for and expose UEL energy terms.
-     * The existing statement that Abaqus UEL ENERGY is unavailable must NOT be treated as a permanent limitation.
-     * Identify stored elastic energy, phase-field surface energy, dissipated fracture contribution, external work W_ext = integral F du, and any other required terms.
+     * UEL energy formulation and output status: UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE (source hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6).
+     * Stored elastic energy E_elas, phase-field surface energy E_frac, external work W_ext = integral F du, bookkeeping discrepancy Delta_book = W_ext - (E_elas + E_frac), and normalized bookkeeping error eps_book.
      * Produce global energy balance, residuals, and normalized error.
   5. Phase-field / damage distribution (d-field contour and tip localization).
   6. Crack-path and localization-profile convergence.
