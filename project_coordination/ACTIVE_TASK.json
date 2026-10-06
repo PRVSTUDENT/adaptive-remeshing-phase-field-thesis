@@ -1,10 +1,10 @@
 {
-  "task_id": "F1277-MODE1-GATE6B-F1276-TELEMETRY-PROVENANCE-OFFLINE-CORRECTION-AND-PARK",
-  "task_name": "Mode-I Gate-6B F1276 Telemetry Provenance Offline Correction and Rigorous Invariant Guard",
+  "task_id": "F1278-MODE1-GATE6B-JOB-1410504-EXPERIMENT-RECORD-PROVENANCE-SEPARATION-AND-GUARD",
+  "task_name": "Mode-I Gate-6B Job 1410504 Experiment Record Provenance Separation, Terminal Ingestion Readiness Plan Correction, and Consistency Guard",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-06T20:40:00+02:00",
-  "end_time": "2026-10-06T20:50:00+02:00",
+  "start_time": "2026-10-06T20:55:00+02:00",
+  "end_time": "2026-10-06T21:15:00+02:00",
   "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "description": "Correct F1276 telemetry provenance offline using only already captured checkpoint evidence and without new cluster query: (1) apply governed hierarchy to establish that prescribed displacement u_y = 8.290 um is evaluated strictly from captured .sta Step-2 step time (t_2 = 0.6580) rather than increment count alone; (2) explicitly label remaining ~1,700 increments and 3.0-3.5 h completion estimates as nominal schedule projections under uniform incrementation/no-cutback assumptions; (3) retain zero cutbacks and 3 Newton iters/inc as directly evidenced solver telemetry; (4) update F1276 session record, CURRENT_STATE.md, and test_mode1_solver_telemetry_provenance.py with telemetry provenance guards; (5) leave running solver 1410504 undisturbed and park."
+  "description": "Correct terminal-ingestion readiness plan and offline provenance separation: (1) create separate dedicated experiment record STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md for Job 1410504.mmaster02; (2) preserve STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md exclusively as PARTIAL_57929_FE_POSTPEAK_DIAGNOSTIC_EVIDENCE; (3) update all references, scripts, and terminal-ingestion workflows so 1410504 can never overwrite, append to, or be mislabeled as 1410179; (4) add provenance guard asserting job-ID to experiment-record consistency in tests/unit/test_mode1_solver_telemetry_provenance.py; (5) update coordination ledgers, artifact registry, and commit/push."
 }

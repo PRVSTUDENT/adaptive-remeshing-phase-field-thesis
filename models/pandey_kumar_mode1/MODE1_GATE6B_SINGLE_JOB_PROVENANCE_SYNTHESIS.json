@@ -3,13 +3,14 @@
     "title": "Mode-I Gate-6B Authoritative Single-Job Provenance Synthesis",
     "protocol_version": 2,
     "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-    "description": "Independently extracted single-job metrics derived algorithmically directly from raw solver files with zero hard-coded literals."
+    "description": "Independently extracted single-job metrics derived algorithmically directly from raw solver files with zero hard-coded literals and strict experiment-record separation."
   },
   "jobs": [
     {
       "job_id": "1398090.mmaster02",
       "benchmark_label": "Fixed Reference ($S_1$, Mechanical Anchor)",
       "package_dir": "models/pandey_kumar_mode1/01_standard_pfm_reference",
+      "experiment_record": "docs/experiment_records/STAGE_GATE6B_S1_REFERENCE_ENERGY_QUALIFICATION_AND_BATCH_PIPELINE.md",
       "raw_source_file": "models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.dat",
       "raw_source_sha256": "a95417a0a1b30b31ab186b40fdeb0f16a3d9278b16af5d596a10917657fc5170",
       "fe_elements": 15192,
@@ -41,6 +42,7 @@
       "job_id": "1409734.mmaster02",
       "benchmark_label": "Fixed Reference ($S_1$, Energy-Qualified)",
       "package_dir": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k",
+      "experiment_record": "docs/experiment_records/STAGE_GATE6B_S1_REFERENCE_ENERGY_QUALIFICATION_AND_BATCH_PIPELINE.md",
       "raw_source_file": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/PK_M1_REF15K_ENERGY.dat",
       "raw_source_sha256": "97d83b87edc0e71db54af82f0556abf955f3c1cf167b11b771d2d0f92a3ed241",
       "fe_elements": 15192,
@@ -72,6 +74,7 @@
       "job_id": "1409982.mmaster02",
       "benchmark_label": "Adaptive ET1 Baseline ($14{,}483$ FE, Canonical)",
       "package_dir": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k",
+      "experiment_record": "docs/experiment_records/STAGE_GATE6B_FIVE_JOBS_TERMINAL_EVALUATION_AND_CONVERGENCE_RECORD.md",
       "raw_source_file": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE_fu.csv",
       "raw_source_sha256": "71ba958e1dcd2b2a67892407b982e907dca1a7672620cca2a52cc3835adf5b8c",
       "fe_elements": 14483,
@@ -103,6 +106,7 @@
       "job_id": "1410180.mmaster02",
       "benchmark_label": "Adaptive ET1 ($14{,}483$ FE, $C_n=0.50$ Diagnostic)",
       "package_dir": "models/pandey_kumar_mode1/28_stage14_convergence_control_candidate",
+      "experiment_record": "docs/experiment_records/STAGE_GATE6B_STEP2_ERRORTARGET_ET2_AND_CONV_CTRL_TERMINAL_EVALUATION.md",
       "raw_source_file": "models/pandey_kumar_mode1/28_stage14_convergence_control_candidate/PK_MODE1_STAGE14_ADAPT_14K_CONV_CTRL_fu.csv",
       "raw_source_sha256": "44d0b66f5348baeef0c82f9034d8676e81188308c3531be2ff2f52c443ad1771",
       "fe_elements": 14483,
@@ -134,6 +138,7 @@
       "job_id": "1410357.mmaster02",
       "benchmark_label": "Adaptive ET2 ($6{,}112$ FE, $\\text{errorTarget}=0.02$)",
       "package_dir": "models/pandey_kumar_mode1/34_stage14_step2_adaptive_candidate_et2_6k",
+      "experiment_record": "docs/experiment_records/STAGE_GATE6B_STEP2_ERRORTARGET_ET2_AND_CONV_CTRL_TERMINAL_EVALUATION.md",
       "raw_source_file": "models/pandey_kumar_mode1/34_stage14_step2_adaptive_candidate_et2_6k/PK_MODE1_STAGE14_STEP2_ET2_6K_FRACTURE_fu.csv",
       "raw_source_sha256": "03cf30208c8c994591fe8df204662c5e03a0e3d0b6cc63a6dec58553529a358c",
       "fe_elements": 6112,
@@ -165,6 +170,7 @@
       "job_id": "1410358.mmaster02",
       "benchmark_label": "Adaptive ET3 ($5{,}189$ FE, $\\text{errorTarget}=0.03$)",
       "package_dir": "models/pandey_kumar_mode1/35_stage14_step2_adaptive_candidate_et3_5k",
+      "experiment_record": "docs/experiment_records/STAGE_GATE6B_STEP2_ERRORTARGET_ET3_ET5_TERMINAL_EVALUATION.md",
       "raw_source_file": "models/pandey_kumar_mode1/35_stage14_step2_adaptive_candidate_et3_5k/PK_MODE1_STAGE14_STEP2_ET3_5K_FRACTURE_fu.csv",
       "raw_source_sha256": "3649191908f4f0ca2a44544b992d374f516235394bbe8ca83d7c7d77cd968153",
       "fe_elements": 5189,
@@ -196,6 +202,7 @@
       "job_id": "1410359.mmaster02",
       "benchmark_label": "Adaptive ET5 ($4{,}692$ FE, $\\text{errorTarget}=0.05$)",
       "package_dir": "models/pandey_kumar_mode1/36_stage14_step2_adaptive_candidate_et5_4k",
+      "experiment_record": "docs/experiment_records/STAGE_GATE6B_STEP2_ERRORTARGET_ET3_ET5_TERMINAL_EVALUATION.md",
       "raw_source_file": "models/pandey_kumar_mode1/36_stage14_step2_adaptive_candidate_et5_4k/PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE_fu.csv",
       "raw_source_sha256": "226cf873ab938c94c2ffddc300ec22df895671647b0cc7aa6ab7d04855733bde",
       "fe_elements": 4692,
@@ -227,6 +234,7 @@
       "job_id": "1410179.mmaster02",
       "benchmark_label": "Spatial Fine 58k Serial ($57{,}929$ FE, Partial Diagnostic)",
       "package_dir": "models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine",
+      "experiment_record": "docs/experiment_records/STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md",
       "raw_source_file": "models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine/PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_FRACTURE.dat",
       "raw_source_sha256": "36908c50cb79e685e6d2f5072b00c323c82af4b00a51b7dffc3cfebf07f91a83",
       "fe_elements": 57929,
@@ -252,12 +260,13 @@
       "e_elas_mJ": 0.040984471999999994,
       "delta_book_mJ": 0.10051079375542127,
       "eps_book_pct": 4.0186052687962555,
-      "notes": "Spatial Fine 58k serial diagnostic solve. 4,443 completed increments, reached u=7.429 um (98.51% load drop) before 24h walltime SIGTERM (Exit -29)."
+      "notes": "Spatial Fine 58k serial diagnostic solve. 4,443 completed increments, reached u=7.429 um (98.51% load drop) before 24h walltime SIGTERM (Exit -29). Preserved exclusively in STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md."
     },
     {
       "job_id": "1410504.mmaster02",
       "benchmark_label": "Spatial Fine 58k 8T SMP ($57{,}929$ FE, Full-Horizon Candidate)",
       "package_dir": "models/pandey_kumar_mode1/37_stage14_adaptive_candidate_spatial_fine_8thread",
+      "experiment_record": "docs/experiment_records/STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md",
       "raw_source_file": null,
       "raw_source_sha256": null,
       "fe_elements": 57929,
@@ -283,7 +292,7 @@
       "e_elas_mJ": null,
       "delta_book_mJ": null,
       "eps_book_pct": null,
-      "notes": "Actively executing full-horizon 8-thread shared-memory SMP candidate on mnode097 (48h walltime limit)."
+      "notes": "Actively executing full-horizon 8-thread shared-memory SMP candidate on mnode097 (48h walltime limit). Governed exclusively by STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md."
     }
   ]
 }

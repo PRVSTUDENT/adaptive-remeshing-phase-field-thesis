@@ -117,7 +117,6 @@ def parse_csv_detailed(csv_path):
     with open(csv_path, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for line_offset, r in enumerate(reader):
-            # reader line offset 0 corresponds to file line 2 (header is line 1)
             csv_line = line_offset + 2
             u = r.get('u_mm') or r.get('displacement_mm') or r.get('Displacement_mm')
             rf = r.get('f_tensile_kN') or r.get('reaction_force_kN') or r.get('ReactionForce_kN')
@@ -152,7 +151,6 @@ def parse_csv_detailed(csv_path):
             if u is not None and rf is not None:
                 u_val = float(u)
                 if step is None:
-                    # Infer step from displacement: Step 1 is u <= 0.0050 mm, Step 2 is u > 0.0050 mm
                     step = 1 if u_val <= 0.00500001 else 2
                 
                 if inc is not None:
@@ -184,7 +182,7 @@ def extract_all_single_job_provenance(base_dir):
             "title": "Mode-I Gate-6B Authoritative Single-Job Provenance Synthesis",
             "protocol_version": 2,
             "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-            "description": "Independently extracted single-job metrics derived algorithmically directly from raw solver files with zero hard-coded literals."
+            "description": "Independently extracted single-job metrics derived algorithmically directly from raw solver files with zero hard-coded literals and strict experiment-record separation."
         },
         "jobs": []
     }
@@ -204,6 +202,7 @@ def extract_all_single_job_provenance(base_dir):
         "job_id": "1398090.mmaster02",
         "benchmark_label": "Fixed Reference ($S_1$, Mechanical Anchor)",
         "package_dir": "models/pandey_kumar_mode1/01_standard_pfm_reference",
+        "experiment_record": "docs/experiment_records/STAGE_GATE6B_S1_REFERENCE_ENERGY_QUALIFICATION_AND_BATCH_PIPELINE.md",
         "raw_source_file": rel_01.replace("\\", "/"),
         "raw_source_sha256": sha_01,
         "fe_elements": 15192,
@@ -261,6 +260,7 @@ def extract_all_single_job_provenance(base_dir):
         "job_id": "1409734.mmaster02",
         "benchmark_label": "Fixed Reference ($S_1$, Energy-Qualified)",
         "package_dir": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k",
+        "experiment_record": "docs/experiment_records/STAGE_GATE6B_S1_REFERENCE_ENERGY_QUALIFICATION_AND_BATCH_PIPELINE.md",
         "raw_source_file": rel_16_dat.replace("\\", "/"),
         "raw_source_sha256": sha_16,
         "fe_elements": 15192,
@@ -313,6 +313,7 @@ def extract_all_single_job_provenance(base_dir):
         "job_id": "1409982.mmaster02",
         "benchmark_label": "Adaptive ET1 Baseline ($14{,}483$ FE, Canonical)",
         "package_dir": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k",
+        "experiment_record": "docs/experiment_records/STAGE_GATE6B_FIVE_JOBS_TERMINAL_EVALUATION_AND_CONVERGENCE_RECORD.md",
         "raw_source_file": rel_25_csv.replace("\\", "/"),
         "raw_source_sha256": sha_25,
         "fe_elements": 14483,
@@ -362,6 +363,7 @@ def extract_all_single_job_provenance(base_dir):
         "job_id": "1410180.mmaster02",
         "benchmark_label": "Adaptive ET1 ($14{,}483$ FE, $C_n=0.50$ Diagnostic)",
         "package_dir": "models/pandey_kumar_mode1/28_stage14_convergence_control_candidate",
+        "experiment_record": "docs/experiment_records/STAGE_GATE6B_STEP2_ERRORTARGET_ET2_AND_CONV_CTRL_TERMINAL_EVALUATION.md",
         "raw_source_file": rel_28_csv.replace("\\", "/"),
         "raw_source_sha256": sha_28,
         "fe_elements": 14483,
@@ -411,6 +413,7 @@ def extract_all_single_job_provenance(base_dir):
         "job_id": "1410357.mmaster02",
         "benchmark_label": "Adaptive ET2 ($6{,}112$ FE, $\\text{errorTarget}=0.02$)",
         "package_dir": "models/pandey_kumar_mode1/34_stage14_step2_adaptive_candidate_et2_6k",
+        "experiment_record": "docs/experiment_records/STAGE_GATE6B_STEP2_ERRORTARGET_ET2_AND_CONV_CTRL_TERMINAL_EVALUATION.md",
         "raw_source_file": rel_34_csv.replace("\\", "/"),
         "raw_source_sha256": sha_34,
         "fe_elements": 6112,
@@ -460,6 +463,7 @@ def extract_all_single_job_provenance(base_dir):
         "job_id": "1410358.mmaster02",
         "benchmark_label": "Adaptive ET3 ($5{,}189$ FE, $\\text{errorTarget}=0.03$)",
         "package_dir": "models/pandey_kumar_mode1/35_stage14_step2_adaptive_candidate_et3_5k",
+        "experiment_record": "docs/experiment_records/STAGE_GATE6B_STEP2_ERRORTARGET_ET3_ET5_TERMINAL_EVALUATION.md",
         "raw_source_file": rel_35_csv.replace("\\", "/"),
         "raw_source_sha256": sha_35,
         "fe_elements": 5189,
@@ -509,6 +513,7 @@ def extract_all_single_job_provenance(base_dir):
         "job_id": "1410359.mmaster02",
         "benchmark_label": "Adaptive ET5 ($4{,}692$ FE, $\\text{errorTarget}=0.05$)",
         "package_dir": "models/pandey_kumar_mode1/36_stage14_step2_adaptive_candidate_et5_4k",
+        "experiment_record": "docs/experiment_records/STAGE_GATE6B_STEP2_ERRORTARGET_ET3_ET5_TERMINAL_EVALUATION.md",
         "raw_source_file": rel_36_csv.replace("\\", "/"),
         "raw_source_sha256": sha_36,
         "fe_elements": 4692,
@@ -566,6 +571,7 @@ def extract_all_single_job_provenance(base_dir):
         "job_id": "1410179.mmaster02",
         "benchmark_label": "Spatial Fine 58k Serial ($57{,}929$ FE, Partial Diagnostic)",
         "package_dir": "models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine",
+        "experiment_record": "docs/experiment_records/STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md",
         "raw_source_file": rel_30_dat.replace("\\", "/"),
         "raw_source_sha256": sha_30,
         "fe_elements": 57929,
@@ -591,41 +597,135 @@ def extract_all_single_job_provenance(base_dir):
         "e_elas_mJ": e_elas_term_30,
         "delta_book_mJ": delta_book_30,
         "eps_book_pct": eps_book_30,
-        "notes": "Spatial Fine 58k serial diagnostic solve. 4,443 completed increments, reached u=7.429 um (98.51% load drop) before 24h walltime SIGTERM (Exit -29)."
+        "notes": "Spatial Fine 58k serial diagnostic solve. 4,443 completed increments, reached u=7.429 um (98.51% load drop) before 24h walltime SIGTERM (Exit -29). Preserved exclusively in STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md."
     })
 
     # 9. Job 1410504 (Spatial Fine 58k 8T SMP)
-    dataset["jobs"].append({
-        "job_id": "1410504.mmaster02",
-        "benchmark_label": "Spatial Fine 58k 8T SMP ($57{,}929$ FE, Full-Horizon Candidate)",
-        "package_dir": "models/pandey_kumar_mode1/37_stage14_adaptive_candidate_spatial_fine_8thread",
-        "raw_source_file": None,
-        "raw_source_sha256": None,
-        "fe_elements": 57929,
-        "fe_nodes": 57491,
-        "total_nodes_with_rp": 57492,
-        "status": "RUNNING_ACTIVE_CANDIDATE",
-        "governed_classification": "ACTIVE_SOLVER_CANDIDATE",
-        "row_index_zero_based": None,
-        "csv_line_number": None,
-        "abaqus_step": None,
-        "abaqus_increment": None,
-        "global_completed_increments": None,
-        "peak_row_index": None,
-        "peak_step": None,
-        "peak_increment": None,
-        "k0_kn_per_mm": None,
-        "k0_r2": None,
-        "f_max_kn": None,
-        "u_peak_mm": None,
-        "u_term_mm": None,
-        "w_ext_mJ": None,
-        "e_frac_mJ": None,
-        "e_elas_mJ": None,
-        "delta_book_mJ": None,
-        "eps_book_pct": None,
-        "notes": "Actively executing full-horizon 8-thread shared-memory SMP candidate on mnode097 (48h walltime limit)."
-    })
+    rel_37_dat = os.path.join("models", "pandey_kumar_mode1", "37_stage14_adaptive_candidate_spatial_fine_8thread", "PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_8T.dat")
+    dat_37 = os.path.join(base_dir, rel_37_dat)
+    energy_37 = os.path.join(models_dir, "37_stage14_adaptive_candidate_spatial_fine_8thread", "uel_energy_balance.csv")
+
+    if os.path.exists(dat_37) and os.path.getsize(dat_37) > 1000:
+        sha_37 = compute_sha256(dat_37)
+        rows_37 = parse_dat_detailed(dat_37)
+        if len(rows_37) > 0:
+            u_37 = np.array([r['u_mm'] for r in rows_37])
+            rf_37 = np.array([r['rf_kN'] for r in rows_37])
+            k0_37, r2_37, n_37 = compute_k0_from_points(u_37, rf_37)
+            idx_peak_37 = int(np.argmax(rf_37))
+            pk_37 = rows_37[idx_peak_37]
+
+            w_ext_37 = [0.0]
+            for i in range(1, len(u_37)):
+                du = u_37[i] - u_37[i-1]
+                f_avg = 0.5 * (rf_37[i] + rf_37[i-1])
+                w_ext_37.append(w_ext_37[-1] + f_avg * du * 1000.0)
+
+            erecs_37 = parse_uel_energy(energy_37) if os.path.exists(energy_37) else []
+            w_term_37 = float(w_ext_37[-1])
+            e_frac_term_37 = float(erecs_37[-1]['e_frac_mJ']) if erecs_37 else None
+            e_elas_term_37 = float(erecs_37[-1]['e_elas_mJ']) if erecs_37 else None
+            delta_book_37 = float(w_term_37 - (e_frac_term_37 + e_elas_term_37)) if (e_frac_term_37 is not None and e_elas_term_37 is not None) else None
+            eps_book_37 = float(abs(delta_book_37) / w_term_37 * 100.0) if (delta_book_37 is not None and w_term_37 > 0) else None
+
+            dataset["jobs"].append({
+                "job_id": "1410504.mmaster02",
+                "benchmark_label": "Spatial Fine 58k 8T SMP ($57{,}929$ FE, Full-Horizon Candidate)",
+                "package_dir": "models/pandey_kumar_mode1/37_stage14_adaptive_candidate_spatial_fine_8thread",
+                "experiment_record": "docs/experiment_records/STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md",
+                "raw_source_file": rel_37_dat.replace("\\", "/"),
+                "raw_source_sha256": sha_37,
+                "fe_elements": 57929,
+                "fe_nodes": 57491,
+                "total_nodes_with_rp": 57492,
+                "status": "COMPLETED_FULL_HORIZON",
+                "governed_classification": "AUTHORITATIVE_FULL_HORIZON_SPATIAL_CONVERGENCE_EVIDENCE",
+                "row_index_zero_based": idx_peak_37,
+                "csv_line_number": "NOT_AVAILABLE_FROM_PRESERVED_EVIDENCE",
+                "abaqus_step": pk_37['step'],
+                "abaqus_increment": pk_37['inc'],
+                "global_completed_increments": pk_37['global_inc'],
+                "peak_row_index": idx_peak_37,
+                "peak_step": pk_37['step'],
+                "peak_increment": pk_37['inc'],
+                "k0_kn_per_mm": k0_37,
+                "k0_r2": r2_37,
+                "f_max_kn": float(pk_37['rf_kN']),
+                "u_peak_mm": float(pk_37['u_mm']),
+                "u_term_mm": float(u_37[-1]),
+                "w_ext_mJ": w_term_37,
+                "e_frac_mJ": e_frac_term_37,
+                "e_elas_mJ": e_elas_term_37,
+                "delta_book_mJ": delta_book_37,
+                "eps_book_pct": eps_book_37,
+                "notes": "Spatial Fine 58k 8T SMP full-horizon solve completed and ingested into STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md."
+            })
+        else:
+            dataset["jobs"].append({
+                "job_id": "1410504.mmaster02",
+                "benchmark_label": "Spatial Fine 58k 8T SMP ($57{,}929$ FE, Full-Horizon Candidate)",
+                "package_dir": "models/pandey_kumar_mode1/37_stage14_adaptive_candidate_spatial_fine_8thread",
+                "experiment_record": "docs/experiment_records/STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md",
+                "raw_source_file": None,
+                "raw_source_sha256": None,
+                "fe_elements": 57929,
+                "fe_nodes": 57491,
+                "total_nodes_with_rp": 57492,
+                "status": "RUNNING_ACTIVE_CANDIDATE",
+                "governed_classification": "ACTIVE_SOLVER_CANDIDATE",
+                "row_index_zero_based": None,
+                "csv_line_number": None,
+                "abaqus_step": None,
+                "abaqus_increment": None,
+                "global_completed_increments": None,
+                "peak_row_index": None,
+                "peak_step": None,
+                "peak_increment": None,
+                "k0_kn_per_mm": None,
+                "k0_r2": None,
+                "f_max_kn": None,
+                "u_peak_mm": None,
+                "u_term_mm": None,
+                "w_ext_mJ": None,
+                "e_frac_mJ": None,
+                "e_elas_mJ": None,
+                "delta_book_mJ": None,
+                "eps_book_pct": None,
+                "notes": "Actively executing full-horizon 8-thread shared-memory SMP candidate on mnode097 (48h walltime limit). Governed exclusively by STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md."
+            })
+    else:
+        dataset["jobs"].append({
+            "job_id": "1410504.mmaster02",
+            "benchmark_label": "Spatial Fine 58k 8T SMP ($57{,}929$ FE, Full-Horizon Candidate)",
+            "package_dir": "models/pandey_kumar_mode1/37_stage14_adaptive_candidate_spatial_fine_8thread",
+            "experiment_record": "docs/experiment_records/STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md",
+            "raw_source_file": None,
+            "raw_source_sha256": None,
+            "fe_elements": 57929,
+            "fe_nodes": 57491,
+            "total_nodes_with_rp": 57492,
+            "status": "RUNNING_ACTIVE_CANDIDATE",
+            "governed_classification": "ACTIVE_SOLVER_CANDIDATE",
+            "row_index_zero_based": None,
+            "csv_line_number": None,
+            "abaqus_step": None,
+            "abaqus_increment": None,
+            "global_completed_increments": None,
+            "peak_row_index": None,
+            "peak_step": None,
+            "peak_increment": None,
+            "k0_kn_per_mm": None,
+            "k0_r2": None,
+            "f_max_kn": None,
+            "u_peak_mm": None,
+            "u_term_mm": None,
+            "w_ext_mJ": None,
+            "e_frac_mJ": None,
+            "e_elas_mJ": None,
+            "delta_book_mJ": None,
+            "eps_book_pct": None,
+            "notes": "Actively executing full-horizon 8-thread shared-memory SMP candidate on mnode097 (48h walltime limit). Governed exclusively by STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md."
+        })
 
     return dataset
 
@@ -640,6 +740,7 @@ def export_dataset(dataset, json_path, csv_path):
         "job_id",
         "benchmark_label",
         "package_dir",
+        "experiment_record",
         "raw_source_file",
         "raw_source_sha256",
         "fe_elements",

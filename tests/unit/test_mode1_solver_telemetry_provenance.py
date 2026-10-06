@@ -14,10 +14,12 @@ Enforces:
 9. Early Step-1 telemetry provenance and unit-conflation guards (Incs 10, 91, 121, 137).
 10. Step-2 spatial-fine 8T SMP Job 1410504 telemetry checkpoint and post-peak progression guard.
 11. Guard against asserting scientific displacement from increment count alone without captured step time or field output.
+12. Job-ID <-> Experiment-Record strict separation and consistency guard (Job 1410179 vs Job 1410504).
 """
 from __future__ import print_function
 import os
 import sys
+import json
 import pytest
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -258,7 +260,6 @@ class TestMode1SolverTelemetryProvenance(object):
         # Guard against erroneously writing t1 (0.0685) as millimeters (0.0685 mm = 68.5 um, 200x error)
         assert abs(u_137 - 0.0685) > 0.06
 
-
     def test_09_job_1410179_and_1410504_pbs_resource_provenance_guards(self):
         """Verify that Job 1410179 (serial) and 1410504 (8T SMP) both have 16 GB memory allocated in PBS scripts and ledgers."""
         pbs_1410179 = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "30_stage14_adaptive_candidate_spatial_fine", "submit_solver.pbs")
@@ -275,7 +276,6 @@ class TestMode1SolverTelemetryProvenance(object):
         assert "#PBS -l mem=16gb" in c_179
         assert "#PBS -l walltime=24:00:00" in c_179
         assert 'memory="16gb"' in c_179
-        # Assert that 8 GB is NOT specified for Job 1410179
         assert "mem=8gb" not in c_179
         assert 'memory="8gb"' not in c_179
 
@@ -290,7 +290,6 @@ class TestMode1SolverTelemetryProvenance(object):
 
         with open(current_state, "r") as f:
             c_cs = f.read()
-        # Verify CURRENT_STATE.md records 16gb/16GB for 1410179
         assert "1410179" in c_cs
         lines_179 = [l for l in c_cs.splitlines() if "1410179" in l and ("16gb" in l.lower() or "16 gb" in l.lower())]
         assert len(lines_179) > 0, "CURRENT_STATE.md must explicitly record 16 GB allocation for Job 1410179"
@@ -325,12 +324,6 @@ class TestMode1SolverTelemetryProvenance(object):
     def test_11_guard_against_asserting_displacement_from_increment_count_alone(self):
         """Guard against deriving physical displacement from raw increment counts without captured step time or field output."""
         def parse_telemetry_checkpoint_provenance(captured_record):
-            """
-            Governed hierarchy:
-            1. actual_rp_u2: field/history output from .dat or uel_energy_balance.csv
-            2. step_time: evaluated prescribed boundary displacement from captured step time
-            3. none: report NOT_VERIFIED_FROM_CHECKPOINT_EVIDENCE
-            """
             if "actual_rp_u2" in captured_record and captured_record["actual_rp_u2"] is not None:
                 return {
                     "displacement_source": "MEASURED_RP_FIELD_OUTPUT",
@@ -364,7 +357,7 @@ class TestMode1SolverTelemetryProvenance(object):
         res_sta = parse_telemetry_checkpoint_provenance(rec_sta)
         assert res_sta["displacement_source"] == "EVALUATED_PRESCRIBED_BC_FROM_CAPTURED_STEP_TIME"
         assert abs(res_sta["u_y"] - 0.008290) < 1e-6
-        assert res_sta["is_measured"] is False  # Explicitly distinguished from measured internal field
+        assert res_sta["is_measured"] is False
 
         # Case 3: Record with actual measured field output (Terminal evaluation)
         rec_dat = {"step": 2, "increment": 5000, "step_time": 1.0, "actual_rp_u2": 0.010000}
@@ -372,6 +365,60 @@ class TestMode1SolverTelemetryProvenance(object):
         assert res_dat["displacement_source"] == "MEASURED_RP_FIELD_OUTPUT"
         assert res_dat["u_y"] == 0.010000
         assert res_dat["is_measured"] is True
+
+    def test_12_job_id_experiment_record_consistency_and_separation_guard(self):
+        """Guard 12: Enforce strict separation between Job 1410179 (serial partial diagnostic) and Job 1410504 (8T full-horizon candidate) experiment records:
+        1. STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md exists and is exclusively mapped to 1410179.mmaster02.
+        2. STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md exists and is exclusively mapped to 1410504.mmaster02.
+        3. Single-job synthesis JSON dataset has explicit experiment_record entries matching both files.
+        4. Neither file overwrites or mislabels the other job's ID, role, or results.
+        """
+        rec_179_path = os.path.join(REPO_ROOT, "docs", "experiment_records", "STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md")
+        rec_504_path = os.path.join(REPO_ROOT, "docs", "experiment_records", "STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md")
+        json_path = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json")
+
+        assert os.path.exists(rec_179_path), "Experiment record for Job 1410179 missing: %s" % rec_179_path
+        assert os.path.exists(rec_504_path), "Experiment record for Job 1410504 missing: %s" % rec_504_path
+        assert os.path.exists(json_path), "Synthesis JSON missing: %s" % json_path
+
+        with open(rec_179_path, "r") as f:
+            c_179 = f.read()
+        with open(rec_504_path, "r") as f:
+            c_504 = f.read()
+
+        # Job 1410179 record assertions
+        assert "1410179.mmaster02" in c_179
+        assert "PARTIAL_57929_FE_POSTPEAK_DIAGNOSTIC_EVIDENCE" in c_179
+        assert "0.007429" in c_179 or "7.429" in c_179
+        assert "STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md" in c_179
+
+        # Job 1410504 record assertions
+        assert "1410504.mmaster02" in c_504
+        assert "DOC-EXP-STAGE-GATE6B-JOB-1410504-FULL-HORIZON-EVALUATION" in c_504
+        assert "STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md" in c_504
+        assert "48:00:00" in c_504
+        assert "ppn=8" in c_504
+
+        # JSON dataset verification
+        with open(json_path, "r") as f:
+            data = json.load(f)
+
+        jobs_map = {j["job_id"]: j for j in data["jobs"]}
+        assert "1410179.mmaster02" in jobs_map
+        assert "1410504.mmaster02" in jobs_map
+
+        j_179 = jobs_map["1410179.mmaster02"]
+        j_504 = jobs_map["1410504.mmaster02"]
+
+        assert j_179["experiment_record"] == "docs/experiment_records/STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md"
+        assert j_504["experiment_record"] == "docs/experiment_records/STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md"
+        assert j_179["experiment_record"] != j_504["experiment_record"]
+
+        # Ensure all existing experiment records in JSON point to valid existing files
+        for j in data["jobs"]:
+            if "experiment_record" in j and j["experiment_record"] is not None:
+                exp_file = os.path.join(REPO_ROOT, j["experiment_record"])
+                assert os.path.exists(exp_file), "Referenced experiment record does not exist: %s" % exp_file
 
 
 if __name__ == "__main__":

@@ -18,11 +18,11 @@ Job `1410179.mmaster02` was launched as a serial single-CPU diagnostic baseline 
 
 The job completed **4,443 increments** (Step 1: 2,000 increments, Step 2: 2,443 increments) with **zero cutbacks** and **3 Newton iterations per increment**, advancing deep into the post-peak softening regime ($u_y = 0.007429\,\text{mm} = 7.429\,\mu\text{m}$, representing a **$98.51\%$ load drop** from peak load $0.741633\,\text{kN}$ down to $0.011033\,\text{kN}$) before reaching the PBS scheduler walltime limit of 24:00:00 (`Exit_status = -29`, SIGTERM).
 
-### Authoritative Classification
+### Authoritative Classification & Provenance Separation
 - **Classification:** `PARTIAL_57929_FE_POSTPEAK_DIAGNOSTIC_EVIDENCE`
 - **Valid Evaluation Domain:** $u_y \in [0.0, 0.007429]\,\text{mm}$ ($[0.0, 7.429]\,\mu\text{m}$)
 - **Forward-Filling Status:** `ZERO_FORWARD_FILLING` (unreached displacements $u > 7.429\,\mu\text{m}$ are explicitly excluded and not extrapolated)
-- **Gate-6B Closure Role:** Provides high-resolution structural and energetic validation through the entire pre-peak, peak, and major softening transition. Full horizon ($u_y = 10.0\,\mu\text{m}$) spatial closure is actively being executed by 8-thread shared-memory SMP Job `1410504.mmaster02` (48h walltime limit, solving at ~558 incs/hr).
+- **Provenance Separation:** Preserved exclusively as the partial serial diagnostic record. The separate ongoing 8-thread shared-memory SMP Job `1410504.mmaster02` is documented in [`STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md`](STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md) to capture the full uncensored horizon ($u_y \in [0.0, 0.0100]\,\text{mm}$).
 
 ---
 
@@ -114,7 +114,7 @@ $$\varepsilon_{\mathrm{book}}(u) = \frac{|\Delta_{\mathrm{book}}(u)|}{\mathcal{W
 ### Strict Single-Job Provenance Synthesis Table
 
 | Discretization / Case | Authoritative Job ID | Base FEs | FE Nodes | $K_0$ (kN/mm) | $\Delta K_0$ vs Ref | $F_{\max}$ (kN) | $\Delta F_{\max}$ vs Ref | $u_{\text{peak}}$ (mm) | $W_{\text{ext}}$ (mJ) | $E_{\text{frac}}$ (mJ) | $\varepsilon_{\text{book}}$ (%) | Valid Reached Domain |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Fixed Ref Mechanical Anchor** | `1398090.mmaster02` | $15{,}192$ | $15{,}521$ | $137.9455$ | Baseline | $0.7578$ | Baseline | $0.005857$ | N/A | N/A | N/A | $[0.0, 0.005857]$ (Peak Anchor) |
 | **Fixed Ref Full-Horizon Energy** | `1409734.mmaster02` | $15{,}192$ | $15{,}521$ | $137.9455$ | Baseline | $0.7578$ | Baseline | $0.005857$ | $2.359329$ | $2.340220$ | $0.7607\%$ | $[0.0, 0.010000]$ (Full Horizon) |
 | **Adaptive ET5 (5.0%)** | `1410359.mmaster02` | $4{,}692$ | $4{,}759$ | $138.0091$ | $+0.0461\%$ | $0.7654$ | $+1.0058\%$ | $0.005926$ | $3.578445$ | $3.054797$ | $12.1044\%$ | $[0.0, 0.010000]$ (Full Horizon) |
@@ -132,4 +132,4 @@ $$\varepsilon_{\mathrm{book}}(u) = \frac{|\Delta_{\mathrm{book}}(u)|}{\mathcal{W
 1. **Stiffness Convergence:** Initial elastic stiffness $K_0$ shows exquisite spatial stability across all levels ($< 0.08\%$ deviation across the entire 4k to 58k element range).
 2. **Peak Load Consistency:** Peak reaction force $F_{\max}$ for the 58k mesh ($0.7416\,\text{kN}$) closely tracks the ET1 baseline ($0.7437\,\text{kN}$, $\Delta = -0.28\%$), confirming that peak capacity is converged within $< 0.3\%$ between 14k and 58k meshes.
 3. **Smooth Post-Peak Softening:** The solver demonstrated robust, un-cutbacked convergence down to $98.51\%$ load drop.
-4. **Active 8-Thread Solve:** The ongoing 8-thread shared-memory SMP job `1410504.mmaster02` will provide the complete uncensored $u_y \in [0.0, 0.0100]\,\text{mm}$ horizon required for final Gate-6B multi-quantity spatial convergence closure.
+4. **Separate Full-Horizon Solve Record:** The separate ongoing 8-thread shared-memory SMP job `1410504.mmaster02` is tracked and will be evaluated exclusively under [`STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md`](STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md) to provide the complete uncensored $u_y \in [0.0, 0.0100]\,\text{mm}$ horizon required for final Gate-6B multi-quantity spatial convergence closure.
