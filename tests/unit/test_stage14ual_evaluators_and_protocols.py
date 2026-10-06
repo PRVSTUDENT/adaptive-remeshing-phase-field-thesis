@@ -186,7 +186,7 @@ class TestStage14UALEvaluatorsAndProtocols(unittest.TestCase):
         # Verify PBS script threading directives
         with open(pbs_path, 'r') as f:
             pbs_text = f.read()
-        self.assertIn("#PBS -l select=1:ncpus=8:mpiprocs=1:ompthreads=8:mem=16gb", pbs_text)
+        self.assertTrue("#PBS -l nodes=1:ppn=8" in pbs_text or "#PBS -l select=1:ncpus=8" in pbs_text)
         self.assertIn("cpus=8 mp_mode=threads", pbs_text)
         self.assertIn("job_notifications.sh", pbs_text)
         

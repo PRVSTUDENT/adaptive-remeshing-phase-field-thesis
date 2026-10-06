@@ -57,7 +57,7 @@ The job completed **4,443 increments** (Step 1: 2,000 increments, Step 2: 2,443 
 - **Comparison vs Fixed Reference ($F_{\max} = 0.757778\,\text{kN}$, $u_{\text{peak}} = 0.005857\,\text{mm}$):**
   - $\Delta F_{\max} = -2.131\%$
   - $\Delta u_{\text{peak}} = -2.390\%$
-- **Comparison vs Adaptive ET1 Baseline ($F_{\max} = 0.743711\,\text{kN}$, $u_{\text{peak}} = 0.005733\,\text{mm}$):**
+- **Comparison vs Adaptive ET1 Baseline ($F_{\max} = 0.743711\,\text{kN}$, $u_{\text{peak}} = 0.005717\,\text{mm}$):**
   - $\Delta F_{\max} = -0.279\%$
   - $\Delta u_{\text{peak}} = -0.279\%$
 
@@ -106,16 +106,24 @@ $$\varepsilon_{\mathrm{book}}(u) = \frac{|\Delta_{\mathrm{book}}(u)|}{\mathcal{W
 
 ---
 
-## 6. Synthesis Against errorTarget Sweep
+## 6. Multi-Quantity Spatial Convergence Figure & Strict Single-Job Synthesis
 
-| Discretization | Base FEs | $K_0$ (kN/mm) | $\Delta K_0$ vs Ref | $F_{\max}$ (kN) | $\Delta F_{\max}$ vs Ref | $u_{\text{peak}}$ (mm) | $W_{\text{ext}}$ (mJ) | $E_{\text{frac}}$ (mJ) | $\varepsilon_{\text{book}}$ (%) | Reached Domain |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Fixed Ref ($S_1$)** | $15{,}160$ | $137.9455$ | Baseline | $0.7578$ | Baseline | $0.005857$ | N/A | N/A | N/A | $[0.0, 0.005857]$ (Censored) |
-| **ET5 (5.0%)** | $4{,}692$ | $138.0091$ | $+0.0461\%$ | $0.7654$ | $+1.0058\%$ | $0.005831$ | $3.578051$ | $3.054522$ | $12.0994\%$ | $[0.0, 0.010000]$ (Full) |
-| **ET3 (3.0%)** | $5{,}189$ | $137.9775$ | $+0.0232\%$ | $0.7594$ | $+0.2150\%$ | $0.005786$ | $3.158169$ | $2.748721$ | $11.0424\%$ | $[0.0, 0.010000]$ (Full) |
-| **ET2 (2.0%)** | $6{,}112$ | $137.9761$ | $+0.0221\%$ | $0.7564$ | $-0.1862\%$ | $0.005770$ | $2.828116$ | $2.538931$ | $8.6488\%$ | $[0.0, 0.010000]$ (Full) |
-| **ET1 (1.0%, $C_n=0.5$)** | $14{,}483$ | $137.9096$ | $-0.0261\%$ | $0.7437$ | $-1.8563\%$ | $0.005733$ | $2.270745$ | $2.246309$ | $0.8207\%$ | $[0.0, 0.010000]$ (Full) |
-| **Spatial Fine (58k, 1410179)** | $57{,}929$ | $137.8410$ | $-0.0758\%$ | $0.7416$ | $-2.1305\%$ | $0.005717$ | $2.501136$ | $2.359641$ | $4.0186\%$ | $[0.0, 0.007429]$ (Partial) |
+![Mode-I Gate-6B Spatial Convergence Synthesis](../../results/figures/mode1_gate6b/fig_mode1_gate6b_spatial_convergence_synthesis.png)  
+*Figure 6.1: Multi-quantity spatial convergence synthesis comparing Fixed Reference ($15{,}192$ FE, Job 1409734), Adaptive ET1 Baseline ($14{,}483$ FE, Job 1409982), ET1 $C_n=0.50$ Diagnostic (Job 1410180 dashed), and Spatial Fine 58k ($57{,}929$ FE, Job 1410179 with 24h walltime termination marked at $u_y = 7.429\,\mu\text{m}$). Panel (a) Structural reaction force $F(u_y)$; (b) External work $W_{\text{ext}}$ and fracture dissipation $\mathcal{E}_{\text{frac}}$; (c) Stored elastic strain energy $\mathcal{E}_{\text{elas}}$; (d) Bookkeeping discrepancy $\Delta_{\text{book}} = W_{\text{ext}} - (\mathcal{E}_{\text{elas}} + \mathcal{E}_{\text{frac}})$. PDF vector version: [`fig_mode1_gate6b_spatial_convergence_synthesis.pdf`](../../results/figures/mode1_gate6b/fig_mode1_gate6b_spatial_convergence_synthesis.pdf).*
+
+### Strict Single-Job Provenance Synthesis Table
+
+| Discretization / Case | Authoritative Job ID | Base FEs | FE Nodes | $K_0$ (kN/mm) | $\Delta K_0$ vs Ref | $F_{\max}$ (kN) | $\Delta F_{\max}$ vs Ref | $u_{\text{peak}}$ (mm) | $W_{\text{ext}}$ (mJ) | $E_{\text{frac}}$ (mJ) | $\varepsilon_{\text{book}}$ (%) | Valid Reached Domain |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Fixed Ref Mechanical Anchor** | `1398090.mmaster02` | $15{,}192$ | $15{,}521$ | $137.9455$ | Baseline | $0.7578$ | Baseline | $0.005857$ | N/A | N/A | N/A | $[0.0, 0.005857]$ (Peak Anchor) |
+| **Fixed Ref Full-Horizon Energy** | `1409734.mmaster02` | $15{,}192$ | $15{,}521$ | $137.9455$ | Baseline | $0.7578$ | Baseline | $0.005857$ | $2.359239$ | $2.340220$ | $0.7569\%$ | $[0.0, 0.010000]$ (Full Horizon) |
+| **Adaptive ET5 (5.0%)** | `1410359.mmaster02` | $4{,}692$ | $4{,}759$ | $138.0091$ | $+0.0461\%$ | $0.7654$ | $+1.0058\%$ | $0.005831$ | $3.578051$ | $3.054522$ | $12.0994\%$ | $[0.0, 0.010000]$ (Full Horizon) |
+| **Adaptive ET3 (3.0%)** | `1410358.mmaster02` | $5{,}189$ | $5{,}262$ | $137.9775$ | $+0.0232\%$ | $0.7594$ | $+0.2150\%$ | $0.005786$ | $3.158169$ | $2.748721$ | $11.0424\%$ | $[0.0, 0.010000]$ (Full Horizon) |
+| **Adaptive ET2 (2.0%)** | `1410357.mmaster02` | $6{,}112$ | $6{,}181$ | $137.9761$ | $+0.0221\%$ | $0.7564$ | $-0.1862\%$ | $0.005770$ | $2.828116$ | $2.538931$ | $8.6488\%$ | $[0.0, 0.010000]$ (Full Horizon) |
+| **Canonical ET1 Baseline (1.0%)** | `1409982.mmaster02` | $14{,}483$ | $14{,}456$ | $137.9096$ | $-0.0261\%$ | $0.7437$ | $-1.8563\%$ | $0.005717$ | $2.2707$ | $2.2855$ | $0.957\%$ | $[0.0, 0.007889]$ (98.5% Drop) |
+| **ET1 $C_n=0.50$ Diagnostic** | `1410180.mmaster02` | $14{,}483$ | $14{,}456$ | $137.9096$ | $-0.0261\%$ | $0.7437$ | $-1.8563\%$ | $0.005717$ | $2.270745$ | $2.246309$ | $0.8207\%$ | $[0.0, 0.010000]$ (Diagnostic) |
+| **Spatial Fine 58k Serial** | `1410179.mmaster02` | $57{,}929$ | $57{,}491$ | $137.8410$ | $-0.0758\%$ | $0.7416$ | $-2.1305\%$ | $0.005717$ | $2.501136$ | $2.359641$ | $4.0186\%$ | $[0.0, 0.007429]$ (Partial 24h) |
+| **Spatial Fine 58k 8T SMP** | `1410504.mmaster02` | $57{,}929$ | $57{,}491$ | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | $[0.0, 0.010000]$ (Active Candidate) |
 
 ---
 

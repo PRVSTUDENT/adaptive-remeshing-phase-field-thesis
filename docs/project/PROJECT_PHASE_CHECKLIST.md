@@ -4,7 +4,7 @@
 
 ### Active Scientific Roadmap & Governance State:
 - **Governing Directive**: *"We need to have understood everything related to the first model before we increase complexity."*
-- **Active Phase**: MODE1_GATE6B_STEP2_ACTIVE_EVALUATION_AND_CONTINUATION
+- **Active Phase**: MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION
 - **Next Supervisor Meeting**: Thursday, 08 October 2026, 10:00
 - **Active Gate**: **GATE 6B: MODE-I ENERGETIC & CONVERGENCE QUALIFICATION & STEP-2 ADAPTIVE MECHANICAL QUALIFICATION (ACTIVE_EVALUATION_AND_CONTINUATION)**
 - **Gate 6C Status**: NOT_YET_PERFORMED_PENDING_GATE_6B

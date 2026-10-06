@@ -243,3 +243,43 @@ def test_guard8_bridge_rules_and_handoff_invariants():
         assert "Thursday, 08 October 2026, 10:00 CEST" in pr_text
         assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in pr_text
 
+
+def test_guard9_gate6b_single_job_provenance_and_figure_guards():
+    """Guard 9: Enforce strict single-job provenance separation and spatial convergence synthesis figure existence:
+    - Fixed reference base mesh has exactly 15,192 finite elements (15,160 CPE4 + 32 CPE3) and 15,521 FE nodes.
+    - Historical mechanical anchor (1398090) and full-horizon energy run (1409734) are separately documented.
+    - Canonical ET1 baseline (1409982) is separated from Cn=0.50 diagnostic (1410180).
+    - Spatial fine 58k serial run (1410179) is classified as partial post-peak diagnostic without forward-filling.
+    - Active 8T SMP candidate (1410504) is documented as the full-horizon closure solve.
+    - 4-panel spatial convergence synthesis figure and plotting script exist and are valid.
+    """
+    fig_pdf = REPO_ROOT / "results" / "figures" / "mode1_gate6b" / "fig_mode1_gate6b_spatial_convergence_synthesis.pdf"
+    fig_png = REPO_ROOT / "results" / "figures" / "mode1_gate6b" / "fig_mode1_gate6b_spatial_convergence_synthesis.png"
+    assert fig_pdf.exists() and fig_pdf.stat().st_size > 5000, f"Missing or empty PDF figure: {fig_pdf}"
+    assert fig_png.exists() and fig_png.stat().st_size > 5000, f"Missing or empty PNG figure: {fig_png}"
+
+    plot_script = REPO_ROOT / "scripts" / "postprocessing" / "plot_gate6b_spatial_convergence_synthesis.py"
+    assert plot_script.exists() and plot_script.stat().st_size > 1000, f"Missing plot script: {plot_script}"
+
+    exp_record = REPO_ROOT / "docs" / "experiment_records" / "STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md"
+    assert exp_record.exists(), f"Missing experiment record: {exp_record}"
+    er_text = exp_record.read_text(encoding="utf-8")
+
+    # Strict single-job provenance entries in synthesis table
+    assert "1398090.mmaster02" in er_text
+    assert "1409734.mmaster02" in er_text
+    assert "1409982.mmaster02" in er_text
+    assert "1410180.mmaster02" in er_text
+    assert "1410179.mmaster02" in er_text
+    assert "1410504.mmaster02" in er_text
+
+    # Fixed ref element count is 15,192
+    assert "15,192" in er_text or "15{,}192" in er_text
+    assert "57,929" in er_text or "57{,}929" in er_text
+    assert "14,483" in er_text or "14{,}483" in er_text
+
+    # Figure embedded and referenced
+    assert "fig_mode1_gate6b_spatial_convergence_synthesis.png" in er_text
+    assert "fig_mode1_gate6b_spatial_convergence_synthesis.pdf" in er_text
+
+
