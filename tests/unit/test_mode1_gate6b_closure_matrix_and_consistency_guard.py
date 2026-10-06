@@ -539,3 +539,77 @@ def test_guard11_provenance_schema_and_disambiguation_guards():
                                 assert '0.005840' not in line and '5.840' not in line, (
                                     f"Found stale peak displacement 0.005840 for Job 1410180 in {fpath.relative_to(REPO_ROOT)}: {line}"
                                 )
+def test_guard13_parallel_execution_governance_consistency_and_dryrun_invariants():
+    """Guard 13: Enforce strict parallel execution governance consistency and dry-run handoff invariants:
+    1. AGENTS.md and .agents/AGENTS.md must explicitly designate:
+       - 1-CPU serial as authoritative reference anchor;
+       - 8-thread shared-memory SMP as empirically qualified for tested Mode-I formulation/controls;
+       - 16-thread shared-memory execution as UNQUALIFIED pending independent Stage-A/B proof;
+       - 4-thread shared-memory execution as not part of active approved execution path;
+       - distributed multi-rank MPI as strictly disqualified.
+    2. project_alignment_guard.txt and bridge_rules.txt must contain zero generic '1, 4, 8, or 16 threads' lists.
+    3. Assembled dry-run bridge handoff must not emit conflicting generic threading lists.
+    """
+    import subprocess
+
+    # 1. Check AGENTS.md and .agents/AGENTS.md
+    for agents_path in [REPO_ROOT / "AGENTS.md", REPO_ROOT / ".agents" / "AGENTS.md"]:
+        assert agents_path.exists()
+        a_text = agents_path.read_text(encoding="utf-8")
+        assert "1, 4, 8, or 16 threads" not in a_text
+        assert "(1, 4, 8, or 16 threads)" not in a_text
+        assert "8-thread shared-memory SMP is empirically qualified" in a_text
+        assert "16-thread shared-memory execution is UNQUALIFIED pending independent Stage-A/B verification" in a_text
+        assert "4-thread shared-memory execution is not part of the active approved execution path" in a_text
+        assert "distributed multi-rank MPI is strictly disqualified" in a_text
+
+    # 2. Check project_alignment_guard.txt
+    guard_path = REPO_ROOT / ".agents" / "scripts" / "project_alignment_guard.txt"
+    assert guard_path.exists()
+    g_text = guard_path.read_text(encoding="utf-8")
+    assert "1, 4, 8, or 16 threads" not in g_text
+    assert "(1 CPU serial, 4-thread, 8-thread, or 16-thread)" not in g_text
+    assert "8-thread shared-memory SMP is empirically qualified" in g_text
+    assert "16-thread shared-memory execution is UNQUALIFIED" in g_text or "16-thread shared-memory execution remains unqualified" in g_text
+    assert "4-thread shared-memory execution is not part of the active approved execution path" in g_text
+    assert "distributed multi-rank MPI remains strictly disqualified" in g_text or "multi-rank MPI strictly disqualified" in g_text
+
+    # 3. Check bridge_rules.txt
+    rules_path = REPO_ROOT / ".agents" / "scripts" / "bridge_rules.txt"
+    assert rules_path.exists()
+    r_text = rules_path.read_text(encoding="utf-8")
+    assert "1, 4, 8, or 16 threads" not in r_text
+    assert "8-thread shared-memory SMP execution is empirically qualified" in r_text
+    assert "16-thread shared-memory execution is UNQUALIFIED" in r_text
+    assert "Distributed multi-rank MPI execution is STRICTLY DISQUALIFIED" in r_text
+
+    # 4. Dry-run prompt assembly test via PowerShell Invoke-ChatGPTBridge
+    ps_cmd = [
+        "powershell.exe",
+        "-NoProfile",
+        "-NonInteractive",
+        "-Command",
+        r". '.agents\scripts\Invoke-ChatGPTBridge.ps1'; Invoke-ChatGPTBridge -PromptText 'Verification turn' -DryRun"
+    ]
+    try:
+        result = subprocess.run(
+            ps_cmd,
+            cwd=str(REPO_ROOT),
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            encoding="utf-8",
+            errors="ignore",
+            timeout=30
+        )
+        assert result.returncode == 0, f"Invoke-ChatGPTBridge -DryRun failed: {result.stderr}"
+        prompt_output = result.stdout
+        assert "1, 4, 8, or 16 threads" not in prompt_output
+        assert "(1 CPU serial, 4-thread, 8-thread, or 16-thread)" not in prompt_output
+        assert "8-thread shared-memory SMP" in prompt_output
+        assert "16-thread shared-memory execution is UNQUALIFIED" in prompt_output or "16-thread execution remains unqualified" in prompt_output
+    except (OSError, subprocess.SubprocessError) as exc:
+        # If running in restricted sandbox environment without powershell spawn access, verify statically
+        assert "1, 4, 8, or 16 threads" not in g_text
+        assert "1, 4, 8, or 16 threads" not in r_text

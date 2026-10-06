@@ -498,13 +498,14 @@ PROJECT ACTIVE-JOB CAPACITY & QUEUE LIMITS:
 
     GOVERNING CONSTRAINT:
     Scientific usefulness, not an arbitrary job-count cap.
-    Strictly NO redundant or dummy jobs just to test capacity or consume resources.
-
-    PARALLEL EXECUTION ARCHITECTURE:
-    f42_mixed_uel.for remains unqualified for true multi-rank MPI.
-    Individual Abaqus jobs must continue using verified single-rank
-    shared-memory threading (1, 4, 8, or 16 threads), while high throughput
-    is achieved primarily by running many independent scientific jobs concurrently.
+    Strictly NO redundant or dummy jobs just to test capacity or consume resources.    PARALLEL EXECUTION ARCHITECTURE:
+    f42_mixed_uel.for remains unqualified for true multi-rank MPI (strictly disqualified).
+    Individual Abaqus jobs must execute in single-rank shared-memory mode:
+    1-CPU serial is the authoritative scientific reference anchor;
+    8-thread shared-memory SMP is empirically qualified for the tested Mode-I formulation and controls;
+    16-thread shared-memory execution is UNQUALIFIED pending independent Stage-A/B verification;
+    4-thread shared-memory execution is not part of the active approved execution path.
+    High throughput is achieved primarily by running many independent scientific jobs concurrently.
 
 Q and R both count as active.
 
@@ -717,8 +718,11 @@ Rules:
 2. Existing valid jobs are grandfathered until terminal.
    Do NOT cancel them.
 
-3. Jobs may utilize verified single-rank shared-memory threading
-   (1 CPU serial, 4-thread, 8-thread, or 16-thread) as scientifically required.
+3. Execution mode: 1-CPU serial serves as the authoritative reference anchor;
+   8-thread shared-memory SMP is empirically qualified for active Mode-I production;
+   16-thread shared-memory execution remains unqualified pending independent Stage-A/B proof;
+   4-thread shared-memory execution is not part of the active approved execution path;
+   distributed multi-rank MPI remains strictly disqualified for f42_mixed_uel.for.
 
 4. High throughput is driven by concurrent independent jobs across available nodes.
 
@@ -756,8 +760,8 @@ EXPANSION AND QUALIFICATION SUBMISSION CRITERIA
 ================================================================================
 
 Additional submissions within the 15â€“20 job guideline must satisfy:
-- Explicit scientific purpose (e.g. 8/16-thread scaling/parity on large meshes,
-  deterministic repeats, or PBS post-processing/extractions);
+- Explicit scientific purpose (e.g. 8-thread scaling/parity or deterministic repeats on large meshes,
+  or PBS post-processing/extractions);
 - Pre-declared acceptance criteria;
 - Exact .inp and f42_mixed_uel.for hashes verified;
 - Input syntax / datacheck preflight verified;

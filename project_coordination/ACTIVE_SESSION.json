@@ -1,10 +1,10 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1278-MODE1-GATE6B-JOB-1410504-EXPERIMENT-RECORD-PROVENANCE-SEPARATION-AND-GUARD",
-  "session_start": "2026-10-06T20:55:00+02:00",
-  "session_end": "2026-10-06T21:15:00+02:00",
-  "starting_commit": "32ebde4ee7a00db081afa911620814ad19290936",
+  "task_id": "F1279-MODE1-GATE6B-PARALLEL-GOVERNANCE-CONSISTENCY-CLEANUP-AND-GUARD",
+  "session_start": "2026-10-06T21:30:00+02:00",
+  "session_end": "2026-10-06T21:50:00+02:00",
+  "starting_commit": "78fc2932c53b0ca274119ed6331f63a489a8391c",
   "allowed_write_scope": [
     "project_coordination/**",
     "docs/**",
@@ -12,6 +12,7 @@
     "models/**",
     "results/**",
     ".agents/**",
-    "scripts/**"
+    "scripts/**",
+    "AGENTS.md"
   ]
 }

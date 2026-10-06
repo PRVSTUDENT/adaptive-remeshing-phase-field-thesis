@@ -75,13 +75,12 @@ authorizing execution, or submitting a job, the agent MUST read these files
   - Per-user running CPU limit: **640 CPUs**.
   - Per-user running memory limit: **4 TB**.
   - Theoretical CPU headroom: ~543 additional CPUs with 97 CPUs currently allocated (node availability and placement permitting).
-- **Policy Stance**: **10 is a demonstrated minimum capability floor, not a ceiling**.
-- **Expansion Guideline**: During the September-9 window, Antigravity can cautiously expand to **15–20 useful Mode-I jobs** where scientifically justified:
-  - 8-thread and 16-thread scaling/parity jobs on larger fixed/reference/adaptive meshes;
-  - additional deterministic repeats where scientifically required;
-  - post-processing/extraction jobs if those genuinely need PBS resources.
-- **Governing Constraint**: **Scientific usefulness**, not an arbitrary job-count cap. Strictly NO redundant or dummy jobs just to test capacity. Every job must be independently justified, qualified, and explicitly authorized within the active gate sequence.
-- **Execution Architecture**: Because `f42_mixed_uel.for` is not qualified for true multi-rank MPI, individual Abaqus jobs must continue using verified **single-rank shared-memory threading** (1, 4, 8, or 16 threads), while high throughput is achieved primarily by running many independent scientific jobs concurrently.
+- **Policy Stance**: **10 is a demonstrated minimum capability floor, not a ceiling**.  - **Expansion Guideline**: During the September-9 window, Antigravity can cautiously expand to **15-20 useful Mode-I jobs** where scientifically justified:
+    - 8-thread scaling/parity jobs on larger fixed/reference/adaptive meshes (or independent 16-thread qualification cases when explicitly authorized);
+    - additional deterministic repeats where scientifically required;
+    - post-processing/extraction jobs if those genuinely need PBS resources.
+  - **Governing Constraint**: **Scientific usefulness**, not an arbitrary job-count cap. Strictly NO redundant or dummy jobs just to test capacity. Every job must be independently justified, qualified, and explicitly authorized within the active gate sequence.
+  - **Execution Architecture**: Because `f42_mixed_uel.for` is not qualified for true multi-rank MPI, distributed multi-rank MPI is strictly disqualified. Individual Abaqus jobs must execute in single-rank shared-memory mode: 1-CPU serial serves as the authoritative scientific reference anchor; 8-thread shared-memory SMP is empirically qualified for the tested Mode-I formulation and controls; 16-thread shared-memory execution is UNQUALIFIED pending independent Stage-A/B verification; and 4-thread shared-memory execution is not part of the active approved execution path. High throughput is achieved primarily by running many independent scientific jobs concurrently.
 - Baseline nominal active project jobs (reference): 4 (`MAX_TOTAL_ACTIVE_PROJECT_JOBS=4` baseline, superseded for the holiday window). Observed scheduler concurrency is recorded as >= 10.
 
 # University-Style Thesis and Report Writing Rules

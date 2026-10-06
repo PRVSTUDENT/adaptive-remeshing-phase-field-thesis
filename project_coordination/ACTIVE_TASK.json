@@ -1,10 +1,10 @@
 {
-  "task_id": "F1278-MODE1-GATE6B-JOB-1410504-EXPERIMENT-RECORD-PROVENANCE-SEPARATION-AND-GUARD",
-  "task_name": "Mode-I Gate-6B Job 1410504 Experiment Record Provenance Separation, Terminal Ingestion Readiness Plan Correction, and Consistency Guard",
+  "task_id": "F1279-MODE1-GATE6B-PARALLEL-GOVERNANCE-CONSISTENCY-CLEANUP-AND-GUARD",
+  "task_name": "Mode-I Gate-6B Parallel Execution Governance Consistency Cleanup and Invariant Guards",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-06T20:55:00+02:00",
-  "end_time": "2026-10-06T21:15:00+02:00",
+  "start_time": "2026-10-06T21:30:00+02:00",
+  "end_time": "2026-10-06T21:50:00+02:00",
   "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "description": "Correct terminal-ingestion readiness plan and offline provenance separation: (1) create separate dedicated experiment record STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md for Job 1410504.mmaster02; (2) preserve STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410179_TERMINAL_EVALUATION.md exclusively as PARTIAL_57929_FE_POSTPEAK_DIAGNOSTIC_EVIDENCE; (3) update all references, scripts, and terminal-ingestion workflows so 1410504 can never overwrite, append to, or be mislabeled as 1410179; (4) add provenance guard asserting job-ID to experiment-record consistency in tests/unit/test_mode1_solver_telemetry_provenance.py; (5) update coordination ledgers, artifact registry, and commit/push."
+  "description": "Perform offline parallel execution governance-consistency cleanup and invariant guards: (1) trace active source/template generating generic parallel-execution wording in bridge rules, alignment guards, or repository governance templates; (2) correct text so future assembled handoffs explicitly state: 1-CPU serial is scientific reference anchor, 8-thread single-process shared-memory SMP is empirically qualified for tested Mode-I formulation/controls, 16-thread SMP is UNQUALIFIED pending independent Stage-A/B verification, 4-thread SMP is not part of active approved path, and distributed multi-rank MPI is strictly disqualified; (3) add or update regression unit test verifying assembled bridge handoff does not emit conflicting/generic threading lists; (4) dry-run complete assembled bridge handoff; (5) update coordination ledgers, commit, and push."
 }

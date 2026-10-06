@@ -218,6 +218,27 @@ Determine the next instruction to send to Antigravity.
         }
     }
 
+# Clean any outdated generic threading phrasing
+    $genericThreadingPhrases = @(
+        "shared-memory threading (1, 4, 8, or 16 threads)",
+        "(1 CPU serial, 4-thread, 8-thread, or 16-thread)",
+        "8/16-thread scaling/parity on large meshes"
+    )
+    foreach ($gtp in $genericThreadingPhrases) {
+        if ($assembledPrompt.Contains($gtp)) {
+            Write-Warning "Detected generic threading string '$gtp' in bridge prompt. Sanitizing to authoritative Gate-6B state..."
+            if ($gtp -eq "shared-memory threading (1, 4, 8, or 16 threads)") {
+                $assembledPrompt = $assembledPrompt.Replace($gtp, "single-rank shared-memory mode (8-thread SMP qualified, 16-thread unqualified, 4-thread non-active, MPI disqualified)")
+            }
+            if ($gtp -eq "(1 CPU serial, 4-thread, 8-thread, or 16-thread)") {
+                $assembledPrompt = $assembledPrompt.Replace($gtp, "(1 CPU serial reference, 8-thread SMP qualified, 16-thread unqualified, 4-thread non-active, MPI disqualified)")
+            }
+            if ($gtp -eq "8/16-thread scaling/parity on large meshes") {
+                $assembledPrompt = $assembledPrompt.Replace($gtp, "8-thread scaling/parity on large meshes")
+            }
+        }
+    }
+
     # --- 2d. DryRun Mode ---
     if ($DryRun) {
         Write-Host "[Bridge] Dry-run requested. Prompt assembled successfully ($($assembledPrompt.Length) chars)." -ForegroundColor Cyan
