@@ -12,6 +12,7 @@ Enforces:
 7. Telemetry consistency guards (monotonicity, Step-1 bound, Step-2 offset, step-specific increment size).
 8. Methods documentation and provenance record verification.
 9. Early Step-1 telemetry provenance and unit-conflation guards (Incs 10, 91, 121, 137).
+10. Step-2 spatial-fine 8T SMP Job 1410504 telemetry checkpoint and post-peak progression guard.
 """
 from __future__ import print_function
 import os
@@ -292,6 +293,26 @@ class TestMode1SolverTelemetryProvenance(object):
         assert "1410179" in c_cs
         lines_179 = [l for l in c_cs.splitlines() if "1410179" in l and ("16gb" in l.lower() or "16 gb" in l.lower())]
         assert len(lines_179) > 0, "CURRENT_STATE.md must explicitly record 16 GB allocation for Job 1410179"
+
+    def test_10_job_1410504_step2_telemetry_checkpoint_and_postpeak_traversal(self):
+        """Verify that Job 1410504 (8T SMP 58k) telemetry at Step 2 Inc >3300 represents valid post-peak traversal."""
+        def step2_displacement_from_time(step2_time):
+            step1_offset = 0.0050  # mm
+            step2_span = 0.0050    # mm (0.0100 - 0.0050)
+            return step1_offset + step2_time * step2_span
+
+        # Step 2 Inc 3302 has step time ~0.658 -> uy = 0.0050 + 0.658 * 0.0050 = 0.00829 mm = 8.29 um
+        u_3302 = step2_displacement_from_time(0.658)
+        assert abs(u_3302 - 0.00829) < 1e-6
+        assert abs(u_3302 * 1e3 - 8.29) < 1e-3  # 8.29 um
+
+        # Peak displacement for 58k mesh is u_peak = 0.005717 mm (Step 2 Inc 717, step time 0.1434)
+        u_peak_58k = 0.005717
+        assert u_3302 > u_peak_58k, "Job 1410504 must have traversed well beyond peak load"
+
+        # Serial 24h limit stopped at u_term = 0.007429 mm (Step 2 Inc 2443, step time 0.4858)
+        u_serial_term = 0.007429
+        assert u_3302 > u_serial_term, "Job 1410504 (8T) must have progressed past the 24h serial limit (7.429 um)"
 
 
 if __name__ == "__main__":

@@ -1,10 +1,10 @@
 {
-  "task_id": "F1275-MODE1-GATE6B-PEAK-PROVENANCE-PROPAGATION-AUDIT-AND-TERMINOLOGY-CLARIFICATION",
-  "task_name": "Mode-I Gate-6B Downstream Provenance-Propagation Audit, Terminology Disambiguation, and Invariant Guards",
+  "task_id": "F1276-MODE1-GATE6B-SPATIAL-FINE-8THREAD-TELEMETRY-CHECKPOINT-AND-PARK",
+  "task_name": "Mode-I Gate-6B Spatial Fine 58k 8-Thread Shared-Memory Telemetry Checkpoint and Park",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-06T19:35:00+02:00",
-  "end_time": "2026-10-06T19:50:00+02:00",
+  "start_time": "2026-10-06T20:20:00+02:00",
+  "end_time": "2026-10-06T20:30:00+02:00",
   "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "description": "Perform downstream provenance-propagation audit for Task F1274; search active supervisor artifacts, CURRENT_STATE.md, experiment records, report/thesis text, and tables for stale 1410180 values and correct them to machine-derived result (u_peak = 0.005733 mm at Step 2 Inc 733); eliminate ambiguous phrasing conflating CSV row index with Abaqus increment; update extract_gate6b_single_job_provenance.py schema with explicit separated fields (row_index_zero_based, csv_line_number, abaqus_step, abaqus_increment, global_completed_increments); regenerate figures/tables; update regression guards; preserve Job 1410504 undisturbed and park."
+  "description": "Query running cluster telemetry for 8-thread SMP spatial-fine Job 1410504.mmaster02 (57,929 FEs) on mnode097; verify steady solver progress (Step 2 Inc 3302, uy = 8.290 um, 0 cutbacks, 3 iters/inc, elapsed 10:05:00 out of 48h walltime); confirm job has traversed peak (u_peak = 0.005717 mm) and deep into softening beyond the 24h serial limit (uy = 7.429 um); preserve running solver undisturbed without cancellation, duplication, or early promotion; update project coordination dashboards and park."
 }
