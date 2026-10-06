@@ -54,10 +54,10 @@ This session closed the asynchronous regression test verification from Task F126
 
 Both active jobs execute concurrently on compute node `mnode097` in queue `normal_imfdfkmq`:
 
-| PBS Job ID | Discretization / Purpose | Threads / Mode | Elapsed Walltime | Requested Walltime | Progress Status | Active Telemetry |
-| :--- | :--- | :---: | :---: | :---: | :--- | :--- |
-| **`1410179.mmaster02`** | Spatial Fine 58k (`PK_M1_14AM_SOLVE`) | 1 CPU (Serial) | `21:20:00` | `24:00:00` | Step 2 Inc 1884 ($u_y \approx 6.87\,\mu\text{m}$) | Left solving untouched; captures valuable post-peak data until PBS walltime termination at $\approx 24\,\text{h}$ |
-| **`1410504.mmaster02`** | Spatial Fine 58k (`PK_M1_14AM_8T`) | 8 CPUs (SMP Threads) | `00:13:00` | `48:00:00` | Step 1 Inc 121 ($u_y \approx 0.3025\,\mu\text{m} = 302.5\,\text{nm}$) | Progressing rapidly at $\approx 558\,\text{incs/hr}$; full 7,000 increments expected in $\approx 10.9\,\text{h}$ |
+| PBS Job ID | Discretization / Purpose | Allocation (Nodes:PPN, Mem) | Threads / Mode | Elapsed Walltime | Requested Walltime | Progress Status | Active Telemetry |
+| :--- | :--- | :---: | :---: | :---: | :---: | :--- | :--- |
+| **`1410179.mmaster02`** | Spatial Fine 58k (`PK_M1_14AM_SOLVE`) | `1:1`, $16\,\text{GB}$ | 1 CPU (Serial) | `21:20:00` | `24:00:00` | Step 2 Inc 1884 ($u_y \approx 6.87\,\mu\text{m}$) | Left solving untouched; captures valuable post-peak data until PBS walltime termination at $\approx 24\,\text{h}$ |
+| **`1410504.mmaster02`** | Spatial Fine 58k (`PK_M1_14AM_8T`) | `1:8`, $16\,\text{GB}$ | 8 CPUs (SMP Threads) | `00:13:00` | `48:00:00` | Step 1 Inc 121 ($u_y \approx 0.3025\,\mu\text{m} = 302.5\,\text{nm}$) | Progressing rapidly at $\approx 558\,\text{incs/hr}$; full 7,000 increments expected in $\approx 10.9\,\text{h}$ |
 
 *\*Note on Step-1 Kinematic Mapping Correction (Audited in Task F1266):* In Step 1, prescribed displacement follows $u_y(t_1) = t_1 \times 0.0050\,\text{mm} = N \times 2.5\,\text{nm}$. For Increment 121 ($t_1 = 0.0605$), the exact physical displacement is $0.0605 \times 0.0050\,\text{mm} = 0.0003025\,\text{mm} = 0.3025\,\mu\text{m} = 302.5\,\text{nm}$. Dimensionless step time $t_1$ was erroneously reported with the $\text{mm}$ unit in earlier draft notes; corrected under F1266.
 

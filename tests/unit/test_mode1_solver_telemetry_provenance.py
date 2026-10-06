@@ -257,5 +257,42 @@ class TestMode1SolverTelemetryProvenance(object):
         assert abs(u_137 - 0.0685) > 0.06
 
 
+    def test_09_job_1410179_and_1410504_pbs_resource_provenance_guards(self):
+        """Verify that Job 1410179 (serial) and 1410504 (8T SMP) both have 16 GB memory allocated in PBS scripts and ledgers."""
+        pbs_1410179 = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "30_stage14_adaptive_candidate_spatial_fine", "submit_solver.pbs")
+        pbs_1410504 = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "37_stage14_adaptive_candidate_spatial_fine_8thread", "submit_solver.pbs")
+        current_state = os.path.join(REPO_ROOT, "project_coordination", "CURRENT_STATE.md")
+
+        assert os.path.exists(pbs_1410179), "PBS script for 1410179 missing: %s" % pbs_1410179
+        assert os.path.exists(pbs_1410504), "PBS script for 1410504 missing: %s" % pbs_1410504
+        assert os.path.exists(current_state), "CURRENT_STATE.md missing"
+
+        with open(pbs_1410179, "r") as f:
+            c_179 = f.read()
+        assert "#PBS -l nodes=1:ppn=1" in c_179
+        assert "#PBS -l mem=16gb" in c_179
+        assert "#PBS -l walltime=24:00:00" in c_179
+        assert 'memory="16gb"' in c_179
+        # Assert that 8 GB is NOT specified for Job 1410179
+        assert "mem=8gb" not in c_179
+        assert 'memory="8gb"' not in c_179
+
+        with open(pbs_1410504, "r") as f:
+            c_504 = f.read()
+        assert "#PBS -l nodes=1:ppn=8" in c_504
+        assert "#PBS -l mem=16gb" in c_504
+        assert "#PBS -l walltime=48:00:00" in c_504
+        assert 'memory="16gb"' in c_504
+        assert "mem=8gb" not in c_504
+        assert 'memory="8gb"' not in c_504
+
+        with open(current_state, "r") as f:
+            c_cs = f.read()
+        # Verify CURRENT_STATE.md records 16gb/16GB for 1410179
+        assert "1410179" in c_cs
+        lines_179 = [l for l in c_cs.splitlines() if "1410179" in l and ("16gb" in l.lower() or "16 gb" in l.lower())]
+        assert len(lines_179) > 0, "CURRENT_STATE.md must explicitly record 16 GB allocation for Job 1410179"
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

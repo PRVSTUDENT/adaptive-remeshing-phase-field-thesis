@@ -82,7 +82,7 @@ $$\text{Step 2: } u_y(t_2) = 0.0050\,\text{mm} + t_2 \times 0.0050\,\text{mm} = 
 
 ## 5. Active Cluster Solves & Parking Posture
 
-- **`1410179.mmaster02`** (Serial 58k FE): Left running untouched on `mnode097` in `normal_imfdfkmq` to harvest valuable softening data until PBS walltime termination.
+- **`1410179.mmaster02`** (Serial 58k FE): Allocated with `nodes=1:ppn=1`, `mem=16gb` (16 GB), `walltime=24:00:00`. Left running untouched on `mnode097` in `normal_imfdfkmq` to harvest valuable softening data until PBS walltime termination.
 - **`1410504.mmaster02`** (8-thread SMP 58k FE): Actively solving on `mnode097` in `normal_imfdfkmq` (Package 37, 48h walltime, 8 ppn, 16gb, scratch-compliant under `/scratch9/pr21vyci/`), progressing smoothly toward full $u_y = 10.0\,\mu\text{m}$ completion in ~11h.
 - Zero solver jobs queried, cancelled, modified, restarted, duplicated, or submitted.
 - Clean parked state established with session lock released (`active: false`).

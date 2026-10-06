@@ -39,10 +39,19 @@ flowchart TD
 
 ---
 
-### JOB 1: `1410179.mmaster02` — Spatial Fine Resolution Candidate ($57{,}929$ FE)
+### JOB 1A: `1410179.mmaster02` — Spatial Fine Resolution Candidate ($57{,}929$ FE, Serial Diagnostic)
 
 * **Package Directory:** `models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine/`
+* **PBS Allocation & Execution Mode:** `nodes=1:ppn=1`, `mem=16gb` ($16\,\text{GB}$), `walltime=24:00:00`, serial 1 CPU. Note: Retained strictly for partial post-peak softening diagnostic data up to 24h PBS limit.
 * **Target Mesh / Purpose:** Stage-14 Spatial Fine Candidate ($57{,}929$ base FE / $173{,}787$ layered FE, $h_{\min} = 0.55\,\mu\text{m}$, $h/l_0 = 0.074$). Evaluates spatial-resolution convergence against $S_1$ fixed reference ($15{,}192$ FE) and ET1 adaptive baseline ($14{,}483$ FE).
+
+---
+
+### JOB 1B: `1410504.mmaster02` — Spatial Fine Resolution Candidate ($57{,}929$ FE, Authoritative 8-Thread SMP)
+
+* **Package Directory:** `models/pandey_kumar_mode1/37_stage14_adaptive_candidate_spatial_fine_8thread/`
+* **PBS Allocation & Execution Mode:** `nodes=1:ppn=8`, `mem=16gb` ($16\,\text{GB}$), `walltime=48:00:00`, 8-thread shared-memory SMP (`THREADS` mode). Authoritative full-horizon ($u_y = 0 \to 10.0\,\mu\text{m}$) Gate-6B candidate.
+* **Target Mesh / Purpose:** Identical mesh twin to Package 30 ($57{,}929$ base FE), solving at $\approx 558\,\text{incs/hr}$ with 48h walltime headroom to guarantee complete uncensored traversal through post-peak softening.
 
 | Ingestion Step | Specific Action & Target Artifacts |
 | :--- | :--- |

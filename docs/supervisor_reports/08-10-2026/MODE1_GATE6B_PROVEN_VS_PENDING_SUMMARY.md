@@ -27,11 +27,12 @@
 
 ## 2. What Remains Actively Solving & Pending Terminal Ingestion
 
-| Active Job ID | Discretization / Model Purpose | PBS Status / Progress | Reconstructed $u_y$ | Primary Scientific Question Addressed |
-| :--- | :--- | :---: | :---: | :--- |
-| **`1410179.mmaster02`** | Spatial Fine Candidate ($57{,}929$ FE) | `R` (Step 2 Inc ~1500) | $u_y > 6.4\,\mu\text{m}$ | Does high-density spatial refinement ($h = 0.72\,\mu\text{m}$) confirm asymptotic force and damage convergence? |
+| Active Job ID | Discretization / Model Purpose | PBS Hardware Allocation | PBS Status / Progress | Reconstructed $u_y$ | Primary Scientific Role in Gate 6B |
+| :--- | :--- | :---: | :---: | :---: | :--- |
+| **`1410179.mmaster02`** | Spatial Fine Candidate ($57{,}929$ FE, serial) | `nodes=1:ppn=1`, `mem=16gb`, `walltime=24:00:00` | `RUNNING` (Step 2 Inc $>1884$) | $u_y \approx 6.87\,\mu\text{m}$ | **Partial Softening Diagnostic**: Retained untouched to harvest valuable post-peak softening data until PBS 24h walltime termination. |
+| **`1410504.mmaster02`** | Spatial Fine Candidate ($57{,}929$ FE, 8T SMP) | `nodes=1:ppn=8`, `mem=16gb`, `walltime=48:00:00` | `RUNNING` (Step 1 Inc $>121$) | $u_y \approx 0.3025\,\mu\text{m}$ | **Authoritative Full-Horizon Candidate**: Complete solve through $u_y = 10.0\,\mu\text{m}$ ($0$ cutbacks, $\approx 558\,\text{incs/hr}$) required for final spatial qualification. |
 
-*Job `1410179.mmaster02` is executing strictly under `/scratch9/pr21vyci/` with 0 cutbacks and 3–4 iterations/increment on `mnode097`.*
+*Both active jobs execute strictly under `/scratch9/pr21vyci/` with zero home filesystem footprint on compute node `mnode097`.*
 
 ---
 
