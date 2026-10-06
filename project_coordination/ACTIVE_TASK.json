@@ -1,10 +1,10 @@
 {
-  "task_id": "F1267-MODE1-SPATIAL-FINE-SERIAL-JOB-1410179-RESOURCE-RECONCILIATION",
-  "task_name": "Mode-I Spatial Fine Serial Job 1410179 Resource Provenance Reconciliation",
+  "task_id": "F1268-MODE1-GOVERNANCE-CONSISTENCY-AUDIT-AND-RECONCILIATION",
+  "task_name": "Mode-I Governance Consistency Audit and Superseded Statements Reconciliation",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-06T08:50:00+02:00",
-  "end_time": "2026-10-06T09:05:00+02:00",
+  "start_time": "2026-10-06T09:10:00+02:00",
+  "end_time": "2026-10-06T09:30:00+02:00",
   "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "description": "Reconciled resource-provenance inconsistency for Job 1410179.mmaster02 (serial 57,929-FE spatial-fine solve) by establishing the true PBS allocation strictly from preserved submission and evidence artifacts (nodes=1:ppn=1, mem=16gb, walltime=24:00:00), updating all governed dashboards, reports, and ledgers, and adding a regression guard."
+  "description": "Completed offline governance-consistency audit of active supervisor-facing project documents, checklists, coordination summaries, and controller bridge source (Antigravity-Autonomous-Loop.ps1), reconciling superseded statements (stale 01-Oct meeting date -> 08-Oct-2026, unproven energy status -> UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE, premature Gate 6C auto-promotion -> held until Gate 6B closed, and unqualified 16-thread execution), verified by regression tests (109/109 Mode-I suite pass 100%)."
 }

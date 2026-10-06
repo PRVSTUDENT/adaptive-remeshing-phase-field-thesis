@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-06T09:00:00+02:00` (Gemini Antigravity) — Task F1267 Mode-I spatial fine serial job 1410179 resource-provenance reconciliation: (1) audited preserved Package 30 submission script (`submit_solver.pbs`) and historical PBS accounting telemetry (F1233, F1234, F1235, F1264), establishing authoritative resource allocation for serial spatial-fine Job `1410179.mmaster02` strictly as `nodes=1:ppn=1`, `mem=16gb` (16 GB), `walltime=24:00:00`, `cpus=1`; (2) reconciled resource metadata across project dashboards, session records, and supervisor reports, resolving inadvertent 8 GB references; (3) updated Table 2 monitoring queue for `1410179` to explicitly document `Req: 24h, 1 CPU, 16GB`; (4) added automated regression guard `test_09_job_1410179_and_1410504_pbs_resource_provenance_guards` to `tests/unit/test_mode1_solver_telemetry_provenance.py` (9/9 pass, 155/155 Mode-I suite pass 100%); (5) both active cluster solver jobs (`1410179` and `1410504`) remain running undisturbed on `mnode097`.
+Last updated: `2026-10-06T09:25:00+02:00` (Gemini Antigravity) — Task F1268 Mode-I governance-consistency audit and superseded statements reconciliation: (1) audited active supervisor-facing documents and bridge source against authoritative current state; (2) updated controller bridge source (`Antigravity-Autonomous-Loop.ps1`) reconciling stale meeting date (01-Oct -> 08-Oct), stale energy status (superseded unproven energy status -> `UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE`), premature Gate 6C auto-promotion, and unqualified 16-thread execution; (3) updated `PROJECT_PHASE_CHECKLIST.md` (Gate 6B active, UEL Fortran source `CE8D5EDC...`, 8T SMP qualified / 16T unqualified, Gate 6C held without auto-promotion); (4) updated supervisor summary (`MODE1_GATE6B_PROVEN_VS_PENDING_SUMMARY.md`) and synchronized manifest; (5) reinforced 16-thread unqualified status and Gate 6C hold in `CURRENT_STATE.md`; (6) active cluster solver jobs (`1410179` and `1410504`) remain running untouched on `mnode097`.
 
 ---
 
@@ -32,6 +32,7 @@ Last updated: `2026-10-06T09:00:00+02:00` (Gemini Antigravity) — Task F1267 Mo
     - 100% bitwise parity and repeat determinism established across all 4,890 increments.
     - Reusable production templates frozen under `scripts/hpc/templates/` with hard storage (Exit 88) and MPI rejection (Exit 89) guards.
     - Parallelism status: `8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS`.
+    - 16-Thread shared-memory status: `16THREAD_SHARED_MEMORY_EXECUTION_UNQUALIFIED_PENDING_INDEPENDENT_STAGE_A_AND_B_VERIFICATION`.
     - Distributed multi-rank MPI status: `TRUE_MULTIRANK_MPI_NOT_QUALIFIED` (isolated address spaces, unsynchronized `COMMON /CB_STATE_TRANS/` state replication).
     - Evidentiary Rigor: No observable thread race/order sensitivity was detected for the tested Mode-I formulation and controls; serial/8-thread bitwise parity and independent 8-thread repeat determinism were achieved (does not prove mathematical absence of all latent data races).
     - Provenance warning: Any future modification to `f42_mixed_uel.for`, `COMMON` blocks, state-exchange logic, compiler, thread count, or execution topology invalidates 8-thread qualification until Stage-A/B checks are re-executed.
@@ -85,7 +86,7 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
 ## 3. Scope Holds & Governance Matrix
 
 * **Scope Holds Active:**
-  - Gate 6C (Nonmatching State Transfer / Restart Energy Balance): `ON_HOLD_PENDING_GATE6B`.
+  - Gate 6C (Nonmatching State Transfer / Restart Energy Balance): `ON_HOLD_PENDING_GATE6B_CLOSURE` (strictly paused on hold until Gate 6B is formally evaluated and closed; no auto-promotion).
   - Gate 7 (Post-Processing & ParaView Bridge): `ON_HOLD_PENDING_GATE6B`.
   - Stage 15 (Mode-II Adaptive Benchmark Production): `ON_HOLD_PENDING_GATE6B`.
   - Distributed Multi-Rank MPI Integration: `STRICTLY_DISQUALIFIED` (`f42_mixed_uel.for` single-rank shared-memory SMP only; multi-rank MPI requires redesign of replicated `COMMON` state).

@@ -121,11 +121,12 @@
 
 ---
 
-## GATE 6B: MODE-I ENERGETIC & CONVERGENCE QUALIFICATION -- FROZEN_PENDING_SUPERVISOR_REVIEW_AND_DECISION
+## GATE 6B: MODE-I ENERGETIC & CONVERGENCE QUALIFICATION -- ACTIVE_EVALUATION_AND_CONTINUATION
 
 | Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
 | :--- | :--- | :---: | :--- |
-| **G6B-01** | **Governed Production UEL Fortran Source** | **PASS** | models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for (SHA-256 `5CD0D2C015C9EAD91C99D7A744156CC86F5B5EA26473BBED7D6E5515FE30FA46`, 901 lines, 100% bit-identical across batch subdirs). |
+| **G6B-01** | **Governed Production UEL Fortran Source** | **PASS** | models/pandey_kumar_mode1/f42_mixed_uel.for (SHA-256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`, 907 lines, status `UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE`). |
+| **G6B-07** | **Shared-Memory Parallelism Qualification** | **PASS (8T SMP) / UNQUALIFIED (16T)** | 8-thread shared-memory SMP qualified ($S_8 = 3.62\times$, 100% bitwise parity across 4,890 increments); 16-thread shared-memory execution unqualified pending independent Stage-A/B verification; multi-rank MPI disqualified. |
 | **G6B-02** | **Energy State Variables & Unit Semantics** | **PASS** | SDV17 ($E_{\text{frac}}$), SDV18 ($E_{\text{elas}}$) evaluated in $\text{kN}\cdot\text{mm} = \text{J}$; SDV19 ($\bar{\psi}_f$), SDV20 ($\bar{\psi}_e$) in $\text{kN/mm} = \text{J/mm}^2$ (volumetric $\text{J/mm}^3$ under $B = 1.0\,\text{mm}$). |
 | **G6B-03** | **Single-IP Extraction Rule** | **PASS** | Single-IP1 extraction verified to prevent $4\times$ overcounting artifact from 4-IP companion elements. |
 | **G6B-04** | **Spatial Discretization Convergence ( \to S_4$)** | **PASS** | Post-peak fracture energy converges to $2.33886 \to 2.37531\,\text{mJ}$ ($+1.56\%$ change, $1.94\%$ min-max spread), classified `STABLE_OVER_TESTED_RANGE`. |
@@ -138,7 +139,7 @@
 
 | Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
 | :--- | :--- | :---: | :--- |
-| **G6C-01** | **State-Transfer Energy Preservation** | **PENDING** | On hold until supervisor review and decision on Gate 6B. |
+| **G6C-01** | **State-Transfer Energy Preservation** | **HOLD** | On hold until supervisor review and formal closure of Gate 6B. State transfer remains paused and must NOT auto-promote merely because the energy baseline is qualified. |
 
 ---
 

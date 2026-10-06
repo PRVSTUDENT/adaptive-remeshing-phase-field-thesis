@@ -132,3 +132,52 @@ def test_guard6_supervisor_summary_structure_and_date():
     assert "What Is Already Proven" in content
     assert "What Remains Actively Solving" in content
     assert "Summary Blocker Status" in content
+
+
+def test_guard7_governance_reconciliation_invariants():
+    """Guard 7: Enforce authoritative governance invariants across active documents:
+    - Next supervisor meeting: Thursday 08 October 2026, 10:00 CEST.
+    - Energy instrumentation status: UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE.
+    - Gate 6B remains active pending the 57,929-FE spatial fine candidate.
+    - Gate 6C remains on hold until Gate 6B is closed (no auto-promotion).
+    - 8-thread shared-memory SMP is qualified; 16-thread execution remains unqualified.
+    """
+    current_state_path = REPO_ROOT / "project_coordination" / "CURRENT_STATE.md"
+    assert current_state_path.exists()
+    cs_text = current_state_path.read_text(encoding="utf-8")
+
+    assert "Thursday, 08 October 2026, 10:00 CEST" in cs_text
+    assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in cs_text
+    assert "8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS" in cs_text
+    assert "16THREAD_SHARED_MEMORY_EXECUTION_UNQUALIFIED_PENDING_INDEPENDENT_STAGE_A_AND_B_VERIFICATION" in cs_text
+    assert "ON_HOLD_PENDING_GATE6B_CLOSURE" in cs_text
+    assert "no auto-promotion" in cs_text
+
+    checklist_path = REPO_ROOT / "docs" / "project" / "PROJECT_PHASE_CHECKLIST.md"
+    assert checklist_path.exists()
+    cl_text = checklist_path.read_text(encoding="utf-8")
+
+    assert "Thursday, 08 October 2026, 10:00" in cl_text
+    assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in cl_text
+    assert "G6B-07" in cl_text
+    assert "G6C-01" in cl_text
+    assert "must NOT auto-promote" in cl_text
+
+    sup_summary_path = REPO_ROOT / "docs" / "supervisor_reports" / "08-10-2026" / "MODE1_GATE6B_PROVEN_VS_PENDING_SUMMARY.md"
+    assert sup_summary_path.exists()
+    ss_text = sup_summary_path.read_text(encoding="utf-8")
+
+    assert "Thursday, 08 October 2026, 10:00 CEST" in ss_text
+    assert "13. Shared-Memory 8-Thread Parallelism" in ss_text
+    assert "16-thread execution remains unqualified" in ss_text
+    assert "no auto-promotion" in ss_text
+
+    # Controller script governance check if available
+    controller_path = Path(r"C:\Users\pruth\OpenClawPAD\Antigravity-Autonomous-Loop.ps1")
+    if controller_path.exists():
+        ctrl_text = controller_path.read_text(encoding="utf-8", errors="ignore")
+        assert "01 October 2026" not in ctrl_text
+        assert "01-Oct-2026" not in ctrl_text
+        assert "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED" not in ctrl_text
+        assert "Thursday, 08 October 2026, 10:00 CEST" in ctrl_text
+        assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in ctrl_text
