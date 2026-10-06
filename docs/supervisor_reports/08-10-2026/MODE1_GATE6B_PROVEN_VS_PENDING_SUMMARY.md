@@ -20,7 +20,8 @@
 | **8. Baseline Spatial & Crack-Path Convergence** | Fixed reference ($S_1$, 15k) and Adaptive baseline (ET1, 14k) exhibit matching crack kinematics and symmetry. | Centroid deviation $|y_c - 0.5| < 0.5\,\mu\text{m}$; localization width $w_{0.5} \approx 20.8\,\mu\text{m} \approx 2.77\,l_0$. |
 | **9. Clean Single-Variable $l_0$ Sensitivity** | 100% bitwise mesh twins on $S_3$ across $l_0 \in \{7.5, 11.25, 15.0\}\,\mu\text{m}$ establish physical scaling. | $K_0$ invariant ($0.13\%$ spread); $w_{0.5} \approx 3.04\,l_0$ linear scaling; $F_{\max}$ drops $-5.83\%$ (Jobs `1406017`, `1406895`, `1406896`). |
 | **10. Length-Scale Resolution Adequacy** | All 6 governed meshes resolve the diffuse damage zone adequately ($h_{\text{corridor},\min} / l_0 \le 0.18 \ll 0.50$). | Adequacy supported across all fixed and adaptive discretizations (`MODE1_GOVERNED_MESHES_LENGTH_SCALE_ADEQUACY.json`). |
-| **11. ErrorTarget Energy Reconciliation (ET3 & ET5)** | Jobs `1410358` (5,189 FE) and `1410359` (4,692 FE) completed exit 0 with 0 cutbacks. Pre-peak and peak energy conserved to $< 0.01\%$; post-peak $\varepsilon_{\text{book}} \approx 11\text{--}12\%$ reconciled as physical/numerical broadening ($h_{\mathrm{med}}/l_0 \ge 0.41$). | $K_0$ within $+0.046\%$, $F_{\max}$ within $+1.01\%$, full softening traversed to $u = 0.010\,\text{mm}$ (`ERRORTARGET_RESPONSE_STABLE`). |
+| **11. ErrorTarget Energy Reconciliation (ET2, ET3 & ET5)** | Jobs `1410357` (6,112 FE), `1410358` (5,189 FE) and `1410359` (4,692 FE) completed Exit 0 with 0 cutbacks. Pre-peak and peak energy conserved to $< 0.01\%$; post-peak $\varepsilon_{\text{book}} \approx 8.6\%\text{--}12.1\%$ shows monotonic resolution scaling with diffuse damage band broadening ($w_{0.5} \approx 52\,\mu\text{m}$). | $K_0$ within $+0.046\%$, $F_{\max}$ within $+1.01\%$, full softening traversed to $u = 0.010\,\text{mm}$ (`ERRORTARGET_RESPONSE_STABLE`). |
+| **12. Convergence-Control Diagnostic ($C_n = 0.50$)** | Job `1410180` (14,483 FE) completed all 7,014 increments with 0 cutbacks to $u = 0.010\,\text{mm}$ ($99.84\%$ load drop), proving wake tolerance check ($c_{\max} > C_n \Delta u_{\text{inc}}$) caused canonical ET1 termination. | Identical elastic and peak metrics to canonical ET1; $\varepsilon_{\text{book}} = 0.8207\%$ across full trajectory. |
 
 ---
 
@@ -28,15 +29,13 @@
 
 | Active Job ID | Discretization / Model Purpose | PBS Status / Progress | Reconstructed $u_y$ | Primary Scientific Question Addressed |
 | :--- | :--- | :---: | :---: | :--- |
-| **`1410179.mmaster02`** | Spatial Fine Candidate ($57{,}929$ FE) | `R` (Step 1 Inc 1278) | $3.195\,\mu\text{m}$ | Does high-density spatial refinement ($h = 0.72\,\mu\text{m}$) confirm asymptotic force convergence? |
-| **`1410180.mmaster02`** | $C_n = 0.50$ Convergence Diagnostic | `R` (Step 2 Inc 1608) | $6.595\,\mu\text{m}$ | Does tolerance relaxation enable post-peak softening traversal to $u = 10.0\,\mu\text{m}$ without cutbacks? |
-| **`1410357.mmaster02`** | Adaptive ET2 ($6{,}112$ FE) | `R` (Step 2 Inc 1659) | $6.660\,\mu\text{m}$ | How does errorTarget coarsening ($2\%$) affect post-peak dissipation and residual stiffness? |
+| **`1410179.mmaster02`** | Spatial Fine Candidate ($57{,}929$ FE) | `R` (Step 2 Inc ~1500) | $u_y > 6.4\,\mu\text{m}$ | Does high-density spatial refinement ($h = 0.72\,\mu\text{m}$) confirm asymptotic force and damage convergence? |
 
-*All 3 active jobs are executing strictly under `/scratch9/pr21vyci/` with 0 cutbacks and 3 iterations/increment.*
+*Job `1410179.mmaster02` is executing strictly under `/scratch9/pr21vyci/` with 0 cutbacks and 3–4 iterations/increment on `mnode097`.*
 
 ---
 
 ## 3. Summary Blocker Status & Scope Holds
 
-- **Gate 6B Closure Decision**: Awaiting terminal completion of the 3 active scratch solves (`1410179`, `1410180`, `1410357`). Automated evaluator scripts and multi-quantity synthesis schema (`MODE1_GATE6B_MULTIQUANTITY_SYNTHESIS_SCHEMA.json`) are certified and standing by.
+- **Gate 6B Closure Decision**: Awaiting terminal completion of the single remaining active scratch solve (`1410179`). Automated evaluator scripts and multi-quantity synthesis schema (`MODE1_GATE6B_MULTIQUANTITY_SYNTHESIS_SCHEMA.json` v2.3.0) are certified and standing by.
 - **Active Scope Holds**: Mode-II shear benchmarks, Gate 6C (State Transfer energy preservation), Gate 7 (Visualization integration), and multi-rank MPI remain **on strict hold** until Gate 6B is formally reviewed and closed.

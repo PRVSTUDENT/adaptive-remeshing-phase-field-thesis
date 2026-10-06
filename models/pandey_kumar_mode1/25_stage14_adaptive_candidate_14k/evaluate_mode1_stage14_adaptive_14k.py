@@ -44,6 +44,8 @@ CANONICAL_REFERENCE = {
     "K0_intercept_kN": 4.472368e-5,
     "K0_R2": 0.99999960,
     "K0_fit_points_canonical": 400,
+    "K0_fit_max_u_mm": 0.0010,
+    "nominal_delta_u_mm": 2.5e-6,
     "F_max_kN": 0.757778,
     "u_at_F_max_mm": 0.005857,
     "F_final_kN": 0.000234,

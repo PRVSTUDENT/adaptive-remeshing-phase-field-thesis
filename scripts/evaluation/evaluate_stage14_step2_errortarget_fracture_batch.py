@@ -107,9 +107,29 @@ BATCH_SPECIFICATION = {
         'job_name': "PK_MODE1_STAGE14_STEP2_ET2_6K_FRACTURE",
         'pbs_job_id': "1410357.mmaster02",
         'deck_file': "models/pandey_kumar_mode1/34_stage14_step2_adaptive_candidate_et2_6k/PK_MODE1_STAGE14_STEP2_ET2_6K_FRACTURE.inp",
-        'status': "RUNNING",
+        'status': "COMPLETED_VALIDATED",
         'native_mesh_verdict': "AWAY_FROM_TARGET_LOCALIZATION",
-        'corridor_share_pct': 41.07
+        'corridor_share_pct': 41.07,
+        'terminal_metrics': {
+            'K0_canonical_kN_per_mm': 137.976065,
+            'delta_K0_pct': 0.0221,
+            'F_max_kN': 0.756367,
+            'delta_F_max_pct': -0.1862,
+            'u_peak_mm': 0.005841,
+            'u_term_mm': 0.010000,
+            'F_term_kN': 0.008917,
+            'W_ext_mJ': 2.828116,
+            'E_frac_mJ': 2.538931,
+            'E_elas_mJ': 0.044586,
+            'E_model_mJ': 2.583517,
+            'delta_book_mJ': 0.244599,
+            'eps_book_pct': 8.6488,
+            'total_increments': 7014,
+            'total_cutbacks': 0,
+            'total_iterations': 21042,
+            'walltime_seconds': 17896,
+            'fracture_response_classification': "ERRORTARGET_RESPONSE_STABLE"
+        }
     },
     'ET3': {
         'error_target_pct': 3.0,

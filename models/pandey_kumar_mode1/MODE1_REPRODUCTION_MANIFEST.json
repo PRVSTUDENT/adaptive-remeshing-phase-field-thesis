@@ -254,8 +254,8 @@
       "category_type": "evaluator",
       "required_environment": "Python 3.8+ (Pure Python standard library / math / json / argparse)",
       "expected_outputs": "JSON evaluation reports, summary metrics, and figure manifests",
-      "sha256": "63C3AF8EF9CEF6674A20C52DB7763EAF0DF6C7176BA5E0FD69020BBD75B2E2A5",
-      "size_bytes": 15986
+      "sha256": "1CC97325961824C86D7312040D8457B092B389D561C3D1F98A2B4690A63C77D3",
+      "size_bytes": 16746
     },
     {
       "relative_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/evaluate_mode1_stage14_adaptive_14k.py",
@@ -264,8 +264,8 @@
       "category_type": "evaluator",
       "required_environment": "Python 3.8+ (Pure Python standard library)",
       "expected_outputs": "Terminal evaluation report and metrics JSON",
-      "sha256": "E7101467FC3A18409EEBCBAD4E1445F9680B8E5A9DCC74389E81F6960E664F84",
-      "size_bytes": 18996
+      "sha256": "BFB07BA1EABAF9EE8E3908D37FBF0618D5616574809635F1D9A70B2A18AC3370",
+      "size_bytes": 19061
     },
     {
       "relative_path": "models/pandey_kumar_mode1/26_stage14_temporal_refined_candidate_2x/evaluate_stage14ual_temporal_refinement.py",
@@ -339,13 +339,13 @@
     },
     {
       "relative_path": "models/pandey_kumar_mode1/MODE1_GATE6B_MULTIQUANTITY_SYNTHESIS_SCHEMA.json",
-      "scientific_role": "Authoritative multi-quantity synthesis JSON schema v2.2.0 defining governed fields for Gate-6B closure",
-      "originating_task_job": "Gate 6B / Task F1253 / Task F1254 / Task F1261",
+      "scientific_role": "Authoritative multi-quantity synthesis JSON schema v2.3.0 defining governed fields for Gate-6B closure",
+      "originating_task_job": "Gate 6B / Task F1253 / Task F1254 / Task F1261 / Task F1262",
       "category_type": "governance_schema",
       "required_environment": "JSON Schema validator / Python standard json module",
       "expected_outputs": "Ingestion target for final multi-quantity synthesis",
-      "sha256": "B83A0261336271BA189116FC91937C1D7FA2F79AFAF6BCBCE37C06463A1C519A",
-      "size_bytes": 9791
+      "sha256": "055092459A754E155BADC1707CC5F62481DAF34B444DF2D8EC58BEF95EAE6045",
+      "size_bytes": 12393
     },
     {
       "relative_path": "docs/methods/MODE1_GATE6B_CLOSURE_DECISION_MATRIX_AND_CONSISTENCY_AUDIT.md",
@@ -380,12 +380,12 @@
     {
       "relative_path": "docs/supervisor_reports/08-10-2026/MODE1_GATE6B_PROVEN_VS_PENDING_SUMMARY.md",
       "scientific_role": "Authoritative one-page executive summary for the 08-October-2026 supervisor meeting separating proven facts from active jobs",
-      "originating_task_job": "Gate 6B / Task F1253 / Task F1254",
+      "originating_task_job": "Gate 6B / Task F1253 / Task F1254 / Task F1262",
       "category_type": "governance_schema",
       "required_environment": "Markdown viewer / PDF compilation engine",
       "expected_outputs": "Executive briefing document",
-      "sha256": "33CAD3231E13AE18349EAEA127813112C3C9C4B502A908AAF45FA381F4ECA477",
-      "size_bytes": 5309
+      "sha256": "1B67F2AB1C5B99E8DED8B2927785A02E64F62813C2C5EE250B5A2B30173ACF05",
+      "size_bytes": 5499
     }
   ]
 }

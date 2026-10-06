@@ -36,12 +36,13 @@ Both jobs executed fully across all 7,000+ increments without a single numerical
 | **$W_{\text{ext}}$ [mJ]** | $2.359329$ | $2.267380$ | $3.158006$ | $3.578445$ | Post-peak work broadening characterized |
 | **$E_{\text{frac}}$ [mJ]** | $2.340220$ | $2.285469$ | $2.749340$ | $3.054797$ | Surface energy release |
 | **$E_{\text{elas}}$ [mJ]** | $0.001161$ | $0.006960$ | $0.060103$ | $0.090500$ | Residual elastic strain energy |
-| **$\Delta_{\text{book}}$ [mJ]** | $0.017948$ | $-0.025049$ | $0.348563$ | $0.433148$ | Bookkeeping identity: $W_{\text{ext}} - E_{\text{model}}$ |
-| **$\varepsilon_{\text{book}}$ [\%]** | $0.7607\%$ | $1.1048\%$ | $11.0374\%$ | $12.1044\%$ | Post-peak dissipation discrepancy |
+| **$\Delta_{\text{book}}$ [mJ]** | $0.017948$ | $-0.025049$ | $0.348563$ | $0.433148$ | Bookkeeping discrepancy: $W_{\text{ext}} - E_{\text{model}}$ |
+| **$\varepsilon_{\text{book}}$ [\%]** | $0.7607\%$ | $1.1048\%$ | $11.0374\%$ | $12.1044\%$ | Relative bookkeeping error |
 | **Total Incs / Cutbacks** | 7000 / 0 | 4889 / 0 | 7021 / 0 | 7007 / 0 | 0 numerical cutbacks |
 | **Solver Walltime** | $\sim 6.9\,\text{h}$ | $\sim 6.5\,\text{h}$ | $4\,\text{h}\,40\,\text{m}$ | $4\,\text{h}\,27\,\text{m}$ | Speedup $> 1.5\times$ vs reference |
 | **Native Mesh Verdict** | N/A (Uniform Ref) | `STAGE14_TARGET_LIKE` | `AWAY_FROM_TARGET` | `AWAY_FROM_TARGET` | Decoupled mesh localization quality |
-| **Fracture Classification** | `REFERENCE_ANCHOR` | `ERRORTARGET_STABLE` | `ERRORTARGET_STABLE` | `ERRORTARGET_STABLE` | Macroscopic mechanical stability |
+| **Fracture Classification** | `REFERENCE_ANCHOR` | `MECHANICAL_RESPONSE_STABLE` | `MECHANICAL_RESPONSE_STABLE` | `MECHANICAL_RESPONSE_STABLE` | Macroscopic mechanical stability |
+| **Energy Classification** | `REFERENCE_ANCHOR` | `POSTPEAK_ENERGETIC_RESPONSE_STABLE` | `POSTPEAK_ENERGETIC_RESPONSE_MESH_SENSITIVE` | `POSTPEAK_ENERGETIC_RESPONSE_MESH_SENSITIVE` | Specific cause provisional/pending resolution trend |
 
 ---
 
@@ -78,15 +79,15 @@ To explain why the terminal bookkeeping discrepancy increases to $\varepsilon_{\
 
 ### Forensic Physical & Numerical Root Cause Analysis:
 
-1. **Pre-Peak Exact Conservation:** Throughout linear loading, damage initiation, and up through peak load ($u \le 0.0059\,\text{mm}$), all four discretizations conserve energy to within $\varepsilon_{\text{book}} < 0.010\%$. This definitively proves that the UEL energy formulation, trapezoidal work integration, and element summation are mathematically exact and bug-free.
-2. **Discrepancy Trigger Mechanism:** The discrepancy initiates strictly during the post-peak localization snap-through ($u \in [0.0065, 0.0085]\,\text{mm}$).
+1. **Pre-Peak Bookkeeping Consistency:** Throughout linear loading, damage initiation, and up through peak load ($u \le 0.0059\,\text{mm}$), all four discretizations maintain bookkeeping consistency to within $\varepsilon_{\text{book}} < 0.010\%$. This shows consistency of the UEL energy bookkeeping, trapezoidal work integration, and element summation in the pre-peak regime.
+2. **Discrepancy Trigger Regime:** The discrepancy increases specifically during the post-peak localization snap-through ($u \in [0.0065, 0.0085]\,\text{mm}$).
 3. **Regularization Length Under-Resolution ($h/l_0 \ge 0.41$):**
    - In the fine meshes (Ref 15k and ET1 14k), $h_{\min}/l_0 \approx 0.10\text{--}0.26$, and the localized phase-field damage profile has half-width $w_{0.5} \approx 22.8\,\mu\text{m} \approx 3.04\,l_0$.
-   - In ET3 ($h_{\mathrm{med}}/l_0 = 0.413$) and ET5 ($h_{\mathrm{med}}/l_0 = 0.460$), the coarse elements cannot resolve the sharp $l_0 = 7.5\,\mu\text{m}$ regularization boundary layer, forcing the damage profile to artificially broaden to $w_{0.5} \approx 52.6\,\mu\text{m} \approx 7.01\,l_0$.
-4. **Energetic Consequences of Smearing:**
-   - Spatial broadening inflates the integrated crack surface functional $\mathcal{E}_{\text{frac}} = \int_\Omega G_c \left[ \frac{(d)^2}{2 l_0} + \frac{l_0}{2} |\nabla d|^2 \right] d\Omega$ from $2.34\,\text{mJ}$ (Ref) to $2.75\,\text{mJ}$ (ET3) and $3.05\,\text{mJ}$ (ET5).
+   - In ET3 ($h_{\mathrm{med}}/l_0 = 0.413$) and ET5 ($h_{\mathrm{med}}/l_0 = 0.460$), the coarse elements cannot resolve the sharp $l_0 = 7.5\,\mu\text{m}$ regularization boundary layer, with the observed damage profile broadening to $w_{0.5} \approx 52.6\,\mu\text{m} \approx 7.01\,l_0$ (provisional pending full ET2 and 58k trend confirmation).
+4. **Energetic Trends Associated with Smearing:**
+   - Spatial broadening is associated with an increase in the integrated crack surface functional $\mathcal{E}_{\text{frac}} = \int_\Omega G_c \left[ \frac{(d)^2}{2 l_0} + \frac{l_0}{2} |\nabla d|^2 \right] d\Omega$ from $2.34\,\text{mJ}$ (Ref) to $2.75\,\text{mJ}$ (ET3) and $3.05\,\text{mJ}$ (ET5).
    - Simultaneously, diffuse softening broadens the post-peak load-displacement tail, elevating total external work $\mathcal{W}_{\text{ext}}$ to $3.16\,\text{mJ}$ (ET3) and $3.58\,\text{mJ}$ (ET5) and leaving elevated residual elastic energy ($\mathcal{E}_{\text{elas}} = 0.060\,\text{mJ}$ and $0.091\,\text{mJ}$).
-5. **Epistemic Classification:** The discrepancy is classified as `ERRORTARGET_POSTPEAK_ENERGY_RESOLUTION_SENSITIVE`. It represents a well-understood physical/numerical resolution limit of coarse phase-field discretizations, while macroscopic structural response ($K_0, F_{\max}$) remains fully stable (`ERRORTARGET_RESPONSE_STABLE`).
+5. **Epistemic Classification:** The discrepancy is classified as `POSTPEAK_ENERGETIC_RESPONSE_MESH_SENSITIVE`. It is consistent with resolution limits of coarse phase-field discretizations, while macroscopic structural response ($K_0, F_{\max}$) remains fully stable (`MECHANICAL_RESPONSE_STABLE`).
 
 ---
 

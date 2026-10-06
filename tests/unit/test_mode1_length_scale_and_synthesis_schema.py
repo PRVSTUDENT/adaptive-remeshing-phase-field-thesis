@@ -159,7 +159,7 @@ def test_block_future_terminal_results_before_completion():
     with open(SCHEMA_JSON_PATH, "r", encoding="utf-8") as f:
         schema = json.load(f)
 
-    assert schema["schema_version"] in ["2.0.0", "2.1.0", "2.2.0"]
+    assert schema["schema_version"] in ["2.0.0", "2.1.0", "2.2.0", "2.3.0"]
     assert "required_jobs" in schema
     assert "evaluation_metrics" in schema
 
