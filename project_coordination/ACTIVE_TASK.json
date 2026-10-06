@@ -1,10 +1,10 @@
 {
-  "task_id": "F1276-MODE1-GATE6B-SPATIAL-FINE-8THREAD-TELEMETRY-CHECKPOINT-AND-PARK",
-  "task_name": "Mode-I Gate-6B Spatial Fine 58k 8-Thread Shared-Memory Telemetry Checkpoint and Park",
+  "task_id": "F1277-MODE1-GATE6B-F1276-TELEMETRY-PROVENANCE-OFFLINE-CORRECTION-AND-PARK",
+  "task_name": "Mode-I Gate-6B F1276 Telemetry Provenance Offline Correction and Rigorous Invariant Guard",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-06T20:20:00+02:00",
-  "end_time": "2026-10-06T20:30:00+02:00",
+  "start_time": "2026-10-06T20:40:00+02:00",
+  "end_time": "2026-10-06T20:50:00+02:00",
   "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "description": "Query running cluster telemetry for 8-thread SMP spatial-fine Job 1410504.mmaster02 (57,929 FEs) on mnode097; verify steady solver progress (Step 2 Inc 3302, uy = 8.290 um, 0 cutbacks, 3 iters/inc, elapsed 10:05:00 out of 48h walltime); confirm job has traversed peak (u_peak = 0.005717 mm) and deep into softening beyond the 24h serial limit (uy = 7.429 um); preserve running solver undisturbed without cancellation, duplication, or early promotion; update project coordination dashboards and park."
+  "description": "Correct F1276 telemetry provenance offline using only already captured checkpoint evidence and without new cluster query: (1) apply governed hierarchy to establish that prescribed displacement u_y = 8.290 um is evaluated strictly from captured .sta Step-2 step time (t_2 = 0.6580) rather than increment count alone; (2) explicitly label remaining ~1,700 increments and 3.0-3.5 h completion estimates as nominal schedule projections under uniform incrementation/no-cutback assumptions; (3) retain zero cutbacks and 3 Newton iters/inc as directly evidenced solver telemetry; (4) update F1276 session record, CURRENT_STATE.md, and test_mode1_solver_telemetry_provenance.py with telemetry provenance guards; (5) leave running solver 1410504 undisturbed and park."
 }

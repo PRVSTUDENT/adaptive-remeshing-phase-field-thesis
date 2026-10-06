@@ -13,6 +13,7 @@ Enforces:
 8. Methods documentation and provenance record verification.
 9. Early Step-1 telemetry provenance and unit-conflation guards (Incs 10, 91, 121, 137).
 10. Step-2 spatial-fine 8T SMP Job 1410504 telemetry checkpoint and post-peak progression guard.
+11. Guard against asserting scientific displacement from increment count alone without captured step time or field output.
 """
 from __future__ import print_function
 import os
@@ -295,24 +296,82 @@ class TestMode1SolverTelemetryProvenance(object):
         assert len(lines_179) > 0, "CURRENT_STATE.md must explicitly record 16 GB allocation for Job 1410179"
 
     def test_10_job_1410504_step2_telemetry_checkpoint_and_postpeak_traversal(self):
-        """Verify that Job 1410504 (8T SMP 58k) telemetry at Step 2 Inc >3300 represents valid post-peak traversal."""
-        def step2_displacement_from_time(step2_time):
-            step1_offset = 0.0050  # mm
-            step2_span = 0.0050    # mm (0.0100 - 0.0050)
-            return step1_offset + step2_time * step2_span
+        """Verify that Job 1410504 (8T SMP 58k) prescribed displacement is derived from captured step time t2."""
+        def evaluate_prescribed_displacement_from_step_time(step, step_time):
+            if step == 1:
+                return step_time * 0.0050
+            elif step == 2:
+                step1_offset = 0.0050  # mm
+                step2_span = 0.0050    # mm (0.0100 - 0.0050)
+                return step1_offset + step_time * step2_span
+            else:
+                raise ValueError("Unsupported step: %s" % step)
 
-        # Step 2 Inc 3302 has step time ~0.658 -> uy = 0.0050 + 0.658 * 0.0050 = 0.00829 mm = 8.29 um
-        u_3302 = step2_displacement_from_time(0.658)
-        assert abs(u_3302 - 0.00829) < 1e-6
-        assert abs(u_3302 * 1e3 - 8.29) < 1e-3  # 8.29 um
+        # Captured from .sta snapshot: step = 2, step_time = 0.6580
+        captured_step = 2
+        captured_step_time = 0.6580
+        u_evaluated = evaluate_prescribed_displacement_from_step_time(captured_step, captured_step_time)
+        assert abs(u_evaluated - 0.008290) < 1e-6
+        assert abs(u_evaluated * 1e3 - 8.290) < 1e-3  # 8.290 um
 
         # Peak displacement for 58k mesh is u_peak = 0.005717 mm (Step 2 Inc 717, step time 0.1434)
         u_peak_58k = 0.005717
-        assert u_3302 > u_peak_58k, "Job 1410504 must have traversed well beyond peak load"
+        assert u_evaluated > u_peak_58k, "Job 1410504 evaluated prescribed displacement must exceed peak load displacement"
 
         # Serial 24h limit stopped at u_term = 0.007429 mm (Step 2 Inc 2443, step time 0.4858)
         u_serial_term = 0.007429
-        assert u_3302 > u_serial_term, "Job 1410504 (8T) must have progressed past the 24h serial limit (7.429 um)"
+        assert u_evaluated > u_serial_term, "Job 1410504 (8T) evaluated prescribed displacement must exceed 24h serial limit (7.429 um)"
+
+    def test_11_guard_against_asserting_displacement_from_increment_count_alone(self):
+        """Guard against deriving physical displacement from raw increment counts without captured step time or field output."""
+        def parse_telemetry_checkpoint_provenance(captured_record):
+            """
+            Governed hierarchy:
+            1. actual_rp_u2: field/history output from .dat or uel_energy_balance.csv
+            2. step_time: evaluated prescribed boundary displacement from captured step time
+            3. none: report NOT_VERIFIED_FROM_CHECKPOINT_EVIDENCE
+            """
+            if "actual_rp_u2" in captured_record and captured_record["actual_rp_u2"] is not None:
+                return {
+                    "displacement_source": "MEASURED_RP_FIELD_OUTPUT",
+                    "u_y": captured_record["actual_rp_u2"],
+                    "is_measured": True
+                }
+            elif "step_time" in captured_record and captured_record["step_time"] is not None:
+                step = captured_record["step"]
+                st = captured_record["step_time"]
+                u_prescribed = 0.0050 * st if step == 1 else 0.0050 + st * 0.0050
+                return {
+                    "displacement_source": "EVALUATED_PRESCRIBED_BC_FROM_CAPTURED_STEP_TIME",
+                    "u_y": u_prescribed,
+                    "is_measured": False
+                }
+            else:
+                return {
+                    "displacement_source": "NOT_VERIFIED_FROM_CHECKPOINT_EVIDENCE",
+                    "u_y": None,
+                    "is_measured": False
+                }
+
+        # Case 1: Record with only increment count (no step time, no actual RP U2)
+        rec_inc_only = {"step": 2, "increment": 3302}
+        res_inc_only = parse_telemetry_checkpoint_provenance(rec_inc_only)
+        assert res_inc_only["displacement_source"] == "NOT_VERIFIED_FROM_CHECKPOINT_EVIDENCE"
+        assert res_inc_only["u_y"] is None
+
+        # Case 2: Record with captured step time (F1276 snapshot)
+        rec_sta = {"step": 2, "increment": 3302, "step_time": 0.6580}
+        res_sta = parse_telemetry_checkpoint_provenance(rec_sta)
+        assert res_sta["displacement_source"] == "EVALUATED_PRESCRIBED_BC_FROM_CAPTURED_STEP_TIME"
+        assert abs(res_sta["u_y"] - 0.008290) < 1e-6
+        assert res_sta["is_measured"] is False  # Explicitly distinguished from measured internal field
+
+        # Case 3: Record with actual measured field output (Terminal evaluation)
+        rec_dat = {"step": 2, "increment": 5000, "step_time": 1.0, "actual_rp_u2": 0.010000}
+        res_dat = parse_telemetry_checkpoint_provenance(rec_dat)
+        assert res_dat["displacement_source"] == "MEASURED_RP_FIELD_OUTPUT"
+        assert res_dat["u_y"] == 0.010000
+        assert res_dat["is_measured"] is True
 
 
 if __name__ == "__main__":

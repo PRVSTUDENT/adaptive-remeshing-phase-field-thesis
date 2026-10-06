@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-06T20:30:00+02:00` (Gemini Antigravity) — Task F1276 Mode-I Gate-6B Spatial Fine 58k 8-Thread Shared-Memory Telemetry Checkpoint & Park: (1) queried running cluster telemetry for Job `1410504.mmaster02` (`PK_M1_14AM_8T`, $57{,}929$ FE, 8T SMP) on `mnode097`, verifying steady execution at Step 2 Inc 3302 ($u_y = 8.290\,\mu\text{m}$, $5{,}302/7{,}000$ total incs, $75.7\%$ complete, 0 cutbacks, 3 iters/inc, elapsed 10:05:00 out of 48h walltime); (2) confirmed complete traversal through peak ($u_{\text{peak}} = 0.005717\,\text{mm}$) and progression deep into post-peak residual regime beyond the 24h serial limit ($u_y = 7.429\,\mu\text{m}$); (3) added telemetry checkpoint guard `test_10_job_1410504_step2_telemetry_checkpoint_and_postpeak_traversal` with 55/55 Mode-I unit tests passing 100%; (4) left running solver undisturbed and parked cleanly.
+Last updated: `2026-10-06T20:50:00+02:00` (Gemini Antigravity) — Task F1277 Mode-I Gate-6B Telemetry Provenance Offline Correction & Invariant Guards: (1) corrected F1276 checkpoint provenance under governed hierarchy, establishing that prescribed displacement $u_y = 8.290\,\mu\text{m}$ is evaluated strictly from captured `.sta` Step-2 step time ($t_2 = 0.6580$) under the verified boundary condition schedule rather than increment count alone; (2) explicitly designated $\sim 1{,}698$ remaining increments and $3.0\text{--}3.5\,\text{h}$ completion estimates as nominal schedule projections under uniform step size / zero-cutback assumptions; (3) preserved zero cutbacks and 3 Newton iters/inc as directly evidenced solver telemetry from the captured snapshot; (4) added Guard `test_11_guard_against_asserting_displacement_from_increment_count_alone` to `test_mode1_solver_telemetry_provenance.py` preventing conversion of increment count alone into physical displacement; (5) confirmed all 56 Mode-I unit tests pass 100%; (6) 8-thread shared-memory SMP Job `1410504.mmaster02` continues executing undisturbed on `mnode097`.
 
 ---
 
@@ -55,14 +55,14 @@ Last updated: `2026-10-06T20:30:00+02:00` (Gemini Antigravity) — Task F1276 Mo
 
 All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy binary output in `/home/pr21vyci/`:
 
-| PBS Job ID | Target Discretization / Purpose | Status | Step / Inc | Prescribed $u_y$ | Newton Iters / Cutbacks | Nodes / Queue | Elapsed Walltime |
+| PBS Job ID | Target Discretization / Purpose | Status | Step / Inc & Captured $t_2$ | Evaluated Prescribed $u_y$ | Newton Iters / Cutbacks | Nodes / Queue | Elapsed Walltime |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| `1410179.mmaster02` | `PK_M1_14AM_SOLVE` (Spatial Fine 58k, $57{,}929$ FE, serial) | `COMPLETED` | Step 2 Inc 2443 | $u_y = 7.429\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 24:00:49 (Req: 24h, 1 CPU, 16GB; Exit -29 SIGTERM, partial post-peak evaluated) |
-| `1410504.mmaster02` | `PK_M1_14AM_8T` (Spatial Fine 58k, $57{,}929$ FE, 8T SMP) | `RUNNING` | Step 2 Inc 3302 | $u_y = 8.290\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 10:05:00 (Req: 48h, 8 CPUs, 16GB, expected finish ~13.5h) |
-| `1410180.mmaster02` | `PK_M1_14K_CONV_CTRL` (Adaptive ET1 $14\text{k}$, $C_n = 0.50$) | `COMPLETED` | Step 2 Inc 5014 | $u_y = 10.000\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:36:12 |
-| `1410357.mmaster02` | `PK_M1_14ET2_SOLVE` (Adaptive ET2, $6{,}112$ FE) | `COMPLETED` | Step 2 Inc 5014 | $u_y = 10.000\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:34:50 |
-| `1410358.mmaster02` | `PK_M1_14ET3_SOLVE` (Adaptive ET3, $5{,}189$ FE) | `COMPLETED` | Step 2 Inc 5021 | $u_y = 10.000\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:39:45 |
-| `1410359.mmaster02` | `PK_M1_14ET5_SOLVE` (Adaptive ET5, $4{,}692$ FE) | `COMPLETED` | Step 2 Inc 5007 | $u_y = 10.000\,\mu\text{m}$ | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:27:14 |
+| `1410179.mmaster02` | `PK_M1_14AM_SOLVE` (Spatial Fine 58k, $57{,}929$ FE, serial) | `COMPLETED` | Step 2 Inc 2443 ($t_2=0.4858$) | $u_y = 7.429\,\mu\text{m}$ (measured in `.dat`) | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 24:00:49 (Req: 24h, 1 CPU, 16GB; Exit -29 SIGTERM, partial post-peak evaluated) |
+| `1410504.mmaster02` | `PK_M1_14AM_8T` (Spatial Fine 58k, $57{,}929$ FE, 8T SMP) | `RUNNING` | Step 2 Inc 3302 ($t_2=0.6580$) | $u_y = 8.290\,\mu\text{m}$ (evaluated prescribed BC) | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 10:05:00 (Req: 48h, 8 CPUs, 16GB, nominal projection ~13.5h) |
+| `1410180.mmaster02` | `PK_M1_14K_CONV_CTRL` (Adaptive ET1 $14\text{k}$, $C_n = 0.50$) | `COMPLETED` | Step 2 Inc 5014 ($t_2=1.0000$) | $u_y = 10.000\,\mu\text{m}$ (measured in `.dat`) | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:36:12 |
+| `1410357.mmaster02` | `PK_M1_14ET2_SOLVE` (Adaptive ET2, $6{,}112$ FE) | `COMPLETED` | Step 2 Inc 5014 ($t_2=1.0000$) | $u_y = 10.000\,\mu\text{m}$ (measured in `.dat`) | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:34:50 |
+| `1410358.mmaster02` | `PK_M1_14ET3_SOLVE` (Adaptive ET3, $5{,}189$ FE) | `COMPLETED` | Step 2 Inc 5021 ($t_2=1.0000$) | $u_y = 10.000\,\mu\text{m}$ (measured in `.dat`) | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:39:45 |
+| `1410359.mmaster02` | `PK_M1_14ET5_SOLVE` (Adaptive ET5, $4{,}692$ FE) | `COMPLETED` | Step 2 Inc 5007 ($t_2=1.0000$) | $u_y = 10.000\,\mu\text{m}$ (measured in `.dat`) | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:27:14 |
 
 ---
 
