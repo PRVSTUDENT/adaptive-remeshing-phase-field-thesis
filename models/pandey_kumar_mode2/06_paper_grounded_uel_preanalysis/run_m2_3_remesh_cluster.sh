@@ -1,12 +1,15 @@
 #!/bin/bash
-set -euo pipefail
+set -eo pipefail
 
 WORKDIR="/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/m2_3_remesh"
 mkdir -p "$WORKDIR"
 cd "$WORKDIR"
 
+# Initialize module environment safely
+export HISTCONTROL="${HISTCONTROL:-}"
+export HISTSIZE="${HISTSIZE:-}"
 source /etc/profile || true
-module purge
+module purge || true
 module load abaqus/2023
 
 echo "=== STARTING MODE-II GATE M2-3 NATIVE ADAPTIVE REMESHING SUITE ==="

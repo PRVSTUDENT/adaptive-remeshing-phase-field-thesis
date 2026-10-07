@@ -1,14 +1,15 @@
 {
-    "task_id": "F1315-MODE2-M2-3-NATIVE-REMESH-REPRODUCTION-AND-FORENSICS",
+    "task_id": "F1316-MODE2-M2-3-SELECTION-AUDIT-AND-M2-4-JOB2-PREPARATION",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "phase": "Gate M2-3 Mode-II Native Adaptive Remeshing Reproduction and Forensic Audit",
-    "gate_status": "GATE_M2_3_CLOSED_SUCCESSFULLY",
-    "last_updated": "2026-10-07T21:15:00+02:00",
-    "next_recommended_task": "F1316-MODE2-GATE-M2-4-JOB2-ADAPTED-FRACTURE-PACKAGE-PREPARATION",
+    "phase": "Gate M2-3 Selection Audit & Epistemic Recalibration to Gate M2-4 Guarded Submission",
+    "gate_status": "GATE_M2_4_SUBMITTED_RUNNING",
+    "last_updated": "2026-10-07T21:30:00+02:00",
+    "active_pbs_job_id": "1410797.mmaster02",
+    "next_recommended_task": "F1317-MODE2-M2-4-JOB2-TERMINAL-EVALUATION-AND-GATE-CLOSEOUT",
     "governing_constraints": [
         "Mode-I freeze tag v2026.10.08-supervisor-meeting-mode1-freeze and UEL hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 100% untouched",
-        "Strict hold on Job-2_UEL.inp fracture simulation submission pending explicit human authorization",
+        "Monitor PBS job 1410797.mmaster02 to terminal completion",
         "All HPC commands must use guarded SSH wrapper",
         "Maintain dual-channel notification integration"
     ]

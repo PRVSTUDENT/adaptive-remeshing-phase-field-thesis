@@ -1,28 +1,31 @@
-# Mode-II Current State Dashboard
+# Mode-II Reproduction: Current State & Active Gate Dashboard
 
-**Phase:** `MODE2_REPRODUCTION_ACTIVE_HUMAN_AUTHORIZED_PREMEETING`  
-**Last Updated:** `2026-10-07T21:15:00+02:00`  
-**Current Gate Status:**
-- **Gate M2-0 (Model Freeze):** `CLOSED_PASSED`
-- **Gate M2-1 (Miehe Formulation Qualification):** `CLOSED_PASSED`
-- **Gate M2-2 (Coarse Pre-Analysis Reproduction):** `CLOSED_PASSED` (PBS Job `1410790.mmaster02`, Exit 0, 4,000 incs, 8/8 checks PASS)
-- **Gate M2-3 (Native Remeshing & Forensic Audit):** `CLOSED_PASSED` (F1308 classified as `REUSED_EXISTING_MESH_DIAGNOSTIC`; OFAT sweep across {1%, 2%, 3%, 5%} completed; ET_2PCT identified as canonical publication match at 22,530 FEs, $+12.86\%$ vs. paper 19,963 FEs, corridor angle $-53.68^\circ$, bottom exit $x = 0.9304\,\text{mm}$, $r = -0.8202$, $98.65\%$ top-10% zone refinement; 8/8 checks PASS)
-- **Gate M2-4 (Adapted Fracture Package Preparation):** `READY_FOR_PREPARATION`
-- **Gate M2-5 (Adapted Fracture Solver Execution):** `ON_HOLD_PENDING_SUPERVISOR_DECISION` (Job-2_UEL.inp strictly blocked)
+Protocol version: 2  
+Active Task: `F1316-MODE2-M2-3-SELECTION-AUDIT-AND-M2-4-JOB2-PREPARATION`  
+Last Updated: `2026-10-07T21:30:00+02:00` (gemini-antigravity)  
+Governing Phase: `MODE2_REPRODUCTION_ACTIVE_HUMAN_AUTHORIZED_PREMEETING`
 
 ---
 
-## Gate M2-3 Remeshing Sensitivity Summary
+## 1. Master Mode-II Gate Dashboard
 
-| Candidate | errorTarget | Total Elements | Total Nodes | $h_{\text{mean}}$ ($\mu$m) | Corridor Angle | Exit $x$ (mm) | Verdict vs. Paper (19,963 FEs) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **ET_1PCT** | 1.0% | 80,200 | 79,923 | 3.24 | $-68.87^\circ$ | 0.8404 | Over-refined ($+301.7\%$, anomaly ceiling tripped) |
-| **ET_2PCT** | 2.0% | **22,530** | **22,642** | **5.83** | **$-53.68^\circ$** | **0.9304** | **Canonical Match ($+12.86\%$, Fig. 6b angle/exit match)** |
-| **ET_3PCT** | 3.0% | 10,045 | 10,173 | 8.77 | $-47.29^\circ$ | 0.9739 | Under-refined ($-49.68\%$) |
-| **ET_5PCT** | 5.0% | 4,823 | 4,923 | 13.57 | $-48.88^\circ$ | 0.7596 | Severely under-refined ($-75.84\%$) |
+| Gate ID | Description | Status | Key Evidence / Artifact |
+| :--- | :--- | :---: | :--- |
+| **Gate M2-0** | Source & Scope Freeze | `CLOSED_PASSED` | `MODE2_REPRODUCTION_BASELINE_MANIFEST.json` |
+| **Gate M2-1** | Constitutive Split Qualification | `QUALIFIED_DATACHECK_PASSED` | `f42_mixed_uel_mode2_miehe.for` (SHA-256 `75029EF7...`, Datacheck Exit 0) |
+| **Gate M2-2** | Canonical Coarse Pre-Analysis | `COMPLETED_EVALUATED_PASSED` | Job `1410790.mmaster02` (4,000 incs, Exit 0, 8/8 checks PASS) |
+| **Gate M2-3** | Native Adaptive Remeshing & Audit | `CLOSED_PASSED` | Clean-chain OFAT sweep completed; non-targeted audit passed ($r=-0.8202$, $98.65\%$ top-10% focus); `ET_2PCT` ($22{,}530$ FEs) classified as `INFERRED / PROJECT_SELECTED_FOR_M2_4` |
+| **Gate M2-4** | Adapted Refined PFM Solve | `SUBMITTED_RUNNING` | PBS Job ID `1410797.mmaster02` (`M2_J2_ADAPTED_FRACTURE`, 1 CPU serial, 16 GB RAM, 24h walltime, running in `normal_imfdfkmq`) |
+| **Gate M2-5** | Benchmark & Accuracy Evaluation | `ON_HOLD_PENDING_M2_4_EVALUATION` | Gated on Job-2 completion |
 
 ---
 
-## Governance & Safety Rules
-1. Mode-I meeting release tag `v2026.10.08-supervisor-meeting-mode1-freeze` and UEL hash `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` 100% untouched.
-2. Strictly NO solver submission of `Job-2_UEL.inp` without explicit human authorization.
+## 2. Active Cluster Job Details
+
+- **PBS Job ID:** `1410797.mmaster02`
+- **Job Name:** `M2_J2_ADAPTED_FRACTURE`
+- **Input Deck:** `Job-2_UEL.inp` (SHA-256 `b6de1d3b...`, 22,530 physical FEs, 67,590 layered elements, 22,642 nodes)
+- **Subroutine:** `f42_mixed_uel_mode2_miehe.for` (SHA-256 `75029EF7...`)
+- **Queue / Nodes:** `normal_imfdfkmq` / `mmaster02` (1 CPU serial, 16 GB RAM)
+- **Working Directory:** `/scratch9/pr21vyci/runs/mode2_j2_adapted_fracture/`
+- **Status:** `RUNNING`

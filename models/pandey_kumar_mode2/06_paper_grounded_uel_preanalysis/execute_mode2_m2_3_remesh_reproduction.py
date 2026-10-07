@@ -57,10 +57,11 @@ def compute_sha256(filepath):
 
 def extract_part_mesh_elements(p):
     """Extract element geometry, centroids, and equivalent sizes h = sqrt(Area)."""
+    node_coords = [n.coordinates for n in p.nodes]
     elements_data = []
     for elem in p.elements:
         conn = elem.connectivity
-        pts = [p.nodes[n_idx].coordinates for n_idx in conn]
+        pts = [node_coords[n_idx] for n_idx in conn]
         xc = sum([pt[0] for pt in pts]) / float(len(pts))
         yc = sum([pt[1] for pt in pts]) / float(len(pts))
         
@@ -109,8 +110,8 @@ def analyze_corridor_and_statistics(elements_data, total_nodes):
     h_median = h_vals[n_total // 2]
     h_p10 = h_vals[int(0.10 * n_total)]
     h_p90 = h_vals[int(0.90 * n_total)]
-    quad_count = sum(1 for e in elements_data if e['type'] == 'QUAD')
-    tri_count = sum(1 for e in elements_data if e['type'] == 'TRI')
+    quad_count = sum([1 for e in elements_data if e['type'] == 'QUAD'])
+    tri_count = sum([1 for e in elements_data if e['type'] == 'TRI'])
 
     fine_threshold = 0.008  # ~ l_0 / 2
     fine_elems = [e for e in elements_data if e['h_eq'] <= fine_threshold]
@@ -173,6 +174,7 @@ def analyze_corridor_and_statistics(elements_data, total_nodes):
     }
 
 def run_m2_3_remesh_suite(odb_path, out_dir="."):
+    out_dir = os.path.abspath(out_dir)
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
 
@@ -181,6 +183,9 @@ def run_m2_3_remesh_suite(odb_path, out_dir="."):
     print("Preanalysis ODB :", odb_path)
     print("Output Directory:", out_dir)
     print("=" * 80)
+
+    if not os.path.exists(odb_path):
+        raise IOError("ODB file not found at: %s" % odb_path)
 
     odb = odbAccess.openOdb(odb_path, readOnly=True)
     if 'Step-1' not in odb.steps:
@@ -304,11 +309,11 @@ def run_m2_3_remesh_suite(odb_path, out_dir="."):
         print("      Identical to historical F1308 (11,972)? %s" % is_identical_to_f1308)
 
         # 9. Export Input Deck
-        raw_deck_path = os.path.join(out_dir, "M2_3_ADAPTED_RAW_%dPCT.inp" % int(et))
+        raw_deck_path = os.path.abspath(os.path.join(out_dir, "M2_3_ADAPTED_RAW_%dPCT.inp" % int(et)))
         job_name = "M2_3_ADAPTED_RAW_%dPCT" % int(et)
         j_raw = mdb.Job(name=job_name, model=model_name, description='Raw Native Refined Mode-II Model errorTarget=%.1f' % et)
         j_raw.writeInput(consistencyChecking=OFF)
-        generated_inp = job_name + ".inp"
+        generated_inp = os.path.abspath(job_name + ".inp")
         if os.path.exists(generated_inp) and generated_inp != raw_deck_path:
             if os.path.exists(raw_deck_path):
                 os.remove(raw_deck_path)
@@ -378,9 +383,9 @@ def run_m2_3_remesh_suite(odb_path, out_dir="."):
         'ofat_sweep_results': results,
         'best_matching_candidate': best_candidate_tag,
         'acceptance_criteria_summary': {
-            'all_candidates_within_40k_elements': all(r['element_count_within_anomaly_limit'] for r in results.values()),
-            'historical_f1308_non_identity_verified': not any(r['is_identical_to_f1308'] for r in results.values()),
-            'corridor_localization_consistent': all(r['classification'] == 'MODE2_LOCALIZATION_CONSISTENT_WITH_PUBLISHED_PATH' for r in results.values()),
+            'all_candidates_within_40k_elements': all([r['element_count_within_anomaly_limit'] for r in results.values()]),
+            'historical_f1308_non_identity_verified': not any([r['is_identical_to_f1308'] for r in results.values()]),
+            'corridor_localization_consistent': all([r['classification'] == 'MODE2_LOCALIZATION_CONSISTENT_WITH_PUBLISHED_PATH' for r in results.values()]),
             'zero_solver_runs_enforced': True
         }
     }
@@ -392,6 +397,17 @@ def run_m2_3_remesh_suite(odb_path, out_dir="."):
     return manifest
 
 if __name__ == "__main__":
-    odb_in = sys.argv[1] if len(sys.argv) >= 2 else "Job-1_UEL_paper_horizon.odb"
-    out_d = sys.argv[2] if len(sys.argv) >= 3 else "."
+    print("Raw sys.argv: %r" % sys.argv)
+    
+    # Defaults
+    odb_in = "/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/Job-1_UEL_paper_horizon.odb"
+    out_d = "/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/m2_3_remesh"
+
+    for a in sys.argv:
+        if a.endswith('.odb') and os.path.exists(a):
+            odb_in = a
+        elif os.path.isdir(a) and a != '.':
+            out_d = a
+
+    print("Resolved arguments: odb_in = '%s', out_d = '%s'" % (odb_in, out_d))
     run_m2_3_remesh_suite(odb_in, out_d)
