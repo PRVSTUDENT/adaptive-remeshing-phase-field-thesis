@@ -3,7 +3,7 @@
 **Document ID:** `DOC-EXP-STAGE-GATE6B-JOB-1410504-FULL-HORIZON-EVALUATION`  
 **Date:** 07 October 2026  
 **Author:** Gemini Antigravity (Protocol v2)  
-**Governing Phase:** `MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION`  
+**Governing Phase:** `GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF`  
 **Target Discretization:** Spatial Fine Candidate ($57{,}929$ base finite elements, $57{,}491$ FE nodes, $57{,}492$ total nodes including RP 999999)  
 **Model Deck:** `models/pandey_kumar_mode1/37_stage14_adaptive_candidate_spatial_fine_8thread/PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_FRACTURE.inp` (SHA-256: `537C8C6617945AFD66E135C1DF4E2C34211F47FBEEEC44E4C145A8551CC1EEFD`)  
 **User Subroutine:** `f42_mixed_uel.for` (SHA-256: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`)  
@@ -131,10 +131,10 @@ Spatial phase-field localization, ligament profiles, and crack-tip metrics are e
 
 1. **Internal Adaptive Convergence vs Structured Reference Baseline:**
    - Refinement from $14.5\text{k}$ FEs (ET1) to $57.9\text{k}$ FEs (Spatial Fine) proves **internal spatial convergence** of the adaptive formulation: $F_{\max}$ changes by only $0.28\%$ ($0.7437\,\text{kN} \to 0.7416\,\text{kN}$), $u_{\text{peak}}$ changes by $0.28\%$ ($5.733\,\mu\text{m} \to 5.717\,\mu\text{m}$), and pre-peak ligament profiles match with $L_2 \le 0.32\%$.
-   - Both fine adaptive discretizations stabilize $\sim 2.13\%$ below the fixed structured reference $S_1$ ($F_{\max} = 0.7578\,\text{kN}$, $u_{\text{peak}} = 5.857\,\mu\text{m}$). This offset reflects the characteristic geometrical representation difference between the unstructured transitional mesh orientation and the rectilinear structured reference grid.
+   - Both fine adaptive discretizations stabilize $\sim 2.13\%$ below the fixed structured reference $S_1$ ($F_{\max} = 0.7578\,\text{kN}$, $u_{\text{peak}} = 5.857\,\mu\text{m}$). The exact physical mechanism driving this persistent offset is classified as `UNRESOLVED` (hypothesized to arise from element orientation differences in the unstructured transition corridor, but remaining unproven without a dedicated element-alignment study).
 2. **Convergence-Consistent Interpretation of Coarse-Mesh Energy Bloat:**
    - Coarse adaptive meshes (ET5: $4.7\text{k}$ FE, ET3: $5.2\text{k}$ FE) exhibited inflated external work ($W_{\text{ext}} = 3.58\,\text{mJ}$ and $3.16\,\text{mJ}$).
-   - This energy bloat is reconciled under a **convergence-consistent interpretation**: when elements across the ligament exceed $h \approx l_0 / 2$, the steep damage gradient $\nabla d$ is spatially under-resolved, causing artificial broadening of the regularized dissipation zone ($w_{0.5} \approx 52\,\mu\text{m}$ vs $20.8\,\mu\text{m}$) and requiring greater external work to drive fracture. Refinement to ET1 ($14.5\text{k}$) and Spatial Fine ($57.9\text{k}$) contracts $W_{\text{ext}}$ to $2.27\text{--}2.52\,\text{mJ}$, confirming spatial convergence.
+   - This energy bloat is reconciled under a **convergence-consistent empirical observation**: when elements across the ligament exceed $h \approx l_0 / 2$, the steep damage gradient $\nabla d$ is spatially under-resolved, causing artificial broadening of the regularized dissipation zone ($w_{0.5} \approx 52.6\,\mu\text{m} \approx 7.0\,l_0$ vs $14.9\text{--}15.0\,\mu\text{m} = 2.0\,l_0$ in fine wake) and requiring greater external work to drive fracture. Refinement to ET1 ($14.5\text{k}$) and Spatial Fine ($57.9\text{k}$) contracts $W_{\text{ext}}$ to $2.27\text{--}2.52\,\text{mJ}$, confirming spatial convergence.
 3. **Energy Bookkeeping Stability:**
    - In the pre-peak elastic and localization regime, energy balance is exceptionally tight ($\varepsilon_{\text{book}} = 0.0048\%$).
    - In the post-peak wake regime, $\varepsilon_{\text{book}} = 4.43\%$ on the 58k mesh, confirming that energy residuals remain bounded across the entire crack propagation horizon.

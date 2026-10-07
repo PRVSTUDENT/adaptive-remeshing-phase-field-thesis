@@ -2,7 +2,7 @@
 
 **Document Version:** 1.0.0  
 **Protocol Version:** 2  
-**Governing Phase:** `MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION`  
+**Governing Phase:** `GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF`  
 **Target Supervisor Meeting:** Thursday, 08 October 2026, 10:00 CEST  
 **Author:** `gemini-antigravity`  
 **Governing Directive:** *"We need to have understood everything related to the first model before we increase complexity."*  

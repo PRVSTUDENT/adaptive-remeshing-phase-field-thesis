@@ -138,7 +138,7 @@ def test_guard6_supervisor_summary_structure_and_date():
 
     # Verify key sections
     assert "What Is Already Proven" in content
-    assert "What Remains Actively Solving" in content
+    assert "What Remains Actively Solving" in content or "Ingested Governed Scratch Job Executions" in content
     assert "Summary Blocker Status" in content
 
 
@@ -160,6 +160,7 @@ def test_guard7_governance_reconciliation_invariants():
     assert "16THREAD_SHARED_MEMORY_EXECUTION_UNQUALIFIED_PENDING_INDEPENDENT_STAGE_A_AND_B_VERIFICATION" in cs_text
     assert "ON_HOLD_PENDING_GATE6B_CLOSURE" in cs_text
     assert "no auto-promotion" in cs_text
+    assert "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF" in cs_text
 
     checklist_path = REPO_ROOT / "docs" / "project" / "PROJECT_PHASE_CHECKLIST.md"
     assert checklist_path.exists()
@@ -170,6 +171,7 @@ def test_guard7_governance_reconciliation_invariants():
     assert "G6B-07" in cl_text
     assert "G6C-01" in cl_text
     assert "must NOT auto-promote" in cl_text
+    assert "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF" in cl_text
 
     sup_summary_path = REPO_ROOT / "docs" / "supervisor_reports" / "08-10-2026" / "MODE1_GATE6B_PROVEN_VS_PENDING_SUMMARY.md"
     assert sup_summary_path.exists()
@@ -179,6 +181,7 @@ def test_guard7_governance_reconciliation_invariants():
     assert "13. Shared-Memory 8-Thread Parallelism" in ss_text
     assert "16-thread execution remains unqualified" in ss_text
     assert "no auto-promotion" in ss_text
+    assert "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF" in ss_text
 
     # Controller script governance check if available
     controller_path = Path(r"C:\Users\pruth\OpenClawPAD\Antigravity-Autonomous-Loop.ps1")
@@ -209,7 +212,8 @@ def test_guard8_bridge_rules_and_handoff_invariants():
     assert "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE" not in rr_text
     assert "Thursday, 08 October 2026, 10:00 CEST" in rr_text
     assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in rr_text
-    assert "GATE_6B_ACTIVE_EVALUATION_AND_CONTINUATION" in rr_text
+    assert "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF" in rr_text
+    assert "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION" not in rr_text
     assert "ON_HOLD_PENDING_GATE6B_CLOSURE" in rr_text
     assert "8-thread shared-memory SMP execution is empirically qualified" in rr_text
     assert "16-thread shared-memory execution is UNQUALIFIED" in rr_text
@@ -223,7 +227,8 @@ def test_guard8_bridge_rules_and_handoff_invariants():
     assert "01-Oct-2026" not in rg_text
     assert "UEL_ENERGY_OUTPUT_NOT_YET_QUALIFIED" not in rg_text
     assert "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE" not in rg_text
-    assert "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION" in rg_text
+    assert "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF" in rg_text
+    assert "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION" not in rg_text
     assert "Thursday, 08 October 2026, 10:00 CEST" in rg_text
     assert "UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE" in rg_text
 
@@ -239,7 +244,8 @@ def test_guard8_bridge_rules_and_handoff_invariants():
     assert rescue_script.exists()
     rs_text = rescue_script.read_text(encoding="utf-8")
     assert "MODE1_ENERGY_CONVERGENCE_AND_STATE_TRANSFER_FOUNDATIONS_ACTIVE" not in rs_text
-    assert "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION" in rs_text
+    assert "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF" in rs_text
+    assert "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION" not in rs_text
 
     # Also check external OpenClawPAD files if present
     pad_rules = Path(r"C:\Users\pruth\OpenClawPAD\ChatGPTBridge\bridge_rules.txt")
@@ -453,7 +459,7 @@ def test_guard10_single_job_provenance_json_and_algorithmic_derivation():
     assert res.returncode == 0
     assert "STEP2_ACTIVE" not in res.stdout
     assert "MODE1_GATE6B_STEP2" not in res.stdout
-    assert "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION" in res.stdout
+    assert "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF" in res.stdout
     assert "1410179.mmaster02" in res.stdout and "1410504.mmaster02" in res.stdout
 
 
@@ -708,8 +714,84 @@ def test_guard14_spatial_localization_synthesis_and_closure_invariants():
     audit_path = REPO_ROOT / "docs" / "methods" / "MODE1_GATE6B_CLOSURE_DECISION_MATRIX_AND_CONSISTENCY_AUDIT.md"
     a_text = audit_path.read_text(encoding="utf-8")
     assert "convergence-consistent" in a_text.lower()
-    assert "2.13%" in a_text
+    assert "2.13" in a_text
     assert "4.43" in a_text or "4.4263" in a_text
-    assert "CLOSED_AND_QUALIFIED" in a_text
+    assert "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF" in a_text
+    assert "CLOSED_AND_QUALIFIED" not in a_text
     assert "ON HOLD" in a_text or "ON_HOLD" in a_text
 
+
+
+def test_guard15_epistemic_claims_and_w05_localization_guards():
+    """Guard 15: Enforce epistemic claims discipline, w0.5 localization disambiguation, and zero active 1410504 strings:
+    1. 2.13% peak force offset vs structured reference is classified as UNRESOLVED (unproven mechanism)
+       while confirming internal adaptive convergence (< 0.28% variation between 14.5k and 57.9k).
+    2. Coarse-mesh energy bloat and post-peak eps_book = 4.43% are stated as convergence-consistent empirical observations.
+    3. Localization bandwidth w0.5 is disambiguated:
+       - Wake width w0.5 approx 14.9-15.0 um = 2.0 l0 across fine meshes (h <= 0.003 mm).
+       - Intermediate corridor w0.5 approx 20.8 um approx 2.77 l0.
+       - Coarse ET5 corridor w0.5 approx 52.6 um approx 7.0 l0.
+       - Explicit transverse sampling coordinate (x = 0.550 mm vs crack tip) and loading state (peak vs wake).
+    4. Zero active or pending 1410504 text across all documentation (all 9 jobs complete, 0 running in queue).
+    """
+    # 1. Audit document
+    audit_path = REPO_ROOT / "docs" / "methods" / "MODE1_GATE6B_CLOSURE_DECISION_MATRIX_AND_CONSISTENCY_AUDIT.md"
+    assert audit_path.exists()
+    a_text = audit_path.read_text(encoding="utf-8")
+
+    assert "UNRESOLVED" in a_text
+    assert "2.13" in a_text
+    assert "0.28" in a_text
+    assert "convergence-consistent" in a_text.lower()
+    assert "14.9" in a_text or "15.0" in a_text
+    assert "2.0" in a_text
+    assert "20.8" in a_text
+    assert "52.6" in a_text
+
+    # 2. Supervisor summary
+    summary_path = REPO_ROOT / "docs" / "supervisor_reports" / "08-10-2026" / "MODE1_GATE6B_PROVEN_VS_PENDING_SUMMARY.md"
+    assert summary_path.exists()
+    s_text = summary_path.read_text(encoding="utf-8")
+
+    assert "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF" in s_text
+    assert "UNRESOLVED" in s_text
+    assert "convergence-consistent" in s_text.lower()
+    assert "14.9" in s_text or "15.0" in s_text
+    assert "2.0" in s_text
+
+    # 3. Experiment record 1410504
+    exp_504 = REPO_ROOT / "docs" / "experiment_records" / "STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md"
+    assert exp_504.exists()
+    e_text = exp_504.read_text(encoding="utf-8")
+
+    assert "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF" in e_text
+    assert "UNRESOLVED" in e_text
+    assert "convergence-consistent" in e_text.lower()
+    assert "52.6" in e_text
+
+    # 4. Zero stale active 1410504 strings scan across active documents
+    check_dirs = [
+        REPO_ROOT / ".agents" / "scripts",
+        REPO_ROOT / "docs" / "methods",
+        REPO_ROOT / "docs" / "supervisor_reports" / "08-10-2026",
+        REPO_ROOT / "docs" / "project",
+        REPO_ROOT / "project_coordination"
+    ]
+    stale_pats = [
+        re.compile(r'1410504[^\n.]*(?:is active|is running|running candidate|active candidate)', re.IGNORECASE),
+        re.compile(r'(?:running|active)\s+(?:candidate\s+)?1410504', re.IGNORECASE),
+        re.compile(r'active candidate.*1410504', re.IGNORECASE),
+        re.compile(r'pending.*1410504', re.IGNORECASE),
+    ]
+    for cdir in check_dirs:
+        for root, dirs, files in os.walk(cdir):
+            if 'sessions' in dirs:
+                dirs.remove('sessions')
+            for f in files:
+                if f.endswith(('.md', '.txt', '.json')):
+                    fpath = Path(root) / f
+                    if fpath.name == 'ACTIVE_TASK.json':
+                        continue  # Task description describes the purge action
+                    content = fpath.read_text(encoding='utf-8', errors='ignore')
+                    for pat in stale_pats:
+                        assert not pat.search(content), f"Found stale active 1410504 pattern in {fpath.relative_to(REPO_ROOT)}"

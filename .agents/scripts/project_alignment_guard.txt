@@ -6,7 +6,7 @@ SUPERVISOR GOVERNING DIRECTIVE & ACTIVE SCIENTIFIC PHASE
 "We need to have understood everything related to the first model before we increase complexity."
 
 ACTIVE SCIENTIFIC PHASE:
-  MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION
+  GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF
 
 NEW SCIENTIFIC ROADMAP:
   Qualified Mode-I benchmark
@@ -14,7 +14,7 @@ NEW SCIENTIFIC ROADMAP:
     -> qualified MISESERI/adaptive-remeshing workflow
     -> UEL ENERGY FORMULATION / OUTPUT AUDIT (QUALIFIED_MECHANICALLY_NONINVASIVE)
     -> GLOBAL ENERGY BALANCE
-    -> SPATIAL + TEMPORAL MODE-I CONVERGENCE (GATE 6B ACTIVE)
+    -> SPATIAL + TEMPORAL MODE-I CONVERGENCE (GATE 6B EVALUATION COMPLETE)
     -> PHASE-FIELD / CRACK-PATH CONVERGENCE
     -> MODE-I STATE-TRANSFER ENERGY PRESERVATION (GATE 6C ON HOLD)
     -> complete Mode-I report
@@ -411,11 +411,11 @@ evidence is complete and can be defended without AI-generated speculation:
   Do NOT reopen this diagnostic unless contradictory new evidence appears.
 
 - Gate 6B -- Mode-I Energetic / Convergence Qualification:
-  Status: ACTIVE_EVALUATION_AND_CONTINUATION
+  Status: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF
   Exit evidence: Physically derived UEL energy quantities qualified (UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE);
   verified energy output; global energy balance; full F-u comparison; spatial phase-field convergence;
-  temporal convergence; relevant length-scale convergence. Active pending terminal completion and multi-quantity
-  evaluation of the 57,929-FE spatial-fine candidate (serial Job 1410179 terminal partial diagnostic evidence and 8T SMP Job 1410504 active full-horizon candidate).
+  temporal convergence; relevant length-scale convergence. Evaluation complete across all 15 matrix items and 9 jobs
+  including 57,929-FE spatial-fine candidate (serial Job 1410179 terminal partial diagnostic evidence and 8T SMP Job 1410504 completed full-horizon solve); ready for supervisor review and sign-off.
 
 - Gate 6C -- Mode-I State-Transfer Conservation:
   Status: NOT_YET_PERFORMED_PENDING_GATE_6B
@@ -774,12 +774,11 @@ BRIDGE RESPONSE RULE
 ================================================================================
 
 MODE-I FUNDAMENTALS GOVERNANCE (POST-17-SEPTEMBER-2026 SUPERVISOR MEETING):
-- Active scientific phase: MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION.
+- Active scientific phase: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF.
 - 71,320-mesh stiffness defect is RESOLVED_AND_CLOSED.
 - 13,941 vs 71,320 element-count reproduction is CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION.
 - UEL Energy formulation & output status: UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE.
-- Active Gate: Gate 6B remains active pending terminal completion and multi-quantity evaluation of the
-  57,929-FE spatial-fine candidate (serial Job 1410179 terminal partial diagnostic evidence and 8T SMP Job 1410504 active full-horizon candidate).
+- Active Gate: Gate 6B evaluation is complete across all 9 governed jobs (including serial Job 1410179 terminal partial diagnostic evidence and 8T SMP Job 1410504 completed full-horizon solve); ready for supervisor review and sign-off on 08 October 2026.
 - Gate 6C / State Transfer: Strictly on hold until Gate 6B is formally closed; no auto-promotion.
 - Parallel execution: 8-thread shared-memory SMP qualified; 16-thread shared-memory unqualified;
   multi-rank MPI strictly disqualified.

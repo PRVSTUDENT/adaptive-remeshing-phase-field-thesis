@@ -4,9 +4,9 @@
 
 ### Active Scientific Roadmap & Governance State:
 - **Governing Directive**: *"We need to have understood everything related to the first model before we increase complexity."*
-- **Active Phase**: MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION
+- **Active Phase**: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF
 - **Next Supervisor Meeting**: Thursday, 08 October 2026, 10:00
-- **Active Gate**: **GATE 6B: MODE-I ENERGETIC & CONVERGENCE QUALIFICATION & STEP-2 ADAPTIVE MECHANICAL QUALIFICATION (ACTIVE_EVALUATION_AND_CONTINUATION)**
+- **Active Gate**: **GATE 6B: MODE-I ENERGETIC & CONVERGENCE QUALIFICATION & STEP-2 ADAPTIVE MECHANICAL QUALIFICATION (GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF)**
 - **Gate 6C Status**: NOT_YET_PERFORMED_PENDING_GATE_6B
 - **Scope Restriction**: Mode-II, Mixed Mode, Higher-Complexity Benchmarks, and Gate 7 (ABAQUSER) are strictly **ON HOLD**.
 

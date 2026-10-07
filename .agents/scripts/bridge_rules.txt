@@ -15,17 +15,17 @@ Workflow requirements:
 - Reply "stop" ONLY if:
   All authorized and scientifically justified independent Mode-I work is already executing or completed, and the workflow is genuinely blocked waiting on running jobs to reach terminal state before any further scientific progress can be made.
 - CURRENT MODE-I FUNDAMENTALS GOVERNANCE (SUPERVISOR-ALIGNED ROADMAP):
-  * Active scientific phase: MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION.
+  * Active scientific phase: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF.
   * 71,320-mesh stiffness defect is RESOLVED_AND_CLOSED. Do NOT reopen.
   * 13,941 vs 71,320 element-count reproduction is CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION. Do NOT reopen.
   * Priority 1 is UEL Energy Formulation and Output: Status is UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE (source hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6, verified non-invasive with bitwise parity across all 7,000 increments in Job 1409734).
-  * Gate 6B Status: GATE_6B_ACTIVE_EVALUATION_AND_CONTINUATION (Gate 6B remains active with serial Job 1410179.mmaster02 evaluated as terminal partial diagnostic evidence and 8-thread SMP Job 1410504.mmaster02 active as the authoritative full-horizon spatial-fine candidate).
-  * Gate 6C Status: ON_HOLD_PENDING_GATE6B_CLOSURE (strictly paused on hold until Gate 6B is formally evaluated and closed; no automatic promotion merely because energy baseline is qualified).
+  * Gate 6B Status: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF (Gate 6B evaluation is complete across all 9 governed jobs, including serial Job 1410179.mmaster02 partial diagnostic and 8-thread SMP Job 1410504.mmaster02 completed full-horizon solve; queue idle / 0 jobs in queue; ready for supervisor review and sign-off on Thursday 08 October 2026, 10:00 CEST).
+  * Gate 6C Status: ON_HOLD_PENDING_GATE6B_CLOSURE (strictly paused on hold until Gate 6B is formally reviewed and closed by supervisor; no automatic promotion merely because energy baseline is qualified).
   * Parallel Execution Policy:
     - 8-thread shared-memory SMP execution is empirically qualified for the tested Mode-I formulation/controls (S8 = 3.62x speedup, 100% bitwise parity across 4,890 increments);
     - 16-thread shared-memory execution is UNQUALIFIED pending independent Stage-A/B verification;
     - Distributed multi-rank MPI execution is STRICTLY DISQUALIFIED due to unsynchronized replicated COMMON blocks.
-  * Next Supervisor Meeting: Thursday, 08 October 2026, 10:00 CEST. All Mode-I evidence and report material must be prepared before this meeting.
+  * Next Supervisor Meeting: Thursday, 08 October 2026, 10:00 CEST. All Mode-I evidence and report material are fully prepared for this meeting.
   * Mode-I fundamentals work is ACTIONABLE: Independent fundamentals work (convergence analysis, evidence evaluation, report updating) is ACTIONABLE while running jobs execute untouched. Do NOT reply "stop" merely because jobs are running if independent work remains.
   * Scope restrictions: Mode-II, multi-step state transfer continuation, and Gate 7 visualization remain strictly on HOLD.
 - The exact meaning of "stop":

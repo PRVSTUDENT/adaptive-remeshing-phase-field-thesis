@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "manifest_title": "Mode-I Adaptive Remeshing & Energetic Convergence Reproduction Package Manifest",
-  "manifest_version": "2.4.0",
-  "generated_timestamp": "2026-10-07T06:55:00+02:00",
-  "active_scientific_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "manifest_version": "v2.5.0",
+  "generated_timestamp": "2026-10-07T07:30:00+02:00",
+  "active_scientific_phase": "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF",
   "next_supervisor_meeting": "Thursday, 08 October 2026, 10:00 CEST",
   "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
   "governing_parallel_verdict": "8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS",
@@ -354,7 +354,7 @@
       "category_type": "governance_schema",
       "required_environment": "Markdown viewer / LaTeX build engine",
       "expected_outputs": "Governing criteria for supervisor meeting review",
-      "sha256": "A5A2CD2189CD60E0B0290EBAE8F1200A105B5C15863FDA3F346EC3C2B58FFFE0",
+      "sha256": "0AFCCE9D36FEF8EDE2623719F12CCAD25190A08E1375A00662756F3A04F41D2F",
       "size_bytes": 15091
     },
     {
@@ -364,7 +364,7 @@
       "category_type": "governance_schema",
       "required_environment": "Markdown viewer / LaTeX build engine",
       "expected_outputs": "Governing criteria for multi-threaded HPC execution",
-      "sha256": "C738133601B75A3656ECADFFE93C76C6992545BBCF84BA670D85EBDB61C2511A",
+      "sha256": "027E9BF41B0ADFFE95165B4EABDDDAAC85591D731A0F69112238D6696AB381DA",
       "size_bytes": 17121
     },
     {
@@ -384,7 +384,7 @@
       "category_type": "governance_schema",
       "required_environment": "Markdown viewer / PDF compilation engine",
       "expected_outputs": "Executive briefing document",
-      "sha256": "90426AEDF05916FE69C7403ECB7BC1D1D371889525491502B1C9723F1E01A247",
+      "sha256": "E97670614D9AAB34997B22A670BAC04DABBE3CABDB43E89A731BA1F25A83E9C8",
       "size_bytes": 9084
     },
     {
@@ -484,7 +484,7 @@
       "category_type": "governance_schema",
       "required_environment": "Markdown viewer",
       "expected_outputs": "Experiment record with single-job telemetry and spatial tables",
-      "sha256": "0ABA201F644C938FDB50C24148759F521DA095A642C64E4C386A00187D3B349F",
+      "sha256": "A02923710421EDBF386487B484E1D4919C69BCA1755D766594F1A8879CE50F56",
       "size_bytes": 16590
     }
   ]

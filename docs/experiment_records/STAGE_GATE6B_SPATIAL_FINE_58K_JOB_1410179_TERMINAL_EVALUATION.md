@@ -3,7 +3,7 @@
 **Document ID:** `DOC-EXP-STAGE-GATE6B-JOB-1410179-TERMINAL-EVALUATION`  
 **Date:** 06 October 2026  
 **Author:** Gemini Antigravity (Protocol v2)  
-**Governing Phase:** `MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION`  
+**Governing Phase:** `GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF`  
 **Target Discretization:** Spatial Fine Candidate ($57{,}929$ base quadrilateral elements, $57{,}491$ FE nodes, $57{,}492$ total nodes including RP 999999)  
 **Model Deck:** `models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine/PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_FRACTURE.inp`  
 **User Subroutine:** `f42_mixed_uel.for` (SHA-256: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`)  
@@ -123,7 +123,7 @@ $$\varepsilon_{\mathrm{book}}(u) = \frac{|\Delta_{\mathrm{book}}(u)|}{\mathcal{W
 | **Canonical ET1 Baseline (1.0%)** | `1409982.mmaster02` | $14{,}483$ | $14{,}456$ | $137.9096$ | $-0.0261\%$ | $0.7437$ | $-1.8563\%$ | $0.005733$ | $2.267380$ | $2.285469$ | $1.1048\%$ | $[0.0, 0.007889]$ (98.5% Drop) |
 | **ET1 $C_n=0.50$ Diagnostic** | `1410180.mmaster02` | $14{,}483$ | $14{,}456$ | $137.9096$ | $-0.0261\%$ | $0.7437$ | $-1.8563\%$ | $0.005733$ | $2.270745$ | $2.246309$ | $0.8207\%$ | $[0.0, 0.010000]$ (Diagnostic) |
 | **Spatial Fine 58k Serial** | `1410179.mmaster02` | $57{,}929$ | $57{,}491$ | $137.8410$ | $-0.0758\%$ | $0.7416$ | $-2.1305\%$ | $0.005717$ | $2.501136$ | $2.359641$ | $4.0186\%$ | $[0.0, 0.007429]$ (Partial 24h) |
-| **Spatial Fine 58k 8T SMP** | `1410504.mmaster02` | $57{,}929$ | $57{,}491$ | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | $[0.0, 0.010000]$ (Active Candidate) |
+| **Spatial Fine 58k 8T SMP** | `1410504.mmaster02` | $57{,}929$ | $57{,}491$ | $137.8410$ | $-0.0758\%$ | $0.7416$ | $-2.1305\%$ | $0.005717$ | $2.521738$ | $2.381941$ | $4.4263\%$ | $[0.0, 0.010000]$ (Full Horizon Complete) |
 
 ---
 
@@ -132,4 +132,4 @@ $$\varepsilon_{\mathrm{book}}(u) = \frac{|\Delta_{\mathrm{book}}(u)|}{\mathcal{W
 1. **Stiffness Convergence:** Initial elastic stiffness $K_0$ shows exquisite spatial stability across all levels ($< 0.08\%$ deviation across the entire 4k to 58k element range).
 2. **Peak Load Consistency:** Peak reaction force $F_{\max}$ for the 58k mesh ($0.7416\,\text{kN}$) closely tracks the ET1 baseline ($0.7437\,\text{kN}$, $\Delta = -0.28\%$), confirming that peak capacity is converged within $< 0.3\%$ between 14k and 58k meshes.
 3. **Smooth Post-Peak Softening:** The solver demonstrated robust, un-cutbacked convergence down to $98.51\%$ load drop.
-4. **Separate Full-Horizon Solve Record:** The separate ongoing 8-thread shared-memory SMP job `1410504.mmaster02` is tracked and will be evaluated exclusively under [`STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md`](STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md) to provide the complete uncensored $u_y \in [0.0, 0.0100]\,\text{mm}$ horizon required for final Gate-6B multi-quantity spatial convergence closure.
+4. **Separate Full-Horizon Solve Record:** The separate 8-thread shared-memory SMP job `1410504.mmaster02` completed all 7,014 increments and is evaluated exclusively under [`STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md`](STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md) to provide the complete uncensored $u_y \in [0.0, 0.0100]\,\text{mm}$ horizon required for final Gate-6B multi-quantity spatial convergence closure.
