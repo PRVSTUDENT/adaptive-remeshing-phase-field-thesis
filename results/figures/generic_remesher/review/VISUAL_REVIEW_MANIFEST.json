@@ -1,190 +1,167 @@
 {
-  "manifest_title": "Visual Review Bundle & Sizing Diagnostic Reconciliation Manifest",
-  "review_status": "PENDING_CHATGPT_VISUAL_MESH_REVIEW",
-  "created_at": "2026-10-07T14:00:00+02:00",
+  "manifest_title": "Visual Review Bundle, Ridge Audit, and Sizing Diagnostic Manifest (Second Review)",
+  "overall_status": "PENDING_CHATGPT_SECOND_VISUAL_REVIEW",
+  "created_at": "2026-10-07T14:15:00+02:00",
   "agent": "gemini-antigravity",
+  "pattern_statuses": {
+    "pattern1_mode1": "PENDING_RECONCILIATION",
+    "pattern2_mode2": "PENDING_RECONCILIATION",
+    "pattern3_lpanel": "PROVISIONAL_VISUAL_PASS"
+  },
+  "retracted_claims": {
+    "pattern2_mode2_minus_43_88_deg_claim": {
+      "retracted": true,
+      "reason": "The theoretical -43.88 deg angle applies to the downstream mixed-mode crack propagation path under pure shear. In the elastic pre-analysis field (Step-1 Frame 2000), the raw MISESERI ridge starts at (0.50, 0.50) and extends at a fitted slope of -0.218 (fitted angle -12.32 deg, PCA angle -12.39 deg), exiting the right specimen boundary at (1.00, 0.40). The remesher faithfully reproduced this pre-analysis field."
+    },
+    "strict_individual_edge_bound_compliance": {
+      "retracted": true,
+      "classification": "NOT_A_STRICT_INDIVIDUAL_EDGE_LENGTH_HARD_BOUND",
+      "explanation": "Abaqus RemeshingRule minElementSize and maxElementSize operate as target/characteristic sizing constraints for the Advancing Front/Delaunay mesh generator, rather than hard geometric clipping on every single 1D edge. Geometric transitions, acute triangle corners, and quad diagonals naturally produce individual edge lengths slightly below minSize or above maxSize (e.g. quad diagonal ~ sqrt(2)*maxSize)."
+    }
+  },
   "cases": [
     {
       "case_id": "pattern1_mode1",
       "case_name": "Pattern 1: Mode-I Straight Localization",
+      "status": "PENDING_RECONCILIATION",
       "review_png": {
         "path": "results/figures/generic_remesher/review/pattern1_mode1_review.png",
-        "sha256": "4f718813a57bf5e40bdc9602a802952cd2451e47f36ec4c67966282dd61725ab",
-        "size_bytes": 236467,
-        "size_kb": 230.92
+        "sha256": "bf9ebccdfcc9a11a80775dfd49b8abc2da17e6ea0001d46ca228d24772e597b6",
+        "size_bytes": 601063,
+        "size_kb": 586.98
       },
       "base64_sidecar": {
         "path": "results/figures/generic_remesher/review/pattern1_mode1_review.png.b64",
-        "sha256": "50195e63b409f38f7f2bcda1ff5fcbb95539033a77dc892f2708e03f2664a479",
-        "size_bytes": 315292,
-        "size_kb": 307.9,
+        "sha256": "aac254bbf4d3aa050e8f38a60feee40256cb34b5d80e9e28ea3ba0626d4576ce",
+        "size_bytes": 801420,
+        "size_kb": 782.64,
         "byte_for_byte_roundtrip": true
       },
-      "full_resolution_figure": {
-        "path": "results/figures/generic_remesher/pattern1_mode1_straight_qualification.png",
-        "sha256": "61dd4b2c0907d6b748c0a111ac58587a114ecae7937f59f56b971a674277fcb5"
+      "mesh_composition": {
+        "coarse_preanalysis_finite_elements": 2906,
+        "coarse_quad_elements": 2818,
+        "coarse_tri_elements": 88,
+        "adapted_spatial_finite_elements": 57929,
+        "adapted_spatial_quad_elements": 56339,
+        "adapted_spatial_tri_elements": 1590,
+        "deck_layer1_phase_uel_elements": 57929,
+        "deck_layer2_mech_uel_elements": 57929,
+        "deck_layer3_vis_umat_elements": 57929,
+        "total_deck_element_records": 173787
       },
-      "provenance": {
-        "source_odb_job": "models/pandey_kumar_mode1/00_aux_continuum_preanalysis/PK_MODE1_AUX_CONTINUUM.odb",
-        "step_and_frame": "Step-1, Frame 1 (Tensile Mode-I Pre-Analysis)",
-        "source_miseseri_csv": {
-          "path": "ModeI_Supervisor_Report_Reproduction_Package/03_miseseri_native_refinement/canonical_mode1_coarse_miseseri_2906.csv",
-          "sha256": "8dfef5190913a95624be7a93092234e0234957918a6bc6fc3e4662cf4220adc8",
-          "field_column": "miseseri_mpa",
-          "element_count": 2700
-        },
-        "adapted_mesh_inp": {
-          "path": "models/pandey_kumar_mode1/30_stage14_adaptive_candidate_spatial_fine/PK_M1_14AM_DATACHECK.inp",
-          "sha256": "537c8c6617945afd66e135c1df4e2c34211f47fbeeec44e4c145a8551cc1eefd",
-          "finite_element_count": 173787,
-          "quad_elements": 169017,
-          "tri_elements": 4770
-        },
-        "native_abaqus_remeshing_rule": {
-          "error_target_pct": 1.0,
-          "min_element_size_configured_mm": 0.001,
-          "max_element_size_configured_mm": 0.02,
-          "refinement_factor": 1,
-          "sizing_method": "UNIFORM_ERROR",
-          "execution_mechanism": "Native Abaqus/CAE 2024 RemeshingRule (UNIFORM_ERROR, MISESERI) + adaptiveRemesh; single-pass pre-refinement."
-        }
+      "remeshing_rule": {
+        "error_target_pct": 1.0,
+        "min_size_cfg_mm": 0.001,
+        "max_size_cfg_mm": 0.02,
+        "sizing_method": "UNIFORM_ERROR"
       },
-      "sizing_reconciliation": {
-        "configured_edge_bounds_mm": [
-          0.001,
-          0.02
-        ],
-        "diagnostic_area_equivalent_h_min_mm": 0.000553,
-        "diagnostic_area_equivalent_h_max_mm": 0.018343,
-        "diagnostic_area_equivalent_h_mean_mm": 0.003657,
-        "diagnostic_area_equivalent_h_median_mm": 0.003096,
-        "measured_element_edge_min_mm": 0.00074,
-        "measured_element_edge_max_mm": 0.022553,
-        "measured_element_edge_mean_mm": 0.00372,
-        "reconciliation_explanation": "Abaqus RemeshingRule native mesh generation sizing controls target element characteristic edge length [minElementSize=0.0010 mm, maxElementSize=0.0200 mm]. The diagnostic metric h = sqrt(A) measures the area-equivalent element dimension. For 3-node triangular elements (CPE3) and acute transition elements, the element area A = 0.5 * base * height <= 0.5 * h_edge^2, which yields sqrt(A) <= sqrt(0.5) * h_edge = 0.7071 * h_edge. Specifically for the refined zone with h_edge ~ 0.0010 mm, triangle area-equivalent size sqrt(A) is 0.00055 mm, which is geometrically exact and consistent with the 0.0010 mm edge constraint. Actual element edge lengths span [0.00074, 0.02255] mm, perfectly obeying the configured Abaqus sizing rule bounds.",
-        "bounds_consistency_verdict": "GEOMETRICALLY_CONSISTENT_AND_VERIFIED"
+      "measured_edge_lengths_mm": {
+        "min": 0.0007398412213225192,
+        "max": 0.02255261295724576,
+        "mean": 0.003719902755392983
+      },
+      "measured_area_equivalent_h_mm": {
+        "min": 0.0005534652130338907,
+        "max": 0.018343460969869455,
+        "mean": 0.0036569851418211184
       }
     },
     {
       "case_id": "pattern2_mode2",
-      "case_name": "Pattern 2: Mode-II Inclined Shear Localization",
+      "case_name": "Pattern 2: Mode-II Shear Pre-Analysis",
+      "status": "PENDING_RECONCILIATION",
       "review_png": {
         "path": "results/figures/generic_remesher/review/pattern2_mode2_review.png",
-        "sha256": "324e7640b650bd8c345f7b12796ea64d1454718d53eb49c4ee654831ea92a6c7",
-        "size_bytes": 306994,
-        "size_kb": 299.8
+        "sha256": "bd81386c290b84184ff4f7d9cdd3457777f712fa1c44792bac3954b258fb2ac6",
+        "size_bytes": 304968,
+        "size_kb": 297.82
       },
       "base64_sidecar": {
         "path": "results/figures/generic_remesher/review/pattern2_mode2_review.png.b64",
-        "sha256": "3c4e3ebb4444a79392f92f9f6a80469663d5d5c95f3a4a502c83fce50f234e06",
-        "size_bytes": 409328,
-        "size_kb": 399.73,
+        "sha256": "57fcc75f03fa523db1d9ffb9cba8caa4b2c95b11be2b827ac6d3ea06ddce6aea",
+        "size_bytes": 406624,
+        "size_kb": 397.09,
         "byte_for_byte_roundtrip": true
       },
-      "full_resolution_figure": {
-        "path": "results/figures/generic_remesher/pattern2_mode2_inclined_qualification.png",
-        "sha256": "1a6b6f6d2962faa6082bb8eb40340bc9c9db78d08936a432f5c7b012b5da1b46"
-      },
-      "provenance": {
-        "source_odb_job": "runs/hpc/stage_f/f40_f38_cae_invocation_model_building_bisect/M2RMBISECT1_1384588.mmaster02/Job-1_UEL.odb",
-        "step_and_frame": "Step-1, Frame 2000 (Elastic Shear Pre-Localization)",
-        "source_miseseri_csv": {
-          "path": "models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/miseseri_raw_field.csv",
-          "sha256": "ff74ab9b31b4e24356fa4a26cbc2722a3da723d775ccc2f8f6fb0cb59e3ad4ea",
-          "field_column": "miseseri",
-          "element_count": 2960
-        },
-        "adapted_mesh_inp": {
-          "path": "models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/MODE2_ADAPTED_RAW_5PCT.inp",
-          "sha256": "fb4eef7f9c71d7817d47ad46461d2ee6932e51e8627140186c5a43e03ee138e6",
-          "finite_element_count": 11972,
-          "quad_elements": 11626,
-          "tri_elements": 346
-        },
-        "native_abaqus_remeshing_rule": {
-          "error_target_pct": 5.0,
-          "min_element_size_configured_mm": 0.001,
-          "max_element_size_configured_mm": 0.025,
-          "refinement_factor": 1,
-          "sizing_method": "UNIFORM_ERROR",
-          "execution_mechanism": "Native Abaqus/CAE 2024 RemeshingRule (UNIFORM_ERROR, MISESERI) + adaptiveRemesh from Job-1_UEL.odb Step-1 Frame 2000."
-        }
-      },
-      "sizing_reconciliation": {
-        "configured_edge_bounds_mm": [
-          0.001,
-          0.025
+      "ridge_analysis": {
+        "start_point": [
+          0.510729,
+          0.489882
         ],
-        "diagnostic_area_equivalent_h_min_mm": 0.000797,
-        "diagnostic_area_equivalent_h_max_mm": 0.024906,
-        "diagnostic_area_equivalent_h_mean_mm": 0.00766,
-        "diagnostic_area_equivalent_h_median_mm": 0.007432,
-        "measured_element_edge_min_mm": 0.001046,
-        "measured_element_edge_max_mm": 0.031787,
-        "measured_element_edge_mean_mm": 0.007802,
-        "reconciliation_explanation": "Abaqus RemeshingRule native mesh generation sizing controls target element characteristic edge length [minElementSize=0.0010 mm, maxElementSize=0.0250 mm]. The diagnostic metric h = sqrt(A) measures the area-equivalent element dimension. For 3-node triangular elements (CPE3) and acute transition elements, the element area A = 0.5 * base * height <= 0.5 * h_edge^2, which yields sqrt(A) <= sqrt(0.5) * h_edge = 0.7071 * h_edge. Specifically for the refined zone with h_edge ~ 0.0010 mm, triangle area-equivalent size sqrt(A) is 0.00080 mm, which is geometrically exact and consistent with the 0.0010 mm edge constraint. Actual element edge lengths span [0.00105, 0.03179] mm, perfectly obeying the configured Abaqus sizing rule bounds.",
-        "bounds_consistency_verdict": "GEOMETRICALLY_CONSISTENT_AND_VERIFIED"
+        "end_point": [
+          0.988642,
+          0.409881
+        ],
+        "linear_fit_slope": -0.2184734140041527,
+        "linear_fit_angle_deg": -12.323962879501131,
+        "pca_angle_deg": -12.389180646948262,
+        "mean_tangent_angle_deg": -7.163714713382358,
+        "right_boundary_exit_y": 0.39974172448862094,
+        "theoretical_mode2_angle_retracted": true
+      },
+      "mesh_composition": {
+        "coarse_preanalysis_finite_elements": 2960,
+        "coarse_quad_elements": 2860,
+        "coarse_tri_elements": 100,
+        "adapted_spatial_finite_elements": 11972,
+        "adapted_spatial_quad_elements": 11626,
+        "adapted_spatial_tri_elements": 346
+      },
+      "remeshing_rule": {
+        "error_target_pct": 5.0,
+        "min_size_cfg_mm": 0.001,
+        "max_size_cfg_mm": 0.025,
+        "sizing_method": "UNIFORM_ERROR"
+      },
+      "measured_edge_lengths_mm": {
+        "min": 0.0010458668083661792,
+        "max": 0.03178742209269934,
+        "mean": 0.007802132970273662
+      },
+      "measured_area_equivalent_h_mm": {
+        "min": 0.0007969076377157698,
+        "max": 0.024906092506720507,
+        "mean": 0.007659791498591787
       }
     },
     {
       "case_id": "pattern3_lpanel",
-      "case_name": "Pattern 3: L-Panel Non-Symmetric Re-Entrant Corner",
+      "case_name": "Pattern 3: L-Panel Re-Entrant Corner",
+      "status": "PROVISIONAL_VISUAL_PASS",
       "review_png": {
         "path": "results/figures/generic_remesher/review/pattern3_lpanel_review.png",
-        "sha256": "3efa4a422335bfd7cd8c2cb49016dbdc6e943ca036f2848e8c2613a382497ab3",
-        "size_bytes": 195964,
-        "size_kb": 191.37
+        "sha256": "76e0e1b827dc2ff373675f9d4ac8fcedc22b325cf3e38d5002adbe4bea7efff9",
+        "size_bytes": 184357,
+        "size_kb": 180.04
       },
       "base64_sidecar": {
         "path": "results/figures/generic_remesher/review/pattern3_lpanel_review.png.b64",
-        "sha256": "4eb680cd4c726fb042754c80bfc9bdad80bbb2be6d3d72666fd1e3489d452584",
-        "size_bytes": 261288,
-        "size_kb": 255.16,
+        "sha256": "0d8d2fdda848cf8eaafd0d9b627126a6f13500e19d4b0d5b92b44738d909afc9",
+        "size_bytes": 245812,
+        "size_kb": 240.05,
         "byte_for_byte_roundtrip": true
       },
-      "full_resolution_figure": {
-        "path": "results/figures/generic_remesher/pattern3_lpanel_reentrant_qualification.png",
-        "sha256": "853d0367329deb111f75a3dd38109b7b5e2887edb32d64761f66f522932f39b6"
+      "mesh_composition": {
+        "coarse_preanalysis_finite_elements": 1200,
+        "adapted_spatial_finite_elements": 4324,
+        "adapted_spatial_quad_elements": 4208,
+        "adapted_spatial_tri_elements": 116
       },
-      "provenance": {
-        "source_odb_job": "runs/case3_lpanel_qualification/JOB_LPANEL_COARSE.odb",
-        "step_and_frame": "Step-1, Frame 1 (Linear Elastic Clamped Base + Top Load)",
-        "source_miseseri_csv": {
-          "path": "runs/case3_lpanel_qualification/lpanel_coarse_miseseri.csv",
-          "sha256": "481b1f59e5d32d6fbbb8988176971b9216562c1d6a5e09201b21773a5f4f243e",
-          "field_column": "MISESERI",
-          "element_count": 571
-        },
-        "adapted_mesh_inp": {
-          "path": "runs/case3_lpanel_qualification/JOB_LPANEL_ADAPTED.inp",
-          "sha256": "cb995676596608323a3c4e6c92b9b68536088fbda3ac135b5f3b051754bd99bb",
-          "finite_element_count": 4324,
-          "quad_elements": 4208,
-          "tri_elements": 116
-        },
-        "native_abaqus_remeshing_rule": {
-          "error_target_pct": 5.0,
-          "min_element_size_configured_mm": 0.002,
-          "max_element_size_configured_mm": 0.04,
-          "refinement_factor": 1,
-          "sizing_method": "UNIFORM_ERROR",
-          "execution_mechanism": "Native Abaqus/CAE 2024 RemeshingRule (UNIFORM_ERROR, MISESERI) + adaptiveRemesh on re-entrant corner pre-analysis."
-        }
+      "remeshing_rule": {
+        "error_target_pct": 5.0,
+        "min_size_cfg_mm": 0.002,
+        "max_size_cfg_mm": 0.04,
+        "sizing_method": "UNIFORM_ERROR"
       },
-      "sizing_reconciliation": {
-        "configured_edge_bounds_mm": [
-          0.002,
-          0.04
-        ],
-        "diagnostic_area_equivalent_h_min_mm": 0.001898,
-        "diagnostic_area_equivalent_h_max_mm": 0.04075,
-        "diagnostic_area_equivalent_h_mean_mm": 0.011188,
-        "diagnostic_area_equivalent_h_median_mm": 0.00964,
-        "measured_element_edge_min_mm": 0.002129,
-        "measured_element_edge_max_mm": 0.046297,
-        "measured_element_edge_mean_mm": 0.011393,
-        "reconciliation_explanation": "Abaqus RemeshingRule native mesh generation sizing controls target element characteristic edge length [minElementSize=0.0020 mm, maxElementSize=0.0400 mm]. The diagnostic metric h = sqrt(A) measures the area-equivalent element dimension. For 3-node triangular elements (CPE3) and acute transition elements, the element area A = 0.5 * base * height <= 0.5 * h_edge^2, which yields sqrt(A) <= sqrt(0.5) * h_edge = 0.7071 * h_edge. Specifically for the refined zone with h_edge ~ 0.0020 mm, triangle area-equivalent size sqrt(A) is 0.00190 mm, which is geometrically exact and consistent with the 0.0020 mm edge constraint. Actual element edge lengths span [0.00213, 0.04630] mm, perfectly obeying the configured Abaqus sizing rule bounds.",
-        "bounds_consistency_verdict": "GEOMETRICALLY_CONSISTENT_AND_VERIFIED"
+      "measured_edge_lengths_mm": {
+        "min": 0.0021293189045153,
+        "max": 0.046297123922983366,
+        "mean": 0.011392637702292586
+      },
+      "measured_area_equivalent_h_mm": {
+        "min": 0.0018980241141460627,
+        "max": 0.040750135537482836,
+        "mean": 0.011188347700941957
       }
     }
   ]
