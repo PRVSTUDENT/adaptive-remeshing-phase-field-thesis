@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N M2_J1_MIEHE_HORIZON
-#PBS -q normal_imfdfkmq
+#PBS -q entry_imfdfkmq
 #PBS -l nodes=1:ppn=1
 #PBS -l mem=16gb
 #PBS -l walltime=04:00:00

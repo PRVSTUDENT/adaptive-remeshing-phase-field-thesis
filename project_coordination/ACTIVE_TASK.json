@@ -1,10 +1,10 @@
 {
-    "task_id": "F1311-MODE2-LOADING-HORIZON-RECONSTRUCTION-AND-PREANALYSIS",
-    "task_name": "Mode-II Loading Horizon Reconstruction, Candidate Input Deck Creation, Cluster Datacheck, and Gate M2-2 Qualification",
+    "task_id": "F1312-MODE2-M2-2-GUARDED-HPC-SUBMISSION",
+    "task_name": "Mode-II Gate M2-2 Guarded HPC Solver Submission and Q/R Telemetry Tracking",
     "governing_phase": "MODE2_REPRODUCTION_ACTIVE_HUMAN_AUTHORIZED_PREMEETING",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "start_time": "2026-10-07T19:15:00+02:00",
-    "end_time": "2026-10-07T19:30:00+02:00",
-    "description": "Reconciled Section 4.2 text vs figures conflict (classified as PAPER_TEXT_CONFLICTS_WITH_FIGURES); created candidate paper-horizon deck Job-1_UEL_paper_horizon.inp (ux in [0, 0.0200] mm, uniform Du=5.0 nm) while preserving noncanonical 0.06 mm deck Job-1_UEL.inp; executed cluster Fortran compilation and Abaqus 2023 Datacheck with Miehe UEL (Exit 0, 0 errors); evaluated OpenClaw submission delegation (permit consumed, daily delegation expired); recorded Gate M2-2 status as M2-2_QUALIFIED_READY_TO_SUBMIT_BLOCKED_BY_DELEGATION with zero solver jobs submitted; preserved Mode-I release tag v2026.10.08-supervisor-meeting-mode1-freeze 100% untouched."
+    "start_time": "2026-10-07T19:26:00+02:00",
+    "end_time": "2026-10-07T19:35:00+02:00",
+    "description": "Executed explicit human-authorized guarded submission of exactly one 1-CPU serial Mode-II pre-analysis solver job using Job-1_UEL_paper_horizon.inp with f42_mixed_uel_mode2_miehe.for on tu_freiberg cluster via OpenClaw safety gate; captured PBS Job ID 1410790.mmaster02 running in normal_imfdfkmq; recorded telemetry, hashes, and ledgers; Mode-I baseline freeze preserved 100% untouched."
 }
