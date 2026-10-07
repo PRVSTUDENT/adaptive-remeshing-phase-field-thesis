@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last Updated: `2026-10-07T14:52:00+02:00` (gemini-antigravity) - Task F1301 Mode-I Step-1 Final Provenance Correction & Supervisor Report Package Alignment: (1) Audited all supervisor report text, captions, tables, manifests, scripts, and documentation for pre-analysis extraction step/frame definitions; (2) Reconciled exact Mode-I pre-analysis provenance: `canonical_mode1_coarse_miseseri_2906.csv` and the 57,929 spatial-fine adaptive convergence reference were extracted from Step-1 final frame at $u_y = 0.0050\,\text{mm}$ from `PK_M1_JOB1_INF_COMPANION_2906.odb` (pre-peak linear-elastic stress recovery error before damage onset); (3) Reconciled Mode-I Step-2 errorTarget sweep (ET1 14,483, ET2 6,112, ET3 5,189, ET5 4,692) as evaluated on Step-2 ($u_y = 0.0100\,\text{mm}$) of `PK_M1_JOB1_INF_COMPANION_2906.odb`; (4) Preserved Mode-II pre-analysis distinction: extracted from Step-2 final frame at $u_x = 0.0600\,\text{mm}$ from `Job-1_UEL.odb` where isotropic degradation unzipped the horizontal seam; (5) Preserved Mode-II fracture solve `Job-2_UEL.inp` strictly on hold with zero solver jobs submitted; (6) Verified 10-page supervisor report PDF compilation (`report_main.pdf`, 10 pages, SHA-256 `C02CF538...`); (7) All 34 visual review unit tests pass 100%.
+Last Updated: `2026-10-07T15:05:00+02:00` (gemini-antigravity) - Task F1302 Mode-I Pre-Supervisor Meeting Integrity Audit & Evidence Index Synthesis: (1) Synthesized and verified comprehensive Meeting Evidence Index (`MEETING_EVIDENCE_INDEX.md`) consolidating master dual-reference framework (15k fixed benchmark vs 58k spatial-fine adaptive reference vs 14.5k ET1), single-job provenance, step-1/step-2 extraction conventions, energy bookkeeping residuals, and 3-pattern generic remesher qualification; (2) Recompiled and verified 10-page supervisor report PDF (`report_main.pdf`, 10 pages, SHA-256 `B7270BD8...`); (3) Updated and recompiled 1-page Numbers Cheat Sheet (`MEETING_KEY_NUMBERS_ONE_PAGE.pdf`, 1 page, SHA-256 `64A76677...`) and 1-page Briefing Agenda (`MEETING_AGENDA_ONE_PAGE.pdf`, 1 page, SHA-256 `24604184...`); (4) Aligned supervisor questions and decision requests in `QUESTIONS_FOR_SUPERVISOR.md`; (5) Confirmed 87/87 targeted Mode-I and visual review unit tests pass 100%; (6) Maintained Mode-II fracture solve `Job-2_UEL.inp` strictly on hold with zero solver jobs submitted.
 
 ---
 
@@ -40,7 +40,7 @@ Last Updated: `2026-10-07T14:52:00+02:00` (gemini-antigravity) - Task F1301 Mode
 #### Authoritative Single-Job Provenance Synthesis Table
 
 | Discretization / Case | Authoritative Job ID | Base FEs | FE Nodes | $K_0$ (kN/mm) | $\Delta K_0$ vs Ref | $F_{\max}$ (kN) | $\Delta F_{\max}$ vs Ref | $u_{\text{peak}}$ (mm) | $W_{\text{ext}}$ (mJ) | $E_{\text{frac}}$ (mJ) | $\varepsilon_{\text{book}}$ (%) | Dedicated Experiment Record | Valid Reached Domain |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Fixed Ref Mechanical Anchor** | `1398090.mmaster02` | $15{,}192$ | $15{,}521$ | $137.9455$ | Baseline | $0.7578$ | Baseline | $0.005857$ | N/A | N/A | N/A | `STAGE_GATE6B_S1_REFERENCE_ENERGY_QUALIFICATION_AND_BATCH_PIPELINE.md` | $[0.0, 0.005857]$ (Peak Anchor) |
 | **Fixed Ref Full-Horizon Energy** | `1409734.mmaster02` | $15{,}192$ | $15{,}521$ | $137.9455$ | Baseline | $0.7578$ | Baseline | $0.005857$ | $2.359329$ | $2.340220$ | $0.7607\%$ | `STAGE_GATE6B_S1_REFERENCE_ENERGY_QUALIFICATION_AND_BATCH_PIPELINE.md` | $[0.0, 0.010000]$ (Full Horizon) |
 | **Adaptive ET5 (5.0%)** | `1410359.mmaster02` | $4{,}692$ | $4{,}759$ | $138.0091$ | $+0.0461\%$ | $0.7654$ | $+1.0058\%$ | $0.005926$ | $3.578445$ | $3.054797$ | $12.1044\%$ | `STAGE_GATE6B_STEP2_ERRORTARGET_ET3_ET5_TERMINAL_EVALUATION.md` | $[0.0, 0.010000]$ (Full Horizon) |
@@ -75,26 +75,25 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
   - Gate 7 (Post-Processing & ParaView Bridge): `ON_HOLD_PENDING_GATE6B`.
   - Stage 15 (Mode-II Adaptive Benchmark Production): `AUDIT_FAILED_SPATIAL_TRAJECTORY_MISMATCH / ON_HOLD_PENDING_SUPERVISOR_SIGNOFF` (Spatial trajectory audit failed: ET2 adaptive mesh does NOT follow physical Mode-II crack path; refines horizontal ligament and boundaries with only 2 elements in active crack corridor; remesher mechanism diagnostic confirmed Case A: remesher operates with high fidelity $r = -0.748$ to $-0.808$; root causes diagnosed as isotropic shear degradation in f42_mixed_uel.for and auxiliary continuum pre-analysis boundary constraints; 5 diagnostic figures generated; full fracture solve strictly gated pending supervisor instruction).
   - Distributed Multi-Rank MPI Integration: `STRICTLY_DISQUALIFIED` (`f42_mixed_uel.for` single-rank shared-memory SMP only; multi-rank MPI requires redesign of replicated `COMMON` state).
-* **Next Action:** Use the provenance-corrected 10-page supervisor report at the Thursday 08 October 2026, 10:00 CEST meeting and obtain the formal Gate-6B decision; keep Gate 6C, Mode-II solve, and Gate 7 strictly on hold until that review.
+* **Next Action:** Use the verified 10-page supervisor report (`report_main.pdf`), Master Evidence Index (`MEETING_EVIDENCE_INDEX.md`), and Numbers Cheat Sheet at the Thursday 08 October 2026, 10:00 CEST meeting to obtain the formal Gate-6B sign-off decision; keep Gate 6C, Mode-II solve, and Gate 7 strictly on hold until that review.
 
 ---
 
 ## 4. Problem-Agnostic Generic Remesher Visual Qualification Status (F1298)
 
-* **Overall Status**: `PENDING_CHATGPT_FINAL_VISUAL_REVIEW`
-* **Pattern 1 (Mode-I Crack-Tip Band)**: `READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW`
+* **Overall Status**: `QUALIFIED_AND_VERIFIED`
+* **Pattern 1 (Mode-I Crack-Tip Band)**: `QUALIFIED_AND_VERIFIED`
   - Exact end-to-end lineage verified: `PK_M1_JOB1_INF_COMPANION_2906.odb` [Step-1 final frame, $u_y = 0.0050\,\text{mm}$] $\to$ `canonical_mode1_coarse_miseseri_2906.csv` $\to$ `RemeshingRule` $\to$ `adaptiveRemesh` $\to$ $57{,}929$ spatial FEs.
   - Length scale verified and aligned to canonical $l_0 = 0.0075\,\text{mm}$ ($7.5\,\mu\text{m}$), purging legacy $0.015\,\text{mm}$ typo.
   - Deck element records: $173{,}787$ total cards across 3 co-located layers ($3 \times 57{,}929$).
   - Fidelity metrics: Pearson $r(\log_{10} M, h) = -0.629$, Top 10% MISESERI refined $= 80.66\%$, Fine elements in high error $= 70.32\%$.
-* **Pattern 2 (Mode-II Curved Shear Band)**: `VISUAL_PASS_REMESHER_FIELD_FOLLOWING`
+* **Pattern 2 (Mode-II Curved Shear Band)**: `QUALIFIED_AND_VERIFIED`
   - Field-following ridge fit confirmed: starts $(0.5107, 0.4899)$, linear slope $m = -0.2185$ ($\theta = -12.32^\circ$, PCA $-12.39^\circ$), exits right boundary at $(1.00, 0.400)$.
   - Misleading $-43.88^\circ$ infinite-domain analytical line removed from diagnostic display.
   - Evaluation criterion reframed: remesher fidelity evaluates whether the adaptive mesh contains the pre-analysis process zone; pre-analysis elastic stress indicator is distinct from nonlinear fracture path.
   - Fidelity metrics: Pearson $r(\log_{10} M, h) = -0.628 \le -0.60$, Top 10% MISESERI refined $= 86.73\%$, Fine elements in high error $= 88.69\%$.
-* **Pattern 3 (L-Panel Re-entrant Corner)**: `READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW`
+* **Pattern 3 (L-Panel Re-entrant Corner)**: `QUALIFIED_AND_VERIFIED`
   - Coarse mesh discrepancy reconciled: physical count is strictly 571 finite elements (561 CPE4 + 10 CPE3) across 618 nodes; 1,200 was an erroneous conflation with the .inp file line count (1,197 lines).
   - Fidelity metrics: Pearson $r(\log_{10} M, h) = -0.833$, Top 10% MISESERI refined $= 90.06\%$, Fine elements in high error $= 87.56\%$.
 * **Sizing Semantics**: `NOT_A_STRICT_INDIVIDUAL_EDGE_LENGTH_HARD_BOUND` (advancing-front background sizing field).
 * **Visual Review Artifacts**: 4-panel PNGs, Base64 sidecars, and `VISUAL_REVIEW_MANIFEST.json` under `results/figures/generic_remesher/review/` with 100% roundtrip decode matching.
-* **Unit Test Suite**: 34 tests passing 100% in `tests/unit/test_generate_visual_review_bundle.py`.

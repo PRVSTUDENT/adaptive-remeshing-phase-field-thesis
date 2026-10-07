@@ -1,57 +1,46 @@
-# Questions for Supervisor Review -- 08 October 2026
+# Questions & Decisions for Supervisor Review -- 08 October 2026
 
-**Meeting Date:** Thursday, 08 October 2026, 10:00  
-**Candidate:** Pruthviraja Reddy Vandavagali  
-**Supervisors:** Prof. B. Kiefer, Dr. S. Roth  
-**Active Scientific Phase:** `MODE1_GATE6B_ENERGY_CONVERGENCE_AND_STEP2_QUALIFICATION_ACTIVE`  
-**Front-of-Pack Document:** [`MODE1_STEP2_LOCALIZATION_DECISION_SHEET.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MODE1_STEP2_LOCALIZATION_DECISION_SHEET.md) / [`MODE1_STEP2_LOCALIZATION_DECISION_SHEET.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MODE1_STEP2_LOCALIZATION_DECISION_SHEET.pdf)  
-**Convergence Matrix:** [`MODE1_CONVERGENCE_EXECUTION_MATRIX.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MODE1_CONVERGENCE_EXECUTION_MATRIX.md)
-
----
-
-## Decision 0 (Front-of-Pack): Mode-I Adaptive Remeshing Baseline Selection
-Regarding the spatial localization diagnosis of the native Abaqus `RemeshingRule`:
-- Evaluating the `RemeshingRule` on the Step-1 linear-elastic error field produced severe downstream coarsening along the ligament ($h_A = 12.58\,\mu\mathrm{m}$ at $x=0.90\,\mathrm{mm}$).
-- Changing only the evaluated step to Step 2 (crack-propagation field) redistributes refinement along the horizontal ligament ($+181.8\%$ forward corridor elements, $-75.9\%$ wake waste, median $h_A \le 1.5\,\mu\mathrm{m}$ across $x \in [0.55, 0.75]\,\mathrm{mm}$).
-- While this is our **verified project root cause**, Pandey & Kumar (2025) omitted the `stepName` argument, making their internal selection an **unknown author implementation detail**.
-- **Ruling Requested:** Does the supervisor approve adopting the 62,057-element Step-2 corrected mesh as the authoritative Mode-I adaptive remeshing baseline (Option A, reflecting audited Job `1409585.mmaster02` with 87.9% load drop across 94.0% ligament traversal), or should the thesis retain the 48,329-element Step-1 mesh as the literal reproduction baseline with Step 2 presented as a project improvement (Option B)?
+**Meeting Date:** Thursday, 08 October 2026, 10:00 CEST (Duration: 45 Minutes)  
+**Candidate:** Pruthviraja Reddy Vandavagali (Matr. Nr. 68865)  
+**Supervisors:** Prof. Dipl.-Ing. Björn Kiefer, Ph.D., Dr.-Ing. Stephan Roth (IMFD, TU Bergakademie Freiberg)  
+**Governing Directive:** *"We need to have understood everything related to the first model before we increase complexity."*  
+**Active Scientific Phase:** `GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF`  
+**Primary Briefing Document:** [`report_main.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/report_main.pdf) (10 Pages, Self-Contained)  
+**Master Evidence Index:** [`MEETING_EVIDENCE_INDEX.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MEETING_EVIDENCE_INDEX.md)
 
 ---
 
-## Question 1: Mode-I Report & Chapter Integration Acceptance
-Does the supervisor approve the presented Mode-I thesis chapters (Chapters 1--3, 7--8), including:
-- The fixed-mesh reference anchor definition ($F_{\max} = 0.7578\,\mathrm{kN}, u = 0.005857\,\mathrm{mm}, K_0 = 137.945520\,\mathrm{kN/mm}$);
-- The resolution and formal closure of the 71,320-element stiffness defect;
-- The closed status of the 13,941 vs 71,320 element-count discrepancy with preserved sensitivity trends;
-- The multifaceted convergence evaluation decoupling structural stiffness, peak load, localization width, and spatial/temporal energy evolution?
+## Decision 1 (Main Gate Sign-Off): Mode-I Gate 6B Formal Closure
+
+Does the supervisor approve the formal closure of **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification)** based on:
+1. **Internal Adaptive Spatial Convergence:** Demonstrating that the preferred corrected ET1 adaptive mesh ($14{,}483$ FEs, Job `1409982.mmaster02`) is only **$+0.279\%$** away from the spatial-fine adaptive reference ($57{,}929$ FEs, Job `1410504.mmaster02`) in $F_{\max}$ ($0.7437$ vs $0.7416\,\mathrm{kN}$) and $+0.280\%$ in $u_{\text{peak}}$, achieving $\sim75\%$ element reduction with high spatial selectivity ($64.12\%$ corridor share);
+2. **Dual-Reference Disambiguation:** Recognizing that the $-1.856\%$ peak difference relative to the fixed benchmark anchor ($15{,}192$ FEs, $0.7578\,\mathrm{kN}$, Job `1398090` / `1409734`) is an **unresolved discretization-family difference**, because structured fixed meshes are themselves mesh-sensitive ($\sim 0.7255\,\mathrm{kN}$ at $69\mathrm{k}$ FEs) and not a converged truth solution;
+3. **Closed Structural Stiffness Defect:** Verifying initial elastic stiffness stability across all grids ($\Delta K_0 \le 0.076\%$, $K_0 \approx 137.95 \to 137.84\,\mathrm{kN/mm}$), confirming the `*NSET` 16-card line wrapping repair;
+4. **Crack Symmetry & Localization Band:** Verifying horizontal crack advance ($|y_c - 0.500\,\mathrm{mm}| = 0.000\,\mathrm{mm}$) and damage localization bandwidth $w_{0.5} \approx 15.0\,\mu\mathrm{m} \approx 2 l_0$?
 
 ---
 
-## Question 2: Staggered UEL Energy Identity & Epistemological Status
-Regarding the UEL energy audit:
-- The audit proves that within the staggered solution scheme ($\mathcal{H}_n \to d_{n+1} \to \mathbf{u}_{n+1}$), cross-derivatives do not commute ($\partial^2 \Pi / \partial \mathbf{u} \partial d \ne \partial^2 \Pi / \partial d \partial \mathbf{u}$), so no common discrete scalar potential exists.
-- The two-term difference $\Delta_{\mathrm{book}} \equiv W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$ is strictly designated as the `TWO_TERM_BOOKKEEPING_DIFFERENCE` ($+0.76\%$ in $S_1$, shifting from $+0.38\%$ to $+3.54\%$ across temporal scaling $T_1 \to T_3$), while `GLOBAL_ENERGY_IDENTITY --- NOT_YET_CLOSED` is strictly maintained without asserting unverified dissipation mechanisms.
-- Does the supervisor agree with presenting this rigorous epistemological boundary in the thesis?
+## Decision 2: Epistemological Energy Identity Acceptance
+
+Regarding the UEL energy formulation and output audit:
+1. The audit proves that within the staggered solution scheme ($\mathcal{H}_n \to d_{n+1} \to \mathbf{u}_{n+1}$), discrete cross-derivatives do not commute ($\partial^2 \Pi / \partial \mathbf{u} \partial d \ne \partial^2 \Pi / \partial d \partial \mathbf{u}$), and standard ODB files do not persist within-increment Newton subiteration paths.
+2. The two-term difference $\Delta_{\mathrm{book}} \equiv W_{\mathrm{trap}} - (E_{\mathrm{elas}} + E_{\mathrm{frac}})$ is strictly designated as the `TWO_TERM_BOOKKEEPING_DIFFERENCE` ($\varepsilon_{\mathrm{book}} = 0.76\%$ for Fixed $15\text{k}$, $1.10\%$ for ET1 $14\text{k}$, and $4.43\%$ for full-horizon Spatial-Fine $58\text{k}$).
+3. Status is formally designated and maintained as **`GLOBAL_ENERGY_IDENTITY --- NOT_YET_CLOSED`** without asserting unverified dissipation mechanisms.
+4. **Ruling Requested:** Does the supervisor agree with presenting this rigorous epistemological boundary in the Master thesis?
 
 ---
 
-## Question 2b: Multi-Quantity Convergence Execution Matrix & Candidate Execution
-Regarding the proposed Mode-I Multi-Quantity Convergence Execution Matrix ([`MODE1_CONVERGENCE_EXECUTION_MATRIX.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MODE1_CONVERGENCE_EXECUTION_MATRIX.md)):
-- Following terminal evaluation of reference solve Job `1409705.mmaster02`, does the supervisor approve the execution of the prepared candidate spatial cases:
-  * Candidate $S_2$ (`PK_M1_S2_ENERGY`, 32,130 finite elements, $h=2.0\,\mu\text{m}$, $h/l_0 = 0.267$);
-  * Candidate $S_3$ (`PK_M1_S3_ENERGY`, 41,912 finite elements, $h=1.5\,\mu\text{m}$, $h/l_0 = 0.200$);
-  under 1-CPU serial shared-memory execution with predeclared acceptance bands ($K_0 \pm 0.5\%$, $F_{\max} \in [0.728, 0.745]\,\text{kN}$, $E_{\text{frac}} \pm 3.0\%$)?
-- Does the supervisor confirm that the temporal axis ($T_1 \to T_3$) and length-scale axis ($l_0 \in [7.5, 15.0]\,\mu\text{m}$) are sufficiently characterized and require zero additional runs?
+## Decision 3: Transition to Gate 6C (Mode-I State-Transfer Energy Conservation)
+
+Following formal approval and closure of Gate 6B:
+1. Is authorization granted to formally promote the active thesis phase to **`GATE6C_STATE_TRANSFER_ACTIVE`**?
+2. In Gate 6C, the project will evaluate whether state transfer of displacement, phase field, and history variables ($\mathbf{u}, d, \mathcal{H}$) between non-matching meshes on the same Mode-I benchmark preserves total energy ($|\Delta E_{\mathrm{transfer}}| / W_{\mathrm{ext}} \ll 1\%$) and prevents artificial diffusion across the crack wake.
 
 ---
 
-## Question 3: Transition to Gate 6C (Mode-I State-Transfer Energy Conservation)
-Following completed evaluation of the reference and spatial convergence runs:
-- Is authorization granted to formally promote the active thesis phase to `MODE1_STATE_TRANSFER_ENERGY_AUDIT_ACTIVE` (Gate 6C)?
-- In Gate 6C, we will evaluate whether mesh-to-mesh state transfer between non-matching meshes on the same Mode-I benchmark preserves total energy ($|\Delta E_{\mathrm{transfer}}| / W_{\mathrm{ext}} \ll 1\%$) and limits gradient diffusion.
+## Decision 4: Maintenance of Strict Scope Holds
 
----
-
-## Question 4: Maintenance of Scope Holds
 Does the supervisor reaffirm that:
-- Mode-II, multi-crack configurations, and Gate 7 (ABAQUSER visualization integration) remain on strict hold until Gate 6C state-transfer energy preservation is fully qualified?
+1. **Mode-II Fracture Solve (`Job-2_UEL.inp`)** remains on strict hold pending completion of Gate 6C;
+2. **Multi-crack / mixed-mode configurations** remain on strict hold;
+3. **Gate 7 (ABAQUSER visualization integration)** remains on strict hold until Mode-I adaptive fundamentals are fully qualified?

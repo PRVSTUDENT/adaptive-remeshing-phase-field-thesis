@@ -1,16 +1,16 @@
-﻿{
-    "session_end":  "2026-10-07T14:55:00+02:00",
-    "session_start":  "2026-10-07T14:48:00+02:00",
-    "agent":  "gemini-antigravity",
-    "allowed_write_scope":  [
-                                "project_coordination/**",
-                                "docs/**",
-                                "scripts/**",
-                                "tests/**",
-                                "models/**",
-                                "results/**"
-                            ],
-    "active":  false,
-    "task_id":  "F1301-MODE1-STEP1-PROVENANCE-REPORT-ALIGNMENT",
-    "starting_commit":  "ba2eeb3f0c9cf619494d69b2f6f0466630ca2578"
+{
+    "active": false,
+    "agent": "gemini-antigravity",
+    "task_id": "F1302-MODE1-PRE-SUPERVISOR-MEETING-INTEGRITY-AUDIT",
+    "session_start": "2026-10-07T14:56:00+02:00",
+    "session_end": "2026-10-07T15:05:00+02:00",
+    "starting_commit": "142536f018b30ae16ee79362a18f110cb1d2dca1",
+    "allowed_write_scope": [
+        "project_coordination/**",
+        "docs/**",
+        "scripts/**",
+        "tests/**",
+        "models/**",
+        "results/**"
+    ]
 }

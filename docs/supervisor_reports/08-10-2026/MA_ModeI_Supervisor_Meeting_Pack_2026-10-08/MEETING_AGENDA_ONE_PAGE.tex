@@ -39,54 +39,51 @@
 \vspace{-0.35em}
 
 \begin{enumerate}[label=\textbf{\arabic*.},leftmargin=5mm,itemsep=2.5pt,topsep=1.5pt]
-  \item \textbf{Opening Decision: Mode-I Adaptive Localization \& Step Selection (00--08 min)}
+  \item \textbf{Opening Decision: Mode-I Adaptive Localization \& Dual-Reference Framework (00--08 min)}
   \begin{itemize}[itemsep=0.8pt,topsep=0.8pt,leftmargin=4mm]
     \small
-    \item \textbf{Executive Decision Sheet:} Root cause of downstream coarsening isolated to Step-1 vs Step-2 \texttt{RemeshingRule} evaluation.
-    \item \textbf{Quantitative Evidence:} Step 2 increases corridor elements by $+181.8\%$ ($3{,}351 \to 9{,}442$), cuts wake waste by $-75.9\%$, and maintains $h_A \le 1.5\,\mu\mathrm{m}$ across the ligament ($62{,}057$ finite elements).
-    \item \textbf{Epistemological Boundary:} Project root cause verified; Pandey--Kumar step argument remains unknown.
-    \item \textbf{Supervisor Ruling Requested:} Option A (adopt Step 2 as baseline) vs Option B (retain Step 1 as reproduction, Step 2 as project correction). Qualification Job \texttt{1409585.mmaster02} audited: $87.9\%$ load drop across $94.0\%$ ligament; breakthrough cutback classified as \texttt{ROOT\_CAUSE\_CANDIDATE\_NOT\_YET\_RECONCILED}.
+    \item \textbf{Focused 10-Page Report (\texttt{report\_main.pdf}):} Demonstrates that evaluating the localized Step-2 field concentrates refinement in the horizontal ligament ($64.12\%$ corridor share, $14{,}483$ FEs).
+    \item \textbf{Dual-Reference Framework:} Disambiguates $15{,}192$-FE paper-matched fixed benchmark anchor ($F_{\max}=0.7578\,\mathrm{kN}$) from $57{,}929$-FE spatial-fine adaptive convergence reference ($F_{\max}=0.7416\,\mathrm{kN}$, Job \texttt{1410504}).
+    \item \textbf{Internal Spatial Convergence:} Corrected ET1 ($14{,}483$ FEs) is within \textbf{$+0.279\%$} of the spatial-fine adaptive reference in $F_{\max}$ using $\sim75\%$ fewer elements; $-1.856\%$ vs fixed benchmark is an unresolved discretization-family offset.
   \end{itemize}
 
   \item \textbf{Priority 1: UEL Energy Formulation \& Output Audit (08--18 min)}
   \begin{itemize}[itemsep=0.8pt,topsep=0.8pt,leftmargin=4mm]
     \small
-    \item Non-invasive energy exposure in \texttt{f42\_mixed\_uel.for}: exact bit-for-bit mechanical parity ($|\Delta F| = 0.0\,\mathrm{kN}$).
-    \item Single-IP extraction rule: eliminated $4\times$ overcounting artifact on companion visualizer CPE4 elements.
-    \item Disproven common discrete potential ($\partial^2 \Pi / \partial \mathbf{u} \partial d \ne \partial^2 \Pi / \partial d \partial \mathbf{u}$).
-    \item Observability boundary: Newton paths unpersisted; status \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY\allowbreak\ --- \allowbreak NOT\_YET\_CLOSED}}.
+    \item Non-invasive energy exposure in \texttt{f42\_mixed\_uel.for}: exact bit-for-bit mechanical parity ($|\Delta F| = 0.0\,\mathrm{kN}$, source \texttt{CE8D5EDC...}, Job \texttt{1409734}).
+    \item Single-IP extraction rule: eliminates $4\times$ overcounting artifact on companion visualizer CPE4 elements.
+    \item Disproven common discrete potential ($\partial^2 \Pi / \partial \mathbf{u} \partial d \ne \partial^2 \Pi / \partial d \partial \mathbf{u}$) in staggered solver.
+    \item Observability boundary: within-increment Newton paths unpersisted; status maintained strictly as \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}} ($\varepsilon_{\mathrm{book}} = 0.76\%$ to $4.43\%$).
   \end{itemize}
 
   \item \textbf{Priority 2: Multifaceted Mode-I Convergence Findings (18--28 min)}
   \begin{itemize}[itemsep=0.8pt,topsep=0.8pt,leftmargin=4mm]
     \small
-    \item Initial stiffness $K_0$: completely stable across spatial meshes ($<0.09\%$) and time steps ($<0.001\%$) (\textbf{\texttt{CONVERGED / STABLE}}).
-    \item Peak force $F_{\max}$: strictly stable temporally ($<0.07\%$), mesh-sensitive spatially ($4.26\%$ drop across $h/l_0 \in [0.13, 0.40]$).
-    \item Spatial energetic convergence: post-peak $E_{\mathrm{frac}}$ varies by $1.56\%$ across $S_1$--$S_4$ ($2.339 \to 2.375\,\mathrm{mJ}$, \textbf{\texttt{STABLE\_OVER\_\allowbreak TESTED\_\allowbreak RANGE}}).
-    \item Adaptive remeshing series ($A_1$--$A_4$): pre-peak stiffness matched; post-peak elevated plateau on coarse background meshes.
+    \item Initial stiffness $K_0$: completely stable across all grids ($\Delta K_0 \le 0.076\%$, $K_0 \approx 137.95 \to 137.84\,\mathrm{kN/mm}$, \textbf{\texttt{CONVERGED / STABLE}}); \texttt{*NSET} line-limit defect closed.
+    \item Tolerance sensitivity sweep: ET1 ($14.5\mathrm{k}$, $0.7437\,\mathrm{kN}$), ET2 ($6.1\mathrm{k}$, $0.7564\,\mathrm{kN}$), ET3 ($5.2\mathrm{k}$, $0.7594\,\mathrm{kN}$), ET5 ($4.7\mathrm{k}$, $0.7654\,\mathrm{kN}$); ET1 is preferred for process-zone fidelity.
+    \item Full-horizon spatial-fine solve (Job \texttt{1410504}, 8T SMP, $S_8 = 3.47\times$): 7,014 increments complete to $u=10.0\,\mu\mathrm{m}$ with 0 cutbacks (\texttt{Exit=0}).
   \end{itemize}
 
-  \item \textbf{Crack-Path Symmetry, Localization \& Length-Scale Study (28--36 min)}
+  \item \textbf{Crack-Path Symmetry, Localization \& Matched Contours (28--36 min)}
   \begin{itemize}[itemsep=0.8pt,topsep=0.8pt,leftmargin=4mm]
     \small
-    \item Crack centroid trajectory: damage-weighted offset $|y_c - 0.5\,\mathrm{mm}| \le 3.10\,\mu\mathrm{m}$ (element-bounded pure Mode-I symmetry).
-    \item Regularized localization band: full transverse width $w_{d \ge 0.5} \approx 20.0$--$30.0\,\mu\mathrm{m}$ (mesh-sensitive and resolution-limited).
-    \item Completed 3-point length-scale sensitivity study on $S_3$ mesh ($l_0 \in \{7.5, 11.25, 15.0\}\,\mu\mathrm{m}$, Jobs \texttt{1406017}, \texttt{1406895}, \texttt{1406896}).
+    \item Crack centroid trajectory: damage-weighted offset $|y_c - 0.500\,\mathrm{mm}| = 0.000\,\mathrm{mm}$ (element-bounded pure Mode-I symmetry).
+    \item Regularized localization band: full transverse width $w_{0.5} \approx 15.0\,\mu\mathrm{m} \approx 2 l_0$ ($l_0 = 7.5\,\mu\mathrm{m}$).
+    \item Matched contour maps at $u \in \{0.0050, 0.005857, 0.0070\}\,\mathrm{mm}$ confirm identical planar propagation and full separation.
   \end{itemize}
 
   \item \textbf{Thesis Integration \& Gate 6C Promotion Decisions (36--45 min)}
   \begin{itemize}[itemsep=0.8pt,topsep=0.8pt,leftmargin=4mm]
     \small
-    \item Approval of completed Mode-I thesis report chapters (Chapters 1--3, 7--8).
-    \item Ruling on Gate~6B closure and acceptance of \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}}.
-    \item Authorization to proceed with Gate~6C (Mode-I State-Transfer Energy Conservation).
-    \item Reaffirmation of holds on Mode-II, multi-crack models, and Gate~7 visualization.
+    \item Approval of formal Gate~6B closure and acceptance of \textbf{\texttt{GLOBAL\_ENERGY\_IDENTITY --- NOT\_YET\_CLOSED}}.
+    \item Authorization to proceed to Gate~6C (Mode-I State-Transfer Energy Conservation).
+    \item Reaffirmation of strict holds on Mode-II fracture solve (\texttt{Job-2\_UEL.inp}), multi-crack models, and Gate~7 visualization.
   \end{itemize}
 \end{enumerate}
 
 \vfill
 \hrule height 0.4pt
 \vspace{0.18em}
-{\scriptsize\textbf{Meeting Package Documentation:} Executive Decision Sheet $\cdot$ Comprehensive 27-page Report $\cdot$ Numbers Cheat Sheet $\cdot$ Full Checksum Ledger}
+{\scriptsize\textbf{Meeting Package Documentation:} Focused 10-page Report (\texttt{report\_main.pdf}) $\cdot$ Master Evidence Index $\cdot$ Numbers Cheat Sheet $\cdot$ Full Checksum Ledger}
 
 \end{document}
