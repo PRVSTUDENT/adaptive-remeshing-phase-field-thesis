@@ -2,8 +2,8 @@
   "manifest_name": "MODE2_REPRODUCTION_BASELINE_MANIFEST",
   "governing_phase": "MODE2_REPRODUCTION_ACTIVE_HUMAN_AUTHORIZED_PREMEETING",
   "gate": "M2-0",
-  "task_id": "F1309-MODE2-LINEAGE-AUDIT-AND-MIEHE-QUALIFICATION",
-  "created_at": "2026-10-07T18:45:00+02:00",
+  "task_id": "F1310-MODE2-LOADING-AUDIT-AND-PREANALYSIS-PACKAGE",
+  "updated_at": "2026-10-07T19:15:00+02:00",
   "agent": "gemini-antigravity",
   "primary_reference": {
     "authors": "Anand Pandey, P. K. Asur Vijaya Kumar",
@@ -87,9 +87,9 @@
     },
     {
       "parameter": "preanalysis_loading_schedule",
-      "value": "2100 increments of Du1 = 5e-4 (ux=0.0105 mm) + 5000 increments of Du2 = 1e-5 (ux=0.0600 mm)",
-      "status": "PAPER_VERIFIED",
-      "source": "Section 4.2 (p. 3271) and Job-1_UEL.inp"
+      "value": "Paper text states '2100 increments of Du1 = 5e-4 and then at Du2 = 1e-5 for a further 5000 increments'. 2100 x 5e-4 = 1.05 mm exceeds domain size (1.0 mm), proving text conflates pseudo-time step Dt with Du. Deck implements Step-1 (2000 incs, Dt=5e-4, ux=0.0105 mm, Dux=5.25 nm) + Step-2 (5000 incs, Dt=2e-4, ux=0.0600 mm, Dux=9.90 nm approx 10 nm).",
+      "status": "PAPER_VERIFIED_TEXT_BUT_DIMENSIONALLY_AMBIGUOUS",
+      "source": "Section 4.2 (p. 3271), Fig. 13(a), and Job-1_UEL.inp; project interpretation is INFERRED"
     },
     {
       "parameter": "remeshing_error_indicator",
@@ -150,7 +150,7 @@
     "06_paper_grounded_uel_preanalysis": {
       "Job-1_UEL.inp": "869A2DBD015573FC15470834DAB1A6051A5AE530000AB44F9184777605541791",
       "Job-2_UEL.inp": "6B07E499BC537446EE97D095A642B32517865B8808985C19A0A7E780E891C366",
-      "f42_mixed_uel.for": "FA48CB4D38BAC9D772FF5ED1465175CEF363B1AB6FABE2CFFEBBDF11D3E2A854",
+      "f42_mixed_uel_mode2_miehe.for": "75029EF77CAA1677D2B1557CFF5B1DE61725B17FC380B9B27D37AED3EFCF4D9A",
       "MODE2_ADAPTED_RAW_5PCT.inp": "FB4EEF7F9C71D7817D47AD46461D2EE6932E51E8627140186C5A43E03EE138E6",
       "MODE2_ADAPTED_RAW_2PCT.inp": "7E98FB2F84D37A3366D035B7423D9CFD2B5D7A419FD6B3864FCE0E3C2BDE2D44"
     }
