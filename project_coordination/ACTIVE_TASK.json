@@ -1,10 +1,10 @@
 {
-    "task_id": "F1313-MODE2-M2-2-PREANALYSIS-EVALUATION-PACKAGE-AND-PREDECLARED-CRITERIA",
-    "task_name": "Mode-II Gate M2-2 Post-Processing & Terminal Evaluation Package with Predeclared Acceptance Checks",
+    "task_id": "F1314-MODE2-M2-2-TERMINAL-EVALUATION-AND-GATE-CLOSEOUT",
+    "task_name": "Mode-II Gate M2-2 Coarse Pre-Analysis Terminal Evaluation and Gate Closeout",
     "governing_phase": "MODE2_REPRODUCTION_ACTIVE_HUMAN_AUTHORIZED_PREMEETING",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "start_time": "2026-10-07T19:37:00+02:00",
-    "end_time": "2026-10-07T19:42:00+02:00",
-    "description": "Prepared and committed read-only terminal-evaluation and post-processing scripts for running job 1410790.mmaster02 (Job-1_UEL_paper_horizon); extract complete Fx-ux, dmax, raw element-wise MISESERI on All_elem, and snapshots at ux={0.00936, 0.0100, 0.011842, 0.01626, 0.0200} mm; codified predeclared M2-2 acceptance checks; preserved Mode-I freeze."
+    "start_time": "2026-10-07T20:18:00+02:00",
+    "end_time": "2026-10-07T20:30:00+02:00",
+    "description": "Captured Exit 0 completion of PBS job 1410790.mmaster02 across all 4,000 increments to full horizon ux=0.0200 mm; executed automated ODB extraction on cluster; transferred lightweight CSVs/JSONs to local repository; rendered 3-tier publication evolution figure with Fig. 6(b), 12, and 13(a) overlays; evaluated 8/8 predeclared acceptance checks (8/8 PASS); preserved Mode-I freeze; held Mode-II remeshing on hold."
 }

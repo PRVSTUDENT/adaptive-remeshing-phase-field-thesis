@@ -47,7 +47,7 @@ DIGITIZED_FIG13A = np.array([
 TARGET_UX_LABELS = [
     ("0.00936", r"$u_x = 9.36\,\mu\text{m}$" + "\n(Pre-Peak Linear)"),
     ("0.01000", r"$u_x = 10.0\,\mu\text{m}$" + "\n(Step-1 Final)"),
-    ("0.011842", r"$u_x = 11.84\,\mu\text{m}$" + "\n(Peak / Initiation)"),
+    ("0.01184", r"$u_x = 11.84\,\mu\text{m}$" + "\n(Peak / Initiation)"),
     ("0.01626", r"$u_x = 16.26\,\mu\text{m}$" + "\n(Post-Peak Propagation)"),
     ("0.02000", r"$u_x = 20.0\,\mu\text{m}$" + "\n(Terminal Horizon)")
 ]
@@ -55,15 +55,11 @@ TARGET_UX_LABELS = [
 def load_csv_data(filepath):
     if not os.path.exists(filepath):
         return None
-    data = []
-    with open(filepath, 'r') as f:
-        header = f.readline()
-        for line in f:
-            line = line.strip()
-            if line:
-                parts = [float(p) for p in line.split(',')]
-                data.append(parts)
-    return np.array(data)
+    try:
+        return np.genfromtxt(filepath, delimiter=',', skip_header=1)
+    except Exception as e:
+        print(f"[WARN] Error loading {filepath}: {e}")
+        return None
 
 def generate_evolution_figure(data_dir=".", out_fig_path="results/figures/mode2/mode2_paper_horizon_miseseri_damage_evolution.png"):
     rf_csv = os.path.join(data_dir, "mode2_j1_rf_history.csv")
@@ -77,24 +73,24 @@ def generate_evolution_figure(data_dir=".", out_fig_path="results/figures/mode2/
     with open(summary_json, 'r') as f:
         meta = json.load(f)
 
-    rf_data = load_csv_data(rf_csv)
-    # columns: step_name(str, skip), frame_id, inc, step_time, ux_nom, ux_act, fx_kN
-    # Since step_name is a string in raw CSV, load with numpy or manual parser:
     rf_records = []
     with open(rf_csv, 'r') as f:
         f.readline()
         for line in f:
             parts = line.strip().split(',')
             if len(parts) >= 7:
-                rf_records.append({
-                    'step': parts[0],
-                    'frame_id': int(parts[1]),
-                    'inc': int(parts[2]),
-                    'time': float(parts[3]),
-                    'ux_nom': float(parts[4]),
-                    'ux_act': float(parts[5]),
-                    'fx_kN': float(parts[6])
-                })
+                try:
+                    rf_records.append({
+                        'step': parts[0],
+                        'frame_id': int(parts[1]),
+                        'inc': int(parts[2]),
+                        'time': float(parts[3]),
+                        'ux_nom': float(parts[4]),
+                        'ux_act': float(parts[5]),
+                        'fx_kN': float(parts[6])
+                    })
+                except ValueError:
+                    continue
 
     ux_vals = np.array([r['ux_nom'] for r in rf_records])
     fx_vals = np.array([r['fx_kN'] for r in rf_records])
@@ -143,7 +139,8 @@ def generate_evolution_figure(data_dir=".", out_fig_path="results/figures/mode2/
                 xc = data[:, 2]
                 yc = data[:, 3]
                 mises = data[:, 4]
-                norm = Normalize(vmin=0.0, vmax=np.percentile(mises, 99))
+                p99 = np.percentile(mises, 99) if len(mises) > 0 and np.max(mises) > 0 else 1.0
+                norm = Normalize(vmin=0.0, vmax=max(p99, 1e-12))
                 sc = ax.scatter(xc, yc, c=mises, cmap='jet', s=12, norm=norm, edgecolors='none')
                 
                 # Overlay Fig 6b line

@@ -1,0 +1,85 @@
+{
+  "total_steps": 2, 
+  "step_names": [
+    "Step-1", 
+    "Step-2"
+  ], 
+  "snapshots": [
+    {
+      "mean_miseseri": 7.154006739686476e-16, 
+      "chord_angle_deg": -90.79163748847203, 
+      "frame_id": 1872, 
+      "increment": 1872, 
+      "achieved_ux_mm": 0.009359999895095825, 
+      "max_damage": 5.225687789465319e+37, 
+      "target_ux_mm": 0.00936, 
+      "max_miseseri": 5.74292539521834e-14, 
+      "damage_csv": "/home/pr21vyci/projects/mode2_reproduction_worktree/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/damage_snapshot_ux_0p00936.csv", 
+      "step_name": "Step-1", 
+      "miseseri_csv": "/home/pr21vyci/projects/mode2_reproduction_worktree/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/miseseri_snapshot_ux_0p00936.csv", 
+      "exit_x_at_y0": 0.5043601114302874
+    }, 
+    {
+      "mean_miseseri": 7.643169586050966e-16, 
+      "chord_angle_deg": -90.79163748847203, 
+      "frame_id": 2000, 
+      "increment": 2000, 
+      "achieved_ux_mm": 0.01, 
+      "max_damage": 5.225040780598963e+37, 
+      "target_ux_mm": 0.01, 
+      "max_miseseri": 6.135603770928214e-14, 
+      "damage_csv": "/home/pr21vyci/projects/mode2_reproduction_worktree/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/damage_snapshot_ux_0p01000.csv", 
+      "step_name": "Step-1", 
+      "miseseri_csv": "/home/pr21vyci/projects/mode2_reproduction_worktree/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/miseseri_snapshot_ux_0p01000.csv", 
+      "exit_x_at_y0": 0.5043601114302874
+    }, 
+    {
+      "mean_miseseri": 9.049512793135208e-16, 
+      "chord_angle_deg": -90.79163748847203, 
+      "frame_id": 368, 
+      "increment": 368, 
+      "achieved_ux_mm": 0.011840000003576278, 
+      "max_damage": 0.0, 
+      "target_ux_mm": 0.011842, 
+      "max_miseseri": 7.264555032830342e-14, 
+      "damage_csv": "/home/pr21vyci/projects/mode2_reproduction_worktree/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/damage_snapshot_ux_0p01184.csv", 
+      "step_name": "Step-2", 
+      "miseseri_csv": "/home/pr21vyci/projects/mode2_reproduction_worktree/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/miseseri_snapshot_ux_0p01184.csv", 
+      "exit_x_at_y0": 0.5043601114302874
+    }, 
+    {
+      "mean_miseseri": 1.2427793726779662e-15, 
+      "chord_angle_deg": -90.79163748847203, 
+      "frame_id": 1252, 
+      "increment": 1252, 
+      "achieved_ux_mm": 0.01625999987125397, 
+      "max_damage": 0.0, 
+      "target_ux_mm": 0.01626, 
+      "max_miseseri": 9.976491610911783e-14, 
+      "damage_csv": "/home/pr21vyci/projects/mode2_reproduction_worktree/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/damage_snapshot_ux_0p01626.csv", 
+      "step_name": "Step-2", 
+      "miseseri_csv": "/home/pr21vyci/projects/mode2_reproduction_worktree/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/miseseri_snapshot_ux_0p01626.csv", 
+      "exit_x_at_y0": 0.5043601114302874
+    }, 
+    {
+      "mean_miseseri": 1.5286339172101932e-15, 
+      "chord_angle_deg": -90.79163748847203, 
+      "frame_id": 2000, 
+      "increment": 2000, 
+      "achieved_ux_mm": 0.02, 
+      "max_damage": 0.0, 
+      "target_ux_mm": 0.02, 
+      "max_miseseri": 1.2271207541856427e-13, 
+      "damage_csv": "/home/pr21vyci/projects/mode2_reproduction_worktree/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/damage_snapshot_ux_0p02000.csv", 
+      "step_name": "Step-2", 
+      "miseseri_csv": "/home/pr21vyci/projects/mode2_reproduction_worktree/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/miseseri_snapshot_ux_0p02000.csv", 
+      "exit_x_at_y0": 0.5043601114302874
+    }
+  ], 
+  "odb_path": "/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/Job-1_UEL_paper_horizon.odb", 
+  "total_rf_points": 2002, 
+  "fig6b_reference": {
+    "chord_angle_deg": -49.74, 
+    "exit_x_mm": 0.93
+  }
+}
