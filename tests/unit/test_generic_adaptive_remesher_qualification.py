@@ -87,3 +87,30 @@ def test_upstream_root_cause_isolation():
         data = json.load(f)
     
     assert "error-guided across tested patterns" in data.get("audit_conclusion", "")
+
+def test_errortarget_percentage_semantics_and_fraction_guard():
+    """Verify that RemeshConfig enforces percentage semantics (e.g. 1.0, 2.0, 5.0) and rejects fractions (0.01, 0.02)."""
+    import sys
+    sys.path.insert(0, os.path.abspath("scripts/remeshing"))
+    from generic_adaptive_remesher import RemeshConfig
+    
+    # Valid percentage targets should succeed
+    for valid_target in [1.0, 2.0, 3.0, 5.0, 10.0]:
+        cfg = RemeshConfig(
+            model_name="TEST_MODEL",
+            odb_path="dummy.odb",
+            part_name="PART-1",
+            error_target=valid_target
+        )
+        assert cfg.error_target == valid_target
+        
+    # Decimal fraction targets (< 0.10) must be rejected with ValueError
+    for invalid_target in [0.01, 0.02, 0.05, 0.001]:
+        with pytest.raises(ValueError) as excinfo:
+            RemeshConfig(
+                model_name="TEST_MODEL",
+                odb_path="dummy.odb",
+                part_name="PART-1",
+                error_target=invalid_target
+            )
+        assert "percentage" in str(excinfo.value)

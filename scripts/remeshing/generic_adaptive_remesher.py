@@ -69,6 +69,12 @@ class RemeshConfig(object):
         self.variable = variable
         self.sizing_method = sizing_method
         self.error_target = float(error_target)
+        if self.error_target < 0.10:
+            raise ValueError(
+                "error_target must be specified as a percentage in Abaqus (e.g. 1.0 for 1%%, 2.0 for 2%%, 5.0 for 5%%). "
+                "Received %.4f, which appears to be a decimal fraction. "
+                "To configure a 2%% error target, pass error_target=2.0, not 0.02." % self.error_target
+            )
         self.min_element_size = float(min_element_size)
         self.max_element_size = float(max_element_size)
         self.refinement_factor = int(refinement_factor)
