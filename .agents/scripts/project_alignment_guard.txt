@@ -536,19 +536,19 @@ Do not alter:
 merely to enable parallel execution.
 
 ================================================================================
-SHARED-MEMORY MULTI-THREADING QUALIFICATION & SCALING (4, 8, 16 THREADS)
+SHARED-MEMORY MULTI-THREADING QUALIFICATION & SCALING (8-THREAD SMP QUALIFIED)
 ================================================================================
 
 The shared-memory parallelization question is:
 
 "Can the exact original authoritative dual-element formulation
 f42_mixed_uel.for reproduce the serial solution when Abaqus uses shared-memory
-threads (4, 8, or 16 threads) inside ONE shared-memory process?"
+threads inside ONE shared-memory process (8-thread SMP qualified, 16-thread unqualified, 4-thread not approved)?"
 
 Therefore the intended configuration is:
 
     1 MPI PROCESS / RANK
-    4, 8, or 16 SHARED-MEMORY THREADS
+    8 SHARED-MEMORY THREADS (or 16-thread qualification candidate when authorized)
 
 This is NOT a true multi-rank MPI qualification.
 
@@ -567,7 +567,7 @@ REQUIRED ABAQUS TELEMETRY
 For a shared-memory multi-threaded job, acceptable telemetry must demonstrate
 an equivalent of:
 
-    1 MPI rank x N threads (N in {4, 8, 16})
+    1 MPI rank x 8 threads (qualified SMP execution; 16-thread unqualified, 4-thread not approved)
 
 or:
 
@@ -619,7 +619,7 @@ ONLY intended change:
     CPU execution:
         1 CPU serial
             ->
-        N CPU shared-memory threads (N = 4, 8, 16)
+        8 CPU shared-memory threads (or 16-thread qualification candidate; 4-thread not approved)
 
 Freeze everything else.
 
@@ -655,12 +655,12 @@ One serial/thread parity pass is insufficient to declare thread safety.
 Required qualification progression:
 
 Stage A:
-    one N-thread run versus its exact 1-CPU twin.
+    one multi-threaded run versus its exact 1-CPU twin.
 
 If Stage A passes:
 
 Stage B:
-    repeat the SAME N-thread case independently.
+    repeat the SAME multi-threaded case independently.
 
 Compare the two N-thread runs for deterministic identity/tight numerical parity.
 
@@ -765,7 +765,7 @@ Additional submissions within the 15â€“20 job guideline must satisfy:
 - Pre-declared acceptance criteria;
 - Exact .inp and f42_mixed_uel.for hashes verified;
 - Input syntax / datacheck preflight verified;
-- Single-rank shared-memory threading confirmed (1 MPI rank x N threads);
+- Single-rank shared-memory threading confirmed (1 MPI rank x 8 threads qualified SMP, or 16 threads for authorized qualification);
 - Dual-channel notification integration verified;
 - Human authorization recorded for the batch.
 

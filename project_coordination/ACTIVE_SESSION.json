@@ -1,20 +1,16 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1287-MODE2-STATE-ORGANIZATION-AND-ET2-TOPOLOGY-FIGURES",
-  "session_start": "2026-10-07T09:45:00+02:00",
-  "session_end": "2026-10-07T10:15:00+02:00",
-  "starting_commit": "819b5c602176d2190d34971d4a934c1e27d34882",
+  "task_id": "F1288-REPOSITORY-IDENTITY-AND-THREADING-GOVERNANCE-RECONCILIATION",
+  "session_start": "2026-10-07T10:22:00+02:00",
+  "session_end": "2026-10-07T11:20:00+02:00",
+  "starting_commit": "86ef4429dea0fe881ccaac5404f379d1c2069d99",
   "allowed_write_scope": [
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ACTIVE_TASK.json",
-    "project_coordination/CURRENT_STATE.md",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/sessions/**",
+    "project_coordination/**",
+    "scripts/**",
+    "tests/**",
+    "docs/**",
     "models/pandey_kumar_mode2/**",
-    "scripts/postprocessing/**",
-    "results/figures/mode2/**",
-    "docs/project/PROJECT_PHASE_CHECKLIST.md"
+    ".agents/**"
   ]
 }
