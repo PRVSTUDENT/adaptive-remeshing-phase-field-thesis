@@ -1,11 +1,15 @@
 {
     "active": false,
     "agent": "gemini-antigravity",
-    "task_id": "F1307-PAUSED-PENDING-SUPERVISOR-MEETING-2026-10-08",
-    "session_start": "2026-10-07T16:15:00+02:00",
-    "session_end": "2026-10-07T16:20:00+02:00",
-    "starting_commit": "5dd192ad458c7d82f22ff3a26934271ab6116ee3",
+    "task_id": "F1308-MODE2-STEP1-FINAL-MISESERI-ADAPTIVE-REMESH-DIAGNOSTIC",
+    "session_start": "2026-10-07T16:30:00+02:00",
+    "session_end": "2026-10-07T16:45:00+02:00",
+    "starting_commit": "fb4e458698a568dfadc15668c88406b694765e74",
     "allowed_write_scope": [
-        "project_coordination/**"
+        "project_coordination/**",
+        "models/pandey_kumar_mode2/**",
+        "scripts/**",
+        "results/figures/mode2/**",
+        "docs/mode2/**"
     ]
 }

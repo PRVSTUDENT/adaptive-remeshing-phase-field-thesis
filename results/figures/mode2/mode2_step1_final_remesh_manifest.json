@@ -1,0 +1,73 @@
+{
+  "title": "Mode-II Step-1 Final MISESERI Native Adaptive Remeshing Diagnostic Manifest",
+  "task_id": "F1308-MODE2-STEP1-FINAL-MISESERI-ADAPTIVE-REMESH-DIAGNOSTIC",
+  "timestamp": "2026-10-07T16:35:00+02:00",
+  "agent": "gemini-antigravity",
+  "source_odb": "models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/Job-1_UEL.odb",
+  "source_step": "Step-1",
+  "source_frame": 2000,
+  "source_displacement_ux_mm": 0.0105,
+  "source_time_value": 1.0,
+  "coarse_mesh": {
+    "input_deck": "models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/Job-1_UEL.inp",
+    "total_elements": 2960,
+    "cpe4_quads": 2860,
+    "cpe3_tris": 100,
+    "h_global_mm": 0.02,
+    "miseseri_max": 3.588663112334689e-13,
+    "miseseri_mean": 1.262234612393515e-15,
+    "miseseri_min": 2.9793775114739175e-17,
+    "miseseri_csv": "models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/miseseri_step1_final_frame2000.csv"
+  },
+  "remeshing_rule_parameters": {
+    "sizing_method": "UNIFORM_ERROR",
+    "error_target_pct": 5.0,
+    "min_size_cfg_mm": 0.001,
+    "max_size_cfg_mm": 0.025,
+    "refinement_factor": 10,
+    "coarsening_factor": "NOT_ALLOWED",
+    "variable": "MISESERI",
+    "target_region": "ALL_ELEM"
+  },
+  "adapted_mesh": {
+    "input_deck": "models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/MODE2_ADAPTED_RAW_5PCT.inp",
+    "total_finite_elements": 11972,
+    "quad_elements": 11626,
+    "tri_elements": 346,
+    "total_nodes": 12064,
+    "measured_h_area_min_mm": 0.0007969076377157698,
+    "measured_h_area_max_mm": 0.024906092506720507,
+    "measured_h_area_mean_mm": 0.007659791498591787,
+    "measured_edge_min_mm": 0.0010458668083661792,
+    "measured_edge_max_mm": 0.03178742209269934,
+    "measured_edge_mean_mm": 0.007802132970273662
+  },
+  "fidelity_metrics": {
+    "pearson_r_logM_h": -0.8690877227982113,
+    "top10_miseseri_threshold": 1.2941745144451766e-15,
+    "top10_refined_fraction": 0.8408960367604825,
+    "fine_elements_in_high_error_fraction": 0.9782826595389241,
+    "adapted_elements_in_high_error_zone": 6964,
+    "total_adapted_elements": 11972
+  },
+  "artifacts": {
+    "figure_png": {
+      "path": "results/figures/mode2/mode2_step1_final_miseseri_adaptive_mesh.png",
+      "sha256": "ba5dedc9cea4f5fb3820c1221cfd74a368da1aca3bb31362c53e6fad9257efcc",
+      "size_bytes": 1713525
+    },
+    "figure_pdf": {
+      "path": "results/figures/mode2/mode2_step1_final_miseseri_adaptive_mesh.pdf",
+      "sha256": "ab47fcbe380727f48c6d8514d1f3754f83df72abb76ee7ec0835c66d3c1480c7"
+    },
+    "data_csv": {
+      "path": "models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/miseseri_step1_final_frame2000.csv",
+      "sha256": "4296011c5593dc73f5ad57eaaba6ef46c3d4e538be244d6b02b1eae5d422e1b0"
+    }
+  },
+  "scientific_characterization": {
+    "refinement_location_summary": "Refinement concentrates heavily at the sharp notch tip (0.5, 0.5) and throughout the notch-tip singularity region where the top 10% MISESERI elements reside. The adapted mesh places 84.1% of its fine elements within the top-error zone, yielding a strong inverse correlation of r = -0.869 between log10(MISESERI) and element size h.",
+    "epistemological_boundary": "MISESERI is a recovery-based stress-discretization error indicator on the linear-elastic continuum pre-analysis stress field, NOT the phase-field crack path or damage error.",
+    "comparison_with_step2_unzipping": "In Step-1 final, the unzipping defect has not occurred; MISESERI faithfully reflects the shear stress concentration around the notch tip. In Step-2 final, isotropic degradation unzips the horizontal seam, distorting MISESERI to y >= 0.37 mm only."
+  }
+}
