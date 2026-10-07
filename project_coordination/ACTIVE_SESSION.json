@@ -1,24 +1,20 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1286-MODE1-DUAL-REFERENCE-SEMANTICS-REPORT-REVISION",
-  "session_start": "2026-10-07T09:04:02+02:00",
-  "session_end": "2026-10-07T09:30:00+02:00",
-  "starting_commit": "238bbcd25906d7c4ffc20c0f3b3ca1982e0dc7d4",
+  "task_id": "F1287-MODE2-STATE-ORGANIZATION-AND-ET2-TOPOLOGY-FIGURES",
+  "session_start": "2026-10-07T09:45:00+02:00",
+  "session_end": "2026-10-07T10:15:00+02:00",
+  "starting_commit": "819b5c602176d2190d34971d4a934c1e27d34882",
   "allowed_write_scope": [
-    "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/**",
-    "scripts/postprocessing/plot_gate6b_spatial_convergence_synthesis.py",
-    "scripts/postprocessing/generate_gate6b_spatial_localization_synthesis.py",
-    "scripts/postprocessing/plot_stage14n_canonical_k0.py",
-    "results/figures/mode1_gate6b/fig_mode1_stage14n_canonical_k0_fitting.pdf",
-    "results/figures/mode1_gate6b/fig_mode1_stage14n_canonical_k0_fitting.png",
-    "models/pandey_kumar_mode1/MODE1_REPRODUCTION_MANIFEST.json",
     "project_coordination/ACTIVE_SESSION.json",
     "project_coordination/ACTIVE_TASK.json",
     "project_coordination/CURRENT_STATE.md",
     "project_coordination/TASK_LEDGER.csv",
     "project_coordination/ARTIFACT_REGISTRY.csv",
     "project_coordination/sessions/**",
+    "models/pandey_kumar_mode2/**",
+    "scripts/postprocessing/**",
+    "results/figures/mode2/**",
     "docs/project/PROJECT_PHASE_CHECKLIST.md"
   ]
 }

@@ -1,10 +1,10 @@
 {
-  "task_id": "F1286-MODE1-DUAL-REFERENCE-SEMANTICS-REPORT-REVISION",
-  "task_name": "Mode-I Dual-Reference Semantics Report Revision",
+  "task_id": "F1287-MODE2-STATE-ORGANIZATION-AND-ET2-TOPOLOGY-FIGURES",
+  "task_name": "Mode-II State Organization, Governance Classification, and Corrected ET2 Mesh Topology Publication Figures",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-07T09:04:02+02:00",
-  "end_time": "2026-10-07T09:30:00+02:00",
-  "governing_phase": "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF",
-  "description": "Revise the October 8 supervisor report to distinguish the 15,192-FE paper-matched fixed benchmark anchor from the 57,929-FE spatial-fine adaptive convergence reference; replace error language with explicitly named relative differences; add both comparison baselines to the tolerance table; make the ET1-to-spatial-fine 0.279% result the central convergence and efficiency finding; classify the residual fixed-versus-adaptive peak offset as a discretization-family difference rather than adaptive-mesh error; update figure labels and conclusions consistently; rebuild, visually verify, test, record, commit selectively, and push."
+  "start_time": "2026-10-07T09:45:00+02:00",
+  "end_time": "2026-10-07T10:15:00+02:00",
+  "governing_phase": "MODE2_STATE_ORGANIZATION_AND_TOPOLOGY_VERIFICATION",
+  "description": "Organize repository, local, and HPC state for Mode-II: (1) create immutable archive branch archive/legacy-mode2-pre-stage15c-2026-10-07 from main head; (2) classify Mode-II material on main into CANONICAL_CURRENT, DIAGNOSTIC_ONLY, SUPERSEDED, and INVALID_FAILED; (3) establish authoritative models/pandey_kumar_mode2/MODE2_CURRENT_STATE.md documenting Job 1410178 pre-analysis, corrected ET2 21,496-FE mesh, datacheck exit 0, and fracture solve hold; (4) export publication-grade mesh topology figures for corrected ET2 (21,496 FE): full-domain mesh lines, zoomed crack corridor showing inclined localization, and side-by-side comparison with Pandey-Kumar Fig. 12(b); (5) test, document, commit, and push to GitHub."
 }

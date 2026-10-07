@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-07T09:30:00+02:00` (gemini-antigravity) — Task F1286 Mode-I Dual-Reference Semantics Report Revision: disambiguated the 15,192-FE paper-matched fixed benchmark anchor (reproduction baseline) from the 57,929-FE spatial-fine adaptive convergence reference (internal convergence anchor); updated Table 3 to include two comparison columns showing ET1 is within +0.279% of the spatial-fine adaptive reference (-1.856% vs fixed benchmark); classified -2.131% as an unresolved discretization-family difference rather than adaptive-mesh error; updated figure labels and conclusions consistently; compiled strictly 10-page report (PDF SHA-256 `8F807B8AF757AB64EF183A016A53609AD3B4CF6E360289CE725ECB139134F398`); confirmed 441/441 selected unit tests pass 100%; released `ACTIVE_SESSION.json`.
+Last updated: `2026-10-07T10:15:00+02:00` (gemini-antigravity) — Task F1287 Mode-II State Organization, Governance Classification, Scratch Cleanup, and Corrected ET2 Mesh Topology Publication Figures: created immutable git archive branch `archive/legacy-mode2-pre-stage15c-2026-10-07` on origin; classified Mode-II materials into `CANONICAL_CURRENT`, `DIAGNOSTIC_ONLY`, `SUPERSEDED`, and `INVALID_FAILED`; established authoritative `MODE2_CURRENT_STATE.md` (Job `1410178.mmaster02` corrected pre-analysis, corrected ET2 = 21,496 FEs [+7.68% vs Pandey-Kumar 19,963 FEs], Abaqus datacheck PASS, full fracture solve NOT YET RUN); isolated HPC scratch into `/scratch9/pr21vyci/archive/mode2_pre_stage15c/`; authored `scripts/postprocessing/plot_mode2_et2_mesh_topology.py` and exported 6 publication-quality mesh topology figures (PDF/PNG in `results/figures/mode2/`); Mode-I remains frozen for supervisor review; Gate 6C, Mode-II solve, and Gate 7 remain strictly on hold.
 
 ---
 
@@ -73,6 +73,6 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
 * **Scope Holds Active:**
   - Gate 6C (Nonmatching State Transfer / Restart Energy Balance): `ON_HOLD_PENDING_GATE6B_CLOSURE` (strictly paused on hold until Gate 6B is formally evaluated and closed; no auto-promotion).
   - Gate 7 (Post-Processing & ParaView Bridge): `ON_HOLD_PENDING_GATE6B`.
-  - Stage 15 (Mode-II Adaptive Benchmark Production): `ON_HOLD_PENDING_GATE6B`.
+  - Stage 15 (Mode-II Adaptive Benchmark Production): `ON_HOLD_PENDING_SUPERVISOR_SIGNOFF` (Pre-analysis Job `1410178.mmaster02` and corrected ET2 21,496-FE mesh qualified/verified; full fracture solve strictly gated pending supervisor instruction).
   - Distributed Multi-Rank MPI Integration: `STRICTLY_DISQUALIFIED` (`f42_mixed_uel.for` single-rank shared-memory SMP only; multi-rank MPI requires redesign of replicated `COMMON` state).
-* **Next Action:** Use the provenance-corrected 10-page supervisor report at the Thursday 08 October 2026, 10:00 CEST meeting and obtain the formal Gate-6B decision; keep Gate 6C, Mode-II, and Gate 7 strictly on hold until that review.
+* **Next Action:** Use the provenance-corrected 10-page supervisor report at the Thursday 08 October 2026, 10:00 CEST meeting and obtain the formal Gate-6B decision; keep Gate 6C, Mode-II solve, and Gate 7 strictly on hold until that review.
