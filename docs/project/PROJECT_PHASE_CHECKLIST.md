@@ -23,7 +23,7 @@
 | **Gate 4** | Native Python Refinement Implementation | **CLOSED_VERIFIED** | Automated `RemeshingRule` and `adaptiveRemesh` workflow verified. |
 | **Gate 5** | Native-Remesh Reproduction (71k vs 14k) | **SUPERVISOR_ACCEPTED_LIMITATION_CLOSED** | Supervisor accepted missing publication information boundary; sensitivity trends documented. |
 | **Gate 6A** | Mechanical Mode-I Implementation | **RESOLVED_AND_CLOSED** | N_BOTTOM 16-entry card limit defect identified and resolved with wrapped cards (Jobs 1405044, 1404933). |
-| **Gate 6B** | Mode-I Energetic & Convergence Qualification | **ACTIVE_EVALUATION_AND_CONTINUATION** | UEL energy formulation & mechanical parity qualified (source `CE8D5EDC...`, Job 1409734); temporal pre-peak stable, post-peak sensitive (Jobs 1409982 vs 1410027); baseline spatial comparison qualified (F1247); clean single-variable $l_0$ sensitivity qualified on $S_3$ (F1249); 58k spatial convergence solve completed and ingested (Job 1410504, Exit 0, $F_{\max}$ converged within $0.28\%$). |
+| **Gate 6B** | Mode-I Energetic & Convergence Qualification | **GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF** | UEL energy formulation and mechanical parity qualified (source `CE8D5EDC...`, Job 1409734); spatial convergence and localization evidence complete, including Job 1410504 full-horizon 58k confirmation; the focused 10-page October 8 supervisor report is finalized for the formal decision. |
 | **Gate 6C** | Mode-I State-Transfer Energy Preservation | **NOT_YET_PERFORMED_PENDING_GATE_6B** | Blocked until supervisor review and decision on Gate 6B. |
 | **Gate 7** | ABAQUSER Integration / Visualization | **ON_HOLD** | Blocked on external ABAQUSER dependency until Mode-I fundamentals qualified. |
 | **Gate 8** | Higher-Complexity Benchmarks | **ON_HOLD** | Mode-II, mixed mode, and complex geometries held until Mode-I qualified. |
@@ -121,7 +121,7 @@
 
 ---
 
-## GATE 6B: MODE-I ENERGETIC & CONVERGENCE QUALIFICATION -- ACTIVE_EVALUATION_AND_CONTINUATION
+## GATE 6B: MODE-I ENERGETIC & CONVERGENCE QUALIFICATION -- GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF
 
 | Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
 | :--- | :--- | :---: | :--- |
@@ -131,7 +131,7 @@
 | **G6B-03** | **Single-IP Extraction Rule** | **PASS** | Single-IP1 extraction verified to prevent $4\times$ overcounting artifact from 4-IP companion elements. |
 | **G6B-04** | **Spatial Discretization Convergence ( \to S_4$)** | **PASS** | Post-peak fracture energy converges to $2.33886 \to 2.37531\,\text{mJ}$ ($+1.56\%$ change, $1.94\%$ min-max spread), classified `STABLE_OVER_TESTED_RANGE`. |
 | **G6B-05** | **Global Energy Balance Identity** | **OPEN** | `GLOBAL_ENERGY_IDENTITY â€” NOT_YET_CLOSED`. Pre-peak $\Delta_{\text{book}} < 0.007\%$; post-peak differences strictly designated as bookkeeping differences for supervisor review. |
-| **G6B-06** | **Pre-Meeting Meeting Pack Frozen** | **PASS** | 26-page report_main.pdf (SHA-256 `4BE9136E...`) and SUPERVISOR_REQUEST_COMPLIANCE_CHECKLIST.md (Version 1.3, SHA-256 `CBFC617F...`) completed and frozen; all 21 figures have attached scientific conclusions. |
+| **G6B-06** | **Pre-Meeting Meeting Pack Frozen** | **PASS** | Focused 10-page `report_main.pdf` (SHA-256 `167B72F6935A53EEF0BDE42F6D942EA61ADB7F608441C8743CDCFEDE749DE5C6`) finalized; all pages visually inspected; 173/173 Mode-I and Gate-6B tests pass. The report preserves explicit limitations and requests formal Gate-6B supervisor sign-off. |
 
 ---
 
