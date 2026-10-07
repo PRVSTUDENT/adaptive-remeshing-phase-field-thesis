@@ -13,5 +13,5 @@ source ./job_notifications.sh
 notification_load_config || true
 
 JOB_ID=$(qsub submit_solver.pbs)
-echo "Submitted Mode-II Job-1_UEL Miehe Preanalysis Solver: $JOB_ID"
-notify_submitted "$JOB_ID" "M2_J1_MIEHE_PRE" "Mode-II Job-1_UEL Coarse Miehe Preanalysis Solver (2,960 elements, 1 CPU)" || true
+echo "Submitted Mode-II Job-1_UEL Miehe Paper-Horizon Preanalysis Solver: $JOB_ID"
+notify_submitted "$JOB_ID" "M2_J1_MIEHE_HORIZON" "Mode-II Job-1_UEL Coarse Miehe Paper-Horizon Preanalysis Solver (2,960 elements, 1 CPU)" || true

@@ -1,54 +1,63 @@
 {
-  "package_id": "PACKAGE-M2-06-PAPER-GROUNDED-MIEHE-PREANALYSIS",
-  "task_id": "F1309-MODE2-LINEAGE-AUDIT-AND-MIEHE-QUALIFICATION",
-  "model": "Pandey & Kumar (2025) Mode-II Pure Shear Single-Edge Notch Specimen (Miehe Spectral Split)",
-  "governing_reference": "Pandey & Kumar (2025) CMES 144(3):3255-3283, Section 4.2, Figs. 6b, 12b",
-  "objective": "Phase-field UEL preanalysis with Miehe spectral strain energy split to establish propagating shear crack corridor and extract MISESERI for native remeshing",
-  "hardware": {
-    "cpus": 1,
-    "memory": "16gb",
-    "walltime": "04:00:00",
-    "queue": "normal_imfdfkmq"
-  },
-  "physical_parameters": {
-    "l0_mm": 0.015,
-    "Gc_kN_per_mm": 0.0027,
-    "E_kN_per_mm2": 210.0,
-    "nu": 0.3,
-    "residual_stiffness_k": 1.0e-7,
-    "n_phys": 2960.0
-  },
-  "discretization": {
-    "mesh_type": "Uniform coarse mesh",
-    "h_global_mm": 0.02,
-    "physical_elements": 2960,
-    "quad_elements_cpe4": 2860,
-    "tri_elements_cpe3": 100,
-    "physical_nodes": 3036,
-    "total_layered_elements": 8880
-  },
-  "loading_steps": {
-    "step_1": {
-      "type": "Monotonic shear displacement",
-      "u_target_mm": 0.0105,
-      "max_increments": 2100,
-      "dt_init": 0.0005
+    "package_name": "mode2_j1_miehe_paper_horizon_preanalysis",
+    "benchmark": "Pandey & Kumar (2025) Mode-II Coarse Pre-Analysis",
+    "reproduction_gate": "GATE_M2_2_LOADING_SCHEDULE_RECONSTRUCTION",
+    "gate_status": "QUALIFIED_READY_TO_SUBMIT",
+    "submission_boundary": "AWAITING_EXPLICIT_HUMAN_OR_DELEGATED_AUTHORIZATION",
+    "governing_mesh": {
+        "elements": 2960,
+        "quads": 2860,
+        "tris": 100,
+        "nodes": 3036,
+        "layers": 3,
+        "total_deck_elements": 8880
     },
-    "step_2": {
-      "type": "Monotonic shear displacement",
-      "u_target_mm": 0.0600,
-      "max_increments": 5000,
-      "dt_init": 0.0002
+    "reconciled_loading_schedule": {
+        "step_1": {
+            "name": "Step-1",
+            "displacement_horizon_mm": 0.01,
+            "increments": 2000,
+            "time_increment": 0.0005,
+            "physical_du_per_inc_nm": 5.0,
+            "purpose": "Linear-elastic / pre-initiation stress singularity and MISESERI error recovery"
+        },
+        "step_2": {
+            "name": "Step-2",
+            "displacement_horizon_mm": 0.02,
+            "increments": 2000,
+            "time_increment": 0.0005,
+            "physical_du_per_inc_nm": 5.0,
+            "purpose": "Full shear fracture propagation matching Fig. 12 (9.36, 11.842, 16.26 um) and Fig. 13a terminal load drop"
+        }
+    },
+    "files": {
+        "Job-1_UEL_paper_horizon.inp": {
+            "sha256": "BCFC850EDD07B9DC0BEC36FA8A795A5A0F55EFA4CA75A584784862F41D3F04F5",
+            "bytes": 352493
+        },
+        "Job-1_UEL.inp": {
+            "sha256": "869A2DBD015573FC15470834DAB1A6051A5AE530000AB44F9184777605541791",
+            "bytes": 352342
+        },
+        "f42_mixed_uel_mode2_miehe.for": {
+            "sha256": "75029EF77CAA1677D2B1557CFF5B1DE61725B17FC380B9B27D37AED3EFCF4D9A",
+            "bytes": 24756
+        },
+        "f42_mixed_uel.for": {
+            "sha256": "FA48CB4D38BAC9D772FF5ED1465175CEF363B1AB6FABE2CFFEBBDF11D3E2A854",
+            "bytes": 30595
+        },
+        "submit_solver.pbs": {
+            "sha256": "DC569E7303E31710D407927F0788575268F6F56F6318B1E73156F8604ADA41FD",
+            "bytes": 1480
+        },
+        "submit_job1_uel_solver.sh": {
+            "sha256": "37ED6B8B57DBCC672E0D43849E16B56451312F81E33AE5F5686ABA8404D130A2",
+            "bytes": 549
+        },
+        "job_notifications.sh": {
+            "sha256": "96756A681D2D36C11B36B89288F631F8ECC9537543C2C745A4BAE1B425984B47",
+            "bytes": 10663
+        }
     }
-  },
-  "files": {
-    "Job-1_UEL.inp": "869A2DBD015573FC15470834DAB1A6051A5AE530000AB44F9184777605541791",
-    "f42_mixed_uel_mode2_miehe.for": "75029EF77CAA1677D2B1557CFF5B1DE61725B17FC380B9B27D37AED3EFCF4D9A",
-    "job_notifications.sh": "96756A681D2D36C11B36B89288F631F8ECC9537543C2C745A4BAE1B425984B47",
-    "submit_solver.pbs": "6870C8DB22F624266EE0E6833B3DB41FDC6DD86C4FC9A93483D9698E0A7DFF46",
-    "submit_job1_uel_solver.sh": "9DD09067F575EB8443AD2BB30673A2CD291C57D2E2307A7ACBA0753DC3E2CBBC"
-  },
-  "dual_channel_notification_contract": "PASS",
-  "telegram_notification_contract": "PASS",
-  "datacheck_qualification": "PASS_EXIT_0"
 }

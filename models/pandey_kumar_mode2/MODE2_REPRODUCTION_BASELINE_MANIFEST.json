@@ -1,9 +1,9 @@
 {
   "manifest_name": "MODE2_REPRODUCTION_BASELINE_MANIFEST",
   "governing_phase": "MODE2_REPRODUCTION_ACTIVE_HUMAN_AUTHORIZED_PREMEETING",
-  "gate": "M2-0",
-  "task_id": "F1310-MODE2-LOADING-AUDIT-AND-PREANALYSIS-PACKAGE",
-  "updated_at": "2026-10-07T19:15:00+02:00",
+  "gate": "M2-2",
+  "task_id": "F1311-MODE2-LOADING-HORIZON-RECONSTRUCTION-AND-PREANALYSIS",
+  "updated_at": "2026-10-07T19:30:00+02:00",
   "agent": "gemini-antigravity",
   "primary_reference": {
     "authors": "Anand Pandey, P. K. Asur Vijaya Kumar",
@@ -15,7 +15,7 @@
     "pages": "3251-3276",
     "doi": "10.32604/cmes.2025.067858",
     "section": "4.2 Finite-Size Edge Crack Plate under Mode-II Loading (pp. 3270-3272)",
-    "figures": ["Fig. 4(b)", "Fig. 6(b)", "Fig. 12(a,b)", "Fig. 13(a,b)"],
+    "figures": ["Fig. 4(b)", "Fig. 6(b)", "Fig. 12(a,b,c)", "Fig. 13(a,b)"],
     "listings": ["Listing 1", "Listing 4"]
   },
   "parameter_classification_table": [
@@ -87,9 +87,9 @@
     },
     {
       "parameter": "preanalysis_loading_schedule",
-      "value": "Paper text states '2100 increments of Du1 = 5e-4 and then at Du2 = 1e-5 for a further 5000 increments'. 2100 x 5e-4 = 1.05 mm exceeds domain size (1.0 mm), proving text conflates pseudo-time step Dt with Du. Deck implements Step-1 (2000 incs, Dt=5e-4, ux=0.0105 mm, Dux=5.25 nm) + Step-2 (5000 incs, Dt=2e-4, ux=0.0600 mm, Dux=9.90 nm approx 10 nm).",
-      "status": "PAPER_VERIFIED_TEXT_BUT_DIMENSIONALLY_AMBIGUOUS",
-      "source": "Section 4.2 (p. 3271), Fig. 13(a), and Job-1_UEL.inp; project interpretation is INFERRED"
+      "value": "Section 4.2 printed text states 'median of 0.06 mm' and '2100 increments of Du1=5e-4 and then at Du2=1e-5 for a further 5000 increments'. This conflicts directly with Fig. 12 contours (u = 9.36 um, 11.842 um, 16.26 um) and Fig. 13(a) force-displacement curve (complete failure and load drop to F ~ 0 by u ~ 0.016-0.020 mm). Reconciled candidate deck Job-1_UEL_paper_horizon.inp implements Step 1 (0 -> 0.0100 mm, 2000 incs, Dt=5e-4, Dux=5.0 nm) and Step 2 (0.0100 -> 0.0200 mm, 2000 incs, Dt=5e-4, Dux=5.0 nm), matching all figures and verified via Datacheck Exit 0.",
+      "status": "PAPER_TEXT_CONFLICTS_WITH_FIGURES",
+      "source": "Section 4.2 (p. 3271), Fig. 12(a,b,c), Fig. 13(a), and Job-1_UEL_paper_horizon.inp"
     },
     {
       "parameter": "remeshing_error_indicator",
@@ -148,6 +148,7 @@
   },
   "existing_mode2_assets": {
     "06_paper_grounded_uel_preanalysis": {
+      "Job-1_UEL_paper_horizon.inp": "BCFC850EDD07B9DC0BEC36FA8A795A5A0F55EFA4CA75A584784862F41D3F04F5",
       "Job-1_UEL.inp": "869A2DBD015573FC15470834DAB1A6051A5AE530000AB44F9184777605541791",
       "Job-2_UEL.inp": "6B07E499BC537446EE97D095A642B32517865B8808985C19A0A7E780E891C366",
       "f42_mixed_uel_mode2_miehe.for": "75029EF77CAA1677D2B1557CFF5B1DE61725B17FC380B9B27D37AED3EFCF4D9A",
