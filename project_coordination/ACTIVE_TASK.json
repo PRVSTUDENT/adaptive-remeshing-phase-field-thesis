@@ -1,10 +1,10 @@
 {
-    "task_id": "F1309-MODE2-LINEAGE-AUDIT-AND-MIEHE-QUALIFICATION",
-    "task_name": "Mode-II Forensic Provenance Audit, Evidence Table, and Separate Miehe Source Qualification",
+    "task_id": "F1310-MODE2-LOADING-AUDIT-AND-PREANALYSIS-PACKAGE",
+    "task_name": "Mode-II Coarse Pre-Analysis Loading Schedule Audit and Pre-Analysis Solver Package Preparation",
     "governing_phase": "MODE2_REPRODUCTION_ACTIVE_HUMAN_AUTHORIZED_PREMEETING",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "start_time": "2026-10-07T18:38:00+02:00",
-    "end_time": "2026-10-07T18:50:00+02:00",
-    "description": "Human-authorized Mode-II reproduction: (1) verified 0 active PBS jobs; (2) confirmed Mode-I release tag and UEL hash CE8D5EDC... 100% untouched; (3) proved F1308 was REUSED_EXISTING_MESH_DIAGNOSTIC (reused 11,972 FE mesh from F1291); (4) generated MODE2_REPRODUCTION_BASELINE_MANIFEST.json indexing Pandey & Kumar Sec. 4.2 parameters; (5) implemented separate f42_mixed_uel_mode2_miehe.for with exact 2D Miehe spectral split and symmetric analytical tangent; (6) 4/4 Miehe unit tests pass 100%; (7) independent Abaqus 2023 make library compilation passed (libstandardU.so); (8) Abaqus 2023 datacheck on Job-1_UEL.inp with Miehe UEL passed (Exit 0); (9) prepared pre-analysis solver package; (10) committed and pushed governed changes to mode2-pandey-kumar-reproduction branch."
+    "start_time": "2026-10-07T18:56:00+02:00",
+    "end_time": "2026-10-07T19:10:00+02:00",
+    "description": "Mode-II loading schedule paper audit and pre-analysis solver package preparation: (1) audited Job-1_UEL.inp loading schedule against Pandey & Kumar (2025) Sec. 4.2; (2) verified Step-1 (2000 incs, ux=0.0105 mm, du=5.25 nm) and Step-2 (5000 incs, ux=0.0600 mm, du=9.90 nm approx 10 nm) mathematical consistency; (3) authored MODE2_LOADING_SCHEDULE_AUDIT_REPORT.md; (4) verified remote compilation and Abaqus 2023 Datacheck on Job-1_UEL.inp with Miehe UEL (Exit 0); (5) verified fast-forward cluster worktree sync; (6) submission gate classified as M2-2_READY_TO_SUBMIT_BLOCKED_BY_DELEGATION; (7) Mode-I baseline and release tag v2026.10.08-supervisor-meeting-mode1-freeze 100% untouched."
 }
