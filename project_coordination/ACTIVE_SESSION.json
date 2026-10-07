@@ -1,18 +1,16 @@
 ﻿{
-    "session_end":  "2026-10-07T14:46:00+02:00",
-    "session_start":  "2026-10-07T14:43:00+02:00",
+    "session_end":  "2026-10-07T14:55:00+02:00",
+    "session_start":  "2026-10-07T14:48:00+02:00",
     "agent":  "gemini-antigravity",
     "allowed_write_scope":  [
                                 "project_coordination/**",
+                                "docs/**",
                                 "scripts/**",
                                 "tests/**",
-                                "docs/**",
                                 "models/**",
-                                "results/figures/**",
-                                "runs/**",
-                                ".agents/**"
+                                "results/**"
                             ],
     "active":  false,
-    "task_id":  "F1300-MODE1-AND-MODE2-PREANALYSIS-FRAME-CONVENTION-AUDIT",
-    "starting_commit":  "181462c02685eb6b8d7c452aed442db45df768a6"
+    "task_id":  "F1301-MODE1-STEP1-PROVENANCE-REPORT-ALIGNMENT",
+    "starting_commit":  "ba2eeb3f0c9cf619494d69b2f6f0466630ca2578"
 }
