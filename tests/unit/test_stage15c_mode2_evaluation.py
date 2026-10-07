@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """
-Unit tests for Stage 15C Mode-II localization, sweep evaluation, and Job-2 deck builder.
+Unit tests for Stage 15C Mode-II localization, sweep evaluation, Job-2 deck builder,
+and canonical provenance / metadata invariants.
 """
 
 import os
 import sys
 import unittest
 import math
+import json
 import tempfile
 import shutil
+from pathlib import Path
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis')))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../scripts/validation')))
@@ -17,6 +20,11 @@ from build_mode2_adapted_job2_deck import convert_raw_to_mode2_job2_deck, write_
 from evaluate_mode2_stage15c_localization_and_sweep import parse_inp_mesh, DIGITIZED_FIG6B, DIGITIZED_FIG12B
 
 class TestStage15CMode2(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.repo_root = Path(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+        cls.m2_dir = cls.repo_root / "models" / "pandey_kumar_mode2"
+
     def setUp(self):
         self.test_dir = tempfile.mkdtemp()
 
@@ -98,6 +106,242 @@ class TestStage15CMode2(unittest.TestCase):
         self.assertEqual(len(chunk1), 16)
         self.assertEqual(len(chunk2), 16)
         self.assertEqual(len(chunk3), 7)
+
+    def test_canonical_mode2_coarse_preanalysis_mesh_invariants(self):
+        """Verify Job-1_UEL.inp has exactly 2,960 physical elements (2860 quads + 100 tris),
+        3,036 FE nodes (3,037 with RP 999999), 8,880 layered elements, and h_global = 0.020 mm."""
+        job1_path = self.m2_dir / "06_paper_grounded_uel_preanalysis" / "Job-1_UEL.inp"
+        self.assertTrue(job1_path.exists(), f"Missing Job-1_UEL.inp at {job1_path}")
+
+        nodes = set()
+        quads = 0
+        tris = 0
+        in_nodes = False
+        in_elements = False
+        current_elem_type = None
+
+        with open(job1_path, "r", encoding="utf-8", errors="ignore") as f:
+            for line in f:
+                l = line.strip()
+                if not l or l.startswith("**"):
+                    continue
+                if l.startswith("*"):
+                    upper = l.upper()
+                    if upper.startswith("*NODE") and not upper.startswith("*NODE OUTPUT") and not upper.startswith("*NODE PRINT"):
+                        in_nodes = True
+                        in_elements = False
+                    elif upper.startswith("*ELEMENT") and not upper.startswith("*ELEMENT OUTPUT"):
+                        in_nodes = False
+                        in_elements = True
+                        if "U1" in upper or "U2" in upper or "CPE4" in upper:
+                            current_elem_type = "QUAD"
+                        elif "U3" in upper or "U4" in upper or "CPE3" in upper:
+                            current_elem_type = "TRI"
+                        else:
+                            current_elem_type = "OTHER"
+                    else:
+                        in_nodes = False
+                        in_elements = False
+                    continue
+
+                if in_nodes:
+                    parts = [p.strip() for p in l.split(",")]
+                    try:
+                        nid = int(parts[0])
+                        nodes.add(nid)
+                    except ValueError:
+                        continue
+                elif in_elements:
+                    if current_elem_type == "QUAD":
+                        quads += 1
+                    elif current_elem_type == "TRI":
+                        tris += 1
+
+        # 3-layer architecture: quads = 2860 * 3 = 8580, tris = 100 * 3 = 300
+        self.assertEqual(quads, 2860 * 3, f"Expected 8580 layered quads, got {quads}")
+        self.assertEqual(tris, 100 * 3, f"Expected 300 layered tris, got {tris}")
+        self.assertEqual(quads + tris, 8880, f"Expected 8,880 total layered elements, got {quads + tris}")
+        self.assertEqual((quads + tris) // 3, 2960, "Physical element count per layer must be 2,960")
+
+        self.assertIn(999999, nodes, "Reference Point RP 999999 must be present in Job-1_UEL.inp")
+        self.assertEqual(len(nodes) - 1, 3036, f"Expected 3,036 FE mesh nodes, got {len(nodes) - 1}")
+        self.assertEqual(len(nodes), 3037, f"Expected 3,037 total deck nodes, got {len(nodes)}")
+
+        # Verify PACKAGE_MANIFEST.json
+        manifest_path = self.m2_dir / "06_paper_grounded_uel_preanalysis" / "PACKAGE_MANIFEST.json"
+        with open(manifest_path, "r", encoding="utf-8") as f:
+            m = json.load(f)
+        disc = m["discretization"]
+        self.assertEqual(disc["physical_elements"], 2960)
+        self.assertEqual(disc["quad_elements_cpe4"], 2860)
+        self.assertEqual(disc["tri_elements_cpe3"], 100)
+        self.assertEqual(disc["physical_nodes"], 3036)
+        self.assertEqual(disc["total_layered_elements"], 8880)
+        self.assertEqual(disc["h_global_mm"], 0.02)
+
+    def test_canonical_mode2_et2_native_mesh_invariants(self):
+        """Verify JOB_MODE2_ADAPTIVE_ET2.inp has exactly 21,496 elements (20,934 CPE4 + 562 CPE3),
+        21,615 native nodes, and 187 seam nodes (93 duplicate pairs + 1 crack-tip node)."""
+        et2_path = self.m2_dir / "04_adaptive_miseseri" / "JOB_MODE2_ADAPTIVE_ET2.inp"
+        self.assertTrue(et2_path.exists(), f"Missing ET2 deck at {et2_path}")
+
+        nodes = {}
+        cpe4_count = 0
+        cpe3_count = 0
+        in_nodes = False
+        in_elements = False
+        elem_mode = None
+
+        with open(et2_path, "r", encoding="utf-8", errors="ignore") as f:
+            for line in f:
+                l = line.strip()
+                if not l or l.startswith("**"):
+                    continue
+                if l.startswith("*"):
+                    upper = l.upper()
+                    if upper.startswith("*NODE") and not upper.startswith("*NODE OUTPUT") and not upper.startswith("*NODE PRINT"):
+                        in_nodes = True
+                        in_elements = False
+                    elif upper.startswith("*ELEMENT") and not upper.startswith("*ELEMENT OUTPUT"):
+                        in_nodes = False
+                        in_elements = True
+                        if "CPE4" in upper or "CPS4" in upper:
+                            elem_mode = "CPE4"
+                        elif "CPE3" in upper or "CPS3" in upper:
+                            elem_mode = "CPE3"
+                        else:
+                            elem_mode = "UNKNOWN"
+                    else:
+                        in_nodes = False
+                        in_elements = False
+                    continue
+
+                if in_nodes:
+                    parts = [p.strip() for p in l.split(",")]
+                    try:
+                        nid = int(parts[0])
+                        x, y = float(parts[1]), float(parts[2])
+                        nodes[nid] = (x, y)
+                    except ValueError:
+                        continue
+                elif in_elements:
+                    if elem_mode == "CPE4":
+                        cpe4_count += 1
+                    elif elem_mode == "CPE3":
+                        cpe3_count += 1
+
+        self.assertEqual(cpe4_count, 20934, f"Expected 20,934 CPE4 quads, got {cpe4_count}")
+        self.assertEqual(cpe3_count, 562, f"Expected 562 CPE3 tris, got {cpe3_count}")
+        self.assertEqual(cpe4_count + cpe3_count, 21496, f"Expected 21,496 finite elements, got {cpe4_count + cpe3_count}")
+        self.assertEqual(len(nodes), 21615, f"Expected 21,615 native nodes, got {len(nodes)}")
+        self.assertEqual(min(nodes.keys()), 1)
+        self.assertEqual(max(nodes.keys()), 21615)
+
+        # Check seam nodes along y=0.5, x<=0.5
+        seam_nodes = [nid for nid, (x, y) in nodes.items() if abs(y - 0.5) < 1e-5 and x <= 0.5 + 1e-5]
+        self.assertEqual(len(seam_nodes), 187, f"Expected 187 seam nodes (93 duplicate pairs + 1 tip), got {len(seam_nodes)}")
+
+    def test_canonical_mode2_job2_uel_deck_invariants(self):
+        """Verify production Job-2_UEL.inp has 64,488 layered elements (21,496 x 3),
+        21,616 total deck nodes (21,615 native FE + 1 RP 999999), and complete step cards."""
+        job2_path = self.m2_dir / "06_paper_grounded_uel_preanalysis" / "Job-2_UEL.inp"
+        self.assertTrue(job2_path.exists(), f"Missing Job-2_UEL.inp at {job2_path}")
+
+        nodes = set()
+        u1_count = 0
+        u2_count = 0
+        u3_count = 0
+        u4_count = 0
+        cpe4_count = 0
+        cpe3_count = 0
+
+        in_nodes = False
+        in_elements = False
+        elem_type = None
+
+        with open(job2_path, "r", encoding="utf-8", errors="ignore") as f:
+            for line in f:
+                l = line.strip()
+                if not l or l.startswith("**"):
+                    continue
+                if l.startswith("*"):
+                    upper = l.upper()
+                    if upper.startswith("*NODE") and not upper.startswith("*NODE OUTPUT") and not upper.startswith("*NODE PRINT"):
+                        in_nodes = True
+                        in_elements = False
+                    elif upper.startswith("*ELEMENT") and not upper.startswith("*ELEMENT OUTPUT"):
+                        in_nodes = False
+                        in_elements = True
+                        for t in ["U1", "U2", "U3", "U4", "CPE4", "CPE3"]:
+                            if f"TYPE={t}" in upper:
+                                elem_type = t
+                                break
+                    else:
+                        in_nodes = False
+                        in_elements = False
+                    continue
+
+                if in_nodes:
+                    parts = [p.strip() for p in l.split(",")]
+                    try:
+                        nid = int(parts[0])
+                        nodes.add(nid)
+                    except ValueError:
+                        continue
+                elif in_elements:
+                    if elem_type == "U1": u1_count += 1
+                    elif elem_type == "U2": u2_count += 1
+                    elif elem_type == "U3": u3_count += 1
+                    elif elem_type == "U4": u4_count += 1
+                    elif elem_type == "CPE4": cpe4_count += 1
+                    elif elem_type == "CPE3": cpe3_count += 1
+
+        self.assertEqual(len(nodes), 21616, f"Expected 21,616 total nodes (21,615 FE + 1 RP), got {len(nodes)}")
+        self.assertIn(999999, nodes, "Reference Point RP 999999 missing from Job-2_UEL.inp")
+
+        # Layer 1
+        self.assertEqual(u1_count, 20934)
+        self.assertEqual(u3_count, 562)
+        self.assertEqual(u1_count + u3_count, 21496, "Layer 1 elements mismatch")
+
+        # Layer 2
+        self.assertEqual(u2_count, 20934)
+        self.assertEqual(u4_count, 562)
+        self.assertEqual(u2_count + u4_count, 21496, "Layer 2 elements mismatch")
+
+        # Layer 3
+        self.assertEqual(cpe4_count, 20934)
+        self.assertEqual(cpe3_count, 562)
+        self.assertEqual(cpe4_count + cpe3_count, 21496, "Layer 3 elements mismatch")
+
+        # Total
+        total_elems = u1_count + u2_count + u3_count + u4_count + cpe4_count + cpe3_count
+        self.assertEqual(total_elems, 64488, f"Expected 64,488 layered elements, got {total_elems}")
+
+    def test_mode2_documentation_consistency_invariants(self):
+        """Verify MODE2_CURRENT_STATE.md documents canonical 2,960 FE, h_global=0.020 mm,
+        21,496 FE, 21,615 native nodes, 64,488 layered elements, and has NO occurrences of
+        erroneous '2,866' or '0.025 mm'."""
+        docs = [
+            self.m2_dir / "MODE2_CURRENT_STATE.md",
+            self.repo_root / "docs" / "mode2" / "MODE2_CURRENT_STATE.md"
+        ]
+        for doc_path in docs:
+            self.assertTrue(doc_path.exists(), f"Missing document {doc_path}")
+            text = doc_path.read_text(encoding="utf-8")
+
+            # Must contain canonical numbers
+            self.assertIn("2,960", text)
+            self.assertIn("21,496", text)
+            self.assertIn("21,615", text)
+            self.assertIn("64,488", text)
+            self.assertTrue("0.020" in text or "0.02" in text)
+
+            # Must NOT contain erroneous numbers
+            self.assertNotIn("2,866 FE", text)
+            self.assertNotIn("2866 FE", text)
+            self.assertNotIn("0.025 mm", text)
+            self.assertNotIn("0.025mm", text)
 
 if __name__ == '__main__':
     unittest.main()
