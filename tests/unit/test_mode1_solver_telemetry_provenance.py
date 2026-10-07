@@ -15,6 +15,7 @@ Enforces:
 10. Step-2 spatial-fine 8T SMP Job 1410504 telemetry checkpoint and post-peak progression guard.
 11. Guard against asserting scientific displacement from increment count alone without captured step time or field output.
 12. Job-ID <-> Experiment-Record strict separation and consistency guard (Job 1410179 vs Job 1410504).
+13. Job 1410504 terminal completion, full-horizon spatial convergence metrics, and serial parity verification.
 """
 from __future__ import print_function
 import os
@@ -419,6 +420,49 @@ class TestMode1SolverTelemetryProvenance(object):
             if "experiment_record" in j and j["experiment_record"] is not None:
                 exp_file = os.path.join(REPO_ROOT, j["experiment_record"])
                 assert os.path.exists(exp_file), "Referenced experiment record does not exist: %s" % exp_file
+
+    def test_13_job_1410504_terminal_metrics_and_convergence_guard(self):
+        """Guard 13: Enforce verified terminal metrics, full-horizon completion, and serial/threading parity for Job 1410504:
+        1. Job 1410504 in synthesis JSON has status == 'COMPLETED_FULL_HORIZON'.
+        2. Governed classification == 'AUTHORITATIVE_FULL_HORIZON_SPATIAL_CONVERGENCE_EVIDENCE'.
+        3. Full horizon achieved displacement u_term == 0.010000 mm (10.0 um).
+        4. Initial stiffness K0 == 137.840989 kN/mm (R^2 = 0.99999960).
+        5. Peak load F_max == 0.741633 kN at u_peak == 0.005717 mm (Step 2 Inc 717, row 2716).
+        6. Energetics: W_ext == 2.521738 mJ, E_frac == 2.381941 mJ, E_elas == 0.028178 mJ, Delta_book == +0.111619 mJ, eps_book == 4.4263%.
+        7. Bitwise / tight numerical parity with serial Job 1410179 on initial stiffness, peak force, peak displacement.
+        """
+        json_path = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json")
+        assert os.path.exists(json_path)
+
+        with open(json_path, "r") as f:
+            data = json.load(f)
+
+        jobs_map = {j["job_id"]: j for j in data["jobs"]}
+        assert "1410504.mmaster02" in jobs_map
+        j_504 = jobs_map["1410504.mmaster02"]
+        j_179 = jobs_map["1410179.mmaster02"]
+
+        assert j_504["status"] == "COMPLETED_FULL_HORIZON"
+        assert j_504["governed_classification"] == "AUTHORITATIVE_FULL_HORIZON_SPATIAL_CONVERGENCE_EVIDENCE"
+        assert abs(j_504["u_term_mm"] - 0.010000) < 1e-6
+        assert abs(j_504["k0_kn_per_mm"] - 137.840989) < 1e-4
+        assert abs(j_504["f_max_kn"] - 0.741633) < 1e-4
+        assert abs(j_504["u_peak_mm"] - 0.005717) < 1e-5
+        assert j_504["peak_step"] == 2
+        assert j_504["peak_increment"] == 717
+        assert j_504["peak_row_index"] == 2716
+        assert abs(j_504["w_ext_mJ"] - 2.521738) < 1e-4
+        assert abs(j_504["e_frac_mJ"] - 2.381941) < 1e-4
+        assert abs(j_504["e_elas_mJ"] - 0.028178) < 1e-4
+        assert abs(j_504["delta_book_mJ"] - 0.111619) < 1e-4
+        assert abs(j_504["eps_book_pct"] - 4.4263) < 1e-2
+
+        # Parity checks with serial 1410179
+        assert abs(j_504["k0_kn_per_mm"] - j_179["k0_kn_per_mm"]) < 1e-5
+        assert abs(j_504["f_max_kn"] - j_179["f_max_kn"]) < 1e-5
+        assert abs(j_504["u_peak_mm"] - j_179["u_peak_mm"]) < 1e-6
+        assert j_504["peak_step"] == j_179["peak_step"]
+        assert j_504["peak_increment"] == j_179["peak_increment"]
 
 
 if __name__ == "__main__":

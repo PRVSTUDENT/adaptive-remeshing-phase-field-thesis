@@ -69,14 +69,14 @@ def test_guard2_15_point_closure_matrix_completeness():
     # Verify specific classifications
     assert "CONVERGED / STABLE" in content
     assert "TEMPORALLY_SENSITIVE_POSTPEAK" in content or "MESH-SENSITIVE" in content
-    assert "CONVERGENCE_CONTROL_DIAGNOSTIC_ACTIVE" in content
-    assert "PENDING_JOB_1410179" in content
+    assert "CONVERGENCE_CONTROL_DIAGNOSTIC" in content
 
     # Verify key job assignments
     assert "1409982" in content  # Baseline
     assert "1410027" in content  # Refined
     assert "1410180" in content  # Cn=0.50 diagnostic
-    assert "1410179" in content  # Spatial 58k
+    assert "1410179" in content  # Spatial 58k serial
+    assert "1410504" in content  # Spatial 58k 8T candidate
     assert "1410357" in content  # ET2
     assert "1410358" in content  # ET3
     assert "1410359" in content  # ET5
@@ -413,6 +413,23 @@ def test_guard10_single_job_provenance_json_and_algorithmic_derivation():
     assert abs(j_1410179["e_elas_mJ"] - 0.040984) < 1e-4
     assert abs(j_1410179["eps_book_pct"] - 4.0186) < 1e-2
 
+    # Job 1410504 (Spatial Fine 58k 8T SMP Full-Horizon Candidate)
+    j_1410504 = jobs_by_id["1410504.mmaster02"]
+    assert j_1410504["fe_elements"] == 57929
+    assert j_1410504["fe_nodes"] == 57491
+    assert j_1410504["raw_source_sha256"] == "a3af73565afd5146874c71972f9173a406a5890f3dd2a7ab3062e41222bb4be0"
+    assert j_1410504["peak_row_index"] == 2716
+    assert j_1410504["peak_step"] == 2
+    assert j_1410504["peak_increment"] == 717
+    assert abs(j_1410504["k0_kn_per_mm"] - 137.840989) < 1e-4
+    assert abs(j_1410504["f_max_kn"] - 0.741633) < 1e-4
+    assert abs(j_1410504["u_peak_mm"] - 0.005717) < 1e-5
+    assert abs(j_1410504["u_term_mm"] - 0.010000) < 1e-5
+    assert abs(j_1410504["w_ext_mJ"] - 2.521738) < 1e-4
+    assert abs(j_1410504["e_frac_mJ"] - 2.381941) < 1e-4
+    assert abs(j_1410504["e_elas_mJ"] - 0.028178) < 1e-4
+    assert abs(j_1410504["eps_book_pct"] - 4.4263) < 1e-2
+
     # Terminology guard: check plot script
     plot_script = REPO_ROOT / "scripts" / "postprocessing" / "plot_gate6b_spatial_convergence_synthesis.py"
     ps_text = plot_script.read_text(encoding="utf-8")
@@ -449,7 +466,7 @@ def test_guard11_provenance_schema_and_disambiguation_guards():
        - abaqus_increment
        - global_completed_increments
     2. Format contract:
-       - .dat jobs (1398090, 1409734, 1410179): csv_line_number == 'NOT_AVAILABLE_FROM_PRESERVED_EVIDENCE'.
+       - .dat jobs (1398090, 1409734, 1410179, 1410504): csv_line_number == 'NOT_AVAILABLE_FROM_PRESERVED_EVIDENCE'.
        - CSV jobs (1409982, 1410180, 1410357, 1410358, 1410359): csv_line_number is integer == row_index_zero_based + 2.
     3. Distinct solver dataset proof:
        - 1409982 and 1410180 both report u_peak = 0.005733 mm at Step 2 Inc 733.
@@ -481,7 +498,7 @@ def test_guard11_provenance_schema_and_disambiguation_guards():
             assert field in jdata, f"Job {jid} missing required provenance field '{field}'"
 
     # Dat files format contract
-    dat_jobs = ["1398090.mmaster02", "1409734.mmaster02", "1410179.mmaster02"]
+    dat_jobs = ["1398090.mmaster02", "1409734.mmaster02", "1410179.mmaster02", "1410504.mmaster02"]
     for dj in dat_jobs:
         assert jobs[dj]["csv_line_number"] == "NOT_AVAILABLE_FROM_PRESERVED_EVIDENCE", (
             f"Job {dj} is a .dat source and must have csv_line_number = 'NOT_AVAILABLE_FROM_PRESERVED_EVIDENCE'"
@@ -504,6 +521,7 @@ def test_guard11_provenance_schema_and_disambiguation_guards():
     assert jobs["1410358.mmaster02"]["global_completed_increments"] == 2876
     assert jobs["1410359.mmaster02"]["global_completed_increments"] == 2926
     assert jobs["1410179.mmaster02"]["global_completed_increments"] == 2717
+    assert jobs["1410504.mmaster02"]["global_completed_increments"] == 2717
 
     # Distinct datasets check between 1409982 and 1410180
     j25 = jobs["1409982.mmaster02"]
