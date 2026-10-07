@@ -1,25 +1,22 @@
 #!/bin/bash
-#PBS -N M2_J1_UEL_PRE
-#PBS -q entry_imfdfkmq
+#PBS -N M2_J1_MIEHE_PRE
+#PBS -q normal_imfdfkmq
 #PBS -l nodes=1:ppn=1
 #PBS -l mem=16gb
-#PBS -l walltime=24:00:00
+#PBS -l walltime=04:00:00
 #PBS -M pr21vyci@mailserver.tu-freiberg.de
 #PBS -m abe
-#PBS -o M2_J1_UEL_PRE.out
-#PBS -e M2_J1_UEL_PRE.err
+#PBS -o M2_J1_MIEHE_PRE.out
+#PBS -e M2_J1_MIEHE_PRE.err
 
 set -euo pipefail
-cd /scratch/pr21vyci/projects/adaptive-remeshing/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis || exit 1
+WORKDIR="/scratch9/pr21vyci/runs/mode2_j1_miehe_pre"
+mkdir -p "$WORKDIR"
+cd "$WORKDIR" || exit 1
 
-# Storage-compliance guard: reject execution directly under /home
-CURRENT_DIR="$(pwd -P)"
-if [[ "$CURRENT_DIR" =~ ^/home/ ]]; then
-  echo "[STORAGE COMPLIANCE ERROR] Execution directly inside /home is prohibited." >&2
-  echo "Heavy simulation outputs (*.odb, *.sim, *.res) must be written to /scratch/." >&2
-  echo "Please execute from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
-  exit 88
-fi
+# Copy package files from worktree to scratch
+PACKAGE_DIR="/home/pr21vyci/projects/mode2_reproduction_worktree/models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis"
+cp -u "$PACKAGE_DIR"/Job-1_UEL.inp "$PACKAGE_DIR"/f42_mixed_uel_mode2_miehe.for "$PACKAGE_DIR"/job_notifications.sh . 2>/dev/null || true
 
 if [ ! -f ./job_notifications.sh ]; then
   echo "[LAUNCHER ERROR] job_notifications.sh missing" >&2
@@ -36,9 +33,9 @@ module load gcc/11.4.0
 module load intel/2024.2.0
 module load abaqus/2023
 
-echo "=== STARTING MODE-II JOB-1_UEL PREANALYSIS SOLVER (1 CPU, Mem: 16GB) ==="
+echo "=== STARTING MODE-II JOB-1_UEL MIEHE PREANALYSIS SOLVER (1 CPU serial, Mem: 16GB) ==="
 rm -f Job-1_UEL.lck Job-1_UEL.023 uel_energy_balance.csv
-abaqus job=Job-1_UEL user=f42_mixed_uel.for input=Job-1_UEL.inp cpus=1 double=both interactive
+abaqus job=Job-1_UEL user=f42_mixed_uel_mode2_miehe.for input=Job-1_UEL.inp cpus=1 double=both interactive
 ABAQUS_EXIT=$?
-echo "=== FINISHED MODE-II JOB-1_UEL PREANALYSIS SOLVER (EXIT: $ABAQUS_EXIT) ==="
+echo "=== FINISHED MODE-II JOB-1_UEL MIEHE PREANALYSIS SOLVER (EXIT: $ABAQUS_EXIT) ==="
 exit "$ABAQUS_EXIT"

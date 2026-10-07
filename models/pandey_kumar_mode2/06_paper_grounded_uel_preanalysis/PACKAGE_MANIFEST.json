@@ -1,13 +1,13 @@
 {
-  "package_id": "PACKAGE-M2-06-PAPER-GROUNDED-UEL-PREANALYSIS",
-  "task_id": "F1229-STAGE15B-MODE2-PAPER-GROUNDED-PREANALYSIS-AND-PFF",
-  "model": "Pandey & Kumar (2025) Mode-II Pure Shear Single-Edge Notch Specimen",
+  "package_id": "PACKAGE-M2-06-PAPER-GROUNDED-MIEHE-PREANALYSIS",
+  "task_id": "F1309-MODE2-LINEAGE-AUDIT-AND-MIEHE-QUALIFICATION",
+  "model": "Pandey & Kumar (2025) Mode-II Pure Shear Single-Edge Notch Specimen (Miehe Spectral Split)",
   "governing_reference": "Pandey & Kumar (2025) CMES 144(3):3255-3283, Section 4.2, Figs. 6b, 12b",
-  "objective": "Phase-field UEL preanalysis to establish propagating shear crack corridor and extract MISESERI for native remeshing",
+  "objective": "Phase-field UEL preanalysis with Miehe spectral strain energy split to establish propagating shear crack corridor and extract MISESERI for native remeshing",
   "hardware": {
     "cpus": 1,
     "memory": "16gb",
-    "walltime": "24:00:00",
+    "walltime": "04:00:00",
     "queue": "normal_imfdfkmq"
   },
   "physical_parameters": {
@@ -42,16 +42,13 @@
     }
   },
   "files": {
-    "Job-1_UEL.inp": "2058B1CC0C3D9A5DCC5A026E5179226632B2E3A3D1173BB7A461F5EA5C99546B",
-    "f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "Job-1_UEL.inp": "869A2DBD015573FC15470834DAB1A6051A5AE530000AB44F9184777605541791",
+    "f42_mixed_uel_mode2_miehe.for": "75029EF77CAA1677D2B1557CFF5B1DE61725B17FC380B9B27D37AED3EFCF4D9A",
     "job_notifications.sh": "96756A681D2D36C11B36B89288F631F8ECC9537543C2C745A4BAE1B425984B47",
-    "PRE_JOB_ANTI_DEVIATION_CARD.md": "7A514949DEFB419DFACD91A18AD826C1AA4587A73F4D562654F61F469C317618",
-    "run_datacheck_direct.sh": "65DCA6D9E5B7B6E929A836AD388CB320405DFCE9D3088DF3FF38749B76B4A9AF",
-    "submit_datacheck.pbs": "F08A5E0ECC3D76893872160452F8CB76DBF24C181585FDE5629FEF326834DFFE",
-    "submit_job1_uel_solver.sh": "07E153206FDD0C0710642A47503FB5E7C9B2B6383CE60DBCB57F6A0743125D25",
-    "submit_solver.pbs": "2AF00024F452B65FEA5A6F14E373254296EFE6B508CA81F7574D1EF577CACDC0"
+    "submit_solver.pbs": "6870C8DB22F624266EE0E6833B3DB41FDC6DD86C4FC9A93483D9698E0A7DFF46",
+    "submit_job1_uel_solver.sh": "9DD09067F575EB8443AD2BB30673A2CD291C57D2E2307A7ACBA0753DC3E2CBBC"
   },
   "dual_channel_notification_contract": "PASS",
   "telegram_notification_contract": "PASS",
-  "datacheck_qualification": "STANDBY"
+  "datacheck_qualification": "PASS_EXIT_0"
 }

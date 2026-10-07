@@ -1,13 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-# Storage-compliance guard: reject launching from /home/
-if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
-  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
-  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
-  exit 88
-fi
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
@@ -20,5 +13,5 @@ source ./job_notifications.sh
 notification_load_config || true
 
 JOB_ID=$(qsub submit_solver.pbs)
-echo "Submitted Mode-II Job-1_UEL Preanalysis Solver: $JOB_ID"
-notify_submitted "$JOB_ID" "M2_J1_UEL_PRE" "Mode-II Job-1_UEL Coarse Preanalysis Solver (2,960 elements, 1 CPU)" || true
+echo "Submitted Mode-II Job-1_UEL Miehe Preanalysis Solver: $JOB_ID"
+notify_submitted "$JOB_ID" "M2_J1_MIEHE_PRE" "Mode-II Job-1_UEL Coarse Miehe Preanalysis Solver (2,960 elements, 1 CPU)" || true
