@@ -1,10 +1,10 @@
 {
-    "task_id": "F1302-MODE1-PRE-SUPERVISOR-MEETING-INTEGRITY-AUDIT",
-    "task_name": "Mode-I Pre-Supervisor Meeting Integrity Audit & Evidence Index Synthesis",
+    "task_id": "F1303-MODE1-PRE-MEETING-RELEASE-MANIFEST-AND-FREEZE",
+    "task_name": "Freeze Verified Mode-I Supervisor Package & Create Pre-Meeting Release Manifest",
     "governing_phase": "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "start_time": "2026-10-07T14:56:00+02:00",
-    "end_time": "2026-10-07T15:05:00+02:00",
-    "description": "Comprehensive pre-supervisor meeting integrity audit and Meeting Evidence Index synthesis for the Thursday 08 October 2026, 10:00 CEST meeting: verify complete Mode-I package integrity, dual-reference semantics (15k fixed vs 58k spatial-fine vs 14.5k ET1), Step-1 final pre-analysis provenance, compile and verify 10-page supervisor report PDF, run unit tests, and maintain Mode-II solver runs strictly on hold."
+    "start_time": "2026-10-07T15:09:00+02:00",
+    "end_time": "2026-10-07T15:20:00+02:00",
+    "description": "Freeze the verified Mode-I supervisor package as an immutable pre-meeting release: create release manifest containing exact Git commit, report/handout SHA-256 hashes, key job IDs, evidence-index path, Gate 6B status, and four supervisor decision items; verify every referenced file exists and every recorded checksum matches; create Git tag for the frozen 08-Oct-2026 meeting snapshot; do not run solver jobs and maintain Mode-II, Gate 6C, and Gate 7 on hold."
 }

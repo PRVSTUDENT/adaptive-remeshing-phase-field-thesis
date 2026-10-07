@@ -1,0 +1,260 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "release_metadata": {
+    "release_title": "Mode-I Adaptive Remeshing Research Report & Evidence Freeze (Supervisor Meeting)",
+    "release_tag": "v2026.10.08-supervisor-meeting-mode1-freeze",
+    "meeting_date": "2026-10-08T10:00:00+02:00",
+    "meeting_type": "Master Thesis Supervisor Milestone Meeting (Mode-I Sign-Off)",
+    "release_timestamp": "2026-10-07T15:15:00+02:00",
+    "governing_commit_base": "1c6a5409a60f7b1d60024b168208b793bedc6ddc",
+    "scientific_gate": "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF",
+    "candidate_author": "Candidate (pr21vyci)",
+    "supervisors": [
+      "Prof. Dr. Bj\u00f6rn Kiefer",
+      "Research Advisors"
+    ],
+    "institution": "Institute of Mechanics and Fluid Dynamics (IMFD), TU Bergakademie Freiberg"
+  },
+  "key_hpc_job_provenance": {
+    "fixed_benchmark_reference_original": {
+      "pbs_job_id": "1398090.mmaster02",
+      "model_case": "PK_MODE1_STANDARD_PFM",
+      "elements": 15192,
+      "f_max_kn": 0.7578,
+      "u_at_fmax_mm": 0.005857,
+      "k0_kn_per_mm": 137.9455,
+      "corridor_share_pct": 52.82,
+      "deck_path": "models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.inp"
+    },
+    "fixed_benchmark_reference_rerun_energy": {
+      "pbs_job_id": "1409734.mmaster02",
+      "model_case": "PK_MODE1_REF15K_ENERGY",
+      "elements": 15192,
+      "f_max_kn": 0.7578,
+      "u_at_fmax_mm": 0.005857,
+      "k0_kn_per_mm": 137.9455,
+      "corridor_share_pct": 52.82,
+      "energy_residual_pct": 0.76,
+      "deck_path": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/PK_MODE1_REF15K_ENERGY.inp"
+    },
+    "spatial_fine_adaptive_convergence_reference": {
+      "pbs_job_id": "1410504.mmaster02",
+      "model_case": "PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_FRACTURE",
+      "elements": 57929,
+      "f_max_kn": 0.7416,
+      "u_at_fmax_mm": 0.005717,
+      "k0_kn_per_mm": 137.841,
+      "corridor_share_pct": 82.35,
+      "energy_residual_pct": 4.43,
+      "deck_path": "models/pandey_kumar_mode1/37_stage14_adaptive_candidate_spatial_fine_8thread/PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_FRACTURE.inp"
+    },
+    "preferred_corrected_adaptive_candidate_et1": {
+      "pbs_job_id": "1409982.mmaster02",
+      "model_case": "PK_MODE1_STAGE14_ADAPT_14K_FRACTURE",
+      "elements": 14483,
+      "f_max_kn": 0.7437,
+      "u_at_fmax_mm": 0.005733,
+      "k0_kn_per_mm": 137.9096,
+      "corridor_share_pct": 64.12,
+      "energy_residual_pct": 1.1,
+      "f_max_error_vs_fine_pct": 0.279,
+      "f_max_error_vs_fixed_pct": -1.856,
+      "deck_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp"
+    },
+    "coarse_adaptive_candidate_et2": {
+      "pbs_job_id": "1409983.mmaster02",
+      "model_case": "PK_MODE1_STAGE14_STEP2_ET2_6K_FRACTURE",
+      "elements": 6127,
+      "f_max_kn": 0.7479,
+      "u_at_fmax_mm": 0.005763,
+      "k0_kn_per_mm": 137.7946,
+      "deck_path": "models/pandey_kumar_mode1/34_stage14_step2_adaptive_candidate_et2_6k/PK_MODE1_STAGE14_STEP2_ET2_6K_FRACTURE.inp"
+    },
+    "coarse_adaptive_candidate_et3": {
+      "pbs_job_id": "1409984.mmaster02",
+      "model_case": "PK_MODE1_STAGE14_STEP2_ET3_5K_FRACTURE",
+      "elements": 4725,
+      "f_max_kn": 0.7497,
+      "u_at_fmax_mm": 0.005777,
+      "k0_kn_per_mm": 137.8449,
+      "deck_path": "models/pandey_kumar_mode1/35_stage14_step2_adaptive_candidate_et3_5k/PK_MODE1_STAGE14_STEP2_ET3_5K_FRACTURE.inp"
+    },
+    "coarse_adaptive_candidate_et5": {
+      "pbs_job_id": "1409985.mmaster02",
+      "model_case": "PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE",
+      "elements": 3619,
+      "f_max_kn": 0.7513,
+      "u_at_fmax_mm": 0.005786,
+      "k0_kn_per_mm": 137.8188,
+      "deck_path": "models/pandey_kumar_mode1/36_stage14_step2_adaptive_candidate_et5_4k/PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE.inp"
+    }
+  },
+  "four_supervisor_decisions": [
+    {
+      "decision_id": "DECISION_1_GATE6B_SIGNOFF",
+      "title": "Gate 6B Evaluation Sign-Off",
+      "question": "Does the supervisor agree that Stage 14 (pre-refined adaptive fracture simulation) demonstrates sufficient fidelity (within +0.28% of the fine adaptive anchor) to conclude Gate 6B as formally PASSED?",
+      "recommendation": "Approve Gate 6B sign-off based on dual-reference convergence proof."
+    },
+    {
+      "decision_id": "DECISION_2_ENERGY_IDENTITY_TOLERANCE",
+      "title": "Epistemological Classification of Staggered Solver Energy Balance",
+      "question": "Does the supervisor confirm acceptance of the residual energy tracking (1.10% for ET1, 4.43% for 58k fine) as an expected characteristic of single-iteration staggered schemes (Miehe/Bourdin operator splitting) rather than an implementation bug?",
+      "recommendation": "Accept the documented status GLOBAL_ENERGY_IDENTITY --- NOT_YET_CLOSED with explicit thesis discussion on staggered dissipation splitting."
+    },
+    {
+      "decision_id": "DECISION_3_ADVANCE_TO_GATE6C",
+      "title": "Authorization to Proceed to Gate 6C (State Transfer & Evolving Remeshing)",
+      "question": "Is the candidate authorized to proceed to Gate 6C (cyclic external-driver adaptive remeshing: solve -> evaluate MISESERI -> remesh -> transfer state (u, d, H) -> restart)?",
+      "recommendation": "Authorize Gate 6C execution protocol with strict topology and monotonicity verification."
+    },
+    {
+      "decision_id": "DECISION_4_SCOPE_HOLDS_REAFFIRMATION",
+      "title": "Reaffirmation of Scope Holds on Mode-II and Gate 7 (ABAQUSER)",
+      "question": "Does the supervisor reaffirm that Mode-II (shear) simulation and Gate 7 (ABAQUSER in-analysis user remeshing) remain on strict hold until Gate 6C Mode-I is finalized?",
+      "recommendation": "Maintain Mode-II and Gate 7 on strict hold to maintain razor-sharp thesis focus and timeline integrity."
+    }
+  ],
+  "checksum_registry": [
+    {
+      "role": "Primary Technical Report (PDF)",
+      "relative_path": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/report_main.pdf",
+      "sha256": "B7270BD89E70C7465F8764A49F3CF894E8F86DA783418C7C83E65DA7430B2ADF",
+      "size_bytes": 6703667,
+      "description": "Authoritative 10-page Mode-I Adaptive Remeshing Research Report for supervisor review."
+    },
+    {
+      "role": "Primary Technical Report (LaTeX Source)",
+      "relative_path": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/report_main.tex",
+      "sha256": "36E65F73C29F4867F782D3487661A813FDB19DAC1B36F0D7952B58E222FC6436",
+      "size_bytes": 23104,
+      "description": "LaTeX source for the 10-page Mode-I research report."
+    },
+    {
+      "role": "Executive One-Page Handout: Key Numbers (PDF)",
+      "relative_path": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MEETING_KEY_NUMBERS_ONE_PAGE.pdf",
+      "sha256": "64A76677B0825DECFC0E563549F569A12B978C66F696165A20BAA8E0AE6101E9",
+      "size_bytes": 405638,
+      "description": "1-page executive summary table of Mode-I mechanical, energetic, and mesh metrics."
+    },
+    {
+      "role": "Executive One-Page Handout: Key Numbers (LaTeX Source)",
+      "relative_path": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MEETING_KEY_NUMBERS_ONE_PAGE.tex",
+      "sha256": "C8C30114203CA38AE6487EBF0A369C6CB54E5C89AE5473B33FC0F2DAA2BF5633",
+      "size_bytes": 8772,
+      "description": "LaTeX source for Key Numbers one-pager."
+    },
+    {
+      "role": "Executive One-Page Handout: Meeting Agenda (PDF)",
+      "relative_path": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MEETING_AGENDA_ONE_PAGE.pdf",
+      "sha256": "246041846D40F8BF448A27E381C3F146336F96F83C6E979E031C953984EEFACC",
+      "size_bytes": 419725,
+      "description": "1-page executive agenda outlining the 4 decision topics for 08-Oct-2026 meeting."
+    },
+    {
+      "role": "Executive One-Page Handout: Meeting Agenda (LaTeX Source)",
+      "relative_path": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MEETING_AGENDA_ONE_PAGE.tex",
+      "sha256": "DB8BD98F4EC44247084C125719EDB0C4D4C607ACA1F62F289FB147BF2A92678B",
+      "size_bytes": 5559,
+      "description": "LaTeX source for Meeting Agenda one-pager."
+    },
+    {
+      "role": "Supervisor Decision & Question Brief",
+      "relative_path": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/QUESTIONS_FOR_SUPERVISOR.md",
+      "sha256": "EE71C9BDF5DDC8F2B8CEA6C7F63B0BB439DCC40E1B546B071B8E2EE2AE7F44A2",
+      "size_bytes": 4543,
+      "description": "Comprehensive briefing document covering 4 key supervisor decision points."
+    },
+    {
+      "role": "Meeting Talk Track & Presentation Guide",
+      "relative_path": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MEETING_TALK_TRACK.md",
+      "sha256": "1438FC3A89384834F993B531F3D1CDE33F823667B6BC9D1C87B1164517B227FC",
+      "size_bytes": 11735,
+      "description": "Time-allocated presentation script and discussion guide for candidate."
+    },
+    {
+      "role": "Meeting Master Evidence Index",
+      "relative_path": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MEETING_EVIDENCE_INDEX.md",
+      "sha256": "C361C322D8E84BE579E394BD116EAD29433427A83346A290C323DD839CB3FFE6",
+      "size_bytes": 18900,
+      "description": "Complete cross-reference linking text claims, figures, tables, jobs, and input decks."
+    },
+    {
+      "role": "Single-Job Provenance Synthesis (JSON)",
+      "relative_path": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json",
+      "sha256": "A08A315116F83755215A03653F20B230200EAA55FF561EA4362196B4B3C83FD7",
+      "size_bytes": 14372,
+      "description": "Structured single-job provenance mapping each case to its exact HPC execution ID and deck."
+    },
+    {
+      "role": "Single-Job Provenance Synthesis (CSV)",
+      "relative_path": "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.csv",
+      "sha256": "D82DF2E87C4CF5FAFAC27DE916CC1FAAFB0119F893C14122FF11574069B8668C",
+      "size_bytes": 7298,
+      "description": "Tabular single-job provenance ledger."
+    },
+    {
+      "role": "Input Deck: Fixed Benchmark Reference (15k)",
+      "relative_path": "models/pandey_kumar_mode1/01_standard_pfm_reference/PK_MODE1_STANDARD_PFM.inp",
+      "sha256": "C1773707D2F12FB8BFE1324AC6BE47D28D1FD6B06C4C3780CD98E9527FA7EF82",
+      "size_bytes": 1941176,
+      "description": "Input deck for Job 1398090 (original benchmark) / Job 1409734 (rerun)."
+    },
+    {
+      "role": "Input Deck: Energy Reference (15k)",
+      "relative_path": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/PK_MODE1_REF15K_ENERGY.inp",
+      "sha256": "EC560A4C265730647B43DAB125D166EBC57CAC285D574D38222A498A967535D9",
+      "size_bytes": 1941184,
+      "description": "Input deck for Job 1409734 energy tracking benchmark."
+    },
+    {
+      "role": "Input Deck: Adaptive Candidate ET1 (14k)",
+      "relative_path": "models/pandey_kumar_mode1/25_stage14_adaptive_candidate_14k/PK_MODE1_STAGE14_ADAPT_14K_FRACTURE.inp",
+      "sha256": "26D873FB2E68055C80550D1DD981766BCAF46E13D3D0A7BA6411B63D9C382D35",
+      "size_bytes": 1869997,
+      "description": "Input deck for Job 1409982 (preferred corrected ET1 mesh candidate)."
+    },
+    {
+      "role": "Input Deck: Adaptive Candidate ET2 (6k)",
+      "relative_path": "models/pandey_kumar_mode1/34_stage14_step2_adaptive_candidate_et2_6k/PK_MODE1_STAGE14_STEP2_ET2_6K_FRACTURE.inp",
+      "sha256": "B5135AF51026FE2ABC4D3A0471567E7F6D55299A53A2D3501BCE61C3146FE36D",
+      "size_bytes": 874509,
+      "description": "Input deck for Job 1409983 (Step-2 coarse candidate ET2)."
+    },
+    {
+      "role": "Input Deck: Adaptive Candidate ET3 (5k)",
+      "relative_path": "models/pandey_kumar_mode1/35_stage14_step2_adaptive_candidate_et3_5k/PK_MODE1_STAGE14_STEP2_ET3_5K_FRACTURE.inp",
+      "sha256": "BB5741337498AD87B3F80841C17AB5CB60A65E81279E1DD4EA7F3D196118CFE4",
+      "size_bytes": 738263,
+      "description": "Input deck for Job 1409984 (Step-2 coarse candidate ET3)."
+    },
+    {
+      "role": "Input Deck: Adaptive Candidate ET5 (4k)",
+      "relative_path": "models/pandey_kumar_mode1/36_stage14_step2_adaptive_candidate_et5_4k/PK_MODE1_STAGE14_STEP2_ET5_4K_FRACTURE.inp",
+      "sha256": "5FE45EB19E9A2F840B6E4BA45E04E9D009B8DBE6E553B6CD34654F2945699D74",
+      "size_bytes": 664398,
+      "description": "Input deck for Job 1409985 (Step-2 coarse candidate ET5)."
+    },
+    {
+      "role": "Input Deck: Spatial-Fine Adaptive Reference (58k, 8T)",
+      "relative_path": "models/pandey_kumar_mode1/37_stage14_adaptive_candidate_spatial_fine_8thread/PK_MODE1_STAGE14_ADAPT_SPATIAL_FINE_FRACTURE.inp",
+      "sha256": "537C8C6617945AFD66E135C1DF4E2C34211F47FBEEEC44E4C145A8551CC1EEFD",
+      "size_bytes": 9271970,
+      "description": "Input deck for Job 1410504 (spatial-fine adaptive convergence anchor)."
+    },
+    {
+      "role": "User Subroutine: f42_mixed_uel.for",
+      "relative_path": "models/pandey_kumar_mode1/37_stage14_adaptive_candidate_spatial_fine_8thread/f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "size_bytes": 29722,
+      "description": "Standardized, hardened UEL subroutine source used across all Mode-I jobs."
+    },
+    {
+      "role": "Extraction & Provenance Script",
+      "relative_path": "scripts/postprocessing/extract_gate6b_single_job_provenance.py",
+      "sha256": "7ED78DD0BA8DE7425FFFE84401EED7BAD4565AEB37D0CFB729557B1C727703B6",
+      "size_bytes": 36321,
+      "description": "Automated script that produced single-job provenance syntheses."
+    }
+  ]
+}
