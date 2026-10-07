@@ -1,10 +1,10 @@
 {
-  "task_id": "F1282-MODE1-GATE6B-PRE-SUPERVISOR-GOVERNANCE-AND-CLAIMS-FREEZE",
-  "task_name": "Mode-I Gate-6B Pre-Supervisor Governance Harmonization, Invariant Guard Alignment, and Scientific Claims Freeze",
+  "task_id": "F1283-MODE1-GATE6B-SUPERVISOR-PACKAGE-AUDIT-AND-REPORT-FREEZE",
+  "task_name": "Mode-I Gate-6B Supervisor Meeting Pack Final Audit, Compilation, and Freeze",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-07T07:05:00+02:00",
-  "end_time": "2026-10-07T07:30:00+02:00",
+  "start_time": "2026-10-07T07:20:00+02:00",
+  "end_time": "2026-10-07T07:45:00+02:00",
   "governing_phase": "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF",
-  "description": "Execute comprehensive pre-supervisor governance harmonization, invariant guard alignment, and scientific claims freeze offline (zero new Abaqus jobs): (1) unify Gate-6B status to GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF across all coordination files, bridge rules, alignment guards, and test suites; (2) purge all stale 'Job 1410504 active/running' references across all documentation, handoff templates, and dashboards; (3) tighten epistemic claims (classify 2.13% peak-force offset vs structured reference as UNRESOLVED with internal adaptive convergence proved, state coarse-mesh energy bloat and eps_book = 4.43% as convergence-consistent interpretations/observations); (4) disambiguate localization bandwidth w_0.5 metrics across transverse cuts, crack-tip tracking, and loading regimes; (5) update reproduction manifest v2.5.0, run full unit test suite (100% pass), update ledgers, commit, and push forward-only to origin/main."
+  "description": "Perform comprehensive end-to-end scientific audit, LaTeX compilation, and frozen package generation for the 08 October 2026 supervisor meeting: (1) audit all sections of MA_ModeI_Supervisor_Meeting_Pack_2026-10-08 (report_main.tex and sections 01-09) to ensure adherence to supervisor structure (problem -> expected solution -> fixed reference -> adaptive method -> quantitative comparison -> explanation/uncertainty), separation of THEORY, NUMERICAL EVIDENCE, and UNRESOLVED/NOT YET QUALIFIED claims, correct terminology (Phase-Field Fracture Energy Functional for E_frac, MISESERI stress discretization indicator, 2.13% offset unresolved), and exact single-job provenance across all 9 Gate-6B jobs; (2) compile all LaTeX documents (report_main.tex, one-page briefs, decision sheets) with full bibliography and zero errors/warnings; (3) verify SHA-256 hashes, page count, and artifact registry; (4) run all test guards (100% pass); (5) update ledgers, commit, and push forward-only to origin/main."
 }
