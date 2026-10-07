@@ -1,10 +1,10 @@
 {
-    "task_id": "F1312-MODE2-M2-2-GUARDED-HPC-SUBMISSION",
-    "task_name": "Mode-II Gate M2-2 Guarded HPC Solver Submission and Q/R Telemetry Tracking",
+    "task_id": "F1313-MODE2-M2-2-PREANALYSIS-EVALUATION-PACKAGE-AND-PREDECLARED-CRITERIA",
+    "task_name": "Mode-II Gate M2-2 Post-Processing & Terminal Evaluation Package with Predeclared Acceptance Checks",
     "governing_phase": "MODE2_REPRODUCTION_ACTIVE_HUMAN_AUTHORIZED_PREMEETING",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "start_time": "2026-10-07T19:26:00+02:00",
-    "end_time": "2026-10-07T19:35:00+02:00",
-    "description": "Executed explicit human-authorized guarded submission of exactly one 1-CPU serial Mode-II pre-analysis solver job using Job-1_UEL_paper_horizon.inp with f42_mixed_uel_mode2_miehe.for on tu_freiberg cluster via OpenClaw safety gate; captured PBS Job ID 1410790.mmaster02 running in normal_imfdfkmq; recorded telemetry, hashes, and ledgers; Mode-I baseline freeze preserved 100% untouched."
+    "start_time": "2026-10-07T19:37:00+02:00",
+    "end_time": "2026-10-07T19:42:00+02:00",
+    "description": "Prepared and committed read-only terminal-evaluation and post-processing scripts for running job 1410790.mmaster02 (Job-1_UEL_paper_horizon); extract complete Fx-ux, dmax, raw element-wise MISESERI on All_elem, and snapshots at ux={0.00936, 0.0100, 0.011842, 0.01626, 0.0200} mm; codified predeclared M2-2 acceptance checks; preserved Mode-I freeze."
 }
