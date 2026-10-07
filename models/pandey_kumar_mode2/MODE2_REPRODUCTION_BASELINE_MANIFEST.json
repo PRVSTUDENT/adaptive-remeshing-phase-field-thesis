@@ -1,0 +1,162 @@
+{
+  "manifest_name": "MODE2_REPRODUCTION_BASELINE_MANIFEST",
+  "governing_phase": "MODE2_REPRODUCTION_ACTIVE_HUMAN_AUTHORIZED_PREMEETING",
+  "gate": "M2-0",
+  "task_id": "F1309-MODE2-LINEAGE-AUDIT-AND-MIEHE-QUALIFICATION",
+  "created_at": "2026-10-07T18:45:00+02:00",
+  "agent": "gemini-antigravity",
+  "primary_reference": {
+    "authors": "Anand Pandey, P. K. Asur Vijaya Kumar",
+    "year": 2025,
+    "title": "A Hybrid Finite Element-Based Adaptive Mesh Refinement Strategy for Phase-Field Fracture Analysis",
+    "journal": "Computer Modeling in Engineering & Sciences (CMES)",
+    "volume": 144,
+    "issue": 3,
+    "pages": "3251-3276",
+    "doi": "10.32604/cmes.2025.067858",
+    "section": "4.2 Finite-Size Edge Crack Plate under Mode-II Loading (pp. 3270-3272)",
+    "figures": ["Fig. 4(b)", "Fig. 6(b)", "Fig. 12(a,b)", "Fig. 13(a,b)"],
+    "listings": ["Listing 1", "Listing 4"]
+  },
+  "parameter_classification_table": [
+    {
+      "parameter": "domain_geometry",
+      "value": "1.0 mm x 1.0 mm square plate",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 / Fig. 4(b)"
+    },
+    {
+      "parameter": "initial_crack",
+      "value": "a0 = 0.5 mm zero-gap sharp seam along y=0.5 mm (0 <= x <= 0.5 mm)",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (a0=0.5 mm), project zero-gap seam avoids notch compliance distortion"
+    },
+    {
+      "parameter": "boundary_conditions_bottom",
+      "value": "Fixed: ux = 0, uy = 0 on y=0",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (p. 3270)"
+    },
+    {
+      "parameter": "boundary_conditions_top",
+      "value": "Prescribed horizontal shear displacement ux(t), uy = 0 on y=1",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (p. 3270)"
+    },
+    {
+      "parameter": "youngs_modulus_E",
+      "value": "210.0 GPa (210.0 kN/mm^2)",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (p. 3270)"
+    },
+    {
+      "parameter": "poissons_ratio_nu",
+      "value": "0.3",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (p. 3270)"
+    },
+    {
+      "parameter": "fracture_energy_Gc",
+      "value": "2.7e-3 kN/mm (2.7 N/mm)",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (p. 3270)"
+    },
+    {
+      "parameter": "length_scale_l0",
+      "value": "0.015 mm (15.0 um)",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (p. 3270)"
+    },
+    {
+      "parameter": "constitutive_split",
+      "value": "Anisotropic spectral split by Miehe et al. (2010)",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (p. 3270, citing Miehe et al. [41])"
+    },
+    {
+      "parameter": "standard_pfm_element_count",
+      "value": "37,155 finite elements (h_global ~ 0.04 mm, h_refined ~ 0.003 mm)",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (p. 3270, Fig. 12(a))"
+    },
+    {
+      "parameter": "preanalysis_coarse_mesh_size",
+      "value": "h_global = 0.02 mm (2,960 finite elements: 2,860 CPE4 + 100 CPE3, 3,036 FE nodes)",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (p. 3271) and Job-1_UEL.inp"
+    },
+    {
+      "parameter": "preanalysis_loading_schedule",
+      "value": "2100 increments of Du1 = 5e-4 (ux=0.0105 mm) + 5000 increments of Du2 = 1e-5 (ux=0.0600 mm)",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (p. 3271) and Job-1_UEL.inp"
+    },
+    {
+      "parameter": "remeshing_error_indicator",
+      "value": "MISESERI on All_elem / umatelem continuum facsimile layer",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (p. 3271, Fig. 6(b))"
+    },
+    {
+      "parameter": "remeshing_sizing_method",
+      "value": "UNIFORM_ERROR",
+      "status": "PAPER_VERIFIED",
+      "source": "Listing 1"
+    },
+    {
+      "parameter": "remeshing_refinement_factor",
+      "value": "10",
+      "status": "PAPER_VERIFIED",
+      "source": "Listing 1"
+    },
+    {
+      "parameter": "remeshing_coarsening_factor",
+      "value": "NOT_ALLOWED",
+      "status": "PAPER_VERIFIED",
+      "source": "Listing 1"
+    },
+    {
+      "parameter": "remeshing_error_target",
+      "value": "errorTarget in 1.0% - 5.0% range (Listing 1 shows 1.0%; project tested 1.0, 2.0, 3.0, 5.0%)",
+      "status": "UNRESOLVED",
+      "source": "Section 3.2 text states 1-5% general range; exact Mode-II value unresolved"
+    },
+    {
+      "parameter": "remeshing_min_element_size",
+      "value": "h_min = 0.001 mm",
+      "status": "PROJECT_VERIFIED",
+      "source": "Listing 1 & Section 4.1-4.4"
+    },
+    {
+      "parameter": "remeshing_max_element_size",
+      "value": "h_max = 0.020 - 0.025 mm",
+      "status": "INFERRED",
+      "source": "Consistent with global pre-analysis mesh size 0.020 mm"
+    },
+    {
+      "parameter": "published_adaptive_mesh_count",
+      "value": "19,963 finite elements",
+      "status": "PAPER_VERIFIED",
+      "source": "Section 4.2 (p. 3271, Fig. 12(b)) - sanity reference, not tuning target"
+    }
+  ],
+  "frozen_mode1_integrity": {
+    "git_tag": "v2026.10.08-supervisor-meeting-mode1-freeze",
+    "mode1_tag_commit": "2471df801c64abeb46c725821913d3931ae20502",
+    "mode1_authoritative_uel_hash": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "mode1_status": "FROZEN_AND_PROTECTED_UNMODIFIED"
+  },
+  "existing_mode2_assets": {
+    "06_paper_grounded_uel_preanalysis": {
+      "Job-1_UEL.inp": "869A2DBD015573FC15470834DAB1A6051A5AE530000AB44F9184777605541791",
+      "Job-2_UEL.inp": "6B07E499BC537446EE97D095A642B32517865B8808985C19A0A7E780E891C366",
+      "f42_mixed_uel.for": "FA48CB4D38BAC9D772FF5ED1465175CEF363B1AB6FABE2CFFEBBDF11D3E2A854",
+      "MODE2_ADAPTED_RAW_5PCT.inp": "FB4EEF7F9C71D7817D47AD46461D2EE6932E51E8627140186C5A43E03EE138E6",
+      "MODE2_ADAPTED_RAW_2PCT.inp": "7E98FB2F84D37A3366D035B7423D9CFD2B5D7A419FD6B3864FCE0E3C2BDE2D44"
+    }
+  },
+  "f1308_lineage_audit": {
+    "verdict": "REUSED_EXISTING_MESH_DIAGNOSTIC",
+    "evidence": "MODE2_ADAPTED_RAW_5PCT.inp (11,972 FEs, SHA256 FB4EEF7F...) was generated in Task F1291 (commit 354a8d4f). Task F1308 extracted miseseri_step1_final_frame2000.csv and computed correlation r = -0.869 against the existing 11,972-FE mesh without invoking adaptiveRemesh to create a new mesh file."
+  }
+}

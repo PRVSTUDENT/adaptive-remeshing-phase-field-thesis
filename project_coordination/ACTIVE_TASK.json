@@ -1,10 +1,10 @@
 {
-    "task_id": "F1308-MODE2-STEP1-FINAL-MISESERI-ADAPTIVE-REMESH-DIAGNOSTIC",
-    "task_name": "Mode-II Step-1 Final MISESERI Native Adaptive Remeshing Diagnostic",
-    "governing_phase": "MODE2_DIAGNOSTIC_REMESHING_STEP1_FINAL",
-    "status": "COMPLETED",
+    "task_id": "F1309-MODE2-LINEAGE-AUDIT-AND-MIEHE-QUALIFICATION",
+    "task_name": "Mode-II Forensic Provenance Audit, Evidence Table, and Separate Miehe Source Qualification",
+    "governing_phase": "MODE2_REPRODUCTION_ACTIVE_HUMAN_AUTHORIZED_PREMEETING",
+    "status": "IN_PROGRESS",
     "agent": "gemini-antigravity",
-    "start_time": "2026-10-07T16:30:00+02:00",
-    "end_time": "2026-10-07T16:45:00+02:00",
-    "description": "Completed diagnostic native Abaqus adaptive remeshing on Mode-II using Step-1 final frame (Frame 2000 at ux=0.0105 mm) of Job-1_UEL.odb with identical remeshing settings to Pattern-2 Step-2 (UNIFORM_ERROR 5.0%, h in [0.001, 0.025] mm); generated publication-quality two-panel figure mode2_step1_final_miseseri_adaptive_mesh.png (.pdf) comparing Step-1 MISESERI field and resulting 11,972-FE adaptive mesh (11,626 Quads + 346 Tris); characterized refinement locations (r = -0.869, 84.1% top-error refined); preserved Step-2 review figure; updated Mode-II provenance records with zero solver runs."
+    "start_time": "2026-10-07T18:38:00+02:00",
+    "end_time": null,
+    "description": "Human-authorized Mode-II reproduction initiation: (1) query scheduler state via guarded SSH; (2) verify frozen Mode-I meeting release tag v2026.10.08-supervisor-meeting-mode1-freeze and source hashes unmodified; (3) conduct forensic audit of F1308 provenance (determine whether 11,972 mesh was regenerated vs reused); (4) build Mode-II paper/source evidence table; (5) audit UEL vs Miehe spectral split; (6) report first required changes and implement separate f42_mixed_uel_mode2_miehe.for; (7) compile, verify minimal patch test, and datacheck canonical Mode-II coarse pre-analysis."
 }

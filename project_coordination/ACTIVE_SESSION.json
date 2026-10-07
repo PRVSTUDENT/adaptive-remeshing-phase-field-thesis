@@ -1,15 +1,16 @@
 {
-    "active": false,
+    "active": true,
     "agent": "gemini-antigravity",
-    "task_id": "F1308-MODE2-STEP1-FINAL-MISESERI-ADAPTIVE-REMESH-DIAGNOSTIC",
-    "session_start": "2026-10-07T16:30:00+02:00",
-    "session_end": "2026-10-07T16:45:00+02:00",
-    "starting_commit": "fb4e458698a568dfadc15668c88406b694765e74",
+    "task_id": "F1309-MODE2-LINEAGE-AUDIT-AND-MIEHE-QUALIFICATION",
+    "session_start": "2026-10-07T18:38:00+02:00",
+    "session_end": null,
+    "starting_commit": "6f152efaca538dd10eca3bc0c169efd7d487002b",
     "allowed_write_scope": [
         "project_coordination/**",
         "models/pandey_kumar_mode2/**",
         "scripts/**",
         "results/figures/mode2/**",
-        "docs/mode2/**"
+        "docs/mode2/**",
+        "tests/**"
     ]
 }
