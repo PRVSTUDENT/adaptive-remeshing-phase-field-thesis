@@ -631,3 +631,85 @@ def test_guard13_parallel_execution_governance_consistency_and_dryrun_invariants
         # If running in restricted sandbox environment without powershell spawn access, verify statically
         assert "1, 4, 8, or 16 threads" not in g_text
         assert "1, 4, 8, or 16 threads" not in r_text
+
+
+def test_guard14_spatial_localization_synthesis_and_closure_invariants():
+    """Guard 14: Enforce spatial phase-field localization synthesis, ligament profile integrity, and formal Gate-6B closure invariants:
+    1. GATE6B_SPATIAL_LOCALIZATION_SYNTHESIS.json exists, is valid JSON, and contains all 6 governed discretizations:
+       - fixed_ref_15k
+       - adapt_et1_14k
+       - adapt_et1_cn050
+       - adapt_et2_6k
+       - adapt_et3_5k
+       - adapt_et5_4k
+       - spatial_fine_58k
+    2. Transverse symmetry is strictly preserved (|y_c - 0.500 mm| = 0.000 mm) across all valid states.
+    3. Pre-peak ligament profiles between 14.5k (ET1) and 57.9k (Spatial Fine) have L2 difference <= 0.35%.
+    4. GATE6B_SPATIAL_LOCALIZATION_SYNTHESIS.csv and GATE6B_LIGAMENT_PROFILES_MATCHED.csv exist and are non-empty.
+    5. Publication figure fig_mode1_gate6b_spatial_localization_and_crack_path.pdf (.png) exists.
+    6. Epistemic wording in MODE1_GATE6B_CLOSURE_DECISION_MATRIX_AND_CONSISTENCY_AUDIT.md and supervisor summary:
+       - Contains convergence-consistent interpretation of coarse-mesh energy bloat.
+       - Contains 2.13% persistent offset between unstructured adaptive mesh and rectilinear structured reference.
+       - Contains bounded post-peak energy balance (eps_book = 4.43% on 58k).
+       - Recommends formal Gate-6B closure while keeping Gate 6C strictly on hold.
+    """
+    json_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "GATE6B_SPATIAL_LOCALIZATION_SYNTHESIS.json"
+    assert json_path.exists(), f"Missing spatial localization synthesis JSON: {json_path}"
+
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    expected_cases = [
+        "fixed_ref_15k",
+        "adapt_et1_14k",
+        "adapt_et1_cn050",
+        "adapt_et2_6k",
+        "adapt_et3_5k",
+        "adapt_et5_4k",
+        "spatial_fine_58k",
+    ]
+    for cid in expected_cases:
+        assert cid in data, f"Case '{cid}' missing from spatial localization JSON"
+        cdata = data[cid]
+        assert "checkpoints" in cdata
+        for u_str in ["0.001000", "0.005000", "0.005717"]:
+            assert u_str in cdata["checkpoints"]
+            cp = cdata["checkpoints"][u_str]
+            assert cp["status"] == "VALID"
+            assert cp["y_c_at_x055_mm"] == 0.5
+            assert cp["dev_yc_at_x055_mm"] == 0.0
+
+    # L2 difference check between ET1 and 58k pre-peak
+    et1_profiles = {cp_k: cp_v["d_ligament_profile"] for cp_k, cp_v in data["adapt_et1_14k"]["checkpoints"].items()}
+    f58_profiles = {cp_k: cp_v["d_ligament_profile"] for cp_k, cp_v in data["spatial_fine_58k"]["checkpoints"].items()}
+
+    for u_str in ["0.001000", "0.004000", "0.005000", "0.005717"]:
+        p_et1 = [pt["d"] for pt in et1_profiles[u_str]]
+        p_f58 = [pt["d"] for pt in f58_profiles[u_str]]
+        assert len(p_et1) == len(p_f58)
+        diff_sq = sum((a - b) ** 2 for a, b in zip(p_et1, p_f58))
+        norm_sq = sum(b ** 2 for b in p_f58)
+        l2_err = (diff_sq ** 0.5) / (norm_sq ** 0.5) if norm_sq > 0 else 0.0
+        assert l2_err <= 0.0035, f"L2 error for {u_str} is {l2_err*100:.3f}% > 0.35%"
+
+    # CSV files
+    csv_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "GATE6B_SPATIAL_LOCALIZATION_SYNTHESIS.csv"
+    matched_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "GATE6B_LIGAMENT_PROFILES_MATCHED.csv"
+    assert csv_path.exists() and csv_path.stat().st_size > 1000
+    assert matched_path.exists() and matched_path.stat().st_size > 1000
+
+    # Figures
+    fig_pdf = REPO_ROOT / "results" / "figures" / "mode1_gate6b" / "fig_mode1_gate6b_spatial_localization_and_crack_path.pdf"
+    fig_png = REPO_ROOT / "results" / "figures" / "mode1_gate6b" / "fig_mode1_gate6b_spatial_localization_and_crack_path.png"
+    assert fig_pdf.exists() and fig_pdf.stat().st_size > 5000
+    assert fig_png.exists() and fig_png.stat().st_size > 5000
+
+    # Epistemic text invariants in methods audit
+    audit_path = REPO_ROOT / "docs" / "methods" / "MODE1_GATE6B_CLOSURE_DECISION_MATRIX_AND_CONSISTENCY_AUDIT.md"
+    a_text = audit_path.read_text(encoding="utf-8")
+    assert "convergence-consistent" in a_text.lower()
+    assert "2.13%" in a_text
+    assert "4.43" in a_text or "4.4263" in a_text
+    assert "CLOSED_AND_QUALIFIED" in a_text
+    assert "ON HOLD" in a_text or "ON_HOLD" in a_text
+

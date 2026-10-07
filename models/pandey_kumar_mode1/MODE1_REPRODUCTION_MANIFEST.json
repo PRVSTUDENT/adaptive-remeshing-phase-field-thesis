@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "manifest_title": "Mode-I Adaptive Remeshing & Energetic Convergence Reproduction Package Manifest",
-  "manifest_version": "2.3.0",
-  "generated_timestamp": "2026-10-06T06:35:00+02:00",
+  "manifest_version": "2.4.0",
+  "generated_timestamp": "2026-10-07T06:55:00+02:00",
   "active_scientific_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
   "next_supervisor_meeting": "Thursday, 08 October 2026, 10:00 CEST",
   "governing_directive": "We need to have understood everything related to the first model before we increase complexity.",
@@ -354,8 +354,8 @@
       "category_type": "governance_schema",
       "required_environment": "Markdown viewer / LaTeX build engine",
       "expected_outputs": "Governing criteria for supervisor meeting review",
-      "sha256": "DC13E967509BAD68DB5BF410C9F1BF5BBED25DE0528CBDFE3F395D4321738BFC",
-      "size_bytes": 12781
+      "sha256": "A5A2CD2189CD60E0B0290EBAE8F1200A105B5C15863FDA3F346EC3C2B58FFFE0",
+      "size_bytes": 15091
     },
     {
       "relative_path": "docs/methods/MODE1_SHARED_MEMORY_8THREAD_PARITY_AND_SCALING_AUDIT.md",
@@ -384,8 +384,108 @@
       "category_type": "governance_schema",
       "required_environment": "Markdown viewer / PDF compilation engine",
       "expected_outputs": "Executive briefing document",
-      "sha256": "1647EF4C0D8C8BF167BAA729036F561BE81D394E153488453819E36B43D86B49",
-      "size_bytes": 7989
+      "sha256": "90426AEDF05916FE69C7403ECB7BC1D1D371889525491502B1C9723F1E01A247",
+      "size_bytes": 9084
+    },
+    {
+      "relative_path": "models/pandey_kumar_mode1/MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json",
+      "scientific_role": "Machine-readable single-job provenance dataset across 9 Gate-6B jobs with zero cross-copying",
+      "originating_task_job": "Gate 6B / Task F1272 / Task F1280",
+      "category_type": "dataset",
+      "required_environment": "Python standard json module",
+      "expected_outputs": "Structured metadata and single-job metrics",
+      "sha256": "A08A315116F83755215A03653F20B230200EAA55FF561EA4362196B4B3C83FD7",
+      "size_bytes": 14372
+    },
+    {
+      "relative_path": "models/pandey_kumar_mode1/GATE6B_SPATIAL_LOCALIZATION_SYNTHESIS.json",
+      "scientific_role": "Quantitative spatial phase-field and localization dataset across all 6 governed discretizations and loading checkpoints",
+      "originating_task_job": "Gate 6B / Task F1281",
+      "category_type": "dataset",
+      "required_environment": "Python standard json module",
+      "expected_outputs": "Full ligament profiles d(x, y=0.5 mm), crack-tip x_tip(theta), w_0.5, and y_c",
+      "sha256": "FF104F510B216E1660909399323B853FEB87DA16F9429BC73930D24B4651AF88",
+      "size_bytes": 464089
+    },
+    {
+      "relative_path": "models/pandey_kumar_mode1/GATE6B_SPATIAL_LOCALIZATION_SYNTHESIS.csv",
+      "scientific_role": "Tabular spatial localization summary across all discretizations and displacement milestones",
+      "originating_task_job": "Gate 6B / Task F1281",
+      "category_type": "dataset",
+      "required_environment": "CSV reader / Pandas",
+      "expected_outputs": "Summary table of d_max, x_tip, w_0.5, and y_c metrics",
+      "sha256": "21CA5A754E34078ADFDA8A844738E3579F24A2AD9327FE2D491FEB3017954470",
+      "size_bytes": 5138
+    },
+    {
+      "relative_path": "models/pandey_kumar_mode1/GATE6B_LIGAMENT_PROFILES_MATCHED.csv",
+      "scientific_role": "Matched ligament damage profiles d(x, y=0.5 mm) for spatial convergence and L2 error comparisons",
+      "originating_task_job": "Gate 6B / Task F1281",
+      "category_type": "dataset",
+      "required_environment": "CSV reader / Pandas",
+      "expected_outputs": "High-density ligament damage point values across loading checkpoints",
+      "sha256": "2DC7E7E39C3B750870CDE07C1543DE987342486839C158AFBFA98CAF8DCC697D",
+      "size_bytes": 306156
+    },
+    {
+      "relative_path": "scripts/postprocessing/extract_gate6b_single_job_provenance.py",
+      "scientific_role": "Authoritative single-job extraction script for Mode-I Gate-6B computing metrics from raw solver outputs",
+      "originating_task_job": "Gate 6B / Task F1272",
+      "category_type": "evaluator",
+      "required_environment": "Python 3.8+ (Pure Python standard library)",
+      "expected_outputs": "MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json and .csv",
+      "sha256": "7ED78DD0BA8DE7425FFFE84401EED7BAD4565AEB37D0CFB729557B1C727703B6",
+      "size_bytes": 36321
+    },
+    {
+      "relative_path": "scripts/postprocessing/generate_gate6b_spatial_localization_synthesis.py",
+      "scientific_role": "Post-processing synthesis generator computing ligament profiles, crack-tip tracking, w_0.5, and publication figures",
+      "originating_task_job": "Gate 6B / Task F1281",
+      "category_type": "evaluator",
+      "required_environment": "Python 3.8+ (NumPy, Matplotlib)",
+      "expected_outputs": "GATE6B_SPATIAL_LOCALIZATION_SYNTHESIS.json / .csv and comparison figures",
+      "sha256": "B67F774F22ECE649F6CFD7C11F6F47E7BF2EB9456B5069AAF2A03B8189952CAB",
+      "size_bytes": 20893
+    },
+    {
+      "relative_path": "scripts/postprocessing/plot_gate6b_spatial_convergence_synthesis.py",
+      "scientific_role": "4-Panel multi-quantity spatial convergence synthesis comparison plotter",
+      "originating_task_job": "Gate 6B / Task F1271 / Task F1280",
+      "category_type": "evaluator",
+      "required_environment": "Python 3.8+ (NumPy, Matplotlib)",
+      "expected_outputs": "fig_mode1_gate6b_spatial_convergence_synthesis.pdf (.png)",
+      "sha256": "6C625815208F41DAA60C80561A142F4FD750598751DF197D910299A6787B9478",
+      "size_bytes": 14880
+    },
+    {
+      "relative_path": "results/figures/mode1_gate6b/fig_mode1_gate6b_spatial_convergence_synthesis.pdf",
+      "scientific_role": "Publication-quality 4-panel spatial convergence synthesis figure (PDF)",
+      "originating_task_job": "Gate 6B / Task F1271 / Task F1280",
+      "category_type": "figure",
+      "required_environment": "PDF viewer / LaTeX figure inclusion",
+      "expected_outputs": "Vector comparison figure",
+      "sha256": "7734AA3088B91A6D8C2584F5FECF16028B5B52F02C4982A82CB0DBA3F7D5D396",
+      "size_bytes": 63424
+    },
+    {
+      "relative_path": "results/figures/mode1_gate6b/fig_mode1_gate6b_spatial_localization_and_crack_path.pdf",
+      "scientific_role": "Publication-quality 4-panel spatial phase-field localization, ligament profile, and crack-path figure (PDF)",
+      "originating_task_job": "Gate 6B / Task F1281",
+      "category_type": "figure",
+      "required_environment": "PDF viewer / LaTeX figure inclusion",
+      "expected_outputs": "Vector spatial localization figure",
+      "sha256": "06C7F5ABC732455447ECE6D699E196B9F9CCCD21D0477039F44F57EE559F30EC",
+      "size_bytes": 51890
+    },
+    {
+      "relative_path": "docs/experiment_records/STAGE_GATE6B_SPATIAL_FINE_58K_JOB_1410504_FULL_HORIZON_EVALUATION.md",
+      "scientific_role": "Authoritative experiment record for Job 1410504 full-horizon 57,929-element 8T SMP solve",
+      "originating_task_job": "Gate 6B / Task F1278 / Task F1280 / Task F1281",
+      "category_type": "governance_schema",
+      "required_environment": "Markdown viewer",
+      "expected_outputs": "Experiment record with single-job telemetry and spatial tables",
+      "sha256": "0ABA201F644C938FDB50C24148759F521DA095A642C64E4C386A00187D3B349F",
+      "size_bytes": 16590
     }
   ]
 }

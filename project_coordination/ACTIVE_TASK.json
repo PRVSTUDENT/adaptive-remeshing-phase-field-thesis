@@ -1,10 +1,10 @@
 {
-  "task_id": "F1280-MODE1-GATE6B-JOB-1410504-TERMINAL-EVALUATION-AND-CONVERGENCE",
-  "task_name": "Mode-I Gate-6B Job 1410504 Terminal Evaluation and Full-Horizon Spatial Convergence Synthesis",
+  "task_id": "F1281-MODE1-GATE6B-SPATIAL-LOCALIZATION-AND-CLOSURE-AUDIT",
+  "task_name": "Mode-I Gate-6B Missing Spatial/Localization Evidence Extraction, Scientific Wording Audit, Per-Quantity Closure Matrix, and Gate-6B Closure Evaluation",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-07T05:58:00+02:00",
-  "end_time": "2026-10-07T06:30:00+02:00",
+  "start_time": "2026-10-07T06:23:00+02:00",
+  "end_time": "2026-10-07T07:05:00+02:00",
   "governing_phase": "MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION",
-  "description": "Perform complete governed terminal evaluation of PBS Job 1410504.mmaster02 (PK_M1_14AM_8T, 57,929 finite elements, 8-thread shared-memory SMP): (1) retrieve and preserve scheduler and lightweight solver artifacts (.sta, .dat, .msg, .log, .out, .err, uel_energy_balance.csv); (2) verify actual achieved solution horizon uy and step time; (3) preserve Job 1410179 / Job 1410504 provenance separation; (4) extract complete mechanical and energetic metrics (K0, Fmax, u(Fmax), post-peak, E_elas, E_frac, W_ext, Delta_book, epsilon_book); (5) perform full spatial-convergence evaluation across the governed discretization hierarchy (15.2k ref, 14.5k ET1, 6.1k ET2, 5.2k ET3, 4.7k ET5, 57.9k fine candidate); (6) determine spatial convergence status; (7) update/generate publication-quality figures; (8) update dedicated experiment records and synthesis ledgers; (9) evaluate Gate 6B closure readiness; (10) run regression tests, commit, and push."
+  "description": "Perform complete Gate-6B closure audit and missing spatial/localization evidence extraction for PBS Job 1410504.mmaster02 (PK_M1_14AM_8T, 57,929 finite elements, 8-thread shared-memory SMP) against governed reference/adaptive benchmarks: (1) execute non-interactive guarded on-cluster extraction of d(x, y=0.5 mm) ligament profiles, crack-tip positions x_tip(theta in {0.5, 0.7, 0.9}), localization bandwidth w_0.5, and centroid y_c across displacement milestones (u in {0.0050, 0.0057, 0.0060, 0.0070, 0.0080, 0.0100} mm); (2) audit and refine scientific wording in Gate-6B documents (characterize coarse-mesh energy bloat as convergence-consistent interpretation, state 2.13% persistent offset vs fixed reference, classify eps_book = 4.43% energy balance); (3) formulate explicit 15-point closure matrix with per-quantity verdicts (CONVERGED/STABLE, MESH-SENSITIVE, TEMPORALLY SENSITIVE, NOT YET QUALIFIED); (4) decide formal Gate-6B closure status without premature auto-promotion of Gate 6C, Mode-II, or Gate 7; (5) update ledgers, run regression test suite, commit, and push."
 }

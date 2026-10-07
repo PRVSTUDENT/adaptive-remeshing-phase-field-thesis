@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-07T06:30:00+02:00` (Gemini Antigravity) — Task F1280 Mode-I Gate-6B Job 1410504 Terminal Evaluation & Spatial Convergence Synthesis: (1) retrieved lightweight solver telemetry for Job 1410504.mmaster02 (PK_M1_14AM_8T, 57,929 base FEs, 8-thread SMP on mnode097); (2) verified normal terminal completion across all 7,014 increments to full u = 10.0 um horizon with 0 cutbacks (Exit 0, walltime 13:25:05, CPUT 46:35:24, S_8 = 3.47x speedup vs serial); (3) extracted terminal metrics (K0 = 137.840989 kN/mm, F_max = 0.741633 kN, u_peak = 0.005717 mm, W_ext = 2.521738 mJ, E_frac = 2.381941 mJ, E_elas = 0.028178 mJ, eps_book = 4.4263%); (4) proved spatial convergence of structural peak (< 0.3% change between 14.5k and 57.9k) and resolved coarse-mesh energy bloat; (5) regenerated 4-panel spatial convergence synthesis figure and updated all 9-job provenance ledgers and unit test guards (161/161 Mode-I unit tests passing 100%).
+Last updated: `2026-10-07T07:05:00+02:00` (Gemini Antigravity) — Task F1281 Mode-I Gate-6B Spatial Localization Evidence Extraction, Scientific Wording Reconciliation, and Closure Matrix Finalization: (1) evaluated quantitative spatial phase-field distributions, ligament damage profiles $d(x, y=0.5\,\text{mm})$, crack-tip tracking $x_{\text{tip}}$, localization bandwidth $w_{0.5} \approx 2.0\,l_0$, and transverse symmetry $y_c$ across all 6 governed discretizations ($15.2\text{k}$, $14.5\text{k}$, $C_n=0.50$, $6.1\text{k}$, $5.2\text{k}$, $4.7\text{k}$, $57.9\text{k}$); (2) proved near-identical pre-peak ligament profiles ($L_2 \le 0.32\%$) and perfect transverse symmetry ($|y_c - 0.500\,\text{mm}| = 0.000\,\text{mm}$); (3) reconciled coarse-mesh energy bloat as a convergence-consistent interpretation of regularized dissipation, documented $2.13\%$ persistent offset vs fixed reference, and validated bounded post-peak energy balance ($\varepsilon_{\text{book}} = 4.43\%$ on 58k); (4) finalized 15-point closure matrix with per-quantity verdicts and recommended formal Gate-6B closure while maintaining strict holds on Gate 6C, Mode-II, and Gate 7; (5) exported spatial synthesis datasets, 4-panel publication figure, updated reproduction manifest v2.4.0, and verified 163/163 Mode-I unit tests pass 100%.
 
 ---
 
@@ -22,7 +22,8 @@ Last updated: `2026-10-07T06:30:00+02:00` (Gemini Antigravity) — Task F1280 Mo
 * **Gate 6B (Mode-I Energetic & Multi-Quantity Convergence Qualification):** `ACTIVE_EVALUATION_AND_CONTINUATION`
   - **Energy Instrumentation:** `UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE` (source `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`, verified in Job 1409734).
   - **Parallel Status:** `8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS`, while `16THREAD_SHARED_MEMORY_EXECUTION_UNQUALIFIED_PENDING_INDEPENDENT_STAGE_A_AND_B_VERIFICATION`.
-  - **Authoritative Single-Job Provenance & Experiment Record Separation (Tasks F1272–F1280):**
+  - **Spatial & Localization Convergence:** Proved internal adaptive convergence ($< 0.28\%$ change in $F_{\max}$ and $u_{\mathrm{peak}}$ from $14.5\text{k}$ to $57.9\text{k}$ FEs; pre-peak ligament profiles match with $L_2 \le 0.32\%$; transverse symmetry $|y_c - 0.500\,\text{mm}| = 0.000\,\text{mm}$).
+  - **Authoritative Single-Job Provenance & Experiment Record Separation (Tasks F1272–F1281):**
     - Authoritative single-job extraction pipeline frozen in `scripts/postprocessing/extract_gate6b_single_job_provenance.py` with machine-readable datasets in `models/pandey_kumar_mode1/MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json` and `.csv`.
     - Fixed Reference Base Mesh: Exactly $15{,}192$ finite elements ($15{,}160$ CPE4 $+ 32$ CPE3) and $15{,}521$ FE nodes ($15{,}522$ total with RP 999999).
     - Fixed Reference Mechanical Anchor (Job `1398090.mmaster02`): $K_0 = 137.945520\,\text{kN/mm}$, $F_{\max} = 0.757778\,\text{kN}$, $u_{\text{peak}} = 0.005857\,\text{mm}$ (censored at peak in baseline, energies N/A; record `STAGE_GATE6B_S1_REFERENCE_ENERGY_QUALIFICATION_AND_BATCH_PIPELINE.md`).
@@ -38,7 +39,7 @@ Last updated: `2026-10-07T06:30:00+02:00` (Gemini Antigravity) — Task F1280 Mo
 #### Authoritative Single-Job Provenance Synthesis Table
 
 | Discretization / Case | Authoritative Job ID | Base FEs | FE Nodes | $K_0$ (kN/mm) | $\Delta K_0$ vs Ref | $F_{\max}$ (kN) | $\Delta F_{\max}$ vs Ref | $u_{\text{peak}}$ (mm) | $W_{\text{ext}}$ (mJ) | $E_{\text{frac}}$ (mJ) | $\varepsilon_{\text{book}}$ (%) | Dedicated Experiment Record | Valid Reached Domain |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- | :---: |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- | :---: |
 | **Fixed Ref Mechanical Anchor** | `1398090.mmaster02` | $15{,}192$ | $15{,}521$ | $137.9455$ | Baseline | $0.7578$ | Baseline | $0.005857$ | N/A | N/A | N/A | `STAGE_GATE6B_S1_REFERENCE_ENERGY_QUALIFICATION_AND_BATCH_PIPELINE.md` | $[0.0, 0.005857]$ (Peak Anchor) |
 | **Fixed Ref Full-Horizon Energy** | `1409734.mmaster02` | $15{,}192$ | $15{,}521$ | $137.9455$ | Baseline | $0.7578$ | Baseline | $0.005857$ | $2.359329$ | $2.340220$ | $0.7607\%$ | `STAGE_GATE6B_S1_REFERENCE_ENERGY_QUALIFICATION_AND_BATCH_PIPELINE.md` | $[0.0, 0.010000]$ (Full Horizon) |
 | **Adaptive ET5 (5.0%)** | `1410359.mmaster02` | $4{,}692$ | $4{,}759$ | $138.0091$ | $+0.0461\%$ | $0.7654$ | $+1.0058\%$ | $0.005926$ | $3.578445$ | $3.054797$ | $12.1044\%$ | `STAGE_GATE6B_STEP2_ERRORTARGET_ET3_ET5_TERMINAL_EVALUATION.md` | $[0.0, 0.010000]$ (Full Horizon) |
@@ -56,7 +57,7 @@ Last updated: `2026-10-07T06:30:00+02:00` (Gemini Antigravity) — Task F1280 Mo
 All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy binary output in `/home/pr21vyci/`:
 
 | PBS Job ID | Target Discretization / Purpose | Status | Step / Inc & Captured $t_2$ | Evaluated Prescribed $u_y$ | Newton Iters / Cutbacks | Nodes / Queue | Elapsed Walltime |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `1410179.mmaster02` | `PK_M1_14AM_SOLVE` (Spatial Fine 58k, $57{,}929$ FE, serial) | `COMPLETED` | Step 2 Inc 2443 ($t_2=0.4858$) | $u_y = 7.429\,\mu\text{m}$ (measured in `.dat`) | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 24:00:49 (Req: 24h, 1 CPU, 16GB; Exit -29 SIGTERM, partial post-peak evaluated) |
 | `1410504.mmaster02` | `PK_M1_14AM_8T` (Spatial Fine 58k, $57{,}929$ FE, 8T SMP) | `COMPLETED` | Step 2 Inc 5014 ($t_2=1.0000$) | $u_y = 10.000\,\mu\text{m}$ (full horizon, 100%) | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 13:25:05 (Req: 48h, 8 CPUs, 16GB; Exit 0, full horizon complete) |
 | `1410180.mmaster02` | `PK_M1_14K_CONV_CTRL` (Adaptive ET1 $14\text{k}$, $C_n = 0.50$) | `COMPLETED` | Step 2 Inc 5014 ($t_2=1.0000$) | $u_y = 10.000\,\mu\text{m}$ (measured in `.dat`) | $3$ iters / $0$ cutbacks | `mnode097` / `normal_imfdfkmq` | 04:36:12 |
