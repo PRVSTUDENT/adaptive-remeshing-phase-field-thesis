@@ -76,3 +76,24 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
   - Stage 15 (Mode-II Adaptive Benchmark Production): `AUDIT_FAILED_SPATIAL_TRAJECTORY_MISMATCH / ON_HOLD_PENDING_SUPERVISOR_SIGNOFF` (Spatial trajectory audit failed: ET2 adaptive mesh does NOT follow physical Mode-II crack path; refines horizontal ligament and boundaries with only 2 elements in active crack corridor; remesher mechanism diagnostic confirmed Case A: remesher operates with high fidelity $r = -0.748$ to $-0.808$; root causes diagnosed as isotropic shear degradation in f42_mixed_uel.for and auxiliary continuum pre-analysis boundary constraints; 5 diagnostic figures generated; full fracture solve strictly gated pending supervisor instruction).
   - Distributed Multi-Rank MPI Integration: `STRICTLY_DISQUALIFIED` (`f42_mixed_uel.for` single-rank shared-memory SMP only; multi-rank MPI requires redesign of replicated `COMMON` state).
 * **Next Action:** Use the provenance-corrected 10-page supervisor report at the Thursday 08 October 2026, 10:00 CEST meeting and obtain the formal Gate-6B decision; keep Gate 6C, Mode-II solve, and Gate 7 strictly on hold until that review.
+
+---
+
+## 4. Problem-Agnostic Generic Remesher Visual Qualification Status (F1297)
+
+* **Overall Status**: PENDING_CHATGPT_FINAL_VISUAL_REVIEW
+* **Pattern 1 (Mode-I Crack-Tip Band)**: READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW
+  - Exact end-to-end lineage verified: PK_M1_JOB1_INF_COMPANION_2906.odb [Step-1 final frame, =0.005\,\text{mm}$] $\to$ canonical_mode1_coarse_miseseri_2906.csv $\to$ RemeshingRule $\to$ daptiveRemesh $\to$ 57,929 spatial FEs.
+  - Length scale verified and aligned to canonical  = 0.0075\,\text{mm}$ (.5\,\mu\text{m}$), purging legacy .015\,\text{mm}$ typo.
+  - Deck element records: 173,787 total cards across 3 co-located layers ( \times 57,929$).
+  - Fidelity metrics: Pearson (\log_{10} M, h) = -0.629$, Top 10% MISESERI refined $= 80.66\%$, Fine elements in high error $= 70.32\%$.
+* **Pattern 2 (Mode-II Curved Shear Band)**: VISUAL_PASS_REMESHER_FIELD_FOLLOWING
+  - Field-following ridge fit confirmed: starts 0.5107 0.4899$, linear slope  = -0.2185$ ($\theta = -12.32^\circ$, PCA $-12.39^\circ$), exits right boundary at 1 0.4$.
+  - Downstream $-43.88^\circ$ fracture trajectory explicitly retracted and classified as non-validated for pre-analysis field.
+  - Fidelity metrics: Pearson (\log_{10} M, h) = -0.748$, Top 10% MISESERI refined $= 100.0\%$, Fine elements in high error $= 99.49\%$.
+* **Pattern 3 (L-Panel Re-entrant Corner)**: READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW
+  - Coarse mesh discrepancy reconciled: physical count is strictly 571 finite elements (561 CPE4 + 10 CPE3) across 618 nodes; 1,200 was an erroneous conflation with the .inp file line count (1,197 lines).
+  - Fidelity metrics: Pearson (\log_{10} M, h) = -0.833$, Top 10% MISESERI refined $= 90.06\%$, Fine elements in high error $= 87.56\%$.
+* **Sizing Semantics**: NOT_A_STRICT_INDIVIDUAL_EDGE_LENGTH_HARD_BOUND (advancing-front background sizing field).
+* **Visual Review Artifacts**: 4-panel PNGs, Base64 sidecars, and VISUAL_REVIEW_MANIFEST.json under esults/figures/generic_remesher/review/ with 100% roundtrip decode matching.
+* **Unit Test Suite**: 34 tests passing 100% in 	ests/unit/test_generate_visual_review_bundle.py.

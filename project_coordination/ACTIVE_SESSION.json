@@ -1,18 +1,18 @@
 ﻿{
-  "active": false,
-  "agent": "gemini-antigravity",
-  "task_id": "F1296-VISUAL-REVIEW-BUNDLE-RECONCILIATION-AND-RIDGE-AUDIT",
-  "session_start": "2026-10-07T14:10:00+02:00",
-  "session_end": "2026-10-07T14:20:00+02:00",
-  "starting_commit": "d983f7df4dedfecfc83af42b4395ed5d26b3de15",
-  "allowed_write_scope": [
-    "project_coordination/**",
-    "scripts/**",
-    "tests/**",
-    "docs/**",
-    "models/**",
-    "results/figures/**",
-    "runs/**",
-    ".agents/**"
-  ]
+    "active":  false,
+    "agent":  "gemini-antigravity",
+    "task_id":  "F1297-VISUAL-REVIEW-LINEAGE-RECONCILIATION-AND-FINAL-ALIGNMENT",
+    "session_start":  "2026-10-07T14:20:00+02:00",
+    "session_end":  "2026-10-07T14:28:00+02:00",
+    "starting_commit":  "2c4707b79c9c172080dd5383fa30e0099e649535",
+    "allowed_write_scope":  [
+                                "project_coordination/**",
+                                "scripts/**",
+                                "tests/**",
+                                "docs/**",
+                                "models/**",
+                                "results/figures/**",
+                                "runs/**",
+                                ".agents/**"
+                            ]
 }

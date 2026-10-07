@@ -1,41 +1,83 @@
 {
-  "manifest_title": "Visual Review Bundle, Ridge Audit, and Sizing Diagnostic Manifest (Second Review)",
-  "overall_status": "PENDING_CHATGPT_SECOND_VISUAL_REVIEW",
-  "created_at": "2026-10-07T14:15:00+02:00",
+  "manifest_title": "Visual Review Bundle, Lineage Reconciliation, and Fidelity Manifest (Final Review)",
+  "overall_status": "PENDING_CHATGPT_FINAL_VISUAL_REVIEW",
+  "created_at": "2026-10-07T14:25:00+02:00",
   "agent": "gemini-antigravity",
   "pattern_statuses": {
-    "pattern1_mode1": "PENDING_RECONCILIATION",
-    "pattern2_mode2": "PENDING_RECONCILIATION",
-    "pattern3_lpanel": "PROVISIONAL_VISUAL_PASS"
+    "pattern1_mode1": "READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW",
+    "pattern2_mode2": "VISUAL_PASS_REMESHER_FIELD_FOLLOWING",
+    "pattern3_lpanel": "READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW"
   },
-  "retracted_claims": {
-    "pattern2_mode2_minus_43_88_deg_claim": {
-      "retracted": true,
-      "reason": "The theoretical -43.88 deg angle applies to the downstream mixed-mode crack propagation path under pure shear. In the elastic pre-analysis field (Step-1 Frame 2000), the raw MISESERI ridge starts at (0.50, 0.50) and extends at a fitted slope of -0.218 (fitted angle -12.32 deg, PCA angle -12.39 deg), exiting the right specimen boundary at (1.00, 0.40). The remesher faithfully reproduced this pre-analysis field."
+  "reconciled_provenance_notes": {
+    "pattern1_mode1": {
+      "length_scale_parameter": "l0 = 0.0075 mm (7.5 um, confirmed from canonical Pandey & Kumar Mode-I benchmark)",
+      "source_odb_lineage": "models/pandey_kumar_mode1/93_mode1_preanalysis_inf_companion_2906/PK_M1_JOB1_INF_COMPANION_2906.odb",
+      "caller_step_frame": "Step-1, final frame at u = 0.005 mm (PROJECT_CONTROLLED_FRAME)",
+      "coarse_finite_elements": 2906,
+      "coarse_element_types": {
+        "CPE4": 2818,
+        "CPE3": 88
+      },
+      "adapted_spatial_finite_elements": 57929,
+      "adapted_spatial_element_types": {
+        "CPE4": 56339,
+        "CPE3": 1590
+      },
+      "total_deck_element_records": 173787,
+      "layer_composition": "57,929 Phase UEL (U1/U3) + 57,929 Mech UEL (U2/U4) + 57,929 Vis UMAT (CPE4/CPE3)"
     },
-    "strict_individual_edge_bound_compliance": {
-      "retracted": true,
+    "pattern2_mode2": {
+      "evaluation_verdict": "VISUAL_PASS_REMESHER_FIELD_FOLLOWING",
+      "mode2_fracture_path_verdict": "FAIL_NOT_VALIDATED_FOR_DOWNSTREAM_FRACTURE_TRAJECTORY",
+      "ridge_fit_angle_deg": -12.323962879501131,
+      "pca_angle_deg": -12.389180646948262,
+      "right_boundary_exit_y": 0.39974172448862094,
+      "retraction_note": "The -43.88 deg claim is retracted for the pre-analysis field; remesher faithfully followed actual -12.3 deg pre-analysis stress band."
+    },
+    "pattern3_lpanel": {
+      "coarse_finite_elements": 571,
+      "coarse_nodes": 618,
+      "coarse_element_types": {
+        "CPE4": 561,
+        "CPE3": 10
+      },
+      "adapted_spatial_finite_elements": 4324,
+      "adapted_spatial_element_types": {
+        "CPE4": 4208,
+        "CPE3": 116
+      },
+      "resolution_note": "'1200' was an erroneous conflation with the .inp line count (1,197 lines); true FE count is strictly 571 FEs."
+    },
+    "sizing_bounds_semantics": {
       "classification": "NOT_A_STRICT_INDIVIDUAL_EDGE_LENGTH_HARD_BOUND",
-      "explanation": "Abaqus RemeshingRule minElementSize and maxElementSize operate as target/characteristic sizing constraints for the Advancing Front/Delaunay mesh generator, rather than hard geometric clipping on every single 1D edge. Geometric transitions, acute triangle corners, and quad diagonals naturally produce individual edge lengths slightly below minSize or above maxSize (e.g. quad diagonal ~ sqrt(2)*maxSize)."
+      "explanation": "Abaqus RemeshingRule minSize/maxSize set target continuous metric sizing fields for Advancing Front/Delaunay meshing, not hard individual 1D segment clipping."
     }
   },
   "cases": [
     {
       "case_id": "pattern1_mode1",
       "case_name": "Pattern 1: Mode-I Straight Localization",
-      "status": "PENDING_RECONCILIATION",
+      "status": "READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW",
       "review_png": {
         "path": "results/figures/generic_remesher/review/pattern1_mode1_review.png",
-        "sha256": "bf9ebccdfcc9a11a80775dfd49b8abc2da17e6ea0001d46ca228d24772e597b6",
-        "size_bytes": 601063,
-        "size_kb": 586.98
+        "sha256": "f34a9272b9740532d636187fa625c1fd1ba46528828b8cc2cf2cc0f24c4df360",
+        "size_bytes": 628759,
+        "size_kb": 614.02
       },
       "base64_sidecar": {
         "path": "results/figures/generic_remesher/review/pattern1_mode1_review.png.b64",
-        "sha256": "aac254bbf4d3aa050e8f38a60feee40256cb34b5d80e9e28ea3ba0626d4576ce",
-        "size_bytes": 801420,
-        "size_kb": 782.64,
+        "sha256": "4465e64cfc6940928ec9f1375f04838fe8ca338a2928c89c9222237a65e16064",
+        "size_bytes": 838348,
+        "size_kb": 818.7,
         "byte_for_byte_roundtrip": true
+      },
+      "fidelity_metrics": {
+        "pearson_r_logM_h": -0.628649690134668,
+        "top10_miseseri_threshold": 0.016680769999999998,
+        "top10_refined_fraction": 0.8065576367164298,
+        "fine_elements_in_high_error_fraction": 0.7031935094079061,
+        "adapted_elements_in_high_error_zone": 25253,
+        "total_adapted_elements": 57929
       },
       "mesh_composition": {
         "coarse_preanalysis_finite_elements": 2906,
@@ -51,7 +93,7 @@
       },
       "remeshing_rule": {
         "error_target_pct": 1.0,
-        "min_size_cfg_mm": 0.001,
+        "min_size_cfg_mm": 0.0005,
         "max_size_cfg_mm": 0.02,
         "sizing_method": "UNIFORM_ERROR"
       },
@@ -69,19 +111,27 @@
     {
       "case_id": "pattern2_mode2",
       "case_name": "Pattern 2: Mode-II Shear Pre-Analysis",
-      "status": "PENDING_RECONCILIATION",
+      "status": "VISUAL_PASS_REMESHER_FIELD_FOLLOWING",
       "review_png": {
         "path": "results/figures/generic_remesher/review/pattern2_mode2_review.png",
-        "sha256": "bd81386c290b84184ff4f7d9cdd3457777f712fa1c44792bac3954b258fb2ac6",
-        "size_bytes": 304968,
-        "size_kb": 297.82
+        "sha256": "e21f37981efb7f044fdd9a0c62c5f47a309fc58ba38f3bc27d51ff945eb5ee31",
+        "size_bytes": 330220,
+        "size_kb": 322.48
       },
       "base64_sidecar": {
         "path": "results/figures/generic_remesher/review/pattern2_mode2_review.png.b64",
-        "sha256": "57fcc75f03fa523db1d9ffb9cba8caa4b2c95b11be2b827ac6d3ea06ddce6aea",
-        "size_bytes": 406624,
-        "size_kb": 397.09,
+        "sha256": "b429adbd8033b66204dc2fb35eab5403262c7457b6edc98fe9f90090f08c8db4",
+        "size_bytes": 440296,
+        "size_kb": 429.98,
         "byte_for_byte_roundtrip": true
+      },
+      "fidelity_metrics": {
+        "pearson_r_logM_h": -0.6277999522594184,
+        "top10_miseseri_threshold": 1.7681346e-18,
+        "top10_refined_fraction": 0.8673419375918967,
+        "fine_elements_in_high_error_fraction": 0.8869027731373205,
+        "adapted_elements_in_high_error_zone": 6121,
+        "total_adapted_elements": 11972
       },
       "ridge_analysis": {
         "start_point": [
@@ -127,22 +177,33 @@
     {
       "case_id": "pattern3_lpanel",
       "case_name": "Pattern 3: L-Panel Re-Entrant Corner",
-      "status": "PROVISIONAL_VISUAL_PASS",
+      "status": "READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW",
       "review_png": {
         "path": "results/figures/generic_remesher/review/pattern3_lpanel_review.png",
-        "sha256": "76e0e1b827dc2ff373675f9d4ac8fcedc22b325cf3e38d5002adbe4bea7efff9",
-        "size_bytes": 184357,
-        "size_kb": 180.04
+        "sha256": "32b3ed2e4ff8ab9f2e47cae3472aaee7f4f5f3f21da896fc58aa1433c3c98699",
+        "size_bytes": 200442,
+        "size_kb": 195.74
       },
       "base64_sidecar": {
         "path": "results/figures/generic_remesher/review/pattern3_lpanel_review.png.b64",
-        "sha256": "0d8d2fdda848cf8eaafd0d9b627126a6f13500e19d4b0d5b92b44738d909afc9",
-        "size_bytes": 245812,
-        "size_kb": 240.05,
+        "sha256": "0e885d4ba33c68df15133ab9d8c6456150b335806aea21de33aeb9fd7ec8d94f",
+        "size_bytes": 267256,
+        "size_kb": 260.99,
         "byte_for_byte_roundtrip": true
       },
+      "fidelity_metrics": {
+        "pearson_r_logM_h": -0.8332381894870807,
+        "top10_miseseri_threshold": 5.88113546,
+        "top10_refined_fraction": 0.9005708848715509,
+        "fine_elements_in_high_error_fraction": 0.8755781683626273,
+        "adapted_elements_in_high_error_zone": 2102,
+        "total_adapted_elements": 4324
+      },
       "mesh_composition": {
-        "coarse_preanalysis_finite_elements": 1200,
+        "coarse_preanalysis_finite_elements": 571,
+        "coarse_nodes": 618,
+        "coarse_quad_elements": 561,
+        "coarse_tri_elements": 10,
         "adapted_spatial_finite_elements": 4324,
         "adapted_spatial_quad_elements": 4208,
         "adapted_spatial_tri_elements": 116
