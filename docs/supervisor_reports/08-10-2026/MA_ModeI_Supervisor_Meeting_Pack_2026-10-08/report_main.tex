@@ -104,12 +104,12 @@ This report deliberately omits the detailed gate ledger, long derivations, inter
 \clearpage
 \section{Problem with the earlier adaptive mesh}
 
-The earlier native adaptive mesh was operational, but it was not an efficient representation of the intended fracture process zone. The $1\%$ target-error case contained $71{,}320$ finite elements and refined a large part of the specimen rather than concentrating resolution primarily along the future horizontal crack path. Figure~\ref{fig:legacy_mesh} retains the full-domain and crack-tip views; the first column is the relevant $71{,}320$-element case.
+The earlier native adaptive mesh was operational, but it was not an efficient representation of the intended fracture process zone. The $1\%$ target-error case contained $71{,}320$ finite elements and refined a large part of the specimen rather than concentrating resolution primarily along the future horizontal crack path. Figure~\ref{fig:legacy_mesh} retains only the requested full-domain and crack-tip views of that case.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.99\textwidth]{fig_adaptive_meshes_comparison.pdf}
-  \caption{Earlier Step-1/pre-peak adaptive meshes. The $A_1$ case in the first column shows the $71{,}320$-element full-domain mesh and its crack-tip zoom. Although the crack tip is refined, the refinement is also distributed broadly through the specimen. The other columns show that relaxing \texttt{errorTarget} reduces the element count but does not by itself correct the physical-stage selection.}
+  \includegraphics[width=0.48\textwidth,viewport=0 0 298 562,clip]{fig_adaptive_meshes_comparison.pdf}
+  \caption{Earlier $71{,}320$-element Step-1/pre-peak adaptive mesh: full-domain view (top) and crack-tip zoom (bottom). Although the crack tip is refined, fine resolution is distributed broadly through the specimen.}
   \label{fig:legacy_mesh}
   \figureconclusion{Element count alone was not a sufficient quality measure. The central problem was spatial selectivity: too much resolution was placed away from the propagating ligament.}
 \end{figure}
@@ -141,7 +141,7 @@ Post-processing & Results were dispersed across separate checks. & Use single-jo
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.98\textwidth]{fig_mode1_stage14_adapted_mesh_comparison.pdf}
-  \caption{Isolated effect of physical-stage selection at \texttt{errorTarget=1\%}. The Step-1/pre-peak evaluation produces broad global refinement, while the corrected Step-2 evaluation recovers a horizontal corridor. The corrected mesh has $14{,}483$ elements, $64.1\%$ corridor share, and $35.9\%$ far-field share.}
+  \caption{Isolated effect of physical-stage selection at \texttt{errorTarget=1\%}. The historical Stage-13/Step-1 morphology (left) has exactly $57{,}901$ elements ($56{,}351$ CPE4 $+1{,}550$ CPE3; deck SHA-256 \texttt{872B54A6\ldots}) and produces broad global refinement. It is distinct from the later $57{,}929$-element spatial-fine fracture candidate. The corrected Step-2 ET1 mesh (right) has $14{,}483$ elements, $64.1\%$ corridor share, and $35.9\%$ far-field share.}
   \label{fig:stage_selection}
   \figureconclusion{The main localization improvement comes from evaluating the physically relevant Step-2 field, not from tuning the element count after the fact.}
 \end{figure}
@@ -162,45 +162,40 @@ Figure~\ref{fig:corrected_mesh} shows the governed corrected ET1 mesh at both sp
 The morphology is qualitatively consistent with the localized adaptive pattern reported by \citet{pandey2025}. This statement concerns the character of the refinement corridor, not an exact reproduction of their reported $13{,}941$ elements. The publication does not expose enough implementation detail to establish exact count identity, and that limitation has already been accepted by the supervisor.
 
 \clearpage
-\section{Mesh localization and tolerance sensitivity}
+\section{Mesh roles and tolerance sensitivity}
 
-The Step-2 error-target sweep separates localization quality from simple element reduction. All four cases use the same evaluation state, region, minimum/maximum size bounds, and coarsening policy; only the target tolerance changes.
+The Step-2 error-target sweep separates localization quality from simple element reduction. All four tolerance cases use the same evaluation state, region, minimum/maximum size bounds, and coarsening policy; only the target tolerance changes.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.84\textwidth]{fig_stage14_step2_errortarget_comparison.pdf}
-  \caption{Corrected Step-2 adaptive meshes for \texttt{errorTarget} values of $1\%$, $2\%$, $3\%$, and $5\%$. ET1 maintains dense resolution along the complete ligament; the relaxed cases use fewer elements but progressively reduce the corridor share.}
-  \label{fig:step2_sensitivity}
-  \figureconclusion{The preferred corrected morphology is ET1. ET2--ET5 are useful efficiency/sensitivity cases, but their lower counts should not be interpreted as superior localization.}
-\end{figure}
+\evidencebox{reportamber}{\textbf{Three mesh roles must remain separate.} The historical Stage-13/Step-1 morphology has $57{,}901$ elements and is used only to show broad, inefficient refinement. Corrected ET1 has $14{,}483$ elements and is the preferred practical adaptive mesh. The $57{,}929$-element spatial-fine mesh is a distinct topology and fracture solve (Job \texttt{1410504.mmaster02}; deck SHA-256 \texttt{537C8C66\ldots}) used to test internal adaptive spatial convergence.}
 
 \begin{table}[H]
 \centering
-\caption{Corrected Step-2 mesh and fracture-response comparison. Percent peak-force differences are relative to the fixed reference $F_{\max}=0.757778\,\mathrm{kN}$.}
-\scriptsize
-\begin{tabular}{lrrrrrr}
+\caption{Corrected Step-2 tolerance cases and spatial-fine convergence check. Percent peak-force differences are relative to the fixed reference $F_{\max}=0.757778\,\mathrm{kN}$.}
+\tiny
+\begin{tabularx}{\textwidth}{L{1.55cm}C{1.15cm}C{1.35cm}C{1.35cm}C{1.35cm}C{1.35cm}C{1.35cm}Y}
 \toprule
-Case & Base FE & Corridor share & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $\Delta F_{\max}$ & $u_{\mathrm{peak}}$ [mm] \\
+Case & Base FE & Corridor share & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $\Delta F_{\max}$ vs fixed & $u_{\mathrm{peak}}$ [mm] & Purpose \\
 \midrule
-ET1 ($1\%$) & $14{,}483$ & $64.12\%$ & $137.9096$ & $0.743701$ & $-1.8563\%$ & $0.005733$ \\
-ET2 ($2\%$) & $6{,}112$ & $41.07\%$ & $137.9761$ & $0.756367$ & $-0.1862\%$ & $0.005841$ \\
-ET3 ($3\%$) & $5{,}189$ & $34.59\%$ & $137.9775$ & $0.759407$ & $+0.2150\%$ & $0.005876$ \\
-ET5 ($5\%$) & $4{,}692$ & $27.51\%$ & $138.0091$ & $0.765400$ & $+1.0058\%$ & $0.005926$ \\
+ET1 ($1\%$) & $14{,}483$ & $64.12\%$ & $137.9096$ & $0.743701$ & $-1.8563\%$ & $0.005733$ & Preferred corrected adaptive mesh \\
+ET2 ($2\%$) & $6{,}112$ & $41.07\%$ & $137.9761$ & $0.756367$ & $-0.1862\%$ & $0.005841$ & Tolerance sensitivity \\
+ET3 ($3\%$) & $5{,}189$ & $34.59\%$ & $137.9775$ & $0.759407$ & $+0.2150\%$ & $0.005876$ & Tolerance sensitivity \\
+ET5 ($5\%$) & $4{,}692$ & $27.51\%$ & $138.0091$ & $0.765400$ & $+1.0058\%$ & $0.005926$ & Tolerance sensitivity \\
+\textbf{Spatial-fine} & $\mathbf{57{,}929}$ & --- & $\mathbf{137.8410}$ & $\mathbf{0.741633}$ & $\mathbf{-2.1305\%}$ & $\mathbf{0.005717}$ & \textbf{Adaptive spatial-convergence check} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
-All four corrected meshes satisfy the predeclared stiffness ($|\Delta K_0|\le0.5\%$) and peak-force ($|\Delta F_{\max}|\le5\%$) acceptance ranges. The important trade-off is spatial: lower counts remain mechanically plausible at the global level while losing resolution across the regularized damage corridor.
+All corrected cases satisfy the predeclared stiffness ($|\Delta K_0|\le0.5\%$) and peak-force ($|\Delta F_{\max}|\le5\%$) acceptance ranges. The important result is that ET1 to spatial-fine refinement changes $F_{\max}$ by only $0.28\%$, indicating internal adaptive spatial convergence; ET1 and spatial-fine remain $1.86\%$ and $2.13\%$ below the independent structured fixed reference, respectively. ET2--ET5 remain useful tolerance sensitivities, but their lower counts progressively reduce process-corridor coverage.
 
 \clearpage
-\section{Mechanical verification: reaction force, energy, and cost}
+\section{Mechanical verification: reaction force and energy}
 
-Figure~\ref{fig:global_synthesis} compares the fixed reference, corrected ET1 baseline, the ET1 convergence-control diagnostic, and the $57{,}929$-element spatial-fine candidate. The fine candidate was completed over the full $u=0.010\,\mathrm{mm}$ horizon using qualified 8-thread shared-memory execution (Job \texttt{1410504.mmaster02}).
+Figure~\ref{fig:global_synthesis} compares exactly three scientific roles: the fixed structured reference, corrected ET1, and the $57{,}929$-element spatial-fine adaptive candidate. The fine candidate was completed over the full $u=0.010\,\mathrm{mm}$ horizon using qualified 8-thread shared-memory execution (Job \texttt{1410504.mmaster02}).
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.91\textwidth]{fig_mode1_gate6b_spatial_convergence_synthesis.pdf}
-  \caption{Gate-6B global synthesis: (a) reaction force; (b) external work and phase-field fracture energy functional; (c) stored elastic energy; and (d) energy-bookkeeping discrepancy. ET1 is censored at $u=0.007889\,\mathrm{mm}$ after a $98.5\%$ load drop; no values are forward-filled.}
+  \caption{Three-case Gate-6B global synthesis: (a) reaction force; (b) external work and phase-field fracture-energy functional; (c) stored elastic energy; and (d) energy-bookkeeping difference. ET1 is censored at $u=0.007889\,\mathrm{mm}$ after a $98.5\%$ load drop; no values are forward-filled.}
   \label{fig:global_synthesis}
   \figureconclusion{The corrected adaptive meshes reproduce the elastic branch and peak response. The $14.5$k-to-$57.9$k change in $F_{\max}$ and $u_{\mathrm{peak}}$ is below $0.28\%$, establishing internal adaptive spatial convergence, while the remaining $2.13\%$ peak offset to the structured fixed reference is unresolved.}
 \end{figure}
@@ -211,7 +206,7 @@ Figure~\ref{fig:global_synthesis} compares the fixed reference, corrected ET1 ba
 \scriptsize
 \begin{tabularx}{\textwidth}{L{2.7cm}rrrrrY}
 \toprule
-Case & Base FE & $K_0$ & $F_{\max}$ & $E_{\mathrm{frac}}$ & $\varepsilon_{\mathrm{book}}$ & Valid domain / interpretation \\
+Case & Base FE & $K_0$ & $F_{\max}$ & $E_{\mathrm{frac}}$ & Energy residual $\varepsilon_{\mathrm{book}}$ & Valid domain / interpretation \\
  & & [kN/mm] & [kN] & [mJ] & [\%] & \\
 \midrule
 Fixed reference & $15{,}192$ & $137.9455$ & $0.757778$ & $2.340220$ & $0.7607$ & Full horizon, $u=0.0100\,\mathrm{mm}$ \\
@@ -221,7 +216,7 @@ Spatial-fine 8T & $57{,}929$ & $137.8410$ & $0.741633$ & $2.381941$ & $4.4263$ &
 \end{tabularx}
 \end{table}
 
-The energy curves are physically bounded and the fine run closes the full displacement horizon. Nevertheless, $\varepsilon_{\mathrm{book}}$ is an observed two-term bookkeeping difference, not proof of an exact joint potential for the staggered history-field algorithm. The global energy identity therefore remains formally not yet closed.
+Here $\varepsilon_{\mathrm{book}}=\left|W_{\mathrm{ext}}-(E_{\mathrm{elas}}+E_{\mathrm{frac}})\right|/|W_{\mathrm{ext}}|\times100\%$. Thus $4.4263\%$ is an endpoint energy-bookkeeping residual, not a fracture-energy error. The curves are physically bounded and the fine run closes the full displacement horizon, but this two-term residual is not proof of an exact joint potential for the staggered history-field algorithm. The global energy identity therefore remains formally not yet closed.
 
 \clearpage
 \section{Initial stiffness verification (\texorpdfstring{$K_0$}{K0})}
@@ -231,7 +226,7 @@ The initial elastic branch is the cleanest test of geometry, support conditions,
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.84\textwidth,clip]{fig_mode1_stage14n_canonical_k0_fitting.pdf}
-  \caption{Canonical $K_0$ fit for the fixed reference and corrected ET1 adaptive mesh. The fitted stiffnesses are $137.945520$ and $137.909558\,\mathrm{kN/mm}$, respectively, giving $\Delta K_0=-0.0261\%$ with $R^2=0.99999960$.}
+  \caption{Canonical $K_0$ comparison for the fixed reference, corrected ET1, and spatial-fine adaptive mesh. The fitted stiffnesses are $137.945520$, $137.909558$, and $137.840989\,\mathrm{kN/mm}$, respectively; both adaptive results remain within $0.08\%$ of the reference.}
   \label{fig:k0_fit}
   \figureconclusion{The corrected adaptive mesh preserves the initial structural response. The earlier boundary-condition defect is closed and does not explain the remaining peak-force difference.}
 \end{figure}
@@ -246,12 +241,12 @@ Global RF--$u$ agreement is not sufficient by itself. The phase-field distributi
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.87\textwidth]{fig_mode1_gate6b_spatial_localization_and_crack_path.pdf}
-  \caption{Spatial verification across governed fixed and adaptive discretizations: peak ligament profiles, crack-tip motion, transverse damage profiles, localization bandwidth, and centroid deviation.}
+  \caption{Three-case spatial verification for the fixed reference, corrected ET1, and spatial-fine adaptive mesh: peak ligament profiles, crack-tip motion, transverse damage profiles, localization bandwidth, and centroid deviation.}
   \label{fig:spatial_localization}
   \figureconclusion{The corrected meshes preserve a horizontal Mode-I crack path. Pre-peak ET1 and spatial-fine ligament profiles differ by at most $0.32\%$ in the governed $L_2$ measure, and the transverse damage centroid remains at $y=0.500\,\mathrm{mm}$ within the evaluated precision.}
 \end{figure}
 
-The observed transverse localization bandwidth is approximately $w_{0.5}\approx2l_0=15\,\mu\mathrm{m}$ for $l_0=7.5\,\mu\mathrm{m}$. This agreement is important: the mesh corridor is wider than the mathematical damage band so that the regularized profile is resolved without forcing the crack path through a single row of elements.
+The observed transverse localization bandwidth is approximately $w_{0.5}\approx15\,\mu\mathrm{m}$, close to the reference width $2l_0=15\,\mu\mathrm{m}$ for $l_0=7.5\,\mu\mathrm{m}$. This comparison is descriptive rather than an asserted analytical identity for the exact AT2 half-maximum profile. The mesh corridor remains wider than the observed damage band, so the regularized profile is resolved without forcing the crack path through a single row of elements.
 
 \clearpage
 \section{Matched phase-field contours}

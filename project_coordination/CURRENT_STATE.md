@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-07T08:02:00+02:00` (Codex) — Task F1284 Mode-I October 8 Supervisor Report Reduction: reduced the canonical meeting report from 38 pages to 10 focused pages; preserved governed numerical provenance and explicit limitations; compiled without LaTeX layout diagnostics; visually inspected every page; confirmed 173/173 Mode-I and Gate-6B tests pass; final PDF SHA-256 `167B72F6935A53EEF0BDE42F6D942EA61ADB7F608441C8743CDCFEDE749DE5C6`; released `ACTIVE_SESSION.json`.
+Last updated: `2026-10-07T08:50:00+02:00` (Codex) — Task F1285 Mode-I October 8 Report Provenance and Presentation Corrections: proved from governed decks that the historical broad-refinement morphology has 57,901 FEs while the distinct spatial-fine fracture candidate has 57,929 FEs; revised the 10-page report around historical broad mesh / corrected ET1 / spatial-fine roles; standardized the main verification figures to fixed reference / ET1 / spatial-fine; corrected the ET1 job ID to 1409982; clarified the energy residual and localization-width wording; visually inspected all pages; confirmed 173/173 tests pass; final PDF SHA-256 `4942529C35DCF062118A31B1D24B4C2D689513BD386B8CA690BEFDEF176A4406`; released `ACTIVE_SESSION.json`.
 
 ---
 
@@ -23,6 +23,7 @@ Last updated: `2026-10-07T08:02:00+02:00` (Codex) — Task F1284 Mode-I October 
   - **Energy Instrumentation:** `UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE` (source `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`, verified in Job 1409734).
   - **Parallel Status:** `8THREAD_SHARED_MEMORY_EXECUTION_EMPIRICALLY_QUALIFIED_FOR_THE_TESTED_MODE1_FORMULATION_AND_CONTROLS`, while `16THREAD_SHARED_MEMORY_EXECUTION_UNQUALIFIED_PENDING_INDEPENDENT_STAGE_A_AND_B_VERIFICATION`.
   - **Spatial & Localization Convergence:** Proved internal adaptive convergence ($< 0.28\%$ change in $F_{\max}$ and $u_{\mathrm{peak}}$ from $14.5\text{k}$ to $57.9\text{k}$ FEs; pre-peak ligament profiles match with $L_2 \le 0.32\%$; transverse symmetry $|y_c - 0.500\,\text{mm}| = 0.000\,\text{mm}$).
+  - **Supervisor-report mesh provenance:** Historical Stage-13/Step-1 morphology is exactly 57,901 FEs (56,351 CPE4 + 1,550 CPE3; deck hash `872B54A6...`); the Job 1410504 spatial-fine fracture mesh is a distinct 57,929-FE topology (56,339 CPE4 + 1,590 CPE3; fracture-deck hash `537C8C66...`).
   - **Authoritative Single-Job Provenance & Experiment Record Separation (Tasks F1272–F1281):**
     - Authoritative single-job extraction pipeline frozen in `scripts/postprocessing/extract_gate6b_single_job_provenance.py` with machine-readable datasets in `models/pandey_kumar_mode1/MODE1_GATE6B_SINGLE_JOB_PROVENANCE_SYNTHESIS.json` and `.csv`.
     - Fixed Reference Base Mesh: Exactly $15{,}192$ finite elements ($15{,}160$ CPE4 $+ 32$ CPE3) and $15{,}521$ FE nodes ($15{,}522$ total with RP 999999).
@@ -74,4 +75,4 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
   - Gate 7 (Post-Processing & ParaView Bridge): `ON_HOLD_PENDING_GATE6B`.
   - Stage 15 (Mode-II Adaptive Benchmark Production): `ON_HOLD_PENDING_GATE6B`.
   - Distributed Multi-Rank MPI Integration: `STRICTLY_DISQUALIFIED` (`f42_mixed_uel.for` single-rank shared-memory SMP only; multi-rank MPI requires redesign of replicated `COMMON` state).
-* **Next Action:** Use the finalized 10-page supervisor report at the Thursday 08 October 2026, 10:00 CEST meeting and obtain the formal Gate-6B decision; keep Gate 6C, Mode-II, and Gate 7 strictly on hold until that review.
+* **Next Action:** Use the provenance-corrected 10-page supervisor report at the Thursday 08 October 2026, 10:00 CEST meeting and obtain the formal Gate-6B decision; keep Gate 6C, Mode-II, and Gate 7 strictly on hold until that review.

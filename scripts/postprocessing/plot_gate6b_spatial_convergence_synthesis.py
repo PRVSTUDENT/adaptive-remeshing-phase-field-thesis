@@ -70,9 +70,10 @@ def map_energy_disp(df):
     df['e_tot_mJ'] = df['E_total_kNmm'] * 1000.0
     return df
 
-def generate_plot(base_dir=None, output_dir=None):
+def generate_plot(base_dir=None, output_dir=None, supervisor_three_case=False):
     if base_dir is None:
         base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    sync_doc_figures = output_dir is None
     if output_dir is None:
         output_dir = os.path.join(base_dir, "results", "figures", "mode1_gate6b")
     
@@ -155,18 +156,20 @@ def generate_plot(base_dir=None, output_dir=None):
     ax = axes[0, 0]
     ax.plot(df_ref_dat['u_mm'] * 1000.0, df_ref_dat['rf_kN'], label=r'Fixed Reference 15k (Job 1409734, $F_{\max}=0.758$ kN)', color=c_ref, lw=2.0)
     ax.plot(df_et1_fu['displacement_mm'] * 1000.0, df_et1_fu['reaction_force_kN'], label=r'Adaptive ET1 Baseline 14k (Job 1409982, $F_{\max}=0.744$ kN)', color=c_et1, lw=1.8)
-    ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['f_tensile_kN'], label=r'ET1 $C_n=0.50$ Diagnostic (Job 1410180)', color=c_cn, lw=1.5, ls='--')
+    if not supervisor_three_case:
+        ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['f_tensile_kN'], label=r'ET1 $C_n=0.50$ Diagnostic (Job 1410180)', color=c_cn, lw=1.5, ls='--')
     ax.plot(df_58k_dat['u_mm'] * 1000.0, df_58k_dat['rf_kN'], label=r'Spatial Fine 58k 8T SMP (Job 1410504, $F_{\max}=0.742$ kN)', color=c_58k, lw=2.0)
 
     # Annotate Job 1410179 serial parity point
     u_58k_ser_term = df_58k_ser_dat['u_mm'].iloc[-1] * 1000.0
     rf_58k_ser_term = df_58k_ser_dat['rf_kN'].iloc[-1]
-    ax.plot(u_58k_ser_term, rf_58k_ser_term, marker='^', markersize=8, color=c_58k_ser, markeredgecolor='black', markeredgewidth=0.8, zorder=9)
-    ax.annotate(f'Serial 24h Stop\nJob 1410179 ($u = 7.429\\,\\mu\\mathrm{{m}}$)', 
-                xy=(u_58k_ser_term, rf_58k_ser_term), xytext=(u_58k_ser_term - 3.2, rf_58k_ser_term + 0.16),
-                arrowprops=dict(facecolor=c_58k_ser, shrink=0.08, width=0.8, headwidth=4.0),
-                fontsize=7.8, color='#b25900',
-                bbox=dict(boxstyle='round,pad=0.25', facecolor='#fff8e1', edgecolor=c_58k_ser, alpha=0.9))
+    if not supervisor_three_case:
+        ax.plot(u_58k_ser_term, rf_58k_ser_term, marker='^', markersize=8, color=c_58k_ser, markeredgecolor='black', markeredgewidth=0.8, zorder=9)
+        ax.annotate(f'Serial 24h Stop\nJob 1410179 ($u = 7.429\\,\\mu\\mathrm{{m}}$)',
+                    xy=(u_58k_ser_term, rf_58k_ser_term), xytext=(u_58k_ser_term - 3.2, rf_58k_ser_term + 0.16),
+                    arrowprops=dict(facecolor=c_58k_ser, shrink=0.08, width=0.8, headwidth=4.0),
+                    fontsize=7.8, color='#b25900',
+                    bbox=dict(boxstyle='round,pad=0.25', facecolor='#fff8e1', edgecolor=c_58k_ser, alpha=0.9))
 
     # Annotate ET1 baseline stop
     u_et1_term = df_et1_fu['displacement_mm'].iloc[-1] * 1000.0
@@ -188,12 +191,14 @@ def generate_plot(base_dir=None, output_dir=None):
     ax = axes[0, 1]
     ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ Ref 15k', color=c_ref, lw=1.8)
     ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ ET1 14k', color=c_et1, lw=1.8)
-    ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ $C_n=0.50$', color=c_cn, lw=1.4, ls=':')
+    if not supervisor_three_case:
+        ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ $C_n=0.50$', color=c_cn, lw=1.4, ls=':')
     ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ Fine 58k (1410504)', color=c_58k, lw=2.0)
 
     ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ Ref 15k', color=c_ref, lw=1.8, ls='--')
     ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ ET1 14k', color=c_et1, lw=1.8, ls='--')
-    ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ $C_n=0.50$', color=c_cn, lw=1.4, ls='-.')
+    if not supervisor_three_case:
+        ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ $C_n=0.50$', color=c_cn, lw=1.4, ls='-.')
     ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ Fine 58k (1410504)', color=c_58k, lw=2.0, ls='--')
 
     ax.set_title('(b) External Work $W_{\\mathrm{ext}}$ & Fracture Surface Functional $\\mathcal{E}_{\\mathrm{frac}}$', fontsize=11, fontweight='bold')
@@ -208,7 +213,8 @@ def generate_plot(base_dir=None, output_dir=None):
     ax = axes[1, 0]
     ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['e_elas_mJ'], label='Fixed Reference 15k (Job 1409734)', color=c_ref, lw=1.8)
     ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['e_elas_mJ'], label='Adaptive ET1 Baseline 14k (Job 1409982)', color=c_et1, lw=1.8)
-    ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['e_elas_mJ'], label='ET1 $C_n=0.50$ Diagnostic (Job 1410180)', color=c_cn, lw=1.5, ls='--')
+    if not supervisor_three_case:
+        ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['e_elas_mJ'], label='ET1 $C_n=0.50$ Diagnostic (Job 1410180)', color=c_cn, lw=1.5, ls='--')
     ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['e_elas_mJ'], label='Spatial Fine 58k 8T SMP (Job 1410504)', color=c_58k, lw=2.0)
 
     ax.set_title('(c) Stored Elastic Strain Energy $\\mathcal{E}_{\\mathrm{elas}}(u_y)$', fontsize=11, fontweight='bold')
@@ -223,7 +229,8 @@ def generate_plot(base_dir=None, output_dir=None):
     ax = axes[1, 1]
     ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['delta_book_mJ'] * 1000.0, label='Fixed Ref 15k ($\\Delta_{\\mathrm{book}}$, 0.76%)', color=c_ref, lw=1.8)
     ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['delta_book_mJ'] * 1000.0, label='ET1 Baseline 14k ($\\Delta_{\\mathrm{book}}$, 1.10%)', color=c_et1, lw=1.8)
-    ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['delta_book_mJ'] * 1000.0, label='ET1 $C_n=0.50$ Diagnostic ($\\Delta_{\\mathrm{book}}$, 0.82%)', color=c_cn, lw=1.5, ls='--')
+    if not supervisor_three_case:
+        ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['delta_book_mJ'] * 1000.0, label='ET1 $C_n=0.50$ Diagnostic ($\\Delta_{\\mathrm{book}}$, 0.82%)', color=c_cn, lw=1.5, ls='--')
     ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['delta_book_mJ'] * 1000.0, label='Fine 58k (Job 1410504, $\\Delta_{\\mathrm{book}}$, 4.43%)', color=c_58k, lw=2.0)
 
     ax.axhline(0, color='gray', linestyle='-', linewidth=0.8, alpha=0.7)
@@ -241,9 +248,10 @@ def generate_plot(base_dir=None, output_dir=None):
     plt.savefig(pdf_path, bbox_inches='tight')
     plt.savefig(png_path, bbox_inches='tight', dpi=300)
     
-    # Also save to LaTeX figures directory
-    plt.savefig(os.path.join(figures_doc_dir, "fig_mode1_gate6b_spatial_convergence_synthesis.pdf"), bbox_inches='tight')
-    plt.savefig(os.path.join(figures_doc_dir, "fig_mode1_gate6b_spatial_convergence_synthesis.png"), bbox_inches='tight', dpi=300)
+    # Keep the thesis copy synchronized only for the canonical all-case figure.
+    if sync_doc_figures and not supervisor_three_case:
+        plt.savefig(os.path.join(figures_doc_dir, "fig_mode1_gate6b_spatial_convergence_synthesis.pdf"), bbox_inches='tight')
+        plt.savefig(os.path.join(figures_doc_dir, "fig_mode1_gate6b_spatial_convergence_synthesis.png"), bbox_inches='tight', dpi=300)
     
     plt.close()
     return pdf_path, png_path
@@ -252,7 +260,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Generate Gate-6B Spatial Convergence Synthesis Figure")
     parser.add_argument("--base-dir", type=str, default=None, help="Project base directory")
     parser.add_argument("--output-dir", type=str, default=None, help="Output directory for figures")
+    parser.add_argument("--supervisor-three-case", action="store_true",
+                        help="Plot only fixed reference, corrected ET1, and spatial-fine adaptive cases")
     args = parser.parse_args()
     
-    pdf_out, png_out = generate_plot(args.base_dir, args.output_dir)
+    pdf_out, png_out = generate_plot(args.base_dir, args.output_dir, args.supervisor_three_case)
     print(f"Plot generation complete:\n  {pdf_out}\n  {png_out}")

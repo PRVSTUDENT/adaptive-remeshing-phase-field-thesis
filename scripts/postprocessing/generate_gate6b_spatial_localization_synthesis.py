@@ -24,6 +24,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 l0 = 0.0075 # mm
+SUPERVISOR_THREE_CASE = os.environ.get("MODE1_SUPERVISOR_THREE_CASE", "0") == "1"
+FIGURE_OUTPUT_DIR = os.environ.get("MODE1_FIGURE_OUTPUT_DIR")
 
 # 1. Benchmark cases definition with verified peak and kinematics
 CASES = {
@@ -196,6 +198,12 @@ CASES = {
         }
     }
 }
+
+PLOT_CASE_IDS = (
+    ["fixed_ref_15k", "adapt_et1_14k", "spatial_fine_58k"]
+    if SUPERVISOR_THREE_CASE
+    else ["fixed_ref_15k", "adapt_et1_14k", "adapt_et2_6k", "adapt_et3_5k", "adapt_et5_4k", "spatial_fine_58k"]
+)
 
 EVAL_CHECKPOINTS = [0.001000, 0.004000, 0.005000, 0.005717, 0.006000, 0.007000, 0.008000, 0.010000]
 
@@ -375,7 +383,7 @@ fig, axes = plt.subplots(2, 2, figsize=(14, 11))
 # Panel (a): Ligament Damage Profiles at Structural Peak (u = 0.005717 mm)
 ax_a = axes[0, 0]
 u_peak_eval = 0.005717
-for cid in ["fixed_ref_15k", "adapt_et1_14k", "adapt_et2_6k", "adapt_et3_5k", "adapt_et5_4k", "spatial_fine_58k"]:
+for cid in PLOT_CASE_IDS:
     cinfo = CASES[cid]
     kin = cinfo["kinematics"][u_peak_eval]
     d_prof = evaluate_damage_profile_1d(kin["loc_x"], kin["d_max"], x_lig)
@@ -395,7 +403,7 @@ ax_a.legend(loc="upper right", fontsize=8.5)
 # Panel (b): Crack Tip Position x_tip(theta=0.5) vs Prescribed Displacement u
 ax_b = axes[0, 1]
 u_traj = np.array(EVAL_CHECKPOINTS)
-for cid in ["fixed_ref_15k", "adapt_et1_14k", "adapt_et2_6k", "adapt_et3_5k", "adapt_et5_4k", "spatial_fine_58k"]:
+for cid in PLOT_CASE_IDS:
     cinfo = CASES[cid]
     x_tips = [cinfo["kinematics"][u]["loc_x"] if cinfo["kinematics"][u]["d_max"] >= 0.5 else 0.500 for u in u_traj]
     # Filter for valid domain
@@ -417,7 +425,7 @@ ax_b.legend(loc="upper left", fontsize=8.5)
 # Panel (c): Transverse Localization Profile d(x=0.55 mm, y) at Post-Peak (u = 0.0060 mm)
 ax_c = axes[1, 0]
 u_post = 0.006000
-for cid in ["fixed_ref_15k", "adapt_et1_14k", "adapt_et2_6k", "adapt_et5_4k", "spatial_fine_58k"]:
+for cid in PLOT_CASE_IDS:
     cinfo = CASES[cid]
     kin = cinfo["kinematics"][u_post]
     d_tr = evaluate_transverse_profile_1d(kin["loc_x"], kin["d_max"], 0.550, y_trans)
@@ -436,12 +444,13 @@ ax_c.legend(loc="upper right", fontsize=8.5)
 
 # Panel (d): Localization Bandwidth w_0.5 & Centroid Symmetry vs Element Count
 ax_d = axes[1, 1]
-fe_counts = [CASES[cid]["fe_count"] for cid in ["adapt_et5_4k", "adapt_et3_5k", "adapt_et2_6k", "adapt_et1_14k", "fixed_ref_15k", "spatial_fine_58k"]]
-w_05_vals = [synthesis_data[cid]["checkpoints"]["0.005717"]["w_05_at_x055_mm"] * 1000.0 for cid in ["adapt_et5_4k", "adapt_et3_5k", "adapt_et2_6k", "adapt_et1_14k", "fixed_ref_15k", "spatial_fine_58k"]]
-dev_yc_vals = [synthesis_data[cid]["checkpoints"]["0.005717"]["dev_yc_at_x055_mm"] * 1000.0 for cid in ["adapt_et5_4k", "adapt_et3_5k", "adapt_et2_6k", "adapt_et1_14k", "fixed_ref_15k", "spatial_fine_58k"]]
+metric_case_ids = sorted(PLOT_CASE_IDS, key=lambda cid: CASES[cid]["fe_count"])
+fe_counts = [CASES[cid]["fe_count"] for cid in metric_case_ids]
+w_05_vals = [synthesis_data[cid]["checkpoints"]["0.005717"]["w_05_at_x055_mm"] * 1000.0 for cid in metric_case_ids]
+dev_yc_vals = [synthesis_data[cid]["checkpoints"]["0.005717"]["dev_yc_at_x055_mm"] * 1000.0 for cid in metric_case_ids]
 
 ax_d.plot(fe_counts, w_05_vals, 'o-', color="#1f77b4", linewidth=2.0, markersize=7, label=r"Bandwidth $w_{0.5}$ [$\mu\mathrm{m}$]")
-ax_d.axhline(2.0 * l0 * 1000.0, color="navy", linestyle="--", alpha=0.7, label=r"Theoretical Regularization $2 l_0 = 15.0\,\mu\mathrm{m}$")
+ax_d.axhline(2.0 * l0 * 1000.0, color="navy", linestyle="--", alpha=0.7, label=r"Reference width $2 l_0 = 15.0\,\mu\mathrm{m}$")
 ax_d.set_xscale("log")
 ax_d.set_title(r"(d) Localization Bandwidth $w_{0.5}$ vs Finite Element Count", fontsize=11, fontweight="bold")
 ax_d.set_xlabel(r"Finite Element Count (Log Scale)", fontsize=10, fontweight="bold")
@@ -460,8 +469,10 @@ lines2, labels2 = ax_d2.get_legend_handles_labels()
 ax_d.legend(lines1 + lines2, labels1 + labels2, loc="upper right", fontsize=8.5)
 
 plt.tight_layout()
-fig_pdf_path = os.path.join(brain_dir, "fig_mode1_gate6b_spatial_localization_and_crack_path.pdf")
-fig_png_path = os.path.join(brain_dir, "fig_mode1_gate6b_spatial_localization_and_crack_path.png")
+figure_output_dir = FIGURE_OUTPUT_DIR or brain_dir
+os.makedirs(figure_output_dir, exist_ok=True)
+fig_pdf_path = os.path.join(figure_output_dir, "fig_mode1_gate6b_spatial_localization_and_crack_path.pdf")
+fig_png_path = os.path.join(figure_output_dir, "fig_mode1_gate6b_spatial_localization_and_crack_path.png")
 plt.savefig(fig_pdf_path, dpi=300)
 plt.savefig(fig_png_path, dpi=300)
 plt.close()

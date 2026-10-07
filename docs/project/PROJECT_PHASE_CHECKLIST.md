@@ -131,7 +131,7 @@
 | **G6B-03** | **Single-IP Extraction Rule** | **PASS** | Single-IP1 extraction verified to prevent $4\times$ overcounting artifact from 4-IP companion elements. |
 | **G6B-04** | **Spatial Discretization Convergence ( \to S_4$)** | **PASS** | Post-peak fracture energy converges to $2.33886 \to 2.37531\,\text{mJ}$ ($+1.56\%$ change, $1.94\%$ min-max spread), classified `STABLE_OVER_TESTED_RANGE`. |
 | **G6B-05** | **Global Energy Balance Identity** | **OPEN** | `GLOBAL_ENERGY_IDENTITY â€” NOT_YET_CLOSED`. Pre-peak $\Delta_{\text{book}} < 0.007\%$; post-peak differences strictly designated as bookkeeping differences for supervisor review. |
-| **G6B-06** | **Pre-Meeting Meeting Pack Frozen** | **PASS** | Focused 10-page `report_main.pdf` (SHA-256 `167B72F6935A53EEF0BDE42F6D942EA61ADB7F608441C8743CDCFEDE749DE5C6`) finalized; all pages visually inspected; 173/173 Mode-I and Gate-6B tests pass. The report preserves explicit limitations and requests formal Gate-6B supervisor sign-off. |
+| **G6B-06** | **Pre-Meeting Meeting Pack Frozen** | **PASS** | Provenance-corrected 10-page `report_main.pdf` (SHA-256 `4942529C35DCF062118A31B1D24B4C2D689513BD386B8CA690BEFDEF176A4406`) finalized; all pages visually inspected; 173/173 Mode-I and Gate-6B tests pass. Historical 57,901-FE broad morphology and distinct 57,929-FE spatial-fine convergence mesh are explicitly separated; the report preserves limitations and requests formal Gate-6B supervisor sign-off. |
 
 ---
 

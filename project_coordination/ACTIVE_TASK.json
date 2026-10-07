@@ -1,10 +1,10 @@
 {
-  "task_id": "F1284-MODE1-OCT8-SUPERVISOR-REPORT-REDUCTION",
-  "task_name": "Mode-I October 8 Supervisor Report Reduction to 10-15 Pages",
+  "task_id": "F1285-MODE1-OCT8-REPORT-PROVENANCE-AND-PRESENTATION-CORRECTIONS",
+  "task_name": "Mode-I October 8 Report Provenance and Presentation Corrections",
   "status": "COMPLETED",
   "agent": "codex",
-  "start_time": "2026-10-07T07:46:44+02:00",
-  "end_time": "2026-10-07T08:02:00+02:00",
+  "start_time": "2026-10-07T08:30:08+02:00",
+  "end_time": "2026-10-07T08:50:00+02:00",
   "governing_phase": "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF",
-  "description": "Completed the reduction of the October 8 Mode-I supervisor meeting report from 38 pages to a focused 10-page A4 document covering the objective, the earlier broad 71k adaptive mesh, the correction matrix, the corrected localized ET1 mesh and bounded Pandey-Kumar comparison, mesh sensitivity, RF-displacement, energy, K0, spatial localization, matched phase-field evidence, explicit limitations, and the requested decision. Final PDF SHA-256: 167B72F6935A53EEF0BDE42F6D942EA61ADB7F608441C8743CDCFEDE749DE5C6. All 10 pages passed visual QA and all 173 Mode-I/Gate-6B regression tests passed."
+  "description": "Resolve the distinct 57,901-FE Stage-13 Step-1 morphology and 57,929-FE spatial-fine convergence provenance from governed decks and hashes; revise the focused supervisor report so these roles cannot be confused; crop the earlier 71,320-FE comparison to the requested full-domain and crack-tip views; simplify the tolerance page; add the 57,929-FE mechanical row and explicit three-role interpretation; retain only the fixed reference, corrected ET1, and spatial-fine adaptive cases in the main verification figures; correct the ET1 job identifier in the K0 figure; clarify energy-bookkeeping terminology; soften the localization-width wording; rebuild, visually inspect every page, run relevant tests, update coordination records, commit selectively, and push forward-only to origin/main."
 }
