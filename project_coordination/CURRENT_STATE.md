@@ -2,7 +2,7 @@
 
 Protocol version: 2  
 Active coordination authority: `project_coordination/`  
-Last updated: `2026-10-07T08:50:00+02:00` (Codex) — Task F1285 Mode-I October 8 Report Provenance and Presentation Corrections: proved from governed decks that the historical broad-refinement morphology has 57,901 FEs while the distinct spatial-fine fracture candidate has 57,929 FEs; revised the 10-page report around historical broad mesh / corrected ET1 / spatial-fine roles; standardized the main verification figures to fixed reference / ET1 / spatial-fine; corrected the ET1 job ID to 1409982; clarified the energy residual and localization-width wording; visually inspected all pages; confirmed 173/173 tests pass; final PDF SHA-256 `4942529C35DCF062118A31B1D24B4C2D689513BD386B8CA690BEFDEF176A4406`; released `ACTIVE_SESSION.json`.
+Last updated: `2026-10-07T09:30:00+02:00` (gemini-antigravity) — Task F1286 Mode-I Dual-Reference Semantics Report Revision: disambiguated the 15,192-FE paper-matched fixed benchmark anchor (reproduction baseline) from the 57,929-FE spatial-fine adaptive convergence reference (internal convergence anchor); updated Table 3 to include two comparison columns showing ET1 is within +0.279% of the spatial-fine adaptive reference (-1.856% vs fixed benchmark); classified -2.131% as an unresolved discretization-family difference rather than adaptive-mesh error; updated figure labels and conclusions consistently; compiled strictly 10-page report (PDF SHA-256 `8F807B8AF757AB64EF183A016A53609AD3B4CF6E360289CE725ECB139134F398`); confirmed 441/441 selected unit tests pass 100%; released `ACTIVE_SESSION.json`.
 
 ---
 

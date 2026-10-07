@@ -31,7 +31,7 @@ FIGURE_OUTPUT_DIR = os.environ.get("MODE1_FIGURE_OUTPUT_DIR")
 CASES = {
     "fixed_ref_15k": {
         "case_id": "fixed_ref_15k",
-        "name": "Fixed Reference (15.2k)",
+        "name": "Fixed Benchmark Anchor (15.2k)",
         "job_id": "1409734.mmaster02",
         "fe_count": 15192,
         "nodes_count": 15521,
@@ -55,7 +55,7 @@ CASES = {
     },
     "adapt_et1_14k": {
         "case_id": "adapt_et1_14k",
-        "name": "Adaptive ET1 Baseline (14.5k)",
+        "name": "Corrected Adaptive ET1 (14.5k)",
         "job_id": "1409982.mmaster02",
         "fe_count": 14483,
         "nodes_count": 14456,
@@ -175,7 +175,7 @@ CASES = {
     },
     "spatial_fine_58k": {
         "case_id": "spatial_fine_58k",
-        "name": "Spatial Fine Candidate (57.9k)",
+        "name": "Spatial-Fine Adaptive Ref (57.9k)",
         "job_id": "1410504.mmaster02",
         "fe_count": 57929,
         "nodes_count": 57491,

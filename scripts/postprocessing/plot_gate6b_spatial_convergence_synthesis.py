@@ -154,11 +154,15 @@ def generate_plot(base_dir=None, output_dir=None, supervisor_three_case=False):
 
     # Panel (a): Reaction Force vs Displacement
     ax = axes[0, 0]
-    ax.plot(df_ref_dat['u_mm'] * 1000.0, df_ref_dat['rf_kN'], label=r'Fixed Reference 15k (Job 1409734, $F_{\max}=0.758$ kN)', color=c_ref, lw=2.0)
-    ax.plot(df_et1_fu['displacement_mm'] * 1000.0, df_et1_fu['reaction_force_kN'], label=r'Adaptive ET1 Baseline 14k (Job 1409982, $F_{\max}=0.744$ kN)', color=c_et1, lw=1.8)
-    if not supervisor_three_case:
+    if supervisor_three_case:
+        ax.plot(df_ref_dat['u_mm'] * 1000.0, df_ref_dat['rf_kN'], label=r'Fixed Benchmark Anchor 15k ($F_{\max}=0.758$ kN)', color=c_ref, lw=2.0)
+        ax.plot(df_et1_fu['displacement_mm'] * 1000.0, df_et1_fu['reaction_force_kN'], label=r'Corrected Adaptive ET1 14k ($F_{\max}=0.744$ kN, $+0.279\%$ vs Fine)', color=c_et1, lw=1.8)
+        ax.plot(df_58k_dat['u_mm'] * 1000.0, df_58k_dat['rf_kN'], label=r'Spatial-Fine Adaptive Ref 58k ($F_{\max}=0.742$ kN)', color=c_58k, lw=2.0)
+    else:
+        ax.plot(df_ref_dat['u_mm'] * 1000.0, df_ref_dat['rf_kN'], label=r'Fixed Benchmark Anchor 15k (Job 1409734, $F_{\max}=0.758$ kN)', color=c_ref, lw=2.0)
+        ax.plot(df_et1_fu['displacement_mm'] * 1000.0, df_et1_fu['reaction_force_kN'], label=r'Corrected Adaptive ET1 14k (Job 1409982, $F_{\max}=0.744$ kN)', color=c_et1, lw=1.8)
         ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['f_tensile_kN'], label=r'ET1 $C_n=0.50$ Diagnostic (Job 1410180)', color=c_cn, lw=1.5, ls='--')
-    ax.plot(df_58k_dat['u_mm'] * 1000.0, df_58k_dat['rf_kN'], label=r'Spatial Fine 58k 8T SMP (Job 1410504, $F_{\max}=0.742$ kN)', color=c_58k, lw=2.0)
+        ax.plot(df_58k_dat['u_mm'] * 1000.0, df_58k_dat['rf_kN'], label=r'Spatial-Fine Adaptive Ref 58k (Job 1410504, $F_{\max}=0.742$ kN)', color=c_58k, lw=2.0)
 
     # Annotate Job 1410179 serial parity point
     u_58k_ser_term = df_58k_ser_dat['u_mm'].iloc[-1] * 1000.0
@@ -189,17 +193,17 @@ def generate_plot(base_dir=None, output_dir=None, supervisor_three_case=False):
 
     # Panel (b): External Work and Phase-Field Fracture Energy Functional
     ax = axes[0, 1]
-    ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ Ref 15k', color=c_ref, lw=1.8)
-    ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ ET1 14k', color=c_et1, lw=1.8)
+    ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ Benchmark 15k', color=c_ref, lw=1.8)
+    ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ Adaptive ET1 14k', color=c_et1, lw=1.8)
     if not supervisor_three_case:
         ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ $C_n=0.50$', color=c_cn, lw=1.4, ls=':')
-    ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ Fine 58k (1410504)', color=c_58k, lw=2.0)
+    ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['w_ext_mJ'], label='$W_{\\mathrm{ext}}$ Fine Adapt 58k', color=c_58k, lw=2.0)
 
-    ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ Ref 15k', color=c_ref, lw=1.8, ls='--')
-    ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ ET1 14k', color=c_et1, lw=1.8, ls='--')
+    ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ Benchmark 15k', color=c_ref, lw=1.8, ls='--')
+    ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ Adaptive ET1 14k', color=c_et1, lw=1.8, ls='--')
     if not supervisor_three_case:
         ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ $C_n=0.50$', color=c_cn, lw=1.4, ls='-.')
-    ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ Fine 58k (1410504)', color=c_58k, lw=2.0, ls='--')
+    ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['e_frac_mJ'], label='$\\mathcal{E}_{\\mathrm{frac}}$ Fine Adapt 58k', color=c_58k, lw=2.0, ls='--')
 
     ax.set_title('(b) External Work $W_{\\mathrm{ext}}$ & Fracture Surface Functional $\\mathcal{E}_{\\mathrm{frac}}$', fontsize=11, fontweight='bold')
     ax.set_xlabel('Prescribed Displacement $u_y$ [$\\mu\\mathrm{m}$]', fontsize=10)
@@ -211,11 +215,11 @@ def generate_plot(base_dir=None, output_dir=None, supervisor_three_case=False):
 
     # Panel (c): Stored Elastic Strain Energy
     ax = axes[1, 0]
-    ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['e_elas_mJ'], label='Fixed Reference 15k (Job 1409734)', color=c_ref, lw=1.8)
-    ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['e_elas_mJ'], label='Adaptive ET1 Baseline 14k (Job 1409982)', color=c_et1, lw=1.8)
+    ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['e_elas_mJ'], label='Fixed Benchmark Anchor 15k', color=c_ref, lw=1.8)
+    ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['e_elas_mJ'], label='Corrected Adaptive ET1 14k', color=c_et1, lw=1.8)
     if not supervisor_three_case:
         ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['e_elas_mJ'], label='ET1 $C_n=0.50$ Diagnostic (Job 1410180)', color=c_cn, lw=1.5, ls='--')
-    ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['e_elas_mJ'], label='Spatial Fine 58k 8T SMP (Job 1410504)', color=c_58k, lw=2.0)
+    ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['e_elas_mJ'], label='Spatial-Fine Adaptive Ref 58k', color=c_58k, lw=2.0)
 
     ax.set_title('(c) Stored Elastic Strain Energy $\\mathcal{E}_{\\mathrm{elas}}(u_y)$', fontsize=11, fontweight='bold')
     ax.set_xlabel('Prescribed Displacement $u_y$ [$\\mu\\mathrm{m}$]', fontsize=10)
@@ -227,11 +231,11 @@ def generate_plot(base_dir=None, output_dir=None, supervisor_three_case=False):
 
     # Panel (d): Energy Bookkeeping Discrepancy Evolution
     ax = axes[1, 1]
-    ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['delta_book_mJ'] * 1000.0, label='Fixed Ref 15k ($\\Delta_{\\mathrm{book}}$, 0.76%)', color=c_ref, lw=1.8)
-    ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['delta_book_mJ'] * 1000.0, label='ET1 Baseline 14k ($\\Delta_{\\mathrm{book}}$, 1.10%)', color=c_et1, lw=1.8)
+    ax.plot(df_ref_merged['u_mm_dat'] * 1000.0, df_ref_merged['delta_book_mJ'] * 1000.0, label='Fixed Benchmark 15k ($\\Delta_{\\mathrm{book}}$, 0.76%)', color=c_ref, lw=1.8)
+    ax.plot(df_et1_merged['displacement_mm'] * 1000.0, df_et1_merged['delta_book_mJ'] * 1000.0, label='Adaptive ET1 14k ($\\Delta_{\\mathrm{book}}$, 1.10%)', color=c_et1, lw=1.8)
     if not supervisor_three_case:
         ax.plot(df_cn_fu['u_mm'] * 1000.0, df_cn_fu['delta_book_mJ'] * 1000.0, label='ET1 $C_n=0.50$ Diagnostic ($\\Delta_{\\mathrm{book}}$, 0.82%)', color=c_cn, lw=1.5, ls='--')
-    ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['delta_book_mJ'] * 1000.0, label='Fine 58k (Job 1410504, $\\Delta_{\\mathrm{book}}$, 4.43%)', color=c_58k, lw=2.0)
+    ax.plot(df_58k_merged['u_mm_dat'] * 1000.0, df_58k_merged['delta_book_mJ'] * 1000.0, label='Spatial-Fine Adaptive 58k ($\\Delta_{\\mathrm{book}}$, 4.43%)', color=c_58k, lw=2.0)
 
     ax.axhline(0, color='gray', linestyle='-', linewidth=0.8, alpha=0.7)
 

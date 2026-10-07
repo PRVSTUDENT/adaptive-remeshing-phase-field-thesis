@@ -444,8 +444,8 @@
       "category_type": "evaluator",
       "required_environment": "Python 3.8+ (NumPy, Matplotlib)",
       "expected_outputs": "GATE6B_SPATIAL_LOCALIZATION_SYNTHESIS.json / .csv and comparison figures",
-      "sha256": "B68F9BC6839CE8B3F4A17C82A7045143FCCFDBBDC1EBF0192981BD34C803D3DB",
-      "size_bytes": 20928
+      "sha256": "2ADCABFE36339634F406724F68E2F96AD7D10A0B02E99D402AF629EC259978A5",
+      "size_bytes": 20939
     },
     {
       "relative_path": "scripts/postprocessing/plot_gate6b_spatial_convergence_synthesis.py",
@@ -454,8 +454,8 @@
       "category_type": "evaluator",
       "required_environment": "Python 3.8+ (NumPy, Matplotlib)",
       "expected_outputs": "fig_mode1_gate6b_spatial_convergence_synthesis.pdf (.png)",
-      "sha256": "E88D2D825E9D6EFCA23346FE9222D2225D640698C7C4DAE14C6C3FEDEA57223F",
-      "size_bytes": 15504
+      "sha256": "6DD7ECD2826791764CCBF2819407F45FA6199D05907F6A0CEE453E2562A2FA65",
+      "size_bytes": 16022
     },
     {
       "relative_path": "results/figures/mode1_gate6b/fig_mode1_gate6b_spatial_convergence_synthesis.pdf",
@@ -464,8 +464,8 @@
       "category_type": "figure",
       "required_environment": "PDF viewer / LaTeX figure inclusion",
       "expected_outputs": "Vector comparison figure",
-      "sha256": "7734AA3088B91A6D8C2584F5FECF16028B5B52F02C4982A82CB0DBA3F7D5D396",
-      "size_bytes": 63424
+      "sha256": "CFC71516EE6ACC8BE4051F43A002AB31918FDD2B4DF35F41B7886F58AD1DC8BF",
+      "size_bytes": 63844
     },
     {
       "relative_path": "results/figures/mode1_gate6b/fig_mode1_gate6b_spatial_localization_and_crack_path.pdf",

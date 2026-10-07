@@ -90,11 +90,11 @@ def generate_plot(base_dir=None, output_dir=None):
         gridspec_kw={"height_ratios": [3.0, 1.3], "hspace": 0.08},
     )
     ax.plot(ref_fit["u"] * 1000.0, ref_fit["force"], color="black", lw=2.2,
-            label=f"Ref 15k (Job 1409734, K0={k_ref:.3f} kN/mm)")
+            label=f"Fixed Benchmark Anchor 15k (Job 1409734, K0={k_ref:.3f} kN/mm)")
     ax.plot(et1_fit["u"] * 1000.0, et1_fit["force"], color="blue", lw=1.8, ls="--",
-            label=f"Adaptive ET1 14k (Job 1409982, K0={k_et1:.3f} kN/mm)")
+            label=f"Corrected Adaptive ET1 14k (Job 1409982, K0={k_et1:.3f} kN/mm)")
     ax.plot(fine_fit["u"] * 1000.0, fine_fit["force"], color="#d62728", lw=1.6, ls=":",
-            label=f"Spatial-fine 58k (Job 1410504, K0={k_fine:.3f} kN/mm)")
+            label=f"Spatial-Fine Adaptive Ref 58k (Job 1410504, K0={k_fine:.3f} kN/mm)")
     ax.set_title("Mode-I Initial Elastic Branch & Canonical K0 Fitting (u <= 1.0 um = 0.0010 mm)",
                  fontsize=13, fontweight="bold")
     ax.set_ylabel("Reaction Force F = -RF2 [kN]", fontsize=11)
@@ -105,10 +105,10 @@ def generate_plot(base_dir=None, output_dir=None):
     summary = (
         "Canonical K0 Qualification Summary\n"
         "Horizon: u in (0.00125, 1.00125] um (N=400)\n"
-        f"Ref K0: {k_ref:.6f} kN/mm\n"
-        f"Adapt K0: {k_et1:.6f} kN/mm\n"
-        f"Rel. Delta K0: {rel_diff:+.4f}% (STABLE)\n"
-        f"Fine K0: {k_fine:.6f} kN/mm ({rel_diff_fine:+.4f}%)\n"
+        f"Benchmark K0: {k_ref:.6f} kN/mm\n"
+        f"Adaptive ET1 K0: {k_et1:.6f} kN/mm\n"
+        f"Rel. Delta K0 (ET1 vs Bench): {rel_diff:+.4f}% (STABLE)\n"
+        f"Spatial-Fine K0: {k_fine:.6f} kN/mm ({rel_diff_fine:+.4f}% vs Bench)\n"
         f"OLS R^2: ET1={r2_et1:.8f}; fine={r2_fine:.8f}\n"
         f"Adapt F(1.0 um): {et1_fit['force'].iloc[-1]:.6f} kN\n"
         f"Mean Pointwise Diff: ET1={np.mean(rel_pointwise):+.4f}%; fine={np.mean(rel_pointwise_fine):+.4f}%\n"
@@ -118,9 +118,9 @@ def generate_plot(base_dir=None, output_dir=None):
             bbox=dict(boxstyle="round,pad=0.35", facecolor="#fff2cc", edgecolor="#8c7a54"))
 
     ax_diff.plot(common_u * 1000.0, rel_pointwise, color="green", lw=1.4, marker=".", ms=2.2,
-                 label="ET1 relative error [%]")
+                 label="ET1 relative difference [%]")
     ax_diff.plot(common_u * 1000.0, rel_pointwise_fine, color="#d62728", lw=1.2, ls=":",
-                 label="Spatial-fine relative error [%]")
+                 label="Spatial-fine relative difference [%]")
     ax_diff.axhline(0.0, color="gray", lw=0.9, ls="--")
     ax_diff.set_xlabel("Prescribed Top-Edge Displacement u [um] (where 1.0 um = 0.0010 mm)", fontsize=11)
     ax_diff.set_ylabel("Diff [%]", fontsize=10)

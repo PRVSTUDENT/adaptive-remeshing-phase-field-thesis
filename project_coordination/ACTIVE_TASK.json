@@ -1,10 +1,10 @@
 {
-  "task_id": "F1285-MODE1-OCT8-REPORT-PROVENANCE-AND-PRESENTATION-CORRECTIONS",
-  "task_name": "Mode-I October 8 Report Provenance and Presentation Corrections",
+  "task_id": "F1286-MODE1-DUAL-REFERENCE-SEMANTICS-REPORT-REVISION",
+  "task_name": "Mode-I Dual-Reference Semantics Report Revision",
   "status": "COMPLETED",
-  "agent": "codex",
-  "start_time": "2026-10-07T08:30:08+02:00",
-  "end_time": "2026-10-07T08:50:00+02:00",
+  "agent": "gemini-antigravity",
+  "start_time": "2026-10-07T09:04:02+02:00",
+  "end_time": "2026-10-07T09:30:00+02:00",
   "governing_phase": "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF",
-  "description": "Resolve the distinct 57,901-FE Stage-13 Step-1 morphology and 57,929-FE spatial-fine convergence provenance from governed decks and hashes; revise the focused supervisor report so these roles cannot be confused; crop the earlier 71,320-FE comparison to the requested full-domain and crack-tip views; simplify the tolerance page; add the 57,929-FE mechanical row and explicit three-role interpretation; retain only the fixed reference, corrected ET1, and spatial-fine adaptive cases in the main verification figures; correct the ET1 job identifier in the K0 figure; clarify energy-bookkeeping terminology; soften the localization-width wording; rebuild, visually inspect every page, run relevant tests, update coordination records, commit selectively, and push forward-only to origin/main."
+  "description": "Revise the October 8 supervisor report to distinguish the 15,192-FE paper-matched fixed benchmark anchor from the 57,929-FE spatial-fine adaptive convergence reference; replace error language with explicitly named relative differences; add both comparison baselines to the tolerance table; make the ET1-to-spatial-fine 0.279% result the central convergence and efficiency finding; classify the residual fixed-versus-adaptive peak offset as a discretization-family difference rather than adaptive-mesh error; update figure labels and conclusions consistently; rebuild, visually verify, test, record, commit selectively, and push."
 }
