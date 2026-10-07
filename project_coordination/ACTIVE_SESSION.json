@@ -1,13 +1,12 @@
 {
-    "active": false,
+    "active": true,
     "agent": "gemini-antigravity",
-    "task_id": "F1305-SUPERVISOR-TALK-TRACK-SCIENTIFIC-CLAIMS-AUDIT",
-    "session_start": "2026-10-07T15:40:00+02:00",
-    "session_end": "2026-10-07T15:48:00+02:00",
-    "starting_commit": "744575ced981cbea703bc885a1e59bcb98303862",
+    "task_id": "F1306-POST-MEETING-EXECUTION-DECISION-MATRIX",
+    "session_start": "2026-10-07T15:50:00+02:00",
+    "session_end": null,
+    "starting_commit": "ab4099d9c9f3dc522f856a241ed0bc4180e721a3",
     "allowed_write_scope": [
         "project_coordination/**",
-        "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/SUPERVISOR_MEETING_TALK_TRACK_FINAL.md",
-        "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/POST_MEETING_DECISION_CAPTURE_TEMPLATE.md"
+        "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/POST_MEETING_EXECUTION_DECISION_MATRIX.md"
     ]
 }

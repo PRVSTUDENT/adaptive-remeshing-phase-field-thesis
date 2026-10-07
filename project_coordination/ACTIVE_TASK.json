@@ -1,10 +1,10 @@
 {
-    "task_id": "F1305-SUPERVISOR-TALK-TRACK-SCIENTIFIC-CLAIMS-AUDIT",
-    "task_name": "Targeted Scientific Claims Audit of Supervisor Meeting Talk Track",
+    "task_id": "F1306-POST-MEETING-EXECUTION-DECISION-MATRIX",
+    "task_name": "Prepare Decision-Conditioned Post-Meeting Execution Matrix",
     "governing_phase": "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF",
-    "status": "COMPLETED",
+    "status": "IN_PROGRESS",
     "agent": "gemini-antigravity",
-    "start_time": "2026-10-07T15:40:00+02:00",
-    "end_time": "2026-10-07T15:48:00+02:00",
-    "description": "Perform a targeted scientific-claims audit of SUPERVISOR_MEETING_TALK_TRACK_FINAL.md: correct wording exceeding verified evidence by reverting MISESERI to governed wording (Abaqus Mises stress discretization/error indicator associated with recovered stress solution), replacing 'proves internal asymptotic convergence' with observed numerical agreement within tested mesh family, and auditing energy residual O(Delta u) assertion to keep mechanism unresolved under GLOBAL_ENERGY_IDENTITY --- NOT_YET_CLOSED; preserve frozen release manifest/tag unmodified; zero solver jobs."
+    "start_time": "2026-10-07T15:50:00+02:00",
+    "end_time": null,
+    "description": "Prepare a decision-conditioned post-meeting execution matrix using the frozen Mode-I release and corrected talk track: define exact next project state and first permitted action for every possible outcome across the 4 decisions; mandate zero inferred approval; enforce Gate 6C blocked unless authorized; enforce Mode-II/Gate 7 holds; record files to update and rework acceptance criteria; save as POST_MEETING_EXECUTION_DECISION_MATRIX.md; zero solver jobs."
 }
