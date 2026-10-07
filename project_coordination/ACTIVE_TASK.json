@@ -1,10 +1,10 @@
 {
-    "task_id": "F1304-SUPERVISOR-MEETING-REHEARSAL-AND-DECISION-CAPTURE-PREPARATION",
-    "task_name": "Supervisor Meeting Rehearsal Walkthrough & Post-Meeting Decision Capture Preparation",
+    "task_id": "F1305-SUPERVISOR-TALK-TRACK-SCIENTIFIC-CLAIMS-AUDIT",
+    "task_name": "Targeted Scientific Claims Audit of Supervisor Meeting Talk Track",
     "governing_phase": "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "start_time": "2026-10-07T15:25:00+02:00",
-    "end_time": "2026-10-07T15:35:00+02:00",
-    "description": "Perform a read-only supervisor-meeting rehearsal and decision-capture preparation using the frozen Mode-I meeting release v2026.10.08-supervisor-meeting-mode1-freeze as immutable truth: walk through report, key numbers, agenda, evidence index, and 4 decisions; identify potential misinterpretations and verbal qualifications without altering frozen artifacts; generate SUPERVISOR_MEETING_TALK_TRACK_FINAL.md and POST_MEETING_DECISION_CAPTURE_TEMPLATE.md; preserve Mode-II, Gate 6C, and Gate 7 on hold with zero solver jobs."
+    "start_time": "2026-10-07T15:40:00+02:00",
+    "end_time": "2026-10-07T15:48:00+02:00",
+    "description": "Perform a targeted scientific-claims audit of SUPERVISOR_MEETING_TALK_TRACK_FINAL.md: correct wording exceeding verified evidence by reverting MISESERI to governed wording (Abaqus Mises stress discretization/error indicator associated with recovered stress solution), replacing 'proves internal asymptotic convergence' with observed numerical agreement within tested mesh family, and auditing energy residual O(Delta u) assertion to keep mechanism unresolved under GLOBAL_ENERGY_IDENTITY --- NOT_YET_CLOSED; preserve frozen release manifest/tag unmodified; zero solver jobs."
 }
