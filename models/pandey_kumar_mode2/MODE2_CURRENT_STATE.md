@@ -1,126 +1,65 @@
 # Mode-II Current State and Governed Lineage
 
-**Last Updated:** 2026-10-07 13:30 CEST  
-**Governing Phase:** `MODE2_REMESHER_MECHANISM_VS_FIELD_DIAGNOSTIC` (Task F1291/F1293)  
+**Last Updated:** 2026-10-07 18:50 CEST  
+**Governing Phase:** `MODE2_REPRODUCTION_ACTIVE_HUMAN_AUTHORIZED_PREMEETING` (Task F1309)  
 **Governing Agent:** Gemini Antigravity  
-**Diagnostic Status:** `CASE_A_CONFIRMED: REMESHER_FAITHFULLY_FOLLOWS_MISESERI_FIELD (DEFECT_IS_UPSTREAM)`  
-**Audit Status:** `FAILED_SPATIAL_TRAJECTORY_AUDIT` (`AUDIT_FAILED: NATIVE_ADAPTIVE_MESH_DOES_NOT_FOLLOW_MODE2_CRACK_PATH`)  
-**Canonical Mesh Invariants:** Coarse pre-analysis (Job `1410178.mmaster02`): 2,960 finite elements (2,860 CPE4 + 100 CPE3), $h_{\text{global}} = 0.020\,\text{mm}$; Adapted ET2: 21,496 finite elements, 21,615 native nodes, 64,488 layered elements in `Job-2_UEL.inp`.  
-**Execution Boundary:** **STRICT SOLVER GATE -- ZERO SOLVER RUNS AUTHORIZED**
+**Gate Status:** 
+- Gate M2-0 (Source / Literature / Model Freeze): `CLOSED_PASSED` (`MODE2_REPRODUCTION_BASELINE_MANIFEST.json`)
+- Gate M2-1 (Mode-II Constitutive Formulation Qualification): `QUALIFIED_DATACHECK_PASSED` (`f42_mixed_uel_mode2_miehe.for`, Datacheck Exit 0)
+- Gate M2-2 (Canonical Coarse Pre-Analysis Reproduction): `READY_FOR_EXECUTION` (Package prepared, awaiting scheduler release)
+- Gate M2-3 to M2-5: `ON_HOLD_PENDING_PREDECESSORS`
+**Mode-I Protection:** Frozen Mode-I release tag `v2026.10.08-supervisor-meeting-mode1-freeze` and UEL hash `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` verified 100% untouched.
 
 ---
 
 ## 1. Executive Summary & Authoritative Status
 
-1. **Remesher Mechanism Diagnostic Verdict (Task F1291):**
-   - **Case A is empirically and mathematically CONFIRMED:** The Abaqus native remeshing generator (`UNIFORM_ERROR` sizing based on the recovered stress solution error indicator `MISESERI`) operates correctly, deterministically, and with near-ideal mathematical fidelity to the supplied MISESERI field ($r = -0.748$ to $-0.808$).
-   - The remeshing engine is **NOT** defective. It does not introduce artificial orientation bias, does not corrupt nodal/element coordinates, and strictly places refined elements wherever the input error indicator field is concentrated.
-   - The failure of the 21,496-element ET2 mesh to refine along the $\theta \approx -53.65^\circ$ Mode-II crack corridor (having only 20% corridor coverage) originates **entirely upstream** in:
-     a) Using an auxiliary continuum linear elastic pre-analysis (`JOB_MODE2_UNIFORM_COARSE.odb`) with over-constrained boundary conditions (`FIX_BOTTOM: u1=u2=0`, `SHEAR_TOP: u1=0.001, u2=0`) that generated artificial boundary stress concentrations and lacked localized damage-driven strain localization in the interior ($y \in [0.18, 0.28]$ mm, where fine element count dropped to 3 elements).
-     b) In the dual-element phase-field pre-analysis (`Job-1_UEL.odb`), the isotropic shear degradation in `f42_mixed_uel.for` unzipped the specimen horizontally along $y = 0.50$ mm during Step-2, completely releasing strain energy in the lower domain ($y < 0.35$ mm) and destroying the downstream stress concentration (MISESERI dropped by 7 orders of magnitude to $10^{-18}$).
-     c) Conversely, when native remeshing is run on `Step-1` (Initiation, before unzipping), the remesher generates a continuous inclined corridor with chord angle $\theta \approx -49.22^\circ$ (ET 5%, 11,972 FE) and $\theta \approx -68.80^\circ$ (ET 2%, 55,086 FE), demonstrating that when fed an inclined field, the remesher builds an inclined mesh.
+1. **Human-Authorized Mode-II Reproduction (Task F1309):**
+   - The human user explicitly authorized resuming Pandey–Kumar (2025) Section 4.2 Mode-II reproduction prior to the 08-Oct-2026 supervisor meeting.
+   - Dedicated forward-only Git branch `mode2-pandey-kumar-reproduction` created and pushed to GitHub `origin`.
+   - Isolated cluster worktree created at `/home/pr21vyci/projects/mode2_reproduction_worktree`.
 
-2. **Concise Decision Table:**
+2. **Forensic Provenance Audit of Task F1308:**
+   - **Verdict: `REUSED_EXISTING_MESH_DIAGNOSTIC`**
+   - Task F1308 extracted `miseseri_step1_final_frame2000.csv` from Step-1 final Frame 2000 ($u_x = 0.0105\,\text{mm}$) of `Job-1_UEL.odb` and computed correlation metrics ($r = -0.869$) against the pre-existing 11,972-element mesh in `MODE2_ADAPTED_RAW_5PCT.inp` (which had been generated in Task F1291, commit `354a8d4f`).
+   - `adaptiveRemesh` was not executed during F1308 to create a new mesh file; the investigation was an offline diagnostic evaluation.
 
-| Field / Component | Evaluation | Scientific Evidence & Mechanism |
-| :--- | :---: | :--- |
-| **MISESERI field correct?** | **NO** | Diverges horizontally in Step-2 ($1.46 \times 10^{-11}$ along $y=0.5$ vs $10^{-18}$ below); continuum model has boundary artifacts and diffuse interior. |
-| **Remesher follows field?** | **YES** | Strong inverse correlation $r(\log_{10}(M), h) = -0.748$ to $-0.808$; 96.3% - 100% of top 10% high-MISESERI regions refined. |
-| **Mesh follows expected Mode-II corridor?** | **NO** | Mesh strictly reproduces the deviated/defective upstream MISESERI distribution. |
-| **Root problem?** | **UPSTREAM** | **Upstream pre-analysis model & isotropic degradation in UEL formulation, NOT remeshing engine.** |
+3. **Gate M2-0: Literature & Baseline Model Freeze:**
+   - Primary paper parameters from Pandey & Kumar (2025) Section 4.2 indexed in `MODE2_REPRODUCTION_BASELINE_MANIFEST.json`.
+   - All parameters rigorously categorized into `PAPER_VERIFIED`, `PROJECT_VERIFIED`, `INFERRED`, and `UNRESOLVED`.
+   - Preserved sanity reference element counts (37,155 standard PFM, 19,963 adapted PFM) without treating them as artificial tuning targets.
 
-3. **Solver Gate Boundary:**
-   - Solver Status: **`FRACTURE_SOLVE_STRICTLY_ON_HOLD`**.
-   - Zero Abaqus solver runs authorized.
+4. **Gate M2-1: Mode-II Constitutive Formulation Qualification:**
+   - Mode-I `f42_mixed_uel.for` remains completely frozen and untouched.
+   - Implemented separate Mode-II user subroutine `f42_mixed_uel_mode2_miehe.for` (SHA-256: `75029EF77CAA1677D2B1557CFF5B1DE61725B17FC380B9B27D37AED3EFCF4D9A`).
+   - Implemented exact 2D plane strain anisotropic spectral decomposition by Miehe et al. (2010):
+     - Tensile strain energy $\psi_0^+(\boldsymbol{\varepsilon}) = \frac{1}{2}\lambda \langle \text{tr}(\boldsymbol{\varepsilon}) \rangle_+^2 + \mu \sum_{a=1}^2 \langle \varepsilon_a \rangle_+^2$ drives damage history $H$.
+     - Compressive strain energy $\psi_0^-(\boldsymbol{\varepsilon}) = \frac{1}{2}\lambda \langle \text{tr}(\boldsymbol{\varepsilon}) \rangle_-^2 + \mu \sum_{a=1}^2 \langle \varepsilon_a \rangle_-^2$ remains intact without degradation.
+     - Degraded Cauchy stress $\boldsymbol{\sigma} = g(d) \boldsymbol{\sigma}_0^+ + \boldsymbol{\sigma}_0^-$, with $g(d) = (1-d)^2 + k$.
+     - Closed-form, symmetric analytical tangent stiffness matrix $\mathbf{D}_{\text{mech}} = g(d) \mathbf{D}_0^+ + \mathbf{D}_0^-$.
+   - Verified 4-node quads (`JTYPE=1, 2`) and 3-node triangles (`JTYPE=3, 4`).
+   - Unit tests in `tests/unit/test_miehe_spectral_split.py` pass 100% (4/4 tests).
+   - Independent compilation test on cluster via Abaqus 2023 / Intel Fortran (`ifort`) succeeded with `libstandardU.so` generated and 0 errors.
+   - Abaqus 2023 Datacheck on canonical coarse input `Job-1_UEL.inp` with `f42_mixed_uel_mode2_miehe.for` passed with `DATACHECK_EXIT=0` and `ANALYSIS DATACHECK COMPLETE`.
 
----
-
-## 2. Line-by-Line Comparison: Mode-I vs Mode-II Remeshing Pipelines
-
-| Pipeline Component | Mode-I Native Remeshing (`Stage 14 / PK5`) | Mode-II Native Remeshing (`Stage 15 / ET2` & Sweep) | Consistency Evaluation |
-| :--- | :--- | :--- | :---: |
-| **Geometry & Dimensions** | $1.0\,\text{mm} \times 1.0\,\text{mm}$ 2D Planar Shell | $1.0\,\text{mm} \times 1.0\,\text{mm}$ 2D Planar Shell | **IDENTICAL** |
-| **Crack Seam Definition** | Partition from $(0.0, 0.5)$ to $(0.5, 0.5)$, `assignSeam` | Partition from $(0.0, 0.5)$ to $(0.5, 0.5)$, `assignSeam` | **IDENTICAL** |
-| **Target Element Set** | `p.sets['UMATELEM']` (full CAD face) | `p.sets['ALL_ELEM']` / `UMATELEM` (full CAD face) | **IDENTICAL** |
-| **Error Indicator Variable** | `variables=('MISESERI', )` | `variables=('MISESERI', )` | **IDENTICAL** |
-| **Sizing Method** | `sizingMethod=UNIFORM_ERROR` | `sizingMethod=UNIFORM_ERROR` | **IDENTICAL** |
-| **Element Size Limits** | `minElementSize=0.001`, `maxElementSize=0.020` | `minElementSize=0.001`, `maxElementSize=0.020` | **IDENTICAL** |
-| **Refinement / Coarsening** | `refinementFactor=10`, `coarseningFactor=NOT_ALLOWED` | `refinementFactor=10`, `coarseningFactor=NOT_ALLOWED` | **IDENTICAL** |
-| **Base Element Types** | CPE4 (Quad) + CPE3 (Tri) | CPE4 (Quad) + CPE3 (Tri) | **IDENTICAL** |
-| **Pre-Analysis Model Physics** | Linear Elastic Mode-I Tensile opening | Model A: Linear Elastic Continuum with clamped $u_2=0$<br>Model B: Dual-Element Phase-Field (`f42_mixed_uel.for`) | **DIVERGENT UPSTREAM PHYSICS** |
-| **Upstream Stress State** | Symmetric tensile opening ahead of slit tip ($y=0.5$) | Shear stress with unzipping slip band or corner singularities | **DIVERGENT FIELD TOPOLOGY** |
-
----
-
-## 3. Canonical 4-Frame MISESERI Evolution in `Job-1_UEL.odb`
-
-| Frame Key | Step & Frame | Time Value | Max MISESERI | Mean MISESERI | Ridge Chord Angle $\theta$ | Ridge Exit Coordinate at $y=0$ | Physical State |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Frame 1** | `Step-1` Frame 1000 | $0.50000$ | $3.1039 \times 10^{-14}$ | $4.2030 \times 10^{-16}$ | $\mathbf{-43.88^\circ}$ | $(0.9901, 0.0100)$ | Pre-localization (elastic shear) |
-| **Frame 2** | `Step-1` Frame 2000 | $1.00000$ | $3.5887 \times 10^{-13}$ | $1.2622 \times 10^{-15}$ | $\mathbf{-43.88^\circ}$ | $(0.9901, 0.0100)$ | Damage initiation at notch tip |
-| **Frame 3** | `Step-2` Frame 125 | $0.02500$ | $7.4253 \times 10^{-13}$ | $2.2709 \times 10^{-15}$ | $\mathbf{-43.88^\circ}$ | $(0.9901, 0.0100)$ | Intermediate crack growth |
-| **Frame 4** | `Step-2` Frame 5021 | $1.00000$ | $1.4642 \times 10^{-11}$ | $2.0736 \times 10^{-13}$ | $\mathbf{-56.41^\circ}$ | $(0.9901, 0.0100)$ | Final unzipped horizontal state |
-
-*Key Diagnostic Finding:* In Step-1 (Frames 1-2), the shear stress concentration naturally inclines downward from the notch tip toward the lower right corner ($\theta \approx -43.88^\circ$, exiting at $x \approx 0.990$ mm). In Step-2, isotropic degradation unzips the horizontal seam, concentrating MISESERI exclusively along $y \ge 0.37$ mm ($1.46 \times 10^{-11}$) and dropping to $10^{-18}$ in the lower specimen ($y \le 0.32$ mm).
+5. **Gate M2-2: Pre-Analysis Package Preparation:**
+   - Pre-analysis simulation package prepared under `models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/`:
+     - `Job-1_UEL.inp`: 2,960 elements (2,860 CPE4 + 100 CPE3), 3,036 FE nodes.
+     - `f42_mixed_uel_mode2_miehe.for`: Miehe spectral split.
+     - `submit_solver.pbs`: 1 CPU serial, 16 GB, `/scratch9/pr21vyci/runs/mode2_j1_miehe_pre/`.
+     - `submit_job1_uel_solver.sh`: Guarded launcher with dual-channel notification integration.
+     - `PACKAGE_MANIFEST.json`: Verified SHA-256 hashes.
+   - Pre-tool safety hook noted (`qsub-safety-gate.ps1` returned `DENY: Daily ChatGPT delegation has expired.`). Package is 100% datacheck-qualified and ready for submission once delegation is updated.
 
 ---
 
-## 4. Quantitative Correlation Metrics: Upstream Field vs Adapted Meshes
+## 2. Key Artifacts and Checksums
 
-| Mesh Identification | Source Pre-Analysis | Total Elements | Fine Elements ($h \le 0.0075$) | % of Top 10% MISESERI Refined | % Fine in High MISESERI | Pearson $r(\log_{10} M, h)$ | Corridor Angle $\theta$ |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Continuum ET2** (`JOB_MODE2_ADAPTIVE_ET2.inp`) | `JOB_MODE2_UNIFORM_COARSE.odb` | 21,496 | 14,083 (65.5%) | **96.3%** | 85.6% | **-0.796** | $-53.21^\circ$ (with 20% interior gap) |
-| **Dual-Element ET5%** (`MODE2_ADAPTED_RAW_5PCT.inp`) | `Job-1_UEL.odb` (`Step-1`) | 11,972 | 6,029 (50.4%) | **61.1%** | **98.0%** | **-0.748** | $\mathbf{-49.22^\circ}$ (continuous to $x=0.973$) |
-| **Dual-Element ET2%** (`MODE2_ADAPTED_RAW_2PCT.inp`) | `Job-1_UEL.odb` (`Step-1`) | 55,086 | 52,689 (95.6%) | **100.0%** | 59.6% | **-0.808** | $\mathbf{-68.80^\circ}$ (continuous to $x=0.841$) |
-
-*Root Cause of 20% Corridor Disconnection in ET2 Mesh:*
-In the Continuum Preanalysis mesh (`JOB_MODE2_ADAPTIVE_ET2.inp`), the fine element count per $y$-slice exhibits a severe interior valley:
-- $y = 0.500\,\text{mm}$: 2,254 fine elements
-- $y = 0.400\,\text{mm}$: 719 fine elements
-- $y = 0.300\,\text{mm}$: 65 fine elements
-- **$y = 0.200\,\text{mm}$:** **3 fine elements** (disconnection gap)
-- $y = 0.100\,\text{mm}$: 260 fine elements
-- $y = 0.000\,\text{mm}$: 486 fine elements
-
-In contrast, the Dual-Element Phase-Field mesh (ET2%) maintains 681 to 4,981 fine elements across every slice from $y=0.5$ down to $y=0.0$ without any gap.
-
----
-
-## 5. Diagnostic Figures Generated (Canonical Evidence)
-
-The 5 publication-grade diagnostic figures have been generated and archived under `results/figures/mode2/`:
-
-1. **`remesher_diagnostic_canonical_frames_miseseri` (.png / .pdf):**
-   - 4-panel evolution of the raw MISESERI field ($E_{\text{mises}}$) across Pre-Localization ($t=0.5$), Initiation ($t=1.0$), Intermediate Propagation ($t=0.025$), and Final Unzipped State ($t=1.0$).
-2. **`remesher_diagnostic_twopanel_inspection` (.png / .pdf) [THE AUTHORITATIVE TWO-PANEL FIGURE]:**
-   - Left Panel: Raw Initiation MISESERI field with extracted ridge ($\theta_{\text{ridge}} \approx -43.88^\circ$, exit at $x = 0.990\,\text{mm}$) and published benchmark path (Fig. 6b, $\theta \approx -53.65^\circ$).
-   - Right Panel: Resulting native adaptive mesh (11,972 elements) showing true element edges colored by size $h$, overlaid with the exact same upstream ridge ($r = -0.748$).
-3. **`remesher_diagnostic_three_mesh_comparison` (.png / .pdf):**
-   - Direct side-by-side comparison of the 3 adapted meshes: Continuum ET2% (21,496 FE, showing interior gap at $y \approx 0.25$), Phase-Field ET5% (11,972 FE, continuous corridor to $x=0.973$), and Phase-Field ET2% (55,086 FE, dense localization to $x=0.841$).
-4. **`remesher_diagnostic_correlation_and_profile` (.png / .pdf):**
-   - (a) Scatter plot of element size $h$ vs $\log_{10}(\text{MISESERI})$ demonstrating strong negative correlation ($r = -0.748$).
-   - (b) Fine element count along specimen height $y$, revealing the exact interior valley at $y \in [0.18, 0.28]\,\text{mm}$ in the continuum model.
-5. **`remesher_diagnostic_zoomed_notch_to_boundary_overlay` (.png / .pdf):**
-   - High-resolution zoom ($x \in [0.45, 1.0], y \in [0.0, 0.55]$) comparing ET5% and ET2% element mesh geometries against the published crack path.
-
----
-
-## 6. Governed Next Actions & Thesis Recommendations
-
-1. **Protect Mode-I:** Zero changes to Mode-I code, meshes, or physics. All 15 Stage-14 Mode-I regression tests pass with bitwise parity.
-2. **Supervisor Presentation:** Present the complete two-panel diagnostic figure (`remesher_diagnostic_twopanel_inspection.png`) and correlation analysis at the Thursday 08 October 2026 meeting.
-3. **Next Technical Step (Post-Approval):**
-   - Replace isotropic shear degradation in `f42_mixed_uel.for` with the Miehe spectral split ($\psi_0^+$ tension / $\psi_0^-$ compression).
-   - Re-run coarse pre-analysis to generate a physically grounded inclined phase-field corridor.
-   - Re-run native remeshing on the corrected field.
-
-
-### Step-1 Final MISESERI Native Remeshing Diagnostic (Task F1308)
-- **Diagnostic Artifact:** `results/figures/mode2/mode2_step1_final_miseseri_adaptive_mesh.png` (.pdf)
-- **Manifest:** `results/figures/mode2/mode2_step1_final_remesh_manifest.json`
-- **Source Frame:** `Job-1_UEL.odb` | `Step-1` | `Frame 2000` | $u_x = 0.0105\,	ext{mm}$ (time $t=1.0$)
-- **Coarse Mesh:** 2,960 finite elements (2,860 CPE4 + 100 CPE3)
-- **Remeshing Rule:** `UNIFORM_ERROR`, `errorTarget=5.0%`, $h \in [0.001, 0.025]\,	ext{mm}$, `refinementFactor=10`, `coarseningFactor=NOT_ALLOWED`
-- **Resulting Adaptive Mesh:** 11,972 finite elements (11,626 Quads + 346 Tris), 12,064 nodes (`MODE2_ADAPTED_RAW_5PCT.inp`)
-- **Fidelity Metrics:** Pearson $r(\log_{10} M, h) = -0.869$, Top 10% MISESERI refined = $84.09\%$, Fine elements in high error zone = $97.83\%$.
-- **Scientific Finding:** In Step-1 final, the unzipping defect has not yet occurred; the MISESERI field concentrates at the notch tip $(0.5, 0.5)$ and along the shear stress gradient, and the native remesher faithfully places 84.1% of its fine elements in this zone ($r = -0.869$).
+| Artifact Description | Path | SHA-256 Checksum |
+| :--- | :--- | :--- |
+| **Mode-II Baseline Manifest** | `models/pandey_kumar_mode2/MODE2_REPRODUCTION_BASELINE_MANIFEST.json` | `E54FEF1C...` |
+| **Mode-II Miehe UEL Source** | `models/pandey_kumar_mode2/f42_mixed_uel_mode2_miehe.for` | `75029EF77CAA1677D2B1557CFF5B1DE61725B17FC380B9B27D37AED3EFCF4D9A` |
+| **Pre-Analysis Input Deck** | `models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/Job-1_UEL.inp` | `869A2DBD015573FC15470834DAB1A6051A5AE530000AB44F9184777605541791` |
+| **Package Manifest** | `models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/PACKAGE_MANIFEST.json` | Calculated at write |
+| **Miehe Unit Tests** | `tests/unit/test_miehe_spectral_split.py` | `0507F547...` |
+| **Datacheck Test Script** | `scripts/hpc/test_mode2_datacheck.sh` | `D72B3CD1...` |
