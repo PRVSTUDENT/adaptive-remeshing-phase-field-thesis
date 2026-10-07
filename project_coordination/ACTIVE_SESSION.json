@@ -1,16 +1,13 @@
 {
     "active": false,
     "agent": "gemini-antigravity",
-    "task_id": "F1303-MODE1-PRE-MEETING-RELEASE-MANIFEST-AND-FREEZE",
-    "session_start": "2026-10-07T15:09:00+02:00",
-    "session_end": "2026-10-07T15:20:00+02:00",
-    "starting_commit": "1c6a5409a60f7b1d60024b168208b793bedc6ddc",
+    "task_id": "F1304-SUPERVISOR-MEETING-REHEARSAL-AND-DECISION-CAPTURE-PREPARATION",
+    "session_start": "2026-10-07T15:25:00+02:00",
+    "session_end": "2026-10-07T15:35:00+02:00",
+    "starting_commit": "d988c5d74d0719c7ba5efe21314fb249c99e0c05",
     "allowed_write_scope": [
         "project_coordination/**",
-        "docs/**",
-        "scripts/**",
-        "tests/**",
-        "models/**",
-        "results/**"
+        "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/SUPERVISOR_MEETING_TALK_TRACK_FINAL.md",
+        "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/POST_MEETING_DECISION_CAPTURE_TEMPLATE.md"
     ]
 }

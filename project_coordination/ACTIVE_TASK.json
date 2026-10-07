@@ -1,10 +1,10 @@
 {
-    "task_id": "F1303-MODE1-PRE-MEETING-RELEASE-MANIFEST-AND-FREEZE",
-    "task_name": "Freeze Verified Mode-I Supervisor Package & Create Pre-Meeting Release Manifest",
+    "task_id": "F1304-SUPERVISOR-MEETING-REHEARSAL-AND-DECISION-CAPTURE-PREPARATION",
+    "task_name": "Supervisor Meeting Rehearsal Walkthrough & Post-Meeting Decision Capture Preparation",
     "governing_phase": "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "start_time": "2026-10-07T15:09:00+02:00",
-    "end_time": "2026-10-07T15:20:00+02:00",
-    "description": "Freeze the verified Mode-I supervisor package as an immutable pre-meeting release: create release manifest containing exact Git commit, report/handout SHA-256 hashes, key job IDs, evidence-index path, Gate 6B status, and four supervisor decision items; verify every referenced file exists and every recorded checksum matches; create Git tag for the frozen 08-Oct-2026 meeting snapshot; do not run solver jobs and maintain Mode-II, Gate 6C, and Gate 7 on hold."
+    "start_time": "2026-10-07T15:25:00+02:00",
+    "end_time": "2026-10-07T15:35:00+02:00",
+    "description": "Perform a read-only supervisor-meeting rehearsal and decision-capture preparation using the frozen Mode-I meeting release v2026.10.08-supervisor-meeting-mode1-freeze as immutable truth: walk through report, key numbers, agenda, evidence index, and 4 decisions; identify potential misinterpretations and verbal qualifications without altering frozen artifacts; generate SUPERVISOR_MEETING_TALK_TRACK_FINAL.md and POST_MEETING_DECISION_CAPTURE_TEMPLATE.md; preserve Mode-II, Gate 6C, and Gate 7 on hold with zero solver jobs."
 }
