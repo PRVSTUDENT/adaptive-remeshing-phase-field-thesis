@@ -1,10 +1,10 @@
 {
-  "task_id": "F1289-MODE2-CANONICAL-PROVENANCE-CONSISTENCY-AUDIT",
-  "task_name": "Mode-II Canonical Provenance Consistency Audit and Metadata Harmonization",
+  "task_id": "F1290-MODE2-SPATIAL-PATH-AUDIT-AND-ADAPTIVE-MESH-VALIDATION",
+  "task_name": "Mode-II Spatial Path Audit and Adaptive Mesh Trajectory Validation",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-07T11:20:00+02:00",
-  "end_time": "2026-10-07T11:45:00+02:00",
-  "governing_phase": "GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF",
-  "description": "Comprehensive offline Mode-II canonical-provenance consistency audit: verify coarse pre-analysis mesh FE/node counts and global mesh size from raw Job 1410178 evidence, verify native ET2 mesh node and element counts vs reconstructed 3-layer Job-2_UEL deck, harmonize figure captions, current state docs, and records, update tests, commit, push, and park cleanly."
+  "start_time": "2026-10-07T11:35:00+02:00",
+  "end_time": "2026-10-07T12:00:00+02:00",
+  "governing_phase": "MODE2_SPATIAL_PATH_AUDIT_AND_ADAPTIVE_MESH_VALIDATION",
+  "description": "Independent quantitative spatial trajectory audit of Mode-II adaptive mesh: verified from raw Job 1410178.mmaster02 pre-analysis evidence, actual final-frame MISESERI field, JOB_MODE2_ADAPTIVE_ET2.inp, reconstructed Job-2_UEL.inp, and Pandey-Kumar Fig 6(b)/12(b) whether native adaptive mesh refines along expected Mode-II crack path. Audit verdict: AUDIT_FAILED: NATIVE_ADAPTIVE_MESH_DOES_NOT_FOLLOW_MODE2_CRACK_PATH (only 20.0% of path covered, 58.3% off-path, exactly 2 elements in active crack corridor y in [0.15, 0.35]). Diagnosed primary root causes: isotropic shear degradation in f42_mixed_uel.for destroying shear stiffness on horizontal plane (unlike Miehe anisotropic split in paper) and coarse pre-analysis mesh resolution defect (h = 0.020 mm > l_0 = 0.015 mm). Generated 5 publication figures, updated governance, and confirmed full fracture solve remains strictly gated / on hold."
 }
