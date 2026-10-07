@@ -1,16 +1,16 @@
 {
-    "task_id": "F1318-MODE2-M2-4-JOB-STATUS-AND-TELEMETRY-MONITORING",
+    "task_id": "F1319-MODE2-M2-4-ACCEPTANCE-CRITERIA-PROVENANCE-AUDIT",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "phase": "Gate M2-4 Live Job Status and Telemetry Monitoring",
-    "gate_status": "GATE_M2_4_SOLVER_RUNNING",
-    "last_updated": "2026-10-07T22:25:00+02:00",
+    "phase": "Gate M2-4 Predeclared Acceptance Criteria Provenance Audit",
+    "gate_status": "GATE_M2_4_CRITERIA_AUDITED_AND_FROZEN",
+    "last_updated": "2026-10-07T22:45:00+02:00",
     "active_pbs_job_id": "1410797.mmaster02",
-    "next_recommended_task": "F1319-MODE2-M2-4-TERMINAL-EVALUATION-AND-GATE-CLOSEOUT",
+    "next_recommended_task": "F1320-MODE2-M2-4-TERMINAL-EVALUATION-AND-GATE-CLOSEOUT",
     "governing_constraints": [
         "Mode-I freeze tag v2026.10.08-supervisor-meeting-mode1-freeze and UEL hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 100% untouched",
         "PBS job 1410797.mmaster02 running untouched; no additional solver submissions",
-        "Acceptance criteria and extraction logic frozen prior to inspecting terminal results",
+        "Criteria provenance strictly audited against primary literature before inspecting terminal data",
         "All HPC commands must use guarded SSH wrapper",
         "Maintain dual-channel notification integration"
     ]

@@ -2,10 +2,11 @@
 
 **Governing Directive:** *"We need to have understood everything related to the first model before we increase complexity."*  
 **Benchmark Reference:** Pandey & Kumar (2025) *CMES*, Vol. 144, No. 3, Section 4.2 (pp. 3270–3272), Figs. 4(b), 6(b), 12(a,b,c), 13(a,b).  
+**Primary Digitization Provenance:** [`references/derived/pandey_kumar_2025_fig13a_digitization_provenance.md`](file:///D:/Master%20thesis/Adaptive%20remeshing/references/derived/pandey_kumar_2025_fig13a_digitization_provenance.md) and [`pandey_kumar_2025_fig13a_digitized.csv`](file:///D:/Master%20thesis/Adaptive%20remeshing/references/derived/pandey_kumar_2025_fig13a_digitized.csv).  
 **Target Execution:** `Job-2_UEL.inp` on Adapted Mesh `ET_2PCT` ($22{,}530$ FEs: $21{,}962$ quads + $568$ tris; $22{,}642$ FE nodes, $67{,}590$ layered elements).  
 **Constitutive Split:** 2D Plane Strain Anisotropic Spectral Split by Miehe et al. (2010) (`f42_mixed_uel_mode2_miehe.for`, SHA-256 `75029EF77CAA1677D2B1557CFF5B1DE61725B17FC380B9B27D37AED3EFCF4D9A`).  
 **Active Job ID:** `1410797.mmaster02` (1 CPU serial, 16 GB RAM, `normal_imfdfkmq`, walltime limit 24:00:00).  
-**Epistemic Freeze Date:** 2026-10-07 (Frozen *prior* to inspecting terminal simulation results).
+**Epistemic Provenance Audit Date:** 2026-10-07 (Audited and grounded in primary digitized paper evidence *prior* to inspecting terminal simulation results).
 
 ---
 
@@ -18,13 +19,37 @@
 | **M2_4_CHK3** | **Physical & Boundary Parameter Conformance** | Geometry, material properties, and boundary conditions must strictly match Section 4.2. Zero state transfer assumed (virgin intact start $u=0, d=0$). | $\Omega = 1.0 \times 1.0\,\text{mm}$, $a_0 = 0.5\,\text{mm}$ zero-gap sharp seam ($y=0.5\,\text{mm}$); $E=210\,\text{GPa}$, $\nu=0.3$, $G_c=2.7\,\text{N/mm}$, $l_0=15.0\,\mu\text{m}$, $k=10^{-7}$. Bottom $u_1=u_2=0$, top guided shear. | `Job-2_UEL.inp`, `Job-2_UEL.dat` |
 | **M2_4_CHK4** | **Full-Horizon Simulation Completion** | Solver must execute all 4,000 increments across Step 1 and Step 2 to the full paper horizon $u_x = 0.0200\,\text{mm}$ without unhandled exceptions or premature solver crashes. | Exit code $= 0$, Step-1 completed ($u_x = 0 \to 0.0100\,\text{mm}$ in 2,000 incs), Step-2 completed ($u_x = 0.0100 \to 0.0200\,\text{mm}$ in 2,000 incs). Total $u_x = 20.0\,\mu\text{m}$. | `Job-2_UEL.sta`, `Job-2_UEL.msg`, `Job-2_UEL.log` |
 | **M2_4_CHK5** | **Numerical Stability & Monotonic Convergence** | Global Newton equilibrium must converge stably across elastic loading, damage initiation, peak force, and softening drop. | Cutbacks $= 0$ (or strictly isolated and self-recovering), 0 severe discontinuities, 0 NaNs/Infs, time average force balance satisfied throughout. | `Job-2_UEL.msg`, `Job-2_UEL.sta` |
-| **M2_4_CHK6** | **Global Force Response & Softening Fidelity** | Extracted $F_x - u_x$ response must exhibit linear elastic loading, crack initiation around $u_x \approx 0.010\,\text{mm}$, peak force $F_{\max}$, and sharp softening load drop to residual $F \to 0$. | $F_{\max} \in [0.45, 0.70]\,\text{kN}$, $u(F_{\max}) \in [0.0090, 0.0125]\,\text{mm}$, final residual $F_{\text{final}} < 0.05\,\text{kN}$ (load drop $> 90\%$), qualitatively matching Fig. 13(a). | `mode2_j2_rf_history.csv` |
-| **M2_4_CHK7** | **Oblique Mode-II Crack Trajectory Direction** | Phase-field crack localization must propagate along an oblique trajectory toward the lower-right boundary, terminating near $y=0$, rather than horizontal slit unzipping ($y=0.5$) or boundary artifacts. | Phase-field crack ridge angle $\theta \in [-65^\circ, -40^\circ]$, bottom boundary exit $x_{\text{exit}} \in [0.85, 1.00]\,\text{mm}$ on $y=0$ (expected $\sim 0.93\,\text{mm}$), $d_{\max} \ge 0.95$. | `mode2_j2_crack_trajectory.csv`, `damage_snapshot_ux_0p02000.csv` |
+| **M2_4_CHK6** | **Global Force Response, Peak Load & Softening Fidelity** | Extracted $F_x - u_x$ curve must exhibit linear shear stiffness, peak load matching primary Fig. 13(a) ($F_{\max} \approx 0.1455\,\text{kN}$), peak displacement ($u(F_{\max}) \approx 0.0128\,\text{mm}$), and post-peak softening drop to $F(u=0.020\,\text{mm}) \le 0.060\,\text{kN}$ (load drop $\ge 60\%$). | $K_{0,\text{shear}} \in [11.5, 14.5]\,\text{kN/mm}$ (paper $12.80\,\text{kN/mm}$); $F_{\max} \in [0.125, 0.165]\,\text{kN}$ (paper $145.5\,\text{N}$); $u(F_{\max}) \in [0.0110, 0.0145]\,\text{mm}$ (paper $12.8\,\mu\text{m}$); $F(0.020\,\text{mm}) \le 0.060\,\text{kN}$ (load drop $\ge 60.0\%$, paper shows $0.038\,\text{kN}$ / $73.9\%$ drop). | `mode2_j2_rf_history.csv`, `pandey_kumar_2025_fig13a_digitized.csv` |
+| **M2_4_CHK7** | **Oblique Mode-II Crack Trajectory & Boundary Exit** | Phase-field crack localization must propagate along an oblique trajectory toward the lower-right boundary, terminating on $y=0$ in the verified corner exit corridor, rather than horizontal slit unzipping ($y=0.50\,\text{mm}$) or boundary clamping artifacts. | Bottom boundary exit $x_{\text{exit}} \in [0.85, 1.00]\,\text{mm}$ on $y=0$ (paper Fig. 6b/12b shows $x \approx 0.930\,\text{mm}$); mean trajectory chord angle $\theta_{\text{chord}} \in [-60^\circ, -40^\circ]$ (paper chord angle is $-49.3^\circ$); peak phase-field damage $d_{\max} \ge 0.95$. | `mode2_j2_crack_trajectory.csv`, `damage_snapshot_ux_0p02000.csv` |
 | **M2_4_CHK8** | **Epistemic Classification Discipline** | Mesh candidate `ET_2PCT` must remain classified as `INFERRED / PROJECT_SELECTED_FOR_M2_4` based on pre-analysis sizing quality. Literature `errorTarget` must remain `UNRESOLVED`. | Strictly NO retroactive claim that fracture results prove the authors used `errorTarget=2%`. Differences vs. paper 19,963 FEs stated as $+12.86\%$ reproduction comparison. | `CURRENT_STATE.md`, session report |
 
 ---
 
-## 2. Epistemic Classification Rules
+## 2. Provenance Basis for Acceptance Boundaries
+
+### Primary Benchmark Values (Digitized from Pandey & Kumar 2025, Fig. 13a)
+- **Proposed Adaptive PFM ($19{,}963$ elements):**
+  - Initial Shear Stiffness: $K_{0,\text{shear}} = 12.80\,\text{kN/mm}$ (linear fit for $u_x \le 0.006\,\text{mm}$)
+  - Peak Reaction Force: $F_{\max} = 0.1455\,\text{kN} = 145.5\,\text{N}$
+  - Displacement at Peak: $u(F_{\max}) = 0.0128\,\text{mm} = 12.8\,\mu\text{m}$
+  - Reaction Force at Step 2 Endpoint ($u_x = 0.0200\,\text{mm}$): $F = 0.0380\,\text{kN} = 38.0\,\text{N}$
+  - Softening Load Drop at $u_x = 0.0200\,\text{mm}$: $(0.1455 - 0.0380) / 0.1455 = 73.88\%$
+- **Standard PFM ($37{,}155$ elements):**
+  - Initial Shear Stiffness: $K_{0,\text{shear}} = 12.80\,\text{kN/mm}$
+  - Peak Reaction Force: $F_{\max} = 0.1435\,\text{kN} = 143.5\,\text{N}$
+  - Displacement at Peak: $u(F_{\max}) = 0.0125\,\text{mm} = 12.5\,\mu\text{m}$
+  - Reaction Force at $u_x = 0.0200\,\text{mm}$: $F = 0.0480\,\text{kN} = 48.0\,\text{N}$
+  - Softening Load Drop at $u_x = 0.0200\,\text{mm}$: $(0.1435 - 0.0480) / 0.1435 = 66.55\%$
+
+### Declared Comparison Tolerances for Gate M2-4
+1. **Peak Reaction Force $F_{\max}$:** Declared tolerance $\pm 14\%$ around $145.5\,\text{N} \implies [125.0, 165.0]\,\text{N}$ ($[0.125, 0.165]\,\text{kN}$).
+2. **Peak Displacement $u(F_{\max})$:** Declared tolerance $\pm 13\%$ around $12.8\,\mu\text{m} \implies [11.0, 14.5]\,\mu\text{m}$ ($[0.0110, 0.0145]\,\text{mm}$).
+3. **Softening Load Drop at $u_x = 0.020\,\text{mm}$:** $F(u=0.020\,\text{mm}) \le 0.060\,\text{kN}$ (ensuring $\ge 60\%$ load drop, consistent with paper's $73.9\%$ drop at $20\,\mu\text{m}$).
+4. **Crack Exit Coordinate $x_{\text{exit}}$:** Exit on bottom boundary $y=0$ in $[0.85, 1.00]\,\text{mm}$ with mean chord angle $\theta_{\text{chord}} \in [-60^\circ, -40^\circ]$ (paper chord angle is $-49.3^\circ$).
+
+---
+
+## 3. Epistemic Classification Rules
 
 1. **Category `PAPER_VERIFIED`:**
    - Applied only to parameters explicitly printed in Section 4.2 text: domain dimensions ($1 \times 1\,\text{mm}$), initial crack length ($a_0 = 0.5\,\text{mm}$), Young's modulus ($E=210\,\text{GPa}$), Poisson's ratio ($\nu=0.3$), critical fracture energy ($G_c=2.7\,\text{N/mm}$), length scale ($l_0=15\,\mu\text{m}$), boundary conditions (fixed bottom, top shear displacement control), and constitutive split (Miehe spectral split).

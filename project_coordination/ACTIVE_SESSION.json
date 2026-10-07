@@ -1,10 +1,10 @@
 {
     "active": false,
     "agent": "gemini-antigravity",
-    "task_id": "F1318-MODE2-M2-4-JOB-STATUS-AND-TELEMETRY-MONITORING",
-    "session_start": "2026-10-07T21:22:00+02:00",
-    "session_end": "2026-10-07T22:25:00+02:00",
-    "starting_commit": "5c068b325d9f39696293ac112f4ca58f7a7ddefe",
+    "task_id": "F1319-MODE2-M2-4-ACCEPTANCE-CRITERIA-PROVENANCE-AUDIT",
+    "session_start": "2026-10-07T21:26:00+02:00",
+    "session_end": "2026-10-07T22:45:00+02:00",
+    "starting_commit": "d41dab903bc892b08038ba9e462f1a3042bff018",
     "allowed_write_scope": [
         "project_coordination/**",
         "models/pandey_kumar_mode2/**",
@@ -12,6 +12,7 @@
         "results/figures/mode2/**",
         "docs/mode2/**",
         "docs/experiment_records/**",
+        "references/**",
         "tests/**"
     ]
 }
