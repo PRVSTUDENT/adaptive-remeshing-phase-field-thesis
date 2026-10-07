@@ -1,0 +1,319 @@
+{
+  "ofat_sweep_results": {
+    "ET_2PCT": {
+      "raw_deck_size_bytes": 1577590,
+      "classification": "MODE2_LOCALIZATION_CONSISTENT_WITH_PUBLISHED_PATH",
+      "tri_count": 568.0,
+      "quad_count": 21962.0,
+      "raw_deck_sha256": "bd02d73c2bc199db95369c094a3b579005a8f3b97654657874bd73398def6c22",
+      "total_nodes": 22642,
+      "element_csv_path": "/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/m2_3_remesh/m2_3_mesh_elements_et2pct.csv",
+      "relative_diff_vs_paper_pct": 12.85878875920453,
+      "centerline_points": [
+        [
+          0.9303889734287785,
+          0.0
+        ],
+        [
+          0.9115589663165964,
+          0.05
+        ],
+        [
+          0.9009005087927544,
+          0.1
+        ],
+        [
+          0.8915273161735215,
+          0.15000000000000002
+        ],
+        [
+          0.8709563302005976,
+          0.2
+        ],
+        [
+          0.7917927894206762,
+          0.25
+        ],
+        [
+          0.6746065970814172,
+          0.30000000000000004
+        ],
+        [
+          0.659425867238738,
+          0.35000000000000003
+        ],
+        [
+          0.5949927773831613,
+          0.4
+        ],
+        [
+          0.5617647127028014,
+          0.45
+        ],
+        [
+          0.5627970037510407,
+          0.5
+        ]
+      ],
+      "h_median_mm": 0.005780449827644857,
+      "h_min_mm": 0.0007341643471181528,
+      "fine_element_fraction_pct": 74.29649356413671,
+      "raw_deck_path": "/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/m2_3_remesh/M2_3_ADAPTED_RAW_2PCT.inp",
+      "has_spurious_branches": true,
+      "corridor_end_x_at_y0": 0.9303889734287785,
+      "h_mean_mm": 0.0058320885438262636,
+      "fine_element_count": 16739,
+      "diff_vs_paper_19963_elements": 2567,
+      "is_identical_to_f1308": false,
+      "h_p90_mm": 0.009878708408144688,
+      "h_max_mm": 0.02030386515400007,
+      "total_elements": 22530,
+      "h_p10_mm": 0.0019167214191240086,
+      "element_count_within_anomaly_limit": true,
+      "corridor_chord_angle_deg": -53.67727170313685,
+      "error_target_pct": 2.0,
+      "pearson_correlation_logM_h": -0.8201893413409149,
+      "top10_error_zone_refinement_pct": 98.64864864864865
+    },
+    "ET_1PCT": {
+      "raw_deck_size_bytes": 5590703,
+      "classification": "MODE2_LOCALIZATION_OVER_REFINED",
+      "tri_count": 1989.0,
+      "quad_count": 78211.0,
+      "raw_deck_sha256": "21cc2aa9b448377d3ff56dec0451340d95d2d5125c857f24d6980530a0ecca27",
+      "total_nodes": 79923,
+      "element_csv_path": "/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/m2_3_remesh/m2_3_mesh_elements_et1pct.csv",
+      "relative_diff_vs_paper_pct": 301.7432249661875,
+      "centerline_points": [
+        [
+          0.840421402555557,
+          0.0
+        ],
+        [
+          0.8386736268916672,
+          0.05
+        ],
+        [
+          0.8517300159687,
+          0.1
+        ],
+        [
+          0.8275806144273522,
+          0.15000000000000002
+        ],
+        [
+          0.7829517860913696,
+          0.2
+        ],
+        [
+          0.7357510418315999,
+          0.25
+        ],
+        [
+          0.719693400210061,
+          0.30000000000000004
+        ],
+        [
+          0.6664097762138951,
+          0.35000000000000003
+        ],
+        [
+          0.6320238339573376,
+          0.4
+        ],
+        [
+          0.632923003398071,
+          0.45
+        ],
+        [
+          0.6472356009459885,
+          0.5
+        ]
+      ],
+      "h_median_mm": 0.003043230664520743,
+      "h_min_mm": 0.0006720917711582076,
+      "fine_element_fraction_pct": 99.23940149625935,
+      "raw_deck_path": "/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/m2_3_remesh/M2_3_ADAPTED_RAW_1PCT.inp",
+      "has_spurious_branches": true,
+      "corridor_end_x_at_y0": 0.840421402555557,
+      "h_mean_mm": 0.0032358423910690427,
+      "fine_element_count": 79590,
+      "diff_vs_paper_19963_elements": 60237,
+      "is_identical_to_f1308": false,
+      "h_p90_mm": 0.005061165674488842,
+      "h_max_mm": 0.01262283960271528,
+      "total_elements": 80200,
+      "h_p10_mm": 0.0017658854952367267,
+      "element_count_within_anomaly_limit": false,
+      "corridor_chord_angle_deg": -68.87488367724217,
+      "error_target_pct": 1.0,
+      "pearson_correlation_logM_h": -0.6867085870501944,
+      "top10_error_zone_refinement_pct": 100.0
+    },
+    "ET_3PCT": {
+      "raw_deck_size_bytes": 706628,
+      "classification": "MODE2_LOCALIZATION_ACCEPTABLE_MARGINAL_DEVIATION",
+      "tri_count": 272.0,
+      "quad_count": 9773.0,
+      "raw_deck_sha256": "782ab09bf908701424642d6371b7e96215570ba83fe1a56db8229f15e01ffdcc",
+      "total_nodes": 10173,
+      "element_csv_path": "/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/m2_3_remesh/m2_3_mesh_elements_et3pct.csv",
+      "relative_diff_vs_paper_pct": 49.681911536342234,
+      "centerline_points": [
+        [
+          0.9738677511286866,
+          0.0
+        ],
+        [
+          0.9645597923506972,
+          0.05
+        ],
+        [
+          0.9538881649460756,
+          0.1
+        ],
+        [
+          0.9324081168885815,
+          0.15000000000000002
+        ],
+        [
+          0.8915005872646968,
+          0.2
+        ],
+        [
+          0.5813796569903691,
+          0.25
+        ],
+        [
+          0.6307962878296772,
+          0.30000000000000004
+        ],
+        [
+          0.5603599448095669,
+          0.35000000000000003
+        ],
+        [
+          0.5471154768676435,
+          0.4
+        ],
+        [
+          0.5242547797308778,
+          0.45
+        ],
+        [
+          0.5123451976158188,
+          0.5
+        ]
+      ],
+      "h_median_mm": 0.009181919858834414,
+      "h_min_mm": 0.0009330526830538376,
+      "fine_element_fraction_pct": 42.59830761572922,
+      "raw_deck_path": "/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/m2_3_remesh/M2_3_ADAPTED_RAW_3PCT.inp",
+      "has_spurious_branches": true,
+      "corridor_end_x_at_y0": 0.9738677511286866,
+      "h_mean_mm": 0.008771010274108693,
+      "fine_element_count": 4279,
+      "diff_vs_paper_19963_elements": -9918,
+      "is_identical_to_f1308": false,
+      "h_p90_mm": 0.014856282020082887,
+      "h_max_mm": 0.024765472103001885,
+      "total_elements": 10045,
+      "h_p10_mm": 0.0022555224755555292,
+      "element_count_within_anomaly_limit": true,
+      "corridor_chord_angle_deg": -47.29159432151054,
+      "error_target_pct": 3.0,
+      "pearson_correlation_logM_h": -0.864158831259884,
+      "top10_error_zone_refinement_pct": 58.108108108108105
+    },
+    "ET_5PCT": {
+      "raw_deck_size_bytes": 317388,
+      "classification": "MODE2_LOCALIZATION_COARSE_APPROXIMATION",
+      "tri_count": 137.0,
+      "quad_count": 4686.0,
+      "raw_deck_sha256": "55b273d53b7707e526cb6d025b8738f94f66e5830bb3837a5ebc196ace9ae817",
+      "total_nodes": 4923,
+      "element_csv_path": "/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/m2_3_remesh/m2_3_mesh_elements_et5pct.csv",
+      "relative_diff_vs_paper_pct": 75.84030456344237,
+      "centerline_points": [
+        [
+          0.7595972816149393,
+          0.2
+        ],
+        [
+          0.5034206906954447,
+          0.35000000000000003
+        ],
+        [
+          0.5243992830316225,
+          0.4
+        ],
+        [
+          0.5023940480330534,
+          0.45
+        ],
+        [
+          0.4976683246335441,
+          0.5
+        ]
+      ],
+      "h_median_mm": 0.015070273554849582,
+      "h_min_mm": 0.0012220457150801797,
+      "fine_element_fraction_pct": 16.753058262492225,
+      "raw_deck_path": "/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/m2_3_remesh/M2_3_ADAPTED_RAW_5PCT.inp",
+      "has_spurious_branches": true,
+      "corridor_end_x_at_y0": 0.7595972816149393,
+      "h_mean_mm": 0.013567663747448864,
+      "fine_element_count": 808,
+      "diff_vs_paper_19963_elements": -15140,
+      "is_identical_to_f1308": false,
+      "h_p90_mm": 0.018321092467281915,
+      "h_max_mm": 0.022912379406061306,
+      "total_elements": 4823,
+      "h_p10_mm": 0.004903646459641397,
+      "element_count_within_anomaly_limit": true,
+      "corridor_chord_angle_deg": -48.8759022987125,
+      "error_target_pct": 5.0,
+      "pearson_correlation_logM_h": -0.8073355730505857,
+      "top10_error_zone_refinement_pct": 14.527027027027026
+    }
+  },
+  "parameter_reconstruction_epistemology": {
+    "base_driving_state": "PAPER_VERIFIED / PROJECT_VERIFIED",
+    "geometry_and_coarse_mesh": "PAPER_VERIFIED",
+    "error_target": "UNRESOLVED_IN_PAPER_TEXT_OFAT_SWEEP_EXECUTED",
+    "bounds_hmin_0p001_hmax_0p020": "INFERRED",
+    "error_indicator_miseseri": "PAPER_VERIFIED",
+    "sizing_method_uniform_error": "PROJECT_VERIFIED / INFERRED"
+  },
+  "forensic_classification_f1308": {
+    "element_count": 11972,
+    "node_count": 12064,
+    "notes": "Historical 11,972 mesh originated in Task F1291; F1308 evaluated Step-1 data on existing mesh without new adaptiveRemesh call.",
+    "classification": "REUSED_EXISTING_MESH_DIAGNOSTIC"
+  },
+  "best_matching_candidate": "ET_2PCT",
+  "task_id": "F1315-MODE2-M2-3-NATIVE-REMESH-REPRODUCTION-AND-FORENSICS",
+  "acceptance_criteria_summary": {
+    "historical_f1308_non_identity_verified": true,
+    "all_candidates_within_40k_elements": false,
+    "corridor_localization_consistent": true,
+    "zero_solver_runs_enforced": true,
+    "pearson_correlation_pass": false,
+    "top10_refinement_pass": true
+  },
+  "timestamp": "2026-10-07T21:00:00+02:00",
+  "governing_reference": "Pandey & Kumar (2025) CMES, Section 4.2",
+  "source_odb": {
+    "path": "/scratch9/pr21vyci/runs/mode2_j1_miehe_horizon/Job-1_UEL_paper_horizon.odb",
+    "step": "Step-1",
+    "miseseri_stats": {
+      "count": 2960,
+      "max": 6.135603770928214e-14,
+      "mean": 7.643169586050966e-16,
+      "min": 2.4338267512045742e-17
+    },
+    "frame_index": -1,
+    "driving_displacement_mm": 0.01
+  },
+  "schema_version": "1.0.0"
+}
