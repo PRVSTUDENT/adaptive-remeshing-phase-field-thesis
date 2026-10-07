@@ -1,10 +1,11 @@
 # Mode-II Current State and Governed Lineage
 
-**Last Updated:** 2026-10-07 12:30 CEST  
-**Governing Phase:** `MODE2_REMESHER_MECHANISM_VS_FIELD_DIAGNOSTIC` (Task F1291)  
+**Last Updated:** 2026-10-07 13:30 CEST  
+**Governing Phase:** `MODE2_REMESHER_MECHANISM_VS_FIELD_DIAGNOSTIC` (Task F1291/F1293)  
 **Governing Agent:** Gemini Antigravity  
 **Diagnostic Status:** `CASE_A_CONFIRMED: REMESHER_FAITHFULLY_FOLLOWS_MISESERI_FIELD (DEFECT_IS_UPSTREAM)`  
-**Audit Status:** `AUDIT_FAILED: NATIVE_ADAPTIVE_MESH_DOES_NOT_FOLLOW_MODE2_CRACK_PATH`  
+**Audit Status:** `FAILED_SPATIAL_TRAJECTORY_AUDIT` (`AUDIT_FAILED: NATIVE_ADAPTIVE_MESH_DOES_NOT_FOLLOW_MODE2_CRACK_PATH`)  
+**Canonical Mesh Invariants:** Coarse pre-analysis (Job `1410178.mmaster02`): 2,960 finite elements (2,860 CPE4 + 100 CPE3), $h_{\text{global}} = 0.020\,\text{mm}$; Adapted ET2: 21,496 finite elements, 21,615 native nodes, 64,488 layered elements in `Job-2_UEL.inp`.  
 **Execution Boundary:** **STRICT SOLVER GATE -- ZERO SOLVER RUNS AUTHORIZED**
 
 ---
