@@ -1,10 +1,10 @@
 {
-  "task_id": "F1291-MODE2-REMESHER-MECHANISM-VS-FIELD-DIAGNOSTIC",
-  "task_name": "Mode-II Remeshing Mechanism Diagnostic vs MISESERI Field Investigation",
+  "task_id": "F1292-PROBLEM-AGNOSTIC-REMESHER-QUALIFICATION-AND-AUDIT",
+  "task_name": "Problem-Agnostic Adaptive-Remeshing Pipeline Qualification and Hidden-Assumption Audit",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "start_time": "2026-10-07T12:00:00+02:00",
-  "end_time": "2026-10-07T12:35:00+02:00",
-  "governing_phase": "MODE2_REMESHER_MECHANISM_VS_FIELD_DIAGNOSTIC",
-  "description": "Perform remeshing-mechanism-only diagnostic for Mode-II without running fracture simulations or modifying UEL formulation. Determine whether spatial corridor mismatch originates in adaptive-remeshing implementation/configuration or upstream in the MISESERI field. Compare Mode-I and Mode-II remeshing pipelines line-by-line; extract MISESERI from multiple pre-analysis frames (pre-localization, initiation, intermediate, final); test remeshing response to field; quantify local MISESERI vs element sizing h and spatial overlap; classify Case A (remesher follows MISESERI faithfully, fault is upstream) vs Case B (remesher defect); protect Mode-I; produce decision table and 2-panel figure; update governance."
+  "start_time": "2026-10-07T12:45:00+02:00",
+  "end_time": "2026-10-07T13:30:00+02:00",
+  "governing_phase": "PROBLEM_AGNOSTIC_REMESHER_QUALIFICATION",
+  "description": "Perform problem-independent adaptive-remeshing pipeline qualification: (1) query fresh scheduler state (qstat -u pr21vyci); (2) audit active remeshing Python scripts for hidden benchmark-specific assumptions (y=0.5, x=0.5, hardcoded corridors/sets/bounds/masks) and refactor into explicit generic config schema; (3) establish reusable contract (FE stress field -> MISESERI -> RemeshingRule -> adaptiveRemesh -> new topology); (4) test generic pipeline on 3 spatially distinct patterns: Mode-I horizontal, Mode-II inclined, and third non-symmetric geometry (hole/notched-hole/L-panel); (5) measure quantitative fidelity metrics (% top 10% refined, % fine in high error, r(log M, h), spatial overlap, size bounds); (6) generate true element-edge figures; (7) isolate remaining Mode-II problem as upstream constitutive/BC defect; (8) protect Mode-I with regression tests; (9) zero Mode-II fracture solve submissions."
 }

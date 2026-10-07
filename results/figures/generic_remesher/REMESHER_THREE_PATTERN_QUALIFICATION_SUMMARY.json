@@ -1,0 +1,49 @@
+{
+  "overall_status": "QUALIFIED_PASS",
+  "qualification_contract": "FE stress field -> MISESERI -> RemeshingRule -> mdb.adaptiveRemesh(odb) -> new topology",
+  "audit_conclusion": "Remesher engine is fully problem-agnostic and error-guided across tested patterns",
+  "patterns": [
+    {
+      "case_name": "Pattern 1: Mode-I Straight Localization",
+      "coarse_elements": 2906,
+      "adapted_elements": 56344,
+      "pearson_r": -0.6998220480169298,
+      "pct_top10_refined": 100.0,
+      "pct_fine_in_high_m": 80.26167622928844,
+      "h_min": 0.0006366549498480567,
+      "h_max": 0.017796268609934864,
+      "h_mean": 0.003697548428335047,
+      "h_median": 0.0031168830806911347,
+      "bounds_respected": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_name": "Pattern 2: Mode-II Inclined Localization",
+      "coarse_elements": 8880,
+      "adapted_elements": 11972,
+      "pearson_r": -0.6278000490645574,
+      "pct_top10_refined": 96.50745705116104,
+      "pct_fine_in_high_m": 95.91785624843476,
+      "h_min": 0.0007969076377331843,
+      "h_max": 0.024906092506720497,
+      "h_mean": 0.007659791498591805,
+      "h_median": 0.007435438601367845,
+      "bounds_respected": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_name": "Pattern 3: L-Panel Non-Symmetric Re-Entrant Corner",
+      "coarse_elements": 571,
+      "adapted_elements": 4324,
+      "pearson_r": -0.833238189487087,
+      "pct_top10_refined": 100.0,
+      "pct_fine_in_high_m": 85.98694123556002,
+      "h_min": 0.001898024114138751,
+      "h_max": 0.040750135537482836,
+      "h_mean": 0.011188347700941886,
+      "h_median": 0.009642198766222604,
+      "bounds_respected": true,
+      "verdict": "PASS"
+    }
+  ]
+}
