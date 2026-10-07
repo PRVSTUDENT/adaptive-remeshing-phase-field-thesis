@@ -402,23 +402,21 @@ def test_generate_and_verify_visual_review_bundle():
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10.5, 4.8), dpi=90)
     norm_p2 = LogNorm(vmin=max(np.min(coarse_m_vals_p2), 1e-25), vmax=np.max(coarse_m_vals_p2))
     
-    # Left: Coarse MISESERI + Computed Ridge
+    # Left: Coarse MISESERI + Computed Ridge (Without misleading analytical -43.88 deg line)
     pc_coarse_p2 = PolyCollection(coarse_polys_valid_p2, array=coarse_m_vals_p2, cmap='plasma', norm=norm_p2,
                                   edgecolors='black', linewidths=0.25, alpha=0.95)
     ax1.add_collection(pc_coarse_p2)
-    ax1.plot([0.0, 0.5], [0.5, 0.5], color='white', lw=2.0, ls='--', label='Initial Slit (a0=0.5)')
-    ax1.plot(0.5, 0.5, 'w*', markersize=10)
+    ax1.plot([0.0, 0.5], [0.5, 0.5], color='white', lw=2.0, ls='--', label='Initial Slit ($a_0 = 0.5$ mm)')
+    ax1.plot(0.5, 0.5, 'w*', markersize=10, label='Slit Tip (0.5, 0.5)')
     ax1.plot(ridge_info_p2['ridge_x'], ridge_info_p2['ridge_y'], 'c-o', lw=2.0, markersize=4.0,
-             label=f"Computed Ridge (Slope={ridge_info_p2['slope']:.3f}, Angle={ridge_info_p2['fitted_angle_deg']:.1f}°)")
-    ax1.plot([0.5, 1.0], [0.5, 0.5 + 0.5 * np.tan(np.radians(-43.88))], 'r:', lw=1.5,
-             label='Theoretical -43.88° Crack Path (Retracted for Pre-Analysis)')
+             label=f"Extracted Ridge (Slope={ridge_info_p2['slope']:.3f}, Angle={ridge_info_p2['fitted_angle_deg']:.1f}°)")
     ax1.set_xlim([-0.02, 1.02])
     ax1.set_ylim([-0.02, 1.02])
     ax1.set_aspect('equal')
-    ax1.set_title(f"Raw Input MISESERI Field + Extracted Ridge\nCoarse Mesh: {len(coarse_polys_valid_p2):,} FEs (2,860 CPE4 + 100 CPE3)", fontsize=9.2, fontweight='bold')
+    ax1.set_title(f"(a) Raw Input MISESERI Indicator Field + Extracted Ridge\nCoarse Mesh: {len(coarse_polys_valid_p2):,} FEs (2,860 CPE4 + 100 CPE3)", fontsize=9.2, fontweight='bold')
     ax1.set_xlabel("x (mm)", fontsize=8.8, fontweight='bold')
     ax1.set_ylabel("y (mm)", fontsize=8.8, fontweight='bold')
-    ax1.legend(loc='upper right', fontsize=7.2, framealpha=0.92)
+    ax1.legend(loc='upper right', fontsize=7.5, framealpha=0.92)
     cbar_p2 = plt.colorbar(pc_coarse_p2, ax=ax1, fraction=0.046, pad=0.04)
     cbar_p2.set_label("MISESERI (MPa)", fontsize=8.0)
     
@@ -429,24 +427,24 @@ def test_generate_and_verify_visual_review_bundle():
     ax2.add_collection(pc_adapted_p2)
     ax2.plot([0.0, 0.5], [0.5, 0.5], color='blue', lw=2.0, ls='--', label='Initial Slit')
     ax2.plot(ridge_info_p2['ridge_x'], ridge_info_p2['ridge_y'], 'c-o', lw=2.0, markersize=4.0,
-             label=f"Computed MISESERI Ridge (Exits x=1.0 at y={ridge_info_p2['y_exit_at_x1']:.2f})")
+             label=f"Extracted Ridge (Exits $x=1.0$ at $y={ridge_info_p2['y_exit_at_x1']:.2f}$)")
     ax2.set_xlim([-0.02, 1.02])
     ax2.set_ylim([-0.02, 1.02])
     ax2.set_aspect('equal')
-    ax2.set_title(f"Resulting True Adaptive Mesh (Abaqus RemeshingRule)\nAdapted Mesh: {n_spatial_p2:,} FEs ({n_quads_p2:,} Quads + {n_tris_p2:,} Tris)", fontsize=9.2, fontweight='bold')
+    ax2.set_title(f"(b) Resulting True Adaptive Mesh (Abaqus RemeshingRule)\nAdapted Mesh: {n_spatial_p2:,} FEs ({n_quads_p2:,} Quads + {n_tris_p2:,} Tris)", fontsize=9.2, fontweight='bold')
     ax2.set_xlabel("x (mm)", fontsize=8.8, fontweight='bold')
     ax2.set_ylabel("y (mm)", fontsize=8.8, fontweight='bold')
-    ax2.legend(loc='upper right', fontsize=7.2, framealpha=0.92)
+    ax2.legend(loc='upper right', fontsize=7.5, framealpha=0.92)
     
     suptitle_p2 = (
-        "Pattern 2: Mode-II Shear Pre-Analysis — Field-Following Visual Review\n"
+        "Pattern 2: Mode-II Shear Pre-Analysis — Indicator vs Adapted Mesh Review\n"
         f"Ridge Trajectory: Starts (0.50, 0.50) -> Exits Right Boundary (1.00, {ridge_info_p2['y_exit_at_x1']:.2f}) | Angle: {ridge_info_p2['fitted_angle_deg']:.1f}° (PCA: {ridge_info_p2['pca_angle_deg']:.1f}°)\n"
         f"Source ODB: {p2_source_odb} [{p2_step_frame}]"
     )
     fig.suptitle(suptitle_p2, fontsize=9.8, fontweight='bold', y=0.98)
     
     footer_p2 = (
-        "Status: VISUAL_PASS_REMESHER_FIELD_FOLLOWING (Passes remesher field-following; fails/not validated for -43.88° fracture trajectory)\n"
+        "Status: VISUAL_PASS_REMESHER_FIELD_FOLLOWING (High field-to-mesh fidelity; pre-analysis indicator reflects coarse elastic stress error, not damage/crack path)\n"
         f"Fidelity: Pearson r(log10 M, h) = {p2_fidelity['pearson_r_logM_h']:.3f} | Top 10% MISESERI Refined = {p2_fidelity['top10_refined_fraction']*100:.1f}%\n"
         "Remeshing Sizing: UNIFORM_ERROR, errorTarget=5.0% (target characteristic size), minSize=0.001 mm, maxSize=0.025 mm"
     )
@@ -506,7 +504,7 @@ def test_generate_and_verify_visual_review_bundle():
     ax1.set_xlim([-0.02, 1.02])
     ax1.set_ylim([-0.02, 1.02])
     ax1.set_aspect('equal')
-    ax1.set_title(f"Raw Input MISESERI Indicator Field\nCoarse Mesh: {len(coarse_polys_valid_p3):,} FEs (561 CPE4 + 10 CPE3)", fontsize=9.2, fontweight='bold')
+    ax1.set_title(f"(a) Raw Input MISESERI Indicator Field\nCoarse Mesh: {len(coarse_polys_valid_p3):,} FEs (561 CPE4 + 10 CPE3)", fontsize=9.2, fontweight='bold')
     ax1.set_xlabel("x (mm)", fontsize=8.8, fontweight='bold')
     ax1.set_ylabel("y (mm)", fontsize=8.8, fontweight='bold')
     ax1.legend(loc='upper right', fontsize=7.8)
@@ -521,22 +519,22 @@ def test_generate_and_verify_visual_review_bundle():
     ax2.set_xlim([-0.02, 1.02])
     ax2.set_ylim([-0.02, 1.02])
     ax2.set_aspect('equal')
-    ax2.set_title(f"Resulting True Adaptive Mesh (Abaqus RemeshingRule)\nAdapted Mesh: {n_spatial_p3:,} FEs ({n_quads_p3:,} Quads + {n_tris_p3:,} Tris)", fontsize=9.2, fontweight='bold')
+    ax2.set_title(f"(b) Resulting True Adaptive Mesh (Abaqus RemeshingRule)\nAdapted Mesh: {n_spatial_p3:,} FEs ({n_quads_p3:,} Quads + {n_tris_p3:,} Tris)", fontsize=9.2, fontweight='bold')
     ax2.set_xlabel("x (mm)", fontsize=8.8, fontweight='bold')
     ax2.set_ylabel("y (mm)", fontsize=8.8, fontweight='bold')
     ax2.legend(loc='upper right', fontsize=7.8)
     
     suptitle_p3 = (
-        "Pattern 3: L-Panel Re-Entrant Corner — Visual Mesh Review\n"
-        f"Source ODB: {p3_source_odb} [{p3_step_frame}] | Coarse: 571 FEs -> Adapted: {n_spatial_p3:,} FEs\n"
-        "Abaqus RemeshingRule: errorTarget = 5.0% (target characteristic size), minSize = 0.002 mm, maxSize = 0.040 mm"
+        "Pattern 3: L-Panel Re-Entrant Corner — Sizing & Fidelity Review\n"
+        f"Pre-Analysis: 571 FEs (561 Quads + 10 Tris) | Adapted Mesh: {n_spatial_p3:,} FEs ({n_quads_p3:,} Quads + {n_tris_p3:,} Tris)\n"
+        f"Source ODB: {p3_source_odb} [{p3_step_frame}]"
     )
     fig.suptitle(suptitle_p3, fontsize=9.8, fontweight='bold', y=0.98)
     
     footer_p3 = (
-        f"Status: READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW (Provenance reconciled: 571 coarse FE / 618 nodes; '1200' was line count)\n"
-        f"Fidelity: Pearson r(log10 M, h) = {p3_fidelity['pearson_r_logM_h']:.3f} | Top 10% MISESERI Refined = {p3_fidelity['top10_refined_fraction']*100:.1f}%\n"
-        f"Element Edge Lengths in [{np.min(adapted_mesh_p3['edge_min']):.5f}, {np.max(adapted_mesh_p3['edge_max']):.5f}] mm"
+        f"Status: READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW | Pearson r(log10 M, h) = {p3_fidelity['pearson_r_logM_h']:.3f} | "
+        f"Top 10% MISESERI Refined = {p3_fidelity['top10_refined_fraction']*100:.1f}%\n"
+        "Remeshing Sizing: UNIFORM_ERROR, errorTarget=5.0% (target characteristic size), minSize=0.002 mm, maxSize=0.040 mm"
     )
     fig.text(0.5, 0.02, footer_p3, ha='center', fontsize=7.5, style='italic',
              bbox=dict(boxstyle='round,pad=0.3', facecolor='whitesmoke', edgecolor='silver', alpha=0.9))
@@ -569,7 +567,7 @@ def test_generate_and_verify_visual_review_bundle():
     manifest_data = {
         "manifest_title": "Visual Review Bundle, Lineage Reconciliation, and Fidelity Manifest (Final Review)",
         "overall_status": "PENDING_CHATGPT_FINAL_VISUAL_REVIEW",
-        "created_at": "2026-10-07T14:25:00+02:00",
+        "created_at": "2026-10-07T14:35:00+02:00",
         "agent": "gemini-antigravity",
         "pattern_statuses": {
             "pattern1_mode1": "READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW",
@@ -590,11 +588,12 @@ def test_generate_and_verify_visual_review_bundle():
             },
             "pattern2_mode2": {
                 "evaluation_verdict": "VISUAL_PASS_REMESHER_FIELD_FOLLOWING",
+                "evaluation_criterion": "Field-to-mesh fidelity (evaluates whether adaptive mesh faithfully resolves the input error indicator; pre-analysis elastic stress indicator is distinct from nonlinear fracture path)",
                 "mode2_fracture_path_verdict": "FAIL_NOT_VALIDATED_FOR_DOWNSTREAM_FRACTURE_TRAJECTORY",
                 "ridge_fit_angle_deg": ridge_info_p2['fitted_angle_deg'],
                 "pca_angle_deg": ridge_info_p2['pca_angle_deg'],
                 "right_boundary_exit_y": ridge_info_p2['y_exit_at_x1'],
-                "retraction_note": "The -43.88 deg claim is retracted for the pre-analysis field; remesher faithfully followed actual -12.3 deg pre-analysis stress band."
+                "retraction_note": "Theoretical -43.88 deg line removed from diagnostic display: analytical infinite-domain angle is not an established reference for finite shear boundary value problem; remesher faithfully followed actual -12.3 deg pre-analysis stress band."
             },
             "pattern3_lpanel": {
                 "coarse_finite_elements": 571,

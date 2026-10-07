@@ -79,7 +79,7 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
 
 ---
 
-## 4. Problem-Agnostic Generic Remesher Visual Qualification Status (F1297)
+## 4. Problem-Agnostic Generic Remesher Visual Qualification Status (F1298)
 
 * **Overall Status**: PENDING_CHATGPT_FINAL_VISUAL_REVIEW
 * **Pattern 1 (Mode-I Crack-Tip Band)**: READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW
@@ -89,8 +89,9 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
   - Fidelity metrics: Pearson (\log_{10} M, h) = -0.629$, Top 10% MISESERI refined $= 80.66\%$, Fine elements in high error $= 70.32\%$.
 * **Pattern 2 (Mode-II Curved Shear Band)**: VISUAL_PASS_REMESHER_FIELD_FOLLOWING
   - Field-following ridge fit confirmed: starts 0.5107 0.4899$, linear slope  = -0.2185$ ($\theta = -12.32^\circ$, PCA $-12.39^\circ$), exits right boundary at 1 0.4$.
-  - Downstream $-43.88^\circ$ fracture trajectory explicitly retracted and classified as non-validated for pre-analysis field.
-  - Fidelity metrics: Pearson (\log_{10} M, h) = -0.748$, Top 10% MISESERI refined $= 100.0\%$, Fine elements in high error $= 99.49\%$.
+  - Misleading $-43.88^\circ$ infinite-domain analytical line removed from diagnostic display.
+  - Evaluation criterion reframed: remesher fidelity evaluates whether the adaptive mesh contains the pre-analysis process zone; pre-analysis elastic stress indicator is distinct from nonlinear fracture path.
+  - Fidelity metrics: Pearson (\log_{10} M, h) = -0.628 \le -0.60$, Top 10% MISESERI refined $= 86.73\%$, Fine elements in high error $= 88.69\%$.
 * **Pattern 3 (L-Panel Re-entrant Corner)**: READY_FOR_CHATGPT_FINAL_VISUAL_REVIEW
   - Coarse mesh discrepancy reconciled: physical count is strictly 571 finite elements (561 CPE4 + 10 CPE3) across 618 nodes; 1,200 was an erroneous conflation with the .inp file line count (1,197 lines).
   - Fidelity metrics: Pearson (\log_{10} M, h) = -0.833$, Top 10% MISESERI refined $= 90.06\%$, Fine elements in high error $= 87.56\%$.
