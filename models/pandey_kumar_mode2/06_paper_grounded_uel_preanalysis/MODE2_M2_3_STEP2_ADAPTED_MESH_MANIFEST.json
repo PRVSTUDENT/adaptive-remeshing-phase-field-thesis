@@ -1,0 +1,58 @@
+{
+    "artifacts": {
+        "elements_csv": {
+            "sha256": "b187634a8294db2ed5142284bedc6f8298f90709763966a666feecfdcdbf3422", 
+            "filename": "m2_3_mesh_elements_step2_et2pct.csv"
+        }, 
+        "nodes_csv": {
+            "sha256": "fe5cfe70d8f3ecded906cd1fe0eaf7646967370d4c2be6cf5dce40da05fcb549", 
+            "filename": "m2_3_mesh_nodes_step2_et2pct.csv"
+        }, 
+        "input_deck": {
+            "size_bytes": 1568979, 
+            "sha256": "9c453eb3b004c3a0d9727fc380ff04631108fa091b846a89bc62ca64c800c563", 
+            "filename": "M2_3_ADAPTED_STEP2_RAW_2PCT.inp"
+        }
+    }, 
+    "benchmark": "Pandey & Kumar (2025) Mode-II Shear Test Section 4.2", 
+    "provenance": {
+        "source_frame_id": 2000, 
+        "source_frame_value": 1.0, 
+        "prescribed_shear_disp_ux_mm": 0.02, 
+        "source_step": "Step-2", 
+        "source_odb": "Job-1_UEL_paper_horizon.odb", 
+        "remeshing_rule": {
+            "sizing_method": "UNIFORM_ERROR", 
+            "variables": [
+                "MISESERI"
+            ], 
+            "min_element_size_mm": 0.001, 
+            "max_element_size_mm": 0.02, 
+            "coarsening_factor": "NOT_ALLOWED", 
+            "error_target_pct": 2.0, 
+            "refinement_factor": 10
+        }
+    }, 
+    "mesh_topology": {
+        "h_mean_mm": 0.005849109027442635, 
+        "fine_elements_count": 16582, 
+        "h_median_mm": 0.005775144327443023, 
+        "tri_elements": 578.0, 
+        "total_nodes": 22512, 
+        "h_max_mm": 0.020319836558863345, 
+        "total_finite_elements": 22405, 
+        "h_min_mm": 0.000758998097122857, 
+        "quad_elements": 21827.0, 
+        "fine_elements_fraction_pct": 74.01026556572194
+    }, 
+    "mesh_designation": "M2_3_ADAPTED_STEP2_RAW_2PCT", 
+    "comparison_vs_step1_mesh": {
+        "step2_elements": 22405, 
+        "step1_elements": 22530, 
+        "step2_nodes": 22512, 
+        "element_difference_pct": -0.554815801154017, 
+        "element_difference": -125, 
+        "topological_equivalence_verdict": "CONFIRMED_SCALE_INVARIANT_EQUIVALENT", 
+        "step1_nodes": 22642
+    }
+}
