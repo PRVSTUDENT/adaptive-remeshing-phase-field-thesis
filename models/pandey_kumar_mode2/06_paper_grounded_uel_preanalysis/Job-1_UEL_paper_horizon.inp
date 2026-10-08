@@ -11982,9 +11982,9 @@
 ** PROPERTIES & MATERIALS
 ** ----------------------------------------------------------
 *UEL Property, elset=PHASE_ELEM
-0.015, 0.0027, 210.0, 0.3, 1.0e-7, 2960.
+210.0, 0.3, 0.0027, 0.015, 1.0e-7, 2960.
 *UEL Property, elset=MECH_ELEM
-0.015, 0.0027, 210.0, 0.3, 1.0e-7, 2960.
+210.0, 0.3, 0.0027, 0.015, 1.0e-7, 2960.
 *Solid Section, elset=All_elem, material=UMAT_MAT
 1.0,
 *Material, name=UMAT_MAT

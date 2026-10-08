@@ -1,16 +1,16 @@
 #!/bin/bash
-#PBS -N M2_J2_ADAPTED_FRACTURE
+#PBS -N M2_J2_ADAPT_RETEST
 #PBS -q entry_imfdfkmq
 #PBS -l nodes=1:ppn=1
 #PBS -l mem=16gb
 #PBS -l walltime=24:00:00
 #PBS -M pr21vyci@mailserver.tu-freiberg.de
 #PBS -m abe
-#PBS -o M2_J2_ADAPTED_FRACTURE.out
-#PBS -e M2_J2_ADAPTED_FRACTURE.err
+#PBS -o M2_J2_ADAPT_RETEST.out
+#PBS -e M2_J2_ADAPT_RETEST.err
 
 set -euo pipefail
-WORKDIR="/scratch9/pr21vyci/runs/mode2_j2_adapted_fracture"
+WORKDIR="/scratch9/pr21vyci/runs/mode2_j2_adapted_fracture_retest"
 mkdir -p "$WORKDIR"
 cd "$WORKDIR" || exit 1
 
@@ -33,9 +33,9 @@ module load gcc/11.4.0
 module load intel/2024.2.0
 module load abaqus/2023
 
-echo "=== STARTING MODE-II JOB-2_UEL MIEHE ADAPTED FRACTURE SOLVER (1 CPU serial, Mem: 16GB) ==="
+echo "=== STARTING MODE-II GATE M2-4 JOB-2_UEL MIEHE ADAPTED FRACTURE RETEST (1 CPU serial, Mem: 16GB) ==="
 rm -f Job-2_UEL.lck Job-2_UEL.023 uel_energy_balance.csv
 abaqus job=Job-2_UEL user=f42_mixed_uel_mode2_miehe.for input=Job-2_UEL.inp cpus=1 double=both interactive
 ABAQUS_EXIT=$?
-echo "=== FINISHED MODE-II JOB-2_UEL MIEHE ADAPTED FRACTURE SOLVER (EXIT: $ABAQUS_EXIT) ==="
+echo "=== FINISHED MODE-II GATE M2-4 JOB-2_UEL MIEHE ADAPTED FRACTURE RETEST (EXIT: $ABAQUS_EXIT) ==="
 exit "$ABAQUS_EXIT"
