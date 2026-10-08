@@ -1,8 +1,17 @@
 {
     "active": false,
-    "agent": null,
-    "task_id": null,
-    "session_start": null,
-    "starting_commit": null,
-    "allowed_write_scope": []
+    "agent": "gemini-antigravity",
+    "task_id": "F1346-MODE2-CRITICAL-SCIENTIFIC-FALSIFICATION-AUDIT-AND-CORRECTED-PREANALYSIS",
+    "session_start": "2026-10-08T18:28:45+02:00",
+    "session_end": "2026-10-08T19:05:00+02:00",
+    "starting_commit": "c8f0bb56bc757b4a4806973500d62f23b125af61",
+    "allowed_write_scope": [
+        "project_coordination/",
+        "docs/mode2/",
+        "models/pandey_kumar_mode2/",
+        "scripts/",
+        "references/",
+        "results/",
+        "tests/"
+    ]
 }
