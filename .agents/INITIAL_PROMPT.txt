@@ -1,0 +1,271 @@
+# Updated thesis plan — Following the supervisor meeting of 8 October 2026
+
+Planning stage — no implementation changes yet
+
+After reviewing the meeting summary and the existing project instructions, I recommend revising our project goals before giving Antigravity any further implementation tasks.
+
+The most important outcome of the meeting is that our thesis should progress from reproducing the Pandey–Kumar adaptive remeshing method toward investigating a more general, configurable, and computationally efficient adaptive refinement framework.
+
+However, we must proceed in stages, preserving everything we have already validated.
+
+## 1. What the supervisor actually wants
+
+I identified five main objectives from the meeting.
+
+| Priority | Supervisor's objective                                    | Our response                                                                 |
+| -------- | --------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 1        | Verify the current methodology on Mode-II fracture        | Complete and validate Mode-II reproduction                                   |
+| 2        | Investigate the effect of subdividing the loading process | Compare 1, 2, and 4 load partitions                                          |
+| 3        | Investigate remeshing during sequential crack propagation | Develop a separate incremental-remeshing strategy                            |
+| 4        | Quantify accuracy and computational efficiency            | Perform controlled convergence and timing studies                            |
+| 5        | Demonstrate general applicability                         | Eventually investigate a curved crack path, potentially influenced by a hole |
+
+The supervisor also emphasized documenting the assumptions of the present linear-elastic phase-field formulation. Plasticity, contact, and alternative error indicators are potential future extensions, not immediate requirements.
+
+## 2. An important correction to our previous decisions
+
+Earlier, we agreed:
+
+> Strategy A only. Discard Strategy B.
+
+That decision was appropriate when our immediate objective was reproducing Pandey and Kumar.
+
+Following today's meeting, we should revise that restriction rather than retain it indefinitely.
+
+The supervisor specifically expressed interest in sequential refinement as the crack advances.
+
+However, there are three distinct numerical approaches:
+
+Method A — Two-pass pre-refinement
+
+Current baseline
+
+Coarse simulation → MISESERI → one remeshing operation → fresh simulation from the initial state.
+
+No state transfer is required.
+
+Method B — Multiple load partitions, one remeshing operation
+
+Divide loading into 1, 2, or 4 Abaqus steps → evaluate the preliminary solution → remesh once → fresh final simulation.
+
+This allows us to study loading schedules, but does not constitute sequential remeshing.
+
+Method C — Sequential adaptive remeshing
+
+Load incrementally → evaluate the current error field → remesh → preserve the required solution state → continue loading.
+
+This is the supervisor's proposed extension. Genuine continuation requires verified state transfer or another demonstrably equivalent continuation mechanism.
+
+My recommendation is to retain Method A as the verified reference, investigate Method B first, and develop Method C as a separately gated thesis contribution.
+
+This respects the supervisor's directions without prematurely replacing the existing methodology.
+
+## 3. The new primary research goal
+
+I propose replacing our previous narrow automation goal with the following:
+
+## Proposed thesis implementation goal
+
+Develop and evaluate a configurable Abaqus Python framework for adaptive mesh refinement in phase-field fracture simulations using native Abaqus error estimation and remeshing.
+
+The framework shall support automated pre-refinement and investigate sequential refinement during crack propagation, without requiring the crack trajectory to be prescribed in advance.
+
+Its effectiveness shall be assessed through fracture-response accuracy, mesh convergence, computational cost, robustness, and reproducibility.
+
+Two distinct objectives must remain equally important:
+
+Scientific accuracy
+
+Correct force–displacement response, crack trajectory, damage localization, and energy evolution.
+
+Computational efficiency
+
+Lower total runtime, memory use, and unnecessary mesh refinement, including preprocessing and remeshing overhead.
+
+A finer-looking mesh or a lower element count alone does not establish success.
+
+## 4. Changes required in our project rules
+
+I propose these revisions to our existing project instructions.
+
+| Rule                  | Proposed update                                                                                                            |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Remeshing methodology | Two-pass Pandey–Kumar reproduction remains the baseline; sequential remeshing becomes a separately investigated extension. |
+| Load-step selection   | Do not hardcode two Abaqus steps. Make load partitioning configurable.                                                     |
+| Solution increments   | Control maximum displacement/time increment independently of the number of Abaqus steps.                                   |
+| MISESERI evaluation   | Explicitly record the selected step/frame and compare candidate states where necessary.                                    |
+| Automatic remeshing   | No manually prescribed crack path or refinement corridor in the general controller.                                        |
+| State transfer        | Mandatory verification gate before claiming genuine continuation on a newly generated mesh.                                |
+| Coarsening            | Initially disabled; only investigate after damage irreversibility and mesh-to-mesh mapping have been verified.             |
+| Scientific validation | Require global force response, spatial crack measures, energy diagnostics, and solver performance.                         |
+| Scope                 | Current bulk material remains linear elastic with phase-field damage. More complex constitutive models are future work.    |
+| Reproducibility       | Preserve benchmark baselines, raw ODB evidence, configuration files, and scientific provenance.                            |
+
+One correction is particularly important: MISESERI is a recovered-stress discretization-error indicator, not simply the von Mises stress field or the phase-field damage field. Its relevance to the fracture region must be demonstrated, particularly given our UEL/companion-element arrangement.
+
+### Existing documents to revise
+
+The project has several documents that should be brought into alignment.
+
+| File                                              | Planned update                                                                                       |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `.agent.md`                                       | Replace outdated project status, clarify new strategy boundaries and mandatory validation gates      |
+| `THESIS_PLAN.md`                                  | Introduce load-partition and sequential-remeshing studies                                            |
+| `README.md`                                       | Describe the current capabilities and planned extension accurately                                   |
+| `docs/decisions/2026-10-08_supervisor_meeting.md` | Preserve the meeting decisions and scope changes                                                     |
+| `docs/methods/`                                   | Add an explicit description of load steps, increments, remeshing events, and state transfer          |
+| Antigravity controller rules                      | Align task authorization and project gates without allowing substitutions for mandatory thesis tasks |
+
+The existing `.agent.md` still contains a July 2026 stage description and requires state-transfer verification before online-remeshing claims. That safeguard remains appropriate, although the status and implementation priorities are outdated.
+
+The formal thesis tasks concerning Python remeshing, reference reproduction, and ABAQUSER integration must also remain in scope.
+
+## 5. Next execution plan
+
+Phase 1 — Close the Mode-II investigation
+
+First priority
+
+Check the results of the corrected Mode-II job `1410807.mmaster02`, validate the physical damage field and force response, and investigate whether the remeshing-frame choice explains the refinement pattern.
+
+Deliverable: Mode-II benchmark verification report with clear pass/fail evidence.
+
+Phase 2 — Study load partitioning without additional remeshing
+
+Begin with Mode-I because it provides the better-established reference. Test one, two, and four Abaqus loading steps while keeping the mesh, loading path, and numerical increment resolution controlled.
+
+Deliverable: force–displacement and computational-cost comparison isolating the effect of step partitioning.
+
+Phase 3 — Make load partitioning configurable
+
+Introduce a configuration parameter controlling the number of loading partitions, with correct absolute boundary-condition values and retained load history.
+
+Separate this parameter from increment-size limits and remeshing frequency.
+
+Deliverable: verified input-deck generator and automated integrity tests.
+
+Phase 4 — Sequential remeshing feasibility
+
+Investigate performing a remeshing operation after an intermediate loading interval, then continuing fracture evolution.
+
+This requires establishing how phase-field damage, irreversibility history, and integration-point variables are preserved across meshes.
+
+Deliverable: controlled transfer/continuation feasibility test, not an unverified automated production workflow.
+
+Phase 5 — Comparative convergence and efficiency study
+
+If Phase 4 passes, investigate one versus multiple remeshing events, selected loading schedules, error targets, and mesh resolutions.
+
+Compare entire force curves, damage fields, crack paths, CPU/wall time, solver iterations, and peak memory.
+
+Deliverable: accuracy–cost comparison and practical parameter recommendations.
+
+Phase 6 — Curved-crack demonstrator
+
+Only after the simpler benchmarks are reliable, investigate a crack approaching a hole, where the path may change as the crack propagates.
+
+Deliverable: a stronger generality demonstration, subject to time and feasibility.
+
+## 6. Initial numerical study matrix
+
+For the first controlled comparison, I recommend the following:
+
+| Case | Abaqus load steps   | Remeshing events     | Purpose                           |
+| ---- | ------------------- | -------------------- | --------------------------------- |
+| P1   | 1                   | 1                    | Single-step, two-pass baseline    |
+| P2   | 2                   | 1                    | Examine step splitting            |
+| P4   | 4                   | 1                    | Examine finer step partitioning   |
+| I2   | 2 loading intervals | 2, if feasible       | Sequential-remeshing pilot        |
+| I4   | 4 loading intervals | Up to 4, if feasible | Later sequential-refinement study |
+
+The I2 and I4 cases remain conditional on a verified continuation mechanism.
+
+We must also perform a separate increment-size convergence study. Dividing one load step into four Abaqus steps does not automatically mean that four times as many equilibrium increments have been performed.
+
+For the initial P1/P2/P4 comparison, we should preserve the same total increment schedule as closely as possible. Only the step boundaries should change.
+
+## 7. Critical scientific questions to resolve
+
+There are three particularly important questions.
+
+Question A: When should the mesh be refined?
+
+Our corrected Mode-I result demonstrates that the evaluation state strongly influences mesh localization.
+
+We must investigate whether the final MISESERI field is sufficient or whether refinement should occur before complete stress relaxation.
+
+Question B: Can we continue a fracture simulation after changing the mesh?
+
+This is the biggest technical challenge.
+
+For a history-dependent fracture formulation,
+
+\[ d_{n+1}\geq d_n \]
+
+must be preserved under the appropriate irreversibility convention.
+
+Simply generating a new mesh and continuing the loading without transferring the required fracture and history variables is not a valid sequential continuation.
+
+We could repeatedly replay the entire analysis from the undamaged initial state on a newly refined mesh as an exploratory alternative, but that is not equivalent to genuine incremental remeshing. We must keep the distinction explicit.
+
+Question C: Is repeated remeshing computationally worthwhile?
+
+The total cost must include every operation:
+
+\[ T_{\mathrm{total}} = T_{\mathrm{solver}} + T_{\mathrm{remeshing}} + T_{\mathrm{state\ transfer}} + T_{\mathrm{pre/post}} \]
+
+Not every method contains all these terms. State-transfer cost, for example, is absent in the ordinary two-pass workflow.
+
+A lower element count does not guarantee a shorter total runtime.
+
+## 8. Target for the next supervisor meeting
+
+Thursday, 22 October 2026 — 10:00 AM
+
+The transcript identifies this as the next meeting.
+
+Proposed presentation deliverables
+
+Verified Mode-II result and refinement-field diagnosis
+
+Comparison of 1-, 2-, and 4-step loading on the Mode-I benchmark
+
+Force–displacement and computational-time comparison
+
+Initial assessment of what sequential remeshing and state transfer require
+
+Updated project workflow diagram and subsequent validation plan
+
+0 of 5 deliverables marked complete
+
+I would prioritize the first three numerical deliverables rather than promise that complete sequential remeshing will be operational by 22 October.
+
+## 9. Two corrections to preserve in the meeting record
+
+The provided executive summary states Mode-I Step-1 ends at 0.5 µm and Step-2 at 1.0 µm. The verified values in our report are actually 5 µm and 10 µm, respectively:
+
+\[ 0.005\ \text{mm}=5\ \mu\text{m},\qquad 0.010\ \text{mm}=10\ \mu\text{m}. \]
+
+Also, the discussion occasionally uses one load ramp, one increment, two steps, and two simulations interchangeably. These must be distinguished in our updated documentation. The existing fracture jobs already use multiple numerical increments inside their Abaqus steps.
+
+## 10. Final proposed decision
+
+I recommend adopting this project sequence:
+
+Verified Pandey–Kumar reproduction
+
+Mode-II validation
+
+Controlled load-partition study
+
+Sequential-remeshing feasibility and state-transfer verification
+
+Automated convergence and computational-efficiency study
+
+Curved-crack demonstrator, if feasible
+
+This gives us a realistic progression from reproduction to an independent thesis contribution without jeopardizing the verified Mode-I work or abandoning the mandatory ABAQUSER integration task.
+
+One decision I would like to confirm before we modify the project rules: Shall we formally allow sequential remeshing as a new, separately gated research objective, while keeping the Pandey–Kumar two-pass implementation as the unchanged reference baseline?
+
+That would be my recommended interpretation of today's supervisor meeting.

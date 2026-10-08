@@ -14,29 +14,67 @@ Workflow requirements:
   In this case, instruct Antigravity to proceed with that independent work!
 - Reply "stop" ONLY if:
   All authorized and scientifically justified independent Mode-I work is already executing or completed, and the workflow is genuinely blocked waiting on running jobs to reach terminal state before any further scientific progress can be made.
-- CURRENT MODE-I FUNDAMENTALS GOVERNANCE (SUPERVISOR-ALIGNED ROADMAP):
-  * Active scientific phase: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF.
-  * 71,320-mesh stiffness defect is RESOLVED_AND_CLOSED. Do NOT reopen.
-  * 13,941 vs 71,320 element-count reproduction is CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION. Do NOT reopen.
-  * Priority 1 is UEL Energy Formulation and Output: Status is UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE (source hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6, verified non-invasive with bitwise parity across all 7,000 increments in Job 1409734).
-  * Gate 6B Status: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF (Gate 6B evaluation is complete across all 9 governed jobs, including serial Job 1410179.mmaster02 partial diagnostic and 8-thread SMP Job 1410504.mmaster02 completed full-horizon solve; queue idle / 0 jobs in queue; ready for supervisor review and sign-off on Thursday 08 October 2026, 10:00 CEST).
-  * Gate 6C Status: ON_HOLD_PENDING_GATE6B_CLOSURE (strictly paused on hold until Gate 6B is formally reviewed and closed by supervisor; no automatic promotion merely because energy baseline is qualified).
-  * Parallel Execution Policy:
-    - 8-thread shared-memory SMP execution is empirically qualified for the tested Mode-I formulation/controls (S8 = 3.62x speedup, 100% bitwise parity across 4,890 increments);
-    - 16-thread shared-memory execution is UNQUALIFIED pending independent Stage-A/B verification;
-    - Distributed multi-rank MPI execution is STRICTLY DISQUALIFIED due to unsynchronized replicated COMMON blocks.
-  * Next Supervisor Meeting: Thursday, 08 October 2026, 10:00 CEST. All Mode-I evidence and report material are fully prepared for this meeting.
-  * Mode-I fundamentals work is ACTIONABLE: Independent fundamentals work (convergence analysis, evidence evaluation, report updating) is ACTIONABLE while running jobs execute untouched. Do NOT reply "stop" merely because jobs are running if independent work remains.
-  * Scope restrictions: Mode-II, multi-step state transfer continuation, and Gate 7 visualization remain strictly on HOLD.
 - The exact meaning of "stop":
   "stop" means: leave the currently running PBS jobs untouched; no further independent action is possible right now.
   It does NOT mean: "stop using the cluster" or "halt research while independent work or free HPC capacity remains."
 
 7. When a fresh scheduler result is provided after that wait, evaluate that result and decide the next action.
-
 8. If the scheduler result is terminal (F/C/E), do NOT reply "stop" merely because the job finished. Give the next concrete instruction required to retrieve, inspect, diagnose, or evaluate the actual job evidence.
-
 9. Do not choose the scheduler polling interval yourself.
-
 10. If the supplied information is insufficient for a safe next instruction, reply exactly:
 ESCALATION_UNRESOLVED
+
+---------------- MASTER SCIENTIFIC GOVERNANCE & ROADMAP ----------------
+- Supervisor Meeting Milestones:
+  * Meeting of Thursday, 08 October 2026, 10:00 CEST has concluded.
+  * Next Supervisor Meeting: Thursday, 22 October 2026 — 10:00 AM.
+  * Active Phase: PLANNING_STAGE_SUPERVISOR_MEETING_ALIGNMENT (No direct solver implementation changes before Gate M2-4 evaluation and planning finalization).
+
+- Mode-I Fundamentals Baseline Governance:
+  * Baseline Status: Frozen for supervisor review (tag v2026.10.08-supervisor-meeting-mode1-freeze, source hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6).
+  * 71,320-mesh stiffness defect is RESOLVED_AND_CLOSED. Do NOT reopen.
+  * 13,941 vs 71,320 element-count reproduction is CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION. Do NOT reopen.
+  * Priority 1 is UEL Energy Formulation and Output: Status is UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE (source hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6, verified non-invasive with bitwise parity across all 7,000 increments in Job 1409734).
+  * Gate 6B Status: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF (Gate 6B evaluation is complete across all 9 governed jobs, including serial Job 1410179.mmaster02 partial diagnostic and 8-thread SMP Job 1410504.mmaster02 completed full-horizon solve; queue idle / 0 jobs in queue; ready for supervisor review and sign-off on Thursday, 08 October 2026, 10:00 CEST).
+  * Gate 6C Status: ON_HOLD_PENDING_GATE6B_CLOSURE (strictly paused on hold until Gate 6B is formally reviewed and closed by supervisor; no automatic promotion merely because energy baseline is qualified).
+  * Parallel Execution Policy:
+    - 8-thread shared-memory SMP execution is empirically qualified for the tested Mode-I formulation/controls (S8 = 3.62x speedup, 100% bitwise parity across 4,890 increments);
+    - 16-thread shared-memory execution is UNQUALIFIED pending independent Stage-A/B verification;
+    - Distributed multi-rank MPI execution is STRICTLY DISQUALIFIED due to unsynchronized replicated COMMON blocks.
+
+- Mode-II Benchmark Governance:
+  * Gate M2-0: CLOSED_PASSED.
+  * Gate M2-1: QUALIFIED_DATACHECK_PASSED.
+  * Gate M2-2: COMPLETED_EVALUATED_PASSED (Job 1410790.mmaster02 Exit 0).
+  * Gate M2-3: PROVISIONAL_REQUIRES_DIAGNOSIS (22,530 FE native mesh verified).
+  * Gate M2-4: REPAIRED_SOLVER_SUBMITTED_AND_QUEUED (PBS Job 1410807.mmaster02, 1 CPU serial, 16 GB, normal_imfdfkmq, repaired dynamic N_PHYS indexing, d in [0, 1]).
+  * Execution priority: Await completion of Job 1410807.mmaster02; validate physical damage field and force response. Do NOT submit speculative jobs.
+
+---------------- UPDATED THESIS RULES (POST-08 OCTOBER 2026 SUPERVISOR MEETING) ----------------
+1. Primary Research Goal:
+   Develop and evaluate a configurable Abaqus Python framework for adaptive mesh refinement in phase-field fracture simulations using native Abaqus error estimation and remeshing. The framework shall support automated pre-refinement and investigate sequential refinement during crack propagation, without requiring the crack trajectory to be prescribed in advance.
+
+2. Three Methodological Approaches:
+   - Method A (Two-pass pre-refinement): Current baseline. Coarse simulation -> MISESERI -> one remeshing operation -> fresh simulation from initial state. Zero state transfer required.
+   - Method B (Multiple load partitions, one remeshing operation): Divide loading into 1, 2, or 4 Abaqus steps -> evaluate preliminary solution -> remesh once -> fresh final simulation. Allows studying loading schedules without sequential remeshing.
+   - Method C (Sequential adaptive remeshing): Proposed extension. Load incrementally -> evaluate error -> remesh -> preserve required solution state -> continue loading. Strictly gated on verified state transfer and damage irreversibility (d_{n+1} >= d_n).
+
+3. Governing Project Rule Revisions:
+   - Remeshing methodology: Two-pass Pandey–Kumar reproduction remains the verified baseline; sequential remeshing is a separately investigated and gated extension.
+   - Load-step selection: Do not hardcode two Abaqus steps. Load partitioning is configurable (1, 2, 4 partitions).
+   - Solution increments: Control maximum displacement/time increment independently of Abaqus step count.
+   - MISESERI evaluation: Explicitly record selected step/frame and compare candidate states. MISESERI is a recovered-stress discretization-error indicator on the companion linear-elastic continuum, not phase-field damage error.
+   - Automatic remeshing: No manually prescribed crack path or refinement corridor in the general controller.
+   - State transfer: Mandatory verification gate before claiming genuine continuation on a newly generated mesh.
+   - Coarsening: Initially disabled; only investigate after damage irreversibility and mesh-to-mesh mapping have been verified.
+   - Scientific validation: Require global force response, spatial crack measures, energy diagnostics, and solver performance.
+   - Scope: Bulk material remains linear elastic with phase-field damage. Plasticity, contact, and alternative error indicators are future extensions.
+   - Reproducibility: Preserve benchmark baselines, raw ODB evidence, configuration files, and scientific provenance.
+
+4. Thesis Research Progression:
+   1. Verified Pandey–Kumar reproduction (Mode-I baseline frozen).
+   2. Mode-II validation (Job 1410807 closeout and diagnosis).
+   3. Controlled load-partition study (1, 2, 4 steps on Mode-I benchmark).
+   4. Sequential-remeshing feasibility and state-transfer verification.
+   5. Automated comparative convergence and computational efficiency study (T_total = T_solver + T_remesh + T_transfer + T_pre/post).
+   6. Curved-crack demonstrator (crack approaching a hole, subject to time and feasibility).

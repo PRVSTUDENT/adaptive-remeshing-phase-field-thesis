@@ -1,22 +1,18 @@
 {
     "active":  false,
-    "agent":  "codex",
-    "task_id":  "F1327-MODE1-REPORT-READABILITY-AND-FIGURE-CLEANUP",
-    "session_start":  "2026-10-08T08:41:24.7056258+02:00",
-    "session_end":  "2026-10-08T08:45:10.2787028+02:00",
-    "starting_commit":  "350f6965f34eda276548174329ad9c9a5d7dbb43",
+    "agent":  "gemini-antigravity",
+    "task_id":  "F1328-UPDATE-INITIAL-PROMPT-AND-BRIDGE-RULES",
+    "session_start":  "2026-10-08T12:43:00+02:00",
+    "session_end":  "2026-10-08T12:50:00+02:00",
+    "starting_commit":  "04bdd1a714e4ba7357cc577c438cc113a7d724ec",
     "allowed_write_scope":  [
-                                "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/report_main.tex",
-                                "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/report_main.pdf",
-                                "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/figures/fig_mode1_gate6b_spatial_convergence_synthesis.*",
-                                "results/figures/mode1_gate6b/Mode1_STAGE14_STEP2_ET1_14483.*",
-                                "scripts/postprocessing/plot_gate6b_spatial_convergence_synthesis.py",
-                                "models/pandey_kumar_mode1/33_stage14_step2_remeshing_errortarget_sensitivity/plot_stage14_step2_figures.py",
+                                ".agents/INITIAL_PROMPT.txt",
+                                ".agents/scripts/bridge_rules.txt",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/ACTIVE_TASK.json",
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
                                 "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/*codex_F1327-MODE1-REPORT-READABILITY-AND-FIGURE-CLEANUP.md"
+                                "project_coordination/sessions/*gemini-antigravity_F1328-UPDATE-INITIAL-PROMPT-AND-BRIDGE-RULES.md"
                             ]
 }
