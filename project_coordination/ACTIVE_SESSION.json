@@ -1,9 +1,19 @@
 {
     "active": false,
-    "agent": null,
-    "task_id": null,
-    "session_start": null,
-    "session_end": "2026-10-08T14:56:00+02:00",
-    "starting_commit": "98774c2dc80666436eed9cb9360a0f026d3017a9",
-    "allowed_write_scope": []
+    "agent": "gemini-antigravity",
+    "task_id": "F1334-MODE2-M2-4-COARSE-FORENSIC-AND-ADAPTED-EVALUATION",
+    "session_start": "2026-10-08T14:59:00+02:00",
+    "session_end": "2026-10-08T15:05:00+02:00",
+    "starting_commit": "adf7cc4ab838ed6cd09c3c5f6d8b08ac34581325",
+    "allowed_write_scope": [
+        "models/pandey_kumar_mode2/**",
+        "docs/mode2/**",
+        "docs/experiment_records/**",
+        "results/figures/mode2/**",
+        "scripts/postprocessing/**",
+        "scripts/hpc/**",
+        "project_coordination/**",
+        "tests/unit/**",
+        "MA_AdaptiveRemeshing_Report_2026/**"
+    ]
 }

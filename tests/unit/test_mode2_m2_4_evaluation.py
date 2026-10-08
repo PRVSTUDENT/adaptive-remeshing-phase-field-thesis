@@ -127,6 +127,21 @@ def test_mode2_m2_4_evaluation_report_and_figures():
     assert os.path.getsize(fig1_png) > 10000, "Figure 1 PNG must be non-empty"
     assert os.path.getsize(fig2_png) > 10000, "Figure 2 PNG must be non-empty"
 
+def test_mode2_coarse_retest_and_comparison_figures():
+    """Verify coarse retest figures can be generated and exist."""
+    import sys
+    if REPO_ROOT not in sys.path:
+        sys.path.insert(0, REPO_ROOT)
+    from scripts.postprocessing.plot_mode2_coarse_retest_and_comparison import plot_coarse_and_adapted_comparison
+    plot_coarse_and_adapted_comparison()
+
+    
+    fig_png = os.path.join(FIG_DIR, "fig_mode2_m2_4_coarse_retest_and_comparison.png")
+    fig_pdf = os.path.join(FIG_DIR, "fig_mode2_m2_4_coarse_retest_and_comparison.pdf")
+    assert os.path.exists(fig_png), "Figure PNG must exist: %s" % fig_png
+    assert os.path.exists(fig_pdf), "Figure PDF must exist: %s" % fig_pdf
+    assert os.path.getsize(fig_png) > 10000, "Figure PNG must be non-empty"
+
 def test_mode1_baseline_frozen_immutability():
     """Verify Mode-I baseline files and UEL remain strictly unmodified."""
     m1_uel = os.path.join(MODE1_DIR, "f42_mixed_uel.for")
@@ -138,3 +153,4 @@ def test_mode1_baseline_frozen_immutability():
 
     expected_h = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
     assert h == expected_h, "Mode-I UEL hash mismatch: expected %s, got %s" % (expected_h, h)
+
