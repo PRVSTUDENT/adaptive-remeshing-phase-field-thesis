@@ -1,0 +1,170 @@
+[
+  {
+    "tag": "ux_0p00500",
+    "desc": "Step-1 (Elastic, ux = 0.005 mm)",
+    "d_max": 0.0575365424,
+    "h_max": 0.0254704654,
+    "n_damaged": 0,
+    "n_cracked": 0,
+    "n_fully_cracked": 0,
+    "crack_tip_x": 0.5,
+    "crack_tip_y": 0.5,
+    "crack_length_mm": 0.0,
+    "chord_angle_deg": 0.0,
+    "eri_max": 2.82419385e-14,
+    "avg_max": 1.09496722e-13,
+    "eta_max": 2.37321234,
+    "eta_mean": 0.02994287405693581,
+    "top10_x_range": [
+      0.0,
+      1.0
+    ],
+    "top10_y_range": [
+      0.0,
+      1.0
+    ],
+    "error_orientation_deg": -0.9813680182713256,
+    "lr_fraction_top10": 0.11486486486486487,
+    "corridor_fraction_top10": 0.05405405405405406
+  },
+  {
+    "tag": "ux_0p01000",
+    "desc": "Step-1 End (Linear/Pre-crack, ux = 0.010 mm)",
+    "d_max": 0.312223434,
+    "h_max": 0.2034401,
+    "n_damaged": 14,
+    "n_cracked": 0,
+    "n_fully_cracked": 0,
+    "crack_tip_x": 0.521848,
+    "crack_tip_y": 0.460566,
+    "crack_length_mm": 0.04508187507191777,
+    "chord_angle_deg": -61.01180844260798,
+    "eri_max": 8.7678603e-14,
+    "avg_max": 2.83935879e-13,
+    "eta_max": 1.94452741,
+    "eta_mean": 0.030490743984427027,
+    "top10_x_range": [
+      0.0,
+      1.0
+    ],
+    "top10_y_range": [
+      0.0,
+      1.0
+    ],
+    "error_orientation_deg": -1.342771622306941,
+    "lr_fraction_top10": 0.12162162162162163,
+    "corridor_fraction_top10": 0.060810810810810814
+  },
+  {
+    "tag": "ux_0p01184",
+    "desc": "Step-2 Onset (Damage initiating, ux = 0.01184 mm)",
+    "d_max": 0.851195753,
+    "h_max": 2.79343534,
+    "n_damaged": 39,
+    "n_cracked": 5,
+    "n_fully_cracked": 0,
+    "crack_tip_x": 0.521848,
+    "crack_tip_y": 0.460566,
+    "crack_length_mm": 0.04508187507191777,
+    "chord_angle_deg": -61.01180844260798,
+    "eri_max": 4.52488768e-13,
+    "avg_max": 9.12743188e-13,
+    "eta_max": 3.78584855,
+    "eta_mean": 0.03490160114074797,
+    "top10_x_range": [
+      0.0,
+      1.0
+    ],
+    "top10_y_range": [
+      0.0,
+      1.0
+    ],
+    "error_orientation_deg": -1.6210677924184438,
+    "lr_fraction_top10": 0.14527027027027026,
+    "corridor_fraction_top10": 0.0945945945945946
+  },
+  {
+    "tag": "ux_0p01343_peak",
+    "desc": "Step-2 Peak (F_max = 514.5 N, ux = 0.01343 mm)",
+    "d_max": 0.967708111,
+    "h_max": 9.61727142,
+    "n_damaged": 69,
+    "n_cracked": 12,
+    "n_fully_cracked": 2,
+    "crack_tip_x": 0.504827,
+    "crack_tip_y": 0.423028,
+    "crack_length_mm": 0.07712320476354699,
+    "chord_angle_deg": -86.41161680950688,
+    "eri_max": 9.7683168e-13,
+    "avg_max": 1.83221906e-12,
+    "eta_max": 7.88320264,
+    "eta_mean": 0.04532068645356994,
+    "top10_x_range": [
+      0.0,
+      1.0
+    ],
+    "top10_y_range": [
+      0.0,
+      1.0
+    ],
+    "error_orientation_deg": -2.798074101504028,
+    "lr_fraction_top10": 0.17229729729729729,
+    "corridor_fraction_top10": 0.13851351351351351
+  },
+  {
+    "tag": "ux_0p01626_prop",
+    "desc": "Step-2 Propagating (ux = 0.01626 mm)",
+    "d_max": 0.994897068,
+    "h_max": 31.7440166,
+    "n_damaged": 162,
+    "n_cracked": 37,
+    "n_fully_cracked": 13,
+    "crack_tip_x": 0.60967,
+    "crack_tip_y": 0.28937,
+    "crack_length_mm": 0.2374710630792729,
+    "chord_angle_deg": -62.495085795059616,
+    "eri_max": 1.83697827e-12,
+    "avg_max": 3.44064013e-12,
+    "eta_max": 21.485588,
+    "eta_mean": 0.08264542214548513,
+    "top10_x_range": [
+      0.0,
+      1.0
+    ],
+    "top10_y_range": [
+      0.2,
+      0.76
+    ],
+    "error_orientation_deg": -9.729616399887334,
+    "lr_fraction_top10": 0.28040540540540543,
+    "corridor_fraction_top10": 0.2635135135135135
+  },
+  {
+    "tag": "ux_0p02000_final",
+    "desc": "Step-2 Final (Through-crack, ux = 0.020 mm)",
+    "d_max": 1.0,
+    "h_max": 77.7042999,
+    "n_damaged": 276,
+    "n_cracked": 82,
+    "n_fully_cracked": 31,
+    "crack_tip_x": 0.742511,
+    "crack_tip_y": 0.112693,
+    "crack_length_mm": 0.45696640726644233,
+    "chord_angle_deg": -57.94739541889805,
+    "eri_max": 2.97312348e-12,
+    "avg_max": 5.480413e-12,
+    "eta_max": 26.1838051,
+    "eta_mean": 0.16685269855829862,
+    "top10_x_range": [
+      0.0,
+      1.0
+    ],
+    "top10_y_range": [
+      0.060789,
+      1.0
+    ],
+    "error_orientation_deg": -34.0738999902745,
+    "lr_fraction_top10": 0.46959459459459457,
+    "corridor_fraction_top10": 0.4391891891891892
+  }
+]

@@ -1,0 +1,307 @@
+{
+  "sweep_results": {
+    "ET_2PCT": {
+      "raw_deck_size_bytes": 2619527, 
+      "tri_count": 963.0, 
+      "quad_count": 36612.0, 
+      "diff_vs_paper_19963": 17612, 
+      "raw_deck_sha256": "a8a1d77f03b8f4b0f38b00d5c49732808edb4f10ae38c4fd905e9980f776b059", 
+      "total_nodes": 37459, 
+      "corridor_fine_fraction_pct": 36.00578871201158, 
+      "element_csv_path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/m2_corrected_remesh/m2_corrected_mesh_elements_et2pct.csv", 
+      "rel_diff_vs_paper_pct": 88.22321294394631, 
+      "centerline_points": [
+        [
+          0.9849176284300505, 
+          0.0
+        ], 
+        [
+          0.9637976395050392, 
+          0.05
+        ], 
+        [
+          0.9289533665486621, 
+          0.1
+        ], 
+        [
+          0.8996806676514906, 
+          0.15000000000000002
+        ], 
+        [
+          0.8660665806914737, 
+          0.2
+        ], 
+        [
+          0.800324762363607, 
+          0.25
+        ], 
+        [
+          0.7216807984286684, 
+          0.30000000000000004
+        ], 
+        [
+          0.632230262060102, 
+          0.35000000000000003
+        ], 
+        [
+          0.5826858586371825, 
+          0.4
+        ], 
+        [
+          0.5632096762897785, 
+          0.45
+        ], 
+        [
+          0.5570203677017865, 
+          0.5
+        ]
+      ], 
+      "h_median_mm": 0.003369785386855257, 
+      "h_min_mm": 0.0005849842231429038, 
+      "fine_element_fraction_pct": 91.94943446440452, 
+      "raw_deck_path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/m2_corrected_remesh/M2_CORRECTED_ADAPTED_RAW_2PCT.inp", 
+      "corridor_end_x_at_y0": 0.9849176284300505, 
+      "h_mean_mm": 0.004249727883770377, 
+      "node_csv_path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/m2_corrected_remesh/m2_corrected_mesh_nodes_et2pct.csv", 
+      "fine_element_count": 34550, 
+      "h_p90_mm": 0.00754983383705888, 
+      "h_max_mm": 0.02408155031832026, 
+      "total_elements": 37575, 
+      "h_p10_mm": 0.0017540863763134166, 
+      "corridor_fine_count": 12440, 
+      "corridor_chord_angle_deg": -49.44326966303436, 
+      "error_target_pct": 2.0, 
+      "outside_fine_count": 22110
+    }, 
+    "ET_1PCT": {
+      "raw_deck_size_bytes": 7554789, 
+      "tri_count": 2416.0, 
+      "quad_count": 98882.0, 
+      "diff_vs_paper_19963": 81335, 
+      "raw_deck_sha256": "b91af834a298083e6be8b0ad409249f065b02cea63d6342d31092a2e4e413faf", 
+      "total_nodes": 100706, 
+      "corridor_fine_fraction_pct": 29.045288744636593, 
+      "element_csv_path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/m2_corrected_remesh/m2_corrected_mesh_elements_et1pct.csv", 
+      "rel_diff_vs_paper_pct": 407.42874317487355, 
+      "centerline_points": [
+        [
+          0.9846915914150188, 
+          0.0
+        ], 
+        [
+          0.9595120072882208, 
+          0.05
+        ], 
+        [
+          0.9303279019761503, 
+          0.1
+        ], 
+        [
+          0.9027848699031857, 
+          0.15000000000000002
+        ], 
+        [
+          0.8682350327709887, 
+          0.2
+        ], 
+        [
+          0.8312106282276783, 
+          0.25
+        ], 
+        [
+          0.7892034139853097, 
+          0.30000000000000004
+        ], 
+        [
+          0.6893376428161055, 
+          0.35000000000000003
+        ], 
+        [
+          0.6187748829081015, 
+          0.4
+        ], 
+        [
+          0.5984786611639131, 
+          0.45
+        ], 
+        [
+          0.5903447993373344, 
+          0.5
+        ]
+      ], 
+      "h_median_mm": 0.0023475194799689996, 
+      "h_min_mm": 0.0005891982320551407, 
+      "fine_element_fraction_pct": 98.24182116132599, 
+      "raw_deck_path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/m2_corrected_remesh/M2_CORRECTED_ADAPTED_RAW_1PCT.inp", 
+      "corridor_end_x_at_y0": 0.9846915914150188, 
+      "h_mean_mm": 0.002773582819812232, 
+      "node_csv_path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/m2_corrected_remesh/m2_corrected_mesh_nodes_et1pct.csv", 
+      "fine_element_count": 99517, 
+      "h_p90_mm": 0.004127474729086988, 
+      "h_max_mm": 0.02182609884133592, 
+      "total_elements": 101298, 
+      "h_p10_mm": 0.0016592915043659306, 
+      "corridor_fine_count": 28905, 
+      "corridor_chord_angle_deg": -51.73738209440094, 
+      "error_target_pct": 1.0, 
+      "outside_fine_count": 70612
+    }, 
+    "ET_3PCT": {
+      "raw_deck_size_bytes": 1470310, 
+      "tri_count": 576.0, 
+      "quad_count": 20487.0, 
+      "diff_vs_paper_19963": 1100, 
+      "raw_deck_sha256": "e79b645c60be91e76b53135c20234c972bfe496b88ae2477a3e89f8678da2de5", 
+      "total_nodes": 21042, 
+      "corridor_fine_fraction_pct": 46.34455646439668, 
+      "element_csv_path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/m2_corrected_remesh/m2_corrected_mesh_elements_et3pct.csv", 
+      "rel_diff_vs_paper_pct": 5.510193858638481, 
+      "centerline_points": [
+        [
+          0.9848673898836733, 
+          0.0
+        ], 
+        [
+          0.9641517589290938, 
+          0.05
+        ], 
+        [
+          0.9270936146247422, 
+          0.1
+        ], 
+        [
+          0.9022644613642951, 
+          0.15000000000000002
+        ], 
+        [
+          0.8733125011176373, 
+          0.2
+        ], 
+        [
+          0.7703772962519654, 
+          0.25
+        ], 
+        [
+          0.6785987345052489, 
+          0.30000000000000004
+        ], 
+        [
+          0.5943181501147715, 
+          0.35000000000000003
+        ], 
+        [
+          0.5529263494722477, 
+          0.4
+        ], 
+        [
+          0.5375176905968517, 
+          0.45
+        ], 
+        [
+          0.539443848177888, 
+          0.5
+        ]
+      ], 
+      "h_median_mm": 0.003951732245630014, 
+      "h_min_mm": 0.0007170370360781051, 
+      "fine_element_fraction_pct": 74.8753738783649, 
+      "raw_deck_path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/m2_corrected_remesh/M2_CORRECTED_ADAPTED_RAW_3PCT.inp", 
+      "corridor_end_x_at_y0": 0.9848673898836733, 
+      "h_mean_mm": 0.005511922902048646, 
+      "node_csv_path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/m2_corrected_remesh/m2_corrected_mesh_nodes_et3pct.csv", 
+      "fine_element_count": 15771, 
+      "h_p90_mm": 0.011106849196056435, 
+      "h_max_mm": 0.024161668677903814, 
+      "total_elements": 21063, 
+      "h_p10_mm": 0.0017823849531686227, 
+      "corridor_fine_count": 7309, 
+      "corridor_chord_angle_deg": -48.30384640681839, 
+      "error_target_pct": 3.0, 
+      "outside_fine_count": 8462
+    }, 
+    "ET_5PCT": {
+      "raw_deck_size_bytes": 810998, 
+      "tri_count": 349.0, 
+      "quad_count": 11247.0, 
+      "diff_vs_paper_19963": -8367, 
+      "raw_deck_sha256": "0a8e0460993ff495d960f0fbc94dc3ae931e0fc05106d99df540effb279397fc", 
+      "total_nodes": 11616, 
+      "corridor_fine_fraction_pct": 53.43437152391546, 
+      "element_csv_path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/m2_corrected_remesh/m2_corrected_mesh_elements_et5pct.csv", 
+      "rel_diff_vs_paper_pct": 41.91253819566197, 
+      "centerline_points": [
+        [
+          0.9843042430377775, 
+          0.0
+        ], 
+        [
+          0.9610901623424412, 
+          0.05
+        ], 
+        [
+          0.9159205690735861, 
+          0.1
+        ], 
+        [
+          0.8304005082075794, 
+          0.15000000000000002
+        ], 
+        [
+          0.7444377843386086, 
+          0.2
+        ], 
+        [
+          0.6455941552580413, 
+          0.25
+        ], 
+        [
+          0.6118254751898742, 
+          0.30000000000000004
+        ], 
+        [
+          0.5700710076091724, 
+          0.35000000000000003
+        ], 
+        [
+          0.5418262995524741, 
+          0.4
+        ], 
+        [
+          0.5227827171995644, 
+          0.45
+        ], 
+        [
+          0.517440629888232, 
+          0.5
+        ]
+      ], 
+      "h_median_mm": 0.0048058531527489555, 
+      "h_min_mm": 0.0007405897849013622, 
+      "fine_element_fraction_pct": 62.02138668506382, 
+      "raw_deck_path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/m2_corrected_remesh/M2_CORRECTED_ADAPTED_RAW_5PCT.inp", 
+      "corridor_end_x_at_y0": 0.9843042430377775, 
+      "h_mean_mm": 0.007301484048215345, 
+      "node_csv_path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/m2_corrected_remesh/m2_corrected_mesh_nodes_et5pct.csv", 
+      "fine_element_count": 7192, 
+      "h_p90_mm": 0.0161893613859293, 
+      "h_max_mm": 0.02424720576546311, 
+      "total_elements": 11596, 
+      "h_p10_mm": 0.0018785251828821214, 
+      "corridor_fine_count": 3843, 
+      "corridor_chord_angle_deg": -46.96287488157029, 
+      "error_target_pct": 5.0, 
+      "outside_fine_count": 3349
+    }
+  }, 
+  "task_id": "F1347-MODE2-CORRECTED-PREANALYSIS-MISESERI-CORRIDOR-AND-REMESHING", 
+  "schema_version": "1.0.0", 
+  "source_odb": {
+    "crack_chord_angle_deg": -57.95, 
+    "job_id": "1411104.mmaster02", 
+    "d_max": 1.0, 
+    "driving_displacement_mm": 0.02, 
+    "step": "Step-2", 
+    "path": "/scratch9/pr21vyci/runs/mode2_j1_coarse_retest/Job-1_UEL.odb", 
+    "job_name": "M2_J1_COARSE_RETEST"
+  }
+}
