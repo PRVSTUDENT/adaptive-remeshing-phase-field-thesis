@@ -4,11 +4,13 @@ Verifies:
 1. Actual-mesh figure files exist across PNG, PDF, and SVG formats.
 2. The 3-layer passive modulus scaling factor (2.1e13) explains the 10^-14 linear companion stress indicators.
 3. Distinguishes PROJECT_VERIFIED linear scaling from UNRESOLVED nonlinear Miehe UEL equivalence.
-4. Predeclared Pearson correlation failure (r <= -0.85 failed with r = -0.8202) is preserved.
-5. Graph connected components of fine elements confirm giant crack-tip component (11,828 elements, 70.66%).
-6. Epistemic classification of errorTarget=2.0% is preserved as UNRESOLVED in literature and INFERRED in project.
-7. Gate M2-3 scientific qualification is recorded as PROVISIONAL / REQUIRES_DIAGNOSIS.
-8. The authoritative audit report exists and is synchronized in models/pandey_kumar_mode2/ and docs/mode2/.
+4. Distinguishes INFERRED/UNRESOLVED Abaqus internal sizing formulation from verified ratio invariance.
+5. Predeclared Pearson correlation failure (r <= -0.85 failed with r = -0.8202) is preserved.
+6. Graph connected components of fine elements confirm giant crack-tip component (11,828 elements, 70.66%).
+7. Epistemic classification of errorTarget=2.0% is preserved as UNRESOLVED in literature and INFERRED in project.
+8. Non-targeted selection rationale is documented and verified.
+9. Gate M2-3 scientific qualification is recorded as PROVISIONAL / REQUIRES_DIAGNOSIS.
+10. The authoritative audit report exists and is synchronized in models/pandey_kumar_mode2/ and docs/mode2/.
 """
 
 import math
@@ -63,6 +65,7 @@ def test_audit_reports_exist_and_consistent():
     assert "1410807" in docs_text
     assert "FAILED" in docs_text
     assert "11,828" in docs_text or "Component 1" in docs_text
+    assert "non-targeted" in docs_text.lower()
 
 
 def test_miseseri_scale_invariance_and_physics_range():

@@ -280,10 +280,10 @@
   "parameter_reconstruction_epistemology": {
     "base_driving_state": "PAPER_VERIFIED / PROJECT_VERIFIED",
     "geometry_and_coarse_mesh": "PAPER_VERIFIED",
-    "error_target": "UNRESOLVED_IN_PAPER_TEXT_OFAT_SENSITIVITY_CHARACTERIZED",
+    "error_target": "UNRESOLVED_IN_PAPER_TEXT / INFERRED_PROJECT_SELECTED_FOR_M2_4",
     "bounds_hmin_0p001_hmax_0p020": "INFERRED",
     "error_indicator_miseseri": "PAPER_VERIFIED",
-    "sizing_method_uniform_error": "PROJECT_VERIFIED / INFERRED"
+    "sizing_method_uniform_error": "INFERRED / UNRESOLVED (Abaqus internal proprietary algorithm)"
   },
   "forensic_classification_f1308": {
     "element_count": 11972,
@@ -340,7 +340,8 @@
       "predeclared_verdict": "QUALIFIED_PASS_PREDECLARED_NON_TARGETED_CRITERIA",
       "epistemic_status": "INFERRED_PROJECT_SELECTED_FOR_M2_4",
       "post_hoc_diff_vs_paper_19963": 2567,
-      "post_hoc_rel_diff_pct": 12.85878875920453
+      "post_hoc_rel_diff_pct": 12.85878875920453,
+      "selection_rationale": "Selected via non-targeted OFAT filtering: non-identical to historical F1308 (22,530 vs 11,972 elements), within 40k anomaly ceiling (eliminating ET1 80k), sufficient top-10% error coverage (98.65%, eliminating ET3 58.1% and ET5 14.5%), and continuous shear corridor path (theta ~ -53.7 deg, exit x ~ 0.93 mm). Post-hoc paper difference is +12.86% (22,530 vs 19,963). Pearson correlation r = -0.8202 failed predeclared r <= -0.85 criterion. Classified strictly as INFERRED / PROJECT_SELECTED_FOR_M2_4."
     },
     "ET_1PCT": {
       "error_target_pct": 1.0,
