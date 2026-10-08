@@ -41,3 +41,6 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
   - Gate 6C (Nonmatching State Transfer / Restart Energy Balance): `ON_HOLD_PENDING_SUPERVISOR_SIGNOFF`.
   - Gate 7 (Post-Processing & ParaView Bridge): `ON_HOLD_PENDING_SUPERVISOR_SIGNOFF`.
   - Distributed Multi-Rank MPI Integration: `STRICTLY_DISQUALIFIED` (`f42_mixed_uel.for` single-rank shared-memory SMP only).
+
+## Documentation correction (2026-10-08T08:13:00.0412785+02:00; codex; F1325)
+Mode-I supervisor report Table 2 now explicitly uses Step-2 MISESERI after localization and identifies a posteriori localization-guided remeshing. Loading states u=0.005 and 0.010 mm are distinguished; corridor share does not demonstrate unknown-path prediction. Rebuilt 10-page PDF visually checked. Numerical freeze and scientific gate status unchanged. Prior immutable release-manifest PDF hash refers to the pre-correction report.

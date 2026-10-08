@@ -1,18 +1,18 @@
 {
-    "active": false,
-    "agent": "gemini-antigravity",
-    "task_id": "F1324-MODE2-M2-3-CONSISTENCY-CORRECTION-AND-EPISTEMIC-ALIGNMENT",
-    "session_start": "2026-10-08T02:36:00+02:00",
-    "session_end": "2026-10-08T02:38:00+02:00",
-    "starting_commit": "8d4c1a9a793f5a075f1215180c8f4c7b21544d25",
-    "allowed_write_scope": [
-        "project_coordination/**",
-        "models/pandey_kumar_mode2/**",
-        "scripts/**",
-        "results/figures/mode2/**",
-        "docs/mode2/**",
-        "docs/experiment_records/**",
-        "references/**",
-        "tests/**"
-    ]
+    "active":  false,
+    "agent":  "codex",
+    "task_id":  "F1325-MODE1-REPORT-A-POSTERIORI-CLARIFICATION",
+    "session_start":  "2026-10-08T08:10:16.0702572+02:00",
+    "session_end":  "2026-10-08T08:13:00.0412785+02:00",
+    "starting_commit":  "817d94446dc3e9e1faa67b6bbf018434159ada13",
+    "allowed_write_scope":  [
+                                "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/report_main.tex",
+                                "docs/supervisor_reports/08-10-2026/MA_ModeI_Supervisor_Meeting_Pack_2026-10-08/report_main.pdf",
+                                "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
+                                "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/ARTIFACT_REGISTRY.csv",
+                                "project_coordination/sessions/*codex_F1325-MODE1-REPORT-A-POSTERIORI-CLARIFICATION.md"
+                            ]
 }
