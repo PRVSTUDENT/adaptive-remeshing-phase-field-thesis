@@ -46,3 +46,5 @@ All solver runs execute strictly under `/scratch9/pr21vyci/` with zero heavy bin
 Mode-I supervisor report Table 2 now explicitly uses Step-2 MISESERI after localization and identifies a posteriori localization-guided remeshing. Loading states u=0.005 and 0.010 mm are distinguished; corridor share does not demonstrate unknown-path prediction. Rebuilt 10-page PDF visually checked. Numerical freeze and scientific gate status unchanged. Prior immutable release-manifest PDF hash refers to the pre-correction report.
 
 Documentation update (2026-10-08T08:16:38.4968980+02:00; codex; F1326): removed previously discussed boundary-condition row from supervisor report Table 2; rebuilt 10-page PDF and visually checked page 3. Scientific state unchanged.
+
+Documentation update (2026-10-08T08:45:10.2787028+02:00; codex; F1327): supervisor report figures cleaned with external legends and metrics, Table 3 enlarged, supervisor-acceptance and 69k passages removed. 10-page rebuild and complete visual review PASS. Numerical source data and scientific gate state unchanged.

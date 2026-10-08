@@ -160,7 +160,7 @@ def plot_single_wireframe(inp_path, summary_case, out_png, out_pdf):
     ax1.set_xlabel('Spatial Coordinate x [mm]', fontsize=11, fontweight='bold')
     ax1.set_ylabel('Spatial Coordinate y [mm]', fontsize=11, fontweight='bold')
     ax1.set_title('Full Specimen Mesh (errorTarget = %.1f%%)' % et_pct, fontsize=12, fontweight='bold')
-    ax1.legend(loc='upper right', fontsize=8.5, framealpha=0.9)
+    ax1.legend(loc='upper center', bbox_to_anchor=(0.5, -0.12), fontsize=9, frameon=False)
     ax1.grid(True, linestyle=':', alpha=0.4)
     
     cbar = fig.colorbar(pcoll1, ax=ax1, fraction=0.046, pad=0.04)
@@ -193,22 +193,12 @@ def plot_single_wireframe(inp_path, summary_case, out_png, out_pdf):
     ax2.set_title('Ligament Detail: x in [0.4, 1.0], y in [0.4, 0.6] mm', fontsize=12, fontweight='bold')
     ax2.grid(True, linestyle=':', alpha=0.5)
     
-    # Info Annotation Box
-    info_text = (
-        "Mesh Metrics & Sizing:\n"
-        "-------------------------------------\n"
-        "Target Error: %.1f%%\n" % et_pct +
-        "Total Elements: %d (%d Quads, %d Tris)\n" % (n_elem, n_quads, n_tris) +
-        "Total Nodes: %d\n" % n_nodes +
-        "Corridor Fraction: %.2f%%\n" % corr_pct +
-        "Far-Field Fraction: %.2f%%\n" % far_pct +
-        "h_min = %.2f um, h_med = %.2f um\n" % (h_min, h_med) +
-        "Flank (x <= 0.3 mm): w = 0.00 mm (Zero wake error)\n" +
-        "Step Evaluated: Step-2 (Localized Phase-Field)"
-    )
-    ax2.text(0.42, 0.41, info_text, fontsize=8.5, verticalalignment='bottom',
-             bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.92, edgecolor='gray'))
-             
+    # Keep the ligament unobstructed; detailed metrics belong in the report caption.
+    ax2.text(0.5, -0.42, "ET%.0f (%.1f%%) | %s FEs | Corridor share: %.2f%%" %
+             (et_pct, et_pct, format(n_elem, ','), corr_pct),
+             transform=ax2.transAxes, ha='center', va='top', fontsize=11,
+             clip_on=False)
+
     fig.suptitle('Gate-6B Stage-14 Step-2 Native Adaptive Remeshing: errorTarget = %.1f%% (%d Elements)' % (et_pct, n_elem),
                  fontsize=14, fontweight='bold', y=0.98)
                  

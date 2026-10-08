@@ -155,44 +155,43 @@ Figure~\ref{fig:corrected_mesh} shows the governed corrected ET1 mesh at both sp
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.99\textwidth]{Mode1_STAGE14_STEP2_ET1_14483.pdf}
-  \caption{Corrected Step-2 ET1 adaptive mesh: full-domain view (left) and ligament zoom (right). The refined corridor begins at the initial crack tip and follows the expected horizontal propagation line. The initial slit flanks at $x\le0.3\,\mathrm{mm}$ show zero artificial refinement in the governed width metric.}
+  \caption{Corrected Step-2 ET1 adaptive mesh: full-domain view (left) and ligament zoom (right). The refined corridor begins at the initial crack tip and follows the expected horizontal propagation line. The mesh contains $14{,}483$ finite elements, with $64.12\%$ in the defined horizontal refinement corridor; $h_{\min}=0.760\,\mu\mathrm{m}$ and $h_{\mathrm{median}}=2.597\,\mu\mathrm{m}$. The initial slit flanks at $x\le0.3\,\mathrm{mm}$ show zero artificial refinement in the governed width metric.}
   \label{fig:corrected_mesh}
   \figureconclusion{The corrected mesh concentrates its finest resolution in the physically relevant crack-propagation region while retaining a comparatively coarse far field.}
 \end{figure}
 
-The morphology is qualitatively consistent with the localized adaptive pattern reported by \citet{pandey2025}. This statement concerns the character of the refinement corridor, not an exact reproduction of their reported $13{,}941$ elements. The publication does not expose enough implementation detail to establish exact count identity, and that limitation has already been accepted by the supervisor.
+The morphology is qualitatively consistent with the localized adaptive pattern reported by \citet{pandey2025}. This statement concerns the character of the refinement corridor, not an exact reproduction of their reported $13{,}941$ elements. The publication does not expose enough implementation detail to establish exact count identity.
 
 \clearpage
 \section{Mesh roles and tolerance sensitivity}
 
 The Step-2 error-target sweep separates localization quality from simple element reduction. All four tolerance cases use the same evaluation state, region, minimum/maximum size bounds, and coarsening policy; only the target tolerance changes.
 
-\evidencebox{reportamber}{\textbf{Clarification of reference roles and benchmark semantics.} The $15{,}192$-element fixed case is the \textbf{paper-matched fixed benchmark anchor}: it reproduces the Pandey--Kumar published peak ($0.7578\,\mathrm{kN}$), but fixed meshes are themselves mesh-sensitive ($\sim0.7255\,\mathrm{kN}$ at $\sim69\mathrm{k}$ FEs) and thus not a converged ``truth solution.'' The $57{,}929$-element case is the \textbf{internal adaptive convergence reference} (finest in the adaptive family). Corrected ET1 ($14{,}483$ FEs) is the preferred practical mesh. Historical Stage-13 ($57{,}901$ FEs) is only a legacy demo of broad unlocalized refinement.}
+\evidencebox{reportamber}{\textbf{Clarification of reference roles and benchmark semantics.} The $15{,}192$-element fixed case is the \textbf{paper-matched fixed benchmark anchor}: it reproduces the Pandey--Kumar published peak ($0.7578\,\mathrm{kN}$). Its role here is benchmark agreement, not a claim of an independently converged solution. The $57{,}929$-element case is the \textbf{internal adaptive convergence reference} (finest in the adaptive family). Corrected ET1 ($14{,}483$ FEs) is the preferred practical mesh. Historical Stage-13 ($57{,}901$ FEs) is only a legacy demo of broad unlocalized refinement.}
 
 \begin{table}[H]
 \centering
 \caption{Comparison of corrected Step-2 tolerance cases against the paper-matched fixed benchmark anchor and the spatial-fine adaptive reference.}
-\tiny
-\begin{tabularx}{\textwidth}{L{2.2cm}C{1.05cm}C{1.0cm}C{1.2cm}C{1.1cm}C{1.35cm}C{1.35cm}C{1.05cm}Y}
+\small
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{L{1.8cm}C{1.1cm}C{1.2cm}C{1.6cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.6cm}Y}
 \toprule
-Case & Base FE & Corridor share & $K_0$ [kN/mm] & $F_{\max}$ [kN] & $\Delta$ vs benchmark & $\Delta$ vs fine adaptive & $u_{\mathrm{peak}}$ [mm] & Role / Purpose \\
+Case & Base FE & Corridor share & $K_0$ \newline [kN/mm] & $F_{\max}$ \newline [kN] & $\Delta$ vs benchmark & $\Delta$ vs fine adaptive & $u_{\mathrm{peak}}$ \newline [mm] & Role / Purpose \\
 \midrule
-Fixed benchmark & $15{,}192$ & --- & $137.9455$ & $0.757778$ & $0.000\%$ & $+2.177\%$ & $0.005857$ & Paper-matched benchmark anchor \\
-ET1 ($1\%$) & $14{,}483$ & $64.12\%$ & $137.9096$ & $0.743701$ & $-1.856\%$ & $\mathbf{+0.279\%}$ & $0.005733$ & Preferred corrected adaptive mesh \\
-ET2 ($2\%$) & $6{,}112$ & $41.07\%$ & $137.9761$ & $0.756367$ & $-0.186\%$ & $+1.987\%$ & $0.005841$ & Tolerance sensitivity \\
-ET3 ($3\%$) & $5{,}189$ & $34.59\%$ & $137.9775$ & $0.759407$ & $+0.215\%$ & $+2.397\%$ & $0.005876$ & Tolerance sensitivity \\
-ET5 ($5\%$) & $4{,}692$ & $27.51\%$ & $138.0091$ & $0.765400$ & $+1.006\%$ & $+3.205\%$ & $0.005926$ & Tolerance sensitivity \\
-\textbf{Spatial-fine} & $\mathbf{57{,}929}$ & --- & $\mathbf{137.8410}$ & $\mathbf{0.741633}$ & $\mathbf{-2.131\%}$ & $\mathbf{0.000\%}$ & $\mathbf{0.005717}$ & \textbf{Spatial-fine convergence ref.} \\
+Fixed benchmark & $15{,}192$ & --- & $137.9455$ & $0.757778$ & $0.000\%$ & $+2.177\%$ & $0.005857$ & Benchmark anchor \\
+ET1 ($1\%$) & $14{,}483$ & $64.12\%$ & $137.9096$ & $0.743701$ & $-1.856\%$ & $\mathbf{+0.279\%}$ & $0.005733$ & Preferred ET1 \\
+ET2 ($2\%$) & $6{,}112$ & $41.07\%$ & $137.9761$ & $0.756367$ & $-0.186\%$ & $+1.987\%$ & $0.005841$ & Tolerance study \\
+ET3 ($3\%$) & $5{,}189$ & $34.59\%$ & $137.9775$ & $0.759407$ & $+0.215\%$ & $+2.397\%$ & $0.005876$ & Tolerance study \\
+ET5 ($5\%$) & $4{,}692$ & $27.51\%$ & $138.0091$ & $0.765400$ & $+1.006\%$ & $+3.205\%$ & $0.005926$ & Tolerance study \\
+\textbf{Spatial-fine} & $\mathbf{57{,}929}$ & --- & $\mathbf{137.8410}$ & $\mathbf{0.741633}$ & $\mathbf{-2.131\%}$ & $\mathbf{0.000\%}$ & $\mathbf{0.005717}$ & \textbf{Convergence ref.} \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-Two distinct questions are answered by the two reference columns:
-\begin{itemize}
-  \item \textbf{Fixed benchmark anchor ($15.2$k FE)} answers: \emph{``How close are we to the published benchmark?''} ($F_{\max}=0.7578\,\mathrm{kN}$).
-  \item \textbf{Spatial-fine adaptive reference ($57.9$k FE)} answers: \emph{``Has the adaptive discretization family converged?''}
-\end{itemize}
-The central finding is that \textbf{ET1 is only $+0.279\%$ away from the spatial-fine adaptive solution}, despite using $\sim75\%$ fewer elements. This demonstrates high computational efficiency and internal spatial convergence. Furthermore, adaptive refinement does not trend toward $0.7578\,\mathrm{kN}$ because the adaptive family converges toward $\sim0.742\,\mathrm{kN}$, whereas the fixed structured mesh belongs to a different discretization family that is itself not peak-force converged ($\sim0.7255\,\mathrm{kN}$ at $69\mathrm{k}$ FEs). The $-2.131\%$ difference is therefore an \emph{unresolved discretization-family difference / benchmark offset}, not an adaptive-mesh error.
+Two distinct comparisons are provided in Table~3. The benchmark reference assesses agreement with the paper-matched fixed-mesh solution, while the spatial-fine adaptive reference assesses convergence within the adaptive discretization family.
+
+ET1 differs from the spatial-fine adaptive reference by only $+0.279\%$ in $F_{\max}$ while using approximately $75\%$ fewer elements. The $-2.131\%$ peak difference between the spatial-fine reference and the fixed benchmark remains an unresolved benchmark offset.
 
 \clearpage
 \section{Mechanical verification: reaction force and energy}
@@ -201,7 +200,7 @@ Figure~\ref{fig:global_synthesis} compares three distinct scientific roles: the 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.91\textwidth]{fig_mode1_gate6b_spatial_convergence_synthesis.pdf}
+  \includegraphics[width=0.88\textwidth]{fig_mode1_gate6b_spatial_convergence_synthesis.pdf}
   \caption{Three-case Gate-6B global synthesis: (a) reaction force; (b) external work and phase-field fracture-energy functional; (c) stored elastic energy; and (d) energy-bookkeeping difference. ET1 is censored at $u=0.007889\,\mathrm{mm}$ after a $98.5\%$ load drop; no values are forward-filled.}
   \label{fig:global_synthesis}
   \figureconclusion{The corrected adaptive meshes reproduce the elastic branch and peak response. The change from ET1 to the spatial-fine reference is only $+0.279\%$ in $F_{\max}$, confirming internal adaptive spatial convergence. The $-2.131\%$ peak difference relative to the fixed benchmark anchor represents an unresolved discretization-family offset, not an adaptive defect.}
@@ -286,7 +285,7 @@ The point patterns differ because the benchmark uses a structured corridor while
 
 \subsection{Limitations that remain explicit}
 \begin{itemize}
-  \item \textbf{The persistent $-2.131\%$ peak-force offset relative to the fixed benchmark anchor is an unresolved discretization-family difference, not an adaptive-mesh error}; because fixed meshes are themselves mesh-sensitive ($\sim0.7255\,\mathrm{kN}$ at $69\mathrm{k}$ FEs), the benchmark anchor is not a converged truth solution.
+  \item \textbf{The persistent $-2.131\%$ peak-force offset relative to the fixed benchmark anchor is an unresolved discretization-family difference, not an adaptive-mesh error}.
   \item The post-peak bookkeeping difference reaches $4.43\%$ for the full-horizon spatial-fine run. This is convergence-consistent empirical evidence, not closure of an exact global energy identity.
   \item ET2--ET5 reduce cost but progressively under-resolve the process corridor; they should not replace ET1 when morphology fidelity is the primary objective.
 \end{itemize}

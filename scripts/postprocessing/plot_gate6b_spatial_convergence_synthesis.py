@@ -179,9 +179,11 @@ def generate_plot(base_dir=None, output_dir=None, supervisor_three_case=False):
     u_et1_term = df_et1_fu['displacement_mm'].iloc[-1] * 1000.0
     rf_et1_term = df_et1_fu['reaction_force_kN'].iloc[-1]
     ax.plot(u_et1_term, rf_et1_term, marker='o', markersize=6, color=c_et1, markeredgecolor='black', markeredgewidth=0.8, zorder=10)
-    ax.annotate(f'ET1 Stagnation\n$u = 7.889\\,\\mu\\mathrm{{m}}$', 
-                xy=(u_et1_term, rf_et1_term), xytext=(u_et1_term + 0.25, rf_et1_term + 0.07),
-                fontsize=7.8, color=c_et1)
+    if not supervisor_three_case:
+        ax.annotate(f'ET1 Stagnation\n$u = 7.889\\,\\mu\\mathrm{{m}}$',
+                    xy=(u_et1_term, rf_et1_term),
+                    xytext=(u_et1_term + 0.25, rf_et1_term + 0.07),
+                    fontsize=7.8, color=c_et1)
 
     ax.set_title('(a) Structural Reaction Force $F(u_y)$', fontsize=11, fontweight='bold')
     ax.set_xlabel('Prescribed Displacement $u_y$ [$\\mu\\mathrm{m}$]', fontsize=10)
@@ -245,6 +247,20 @@ def generate_plot(base_dir=None, output_dir=None, supervisor_three_case=False):
     ax.set_xlim(0, 10.2)
     ax.grid(True, linestyle=':', alpha=0.6)
     ax.legend(loc='upper left', fontsize=7.8, framealpha=0.9)
+
+    if supervisor_three_case:
+        # Legends sit in dedicated space below each panel, clear of all curves.
+        fig.set_size_inches(13.5, 12.0)
+        fig.subplots_adjust(hspace=0.78, wspace=0.28, bottom=0.15, top=0.94)
+        for panel in axes.flat:
+            handles, labels = panel.get_legend_handles_labels()
+            panel.get_legend().remove()
+            if panel is axes[0, 0]:
+                labels = ['Fixed benchmark (15,192 FE)', 'Corrected ET1 (14,483 FE)',
+                          'Spatial-fine adaptive (57,929 FE)']
+            panel.legend(handles, labels, loc='upper center',
+                         bbox_to_anchor=(0.5, -0.23), ncol=2 if panel is axes[0, 1] else 1,
+                         fontsize=9, frameon=False, borderaxespad=0)
 
     pdf_path = os.path.join(output_dir, "fig_mode1_gate6b_spatial_convergence_synthesis.pdf")
     png_path = os.path.join(output_dir, "fig_mode1_gate6b_spatial_convergence_synthesis.png")
