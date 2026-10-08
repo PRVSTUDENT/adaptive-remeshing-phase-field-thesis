@@ -1,0 +1,59 @@
+{
+    "comparison_vs_et2pct_meshes": {
+        "delta_vs_step2_et2pct_pct": 259.1787547422451, 
+        "step1_et2pct_nodes": 22642, 
+        "step1_et2pct_elements": 22530, 
+        "step2_et2pct_elements": 22405, 
+        "step2_et2pct_nodes": 22512, 
+        "step2_et1pct_elements": 80474, 
+        "delta_vs_step2_et2pct_elements": 58069, 
+        "step2_et1pct_nodes": 80136
+    }, 
+    "artifacts": {
+        "elements_csv": {
+            "sha256": "830d691ffe4425ee5d2f6e2e0ce8aa77edd55d34735774122fa973e7d52db842", 
+            "filename": "m2_3_mesh_elements_step2_et1pct.csv"
+        }, 
+        "nodes_csv": {
+            "sha256": "cb5acd1c2d5dc03c198a249c980657467a5f585b79cc8c7b6df385bb0d3166cd", 
+            "filename": "m2_3_mesh_nodes_step2_et1pct.csv"
+        }, 
+        "input_deck": {
+            "size_bytes": 5607121, 
+            "sha256": "899528651ba68b50d322cab98730a43a142b973b7f8132cce54a697d797ed282", 
+            "filename": "M2_3_ADAPTED_STEP2_RAW_1PCT.inp"
+        }
+    }, 
+    "benchmark": "Pandey & Kumar (2025) Mode-II Shear Test Section 4.2", 
+    "provenance": {
+        "source_frame_id": 2000, 
+        "source_frame_value": 1.0, 
+        "prescribed_shear_disp_ux_mm": 0.02, 
+        "source_step": "Step-2", 
+        "source_odb": "Job-1_UEL_paper_horizon.odb", 
+        "remeshing_rule": {
+            "sizing_method": "UNIFORM_ERROR", 
+            "variables": [
+                "MISESERI"
+            ], 
+            "min_element_size_mm": 0.001, 
+            "max_element_size_mm": 0.02, 
+            "coarsening_factor": "NOT_ALLOWED", 
+            "error_target_pct": 1.0, 
+            "refinement_factor": 10
+        }
+    }, 
+    "mesh_topology": {
+        "h_mean_mm": 0.00323334186801672, 
+        "fine_elements_count": 79888, 
+        "h_median_mm": 0.003047282073341442, 
+        "tri_elements": 2111.0, 
+        "total_nodes": 80136, 
+        "h_max_mm": 0.01261564780586344, 
+        "total_finite_elements": 80474, 
+        "h_min_mm": 0.0005997723204005714, 
+        "quad_elements": 78363.0, 
+        "fine_elements_fraction_pct": 99.27181449909287
+    }, 
+    "mesh_designation": "M2_3_ADAPTED_STEP2_RAW_1PCT"
+}
