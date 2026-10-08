@@ -130,7 +130,6 @@ The decisive change was to align the remeshing evaluation state with the physica
 Item & Earlier state / issue & Correction applied & Observed effect \\
 \midrule
 Remeshing evaluation state & Step-1/pre-peak field emphasized the initial crack-tip neighborhood and broad background error. & Use the \texttt{MISESERI} field evaluated during Step-2, after damage localization has developed, to generate a refined mesh along the Mode-I crack-propagation ligament. & Refinement extends along the horizontal ligament instead of filling most of the domain. \\
-Boundary-condition set & A long \texttt{N\_BOTTOM} card was parsed incompletely in an early model. & Wrap node identifiers to valid Abaqus keyword lines. & All intended supports are applied; $K_0$ returns to the reference range. \\
 Quality criterion & Total element count received excessive emphasis. & Judge corridor share, band width, far-field fraction, crack symmetry, and response together. & Mesh efficiency is assessed by physical localization rather than count matching alone. \\
 Tolerance study & A single tolerance could hide morphology sensitivity. & Evaluate \texttt{errorTarget} $\in\{1,2,3,5\}\%$ with identical bounds and region. & ET1 is target-like; ET2--ET5 progressively lose ligament resolution. \\
 Post-processing & Results were dispersed across separate checks. & Use single-job provenance for RF--$u$, $K_0$, energy, phase field, and crack-path metrics. & Mechanical and spatial conclusions can be traced to exact jobs without cross-copying. \\
