@@ -11,3 +11,4 @@
 - All pre-existing dirty paths preserved. Temporary build/render artifacts remain outside repository in the OS temporary directory.
 - No HPC/SSH operations, notifications, submissions or authorization changes. HPC ledger unchanged. Mode-I numerical freeze/tag and immutable meeting release manifests unchanged; this report revision is a user-requested editorial correction after that freeze, and the older release-manifest report hash describes the prior PDF.
 - Coordination closeout records this documentation task; existing Mode-II scientific phase and next scheduler evaluation remain unchanged.
+- Closeout repair: restored existing CSV CRLF conventions after an accidental line-ending normalization; separate normal commit, no amend. Working branch mode2-pandey-kumar-reproduction; origin/main verified ancestor of HEAD before forward-only HEAD:main synchronization.
