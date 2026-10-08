@@ -150,6 +150,7 @@ C ======================================================================
      1          (E_GC * E_L0) * BDB +
      2          (E_GC / E_L0 + TWO * HIST) * SHP(I) * SHP(J))
             ENDDO
+            RHS(I,1) = RHS(I,1) + CJAC * TWO * HIST * SHP(I)
           ENDDO
         ENDDO
 
@@ -466,6 +467,7 @@ C ======================================================================
      1        (E_GC * E_L0) * BDB +
      2        (E_GC / E_L0 + TWO * HIST) * N_TRI(I) * N_TRI(J))
           ENDDO
+          RHS(I,1) = RHS(I,1) + CJAC * TWO * HIST * N_TRI(I)
         ENDDO
 
         DO I = 1, 3
