@@ -1,16 +1,16 @@
 {
-    "task_id": "F1319-MODE2-M2-4-ACCEPTANCE-CRITERIA-PROVENANCE-AUDIT",
-    "status": "COMPLETED",
+    "task_id": "F1320-MODE2-M2-4-MIEHE-INDEXING-REPAIR-AND-REPRODUCTION-SOLVE",
+    "status": "IN_PROGRESS",
     "agent": "gemini-antigravity",
-    "phase": "Gate M2-4 Predeclared Acceptance Criteria Provenance Audit",
-    "gate_status": "GATE_M2_4_CRITERIA_AUDITED_AND_FROZEN",
-    "last_updated": "2026-10-07T22:45:00+02:00",
-    "active_pbs_job_id": "1410797.mmaster02",
-    "next_recommended_task": "F1320-MODE2-M2-4-TERMINAL-EVALUATION-AND-GATE-CLOSEOUT",
+    "phase": "Gate M2-4 Adapted Fracture Simulation",
+    "gate_status": "GATE_M2_4_INDEXING_REPAIRED_SOLVER_QUEUED",
+    "last_updated": "2026-10-08T01:50:00+02:00",
+    "active_pbs_job_id": "1410807.mmaster02",
+    "next_recommended_task": "F1321-MODE2-M2-4-TERMINAL-EVALUATION-AND-GATE-CLOSEOUT",
     "governing_constraints": [
         "Mode-I freeze tag v2026.10.08-supervisor-meeting-mode1-freeze and UEL hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 100% untouched",
-        "PBS job 1410797.mmaster02 running untouched; no additional solver submissions",
-        "Criteria provenance strictly audited against primary literature before inspecting terminal data",
+        "PBS job 1410807.mmaster02 queued in normal_imfdfkmq; 0 additional jobs submitted",
+        "Co-located UEL/UMAT physical element indexing dynamically parameterized via N_PHYS = INT(PROPS(6)) in UEL and INT(PROPS(3)) in UMAT",
         "All HPC commands must use guarded SSH wrapper",
         "Maintain dual-channel notification integration"
     ]

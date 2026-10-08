@@ -262,6 +262,8 @@ def generate_mode2_adapted_job2_deck(src_raw_inp, dst_uel_inp, job_name="Job-2_U
 
     print("SUCCESS: Successfully wrote %s" % dst_uel_inp)
 
+convert_raw_to_mode2_job2_deck = generate_mode2_adapted_job2_deck
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         print("Usage: python build_mode2_adapted_job2_deck.py <src_raw_inp> <dst_uel_inp> [job_name]")

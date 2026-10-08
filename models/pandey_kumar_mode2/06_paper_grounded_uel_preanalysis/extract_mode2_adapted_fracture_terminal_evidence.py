@@ -1,269 +1,242 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
-Mode-II Gate M2-4 Adapted Fracture Terminal Evidence Extractor
-Extracts full post-processing evidence from Job-2_UEL.odb in Abaqus Python environment:
-1. Complete Fx-ux history from Reference Point (RP 999999).
-2. Maximum phase-field damage d_max(ux) history from companion UMAT layer (SDV14/SDV1).
-3. 5 Target Snapshot datasets at ux = {0.00936, 0.01000, 0.011842, 0.01626, 0.02000} mm.
-4. Quantitative phase-field crack trajectory (x, y) coordinates and bottom boundary exit location.
-5. Verification of oblique Mode-II propagation direction (rejects horizontal unzipping).
-6. Summary JSON with computational metadata, peak force, and trajectory angle.
+Mode-II Gate M2-4 Adapted Fracture High-Performance Terminal Extractor
+Extracts:
+1. Complete Reaction Force (RF1) vs Prescribed Displacement (ux) history (all 2002 frames)
+2. Maximum Phase Field (d_max) vs ux history (sampled at 10-frame stride + target snapshots)
+3. 5 Discrete Damage Snapshots at ux = [0.00936, 0.01000, 0.011842, 0.01626, 0.02000] mm
+4. Final Crack Trajectory, Chord Angle, and Bottom Boundary Exit Location
+5. Summary JSON for Gate M2-4 evaluation and acceptance checks
 """
 
-from __future__ import print_function
-import sys
 import os
-import math
+import sys
 import json
+import math
+from odbAccess import openOdb
 
-try:
-    from odbAccess import openOdb
-except ImportError:
-    print("[ERROR] odbAccess module not available. Run with 'abaqus python'.")
-    sys.exit(1)
-
-def extract_mode2_adapted_fracture_evidence(odb_path, output_dir):
-    print("=== Mode-II Gate M2-4 Adapted Fracture Terminal Extractor ===")
-    print("ODB Path: %s" % odb_path)
-    print("Output Dir: %s" % output_dir)
+def extract_mode2_adapted_fracture_evidence(odb_path="Job-2_UEL.odb", output_dir="."):
+    if not os.path.exists(odb_path):
+        print("[ERROR] ODB not found: %s" % odb_path)
+        sys.exit(1)
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
+    print("=" * 75)
+    print("=== MODE-II GATE M2-4 ADAPTED FRACTURE TERMINAL EVIDENCE EXTRACTOR ===")
+    print("ODB Path: %s" % odb_path)
+    print("Output Dir: %s" % output_dir)
+    print("=" * 75)
+
     odb = openOdb(path=odb_path, readOnly=True)
-    print("ODB opened successfully.")
+    step_names = list(odb.steps.keys())
+    print("Available Steps: %s" % step_names)
+
+    inst_name = list(odb.rootAssembly.instances.keys())[0]
+    inst = odb.rootAssembly.instances[inst_name]
+    nodes = {n.label: (float(n.coordinates[0]), float(n.coordinates[1])) for n in inst.nodes}
+    elements = {e.label: list(e.connectivity) for e in inst.elements}
+    total_elements = len(elements)
+    n_phys = total_elements // 3 if total_elements > 3000 else 22530
+
+    print("Mesh: Total Elements=%d, Co-located Layers=3, Physical FEs=%d, Nodes=%d" % 
+          (total_elements, n_phys, len(nodes)))
+
+    # Compute centroids for physical elements (1..n_phys)
+    centroids = {}
+    for eid in range(1, n_phys + 1):
+        if eid in elements:
+            conn = elements[eid]
+            pts = [nodes[nid] for nid in conn if nid in nodes]
+            if pts:
+                xc = sum(p[0] for p in pts) / float(len(pts))
+                yc = sum(p[1] for p in pts) / float(len(pts))
+                centroids[eid] = (xc, yc)
+            else:
+                centroids[eid] = (0.0, 0.0)
 
     # Target snapshot displacements (in mm)
     target_snaps = [
-        {"target_ux": 0.00936, "filename": "damage_snapshot_ux_0p00936.csv", "name": "Pre-Peak (9.36 um)"},
-        {"target_ux": 0.01000, "filename": "damage_snapshot_ux_0p01000.csv", "name": "Step-1 Final (10.0 um)"},
-        {"target_ux": 0.011842, "filename": "damage_snapshot_ux_0p01184.csv", "name": "Peak Damage (11.842 um)"},
-        {"target_ux": 0.01626, "filename": "damage_snapshot_ux_0p01626.csv", "name": "Post-Peak Softening (16.26 um)"},
-        {"target_ux": 0.02000, "filename": "damage_snapshot_ux_0p02000.csv", "name": "Terminal Full Horizon (20.0 um)"}
+        {"target_ux": 0.00936, "filename": "damage_snapshot_ux_0p00936.csv", "name": "Pre-Peak (9.36 um)", "min_diff": 1e9, "frame": None, "step": None, "actual_ux": None},
+        {"target_ux": 0.01000, "filename": "damage_snapshot_ux_0p01000.csv", "name": "Step-1 Final (10.0 um)", "min_diff": 1e9, "frame": None, "step": None, "actual_ux": None},
+        {"target_ux": 0.011842, "filename": "damage_snapshot_ux_0p01184.csv", "name": "Peak Damage (11.842 um)", "min_diff": 1e9, "frame": None, "step": None, "actual_ux": None},
+        {"target_ux": 0.01626, "filename": "damage_snapshot_ux_0p01626.csv", "name": "Post-Peak Softening (16.26 um)", "min_diff": 1e9, "frame": None, "step": None, "actual_ux": None},
+        {"target_ux": 0.02000, "filename": "damage_snapshot_ux_0p02000.csv", "name": "Terminal Full Horizon (20.0 um)", "min_diff": 1e9, "frame": None, "step": None, "actual_ux": None}
     ]
 
     rf_history = []
     dmax_history = []
-    
-    # 1. Reaction force and displacement from RP history output
-    rp_step_data = []
-    for step_name in odb.steps.keys():
-        step = odb.steps[step_name]
-        print("Processing Step: %s (Total Frames: %d)" % (step_name, len(step.frames)))
-        
-        # History region for RP
-        for h_key in step.historyRegions.keys():
-            if "999999" in h_key or "N_RP" in h_key or "ASSEMBLY" in h_key.upper():
-                hr = step.historyRegions[h_key]
-                if 'RF1' in hr.historyOutputs and 'U1' in hr.historyOutputs:
-                    rf_vals = hr.historyOutputs['RF1'].data
-                    u_vals = hr.historyOutputs['U1'].data
-                    for (t_u, u_val), (t_rf, rf_val) in zip(u_vals, rf_vals):
-                        rf_history.append((step_name, t_u, u_val, rf_val))
-                    break
 
-    # If history region not directly populated, extract from field outputs
-    if len(rf_history) == 0:
-        print("Extracting RF from field outputs...")
-        for step_name in odb.steps.keys():
-            step = odb.steps[step_name]
-            for frame_idx, frame in enumerate(step.frames):
-                t = frame.frameValue
-                u_field = frame.fieldOutputs.get('U', None)
-                rf_field = frame.fieldOutputs.get('RF', None)
-                
-                ux_val = None
-                rf_val = None
-                
-                if u_field is not None:
-                    for val in u_field.values:
-                        if val.nodeLabel == 999999:
-                            ux_val = val.data[0]
-                            break
-                if rf_field is not None:
-                    for val in rf_field.values:
-                        if val.nodeLabel == 999999:
-                            rf_val = val.data[0]
-                            break
-                            
-                if ux_val is not None and rf_val is not None:
-                    rf_history.append((step_name, t, ux_val, rf_val))
+    for s_idx, s_name in enumerate(step_names):
+        step = odb.steps[s_name]
+        step_frames = step.frames
+        n_frames = len(step_frames)
+        print("Processing Step '%s' (%d frames)..." % (s_name, n_frames))
 
-    print("Extracted %d RF-U history points." % len(rf_history))
+        for f_idx, f in enumerate(step_frames):
+            f_val = float(f.frameValue)
+            if s_name == "Step-1":
+                nominal_ux = f_val * 0.0100
+            elif s_name == "Step-2":
+                nominal_ux = 0.0100 + f_val * 0.0100
+            else:
+                nominal_ux = f_val
 
-    # Save RF history
+            rf_x = 0.0
+            actual_ux = nominal_ux
+
+            if 'RF' in f.fieldOutputs:
+                fo_rf = f.fieldOutputs['RF']
+                if len(fo_rf.values) > 0:
+                    rf_x = float(fo_rf.values[0].data[0])
+
+            if 'U' in f.fieldOutputs:
+                fo_u = f.fieldOutputs['U']
+                if len(fo_u.values) > 0:
+                    actual_ux = float(fo_u.values[0].data[0])
+
+            rf_history.append((s_name, f_val, actual_ux, rf_x))
+
+            # Sample d_max every 10 frames or at terminal frame
+            is_sample_frame = (f_idx % 10 == 0) or (f_idx == n_frames - 1)
+            
+            # Check snapshot matching
+            for snap in target_snaps:
+                diff = abs(actual_ux - snap["target_ux"])
+                if diff < snap["min_diff"]:
+                    snap["min_diff"] = diff
+                    snap["frame"] = f
+                    snap["step"] = s_name
+                    snap["actual_ux"] = actual_ux
+                    is_sample_frame = True
+
+            if is_sample_frame and 'SDV' in f.fieldOutputs:
+                fo_sdv = f.fieldOutputs['SDV']
+                d_max = 0.0
+                for val in fo_sdv.values:
+                    if len(val.data) >= 14:
+                        d = float(val.data[13])
+                        if d > d_max:
+                            d_max = d
+                    elif len(val.data) >= 1:
+                        d = float(val.data[0])
+                        if d > d_max:
+                            d_max = d
+                dmax_history.append((s_name, f_val, actual_ux, d_max))
+
+    print("Extracted %d RF points and %d d_max sample points." % (len(rf_history), len(dmax_history)))
+
+    # 1. Save RF history
     rf_csv_path = os.path.join(output_dir, "mode2_j2_rf_history.csv")
     with open(rf_csv_path, "w") as f:
         f.write("step_name,frame_time,ux_mm,rf1_kN\n")
         for s_name, t, ux, rf1 in rf_history:
             f.write("%s,%.8e,%.8e,%.8e\n" % (s_name, t, ux, rf1))
+    print("Saved RF history -> %s" % rf_csv_path)
 
-    # 2. Extract d_max history and find closest frames for target snapshots
-    snap_frames = {}
-    for snap in target_snaps:
-        snap_frames[snap["target_ux"]] = {"min_diff": 1e9, "frame": None, "step": None, "actual_ux": None}
-
-    print("Extracting d_max history and locating target snapshots...")
-    for step_name in odb.steps.keys():
-        step = odb.steps[step_name]
-        for frame_idx, frame in enumerate(step.frames):
-            t = frame.frameValue
-            
-            # Find frame ux
-            current_ux = None
-            if 'U' in frame.fieldOutputs:
-                for val in frame.fieldOutputs['U'].values:
-                    if val.nodeLabel == 999999:
-                        current_ux = val.data[0]
-                        break
-            if current_ux is None:
-                # Estimate from step time
-                if step_name == 'Step-1':
-                    current_ux = t * 0.0100
-                else:
-                    current_ux = 0.0100 + t * 0.0100
-
-            # Find d_max from SDV field
-            max_d = 0.0
-            if 'SDV' in frame.fieldOutputs:
-                sdv_field = frame.fieldOutputs['SDV']
-                for val in sdv_field.values:
-                    if len(val.data) >= 14:
-                        d_val = val.data[13] # SDV14 (0-based idx 13)
-                        if d_val > max_d:
-                            max_d = d_val
-                    elif len(val.data) >= 1:
-                        d_val = val.data[0] # SDV1 fallback
-                        if d_val > max_d:
-                            max_d = d_val
-                            
-            dmax_history.append((step_name, t, current_ux, max_d))
-
-            # Check snapshot match
-            for snap in target_snaps:
-                diff = abs(current_ux - snap["target_ux"])
-                if diff < snap_frames[snap["target_ux"]]["min_diff"]:
-                    snap_frames[snap["target_ux"]]["min_diff"] = diff
-                    snap_frames[snap["target_ux"]]["frame"] = frame
-                    snap_frames[snap["target_ux"]]["step"] = step_name
-                    snap_frames[snap["target_ux"]]["actual_ux"] = current_ux
-
-    # Save d_max history
+    # 2. Save d_max history
     dmax_csv_path = os.path.join(output_dir, "mode2_j2_dmax_history.csv")
     with open(dmax_csv_path, "w") as f:
         f.write("step_name,frame_time,ux_mm,d_max\n")
         for s_name, t, ux, d_max in dmax_history:
             f.write("%s,%.8e,%.8e,%.8e\n" % (s_name, t, ux, d_max))
+    print("Saved d_max history -> %s" % dmax_csv_path)
 
     # 3. Save Snapshots
     for snap in target_snaps:
-        info = snap_frames[snap["target_ux"]]
-        frame = info["frame"]
+        frame = snap["frame"]
         if frame is None:
             print("[WARN] Snapshot for ux=%.5f not found." % snap["target_ux"])
             continue
 
-        print("Saving snapshot for ux=%.5f (actual=%.5f, step=%s) -> %s" % 
-              (snap["target_ux"], info["actual_ux"], info["step"], snap["filename"]))
+        print("Saving snapshot for ux=%.5f (actual=%.5f, step=%s, diff=%.2e) -> %s" % 
+              (snap["target_ux"], snap["actual_ux"], snap["step"], snap["min_diff"], snap["filename"]))
         snap_path = os.path.join(output_dir, snap["filename"])
 
-        # Extract element phase values
+        # Extract element phase values on Layer 3 companion elements (2*n_phys+1 .. 3*n_phys)
         element_d = {}
+        layer3_start = 2 * n_phys + 1
+        layer3_end = 3 * n_phys
+
         if 'SDV' in frame.fieldOutputs:
             for val in frame.fieldOutputs['SDV'].values:
                 eid = val.elementLabel
-                # Companion elements are in layer 3: 45061..67590 (phys eid = eid - 45060)
-                if 45061 <= eid <= 67590:
-                    phys_eid = eid - 45060
+                if layer3_start <= eid <= layer3_end:
+                    phys_eid = eid - 2 * n_phys
                     if len(val.data) >= 14:
-                        element_d[phys_eid] = val.data[13]
+                        element_d[phys_eid] = float(val.data[13])
                     elif len(val.data) >= 1:
-                        element_d[phys_eid] = val.data[0]
+                        element_d[phys_eid] = float(val.data[0])
 
         with open(snap_path, "w") as f:
             f.write("element_id,d\n")
             for peid in sorted(element_d.keys()):
                 f.write("%d,%.8e\n" % (peid, element_d[peid]))
 
-    # 4. Extract Phase-Field Crack Trajectory from Terminal State
-    terminal_snap = target_snaps[-1]
-    term_frame = snap_frames[terminal_snap["target_ux"]]["frame"]
+    # 4. Extract Crack Trajectory from Terminal Frame (ux = 0.02000 mm)
+    term_snap = target_snaps[-1]
+    term_frame = term_snap["frame"]
     crack_trajectory = []
     bottom_exit_x = None
     chord_angle_deg = None
 
     if term_frame is not None:
-        print("Extracting Crack Trajectory from terminal frame...")
-        # Get element centroids from instance
-        inst = odb.rootAssembly.instances.values()[0] if len(odb.rootAssembly.instances) > 0 else None
-        
-        # Build node coordinates
-        node_coords = {}
-        if inst is not None:
-            for n in inst.nodes:
-                node_coords[n.label] = (n.coordinates[0], n.coordinates[1])
-                
-        # Centroids and d values for physical elements
-        centroids = {}
-        if inst is not None:
-            for elem in inst.elements:
-                if 1 <= elem.label <= 22530:
-                    pts = [node_coords[nl] for nl in elem.connectivity if nl in node_coords]
-                    if len(pts) > 0:
-                        cx = sum(p[0] for p in pts) / float(len(pts))
-                        cy = sum(p[1] for p in pts) / float(len(pts))
-                        centroids[elem.label] = (cx, cy)
-
-        # Map terminal d
+        print("Extracting Crack Trajectory from terminal frame (ux=%.5f)..." % term_snap["actual_ux"])
+        layer3_start = 2 * n_phys + 1
+        layer3_end = 3 * n_phys
         term_d = {}
+
         if 'SDV' in term_frame.fieldOutputs:
             for val in term_frame.fieldOutputs['SDV'].values:
-                if 45061 <= val.elementLabel <= 67590:
-                    peid = val.elementLabel - 45060
-                    term_d[peid] = val.data[13] if len(val.data) >= 14 else val.data[0]
+                eid = val.elementLabel
+                if layer3_start <= eid <= layer3_end:
+                    phys_eid = eid - 2 * n_phys
+                    term_d[phys_eid] = float(val.data[13]) if len(val.data) >= 14 else float(val.data[0])
 
-        # Extract crack points: for each x-slice, find y of maximum d where d > 0.5
+        # Find elements with significant damage (d >= 0.5) to the right of crack tip (x >= 0.48)
         x_bins = {}
         for peid, (cx, cy) in centroids.items():
             d_val = term_d.get(peid, 0.0)
-            if d_val > 0.5 and cx >= 0.50: # Starting from crack tip x >= 0.50
-                x_key = round(cx, 2)
-                if x_key not in x_bins or d_val > x_bins[x_key]["max_d"]:
-                    x_bins[x_key] = {"max_d": d_val, "x": cx, "y": cy}
+            if d_val >= 0.50 and cx >= 0.48:
+                bin_idx = int(math.floor(cx / 0.01))
+                if bin_idx not in x_bins or d_val > x_bins[bin_idx]["max_d"]:
+                    x_bins[bin_idx] = {"max_d": d_val, "x": cx, "y": cy}
 
-        for x_k in sorted(x_bins.keys()):
-            crack_trajectory.append((x_bins[x_k]["x"], x_bins[x_k]["y"], x_bins[x_k]["max_d"]))
+        for bin_idx in sorted(x_bins.keys()):
+            crack_trajectory.append((x_bins[bin_idx]["x"], x_bins[bin_idx]["y"], x_bins[bin_idx]["max_d"]))
 
         # Sort trajectory along x
         crack_trajectory.sort(key=lambda p: p[0])
 
         if len(crack_trajectory) >= 2:
             tip_x, tip_y = 0.50, 0.50
-            last_x, last_y = crack_trajectory[-1][0], crack_trajectory[-1][1]
-            dx = last_x - tip_x
-            dy = last_y - tip_y
-            chord_angle_deg = math.degrees(math.atan2(dy, dx))
-            
-            # Extrapolate to y = 0.0 to estimate bottom exit
-            if abs(dy) > 1e-4:
-                bottom_exit_x = tip_x + (0.0 - tip_y) * (dx / dy)
-            else:
-                bottom_exit_x = last_x
+            prop_points = [p for p in crack_trajectory if p[0] >= 0.52]
+            if prop_points:
+                last_x, last_y = prop_points[-1][0], prop_points[-1][1]
+                dx = last_x - tip_x
+                dy = last_y - tip_y
+                chord_angle_deg = math.degrees(math.atan2(dy, dx))
+                
+                # Extrapolate to y = 0.0 (bottom edge)
+                if abs(dy) > 1e-4:
+                    bottom_exit_x = tip_x + (0.0 - tip_y) * (dx / dy)
+                else:
+                    bottom_exit_x = last_x
 
         print("Crack Trajectory extracted: %d points." % len(crack_trajectory))
         print("Estimated bottom exit: x = %.4f mm, chord angle = %.2f deg" % 
               (bottom_exit_x if bottom_exit_x is not None else 0.0,
                chord_angle_deg if chord_angle_deg is not None else 0.0))
 
-    # Save trajectory CSV
+    # Save crack trajectory CSV
     traj_csv_path = os.path.join(output_dir, "mode2_j2_crack_trajectory.csv")
     with open(traj_csv_path, "w") as f:
         f.write("x_mm,y_mm,d\n")
         for x, y, d in crack_trajectory:
             f.write("%.6e,%.6e,%.6e\n" % (x, y, d))
+    print("Saved crack trajectory -> %s" % traj_csv_path)
 
-    # 5. Compute Peak Force and Summary Metrics
+    # 5. Compute Peak Force, Softening, and Summary Metrics
     f_max = 0.0
     u_at_fmax = 0.0
     for s_name, t, ux, rf1 in rf_history:
@@ -275,15 +248,25 @@ def extract_mode2_adapted_fracture_evidence(odb_path, output_dir):
     final_ux = rf_history[-1][2] if len(rf_history) > 0 else 0.0
     final_dmax = dmax_history[-1][3] if len(dmax_history) > 0 else 0.0
 
+    # Find reaction force at softening horizon ux = 0.02000 mm
+    f_at_20um = final_rf
+    softening_drop_pct = ((f_max - f_at_20um) / f_max * 100.0) if f_max > 0.0 else 0.0
+
     summary = {
         "job_name": "Job-2_UEL",
         "benchmark": "Pandey & Kumar (2025) Mode-II Adapted Fracture",
-        "element_count": 22530,
-        "nodes_count": 22642,
+        "element_count": n_phys,
+        "nodes_count": len(nodes),
         "f_max_kN": f_max,
+        "f_max_N": f_max * 1000.0,
         "u_at_fmax_mm": u_at_fmax,
+        "u_at_fmax_um": u_at_fmax * 1000.0,
         "final_ux_mm": final_ux,
         "final_rf_kN": final_rf,
+        "final_rf_N": final_rf * 1000.0,
+        "f_at_20um_kN": f_at_20um,
+        "f_at_20um_N": f_at_20um * 1000.0,
+        "softening_drop_pct": softening_drop_pct,
         "final_dmax": final_dmax,
         "bottom_exit_x_mm": bottom_exit_x,
         "chord_angle_deg": chord_angle_deg,
@@ -298,7 +281,14 @@ def extract_mode2_adapted_fracture_evidence(odb_path, output_dir):
         json.dump(summary, f, indent=2)
 
     odb.close()
+    print("=" * 75)
     print("=== EXTRACTION COMPLETE. Summary saved to %s ===" % summary_json_path)
+    print("F_max = %.4f kN (%.1f N) at ux = %.4f um" % (f_max, f_max * 1000.0, u_at_fmax * 1000.0))
+    print("F(20um) = %.4f kN (%.1f N), Load drop = %.1f%%" % (f_at_20um, f_at_20um * 1000.0, softening_drop_pct))
+    print("Final d_max = %.4f" % final_dmax)
+    print("Estimated Bottom Exit: x = %.4f mm, Chord Angle = %.2f deg" % 
+          (bottom_exit_x if bottom_exit_x is not None else 0.0, chord_angle_deg if chord_angle_deg is not None else 0.0))
+    print("=" * 75)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

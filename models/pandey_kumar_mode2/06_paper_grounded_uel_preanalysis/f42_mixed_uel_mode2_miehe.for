@@ -57,13 +57,20 @@ C     Lamé parameters (Plane Strain)
       E_MU  = E_MOD / (TWO * (ONE + E_NU))
 
 C     Co-located physical element indexing
+      IF (NPROPS .GE. 6) THEN
+        N_PHYS = INT(PROPS(6))
+      ELSE
+        N_PHYS = 22530
+      ENDIF
+
       IF (JTYPE .EQ. 1 .OR. JTYPE .EQ. 3) THEN
         PHYSIDX = JELEM
+      ELSE IF (JTYPE .EQ. 2 .OR. JTYPE .EQ. 4) THEN
+        PHYSIDX = JELEM - N_PHYS
       ELSE
-        PHYSIDX = JELEM - 200000
-        IF (PHYSIDX .LE. 0) PHYSIDX = JELEM - 100000
-        IF (PHYSIDX .LE. 0) PHYSIDX = JELEM
+        PHYSIDX = JELEM
       ENDIF
+      IF (PHYSIDX .LT. 1) PHYSIDX = 1
       IF (PHYSIDX .GT. MAX_ELEM) PHYSIDX = MAX_ELEM
 
 C     Zero arrays
@@ -747,9 +754,15 @@ C ======================================================================
         ENDDO
       ENDDO
 
-      PHYSIDX = NOEL - 400000
-      IF (PHYSIDX .LE. 0) PHYSIDX = NOEL - 200000
+      IF (NPROPS .GE. 3) THEN
+        N_PHYS = INT(PROPS(3))
+      ELSE
+        N_PHYS = 22530
+      ENDIF
+
+      PHYSIDX = NOEL - 2 * N_PHYS
       IF (PHYSIDX .LE. 0) PHYSIDX = NOEL
+      IF (PHYSIDX .LT. 1) PHYSIDX = 1
       IF (PHYSIDX .GT. MAX_ELEM) PHYSIDX = MAX_ELEM
 
       D_VAL = SV_PHASE_TRIAL(PHYSIDX)
