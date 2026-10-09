@@ -1,11 +1,11 @@
 # Technical Specification: Gate M2-3 and Gate M2-4 Acceptance Criteria, Source-Frame Provenance, and Fracture Qualification
 
-**Document Version:** 1.9  
+**Document Version:** 2.0  
 **Status:** Active Governing Specification  
 **Protocol Version:** 2  
 **Date:** 2026-10-09  
 **Agent:** Gemini Antigravity  
-**Associated Tasks:** `F1353`, `F1354`, `F1355`, `F1356`, `F1357`, `F1358`, `F1359`, `F1360`, `F1361`, `F1362`, `F1363`, `F1364`, `F1365`, `F1366`, `F1367`  
+**Associated Tasks:** `F1353`, `F1354`, `F1355`, `F1356`, `F1357`, `F1358`, `F1359`, `F1360`, `F1361`, `F1362`, `F1363`, `F1364`, `F1365`, `F1366`, `F1367`, `F1368`, `F1369`, `F1370`, `F1371`  
 
 ---
 
@@ -232,3 +232,26 @@ Upon completion of Step 1 and Step 2 of Job `1411414.mmaster02`, the following q
 2. **Peak Reaction Force ($F_{\max}$):** $F_{\max} \in [365.74, 415.00]\,	ext{N}$ at $u_{	ext{peak}} \in [8.0, 9.6]\,\mu	ext{m}$.
 3. **Post-Peak Softening & Residual Reloading:** Confirmation of monotonic damage evolution $d_{\max} 	o 1.0$ and characterization of whether $8.7	imes$ bottom-ligament ultra-fine refinement accelerates terminal ligament severance ($h_{	ext{lig}} 	o 0$) or preserves the continuum compression strut under $u_y = 0$.
 4. **Crack Path Geometric Confinement:** $	heta_{\mathrm{crack}} \in [-55^\circ, -60^\circ]$ with $100\%$ spatial confinement inside the $W = 0.24\,	ext{mm}$ refinement corridor.
+
+---
+
+## 9. Gate M2-4 Digitization Uncertainty, Global Equilibrium, and Reloading Mechanics (Task F1371)
+
+### 9.1 Published Literature Digitization Uncertainty & Work Integration
+- **Authoritative Dataset:** Redigitization of Pandey & Kumar (2025) Fig. 13(a) across $N = 801$ uniformly spaced coordinate pairs over $u_x \in [0, 16.0]\,\mu\mathrm{m}$ (`references/derived/pandey_kumar_2025_fig13a_authoritative_redigitized.csv`).
+- **Peak Force Benchmark:** $F_{\max} = 365.74\,\mathrm{N}$ at $u_x = 8.300\,\mu\mathrm{m}$.
+- **External Work Integration:** Full integration over $[0, 16.0]\,\mu\mathrm{m}$ yields $W_{\mathrm{published}} = 3.516651\,\mathrm{mJ}$ ($\approx 3.517\,\mathrm{mJ}$) across Trapezoidal, Simpson, and Cubic Spline methods.
+- **Resolution of Historical Discrepancy:** The alternative value $W = 3.378\,\mathrm{mJ}$ corresponds to partial integration up to $u_x = 15.28\,\mu\mathrm{m}$ (where sharp softening terminates before the final tail) or sparse discrete sampling.
+- **Domain Limit:** The published curve ends at $u_x = 16.0\,\mu\mathrm{m}$ with $F = 184.06\,\mathrm{N}$. Zero published data exists in $[16.0, 20.0]\,\mu\mathrm{m}$.
+
+### 9.2 Global Reaction-Force Equilibrium & Boundary Constraint Audit
+- **Constraint Formulation:** Reference Point 999999 is coupled to all 97 top surface nodes via linear multipoint constraint equations `*EQUATION` ($u_1(i) - u_1(\mathrm{RP}) = 0$).
+- **Equilibrium Identity:** The horizontal reaction force $RF_1(\mathrm{RP})$ is the exact algebraic sum of nodal reactions: $RF_1(\mathrm{RP}) = \sum_{i \in N_{\mathrm{TOP}}} RF_1(i) = \int_{\Gamma_{\mathrm{top}}} \sigma_{12}\,dx$. No double counting or spurious stiffness exists.
+- **Domain Equilibrium:** $\sum F_x = 0 \implies RF_1(\mathrm{RP}) + \sum_{j \in N_{\mathrm{BOTTOM}}} RF_1(j) = 0$ to within sparse solver precision ($< 10^{-7}\,\mathrm{kN}$).
+- **Out-of-Plane Thickness:** Unit thickness $t = 1.0\,\mathrm{mm}$ is rigorously enforced under plane strain ($B = 1.0$).
+
+### 9.3 Mechanics of Post-Peak Reloading & Boundary Confinement
+- **Rapid Softening Phase ($9.0 \to 12.0\,\mu\mathrm{m}$):** Crack propagates rapidly with $da/du_x \approx 164.0\,\mathrm{mm/mm}$, reducing the intact ligament from $500.0\,\mu\mathrm{m}$ to $229.5\,\mu\mathrm{m}$. Load drops to $F_{\min} = 301.82\,\mathrm{N}$ at $u_x = 12.42\,\mu\mathrm{m}$.
+- **Boundary Deceleration & Arrest ($12.0 \to 20.0\,\mu\mathrm{m}$):** Approaching the clamped base ($y = 0$, $u_x = u_y = 0$), crack extension speed drops $15\times$ to $da/du_x = 10.92\,\mathrm{mm/mm}$ as intact ligament reaches $h_{\mathrm{lig}} = 56.32\,\mu\mathrm{m}$ ($\approx 3.75\,l_0$).
+- **Compressive Strut Load Transmission:** Constrained vertical rollers ($u_y = 0$ on top and bottom) close crack flanks, forming an un-degraded compressive strut ($\boldsymbol{\sigma}_0^-$ in Miehe spectral split) that reloads reaction force by $+78.59\,\mathrm{N}$ ($+26.04\%$) to $380.42\,\mathrm{N}$ at $u_x = 20.0\,\mu\mathrm{m}$.
+- **Verified Publication Artifacts:** Figure `results/figures/mode2/fig_mode2_f1371_digitization_audit_and_work_integration.pdf`/`.png` and unit test `tests/unit/test_mode2_f1371_digitization_and_equilibrium_audit.py` (4/4 PASS).

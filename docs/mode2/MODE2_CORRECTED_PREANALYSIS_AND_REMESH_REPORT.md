@@ -555,3 +555,24 @@ Using the hardened post-processing suite `scripts/postprocessing/extract_and_com
 | **Terminal Force $RF_1(20\,\mu	ext{m})$ [N]** | N/A | $433.47$ | $\mathbf{380.42}$ | Active solving |
 | **Work on $[0, 16]\,\mu	ext{m}$ [mJ]** | $3.378	ext{--}3.517$ | $5.223$ | $\mathbf{4.135}$ | Live ($0.030\,	ext{mJ}$) |
 | **Total Work $[0, 20]\,\mu	ext{m}$ [mJ]** | N/A | $6.995$ | $\mathbf{5.548}$ | Live ($0.030\,	ext{mJ}$) |
+
+---
+
+## 11. Digitization Audit, Global Equilibrium, and Post-Peak Mechanics (Task F1371)
+
+### 11.1 Authoritative Literature Dataset & Work Integration
+1. **Redigitized Fig. 13(a) Curve:** 801 data points spanning $u_x \in [0, 16.0]\,\mu\mathrm{m}$.
+2. **Benchmark Quantities:** Peak $F_{\max} = 365.74\,\mathrm{N}$ at $u_x = 8.30\,\mu\mathrm{m}$, terminal force $F(16\,\mu\mathrm{m}) = 184.06\,\mathrm{N}$, $W_{\mathrm{ext}} = 3.516651\,\mathrm{mJ}$ ($\approx 3.517\,\mathrm{mJ}$).
+3. **Resolution of Discrepancy:** The $3.378\,\mathrm{mJ}$ value corresponds to integration truncated at $15.28\,\mu\mathrm{m}$. Full integration over the complete published domain $[0, 16.0]\,\mu\mathrm{m}$ yields $3.517\,\mathrm{mJ}$.
+4. **Domain Boundary:** Zero published data in $[16, 20]\,\mu\mathrm{m}$.
+
+### 11.2 Reaction-Force Equilibrium & Thickness Audit
+1. **Top Coupling:** 97 nodes coupled via `*EQUATION` to RP 999999 ($u_1(i) - u_1(\mathrm{RP}) = 0$).
+2. **Equilibrium Verification:** $RF_1(\mathrm{RP}) = \sum_{i \in N_{\mathrm{TOP}}} RF_1(i) = \int_{\Gamma_{\mathrm{top}}} \sigma_{12}\,dx$. Zero double counting.
+3. **Thickness:** Plane strain with $t = 1.0\,\mathrm{mm}$ verified.
+
+### 11.3 Physics of Post-Peak Reloading & Deceleration
+1. **Rapid Softening:** $da/du_x \le 164.0\,\mathrm{mm/mm}$ during $u_x \in [9.0, 12.0]\,\mu\mathrm{m}$.
+2. **Softening Valley:** $F_{\min} = 301.82\,\mathrm{N}$ at $u_x = 12.42\,\mu\mathrm{m}$.
+3. **Deceleration & Boundary Confinement:** $da/du_x \to 10.92\,\mathrm{mm/mm}$ as $h_{\mathrm{lig}} \to 56.32\,\mu\mathrm{m}$ approaching clamped base ($y=0$, $u_x=u_y=0$). Un-degraded bulk compressive stress $\boldsymbol{\sigma}_0^-$ under $u_y=0$ drives $+26.04\%$ reloading ($380.42\,\mathrm{N}$).
+4. **Artifacts:** Verified figure `fig_mode2_f1371_digitization_audit_and_work_integration.pdf`/`.png` and unit test `test_mode2_f1371_digitization_and_equilibrium_audit.py` (4/4 PASS).
