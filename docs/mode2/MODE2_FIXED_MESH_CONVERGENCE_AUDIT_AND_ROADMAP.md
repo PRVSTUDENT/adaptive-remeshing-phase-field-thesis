@@ -188,9 +188,17 @@ However, because the current UEL does not output decomposed stress tensors $\bol
 $$\text{Status: } \mathbf{PHYSICALLY\_PLAUSIBLE\_BUT\_NOT\_QUANTITATIVELY\_VERIFIED}$$
 It must not be presented as a proven numerical fact until decomposed stress tensor fields are explicitly extracted.
 
+### 5.4 Non-Binary Epistemological Decision Framework
+
+To rigorously evaluate the upcoming results of the 4-tier fixed-mesh convergence suite and adapted simulations without confirmation bias, the analysis is mapped to four exhaustive branches:
+- **Branch 1: Asymptotic / Monotonic Convergence**: Fixed-mesh sequence shows monotonic convergence ($RF_{\max}(2.5\text{k}) > RF_{\max}(18\text{k}) > RF_{\max}(40\text{k}) \ge RF_{\max}(72\text{k})$), establishing internal numerical consistency.
+- **Branch 2: Multi-Scale Quantity Decoupling**: Global quantities ($K_0$) converge rapidly, while local quantities ($RF_{\max}$, $u_{\text{crit}}$, crack tip damage localization) exhibit distinct mesh-sensitivity rates.
+- **Branch 3: Boundary Constraint & Constitutive Splitting Sensitivity**: Variations between implementations (e.g. Miehe vs Amor split, MPC rigid boundary vs distributed loading) account for physical differences without invalidating internal numerical convergence.
+- **Branch 4: Regularization Length Scale ($l_0$) Resolution**: Sizing requirements ($h \le l_0/4$) are verified as necessary discretization thresholds for diffuse phase-field profiles rather than proofs of the continuum limit.
+
 ---
 
-## 6. Predefined Fixed-Mesh Fracture Post-Processing Pipeline
+## 6. Predefined Reference Evaluation Protocol & Fixed-Mesh Post-Processing Pipeline
 
 To avoid post-hoc bias, the comparative post-processing pipeline (`scripts/postprocessing/extract_and_compare_fixed_suite.py`) predefines the exact quantitative metrics to be evaluated upon completion of the 4-tier suite:
 
@@ -214,7 +222,7 @@ The development of the adaptive fracture framework is structured into three stri
 |                        3-LAYER THESIS ARCHITECTURE                            |
 +-------------------------------------------------------------------------------+
 |                                                                               |
-|  [ LAYER 1: NUMERICAL SOLVER & FIXED BENCHMARK FOUNDATIONS ]                  |
+|  [ LAYER 1: NUMERICAL FRACTURE SOLVER & FIXED BENCHMARK ]                      |
 |  - UEL/UMAT formulation (Miehe spectral split, subgradient consistency)       |
 |  - Spatial convergence benchmarks (4-tier fixed suite, asymptotic reference)  |
 |  - Independent validation of energy balance, stiffness, and crack path       |
@@ -223,7 +231,7 @@ The development of the adaptive fracture framework is structured into three stri
                                       |
                                       v
 +-------------------------------------------------------------------------------+
-|  [ LAYER 2: MULTI-FIELD INDICATOR & SIZING CONTROLLER ]                       |
+|  [ LAYER 2: ADAPTIVE MESH CONTROLLER & MULTI-FIELD INDICATOR ]                |
 |  - Multi-physics error indicator eta_K combining stress & phase gradients     |
 |  - Dynamic weighting (elastic stress concentration -> damage localization)    |
 |  - Physical sizing bounds: h_min = l_0 / 4 <= h_new <= h_max                 |
