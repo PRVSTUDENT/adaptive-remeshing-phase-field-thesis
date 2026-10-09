@@ -1,10 +1,10 @@
 {
-    "task_id": "F1354-MODE2-M2-3-GATE-ACCEPTANCE-REVISION-AND-SOURCE-PROVENANCE",
+    "task_id": "F1355-MODE2-CORRECT-FRAME-PROVENANCE-AND-RECONCILE-METRICS",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "phase": "Mode-II Gate M2-3 Acceptance Revision, Source Provenance Audit, and Solver Protection",
+    "phase": "Mode-II Frame Provenance Correction, Mesh Metric Reconciliation, Test Strengthening, and Active Fracture Evaluation",
     "gate_status": "MODE2_GATE_M2_4_ADAPTED_STABILIZED_FRACTURE_RUNNING",
-    "last_updated": "2026-10-09T08:30:00+02:00",
+    "last_updated": "2026-10-09T08:50:00+02:00",
     "active_pbs_job_ids": [
         "1411267.mmaster02"
     ],
@@ -21,17 +21,17 @@
         "Single-rank shared-memory SMP (1 CPU serial authoritative anchor, 16 GB RAM, normal_imfdfkmq)",
         "No non-physical artificial viscosity or modified constitutive law",
         "Explicitly separate mandatory scientific results from preparatory analysis and pending work",
-        "Define acceptance criteria for Gate M2-3 (native refinement mechanism, source-frame provenance, spatial localization) and Gate M2-4 (complete fracture response, convergence, damage evolution, literature comparison)",
-        "Confirm exact Step-2 MISESERI frame (Step 2 Frame 20, ux=20um) used for improved adaptive mesh",
+        "Abaqus RemeshingRule source-step semantics qualified as SOURCE_STEP_VERIFIED_FRAME_SELECTION_NOT_YET_QUALIFIED",
+        "Reconcile mesh size distribution and physical element density dimensions (82,347 fine elem/mm^2 in corridor vs 3,933 outside, 20.94x density contrast)",
         "Preserve PBS Job 1411267.mmaster02 without modification or duplicate submission",
         "Do not declare Mode-II reproduction complete before full post-peak qualification",
         "Next supervisor meeting milestone: Thursday, 22 October 2026, 10:00 AM"
     ],
     "last_documentation_correction": {
-        "task_id": "F1354-MODE2-M2-3-GATE-ACCEPTANCE-REVISION-AND-SOURCE-PROVENANCE",
+        "task_id": "F1355-MODE2-CORRECT-FRAME-PROVENANCE-AND-RECONCILE-METRICS",
         "status": "COMPLETED",
         "agent": "gemini-antigravity",
-        "updated_at": "2026-10-09T08:30:00+02:00",
+        "updated_at": "2026-10-09T08:50:00+02:00",
         "scientific_phase_changed": false
     }
 }

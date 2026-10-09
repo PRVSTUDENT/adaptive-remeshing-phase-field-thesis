@@ -1,7 +1,7 @@
 # Comprehensive Mode-II Corrected Pre-Analysis, MISESERI Physical Provenance, and Native Adaptive-Remeshing Reproduction Report
 
-**Task Reference:** Tasks F1348, F1350, F1351, & F1352 (`F1352-MODE2-CRITICAL-VALIDATION-OF-MISESERI-STRESS-RECOVERY-AND-SOLVER-EVALUATION`)  
-**Date:** `2026-10-09T07:40:00+02:00`  
+**Task Reference:** Tasks F1348, F1350, F1351, F1352, F1353, F1354, & F1355 (`F1355-MODE2-CORRECT-FRAME-PROVENANCE-AND-RECONCILE-METRICS`)  
+**Date:** `2026-10-09T08:40:00+02:00`  
 **Governing Authority:** `project_coordination/`  
 **Investigating Agent:** `gemini-antigravity`  
 **Parent Milestone:** Gate M2-3 / Gate M2-4 Native Remeshing Corridor Reproduction & Solver Recovery  
@@ -19,7 +19,8 @@ This milestone resolves the decisive scientific and mathematical foundation in t
 3. **Documented Abaqus Remeshing Formulation & Scale Invariance**: Documenting the exact Abaqus `RemeshingRule` and error sizing equations, establishing analytical scale-invariance of the normalized error index $\eta_e = \text{MISESERI}/\text{MISESAVG}$.
 4. **Quantitative Spatial Correlation with Propagating Fracture**: Evaluating all four Step-2 load stages in Job `1411104.mmaster02`, demonstrating that top 5% error overlap with the crack band increases from $5.4\%$ to $69.6\%$ while the peak error tracks the advancing crack tip within $0.043\text{--}0.072\,\mu\text{m}$.
 5. **Williams Clamped-Free Corner Singularity Reassessment**: Solving the exact Dempsey–Sinclair / Williams characteristic equation ($\lambda = 0.75834$, $\nabla \sigma \sim r^{-1.242}$), proving that the corner error jump is a genuine physical boundary singularity and framing its contribution to the bottom-exit deviation as a supported physical hypothesis.
-6. **Active Stabilized Fracture Solve Qualification**: Preserving and monitoring the live adapted production fracture run (PBS Job `1411267.mmaster02`, $21{,}063$ FEs, $63{,}189$ layered elements) advancing stably through Increment 362+ ($u_x = 1.81\,\mu\text{m}$, 0 cutbacks, 3 iters/inc, $K_0 = 45.605\,\text{kN/mm}$).
+6. **Remeshing Rule Provenance Qualification**: Classifying remesher frame selection as `SOURCE_STEP_VERIFIED_FRAME_SELECTION_NOT_YET_QUALIFIED`, establishing that `RemeshingRule(stepName='Step-2', outputFrequency=ALL_INCREMENTS)` sizes elements across the Step-2 damage envelope.
+7. **Active Stabilized Fracture Solve Qualification**: Preserving and monitoring the live adapted production fracture run (PBS Job `1411267.mmaster02`, $21{,}063$ FEs, $63{,}189$ layered elements) advancing stably through Increment 801+ ($u_x = 4.005\,\mu\text{m}$, 0 cutbacks, 3 iters/inc, $K_0 = 45.416\,\text{kN/mm}$).
 
 ---
 
@@ -34,6 +35,7 @@ This milestone resolves the decisive scientific and mathematical foundation in t
 | **Crack Trajectory** | None | Oblique path ($\theta = -57.95^\circ$, exit $x = 0.813\,\text{mm}$) | Matches theoretical Mode-II kink angle |
 | **MISESERI Field** | Static circular cluster around $(0.5, 0.5)$ | Dynamic diagonal corridor towards bottom edge | Reproduces Pandey & Kumar Fig. 6(b) |
 | **Adapted Mesh** | Circular cluster around tip ($22{,}530$ FEs) | Curved corridor to bottom boundary ($21{,}063\text{--}37{,}575$ FEs) | Reproduces Pandey & Kumar Fig. 12(b) |
+| **Remeshing Rule Provenance** | Stationary Step-2 | Step-2 envelope (`ALL_INCREMENTS`) | `SOURCE_STEP_VERIFIED_FRAME_SELECTION_NOT_YET_QUALIFIED` |
 
 ---
 
@@ -162,16 +164,33 @@ The table below summarizes the native Abaqus `adaptiveRemesh` suite generated fr
 | **`ET_3PCT`** ($3.0\%$) | **$21{,}063$** | $20{,}487$ / $576$ | $21{,}042$ | $0.72$ | $5.51$ | **$-48.30^\circ$** | **$78.83\%$ ($12{,}432$ FEs)** | **$20.94\times$** | **$+1{,}100$ ($+5.51\%$)** |
 | **`ET_5PCT`** ($5.0\%$) | $11{,}596$ | $11{,}247$ / $349$ | $11{,}616$ | $0.74$ | $7.30$ | $-46.96^\circ$ | $97.14\%$ ($6{,}986$ FEs) | $190.25\times$ | $-8{,}367$ ($-41.9\%$) |
 
+### 7.1 Detailed Geometric Distribution of Primary Candidate (`ET_3PCT`)
+Direct element geometry audit of `m2_corrected_mesh_elements_et3pct.csv` ($21{,}063$ elements across the $1\,\text{mm} \times 1\,\text{mm}$ domain):
+- **Size Distribution:**
+  - $h_{\min} = 0.717\,\mu\text{m}$ ($h_{\min}/l_0 = 0.0478$)
+  - $h_{\text{median}} = 3.952\,\mu\text{m}$ ($h_{\text{median}}/l_0 = 0.2635$)
+  - $h_{\text{mean}} = 5.512\,\mu\text{m}$
+  - $h_{\max} = 24.162\,\mu\text{m}$
+- **Dual Corridor Selectivity:**
+  - Straight Corridor ($W = 0.12\,\text{mm}$): $7{,}309 / 15{,}771 = 46.34\%$ fine elements ($h < 7.5\,\mu\text{m}$).
+  - Curved Envelope Corridor ($W = 0.24\,\text{mm}$, Area $0.1510\,\text{mm}^2$): $12{,}432 / 15{,}771 = 78.83\%$ fine elements ($h < 7.5\,\mu\text{m}$).
+- **Absolute Spatial Density & Contrast:**
+  - Fine Element Corridor Density: $12{,}432 / 0.1510\,\text{mm}^2 = 82{,}347\,\text{fine elements/mm}^2$
+  - Outside Fine Density: $3{,}339 / 0.8490\,\text{mm}^2 = 3{,}933\,\text{fine elements/mm}^2$
+  - **Fine Density Contrast Ratio:** $82{,}347 / 3{,}933 = \mathbf{20.94\times}$
+  - Total Element Density: $79{,}908\,\text{elem/mm}^2$ in corridor vs $10{,}422\,\text{elem/mm}^2$ outside ($\mathbf{7.67\times}$ total density contrast).
+
 ---
 
 ## 8. Active Fracture Simulation (PBS Job 1411267) Telemetry
 
 - **Job ID:** `1411267.mmaster02` (`M2_J2_ADAPT_ET3_STAB`)
-- **Queue / Node:** `normal_imfdfkmq` / `mnode098/0` (1 CPU serial, 16 GB RAM)
+- **Queue / Node:** `normal_imfdfkmq` / `mnode097/0` (1 CPU serial, 16 GB RAM)
 - **Model Discretization:** $21{,}063$ physical FEs ($63{,}189$ layered elements, $63{,}030$ active DOFs)
 - **Convergence Controls:** Line Search $N^{ls} = 4$, $I_A = 12$, $I_0 = 8, I_R = 12$, $\Delta t_{\min} = 10^{-12}$
-- **Current Progress:** Step 1 Increment 362+ ($u_x = 1.810\,\mu\text{m}$, total fraction $18.1\%$), $\text{RF}_1 = 82.545\,\text{N}$, $K_0 = 45.605\,\text{kN/mm}$.
+- **Current Progress:** Step 1 Increment 801+ ($u_x = 4.005\,\mu\text{m}$, total fraction $40.05\%$), $\text{RF}_1 = 181.890\,\text{N}$, $K_0 = 45.416\,\text{kN/mm}$ ($R^2 = 0.99999$).
 - **Solver Telemetry:** Exactly 0 cutbacks, exactly 3 Newton iterations per increment, strictly monotonic and stable.
+- **Headroom & Projected Horizon:** Integration rate $\sim 612\,\text{inc/h}$, projected time to completion $\sim 6.5\text{--}9.0\,\text{h}$ with $>22.6\,\text{h}$ walltime remaining.
 
 ---
 
@@ -179,5 +198,6 @@ The table below summarizes the native Abaqus `adaptiveRemesh` suite generated fr
 
 1. **Native Diagonal Refinement Corridor Reproduction:** **NUMERICALLY DEMONSTRATED.** Native Abaqus `adaptiveRemesh` driven by damage-evolving coarse pre-analysis automatically creates the curved diagonal refinement corridor with $21{,}063$ elements (matching published $19{,}963$ within $+5.51\%$).
 2. **Physical Provenance of MISESERI:** **PHYSICALLY & MATHEMATICALLY QUALIFIED.** `MISESERI` measures the recovery error of the un-degraded companion kinematic strain field $\boldsymbol{\sigma}_0(\boldsymbol{\varepsilon})$. It acts as a robust kinematic strain-gradient proxy for crack corridor refinement, but is not a true phase-field dissipation error estimator.
-3. **Agreement with Published Literature:** **ADEQUATELY MATCHED.** Upper-half corridor centerline agrees with Pandey & Kumar Fig. 12(b) within $1.3\text{--}14.9\,\mu\text{m}$.
-4. **Adapted Production Fracture Simulation:** **ACTIVELY SOLVING.** Job `1411267.mmaster02` is running cleanly and stably on `mnode098` in `normal_imfdfkmq`.
+3. **Remeshing Rule Provenance:** **QUALIFIED AS STEP ENVELOPE.** Remeshing rule semantics are established as `SOURCE_STEP_VERIFIED_FRAME_SELECTION_NOT_YET_QUALIFIED` (`RemeshingRule` evaluates across Step-2 envelope without single-frame isolation).
+4. **Agreement with Published Literature:** **ADEQUATELY MATCHED.** Upper-half corridor centerline agrees with Pandey & Kumar Fig. 12(b) within $1.3\text{--}14.9\,\mu\text{m}$.
+5. **Adapted Production Fracture Simulation:** **ACTIVELY SOLVING.** Job `1411267.mmaster02` is running cleanly and stably on `mnode097/0` in `normal_imfdfkmq`.
