@@ -1,13 +1,13 @@
 # Technical Specification: Gate M2-3 and Gate M2-4 Acceptance Criteria, Source-Frame Provenance, and Fracture Qualification Framework
 
-**Task Reference:** Task F1355 (`F1355-MODE2-CORRECT-FRAME-PROVENANCE-AND-RECONCILE-METRICS`)  
+**Task Reference:** Task F1356 (`F1356-MODE2-MESH-DENSITY-CONSISTENCY-AND-ACTIVE-FRACTURE-QUALIFICATION`)  
 **Protocol Version:** 2  
-**Date:** `2026-10-09T08:35:00+02:00`  
+**Date:** `2026-10-09T09:15:00+02:00`  
 **Governing Authority:** `project_coordination/`  
 **Investigating Agent:** `gemini-antigravity`  
 **Parent Milestone:** Gate M2-3 / Gate M2-4 Native Remeshing Corridor Reproduction & Solver Recovery  
 **Branch:** `mode2-pandey-kumar-reproduction`  
-**Starting Commit:** `0a6773184e83a8351b858b99b08d3e58b850d8f3`  
+**Starting Commit:** `aa45f4c5c7314851cab6e3c075b6bc12537368ee`  
 **Mode-I Baseline Freeze:** `v2026.10.08-supervisor-meeting-mode1-freeze` (100% byte-identical and untouched)
 
 ---
@@ -36,7 +36,7 @@ The Mode-II reproduction workflow is strictly structured into four sequential ph
 |                         PHASE B: ACTIVE ADAPTED FRACTURE SIMULATION                               |
 |                                                                                                   |
 |  [Stabilized Production Deck (21,063 FE)] -> [PBS Job 1411267 on mnode097/0]                     |
-|       Line Search N_ls = 4, IA = 12                Step 1 Inc 801+ (ux = 4.01 um), 0 cutbacks     |
+|       Line Search N_ls = 4, IA = 12                Step 1 Inc 972+ (ux = 4.86 um), 0 cutbacks     |
 |                                                    K0 = 45.416 kN/mm, 3 iters/inc                 |
 |                                                                                                   |
 |  GATE M2-4 STATUS: ACTIVE_STABILIZED_FRACTURE_RUNNING (Pending Post-Peak Fracture Completion)     |
@@ -102,28 +102,53 @@ To prevent ambiguity when records or documentation conflict, the following stric
   - **Diagnostic Frame Inspection:** The script diagnostically probed `last_frame = step2.frames[-1]` (Increment 2000, Frame 20 of output step, $u_x = 20\,\mu\text{m}$, $t_{\text{total}} = 2.000$) to verify that the ODB contained the completed damage state ($d_{\max}=1.0$, $\eta_{\max}=26.18$, top 10% error orientation $=-34.07^\circ$, crack corridor error fraction $=43.92\%$).
   - **Epistemic Classification:** **`SOURCE_STEP_VERIFIED_FRAME_SELECTION_NOT_YET_QUALIFIED`**. (Step-2 association is verified and proved; whether Abaqus evaluated exclusively the final frame or the multi-frame envelope is governed by the native `ALL_INCREMENTS` sizing engine).
 
-### 2.3 Criterion 3: Quantitative Spatial Localization, Dual Selectivity Metrics, and Local Size Distribution
-- **Requirement:** The resulting native mesh must match the published element count within the working engineering target ($\pm 10\%$), demonstrate significant spatial selectivity inside the physical corridor, and resolve the phase-field regularizing length scale $l_0 = 15.0\,\mu\text{m}$.
+### 2.3 Criterion 3: Quantitative Spatial Localization, Invariant Density Partition, and Local Size Distribution
+- **Requirement:** The resulting native mesh must match the published element count within the working engineering target ($\pm 10\%$), demonstrate significant spatial selectivity inside the physical corridor, resolve the phase-field regularizing length scale $l_0 = 15.0\,\mu\text{m}$, and satisfy all mathematical partition invariants without impossible subsets ($N_{\text{fine,in}} \le N_{\text{all,in}}$, $N_{\text{fine,out}} \le N_{\text{all,out}}$, $N_{\text{in}} + N_{\text{out}} = N_{\text{total}}$).
 - **Quantitative Metrics for `ET_3PCT` (ErrorTarget = 3.0%):**
-  1. **Element Count:** **$21{,}063$ finite elements** ($20{,}487$ quads, $576$ tris, $21{,}042$ physical nodes, $63{,}030$ DOFs).
-     - Comparison with Pandey & Kumar (2025) Table 3 ($19{,}963$ elements): **$+1{,}100$ elements (+5.51%)**, well within the $\pm 10\%$ engineering target. Note: This $\pm 10\%$ is an adopted engineering working target, not a formal supervisor decree.
+  1. **Element and Node Counts:**
+     - **$21{,}063$ physical finite elements** ($20{,}487$ quads, $576$ tris). Total physical area $= 1.000000\,\text{mm}^2$.
+     - **$21{,}042$ mesh nodes** in the input deck (Nodes 1 to 21042).
+     - **$54$ duplicated seam node pairs** (Nodes 20989 to 21042 duplicated against existing flank nodes along $y=0.5, 0 \le x < 0.5$) providing discontinuous flank separation.
+     - **$20{,}988$ unique geometric coordinate vertices** ($21{,}042 - 54$).
+     - **$1$ Reference Point node** (Node 999999).
+     - **$21{,}043$ total defined nodes** in Abaqus.
+     - **$63{,}127$ total model variables** ($21{,}042 \times 3 + 1$).
+     - **$63{,}189$ co-located layered elements** ($21{,}063 \times 3$).
+     - Comparison with Pandey & Kumar (2025) Table 3 ($19{,}963$ elements): **$+1{,}100$ elements (+5.51%)**, well within the $\pm 10\%$ engineering target.
   2. **Corridor Trajectory:** Chord angle $\theta = \mathbf{-48.30^\circ}$, exiting the bottom boundary at $x = 0.985\,\text{mm}$.
-  3. **Dual Spatial Fine-Element Selectivity Metrics:**
-     - **Narrow Straight Chord Box ($W = 0.12\,\text{mm}$):** Straight band connecting $(0.5, 0.5)$ to $(0.85, 0.0)$ captures **$46.34\%$** ($7{,}309 / 15{,}771$) of all fine elements ($h \le 0.008\,\text{mm}$).
-     - **Mesh-Following Curved Physical Envelope ($W = 0.24\,\text{mm}$):** Curved envelope tracking the actual fine element centroid trajectory along the curved shear path captures **$78.83\%$** ($12{,}432 / 15{,}771$) of all fine elements.
-  4. **Rigorous Element Density Contrast Evaluation:**
-     - Corridor region area: $A_{\text{corridor}} = 0.1510\,\text{mm}^2$ ($15.10\%$ of specimen area).
-     - Outside corridor area: $A_{\text{outside}} = 0.8490\,\text{mm}^2$ ($84.90\%$ of specimen area).
-     - Fine elements in corridor: $N_{\text{fine, corridor}} = 12{,}432 \implies \rho_{\text{fine, corridor}} = \mathbf{82{,}347\,\text{fine elements/mm}^2}$.
-     - Fine elements outside corridor: $N_{\text{fine, outside}} = 3{,}339 \implies \rho_{\text{fine, outside}} = \mathbf{3{,}933\,\text{fine elements/mm}^2}$.
-     - **Fine Element Density Contrast Ratio:** $\rho_{\text{fine, corridor}} / \rho_{\text{fine, outside}} = \mathbf{20.94\times}$.
-     - **Total Element Density Contrast Ratio:** $79{,}908 / 10{,}422 = \mathbf{7.67\times}$ (curved envelope vs far-field).
-  5. **Local Element Size Distribution (Whole Domain):**
-     - Minimum element size: $h_{\min} = 0.717\,\mu\text{m} \implies h_{\min} / l_0 = 0.0478$ ($>20$ elements resolving the regularizing zone).
-     - Median element size: $h_{\text{median}} = \mathbf{3.952\,\mu\text{m}} \implies h_{\text{median}} / l_0 = 0.2635 \ll 0.5$.
-     - Mean element size: $h_{\text{mean}} = \mathbf{5.512\,\mu\text{m}} \implies h_{\text{mean}} / l_0 = 0.3675$.
-     - Maximum element size: $h_{\max} = 24.162\,\mu\text{m}$ (in the far field).
-     - Percentiles: $h_{p10} = 1.782\,\mu\text{m}$, $h_{p25} = 2.177\,\mu\text{m}$, $h_{p75} = 8.024\,\mu\text{m}$, $h_{p90} = 11.107\,\mu\text{m}$.
+  3. **Unified Curved Refinement Envelope ($W = 0.24\,\text{mm}$, Area $0.153139\,\text{mm}^2$ inside, $0.846861\,\text{mm}^2$ outside):**
+     - **Total Elements:** $N_{\text{all,in}} = \mathbf{12{,}237}$ ($58.10\%$), $N_{\text{all,out}} = \mathbf{8{,}826}$ ($41.90\%$), Sum $= 21{,}063$ ($100\%$).
+     - **At Phase-Field Resolution Threshold $h \le l_0 / 2 = 7.5\,\mu\text{m}$ ($N_{\text{fine,total}} = 15{,}187$):**
+       - Fine inside corridor: $N_{\text{fine,in}} = \mathbf{11{,}768}$ ($\mathbf{77.49\%}$ fine selectivity).
+       - Fine outside corridor: $N_{\text{fine,out}} = \mathbf{3{,}419}$.
+       - Coarse inside corridor ($h > 7.5\,\mu\text{m}$): $N_{\text{coarse,in}} = \mathbf{469}$.
+       - Coarse outside corridor ($h > 7.5\,\mu\text{m}$): $N_{\text{coarse,out}} = \mathbf{5{,}407}$.
+       - Fine element density inside: $\rho_{\text{fine,in}} = 11{,}768 / 0.153139 = \mathbf{76{,}845\,\text{elem/mm}^2}$.
+       - Fine element density outside: $\rho_{\text{fine,out}} = 3{,}419 / 0.846861 = \mathbf{4{,}037\,\text{elem/mm}^2}$.
+       - **Fine Element Density Contrast Ratio:** $\rho_{\text{fine,in}} / \rho_{\text{fine,out}} = \mathbf{19.03\times}$.
+       - **Total Element Density Contrast Ratio:** $\rho_{\text{all,in}} / \rho_{\text{all,out}} = 79{,}908 / 10{,}422 = \mathbf{7.67\times}$.
+     - **At $h \le 8.0\,\mu\text{m}$ ($N_{\text{fine,total}} = 15{,}771$):**
+       - $N_{\text{fine,in}} = \mathbf{11{,}871}$ ($75.27\%$ fine selectivity), $N_{\text{fine,out}} = \mathbf{3{,}900}$.
+       - Fine contrast ratio: $\mathbf{16.83\times}$.
+  4. **Independent Literature Reference Corridor ($W = 0.24\,\text{mm}$ along published trajectory to $x = 0.868\,\text{mm}$, Area $0.147934\,\text{mm}^2$):**
+     - Total elements in published corridor: $N_{\text{all,in}} = \mathbf{10{,}955}$, Far-field: $N_{\text{all,out}} = \mathbf{10{,}108}$.
+     - Fine elements ($h \le 7.5\,\mu\text{m}$): $N_{\text{fine,in}} = \mathbf{10{,}393}$ ($\mathbf{68.43\%}$ selectivity), $N_{\text{fine,out}} = \mathbf{4{,}794}$.
+     - Fine density: $\rho_{\text{fine,in}} = 70{,}254\,\text{elem/mm}^2$ vs $\rho_{\text{fine,out}} = 5{,}626\,\text{elem/mm}^2 \implies \mathbf{12.49\times}$ fine contrast ratio.
+     - Confirms that high spatial selectivity is physically genuine and not an artifact of curve-fitting.
+  5. **Local Element Size Distribution (Whole Domain & Sub-Regions):**
+     - **Whole Domain ($21{,}063$ FEs):**
+       - $h_{\min} = 0.717\,\mu\text{m}$ ($0.0478\,l_0$, $>20$ elements across regularizing zone).
+       - $h_{p10} = 1.782\,\mu\text{m}$ ($0.1188\,l_0$).
+       - $h_{\text{median}} = \mathbf{3.952\,\mu\text{m}}$ ($0.2635\,l_0 \ll 0.5$).
+       - $h_{\text{mean}} = \mathbf{5.512\,\mu\text{m}}$ ($0.3675\,l_0$).
+       - $h_{p90} = 11.107\,\mu\text{m}$ ($0.7405\,l_0$).
+       - $h_{\max} = 24.162\,\mu\text{m}$ ($1.6108\,l_0$).
+     - **Initiation Region ($x \in [0.5, 0.6], y \in [0.4, 0.5]$, $1{,}913$ FEs):**
+       - $h_{\min} = 0.723\,\mu\text{m}$ ($0.048\,l_0$).
+       - $h_{\text{median}} = \mathbf{1.944\,\mu\text{m}}$ ($0.130\,l_0$).
+       - $h_{\max} = 6.184\,\mu\text{m}$ ($0.412\,l_0 \implies \mathbf{100\%}$ of initiation elements satisfy $h < l_0/2$).
+     - **Lower Propagation Region ($x \in [0.6, 1.0], y \in [0.0, 0.4]$, $8{,}165$ FEs):**
+       - $h_{\text{median}} = \mathbf{3.386\,\mu\text{m}}$ ($0.226\,l_0$).
   6. **Centerline Agreement:** Upper-half crack initiation centerline ($Y \in [0.35, 0.50]\,\text{mm}$) agrees with Pandey & Kumar Fig. 12(b) within **$1.3\text{--}14.9\,\mu\text{m}$**. The lower exit deviates outward to $x = 0.985\,\text{mm}$ (+0.117 mm vs Fig. 12(b) at $x=0.868\,\text{mm}$) due to the linear-elastic corner stress error concentration.
 
 ### 2.4 Nuanced Gate M2-3 Classification Matrix
@@ -132,7 +157,7 @@ To prevent ambiguity when records or documentation conflict, the following stric
 | :--- | :--- | :---: | :--- |
 | **1. Refinement Mechanism** | `NATIVE_REMESHING_MECHANISM_VERIFIED` | **PASS** | Pure native Abaqus `RemeshingRule` + `adaptiveRemesh` without geometric partitioning. |
 | **2. Qualitative Topology** | `REFINEMENT_CORRIDOR_QUALITATIVELY_REPRODUCED` | **PASS** | Genuine diagonal curved corridor formed tracking the Mode-II shear crack path. |
-| **3. Quantitative Metrics** | `SPATIAL_AGREEMENT_PARTIALLY_QUALIFIED` | **PASS** | Upper centerline within $1.3\text{--}14.9\,\mu\text{m}$, element count $+5.51\%$, fine density contrast $20.94\times$. |
+| **3. Quantitative Metrics** | `SPATIAL_AGREEMENT_PARTIALLY_QUALIFIED` | **PASS** | Upper centerline within $1.3\text{--}14.9\,\mu\text{m}$, element count $+5.51\%$, fine density contrast $19.03\times$. |
 | **4. Exact Bottom Exit** | `EXACT_LITERATURE_GEOMETRY_NOT_REPRODUCED` | **LIMITATION** | Bottom exit deviates outward by $+0.117\,\text{mm}$ due to linear-elastic corner singularity. |
 
 **Overall Gate M2-3 Status:** **CLOSED_PASSED_CORRECTED_CORRIDOR_QUALIFIED**.
@@ -176,21 +201,22 @@ To prevent ambiguity when records or documentation conflict, the following stric
 | :--- | :--- | :--- | :--- |
 | **PBS Job ID** | `1411267.mmaster02` | `1411267.mmaster02` (`M2_J2_ADAPT_ET3_STAB`) | Active Production Solve |
 | **Compute Node / Queue** | `mnode097` / `normal_imfdfkmq` | `mnode097/0` / `normal_imfdfkmq` (1 CPU serial, 16 GB RAM) | Valid Host & Queue |
-| **Discretization** | $21{,}063$ FEs (`ET_3PCT`) | $21{,}063$ physical FEs ($63{,}189$ layered elements, $63{,}030$ DOFs) | Exact Match |
-| **Active Increment** | Step 1, $u_x = 0 \to 10\,\mu\text{m}$ | **Step 1 Increment 801+** ($u_x = 4.005\,\mu\text{m}$, **40.05% of Step 1 completed**) | Monotonically Advancing |
-| **Current Reaction Force** | Linear Elastic Range | $RF_1 = 182.12\,\text{N}$ at $u_x = 4.010\,\mu\text{m}$ | Physically Consistent |
+| **Discretization** | $21{,}063$ FEs (`ET_3PCT`) | $21{,}063$ physical FEs ($63{,}189$ layered elements, $63{,}127$ model vars) | Exact Match |
+| **Active Increment** | Step 1, $u_x = 0 \to 10\,\mu\text{m}$ | **Step 1 Increment 972+** ($u_x = 4.860\,\mu\text{m}$, **48.60% of Step 1 completed**) | Monotonically Advancing |
+| **Current Reaction Force** | Linear Elastic Range | $RF_1 = 220.35\,\text{N}$ at $u_x = 4.860\,\mu\text{m}$ | Physically Consistent |
 | **Structural Stiffness ($K_0$)** | $45.5\text{--}47.7\,\text{kN/mm}$ | **$K_0 = 45.416\,\text{kN/mm}$** ($R^2 = 0.99999$, linear regression) | **PASS (Exact Match)** |
-| **Newton Convergence** | Stable | **0 cutbacks**, **exactly 3 iterations / increment** across all 801 incs | Highly Stable |
-| **Memory Usage** | $< 16\,\text{GB}$ | $3.96\,\text{GB}$ physical resident set size | Fully Compliant |
+| **Newton Convergence** | Stable | **0 cutbacks**, **exactly 3 iterations / increment** across all 972 incs | Highly Stable |
+| **Memory Usage** | $< 16\,\text{GB}$ | $4.59\,\text{GB}$ physical resident set size | Fully Compliant |
+| **ODB File Size** | Growing | **$4.00\,\text{GB}$** ($3{,}996{,}123{,}136$ bytes) | Monotonically Buffered |
 
 ### 4.2 Walltime Exhaustion Risk Assessment & Restart Setting Analysis
 - **Allocated PBS Walltime:** $24:00:00$ ($86{,}400\,\text{s}$).
-- **Elapsed Walltime:** $01:18:44$ ($\approx 1.31\,\text{h}$).
-- **Measured Throughput:** $801\,\text{increments} / 1.31\,\text{h} \approx \mathbf{612\,\text{increments/hour}}$.
+- **Elapsed Walltime:** $01:34:50$ ($\approx 1.58\,\text{h}$).
+- **Measured Throughput:** $972\,\text{increments} / 1.58\,\text{h} \approx \mathbf{615\,\text{increments/hour}}$.
 - **Total Simulation Horizon:** $4{,}000\,\text{increments}$ (Step 1: 2,000 incs; Step 2: 2,000 incs).
-- **Projected Total Walltime:** $4{,}000 / 612 \approx \mathbf{6.5\,\text{hours}}$ (or $\sim 7.5\text{--}9.0\,\text{hours}$ allowing for slower softening iterations).
+- **Projected Total Walltime:** $4{,}000 / 615 \approx \mathbf{6.5\,\text{hours}}$ (or $\sim 7.5\text{--}9.0\,\text{hours}$ allowing for slower softening iterations).
 - **Walltime Risk Level:** **VERY LOW** ($\approx 35\%$ of the $24.0\,\text{h}$ allocation ceiling).
-- **Restart Setting Evaluation:** The input deck specifies `*Restart, write, frequency=0`. Consequently, intermediate restart `.res` files are not written. In the unlikely event of unexpected hardware failure or walltime exhaustion, execution cannot be resumed from an intermediate increment and would require resubmission. However, given current solver stability (0 cutbacks, 3 iters/inc) and ample walltime headroom ($>22.6\,\text{hours}$ remaining), the running job is left completely undisturbed.
+- **Restart Setting Evaluation:** The input deck specifies `*Restart, write, frequency=0`. Consequently, intermediate restart `.res` files are not written. In the unlikely event of unexpected hardware failure or walltime exhaustion, execution cannot be resumed from an intermediate increment and would require resubmission. However, given current solver stability (0 cutbacks, 3 iters/inc) and ample walltime headroom ($>22.4\,\text{hours}$ remaining), the running job is left completely undisturbed.
 
 ---
 
@@ -204,4 +230,4 @@ To prevent ambiguity when records or documentation conflict, the following stric
 | **4. Element count versus published 19,963** | **Quantitatively documented (+5.51%)** | $21{,}063$ vs $19{,}963$ elements ($+1{,}100$ FEs, within $\pm 10\%$ working target). |
 | **5. Full spatial agreement with literature** | **Partial (Upper half $1.3\text{--}14.9\,\mu\text{m}$; bottom exit $+0.117\,\text{mm}$ offset)** | Documented limitation due to corner stress error concentration. |
 | **6. Physical meaning of companion-UMAT MISESERI** | **Effective-strain-related recovered-stress error proxy** | Companion Layer 3 measures un-degraded kinematic strain field; $10^7\times$ ratio vs tensile physical stress. |
-| **7. Adapted fracture response through 20 µm** | **Pending actual solver completion (`ACTIVE_STABILIZED_FRACTURE_RUNNING`)** | Solver at Inc 801+ ($u_x = 4.01\,\mu\text{m}$); advancing steadily toward initiation and softening. |
+| **7. Adapted fracture response through 20 µm** | **Pending actual solver completion (`ACTIVE_STABILIZED_FRACTURE_RUNNING`)** | Solver at Inc 972+ ($u_x = 4.86\,\mu\text{m}$); advancing steadily toward initiation and softening. |

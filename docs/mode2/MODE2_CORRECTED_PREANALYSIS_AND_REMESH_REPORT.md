@@ -1,12 +1,12 @@
 # Comprehensive Mode-II Corrected Pre-Analysis, MISESERI Physical Provenance, and Native Adaptive-Remeshing Reproduction Report
 
-**Task Reference:** Tasks F1348, F1350, F1351, F1352, F1353, F1354, & F1355 (`F1355-MODE2-CORRECT-FRAME-PROVENANCE-AND-RECONCILE-METRICS`)  
-**Date:** `2026-10-09T08:40:00+02:00`  
+**Task Reference:** Tasks F1348, F1350, F1351, F1352, F1353, F1354, F1355, & F1356 (`F1356-MODE2-MESH-DENSITY-CONSISTENCY-AND-ACTIVE-FRACTURE-QUALIFICATION`)  
+**Date:** `2026-10-09T09:15:00+02:00`  
 **Governing Authority:** `project_coordination/`  
 **Investigating Agent:** `gemini-antigravity`  
 **Parent Milestone:** Gate M2-3 / Gate M2-4 Native Remeshing Corridor Reproduction & Solver Recovery  
 **Branch:** `mode2-pandey-kumar-reproduction`  
-**Starting Commit:** `06f9eba4fac7f448548b30587219ec9ca9cb0af3`  
+**Starting Commit:** `aa45f4c5c7314851cab6e3c075b6bc12537368ee`  
 **Mode-I Baseline Freeze:** `v2026.10.08-supervisor-meeting-mode1-freeze` (100% byte-identical and untouched)
 
 ---
@@ -20,7 +20,8 @@ This milestone resolves the decisive scientific and mathematical foundation in t
 4. **Quantitative Spatial Correlation with Propagating Fracture**: Evaluating all four Step-2 load stages in Job `1411104.mmaster02`, demonstrating that top 5% error overlap with the crack band increases from $5.4\%$ to $69.6\%$ while the peak error tracks the advancing crack tip within $0.043\text{--}0.072\,\mu\text{m}$.
 5. **Williams Clamped-Free Corner Singularity Reassessment**: Solving the exact Dempsey–Sinclair / Williams characteristic equation ($\lambda = 0.75834$, $\nabla \sigma \sim r^{-1.242}$), proving that the corner error jump is a genuine physical boundary singularity and framing its contribution to the bottom-exit deviation as a supported physical hypothesis.
 6. **Remeshing Rule Provenance Qualification**: Classifying remesher frame selection as `SOURCE_STEP_VERIFIED_FRAME_SELECTION_NOT_YET_QUALIFIED`, establishing that `RemeshingRule(stepName='Step-2', outputFrequency=ALL_INCREMENTS)` sizes elements across the Step-2 damage envelope.
-7. **Active Stabilized Fracture Solve Qualification**: Preserving and monitoring the live adapted production fracture run (PBS Job `1411267.mmaster02`, $21{,}063$ FEs, $63{,}189$ layered elements) advancing stably through Increment 801+ ($u_x = 4.005\,\mu\text{m}$, 0 cutbacks, 3 iters/inc, $K_0 = 45.416\,\text{kN/mm}$).
+7. **Reconciliation of Mesh Node and Partition Invariants**: Establishing the mathematically exact partition invariants of the adapted mesh ($N_{\text{all,in}} = 12{,}237$, $N_{\text{all,out}} = 8{,}826$, $N_{\text{fine,in}} = 11{,}768 \le 12{,}237$, fine density contrast $19.03\times$, all-element contrast $7.67\times$, and independent published corridor contrast $12.49\times$).
+8. **Active Stabilized Fracture Solve Qualification**: Preserving and monitoring the live adapted production fracture run (PBS Job `1411267.mmaster02`, $21{,}063$ FEs, $63{,}189$ layered elements) advancing stably through Increment 972+ ($u_x = 4.860\,\mu\text{m}$, 0 cutbacks, 3 iters/inc, $K_0 = 45.416\,\text{kN/mm}$).
 
 ---
 
@@ -153,32 +154,42 @@ Because the stress gradient exponent is strictly less than $-1.0$, standard firs
 
 ---
 
-## 7. Native Abaqus Adaptive Remeshing Sensitivity Suite
+## 7. Native Abaqus Adaptive Remeshing Sensitivity Suite & Reconciled Partition Invariants
 
 The table below summarizes the native Abaqus `adaptiveRemesh` suite generated from Step-2 of the corrected damage pre-analysis:
 
-| OFAT Target | Total Elements | Quads / Tris | Total Nodes | $h_{\min}$ ($\mu\text{m}$) | $h_{\text{mean}}$ ($\mu\text{m}$) | Corridor Chord Angle $\theta$ | Corridor Fine Fraction ($W=0.24\text{mm}$) | Density Contrast Ratio | Diff vs Paper ($19{,}963$) |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| OFAT Target | Total Elements | Quads / Tris | Total Nodes | $h_{\min}$ ($\mu\text{m}$) | $h_{\text{mean}}$ ($\mu\text{m}$) | Corridor Chord Angle $\theta$ | Corridor Fine Fraction ($W=0.24\text{mm}$, $h \le 7.5\,\mu\text{m}$) | Fine Density Contrast | Diff vs Paper ($19{,}963$) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **`ET_1PCT`** ($1.0\%$) | $101{,}298$ | $98{,}882$ / $2{,}416$ | $100{,}706$ | $0.59$ | $2.77$ | $-51.74^\circ$ | $36.94\%$ ($36{,}758$ FEs) | $3.29\times$ | $+81{,}335$ ($+407\%$) |
 | **`ET_2PCT`** ($2.0\%$) | **$37{,}575$** | $36{,}612$ / $963$ | $37{,}459$ | $0.58$ | $4.25$ | **$-49.44^\circ$** | $58.20\%$ ($20{,}108$ FEs) | $7.81\times$ | $+17{,}612$ ($+88.2\%$) |
-| **`ET_3PCT`** ($3.0\%$) | **$21{,}063$** | $20{,}487$ / $576$ | $21{,}042$ | $0.72$ | $5.51$ | **$-48.30^\circ$** | **$78.83\%$ ($12{,}432$ FEs)** | **$20.94\times$** | **$+1{,}100$ ($+5.51\%$)** |
+| **`ET_3PCT`** ($3.0\%$) | **$21{,}063$** | $20{,}487$ / $576$ | $21{,}042$ | $0.72$ | $5.51$ | **$-48.30^\circ$** | **$77.49\%$ ($11{,}768$ FEs)** | **$19.03\times$** | **$+1{,}100$ ($+5.51\%$)** |
 | **`ET_5PCT`** ($5.0\%$) | $11{,}596$ | $11{,}247$ / $349$ | $11{,}616$ | $0.74$ | $7.30$ | $-46.96^\circ$ | $97.14\%$ ($6{,}986$ FEs) | $190.25\times$ | $-8{,}367$ ($-41.9\%$) |
 
-### 7.1 Detailed Geometric Distribution of Primary Candidate (`ET_3PCT`)
-Direct element geometry audit of `m2_corrected_mesh_elements_et3pct.csv` ($21{,}063$ elements across the $1\,\text{mm} \times 1\,\text{mm}$ domain):
+### 7.1 Detailed Geometric Distribution and Invariant Density Partition (`ET_3PCT`)
+Direct element geometry audit of `m2_corrected_mesh_elements_et3pct.csv` ($21{,}063$ physical elements across the $1\,\text{mm} \times 1\,\text{mm}$ domain):
+- **Node and Model Variable Reconciliation:**
+  - $21{,}042$ mesh nodes in deck (Nodes 1 to 21042).
+  - $54$ duplicated seam node pairs along $y=0.5, 0 \le x < 0.5 \implies 20{,}988$ unique coordinate vertices.
+  - $1$ Reference Point node (Node 999999).
+  - $63{,}127$ total model variables ($21{,}042 \times 3 + 1$).
+  - $63{,}189$ co-located layered elements ($21{,}063 \times 3$).
 - **Size Distribution:**
-  - $h_{\min} = 0.717\,\mu\text{m}$ ($h_{\min}/l_0 = 0.0478$)
-  - $h_{\text{median}} = 3.952\,\mu\text{m}$ ($h_{\text{median}}/l_0 = 0.2635$)
-  - $h_{\text{mean}} = 5.512\,\mu\text{m}$
-  - $h_{\max} = 24.162\,\mu\text{m}$
-- **Dual Corridor Selectivity:**
-  - Straight Corridor ($W = 0.12\,\text{mm}$): $7{,}309 / 15{,}771 = 46.34\%$ fine elements ($h < 7.5\,\mu\text{m}$).
-  - Curved Envelope Corridor ($W = 0.24\,\text{mm}$, Area $0.1510\,\text{mm}^2$): $12{,}432 / 15{,}771 = 78.83\%$ fine elements ($h < 7.5\,\mu\text{m}$).
-- **Absolute Spatial Density & Contrast:**
-  - Fine Element Corridor Density: $12{,}432 / 0.1510\,\text{mm}^2 = 82{,}347\,\text{fine elements/mm}^2$
-  - Outside Fine Density: $3{,}339 / 0.8490\,\text{mm}^2 = 3{,}933\,\text{fine elements/mm}^2$
-  - **Fine Density Contrast Ratio:** $82{,}347 / 3{,}933 = \mathbf{20.94\times}$
-  - Total Element Density: $79{,}908\,\text{elem/mm}^2$ in corridor vs $10{,}422\,\text{elem/mm}^2$ outside ($\mathbf{7.67\times}$ total density contrast).
+  - Whole domain: $h_{\min} = 0.717\,\mu\text{m}$ ($0.0478\,l_0$), $h_{p10} = 1.782\,\mu\text{m}$, $h_{\text{median}} = 3.952\,\mu\text{m}$ ($0.2635\,l_0$), $h_{\text{mean}} = 5.512\,\mu\text{m}$, $h_{p90} = 11.107\,\mu\text{m}$, $h_{\max} = 24.162\,\mu\text{m}$.
+  - Initiation region ($x \in [0.5, 0.6], y \in [0.4, 0.5]$, $1{,}913$ FEs): $h_{\min} = 0.723\,\mu\text{m}$, $h_{\text{median}} = 1.944\,\mu\text{m}$ ($0.130\,l_0$), $h_{\max} = 6.184\,\mu\text{m}$ ($100\%$ satisfy $h < l_0/2$).
+  - Lower propagation region ($x \in [0.6, 1.0], y \in [0.0, 0.4]$, $8{,}165$ FEs): $h_{\text{median}} = 3.386\,\mu\text{m}$ ($0.226\,l_0$).
+- **Unified Curved Refinement Envelope ($W = 0.24\,\text{mm}$, Area $0.153139\,\text{mm}^2$ inside, $0.846861\,\text{mm}^2$ outside):**
+  - Total elements inside: $N_{\text{all,in}} = 12{,}237$ ($58.10\%$), Far-field: $N_{\text{all,out}} = 8{,}826$ ($41.90\%$), Sum $= 21{,}063$ ($100\%$).
+  - At $h \le l_0/2 = 7.5\,\mu\text{m}$ ($N_{\text{fine,total}} = 15{,}187$):
+    - Inside envelope: $N_{\text{fine,in}} = 11{,}768$ ($77.49\%$ selectivity, $\rho_{\text{fine,in}} = 76{,}845\,\text{elem/mm}^2$).
+    - Outside envelope: $N_{\text{fine,out}} = 3{,}419$ ($\rho_{\text{fine,out}} = 4{,}037\,\text{elem/mm}^2$).
+    - Fine density contrast ratio: $76{,}845 / 4{,}037 = \mathbf{19.03\times}$.
+    - All-element density contrast ratio: $79{,}908 / 10{,}422 = \mathbf{7.67\times}$.
+    - Invariants: $11{,}768 \le 12{,}237$ (True), $3{,}419 \le 8{,}826$ (True), $11{,}768 + 3{,}419 = 15{,}187$, $12{,}237 + 8{,}826 = 21{,}063$.
+  - At $h \le 8.0\,\mu\text{m}$ ($N_{\text{fine,total}} = 15{,}771$):
+    - Inside envelope: $N_{\text{fine,in}} = 11{,}871$ ($75.27\%$ selectivity), Outside: $N_{\text{fine,out}} = 3{,}900$, Fine contrast: $16.83\times$.
+- **Independent Literature Reference Corridor ($W = 0.24\,\text{mm}$ along $(0.5, 0.5) \to (0.868, 0.0)$, Area $0.147934\,\text{mm}^2$):**
+  - Total elements: $N_{\text{all,in}} = 10{,}955$, Far-field: $N_{\text{all,out}} = 10{,}108$.
+  - Fine elements ($h \le 7.5\,\mu\text{m}$): $N_{\text{fine,in}} = 10{,}393$ ($68.43\%$ selectivity), $\rho_{\text{fine,in}} = 70{,}254\,\text{elem/mm}^2$, $\rho_{\text{fine,out}} = 5{,}626\,\text{elem/mm}^2$, Fine contrast: $\mathbf{12.49\times}$.
 
 ---
 
@@ -186,11 +197,12 @@ Direct element geometry audit of `m2_corrected_mesh_elements_et3pct.csv` ($21{,}
 
 - **Job ID:** `1411267.mmaster02` (`M2_J2_ADAPT_ET3_STAB`)
 - **Queue / Node:** `normal_imfdfkmq` / `mnode097/0` (1 CPU serial, 16 GB RAM)
-- **Model Discretization:** $21{,}063$ physical FEs ($63{,}189$ layered elements, $63{,}030$ active DOFs)
+- **Model Discretization:** $21{,}063$ physical FEs ($63{,}189$ layered elements, $63{,}127$ total model variables)
 - **Convergence Controls:** Line Search $N^{ls} = 4$, $I_A = 12$, $I_0 = 8, I_R = 12$, $\Delta t_{\min} = 10^{-12}$
-- **Current Progress:** Step 1 Increment 801+ ($u_x = 4.005\,\mu\text{m}$, total fraction $40.05\%$), $\text{RF}_1 = 181.890\,\text{N}$, $K_0 = 45.416\,\text{kN/mm}$ ($R^2 = 0.99999$).
-- **Solver Telemetry:** Exactly 0 cutbacks, exactly 3 Newton iterations per increment, strictly monotonic and stable.
-- **Headroom & Projected Horizon:** Integration rate $\sim 612\,\text{inc/h}$, projected time to completion $\sim 6.5\text{--}9.0\,\text{h}$ with $>22.6\,\text{h}$ walltime remaining.
+- **Current Progress:** Step 1 Increment 972+ ($u_x = 4.860\,\mu\text{m}$, total fraction $48.60\%$), $\text{RF}_1 = 220.35\,\text{N}$, $K_0 = 45.416\,\text{kN/mm}$ ($R^2 = 0.99999$).
+- **Solver Telemetry:** Exactly 0 cutbacks, exactly 3 Newton iterations per increment across all 972 increments, strictly monotonic and stable.
+- **Memory & File Size:** Memory resident set size $4.59\,\text{GB}$, ODB file size $4.00\,\text{GB}$ ($3{,}996{,}123{,}136$ bytes).
+- **Headroom & Projected Horizon:** Integration rate $\sim 615\,\text{inc/h}$, projected time to completion $\sim 6.5\text{--}9.0\,\text{h}$ with $>22.4\,\text{h}$ walltime remaining.
 
 ---
 
@@ -200,4 +212,5 @@ Direct element geometry audit of `m2_corrected_mesh_elements_et3pct.csv` ($21{,}
 2. **Physical Provenance of MISESERI:** **PHYSICALLY & MATHEMATICALLY QUALIFIED.** `MISESERI` measures the recovery error of the un-degraded companion kinematic strain field $\boldsymbol{\sigma}_0(\boldsymbol{\varepsilon})$. It acts as a robust kinematic strain-gradient proxy for crack corridor refinement, but is not a true phase-field dissipation error estimator.
 3. **Remeshing Rule Provenance:** **QUALIFIED AS STEP ENVELOPE.** Remeshing rule semantics are established as `SOURCE_STEP_VERIFIED_FRAME_SELECTION_NOT_YET_QUALIFIED` (`RemeshingRule` evaluates across Step-2 envelope without single-frame isolation).
 4. **Agreement with Published Literature:** **ADEQUATELY MATCHED.** Upper-half corridor centerline agrees with Pandey & Kumar Fig. 12(b) within $1.3\text{--}14.9\,\mu\text{m}$.
-5. **Adapted Production Fracture Simulation:** **ACTIVELY SOLVING.** Job `1411267.mmaster02` is running cleanly and stably on `mnode097/0` in `normal_imfdfkmq`.
+5. **Reconciled Partition Invariants:** **100% MATHEMATICALLY VERIFIED.** All element subsets satisfy $N_{\text{fine,in}} \le N_{\text{all,in}}$ ($11{,}768 \le 12{,}237$), $N_{\text{fine,out}} \le N_{\text{all,out}}$ ($3{,}419 \le 8{,}826$), Sum $= 21{,}063$, with fine density contrast $19.03\times$.
+6. **Adapted Production Fracture Simulation:** **ACTIVELY SOLVING.** Job `1411267.mmaster02` is running cleanly and stably on `mnode097/0` in `normal_imfdfkmq`.
