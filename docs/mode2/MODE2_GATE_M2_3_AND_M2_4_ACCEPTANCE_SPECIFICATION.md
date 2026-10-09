@@ -204,3 +204,31 @@ To prevent ambiguity when records or documentation conflict, the following stric
 | **9. Residual load plateau mechanics** | **Physical elasticity & bulk split verified** | $h_{\text{lig}} = 56.32\,\mu\text{m}$ intact elastic ligament + un-degraded bulk compressive stress $\boldsymbol{\sigma}_0^-$; 1D rigid shear formula $F_{\text{eval}} = 2692\,\text{N}$ arithmetic blunder invalidated; zero algorithmic contact/friction modeled. |
 | **10. Adapted fracture response through 20 µm** | **`COMPLETED_EVALUATED_PASSED_WITH_DOCUMENTED_LIMITATIONS`** | Solver completed 100% horizon ($u_x = 20.00\,\mu\text{m}$, Exit 0, 0 cutbacks in Step 2). |
 | **11. Controlled Numerical Experiment Matrix** | **Predeclared Specification Complete** | 3-case matrix (M2-EXP1 base refinement, M2-EXP2 sizing window, M2-EXP3 BC relaxation) specified in `MODE2_EXPERIMENT_SPECIFICATION_POSTPEAK_RELOAD_AND_RESOLUTION.md` with `execution_authorized: false`. |
+
+---
+
+## 7. Experiment M2-EXP1: Native ET2 Mesh Convergence & Gate M2-4 Readiness (Tasks F1368, F1369, F1370)
+
+### 7.1 Active Production Solve Telemetry (PBS Job 1411414)
+
+| Parameter / Field | Predeclared Specification | Active Measured Status | Evaluation / Status |
+| :--- | :--- | :--- | :--- |
+| **PBS Job ID** | `1411414.mmaster02` | `1411414.mmaster02` (`M2_J2_ADAPT_ET2_STAB`) | Single-Factor Production Solve Active |
+| **Compute Node / Queue** | `mnode097/0` / `normal_imfdfkmq` | `mnode097/0` (1 CPU serial, 16 GB RAM) | Dedicated Single-Core Compute Node |
+| **Discretization** | $37{,}575$ FEs (`ET_2PCT`) | $37{,}575$ FEs ($36{,}612$ quads + $963$ tris, $112{,}725$ layered FEs) | Exact Single-Factor Refinement ($+78.4\%$) |
+| **Active Progress** | Horizon $u_x \in [0, 20]\,\mu	ext{m}$ | **Step 1 Increment 229+** ($u_x \ge 1.145\,\mu	ext{m}$) | Active Stable Linear/Pre-Softening |
+| **Newton Convergence** | 0 cutbacks | **0 cutbacks**, exactly 3 iterations / increment | Exceptionally Stable |
+| **Initial Stiffness ($K_0$)** | $45.5	ext{--}47.7\,	ext{kN/mm}$ | **$K_0 = 45.7008\,	ext{kN/mm}$** ($R^2 = 0.99999995$, multi-increment OLS) | **PASS ($<0.15\%$ vs ET3, $<0.25\%$ vs Coarse)** |
+| **Bottom Ligament FEs ($y \le 0.10\,	ext{mm}$)** | $> 4{,}500$ FEs ($> 2	imes$ ET3) | **$5{,}074$ FEs** ($+109.84\%$ increase) | **PASS ($2.10	imes$ ET3 resolution)** |
+| **Ultra-Fine FEs ($h \le 3.0\,\mu	ext{m}$)** | $> 2{,}000$ FEs ($> 4	imes$ ET3) | **$3{,}418$ FEs** ($67.36\%$ of ligament) | **PASS ($8.70	imes$ increase)** |
+| **Mean Ligament Size ($h_{	ext{lig},	ext{mean}}$)** | $< 3.8\,\mu	ext{m}$ ($> 25\%$ reduction) | **$3.4130\,\mu	ext{m}$** ($33.46\%$ reduction vs $5.1295\,\mu	ext{m}$) | **PASS (33.5% finer)** |
+| **Element Aspect Ratio** | Mean $< 1.5$, Max $< 3.0$ | Mean **$1.2457$**, Max **$2.5025$** | **PASS (High Equilateral Quality)** |
+
+### 7.2 Predeclared Gate M2-4 Evaluation Criteria for ET2 Full Horizon
+
+Upon completion of Step 1 and Step 2 of Job `1411414.mmaster02`, the following quantitative criteria govern the evaluation of Experiment M2-EXP1:
+
+1. **Initial Structural Stiffness ($K_0$):** $K_0 \in [45.5, 47.7]\,	ext{kN/mm}$ across all elastic increments $u_x \le 1.0\,\mu	ext{m}$ (Provisional OLS: $45.7008\,	ext{kN/mm}$ -> **PASS**).
+2. **Peak Reaction Force ($F_{\max}$):** $F_{\max} \in [365.74, 415.00]\,	ext{N}$ at $u_{	ext{peak}} \in [8.0, 9.6]\,\mu	ext{m}$.
+3. **Post-Peak Softening & Residual Reloading:** Confirmation of monotonic damage evolution $d_{\max} 	o 1.0$ and characterization of whether $8.7	imes$ bottom-ligament ultra-fine refinement accelerates terminal ligament severance ($h_{	ext{lig}} 	o 0$) or preserves the continuum compression strut under $u_y = 0$.
+4. **Crack Path Geometric Confinement:** $	heta_{\mathrm{crack}} \in [-55^\circ, -60^\circ]$ with $100\%$ spatial confinement inside the $W = 0.24\,	ext{mm}$ refinement corridor.

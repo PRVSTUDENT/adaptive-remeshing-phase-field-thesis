@@ -492,3 +492,66 @@ Three controlled numerical experiments are fully specified in `docs/mode2/MODE2_
 - **M2-EXP2 (Sizing Window Sensitivity):** Sizing comparison between Step-1 pure elastic pre-analysis and Step-2 damage-evolving envelope.
 - **M2-EXP3 (Boundary Condition Relaxation):** Top-edge vertical constraint relaxation ($u_y$ unconstrained) to test the compression-strut reloading hypothesis.
 All experiments remain strictly unauthorized (`execution_authorized: false`, `automatic_retry: false`) awaiting human review.
+
+---
+
+## 17. Single-Factor Input Deck Audit, Element Inventory Disambiguation, and Native ET2 Mesh Convergence Experiment (Tasks F1368, F1369, F1370)
+
+### 17.1 Disambiguation of Physical Element Inventories (ET3 vs ET2)
+To eliminate historical documentation inconsistencies (e.g. preliminary notes reporting $20{,}890$ quads + $173$ tris or $20{,}346$ quads + $717$ tris), a strict direct-connectivity parsing of the raw input decks was conducted:
+
+| Discretization / Mesh | Total Physical FEs | 4-Node Quad Elements (`CPE4` / `U1` / `U2`) | 3-Node Tri Elements (`CPE3` / `U3` / `U4`) | Quad Fraction [%] | Tri Fraction [%] | Total Model Nodes | 3-Layer Total Elements |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **ET3 Baseline (`ET_3PCT`)** | $\mathbf{21{,}063}$ | $\mathbf{20{,}487}$ | $\mathbf{576}$ | $97.27\%$ | $2.73\%$ | $21{,}042$ | $63{,}189$ |
+| **ET2 Refined (`ET_2PCT`)** | $\mathbf{37{,}575}$ | $\mathbf{36{,}612}$ | $\mathbf{963}$ | $97.44\%$ | $2.56\%$ | $37{,}459$ | $112{,}725$ |
+| **Scaling Ratio (ET2 / ET3)** | $\mathbf{1.784	imes}$ | $\mathbf{1.787	imes}$ | $\mathbf{1.672	imes}$ | --- | --- | $\mathbf{1.780	imes}$ | $\mathbf{1.784	imes}$ |
+
+- **Exact Layer Composition:** In both models, the 3-layer architecture comprises Layer 1 (phase UEL), Layer 2 (mechanical UEL), and Layer 3 (companion UMAT). Each layer contains the exact same $N_{	ext{phys}}$ elements ($21{,}063$ for ET3, $37{,}575$ for ET2).
+
+### 17.2 Single-Factor Input Deck Equivalence Audit
+An automated byte-level and section-by-section comparison between `M2_CORRECTED_JOB2_ET3PCT_STABILIZED.inp` and `PK_M2_ADAPT_ET2_STABILIZED.inp` confirmed that the two simulations are **$100\%$ physically and algorithmically identical** except for the spatial mesh discretization:
+1. **Material Parameters:** $E = 210.0\,	ext{kN/mm}^2$, $
+u = 0.3$, $G_c = 2.7	imes 10^{-3}\,	ext{kN/mm}$, $l_0 = 0.015\,	ext{mm}$, $k = 1.0	imes 10^{-7}$.
+2. **Constitutive Formulation:** Standard 2D plane strain Miehe spectral energy split with monolithic coupled Newton solver.
+3. **Boundary Conditions:** Pinned/fixed base ($u_x = u_y = 0$ along $y = 0$), vertical roller confinement ($u_y = 0$ on top edge $y = 1.0\,	ext{mm}$), shear displacement control ($u_x = 0 	o 10\,\mu	ext{m}$ in Step 1, $10 	o 20\,\mu	ext{m}$ in Step 2).
+4. **Crack Representation:** Zero-gap sharp horizontal seam ($a_0 = 0.5\,	ext{mm}$ along $y = 0.5\,	ext{mm}$, $0 \le x < 0.5\,	ext{mm}$) with exactly 54 duplicate node pairs.
+5. **Convergence Controls:** Line Search $N^{ls} = 4$, $I_A = 12$, $I_0 = 8, I_R = 12$, $\Delta t = 0.0005$.
+
+### 17.3 Spatial Mesh-Resolution & Bottom Ligament Scaling ($y \le 0.10\,	ext{mm}$)
+Direct evaluation of element geometric properties from nodal coordinates demonstrates major localized refinement in the critical ligament zone:
+
+| Geometric Metric | ET3 Baseline ($21{,}063$ FEs) | ET2 Refined ($37{,}575$ FEs) | Change / Scaling |
+| :--- | :---: | :---: | :---: |
+| **Domain Mean Mesh Size ($h_{	ext{eq},	ext{mean}}$)** | $5.5119\,\mu	ext{m}$ | $4.2497\,\mu	ext{m}$ | **$-22.90\%$** |
+| **Domain Min Mesh Size ($h_{	ext{eq},\min}$)** | $0.7170\,\mu	ext{m}$ | $0.5850\,\mu	ext{m}$ | **$-18.41\%$** |
+| **Mean Element Aspect Ratio** | $1.2510$ | $1.2457$ | High equilateral quality |
+| **Max Element Aspect Ratio** | $2.7951$ | $2.5025$ | Well within FE limits ($<3.0$) |
+| **Bottom Ligament Elements ($y \le 0.10\,	ext{mm}$)** | $\mathbf{2{,}418}$ | $\mathbf{5{,}074}$ | $\mathbf{+109.84\%}$ ($2.10	imes$) |
+| **Bottom Ligament Mean Size ($h_{	ext{lig},	ext{mean}}$)** | $\mathbf{5.1295\,\mu\mathrm{m}}$ | $\mathbf{3.4130\,\mu\mathrm{m}}$ | $\mathbf{-33.46\%}$ finer |
+| **Ultra-Fine Elements ($h \le 3.0\,\mu	ext{m}$) in Ligament** | $\mathbf{393}$ ($16.25\%$) | $\mathbf{3{,}418}$ ($67.36\%$) | $\mathbf{+769.72\%}$ ($8.70	imes$ increase) |
+
+### 17.4 ET2 Initial Structural Stiffness Multi-Increment OLS Regression Audit
+Telemetry extracted from active production solve PBS Job `1411414.mmaster02` (`M2_J2_ADAPT_ET2_STAB` on `mnode097/0` in `normal_imfdfkmq`) across 229 increments ($u_x \in [0.005, 1.145]\,\mu	ext{m}$):
+- **Unconstrained OLS Regression ($F = K_0 u_x + c$):**
+  $$K_0 = \mathbf{45.695040\,	ext{kN/mm}} \quad (c = 4.406	imes 10^{-3}\,	ext{N}, \; R^2 = 0.99999997, \; 	ext{SE} = 4.96	imes 10^{-4}\,	ext{kN/mm})$$
+- **Origin-Constrained OLS Regression ($F = K_0 u_x$):**
+  $$K_0 = \mathbf{45.700799\,	ext{kN/mm}} \quad (R^2 = 0.99999995, \; 	ext{SE} = 3.30	imes 10^{-4}\,	ext{kN/mm})$$
+- **Benchmark Cross-Comparison:**
+  * Coarse benchmark ($2{,}960$ FEs): $K_0 = 45.8016\,	ext{kN/mm}$ (Delta: $-0.220\%$).
+  * ET3 baseline ($21{,}063$ FEs): $K_0 = 45.6385\,	ext{kN/mm}$ (Delta: $+0.137\%$).
+  * Published literature target ($\sim 45.67\,	ext{kN/mm}$): (Delta: $+0.067\%$).
+- **Status:** Evaluated as `PROVISIONAL_ELASTIC_REGRESSION`. Full terminal comparison will be executed upon completion of Step 1 and Step 2.
+
+### 17.5 Post-Processing Pipeline & Macro-Mechanical Milestone Comparison
+Using the hardened post-processing suite `scripts/postprocessing/extract_and_compare_et2_et3.py`:
+
+| Quantity / Metric | Published Literature | Coarse Benchmark ($2{,}960$ FE) | ET3 Baseline ($21{,}063$ FE) | ET2 Refined ($37{,}575$ FE - Active) |
+| :--- | :---: | :---: | :---: | :---: |
+| **Initial Stiffness $K_0$ [kN/mm]** | $\sim 45.65$ | $45.78$ | $45.62$ | $\mathbf{45.70}$ |
+| **Peak Force $F_{\max}$ [N]** | $365.74$ | $514.51$ | $\mathbf{412.21}$ | Live elastic ($52.32\,	ext{N}$) |
+| **Peak Disp $u(F_{\max})$ [$\mu	ext{m}$]** | $8.28$ | $13.43$ | $\mathbf{9.41}$ | Live ($1.15\,\mu	ext{m}$) |
+| **Post-Peak Min $F_{\min}$ [N]** | N/A (monotone) | $428.90$ | $\mathbf{301.82}$ | Active solving |
+| **Force at $16.0\,\mu	ext{m}$ [N]** | $184.06$ | $500.30$ | $\mathbf{328.69}$ | Active solving |
+| **Terminal Force $RF_1(20\,\mu	ext{m})$ [N]** | N/A | $433.47$ | $\mathbf{380.42}$ | Active solving |
+| **Work on $[0, 16]\,\mu	ext{m}$ [mJ]** | $3.378	ext{--}3.517$ | $5.223$ | $\mathbf{4.135}$ | Live ($0.030\,	ext{mJ}$) |
+| **Total Work $[0, 20]\,\mu	ext{m}$ [mJ]** | N/A | $6.995$ | $\mathbf{5.548}$ | Live ($0.030\,	ext{mJ}$) |
