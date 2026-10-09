@@ -168,17 +168,49 @@ Because the stress gradient exponent is strictly less than $-1.0$, standard firs
 | **Fine Density Contrast Ratio** | $\mathbf{20.71\times}$ | $\mathbf{19.03\times}$ | $\mathbf{18.31\times}$ |
 | **All-Element Density Contrast Ratio** | $\mathbf{8.15\times}$ | $\mathbf{7.67\times}$ | $\mathbf{7.79\times}$ |
 
-### 7.2 Centerline Deviations between Computed Mesh and Authenticated Fig. 12(b)
+### 7.2 Centerline Deviations & True Geometric Corridor Coverage
 
-| Station | Vertical Position $y$ [mm] | Authenticated $x_{\text{pub}}$ [mm] | Computed Mesh $x_{\text{mesh}}$ [mm] | Deviation $\Delta x$ [$\mu\text{m}$] | Relative $\Delta x / x_{\text{pub}}$ [%] |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **$P_1$ (Notch Tip)** | $0.500$ | $0.5000$ | $0.5000$ | $\mathbf{+0.00}$ | $+0.00\%$ |
-| **$P_2$ (Initiation Zone)** | $0.430$ | $0.5350$ | $0.5510$ | $\mathbf{+16.00}$ | $+2.99\%$ |
-| **$P_3$ (Upper Propagation)** | $0.340$ | $0.5850$ | $0.6300$ | $\mathbf{+45.00}$ | $+7.69\%$ |
-| **$P_4$ (Mid-Propagation)** | $0.235$ | $0.6500$ | $0.7430$ | $\mathbf{+93.00}$ | $+14.31\%$ |
-| **$P_5$ (Lower Propagation)** | $0.140$ | $0.7250$ | $0.8560$ | $\mathbf{+131.00}$ | $+18.07\%$ |
-| **$P_6$ (Near-Boundary)** | $0.060$ | $0.8000$ | $0.9360$ | $\mathbf{+136.00}$ | $+17.00\%$ |
-| **$P_7$ (Bottom Exit)** | $0.000$ | $0.8680$ | $0.9850$ | $\mathbf{+117.00}$ | $+13.48\%$ |
+A critical geometric question arose regarding whether horizontal deviation $\Delta x$ exceeding the nominal corridor half-width $W/2 = 120\,\mu\text{m}$ implies that the crack path leaves the refinement zone. 
+
+Along an inclined trajectory ($\theta \in [-48^\circ, -70^\circ]$), horizontal offset $\Delta x$ at constant vertical station $y$ is geometrically distinct from the shortest perpendicular Euclidean distance $d_{\perp} = \min_{\mathbf{x} \in \text{ridge}} \|\mathbf{x}_{\text{pub}} - \mathbf{x}\|$. As demonstrated below, while horizontal deviation reaches $+136.00\,\mu\text{m}$ at near-boundary station $P_6$, the shortest Euclidean distance never exceeds $96.86\,\mu\text{m}$, which is strictly within the $W/2 = 120.0\,\mu\text{m}$ refinement envelope across all stations:
+
+| Station | Vertical Position $y$ [mm] | Authenticated $x_{\text{pub}}$ [mm] | Computed Mesh $x_{\text{mesh}}$ [mm] | Horizontal $\Delta x$ [$\mu\text{m}$] | Shortest Euclidean $d_{\perp}$ [$\mu\text{m}$] | Inside $W/2 = 120\,\mu\text{m}$ Corridor? |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **$P_1$ (Notch Tip)** | $0.500$ | $0.5000$ | $0.5000$ | $\mathbf{+0.00}$ | $\mathbf{0.00}$ | **YES** ($0.0\%$) |
+| **$P_2$ (Initiation Zone)** | $0.430$ | $0.5350$ | $0.5510$ | $\mathbf{+16.00}$ | $\mathbf{14.32}$ | **YES** ($11.9\%$) |
+| **$P_3$ (Upper Propagation)** | $0.340$ | $0.5850$ | $0.6300$ | $\mathbf{+45.00}$ | $\mathbf{38.64}$ | **YES** ($32.2\%$) |
+| **$P_4$ (Mid-Propagation)** | $0.235$ | $0.6500$ | $0.7430$ | $\mathbf{+93.00}$ | $\mathbf{73.12}$ | **YES** ($60.9\%$) |
+| **$P_5$ (Lower Propagation)** | $0.140$ | $0.7250$ | $0.8560$ | $\mathbf{+131.00}$ | $\mathbf{95.78}$ | **YES** ($79.8\%$) |
+| **$P_6$ (Near-Boundary)** | $0.060$ | $0.8000$ | $0.9360$ | $\mathbf{+136.00}$ | $\mathbf{96.86}$ | **YES** ($80.7\%$) |
+| **$P_7$ (Bottom Exit)** | $0.000$ | $0.8680$ | $0.9850$ | $\mathbf{+117.00}$ | $\mathbf{82.74}$ | **YES** ($68.9\%$) |
+
+### 7.3 Mathematical Differentiation & Propagation Angle Discrepancy Correction
+
+In Task F1357, an initial departure angle of $\approx -57^\circ$ was erroneously reported from the quadratic polynomial $x_{\mathrm{poly}}(y) = 0.698155 y^2 - 1.071775 y + 0.864470$ by calculating $\theta = \arctan(-1/1.071775)$. 
+
+Rigorous re-evaluation reveals the mathematical root cause:
+1. **Polynomial Differentiation:** 
+   $$\frac{dx}{dy} = 2(0.698155)y - 1.071775 = 1.396310 y - 1.071775$$
+   At the initial crack tip ($y = 0.500\,\text{mm}$):
+   $$\left.\frac{dx}{dy}\right|_{y=0.5} = 1.396310(0.500) - 1.071775 = -0.373620$$
+2. **Physical Propagation Direction:** 
+   Because Mode-II crack growth propagates downwards into the lower half ($dy < 0$) and rightwards ($dx > 0$), setting $dy = -dt$ ($dt > 0$) gives $dx = -0.373620(-dt) = +0.373620\,dt$.
+   The propagation tangent vector is $\vec{t} = (0.373620, -1.0)$, yielding:
+   $$\theta_{\mathrm{poly}} = \operatorname{atan2}(-1.0, 0.373620) = \arctan\left(\frac{-1.0}{0.373620}\right) = \mathbf{-69.52^\circ}$$
+3. **Piecewise-Linear Segment Angle:**
+   The first digitized chord from $P_1(0.500, 0.500)$ to $P_2(0.535, 0.430)$ has $\Delta x = +0.035\,\text{mm}$, $\Delta y = -0.070\,\text{mm}$, yielding:
+   $$\theta_{\mathrm{pwl}} = \operatorname{atan2}(-0.070, 0.035) = \arctan(-2.0) = \mathbf{-63.43^\circ}$$
+4. **Epistemic Discipline:** A global quadratic fit to 7 digitized centerline points has curvature across $y \in [0, 0.5]$ and must not be conflated with an analytical maximum hoop stress crack-initiation angle (which theoretically predicts $\theta_0 = -70.53^\circ$). The project retains the piecewise-linear polyline as the primary reproducible reference.
+
+### 7.4 Local Mesh Resolution $h(s)/l_0$ and Crack-Path Coverage
+
+A vital distinction must be maintained between **element population selectivity** and **crack-path length coverage**:
+- **Selectivity ($77.80\%$):** Fraction of all fine elements ($h \le l_0/2 = 7.5\,\mu\text{m}$) in the entire $1\times 1\,\text{mm}$ plate that reside within the corridor.
+- **Crack-Path Length Coverage ($100.00\%$):** Line-integral fraction of the published crack trajectory length where the local mesh size satisfies $h(s) \le l_0/2 = 7.5\,\mu\text{m}$.
+
+Querying the adaptive mesh elements with a spatial KDTree over 500 uniformly spaced stations along both trajectories demonstrates:
+- **Published Fig. 12(b) Path:** **$100.00\%$** of the arc length satisfies $h \le l_0/2 = 7.5\,\mu\text{m}$. The maximum element size along the entire path is $h_{\max} = 4.88\,\mu\text{m} \le l_0/3$ ($h/l_0 \le 0.325$), with median $h \approx 2.5\,\mu\text{m}$. Zero under-resolved regions exist along the published path.
+- **Coarse Pre-Analysis Damage Path (Job 1411104):** **$98.80\%$** of the path length satisfies $h \le l_0/2 = 7.5\,\mu\text{m}$.
 
 ---
 
@@ -192,25 +224,26 @@ Because the stress gradient exponent is strictly less than $-1.0$, standard firs
 - **Total Model Variables:** $21{,}042 \times 3 + 1 = \mathbf{63{,}127}$ variables (reported in `.dat`).
 - **Linear Constraint Equations:** $97$ linear constraint equations (`*EQUATION`) coupling top edge nodes (`N_TOP`) to Reference Point 999999.
 - **Active Assembled Solver Equations:** $63{,}127 - 97 = \mathbf{63{,}030}$ active equations in the sparse solver (reported in `.msg`).
+- **Algebraic Verification:** The elimination $63{,}127 - 97 = 63{,}030$ is not a numerical coincidence; Abaqus condensed exactly one dependent horizontal displacement variable per linear multi-point constraint equation during sparse matrix symbolic factorization.
 
 ---
 
-## 9. Active Fracture Simulation (PBS Job 1411267) Telemetry
+## 9. Active Fracture Simulation (PBS Job 1411267) Telemetry & Softening Entry
 
 - **Job ID:** `1411267.mmaster02` (`M2_J2_ADAPT_ET3_STAB`)
 - **Queue / Node:** `normal_imfdfkmq` / `mnode097/0` (1 CPU serial, 16 GB RAM)
 - **Model Discretization:** $21{,}063$ physical FEs ($63{,}189$ layered elements, $63{,}030$ active equations)
 - **Convergence Controls:** Line Search $N^{ls} = 4$, $I_A = 12$, $I_0 = 8, I_R = 12$, $\Delta t_{\min} = 10^{-12}$
-- **Current Progress:** Step 1 Increment 1088+ ($u_x = 5.440\,\mu\text{m}$, total fraction $54.40\%$), $\text{RF}_1 = 247.18\,\text{N}$, $K_0 = 45.416\,\text{kN/mm}$ ($R^2 = 0.99999$).
-- **Solver Telemetry:** Exactly 0 cutbacks, exactly 3 Newton iterations per increment across all 1088 increments, strictly monotonic and stable.
-- **Memory & File Size:** Memory resident set size $5.08\,\text{GB}$, ODB file size $4.20\,\text{GB}$ ($4{,}509{,}716{,}480$ bytes).
-- **Headroom & Projected Horizon:** Integration rate $\sim 611\,\text{inc/h}$, projected time to completion $\sim 6.5\text{--}9.0\,\text{h}$ with $>22.2\,\text{h}$ walltime remaining.
+- **Initial Structural Stiffness:** $K_0 = 45.638987\,\text{kN/mm}$ (intercept $= 0.003048\,\text{N}$, $R^2 = 0.99999998$, $N=198$ increments), matching the canonical baseline within $<0.1\%$.
+- **Observed Peak Reaction Force:** $F_{\max} = 412.209\,\text{N}$ at $u_x = 9.410\,\mu\text{m}$.
+- **Post-Peak Softening Transition:** The simulation successfully passed the critical failure displacement ($u_x = 9.420\,\mu\text{m}$, where previous job 1411103 failed after 7 cutbacks). At $u_x = 9.420\,\mu\text{m}$, reaction force dropped to $412.071\,\text{N}$ with tangent stiffness $K_{\mathrm{tan}} = -4.299\,\text{kN/mm}$, entering the softening branch with **0 cutbacks** and 4–5 Newton iterations per increment.
+- **File Size & Storage Compliance:** $100\%$ compliant with HPC scratch policy under `/scratch9/pr21vyci/runs/mode2_j2_adapted_stabilized_et3` (ODB size $\sim 7.1\,\text{GB}$).
 
 ---
 
 ## 10. Comprehensive Scientific Verdicts
 
-1. **Resolution of Trajectory Discrepancy:** The F1356 square root curve is recognized as an inaccurate fit with an unphysical horizontal tangent ($dy/dx|_{tip}=0$, up to $+123.2\,\mu\text{m}$ error). The authenticated 7-point piecewise-linear path and quadratic fit ($<4.2\,\mu\text{m}$ residual) provide the true literature comparison.
-2. **Robustness of Spatial Refinement:** On the authenticated published Fig. 12(b) path, the adaptive mesh achieves **$77.80\%$ fine selectivity** and a **$20.71\times$ fine density contrast**, proving that the spatial concentration of refinement along the Mode-II trajectory is physically genuine and robust across all three trajectory definitions.
-3. **Reconciled Equation Hierarchy:** The relationship between $21{,}042$ mesh nodes, $63{,}127$ model variables, $97$ top edge constraints, and $63{,}030$ assembled sparse solver equations is mathematically proved and verified against solver outputs.
-4. **Adapted Production Fracture Simulation:** Job `1411267.mmaster02` is running cleanly and stably on `mnode097/0` in `normal_imfdfkmq` past $u_x = 5.44\,\mu\text{m}$ (54.4% of Step 1 complete).
+1. **Resolution of Trajectory Discrepancy & Angle Correction:** The F1357 calculation $\theta = \arctan(-1/1.071775)$ was mathematically erroneous. Differentiating the polynomial yields $dx/dy|_{y=0.5} = -0.373620$, corresponding to a downward/rightward propagation vector $(0.373620, -1.0)$ and angle $\theta_{\mathrm{poly}} = \mathbf{-69.52^\circ}$. The piecewise-linear first segment gives $\theta_{\mathrm{pwl}} = \mathbf{-63.43^\circ}$.
+2. **Reconciliation of Centerline Deviation and Crack-Path Coverage:** While horizontal offset $\Delta x$ reaches $+136\,\mu\text{m}$, the shortest perpendicular Euclidean distance $d_{\perp}$ to the computed mesh ridge never exceeds $96.86\,\mu\text{m}$, proving that **100% of the published stations lie within the nominal $W/2 = 120\,\mu\text{m}$ corridor**. Furthermore, **$100.00\%$** of the published trajectory length has $h(s) \le l_0/2 = 7.5\,\mu\text{m}$ ($h_{\max} = 4.88\,\mu\text{m} \le l_0/3$).
+3. **Reconciled Equation Hierarchy:** Exactly $21{,}042$ mesh nodes ($20{,}988$ unique vertices + $54$ seam duplicate pairs) $\times 3$ DOFs $+ 1$ RP node $= 63{,}127$ model variables, and the condensation of $97$ linear top-edge coupling equations yields exactly $63{,}030$ sparse solver equations.
+4. **Adapted Production Fracture Simulation Breakthrough:** PBS Job `1411267.mmaster02` successfully navigated past the peak load ($F_{\max} = 412.209\,\text{N}$ at $u_x = 9.410\,\mu\text{m}$) into the post-peak softening regime ($K_{\mathrm{tan}} = -4.299\,\text{kN/mm}$ at $u_x = 9.420\,\mu\text{m}$) with **0 cutbacks**, resolving the non-convergence limitation of previous retest 1411103.
