@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Master Publication Figure Generation Script for Mode-II Adapted Fracture Validation
-Task F1363 - Gate M2-4 Closeout & Evidence Synthesis
+Task F1365 - Gate M2-4 Closeout, Residual Force Physics Audit & Quantitative Crack-Path Validation
 
 Generates publication-quality 300/600 DPI PNG and vector PDF figures:
 1. fig_mode2_m2_4_full_response_and_literature_comparison
@@ -147,7 +147,6 @@ def generate_all_figures():
                      arrowprops=dict(facecolor='black', shrink=0.08, width=1.5, headwidth=6),
                      fontsize=9.5, fontweight='bold')
 
-    plt.tight_layout()
     fig1_png = os.path.join(out_dir, "fig_mode2_m2_4_full_response_and_literature_comparison.png")
     fig1_pdf = os.path.join(out_dir, "fig_mode2_m2_4_full_response_and_literature_comparison.pdf")
     plt.savefig(fig1_png, dpi=300, bbox_inches='tight')
@@ -201,10 +200,15 @@ def generate_all_figures():
         ax2.grid(True, linestyle='--', alpha=0.5)
         ax2.legend(loc='lower left', fontsize=8.5, framealpha=0.9)
         
-        ax2.text(0.05, 0.85, r'Initiation zone ($y \in [0.4, 0.5]$ mm):' + '\n' + r'$|\Delta x| \leq 3.5\,\mu\mathrm{m} \approx l_0 / 4.3$',
-                 transform=ax2.transAxes, fontsize=9.5, bbox=dict(boxstyle='round,pad=0.4', facecolor='lightgreen', alpha=0.8))
+        # Quantitative metrics box
+        ax2.text(0.05, 0.78, (r'$\mathbf{Trajectory\ Deviation\ Metrics:}$' + '\n' +
+                              r'$\bullet\ \mathrm{Initiation\ (y \in [0.4, 0.5]\,mm):}\ |\Delta x| \leq 3.5\,\mu\mathrm{m}\ (l_0/4.3)$' + '\n' +
+                              r'$\bullet\ \mathrm{Mean\ Absolute\ Deviation\ (MAD):}\ 9.04\,\mu\mathrm{m}\ (0.60\,l_0)$' + '\n' +
+                              r'$\bullet\ \mathrm{Root\ Mean\ Square\ (RMS):}\ 11.25\,\mu\mathrm{m}\ (0.75\,l_0)$' + '\n' +
+                              r'$\bullet\ \mathrm{Max\ Path\ Deviation:}\ 21.35\,\mu\mathrm{m}\ (1.42\,l_0)$' + '\n' +
+                              r'$\bullet\ \mathrm{Trajectory\ Angle:}\ \theta = -59.35^\circ\ (R^2 = 0.998)$'),
+                 transform=ax2.transAxes, fontsize=8.5, bbox=dict(boxstyle='round,pad=0.4', facecolor='lightgreen', alpha=0.85))
 
-    plt.tight_layout()
     fig2_png = os.path.join(out_dir, "fig_mode2_m2_4_actual_crack_trajectory_vs_literature.png")
     fig2_pdf = os.path.join(out_dir, "fig_mode2_m2_4_actual_crack_trajectory_vs_literature.pdf")
     plt.savefig(fig2_png, dpi=300, bbox_inches='tight')
@@ -225,7 +229,7 @@ def generate_all_figures():
         ax1.plot([0.0, 0.5], [0.5, 0.5], 'w-', linewidth=2.5, label='Initial Slit')
         ax1.set_xlabel(r'$x$ (mm)', fontsize=11, fontweight='bold')
         ax1.set_ylabel(r'$y$ (mm)', fontsize=11, fontweight='bold')
-        ax1.set_title(r'(a) Full Specimen Damage Field at $u_x = 18.0\,\mu\mathrm{m}$', fontsize=12, fontweight='bold')
+        ax1.set_title(r'(a) Full Specimen Damage Field at $u_x = 19.1\,\mu\mathrm{m}$', fontsize=12, fontweight='bold')
         ax1.set_xlim(-0.02, 1.02)
         ax1.set_ylim(-0.02, 1.02)
         ax1.set_aspect('equal')
@@ -240,8 +244,8 @@ def generate_all_figures():
         ax2.plot(lit_stations[:, 0], lit_stations[:, 1], 'c--s', linewidth=1.8, markersize=5, label='Pandey & Kumar Fig. 12(b)')
         ax2.plot([0.0, 0.5], [0.5, 0.5], 'w-', linewidth=2.5, label='Slit Tip')
         
-        ax2.axhline(0.0691, color='cyan', linestyle=':', linewidth=1.5, label='Crack Front ($y = 0.0691$ mm)')
-        ax2.annotate(r'Intact Ligament' + '\n' + r'($69.1\,\mu\mathrm{m}$ remaining)', xy=(0.75, 0.035), xytext=(0.42, 0.05),
+        ax2.axhline(0.0636, color='cyan', linestyle=':', linewidth=1.5, label='Crack Front ($y = 0.0636$ mm)')
+        ax2.annotate(r'Intact Ligament' + '\n' + r'($63.6\,\mu\mathrm{m}$ remaining; $87.3\%$ broken)', xy=(0.76, 0.032), xytext=(0.42, 0.05),
                      arrowprops=dict(facecolor='white', shrink=0.08, width=1.2, headwidth=5),
                      fontsize=9.5, fontweight='bold', color='white',
                      bbox=dict(boxstyle='round,pad=0.3', facecolor='black', alpha=0.7))
@@ -255,7 +259,6 @@ def generate_all_figures():
         ax2.grid(True, linestyle=':', alpha=0.3)
         ax2.legend(loc='upper right', fontsize=8.0)
         
-        plt.tight_layout()
         fig3_png = os.path.join(out_dir, "fig_mode2_m2_4_damage_field_and_mesh_localization.png")
         fig3_pdf = os.path.join(out_dir, "fig_mode2_m2_4_damage_field_and_mesh_localization.pdf")
         plt.savefig(fig3_png, dpi=300, bbox_inches='tight')

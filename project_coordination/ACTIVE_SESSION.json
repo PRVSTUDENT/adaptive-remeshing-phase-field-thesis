@@ -1,9 +1,16 @@
 {
     "active": false,
-    "agent": null,
-    "task_id": null,
-    "session_start": null,
-    "session_end": "2026-10-09T15:00:00+02:00",
-    "starting_commit": "542cfc5f8fc3dfa7f39fca5f2518811e681a384f",
-    "allowed_write_scope": []
+    "agent": "gemini-antigravity",
+    "task_id": "F1365-MODE2-TERMINAL-DISPLACEMENT-HORIZON-AND-FINAL-GATE-M2-4-EVALUATION",
+    "session_start": "2026-10-09T15:30:00+02:00",
+    "session_end": "2026-10-09T15:35:00+02:00",
+    "starting_commit": "fff42f8412cf7b150d28289c02bc1e8d608ce14a",
+    "allowed_write_scope": [
+        "project_coordination/**",
+        "models/pandey_kumar_mode2/**",
+        "scripts/**",
+        "results/**",
+        "docs/**",
+        "tests/**"
+    ]
 }
