@@ -13,7 +13,7 @@
 ## 1. Executive Summary & Authoritative Status
 
 1. **Remesher Mechanism Diagnostic Verdict (Task F1291):**
-   - **Case A is empirically and mathematically CONFIRMED:** The Abaqus native remeshing generator (`UNIFORM_ERROR`, sizing formula $h \propto E^{-1/p}$) operates correctly, deterministically, and with near-ideal mathematical fidelity to the supplied MISESERI field ($r = -0.748$ to $-0.808$).
+   - **Case A is empirically and mathematically CONFIRMED:** The Abaqus native remeshing generator (`UNIFORM_ERROR` sizing based on the recovered stress solution error indicator `MISESERI`) operates correctly, deterministically, and with near-ideal mathematical fidelity to the supplied MISESERI field ($r = -0.748$ to $-0.808$).
    - The remeshing engine is **NOT** defective. It does not introduce artificial orientation bias, does not corrupt nodal/element coordinates, and strictly places refined elements wherever the input error indicator field is concentrated.
    - The failure of the 21,496-element ET2 mesh to refine along the $\theta \approx -53.65^\circ$ Mode-II crack corridor (having only 20% corridor coverage) originates **entirely upstream** in:
      a) Using an auxiliary continuum linear elastic pre-analysis (`JOB_MODE2_UNIFORM_COARSE.odb`) with over-constrained boundary conditions (`FIX_BOTTOM: u1=u2=0`, `SHEAR_TOP: u1=0.001, u2=0`) that generated artificial boundary stress concentrations and lacked localized damage-driven strain localization in the interior ($y \in [0.18, 0.28]$ mm, where fine element count dropped to 3 elements).
