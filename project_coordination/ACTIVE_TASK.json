@@ -1,10 +1,10 @@
 {
-    "task_id": "F1356-MODE2-MESH-DENSITY-CONSISTENCY-AND-ACTIVE-FRACTURE-QUALIFICATION",
+    "task_id": "F1357-MODE2-CRITICAL-PUBLISHED-TRAJECTORY-VALIDATION-AND-FRACTURE-QUALIFICATION",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "phase": "Mode-II Mesh Density Consistency, Invariant Verification, and Active Fracture Qualification",
+    "phase": "Mode-II Critical Published-Trajectory Validation, Spatial Selectivity Across Three Trajectory Definitions, Model-to-Solver Equation Count Reconciliation, and Active Fracture Solve Telemetry Qualification",
     "gate_status": "MODE2_GATE_M2_4_ADAPTED_STABILIZED_FRACTURE_RUNNING",
-    "last_updated": "2026-10-09T09:15:00+02:00",
+    "last_updated": "2026-10-09T09:40:00+02:00",
     "active_pbs_job_ids": [
         "1411267.mmaster02"
     ],
@@ -20,17 +20,17 @@
         "Mode-I freeze tag v2026.10.08-supervisor-meeting-mode1-freeze and UEL hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 100% untouched",
         "Single-rank shared-memory SMP (1 CPU serial authoritative anchor, 16 GB RAM, normal_imfdfkmq)",
         "No non-physical artificial viscosity or modified constitutive law",
-        "Unified corridor envelope definition (W=0.24mm) satisfying all partition invariants (N_fine,in <= N_all,in, N_fine,out <= N_all,out, Sum = 21,063)",
-        "Reconciled exact mesh nodes (21,042 mesh nodes, 54 seam duplicate pairs, 20,988 unique coordinate vertices, 63,127 model variables)",
+        "Three-way spatial selectivity evaluation (Authenticated Fig. 12b literature path: 77.80% fine selectivity, 20.71x fine density contrast; Native mesh ridge: 77.49% fine selectivity, 19.03x contrast; Coarse pre-analysis: 74.93% fine selectivity, 18.31x contrast)",
+        "Reconciled exact equation hierarchy (21,042 nodes, 54 seam duplicate pairs, 20,988 unique vertices, 63,127 model variables, 97 top *EQUATION constraints, 63,030 active sparse solver equations)",
         "Preserve PBS Job 1411267.mmaster02 on mnode097/0 without modification or duplicate submission",
         "Do not declare Mode-II reproduction complete before full post-peak qualification",
         "Next supervisor meeting milestone: Thursday, 22 October 2026, 10:00 AM"
     ],
     "last_documentation_correction": {
-        "task_id": "F1356-MODE2-MESH-DENSITY-CONSISTENCY-AND-ACTIVE-FRACTURE-QUALIFICATION",
+        "task_id": "F1357-MODE2-CRITICAL-PUBLISHED-TRAJECTORY-VALIDATION-AND-FRACTURE-QUALIFICATION",
         "status": "COMPLETED",
         "agent": "gemini-antigravity",
-        "updated_at": "2026-10-09T09:15:00+02:00",
+        "updated_at": "2026-10-09T09:40:00+02:00",
         "scientific_phase_changed": false
     }
 }
