@@ -151,11 +151,17 @@
 
 ---
 
-## GATE 8: HIGHER-COMPLEXITY BENCHMARKS (MODE-II / MIXED MODE) -- ON_HOLD
+## GATE 8: HIGHER-COMPLEXITY BENCHMARKS (MODE-II / MIXED MODE) -- ACTIVE_GOVERNED_SUBGATES
 
-| Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
+### Mode-II Gate Sequence & Fixed-Mesh Reference Anchor (Task F1376)
+| Gate / Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
 | :--- | :--- | :---: | :--- |
-| **G8-01** | **Mode-II and Higher Complexity Reproduction** | **HOLD** | Paused per supervisor governing directive until Mode-I is fully understood. |
+| **Gate M2-0** | **Source & Scope Freeze** | **CLOSED_PASSED** | Pandey & Kumar (2025) Fig. 13(a) 801-pt redigitization, material and geometry frozen. |
+| **Gate M2-1** | **Constitutive Formulation Qualification** | **QUALIFIED_DATACHECK_PASSED** | `f42_mixed_uel_mode2_miehe.for` spectral split verified, Datacheck Exit 0. |
+| **Gate M2-1B** | **Fixed-Mesh Fracture Reference Qualified** | **INSTITUTED_MANDATORY** | Pre-requisite for accepting adaptive remeshing accuracy: requires verified spatial convergence sequence ($h \approx 20\,\mu\mathrm{m}, 7.5\,\mu\mathrm{m}, 3.75\,\mu\mathrm{m}$) under constrained shear ($u_y=0$). |
+| **Gate M2-2** | **Canonical Coarse Pre-Analysis Reproduction** | **COMPLETED_EVALUATED_PASSED** | Job `1410790.mmaster02` ($2{,}960$ FEs, 1 CPU serial, 4,000 incs, Exit 0). |
+| **Gate M2-3** | **Native Adaptive Remeshing Reproduction & Corridor** | **CLOSED_PASSED** | `execute_mode2_corrected_adaptive_remesh.py` on Step-2 generates diagonal corridor without geometric bounds. |
+| **Gate M2-4** | **Adapted Fracture Simulation & Convergence** | **PASSED_WITH_LIMITATIONS** | ET3 ($21{,}063$ FEs, Job `1411267`, Exit 0, $F_{\max} = 412.21\,\text{N}$); ET2 ($37{,}575$ FEs, Job `1411414`, running). Benchmark comparison pending Gate M2-1B fixed reference. |
 
 ---
 

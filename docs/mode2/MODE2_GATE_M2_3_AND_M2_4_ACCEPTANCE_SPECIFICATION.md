@@ -427,3 +427,36 @@ An exhaustive linear regression audit across multiple displacement windows on th
 - **Hardware & Job ID:** Job `1411414.mmaster02` (`M2_J2_ADAPT_ET2_STAB`, $37{,}575$ FEs, $112{,}238$ active equations) running on cluster node `mnode097/0` in queue `normal_imfdfkmq`.
 - **Status:** Actively running with 0 cutbacks, advancing through Step 1 ($u_x \ge 4.335\,\mu\mathrm{m}$, $RF_1 = 196.96\,\mathrm{N}$, $K_0 = 45.68\,\mathrm{kN/mm}$).
 - **Governance Discipline:** Gate M2-4 remains strictly `PENDING_ET2_SOLVER_COMPLETION`. Acceptance criteria are maintained without retrospective modification.
+
+
+## 17. Task F1376 Fixed-Mesh Reference Audit, Methodology Grounding, and Gate M2-1B Institution
+
+### 17.1 Methodological Pivot: Establishing the Fixed-Mesh Convergence Anchor
+- **The Core Methodological Finding:**
+  In Mode-I tensile fracture, the thesis strictly followed the canonical validation sequence:
+  $$\text{[Define Problem]} \longrightarrow \text{[Establish Fixed-Mesh Converged Reference]} \longrightarrow \text{[Apply Adaptive Remeshing]} \longrightarrow \text{[Compare \& Explain Discrepancies]}$$
+  In Mode-II, however, adaptive remeshing was introduced directly after a single coarse pre-analysis ($2{,}960$ FEs, $h \approx 22\,\mu\mathrm{m} > l_0 = 15\,\mu\mathrm{m}$), without establishing a verified, mesh-converged fixed-mesh reference solution.
+- **Consequence of the Missing Reference:**
+  When ET3 ($21{,}063$ elements) yielded $F_{\max} = 412.21\,\text{N}$ while the published literature reports $F_{\max} \approx 365.74\,\text{N}$, two mutually exclusive possibilities exist:
+  * *Possibility A (Solver Concurrence):* The implemented Miehe spectral split under constrained shear ($u_y = 0$) converges on a fine fixed mesh to $F_{\max} \approx 410\text{--}415\,\text{N}$. In this case, native adaptive remeshing is fully accurate and successful, and the discrepancy with literature lies in undocumented formulation/boundary differences.
+  * *Possibility B (Adaptive Remeshing Discretization Failure):* The formulation converges on a fine fixed mesh to $F_{\max} \approx 360\text{--}370\,\text{N}$. In this case, adaptive remeshing is failing to capture the correct continuum solution.
+  Without an independent fixed-mesh reference, it is impossible to distinguish an adaptive-meshing failure from a fracture-model property.
+
+### 17.2 Forensic Audit of Historical Fixed-Mesh Runs
+- **Stage F H0, H1, H2 Runs:**
+  All historical Stage F runs (Job 1378942, 1389686, 1389687) were configured with `FREEU2` (top $u_y$ unconstrained), yielding $K_0 \approx 12.8\,\text{kN/mm}$ and $F_{\max} \approx 141\text{--}144\,\text{N}$. They solved a different boundary-value problem and are disqualified as reference anchors for the active constrained benchmark ($u_y = 0$, $K_0 \approx 45.68\,\text{kN/mm}$).
+- **Active Paper-Grounded BVP:**
+  Coarse pre-analysis (Job 1411104, $2{,}960$ elements) is the ONLY fixed-mesh simulation executed for the active BVP. Zero fine fixed-mesh convergence runs currently exist.
+
+### 17.3 The 3-Layer Thesis Architecture for General Adaptive Fracture
+The thesis framework is formally structured into three independently verifiable layers:
+1. **Layer 1: Verified Fracture Solver & Converged Benchmark:** Fixed-mesh spatial ($h \to 0$) and temporal ($\Delta t \to 0$) convergence, global equilibrium, energy balance, and constitutive verification established BEFORE adaptivity.
+2. **Layer 2: General Adaptive Refinement Controller:** Multi-physics refinement indicator $\eta_K = \mathcal{F}(\eta_{\mathrm{stress}, K}, \eta_{\mathrm{damage}, K}, h_K/l_0, \eta_{\mathrm{energy}, K})$, automatic mesh generation, and gradation control without a priori crack path knowledge.
+3. **Layer 3: Sequential Adaptive Fracture Framework:** Evolving multi-step external driver, nonmatching state transfer ($u$ and $d$), energy conservation, and damage irreversibility across remeshing cycles.
+
+### 17.4 Mandatory Institution of Gate M2-1B: Fixed-Mesh Fracture Reference Qualified
+- **Status:** `INSTITUTED_MANDATORY_GATE`.
+- **Requirement:** Before adaptive remeshing results (ET3, ET2) can be accepted as proof of accuracy, the underlying fracture formulation must demonstrate a verified, mesh-converged solution across a sequence of fixed meshes (minimum 3 resolutions: $h \approx 20\,\mu\mathrm{m}$, $7.5\,\mu\mathrm{m}$, $3.75\,\mu\mathrm{m}$) for the exact constrained Mode-II problem.
+
+### 17.5 Epistemological Scoping of Abaqus Native Sizing Mechanics
+- The multi-increment sizing envelope behavior of Abaqus CAE (`outputFrequency=ALL_INCREMENTS`) is classified as an **empirically verified operational mechanism of commercial closed-source software**, rather than an analytical mathematical proof.
