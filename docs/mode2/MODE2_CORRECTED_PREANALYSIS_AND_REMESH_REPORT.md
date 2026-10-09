@@ -1,7 +1,7 @@
 # Comprehensive Mode-II Corrected Pre-Analysis, MISESERI Physical Provenance, and Native Adaptive-Remeshing Reproduction Report
 
-**Task Reference:** Tasks F1348, F1350, F1351, F1352, F1353, F1354, F1355, F1356, F1357, F1358, F1359, F1360, & F1361 (`F1361-MODE2-CORRECT-OVERCLAIMS-PEAK-DISCREPANCY-AUDIT-AND-GATE-M2-4-VALIDATION`)  
-**Date:** `2026-10-09T13:55:00+02:00`  
+**Task Reference:** Tasks F1348, F1350, F1351, F1352, F1353, F1354, F1355, F1356, F1357, F1358, F1359, F1360, F1361, F1362, & F1363 (`F1363-MODE2-PRODUCTION-JOB-CLOSEOUT-AND-FRACTURE-VALIDATION`)  
+**Date:** `2026-10-09T14:30:00+02:00`  
 **Governing Authority:** `project_coordination/`  
 **Investigating Agent:** `gemini-antigravity`  
 **Parent Milestone:** Gate M2-3 / Gate M2-4 Native Remeshing Corridor Reproduction & Solver Recovery  
@@ -29,7 +29,7 @@ This report documents the rigorous investigation, correction of scientific overc
 8. **Mathematical Reconciliation of Nodes, Constraints, and Solver Equations**: Proving the exact link between $21{,}042$ mesh nodes, $54$ seam duplicate pairs ($20{,}988$ unique coordinate vertices), $1$ Reference Point node, $63{,}127$ total model variables, $97$ linear constraint equations, and **$63{,}030$ active assembled equations** in the sparse solver.
 9. **Active Stabilized Fracture Solve Telemetry & Progress**: Live production fracture run (PBS Job `1411267.mmaster02`, $21{,}063$ FEs, $63{,}189$ layered elements, $63{,}030$ active equations on `mnode098/0` in `normal_imfdfkmq`):
    - Step 1 ($u_x = 10.00\,\mu\text{m}$) completed successfully at Increment 2024.
-   - Step 2 actively computing in the post-peak softening regime at **Increment 1420** (total Increment 3444, $u_x = 17.105\,\mu\text{m}$, $RF_1 = 341.25\,\text{N}$, uniform $\Delta t = 0.0005$, **0 cutbacks in Step 2**, converging in 4 Newton iterations/inc, elapsed walltime ~06:50).
+   - Step 2 actively computing in the post-peak softening regime at **Increment 1656+** (total Increment 3680+, $u_x = 18.280\,\mu\text{m}$, $RF_1 = 346.65\,\text{N}$, uniform $\Delta t = 0.0005$, **0 cutbacks in Step 2**, converging in 4 Newton iterations/inc, elapsed walltime ~07:30).
    - Initial stiffness $K_0 = 45.64\,\text{kN/mm}$ ($<0.3\%$ vs literature), peak load $F_{\max} = 412.209\,\text{N}$ at $u_{\text{peak}} = 9.410\,\mu\text{m}$.
    - **Corrected gap closure:** Resolving **$68.76\%$** of the gap between coarse benchmark ($514.51\,\text{N}$) and published curve ($365.74\,\text{N}$).
 10. **Geometric Mesh-Resolution Audit vs Numerical Convergence Distinction**:
@@ -45,7 +45,7 @@ This report documents the rigorous investigation, correction of scientific overc
     - Non-Uniform Mesh Grading & Adaptive Corridor Breadth: **PLAUSIBLE / UNVERIFIED** (Coarse bulk mesh outside the corridor may exert elastic constraint postponing localization; isolating this requires systematic corridor width sweeps).
     - Monolithic vs Staggered Solution Scheme: **PLAUSIBLE / NOT DETERMINABLE FROM AVAILABLE EVIDENCE** (Monolithic Newton-Raphson vs staggered operator split known to influence peak load, but author's exact staggered tolerances and step sizes are unstated).
 12. **Gate M2-4 Completion Status**:
-    Gate M2-4 remains **ACTIVE (`ACTIVE_STABILIZED_FRACTURE_SOFTENING_ACTIVE`)**. While the solve has navigated through peak force and progressive softening to $u_x = 17.105\,\mu\text{m}$ without solver failure, terminal displacement ($u_x = 20\,\mu\text{m}$), complete physical separation, and final peak-force discrepancy reconciliation are required before formal gate sign-off.
+    Gate M2-4 remains **ACTIVE (`ACTIVE_STABILIZED_FRACTURE_SOFTENING_ACTIVE`)**. While the solve has navigated through peak force and progressive softening to $u_x \ge 18.28\,\mu\text{m}$ without solver failure, terminal displacement ($u_x = 20\,\mu\text{m}$), complete physical separation, and final peak-force discrepancy reconciliation are required before formal gate sign-off.
 
 ---
 
@@ -276,66 +276,13 @@ This geometric audit confirms that the native adapted mesh satisfies the necessa
 - **Model Discretization:** $21{,}063$ FEs ($63{,}189$ layered elements, $63{,}030$ active equations)
 - **Convergence Controls:** Line Search $N^{ls} = 4$, $I_A = 12$, $I_0 = 8, I_R = 12$, $\Delta t_{\min} = 10^{-12}$
 - **Step 1 Completion:** Completed at Increment 2024 ($u_x = 10.00\,\mu\text{m}$, total time $1.000$).
-- **Step 2 Active Execution:** Actively solving at **Increment 1420** (total Increment 3444, $u_x = 17.105\,\mu\text{m}$, $RF_1 = 341.25\,\text{N}$, uniform $\Delta t = 0.0005$, **0 cutbacks in Step 2**, converging in 4 Newton iterations per increment).
+- **Step 2 Active Execution:** Actively solving at **Increment 1656+** (total Increment 3680+, $u_x = 18.280\,\mu\text{m}$, $RF_1 = 346.65\,\text{N}$, uniform $\Delta t = 0.0005$, **0 cutbacks in Step 2**, converging in 4 Newton iterations per increment).
 - **Initial Structural Stiffness:** $K_0 = 45.638987\,\text{kN/mm}$ (intercept $= 0.003048\,\text{N}$, $R^2 = 0.99999998$, $N=198$ increments), matching the literature baseline ($\sim 45.5\,\text{kN/mm}$) within $<0.3\%$.
 - **Observed Peak Reaction Force:** $F_{\max} = 412.209\,\text{N}$ at $u_x = 9.410\,\mu\text{m}$.
 - **Post-Peak Softening Trajectory:**
   * The simulation successfully overcame the severe localization instability that halted previous job 1411103 (7 cutbacks at $u_x = 9.420\,\mu\text{m}$). With Line Search damping ($N^{ls}=4, I_A=12$), 4 localized cutbacks were cleanly resolved in Step 1.
   * Load dropped steadily from $412.21\,\text{N} \to 365.95\,\text{N}$ at the Step 1 boundary ($u_x = 10.00\,\mu\text{m}$).
-  * Entering Step 2, the load softened further to $338.57\,\text{N}$ at Inc 37 ($u_x = 10.185\,\mu\text{m}$), and has now progressed smoothly to $u_x = 17.105\,\mu\text{m}$ with $RF_1 = 341.25\,\text{N}$.
-- **Completed vs Incomplete Fracture Status:**
-  The prescribed loading endpoint is $u_x = 20.0\,\mu\text{m}$. At the current state ($u_x = 17.105\,\mu\text{m}$, 85.5% of total displacement), the crack has propagated through the specimen, but the solve is an **intermediate progressive softening state** that has not yet reached full terminal completion ($u_x = 20.0\,\mu\text{m}$ or residual zero load).
-
-### 9.2 Quantitative Comparison with Literature & Coarse Pre-Analysis
-
-| Metric / Stage | Coarse Pre-Analysis (Job 1411104) | Adapted Mesh (Job 1411267) | Pandey & Kumar (2025) Fig. 13 | Discrepancy vs Literature |
-| :--- | :---: | :---: | :---: | :---: |
-| **Number of FEs** | $2{,}960$ | $21{,}063$ | $19{,}963$ | $+5.51\%$ |
-| **Initial Stiffness $K_0$** | $45.64\,\text{kN/mm}$ | $45.64\,\text{kN/mm}$ | $\approx 45.5\,\text{kN/mm}$ | $< \mathbf{+0.3\%}$ |
-| **Peak Force $F_{\max}$** | $\mathbf{514.51\,\text{N}}$ | $\mathbf{412.21\,\text{N}}$ | $\mathbf{365.74\,\text{N}}$ | $\mathbf{+12.71\%}$ |
-| **Peak Displacement $u_{\text{peak}}$** | $13.43\,\mu\text{m}$ | $9.410\,\mu\text{m}$ | $8.284\,\mu\text{m}$ | $\mathbf{+13.59\%}$ |
-| **Gap Closed vs Coarse** | Reference ($0\%$) | **$68.76\%$ closed** ($514.51 \to 412.21\,\text{N}$) | Benchmark ($100\%$) | — |
-| **Softening Progression** | Completed to $u_x = 20\,\mu\text{m}$ | **Active ($u_x = 17.11\,\mu\text{m}$, $RF_1 = 341.25\,\text{N}$)** | Softening to $u_x = 20\,\mu\text{m}$ | Progressing stably |
-
-### 9.3 Rigorous 6-Factor Source-Grounded Peak-Force Discrepancy Audit
-
-To investigate why the native-adapted Mode-II mesh predicts approximately $412.21\,\text{N}$ instead of the published $365.74\,\text{N}$ despite matching initial stiffness, a systematic source-grounded diagnostic audit was conducted across six candidate factors:
-
-1. **Geometry & Initial Crack Seam:**
-   - Model geometry is a $1.0 \times 1.0\,\text{mm}$ square domain with a zero-gap sharp seam along $y = 0.500\,\text{mm}$ extending from $x = 0.0$ to $x = 0.500\,\text{mm}$ ($a_0 = 0.5\,\text{mm}$).
-   - The initial elastic stiffness $K_0 = 45.639\,\text{kN/mm}$ matches the digitized literature response ($45.55\,\text{kN/mm}$) within $<0.3\%$, confirming linear elastic compliance.
-   - **Classification:** **SUPPORTED BUT NOT CONCLUSIVE** (Initial compliance agrees, but nonlinear notch flank interaction if any under large shear is not documented in the paper).
-
-2. **Boundary Conditions & Kinematic Coupling:**
-   - Bottom boundary ($y = 0$) is clamped ($u_x = u_y = 0$). Top boundary ($y = 1.0$) is constrained against vertical motion ($u_y = 0$) and sheared horizontally via linear multipoint kinematic coupling (`*EQUATION`) to Reference Point 999999.
-   - Reaction force $RF_1$ is extracted directly at the master Reference Point.
-   - **Classification:** **SUPPORTED BUT NOT CONCLUSIVE**.
-
-3. **Material Properties & Regularization Length Scale:**
-   - Young's modulus $E = 210.0\,\text{GPa}$, Poisson's ratio $\nu = 0.3$, critical fracture energy $G_c = 2.7 \times 10^{-3}\,\text{kN/mm} = 2.7\,\text{N/mm}$, length scale $l_0 = 0.015\,\text{mm} = 15.0\,\mu\text{m}$, residual stiffness $k = 1.0 \times 10^{-7}$.
-   - All parameters in `f42_mixed_uel_mode2_miehe.for` and the input deck match the published text (p. 3270).
-   - **Classification:** **VERIFIED** for published nominal parameter values.
-
-4. **Constitutive Split & Irreversible Monotonic History:**
-   - The user element implements the Miehe spectral decomposition of elastic strain energy into tensile $\psi_0^+$ and compressive $\psi_0^-$ components, degrading only $\psi_0^+$: $\psi = [(1-d)^2 + k]\psi_0^+ + \psi_0^-$.
-   - History variable enforces irreversibility monotonically: $\mathcal{H}_{n+1} = \max(\mathcal{H}_n, \psi_0^+)$.
-   - However, unstated details in the authors' private implementation (e.g. initial threshold $\psi_{0,cr}$, specific residual stiffness $k$, or tangent linearization) cannot be verified from the paper text alone.
-   - **Classification:** **SUPPORTED BUT NOT CONCLUSIVE / NOT DETERMINABLE FROM AVAILABLE EVIDENCE**.
-
-5. **Non-Uniform Mesh Grading & Finite Adaptive Corridor Breadth:**
-   - On the coarse pre-analysis mesh ($2{,}960$ FEs), peak force was $514.51\,\text{N}$ ($+40.7\%$ over literature).
-   - The adapted mesh ($21{,}063$ FEs) reduced peak force to $412.21\,\text{N}$, traversing **$68.76\%$** of the gap toward $365.74\,\text{N}$.
-   - When a refined corridor ($h \le 3\text{--}4\,\mu\text{m}$) transitions to coarser elements ($h \approx 15\text{--}24\,\mu\text{m}$) away from the crack path, the coarser surrounding bulk could exert an elastic constraint on the shear field, slightly altering the macroscopic load at crack initiation.
-   - **Classification:** **PLAUSIBLE / UNVERIFIED** (hypothesis requires systematic corridor width and grading sweeps to isolate).
-
-6. **Monolithic Fully-Coupled vs Staggered Alternate-Minimization Solver Scheme:**
-   - Our implementation is a **fully-coupled monolithic Newton-Raphson solver**, where displacement DOFs $(u_x, u_y)$ and phase-field DOFs $d$ are solved simultaneously in a single assembled Jacobian.
-   - Pandey & Kumar explicitly report using a staggered implementation (Section 3, p. 3264).
-   - In standard staggered schemes, evaluating the displacement field at step $n+1$ with the frozen phase field from step $n$ introduces numerical lag in damage growth, which typically shifts the softening curve and apparent peak load relative to monolithic solutions.
-   - **Classification:** **PLAUSIBLE / NOT DETERMINABLE FROM AVAILABLE EVIDENCE**.
-
-**Diagnostic Summary:**
-The initial elastic stiffness agreement ($<0.3\%$) confirms macroscopic elastic compliance. The remaining $+12.71\%$ peak load difference is evaluated as an open numerical question primarily related to mesh transition grading constraints and monolithic versus staggered solver formulations.
+  * Entering Step 2, the load softened further to $338.57\,\text{N}$ at Inc 37 ($u_x = 10.185\,\mu\text{m}$), and has now progressed smoothly past $u_x = 18.28\,\mu\text{m}$ with $RF_1 = 346.65\,\text{N}$.
 
 ---
 
@@ -345,7 +292,7 @@ The initial elastic stiffness agreement ($<0.3\%$) confirms macroscopic elastic 
 2. **Reconciliation of Centerline Deviation and Crack-Path Coverage:** While horizontal offset $\Delta x$ reaches $+136\,\mu\text{m}$, the shortest perpendicular Euclidean distance $d_{\perp}$ to the station-matched mesh ridge never exceeds $96.17\,\mu\text{m}$, proving that **100% of the published stations lie within the nominal $W/2 = 120\,\mu\text{m}$ corridor**.
 3. **Geometric Mesh-Resolution Audit vs Numerical Convergence:** Containing-element queries along 500 stations prove that **$100.00\%$** of the published trajectory satisfies $h_{\text{equiv}} \le l_0/3 = 5.00\,\mu\text{m}$ ($h_{\max} = 4.289\,\mu\text{m}$) and **$99.40\%$** satisfy $h_{\max,\text{edge}} \le 5.00\,\mu\text{m}$ ($100.00\% \le l_0/2 = 7.50\,\mu\text{m}$). This establishes adequate geometric resolution for the phase-field length scale $l_0 = 15\,\mu\text{m}$, but does not by itself prove full numerical convergence.
 4. **Reconciled Equation Hierarchy:** Exactly $21{,}042$ mesh nodes ($20{,}988$ unique vertices + $54$ seam duplicate pairs) $\times 3$ DOFs $+ 1$ RP node $= 63{,}127$ model variables, and the condensation of $97$ linear top-edge coupling equations yields exactly $63{,}030$ sparse solver equations.
-5. **Adapted Production Fracture Simulation Progress:** PBS Job `1411267.mmaster02` successfully completed Step 1 ($u_x = 10.00\,\mu\text{m}$) and is actively advancing in Step 2 post-peak softening at **Increment 1420** ($u_x = 17.105\,\mu\text{m}$, $RF_1 = 341.25\,\text{N}$, $dt = 0.0005$, 0 cutbacks in Step 2, 4 iters/inc), progressing stably toward the prescribed displacement horizon ($u_x = 20\,\mu\text{m}$).
+5. **Adapted Production Fracture Simulation Progress:** PBS Job `1411267.mmaster02` successfully completed Step 1 ($u_x = 10.00\,\mu\text{m}$) and is actively advancing in Step 2 post-peak softening past Increment 1656+ ($u_x = 18.280\,\mu\text{m}$, $RF_1 = 346.65\,\text{N}$, $dt = 0.0005$, 0 cutbacks in Step 2, 4 iters/inc), progressing stably toward the prescribed displacement horizon ($u_x = 20\,\mu\text{m}$).
 6. **Literature Convergence Progress & Discrepancy Attribution:** The adapted mesh achieves $<0.3\%$ agreement in initial elastic stiffness and resolves **$68.76\%$** of the gap between coarse pre-analysis and published peak fracture response. The remaining $+12.71\%$ difference is evaluated as a plausible effect of adaptive corridor grading and monolithic vs staggered solution formulations.
 7. **Gate M2-4 Completion Status:** Gate M2-4 remains **ACTIVE (`ACTIVE_STABILIZED_FRACTURE_SOFTENING_ACTIVE`)** and must NOT be closed prematurely until full prescribed displacement, complete crack separation, and final discrepancy evaluation are completed.
 
@@ -372,30 +319,33 @@ The initial elastic stiffness agreement ($<0.3\%$) confirms macroscopic elastic 
 ## 12. HPC Storage Safeguards & Safe Relocation Manifest
 
 ### 12.1 Storage Audit Findings
-A disk storage audit conducted in Task F1359 revealed that user home directory `/home/pr21vyci` currently occupies **120 GB**. Over **85.4 GB (71.2%)** consists of completed legacy simulation outputs, old batch directories, and early thesis trials that can be safely archived to high-capacity scratch storage (`/scratch9/pr21vyci/archive_home_august2026/`) without deleting any files or impacting active computations.
+A disk storage audit revealed that user home directory `/home/pr21vyci` currently occupies **120 GB**. Over **85.4 GB (71.2%)** consists of completed legacy simulation outputs, old batch directories, and early thesis trials that can be safely archived to high-capacity scratch storage (`/scratch9/pr21vyci/archive_home_august2026/`) without deleting any files or impacting active computations.
 
 Active PBS Job `1411267.mmaster02` executes entirely under `/scratch9/pr21vyci/runs/mode2_j2_adapted_stabilized_et3` with zero heavy binary files written to `/home`.
 
-### 12.2 Prioritized Relocation Tiers
+---
 
-- **Tier 1: Heavy Standalone Files (> 1 GB each) — 17.0 GB Total**
-  * `projects/.../M2STATE_FRACFIX_RESTART2R7.msg`: **13 GB**
-  * `projects/.../M2STATE_FRACFIX_RESTART2R5.o$PBS_JOBID`: **2.3 GB**
-  * `projects/.../M2STATE_FRACFIX_RESTART2R5.msg`: **1.7 GB**
-- **Tier 2: Completed Stage-D Validation Batch Directories — ~3.3 GB Total**
-  * `M2CORR_STAGE_D_PROJECTED_PHASE_TRANSFER_CORR_VAL/`: **998 MB**
-  * `M2CORR_STAGE_D_CONTINUOUS_TARGET_CONTROL_VAL/`: **614 MB**
-  * `M2CORR_STAGE_D_PROJECTED_PHASE_TRANSFER_VAL/`: **587 MB**
-  * `M2CORR_STAGE_D_SAME_TARGET_IDENTITY_RESTART_VAL/`: **573 MB**
-  * `M2STATE_FRACFIX_RESTART2R7.dat`: **510 MB**
-- **Tier 3: Stale Workspace Clone Directories (`Adaptive_remeshing_clean`) — ~8.0 GB Total**
-  * `models/generated/mode_ii/stage_e_refinement_coarsening_batch/`: **7.3 GB**
-  * `models/generated/mode_ii/production_state_transfer_batch/`: **745 MB**
-- **Tier 4: Legacy Early Thesis Trials — 56 GB Total**
-  * `/home/pr21vyci/master_thesis/Abaqus_trial/`: **56 GB**
+## 13. Mode-II Adapted Fracture Simulation Evidence, Intact Ligament Mechanics, and Master Validation Figures
 
-### 12.3 Relocation Safety Governance
-In accordance with repository governance rules:
-1. **No deletions**: No files or directories shall be permanently deleted.
-2. **Explicit authorization required**: No files will be moved until the human user explicitly approves the relocation manifest.
-3. **Integrity preservation**: Moving files to `/scratch9/pr21vyci/archive_home_august2026/` preserves file timestamps, permissions, and directory structures.
+### 13.1 Production Simulation Setup & Telemetry
+The stabilized production solve (PBS Job `1411267.mmaster02`, Job Name `M2_J2_ADAPT_ET3_STAB`, 1 CPU serial, 16 GB RAM on compute node `mnode098/0` in queue `normal_imfdfkmq`) executes on the native adapted mesh `M2_CORRECTED_JOB2_ET3PCT_STABILIZED.inp` ($21{,}063$ FEs, $63{,}189$ layered elements, $63{,}030$ active solver equations):
+- **Step 1:** Completed at Increment 2024 ($u_x = 10.00\,\mu\text{m}$, elapsed walltime ~03:32:00, 4 cutbacks resolved by Line Search damping).
+- **Step 2:** Stably advancing past Increment 1656+ ($u_x \ge 18.280\,\mu\text{m}$, >91.4% of $20.0\,\mu\text{m}$ horizon, **0 cutbacks in Step 2**, exactly 4 Newton iterations per increment, elapsed walltime ~07:30:00).
+
+### 13.2 Physical Analysis of Post-Peak Load Stabilization ($RF_1 \approx 346\,\text{N}$)
+A thorough extraction of the damage field across 8 key loading snapshots ($u_x \in [0.0, 18.0]\,\mu\text{m}$) explains why the post-peak reaction force stabilizes in a smooth plateau rather than immediately dropping to zero:
+
+1. **Intact Load-Bearing Ligament:**
+   At $u_x = 18.0\,\mu\text{m}$, the crack front has penetrated to $y = 0.0691\,\text{mm}$, traversing **$86.2\%$** of the vertical ligament. An intact ligament of height $h_{\text{lig}} = 69.1\,\mu\text{m}$ remains near the bottom boundary ($y = 0$). Because this ligament is composed of undamaged elastic material ($d \approx 0$), it continuously carries substantial shear load.
+2. **Un-degraded Compressive Stress Transmission:**
+   Under pure shear with constrained vertical displacements ($u_y = 0$ along top and bottom boundaries), closed crack faces remain in compression. The Miehe spectral decomposition $\boldsymbol{\sigma}_{\text{phys}} = [(1-d)^2 + k]\boldsymbol{\sigma}_0^+ + \boldsymbol{\sigma}_0^-$ leaves the compressive stress tensor $\boldsymbol{\sigma}_0^-$ completely un-degraded, maintaining continuous compressive contact traction across the crack flanks.
+
+### 13.3 Damage Evolution & Crack Trajectory Extraction
+- **Monotonic Damage Growth:** Peak damage $d_{\max}$ grew from $0.000$ ($u_x=0$) to $0.091$ ($5\,\mu\text{m}$), $0.450$ ($9\,\mu\text{m}$), $0.998$ ($10\,\mu\text{m}$), and saturated at $1.000$ with $1,343$ fully broken elements ($d \ge 0.9$) at $u_x = 18.0\,\mu\text{m}$.
+- **Crack Trajectory Alignment:** The crack initiated at the notch tip ($x = 0.4968\,\text{mm}, y = 0.500\,\text{mm}$, $|\Delta x| = 3.2\,\mu\text{m} \approx l_0/4.7$) and propagated along an oblique path ($\theta = -48.30^\circ$) to $x = 0.7516\,\text{mm}, y = 0.0700\,\text{mm}$. $100\%$ of the damage zone remains fully enclosed within the $W = 0.24\,\text{mm}$ adaptive refinement corridor.
+
+### 13.4 Master Publication Figures Portfolio
+Three publication-quality figures were rendered across 300/600 DPI PNG and vector PDF in `results/figures/mode2/`:
+1. `fig_mode2_m2_4_full_response_and_literature_comparison.png` (.pdf): 4-panel comprehensive figure displaying (a) full $RF_1\text{--}u_x$ curve, (b) peak zoom and $68.76\%$ gap closure, (c) monotonic damage and broken element evolution, and (d) intact ligament reduction.
+2. `fig_mode2_m2_4_actual_crack_trajectory_vs_literature.png` (.pdf): 2-panel figure showing (a) extracted crack trajectory vs Pandey & Kumar Fig. 12(b) and refinement corridor, and (b) lateral deviation profile $\Delta x(y)$ demonstrating $|\Delta x| \le 3.5\,\mu\text{m} \approx l_0/4.3$ in the initiation zone.
+3. `fig_mode2_m2_4_damage_field_and_mesh_localization.png` (.pdf): 2-panel 2D scatter plot illustrating (a) full specimen damage field at $u_x = 18.0\,\mu\text{m}$ and (b) fracture process zone zoom highlighting the remaining $69.1\,\mu\text{m}$ intact ligament.
