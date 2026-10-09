@@ -1,9 +1,17 @@
 {
     "active": false,
-    "agent": null,
-    "task_id": null,
-    "session_start": null,
-    "session_end": "2026-10-09T07:20:00+02:00",
-    "starting_commit": "f84cf9b48081a6e53395e2117f4b5b7b3b05329f",
-    "allowed_write_scope": []
+    "agent": "gemini-antigravity",
+    "task_id": "F1351-MODE2-MISESERI-PHYSICAL-PROVENANCE-AUDIT-AND-ACTIVE-FRACTURE-QUALIFICATION",
+    "session_start": "2026-10-09T07:21:00+02:00",
+    "session_end": "2026-10-09T07:28:00+02:00",
+    "starting_commit": "06f9eba4fac7f448548b30587219ec9ca9cb0af3",
+    "allowed_write_scope": [
+        "project_coordination/",
+        "docs/mode2/",
+        "models/pandey_kumar_mode2/",
+        "scripts/",
+        "references/",
+        "results/",
+        "tests/"
+    ]
 }
