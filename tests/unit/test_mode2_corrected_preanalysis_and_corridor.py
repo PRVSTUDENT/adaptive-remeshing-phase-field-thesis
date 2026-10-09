@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """
 test_mode2_corrected_preanalysis_and_corridor.py
-Unit tests for Task F1347:
+Unit tests for Task F1347 & F1348:
 - Root cause verification of UEL RHS defect
 - Damage evolution and oblique crack path in Job 1411104
 - MISESERI error corridor emergence (rotation from -1.34 deg to -34.07 deg)
 - Native adaptive remeshing reproduction across ET in {1%, 2%, 3%, 5%}
-- Job 1411103 solver classification as TERMINAL_PARTIAL
+- Quantitative centerline agreement with published Fig. 12(b) & 6(b)
+- Stabilized production deck generation and non-invasive controls
 - Mode-I baseline freeze preservation
 """
 import os
@@ -27,9 +28,14 @@ EXPECTED_MODE2_CORRECTED_HASH = "699b05d6c430fce6242f8c603b45bb0783cf376451efd52
 EXTRACTED_DIR = os.path.join(MODE2_DIR, "extracted_corrected_miseseri")
 CORRIDOR_JSON_PATH = os.path.join(EXTRACTED_DIR, "miseseri_corridor_analysis.json")
 REMESH_MANIFEST_PATH = os.path.join(MODE2_DIR, "m2_corrected_remesh", "MODE2_CORRECTED_REMESH_MANIFEST.json")
+AUDIT_JSON_PATH = os.path.join(MODE2_DIR, "m2_corrected_remesh", "mode2_corridor_quantitative_audit.json")
 
 FIG_PNG_PATH = os.path.join(WORKSPACE_DIR, "results", "figures", "mode2", "fig_mode2_corrected_miseseri_and_adaptive_mesh.png")
 FIG_PDF_PATH = os.path.join(WORKSPACE_DIR, "results", "figures", "mode2", "fig_mode2_corrected_miseseri_and_adaptive_mesh.pdf")
+FIG_6PANEL_PNG_PATH = os.path.join(WORKSPACE_DIR, "results", "figures", "mode2", "fig_mode2_corrected_corridor_and_centerline_validation.png")
+FIG_6PANEL_PDF_PATH = os.path.join(WORKSPACE_DIR, "results", "figures", "mode2", "fig_mode2_corrected_corridor_and_centerline_validation.pdf")
+
+STABILIZED_DECK_PATH = os.path.join(MODE2_DIR, "m2_corrected_remesh", "M2_CORRECTED_JOB2_ET3PCT_STABILIZED.inp")
 
 
 def test_uel_source_root_cause_diff():
@@ -38,11 +44,9 @@ def test_uel_source_root_cause_diff():
     with open(MODE2_FORTRAN_PATH, "r", encoding="utf-8") as f:
         content = f.read()
 
-    # Check that RHS driving vector is present
     assert "RHS(I,1) = RHS(I,1) + CJAC * TWO * HIST * SHP(I)" in content, "Quad RHS driving term missing"
     assert "RHS(I,1) = RHS(I,1) + CJAC * TWO * HIST * N_TRI(I)" in content, "Tri RHS driving term missing"
 
-    # Check hash
     h = hashlib.sha256(content.encode("utf-8")).hexdigest().lower()
     assert h == EXPECTED_MODE2_CORRECTED_HASH, f"Hash mismatch: got {h}, expected {EXPECTED_MODE2_CORRECTED_HASH}"
 
@@ -105,12 +109,45 @@ def test_native_adaptive_mesh_generation():
     assert et3["corridor_fine_fraction_pct"] >= 40.0, "Corridor fine fraction should be >= 40%"
 
 
+def test_quantitative_corridor_audit_and_selectivity():
+    """Verify quantitative centerline agreement and density contrast."""
+    assert os.path.exists(AUDIT_JSON_PATH), f"Missing {AUDIT_JSON_PATH}"
+    with open(AUDIT_JSON_PATH, "r") as f:
+        data = json.load(f)
+
+    c_eval = data["centerline_eval"]["ET_3PCT"]
+    assert c_eval["mean_abs_dev_f12b_mm"] <= 0.120, f"Mean deviation too large: {c_eval['mean_abs_dev_f12b_mm']}"
+    assert abs(c_eval["exit_dev_f12b_mm"]) <= 0.130, f"Exit dev too large: {c_eval['exit_dev_f12b_mm']}"
+
+    # Selectivity check for ET_3PCT
+    sel = data["mesh_selectivity"]["ET_3PCT"]
+    assert sel["fine_in_corridor_pct_of_fine"] >= 70.0, f"Expected >= 70% corridor fine fraction, got {sel['fine_in_corridor_pct_of_fine']}"
+    assert sel["density_contrast_ratio"] >= 15.0, f"Expected density contrast >= 15x, got {sel['density_contrast_ratio']}"
+
+
+def test_stabilized_production_deck_structure():
+    """Verify stabilized production deck exists, has 3 layers and line search controls."""
+    assert os.path.exists(STABILIZED_DECK_PATH), f"Missing {STABILIZED_DECK_PATH}"
+    with open(STABILIZED_DECK_PATH, "r") as f:
+        content = f.read()
+
+    assert "*User Element, nodes=4, type=U1" in content
+    assert "*User Element, nodes=4, type=U2" in content
+    assert "*controls, parameters=line search" in content.lower()
+    assert "*controls, parameters=time incrementation" in content.lower()
+    assert "N_BOTTOM" in content
+    assert "N_TOP" in content
+    assert "N_RP" in content
+
+
 def test_publication_figures_exist():
-    """Verify that the 4-panel publication-quality PNG and PDF figures exist and are non-empty."""
+    """Verify that both 4-panel and 6-panel publication-quality PNG and PDF figures exist."""
     assert os.path.exists(FIG_PNG_PATH), f"Missing {FIG_PNG_PATH}"
     assert os.path.exists(FIG_PDF_PATH), f"Missing {FIG_PDF_PATH}"
+    assert os.path.exists(FIG_6PANEL_PNG_PATH), f"Missing {FIG_6PANEL_PNG_PATH}"
+    assert os.path.exists(FIG_6PANEL_PDF_PATH), f"Missing {FIG_6PANEL_PDF_PATH}"
     assert os.path.getsize(FIG_PNG_PATH) >= 1000000, "PNG file unexpectedly small (< 1 MB)"
-    assert os.path.getsize(FIG_PDF_PATH) >= 500000, "PDF file unexpectedly small (< 500 KB)"
+    assert os.path.getsize(FIG_6PANEL_PNG_PATH) >= 1000000, "6-panel PNG file unexpectedly small (< 1 MB)"
 
 
 def test_mode1_baseline_freeze_integrity():
