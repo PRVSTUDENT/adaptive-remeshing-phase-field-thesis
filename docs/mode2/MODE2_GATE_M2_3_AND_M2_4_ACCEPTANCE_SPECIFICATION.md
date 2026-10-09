@@ -288,3 +288,42 @@ An exhaustive linear regression audit across multiple displacement windows on th
 - Hardware: 1 CPU serial, 16 GB RAM on `mnode097/0` in `normal_imfdfkmq`.
 - Live Progress: Step 1 Increment 424+ ($u_x = 2.120\,\mu	ext{m}$, 21.2% of Step 1 complete), 0 cutbacks, 3 iterations/increment, elapsed walltime 01:08:35, memory 4.09 GB.
 - Elastic Stiffness: $K_0 = 45.68\,	ext{kN/mm}$ ($R^2 = 0.99999995$), confirming flawless elastic parity.
+---
+
+## 14. Task F1373 Reaction-Force Verification, Crack Connectivity Audit, and ET2 Readiness
+
+### 14.1 Reaction-Force Output Audit & Classification Boundary
+- **Top Master Boundary ($N_{\mathrm{TOP}}$, RP 999999):** Multi-point constraint condensation (`*EQUATION`: $u_1(i) - u_1(\mathrm{RP}) = 0$) eliminates slave nodal degrees of freedom, resulting in $RF_1(i) = 0$ at all individual top nodes and concentrating the entire integrated boundary traction at Master Reference Point 999999:
+  $$RF_1(\mathrm{RP}) = \int_{\Gamma_{\mathrm{top}}} \sigma_{12}\,dx = 412.21\,\mathrm{N} \quad (\text{at peak } u_x = 9.41\,\mu\mathrm{m})$$
+- **Bottom Clamped Boundary ($N_{\mathrm{BOTTOM}}$):** Individual nodal reaction force history was not requested in the `*Output, field` or `*Node Print` cards of the production deck (only `nset=N_RP` was requested).
+- **Epistemological Classification:** Bottom boundary reaction forces are strictly classified as `NOT_YET_VERIFIED_FROM_AVAILABLE_OUTPUT` in the ODB rather than asserting fabricated numerical equality $RF_1(\mathrm{bottom}) = -RF_1(\mathrm{top})$. Global static equilibrium $\sum F_x = 0$ is guaranteed at the algebraic solution of the FE equations.
+
+### 14.2 Crack Deceleration Rate ($da/du_x$) Audit Across the Loading Horizon
+- **Geometric Propagation Rate Definition:** $da/du_x$ represents the dimensionless rate of crack extension per unit prescribed boundary displacement ($\mathrm{mm/mm}$ or $\mu\mathrm{m}/\mu\mathrm{m}$), strictly distinguished from a physical time-dependent crack velocity ($da/dt$).
+- **Evolutionary Trajectory & Deceleration:**
+  * Crack initiation & peak softening ($u_x = 10.0 \to 10.5\,\mu\mathrm{m}$): Crack length surges from $a = 84.44\,\mu\mathrm{m}$ to $182.64\,\mu\mathrm{m}$ with peak growth rate $(da/du_x)_{\max} = 196.40\,\mathrm{mm/mm}$.
+  * Mid-horizon propagation ($u_x = 11.0 \to 15.0\,\mu\mathrm{m}$): Crack advances with steady rates $da/du_x \in [39.5, 131.5]\,\mathrm{mm/mm}$.
+  * Near-base boundary deceleration ($u_x = 18.0 \to 20.0\,\mu\mathrm{m}$): Approaching the clamped base ($y = 0$, $u_x = u_y = 0$), the growth rate drops dramatically to $(da/du_x)_{\mathrm{terminal}} = 10.92\,\mathrm{mm/mm}$, representing an $\approx 18\times$ physical deceleration.
+- **Intact Ligament Preservation:** The terminal crack tip is arrested at $y = 56.32\,\mu\mathrm{m}$ ($h_{\mathrm{lig}} = 56.32\,\mu\mathrm{m} \approx 3.75\,l_0$), leaving a robust elastic boundary zone.
+
+### 14.3 Resolution of Coarse Mesh Zero-Ligament ($h_{\mathrm{lig}} = 0$) Contradiction
+- **Coarse Mesh Discretization Smear:** In the companion coarse simulation (Job 1411104, 2,960 FEs), the element size near the base is $h \approx 20\text{--}25\,\mu\mathrm{m} > l_0 = 15\,\mu\mathrm{m}$. When phase-field damage reaches $d \approx 1.0$ across a single coarse element abutting the base, the element centroid is marked broken, artificially yielding $h_{\mathrm{lig}} = 0\,\mu\mathrm{m}$.
+- **Traction-Free vs Continua Damage Distinction:** In regularized phase-field formulations, $d = 1.0$ across a coarse element does *not* imply zero physical shear/compressive stress transmission. Under the Miehe spectral split, compressive components ($\boldsymbol{\sigma}_0^-$) remain fully active across closed crack flanks under vertical confinement ($u_y = 0$), allowing substantial load transfer ($RF_1 = 433.47\,\mathrm{N}$ at $u_x = 20.0\,\mu\mathrm{m}$).
+- **Adapted Mesh Spatial Resolution:** In the adapted mesh ET3 (21,063 FEs, $h \le 3.0\,\mu\mathrm{m} \ll l_0$), the damage gradient is sharply resolved, accurately capturing the physical arrest of the crack tip at $3.75\,l_0$ from the rigid base.
+
+### 14.4 Reference Initial Stiffness Uncertainty & Multi-Window Concordance
+- **Redigitized Literature Benchmark ($K_{0,\mathrm{lit}}$):** Linear regression on the 801-point dataset over $u \in [0.0, 2.0]\,\mu\mathrm{m}$ yields $K_0 = 45.68 \pm 0.85\,\mathrm{kN/mm}$ ($R^2 = 0.9976$), establishing a $\pm 1.86\%$ digitization uncertainty window.
+- **Numerical Model Concordance:**
+  * Coarse 2.96k: $K_0 = 45.80\,\mathrm{kN/mm}$ ($+0.26\%$ from nominal).
+  * ET3 21.06k: $K_0 = 45.64\,\mathrm{kN/mm}$ ($-0.09\%$ from nominal).
+  * ET2 37.58k: $K_0 = 45.68\,\mathrm{kN/mm}$ ($0.00\%$ from nominal).
+  * Navidtehrani (2021): $K_0 = 45.64\,\mathrm{kN/mm}$ ($-0.09\%$ from nominal).
+- All models agree with the published literature well within the experimental/digitization uncertainty band ($< 0.35\%$ vs $\pm 1.86\%$).
+
+### 14.5 ET2 Convergence Solve Live Telemetry (Job 1411414.mmaster02)
+- **Mesh Details:** 37,575 FEs (36,612 quads + 963 tris, 97.44% quads), 37,459 nodes, 112,238 active solver equations.
+- **Hardware & Placement:** 1 CPU serial, 16 GB RAM on `mnode097/0` in `normal_imfdfkmq`.
+- **Live Solver Progress:** Step 1 Increment 514+ ($u_x = 2.570\,\mu\mathrm{m}$, 25.7% of Step 1 complete), 0 cutbacks, 3 iterations/increment, latest reaction force $RF_1 = 117.23\,\mathrm{N}$, initial stiffness $K_0 = 45.68\,\mathrm{kN/mm}$ ($R^2 = 0.99999995$).
+- **Verified Publication Artifacts:**
+  * 4-Panel Master Figure: `results/figures/mode2/fig_mode2_f1373_rf_verification_and_crack_connectivity.pdf`/`.png`
+  * Unit Test Suite: `tests/unit/test_mode2_f1373_rf_verification_and_crack_connectivity.py` (4/4 PASS, 46/46 Mode-II suite 100% PASS).
