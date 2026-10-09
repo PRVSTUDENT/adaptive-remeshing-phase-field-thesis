@@ -307,7 +307,7 @@ An exhaustive linear regression audit across multiple displacement windows on th
 - **Intact Ligament Preservation:** The terminal crack tip is arrested at $y = 56.32\,\mu\mathrm{m}$ ($h_{\mathrm{lig}} = 56.32\,\mu\mathrm{m} \approx 3.75\,l_0$), leaving a robust elastic boundary zone.
 
 ### 14.3 Resolution of Coarse Mesh Zero-Ligament ($h_{\mathrm{lig}} = 0$) Contradiction
-- **Coarse Mesh Discretization Smear:** In the companion coarse simulation (Job 1411104, 2,960 FEs), the element size near the base is $h \approx 20\text{--}25\,\mu\mathrm{m} > l_0 = 15\,\mu\mathrm{m}$. When phase-field damage reaches $d \approx 1.0$ across a single coarse element abutting the base, the element centroid is marked broken, artificially yielding $h_{\mathrm{lig}} = 0\,\mu\mathrm{m}$.
+- **Coarse Mesh Discretization Smear:** In the companion coarse simulation (Job 1411104, 2,960 FEs), the element size near the base is $h \approx 20\text{--}25\,\mu\mathrm{m} > l_0 = 15\,\mu\mathrm{m}$. Preliminary analyses hypothesized coarse base damage, but rigorous graph-based extraction in Task F1374 proves the coarse crack actually arrested at $h_{\mathrm{lig}} = 144.92\,\mu\mathrm{m}$, completely refuting $h_{\mathrm{lig}} = 0$.
 - **Traction-Free vs Continua Damage Distinction:** In regularized phase-field formulations, $d = 1.0$ across a coarse element does *not* imply zero physical shear/compressive stress transmission. Under the Miehe spectral split, compressive components ($\boldsymbol{\sigma}_0^-$) remain fully active across closed crack flanks under vertical confinement ($u_y = 0$), allowing substantial load transfer ($RF_1 = 433.47\,\mathrm{N}$ at $u_x = 20.0\,\mu\mathrm{m}$).
 - **Adapted Mesh Spatial Resolution:** In the adapted mesh ET3 (21,063 FEs, $h \le 3.0\,\mu\mathrm{m} \ll l_0$), the damage gradient is sharply resolved, accurately capturing the physical arrest of the crack tip at $3.75\,l_0$ from the rigid base.
 
@@ -327,3 +327,54 @@ An exhaustive linear regression audit across multiple displacement windows on th
 - **Verified Publication Artifacts:**
   * 4-Panel Master Figure: `results/figures/mode2/fig_mode2_f1373_rf_verification_and_crack_connectivity.pdf`/`.png`
   * Unit Test Suite: `tests/unit/test_mode2_f1373_rf_verification_and_crack_connectivity.py` (4/4 PASS, 46/46 Mode-II suite 100% PASS).
+
+---
+
+## 15. Task F1374 Mode-II Crack-Connectivity Verification, Post-Peak Mechanics Audit, and ET2 Adaptive-Mesh Convergence Preparation
+
+### 15.1 Graph-Based Crack-Connectivity Algorithm & Coarse Ligament Refutation
+- **Graph BFS Algorithm Formulation:** Reconstructs explicit finite element node-to-element adjacency graph on the companion UMAT layer (eliminating triple-counting of co-located UEL layers). Traversal initiates strictly from crack-tip seed elements within radius $r \le 0.05\,\mathrm{mm}$ of the initial sharp notch tip $(0.5, 0.5)\,\mathrm{mm}$.
+- **Zero Isolated Damaged Elements:** For both Coarse (2,960 FEs) and ET3 (21,063 FEs), $N_{\mathrm{isolated}} = 0$ across all tested thresholds ($d \ge 0.80, 0.90, 0.95$). Every damaged element belongs to a single contiguous crack channel advancing from the notch tip.
+- **Refutation of Coarse $h_{\mathrm{lig}} = 0$ Contradiction:**
+  * Rigorous graph extraction proves that the connected crack front in the coarse mesh arrests at $y = 144.92\,\mu\mathrm{m}$ ($d \ge 0.90, 0.95$) and $y = 133.29\,\mu\mathrm{m}$ ($d \ge 0.80$).
+  * The actual remaining intact ligament in the coarse mesh is $h_{\mathrm{lig}} = 144.92\,\mu\mathrm{m} \approx 9.7\,l_0$ ($29.0\%$ of the unnotched specimen height), NOT $0\,\mu\mathrm{m}$.
+  * The previous claim that a coarse element touching the base reached $d=1.0$ causing $h_{\mathrm{lig}}=0$ was an unsupported artifact. The coarse mesh severely retards crack advance due to element sizing ($h \approx 20\text{--}25\,\mu\mathrm{m} > l_0 = 15\,\mu\mathrm{m}$) being unable to resolve the steep phase-field gradient.
+- **Adapted ET3 Mesh Ligament Resolution:**
+  * In ET3 ($h \le 3.0\,\mu\mathrm{m} \ll l_0$), the crack tip penetrates deeply to $(0.7770, 0.0563)\,\mathrm{mm}$, leaving $h_{\mathrm{lig}} = 56.32\,\mu\mathrm{m} \approx 3.75\,l_0$ ($d \ge 0.90$), $60.95\,\mu\mathrm{m}$ ($d \ge 0.95$), and $51.34\,\mu\mathrm{m}$ ($d \ge 0.80$).
+
+### 15.2 Crack Deceleration Rate ($da/du_x$) Kinetics & Epistemological Boundaries
+- **Numerical Derivative Sensitivity:**
+  * 2-interval central difference: Peak growth rate $(da/du_x)_{\max} = 199.93\,\mathrm{mm/mm}$ at $u_x = 10.0\,\mu\mathrm{m}$ (immediately post-peak).
+  * 1-interval forward difference on raw frame spacing ($\Delta u_x = 0.25\,\mu\mathrm{m}$): instantaneous element advance surges up to $366.27\,\mathrm{mm/mm}$.
+  * Terminal rate at $u_x = 20.0\,\mu\mathrm{m}$: drops to $10.92\text{--}16.58\,\mathrm{mm/mm}$, representing a $12\text{--}18\times$ deceleration (and up to $48\times$ compared to the local rate minimum of $4.11\,\mathrm{mm/mm}$ at $u_x = 18.5\,\mu\mathrm{m}$).
+- **Epistemological Distinction:**
+  * $da/du_x$ is a rate with respect to prescribed boundary displacement ($\mathrm{mm/mm}$), strictly distinguished from a physical time-velocity ($da/dt$ in $\mathrm{m/s}$).
+  * Attributing the deceleration to bottom boundary clamping is a supported and plausible continuum mechanics hypothesis, but is NOT a mathematically proven unique cause (as stress redistribution, compressive strut action, and triaxiality interact).
+
+### 15.3 Post-Peak Reloading Mechanism Audit (ET3: $301.82 \to 380.42\,\mathrm{N}$)
+- **Reloading Milestones:** Force drops from $F_{\max} = 412.21\,\mathrm{N}$ ($u_x = 9.41\,\mu\mathrm{m}$) to $F_{\min} = 301.82\,\mathrm{N}$ ($u_x = 12.42\,\mu\mathrm{m}$), then reloads monotonically to $F(20\,\mu\mathrm{m}) = 380.42\,\mathrm{N}$ ($\Delta F = +78.59\,\mathrm{N}$, $+26.04\%$).
+- **Coincident Mechanisms:**
+  1. *Slower crack advance:* Verified numerically. $da/du_x$ slows from $\sim 200\,\mathrm{mm/mm}$ to $10\text{--}20\,\mathrm{mm/mm}$.
+  2. *Persistent intact ligament:* Verified numerically. $h_{\mathrm{lig}} = 56.32\,\mu\mathrm{m}$ remains uncracked.
+  3. *Deformation concentration:* Supported. Monotonic top shear ($u_x: 12.42 \to 20\,\mu\mathrm{m}$) against clamped base increases shear deformation in the remaining uncracked zone.
+  4. *Zero contact / friction:* Verified. The model contains NO contact pairs, NO penalty contact, and NO Coulomb friction laws.
+  5. *Miehe spectral split:* Plausible and consistent with formulation, but classified as `PHYSICALLY_PLAUSIBLE_BUT_UNVERIFIED_AS_INDEPENDENT_STRESS_DECOMPOSITION` (the UEL does not output decomposed stress tensors to ODB).
+
+### 15.4 Corrected Coarse-vs-ET3 Fracture Comparison Table
+| Metric / Quantity | Coarse Pre-Analysis Benchmark | ET3 Adapted Stabilized Fracture | Published Literature Target | Status / Finding |
+| :--- | :---: | :---: | :---: | :--- |
+| **Total Finite Elements** | $2{,}960$ | $21{,}063$ | $\sim 19{,}963$ | Native adaptivity $+5.51\%$ |
+| **Initial Stiffness $K_0$** | $45.80\,\mathrm{kN/mm}$ | $45.64\,\mathrm{kN/mm}$ | $45.68 \pm 0.85\,\mathrm{kN/mm}$ | All within $<0.35\%$ |
+| **Peak Reaction Force $F_{\max}$** | $514.51\,\mathrm{N}$ | $412.21\,\mathrm{N}$ | $365.74\,\mathrm{N}$ | $\mathbf{68.76\%}$ gap closed |
+| **Peak Displacement $u(F_{\max})$** | $13.43\,\mu\mathrm{m}$ | $9.41\,\mu\mathrm{m}$ | $8.30\,\mu\mathrm{m}$ | $78.4\%$ gap closed |
+| **Post-Peak Minimum $F_{\min}$** | $428.90\,\mathrm{N}$ | $301.82\,\mathrm{N}$ | N/A (monotone) | Both show reloading |
+| **Terminal Force $RF_1(20\,\mu\mathrm{m})$** | $433.47\,\mathrm{N}$ | $380.42\,\mathrm{N}$ | N/A (truncated at 16um) | Reloading $+26.04\%$ |
+| **Final Ligament $h_{\mathrm{lig}}$ ($d \ge 0.9$)** | $\mathbf{144.92\,\mu\mathrm{m}}$ (corrected) | $\mathbf{56.32\,\mu\mathrm{m}}$ | N/A | **Refuted $h_{\mathrm{lig}}=0$** |
+| **External Work $W_{\mathrm{ext}}(16\,\mu\mathrm{m})$**| $5.223\,\mathrm{mJ}$ | $4.135\,\mathrm{mJ}$ | $3.517\,\mathrm{mJ}$ | $\mathbf{63.75\%}$ gap closed |
+
+### 15.5 ET2 Production Solve Status (Job 1411414.mmaster02)
+- **Discretization:** $37{,}575$ FEs ($36{,}612$ quads + $963$ tris), $37{,}459$ nodes, $112{,}238$ active equations.
+- **Hardware & Placement:** 1 CPU serial, 16 GB RAM on `mnode097/0` in `normal_imfdfkmq`.
+- **Telemetry:** Actively running with 0 cutbacks past Step 1 Increment 676+ ($u_x \ge 3.380\,\mu\mathrm{m}$), $K_0 = 45.68\,\mathrm{kN/mm}$ ($R^2 = 0.99999995$).
+- **Reporting Rule:** In-progress loads are strictly classified as `PENDING` to prevent reporting interim elastic forces as peak capacity.
+- **Gate M2-4 Scientific Classification:** `CLOSED_PASSED_WITH_LIMITATIONS`.
