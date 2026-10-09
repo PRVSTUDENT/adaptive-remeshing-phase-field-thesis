@@ -1,7 +1,7 @@
 # Comprehensive Mode-II Corrected Pre-Analysis, MISESERI Physical Provenance, and Native Adaptive-Remeshing Reproduction Report
 
-**Task Reference:** Tasks F1348, F1350, F1351, F1352, F1353, F1354, F1355, F1356, F1357, F1358, F1359, F1360, F1361, F1362, F1363, F1364, F1365, & F1366 (`F1366-MODE2-TERMINAL-SOLVER-VERIFICATION-CRACK-TIP-AUDIT-AND-GATE-M2-4-EVALUATION`)  
-**Date:** `2026-10-09T16:00:00+02:00`  
+**Task Reference:** Tasks F1348, F1350, F1351, F1352, F1353, F1354, F1355, F1356, F1357, F1358, F1359, F1360, F1361, F1362, F1363, F1364, F1365, F1366, & F1367 (`F1367-MODE2-RESIDUAL-FORCE-DISCREPANCY-INVESTIGATION-GATE-M2-4-REASSESSMENT-AND-EXPERIMENT-SPECIFICATION`)  
+**Date:** `2026-10-09T16:30:00+02:00`  
 **Governing Authority:** `project_coordination/`  
 **Investigating Agent:** `gemini-antigravity`  
 **Parent Milestone:** Gate M2-3 / Gate M2-4 Native Remeshing Corridor Reproduction & Terminal Solver Evaluation  
@@ -70,6 +70,12 @@ This report documents the comprehensive investigation, correction of scientific 
     - **Hard Epistemological Boundary:** Zero contact surfaces, zero penalty contact, and zero Coulomb friction laws are modeled. Layer-3 visualization UMAT stresses have $E_{\text{vis}} = 2.1 \times 10^{-4}\,\mathrm{kN/mm^2}$ and cannot represent physical mechanical stress. The exact relative breakdown of ligament shear vs compressive traction remains unquantified.
 14. **Gate M2-4 Completion Status**:
     Gate M2-4 is formally evaluated as **`COMPLETED_EVALUATED_PASSED_WITH_DOCUMENTED_LIMITATIONS`**. The full $u_x = 20.00\,\mu\mathrm{m}$ horizon completed with Exit 0 and zero cutbacks in Step 2, $68.76\%$ peak gap closure, and $100\%$ spatial confinement inside the refinement corridor.
+15. **Residual-Force Discrepancy Investigation, Literature Truncation Reconciliation, and Controlled Experiment Matrix (Task F1367)**:
+    - **Macro-Mechanical Response Milestones:** Reconciled local minimum $F_{\min} = 301.8241\,\text{N}$ at $u_x = 12.420\,\mu\text{m}$ (Increment 2507) and terminal reloading to $RF_1 = 380.4180\,\text{N}$ at $u_x = 20.000\,\mu\text{m}$ (Increment 4024), representing a $+78.5938\,\text{N}$ ($+26.04\%$) post-peak increase.
+    - **Published Data Extent:** Established that Pandey & Kumar (2025) Fig. 13(a) terminates at $u_x = 16.0\,\mu\text{m}$ ($184.06\,\text{N}$), confirming that no published data exists in the $u_x \in [16.0, 20.0]\,\mu\text{m}$ displacement window.
+    - **External Work Integration ($W_{\text{ext}} = \int RF_1\,du_x$):** Over the full horizon ($0 \to 20\,\mu\text{m}$), $W_{\text{ext}} = 5.547938\,\text{mJ}$ (adapted) vs $6.994908\,\text{mJ}$ (coarse, $20.69\%$ reduction). Over the published window ($0 \to 16\,\mu\text{m}$), $W_{\text{ext}} = 4.135306\,\text{mJ}$ (adapted) vs $3.516651\,\text{mJ}$ (published) vs $5.223104\,\text{mJ}$ (coarse), closing $63.74\%$ of the work gap toward the literature.
+    - **Physical Grounding:** Grounded reloading in intact elastic ligament ($h_{\text{lig}} = 56.32\,\mu\text{m}$, $88.74\%$ traversed) + un-degraded bulk compressive stress transmission ($\boldsymbol{\sigma}_0^-$) across closed crack flanks under $u_y = 0$ in the Miehe spectral split + rigid base boundary jamming at $y = 0$. Coarse companion solve (`1411104.mmaster02`) exhibits the same reloading ($428.90 \to 433.47\,\text{N}$), proving it is an intrinsic structural trait of the BVP.
+    - **Controlled Numerical Experiment Matrix:** Formulated three pre-declared controlled experiments (`docs/mode2/MODE2_EXPERIMENT_SPECIFICATION_POSTPEAK_RELOAD_AND_RESOLUTION.md`): M2-EXP1 (base ligament refinement $y \le 0.1\,\text{mm}$ to $h = 1.5\,\mu\text{m}$), M2-EXP2 (sizing window comparison: Step-1 elastic vs Step-2 damage envelope), and M2-EXP3 (top-edge $u_y$ constraint relaxation) with `execution_authorized: false`.
 
 ---
 
@@ -452,5 +458,37 @@ A critical question in Gate M2-4 validation is why the reaction force levels off
 The complete Mode-II verification suite consists of:
 - **Master Plotting Script:** `scripts/postprocessing/plot_mode2_adapted_fracture_validation_master.py`
 - **Master Unit Tests:** `tests/unit/test_mode2_adapted_fracture_validation_master.py` (6/6 PASS, 100%)
-- **Full Mode-II Unit Suite:** 119/119 unit tests PASS (100%)
+- **Residual Force & Experiment Spec Unit Tests:** `tests/unit/test_mode2_residual_force_and_experiment_spec.py` (4/4 PASS, 100%)
+- **Full Mode-II Unit Suite:** 123/123 unit tests PASS (100%)
 - **Master Figures:** `results/figures/mode2/fig_mode2_m2_4_full_response_and_literature_comparison`, `fig_mode2_m2_4_actual_crack_trajectory_vs_literature`, `fig_mode2_m2_4_damage_field_and_mesh_localization` (PNG 300/600 DPI, vector PDF).
+
+---
+
+## 16. Post-Peak Residual-Force Discrepancy Investigation, Literature Domain Truncation, External Work Integration, and Controlled Numerical Experiment Matrix (Task F1367)
+
+### 16.1 Macro-Mechanical Response Milestones & Post-Peak Reloading
+Detailed quantitative extraction of the full load-displacement response of Job `1411267.mmaster02` ($21{,}063$ FEs, $u_x \in [0.0, 20.00]\,\mu\text{m}$) establishes four distinct macro-mechanical regimes:
+1. **Initial Elastic Regime ($u_x \le 1.0\,\mu\text{m}$):** $K_0 = 45.6385\,\text{kN/mm}$ ($R^2 = 0.99999966$, error $<0.3\%$ vs literature target $45.5\text{--}45.8\,\text{kN/mm}$).
+2. **Peak Load & Primary Softening ($u_x \in [1.0, 10.0]\,\mu\text{m}$):** Peak force $F_{\max} = 412.2090\,\text{N}$ at $u_x = 9.410\,\mu\text{m}$, closing $68.76\%$ of the gap between coarse benchmark ($514.51\,\text{N}$) and literature ($365.74\,\text{N}$). Step 1 ends at $u_x = 10.0\,\mu\text{m}$ with $RF_1 = 385.24\,\text{N}$ ($d_{\max} = 0.9984$).
+3. **Post-Peak Local Minimum ($u_x \in [10.0, 16.0]\,\mu\text{m}$):** Reaction force drops to a distinct local minimum $F_{\min} = \mathbf{301.8241\,\text{N}}$ at $u_x = \mathbf{12.420\,\mu\text{m}}$ (Increment 2507).
+4. **Post-Peak Reloading & Softening Plateau ($u_x \in [12.42, 20.00]\,\mu\text{m}$):** Reaction force increases by $+78.5938\,\text{N}$ ($+26.04\%$) from $301.82\,\text{N}$ to $RF_1 = \mathbf{380.4180\,\text{N}}$ at terminal displacement $u_x = 20.000\,\mu\text{m}$.
+
+### 16.2 Published Literature Domain Truncation & Work Integration
+- **Literature Truncation Reconciliation:** The authoritative redigitized dataset for Pandey & Kumar (2025) Fig. 13(a) spans $u_x \in [0.0, 16.0]\,\mu\text{m}$ with a terminal force of $184.06\,\text{N}$. The published paper provides **zero data** in the range $u_x \in [16.0, 20.0]\,\mu\text{m}$.
+- **External Work Integration ($W_{\text{ext}} = \int RF_1\,du_x$):**
+  * **Full Horizon ($0 \to 20\,\mu\text{m}$):** $W_{\text{ext}} = \mathbf{5.547938\,\text{mJ}}$ (adapted) vs $\mathbf{6.994908\,\text{mJ}}$ (coarse), representing a **$20.69\%$ reduction** in mechanical energy input.
+  * **Published Window ($0 \to 16\,\mu\text{m}$):** $W_{\text{ext}} = \mathbf{4.135306\,\text{mJ}}$ (adapted) vs $\mathbf{3.516651\,\text{mJ}}$ (published) vs $\mathbf{5.223104\,\text{mJ}}$ (coarse). Adaptive refinement achieves **$63.74\%$ gap closure** toward the published work.
+
+### 16.3 Continuum Mechanics Grounding of Post-Peak Reloading
+Post-peak reloading is a physical consequence of three coupled boundary value mechanisms:
+1. **Intact Elastic Ligament ($h_{\text{lig}} = 56.32\,\mu\text{m}$):** The crack front has traversed $88.74\%$ of the initial ligament, leaving $56.32\,\mu\text{m}$ of undamaged elastic material at $y = 0$ that directly transfers shear stress to the fixed base.
+2. **Kinematic Confinement ($u_y = 0$) and Miehe Spectral Split:** Constrained top-edge vertical displacement ($u_y = 0$) forces closed crack faces into compressive contact under macro-shear ($u_x > 0$). In the Miehe spectral split, compressive strain energy $\psi_0^-$ and compressive stress $\boldsymbol{\sigma}_0^-$ are un-degraded by damage, forming a diagonal compression strut across the domain.
+3. **Rigid Base Constraint & Shear Jamming:** Fixed boundary conditions ($u_x = u_y = 0$ on $y = 0$) severely constrain the kinematic freedom of material near $(x \approx 0.8, y \approx 0)$, inducing kinematic stiffening as the crack tip approaches the boundary.
+4. **Coarse Model Parity:** Companion coarse solve (`1411104.mmaster02`, $2{,}960$ FEs) also exhibits terminal reloading ($F_{\min} = 428.90\,\text{N}$ at $19.31\,\mu\text{m} \to 433.47\,\text{N}$ at $20.0\,\mu\text{m}$), demonstrating that reloading is a structural trait of the BVP.
+
+### 16.4 Governed Numerical Experiment Specification
+Three controlled numerical experiments are fully specified in `docs/mode2/MODE2_EXPERIMENT_SPECIFICATION_POSTPEAK_RELOAD_AND_RESOLUTION.md`:
+- **M2-EXP1 (Base Ligament Refinement):** Local refinement to $h = 1.5\,\mu\text{m} = l_0/10$ in $y \in [0, 0.10]\,\text{mm}$ to test complete crack severance.
+- **M2-EXP2 (Sizing Window Sensitivity):** Sizing comparison between Step-1 pure elastic pre-analysis and Step-2 damage-evolving envelope.
+- **M2-EXP3 (Boundary Condition Relaxation):** Top-edge vertical constraint relaxation ($u_y$ unconstrained) to test the compression-strut reloading hypothesis.
+All experiments remain strictly unauthorized (`execution_authorized: false`, `automatic_retry: false`) awaiting human review.

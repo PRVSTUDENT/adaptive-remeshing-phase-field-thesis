@@ -1,11 +1,11 @@
 # Technical Specification: Gate M2-3 and Gate M2-4 Acceptance Criteria, Source-Frame Provenance, and Fracture Qualification
 
-**Document Version:** 1.8  
+**Document Version:** 1.9  
 **Status:** Active Governing Specification  
 **Protocol Version:** 2  
 **Date:** 2026-10-09  
 **Agent:** Gemini Antigravity  
-**Associated Tasks:** `F1353`, `F1354`, `F1355`, `F1356`, `F1357`, `F1358`, `F1359`, `F1360`, `F1361`, `F1362`, `F1363`, `F1364`, `F1365`, `F1366`  
+**Associated Tasks:** `F1353`, `F1354`, `F1355`, `F1356`, `F1357`, `F1358`, `F1359`, `F1360`, `F1361`, `F1362`, `F1363`, `F1364`, `F1365`, `F1366`, `F1367`  
 
 ---
 
@@ -203,3 +203,4 @@ To prevent ambiguity when records or documentation conflict, the following stric
 | **8. Numerical crack angle vs corridor angle** | **Disambiguated & Proven** | Numerical crack $\theta = -58.04^\circ$ propagates inside corridor ($\theta = -48.30^\circ$) with $100\%$ spatial confinement ($d_{\perp} \le 96.2\,\mu\text{m}$). |
 | **9. Residual load plateau mechanics** | **Physical elasticity & bulk split verified** | $h_{\text{lig}} = 56.32\,\mu\text{m}$ intact elastic ligament + un-degraded bulk compressive stress $\boldsymbol{\sigma}_0^-$; 1D rigid shear formula $F_{\text{eval}} = 2692\,\text{N}$ arithmetic blunder invalidated; zero algorithmic contact/friction modeled. |
 | **10. Adapted fracture response through 20 µm** | **`COMPLETED_EVALUATED_PASSED_WITH_DOCUMENTED_LIMITATIONS`** | Solver completed 100% horizon ($u_x = 20.00\,\mu\text{m}$, Exit 0, 0 cutbacks in Step 2). |
+| **11. Controlled Numerical Experiment Matrix** | **Predeclared Specification Complete** | 3-case matrix (M2-EXP1 base refinement, M2-EXP2 sizing window, M2-EXP3 BC relaxation) specified in `MODE2_EXPERIMENT_SPECIFICATION_POSTPEAK_RELOAD_AND_RESOLUTION.md` with `execution_authorized: false`. |
