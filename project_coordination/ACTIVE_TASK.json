@@ -1,11 +1,15 @@
 {
-    "task_id": "F1377-MODE2-FIXED-MESH-CONVERGENCE-BATCH-PREPARATION",
+    "task_id": "F1378-MODE2-FIXED-MESH-REFERENCE-CONVERGENCE-STUDY",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "phase": "Gate M2-1B Mode-II Fixed-Mesh Convergence Batch Preparation",
-    "gate_status": "GATE_M2_1B_FIXED_MESH_CONVERGENCE_PREPARED_AWAITING_AUTHORIZATION",
-    "last_updated": "2026-10-09T19:55:00+02:00",
+    "phase": "Gate M2-1B Mode-II Fixed-Mesh Reference Convergence Study Execution",
+    "gate_status": "GATE_M2_1B_FIXED_MESH_CONVERGENCE_STUDY_SUBMITTED_AND_SOLVING",
+    "last_updated": "2026-10-09T20:10:00+02:00",
     "active_pbs_job_ids": [
+        "1411542.mmaster02",
+        "1411543.mmaster02",
+        "1411544.mmaster02",
+        "1411545.mmaster02",
         "1411414.mmaster02"
     ],
     "completed_pbs_job_ids": [
@@ -16,7 +20,7 @@
         "1410797.mmaster02",
         "1410790.mmaster02"
     ],
-    "next_recommended_task": "F1378-MODE2-FIXED-MESH-CONVERGENCE-BATCH-SUBMISSION",
+    "next_recommended_task": "F1379-MODE2-FIXED-MESH-CONVERGENCE-MONITORING-AND-EVALUATION",
     "governing_constraints": [
         "Mode-I freeze tag v2026.10.08-supervisor-meeting-mode1-freeze and UEL hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 100% untouched",
         "Gate M2-1B instituted: fixed-mesh spatial convergence reference required before accepting adaptive accuracy",

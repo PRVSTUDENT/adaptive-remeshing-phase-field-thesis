@@ -272,7 +272,7 @@ def build_case_package(case_dir, case_id, job_name, nx, ny, scratch_base="/scrat
     # 1. submit_solver.pbs
     pbs_solver = f"""#!/bin/bash
 #PBS -N {job_name}
-#PBS -q normal_imfdfkmq
+#PBS -q entry_imfdfkmq
 #PBS -l nodes=1:ppn=1
 #PBS -l mem=16gb
 #PBS -l walltime=24:00:00

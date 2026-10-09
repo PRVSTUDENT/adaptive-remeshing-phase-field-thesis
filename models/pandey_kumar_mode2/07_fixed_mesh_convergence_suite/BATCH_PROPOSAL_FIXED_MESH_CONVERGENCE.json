@@ -1,11 +1,12 @@
 {
     "batch_id": "BATCH_MODE2_GATE_M2_1B_FIXED_MESH_CONVERGENCE",
     "scientific_purpose": "Establish independent mesh-converged fixed-mesh reference solution for Mode-II shear fracture under Gate M2-1B, testing Possibility A (solver concurrence ~410 N) vs Possibility B (adaptive discretization failure ~365 N)",
-    "task_id": "F1377-MODE2-FIXED-MESH-CONVERGENCE-BATCH-PREPARATION",
+    "task_id": "F1378-MODE2-FIXED-MESH-REFERENCE-CONVERGENCE-STUDY",
     "gate": "GATE_M2_1B_FIXED_MESH_FRACTURE_REFERENCE_QUALIFIED",
-    "execution_authorized": false,
-    "submission_approved": false,
-    "maximum_permitted_submissions": 0,
+    "execution_authorized": true,
+    "submission_approved": true,
+    "maximum_permitted_submissions": 4,
+    "authorization_source": "Explicit human confirmation in conversation turn: execute up to four (4) independent, serial fixed-mesh Mode-II production jobs on normal_imfdfkmq after individual validation and Abaqus datacheck",
     "scheduler_queue": "normal_imfdfkmq",
     "scheduler_policy": "Holiday-Window Concurrency Policy (demonstrated capacity >= 10 concurrent jobs)",
     "jobs": [
