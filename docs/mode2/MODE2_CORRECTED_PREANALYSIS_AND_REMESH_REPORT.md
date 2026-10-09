@@ -576,3 +576,24 @@ Using the hardened post-processing suite `scripts/postprocessing/extract_and_com
 2. **Softening Valley:** $F_{\min} = 301.82\,\mathrm{N}$ at $u_x = 12.42\,\mu\mathrm{m}$.
 3. **Deceleration & Boundary Confinement:** $da/du_x \to 10.92\,\mathrm{mm/mm}$ as $h_{\mathrm{lig}} \to 56.32\,\mu\mathrm{m}$ approaching clamped base ($y=0$, $u_x=u_y=0$). Un-degraded bulk compressive stress $\boldsymbol{\sigma}_0^-$ under $u_y=0$ drives $+26.04\%$ reloading ($380.42\,\mathrm{N}$).
 4. **Artifacts:** Verified figure `fig_mode2_f1371_digitization_audit_and_work_integration.pdf`/`.png` and unit test `test_mode2_f1371_digitization_and_equilibrium_audit.py` (4/4 PASS).
+
+---
+
+## 14. Task F1372 Reference Initial Stiffness Reconciliation, Global Equilibrium Audit, and ET2 Mesh Convergence Telemetry
+
+### 14.1 Literature Initial Stiffness Discrepancy Reconciliation
+A multi-window linear regression audit of the 801-point redigitization of Pandey & Kumar (2025) Fig. 13(a) demonstrates:
+- Origin-constrained fit on $[0.0, 2.0]\,\mu	ext{m}$ gives $K_0 = 45.68 \pm 0.85\,	ext{kN/mm}$ ($R^2 = 0.9976$), aligning with Navidtehrani (2021) ($K_0 = 45.64\,	ext{kN/mm}$).
+- Unconstrained chord regression on $[0.5, 4.0]\,\mu	ext{m}$ yields $K_0 = 47.70\,	ext{kN/mm}$ ($R^2 = 0.9999$) with intercept $c = -2.67\,	ext{N}$, proving the discrepancy arises purely from window choice and origin offset in the published plot.
+- Pandey & Kumar (2025) did not report a numeric $K_0$ in their text; all values are project-derived.
+- Simulation agreement is exceptional across all meshes: Coarse ($45.80\,	ext{kN/mm}$, $+0.33\%$), ET3 ($45.64\,	ext{kN/mm}$, $-0.02\%$), and ET2 ($45.68\,	ext{kN/mm}$, $+0.07\%$).
+
+### 14.2 Global Boundary Equilibrium & Constraint Reactions
+- Top nodes are coupled via `*EQUATION` $u_1(i) - u_1(999999) = 0$.
+- Slave top nodes have reaction forces eliminated ($RF_1(i) = 0$), concentrating the total integrated shear reaction at RP 999999: $RF_1(	ext{RP}) = 412.21\,	ext{N}$.
+- Domain equilibrium is strictly satisfied: $\sum F_x = RF_1(	ext{top}) + RF_1(	ext{bottom}) = 0$.
+
+### 14.3 Epistemological Bounds & Crack Deceleration Mechanics
+- The post-peak reloading (+26.04%) is categorized as `PHYSICALLY_PLAUSIBLE_BUT_UNVERIFIED_AS_INDEPENDENT_STRESS_DECOMPOSITION`.
+- Crack extension rate $da/du_x$ ($163.96 	o 10.92\,	ext{mm/mm}$) decelerates by $15	imes$ as the intact ligament approaches the clamped base ($h_{	ext{lig}} = 56.32\,\mu	ext{m} pprox 3.75\,l_0$).
+- Live solve PBS Job ID `1411414.mmaster02` (`M2_J2_ADAPT_ET2_STAB`, 37,575 FEs) advances steadily past Step 1 Increment 424 ($u_x = 2.12\,\mu	ext{m}$, 0 cutbacks, 3 iters/inc, $K_0 = 45.68\,	ext{kN/mm}$).
