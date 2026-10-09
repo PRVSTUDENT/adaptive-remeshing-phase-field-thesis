@@ -1,0 +1,52 @@
+#!/bin/bash
+#PBS -N M2_J2_ADAPT_ET2_STAB
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o /scratch9/pr21vyci/runs/mode2_j2_adapted_stabilized_et2/pbs_execution.log
+
+set -euo pipefail
+
+RUN_DIR="/scratch9/pr21vyci/runs/mode2_j2_adapted_stabilized_et2"
+cd "${RUN_DIR}"
+
+source /etc/profile.d/modules.sh 2>/dev/null || source /usr/share/Modules/init/bash 2>/dev/null || true
+module purge || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+# Source notification library
+if [ -f "${RUN_DIR}/job_notifications.sh" ]; then
+    source "${RUN_DIR}/job_notifications.sh"
+    notification_load_config || true
+    notification_install_terminal_trap
+    notify_start || true
+fi
+
+echo "=========================================================="
+echo "Job Name:       M2_J2_ADAPT_ET2_STAB"
+echo "PBS Job ID:     ${PBS_JOBID:-LOCAL}"
+echo "Node:           $(hostname)"
+echo "Start Time:     $(date -Iseconds)"
+echo "Working Dir:    ${RUN_DIR}"
+echo "=========================================================="
+
+JOB_NAME="Job-2_UEL"
+USER_SUB="f42_mixed_uel_mode2_miehe.for"
+
+# Clean prior runtime locks if any
+rm -f "${JOB_NAME}.lck" "${JOB_NAME}.023" uel_energy_balance.csv 2>/dev/null || true
+
+# Run Abaqus solver in single-rank serial mode with double precision
+abaqus job="${JOB_NAME}" user="${USER_SUB}" input="${JOB_NAME}.inp" cpus=1 double=both interactive
+
+EXIT_CODE=$?
+echo "=========================================================="
+echo "Abaqus Solver Exit Code: ${EXIT_CODE}"
+echo "End Time:                $(date -Iseconds)"
+echo "=========================================================="
+
+exit ${EXIT_CODE}
