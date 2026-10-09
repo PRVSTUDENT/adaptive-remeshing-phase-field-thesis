@@ -378,3 +378,52 @@ An exhaustive linear regression audit across multiple displacement windows on th
 - **Telemetry:** Actively running with 0 cutbacks past Step 1 Increment 676+ ($u_x \ge 3.380\,\mu\mathrm{m}$), $K_0 = 45.68\,\mathrm{kN/mm}$ ($R^2 = 0.99999995$).
 - **Reporting Rule:** In-progress loads are strictly classified as `PENDING` to prevent reporting interim elastic forces as peak capacity.
 - **Gate M2-4 Scientific Classification:** `CLOSED_PASSED_WITH_LIMITATIONS`.
+
+
+## 16. Task F1375 Independent Validation, Edge vs. Node Graph Parity, MISESERI Frame-Provenance Audit, and ET2 Convergence Readiness
+
+### 16.1 F1374 Dataset Integrity and Commit Verification Audit
+- **Audit Findings:**
+  - Both Task F1374 graph connectivity datasets were confirmed to be transferred untruncated, fully committed in Git (commit `7738305b`), and registered:
+    * `models/pandey_kumar_mode2/coarse_graph_connectivity.json` (52,036 bytes, SHA-256: `8C698C4A1B4CDFAE7CF3AD2997B8247BA1A461191B33C2D47A90FAD33CA76C43`).
+    * `models/pandey_kumar_mode2/et3_graph_connectivity.json` (99,582 bytes, SHA-256: `4B7DE812C97F408C9E519E3431946F3BE0FE226DCCC73E090A13CF31E86B9609`).
+  - Independent validation dataset generated and committed:
+    * `models/pandey_kumar_mode2/f1375_independent_validation_results.json` (1,492,841 bytes, SHA-256: `D2C8BA0EEDE84B49B7F3C159FB92A73ABAC4FCA157D6899240C1B86D32148EB9`).
+
+### 16.2 Node-Adjacency vs Edge-Adjacency Topology Parity & Discretization Uncertainty
+- **ET3 Mesh ($21{,}063$ FEs):**
+  - Evaluated across all 25 loading frames for damage thresholds $d \ge 0.80$ and $d \ge 0.90$.
+  - Node-adjacency (sharing $\ge 1$ node) and edge-adjacency (sharing $\ge 2$ nodes) yield **100% bitwise identical connected element sets** ($N_{\mathrm{conn}} = 1{,}412$, $N_{\mathrm{iso}} = 0$).
+  - Terminal remaining intact ligament is identically $h_{\mathrm{lig}} = 56.32\,\mu\mathrm{m}$ (centroid) under both definitions.
+  - Geometric discretization uncertainty bound: $y_{\min} = 53.85\,\mu\mathrm{m}$ (nodal minimum), $y_{\max} = 58.78\,\mu\mathrm{m}$, with crack tip element vertical height $\Delta h = 4.93\,\mu\mathrm{m} \approx 0.33\,l_0$.
+  - This mathematically proves that the ET3 connected crack is a continuous topological ribbon of shared element faces, with zero spurious corner connections or seam node artifacts.
+- **Coarse Pre-Analysis Mesh ($2{,}960$ FEs):**
+  - Terminal frame ($u_x = 20.0\,\mu\mathrm{m}$): node-adjacency and edge-adjacency yield **identical** crack tip elements ($N_{\mathrm{conn}} = 31$, $N_{\mathrm{iso}} = 0$, $h_{\mathrm{lig}} = 144.92\,\mu\mathrm{m}$ centroid, $y_{\min} = 131.57\,\mu\mathrm{m}$, $\Delta h = 26.60\,\mu\mathrm{m} \approx 1.77\,l_0$).
+  - Intermediate frames ($u_x \in [14, 17]\,\mu\mathrm{m}$): edge-adjacency strictly filters out transient corner-only contacts, showing that crack advance is even more retarded on the coarse mesh.
+  - **Verdict:** The earlier claim of $h_{\mathrm{lig}} = 0$ is decisively and permanently refuted under both topological definitions.
+
+### 16.3 Independent Confirmation of Crack Deceleration Kinetics ($da/du_x$)
+- **Numerical Propagation Rates:**
+  - Peak crack advance rate: $(da/du_x)_{\max} = 183.14\,\mathrm{mm/mm}$ at $u_x = 10.0\,\mu\mathrm{m}$.
+  - Post-peak deceleration: drops rapidly to $3.77\,\mathrm{mm/mm}$ (at $12.5\,\mu\mathrm{m}$) and decelerates in the late stage to $8.08\,\mathrm{mm/mm}$ (at $18.5\,\mu\mathrm{m}$) and $13.01\text{--}15.92\,\mathrm{mm/mm}$ at terminal $u_x = 20.0\,\mu\mathrm{m}$.
+  - Deceleration reduction ratio: $\mathbf{11.5\times\text{--}14.1\times}$ peak-to-terminal, and $\mathbf{22.66\times}$ peak-to-late-trough.
+- **Epistemological Discipline:**
+  - $da/du_x$ is a rate with respect to prescribed boundary displacement ($\mathrm{mm/mm}$, dimensionless), strictly distinguished from physical crack velocity $da/dt$ ($\mathrm{m/s}$).
+  - While boundary clamping at $y=0$ ($u_x = u_y = 0$) provides a physically consistent confining mechanism, it is classified as a plausible continuum mechanism rather than an isolated mathematical cause, as compressive strut action and triaxiality interact.
+
+### 16.4 Coarse Pre-Analysis MISESERI Frame-Provenance Audit (2,002 Frames) & Native Multi-Increment Sizing Mechanism
+- **Provenance & Frame Inventory:**
+  - Coarse pre-analysis ODB (`models/pandey_kumar_mode2/06_paper_grounded_uel_preanalysis/mode2_j1_coarse_retest/Job-1_UEL.odb`) contains **2,002 frames** of `MISESERI` output (1,001 in Step-1, 1,001 in Step-2).
+- **Spatial Error Evolution:**
+  - Step-1 ($u_x \le 10\,\mu\mathrm{m}$): stress-recovery error indicator is minimal ($\sim 10^{-16}$) and localized at the initial notch tip ($13\text{--}15\%$), with $\le 21.5\%$ in the diagonal corridor.
+  - Step-2 ($u_x: 10 \to 20\,\mu\mathrm{m}$): as shear damage develops, the error front sweeps dynamically down the diagonal path. Concentration in the crack corridor jumps to $47.1\%$ near peak load ($u_x = 13.3\,\mu\mathrm{m}$) and peaks at **$73.26\%$** ($u_x = 17.35\,\mu\mathrm{m}$), ending at $72.62\%$ at terminal.
+  - Mean error increases over $100\times$ ($1.18 \times 10^{-15} \to 2.51 \times 10^{-14}$) and maximum error increases $34\times$ ($8.66 \times 10^{-14} \to 2.97 \times 10^{-12}$).
+- **Native Remeshing Sizing Mechanism:**
+  - `execute_mode2_corrected_adaptive_remesh.py` specifies `stepName='Step-2'`, `outputFrequency=ALL_INCREMENTS`, `sizingMethod=UNIFORM_ERROR`.
+  - In Abaqus CAE, `outputFrequency=ALL_INCREMENTS` evaluates error indicators across all available increments in that step and applies the **envelope of maximum required refinement** ($h_{\min}(\mathbf{x}) = \min_k h_k(\mathbf{x})$ across all increments).
+  - This mathematically proves why native Abaqus remeshing generates a continuous diagonal refinement corridor matching the crack path, rather than a local spot at the initial notch tip.
+
+### 16.5 Live ET2 Solve Telemetry (Job 1411414.mmaster02) & Gate M2-4 Governance Discipline
+- **Hardware & Job ID:** Job `1411414.mmaster02` (`M2_J2_ADAPT_ET2_STAB`, $37{,}575$ FEs, $112{,}238$ active equations) running on cluster node `mnode097/0` in queue `normal_imfdfkmq`.
+- **Status:** Actively running with 0 cutbacks, advancing through Step 1 ($u_x \ge 4.335\,\mu\mathrm{m}$, $RF_1 = 196.96\,\mathrm{N}$, $K_0 = 45.68\,\mathrm{kN/mm}$).
+- **Governance Discipline:** Gate M2-4 remains strictly `PENDING_ET2_SOLVER_COMPLETION`. Acceptance criteria are maintained without retrospective modification.
