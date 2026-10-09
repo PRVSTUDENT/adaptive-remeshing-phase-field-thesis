@@ -1,0 +1,32 @@
+{
+    "case_id": "02_medium_18k_h7p5um",
+    "job_name": "M2_FIX_MED_18K",
+    "grid_nx": 134,
+    "grid_ny": 134,
+    "h_mm": 0.007462686567164179,
+    "h_um": 7.462686567164179,
+    "l0_um": 15.0,
+    "h_over_l0": 0.4975124378109453,
+    "num_physical_nodes": 18292,
+    "num_physical_quads": 17956,
+    "total_layered_elements": 53868,
+    "total_solver_variables": 54877,
+    "active_solver_equations": 54742,
+    "input_deck": "M2_FIX_MED_18K.inp",
+    "input_deck_sha256": "33123085E8632223BA09F233CBFD4D7FB27E70D32895144BD2C22061E97E0031",
+    "fortran_uel": "f42_mixed_uel_mode2_miehe.for",
+    "fortran_uel_sha256": "699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188",
+    "notifications_sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "scratch_directory": "/scratch9/pr21vyci/runs/mode2_fixed_convergence/02_medium_18k_h7p5um",
+    "pbs_queue": "normal_imfdfkmq",
+    "requested_cpus": 1,
+    "requested_memory": "16gb",
+    "requested_walltime": "24:00:00",
+    "submission_authorized": false,
+    "predeclared_acceptance_criteria": {
+        "initial_stiffness_kN_per_mm": "45.68 +- 0.50",
+        "full_horizon_displacement_um": 20.0,
+        "increments_per_step": 2000,
+        "displacement_increment_nm": 5.0
+    }
+}

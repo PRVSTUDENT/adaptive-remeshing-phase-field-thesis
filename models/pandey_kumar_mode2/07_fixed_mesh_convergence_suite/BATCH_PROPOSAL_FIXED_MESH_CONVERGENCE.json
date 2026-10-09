@@ -1,0 +1,129 @@
+{
+    "batch_id": "BATCH_MODE2_GATE_M2_1B_FIXED_MESH_CONVERGENCE",
+    "scientific_purpose": "Establish independent mesh-converged fixed-mesh reference solution for Mode-II shear fracture under Gate M2-1B, testing Possibility A (solver concurrence ~410 N) vs Possibility B (adaptive discretization failure ~365 N)",
+    "task_id": "F1377-MODE2-FIXED-MESH-CONVERGENCE-BATCH-PREPARATION",
+    "gate": "GATE_M2_1B_FIXED_MESH_FRACTURE_REFERENCE_QUALIFIED",
+    "execution_authorized": false,
+    "submission_approved": false,
+    "maximum_permitted_submissions": 0,
+    "scheduler_queue": "normal_imfdfkmq",
+    "scheduler_policy": "Holiday-Window Concurrency Policy (demonstrated capacity >= 10 concurrent jobs)",
+    "jobs": [
+        {
+            "case_id": "01_coarse_2p5k_h20um",
+            "job_name": "M2_FIX_COARSE_2P5K",
+            "mesh_description": "50x50 uniform quads (2500 FEs)",
+            "h_um": 20.0,
+            "h_over_l0": 1.3333333333333333,
+            "cpus": 1,
+            "memory": "16gb",
+            "walltime": "24:00:00",
+            "scratch_dir": "/scratch9/pr21vyci/runs/mode2_fixed_convergence/01_coarse_2p5k_h20um",
+            "input_deck": "M2_FIX_COARSE_2P5K.inp",
+            "input_deck_sha256": "D66BC086008E7A8D9E6931305C139E79C904DC691B8AEE545E3D090AE74D4632",
+            "fortran_uel": "f42_mixed_uel_mode2_miehe.for",
+            "fortran_uel_sha256": "699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188",
+            "execution_mode": "Single-rank serial shared-memory (authoritative reference anchor)",
+            "expected_outputs": [
+                "M2_FIX_COARSE_2P5K.odb",
+                "M2_FIX_COARSE_2P5K.sta",
+                "M2_FIX_COARSE_2P5K.dat",
+                "M2_FIX_COARSE_2P5K.msg"
+            ],
+            "acceptance_criteria": [
+                "K0 = 45.68 +- 0.50 kN/mm (<1.1% discrepancy)",
+                "Monotonic damage growth (d_max -> 1.0)",
+                "Complete 4,000 increments across Step 1 and Step 2",
+                "Reaction force and displacement extraction",
+                "Crack path extraction theta(h) and ligament progression h_lig(h)"
+            ]
+        },
+        {
+            "case_id": "02_medium_18k_h7p5um",
+            "job_name": "M2_FIX_MED_18K",
+            "mesh_description": "134x134 uniform quads (17956 FEs)",
+            "h_um": 7.462686567164179,
+            "h_over_l0": 0.4975124378109453,
+            "cpus": 1,
+            "memory": "16gb",
+            "walltime": "24:00:00",
+            "scratch_dir": "/scratch9/pr21vyci/runs/mode2_fixed_convergence/02_medium_18k_h7p5um",
+            "input_deck": "M2_FIX_MED_18K.inp",
+            "input_deck_sha256": "33123085E8632223BA09F233CBFD4D7FB27E70D32895144BD2C22061E97E0031",
+            "fortran_uel": "f42_mixed_uel_mode2_miehe.for",
+            "fortran_uel_sha256": "699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188",
+            "execution_mode": "Single-rank serial shared-memory (authoritative reference anchor)",
+            "expected_outputs": [
+                "M2_FIX_MED_18K.odb",
+                "M2_FIX_MED_18K.sta",
+                "M2_FIX_MED_18K.dat",
+                "M2_FIX_MED_18K.msg"
+            ],
+            "acceptance_criteria": [
+                "K0 = 45.68 +- 0.50 kN/mm (<1.1% discrepancy)",
+                "Monotonic damage growth (d_max -> 1.0)",
+                "Complete 4,000 increments across Step 1 and Step 2",
+                "Reaction force and displacement extraction",
+                "Crack path extraction theta(h) and ligament progression h_lig(h)"
+            ]
+        },
+        {
+            "case_id": "03_intermediate_40k_h5um",
+            "job_name": "M2_FIX_INT_40K",
+            "mesh_description": "200x200 uniform quads (40000 FEs)",
+            "h_um": 5.0,
+            "h_over_l0": 0.3333333333333333,
+            "cpus": 1,
+            "memory": "16gb",
+            "walltime": "24:00:00",
+            "scratch_dir": "/scratch9/pr21vyci/runs/mode2_fixed_convergence/03_intermediate_40k_h5um",
+            "input_deck": "M2_FIX_INT_40K.inp",
+            "input_deck_sha256": "622C59A4D760CBEA9D2C810932C8B4B03153805CF8141FF1E4B3059D24878366",
+            "fortran_uel": "f42_mixed_uel_mode2_miehe.for",
+            "fortran_uel_sha256": "699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188",
+            "execution_mode": "Single-rank serial shared-memory (authoritative reference anchor)",
+            "expected_outputs": [
+                "M2_FIX_INT_40K.odb",
+                "M2_FIX_INT_40K.sta",
+                "M2_FIX_INT_40K.dat",
+                "M2_FIX_INT_40K.msg"
+            ],
+            "acceptance_criteria": [
+                "K0 = 45.68 +- 0.50 kN/mm (<1.1% discrepancy)",
+                "Monotonic damage growth (d_max -> 1.0)",
+                "Complete 4,000 increments across Step 1 and Step 2",
+                "Reaction force and displacement extraction",
+                "Crack path extraction theta(h) and ligament progression h_lig(h)"
+            ]
+        },
+        {
+            "case_id": "04_fine_72k_h3p75um",
+            "job_name": "M2_FIX_FINE_72K",
+            "mesh_description": "268x268 uniform quads (71824 FEs)",
+            "h_um": 3.7313432835820897,
+            "h_over_l0": 0.24875621890547264,
+            "cpus": 1,
+            "memory": "16gb",
+            "walltime": "24:00:00",
+            "scratch_dir": "/scratch9/pr21vyci/runs/mode2_fixed_convergence/04_fine_72k_h3p75um",
+            "input_deck": "M2_FIX_FINE_72K.inp",
+            "input_deck_sha256": "DC8B7B2C45BD85BAA256D172FADF1562A77B6685640796302B9E79F3B7E6AD24",
+            "fortran_uel": "f42_mixed_uel_mode2_miehe.for",
+            "fortran_uel_sha256": "699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188",
+            "execution_mode": "Single-rank serial shared-memory (authoritative reference anchor)",
+            "expected_outputs": [
+                "M2_FIX_FINE_72K.odb",
+                "M2_FIX_FINE_72K.sta",
+                "M2_FIX_FINE_72K.dat",
+                "M2_FIX_FINE_72K.msg"
+            ],
+            "acceptance_criteria": [
+                "K0 = 45.68 +- 0.50 kN/mm (<1.1% discrepancy)",
+                "Monotonic damage growth (d_max -> 1.0)",
+                "Complete 4,000 increments across Step 1 and Step 2",
+                "Reaction force and displacement extraction",
+                "Crack path extraction theta(h) and ligament progression h_lig(h)"
+            ]
+        }
+    ]
+}

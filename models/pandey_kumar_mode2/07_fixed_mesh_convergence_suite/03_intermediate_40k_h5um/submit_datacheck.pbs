@@ -1,0 +1,21 @@
+#!/bin/bash
+#PBS -N DC_M2_FIX_INT_40K
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -o /scratch9/pr21vyci/runs/mode2_fixed_convergence/03_intermediate_40k_h5um/datacheck_execution.log
+
+set -euo pipefail
+
+RUN_DIR="/scratch9/pr21vyci/runs/mode2_fixed_convergence/03_intermediate_40k_h5um"
+cd "${RUN_DIR}"
+
+source /etc/profile.d/modules.sh 2>/dev/null || source /usr/share/Modules/init/bash 2>/dev/null || true
+module purge || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+rm -f "M2_FIX_INT_40K.lck" "M2_FIX_INT_40K.023" 2>/dev/null || true
+abaqus datacheck job="M2_FIX_INT_40K" user="f42_mixed_uel_mode2_miehe.for" input="M2_FIX_INT_40K.inp" cpus=1 double=both interactive
+exit $?

@@ -1,0 +1,32 @@
+{
+    "case_id": "03_intermediate_40k_h5um",
+    "job_name": "M2_FIX_INT_40K",
+    "grid_nx": 200,
+    "grid_ny": 200,
+    "h_mm": 0.005,
+    "h_um": 5.0,
+    "l0_um": 15.0,
+    "h_over_l0": 0.3333333333333333,
+    "num_physical_nodes": 40501,
+    "num_physical_quads": 40000,
+    "total_layered_elements": 120000,
+    "total_solver_variables": 121504,
+    "active_solver_equations": 121303,
+    "input_deck": "M2_FIX_INT_40K.inp",
+    "input_deck_sha256": "622C59A4D760CBEA9D2C810932C8B4B03153805CF8141FF1E4B3059D24878366",
+    "fortran_uel": "f42_mixed_uel_mode2_miehe.for",
+    "fortran_uel_sha256": "699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188",
+    "notifications_sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "scratch_directory": "/scratch9/pr21vyci/runs/mode2_fixed_convergence/03_intermediate_40k_h5um",
+    "pbs_queue": "normal_imfdfkmq",
+    "requested_cpus": 1,
+    "requested_memory": "16gb",
+    "requested_walltime": "24:00:00",
+    "submission_authorized": false,
+    "predeclared_acceptance_criteria": {
+        "initial_stiffness_kN_per_mm": "45.68 +- 0.50",
+        "full_horizon_displacement_um": 20.0,
+        "increments_per_step": 2000,
+        "displacement_increment_nm": 5.0
+    }
+}
