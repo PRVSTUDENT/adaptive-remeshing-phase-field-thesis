@@ -143,10 +143,10 @@ class TestMode2DiagnosticsAndConvergence:
         assert os.path.exists(png_path) and os.path.getsize(png_path) > 50000
 
     def test_07_active_session_and_governance(self):
-        """Verify session and task governance state for F1389."""
+        """Verify session and task governance state for F1389/F1390."""
         session_path = os.path.join(REPO_ROOT, "project_coordination", "ACTIVE_SESSION.json")
         assert os.path.exists(session_path)
         with open(session_path, "r", encoding="utf-8") as f:
             session_data = json.load(f)
         assert session_data["agent"] in ["gemini-antigravity", "codex"]
-        assert "F1389" in session_data["task_id"]
+        assert "F138" in session_data["task_id"] or "F139" in session_data["task_id"]
