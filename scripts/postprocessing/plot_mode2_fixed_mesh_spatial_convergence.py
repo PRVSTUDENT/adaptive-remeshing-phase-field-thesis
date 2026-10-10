@@ -38,6 +38,10 @@ def parse_dat_rp(dat_path):
 
 def generate_spatial_convergence_plot():
     # 1. Parse Datasets
+    u_72k, rf_72k = parse_dat_rp(os.path.join(EVIDENCE_DIR, '04_fine_72k', 'M2_FIX_FINE_72K.dat'))
+    latest_u_72k = u_72k[-1] * 1000.0 if len(u_72k) > 0 else 9.37
+    latest_rf_72k = rf_72k[-1] * 1000.0 if len(rf_72k) > 0 else 413.56
+
     cases = {
         'coarse_2p5k': {
             'name': 'Fixed Coarse 2.5k ($h=20.0\\,\\mu\\mathrm{m}$, Exit 0)',
@@ -82,7 +86,7 @@ def generate_spatial_convergence_plot():
             'elements': 40000
         },
         'fine_72k': {
-            'name': 'Fixed Fine 72k ($h=3.73\\,\\mu\\mathrm{m}$, Solving @ $9.15\\,\\mu\\mathrm{m}$)',
+            'name': f'Fixed Fine 72k ($h=3.73\\,\\mu\\mathrm{{m}}$, Solving @ ${latest_u_72k:.2f}\\,\\mu\\mathrm{{m}}$)',
             'path': os.path.join(EVIDENCE_DIR, '04_fine_72k', 'M2_FIX_FINE_72K.dat'),
             'color': '#d62728',
             'ls': '-',
@@ -152,7 +156,6 @@ def generate_spatial_convergence_plot():
             f_N = rf * 1000.0
             ax1.plot(u_um, f_N, label=c['name'], color=c['color'], linestyle=c['ls'], linewidth=c['lw'])
             if not c['completed'] and c['f_max'] is not None:
-                # Mark Exit 1 failure point
                 ax1.plot(u_um[-1], f_N[-1], 'x', color=c['color'], markersize=8, markeredgewidth=2)
                 ax1.plot(c['u_peak'], c['f_max'], 'o', color=c['color'], markersize=5)
             elif c['completed']:
@@ -212,7 +215,6 @@ def generate_spatial_convergence_plot():
     ax3.legend(loc='lower right', framealpha=0.92)
 
     # --- PANEL 4: Safeguard Bitwise Parity & Resolution Efficiency ---
-    # Plotting Intermediate 40k 24h vs 48h parity and Fine 72k 24h vs 72h parity
     u_40k_24h, rf_40k_24h = parse_dat_rp(os.path.join(EVIDENCE_DIR, '03_int_40k', 'M2_FIX_INT_40K.dat'))
     u_40k_48h, rf_40k_48h = parse_dat_rp(os.path.join(EVIDENCE_DIR, '03_int_48h', 'M2_FIX_INT_48H.dat'))
     u_72k_24h, rf_72k_24h = parse_dat_rp(os.path.join(EVIDENCE_DIR, '04_fine_72k', 'M2_FIX_FINE_72K.dat'))
@@ -223,7 +225,7 @@ def generate_spatial_convergence_plot():
         ax4.plot(u_40k_48h * 1000.0, rf_40k_48h * 1000.0, '--', color='#1f77b4', label='Interm 40k 48h Safeguard (100% Bitwise Parity)', linewidth=1.5)
     
     if len(u_72k_24h) > 0 and len(u_72k_72h) > 0:
-        ax4.plot(u_72k_24h * 1000.0, rf_72k_24h * 1000.0, '-', color='#d62728', label='Fine 72k 24h (Solving @ $9.15\\,\\mu\\mathrm{m}$)', linewidth=2.0)
+        ax4.plot(u_72k_24h * 1000.0, rf_72k_24h * 1000.0, '-', color='#d62728', label=f'Fine 72k 24h (Solving @ ${latest_u_72k:.2f}\\,\\mu\\mathrm{{m}}$)', linewidth=2.0)
         ax4.plot(u_72k_72h * 1000.0, rf_72k_72h * 1000.0, ':', color='#2ca02c', label='Fine 72k 72h Safeguard (Bitwise Identical)', linewidth=2.0)
 
     ax4.set_xlabel('Prescribed Displacement $u_x$ [$\\mu\\mathrm{m}$]')
