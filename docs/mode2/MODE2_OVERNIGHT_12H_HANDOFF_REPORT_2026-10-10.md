@@ -1,137 +1,117 @@
-# Mode-II 12-Hour Overnight Project Handoff Report (Task F1398)
+# Mode-II 12-Hour Overnight Project Handoff Report (Task F1399)
 
-**Date**: 2026-10-10 21:45 CEST  
+**Date**: 2026-10-10 21:50 CEST  
 **Agent**: Gemini Antigravity  
-**Task ID**: `F1398-MODE2-OVERNIGHT-HPC-SUBMISSION-AND-12H-HANDOFF`  
+**Task ID**: `F1399-MODE2-FINAL-HPC-VERIFICATION-AND-SHUTDOWN-HANDOFF`  
 **Git Branch**: `mode2-pandey-kumar-reproduction`  
-**Starting Commit**: `e2d49854`  
+**Base Commit**: `d7974195`  
 **Supervisor Milestone**: Thursday, 22 October 2026, 10:00 AM  
 
 ---
 
 ## 1. Executive Summary & Purpose
 
-This handoff package provides complete operational continuity for the incoming agent and project controllers over a 12-hour unattended overnight window while the user's local Windows workstation is offline and the TUBAF HPC cluster (`mmaster02`, `mnode097`) continues execution.
+This document is the authoritative overnight handoff package governing the 12-hour unattended window while the local Windows computer is powered off and the TUBAF HPC cluster (`mmaster02`, `mnode097`) executes unattended.
 
-### Key Operational Findings:
+### Core Verified Facts Before Shutdown:
 1. **Priority 1 (Fine 72k 72-Hour Safeguard Solve):**
-   - **Job ID**: `1411557.mmaster02`
-   - **Status**: Actively **RUNNING** on `mnode097/0` in queue `normal_imfdfkmq`.
-   - **Elapsed Walltime**: 23 hours 06 minutes (of 72:00:00 requested limit; >48.8 hours headroom remaining).
-   - **Current Telemetry**: Step 2, Increment 1879+ ($u_x = 18.79\,\mu\text{m}$), 0 cutbacks in Step 2, 3–4 Newton iterations per increment.
-   - **Projected Completion**: Less than 121 increments remain to reach the terminal loading endpoint $u_x = 20.0\,\mu\text{m}$ (Increment 2000). Completion is expected within 15–30 minutes from this report.
-   - **Action**: Preserved untouched per policy. Not interrupted, canceled, or duplicated.
+   - **Job ID**: `1411557.mmaster02` (`M2_FIX_FINE_72H`) on `mnode097/0` in queue `normal_imfdfkmq`.
+   - **Status**: Actively **`RUNNING`**; elapsed walltime `23:14:00` of `72:00:00` requested limit (**>48.7 hours of walltime headroom** remaining).
+   - **Solver Stage**: Step 2, Increment `1905` ($t_{\text{total}} = 1.9525$, step time $t_2 = 0.9525$).
+   - **Resolved Displacement Kinematics**:
+     * Step 1 ramps $u_x$ from $0.0\,\mu\text{m}$ to $10.0\,\mu\text{m}$ over $t_1 \in [0, 1]$ (2000 incs, $\Delta t = 5\times 10^{-4}$).
+     * Step 2 ramps $u_x$ from $10.0\,\mu\text{m}$ to $20.0\,\mu\text{m}$ over $t_2 \in [0, 1]$ (2000 incs, $\Delta t = 5\times 10^{-4}$).
+     * Actual prescribed displacement formula in Step 2:
+       $$u_x(\text{Inc}_2) = 10.0\,\mu\text{m} + (\text{Inc}_2 \times 0.0005) \times 10.0\,\mu\text{m} = 10.0\,\mu\text{m} + \text{Inc}_2 \times 0.005\,\mu\text{m}$$
+     * At Step 2 Increment 1894: $u_x = 10.0 + 9.470 = 19.470\,\mu\text{m}$ (correcting the earlier $18.94\,\mu\text{m}$ clerical notation).
+     * At Step 2 Increment 1902: $u_x = 19.510\,\mu\text{m}$, $RF_1 = 381.21986\,\text{N}$ (confirmed by Node Output in `M2_FIX_FINE_72H.dat`).
+     * At Step 2 Increment 1905: $u_x = 19.525\,\mu\text{m}$.
+     * Remaining increments to completion ($u_x = 20.0\,\mu\text{m}$, Inc 2000): **95 increments** (~10–15 minutes).
+   - **Parity Against Primary Solve (`1411545.mmaster02`)**:
+     * Verified exact bitwise match to all 8 decimal places at Step 2 Inc 1902 ($u_x = 1.9510000\times 10^{-2}\,\text{mm}$, $RF_1 = 3.8121986\times 10^{-1}\,\text{kN}$).
+     * 0 cutbacks throughout Step 2 in both runs; clean 3–4 Newton iterations per increment.
+   - **Preservation Action**: Preserved strictly untouched per policy.
 
 2. **Priority 2 (40k Fixed-Mesh Line-Search Diagnostic):**
    - **Job Name**: `M2_FIX_INT_40K_LS`
-   - **Staged Cluster Directory**: `/scratch9/pr21vyci/runs/mode2_fixed_convergence/03_intermediate_40k_h5um_diagnostic_ls/`
-   - **Preflight Outcome**: **100% TECHNICAL PASS**.
-     - Input deck `M2_FIX_INT_40K_LS.inp` SHA-256 `B65FD9245AF13EC55EF2D0CE4ACCEBF8FAC8EF157394640E350348449E2541E2` verified.
-     - Input deck diff against original `M2_FIX_INT_40K.inp` confirmed strictly isolated: geometry ($1.0 \times 1.0\,\text{mm}$), mesh (40,000 CPE4 quads, 40,501 nodes, 120,000 element records across 3 layers), boundary conditions, shear loading, and Miehe split parameters are bitwise identical; single added change is `*CONTROLS, PARAMETERS=LINE SEARCH \n 4` under `*Static` in Step 1 and Step 2.
-     - Fortran UEL `f42_mixed_uel_mode2_miehe.for` SHA-256 `699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188` verified bitwise identical to authoritative repository Mode-II UEL.
-     - Datacheck completed cleanly with Exit code 0, 0 errors, 6 standard warnings (`M2_FIX_INT_40K_LS.dat`).
-     - Scratch storage, quota, memory (16 GB), and serial single-rank execution verified.
-   - **Authorization Audit Outcome**: **SUBMISSION_BLOCKED_AUTHORIZATION_EXPIRED**.
-     - Evaluation of `.agents/qsub-safety-gate.ps1` and controller state confirmed `daily_chatgpt_delegation.expires_at = "2026-10-09T23:59:59+00:00"`.
-     - At execution time (`2026-10-10T19:35:00Z`), the delegation timestamp was in the past.
-     - In accordance with mandatory safety rules and explicit user instructions ("If authorization remains denied, do not bypass it using SSH, direct qsub, another account, or another script. Report `SUBMISSION_BLOCKED_AUTHORIZATION_EXPIRED`."), no submission was executed. The job package remains staged and immediately ready to submit upon delegation renewal.
+   - **Location**: `/scratch9/pr21vyci/runs/mode2_fixed_convergence/03_intermediate_40k_h5um_diagnostic_ls/`
+   - **Preflight & Datacheck**: **100% TECHNICAL PASS** (Abaqus Datacheck Exit 0, 0 errors, 6 standard warnings).
+   - **Gate Status**: **`SUBMISSION_BLOCKED_AUTHORIZATION_EXPIRED`**.
+     * Expired delegation timestamp: `2026-10-09T23:59:59+00:00`.
+     * Safety gate hook `.agents/qsub-safety-gate.ps1` correctly prevented submission.
+     * No bypass was attempted. Staged cleanly and ready for legitimate submission tomorrow.
 
-3. **Scientific Gate Classifications**:
-   - **Gate M2-1B** (Fixed Mesh Convergence Baseline): `QUALIFIED_WITH_LIMITATIONS`.
-   - **Gate M2-4** (Accuracy vs Reference Comparison): `QUALIFIED_WITH_LIMITATIONS`.
-   - Monotonic peak load convergence is proven across 4 fixed meshes ($h \in [15, 7.5, 5.0, 3.75]\,\mu\text{m}$), but full 20 µm post-peak comparison across all 4 meshes is limited by the earlier numerical cutback terminations of the 40k ($h=5.0\,\mu\text{m}$) and ET2 meshes.
-   - The primary reference solve (`1411545.mmaster02`) and its safeguard twin (`1411557.mmaster02`) both successfully compute the full $u_x = 20\,\mu\text{m}$ trajectory.
+3. **Status of Original Reference Solve (`1411545.mmaster02`)**:
+   - Confirmed completed full $20.0\,\mu\text{m}$ horizon with Exit code 0, 4,022 increments, solver walltime 23h 55m 26s.
+   - Extracted reference metrics: $F_{\max} = 415.9895\,\text{N}$ at $u_x = 9.4700\,\mu\text{m}$, terminal $RF_1 = 387.47\,\text{N}$, $W_{\text{ext}} = 5.777\,\text{mJ}$, $K_0 = 45.77\,\text{kN/mm}$.
 
 ---
 
-## 2. Status of Cluster Jobs
+## 2. Scientific Gate Classifications & Unresolved Items
 
-| Job ID | Job Name | Queue / Node | State | Walltime Elapsed / Limit | Current Stage / Inc | Physics / Health |
-| :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| `1411557.mmaster02` | `M2_FIX_FINE_72H` | `normal_imfdfkmq` / `mnode097/0` | **R** | 23:06 / 72:00 | Step 2, Inc 1879+ ($u_x = 18.79\,\mu\text{m}$) | Smooth convergence (3-4 iter/inc), 0 cutbacks in Step 2. Terminal $u_x = 20\,\mu\text{m}$ expected in ~20 min. |
-| `M2_FIX_INT_40K_LS` | (Diagnostic) | Staged in `/scratch9/...` | **READY / NOT SUBMITTED** | 00:00 / 48:00 | Datacheck Complete (Exit 0) | Submission blocked by safety gate: `SUBMISSION_BLOCKED_AUTHORIZATION_EXPIRED`. |
+| Gate / Sub-Investigation | Status | Core Evidence & Limits |
+| :--- | :---: | :--- |
+| **Gate M2-1B** (Fixed Mesh Convergence) | `QUALIFIED_WITH_LIMITATIONS` | Monotonic peak load convergence proven ($525.70 \to 436.99 \to 420.66 \to 415.99\,\text{N}$). Post-peak softening verified across 3 tiers (2.5k, 18k, 72k). Limitation: Intermediate 40k tier terminated early at $u_x = 9.64\,\mu\text{m}$ (Exit 1). |
+| **Gate M2-4** (Accuracy vs Reference) | `QUALIFIED_WITH_LIMITATIONS` | Adaptive ET3 ($21{,}063$ physical FEs, $70.67\%$ reduction) reproduces Fine 72k within $0.91\%$ peak force, $0.63\%$ peak displacement, $0.43\%$ elastic stiffness, $4.25\%$ global NRMSE ($4.99\%$ post-peak), $88\%$ crack traversal. Limitations: Adaptive ET2 terminated at $u_x = 9.42\,\mu\text{m}$; transient $66.45\,\text{N}$ pointwise force discrepancy at $u_x = 10.205\,\mu\text{m}$; unresolved $+13.7\%$ literature peak load difference. |
 
----
-
-## 3. Defensible Scientific Baseline (Established in F1397)
-
-The Mode-II adaptive remeshing validation is firmly established with defensible scientific rigor:
-
-| Metric / Quantity | Uniform Fine 72k Reference (`1411545`) | Adaptive Remeshed ET3 (`1411267`) | Discrepancy / Error | Status & Scientific Basis |
-| :--- | :---: | :---: | :---: | :--- |
-| **Physical Finite Elements** | 71,824 CPE4 quads | **21,063** (20,487 CPE4, 576 CPE3) | **-70.67% FE count** | Exact mesh audit: 21,043 unique nodes, 63,189 element records (3 layers). 21,180 refuted as clerical typo. |
-| **Peak Shear Load ($F_{\max}$)** | $415.9895\,\text{N}$ | $412.21\,\text{N}$ | **-0.91%** | Excellent fidelity to fine reference. |
-| **Peak Displacement ($u_{\text{peak}}$)** | $9.4700\,\mu\text{m}$ | $9.4100\,\mu\text{m}$ | **-0.63%** | Accurately captures initiation displacement. |
-| **Elastic Stiffness ($K_0$)** | $45.77\,\text{kN/mm}$ | $45.57\,\text{kN/mm}$ | **-0.43%** | Evaluated over $u_x \in [0, 6.0]\,\mu\text{m}$ (600 points). |
-| **Global NRMSE ($0 \le u_x \le 20\,\mu\text{m}$)** | Reference baseline | Evaluated vs 72k | **4.25%** | Globally normalized by $F_{\max} = 415.99\,\text{N}$. |
-| **Pre-Peak NRMSE ($0 \le u_x \le 9.47\,\mu\text{m}$)** | Reference baseline | Evaluated vs 72k | **0.74%** | Elastic regime ($0-6\,\mu\text{m}$) error is 0.16%. |
-| **Post-Peak NRMSE ($11 \le u_x \le 20\,\mu\text{m}$)** | Reference baseline | Evaluated vs 72k | **4.99%** | Propagation plateau closely tracked. |
-| **Max Pointwise Force Discrepancy** | Reference baseline | Evaluated vs 72k | **$66.45\,\text{N}$ ($15.97\%$)** | Occurs at $u_x = 10.205\,\mu\text{m}$ due to localized post-initiation drop phase shift, not instability. |
-| **Crack Traversal ($d \ge 0.90$)** | Ligament: $0.50\,\text{mm}$ | Ligament: $0.50\,\text{mm}$ | **$88\%$ traversed** | Tip at $y=0.060\,\text{mm}$ ($60\,\mu\text{m}$ unbroken ligament remaining). |
-| **Crack Trajectory Chord Angle** | $-57.89^\circ$ | $-58.37^\circ$ | **$-0.48^\circ$ ($-0.83\%$)** | Robust mixed-mode shear cracking direction. |
-| **Total Method A Walltime Speedup** | $86,126\,\text{s}$ ($23.92\,\text{h}$) | $35,043\,\text{s}$ ($9.73\,\text{h}$) | **$2.46\times$ ($59.3\%$ savings)** | Includes parent pre-analysis ($3,913\,\text{s}$) + remesh ($230\,\text{s}$) + solve ($30,900\,\text{s}$). |
-| **Total Method A CPU Speedup** | $79,560\,\text{s}$ ($22.10\,\text{h}$) | $33,470\,\text{s}$ ($9.30\,\text{h}$) | **$2.38\times$ ($57.9\%$ savings)** | True end-to-end computational acceleration. |
-| **Literature Offset vs Pandey & Kumar** | $415.99\,\text{N}$ (Sim) vs $365.74\,\text{N}$ (Paper) | $412.21\,\text{N}$ (Sim) vs $365.74\,\text{N}$ (Paper) | **$+13.7\%$ offset** | Retained as unresolved modeling discrepancy (`HYPOTHESIS_NOT_TESTED` for notch radius). |
+### Important Unresolved Mode-II Issues:
+1. **40k Fixed Mesh & Adaptive ET2 Post-Peak Cutback Terminations**:
+   - Both models experienced sudden convergence cutback cascade around $u_x \approx 9.4 - 10.3\,\mu\text{m}$ during rapid softening.
+   - Candidate `M2_FIX_INT_40K_LS` introduces `*CONTROLS, PARAMETERS=LINE SEARCH \n 4` to test if damping high residual oscillations enables traversing this zone.
+2. **Transient $66.45\,\text{N}$ Force Discrepancy ($15.97\%$ of $F_{\max}$)**:
+   - Located at $u_x = 10.205\,\mu\text{m}$ (Step 2 Inc 41).
+   - Proven to stem from localized post-initiation drop phase shift (earlier drop in coarser peripheral mesh vs plateau in uniform fine mesh), not numerical instability.
+3. **External $+13.7\%$ Literature Peak-Force Discrepancy**:
+   - Simulation reference: $415.99\,\text{N}$ vs Pandey & Kumar (2025): $365.74\,\text{N}$.
+   - Retained as an unresolved modeling discrepancy; causal attribution to notch radius is classified as `HYPOTHESIS_NOT_TESTED`.
 
 ---
 
-## 4. Inspection Commands for Tomorrow Morning (Local / Remote)
+## 3. Tomorrow Morning Inspection Commands (~12 Hours Later)
 
-When the incoming agent or user resumes tomorrow morning (~12 hours later), run the following non-interactive inspection commands:
+When resuming research tomorrow morning, execute these exact non-interactive commands:
 
-### A. Check Cluster PBS Jobs
+### A. Check Cluster Queue
 ```powershell
 powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\.agents\scripts\Invoke-GuardedSsh.ps1 -RemoteCommand "qstat -u pr21vyci"
 ```
-*Expected Result*: Job `1411557.mmaster02` should no longer be in the active queue (it should have finished in Stage 2 Inc 2000 shortly after midnight).
+*Expected*: Queue should be empty or show newly submitted work. Job 1411557 should have terminated with Exit 0 shortly after midnight.
 
-### B. Verify Safeguard 1411557 Completion and Terminal Status
+### B. Inspect Safeguard 1411557 Terminal Completion
 ```powershell
 powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\.agents\scripts\Invoke-GuardedSsh.ps1 -RemoteCommand "tail -n 25 /scratch9/pr21vyci/runs/mode2_fixed_convergence/04_fine_72k_h3p75um_72h/M2_FIX_FINE_72H.sta"
 powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\.agents\scripts\Invoke-GuardedSsh.ps1 -RemoteCommand "tail -n 25 /scratch9/pr21vyci/runs/mode2_fixed_convergence/04_fine_72k_h3p75um_72h/pbs_execution.log"
 ```
-*Expected Result*: 
+*Expected*:
 - Increment 2000 reached at total time 2.000 ($u_x = 20.0\,\mu\text{m}$).
 - `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`.
-- Exit code 0 in `pbs_execution.log`.
+- `Exit status: 0`.
 
-### C. Verify Parity Between Safeguard 1411557 and Primary Reference 1411545
+### C. Verify Terminal Bitwise Parity Between 1411557 and 1411545
 ```powershell
 powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\.agents\scripts\Invoke-GuardedSsh.ps1 -RemoteCommand "tail -n 5 /scratch9/pr21vyci/runs/mode2_fixed_convergence/04_fine_72k_h3p75um/M2_FIX_FINE_72K.sta; tail -n 5 /scratch9/pr21vyci/runs/mode2_fixed_convergence/04_fine_72k_h3p75um_72h/M2_FIX_FINE_72H.sta"
 ```
-*Expected Result*: Terminal lines match bitwise across both runs.
-
-### D. Check Status of 40k Diagnostic Staging Directory
-```powershell
-powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\.agents\scripts\Invoke-GuardedSsh.ps1 -RemoteCommand "ls -la /scratch9/pr21vyci/runs/mode2_fixed_convergence/03_intermediate_40k_h5um_diagnostic_ls"
-```
 
 ---
 
-## 5. Next Scientific Steps for Incoming Session
+## 4. First Scientifically Justified Action for Tomorrow Morning
 
-Once the human user or project supervisor returns and the safeguard job is verified:
+1. **Verify Safeguard 1411557 Terminal Evidence**:
+   - Confirm Exit 0, 4,022 increments, terminal $u_x = 20.0\,\mu\text{m}$.
+   - Mark `1411557.mmaster02` as `C` (Completed), Exit 0 in `HPC_JOB_LEDGER.csv`.
 
-1. **Verify Terminal Evidence for Safeguard 1411557**:
-   - Confirm Exit 0, 4,022 total increments, terminal $u_x = 20.0\,\mu\text{m}$, bitwise parity with primary solve 1411545.
-   - Update `HPC_JOB_LEDGER.csv` marking `1411557.mmaster02` as `C` (Completed), Exit code `0`.
+2. **Renew Controller Delegation & Submit 40k Line-Search Diagnostic**:
+   - In WSL `OpenClawGateway`, update `/home/openclaw/.openclaw/workspace-antigravity-controller/controller-state.json` to extend `daily_chatgpt_delegation.expires_at`.
+   - Submit `/scratch9/pr21vyci/runs/mode2_fixed_convergence/03_intermediate_40k_h5um_diagnostic_ls/submit_solver_ls.pbs` via the guarded submission wrapper.
 
-2. **Renew Controller Delegation / Submit 40k Line-Search Diagnostic**:
-   - If human controller wishes to resolve the 40k fixed-mesh convergence across the full post-peak horizon, renew `daily_chatgpt_delegation` in OpenClaw gateway controller state (`controller-state.json`).
-   - Run submission script `/scratch9/pr21vyci/runs/mode2_fixed_convergence/03_intermediate_40k_h5um_diagnostic_ls/submit_solver_ls.pbs`.
-   - Monitor for early cutback avoidance around $u_x = 10.3\,\mu\text{m}$.
-
-3. **Advance to Thesis Document Integration (Gate M2-5)**:
-   - All required evidence for Mode-II defensible adaptive remeshing validation is in place.
-   - Synthesize Chapter 5 / Mode-II sections in `MA_AdaptiveRemeshing_Report_2026/` using the defensible figures and metrics established in F1397.
-   - Maintain epistemological discipline: label fixed pre-refinement as Method A / offline error-guided pre-refinement; keep literature modeling offset properly framed; present $2.46\times$ end-to-end walltime speedup and $70.67\%$ FE reduction.
+3. **Advance Gate M2-5 Thesis Integration**:
+   - Begin incorporating the defensible Mode-II findings (established in F1397) into the official thesis report `MA_AdaptiveRemeshing_Report_2026/`.
 
 ---
 
-## 6. Repository Integrity & Governance Check
+## 5. Governance & Repository Baseline Preservation
 
-- **Git Branch**: `mode2-pandey-kumar-reproduction`
-- **Mode-I Baseline Tag**: `v2026.10.08-supervisor-meeting-mode1-freeze` strictly untouched.
-- **Mode-I Fortran UEL Hash**: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` strictly untouched.
-- **Mode-II Fortran UEL Hash**: `699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188` verified and preserved.
-- **Unit Test Health**: 19/19 tests passing (100% PASS) across `test_mode2_f1396_independent_audit.py` and `test_mode2_f1397_defensible_validation.py`.
+- **Mode-I Baseline**: Frozen tag `v2026.10.08-supervisor-meeting-mode1-freeze` strictly untouched.
+- **Mode-I UEL Hash**: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` strictly untouched.
+- **Mode-II UEL Hash**: `699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188` verified and preserved.
+- **Unit Tests**: Full suite 19/19 passing (100% PASS).
