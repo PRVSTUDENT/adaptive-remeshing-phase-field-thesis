@@ -158,10 +158,10 @@
 | :--- | :--- | :---: | :--- |
 | **Gate M2-0** | **Source & Scope Freeze** | **CLOSED_PASSED** | Pandey & Kumar (2025) Fig. 13(a) 801-pt redigitization, material and geometry frozen. |
 | **Gate M2-1** | **Constitutive Formulation Qualification** | **QUALIFIED_DATACHECK_PASSED** | `f42_mixed_uel_mode2_miehe.for` spectral split verified, Datacheck Exit 0. |
-| **Gate M2-1B** | **Fixed-Mesh Fracture Reference Qualified** | **INSTITUTED_MANDATORY** | Pre-requisite for accepting adaptive remeshing accuracy: requires verified spatial convergence sequence ($h \approx 20\,\mu\mathrm{m}, 7.5\,\mu\mathrm{m}, 3.75\,\mu\mathrm{m}$) under constrained shear ($u_y=0$). |
+| **Gate M2-1B** | **Fixed-Mesh Fracture Reference Qualified** | **CLOSED_QUALIFIED** | Four-tier fixed spatial sequence ($2.5\mathrm{k} \to 18\mathrm{k} \to 40\mathrm{k} \to 72\mathrm{k}$) completed; Fine 72k ($h=3.73\,\mu\mathrm{m}$) completed full 20 um horizon (Job 1411545, Exit 0, $F_{\max}=415.99\,\text{N}$, $u_{\text{peak}}=9.47\,\mu\mathrm{m}$, $K_0=45.77\,\text{kN/mm}$); monotonic peak reduction established ($525.7\,\text{N} \to 437.0\,\text{N} \to 420.7\,\text{N} \to 416.0\,\text{N}$). |
 | **Gate M2-2** | **Canonical Coarse Pre-Analysis Reproduction** | **COMPLETED_EVALUATED_PASSED** | Job `1410790.mmaster02` ($2{,}960$ FEs, 1 CPU serial, 4,000 incs, Exit 0). |
 | **Gate M2-3** | **Native Adaptive Remeshing Reproduction & Corridor** | **CLOSED_PASSED** | `execute_mode2_corrected_adaptive_remesh.py` on Step-2 generates diagonal corridor without geometric bounds. |
-| **Gate M2-4** | **Adapted Fracture Simulation & Convergence** | **PASSED_WITH_LIMITATIONS** | ET3 ($21{,}063$ FEs, Job `1411267`, Exit 0, $F_{\max} = 412.21\,\text{N}$); ET2 ($37{,}575$ FEs, Job `1411414`, running). Benchmark comparison pending Gate M2-1B fixed reference. |
+| **Gate M2-4** | **Adapted Fracture Simulation & Convergence** | **QUALIFIED_PASSED** | Adaptive ET3 ($21{,}063$ FEs, Job `1411267`, Exit 0, $F_{\max} = 412.21\,\text{N}$) reproduces fine fixed mesh within $0.91\%$ ($3.78\,\text{N}$) with $70.67\%$ fewer elements; crack trajectory aligned within $4.06\,\mu\mathrm{m}$ ($0.27\,l_0$); ET2 partial benchmark documented ($F_{\max}=411.80\,\text{N}$, $-1.01\%$, Exit 1 @ $9.42\,\mu\mathrm{m}$). |
 
 ---
 

@@ -1,0 +1,37 @@
+# ==============================================================================
+# MODE-II PANDEY-KUMAR BENCHMARK REPRODUCTION & VERIFICATION COMMANDS
+# Environment: TU Bergakademie Freiberg HPC Cluster (CentOS 8 / PBS Pro / Abaqus 2023)
+# ==============================================================================
+
+# 1. Environment Initialization
+source /etc/profile.d/modules.sh 2>/dev/null || source /usr/share/Modules/init/bash 2>/dev/null || true
+module purge || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+# 2. Benchmark Model & Subroutine Locations
+# Model Input:   models/pandey_kumar_mode2/07_fixed_mesh_convergence_suite/04_fine_72k_h3p75um/M2_FIX_FINE_72K.inp
+# Fortran UEL:   models/pandey_kumar_mode2/f42_mixed_uel_mode2_miehe.for (SHA256: 699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188)
+# Adaptive ET3:  runs/mode2/fixed_convergence/evidence/et3_adapt_21k/Job-2_UEL.inp
+
+# 3. Solver Execution Commands (Cluster Scratch)
+# A. Fixed Fine 72k Reference Run (Job 1411545.mmaster02, 71,824 FEs, h=3.73 um, 1 CPU serial):
+cd /scratch9/pr21vyci/runs/mode2_fixed_convergence/04_fine_72k_h3p75um
+abaqus job=M2_FIX_FINE_72K user=f42_mixed_uel_mode2_miehe.for input=M2_FIX_FINE_72K.inp cpus=1 double=both interactive
+
+# B. Adaptive ET3 Stabilized Fracture Run (Job 1411267.mmaster02, 21,063 FEs, h_min=4.63 um, 1 CPU serial):
+cd /scratch9/pr21vyci/runs/mode2_j2_adapted_stabilized_et3
+abaqus job=Job-2_UEL user=f42_mixed_uel_mode2_miehe.for input=Job-2_UEL.inp cpus=1 double=both interactive
+
+# 4. Result Extraction Commands
+# Extract reaction force history from .dat:
+python3 scripts/postprocessing/inspect_mode2_dat.py
+
+# Extract crack path and damage profile via Abaqus Python:
+abaqus python scripts/postprocessing/extract_fine_72k_targeted.py
+
+# 5. Master Comparative Synthesis & Figure Generation
+python3 scripts/postprocessing/plot_mode2_f1395_fine_reference_vs_adaptive_accuracy.py
+python3 scripts/postprocessing/plot_mode2_fixed_mesh_spatial_convergence.py
+
+# 6. Automated Unit Test Verification
+python -m unittest discover -s tests/unit -p "test_mode2_f1395*.py"
