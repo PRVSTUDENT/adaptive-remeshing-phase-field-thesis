@@ -1,0 +1,33 @@
+{
+    "case_id": "03_intermediate_40k_h5um_diagnostic_ls",
+    "job_name": "M2_FIX_INT_40K_LS",
+    "grid_nx": 200,
+    "grid_ny": 200,
+    "h_mm": 0.005,
+    "h_um": 5.0,
+    "l0_um": 15.0,
+    "h_over_l0": 0.3333333333333333,
+    "num_physical_nodes": 40501,
+    "num_physical_quads": 40000,
+    "total_layered_elements": 120000,
+    "total_solver_variables": 121504,
+    "active_solver_equations": 121303,
+    "input_deck": "M2_FIX_INT_40K_LS.inp",
+    "input_deck_sha256": "B65FD9245AF13EC55EF2D0CE4ACCEBF8FAC8EF157394640E350348449E2541E2",
+    "fortran_uel": "f42_mixed_uel_mode2_miehe.for",
+    "fortran_uel_sha256": "699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188",
+    "notifications_sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "single_numerical_change": "Enabled Line Search (*CONTROLS, PARAMETERS=LINE SEARCH / 4) in Step 1 and Step 2 to mitigate post-peak Newton divergence at steep damage localization",
+    "scratch_directory": "/scratch9/pr21vyci/runs/mode2_fixed_convergence/03_intermediate_40k_h5um_diagnostic_ls",
+    "pbs_queue": "normal_imfdfkmq",
+    "requested_cpus": 1,
+    "requested_memory": "16gb",
+    "requested_walltime": "48:00:00",
+    "submission_authorized": true,
+    "predeclared_acceptance_criteria": {
+        "initial_stiffness_kN_per_mm": "45.86 +- 0.10",
+        "parity_through_peak_ux_um": "9.595",
+        "peak_force_N": "420.66 +- 0.50",
+        "continuation_beyond_failed_point": "Demonstrate converged equilibrium past ux = 9.635 um"
+    }
+}

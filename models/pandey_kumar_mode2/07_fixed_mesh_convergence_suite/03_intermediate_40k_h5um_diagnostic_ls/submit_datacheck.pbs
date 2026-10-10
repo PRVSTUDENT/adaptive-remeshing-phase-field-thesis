@@ -1,0 +1,29 @@
+#!/bin/bash
+#PBS -N M2_INT_40K_LS_DC
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
+#PBS -l walltime=00:30:00
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o /scratch9/pr21vyci/runs/mode2_fixed_convergence/03_intermediate_40k_h5um_diagnostic_ls/pbs_datacheck.log
+
+set -euo pipefail
+
+RUN_DIR="/scratch9/pr21vyci/runs/mode2_fixed_convergence/03_intermediate_40k_h5um_diagnostic_ls"
+cd "${RUN_DIR}"
+
+source /etc/profile.d/modules.sh 2>/dev/null || source /usr/share/Modules/init/bash 2>/dev/null || true
+module purge || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+JOB_NAME="M2_FIX_INT_40K_LS"
+USER_SUB="f42_mixed_uel_mode2_miehe.for"
+
+rm -f "${JOB_NAME}.lck" "${JOB_NAME}.023" 2>/dev/null || true
+
+abaqus datacheck job="${JOB_NAME}" user="${USER_SUB}" input="${JOB_NAME}.inp" cpus=1 double=both interactive
+EXIT_CODE=$?
+echo "Abaqus Datacheck Exit Code: ${EXIT_CODE}"
+exit ${EXIT_CODE}
