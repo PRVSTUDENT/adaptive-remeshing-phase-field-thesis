@@ -3524,19 +3524,23 @@ On the final mesh doubling from $40{,}000$ to $71{,}824$ elements, the change in
 
 \begin{table}[htbp]
 \centering
-\small
+\footnotesize
+\setlength{\tabcolsep}{3pt}
 \caption{Quantitative summary of the Mode-II four-tier fixed-mesh spatial convergence reference suite.}
 \label{tab:mode2_fixed_convergence_summary}
-\begin{tabularx}{\textwidth}{l c c c c c c Y}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l c c c c c c c @{}}
 \toprule
-\textbf{Discretization Tier} & $N_{\mathrm{FE}}$ & $h$ [$\mu\mathrm{m}$] & $h/\ell_0$ & $K_0$ [$\mathrm{kN/mm}$] & $F_{\max}$ [$\mathrm{N}$] & $u(F_{\max})$ [$\mu\mathrm{m}$] & \textbf{Solver Status} \\
+\textbf{\shortstack{Discretization\\Tier}} & $N_{\mathrm{FE}}$ & \shortstack{$h$\\$[\mu\mathrm{m}]$} & $h/\ell_0$ & \shortstack{$K_0$\\$[\mathrm{kN/mm}]$} & \shortstack{$F_{\max}$\\$[\mathrm{N}]$} & \shortstack{$u_{\mathrm{peak}}$\\$[\mu\mathrm{m}]$} & \textbf{\shortstack{Solver\\Status}} \\
 \midrule
-Coarse Fixed ($2.5\mathrm{k}$) & $2{,}500$ & $20.00$ & $1.33$ & $45.69$ & $525.70$ & $9.075$ & Completed (Exit 0) \\
-Medium Fixed ($18\mathrm{k}$) & $17{,}956$ & $7.46$ & $0.50$ & $45.74$ & $436.99$ & $9.380$ & Completed (Exit 0) \\
-Intermediate Fixed ($40\mathrm{k}$) & $40{,}000$ & $5.00$ & $0.33$ & $45.85$ & $420.66$ & $9.595$ & Terminated (Exit 1) \\
-Fine Reference ($72\mathrm{k}$) & $71{,}824$ & $3.73$ & $0.25$ & $45.77$ & $415.99$ & $9.470$ & Completed (Exit 0) \\
+Coarse Fixed ($2.5\mathrm{k}$) & $2{,}500$ & $20.00$ & $1.33$ & $45.69$ & $525.70$ & $9.075$ & \shortstack{Completed\\(Exit 0)} \\
+\addlinespace[2pt]
+Medium Fixed ($18\mathrm{k}$) & $17{,}956$ & $7.46$ & $0.50$ & $45.74$ & $436.99$ & $9.380$ & \shortstack{Completed\\(Exit 0)} \\
+\addlinespace[2pt]
+Intermediate Fixed ($40\mathrm{k}$) & $40{,}000$ & $5.00$ & $0.33$ & $45.85$ & $420.66$ & $9.595$ & \shortstack{Terminated\\(Exit 1)} \\
+\addlinespace[2pt]
+Fine Reference ($72\mathrm{k}$) & $71{,}824$ & $3.73$ & $0.25$ & $45.77$ & $415.99$ & $9.470$ & \shortstack{Completed\\(Exit 0)} \\
 \bottomrule
-\end{tabularx}
+\end{tabular*}
 \end{table}
 
 \subsubsection{Distinction of Solver Completion Statuses}
@@ -3570,10 +3574,11 @@ An increment-by-increment comparison between the independent 24-hour run (\textt
 Every recorded force and displacement observation agrees to all $8$ significant digits printed in the Abaqus DAT node output tables, and $4{,}031$ of $4{,}032$ lines in the status file are text-identical. In strict adherence to scientific writing standards, this is classified as \textbf{full numerical reproducibility to printed solver precision (8 significant figures)}, explicitly distinguishing printed decimal identity from binary bitwise identity of internal memory structures.
 
 The Fine 72k reference values are thus frozen as the authoritative numerical benchmark anchor:
-\begin{equation}
-  F_{\max} = 415.98953\,\mathrm{N}, \quad u(F_{\max}) = 9.47000\,\mu\mathrm{m}, \quad K_0 = 45.77\,\mathrm{kN/mm}, \quad \mathrm{RF}_{\mathrm{final}} = 387.46924\,\mathrm{N}.
+\begin{align}
+  F_{\max} &= 415.98953\,\mathrm{N}, & u(F_{\max}) &= 9.47000\,\mu\mathrm{m}, \notag \\
+  K_0 &= 45.77\,\mathrm{kN/mm}, & \mathrm{RF}_{\mathrm{final}} &= 387.46924\,\mathrm{N}.
   \label{eq:mode2_fine_anchor_values}
-\end{equation}
+\end{align}
 
 \subsection{Native Adaptive Method A Workflow (Two-Pass Pre-Refinement)}
 \label{subsec:mode2_method_a_workflow}
@@ -3648,20 +3653,28 @@ Table~\ref{tab:mode2_adaptive_vs_fixed_mechanics} presents the mechanical and ge
 \begin{table}[htbp]
 \centering
 \footnotesize
+\setlength{\tabcolsep}{3.5pt}
 \caption{Mechanical, kinematic, and geometric comparison between the Fine 72k reference and Native Adaptive Method~A (Adaptive ET3).}
 \label{tab:mode2_adaptive_vs_fixed_mechanics}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.24\textwidth} c c c >{\raggedright\arraybackslash}X}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.25\textwidth} c c c >{\raggedright\arraybackslash}X}
 \toprule
-\textbf{Mechanical / Geometric Quantity} & \textbf{Fine Reference (72k)} & \textbf{Adaptive Method A (ET3)} & \textbf{Difference ($\Delta$)} & \textbf{Scientific Assessment} \\
+\textbf{Mechanical Quantity} & \textbf{\shortstack{Fine Ref.\\(72k)}} & \textbf{\shortstack{Adaptive\\ET3}} & \textbf{\shortstack{Difference\\($\Delta$)}} & \textbf{Scientific Assessment} \\
 \midrule
-Physical Finite Elements & $71{,}824$ CPE4 & $21{,}063$ (CPE4+CPE3) & $-50{,}761$ (\textbf{$-70.67\%$}) & Substantial mesh economy \\
-Unique Mesh Nodes & $72{,}496$ & $21{,}043$ & $-51{,}453$ ($-70.97\%$) & Consistent nodal reduction \\
-Initial Stiffness $K_0$ & $45.77\,\mathrm{kN/mm}$ & $45.57\,\mathrm{kN/mm}$ & $-0.20\,\mathrm{kN/mm}$ (\textbf{$-0.43\%$}) & Elastic parity verified \\
-Peak Force $F_{\max}$ & $415.99\,\mathrm{N}$ & $412.21\,\mathrm{N}$ & $-3.78\,\mathrm{N}$ (\textbf{$-0.91\%$}) & Peak initiation captured \\
-Peak Displacement $u_{\mathrm{peak}}$ & $9.470\,\mu\mathrm{m}$ & $9.410\,\mu\mathrm{m}$ & $-0.060\,\mu\mathrm{m}$ (\textbf{$-0.63\%$}) & Matched peak timing \\
-Terminal Force $\mathrm{RF}_{\mathrm{final}}$ & $387.47\,\mathrm{N}$ & $380.42\,\mathrm{N}$ & $-7.05\,\mathrm{N}$ ($-1.82\%$) & Tail response recovery \\
-Crack Chord Angle ($d \ge 0.90$) & $-57.89^\circ$ & $-58.37^\circ$ & $\mathbf{-0.48^\circ}$ difference & Excellent path fidelity \\
-Traversed Ligament & $88.0\%$ ($440\,\mu\mathrm{m}$) & $88.0\%$ ($440\,\mu\mathrm{m}$) & $0.0\%$ ($60\,\mu\mathrm{m}$ intact) & Identical crack progress \\
+Physical Finite Elements & $71{,}824$ CPE4 & \shortstack{$21{,}063$\\(CPE4+CPE3)} & \shortstack{$-50{,}761$\\(\textbf{$-70.67\%$})} & Substantial mesh economy \\
+\addlinespace[2pt]
+Unique Mesh Nodes & $72{,}496$ & $21{,}043$ & \shortstack{$-51{,}453$\\($-70.97\%$)} & Consistent nodal reduction \\
+\addlinespace[2pt]
+Initial Stiffness $K_0$ & $45.77\,\mathrm{kN/mm}$ & $45.57\,\mathrm{kN/mm}$ & \shortstack{$-0.20\,\mathrm{kN/mm}$\\(\textbf{$-0.43\%$})} & Elastic parity verified \\
+\addlinespace[2pt]
+Peak Force $F_{\max}$ & $415.99\,\mathrm{N}$ & $412.21\,\mathrm{N}$ & \shortstack{$-3.78\,\mathrm{N}$\\(\textbf{$-0.91\%$})} & Peak initiation captured \\
+\addlinespace[2pt]
+Peak Displacement $u_{\mathrm{peak}}$ & $9.470\,\mu\mathrm{m}$ & $9.410\,\mu\mathrm{m}$ & \shortstack{$-0.060\,\mu\mathrm{m}$\\(\textbf{$-0.63\%$})} & Matched peak timing \\
+\addlinespace[2pt]
+Terminal Force $\mathrm{RF}_{\mathrm{final}}$ & $387.47\,\mathrm{N}$ & $380.42\,\mathrm{N}$ & \shortstack{$-7.05\,\mathrm{N}$\\($-1.82\%$)} & Tail response recovery \\
+\addlinespace[2pt]
+Crack Chord Angle ($d \ge 0.90$) & $-57.89^\circ$ & $-58.37^\circ$ & $\mathbf{-0.48^\circ}$ diff. & Excellent path fidelity \\
+\addlinespace[2pt]
+Traversed Ligament & \shortstack{$88.0\%$\\($440\,\mu\mathrm{m}$)} & \shortstack{$88.0\%$\\($440\,\mu\mathrm{m}$)} & \shortstack{$0.0\%$\\($60\,\mu\mathrm{m}$ intact)} & Identical crack progress \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -3680,20 +3693,24 @@ Table~\ref{tab:mode2_adaptive_vs_fixed_efficiency} summarizes the regime-by-regi
 \begin{table}[htbp]
 \centering
 \footnotesize
+\setlength{\tabcolsep}{3.5pt}
 \caption{Regime-by-regime error analysis and workflow computational speedup of Native Adaptive Method~A.}
 \label{tab:mode2_adaptive_vs_fixed_efficiency}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.24\textwidth} c c c >{\raggedright\arraybackslash}X}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.27\textwidth} c c c >{\raggedright\arraybackslash}X}
 \toprule
-\textbf{Error / Performance Dimension} & \textbf{Fine Reference (72k)} & \textbf{Adaptive Method A (ET3)} & \textbf{Difference ($\Delta$)} & \textbf{Scientific Finding} \\
+\textbf{Regime / Performance Dimension} & \textbf{\shortstack{Fine Ref.\\(72k)}} & \textbf{\shortstack{Adaptive\\ET3}} & \textbf{\shortstack{Difference\\($\Delta$ / RMSE)}} & \textbf{Scientific Finding} \\
 \midrule
-Linear Elastic NRMSE ($0\text{--}6\,\mu\mathrm{m}$) & Reference & $0.16\%$ & $\mathrm{RMSE} = 0.68\,\mathrm{N}$ & Negligible elastic error \\
-Pre-Peak NRMSE ($0\text{--}9.47\,\mu\mathrm{m}$) & Reference & $0.74\%$ & $\mathrm{RMSE} = 3.10\,\mathrm{N}$ & Tight pre-peak tracking \\
-Near-Peak NRMSE ($6\text{--}11\,\mu\mathrm{m}$) & Reference & $5.22\%$ & $\mathrm{RMSE} = 21.72\,\mathrm{N}$ & Drop phase shift localized \\
-Post-Peak NRMSE ($11\text{--}20\,\mu\mathrm{m}$) & Reference & $4.99\%$ & $\mathrm{RMSE} = 20.77\,\mathrm{N}$ & Re-converged softening tail \\
-Global Full Horizon NRMSE ($0\text{--}20\,\mu\mathrm{m}$) & Reference & $4.25\%$ & $\mathrm{RMSE} = 17.66\,\mathrm{N}$ & Defensible global accuracy \\
-End-to-End Workflow Walltime & $86{,}126\,\mathrm{s}$ ($23.92\,\mathrm{h}$) & $35{,}043\,\mathrm{s}$ ($9.73\,\mathrm{h}$) & $-51{,}083\,\mathrm{s}$ (\textbf{$-59.31\%$}) & \textbf{$2.46\times$ workflow speedup} \\
-End-to-End Workflow CPU Time & $79{,}560\,\mathrm{s}$ ($22.10\,\mathrm{h}$) & $33{,}470\,\mathrm{s}$ ($9.30\,\mathrm{h}$) & $-46{,}090\,\mathrm{s}$ (\textbf{$-57.93\%$}) & \textbf{$2.38\times$ CPU speedup} \\
-Pure Solver-Only Walltime & $86{,}126\,\mathrm{s}$ & $30{,}900\,\mathrm{s}$ & $-55{,}226\,\mathrm{s}$ ($-64.12\%$) & \textbf{$2.79\times$ solver speedup} \\
+Linear Elastic ($0\text{--}6\,\mu\mathrm{m}$) & Reference & $0.16\%$ & $\mathrm{RMSE} = 0.68\,\mathrm{N}$ & Negligible elastic error \\
+Pre-Peak ($0\text{--}9.47\,\mu\mathrm{m}$) & Reference & $0.74\%$ & $\mathrm{RMSE} = 3.10\,\mathrm{N}$ & Tight pre-peak tracking \\
+Near-Peak ($6\text{--}11\,\mu\mathrm{m}$) & Reference & $5.22\%$ & $\mathrm{RMSE} = 21.72\,\mathrm{N}$ & Drop phase shift localized \\
+Post-Peak ($11\text{--}20\,\mu\mathrm{m}$) & Reference & $4.99\%$ & $\mathrm{RMSE} = 20.77\,\mathrm{N}$ & Re-converged softening tail \\
+Global Full Horizon ($0\text{--}20\,\mu\mathrm{m}$) & Reference & $4.25\%$ & $\mathrm{RMSE} = 17.66\,\mathrm{N}$ & Defensible global accuracy \\
+\addlinespace[3pt]
+End-to-End Workflow Walltime & \shortstack{$86{,}126\,\mathrm{s}$\\($23.92\,\mathrm{h}$)} & \shortstack{$35{,}043\,\mathrm{s}$\\($9.73\,\mathrm{h}$)} & \shortstack{$-51{,}083\,\mathrm{s}$\\(\textbf{$-59.31\%$})} & \textbf{$2.46\times$ workflow speedup} \\
+\addlinespace[2pt]
+End-to-End Workflow CPU Time & \shortstack{$79{,}560\,\mathrm{s}$\\($22.10\,\mathrm{h}$)} & \shortstack{$33{,}470\,\mathrm{s}$\\($9.30\,\mathrm{h}$)} & \shortstack{$-46{,}090\,\mathrm{s}$\\(\textbf{$-57.93\%$})} & \textbf{$2.38\times$ CPU speedup} \\
+\addlinespace[2pt]
+Pure Solver-Only Walltime & $86{,}126\,\mathrm{s}$ & $30{,}900\,\mathrm{s}$ & \shortstack{$-55{,}226\,\mathrm{s}$\\($-64.12\%$)} & \textbf{$2.79\times$ solver speedup} \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -3701,8 +3718,10 @@ Pure Solver-Only Walltime & $86{,}126\,\mathrm{s}$ & $30{,}900\,\mathrm{s}$ & $-
 \subsubsection{End-to-End Workflow Computational Speedup Accounting}
 In evaluating adaptive remeshing efficiency, accounting must include the complete workflow cost:
 \begin{align}
-  t_{\mathrm{wall,MethodA}} &= t_{\mathrm{preanalysis}}\ (3{,}913\,\mathrm{s}) + t_{\mathrm{remesh}}\ (230\,\mathrm{s}) + t_{\mathrm{adapted\_solve}}\ (30{,}900\,\mathrm{s}) = \mathbf{35{,}043\,\mathrm{s}} \quad (9.73\,\mathrm{h}), \\
-  t_{\mathrm{cpu,MethodA}} &= t_{\mathrm{preanalysis,cpu}}\ (2{,}870\,\mathrm{s}) + t_{\mathrm{adapted\_solve,cpu}}\ (30{,}600\,\mathrm{s}) = \mathbf{33{,}470\,\mathrm{s}} \quad (9.30\,\mathrm{h}).
+  t_{\mathrm{wall,MethodA}} &= t_{\mathrm{preanalysis}}\ (3{,}913\,\mathrm{s}) + t_{\mathrm{remesh}}\ (230\,\mathrm{s}) + t_{\mathrm{adapted\_solve}}\ (30{,}900\,\mathrm{s}) \notag \\
+  &= \mathbf{35{,}043\,\mathrm{s}} \quad (9.73\,\mathrm{h}), \\
+  t_{\mathrm{cpu,MethodA}} &= t_{\mathrm{preanalysis,cpu}}\ (2{,}870\,\mathrm{s}) + t_{\mathrm{adapted\_solve,cpu}}\ (30{,}600\,\mathrm{s}) \notag \\
+  &= \mathbf{33{,}470\,\mathrm{s}} \quad (9.30\,\mathrm{h}).
 \end{align}
 Comparing this against the uniform Fine 72k reference ($t_{\mathrm{wall}} = 86{,}126\,\mathrm{s} = 23.92\,\mathrm{h}$, $t_{\mathrm{cpu}} = 79{,}560\,\mathrm{s} = 22.10\,\mathrm{h}$):
 \begin{align}
@@ -3778,7 +3797,7 @@ Following the supervisor-aligned Master Gate Dashboard, the evidence for Mode-II
   \end{itemize}
   \item \textbf{Numerically Verified Findings:}
   \begin{itemize}
-    \item Monotonic initiation peak force convergence across four fixed mesh tiers ($525.70\,\mathrm{N} \to 436.99\,\mathrm{N} \to 420.66\,\mathrm{N} \to 415.99\,\mathrm{N}$).
+    \item Monotonic peak force convergence across four fixed mesh tiers ($525.70\,\mathrm{N} \to 436.99\,\mathrm{N} \to 420.66\,\mathrm{N} \to 415.99\,\mathrm{N}$).
     \item Full-horizon Fine 72k reference values ($F_{\max} = 415.99\,\mathrm{N}$, $\mathrm{RF}_{\mathrm{final}} = 387.47\,\mathrm{N}$, $K_0 = 45.77\,\mathrm{kN/mm}$) independently verified across two separate cluster solves with 100\% numerical agreement to 8 significant printed digits across all $4{,}022$ increments.
     \item Damage-evolving pre-analysis Job \texttt{1411104} breaks scale invariance, dynamically steering the $\mathrm{MISESERI}$ corridor to $-34.07^\circ$.
     \item Native Abaqus \texttt{adaptiveRemesh} generates Adaptive ET3 with $21{,}063$ finite elements ($70.67\%$ reduction) focused along the $-48.30^\circ$ shear corridor with zero spurious branching.

@@ -1,0 +1,148 @@
+\chapter{Pandey--Kumar Error-Guided Adaptive Pre-Refinement and Discretization}
+\label{ch:adaptive_refinement}
+
+\section{Published Two-Job Adaptive Refinement Workflow}
+\label{sec:two_job_workflow}
+
+\citet{pandey2025} propose an automated two-job pre-refinement strategy that refines the discretization prior to nonlinear fracture initiation, avoiding dynamic mid-analysis remeshing. The workflow comprises:
+\begin{center}
+\setlength{\fboxsep}{5pt}
+\fbox{Coarse Job-1}
+$\rightarrow$ \fbox{Job-1\_UEL (Linear Elastic)}
+$\rightarrow$ \fbox{\texttt{MISESERI} Field Extraction}
+$\rightarrow$ \fbox{\texttt{RemeshingRule}}
+$\rightarrow$ \fbox{\texttt{adaptiveRemesh}}
+$\rightarrow$ \fbox{Job-2 Model Generation}
+$\rightarrow$ \fbox{Job-2\_UEL Fracture Solve}.
+\end{center}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{fig_refinement_workflow.pdf}
+  \caption{Schematic of the Pandey--Kumar two-job adaptive pre-refinement workflow: a linear-elastic pre-analysis on a coarse grid generates the \texttt{MISESERI} error indicator field, which drives Abaqus native \texttt{adaptiveRemesh} before reconstructing the multi-layer UEL/UMAT phase-field model for the full fracture calculation.}
+  \label{fig:refinement_workflow}
+\end{figure}
+
+In this architecture, the initial coarse model (\texttt{Job-1}) is analyzed under linear elasticity. The recovered stress field yields an element-level error indicator field (\texttt{MISESERI}). Abaqus evaluates sizing requirements using a specified \texttt{RemeshingRule}, and the native \texttt{adaptiveRemesh} engine remeshes the geometric part. A Python post-processing filter then converts the adapted mesh into coincident user element (UEL) layers (Layer~1: Phase field $d$, Layer~2: Mechanical $\mathbf{u}$) and companion visualization elements (Layer~3: UMAT CPE4/CPE3).
+
+\section{Physical Meaning, Indicator Provenance, and Limits of \texttt{MISESERI}}
+\label{sec:miseseri_meaning}
+
+A rigorous physical understanding of \texttt{MISESERI} is essential to avoid misinterpreting the driving mechanism:
+\begin{itemize}
+  \item \textbf{Definition:} \texttt{MISESERI} is the Abaqus stress discretization error indicator associated with the recovered von Mises stress field in linear continuum elasticity \citep{abaqus2023}.
+  \item \textbf{What it is NOT:} It is \textbf{not} a phase-field error indicator, \textbf{not} a damage error, and \textbf{not} a measure of fracture energy balance.
+  \item \textbf{Theoretical Basis:} It builds upon Zienkiewicz--Zhu-type patch recovery techniques \citep{zienkiewicz1987,zienkiewicz1992}, estimating local discretization error $\mathbf{e}_\sigma = \boldsymbol{\sigma}^* - \boldsymbol{\sigma}_h$ from smoothed stresses $\boldsymbol{\sigma}^*$.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_miseseri_concept.png}
+  \caption{Defensible qualitative interpretation of \texttt{MISESERI} under uniform-error sizing: high recovered stress gradients near geometric singularities drive local element refinement; this relationship is directional and does not imply a simple algebraic formula from \texttt{MISESERI} directly to element size.}
+  \label{fig:miseseri_concept}
+\end{figure}
+
+In the Python remeshing script defined in Listing~1 of \citet{pandey2025}:
+\begin{quote}
+\ttfamily
+variables=('MISESERI',),\quad sizingMethod=UNIFORM\_ERROR,\\
+errorTarget=1.0,\quad refinementFactor=10,\\
+coarseningFactor=NOT\_ALLOWED
+\end{quote}
+The parameter \texttt{errorTarget=1.0} denotes a $1.0\%$ target error tolerance under the \texttt{UNIFORM\_ERROR} sizing strategy. It does \textbf{not} denote $\mathtt{MISESERI} = 1.0$, $\mathtt{MISESERI} \ge 1.0$, or refinement of $1\%$ of the elements. Similarly, \texttt{errorTarget=2.0} represents a $2.0\%$ target tolerance, not $\mathtt{MISESERI} = 2.0$.
+
+\section{Canonical Pre-Analysis Provenance and Spatial Association}
+\label{sec:canonical_preanalysis}
+
+The canonical Mode-I pre-analysis mesh contains:
+\begin{itemize}
+  \item $2{,}906$ finite elements ($2{,}818$ bilinear CPE4 quads + $88$ linear CPE3 triangles);
+  \item $2{,}988$ nodes (accounting for duplicate crack seam nodes);
+  \item Exactly $2{,}906$ scalar \texttt{WHOLE\_ELEMENT} \texttt{MISESERI} indicator values (Fig.~\ref{fig:miseseri_map}).
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{figure_3_1_canonical_mode1_miseseri_error_map.png}
+  \caption{Canonical Mode-I \texttt{MISESERI} error indicator field evaluated on the 2,906-element coarse mesh. High error concentrations cluster around the initial sharp crack tip ($x = 0.5\,\mathrm{mm}, y = 0.5\,\mathrm{mm}$), defining the targeted refinement zone.}
+  \label{fig:miseseri_map}
+\end{figure}
+
+Applying the \texttt{RemeshingRule} with \texttt{errorTarget=1.0\%} and \texttt{coarseningFactor=NOT\_ALLOWED} produces the adapted mesh shown in Fig.~\ref{fig:coarse_vs_adapted}. Because coarsening is prohibited, background regions retain the coarse seed ($h \approx 0.02\,\mathrm{mm}$), while the crack process corridor is refined down to $h \approx 0.001\,\mathrm{mm}$, generating $71{,}320$ finite elements.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{fig03a_coarse_mesh_cae.png}
+    \caption*{(a) Coarse mesh ($2{,}906$ elements)}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{fig13_adaptive_71320_mesh_cae.png}
+    \caption*{(b) Adapted mesh ($71{,}320$ elements)}
+  \end{minipage}
+  \caption{Comparison between (a) the initial coarse mesh ($2{,}906$ finite elements) and (b) the resulting error-guided adapted mesh ($71{,}320$ finite elements) generated by Abaqus native \texttt{adaptiveRemesh}.}
+  \label{fig:coarse_vs_adapted}
+\end{figure}
+
+As shown in Fig.~\ref{fig:miseseri_association}, the adapted element size correlates strongly with the initial coarse error indicator field: regions with elevated \texttt{MISESERI} receive small elements ($h \le 0.002\,\mathrm{mm}$), confirming the spatial efficacy of the error-driven adaptivity.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{fig_miseseri_spatial_association.png}
+  \caption{Observed spatial association between coarse \texttt{MISESERI} error indicator values and the adapted local finite element edge length $h$. Regions with higher stress discretization error receive refined element sizes.}
+  \label{fig:miseseri_association}
+\end{figure}
+
+\section{Adaptive Remeshing Reproduction: 71,320 vs 13,941 Elements}
+\label{sec:reproduction_limitation}
+
+\citet{pandey2025} report an element count of $\approx 13{,}941$ for their adapted Mode-I mesh, whereas applying the published Listing~1 parameters strictly to the complete domain yields $71{,}320$ finite elements.
+
+\paragraph{Supervisor Decision and Phase Closure.}
+On 17 September 2026, the supervisor formally reviewed this discrepancy and established the governing decision:
+\begin{center}
+  \textbf{\texttt{SUPERVISOR\_ACCEPTED\_REPRODUCTION\_LIMITATION\_CLOSED}}
+\end{center}
+The supervisor explicitly accepted that:
+\begin{enumerate}
+  \item The complete original implementation code of the authors is unavailable;
+  \item The publication does not expose enough information to reproduce every reported element count identically;
+  \item The project has tested all accessible justified variables (ruling out Abaqus release differences, load scaling, and remeshing controls);
+  \item Reproduction of general adaptivity trends is fully sufficient;
+  \item Further effort attempting to force exact element-count matching is not scientifically justified.
+\end{enumerate}
+
+\paragraph{Preserved Sensitivity Trends.}
+Parametric sensitivity sweeps of \texttt{errorTarget} establish the following consistent trend across four tolerance levels:
+\begin{itemize}
+  \item $\mathtt{errorTarget} = 1.0\% \longrightarrow 71{,}320$ finite elements;
+  \item $\mathtt{errorTarget} = 2.0\% \longrightarrow 17{,}687$ finite elements (offline study) / $15{,}396$ finite elements (production batch);
+  \item $\mathtt{errorTarget} = 3.0\% \longrightarrow 8{,}120$ finite elements (offline study) / $7{,}633$ finite elements (production batch);
+  \item $\mathtt{errorTarget} = 5.0\% \longrightarrow 4{,}356$ finite elements (offline study) / $4{,}194$ finite elements (production batch).
+\end{itemize}
+The slight count variation between the offline sensitivity study and the production HPC runs is preserved as documented evidence. Both lineages confirm that increasing \texttt{errorTarget} relaxes the refinement constraint and reduces the final element count monotonically.
+
+\section{Theoretical Foundations for State-Transfer Energy Conservation}
+\label{sec:state_transfer_foundations}
+
+While the two-job pre-refinement workflow avoids mid-analysis state interpolation, general dynamic adaptivity during crack propagation requires projecting active state fields across non-conforming finite element meshes (Gate~6C).
+
+Let $\Omega_m$ denote the mesh at increment $n$, and $\Omega_{m+1}$ the newly adapted discretization. The active state vector is:
+\begin{equation}
+  \mathbf{S}^m = \left\{ \mathbf{u}^m(\mathbf{x}),\, d^m(\mathbf{x}),\, \mathcal{H}^m(\mathbf{x}) \right\},
+  \label{eq:state_vector_ch3}
+\end{equation}
+where $\mathbf{u}^m$ is the displacement field, $d^m$ is the phase-field damage, and $\mathcal{H}^m$ is the strain-history field. Mapping to $\Omega_{m+1}$ via projection operators $\mathbf{\Pi}_u, \mathbf{\Pi}_d, \mathbf{\Pi}_{\mathcal{H}}$ changes the total internal potential energy from $E_{\mathrm{total}}^-$ to $E_{\mathrm{total}}^+$:
+\begin{equation}
+  \Delta E_{\mathrm{transfer}} = E_{\mathrm{total}}^+ - E_{\mathrm{total}}^-.
+  \label{eq:delta_e_transfer_ch3}
+\end{equation}
+Thermodynamic consistency and conservation require three fundamental criteria:
+\begin{enumerate}
+  \item \textbf{Damage Monotonicity (Crack Irreversibility):} $d^{m+1}(\mathbf{x}) \ge d^m(\mathbf{x})$ pointwise $\forall \mathbf{x} \in \Omega$.
+  \item \textbf{Energy Preservation Bound:} $|\Delta E_{\mathrm{transfer}}| / W_{\mathrm{ext}} < \epsilon_{\mathrm{tol}} \ll 1.0\%$.
+  \item \textbf{Equilibrium Relaxation:} A zero-load Newton-Raphson relaxation step must be performed on $\Omega_{m+1}$ to equilibrate out-of-balance forces before resuming displacement loading.
+\end{enumerate}
+These criteria define the active foundation for subsequent Gate~6C state-transfer investigations.
