@@ -3,7 +3,7 @@
 ** METHOD B PREFLIGHT INPUT DECK: M1-MB-4S
 ** Partition: 4 Steps, Terminal U = 0.005000 mm (alpha = 0.8537)
 ** Invariant Physical Delta U Max = 1.0000e-05 mm (10 nm)
-** Protocol Version: 2 (Task F1406)
+** Protocol Version: 2 (Task F1407)
 ** ==========================================================
 PK_M1_JOB1_UEL_2906 - Publication-Faithful Mode-I 3-Layer Pre-Analysis Job-1_UEL
 ** Physical Mesh: 2906 elements (2818 quads, 88 tris), 2988 nodes
@@ -11951,10 +11951,6 @@ umatelem
 2
 690, 2, 1.0, 999999, 2, -1.0
 ** ==========================================================
-** STEP 1: Monotonic Tensile Loading to u = 0.0050 mm (500 incs)
-** ==========================================================
-
-** ==========================================================
 ** STEP: Step-1 (Cumulative U = 0.001250 mm)
 ** Nominal Increment Schedule: 125 increments (dt_max = 0.008000)
 ** ==========================================================
@@ -11976,7 +11972,6 @@ SDV
 *NODE PRINT, FREQ=1, NSET=N_RP
 U2, RF2
 *END STEP
-
 ** ==========================================================
 ** STEP: Step-2 (Cumulative U = 0.002500 mm)
 ** Nominal Increment Schedule: 125 increments (dt_max = 0.008000)
@@ -11997,7 +11992,6 @@ SDV
 *NODE PRINT, FREQ=1, NSET=N_RP
 U2, RF2
 *END STEP
-
 ** ==========================================================
 ** STEP: Step-3 (Cumulative U = 0.003750 mm)
 ** Nominal Increment Schedule: 125 increments (dt_max = 0.008000)
@@ -12018,7 +12012,6 @@ SDV
 *NODE PRINT, FREQ=1, NSET=N_RP
 U2, RF2
 *END STEP
-
 ** ==========================================================
 ** STEP: Step-4 (Cumulative U = 0.005000 mm)
 ** Nominal Increment Schedule: 125 increments (dt_max = 0.008000)

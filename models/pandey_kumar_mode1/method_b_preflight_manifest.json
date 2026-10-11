@@ -4,7 +4,8 @@
     "task_lineage": {
         "origin_task": "F1404",
         "design_qualification_task": "F1405",
-        "deck_audit_and_preflight_task": "F1406"
+        "deck_audit_and_preflight_task": "F1406",
+        "datacheck_readiness_task": "F1407"
     },
     "governing_benchmark": {
         "name": "Pandey & Kumar (2025) Mode-I Tensile Plate",
@@ -174,25 +175,25 @@
         "M1-MB-1S": {
             "filename": "M1-MB-1S.inp",
             "filepath": "models/pandey_kumar_mode1/method_b_preflight_decks/M1-MB-1S.inp",
-            "file_size_bytes": 346269,
-            "line_count": 11978,
-            "sha256": "259581D50CAF8BC1F3547E3EA8E6EB8C61890D38053B803F65E1BC8E89505233",
+            "file_size_bytes": 346075,
+            "line_count": 11974,
+            "sha256": "060F4B810BC5E2B3D169A5B83F7694F86FE3ED5067C1A482FA2BE64BDFEFD1F0",
             "audit_passed": true
         },
         "M1-MB-2S": {
             "filename": "M1-MB-2S.inp",
             "filepath": "models/pandey_kumar_mode1/method_b_preflight_decks/M1-MB-2S.inp",
-            "file_size_bytes": 346892,
-            "line_count": 11999,
-            "sha256": "5F9DDBC73607B8A6628E3D73081358093318154F7D0DD77E1FFFCF9600CA55D0",
+            "file_size_bytes": 346696,
+            "line_count": 11994,
+            "sha256": "E3A14CFE5AEEC11A517EF7EFAFB8E1387BC00454798C6DA3F3D683B9522CB7B3",
             "audit_passed": true
         },
         "M1-MB-4S": {
             "filename": "M1-MB-4S.inp",
             "filepath": "models/pandey_kumar_mode1/method_b_preflight_decks/M1-MB-4S.inp",
-            "file_size_bytes": 348140,
-            "line_count": 12041,
-            "sha256": "81DFCBC418969781272704548AB0A4D6D8DAAF067EB3822988874FB75DE0EB92",
+            "file_size_bytes": 347940,
+            "line_count": 12034,
+            "sha256": "98EFED8DC463318DA6AD634E2F57B938B4CC152C7C1508C6B327EF03E8F0498A",
             "audit_passed": true
         }
     },

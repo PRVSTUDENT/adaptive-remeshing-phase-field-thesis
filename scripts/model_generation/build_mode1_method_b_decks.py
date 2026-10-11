@@ -3,7 +3,7 @@
 """
 Mode-I Method B Load-Partitioning Preflight Generator & Validator
 ==================================================================
-Tasks: F1405 (Scientific Design) & F1406 (Input Deck Audit & Readiness)
+Tasks: F1405 (Scientific Design), F1406 (Deck Audit), F1407 (Datacheck Readiness)
 Author: Gemini Antigravity
 Date: 2026-10-11
 
@@ -17,7 +17,9 @@ This module provides:
    - Base model: models/pandey_kumar_mode1/92_mode1_preanalysis_layered_companion_2906/PK_M1_JOB1_LAYERED_COMPANION_2906.inp
    - Full model preservation: UEL interfaces (U1, U2, U3, U4), 8,718 layered element definitions,
      equations, materials, sections, node/element sets.
+   - Clean keyword boundary enforcement: zero blank lines anywhere in the assembled deck.
 5. Rigorous input deck auditing:
+   - Zero blank lines audit (prevents Abaqus *EQUATION and card-reader parsing errors).
    - Step card count, step syntax, *STATIC incrementation, *BOUNDARY OP=MOD ramp behavior.
 6. Offline preflight manifest generation and qualification.
 """
@@ -128,6 +130,7 @@ def generate_partition_specification(num_steps, terminal_u=MODE1_PRE_TARGET_U_MM
 def generate_abaqus_step_cards(config):
     """
     Generates exact Abaqus input deck step text for the partitioned configuration.
+    Omits trailing blank lines to maintain strict Abaqus keyword parser compliance.
     """
     lines = []
     for s in config["steps"]:
@@ -154,7 +157,6 @@ def generate_abaqus_step_cards(config):
         lines.append("*NODE PRINT, FREQ=1, NSET=N_RP")
         lines.append("U2, RF2")
         lines.append("*END STEP")
-        lines.append("")
     return "\n".join(lines)
 
 
@@ -162,6 +164,7 @@ def extract_base_model_deck(base_inp_path):
     """
     Extracts the model definition part of the canonical base input deck.
     Stops before the first *STEP card.
+    Strips trailing comments and empty lines so model definition ends cleanly.
     """
     if not os.path.exists(base_inp_path):
         raise IOError("Base input deck does not exist: %s" % base_inp_path)
@@ -174,7 +177,13 @@ def extract_base_model_deck(base_inp_path):
                 break
             model_lines.append(line)
 
+    # Strip any trailing comments or blank lines at the boundary before *STEP
+    while model_lines and (model_lines[-1].strip().startswith("**") or not model_lines[-1].strip()):
+        model_lines.pop()
+
     model_text = "".join(model_lines)
+    if not model_text.endswith("\n"):
+        model_text += "\n"
     return model_text
 
 
@@ -182,6 +191,7 @@ def assemble_complete_input_deck(base_inp_path, config):
     """
     Assembles complete, runnable Abaqus input deck merging the base model
     mesh/UEL definitions with the generated multi-step load partition cards.
+    Guarantees zero blank lines across the entire input deck.
     """
     model_text = extract_base_model_deck(base_inp_path)
     step_cards = generate_abaqus_step_cards(config)
@@ -192,7 +202,7 @@ def assemble_complete_input_deck(base_inp_path, config):
         "** METHOD B PREFLIGHT INPUT DECK: %s\n"
         "** Partition: %d Steps, Terminal U = %.6f mm (alpha = %.4f)\n"
         "** Invariant Physical Delta U Max = %.4e mm (10 nm)\n"
-        "** Protocol Version: 2 (Task F1406)\n"
+        "** Protocol Version: 2 (Task F1407)\n"
         "** ==========================================================\n"
     ) % (config["config_id"], config["num_steps"], config["terminal_u_mm"],
          config["load_fraction_alpha"], config["physical_delta_u_max_mm"])
@@ -210,7 +220,10 @@ def assemble_complete_input_deck(base_inp_path, config):
     if not heading_found:
         assembled_lines.insert(0, banner)
 
-    assembled_deck = "".join(assembled_lines) + "\n" + step_cards
+    raw_deck = "".join(assembled_lines) + "\n" + step_cards
+    # Filter out any blank lines to prevent Abaqus keyword reader errors
+    clean_lines = [l for l in raw_deck.splitlines() if l.strip()]
+    assembled_deck = "\n".join(clean_lines) + "\n"
     return assembled_deck
 
 
@@ -223,6 +236,16 @@ def audit_assembled_deck(deck_text, config):
     passed = True
 
     lines = deck_text.splitlines()
+
+    # Check 0: Zero blank lines allowed in input deck (prevents *EQUATION empty-card error)
+    blank_line_indices = [i + 1 for i, l in enumerate(lines) if not l.strip()]
+    if blank_line_indices:
+        diagnostics.append("FAIL: Found %d blank line(s) in input deck at lines: %r" % 
+                           (len(blank_line_indices), blank_line_indices[:5]))
+        passed = False
+    else:
+        diagnostics.append("PASS: Zero blank lines in input deck (Abaqus keyword compliance verified)")
+
     step_starts = [i for i, l in enumerate(lines) if l.strip().upper().startswith("*STEP")]
     step_ends = [i for i, l in enumerate(lines) if l.strip().upper().startswith("*END STEP")]
 
@@ -450,7 +473,8 @@ def build_full_study_manifest(decks_dir=DEFAULT_OUTPUT_DECKS_DIR, base_inp_path=
         "task_lineage": {
             "origin_task": "F1404",
             "design_qualification_task": "F1405",
-            "deck_audit_and_preflight_task": "F1406"
+            "deck_audit_and_preflight_task": "F1406",
+            "datacheck_readiness_task": "F1407"
         },
         "governing_benchmark": {
             "name": "Pandey & Kumar (2025) Mode-I Tensile Plate",
