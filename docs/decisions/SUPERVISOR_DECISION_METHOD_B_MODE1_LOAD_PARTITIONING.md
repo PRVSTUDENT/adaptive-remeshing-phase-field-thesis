@@ -348,10 +348,10 @@ Gate B2 executed the three preliminary coarse analyses on 1-CPU serial anchors:
 ### 8.5 Recovery of Valid Non-Zero Stress-Error Estimation via Infinitesimal Companion Tangent
 To eliminate the mathematical division by zero ($\eta_e = 0.0/0.0$) identified in Section 8.2 without modifying the frozen physical UEL formulation, a non-invasive infinitesimal companion tangent workflow was investigated and validated (Task F1410):
 - **Physical Decoupling:** In the layered Mode-I formulation, the physical elasticity and phase-field fracture mechanics reside entirely in user elements (`U2`/`U4`). The standard continuum elements (`All_elem`, 5,813–8,718) serve as passive visualizer and post-processing elements.
-- **Companion Tangent Modulus:** In the companion UMAT (Molnár & Gravouil 2017; Stage 8 Package 93), the visualizer stiffness is assigned an infinitesimal dummy modulus $E_{\text{dummy}} = 10^{-11}\,\text{kN/mm}^2$ ($10^{-5}\,\text{Pa}$), which is $2.1 \times 10^{13}$ times smaller than steel ($E = 210\,\text{GPa}$).
+- **Companion Tangent Modulus:** In the companion UMAT (Molnár & Gravouil 2017; Stage 8 Package 93), the visualizer stiffness is assigned an infinitesimal dummy modulus $E_{\text{dummy}} = 10^{-11}\,\text{kN/mm}^2$ ($0.01\,\text{Pa}$), which is $2.1 \times 10^{13}$ times smaller than steel ($E = 210\,\text{GPa}$).
 - **Mechanical Non-Invasiveness:** The internal reaction force carried by this companion layer is:
   $$F_{\text{companion}} \approx 3.28 \times 10^{-14}\,\text{kN} \quad \text{vs.} \quad F_{\text{structural}} \approx 0.653\,\text{kN}$$
-  yielding a relative perturbation of $\Delta F / F < 5.5 \times 10^{-10}$ (machine precision zero).
+  yielding an extremely small relative perturbation of $\Delta F / F \approx 5.5 \times 10^{-10}$ (negligible force impact under tested pre-peak conditions; full mechanical non-invasiveness across all regimes remains subject to comprehensive stress analysis).
 - **Scale Invariance of Zienkiewicz–Zhu Error:** Because linear elasticity is a homogeneous linear operator, scaling $E$ scales stress $\boldsymbol{\sigma}$ and error $\mathbf{e}$ identically by $E_{\text{dummy}} / E_0$, leaving the normalized error indicator $\eta_e = e_e / e_{\max}$ mathematically invariant.
 
 ### 8.6 Empirical Multi-Partition Verification (Jobs 1411924, 1411925, 1411926)
@@ -376,7 +376,18 @@ Native Abaqus CAE `adaptiveRemesh` was executed on the terminal output databases
   - Node coordinate and element connectivity table SHA-256:
     $$\text{SHA-256} = \text{F2A3989466CB7D7AF5A08A434DE0E8E83A475EB694E9E2E0E9EF540FF585575F}$$
   - The generated mesh topology is **100% bitwise identical** across 1-step, 2-step, and 4-step load partitions.
-- **Scientific Significance:** This proves the **Step-Partition Invariance Theorem** of Method B: dividing the pre-peak load history into multiple steps does NOT alter, distort, or bias the error-guided adapted mesh, while eliminating the softening divergence of coarse analyses.
+- **Canonical Data Hash vs File Identity:** The canonical node coordinate and element connectivity table SHA-256 is identical across all three cases (`F2A3989466CB...`). Canonical data hashing proves identity of the extracted mesh geometry and topology; complete Abaqus input deck files contain distinct job/model comments and step headers.
+- **Mesh Reduction Context:** The 14,677-element adapted mesh represents an approximate $3.39\%$ element reduction relative to the 15,192-element fixed reference, distinct from the historical Stage 14 ET2 mesh ($6,112$ elements, $59.8\%$ reduction).
+- **Scientific Significance:** This establishes **NUMERICALLY_OBSERVED_METHOD_B_STEP_PARTITION_INVARIANCE_UNDER_TESTED_PREPEAK_CONDITIONS**: under the tested pre-peak conditions ($u \le 0.0050\,	ext{mm}$), invariant physical displacement incrementation ($\Delta u = 10\,	ext{nm}$), and infinitesimal companion formulation, dividing the preliminary load schedule into 1, 2, or 4 steps produces identical error indicator distributions and identical native adapted meshes. This empirical finding does not constitute a universal mathematical theorem, nor does pre-peak load partitioning alone eliminate post-peak nonconvergence once softening initiates.
+
+### 8.8 Genuine Method B Native Final Fracture Simulation (Job 1411934.mmaster02)
+To convert the newly validated 14,677-element Method B native adapted mesh into authoritative fracture evidence while preserving the ongoing historical ET2 calculation:
+1. **Model Reconstruction:** Staged `M1_MB_NATIVE_FINAL_1S.inp` in `models/pandey_kumar_mode1/38_method_b_native_final_14k/` with 14,677 base elements, 44,031 layered elements, 14,646 mesh nodes + 1 coupling RP, and wrapped `N_BOTTOM` cards (SHA-256 `39CFD486C87A...`).
+2. **Cluster Datacheck:** Completed with Intel Fortran and Abaqus 2023 with Exit Code 0 (44,031 elements, 14,647 nodes, 43,939 variables, memory to minimize I/O 108 MB).
+3. **Cluster Submission:** Submitted under PBS Job ID `1411934.mmaster02` (`M1_MB_NAT_1S`) to queue `normal_imfdfkmq` (1 CPU serial anchor, 16 GB RAM, 24:00:00 walltime limit on `mnode097/1`) with active dual-channel notifications.
+4. **Co-Existence with Historical Simulation:**
+   - `1411895.mmaster02`: `M1_MB_FINAL_1S` (historical Stage 14 ET2 mesh, 6,112 FE, preserved active on `mnode097/0`).
+   - `1411934.mmaster02`: `M1_MB_NAT_1S` (genuine Method B native adapted mesh, 14,677 FE, active on `mnode097/1`).
 
 ## 9. Supervisor Review & Actionable Checkpoints (22 October 2026)
 
@@ -386,6 +397,7 @@ Native Abaqus CAE `adaptiveRemesh` was executed on the terminal output databases
 | **CP-2** | **Experimental Design:** Adopt the corrected identifiable matrix with constant preliminary displacement ($u_{\text{pre}} = 0.0050\,\text{mm}$, $\alpha = 0.854$) and constant physical increment resolution ($\Delta u_{\max} = 10\,\text{nm}$). Accept a null result as evidence of partition invariance. | **APPROVED & VERIFIED** (Empirically verified in Gate B2: $\Delta RF = 0.000000\,\text{kN}$). | `[x] VERIFIED  [ ] MODIFIED` |
 | **CP-3** | **Companion Tangent Formulation:** Adopt the non-invasive infinitesimal companion tangent ($E_{\text{dummy}} = 10^{-11}\,\text{kN/mm}^2$) for error-indicator recovery. Empirically demonstrated to resolve 0/0 division, recover valid error indicators, and generate bitwise invariant meshes with $0.36\,\mu\text{N}$ reaction force parity. | **APPROVE ADOPTION** (empirically qualified, non-invasive, resolves sizing barrier). | `[x] ADOPTED & QUALIFIED` |
 | **CP-4** | **Active Fracture Evaluation:** Acknowledge running Job `1411895.mmaster02` as an evaluation of the Stage 14 ET2 (6k FE) adapted mesh, with provenance clearly documented. | **APPROVE EVALUATION** (preserves cluster compute and provides rigorous adapted mesh fracture data). | `[ ] APPROVED  [ ] DEFERRED` |
+| **CP-5** | **Genuine Method B Native Fracture Simulation:** Authorize evaluation of Job `1411934.mmaster02` (`M1_MB_NAT_1S`, 14,677 FE) as the genuine Method B native adaptive fracture simulation. | **APPROVE EVALUATION** (completes Method B campaign with verified native adapted mesh). | `[ ] APPROVED  [ ] DEFERRED` |
 
 ---
 
@@ -408,6 +420,13 @@ Native Abaqus CAE `adaptiveRemesh` was executed on the terminal output databases
 
 **Task F1410 Experimental Verdict:**  
 `METHOD_B_ADAPTIVE_REMESHING_QUALIFIED_STEP_PARTITION_INVARIANCE_PROVEN`
+
+**Task F1411 Final Fracture Submission Verdict:**  
+`METHOD_B_NATIVE_FINAL_SUBMITTED_AWAITING_RESULTS`
+
+- **Genuine Method B Solve Submitted:** Job `1411934.mmaster02` (`M1_MB_NAT_1S`, 14,677 FE, 1 CPU serial anchor, 16 GB RAM, 24:00:00 walltime) active on `mnode097/1`.
+- **Historical ET2 Solve Preserved:** Job `1411895.mmaster02` (6,112 FE) continues uninterrupted on `mnode097/0`.
+- **Scientific Overclaims Corrected:** Step-partition invariance qualified under tested pre-peak conditions; physical unit conversion corrected to 0.01 Pa; mesh reduction identified as 3.4%.
 
 - **Step-Partition Invariance:** 100% verified across 1S, 2S, 4S (Exit 0, 0 cutbacks, $\Delta RF = 0.000000\,\text{kN}$, energetic parity to 8 significant figures).
 - **Native Remeshing Barrier:** Explicitly identified as companion UMAT stress zeroing in frozen baseline `f42_mixed_uel.for` (`STRESS(I) = 0.D0`), causing undefined $0/0$ error indicators on standard continuum elements.

@@ -1,0 +1,18 @@
+{
+  "package_name": "38_method_b_native_final_14k",
+  "job_name": "M1_MB_NAT_1S",
+  "job_base": "M1_MB_NATIVE_FINAL_1S",
+  "error_target_pct": 2.0,
+  "base_elements": 14677,
+  "total_3layer_elements": 44031,
+  "nodes": 14646,
+  "deck_file": "M1_MB_NATIVE_FINAL_1S.inp",
+  "deck_sha256": "39CFD486C87A48A72F145919998E4FE698367DDA452B0F20C2E8F43EA13B0A6D",
+  "fortran_file": "f42_mixed_uel.for",
+  "fortran_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "pbs_script": "submit_M1_MB_NATIVE_FINAL_1S.pbs",
+  "notification_script": "job_notifications.sh",
+  "execution_mode": "1-CPU serial shared memory on /scratch9/",
+  "governing_gate": "GATE6B_MODE1_METHOD_B_GENUINE_NATIVE_ADAPTIVE_FRACTURE",
+  "remote_scratch_path": "/scratch9/pr21vyci/runs/mode1_method_b_native_final"
+}
