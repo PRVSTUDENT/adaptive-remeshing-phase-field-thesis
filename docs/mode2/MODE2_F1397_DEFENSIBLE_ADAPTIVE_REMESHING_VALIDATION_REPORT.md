@@ -19,7 +19,7 @@ The primary conclusions of this audit are:
 3. **NRMSE Normalization Discrepancy Reconciled:** The $38.62\%$ post-peak NRMSE reported in Task F1396 was an artifact of normalizing by the narrow post-peak local range ($\Delta F = 53.77\,\text{N}$). When normalized against the global peak initiation force ($F_{\max} = 415.99\,\text{N}$), the NRMSE is **$0.16\%$** in the linear elastic regime ($0-6\,\mu\text{m}$), **$0.74\%$** across the entire pre-peak regime ($0-9.47\,\mu\text{m}$), **$5.22\%$** during near-peak initiation ($6-11\,\mu\text{m}$), **$4.99\%$** during post-peak propagation ($11-20\,\mu\text{m}$), and **$4.25\%$** over the global 4,000-point full horizon ($0-20\,\mu\text{m}$).
 4. **External Publication Discrepancy Classified:** While Adaptive ET3 reproduces the Fine 72k numerical reference within $0.91\%$ peak load, both numerical models exhibit a $+13.7\%$ peak load shift relative to the redigitized curve of Pandey & Kumar (2025) ($415.99\,\text{N}$ vs $365.74\,\text{N}$). A rigorous audit classifies model parameters into `MATCHED_AND_VERIFIED`, `DOCUMENTED_DIFFERENCE`, and `NOT_DISCLOSED`. Unsupported speculation attributing this difference to notch tip radius is retracted as `HYPOTHESIS_NOT_TESTED`. The $+13.7\%$ difference is retained as an unresolved external modeling discrepancy.
 5. **Method A Production Lineage & Efficiency Reconciled:** The production ET3 mesh originated from coarse pre-analysis Job **`1411104.mmaster02`** ($3{,}913\,\text{s}$ walltime, $2{,}870\,\text{s}$ CPU). The production remeshing step required **$230\,\text{s}$** ($835\,\text{s}$ was an exploratory 4-case sweep). The production adapted solve Job `1411267.mmaster02` ran in **$30{,}900\,\text{s}$** ($8.58\,\text{h}$). The true Method A end-to-end walltime is **$35{,}043\,\text{s}$** ($9.73\,\text{h}$), achieving an audited **$2.46\times$ walltime speedup** ($59.3\%$ savings) and **$2.38\times$ CPU speedup** ($57.9\%$ savings) over Fine 72k ($86{,}126\,\text{s}$, $23.92\,\text{h}$).
-6. **Safeguard Stability & Parity:** The 72h safeguard solve `1411557.mmaster02` continues running cleanly on `mnode097/0` at Step 2 Increment 1837+ ($u_x = 18.37\,\mu\text{m}$, 0 cutbacks in Step 2, >49h headroom).
+6. **Safeguard Completion & Full-History Reproducibility:** The 72h safeguard solve `1411557.mmaster02` reached terminal completion on `mnode097/0` with `Exit_status = 0`, solver Exit Code 0, and elapsed walltime $23{,}49:29$ ($85{,}749\,\text{s}$), completing all $4{,}022$ increments to the full $u_x = 20.00\,\mu\text{m}$ horizon ($F_{\max} = 415.98953\,\text{N}$, $RF_{\text{final}} = 387.46924\,\text{N}$). Complete increment-by-increment comparison against primary reference `1411545.mmaster02` verified 100% agreement to all 8 significant figures printed in the Abaqus DAT node output tables across all 4,022 increments ($\max |\Delta u_x| = 0.0\,\mu\text{m}$, $\max |\Delta RF_1| = 0.0\,\text{N}$), establishing full numerical reproducibility.
 
 ---
 
@@ -188,13 +188,15 @@ $$\text{Total Method A CPU Time} = 2{,}870\,\text{s} + 30{,}600\,\text{s} = \mat
 
 ## 7. Priority F: Safeguard Monitoring & Governance State
 
-### 7.1 Safeguard Run Status
+### 7.1 Safeguard Run Terminal Completion & Reproducibility
 - **Job ID:** `1411557.mmaster02` (`M2_FIX_FINE_72H`)
 - **Queue / Node:** `normal_imfdfkmq` on `mnode097/0`
-- **Elapsed Time:** ~22h 50m of 72h limit (>49 hours headroom remaining)
-- **Current Progress:** Step 2 Increment 1837+ ($u_x = 18.37\,\mu\text{m}$)
-- **Convergence Behavior:** 3 Newton iterations per increment, 0 cutbacks in Step 2.
-- **Action:** Preserved running untouched to full completion.
+- **Elapsed Time:** 23h 49m 29s ($85{,}749\,\text{s}$) of 72h limit; total CPU time 22h 05m 46s ($79{,}500\,\text{s}$).
+- **Status:** **`COMPLETED`** (PBS `Exit_status = 0`, Abaqus solver Exit Code 0, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`).
+- **Increments & Horizon:** 4,022 total increments (Step 1: 2,022 incs; Step 2: 2,000 incs), achieving the complete $u_x = 20.00\,\mu\text{m}$ horizon.
+- **Force Metrics:** Peak initiation force $F_{\max} = 415.98953\,\text{N}$ at $u_x = 9.4700\,\mu\text{m}$; terminal reaction force $RF_{\text{final}} = 387.46924\,\text{N}$ at $u_x = 20.00\,\mu\text{m}$.
+- **Complete-History Parity:** 100% agreement to all 8 significant figures printed in the DAT node output tables across all 4,022 increments compared to primary reference `1411545.mmaster02`. Maximum difference: $\max |\Delta u_x| = 0.0\,\mu\text{m}$, $\max |\Delta RF_1| = 0.0\,\text{N}$. 4,031 of 4,032 `.sta` lines text-identical. Full numerical reproducibility confirmed.
+- **Action:** Ingested evidence files locally into `runs/mode2/fixed_convergence/evidence/04_fine_72h/`; ledger updated to Completed Exit 0.
 
 ### 7.2 Gate Qualifications Summary
 - **Gate M2-1B:** `QUALIFIED_WITH_LIMITATIONS` (Monotonic peak initiation load convergence proven across four tiers; limitation: 40k tier terminated prematurely, leaving post-peak softening unverified across four tiers).
