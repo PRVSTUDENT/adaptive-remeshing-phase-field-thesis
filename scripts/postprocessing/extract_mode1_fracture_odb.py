@@ -282,6 +282,16 @@ def extract_from_odb(odb_path, sample_u_targets=[0.0020, 0.0050, 0.00585, 0.0065
             ligament_elem_ids.add(eid)
     print("[INFO] Identified %d ligament elements near y=0.5, x>=0.5" % len(ligament_elem_ids))
 
+    # Identify RP node set if available
+    rp_set = None
+    if 'N_RP' in root.nodeSets:
+        rp_set = root.nodeSets['N_RP']
+    else:
+        for inst in root.instances.values():
+            if 'N_RP' in inst.nodeSets:
+                rp_set = inst.nodeSets['N_RP']
+                break
+
     records = []
     ligament_profiles = {}
     w_cum = 0.0
@@ -298,18 +308,28 @@ def extract_from_odb(odb_path, sample_u_targets=[0.0020, 0.0050, 0.00585, 0.0065
             u_val = 0.0
             rf_val = 0.0
             
-            if 'U' in fkeys:
-                u_field = frame.fieldOutputs['U']
-                for val in u_field.values:
-                    if val.nodeLabel == 999999:
-                        u_val = float(val.data[1])
-                        break
-            if 'RF' in fkeys:
-                rf_field = frame.fieldOutputs['RF']
-                for val in rf_field.values:
-                    if val.nodeLabel == 999999:
-                        rf_val = float(val.data[1])
-                        break
+            if rp_set is not None:
+                if 'U' in fkeys:
+                    u_sub = frame.fieldOutputs['U'].getSubset(region=rp_set)
+                    if len(u_sub.values) > 0:
+                        u_val = float(u_sub.values[0].data[1])
+                if 'RF' in fkeys:
+                    rf_sub = frame.fieldOutputs['RF'].getSubset(region=rp_set)
+                    if len(rf_sub.values) > 0:
+                        rf_val = float(rf_sub.values[0].data[1])
+            else:
+                if 'U' in fkeys:
+                    u_field = frame.fieldOutputs['U']
+                    for val in u_field.values:
+                        if val.nodeLabel == 999999:
+                            u_val = float(val.data[1])
+                            break
+                if 'RF' in fkeys:
+                    rf_field = frame.fieldOutputs['RF']
+                    for val in rf_field.values:
+                        if val.nodeLabel == 999999:
+                            rf_val = float(val.data[1])
+                            break
             
             f_val = abs(rf_val)
             if len(records) > 0:
@@ -419,7 +439,8 @@ def main():
     parser.add_argument("--out-dir", type=str, default="./extracted_metrics", help="Directory for output files")
     args = parser.parse_args()
 
-    os.makedirs(args.out_dir, exist_ok=True)
+    if not os.path.exists(args.out_dir):
+        os.makedirs(args.out_dir)
     out_prefix = os.path.join(args.out_dir, args.model_name.lower().replace(" ", "_"))
 
     metrics = None

@@ -24,8 +24,8 @@ source /etc/profile.d/modules.sh 2>/dev/null || source /usr/share/Modules/init/b
 module purge || true
 module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
 
-if [ -f "/scratch9/pr21vyci/runs/mode1_method_b_native_final/job_notifications.sh" ]; then
-    source "/scratch9/pr21vyci/runs/mode1_method_b_native_final/job_notifications.sh"
+if [ -f "${HARVEST_DIR}/job_notifications.sh" ]; then
+    source "${HARVEST_DIR}/job_notifications.sh"
     notification_load_config || true
     notification_install_terminal_trap
     notify_start || true

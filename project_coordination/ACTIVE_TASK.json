@@ -1,58 +1,33 @@
 {
-    "task_id": "F1413-METHOD-B-FRACTURE-MONITORING-AND-EVIDENCE-COLLECTION",
+    "task_id": "F1414-CORRECT-METHOD-ABC-CLASSIFICATION-AND-ACTIVATE-HARVESTING",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "phase": "Mode-I Method B Load-Partitioning HPC Research Campaign",
-    "gate_status": "METHOD_B_FRACTURE_EVIDENCE_COLLECTION_ACTIVE",
-    "last_updated": "2026-10-11T20:30:00+02:00",
+    "phase": "Method B Load-Partitioning Study and Tri-Model Compliance Verification",
+    "gate_status": "METHOD_B_HARVEST_AUTOMATION_ACTIVE_RESULTS_PENDING",
+    "last_updated": "2026-10-11T21:00:00+02:00",
     "active_pbs_job_ids": [
         "1411895.mmaster02",
         "1411934.mmaster02"
     ],
+    "dependent_pbs_job_ids": [
+        "1411947.mmaster02"
+    ],
     "completed_pbs_job_ids": [
-        "1411924.mmaster02",
-        "1411925.mmaster02",
-        "1411926.mmaster02",
         "1411891.mmaster02",
         "1411892.mmaster02",
         "1411893.mmaster02",
-        "1411883.mmaster02",
-        "1411884.mmaster02",
-        "1411885.mmaster02",
-        "1411557.mmaster02",
-        "1411545.mmaster02",
-        "1411558.mmaster02",
-        "1411544.mmaster02",
-        "1411543.mmaster02",
-        "1411542.mmaster02",
-        "1411414.mmaster02",
-        "1411267.mmaster02",
-        "1411104.mmaster02"
+        "1411924.mmaster02",
+        "1411925.mmaster02",
+        "1411926.mmaster02",
+        "1411945.mmaster02"
     ],
-    "next_recommended_task": "HARVEST_AND_EVALUATE_COMPLETED_MODE1_FRACTURE_SIMULATIONS",
+    "next_recommended_task": "F1415-MONITOR-MODE1-FRACTURE-COMPLETION-AND-EVALUATE-HARVEST-EVIDENCE",
     "governing_constraints": [
-        "Mode-I freeze tag v2026.10.08-supervisor-meeting-mode1-freeze and UEL hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 100% untouched",
-        "Single-rank shared-memory SMP (1 CPU serial authoritative anchor, 16 GB RAM, routed via entry_imfdfkmq to normal_imfdfkmq); distributed multi-rank MPI strictly disqualified",
-        "Dual-channel notification system active (PBS mail -m abe + Telegram SUBMITTED/STARTED/TERMINAL)",
-        "Historical 24-hour solve 1411895.mmaster02 preserved uninterrupted on compute node mnode097/0 as evaluation of Stage 14 ET2 adapted mesh (6,112 FE)",
-        "Genuine Method B native solve 1411934.mmaster02 active on compute node mnode097/1 as evaluation of 14,677-element native adapted mesh (1 CPU serial anchor, 16 GB RAM, 24:00:00 walltime)",
-        "Matched range initial stiffness verified: Method B native K0 = 137.892 kN/mm (-0.0389% error vs reference 137.945520 kN/mm); ET2 K0 = 137.976 kN/mm (+0.0221% error)",
-        "Historical ET2 peak crossing verified: F_max = 0.756367 kN (-0.186% error), u = 0.005841 mm (-0.273% error); post-peak softening advancing stably to u = 0.006856 mm (F = 0.414 kN)",
-        "Reusable ODB/DAT/CSV extraction engine deployed in scripts/postprocessing/extract_mode1_fracture_odb.py",
-        "Automated harvest workflow staged in /scratch9/pr21vyci/runs/mode1_harvest/ (harvest_mode1_terminal_results.sh, submit_harvest_job.pbs)",
-        "Zero redundant jobs submitted; live simulations proceed cleanly under verified stop conditions"
-    ],
-    "quantitative_audit_thresholds": {
-        "k0_relative_error_threshold_pct": 1.0,
-        "f_max_relative_error_threshold_pct": 1.0,
-        "u_peak_relative_error_threshold_pct": 2.0,
-        "boundary_node_missing_count_threshold": 0,
-        "bookkeeping_discrepancy_threshold_pct": 0.5
-    },
-    "explicit_stop_conditions": [
-        "STOP-1: Simulation exit code != 0 triggers forensic review; zero automatic retries permitted.",
-        "STOP-2: More than 5 consecutive Newton cutbacks pauses execution.",
-        "STOP-3: Elastic stiffness deviation > 1.0% triggers boundary condition re-audit.",
-        "STOP-4: No redundant/corrective job submissions permitted while live simulations execute cleanly with zero defects."
+        "Preserve active 24h simulations 1411895.mmaster02 and 1411934.mmaster02 without modification or restart",
+        "Dependent harvesting job 1411947.mmaster02 armed in system hold awaiting solver termination",
+        "Method A: Two-pass offline pre-refinement without state transfer",
+        "Method B: Configurable load-partition pre-refinement without state transfer",
+        "Method C: Sequential multi-pass adaptive remeshing with state transfer (on hold)",
+        "Zero unauthorized cluster jobs; no automatic retries"
     ]
 }

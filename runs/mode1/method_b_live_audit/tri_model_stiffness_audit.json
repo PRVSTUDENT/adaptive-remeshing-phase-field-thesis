@@ -1,0 +1,45 @@
+{
+  "evaluation_interval": "0.0 < u <= 0.0010 mm",
+  "sample_count_rule": "N = 400 uniform increments (Delta u = 2.5e-6 mm per increment)",
+  "models": {
+    "reference_15k": {
+      "source_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\16_energy_qualification_reference_15k\\PK_M1_REF15K_ENERGY.dat",
+      "source_sha256": "97D83B87EDC0E71DB54AF82F0556ABF955F3C1CF167B11B771D2D0F92A3ED241",
+      "finite_elements": 15192,
+      "fit_points": 400,
+      "u_min_mm": 2.5e-06,
+      "u_max_mm": 0.001,
+      "K0_kN_per_mm": 137.9455196450844,
+      "intercept_kN": 4.4723675101439045e-05,
+      "R2": 0.9999995995397414
+    },
+    "historical_et2_6k": {
+      "source_path": "D:\\Master thesis\\Adaptive remeshing\\runs\\mode1\\method_b_live_audit\\m1_mb_et2_6k_load_displacement.csv",
+      "source_sha256": "CD1A7E470750DC47BCB5EA6A2F34D81D0C39B1FC61C819C01F90DEA5B577943A",
+      "job_id": "1411895.mmaster02",
+      "finite_elements": 6112,
+      "fit_points": 400,
+      "u_min_mm": 2.5e-06,
+      "u_max_mm": 0.001,
+      "K0_kN_per_mm": 137.97606505653175,
+      "intercept_kN": 4.478781541346066e-05,
+      "R2": 0.9999995985645022,
+      "delta_K0_pct": 0.02214309788816515,
+      "delta_intercept_kN": 6.414031202161592e-08
+    },
+    "genuine_method_b_14k": {
+      "source_path": "D:\\Master thesis\\Adaptive remeshing\\runs\\mode1\\method_b_live_audit\\m1_mb_native_14k_load_displacement.csv",
+      "source_sha256": "DE6C85600B9236E1F49EA57F496DFA75FB2690BC5D3FFBB7880404C0D8FF2D4E",
+      "job_id": "1411934.mmaster02",
+      "finite_elements": 14677,
+      "fit_points": 400,
+      "u_min_mm": 2.5e-06,
+      "u_max_mm": 0.001,
+      "K0_kN_per_mm": 137.8918813706336,
+      "intercept_kN": 4.477718796990437e-05,
+      "R2": 0.9999995982503745,
+      "delta_K0_pct": -0.03888366551433406,
+      "delta_intercept_kN": 5.351286846532865e-08
+    }
+  }
+}

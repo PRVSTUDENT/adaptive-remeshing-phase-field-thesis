@@ -27,9 +27,9 @@ def test_extraction_and_harvest_scripts_exist():
     assert os.path.exists(submit_pbs), "Submit PBS script must exist"
 
     # Verify SHA256 integrity
-    assert compute_sha256(extractor) == "62A3352A98BA0C0073A7419443C85035B2E7A93854B71861D912B7BCE0CB37A5"
+    assert compute_sha256(extractor) == "EB82BBE4BEC87D231653DA2265710F5645ABE9E132B06227CFAB703BEA20522E"
     assert compute_sha256(harvest_sh) == "CED641B6AF9E6E88017871951263579D30B168DC7467F9282730C6D7A2B7FD89"
-    assert compute_sha256(submit_pbs) == "317BAF7EA0B8E7CD16948399BE28E09682506E47947B619C1785B5BF82161D03"
+    assert compute_sha256(submit_pbs) == "950351B2AF98AA7901AE53BA4E4D6DBD61706D84221B2823DA79FB9D4C89DB95"
 
 def test_matched_initial_stiffness_parity():
     native_json = os.path.join(REPO_ROOT, "runs", "mode1", "method_b_live_audit", "m1_mb_native_14k_metrics.json")
