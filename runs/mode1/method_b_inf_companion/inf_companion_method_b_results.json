@@ -1,0 +1,107 @@
+{
+  "extraction": {
+    "1S": {
+      "s_mises_mean": 3.127152232222849e-14, 
+      "miseseri_mean": 4.710341454965341e-16, 
+      "element_count": 2906, 
+      "misesavg_mean": 3.130757721536946e-14, 
+      "rf2": 0.6530885696411133, 
+      "miseseri_min": 1.2380031724999391e-17, 
+      "miseseri_max": 4.502057364061396e-14, 
+      "u2": 0.004999999888241291, 
+      "misesavg_max": 1.3293320166429118e-13, 
+      "misesavg_min": 4.275179432967632e-17, 
+      "s_mises_max": 1.0739710309222092e-13
+    }, 
+    "4S": {
+      "s_mises_mean": 3.127152232222849e-14, 
+      "miseseri_mean": 4.710341454965341e-16, 
+      "element_count": 2906, 
+      "misesavg_mean": 3.130757721536946e-14, 
+      "rf2": 0.6530885696411133, 
+      "miseseri_min": 1.2380031724999391e-17, 
+      "miseseri_max": 4.502057364061396e-14, 
+      "u2": 0.004999999888241291, 
+      "misesavg_max": 1.3293320166429118e-13, 
+      "misesavg_min": 4.275179432967632e-17, 
+      "s_mises_max": 1.0739710309222092e-13
+    }, 
+    "2S": {
+      "s_mises_mean": 3.127152232222849e-14, 
+      "miseseri_mean": 4.710341454965341e-16, 
+      "element_count": 2906, 
+      "misesavg_mean": 3.130757721536946e-14, 
+      "rf2": 0.6530885696411133, 
+      "miseseri_min": 1.2380031724999391e-17, 
+      "miseseri_max": 4.502057364061396e-14, 
+      "u2": 0.004999999888241291, 
+      "misesavg_max": 1.3293320166429118e-13, 
+      "misesavg_min": 4.275179432967632e-17, 
+      "s_mises_max": 1.0739710309222092e-13
+    }
+  }, 
+  "error_field_comparison": {
+    "max_diff_1s_2s": 0.0, 
+    "max_diff_1s_4s": 0.0, 
+    "step_invariance_verified": true
+  }, 
+  "native_remeshing": {
+    "1S": {
+      "status": "SUCCESS", 
+      "corridor_count": 3754, 
+      "adapted_element_count": 14677, 
+      "adapted_node_count": 14646, 
+      "error": null
+    }, 
+    "4S": {
+      "status": "SUCCESS", 
+      "corridor_count": 3754, 
+      "adapted_element_count": 14677, 
+      "adapted_node_count": 14646, 
+      "error": null
+    }, 
+    "2S": {
+      "status": "SUCCESS", 
+      "corridor_count": 3754, 
+      "adapted_element_count": 14677, 
+      "adapted_node_count": 14646, 
+      "error": null
+    }
+  }, 
+  "parity_check": {
+    "1S": {
+      "parity_verified": true, 
+      "miseseri_nonzero_verified": true, 
+      "rf2_rel_diff": 5.495222464809627e-10, 
+      "rf2_abs_diff": 3.5888669813743945e-10, 
+      "rf2_baseline": 0.65308857, 
+      "rf2_actual": 0.6530885696411133, 
+      "misesavg_nonzero_verified": true
+    }, 
+    "4S": {
+      "parity_verified": true, 
+      "miseseri_nonzero_verified": true, 
+      "rf2_rel_diff": 5.495222464809627e-10, 
+      "rf2_abs_diff": 3.5888669813743945e-10, 
+      "rf2_baseline": 0.65308857, 
+      "rf2_actual": 0.6530885696411133, 
+      "misesavg_nonzero_verified": true
+    }, 
+    "2S": {
+      "parity_verified": true, 
+      "miseseri_nonzero_verified": true, 
+      "rf2_rel_diff": 5.495222464809627e-10, 
+      "rf2_abs_diff": 3.5888669813743945e-10, 
+      "rf2_baseline": 0.65308857, 
+      "rf2_actual": 0.6530885696411133, 
+      "misesavg_nonzero_verified": true
+    }
+  }, 
+  "mesh_topology_comparison": {
+    "identical_counts": true, 
+    "element_count_2s": 14677, 
+    "element_count_1s": 14677, 
+    "element_count_4s": 14677, 
+    "step_partition_mesh_invariance_verified": true
+  }
+}
