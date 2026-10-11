@@ -23,9 +23,9 @@ This document is the authoritative overnight handoff package governing the 12-ho
      * Wallclock Time: `23:49:29` ($85{,}749\,\text{s}$, limit 72:00:00)
      * CPU Time: `22:05:46` ($79{,}500\,\text{s}$ total CPU, $77{,}400\,\text{s}$ user, $2{,}130\,\text{s}$ system)
    - **Solver Execution & Incrementation**:
-     * Step 1: 2,022 increments (2,000 converged + 3 cutbacks at softening, fully recovered), reaching $u_x = 10.000\,\mu\text{m}$.
-     * Step 2: 2,000 increments (0 cutbacks, clean 3–4 Newton iters/inc), reaching $u_x = 20.000\,\mu\text{m}$.
-     * Total Increments: 4,022 increments; Total Iterations: 12,825.
+     * Step 1: 2,022 converged increments (Incs 1 through 2022) with 3 rejected cutback attempts (Inc 1902 Att 1U, Att 2U; Inc 1903 Att 1U), reaching $u_x = 10.000\,\mu\text{m}$. Due to adaptive time sub-stepping during softening (time step reduced down to $\Delta t = 7.813\times 10^{-6}$), 22 additional converged increments were required to span $t \in [0.95, 1.00]$ compared to nominal uniform stepping.
+     * Step 2: 2,000 converged increments (Incs 1 through 2000, 0 cutbacks, uniform $\Delta t = 5\times 10^{-4}$, clean 3–4 Newton iters/inc), reaching $u_x = 20.000\,\mu\text{m}$.
+     * Total Converged Increments: 4,022 increments; Total Attempted Increments: 4,025 attempts; Total Iterations: 12,825; Recorded DAT Output Observations: 4,022 observations.
      * Convergence Quality: `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`, 0 errors, 0 numerical warnings.
    - **Reaction Force & Kinematics**:
      * Mathematical Peak Force: $F_{\max} = 415.98953\,\text{N}$ at $u_x = 9.47000\,\mu\text{m}$ (Step 1 Inc 1894).
