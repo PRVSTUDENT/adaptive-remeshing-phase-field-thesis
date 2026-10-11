@@ -1,9 +1,16 @@
 {
     "active": false,
-    "agent": null,
-    "task_id": null,
-    "session_start": null,
-    "session_end": "2026-10-11T21:00:00+02:00",
-    "starting_commit": "77b70a0c4896dc28991e3bb97866ca6d620e41b4",
-    "allowed_write_scope": []
+    "agent": "gemini-antigravity",
+    "task_id": "F1415-FINAL-OVERNIGHT-HPC-HANDOFF-8CORE-MODE1-VERIFICATION",
+    "session_start": "2026-10-11T21:05:00+02:00",
+    "session_end": "2026-10-11T21:30:00+02:00",
+    "starting_commit": "ff1e23f43d19454344c8f32ab4509cbf82609fce",
+    "allowed_write_scope": [
+        "project_coordination/**",
+        "docs/**",
+        "tests/**",
+        "scripts/**",
+        "models/**",
+        "runs/**"
+    ]
 }
