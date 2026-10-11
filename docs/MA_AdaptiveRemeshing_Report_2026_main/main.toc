@@ -217,14 +217,40 @@
 \contentsline {subsection}{\numberline {4.42.2}Parallel Scaling and Increment Telemetry}{127}{subsection.4.42.2}%
 \contentsline {subsection}{\numberline {4.42.3}Bitwise Parity and Determinism Audit}{127}{subsection.4.42.3}%
 \contentsline {paragraph}{\nonumberline Governing Parallelization Verdict:}{127}{paragraph*.130}%
-\contentsline {section}{\numberline {4.43}Independent Cross-Mode Validation of the Adaptive-Remeshing Localization Mechanism (Mode-II Pure Shear Specimen)}{128}{section.4.43}%
-\contentsline {subsection}{\numberline {4.43.1}Scientific Scope and Governance Boundary}{128}{subsection.4.43.1}%
-\contentsline {subsection}{\numberline {4.43.2}Forensic Pre-Analysis Discovery and Paper Lineage}{128}{subsection.4.43.2}%
-\contentsline {subsection}{\numberline {4.43.3}Four-Way Quantitative Comparison and Reproduction Parity}{129}{subsection.4.43.3}%
-\contentsline {subsection}{\numberline {4.43.4}Refinement Corridor Geometry and Absence of Spurious Branching}{129}{subsection.4.43.4}%
-\contentsline {paragraph}{\nonumberline Defensible Scientific Conclusion:}{129}{paragraph*.133}%
-\contentsline {section}{\numberline {4.44}Stage~15C: Corrected Paper-Grounded UEL Pre-Analysis, Error-Target Sweep, and Production Fracture Model Qualification}{129}{section.4.44}%
-\contentsline {subsection}{\numberline {4.44.1}Forensic Lineage Reconciliation and Companion-Layer Stiffness Elimination}{129}{subsection.4.44.1}%
-\contentsline {subsection}{\numberline {4.44.2}Native Remeshing Sizing Sweep Across Error Targets}{131}{subsection.4.44.2}%
-\contentsline {subsection}{\numberline {4.44.3}Deterministic Three-Layer Production Fracture Deck Generation (\texttt {Job-2\_UEL.inp})}{132}{subsection.4.44.3}%
+\contentsline {section}{\numberline {4.43}Gate-6B Stage 14U-AS: Terminal ErrorTarget Sensitivity and In-Depth Energy-Balance Reconciliation (ET1--ET5)}{128}{section.4.43}%
+\contentsline {subsection}{\numberline {4.43.1}Executive Summary and Full Softening Traversal}{128}{subsection.4.43.1}%
+\contentsline {subsection}{\numberline {4.43.2}Forensic Energy-Balance Reconciliation across Matched Displacement States}{129}{subsection.4.43.2}%
+\contentsline {subsection}{\numberline {4.43.3}Physical and Numerical Root Cause Attribution}{129}{subsection.4.43.3}%
+\contentsline {section}{\numberline {4.44}Independent Cross-Mode Validation of the Adaptive-Remeshing Framework: Mode-II Shear Benchmark}{131}{section.4.44}%
+\contentsline {subsection}{\numberline {4.44.1}Benchmark Problem Definition and Kinematic Verification}{131}{subsection.4.44.1}%
+\contentsline {subsubsection}{\nonumberline Specimen Geometry and Precrack Representation}{131}{subsubsection*.135}%
+\contentsline {subsubsection}{\nonumberline Boundary Conditions and Multi-Point Kinematic Coupling}{132}{subsubsection*.137}%
+\contentsline {subsubsection}{\nonumberline Loading Schedule and Step Incrementation Architecture}{132}{subsubsection*.139}%
+\contentsline {subsubsection}{\nonumberline Material Constants and Constitutive Formulation}{133}{subsubsection*.141}%
+\contentsline {subsection}{\numberline {4.44.2}Expected Physical and Kinematic Solution}{133}{subsection.4.44.2}%
+\contentsline {subsection}{\numberline {4.44.3}Fixed-Mesh Spatial Convergence Reference Suite (Four Tiers)}{134}{subsection.4.44.3}%
+\contentsline {subsubsection}{\nonumberline Discretization Tiers and Spatial Resolutions}{134}{subsubsection*.143}%
+\contentsline {subsubsection}{\nonumberline Convergence Trends and Initiation Force Monotonicity}{134}{subsubsection*.146}%
+\contentsline {subsubsection}{\nonumberline Distinction of Solver Completion Statuses}{136}{subsubsection*.149}%
+\contentsline {subsection}{\numberline {4.44.4}Independent Safeguard Verification and Increment Accounting}{136}{subsection.4.44.4}%
+\contentsline {subsubsection}{\nonumberline Increment Accounting and Arithmetic Reconciliation}{136}{subsubsection*.151}%
+\contentsline {subsubsection}{\nonumberline Printed Output Precision versus Binary Bitwise Identity}{137}{subsubsection*.153}%
+\contentsline {subsection}{\numberline {4.44.5}Native Adaptive Method A Workflow (Two-Pass Pre-Refinement)}{137}{subsection.4.44.5}%
+\contentsline {subsubsection}{\nonumberline Causal Mechanism: Breaking Scale Invariance via Damage Evolution}{137}{subsubsection*.155}%
+\contentsline {subsubsection}{\nonumberline Native Abaqus RemeshingRule and Sizing Execution}{138}{subsubsection*.157}%
+\contentsline {subsubsection}{\nonumberline Deterministic UEL Reassembly and Production Fracture Solve}{138}{subsubsection*.160}%
+\contentsline {subsection}{\numberline {4.44.6}Quantitative Multi-Faceted Adaptive-versus-Fixed Accuracy and Efficiency Comparison}{138}{subsection.4.44.6}%
+\contentsline {subsubsection}{\nonumberline Multi-Faceted Mechanical and Kinematic Metrics}{141}{subsubsection*.163}%
+\contentsline {subsubsection}{\nonumberline Normalized Root-Mean-Square Error (NRMSE) and Computational Speedup}{141}{subsubsection*.166}%
+\contentsline {subsubsection}{\nonumberline End-to-End Workflow Computational Speedup Accounting}{144}{subsubsection*.169}%
+\contentsline {subsection}{\numberline {4.44.7}Scientific Interpretation of Discrepancies and Limitations}{144}{subsection.4.44.7}%
+\contentsline {subsubsection}{\nonumberline 1. Intermediate $40\mathrm {k}$ Fixed-Mesh Premature Termination}{144}{subsubsection*.171}%
+\contentsline {subsubsection}{\nonumberline 2. Adaptive ET2 Premature Termination}{144}{subsubsection*.173}%
+\contentsline {subsubsection}{\nonumberline 3. Localized Post-Peak Force Discrepancy ($66.45\,\mathrm {N}$ at $u_x = 10.205\,\mu \mathrm {m}$)}{145}{subsubsection*.175}%
+\contentsline {paragraph}{\nonumberline Epistemological Correction:}{145}{paragraph*.177}%
+\contentsline {subsubsection}{\nonumberline 4. Publication Offset ($+13.7\%$ Peak Force)}{145}{subsubsection*.179}%
+\contentsline {subsection}{\numberline {4.44.8}Epistemological Synthesis and Gate M2-4 Qualification Decision}{146}{subsection.4.44.8}%
+\contentsline {paragraph}{\nonumberline Master Gate M2-4 Qualification Verdict:}{147}{paragraph*.182}%
+\contentsline {subsection}{\numberline {4.44.9}Future Methodological Directions: Load Partitioning and Sequential Transfer}{147}{subsection.4.44.9}%
+\contentsline {paragraph}{\nonumberline Supervisor Alignment:}{148}{paragraph*.184}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

@@ -1,4 +1,4 @@
-\begin{thebibliography}{8}
+\begin{thebibliography}{10}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -31,13 +31,31 @@ Francfort, G.~A. and Marigo, J.-J.
   (8):\penalty0 1319--1342, 1998.
 \newblock \doi{10.1016/S0022-5096(98)00034-9}.
 
-\bibitem[Miehe et~al.(2010)Miehe, Welschinger, and Hofacker]{miehe2010a}
+\bibitem[Miehe et~al.(2010{\natexlab{a}})Miehe, Hofacker, and
+  Welschinger]{miehe2010b}
+Miehe, C., Hofacker, M., and Welschinger, F.
+\newblock A phase field model for rate-independent crack propagation: Robust
+  algorithmic implementation based on operator splits.
+\newblock \emph{Computer Methods in Applied Mechanics and Engineering},
+  199\penalty0 (45--48):\penalty0 2765--2778, 2010{\natexlab{a}}.
+\newblock \doi{10.1016/j.cma.2010.04.011}.
+
+\bibitem[Miehe et~al.(2010{\natexlab{b}})Miehe, Welschinger, and
+  Hofacker]{miehe2010a}
 Miehe, C., Welschinger, F., and Hofacker, M.
 \newblock Thermodynamically consistent phase-field models of fracture:
   Variational principles and multi-field {FE} implementations.
 \newblock \emph{International Journal for Numerical Methods in Engineering},
-  83\penalty0 (10):\penalty0 1273--1311, 2010.
+  83\penalty0 (10):\penalty0 1273--1311, 2010{\natexlab{b}}.
 \newblock \doi{10.1002/nme.2861}.
+
+\bibitem[Molnar and Gravouil(2017)]{molnar2017}
+Molnar, G. and Gravouil, A.
+\newblock {2D} and {3D} {Abaqus} implementation of a robust staggered
+  phase-field solution for modeling brittle fracture.
+\newblock \emph{Finite Elements in Analysis and Design}, 130:\penalty0 27--38,
+  2017.
+\newblock \doi{10.1016/j.finel.2017.03.002}.
 
 \bibitem[Pandey and Kumar(2025)]{pandey2025}
 Pandey, A. and Kumar, S.

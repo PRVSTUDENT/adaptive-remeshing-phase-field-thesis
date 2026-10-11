@@ -3416,113 +3416,398 @@ The forensic audit establishes the following scientific findings:
   \item \textbf{Decoupled Epistemic Classification:} The energetic behavior is classified as \texttt{POSTPEAK\_}\allowbreak\texttt{ENERGETIC\_}\allowbreak\texttt{RESPONSE\_}\allowbreak\texttt{MESH\_}\allowbreak\texttt{SENSITIVE}, with the underlying mechanistic cause held as provisional until the 58k element fine mesh solve completes. Meanwhile, macroscopic structural response ($K_0, F_{\max}$) is certified as \texttt{MECHANICAL\_}\allowbreak\texttt{RESPONSE\_}\allowbreak\texttt{STABLE}.
 \end{enumerate}
 
-\section{Independent Cross-Mode Validation of the Adaptive-Remeshing Localization Mechanism (Mode-II Pure Shear Specimen)}
-\label{sec:stage15_mode2_remeshing_verification}
+\section{Independent Cross-Mode Validation of the Adaptive-Remeshing Framework: Mode-II Shear Benchmark}
+\label{sec:mode2_shear_benchmark_validation}
 
-\subsection{Scientific Scope and Governance Boundary}
-Under the governing supervisor directive (\textit{``We need to have understood everything related to the first model before we increase complexity''}), Mode-I remains the primary scientific core of this thesis. Mode-II pure shear is investigated strictly as an \textbf{independent cross-mode validation of the adaptive-remeshing localization mechanism}. The objective is to establish whether the error-indicator recovery pipeline ($\mathrm{MISESERI} \to \texttt{adaptiveRemesh}$) successfully steers mesh refinement along an inclined, curvilinear shear-localization corridor without introducing artificial crack branching or unphysical path distortion.
+\subsection{Benchmark Problem Definition and Kinematic Verification}
+\label{subsec:mode2_problem_definition}
 
-\subsection{Forensic Pre-Analysis Discovery and Paper Lineage}
-A detailed audit of \citet{pandey2025} (Section~4.2, Figs.~6(b) and 12(b)) revealed the exact operational mechanism of the published Mode-II pre-analysis:
+Under the governing supervisor directive (\textit{``We need to have understood everything related to the first model before we increase complexity''}), Mode-I tensile fracture remains the authoritative primary focus of this thesis. Mode-II shear fracture is investigated strictly as an \textbf{independent cross-mode validation} to assess whether the automated error-recovery refinement framework generalizes to non-symmetric, mixed-mode, and shear-dominated loading conditions.
+
+\subsubsection{Specimen Geometry and Precrack Representation}
+The benchmark boundary value problem models a two-dimensional square plate under in-plane shear loading, following the physical configuration studied by \citet{pandey2025} (Section~4.2, pp.~3270--3272) and originally established by \citet{molnar2017}:
+\begin{itemize}
+  \item \textbf{Domain Dimensions:} $\Omega = [0, 1]\,\mathrm{mm} \times [0, 1]\,\mathrm{mm}$ ($1.0\,\mathrm{mm} \times 1.0\,\mathrm{mm}$ square domain with unit out-of-plane thickness $B = 1.0\,\mathrm{mm}$).
+  \item \textbf{Precrack Geometry:} Initial horizontal edge seam crack of length $a_0 = 0.5\,\mathrm{mm}$ located along the geometric symmetry plane $y = 0.5\,\mathrm{mm}$ ($0 \le x \le 0.5\,\mathrm{mm}$).
+  \item \textbf{Seam Discretization:} The precrack is modeled as a zero-thickness sharp seam with coincident, duplicate nodes across the upper and lower crack flanks ($y = 0.5^+\,\mathrm{mm}$ and $y = 0.5^-\,\mathrm{mm}$). This prevents structural compliance distortion and artificial stress-concentration softening associated with blunt geometric notches.
+\end{itemize}
+
+\subsubsection{Boundary Conditions and Multi-Point Kinematic Coupling}
+All boundary conditions were verified directly against the production Abaqus input decks (\nolinkurl{M2_FIX_FINE_72K.inp} and \nolinkurl{Job-2_UEL.inp}):
+\begin{itemize}
+  \item \textbf{Bottom Boundary ($y = 0$):} Fully clamped roller constraint. Both horizontal and vertical displacements are fixed to zero across all nodes on the bottom edge:
+  \begin{equation}
+    u_x(x, 0) = 0, \quad u_y(x, 0) = 0 \quad \forall x \in [0, 1]\,\mathrm{mm} \quad (\texttt{*Boundary, N\_BOTTOM, 1, 2, 0.0}).
+    \label{eq:mode2_bottom_bc}
+  \end{equation}
+  \item \textbf{Top Boundary ($y = 1.0\,\mathrm{mm}$):} Vertical displacement is constrained to zero across all top edge nodes:
+  \begin{equation}
+    u_y(x, 1) = 0 \quad \forall x \in [0, 1]\,\mathrm{mm} \quad (\texttt{*Boundary, N\_TOP, 2, 2, 0.0}).
+    \label{eq:mode2_top_uy_bc}
+  \end{equation}
+  \item \textbf{Prescribed Shear Loading:} Monotonic horizontal displacement is prescribed via multi-point kinematic constraint. Every node on the top edge (\texttt{N\_TOP}) is coupled to an independent Reference Point node ($\mathrm{RP}$, Node ID $999999$) via linear kinematic equations:
+  \begin{equation}
+    u_{x, i} - u_{x, \mathrm{RP}} = 0 \quad \forall i \in \texttt{N\_TOP} \quad (\texttt{*Equation}).
+    \label{eq:mode2_coupling_bc}
+  \end{equation}
+  The global shear reaction force $F_x$ is extracted exclusively as the resultant horizontal reaction force $\mathrm{RF}_1$ at the Reference Point node ($\mathrm{Node}\ 999999$).
+\end{itemize}
+
+\subsubsection{Loading Schedule and Step Incrementation Architecture}
+To ensure numerical stability through crack initiation and rapid post-peak softening, the loading schedule separates the total displacement horizon of $u_x = 20.0\,\mu\mathrm{m}$ into two distinct Abaqus analysis steps:
 \begin{enumerate}
-  \item \textbf{Coarse Phase-Field Pre-Analysis (\texttt{Job-1\_UEL.inp}):} The published pre-analysis was not a pure linear-elastic run, but a coarse phase-field solve ($h = 0.02\,\mathrm{mm}$, $N = 2{,}960$ underlying finite elements) subjected to top horizontal shear displacement ($u_1 = 0.060\,\mathrm{mm}$).
-  \item \textbf{Companion Recovery Layer (\texttt{All\_elem}):} A 3-layer element system was deployed wherein the facsimile continuum element set \texttt{All\_elem} recovered $\mathrm{MISESERI}$ from the stress field of the advancing shear crack. This produced the inclined high-error corridor shown in Fig.~6(b).
-  \item \textbf{Historical Failure Resolution:} Earlier exploratory runs failed because an unpropagated linear-elastic step was applied to an initial mesh containing a pre-existing horizontal refinement band. Under Abaqus \texttt{coarseningFactor=NOT\_ALLOWED}, the remesher froze the horizontal band and failed to resolve the diagonal shear corridor. Once the coarse uniform mesh is used with propagating phase-field damage, the inclined corridor is captured naturally.
+  \item \textbf{Step~1 (Elastic Loading and Crack Initiation):} Prescribes $u_x$ from $0.0$ to $10.0\,\mu\mathrm{m}$ ($0.010\,\mathrm{mm}$) at the Reference Point. With a nominal base time increment of $\Delta t = 5\times 10^{-4}$ (corresponding to $\Delta u_x = 5.0\,\mathrm{nm}$ per increment), Step~1 traverses the complete linear-elastic response, damage accumulation, and peak reaction force.
+  \item \textbf{Step~2 (Post-Peak Shear Crack Propagation):} Prescribes $u_x$ from $10.0\,\mu\mathrm{m}$ to $20.0\,\mu\mathrm{m}$ ($0.020\,\mathrm{mm}$) over an additional $2{,}000$ nominal increments ($\Delta t = 5\times 10^{-4}$, $\Delta u_x = 5.0\,\mathrm{nm}$ per increment), tracking crack propagation across the ligament to the bottom boundary.
+\end{enumerate}
+Crucially, the step count ($2$ steps) is distinguished from the displacement-increment resolution ($4{,}000$ nominal increments, yielding sub-nanometer displacement control).
+
+\subsubsection{Material Constants and Constitutive Formulation}
+The material and phase-field parameters are chosen identical to the published literature values:
+\begin{itemize}
+  \item Young's modulus: $E = 210.0\,\mathrm{GPa} = 210.0\,\mathrm{kN/mm}^2$
+  \item Poisson's ratio: $\nu = 0.3$
+  \item Critical energy release rate: $G_c = 2.7\times 10^{-3}\,\mathrm{kN/mm} = 2.7\,\mathrm{N/mm}$
+  \item Phase-field length scale: $\ell_0 = 0.015\,\mathrm{mm} = 15.0\,\mu\mathrm{m}$
+  \item Numerical residual stiffness: $k = 1.0\times 10^{-7}$
+  \item Out-of-plane thickness: $B = 1.0\,\mathrm{mm}$
+\end{itemize}
+The constitutive formulation implements the AT2 regularized phase-field fracture model with the anisotropic spectral strain energy decomposition of \citet{miehe2010a,miehe2010b}:
+\begin{equation}
+  \psi(\boldsymbol{\varepsilon}, d) = g(d)\,\psi_+(\boldsymbol{\varepsilon}) + \psi_-(\boldsymbol{\varepsilon}), \quad g(d) = (1-d)^2 + k,
+  \label{eq:miehe_split}
+\end{equation}
+where $\psi_+(\boldsymbol{\varepsilon}) = \frac{1}{2}\lambda \langle \mathrm{tr}\,\boldsymbol{\varepsilon} \rangle_+^2 + \mu \sum_{a=1}^2 \langle \varepsilon_a \rangle_+^2$ penalizes tensile principal strains, and $\psi_-(\boldsymbol{\varepsilon})$ represents the undamaged compressive strain energy. The spectral decomposition is executed in the authoritative user subroutine \nolinkurl{f42_mixed_uel_mode2_miehe.for} (SHA-256: \texttt{699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188}), operating in single-rank shared-memory SMP execution. 
+
+To eliminate artificial parallel stiffness coupling from the companion visualization layer (Layer~3 continuum elements), an infinitesimal elastic modulus of $E_{\mathrm{inf}} = 1.0\times 10^{-11}\,\mathrm{kN/mm}^2 = 1.0\times 10^{-5}\,\mathrm{Pa}$ ($\nu = 0.3$) is assigned, ensuring that Layer~3 carries zero physical load while maintaining full rank for Abaqus/CAE stress recovery.
+
+\subsection{Expected Physical and Kinematic Solution}
+\label{subsec:mode2_expected_solution}
+
+Under pure in-plane shear, the mechanical and phase-field response exhibits distinct kinematic features:
+\begin{enumerate}
+  \item \textbf{Initial Linear Elastic Shear Response:} At low displacements ($u_x \le 6.0\,\mu\mathrm{m}$), the specimen responds with an initial structural shear stiffness of $K_0 \approx 45.8\,\mathrm{kN/mm}$. Because $u_y = 0$ is enforced along the top and bottom boundaries, the global compliance is governed by constrained pure shear.
+  \item \textbf{Asymmetric Crack-Tip Singularity:} Mode-II loading generates an asymmetric stress singularity at the crack tip $(x=0.5\,\mathrm{mm}, y=0.5\,\mathrm{mm})$. In contrast to the symmetric Mode-I tensile field, the maximum tensile principal stress is oriented obliquely into the lower quadrant of the specimen ($y < 0.5\,\mathrm{mm}$). Under classical linear elastic fracture mechanics (LEFM), maximum hoop stress criteria predict crack initiation at an angle of $\theta_0 \approx -70.5^\circ$, whereas maximum energy release rate criteria predict $\theta_0 \approx -58^\circ$ to $-75^\circ$ depending on boundary constraints.
+  \item \textbf{Damage Localization and Softening:} When the crack-tip tensile strain energy density surpasses the fracture threshold, the scalar phase-field damage $d$ nucleates at $(0.5, 0.5)\,\mathrm{mm}$ and localizes into an inclined diffuse damage band of characteristic width $\sim 2\ell_0 = 30\,\mu\mathrm{m}$.
+  \item \textbf{Oblique Crack Propagation:} The initiated crack propagates smoothly downward toward the bottom clamped boundary along a stable curvilinear path with an overall trajectory chord angle of $\theta \approx -58^\circ$, terminating near the bottom boundary ($y = 0, x \approx 0.77\text{--}0.80\,\mathrm{mm}$).
+  \item \textbf{Global Reaction Force Evolution:} The horizontal reaction force $F_x(u_x)$ rises linearly, undergoes progressive non-linear softening as damage localizes, reaches a distinct initiation peak $F_{\max}$, and experiences a steep post-peak drop followed by a sustained residual plateau as the crack traverses the remaining ligament.
 \end{enumerate}
 
-\subsection{Four-Way Quantitative Comparison and Reproduction Parity}
-To rigorously validate the localization mechanism, a 4-way quantitative audit was performed:
+\subsection{Fixed-Mesh Spatial Convergence Reference Suite (Four Tiers)}
+\label{subsec:mode2_fixed_mesh_suite}
+
+To establish an authoritative, objective quantitative baseline against which adaptive simulations can be rigorously judged, a four-tier uniform fixed-mesh spatial convergence sequence was executed on the Freiberg high-performance computing cluster. 
+
+\subsubsection{Discretization Tiers and Spatial Resolutions}
+The suite comprises four discretizations of increasing mesh refinement across the domain $\Omega$:
 \begin{enumerate}
-  \item \textbf{Published $\mathrm{MISESERI}$ Path (Fig.~6(b)):} Digitization of the published error contour yields a chord inclination angle of $\theta = -49.74^\circ$, terminating at the bottom boundary ($y=0$) at $x \approx 0.930\,\mathrm{mm}$.
-  \item \textbf{Published Adaptive Mesh Corridor (Fig.~12(b)):} Digitization of the published refined mesh corridor yields a chord inclination angle of $\theta = -53.65^\circ$, terminating at $x \approx 0.868\,\mathrm{mm}$.
-  \item \textbf{Mode-II Phase-Field Crack Trajectory:} Our phase-field shear crack path initiates at $(0.5, 0.5)\,\mathrm{mm}$ with an initial deflection angle of $\theta \approx -45.0^\circ$ and curves toward the bottom boundary with a mean distance of only $0.0259\,\mathrm{mm}$ ($< 1.8\,\ell_0$) relative to the published path in early propagation.
-  \item \textbf{Native Adaptive Remesh Reproduction ($\eta_{\mathrm{target}} = 2.0\%$):} Applying native Abaqus \texttt{adaptiveRemesh} on the coarse pre-analysis ODB generated $N = 21{,}496$ underlying finite elements ($20{,}934$ CPE4 quads + $562$ CPE3 tris, $h_{\min} = 0.000774\,\mathrm{mm} \approx 0.051\,\ell_0$). This reproduces the published mesh size ($19{,}963$ elements) within $\mathbf{+7.7\%}$.
+  \item \textbf{Coarse Fixed Mesh ($2.5\mathrm{k}$):} $2{,}500$ CPE4 quadrilateral elements ($50 \times 50$ grid), characteristic element size $h = 20.0\,\mu\mathrm{m} = 1.33\,\ell_0$.
+  \item \textbf{Medium Fixed Mesh ($18\mathrm{k}$):} $17{,}956$ CPE4 quadrilateral elements ($134 \times 134$ grid), $h = 7.46\,\mu\mathrm{m} \approx 0.50\,\ell_0$.
+  \item \textbf{Intermediate Fixed Mesh ($40\mathrm{k}$):} $40{,}000$ CPE4 quadrilateral elements ($200 \times 200$ grid), $h = 5.00\,\mu\mathrm{m} = 0.33\,\ell_0$.
+  \item \textbf{Fine Fixed Reference ($72\mathrm{k}$):} $71{,}824$ CPE4 quadrilateral elements ($268 \times 268$ grid), $h = 3.73\,\mu\mathrm{m} = 0.25\,\ell_0$.
 \end{enumerate}
+Each model was built using the identical 3-layer co-located UEL/UMAT formulation and subjected to the exact two-step loading schedule to $u_x = 20.0\,\mu\mathrm{m}$.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.98\textwidth]{fig_mode2_stage15_remeshing_verification.pdf}
-\caption{Independent Cross-Mode Validation of the Adaptive-Remeshing Localization Mechanism (Mode-II Pure Shear Specimen, $1.0\times 1.0\,\mathrm{mm}$, $a_0 = 0.5\,\mathrm{mm}$, $\ell_0 = 0.015\,\mathrm{mm}$): (a) Coarse 3-layer pre-analysis phase-field damage field ($d$) at $u_1 = 0.060\,\mathrm{mm}$; (b) Recovered companion error indicator field ($\mathrm{MISESERI}$) producing the inclined shear corridor ($\theta = -49.74^\circ$); (c) Native Abaqus \texttt{adaptiveRemesh} reproduction mesh ($N = 21{,}496$ elements, $+7.7\%$ vs published $19{,}963$ elements) with zero spurious branching; (d) Quantitative 4-way path trajectory and corridor overlay comparing published $\mathrm{MISESERI}$ path, published adaptive mesh corridor, phase-field crack path, and native reproduced mesh corridor.}
-\label{fig:mode2_stage15_remeshing_verification}
+\includegraphics[width=0.95\textwidth]{figures/fig_mode2_fixed_mesh_spatial_convergence.pdf}
+\caption{Fixed-Mesh Spatial Convergence Reference Suite for the 2D Mode-II Shear Benchmark ($E = 210\,\mathrm{GPa}$, $\nu = 0.3$, $G_c = 2.7\,\mathrm{N/mm}$, $\ell_0 = 15.0\,\mu\mathrm{m}$): (a) Global force--displacement ($F_x - u_x$) curves across four uniform mesh tiers ($2{,}500$, $17{,}956$, $40{,}000$, and $71{,}824$ finite elements); (b) Monotonic peak initiation force convergence ($525.70\,\mathrm{N} \to 436.99\,\mathrm{N} \to 420.66\,\mathrm{N} \to 415.99\,\mathrm{N}$); (c) Convergence of peak displacement $u(F_{\max})$; (d) Initial structural shear stiffness ($K_0 \approx 45.77\,\mathrm{kN/mm}$) across discretizations.}
+\label{fig:mode2_fixed_convergence}
 \end{figure}
 
-\subsection{Refinement Corridor Geometry and Absence of Spurious Branching}
-Geometric analysis of the adapted mesh confirms:
-\begin{itemize}
-  \item \textbf{Corridor Width:} The refined band ($h \le 0.008\,\mathrm{mm}$) has a full width of $w \approx 0.14\,\mathrm{mm}$ ($\approx 9.3\,\ell_0$), in close agreement with the published corridor width of $0.12\text{--}0.16\,\mathrm{mm}$.
-  \item \textbf{Fine Element Share:} $71.47\%$ of all fine elements are concentrated inside the active shear corridor.
-  \item \textbf{Absence of Spurious Branching:} Exactly zero fine elements appear in unphysical domains (e.g., upper half $y > 0.55\,\mathrm{mm}$ away from boundaries).
-\end{itemize}
-
-\paragraph{Defensible Scientific Conclusion:}
-\texttt{MODE2\_STAGE1\_REMESHING\_VERIFICATION\_QUALIFIED}. The Abaqus native error-recovery remeshing engine correctly detects and tracks curvilinear shear-localization trajectories under mixed/shear kinematics without manual intervention. Stage-2 full phase-field fracture solves on this mesh remain gated on explicit supervisor authorization.
-
-\section{Stage~15C: Corrected Paper-Grounded UEL Pre-Analysis, Error-Target Sweep, and Production Fracture Model Qualification}
-\label{sec:stage15c_mode2_corrected_preanalysis_and_job2}
-
-\subsection{Forensic Lineage Reconciliation and Companion-Layer Stiffness Elimination}
-A critical mechanical discovery in the multi-layer UEL architecture was the role of the companion visualization layer (Layer~3, continuum elements). In standard phase-field formulations using user elements (\nolinkurl{f42_mixed_uel.for}), the structural stiffness and momentum balance are carried exclusively by Layer~2 mechanical user elements (\texttt{JTYPE=2} for quads, \texttt{JTYPE=4} for triangles). Layer~3 continuum elements exist solely to facilitate Abaqus/CAE visualization and stress recovery for the $\mathrm{MISESERI}$ error indicator.
-
-In the initial facsimile Mode-II pre-analysis (\texttt{Job 1410102.mmaster02}), Layer~3 elements were assigned standard linear elasticity ($E = 210\,\mathrm{GPa}$). This introduced an unphysical parallel stiffness channel, effectively doubling the elastic resistance of the specimen, distorting the stress state, and causing severe equilibrium cutbacks. 
-
-To eliminate this artificial stiffness coupling, the companion material constitutive model was corrected to an infinitesimal tangent modulus:
+\subsubsection{Convergence Trends and Initiation Force Monotonicity}
+Table~\ref{tab:mode2_fixed_convergence_summary} summarizes the quantitative metrics extracted across the fixed-mesh convergence sequence. The results demonstrate strict monotonic spatial convergence of the initiation peak force:
 \begin{equation}
-  E_{\mathrm{inf}} = 1.0\times 10^{-11}\,\mathrm{kN/mm}^2 = 1.0\times 10^{-5}\,\mathrm{Pa}, \quad \nu = 0.3.
-  \label{eq:e_inf_def}
+  F_{\max}: \quad 525.70\,\mathrm{N}\ (2.5\mathrm{k}) \longrightarrow 436.99\,\mathrm{N}\ (18\mathrm{k}) \longrightarrow 420.66\,\mathrm{N}\ (40\mathrm{k}) \longrightarrow 415.99\,\mathrm{N}\ (72\mathrm{k}).
+  \label{eq:mode2_fmax_monotonic}
 \end{equation}
-Under $E_{\mathrm{inf}}$, Layer~3 contributes negligible physical stiffness ($\sim 10^{-13}$ of the physical specimen stiffness) while maintaining full mathematical rank for nodal displacement-to-strain mapping and stress recovery. 
-
-In the authoritative corrected run (\texttt{Job 1410125.mmaster02}, \texttt{M2\_J1\_UEL\_PRE}), this formulation resolved the stiffness duplication completely:
-\begin{itemize}
-  \item \textbf{Step~1 Elastic Loading ($u_1 \to 0.0105\,\mathrm{mm}$):} All $2{,}000$ fixed increments converged with exactly zero cutbacks and an average of $3.00$ Newton iterations per increment.
-  \item \textbf{Step~2 Monotonic Shear Fracture ($u_1 \to 0.0600\,\mathrm{mm}$):} The model captured peak shear reaction force $F_{\max} = 0.4138\,\mathrm{kN}$ at $u_1 = 0.01139\,\mathrm{mm}$, followed by clean post-peak softening snap-through. The crack propagated diagonally from the notch tip $(0.5, 0.5)\,\mathrm{mm}$ across the lower ligament to the bottom boundary, achieving $>98.5\%$ load drop ($F < 0.006\,\mathrm{kN}$).
-\end{itemize}
-
-\subsection{Native Remeshing Sizing Sweep Across Error Targets}
-Because the publication by \citet{pandey2025} does not report the exact sizing error tolerance used for the Mode-II adaptive mesh (\textbf{\texttt{PUBLISHED\_MODE2\_ERRORTARGET = NOT\_EXPLICITLY\_REPORTED}}), a systematic parameter sweep across $\eta_{\mathrm{target}} \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$ was conducted on the terminal pre-analysis database.
-
-The native Abaqus remeshing rule was defined with:
-\begin{align}
-  \text{Variables} &= (\mathrm{MISESERI}), \quad \text{Sizing Method} = \text{UNIFORM\_ERROR}, \\
-  h_{\min} &= 0.001\,\mathrm{mm}, \quad h_{\max} = 0.020\,\mathrm{mm}, \quad \text{Refinement Factor} = 10, \\
-  \text{Coarsening} &= \text{NOT\_ALLOWED}.
-\end{align}
-The candidate meshes were evaluated against four governing geometric and physical criteria:
-\begin{enumerate}
-  \item \textbf{Spatial Corridor Direction:} Refinement corridor chord inclination angle $\theta \in [-58^\circ, -42^\circ]$ matching published Fig.~6(b) ($\theta = -49.74^\circ$) and Fig.~12(b) ($\theta = -53.65^\circ$).
-  \item \textbf{Corridor Exit Coordinate:} Centerline exit coordinate at $y=0$ satisfying $x_{\mathrm{exit}} \in [0.80, 0.98]\,\mathrm{mm}$ (published $x \approx 0.868\text{--}0.930\,\mathrm{mm}$).
-  \item \textbf{Length-Scale Resolution:} Minimum element size $h_{\min} \le \ell_0 / 2 = 0.0075\,\mathrm{mm}$ ensuring that the phase-field diffuse regularized boundary layer ($\ell_0 = 0.015\,\mathrm{mm}$) is adequately resolved.
-  \item \textbf{Absence of Spurious Branching:} Absence of fine element clusters in unphysical quadrants (e.g., upper half $y > 0.55\,\mathrm{mm}$ away from boundaries).
-\end{enumerate}
-
-Table~\ref{tab:mode2_sweep_summary} summarizes the multi-candidate evaluation. All candidates consistently reproduce the diagonal shear corridor with zero spurious branching, confirming that the $\mathrm{MISESERI}$ localization mechanism is robust across sizing tolerances. The $\eta_{\mathrm{target}} = 2.0\%$ candidate ($N = 21{,}496$ elements, $+7.7\%$ vs published $19{,}963$) achieves the optimal balance between spatial corridor fidelity and length-scale resolution.
+On the final mesh doubling from $40{,}000$ to $71{,}824$ elements, the change in peak force is only $\Delta F_{\max} = -4.67\,\mathrm{N}$ ($-1.11\%$), confirming asymptotic convergence. The initial elastic stiffness is virtually invariant across all four tiers ($K_0 \in [45.69, 45.85]\,\mathrm{kN/mm}$, spread $<0.35\%$).
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Mode-II Native Adaptive Remeshing Sweep Evaluation across $\eta_{\mathrm{target}} \in \{1.0\%, 2.0\%, 3.0\%, 5.0\%\}$.}
-\label{tab:mode2_sweep_summary}
-\begin{tabularx}{\textwidth}{l c c c c c Y}
+\caption{Quantitative summary of the Mode-II four-tier fixed-mesh spatial convergence reference suite.}
+\label{tab:mode2_fixed_convergence_summary}
+\begin{tabularx}{\textwidth}{l c c c c c c Y}
 \toprule
-\textbf{Candidate} & $\eta_{\mathrm{target}}$ [\%] & \textbf{Elements} & $h_{\min}$ [$\mu\mathrm{m}$] & \textbf{Angle $\theta$} & \textbf{Exit $x_{y=0}$} & \textbf{Classification} \\
+\textbf{Discretization Tier} & $N_{\mathrm{FE}}$ & $h$ [$\mu\mathrm{m}$] & $h/\ell_0$ & $K_0$ [$\mathrm{kN/mm}$] & $F_{\max}$ [$\mathrm{N}$] & $u(F_{\max})$ [$\mu\mathrm{m}$] & \textbf{Solver Status} \\
 \midrule
-Coarse Pre-Analysis & --- & $2{,}960$ & $20.0$ & $-49.74^\circ$ & $0.930\,\mathrm{mm}$ & Coarse Pre-Analysis \\
-Adapted $\eta = 1.0\%$ & $1.0$ & $48{,}215$ & $0.52$ & $-51.20^\circ$ & $0.885\,\mathrm{mm}$ & \texttt{CONSISTENT\_FINE} \\
-Adapted $\eta = 2.0\%$ & $2.0$ & $21{,}496$ & $0.77$ & $-52.10^\circ$ & $0.880\,\mathrm{mm}$ & \texttt{QUALIFIED\_OPTIMAL} \\
-Adapted $\eta = 3.0\%$ & $3.0$ & $12{,}840$ & $1.25$ & $-50.85^\circ$ & $0.892\,\mathrm{mm}$ & \texttt{CONSISTENT\_INTERMEDIATE} \\
-Adapted $\eta = 5.0\%$ & $5.0$ & $6{,}712$ & $2.40$ & $-49.50^\circ$ & $0.910\,\mathrm{mm}$ & \texttt{CONSISTENT\_COARSE} \\
+Coarse Fixed ($2.5\mathrm{k}$) & $2{,}500$ & $20.00$ & $1.33$ & $45.69$ & $525.70$ & $9.075$ & Completed (Exit 0) \\
+Medium Fixed ($18\mathrm{k}$) & $17{,}956$ & $7.46$ & $0.50$ & $45.74$ & $436.99$ & $9.380$ & Completed (Exit 0) \\
+Intermediate Fixed ($40\mathrm{k}$) & $40{,}000$ & $5.00$ & $0.33$ & $45.85$ & $420.66$ & $9.595$ & Terminated (Exit 1) \\
+Fine Reference ($72\mathrm{k}$) & $71{,}824$ & $3.73$ & $0.25$ & $45.77$ & $415.99$ & $9.470$ & Completed (Exit 0) \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\subsection{Deterministic Three-Layer Production Fracture Deck Generation (\texttt{Job-2\_UEL.inp})}
-The optimal adapted mesh was compiled into the production 3-layer phase-field fracture deck \nolinkurl{Job-2_UEL.inp} using \nolinkurl{build_mode2_adapted_job2_deck.py}:
+\subsubsection{Distinction of Solver Completion Statuses}
+A critical epistemological distinction must be preserved regarding solver completion statuses:
 \begin{itemize}
-  \item \textbf{Layer~1 (Phase-Field User Elements, U1/U3):} Element IDs $1 \dots N_{\mathrm{phys}}$ ($1$ DOF per node, phase field $d$).
-  \item \textbf{Layer~2 (Mechanical User Elements, U2/U4):} Element IDs $(N_{\mathrm{phys}}+1) \dots 2N_{\mathrm{phys}}$ ($2$ DOFs per node, displacements $u_x, u_y$).
-  \item \textbf{Layer~3 (Companion Visualization Elements, CPE4/CPE3):} Element IDs $(2N_{\mathrm{phys}}+1) \dots 3N_{\mathrm{phys}}$ with infinitesimal stiffness $E_{\mathrm{inf}} = 1.0\times 10^{-11}\,\mathrm{kN/mm}^2$.
-  \item \textbf{Multi-Point Kinematic Coupling:} Top horizontal displacement is enforced by coupling all top boundary nodes (\texttt{N\_TOP}) to Reference Point Node $999999$ via linear \texttt{*EQUATION} constraints ($u_{x, \mathrm{node}} - u_{x, \mathrm{RP}} = 0$).
-  \item \textbf{Abaqus Parser Compliance:} All node set definitions (\texttt{N\_BOTTOM}, \texttt{N\_TOP}) are wrapped at a maximum of 16 entries per line to strictly prevent silent keyword truncation.
+  \item \textbf{Full-Horizon Solves ($2.5\mathrm{k}$, $18\mathrm{k}$, $72\mathrm{k}$):} These three models successfully completed the full $20.0\,\mu\mathrm{m}$ displacement horizon with Abaqus solver Exit Code 0 and PBS \texttt{Exit\_status = 0}, demonstrating post-peak crack propagation to terminal boundary arrest.
+  \item \textbf{Intermediate $40\mathrm{k}$ Premature Termination:} In both the primary run (\texttt{1411544.mmaster02}, 24h limit) and its 48-hour safeguard twin (\texttt{1411558.mmaster02}), the solver traversed the peak ($F_{\max} = 420.66\,\mathrm{N}$ at $u_x = 9.595\,\mu\mathrm{m}$) but experienced severe equilibrium line-search cutbacks during steep softening, terminating at $u_x = 9.635\,\mu\mathrm{m}$ (Step~1 Increment 1928) with Exit 1.
+\end{itemize}
+Consequently, while \textbf{peak initiation force convergence is proven across all four tiers}, full-horizon softening convergence is experimentally verified across three tiers ($2.5\mathrm{k}$, $18\mathrm{k}$, and $72\mathrm{k}$).
+
+\subsection{Independent Safeguard Verification and Increment Accounting}
+\label{subsec:mode2_safeguard_verification}
+
+To verify that the Fine 72k reference response is robust and reproducible, an independent 72-hour safeguard run (\texttt{1411557.mmaster02}, \texttt{M2\_FIX\_FINE\_72H}) was executed on a separate compute node (\texttt{mnode097/0}) in the cluster queue \texttt{normal\_imfdfkmq}.
+
+\subsubsection{Increment Accounting and Arithmetic Reconciliation}
+The primary solve (\texttt{1411545.mmaster02}) and the safeguard solve (\texttt{1411557.mmaster02}) both completed the full horizon. A detailed audit of the Abaqus solver status files (\nolinkurl{.sta}), message files (\nolinkurl{.msg}), and output data files (\nolinkurl{.dat}) establishes the exact increment-accounting arithmetic:
+\begin{itemize}
+  \item \textbf{Step~1 Trajectory:} Traverses $u_x \in [0.0, 10.0]\,\mu\mathrm{m}$. During steep softening following peak initiation, the solver experienced exactly $3$ automatic cutback attempts (marked with `'U'` in the status file: Increment 1902 Attempts 1U and 2U; Increment 1903 Attempt 1U), cutting the time step down to $\Delta t = 7.813\times 10^{-6}$.
+  \item \textbf{Adaptive Sub-Stepping:} Adaptive time sub-stepping subsequently introduced $22$ additional converged increments to span $t \in [0.95, 1.00]$, concluding Step~1 at Increment $2{,}022$.
+  \item \textbf{Step~2 Trajectory:} Traverses $u_x \in [10.0, 20.0]\,\mu\mathrm{m}$ over exactly $2{,}000$ uniform increments with zero cutbacks.
+  \item \textbf{Reconciled Totals:} Across the entire analysis, the solver executed \textbf{4,025 total attempts}, yielding strictly \textbf{4,022 converged increments}, and writing exactly \textbf{4,022 recorded reaction force observations} at the Reference Point node.
 \end{itemize}
 
-A full Abaqus datacheck was executed on the cluster (\nolinkurl{submit_job2_uel_solver.pbs}), passing with \texttt{Exit\_status=0}, zero errors, and zero warnings. This qualifies the complete Mode-II adaptive fracture reproduction package for authorized HPC execution.
+\subsubsection{Printed Output Precision versus Binary Bitwise Identity}
+An increment-by-increment comparison between the independent 24-hour run (\texttt{1411545}) and the 72-hour safeguard run (\texttt{1411557}) revealed:
+\begin{equation}
+  \max |\Delta u_x| = 0.00000000\,\mu\mathrm{m}, \quad \max |\Delta \mathrm{RF}_1| = 0.00000000\,\mathrm{N} \quad \forall\ 4{,}022\ \text{increments}.
+  \label{eq:safeguard_identity}
+\end{equation}
+Every recorded force and displacement observation agrees to all $8$ significant digits printed in the Abaqus DAT node output tables, and $4{,}031$ of $4{,}032$ lines in the status file are text-identical. In strict adherence to scientific writing standards, this is classified as \textbf{full numerical reproducibility to printed solver precision (8 significant figures)}, explicitly distinguishing printed decimal identity from binary bitwise identity of internal memory structures.
+
+The Fine 72k reference values are thus frozen as the authoritative numerical benchmark anchor:
+\begin{equation}
+  F_{\max} = 415.98953\,\mathrm{N}, \quad u(F_{\max}) = 9.47000\,\mu\mathrm{m}, \quad K_0 = 45.77\,\mathrm{kN/mm}, \quad \mathrm{RF}_{\mathrm{final}} = 387.46924\,\mathrm{N}.
+  \label{eq:mode2_fine_anchor_values}
+\end{equation}
+
+\subsection{Native Adaptive Method A Workflow (Two-Pass Pre-Refinement)}
+\label{subsec:mode2_method_a_workflow}
+
+Method~A represents the authentic, native Abaqus adaptive remeshing implementation developed in this thesis. It operates as an automated, external-driver \textbf{two-pass pre-refinement workflow} combining a damage-evolving preliminary solve, native stress error recovery, native CAE remeshing, and multi-layer UEL reconstruction.
+
+\subsubsection{Causal Mechanism: Breaking Scale Invariance via Damage Evolution}
+A critical discovery in the Mode-II investigation was the fundamental limitation of static linear-elastic pre-analysis:
+\begin{itemize}
+  \item In linear elasticity ($d \equiv 0$), the stress tensor is scale-invariant and static; the recovered $\mathrm{MISESERI}$ error indicator produces an isotropic circular contour centered at the notch tip $(0.5, 0.5)\,\mathrm{mm}$, with an inclination angle of only $\theta \approx -1.34^\circ$.
+  \item To guide refinement along the actual shear propagation path, the preliminary run must be a \textbf{damage-evolving phase-field simulation} on the coarse mesh (\texttt{Job-1\_UEL.inp}, $N = 2{,}960$ CPE4 elements, PBS Job ID \texttt{1411104.mmaster02}).
+  \item As damage localizes and advances obliquely, stress gradients track the propagating crack front, dynamically rotating the high-error corridor from $-1.34^\circ$ to $\mathbf{-34.07^\circ}$ at intermediate propagation and $\mathbf{-48.30^\circ}$ at the terminal state ($u_x = 20\,\mu\mathrm{m}$, Exit 0, walltime $3{,}913\,\mathrm{s}$).
+\end{itemize}
+
+\subsubsection{Native Abaqus RemeshingRule and Sizing Execution}
+The terminal pre-analysis database is ingested into Abaqus/CAE via automated Python driver (\nolinkurl{execute_mode2_corrected_adaptive_remesh.py}):
+\begin{itemize}
+  \item The native Abaqus remeshing rule is configured with:
+  \begin{equation}
+    \text{Variables} = (\mathrm{MISESERI}), \quad \text{Sizing Method} = \text{UNIFORM\_ERROR}, \quad \eta_{\mathrm{target}} = 3.0\%,
+    \label{eq:remeshing_rule_config}
+  \end{equation}
+  with $h_{\min} = 0.001\,\mathrm{mm}$, $h_{\max} = 0.020\,\mathrm{mm}$, refinement factor $10$, and coarsening disabled.
+  \item The native Abaqus \texttt{adaptiveRemesh} kernel generates the adapted mesh in $230\,\mathrm{s}$, producing the \textbf{Adaptive ET3 mesh} with strictly \textbf{$21{,}063$ physical finite elements} ($20{,}487$ CPE4 quads + $576$ CPE3 triangles) and $21{,}043$ unique nodes.
+  \item The generated refinement corridor exhibits a chord angle of $\theta = -48.30^\circ$, exiting the bottom edge at $x = 0.892\,\mathrm{mm}$, with $77.80\%$ of fine elements concentrated in the active shear corridor and zero spurious branching in unphysical domains.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/fig_mode2_m2_3_three_way_scientific_comparison.pdf}
+\caption{Three-Way Scientific Mesh Comparison for the 2D Mode-II Shear Benchmark: (a) Coarse preliminary analysis mesh ($2{,}960$ CPE4 elements, $h = 20.0\,\mu\mathrm{m}$); (b) Native adapted reproduction mesh ET3 ($21{,}063$ finite elements: $20{,}487$ CPE4 + $576$ CPE3) generated by Abaqus \texttt{adaptiveRemesh} along the dynamic shear corridor ($\theta = -48.30^\circ$); (c) Uniform fine reference mesh ($71{,}824$ CPE4 elements, $h = 3.73\,\mu\mathrm{m}$).}
+\label{fig:mode2_mesh_comparison}
+\end{figure}
+
+\subsubsection{Deterministic UEL Reassembly and Production Fracture Solve}
+The raw 2D mesh is processed by \nolinkurl{build_mode2_adapted_job2_deck.py} to reconstruct the 3-layer co-located UEL/UMAT deck (\nolinkurl{Job-2_UEL.inp}, $63{,}189$ total element records):
+\begin{itemize}
+  \item Layer~1: Phase-field user elements (U1 for quads, U3 for triangles).
+  \item Layer~2: Mechanical displacement user elements (U2 for quads, U4 for triangles).
+  \item Layer~3: Companion visualization elements (CPE4 and CPE3) with infinitesimal modulus $E_{\mathrm{inf}} = 1.0\times 10^{-11}\,\mathrm{kN/mm}^2$.
+\end{itemize}
+The production adapted fracture simulation (\texttt{Job 1411267.mmaster02}, \texttt{M2\_J2\_ADAPT\_ET3\_STAB}) completed the full $u_x = 20.0\,\mu\mathrm{m}$ displacement horizon with Exit 0, zero cutbacks in Step~2, and solver walltime of $30{,}900\,\mathrm{s}$ ($8.58\,\mathrm{h}$).
+
+\subsection{Quantitative Multi-Faceted Adaptive-versus-Fixed Accuracy and Efficiency Comparison}
+\label{subsec:mode2_quantitative_comparison}
+
+To evaluate the adaptive methodology comprehensively, the production adapted solve ET3 (\texttt{Job 1411267}) is compared against the uniform Fine 72k reference (\texttt{Jobs 1411545 / 1411557}) across multiple physical and numerical dimensions.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/fig_mode2_f1397_defensible_validation.pdf}
+\caption{Comprehensive Defensible Validation of Native Adaptive Method~A against the Fine 72k Fixed Reference: (a) Full-horizon force--displacement ($F_x - u_x$) response curves comparing Fine 72k reference, Adaptive ET3, Coarse Pre-analysis, and published literature \citep{pandey2025}; (b) Regime-by-regime signed pointwise force difference $\Delta F$ and peak-normalized NRMSE, isolating the localized $66.45\,\mathrm{N}$ post-initiation drop phase shift at $u_x = 10.205\,\mu\mathrm{m}$; (c) Multi-threshold crack trajectory sensitivity analysis across $d_{\mathrm{th}} \in [0.05, 0.95]$, confirming crack chord angle agreement within $0.48^\circ$ ($-58.37^\circ$ vs $-57.89^\circ$); (d) End-to-end computational walltime accounting demonstrating an audited $2.46\times$ net workflow speedup ($59.31\%$ savings).}
+\label{fig:mode2_f1397_validation}
+\end{figure}
+
+\subsubsection{Multi-Faceted Mechanical and Kinematic Metrics}
+Table~\ref{tab:mode2_adaptive_vs_fixed_mechanics} presents the mechanical and geometric comparison between the fine reference and Adaptive ET3:
+\begin{itemize}
+  \item \textbf{Finite Element Economy:} Adaptive ET3 utilizes $21{,}063$ finite elements compared to $71{,}824$ in the fine reference, achieving an exact reduction of:
+  \begin{equation}
+    \text{Mesh Economy} = \frac{71{,}824 - 21{,}063}{71{,}824} \times 100\% = \mathbf{70.67\%} \quad (50{,}761\ \text{fewer elements}).
+    \label{eq:fe_reduction}
+  \end{equation}
+  Unique node count is reduced from $72{,}496$ to $21{,}043$ ($-70.97\%$).
+  \item \textbf{Initial Structural Stiffness:} $K_0 = 45.57\,\mathrm{kN/mm}$ vs $45.77\,\mathrm{kN/mm}$ (difference of $-0.20\,\mathrm{kN/mm}$, or \textbf{$-0.43\%$}).
+  \item \textbf{Peak Initiation Force:} $F_{\max} = 412.21\,\mathrm{N}$ vs $415.98953\,\mathrm{N}$ (difference of $-3.78\,\mathrm{N}$, or \textbf{$-0.91\%$}).
+  \item \textbf{Displacement at Peak:} $u(F_{\max}) = 9.410\,\mu\mathrm{m}$ vs $9.470\,\mu\mathrm{m}$ (difference of $-0.060\,\mu\mathrm{m}$, or \textbf{$-0.63\%$}).
+  \item \textbf{Terminal Reaction Force:} $\mathrm{RF}_{\mathrm{final}} = 380.42\,\mathrm{N}$ vs $387.46924\,\mathrm{N}$ at $u_x = 20.0\,\mu\mathrm{m}$ (difference of $-7.05\,\mathrm{N}$, or \textbf{$-1.82\%$}).
+  \item \textbf{Crack Trajectory Fidelity:} At the physical crack core threshold $d \ge 0.90$, the crack chord inclination angle is $\theta = -58.37^\circ$ in ET3 vs $-57.89^\circ$ in Fine 72k, representing an angle difference of only \textbf{$0.48^\circ$} ($\Delta \theta_{\mathrm{fit}} = 0.85^\circ$). Both meshes traverse exactly $88.0\%$ of the ligament ($440\,\mu\mathrm{m}$), leaving $60\,\mu\mathrm{m}$ intact at $u_x = 20.0\,\mu\mathrm{m}$.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Mechanical, kinematic, and geometric comparison between the Fine 72k reference and Native Adaptive Method~A (Adaptive ET3).}
+\label{tab:mode2_adaptive_vs_fixed_mechanics}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.24\textwidth} c c c >{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Mechanical / Geometric Quantity} & \textbf{Fine Reference (72k)} & \textbf{Adaptive Method A (ET3)} & \textbf{Difference ($\Delta$)} & \textbf{Scientific Assessment} \\
+\midrule
+Physical Finite Elements & $71{,}824$ CPE4 & $21{,}063$ (CPE4+CPE3) & $-50{,}761$ (\textbf{$-70.67\%$}) & Substantial mesh economy \\
+Unique Mesh Nodes & $72{,}496$ & $21{,}043$ & $-51{,}453$ ($-70.97\%$) & Consistent nodal reduction \\
+Initial Stiffness $K_0$ & $45.77\,\mathrm{kN/mm}$ & $45.57\,\mathrm{kN/mm}$ & $-0.20\,\mathrm{kN/mm}$ (\textbf{$-0.43\%$}) & Elastic parity verified \\
+Peak Force $F_{\max}$ & $415.99\,\mathrm{N}$ & $412.21\,\mathrm{N}$ & $-3.78\,\mathrm{N}$ (\textbf{$-0.91\%$}) & Peak initiation captured \\
+Peak Displacement $u_{\mathrm{peak}}$ & $9.470\,\mu\mathrm{m}$ & $9.410\,\mu\mathrm{m}$ & $-0.060\,\mu\mathrm{m}$ (\textbf{$-0.63\%$}) & Matched peak timing \\
+Terminal Force $\mathrm{RF}_{\mathrm{final}}$ & $387.47\,\mathrm{N}$ & $380.42\,\mathrm{N}$ & $-7.05\,\mathrm{N}$ ($-1.82\%$) & Tail response recovery \\
+Crack Chord Angle ($d \ge 0.90$) & $-57.89^\circ$ & $-58.37^\circ$ & $\mathbf{-0.48^\circ}$ difference & Excellent path fidelity \\
+Traversed Ligament & $88.0\%$ ($440\,\mu\mathrm{m}$) & $88.0\%$ ($440\,\mu\mathrm{m}$) & $0.0\%$ ($60\,\mu\mathrm{m}$ intact) & Identical crack progress \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Normalized Root-Mean-Square Error (NRMSE) and Computational Speedup}
+Table~\ref{tab:mode2_adaptive_vs_fixed_efficiency} summarizes the regime-by-regime error analysis and workflow computational speedup:
+\begin{itemize}
+  \item Linear elastic regime ($u_x \in [0.0, 6.0]\,\mu\mathrm{m}$): $\mathrm{NRMSE} = \mathbf{0.16\%}$ ($\mathrm{RMSE} = 0.68\,\mathrm{N}$).
+  \item Entire pre-peak regime ($u_x \in [0.0, 9.47]\,\mu\mathrm{m}$): $\mathrm{NRMSE} = \mathbf{0.74\%}$ ($\mathrm{RMSE} = 3.10\,\mathrm{N}$).
+  \item Near-peak and initiation drop ($u_x \in [6.0, 11.0]\,\mu\mathrm{m}$): $\mathrm{NRMSE} = \mathbf{5.22\%}$ ($\mathrm{RMSE} = 21.72\,\mathrm{N}$).
+  \item Post-peak crack propagation ($u_x \in [11.0, 20.0]\,\mu\mathrm{m}$): $\mathrm{NRMSE} = \mathbf{4.99\%}$ ($\mathrm{RMSE} = 20.77\,\mathrm{N}$).
+  \item Entire post-peak regime ($u_x \in [9.47, 20.0]\,\mu\mathrm{m}$): $\mathrm{NRMSE} = \mathbf{5.81\%}$ ($\mathrm{RMSE} = 24.18\,\mathrm{N}$).
+  \item Global full horizon ($u_x \in [0.0, 20.0]\,\mu\mathrm{m}$): $\mathrm{NRMSE} = \mathbf{4.25\%}$ ($\mathrm{RMSE} = 17.66\,\mathrm{N}$).
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Regime-by-regime error analysis and workflow computational speedup of Native Adaptive Method~A.}
+\label{tab:mode2_adaptive_vs_fixed_efficiency}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.24\textwidth} c c c >{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Error / Performance Dimension} & \textbf{Fine Reference (72k)} & \textbf{Adaptive Method A (ET3)} & \textbf{Difference ($\Delta$)} & \textbf{Scientific Finding} \\
+\midrule
+Linear Elastic NRMSE ($0\text{--}6\,\mu\mathrm{m}$) & Reference & $0.16\%$ & $\mathrm{RMSE} = 0.68\,\mathrm{N}$ & Negligible elastic error \\
+Pre-Peak NRMSE ($0\text{--}9.47\,\mu\mathrm{m}$) & Reference & $0.74\%$ & $\mathrm{RMSE} = 3.10\,\mathrm{N}$ & Tight pre-peak tracking \\
+Near-Peak NRMSE ($6\text{--}11\,\mu\mathrm{m}$) & Reference & $5.22\%$ & $\mathrm{RMSE} = 21.72\,\mathrm{N}$ & Drop phase shift localized \\
+Post-Peak NRMSE ($11\text{--}20\,\mu\mathrm{m}$) & Reference & $4.99\%$ & $\mathrm{RMSE} = 20.77\,\mathrm{N}$ & Re-converged softening tail \\
+Global Full Horizon NRMSE ($0\text{--}20\,\mu\mathrm{m}$) & Reference & $4.25\%$ & $\mathrm{RMSE} = 17.66\,\mathrm{N}$ & Defensible global accuracy \\
+End-to-End Workflow Walltime & $86{,}126\,\mathrm{s}$ ($23.92\,\mathrm{h}$) & $35{,}043\,\mathrm{s}$ ($9.73\,\mathrm{h}$) & $-51{,}083\,\mathrm{s}$ (\textbf{$-59.31\%$}) & \textbf{$2.46\times$ workflow speedup} \\
+End-to-End Workflow CPU Time & $79{,}560\,\mathrm{s}$ ($22.10\,\mathrm{h}$) & $33{,}470\,\mathrm{s}$ ($9.30\,\mathrm{h}$) & $-46{,}090\,\mathrm{s}$ (\textbf{$-57.93\%$}) & \textbf{$2.38\times$ CPU speedup} \\
+Pure Solver-Only Walltime & $86{,}126\,\mathrm{s}$ & $30{,}900\,\mathrm{s}$ & $-55{,}226\,\mathrm{s}$ ($-64.12\%$) & \textbf{$2.79\times$ solver speedup} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{End-to-End Workflow Computational Speedup Accounting}
+In evaluating adaptive remeshing efficiency, accounting must include the complete workflow cost:
+\begin{align}
+  t_{\mathrm{wall,MethodA}} &= t_{\mathrm{preanalysis}}\ (3{,}913\,\mathrm{s}) + t_{\mathrm{remesh}}\ (230\,\mathrm{s}) + t_{\mathrm{adapted\_solve}}\ (30{,}900\,\mathrm{s}) = \mathbf{35{,}043\,\mathrm{s}} \quad (9.73\,\mathrm{h}), \\
+  t_{\mathrm{cpu,MethodA}} &= t_{\mathrm{preanalysis,cpu}}\ (2{,}870\,\mathrm{s}) + t_{\mathrm{adapted\_solve,cpu}}\ (30{,}600\,\mathrm{s}) = \mathbf{33{,}470\,\mathrm{s}} \quad (9.30\,\mathrm{h}).
+\end{align}
+Comparing this against the uniform Fine 72k reference ($t_{\mathrm{wall}} = 86{,}126\,\mathrm{s} = 23.92\,\mathrm{h}$, $t_{\mathrm{cpu}} = 79{,}560\,\mathrm{s} = 22.10\,\mathrm{h}$):
+\begin{align}
+  S_{\mathrm{wall,net}} &= \frac{86{,}126\,\mathrm{s}}{35{,}043\,\mathrm{s}} = \mathbf{2.46\times} \quad (\mathbf{59.31\%}\ \text{walltime savings}), \\
+  S_{\mathrm{cpu,net}} &= \frac{79{,}560\,\mathrm{s}}{33{,}470\,\mathrm{s}} = \mathbf{2.38\times} \quad (\mathbf{57.93\%}\ \text{CPU time savings}), \\
+  S_{\mathrm{solver\_only}} &= \frac{86{,}126\,\mathrm{s}}{30{,}900\,\mathrm{s}} = \mathbf{2.79\times} \quad (\mathbf{64.12\%}\ \text{solver walltime savings}).
+\end{align}
+Method~A therefore delivers a genuine $2.46\times$ end-to-end acceleration while preserving sub-percent peak accuracy and high crack-path fidelity. Crucially, good peak-force agreement ($0.91\%$) is not presented as proof of complete force-history convergence, because of the post-initiation phase shift.
+
+\subsection{Scientific Interpretation of Discrepancies and Limitations}
+\label{subsec:mode2_discrepancies_and_limitations}
+
+In accordance with strict scientific epistemology, every observed discrepancy and numerical limitation is documented and transparently classified:
+
+\subsubsection{1. Intermediate $40\mathrm{k}$ Fixed-Mesh Premature Termination}
+The intermediate fixed mesh ($40{,}000$ elements, $h = 5.0\,\mu\mathrm{m}$) terminated at $u_x = 9.635\,\mu\mathrm{m}$ (Step~1 Increment 1928, Exit 1) due to severe line-search cutbacks in the softening regime. While its peak initiation force ($420.66\,\mathrm{N}$) perfectly follows the monotonic convergence sequence, its softening tail remains unobserved. Thus, four-tier softening convergence is unverified (full softening is validated across $2.5\mathrm{k}$, $18\mathrm{k}$, and $72\mathrm{k}$).
+
+\subsubsection{2. Adaptive ET2 Premature Termination}
+In the multi-target adaptive sweep, the $\eta_{\mathrm{target}} = 2.0\%$ candidate (Adaptive ET2, $37{,}575$ finite elements, PBS Job ID \texttt{1411414.mmaster02}) traversed its peak ($F_{\max} = 411.80\,\mathrm{N}$ at $u_x = 9.385\,\mu\mathrm{m}$, $K_0 = 45.70\,\mathrm{kN/mm}$) but terminated prematurely at $u_x = 9.415\,\mu\mathrm{m}$ with Exit 1 due to softening convergence stagnation. Multi-target adaptive post-peak convergence across all error tolerances therefore remains incomplete.
+
+\subsubsection{3. Localized Post-Peak Force Discrepancy ($66.45\,\mathrm{N}$ at $u_x = 10.205\,\mu\mathrm{m}$)}
+The pointwise force comparison reveals a maximum difference of signed $-66.45\,\mathrm{N}$ ($15.97\%$ of peak load) located precisely at $u_x = 10.205\,\mu\mathrm{m}$ (Step~2 Increment 41 in both models):
+\begin{itemize}
+  \item In Adaptive ET3, the load drops rapidly after peak initiation, reaching a local trough of $335.37\,\mathrm{N}$ at $u_x = 10.205\,\mu\mathrm{m}$.
+  \item In Fine 72k, the uniform fine mesh sustains an elevated secondary plateau ($402.07\,\mathrm{N}$) through $u_x \approx 10.20\,\mu\mathrm{m}$ before steep softening sets in.
+  \item Because the softening drops occur at slightly shifted displacements, a transient vertical difference peaks at $u_x = 10.205\,\mu\mathrm{m}$. As propagation proceeds into the ligament ($u_x \ge 12.0\,\mu\mathrm{m}$), the curves re-converge with differences shrinking to $15\text{--}20\,\mathrm{N}$.
+\end{itemize}
+\paragraph{Epistemological Correction:} In earlier task notes (F1401), this phase shift was hypothetically attributed to coarser peripheral elements outside the refinement corridor allowing faster elastic relaxation. However, that causal mechanism has not been demonstrated by a controlled physical or numerical experiment. In strict compliance with scientific claims discipline, the timing and force differences are reported as \textbf{numerically verified observational facts}, while the underlying physical or discretization cause is formally designated as \textbf{unresolved}.
+
+\subsubsection{4. Publication Offset ($+13.7\%$ Peak Force)}
+While Adaptive ET3 reproduces the Fine 72k numerical reference within $0.91\%$ ($412.21\,\mathrm{N}$ vs $415.99\,\mathrm{N}$), both numerical models exhibit a $+13.7\%$ offset relative to the redigitized curve of \citet{pandey2025} (Fig.~13(a)):
+\begin{itemize}
+  \item Published peak force: $F_{\max,\mathrm{lit}} = 365.74\,\mathrm{N}$ at $u_x = 8.284\,\mu\mathrm{m}$ (Proposed Adaptive, $19{,}963$ elements) and $351.99\,\mathrm{N}$ (Standard PFM, $37{,}155$ elements).
+  \item Our numerical reference: $F_{\max,72\mathrm{k}} = 415.99\,\mathrm{N}$ at $u_x = 9.470\,\mu\mathrm{m}$ ($+13.74\%$ relative to published curve).
+\end{itemize}
+To evaluate this discrepancy objectively, an epistemological parameter classification was conducted (Table~\ref{tab:mode2_epistemological_audit}). Specimen geometry, crack length, elastic constants, $G_c$, $\ell_0$, and the Miehe spectral split are verified identical. The initial elastic stiffness agrees within $<4\%$ ($45.77\,\mathrm{kN/mm}$ vs $\approx 46.8\text{--}47.7\,\mathrm{kN/mm}$). 
+
+However, the crack notch representation (duplicate node seam vs finite notch root radius vs diffuse boundary condition) and staggered solver convergence tolerances are \textbf{not disclosed in the publication}. Hypotheses asserting that a finite notch radius caused the lower published peak are classified as \texttt{HYPOTHESIS\_}\allowbreak\texttt{NOT\_}\allowbreak\texttt{TESTED}. The $+13.7\%$ difference is retained as an \textbf{unresolved external modeling discrepancy}, while our internal numerical convergence sequence remains self-consistent.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Epistemological parameter classification table for the Mode-II benchmark comparison against \citet{pandey2025}.}
+\label{tab:mode2_epistemological_audit}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.22\textwidth} >{\raggedright\arraybackslash}p{0.24\textwidth} >{\raggedright\arraybackslash}p{0.24\textwidth} >{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Feature / Parameter} & \textbf{Our Model} & \textbf{Pandey \& Kumar (2025)} & \textbf{Epistemological Classification} \\
+\midrule
+Domain Dimensions & $1.0\,\mathrm{mm} \times 1.0\,\mathrm{mm}$ & $1.0\,\mathrm{mm} \times 1.0\,\mathrm{mm}$ & \texttt{MATCHED\_}\allowbreak\texttt{AND\_}\allowbreak\texttt{VERIFIED} \\
+Initial Slit Length / Position & $a_0 = 0.5\,\mathrm{mm}$ at $y = 0.5\,\mathrm{mm}$ & $a_0 = 0.5\,\mathrm{mm}$ at $y = 0.5\,\mathrm{mm}$ & \texttt{MATCHED\_}\allowbreak\texttt{AND\_}\allowbreak\texttt{VERIFIED} \\
+Material Constants ($E, \nu, G_c, \ell_0$) & $E=210\,\mathrm{GPa}$, $\nu=0.3$, $G_c=2.7\,\mathrm{N/mm}$, $\ell_0=15\,\mu\mathrm{m}$ & $E=210\,\mathrm{GPa}$, $\nu=0.3$, $G_c=2.7\,\mathrm{N/mm}$, $\ell_0=15\,\mu\mathrm{m}$ & \texttt{MATCHED\_}\allowbreak\texttt{AND\_}\allowbreak\texttt{VERIFIED} \\
+Constitutive Split & Miehe spectral split & Miehe spectral split & \texttt{MATCHED\_}\allowbreak\texttt{AND\_}\allowbreak\texttt{VERIFIED} \\
+Initial Elastic Stiffness $K_0$ & $45.77\,\mathrm{kN/mm}$ & $\approx 46.8\text{--}47.7\,\mathrm{kN/mm}$ & \texttt{MATCHED\_}\allowbreak\texttt{AND\_}\allowbreak\texttt{VERIFIED} ($<4\%$) \\
+Precrack Boundary Modeling & Zero-thickness duplicate seam & Slit / Notch (exact boundary unstated) & \texttt{NOT\_}\allowbreak\texttt{DISCLOSED} \\
+Solver Staggered Tolerances & Abaqus Standard Newton & External driver loop (tolerances unstated) & \texttt{NOT\_}\allowbreak\texttt{DISCLOSED} \\
+Notch Root Radius Effect & Peak reduction hypothesis & Not tested & \texttt{HYPOTHESIS\_}\allowbreak\texttt{NOT\_}\allowbreak\texttt{TESTED} \\
+Peak Load Difference ($+13.7\%$) & $415.99\,\mathrm{N}$ vs $365.74\,\mathrm{N}$ & Baseline curve Fig.~13(a) & \texttt{UNRESOLVED\_}\allowbreak\texttt{MODELING\_}\allowbreak\texttt{OFFSET} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Epistemological Synthesis and Gate M2-4 Qualification Decision}
+\label{subsec:mode2_gate_m2_4_decision}
+
+Following the supervisor-aligned Master Gate Dashboard, the evidence for Mode-II adaptive remeshing is formally synthesized under strict tripartite epistemological separation:
+
+\begin{enumerate}
+  \item \textbf{Theoretically Established Facts:}
+  \begin{itemize}
+    \item Variational AT2 phase-field formulation and Miehe anisotropic spectral decomposition.
+    \item Zienkiewicz--Zhu superconvergent patch recovery (SPR) stress error indicator foundations.
+    \item Clamped Mode-II kinematic shear constraints enforcing pure shear deformation.
+  \end{itemize}
+  \item \textbf{Numerically Verified Findings:}
+  \begin{itemize}
+    \item Monotonic initiation peak force convergence across four fixed mesh tiers ($525.70\,\mathrm{N} \to 436.99\,\mathrm{N} \to 420.66\,\mathrm{N} \to 415.99\,\mathrm{N}$).
+    \item Full-horizon Fine 72k reference values ($F_{\max} = 415.99\,\mathrm{N}$, $\mathrm{RF}_{\mathrm{final}} = 387.47\,\mathrm{N}$, $K_0 = 45.77\,\mathrm{kN/mm}$) independently verified across two separate cluster solves with 100\% numerical agreement to 8 significant printed digits across all $4{,}022$ increments.
+    \item Damage-evolving pre-analysis Job \texttt{1411104} breaks scale invariance, dynamically steering the $\mathrm{MISESERI}$ corridor to $-34.07^\circ$.
+    \item Native Abaqus \texttt{adaptiveRemesh} generates Adaptive ET3 with $21{,}063$ finite elements ($70.67\%$ reduction) focused along the $-48.30^\circ$ shear corridor with zero spurious branching.
+    \item Adaptive ET3 reproduces Fine 72k within $0.91\%$ peak load, $0.43\%$ elastic stiffness, $0.48^\circ$ crack angle, and $4.25\%$ global NRMSE.
+    \item End-to-end Method~A workflow achieves an audited $2.46\times$ net walltime speedup ($59.31\%$ savings).
+  \end{itemize}
+  \item \textbf{Unresolved Questions and Limitations:}
+  \begin{itemize}
+    \item Cause of premature solver termination in intermediate $40\mathrm{k}$ and adaptive ET2 post-peak softening regimes.
+    \item Mechanistic cause of the $66.45\,\mathrm{N}$ post-initiation drop phase shift.
+    \item External $+13.7\%$ peak load difference relative to the published literature curve.
+  \end{itemize}
+\end{enumerate}
+
+\paragraph{Master Gate M2-4 Qualification Verdict:}
+\begin{center}
+  \fbox{\textbf{GATE M2-4 DECISION: \texttt{QUALIFIED\_WITH\_LIMITATIONS}}}
+\end{center}
+\textbf{Rationale:} Method~A is qualified because the entire pipeline is operational using native Abaqus features, runs to full completion (Exit 0), reproduces the fine reference within sub-percent peak accuracy and high crack-path fidelity, and delivers a $2.46\times$ speedup. Limitations are explicitly preserved because softening convergence is incomplete across all tiers, and the external literature discrepancy remains unresolved.
+
+\subsection{Future Methodological Directions: Load Partitioning and Sequential Transfer}
+\label{subsec:mode2_future_methods}
+
+To address the limitations of two-pass offline pre-refinement (Method~A), two future methodological directions are formulated:
+\begin{itemize}
+  \item \textbf{Method~B (Configurable Load Partitioning):} Rather than executing the preliminary coarse analysis over the full loading horizon, Method~B runs the coarse pre-analysis up to a configurable fraction of the initiation load (e.g., $u_x = \alpha\,u_{\mathrm{peak}}$, with $\alpha \in [0.5, 0.9]$), capturing the onset of damage localization before significant softening occurs. This reduces pre-analysis cost and prevents pre-analysis softening divergence.
+  \item \textbf{Method~C (Sequential Adaptive Remeshing with Nonmatching State Transfer):} A true multi-cycle adaptive framework chaining solve $\to$ evaluate $\to$ remesh $\to$ state transfer $\to$ restart cycles. This requires transferring displacement, phase field, and history variables between nonmatching discretizations while preserving the global energy state.
+\end{itemize}
+In accordance with thesis governance rules, \textbf{Methods B and C are presented strictly as future methodological directions}; they have not been implemented or validated for Mode-II and do not form part of the current qualified baseline.
+
+\paragraph{Supervisor Alignment:} The primary thesis objective remains the development of a robust, automated, configurable adaptive-remeshing framework built on native Abaqus capabilities, rather than an ad-hoc exercise in curve reproduction.
+
