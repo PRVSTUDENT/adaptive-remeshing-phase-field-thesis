@@ -1,0 +1,237 @@
+{
+    "study_name": "MODE1_METHOD_B_LOAD_PARTITIONING_QUALIFIED",
+    "protocol_version": 2,
+    "task_lineage": {
+        "origin_task": "F1404",
+        "design_qualification_task": "F1405",
+        "deck_audit_and_preflight_task": "F1406"
+    },
+    "governing_benchmark": {
+        "name": "Pandey & Kumar (2025) Mode-I Tensile Plate",
+        "freeze_tag": "v2026.10.08-supervisor-meeting-mode1-freeze",
+        "uel_source": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for",
+        "uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+        "uel_state_persistence_contract": "VERIFIED_PERSISTENT_KSTEP_GT_1",
+        "base_mesh_deck": "models/pandey_kumar_mode1/92_mode1_preanalysis_layered_companion_2906/PK_M1_JOB1_LAYERED_COMPANION_2906.inp",
+        "base_mesh_sha256": "27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF",
+        "physical_elements": 2906,
+        "total_layered_elements": 8718,
+        "reference_K0_kN_mm": 137.94552,
+        "reference_Fmax_kN": 0.757778,
+        "reference_u_peak_mm": 0.005857,
+        "full_fracture_horizon_mm": 0.01
+    },
+    "primary_matrix": {
+        "independent_variable": "num_steps",
+        "held_constant": {
+            "terminal_u_mm": 0.005,
+            "load_fraction_alpha": 0.8536793580331228,
+            "physical_delta_u_max_mm": 1e-05,
+            "nominal_total_preliminary_increments": 500,
+            "remeshing_engine": "Abaqus CAE adaptiveRemesh",
+            "error_target_pct": 2.0,
+            "min_element_size_mm": 0.001,
+            "max_element_size_mm": 0.01,
+            "subsequent_fracture_execution": "Fresh solve from t=0 without state transfer"
+        },
+        "configurations": {
+            "M1-MB-1S": {
+                "config_id": "M1-MB-1S",
+                "num_steps": 1,
+                "terminal_u_mm": 0.005,
+                "load_fraction_alpha": 0.8536793580331228,
+                "total_increments": 500,
+                "nominal_total_increments": 500,
+                "physical_delta_u_max_mm": 1e-05,
+                "steps": [
+                    {
+                        "step_index": 1,
+                        "step_name": "Step-1",
+                        "step_time": 1.0,
+                        "delta_u_step_mm": 0.005,
+                        "cumulative_u_mm": 0.005,
+                        "dt_initial": 0.002,
+                        "dt_max": 0.002,
+                        "dt_min": 1e-09,
+                        "num_increments": 500,
+                        "nominal_increments": 500,
+                        "physical_delta_u_inc_mm": 1e-05
+                    }
+                ],
+                "remesh_target_step": "Step-1",
+                "remesh_frame_rule": "LAST_INCREMENT",
+                "remesh_extraction_u_mm": 0.005
+            },
+            "M1-MB-2S": {
+                "config_id": "M1-MB-2S",
+                "num_steps": 2,
+                "terminal_u_mm": 0.005,
+                "load_fraction_alpha": 0.8536793580331228,
+                "total_increments": 500,
+                "nominal_total_increments": 500,
+                "physical_delta_u_max_mm": 1e-05,
+                "steps": [
+                    {
+                        "step_index": 1,
+                        "step_name": "Step-1",
+                        "step_time": 1.0,
+                        "delta_u_step_mm": 0.0025,
+                        "cumulative_u_mm": 0.0025,
+                        "dt_initial": 0.004,
+                        "dt_max": 0.004,
+                        "dt_min": 1e-09,
+                        "num_increments": 250,
+                        "nominal_increments": 250,
+                        "physical_delta_u_inc_mm": 1e-05
+                    },
+                    {
+                        "step_index": 2,
+                        "step_name": "Step-2",
+                        "step_time": 1.0,
+                        "delta_u_step_mm": 0.0025,
+                        "cumulative_u_mm": 0.005,
+                        "dt_initial": 0.004,
+                        "dt_max": 0.004,
+                        "dt_min": 1e-09,
+                        "num_increments": 250,
+                        "nominal_increments": 250,
+                        "physical_delta_u_inc_mm": 1e-05
+                    }
+                ],
+                "remesh_target_step": "Step-2",
+                "remesh_frame_rule": "LAST_INCREMENT",
+                "remesh_extraction_u_mm": 0.005
+            },
+            "M1-MB-4S": {
+                "config_id": "M1-MB-4S",
+                "num_steps": 4,
+                "terminal_u_mm": 0.005,
+                "load_fraction_alpha": 0.8536793580331228,
+                "total_increments": 500,
+                "nominal_total_increments": 500,
+                "physical_delta_u_max_mm": 1e-05,
+                "steps": [
+                    {
+                        "step_index": 1,
+                        "step_name": "Step-1",
+                        "step_time": 1.0,
+                        "delta_u_step_mm": 0.00125,
+                        "cumulative_u_mm": 0.00125,
+                        "dt_initial": 0.008,
+                        "dt_max": 0.008,
+                        "dt_min": 1e-09,
+                        "num_increments": 125,
+                        "nominal_increments": 125,
+                        "physical_delta_u_inc_mm": 1e-05
+                    },
+                    {
+                        "step_index": 2,
+                        "step_name": "Step-2",
+                        "step_time": 1.0,
+                        "delta_u_step_mm": 0.00125,
+                        "cumulative_u_mm": 0.0025,
+                        "dt_initial": 0.008,
+                        "dt_max": 0.008,
+                        "dt_min": 1e-09,
+                        "num_increments": 125,
+                        "nominal_increments": 125,
+                        "physical_delta_u_inc_mm": 1e-05
+                    },
+                    {
+                        "step_index": 3,
+                        "step_name": "Step-3",
+                        "step_time": 1.0,
+                        "delta_u_step_mm": 0.00125,
+                        "cumulative_u_mm": 0.00375,
+                        "dt_initial": 0.008,
+                        "dt_max": 0.008,
+                        "dt_min": 1e-09,
+                        "num_increments": 125,
+                        "nominal_increments": 125,
+                        "physical_delta_u_inc_mm": 1e-05
+                    },
+                    {
+                        "step_index": 4,
+                        "step_name": "Step-4",
+                        "step_time": 1.0,
+                        "delta_u_step_mm": 0.00125,
+                        "cumulative_u_mm": 0.005,
+                        "dt_initial": 0.008,
+                        "dt_max": 0.008,
+                        "dt_min": 1e-09,
+                        "num_increments": 125,
+                        "nominal_increments": 125,
+                        "physical_delta_u_inc_mm": 1e-05
+                    }
+                ],
+                "remesh_target_step": "Step-4",
+                "remesh_frame_rule": "LAST_INCREMENT",
+                "remesh_extraction_u_mm": 0.005
+            }
+        }
+    },
+    "staged_input_decks": {
+        "M1-MB-1S": {
+            "filename": "M1-MB-1S.inp",
+            "filepath": "models/pandey_kumar_mode1/method_b_preflight_decks/M1-MB-1S.inp",
+            "file_size_bytes": 346269,
+            "line_count": 11978,
+            "sha256": "259581D50CAF8BC1F3547E3EA8E6EB8C61890D38053B803F65E1BC8E89505233",
+            "audit_passed": true
+        },
+        "M1-MB-2S": {
+            "filename": "M1-MB-2S.inp",
+            "filepath": "models/pandey_kumar_mode1/method_b_preflight_decks/M1-MB-2S.inp",
+            "file_size_bytes": 346892,
+            "line_count": 11999,
+            "sha256": "5F9DDBC73607B8A6628E3D73081358093318154F7D0DD77E1FFFCF9600CA55D0",
+            "audit_passed": true
+        },
+        "M1-MB-4S": {
+            "filename": "M1-MB-4S.inp",
+            "filepath": "models/pandey_kumar_mode1/method_b_preflight_decks/M1-MB-4S.inp",
+            "file_size_bytes": 348140,
+            "line_count": 12041,
+            "sha256": "81DFCBC418969781272704548AB0A4D6D8DAAF067EB3822988874FB75DE0EB92",
+            "audit_passed": true
+        }
+    },
+    "orthogonal_load_sweep": {
+        "independent_variable": "terminal_load_fraction_alpha",
+        "held_constant_partition": "M1-MB-2S (2 steps)",
+        "levels": [
+            {
+                "level_id": "M1-SW-LOW",
+                "alpha": 0.5,
+                "u_pre_mm": 0.002929,
+                "desc": "Pure linear elastic"
+            },
+            {
+                "level_id": "M1-SW-MID",
+                "alpha": 0.85368,
+                "u_pre_mm": 0.005,
+                "desc": "Incipient localization (Primary M1-MB-2S)"
+            },
+            {
+                "level_id": "M1-SW-HIGH",
+                "alpha": 0.9,
+                "u_pre_mm": 0.005271,
+                "desc": "Pre-peak threshold"
+            }
+        ]
+    },
+    "preflight_validation": {
+        "all_checks_passed": true,
+        "parity_checks_passed": true,
+        "staged_decks_valid": true,
+        "diagnostics": [
+            "PASS: Common terminal preliminary displacement: 0.005000 mm (alpha = 0.8537)",
+            "PASS: Invariant physical displacement increment: 1.000000e-05 mm (10 nm) across all steps",
+            "PASS: Nominal total preliminary increments = 500 across all partition candidates",
+            "PASS: Monotonic step boundary continuity verified with zero displacement jumps",
+            "PASS: MISESERI remeshing target step contract verified for 1S, 2S, and 4S"
+        ]
+    },
+    "recommendation": "METHOD_B_OFFLINE_PREFLIGHT_QUALIFIED_PENDING_DATACHECK_AND_APPROVAL",
+    "preflight_recommendation": "METHOD_B_OFFLINE_PREFLIGHT_QUALIFIED_PENDING_DATACHECK_AND_APPROVAL"
+}

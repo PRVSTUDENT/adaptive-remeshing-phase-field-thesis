@@ -1,12 +1,13 @@
 # Supervisor Decision Package: Qualified Method B Load-Partitioning Study on Mode-I Benchmark
 
 **Document ID:** `SUPERVISOR_DECISION_METHOD_B_MODE1_LOAD_PARTITIONING`  
-**Revision:** `2.0 (Scientifically Controlled Experimental Design & Preflight Plan)`  
+**Revision:** `2.1 (Abaqus Deck Audit, Staged Input Verification, and Preflight Qualification)`  
+**Parent Design Revision:** `2.0 (Scientifically Controlled Experimental Design & Preflight Plan)`  
 **Date:** `2026-10-11`  
 **Status:** `PROPOSED / PENDING SUPERVISOR REVIEW & EXPLICIT AUTHORIZATION`  
 **Target Milestone:** Supervisor Meeting (Thursday, 22 October 2026, 10:00 AM)  
 **Governing Benchmark:** Mode-I Symmetric Tension Crack Propagation ($l_0 = 7.5\,\mu\text{m}$, Frozen Baseline)  
-**Author:** Gemini Antigravity (Tasks F1404, F1405)  
+**Author:** Gemini Antigravity (Tasks F1404, F1405, F1406)  
 
 ---
 
@@ -116,30 +117,38 @@ To eliminate this numerical artifact, the time increments must be scaled so that
 $$\Delta u_{\max} = \left(\frac{\Delta t_{\text{max}}}{T_{\text{step}}}\right) \cdot \Delta U_{\text{step}} = 1.0 \times 10^{-5}\,\text{mm} = \text{const}$$
 
 Under normalized step time $T_{\text{step}} = 1.0$:
-- **`M1-MB-1S`:** $\Delta U_1 = 0.0050\,\text{mm} \implies \Delta t_{\text{initial}} = \Delta t_{\max} = 0.002$ ($500$ increments total).
-- **`M1-MB-2S`:** $\Delta U_k = 0.0025\,\text{mm} \implies \Delta t_{\text{initial}} = \Delta t_{\max} = 0.004$ ($250$ increments/step, $500$ total).
-- **`M1-MB-4S`:** $\Delta U_k = 0.00125\,\text{mm} \implies \Delta t_{\text{initial}} = \Delta t_{\max} = 0.008$ ($125$ increments/step, $500$ total).
+- **`M1-MB-1S`:** $\Delta U_1 = 0.0050\,\text{mm} \implies \Delta t_{\text{initial}} = \Delta t_{\max} = 0.002$ ($500$ nominal increments total).
+- **`M1-MB-2S`:** $\Delta U_k = 0.0025\,\text{mm} \implies \Delta t_{\text{initial}} = \Delta t_{\max} = 0.004$ ($250$ nominal increments/step, $500$ total).
+- **`M1-MB-4S`:** $\Delta U_k = 0.00125\,\text{mm} \implies \Delta t_{\text{initial}} = \Delta t_{\max} = 0.008$ ($125$ nominal increments/step, $500$ total).
 
-Across all three candidates, exactly **500 increments** are executed to reach $u = 0.0050\,\text{mm}$, with identical continuous velocity $\dot{u}$.
+Across all three candidates, the **nominal increment schedule specifies exactly 500 increments** ($500 \times 1$, $250 \times 2$, $125 \times 4$) to reach $u = 0.0050\,\text{mm}$ under uniform continuous velocity $\dot{u}$. If non-linear Newton iterations require cutbacks or automatic sub-stepping, the actual completed solver increment count will be $\ge 500$, while physical displacement resolution per increment remains strictly bounded by $\Delta u \le 10\,\text{nm}$.
 
 ### 4.2 Abaqus Step-Boundary Mechanics & UEL State Persistence
 Auditing the authoritative Abaqus documentation and `f42_mixed_uel.for` source code reveals several critical step-boundary behaviors:
 1. **Displacement Extrapolation:** At step boundaries, Abaqus resets displacement extrapolation (`*STEP, EXTRAPOLATION=LINEAR` by default). The solver solves an exact equilibrium state at the boundary before taking the first increment of the next step.
 2. **Time Normalization in Subroutines:** In `f42_mixed_uel.for`, `TIME(1)` (step time) resets to $0.0$ at each step boundary, while `TIME(2)` (total accumulated time) increases monotonically.
-3. **Phase-Field State Persistence:** In `f42_mixed_uel.for` (lines 131–145):
-   ```fortran
-   IF (JTYPE .EQ. 1 .OR. JTYPE .EQ. 3) THEN
-     IF (KSTEP .EQ. 1 .AND. KINC .LE. 1) THEN
-       DO KPT=1, 4
-         SV_H_COMMITTED(PHYSIDX, KPT) = SVARS(8+KPT)
-         SV_H_TRIAL(PHYSIDX, KPT)     = SVARS(8+KPT)
-       ENDDO
+3. **Phase-Field State Persistence:** In `f42_mixed_uel.for`:
+   - Subroutine `UEXTERNALDB`:
+     - `LOP = 0` (Start of Analysis): Executed once at the beginning of Step 1; zeroes trial and committed state arrays. It is NOT re-invoked at subsequent step boundaries (`KSTEP > 1`).
+     - `LOP = 1` (Start of Increment): Restores `SV_PHASE_TRIAL` and `SV_H_TRIAL` from committed memory.
+     - `LOP = 2` (End of Accepted Increment): Commits trial state and appends total energies (`TOT_E_ELAS`, `TOT_E_FRAC`) to `uel_energy_balance.csv` with `KSTEP` and `TIME(2)`.
+   - Subroutine `UEL` (lines 248–260):
+     ```fortran
+     IF (JTYPE .EQ. 1 .OR. JTYPE .EQ. 3) THEN
+       IF (KSTEP .EQ. 1 .AND. KINC .LE. 1) THEN
+         IF (JTYPE .EQ. 1) THEN
+           DO KPT=1, 4
+             SV_H_COMMITTED(PHYSIDX, KPT) = SVARS(8+KPT)
+             SV_H_TRIAL(PHYSIDX, KPT)     = SVARS(8+KPT)
+           ENDDO
+         ENDIF
+       ENDIF
      ENDIF
-   ENDIF
-   ```
-   The shared COMMON history array `SV_H_COMMITTED` is initialized from `SVARS` **only when `KSTEP == 1` and `KINC <= 1`**. In subsequent steps (`KSTEP > 1`), `KSTEP == 1` is false, meaning the subroutine preserves the continuous damage history in memory across step boundaries without zeroing or reset.
+     ```
+     The shared COMMON history array `SV_H_COMMITTED` is initialized from `SVARS` **only when `KSTEP == 1` and `KINC <= 1`**. In subsequent steps (`KSTEP > 1`), `KSTEP == 1` is false, meaning the subroutine preserves the continuous damage history in memory across step boundaries without zeroing or reset.
+   - **Single-Process Memory Boundary:** Because state persistence resides in `COMMON /CB_STATE_TRANS/`, memory continuity holds strictly within **one continuous Abaqus/Standard execution** (single-rank shared-memory SMP). It does not persist across separate jobs or external restarts without custom state transfer (Method C), and does not support multi-rank distributed MPI.
 4. **Boundary Condition Formulation:** Under default Abaqus syntax (`*BOUNDARY, OP=MOD`), displacement specified in a step is the **cumulative displacement** at that step's conclusion:
-   - Step 1: `N_RP, 2, 2, 0.00125`
+   - Step 1: `N_RP, 2, 2, 0.00125` (with `N_BOTTOM, 2, 2, 0.0` and `N_PIN, 1, 1, 0.0`)
    - Step 2: `N_RP, 2, 2, 0.00250` (ramps smoothly from $0.00125$ to $0.00250$)
    - Step 3: `N_RP, 2, 2, 0.00375` (ramps smoothly from $0.00250$ to $0.00375$)
    - Step 4: `N_RP, 2, 2, 0.00500` (ramps smoothly from $0.00375$ to $0.00500$)
@@ -155,7 +164,8 @@ To establish scientific rigor, evaluation criteria are strictly separated into *
 A candidate Method B workflow is deemed verified if and only if it satisfies all of the following:
 
 1. **Pre-Analysis Convergence Robustness:**
-   - 0 cutbacks, 0 line-search divergences, and solver exit code 0 across all steps.
+   - Robust solver completion with Exit Code 0 across all steps.
+   - Zero unrecovered cutbacks; any transient cutbacks during step transitions or stiff iteration stages must be fully recovered to equilibrium.
 2. **Inter-Step Solution Continuity:**
    - Displacement jump across step boundaries: $|u(t^+) - u(t^-)| = 0.0\,\text{mm}$.
    - Reaction force continuity across step boundaries: $|\Delta F| = |F(t^+) - F(t^-)| \le 1.0 \times 10^{-6}\,\text{kN}$.
@@ -164,13 +174,14 @@ A candidate Method B workflow is deemed verified if and only if it satisfies all
    - Initial elastic stiffness discrepancy: $|\Delta K_0| / K_{0,\text{ref}} \le 0.5\%$.
    - Displacement at peak load: $|\Delta u_{\text{peak}}| / u_{\text{peak},\text{ref}} \le 1.5\%$.
    - Pre-peak normalized root-mean-square error: $\text{NRMSE}_{\text{pre}} \le 1.0\%$.
-4. **Mode-I Crack-Path Collinearity & Localization:**
+4. **Mode-I Crack-Path Collinearity & Regularization:**
    - In pure Mode-I, chord angle is uninformative. The crack path must propagate strictly horizontally along the symmetry line $y = 0.50\,\text{mm}$ (collinearity).
    - Maximum path deviation: $\max |y_{\text{crack}}(x) - 0.50\,\text{mm}| \le 0.5\,\mu\text{m}$ ($0.5\,h_{\min}$) across the entire ligament $x \in [0.5, 1.0]\,\text{mm}$.
    - Crack initiation point within $1.0\,h_{\min} = 1.0\,\mu\text{m}$ of the slit tip ($x = 0.50\,\text{mm}, y = 0.50\,\text{mm}$).
-   - Damage profile: localization profile $d(y)$ across a vertical transect at mid-ligament ($x = 0.75\,\text{mm}$) conforms to the theoretical phase-field distribution $d(y) \approx e^{-|y-0.5|/l_0}$ with half-width at half-maximum (HWHM) matching $l_0 = 7.5\,\mu\text{m}$ within $\pm 10\%$.
-5. **Global Energy Balance:**
-   - Qualified UEL energy balance: external work $W_{\text{ext}} = \int F\,du$ balances stored elastic strain energy $E_{\text{elas}}$ and phase-field fracture energy $E_{\text{frac}}$ within an energy balance discrepancy $\le 5.0\%$ prior to peak load.
+   - Regularization profile check: Damage profile $d(y)$ across a vertical transect at mid-ligament ($x = 0.75\,\text{mm}$) conforms to regularized diffuse localization with peak damage along $y = 0.50\,\text{mm}$. The discrete finite-element half-width at half-maximum (HWHM) is evaluated against $l_0 = 7.5\,\mu\text{m}$ as an exploratory diagnostic indicator of discretization resolution rather than an ungrounded binary pass/fail barrier.
+5. **Global Energy Balance & UEL Energy Accounting:**
+   - Qualified UEL energy balance: Internal stored elastic energy ($E_{\text{elas}}$) and phase-field crack dissipation ($E_{\text{frac}}$) are tracked through the custom UEXTERNALDB logging in `uel_energy_balance.csv` (`TOT_E_ELAS` and `TOT_E_FRAC`).
+   - Energy consistency is verified by comparing external work $W_{\text{ext}} = \int F\,du$ to total internal energy $E_{\text{int}} = E_{\text{elas}} + E_{\text{frac}}$ within an engineering tolerance $\le 5.0\%$ prior to peak load, recognizing that standard Abaqus solver energy totals (`ALLSE`, `ALLWK`) from companion elements do not directly account for UEL fracture dissipation without the custom logger.
 
 ### 5.2 Exploratory Computational Efficiency Targets (Non-Disqualifying)
 These metrics measure practical engineering benefits and are reported as empirical observations, NOT treated as guaranteed pass/fail hurdles:
@@ -216,7 +227,7 @@ The existing `RemeshConfig` in `scripts/remeshing/generic_adaptive_remesher.py` 
           "dt_initial": 0.002,
           "dt_max": 0.002,
           "step_time": 1.0,
-          "num_increments": 500
+          "nominal_increments": 500
         }
       ],
       "remesh_target_step": "Step-1",
@@ -234,7 +245,7 @@ The existing `RemeshConfig` in `scripts/remeshing/generic_adaptive_remesher.py` 
           "dt_initial": 0.004,
           "dt_max": 0.004,
           "step_time": 1.0,
-          "num_increments": 250
+          "nominal_increments": 250
         },
         {
           "step_name": "Step-2",
@@ -243,7 +254,7 @@ The existing `RemeshConfig` in `scripts/remeshing/generic_adaptive_remesher.py` 
           "dt_initial": 0.004,
           "dt_max": 0.004,
           "step_time": 1.0,
-          "num_increments": 250
+          "nominal_increments": 250
         }
       ],
       "remesh_target_step": "Step-2",
@@ -254,10 +265,10 @@ The existing `RemeshConfig` in `scripts/remeshing/generic_adaptive_remesher.py` 
       "terminal_u_mm": 0.0050,
       "physical_delta_u_max_mm": 1e-5,
       "steps": [
-        {"step_name": "Step-1", "delta_u_step_mm": 0.00125, "cumulative_u_mm": 0.00125, "dt_initial": 0.008, "dt_max": 0.008, "step_time": 1.0, "num_increments": 125},
-        {"step_name": "Step-2", "delta_u_step_mm": 0.00125, "cumulative_u_mm": 0.00250, "dt_initial": 0.008, "dt_max": 0.008, "step_time": 1.0, "num_increments": 125},
-        {"step_name": "Step-3", "delta_u_step_mm": 0.00125, "cumulative_u_mm": 0.00375, "dt_initial": 0.008, "dt_max": 0.008, "step_time": 1.0, "num_increments": 125},
-        {"step_name": "Step-4", "delta_u_step_mm": 0.00125, "cumulative_u_mm": 0.00500, "dt_initial": 0.008, "dt_max": 0.008, "step_time": 1.0, "num_increments": 125}
+        {"step_name": "Step-1", "delta_u_step_mm": 0.00125, "cumulative_u_mm": 0.00125, "dt_initial": 0.008, "dt_max": 0.008, "step_time": 1.0, "nominal_increments": 125},
+        {"step_name": "Step-2", "delta_u_step_mm": 0.00125, "cumulative_u_mm": 0.00250, "dt_initial": 0.008, "dt_max": 0.008, "step_time": 1.0, "nominal_increments": 125},
+        {"step_name": "Step-3", "delta_u_step_mm": 0.00125, "cumulative_u_mm": 0.00375, "dt_initial": 0.008, "dt_max": 0.008, "step_time": 1.0, "nominal_increments": 125},
+        {"step_name": "Step-4", "delta_u_step_mm": 0.00125, "cumulative_u_mm": 0.00500, "dt_initial": 0.008, "dt_max": 0.008, "step_time": 1.0, "nominal_increments": 125}
       ],
       "remesh_target_step": "Step-4",
       "remesh_frame_rule": "LAST_INCREMENT"
@@ -287,7 +298,7 @@ flowchart TD
     E --> F["6. Fresh Adapted Fracture Solve<br>(Runs from t = 0 to full fracture horizon u = 0.010 mm)"]
 ```
 
-1. **Stage 1 (Deck Generation):** Generates `PK_M1_PRE_1S.inp`, `PK_M1_PRE_2S.inp`, or `PK_M1_PRE_4S.inp` without hardcoding.
+1. **Stage 1 (Deck Generation):** Generates `M1-MB-1S.inp`, `M1-MB-2S.inp`, or `M1-MB-4S.inp` without hardcoding.
 2. **Stage 2 (Coarse Pre-Analysis):** Solves on the coarse reference mesh ($2,906$ FEs) to $u = 0.0050\,\text{mm}$ (Exit 0).
 3. **Stage 3 (ODB Frame Audit):** Verifies the terminal frame has exactly $2,906$ `MISESERI` values and achieved $u = 0.0050\,\text{mm}$.
 4. **Stage 4 (Native CAE Remeshing):** `mdb.adaptiveRemesh(odb)` creates the new adapted mesh.
@@ -296,8 +307,9 @@ flowchart TD
 
 ---
 
-## 7. Implementation-Readiness Assessment
+## 7. Implementation-Readiness Assessment & Preflight Staging Audit
 
+### 7.1 Codebase Maturity Matrix
 A thorough audit of the existing codebase confirms the exact maturity level of all required components:
 
 | Component | Status | Existing Script / Artifact | Required Actions Before Execution |
@@ -305,12 +317,26 @@ A thorough audit of the existing codebase confirms the exact maturity level of a
 | **Abaqus CAE Remeshing Engine** | `READY` | `scripts/remeshing/generic_adaptive_remesher.py`<br>`scripts/remeshing/execute_stage_f13_native_remesh_core.py` | None; native `RemeshingRule` and `adaptiveRemesh` fully verified. |
 | **Multi-Layer UEL/UMAT Deck Reconstructor** | `READY` | `scripts/remeshing/pandey_kumar_adaptive_refinement.py`<br>`models/pandey_kumar_mode1/92_mode1_preanalysis_layered_companion_2906` | Preserved with verified `N_BOTTOM` multi-line card wrapping. |
 | **Authoritative Mode-I UEL Source** | `FROZEN_QUALIFIED` | `models/pandey_kumar_mode1/01_standard_pfm_reference/f42_mixed_uel.for`<br>SHA-256: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` | 100% frozen under tag `v2026.10.08-supervisor-meeting-mode1-freeze`. |
-| **Multi-Step Pre-Analysis Deck Generator** | `READY` | `scripts/model_generation/build_mode1_method_b_decks.py` | Offline generator and validator implemented in Task F1405. |
+| **Multi-Step Pre-Analysis Deck Generator** | `READY` | `scripts/model_generation/build_mode1_method_b_decks.py` | Offline generator and validator implemented in Tasks F1405/F1406. |
 | **Step-Frame Selection Validator** | `READY` | `scripts/audit/stage5_step_frame_semantics_audit.py` | Validated multi-step frame audit and linear-scale analyzer. |
 | **Energy Output & Parity Evaluator** | `READY` | `scripts/evaluation/evaluate_mode1_batch_candidates.py` | Reused directly for energy balance and $K_0$ extraction. |
 | **HPC Notification & Wrappers** | `READY` | `scripts/hpc/notifications/job_notifications.sh`<br>`.agents/scripts/Invoke-GuardedSsh.ps1` | Ready for PBS batch execution upon human authorization. |
 
-### Smallest Justified Subsequent Execution Batch
+### 7.2 Staged Preflight Input Decks Audit (Task F1406)
+In Task F1406, complete runnable Abaqus input decks were generated from the canonical 2,906-element base model (`PK_M1_JOB1_LAYERED_COMPANION_2906.inp`) and staged in `models/pandey_kumar_mode1/method_b_preflight_decks/`. Every staged deck was independently audited for keyword syntax, element count, boundary ramp semantics, and field output requests:
+
+| Configuration ID | Staged File Path | File Size | Line Count | SHA-256 (First 16 chars) | Step Count / Syntax Audit |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **`M1-MB-1S`** | `models/.../method_b_preflight_decks/M1-MB-1S.inp` | $346{,}269\,\text{B}$ | $11{,}978$ | `259581D50CAF8BC1...` | `1 STEP / 1 END STEP`, $500$ incs, $\Delta t = 0.002$ (`PASS`) |
+| **`M1-MB-2S`** | `models/.../method_b_preflight_decks/M1-MB-2S.inp` | $346{,}892\,\text{B}$ | $11{,}999$ | `5F9DDBC73607B8A6...` | `2 STEPS / 2 END STEPS`, $250$ incs/step, $\Delta t = 0.004$ (`PASS`) |
+| **`M1-MB-4S`** | `models/.../method_b_preflight_decks/M1-MB-4S.inp` | $348{,}140\,\text{B}$ | $12{,}041$ | `81DFCBC418969781...` | `4 STEPS / 4 END STEPS`, $125$ incs/step, $\Delta t = 0.008$ (`PASS`) |
+
+**Audited Technical Properties:**
+1. **Base Model Integrity:** All 8,718 layered element records (U1, U2, U3, U4) and accompanying companion sections, materials, and constraint equations are preserved 100% bitwise from the canonical 2,906-element baseline.
+2. **Boundary Propagation Semantics:** In Step 1, all three boundary conditions (`N_BOTTOM, 2, 2, 0.0`, `N_PIN, 1, 1, 0.0`, and `N_RP, 2, 2, <u1>`) are explicitly defined. In subsequent steps ($k > 1$), only `N_RP, 2, 2, <uk>` is specified under default `OP=MOD`, ensuring smooth continuous ramping from $u_{k-1}$ to $u_k$ without rigid-body singularity or displacement jumps.
+3. **Field Output Integrity:** Every step requests `MISESERI` and `MISESAVG` output on element set `All_elem`, ensuring that Abaqus CAE native `adaptiveRemesh` has access to the full recovery error field at the terminal frame of every partition.
+
+### 7.3 Smallest Justified Subsequent Execution Batch
 When authorized by the supervisor, the smallest scientifically justified execution batch consists of exactly **6 Abaqus jobs**:
 1. **Job 1 (`M1_PRE_1S`):** 1-step coarse pre-analysis to $u = 0.0050\,\text{mm}$ (1 CPU serial, ~15 min).
 2. **Job 2 (`M1_PRE_2S`):** 2-step coarse pre-analysis to $u = 0.0050\,\text{mm}$ (1 CPU serial, ~15 min).
@@ -338,10 +364,15 @@ The supervisor is requested to review and decide on the following three actionab
 
 ## 9. Recommendation & Conclusion
 
-**Final Recommendation:**  
+**Scientific Design Recommendation (Task F1405):**  
 `METHOD_B_DESIGN_READY_FOR_SUPERVISOR_REVIEW`
 
-The Method B experimental design has been rigorously purged of confounding variables, grounded in verified Abaqus solver and UEL source mechanics, and formulated as an identifiable, reproducible study ready for supervisor presentation on 22 October 2026.
+**Offline Preflight Qualification Recommendation (Task F1406):**  
+`METHOD_B_OFFLINE_PREFLIGHT_QUALIFIED_PENDING_DATACHECK_AND_APPROVAL`
+
+The Method B experimental design has been rigorously purged of confounding variables, grounded in verified Abaqus solver and UEL source mechanics, staged into complete runnable Abaqus input decks (`M1-MB-1S.inp`, `M1-MB-2S.inp`, `M1-MB-4S.inp`), audited for keyword and boundary syntax, and formalized in `models/pandey_kumar_mode1/method_b_preflight_manifest.json`.
+
+All cluster execution gates remain strictly locked. No PBS jobs, solver invocations, or cluster submissions are authorized until explicit supervisor approval is recorded.
 
 ---
 
@@ -349,7 +380,9 @@ The Method B experimental design has been rigorously purged of confounding varia
 
 - **Parent Methodology:** Thesis Chapter 4, Section 4.5 ("Future Methodological Directions: Methods B and C").
 - **Reference Tag:** `docs/decisions/SUPERVISOR_DECISION_METHOD_B_MODE1_LOAD_PARTITIONING.md`
+- **Preflight Manifest:** `models/pandey_kumar_mode1/method_b_preflight_manifest.json`
+- **Staged Decks Directory:** `models/pandey_kumar_mode1/method_b_preflight_decks/`
 - **Related Task Records:**
-  - `project_coordination/TASK_LEDGER.csv` (Tasks `F1404`, `F1405`)
+  - `project_coordination/TASK_LEDGER.csv` (Tasks `F1404`, `F1405`, `F1406`)
   - `project_coordination/CURRENT_STATE.md`
   - `project_coordination/ARTIFACT_REGISTRY.csv`
