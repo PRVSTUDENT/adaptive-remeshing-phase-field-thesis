@@ -1,0 +1,104 @@
+{
+  "comparison_title": "Controlled Structural and Mathematical Comparison: Frozen Reference vs Historical Stage 14 ET2 vs Native Method B",
+  "evaluation_date": "2026-10-11T20:05:00+02:00",
+  "models": {
+    "reference_15k": {
+      "model_path": "models/pandey_kumar_mode1/16_energy_qualification_reference_15k/PK_MODE1_REF15K_ENERGY.inp",
+      "finite_elements": 15192,
+      "mesh_nodes": 15522,
+      "total_layered_elements": 45576,
+      "subroutine_source": "f42_mixed_uel.for",
+      "subroutine_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "historical_et2_6k": {
+      "model_path": "models/pandey_kumar_mode1/34_stage14_step2_adaptive_candidate_et2_6k/PK_MODE1_STAGE14_STEP2_ET2_6K_FRACTURE.inp",
+      "job_id": "1411895.mmaster02",
+      "finite_elements": 6112,
+      "mesh_nodes": 6182,
+      "total_layered_elements": 18336,
+      "subroutine_source": "f42_mixed_uel.for",
+      "subroutine_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "native_method_b_14k": {
+      "model_path": "models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp",
+      "job_id": "1411934.mmaster02",
+      "finite_elements": 14677,
+      "mesh_nodes": 14647,
+      "total_layered_elements": 44031,
+      "subroutine_source": "f42_mixed_uel.for",
+      "subroutine_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    }
+  },
+  "feature_audits": [
+    {
+      "feature": "Subroutine & Weak Form Implementation",
+      "ref_value": "f42_mixed_uel.for (CE8D5EDC...)",
+      "et2_value": "f42_mixed_uel.for (CE8D5EDC...)",
+      "method_b_value": "f42_mixed_uel.for (CE8D5EDC...)",
+      "classification": "NUMERICALLY_EQUIVALENT_REPRESENTATION",
+      "finding": "Bitwise identical user subroutine source and single-IP energy evaluation across all 3 models."
+    },
+    {
+      "feature": "Co-Located Element Architecture",
+      "ref_value": "3 layers (U1 Phase, U2 Mech, CPE4 UMAT)",
+      "et2_value": "3 layers (U1/U3 Phase, U2/U4 Mech, CPE4/CPE3 UMAT)",
+      "method_b_value": "3 layers (U1/U3 Phase, U2/U4 Mech, CPE4/CPE3 UMAT)",
+      "classification": "NUMERICALLY_EQUIVALENT_REPRESENTATION",
+      "finding": "Mechanical UEL layer (U2/U4) and Phase UEL layer (U1/U3) 100% present in both adapted models. Companion visualizer layer is passive."
+    },
+    {
+      "feature": "Constitutive & Dimension Formulation",
+      "ref_value": "Plane Strain (CPE4, plane-strain UEL matrix)",
+      "et2_value": "Plane Strain (CPE4/CPE3, plane-strain UEL matrix)",
+      "method_b_value": "Plane Strain (CPE4/CPE3, plane-strain UEL matrix)",
+      "classification": "NUMERICALLY_EQUIVALENT_REPRESENTATION",
+      "finding": "All models strictly enforce plane strain. CAE-exported CPS4/CPS3 types were properly converted to CPE4/CPE3 in the final decks."
+    },
+    {
+      "feature": "Bottom Roller Support (y=0)",
+      "ref_value": "212 geometric nodes, 212 in N_BOTTOM (0 missing)",
+      "et2_value": "52 geometric nodes, 52 in N_BOTTOM (0 missing)",
+      "method_b_value": "62 geometric nodes, 62 in N_BOTTOM (0 missing)",
+      "classification": "INTENDED_ADAPTIVE_MESH_DIFFERENCE",
+      "finding": "Boundary nodes on y=0 are 100% complete in N_BOTTOM. Historical 71k defect (unwrapped NSET card) is absent."
+    },
+    {
+      "feature": "Top Boundary & Kinematic Coupling (y=1)",
+      "ref_value": "212 geometric nodes, 212 in N_TOP, 212 *EQUATION cards",
+      "et2_value": "52 geometric nodes, 52 in N_TOP, 52 *EQUATION cards",
+      "method_b_value": "62 geometric nodes, 62 in N_TOP, 62 *EQUATION cards",
+      "classification": "INTENDED_ADAPTIVE_MESH_DIFFERENCE",
+      "finding": "Every top node is rigidly coupled in DOF 2 to reference node 999999 via linear constraint equations (*EQUATION)."
+    },
+    {
+      "feature": "Crack Seam Topology (y=0.5, 0<=x<=0.5)",
+      "ref_value": "45 coincident duplicate node pairs (zero-gap sharp seam)",
+      "et2_value": "45 coincident duplicate node pairs (zero-gap sharp seam)",
+      "method_b_value": "62 coincident duplicate node pairs (zero-gap sharp seam)",
+      "classification": "INTENDED_ADAPTIVE_MESH_DIFFERENCE",
+      "finding": "Genuine sharp zero-gap slit with duplicated independent node pairs on top/bottom crack faces."
+    },
+    {
+      "feature": "Material & Phase-Field Properties",
+      "ref_value": "E=210.0, nu=0.3, l0=0.0075, Gc=0.0027, k=1.0e-7",
+      "et2_value": "E=210.0, nu=0.3, l0=0.0075, Gc=0.0027, k=1.0e-7",
+      "method_b_value": "E=210.0, nu=0.3, l0=0.0075, Gc=0.0027, k=1.0e-7",
+      "classification": "NUMERICALLY_EQUIVALENT_REPRESENTATION",
+      "finding": "Material and regularizing length scale parameters are 100% identical."
+    },
+    {
+      "feature": "Solver Controls & Time Stepping",
+      "ref_value": "NLGEOM=NO, Static 2 steps, controls 4,10,9,20,10,4,0,10",
+      "et2_value": "NLGEOM=NO, Static 2 steps, controls 4,10,9,20,10,4,0,10",
+      "method_b_value": "NLGEOM=NO, Static 2 steps, controls 4,10,9,20,10,4,0,10",
+      "classification": "NUMERICALLY_EQUIVALENT_REPRESENTATION",
+      "finding": "Identical solver controls, increment limits, and convergence parameters."
+    }
+  ],
+  "audit_verdict": {
+    "status": "STRUCTURALLY_AND_PHYSICALLY_QUALIFIED",
+    "physically_consequential_discrepancies": 0,
+    "sole_intended_difference": "Spatial finite element mesh discretization",
+    "governing_conclusion": "METHOD_B_NATIVE_MODEL_STRUCTURALLY_QUALIFIED_RESULTS_PENDING"
+  }
+}

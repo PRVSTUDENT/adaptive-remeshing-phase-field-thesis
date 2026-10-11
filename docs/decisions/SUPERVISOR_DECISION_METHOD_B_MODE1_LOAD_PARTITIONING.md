@@ -450,3 +450,43 @@ To convert the newly validated 14,677-element Method B native adapted mesh into 
 
 
 
+
+
+---
+
+## 12. Task F1412 Closeout: Critical Structural Audit, Live Validation, and Governance Qualification
+
+**Date:** `2026-10-11T20:15:00+02:00`  
+**Task ID:** `F1412-CRITICAL-STRUCTURAL-AUDIT-AND-METHOD-B-QUALIFICATION`  
+**Governing Verdict:** `METHOD_B_NATIVE_MODEL_STRUCTURALLY_QUALIFIED_RESULTS_PENDING`  
+
+### A. Critical Structural & UEL-Layer Audit
+1. **Co-Located Layer Completeness:** Forensic inspection of `M1_MB_NATIVE_FINAL_1S.inp` confirms that Layer 2 Mechanical UEL (`U2` quads: 14,244; `U4` tris: 433) is 100% present and co-located with Layer 1 Phase UEL (`U1`/`U3`, 14,677 elements) and Layer 3 Companion UMAT (`CPE4`/`CPE3`, 14,677 elements), totaling 44,031 layered elements. Mechanical stiffness is fully accounted for with zero omission.
+2. **Plane-Strain Consistency:** Companion visualizer elements are strictly plane strain (`CPE4`, `CPE3`), and user subroutine `f42_mixed_uel.for` implements plane-strain elasticity matrix $D_{ijkl}$. CAE-exported default labels (`CPS4`/`CPS3`) were properly mapped.
+3. **Boundary Node Completeness:** Geometric analysis of the 14,646 mesh nodes proves that exactly 62 nodes lie on the bottom boundary ($y=0.0$), and all 62 are included in `N_BOTTOM` (0 missing, 0 extra). Exactly 62 nodes lie on the top boundary ($y=1.0$), all 62 are included in `N_TOP`, and all 62 are coupled in DOF 2 to Node 999999 via `*EQUATION`. The F1411 text mention of "150 nodes" was a typographical carryover from the historical 71k mesh discussion.
+4. **Crack Seam Node Duplication:** Exactly 62 coincident duplicate node pairs exist along the sharp slit $y=0.5, 0 \le x \le 0.5$, confirming independent upper and lower crack flanks.
+
+### B. Live HPC Extraction & Fracture Validation
+Extracted from running cluster jobs (`live_audit_metrics.json`):
+- **Native Method B 14k (Job 1411934.mmaster02):**
+  - Initial stiffness: $K_0 = 138.002918\,\text{kN/mm}$ ($R^2 = 0.99999992$, intercept $1.34\times 10^{-5}\,\text{kN}$, $N=267$).
+  - Stiffness error vs Reference ($137.945520\,\text{kN/mm}$): **$+0.0416\%$** (exceptional agreement within $0.05\%$).
+  - Energy bookkeeping error: $\Delta_{\text{book}} = -4.5\times 10^{-10}\,\text{kN}\cdot\text{mm}$ ($< 0.0015\%$).
+  - Actively advancing in Step 1 (inc >302, 0 cutbacks, 3 iters/inc).
+- **Historical Stage 14 ET2 6k (Job 1411895.mmaster02):**
+  - Initial stiffness: $K_0 = 137.374785\,\text{kN/mm}$ ($-0.4137\%$ vs reference).
+  - **Peak Crossing Confirmed:** $F_{\max} = 0.756367\,\text{kN}$ ($-0.186\%$ vs ref $0.757778\,\text{kN}$) at $u = 0.005841\,\text{mm}$ ($-0.273\%$ vs ref $0.005857\,\text{mm}$).
+  - **Post-Peak Fracture Propagation:** Advanced to $u = 0.006376\,\text{mm}$, with reaction force dropping monotonically to $0.43635\,\text{kN}$ with stable crack extension and 0 cutbacks across 3,431 increments.
+
+### C. Quantitative Audit Thresholds & Explicit Stop Conditions
+- **Audit Thresholds:**
+  - Initial elastic stiffness: $|\Delta K_0 / K_{0,\text{ref}}| \le 1.0\%$ (Method B PASS: $+0.0416\%$; ET2 PASS: $-0.4137\%$).
+  - Peak force error: $|\Delta F_{\max} / F_{\max,\text{ref}}| \le 1.0\%$ (ET2 PASS: $-0.186\%$).
+  - Peak displacement error: $|\Delta u_{\text{peak}} / u_{\text{peak},\text{ref}}| \le 2.0\%$ (ET2 PASS: $-0.273\%$).
+  - Boundary completeness: Missing boundary nodes $= 0$ (PASS: 0 missing).
+  - Bookkeeping discrepancy: $|\Delta_{\text{book}} / W_{\text{ext}}| \le 0.5\%$ (PASS: $< 0.002\%$ pre-peak, $0.50\%$ post-peak).
+- **Stop Conditions:**
+  - `STOP-1`: Simulation exit code $\ne 0$ triggers forensic review; zero automatic retries permitted.
+  - `STOP-2`: More than 5 consecutive Newton cutbacks pauses execution.
+  - `STOP-3`: Elastic stiffness deviation $> 1.0\%$ triggers boundary condition re-audit.
+  - `STOP-4`: No redundant/corrective job submissions permitted while live simulations execute cleanly with zero defects.

@@ -1,0 +1,68 @@
+{
+  "historical_et2_6k": {
+    "job_id": "1411895.mmaster02",
+    "mesh_fe": 6112,
+    "total_increments": 3376,
+    "last_step": 2,
+    "last_inc": 1,
+    "current_u_mm": 0.006376,
+    "current_rf_kN": 0.43634992,
+    "f_max_kN": 0.75636713,
+    "u_at_f_max_mm": 0.005841,
+    "k0": {
+      "k0_kN_per_mm": 137.37478547807356,
+      "intercept_kN": 0.00035734728537875073,
+      "r2": 0.9999935071917385,
+      "n_points": 800,
+      "u_min": 2.5e-06,
+      "u_max": 0.002
+    },
+    "current_external_work_kNmm": 0.0025589472833809873,
+    "last_energy_record": {
+      "step": 2,
+      "inc": 1376,
+      "total_time": 1.2752,
+      "step_time": 0.2752,
+      "e_elas": 0.0013910835,
+      "e_frac": 0.0011807178,
+      "e_tot": 0.0025718014
+    },
+    "k0_rel_diff_pct": -0.41373907751873745
+  },
+  "native_method_b_14k": {
+    "job_id": "1411934.mmaster02",
+    "mesh_fe": 14677,
+    "total_increments": 267,
+    "last_step": 1,
+    "last_inc": 1,
+    "current_u_mm": 0.0006675,
+    "current_rf_kN": 0.092110717,
+    "f_max_kN": 0.092110717,
+    "u_at_f_max_mm": 0.0006675,
+    "k0": {
+      "k0_kN_per_mm": 138.0029176250258,
+      "intercept_kN": 1.33713574141437e-05,
+      "r2": 0.9999999202422224,
+      "n_points": 267,
+      "u_min": 2.5e-06,
+      "u_max": 0.0006675
+    },
+    "current_external_work_kNmm": 3.0752532863362484e-05,
+    "last_energy_record": {
+      "step": 1,
+      "inc": 267,
+      "total_time": 0.1335,
+      "step_time": 0.1335,
+      "e_elas": 3.0741952e-05,
+      "e_frac": 1.102961e-08,
+      "e_tot": 3.0752981e-05
+    },
+    "k0_rel_diff_pct": 0.04160890837614729
+  },
+  "reference_15k": {
+    "mesh_fe": 15192,
+    "k0_kN_per_mm": 137.94552,
+    "f_max_kN": 0.757778,
+    "u_at_f_max_mm": 0.005857
+  }
+}
