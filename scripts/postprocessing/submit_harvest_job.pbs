@@ -1,0 +1,50 @@
+#!/bin/bash
+#PBS -N M1_HARVEST
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=8gb
+#PBS -l walltime=02:00:00
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o /scratch9/pr21vyci/runs/mode1_harvest/pbs_execution.log
+
+set -euo pipefail
+
+HARVEST_DIR="/scratch9/pr21vyci/runs/mode1_harvest"
+cd "${HARVEST_DIR}"
+
+# Storage compliance guard
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Execution inside /home prohibited." >&2
+  exit 88
+fi
+
+source /etc/profile.d/modules.sh 2>/dev/null || source /usr/share/Modules/init/bash 2>/dev/null || true
+module purge || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+if [ -f "/scratch9/pr21vyci/runs/mode1_method_b_native_final/job_notifications.sh" ]; then
+    source "/scratch9/pr21vyci/runs/mode1_method_b_native_final/job_notifications.sh"
+    notification_load_config || true
+    notification_install_terminal_trap
+    notify_start || true
+fi
+
+echo "=========================================================="
+echo "Job Name:       M1_HARVEST"
+echo "PBS Job ID:     ${PBS_JOBID:-LOCAL}"
+echo "Node:           $(hostname)"
+echo "Start Time:     $(date -Iseconds)"
+echo "Working Dir:    ${HARVEST_DIR}"
+echo "=========================================================="
+
+bash "${HARVEST_DIR}/harvest_mode1_terminal_results.sh"
+
+EXIT_CODE=$?
+echo "=========================================================="
+echo "Harvesting Exit Code: ${EXIT_CODE}"
+echo "End Time:             $(date -Iseconds)"
+echo "=========================================================="
+
+exit ${EXIT_CODE}

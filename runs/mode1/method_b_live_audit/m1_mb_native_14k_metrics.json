@@ -1,0 +1,44 @@
+{
+  "total_increments": 593,
+  "terminal_u_mm": 0.0014825,
+  "terminal_f_kN": 0.20399838,
+  "terminal_w_ext_mJ": 0.15148212221599994,
+  "stiffness_u10": {
+    "eval_range_max_u_mm": 0.001,
+    "fit_points": 400,
+    "K0_kN_per_mm": 137.89188085456155,
+    "intercept_kN": 4.477756265108823e-05,
+    "R2": 0.9999995982518842,
+    "delta_vs_ref_pct": -0.038884296814016596
+  },
+  "stiffness_u20": {
+    "eval_range_max_u_mm": 0.002,
+    "fit_points": 593,
+    "K0_kN_per_mm": 137.65199877936024,
+    "intercept_kN": 0.00014557990531324506,
+    "R2": 0.9999980522682499,
+    "delta_vs_ref_pct": -0.2127805387516366
+  },
+  "peak_reaction": {
+    "is_captured": false,
+    "F_max_kN": 0.20399838,
+    "u_at_F_max_mm": 0.0014825,
+    "peak_index": 592,
+    "delta_F_max_pct": -73.07940056322563,
+    "delta_u_peak_pct": -74.6884070343179
+  },
+  "energy_balance": {
+    "e_elas_final_mJ": 0.0,
+    "e_frac_final_mJ": 0.0,
+    "e_model_final_mJ": 0.0,
+    "w_ext_final_mJ": 0.15148212221599994,
+    "eps_book_abs_pct": 0.0
+  },
+  "job_provenance": {
+    "job_id": "1411934.mmaster02",
+    "model_name": "M1_MB_NATIVE_14K",
+    "odb_source": null,
+    "dat_source": "/scratch9/pr21vyci/runs/mode1_method_b_native_final/M1_MB_NATIVE_FINAL_1S.dat",
+    "csv_source": "/scratch9/pr21vyci/runs/mode1_method_b_native_final/uel_energy_balance.csv"
+  }
+}
