@@ -1,9 +1,16 @@
 {
     "active": false,
-    "agent": null,
-    "task_id": null,
-    "session_start": null,
-    "session_end": "2026-10-11T16:30:00+02:00",
-    "starting_commit": "f4dee4d9e0eb4a539f3c2d9e516b4f481b85ccfb",
-    "allowed_write_scope": []
+    "agent": "gemini-antigravity",
+    "task_id": "F1408-AUTHORIZED-HPC-METHOD-B-CAMPAIGN",
+    "session_start": "2026-10-11T16:45:00+02:00",
+    "session_end": "2026-10-11T18:05:00+02:00",
+    "starting_commit": "1bd239e223c169154453f77ec7c7e87b2d860fe6",
+    "allowed_write_scope": [
+        "project_coordination/**",
+        "docs/**",
+        "tests/**",
+        "scripts/**",
+        "models/**",
+        "runs/**"
+    ]
 }

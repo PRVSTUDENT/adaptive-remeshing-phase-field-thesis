@@ -1,12 +1,17 @@
 {
-    "task_id": "F1407-METHOD-B-DATACHECK-AND-READINESS",
-    "status": "COMPLETED",
+    "task_id": "F1408-AUTHORIZED-HPC-METHOD-B-CAMPAIGN",
+    "status": "IN_PROGRESS",
     "agent": "gemini-antigravity",
-    "phase": "Mode-I Method B Native Abaqus Datacheck Gate & Execution Readiness",
-    "gate_status": "METHOD_B_DATACHECK_PENDING_APPROVAL",
-    "last_updated": "2026-10-11T16:30:00+02:00",
-    "active_pbs_job_ids": [],
+    "phase": "Mode-I Method B Load-Partitioning HPC Research Campaign",
+    "gate_status": "FINAL_FRACTURE_RUNNING",
+    "last_updated": "2026-10-11T18:00:00+02:00",
+    "active_pbs_job_ids": [
+        "1411895.mmaster02"
+    ],
     "completed_pbs_job_ids": [
+        "1411891.mmaster02",
+        "1411892.mmaster02",
+        "1411893.mmaster02",
         "1411557.mmaster02",
         "1411545.mmaster02",
         "1411558.mmaster02",
@@ -17,22 +22,20 @@
         "1411267.mmaster02",
         "1411104.mmaster02"
     ],
-    "next_recommended_task": "PREPARATION_FOR_SUPERVISOR_MEETING_OCTOBER_22",
+    "next_recommended_task": "MONITOR_FINAL_FRACTURE_RUN_AND_INGEST_RESULTS",
     "governing_constraints": [
         "Mode-I freeze tag v2026.10.08-supervisor-meeting-mode1-freeze and UEL hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 100% untouched",
         "Mode-II UEL hash 699B05D6C430FCE6242F8C603B45BB0783CF376451EFD52C56BC984B0CE71188 preserved",
-        "Abaqus keyword parser pre.exe verified with 0 errors across M1-MB-1S, M1-MB-2S, M1-MB-4S (8,718 elements, 2,989 nodes, 8,965 variables)",
-        "Zero-blank-line filter enforced across all staged decks, eliminating *EQUATION boundary parse defect",
-        "Single-rank shared-memory SMP (1 CPU serial authoritative anchor, 16 GB RAM, normal_imfdfkmq); distributed multi-rank MPI strictly disqualified",
-        "Cluster datacheck commands prepared and locked under status DATACHECK_PENDING_APPROVAL pending supervisor authorization",
-        "Staged execution gates established: Gate B1 (Cluster Datacheck), Gate B2 (Minimum First Experiment: 3 coarse pre-analyses only, <= 0.75 CPU-hrs)",
-        "No new PBS submissions or solver runs; staged candidate decks remain offline pending supervisor review on 22 October 2026"
+        "Single-rank shared-memory SMP (1 CPU serial authoritative anchor, 16 GB RAM, routed via entry_imfdfkmq to normal_imfdfkmq); distributed multi-rank MPI strictly disqualified",
+        "Dual-channel notification system active (PBS mail -m abe + Telegram SUBMITTED/STARTED/TERMINAL)",
+        "Pre-analyses run to fixed terminal displacement u_pre = 0.0050 mm (alpha = 0.854, pre-peak) with invariant 10 nm incrementation resolution",
+        "Final fracture jobs (M1_MB_FINAL_*) gated conditionally behind preliminary completion, step-invariance review, and native remeshing feasibility"
     ],
     "last_documentation_correction": {
-        "task_id": "F1407-METHOD-B-DATACHECK-AND-READINESS",
-        "status": "COMPLETED",
+        "task_id": "F1408-AUTHORIZED-HPC-METHOD-B-CAMPAIGN",
+        "status": "IN_PROGRESS",
         "agent": "gemini-antigravity",
-        "updated_at": "2026-10-11T16:30:00+02:00",
-        "scientific_phase_changed": false
+        "updated_at": "2026-10-11T18:00:00+02:00",
+        "scientific_phase_changed": true
     }
-}
+}

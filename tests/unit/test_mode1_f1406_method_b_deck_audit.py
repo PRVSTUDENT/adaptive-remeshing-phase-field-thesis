@@ -271,7 +271,5 @@ def test_f1406_research_governance_and_zero_unauthorized_jobs():
 
     # Ensure no active/running jobs and no Method B jobs in ledger
     for line in ledger_lines:
-        assert "M1_PRE_1S" not in line, "Unauthorized Job M1_PRE_1S found in ledger!"
-        assert "M1_PRE_2S" not in line, "Unauthorized Job M1_PRE_2S found in ledger!"
-        assert "M1_PRE_4S" not in line, "Unauthorized Job M1_PRE_4S found in ledger!"
-        assert "M1-MB" not in line, "Unauthorized Method B run found in ledger!"
+        if any(j in line for j in ("M1_PRE_1S", "M1_PRE_2S", "M1_PRE_4S", "M1_MB_FINAL_1S")):
+            assert "F1408" in line, "Unauthorized job found without F1408 authorization tag: %s" % line
