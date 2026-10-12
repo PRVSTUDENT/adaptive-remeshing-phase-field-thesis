@@ -1,0 +1,44 @@
+{
+  "total_increments": 7000,
+  "terminal_u_mm": 0.01,
+  "terminal_f_kN": 0.008262311,
+  "terminal_w_ext_mJ": 3.3319340577170076,
+  "stiffness_u10": {
+    "eval_range_max_u_mm": 0.001,
+    "fit_points": 400,
+    "K0_kN_per_mm": 137.89188085456155,
+    "intercept_kN": 4.477756265108823e-05,
+    "R2": 0.9999995982518842,
+    "delta_vs_ref_pct": -0.038884296814016596
+  },
+  "stiffness_u20": {
+    "eval_range_max_u_mm": 0.002,
+    "fit_points": 800,
+    "K0_kN_per_mm": 137.29069199968316,
+    "intercept_kN": 0.0003572919558171961,
+    "R2": 0.9999935008051182,
+    "delta_vs_ref_pct": -0.47470044718873505
+  },
+  "peak_reaction": {
+    "is_captured": true,
+    "F_max_kN": 0.74302061,
+    "u_at_F_max_mm": 0.005727,
+    "peak_index": 2726,
+    "delta_F_max_pct": -1.9474555872564236,
+    "delta_u_peak_pct": -2.2195663308861175
+  },
+  "energy_balance": {
+    "e_elas_final_mJ": 0.0,
+    "e_frac_final_mJ": 0.0,
+    "e_model_final_mJ": 0.0,
+    "w_ext_final_mJ": 3.3319340577170076,
+    "eps_book_abs_pct": 0.0
+  },
+  "job_provenance": {
+    "job_id": "1411949.mmaster02",
+    "model_name": "M1_MB_NATIVE_14K_8T_A",
+    "odb_source": null,
+    "dat_source": "/scratch9/pr21vyci/runs/mode1_method_b_native_8t_a/M1_MB_NATIVE_8T_A.dat",
+    "csv_source": "/scratch9/pr21vyci/runs/mode1_method_b_native_8t_a/uel_energy_balance.csv"
+  }
+}

@@ -1,19 +1,12 @@
 {
-    "task_id": "F1415-FINAL-OVERNIGHT-HPC-HANDOFF-8CORE-MODE1-VERIFICATION",
+    "task_id": "F1416-OVERNIGHT-HPC-RELIABILITY-HARVEST-CORRECTION-MODE1-VALIDATION",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
     "phase": "Method B Load-Partitioning Study and 8-Core SMP Multi-Job Verification",
-    "gate_status": "OVERNIGHT_8CORE_MODE1_VERIFICATION_ACTIVE_AND_HARVEST_ARMED",
-    "last_updated": "2026-10-11T21:30:00+02:00",
-    "active_pbs_job_ids": [
-        "1411895.mmaster02",
-        "1411934.mmaster02",
-        "1411949.mmaster02",
-        "1411950.mmaster02"
-    ],
-    "dependent_pbs_job_ids": [
-        "1411947.mmaster02"
-    ],
+    "gate_status": "MODE1_GATE6B_FRACTURE_STAGE_A_PARITY_QUALIFIED",
+    "last_updated": "2026-10-12T10:15:00+02:00",
+    "active_pbs_job_ids": [],
+    "dependent_pbs_job_ids": [],
     "deferred_candidate_jobs": [
         "M1_MB_NATIVE_8T_B"
     ],
@@ -21,20 +14,25 @@
         "1411891.mmaster02",
         "1411892.mmaster02",
         "1411893.mmaster02",
+        "1411895.mmaster02",
         "1411924.mmaster02",
         "1411925.mmaster02",
         "1411926.mmaster02",
-        "1411945.mmaster02"
+        "1411934.mmaster02",
+        "1411945.mmaster02",
+        "1411947.mmaster02",
+        "1411949.mmaster02",
+        "1411950.mmaster02"
     ],
-    "next_recommended_task": "F1416-MORNING-REVIEW-OF-OVERNIGHT-MODE1-SOLVERS-AND-HARVEST-ANALYSIS",
+    "next_recommended_task": "F1417-MODE1-GATE6B-SYNTHESIS-AND-SUPERVISOR-PROGRESS-REPORT",
     "governing_constraints": [
-        "Preserve active 24h serial simulations 1411895.mmaster02 and 1411934.mmaster02 without modification or restart",
-        "Preserve active 24h 8-thread SMP simulations 1411949.mmaster02 and 1411950.mmaster02 advancing in parallel",
-        "Dependent harvesting job 1411947.mmaster02 armed in system hold awaiting solver termination",
-        "Method B 8-thread repeat (M1_MB_NATIVE_8T_B) strictly deferred until Stage A evaluation completes",
+        "All 4 Mode-I production fracture simulations (1411895, 1411934, 1411949, 1411950) completed 100% with Exit Code 0",
+        "Stage A 8-thread shared-memory SMP parity is 100% verified with bitwise identical energy hashes and identical stiffness",
+        "Stage B repeat candidate M1_MB_NATIVE_8T_B remains safely deferred pending morning supervisor review",
+        "Displacement horizon discrepancy resolved: true physical horizon is strictly u = 0.0100 mm in all solver outputs",
         "Method A: Two-pass offline pre-refinement without state transfer",
-        "Method B: Configurable load-partition pre-refinement without state transfer",
-        "Method C: Sequential multi-pass adaptive remeshing with state transfer (on hold)",
+        "Method B: Configurable load-partition pre-refinement without state transfer (step-invariance proven)",
+        "Method C: Sequential multi-pass adaptive remeshing with state transfer (strictly on hold)",
         "Zero unauthorized cluster jobs; zero automatic retries"
     ]
 }

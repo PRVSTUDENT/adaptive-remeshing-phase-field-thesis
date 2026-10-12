@@ -1,0 +1,37 @@
+{
+  "terminal_u_mm": 0.009999999776482582, 
+  "job_provenance": {
+    "odb_source": "/scratch9/pr21vyci/runs/mode1_method_b_f1408/final_fracture/M1_MB_FINAL_1S.odb", 
+    "csv_source": "/scratch9/pr21vyci/runs/mode1_method_b_f1408/final_fracture/uel_energy_balance.csv", 
+    "dat_source": "/scratch9/pr21vyci/runs/mode1_method_b_f1408/final_fracture/M1_MB_FINAL_1S.dat", 
+    "job_id": "1411895.mmaster02", 
+    "model_name": "M1_MB_ET2_6K_1S"
+  }, 
+  "stiffness_u10": {
+    "K0_kN_per_mm": 137.97706508244917, 
+    "R2": 0.9999996025584181, 
+    "intercept_kN": 4.4453943517689064e-05, 
+    "fit_points": 399, 
+    "delta_vs_ref_pct": 0.022867783201067166, 
+    "eval_range_max_u_mm": 0.001
+  }, 
+  "total_increments": 7016, 
+  "peak_reaction": {
+    "delta_u_peak_pct": -0.2731772989100839, 
+    "delta_F_max_pct": -0.18618289672679847, 
+    "u_at_F_max_mm": 0.005841000005602837, 
+    "F_max_kN": 0.7563671469688416, 
+    "peak_index": 2842, 
+    "is_captured": true
+  }, 
+  "terminal_f_kN": 0.008917244151234627, 
+  "terminal_w_ext_mJ": 2.828115993793877, 
+  "stiffness_u20": {
+    "K0_kN_per_mm": 137.37679097205503, 
+    "R2": 0.9999935398769804, 
+    "intercept_kN": 0.00035600862115798485, 
+    "fit_points": 799, 
+    "delta_vs_ref_pct": -0.4122852470634452, 
+    "eval_range_max_u_mm": 0.002
+  }
+}
