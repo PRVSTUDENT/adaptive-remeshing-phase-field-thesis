@@ -1,20 +1,43 @@
 {
   "specification_name": "MODE1_METHOD_C_GATE_C1_HANDOFF_AND_STATE_RESTORATION_SPECIFICATION",
-  "task_id": "F1423-MODE1-METHOD-C-GATE-C1-V2-CONTINUATION-AND-AUDIT",
-  "created_at": "2026-10-12T17:15:00+02:00",
+  "task_id": "F1424-MODE1-METHOD-C-GATE-C1-V2-CONTINUATION-AND-AUDIT",
+  "created_at": "2026-10-12T17:35:00+02:00",
   "agent": "gemini-antigravity",
   "protocol_version": 2,
   "governing_rules": {
     "scientific_classification": "QUASI_STATIC_RELOAD_WITH_TRANSFERRED_HISTORY",
     "dof_state_boundary": "Displacement and phase-field degrees of freedom are not kinematically constrained at t=0; state memory is restored via *INITIAL CONDITIONS, TYPE=SOLUTION across 18 SVARS.",
-    "damage_irreversibility": "Delta H = 0 for all u <= 0.0050 mm because psi_0^+ < H_transferred, guaranteeing zero artificial damage accumulation during Step 1.",
-    "convex_interpolation_bias_hypothesis": "The +5.2% damage integral discrepancy (5.1852e-4 -> 5.4556e-4) is mathematically proven as convex interpolation bias of the exponential AT2 profile (Delta I approx h^2/(6*l0)*d_max) in a controlled coarsening diagnostic (14,677 FE -> 2,906 FE). Production Method C Cycle 1 proceeds in the refinement direction (coarse -> fine), eliminating this broadening."
+    "history_variable_preservation": "History variable H is monotonically non-decreasing (H_trial = max(psi_0^+, H_committed)). For all u <= 0.0050 mm during Step 1, psi_0^+(u) < H_transferred, strictly guaranteeing Delta H = 0 at every quadrature point with zero artificial damage driving force accumulation.",
+    "phase_field_restoration_mechanics": "Nodal phase-field damage d is not a kinematically pinned DOF; it is solved at each equilibrium iteration from the discretized weak form Helmholtz equation ((Gc/l0 + 2H) d - Gc l0 nabla^2 d = 2H). Consequently, the reconstructed nodal d field on the recipient mesh reflects the recipient discrete operators and element quadrature under the transferred H field.",
+    "convex_interpolation_bias_hypothesis": "The +5.2% damage integral discrepancy (5.1852e-4 -> 5.4556e-4) is classified as a supported physical mechanism and hypothesis based on 1D convex chordal interpolation of the AT2 exponential profile (Delta I approx h^2/(6*l0)*d_max). In 2D unstructured quad/triangle meshes with spatial gradients in both directions, this provides the qualitative mathematical mechanism explaining why coarsening increases the discrete damage integral without representing a complete analytical proof of arbitrary 2D tensor fields."
   },
   "donor_baseline_at_handoff": {
-    "model_name": "M1_MB_NAT_1S (Job 1411934) / M1_PRE_1S (Job 1411891)",
-    "handoff_displacement_u2_mm": 0.0050,
-    "donor_mesh_elements": 14677,
-    "donor_mesh_nodes": 14646,
+    "actual_donor_solution": {
+      "model_name": "M1_MB_NAT_1S (Job 1411934)",
+      "mesh_elements": 14677,
+      "mesh_nodes": 14646,
+      "handoff_displacement_u2_mm": 0.0050,
+      "measured_reaction_force_rf2_kN": 0.661647,
+      "measured_initial_stiffness_k0_kN_per_mm": 137.891881,
+      "peak_damage_dmax": 0.319455,
+      "crack_tip_coord_mm": [0.5000, 0.5000],
+      "crack_length_a_mm": 0.0000,
+      "external_work_w_ext_mJ": 1.690821,
+      "fracture_energy_e_frac_mJ": 0.007535
+    },
+    "unadapted_coarse_mesh_reference": {
+      "model_name": "M1_PRE_1S (Job 1411891)",
+      "mesh_elements": 2906,
+      "mesh_nodes": 2988,
+      "handoff_displacement_u2_mm": 0.0050,
+      "measured_reaction_force_rf2_kN": 0.653093,
+      "measured_initial_stiffness_k0_kN_per_mm": 137.945520,
+      "external_work_w_ext_mJ": 1.632731
+    },
+    "discretization_effect_analysis": {
+      "coarsening_reaction_force_shift_pct": -1.2928,
+      "explanation": "Coarsening the discretization from 14,677 FE (h_tip=1.91 um) to 2,906 FE (h_tip=3.75 um) alters structural compliance, resulting in a -1.29% reaction force difference at u=0.0050 mm (0.653093 kN vs 0.661647 kN). The recipient continuation model (2,906 FEs) is re-equilibrated on the 2,906-FE discretization, so its Step 1 reaction force expectation is governed by the 2,906-FE equilibrium compliance (~0.6531 kN), decoupling physical discretization compliance from state transfer fidelity."
+    },
     "donor_k0_canonical_kN_per_mm": 137.945520,
     "donor_k0_measured_kN_per_mm": 137.891881,
     "donor_rf2_2906fe_kN": 0.653093,

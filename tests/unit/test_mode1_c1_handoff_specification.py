@@ -1,6 +1,6 @@
 """
 Unit Test Suite for Mode-I Method C Gate C1 Handoff Comparison Specification
-Task F1423: Method C Gate C1 Handoff and State Restoration Specification Audit
+Task F1424: Method C Gate C1 Handoff and State Restoration Specification Audit
 Protocol Version: 2
 """
 
@@ -65,8 +65,8 @@ class TestMode1C1HandoffSpecification:
         assert props[4]["name"] == "k_stab" and props[4]["value"] == 1.0e-7
         assert props[5]["name"] == "n_phys" and props[5]["value"] == 2906.0
 
-    def test_04_handoff_reaction_force_criteria(self):
-        """Verify that handoff reaction force criteria bracket the donor reference (0.6531 kN)."""
+    def test_04_handoff_reaction_force_criteria_and_decoupling(self):
+        """Verify decoupling between 14.7k donor solution (0.6616 kN) and 2.9k coarse baseline (0.6531 kN)."""
         criteria = self.spec["recipient_handoff_acceptance_criteria"]
         rf_range = criteria["reaction_force_rf2_acceptable_range_kN"]
         rf_expected = criteria["reaction_force_rf2_expected_kN"]
@@ -76,9 +76,18 @@ class TestMode1C1HandoffSpecification:
         assert rf_range[0] <= rf_expected <= rf_range[1]
         assert tolerance_pct <= 1.0
 
-        # Donor baseline check
-        donor_rf = self.spec["donor_baseline_at_handoff"]["donor_rf2_2906fe_kN"]
-        assert abs(rf_expected - donor_rf) / donor_rf * 100.0 < 0.1
+        # Donor decoupling check
+        baseline = self.spec["donor_baseline_at_handoff"]
+        actual_donor = baseline["actual_donor_solution"]
+        coarse_ref = baseline["unadapted_coarse_mesh_reference"]
+        shift = baseline["discretization_effect_analysis"]["coarsening_reaction_force_shift_pct"]
+
+        assert actual_donor["measured_reaction_force_rf2_kN"] == 0.661647
+        assert coarse_ref["measured_reaction_force_rf2_kN"] == 0.653093
+        assert abs(shift - (-1.2928)) < 0.01
+
+        # Expected recipient reaction force is governed by the coarse recipient equilibrium response
+        assert abs(rf_expected - coarse_ref["measured_reaction_force_rf2_kN"]) / coarse_ref["measured_reaction_force_rf2_kN"] * 100.0 < 0.1
 
     def test_05_initial_stiffness_criteria(self):
         """Verify that initial elastic stiffness K0 is expected within 0.5% of 137.89 kN/mm."""
@@ -100,6 +109,11 @@ class TestMode1C1HandoffSpecification:
         assert delta_pct > 0.0, "Coarsening an exponential profile must overestimate integral (convexity)"
         assert 5.0 <= delta_pct <= 5.5, f"Observed convex bias {delta_pct:.2f}% out of expected [5.0%, 5.5%] range"
 
+        # Check that governing rules classify convexity as a supported physical mechanism/hypothesis
+        rules = self.spec["governing_rules"]
+        assert "convex_interpolation_bias_hypothesis" in rules
+        assert "supported physical mechanism and hypothesis" in rules["convex_interpolation_bias_hypothesis"]
+
     def test_07_step2_fracture_continuation_criteria(self):
         """Verify that Step 2 continuation criteria specify valid fracture response."""
         step2 = self.spec["step2_continuation_acceptance_criteria"]
@@ -109,3 +123,11 @@ class TestMode1C1HandoffSpecification:
         assert fmax_range[0] >= 0.730 and fmax_range[1] <= 0.765
         assert u_peak_range[0] >= 0.0056 and u_peak_range[1] <= 0.0060
         assert step2["terminal_fracture_energy_fraction_min_pct"] >= 85.0
+
+    def test_08_history_vs_phase_field_restoration_distinction(self):
+        """Verify that history variable invariance and Helmholtz phase-field equilibrium are rigorously distinguished."""
+        rules = self.spec["governing_rules"]
+        assert "history_variable_preservation" in rules
+        assert "phase_field_restoration_mechanics" in rules
+        assert "Delta H = 0" in rules["history_variable_preservation"]
+        assert "Helmholtz" in rules["phase_field_restoration_mechanics"]

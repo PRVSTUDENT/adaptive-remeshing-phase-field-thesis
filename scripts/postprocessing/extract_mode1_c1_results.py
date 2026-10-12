@@ -6,6 +6,7 @@ and generates structured JSON evaluation and load-displacement CSV.
 """
 import os
 import sys
+import re
 import json
 import argparse
 from pathlib import Path
@@ -26,7 +27,9 @@ def parse_sta_file(sta_path: Path) -> Dict[str, Any]:
     with open(sta_path, "r", encoding="utf-8") as f:
         for line in f:
             parts = line.split()
-            if len(parts) >= 10 and parts[0].isdigit() and parts[1].isdigit():
+            # Standard Abaqus .sta format without DOF monitor has 9 columns:
+            # STEP, INC, ATT, SEVERE DISCON, EQUIL ITERS, TOTAL ITERS, TOTAL TIME, STEP TIME, INC TIME
+            if len(parts) >= 9 and parts[0].isdigit() and parts[1].isdigit():
                 step = int(parts[0])
                 inc = int(parts[1])
                 att = int(parts[2])
@@ -62,12 +65,11 @@ def parse_dat_file(dat_path: Path) -> List[Dict[str, float]]:
     if not dat_path.exists():
         return records
 
-    with open(dat_path, "r", encoding="utf-8") as f:
+    with open(dat_path, "r", encoding="utf-8", errors="ignore") as f:
         for line in f:
-            if "STEP 1" in line or "Step-1" in line:
-                current_step = 1
-            elif "STEP 2" in line or "Step-2" in line:
-                current_step = 2
+            m = re.search(r"S\s*T\s*E\s*P\s*(\d+)", line, re.IGNORECASE) or re.search(r"Step-(\d+)", line, re.IGNORECASE)
+            if m:
+                current_step = int(m.group(1))
 
             if "999999" in line:
                 parts = line.split()
@@ -156,6 +158,13 @@ def main():
         u_at_fmax = peak["u2_mm"]
         f_final = step2_pts[-1]["rf2_kn"]
 
+    # Boundary continuity check
+    delta_rf_boundary = None
+    boundary_continuous = None
+    if step1_pts and step2_pts:
+        delta_rf_boundary = abs(step2_pts[0]["rf2_kn"] - step1_pts[-1]["rf2_kn"])
+        boundary_continuous = (delta_rf_boundary <= 0.005)
+
     evaluation = {
         "gate": "METHOD_C_GATE_C1_SINGLE_CYCLE_VERIFICATION",
         "solver_telemetry": sta_summary,
@@ -165,6 +174,11 @@ def main():
                 "handoff_displacement_mm": step1_pts[-1]["u2_mm"] if step1_pts else None,
                 "handoff_reaction_force_kn": rf_handoff,
                 "effective_reload_stiffness_k0_kn_per_mm": k0_reload,
+            },
+            "step_boundary": {
+                "delta_rf_boundary_kn": delta_rf_boundary,
+                "boundary_continuous": boundary_continuous,
+                "criterion_max_delta_rf_kn": 0.005,
             },
             "step2_continuation": {
                 "num_points": len(step2_pts),
