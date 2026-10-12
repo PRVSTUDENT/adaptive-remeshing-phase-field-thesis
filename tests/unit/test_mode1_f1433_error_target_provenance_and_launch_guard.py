@@ -1,4 +1,4 @@
-"""Unit test suite for Task F1433: Stage-14 errorTarget Provenance Resolution,
+"""Unit test suite for Task F1433/F1434: Stage-14 errorTarget Provenance Resolution,
 Launch Guard Integrity, and Comparative Baselines.
 """
 
@@ -62,11 +62,11 @@ class TestF1433ProvenanceAndLaunchGuards:
 
     def test_02_corrected_wrapper_script_guards(self):
         """Verify that run_datacheck_and_submit_corrected.sh includes:
-        - Expected SHA-256 for deck and UEL
-        - Duplicate PBS job detection
-        - FlexNet license check (< 5 tokens blocked)
+        - Expected SHA-256 for deck, UEL, and PBS directives
+        - Duplicate PBS job and prior submission record detection
+        - FlexNet license check and Method C priority protection
         - Datacheck execution and verification
-        - qsub submission with notification
+        - qsub submission with durable ID logging and notification
         """
         assert os.path.isfile(WRAPPER_SCRIPT), f"Missing wrapper: {WRAPPER_SCRIPT}"
         with open(WRAPPER_SCRIPT, "r", encoding="utf-8") as f:
@@ -74,9 +74,11 @@ class TestF1433ProvenanceAndLaunchGuards:
 
         assert "EXPECTED_INP_SHA=\"1209F716971719B1A740FF92C8B5503BA9784F10D5EEDD3C5035C81D40A066E9\"" in content
         assert "EXPECTED_SUB_SHA=\"CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6\"" in content
+        assert "EXPECTED_PBS_SHA=\"06DE87F62676D9CA35B8B69106881004D2F6B48459966405779EC04E2FC66172\"" in content
+        assert "SUBMITTED_JOB_ID.txt" in content
         assert "qstat -u pr21vyci" in content
         assert "TOKENS_FREE" in content
-        assert "if [ \"${TOKENS_FREE}\" -lt 5 ]; then" in content
+        assert "METHOD_C_PID=1657700" in content
         assert "abaqus job=\"${JOB_NAME}\" input=\"${INP_NAME}\" user=\"${USER_SUB}\" datacheck interactive" in content
         assert "qsub submit_M1_MB_CORRECTED_14K.pbs" in content
         assert "notify_submitted" in content
