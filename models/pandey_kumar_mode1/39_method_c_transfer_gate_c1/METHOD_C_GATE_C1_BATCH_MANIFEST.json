@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_METHOD_C_GATE_C1_SINGLE_CYCLE_VERIFICATION",
+  "task_id": "F1421-MODE1-METHOD-C-GATE-C1-LOCAL-DATACHECK-QUALIFICATION",
+  "created_at": "2026-10-12T14:56:00+02:00",
+  "agent": "gemini-antigravity",
+  "maximum_permitted_submissions": 1,
+  "automatic_retry": false,
+  "jobs": [
+    {
+      "job_name": "M1_MC_C1_1S",
+      "scientific_purpose": "Gate C1: First authentic Abaqus 2023 Method C remesh-and-continue solve on 2,906 FE recipient mesh with transferred damage and history fields from 14,677 FE native donor at u = 0.0050 mm",
+      "model_package": "models/pandey_kumar_mode1/39_method_c_transfer_gate_c1",
+      "input_deck": "M1_RECIP_2906_CONTINUATION.inp",
+      "input_deck_sha256": "501E1FBA1D6DB04CA25F7A273B6D0D4134C75AA13C40C734C8FEF7031556E152",
+      "user_subroutine": "f42_mixed_uel.for",
+      "user_subroutine_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "cpus": 1,
+      "memory": "16gb",
+      "walltime": "04:00:00",
+      "queue": "entry_imfdfkmq",
+      "execution_mode": "1-CPU serial shared-memory",
+      "cluster_directory": "/scratch9/pr21vyci/runs/mode1_method_c_gate_c1",
+      "pbs_script": "submit_M1_RECIP_2906_CONTINUATION.pbs",
+      "dependencies": [],
+      "prerequisites_status": {
+        "local_pre_exe_input_validation": "PASSED (0 errors, 8,718 solution variable cards validated)",
+        "cluster_ifort_compilation": "PASSED (Intel Fortran Compiler Classic 2021.13.0)",
+        "cluster_standard_datacheck": "PASSED (Exit Code 0, Job M1_RECIP_2906_DC)"
+      },
+      "acceptance_criteria": {
+        "solver_exit_code": 0,
+        "step1_reload_stiffness_k0_kn_per_mm": "135.0 - 142.0 kN/mm",
+        "step1_reload_reaction_force_rf2_kn": "0.640 - 0.665 kN (donor baseline: 0.6531 kN)",
+        "step2_continuation_convergence": "Full horizon to u = 0.0100 mm without divergence",
+        "damage_irreversibility": "Preserved everywhere (d >= d_transferred)"
+      }
+    }
+  ]
+}

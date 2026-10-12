@@ -1,0 +1,41 @@
+================================================================================
+MODE-I METHOD C GATE C1 REPRODUCTION PACKAGE: EXECUTION COMMANDS
+================================================================================
+Research Project: Application of Built-in Adaptive Remeshing and Mesh Refinement
+                  Features in Abaqus to Fracture Simulations Using Phase-Field
+                  User Elements
+Author:           Pruthviraja Reddy Vandavagali (Matriculation No. 68865)
+Institution:      IMFD, TU Bergakademie Freiberg
+Model Package:    models/pandey_kumar_mode1/39_method_c_transfer_gate_c1
+Date:             October 12, 2026 (Task F1421 Execution)
+
+================================================================================
+SECTION 1: ENVIRONMENT SETUP & MODULE LOADING
+================================================================================
+
+1.1 Cluster Environment (TUBAF HPC, mnode097 / mmaster02):
+----------------------------------------------------------
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+module load python/gcc/11.4.0/3.11.7
+
+1.2 Scratch Directory Setup:
+---------------------------
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_method_c_gate_c1"
+mkdir -p "${RUN_DIR}"
+cd "${RUN_DIR}"
+
+================================================================================
+SECTION 2: DATACHECK QUALIFICATION
+================================================================================
+./run_datacheck.sh
+# Expected output: DATACHECK FINISHED WITH EXIT CODE: 0
+
+================================================================================
+SECTION 3: 1-CPU SERIAL CONTINUATION SOLVE
+================================================================================
+qsub submit_M1_RECIP_2906_CONTINUATION.pbs
+# Or via wrapper:
+./submit_c1_job.sh

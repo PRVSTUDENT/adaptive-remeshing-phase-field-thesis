@@ -314,11 +314,12 @@ class TestMode1F1420StateTransferEngine(unittest.TestCase):
             with open(tmp_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
-            self.assertIn("*INITIAL CONDITIONS, TYPE=DISPLACEMENT", content)
+            self.assertNotIn("*INITIAL CONDITIONS, TYPE=DISPLACEMENT", content)
             self.assertIn("*INITIAL CONDITIONS, TYPE=SOLUTION", content)
             self.assertIn("*USER ELEMENT, TYPE=U1", content)
             self.assertIn("*USER ELEMENT, TYPE=U2", content)
             self.assertIn("*EQUATION", content)
+            self.assertIn("7.5000000000e-03, 2.7000000000e-03, 2.1000000000e+02, 3.0000000000e-01, 1.0000000000e-07", content)
 
             lines = content.splitlines()
             in_nbottom = False

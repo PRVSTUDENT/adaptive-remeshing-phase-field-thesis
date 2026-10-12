@@ -674,6 +674,7 @@ class Mode1StateTransferEngine:
         Gc: float = 2.7e-3,
         l0: float = 0.0075,
         k_stab: float = 1e-7,
+        two_stage: bool = True,
     ) -> str:
         """
         Assembles a complete, runnable Abaqus input deck (.inp) embedding:
@@ -803,7 +804,7 @@ class Mode1StateTransferEngine:
         lines.append("** ==========================================================")
         lines.append("** UEL PROPERTIES & COMPANION MATERIAL")
         lines.append("** ==========================================================")
-        uel_prop_str = f"{E_mod:.10e}, {nu:.10e}, {Gc:.10e}, {l0:.10e}, {k_stab:.10e}, 1.0"
+        uel_prop_str = f"{l0:.10e}, {Gc:.10e}, {E_mod:.10e}, {nu:.10e}, {k_stab:.10e}, {float(n_phys):.1f}"
         if quad_eids:
             lines.append("*UEL PROPERTY, ELSET=PHASE_QUAD")
             lines.append(uel_prop_str)
@@ -823,19 +824,11 @@ class Mode1StateTransferEngine:
         lines.append("*DEPVAR")
         lines.append("18")
 
-        # 9. INITIAL CONDITIONS: TYPE=DISPLACEMENT
-        lines.append("** ==========================================================")
-        lines.append("** INITIAL CONDITIONS: TYPE=DISPLACEMENT (DOFs 1, 2, 3)")
-        lines.append("** ==========================================================")
-        lines.append("*INITIAL CONDITIONS, TYPE=DISPLACEMENT")
-        for nid in sorted(recipient_mesh.nodes.keys()):
-            ux, uy = target_state.u_nodal[nid]
-            d_val = target_state.d_nodal[nid]
-            lines.append(f"{nid:8d}, 1, 1, {ux:16.10e}")
-            lines.append(f"{nid:8d}, 2, 2, {uy:16.10e}")
-            lines.append(f"{nid:8d}, 3, 3, {d_val:16.10e}")
-        lines.append(f"{recipient_mesh.rp_node_id:8d}, 1, 1, 0.0")
-        lines.append(f"{recipient_mesh.rp_node_id:8d}, 2, 2, {u_handoff:16.10e}")
+        # 9. Note on Initial Conditions in Abaqus/Standard:
+        # Abaqus/Standard static analyses reject *INITIAL CONDITIONS, TYPE=DISPLACEMENT
+        # (displacements are governed strictly by boundary constraints and equilibrium).
+        # State memory and damage history are preserved exclusively through
+        # *INITIAL CONDITIONS, TYPE=SOLUTION for UEL SVARS.
 
         # 10. INITIAL CONDITIONS: TYPE=SOLUTION (SVARS 1..18)
         # Abaqus 2023 Continuation Card Rules:
@@ -892,30 +885,67 @@ class Mode1StateTransferEngine:
             lines.append(card2_str)
             lines.append(card3_str)
 
-        # 11. STEP 1: CONTINUATION SOLVE
+        # 11. CONTINUATION STEP DEFINITION
         lines.append("** ==========================================================")
-        lines.append("** STEP 1: NONLINEAR STATIC CONTINUATION SOLVE")
-        lines.append("** ==========================================================")
-        dt_init = 1.0 / float(num_increments)
-        lines.append(f"*STEP, NAME=Step-1, NLGEOM=YES, INC={num_increments * 2}")
-        lines.append("*STATIC")
-        lines.append(f"{dt_init:.8e}, 1.0, 1.0e-12, {dt_init:.8e}")
+        if two_stage:
+            lines.append("** STEP 1: RELOAD TO HANDOFF DISPLACEMENT (u = u_handoff)")
+            lines.append("** ==========================================================")
+            lines.append("*STEP, NAME=Step-1-Reload, NLGEOM=YES, INC=100")
+            lines.append("*STATIC")
+            lines.append("0.1, 1.0, 1.0e-6, 0.1")
+            lines.append("** Boundary conditions:")
+            lines.append("*BOUNDARY")
+            lines.append("N_BOTTOM, 2, 2, 0.0")
+            lines.append("1, 1, 1, 0.0")  # Pin origin node
+            lines.append(f"N_RP, 2, 2, {u_handoff:.10e}")
+            lines.append("*RESTART, WRITE, FREQUENCY=0")
+            lines.append("*OUTPUT, FIELD, FREQUENCY=10")
+            lines.append("*NODE OUTPUT, NSET=N_RP")
+            lines.append("U, RF")
+            lines.append("*ELEMENT OUTPUT, ELSET=All_elem")
+            lines.append("SDV")
+            lines.append("*NODE PRINT, FREQ=1, NSET=N_RP")
+            lines.append("U2, RF2")
+            lines.append("*END STEP")
 
-        lines.append("** Boundary conditions:")
-        lines.append("*BOUNDARY")
-        lines.append("N_BOTTOM, 2, 2, 0.0")
-        lines.append("1, 1, 1, 0.0")  # Pin origin node
-        lines.append(f"N_RP, 2, 2, {u_final:.10e}")
-
-        lines.append("*RESTART, WRITE, FREQUENCY=0")
-        lines.append("*OUTPUT, FIELD, FREQUENCY=10")
-        lines.append("*NODE OUTPUT, NSET=N_RP")
-        lines.append("U, RF")
-        lines.append("*ELEMENT OUTPUT, ELSET=All_elem")
-        lines.append("SDV")
-        lines.append("*NODE PRINT, FREQ=1, NSET=N_RP")
-        lines.append("U2, RF2")
-        lines.append("*END STEP")
+            lines.append("** ==========================================================")
+            lines.append("** STEP 2: CONTINUATION FRACTURE PROPAGATION (u_handoff -> u_final)")
+            lines.append("** ==========================================================")
+            dt_init = 1.0 / float(num_increments)
+            lines.append(f"*STEP, NAME=Step-2-Continue, NLGEOM=YES, INC={num_increments * 2}")
+            lines.append("*STATIC")
+            lines.append(f"{dt_init:.8e}, 1.0, 1.0e-12, {dt_init:.8e}")
+            lines.append("*BOUNDARY")
+            lines.append(f"N_RP, 2, 2, {u_final:.10e}")
+            lines.append("*OUTPUT, FIELD, FREQUENCY=10")
+            lines.append("*NODE OUTPUT, NSET=N_RP")
+            lines.append("U, RF")
+            lines.append("*ELEMENT OUTPUT, ELSET=All_elem")
+            lines.append("SDV")
+            lines.append("*NODE PRINT, FREQ=1, NSET=N_RP")
+            lines.append("U2, RF2")
+            lines.append("*END STEP")
+        else:
+            lines.append("** STEP 1: NONLINEAR STATIC CONTINUATION SOLVE")
+            lines.append("** ==========================================================")
+            dt_init = 1.0 / float(num_increments)
+            lines.append(f"*STEP, NAME=Step-1, NLGEOM=YES, INC={num_increments * 2}")
+            lines.append("*STATIC")
+            lines.append(f"{dt_init:.8e}, 1.0, 1.0e-12, {dt_init:.8e}")
+            lines.append("** Boundary conditions:")
+            lines.append("*BOUNDARY")
+            lines.append("N_BOTTOM, 2, 2, 0.0")
+            lines.append("1, 1, 1, 0.0")  # Pin origin node
+            lines.append(f"N_RP, 2, 2, {u_final:.10e}")
+            lines.append("*RESTART, WRITE, FREQUENCY=0")
+            lines.append("*OUTPUT, FIELD, FREQUENCY=10")
+            lines.append("*NODE OUTPUT, NSET=N_RP")
+            lines.append("U, RF")
+            lines.append("*ELEMENT OUTPUT, ELSET=All_elem")
+            lines.append("SDV")
+            lines.append("*NODE PRINT, FREQ=1, NSET=N_RP")
+            lines.append("U2, RF2")
+            lines.append("*END STEP")
 
         deck_content = "\n".join(lines) + "\n"
         ensure_dir = os.path.dirname(output_inp_path)
