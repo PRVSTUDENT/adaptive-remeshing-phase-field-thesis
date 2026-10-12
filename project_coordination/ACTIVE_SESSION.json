@@ -1,17 +1,9 @@
 {
-    "active": false,
-    "agent": "gemini-antigravity",
-    "task_id": "F1429-MODE1-METHOD-B-PROPAGATION-VERIFICATION-AND-METHOD-C-V2",
-    "session_start": "2026-10-12T19:07:00+02:00",
-    "session_end": "2026-10-12T20:00:00+02:00",
-    "starting_commit": "42bb85f60f2bd9ae4bd93e6d0532f3e63cccf7c5",
-    "allowed_write_scope": [
-        "project_coordination/**",
-        "docs/**",
-        "tests/**",
-        "scripts/**",
-        "models/**",
-        "results/**",
-        "runs/**"
-    ]
+  "active": false,
+  "agent": null,
+  "task_id": null,
+  "claimed_at": null,
+  "heartbeat_at": null,
+  "starting_commit": null,
+  "allowed_write_scope": []
 }
