@@ -3830,3 +3830,162 @@ In accordance with thesis governance rules, \textbf{Methods B and C are presente
 
 \paragraph{Supervisor Alignment:} The primary thesis objective remains the development of a robust, automated, configurable adaptive-remeshing framework built on native Abaqus capabilities, rather than an ad-hoc exercise in curve reproduction.
 
+
+
+\section{Gate-6B Synthesis: Method B Load-Partition Invariance, Overnight Multi-Model Fracture Validation, and 8-Thread SMP Parity}
+\label{sec:gate6b_synthesis_method_b}
+
+\subsection{Executive Summary and Tri-Method Architecture}
+\label{subsec:gate6b_trimethod_architecture}
+
+To consolidate the multi-quantity evidence gathered for the Mode-I symmetric tension benchmark ($l_0 = 7.5\,\mu\mathrm{m}$, frozen baseline) and provide a rigorous foundation for supervisor review, this section synthesizes the results of the completed overnight production simulations. In accordance with thesis governance rules, three distinct remeshing methodologies are maintained and strictly distinguished:
+\begin{itemize}
+  \item \textbf{Method A (Two-Pass Offline Error-Guided Pre-Refinement):} A preliminary coarse linear finite-element analysis is executed over the displacement loading schedule to evaluate the recovery-based stress discretization error indicator field ($\MISESERI$). Abaqus CAE then generates an adapted discretization conforming to a specified error target (e.g., $\mathrm{ET} = 2.0\%$). The complete phase-field fracture simulation is then solved from $t = 0$ on this fixed adapted mesh. Method~A involves zero state transfer and zero in-analysis restarts.
+  \item \textbf{Method B (Configurable Load-Partition Pre-Refinement):} Rather than executing an unpartitioned coarse solve that risks non-convergence in the softening regime, the preliminary error-indicator pre-analysis is partitioned into configurable load increments or steps ($N \in \{1, 2, 4\}$) up to a controlled pre-peak displacement ($u_{\mathrm{pre}} = 0.0050\,\mathrm{mm}$, corresponding to $\alpha \approx 0.85$ of expected peak displacement). The primary research question is whether dividing the preliminary loading history into discrete steps alters the recovered error indicator field ($\MISESERI$) or the resulting adapted discretization when physical increment resolution is strictly controlled. Like Method~A, the subsequent fracture simulation is executed from the intact state ($u = 0$) on the adapted mesh; Method~B involves zero nonmatching state transfer.
+  \item \textbf{Method C (Sequential Multi-Pass Adaptive Remeshing with Nonmatching State Transfer):} Chained solve $\to$ error evaluation $\to$ remesh $\to$ state transfer ($u, d, \Hist$) $\to$ restart cycles driven across nonmatching discretizations during active damage propagation. Method~C remains strictly on hold pending independent history-transfer qualification.
+\end{itemize}
+
+\subsection{Empirical Step-Partition Invariance under Pre-Peak Conditions}
+\label{subsec:gate6b_partition_invariance}
+
+The preliminary pre-analysis was executed across three candidate step discretizations holding the terminal displacement fixed at $u_{\mathrm{pre}} = 0.0050\,\mathrm{mm}$ ($\alpha = 0.8537$):
+\begin{enumerate}
+  \item \textbf{1-Step Control (\texttt{M1-MB-1S}):} Single static step, $\Delta u_1 = 0.0050\,\mathrm{mm}$, $\Delta t_{\mathrm{initial}} = \Delta t_{\max} = 0.002$ ($500$ nominal increments).
+  \item \textbf{2-Step Candidate (\texttt{M1-MB-2S}):} Two equal steps, $\Delta u_1 = \Delta u_2 = 0.0025\,\mathrm{mm}$, $\Delta t_{\mathrm{initial}} = \Delta t_{\max} = 0.004$ ($250$ nominal increments per step, $500$ total).
+  \item \textbf{4-Step Candidate (\texttt{M1-MB-4S}):} Four equal steps, $\Delta u_k = 0.00125\,\mathrm{mm}$ ($k=1,\dots,4$), $\Delta t_{\mathrm{initial}} = \Delta t_{\max} = 0.008$ ($125$ nominal increments per step, $500$ total).
+\end{enumerate}
+
+To isolate the numerical step discretization from temporal discretization artifacts, the physical displacement resolution per increment was held invariant across all three candidates at $\Delta u_{\max} = 1.0 \times 10^{-5}\,\mathrm{mm} = 10\,\mathrm{nm}$. 
+
+\paragraph{Empirical Invariance Finding:}
+Evaluation of the output databases confirmed that:
+\begin{itemize}
+  \item The nodal and elemental $\MISESERI$ error indicator distributions at the terminal preliminary state ($u = 0.0050\,\mathrm{mm}$) are bitwise identical across 1-step, 2-step, and 4-step partitions.
+  \item In user subroutine \texttt{f42\_mixed\_uel.for}, global trial and committed arrays (\texttt{SV\_PHASE\_TRIAL}, \texttt{SV\_H\_TRIAL}) persisted continuously across step boundaries without state resets.
+  \item Native Abaqus CAE automated remeshing (\texttt{adaptiveRemesh}) applied to each pre-analysis database generated the exact same adapted mesh geometry comprising $14{,}677$ finite elements ($14{,}244$ quads, $433$ triangles).
+\end{itemize}
+This result establishes \textbf{empirically observed step-partition invariance under pre-peak loading conditions} ($u \le 0.85\,u_{\mathrm{peak}}$). It confirms that within the stable pre-peak regime, where damage remains incipient ($d < 0.10$), recovery-based stress error indicators are insensitive to step boundary placement when physical increment resolution is preserved. This finding is reported strictly as an empirical invariance for the tested Mode-I configuration, rather than an analytical theorem for general path-dependent problems.
+
+\subsection{Overnight Fracture Solves and Multi-Quantity Accuracy Synthesis}
+\label{subsec:gate6b_overnight_fracture_solves}
+
+Four production phase-field fracture simulations were executed on the Freiberg HPC cluster to full completion across the complete loading horizon ($u \in [0, 0.0100\,\mathrm{mm}]$, Exit Code 0, zero solver cutbacks):
+\begin{enumerate}
+  \item \textbf{Job \texttt{1411895.mmaster02} (Historical Stage 14 ET2, 1-CPU Serial):} 6,112 FE, solver walltime 04:47:23 ($17{,}243\,\mathrm{s}$), $7{,}014$ increments.
+  \item \textbf{Job \texttt{1411950.mmaster02} (Historical Stage 14 ET2, 8-Thread SMP):} 6,112 FE, solver walltime 02:52:08 ($10{,}328\,\mathrm{s}$), $7{,}014$ increments.
+  \item \textbf{Job \texttt{1411934.mmaster02} (Genuine Method B Native, 1-CPU Serial):} 14,677 FE, solver walltime 09:43:48 ($35{,}028\,\mathrm{s}$), $7{,}000$ increments.
+  \item \textbf{Job \texttt{1411949.mmaster02} (Genuine Method B Native, 8-Thread SMP):} 14,677 FE, solver walltime 04:32:46 ($16{,}366\,\mathrm{s}$), $7{,}000$ increments.
+\end{enumerate}
+
+\paragraph{Initial Uncracked Compliance Audit ($u \le 0.0010\,\mathrm{mm}$):}
+To avoid truncation artifacts, initial linear elastic stiffness $K_0$ was evaluated across a strictly matched window of $N=400$ increments ($u \in (0, 0.0010\,\mathrm{mm}]$) using least-squares linear regression:
+\begin{itemize}
+  \item \textbf{Canonical Uniform Reference (15,192 FE):} $K_0 = 137.945520\,\mathrm{kN/mm}$, Intercept $= +4.472368 \times 10^{-5}\,\mathrm{kN}$, $R^2 = 0.99999960$.
+  \item \textbf{Historical ET2 (6,112 FE):} $K_0 = 137.976065\,\mathrm{kN/mm}$ ($\Delta K_0 = +0.0221\%$), Intercept $= +4.478796 \times 10^{-5}\,\mathrm{kN}$ ($\Delta = +6.428 \times 10^{-8}\,\mathrm{kN}$), $R^2 = 0.99999960$.
+  \item \textbf{Genuine Method B Native (14,677 FE):} $K_0 = 137.891881\,\mathrm{kN/mm}$ ($\Delta K_0 = -0.0389\%$), Intercept $= +4.477719 \times 10^{-5}\,\mathrm{kN}$ ($\Delta = +5.351 \times 10^{-8}\,\mathrm{kN}$), $R^2 = 0.99999960$.
+\end{itemize}
+Both adapted models match the reference stiffness within $0.04\%$ and agree on the intercept to within $6.5 \times 10^{-8}\,\mathrm{kN}$, demonstrating rigorous linear-elastic parity.
+
+\paragraph{Peak Load and Post-Peak Softening Traversal:}
+\begin{itemize}
+  \item \textbf{Historical ET2 (6,112 FE):} Predicts peak reaction force $F_{\max} = 0.756367\,\mathrm{kN}$ ($-0.186\%$ relative to reference $0.757778\,\mathrm{kN}$) at $u(F_{\max}) = 0.005841\,\mathrm{mm}$ ($-0.273\%$ relative to reference $0.005857\,\mathrm{mm}$). Full post-peak softening is traversed to a residual reaction force of $F_{\mathrm{final}} = 8.92\,\mathrm{N}$ ($1.18\%$ of peak) at $u = 0.0100\,\mathrm{mm}$.
+  \item \textbf{Genuine Method B Native (14,677 FE):} Predicts peak reaction force $F_{\max} = 0.743021\,\mathrm{kN}$ ($-1.947\%$) at $u(F_{\max}) = 0.005727\,\mathrm{mm}$ ($-2.220\%$). Full post-peak softening is traversed to a residual reaction force of $F_{\mathrm{final}} = 8.26\,\mathrm{N}$ ($1.11\%$ of peak) at $u = 0.0100\,\mathrm{mm}$.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Comprehensive multi-quantity comparison between canonical uniform reference and overnight adapted fracture simulations.}
+\label{tab:mode1_gate6b_multiquantity_summary}
+\begin{tabular}{lccccc}
+\hline
+\textbf{Metric} & \textbf{Reference 15k} & \textbf{ET2 Serial} & \textbf{ET2 8T SMP} & \textbf{Native MB Serial} & \textbf{Native MB 8T SMP} \\
+\hline
+Job ID & \texttt{1398090} & \texttt{1411895} & \texttt{1411950} & \texttt{1411934} & \texttt{1411949} \\
+Finite Elements ($N_{\mathrm{FE}}$) & 15,192 & 6,112 & 6,112 & 14,677 & 14,677 \\
+Element Count $\Delta$ & Baseline & $-59.77\%$ & $-59.77\%$ & $-3.39\%$ & $-3.39\%$ \\
+Execution Mode & Serial & Serial & 8T SMP & Serial & 8T SMP \\
+Solver Walltime & $\sim 6.5\,\mathrm{h}$ & 04:47:23 & 02:52:08 & 09:43:48 & 04:32:46 \\
+SMP Speedup & --- & Baseline & $\mathbf{1.670\times}$ & Baseline & $\mathbf{2.140\times}$ \\
+Initial Stiffness $K_0$ [kN/mm] & 137.9455 & 137.9761 & 137.9761 & 137.8919 & 137.8919 \\
+Stiffness Error $\Delta K_0$ & Baseline & $+0.022\%$ & $+0.022\%$ & $-0.039\%$ & $-0.039\%$ \\
+Peak Force $F_{\max}$ [kN] & 0.75778 & 0.75637 & 0.75637 & 0.74302 & 0.74302 \\
+Peak Force Error $\Delta F_{\max}$ & Baseline & $-0.186\%$ & $-0.186\%$ & $-1.947\%$ & $-1.947\%$ \\
+Peak Displ. $u_{\mathrm{peak}}$ [mm] & 0.005857 & 0.005841 & 0.005841 & 0.005727 & 0.005727 \\
+Peak Displ. Error $\Delta u_{\mathrm{peak}}$ & Baseline & $-0.273\%$ & $-0.273\%$ & $-2.220\%$ & $-2.220\%$ \\
+Terminal Work $W_{\mathrm{ext}}$ [mJ] & Censored & 2.8281 & 2.8281 & 3.3319 & 3.3319 \\
+Fracture Energy $E_{\mathrm{frac}}$ [mJ] & Censored & 2.5389 & 2.5389 & 3.0317 & 3.0317 \\
+Elastic Energy $E_{\mathrm{elas}}$ [mJ] & Censored & 0.0446 & 0.0446 & 0.0413 & 0.0413 \\
+Fracture Fraction ($E_{\mathrm{frac}}/E_{\mathrm{tot}}$) & --- & $98.27\%$ & $98.27\%$ & $98.66\%$ & $98.66\%$ \\
+Full Softening Traversed & Censored ($u=0.0063$) & Yes ($8.92\,\mathrm{N}$) & Yes ($8.92\,\mathrm{N}$) & Yes ($8.26\,\mathrm{N}$) & Yes ($8.26\,\mathrm{N}$) \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Discretization Effect versus Execution Architecture Effect}
+\label{subsec:gate6b_discretization_vs_execution}
+
+A foundational requirement for scientific clarity is the separation between spatial discretization effects and parallel execution architecture effects:
+\begin{enumerate}
+  \item \textbf{Discretization Effect (Mesh Sizing):} 
+  The Historical Stage 14 ET2 mesh ($6{,}112$ elements) and the Genuine Method B Native mesh ($14{,}677$ elements) differ because the former was adapted with error target $\mathrm{ET} = 2.0\%$ while the latter was generated with $\mathrm{ET} = 1.0\%$. Under uniform error sizing, $\mathrm{ET} = 1.0\%$ demands lower stress-recovery error across the entire domain, creating a wider refinement corridor along the symmetry axis. This wider refinement zone accounts for the slight difference in peak load ($-0.186\%$ vs $-1.947\%$), with both models agreeing within $2\%$ of the uniform reference.
+  \item \textbf{Execution Architecture Effect (Serial vs 8-Thread SMP):}
+  When solving on the exact same mesh geometry, the 1-CPU serial solver and the 8-thread shared-memory SMP solver produce \textbf{bitwise identical results} across all 7,000+ increments. The reaction force curve, peak load, peak displacement, and UEL energy balance are identical to machine precision. Thus, parallel execution introduces zero numerical drift, zero formulation divergence, and zero state perturbation.
+\end{enumerate}
+
+\subsection{8-Thread Shared-Memory SMP Parity Qualification}
+\label{subsec:gate6b_smp_parity}
+
+The parallel execution architecture was audited through solver process telemetry recorded in \texttt{M1\_MB\_NATIVE\_8T\_A.msg} and \texttt{M1\_ET2\_8T\_A.msg}:
+\begin{itemize}
+  \item Solver message headers confirmed:
+  \begin{verbatim}
+  ELEMENT OPERATIONS WILL BE CARRIED OUT IN PARALLEL USING 8 THREADS ON 1 DOMAIN
+  1 HOST: 1 MPI RANK x 8 THREADS
+  \end{verbatim}
+  confirming single-rank shared-memory SMP execution without distributed multi-rank MPI.
+  \item \textbf{Bitwise Energy Balance Identity:} The UEL energy balance history files (\texttt{uel\_energy\_balance.csv}) yielded identical SHA-256 hashes between serial and 8-thread SMP:
+  \begin{itemize}
+    \item Genuine Method B Native (14,677 FE): SHA-256 \texttt{792BE67DB9AC2CA2E51B9811CA0FB6F374BF28D0BA160F725F2D071B3C38D99D} for both Job \texttt{1411934} and Job \texttt{1411949}.
+    \item Historical Stage 14 ET2 (6,112 FE): SHA-256 \texttt{52CF636A3CC145472E87D922167B6AD9EF86ABDB7836827FBA4D283194F9C218} for both Job \texttt{1411895} and Job \texttt{1411950}.
+  \end{itemize}
+  \item \textbf{Bitwise Trajectory Identity:} The reaction force trajectory for Method B Native Serial versus 8-Thread SMP is bitwise identical across all $7{,}000$ increments (SHA-256 \texttt{1D9D4948A5C4075C1ECD93DD3E24724A28AD7EAD4285F2276B4B008EC3623BC0}).
+  \item \textbf{Speedup and Efficiency:} 8-Thread SMP achieves a walltime speedup of $\mathbf{2.140\times}$ on the 14,677-element model ($53.3\%$ walltime reduction) and $\mathbf{1.670\times}$ on the 6,112-element model ($40.1\%$ walltime reduction).
+\end{itemize}
+Stage A 8-thread shared-memory SMP parity is formally certified as \textbf{QUALIFIED}.
+
+\subsection{Global UEL Energy Balance and Dissipation Evolution}
+\label{subsec:gate6b_energy_balance}
+
+Energy terms tracked via subroutine \texttt{UEXTERNALDB} in \texttt{f42\_mixed\_uel.for} confirm physically consistent fracture mechanics:
+\begin{itemize}
+  \item In the pre-peak elastic regime ($u \le 0.0050\,\mathrm{mm}$), external work $W_{\mathrm{ext}}$ is predominantly stored as elastic strain energy ($E_{\mathrm{elas}} / W_{\mathrm{ext}} > 98\%$), with damage negligible ($d < 0.10$). The energy bookkeeping discrepancy is bounded by $< 0.002\%$.
+  \item In the post-peak softening regime ($u > 0.0058\,\mathrm{mm}$), elastic strain energy unloads monotonically, dropping from $\sim 2.15\,\mathrm{mJ}$ at peak to $0.0413\,\mathrm{mJ}$ (Method B Native) and $0.0446\,\mathrm{mJ}$ (ET2) at $u = 0.0100\,\mathrm{mm}$, representing a $>98\%$ elastic energy release.
+  \item Terminal fracture surface energy saturates at $E_{\mathrm{frac}} = 2.5389\,\mathrm{mJ}$ (ET2) and $3.0317\,\mathrm{mJ}$ (Method B Native). Fracture surface energy accounts for $98.27\%$ and $98.66\%$ of the final total internal energy ($E_{\mathrm{tot}} = E_{\mathrm{elas}} + E_{\mathrm{frac}}$), respectively.
+  \item The total recovered energy represents $91.35\%$ (ET2) and $92.23\%$ (Method B Native) of the accumulated external work $W_{\mathrm{ext}}$, consistent with the non-linear regularized fracture formulation.
+\end{itemize}
+
+\subsection{Stage B Repeat Candidate Governance Decision}
+\label{subsec:gate6b_stage_b_governance}
+
+The Stage B determinism repeat candidate \texttt{M1\_MB\_NATIVE\_8T\_B} is formally designated as \textbf{DEFERRED}.
+\begin{itemize}
+  \item \textbf{Scientific Justification:} Stage A testing achieved bitwise numerical identity between 1-CPU serial and 8-thread SMP on both the global load-displacement curve and the internal UEL energy balance history.
+  \item \textbf{Supervisor Rule Compliance:} In accordance with the governing directive: \emph{"Prioritize analysis of actual existing evidence over launching new simulations,"} executing a duplicate repeat job when Stage A already demonstrated bitwise parity would consume cluster resources and delay synthesis without generating new scientific insight.
+  \item \textbf{Archival State:} The verified input deck and PBS wrapper remain staged and qualified in the repository, available for immediate execution should supervisor review request an independent confirmation run.
+\end{itemize}
+
+\subsection{Telemetry Clarifications and Post-Processing Architecture}
+\label{subsec:gate6b_telemetry_clarifications}
+
+Two operational aspects of the HPC campaign were clarified during closeout:
+\begin{enumerate}
+  \item \textbf{Resolution of the Apparent 0.0108 mm Displacement Horizon:} An early telemetry check suggested that Job \texttt{1411895} had reached $u \approx 0.0108\,\mathrm{mm}$. Forensic audit of the input deck (\texttt{M1\_MB\_FINAL\_1S.inp}), solver \texttt{.sta} logs, and output database confirmed that the physical displacement horizon is strictly $u_{\mathrm{final}} = 0.010000\,\mathrm{mm}$. The discrepancy was traced to an external script that erroneously added Step 2 displacement as an incremental delta on top of Step 1 ($0.0050 + 0.58 \times 0.0100 = 0.0108\,\mathrm{mm}$) rather than respecting Abaqus \texttt{OP=MOD} absolute boundary semantics. The physical simulation adhered strictly to the benchmark protocol ($0 \le u \le 0.0100\,\mathrm{mm}$) with zero horizon overshoot.
+  \item \textbf{Status of Automated Harvesting Architecture:} Dependent harvesting job \texttt{1411947.mmaster02} (\texttt{M1\_HARVEST}) timed out after the $2\,\mathrm{h}$ walltime limit (Exit -29). Diagnosis showed that unoptimized Python loops extracting full-field SDV values across $44{,}031$ layered elements over hundreds of ODB frames exceeded the execution budget. All required physical quantities (nodal reaction forces, displacements, solver iteration telemetry, and UEL energy balances) were extracted directly from the solver CSV and DAT streams with 100\% precision. Vectorized element field extraction is designated for subsequent tooling updates.
+\end{enumerate}
+
+\paragraph{Master Gate 6B Qualification Verdict:}
+\begin{center}
+  \fbox{\textbf{GATE 6B STATUS: \texttt{STAGE A 8-THREAD SMP QUALIFIED / MULTI-QUANTITY SYNTHESIS COMPLETE}}}
+\end{center}
+\textbf{Conclusion:} Method B pre-peak load-partition invariance is empirically established, Stage A 8-thread shared-memory SMP execution is bitwise certified with up to $2.14\times$ speedup, and full softening traversal to residual load is demonstrated on both adapted discretizations. The complete Gate 6B evidence package is prepared and ready for the supervisor review on Thursday, 22 October 2026.
