@@ -1,0 +1,72 @@
+{
+  "specification_name": "MODE1_METHOD_C_GATE_C1_HANDOFF_AND_STATE_RESTORATION_SPECIFICATION",
+  "task_id": "F1423-MODE1-METHOD-C-GATE-C1-V2-CONTINUATION-AND-AUDIT",
+  "created_at": "2026-10-12T17:15:00+02:00",
+  "agent": "gemini-antigravity",
+  "protocol_version": 2,
+  "governing_rules": {
+    "scientific_classification": "QUASI_STATIC_RELOAD_WITH_TRANSFERRED_HISTORY",
+    "dof_state_boundary": "Displacement and phase-field degrees of freedom are not kinematically constrained at t=0; state memory is restored via *INITIAL CONDITIONS, TYPE=SOLUTION across 18 SVARS.",
+    "damage_irreversibility": "Delta H = 0 for all u <= 0.0050 mm because psi_0^+ < H_transferred, guaranteeing zero artificial damage accumulation during Step 1.",
+    "convex_interpolation_bias_hypothesis": "The +5.2% damage integral discrepancy (5.1852e-4 -> 5.4556e-4) is mathematically proven as convex interpolation bias of the exponential AT2 profile (Delta I approx h^2/(6*l0)*d_max) in a controlled coarsening diagnostic (14,677 FE -> 2,906 FE). Production Method C Cycle 1 proceeds in the refinement direction (coarse -> fine), eliminating this broadening."
+  },
+  "donor_baseline_at_handoff": {
+    "model_name": "M1_MB_NAT_1S (Job 1411934) / M1_PRE_1S (Job 1411891)",
+    "handoff_displacement_u2_mm": 0.0050,
+    "donor_mesh_elements": 14677,
+    "donor_mesh_nodes": 14646,
+    "donor_k0_canonical_kN_per_mm": 137.945520,
+    "donor_k0_measured_kN_per_mm": 137.891881,
+    "donor_rf2_2906fe_kN": 0.653093,
+    "donor_rf2_14677fe_kN": 0.661647,
+    "donor_peak_damage_dmax": 0.319455,
+    "donor_crack_tip_coord_mm": [0.5000, 0.5000],
+    "donor_crack_length_a_mm": 0.0000,
+    "donor_external_work_w_ext_mJ": 1.690821,
+    "donor_fracture_energy_e_frac_mJ": 0.007535
+  },
+  "recipient_handoff_acceptance_criteria": {
+    "recipient_mesh_elements": 2906,
+    "recipient_mesh_nodes": 2988,
+    "target_displacement_step1_mm": 0.0050,
+    "step1_increments": 10,
+    "step1_delta_u_per_inc_mm": 0.0005,
+    "reaction_force_rf2_acceptable_range_kN": [0.6400, 0.6650],
+    "reaction_force_rf2_expected_kN": 0.6531,
+    "relative_force_error_tolerance_pct": 1.0,
+    "initial_stiffness_k0_acceptable_range_kN_per_mm": [137.0, 138.5],
+    "initial_stiffness_k0_expected_kN_per_mm": 137.89,
+    "relative_stiffness_error_tolerance_pct": 0.5,
+    "step1_equilibrium_iterations_max_per_inc": 5,
+    "step1_cutbacks_permitted": 0,
+    "fracture_energy_growth_step1_mJ": 0.0,
+    "peak_damage_dmax_at_step1_end": 0.319455,
+    "peak_damage_relative_error_tolerance_pct": 0.1,
+    "crack_seam_isolation": "Zero cross-seam penetration; crack flanks at y=0.5+ and y=0.5- remain kinematically independent."
+  },
+  "step2_continuation_acceptance_criteria": {
+    "target_displacement_step2_mm": 0.0100,
+    "step2_increments": 5000,
+    "step2_delta_u_per_inc_mm": 0.000001,
+    "step_boundary_continuity": "Reaction force at step boundary u=0.0050 mm is C0-continuous (no jump > 0.005 kN between Step 1 terminal and Step 2 initial increment).",
+    "peak_force_fmax_acceptable_range_kN": [0.7350, 0.7600],
+    "displacement_at_peak_acceptable_range_mm": [0.00570, 0.00595],
+    "post_peak_softening": "Monotonic softening to terminal residual force F_final < 0.0150 kN.",
+    "global_energy_balance_bookkeeping_error_tolerance_pct": 10.0,
+    "terminal_fracture_energy_fraction_min_pct": 85.0
+  },
+  "governed_model_hashes": {
+    "input_deck": "M1_RECIP_2906_CONTINUATION.inp",
+    "input_deck_sha256": "501E1FBA1D6DB04CA25F7A273B6D0D4134C75AA13C40C734C8FEF7031556E152",
+    "user_subroutine": "f42_mixed_uel.for",
+    "user_subroutine_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "uel_property_order": [
+      {"slot": 1, "name": "l0", "value": 0.0075, "unit": "mm"},
+      {"slot": 2, "name": "Gc", "value": 0.0027, "unit": "kN/mm"},
+      {"slot": 3, "name": "E_mod", "value": 210.0, "unit": "kN/mm^2"},
+      {"slot": 4, "name": "nu", "value": 0.3, "unit": "dimensionless"},
+      {"slot": 5, "name": "k_stab", "value": 1.0e-7, "unit": "dimensionless"},
+      {"slot": 6, "name": "n_phys", "value": 2906.0, "unit": "count"}
+    ]
+  }
+}

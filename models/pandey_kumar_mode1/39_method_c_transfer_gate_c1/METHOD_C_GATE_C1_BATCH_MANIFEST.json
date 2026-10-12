@@ -1,14 +1,15 @@
 {
-  "batch_name": "MODE1_METHOD_C_GATE_C1_SINGLE_CYCLE_VERIFICATION",
-  "task_id": "F1421-MODE1-METHOD-C-GATE-C1-LOCAL-DATACHECK-QUALIFICATION",
-  "created_at": "2026-10-12T14:56:00+02:00",
+  "batch_name": "MODE1_METHOD_C_GATE_C1_V2_CONTINUATION",
+  "task_id": "F1423-MODE1-METHOD-C-GATE-C1-V2-CONTINUATION-AND-AUDIT",
+  "created_at": "2026-10-12T17:15:00+02:00",
   "agent": "gemini-antigravity",
   "maximum_permitted_submissions": 1,
   "automatic_retry": false,
   "jobs": [
     {
-      "job_name": "M1_MC_C1_1S",
-      "scientific_purpose": "Gate C1: First authentic Abaqus 2023 Method C remesh-and-continue solve on 2,906 FE recipient mesh with transferred damage and history fields from 14,677 FE native donor at u = 0.0050 mm",
+      "job_name": "M1_MC_C1_V2",
+      "scientific_purpose": "Gate C1 V2: First authentic Abaqus 2023 Method C remesh-and-continue solve on 2,906 FE recipient mesh with transferred damage and history fields from 14,677 FE native donor at u = 0.0050 mm and corrected UEL material properties (E=210 GPa)",
+      "scientific_classification": "QUASI_STATIC_RELOAD_WITH_TRANSFERRED_HISTORY",
       "model_package": "models/pandey_kumar_mode1/39_method_c_transfer_gate_c1",
       "input_deck": "M1_RECIP_2906_CONTINUATION.inp",
       "input_deck_sha256": "501E1FBA1D6DB04CA25F7A273B6D0D4134C75AA13C40C734C8FEF7031556E152",
@@ -19,20 +20,24 @@
       "walltime": "04:00:00",
       "queue": "entry_imfdfkmq",
       "execution_mode": "1-CPU serial shared-memory",
-      "cluster_directory": "/scratch9/pr21vyci/runs/mode1_method_c_gate_c1",
-      "pbs_script": "submit_M1_RECIP_2906_CONTINUATION.pbs",
+      "cluster_directory": "/scratch9/pr21vyci/runs/mode1_method_c_gate_c1_v2",
+      "pbs_script": "submit_M1_RECIP_2906_CONTINUATION_V2.pbs",
+      "submission_wrapper": "submit_c1_v2_job.sh",
       "dependencies": [],
       "prerequisites_status": {
-        "local_pre_exe_input_validation": "PASSED (0 errors, 8,718 solution variable cards validated)",
+        "local_pre_exe_input_validation": "PASSED (0 syntax errors, 8,718 UEL cards validated across 2,906 elements)",
         "cluster_ifort_compilation": "PASSED (Intel Fortran Compiler Classic 2021.13.0)",
-        "cluster_standard_datacheck": "PASSED (Exit Code 0, Job M1_RECIP_2906_DC)"
+        "cluster_standard_datacheck": "M1_RECIP_2906_DC passed Exit 0 in V1; V2 datacheck M1_RECIP_2906_DC_V2 queued in FlexNet"
       },
       "acceptance_criteria": {
         "solver_exit_code": 0,
-        "step1_reload_stiffness_k0_kn_per_mm": "135.0 - 142.0 kN/mm",
-        "step1_reload_reaction_force_rf2_kn": "0.640 - 0.665 kN (donor baseline: 0.6531 kN)",
+        "step1_reload_stiffness_k0_kn_per_mm": "137.0 - 138.5 kN/mm (expected: 137.89 kN/mm)",
+        "step1_reload_reaction_force_rf2_kn": "0.640 - 0.665 kN (expected: 0.6531 kN)",
         "step2_continuation_convergence": "Full horizon to u = 0.0100 mm without divergence",
-        "damage_irreversibility": "Preserved everywhere (d >= d_transferred)"
+        "damage_irreversibility": "Preserved everywhere (Delta H = 0 for u <= 0.0050 mm)",
+        "step_boundary_continuity": "|Delta RF| <= 0.005 kN at u = 0.0050 mm",
+        "peak_reaction_force_kn": "0.735 - 0.760 kN at u = 0.00570 - 0.00595 mm",
+        "terminal_fracture_energy_fraction": ">= 85% of external work"
       }
     }
   ]
