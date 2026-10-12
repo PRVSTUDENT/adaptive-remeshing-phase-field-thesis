@@ -1,0 +1,167 @@
+================================================================================
+MODE-I METHOD B NATIVE (14,677 FE) REPRODUCTION PACKAGE: EXECUTION COMMANDS
+================================================================================
+Research Project: Application of Built-in Adaptive Remeshing and Mesh Refinement
+                  Features in Abaqus to Fracture Simulations Using Phase-Field
+                  User Elements
+Author:           Pruthviraja Reddy Vandavagali (Matriculation No. 68865)
+Institution:      IMFD, TU Bergakademie Freiberg
+Model Package:    models/pandey_kumar_mode1/38_method_b_native_final_14k
+Date:             October 12, 2026 (Task F1419 Closeout)
+
+================================================================================
+SECTION 1: ENVIRONMENT SETUP & MODULE LOADING
+================================================================================
+
+1.1 Cluster Environment (TUBAF HPC, mnode097 / mmaster02):
+----------------------------------------------------------
+# Clean modules and load authoritative toolchain:
+module purge
+module load gcc/11.4.0
+module load intel/2024.2.0
+module load abaqus/2023
+module load python/gcc/11.4.0/3.11.7
+
+# Verify executables:
+which ifort
+abaqus whereami
+python3 --version
+
+1.2 Scratch Directory Setup:
+----------------------------
+export SCRATCH_DIR="/scratch9/pr21vyci/runs/mode1_method_b_native_final"
+mkdir -p "$SCRATCH_DIR"
+cd "$SCRATCH_DIR"
+
+================================================================================
+SECTION 2: CRYPTOGRAPHIC INTEGRITY VERIFICATION
+================================================================================
+
+Verify that the staged input deck and Fortran user subroutine match the frozen hashes:
+
+Input Deck (M1_MB_NATIVE_FINAL_1S.inp):
+  SHA-256: 39CFD486C87A48A72F145919998E4FE698367DDA452B0F20C2E8F43EA13B0A6D
+  Elements: 44,031 layered (14,677 base FE across 3 layers)
+  Nodes:    14,646 mesh nodes + 1 RP (999999)
+
+Fortran User Subroutine (f42_mixed_uel.for):
+  SHA-256: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6
+
+Verification commands:
+sha256sum M1_MB_NATIVE_FINAL_1S.inp
+sha256sum f42_mixed_uel.for
+
+================================================================================
+SECTION 3: STEP-BY-STEP METHOD B WORKFLOW
+================================================================================
+
+3.1 Coarse Pre-Analysis with Infinitesimal Companion Tangent:
+-------------------------------------------------------------
+The preliminary analysis executes on the 2,906-element mesh up to u_pre = 0.0050 mm
+(alpha = 0.854) using an infinitesimal companion tangent (E_dummy = 1.0E-11 kN/mm^2)
+to recover valid, non-zero von Mises stress discretization error indicators (MISESERI)
+without perturbing phase-field fracture mechanics.
+
+Run options:
+  - 1-Step Partition: M1_PRE_INF_1S (500 increments, dt = 0.002)
+  - 2-Step Partition: M1_PRE_INF_2S (Step 1: 250 incs, Step 2: 250 incs)
+  - 4-Step Partition: M1_PRE_INF_4S (Step 1-4: 125 incs each)
+
+Execution syntax:
+abaqus job=M1_PRE_INF_1S user=f42_mixed_uel.for cpus=1 interactive
+
+3.2 Native Abaqus CAE Adaptive Remeshing Orchestration:
+-------------------------------------------------------
+Execute native Abaqus CAE Python remeshing on the completed pre-analysis ODB:
+abaqus cae noGUI=remesh_m1_native.py -- \
+  --odb=M1_PRE_INF_1S.odb \
+  --rule=RemeshRule-M1 \
+  --error_target=1.0 \
+  --output_mesh=ADAPTED_MESH_1S.inp
+
+This generates exactly 14,677 base finite elements (14,646 nodes) with bitwise
+identical topology across 1S, 2S, and 4S partitions.
+
+3.3 Multi-Layer UEL/UMAT Model Assembly:
+----------------------------------------
+Assemble the co-located 3-layer model:
+  - Layer 1: Phase-Field UEL (Elements 1 - 14677, Type U1/U3)
+  - Layer 2: Mechanical Displacement UEL (Elements 100001 - 114677, Type U2/U4)
+  - Layer 3: Companion Visualization UMAT (Elements 200001 - 214677, Type CPE4/CPE3)
+  - Kinematic Coupling: Top edge nodes constrained to RP 999999 via *EQUATION
+  - Boundary: Bottom nodes on y=0 pinned with wrapped N_BOTTOM cards
+
+Syntax:
+python3 scripts/model_generation/assemble_mode1_native_deck.py \
+  --mesh=ADAPTED_MESH_1S.inp \
+  --out=M1_MB_NATIVE_FINAL_1S.inp
+
+================================================================================
+SECTION 4: PRODUCTION FRACTURE SOLVE EXECUTION
+================================================================================
+
+4.1 Preflight Datacheck:
+------------------------
+abaqus datacheck job=M1_MB_NATIVE_FINAL_1S user=f42_mixed_uel.for cpus=1 interactive
+# Verify Exit 0 and 0 errors in M1_MB_NATIVE_FINAL_1S.log and .dat
+
+4.2 1-CPU Serial Anchor (Job 1411934.mmaster02):
+------------------------------------------------
+qsub submit_M1_MB_NATIVE_FINAL_1S.pbs
+
+Inline invocation equivalent:
+abaqus job=M1_MB_NATIVE_FINAL_1S \
+  user=f42_mixed_uel.for \
+  cpus=1 \
+  scratch="$SCRATCH_DIR" \
+  interactive
+
+Expected results:
+  - Total increments: 7,000 (0 cutbacks)
+  - Peak reaction force: F_max = 0.743021 kN (-1.947% vs canonical 15k ref)
+  - Peak displacement:   u(F_max) = 0.005727 mm (-2.220% vs ref)
+  - Initial stiffness:  K_0 = 137.891881 kN/mm (-0.039% vs ref, R^2 > 0.999999)
+  - Terminal work:       W_ext = 3.331934 mJ
+  - Terminal fracture E: E_frac = 3.031673 mJ
+  - Solver walltime:     09:43:48 (35,028 s)
+
+4.3 8-Thread Shared-Memory SMP (Job 1411949.mmaster02):
+-------------------------------------------------------
+qsub submit_M1_MB_NATIVE_8T_A.pbs
+
+Inline invocation equivalent:
+abaqus job=M1_MB_NATIVE_8T_A \
+  input=M1_MB_NATIVE_FINAL_1S \
+  user=f42_mixed_uel.for \
+  cpus=8 \
+  mp_mode=threads \
+  scratch="$SCRATCH_DIR" \
+  interactive
+
+Expected results:
+  - Telemetry: 1 MPI process / rank x 8 threads in shared memory
+  - Numerical parity: Bitwise identical F-u trajectory and UEL energy CSV
+  - Solver walltime:  04:32:46 (16,366 s) -> 2.140x walltime speedup (53.3% savings)
+
+================================================================================
+SECTION 5: POST-PROCESSING & EVIDENCE HARVESTING
+================================================================================
+
+5.1 Extract Load-Displacement & Energetics:
+------------------------------------------
+python3 scripts/postprocessing/extract_mode1_fracture_odb.py \
+  --odb=M1_MB_NATIVE_FINAL_1S.odb \
+  --out_dir=results/ \
+  --csv_energy=uel_energy_balance.csv
+
+5.2 High-Performance Spatial Damage Extraction:
+-----------------------------------------------
+abaqus python scripts/postprocessing/extract_native_14k_spatial_damage.py \
+  --odb=M1_MB_NATIVE_FINAL_1S.odb \
+  --out_json=M1_MB_NATIVE_14K_TERMINAL_EVALUATION.json \
+  --out_fu=M1_MB_NATIVE_14K_fu.csv \
+  --out_matched=M1_MB_NATIVE_14K_matched_states_summary.csv \
+  --out_ligament=M1_MB_NATIVE_14K_ligament_profiles.csv
+
+Execution time: < 15 seconds.
+================================================================================
