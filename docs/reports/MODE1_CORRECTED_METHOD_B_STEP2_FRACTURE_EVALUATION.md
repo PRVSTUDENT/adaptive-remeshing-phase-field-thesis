@@ -1,10 +1,10 @@
 # Mode-I Benchmark: Corrected Method B Fracture Response Evaluation, In-Flight Progression, and Reference Comparison
 
 **Protocol Version:** 2  
-**Task ID:** `F1439-MODE1-CORRECT-CLAIMS-AND-CAPTURE-STEP2-EVIDENCE` (Updated from Task F1438)  
+**Task ID:** `F1440-MODE1-CORRECTED-METHOD-B-STEP2-FRACTURE-ANALYSIS` (Updated from Task F1439)  
 **Date:** 13 October 2026  
 **Author:** Gemini Antigravity  
-**Status:** `IN_FLIGHT_SOLVE_STEP1_ACTIVE_WITH_EXPLICIT_FALLBACK`  
+**Status:** `IN_FLIGHT_SOLVE_STEP2_ACTIVE_WITH_EXPLICIT_FALLBACK`  
 **Governing Directive:** *"We need to have understood everything related to the first model before we increase complexity."*  
 
 ---
@@ -48,7 +48,7 @@ Under monotonic Mode-I tensile loading, the expected response proceeds through f
 - **External Work ($W_{\text{ext}}$):** $\int_0^u F(\tilde{u})\,d\tilde{u}$, evaluated by trapezoidal integration of top-edge reaction force vs prescribed displacement.
 - **Energy-Balance Residual ($\Delta E$):**
   $$\Delta E = W_{\text{ext}} - \left(E_{\text{elastic}} + E_{\text{fracture}}\right)$$
-  In discrete finite-element calculations, $\Delta E$ is non-zero due to finite increment size, trapezoidal numerical integration approximations, and spatial discretization effects. It must be explicitly stated rather than silently assumed to vanish.
+  In discrete finite-element calculations, $\Delta E$ is non-zero due to finite increment size, numerical integration approximations, and spatial discretization effects. It must be explicitly stated rather than silently assumed to vanish.
 
 ---
 
@@ -127,11 +127,12 @@ To preserve scientific rigor, all project findings are classified into four mutu
 - Discrepancy vs Canonical Reference ($137.945520\,\text{kN/mm}$): **$-0.02607\%$** (**close numerical agreement**; not bitwise identity).
 - Discrepancy vs Original Method B ($137.891881\,\text{kN/mm}$): **$+0.01282\%$**.
 
-### 7.2 In-Flight Solver Health & Energy Bookkeeping (Increments 1–1893+, $u_y = 0.00473\,\text{mm}$)
-- Completed increments in `.sta`: $1{,}893+$ of $2{,}000$ in Step 1.
-- Attempt count: $1$ per increment; **$0$ cutbacks** across the entire trajectory.
-- Newton iterations: strictly $3.0$ iterations/increment.
-- Numerical warnings / singularities: **0**.
+### 7.2 Solver Telemetry & Energy Bookkeeping (Step 1 Complete, Step 2 In-Flight)
+- **Step 1 Completion:** All $2{,}000$ of $2{,}000$ increments completed ($t_1 = 1.000$, $u_y = 0.00500\,\text{mm}$).
+- **Step 2 In-Flight Telemetry:** Actively advancing through increments $>70$ of $5{,}000$ ($u_y > 0.00507\,\text{mm}$).
+- **Attempt Count & Convergence:** $1$ attempt per increment; **$0$ cutbacks** across all $>2{,}070$ increments.
+- **Newton Iterations:** strictly $3.0$ iterations/increment (quadratic asymptotic convergence).
+- **Numerical Warnings / Singularities:** **0**.
 - **Energy Bookkeeping at $u_y = 0.00392\,\text{mm}$ (Increment 1568):**
   - External work: $\mathcal{W}_{\text{ext}}^{\text{partial}} = 1.0466\,\text{mJ}$ (integrated over $u_y \in [0.0, 0.00392]\,\text{mm}$).
   - Stored elastic strain energy: $E_{\text{elastic}} = 1.0232\,\text{mJ}$ ($97.76\%$ of $\mathcal{W}_{\text{ext}}$).
@@ -139,21 +140,22 @@ To preserve scientific rigor, all project findings are classified into four mutu
   - Total internal energy: $E_{\text{total}} = E_{\text{elastic}} + E_{\text{fracture}} = 1.0363\,\text{mJ}$ ($99.02\%$ of $\mathcal{W}_{\text{ext}}$).
   - **Energy-Balance Residual:**
     $$\Delta E = \mathcal{W}_{\text{ext}}^{\text{partial}} - (E_{\text{elastic}} + E_{\text{fracture}}) = 1.0466 - 1.0363 = 0.0103\,\text{mJ} \quad (0.98\%)$$
-  - *Residual Characterization:* The $0.98\%$ discrepancy is consistent with discrete trapezoidal integration approximations over non-uniform increment intervals and early-stage spatial discretization. It is explicitly recorded and tracked rather than assuming exact zero residual.
+  - *Residual Characterization (Rigorous Epistemic Boundary):* The $0.0103\,\text{mJ}$ ($0.98\%$) residual at $u_y = 0.00392\,\text{mm}$ is an observed numerical discrepancy whose precise decomposition remains unverified; trapezoidal integration approximations over non-uniform increment intervals, time-step truncation, and early-stage spatial discretization are plausible contributing mechanisms, but have not been independently isolated as proven causes.
 
 ---
 
 ## 8. Explicitly Pending Fracture-Response Findings (No-Results Fallback)
 
-The following quantities are actively computing on the cluster and are formally held under fallback status:
+The following quantities are actively computing on the cluster in Step 2 and are formally held under fallback status:
 
 ```
 +-----------------------------------------------------------------------------------------+
 |                              EXPLICIT NO-RESULTS FALLBACK                               |
 |                                                                                         |
-|  Solver Status: RUNNING in Step 1 (u_y = 0.00473 mm of 0.0100 mm horizon)               |
-|  Current Increment: 1893 of 2000 in Step 1 (~107 increments remaining to Step 2)       |
-|  Remaining Time to Step 2: ~6-8 minutes                                                 |
+|  Solver Status: RUNNING in Step 2 (u_y > 0.00507 mm of 0.0100 mm horizon)               |
+|  Step 1: COMPLETED (2,000 of 2,000 increments, u_y = 0.00500 mm, 0 cutbacks)            |
+|  Step 2 Progress: Increment >70 of 5,000 (total increments >2,070, 0 cutbacks)          |
+|  Estimated Incs to Peak Load (u_y ~ 0.005857 mm): ~780 increments in Step 2            |
 |                                                                                         |
 |  Metric                                  Status                 Reason                  |
 |  -------------------------------------------------------------------------------------  |

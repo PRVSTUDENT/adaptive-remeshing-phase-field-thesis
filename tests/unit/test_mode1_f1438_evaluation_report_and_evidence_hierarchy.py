@@ -1,7 +1,7 @@
 """
 test_mode1_f1438_evaluation_report_and_evidence_hierarchy.py
 
-Unit test suite for Tasks F1438 and F1439:
+Unit test suite for Tasks F1438, F1439, and F1440:
 1. Verifies the existence, structure, and supervisor-aligned content of docs/reports/MODE1_CORRECTED_METHOD_B_STEP2_FRACTURE_EVALUATION.md.
 2. Validates the 4-tier epistemic evidence hierarchy and explicit no-results fallback.
 3. Verifies numerical stiffness parity (Delta K0 < 0.1%, R^2 >= 0.999999).
@@ -71,7 +71,8 @@ def test_mode1_f1438_coordination_and_session_release():
         task_data = json.load(f)
     assert task_data["task_id"] in [
         "F1438-MODE1-CORRECTED-METHOD-B-STEP2-EVALUATION",
-        "F1439-MODE1-CORRECT-CLAIMS-AND-CAPTURE-STEP2-EVIDENCE"
+        "F1439-MODE1-CORRECT-CLAIMS-AND-CAPTURE-STEP2-EVIDENCE",
+        "F1440-MODE1-CORRECTED-METHOD-B-STEP2-FRACTURE-ANALYSIS"
     ]
     assert task_data["status"] == "COMPLETED"
 
