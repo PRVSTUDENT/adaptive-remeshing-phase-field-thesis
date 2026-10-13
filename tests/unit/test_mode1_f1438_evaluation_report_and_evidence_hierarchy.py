@@ -1,11 +1,11 @@
 """
 test_mode1_f1438_evaluation_report_and_evidence_hierarchy.py
 
-Unit test suite for Task F1438:
+Unit test suite for Tasks F1438 and F1439:
 1. Verifies the existence, structure, and supervisor-aligned content of docs/reports/MODE1_CORRECTED_METHOD_B_STEP2_FRACTURE_EVALUATION.md.
 2. Validates the 4-tier epistemic evidence hierarchy and explicit no-results fallback.
 3. Verifies numerical stiffness parity (Delta K0 < 0.1%, R^2 >= 0.999999).
-4. Verifies governance coordination state: active session released (active=false), active task COMPLETED, and F1438 ledger registration.
+4. Verifies governance coordination state: active session released (active=false), active task COMPLETED, and ledger registration.
 """
 
 import json
@@ -69,7 +69,10 @@ def test_mode1_f1438_coordination_and_session_release():
     assert os.path.isfile(ACTIVE_TASK)
     with open(ACTIVE_TASK, "r", encoding="utf-8") as f:
         task_data = json.load(f)
-    assert task_data["task_id"] == "F1438-MODE1-CORRECTED-METHOD-B-STEP2-EVALUATION"
+    assert task_data["task_id"] in [
+        "F1438-MODE1-CORRECTED-METHOD-B-STEP2-EVALUATION",
+        "F1439-MODE1-CORRECT-CLAIMS-AND-CAPTURE-STEP2-EVIDENCE"
+    ]
     assert task_data["status"] == "COMPLETED"
 
     assert os.path.isfile(ACTIVE_SESSION)
