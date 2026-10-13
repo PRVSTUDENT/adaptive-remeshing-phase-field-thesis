@@ -1,0 +1,203 @@
+{
+  "experiment": "Mode-I Corrected Method B Native (14,483 FE)",
+  "pbs_job_id": "1412465.mmaster02",
+  "solver": "Abaqus 2023 with authoritative f42_mixed_uel.for (CE8D5EDC...)",
+  "total_converged_increments": 4890,
+  "step1_increments": 2000,
+  "step2_increments": 2890,
+  "termination_reason": "TIME INCREMENT REQUIRED LESS THAN MINIMUM SPECIFIED at u = 0.007889 mm during deep softening tail",
+  "K0_kN_per_mm": 137.90955784934812,
+  "K0_error_vs_canonical_pct": -0.026069821369964937,
+  "K0_R2": 0.9999995980428739,
+  "F_max_kN": 0.74370082,
+  "F_max_error_vs_canonical_pct": -1.8576918305888943,
+  "F_max_diff_vs_original_method_b_pct": 0.09149404929335747,
+  "u_peak_mm": 0.005733,
+  "u_peak_error_vs_canonical_pct": -2.117124807922144,
+  "u_terminal_mm": 0.007889,
+  "F_terminal_kN": 0.0017644804,
+  "W_ext_terminal_mJ": 2.2673792220010878,
+  "E_elastic_terminal_mJ": 0.0069600565,
+  "E_fracture_terminal_mJ": 2.2854689,
+  "E_total_terminal_mJ": 2.292429,
+  "energy_residual_delta_E_mJ": 0.02504977799891206,
+  "energy_residual_rel_pct": 1.1047899599610973,
+  "matched_horizon_comparison": [
+    {
+      "u_target_mm": 0.005,
+      "F_corr_kN": 0.66172539,
+      "F_orig_kN": 0.6616469,
+      "F_et2_kN": 0.6621424,
+      "delta_F_corr_vs_orig_kN": 7.848999999993111e-05,
+      "W_ext_corr_mJ": 1.6910290614869878,
+      "W_ext_orig_mJ": 1.6908205764875002,
+      "W_ext_et2_mJ": 1.69190604535,
+      "delta_W_corr_vs_orig_mJ": 0.00020848499948766808
+    },
+    {
+      "u_target_mm": 0.005857,
+      "F_corr_kN": 0.068060095,
+      "F_orig_kN": 0.58520642,
+      "F_et2_kN": 0.72299087,
+      "delta_F_corr_vs_orig_kN": -0.517146325,
+      "W_ext_corr_mJ": 2.2632905144224873,
+      "W_ext_orig_mJ": 2.2822279221075,
+      "W_ext_et2_mJ": 2.301917320725,
+      "delta_W_corr_vs_orig_mJ": -0.01893740768501262
+    },
+    {
+      "u_target_mm": 0.006,
+      "F_corr_kN": 0.0019915968,
+      "F_orig_kN": 0.59811843,
+      "F_et2_kN": 0.52714884,
+      "delta_F_corr_vs_orig_kN": -0.5961268331999999,
+      "W_ext_corr_mJ": 2.2636074612486876,
+      "W_ext_orig_mJ": 2.3668451403025,
+      "W_ext_et2_mJ": 2.38028053092,
+      "delta_W_corr_vs_orig_mJ": -0.10323767905381231
+    },
+    {
+      "u_target_mm": 0.0065,
+      "F_corr_kN": 0.0020623157,
+      "F_orig_kN": 0.57441792,
+      "F_et2_kN": 0.44359326,
+      "delta_F_corr_vs_orig_kN": -0.5723556043,
+      "W_ext_corr_mJ": 2.2646222198530377,
+      "W_ext_orig_mJ": 2.6692575920575,
+      "W_ext_et2_mJ": 2.6135084242000004,
+      "delta_W_corr_vs_orig_mJ": -0.4046353722044622
+    },
+    {
+      "u_target_mm": 0.007,
+      "F_corr_kN": 0.002054838,
+      "F_orig_kN": 0.52503776,
+      "F_et2_kN": 0.01513754,
+      "delta_F_corr_vs_orig_kN": -0.5229829220000001,
+      "W_ext_corr_mJ": 2.2656562085896876,
+      "W_ext_orig_mJ": 2.9425419503975,
+      "W_ext_et2_mJ": 2.7903430339676003,
+      "delta_W_corr_vs_orig_mJ": -0.6768857418078125
+    },
+    {
+      "u_target_mm": 0.0075,
+      "F_corr_kN": 0.0019281958,
+      "F_orig_kN": 0.49642429,
+      "F_et2_kN": 0.0149331,
+      "delta_F_corr_vs_orig_kN": -0.4944960942,
+      "W_ext_corr_mJ": 2.2666615492704874,
+      "W_ext_orig_mJ": 3.1923726635825003,
+      "W_ext_et2_mJ": 2.7979398102476,
+      "delta_W_corr_vs_orig_mJ": -0.9257111143120129
+    },
+    {
+      "u_target_mm": 0.007889,
+      "F_corr_kN": 0.0017644982,
+      "F_orig_kN": 0.01246947,
+      "F_et2_kN": 0.01427611,
+      "delta_F_corr_vs_orig_kN": -0.0107049718,
+      "W_ext_corr_mJ": 2.2673792220010878,
+      "W_ext_orig_mJ": 3.3096417970225,
+      "W_ext_et2_mJ": 2.8036276858226006,
+      "delta_W_corr_vs_orig_mJ": -1.0422625750214123
+    }
+  ],
+  "three_way_comparison_table": [
+    {
+      "u_mm": 0.001,
+      "F_ref_kN": 0.13792416,
+      "F_orig_kN": 0.1378705,
+      "F_corr_kN": 0.13788817,
+      "W_ref_mJ": 0.06901707849145002,
+      "W_orig_mJ": 0.0689903130625,
+      "W_corr_mJ": 0.0689991686619875
+    },
+    {
+      "u_mm": 0.003,
+      "F_ref_kN": 0.40841828,
+      "F_orig_kN": 0.40824806,
+      "F_corr_kN": 0.40829901,
+      "W_ref_mJ": 0.61715216524145,
+      "W_orig_mJ": 0.6169052299875,
+      "W_corr_mJ": 0.6169834051119876
+    },
+    {
+      "u_mm": 0.005,
+      "F_ref_kN": 0.66205217,
+      "F_orig_kN": 0.6616469,
+      "F_corr_kN": 0.66172539,
+      "W_ref_mJ": 1.6915861896539501,
+      "W_orig_mJ": 1.6908205764875002,
+      "W_corr_mJ": 1.6910290614869878
+    },
+    {
+      "u_mm": 0.005733,
+      "F_ref_kN": 0.74643104,
+      "F_orig_kN": 0.74258054,
+      "F_corr_kN": 0.74370082,
+      "W_ref_mJ": 2.20834032862895,
+      "W_orig_mJ": 2.2070295732775,
+      "W_corr_mJ": 2.207313770181988
+    },
+    {
+      "u_mm": 0.005857,
+      "F_ref_kN": 0.75777849,
+      "F_orig_kN": 0.58520642,
+      "F_corr_kN": 0.068060095,
+      "W_ref_mJ": 2.30166724594395,
+      "W_orig_mJ": 2.2822279221075,
+      "W_corr_mJ": 2.2632905144224877
+    },
+    {
+      "u_mm": 0.006,
+      "F_ref_kN": 0.000546367,
+      "F_orig_kN": 0.59811843,
+      "F_corr_kN": 0.0019915968,
+      "W_ref_mJ": 2.35790160577967,
+      "W_orig_mJ": 2.3668451403025,
+      "W_corr_mJ": 2.263607461248688
+    },
+    {
+      "u_mm": 0.0065,
+      "F_ref_kN": 0.00048480117,
+      "F_orig_kN": 0.57441792,
+      "F_corr_kN": 0.0020623157,
+      "W_ref_mJ": 2.3581589545620147,
+      "W_orig_mJ": 2.6692575920575,
+      "W_corr_mJ": 2.2646222198530377
+    },
+    {
+      "u_mm": 0.007,
+      "F_ref_kN": 0.00042985636,
+      "F_orig_kN": 0.52503776,
+      "F_corr_kN": 0.002054838,
+      "W_ref_mJ": 2.35838748030117,
+      "W_orig_mJ": 2.9425419503975,
+      "W_corr_mJ": 2.265656208589688
+    },
+    {
+      "u_mm": 0.0075,
+      "F_ref_kN": 0.00038112222,
+      "F_orig_kN": 0.49642429,
+      "F_corr_kN": 0.0019281958,
+      "W_ref_mJ": 2.35859002317056,
+      "W_orig_mJ": 3.1923726635825003,
+      "W_corr_mJ": 2.266661549270488
+    },
+    {
+      "u_mm": 0.007889,
+      "F_ref_kN": 0.00034802512,
+      "F_orig_kN": 0.01246947,
+      "F_corr_kN": 0.0017644982,
+      "W_ref_mJ": 2.35873168574327,
+      "W_orig_mJ": 3.3096417970225,
+      "W_corr_mJ": 2.267379222001088
+    }
+  ],
+  "canonical_reference_metrics": {
+    "model": "Canonical Fixed Reference (Job 1398090, 15,192 FE)",
+    "F_max_kN": 0.75777849,
+    "u_peak_mm": 0.005857,
+    "W_ext_at_u_term_mJ": 2.35873168574327,
+    "W_ext_terminal_0p0100_mJ": 2.3593289279904046
+  }
+}
