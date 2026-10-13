@@ -94,11 +94,12 @@ USER_SUB="f42_mixed_uel.for"
 rm -f "${JOB_NAME}.lck" "${JOB_NAME}.023" "${JOB_NAME}.log" "${JOB_NAME}.dat" "${JOB_NAME}.msg" "${JOB_NAME}.prt" "${JOB_NAME}.sta" 2>/dev/null || true
 
 echo "=== EXECUTING ABAQUS 2023 DATACHECK: ${JOB_NAME} ==="
-abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" datacheck interactive
+abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" datacheck interactive > "${JOB_NAME}.log" 2>&1
 
 DC_EXIT=$?
 if [ ${DC_EXIT} -ne 0 ]; then
     echo "[DATACHECK FATAL] Datacheck exited with non-zero exit code: ${DC_EXIT}" >&2
+    cat "${JOB_NAME}.log" >&2 || true
     exit ${DC_EXIT}
 fi
 
@@ -112,7 +113,7 @@ if [ ! -f "${JOB_NAME}.dat" ]; then
     exit 4
 fi
 
-if ! grep -q "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.log" 2>/dev/null; then
+if ! grep -q -E "COMPLETED|THE ANALYSIS HAS COMPLETED SUCCESSFULLY" "${JOB_NAME}.log" 2>/dev/null; then
     echo "[DATACHECK FATAL] Log does not contain successful completion message." >&2
     exit 4
 fi

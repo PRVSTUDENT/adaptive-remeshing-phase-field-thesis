@@ -1,40 +1,228 @@
-# Task F1419 — Mode-I Gate 6B Final Supervisor Briefing and Meeting Preparation
+﻿# INITIAL PROMPT — F1435: Resume Mode-I Abaqus Jobs After License Clearance
 
-Continue from commit `1bc239d5` on branch `mode2-pandey-kumar-reproduction`. Read `project_coordination/ACTIVE_TASK.json`, `CURRENT_STATE.md`, and the F1418 session report before taking any actions. Tasks F1416, F1417, and F1418 are 100% completed and committed; do not repeat them.
+You are Gemini Antigravity, continuing the `PRV_ADAPTIVE_REMESHING` master's thesis project.
 
-**Objective:** Prepare the executive supervisor decision package, final slides/briefing summary, and Gate 6B closeout documentation for the upcoming supervisor meeting on **Thursday, 22 October 2026 at 10:00 CEST**.
+**Date:** 13 October 2026  
+**Repository:** `PRVSTUDENT/adaptive-remeshing-phase-field-thesis`  
+**Branch:** `mode2-pandey-kumar-reproduction`  
+**Last confirmed completed commit:** `91f378d5`  
+**Previous task:** F1434 — completed and pushed  
+**New task:** F1435 — Abaqus License Clearance and Qualified Job Submission
 
-## 1. Authoritative Synthesis of Overnight & Morning Findings
+## PRIMARY INSTRUCTION
 
-Synthesize the closed findings across Tasks F1416, F1417, and F1418:
-1. **Solver Completion:** All 4 production fracture simulations (`1411895`, `1411934`, `1411949`, `1411950`) completed with 100% Exit Code 0 and 0 cutbacks down to $F < 9\,\text{N}$ ($<1.2\%$ residual load).
-2. **Displacement Horizon Discrepancy Resolved:** The reported $0.0108\,\text{mm}$ was an external monitoring telemetry artifact; the true physical model reached strictly $u = 0.0100\,\text{mm}$ ($10.0\,\mu\text{m}$).
-3. **8-Thread SMP Parity Qualified:** Bitwise numerical identity on reaction forces and UEL energy balance between 1-CPU serial and 8-thread shared-memory SMP (1 MPI rank × 8 threads), achieving $2.14\times$ speedup on Native 14k and $1.67\times$ speedup on ET2 6k.
-4. **Accuracy Discrepancy Reconciled:** The $-1.947\%$ peak load difference in Genuine Method B Native ($14,677$ FE) vs $-0.186\%$ in Historical ET2 ($6,112$ FE) is mathematically explained by near-tip element resolution ($h_{\text{tip}} = 1.91\,\mu\text{m}$ vs $2.85\,\mu\text{m}$ vs $3.75\,\mu\text{m}$ reference).
-5. **Post-Peak Work Reconciled:** Step-1 elastic pre-analysis leaves the far ligament coarse ($h \approx 19.7\,\mu\text{m}$), sustaining regularized elevated forces ($F \approx 0.50-0.60\,\text{kN}$) before snap-through at $u = 0.0080\,\text{mm}$, explaining $W_{\text{ext}} = 3.332\,\text{mJ}$ and $E_{\text{frac}} = 3.032\,\text{mJ}$.
-6. **Spatial Regularization Verified:** Damage bandwidth $w_{0.5}/l_0 \approx 1.97 \approx 2.0$ confirms theoretical phase-field regularization.
+**The Abaqus license bottleneck has cleared. Resume execution immediately.**
 
-## 2. Supervisor Meeting Deliverables (22 October 2026)
+A live cluster check at **15:27 CEST on 13 October 2026** reported:
 
-Prepare and verify the supervisor-facing materials:
-- Audit and finalize `docs/decisions/SUPERVISOR_DECISION_METHOD_B_MODE1_LOAD_PARTITIONING.md` (Revision 2.7).
-- Prepare an executive briefing note / meeting slide content summarizing:
-  1. Executive recommendation on Method B vs Method A.
-  2. The multi-quantity accuracy table (K0, Fmax, u(Fmax), speedup, Wext, Efrac).
-  3. Formal decision point for supervisor: Gate 6B closure vs Stage B repeat vs Mode-II progression.
-- Verify that the official 171-page university thesis PDF (`MA_AdaptiveRemeshing_Report_2026/main.pdf`) compiles cleanly with 0 errors and 0 undefined citations.
+- `standard`: 300 total, 210 occupied, **90 available**.
+- `cae`: 20 total, 5 occupied, 15 available.
+- `abaqus`: 300 total, 226 occupied, 74 available.
+- Zero pending license requests.
+- No active PBS jobs for `pr21vyci`.
+- No lingering Abaqus datacheck processes for `pr21vyci`.
+- `scripts/hpc/check_license_gate.py` returned Exit Code 0.
 
-## 3. Governance and Safety Rules
+These observations establish that the cluster was ready at the stated time. Reconfirm the present state before submission, but **do not repeat yesterday's completed investigations**.
 
-- Zero unauthorized cluster jobs; zero automatic retries; no PBS submission without explicit authorization.
-- Stage B candidate `M1_MB_NATIVE_8T_B` remains safely deferred.
-- Method C (sequential adaptive remeshing with state transfer) remains strictly ON HOLD.
-- Maintain frozen Fortran UEL SHA-256 (`CE8D5EDC...`).
-- Preserve Mode-I freeze tag `v2026.10.08-supervisor-meeting-mode1-freeze`.
+The researcher has already authorized the two Mode-I experiments and their PBS submissions, subject to successful datachecks.
 
-## 4. Closeout
+## STEP 1 — Restore Project State
 
-Run all regression test suites, update coordination ledgers (`CURRENT_STATE.md`, `ACTIVE_TASK.json`, `TASK_LEDGER.csv`), release `ACTIVE_SESSION.json`, and commit/push forward-only to `origin/mode2-pandey-kumar-reproduction`.
+Open the local repository and inspect:
 
-End your response with the literal word:
+- `project_coordination/CURRENT_STATE.md`
+- `project_coordination/ACTIVE_TASK.json`
+- `project_coordination/ACTIVE_SESSION.json`
+- The most recent F1434 session report.
+- Git HEAD, branch, remote synchronization and working tree.
+
+Verify that commit `91f378d5` and its execution safeguards are present. Preserve the frozen reference and existing evidence.
+
+Create the new F1435 task/session according to the project's coordination protocol.
+
+Do not overwrite completed F1434 work.
+
+## STEP 2 — Resolve Existing Method C Datacheck
+
+The previous Method C V2 datacheck was waiting in FlexNet as PID `1657700`, but today's fresh process check reports no lingering datacheck.
+
+**Do not assume this means the datacheck succeeded.**
+
+Inspect:
+
+`/scratch9/pr21vyci/runs/mode1_method_c_gate_c1_v2/`
+
+Check the prior datacheck's actual `.log`, `.dat`, `.msg`, exit-status records and timestamps.
+
+Classify the prior attempt as:
+
+- `DATACHECK_PASSED`
+- `DATACHECK_FAILED`
+- `DATACHECK_INTERRUPTED_OR_UNVERIFIED`
+
+If verified successful, proceed directly to guarded PBS submission.
+
+If interrupted or unverified, run a fresh Abaqus 2023 datacheck using the already-qualified V2 package. The previous process is no longer active, so a duplicate waiting process should not be created.
+
+Verify:
+
+**Method C input SHA-256:**
+
+`501E1FBA1D6DB04CA25F7A273B6D0D4134C75AA13C40C734C8FEF7031556E152`
+
+**Frozen Fortran SHA-256:**
+
+`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`
+
+After successful actual Abaqus 2023 datacheck and duplicate-submission checks, execute:
+
+`/scratch9/pr21vyci/runs/mode1_method_c_gate_c1_v2/submit_c1_v2_job.sh`
+
+Submit **exactly one** `M1_MC_C1_V2` PBS experiment.
+
+Record its full PBS job ID and confirm scheduler acceptance.
+
+Do not describe this experiment as proven genuine state-preserving continuation.
+
+## STEP 3 — Run Corrected Method B Datacheck and Submit
+
+**This is the researcher's main scientific priority.**
+
+The corrected Method B mesh has already been prepared, audited and verified to contain 14,483 finite elements, with substantially extended refinement along the Mode-I crack-propagation ligament.
+
+Package:
+
+`models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/`
+
+Cluster directory:
+
+`/scratch9/pr21vyci/runs/mode1_method_b_corrected_propagation_14k/`
+
+Input:
+
+`M1_MB_CORRECTED_PROPAGATION_14K.inp`
+
+Expected SHA-256:
+
+`1209F716971719B1A740FF92C8B5503BA9784F10D5EEDD3C5035C81D40A066E9`
+
+Frozen Fortran SHA-256:
+
+`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`
+
+The validated Stage-14 native remeshing source used:
+
+- `MISESERI`
+- `UNIFORM_ERROR`
+- `errorTarget = 1.0` (1% target)
+- Step-2 post-peak source displacement `u = 0.0100 mm`
+- One native Abaqus remeshing operation
+- Fresh final fracture simulation starting from zero load and zero transferred damage
+
+**Execute the prepared guarded script:**
+
+`/scratch9/pr21vyci/runs/mode1_method_b_corrected_propagation_14k/run_datacheck_and_submit_corrected.sh`
+
+Before execution, verify that the script enforces the expected input/Fortran hashes, a real Abaqus 2023 datacheck, success/error checks and duplicate PBS prevention.
+
+Ensure the PBS script requests an authorized queue, one CPU, appropriate memory and adequate walltime.
+
+Upon successful datacheck, **submit exactly one** corrected Method B fracture simulation.
+
+Record the full PBS job ID and its initial Q/R state.
+
+Do not stop after a successful datacheck without performing the already-authorized PBS submission.
+
+## STEP 4 — Verify Both Job Submissions
+
+Inspect `qstat -u pr21vyci` and PBS submission history.
+
+For each job, confirm:
+
+- Exact full PBS ID.
+- Correct job name and input deck.
+- Correct execution mode.
+- Correct scratch directory.
+- Expected SHA-256 files.
+- Scheduler acceptance.
+- No duplicate submissions.
+- No unexpected licensing or compilation errors.
+
+If either job begins executing or completes during this session, inspect its actual solver logs and results.
+
+Do not declare scientific success solely because `qsub` succeeded or the process exited with status zero.
+
+If one job fails validation, diagnose that specific failure without holding up the other independent, validated job.
+
+## STEP 5 — Scientific Evaluation for Corrected Method B
+
+Once corrected Method B solver results become available, compare its response against:
+
+**Canonical fixed-mesh reference**
+
+- 15,192 finite elements.
+- Peak force: `0.757778 kN`.
+- Peak displacement: `0.005857 mm`.
+- External work to the common `u=0.0100 mm` endpoint: approximately `2.3593 mJ`.
+
+**Original Method B**
+
+- 14,677 finite elements.
+- Peak force: `0.743021 kN`.
+- External work: approximately `3.3319 mJ`.
+- Observed delayed crack propagation and elevated post-peak force plateau.
+
+**Corrected Method B**
+
+- 14,483 finite elements.
+- Propagation-refined mesh already geometrically verified.
+- Fracture response remains unqualified until the new solver finishes.
+
+Evaluate the complete force–displacement curve, crack-front progression, phase-field damage distribution, post-peak behavior, energetics, external work and computational cost.
+
+The governing scientific question is:
+
+**Does the corrected extended-refinement mesh eliminate the delayed crack propagation and excessive post-peak work observed in the original Method B?**
+
+Do not assume a favorable outcome before numerical evidence confirms it.
+
+## STEP 6 — Maintain Research and Image Provenance
+
+Use only:
+
+1. Authentic figures and numerical data from the researcher's GitHub repository.
+2. Figures from the original Pandey–Kumar publication.
+
+No generic image searches, stock illustrations or AI-generated scientific meshes.
+
+Preserve the frozen reference, the original `PRE_PEAK_SOURCE_VARIANT`, and the corrected `PROPAGATION_RESOLVED_VARIANT` as separate experiments.
+
+Do not resume Mode-II, create speculative new benchmarks or alter the frozen UEL formulation.
+
+## STEP 7 — Complete F1435 and Report
+
+Update project coordination files and the reproduction records with verified evidence.
+
+Commit and push successful changes to the existing branch.
+
+Report:
+
+1. Current Abaqus license availability with timestamp.
+2. Whether the old Method C datacheck completed or was interrupted.
+3. Actual Method C V2 datacheck result.
+4. **Full Method C PBS job ID**, if submitted.
+5. Actual corrected Method B datacheck result.
+6. **Full corrected Method B PBS job ID**, if submitted.
+7. Current Q/R/terminal status of each submitted job.
+8. Any solver errors or completed numerical findings.
+9. Remaining blockers and the next scientifically justified action.
+10. Git commit SHA and push confirmation.
+
+**Do not finish merely by reporting that licenses are available. The purpose of this task is to execute the verified datachecks and submit the authorized simulations.**
+
+Work autonomously within the established safety and project governance rules.
+
+End your final response with the literal word:
+
 Finished
